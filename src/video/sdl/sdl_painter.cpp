@@ -67,7 +67,7 @@ SDLPainter::SDLPainter(SDLVideoSystem& video_system, SDL_Renderer* renderer) :
 void
 SDLPainter::draw_texture(const DrawingRequest& request)
 {
-  const auto& data = static_cast<const TextureRequest&>(*request.request_data);
+  const auto& data = static_cast<const TextureRequest&>(request);
   const auto& texture = static_cast<const SDLTexture&>(*data.texture);
 
   SDL_Rect src_rect;
@@ -108,7 +108,7 @@ SDLPainter::draw_texture(const DrawingRequest& request)
 void
 SDLPainter::draw_gradient(const DrawingRequest& request)
 {
-  const auto& data = static_cast<const GradientRequest&>(*request.request_data);
+  const auto& data = static_cast<const GradientRequest&>(request);
   const Color& top = data.top;
   const Color& bottom = data.bottom;
   const GradientDirection& direction = data.direction;
@@ -166,7 +166,7 @@ SDLPainter::draw_gradient(const DrawingRequest& request)
 void
 SDLPainter::draw_filled_rect(const DrawingRequest& request)
 {
-  const auto& data = static_cast<const FillRectRequest&>(*request.request_data);
+  const auto& data = static_cast<const FillRectRequest&>(request);
 
   SDL_Rect rect;
   rect.x = static_cast<int>(data.pos.x);
@@ -242,7 +242,7 @@ SDLPainter::draw_filled_rect(const DrawingRequest& request)
 void
 SDLPainter::draw_inverse_ellipse(const DrawingRequest& request)
 {
-  const auto& data = static_cast<const InverseEllipseRequest&>(*request.request_data);
+  const auto& data = static_cast<const InverseEllipseRequest&>(request);
 
   float x = data.pos.x;
   float w = data.size.x;
@@ -300,7 +300,7 @@ SDLPainter::draw_inverse_ellipse(const DrawingRequest& request)
 void
 SDLPainter::draw_line(const DrawingRequest& request)
 {
-  const auto& data = static_cast<const LineRequest&>(*request.request_data);
+  const auto& data = static_cast<const LineRequest&>(request);
 
   Uint8 r = static_cast<Uint8>(data.color.red * 255);
   Uint8 g = static_cast<Uint8>(data.color.green * 255);
@@ -370,7 +370,7 @@ draw_span_between_edges(SDL_Renderer* renderer, const Rectf& e1, const Rectf& e2
 void
 SDLPainter::draw_triangle(const DrawingRequest& request)
 {
-  const auto& data = static_cast<const TriangleRequest&>(*request.request_data);
+  const auto& data = static_cast<const TriangleRequest&>(request);
 
   Uint8 r = static_cast<Uint8>(data.color.red * 255);
   Uint8 g = static_cast<Uint8>(data.color.green * 255);

@@ -33,15 +33,32 @@ enum RequestType
   TEXTURE, TEXT, GRADIENT, FILLRECT, INVERSEELLIPSE, GETLIGHT, LINE, TRIANGLE
 };
 
-struct DrawingRequestData
+struct DrawingRequest
 {
-  virtual ~DrawingRequestData()
+  RequestType type;
+
+  int layer;
+  DrawingEffect drawing_effect;
+  float alpha;
+  Blend blend;
+  float angle;
+
+  DrawingRequest() = delete;
+  DrawingRequest(RequestType type_) :
+    type(type_),
+    layer(),
+    drawing_effect(),
+    alpha(),
+    blend(),
+    angle(0.0f)
   {}
+  virtual ~DrawingRequest() {}
 };
 
-struct TextureRequest : public DrawingRequestData
+struct TextureRequest : public DrawingRequest
 {
   TextureRequest() :
+    DrawingRequest(TEXTURE),
     texture(),
     srcrect(),
     dstrect(),
@@ -58,9 +75,10 @@ private:
   TextureRequest& operator=(const TextureRequest&) = delete;
 };
 
-struct TextRequest : public DrawingRequestData
+struct TextRequest : public DrawingRequest
 {
   TextRequest() :
+    DrawingRequest(TEXT),
     pos(),
     font(),
     text(),
@@ -79,9 +97,10 @@ private:
   TextRequest& operator=(const TextRequest&);
 };
 
-struct GradientRequest : public DrawingRequestData
+struct GradientRequest : public DrawingRequest
 {
   GradientRequest()  :
+    DrawingRequest(GRADIENT),
     pos(),
     size(),
     top(),
@@ -98,9 +117,10 @@ struct GradientRequest : public DrawingRequestData
   Rectf region;
 };
 
-struct FillRectRequest : public DrawingRequestData
+struct FillRectRequest : public DrawingRequest
 {
   FillRectRequest() :
+    DrawingRequest(FILLRECT),
     pos(),
     size(),
     color(),
@@ -113,9 +133,10 @@ struct FillRectRequest : public DrawingRequestData
   float  radius;
 };
 
-struct InverseEllipseRequest : public DrawingRequestData
+struct InverseEllipseRequest : public DrawingRequest
 {
   InverseEllipseRequest() :
+    DrawingRequest(INVERSEELLIPSE),
     pos(),
     size(),
     color()
@@ -126,9 +147,10 @@ struct InverseEllipseRequest : public DrawingRequestData
   Color color;
 };
 
-struct LineRequest : public DrawingRequestData
+struct LineRequest : public DrawingRequest
 {
   LineRequest() :
+    DrawingRequest(LINE),
     pos(),
     dest_pos(),
     color()
@@ -139,9 +161,10 @@ struct LineRequest : public DrawingRequestData
   Color color;
 };
 
-struct TriangleRequest : public DrawingRequestData
+struct TriangleRequest : public DrawingRequest
 {
   TriangleRequest() :
+    DrawingRequest(TRIANGLE),
     pos1(),
     pos2(),
     pos3(),
@@ -152,32 +175,12 @@ struct TriangleRequest : public DrawingRequestData
   Color  color;
 };
 
-struct DrawingRequest
+struct GetLightRequest : public DrawingRequest
 {
-  RequestType type;
-
-  int layer;
-  DrawingEffect drawing_effect;
-  float alpha;
-  Blend blend;
-  float angle;
-
-  DrawingRequestData* request_data;
-
-  DrawingRequest() :
-    type(),
-    layer(),
-    drawing_effect(),
-    alpha(),
-    blend(),
-    angle(0.0f),
-    request_data()
-  {}
-};
-
-struct GetLightRequest : public DrawingRequestData
-{
-  GetLightRequest() : pos(), color_ptr() {}
+  GetLightRequest() :
+    DrawingRequest(GETLIGHT),
+    pos(),
+    color_ptr() {}
 
   Vector pos;
   Color* color_ptr;

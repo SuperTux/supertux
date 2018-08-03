@@ -115,7 +115,7 @@ GLPainter::GLPainter(GLVideoSystem& video_system) :
 void
 GLPainter::draw_texture(const DrawingRequest& request)
 {
-  const auto& data = static_cast<const TextureRequest&>(*request.request_data);
+  const auto& data = static_cast<const TextureRequest&>(request);
   const auto& texture = static_cast<const GLTexture&>(*data.texture);
 
   GLuint handle = texture.get_handle();
@@ -145,7 +145,7 @@ GLPainter::draw_texture(const DrawingRequest& request)
 void
 GLPainter::draw_gradient(const DrawingRequest& request)
 {
-  const auto& data = static_cast<GradientRequest&>(*request.request_data);
+  const auto& data = static_cast<const GradientRequest&>(request);
 
   const Color& top = data.top;
   const Color& bottom = data.bottom;
@@ -197,7 +197,7 @@ GLPainter::draw_gradient(const DrawingRequest& request)
 void
 GLPainter::draw_filled_rect(const DrawingRequest& request)
 {
-  const auto& data = static_cast<FillRectRequest&>(*request.request_data);
+  const auto& data = static_cast<const FillRectRequest&>(request);
 
   glDisable(GL_TEXTURE_2D);
   glColor4f(data.color.red, data.color.green,
@@ -276,7 +276,7 @@ GLPainter::draw_filled_rect(const DrawingRequest& request)
 void
 GLPainter::draw_inverse_ellipse(const DrawingRequest& request)
 {
-  const auto& data = static_cast<InverseEllipseRequest&>(*request.request_data);
+  const auto& data = static_cast<const InverseEllipseRequest&>(request);
 
   glDisable(GL_TEXTURE_2D);
   glColor4f(data.color.red,  data.color.green,
@@ -360,7 +360,7 @@ GLPainter::draw_inverse_ellipse(const DrawingRequest& request)
 void
 GLPainter::draw_line(const DrawingRequest& request)
 {
-  const auto& data = static_cast<LineRequest&>(*request.request_data);
+  const auto& data = static_cast<const LineRequest&>(request);
 
   glDisable(GL_TEXTURE_2D);
   glColor4f(data.color.red, data.color.green, data.color.blue, data.color.alpha);
@@ -387,7 +387,7 @@ GLPainter::draw_line(const DrawingRequest& request)
 void
 GLPainter::draw_triangle(const DrawingRequest& request)
 {
-  const auto& data = static_cast<TriangleRequest&>(*request.request_data);
+  const auto& data = static_cast<const TriangleRequest&>(request);
 
   glDisable(GL_TEXTURE_2D);
   glColor4f(data.color.red, data.color.green, data.color.blue, data.color.alpha);

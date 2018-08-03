@@ -438,20 +438,18 @@ Font::draw_chars(Painter& painter, bool notshadow, const std::string& text,
 
       // FIXME: this could all be handled in Canvas, no need for Font
       // to mess around with low level code
-      DrawingRequest request;
+      TextureRequest request;
 
       request.drawing_effect = drawing_effect;
       request.alpha = alpha;
 
-      TextureRequest request_data;
-      request_data.color = color;
-      request_data.srcrect = glyph.rect;
-      request_data.dstrect = Rectf(p + glyph.offset, glyph.rect.get_size());
-      request_data.texture = notshadow ?
+      request.color = color;
+      request.srcrect = glyph.rect;
+      request.dstrect = Rectf(p + glyph.offset, glyph.rect.get_size());
+      request.texture = notshadow ?
         glyph_surfaces[glyph.surface_idx]->get_texture().get() :
         shadow_surfaces[glyph.surface_idx]->get_texture().get();
 
-      request.request_data = &request_data;
       painter.draw_texture(request);
 
       p.x += glyph.advance;

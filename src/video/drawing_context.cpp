@@ -57,25 +57,22 @@ DrawingContext::get_light(const Vector& position, Color* color_out)
     return;
   }
 
-  auto request = new(m_obst) DrawingRequest();
-  request->type = GETLIGHT;
+  auto request = new(m_obst) GetLightRequest();
+
   request->layer = LAYER_GUI; //make sure all get_light requests are handled last.
 
-  auto request_data = new(m_obst) GetLightRequest();
-  request_data->pos = transform().apply(position);
-  request_data->color_ptr = color_out;
+  request->pos = transform().apply(position);
+  request->color_ptr = color_out;
 
   //There is no light offscreen.
-  if(request_data->pos.x >= static_cast<float>(m_viewport.get_width()) ||
-     request_data->pos.y >= static_cast<float>(m_viewport.get_height()) ||
-     request_data->pos.x < 0.0f ||
-     request_data->pos.y < 0.0f)
+  if(request->pos.x >= static_cast<float>(m_viewport.get_width()) ||
+     request->pos.y >= static_cast<float>(m_viewport.get_height()) ||
+     request->pos.x < 0.0f ||
+     request->pos.y < 0.0f)
   {
     *color_out = Color( 0, 0, 0);
     return;
   }
-
-  request->request_data = request_data;
 
   m_lightmap_canvas.get_requests().push_back(request);
 }
