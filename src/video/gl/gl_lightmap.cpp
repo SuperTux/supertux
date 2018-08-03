@@ -154,7 +154,7 @@ GLLightmap::get_light(const DrawingRequest& request) const
   float y = getlightrequest->pos.y * static_cast<float>(m_lightmap_height) / static_cast<float>(m_size.height);
 
   glReadPixels(static_cast<GLint>(x),
-               static_cast<GLint>(y),
+               m_lightmap_height - static_cast<GLint>(y),
                1, 1, GL_RGB, GL_FLOAT, pixels);
 
   *(getlightrequest->color_ptr) = Color(pixels[0], pixels[1], pixels[2]);
