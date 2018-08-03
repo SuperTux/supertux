@@ -36,20 +36,14 @@ struct SDL_Surface;
 class TextureManager : public Currenton<TextureManager>
 {
 public:
+  friend class Texture;
+
+public:
   TextureManager();
   ~TextureManager();
 
   TexturePtr get(const std::string& filename);
   TexturePtr get(const std::string& filename, const Rect& rect);
-
-private:
-  friend class Texture;
-
-  typedef std::map<std::string, std::weak_ptr<Texture> > ImageTextures;
-  ImageTextures m_image_textures;
-
-  typedef std::map<std::string, SDL_Surface*> Surfaces;
-  Surfaces m_surfaces;
 
 private:
   void reap_cache_entry(const std::string& filename);
@@ -64,6 +58,10 @@ private:
   TexturePtr create_image_texture_raw(const std::string& filename, const Rect& rect);
 
   TexturePtr create_dummy_texture();
+
+private:
+  std::map<std::string, std::weak_ptr<Texture> > m_image_textures;
+  std::map<std::string, SDL_Surface*> m_surfaces;
 };
 
 #endif
