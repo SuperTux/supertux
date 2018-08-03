@@ -106,7 +106,7 @@ Canvas::render(VideoSystem& video_system, Filter filter)
         {
           const auto textrequest = static_cast<TextRequest*>(request.request_data);
           textrequest->font->draw(painter, textrequest->text, textrequest->pos,
-                                  textrequest->alignment, request.drawing_effect, request.color, request.alpha);
+                                  textrequest->alignment, request.drawing_effect, textrequest->color, request.alpha);
         }
         break;
 
@@ -157,7 +157,6 @@ Canvas::draw_surface(SurfacePtr surface, const Vector& position,
   request->drawing_effect = m_context.transform().drawing_effect ^ effect_from_surface(*surface);
   request->alpha = m_context.transform().alpha;
   request->angle = angle;
-  request->color = color;
   request->blend = blend;
 
   auto request_data = new(m_obst) TextureRequest();
@@ -165,6 +164,7 @@ Canvas::draw_surface(SurfacePtr surface, const Vector& position,
   request_data->srcrect = Rectf(0, 0, static_cast<float>(surface->get_width()), static_cast<float>(surface->get_height()));
   request_data->dstrect = Rectf(apply_translate(position), Size(surface->get_width(), surface->get_height()));
   request_data->texture = surface->get_texture().get();
+  request_data->color = color;
 
   request->request_data = request_data;
 
@@ -212,13 +212,14 @@ Canvas::draw_text(FontPtr font, const std::string& text,
   request->layer = layer;
   request->drawing_effect = m_context.transform().drawing_effect;
   request->alpha = m_context.transform().alpha;
-  request->color = color;
 
   auto textrequest = new(m_obst) TextRequest();
   textrequest->pos = apply_translate(position);
   textrequest->font = font.get();
   textrequest->text = text;
   textrequest->alignment = alignment;
+  textrequest->color = color;
+
   request->request_data = textrequest;
 
   m_requests.push_back(request);

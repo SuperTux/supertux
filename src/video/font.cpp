@@ -441,10 +441,10 @@ Font::draw_chars(Painter& painter, bool notshadow, const std::string& text,
       DrawingRequest request;
 
       request.drawing_effect = drawing_effect;
-      request.color = color;
       request.alpha = alpha;
 
       TextureRequest request_data;
+      request_data.color = color;
       request_data.srcrect = glyph.rect;
       request_data.dstrect = Rectf(p + glyph.offset, glyph.rect.get_size());
       request_data.texture = notshadow ?

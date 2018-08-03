@@ -82,10 +82,10 @@ SDLPainter::draw_texture(const DrawingRequest& request)
   dst_rect.w = static_cast<int>(data.dstrect.get_width());
   dst_rect.h = static_cast<int>(data.dstrect.get_height());
 
-  Uint8 r = static_cast<Uint8>(request.color.red * 255);
-  Uint8 g = static_cast<Uint8>(request.color.green * 255);
-  Uint8 b = static_cast<Uint8>(request.color.blue * 255);
-  Uint8 a = static_cast<Uint8>(request.color.alpha * request.alpha * 255);
+  Uint8 r = static_cast<Uint8>(data.color.red * 255);
+  Uint8 g = static_cast<Uint8>(data.color.green * 255);
+  Uint8 b = static_cast<Uint8>(data.color.blue * 255);
+  Uint8 a = static_cast<Uint8>(data.color.alpha * request.alpha * 255);
 
   SDL_SetTextureColorMod(texture.get_texture(), r, g, b);
   SDL_SetTextureAlphaMod(texture.get_texture(), a);

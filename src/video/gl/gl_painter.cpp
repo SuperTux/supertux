@@ -137,7 +137,7 @@ GLPainter::draw_texture(const DrawingRequest& request)
 
               request.angle,
               request.alpha,
-              request.color,
+              data.color,
               request.blend,
               request.drawing_effect);
 }

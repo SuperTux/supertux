@@ -44,12 +44,14 @@ struct TextureRequest : public DrawingRequestData
   TextureRequest() :
     texture(),
     srcrect(),
-    dstrect()
+    dstrect(),
+    color(1.0f, 1.0f, 1.0f)
   {}
 
   const Texture* texture;
   Rectf srcrect;
   Rectf dstrect;
+  Color color;
 
 private:
   TextureRequest(const TextureRequest&) = delete;
@@ -62,13 +64,15 @@ struct TextRequest : public DrawingRequestData
     pos(),
     font(),
     text(),
-    alignment()
+    alignment(),
+    color()
   {}
 
   Vector pos;
   const Font* font;
   std::string text;
   FontAlignment alignment;
+  Color color;
 
 private:
   TextRequest(const TextRequest&);
@@ -157,7 +161,6 @@ struct DrawingRequest
   float alpha;
   Blend blend;
   float angle;
-  Color color;
 
   DrawingRequestData* request_data;
 
@@ -168,7 +171,6 @@ struct DrawingRequest
     alpha(),
     blend(),
     angle(0.0f),
-    color(1.0f, 1.0f, 1.0f, 1.0f),
     request_data()
   {}
 };
