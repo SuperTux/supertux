@@ -120,6 +120,10 @@ void
 VideoSystem::do_take_screenshot()
 {
   SDL_Surface* surface = make_screenshot();
+  if (!surface) {
+    log_warning << "Creating the screenshot has failed" << std::endl;
+    return;
+  }
 
   auto find_filename = [&]() -> boost::optional<std::string>
     {
