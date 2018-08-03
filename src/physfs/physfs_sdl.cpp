@@ -62,7 +62,7 @@ static size_t  funcRead(struct SDL_RWops* context, void* ptr, size_t size, size_
   }
   else
   {
-    return res / size;
+    return static_cast<size_t>(res / size);
   }
 }
 
