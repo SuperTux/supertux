@@ -42,14 +42,6 @@ public:
   TexturePtr get(const std::string& filename);
   TexturePtr get(const std::string& filename, const Rect& rect);
 
-#ifdef HAVE_OPENGL
-  void register_texture(GLTexture* texture);
-  void remove_texture(GLTexture* texture);
-
-  void save_textures();
-  void reload_textures();
-#endif
-
 private:
   friend class Texture;
 
@@ -72,30 +64,6 @@ private:
   TexturePtr create_image_texture_raw(const std::string& filename, const Rect& rect);
 
   TexturePtr create_dummy_texture();
-
-#ifdef HAVE_OPENGL
-private:
-  typedef std::set<GLTexture*> Textures;
-  Textures m_textures;
-
-  struct SavedTexture
-  {
-    GLTexture* texture;
-    GLint width;
-    GLint height;
-    char* pixels;
-    GLint border;
-
-    GLint min_filter;
-    GLint mag_filter;
-    GLint wrap_s;
-    GLint wrap_t;
-  };
-  std::vector<SavedTexture> m_saved_textures;
-
-private:
-  void save_texture(GLTexture* texture);
-#endif
 };
 
 #endif

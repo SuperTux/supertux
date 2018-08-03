@@ -58,8 +58,6 @@ GLLightmap::start_draw()
 
     m_lightmap.reset(new GLTexture(next_po2(m_lightmap_width),
                                    next_po2(m_lightmap_height)));
-
-    TextureManager::current()->register_texture(m_lightmap.get());
   }
 
   glViewport(0, 0, m_lightmap_width, m_lightmap_height);
