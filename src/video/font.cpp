@@ -20,6 +20,7 @@
 #include <SDL_image.h>
 #include <algorithm>
 #include <physfs.h>
+#include <cmath>
 
 #include "physfs/physfs_sdl.hpp"
 #include "util/file_system.hpp"
@@ -386,7 +387,7 @@ Font::draw(Painter& painter, const std::string& text, const Vector& pos_,
 
       // Cast font position to integer to get a clean drawing result and
       // no blurring as we would get with subpixel positions
-      pos.x = static_cast<float>(static_cast<int>(pos.x));
+      pos.x = std::truncf(pos.x);
 
       draw_text(painter, temp, pos, drawing_effect, color, alpha);
 

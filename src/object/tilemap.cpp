@@ -17,6 +17,7 @@
 #include "object/tilemap.hpp"
 
 #include <tuple>
+#include <cmath>
 
 #include "editor/editor.hpp"
 #include "supertux/globals.hpp"
@@ -332,8 +333,8 @@ TileMap::draw(DrawingContext& context)
   float trans_x = roundf(context.get_translation().x);
   float trans_y = roundf(context.get_translation().y);
   bool normal_speed = editor_active && Editor::is_active();
-  context.set_translation(Vector(static_cast<float>(static_cast<int>(trans_x * (normal_speed ? 1.0f : speed_x))),
-                                 static_cast<float>(static_cast<int>(trans_y * (normal_speed ? 1.0f : speed_y)))));
+  context.set_translation(Vector(std::truncf(trans_x * (normal_speed ? 1.0f : speed_x)),
+                                 std::truncf(trans_y * (normal_speed ? 1.0f : speed_y))));
 
   Rectf draw_rect = context.get_cliprect();
   Rect t_draw_rect = get_tiles_overlapping(draw_rect);
