@@ -38,7 +38,7 @@ Tip::Tip(GameObject* object) :
     if (oo.type != MN_REMOVE && (oo.flags & OPTION_VISIBLE)) {
       auto value = oo.to_string();
       if(value.empty()) {
-        value = _("<empty>");
+        continue;
       }
       strings.push_back(oo.text + ": " + value);
     }
