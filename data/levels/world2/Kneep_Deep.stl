@@ -3,7 +3,6 @@
   (name (_ "Kneep-deep in the depth"))
   (author "Christoph Sommer")
   (license "GPL 2+ / CC-by-sa 3.0")
-  (target-time 0)
   (sector
     (name "main")
     (music "music/forest.music")
@@ -129,8 +128,6 @@ plat2.goto_node(3);")
       (y 2674)
     )
     (secretarea
-      (script "")
-      (message "")
       (width 124)
       (height 140)
       (x 2016)

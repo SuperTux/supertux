@@ -4,7 +4,6 @@
   (author "Arvid Norlander")
   (contact "http://developer.berlios.de/projects/supertux/")
   (license "GPL 2+ / CC-by-sa 3.0")
-  (target-time 0)
   (sector
     (name "main")
     (music "music/forest.music")
@@ -275,16 +274,12 @@ end_level();
       (y 320)
     )
     (secretarea
-      (script "")
-      (message "")
       (width 220)
       (height 188)
       (x 6016)
       (y 2368)
     )
     (secretarea
-      (script "")
-      (message "")
       (width 92)
       (height 92)
       (x 2976)

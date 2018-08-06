@@ -43,8 +43,8 @@
       (y 503.8701)
     )
     (tilemap
-      (z-pos -100)
       (solid #f)
+      (z-pos -100)
       (width 100)
       (height 50)
       (tiles
@@ -101,8 +101,8 @@
       )
     )
     (tilemap
-      (z-pos 0)
       (solid #t)
+      (z-pos 0)
       (width 100)
       (height 50)
       (tiles
@@ -159,8 +159,8 @@
       )
     )
     (tilemap
-      (z-pos 100)
       (solid #f)
+      (z-pos 100)
       (width 100)
       (height 50)
       (tiles

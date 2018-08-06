@@ -3,7 +3,6 @@
   (name (_ "Owls' Revenge"))
   (author "Christoph Sommer")
   (license "CC-BY-SA 4.0 International")
-  (target-time 0)
   (sector
     (name "main")
     (music "music/greatgigantic.music")
@@ -56,8 +55,6 @@
       (y 1016.586)
     )
     (secretarea
-      (script "")
-      (message "")
       (width 1116)
       (height 156)
       (x 160)

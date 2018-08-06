@@ -3,7 +3,6 @@
   (name (_ "A Mouldy Grotto"))
   (author "Christoph Sommer")
   (license "GPL 2+ / CC-by-sa 3.0")
-  (target-time 0)
   (sector
     (name "main")
     (music "music/cave.music")
@@ -277,8 +276,6 @@ lift2.goto_node(0);")
     )
     (secretarea
       (fade-tilemap "secret1")
-      (script "")
-      (message "")
       (width 1120.507)
       (height 1084.175)
       (x 1844)

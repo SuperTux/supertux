@@ -3,7 +3,6 @@
   (name (_ "Three sheets to the wind"))
   (author "Christoph Sommer")
   (license "GPL 2+ / CC-by-sa 3.0")
-  (target-time 0)
   (sector
     (name "main")
     (music "music/forest2.ogg")
@@ -144,16 +143,12 @@ wind1h.start();
     )
     (secretarea
       (fade-tilemap "secret1")
-      (script "")
-      (message "")
       (width 172)
       (height 188)
       (x 2272)
       (y 832)
     )
     (secretarea
-      (script "")
-      (message "")
       (width 60)
       (height 124)
       (x 3808)
