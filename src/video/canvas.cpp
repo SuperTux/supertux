@@ -67,8 +67,9 @@ Canvas::clear()
 void
 Canvas::render(VideoSystem& video_system, Filter filter)
 {
-  // On a regular level, each frame has around 1000-3000 requests, the
-  // sort comparator function is called approximatly 7 times for each request.
+  // On a regular level, each frame has around 50-250 requests (before
+  // batching it was 1000-3000), the sort comparator function is
+  // called approximatly 3-7 times for each request.
   std::stable_sort(m_requests.begin(), m_requests.end(),
                    [](const DrawingRequest* r1, const DrawingRequest* r2){
                      return r1->layer < r2->layer;
