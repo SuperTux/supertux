@@ -1,8 +1,8 @@
 (supertux-level
   (version 2)
-  (name (_ "Luft Airship"))  (license "GPL 2+ / CC-by-sa 3.0")
+  (name (_ "Luft Airship"))
   (author "Corlin Heydman")
-  (target-time 0)
+  (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
     (music "music/chipdisko.ogg")
@@ -249,16 +249,12 @@
     )
     (secretarea
       (fade-tilemap "blb")
-      (script "")
-      (message "")
       (width 764)
       (height 124)
       (x 5376)
       (y 640)
     )
     (secretarea
-      (script "")
-      (message "")
       (width 44)
       (height 76)
       (x 3892)
