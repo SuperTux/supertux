@@ -1633,16 +1633,12 @@
       (y 640)
     )
     (secretarea
-      (script "")
-      (message "")
       (width 60)
       (height 60)
       (x 384)
       (y 608)
     )
     (secretarea
-      (script "")
-      (message "")
       (width 124)
       (height 108)
       (x 19200)

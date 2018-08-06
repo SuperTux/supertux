@@ -241,8 +241,6 @@
       (sprite "images/decal/halloween/gravestone2.png")
     )
     (secretarea
-      (script "")
-      (message "")
       (width 316)
       (height 168)
       (x 19008)
