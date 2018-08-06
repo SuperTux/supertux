@@ -1,3 +1,5 @@
+#include <limits>
+
 #include "math/polygon.hpp"
 #include "util/log.hpp"
 
