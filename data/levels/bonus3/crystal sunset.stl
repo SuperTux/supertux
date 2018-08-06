@@ -144,7 +144,6 @@
     )
     (secretarea
       (script "secret.fade(1,0.4);")
-      (message "")
       (width 264)
       (height 92)
       (x 532)
