@@ -3,7 +3,6 @@
   (name (_ "Tux is hungry!"))
   (author "Hume")
   (license "GPL 2+ / CC-by-sa 3.0")
-  (target-time 0)
   (sector
     (name "main")
     (music "music/chipdisko.ogg")
@@ -73,8 +72,6 @@
       (y 736)
     )
     (secretarea
-      (script "")
-      (message "")
       (width 96)
       (height 96)
       (x 4864)

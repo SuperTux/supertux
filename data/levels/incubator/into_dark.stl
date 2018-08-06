@@ -4,7 +4,6 @@
   (author "LMH")
   (contact "lmh.0013@gmail.com")
   (license "GPL 2 / CC-by-sa 3.0")
-  (target-time 0)
   (sector
     (name "main")
     (music "music/clavelian_march.music")
@@ -445,8 +444,6 @@
       (y 512)
     )
     (secretarea
-      (script "")
-      (message "")
       (width 444)
       (height 170)
       (x 2912)
@@ -1013,8 +1010,6 @@
       (y 796)
     )
     (secretarea
-      (script "")
-      (message "")
       (width 124)
       (height 32)
       (x 128)

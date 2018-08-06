@@ -3,7 +3,6 @@
   (name (_ "Nice Ice"))
   (author "sK!LL")
   (license "GPL 2+ / CC-by-sa 3.0")
-  (target-time 0)
   (sector
     (name "main")
     (music "music/forest3.ogg")

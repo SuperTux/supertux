@@ -2,7 +2,6 @@
   (version 2)
   (name (_ "Angry Stone vs. YOU"))
   (author "sK!LL")
-  (target-time 0)
   (sector
     (name "main")
     (music "music/chipdisko.ogg")
@@ -338,8 +337,6 @@ v02.goto_node(1);")
     )
     (secretarea
       (fade-tilemap "Trap")
-      (script "")
-      (message "")
       (width 12)
       (height 364)
       (x 476)

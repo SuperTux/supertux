@@ -3,7 +3,6 @@
   (name (_ "Frozen Fissure"))
   (author "165your4")
   (license "GPL 2+ / CC-by-sa 3.0")
-  (target-time 0)
   (sector
     (name "main")
     (music "music/clavelian_march.music")
@@ -224,8 +223,6 @@
     )
     (secretarea
       (fade-tilemap "Secret")
-      (script "")
-      (message "")
       (width 44)
       (height 92)
       (x 3348)

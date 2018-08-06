@@ -4,7 +4,6 @@
   (author "Esteban")
   (contact "supertuxeditor@yahoo.es")
   (license "GPL 2+ / CC-by-sa 3.0")
-  (target-time 0)
   (sector
     (name "main")
     (music "music/darkforestkeep.ogg")
@@ -856,8 +855,6 @@ Plataformapuerta1.start_moving();
     )
     (secretarea
       (fade-tilemap "Gotosky")
-      (script "")
-      (message "")
       (width 28)
       (height 124)
       (x 9984)
