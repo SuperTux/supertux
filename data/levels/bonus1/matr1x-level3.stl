@@ -1,8 +1,8 @@
 (supertux-level
   (version 2)
-  (name (_ "Fire In The Sky"))  (license "GPL 2+ / CC-by-sa 3.0")
+  (name (_ "Fire In The Sky"))
   (author "Matr1x")
-  (target-time 0)
+  (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
     (music "music/fortress.music")
@@ -166,8 +166,6 @@
       (y 320)
     )
     (secretarea
-      (script "")
-      (message "")
       (width 92.09961)
       (height 75.53156)
       (x 15264)

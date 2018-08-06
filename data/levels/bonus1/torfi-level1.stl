@@ -3,7 +3,6 @@
   (name (_ "A good start"))
   (author "Torfi Gunnarsson")
   (license "GPL 2+ / CC-by-sa 3.0")
-  (target-time 0)
   (sector
     (name "main")
     (music "music/chipdisko.ogg")
@@ -69,8 +68,6 @@
     )
     (secretarea
       (fade-tilemap "secretb")
-      (script "")
-      (message "")
       (width 172.02)
       (height 99.5)
       (x 2624)
@@ -78,8 +75,6 @@
     )
     (secretarea
       (fade-tilemap "secretc")
-      (script "")
-      (message "")
       (width 73.01245)
       (height 140.8944)
       (x 2905.437)
@@ -87,8 +82,6 @@
     )
     (secretarea
       (fade-tilemap "secreta")
-      (script "")
-      (message "")
       (width 41.89941)
       (height 97.99548)
       (x 1821.403)
@@ -96,8 +89,6 @@
     )
     (secretarea
       (fade-tilemap "secretd")
-      (script "")
-      (message "")
       (width 106.2463)
       (height 134.5305)
       (x 3100.868)
@@ -105,8 +96,6 @@
     )
     (secretarea
       (fade-tilemap "secrete")
-      (script "")
-      (message "")
       (width 78.23242)
       (height 115.7013)
       (x 5369.921)

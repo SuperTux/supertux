@@ -3,7 +3,6 @@
   (name (_ "Flight Test"))
   (author "Abednego")
   (license "GPL 2+ / CC-by-sa 3.0")
-  (target-time 0)
   (sector
     (name "main")
     (music "music/chipdisko.ogg")
@@ -252,8 +251,6 @@
     )
     (secretarea
       (fade-tilemap "secret")
-      (script "")
-      (message "")
       (width 124)
       (height 156)
       (x 4704)

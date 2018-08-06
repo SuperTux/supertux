@@ -3,7 +3,6 @@
   (name (_ "Too easy"))
   (author "Torfi Gunnarsson")
   (license "GPL 2+ / CC-by-sa 3.0")
-  (target-time 0)
   (sector
     (name "main")
     (music "music/chipdisko.ogg")
@@ -77,8 +76,6 @@
     )
     (secretarea
       (fade-tilemap "secreta")
-      (script "")
-      (message "")
       (width 42.60657)
       (height 64.52698)
       (x 639.5341)
@@ -86,16 +83,12 @@
     )
     (secretarea
       (fade-tilemap "secretb")
-      (script "")
-      (message "")
       (width 104.25)
       (height 63.91162)
       (x 4032.08)
       (y 704.0124)
     )
     (secretarea
-      (script "")
-      (message "")
       (width 352)
       (height 416.75)
       (x 6847.57)
