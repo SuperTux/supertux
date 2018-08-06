@@ -2,8 +2,8 @@
   (version 2)
   (name (_ "The Journey Begins"))
   (author "SuperTux Team")
-  (target-time 30)
   (license "GPL 2+ / CC-by-sa 3.0")
+  (target-time 30)
   (sector
     (name "main")
     (music "music/voc-daytime.music")
