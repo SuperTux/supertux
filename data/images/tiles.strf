@@ -1122,26 +1122,6 @@
   (tilegroup
     (name (_ "Cave background"))
     (tiles
-      70 0 0 0
-      0  0 0 0
-      0  0 0 0
-      0  0 0 0
-      71 0 0 0
-      0  0 0 0
-      0  0 0 0
-      0  0 0 0
-      72 0 0 0
-      0  0 0 0
-      0  0 0 0
-      0  0 0 0
-      73 0 0 0
-      0  0 0 0
-      0  0 0 0
-      0  0 0 0
-      74 0 0 0
-      0  0 0 0
-      0  0 0 0
-      0  0 0 0
     )
   )
   (tilegroup
@@ -1431,6 +1411,7 @@
   (tile
     ; dupe of tile 63, this one will be kept.
     (id 70)
+    (deprecated #t)
     (images
       "tiles/background/backgroundtile1.png"
     )
@@ -1438,6 +1419,7 @@
   )
   (tile
     (id 71)
+    (deprecated #t)
     (images
       "tiles/background/backgroundtile2.png"
     )
@@ -1445,6 +1427,7 @@
   )
   (tile
     (id 72)
+    (deprecated #t)
     (images
       "tiles/background/backgroundtile3.png"
     )
@@ -1452,6 +1435,7 @@
   )
   (tile
     (id 73)
+    (deprecated #t)
     (images
       "tiles/background/backgroundtile4.png"
     )
@@ -1459,6 +1443,7 @@
   )
   (tile
     (id 74)
+    (deprecated #t)
     (images
       "tiles/background/backgroundtile5.png"
     )
