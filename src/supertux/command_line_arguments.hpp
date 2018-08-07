@@ -50,7 +50,6 @@ public:
   boost::optional<int> fullscreen_refresh_rate;
   boost::optional<Size> window_size;
   boost::optional<Size> aspect_size;
-  
 
   // boost::optional<float> magnification;
 
@@ -69,9 +68,11 @@ public:
   boost::optional<std::string> start_demo;
   boost::optional<std::string> record_demo;
   boost::optional<Vector> tux_spawn_pos;
+  boost::optional<std::string> sector;
+  boost::optional<std::string> spawnpoint;
 
   boost::optional<bool> developer_mode;
-  
+
   boost::optional<bool> christmas_mode;
 
   boost::optional<std::string> repository_url;

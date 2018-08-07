@@ -59,6 +59,7 @@ extern "C" {
 #include "supertux/screen_fade.hpp"
 #include "supertux/screen_manager.hpp"
 #include "supertux/sector.hpp"
+#include "supertux/spawn_point.hpp"
 #include "supertux/tile.hpp"
 #include "supertux/tile_manager.hpp"
 #include "supertux/title_screen.hpp"
@@ -358,7 +359,7 @@ static inline void timelog(const char* component)
 }
 
 void
-Main::launch_game()
+Main::launch_game(const CommandLineArguments& args)
 {
 
   SDLSubsystem sdl_subsystem;
@@ -423,6 +424,16 @@ Main::launch_game()
       g_config->random_seed = session->get_demo_random_seed(g_config->start_demo);
       g_config->random_seed = gameRandom.srand(g_config->random_seed);
       graphicsRandom.srand(0);
+
+      if (args.sector || args.spawnpoint)
+      {
+        std::string sectorname = args.sector.get_value_or("main");
+        std::string default_spawnpoint = session->get_current_sector()->spawnpoints.empty() ?
+          "" : session->get_current_sector()->spawnpoints[0]->name;
+        std::string spawnpointname = args.spawnpoint.get_value_or(default_spawnpoint);
+
+        session->respawn(sectorname, spawnpointname);
+      }
 
       if (g_config->tux_spawn_pos)
       {
@@ -524,7 +535,7 @@ Main::run(int argc, char** argv)
         return 0;
 
       default:
-        launch_game();
+        launch_game(args);
         break;
     }
   }
