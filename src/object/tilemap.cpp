@@ -356,8 +356,15 @@ TileMap::draw(DrawingContext& context)
       assert(tile != 0);
 
       const SurfacePtr& surface = tile->get_current_surface();
-      std::get<0>(batches[surface]).push_back(Rectf(0, 0, 32, 32));
-      std::get<1>(batches[surface]).push_back(Rectf(pos, Sizef(32, 32)));
+      if (surface)
+      {
+        std::get<0>(batches[surface]).push_back(Rectf(0, 0,
+                                                      static_cast<float>(surface->get_width()),
+                                                      static_cast<float>(surface->get_height())));
+        std::get<1>(batches[surface]).push_back(Rectf(pos,
+                                                      Sizef(static_cast<float>(surface->get_width()),
+                                                            static_cast<float>(surface->get_height()))));
+      }
     }
   }
 
