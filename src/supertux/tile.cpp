@@ -36,13 +36,14 @@ Tile::Tile() :
   data(0),
   fps(1),
   object_name(),
-  object_data()
+  object_data(),
+  m_deprecated(false)
 {
 }
 
 Tile::Tile(const std::vector<ImageSpec>& imagespecs_, const std::vector<ImageSpec>& editor_imagespecs_,
            uint32_t attributes_, uint32_t data_, float fps_, const std::string& obj_name,
-           const std::string& obj_data) :
+           const std::string& obj_data, bool deprecated) :
   imagespecs(imagespecs_),
   images(),
   editor_imagespecs(editor_imagespecs_),
@@ -51,7 +52,8 @@ Tile::Tile(const std::vector<ImageSpec>& imagespecs_, const std::vector<ImageSpe
   data(data_),
   fps(fps_),
   object_name(obj_name),
-  object_data(obj_data)
+  object_data(obj_data),
+  m_deprecated(deprecated)
 {
   correct_attributes();
 }
