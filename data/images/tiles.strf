@@ -2620,6 +2620,7 @@
   )
   (tile
     (id 1312)
+    (deprecated #t)
     (solid #t)
     (hidden #t)
     (images "tiles/doodads/havoktux-0.png")
