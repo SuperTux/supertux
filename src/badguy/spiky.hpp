@@ -20,7 +20,7 @@
 #include "badguy/walking_badguy.hpp"
 #include "object/portable.hpp"
 
-class Spiky : public WalkingBadguy
+class Spiky : public WalkingBadguy,
               public Portable
 {
 public:
