@@ -36,27 +36,7 @@ PowerUp::PowerUp(const ReaderMapping& lisp) :
 {
   lisp.get("script", script, "");
   lisp.get("disable-physics", no_physics, false);
-  physic.enable_gravity(true);
-  SoundManager::current()->preload("sounds/grow.ogg");
-  SoundManager::current()->preload("sounds/fire-flower.wav");
-  SoundManager::current()->preload("sounds/gulp.wav");
-  //set default light for glow effect for standard sprites
-  lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
-  lightsprite->set_color(Color(0.0f, 0.0f, 0.0f));
-  if (sprite_name == "images/powerups/egg/egg.sprite") {
-    lightsprite->set_color(Color(0.2f, 0.2f, 0.0f));
-  } else if (sprite_name == "images/powerups/fireflower/fireflower.sprite") {
-    lightsprite->set_color(Color(0.3f, 0.0f, 0.0f));
-  } else if (sprite_name == "images/powerups/iceflower/iceflower.sprite") {
-    lightsprite->set_color(Color(0.0f, 0.1f, 0.2f));
-  } else if (sprite_name == "images/powerups/airflower/airflower.sprite") {
-    lightsprite->set_color(Color(0.15f, 0.0f, 0.15f));
-  } else if (sprite_name == "images/powerups/earthflower/earthflower.sprite") {
-    lightsprite->set_color(Color(0.0f, 0.3f, 0.0f));
-  } else if (sprite_name == "images/powerups/star/star.sprite") {
-    lightsprite->set_color(Color(0.4f, 0.4f, 0.4f));
-  }
-
+  initialize();
 }
 
 PowerUp::PowerUp(const Vector& pos, const std::string& sprite_name_) :
@@ -67,9 +47,16 @@ PowerUp::PowerUp(const Vector& pos, const std::string& sprite_name_) :
   light(0.0f,0.0f,0.0f),
   lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
 {
+  initialize();
+}
+
+void
+PowerUp::initialize()
+{
   physic.enable_gravity(true);
   SoundManager::current()->preload("sounds/grow.ogg");
   SoundManager::current()->preload("sounds/fire-flower.wav");
+   SoundManager::current()->preload("sounds/gulp.wav");
   //set default light for glow effect for standard sprites
   lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
   lightsprite->set_color(Color(0.0f, 0.0f, 0.0f));
