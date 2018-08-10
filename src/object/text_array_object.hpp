@@ -28,6 +28,8 @@
 #include "object/text_object.hpp"
 #include "object/text_array_item.hpp"
 
+typedef size_t ta_index;
+
 /**
  * A text array object intended for narration
  */

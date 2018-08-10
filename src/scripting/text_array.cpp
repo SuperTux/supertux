@@ -50,7 +50,7 @@ void TextArray::set_fade_time(float fadetime)
   m_parent->set_fade_time(fadetime);
 }
 
-void TextArray::set_text_index(ta_index index_)
+void TextArray::set_text_index(int index_)
 {
   m_parent->set_text_index(index_);
 }
