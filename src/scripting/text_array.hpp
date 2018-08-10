@@ -23,7 +23,6 @@
 class TextArrayObject;
 #endif
 
-typedef size_t ta_index;
 
 namespace scripting {
 
@@ -54,7 +53,7 @@ public:
   void clear();
   void add_text(const std::string& text);
   void add_text_duration(const std::string& text, float duration);
-  void set_text_index(ta_index index_);
+  void set_text_index(int index_);
   void set_keep_visible(bool keep_visible_);
   void set_fade_transition(bool fade_transition);
   void set_fade_time(float fadetime);
@@ -85,4 +84,3 @@ public:
 #endif // HEADER_SUPERTUX_SCRIPTING_TEXT_ARRAY_HPP
 
 /* EOF */
-
