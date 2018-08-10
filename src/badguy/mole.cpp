@@ -78,7 +78,7 @@ Mole::collision_squished(GameObject& )
 void
 Mole::throw_rock()
 {
-  float angle = gameRandom.randf(90.0f - 15.0f, 90.0f + 15.0f) * (math::PI / 180.0f);
+  float angle = math::radians(gameRandom.randf(90.0f - 15.0f, 90.0f + 15.0f));
   float vx = cosf(angle) * THROW_VELOCITY;
   float vy = -sinf(angle) * THROW_VELOCITY;
 

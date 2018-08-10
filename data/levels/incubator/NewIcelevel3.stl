@@ -4,7 +4,6 @@
   (author "Esteban")
   (contact "supertuxeditor@yahoo.es")
   (license "GPL 2+ / CC-by-sa 3.0")
-  (target-time 0)
   (sector
     (name "main")
     (music "music/chipdisko.ogg")
@@ -113,8 +112,6 @@
       (y -150)
     )
     (secretarea
-      (script "")
-      (message "")
       (width 808)
       (height 136)
       (x 9044)
@@ -122,8 +119,6 @@
     )
     (secretarea
       (fade-tilemap "secreto")
-      (script "")
-      (message "")
       (width 220)
       (height 92)
       (x 7904)
@@ -558,8 +553,6 @@ castleentrance.goto_node(1);
       (y 129.1987)
     )
     (secretarea
-      (script "")
-      (message "")
       (width 312.0144)
       (height 32)
       (x 2920.962)

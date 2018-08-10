@@ -132,8 +132,8 @@
       (y 128)
     )
     (tilemap
-      (z-pos -100)
       (solid #f)
+      (z-pos -100)
       (width 320)
       (height 50)
       (tiles
@@ -190,8 +190,8 @@
       )
     )
     (tilemap
-      (z-pos 0)
       (solid #t)
+      (z-pos 0)
       (width 320)
       (height 50)
       (tiles
@@ -248,8 +248,8 @@
       )
     )
     (tilemap
-      (z-pos 100)
       (solid #f)
+      (z-pos 100)
       (width 320)
       (height 50)
       (tiles
@@ -306,8 +306,8 @@
       )
     )
     (tilemap
-      (z-pos -99)
       (solid #f)
+      (z-pos -99)
       (width 320)
       (height 50)
       (tiles
@@ -364,8 +364,8 @@
       )
     )
     (tilemap
-      (z-pos 99)
       (solid #f)
+      (z-pos 99)
       (width 320)
       (height 50)
       (tiles
@@ -445,8 +445,8 @@
       (y 544)
     )
     (tilemap
-      (z-pos -100)
       (solid #f)
+      (z-pos -100)
       (width 30)
       (height 20)
       (tiles
@@ -473,8 +473,8 @@
       )
     )
     (tilemap
-      (z-pos 0)
       (solid #t)
+      (z-pos 0)
       (width 30)
       (height 20)
       (tiles
@@ -501,8 +501,8 @@
       )
     )
     (tilemap
-      (z-pos 100)
       (solid #f)
+      (z-pos 100)
       (width 30)
       (height 20)
       (tiles

@@ -17,7 +17,12 @@
 #include "video/video_system.hpp"
 
 #include <assert.h>
+#include <boost/optional.hpp>
 #include <config.h>
+#include <iomanip>
+#include <physfs.h>
+#include <sstream>
+#include <savepng.h>
 
 #include "util/log.hpp"
 #include "video/sdl/sdl_video_system.hpp"
@@ -109,6 +114,61 @@ VideoSystem::get_video_string(VideoSystem::Enum video)
       assert(false);
       return "auto";
   }
+}
+
+void
+VideoSystem::do_take_screenshot()
+{
+  SDL_Surface* surface = make_screenshot();
+  if (!surface) {
+    log_warning << "Creating the screenshot has failed" << std::endl;
+    return;
+  }
+
+  auto find_filename = [&]() -> boost::optional<std::string>
+    {
+      const std::string writeDir = PHYSFS_getWriteDir();
+      const std::string dirSep = PHYSFS_getDirSeparator();
+      const std::string baseName = "screenshot";
+      const std::string fileExt = ".png";
+
+      for (int num = 0; num < 1000000; ++num)
+      {
+        std::ostringstream oss;
+        oss << baseName << std::setw(6) << std::setfill('0') << num << fileExt;
+        if (!PHYSFS_exists(oss.str().c_str()))
+        {
+          std::ostringstream fullpath;
+          fullpath << writeDir << dirSep << oss.str();
+          return fullpath.str();
+        }
+      }
+
+      return boost::none;
+    };
+
+  auto filename = find_filename();
+  if (!filename)
+  {
+    log_info << "Failed to find filename to save screenshot" << std::endl;
+  }
+  else
+  {
+    SDL_Surface* tmp = SDL_PNGFormatAlpha(surface);
+    if (SDL_SavePNG(tmp, filename->c_str()))
+    {
+      log_warning << "Saving screenshot failed: " << SDL_GetError() << std::endl;
+    }
+    else
+    {
+      log_info << "Wrote screenshot to \"" << *filename << "\"" << std::endl;
+    }
+    // This does not lead to a double free when 'tmp == screen', as
+    // SDL_PNGFormatAlpha() will increase the refcount of surface.
+    SDL_FreeSurface(tmp);
+  }
+
+  SDL_FreeSurface(surface);
 }
 
 /* EOF */

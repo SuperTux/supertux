@@ -1,8 +1,8 @@
 (supertux-level
   (version 2)
-  (name (_ "snarf"))  (license "GPL 2+ / CC-by-sa 3.0")
+  (name (_ "snarf"))
   (author "Thomas Nilsen")
-  (target-time 0)
+  (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
     (music "music/fortress.music")

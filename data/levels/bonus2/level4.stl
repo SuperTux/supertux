@@ -1,8 +1,8 @@
 (supertux-level
   (version 2)
-  (name (_ "Into The Cave"))  (license "GPL 2+ / CC-by-sa 3.0")
+  (name (_ "Into The Cave"))
   (author "Jason Kleinemas")
-  (target-time 0)
+  (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
     (music "music/chipdisko.ogg")
@@ -168,8 +168,6 @@
     )
     (secretarea
       (fade-tilemap "s1")
-      (script "")
-      (message "")
       (width 300.2777)
       (height 96.46375)
       (x 31.99036)
@@ -177,8 +175,6 @@
     )
     (secretarea
       (fade-tilemap "s2")
-      (script "")
-      (message "")
       (width 324)
       (height 204.0247)
       (x 1727.834)
@@ -186,8 +182,6 @@
     )
     (secretarea
       (fade-tilemap "s3")
-      (script "")
-      (message "")
       (width 28)
       (height 124)
       (x 3392)
@@ -195,8 +189,6 @@
     )
     (secretarea
       (fade-tilemap "s4")
-      (script "")
-      (message "")
       (width 640)
       (height 192.345)
       (x 12159.65)

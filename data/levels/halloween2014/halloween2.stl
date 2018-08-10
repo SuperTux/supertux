@@ -4,7 +4,6 @@
   (author "Ingo Ruhnke")
   (contact "grumbel@gmail.com")
   (license "GPL 2+ / CC-by-sa 3.0")
-  (target-time 0)
   (sector
     (name "main")
     (music "music/ghostforest2.ogg")
@@ -243,16 +242,12 @@
       (sprite "images/decal/halloween/gravestone2.png")
     )
     (secretarea
-      (script "")
-      (message "")
       (width 476)
       (height 220)
       (x 13056)
       (y 224)
     )
     (secretarea
-      (script "")
-      (message "")
       (width 136)
       (height 156)
       (x 5332)

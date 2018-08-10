@@ -3,7 +3,6 @@
   (name (_ "A Village in the Forest"))
   (author "Wolfgang Becker")
   (license "GPL 2+ / CC-by-sa 3.0")
-  (target-time 0)
   (sector
     (name "main")
     (music "music/forest.music")
@@ -217,8 +216,6 @@ tischsaege.goto_node( 0 ) 	")
     )
     (secretarea
       (fade-tilemap "sa")
-      (script "")
-      (message "")
       (width 569.4012)
       (height 312.0143)
       (x 124.8506)

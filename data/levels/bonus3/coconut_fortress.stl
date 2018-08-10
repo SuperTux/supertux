@@ -322,8 +322,6 @@ door1.goto_node(0);")
     )
     (secretarea
       (fade-tilemap "secret1")
-      (script "")
-      (message "")
       (width 168)
       (height 156)
       (x 448)

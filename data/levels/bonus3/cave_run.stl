@@ -136,8 +136,6 @@
       (y 678)
     )
     (secretarea
-      (script "")
-      (message "")
       (width 108)
       (height 76)
       (x 1172)
@@ -145,8 +143,6 @@
     )
     (secretarea
       (fade-tilemap "Secret1")
-      (script "")
-      (message "")
       (width 108)
       (height 172)
       (x 6228)

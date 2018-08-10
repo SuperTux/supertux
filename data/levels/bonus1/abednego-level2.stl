@@ -3,7 +3,6 @@
   (name (_ "Dungeons but no Dragons"))
   (author "Abednego")
   (license "GPL 2+ / CC-by-sa 3.0")
-  (target-time 0)
   (sector
     (name "main")
     (music "music/chipdisko.ogg")
@@ -144,8 +143,6 @@
     )
     (secretarea
       (fade-tilemap "secret1")
-      (script "")
-      (message "")
       (width 252)
       (height 316)
       (x 960)

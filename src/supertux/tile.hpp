@@ -119,17 +119,21 @@ private:
   std::string object_name;
   std::string object_data;
 
+  bool m_deprecated;
+
 public:
   Tile();
   Tile(const std::vector<ImageSpec>& images, const std::vector<ImageSpec>& editor_images,
        uint32_t attributes, uint32_t data, float fps, const std::string& obj_name = "",
-       const std::string& obj_data = "");
+       const std::string& obj_data = "", bool deprecated = false);
 
   /** load Surfaces, if not already loaded */
   void load_images();
 
   /** Draw a tile on the screen */
   void draw(Canvas& canvas, const Vector& pos, int z_pos, Color color = Color(1, 1, 1)) const;
+
+  SurfacePtr get_current_surface() const;
 
   uint32_t getAttributes() const
   { return attributes; }
@@ -168,6 +172,11 @@ public:
   bool is_unisolid() const
   {
     return (attributes & UNISOLID) != 0;
+  }
+
+  bool is_deprecated() const
+  {
+    return m_deprecated;
   }
 
   const std::string& get_object_name() const {

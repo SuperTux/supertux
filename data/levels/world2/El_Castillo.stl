@@ -3,7 +3,6 @@
   (name (_ "A Short Visit to El Castillo"))
   (author "Christoph Sommer")
   (license "GPL 2+ / CC-by-sa 3.0")
-  (target-time 0)
   (sector
     (name "main")
     (music "music/fortress.music")
@@ -328,8 +327,6 @@ dropdoor3.goto_node(1);
     )
     (secretarea
       (fade-tilemap "secret1")
-      (script "")
-      (message "")
       (width 307.9458)
       (height 178.6429)
       (x 4244)

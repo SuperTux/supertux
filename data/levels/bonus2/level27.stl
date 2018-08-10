@@ -1,8 +1,8 @@
 (supertux-level
   (version 2)
-  (name (_ "A Long Journey"))  (license "GPL 2+ / CC-by-sa 3.0")
+  (name (_ "A Long Journey"))
   (author "Penguinmaster")
-  (target-time 0)
+  (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
     (music "music/chipdisko.ogg")
@@ -119,8 +119,6 @@
     )
     (secretarea
       (fade-tilemap "secret")
-      (script "")
-      (message "")
       (width 393.9365)
       (height 100.9559)
       (x 8377.344)

@@ -29,6 +29,7 @@ public:
   SDLPainter(SDLVideoSystem& video_system, SDL_Renderer* renderer);
 
   virtual void draw_texture(const DrawingRequest& request) override;
+  virtual void draw_texture_batch(const DrawingRequest& request) override;
   virtual void draw_gradient(const DrawingRequest& request) override;
   virtual void draw_filled_rect(const DrawingRequest& request) override;
   virtual void draw_inverse_ellipse(const DrawingRequest& request) override;

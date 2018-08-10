@@ -16,6 +16,9 @@
 
 #include "object/tilemap.hpp"
 
+#include <tuple>
+#include <cmath>
+
 #include "editor/editor.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/sector.hpp"
@@ -313,8 +316,6 @@ TileMap::draw(DrawingContext& context)
 
   context.push_transform();
 
-  Canvas& canvas = context.get_canvas(draw_target);
-
   if(drawing_effect != 0) context.set_drawing_effect(drawing_effect);
 
   if (editor_active) {
@@ -332,8 +333,8 @@ TileMap::draw(DrawingContext& context)
   float trans_x = roundf(context.get_translation().x);
   float trans_y = roundf(context.get_translation().y);
   bool normal_speed = editor_active && Editor::is_active();
-  context.set_translation(Vector(static_cast<float>(static_cast<int>(trans_x * (normal_speed ? 1.0f : speed_x))),
-                                 static_cast<float>(static_cast<int>(trans_y * (normal_speed ? 1.0f : speed_y)))));
+  context.set_translation(Vector(std::truncf(trans_x * (normal_speed ? 1.0f : speed_x)),
+                                 std::truncf(trans_y * (normal_speed ? 1.0f : speed_y))));
 
   Rectf draw_rect = context.get_cliprect();
   Rect t_draw_rect = get_tiles_overlapping(draw_rect);
@@ -341,6 +342,8 @@ TileMap::draw(DrawingContext& context)
 
   Vector pos;
   int tx, ty;
+
+  std::unordered_map<SurfacePtr, std::tuple<std::vector<Rectf>, std::vector<Rectf>>> batches;
 
   for(pos.x = start.x, tx = t_draw_rect.left; tx < t_draw_rect.right; pos.x += 32, ++tx) {
     for(pos.y = start.y, ty = t_draw_rect.top; ty < t_draw_rect.bottom; pos.y += 32, ++ty) {
@@ -351,8 +354,31 @@ TileMap::draw(DrawingContext& context)
       if (tiles[index] == 0) continue;
       const Tile* tile = tileset->get(tiles[index]);
       assert(tile != 0);
-      tile->draw(canvas, pos, z_pos, current_tint);
+
+      const SurfacePtr& surface = tile->get_current_surface();
+      if (surface)
+      {
+        std::get<0>(batches[surface]).push_back(Rectf(0, 0,
+                                                      static_cast<float>(surface->get_width()),
+                                                      static_cast<float>(surface->get_height())));
+        std::get<1>(batches[surface]).push_back(Rectf(pos,
+                                                      Sizef(static_cast<float>(surface->get_width()),
+                                                            static_cast<float>(surface->get_height()))));
+      }
     }
+  }
+
+  Canvas& canvas = context.get_canvas(draw_target);
+
+  for(const auto& it : batches)
+  {
+    const SurfacePtr& surface = it.first;
+    if (!surface) continue;
+
+    const std::vector<Rectf>& srcrects = std::get<0>(it.second);
+    const std::vector<Rectf>& dstrects = std::get<1>(it.second);
+
+    canvas.draw_surface_batch(surface, srcrects, dstrects, current_tint, z_pos);
   }
 
   context.pop_transform();

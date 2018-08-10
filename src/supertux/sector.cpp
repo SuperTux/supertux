@@ -30,6 +30,7 @@
 #include "object/portable.hpp"
 #include "object/smoke_cloud.hpp"
 #include "object/text_object.hpp"
+#include "object/text_array_object.hpp"
 #include "object/tilemap.hpp"
 #include "physfs/ifile_streambuf.hpp"
 #include "scripting/sector.hpp"
@@ -95,6 +96,7 @@ Sector::Sector(Level* parent) :
   add_object(player2);
   add_object(std::make_shared<DisplayEffect>("Effect"));
   add_object(std::make_shared<TextObject>("Text"));
+  add_object(std::make_shared<TextArrayObject>("TextArray"));
 
   SoundManager::current()->preload("sounds/shoot.wav");
 

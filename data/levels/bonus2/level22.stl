@@ -1,8 +1,8 @@
 (supertux-level
   (version 2)
-  (name (_ "Water Ways"))  (license "GPL 2+ / CC-by-sa 3.0")
+  (name (_ "Water Ways"))
   (author "Penguinmaster")
-  (target-time 0)
+  (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
     (music "music/chipdisko.ogg")
@@ -62,7 +62,6 @@
     )
     (secretarea
       (script "secret.fade(1,0)")
-      (message "")
       (width 236)
       (height 32)
       (x 820)

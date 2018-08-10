@@ -4,7 +4,6 @@
   (author "Eliminator")
   (contact "Jacob_vejvoda@hotmail.com")
   (license "GPL 2+ / CC-by-sa 3.0")
-  (target-time 0)
   (sector
     (name "main")
     (music "music/airship_remix.music")
@@ -661,8 +660,6 @@ eye3.goto_node(1);")
       (y 1991.407)
     )
     (secretarea
-      (script "")
-      (message "")
       (width 76)
       (height 204)
       (x 1172)

@@ -153,8 +153,11 @@ TileSetParser::parse_tile(const ReaderMapping& reader)
     imagespecs = parse_imagespecs(images);
   }
 
+  bool deprecated = false;
+  reader.get("deprecated", deprecated);
+
   std::unique_ptr<Tile> tile(new Tile(imagespecs, editor_imagespecs, attributes, data, fps,
-                                      object_name, object_data));
+                                      object_name, object_data, deprecated));
   m_tileset.add_tile(id, std::move(tile));
 }
 

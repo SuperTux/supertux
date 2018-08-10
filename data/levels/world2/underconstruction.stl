@@ -56,27 +56,27 @@
       (visible #t)
       (physic-enabled #f)
       (solid #f)
+      (sprite "images/objects/keys/key_fire.sprite")
       (x 1616)
       (y 1264)
-      (sprite "images/objects/keys/key_fire.sprite")
     )
     (scriptedobject
       (name "WOODHINT")
       (visible #t)
       (physic-enabled #f)
       (solid #f)
+      (sprite "images/objects/keys/key_earth.sprite")
       (x 1232)
       (y 640)
-      (sprite "images/objects/keys/key_earth.sprite")
     )
     (scriptedobject
       (name "AIRHINT")
       (visible #t)
       (physic-enabled #f)
       (solid #f)
+      (sprite "images/objects/keys/key_air.sprite")
       (x 2576)
       (y 1344)
-      (sprite "images/objects/keys/key_air.sprite")
     )
     (scripttrigger
       (script "if(state.world2_keys.earth) {
@@ -227,8 +227,8 @@ Text.fade_out(1);
       (y 608)
     )
     (tilemap
-      (z-pos -100)
       (solid #f)
+      (z-pos -100)
       (width 400)
       (height 76)
       (tiles
@@ -311,8 +311,8 @@ Text.fade_out(1);
       )
     )
     (tilemap
-      (z-pos 0)
       (solid #t)
+      (z-pos 0)
       (width 400)
       (height 76)
       (tiles
@@ -395,8 +395,8 @@ Text.fade_out(1);
       )
     )
     (tilemap
-      (z-pos 100)
       (solid #f)
+      (z-pos 100)
       (width 400)
       (height 76)
       (tiles
@@ -479,8 +479,8 @@ Text.fade_out(1);
       )
     )
     (tilemap
-      (z-pos -10)
       (solid #t)
+      (z-pos -10)
       (name "LAVA")
       (path
         (node
@@ -576,8 +576,8 @@ Text.fade_out(1);
       )
     )
     (tilemap
-      (z-pos -10)
       (solid #t)
+      (z-pos -10)
       (name "Wood1")
       (path
         (node
@@ -673,8 +673,8 @@ Text.fade_out(1);
       )
     )
     (tilemap
-      (z-pos -10)
       (solid #t)
+      (z-pos -10)
       (name "Wood2")
       (path
         (node
@@ -770,8 +770,8 @@ Text.fade_out(1);
       )
     )
     (tilemap
-      (z-pos 1)
       (solid #f)
+      (z-pos 1)
       (name "Wood3")
       (width 400)
       (height 76)

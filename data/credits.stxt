@@ -247,6 +247,11 @@
       (simple #t)
     )
     (person
+      (name "WindowsDylan")
+      (info (_ "Big Tux Walking Sprites improvements"))
+      (simple #t)
+    )
+    (person
       (name "Carsten \"RustyBox\" Wirtz")
       (info (_ "Level improvements"))
       (simple #t)

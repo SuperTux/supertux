@@ -58,8 +58,6 @@ GLLightmap::start_draw()
 
     m_lightmap.reset(new GLTexture(next_po2(m_lightmap_width),
                                    next_po2(m_lightmap_height)));
-
-    TextureManager::current()->register_texture(m_lightmap.get());
   }
 
   glViewport(0, 0, m_lightmap_width, m_lightmap_height);
@@ -146,18 +144,18 @@ GLLightmap::clear_clip_rect()
 void
 GLLightmap::get_light(const DrawingRequest& request) const
 {
-  const GetLightRequest* getlightrequest = static_cast<GetLightRequest*>(request.request_data);
+  const auto& data = static_cast<const GetLightRequest&>(request);
 
   float pixels[3] = { 0.0f, 0.0f, 0.0f };
 
-  float x = getlightrequest->pos.x * static_cast<float>(m_lightmap_width) / static_cast<float>(m_size.width);
-  float y = getlightrequest->pos.y * static_cast<float>(m_lightmap_height) / static_cast<float>(m_size.height);
+  float x = data.pos.x * static_cast<float>(m_lightmap_width) / static_cast<float>(m_size.width);
+  float y = data.pos.y * static_cast<float>(m_lightmap_height) / static_cast<float>(m_size.height);
 
   glReadPixels(static_cast<GLint>(x),
-               static_cast<GLint>(y),
+               m_lightmap_height - static_cast<GLint>(y),
                1, 1, GL_RGB, GL_FLOAT, pixels);
 
-  *(getlightrequest->color_ptr) = Color(pixels[0], pixels[1], pixels[2]);
+  *(data.color_ptr) = Color(pixels[0], pixels[1], pixels[2]);
 }
 
 /* EOF */

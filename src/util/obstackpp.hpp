@@ -31,6 +31,18 @@ operator new[] (size_t bytes, struct obstack& obst)
   return obstack_alloc(&obst, static_cast<int>(bytes));
 }
 
+inline void
+operator delete (void* obj, struct obstack& obst)
+{
+  obstack_free(&obst, obj);
+}
+
+inline void
+operator delete[] (void* obj, struct obstack& obst)
+{
+  obstack_free(&obst, obj);
+}
+
 static inline void* obstack_chunk_alloc(size_t size)
 {
   return new char[size];

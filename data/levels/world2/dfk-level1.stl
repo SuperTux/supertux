@@ -20,8 +20,8 @@
       (y 2976)
     )
     (tilemap
-      (z-pos 0)
       (solid #t)
+      (z-pos 0)
       (width 240)
       (height 240)
       (tiles

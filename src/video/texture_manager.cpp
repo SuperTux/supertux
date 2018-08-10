@@ -24,19 +24,12 @@
 #include "util/file_system.hpp"
 #include "util/log.hpp"
 #include "video/sdl_surface_ptr.hpp"
+#include "video/texture.hpp"
 #include "video/video_system.hpp"
 
-#ifdef HAVE_OPENGL
-#include "video/gl/gl_texture.hpp"
-#endif
-
 TextureManager::TextureManager() :
-  m_image_textures()
-  ,m_surfaces()
-#ifdef HAVE_OPENGL
-  ,m_textures(),
-  m_saved_textures()
-#endif
+  m_image_textures(),
+  m_surfaces()
 {
 }
 
@@ -109,20 +102,6 @@ TextureManager::reap_cache_entry(const std::string& filename)
   assert(i->second.expired());
   m_image_textures.erase(i);
 }
-
-#ifdef HAVE_OPENGL
-void
-TextureManager::register_texture(GLTexture* texture)
-{
-  m_textures.insert(texture);
-}
-
-void
-TextureManager::remove_texture(GLTexture* texture)
-{
-  m_textures.erase(texture);
-}
-#endif
 
 TexturePtr
 TextureManager::create_image_texture(const std::string& filename, const Rect& rect)
@@ -246,117 +225,5 @@ TextureManager::create_dummy_texture()
     }
   }
 }
-
-#ifdef HAVE_OPENGL
-void
-TextureManager::save_textures()
-{
-#if defined(GL_PACK_ROW_LENGTH) || defined(USE_GLBINDING)
-  /* all this stuff is not support by OpenGL ES */
-  glPixelStorei(GL_PACK_ROW_LENGTH, 0);
-  glPixelStorei(GL_PACK_IMAGE_HEIGHT, 0);
-  glPixelStorei(GL_PACK_SKIP_PIXELS, 0);
-  glPixelStorei(GL_PACK_SKIP_ROWS, 0);
-  glPixelStorei(GL_PACK_SKIP_IMAGES, 0);
-#endif
-
-  glPixelStorei(GL_PACK_ALIGNMENT, 1);
-
-  for(auto& texture : m_textures)
-  {
-    save_texture(texture);
-  }
-
-  for(auto& tex : m_image_textures)
-  {
-    auto texture = dynamic_cast<GLTexture*>(tex.second.lock().get());
-    if(texture == NULL)
-      continue;
-
-    save_texture(texture);
-  }
-}
-
-void
-TextureManager::save_texture(GLTexture* texture)
-{
-  SavedTexture saved_texture;
-  saved_texture.texture = texture;
-  glBindTexture(GL_TEXTURE_2D, texture->get_handle());
-
-  //this doesn't work with OpenGL ES (but we don't need it on the GP2X anyway)
-#ifndef GL_VERSION_ES_CM_1_0
-  glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH,
-                           &saved_texture.width);
-  glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT,
-                           &saved_texture.height);
-  glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_BORDER,
-                           &saved_texture.border);
-  glGetTexParameteriv(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
-                      &saved_texture.min_filter);
-  glGetTexParameteriv(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,
-                      &saved_texture.mag_filter);
-  glGetTexParameteriv(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,
-                      &saved_texture.wrap_s);
-  glGetTexParameteriv(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T,
-                      &saved_texture.wrap_t);
-
-  size_t pixelssize = saved_texture.width * saved_texture.height * 4;
-  saved_texture.pixels = new char[pixelssize];
-
-  glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE,
-                saved_texture.pixels);
-#endif
-
-  m_saved_textures.push_back(saved_texture);
-
-  glDeleteTextures(1, &(texture->get_handle()));
-  texture->set_handle(0);
-
-  assert_gl("retrieving texture for save");
-}
-
-void
-TextureManager::reload_textures()
-{
-#if defined(GL_UNPACK_ROW_LENGTH) || defined(USE_GLBINDING)
-  /* OpenGL ES doesn't support these */
-  glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
-  glPixelStorei(GL_UNPACK_IMAGE_HEIGHT, 0);
-  glPixelStorei(GL_UNPACK_SKIP_PIXELS, 0);
-  glPixelStorei(GL_UNPACK_SKIP_ROWS, 0);
-  glPixelStorei(GL_UNPACK_SKIP_IMAGES, 0);
-#endif
-  glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-
-  for(auto& saved_texture : m_saved_textures) {
-    GLuint handle;
-    glGenTextures(1, &handle);
-    assert_gl("creating texture handle");
-
-    glBindTexture(GL_TEXTURE_2D, handle);
-    glTexImage2D(GL_TEXTURE_2D, 0, static_cast<GLint>(GL_RGBA),
-                 saved_texture.width, saved_texture.height,
-                 saved_texture.border, GL_RGBA,
-                 GL_UNSIGNED_BYTE, saved_texture.pixels);
-    delete[] saved_texture.pixels;
-    assert_gl("uploading texture pixel data");
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
-                    saved_texture.min_filter);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,
-                    saved_texture.mag_filter);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,
-                    saved_texture.wrap_s);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T,
-                    saved_texture.wrap_t);
-
-    assert_gl("setting texture_params");
-    saved_texture.texture->set_handle(handle);
-  }
-
-  m_saved_textures.clear();
-}
-#endif
 
 /* EOF */

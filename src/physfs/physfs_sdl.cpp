@@ -51,12 +51,19 @@ static Sint64 funcSeek(struct SDL_RWops* context, Sint64 offset, int whence)
   return static_cast<int>(PHYSFS_tell(file));
 }
 
-static size_t  funcRead(struct SDL_RWops* context, void* ptr, size_t  size, size_t  maxnum)
+static size_t  funcRead(struct SDL_RWops* context, void* ptr, size_t size, size_t maxnum)
 {
   PHYSFS_file* file = static_cast<PHYSFS_file*>(context->hidden.unknown.data1);
 
-  auto res = PHYSFS_readBytes(file, ptr, size * maxnum);
-  return res / size;
+  PHYSFS_sint64 res = PHYSFS_readBytes(file, ptr, size * maxnum);
+  if (res < 0)
+  {
+    return 0;
+  }
+  else
+  {
+    return static_cast<size_t>(res / size);
+  }
 }
 
 static int funcClose(struct SDL_RWops* context)

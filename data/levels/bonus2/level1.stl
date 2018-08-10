@@ -2,7 +2,6 @@
   (version 2)
   (name (_ "Mario's Supposed to Deal With This..."))
   (author "Kevin")
-  (target-time 0)
   (sector
     (name "main")
     (music "music/fortress.music")
@@ -299,8 +298,6 @@
     )
     (secretarea
       (fade-tilemap "s1")
-      (script "")
-      (message "")
       (width 32)
       (height 92)
       (x 4480)

@@ -72,8 +72,8 @@ inline void intern_draw(float left, float top, float right, float bottom,
     float center_x = (left + right) / 2;
     float center_y = (top + bottom) / 2;
 
-    float sa = sinf(angle / 180.0f * math::PI);
-    float ca = cosf(angle / 180.0f * math::PI);
+    float sa = sinf(math::radians(angle));
+    float ca = cosf(math::radians(angle));
 
     left  -= center_x;
     right -= center_x;
@@ -115,7 +115,7 @@ GLPainter::GLPainter(GLVideoSystem& video_system) :
 void
 GLPainter::draw_texture(const DrawingRequest& request)
 {
-  const auto& data = static_cast<const TextureRequest&>(*request.request_data);
+  const auto& data = static_cast<const TextureRequest&>(request);
   const auto& texture = static_cast<const GLTexture&>(*data.texture);
 
   GLuint handle = texture.get_handle();
@@ -137,15 +137,88 @@ GLPainter::draw_texture(const DrawingRequest& request)
 
               request.angle,
               request.alpha,
-              request.color,
+              data.color,
               request.blend,
               request.drawing_effect);
 }
 
 void
+GLPainter::draw_texture_batch(const DrawingRequest& request)
+{
+  const auto& data = static_cast<const TextureBatchRequest&>(request);
+  const auto& texture = static_cast<const GLTexture&>(*data.texture);
+
+  assert(data.srcrects.size() == data.dstrects.size());
+
+  GLuint handle = texture.get_handle();
+  if (handle != s_last_texture)
+  {
+    s_last_texture = handle;
+    glBindTexture(GL_TEXTURE_2D, handle);
+  }
+
+  std::vector<float> vertices;
+  std::vector<float> uvs;
+  for(size_t i = 0; i < data.srcrects.size(); ++i)
+  {
+    const float left = data.dstrects[i].p1.x;
+    const float top = data.dstrects[i].p1.y;
+    const float right  = data.dstrects[i].p2.x;
+    const float bottom = data.dstrects[i].p2.y;
+
+    float uv_left = data.srcrects[i].get_left() / static_cast<float>(texture.get_texture_width());
+    float uv_top = data.srcrects[i].get_top() / static_cast<float>(texture.get_texture_height());
+    float uv_right = data.srcrects[i].get_right() / static_cast<float>(texture.get_texture_width());
+    float uv_bottom = data.srcrects[i].get_bottom() / static_cast<float>(texture.get_texture_height());
+
+    if (request.drawing_effect & HORIZONTAL_FLIP)
+      std::swap(uv_left, uv_right);
+
+    if (request.drawing_effect & VERTICAL_FLIP)
+      std::swap(uv_top, uv_bottom);
+
+    auto vertices_lst = {
+      left, top,
+      right, top,
+      right, bottom,
+
+      left, bottom,
+      left, top,
+      right, bottom,
+    };
+
+    vertices.insert(vertices.end(), std::begin(vertices_lst), std::end(vertices_lst));
+
+    auto uvs_lst = {
+      uv_left, uv_top,
+      uv_right, uv_top,
+      uv_right, uv_bottom,
+
+      uv_left, uv_bottom,
+      uv_left, uv_top,
+      uv_right, uv_bottom,
+    };
+
+    uvs.insert(uvs.end(), std::begin(uvs_lst), std::end(uvs_lst));
+  }
+
+  glVertexPointer(2, GL_FLOAT, 0, vertices.data());
+  glTexCoordPointer(2, GL_FLOAT, 0, uvs.data());
+
+  glBlendFunc(request.blend.sfactor, request.blend.dfactor);
+  glColor4f(data.color.red, data.color.green, data.color.blue, data.color.alpha * request.alpha);
+
+  glDrawArrays(GL_TRIANGLES, 0, static_cast<GLsizei>(data.srcrects.size() * 2 * 3));
+
+  // FIXME: find a better way to restore the blend mode
+  glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+}
+
+void
 GLPainter::draw_gradient(const DrawingRequest& request)
 {
-  const auto& data = static_cast<GradientRequest&>(*request.request_data);
+  const auto& data = static_cast<const GradientRequest&>(request);
 
   const Color& top = data.top;
   const Color& bottom = data.bottom;
@@ -197,7 +270,7 @@ GLPainter::draw_gradient(const DrawingRequest& request)
 void
 GLPainter::draw_filled_rect(const DrawingRequest& request)
 {
-  const auto& data = static_cast<FillRectRequest&>(*request.request_data);
+  const auto& data = static_cast<const FillRectRequest&>(request);
 
   glDisable(GL_TEXTURE_2D);
   glColor4f(data.color.red, data.color.green,
@@ -276,7 +349,7 @@ GLPainter::draw_filled_rect(const DrawingRequest& request)
 void
 GLPainter::draw_inverse_ellipse(const DrawingRequest& request)
 {
-  const auto& data = static_cast<InverseEllipseRequest&>(*request.request_data);
+  const auto& data = static_cast<const InverseEllipseRequest&>(request);
 
   glDisable(GL_TEXTURE_2D);
   glColor4f(data.color.red,  data.color.green,
@@ -360,7 +433,7 @@ GLPainter::draw_inverse_ellipse(const DrawingRequest& request)
 void
 GLPainter::draw_line(const DrawingRequest& request)
 {
-  const auto& data = static_cast<LineRequest&>(*request.request_data);
+  const auto& data = static_cast<const LineRequest&>(request);
 
   glDisable(GL_TEXTURE_2D);
   glColor4f(data.color.red, data.color.green, data.color.blue, data.color.alpha);
@@ -387,7 +460,7 @@ GLPainter::draw_line(const DrawingRequest& request)
 void
 GLPainter::draw_triangle(const DrawingRequest& request)
 {
-  const auto& data = static_cast<TriangleRequest&>(*request.request_data);
+  const auto& data = static_cast<const TriangleRequest&>(request);
 
   glDisable(GL_TEXTURE_2D);
   glColor4f(data.color.red, data.color.green, data.color.blue, data.color.alpha);

@@ -20,6 +20,7 @@
 #include <SDL_image.h>
 #include <algorithm>
 #include <physfs.h>
+#include <cmath>
 
 #include "physfs/physfs_sdl.hpp"
 #include "util/file_system.hpp"
@@ -386,7 +387,7 @@ Font::draw(Painter& painter, const std::string& text, const Vector& pos_,
 
       // Cast font position to integer to get a clean drawing result and
       // no blurring as we would get with subpixel positions
-      pos.x = static_cast<float>(static_cast<int>(pos.x));
+      pos.x = std::truncf(pos.x);
 
       draw_text(painter, temp, pos, drawing_effect, color, alpha);
 
@@ -438,20 +439,18 @@ Font::draw_chars(Painter& painter, bool notshadow, const std::string& text,
 
       // FIXME: this could all be handled in Canvas, no need for Font
       // to mess around with low level code
-      DrawingRequest request;
+      TextureRequest request;
 
       request.drawing_effect = drawing_effect;
-      request.color = color;
       request.alpha = alpha;
 
-      TextureRequest request_data;
-      request_data.srcrect = glyph.rect;
-      request_data.dstrect = Rectf(p + glyph.offset, glyph.rect.get_size());
-      request_data.texture = notshadow ?
+      request.color = color;
+      request.srcrect = glyph.rect;
+      request.dstrect = Rectf(p + glyph.offset, glyph.rect.get_size());
+      request.texture = notshadow ?
         glyph_surfaces[glyph.surface_idx]->get_texture().get() :
         shadow_surfaces[glyph.surface_idx]->get_texture().get();
 
-      request.request_data = &request_data;
       painter.draw_texture(request);
 
       p.x += glyph.advance;

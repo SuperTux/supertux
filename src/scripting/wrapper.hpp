@@ -42,6 +42,8 @@ class Sector;
 void create_squirrel_instance(HSQUIRRELVM v, scripting::Sector* object, bool setup_releasehook = false);
 class Text;
 void create_squirrel_instance(HSQUIRRELVM v, scripting::Text* object, bool setup_releasehook = false);
+class TextArray;
+void create_squirrel_instance(HSQUIRRELVM v, scripting::TextArray* object, bool setup_releasehook = false);
 class Thunderstorm;
 void create_squirrel_instance(HSQUIRRELVM v, scripting::Thunderstorm* object, bool setup_releasehook = false);
 class TileMap;

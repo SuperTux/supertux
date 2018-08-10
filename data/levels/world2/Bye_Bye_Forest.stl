@@ -3,7 +3,6 @@
   (name (_ "Bye Bye Forest"))
   (author "alex")
   (license "CC-BY-SA 4.0 International")
-  (target-time 0)
   (sector
     (name "main")
     (music "music/forest_theme.ogg")
@@ -763,8 +762,6 @@
     )
     (secretarea
       (fade-tilemap "secret")
-      (script "")
-      (message "")
       (width 284)
       (height 124)
       (x 5056)

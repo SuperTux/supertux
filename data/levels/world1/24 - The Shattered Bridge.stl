@@ -3,7 +3,7 @@
   (name (_ "The Shattered Bridge"))
   (author "SuperTux Team")
   (license "GPL 2+ / CC-by-sa 3.0")
-  (target-time 70)
+  (target-time 80)
   (sector
     (name "main")
     (music "music/wisphunt.music")
@@ -164,16 +164,12 @@
       (y 187)
     )
     (secretarea
-      (script "")
-      (message "")
       (width 556)
       (height 50)
       (x 4838.515)
       (y 179.5615)
     )
     (secretarea
-      (script "")
-      (message "")
       (width 710.8228)
       (height 153.6224)
       (x 8068.353)

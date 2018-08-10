@@ -4,7 +4,6 @@
   (author "Esteban")
   (contact "supertuxeditor@yahoo.es")
   (license "GPL 2+ / CC-by-sa 3.0")
-  (target-time 0)
   (sector
     (name "main")
     (music "music/chipdisko.ogg")
@@ -863,8 +862,6 @@ block3.goto_node(2);")
       (y 773)
     )
     (secretarea
-      (script "")
-      (message "")
       (width 92)
       (height 92)
       (x 1728)

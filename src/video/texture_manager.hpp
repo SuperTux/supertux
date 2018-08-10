@@ -36,28 +36,14 @@ struct SDL_Surface;
 class TextureManager : public Currenton<TextureManager>
 {
 public:
+  friend class Texture;
+
+public:
   TextureManager();
   ~TextureManager();
 
   TexturePtr get(const std::string& filename);
   TexturePtr get(const std::string& filename, const Rect& rect);
-
-#ifdef HAVE_OPENGL
-  void register_texture(GLTexture* texture);
-  void remove_texture(GLTexture* texture);
-
-  void save_textures();
-  void reload_textures();
-#endif
-
-private:
-  friend class Texture;
-
-  typedef std::map<std::string, std::weak_ptr<Texture> > ImageTextures;
-  ImageTextures m_image_textures;
-
-  typedef std::map<std::string, SDL_Surface*> Surfaces;
-  Surfaces m_surfaces;
 
 private:
   void reap_cache_entry(const std::string& filename);
@@ -73,29 +59,9 @@ private:
 
   TexturePtr create_dummy_texture();
 
-#ifdef HAVE_OPENGL
 private:
-  typedef std::set<GLTexture*> Textures;
-  Textures m_textures;
-
-  struct SavedTexture
-  {
-    GLTexture* texture;
-    GLint width;
-    GLint height;
-    char* pixels;
-    GLint border;
-
-    GLint min_filter;
-    GLint mag_filter;
-    GLint wrap_s;
-    GLint wrap_t;
-  };
-  std::vector<SavedTexture> m_saved_textures;
-
-private:
-  void save_texture(GLTexture* texture);
-#endif
+  std::map<std::string, std::weak_ptr<Texture> > m_image_textures;
+  std::map<std::string, SDL_Surface*> m_surfaces;
 };
 
 #endif

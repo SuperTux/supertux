@@ -3,7 +3,6 @@
   (name (_ "Pipe Down Over There"))
   (author "Matr1x")
   (license "GPL 2+ / CC-by-sa 3.0")
-  (target-time 0)
   (sector
     (name "main")
     (music "music/chipdisko.ogg")
@@ -262,8 +261,6 @@
     )
     (secretarea
       (fade-tilemap "secreta")
-      (script "")
-      (message "")
       (width 572)
       (height 92)
       (x 4928)
@@ -271,8 +268,6 @@
     )
     (secretarea
       (fade-tilemap "secretb")
-      (script "")
-      (message "")
       (width 252)
       (height 156)
       (x 6432)
@@ -280,16 +275,12 @@
     )
     (secretarea
       (fade-tilemap "secretc")
-      (script "")
-      (message "")
       (width 604)
       (height 92)
       (x 7232)
       (y 672)
     )
     (secretarea
-      (script "")
-      (message "")
       (width 92)
       (height 188)
       (x 192)

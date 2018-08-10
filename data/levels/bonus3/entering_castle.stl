@@ -108,8 +108,6 @@ platf1.goto_node(1);")
     )
     (secretarea
       (fade-tilemap "secr1")
-      (script "")
-      (message "")
       (width 168)
       (height 104)
       (x 1588)

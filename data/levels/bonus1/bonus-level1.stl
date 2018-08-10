@@ -1,8 +1,8 @@
 (supertux-level
   (version 2)
-  (name (_ "Bonus Dias!"))  (license "GPL 2+ / CC-by-sa 3.0")
+  (name (_ "Bonus Dias!"))
   (author "SuperTux Team")
-  (target-time 0)
+  (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
     (music "music/chipdisko.ogg")
@@ -75,16 +75,12 @@
     )
     (secretarea
       (fade-tilemap "secret")
-      (script "")
-      (message "")
       (width 124)
       (height 156)
       (x 6848)
       (y 480)
     )
     (secretarea
-      (script "")
-      (message "")
       (width 76)
       (height 140)
       (x 4852)

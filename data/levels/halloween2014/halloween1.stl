@@ -4,7 +4,6 @@
   (author "Ingo Ruhnke")
   (contact "grumbel@gmail.com")
   (license "GPL 2+ / CC-by-sa 3.0")
-  (target-time 0)
   (sector
     (name "main")
     (music "music/greatgigantic.music")
@@ -305,16 +304,12 @@
       (sprite "images/decal/halloween/tree.png")
     )
     (secretarea
-      (script "")
-      (message "")
       (width 264)
       (height 220)
       (x 4916)
       (y 256)
     )
     (secretarea
-      (script "")
-      (message "")
       (width 156)
       (height 168)
       (x 10976)

@@ -114,7 +114,6 @@
     (secretarea
       (fade-tilemap "secret")
       (script "slope.set_alpha(1)")
-      (message "")
       (width 40)
       (height 124)
       (x 2848)

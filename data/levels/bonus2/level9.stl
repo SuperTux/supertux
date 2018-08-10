@@ -3,7 +3,6 @@
   (name (_ "Tradition"))
   (author "Big c")
   (license "GPL 2+ / CC-by-sa 3.0")
-  (target-time 0)
   (sector
     (name "main")
     (music "music/chipdisko.ogg")
@@ -169,8 +168,6 @@
     )
     (secretarea
       (fade-tilemap "s4")
-      (script "")
-      (message "")
       (width 142.6345)
       (height 119.6813)
       (x 3712)
@@ -178,8 +175,6 @@
     )
     (secretarea
       (fade-tilemap "s3")
-      (script "")
-      (message "")
       (width 128.1665)
       (height 157.865)
       (x 3133.406)
@@ -187,8 +182,6 @@
     )
     (secretarea
       (fade-tilemap "s2")
-      (script "")
-      (message "")
       (width 621.7272)
       (height 101.2965)
       (x 1203.005)
@@ -196,8 +189,6 @@
     )
     (secretarea
       (fade-tilemap "s1")
-      (script "")
-      (message "")
       (width 928.207)
       (height 77.25482)
       (x 27.79305)
