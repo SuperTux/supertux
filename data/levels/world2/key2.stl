@@ -27,7 +27,7 @@
       (solid #f)
       (x 459.6101)
       (y 506.132)
-      (sprite "images/creatures/tux_flip/flip.sprite")
+      (sprite "images/creatures/tux/tux.sprite")
     )
     (spawnpoint
       (name "main")
