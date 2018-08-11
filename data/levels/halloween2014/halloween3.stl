@@ -95,32 +95,26 @@
       (mode "normal")
     )
     (candle
-      (color 1 1 1)
       (x 8544)
       (y 896)
     )
     (candle
-      (color 1 1 1)
       (x 8512)
       (y 896)
     )
     (candle
-      (color 1 1 1)
       (x 8768)
       (y 896)
     )
     (candle
-      (color 1 1 1)
       (x 8800)
       (y 896)
     )
     (candle
-      (color 1 1 1)
       (x 15872)
       (y 896)
     )
     (candle
-      (color 1 1 1)
       (x 16128)
       (y 896)
     )

@@ -102,17 +102,14 @@
       (y 896)
     )
     (candle
-      (color 1 1 1)
       (x 3360)
       (y 640)
     )
     (candle
-      (color 1 1 1)
       (x 3344)
       (y 640)
     )
     (candle
-      (color 1 1 1)
       (x 3280)
       (y 640)
     )
@@ -229,12 +226,10 @@
       (y 832)
     )
     (candle
-      (color 1 1 1)
       (x 8480)
       (y 1024)
     )
     (candle
-      (color 1 1 1)
       (x 8704)
       (y 1024)
     )
@@ -659,7 +654,6 @@
       (y 640)
     )
     (candle
-      (color 1 1 1)
       (x 10624)
       (y 800)
     )
@@ -818,32 +812,26 @@
       (y 896)
     )
     (candle
-      (color 1 1 1)
       (x 14496)
       (y 768)
     )
     (candle
-      (color 1 1 1)
       (x 13696)
       (y 768)
     )
     (candle
-      (color 1 1 1)
       (x 13856)
       (y 768)
     )
     (candle
-      (color 1 1 1)
       (x 14368)
       (y 768)
     )
     (candle
-      (color 1 1 1)
       (x 14720)
       (y 768)
     )
     (candle
-      (color 1 1 1)
       (x 14624)
       (y 768)
     )
@@ -1529,29 +1517,24 @@
     (candle
       (flicker #f)
       (sprite "images/objects/candle/no_candle.sprite")
-      (color 1 1 1)
       (x 21520)
       (y 608)
     )
     (candle
       (flicker #f)
       (sprite "images/objects/candle/no_candle.sprite")
-      (color 1 1 1)
       (x 21376)
       (y 672)
     )
     (candle
-      (color 1 1 1)
       (x 7520)
       (y 1088)
     )
     (candle
-      (color 1 1 1)
       (x 7808)
       (y 1088)
     )
     (candle
-      (color 1 1 1)
       (x 9264)
       (y 896)
     )

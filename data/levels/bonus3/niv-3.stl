@@ -179,22 +179,18 @@
       (mode "normal")
     )
     (candle
-      (color 1 1 1)
       (x 128)
       (y 480)
     )
     (candle
-      (color 1 1 1)
       (x 64)
       (y 672)
     )
     (candle
-      (color 1 1 1)
       (x 224)
       (y 672)
     )
     (candle
-      (color 1 1 1)
       (x 3040)
       (y 160)
     )
@@ -229,22 +225,18 @@
       (y 0)
     )
     (lantern
-      (color 1 1 1)
       (x 432)
       (y 392)
     )
     (lantern
-      (color 1 1 1)
       (x 528)
       (y 72)
     )
     (lantern
-      (color 1 1 1)
       (x 3152)
       (y 136)
     )
     (lantern
-      (color 1 1 1)
       (x 2992)
       (y 136)
     )

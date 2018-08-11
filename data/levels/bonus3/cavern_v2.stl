@@ -18,7 +18,6 @@
       (mode "normal")
     )
     (candle
-      (color 1 1 1)
       (x 1455.237)
       (y 283)
     )

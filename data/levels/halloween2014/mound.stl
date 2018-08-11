@@ -108,61 +108,50 @@
       (mode "normal")
     )
     (candle
-      (color 1 1 1)
       (x 8992)
       (y 1280)
     )
     (candle
-      (color 1 1 1)
       (x 9376)
       (y 1280)
     )
     (candle
-      (color 1 1 1)
       (x 9392)
       (y 1280)
     )
     (candle
-      (color 1 1 1)
       (x 11072)
       (y 1344)
     )
     (candle
-      (color 1 1 1)
       (x 11552)
       (y 1024)
     )
     (candle
-      (color 1 1 1)
       (x 11744)
       (y 1280)
     )
     (candle
       (flicker #f)
       (sprite "images/objects/candle/no_candle.sprite")
-      (color 1 1 1)
       (x 15752)
       (y 640)
     )
     (candle
       (flicker #f)
       (sprite "images/objects/candle/no_candle.sprite")
-      (color 1 1 1)
       (x 15616)
       (y 704)
     )
     (candle
-      (color 1 1 1)
       (x 13472)
       (y 544)
     )
     (candle
-      (color 1 1 1)
       (x 13440)
       (y 544)
     )
     (candle
-      (color 1 1 1)
       (x 13424)
       (y 544)
     )

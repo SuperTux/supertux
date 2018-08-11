@@ -18,22 +18,18 @@
       (mode "normal")
     )
     (candle
-      (color 1 1 1)
       (x 128)
       (y 480)
     )
     (candle
-      (color 1 1 1)
       (x 32)
       (y 480)
     )
     (candle
-      (color 1 1 1)
       (x 64)
       (y 480)
     )
     (candle
-      (color 1 1 1)
       (x 96)
       (y 480)
     )
