@@ -2,13 +2,11 @@
   (version 2)
   (name (_ "A Ghostly World"))
   (author "Carsten")
-  (tileset "images/tiles.strf")
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (ambient-light 0.5 0.5 0.5 1)
     (music "music/ghostforest.ogg")
-    (gravity 10)
+    (ambient-light 0.5 0.5 0.5)
     (camera
       (name "Camera")
       (mode "normal")

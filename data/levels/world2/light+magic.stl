@@ -2,13 +2,11 @@
   (version 2)
   (name (_ "Light and Magic"))
   (author "Wolfgang Becker")
-  (tileset "images/tiles.strf")
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (ambient-light 0.5333329439 0.5333329439 0.5333329439 1)
     (music "music/ghostforest2.ogg")
-    (gravity 10)
+    (ambient-light 0.5333329 0.5333329 0.5333329)
     (camera
       (name "Camera")
       (mode "normal")

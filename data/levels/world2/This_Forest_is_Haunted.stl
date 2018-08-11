@@ -2,13 +2,11 @@
   (version 2)
   (name (_ "This Forest is Haunted"))
   (author "alex")
-  (tileset "images/tiles.strf")
   (license "CC-BY-SA 4.0 International")
   (sector
     (name "main")
-    (ambient-light 0.8117647171 0.78039217 0.78039217 1)
     (music "music/ghostforest.music")
-    (gravity 10)
+    (ambient-light 0.8117647 0.7803922 0.7803922)
     (background
       (z-pos -190)
       (scroll-offset-x 0)

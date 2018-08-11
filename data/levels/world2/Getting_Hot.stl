@@ -2,13 +2,10 @@
   (version 2)
   (name (_ "It's Getting Hot!"))
   (author "Carsten")
-  (tileset "images/tiles.strf")
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (ambient-light 0.5 0.5 0.5 1)
     (music "/music/halloween_1.music")
-    (gravity 10)
     (tilemap
       (name "Background")
       (draw-target "normal")
@@ -51,6 +48,7 @@
       (name "Camera")
       (mode "normal")
     )
+    (ambient-light 0.5 0.5 0.5)
     (background
       (z-pos -300)
       (scroll-offset-x 0)

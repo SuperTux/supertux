@@ -2,13 +2,11 @@
   (version 2)
   (name (_ "Crumbling Path"))
   (author "Wolfgang Becker")
-  (tileset "images/tiles.strf")
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (ambient-light 1 1 1 1)
     (music "music/forest2.ogg")
-    (gravity 10)
+    (ambient-light 1 1 1)
     (background
       (z-pos -200)
       (scroll-offset-x 0)
@@ -21,7 +19,6 @@
       (image-bottom "images/background/BlueRock_Forest/blue-bottom.jpg")
     )
     (camera
-      (name "Camera")
       (mode "normal")
     )
     (firefly
