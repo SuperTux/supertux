@@ -99,7 +99,7 @@
       )
     )
     (platform
-      (sprite "/images/objects/platforms/icefloe_small.sprite")
+      (sprite "images/objects/platforms/icefloe_small.sprite")
       (x 1918)
       (y 1632)
       (running #t)
@@ -128,7 +128,7 @@
       )
     )
     (platform
-      (sprite "/images/objects/platforms/icefloe_small.sprite")
+      (sprite "images/objects/platforms/icefloe_small.sprite")
       (x 1586)
       (y 1632)
       (running #t)
@@ -157,7 +157,7 @@
       )
     )
     (platform
-      (sprite "/images/objects/platforms/icefloe_small.sprite")
+      (sprite "images/objects/platforms/icefloe_small.sprite")
       (x 1244)
       (y 1632)
       (running #t)
@@ -186,7 +186,7 @@
       )
     )
     (platform
-      (sprite "/images/objects/platforms/icefloe_small.sprite")
+      (sprite "images/objects/platforms/icefloe_small.sprite")
       (x 774)
       (y 1632)
       (running #t)
@@ -566,7 +566,7 @@
       (running #f)
     )
     (platform
-      (sprite "/images/objects/platforms/icefloe_small.sprite")
+      (sprite "images/objects/platforms/icefloe_small.sprite")
       (x 3392.5)
       (y 1632.624146)
       (running #t)

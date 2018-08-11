@@ -85,9 +85,9 @@
       (scroll-speed-x 0.5)
       (scroll-speed-y 0.5)
       (speed 0.5)
-      (image-top "/images/background/BlueRock_Forest/blue-top.jpg")
-      (image "/images/background/BlueRock_Forest/blue-middle.jpg")
-      (image-bottom "/images/background/BlueRock_Forest/blue-bottom.jpg")
+      (image-top "images/background/BlueRock_Forest/blue-top.jpg")
+      (image "images/background/BlueRock_Forest/blue-middle.jpg")
+      (image-bottom "images/background/BlueRock_Forest/blue-bottom.jpg")
     )
     (poisonivy
       (sprite "images/creatures/poison_ivy/poison_ivy.sprite")
@@ -225,7 +225,7 @@
       (direction "left")
     )
     (bonusblock
-      (sprite "/images/objects/bonus_block/purpleblock.sprite")
+      (sprite "images/objects/bonus_block/purpleblock.sprite")
       (x 4128.129883)
       (y 2400.000488)
       (contents "coin")

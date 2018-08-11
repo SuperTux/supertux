@@ -263,7 +263,7 @@
       (direction "left")
     )
     (decal
-      (sprite "/images/decal/explanations/billboard-pickrock.png")
+      (sprite "images/decal/explanations/billboard-pickrock.png")
       (action "")
       (solid #f)
       (z-pos -50)
