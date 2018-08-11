@@ -19,12 +19,10 @@
       (mode "normal")
     )
     (candle
-      (color 1 1 1)
       (x 2848)
       (y 1856)
     )
     (candle
-      (color 1 1 1)
       (x 3040)
       (y 1856)
     )

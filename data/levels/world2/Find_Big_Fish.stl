@@ -412,14 +412,12 @@
     (candle
       (flicker #f)
       (sprite "images/objects/candle/no_candle.sprite")
-      (color 1 1 1)
       (x 1776)
       (y 0)
     )
     (candle
       (flicker #f)
       (sprite "images/objects/candle/no_candle.sprite")
-      (color 1 1 1)
       (x 1872)
       (y 0)
     )
