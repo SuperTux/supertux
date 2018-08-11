@@ -2,13 +2,12 @@
   (version 2)
   (name (_ "Forest World"))
   (author "SuperTux Team")
-  (tileset "images/worldmap.strf")
   (contact "http://developer.berlios.de/projects/supertux/")
   (license "GPL 2 / CC-by-sa 3.0")
   (sector
     (name "main")
-    (ambient-light 1 1 1 1)
     (music "music/forestmap.ogg")
+    (ambient-light 1 1 1)
     (decal
       (sprite "images/worldmap/halloween/tree1.png")
       (action "")
