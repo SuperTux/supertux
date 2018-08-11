@@ -2,7 +2,7 @@
   (version 2)
   (name (_ "Bonus Island II"))
   (author "SuperTux Team")
-  (tileset "/images/ice_world.strf")
+  (tileset "images/ice_world.strf")
   (contact "http://developer.berlios.de/projects/supertux/")
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
