@@ -9,17 +9,17 @@
       (speed 0.5)
       (image "images/background/arctis.jpg")
     )
+    (bicycle-platform
+      (sprite "images/objects/platforms/small.sprite")
+      (x 320)
+      (y 640)
+    )
     (camera
       (mode "normal")
     )
     (rock
       (x 34)
       (y 500)
-    )
-    (bicycle-platform
-      (sprite "images/objects/platforms/small.sprite")
-      (x 320)
-      (y 640)
     )
     (spawnpoint
       (name "main")

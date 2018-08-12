@@ -7,14 +7,6 @@
   (sector
     (name "main")
     (ambient-light 1 1 1)
-    (plant
-      (x 832)
-      (y 992)
-    )
-    (plant
-      (x 2752)
-      (y 320)
-    )
     (bonusblock
       (script "")
       (count -1)
@@ -97,6 +89,14 @@
     (owl
       (x 2126)
       (y 583)
+    )
+    (plant
+      (x 832)
+      (y 992)
+    )
+    (plant
+      (x 2752)
+      (y 320)
     )
     (short_fuse
       (x 713)

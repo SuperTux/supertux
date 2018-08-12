@@ -17,12 +17,10 @@
     (lantern
       (x 224)
       (y 512)
-      (color 1 1 1)
     )
     (lantern
       (x 320)
       (y 544)
-      (color 1 1 1)
     )
     (mrbomb
       (x 576)
@@ -106,8 +104,8 @@
       (y 100)
     )
     (tilemap
-      (z-pos -100)
       (solid #f)
+      (z-pos -100)
       (width 30)
       (height 20)
       (tiles
@@ -134,8 +132,8 @@
       )
     )
     (tilemap
-      (z-pos 0)
       (solid #t)
+      (z-pos 0)
       (width 30)
       (height 20)
       (tiles
@@ -162,8 +160,8 @@
       )
     )
     (tilemap
-      (z-pos 100)
       (solid #f)
+      (z-pos 100)
       (width 30)
       (height 20)
       (tiles
