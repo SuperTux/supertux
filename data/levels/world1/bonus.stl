@@ -1089,6 +1089,7 @@
       (image-top "images/background/castle_foreground.png")
       (image "images/background/castle_foreground.png")
       (image-bottom "images/background/castle_foreground.png")
+      (layer -120)
     )
     (camera
       (mode "normal")
