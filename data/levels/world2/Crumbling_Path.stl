@@ -9,10 +9,6 @@
     (ambient-light 1 1 1)
     (background
       (z-pos -200)
-      (scroll-offset-x 0)
-      (scroll-offset-y 0)
-      (scroll-speed-x 0.5)
-      (scroll-speed-y 0.5)
       (speed 0.5)
       (image-top "images/background/BlueRock_Forest/blue-top.jpg")
       (image "images/background/BlueRock_Forest/blue-middle.jpg")

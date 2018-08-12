@@ -42,8 +42,8 @@
       (y 256)
     )
     (tilemap
-      (z-pos -100)
       (solid #f)
+      (z-pos -100)
       (name "Background")
       (width 100)
       (height 20)
@@ -71,8 +71,8 @@
       )
     )
     (tilemap
-      (z-pos 0)
       (solid #t)
+      (z-pos 0)
       (name "Interactive")
       (width 100)
       (height 20)
@@ -100,10 +100,10 @@
       )
     )
     (tilemap
-      (z-pos -200)
       (solid #f)
-      (name "Paralax1")
       (speed 0.5)
+      (z-pos -200)
+      (name "Paralax1")
       (path
         (node
           (x 0)
@@ -136,10 +136,10 @@
       )
     )
     (tilemap
-      (z-pos -300)
       (solid #f)
-      (name "Paralax2")
       (speed 0.25)
+      (z-pos -300)
+      (name "Paralax2")
       (path
         (node
           (x 0)
@@ -172,8 +172,8 @@
       )
     )
     (tilemap
-      (z-pos 100)
       (solid #f)
+      (z-pos 100)
       (name "Foreground")
       (path
         (node

@@ -2,13 +2,11 @@
   (version 2)
   (name (_ "Coin collect scripting test"))
   (author "Tobias Markus")
-  (tileset "images/tiles.strf")
   (contact "tobbi@")
   (license "CC-BY-SA 4.0 International")
   (sector
     (name "main")
-    (ambient-light 1 1 1 1)
-    (gravity 10)
+    (ambient-light 1 1 1)
     (background
       (z-pos -300)
       (scroll-offset-x 0)

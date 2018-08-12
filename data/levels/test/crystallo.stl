@@ -17,18 +17,18 @@
       (mode "normal")
     )
     (crystallo
+      (direction "left")
       (x 352)
       (y 295)
-      (direction "left")
     )
     (crystallo
       (x 800)
       (y 615)
     )
     (crystallo
+      (direction "right")
       (x 736)
       (y 295)
-      (direction "right")
     )
     (crystallo
       (radius 32)
@@ -41,8 +41,8 @@
       (y 224)
     )
     (tilemap
-      (z-pos -100)
       (solid #f)
+      (z-pos -100)
       (name "Background")
       (width 50)
       (height 35)
@@ -85,8 +85,8 @@
       )
     )
     (tilemap
-      (z-pos 0)
       (solid #t)
+      (z-pos 0)
       (name "Interactive")
       (width 50)
       (height 35)
@@ -129,8 +129,8 @@
       )
     )
     (tilemap
-      (z-pos 100)
       (solid #f)
+      (z-pos 100)
       (name "Foreground")
       (width 50)
       (height 35)

@@ -4,60 +4,58 @@
   (author "ingo")
   (sector
     (name "main")
-    (music "")
     (ambient-light 0.25 0.25 0.25)
     (camera
       (mode "normal")
     )
     (lantern
+      (color 0 0 1)
       (x 624)
       (y 712)
-      (color 0 0 1)
     )
     (lantern
       (x 560)
       (y 712)
-      (color 1 1 1)
     )
     (lantern
+      (color 1 0 0)
       (x 720)
       (y 712)
-      (color 1 0 0)
     )
     (lantern
+      (color 0 1 0)
       (x 176)
       (y 648)
-      (color 0 1 0)
     )
     (magicblock
+      (color 0 1 0)
       (x 640)
       (y 640)
-      (color 0 1 0)
     )
     (magicblock
+      (color 0 0 1)
       (x 608)
       (y 640)
-      (color 0 0 1)
     )
     (magicblock
+      (color 1 0 0)
       (x 672)
       (y 640)
-      (color 1 0 0)
     )
     (magicblock
+      (color 1 1 0)
       (x 576)
       (y 640)
-      (color 1 1 0)
     )
     (magicblock
+      (color 0 1 1)
       (x 544)
       (y 640)
-      (color 0 1 1)
     )
     (magicblock
+      (color 1 0 1)
       (x 512)
       (y 640)
-      (color 1 0 1)
     )
     (magicblock
       (x 480)

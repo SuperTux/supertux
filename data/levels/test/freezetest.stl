@@ -3,7 +3,6 @@
   (name (_ "Freezing test"))
   (author "Hume")
   (license "GPL 2+ / CC-by-sa 3.0")
-  (target-time 0)
   (sector
     (name "main")
     (ambient-light 1 1 1)

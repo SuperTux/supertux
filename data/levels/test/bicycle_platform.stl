@@ -27,8 +27,8 @@
       (y 500)
     )
     (tilemap
-      (z-pos -100)
       (solid #f)
+      (z-pos -100)
       (width 30)
       (height 30)
       (tiles
@@ -65,8 +65,8 @@
       )
     )
     (tilemap
-      (z-pos 0)
       (solid #t)
+      (z-pos 0)
       (width 30)
       (height 30)
       (tiles
@@ -103,8 +103,8 @@
       )
     )
     (tilemap
-      (z-pos 100)
       (solid #f)
+      (z-pos 100)
       (width 30)
       (height 30)
       (tiles
