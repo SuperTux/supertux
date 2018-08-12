@@ -123,9 +123,9 @@
       (y 710)
     )
     (smartball
+      (direction "right")
       (x 6147)
       (y 934)
-      (direction "right")
     )
     (smartball
       (x 4227)
