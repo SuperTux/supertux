@@ -738,7 +738,6 @@
     (dispenser
       (cycle 4)
       (badguy "poisonivy")
-      (type "dropper")
       (direction "left")
       (sprite "images/creatures/dispenser/dispenser.sprite")
       (x 3296.092)
