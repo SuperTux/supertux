@@ -556,37 +556,37 @@
     (decal
       (x 1788)
       (y 1440)
-      (layer -102)
+      (z-pos -102)
       (sprite "images/tiles/doodads/liane.png")
     )
     (decal
       (x 2128)
       (y 1440)
-      (layer -102)
+      (z-pos -102)
       (sprite "images/tiles/doodads/liane.png")
     )
     (decal
       (x 5712)
       (y 1440)
-      (layer -102)
+      (z-pos -102)
       (sprite "images/tiles/doodads/liane.png")
     )
     (decal
       (x 5500)
       (y 1440)
-      (layer -102)
+      (z-pos -102)
       (sprite "images/tiles/doodads/liane.png")
     )
     (decal
       (x 5720)
       (y 416)
-      (layer -102)
+      (z-pos -102)
       (sprite "images/tiles/doodads/liane.png")
     )
     (decal
       (x 5500)
       (y 416)
-      (layer -102)
+      (z-pos -102)
       (sprite "images/tiles/doodads/liane.png")
     )
     (firefly

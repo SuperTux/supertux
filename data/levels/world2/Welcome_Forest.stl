@@ -512,7 +512,7 @@
     (gradient
       (top_color 0.3 0.4 0.75)
       (bottom_color 1 1 1)
-      (layer -300)
+      (z-pos -300)
     )
     (background
       (z-pos -290)

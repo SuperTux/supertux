@@ -16,7 +16,7 @@
       (speed 0.7)
       (image "images/background/BlueRock_Forest/rolling-para.png")
       (image-bottom "images/background/BlueRock_Forest/rolling-bottom.jpg")
-      (layer -199)
+      (z-pos -199)
     )
     (camera
       (mode "normal")

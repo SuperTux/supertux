@@ -339,9 +339,9 @@
     (decal
       (action "")
       (solid #f)
-      (z-pos -50)
       (x 147)
       (y 615)
+      (z-pos -50)
       (sprite "images/decal/explanations/billboard-pickrock.png")
     )
   )

@@ -13,7 +13,7 @@
       (image-top "images/background/bridgecloud-light.png")
       (image "images/background/bridgecloud-light.png")
       (image-bottom "images/background/bridgecloud-light.png")
-      (layer -190)
+      (z-pos -190)
     )
     (background
       (alignment "bottom")
@@ -21,7 +21,7 @@
       (image-top "images/background/forest_para2.png")
       (image "images/background/forest_para2.png")
       (image-bottom "images/background/forest_para2.png")
-      (layer -190)
+      (z-pos -190)
     )
     (camera
       (mode "normal")
