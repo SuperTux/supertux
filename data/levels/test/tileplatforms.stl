@@ -5,7 +5,6 @@
   (sector
     (name "main")
     (music "music/chipdisko.ogg")
-    (init-script "platform1.start_moving();platform2.start_moving();platform3.start_moving();") ;needed for some reason (they don't move initially)
     (ambient-light 1 1 1)
     (spawnpoint
       (name "main")
@@ -45,6 +44,7 @@
     )
     (tilemap
       (solid #t)
+      (running #t)
       (z-pos 1)
       (name "platform1")
       (path
@@ -70,6 +70,7 @@
     )
     (tilemap
       (solid #t)
+      (running #t)
       (z-pos 2)
       (name "platform2")
       (path
@@ -90,6 +91,7 @@
     )
     (tilemap
       (solid #t)
+      (running #t)
       (z-pos 2)
       (name "platform3")
       (path
