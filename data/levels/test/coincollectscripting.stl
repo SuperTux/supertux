@@ -153,8 +153,8 @@
       (mode "normal")
     )
     (coin
-      (sprite "images/objects/coin/coin.sprite")
       (collect-script "sector.settings.set_ambient_light(1.0, 0, 0);")
+      (sprite "images/objects/coin/coin.sprite")
       (path
         (node
           (x 349.7143)
@@ -175,8 +175,8 @@
       (y 478.4261)
     )
     (heavycoin
-      (sprite "images/objects/coin/coin.sprite")
       (collect-script "sector.settings.set_ambient_light(0, 1.0, 0);")
+      (sprite "images/objects/coin/coin.sprite")
       (x 604.9528)
       (y 574.4766)
     )

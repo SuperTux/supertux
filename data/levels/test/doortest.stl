@@ -14,9 +14,9 @@
       (mode "normal")
     )
     (door
+      (script "ghost()")
       (x 288)
       (y 448)
-      (script "ghost()")
     )
     (door
       (sector "main")
