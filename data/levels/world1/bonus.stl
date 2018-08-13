@@ -228,7 +228,6 @@
     (gradient
       (top_color 0 0.3137255 1)
       (bottom_color 1 1 1)
-      (layer -300)
     )
     (jumpy
       (sprite "images/creatures/snowjumpy/snowjumpy.sprite")
@@ -1089,7 +1088,7 @@
       (image-top "images/background/castle_foreground.png")
       (image "images/background/castle_foreground.png")
       (image-bottom "images/background/castle_foreground.png")
-      (layer -120)
+      (z-pos -120)
     )
     (camera
       (mode "normal")
@@ -1280,7 +1279,6 @@
     (gradient
       (top_color 0 0.3137255 1)
       (bottom_color 1 1 1)
-      (layer -300)
     )
     (hurting_platform
       (sprite "images/objects/sawblade/sawblade.sprite")

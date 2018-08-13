@@ -161,7 +161,6 @@
     (gradient
       (top_color 0 0 0.003921569)
       (bottom_color 0 0.03178454 0.2893416)
-      (layer -300)
     )
     (haywire
       (x 1893)

@@ -10,13 +10,13 @@
       (alignment "bottom")
       (speed 0.5)
       (image "images/background/bridgecloud-dark.png")
-      (layer -150)
+      (z-pos -150)
     )
     (background
       (alignment "bottom")
       (speed 0.5)
       (image "images/background/bridgeocean-original.png")
-      (layer -150)
+      (z-pos -150)
     )
     (bouncingsnowball
       (x 1512)

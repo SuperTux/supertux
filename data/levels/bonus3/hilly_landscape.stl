@@ -47,13 +47,13 @@
     (decal
       (x 9376)
       (y 96)
-      (layer 100)
+      (z-pos 100)
       (sprite "images/tiles/goal/exitfg.png")
     )
     (decal
       (x 9280)
       (y 96)
-      (layer -100)
+      (z-pos -100)
       (sprite "images/tiles/goal/exitbg.png")
     )
     (dispenser

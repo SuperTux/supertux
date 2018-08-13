@@ -18,37 +18,37 @@
     (decal
       (x 3488)
       (y 768)
-      (layer -10)
+      (z-pos -10)
       (sprite "images/decal/explanations/billboard-fireflower.png")
     )
     (decal
       (x 928)
       (y 896)
-      (layer -10)
+      (z-pos -10)
       (sprite "images/decal/explanations/billboard-bigtux.png")
     )
     (decal
       (x 4960)
       (y 896)
-      (layer -10)
+      (z-pos -10)
       (sprite "images/decal/explanations/billboard-resetpoint.png")
     )
     (decal
       (x 7296)
       (y 864)
-      (layer -10)
+      (z-pos -10)
       (sprite "images/decal/explanations/billboard-runjump.png")
     )
     (decal
       (x 6784)
       (y 672)
-      (layer -10)
+      (z-pos -10)
       (sprite "images/decal/explanations/billboard-buttjump.png")
     )
     (decal
       (x 2432)
       (y 864)
-      (layer -10)
+      (z-pos -10)
       (sprite "images/decal/explanations/billboard-backflip.png")
     )
     (firefly

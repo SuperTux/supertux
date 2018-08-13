@@ -18,7 +18,7 @@
     (decal
       (x 3872)
       (y 192)
-      (layer -10)
+      (z-pos -10)
       (sprite "images/decal/explanations/billboard-star.png")
     )
     (firefly

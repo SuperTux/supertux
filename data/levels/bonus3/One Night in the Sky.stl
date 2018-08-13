@@ -29,7 +29,7 @@
     (decal
       (x 7744)
       (y 544)
-      (layer 100)
+      (z-pos 100)
       (sprite "images/tiles/goal/exitfg.png")
     )
     (firefly

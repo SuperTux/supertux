@@ -272,29 +272,29 @@
     (decal
       (x 4576)
       (y 288)
-      (layer -50)
+      (z-pos -50)
       (sprite "images/decal/explanations/billboard-switch.png")
     )
     (decal
       (x 14848)
-      (layer 100)
+      (z-pos 100)
       (sprite "images/tiles/goal/exitfg.png")
     )
     (decal
       (x 14752)
-      (layer -100)
+      (z-pos -100)
       (sprite "images/tiles/goal/exitbg.png")
     )
     (decal
       (x 8032)
       (y 544)
-      (layer -50)
+      (z-pos -50)
       (sprite "images/decal/explanations/billboard-trampoline.png")
     )
     (decal
       (x 10848)
       (y 864)
-      (layer -150)
+      (z-pos -150)
       (sprite "images/decal/explanations/billboard-climbing.png")
     )
     (platform
@@ -339,7 +339,7 @@
     (gradient
       (top_color 0.7025254 0.9945831 0)
       (bottom_color 0.06778058 0.2023346 1)
-      (layer -400)
+      (z-pos -400)
     )
     (haywire
       (x 10949)

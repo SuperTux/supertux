@@ -12,7 +12,7 @@
       (image-top "images/background/black_800px.png")
       (image "images/background/castle_foreground.png")
       (image-bottom "images/background/black_800px.png")
-      (layer -101)
+      (z-pos -101)
     )
     (camera
       (mode "normal")

@@ -19,7 +19,7 @@ trigger_state(\"start\");
     )
     (scriptedobject
       (name "LOGO")
-      (layer 10)
+      (z-pos 10)
       (visible #f)
       (physic-enabled #t)
       (solid #f)
@@ -65,7 +65,7 @@ trigger_state(\"start\");
     )
     (scriptedobject
       (name "SIGN")
-      (layer -100)
+      (z-pos -100)
       (visible #f)
       (physic-enabled #f)
       (solid #f)

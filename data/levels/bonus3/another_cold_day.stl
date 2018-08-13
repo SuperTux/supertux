@@ -31,7 +31,7 @@
     (decal
       (x 10176)
       (y 192)
-      (layer 100)
+      (z-pos 100)
       (sprite "images/tiles/goal/exitfg.png")
     )
     (gradient
