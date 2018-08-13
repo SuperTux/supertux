@@ -15,9 +15,6 @@ TextArray.set_pos(100, 100);
 TextArray.set_font(\"big\");
 TextArray.set_text_index(0);
 TextArray.fade_in(1);")
-    (game-object
-      (name "TextArray")
-    )
     (ambient-light 1 1 1)
     (background
       (scroll-speed-x 0)
