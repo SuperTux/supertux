@@ -65,8 +65,8 @@
       )
     )
     (platform
+      (running #f)
       (name "zwei")
-      (running #f)
       (sprite "images/objects/flying_platform/flying_platform.sprite")
       (path
         (node
@@ -90,8 +90,8 @@
       )
     )
     (platform
+      (running #f)
       (name "drei")
-      (running #f)
       (sprite "images/objects/flying_platform/flying_platform.sprite")
       (path
         (node
@@ -115,8 +115,8 @@
       )
     )
     (platform
-      (name "raus")
       (running #f)
+      (name "raus")
       (sprite "images/objects/flying_platform/flying_platform.sprite")
       (path
         (node

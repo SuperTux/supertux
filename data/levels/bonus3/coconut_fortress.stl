@@ -142,8 +142,8 @@
       )
     )
     (platform
-      (name "door2")
       (running #f)
+      (name "door2")
       (sprite "images/objects/platforms/vertical-wood.sprite")
       (path
         (node
@@ -162,8 +162,8 @@
       )
     )
     (platform
-      (name "door1")
       (running #f)
+      (name "door1")
       (sprite "images/objects/platforms/vertical-wood.sprite")
       (path
         (node

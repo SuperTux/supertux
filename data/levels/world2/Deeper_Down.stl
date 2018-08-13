@@ -75,8 +75,8 @@
       (y 931)
     )
     (platform
-      (name "downlift")
       (running #f)
+      (name "downlift")
       (sprite "images/objects/platforms/big.sprite")
       (path
         (node

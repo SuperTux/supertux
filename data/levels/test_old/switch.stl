@@ -150,8 +150,8 @@
       (y 860.6464)
     )
     (platform
-      (name "platform1")
       (running #f)
+      (name "platform1")
       (sprite "images/objects/platforms/vertical-wood.sprite")
       (path
         (node

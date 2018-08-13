@@ -71,8 +71,8 @@
       (y 1329.5)
     )
     (platform
+      (running #f)
       (name "trapdoor2")
-      (running #f)
       (sprite "images/objects/platforms/big.sprite")
       (path
         (node
@@ -103,8 +103,8 @@
       )
     )
     (platform
+      (running #f)
       (name "trapdoor1")
-      (running #f)
       (sprite "images/objects/platforms/big.sprite")
       (path
         (node
@@ -135,8 +135,8 @@
       )
     )
     (platform
+      (running #f)
       (name "trapdoor4")
-      (running #f)
       (sprite "images/objects/platforms/big.sprite")
       (path
         (node
@@ -167,8 +167,8 @@
       )
     )
     (platform
+      (running #f)
       (name "trapdoor3")
-      (running #f)
       (sprite "images/objects/platforms/big.sprite")
       (path
         (node
@@ -199,8 +199,8 @@
       )
     )
     (platform
-      (name "maindoor")
       (running #f)
+      (name "maindoor")
       (sprite "images/objects/platforms/vertical-wood.sprite")
       (path
         (node
@@ -216,8 +216,8 @@
       )
     )
     (platform
+      (running #f)
       (name "dropdoor1")
-      (running #f)
       (sprite "images/objects/platforms/vertical-wood.sprite")
       (path
         (node
@@ -232,8 +232,8 @@
       )
     )
     (platform
+      (running #f)
       (name "dropdoor2")
-      (running #f)
       (sprite "images/objects/platforms/vertical-wood.sprite")
       (path
         (node
@@ -248,8 +248,8 @@
       )
     )
     (platform
-      (name "dropdoor3")
       (running #f)
+      (name "dropdoor3")
       (sprite "images/objects/platforms/big.sprite")
       (path
         (node

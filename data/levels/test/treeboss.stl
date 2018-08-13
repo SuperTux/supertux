@@ -21,8 +21,8 @@
       )
     )
     (platform
-      (name "platform1")
       (running #f)
+      (name "platform1")
       (sprite "images/objects/flying_platform/flying_platform.sprite")
       (path
         (node

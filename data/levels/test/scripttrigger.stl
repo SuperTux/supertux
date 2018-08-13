@@ -11,10 +11,10 @@
       (y 96)
     )
     (scriptedobject
-      (name "MYOBJECT")
       (visible #t)
       (physic-enabled #t)
       (solid #t)
+      (name "MYOBJECT")
       (sprite "images/objects/sawblade/sawblade.sprite")
       (x 427.5828)
       (y 315.5097)

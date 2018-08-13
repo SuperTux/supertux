@@ -67,8 +67,8 @@
       )
     )
     (platform
-      (name "bridge3")
       (running #f)
+      (name "bridge3")
       (sprite "images/objects/flying_platform/flying_platform.sprite")
       (path
         (node
@@ -82,8 +82,8 @@
       )
     )
     (platform
-      (name "bridge2")
       (running #f)
+      (name "bridge2")
       (sprite "images/objects/flying_platform/flying_platform.sprite")
       (path
         (node
@@ -97,8 +97,8 @@
       )
     )
     (platform
-      (name "bridge1")
       (running #f)
+      (name "bridge1")
       (sprite "images/objects/flying_platform/flying_platform.sprite")
       (path
         (node
@@ -117,8 +117,8 @@
       (y 392)
     )
     (hurting_platform
-      (name "tischsaege")
       (running #f)
+      (name "tischsaege")
       (sprite "images/objects/sawblade/sawblade.sprite")
       (path
         (node

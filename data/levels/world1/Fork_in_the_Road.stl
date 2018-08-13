@@ -298,8 +298,8 @@
       (sprite "images/decal/explanations/billboard-climbing.png")
     )
     (platform
-      (name "downpath")
       (running #f)
+      (name "downpath")
       (sprite "images/objects/platforms/wood-fivetiles.sprite")
       (path
         (node

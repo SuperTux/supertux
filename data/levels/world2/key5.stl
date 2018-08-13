@@ -23,10 +23,10 @@
       (y 602)
     )
     (scriptedobject
-      (name "flip")
       (visible #t)
       (physic-enabled #f)
       (solid #f)
+      (name "flip")
       (sprite "images/creatures/tux/tux.sprite")
       (x 521.0975)
       (y 440.1076)

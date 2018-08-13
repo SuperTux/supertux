@@ -11,9 +11,9 @@
       (distance_factor 0.5)
       (distance_bias 100)
       (volume 0.5)
-      (name "Rain")
       (width 14396)
       (height 636)
+      (name "Rain")
       (x 0)
       (y 0)
     )
@@ -232,10 +232,10 @@ willo3.set_state(\"move_path_track\");")
     (willowisp
       (sector "")
       (spawnpoint "")
-      (name "willo1")
       (flyspeed 300)
       (track-range 96)
       (hit-script "willohit();")
+      (name "willo1")
       (path
         (node
           (x 448)
@@ -264,10 +264,10 @@ willo3.set_state(\"move_path_track\");")
     (willowisp
       (sector "")
       (spawnpoint "")
-      (name "willo2")
       (flyspeed 300)
       (track-range 96)
       (hit-script "willohit();")
+      (name "willo2")
       (path
         (node
           (x 1056)
@@ -304,10 +304,10 @@ willo3.set_state(\"move_path_track\");")
     (willowisp
       (sector "")
       (spawnpoint "")
-      (name "willo3")
       (flyspeed 300)
       (track-range 96)
       (hit-script "willohit();")
+      (name "willo3")
       (path
         (node
           (x 2528)

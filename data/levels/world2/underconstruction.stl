@@ -17,8 +17,8 @@
     (particles-clouds
     )
     (platform
-      (name "PLATFORM")
       (running #f)
+      (name "PLATFORM")
       (sprite "images/objects/flying_platform/flying_platform.sprite")
       (path
         (node
@@ -51,29 +51,29 @@
       (bottom_color 0.7644312 0.312993 0)
     )
     (scriptedobject
-      (name "EARTHHINT")
       (z-pos 101)
       (visible #t)
       (physic-enabled #f)
       (solid #f)
+      (name "EARTHHINT")
       (sprite "images/objects/keys/key_fire.sprite")
       (x 1616)
       (y 1264)
     )
     (scriptedobject
-      (name "WOODHINT")
       (visible #t)
       (physic-enabled #f)
       (solid #f)
+      (name "WOODHINT")
       (sprite "images/objects/keys/key_earth.sprite")
       (x 1232)
       (y 640)
     )
     (scriptedobject
-      (name "AIRHINT")
       (visible #t)
       (physic-enabled #f)
       (solid #f)
+      (name "AIRHINT")
       (sprite "images/objects/keys/key_air.sprite")
       (x 2576)
       (y 1344)

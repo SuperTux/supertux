@@ -538,7 +538,6 @@
     (willowisp
       (sector "deadsector")
       (spawnpoint "last")
-      (name "")
       (x 2112)
       (y 416)
     )
@@ -829,1107 +828,886 @@
       )
     )
     (weak_block
-      (linked #t)
       (x 0)
       (y 416)
     )
     (weak_block
-      (linked #t)
       (x 32)
       (y 416)
     )
     (weak_block
-      (linked #t)
       (x 64)
       (y 416)
     )
     (weak_block
-      (linked #t)
       (x 96)
       (y 416)
     )
     (weak_block
-      (linked #t)
       (x 128)
       (y 416)
     )
     (weak_block
-      (linked #t)
       (x 160)
       (y 416)
     )
     (weak_block
-      (linked #t)
       (x 192)
       (y 416)
     )
     (weak_block
-      (linked #t)
       (x 0)
       (y 384)
     )
     (weak_block
-      (linked #t)
       (x 0)
       (y 320)
     )
     (weak_block
-      (linked #t)
       (x 0)
       (y 352)
     )
     (weak_block
-      (linked #t)
       (x 0)
       (y 288)
     )
     (weak_block
-      (linked #t)
       (x 0)
       (y 256)
     )
     (weak_block
-      (linked #t)
       (x 256)
       (y 384)
     )
     (weak_block
-      (linked #t)
       (x 256)
       (y 352)
     )
     (weak_block
-      (linked #t)
       (x 256)
       (y 320)
     )
     (weak_block
-      (linked #t)
       (x 256)
       (y 288)
     )
     (weak_block
-      (linked #t)
       (x 256)
       (y 256)
     )
     (weak_block
-      (linked #t)
       (x 256)
       (y 224)
     )
     (weak_block
-      (linked #t)
       (x 0)
       (y 224)
     )
     (weak_block
-      (linked #t)
       (x 224)
       (y 416)
     )
     (weak_block
-      (linked #t)
       (x 256)
       (y 416)
     )
     (weak_block
-      (linked #t)
       (x 160)
       (y 384)
     )
     (weak_block
-      (linked #t)
       (x 288)
       (y 544)
     )
     (weak_block
-      (linked #t)
       (x 288)
       (y 576)
     )
     (weak_block
-      (linked #t)
       (x 352)
       (y 576)
     )
     (weak_block
-      (linked #t)
       (x 320)
       (y 576)
     )
     (weak_block
-      (linked #t)
       (x 384)
       (y 576)
     )
     (weak_block
-      (linked #t)
       (x 416)
       (y 576)
     )
     (weak_block
-      (linked #t)
       (x 448)
       (y 576)
     )
     (weak_block
-      (linked #t)
       (x 480)
       (y 576)
     )
     (weak_block
-      (linked #t)
       (x 768)
       (y 576)
     )
     (weak_block
-      (linked #t)
       (x 832)
       (y 576)
     )
     (weak_block
-      (linked #t)
       (x 800)
       (y 576)
     )
     (weak_block
-      (linked #t)
       (x 864)
       (y 576)
     )
     (weak_block
-      (linked #t)
       (x 896)
       (y 576)
     )
     (weak_block
-      (linked #t)
       (x 928)
       (y 576)
     )
     (weak_block
-      (linked #t)
       (x 960)
       (y 576)
     )
     (weak_block
-      (linked #t)
       (x 992)
       (y 576)
     )
     (weak_block
-      (linked #t)
       (x 992)
       (y 544)
     )
     (weak_block
-      (linked #t)
       (x 992)
       (y 512)
     )
     (weak_block
-      (linked #t)
       (x 992)
       (y 480)
     )
     (weak_block
-      (linked #t)
       (x 992)
       (y 448)
     )
     (weak_block
-      (linked #t)
       (x 992)
       (y 416)
     )
     (weak_block
-      (linked #t)
       (x 992)
       (y 384)
     )
     (weak_block
-      (linked #t)
       (x 992)
       (y 352)
     )
     (weak_block
-      (linked #t)
       (x 1056)
       (y 544)
     )
     (weak_block
-      (linked #t)
       (x 1056)
       (y 480)
     )
     (weak_block
-      (linked #t)
       (x 1024)
       (y 480)
     )
     (weak_block
-      (linked #t)
       (x 1056)
       (y 512)
     )
     (weak_block
-      (linked #t)
       (x 1056)
       (y 576)
     )
     (weak_block
-      (linked #t)
       (x 1088)
       (y 576)
     )
     (weak_block
-      (linked #t)
       (x 1120)
       (y 576)
     )
     (weak_block
-      (linked #t)
       (x 1152)
       (y 576)
     )
     (weak_block
-      (linked #t)
       (x 1184)
       (y 576)
     )
     (weak_block
-      (linked #t)
       (x 1344)
       (y 576)
     )
     (weak_block
-      (linked #t)
       (x 1376)
       (y 576)
     )
     (weak_block
-      (linked #t)
       (x 1408)
       (y 576)
     )
     (weak_block
-      (linked #t)
       (x 1344)
       (y 608)
     )
     (weak_block
-      (linked #t)
       (x 1344)
       (y 640)
     )
     (weak_block
-      (linked #t)
       (x 1344)
       (y 672)
     )
     (weak_block
-      (linked #t)
       (x 1376)
       (y 672)
     )
     (weak_block
-      (linked #t)
       (x 1408)
       (y 672)
     )
     (weak_block
-      (linked #t)
       (x 1440)
       (y 672)
     )
     (weak_block
-      (linked #t)
       (x 1472)
       (y 672)
     )
     (weak_block
-      (linked #t)
       (x 1504)
       (y 672)
     )
     (weak_block
-      (linked #t)
       (x 1536)
       (y 672)
     )
     (weak_block
-      (linked #t)
       (x 1568)
       (y 672)
     )
     (weak_block
-      (linked #t)
       (x 1600)
       (y 672)
     )
     (weak_block
-      (linked #t)
       (x 1632)
       (y 672)
     )
     (weak_block
-      (linked #t)
       (x 1632)
       (y 640)
     )
     (weak_block
-      (linked #t)
       (x 1632)
       (y 608)
     )
     (weak_block
-      (linked #t)
       (x 1632)
       (y 576)
     )
     (weak_block
-      (linked #t)
       (x 1472)
       (y 576)
     )
     (weak_block
-      (linked #t)
       (x 1440)
       (y 576)
     )
     (weak_block
-      (linked #t)
       (x 1504)
       (y 576)
     )
     (weak_block
-      (linked #t)
       (x 1536)
       (y 576)
     )
     (weak_block
-      (linked #t)
       (x 1568)
       (y 576)
     )
     (weak_block
-      (linked #t)
       (x 1600)
       (y 576)
     )
     (weak_block
-      (linked #t)
       (x 1568)
       (y 544)
     )
     (weak_block
-      (linked #t)
       (x 1568)
       (y 512)
     )
     (weak_block
-      (linked #t)
       (x 1568)
       (y 480)
     )
     (weak_block
-      (linked #t)
       (x 1568)
       (y 448)
     )
     (weak_block
-      (linked #t)
       (x 1568)
       (y 416)
     )
     (weak_block
-      (linked #t)
       (x 1568)
       (y 384)
     )
     (weak_block
-      (linked #t)
       (x 1536)
       (y 384)
     )
     (weak_block
-      (linked #t)
       (x 1504)
       (y 384)
     )
     (weak_block
-      (linked #t)
       (x 1472)
       (y 384)
     )
     (weak_block
-      (linked #t)
       (x 1440)
       (y 384)
     )
     (weak_block
-      (linked #t)
       (x 1408)
       (y 384)
     )
     (weak_block
-      (linked #t)
       (x 1408)
       (y 352)
     )
     (weak_block
-      (linked #t)
       (x 1408)
       (y 320)
     )
     (weak_block
-      (linked #t)
       (x 1632)
       (y 384)
     )
     (weak_block
-      (linked #t)
       (x 1600)
       (y 384)
     )
     (weak_block
-      (linked #t)
       (x 1632)
       (y 352)
     )
     (weak_block
-      (linked #t)
       (x 1632)
       (y 320)
     )
     (weak_block
-      (linked #t)
       (x 1696)
       (y 288)
     )
     (weak_block
-      (linked #t)
       (x 1664)
       (y 288)
     )
     (weak_block
-      (linked #t)
       (x 1728)
       (y 288)
     )
     (weak_block
-      (linked #t)
       (x 1760)
       (y 288)
     )
     (weak_block
-      (linked #t)
       (x 1792)
       (y 288)
     )
     (weak_block
-      (linked #t)
       (x 1824)
       (y 288)
     )
     (weak_block
-      (linked #t)
       (x 1856)
       (y 288)
     )
     (weak_block
-      (linked #t)
       (x 1888)
       (y 288)
     )
     (weak_block
-      (linked #t)
       (x 1920)
       (y 288)
     )
     (weak_block
-      (linked #t)
       (x 1952)
       (y 288)
     )
     (weak_block
-      (linked #t)
       (x 1984)
       (y 288)
     )
     (weak_block
-      (linked #t)
       (x 2016)
       (y 288)
     )
     (weak_block
-      (linked #t)
       (x 2048)
       (y 288)
     )
     (weak_block
-      (linked #t)
       (x 2080)
       (y 512)
     )
     (weak_block
-      (linked #t)
       (x 2432)
       (y 576)
     )
     (weak_block
-      (linked #t)
       (x 1952)
       (y 576)
     )
     (weak_block
-      (linked #t)
       (x 2496)
       (y 576)
     )
     (weak_block
-      (linked #t)
       (x 1632)
       (y 288)
     )
     (weak_block
-      (linked #t)
       (x 1920)
       (y 576)
     )
     (weak_block
-      (linked #t)
       (x 1984)
       (y 576)
     )
     (weak_block
-      (linked #t)
       (x 2016)
       (y 576)
     )
     (weak_block
-      (linked #t)
       (x 2048)
       (y 576)
     )
     (weak_block
-      (linked #t)
       (x 2080)
       (y 576)
     )
     (weak_block
-      (linked #t)
       (x 2112)
       (y 576)
     )
     (weak_block
-      (linked #t)
       (x 2144)
       (y 576)
     )
     (weak_block
-      (linked #t)
       (x 2176)
       (y 576)
     )
     (weak_block
-      (linked #t)
       (x 2208)
       (y 576)
     )
     (weak_block
-      (linked #t)
       (x 2816)
       (y 576)
     )
     (weak_block
-      (linked #t)
       (x 2784)
       (y 576)
     )
     (weak_block
-      (linked #t)
       (x 2752)
       (y 576)
     )
     (weak_block
-      (linked #t)
       (x 2368)
       (y 576)
     )
     (weak_block
-      (linked #t)
       (x 2464)
       (y 576)
     )
     (weak_block
-      (linked #t)
       (x 2720)
       (y 576)
     )
     (weak_block
-      (linked #t)
       (x 2848)
       (y 576)
     )
     (weak_block
-      (linked #t)
       (x 2688)
       (y 576)
     )
     (weak_block
-      (linked #t)
       (x 2656)
       (y 576)
     )
     (weak_block
-      (linked #t)
       (x 2624)
       (y 576)
     )
     (weak_block
-      (linked #t)
       (x 2592)
       (y 576)
     )
     (weak_block
-      (linked #t)
       (x 2560)
       (y 576)
     )
     (weak_block
-      (linked #t)
       (x 2528)
       (y 576)
     )
     (weak_block
-      (linked #t)
       (x 2400)
       (y 576)
     )
     (weak_block
-      (linked #t)
       (x 2336)
       (y 576)
     )
     (weak_block
-      (linked #t)
       (x 2304)
       (y 576)
     )
     (weak_block
-      (linked #t)
       (x 2272)
       (y 576)
     )
     (weak_block
-      (linked #t)
       (x 2240)
       (y 576)
     )
     (weak_block
-      (linked #t)
       (x 2080)
       (y 544)
     )
     (weak_block
-      (linked #t)
       (x 2080)
       (y 480)
     )
     (weak_block
-      (linked #t)
       (x 2080)
       (y 448)
     )
     (weak_block
-      (linked #t)
       (x 2080)
       (y 416)
     )
     (weak_block
-      (linked #t)
       (x 2080)
       (y 384)
     )
     (weak_block
-      (linked #t)
       (x 2080)
       (y 384)
     )
     (weak_block
-      (linked #t)
       (x 2080)
       (y 288)
     )
     (weak_block
-      (linked #t)
       (x 2080)
       (y 320)
     )
     (weak_block
-      (linked #t)
       (x 2080)
       (y 352)
     )
     (weak_block
-      (linked #t)
       (x 2240)
       (y 608)
     )
     (weak_block
-      (linked #t)
       (x 2240)
       (y 640)
     )
     (weak_block
-      (linked #t)
       (x 2272)
       (y 640)
     )
     (weak_block
-      (linked #t)
       (x 2304)
       (y 640)
     )
     (weak_block
-      (linked #t)
       (x 2336)
       (y 640)
     )
     (weak_block
-      (linked #t)
       (x 2464)
       (y 640)
     )
     (weak_block
-      (linked #t)
       (x 2432)
       (y 640)
     )
     (weak_block
-      (linked #t)
       (x 2496)
       (y 640)
     )
     (weak_block
-      (linked #t)
       (x 2528)
       (y 640)
     )
     (weak_block
-      (linked #t)
       (x 2560)
       (y 640)
     )
     (weak_block
-      (linked #t)
       (x 2656)
       (y 640)
     )
     (weak_block
-      (linked #t)
       (x 2816)
       (y 640)
     )
     (weak_block
-      (linked #t)
       (x 2848)
       (y 640)
     )
     (weak_block
-      (linked #t)
       (x 2784)
       (y 640)
     )
     (weak_block
-      (linked #t)
       (x 2752)
       (y 640)
     )
     (weak_block
-      (linked #t)
       (x 2720)
       (y 640)
     )
     (weak_block
-      (linked #t)
       (x 2624)
       (y 640)
     )
     (weak_block
-      (linked #t)
       (x 2688)
       (y 640)
     )
     (weak_block
-      (linked #t)
       (x 2592)
       (y 640)
     )
     (weak_block
-      (linked #t)
       (x 2400)
       (y 640)
     )
     (weak_block
-      (linked #t)
       (x 2368)
       (y 640)
     )
     (weak_block
-      (linked #t)
       (x 992)
       (y 224)
     )
     (weak_block
-      (linked #t)
       (x 992)
       (y 256)
     )
     (weak_block
-      (linked #t)
       (x 992)
       (y 192)
     )
     (weak_block
-      (linked #t)
       (x 992)
       (y 0)
     )
     (weak_block
-      (linked #t)
       (x 992)
       (y 32)
     )
     (weak_block
-      (linked #t)
       (x 992)
       (y 288)
     )
     (weak_block
-      (linked #t)
       (x 992)
       (y 320)
     )
     (weak_block
-      (linked #t)
       (x 992)
       (y 320)
     )
     (weak_block
-      (linked #t)
       (x 992)
       (y 320)
     )
     (weak_block
-      (linked #t)
       (x 992)
       (y 320)
     )
     (weak_block
-      (linked #t)
       (x 992)
       (y 96)
     )
     (weak_block
-      (linked #t)
       (x 992)
       (y 128)
     )
     (weak_block
-      (linked #t)
       (x 992)
       (y 128)
     )
     (weak_block
-      (linked #t)
       (x 992)
       (y 64)
     )
     (weak_block
-      (linked #t)
       (x 992)
       (y 160)
     )
     (weak_block
-      (linked #t)
       (x 160)
       (y 352)
     )
     (weak_block
-      (linked #t)
       (x 960)
       (y 288)
     )
     (weak_block
-      (linked #t)
       (x 928)
       (y 288)
     )
     (weak_block
-      (linked #t)
       (x 896)
       (y 288)
     )
     (weak_block
-      (linked #t)
       (x 864)
       (y 288)
     )
     (weak_block
-      (linked #t)
       (x 832)
       (y 288)
     )
     (weak_block
-      (linked #t)
       (x 800)
       (y 288)
     )
     (weak_block
-      (linked #t)
       (x 768)
       (y 288)
     )
     (weak_block
-      (linked #t)
       (x 736)
       (y 288)
     )
     (weak_block
-      (linked #t)
       (x 736)
       (y 256)
     )
     (weak_block
-      (linked #t)
       (x 736)
       (y 224)
     )
     (weak_block
-      (linked #t)
       (x 1376)
       (y 320)
     )
     (weak_block
-      (linked #t)
       (x 1376)
       (y 288)
     )
     (weak_block
-      (linked #t)
       (x 1376)
       (y 256)
     )
     (weak_block
-      (linked #t)
       (x 1376)
       (y 224)
     )
     (weak_block
-      (linked #t)
       (x 1376)
       (y 192)
     )
     (weak_block
-      (linked #t)
       (x 1344)
       (y 192)
     )
     (weak_block
-      (linked #t)
       (x 1312)
       (y 192)
     )
     (weak_block
-      (linked #t)
       (x 1280)
       (y 192)
     )
     (weak_block
-      (linked #t)
       (x 1248)
       (y 192)
     )
     (weak_block
-      (linked #t)
       (x 1216)
       (y 192)
     )
     (weak_block
-      (linked #t)
       (x 1024)
       (y 192)
     )
     (weak_block
-      (linked #t)
       (x 1056)
       (y 192)
     )
     (weak_block
-      (linked #t)
       (x 1056)
       (y 224)
     )
     (weak_block
-      (linked #t)
       (x 1056)
       (y 256)
     )
     (weak_block
-      (linked #t)
       (x 1088)
       (y 256)
     )
     (weak_block
-      (linked #t)
       (x 1120)
       (y 256)
     )
     (weak_block
-      (linked #t)
       (x 1152)
       (y 256)
     )
     (weak_block
-      (linked #t)
       (x 1184)
       (y 256)
     )
     (weak_block
-      (linked #t)
       (x 1216)
       (y 256)
     )
     (weak_block
-      (linked #t)
       (x 1216)
       (y 224)
     )
     (weak_block
-      (linked #t)
       (x 1472)
       (y 416)
     )
     (weak_block
-      (linked #t)
       (x 1472)
       (y 448)
     )
     (weak_block
-      (linked #t)
       (x 1472)
       (y 480)
     )
     (weak_block
-      (linked #t)
       (x 1472)
       (y 512)
     )
     (weak_block
-      (linked #t)
       (x 1472)
       (y 544)
     )

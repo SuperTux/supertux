@@ -171,14 +171,14 @@
       (y 826.1837)
     )
     (candle
-      (name "candle1")
       (burning #f)
+      (name "candle1")
       (x 416)
       (y 832)
     )
     (candle
-      (name "candle2")
       (burning #f)
+      (name "candle2")
       (x 480)
       (y 832)
     )
@@ -188,14 +188,14 @@
       (y 832)
     )
     (candle
-      (name "candle4")
       (burning #f)
+      (name "candle4")
       (x 608)
       (y 832)
     )
     (candle
-      (name "candle5")
       (burning #f)
+      (name "candle5")
       (x 672)
       (y 832)
     )

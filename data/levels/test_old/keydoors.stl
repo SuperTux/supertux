@@ -16,8 +16,8 @@
       (y 608)
     )
     (platform
-      (name "door1")
       (running #f)
+      (name "door1")
       (sprite "images/objects/platforms/vertical-wood.sprite")
       (path
         (node
@@ -31,8 +31,8 @@
       )
     )
     (platform
-      (name "PLATFORM")
       (running #f)
+      (name "PLATFORM")
       (sprite "images/objects/flying_platform/flying_platform.sprite")
       (path
         (node
@@ -59,28 +59,28 @@
       (y 576)
     )
     (scriptedobject
-      (name "EARTHHINT")
       (visible #t)
       (physic-enabled #f)
       (solid #f)
+      (name "EARTHHINT")
       (sprite "images/objects/keys/key_earth.sprite")
       (x 2112)
       (y 448)
     )
     (scriptedobject
-      (name "WOODHINT")
       (visible #t)
       (physic-enabled #f)
       (solid #f)
+      (name "WOODHINT")
       (sprite "images/objects/keys/key_wood.sprite")
       (x 704)
       (y 480)
     )
     (scriptedobject
-      (name "AIRHINT")
       (visible #t)
       (physic-enabled #f)
       (solid #f)
+      (name "AIRHINT")
       (sprite "images/objects/keys/key_air.sprite")
       (x 1216)
       (y 480)
