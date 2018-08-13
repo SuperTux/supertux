@@ -110,7 +110,6 @@
       (mode "normal")
     )
     (background
-      (z-pos -300)
       (alignment "bottom")
       (speed 0.5)
       (image-top "images/background/transparent_up.png")
@@ -118,19 +117,19 @@
       (image-bottom "images/background/transparent_up.png")
     )
     (background
-      (z-pos -330)
       (alignment "bottom")
       (speed 0.2)
       (image-top "images/background/transparent_up.png")
       (image "images/background/halloween/mountain.png")
       (image-bottom "images/background/transparent_up.png")
+      (z-pos -330)
     )
     (background
-      (z-pos -370)
       (speed 0)
       (image-top "images/background/transparent_up.png")
       (image "images/background/halloween/sky.png")
       (image-bottom "images/background/transparent_up.png")
+      (z-pos -370)
     )
     (spawnpoint
       (name "main")
@@ -608,7 +607,6 @@
       (mode "normal")
     )
     (background
-      (z-pos -300)
       (alignment "bottom")
       (speed 0.5)
       (image-top "images/background/transparent_up.png")
@@ -616,19 +614,19 @@
       (image-bottom "images/background/transparent_up.png")
     )
     (background
-      (z-pos -330)
       (alignment "bottom")
       (speed 0.2)
       (image-top "images/background/transparent_up.png")
       (image "images/background/halloween/mountain.png")
       (image-bottom "images/background/transparent_up.png")
+      (z-pos -330)
     )
     (background
-      (z-pos -370)
       (speed 0)
       (image-top "images/background/transparent_up.png")
       (image "images/background/halloween/sky.png")
       (image-bottom "images/background/transparent_up.png")
+      (z-pos -370)
     )
     (door
       (sector "main")
@@ -737,7 +735,6 @@
       )
     )
     (particles-ghosts
-      (z-pos -200)
     )
     (particles-rain
       (z-pos -200)

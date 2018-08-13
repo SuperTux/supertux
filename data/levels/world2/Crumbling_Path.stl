@@ -8,11 +8,11 @@
     (music "music/forest2.ogg")
     (ambient-light 1 1 1)
     (background
-      (z-pos -200)
       (speed 0.5)
       (image-top "images/background/BlueRock_Forest/blue-top.jpg")
       (image "images/background/BlueRock_Forest/blue-middle.jpg")
       (image-bottom "images/background/BlueRock_Forest/blue-bottom.jpg")
+      (z-pos -200)
     )
     (camera
       (mode "normal")

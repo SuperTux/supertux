@@ -8,12 +8,12 @@
     (music "music/ghostforest.music")
     (ambient-light 0.8117647 0.7803922 0.7803922)
     (background
-      (z-pos -190)
       (alignment "bottom")
       (speed 0.5)
       (image-top "images/background/ghostforest_para.png")
       (image "images/background/ghostforest_para.png")
       (image-bottom "images/background/ghostforest_para.png")
+      (z-pos -190)
     )
     (camera
       (mode "normal")
@@ -312,9 +312,6 @@
       (y 531.052)
     )
     (background
-      (z-pos -300)
-      (scroll-offset-x 0)
-      (scroll-offset-y 0)
       (scroll-speed-x 1)
       (scroll-speed-y 1)
       (speed 0)

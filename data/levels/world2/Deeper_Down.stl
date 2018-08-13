@@ -88,7 +88,6 @@
     (gradient
       (top_color 0 0 0 0)
       (bottom_color 0 0 0 0)
-      (z-pos -300)
     )
     (jumpy
       (x 1159)

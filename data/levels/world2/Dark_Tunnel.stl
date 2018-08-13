@@ -175,7 +175,6 @@
       (mode "normal")
     )
     (background
-      (z-pos -300)
       (speed 0)
       (image-top "images/background/transparent_up.png")
       (image "images/background/halloween/sky.png")
@@ -247,7 +246,6 @@
       (y 984.9072)
     )
     (particles-ghosts
-      (z-pos -200)
     )
     (haywire
       (direction "left")
@@ -572,11 +570,11 @@
       (y 659.239)
     )
     (background
-      (z-pos 200)
       (speed 1.2)
       (image-top "images/background/fog.png")
       (image "images/background/fog.png")
       (image-bottom "images/background/fog.png")
+      (z-pos 200)
     )
     (tilemap
       (solid #f)

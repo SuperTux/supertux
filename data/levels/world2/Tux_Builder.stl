@@ -8,7 +8,6 @@
     (music "music/forest2.ogg")
     (ambient-light 1 1 1)
     (background
-      (z-pos -300)
       (speed 0.5)
       (image-top "images/background/BlueRock_Forest/blue-top.jpg")
       (image "images/background/BlueRock_Forest/blue-middle.jpg")
@@ -337,8 +336,6 @@
       (y 512)
     )
     (decal
-      (action "")
-      (solid #f)
       (x 147)
       (y 615)
       (z-pos -50)

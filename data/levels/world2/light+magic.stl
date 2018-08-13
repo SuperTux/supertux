@@ -30,7 +30,6 @@
       (y 544)
     )
     (particles-ghosts
-      (z-pos -200)
     )
     (gradient
       (top_color 0 0 0)
@@ -430,7 +429,6 @@
       (y 704)
     )
     (background
-      (z-pos -190)
       (scroll-offset-x 0.5)
       (scroll-offset-y 0.5)
       (scroll-speed-x 0.5)
@@ -439,6 +437,7 @@
       (image-top "images/background/bridgecloud-dark.png")
       (image "images/background/ghostforest_para.png")
       (image-bottom "images/background/ghostforest.jpg")
+      (z-pos -190)
     )
     (decal
       (sprite "images/decal/halloween/tree.png")
