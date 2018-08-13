@@ -60,16 +60,16 @@
       (mode "normal")
     )
     (particles-clouds
-      (name "clouds")
       (enabled #f)
+      (name "clouds")
     )
     (particles-ghosts
-     (name "ghosts")
-     (enabled #f)
+      (enabled #f)
+      (name "ghosts")
     )
     (particles-snow
-     (name "snow")
-     (enabled #f)
+      (enabled #f)
+      (name "snow")
     )
     (infoblock
       (message (_ "-Enable cloud particle system"))
