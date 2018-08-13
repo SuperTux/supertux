@@ -7,12 +7,75 @@
     (name "main")
     (music "music/ghostforest2.ogg")
     (ambient-light 0.5333329 0.5333329 0.5333329)
+    (background
+      (scroll-offset-x 0.5)
+      (scroll-offset-y 0.5)
+      (speed 0.5)
+      (image-top "images/background/bridgecloud-dark.png")
+      (image "images/background/ghostforest_para.png")
+      (image-bottom "images/background/ghostforest.jpg")
+      (z-pos -190)
+    )
     (camera
       (mode "normal")
     )
     (candle
       (x 9088.796)
       (y 512.8459)
+    )
+    (decal
+      (x 525.6809)
+      (y 347.5782)
+      (z-pos -50)
+      (sprite "images/decal/halloween/tree.png")
+    )
+    (decal
+      (x 1608.86)
+      (y 477.4507)
+      (z-pos -50)
+      (sprite "images/decal/halloween/tree.png")
+    )
+    (decal
+      (x 2264.133)
+      (y 410.0438)
+      (z-pos -50)
+      (sprite "images/decal/halloween/tree.png")
+    )
+    (decal
+      (x 2633.7)
+      (y 443.5569)
+      (z-pos -50)
+      (sprite "images/decal/halloween/tree.png")
+    )
+    (decal
+      (x 3001.024)
+      (y 412.663)
+      (z-pos -50)
+      (sprite "images/decal/halloween/tree.png")
+    )
+    (decal
+      (x 5731.279)
+      (y 477.7098)
+      (z-pos -50)
+      (sprite "images/decal/halloween/tree.png")
+    )
+    (decal
+      (x 6167.946)
+      (y 348.5146)
+      (z-pos -50)
+      (sprite "images/decal/halloween/tree.png")
+    )
+    (decal
+      (x 5229.117)
+      (y 352.2593)
+      (z-pos -50)
+      (sprite "images/decal/halloween/tree.png")
+    )
+    (door
+      (sector "main")
+      (spawnpoint "back")
+      (x 7177.459)
+      (y 818.8829)
     )
     (firefly
       (sprite "images/objects/resetpoints/torch.sprite")
@@ -35,6 +98,12 @@
       (top_color 0 0 0)
       (bottom_color 0 0.11 1)
       (z-pos -210)
+    )
+    (haywire
+      (direction "left")
+      (sprite "images/creatures/haywire/haywire.sprite")
+      (x 5590.484)
+      (y 961.1852)
     )
     (lantern
       (color 0 1 0)
@@ -89,6 +158,11 @@
       (color 1 0 0)
       (x 7616)
       (y 480)
+    )
+    (lantern
+      (color 0 0 1)
+      (x 8860.906)
+      (y 404.1785)
     )
     (magicblock
       (color 1 0 0)
@@ -275,16 +349,149 @@
       (x 8832.001)
       (y 447.9102)
     )
+    (magicblock
+      (color 1 0 0)
+      (x 4831.33)
+      (y 863.8196)
+    )
+    (magicblock
+      (color 1 0 0)
+      (x 5149.931)
+      (y 1023.915)
+    )
+    (magicblock
+      (color 1 0 0)
+      (x 8510.918)
+      (y 447.8203)
+    )
+    (magicblock
+      (color 1 0 0)
+      (x 8543.716)
+      (y 447.8203)
+    )
+    (magicblock
+      (color 1 0 0)
+      (x 8575.573)
+      (y 447.8203)
+    )
+    (magicblock
+      (color 1 0 0)
+      (x 8608.37)
+      (y 447.8204)
+    )
+    (magicblock
+      (color 1 0 0)
+      (x 6367.764)
+      (y 895.6513)
+    )
+    (magicblock
+      (color 1 0 0)
+      (x 6367.77)
+      (y 926.5452)
+    )
+    (magicblock
+      (color 0 0 1)
+      (x 10176.04)
+      (y 510.7252)
+    )
+    (magicblock
+      (color 0 0 1)
+      (x 10208.48)
+      (y 510.286)
+    )
+    (magicblock
+      (color 0 0 1)
+      (x 10080.19)
+      (y 415.7309)
+    )
+    (magicblock
+      (color 0 0 1)
+      (x 10049.23)
+      (y 416.6664)
+    )
+    (magicblock
+      (color 0 0 1)
+      (x 10495.89)
+      (y 255.5822)
+    )
+    (magicblock
+      (color 0 0 1)
+      (x 10495.84)
+      (y 320.1794)
+    )
+    (magicblock
+      (color 0 0 1)
+      (x 10495.88)
+      (y 287.4127)
+    )
+    (magicblock
+      (color 0 0 1)
+      (x 10495.88)
+      (y 351.0742)
+    )
+    (magicblock
+      (color 1 0 0)
+      (x 4926.408)
+      (y 928.418)
+    )
+    (magicblock
+      (color 1 0 0)
+      (x 5087.573)
+      (y 1023.915)
+    )
+    (magicblock
+      (color 1 0 0)
+      (x 5023.856)
+      (y 992.0789)
+    )
+    (magicblock
+      (color 1 0 0)
+      (x 5118.5)
+      (y 1023.91)
+    )
+    (magicblock
+      (color 1 0 0)
+      (x 6368.044)
+      (y 863.8198)
+    )
+    (magicblock
+      (color 1 0 0)
+      (x 6367.348)
+      (y 959.3124)
+    )
     (mrbomb
       (direction "left")
       (sprite "images/creatures/mr_bomb/mr_bomb.sprite")
       (x 2112)
       (y 736)
     )
+    (secretarea
+      (fade-tilemap "secret")
+      (width 184.7378)
+      (height 118.1302)
+      (x 5192.529)
+      (y 895.6505)
+    )
+    (snail
+      (direction "left")
+      (sprite "images/creatures/snail/snail.sprite")
+      (x 9528.786)
+      (y 634.541)
+    )
     (spawnpoint
       (name "main")
       (x 96)
       (y 544)
+    )
+    (spawnpoint
+      (name "back")
+      (x 5247.159)
+      (y 351.0745)
+    )
+    (spidermite
+      (sprite "images/creatures/spidermite/spidermite.sprite")
+      (x 6317.684)
+      (y 571.3297)
     )
     (tilemap
       (solid #f)
@@ -421,62 +628,6 @@
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1361 1362 1362 1362 1362 1362 1362 1362 1362 1362 1362 1362 1362 1362 1362 1362 1362 1363 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1361 1362 1362 1362 1362 1362 1362 1362 1362 1362 1362 1362 1362 1363 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1364 1365 1365 1366 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       )
     )
-    (walkingleaf
-      (direction "left")
-      (sprite "images/creatures/walkingleaf/walkingleaf.sprite")
-      (x 2784)
-      (y 704)
-    )
-    (background
-      (scroll-offset-x 0.5)
-      (scroll-offset-y 0.5)
-      (speed 0.5)
-      (image-top "images/background/bridgecloud-dark.png")
-      (image "images/background/ghostforest_para.png")
-      (image-bottom "images/background/ghostforest.jpg")
-      (z-pos -190)
-    )
-    (decal
-      (x 525.6809)
-      (y 347.5782)
-      (z-pos -50)
-      (sprite "images/decal/halloween/tree.png")
-    )
-    (magicblock
-      (color 1 0 0)
-      (x 4831.33)
-      (y 863.8196)
-    )
-    (magicblock
-      (color 1 0 0)
-      (x 5149.931)
-      (y 1023.915)
-    )
-    (decal
-      (x 1608.86)
-      (y 477.4507)
-      (z-pos -50)
-      (sprite "images/decal/halloween/tree.png")
-    )
-    (decal
-      (x 2264.133)
-      (y 410.0438)
-      (z-pos -50)
-      (sprite "images/decal/halloween/tree.png")
-    )
-    (secretarea
-      (fade-tilemap "secret")
-      (width 184.7378)
-      (height 118.1302)
-      (x 5192.529)
-      (y 895.6505)
-    )
-    (haywire
-      (direction "left")
-      (sprite "images/creatures/haywire/haywire.sprite")
-      (x 5590.484)
-      (y 961.1852)
-    )
     (tilemap
       (solid #f)
       (z-pos -110)
@@ -522,64 +673,6 @@
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1354 1354 1354 1354 1354 1354 1354 1354 1354 1354 1354 1354 1354 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1353 1353 1353 1353 1353 1353 1353 1353 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       )
     )
-    (torch
-      (sprite "images/objects/torch/torch1.sprite")
-      (x 5210.321)
-      (y 573.375)
-    )
-    (decal
-      (x 2633.7)
-      (y 443.5569)
-      (z-pos -50)
-      (sprite "images/decal/halloween/tree.png")
-    )
-    (decal
-      (x 3001.024)
-      (y 412.663)
-      (z-pos -50)
-      (sprite "images/decal/halloween/tree.png")
-    )
-    (magicblock
-      (color 1 0 0)
-      (x 8510.918)
-      (y 447.8203)
-    )
-    (magicblock
-      (color 1 0 0)
-      (x 8543.716)
-      (y 447.8203)
-    )
-    (magicblock
-      (color 1 0 0)
-      (x 8575.573)
-      (y 447.8203)
-    )
-    (magicblock
-      (color 1 0 0)
-      (x 8608.37)
-      (y 447.8204)
-    )
-    (walkingleaf
-      (direction "left")
-      (sprite "images/creatures/walkingleaf/walkingleaf.sprite")
-      (x 8088.788)
-      (y 434.7344)
-    )
-    (magicblock
-      (color 1 0 0)
-      (x 6367.764)
-      (y 895.6513)
-    )
-    (magicblock
-      (color 1 0 0)
-      (x 6367.77)
-      (y 926.5452)
-    )
-    (magicblock
-      (color 0 0 1)
-      (x 10176.04)
-      (y 510.7252)
-    )
     (tilemap
       (solid #f)
       (z-pos 100)
@@ -624,86 +717,6 @@
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1436 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 1432 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       )
-    )
-    (lantern
-      (color 0 0 1)
-      (x 8860.906)
-      (y 404.1785)
-    )
-    (magicblock
-      (color 0 0 1)
-      (x 10208.48)
-      (y 510.286)
-    )
-    (magicblock
-      (color 0 0 1)
-      (x 10080.19)
-      (y 415.7309)
-    )
-    (magicblock
-      (color 0 0 1)
-      (x 10049.23)
-      (y 416.6664)
-    )
-    (walkingleaf
-      (direction "left")
-      (sprite "images/creatures/walkingleaf/walkingleaf.sprite")
-      (x 9887.655)
-      (y 598.03)
-    )
-    (snail
-      (direction "left")
-      (sprite "images/creatures/snail/snail.sprite")
-      (x 9528.786)
-      (y 634.541)
-    )
-    (torch
-      (sprite "images/objects/torch/torch1.sprite")
-      (x 9760.647)
-      (y 538.5454)
-    )
-    (decal
-      (x 5731.279)
-      (y 477.7098)
-      (z-pos -50)
-      (sprite "images/decal/halloween/tree.png")
-    )
-    (decal
-      (x 6167.946)
-      (y 348.5146)
-      (z-pos -50)
-      (sprite "images/decal/halloween/tree.png")
-    )
-    (decal
-      (x 5229.117)
-      (y 352.2593)
-      (z-pos -50)
-      (sprite "images/decal/halloween/tree.png")
-    )
-    (spidermite
-      (sprite "images/creatures/spidermite/spidermite.sprite")
-      (x 6317.684)
-      (y 571.3297)
-    )
-    (magicblock
-      (color 0 0 1)
-      (x 10495.89)
-      (y 255.5822)
-    )
-    (magicblock
-      (color 0 0 1)
-      (x 10495.84)
-      (y 320.1794)
-    )
-    (magicblock
-      (color 0 0 1)
-      (x 10495.88)
-      (y 287.4127)
-    )
-    (magicblock
-      (color 0 0 1)
-      (x 10495.88)
-      (y 351.0742)
     )
     (tilemap
       (solid #f)
@@ -752,49 +765,36 @@
     )
     (torch
       (sprite "images/objects/torch/torch1.sprite")
+      (x 5210.321)
+      (y 573.375)
+    )
+    (torch
+      (sprite "images/objects/torch/torch1.sprite")
+      (x 9760.647)
+      (y 538.5454)
+    )
+    (torch
+      (sprite "images/objects/torch/torch1.sprite")
       (x 11075.69)
       (y 384.332)
     )
-    (magicblock
-      (color 1 0 0)
-      (x 4926.408)
-      (y 928.418)
+    (walkingleaf
+      (direction "left")
+      (sprite "images/creatures/walkingleaf/walkingleaf.sprite")
+      (x 2784)
+      (y 704)
     )
-    (magicblock
-      (color 1 0 0)
-      (x 5087.573)
-      (y 1023.915)
+    (walkingleaf
+      (direction "left")
+      (sprite "images/creatures/walkingleaf/walkingleaf.sprite")
+      (x 8088.788)
+      (y 434.7344)
     )
-    (magicblock
-      (color 1 0 0)
-      (x 5023.856)
-      (y 992.0789)
-    )
-    (magicblock
-      (color 1 0 0)
-      (x 5118.5)
-      (y 1023.91)
-    )
-    (magicblock
-      (color 1 0 0)
-      (x 6368.044)
-      (y 863.8198)
-    )
-    (door
-      (sector "main")
-      (spawnpoint "back")
-      (x 7177.459)
-      (y 818.8829)
-    )
-    (spawnpoint
-      (name "back")
-      (x 5247.159)
-      (y 351.0745)
-    )
-    (magicblock
-      (color 1 0 0)
-      (x 6367.348)
-      (y 959.3124)
+    (walkingleaf
+      (direction "left")
+      (sprite "images/creatures/walkingleaf/walkingleaf.sprite")
+      (x 9887.655)
+      (y 598.03)
     )
   )
 )

@@ -23,6 +23,12 @@
     (camera
       (mode "normal")
     )
+    (decal
+      (x 147)
+      (y 615)
+      (z-pos -50)
+      (sprite "images/decal/explanations/billboard-pickrock.png")
+    )
     (firefly
       (sprite "images/objects/resetpoints/default-resetpoint.sprite")
       (x 3200)
@@ -334,12 +340,6 @@
       (sprite "images/creatures/zeekling/zeekling.sprite")
       (x 5632)
       (y 512)
-    )
-    (decal
-      (x 147)
-      (y 615)
-      (z-pos -50)
-      (sprite "images/decal/explanations/billboard-pickrock.png")
     )
   )
 )
