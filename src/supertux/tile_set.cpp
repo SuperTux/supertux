@@ -30,68 +30,26 @@ Tilegroup::Tilegroup() :
   name(),
   tiles()
 {
-  tiles.clear();
 }
 
-/*
-  tiles(),
-  tiles_loaded(false),
-  tilegroups()
+std::unique_ptr<TileSet>
+TileSet::from_file(const std::string& filename)
 {
-  tiles.resize(1, 0);
-  tiles[0] = new Tile();
-  tilegroups.clear();
+  auto tileset = std::make_unique<TileSet>();
+
+  TileSetParser parser(*tileset, filename);
+  parser.parse();
+
+  tileset->print_debug_info(filename);
+
+  return tileset;
 }
 
-TileSet::TileSet(const std::string& filename) :
-  tiles(),
-  tiles_loaded(true),
-  tilegroups()
-*/
 TileSet::TileSet() :
   m_tiles(1),
   tilegroups()
 {
   m_tiles[0] = std::unique_ptr<Tile>(new Tile);
-  tilegroups.clear();
-}
-
-TileSet::TileSet(const std::string& filename) :
-  TileSet()
-{
-  TileSetParser parser(*this, filename);
-  parser.parse();
-
-  if (0)
-  { // enable this if you want to see a list of free tiles
-    log_info << "Last Tile ID is " << m_tiles.size()-1 << std::endl;
-    int last = -1;
-    for(int i = 0; i < int(m_tiles.size()); ++i)
-    {
-      if (m_tiles[i] == 0 && last == -1)
-      {
-        last = i;
-      }
-      else if (m_tiles[i] && last != -1)
-      {
-        log_info << "Free Tile IDs (" << i - last << "): " << last << " - " << i-1 << std::endl;
-        last = -1;
-      }
-    }
-  }
-
-  if (0)
-  { // enable this to dump the (large) list of tiles to log_debug
-    // Two dumps are identical iff the tilesets specify identical tiles
-    log_debug << "Tileset in " << filename << std::endl;
-    for(int i = 0; i < int(m_tiles.size()); ++i)
-    {
-      if(m_tiles[i] != 0)
-      {
-        m_tiles[i]->print_debug(i);
-      }
-    }
-  }
 }
 
 void
@@ -146,7 +104,7 @@ TileSet::add_unassigned_tilegroup()
     }
 
     // Weed out all the tiles that have an ID
-    // but no image (mostly tiles that act as 
+    // but no image (mostly tiles that act as
     // spacing between other tiles).
     if(found == false && m_tiles[tile].get())
     {
@@ -167,5 +125,39 @@ TileSet::add_unassigned_tilegroup()
   }
 }
 
+void
+TileSet::print_debug_info(const std::string& filename)
+{
+  if (false)
+  { // enable this if you want to see a list of free tiles
+    log_info << "Last Tile ID is " << m_tiles.size()-1 << std::endl;
+    int last = -1;
+    for(int i = 0; i < int(m_tiles.size()); ++i)
+    {
+      if (m_tiles[i] == 0 && last == -1)
+      {
+        last = i;
+      }
+      else if (m_tiles[i] && last != -1)
+      {
+        log_info << "Free Tile IDs (" << i - last << "): " << last << " - " << i-1 << std::endl;
+        last = -1;
+      }
+    }
+  }
+
+  if (false)
+  { // enable this to dump the (large) list of tiles to log_debug
+    // Two dumps are identical iff the tilesets specify identical tiles
+    log_debug << "Tileset in " << filename << std::endl;
+    for(int i = 0; i < int(m_tiles.size()); ++i)
+    {
+      if(m_tiles[i] != 0)
+      {
+        m_tiles[i]->print_debug(i);
+      }
+    }
+  }
+}
 
 /* EOF */

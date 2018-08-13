@@ -17,6 +17,7 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_TILE_SET_HPP
 #define HEADER_SUPERTUX_SUPERTUX_TILE_SET_HPP
 
+#include <memory>
 #include <stdint.h>
 #include <string>
 
@@ -38,20 +39,18 @@ class Tilegroup {
 
 class TileSet
 {
+public:
+  static std::unique_ptr<TileSet> from_file(const std::string& filename);
+
 private:
   std::vector<std::unique_ptr<Tile> > m_tiles;
 
 public:
-  TileSet(const std::string& filename);
   TileSet();
 
   std::vector<Tilegroup> tilegroups;
 
-  void merge(const TileSet *tileset, uint32_t start, uint32_t end,
-             uint32_t offset);
   void add_tile(int id, std::unique_ptr<Tile> tile);
-
-  const Tile* get(const uint32_t id) const;
 
   /**
    * Adds a group of tiles that haven't
@@ -59,10 +58,14 @@ public:
    */
   void add_unassigned_tilegroup();
 
+  const Tile* get(const uint32_t id) const;
+
   uint32_t get_max_tileid() const
   {
     return static_cast<uint32_t>(m_tiles.size());
   }
+
+  void print_debug_info(const std::string& filename);
 };
 
 #endif
