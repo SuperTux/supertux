@@ -11,10 +11,9 @@
       (mode "normal")
     )
     (gradient
+      (name "g")
       (top_color 1 0 0)
       (bottom_color 0 1 0)
-      (direction "vertical")
-      (name "g")
     )
     (infoblock
       (message (_ "-Set gradient direction to horizontal"))
