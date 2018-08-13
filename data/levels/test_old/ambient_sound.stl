@@ -46,54 +46,94 @@
     (camera
       (mode "normal")
     )
-
-       (background
-         (image "images/background/arctis.jpg")
-         (speed 0.500000)
-       )
-       (background
-         (image "images/background/arctis.jpg")
-         (speed 0.500000)
-       )
-       (spawnpoint (name "main") (x 96) (y 160))
-       (ambient_sound (x 128) (y 900) (distance_factor 0.01) 
-	(distance_bias 200.0) (sample "sounds/rain.wav"))
-       (ambient_sound (x 512) (y 900) (distance_factor 0.05) 
-	(distance_bias 100.0) (sample "sounds/waterfall.wav") (volume 0.2))
-       (ambient_sound (x 700) (y 900) (width 300) 
-(height 200) (distance_factor 0.1) 
-	(distance_bias 50.0) (sample "sounds/lava.wav"))
-       (ambient_sound (x 704) (y 97) (distance_factor 0.01) 
-	(distance_bias 200.0) (sample "music/leveldone.ogg"))
-      (infoblock (x 704) (y 96)
-        (message (_ "-Info
+    (background
+      (speed 0.5)
+      (image "images/background/arctis.jpg")
+    )
+    (background
+      (speed 0.5)
+      (image "images/background/arctis.jpg")
+    )
+    (spawnpoint
+      (name "main")
+      (x 96)
+      (y 160)
+    )
+    (ambient_sound
+      (sample "sounds/rain.wav")
+      (distance_factor 0.01)
+      (distance_bias 200)
+      (volume 0)
+      (width 32)
+      (height 32)
+      (x 128)
+      (y 900)
+    )
+    (ambient_sound
+      (sample "sounds/waterfall.wav")
+      (distance_factor 0.05)
+      (distance_bias 100)
+      (volume 0.2)
+      (width 32)
+      (height 32)
+      (x 512)
+      (y 900)
+    )
+    (ambient_sound
+      (sample "sounds/lava.wav")
+      (distance_factor 0.1)
+      (distance_bias 50)
+      (volume 0)
+      (width 300)
+      (height 200)
+      (x 700)
+      (y 900)
+    )
+    (ambient_sound
+      (sample "music/leveldone.ogg")
+      (distance_factor 0.01)
+      (distance_bias 200)
+      (volume 0)
+      (width 32)
+      (height 32)
+      (x 704)
+      (y 97)
+    )
+    (infoblock
+      (message (_ "-Info
 #An ambient sound 
 #leveldone music
 "))
-      )
-      (infoblock (x 128) (y 864)
-        (message (_ "-Info
+      (x 704)
+      (y 96)
+    )
+    (infoblock
+      (message (_ "-Info
 #An ambient sound 
 #source playing the
 #rain effect should 
 #be audible here.
 "))
-      )
-      (infoblock (x 512) (y 864)
-        (message (_ "-Info
+      (x 128)
+      (y 864)
+    )
+    (infoblock
+      (message (_ "-Info
 #Waterfall
 #Volume 0.2
 #smaller geometry
 #than rain source
 "))
-      )
-      (infoblock (x 700) (y 864)
-        (message (_ "-Info
+      (x 512)
+      (y 864)
+    )
+    (infoblock
+      (message (_ "-Info
 #Lava (Area)
 #extending right
 "))
-      )
-   )
- )
-
-;; EOF ;;
+      (x 700)
+      (y 864)
+    )
+  )
+)

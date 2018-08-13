@@ -50,50 +50,49 @@
     )
     (switch
       (script "killer.goto_node(1);killer.goto_node(0)")
+      (sprite "images/objects/switch/right.sprite")
       (x 32)
       (y 704)
-      (sprite "images/objects/switch/right.sprite")
     )
-      (powerup (x 96) (y 704)
-        (sprite (_ "images/powerups/egg/egg.sprite"))
-      )
-       (spawnpoint (name "main") (x 32) (y 704))
+    (powerup
+      (sprite "images/powerups/egg/egg.sprite")
+      (x 96)
+      (y 704)
+    )
+    (spawnpoint
+      (name "main")
+      (x 32)
+      (y 704)
+    )
     (dispenser
       (cycle 1)
+      (random #t)
+      (badguy "snowball" "smartball" "captainsnowball" "mrbomb" "bouncingsnowball" "spiky" "crystallo" "toad" "skullyhop" "totem" "mrtree")
       (direction "right")
       (x 224)
       (y 704)
-      (random #t)
-      (type "dropper")
-      (badguy 
-"snowball" "smartball" "captainsnowball" "mrbomb" "bouncingsnowball" "spiky"
-"crystallo" "toad" "skullyhop" "totem" "mrtree" ; "snail"  "mriceblock" "jumpy"
-      )
     )
     (tilemap
-      (name "killer")
-      (z-pos 2)
       (solid #t)
+      (z-pos 2)
+      (name "killer")
       (path
-        (mode "circular")
         (node
           (x 192)
           (y 784)
-          (time 1)
         )
         (node
           (x 256)
           (y 784)
-          (time 1)
         )
       )
       (width 1)
       (height 3)
       (tiles
-        296 296 296
+      296
+      296
+      296
       )
     )
-   )
- )
-
-;; EOF ;;
+  )
+)

@@ -8,9 +8,6 @@
     (name "main")
     (ambient-light 1 1 1)
     (background
-      (z-pos -300)
-      (scroll-offset-x 0)
-      (scroll-offset-y 0)
       (scroll-speed-x 0)
       (scroll-speed-y 0)
       (speed 0.5)

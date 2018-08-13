@@ -22,8 +22,8 @@
     (decal
       (x 608)
       (y 384)
-      (layer -200)
       (image "images/tiles/doodads/iceshrub.png")
+      (z-pos -200)
     )
     (dispenser
       (cycle 2)
