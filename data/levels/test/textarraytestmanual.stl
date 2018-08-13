@@ -2,11 +2,9 @@
   (version 2)
   (name (_ "TextArray test manual"))
   (author "g--o")
-  (tileset "images/tiles.strf")
   (license "CC-BY-SA 4.0 International")
   (sector
     (name "main")
-    (ambient-light 1 1 1 1)
     (init-script "TextArray.add_text(\"press enter to continue...\");
 TextArray.add_text(\"continued\");
 TextArray.add_text(\"there's more!\");
@@ -17,10 +15,10 @@ TextArray.set_pos(100, 100);
 TextArray.set_font(\"big\");
 TextArray.set_text_index(0);
 TextArray.fade_in(1);")
-    (gravity 10)
     (game-object
       (name "TextArray")
     )
+    (ambient-light 1 1 1)
     (background
       (z-pos -300)
       (scroll-offset-x 0)
@@ -68,7 +66,6 @@ TextArray.fade_in(1);")
       (y 480)
     )
     (camera
-      (name "Camera")
       (mode "normal")
     )
   )

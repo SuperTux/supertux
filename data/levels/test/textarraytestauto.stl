@@ -2,11 +2,9 @@
   (version 2)
   (name (_ "TextArray test auto"))
   (author "g--o")
-  (tileset "images/tiles.strf")
   (license "CC-BY-SA 4.0 International")
   (sector
     (name "main")
-    (ambient-light 1 1 1 1)
     (init-script "TextArray.add_text_duration(\"this will change in 5 seconds\", 5.0);
 TextArray.add_text(\"the default is 3 seconds\");
 TextArray.add_text(\"any key press will disable auto narration\");
@@ -65,7 +63,6 @@ TextArray.set_visible(true);")
       (y 480)
     )
     (camera
-      (name "Camera")
       (mode "normal")
     )
   )

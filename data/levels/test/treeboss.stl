@@ -231,19 +231,19 @@
       (y 550)
     )
     (lantern
+      (color 0 0 0)
       (x 540)
       (y 348)
-      (color 0 0 0)
     )
     (lantern
+      (color 0 0 0)
       (x 940)
       (y 248)
-      (color 0 0 0)
     )
     (lantern
+      (color 0 0 0)
       (x 1040)
       (y 148)
-      (color 0 0 0)
     )
   )
 )

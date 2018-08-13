@@ -147,8 +147,8 @@
       (y 78)
     )
     (tilemap
-      (z-pos -100)
       (solid #f)
+      (z-pos -100)
       (width 310)
       (height 19)
       (tiles
@@ -174,8 +174,8 @@
       )
     )
     (tilemap
-      (z-pos 0)
       (solid #t)
+      (z-pos 0)
       (width 310)
       (height 19)
       (tiles
@@ -201,8 +201,8 @@
       )
     )
     (tilemap
-      (z-pos 100)
       (solid #f)
+      (z-pos 100)
       (width 310)
       (height 19)
       (tiles
@@ -228,8 +228,8 @@
       )
     )
     (tilemap
-      (z-pos 101)
       (solid #f)
+      (z-pos 101)
       (name "secret")
       (width 310)
       (height 19)
