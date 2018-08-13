@@ -24,37 +24,37 @@
     (decal
       (x 5344)
       (y 608)
-      (layer 99)
+      (z-pos 99)
       (sprite "images/decal/misc/Antena2.png")
     )
     (decal
       (x 5664)
       (y 608)
-      (layer -101)
+      (z-pos -101)
       (sprite "images/decal/misc/Antena2.png")
     )
     (decal
       (x 4928)
       (y 320)
-      (layer 99)
+      (z-pos 99)
       (sprite "images/decal/misc/Antena2.png")
     )
     (decal
       (x 5312)
       (y 320)
-      (layer -101)
+      (z-pos -101)
       (sprite "images/decal/misc/Antena2.png")
     )
     (decal
       (x 5952)
       (y 704)
-      (layer 99)
+      (z-pos 99)
       (sprite "images/decal/misc/Antena2.png")
     )
     (decal
       (x 6240)
       (y 704)
-      (layer -101)
+      (z-pos -101)
       (sprite "images/decal/misc/Antena2.png")
     )
     (firefly

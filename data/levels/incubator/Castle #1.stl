@@ -10,7 +10,7 @@
     (background
       (speed 0.8)
       (image "images/background/castle_foreground.png")
-      (layer -110)
+      (z-pos -110)
     )
     (camera
       (mode "normal")
