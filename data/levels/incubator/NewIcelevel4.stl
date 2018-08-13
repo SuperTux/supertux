@@ -49,8 +49,8 @@
       (y -97)
     )
     (platform
-      (name "bote")
       (running #f)
+      (name "bote")
       (sprite "images/objects/platforms/icefloe.sprite")
       (path
         (node
@@ -111,8 +111,8 @@
       )
     )
     (platform
-      (name "bloquespinas")
       (running #f)
+      (name "bloquespinas")
       (sprite "images/objects/platforms/vertical-wood.sprite")
       (path
         (node
@@ -127,8 +127,8 @@
       )
     )
     (platform
-      (name "block2")
       (running #f)
+      (name "block2")
       (sprite "images/objects/platforms/wood-tiny.sprite")
       (path
         (node
@@ -146,8 +146,8 @@
       )
     )
     (platform
-      (name "block1")
       (running #f)
+      (name "block1")
       (sprite "images/objects/platforms/wood-tiny.sprite")
       (path
         (node
@@ -165,8 +165,8 @@
       )
     )
     (platform
-      (name "block3")
       (running #f)
+      (name "block3")
       (sprite "images/objects/platforms/wood-tiny.sprite")
       (path
         (node
@@ -201,8 +201,8 @@
       (bottom_color 1 1 1)
     )
     (hurting_platform
+      (running #f)
       (name "spinatrampa1")
-      (running #f)
       (sprite "images/objects/sawblade/spikeleft.sprite")
       (path
         (node
@@ -217,8 +217,8 @@
       )
     )
     (hurting_platform
+      (running #f)
       (name "spinatrampa2")
-      (running #f)
       (sprite "images/objects/sawblade/spikeleft.sprite")
       (path
         (node
@@ -233,8 +233,8 @@
       )
     )
     (hurting_platform
+      (running #f)
       (name "spinatrampa3")
-      (running #f)
       (sprite "images/objects/sawblade/spikeleft.sprite")
       (path
         (node
@@ -249,8 +249,8 @@
       )
     )
     (hurting_platform
-      (name "spinatrampa4")
       (running #f)
+      (name "spinatrampa4")
       (sprite "images/objects/sawblade/spikeleft.sprite")
       (path
         (node

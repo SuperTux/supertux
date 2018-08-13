@@ -214,8 +214,8 @@ if(query(\"yellow\")){
       )
     )
     (platform
-      (name "sm5")
       (running #f)
+      (name "sm5")
       (sprite "images/objects/snowman/snow_man_big_passable.sprite")
       (path
         (node
@@ -229,8 +229,8 @@ if(query(\"yellow\")){
       )
     )
     (platform
-      (name "sm2")
       (running #f)
+      (name "sm2")
       (sprite "images/objects/snowman/snow_man_big.sprite")
       (path
         (node
@@ -244,8 +244,8 @@ if(query(\"yellow\")){
       )
     )
     (platform
+      (running #f)
       (name "sm3")
-      (running #f)
       (sprite "images/objects/snowman/snow_man_big.sprite")
       (path
         (node
@@ -259,8 +259,8 @@ if(query(\"yellow\")){
       )
     )
     (platform
+      (running #f)
       (name "sm4")
-      (running #f)
       (sprite "images/objects/snowman/snow_man_big.sprite")
       (path
         (node
@@ -274,8 +274,8 @@ if(query(\"yellow\")){
       )
     )
     (platform
-      (name "sm1")
       (running #f)
+      (name "sm1")
       (sprite "images/objects/snowman/snow_man_big.sprite")
       (path
         (node
@@ -302,8 +302,8 @@ if(query(\"yellow\")){
       )
     )
     (platform
-      (name "plat1")
       (running #f)
+      (name "plat1")
       (sprite "images/objects/platforms/small.sprite")
       (path
         (node
@@ -318,8 +318,8 @@ if(query(\"yellow\")){
       )
     )
     (platform
+      (running #f)
       (name "eye2")
-      (running #f)
       (sprite "images/objects/platforms/small.sprite")
       (path
         (node
@@ -333,8 +333,8 @@ if(query(\"yellow\")){
       )
     )
     (platform
+      (running #f)
       (name "eye1")
-      (running #f)
       (sprite "images/objects/platforms/small.sprite")
       (path
         (node
@@ -348,8 +348,8 @@ if(query(\"yellow\")){
       )
     )
     (platform
+      (running #f)
       (name "eye4")
-      (running #f)
       (sprite "images/objects/platforms/small.sprite")
       (path
         (node
@@ -363,8 +363,8 @@ if(query(\"yellow\")){
       )
     )
     (platform
-      (name "eye3")
       (running #f)
+      (name "eye3")
       (sprite "images/objects/platforms/small.sprite")
       (path
         (node

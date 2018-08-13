@@ -20,8 +20,8 @@
       (y 544)
     )
     (platform
-      (name "castleentrance")
       (running #f)
+      (name "castleentrance")
       (sprite "images/objects/flying_platform/flying_platform.sprite")
       (path
         (node
@@ -485,35 +485,35 @@ castleentrance.goto_node(1);
       (y 832)
     )
     (wind
-      (name "viento2")
       (blowing #f)
       (speed-x 0)
       (speed-y -400)
       (acceleration 4)
       (width 60)
       (height 485.8032)
+      (name "viento2")
       (x 2978.746)
       (y 90.91168)
     )
     (wind
-      (name "viento")
       (blowing #f)
       (speed-x 0)
       (speed-y -400)
       (acceleration 4)
       (width 60)
       (height 529.8032)
+      (name "viento")
       (x 9410)
       (y 79)
     )
     (wind
-      (name "viento3")
       (blowing #f)
       (speed-x 0)
       (speed-y -400)
       (acceleration 4)
       (width 60)
       (height 487.8032)
+      (name "viento3")
       (x 3261.123)
       (y 86.48883)
     )
@@ -765,8 +765,8 @@ castleentrance.goto_node(1);
       (y 32)
     )
     (platform
-      (name "pedestal")
       (running #f)
+      (name "pedestal")
       (sprite "images/objects/platforms/pedestal.sprite")
       (path
         (node
@@ -784,8 +784,8 @@ castleentrance.goto_node(1);
       )
     )
     (platform
-      (name "empezar")
       (running #f)
+      (name "empezar")
       (sprite "images/objects/flying_platform/flying_platform.sprite")
       (path
         (node
@@ -803,8 +803,8 @@ castleentrance.goto_node(1);
       )
     )
     (platform
-      (name "bloques")
       (running #f)
+      (name "bloques")
       (sprite "images/objects/platforms/small.sprite")
       (path
         (node

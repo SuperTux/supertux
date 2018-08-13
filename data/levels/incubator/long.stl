@@ -17,8 +17,8 @@
       (mode "normal")
     )
     (platform
-      (name "y1")
       (running #f)
+      (name "y1")
       (sprite "images/objects/platforms/vertical-wood.sprite")
       (path
         (node
@@ -32,8 +32,8 @@
       )
     )
     (platform
-      (name "y2")
       (running #f)
+      (name "y2")
       (sprite "images/objects/platforms/vertical-wood.sprite")
       (path
         (node
@@ -47,8 +47,8 @@
       )
     )
     (platform
-      (name "y3")
       (running #f)
+      (name "y3")
       (sprite "images/objects/platforms/vertical-wood.sprite")
       (path
         (node
@@ -62,8 +62,8 @@
       )
     )
     (platform
-      (name "y4")
       (running #f)
+      (name "y4")
       (sprite "images/objects/platforms/vertical-wood.sprite")
       (path
         (node
@@ -77,8 +77,8 @@
       )
     )
     (platform
-      (name "y5")
       (running #f)
+      (name "y5")
       (sprite "images/objects/platforms/vertical-wood.sprite")
       (path
         (node
@@ -1157,8 +1157,8 @@
       (y 320)
     )
     (platform
-      (name "secretplatform")
       (running #f)
+      (name "secretplatform")
       (sprite "images/objects/flying_platform/flying_platform.sprite")
       (path
         (node
@@ -3952,8 +3952,8 @@ Tux.activate()")
       (y 576)
     )
     (platform
-      (name "platform")
       (running #f)
+      (name "platform")
       (sprite "images/objects/flying_platform/flying_platform.sprite")
       (path
         (node
@@ -5529,17 +5529,14 @@ Tux.activate()")
       (y 1696)
     )
     (weak_block
-      (linked #t)
       (x 224)
       (y 1952)
     )
     (weak_block
-      (linked #t)
       (x 224)
       (y 1984)
     )
     (weak_block
-      (linked #t)
       (x 224)
       (y 1920)
     )
@@ -6061,8 +6058,8 @@ platform2.goto_node(1)")
       (y 5792)
     )
     (platform
-      (name "platform2")
       (running #f)
+      (name "platform2")
       (sprite "images/objects/flying_platform/flying_platform.sprite")
       (path
         (node
@@ -6077,8 +6074,8 @@ platform2.goto_node(1)")
       )
     )
     (platform
-      (name "platform1")
       (running #f)
+      (name "platform1")
       (sprite "images/objects/flying_platform/flying_platform.sprite")
       (path
         (node
@@ -6510,8 +6507,8 @@ platform2.goto_node(1)")
       (mode "normal")
     )
     (platform
-      (name "brana")
       (running #f)
+      (name "brana")
       (sprite "images/objects/platforms/vertical-wood.sprite")
       (path
         (node

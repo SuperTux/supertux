@@ -148,8 +148,8 @@
       (y 319.7426)
     )
     (platform
-      (name "v4")
       (running #f)
+      (name "v4")
       (sprite "images/objects/platforms/vertical-wood.sprite")
       (path
         (node
@@ -164,8 +164,8 @@
       )
     )
     (platform
-      (name "h1")
       (running #f)
+      (name "h1")
       (sprite "images/objects/platforms/big.sprite")
       (path
         (node
@@ -179,8 +179,8 @@
       )
     )
     (platform
-      (name "v02")
       (running #f)
+      (name "v02")
       (sprite "images/objects/platforms/vertical-wood.sprite")
       (path
         (node
@@ -194,8 +194,8 @@
       )
     )
     (platform
-      (name "v01")
       (running #f)
+      (name "v01")
       (sprite "images/objects/platforms/vertical-wood.sprite")
       (path
         (node
@@ -210,8 +210,8 @@
       )
     )
     (platform
-      (name "v1")
       (running #f)
+      (name "v1")
       (sprite "images/objects/platforms/vertical-wood.sprite")
       (path
         (node
@@ -230,8 +230,8 @@
       )
     )
     (platform
-      (name "v2")
       (running #f)
+      (name "v2")
       (sprite "images/objects/platforms/vertical-wood.sprite")
       (path
         (node
@@ -246,8 +246,8 @@
       )
     )
     (platform
-      (name "v3")
       (running #f)
+      (name "v3")
       (sprite "images/objects/platforms/vertical-wood.sprite")
       (path
         (node
@@ -262,8 +262,8 @@
       )
     )
     (platform
-      (name "h2")
       (running #f)
+      (name "h2")
       (sprite "images/objects/platforms/small.sprite")
       (path
         (node
@@ -277,8 +277,8 @@
       )
     )
     (platform
-      (name "h3")
       (running #f)
+      (name "h3")
       (sprite "images/objects/platforms/small.sprite")
       (path
         (node
@@ -898,7 +898,6 @@ v1.goto_node(2);")
     (willowisp
       (sector "main")
       (spawnpoint "WispTeleport")
-      (name "")
       (track-range 20)
       (x 1472)
       (y 2976)
