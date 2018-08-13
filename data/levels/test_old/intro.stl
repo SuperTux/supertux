@@ -97,23 +97,22 @@
       (mode "normal")
     )
 
-       (background
-         (image "images/background/semi_arctic.jpg")
-         (speed 0.500000)
-       )
-       (spawnpoint (name "main") (x 220) (y 416))
-       (particles-snow)
-
        (scriptedobject
          (name "PENNY")
          (x 390)
          (y 510)
          (sprite "images/creatures/dummyguy/dummyguy.sprite")
        )
-       (init-script "
-          intro();
-        ")
-   )
- )
-
-;; EOF ;;
+    (background
+      (speed 0.5)
+      (image "images/background/semi_arctic.jpg")
+    )
+    (spawnpoint
+      (name "main")
+      (x 220)
+      (y 416)
+    )
+    (particles-snow
+    )
+  )
+)

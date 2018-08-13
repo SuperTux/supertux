@@ -184,19 +184,6 @@
       (mode "normal")
     )
 
-       (background
-         (image "images/background/ghostforest.jpg")
-         (speed 0.5)
-       )
-       (background
-         (image "images/background/fog.png")
-	 (speed 1.2)
-	 (z-pos 400)
-       )
-       (particles-ghosts
-       )
-       (particles-rain
-       )
      (bonusblock (x 160) (y 160)
           (contents "custom")
           (powerup
@@ -221,3 +208,16 @@ Effect.fade_in(1);
  )
 
 ;; EOF ;;
+    (background
+      (speed 0.5)
+      (image "images/background/ghostforest.jpg")
+    )
+    (background
+      (speed 1.2)
+      (image "images/background/fog.png")
+      (z-pos 400)
+    )
+    (particles-ghosts
+    )
+    (particles-rain
+    )

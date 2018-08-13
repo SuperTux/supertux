@@ -153,23 +153,20 @@
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       )
     )
-    
     (rustytrampoline
+      (counter 5)
       (x 160)
       (y 256)
-      (counter 5)
     )
-    
     (rustytrampoline
+      (counter 2)
       (x 190)
       (y 256)
-      (counter 2)
     )
-    
     (rustytrampoline
+      (portable #f)
       (x 210)
       (y 256)
-      (portable #f)
     )
   )
 )
