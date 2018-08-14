@@ -368,6 +368,10 @@
     2666 2667 2668 2676
     2669 2670 2671 2677
     2672 2673 2674 2678
+    3531 3532    0    0
+    3536 3537    0    0
+    3533 3534 3535    0
+    3538 3539 3540    0
     )
    )
 
@@ -584,6 +588,7 @@
       1008 1009 1010 1011
       1012 1013 1014 1015
       1016 1017 1018 1019
+      3621 3622 3623 3624
       1723 1724 1725 1726
       1817 1013 1014 1820
       1819 1533 1534 1535
@@ -829,7 +834,7 @@
       76   201  174  130
       75   200  173  129
       295  296  297  298
-      81   126  127  2047
+      81   0    0    2047
       1355 1809 1812 2048
       1356 1810 1813 2049
       1411 1811 1814 227
@@ -1035,19 +1040,6 @@
       2023 2024 2025 0
       2026 2027 2028 0
       2029 2030 2031 0
-      0    0    0    0
-      126  0    0    0
-      0    0    0    0
-      0    0    0    0
-      0    0    0    0
-      0    0    0    0
-      0    0    0    0
-      127  0    0    0
-      0    0    0    0
-      0    0    0    0
-      0    0    0    0
-      0    0    0    0
-      0    0    0    0
     )
   )
  (tilegroup
@@ -1131,26 +1123,30 @@
   (tilegroup
     (name (_ "Cave background"))
     (tiles
-      70 0 0 0
-      0  0 0 0
-      0  0 0 0
-      0  0 0 0
-      71 0 0 0
-      0  0 0 0
-      0  0 0 0
-      0  0 0 0
-      72 0 0 0
-      0  0 0 0
-      0  0 0 0
-      0  0 0 0
-      73 0 0 0
-      0  0 0 0
-      0  0 0 0
-      0  0 0 0
-      74 0 0 0
-      0  0 0 0
-      0  0 0 0
-      0  0 0 0
+     3541 3542 3543 3544
+     3545 3546 3547 3548
+     3549 3550 3551 3552
+     3553 3554 3555 3556
+
+     3557 3558 3559 3560
+     3561 3562 3563 3564
+     3565 3566 3567 3568
+     3569 3570 3571 3572
+
+     3573 3574 3575 3576
+     3577 3578 3579 3580
+     3581 3582 3583 3584
+     3585 3586 3587 3588
+
+     3589 3590 3591 3592
+     3593 3594 3595 3596
+     3597 3598 3599 3600
+     3601 3602 3603 3604
+
+     3605 3606 3607 3608
+     3609 3610 3611 3612
+     3613 3614 3615 3616
+     3617 3618 3619 3620
     )
   )
   (tilegroup
@@ -1440,6 +1436,7 @@
   (tile
     ; dupe of tile 63, this one will be kept.
     (id 70)
+    (deprecated #t)
     (images
       "tiles/background/backgroundtile1.png"
     )
@@ -1447,6 +1444,7 @@
   )
   (tile
     (id 71)
+    (deprecated #t)
     (images
       "tiles/background/backgroundtile2.png"
     )
@@ -1454,6 +1452,7 @@
   )
   (tile
     (id 72)
+    (deprecated #t)
     (images
       "tiles/background/backgroundtile3.png"
     )
@@ -1461,6 +1460,7 @@
   )
   (tile
     (id 73)
+    (deprecated #t)
     (images
       "tiles/background/backgroundtile4.png"
     )
@@ -1468,6 +1468,7 @@
   )
   (tile
     (id 74)
+    (deprecated #t)
     (images
       "tiles/background/backgroundtile5.png"
     )
@@ -1694,15 +1695,21 @@
   )
   (tile
     (id 126)
+    (deprecated #t)
     (images
       "tiles/goal/exitbg.png"
     )
+    (object-name "decal")
+    (object-data "(sprite \"images/decal/snow/exitbg.png\")")
   )
   (tile
     (id 127)
+    (deprecated #t)
     (images
       "tiles/goal/exitfg.png"
     )
+    (object-name "decal")
+    (object-data "(sprite \"images/decal/snow/exitfg.png\")")
   )
   (tile
     (id 128)
@@ -2638,6 +2645,7 @@
   )
   (tile
     (id 1312)
+    (deprecated #t)
     (solid #t)
     (hidden #t)
     (images "tiles/doodads/havoktux-0.png")
@@ -4070,14 +4078,18 @@
 
   (tiles
    (width 8)
-   (height 4)
+   (height 6)
    (ids
     2647 2648 2649 2650 2663 2664 2665 2675
     2651 2652 2653 2654 2666 2667 2668 2676
     2655 2656 2657 2658 2669 2670 2671 2677
     2659 2660 2661 2662 2672 2673 2674 2678
+    3531 3532    0    0 3533 3534 3535    0
+    3536 3537    0    0 3538 3539 3540    0
     )
    (attributes
+    0 0 0 0 0 0 0 0
+    0 0 0 0 0 0 0 0
     0 0 0 0 0 0 0 0
     0 0 0 0 0 0 0 0
     0 0 0 0 0 0 0 0
@@ -5020,7 +5032,74 @@
       1024 1024 1024 1024
     )
     (image "tiles/background/storm-cloud-electrified.png")
-  )
+    )
 
-  ;; next-id: 3531
+  (tiles
+    (width 4)
+    (height 4)
+    (image "tiles/background/backgroundtile1.png")
+    (ids
+     3541 3542 3543 3544
+     3545 3546 3547 3548
+     3549 3550 3551 3552
+     3553 3554 3555 3556
+     ))
+
+  (tiles
+    (width 4)
+    (height 4)
+    (image "tiles/background/backgroundtile2.png")
+    (ids
+     3557 3558 3559 3560
+     3561 3562 3563 3564
+     3565 3566 3567 3568
+     3569 3570 3571 3572
+     ))
+
+  (tiles
+    (width 4)
+    (height 4)
+    (image "tiles/background/backgroundtile3.png")
+    (ids
+     3573 3574 3575 3576
+     3577 3578 3579 3580
+     3581 3582 3583 3584
+     3585 3586 3587 3588
+     ))
+
+  (tiles
+    (width 4)
+    (height 4)
+    (image "tiles/background/backgroundtile4.png")
+    (ids
+     3589 3590 3591 3592
+     3593 3594 3595 3596
+     3597 3598 3599 3600
+     3601 3602 3603 3604
+     ))
+
+  (tiles
+    (width 4)
+    (height 4)
+    (image "tiles/background/backgroundtile5.png")
+    (ids
+     3605 3606 3607 3608
+     3609 3610 3611 3612
+     3613 3614 3615 3616
+     3617 3618 3619 3620
+     ))
+
+  (tiles
+    (width 4)
+    (height 1)
+    (image "tiles/forest/foresttiles-1a.png")
+    (attributes
+      1 1 1 1
+    )
+    (ids
+     3621 3622 3623 3624
+     ))
+    
+
+  ;; next-id: 3625
   )
