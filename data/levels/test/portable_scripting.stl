@@ -144,8 +144,8 @@
       (mode "normal")
     )
     (lantern
+      (color 1 0.5 0)
       (name "lantern1")
-      (color 1 0.5 0 1)
       (x 669.4761)
       (y 630.9287)
     )

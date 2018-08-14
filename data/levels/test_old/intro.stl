@@ -96,13 +96,12 @@
     (camera
       (mode "normal")
     )
-
-       (scriptedobject
-         (name "PENNY")
-         (x 390)
-         (y 510)
-         (sprite "images/creatures/dummyguy/dummyguy.sprite")
-       )
+    (scriptedobject
+      (name "PENNY")
+      (sprite "images/creatures/dummyguy/dummyguy.sprite")
+      (x 390)
+      (y 510)
+    )
     (background
       (speed 0.5)
       (image "images/background/semi_arctic.jpg")
