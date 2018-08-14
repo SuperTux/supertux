@@ -17,12 +17,12 @@
     (decal
       (x 192)
       (y 352)
-      (image "images/tiles/doodads/iceshrub.png")
+      (sprite "images/tiles/doodads/iceshrub.sprite")
     )
     (decal
       (x 608)
       (y 384)
-      (image "images/tiles/doodads/iceshrub.png")
+      (sprite "images/tiles/doodads/iceshrub.sprite")
       (z-pos -200)
     )
     (dispenser
