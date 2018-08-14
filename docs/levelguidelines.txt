@@ -25,4 +25,4 @@ enough reset points, so players won't have to repeat large portions of the level
 imagination to think of new ways to create secrets - some of the above rules can be
 broken for that purpose, but be careful!
 9. Icecrushers (Krush and Krosh) should be able to reach their original position and
-shouldn't stuck anywhere in the middle when rising.
+shouldn't get stuck anywhere in the middle when rising.
