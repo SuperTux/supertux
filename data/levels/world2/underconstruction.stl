@@ -52,7 +52,6 @@
     )
     (scriptedobject
       (z-pos 101)
-      (visible #t)
       (physic-enabled #f)
       (solid #f)
       (name "EARTHHINT")
@@ -61,7 +60,6 @@
       (y 1264)
     )
     (scriptedobject
-      (visible #t)
       (physic-enabled #f)
       (solid #f)
       (name "WOODHINT")
@@ -70,7 +68,6 @@
       (y 640)
     )
     (scriptedobject
-      (visible #t)
       (physic-enabled #f)
       (solid #f)
       (name "AIRHINT")

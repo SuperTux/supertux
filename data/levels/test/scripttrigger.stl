@@ -11,9 +11,6 @@
       (y 96)
     )
     (scriptedobject
-      (visible #t)
-      (physic-enabled #t)
-      (solid #t)
       (name "MYOBJECT")
       (sprite "images/objects/sawblade/sawblade.sprite")
       (x 427.5828)

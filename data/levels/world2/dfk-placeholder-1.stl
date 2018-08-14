@@ -19,7 +19,6 @@
       (mode "normal")
     )
     (scriptedobject
-      (visible #t)
       (physic-enabled #f)
       (solid #f)
       (name "FLAMES")
@@ -28,7 +27,6 @@
       (y 854.45)
     )
     (scriptedobject
-      (visible #t)
       (physic-enabled #f)
       (solid #f)
       (name "FLAMES")
@@ -37,7 +35,6 @@
       (y 153)
     )
     (scriptedobject
-      (visible #t)
       (physic-enabled #f)
       (solid #f)
       (name "FLAMES")
@@ -46,7 +43,6 @@
       (y 153)
     )
     (scriptedobject
-      (visible #t)
       (physic-enabled #f)
       (solid #f)
       (name "FLAMES")

@@ -23,7 +23,6 @@
       (y 602)
     )
     (scriptedobject
-      (visible #t)
       (physic-enabled #f)
       (solid #f)
       (name "flip")

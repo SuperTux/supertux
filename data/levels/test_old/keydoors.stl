@@ -59,7 +59,6 @@
       (y 576)
     )
     (scriptedobject
-      (visible #t)
       (physic-enabled #f)
       (solid #f)
       (name "EARTHHINT")
@@ -68,7 +67,6 @@
       (y 448)
     )
     (scriptedobject
-      (visible #t)
       (physic-enabled #f)
       (solid #f)
       (name "WOODHINT")
@@ -77,7 +75,6 @@
       (y 480)
     )
     (scriptedobject
-      (visible #t)
       (physic-enabled #f)
       (solid #f)
       (name "AIRHINT")
