@@ -5,11 +5,11 @@
   (license "GPL 2 / CC-by-sa 3.0")
   (sector
     (name "main")
+    (music "music/voc-dark.music")
     (ambient-light 0.02 0.02 0.02)
     (camera
       (mode "normal")
     )
-    (music "music/voc-dark.music")
     (spawnpoint
       (name "main")
       (x 64)
@@ -41,14 +41,14 @@
       (y 736)
     )
     (flame
+      (speed 0.2)
       (x 576)
       (y 480)
-      (speed 0.2)
     )
     (iceflame
+      (speed 0.2)
       (x 736)
       (y 480)
-      (speed 0.2)
     )
     (ghostflame
       (x 656)
@@ -59,173 +59,220 @@
       (y 192)
     )
     (livefire_asleep
+      (direction "right")
       (x 64)
       (y 192)
-      (direction "right")
     )
     (livefire_dormant
       (x 128)
       (y 192)
     )
     (tilemap
-      (name "Interactive")
-      (z-pos 0)
       (solid #t)
+      (z-pos 0)
+      (name "Interactive")
       (width 42)
       (height 30)
-      (tiles 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 48 48 48 48 48 48 48 48 48 48 48 48 48 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 48 48 48 48 48 48 48 48 48 48 48 48 48 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 130 133 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 129 133 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2817 0 1408 1388 0 2817 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1408 1412 1412 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1408 1412 1412 1412 1412 1412 1412 1412 1412 1388 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 48 48 48 48 48 48 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 48 48 48 48 48 48 48 48 48 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 48 48 48 48 48 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 0 0 0 0 0 0 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 0 0 0 0 0 0 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 0 0 0 0 0 0 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 0 0 0 0 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 0 0 0 0 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 2136 2137 2138 2139 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48)
+      (tiles
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      48 48 48 48 48 48 48 48 48 48 48 48 48 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 48 48 48 48 48 48 48 48 48 48 48 48 48
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 130 133
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 129 133
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2817 0 1408 1388 0 2817 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1408 1412 1412
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1408 1412 1412 1412 1412 1412 1412 1412 1412 1388 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      48 48 48 48 48 48 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 48 48 48 48 48 48 48 48 48
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 48 48 48 48 48 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 48 48
+      48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 0 0 0 0 0 0 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48
+      48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 0 0 0 0 0 0 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48
+      48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 0 0 0 0 0 0 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48
+      48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 0 0 0 0 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48
+      48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 0 0 0 0 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48
+      48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 2136 2137 2138 2139 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48
+      )
     )
     (candle
       (x 128)
       (y 480)
     )
     (candle
+      (name "red")
+      (color 1 0 0)
       (x 96)
       (y 736)
-      (color 1 0 0)
-      (name "red")
     )
     (candle
+      (name "orange")
+      (color 1 0.5 0)
       (x 320)
       (y 736)
-      (color 1 0.5 0)
-      (name "orange")
     )
     (candle
+      (name "yellow")
+      (color 1 1 0)
       (x 544)
       (y 736)
-      (color 1 1 0)
-      (name "yellow")
     )
     (candle
+      (name "green")
+      (color 0 1 0)
       (x 768)
       (y 736)
-      (color 0 1 0)
-      (name "green")
     )
     (candle
+      (name "blue")
+      (color 0 0 1)
       (x 992)
       (y 736)
-      (color 0 0 1)
-      (name "blue")
     )
     (candle
+      (name "purple")
+      (color 0.5 0 0.5)
       (x 1216)
       (y 736)
-      (color 0.5 0 0.5)
-      (name "purple")
     )
     (candle
       (x 1184)
       (y 480)
-      (color 1 1 1)
     )
     (candle
+      (flicker #f)
+      (color 0.4 0.1 0)
       (x 608)
       (y 960)
-      (color 0.4 0.1 0)
-      (flicker #f)
     )
     (candle
+      (flicker #f)
+      (color 0.4 0.1 0)
       (x 640)
       (y 960)
-      (color 0.4 0.1 0)
-      (flicker #f)
     )
     (candle
+      (flicker #f)
+      (color 0.4 0.1 0)
       (x 672)
       (y 960)
-      (color 0.4 0.1 0)
-      (flicker #f)
     )
     (candle
+      (flicker #f)
+      (color 0.4 0.1 0)
       (x 704)
       (y 960)
-      (color 0.4 0.1 0)
-      (flicker #f)
     )
     (candle
-      (x 576)
-      (y 320)
-      (color 1 0.2 0.05)
+      (burning #f)
       (name "torch1")
       (sprite "images/objects/candle/torch/torch.sprite")
-      (burning #f)
+      (color 1 0.2 0.05)
+      (x 576)
+      (y 320)
     )
     (candle
-      (x 736)
-      (y 320)
-      (color 1 0.2 0.05)
+      (burning #f)
       (name "torch2")
       (sprite "images/objects/candle/torch/torch.sprite")
-      (burning #f)
+      (color 1 0.2 0.05)
+      (x 736)
+      (y 320)
     )
     (switch
-      (script "\tred.set_burning(!red.get_burning());\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\twait(\t0.1\t);\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\torange.set_burning(!orange.get_burning());\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\twait(\t0.1\t);\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\tyellow.set_burning(!yellow.get_burning());\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\twait(\t0.1\t);\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\tgreen.set_burning(!green.get_burning());\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\twait(\t0.1\t);\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\tblue.set_burning(!blue.get_burning());\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\twait(\t0.1\t);\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\tpurple.set_burning(!purple.get_burning());\t")
+      (script "	red.set_burning(!red.get_burning());																																							
+				wait(	0.1	);																																					
+				orange.set_burning(!orange.get_burning());																																							
+				wait(	0.1	);																																					
+				yellow.set_burning(!yellow.get_burning());																																							
+				wait(	0.1	);																																					
+				green.set_burning(!green.get_burning());																																							
+				wait(	0.1	);																																					
+				blue.set_burning(!blue.get_burning());																																							
+				wait(	0.1	);																																					
+				purple.set_burning(!purple.get_burning());	")
       (sprite "images/objects/switch/switch.sprite")
       (x 96)
       (y 448)
     )
     (switch
-      (script "\ttorch1.set_burning(!torch1.get_burning());\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\ttorch2.set_burning(!torch2.get_burning());\t")
+      (script "	torch1.set_burning(!torch1.get_burning());																																							
+				torch2.set_burning(!torch2.get_burning());	")
       (sprite "images/objects/switch/switch.sprite")
       (x 1216)
       (y 448)
     )
     (switch
-      (script "\tsettings.set_ambient_light((settings.get_ambient_red() + 0.14 > 1) ? 0.02 : settings.get_ambient_red() + 0.14 , (settings.get_ambient_green() + 0.14 > 1) ? 0.02 : settings.get_ambient_green() + 0.14 , (settings.get_ambient_blue() + 0.14 > 1) ? 0.02 : settings.get_ambient_blue() + 0.14 );\t")
+      (script "	settings.set_ambient_light((settings.get_ambient_red() + 0.14 > 1) ? 0.02 : settings.get_ambient_red() + 0.14 , (settings.get_ambient_green() + 0.14 > 1) ? 0.02 : settings.get_ambient_green() + 0.14 , (settings.get_ambient_blue() + 0.14 > 1) ? 0.02 : settings.get_ambient_blue() + 0.14 );	")
       (sprite "images/objects/switch/switch.sprite")
       (x 320)
       (y 576)
     )
     (bonusblock
+      (script "")
+      (count 0)
+      (contents "icegrow")
       (x 544)
       (y 352)
-      (contents "icegrow")
-      (count 0)
     )
     (bonusblock
+      (script "")
+      (count 0)
+      (contents "star")
       (x 608)
       (y 352)
-      (contents "star")
-      (count 0)
     )
     (bonusblock
+      (script "")
+      (count 0)
+      (contents "1up")
       (x 704)
       (y 352)
-      (contents "1up")
-      (count 0)
     )
     (bonusblock
+      (script "")
+      (count 0)
+      (contents "firegrow")
       (x 768)
       (y 352)
-      (contents "firegrow")
-      (count 0)
     )
     (willowisp
+      (sector "")
+      (spawnpoint "top")
       (x 48)
       (y 544)
-      (spawnpoint "top")
     )
     (willowisp
+      (sector "")
+      (spawnpoint "top")
       (x 1232)
       (y 544)
-      (spawnpoint "top")
     )
     (powerup
+      (sprite "images/powerups/iceflower/iceflower.sprite")
       (x 0)
       (y 320)
-      (sprite "images/powerups/iceflower/iceflower.sprite")
     )
     (powerup
+      (sprite "images/powerups/fireflower/fireflower.sprite")
       (x 0)
       (y 480)
-      (sprite "images/powerups/fireflower/fireflower.sprite")
     )
     (weak_block
+      (linked #f)
       (x 0)
       (y 352)
-      (linked #f)
     )
     (weak_block
       (x 32)
@@ -248,84 +295,84 @@
       (y 352)
     )
     (magicblock
+      (color 1 1 1)
       (x 416)
       (y 224)
-      (color 1 1 1)
     )
     (magicblock
+      (color 1 1 1)
       (x 448)
       (y 224)
-      (color 1 1 1)
     )
     (magicblock
+      (color 1 1 1)
       (x 480)
       (y 224)
-      (color 1 1 1)
     )
     (magicblock
+      (color 1 1 1)
       (x 512)
       (y 224)
-      (color 1 1 1)
     )
     (magicblock
+      (color 1 1 1)
       (x 544)
       (y 224)
-      (color 1 1 1)
     )
     (magicblock
+      (color 1 1 1)
       (x 576)
       (y 224)
-      (color 1 1 1)
     )
     (magicblock
+      (color 1 1 1)
       (x 608)
       (y 224)
-      (color 1 1 1)
     )
     (magicblock
+      (color 1 1 1)
       (x 640)
       (y 224)
-      (color 1 1 1)
     )
     (magicblock
+      (color 1 1 1)
       (x 672)
       (y 224)
-      (color 1 1 1)
     )
     (magicblock
+      (color 1 1 1)
       (x 704)
       (y 224)
-      (color 1 1 1)
     )
     (magicblock
+      (color 1 1 1)
       (x 736)
       (y 224)
-      (color 1 1 1)
     )
     (magicblock
+      (color 1 1 1)
       (x 768)
       (y 224)
-      (color 1 1 1)
     )
     (magicblock
+      (color 1 1 1)
       (x 800)
       (y 224)
-      (color 1 1 1)
     )
     (magicblock
+      (color 1 1 1)
       (x 832)
       (y 224)
-      (color 1 1 1)
     )
     (magicblock
+      (color 1 1 1)
       (x 864)
       (y 224)
-      (color 1 1 1)
     )
     (magicblock
+      (color 1 1 1)
       (x 896)
       (y 224)
-      (color 1 1 1)
     )
   )
 )
