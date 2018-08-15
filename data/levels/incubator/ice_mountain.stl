@@ -126,19 +126,19 @@ if(query(\"yellow\")){
       (y 1799)
     )
     (decal
+      (sprite "images/decal/nightcave/lightflower3.png")
       (x 1089.277)
       (y 1069.507)
-      (sprite "images/decal/nightcave/lightflower3.png")
     )
     (decal
+      (sprite "images/decal/nightcave/lightflower2.png")
       (x 283.2094)
       (y 1100.838)
-      (sprite "images/decal/nightcave/lightflower2.png")
     )
     (decal
+      (sprite "images/decal/nightcave/lightflower1.png")
       (x 1666.31)
       (y 974.9734)
-      (sprite "images/decal/nightcave/lightflower1.png")
     )
     (dispenser
       (cycle 5)

@@ -16,16 +16,16 @@
       (mode "normal")
     )
     (decal
-      (x 9248)
-      (y 768)
       (z-pos -40)
       (sprite "images/tiles/goal/exitbg.png")
+      (x 9248)
+      (y 768)
     )
     (decal
-      (x 9344)
-      (y 768)
       (z-pos 90)
       (sprite "images/tiles/goal/exitfg.png")
+      (x 9344)
+      (y 768)
     )
     (fish
       (x 8000)

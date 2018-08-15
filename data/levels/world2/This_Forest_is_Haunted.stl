@@ -115,39 +115,39 @@
       )
     )
     (decal
+      (sprite "images/decal/halloween/tree.png")
       (x -64)
       (y 352)
-      (sprite "images/decal/halloween/tree.png")
     )
     (decal
+      (sprite "images/decal/halloween/tree.png")
       (x 1919.581)
       (y 632.4097)
-      (sprite "images/decal/halloween/tree.png")
     )
     (decal
+      (sprite "images/decal/halloween/tree.png")
       (x 4227.796)
       (y 221.1706)
-      (sprite "images/decal/halloween/tree.png")
     )
     (decal
+      (sprite "images/decal/halloween/tree.png")
       (x 5961.882)
       (y 637.0912)
-      (sprite "images/decal/halloween/tree.png")
     )
     (decal
+      (sprite "images/decal/halloween/tree.png")
       (x 7203.229)
       (y 381.1707)
-      (sprite "images/decal/halloween/tree.png")
     )
     (decal
+      (sprite "images/decal/halloween/tree.png")
       (x 8070.654)
       (y 282.0237)
-      (sprite "images/decal/halloween/tree.png")
     )
     (decal
+      (sprite "images/decal/halloween/tree.png")
       (x 11198.92)
       (y 88.0024)
-      (sprite "images/decal/halloween/tree.png")
     )
     (haywire
       (direction "left")

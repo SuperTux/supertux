@@ -24,10 +24,10 @@
       (mode "normal")
     )
     (decal
-      (x 147)
-      (y 615)
       (z-pos -50)
       (sprite "images/decal/explanations/billboard-pickrock.png")
+      (x 147)
+      (y 615)
     )
     (firefly
       (sprite "images/objects/resetpoints/default-resetpoint.sprite")

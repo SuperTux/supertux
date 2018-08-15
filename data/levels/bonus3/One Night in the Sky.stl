@@ -27,10 +27,10 @@
       (mode "normal")
     )
     (decal
-      (x 7744)
-      (y 544)
       (z-pos 100)
       (sprite "images/tiles/goal/exitfg.png")
+      (x 7744)
+      (y 544)
     )
     (firefly
       (x 4192)

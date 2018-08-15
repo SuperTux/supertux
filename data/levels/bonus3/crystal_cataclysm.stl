@@ -157,10 +157,10 @@
       (y 455)
     )
     (decal
-      (x 16640)
-      (y 64)
       (z-pos -1)
       (sprite "images/tiles/goal/exitbg.png")
+      (x 16640)
+      (y 64)
     )
     (dispenser
       (cycle 3)

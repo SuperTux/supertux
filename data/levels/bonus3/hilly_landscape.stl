@@ -45,16 +45,16 @@
       (y 359)
     )
     (decal
-      (x 9376)
-      (y 96)
       (z-pos 100)
       (sprite "images/tiles/goal/exitfg.png")
+      (x 9376)
+      (y 96)
     )
     (decal
-      (x 9280)
-      (y 96)
       (z-pos -100)
       (sprite "images/tiles/goal/exitbg.png")
+      (x 9280)
+      (y 96)
     )
     (dispenser
       (cycle 4)
