@@ -20,53 +20,54 @@
       (y 192)
     )
     (decal
-      (y 176)
       (sprite "images/creatures/tux/small/walk-2.png")
+      (x 0)
+      (y 176)
     )
     (decal
+      (sprite "images/creatures/tux/small/jump-0.png")
       (x 128)
       (y 352)
-      (sprite "images/creatures/tux/small/jump-0.png")
     )
     (decal
+      (sprite "images/creatures/tux/small/skid-0.png")
       (x 688)
       (y 336)
-      (sprite "images/creatures/tux/small/skid-0.png")
     )
     (decal
+      (sprite "images/creatures/nolok/walk-0.png")
       (x 736)
       (y 432)
-      (sprite "images/creatures/nolok/walk-0.png")
     )
     (decal
+      (sprite "images/creatures/nolok/walk-1.png")
       (x 412)
       (y 112)
-      (sprite "images/creatures/nolok/walk-1.png")
     )
     (decal
+      (sprite "images/creatures/nolok/walk-1.png")
       (x 304)
       (y 432)
-      (sprite "images/creatures/nolok/walk-1.png")
     )
     (decal
+      (z-pos -50)
+      (sprite "images/objects/particles/smoke-2.png")
       (x 752)
       (y 400)
-      (layer -50)
-      (sprite "images/objects/particles/smoke-2.png")
     )
     (decal
+      (sprite "images/objects/particles/smoke-2.png")
       (x 752)
       (y 400)
-      (sprite "images/objects/particles/smoke-2.png")
     )
     (decal
+      (sprite "images/creatures/nolok/walk-2.png")
       (x 800)
       (y 112)
-      (sprite "images/creatures/nolok/walk-2.png")
     )
     (tilemap
-      (z-pos -100)
       (solid #f)
+      (z-pos -100)
       (width 40)
       (height 19)
       (tiles
@@ -92,8 +93,8 @@
       )
     )
     (tilemap
-      (z-pos 0)
       (solid #t)
+      (z-pos 0)
       (width 40)
       (height 19)
       (tiles
@@ -119,8 +120,8 @@
       )
     )
     (tilemap
-      (z-pos 100)
       (solid #f)
+      (z-pos 100)
       (width 40)
       (height 19)
       (tiles
