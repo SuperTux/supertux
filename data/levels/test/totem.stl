@@ -5,6 +5,23 @@
   (sector
     (name "main")
     (ambient-light 1 1 1)
+    (background
+      (speed 0.5)
+      (image "images/background/arctis.jpg")
+    )
+    (camera
+      (mode "normal")
+    )
+    (powerup
+      (sprite "images/powerups/egg/egg.sprite")
+      (x 100)
+      (y 700)
+    )
+    (spawnpoint
+      (name "main")
+      (x 40)
+      (y 700)
+    )
     (tilemap
       (solid #t)
       (z-pos 0)
@@ -43,13 +60,6 @@
       61 61 61 61 61 61 61 61 61 61 61 61 61 61 61 61 61 61 61 61 61 61 61 61 61 61 61 61 61 61
       )
     )
-    (camera
-      (mode "normal")
-    )
-    (background
-      (speed 0.5)
-      (image "images/background/arctis.jpg")
-    )
     (totem
       (x 100)
       (y 850)
@@ -65,16 +75,6 @@
     (totem
       (x 900)
       (y 850)
-    )
-    (powerup
-      (sprite "images/powerups/egg/egg.sprite")
-      (x 100)
-      (y 700)
-    )
-    (spawnpoint
-      (name "main")
-      (x 40)
-      (y 700)
     )
   )
 )

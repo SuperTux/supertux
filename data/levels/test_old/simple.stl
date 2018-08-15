@@ -5,17 +5,17 @@
   (sector
     (name "main")
     (ambient-light 1 1 1)
-    (spawnpoint
-      (name "main")
-      (x 96)
-      (y 96)
+    (background
+      (speed 0.5)
+      (image "images/background/arctis.jpg")
     )
     (camera
       (mode "normal")
     )
-    (background
-      (speed 0.5)
-      (image "images/background/arctis.jpg")
+    (spawnpoint
+      (name "main")
+      (x 96)
+      (y 96)
     )
     (tilemap
       (solid #f)

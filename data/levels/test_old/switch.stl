@@ -9,6 +9,47 @@
       (speed 0.5)
       (image "images/background/arctis.jpg")
     )
+    (camera
+      (mode "normal")
+    )
+    (platform
+      (running #f)
+      (name "platform1")
+      (sprite "images/objects/platforms/vertical-wood.sprite")
+      (path
+        (node
+          (x 832)
+          (y 800)
+        )
+        (node
+          (x 832)
+          (y 704)
+        )
+      )
+    )
+    (spawnpoint
+      (name "main")
+      (x 668.0976)
+      (y 833.941)
+    )
+    (switch
+      (script "platform1.goto_node(1);")
+      (sprite "images/objects/switch/right.sprite")
+      (x 32)
+      (y 864)
+    )
+    (switch
+      (script "platform1.goto_node(1);")
+      (sprite "images/objects/switch/left.sprite")
+      (x 908)
+      (y 864)
+    )
+    (switch
+      (script "platform1.goto_node(0);")
+      (sprite "images/objects/switch/switch.sprite")
+      (x 611.9634)
+      (y 860.6464)
+    )
     (tilemap
       (solid #f)
       (z-pos -100)
@@ -121,47 +162,6 @@
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-      )
-    )
-    (camera
-      (mode "normal")
-    )
-    (spawnpoint
-      (name "main")
-      (x 668.0976)
-      (y 833.941)
-    )
-    (switch
-      (script "platform1.goto_node(1);")
-      (sprite "images/objects/switch/right.sprite")
-      (x 32)
-      (y 864)
-    )
-    (switch
-      (script "platform1.goto_node(1);")
-      (sprite "images/objects/switch/left.sprite")
-      (x 908)
-      (y 864)
-    )
-    (switch
-      (script "platform1.goto_node(0);")
-      (sprite "images/objects/switch/switch.sprite")
-      (x 611.9634)
-      (y 860.6464)
-    )
-    (platform
-      (running #f)
-      (name "platform1")
-      (sprite "images/objects/platforms/vertical-wood.sprite")
-      (path
-        (node
-          (x 832)
-          (y 800)
-        )
-        (node
-          (x 832)
-          (y 704)
-        )
       )
     )
   )

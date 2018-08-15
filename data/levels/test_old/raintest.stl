@@ -6,6 +6,46 @@
     (name "main")
     (music "music/ghostforest.music")
     (ambient-light 1 1 1)
+    (background
+      (speed 0.5)
+      (image "images/background/ghostforest.jpg")
+    )
+    (background
+      (speed 1.2)
+      (image "images/background/fog.png")
+      (z-pos 400)
+    )
+    (bonusblock
+      (custom-contents
+         (powerup           (sprite "images/powerups/potions/red-potion.sprite")
+           (script "
+Effect.set_black(true);
+wait(0.1);
+Effect.set_black(false);
+wait(0.07);
+Effect.set_black(true);
+wait(0.11);
+Effect.set_black(false);
+wait(0.09);
+Effect.set_black(true);
+wait(0.6);
+Level.flip_vertically();
+Effect.fade_in(1);
+")
+)
+      )
+      (script "")
+      (contents "custom")
+      (x 160)
+      (y 160)
+    )
+    (camera
+      (mode "normal")
+    )
+    (particles-ghosts
+    )
+    (particles-rain
+    )
     (tilemap
       (solid #f)
       (z-pos -100)
@@ -179,46 +219,6 @@
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       )
-    )
-    (camera
-      (mode "normal")
-    )
-    (background
-      (speed 0.5)
-      (image "images/background/ghostforest.jpg")
-    )
-    (background
-      (speed 1.2)
-      (image "images/background/fog.png")
-      (z-pos 400)
-    )
-    (particles-ghosts
-    )
-    (particles-rain
-    )
-    (bonusblock
-      (custom-contents
-         (powerup           (sprite "images/powerups/potions/red-potion.sprite")
-           (script "
-Effect.set_black(true);
-wait(0.1);
-Effect.set_black(false);
-wait(0.07);
-Effect.set_black(true);
-wait(0.11);
-Effect.set_black(false);
-wait(0.09);
-Effect.set_black(true);
-wait(0.6);
-Level.flip_vertically();
-Effect.fade_in(1);
-")
-)
-      )
-      (script "")
-      (contents "custom")
-      (x 160)
-      (y 160)
     )
   )
 )

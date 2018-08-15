@@ -9,6 +9,26 @@
           intro();
         ")
     (ambient-light 1 1 1)
+    (background
+      (speed 0.5)
+      (image "images/background/semi_arctic.jpg")
+    )
+    (camera
+      (mode "normal")
+    )
+    (scriptedobject
+      (name "PENNY")
+      (sprite "images/creatures/dummyguy/dummyguy.sprite")
+      (x 390)
+      (y 510)
+    )
+    (particles-snow
+    )
+    (spawnpoint
+      (name "main")
+      (x 220)
+      (y 416)
+    )
     (tilemap
       (solid #f)
       (z-pos -100)
@@ -92,26 +112,6 @@
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       )
-    )
-    (camera
-      (mode "normal")
-    )
-    (scriptedobject
-      (name "PENNY")
-      (sprite "images/creatures/dummyguy/dummyguy.sprite")
-      (x 390)
-      (y 510)
-    )
-    (background
-      (speed 0.5)
-      (image "images/background/semi_arctic.jpg")
-    )
-    (spawnpoint
-      (name "main")
-      (x 220)
-      (y 416)
-    )
-    (particles-snow
     )
   )
 )

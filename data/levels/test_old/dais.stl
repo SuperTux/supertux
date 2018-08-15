@@ -9,6 +9,45 @@
       (speed 0.5)
       (image "images/background/BlueRock_Forest/blue-top.jpg")
     )
+    (camera
+      (mode "normal")
+    )
+    (platform
+      (sprite "images/objects/platforms/big.sprite")
+      (path
+        (node
+          (x 392)
+          (y 850)
+          (time 3)
+        )
+        (node
+          (x 392)
+          (y 650)
+          (time 3)
+        )
+      )
+    )
+    (spawnpoint
+      (name "main")
+      (x 288)
+      (y 704)
+    )
+    (stumpy
+      (x 736)
+      (y 736)
+    )
+    (stumpy
+      (x 448)
+      (y 640)
+    )
+    (stumpy
+      (x 48)
+      (y 48)
+    )
+    (stumpy
+      (x 576)
+      (y 512)
+    )
     (tilemap
       (solid #f)
       (z-pos -100)
@@ -83,45 +122,6 @@
       61 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 61
       61 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 61
       61 61 61 61 61 61 61 61 61 61 61 61 61 61 61 61 0 0 0 0 0 61 61 61 61 61 61 61 61 61
-      )
-    )
-    (camera
-      (mode "normal")
-    )
-    (stumpy
-      (x 736)
-      (y 736)
-    )
-    (stumpy
-      (x 448)
-      (y 640)
-    )
-    (stumpy
-      (x 48)
-      (y 48)
-    )
-    (stumpy
-      (x 576)
-      (y 512)
-    )
-    (spawnpoint
-      (name "main")
-      (x 288)
-      (y 704)
-    )
-    (platform
-      (sprite "images/objects/platforms/big.sprite")
-      (path
-        (node
-          (x 392)
-          (y 850)
-          (time 3)
-        )
-        (node
-          (x 392)
-          (y 650)
-          (time 3)
-        )
       )
     )
   )

@@ -21,6 +21,14 @@ TextArray.set_visible(true);")
       (image "images/background/BlueRock_Forest/blue-middle.jpg")
       (image-bottom "images/background/BlueRock_Forest/blue-bottom.jpg")
     )
+    (camera
+      (mode "normal")
+    )
+    (spawnpoint
+      (name "main")
+      (x 64)
+      (y 480)
+    )
     (tilemap
       (solid #f)
       (z-pos -100)
@@ -149,14 +157,6 @@ TextArray.set_visible(true);")
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       )
-    )
-    (spawnpoint
-      (name "main")
-      (x 64)
-      (y 480)
-    )
-    (camera
-      (mode "normal")
     )
   )
 )

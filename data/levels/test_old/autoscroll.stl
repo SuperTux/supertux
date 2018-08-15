@@ -6,9 +6,136 @@
     (name "main")
     (music "music/credits.ogg")
     (ambient-light 1 1 1)
+    (background
+      (speed 0.5)
+      (image "images/background/semi_arctic.jpg")
+    )
+    (bouncingsnowball
+      (x 3350)
+      (y 93)
+    )
+    (bouncingsnowball
+      (x 6485)
+      (y 86)
+    )
+    (bouncingsnowball
+      (x 6576)
+      (y 52)
+    )
+    (camera
+      (mode "autoscroll")
+      (path
+        (mode "oneshot")
+        (node
+          (x 0)
+          (y 0)
+        )
+        (node
+          (x 43.37762)
+          (y 110)
+        )
+        (node
+          (x 91.37762)
+          (y 48)
+        )
+        (node
+          (x 133.3776)
+          (y 266)
+        )
+        (node
+          (x 149.1845)
+          (y 89.86301)
+        )
+        (node
+          (x 174.5491)
+          (y 326.9872)
+        )
+        (node
+          (x 235.4553)
+          (y 32.99278)
+        )
+        (node
+          (x 303.4699)
+          (y 18.74318)
+        )
+        (node
+          (x 391.9111)
+          (y 8.10788)
+        )
+        (node
+          (x 500)
+          (y 0)
+          (time 10)
+        )
+        (node
+          (x 1187)
+          (y 4)
+          (time 3.5)
+        )
+        (node
+          (x 3012)
+          (y -0.6374512)
+          (time 50)
+        )
+        (node
+          (x 1500)
+          (y -2)
+          (time 50)
+        )
+        (node
+          (x 9217.809)
+          (y 4.24263)
+          (time 704)
+        )
+      )
+    )
+    (flyingsnowball
+      (x 6872)
+      (y 275)
+    )
+    (flyingsnowball
+      (x 6816)
+      (y 205)
+    )
+    (flyingsnowball
+      (x 5770)
+      (y 133)
+    )
+    (flyingsnowball
+      (x 5987)
+      (y 240)
+    )
+    (flyingsnowball
+      (x 2325)
+      (y 73)
+    )
+    (flyingsnowball
+      (x 1275)
+      (y 202)
+    )
     (mrbomb
       (x 6508)
       (y 396)
+    )
+    (mriceblock
+      (x 5152)
+      (y 224)
+    )
+    (mriceblock
+      (x 2368)
+      (y 320)
+    )
+    (mriceblock
+      (x 5408)
+      (y 352)
+    )
+    (mriceblock
+      (x 7119)
+      (y 409)
+    )
+    (mriceblock
+      (x 7276)
+      (y 412)
     )
     (snowball
       (x 2304)
@@ -106,139 +233,12 @@
       (x 2708)
       (y 339)
     )
-    (mriceblock
-      (x 5152)
-      (y 224)
-    )
-    (mriceblock
-      (x 2368)
-      (y 320)
-    )
-    (mriceblock
-      (x 5408)
-      (y 352)
-    )
-    (mriceblock
-      (x 7119)
-      (y 409)
-    )
-    (mriceblock
-      (x 7276)
-      (y 412)
-    )
-    (bouncingsnowball
-      (x 3350)
-      (y 93)
-    )
-    (bouncingsnowball
-      (x 6485)
-      (y 86)
-    )
-    (bouncingsnowball
-      (x 6576)
-      (y 52)
-    )
-    (flyingsnowball
-      (x 6872)
-      (y 275)
-    )
-    (flyingsnowball
-      (x 6816)
-      (y 205)
-    )
-    (flyingsnowball
-      (x 5770)
-      (y 133)
-    )
-    (flyingsnowball
-      (x 5987)
-      (y 240)
-    )
-    (flyingsnowball
-      (x 2325)
-      (y 73)
-    )
-    (flyingsnowball
-      (x 1275)
-      (y 202)
+    (particles-snow
     )
     (spawnpoint
       (name "main")
       (x 96)
       (y 160)
-    )
-    (particles-snow
-    )
-    (camera
-      (mode "autoscroll")
-      (path
-        (mode "oneshot")
-        (node
-          (x 0)
-          (y 0)
-        )
-        (node
-          (x 43.37762)
-          (y 110)
-        )
-        (node
-          (x 91.37762)
-          (y 48)
-        )
-        (node
-          (x 133.3776)
-          (y 266)
-        )
-        (node
-          (x 149.1845)
-          (y 89.86301)
-        )
-        (node
-          (x 174.5491)
-          (y 326.9872)
-        )
-        (node
-          (x 235.4553)
-          (y 32.99278)
-        )
-        (node
-          (x 303.4699)
-          (y 18.74318)
-        )
-        (node
-          (x 391.9111)
-          (y 8.10788)
-        )
-        (node
-          (x 500)
-          (y 0)
-          (time 10)
-        )
-        (node
-          (x 1187)
-          (y 4)
-          (time 3.5)
-        )
-        (node
-          (x 3012)
-          (y -0.6374512)
-          (time 50)
-        )
-        (node
-          (x 1500)
-          (y -2)
-          (time 50)
-        )
-        (node
-          (x 9217.809)
-          (y 4.24263)
-          (time 704)
-        )
-      )
-    )
-    (background
-      (speed 0.5)
-      (image "images/background/semi_arctic.jpg")
     )
     (tilemap
       (solid #f)

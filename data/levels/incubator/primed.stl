@@ -20,91 +20,496 @@
 		eleven_done <- false;																																																																																																																																																																																																																																																																																																																																																																																																																																																																	
 		thirteen_done <- false;	")
     (ambient-light 1 1 1)
-    (camera
-      (mode "normal")
+    (bonusblock
+      (custom-contents
+         (powerup           (sprite "images/powerups/potions/blue-potion.sprite")
+           (script "	if(two_done){play_sound(" sounds/warp.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																													
+						else {two=two+1;																																																																																																																																																																																																																																																																																																																																																																																																																																																													
+							if(two > 2){play_sound(" sounds/iceblock_bump.wav ");two_door.goto_node(1);two_dark.fade(1,0);two_done <- true;}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
+							else if(two < 2){play_sound(" sounds/ticking.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
+							else {play_sound(" sounds/upgrade.wav ");two_door.goto_node(1);two_pole.goto_node(1);two_dark.fade(1,0);two_done <- true;}}	")
+)
+      )
+      (script "")
+      (contents "custom")
+      (x 2528)
+      (y 384)
     )
-    (gradient
-      (top_color 1 0.2 0.8)
-      (bottom_color 0 0.4 1)
+    (bonusblock
+      (custom-contents
+         (powerup           (sprite "images/powerups/potions/blue-potion.sprite")
+           (script "	if(two_done){play_sound(" sounds/warp.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																													
+						else {two=two+2;																																																																																																																																																																																																																																																																																																																																																																																																																																																													
+							if(two > 2){play_sound(" sounds/iceblock_bump.wav ");two_door.goto_node(1);two_dark.fade(1,0);two_done <- true;}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
+							else if(two < 2){play_sound(" sounds/ticking.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
+							else {play_sound(" sounds/upgrade.wav ");two_door.goto_node(1);two_pole.goto_node(1);two_dark.fade(1,0);two_done <- true;}}	")
+)
+      )
+      (script "")
+      (contents "custom")
+      (x 2624)
+      (y 384)
     )
-    (particles-snow
+    (bonusblock
+      (custom-contents
+         (powerup           (sprite "images/powerups/potions/blue-potion.sprite")
+           (script "	if(two_done){play_sound(" sounds/warp.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																													
+						else {two=two+4;																																																																																																																																																																																																																																																																																																																																																																																																																																																													
+							if(two > 2){play_sound(" sounds/iceblock_bump.wav ");two_door.goto_node(1);two_dark.fade(1,0);two_done <- true;}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
+							else if(two < 2){play_sound(" sounds/ticking.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
+							else {play_sound(" sounds/upgrade.wav ");two_door.goto_node(1);two_pole.goto_node(1);two_dark.fade(1,0);two_done <- true;}}	")
+)
+      )
+      (script "")
+      (contents "custom")
+      (x 2720)
+      (y 384)
     )
-    (spawnpoint
-      (name "main")
-      (x 64)
-      (y 704)
+    (bonusblock
+      (custom-contents
+         (powerup           (sprite "images/powerups/potions/blue-potion.sprite")
+           (script "	if(two_done){play_sound(" sounds/warp.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																													
+						else {two=two+8;																																																																																																																																																																																																																																																																																																																																																																																																																																																													
+							if(two > 2){play_sound(" sounds/iceblock_bump.wav ");two_door.goto_node(1);two_dark.fade(1,0);two_done <- true;}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
+							else if(two < 2){play_sound(" sounds/ticking.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
+							else {play_sound(" sounds/upgrade.wav ");two_door.goto_node(1);two_pole.goto_node(1);two_dark.fade(1,0);two_done <- true;}}	")
+)
+      )
+      (script "")
+      (contents "custom")
+      (x 2816)
+      (y 384)
     )
-    (firefly
-      (x 6976)
-      (y 448)
+    (bonusblock
+      (script "")
+      (contents "rain")
+      (x 2928)
+      (y 96)
     )
-    (snowball
-      (x 640)
-      (y 768)
+    (bonusblock
+      (custom-contents
+         (powerup           (sprite "images/powerups/potions/blue-potion.sprite")
+           (script "	if(three_done){play_sound(" sounds/warp.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																													
+						else {three=three+1;																																																																																																																																																																																																																																																																																																																																																																																																																																																													
+							if(three > 3){play_sound(" sounds/iceblock_bump.wav ");three_door.goto_node(1);three_dark.fade(1,0);three_done <- true;}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
+							else if(three < 3){play_sound(" sounds/ticking.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
+							else {play_sound(" sounds/upgrade.wav ");three_door.goto_node(1);three_pole.goto_node(1);three_dark.fade(1,0);three_done <- true;}}	")
+)
+      )
+      (script "")
+      (contents "custom")
+      (x 4416)
+      (y 384)
     )
-    (snowball
-      (x 880)
-      (y 640)
+    (bonusblock
+      (custom-contents
+         (powerup           (sprite "images/powerups/potions/blue-potion.sprite")
+           (script "	if(three_done){play_sound(" sounds/warp.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																													
+						else {three=three+2;																																																																																																																																																																																																																																																																																																																																																																																																																																																													
+							if(three > 3){play_sound(" sounds/iceblock_bump.wav ");three_door.goto_node(1);three_dark.fade(1,0);three_done <- true;}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
+							else if(three < 3){play_sound(" sounds/ticking.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
+							else {play_sound(" sounds/upgrade.wav ");three_door.goto_node(1);three_pole.goto_node(1);three_dark.fade(1,0);three_done <- true;}}	")
+)
+      )
+      (script "")
+      (contents "custom")
+      (x 4512)
+      (y 384)
+    )
+    (bonusblock
+      (custom-contents
+         (powerup           (sprite "images/powerups/potions/blue-potion.sprite")
+           (script "	if(three_done){play_sound(" sounds/warp.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																													
+						else {three=three+4;																																																																																																																																																																																																																																																																																																																																																																																																																																																													
+							if(three > 3){play_sound(" sounds/iceblock_bump.wav ");three_door.goto_node(1);three_dark.fade(1,0);three_done <- true;}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
+							else if(three < 3){play_sound(" sounds/ticking.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
+							else {play_sound(" sounds/upgrade.wav ");three_door.goto_node(1);three_pole.goto_node(1);three_dark.fade(1,0);three_done <- true;}}	")
+)
+      )
+      (script "")
+      (contents "custom")
+      (x 4608)
+      (y 384)
+    )
+    (bonusblock
+      (custom-contents
+         (powerup           (sprite "images/powerups/potions/blue-potion.sprite")
+           (script "	if(three_done){play_sound(" sounds/warp.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																													
+						else {three=three+8;																																																																																																																																																																																																																																																																																																																																																																																																																																																													
+							if(three > 3){play_sound(" sounds/iceblock_bump.wav ");three_door.goto_node(1);three_dark.fade(1,0);three_done <- true;}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
+							else if(three < 3){play_sound(" sounds/ticking.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
+							else {play_sound(" sounds/upgrade.wav ");three_door.goto_node(1);three_pole.goto_node(1);three_dark.fade(1,0);three_done <- true;}}	")
+)
+      )
+      (script "")
+      (contents "custom")
+      (x 4704)
+      (y 384)
+    )
+    (bonusblock
+      (script "")
+      (contents "icegrow")
+      (x 4816)
+      (y 96)
+    )
+    (bonusblock
+      (custom-contents
+         (powerup           (sprite "images/powerups/potions/blue-potion.sprite")
+           (script "	if(five_done){play_sound(" sounds/warp.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																													
+						else {five=five+1;																																																																																																																																																																																																																																																																																																																																																																																																																																																													
+							if(five > 5){play_sound(" sounds/iceblock_bump.wav ");five_door.goto_node(1);five_dark.fade(1,0);five_done <- true;}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
+							else if(five < 5){play_sound(" sounds/ticking.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
+							else {play_sound(" sounds/upgrade.wav ");five_door.goto_node(1);five_pole.goto_node(1);five_dark.fade(1,0);five_done <- true;}}	")
+)
+      )
+      (script "")
+      (contents "custom")
+      (x 6368)
+      (y 384)
+    )
+    (bonusblock
+      (custom-contents
+         (powerup           (sprite "images/powerups/potions/blue-potion.sprite")
+           (script "	if(five_done){play_sound(" sounds/warp.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																													
+						else {five=five+2;																																																																																																																																																																																																																																																																																																																																																																																																																																																													
+							if(five > 5){play_sound(" sounds/iceblock_bump.wav ");five_door.goto_node(1);five_dark.fade(1,0);five_done <- true;}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
+							else if(five < 5){play_sound(" sounds/ticking.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
+							else {play_sound(" sounds/upgrade.wav ");five_door.goto_node(1);five_pole.goto_node(1);five_dark.fade(1,0);five_done <- true;}}	")
+)
+      )
+      (script "")
+      (contents "custom")
+      (x 6464)
+      (y 384)
+    )
+    (bonusblock
+      (custom-contents
+         (powerup           (sprite "images/powerups/potions/blue-potion.sprite")
+           (script "	if(five_done){play_sound(" sounds/warp.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																													
+						else {five=five+4;																																																																																																																																																																																																																																																																																																																																																																																																																																																													
+							if(five > 5){play_sound(" sounds/iceblock_bump.wav ");five_door.goto_node(1);five_dark.fade(1,0);five_done <- true;}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
+							else if(five < 5){play_sound(" sounds/ticking.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
+							else {play_sound(" sounds/upgrade.wav ");five_door.goto_node(1);five_pole.goto_node(1);five_dark.fade(1,0);five_done <- true;}}	")
+)
+      )
+      (script "")
+      (contents "custom")
+      (x 6560)
+      (y 384)
+    )
+    (bonusblock
+      (custom-contents
+         (powerup           (sprite "images/powerups/potions/blue-potion.sprite")
+           (script "	if(five_done){play_sound(" sounds/warp.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																													
+						else {five=five+8;																																																																																																																																																																																																																																																																																																																																																																																																																																																													
+							if(five > 5){play_sound(" sounds/iceblock_bump.wav ");five_door.goto_node(1);five_dark.fade(1,0);five_done <- true;}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
+							else if(five < 5){play_sound(" sounds/ticking.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
+							else {play_sound(" sounds/upgrade.wav ");five_door.goto_node(1);five_pole.goto_node(1);five_dark.fade(1,0);five_done <- true;}}	")
+)
+      )
+      (script "")
+      (contents "custom")
+      (x 6656)
+      (y 384)
+    )
+    (bonusblock
+      (script "")
+      (contents "icegrow")
+      (x 6768)
+      (y 128)
+    )
+    (bonusblock
+      (custom-contents
+         (powerup           (sprite "images/powerups/potions/blue-potion.sprite")
+           (script "	if(seven_done){play_sound(" sounds/warp.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																													
+						else {seven=seven+1;																																																																																																																																																																																																																																																																																																																																																																																																																																																													
+							if(seven > 7){play_sound(" sounds/iceblock_bump.wav ");seven_door.goto_node(1);seven_dark.fade(1,0);seven_done <- true;}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
+							else if(seven < 7){play_sound(" sounds/ticking.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
+							else {play_sound(" sounds/upgrade.wav ");seven_door.goto_node(1);seven_pole.goto_node(1);seven_dark.fade(1,0);seven_done <- true;}}	")
+)
+      )
+      (script "")
+      (contents "custom")
+      (x 8608)
+      (y 384)
+    )
+    (bonusblock
+      (custom-contents
+         (powerup           (sprite "images/powerups/potions/blue-potion.sprite")
+           (script "	if(seven_done){play_sound(" sounds/warp.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																													
+						else {seven=seven+2;																																																																																																																																																																																																																																																																																																																																																																																																																																																													
+							if(seven > 7){play_sound(" sounds/iceblock_bump.wav ");seven_door.goto_node(1);seven_dark.fade(1,0);seven_done <- true;}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
+							else if(seven < 7){play_sound(" sounds/ticking.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
+							else {play_sound(" sounds/upgrade.wav ");seven_door.goto_node(1);seven_pole.goto_node(1);seven_dark.fade(1,0);seven_done <- true;}}	")
+)
+      )
+      (script "")
+      (contents "custom")
+      (x 8704)
+      (y 384)
+    )
+    (bonusblock
+      (custom-contents
+         (powerup           (sprite "images/powerups/potions/blue-potion.sprite")
+           (script "	if(seven_done){play_sound(" sounds/warp.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																													
+						else {seven=seven+4;																																																																																																																																																																																																																																																																																																																																																																																																																																																													
+							if(seven > 7){play_sound(" sounds/iceblock_bump.wav ");seven_door.goto_node(1);seven_dark.fade(1,0);seven_done <- true;}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
+							else if(seven < 7){play_sound(" sounds/ticking.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
+							else {play_sound(" sounds/upgrade.wav ");seven_door.goto_node(1);seven_pole.goto_node(1);seven_dark.fade(1,0);seven_done <- true;}}	")
+)
+      )
+      (script "")
+      (contents "custom")
+      (x 8800)
+      (y 384)
+    )
+    (bonusblock
+      (custom-contents
+         (powerup           (sprite "images/powerups/potions/blue-potion.sprite")
+           (script "	if(seven_done){play_sound(" sounds/warp.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																													
+						else {seven=seven+8;																																																																																																																																																																																																																																																																																																																																																																																																																																																													
+							if(seven > 7){play_sound(" sounds/iceblock_bump.wav ");seven_door.goto_node(1);seven_dark.fade(1,0);seven_done <- true;}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
+							else if(seven < 7){play_sound(" sounds/ticking.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
+							else {play_sound(" sounds/upgrade.wav ");seven_door.goto_node(1);seven_pole.goto_node(1);seven_dark.fade(1,0);seven_done <- true;}}	")
+)
+      )
+      (script "")
+      (contents "custom")
+      (x 8896)
+      (y 384)
+    )
+    (bonusblock
+      (script "")
+      (contents "firegrow")
+      (x 9008)
+      (y 128)
+    )
+    (bonusblock
+      (custom-contents
+         (powerup           (sprite "images/powerups/potions/blue-potion.sprite")
+           (script "	if(eleven_done){play_sound(" sounds/warp.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																													
+						else {eleven=eleven+1;																																																																																																																																																																																																																																																																																																																																																																																																																																																													
+							if(eleven > 11){play_sound(" sounds/iceblock_bump.wav ");eleven_door.goto_node(1);eleven_dark.fade(1,0);eleven_done <- true;}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
+							else if(eleven < 11){play_sound(" sounds/ticking.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
+							else {play_sound(" sounds/upgrade.wav ");eleven_door.goto_node(1);eleven_pole.goto_node(1);eleven_dark.fade(1,0);eleven_done <- true;}}	")
+)
+      )
+      (script "")
+      (contents "custom")
+      (x 10848)
+      (y 384)
+    )
+    (bonusblock
+      (custom-contents
+         (powerup           (sprite "images/powerups/potions/blue-potion.sprite")
+           (script "	if(eleven_done){play_sound(" sounds/warp.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																													
+						else {eleven=eleven+2;																																																																																																																																																																																																																																																																																																																																																																																																																																																													
+							if(eleven > 11){play_sound(" sounds/iceblock_bump.wav ");eleven_door.goto_node(1);eleven_dark.fade(1,0);eleven_done <- true;}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
+							else if(eleven < 11){play_sound(" sounds/ticking.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
+							else {play_sound(" sounds/upgrade.wav ");eleven_door.goto_node(1);eleven_pole.goto_node(1);eleven_dark.fade(1,0);eleven_done <- true;}}	")
+)
+      )
+      (script "")
+      (contents "custom")
+      (x 10944)
+      (y 384)
+    )
+    (bonusblock
+      (custom-contents
+         (powerup           (sprite "images/powerups/potions/blue-potion.sprite")
+           (script "	if(eleven_done){play_sound(" sounds/warp.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																													
+						else {eleven=eleven+4;																																																																																																																																																																																																																																																																																																																																																																																																																																																													
+							if(eleven > 11){play_sound(" sounds/iceblock_bump.wav ");eleven_door.goto_node(1);eleven_dark.fade(1,0);eleven_done <- true;}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
+							else if(eleven < 11){play_sound(" sounds/ticking.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
+							else {play_sound(" sounds/upgrade.wav ");eleven_door.goto_node(1);eleven_pole.goto_node(1);eleven_dark.fade(1,0);eleven_done <- true;}}	")
+)
+      )
+      (script "")
+      (contents "custom")
+      (x 11040)
+      (y 384)
+    )
+    (bonusblock
+      (custom-contents
+         (powerup           (sprite "images/powerups/potions/blue-potion.sprite")
+           (script "	if(eleven_done){play_sound(" sounds/warp.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																													
+						else {eleven=eleven+8;																																																																																																																																																																																																																																																																																																																																																																																																																																																													
+							if(eleven > 11){play_sound(" sounds/iceblock_bump.wav ");eleven_door.goto_node(1);eleven_dark.fade(1,0);eleven_done <- true;}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
+							else if(eleven < 11){play_sound(" sounds/ticking.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
+							else {play_sound(" sounds/upgrade.wav ");eleven_door.goto_node(1);eleven_pole.goto_node(1);eleven_dark.fade(1,0);eleven_done <- true;}}	")
+)
+      )
+      (script "")
+      (contents "custom")
+      (x 11136)
+      (y 384)
+    )
+    (bonusblock
+      (script "")
+      (contents "star")
+      (x 11248)
+      (y 96)
+    )
+    (bonusblock
+      (custom-contents
+         (powerup           (sprite "images/powerups/potions/blue-potion.sprite")
+           (script "	if(thirteen_done){play_sound(" sounds/warp.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																													
+						else {thirteen=thirteen+1;																																																																																																																																																																																																																																																																																																																																																																																																																																																													
+							if(thirteen > 13){play_sound(" sounds/iceblock_bump.wav ");thirteen_door.goto_node(1);thirteen_dark.fade(1,0);thirteen_done <- true;}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
+							else if(thirteen < 13){play_sound(" sounds/ticking.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
+							else {play_sound(" sounds/upgrade.wav ");thirteen_door.goto_node(1);thirteen_pole.goto_node(1);thirteen_dark.fade(1,0);thirteen_done <- true;}}	")
+)
+      )
+      (script "")
+      (contents "custom")
+      (x 12640)
+      (y 384)
+    )
+    (bonusblock
+      (custom-contents
+         (powerup           (sprite "images/powerups/potions/blue-potion.sprite")
+           (script "	if(thirteen_done){play_sound(" sounds/warp.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																													
+						else {thirteen=thirteen+2;																																																																																																																																																																																																																																																																																																																																																																																																																																																													
+							if(thirteen > 13){play_sound(" sounds/iceblock_bump.wav ");thirteen_door.goto_node(1);thirteen_dark.fade(1,0);thirteen_done <- true;}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
+							else if(thirteen < 13){play_sound(" sounds/ticking.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
+							else {play_sound(" sounds/upgrade.wav ");thirteen_door.goto_node(1);thirteen_pole.goto_node(1);thirteen_dark.fade(1,0);thirteen_done <- true;}}	")
+)
+      )
+      (script "")
+      (contents "custom")
+      (x 12736)
+      (y 384)
+    )
+    (bonusblock
+      (custom-contents
+         (powerup           (sprite "images/powerups/potions/blue-potion.sprite")
+           (script "	if(thirteen_done){play_sound(" sounds/warp.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																													
+						else {thirteen=thirteen+4;																																																																																																																																																																																																																																																																																																																																																																																																																																																													
+							if(thirteen > 13){play_sound(" sounds/iceblock_bump.wav ");thirteen_door.goto_node(1);thirteen_dark.fade(1,0);thirteen_done <- true;}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
+							else if(thirteen < 13){play_sound(" sounds/ticking.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
+							else {play_sound(" sounds/upgrade.wav ");thirteen_door.goto_node(1);thirteen_pole.goto_node(1);thirteen_dark.fade(1,0);thirteen_done <- true;}}	")
+)
+      )
+      (script "")
+      (contents "custom")
+      (x 12832)
+      (y 384)
+    )
+    (bonusblock
+      (custom-contents
+         (powerup           (sprite "images/powerups/potions/blue-potion.sprite")
+           (script "	if(thirteen_done){play_sound(" sounds/warp.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																													
+						else {thirteen=thirteen+8;																																																																																																																																																																																																																																																																																																																																																																																																																																																													
+							if(thirteen > 13){play_sound(" sounds/iceblock_bump.wav ");thirteen_door.goto_node(1);thirteen_dark.fade(1,0);thirteen_done <- true;}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
+							else if(thirteen < 13){play_sound(" sounds/ticking.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
+							else {play_sound(" sounds/upgrade.wav ");thirteen_door.goto_node(1);thirteen_pole.goto_node(1);thirteen_dark.fade(1,0);thirteen_done <- true;}}	")
+)
+      )
+      (script "")
+      (contents "custom")
+      (x 12928)
+      (y 384)
+    )
+    (bonusblock
+      (script "")
+      (contents "1up")
+      (x 13040)
+      (y 96)
     )
     (bouncingsnowball
       (x 1408)
       (y 672)
     )
-    (smartball
-      (x 1952)
-      (y 704)
-    )
     (bouncingsnowball
       (x 2176)
       (y 736)
-    )
-    (smartball
-      (x 2336)
-      (y 608)
-    )
-    (mriceblock
-      (x 3424)
-      (y 640)
-    )
-    (smartball
-      (x 3648)
-      (y 640)
     )
     (bouncingsnowball
       (x 3808)
       (y 640)
     )
-    (spiky
-      (x 4064)
-      (y 640)
+    (bouncingsnowball
+      (x 10560)
+      (y 576)
+    )
+    (bouncingsnowball
+      (x 10688)
+      (y 512)
+    )
+    (bouncingsnowball
+      (x 10816)
+      (y 448)
+    )
+    (bouncingsnowball
+      (x 11808)
+      (y 800)
+    )
+    (bouncingsnowball
+      (x 12160)
+      (y 864)
+    )
+    (camera
+      (mode "normal")
+    )
+    (firefly
+      (x 6976)
+      (y 448)
     )
     (flyingsnowball
       (x 4048)
       (y 480)
     )
-    (smartball
-      (x 4256)
-      (y 352)
+    (gradient
+      (top_color 1 0.2 0.8)
+      (bottom_color 0 0.4 1)
     )
-    (smartball
-      (x 5408)
-      (y 672)
+    (haywire
+      (x 11808)
+      (y 512)
     )
-    (mriceblock
-      (x 5408)
-      (y 928)
+    (haywire
+      (x 12320)
+      (y 704)
     )
-    (smartball
-      (x 5952)
-      (y 672)
+    (heavycoin
+      (x 13568)
+      (y -32)
     )
-    (spiky
-      (x 6144)
-      (y 672)
+    (heavycoin
+      (x 13600)
+      (y -32)
     )
-    (mriceblock
-      (x 6496)
-      (y 480)
+    (heavycoin
+      (x 13632)
+      (y -32)
+    )
+    (heavycoin
+      (x 13664)
+      (y -32)
+    )
+    (heavycoin
+      (x 13696)
+      (y -32)
+    )
+    (heavycoin
+      (x 13728)
+      (y -32)
+    )
+    (heavycoin
+      (x 13760)
+      (y -32)
+    )
+    (heavycoin
+      (x 13792)
+      (y -32)
+    )
+    (heavycoin
+      (x 13824)
+      (y -32)
+    )
+    (heavycoin
+      (x 13856)
+      (y -32)
     )
     (jumpy
       (x 7936)
@@ -122,14 +527,6 @@
       (x 8224)
       (y 480)
     )
-    (mrbomb
-      (x 7168)
-      (y 480)
-    )
-    (mrbomb
-      (x 7680)
-      (y 512)
-    )
     (jumpy
       (x 9424)
       (y 544)
@@ -146,22 +543,6 @@
       (x 9808)
       (y 736)
     )
-    (bouncingsnowball
-      (x 10560)
-      (y 576)
-    )
-    (bouncingsnowball
-      (x 10688)
-      (y 512)
-    )
-    (bouncingsnowball
-      (x 10816)
-      (y 448)
-    )
-    (haywire
-      (x 11808)
-      (y 512)
-    )
     (jumpy
       (x 11680)
       (y 704)
@@ -170,33 +551,96 @@
       (x 11808)
       (y 672)
     )
-    (spiky
-      (x 11680)
-      (y 864)
-    )
-    (bouncingsnowball
-      (x 11808)
-      (y 800)
-    )
-    (spiky
-      (x 12032)
-      (y 864)
-    )
-    (bouncingsnowball
-      (x 12160)
-      (y 864)
-    )
-    (spiky
-      (x 12384)
-      (y 864)
-    )
-    (haywire
-      (x 12320)
-      (y 704)
-    )
     (jumpy
       (x 12368)
       (y 288)
+    )
+    (mrbomb
+      (x 7168)
+      (y 480)
+    )
+    (mrbomb
+      (x 7680)
+      (y 512)
+    )
+    (mriceblock
+      (x 3424)
+      (y 640)
+    )
+    (mriceblock
+      (x 5408)
+      (y 928)
+    )
+    (mriceblock
+      (x 6496)
+      (y 480)
+    )
+    (smartball
+      (x 1952)
+      (y 704)
+    )
+    (smartball
+      (x 2336)
+      (y 608)
+    )
+    (smartball
+      (x 3648)
+      (y 640)
+    )
+    (smartball
+      (x 4256)
+      (y 352)
+    )
+    (smartball
+      (x 5408)
+      (y 672)
+    )
+    (smartball
+      (x 5952)
+      (y 672)
+    )
+    (scriptedobject
+      (z-pos 0)
+      (name "fall1")
+      (sprite "images/objects/platforms/vertical-wood.sprite")
+      (x 9360)
+      (y 128)
+    )
+    (scriptedobject
+      (z-pos 0)
+      (name "fall2")
+      (sprite "images/objects/platforms/vertical-wood.sprite")
+      (x 9488)
+      (y 128)
+    )
+    (scriptedobject
+      (z-pos 0)
+      (name "fall3")
+      (sprite "images/objects/platforms/vertical-wood.sprite")
+      (x 9616)
+      (y 128)
+    )
+    (scriptedobject
+      (z-pos 0)
+      (name "fall4")
+      (sprite "images/objects/platforms/vertical-wood.sprite")
+      (x 9744)
+      (y 128)
+    )
+    (scriptedobject
+      (z-pos 0)
+      (name "fall5")
+      (sprite "images/objects/platforms/vertical-wood.sprite")
+      (x 9872)
+      (y 128)
+    )
+    (scripttrigger
+      (script "	if(two*three*five*seven*eleven*thirteen==2*3*5*7*11*13){play_sound(")
+      (button #f)
+      (width 16)
+      (height 544)
+      (x 13352)
+      (y 0)
     )
     (secretarea
       (fade-tilemap "secret")
@@ -211,6 +655,41 @@
       (height 64)
       (x 7104)
       (y 656)
+    )
+    (snowball
+      (x 640)
+      (y 768)
+    )
+    (snowball
+      (x 880)
+      (y 640)
+    )
+    (particles-snow
+    )
+    (spawnpoint
+      (name "main")
+      (x 64)
+      (y 704)
+    )
+    (spiky
+      (x 4064)
+      (y 640)
+    )
+    (spiky
+      (x 6144)
+      (y 672)
+    )
+    (spiky
+      (x 11680)
+      (y 864)
+    )
+    (spiky
+      (x 12032)
+      (y 864)
+    )
+    (spiky
+      (x 12384)
+      (y 864)
     )
     (tilemap
       (solid #t)
@@ -290,160 +769,6 @@
       1547 1548 1549 1549
       )
     )
-    (weak_block
-      (x 7232)
-      (y 640)
-    )
-    (weak_block
-      (x 7232)
-      (y 672)
-    )
-    (weak_block
-      (x 7232)
-      (y 704)
-    )
-    (weak_block
-      (x 7264)
-      (y 640)
-    )
-    (weak_block
-      (x 7264)
-      (y 672)
-    )
-    (weak_block
-      (x 7264)
-      (y 704)
-    )
-    (weak_block
-      (x 9376)
-      (y 256)
-    )
-    (weak_block
-      (x 9408)
-      (y 256)
-    )
-    (weak_block
-      (x 9440)
-      (y 256)
-    )
-    (weak_block
-      (x 9472)
-      (y 256)
-    )
-    (weak_block
-      (x 9504)
-      (y 256)
-    )
-    (weak_block
-      (x 9536)
-      (y 256)
-    )
-    (weak_block
-      (x 9568)
-      (y 256)
-    )
-    (weak_block
-      (x 9600)
-      (y 256)
-    )
-    (weak_block
-      (x 9632)
-      (y 256)
-    )
-    (weak_block
-      (x 9664)
-      (y 256)
-    )
-    (weak_block
-      (x 9696)
-      (y 256)
-    )
-    (weak_block
-      (x 9728)
-      (y 256)
-    )
-    (weak_block
-      (x 9760)
-      (y 256)
-    )
-    (weak_block
-      (x 9792)
-      (y 256)
-    )
-    (weak_block
-      (x 9824)
-      (y 256)
-    )
-    (weak_block
-      (x 9856)
-      (y 256)
-    )
-    (bonusblock
-      (custom-contents
-         (powerup           (sprite "images/powerups/potions/blue-potion.sprite")
-           (script "	if(two_done){play_sound(" sounds/warp.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																													
-						else {two=two+1;																																																																																																																																																																																																																																																																																																																																																																																																																																																													
-							if(two > 2){play_sound(" sounds/iceblock_bump.wav ");two_door.goto_node(1);two_dark.fade(1,0);two_done <- true;}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
-							else if(two < 2){play_sound(" sounds/ticking.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
-							else {play_sound(" sounds/upgrade.wav ");two_door.goto_node(1);two_pole.goto_node(1);two_dark.fade(1,0);two_done <- true;}}	")
-)
-      )
-      (script "")
-      (contents "custom")
-      (x 2528)
-      (y 384)
-    )
-    (bonusblock
-      (custom-contents
-         (powerup           (sprite "images/powerups/potions/blue-potion.sprite")
-           (script "	if(two_done){play_sound(" sounds/warp.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																													
-						else {two=two+2;																																																																																																																																																																																																																																																																																																																																																																																																																																																													
-							if(two > 2){play_sound(" sounds/iceblock_bump.wav ");two_door.goto_node(1);two_dark.fade(1,0);two_done <- true;}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
-							else if(two < 2){play_sound(" sounds/ticking.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
-							else {play_sound(" sounds/upgrade.wav ");two_door.goto_node(1);two_pole.goto_node(1);two_dark.fade(1,0);two_done <- true;}}	")
-)
-      )
-      (script "")
-      (contents "custom")
-      (x 2624)
-      (y 384)
-    )
-    (bonusblock
-      (custom-contents
-         (powerup           (sprite "images/powerups/potions/blue-potion.sprite")
-           (script "	if(two_done){play_sound(" sounds/warp.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																													
-						else {two=two+4;																																																																																																																																																																																																																																																																																																																																																																																																																																																													
-							if(two > 2){play_sound(" sounds/iceblock_bump.wav ");two_door.goto_node(1);two_dark.fade(1,0);two_done <- true;}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
-							else if(two < 2){play_sound(" sounds/ticking.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
-							else {play_sound(" sounds/upgrade.wav ");two_door.goto_node(1);two_pole.goto_node(1);two_dark.fade(1,0);two_done <- true;}}	")
-)
-      )
-      (script "")
-      (contents "custom")
-      (x 2720)
-      (y 384)
-    )
-    (bonusblock
-      (custom-contents
-         (powerup           (sprite "images/powerups/potions/blue-potion.sprite")
-           (script "	if(two_done){play_sound(" sounds/warp.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																													
-						else {two=two+8;																																																																																																																																																																																																																																																																																																																																																																																																																																																													
-							if(two > 2){play_sound(" sounds/iceblock_bump.wav ");two_door.goto_node(1);two_dark.fade(1,0);two_done <- true;}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
-							else if(two < 2){play_sound(" sounds/ticking.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
-							else {play_sound(" sounds/upgrade.wav ");two_door.goto_node(1);two_pole.goto_node(1);two_dark.fade(1,0);two_done <- true;}}	")
-)
-      )
-      (script "")
-      (contents "custom")
-      (x 2816)
-      (y 384)
-    )
-    (bonusblock
-      (script "")
-      (contents "rain")
-      (x 2928)
-      (y 96)
-    )
     (tilemap
       (solid #t)
       (z-pos -50)
@@ -520,72 +845,6 @@
       (tiles
       62 0 0 62 0 0 62 0 0 62
       )
-    )
-    (bonusblock
-      (custom-contents
-         (powerup           (sprite "images/powerups/potions/blue-potion.sprite")
-           (script "	if(three_done){play_sound(" sounds/warp.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																													
-						else {three=three+1;																																																																																																																																																																																																																																																																																																																																																																																																																																																													
-							if(three > 3){play_sound(" sounds/iceblock_bump.wav ");three_door.goto_node(1);three_dark.fade(1,0);three_done <- true;}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
-							else if(three < 3){play_sound(" sounds/ticking.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
-							else {play_sound(" sounds/upgrade.wav ");three_door.goto_node(1);three_pole.goto_node(1);three_dark.fade(1,0);three_done <- true;}}	")
-)
-      )
-      (script "")
-      (contents "custom")
-      (x 4416)
-      (y 384)
-    )
-    (bonusblock
-      (custom-contents
-         (powerup           (sprite "images/powerups/potions/blue-potion.sprite")
-           (script "	if(three_done){play_sound(" sounds/warp.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																													
-						else {three=three+2;																																																																																																																																																																																																																																																																																																																																																																																																																																																													
-							if(three > 3){play_sound(" sounds/iceblock_bump.wav ");three_door.goto_node(1);three_dark.fade(1,0);three_done <- true;}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
-							else if(three < 3){play_sound(" sounds/ticking.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
-							else {play_sound(" sounds/upgrade.wav ");three_door.goto_node(1);three_pole.goto_node(1);three_dark.fade(1,0);three_done <- true;}}	")
-)
-      )
-      (script "")
-      (contents "custom")
-      (x 4512)
-      (y 384)
-    )
-    (bonusblock
-      (custom-contents
-         (powerup           (sprite "images/powerups/potions/blue-potion.sprite")
-           (script "	if(three_done){play_sound(" sounds/warp.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																													
-						else {three=three+4;																																																																																																																																																																																																																																																																																																																																																																																																																																																													
-							if(three > 3){play_sound(" sounds/iceblock_bump.wav ");three_door.goto_node(1);three_dark.fade(1,0);three_done <- true;}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
-							else if(three < 3){play_sound(" sounds/ticking.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
-							else {play_sound(" sounds/upgrade.wav ");three_door.goto_node(1);three_pole.goto_node(1);three_dark.fade(1,0);three_done <- true;}}	")
-)
-      )
-      (script "")
-      (contents "custom")
-      (x 4608)
-      (y 384)
-    )
-    (bonusblock
-      (custom-contents
-         (powerup           (sprite "images/powerups/potions/blue-potion.sprite")
-           (script "	if(three_done){play_sound(" sounds/warp.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																													
-						else {three=three+8;																																																																																																																																																																																																																																																																																																																																																																																																																																																													
-							if(three > 3){play_sound(" sounds/iceblock_bump.wav ");three_door.goto_node(1);three_dark.fade(1,0);three_done <- true;}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
-							else if(three < 3){play_sound(" sounds/ticking.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
-							else {play_sound(" sounds/upgrade.wav ");three_door.goto_node(1);three_pole.goto_node(1);three_dark.fade(1,0);three_done <- true;}}	")
-)
-      )
-      (script "")
-      (contents "custom")
-      (x 4704)
-      (y 384)
-    )
-    (bonusblock
-      (script "")
-      (contents "icegrow")
-      (x 4816)
-      (y 96)
     )
     (tilemap
       (solid #t)
@@ -664,72 +923,6 @@
       62 0 0 62 0 0 62 0 0 62
       )
     )
-    (bonusblock
-      (custom-contents
-         (powerup           (sprite "images/powerups/potions/blue-potion.sprite")
-           (script "	if(five_done){play_sound(" sounds/warp.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																													
-						else {five=five+1;																																																																																																																																																																																																																																																																																																																																																																																																																																																													
-							if(five > 5){play_sound(" sounds/iceblock_bump.wav ");five_door.goto_node(1);five_dark.fade(1,0);five_done <- true;}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
-							else if(five < 5){play_sound(" sounds/ticking.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
-							else {play_sound(" sounds/upgrade.wav ");five_door.goto_node(1);five_pole.goto_node(1);five_dark.fade(1,0);five_done <- true;}}	")
-)
-      )
-      (script "")
-      (contents "custom")
-      (x 6368)
-      (y 384)
-    )
-    (bonusblock
-      (custom-contents
-         (powerup           (sprite "images/powerups/potions/blue-potion.sprite")
-           (script "	if(five_done){play_sound(" sounds/warp.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																													
-						else {five=five+2;																																																																																																																																																																																																																																																																																																																																																																																																																																																													
-							if(five > 5){play_sound(" sounds/iceblock_bump.wav ");five_door.goto_node(1);five_dark.fade(1,0);five_done <- true;}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
-							else if(five < 5){play_sound(" sounds/ticking.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
-							else {play_sound(" sounds/upgrade.wav ");five_door.goto_node(1);five_pole.goto_node(1);five_dark.fade(1,0);five_done <- true;}}	")
-)
-      )
-      (script "")
-      (contents "custom")
-      (x 6464)
-      (y 384)
-    )
-    (bonusblock
-      (custom-contents
-         (powerup           (sprite "images/powerups/potions/blue-potion.sprite")
-           (script "	if(five_done){play_sound(" sounds/warp.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																													
-						else {five=five+4;																																																																																																																																																																																																																																																																																																																																																																																																																																																													
-							if(five > 5){play_sound(" sounds/iceblock_bump.wav ");five_door.goto_node(1);five_dark.fade(1,0);five_done <- true;}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
-							else if(five < 5){play_sound(" sounds/ticking.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
-							else {play_sound(" sounds/upgrade.wav ");five_door.goto_node(1);five_pole.goto_node(1);five_dark.fade(1,0);five_done <- true;}}	")
-)
-      )
-      (script "")
-      (contents "custom")
-      (x 6560)
-      (y 384)
-    )
-    (bonusblock
-      (custom-contents
-         (powerup           (sprite "images/powerups/potions/blue-potion.sprite")
-           (script "	if(five_done){play_sound(" sounds/warp.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																													
-						else {five=five+8;																																																																																																																																																																																																																																																																																																																																																																																																																																																													
-							if(five > 5){play_sound(" sounds/iceblock_bump.wav ");five_door.goto_node(1);five_dark.fade(1,0);five_done <- true;}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
-							else if(five < 5){play_sound(" sounds/ticking.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
-							else {play_sound(" sounds/upgrade.wav ");five_door.goto_node(1);five_pole.goto_node(1);five_dark.fade(1,0);five_done <- true;}}	")
-)
-      )
-      (script "")
-      (contents "custom")
-      (x 6656)
-      (y 384)
-    )
-    (bonusblock
-      (script "")
-      (contents "icegrow")
-      (x 6768)
-      (y 128)
-    )
     (tilemap
       (solid #t)
       (z-pos -50)
@@ -806,72 +999,6 @@
       (tiles
       62 0 0 62 0 0 62 0 0 62
       )
-    )
-    (bonusblock
-      (custom-contents
-         (powerup           (sprite "images/powerups/potions/blue-potion.sprite")
-           (script "	if(seven_done){play_sound(" sounds/warp.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																													
-						else {seven=seven+1;																																																																																																																																																																																																																																																																																																																																																																																																																																																													
-							if(seven > 7){play_sound(" sounds/iceblock_bump.wav ");seven_door.goto_node(1);seven_dark.fade(1,0);seven_done <- true;}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
-							else if(seven < 7){play_sound(" sounds/ticking.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
-							else {play_sound(" sounds/upgrade.wav ");seven_door.goto_node(1);seven_pole.goto_node(1);seven_dark.fade(1,0);seven_done <- true;}}	")
-)
-      )
-      (script "")
-      (contents "custom")
-      (x 8608)
-      (y 384)
-    )
-    (bonusblock
-      (custom-contents
-         (powerup           (sprite "images/powerups/potions/blue-potion.sprite")
-           (script "	if(seven_done){play_sound(" sounds/warp.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																													
-						else {seven=seven+2;																																																																																																																																																																																																																																																																																																																																																																																																																																																													
-							if(seven > 7){play_sound(" sounds/iceblock_bump.wav ");seven_door.goto_node(1);seven_dark.fade(1,0);seven_done <- true;}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
-							else if(seven < 7){play_sound(" sounds/ticking.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
-							else {play_sound(" sounds/upgrade.wav ");seven_door.goto_node(1);seven_pole.goto_node(1);seven_dark.fade(1,0);seven_done <- true;}}	")
-)
-      )
-      (script "")
-      (contents "custom")
-      (x 8704)
-      (y 384)
-    )
-    (bonusblock
-      (custom-contents
-         (powerup           (sprite "images/powerups/potions/blue-potion.sprite")
-           (script "	if(seven_done){play_sound(" sounds/warp.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																													
-						else {seven=seven+4;																																																																																																																																																																																																																																																																																																																																																																																																																																																													
-							if(seven > 7){play_sound(" sounds/iceblock_bump.wav ");seven_door.goto_node(1);seven_dark.fade(1,0);seven_done <- true;}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
-							else if(seven < 7){play_sound(" sounds/ticking.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
-							else {play_sound(" sounds/upgrade.wav ");seven_door.goto_node(1);seven_pole.goto_node(1);seven_dark.fade(1,0);seven_done <- true;}}	")
-)
-      )
-      (script "")
-      (contents "custom")
-      (x 8800)
-      (y 384)
-    )
-    (bonusblock
-      (custom-contents
-         (powerup           (sprite "images/powerups/potions/blue-potion.sprite")
-           (script "	if(seven_done){play_sound(" sounds/warp.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																													
-						else {seven=seven+8;																																																																																																																																																																																																																																																																																																																																																																																																																																																													
-							if(seven > 7){play_sound(" sounds/iceblock_bump.wav ");seven_door.goto_node(1);seven_dark.fade(1,0);seven_done <- true;}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
-							else if(seven < 7){play_sound(" sounds/ticking.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
-							else {play_sound(" sounds/upgrade.wav ");seven_door.goto_node(1);seven_pole.goto_node(1);seven_dark.fade(1,0);seven_done <- true;}}	")
-)
-      )
-      (script "")
-      (contents "custom")
-      (x 8896)
-      (y 384)
-    )
-    (bonusblock
-      (script "")
-      (contents "firegrow")
-      (x 9008)
-      (y 128)
     )
     (tilemap
       (solid #t)
@@ -950,72 +1077,6 @@
       62 0 0 62 0 0 62 0 0 62
       )
     )
-    (bonusblock
-      (custom-contents
-         (powerup           (sprite "images/powerups/potions/blue-potion.sprite")
-           (script "	if(eleven_done){play_sound(" sounds/warp.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																													
-						else {eleven=eleven+1;																																																																																																																																																																																																																																																																																																																																																																																																																																																													
-							if(eleven > 11){play_sound(" sounds/iceblock_bump.wav ");eleven_door.goto_node(1);eleven_dark.fade(1,0);eleven_done <- true;}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
-							else if(eleven < 11){play_sound(" sounds/ticking.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
-							else {play_sound(" sounds/upgrade.wav ");eleven_door.goto_node(1);eleven_pole.goto_node(1);eleven_dark.fade(1,0);eleven_done <- true;}}	")
-)
-      )
-      (script "")
-      (contents "custom")
-      (x 10848)
-      (y 384)
-    )
-    (bonusblock
-      (custom-contents
-         (powerup           (sprite "images/powerups/potions/blue-potion.sprite")
-           (script "	if(eleven_done){play_sound(" sounds/warp.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																													
-						else {eleven=eleven+2;																																																																																																																																																																																																																																																																																																																																																																																																																																																													
-							if(eleven > 11){play_sound(" sounds/iceblock_bump.wav ");eleven_door.goto_node(1);eleven_dark.fade(1,0);eleven_done <- true;}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
-							else if(eleven < 11){play_sound(" sounds/ticking.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
-							else {play_sound(" sounds/upgrade.wav ");eleven_door.goto_node(1);eleven_pole.goto_node(1);eleven_dark.fade(1,0);eleven_done <- true;}}	")
-)
-      )
-      (script "")
-      (contents "custom")
-      (x 10944)
-      (y 384)
-    )
-    (bonusblock
-      (custom-contents
-         (powerup           (sprite "images/powerups/potions/blue-potion.sprite")
-           (script "	if(eleven_done){play_sound(" sounds/warp.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																													
-						else {eleven=eleven+4;																																																																																																																																																																																																																																																																																																																																																																																																																																																													
-							if(eleven > 11){play_sound(" sounds/iceblock_bump.wav ");eleven_door.goto_node(1);eleven_dark.fade(1,0);eleven_done <- true;}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
-							else if(eleven < 11){play_sound(" sounds/ticking.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
-							else {play_sound(" sounds/upgrade.wav ");eleven_door.goto_node(1);eleven_pole.goto_node(1);eleven_dark.fade(1,0);eleven_done <- true;}}	")
-)
-      )
-      (script "")
-      (contents "custom")
-      (x 11040)
-      (y 384)
-    )
-    (bonusblock
-      (custom-contents
-         (powerup           (sprite "images/powerups/potions/blue-potion.sprite")
-           (script "	if(eleven_done){play_sound(" sounds/warp.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																													
-						else {eleven=eleven+8;																																																																																																																																																																																																																																																																																																																																																																																																																																																													
-							if(eleven > 11){play_sound(" sounds/iceblock_bump.wav ");eleven_door.goto_node(1);eleven_dark.fade(1,0);eleven_done <- true;}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
-							else if(eleven < 11){play_sound(" sounds/ticking.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
-							else {play_sound(" sounds/upgrade.wav ");eleven_door.goto_node(1);eleven_pole.goto_node(1);eleven_dark.fade(1,0);eleven_done <- true;}}	")
-)
-      )
-      (script "")
-      (contents "custom")
-      (x 11136)
-      (y 384)
-    )
-    (bonusblock
-      (script "")
-      (contents "star")
-      (x 11248)
-      (y 96)
-    )
     (tilemap
       (solid #t)
       (z-pos -50)
@@ -1093,72 +1154,6 @@
       62 0 0 62 0 0 62 0 0 62
       )
     )
-    (bonusblock
-      (custom-contents
-         (powerup           (sprite "images/powerups/potions/blue-potion.sprite")
-           (script "	if(thirteen_done){play_sound(" sounds/warp.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																													
-						else {thirteen=thirteen+1;																																																																																																																																																																																																																																																																																																																																																																																																																																																													
-							if(thirteen > 13){play_sound(" sounds/iceblock_bump.wav ");thirteen_door.goto_node(1);thirteen_dark.fade(1,0);thirteen_done <- true;}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
-							else if(thirteen < 13){play_sound(" sounds/ticking.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
-							else {play_sound(" sounds/upgrade.wav ");thirteen_door.goto_node(1);thirteen_pole.goto_node(1);thirteen_dark.fade(1,0);thirteen_done <- true;}}	")
-)
-      )
-      (script "")
-      (contents "custom")
-      (x 12640)
-      (y 384)
-    )
-    (bonusblock
-      (custom-contents
-         (powerup           (sprite "images/powerups/potions/blue-potion.sprite")
-           (script "	if(thirteen_done){play_sound(" sounds/warp.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																													
-						else {thirteen=thirteen+2;																																																																																																																																																																																																																																																																																																																																																																																																																																																													
-							if(thirteen > 13){play_sound(" sounds/iceblock_bump.wav ");thirteen_door.goto_node(1);thirteen_dark.fade(1,0);thirteen_done <- true;}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
-							else if(thirteen < 13){play_sound(" sounds/ticking.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
-							else {play_sound(" sounds/upgrade.wav ");thirteen_door.goto_node(1);thirteen_pole.goto_node(1);thirteen_dark.fade(1,0);thirteen_done <- true;}}	")
-)
-      )
-      (script "")
-      (contents "custom")
-      (x 12736)
-      (y 384)
-    )
-    (bonusblock
-      (custom-contents
-         (powerup           (sprite "images/powerups/potions/blue-potion.sprite")
-           (script "	if(thirteen_done){play_sound(" sounds/warp.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																													
-						else {thirteen=thirteen+4;																																																																																																																																																																																																																																																																																																																																																																																																																																																													
-							if(thirteen > 13){play_sound(" sounds/iceblock_bump.wav ");thirteen_door.goto_node(1);thirteen_dark.fade(1,0);thirteen_done <- true;}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
-							else if(thirteen < 13){play_sound(" sounds/ticking.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
-							else {play_sound(" sounds/upgrade.wav ");thirteen_door.goto_node(1);thirteen_pole.goto_node(1);thirteen_dark.fade(1,0);thirteen_done <- true;}}	")
-)
-      )
-      (script "")
-      (contents "custom")
-      (x 12832)
-      (y 384)
-    )
-    (bonusblock
-      (custom-contents
-         (powerup           (sprite "images/powerups/potions/blue-potion.sprite")
-           (script "	if(thirteen_done){play_sound(" sounds/warp.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																													
-						else {thirteen=thirteen+8;																																																																																																																																																																																																																																																																																																																																																																																																																																																													
-							if(thirteen > 13){play_sound(" sounds/iceblock_bump.wav ");thirteen_door.goto_node(1);thirteen_dark.fade(1,0);thirteen_done <- true;}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
-							else if(thirteen < 13){play_sound(" sounds/ticking.wav ");}																																																																																																																																																																																																																																																																																																																																																																																																																																																												
-							else {play_sound(" sounds/upgrade.wav ");thirteen_door.goto_node(1);thirteen_pole.goto_node(1);thirteen_dark.fade(1,0);thirteen_done <- true;}}	")
-)
-      )
-      (script "")
-      (contents "custom")
-      (x 12928)
-      (y 384)
-    )
-    (bonusblock
-      (script "")
-      (contents "1up")
-      (x 13040)
-      (y 96)
-    )
     (tilemap
       (solid #t)
       (z-pos -50)
@@ -1235,89 +1230,6 @@
       (tiles
       62 0 0 62 0 0 62 0 0 62
       )
-    )
-    (scriptedobject
-      (z-pos 0)
-      (name "fall1")
-      (sprite "images/objects/platforms/vertical-wood.sprite")
-      (x 9360)
-      (y 128)
-    )
-    (scriptedobject
-      (z-pos 0)
-      (name "fall2")
-      (sprite "images/objects/platforms/vertical-wood.sprite")
-      (x 9488)
-      (y 128)
-    )
-    (scriptedobject
-      (z-pos 0)
-      (name "fall3")
-      (sprite "images/objects/platforms/vertical-wood.sprite")
-      (x 9616)
-      (y 128)
-    )
-    (scriptedobject
-      (z-pos 0)
-      (name "fall4")
-      (sprite "images/objects/platforms/vertical-wood.sprite")
-      (x 9744)
-      (y 128)
-    )
-    (scriptedobject
-      (z-pos 0)
-      (name "fall5")
-      (sprite "images/objects/platforms/vertical-wood.sprite")
-      (x 9872)
-      (y 128)
-    )
-    (scripttrigger
-      (script "	if(two*three*five*seven*eleven*thirteen==2*3*5*7*11*13){play_sound(")
-      (button #f)
-      (width 16)
-      (height 544)
-      (x 13352)
-      (y 0)
-    )
-    (heavycoin
-      (x 13568)
-      (y -32)
-    )
-    (heavycoin
-      (x 13600)
-      (y -32)
-    )
-    (heavycoin
-      (x 13632)
-      (y -32)
-    )
-    (heavycoin
-      (x 13664)
-      (y -32)
-    )
-    (heavycoin
-      (x 13696)
-      (y -32)
-    )
-    (heavycoin
-      (x 13728)
-      (y -32)
-    )
-    (heavycoin
-      (x 13760)
-      (y -32)
-    )
-    (heavycoin
-      (x 13792)
-      (y -32)
-    )
-    (heavycoin
-      (x 13824)
-      (y -32)
-    )
-    (heavycoin
-      (x 13856)
-      (y -32)
     )
     (tilemap
       (solid #t)
@@ -1607,6 +1519,94 @@
       165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165
       165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165 165
       )
+    )
+    (weak_block
+      (x 7232)
+      (y 640)
+    )
+    (weak_block
+      (x 7232)
+      (y 672)
+    )
+    (weak_block
+      (x 7232)
+      (y 704)
+    )
+    (weak_block
+      (x 7264)
+      (y 640)
+    )
+    (weak_block
+      (x 7264)
+      (y 672)
+    )
+    (weak_block
+      (x 7264)
+      (y 704)
+    )
+    (weak_block
+      (x 9376)
+      (y 256)
+    )
+    (weak_block
+      (x 9408)
+      (y 256)
+    )
+    (weak_block
+      (x 9440)
+      (y 256)
+    )
+    (weak_block
+      (x 9472)
+      (y 256)
+    )
+    (weak_block
+      (x 9504)
+      (y 256)
+    )
+    (weak_block
+      (x 9536)
+      (y 256)
+    )
+    (weak_block
+      (x 9568)
+      (y 256)
+    )
+    (weak_block
+      (x 9600)
+      (y 256)
+    )
+    (weak_block
+      (x 9632)
+      (y 256)
+    )
+    (weak_block
+      (x 9664)
+      (y 256)
+    )
+    (weak_block
+      (x 9696)
+      (y 256)
+    )
+    (weak_block
+      (x 9728)
+      (y 256)
+    )
+    (weak_block
+      (x 9760)
+      (y 256)
+    )
+    (weak_block
+      (x 9792)
+      (y 256)
+    )
+    (weak_block
+      (x 9824)
+      (y 256)
+    )
+    (weak_block
+      (x 9856)
+      (y 256)
     )
   )
 )

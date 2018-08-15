@@ -12,6 +12,64 @@
       (image "images/background/arctis.jpg")
       (image-bottom "images/background/arctis_bottom.jpg")
     )
+    (camera
+      (mode "normal")
+    )
+    (firefly
+      (sprite "")
+      (x 32)
+      (y 160)
+    )
+    (firefly
+      (sprite "images/objects/resetpoints/torch.sprite")
+      (x 160)
+      (y 96)
+    )
+    (firefly
+      (sprite "images/objects/resetpoints/vbell.sprite")
+      (x 256)
+      (y 96)
+    )
+    (firefly
+      (sprite "images/objects/resetpoints/firefly.sprite")
+      (x 448)
+      (y 160)
+    )
+    (firefly
+      (sprite "images/objects/resetpoints/bell.sprite")
+      (x 384)
+      (y 96)
+    )
+    (firefly
+      (sprite "images/objects/resetpoints/vbell.sprite")
+      (x 256)
+      (y 160)
+    )
+    (firefly
+      (sprite "images/objects/resetpoints/bell.sprite")
+      (x 384)
+      (y 160)
+    )
+    (firefly
+      (sprite "images/objects/resetpoints/firefly.sprite")
+      (x 448)
+      (y 96)
+    )
+    (firefly
+      (sprite "images/objects/resetpoints/torch.sprite")
+      (x 160)
+      (y 160)
+    )
+    (firefly
+      (sprite "")
+      (x 32)
+      (y 96)
+    )
+    (spawnpoint
+      (name "main")
+      (x 96)
+      (y 96)
+    )
     (tilemap
       (solid #f)
       (z-pos -100)
@@ -140,64 +198,6 @@
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       )
-    )
-    (camera
-      (mode "normal")
-    )
-    (spawnpoint
-      (name "main")
-      (x 96)
-      (y 96)
-    )
-    (firefly
-      (sprite "")
-      (x 32)
-      (y 160)
-    )
-    (firefly
-      (sprite "images/objects/resetpoints/torch.sprite")
-      (x 160)
-      (y 96)
-    )
-    (firefly
-      (sprite "images/objects/resetpoints/vbell.sprite")
-      (x 256)
-      (y 96)
-    )
-    (firefly
-      (sprite "images/objects/resetpoints/firefly.sprite")
-      (x 448)
-      (y 160)
-    )
-    (firefly
-      (sprite "images/objects/resetpoints/bell.sprite")
-      (x 384)
-      (y 96)
-    )
-    (firefly
-      (sprite "images/objects/resetpoints/vbell.sprite")
-      (x 256)
-      (y 160)
-    )
-    (firefly
-      (sprite "images/objects/resetpoints/bell.sprite")
-      (x 384)
-      (y 160)
-    )
-    (firefly
-      (sprite "images/objects/resetpoints/firefly.sprite")
-      (x 448)
-      (y 96)
-    )
-    (firefly
-      (sprite "images/objects/resetpoints/torch.sprite")
-      (x 160)
-      (y 160)
-    )
-    (firefly
-      (sprite "")
-      (x 32)
-      (y 96)
     )
   )
 )

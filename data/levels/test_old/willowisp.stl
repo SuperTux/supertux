@@ -6,6 +6,19 @@
     (name "main")
     (music "music/forest2.ogg")
     (ambient-light 1 1 1)
+    (background
+      (speed 0.5)
+      (image "images/background/forest1.jpg")
+      (z-pos -200)
+    )
+    (camera
+      (mode "normal")
+    )
+    (powerup
+      (sprite "")
+      (x 100)
+      (y 700)
+    )
     (spawnpoint
       (name "main")
       (x 40)
@@ -15,25 +28,6 @@
       (name "wow1")
       (x 600)
       (y 600)
-    )
-    (willowisp
-      (sector "main")
-      (spawnpoint "wow1")
-      (x 700)
-      (y 600)
-    )
-    (powerup
-      (sprite "")
-      (x 100)
-      (y 700)
-    )
-    (camera
-      (mode "normal")
-    )
-    (background
-      (speed 0.5)
-      (image "images/background/forest1.jpg")
-      (z-pos -200)
     )
     (tilemap
       (solid #f)
@@ -148,6 +142,12 @@
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       )
+    )
+    (willowisp
+      (sector "main")
+      (spawnpoint "wow1")
+      (x 700)
+      (y 600)
     )
   )
 )

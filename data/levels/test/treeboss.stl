@@ -36,6 +36,26 @@
         )
       )
     )
+    (ghosttree
+      (dead-script "sector.Tux.trigger_sequence(\"fireworks\");")
+      (x 730)
+      (y 550)
+    )
+    (lantern
+      (color 0 0 0)
+      (x 540)
+      (y 348)
+    )
+    (lantern
+      (color 0 0 0)
+      (x 940)
+      (y 248)
+    )
+    (lantern
+      (color 0 0 0)
+      (x 1040)
+      (y 148)
+    )
     (scripttrigger
       (script "platform1.goto_node(1);")
       (button #f)
@@ -224,26 +244,6 @@
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       )
-    )
-    (ghosttree
-      (dead-script "sector.Tux.trigger_sequence(\"fireworks\");")
-      (x 730)
-      (y 550)
-    )
-    (lantern
-      (color 0 0 0)
-      (x 540)
-      (y 348)
-    )
-    (lantern
-      (color 0 0 0)
-      (x 940)
-      (y 248)
-    )
-    (lantern
-      (color 0 0 0)
-      (x 1040)
-      (y 148)
     )
   )
 )

@@ -11,6 +11,22 @@
       (speed 0.5)
       (image "images/background/arctis_dark.jpg")
     )
+    (camera
+      (mode "normal")
+    )
+    (scripttrigger
+      (script "risinglava.goto_node(1);")
+      (button #f)
+      (width 32)
+      (height 236)
+      (x 160)
+      (y 468)
+    )
+    (spawnpoint
+      (name "main")
+      (x 64)
+      (y 608)
+    )
     (tilemap
       (solid #f)
       (z-pos -100)
@@ -238,22 +254,6 @@
       1700 1700 1700 1700 1700 1700 1700 1700 1700 1700 1700 1700 1700 1700 1700 1700 1700 1700 1700 1700 1700 1700 1700 1700 1700 1700 1700 1700 1700 1700
       1700 1700 1700 1700 1700 1700 1700 1700 1700 1700 1700 1700 1700 1700 1700 1700 1700 1700 1700 1700 1700 1700 1700 1700 1700 1700 1700 1700 1700 1700
       )
-    )
-    (camera
-      (mode "normal")
-    )
-    (spawnpoint
-      (name "main")
-      (x 64)
-      (y 608)
-    )
-    (scripttrigger
-      (script "risinglava.goto_node(1);")
-      (button #f)
-      (width 32)
-      (height 236)
-      (x 160)
-      (y 468)
     )
   )
 )

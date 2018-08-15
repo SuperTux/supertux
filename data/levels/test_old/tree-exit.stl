@@ -5,14 +5,17 @@
   (sector
     (name "main")
     (ambient-light 1 1 1)
+    (background
+      (speed 0.5)
+      (image "images/background/forest1.jpg")
+    )
+    (camera
+      (mode "normal")
+    )
     (spawnpoint
       (name "main")
       (x 96)
       (y 96)
-    )
-    (background
-      (speed 0.5)
-      (image "images/background/forest1.jpg")
     )
     (tilemap
       (solid #f)
@@ -142,9 +145,6 @@
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       )
-    )
-    (camera
-      (mode "normal")
     )
   )
 )

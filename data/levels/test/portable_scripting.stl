@@ -15,6 +15,56 @@
       (image "images/background/BlueRock_Forest/blue-middle.jpg")
       (image-bottom "images/background/BlueRock_Forest/blue-bottom.jpg")
     )
+    (camera
+      (mode "normal")
+    )
+    (infoblock
+      (message (_ "#Carry object to designated area and check whether barrier gets lifted!"))
+      (x 384)
+      (y 544)
+    )
+    (lantern
+      (color 1 0.5 0)
+      (name "lantern1")
+      (x 669.4761)
+      (y 630.9287)
+    )
+    (rock
+      (name "rock1")
+      (sprite "images/objects/rock/rock.sprite")
+      (x 537.1428)
+      (y 641.5237)
+    )
+    (scripttrigger
+      (script "a <- Tux.has_grabbed(\"rock1\")
+if(a) {
+  barrier.goto_node(1);
+}")
+      (button #f)
+      (width 52.57159)
+      (height 377.1429)
+      (x 950.8572)
+      (y 296.381)
+    )
+    (sequencetrigger
+      (sequence "endsequence")
+      (width 160)
+      (height 256)
+      (x 1184)
+      (y 416)
+    )
+    (sequencetrigger
+      (sequence "stoptux")
+      (width 32)
+      (height 384)
+      (x 1344)
+      (y 288)
+    )
+    (spawnpoint
+      (name "main")
+      (x 64)
+      (y 480)
+    )
     (tilemap
       (solid #f)
       (z-pos -100)
@@ -134,56 +184,6 @@
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       )
-    )
-    (spawnpoint
-      (name "main")
-      (x 64)
-      (y 480)
-    )
-    (camera
-      (mode "normal")
-    )
-    (lantern
-      (color 1 0.5 0)
-      (name "lantern1")
-      (x 669.4761)
-      (y 630.9287)
-    )
-    (infoblock
-      (message (_ "#Carry object to designated area and check whether barrier gets lifted!"))
-      (x 384)
-      (y 544)
-    )
-    (sequencetrigger
-      (sequence "endsequence")
-      (width 160)
-      (height 256)
-      (x 1184)
-      (y 416)
-    )
-    (sequencetrigger
-      (sequence "stoptux")
-      (width 32)
-      (height 384)
-      (x 1344)
-      (y 288)
-    )
-    (scripttrigger
-      (script "a <- Tux.has_grabbed(\"rock1\")
-if(a) {
-  barrier.goto_node(1);
-}")
-      (button #f)
-      (width 52.57159)
-      (height 377.1429)
-      (x 950.8572)
-      (y 296.381)
-    )
-    (rock
-      (name "rock1")
-      (sprite "images/objects/rock/rock.sprite")
-      (x 537.1428)
-      (y 641.5237)
     )
   )
 )

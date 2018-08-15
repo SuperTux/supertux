@@ -9,6 +9,26 @@
       (speed 0.5)
       (image "images/background/arctis.jpg")
     )
+    (camera
+      (mode "normal")
+    )
+    (mrbomb
+      (x 624.4702)
+      (y 784.1528)
+    )
+    (mrbomb
+      (x 637.1981)
+      (y 593.2339)
+    )
+    (snail
+      (x 838.0164)
+      (y 727.5842)
+    )
+    (spawnpoint
+      (name "main")
+      (x 40)
+      (y 700)
+    )
     (tilemap
       (solid #f)
       (z-pos -100)
@@ -122,26 +142,6 @@
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       )
-    )
-    (camera
-      (mode "normal")
-    )
-    (mrbomb
-      (x 624.4702)
-      (y 784.1528)
-    )
-    (mrbomb
-      (x 637.1981)
-      (y 593.2339)
-    )
-    (spawnpoint
-      (name "main")
-      (x 40)
-      (y 700)
-    )
-    (snail
-      (x 838.0164)
-      (y 727.5842)
     )
     (unstable_tile
       (sprite "images/objects/unstable_tile/castleblock.sprite")

@@ -10,6 +10,9 @@
       (speed 0.5)
       (image "images/background/arctis_dark.jpg")
     )
+    (camera
+      (mode "normal")
+    )
     (spawnpoint
       (name "main")
       (x 100)
@@ -96,9 +99,6 @@
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       )
     )
-    (camera
-      (mode "normal")
-    )
   )
   (sector
     (name "sector1")
@@ -108,17 +108,8 @@
       (speed 0.5)
       (image "images/background/forest1.jpg")
     )
-    (spawnpoint
-      (name "main2")
-      (x 100)
-      (y 100)
-    )
-    (secretarea
-      (message "You found a secret area!")
-      (width 32)
-      (height 32)
-      (x 100)
-      (y 100)
+    (camera
+      (mode "normal")
     )
     (dispenser
       (cycle 2)
@@ -130,6 +121,18 @@
     (jumpy
       (x 500)
       (y 400)
+    )
+    (secretarea
+      (message "You found a secret area!")
+      (width 32)
+      (height 32)
+      (x 100)
+      (y 100)
+    )
+    (spawnpoint
+      (name "main2")
+      (x 100)
+      (y 100)
     )
     (tilemap
       (solid #f)
@@ -211,9 +214,6 @@
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       )
-    )
-    (camera
-      (mode "normal")
     )
   )
 )

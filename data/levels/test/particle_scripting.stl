@@ -6,6 +6,92 @@
   (sector
     (name "main")
     (ambient-light 1 1 1)
+    (camera
+      (mode "normal")
+    )
+    (particles-clouds
+      (enabled #f)
+      (name "clouds")
+    )
+    (particles-ghosts
+      (enabled #f)
+      (name "ghosts")
+    )
+    (infoblock
+      (message (_ "-Enable cloud particle system"))
+      (x 320)
+      (y 576)
+    )
+    (infoblock
+      (message (_ "-Enable ghost particle system"))
+      (x 460)
+      (y 576)
+    )
+    (infoblock
+      (message (_ "-Enable snow particle system"))
+      (x 580)
+      (y 576)
+    )
+    (infoblock
+      (message (_ "-Disable cloud particle system"))
+      (x 700)
+      (y 576)
+    )
+    (infoblock
+      (message (_ "-Disable ghost particle system"))
+      (x 820)
+      (y 576)
+    )
+    (infoblock
+      (message (_ "-Disable snow particle system"))
+      (x 940)
+      (y 576)
+    )
+    (particles-snow
+      (enabled #f)
+      (name "snow")
+    )
+    (spawnpoint
+      (name "main")
+      (x 544)
+      (y 448)
+    )
+    (switch
+      (script "clouds.set_enabled(true);")
+      (sprite "images/objects/switch/switch.sprite")
+      (x 320)
+      (y 650)
+    )
+    (switch
+      (script "ghosts.set_enabled(true);")
+      (sprite "images/objects/switch/switch.sprite")
+      (x 460)
+      (y 650)
+    )
+    (switch
+      (script "snow.set_enabled(true);")
+      (sprite "images/objects/switch/switch.sprite")
+      (x 580)
+      (y 650)
+    )
+    (switch
+      (script "clouds.set_enabled(false);")
+      (sprite "images/objects/switch/switch.sprite")
+      (x 700)
+      (y 650)
+    )
+    (switch
+      (script "ghosts.set_enabled(false);")
+      (sprite "images/objects/switch/switch.sprite")
+      (x 820)
+      (y 650)
+    )
+    (switch
+      (script "snow.set_enabled(false);")
+      (sprite "images/objects/switch/switch.sprite")
+      (x 940)
+      (y 650)
+    )
     (tilemap
       (solid #t)
       (z-pos 0)
@@ -55,92 +141,6 @@
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       )
-    )
-    (camera
-      (mode "normal")
-    )
-    (particles-clouds
-      (enabled #f)
-      (name "clouds")
-    )
-    (particles-ghosts
-      (enabled #f)
-      (name "ghosts")
-    )
-    (particles-snow
-      (enabled #f)
-      (name "snow")
-    )
-    (infoblock
-      (message (_ "-Enable cloud particle system"))
-      (x 320)
-      (y 576)
-    )
-    (switch
-      (script "clouds.set_enabled(true);")
-      (sprite "images/objects/switch/switch.sprite")
-      (x 320)
-      (y 650)
-    )
-    (infoblock
-      (message (_ "-Enable ghost particle system"))
-      (x 460)
-      (y 576)
-    )
-    (switch
-      (script "ghosts.set_enabled(true);")
-      (sprite "images/objects/switch/switch.sprite")
-      (x 460)
-      (y 650)
-    )
-    (infoblock
-      (message (_ "-Enable snow particle system"))
-      (x 580)
-      (y 576)
-    )
-    (switch
-      (script "snow.set_enabled(true);")
-      (sprite "images/objects/switch/switch.sprite")
-      (x 580)
-      (y 650)
-    )
-    (infoblock
-      (message (_ "-Disable cloud particle system"))
-      (x 700)
-      (y 576)
-    )
-    (switch
-      (script "clouds.set_enabled(false);")
-      (sprite "images/objects/switch/switch.sprite")
-      (x 700)
-      (y 650)
-    )
-    (infoblock
-      (message (_ "-Disable ghost particle system"))
-      (x 820)
-      (y 576)
-    )
-    (switch
-      (script "ghosts.set_enabled(false);")
-      (sprite "images/objects/switch/switch.sprite")
-      (x 820)
-      (y 650)
-    )
-    (infoblock
-      (message (_ "-Disable snow particle system"))
-      (x 940)
-      (y 576)
-    )
-    (switch
-      (script "snow.set_enabled(false);")
-      (sprite "images/objects/switch/switch.sprite")
-      (x 940)
-      (y 650)
-    )
-    (spawnpoint
-      (name "main")
-      (x 544)
-      (y 448)
     )
   )
 )

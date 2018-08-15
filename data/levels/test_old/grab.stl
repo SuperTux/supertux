@@ -6,6 +6,12 @@
   (sector
     (name "main")
     (ambient-light 1 1 1)
+    (background
+      (speed 0.5)
+      (image-top "images/background/arctis_top.jpg")
+      (image "images/background/arctis.jpg")
+      (image-bottom "images/background/arctis_bottom.jpg")
+    )
     (camera
       (mode "normal")
     )
@@ -36,23 +42,6 @@
     (mriceblock
       (x 192)
       (y 992)
-    )
-    (spawnpoint
-      (name "main")
-      (x 256)
-      (y 256)
-    )
-    (trampoline
-      (x 128)
-      (y 768)
-    )
-    (trampoline
-      (x 192)
-      (y 768)
-    )
-    (trampoline
-      (x 256)
-      (y 768)
     )
     (rock
       (x 672)
@@ -105,6 +94,11 @@
     (rock
       (x 352)
       (y 320)
+    )
+    (spawnpoint
+      (name "main")
+      (x 256)
+      (y 256)
     )
     (tilemap
       (solid #f)
@@ -235,11 +229,17 @@
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       )
     )
-    (background
-      (speed 0.5)
-      (image-top "images/background/arctis_top.jpg")
-      (image "images/background/arctis.jpg")
-      (image-bottom "images/background/arctis_bottom.jpg")
+    (trampoline
+      (x 128)
+      (y 768)
+    )
+    (trampoline
+      (x 192)
+      (y 768)
+    )
+    (trampoline
+      (x 256)
+      (y 768)
     )
   )
 )

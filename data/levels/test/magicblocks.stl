@@ -6,24 +6,65 @@
   (sector
     (name "main")
     (ambient-light 0.1451591 0.1451591 0.1451591)
+    (background
+      (speed 0.5)
+      (image-top "images/background/arctis_top.jpg")
+      (image "images/background/arctis.jpg")
+      (image-bottom "images/background/arctis_bottom.jpg")
+    )
     (camera
       (mode "normal")
     )
-    (spawnpoint
-      (name "main")
-      (x 96)
-      (y 96)
+    (candle
+      (x 384)
+      (y 544)
     )
-    (spotlight
-      (angle 90)
-      (color 1 0 1)
+    (candle
       (x 256)
-      (y 160)
+      (y 544)
     )
-    (spotlight
-      (angle 0)
-      (x 608)
-      (y 192)
+    (candle
+      (x 224)
+      (y 544)
+    )
+    (candle
+      (x 64)
+      (y 576)
+    )
+    (candle
+      (x 32)
+      (y 576)
+    )
+    (candle
+      (x 32)
+      (y 576)
+    )
+    (candle
+      (x 0)
+      (y 576)
+    )
+    (candle
+      (x 768)
+      (y 576)
+    )
+    (lantern
+      (x 1312)
+      (y 480)
+    )
+    (lantern
+      (color 1 0 0)
+      (x 1472)
+      (y 448)
+    )
+    (lantern
+      (color 1 1 0)
+      (x 2368)
+      (y 384)
+    )
+    (lantern
+      (color 0 0 0)
+      (x 1088)
+      (y 352)
     )
     (magicblock
       (color 1 1 1)
@@ -149,24 +190,21 @@
       (x 2720)
       (y 416)
     )
-    (lantern
-      (x 1312)
-      (y 480)
+    (spawnpoint
+      (name "main")
+      (x 96)
+      (y 96)
     )
-    (lantern
-      (color 1 0 0)
-      (x 1472)
-      (y 448)
+    (spotlight
+      (angle 90)
+      (color 1 0 1)
+      (x 256)
+      (y 160)
     )
-    (lantern
-      (color 1 1 0)
-      (x 2368)
-      (y 384)
-    )
-    (lantern
-      (color 0 0 0)
-      (x 1088)
-      (y 352)
+    (spotlight
+      (angle 0)
+      (x 608)
+      (y 192)
     )
     (switch
       (script "settings.set_ambient_light( settings.get_ambient_red(), 1, settings.get_ambient_blue() );")
@@ -188,38 +226,6 @@
       (sprite "images/objects/switch/right.sprite")
       (x 640)
       (y 544)
-    )
-    (candle
-      (x 384)
-      (y 544)
-    )
-    (candle
-      (x 256)
-      (y 544)
-    )
-    (candle
-      (x 224)
-      (y 544)
-    )
-    (candle
-      (x 64)
-      (y 576)
-    )
-    (candle
-      (x 32)
-      (y 576)
-    )
-    (candle
-      (x 32)
-      (y 576)
-    )
-    (candle
-      (x 0)
-      (y 576)
-    )
-    (candle
-      (x 768)
-      (y 576)
     )
     (tilemap
       (solid #f)
@@ -304,12 +310,6 @@
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       )
-    )
-    (background
-      (speed 0.5)
-      (image-top "images/background/arctis_top.jpg")
-      (image "images/background/arctis.jpg")
-      (image-bottom "images/background/arctis_bottom.jpg")
     )
   )
 )

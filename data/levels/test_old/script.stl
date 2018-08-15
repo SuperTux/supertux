@@ -42,17 +42,22 @@ while(true) {
 }
 ")
     (ambient-light 1 1 1)
+    (ambient_sound
+      (sample "phone")
+      (distance_factor 0.01)
+      (distance_bias 200)
+      (volume 0)
+      (width 32)
+      (height 32)
+      (x 674)
+      (y 390)
+    )
     (background
       (speed 0.5)
       (image "images/background/semi_arctic.jpg")
     )
     (camera
       (mode "normal")
-    )
-    (spawnpoint
-      (name "main")
-      (x 320)
-      (y 416)
     )
     (infoblock
       (message (_ "-VoiceMail
@@ -79,17 +84,12 @@ while(true) {
       (x 390)
       (y 448)
     )
-    (ambient_sound
-      (sample "phone")
-      (distance_factor 0.01)
-      (distance_bias 200)
-      (volume 0)
-      (width 32)
-      (height 32)
-      (x 674)
-      (y 390)
-    )
     (particles-snow
+    )
+    (spawnpoint
+      (name "main")
+      (x 320)
+      (y 416)
     )
     (tilemap
       (solid #f)

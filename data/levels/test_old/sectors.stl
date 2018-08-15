@@ -9,6 +9,63 @@
       (speed 0.5)
       (image "images/background/arctis.jpg")
     )
+    (background
+      (speed 0.5)
+      (image "images/background/arctis.jpg")
+    )
+    (camera
+      (mode "normal")
+    )
+    (door
+      (sector "another_world")
+      (spawnpoint "main")
+      (x 0)
+      (y 320)
+    )
+    (door
+      (sector "another_world")
+      (spawnpoint "main")
+      (x 832)
+      (y 320)
+    )
+    (fish
+      (x 509)
+      (y 181)
+    )
+    (flyingsnowball
+      (x 941)
+      (y 222)
+    )
+    (mriceblock
+      (x 323)
+      (y 74)
+    )
+    (snowball
+      (x 259)
+      (y 303)
+    )
+    (spawnpoint
+      (name "main")
+      (x 96)
+      (y 160)
+    )
+    (spawnpoint
+      (name "behind")
+      (x 1280)
+      (y 160)
+    )
+    (spiky
+      (x 656)
+      (y 306)
+    )
+    (stalactite
+      (x 1159)
+      (y 288)
+    )
+    (stalactite
+      (x 1235)
+      (y 288)
+    )
     (tilemap
       (solid #t)
       (z-pos 0)
@@ -32,63 +89,6 @@
       10 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11
       )
     )
-    (camera
-      (mode "normal")
-    )
-    (spawnpoint
-      (name "main")
-      (x 96)
-      (y 160)
-    )
-    (background
-      (speed 0.5)
-      (image "images/background/arctis.jpg")
-    )
-    (door
-      (sector "another_world")
-      (spawnpoint "main")
-      (x 0)
-      (y 320)
-    )
-    (door
-      (sector "another_world")
-      (spawnpoint "main")
-      (x 832)
-      (y 320)
-    )
-    (fish
-      (x 509)
-      (y 181)
-    )
-    (flyingsnowball
-      (x 941)
-      (y 222)
-    )
-    (spiky
-      (x 656)
-      (y 306)
-    )
-    (snowball
-      (x 259)
-      (y 303)
-    )
-    (stalactite
-      (x 1159)
-      (y 288)
-    )
-    (stalactite
-      (x 1235)
-      (y 288)
-    )
-    (mriceblock
-      (x 323)
-      (y 74)
-    )
-    (spawnpoint
-      (name "behind")
-      (x 1280)
-      (y 160)
-    )
   )
   (sector
     (name "another_world")
@@ -96,6 +96,43 @@
     (background
       (speed 0.5)
       (image "images/background/arctis.jpg")
+    )
+    (background
+      (speed 0.5)
+      (image "images/background/cave2.jpg")
+    )
+    (camera
+      (mode "normal")
+    )
+    (door
+      (sector "another_world")
+      (spawnpoint "main")
+      (x 2496)
+      (y 1280)
+    )
+    (door
+      (sector "main")
+      (spawnpoint "main")
+      (x 2592)
+      (y 1280)
+    )
+    (door
+      (sector "main")
+      (spawnpoint "behind")
+      (x 352)
+      (y 256)
+    )
+    (secretarea
+      (message "good jumper")
+      (width 95.73828)
+      (height 127.5938)
+      (x 1791.793)
+      (y 897.2344)
+    )
+    (spawnpoint
+      (name "main")
+      (x 288)
+      (y 160)
     )
     (tilemap
       (solid #t)
@@ -305,39 +342,9 @@
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       )
     )
-    (camera
-      (mode "normal")
-    )
     (trampoline
       (x 1900)
       (y 1500)
-    )
-    (background
-      (speed 0.5)
-      (image "images/background/cave2.jpg")
-    )
-    (door
-      (sector "another_world")
-      (spawnpoint "main")
-      (x 2496)
-      (y 1280)
-    )
-    (door
-      (sector "main")
-      (spawnpoint "main")
-      (x 2592)
-      (y 1280)
-    )
-    (spawnpoint
-      (name "main")
-      (x 288)
-      (y 160)
-    )
-    (door
-      (sector "main")
-      (spawnpoint "behind")
-      (x 352)
-      (y 256)
     )
     (unstable_tile
       (sprite "images/objects/unstable_tile/unstable_tile.sprite")
@@ -373,13 +380,6 @@
       (sprite "images/objects/unstable_tile/unstable_tile.sprite")
       (x 1920)
       (y 1088)
-    )
-    (secretarea
-      (message "good jumper")
-      (width 95.73828)
-      (height 127.5938)
-      (x 1791.793)
-      (y 897.2344)
     )
   )
 )

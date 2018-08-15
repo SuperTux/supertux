@@ -15,6 +15,42 @@
       (image "images/background/BlueRock_Forest/blue-middle.jpg")
       (image-bottom "images/background/BlueRock_Forest/blue-bottom.jpg")
     )
+    (camera
+      (mode "normal")
+    )
+    (coin
+      (collect-script "sector.settings.set_ambient_light(1.0, 0, 0);")
+      (sprite "images/objects/coin/coin.sprite")
+      (path
+        (node
+          (x 349.7143)
+          (y 575.9999)
+        )
+      )
+    )
+    (heavycoin
+      (collect-script "sector.settings.set_ambient_light(0, 1.0, 0);")
+      (sprite "images/objects/coin/coin.sprite")
+      (x 604.9528)
+      (y 574.4766)
+    )
+    (infoblock
+      (message (_ "#Upon collecting the coin, the sector ambient
+#light color should change to red."))
+      (x 193.5238)
+      (y 480.7117)
+    )
+    (infoblock
+      (message (_ "#Upon collecting the heavy coin, the
+#ambient color should change to green!"))
+      (x 512.7621)
+      (y 478.4261)
+    )
+    (spawnpoint
+      (name "main")
+      (x 64)
+      (y 480)
+    )
     (tilemap
       (solid #f)
       (z-pos -100)
@@ -143,42 +179,6 @@
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       )
-    )
-    (spawnpoint
-      (name "main")
-      (x 64)
-      (y 480)
-    )
-    (camera
-      (mode "normal")
-    )
-    (coin
-      (collect-script "sector.settings.set_ambient_light(1.0, 0, 0);")
-      (sprite "images/objects/coin/coin.sprite")
-      (path
-        (node
-          (x 349.7143)
-          (y 575.9999)
-        )
-      )
-    )
-    (infoblock
-      (message (_ "#Upon collecting the coin, the sector ambient
-#light color should change to red."))
-      (x 193.5238)
-      (y 480.7117)
-    )
-    (infoblock
-      (message (_ "#Upon collecting the heavy coin, the
-#ambient color should change to green!"))
-      (x 512.7621)
-      (y 478.4261)
-    )
-    (heavycoin
-      (collect-script "sector.settings.set_ambient_light(0, 1.0, 0);")
-      (sprite "images/objects/coin/coin.sprite")
-      (x 604.9528)
-      (y 574.4766)
     )
   )
 )

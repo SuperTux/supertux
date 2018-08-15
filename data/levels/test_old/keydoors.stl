@@ -10,10 +10,16 @@
       EARTHHINT.set_action(\"outline\");
       WOODHINT.set_action(\"outline\");")
     (ambient-light 1 1 1)
-    (spawnpoint
-      (name "main")
-      (x 96)
-      (y 608)
+    (background
+      (x 500)
+      (y 500)
+      (speed 0.5)
+      (image-top "images/background/BlueRock_Forest/blue-top.jpg")
+      (image "images/background/BlueRock_Forest/blue-middle.jpg")
+      (image-bottom "images/background/BlueRock_Forest/blue-bottom.jpg")
+    )
+    (camera
+      (mode "normal")
     )
     (platform
       (running #f)
@@ -82,13 +88,6 @@
       (x 1216)
       (y 480)
     )
-    (sequencetrigger
-      (sequence "endsequence")
-      (width 32)
-      (height 124)
-      (x 3008)
-      (y 288)
-    )
     (scripttrigger
       (script "if(state.world2_keys.wood) {
 	wait(1);
@@ -135,16 +134,17 @@
       (x 2112)
       (y 320)
     )
-    (camera
-      (mode "normal")
+    (sequencetrigger
+      (sequence "endsequence")
+      (width 32)
+      (height 124)
+      (x 3008)
+      (y 288)
     )
-    (background
-      (x 500)
-      (y 500)
-      (speed 0.5)
-      (image-top "images/background/BlueRock_Forest/blue-top.jpg")
-      (image "images/background/BlueRock_Forest/blue-middle.jpg")
-      (image-bottom "images/background/BlueRock_Forest/blue-bottom.jpg")
+    (spawnpoint
+      (name "main")
+      (x 96)
+      (y 608)
     )
     (tilemap
       (solid #f)

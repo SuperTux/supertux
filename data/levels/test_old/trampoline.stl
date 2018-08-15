@@ -6,9 +6,30 @@
   (sector
     (name "main")
     (ambient-light 1 1 1)
+    (camera
+      (mode "normal")
+    )
     (gradient
       (top_color 0.108017 0.7639008 0.8920441)
       (bottom_color 0.9094849 0.5871124 0.1132812)
+    )
+    (mrbomb
+      (sprite "images/creatures/mr_bomb/mr_bomb.sprite")
+      (x 608)
+      (y 1024)
+    )
+    (rock
+      (x 32)
+      (y 1056)
+    )
+    (rock
+      (x 32)
+      (y 1024)
+    )
+    (spawnpoint
+      (name "main")
+      (x 128)
+      (y 992)
     )
     (tilemap
       (solid #f)
@@ -139,19 +160,6 @@
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       )
     )
-    (camera
-      (mode "normal")
-    )
-    (mrbomb
-      (sprite "images/creatures/mr_bomb/mr_bomb.sprite")
-      (x 608)
-      (y 1024)
-    )
-    (spawnpoint
-      (name "main")
-      (x 128)
-      (y 992)
-    )
     (trampoline
       (x 352)
       (y 1056)
@@ -168,14 +176,6 @@
       (portable #f)
       (x 256)
       (y 1056)
-    )
-    (rock
-      (x 32)
-      (y 1056)
-    )
-    (rock
-      (x 32)
-      (y 1024)
     )
   )
 )

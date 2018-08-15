@@ -12,6 +12,42 @@
       (image "images/background/BlueRock_Forest/blue-middle.jpg")
       (image-bottom "images/background/BlueRock_Forest/blue-bottom.jpg")
     )
+    (camera
+      (mode "normal")
+    )
+    (jumpy
+      (x 288)
+      (y 32)
+    )
+    (jumpy
+      (x 416)
+      (y 128)
+    )
+    (jumpy
+      (x 544)
+      (y 32)
+    )
+    (jumpy
+      (x 640)
+      (y 128)
+    )
+    (powerup
+      (sprite "images/powerups/fireflower/fireflower.sprite")
+      (x 32)
+      (y 96)
+    )
+    (sequencetrigger
+      (sequence "endsequence")
+      (width 60)
+      (height 220)
+      (x 896)
+      (y 0)
+    )
+    (spawnpoint
+      (name "main")
+      (x 32)
+      (y 96)
+    )
     (tilemap
       (solid #f)
       (z-pos -100)
@@ -59,30 +95,6 @@
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       )
-    )
-    (camera
-      (mode "normal")
-    )
-    (jumpy
-      (x 288)
-      (y 32)
-    )
-    (jumpy
-      (x 416)
-      (y 128)
-    )
-    (jumpy
-      (x 544)
-      (y 32)
-    )
-    (jumpy
-      (x 640)
-      (y 128)
-    )
-    (spawnpoint
-      (name "main")
-      (x 32)
-      (y 96)
     )
     (weak_block
       (x 96)
@@ -267,18 +279,6 @@
     (weak_block
       (x 864)
       (y 32)
-    )
-    (powerup
-      (sprite "images/powerups/fireflower/fireflower.sprite")
-      (x 32)
-      (y 96)
-    )
-    (sequencetrigger
-      (sequence "endsequence")
-      (width 60)
-      (height 220)
-      (x 896)
-      (y 0)
     )
   )
 )

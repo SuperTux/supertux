@@ -20,13 +20,53 @@
     (camera
       (mode "normal")
     )
-    (firefly
-      (x 5360)
-      (y 288)
-    )
     (captainsnowball
       (x 7131)
       (y 322)
+    )
+    (captainsnowball
+      (x 1089)
+      (y 404)
+    )
+    (captainsnowball
+      (x 1687)
+      (y 408)
+    )
+    (captainsnowball
+      (x 1970)
+      (y 408)
+    )
+    (captainsnowball
+      (x 2930)
+      (y 408)
+    )
+    (captainsnowball
+      (x 2970)
+      (y 409)
+    )
+    (captainsnowball
+      (x 3553)
+      (y 281)
+    )
+    (captainsnowball
+      (x 4634)
+      (y 409)
+    )
+    (captainsnowball
+      (x 4788)
+      (y 408)
+    )
+    (captainsnowball
+      (x 7554)
+      (y 397)
+    )
+    (captainsnowball
+      (x 7639)
+      (y 397)
+    )
+    (firefly
+      (x 5360)
+      (y 288)
     )
     (infoblock
       (message (_ "-Bonus Blocks
@@ -96,46 +136,6 @@
       (height 171)
       (x 8564)
       (y 283)
-    )
-    (captainsnowball
-      (x 1089)
-      (y 404)
-    )
-    (captainsnowball
-      (x 1687)
-      (y 408)
-    )
-    (captainsnowball
-      (x 1970)
-      (y 408)
-    )
-    (captainsnowball
-      (x 2930)
-      (y 408)
-    )
-    (captainsnowball
-      (x 2970)
-      (y 409)
-    )
-    (captainsnowball
-      (x 3553)
-      (y 281)
-    )
-    (captainsnowball
-      (x 4634)
-      (y 409)
-    )
-    (captainsnowball
-      (x 4788)
-      (y 408)
-    )
-    (captainsnowball
-      (x 7554)
-      (y 397)
-    )
-    (captainsnowball
-      (x 7639)
-      (y 397)
     )
     (spawnpoint
       (name "main")

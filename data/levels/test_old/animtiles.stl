@@ -9,6 +9,11 @@
       (speed 0.5)
       (image "images/background/arctis.jpg")
     )
+    (camera
+      (mode "normal")
+      (path
+      )
+    )
     (tilemap
       (solid #f)
       (z-pos -100)
@@ -91,11 +96,6 @@
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-      )
-    )
-    (camera
-      (mode "normal")
-      (path
       )
     )
   )

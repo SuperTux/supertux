@@ -6,8 +6,34 @@
   (sector
     (name "main")
     (ambient-light 1 1 1)
+    (background
+      (speed 0.5)
+      (image-top "images/background/arctis_top.jpg")
+      (image "images/background/arctis.jpg")
+      (image-bottom "images/background/arctis_bottom.jpg")
+    )
     (camera
       (mode "normal")
+    )
+    (poisonivy
+      (x 210.0589)
+      (y 241.3137)
+    )
+    (poisonivy
+      (x 586.8284)
+      (y 242.9706)
+    )
+    (poisonivy
+      (x 195.6325)
+      (y 373.799)
+    )
+    (poisonivy
+      (x 181.0193)
+      (y 791.9596)
+    )
+    (poisonivy
+      (x 661.8519)
+      (y 786.3027)
     )
     (sspiky
       (x 224)
@@ -57,26 +83,6 @@
       (x 224)
       (y 512)
     )
-    (poisonivy
-      (x 210.0589)
-      (y 241.3137)
-    )
-    (poisonivy
-      (x 586.8284)
-      (y 242.9706)
-    )
-    (poisonivy
-      (x 195.6325)
-      (y 373.799)
-    )
-    (poisonivy
-      (x 181.0193)
-      (y 791.9596)
-    )
-    (poisonivy
-      (x 661.8519)
-      (y 786.3027)
-    )
     (spawnpoint
       (name "main")
       (x 398.1423)
@@ -124,12 +130,6 @@
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 28 28 28 28 0 0 0 0 0 0 0 0 0 28 28 28 28 28 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       )
-    )
-    (background
-      (speed 0.5)
-      (image-top "images/background/arctis_top.jpg")
-      (image "images/background/arctis.jpg")
-      (image-bottom "images/background/arctis_bottom.jpg")
     )
   )
 )

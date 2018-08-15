@@ -6,14 +6,17 @@
     (name "main")
     (music "music/chipdisko.ogg")
     (ambient-light 1 1 1)
+    (background
+      (speed 0.5)
+      (image "images/background/arctis.jpg")
+    )
+    (camera
+      (mode "normal")
+    )
     (spawnpoint
       (name "main")
       (x 100)
       (y 100)
-    )
-    (background
-      (speed 0.5)
-      (image "images/background/arctis.jpg")
     )
     (tilemap
       (solid #t)
@@ -41,9 +44,6 @@
       13 14 14 14 14 14 14 15 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       10 11 11 11 11 11 11 12 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       )
-    )
-    (camera
-      (mode "normal")
     )
   )
 )

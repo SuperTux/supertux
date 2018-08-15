@@ -75,30 +75,6 @@
       (x 96)
       (y 96)
     )
-    (walking_candle
-      (color 1 0 0)
-      (x 486)
-      (y 522)
-    )
-    (walking_candle
-      (color 0 1 0)
-      (x 1286)
-      (y 618)
-    )
-    (walking_candle
-      (color 0 0 1)
-      (x 1446)
-      (y 618)
-    )
-    (walking_candle
-      (color 1 1 0)
-      (x 1382)
-      (y 490)
-    )
-    (walking_candle
-      (x 1606)
-      (y 522)
-    )
     (tilemap
       (solid #t)
       (z-pos 0)
@@ -142,6 +118,30 @@
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       )
+    )
+    (walking_candle
+      (color 1 0 0)
+      (x 486)
+      (y 522)
+    )
+    (walking_candle
+      (color 0 1 0)
+      (x 1286)
+      (y 618)
+    )
+    (walking_candle
+      (color 0 0 1)
+      (x 1446)
+      (y 618)
+    )
+    (walking_candle
+      (color 1 1 0)
+      (x 1382)
+      (y 490)
+    )
+    (walking_candle
+      (x 1606)
+      (y 522)
     )
   )
 )

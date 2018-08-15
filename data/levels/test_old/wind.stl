@@ -9,6 +9,23 @@
       (speed 0.5)
       (image "images/background/arctis.jpg")
     )
+    (camera
+      (mode "normal")
+    )
+    (spawnpoint
+      (name "main")
+      (x 668.0976)
+      (y 833.941)
+    )
+    (switch
+      (script "pipeair1.start();
+wait(3);
+pipeair1.stop();
+")
+      (sprite "images/objects/switch/left.sprite")
+      (x 907)
+      (y 858)
+    )
     (tilemap
       (solid #f)
       (z-pos -100)
@@ -122,23 +139,6 @@
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       )
-    )
-    (camera
-      (mode "normal")
-    )
-    (spawnpoint
-      (name "main")
-      (x 668.0976)
-      (y 833.941)
-    )
-    (switch
-      (script "pipeair1.start();
-wait(3);
-pipeair1.stop();
-")
-      (sprite "images/objects/switch/left.sprite")
-      (x 907)
-      (y 858)
     )
     (wind
       (blowing #f)
