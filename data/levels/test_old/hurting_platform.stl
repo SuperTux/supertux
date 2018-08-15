@@ -7,7 +7,7 @@
     (background
       (x 0)
       (y 0)
-      (image "images/background/castledoor.jpg")
+      (image "images/background/castle_foreground.png")
       (speed 0.5)
     )
     (tilemap
