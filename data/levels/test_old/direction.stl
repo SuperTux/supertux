@@ -180,7 +180,6 @@
     (dispenser
       (badguy "random")
       (cycle 1)
-      (direction "")
       (x 1379.381)
       (y 911.5566)
     )
