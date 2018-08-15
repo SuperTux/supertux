@@ -183,31 +183,6 @@
     (camera
       (mode "normal")
     )
-
-     (bonusblock (x 160) (y 160)
-          (contents "custom")
-          (powerup
-            (sprite "images/powerups/potions/red-potion.sprite")
-            (script "
-Effect.set_black(true);
-wait(0.1);
-Effect.set_black(false);
-wait(0.07);
-Effect.set_black(true);
-wait(0.11);
-Effect.set_black(false);
-wait(0.09);
-Effect.set_black(true);
-wait(0.6);
-Level.flip_vertically();
-Effect.fade_in(1);
-")
-          )
-      )
-   )
- )
-
-;; EOF ;;
     (background
       (speed 0.5)
       (image "images/background/ghostforest.jpg")
@@ -221,3 +196,29 @@ Effect.fade_in(1);
     )
     (particles-rain
     )
+    (bonusblock
+      (custom-contents
+         (powerup           (sprite "images/powerups/potions/red-potion.sprite")
+           (script "
+Effect.set_black(true);
+wait(0.1);
+Effect.set_black(false);
+wait(0.07);
+Effect.set_black(true);
+wait(0.11);
+Effect.set_black(false);
+wait(0.09);
+Effect.set_black(true);
+wait(0.6);
+Level.flip_vertically();
+Effect.fade_in(1);
+")
+)
+      )
+      (script "")
+      (contents "custom")
+      (x 160)
+      (y 160)
+    )
+  )
+)

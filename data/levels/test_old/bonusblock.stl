@@ -67,12 +67,13 @@
 #red potions.
 #Better seek for blue
 #potions."))
-      )
-       (bonusblock (x 96) (y 800)
-          (contents "custom")
-          (powerup
-            (sprite "images/powerups/potions/red-potion.sprite")
-            (script "
+      (x 128)
+      (y 800)
+    )
+    (bonusblock
+      (custom-contents
+         (powerup           (sprite "images/powerups/potions/red-potion.sprite")
+           (script "
 Effect.set_black(true);
 wait(0.1);
 Effect.set_black(false);
@@ -86,21 +87,28 @@ wait(0.6);
 Level.flip_vertically();
 Effect.fade_in(1);
 ")
-          )
+)
       )
-      (bonusblock (x 470) (y 96)
-        (contents "custom")
-        (powerup
-          (sprite "images/powerups/potions/blue-potion.sprite")
-          (script "
+      (script "")
+      (contents "custom")
+      (x 96)
+      (y 800)
+    )
+    (bonusblock
+      (custom-contents
+         (powerup           (sprite "images/powerups/potions/blue-potion.sprite")
+           (script "
 Effect.fade_out(1);
 wait(1);
 Level.flip_vertically();
 Effect.fade_in(1);
 ")
-        )
+)
       )
-   )
- )
-
-;; EOF ;;
+      (script "")
+      (contents "custom")
+      (x 470)
+      (y 96)
+    )
+  )
+)

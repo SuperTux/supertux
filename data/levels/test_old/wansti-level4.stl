@@ -90,31 +90,6 @@
     (camera
       (mode "normal")
     )
-             (bonusblock (x 160) (y 288)
-          (contents "custom")
-          (powerup
-            (sprite "images/powerups/potions/red-potion.sprite")
-            (script "
-DisplayEffect.set_black(true);
-wait(0.1);
-DisplayEffect.set_black(false);
-wait(0.07);
-DisplayEffect.set_black(true);
-wait(0.11);
-DisplayEffect.set_black(false);
-wait(0.09);
-DisplayEffect.set_black(true);
-wait(0.6);
-Level.flip_vertically();
-DisplayEffect.fade_in(1);
-")
-          )
-      )
-       (bell (x 7554) (y 224))
-   )
- )
-
-;; EOF ;;
     (snowball
       (x 954)
       (y 375)
@@ -388,3 +363,29 @@ DisplayEffect.fade_in(1);
       (speed 0.5)
       (image "images/background/cave2.jpg")
     )
+    (bonusblock
+      (custom-contents
+         (powerup           (sprite "images/powerups/potions/red-potion.sprite")
+           (script "
+DisplayEffect.set_black(true);
+wait(0.1);
+DisplayEffect.set_black(false);
+wait(0.07);
+DisplayEffect.set_black(true);
+wait(0.11);
+DisplayEffect.set_black(false);
+wait(0.09);
+DisplayEffect.set_black(true);
+wait(0.6);
+Level.flip_vertically();
+DisplayEffect.fade_in(1);
+")
+)
+      )
+      (script "")
+      (contents "custom")
+      (x 160)
+      (y 288)
+    )
+  )
+)
