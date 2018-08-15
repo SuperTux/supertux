@@ -1,45 +1,39 @@
-;
-;
-; $Id$
-;
-; SuperTux 0.1.3 to SuperTux 0.2.x level conversion helper
-; Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
-;
-; This program is free software; you can redistribute it and/or
-; modify it under the terms of the GNU General Public License
-; as published by the Free Software Foundation; either version 2
-; of the License, or (at your option) any later version.
-;
-; This program is distributed in the hope that it will be useful,
-; but WITHOUT ANY WARRANTY; without even the implied warranty of
-; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-; GNU General Public License for more details.
-;
-; You should have received a copy of the GNU General Public License
-; along with this program; if not, write to the Free Software
-; Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-;
+#!/usr/bin/guile -s
+!#
 
-; ---------------------------------------------------------------------------
+;; SuperTux 0.1.3 to SuperTux 0.2.x level conversion helper
+;; Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
+;
+;; This program is free software; you can redistribute it and/or
+;; modify it under the terms of the GNU General Public License
+;; as published by the Free Software Foundation; either version 2
+;; of the License, or (at your option) any later version.
+;
+;; This program is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+;
+;; You should have received a copy of the GNU General Public License
+;; along with this program; if not, write to the Free Software
+;; Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 ;
-; The rest of this file may seem like a Long Irritating Series of Parentheses,
-; but it's actually a program. Install a Scheme interpreter, e.g. scm, to run
-; it.
+;; The rest of this file may seem like a Long Irritating Series of Parentheses,
+;; but it's actually a program. Install a Scheme interpreter, e.g. scm, to run
+;; it.
 ;
-; This program aids in the conversion of SuperTux levels from 0.1.3 level
-; format to the one used by SuperTux 0.2.x.
+;; This program aids in the conversion of SuperTux levels from 0.1.3 level
+;; format to the one used by SuperTux 0.2.x.
 ;
-; Usage:
-;   levelconverter-0.1.3_0.2.0.scm < oldformat.stl > newformat.stl
+;; Usage:
+;;   levelconverter-0.1.3_0.2.0.scm < oldformat.stl > newformat.stl
 ;
-; Bugs:
-;   Some things (like what background image to use) are not converted:
-;   they will need manual adjustment afterwards.
+;; Bugs:
+;;   Some things (like what background image to use) are not converted:
+;;   they will need manual adjustment afterwards.
 
-; ---------------------------------------------------------------------------
-
-; return first sublist in haystack that starts with needle or #f if none is found
+;; return first sublist in haystack that starts with needle or #f if none is found
 (define (find-sublist haystack needle)
   (cond
     (
@@ -57,7 +51,7 @@
     )
   )
 
-; return SuperTux 0.1.3 object in SuperTux 0.2.x form
+;; return SuperTux 0.1.3 object in SuperTux 0.2.x form
 (define (convert-object object)
   (cond
     (
@@ -71,7 +65,7 @@
     )
   )
 
-; return SuperTux 0.1.3 level in SuperTux 0.2.x form
+;; return SuperTux 0.1.3 level in SuperTux 0.2.x form
 (define (convert-level level)
   (let
     (
@@ -97,8 +91,8 @@
     (if (not start_pos_x) (set! start_pos_x '(100)))
     (if (not start_pos_y) (set! start_pos_y '(170)))
     (if (not interactive-tm) (error "No interactive tilemap given"))
-    (if (not background-tm) (error "No background tilemap given"))
-    (if (not foreground-tm) (error "No foreground tilemap given"))
+    (if (not background-tm) (warn "No background tilemap given"))
+    (if (not foreground-tm) (warn "No foreground tilemap given"))
     (if (not objects) (error "No objects list given"))
     (quasiquote
       (supertux-level
@@ -113,30 +107,33 @@
 		 (top_color 0 0 0.2)
 		 (bottom_color 0 0 0.6)
 		 )
-	       (tilemap
+               ,@(if foreground-tm
+                `((tilemap
 		 (z-pos -100)
 		 (solid #f)
 		 (speed 1)
 		 (width ,(car width))
 		 (height ,(car height))
-		 ,(append '(tiles) background-tm)
-		 )
+		 (tiles ,@background-tm)
+		 ))
+                '())
 	       (tilemap
 		 (z-pos 0)
 		 (solid #t)
 		 (speed 1)
 		 (width ,(car width))
 		 (height ,(car height))
-		 ,(append '(tiles) interactive-tm)
+		 (tiles ,@interactive-tm)
 		 )
-	       (tilemap
-		 (z-pos 100)
+               ,@(if foreground-tm
+                `((tilemap
+                 (z-pos 100)
 		 (solid #f)
 		 (speed 1)
 		 (width ,(car width))
 		 (height ,(car height))
-		 ,(append '(tiles) foreground-tm)
-		 )
+		 (tiles ,@foreground-tm)
+		 )) '())
 	       (spawnpoint
 		 (name "main")
 		 (x ,(car start_pos_x))
@@ -151,8 +148,10 @@
     )
   )
 
-; run conversion on stdin, output to stdout
+;; run conversion on stdin, output to stdout
 (write (convert-level (read)))
 (newline)
 (quit)
+
+;; EOF ;;
 
