@@ -196,7 +196,7 @@
       (scriptedobject
         (x 2291) (y 1275)
         (name "SUPERTUX")
-        (sprite "images/creatures/tux_big/tux.sprite")
+        (sprite "images/creatures/tux/tux.sprite")
         (z-pos 100)
         (visible #t)
         (physic-enabled #t)
