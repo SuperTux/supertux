@@ -928,8 +928,8 @@
       (y 10)
     )
     (level
-      (name "flowers.stl")
       (auto-play #t)
+      (name "flowers.stl")
       (sprite "images/worldmap/common/hiddendot.sprite")
       (x 21)
       (y 25)

@@ -736,8 +736,8 @@
       )
     )
     (level
-      (name "intro.stl")
       (auto-play #t)
+      (name "intro.stl")
       (sprite "images/objects/invisible/invisible.sprite")
       (x 4)
       (y 5)
