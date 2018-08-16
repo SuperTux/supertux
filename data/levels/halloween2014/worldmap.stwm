@@ -292,8 +292,7 @@
       (y 10)
     )
     (level
-      (extro-script " wait_for_screenswitch();
-			  display_text_file( \"levels/halloween2014/outro.txt\"	);")
+      (extro-script "wait_for_screenswitch(); display_text_file( \"levels/halloween2014/outro.txt\"); wait_for_screenswitch(); exit_worldmap();")
       (name "outro.stl")
       (sprite "images/objects/invisible/invisible.sprite")
       (x 32)
