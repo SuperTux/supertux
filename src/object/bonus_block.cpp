@@ -35,6 +35,7 @@
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
+#include "util/reader_collection.hpp"
 #include "util/writer.hpp"
 #include "video/drawing_context.hpp"
 #include "video/surface.hpp"
@@ -53,8 +54,8 @@ BonusBlock::BonusBlock(const Vector& pos, int data) :
   preload_contents(data);
 }
 
-BonusBlock::BonusBlock(const ReaderMapping& lisp) :
-  Block(lisp, "images/objects/bonus_block/bonusblock.sprite"),
+BonusBlock::BonusBlock(const ReaderMapping& mapping) :
+  Block(mapping, "images/objects/bonus_block/bonusblock.sprite"),
   contents(),
   object(0),
   hit_counter(1),
@@ -62,7 +63,7 @@ BonusBlock::BonusBlock(const ReaderMapping& lisp) :
   lightsprite()
 {
   contents = CONTENT_COIN;
-  auto iter = lisp.get_iter();
+  auto iter = mapping.get_iter();
   while(iter.next()) {
     const std::string& token = iter.get_key();
     if(token == "x" || token == "y" || token == "sprite") {
@@ -80,8 +81,39 @@ BonusBlock::BonusBlock(const ReaderMapping& lisp) :
       std::string contentstring;
       iter.get(contentstring);
       contents = get_content_from_string(contentstring);
+
+      if (contents == CONTENT_CUSTOM)
+      {
+        ReaderCollection content_collection;
+        if (!mapping.get("custom-contents", content_collection))
+        {
+          log_warning << "bonusblock is missing 'custom-contents' tag" << std::endl;
+        }
+        else
+        {
+          const auto& object_specs = content_collection.get_objects();
+          if (!object_specs.empty()) {
+            if (object_specs.size() > 1) {
+              log_warning << "only one object allowed in bonusblock 'custom-contents', ignoring the rest" << std::endl;
+            }
+
+            const ReaderObject& spec = object_specs[0];
+            GameObjectPtr game_object = ObjectFactory::instance().create(spec.get_name(), spec.get_mapping());
+
+            object = std::dynamic_pointer_cast<MovingObject>(game_object);
+            if (!object) {
+              log_warning << "Only MovingObjects are allowed inside BonusBlocks" << std::endl;
+            }
+          }
+        }
+      }
+    } else if(token == "custom-contents") {
+      // handled elsewhere
     } else {
-      if(contents == CONTENT_CUSTOM) {
+      if(contents == CONTENT_CUSTOM && !object) {
+        // FIXME: This an ugly mess, could probably be removed as of
+        // 16. Aug 2018 no level in either the supertux or the
+        // addon-src repository is using this anymore
         ReaderMapping object_mapping = iter.as_mapping();
         GameObjectPtr game_object = ObjectFactory::instance().create(token, object_mapping);
         object = std::dynamic_pointer_cast<MovingObject>(game_object);
