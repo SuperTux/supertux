@@ -23,6 +23,12 @@ function end_level()
   Level.finish(true);
 }
 
+function exit_worldmap()
+{
+  wait_for_screenswitch();
+  exit_screen();
+}
+
 function levelflip()
 {
   Effect.fade_out(1);
