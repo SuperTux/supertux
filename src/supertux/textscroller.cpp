@@ -17,6 +17,8 @@
 
 #include "supertux/textscroller.hpp"
 
+#include <sstream>
+
 #include "audio/sound_manager.hpp"
 #include "control/input_manager.hpp"
 #include "supertux/fadein.hpp"

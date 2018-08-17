@@ -18,6 +18,7 @@
 
 #include <SDL_image.h>
 #include <assert.h>
+#include <sstream>
 
 #include "math/rect.hpp"
 #include "physfs/physfs_sdl.hpp"

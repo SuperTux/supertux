@@ -21,6 +21,7 @@
 #include <algorithm>
 #include <physfs.h>
 #include <cmath>
+#include <sstream>
 
 #include "physfs/physfs_sdl.hpp"
 #include "util/file_system.hpp"
