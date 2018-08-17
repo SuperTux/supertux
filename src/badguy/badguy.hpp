@@ -19,9 +19,14 @@
 
 #include "editor/object_option.hpp"
 #include "object/moving_sprite.hpp"
+#include "object/particles.hpp"
 #include "supertux/direction.hpp"
 #include "supertux/physic.hpp"
 #include "supertux/timer.hpp"
+
+#include "video/video_system.hpp"
+#include "video/viewport.hpp"
+
 
 class Dispenser;
 class Player;
@@ -291,6 +296,10 @@ private:
   /** true if we touched something solid from above and
       update_on_ground_flag was called last frame */
   bool on_ground_flag;
+
+  /** the defined Particle effect for this object.
+      Will need to  be defined in the constructor for each badguy */
+  bool has_death_particles;
 
   /** floor normal stored the last time when update_on_ground_flag was
       called and we touched something solid from above */

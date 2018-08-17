@@ -36,6 +36,7 @@ Particles::Particles(const Vector& epicenter, int min_angle, int max_angle,
   color(color_),
   size(static_cast<float>(size_)),
   drawing_layer(drawing_layer_),
+  m_gravity(0.0f),
   particles()
 {
   if(life_time == 0) {
@@ -75,6 +76,46 @@ Particles::Particles(const Vector& epicenter, int min_angle, int max_angle,
   color(color_),
   size(static_cast<float>(size_)),
   drawing_layer(drawing_layer_),
+  m_gravity(0.0f),
+  particles()
+{
+  if(life_time == 0) {
+    live_forever = true;
+  } else {
+    live_forever = false;
+    timer.start(life_time);
+  }
+
+  // create particles
+  for(int p = 0; p < number; p++)
+  {
+    auto particle = std::unique_ptr<Particle>(new Particle);
+    particle->pos = epicenter;
+
+    float velocity = (min_initial_velocity == max_initial_velocity) ? min_initial_velocity :
+                     graphicsRandom.randf(min_initial_velocity, max_initial_velocity);
+    float angle = (min_angle == max_angle) ? static_cast<float>(min_angle) * (math::PI / 180.0f) :
+      graphicsRandom.randf(static_cast<float>(min_angle), static_cast<float>(max_angle)) * (math::PI / 180.0f);  // convert to radians
+    // Note that angle defined as clockwise from vertical (up is zero degrees, right is 90 degrees)
+    particle->vel.x = (sinf(angle)) * velocity;
+    particle->vel.y = (-cosf(angle)) * velocity;
+
+    particles.push_back(std::move(particle));
+  }
+}
+
+Particles::Particles(const Vector& epicenter, int min_angle, int max_angle,
+                     const float min_initial_velocity, const float max_initial_velocity,
+                     const Vector& acceleration, int number, Color color_,
+                     int size_, float life_time, int drawing_layer_, float gravity) :
+
+  accel(acceleration),
+  timer(),
+  live_forever(),
+  color(color_),
+  size(static_cast<float>(size_)),
+  drawing_layer(drawing_layer_),
+  m_gravity(gravity),
   particles()
 {
   if(life_time == 0) {
@@ -114,6 +155,11 @@ Particles::update(float elapsed_time)
 
     (*i)->vel.x += accel.x * elapsed_time;
     (*i)->vel.y += accel.y * elapsed_time;
+
+    if(m_gravity != 0.0f)
+    {
+      (*i)->vel.y += m_gravity * elapsed_time;
+    }
 
     if((*i)->pos.x < camera.x || (*i)->pos.x > static_cast<float>(SCREEN_WIDTH) + camera.x ||
        (*i)->pos.y < camera.y || (*i)->pos.y > static_cast<float>(SCREEN_HEIGHT) + camera.y) {

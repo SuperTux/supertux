@@ -67,6 +67,7 @@ BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite
   is_active_flag(),
   state_timer(),
   on_ground_flag(false),
+  has_death_particles(true),
   floor_normal(),
   colgroup_active(COLGROUP_MOVING),
   parent_dispenser()
@@ -100,6 +101,7 @@ BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name_, int
   is_active_flag(),
   state_timer(),
   on_ground_flag(false),
+  has_death_particles(true),
   floor_normal(),
   colgroup_active(COLGROUP_MOVING),
   parent_dispenser()
@@ -474,6 +476,21 @@ BadGuy::kill_squished(GameObject& object)
   auto player = dynamic_cast<Player*>(&object);
   if (player) {
     player->bounce(*this);
+  }
+
+  if (dead_script.empty() && has_death_particles) {
+    // particles code, as seen in fireworks.cpp
+    Sector *sector = Sector::current();
+    Vector pos = get_pos();
+    //pos += Vector(graphicsRandom.randf(static_cast<float>(SCREEN_WIDTH)),
+    //              graphicsRandom.randf(static_cast<float>(SCREEN_HEIGHT) / 2.0f));
+    float red = graphicsRandom.randf(0.6f, 1.0f);
+    float green = graphicsRandom.randf(0.6f, 1.0f);
+    float blue = graphicsRandom.randf(0.6f, 1.0f);
+    sector->add_object(std::make_shared<Particles>(pos, -60, 60, 140, 140,
+                                                   Vector(0, 0), 45, Color(red, green, blue), 3, 0.5f,
+                                                   LAYER_FOREGROUND1+1, 600.0f)); 
+
   }
 
   // start dead-script
