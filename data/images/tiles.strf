@@ -2762,6 +2762,7 @@
   )
   (tile
     (id 1350)
+    (deprecated #t)
     (images
       "tiles/doodads/platter.png")
     (solid #f)
