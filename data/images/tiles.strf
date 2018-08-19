@@ -1791,6 +1791,7 @@
   ; For compatibility with 0.1.x levels, use tile to 1809-1814 instead
   (tile
     (id 134)
+    (deprecated #t)
     (images
       (region "tiles/doodads/nolok-statue.png" 0 0 32 96)
     )
@@ -1798,6 +1799,7 @@
   ; For compatibility with 0.1.x levels, use tile to 1809-1814 instead
   (tile
     (id 135)
+    (deprecated #t)
     (images
       (region "tiles/doodads/nolok-statue.png" 32 0 32 96)
     )
