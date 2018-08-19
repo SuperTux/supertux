@@ -1392,6 +1392,7 @@
   (tile
     ; dupe of tile 70, this one will be removed.
     (id 63)
+    (deprecated #t)
     (images
       "tiles/background/backgroundtile1.png"
     )
