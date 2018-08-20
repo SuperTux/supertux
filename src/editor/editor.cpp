@@ -318,10 +318,10 @@ void Editor::load_layers() {
       auto tm = dynamic_cast<TileMap*>(go);
       if (tm) {
         if ( !tm->is_solid() || tsel ) {
-          tm->editor_active = false;
+          tm->m_editor_active = false;
         } else {
           layerselect.selected_tilemap = tm;
-          tm->editor_active = true;
+          tm->m_editor_active = true;
           tsel = true;
         }
       }

@@ -131,10 +131,10 @@ EditorLayersGui::event(SDL_Event& ev) {
             }
             if ( layers[hovered_layer]->is_tilemap ) {
               if (selected_tilemap) {
-                (static_cast<TileMap*>(selected_tilemap))->editor_active = false;
+                (static_cast<TileMap*>(selected_tilemap))->m_editor_active = false;
               }
               selected_tilemap = layers[hovered_layer]->layer;
-              (static_cast<TileMap*>(selected_tilemap))->editor_active = true;
+              (static_cast<TileMap*>(selected_tilemap))->m_editor_active = true;
               editor->edit_path((static_cast<TileMap*>(selected_tilemap))->get_path(),
                                                        selected_tilemap);
             } else {
