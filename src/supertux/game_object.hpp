@@ -109,12 +109,7 @@ private:
   /** this flag indicates if the object should be removed at the end of the frame */
   bool m_wants_to_die;
 
-  struct RemoveListenerListEntry
-  {
-    RemoveListenerListEntry* next;
-    ObjectRemoveListener* listener;
-  };
-  RemoveListenerListEntry* m_remove_listeners;
+  std::vector<ObjectRemoveListener*> m_remove_listeners;
 
 protected:
   /** a name for the gameobject, this is mostly a hint for scripts and

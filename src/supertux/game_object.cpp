@@ -16,6 +16,8 @@
 
 #include "supertux/game_object.hpp"
 
+#include <algorithm>
+
 #include "supertux/object_remove_listener.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
@@ -23,14 +25,14 @@
 
 GameObject::GameObject() :
   m_wants_to_die(false),
-  m_remove_listeners(NULL),
+  m_remove_listeners(),
   m_name()
 {
 }
 
 GameObject::GameObject(const GameObject& rhs) :
   m_wants_to_die(rhs.m_wants_to_die),
-  m_remove_listeners(NULL),
+  m_remove_listeners(),
   m_name(rhs.m_name)
 {
 }
@@ -43,44 +45,25 @@ GameObject::GameObject(const ReaderMapping& reader) :
 
 GameObject::~GameObject()
 {
-  // call remove listeners (and remove them from the list)
-  auto entry = m_remove_listeners;
-  while(entry != NULL) {
-    auto next = entry->next;
-    entry->listener->object_removed(this);
-    delete entry;
-    entry = next;
+  for(const auto& entry : m_remove_listeners) {
+    entry->object_removed(this);
   }
+  m_remove_listeners.clear();
 }
 
 void
 GameObject::add_remove_listener(ObjectRemoveListener* listener)
 {
-  auto entry = new RemoveListenerListEntry();
-  entry->next = m_remove_listeners;
-  entry->listener = listener;
-  m_remove_listeners = entry;
+  m_remove_listeners.push_back(listener);
 }
 
 void
 GameObject::del_remove_listener(ObjectRemoveListener* listener)
 {
-  auto entry = m_remove_listeners;
-  if (entry->listener == listener) {
-    m_remove_listeners = entry->next;
-    delete entry;
-    return;
-  }
-  auto next = entry->next;
-  while(next != NULL) {
-    if (next->listener == listener) {
-      entry->next = next->next;
-      delete next;
-      break;
-    }
-    entry = next;
-    next = next->next;
-  }
+  m_remove_listeners.erase(std::remove(m_remove_listeners.begin(),
+                                       m_remove_listeners.end(),
+                                       listener),
+                           m_remove_listeners.end());
 }
 
 void
