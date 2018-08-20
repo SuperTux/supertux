@@ -113,7 +113,7 @@ SecretAreaTrigger::event(Player& , EventType type)
     if (!message_displayed) {
       message_timer.start(MESSAGE_TIME);
       message_displayed = true;
-      Sector::current()->get_level()->stats.secrets++;
+      Sector::current()->get_level()->m_stats.secrets++;
 
       if (!fade_tilemap.empty()) {
         // fade away tilemaps

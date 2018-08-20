@@ -421,7 +421,7 @@ WorldMap::finished_level(Level* gamelevel)
   level->sprite->set_action("solved");
 
   // deal with statistics
-  level->statistics.merge(gamelevel->stats);
+  level->statistics.merge(gamelevel->m_stats);
   calculate_total_stats();
 
   if(level->statistics.completed(level->statistics, level->target_time)) {

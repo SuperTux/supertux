@@ -115,10 +115,10 @@ GameSession::restart_level(bool after_death)
   try {
     m_old_level = std::move(m_level);
     m_level = LevelParser::from_file(m_levelfile);
-    m_level->stats.total_coins = m_level->get_total_coins();
-    m_level->stats.total_badguys = m_level->get_total_badguys();
-    m_level->stats.total_secrets = m_level->get_total_secrets();
-    m_level->stats.reset();
+    m_level->m_stats.total_coins = m_level->get_total_coins();
+    m_level->m_stats.total_badguys = m_level->get_total_badguys();
+    m_level->m_stats.total_secrets = m_level->get_total_secrets();
+    m_level->m_stats.reset();
 
     if(!m_reset_sector.empty()) {
       m_currentsector = m_level->get_sector(m_reset_sector);
@@ -283,7 +283,7 @@ GameSession::setup()
   }
   m_currentsector->play_music(LEVEL_MUSIC);
 
-  int total_stats_to_be_collected = m_level->stats.total_coins + m_level->stats.total_badguys + m_level->stats.total_secrets;
+  int total_stats_to_be_collected = m_level->m_stats.total_coins + m_level->m_stats.total_badguys + m_level->m_stats.total_secrets;
   if ((!m_levelintro_shown) && (total_stats_to_be_collected > 0)) {
     m_levelintro_shown = true;
     m_active = false;
@@ -369,7 +369,7 @@ GameSession::update(float elapsed_time)
     // Update the world
     if (!m_end_sequence) {
       m_play_time += elapsed_time; //TODO: make sure we don't count cutscene time
-      m_level->stats.time = m_play_time;
+      m_level->m_stats.time = m_play_time;
       m_currentsector->update(elapsed_time);
     } else {
       if (!m_end_sequence->is_tux_stopped()) {
@@ -536,7 +536,7 @@ GameSession::drawstatus(DrawingContext& context)
 
   // draw level stats while end_sequence is running
   if (m_end_sequence) {
-    m_level->stats.draw_endseq_panel(context, m_best_level_statistics, m_statistics_backdrop);
+    m_level->m_stats.draw_endseq_panel(context, m_best_level_statistics, m_statistics_backdrop);
   }
 }
 

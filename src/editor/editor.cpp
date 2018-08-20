@@ -517,7 +517,7 @@ void
 Editor::change_tileset() {
   tileset = TileManager::current()->get_tileset(level->get_tileset());
   tileselect.input_type = EditorInputGui::IP_NONE;
-  for(const auto& sector : level->sectors) {
+  for(const auto& sector : level->m_sectors) {
     for(const auto& object : sector->m_gameobjects) {
       auto tilemap = dynamic_cast<TileMap*>(object.get());
       if (tilemap) {
@@ -549,7 +549,7 @@ Editor::check_save_prerequisites(bool& sector_valid, bool& spawnpoint_valid) con
     spawnpoint_valid = true;
     return;
   }
-  for(const auto& sector : level->sectors)
+  for(const auto& sector : level->m_sectors)
   {
     if(sector->get_name() == "main")
     {

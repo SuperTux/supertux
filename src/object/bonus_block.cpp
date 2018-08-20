@@ -267,7 +267,7 @@ BonusBlock::try_open(Player* player)
       Sector::current()->add_object(std::make_shared<BouncyCoin>(get_pos(), true));
       player->get_status()->add_coins(1);
       if (m_hit_counter != 0)
-        Sector::current()->get_level()->stats.coins++;
+        Sector::current()->get_level()->m_stats.coins++;
       break;
     }
 
