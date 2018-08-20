@@ -37,25 +37,44 @@ public:
   void add(MovingObject* object);
   void remove(MovingObject* object);
 
+  /** Draw collision shapes for debugging */
   void draw(DrawingContext& context);
 
-  uint32_t collision_tile_attributes(const Rectf& dest, const Vector& mov) const;
-  void collision_tilemap(collision::Constraints* constraints,
-                         const Vector& movement, const Rectf& dest,
-                         MovingObject& object) const;
-  void collision_object(MovingObject* object1, MovingObject* object2) const;
-  void collision_static(collision::Constraints* constraints,
-                        const Vector& movement, const Rectf& dest,
-                        MovingObject& object);
-  void collision_static_constrains(MovingObject& object);
-  void handle_collisions();
+  /** Checks for all possible collisions. And calls the
+      collision_handlers, which the collision_objects provide for this
+      case (or not). */
+  void update();
+
   bool is_free_of_tiles(const Rectf& rect, const bool ignoreUnisolid = false) const;
   bool is_free_of_statics(const Rectf& rect, const MovingObject* ignore_object, const bool ignoreUnisolid) const;
   bool is_free_of_movingstatics(const Rectf& rect, const MovingObject* ignore_object) const;
   bool free_line_of_sight(const Vector& line_start, const Vector& line_end, const MovingObject* ignore_object) const;
-  std::vector<MovingObject*> get_nearby_objects (const Vector& center, float max_distance) const;
+  std::vector<MovingObject*> get_nearby_objects(const Vector& center, float max_distance) const;
 
   const std::vector<MovingObject*>& get_moving_objects() const { return m_moving_objects; }
+
+private:
+  /** Does collision detection of an object against all other static
+      objects (and the tilemap) in the level. Collision response is
+      done for the first hit in time. (other hits get ignored, the
+      function should be called repeatedly to resolve those)
+
+      returns true if the collision detection should be aborted for
+      this object (because of ABORT_MOVE in the collision response or
+      no collisions) */
+  void collision_static(collision::Constraints* constraints,
+                        const Vector& movement, const Rectf& dest,
+                        MovingObject& object);
+
+  void collision_tilemap(collision::Constraints* constraints,
+                         const Vector& movement, const Rectf& dest,
+                         MovingObject& object) const;
+
+  uint32_t collision_tile_attributes(const Rectf& dest, const Vector& mov) const;
+
+  void collision_object(MovingObject* object1, MovingObject* object2) const;
+
+  void collision_static_constrains(MovingObject& object);
 
 private:
   Sector& m_sector;

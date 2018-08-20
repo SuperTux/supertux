@@ -439,7 +439,7 @@ CollisionSystem::collision_static_constrains(MovingObject& object)
 }
 
 void
-CollisionSystem::handle_collisions()
+CollisionSystem::update()
 {
   if (Editor::is_active()) {
     return;
