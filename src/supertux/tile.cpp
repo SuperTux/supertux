@@ -69,11 +69,11 @@ Tile::load_images()
       SurfacePtr surface;
       if(spec.rect.get_width() <= 0)
       {
-        surface = Surface::create(spec.file);
+        surface = Surface::from_file(spec.file);
       }
       else
       {
-        surface = Surface::create(spec.file,
+        surface = Surface::from_file(spec.file,
                                   Rect(static_cast<int>(spec.rect.p1.x),
                                        static_cast<int>(spec.rect.p1.y),
                                        Size(static_cast<int>(spec.rect.get_width()),
@@ -91,11 +91,11 @@ Tile::load_images()
       SurfacePtr surface;
       if(spec.rect.get_width() <= 0)
       {
-        surface = Surface::create(spec.file);
+        surface = Surface::from_file(spec.file);
       }
       else
       {
-        surface = Surface::create(spec.file,
+        surface = Surface::from_file(spec.file,
                                   Rect(static_cast<int>(spec.rect.p1.x),
                                        static_cast<int>(spec.rect.p1.y),
                                        Size(static_cast<int>(spec.rect.get_width()),

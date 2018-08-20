@@ -166,7 +166,7 @@ Player::Player(PlayerStatus* _player_status, const std::string& name_) :
   // load those instead of Tux's sprite in the
   // constructor
   m_sprite(SpriteManager::current()->create("images/creatures/tux/tux.sprite")),
-  m_airarrow(Surface::create("images/engine/hud/airarrow.png")),
+  m_airarrow(Surface::from_file("images/engine/hud/airarrow.png")),
   m_floor_normal(),
   m_ghost_mode(false),
   m_edit_mode(false),

@@ -75,7 +75,7 @@ Yeti::Yeti(const ReaderMapping& reader) :
   SoundManager::current()->preload("sounds/yeti_roar.wav");
 
   reader.get("hud-icon", hud_icon, "images/creatures/yeti/hudlife.png");
-  hud_head = Surface::create(hud_icon);
+  hud_head = Surface::from_file(hud_icon);
 
   initialize();
 

@@ -33,7 +33,7 @@
 #include "video/surface.hpp"
 
 TitleScreen::TitleScreen(Savegame& savegame) :
-  frame(Surface::create("images/engine/menu/frame.png")),
+  frame(Surface::from_file("images/engine/menu/frame.png")),
   controller(new CodeController()),
   titlesession(new GameSession("levels/misc/menu.stl", savegame)),
   copyright_text("SuperTux " PACKAGE_VERSION "\n" +

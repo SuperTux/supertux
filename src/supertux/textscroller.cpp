@@ -166,7 +166,7 @@ TextScroller::TextScroller(const std::string& filename) :
   }
 
   // load background image
-  background = Surface::create("images/background/" + background_file);
+  background = Surface::from_file("images/background/" + background_file);
 }
 
 TextScroller::~TextScroller()

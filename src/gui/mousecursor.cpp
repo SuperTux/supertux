@@ -35,9 +35,9 @@ MouseCursor::MouseCursor(const std::string& cursor_file,
   m_cursor(),
   m_icon()
 {
-  m_cursor.push_back(Surface::create(cursor_file));
-  m_cursor.push_back(Surface::create(cursor_click_file));
-  m_cursor.push_back(Surface::create(cursor_link_file));
+  m_cursor.push_back(Surface::from_file(cursor_file));
+  m_cursor.push_back(Surface::from_file(cursor_click_file));
+  m_cursor.push_back(Surface::from_file(cursor_link_file));
 }
 
 void MouseCursor::set_state(MouseCursorState nstate)

@@ -23,7 +23,7 @@
 
 ObjectIcon::ObjectIcon(const std::string& name, const std::string& icon) :
   object_name(name),
-  surface(Surface::create(icon)),
+  surface(Surface::from_file(icon)),
   offset()
 {
   calculate_offset();
@@ -37,7 +37,7 @@ ObjectIcon::ObjectIcon(const ReaderMapping& reader) :
   std::string icon = "images/engine/icons/supertux.png";
   reader.get("class", object_name);
   reader.get("icon", icon);
-  surface = Surface::create(icon);
+  surface = Surface::from_file(icon);
   calculate_offset();
 }
 

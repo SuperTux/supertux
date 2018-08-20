@@ -45,7 +45,7 @@ GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Stat
   reset_button(false),
   m_level(),
   m_old_level(),
-  m_statistics_backdrop(Surface::create("images/engine/menu/score-backdrop.png")),
+  m_statistics_backdrop(Surface::from_file("images/engine/menu/score-backdrop.png")),
   m_scripts(),
   m_currentsector(nullptr),
   m_end_sequence(0),

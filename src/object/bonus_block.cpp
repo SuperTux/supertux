@@ -130,7 +130,7 @@ BonusBlock::BonusBlock(const ReaderMapping& mapping) :
     throw std::runtime_error("Need to specify content object for custom block");
   if (m_contents == CONTENT_LIGHT) {
     SoundManager::current()->preload("sounds/switch.ogg");
-    m_lightsprite = Surface::create("/images/objects/lightmap_light/bonusblock_light.png");
+    m_lightsprite = Surface::from_file("/images/objects/lightmap_light/bonusblock_light.png");
   }
 }
 
@@ -605,7 +605,7 @@ BonusBlock::preload_contents(int d)
   {
     case 6: // Light
       SoundManager::current()->preload("sounds/switch.ogg");
-      m_lightsprite=Surface::create("/images/objects/lightmap_light/bonusblock_light.png");
+      m_lightsprite=Surface::from_file("/images/objects/lightmap_light/bonusblock_light.png");
       break;
 
     case 7:

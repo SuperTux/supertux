@@ -48,7 +48,7 @@ PlayerStatus::PlayerStatus() :
   last_worldmap(),
   displayed_coins(DISPLAYED_COINS_UNSET),
   displayed_coins_frame(0),
-  coin_surface(Surface::create("images/engine/hud/coins-0.png"))
+  coin_surface(Surface::from_file("images/engine/hud/coins-0.png"))
 {
   reset();
 

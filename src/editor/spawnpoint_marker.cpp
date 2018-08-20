@@ -22,7 +22,7 @@
 #include "video/surface.hpp"
 
 SpawnPointMarker::SpawnPointMarker (const ReaderMapping& lisp) :
-  surface(Surface::create("images/engine/editor/spawnpoint.png"))
+  surface(Surface::from_file("images/engine/editor/spawnpoint.png"))
 {
   lisp.get("name", name, "");
   lisp.get("x", bbox.p1.x, 0);
@@ -32,7 +32,7 @@ SpawnPointMarker::SpawnPointMarker (const ReaderMapping& lisp) :
 }
 
 SpawnPointMarker::SpawnPointMarker (const SpawnPoint* sp) :
-  surface(Surface::create("images/engine/editor/spawnpoint.png"))
+  surface(Surface::from_file("images/engine/editor/spawnpoint.png"))
 {
   name = sp->name;
   bbox.p1 = sp->pos;
