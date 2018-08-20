@@ -29,20 +29,21 @@ namespace collision {
 class Constraints;
 }
 
-class Size;
-class Vector;
-class Rectf;
-class Player;
-class Camera;
-class TileMap;
 class Bullet;
-class SpawnPoint;
-class MovingObject;
-class Level;
-class Portable;
-class DrawingContext;
+class Camera;
+class CollisionSystem;
 class DisplayEffect;
+class DrawingContext;
+class Level;
+class MovingObject;
+class Player;
+class Portable;
 class ReaderMapping;
+class Rectf;
+class Size;
+class SpawnPoint;
+class TileMap;
+class Vector;
 class Writer;
 
 enum MusicType {
@@ -61,6 +62,7 @@ class Sector final
 public:
   friend class SectorParser;
   friend class EditorSectorMenu;
+  friend class CollisionSystem;
 
 public:
   Sector(Level* parent);
@@ -242,6 +244,8 @@ public:
   void set_gravity(float gravity);
   float get_gravity() const;
 
+  const std::vector<MovingObject*>& get_moving_objects() const;
+
 private:
   uint32_t collision_tile_attributes(const Rectf& dest, const Vector& mov) const;
 
@@ -340,7 +344,7 @@ private:
 
 public:
   GameObjects m_gameobjects;
-  MovingObjects m_moving_objects;
+  std::unique_ptr<CollisionSystem> m_collision_system;
   SpawnPoints m_spawnpoints;
   Portables m_portables;
 

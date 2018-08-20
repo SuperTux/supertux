@@ -85,7 +85,7 @@ Totem::active_update(float elapsed_time)
     auto s = Sector::current();
     if (s) {
       // jump a bit if we find a suitable totem
-      for (const auto& obj : s->m_moving_objects) {
+      for (const auto& obj : s->get_moving_objects()) {
         auto t = dynamic_cast<Totem*>(obj);
         if (!t) continue;
 
