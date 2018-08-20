@@ -40,7 +40,7 @@ Thunderstorm::Thunderstorm(const ReaderMapping& reader) :
   time_to_lightning(),
   flash_display_timer()
 {
-  reader.get("name", name);
+  reader.get("name", m_name);
   reader.get("running", running);
   reader.get("interval", interval);
   if(interval <= 0) {

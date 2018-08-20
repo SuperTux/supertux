@@ -185,7 +185,7 @@ Camera::Camera(Sector* newsector, const std::string& name_) :
   m_scrollspeed(),
   m_config(std::make_unique<CameraConfig>())
 {
-  name = name_;
+  m_name = name_;
   reload_config();
 }
 

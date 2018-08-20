@@ -74,7 +74,7 @@ LevelDot::LevelDot (const ReaderMapping& lisp) :
   auto_play(false),
   title_color(1, 1, 1)
 {
-  lisp.get("name", name);
+  lisp.get("name", m_name);
   lisp.get("extro-script", extro_script);
   lisp.get("auto-play", auto_play);
 
@@ -84,7 +84,7 @@ LevelDot::LevelDot (const ReaderMapping& lisp) :
   }
 
   level = Editor::current()->get_world() ?
-    FileSystem::join(Editor::current()->get_world()->get_basedir(), name) : name;
+    FileSystem::join(Editor::current()->get_world()->get_basedir(), m_name) : m_name;
 }
 
 void
@@ -116,7 +116,7 @@ LevelDot::get_settings() {
 void
 LevelDot::save(Writer& writer) {
   WorldmapObject::save(writer);
-  writer.write("name", name, false);
+  writer.write("name", m_name, false);
   writer.write("sprite", sprite_name, false);
   writer.write("extro-script", extro_script, false);
   writer.write("auto-play", auto_play);
@@ -126,7 +126,7 @@ LevelDot::save(Writer& writer) {
 void
 LevelDot::after_editor_set() {
   // Extract the level file to be relative to world directory
-  name = FileSystem::basename(level);
+  m_name = FileSystem::basename(level);
   level = FileSystem::dirname(level);
   level.erase(level.end()-1); // Erase the slash at the end
   if (level[0] == '/' || level[0] == '\\') {
@@ -135,18 +135,18 @@ LevelDot::after_editor_set() {
   std::string basedir = Editor::current()->get_world()->get_basedir();
   int c = 100;
   while (level.size() && level != basedir && c > 0) {
-    name = FileSystem::join(FileSystem::basename(level), name);
+    m_name = FileSystem::join(FileSystem::basename(level), m_name);
     level = FileSystem::dirname(level);
     level.erase(level.end()-1); // Erase the slash at the end
     c--; //Do not cycle forever if something has failed.
   }
 
   // Forbid the players to use levels of other levelsets
-  level = FileSystem::join(Editor::current()->get_world()->get_basedir(), name);
+  level = FileSystem::join(Editor::current()->get_world()->get_basedir(), m_name);
   if (!PHYSFS_exists(level.c_str())) {
     log_warning << "Using levels of other level subsets is not allowed!" << std::endl;
     level = basedir + "/";
-    name = "";
+    m_name = "";
   }
 }
 
@@ -209,7 +209,7 @@ WorldmapSpawnPoint::WorldmapSpawnPoint (const ReaderMapping& lisp) :
   WorldmapObject(lisp, "images/worldmap/common/tux.png"),
   dir(worldmap::D_NONE)
 {
-  lisp.get("name", name);
+  lisp.get("name", m_name);
 
   std::string auto_dir_str;
   if (lisp.get("auto-dir", auto_dir_str)) {
@@ -221,20 +221,20 @@ WorldmapSpawnPoint::WorldmapSpawnPoint (const std::string& name_, const Vector& 
   WorldmapObject(pos, "images/worldmap/common/tux.png"),
   dir(worldmap::D_NONE)
 {
-  name = name_;
+  m_name = name_;
 }
 
 void
 WorldmapSpawnPoint::save(Writer& writer) {
   WorldmapObject::save(writer);
-  writer.write("name", name, false);
+  writer.write("name", m_name, false);
   writer.write("auto-dir", worldmap::direction_to_string(dir), false);
 }
 
 ObjectSettings
 WorldmapSpawnPoint::get_settings() {
   ObjectSettings result(_("Spawn point"));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &m_name));
   result.options.push_back( worldmap::dir_option(&dir));
   return result;
 }

@@ -175,7 +175,7 @@ Player::Player(PlayerStatus* _player_status, const std::string& name_) :
   m_idle_stage(0),
   m_climbing(0)
 {
-  name = name_;
+  m_name = name_;
   m_idle_timer.start(static_cast<float>(IDLE_TIME[0]) / 1000.0f);
 
   SoundManager::current()->preload("sounds/bigjump.wav");

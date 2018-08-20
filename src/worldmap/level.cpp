@@ -40,7 +40,7 @@ LevelTile::LevelTile(const std::string& basedir_, const ReaderMapping& lisp) :
   title_color(WorldMap::level_title_color),
   basedir(basedir_)
 {
-  lisp.get("name", name);
+  lisp.get("name", m_name);
   lisp.get("x", pos.x);
   lisp.get("y", pos.y);
   lisp.get("auto-play", auto_play);
@@ -59,9 +59,9 @@ LevelTile::LevelTile(const std::string& basedir_, const ReaderMapping& lisp) :
   if(basedir == "./")
     basedir = "";
 
-  if (!PHYSFS_exists((basedir + name).c_str()))
+  if (!PHYSFS_exists((basedir + m_name).c_str()))
   {
-    log_warning << "level file '" << name
+    log_warning << "level file '" << m_name
                 << "' does not exist and will not be added to the worldmap" << std::endl;
     return;
   }

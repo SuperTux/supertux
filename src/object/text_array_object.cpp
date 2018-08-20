@@ -29,7 +29,7 @@ TextArrayObject::TextArrayObject(const std::string& name_) :
                                   m_lastTextIndex(0),
                                   m_waiting()
 {
-  name = name_;
+  m_name = name_;
 }
 
 void TextArrayObject::clear()
