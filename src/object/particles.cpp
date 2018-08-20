@@ -30,13 +30,14 @@
 Particles::Particles(const Vector& epicenter, int min_angle, int max_angle,
                      const Vector& initial_velocity, const Vector& acceleration, int number,
                      Color color_, int size_, float life_time, int drawing_layer_) :
+  m_epicenter(epicenter),
   accel(acceleration),
   timer(),
   live_forever(),
   color(color_),
   size(static_cast<float>(size_)),
   drawing_layer(drawing_layer_),
-  m_gravity(0.0f),
+  m_x_accel(0.0f),
   particles()
 {
   if(life_time == 0) {
@@ -68,56 +69,28 @@ Particles::Particles(const Vector& epicenter, int min_angle, int max_angle,
 Particles::Particles(const Vector& epicenter, int min_angle, int max_angle,
                      const float min_initial_velocity, const float max_initial_velocity,
                      const Vector& acceleration, int number, Color color_,
-                     int size_, float life_time, int drawing_layer_) :
-
+                     int size_, float life_time, int drawing_layer_,
+                     float gravity, float x_accel) :
+  m_epicenter(epicenter),
   accel(acceleration),
   timer(),
   live_forever(),
   color(color_),
   size(static_cast<float>(size_)),
   drawing_layer(drawing_layer_),
-  m_gravity(0.0f),
+  m_x_accel(x_accel),
   particles()
 {
-  if(life_time == 0) {
-    live_forever = true;
-  } else {
-    live_forever = false;
-    timer.start(life_time);
-  }
+  /* join  the gravity into the acceleration values
+   doing it separately so that the components are easy to see
+   if preferred, the constructor can be used with them combined, since
+   the gravity and x_linear_accel have default values of 0.
 
-  // create particles
-  for(int p = 0; p < number; p++)
-  {
-    auto particle = std::unique_ptr<Particle>(new Particle);
-    particle->pos = epicenter;
+   Can't join the x linear velocity since that's going to use
+   trigonmetry to vary it based on the center.
+  */
+  accel.y += gravity;
 
-    float velocity = (min_initial_velocity == max_initial_velocity) ? min_initial_velocity :
-                     graphicsRandom.randf(min_initial_velocity, max_initial_velocity);
-    float angle = (min_angle == max_angle) ? static_cast<float>(min_angle) * (math::PI / 180.0f) :
-      graphicsRandom.randf(static_cast<float>(min_angle), static_cast<float>(max_angle)) * (math::PI / 180.0f);  // convert to radians
-    // Note that angle defined as clockwise from vertical (up is zero degrees, right is 90 degrees)
-    particle->vel.x = (sinf(angle)) * velocity;
-    particle->vel.y = (-cosf(angle)) * velocity;
-
-    particles.push_back(std::move(particle));
-  }
-}
-
-Particles::Particles(const Vector& epicenter, int min_angle, int max_angle,
-                     const float min_initial_velocity, const float max_initial_velocity,
-                     const Vector& acceleration, int number, Color color_,
-                     int size_, float life_time, int drawing_layer_, float gravity) :
-
-  accel(acceleration),
-  timer(),
-  live_forever(),
-  color(color_),
-  size(static_cast<float>(size_)),
-  drawing_layer(drawing_layer_),
-  m_gravity(gravity),
-  particles()
-{
   if(life_time == 0) {
     live_forever = true;
   } else {
@@ -156,10 +129,9 @@ Particles::update(float elapsed_time)
     (*i)->vel.x += accel.x * elapsed_time;
     (*i)->vel.y += accel.y * elapsed_time;
 
-    if(m_gravity != 0.0f)
-    {
-      (*i)->vel.y += m_gravity * elapsed_time;
-    }
+    // update the particle's velocity with the x_accel based on position
+    // to do this, the current angle between the particle and the epicenter must be calculated for each particle.
+    (*i)->vel.x += m_x_accel * cos(angle((*i)->pos)) * elapsed_time;
 
     if((*i)->pos.x < camera.x || (*i)->pos.x > static_cast<float>(SCREEN_WIDTH) + camera.x ||
        (*i)->pos.y < camera.y || (*i)->pos.y > static_cast<float>(SCREEN_HEIGHT) + camera.y) {
@@ -180,6 +152,14 @@ Particles::draw(DrawingContext& context)
   for(auto& particle : particles) {
     context.color().draw_filled_rect(particle->pos, Vector(size,size), color, drawing_layer);
   }
+}
+
+float
+Particles::angle(Vector &pos)
+{
+  float dot_product = m_epicenter * pos;
+  float lengths = m_epicenter.magnitude() * pos.magnitude();
+  return (dot_product / lengths); 
 }
 
 /* EOF */

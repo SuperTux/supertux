@@ -34,11 +34,8 @@ public:
   Particles(const Vector& epicenter, int min_angle, int max_angle,
             const float min_initial_velocity, const float max_initial_velocity,
             const Vector& acceleration, int number, Color color,
-            int size, float life_time, int drawing_layer);
-  Particles(const Vector& epicenter, int min_angle, int max_angle,
-            const float min_initial_velocity, const float max_initial_velocity,
-            const Vector& acceleration, int number, Color color,
-            int size, float life_time, int drawing_layer, float gravity);
+            int size, float life_time, int drawing_layer, 
+            float gravity = 0.0f, float x_linear_accel = 0.0f);
   virtual bool is_saveable() const {
     return false;
   }
@@ -57,7 +54,11 @@ private:
     //     float angle;
   };
 
+  // doesn't return the angle, but returns the cos(theta) value
+  float angle(Vector &pos); // pass the particle position
+
 private:
+  Vector m_epicenter;
   Vector accel;
   Timer timer;
   bool live_forever;
@@ -65,8 +66,7 @@ private:
   Color color;
   float size;
   int drawing_layer;
-  float m_gravity;
-
+  float m_x_accel;
   std::vector<std::unique_ptr<Particle> > particles;
 };
 
