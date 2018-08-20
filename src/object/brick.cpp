@@ -65,7 +65,7 @@ Brick::collision(GameObject& other, const CollisionHit& hit_){
 
   auto player = dynamic_cast<Player*> (&other);
   if (player) {
-    if (player->does_buttjump) try_break(player);
+    if (player->m_does_buttjump) try_break(player);
     if (player->is_stone() && player->get_velocity().y >= 280) try_break(player); // stoneform breaks through bricks
   }
 

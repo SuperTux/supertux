@@ -360,8 +360,8 @@ Camera::update_scroll_normal(float elapsed_time)
     // position where he last touched the ground. (this probably needs
     // exceptions for trampolines and similar things in the future)
     float target_y;
-    if(player->fall_mode == Player::JUMPING)
-      target_y = player->last_ground_y + player->get_bbox().get_height();
+    if(player->m_fall_mode == Player::JUMPING)
+      target_y = player->m_last_ground_y + player->get_bbox().get_height();
     else
       target_y = player->get_bbox().p2.y;
     target_y -= static_cast<float>(static_cast<float>(m_screen_size.height)) * config_.target_y;
@@ -372,8 +372,8 @@ Camera::update_scroll_normal(float elapsed_time)
     float speed_y = delta_y / elapsed_time;
 
     // limit the camera speed when jumping upwards
-    if(player->fall_mode != Player::FALLING
-       && player->fall_mode != Player::TRAMPOLINE_JUMP) {
+    if(player->m_fall_mode != Player::FALLING
+       && player->m_fall_mode != Player::TRAMPOLINE_JUMP) {
       speed_y = math::clamp(speed_y, -config_.max_speed_y, config_.max_speed_y);
     }
 
@@ -477,7 +477,7 @@ Camera::update_scroll_normal(float elapsed_time)
     LookaheadMode walkDirection;
     if (player_delta.x < -CAMERA_EPSILON) walkDirection = LOOKAHEAD_LEFT;
     else if (player_delta.x > CAMERA_EPSILON) walkDirection = LOOKAHEAD_RIGHT;
-    else if (player->dir == ::LEFT) walkDirection = LOOKAHEAD_LEFT;
+    else if (player->m_dir == ::LEFT) walkDirection = LOOKAHEAD_LEFT;
     else walkDirection = LOOKAHEAD_RIGHT;
 
     float LEFTEND, RIGHTEND;

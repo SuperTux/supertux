@@ -162,7 +162,7 @@ GameSession::on_escape_press()
     if (end_sequence)
       end_sequence->stop();
 
-    currentsector->m_player->dying_timer.start(FLT_EPSILON);
+    currentsector->m_player->m_dying_timer.start(FLT_EPSILON);
     return;   // don't let the player open the menu, when he is dying
   }
 
@@ -360,7 +360,7 @@ GameSession::update(float elapsed_time)
     newspawnpoint = "";
     // retain invincibility if the player has it
     if(pastinvincibility) {
-      currentsector->get_players()[0]->invincible_timer.start(static_cast<float>(newinvincibilityperiod));
+      currentsector->get_players()[0]->m_invincible_timer.start(static_cast<float>(newinvincibilityperiod));
     }
   }
 
@@ -390,8 +390,8 @@ GameSession::update(float elapsed_time)
   if (end_sequence)
     return;
 
-  if(currentsector->m_player->invincible_timer.started()) {
-    if(currentsector->m_player->invincible_timer.get_timeleft() <=
+  if(currentsector->m_player->m_invincible_timer.started()) {
+    if(currentsector->m_player->m_invincible_timer.get_timeleft() <=
        TUX_INVINCIBLE_TIME_WARNING) {
       currentsector->play_music(HERRING_WARNING_MUSIC);
     } else {

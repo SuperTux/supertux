@@ -251,7 +251,7 @@ void invincible()
 {
   if (!validate_sector_player()) return;
   auto tux = ::Sector::current()->m_player;
-  tux->invincible_timer.start(10000);
+  tux->m_invincible_timer.start(10000);
 }
 
 void ghost()
@@ -265,7 +265,7 @@ void mortal()
 {
   if (!validate_sector_player()) return;
   auto tux = ::Sector::current()->m_player;
-  tux->invincible_timer.stop();
+  tux->m_invincible_timer.stop();
   tux->set_ghost_mode(false);
 }
 

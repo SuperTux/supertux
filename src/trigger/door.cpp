@@ -150,7 +150,7 @@ Door::collision(GameObject& other, const CollisionHit& hit_)
 
       if (player) {
         bool invincible = player->is_invincible();
-        int invincibilityperiod = static_cast<int>(player->invincible_timer.get_timeleft());
+        int invincibilityperiod = static_cast<int>(player->m_invincible_timer.get_timeleft());
         state = CLOSING;
         sprite->set_action("closing", 1);
         if(!script.empty()) {

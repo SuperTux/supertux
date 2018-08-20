@@ -219,7 +219,7 @@ BonusBlock::collision(GameObject& other, const CollisionHit& hit_)
 {
   auto player = dynamic_cast<Player*> (&other);
   if (player) {
-    if (player->does_buttjump)
+    if (player->m_does_buttjump)
       try_drop(player);
   }
 

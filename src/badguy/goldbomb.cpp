@@ -216,12 +216,12 @@ GoldBomb::ungrab(MovingObject& object, Direction dir_)
     toss_velocity_y += -500;
 
   // toss to the side when moving sideways
-  if(player && player->physic.get_velocity_x()*(dir_ == LEFT ? -1 : 1) > 1) {
+  if(player && player->m_physic.get_velocity_x()*(dir_ == LEFT ? -1 : 1) > 1) {
     toss_velocity_x += (dir_ == LEFT) ? -200 : 200;
     toss_velocity_y = (toss_velocity_y < -200) ? toss_velocity_y : -200;
     // toss farther when running
-    if(player && player->physic.get_velocity_x()*(dir_ == LEFT ? -1 : 1) > 200)
-      toss_velocity_x += static_cast<int>(player->physic.get_velocity_x() - (190*(dir_ == LEFT ? -1 : 1)));
+    if(player && player->m_physic.get_velocity_x()*(dir_ == LEFT ? -1 : 1) > 200)
+      toss_velocity_x += static_cast<int>(player->m_physic.get_velocity_x() - (190*(dir_ == LEFT ? -1 : 1)));
   }
   log_warning << toss_velocity_x << toss_velocity_y << std::endl;////
 
