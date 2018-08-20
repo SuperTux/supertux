@@ -157,12 +157,6 @@ ScriptedObject::get_action() const
   return sprite->get_action();
 }
 
-std::string
-ScriptedObject::get_name() const
-{
-  return m_name;
-}
-
 void
 ScriptedObject::update(float elapsed_time)
 {
