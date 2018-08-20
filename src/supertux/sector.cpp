@@ -380,7 +380,7 @@ Sector::update(float elapsed_time)
   }
 
   /* Handle all possible collisions. */
-  handle_collisions();
+  m_collision_system->update();
   update_game_objects();
 }
 
@@ -573,46 +573,6 @@ Sector::on_window_resize()
   {
     obj->on_window_resize();
   }
-}
-
-void
-Sector::collision_tilemap(collision::Constraints* constraints,
-                          const Vector& movement, const Rectf& dest,
-                          MovingObject& object) const
-{
-  m_collision_system->collision_tilemap(constraints, movement, dest, object);
-}
-
-uint32_t
-Sector::collision_tile_attributes(const Rectf& dest, const Vector& mov) const
-{
-  return m_collision_system->collision_tile_attributes(dest, mov);
-}
-
-void
-Sector::collision_object(MovingObject* object1, MovingObject* object2) const
-{
-  m_collision_system->collision_object(object1, object2);
-}
-
-void
-Sector::collision_static(collision::Constraints* constraints,
-                         const Vector& movement, const Rectf& dest,
-                         MovingObject& object)
-{
-  m_collision_system->collision_static(constraints, movement, dest, object);
-}
-
-void
-Sector::collision_static_constrains(MovingObject& object)
-{
-  m_collision_system->collision_static_constrains(object);
-}
-
-void
-Sector::handle_collisions()
-{
-  m_collision_system->handle_collisions();
 }
 
 bool
