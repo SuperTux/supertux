@@ -46,15 +46,15 @@ public:
   TileMap(const TileSet *tileset, const ReaderMapping& reader);
   virtual ~TileMap();
 
-  virtual void save(Writer& writer);
-  std::string get_display_name() const {
+  virtual void save(Writer& writer) override;
+  virtual std::string get_display_name() const override {
     return _("Tile map");
   }
-  virtual ObjectSettings get_settings();
-  virtual void after_editor_set();
+  virtual ObjectSettings get_settings() override;
+  virtual void after_editor_set() override;
 
-  virtual void update(float elapsed_time);
-  virtual void draw(DrawingContext& context);
+  virtual void update(float elapsed_time) override;
+  virtual void draw(DrawingContext& context) override;
 
   /** Move tilemap until at given node, then stop */
   void goto_node(int node_no);
@@ -164,13 +164,11 @@ public:
       target alpha. */
   float get_alpha() const;
 
-  std::string get_class() const {
+  virtual std::string get_class() const override {
     return "tilemap";
   }
 
-  bool m_editor_active;
-
-  virtual const std::string get_icon_path() const {
+  virtual const std::string get_icon_path() const override {
     return "images/engine/editor/tilemap.png";
   }
 
@@ -179,6 +177,9 @@ public:
 private:
   void update_effective_solid();
   void float_channel(float target, float &current, float remaining_time, float elapsed_time);
+
+public:
+  bool m_editor_active;
 
 private:
   const TileSet* m_tileset;
