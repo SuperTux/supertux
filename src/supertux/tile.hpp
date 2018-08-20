@@ -103,21 +103,21 @@ public:
   };
 
 private:
-  std::vector<ImageSpec> imagespecs;
-  std::vector<SurfacePtr>  images;
-  std::vector<ImageSpec> editor_imagespecs;
-  std::vector<SurfacePtr>  editor_images;
+  std::vector<ImageSpec> m_imagespecs;
+  std::vector<SurfacePtr> m_images;
+  std::vector<ImageSpec> m_editor_imagespecs;
+  std::vector<SurfacePtr> m_editor_images;
 
   /// tile attributes
-  uint32_t attributes;
+  uint32_t m_attributes;
 
   /** General purpose data attached to a tile (content of a box, type of coin)*/
-  int data;
+  int m_data;
 
-  float fps;
+  float m_fps;
 
-  std::string object_name;
-  std::string object_data;
+  std::string m_object_name;
+  std::string m_object_data;
 
   bool m_deprecated;
 
@@ -135,16 +135,16 @@ public:
 
   SurfacePtr get_current_surface() const;
 
-  uint32_t getAttributes() const
-  { return attributes; }
+  uint32_t get_attributes() const
+  { return m_attributes; }
 
-  int getData() const
-  { return data; }
+  int get_data() const
+  { return m_data; }
 
   /** Checks the SLOPE attribute. Returns "true" if set, "false" otherwise. */
   bool is_slope() const
   {
-    return (attributes & SLOPE) != 0;
+    return (m_attributes & SLOPE) != 0;
   }
 
   /** Determine the solidity of a tile. This version behaves correctly for
@@ -160,7 +160,7 @@ public:
    * method that takes position and movement into account (see above). */
   bool is_solid() const
   {
-    return (attributes & SOLID) != 0;
+    return (m_attributes & SOLID) != 0;
   }
 
   /** Determines whether the tile's attributes are important to calculate the
@@ -171,7 +171,7 @@ public:
   /** Checks the UNISOLID attribute. Returns "true" if set, "false" otherwise. */
   bool is_unisolid() const
   {
-    return (attributes & UNISOLID) != 0;
+    return (m_attributes & UNISOLID) != 0;
   }
 
   bool is_deprecated() const
@@ -180,11 +180,11 @@ public:
   }
 
   const std::string& get_object_name() const {
-    return object_name;
+    return m_object_name;
   }
 
   const std::string& get_object_data() const {
-    return object_data;
+    return m_object_data;
   }
 
   void print_debug(int id) const;

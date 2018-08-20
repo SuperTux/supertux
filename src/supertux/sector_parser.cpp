@@ -366,7 +366,7 @@ SectorParser::fix_old_tiles()
         else
         {
           // add lights for fire tiles
-          uint32_t attributes = tile->getAttributes();
+          uint32_t attributes = tile->get_attributes();
           Vector pos = tm->get_tile_position(x, y);
           Vector center = pos + Vector(16, 16);
 
@@ -374,8 +374,8 @@ SectorParser::fix_old_tiles()
             if (attributes & Tile::HURTS) {
               // lava or lavaflow
               // space lights a bit
-              if ((tm->get_tile(x-1, y)->getAttributes() != attributes || x%3 == 0)
-                  && (tm->get_tile(x, y-1)->getAttributes() != attributes || y%3 == 0)) {
+              if ((tm->get_tile(x-1, y)->get_attributes() != attributes || x%3 == 0)
+                  && (tm->get_tile(x, y-1)->get_attributes() != attributes || y%3 == 0)) {
                 float pseudo_rnd = static_cast<float>(static_cast<int>(pos.x) % 10) / 10;
                 m_sector.add_object(std::make_shared<PulsingLight>(center, 1.0f + pseudo_rnd, 0.8f, 1.0f, Color(1.0f, 0.3f, 0.0f, 1.0f)));
               }

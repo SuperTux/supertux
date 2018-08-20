@@ -696,7 +696,7 @@ Sector::collision_tilemap(collision::Constraints* constraints,
 
         if(tile->is_slope ()) { // slope tile
           AATriangle triangle;
-          int slope_data = tile->getData();
+          int slope_data = tile->get_data();
           if (solids->get_drawing_effect() & VERTICAL_FLIP)
             slope_data = AATriangle::vertical_flip(slope_data);
           triangle = AATriangle(tile_bbox, slope_data);
@@ -734,7 +734,7 @@ Sector::collision_tile_attributes(const Rectf& dest, const Vector& mov) const
         if(!tile)
           continue;
         if ( tile->is_collisionful( solids->get_tile_bbox(x, y), dest, mov) ) {
-          result |= tile->getAttributes();
+          result |= tile->get_attributes();
         }
       }
       for(; y < test_tiles_ice.bottom; ++y) {
@@ -742,7 +742,7 @@ Sector::collision_tile_attributes(const Rectf& dest, const Vector& mov) const
         if(!tile)
           continue;
         if ( tile->is_collisionful( solids->get_tile_bbox(x, y), dest, mov) ) {
-          result |= (tile->getAttributes() & Tile::ICE);
+          result |= (tile->get_attributes() & Tile::ICE);
         }
       }
     }
@@ -1078,14 +1078,14 @@ Sector::is_free_of_tiles(const Rectf& rect, const bool ignoreUnisolid) const
       for(int y = test_tiles.top; y < test_tiles.bottom; ++y) {
         const auto& tile = solids->get_tile(x, y);
         if(!tile) continue;
-        if(!(tile->getAttributes() & Tile::SOLID))
+        if(!(tile->get_attributes() & Tile::SOLID))
           continue;
         if(tile->is_unisolid () && ignoreUnisolid)
           continue;
         if(tile->is_slope ()) {
           AATriangle triangle;
           Rectf tbbox = solids->get_tile_bbox(x, y);
-          triangle = AATriangle(tbbox, tile->getData());
+          triangle = AATriangle(tbbox, tile->get_data());
           Constraints constraints;
           if(!collision::rectangle_aatriangle(&constraints, rect, triangle))
             continue;
@@ -1153,7 +1153,7 @@ Sector::free_line_of_sight(const Vector& line_start, const Vector& line_end, con
         const auto& tile = solids->get_tile_at(Vector(test_x, test_y));
         if(!tile) continue;
         // FIXME: check collision with slope tiles
-        if((tile->getAttributes() & Tile::SOLID)) return false;
+        if((tile->get_attributes() & Tile::SOLID)) return false;
       }
     }
   }

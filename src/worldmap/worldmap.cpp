@@ -653,7 +653,7 @@ WorldMap::tile_data_at(const Vector& p) const
 
   for(const auto& tilemap : solid_tilemaps) {
     const auto tile = tilemap->get_tile(static_cast<int>(p.x), static_cast<int>(p.y));
-    int dirdata = tile->getData();
+    int dirdata = tile->get_data();
     dirs |= dirdata;
   }
 
