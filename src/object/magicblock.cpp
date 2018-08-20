@@ -110,8 +110,8 @@ MagicBlock::update(float elapsed_time)
 {
   //Check if center of this block is on screen.
   //Don't update if not, because there is no light off screen.
-  float screen_left = Sector::current()->camera->get_translation().x;
-  float screen_top = Sector::current()->camera->get_translation().y;
+  float screen_left = Sector::current()->m_camera->get_translation().x;
+  float screen_top = Sector::current()->m_camera->get_translation().y;
   float screen_right = screen_left + static_cast<float>(SCREEN_WIDTH);
   float screen_bottom = screen_top + static_cast<float>(SCREEN_HEIGHT);
   if((center.x > screen_right ) || ( center.y > screen_bottom) ||

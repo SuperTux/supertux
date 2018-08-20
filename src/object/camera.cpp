@@ -333,7 +333,7 @@ void
 Camera::update_scroll_normal(float elapsed_time)
 {
   const auto& config_ = *(config);
-  auto player = sector->player;
+  auto player = sector->m_player;
   // TODO: co-op mode needs a good camera
   Vector player_pos(player->get_bbox().get_middle().x,
                                     player->get_bbox().get_bottom());
@@ -635,7 +635,7 @@ Camera::update_scroll_normal(float elapsed_time)
 void
 Camera::update_scroll_autoscroll(float elapsed_time)
 {
-  auto player = sector->player;
+  auto player = sector->m_player;
   if(player->is_dying())
     return;
 

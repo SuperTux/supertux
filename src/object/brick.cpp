@@ -103,7 +103,7 @@ Brick::try_break(Player* player)
 
   SoundManager::current()->play("sounds/brick.wav");
   auto sector = Sector::current();
-  auto& player_one = *(sector->player);
+  auto& player_one = *(sector->m_player);
   if(coin_counter > 0 ){
     sector->add_object(std::make_shared<BouncyCoin>(get_pos(), true));
     coin_counter--;

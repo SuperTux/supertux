@@ -104,9 +104,9 @@ public:
   void add_object(GameObjectPtr object);
 
   void set_name(const std::string& name_)
-  { name = name_; }
+  { m_name = name_; }
   const std::string& get_name() const
-  { return name; }
+  { return m_name; }
 
   /**
    * tests if a given rectangle is inside the sector
@@ -119,12 +119,12 @@ public:
   MusicType get_music_type() const;
 
   int get_active_bullets() const
-  { return static_cast<int>(bullets.size()); }
+  { return static_cast<int>(m_bullets.size()); }
   bool add_smoke_cloud(const Vector& pos);
 
   /** get currently activated sector. */
   static Sector* current()
-  { return _current; }
+  { return s_current; }
 
   /** Get total number of badguys */
   int get_total_badguys() const;
@@ -133,7 +133,7 @@ public:
   template<class T> int get_total_count() const
   {
     int total = 0;
-    for(const auto& obj : gameobjects) {
+    for(const auto& obj : m_gameobjects) {
       if (dynamic_cast<T*>(obj.get())) total++;
     }
     return total;
@@ -170,7 +170,7 @@ public:
    * returns a list of players currently in the sector
    */
   std::vector<Player*> get_players() const {
-    return std::vector<Player*>(1, player);
+    return std::vector<Player*>(1, m_player);
   }
   Player* get_nearest_player (const Vector& pos) const;
   Player* get_nearest_player (const Rectf& pos) const
@@ -228,7 +228,7 @@ public:
    */
   Color get_ambient_light() const
   {
-    return ambient_light;
+    return m_ambient_light;
   }
 
   /**
@@ -283,77 +283,78 @@ private:
   int calculate_foremost_layer() const;
 
 private:
-  static Sector* _current;
+  static Sector* s_current;
 
-  Level* level; /**< Parent level containing this sector */
+public: // TODO make this private again
+  /// show collision rectangles of moving objects (for debugging)
+  static bool s_show_collrects;
+  static bool s_draw_solids_only;
 
-  std::string name;
+private:
+  Level* m_level; /**< Parent level containing this sector */
 
-  std::vector<Bullet*> bullets;
+  std::string m_name;
 
-  std::string init_script;
+  std::vector<Bullet*> m_bullets;
+
+  std::string m_init_script;
 
   /// container for newly created objects, they'll be added in Sector::update
-  GameObjects gameobjects_new;
+  GameObjects m_gameobjects_new;
 
-  MusicType currentmusic;
+  MusicType m_currentmusic;
 
-  HSQOBJECT sector_table;
+  HSQOBJECT m_sector_table;
   /// sector scripts
   typedef std::vector<HSQOBJECT> ScriptList;
-  ScriptList scripts;
+  ScriptList m_scripts;
 
-  Color ambient_light;
+  Color m_ambient_light;
 
   /**
    * Specifies whether we're fading the ambient light
    */
-  bool ambient_light_fading;
+  bool m_ambient_light_fading;
 
   /**
    * Source color for fading
    */
-  Color source_ambient_light;
+  Color m_source_ambient_light;
 
   /**
    * Target color for fading
    */
-  Color target_ambient_light;
+  Color m_target_ambient_light;
 
   /**
    * Ambient light fade duration
    */
-   float ambient_light_fade_duration;
+   float m_ambient_light_fade_duration;
 
   /**
    * Accumulated time for fading
    */
-   float ambient_light_fade_accum;
+   float m_ambient_light_fade_accum;
 
-  int foremost_layer;
-
-public: // TODO make this private again
-  /// show collision rectangles of moving objects (for debugging)
-  static bool show_collrects;
-  static bool draw_solids_only;
+  int m_foremost_layer;
 
 public:
-  GameObjects gameobjects;
-  MovingObjects moving_objects;
-  SpawnPoints spawnpoints;
-  Portables portables;
+  GameObjects m_gameobjects;
+  MovingObjects m_moving_objects;
+  SpawnPoints m_spawnpoints;
+  Portables m_portables;
 
-  std::string music;
+  std::string m_music;
 private:
-  float gravity;
+  float m_gravity;
 
 public:
   // some special objects, where we need direct access
   // (try to avoid accessing them directly)
-  Player* player;
-  std::list<TileMap*> solid_tilemaps;
-  Camera* camera;
-  DisplayEffect* effect;
+  Player* m_player;
+  std::list<TileMap*> m_solid_tilemaps;
+  Camera* m_camera;
+  DisplayEffect* m_effect;
 
 private:
   Sector(const Sector&);

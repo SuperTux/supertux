@@ -31,7 +31,7 @@ FlipLevelTransformer::transform_sector(Sector* sector)
 {
   float height = sector->get_height();
 
-  for(auto& object : sector->gameobjects) {
+  for(auto& object : sector->m_gameobjects) {
     auto tilemap = dynamic_cast<TileMap*>(object.get());
     if(tilemap) {
       transform_tilemap(height, *tilemap);
@@ -64,12 +64,12 @@ FlipLevelTransformer::transform_sector(Sector* sector)
       transform_moving_object(height, *mobject);
     }
   }
-  for(auto& spawnpoint : sector->spawnpoints) {
+  for(auto& spawnpoint : sector->m_spawnpoints) {
     transform_spawnpoint(height, *spawnpoint);
   }
 
-  if(sector->camera != 0 && sector->player != 0)
-    sector->camera->reset(sector->player->get_pos());
+  if(sector->m_camera != 0 && sector->m_player != 0)
+    sector->m_camera->reset(sector->m_player->get_pos());
 }
 
 DrawingEffect

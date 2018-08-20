@@ -216,7 +216,7 @@ bool Editor::can_scroll_horz() const {
 }
 
 void Editor::scroll_left(float speed) {
-  auto camera = currentsector->camera;
+  auto camera = currentsector->m_camera;
   if (can_scroll_horz()) {
     if (camera->get_translation().x >= speed*32) {
       camera->move(static_cast<int>(-32 * speed), 0);
@@ -229,7 +229,7 @@ void Editor::scroll_left(float speed) {
 }
 
 void Editor::scroll_right(float speed) {
-  auto camera = currentsector->camera;
+  auto camera = currentsector->m_camera;
   if (can_scroll_horz()) {
     if (camera->get_translation().x <= currentsector->get_width() - static_cast<float>(SCREEN_WIDTH) + 128.0f - 32.0f * speed) {
       camera->move(static_cast<int>(32 * speed), 0);
@@ -243,7 +243,7 @@ void Editor::scroll_right(float speed) {
 }
 
 void Editor::scroll_up(float speed) {
-  auto camera = currentsector->camera;
+  auto camera = currentsector->m_camera;
   if (can_scroll_vert()) {
     if (camera->get_translation().y >= speed*32) {
       camera->move(0, static_cast<int>(-32 * speed));
@@ -256,7 +256,7 @@ void Editor::scroll_up(float speed) {
 }
 
 void Editor::scroll_down(float speed) {
-  auto camera = currentsector->camera;
+  auto camera = currentsector->m_camera;
   if (can_scroll_vert()) {
     if (camera->get_translation().y <= currentsector->get_height() - static_cast<float>(SCREEN_HEIGHT) - 32.0f * speed) {
       camera->move(0, static_cast<int>(32 * speed));
@@ -309,7 +309,7 @@ void Editor::load_layers() {
   layerselect.selected_tilemap = NULL;
   layerselect.layers.clear();
   bool tsel = false;
-  for(auto& i : currentsector->gameobjects) {
+  for(auto& i : currentsector->m_gameobjects) {
     auto go = i.get();
     auto mo = dynamic_cast<MovingObject*>(go);
     if ( !mo && go->is_saveable() ) {
@@ -365,7 +365,7 @@ void Editor::reload_level() {
   tileset = TileManager::current()->get_tileset(level->get_tileset());
   load_sector("main");
   currentsector->activate("main");
-  currentsector->camera->set_mode(Camera::MANUAL);
+  currentsector->m_camera->set_mode(Camera::MANUAL);
   layerselect.refresh_sector_text();
   tileselect.update_mouse_icon();
 }
@@ -390,7 +390,7 @@ void Editor::leave()
 void
 Editor::setup() {
   Tile::draw_editor_images = true;
-  Sector::draw_solids_only = false;
+  Sector::s_draw_solids_only = false;
   if (!levelloaded) {
 
 #if 0
@@ -440,7 +440,7 @@ Editor::setup() {
     leveltested = false;
     Tile::draw_editor_images = true;
     level->reactivate();
-    currentsector->activate(currentsector->player->get_pos());
+    currentsector->activate(currentsector->m_player->get_pos());
     MenuManager::instance().clear_menu_stack();
     SoundManager::current()->stop_music();
     deactivate_request = false;
@@ -518,7 +518,7 @@ Editor::change_tileset() {
   tileset = TileManager::current()->get_tileset(level->get_tileset());
   tileselect.input_type = EditorInputGui::IP_NONE;
   for(const auto& sector : level->sectors) {
-    for(const auto& object : sector->gameobjects) {
+    for(const auto& object : sector->m_gameobjects) {
       auto tilemap = dynamic_cast<TileMap*>(object.get());
       if (tilemap) {
         tilemap->set_tileset(tileset);
@@ -554,7 +554,7 @@ Editor::check_save_prerequisites(bool& sector_valid, bool& spawnpoint_valid) con
     if(sector->get_name() == "main")
     {
       sector_valid = true;
-      for(const auto& spawnpoint : sector->spawnpoints)
+      for(const auto& spawnpoint : sector->m_spawnpoints)
       {
         if(spawnpoint->name == "main")
         {

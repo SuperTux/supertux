@@ -105,7 +105,7 @@ Particles::Particles(const Vector& epicenter, int min_angle, int max_angle,
 void
 Particles::update(float elapsed_time)
 {
-  Vector camera = Sector::current()->camera->get_translation();
+  Vector camera = Sector::current()->m_camera->get_translation();
 
   // update particles
   for(auto i = particles.begin(); i != particles.end(); ) {

@@ -939,12 +939,12 @@ Player::try_grab()
       pos = Vector(bbox.get_right() + 5, bbox.get_bottom() - 16);
     }
 
-    for(auto& portable : sector->portables) {
+    for(auto& portable : sector->m_portables) {
       if(!portable->is_portable())
         continue;
 
       // make sure the Portable is a MovingObject
-      auto moving_object = dynamic_cast<MovingObject*> (portable);
+      auto moving_object = dynamic_cast<MovingObject*>(portable);
       assert(moving_object);
 
       // make sure the Portable isn't currently non-solid
@@ -1166,9 +1166,9 @@ Player::draw(DrawingContext& context)
     return;
 
   // if Tux is above camera, draw little "air arrow" to show where he is x-wise
-  if (Sector::current() && Sector::current()->camera && (bbox.p2.y - 16 < Sector::current()->camera->get_translation().y)) {
+  if (Sector::current() && Sector::current()->m_camera && (bbox.p2.y - 16 < Sector::current()->m_camera->get_translation().y)) {
     float px = bbox.p1.x + (bbox.p2.x - bbox.p1.x - static_cast<float>(airarrow.get()->get_width())) / 2.0f;
-    float py = Sector::current()->camera->get_translation().y;
+    float py = Sector::current()->m_camera->get_translation().y;
     py += std::min(((py - (bbox.p2.y + 16)) / 4), 16.0f);
     context.color().draw_surface(airarrow, Vector(px, py), LAYER_HUD - 1);
   }
@@ -1375,7 +1375,7 @@ Player::collision_solid(const CollisionHit& hit)
                                       Vector(bbox.p1.x, bbox.p2.y),
                                       -70, -50, 260, 280, Vector(0, 300), 3,
                                       Color(.4f, .4f, .4f), 3, .8f, LAYER_OBJECTS+1));
-      Sector::current()->camera->shake(.1f, 0, 5);
+      Sector::current()->m_camera->shake(.1f, 0, 5);
     }
 
   } else if(hit.top) {
@@ -1515,7 +1515,7 @@ Player::kill(bool completely)
     set_group(COLGROUP_DISABLED);
 
     // TODO: need nice way to handle players dying in co-op mode
-    Sector::current()->effect->fade_out(3.0);
+    Sector::current()->m_effect->fade_out(3.0);
     SoundManager::current()->pause_music(3.0);
   }
 }

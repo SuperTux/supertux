@@ -42,7 +42,7 @@ TitleScreen::TitleScreen(Savegame& savegame) :
       "redistribute it under certain conditions; see the license file for details.\n"
    ))
 {
-  auto player = titlesession->get_current_sector()->player;
+  auto player = titlesession->get_current_sector()->m_player;
   player->set_controller(controller.get());
   player->set_speedlimit(230); //MAX_WALK_XM
 }
@@ -52,7 +52,7 @@ TitleScreen::make_tux_jump()
 {
   static bool jumpWasReleased = true;
   Sector* sector  = titlesession->get_current_sector();
-  Player* tux = sector->player;
+  Player* tux = sector->m_player;
 
   controller->update();
   controller->press(Controller::RIGHT);
@@ -71,7 +71,7 @@ TitleScreen::make_tux_jump()
   // Wrap around at the end of the level back to the beginning
   if(sector->get_width() - 320 < tux->get_pos().x) {
     sector->activate("main");
-    sector->camera->reset(tux->get_pos());
+    sector->m_camera->reset(tux->get_pos());
   }
 }
 
@@ -85,7 +85,7 @@ TitleScreen::setup()
   Sector* sector = titlesession->get_current_sector();
   if(Sector::current() != sector) {
     sector->play_music(LEVEL_MUSIC);
-    sector->activate(sector->player->get_pos());
+    sector->activate(sector->m_player->get_pos());
   }
 
   MenuManager::instance().set_menu(MenuStorage::MAIN_MENU);

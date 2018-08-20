@@ -74,8 +74,8 @@ void RainParticleSystem::update(float elapsed_time)
     assert(particle);
 
     float movement = particle->speed * elapsed_time * Sector::current()->get_gravity();
-    float abs_x = Sector::current()->camera->get_translation().x;
-    float abs_y = Sector::current()->camera->get_translation().y;
+    float abs_x = Sector::current()->m_camera->get_translation().x;
+    float abs_y = Sector::current()->m_camera->get_translation().y;
     particle->pos.y += movement;
     particle->pos.x -= movement;
     int col = collision(particle, Vector(-movement, movement));

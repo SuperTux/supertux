@@ -184,7 +184,7 @@ Gradient::draw(DrawingContext& context)
   if(gradient_direction != HORIZONTAL && gradient_direction != VERTICAL)
   {
       auto current_sector = Sector::current();
-      auto camera_translation = current_sector->camera->get_translation();
+      auto camera_translation = current_sector->m_camera->get_translation();
       auto sector_width = current_sector->get_width();
       auto sector_height = current_sector->get_height();
       gradient_region = Rectf(-camera_translation.x, -camera_translation.y, sector_width, sector_height);

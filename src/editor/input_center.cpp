@@ -74,7 +74,7 @@ EditorInputCenter::update(float elapsed_time) {
 void
 EditorInputCenter::delete_markers() {
   auto sector = Editor::current()->currentsector;
-  for (auto& moving_object : sector->moving_objects) {
+  for (auto& moving_object : sector->m_moving_objects) {
     auto marker = dynamic_cast<PointMarker*>(moving_object);
     if (marker) {
       marker->remove_me();
@@ -251,7 +251,7 @@ EditorInputCenter::fill() {
 
 void
 EditorInputCenter::hover_object() {
-  for (auto& moving_object : Editor::current()->currentsector->moving_objects) {
+  for (auto& moving_object : Editor::current()->currentsector->m_moving_objects) {
     auto pm = dynamic_cast<PointMarker*>(moving_object);
     if (!moving_object->is_saveable() && !pm) {
       continue;
@@ -421,7 +421,7 @@ void
 EditorInputCenter::rubber_rect() {
   delete_markers();
   Rectf dr = drag_rect();
-  for (auto& moving_object : Editor::current()->currentsector->moving_objects) {
+  for (auto& moving_object : Editor::current()->currentsector->m_moving_objects) {
     Rectf bbox = moving_object->get_bbox();
     if (dr.contains(bbox)) {
       moving_object->editor_delete();
@@ -436,7 +436,7 @@ EditorInputCenter::update_node_iterators() {
   if (!edited_path->is_valid()) return;
 
   auto sector = Editor::current()->currentsector;
-  for (auto& moving_object : sector->moving_objects) {
+  for (auto& moving_object : sector->m_moving_objects) {
     auto marker = dynamic_cast<NodeMarker*>(moving_object);
     if (marker) {
       marker->update_iterator();
@@ -702,7 +702,7 @@ EditorInputCenter::event(SDL_Event& ev) {
 
 void
 EditorInputCenter::update_pos() {
-  sector_pos = mouse_pos + Editor::current()->currentsector->camera->get_translation();
+  sector_pos = mouse_pos + Editor::current()->currentsector->m_camera->get_translation();
   hovered_tile = sp_to_tp(sector_pos);
   // update tip
   hover_object();
@@ -734,7 +734,7 @@ EditorInputCenter::draw_tile_tip(DrawingContext& context) {
         }
         uint32_t tile_id = tiles->pos(static_cast<int>(drawn_tile.x), static_cast<int>(drawn_tile.y));
         draw_tile(context.color(), *editor->get_tileset(), tile_id,
-                  tp_to_sp(on_tile) - editor->currentsector->camera->get_translation(),
+                  tp_to_sp(on_tile) - editor->currentsector->m_camera->get_translation(),
                   LAYER_GUI-11, Color(1, 1, 1, 0.5));
         /*if (tile_id) {
           const Tile* tg_tile = editor->get_tileset()->get( tile_id );
@@ -758,7 +758,7 @@ EditorInputCenter::draw_tile_grid(DrawingContext& context, const Color& line_col
     return;
   int tm_width = current_tm->get_width() * (32 / tile_size);
   int tm_height = current_tm->get_height() * (32 / tile_size);
-  auto cam_translation = editor->currentsector->camera->get_translation();
+  auto cam_translation = editor->currentsector->m_camera->get_translation();
   Rectf draw_rect = Rectf(cam_translation, cam_translation +
                           Vector(static_cast<float>(context.get_width()),
                                  static_cast<float>(context.get_height())));
@@ -821,7 +821,7 @@ EditorInputCenter::draw_path(DrawingContext& context) {
     } else {
       node2 = &(*j);
     }
-    auto cam_translation = Editor::current()->currentsector->camera->get_translation();
+    auto cam_translation = Editor::current()->currentsector->m_camera->get_translation();
     context.color().draw_line(node1->position - cam_translation,
                               node2->position - cam_translation,
                               Color(1, 0, 0), LAYER_GUI - 21);
@@ -850,7 +850,7 @@ EditorInputCenter::draw(DrawingContext& context) {
   if (dragging && editor->get_tileselect_select_mode() == 1
       && !dragging_right) {
     // Draw selection rectangle...
-    auto cam_translation = editor->currentsector->camera->get_translation();
+    auto cam_translation = editor->currentsector->m_camera->get_translation();
     Vector p0 = drag_start - cam_translation;
     Vector p1 = Vector(drag_start.x, sector_pos.y) - cam_translation;
     Vector p2 = Vector(sector_pos.x, drag_start.y) - cam_translation;
@@ -901,7 +901,7 @@ EditorInputCenter::sp_to_tp(const Vector& sp, int tile_size) {
 Vector
 EditorInputCenter::tile_screen_pos(const Vector& tp, int tile_size) {
   Vector sp = tp_to_sp(tp, tile_size);
-  return sp - Editor::current()->currentsector->camera->get_translation();
+  return sp - Editor::current()->currentsector->m_camera->get_translation();
 }
 
 /* EOF */
