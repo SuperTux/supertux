@@ -17,7 +17,7 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_SECTOR_HPP
 #define HEADER_SUPERTUX_SUPERTUX_SECTOR_HPP
 
-#include <list>
+#include <vector>
 #include <squirrel.h>
 #include <stdint.h>
 
@@ -327,7 +327,7 @@ public:
   // some special objects, where we need direct access
   // (try to avoid accessing them directly)
   Player* m_player;
-  std::list<TileMap*> m_solid_tilemaps;
+  std::vector<TileMap*> m_solid_tilemaps;
   Camera* m_camera;
   DisplayEffect* m_effect;
 
