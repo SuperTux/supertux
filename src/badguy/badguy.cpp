@@ -405,7 +405,7 @@ BadGuy::collision_squished(GameObject& object)
   if(frozen)
   {
     auto player = dynamic_cast<Player*>(&object);
-    if(player && (player->does_buttjump)) {
+    if(player && (player->m_does_buttjump)) {
       player->bounce(*this);
       kill_fall();
       return true;
@@ -520,7 +520,7 @@ void
 BadGuy::run_dead_script()
 {
   if (countMe)
-    Sector::current()->get_level()->stats.badguys++;
+    Sector::current()->get_level()->m_stats.badguys++;
 
   countMe = false;
 

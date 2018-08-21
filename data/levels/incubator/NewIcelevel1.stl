@@ -52,8 +52,8 @@
       (y 768)
     )
     (platform
-      (name "plata1")
       (running #f)
+      (name "plata1")
       (sprite "images/objects/platforms/icefloe_small.sprite")
       (path
         (node
@@ -67,8 +67,8 @@
       )
     )
     (platform
-      (name "Plata2")
       (running #f)
+      (name "Plata2")
       (sprite "images/objects/platforms/icefloe_small.sprite")
       (path
         (node
@@ -89,8 +89,8 @@
       )
     )
     (platform
-      (name "Plata3")
       (running #f)
+      (name "Plata3")
       (sprite "images/objects/platforms/icefloe_small.sprite")
       (path
         (node
@@ -104,8 +104,8 @@
       )
     )
     (platform
-      (name "PlataformaSecreta")
       (running #f)
+      (name "PlataformaSecreta")
       (sprite "images/objects/flying_platform/flying_platform.sprite")
       (path
         (node
@@ -135,8 +135,8 @@
       )
     )
     (platform
-      (name "secretwood1")
       (running #f)
+      (name "secretwood1")
       (sprite "images/objects/platforms/vertical-wood.sprite")
       (path
         (node
@@ -150,8 +150,8 @@
       )
     )
     (platform
-      (name "secretwood2")
       (running #f)
+      (name "secretwood2")
       (sprite "images/objects/platforms/vertical-wood.sprite")
       (path
         (node
@@ -165,8 +165,8 @@
       )
     )
     (platform
-      (name "supersecretoplataforma")
       (running #f)
+      (name "supersecretoplataforma")
       (sprite "images/objects/flying_platform/flying_platform.sprite")
       (path
         (node
@@ -1441,8 +1441,8 @@ Plata3.goto_node(0);")
       (y 109.0883)
     )
     (platform
-      (name "palo2")
       (running #f)
+      (name "palo2")
       (sprite "images/objects/platforms/big.sprite")
       (path
         (node
@@ -1456,8 +1456,8 @@ Plata3.goto_node(0);")
       )
     )
     (platform
-      (name "palo1")
       (running #f)
+      (name "palo1")
       (sprite "images/objects/platforms/vertical-wood.sprite")
       (path
         (node
@@ -1489,8 +1489,8 @@ Plata3.goto_node(0);")
       )
     )
     (platform
-      (name "TaponCubos")
       (running #f)
+      (name "TaponCubos")
       (sprite "images/objects/platforms/small.sprite")
       (path
         (node
@@ -1758,13 +1758,13 @@ Salir2.start();")
       (y 928)
     )
     (wind
-      (name "salir1")
       (blowing #f)
       (speed-x 0)
       (speed-y -400)
       (acceleration 4)
       (width 59.979)
       (height 319.6138)
+      (name "salir1")
       (x 2690.458)
       (y 351.9437)
     )
@@ -1787,13 +1787,13 @@ Salir2.start();")
       (y 1087.861)
     )
     (wind
-      (name "Salir2")
       (blowing #f)
       (speed-x 0)
       (speed-y -400)
       (acceleration 4)
       (width 59.97919)
       (height 206.261)
+      (name "Salir2")
       (x 514.1421)
       (y 52.8873)
     )

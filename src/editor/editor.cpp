@@ -77,7 +77,7 @@ Editor::Editor() :
   layerselect(),
   scroller(),
   enabled(false),
-  bgr_surface(Surface::create("images/background/forest1.jpg"))
+  bgr_surface(Surface::from_file("images/background/forest1.jpg"))
 {
 }
 
@@ -309,7 +309,7 @@ void Editor::load_layers() {
   layerselect.selected_tilemap = NULL;
   layerselect.layers.clear();
   bool tsel = false;
-  for(auto& i : currentsector->gameobjects) {
+  for(auto& i : currentsector->m_gameobjects) {
     auto go = i.get();
     auto mo = dynamic_cast<MovingObject*>(go);
     if ( !mo && go->is_saveable() ) {
@@ -318,10 +318,10 @@ void Editor::load_layers() {
       auto tm = dynamic_cast<TileMap*>(go);
       if (tm) {
         if ( !tm->is_solid() || tsel ) {
-          tm->editor_active = false;
+          tm->m_editor_active = false;
         } else {
           layerselect.selected_tilemap = tm;
-          tm->editor_active = true;
+          tm->m_editor_active = true;
           tsel = true;
         }
       }
@@ -392,7 +392,7 @@ void Editor::leave()
 void
 Editor::setup() {
   Tile::draw_editor_images = true;
-  Sector::draw_solids_only = false;
+  Sector::s_draw_solids_only = false;
   if (!levelloaded) {
 
 #if 0
@@ -442,7 +442,7 @@ Editor::setup() {
     leveltested = false;
     Tile::draw_editor_images = true;
     level->reactivate();
-    currentsector->activate(currentsector->player->get_pos());
+    currentsector->activate(currentsector->m_player->get_pos());
     MenuManager::instance().clear_menu_stack();
     SoundManager::current()->stop_music();
     deactivate_request = false;
@@ -519,8 +519,8 @@ void
 Editor::change_tileset() {
   tileset = TileManager::current()->get_tileset(level->get_tileset());
   tileselect.input_type = EditorInputGui::IP_NONE;
-  for(const auto& sector : level->sectors) {
-    for(const auto& object : sector->gameobjects) {
+  for(const auto& sector : level->m_sectors) {
+    for(const auto& object : sector->m_gameobjects) {
       auto tilemap = dynamic_cast<TileMap*>(object.get());
       if (tilemap) {
         tilemap->set_tileset(tileset);
@@ -551,12 +551,12 @@ Editor::check_save_prerequisites(bool& sector_valid, bool& spawnpoint_valid) con
     spawnpoint_valid = true;
     return;
   }
-  for(const auto& sector : level->sectors)
+  for(const auto& sector : level->m_sectors)
   {
     if(sector->get_name() == "main")
     {
       sector_valid = true;
-      for(const auto& spawnpoint : sector->spawnpoints)
+      for(const auto& spawnpoint : sector->m_spawnpoints)
       {
         if(spawnpoint->name == "main")
         {

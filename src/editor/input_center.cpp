@@ -84,7 +84,7 @@ EditorInputCenter::update(float elapsed_time) {
 void
 EditorInputCenter::delete_markers() {
   auto sector = Editor::current()->currentsector;
-  for (auto& moving_object : sector->moving_objects) {
+  for (auto& moving_object : sector->get_moving_objects()) {
     auto marker = dynamic_cast<PointMarker*>(moving_object);
     if (marker) {
       marker->remove_me();
@@ -261,7 +261,7 @@ EditorInputCenter::fill() {
 
 void
 EditorInputCenter::hover_object() {
-  for (auto& moving_object : Editor::current()->currentsector->moving_objects) {
+  for (auto& moving_object : Editor::current()->currentsector->get_moving_objects()) {
     auto pm = dynamic_cast<PointMarker*>(moving_object);
     if (!moving_object->is_saveable() && !pm) {
       continue;
@@ -431,7 +431,7 @@ void
 EditorInputCenter::rubber_rect() {
   delete_markers();
   Rectf dr = drag_rect();
-  for (auto& moving_object : Editor::current()->currentsector->moving_objects) {
+  for (auto& moving_object : Editor::current()->currentsector->get_moving_objects()) {
     Rectf bbox = moving_object->get_bbox();
     if (dr.contains(bbox)) {
       moving_object->editor_delete();
@@ -446,7 +446,7 @@ EditorInputCenter::update_node_iterators() {
   if (!edited_path->is_valid()) return;
 
   auto sector = Editor::current()->currentsector;
-  for (auto& moving_object : sector->moving_objects) {
+  for (auto& moving_object : sector->get_moving_objects()) {
     auto marker = dynamic_cast<NodeMarker*>(moving_object);
     if (marker) {
       marker->update_iterator();

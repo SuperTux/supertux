@@ -25,7 +25,6 @@
       (mode "normal")
     )
     (candle
-      (color 1 1 1)
       (x 1376)
       (y 512)
     )
@@ -303,7 +302,6 @@
       (mode "normal")
     )
     (candle
-      (color 1 1 1)
       (x 640)
       (y 512)
     )

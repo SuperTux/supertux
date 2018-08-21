@@ -35,7 +35,10 @@
     (lantern
       (x 793.2756)
       (y 1193.858)
-      (color 1 1 1)
+    )
+    (smartball
+      (x 3966.98)
+      (y 95.15723)
     )
     (secretarea
       (fade-tilemap "secret")
@@ -43,10 +46,6 @@
       (height 319.8477)
       (x 451.2024)
       (y 960.7208)
-    )
-    (smartball
-      (x 3966.98)
-      (y 95.15723)
     )
     (spawnpoint
       (name "main")
@@ -68,9 +67,9 @@ if(settings.get_ambient_green() !=1){
 }else{
 	settings.set_ambient_light( settings.get_ambient_red(), 0.14, settings.get_ambient_blue() );
 }")
+      (sprite "images/objects/switch/switch.sprite")
       (x 570.3345)
       (y 1165.192)
-      (sprite "images/objects/switch/switch.sprite")
     )
     (switch
       (script "//blue 0.14 
@@ -79,9 +78,9 @@ if(settings.get_ambient_blue() !=1){
 }else{
 	settings.set_ambient_light( settings.get_ambient_red(), settings.get_ambient_green(), 0.14 );
 }")
+      (sprite "images/objects/switch/left.sprite")
       (x 670.799)
       (y 1168.322)
-      (sprite "images/objects/switch/left.sprite")
     )
     (switch
       (script "//red 0.14
@@ -90,13 +89,13 @@ if(settings.get_ambient_red() !=1){
 }else{
 	settings.set_ambient_light( 0.14, settings.get_ambient_green(), settings.get_ambient_blue() );	
 }")
+      (sprite "images/objects/switch/right.sprite")
       (x 488.4853)
       (y 1164.607)
-      (sprite "images/objects/switch/right.sprite")
     )
     (tilemap
-      (z-pos -100)
       (solid #f)
+      (z-pos -100)
       (name "bg Tilemap")
       (width 250)
       (height 40)
@@ -144,8 +143,8 @@ if(settings.get_ambient_red() !=1){
       )
     )
     (tilemap
-      (z-pos 0)
       (solid #t)
+      (z-pos 0)
       (name "Spielfeld")
       (width 250)
       (height 40)
@@ -193,8 +192,8 @@ if(settings.get_ambient_red() !=1){
       )
     )
     (tilemap
-      (z-pos 100)
       (solid #f)
+      (z-pos 100)
       (width 250)
       (height 40)
       (tiles
@@ -241,8 +240,8 @@ if(settings.get_ambient_red() !=1){
       )
     )
     (tilemap
-      (z-pos -200)
       (solid #f)
+      (z-pos -200)
       (name "Wrong Tile Here")
       (width 250)
       (height 40)
@@ -290,8 +289,8 @@ if(settings.get_ambient_red() !=1){
       )
     )
     (tilemap
-      (z-pos -150)
       (solid #f)
+      (z-pos -150)
       (name "even more bg")
       (width 250)
       (height 40)
@@ -339,8 +338,8 @@ if(settings.get_ambient_red() !=1){
       )
     )
     (tilemap
-      (z-pos 100)
       (solid #f)
+      (z-pos 100)
       (name "secret")
       (width 250)
       (height 40)
@@ -388,11 +387,11 @@ if(settings.get_ambient_red() !=1){
       )
     )
     (tilemap
-      (z-pos -300)
       (solid #f)
-      (name "Paralax Background")
       (speed 0.5)
       (speed-y 0.75)
+      (z-pos -300)
+      (name "Paralax Background")
       (width 250)
       (height 40)
       (tiles
@@ -443,9 +442,9 @@ if(settings.get_ambient_red() !=1){
       (y 1203.979)
     )
     (trampoline
+      (portable #f)
       (x 4608)
       (y 1024)
-      (portable #f)
     )
   )
   (sector
@@ -466,8 +465,8 @@ if(settings.get_ambient_red() !=1){
       (y 96)
     )
     (tilemap
-      (z-pos -100)
       (solid #f)
+      (z-pos -100)
       (name "Background")
       (width 100)
       (height 35)
@@ -510,8 +509,8 @@ if(settings.get_ambient_red() !=1){
       )
     )
     (tilemap
-      (z-pos 0)
       (solid #t)
+      (z-pos 0)
       (name "Interactive")
       (width 100)
       (height 35)
@@ -554,8 +553,8 @@ if(settings.get_ambient_red() !=1){
       )
     )
     (tilemap
-      (z-pos 100)
       (solid #f)
+      (z-pos 100)
       (name "Foreground")
       (width 100)
       (height 35)

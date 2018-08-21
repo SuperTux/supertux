@@ -33,7 +33,7 @@ DisplayEffect::DisplayEffect(const std::string& name_) :
   black(false),
   borders(false)
 {
-  name = name_;
+  m_name = name_;
 }
 
 DisplayEffect::~DisplayEffect()

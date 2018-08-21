@@ -31,7 +31,7 @@ TextObject::TextObject(const std::string& name_) :
   anchor(ANCHOR_MIDDLE),
   pos(0, 0)
 {
-  name = name_;
+  m_name = name_;
 }
 
 TextObject::~TextObject()

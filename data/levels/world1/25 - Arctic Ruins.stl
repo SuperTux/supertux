@@ -12,13 +12,13 @@
       (alignment "top")
       (speed 0.2)
       (image "images/background/bridgecloud-dark.png")
-      (layer -175)
+      (z-pos -175)
     )
     (background
       (alignment "bottom")
       (speed 0.7)
       (image "images/background/bridgeocean-fade.png")
-      (layer -195)
+      (z-pos -195)
     )
     (bouncingsnowball
       (x 7903)

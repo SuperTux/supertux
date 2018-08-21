@@ -171,9 +171,9 @@ Coin::collect()
   SoundManager::current()->manage_source(std::move(soundSource));
 
   auto sector = Sector::current();
-  sector->player->get_status()->add_coins(1, false);
+  sector->m_player->get_status()->add_coins(1, false);
   sector->add_object(std::make_shared<BouncyCoin>(get_pos(), false, get_sprite_name()));
-  sector->get_level()->stats.coins++;
+  sector->get_level()->m_stats.coins++;
   remove_me();
 
   if(!collect_script.empty()) {

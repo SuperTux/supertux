@@ -9,6 +9,11 @@
       (speed 0.5)
       (image "images/background/arctis.jpg")
     )
+    (bicycle-platform
+      (sprite "images/objects/platforms/small.sprite")
+      (x 320)
+      (y 640)
+    )
     (camera
       (mode "normal")
     )
@@ -16,19 +21,14 @@
       (x 34)
       (y 500)
     )
-    (bicycle-platform
-      (sprite "images/objects/platforms/small.sprite")
-      (x 320)
-      (y 640)
-    )
     (spawnpoint
       (name "main")
       (x 90)
       (y 500)
     )
     (tilemap
-      (z-pos -100)
       (solid #f)
+      (z-pos -100)
       (width 30)
       (height 30)
       (tiles
@@ -65,8 +65,8 @@
       )
     )
     (tilemap
-      (z-pos 0)
       (solid #t)
+      (z-pos 0)
       (width 30)
       (height 30)
       (tiles
@@ -103,8 +103,8 @@
       )
     )
     (tilemap
-      (z-pos 100)
       (solid #f)
+      (z-pos 100)
       (width 30)
       (height 30)
       (tiles

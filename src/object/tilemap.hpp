@@ -35,27 +35,26 @@ class DrawingContext;
 class Tile;
 class TileSet;
 
-/**
- * This class is responsible for drawing the level tiles
- */
-class TileMap : public GameObject,
-                public ExposedObject<TileMap, scripting::TileMap>,
-                public PathObject
+/** This class is responsible for drawing the level tiles */
+class TileMap final :
+  public GameObject,
+  public ExposedObject<TileMap, scripting::TileMap>,
+  public PathObject
 {
 public:
   TileMap(const TileSet *tileset);
   TileMap(const TileSet *tileset, const ReaderMapping& reader);
   virtual ~TileMap();
 
-  virtual void save(Writer& writer);
-  std::string get_display_name() const {
+  virtual void save(Writer& writer) override;
+  virtual std::string get_display_name() const override {
     return _("Tile map");
   }
-  virtual ObjectSettings get_settings();
-  virtual void after_editor_set();
+  virtual ObjectSettings get_settings() override;
+  virtual void after_editor_set() override;
 
-  virtual void update(float elapsed_time);
-  virtual void draw(DrawingContext& context);
+  virtual void update(float elapsed_time) override;
+  virtual void draw(DrawingContext& context) override;
 
   /** Move tilemap until at given node, then stop */
   void goto_node(int node_no);
@@ -69,183 +68,168 @@ public:
   void set(int width, int height, const std::vector<unsigned int>& vec,
            int z_pos, bool solid);
 
-  /** resizes the tilemap to a new width and height (tries to not destroy the
-   * existing map)
-   */
+  /** resizes the tilemap to a new width and height (tries to not
+      destroy the existing map) */
   void resize(int newwidth, int newheight, int fill_id = 0,
               int xoffset = 0, int yoffset = 0);
   void resize(const Size& newsize, const Size& resize_offset);
 
-  int get_width() const
-  { return width; }
+  int get_width() const { return m_width; }
+  int get_height() const { return m_height; }
+  Size get_size() const { return Size(m_width, m_height); }
 
-  int get_height() const
-  { return height; }
-
-  Size get_size() const
-  { return Size(width, height); }
-
-  Vector get_offset() const
-  { return offset; }
+  Vector get_offset() const { return m_offset; }
 
   void move_by(const Vector& pos);
 
-  /** Get the movement of this tilemap. The collision detection code may need a
-   *  non-negative y-movement. Passing `false' as the `actual' argument will
-   *  provide that. Used exclusively in src/supertux/sector.cpp. */
+  /** Get the movement of this tilemap. The collision detection code
+      may need a non-negative y-movement. Passing `false' as the
+      `actual' argument will provide that. Used exclusively in
+      src/supertux/sector.cpp. */
   Vector get_movement(bool actual) const
   {
-    if(actual) {
-      return movement;
+    if (actual) {
+      return m_movement;
     } else {
-      return Vector(movement.x, std::max(0.0f,movement.y));
+      return Vector(m_movement.x, std::max(0.0f, m_movement.y));
     }
   }
 
-  void set_offset(const Vector &offset_)
-  { offset = offset_; }
+  void set_offset(const Vector &offset_) { m_offset = offset_; }
 
-  /* Returns the position of the upper-left corner of
-   * tile (x, y) in the sector. */
+  /** Returns the position of the upper-left corner of tile (x, y) in
+      the sector. */
   Vector get_tile_position(int x, int y) const
-  { return offset + Vector(static_cast<float>(x), static_cast<float>(y)) * 32.0f; }
+  { return m_offset + Vector(static_cast<float>(x), static_cast<float>(y)) * 32.0f; }
 
-  Rectf get_bbox() const
-  { return Rectf(get_tile_position(0, 0), get_tile_position(width, height)); }
+  Rectf get_bbox() const {
+    return Rectf(get_tile_position(0, 0),
+                 get_tile_position(m_width, m_height));
+  }
 
-  Rectf get_tile_bbox(int x, int y) const
-  { return Rectf(get_tile_position(x, y), get_tile_position(x+1, y+1)); }
+  Rectf get_tile_bbox(int x, int y) const {
+    return Rectf(get_tile_position(x, y),
+                 get_tile_position(x + 1, y + 1));
+  }
 
-  /* Returns the half-open rectangle of (x, y) tile indices
-   * that overlap the given rectangle in the sector. */
+  /** Returns the half-open rectangle of (x, y) tile indices that
+      overlap the given rectangle in the sector. */
   Rect get_tiles_overlapping(const Rectf &rect) const;
 
-  int get_layer() const
-  { return z_pos; }
+  int get_layer() const { return m_z_pos; }
+  void set_layer(int layer_) { m_z_pos = layer_; }
 
-  void set_layer(int layer_)
-  { z_pos = layer_; }
+  bool is_solid() const { return m_real_solid && m_effective_solid; }
 
-  bool is_solid() const
-  { return real_solid && effective_solid; }
-
-  /**
-   * Changes Tilemap's solidity, i.e. whether to consider it when doing collision detection.
-   */
+  /** Changes Tilemap's solidity, i.e. whether to consider it when
+      doing collision detection. */
   void set_solid(bool solid = true);
 
-  /// returns tile in row y and column y (of the tilemap)
   const Tile* get_tile(int x, int y) const;
-  /// returns tile at position pos (in world coordinates)
   const Tile* get_tile_at(const Vector& pos) const;
-  /// returns tile in row y and column y (of the tilemap)
   uint32_t get_tile_id(int x, int y) const;
-  /// returns tile at position pos (in world coordinates)
   uint32_t get_tile_id_at(const Vector& pos) const;
 
   void change(int x, int y, uint32_t newtile);
 
   void change_at(const Vector& pos, uint32_t newtile);
 
-  /// changes all tiles with the given ID
+  /** changes all tiles with the given ID */
   void change_all(uint32_t oldtile, uint32_t newtile);
 
   void set_drawing_effect(DrawingEffect effect)
   {
-    drawing_effect = effect;
+    m_drawing_effect = effect;
   }
 
   DrawingEffect get_drawing_effect() const
   {
-    return drawing_effect;
+    return m_drawing_effect;
   }
 
-  /**
-   * Start fading the tilemap to opacity given by @c alpha.
-   * Destination opacity will be reached after @c seconds seconds. Also influences solidity.
-   */
+  /** Start fading the tilemap to opacity given by @c alpha.
+      Destination opacity will be reached after @c seconds seconds.
+      Also influences solidity. */
   void fade(float alpha, float seconds = 0);
 
-  /**
-   * Start fading the tilemap to tint given by RGBA.
-   * Destination opacity will be reached after @c seconds seconds. Doesn't influence solidity.
-   */
-  void tint_fade(Color new_tint, float seconds = 0);
+  /** Start fading the tilemap to tint given by RGBA.
+      Destination opacity will be reached after @c seconds seconds. Doesn't influence solidity. */
+  void tint_fade(const Color& new_tint, float seconds = 0);
 
-  /**
-   * Instantly switch tilemap's opacity to @c alpha. Also influences solidity.
-   */
+  /** Instantly switch tilemap's opacity to @c alpha. Also influences solidity. */
   void set_alpha(float alpha);
 
-  /**
-   * Return tilemap's opacity. Note that while the tilemap is fading in or out, this will return the current alpha value, not the target alpha.
-   */
+  /** Return tilemap's opacity. Note that while the tilemap is fading
+      in or out, this will return the current alpha value, not the
+      target alpha. */
   float get_alpha() const;
 
-  std::string get_class() const {
+  virtual std::string get_class() const override {
     return "tilemap";
   }
 
-  bool editor_active;
-
-  virtual const std::string get_icon_path() const {
+  virtual const std::string get_icon_path() const override {
     return "images/engine/editor/tilemap.png";
   }
 
   void set_tileset(const TileSet* new_tileset);
 
 private:
-  const TileSet *tileset;
+  void update_effective_solid();
+  void float_channel(float target, float &current, float remaining_time, float elapsed_time);
+
+public:
+  bool m_editor_active;
+
+private:
+  const TileSet* m_tileset;
 
   typedef std::vector<uint32_t> Tiles;
-  Tiles tiles;
+  Tiles m_tiles;
 
-  /* read solid: In *general*, is this a solid layer?
-   * effective solid: is the layer *currently* solid? A generally solid layer
-   * may be not solid when its alpha is low.
-   * See `is_solid' above. */
-  bool real_solid;
-  bool effective_solid;
-  void update_effective_solid();
+  /* read solid: In *general*, is this a solid layer? effective solid:
+     is the layer *currently* solid? A generally solid layer may be
+     not solid when its alpha is low. See `is_solid' above. */
+  bool m_real_solid;
+  bool m_effective_solid;
 
-  float speed_x;
-  float speed_y;
-  int width, height;
-  int z_pos;
-  Vector offset;
-  Vector movement; /**< The movement that happened last frame */
+  float m_speed_x;
+  float m_speed_y;
+  int m_width;
+  int m_height;
+  int m_z_pos;
+  Vector m_offset;
+  Vector m_movement; /**< The movement that happened last frame */
 
-  DrawingEffect drawing_effect;
-  float alpha; /**< requested tilemap opacity */
-  float current_alpha; /**< current tilemap opacity */
-  float remaining_fade_time; /**< seconds until requested tilemap opacity is reached */
+  DrawingEffect m_drawing_effect;
+  float m_alpha; /**< requested tilemap opacity */
+  float m_current_alpha; /**< current tilemap opacity */
+  float m_remaining_fade_time; /**< seconds until requested tilemap opacity is reached */
 
   /** The tint can have its own alpha channel, but this alpha channel doesn't affect
       the solidity of the tilemap. This alpha channel makes the tilemap only less or
       more translucent.*/
-  Color tint; /**< requested tilemap tint */
-  Color current_tint; /**< current tilemap tint */
-  float remaining_tint_fade_time; /**< seconds until requested tilemap tint is reached */
-
-  void float_channel(float target, float &current, float remaining_time, float elapsed_time);
+  Color m_tint; /**< requested tilemap tint */
+  Color m_current_tint; /**< current tilemap tint */
+  float m_remaining_tint_fade_time; /**< seconds until requested tilemap tint is reached */
 
   /** Is the tilemap currently moving (following the path) */
-  bool running;
+  bool m_running;
 
   /** Set to LIGHTMAP to draw to lightmap */
-  DrawingTarget draw_target;
+  DrawingTarget m_draw_target;
 
-  int new_size_x;
-  int new_size_y;
-  int new_offset_x;
-  int new_offset_y;
-  bool add_path;
+  int m_new_size_x;
+  int m_new_size_y;
+  int m_new_offset_x;
+  int m_new_offset_y;
+  bool m_add_path;
 
 private:
   TileMap(const TileMap&);
   TileMap& operator=(const TileMap&);
 };
 
-#endif /*SUPERTUX_TILEMAP_H*/
+#endif
 
 /* EOF */

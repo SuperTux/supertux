@@ -3,7 +3,6 @@
   (name (_ "A long adventure"))
   (author "hume")
   (license "GPL 2+ / CC-by-sa 3.0")
-  (target-time 0)
   (sector
     (name "hill")
     (music "music/treeboss.music")
@@ -18,8 +17,8 @@
       (mode "normal")
     )
     (platform
-      (name "y1")
       (running #f)
+      (name "y1")
       (sprite "images/objects/platforms/vertical-wood.sprite")
       (path
         (node
@@ -33,8 +32,8 @@
       )
     )
     (platform
-      (name "y2")
       (running #f)
+      (name "y2")
       (sprite "images/objects/platforms/vertical-wood.sprite")
       (path
         (node
@@ -48,8 +47,8 @@
       )
     )
     (platform
-      (name "y3")
       (running #f)
+      (name "y3")
       (sprite "images/objects/platforms/vertical-wood.sprite")
       (path
         (node
@@ -63,8 +62,8 @@
       )
     )
     (platform
-      (name "y4")
       (running #f)
+      (name "y4")
       (sprite "images/objects/platforms/vertical-wood.sprite")
       (path
         (node
@@ -78,8 +77,8 @@
       )
     )
     (platform
-      (name "y5")
       (running #f)
+      (name "y5")
       (sprite "images/objects/platforms/vertical-wood.sprite")
       (path
         (node
@@ -102,8 +101,6 @@
     )
     (secretarea
       (fade-tilemap "secret")
-      (script "")
-      (message "")
       (width 32)
       (height 64)
       (x 5664)
@@ -446,31 +443,26 @@
     )
     (yeti
       (dead-script "y1.goto_node(1)")
-      (fixed-pos #f)
       (x 81)
       (y 1644)
     )
     (yeti
       (dead-script "y5.goto_node(1)")
-      (fixed-pos #f)
       (x 4561)
       (y 492)
     )
     (yeti
       (dead-script "y2.goto_node(1)")
-      (fixed-pos #f)
       (x 1201)
       (y 1356)
     )
     (yeti
       (dead-script "y3.goto_node(1)")
-      (fixed-pos #f)
       (x 2321)
       (y 1100)
     )
     (yeti
       (dead-script "y4.goto_node(1)")
-      (fixed-pos #f)
       (x 3441)
       (y 780)
     )
@@ -582,8 +574,6 @@
     )
     (secretarea
       (fade-tilemap "secret")
-      (script "")
-      (message "")
       (width 92)
       (height 44)
       (x 7872)
@@ -1167,8 +1157,8 @@
       (y 320)
     )
     (platform
-      (name "secretplatform")
       (running #f)
+      (name "secretplatform")
       (sprite "images/objects/flying_platform/flying_platform.sprite")
       (path
         (node
@@ -1255,8 +1245,6 @@
     )
     (secretarea
       (fade-tilemap "secret")
-      (script "")
-      (message "")
       (width 123.5)
       (height 32)
       (x 1088.5)
@@ -1998,8 +1986,6 @@ Tux.activate()")
     )
     (secretarea
       (fade-tilemap "secret")
-      (script "")
-      (message "")
       (width 32)
       (height 108)
       (x 1888)
@@ -2379,8 +2365,6 @@ Tux.activate()")
       (y 672)
     )
     (secretarea
-      (script "")
-      (message "")
       (width 60)
       (height 140)
       (x 256)
@@ -2992,8 +2976,6 @@ Tux.activate()")
     )
     (secretarea
       (fade-tilemap "secret")
-      (script "")
-      (message "")
       (width 64)
       (height 64)
       (x 2400)
@@ -3970,8 +3952,8 @@ Tux.activate()")
       (y 576)
     )
     (platform
-      (name "platform")
       (running #f)
+      (name "platform")
       (sprite "images/objects/flying_platform/flying_platform.sprite")
       (path
         (node
@@ -4017,8 +3999,6 @@ Tux.activate()")
     )
     (secretarea
       (fade-tilemap "secret")
-      (script "")
-      (message "")
       (width 224)
       (height 96)
       (x 3872)
@@ -4245,8 +4225,6 @@ Tux.activate()")
     )
     (secretarea
       (fade-tilemap "secret")
-      (script "")
-      (message "")
       (width 236)
       (height 188)
       (x 5268)
@@ -4656,8 +4634,6 @@ Tux.activate()")
     )
     (secretarea
       (fade-tilemap "secret")
-      (script "")
-      (message "")
       (width 156)
       (height 32)
       (x 768)
@@ -5119,8 +5095,6 @@ Tux.activate()")
     )
     (secretarea
       (fade-tilemap "secret")
-      (script "")
-      (message "")
       (width 60)
       (height 92)
       (x 192)
@@ -5555,17 +5529,14 @@ Tux.activate()")
       (y 1696)
     )
     (weak_block
-      (linked #t)
       (x 224)
       (y 1952)
     )
     (weak_block
-      (linked #t)
       (x 224)
       (y 1984)
     )
     (weak_block
-      (linked #t)
       (x 224)
       (y 1920)
     )
@@ -5620,8 +5591,6 @@ Effect.fade_out(0);")
       (y 0)
     )
     (secretarea
-      (script "")
-      (message "")
       (width 156)
       (height 188)
       (x 1216)
@@ -6089,8 +6058,8 @@ platform2.goto_node(1)")
       (y 5792)
     )
     (platform
-      (name "platform2")
       (running #f)
+      (name "platform2")
       (sprite "images/objects/flying_platform/flying_platform.sprite")
       (path
         (node
@@ -6105,8 +6074,8 @@ platform2.goto_node(1)")
       )
     )
     (platform
-      (name "platform1")
       (running #f)
+      (name "platform1")
       (sprite "images/objects/flying_platform/flying_platform.sprite")
       (path
         (node
@@ -6538,8 +6507,8 @@ platform2.goto_node(1)")
       (mode "normal")
     )
     (platform
-      (name "brana")
       (running #f)
+      (name "brana")
       (sprite "images/objects/platforms/vertical-wood.sprite")
       (path
         (node
@@ -6633,8 +6602,6 @@ platform2.goto_node(1)")
       (y 1620)
     )
     (secretarea
-      (script "")
-      (message "")
       (width 1468)
       (height 428)
       (x 0)

@@ -20,10 +20,10 @@
 #include "sprite/sprite.hpp"
 
 TriggerBase::TriggerBase() :
-  sprite(),
-  lasthit(false),
-  hit(false),
-  losetouch_listeners()
+  m_sprite(),
+  m_lasthit(false),
+  m_hit(false),
+  m_losetouch_listeners()
 {
   set_group(COLGROUP_TOUCHABLE);
 }
@@ -31,33 +31,33 @@ TriggerBase::TriggerBase() :
 TriggerBase::~TriggerBase()
 {
   // unregister remove_listener hooks, so nobody will try to call us after we've been destroyed
-  for (auto& p : losetouch_listeners) {
+  for (auto& p : m_losetouch_listeners) {
     p->del_remove_listener(this);
   }
-  losetouch_listeners.clear();
+  m_losetouch_listeners.clear();
 }
 
 void
 TriggerBase::update(float )
 {
-  if (lasthit && !hit) {
-    for (auto& p : losetouch_listeners) {
+  if (m_lasthit && !m_hit) {
+    for (auto& p : m_losetouch_listeners) {
       event(*p, EVENT_LOSETOUCH);
       p->del_remove_listener(this);
     }
-    losetouch_listeners.clear();
+    m_losetouch_listeners.clear();
   }
-  lasthit = hit;
-  hit = false;
+  m_lasthit = m_hit;
+  m_hit = false;
 }
 
 void
 TriggerBase::draw(DrawingContext& context)
 {
-  if(!sprite.get())
+  if(!m_sprite.get())
     return;
 
-  sprite->draw(context.color(), get_pos(), LAYER_TILES+1);
+  m_sprite->draw(context.color(), get_pos(), LAYER_TILES+1);
 }
 
 HitResponse
@@ -65,9 +65,9 @@ TriggerBase::collision(GameObject& other, const CollisionHit& )
 {
   auto player = dynamic_cast<Player*> (&other);
   if(player) {
-    hit = true;
-    if(!lasthit) {
-      losetouch_listeners.push_back(player);
+    m_hit = true;
+    if(!m_lasthit) {
+      m_losetouch_listeners.push_back(player);
       player->add_remove_listener(this);
       event(*player, EVENT_TOUCH);
     }
@@ -79,13 +79,10 @@ TriggerBase::collision(GameObject& other, const CollisionHit& )
 void
 TriggerBase::object_removed(GameObject* object)
 {
-  for (auto i = losetouch_listeners.begin(); i != losetouch_listeners.end(); ++i) {
-    auto p = *i;
-    if (p == object) {
-      losetouch_listeners.erase(i);
-      break;
-    }
-  }
+  m_losetouch_listeners.erase(std::remove(m_losetouch_listeners.begin(),
+                                          m_losetouch_listeners.end(),
+                                          object),
+                              m_losetouch_listeners.end());
 }
 
 /* EOF */

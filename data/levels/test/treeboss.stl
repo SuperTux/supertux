@@ -21,8 +21,8 @@
       )
     )
     (platform
-      (name "platform1")
       (running #f)
+      (name "platform1")
       (sprite "images/objects/flying_platform/flying_platform.sprite")
       (path
         (node
@@ -35,6 +35,26 @@
           (y 416)
         )
       )
+    )
+    (ghosttree
+      (dead-script "sector.Tux.trigger_sequence(\"fireworks\");")
+      (x 730)
+      (y 550)
+    )
+    (lantern
+      (color 0 0 0)
+      (x 540)
+      (y 348)
+    )
+    (lantern
+      (color 0 0 0)
+      (x 940)
+      (y 248)
+    )
+    (lantern
+      (color 0 0 0)
+      (x 1040)
+      (y 148)
     )
     (scripttrigger
       (script "platform1.goto_node(1);")
@@ -50,8 +70,8 @@
       (y 896)
     )
     (tilemap
-      (z-pos -100)
       (solid #f)
+      (z-pos -100)
       (name "Background")
       (width 50)
       (height 35)
@@ -94,8 +114,8 @@
       )
     )
     (tilemap
-      (z-pos 0)
       (solid #t)
+      (z-pos 0)
       (name "Interactive")
       (width 50)
       (height 35)
@@ -138,8 +158,8 @@
       )
     )
     (tilemap
-      (z-pos 100)
       (solid #f)
+      (z-pos 100)
       (name "Foreground")
       (width 50)
       (height 35)
@@ -182,8 +202,8 @@
       )
     )
     (tilemap
-      (z-pos -50)
       (solid #f)
+      (z-pos -50)
       (name "Tree")
       (width 50)
       (height 35)
@@ -224,26 +244,6 @@
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       )
-    )
-    (ghosttree
-      (dead-script "sector.Tux.trigger_sequence(\"fireworks\");")
-      (x 730)
-      (y 550)
-    )
-    (lantern
-      (x 540)
-      (y 348)
-      (color 0 0 0)
-    )
-    (lantern
-      (x 940)
-      (y 248)
-      (color 0 0 0)
-    )
-    (lantern
-      (x 1040)
-      (y 148)
-      (color 0 0 0)
     )
   )
 )

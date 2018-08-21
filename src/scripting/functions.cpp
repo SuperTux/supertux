@@ -156,7 +156,7 @@ void import(HSQUIRRELVM vm, const std::string& filename)
 
 void debug_collrects(bool enable)
 {
-  ::Sector::show_collrects = enable;
+  ::Sector::s_show_collrects = enable;
 }
 
 void debug_show_fps(bool enable)
@@ -166,7 +166,7 @@ void debug_show_fps(bool enable)
 
 void debug_draw_solids_only(bool enable)
 {
-  ::Sector::draw_solids_only = enable;
+  ::Sector::s_draw_solids_only = enable;
 }
 
 void debug_draw_editor_images(bool enable)
@@ -222,7 +222,7 @@ bool validate_sector_player()
     return false;
   }
 
-  if (::Sector::current()->player == 0)
+  if (::Sector::current()->m_player == 0)
   {
     log_info << "No player." << std::endl;
     return false;
@@ -243,29 +243,29 @@ void play_sound(const std::string& filename)
 void grease()
 {
   if (!validate_sector_player()) return;
-  auto tux = ::Sector::current()->player; // scripting::Player != ::Player
+  auto tux = ::Sector::current()->m_player; // scripting::Player != ::Player
   tux->get_physic().set_velocity_x(tux->get_physic().get_velocity_x()*3);
 }
 
 void invincible()
 {
   if (!validate_sector_player()) return;
-  auto tux = ::Sector::current()->player;
-  tux->invincible_timer.start(10000);
+  auto tux = ::Sector::current()->m_player;
+  tux->m_invincible_timer.start(10000);
 }
 
 void ghost()
 {
   if (!validate_sector_player()) return;
-  auto tux = ::Sector::current()->player;
+  auto tux = ::Sector::current()->m_player;
   tux->set_ghost_mode(true);
 }
 
 void mortal()
 {
   if (!validate_sector_player()) return;
-  auto tux = ::Sector::current()->player;
-  tux->invincible_timer.stop();
+  auto tux = ::Sector::current()->m_player;
+  tux->m_invincible_timer.stop();
   tux->set_ghost_mode(false);
 }
 
@@ -283,7 +283,7 @@ void restart()
 void whereami()
 {
   if (!validate_sector_player()) return;
-  auto tux = ::Sector::current()->player;
+  auto tux = ::Sector::current()->m_player;
   log_info << "You are at x " << (static_cast<int>(tux->get_pos().x)) << ", y " << (static_cast<int>(tux->get_pos().y)) << std::endl;
 }
 

@@ -83,7 +83,7 @@ bool
 Snowman::collision_squished(GameObject& object)
 {
   auto player = dynamic_cast<Player*>(&object);
-  if(player && (player->does_buttjump || player->is_invincible())) {
+  if(player && (player->m_does_buttjump || player->is_invincible())) {
     player->bounce(*this);
     kill_fall();
     return true;

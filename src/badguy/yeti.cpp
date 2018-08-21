@@ -75,7 +75,7 @@ Yeti::Yeti(const ReaderMapping& reader) :
   SoundManager::current()->preload("sounds/yeti_roar.wav");
 
   reader.get("hud-icon", hud_icon, "images/creatures/yeti/hudlife.png");
-  hud_head = Surface::create(hud_icon);
+  hud_head = Surface::from_file(hud_icon);
 
   initialize();
 
@@ -293,8 +293,8 @@ Yeti::drop_stalactite()
   auto player = get_nearest_player();
   if (!player) return;
 
-  auto sector = Sector::current();
-  for(const auto& obj : sector->gameobjects) {
+  Sector* sector = Sector::current();
+  for(const auto& obj : sector->m_gameobjects) {
     auto stalactite = dynamic_cast<YetiStalactite*>(obj.get());
     if(stalactite && stalactite->is_hanging()) {
       if (hit_points >= 3) {

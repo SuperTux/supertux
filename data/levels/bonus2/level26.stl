@@ -176,7 +176,6 @@
     (gradient
       (top_color 0 0 0 0)
       (bottom_color 0 0.03721675 0.2483711)
-      (layer -300)
     )
     (leveltime
       (time 600)

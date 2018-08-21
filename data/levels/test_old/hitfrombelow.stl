@@ -40,9 +40,9 @@
       (y 73.02223)
     )
     (sspiky
+      (direction "right")
       (x 725.051)
       (y 90.44006)
-      (direction "right")
     )
     (snail
       (x 1100.872)
@@ -66,8 +66,8 @@
       (y 56.19382)
     )
     (tilemap
-      (z-pos -100)
       (solid #f)
+      (z-pos -100)
       (name "Background")
       (width 60)
       (height 19)
@@ -94,8 +94,8 @@
       )
     )
     (tilemap
-      (z-pos 0)
       (solid #t)
+      (z-pos 0)
       (name "Interactive")
       (width 60)
       (height 19)
@@ -122,8 +122,8 @@
       )
     )
     (tilemap
-      (z-pos 100)
       (solid #f)
+      (z-pos 100)
       (name "Foreground")
       (width 60)
       (height 19)

@@ -61,8 +61,8 @@
       (y 2496)
     )
     (platform
-      (name "final_lift")
       (running #f)
+      (name "final_lift")
       (sprite "images/objects/platforms/small.sprite")
       (path
         (node
@@ -78,8 +78,8 @@
       )
     )
     (platform
+      (running #f)
       (name "blocker1")
-      (running #f)
       (sprite "images/objects/platforms/vertical-wood.sprite")
       (path
         (node
@@ -93,8 +93,8 @@
       )
     )
     (platform
+      (running #f)
       (name "blocker2")
-      (running #f)
       (sprite "images/objects/platforms/vertical-wood.sprite")
       (path
         (node
@@ -108,8 +108,8 @@
       )
     )
     (platform
+      (running #f)
       (name "blocker4")
-      (running #f)
       (sprite "images/objects/platforms/vertical-wood.sprite")
       (path
         (node
@@ -123,8 +123,8 @@
       )
     )
     (platform
-      (name "blocker5")
       (running #f)
+      (name "blocker5")
       (sprite "images/objects/platforms/vertical-wood.sprite")
       (path
         (node
@@ -138,8 +138,8 @@
       )
     )
     (platform
-      (name "blocker6")
       (running #f)
+      (name "blocker6")
       (sprite "images/objects/platforms/vertical-wood.sprite")
       (path
         (node
@@ -153,8 +153,8 @@
       )
     )
     (platform
-      (name "blocker3")
       (running #f)
+      (name "blocker3")
       (sprite "images/objects/platforms/vertical-wood.sprite")
       (path
         (node

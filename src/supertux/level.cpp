@@ -27,25 +27,25 @@
 
 #include <physfs.h>
 
-Level* Level::_current = 0;
+Level* Level::s_current = nullptr;
 
 Level::Level() :
-  name("noname"),
-  author("Mr. X"),
-  contact(),
-  license(),
-  filename(),
-  sectors(),
-  stats(),
-  target_time(),
-  tileset("images/tiles.strf")
+  m_name("noname"),
+  m_author("Mr. X"),
+  m_contact(),
+  m_license(),
+  m_filename(),
+  m_sectors(),
+  m_stats(),
+  m_target_time(),
+  m_tileset("images/tiles.strf")
 {
-  _current = this;
+  s_current = this;
 }
 
 Level::~Level()
 {
-  sectors.clear();
+  m_sectors.clear();
 }
 
 void
@@ -81,20 +81,20 @@ Level::save(const std::string& filepath, bool retry)
     // Starts writing to supertux level file. Keep this at the very beginning.
 
     writer.write("version", 2);
-    writer.write("name", name, true);
-    writer.write("author", author, false);
-    writer.write("tileset", tileset, false);
-    if (contact != "") {
-      writer.write("contact", contact, false);
+    writer.write("name", m_name, true);
+    writer.write("author", m_author, false);
+    writer.write("tileset", m_tileset, false);
+    if (m_contact != "") {
+      writer.write("contact", m_contact, false);
     }
-    if (license != "") {
-      writer.write("license", license, false);
+    if (m_license != "") {
+      writer.write("license", m_license, false);
     }
-    if (target_time != 0.0f){
-      writer.write("target-time", target_time);
+    if (m_target_time != 0.0f){
+      writer.write("target-time", m_target_time);
     }
 
-    for(auto& sector : sectors) {
+    for(auto& sector : m_sectors) {
       sector->save(writer);
     }
 
@@ -130,14 +130,14 @@ Level::add_sector(std::unique_ptr<Sector> sector)
   if (test != nullptr) {
     throw std::runtime_error("Trying to add 2 sectors with same name");
   } else {
-    sectors.push_back(std::move(sector));
+    m_sectors.push_back(std::move(sector));
   }
 }
 
 Sector*
 Level::get_sector(const std::string& name_) const
 {
-  for(auto const& sector : sectors) {
+  for(auto const& sector : m_sectors) {
     if(sector->get_name() == name_) {
       return sector.get();
     }
@@ -148,21 +148,21 @@ Level::get_sector(const std::string& name_) const
 size_t
 Level::get_sector_count() const
 {
-  return sectors.size();
+  return m_sectors.size();
 }
 
 Sector*
 Level::get_sector(size_t num) const
 {
-  return sectors.at(num).get();
+  return m_sectors.at(num).get();
 }
 
 int
 Level::get_total_coins() const
 {
   int total_coins = 0;
-  for(auto const& sector : sectors) {
-    for(const auto& o: sector->gameobjects) {
+  for(auto const& sector : m_sectors) {
+    for(const auto& o: sector->m_gameobjects) {
       auto coin = dynamic_cast<Coin*>(o.get());
       if(coin)
       {
@@ -172,12 +172,12 @@ Level::get_total_coins() const
       auto block = dynamic_cast<BonusBlock*>(o.get());
       if(block)
       {
-        if (block->contents == BonusBlock::CONTENT_COIN)
+        if (block->get_contents() == BonusBlock::CONTENT_COIN)
         {
-          total_coins += block->hit_counter;
+          total_coins += block->get_hit_counter();
           continue;
-        } else if (block->contents == BonusBlock::CONTENT_RAIN ||
-                   block->contents == BonusBlock::CONTENT_EXPLODE)
+        } else if (block->get_contents() == BonusBlock::CONTENT_RAIN ||
+                   block->get_contents() == BonusBlock::CONTENT_EXPLODE)
         {
           total_coins += 10;
           continue;
@@ -195,7 +195,7 @@ int
 Level::get_total_badguys() const
 {
   int total_badguys = 0;
-  for(auto const& sector : sectors) {
+  for(auto const& sector : m_sectors) {
     total_badguys += sector->get_total_badguys();
   }
   return total_badguys;
@@ -205,7 +205,7 @@ int
 Level::get_total_secrets() const
 {
   int total_secrets = 0;
-  for(auto const& sector : sectors) {
+  for(auto const& sector : m_sectors) {
     total_secrets += sector->get_total_count<SecretAreaTrigger>();
   }
   return total_secrets;
@@ -214,7 +214,7 @@ Level::get_total_secrets() const
 void
 Level::reactivate()
 {
-  _current = this;
+  s_current = this;
 }
 
 /* EOF */

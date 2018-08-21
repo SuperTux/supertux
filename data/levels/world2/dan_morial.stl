@@ -26,8 +26,8 @@
       (y 576)
     )
     (platform
-      (name "raiser1")
       (running #f)
+      (name "raiser1")
       (sprite "images/objects/platforms/big.sprite")
       (path
         (node

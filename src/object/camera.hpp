@@ -73,8 +73,8 @@ public:
 
   void set_scrolling(int scroll_x, int scroll_y)
   {
-    translation.x = static_cast<float>(scroll_x);
-    translation.y = static_cast<float>(scroll_y);
+    m_translation.x = static_cast<float>(scroll_x);
+    m_translation.y = static_cast<float>(scroll_y);
   }
 
   void set_number(int number_)
@@ -96,7 +96,7 @@ public:
       camera */
   Vector get_center() const;
 
-  void set_mode(CameraMode mode_) { mode = mode_; }
+  void set_mode(CameraMode mode_) { m_mode = mode_; }
   /** @} */
 
   /** \addtogroup GameObject
@@ -132,36 +132,36 @@ private:
   void shake();
 
 private:
-  CameraMode mode;
-  CameraMode defaultmode;
+  CameraMode m_mode;
+  CameraMode m_defaultmode;
 
   Size m_screen_size;
 
-  Vector translation;
+  Vector m_translation;
 
-  Sector* sector;
+  Sector* m_sector;
   Player* player;
 
   // normal mode
-  LookaheadMode lookahead_mode;
-  float changetime;
-  Vector lookahead_pos;
-  Vector peek_pos;
-  Vector cached_translation;
+  LookaheadMode m_lookahead_mode;
+  float m_changetime;
+  Vector m_lookahead_pos;
+  Vector m_peek_pos;
+  Vector m_cached_translation;
 
   // shaking
-  Timer shaketimer;
-  float shakespeed;
-  float shakedepth_x;
-  float shakedepth_y;
+  Timer m_shaketimer;
+  float m_shakespeed;
+  float m_shakedepth_x;
+  float m_shakedepth_y;
 
   // scrollto mode
-  Vector scroll_from;
-  Vector scroll_goal;
-  float scroll_to_pos;
-  float scrollspeed;
+  Vector m_scroll_from;
+  Vector m_scroll_goal;
+  float m_scroll_to_pos;
+  float m_scrollspeed;
 
-  std::unique_ptr<CameraConfig> config;
+  std::unique_ptr<CameraConfig> m_config;
 
   // camera number:
   int number;

@@ -11,13 +11,13 @@
       (alignment "bottom")
       (speed 0.5)
       (image "images/background/arcticskies3.png")
-      (layer -199)
+      (z-pos -199)
     )
     (background
       (alignment "bottom")
       (speed 2)
       (image "images/background/arcticskies35.png")
-      (layer 101)
+      (z-pos 101)
     )
     (bouncingsnowball
       (x 849)

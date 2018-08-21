@@ -119,13 +119,13 @@ Background::Background(const ReaderMapping& reader) :
   reader.get("speed-y", speed_y, speed);
 
   if (reader.get("image-top", imagefile_top)) {
-    image_top = Surface::create(imagefile_top);
+    image_top = Surface::from_file(imagefile_top);
   } else {
     imagefile_top = imagefile;
   }
 
   if (reader.get("image-bottom", imagefile_bottom)) {
-    image_bottom = Surface::create(imagefile_bottom);
+    image_bottom = Surface::from_file(imagefile_bottom);
   } else {
     imagefile_bottom = imagefile;
   }
@@ -193,9 +193,9 @@ Background::get_settings() {
 void
 Background::after_editor_set()
 {
-  image_top = Surface::create(imagefile_top);
-  image = Surface::create(imagefile);
-  image_bottom = Surface::create(imagefile_bottom);
+  image_top = Surface::from_file(imagefile_top);
+  image = Surface::from_file(imagefile);
+  image_bottom = Surface::from_file(imagefile_bottom);
 }
 
 void
@@ -208,7 +208,7 @@ void
 Background::set_image(const std::string& name_)
 {
   imagefile = name_;
-  image = Surface::create(name_);
+  image = Surface::from_file(name_);
   imagefile = name_;
 }
 
@@ -223,13 +223,13 @@ void
 Background::set_images(const std::string& name_top_, const std::string& name_middle_,
                        const std::string& name_bottom_)
 {
-  image_top = Surface::create(name_top_);
+  image_top = Surface::from_file(name_top_);
   imagefile_top = name_top_;
 
-  image = Surface::create(name_middle_);
+  image = Surface::from_file(name_middle_);
   imagefile = name_middle_;
 
-  image_bottom = Surface::create(name_bottom_);
+  image_bottom = Surface::from_file(name_bottom_);
   imagefile_bottom = name_bottom_;
 }
 

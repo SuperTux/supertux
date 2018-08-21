@@ -68,7 +68,7 @@ Igel::active_update(float elapsed_time)
 
   // check if we see a fire bullet
   auto sector = Sector::current();
-  for (const auto& object : sector->gameobjects) {
+  for (const auto& object : sector->m_gameobjects) {
     auto bullet = reinterpret_cast<Bullet*>(object.get());
     if (!bullet) continue;
     if (bullet->get_type() != FIRE_BONUS) continue;

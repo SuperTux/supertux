@@ -271,7 +271,7 @@ WillOWisp::set_state(const std::string& new_state)
 ObjectSettings
 WillOWisp::get_settings() {
   ObjectSettings result(_("Will 'o' wisp"));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &m_name));
   result.options.push_back( dir_option(&dir) );
   result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Sector"), &target_sector, "sector"));
   result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Spawnpoint"), &target_spawnpoint, "spawnpoint"));

@@ -1,4 +1,7 @@
 # STL files are supertux level files, thus do not treat as binary
 *.stl text
+*.sprite text
+*.stf text
+*.stwm text
 
 *.stl diff=astextplain

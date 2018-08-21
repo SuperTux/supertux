@@ -21,6 +21,7 @@
 #include <algorithm>
 #include <physfs.h>
 #include <cmath>
+#include <sstream>
 
 #include "physfs/physfs_sdl.hpp"
 #include "util/file_system.hpp"
@@ -173,8 +174,8 @@ Font::loadFontSurface(
   int char_width
   )
 {
-  SurfacePtr glyph_surface  = Surface::create("images/engine/fonts/" + glyphimage);
-  SurfacePtr shadow_surface = Surface::create("images/engine/fonts/" + shadowimage);
+  SurfacePtr glyph_surface  = Surface::from_file("images/engine/fonts/" + glyphimage);
+  SurfacePtr shadow_surface = Surface::from_file("images/engine/fonts/" + shadowimage);
 
   int surface_idx = static_cast<int>(glyph_surfaces.size());
   glyph_surfaces.push_back(glyph_surface);

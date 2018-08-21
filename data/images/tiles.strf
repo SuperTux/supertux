@@ -1392,6 +1392,7 @@
   (tile
     ; dupe of tile 70, this one will be removed.
     (id 63)
+    (deprecated #t)
     (images
       "tiles/background/backgroundtile1.png"
     )
@@ -1699,7 +1700,7 @@
       "tiles/goal/exitbg.png"
     )
     (object-name "decal")
-    (object-data "(sprite \"images/decal/snow/exitbg.png\")")
+    (object-data "(sprite \"images/decal/snow/exitbg.png\") (z-pos -100)")
   )
   (tile
     (id 127)
@@ -1708,7 +1709,7 @@
       "tiles/goal/exitfg.png"
     )
     (object-name "decal")
-    (object-data "(sprite \"images/decal/snow/exitfg.png\")")
+    (object-data "(sprite \"images/decal/snow/exitfg.png\") (z-pos 200)")
   )
   (tile
     (id 128)
@@ -1790,6 +1791,7 @@
   ; For compatibility with 0.1.x levels, use tile to 1809-1814 instead
   (tile
     (id 134)
+    (deprecated #t)
     (images
       (region "tiles/doodads/nolok-statue.png" 0 0 32 96)
     )
@@ -1797,6 +1799,7 @@
   ; For compatibility with 0.1.x levels, use tile to 1809-1814 instead
   (tile
     (id 135)
+    (deprecated #t)
     (images
       (region "tiles/doodads/nolok-statue.png" 32 0 32 96)
     )
@@ -2761,6 +2764,7 @@
   )
   (tile
     (id 1350)
+    (deprecated #t)
     (images
       "tiles/doodads/platter.png")
     (solid #f)

@@ -106,6 +106,8 @@ static inline void assert_gl(const char* message)
 #define GL_ONE_MINUS_SRC_ALPHA 1
 #define GL_RGBA 2
 #define GL_ONE 3
+#define GL_ZERO 4
+#define GL_DST_COLOR 5
 
 #endif
 

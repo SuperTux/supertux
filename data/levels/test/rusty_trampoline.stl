@@ -16,6 +16,21 @@
     (camera
       (mode "normal")
     )
+    (rustytrampoline
+      (counter 5)
+      (x 160)
+      (y 256)
+    )
+    (rustytrampoline
+      (counter 2)
+      (x 190)
+      (y 256)
+    )
+    (rustytrampoline
+      (portable #f)
+      (x 210)
+      (y 256)
+    )
     (spawnpoint
       (name "main")
       (x 96)
@@ -152,24 +167,6 @@
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       )
-    )
-    
-    (rustytrampoline
-      (x 160)
-      (y 256)
-      (counter 5)
-    )
-    
-    (rustytrampoline
-      (x 190)
-      (y 256)
-      (counter 2)
-    )
-    
-    (rustytrampoline
-      (x 210)
-      (y 256)
-      (portable #f)
     )
   )
 )

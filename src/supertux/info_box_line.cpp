@@ -96,7 +96,7 @@ InfoBoxLine::InfoBoxLine(char format_char, const std::string& text_) :
 {
   if (lineType == IMAGE)
   {
-    image = Surface::create(text);
+    image = Surface::from_file(text);
   }
 }
 

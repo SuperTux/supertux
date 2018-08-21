@@ -50,12 +50,12 @@ Resources::Resources()
   big_font.reset(new Font(Font::VARIABLE, "fonts/white-big.stf", 3));
 
   /* Load menu images */
-  checkbox = Surface::create("images/engine/menu/checkbox-unchecked.png");
-  checkbox_checked = Surface::create("images/engine/menu/checkbox-checked.png");
-  back = Surface::create("images/engine/menu/arrow-back.png");
-  arrow_left = Surface::create("images/engine/menu/arrow-left.png");
-  arrow_right = Surface::create("images/engine/menu/arrow-right.png");
-  no_tile = Surface::create("images/tiles/auxiliary/notile.png");
+  checkbox = Surface::from_file("images/engine/menu/checkbox-unchecked.png");
+  checkbox_checked = Surface::from_file("images/engine/menu/checkbox-checked.png");
+  back = Surface::from_file("images/engine/menu/arrow-back.png");
+  arrow_left = Surface::from_file("images/engine/menu/arrow-left.png");
+  arrow_right = Surface::from_file("images/engine/menu/arrow-right.png");
+  no_tile = Surface::from_file("images/tiles/auxiliary/notile.png");
 }
 
 Resources::~Resources()

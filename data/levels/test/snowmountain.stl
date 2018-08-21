@@ -2,7 +2,6 @@
   (version 2)
   (name (_ "Snow Mountain Tiles"))
   (author "ingo")
-  (target-time 0)
   (sector
     (name "main")
     (ambient-light 1 1 1)

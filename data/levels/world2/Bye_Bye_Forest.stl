@@ -13,7 +13,7 @@
       (image-top "images/background/forest2_para.png")
       (image "images/background/forest2_para.png")
       (image-bottom "images/background/forest2_para.png")
-      (layer -190)
+      (z-pos -190)
     )
     (camera
       (mode "normal")

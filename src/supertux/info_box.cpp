@@ -33,8 +33,8 @@ InfoBox::InfoBox(const std::string& text) :
   try
   {
     // get the arrow sprites
-    arrow_scrollup   = Surface::create("images/engine/menu/scroll-up.png");
-    arrow_scrolldown = Surface::create("images/engine/menu/scroll-down.png");
+    arrow_scrollup   = Surface::from_file("images/engine/menu/scroll-up.png");
+    arrow_scrolldown = Surface::from_file("images/engine/menu/scroll-down.png");
   }
   catch (std::exception& e)
   {

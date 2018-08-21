@@ -35,6 +35,7 @@
 #include "physfs/ifile_streambuf.hpp"
 #include "scripting/sector.hpp"
 #include "supertux/collision.hpp"
+#include "supertux/collision_system.hpp"
 #include "supertux/constants.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/level.hpp"
@@ -46,36 +47,37 @@
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
-Sector* Sector::_current = 0;
+Sector* Sector::s_current = 0;
 
-bool Sector::show_collrects = false;
-bool Sector::draw_solids_only = false;
+bool Sector::s_show_collrects = false;
+bool Sector::s_draw_solids_only = false;
 
 Sector::Sector(Level* parent) :
-  level(parent),
-  name(),
-  bullets(),
-  init_script(),
-  gameobjects_new(),
-  currentmusic(LEVEL_MUSIC),
-  sector_table(),
-  scripts(),
-  ambient_light( 1.0f, 1.0f, 1.0f, 1.0f ),
-  ambient_light_fading(false),
-  source_ambient_light(1.0f, 1.0f, 1.0f, 1.0f),
-  target_ambient_light(1.0f, 1.0f, 1.0f, 1.0f),
-  ambient_light_fade_duration(0.0f),
-  ambient_light_fade_accum(0.0f),
-  foremost_layer(),
-  gameobjects(),
-  moving_objects(),
-  spawnpoints(),
-  portables(),
-  music(),
-  gravity(10.0),
-  player(0),
-  solid_tilemaps(),
-  effect(0)
+  m_level(parent),
+  m_name(),
+  m_bullets(),
+  m_init_script(),
+  m_gameobjects_new(),
+  m_currentmusic(LEVEL_MUSIC),
+  m_sector_table(),
+  m_scripts(),
+  m_ambient_light( 1.0f, 1.0f, 1.0f, 1.0f ),
+  m_ambient_light_fading(false),
+  m_source_ambient_light(1.0f, 1.0f, 1.0f, 1.0f),
+  m_target_ambient_light(1.0f, 1.0f, 1.0f, 1.0f),
+  m_ambient_light_fade_duration(0.0f),
+  m_ambient_light_fade_accum(0.0f),
+  m_foremost_layer(),
+  m_gameobjects(),
+  m_collision_system(new CollisionSystem(*this)),
+  m_spawnpoints(),
+  m_portables(),
+  m_music(),
+  m_gravity(10.0),
+  m_player(0),
+  m_solid_tilemaps(),
+  //m_camera(0),
+  m_effect(0)
 {
   PlayerStatus* player_status;
   if (Editor::is_active()) {
@@ -91,7 +93,7 @@ Sector::Sector(Level* parent) :
 
   player1->get_camera()->set_number(1);
   player2->get_camera()->set_number(2);
-  
+
   add_object(player1);
   add_object(player2);
   add_object(std::make_shared<DisplayEffect>("Effect"));
@@ -110,10 +112,10 @@ Sector::Sector(Level* parent) :
   if(SQ_FAILED(sq_setdelegate(global_vm, -2)))
     throw scripting::SquirrelError(global_vm, "Couldn't set sector_table delegate");
 
-  sq_resetobject(&sector_table);
-  if(SQ_FAILED(sq_getstackobj(global_vm, -1, &sector_table)))
+  sq_resetobject(&m_sector_table);
+  if(SQ_FAILED(sq_getstackobj(global_vm, -1, &m_sector_table)))
     throw scripting::SquirrelError(global_vm, "Couldn't get sector table");
-  sq_addref(global_vm, &sector_table);
+  sq_addref(global_vm, &m_sector_table);
   sq_pop(global_vm, 1);
 }
 
@@ -129,12 +131,12 @@ Sector::~Sector()
     log_warning << err.what() << std::endl;
   }
 
-  release_scripts(global_vm, scripts, sector_table);
+  release_scripts(global_vm, m_scripts, m_sector_table);
 
   update_game_objects();
-  assert(gameobjects_new.size() == 0);
+  assert(m_gameobjects_new.size() == 0);
 
-  for(const auto& object: gameobjects) {
+  for(const auto& object: m_gameobjects) {
     before_object_remove(object);
   }
 }
@@ -142,7 +144,7 @@ Sector::~Sector()
 Level*
 Sector::get_level() const
 {
-  return level;
+  return m_level;
 }
 
 HSQUIRRELVM
@@ -160,8 +162,8 @@ HSQUIRRELVM
 Sector::run_script(std::istream& in, const std::string& sourcename)
 {
   try {
-    return scripting::run_script(in, "Sector " + name + " - " + sourcename,
-                                 scripts, &sector_table);
+    return scripting::run_script(in, "Sector " + m_name + " - " + sourcename,
+                                 m_scripts, &m_sector_table);
   }
   catch(const std::exception& e)
   {
@@ -175,22 +177,22 @@ Sector::add_object(GameObjectPtr object)
 {
   // make sure the object isn't already in the list
 #ifndef NDEBUG
-  for(const auto& game_object : gameobjects) {
+  for(const auto& game_object : m_gameobjects) {
     assert(game_object != object);
   }
-  for(const auto& gameobject : gameobjects_new) {
+  for(const auto& gameobject : m_gameobjects_new) {
     assert(gameobject != object);
   }
 #endif
 
-  gameobjects_new.push_back(object);
+  m_gameobjects_new.push_back(object);
 }
 
 void
 Sector::activate(const std::string& spawnpoint)
 {
   std::shared_ptr<SpawnPoint> sp;
-  for(const auto& spawn_point : spawnpoints) {
+  for(const auto& spawn_point : m_spawnpoints) {
     if(spawn_point->name == spawnpoint) {
       sp = spawn_point;
       break;
@@ -211,18 +213,18 @@ Sector::activate(const std::string& spawnpoint)
 void
 Sector::activate(const Vector& player_pos)
 {
-  if(_current != this) {
-    if(_current != NULL)
-      _current->deactivate();
-    _current = this;
+  if(s_current != this) {
+    if(s_current != NULL)
+      s_current->deactivate();
+    s_current = this;
 
     // register sectortable as sector in scripting
     HSQUIRRELVM vm = scripting::global_vm;
     sq_pushroottable(vm);
-    scripting::store_object(vm, "sector", sector_table);
+    scripting::store_object(vm, "sector", m_sector_table);
     sq_pop(vm, 1);
 
-    for(auto& object : gameobjects) {
+    for(auto& object : m_gameobjects) {
       try_expose(object);
     }
   }
@@ -231,7 +233,7 @@ Sector::activate(const Vector& player_pos)
 
   // two-player hack: move other players to main player's position
   // Maybe specify 2 spawnpoints in the level?
-  for(auto& object : gameobjects) {
+  for(auto& object : m_gameobjects) {
     auto p = dynamic_cast<Player*>(object.get());
     if (!p) continue;
 
@@ -244,7 +246,7 @@ Sector::activate(const Vector& player_pos)
 
     // spawning tux in the ground would kill him
     if(!is_free_of_tiles(p->get_bbox())) {
-      std::string current_level = "[" + Sector::current()->get_level()->filename + "] ";
+      std::string current_level = "[" + Sector::current()->get_level()->m_filename + "] ";
       log_warning << current_level << "Tried spawning Tux in solid matter. Compensating." << std::endl;
       Vector npos = p->get_bbox().p1;
       npos.y-=32;
@@ -267,7 +269,7 @@ Sector::activate(const Vector& player_pos)
 
   //Run default.nut just before init script
   //Check to see if it's in a levelset (info file)
-  std::string basedir = FileSystem::dirname(get_level()->filename);
+  std::string basedir = FileSystem::dirname(get_level()->m_filename);
   if(PHYSFS_exists((basedir + "/info").c_str())) {
     try {
       IFileStreambuf ins(basedir + "/default.nut");
@@ -279,15 +281,15 @@ Sector::activate(const Vector& player_pos)
   }
 
   // Run init script
-  if(!init_script.empty() && !Editor::is_active()) {
-    run_script(init_script, "init-script");
+  if(!m_init_script.empty() && !Editor::is_active()) {
+    run_script(m_init_script, "init-script");
   }
 }
 
 void
 Sector::deactivate()
 {
-  if(_current != this)
+  if(s_current != this)
     return;
 
   // remove sector entry from global vm
@@ -296,19 +298,19 @@ Sector::deactivate()
   scripting::delete_table_entry(vm, "sector");
   sq_pop(vm, 1);
 
-  for(const auto& object: gameobjects) {
+  for(const auto& object: m_gameobjects) {
     try_unexpose(object);
   }
 
   try_unexpose_me();
-  _current = NULL;
+  s_current = NULL;
 }
 
 int
 Sector::calculate_foremost_layer() const
 {
   int layer = LAYER_BACKGROUND0;
-  for(const auto& obj : gameobjects)
+  for(const auto& obj : m_gameobjects)
   {
     const auto& tm = dynamic_cast<TileMap*>(obj.get());
     if (!tm) continue;
@@ -331,22 +333,22 @@ Sector::calculate_foremost_layer() const
 int
 Sector::get_foremost_layer() const
 {
-  return foremost_layer;
+  return m_foremost_layer;
 }
 
 void
 Sector::update(float elapsed_time)
 {
-  player->check_bounds();
+  m_player->check_bounds();
 
-  if(ambient_light_fading)
+  if(m_ambient_light_fading)
   {
-    ambient_light_fade_accum += elapsed_time;
-    float percent_done = ambient_light_fade_accum / ambient_light_fade_duration * 1.0f;
-    float r = (1.0f - percent_done) * source_ambient_light.red + percent_done * target_ambient_light.red;
-    float g = (1.0f - percent_done) * source_ambient_light.green + percent_done * target_ambient_light.green;
-    float b = (1.0f - percent_done) * source_ambient_light.blue + percent_done * target_ambient_light.blue;
-    
+    m_ambient_light_fade_accum += elapsed_time;
+    float percent_done = m_ambient_light_fade_accum / m_ambient_light_fade_duration * 1.0f;
+    float r = (1.0f - percent_done) * m_source_ambient_light.red + percent_done * m_target_ambient_light.red;
+    float g = (1.0f - percent_done) * m_source_ambient_light.green + percent_done * m_target_ambient_light.green;
+    float b = (1.0f - percent_done) * m_source_ambient_light.blue + percent_done * m_target_ambient_light.blue;
+
     if(r > 1.0)
       r = 1.0;
     if(g > 1.0)
@@ -360,19 +362,19 @@ Sector::update(float elapsed_time)
       g = 0;
     if(b < 0)
       b = 0;
-    
-    ambient_light = Color(r, g, b);
 
-    if(ambient_light_fade_accum >= ambient_light_fade_duration)
+    m_ambient_light = Color(r, g, b);
+
+    if(m_ambient_light_fade_accum >= m_ambient_light_fade_duration)
     {
-      ambient_light = target_ambient_light;
-      ambient_light_fading = false;
-      ambient_light_fade_accum = 0;
+      m_ambient_light = m_target_ambient_light;
+      m_ambient_light_fading = false;
+      m_ambient_light_fade_accum = 0;
     }
   }
 
   /* update objects */
-  for(const auto& object : gameobjects) {
+  for(const auto& object : m_gameobjects) {
     if(!object->is_valid())
       continue;
 
@@ -380,7 +382,7 @@ Sector::update(float elapsed_time)
   }
 
   /* Handle all possible collisions. */
-  handle_collisions();
+  m_collision_system->update();
   update_game_objects();
 }
 
@@ -388,8 +390,8 @@ void
 Sector::update_game_objects()
 {
   /** cleanup marked objects */
-  for(auto i = gameobjects.begin();
-      i != gameobjects.end(); /* nothing */) {
+  for(auto i = m_gameobjects.begin();
+      i != m_gameobjects.end(); /* nothing */) {
     const GameObjectPtr& object = *i;
 
     if(object->is_valid()) {
@@ -399,26 +401,26 @@ Sector::update_game_objects()
 
     before_object_remove(object);
 
-    i = gameobjects.erase(i);
+    i = m_gameobjects.erase(i);
   }
 
   /* add newly created objects */
-  for(const auto& object : gameobjects_new)
+  for(const auto& object : m_gameobjects_new)
   {
     before_object_add(object);
 
-    gameobjects.push_back(object);
+    m_gameobjects.push_back(object);
   }
-  gameobjects_new.clear();
+  m_gameobjects_new.clear();
 
   /* update solid_tilemaps list */
   //FIXME: this could be more efficient
-  solid_tilemaps.clear();
-  for(const auto& obj : gameobjects)
+  m_solid_tilemaps.clear();
+  for(const auto& obj : m_gameobjects)
   {
     const auto& tm = dynamic_cast<TileMap*>(obj.get());
     if (!tm) continue;
-    if (tm->is_solid()) solid_tilemaps.push_back(tm);
+    if (tm->is_solid()) m_solid_tilemaps.push_back(tm);
   }
 
 }
@@ -429,29 +431,29 @@ Sector::before_object_add(GameObjectPtr object)
   auto bullet = dynamic_cast<Bullet*>(object.get());
   if (bullet)
   {
-    bullets.push_back(bullet);
+    m_bullets.push_back(bullet);
   }
 
   auto movingobject = dynamic_cast<MovingObject*>(object.get());
   if (movingobject)
   {
-    moving_objects.push_back(movingobject);
+    m_collision_system->add(movingobject);
   }
 
   auto portable = dynamic_cast<Portable*>(object.get());
   if(portable)
   {
-    portables.push_back(portable);
+    m_portables.push_back(portable);
   }
 
   auto tilemap = dynamic_cast<TileMap*>(object.get());
   if(tilemap && tilemap->is_solid()) {
-    solid_tilemaps.push_back(tilemap);
+    m_solid_tilemaps.push_back(tilemap);
   }
 
   /*auto camera_ = dynamic_cast<Camera*>(object.get());
   if(camera_) {
-    if(camera != 0) {
+    if(m_camera != 0) {
       log_warning << "Multiple cameras added. Ignoring" << std::endl;
       return false;
     }
@@ -465,19 +467,19 @@ Sector::before_object_add(GameObjectPtr object)
       log_warning << "Multiple players added. Ignoring" << std::endl;
       return false;
       }*/
-    player = player_;
+    m_player = player_;
   }
 
   auto effect_ = dynamic_cast<DisplayEffect*>(object.get());
   if(effect_) {
-    if(effect != 0) {
+    if(m_effect != 0) {
       log_warning << "Multiple DisplayEffects added. Ignoring" << std::endl;
       return false;
     }
-    effect = effect_;
+    m_effect = effect_;
   }
 
-  if(_current == this) {
+  if(s_current == this) {
     try_expose(object);
   }
 
@@ -487,14 +489,14 @@ Sector::before_object_add(GameObjectPtr object)
 void
 Sector::try_expose(GameObjectPtr object)
 {
-  scripting::try_expose(object, sector_table);
+  scripting::try_expose(object, m_sector_table);
 }
 
 void
 Sector::try_expose_me()
 {
   HSQUIRRELVM vm = scripting::global_vm;
-  sq_pushobject(vm, sector_table);
+  sq_pushobject(vm, m_sector_table);
   auto obj = new scripting::Sector(this);
   expose_object(vm, -1, obj, "settings", true);
   sq_pop(vm, 1);
@@ -505,26 +507,25 @@ Sector::before_object_remove(GameObjectPtr object)
 {
   auto portable = dynamic_cast<Portable*>(object.get());
   if (portable) {
-    portables.erase(std::find(portables.begin(), portables.end(), portable));
+    m_portables.erase(std::find(m_portables.begin(), m_portables.end(), portable));
   }
   auto bullet = dynamic_cast<Bullet*>(object.get());
   if (bullet) {
-    bullets.erase(std::find(bullets.begin(), bullets.end(), bullet));
+    m_bullets.erase(std::find(m_bullets.begin(), m_bullets.end(), bullet));
   }
   auto moving_object = dynamic_cast<MovingObject*>(object.get());
   if (moving_object) {
-    moving_objects.erase(
-      std::find(moving_objects.begin(), moving_objects.end(), moving_object));
+    m_collision_system->remove(moving_object);
   }
 
-  if(_current == this)
+  if(s_current == this)
     try_unexpose(object);
 }
 
 void
 Sector::try_unexpose(GameObjectPtr object)
 {
-  scripting::try_unexpose(object, sector_table);
+  scripting::try_unexpose(object, m_sector_table);
 }
 
 void
@@ -532,7 +533,7 @@ Sector::try_unexpose_me()
 {
   HSQUIRRELVM vm = scripting::global_vm;
   SQInteger oldtop = sq_gettop(vm);
-  sq_pushobject(vm, sector_table);
+  sq_pushobject(vm, m_sector_table);
   try {
     scripting::unexpose_object(vm, -1, "settings");
   } catch(std::exception& e) {
@@ -544,17 +545,17 @@ void
 Sector::draw(DrawingContext& context, Player* player_it)
 {
   if (!player_it)
-    player_it = player;
+    player_it = m_player;
 
-  context.set_ambient_color( ambient_light );
+  context.set_ambient_color( m_ambient_light );
   context.push_transform();
   context.set_translation(player_it->camera->get_translation());
 
-  for(const auto& object : gameobjects) {
+  for(const auto& object : m_gameobjects) {
     if(!object->is_valid())
       continue;
 
-    if (draw_solids_only)
+    if (s_draw_solids_only)
     {
       auto tm = dynamic_cast<TileMap*>(object.get());
       if (tm && !tm->is_solid())
@@ -564,13 +565,8 @@ Sector::draw(DrawingContext& context, Player* player_it)
     object->draw(context);
   }
 
-  if(show_collrects) {
-    Color color(1.0f, 0.0f, 0.0f, 0.75f);
-    for(auto& object : moving_objects) {
-      const Rectf& rect = object->get_bbox();
-
-      context.color().draw_filled_rect(rect, color, LAYER_FOREGROUND1 + 10);
-    }
+  if(s_show_collrects) {
+    m_collision_system->draw(context);
   }
 
   context.pop_transform();
@@ -579,619 +575,50 @@ Sector::draw(DrawingContext& context, Player* player_it)
 void
 Sector::on_window_resize()
 {
-  for(const auto& obj : gameobjects)
+  for(const auto& obj : m_gameobjects)
   {
     obj->on_window_resize();
-  }
-}
-
-/*-------------------------------------------------------------------------
- * Collision Detection
- *-------------------------------------------------------------------------*/
-
-/** r1 is supposed to be moving, r2 a solid object */
-void check_collisions(collision::Constraints* constraints,
-                      const Vector& obj_movement, const Rectf& obj_rect, const Rectf& other_rect,
-                      GameObject* object = NULL, MovingObject* other = NULL, const Vector& other_movement = Vector(0,0))
-{
-  if(!collision::intersects(obj_rect, other_rect))
-    return;
-
-  auto moving_object = dynamic_cast<MovingObject*> (object);
-  CollisionHit dummy;
-  if(other != NULL && object != NULL && !other->collides(*object, dummy))
-    return;
-  if(moving_object != NULL && other != NULL && !moving_object->collides(*other, dummy))
-    return;
-
-  // calculate intersection
-  float itop    = obj_rect.get_bottom() - other_rect.get_top();
-  float ibottom = other_rect.get_bottom() - obj_rect.get_top();
-  float ileft   = obj_rect.get_right() - other_rect.get_left();
-  float iright  = other_rect.get_right() - obj_rect.get_left();
-
-  if(fabsf(obj_movement.y) > fabsf(obj_movement.x)) {
-    if(ileft < SHIFT_DELTA) {
-      constraints->constrain_right(other_rect.get_left(), other_movement.x);
-      return;
-    } else if(iright < SHIFT_DELTA) {
-      constraints->constrain_left(other_rect.get_right(), other_movement.x);
-      return;
-    }
-  } else {
-    // shiftout bottom/top
-    if(itop < SHIFT_DELTA) {
-      constraints->constrain_bottom(other_rect.get_top(), other_movement.y);
-      return;
-    } else if(ibottom < SHIFT_DELTA) {
-      constraints->constrain_top(other_rect.get_bottom(), other_movement.y);
-      return;
-    }
-  }
-
-  constraints->ground_movement += other_movement;
-  if(other != NULL && object != NULL) {
-    HitResponse response = other->collision(*object, dummy);
-    if(response == ABORT_MOVE)
-      return;
-
-    if(other->get_movement() != Vector(0, 0)) {
-      // TODO what todo when we collide with 2 moving objects?!?
-      constraints->ground_movement += other->get_movement();
-    }
-  }
-
-  float vert_penetration = std::min(itop, ibottom);
-  float horiz_penetration = std::min(ileft, iright);
-  if(vert_penetration < horiz_penetration) {
-    if(itop < ibottom) {
-      constraints->constrain_bottom(other_rect.get_top(), other_movement.y);
-      constraints->hit.bottom = true;
-    } else {
-      constraints->constrain_top(other_rect.get_bottom(), other_movement.y);
-      constraints->hit.top = true;
-    }
-  } else {
-    if(ileft < iright) {
-      constraints->constrain_right(other_rect.get_left(), other_movement.x);
-      constraints->hit.right = true;
-    } else {
-      constraints->constrain_left(other_rect.get_right(), other_movement.x);
-      constraints->hit.left = true;
-    }
-  }
-}
-
-void
-Sector::collision_tilemap(collision::Constraints* constraints,
-                          const Vector& movement, const Rectf& dest,
-                          MovingObject& object) const
-{
-  // calculate rectangle where the object will move
-  float x1 = dest.get_left();
-  float x2 = dest.get_right();
-  float y1 = dest.get_top();
-  float y2 = dest.get_bottom();
-
-  for(const auto& solids : solid_tilemaps) {
-    // test with all tiles in this rectangle
-    Rect test_tiles = solids->get_tiles_overlapping(Rectf(x1, y1, x2, y2));
-
-    for(int x = test_tiles.left; x < test_tiles.right; ++x) {
-      for(int y = test_tiles.top; y < test_tiles.bottom; ++y) {
-        const auto& tile = solids->get_tile(x, y);
-        if(!tile)
-          continue;
-        // skip non-solid tiles
-        if(!tile->is_solid ())
-          continue;
-        Rectf tile_bbox = solids->get_tile_bbox(x, y);
-
-        /* If the tile is a unisolid tile, the "is_solid()" function above
-         * didn't do a thorough check. Calculate the position and (relative)
-         * movement of the object and determine whether or not the tile is
-         * solid with regard to those parameters. */
-        if(tile->is_unisolid ()) {
-          Vector relative_movement = movement
-            - solids->get_movement(/* actual = */ true);
-
-          if (!tile->is_solid (tile_bbox, object.get_bbox(), relative_movement))
-            continue;
-        } /* if (tile->is_unisolid ()) */
-
-        if(tile->is_slope ()) { // slope tile
-          AATriangle triangle;
-          int slope_data = tile->getData();
-          if (solids->get_drawing_effect() & VERTICAL_FLIP)
-            slope_data = AATriangle::vertical_flip(slope_data);
-          triangle = AATriangle(tile_bbox, slope_data);
-
-          collision::rectangle_aatriangle(constraints, dest, triangle,
-              solids->get_movement(/* actual = */ false));
-        } else { // normal rectangular tile
-          check_collisions(constraints, movement, dest, tile_bbox, NULL, NULL,
-              solids->get_movement(/* actual = */ false));
-        }
-      }
-    }
-  }
-}
-
-uint32_t
-Sector::collision_tile_attributes(const Rectf& dest, const Vector& mov) const
-{
-  float x1 = dest.p1.x;
-  float y1 = dest.p1.y;
-  float x2 = dest.p2.x;
-  float y2 = dest.p2.y;
-
-  uint32_t result = 0;
-  for(auto& solids: solid_tilemaps) {
-    // test with all tiles in this rectangle
-    Rect test_tiles = solids->get_tiles_overlapping(Rectf(x1, y1, x2, y2));
-    // For ice (only), add a little fudge to recognize tiles Tux is standing on.
-    Rect test_tiles_ice = solids->get_tiles_overlapping(Rectf(x1, y1, x2, y2 + SHIFT_DELTA));
-
-    for(int x = test_tiles.left; x < test_tiles.right; ++x) {
-      int y;
-      for(y = test_tiles.top; y < test_tiles.bottom; ++y) {
-        const auto& tile = solids->get_tile(x, y);
-        if(!tile)
-          continue;
-        if ( tile->is_collisionful( solids->get_tile_bbox(x, y), dest, mov) ) {
-          result |= tile->getAttributes();
-        }
-      }
-      for(; y < test_tiles_ice.bottom; ++y) {
-        const auto& tile = solids->get_tile(x, y);
-        if(!tile)
-          continue;
-        if ( tile->is_collisionful( solids->get_tile_bbox(x, y), dest, mov) ) {
-          result |= (tile->getAttributes() & Tile::ICE);
-        }
-      }
-    }
-  }
-
-  return result;
-}
-
-/** fills in CollisionHit and Normal vector of 2 intersecting rectangle */
-static void get_hit_normal(const Rectf& r1, const Rectf& r2, CollisionHit& hit,
-                           Vector& normal)
-{
-  float itop = r1.get_bottom() - r2.get_top();
-  float ibottom = r2.get_bottom() - r1.get_top();
-  float ileft = r1.get_right() - r2.get_left();
-  float iright = r2.get_right() - r1.get_left();
-
-  float vert_penetration = std::min(itop, ibottom);
-  float horiz_penetration = std::min(ileft, iright);
-  if(vert_penetration < horiz_penetration) {
-    if(itop < ibottom) {
-      hit.bottom = true;
-      normal.y = vert_penetration;
-    } else {
-      hit.top = true;
-      normal.y = -vert_penetration;
-    }
-  } else {
-    if(ileft < iright) {
-      hit.right = true;
-      normal.x = horiz_penetration;
-    } else {
-      hit.left = true;
-      normal.x = -horiz_penetration;
-    }
-  }
-}
-
-void
-Sector::collision_object(MovingObject* object1, MovingObject* object2) const
-{
-  using namespace collision;
-
-  const Rectf& r1 = object1->dest;
-  const Rectf& r2 = object2->dest;
-
-  CollisionHit hit;
-  if(intersects(object1->dest, object2->dest)) {
-    Vector normal;
-    get_hit_normal(r1, r2, hit, normal);
-
-    if(!object1->collides(*object2, hit))
-      return;
-    std::swap(hit.left, hit.right);
-    std::swap(hit.top, hit.bottom);
-    if(!object2->collides(*object1, hit))
-      return;
-    std::swap(hit.left, hit.right);
-    std::swap(hit.top, hit.bottom);
-
-    HitResponse response1 = object1->collision(*object2, hit);
-    std::swap(hit.left, hit.right);
-    std::swap(hit.top, hit.bottom);
-    HitResponse response2 = object2->collision(*object1, hit);
-    if(response1 == CONTINUE && response2 == CONTINUE) {
-      normal *= (0.5f + DELTA);
-      object1->dest.move(-normal);
-      object2->dest.move(normal);
-    } else if (response1 == CONTINUE && response2 == FORCE_MOVE) {
-      normal *= (1 + DELTA);
-      object1->dest.move(-normal);
-    } else if (response1 == FORCE_MOVE && response2 == CONTINUE) {
-      normal *= (1 + DELTA);
-      object2->dest.move(normal);
-    }
-  }
-}
-
-void
-Sector::collision_static(collision::Constraints* constraints,
-                         const Vector& movement, const Rectf& dest,
-                         MovingObject& object)
-{
-  collision_tilemap(constraints, movement, dest, object);
-
-  // collision with other (static) objects
-  for(auto& moving_object : moving_objects) {
-    if(moving_object->get_group() != COLGROUP_STATIC
-       && moving_object->get_group() != COLGROUP_MOVING_STATIC)
-      continue;
-    if(!moving_object->is_valid())
-      continue;
-
-    if(moving_object != &object)
-      check_collisions(constraints, movement, dest, moving_object->bbox,
-                       &object, moving_object);
-  }
-}
-
-void
-Sector::collision_static_constrains(MovingObject& object)
-{
-  using namespace collision;
-  float infinity = (std::numeric_limits<float>::has_infinity ? std::numeric_limits<float>::infinity() : std::numeric_limits<float>::max());
-
-  Constraints constraints;
-  Vector movement = object.get_movement();
-  Vector pressure = Vector(0,0);
-  Rectf& dest = object.dest;
-
-  for(int i = 0; i < 2; ++i) {
-    collision_static(&constraints, Vector(0, movement.y), dest, object);
-    if(!constraints.has_constraints())
-      break;
-
-    // apply calculated horizontal constraints
-    if(constraints.get_position_bottom() < infinity) {
-      float height = constraints.get_height ();
-      if(height < object.get_bbox().get_height()) {
-        // we're crushed, but ignore this for now, we'll get this again
-        // later if we're really crushed or things will solve itself when
-        // looking at the vertical constraints
-        pressure.y += object.get_bbox().get_height() - height;
-      } else {
-        dest.p2.y = constraints.get_position_bottom() - DELTA;
-        dest.p1.y = dest.p2.y - object.get_bbox().get_height();
-      }
-    } else if(constraints.get_position_top() > -infinity) {
-      dest.p1.y = constraints.get_position_top() + DELTA;
-      dest.p2.y = dest.p1.y + object.get_bbox().get_height();
-    }
-  }
-  if(constraints.has_constraints()) {
-    if(constraints.hit.bottom) {
-      dest.move(constraints.ground_movement);
-    }
-    if(constraints.hit.top || constraints.hit.bottom) {
-      constraints.hit.left = false;
-      constraints.hit.right = false;
-      object.collision_solid(constraints.hit);
-    }
-  }
-
-  constraints = Constraints();
-  for(int i = 0; i < 2; ++i) {
-    collision_static(&constraints, movement, dest, object);
-    if(!constraints.has_constraints())
-      break;
-
-    // apply calculated vertical constraints
-    float width = constraints.get_width ();
-    if(width < infinity) {
-      if(width + SHIFT_DELTA < object.get_bbox().get_width()) {
-        // we're crushed, but ignore this for now, we'll get this again
-        // later if we're really crushed or things will solve itself when
-        // looking at the horizontal constraints
-        pressure.x += object.get_bbox().get_width() - width;
-      } else {
-        float xmid = constraints.get_x_midpoint ();
-        dest.p1.x = xmid - object.get_bbox().get_width()/2;
-        dest.p2.x = xmid + object.get_bbox().get_width()/2;
-      }
-    } else if(constraints.get_position_right() < infinity) {
-      dest.p2.x = constraints.get_position_right() - DELTA;
-      dest.p1.x = dest.p2.x - object.get_bbox().get_width();
-    } else if(constraints.get_position_left() > -infinity) {
-      dest.p1.x = constraints.get_position_left() + DELTA;
-      dest.p2.x = dest.p1.x + object.get_bbox().get_width();
-    }
-  }
-
-  if(constraints.has_constraints()) {
-    if( constraints.hit.left || constraints.hit.right
-        || constraints.hit.top || constraints.hit.bottom
-        || constraints.hit.crush )
-      object.collision_solid(constraints.hit);
-  }
-
-  // an extra pass to make sure we're not crushed vertically
-  if (pressure.y > 0) {
-    constraints = Constraints();
-    collision_static(&constraints, movement, dest, object);
-    if(constraints.get_position_bottom() < infinity) {
-      float height = constraints.get_height ();
-      if(height + SHIFT_DELTA < object.get_bbox().get_height()) {
-        CollisionHit h;
-        h.top = true;
-        h.bottom = true;
-        h.crush = pressure.y > 16;
-        object.collision_solid(h);
-      }
-    }
-  }
-
-  // an extra pass to make sure we're not crushed horizontally
-  if (pressure.x > 0) {
-    constraints = Constraints();
-    collision_static(&constraints, movement, dest, object);
-    if(constraints.get_position_right() < infinity) {
-      float width = constraints.get_width ();
-      if(width + SHIFT_DELTA < object.get_bbox().get_width()) {
-        CollisionHit h;
-        h.top = true;
-        h.bottom = true;
-        h.left = true;
-        h.right = true;
-        h.crush = pressure.x > 16;
-        object.collision_solid(h);
-      }
-    }
-  }
-}
-
-namespace {
-const float MAX_SPEED = 16.0f;
-}
-
-void
-Sector::handle_collisions()
-{
-
-  if (Editor::is_active()) {
-    return;
-    //Oběcts in editor shouldn't collide.
-  }
-
-  using namespace collision;
-
-  // calculate destination positions of the objects
-  for(const auto& moving_object : moving_objects) {
-    Vector mov = moving_object->get_movement();
-
-    // make sure movement is never faster than MAX_SPEED. Norm is pretty fat, so two addl. checks are done before.
-    if (((mov.x > MAX_SPEED * M_SQRT1_2) || (mov.y > MAX_SPEED * M_SQRT1_2)) && (mov.norm() > MAX_SPEED)) {
-      moving_object->movement = mov.unit() * MAX_SPEED;
-      //log_debug << "Temporarily reduced object's speed of " << mov.norm() << " to " << moving_object->movement.norm() << "." << std::endl;
-    }
-
-    moving_object->dest = moving_object->get_bbox();
-    moving_object->dest.move(moving_object->get_movement());
-  }
-
-  // part1: COLGROUP_MOVING vs COLGROUP_STATIC and tilemap
-  for(const auto& moving_object : moving_objects) {
-    if((moving_object->get_group() != COLGROUP_MOVING
-        && moving_object->get_group() != COLGROUP_MOVING_STATIC
-        && moving_object->get_group() != COLGROUP_MOVING_ONLY_STATIC)
-       || !moving_object->is_valid())
-      continue;
-
-    collision_static_constrains(*moving_object);
-  }
-
-  // part2: COLGROUP_MOVING vs tile attributes
-  for(const auto& moving_object : moving_objects) {
-    if((moving_object->get_group() != COLGROUP_MOVING
-        && moving_object->get_group() != COLGROUP_MOVING_STATIC
-        && moving_object->get_group() != COLGROUP_MOVING_ONLY_STATIC)
-       || !moving_object->is_valid())
-      continue;
-
-    uint32_t tile_attributes = collision_tile_attributes(moving_object->dest, moving_object->get_movement());
-    if(tile_attributes >= Tile::FIRST_INTERESTING_FLAG) {
-      moving_object->collision_tile(tile_attributes);
-    }
-  }
-
-  // part2.5: COLGROUP_MOVING vs COLGROUP_TOUCHABLE
-  for(const auto& moving_object : moving_objects) {
-    if((moving_object->get_group() != COLGROUP_MOVING
-        && moving_object->get_group() != COLGROUP_MOVING_STATIC)
-       || !moving_object->is_valid())
-      continue;
-
-    for(auto& moving_object_2 : moving_objects) {
-      if(moving_object_2->get_group() != COLGROUP_TOUCHABLE
-         || !moving_object_2->is_valid())
-        continue;
-
-      if(intersects(moving_object->dest, moving_object_2->dest)) {
-        Vector normal;
-        CollisionHit hit;
-        get_hit_normal(moving_object->dest, moving_object_2->dest,
-                       hit, normal);
-        if(!moving_object->collides(*moving_object_2, hit))
-          continue;
-        if(!moving_object_2->collides(*moving_object, hit))
-          continue;
-
-        moving_object->collision(*moving_object_2, hit);
-        moving_object_2->collision(*moving_object, hit);
-      }
-    }
-  }
-
-  // part3: COLGROUP_MOVING vs COLGROUP_MOVING
-  for(auto i = moving_objects.begin(); i != moving_objects.end(); ++i) {
-    auto moving_object = *i;
-
-    if((moving_object->get_group() != COLGROUP_MOVING
-        && moving_object->get_group() != COLGROUP_MOVING_STATIC)
-       || !moving_object->is_valid())
-      continue;
-
-    for(auto i2 = i+1; i2 != moving_objects.end(); ++i2) {
-      auto moving_object_2 = *i2;
-      if((moving_object_2->get_group() != COLGROUP_MOVING
-          && moving_object_2->get_group() != COLGROUP_MOVING_STATIC)
-         || !moving_object_2->is_valid())
-        continue;
-
-      collision_object(moving_object, moving_object_2);
-    }
-  }
-
-  // apply object movement
-  for(const auto& moving_object : moving_objects) {
-    moving_object->bbox = moving_object->dest;
-    moving_object->movement = Vector(0, 0);
   }
 }
 
 bool
 Sector::is_free_of_tiles(const Rectf& rect, const bool ignoreUnisolid) const
 {
-  using namespace collision;
-
-  for(const auto& solids : solid_tilemaps) {
-    // test with all tiles in this rectangle
-    Rect test_tiles = solids->get_tiles_overlapping(rect);
-
-    for(int x = test_tiles.left; x < test_tiles.right; ++x) {
-      for(int y = test_tiles.top; y < test_tiles.bottom; ++y) {
-        const auto& tile = solids->get_tile(x, y);
-        if(!tile) continue;
-        if(!(tile->getAttributes() & Tile::SOLID))
-          continue;
-        if(tile->is_unisolid () && ignoreUnisolid)
-          continue;
-        if(tile->is_slope ()) {
-          AATriangle triangle;
-          Rectf tbbox = solids->get_tile_bbox(x, y);
-          triangle = AATriangle(tbbox, tile->getData());
-          Constraints constraints;
-          if(!collision::rectangle_aatriangle(&constraints, rect, triangle))
-            continue;
-        }
-        // We have a solid tile that overlaps the given rectangle.
-        return false;
-      }
-    }
-  }
-
-  return true;
+  return m_collision_system->is_free_of_tiles(rect, ignoreUnisolid);
 }
 
 bool
 Sector::is_free_of_statics(const Rectf& rect, const MovingObject* ignore_object, const bool ignoreUnisolid) const
 {
-  using namespace collision;
-
-  if (!is_free_of_tiles(rect, ignoreUnisolid)) return false;
-
-  for(const auto& moving_object : moving_objects) {
-    if (moving_object == ignore_object) continue;
-    if (!moving_object->is_valid()) continue;
-    if (moving_object->get_group() == COLGROUP_STATIC) {
-      if(intersects(rect, moving_object->get_bbox())) return false;
-    }
-  }
-
-  return true;
+  return m_collision_system->is_free_of_statics(rect, ignore_object, ignoreUnisolid);
 }
 
 bool
 Sector::is_free_of_movingstatics(const Rectf& rect, const MovingObject* ignore_object) const
 {
-  using namespace collision;
-
-  if (!is_free_of_tiles(rect)) return false;
-
-  for(const auto& moving_object : moving_objects) {
-    if (moving_object == ignore_object) continue;
-    if (!moving_object->is_valid()) continue;
-    if ((moving_object->get_group() == COLGROUP_MOVING)
-        || (moving_object->get_group() == COLGROUP_MOVING_STATIC)
-        || (moving_object->get_group() == COLGROUP_STATIC)) {
-      if(intersects(rect, moving_object->get_bbox())) return false;
-    }
-  }
-
-  return true;
+  return m_collision_system->is_free_of_movingstatics(rect, ignore_object);
 }
 
 bool
 Sector::free_line_of_sight(const Vector& line_start, const Vector& line_end, const MovingObject* ignore_object) const
 {
-  using namespace collision;
-
-  // check if no tile is in the way
-  float lsx = std::min(line_start.x, line_end.x);
-  float lex = std::max(line_start.x, line_end.x);
-  float lsy = std::min(line_start.y, line_end.y);
-  float ley = std::max(line_start.y, line_end.y);
-  for (float test_x = lsx; test_x <= lex; test_x += 16) {
-    for (float test_y = lsy; test_y <= ley; test_y += 16) {
-      for(const auto& solids : solid_tilemaps) {
-        const auto& tile = solids->get_tile_at(Vector(test_x, test_y));
-        if(!tile) continue;
-        // FIXME: check collision with slope tiles
-        if((tile->getAttributes() & Tile::SOLID)) return false;
-      }
-    }
-  }
-
-  // check if no object is in the way
-  for(const auto& moving_object : moving_objects) {
-    if (moving_object == ignore_object) continue;
-    if (!moving_object->is_valid()) continue;
-    if ((moving_object->get_group() == COLGROUP_MOVING)
-        || (moving_object->get_group() == COLGROUP_MOVING_STATIC)
-        || (moving_object->get_group() == COLGROUP_STATIC)) {
-      if(intersects_line(moving_object->get_bbox(), line_start, line_end)) return false;
-    }
-  }
-
-  return true;
+  return m_collision_system->free_line_of_sight(line_start, line_end, ignore_object);
 }
 
 bool
 Sector::can_see_player(const Vector& eye) const
 {
-    const std::vector<Player*> players = get_players();
-    for (const auto& pl : players) {
-      // test for free line of sight to any of all four corners and the middle of the player's bounding box
-      if (free_line_of_sight(eye, pl->get_bbox().p1, pl)) return true;
-      if (free_line_of_sight(eye, Vector(pl->get_bbox().p2.x, pl->get_bbox().p1.y), pl)) return true;
-      if (free_line_of_sight(eye, pl->get_bbox().p2, pl)) return true;
-      if (free_line_of_sight(eye, Vector(pl->get_bbox().p1.x, pl->get_bbox().p2.y), pl)) return true;
-      if (free_line_of_sight(eye, pl->get_bbox().get_middle(), pl)) return true;
-    }
-    return false;
+  const std::vector<Player*> players = get_players();
+  for (const auto& pl : players) {
+    // test for free line of sight to any of all four corners and the middle of the player's bounding box
+    if (free_line_of_sight(eye, pl->get_bbox().p1, pl)) return true;
+    if (free_line_of_sight(eye, Vector(pl->get_bbox().p2.x, pl->get_bbox().p1.y), pl)) return true;
+    if (free_line_of_sight(eye, pl->get_bbox().p2, pl)) return true;
+    if (free_line_of_sight(eye, Vector(pl->get_bbox().p1.x, pl->get_bbox().p2.y), pl)) return true;
+    if (free_line_of_sight(eye, pl->get_bbox().get_middle(), pl)) return true;
+  }
+  return false;
 }
-
 
 bool
 Sector::add_smoke_cloud(const Vector& pos)
@@ -1203,10 +630,10 @@ Sector::add_smoke_cloud(const Vector& pos)
 void
 Sector::play_music(MusicType type)
 {
-  currentmusic = type;
-  switch(currentmusic) {
+  m_currentmusic = type;
+  switch(m_currentmusic) {
     case LEVEL_MUSIC:
-      SoundManager::current()->play_music(music);
+      SoundManager::current()->play_music(m_music);
       break;
     case HERRING_MUSIC:
       SoundManager::current()->play_music("music/invincible.ogg");
@@ -1223,28 +650,28 @@ Sector::play_music(MusicType type)
 void
 Sector::resume_music()
 {
-  if(SoundManager::current()->get_current_music() == music)
+  if(SoundManager::current()->get_current_music() == m_music)
   {
     SoundManager::current()->resume_music(3.2f);
   }
   else
   {
     SoundManager::current()->stop_music();
-    SoundManager::current()->play_music(music, true);
+    SoundManager::current()->play_music(m_music, true);
   }
 }
 
 MusicType
 Sector::get_music_type() const
 {
-  return currentmusic;
+  return m_currentmusic;
 }
 
 int
 Sector::get_total_badguys() const
 {
   int total_badguys = 0;
-  for(const auto& object : gameobjects) {
+  for(const auto& object : m_gameobjects) {
     auto badguy = dynamic_cast<BadGuy*>(object.get());
     if (badguy && badguy->countMe)
       total_badguys++;
@@ -1256,7 +683,7 @@ Sector::get_total_badguys() const
 bool
 Sector::inside(const Rectf& rect) const
 {
-  for(const auto& solids : solid_tilemaps) {
+  for(const auto& solids : m_solid_tilemaps) {
     Rectf bbox = solids->get_bbox();
     bbox.p1.y = -INFINITY; // pretend the tilemap extends infinitely far upwards
 
@@ -1270,7 +697,7 @@ float
 Sector::get_width() const
 {
   float width = 0;
-  for(auto& solids: solid_tilemaps) {
+  for(auto& solids: m_solid_tilemaps) {
     width = std::max(width, solids->get_bbox().get_right());
   }
 
@@ -1281,7 +708,7 @@ float
 Sector::get_height() const
 {
   float height = 0;
-  for(const auto& solids: solid_tilemaps) {
+  for(const auto& solids: m_solid_tilemaps) {
     height = std::max(height, solids->get_bbox().get_bottom());
   }
 
@@ -1294,7 +721,7 @@ Sector::get_editor_size() const
   // Find the solid tilemap with the greatest surface
   size_t max_surface = 0;
   Size size;
-  for(const auto& solids: solid_tilemaps) {
+  for(const auto& solids: m_solid_tilemaps) {
     size_t surface = solids->get_width() * solids->get_height();
     if (surface > max_surface) {
       max_surface = surface;
@@ -1311,7 +738,7 @@ Sector::resize_sector(const Size& old_size, const Size& new_size, const Size& re
   bool is_offset = resize_offset.width || resize_offset.height;
   Vector obj_shift = Vector(static_cast<float>(resize_offset.width) * 32.0f,
                             static_cast<float>(resize_offset.height) * 32.0f);
-  for(const auto& object : gameobjects) {
+  for(const auto& object : m_gameobjects) {
     auto tilemap = dynamic_cast<TileMap*>(object.get());
     if (tilemap) {
       if (tilemap->get_size() == old_size) {
@@ -1331,7 +758,7 @@ Sector::resize_sector(const Size& old_size, const Size& new_size, const Size& re
 void
 Sector::change_solid_tiles(uint32_t old_tile_id, uint32_t new_tile_id)
 {
-  for(auto& solids: solid_tilemaps) {
+  for(auto& solids: m_solid_tilemaps) {
     solids->change_all(old_tile_id, new_tile_id);
   }
 }
@@ -1339,9 +766,9 @@ Sector::change_solid_tiles(uint32_t old_tile_id, uint32_t new_tile_id)
 void
 Sector::set_ambient_light(float red, float green, float blue)
 {
-  ambient_light.red = red;
-  ambient_light.green = green;
-  ambient_light.blue = blue;
+  m_ambient_light.red = red;
+  m_ambient_light.green = green;
+  m_ambient_light.blue = blue;
 }
 
 void
@@ -1349,46 +776,46 @@ Sector::fade_to_ambient_light(float red, float green, float blue, float seconds)
 {
   if(seconds == 0)
   {
-    ambient_light = Color(red, green, blue);
+    m_ambient_light = Color(red, green, blue);
     return;
   }
 
-  ambient_light_fading = true;
-  ambient_light_fade_accum = 0;
-  ambient_light_fade_duration = seconds;
-  source_ambient_light = ambient_light;
-  target_ambient_light = Color(red, green, blue);
+  m_ambient_light_fading = true;
+  m_ambient_light_fade_accum = 0;
+  m_ambient_light_fade_duration = seconds;
+  m_source_ambient_light = m_ambient_light;
+  m_target_ambient_light = Color(red, green, blue);
 }
 
 float
 Sector::get_ambient_red() const
 {
-  return ambient_light.red;
+  return m_ambient_light.red;
 }
 
 float
 Sector::get_ambient_green() const
 {
-  return ambient_light.green;
+  return m_ambient_light.green;
 }
 
 float
 Sector::get_ambient_blue() const
 {
-  return ambient_light.blue;
+  return m_ambient_light.blue;
 }
 
 void
 Sector::set_gravity(float gravity_)
 {
   log_warning << "Changing a Sector's gravitational constant might have unforeseen side-effects" << std::endl;
-  gravity = gravity_;
+  m_gravity = gravity_;
 }
 
 float
 Sector::get_gravity() const
 {
-  return gravity;
+  return m_gravity;
 }
 
 Player*
@@ -1417,35 +844,20 @@ Sector::get_nearest_player (const Vector& pos) const
 std::vector<MovingObject*>
 Sector::get_nearby_objects (const Vector& center, float max_distance) const
 {
-  std::vector<MovingObject*> ret;
-  std::vector<Player*> players = Sector::current()->get_players();
-
-  for(const auto& player_ : players) {
-    float distance = player_->get_bbox().distance(center);
-    if (distance <= max_distance)
-      ret.push_back(player_);
-  }
-
-  for (const auto& object_ : moving_objects) {
-    float distance = object_->get_bbox().distance(center);
-    if (distance <= max_distance)
-      ret.push_back(object_);
-  }
-
-  return ret;
+  return m_collision_system->get_nearby_objects(center, max_distance);
 }
 
 void
 Sector::stop_looping_sounds()
 {
-  for(auto& object : gameobjects) {
+  for(auto& object : m_gameobjects) {
     object->stop_looping_sounds();
   }
 }
 
 void Sector::play_looping_sounds()
 {
-  for(const auto& object : gameobjects) {
+  for(const auto& object : m_gameobjects) {
     object->play_looping_sounds();
   }
 }
@@ -1455,18 +867,18 @@ Sector::save(Writer &writer)
 {
   writer.start_list("sector", false);
 
-  writer.write("name", name, false);
-  writer.write("ambient-light", ambient_light.toVector());
+  writer.write("name", m_name, false);
+  writer.write("ambient-light", m_ambient_light.toVector());
 
-  if (init_script.size()) {
-    writer.write("init-script", init_script,false);
+  if (m_init_script.size()) {
+    writer.write("init-script", m_init_script,false);
   }
-  if (music.size()) {
-    writer.write("music", music, false);
+  if (m_music.size()) {
+    writer.write("music", m_music, false);
   }
 
   if (!Editor::is_active() || !Editor::current()->get_worldmap_mode()) {
-    writer.write("gravity", gravity);
+    writer.write("gravity", m_gravity);
   }
 
   // saving spawnpoints
@@ -1477,7 +889,7 @@ Sector::save(Writer &writer)
   // Do not save spawnpoints since we have spawnpoint markers.
 
   // saving oběcts (not really)
-  for(auto& obj : gameobjects) {
+  for(auto& obj : m_gameobjects) {
     if (obj->is_saveable()) {
       writer.start_list(obj->get_class());
       obj->save(writer);
@@ -1486,6 +898,12 @@ Sector::save(Writer &writer)
   }
 
   writer.end_list("sector");
+}
+
+const std::vector<MovingObject*>&
+Sector::get_moving_objects() const
+{
+  return m_collision_system->get_moving_objects();
 }
 
 /* EOF */

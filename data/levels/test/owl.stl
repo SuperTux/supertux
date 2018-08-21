@@ -15,14 +15,14 @@
       (y 896)
     )
     (owl
+      (carry "skydive")
       (x 1312)
       (y 832)
-      (carry "skydive")
     )
     (owl
+      (carry "trampoline")
       (x 2400)
       (y 896)
-      (carry "trampoline")
     )
     (spawnpoint
       (name "main")

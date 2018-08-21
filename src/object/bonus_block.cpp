@@ -35,57 +35,89 @@
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
+#include "util/reader_collection.hpp"
 #include "util/writer.hpp"
 #include "video/drawing_context.hpp"
 #include "video/surface.hpp"
 
 BonusBlock::BonusBlock(const Vector& pos, int data) :
   Block(SpriteManager::current()->create("images/objects/bonus_block/bonusblock.sprite")),
-  contents(),
-  object(),
-  hit_counter(1),
-  script(),
-  lightsprite()
+  m_contents(),
+  m_object(),
+  m_hit_counter(1),
+  m_script(),
+  m_lightsprite()
 {
   bbox.set_pos(pos);
   sprite->set_action("normal");
-  contents = get_content_by_data(data);
+  m_contents = get_content_by_data(data);
   preload_contents(data);
 }
 
-BonusBlock::BonusBlock(const ReaderMapping& lisp) :
-  Block(lisp, "images/objects/bonus_block/bonusblock.sprite"),
-  contents(),
-  object(0),
-  hit_counter(1),
-  script(),
-  lightsprite()
+BonusBlock::BonusBlock(const ReaderMapping& mapping) :
+  Block(mapping, "images/objects/bonus_block/bonusblock.sprite"),
+  m_contents(),
+  m_object(),
+  m_hit_counter(1),
+  m_script(),
+  m_lightsprite()
 {
-  contents = CONTENT_COIN;
-  auto iter = lisp.get_iter();
-  while(iter.next()) {
+  m_contents = CONTENT_COIN;
+  auto iter = mapping.get_iter();
+  while (iter.next()) {
     const std::string& token = iter.get_key();
-    if(token == "x" || token == "y" || token == "sprite") {
+    if (token == "x" || token == "y" || token == "sprite") {
       // already initialized in Block::Block
-    } else if(token == "count") {
-      iter.get(hit_counter);
-    } else if(token == "script") {
-      iter.get(script);
-    } else if(token == "data") {
+    } else if (token == "count") {
+      iter.get(m_hit_counter);
+    } else if (token == "script") {
+      iter.get(m_script);
+    } else if (token == "data") {
       int d = 0;
       iter.get(d);
-      contents = get_content_by_data(d);
+      m_contents = get_content_by_data(d);
       preload_contents(d);
-    } else if(token == "contents") {
+    } else if (token == "contents") {
       std::string contentstring;
       iter.get(contentstring);
-      contents = get_content_from_string(contentstring);
+      m_contents = get_content_from_string(contentstring);
+
+      if (m_contents == CONTENT_CUSTOM)
+      {
+        ReaderCollection content_collection;
+        if (!mapping.get("custom-contents", content_collection))
+        {
+          log_warning << "bonusblock is missing 'custom-contents' tag" << std::endl;
+        }
+        else
+        {
+          const auto& object_specs = content_collection.get_objects();
+          if (!object_specs.empty()) {
+            if (object_specs.size() > 1) {
+              log_warning << "only one object allowed in bonusblock 'custom-contents', ignoring the rest" << std::endl;
+            }
+
+            const ReaderObject& spec = object_specs[0];
+            GameObjectPtr game_object = ObjectFactory::instance().create(spec.get_name(), spec.get_mapping());
+
+            m_object = std::dynamic_pointer_cast<MovingObject>(game_object);
+            if (!m_object) {
+              log_warning << "Only MovingObjects are allowed inside BonusBlocks" << std::endl;
+            }
+          }
+        }
+      }
+    } else if (token == "custom-contents") {
+      // handled elsewhere
     } else {
-      if(contents == CONTENT_CUSTOM) {
+      if (m_contents == CONTENT_CUSTOM && !m_object) {
+        // FIXME: This an ugly mess, could probably be removed as of
+        // 16. Aug 2018 no level in either the supertux or the
+        // addon-src repository is using this anymore
         ReaderMapping object_mapping = iter.as_mapping();
         GameObjectPtr game_object = ObjectFactory::instance().create(token, object_mapping);
-        object = std::dynamic_pointer_cast<MovingObject>(game_object);
-        if(object == 0)
+        m_object = std::dynamic_pointer_cast<MovingObject>(game_object);
+        if (m_object == 0)
           throw std::runtime_error(
             "Only MovingObjects are allowed inside BonusBlocks");
       } else {
@@ -94,11 +126,11 @@ BonusBlock::BonusBlock(const ReaderMapping& lisp) :
     }
   }
 
-  if(contents == CONTENT_CUSTOM && object == 0)
+  if (m_contents == CONTENT_CUSTOM && !m_object)
     throw std::runtime_error("Need to specify content object for custom block");
-  if(contents == CONTENT_LIGHT) {
+  if (m_contents == CONTENT_LIGHT) {
     SoundManager::current()->preload("sounds/switch.ogg");
-    lightsprite = Surface::create("/images/objects/lightmap_light/bonusblock_light.png");
+    m_lightsprite = Surface::from_file("/images/objects/lightmap_light/bonusblock_light.png");
   }
 }
 
@@ -131,30 +163,32 @@ BonusBlock::~BonusBlock()
 }
 
 void
-BonusBlock::save(Writer& writer) {
+BonusBlock::save(Writer& writer)
+{
   Block::save(writer);
-  writer.write("contents", contents_to_string(contents), false);
-  if(contents == CONTENT_CUSTOM && object)
+  writer.write("contents", contents_to_string(m_contents), false);
+  if (m_contents == CONTENT_CUSTOM && m_object)
   {
-    writer.start_list(object->get_class());
-    object->save(writer);
-    writer.end_list(object->get_class());
+    writer.start_list(m_object->get_class());
+    m_object->save(writer);
+    writer.end_list(m_object->get_class());
   }
-  if (script != "") {
-    writer.write("script", script, false);
+  if (m_script != "") {
+    writer.write("script", m_script, false);
   }
-  if (hit_counter != 1) {
-    writer.write("count", hit_counter);
+  if (m_hit_counter != 1) {
+    writer.write("count", m_hit_counter);
   }
 }
 
 ObjectSettings
-BonusBlock::get_settings() {
+BonusBlock::get_settings()
+{
   ObjectSettings result = Block::get_settings();
-  result.options.push_back( ObjectOption(MN_SCRIPT, _("Script"), &script));
-  result.options.push_back( ObjectOption(MN_INTFIELD, _("Count"), &hit_counter));
+  result.options.push_back( ObjectOption(MN_SCRIPT, _("Script"), &m_script));
+  result.options.push_back( ObjectOption(MN_INTFIELD, _("Count"), &m_hit_counter));
 
-  ObjectOption coo(MN_STRINGSELECT, _("Content"), &contents);
+  ObjectOption coo(MN_STRINGSELECT, _("Content"), &m_contents);
   coo.select.push_back(_("coin"));
   coo.select.push_back(_("Growth (fire flower)"));
   coo.select.push_back(_("Growth (ice flower)"));
@@ -175,33 +209,33 @@ BonusBlock::get_settings() {
 
 
 void
-BonusBlock::hit(Player & player)
+BonusBlock::hit(Player& player)
 {
   try_open(&player);
 }
 
 HitResponse
-BonusBlock::collision(GameObject& other, const CollisionHit& hit_){
-
+BonusBlock::collision(GameObject& other, const CollisionHit& hit_)
+{
   auto player = dynamic_cast<Player*> (&other);
   if (player) {
-    if (player->does_buttjump)
+    if (player->m_does_buttjump)
       try_drop(player);
   }
 
   auto badguy = dynamic_cast<BadGuy*> (&other);
-  if(badguy) {
+  if (badguy) {
     // hit contains no information for collisions with blocks.
     // Badguy's bottom has to be below the top of the block
     // SHIFT_DELTA is required to slide over one tile gaps.
-    if( badguy->can_break() && ( badguy->get_bbox().get_bottom() > bbox.get_top() + SHIFT_DELTA ) ){
+    if ( badguy->can_break() && ( badguy->get_bbox().get_bottom() > bbox.get_top() + SHIFT_DELTA ) ) {
       try_open(player);
     }
   }
   auto portable = dynamic_cast<Portable*> (&other);
-  if(portable) {
+  if (portable) {
     auto moving = dynamic_cast<MovingObject*> (&other);
-    if(moving->get_bbox().get_top() > bbox.get_bottom() - SHIFT_DELTA) {
+    if (moving->get_bbox().get_top() > bbox.get_bottom() - SHIFT_DELTA) {
       try_open(player);
     }
   }
@@ -209,9 +243,9 @@ BonusBlock::collision(GameObject& other, const CollisionHit& hit_){
 }
 
 void
-BonusBlock::try_open(Player *player)
+BonusBlock::try_open(Player* player)
 {
-  if(sprite->get_action() == "empty") {
+  if (sprite->get_action() == "empty") {
     SoundManager::current()->play("sounds/brick.wav");
     return;
   }
@@ -220,20 +254,20 @@ BonusBlock::try_open(Player *player)
   assert(sector);
 
   if (player == NULL)
-    player = sector->player;
+    player = sector->m_player;
 
   if (player == NULL)
     return;
 
   Direction direction = (player->get_bbox().get_middle().x > bbox.get_middle().x) ? LEFT : RIGHT;
 
-  switch(contents) {
+  switch(m_contents) {
     case CONTENT_COIN:
     {
       Sector::current()->add_object(std::make_shared<BouncyCoin>(get_pos(), true));
       player->get_status()->add_coins(1);
-      if (hit_counter != 0)
-        Sector::current()->get_level()->stats.coins++;
+      if (m_hit_counter != 0)
+        Sector::current()->get_level()->m_stats.coins++;
       break;
     }
 
@@ -277,8 +311,8 @@ BonusBlock::try_open(Player *player)
 
     case CONTENT_CUSTOM:
     {
-      auto riser = std::make_shared<SpecialRiser>(get_pos(), object);
-      object = 0;
+      auto riser = std::make_shared<SpecialRiser>(get_pos(), m_object);
+      m_object.reset();
       sector->add_object(riser);
       SoundManager::current()->play("sounds/upgrade.wav");
       break;
@@ -289,7 +323,7 @@ BonusBlock::try_open(Player *player)
 
     case CONTENT_LIGHT:
     {
-      if(sprite->get_action() == "on")
+      if (sprite->get_action() == "on")
         sprite->set_action("off");
       else
         sprite->set_action("on");
@@ -305,37 +339,37 @@ BonusBlock::try_open(Player *player)
     }
     case CONTENT_RAIN:
     {
-      hit_counter = 1; // multiple hits of coin rain is not allowed
+      m_hit_counter = 1; // multiple hits of coin rain is not allowed
       Sector::current()->add_object(std::make_shared<CoinRain>(get_pos(), true));
       SoundManager::current()->play("sounds/upgrade.wav");
       break;
     }
     case CONTENT_EXPLODE:
     {
-      hit_counter = 1; // multiple hits of coin explode is not allowed
+      m_hit_counter = 1; // multiple hits of coin explode is not allowed
       Sector::current()->add_object(std::make_shared<CoinExplode>(get_pos() + Vector (0, -40)));
       SoundManager::current()->play("sounds/upgrade.wav");
       break;
     }
   }
 
-  if(!script.empty()) { // scripts always run if defined
-    Sector::current()->run_script(script, "BonusBlockScript");
+  if (!m_script.empty()) { // scripts always run if defined
+    Sector::current()->run_script(m_script, "BonusBlockScript");
   }
 
   start_bounce(player);
-  if(hit_counter <= 0 || contents == CONTENT_LIGHT){ //use 0 to allow infinite hits
-  }else if(hit_counter == 1){
+  if (m_hit_counter <= 0 || m_contents == CONTENT_LIGHT) { //use 0 to allow infinite hits
+  } else if (m_hit_counter == 1) {
     sprite->set_action("empty");
   } else {
-    hit_counter--;
+    m_hit_counter--;
   }
 }
 
 void
 BonusBlock::try_drop(Player *player)
 {
-  if(sprite->get_action() == "empty") {
+  if (sprite->get_action() == "empty") {
     SoundManager::current()->play("sounds/brick.wav");
     return;
   }
@@ -349,13 +383,15 @@ BonusBlock::try_drop(Player *player)
   dest_.p1.y = bbox.get_bottom() + 1;
   dest_.p2.x = bbox.get_right() - 1;
   dest_.p2.y = dest_.p1.y + 30;
-  if (!Sector::current()->is_free_of_statics(dest_, this, true) && !(contents == CONTENT_1UP)) {
+
+  if (!Sector::current()->is_free_of_statics(dest_, this, true) && !(m_contents == CONTENT_1UP))
+  {
     try_open(player);
     return;
   }
 
   if (player == NULL)
-    player = sector->player;
+    player = sector->m_player;
 
   if (player == NULL)
     return;
@@ -364,7 +400,7 @@ BonusBlock::try_drop(Player *player)
 
   bool countdown = false;
 
-  switch(contents) {
+  switch(m_contents) {
     case CONTENT_COIN:
     {
       try_open(player);
@@ -414,9 +450,9 @@ BonusBlock::try_drop(Player *player)
     case CONTENT_CUSTOM:
     {
       //NOTE: non-portable trampolines could be moved to CONTENT_CUSTOM, but they should not drop
-      object->set_pos(get_pos() +  Vector(0, 32));
-      sector->add_object(object);
-      object = 0;
+      m_object->set_pos(get_pos() +  Vector(0, 32));
+      sector->add_object(m_object);
+      m_object.reset();
       SoundManager::current()->play("sounds/upgrade.wav");
       countdown = true;
       break;
@@ -437,7 +473,7 @@ BonusBlock::try_drop(Player *player)
     }
     case CONTENT_EXPLODE:
     {
-      hit_counter = 1; // multiple hits of coin explode is not allowed
+      m_hit_counter = 1; // multiple hits of coin explode is not allowed
       Sector::current()->add_object(std::make_shared<CoinExplode>(get_pos() + Vector (0, 40)));
       SoundManager::current()->play("sounds/upgrade.wav");
       countdown = true;
@@ -445,15 +481,15 @@ BonusBlock::try_drop(Player *player)
     }
   }
 
-  if(!script.empty()) { // scripts always run if defined
-    Sector::current()->run_script(script, "powerup-script");
+  if (!m_script.empty()) { // scripts always run if defined
+    Sector::current()->run_script(m_script, "powerup-script");
   }
 
-  if(countdown){ // only decrease hit counter if try_open was not called
-    if(hit_counter == 1){
+  if (countdown) { // only decrease hit counter if try_open was not called
+    if (m_hit_counter == 1) {
       sprite->set_action("empty");
     } else {
-      hit_counter--;
+      m_hit_counter--;
     }
   }
 }
@@ -462,7 +498,7 @@ void
 BonusBlock::raise_growup_bonus(Player* player, const BonusType& bonus, const Direction& dir)
 {
   std::shared_ptr<MovingObject> obj;
-  if(player->get_status()->bonus == NO_BONUS) {
+  if (player->get_status()->bonus == NO_BONUS) {
     obj = std::make_shared<GrowUp>(dir);
   } else {
     obj = std::make_shared<Flower>(bonus);
@@ -482,44 +518,45 @@ BonusBlock::drop_growup_bonus(const std::string& bonus_sprite_name, bool& countd
 }
 
 void
-BonusBlock::draw(DrawingContext& context){
+BonusBlock::draw(DrawingContext& context)
+{
   // do the regular drawing first
   Block::draw(context);
   // then Draw the light if on.
-  if(sprite->get_action() == "on") {
-    Vector pos = get_pos() + (bbox.get_size().as_vector() - lightsprite->get_size()) / 2;
-    context.light().draw_surface(lightsprite, pos, 10);
+  if (sprite->get_action() == "on") {
+    Vector pos = get_pos() + (bbox.get_size().as_vector() - m_lightsprite->get_size()) / 2;
+    context.light().draw_surface(m_lightsprite, pos, 10);
   }
 }
 
 BonusBlock::Contents
 BonusBlock::get_content_from_string(const std::string& contentstring) const
 {
-  if(contentstring == "coin")
+  if (contentstring == "coin")
     return CONTENT_COIN;
-  if(contentstring == "firegrow")
+  if (contentstring == "firegrow")
     return CONTENT_FIREGROW;
-  if(contentstring == "icegrow")
+  if (contentstring == "icegrow")
     return CONTENT_ICEGROW;
-  if(contentstring == "airgrow")
+  if (contentstring == "airgrow")
     return CONTENT_AIRGROW;
-  if(contentstring == "earthgrow")
+  if (contentstring == "earthgrow")
     return CONTENT_EARTHGROW;
-  if(contentstring == "star")
+  if (contentstring == "star")
     return CONTENT_STAR;
-  if(contentstring == "1up")
+  if (contentstring == "1up")
     return CONTENT_1UP;
-  if(contentstring == "custom")
+  if (contentstring == "custom")
     return CONTENT_CUSTOM;
-  if(contentstring == "script") // use when bonusblock is to contain ONLY a script
+  if (contentstring == "script") // use when bonusblock is to contain ONLY a script
     return CONTENT_SCRIPT;
-  if(contentstring == "light")
+  if (contentstring == "light")
     return CONTENT_LIGHT;
-  if(contentstring == "trampoline")
+  if (contentstring == "trampoline")
     return CONTENT_TRAMPOLINE;
-  if(contentstring == "rain")
+  if (contentstring == "rain")
     return CONTENT_RAIN;
-  if(contentstring == "explode")
+  if (contentstring == "explode")
     return CONTENT_EXPLODE;
 
   log_warning << "Invalid box contents '" << contentstring << "'" << std::endl;
@@ -529,7 +566,7 @@ BonusBlock::get_content_from_string(const std::string& contentstring) const
 std::string
 BonusBlock::contents_to_string(const BonusBlock::Contents& content) const
 {
-  switch(contents)
+  switch(m_contents)
   {
     case CONTENT_COIN:
       return "coin";
@@ -568,27 +605,28 @@ BonusBlock::preload_contents(int d)
   {
     case 6: // Light
       SoundManager::current()->preload("sounds/switch.ogg");
-      lightsprite=Surface::create("/images/objects/lightmap_light/bonusblock_light.png");
+      m_lightsprite=Surface::from_file("/images/objects/lightmap_light/bonusblock_light.png");
       break;
-    
+
     case 7:
       //object = new Trampoline(get_pos(), false); //needed if this is to be moved to custom
       break;
 
     case 8: // Trampoline
-      object = std::make_shared<Trampoline>(get_pos(), true);
+      m_object = std::make_shared<Trampoline>(get_pos(), true);
       break;
-    
+
     case 9: // Rock
-      object = std::make_shared<Rock>(get_pos(), "images/objects/rock/rock.sprite");
+      m_object = std::make_shared<Rock>(get_pos(), "images/objects/rock/rock.sprite");
       break;
-    
+
     case 12: // Red potion
-      object = std::make_shared<PowerUp>(get_pos(), "images/powerups/potions/red-potion.sprite");
+      m_object = std::make_shared<PowerUp>(get_pos(), "images/powerups/potions/red-potion.sprite");
       break;
-    
+
     default:
       break;
   }
 }
+
 /* EOF */

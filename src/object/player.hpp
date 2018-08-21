@@ -65,12 +65,12 @@ public:
   void set_winning();
   bool is_winning() const
   {
-    return winning;
+    return m_winning;
   }
 
   Controller* get_controller() const
   {
-    return controller;
+    return m_controller;
   }
 
   void use_scripting_controller(bool use_or_release);
@@ -85,20 +85,20 @@ public:
   void make_invincible();
   bool is_invincible() const
   {
-    return invincible_timer.started();
+    return m_invincible_timer.started();
   }
   bool is_dying() const
   {
-    return dying;
+    return m_dying;
   }
   Direction peeking_direction_x() const
   {
-    return peekingX;
+    return m_peekingX;
   }
 
   Direction peeking_direction_y() const
   {
-    return peekingY;
+    return m_peekingY;
   }
 
   void kill(bool completely);
@@ -124,7 +124,7 @@ public:
 
   PlayerStatus* get_status() const
   {
-    return player_status;
+    return m_player_status;
   }
   // set kick animation
   void kick();
@@ -175,10 +175,10 @@ public:
   void bounce(BadGuy& badguy);
 
   bool is_dead() const
-  { return dead; }
+  { return m_dead; }
   bool is_big() const;
   bool is_stone() const
-  { return stone; }
+  { return m_stone; }
 
   void set_visible(bool visible);
   bool get_visible() const;
@@ -187,11 +187,11 @@ public:
 
   Portable* get_grabbed_object() const
   {
-    return grabbed_object;
+    return m_grabbed_object;
   }
   void stop_grabbing()
   {
-    grabbed_object = NULL;
+    m_grabbed_object = NULL;
   }
   /**
    * Checks whether the player has grabbed a certain object
@@ -214,7 +214,7 @@ public:
   /**
    * Returns whether ghost mode is currently enabled
    */
-  bool get_ghost_mode() const { return ghost_mode; }
+  bool get_ghost_mode() const { return m_ghost_mode; }
 
   /**
    * Changes height of bounding box.
@@ -246,7 +246,7 @@ public:
    */
   void stop_climbing(Climbable& climbable);
 
-  Physic& get_physic() { return physic; }
+  Physic& get_physic() { return m_physic; }
 
   void activate();
   void deactivate();
@@ -281,81 +281,81 @@ private:
   void apply_friction();
 
 private:
-  bool deactivated;
+  bool m_deactivated;
 
-  Controller* controller;
-  std::unique_ptr<CodeController> scripting_controller; /**< This controller is used when the Player is controlled via scripting */
-  PlayerStatus* player_status;
-  bool duck;
-  bool dead;
+  Controller* m_controller;
+  std::unique_ptr<CodeController> m_scripting_controller; /**< This controller is used when the Player is controlled via scripting */
+  PlayerStatus* m_player_status;
+  bool m_duck;
+  bool m_dead;
 
 private:
-  bool dying;
-  bool winning;
-  bool backflipping;
-  int  backflip_direction;
-  Direction peekingX;
-  Direction peekingY;
-  float ability_time;
-  bool stone;
-  bool swimming;
-  float speedlimit;
-  Controller* scripting_controller_old; /**< Saves the old controller while the scripting_controller is used */
-  bool jump_early_apex;
-  bool on_ice;
-  bool ice_this_frame;
-  SpritePtr lightsprite;
-  SpritePtr powersprite;
+  bool m_dying;
+  bool m_winning;
+  bool m_backflipping;
+  int  m_backflip_direction;
+  Direction m_peekingX;
+  Direction m_peekingY;
+  float m_ability_time;
+  bool m_stone;
+  bool m_swimming;
+  float m_speedlimit;
+  Controller* m_scripting_controller_old; /**< Saves the old controller while the scripting_controller is used */
+  bool m_jump_early_apex;
+  bool m_on_ice;
+  bool m_ice_this_frame;
+  SpritePtr m_lightsprite;
+  SpritePtr m_powersprite;
 
 public:
-  Direction dir;
-  Direction old_dir;
+  Direction m_dir;
+  Direction m_old_dir;
 
-  float last_ground_y;
-  FallMode fall_mode;
+  float m_last_ground_y;
+  FallMode m_fall_mode;
 
-  bool on_ground_flag;
-  bool jumping;
-  bool can_jump;
-  Timer jump_button_timer; /**< started when player presses the jump button; runs until Tux jumps or JUMP_GRACE_TIME runs out */
-  bool wants_buttjump;
-  bool does_buttjump;
+  bool m_on_ground_flag;
+  bool m_jumping;
+  bool m_can_jump;
+  Timer m_jump_button_timer; /**< started when player presses the jump button; runs until Tux jumps or JUMP_GRACE_TIME runs out */
+  bool m_wants_buttjump;
+  bool m_does_buttjump;
 
-  Timer invincible_timer;
-  Timer skidding_timer;
-  Timer safe_timer;
-  Timer kick_timer;
-  Timer shooting_timer;   // used to show the arm when Tux is shooting
-  Timer ability_timer;  // maximum lengh of time that special abilities can last
-  Timer cooldown_timer; // minimum time period between successive uses of a special ability
-  Timer dying_timer;
-  Timer second_growup_sound_timer;
-  bool growing;
-  Timer backflip_timer;
+  Timer m_invincible_timer;
+  Timer m_skidding_timer;
+  Timer m_safe_timer;
+  Timer m_kick_timer;
+  Timer m_shooting_timer;   // used to show the arm when Tux is shooting
+  Timer m_ability_timer;  // maximum lengh of time that special abilities can last
+  Timer m_cooldown_timer; // minimum time period between successive uses of a special ability
+  Timer m_dying_timer;
+  Timer m_second_growup_sound_timer;
+  bool m_growing;
+  Timer m_backflip_timer;
 
-  Physic physic;
+  Physic m_physic;
 
-  bool visible;
+  bool m_visible;
 
-  Portable* grabbed_object;
+  Portable* m_grabbed_object;
 
-  SpritePtr sprite; /**< The main sprite representing Tux */
+  SpritePtr m_sprite; /**< The main sprite representing Tux */
 
-  SurfacePtr airarrow; /**< arrow indicating Tux' position when he's above the camera */
+  SurfacePtr m_airarrow; /**< arrow indicating Tux' position when he's above the camera */
 
-  Vector floor_normal;
+  Vector m_floor_normal;
   void position_grabbed_object();
   void try_grab();
 
-  bool ghost_mode; /**< indicates if Tux should float around and through solid objects */
-  bool edit_mode; /**< indicates if Tux should switch to ghost mode rather than dying */
+  bool m_ghost_mode; /**< indicates if Tux should float around and through solid objects */
+  bool m_edit_mode; /**< indicates if Tux should switch to ghost mode rather than dying */
 
-  Timer unduck_hurt_timer; /**< if Tux wants to stand up again after ducking and cannot, this timer is started */
+  Timer m_unduck_hurt_timer; /**< if Tux wants to stand up again after ducking and cannot, this timer is started */
 
-  Timer idle_timer;
-  unsigned int idle_stage;
+  Timer m_idle_timer;
+  unsigned int m_idle_stage;
 
-  Climbable* climbing; /**< Climbable object we are currently climbing, null if none */
+  Climbable* m_climbing; /**< Climbable object we are currently climbing, null if none */
 
   std::shared_ptr<Camera> camera;
 

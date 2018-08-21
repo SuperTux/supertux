@@ -39,8 +39,8 @@
       (y 1277.114)
     )
     (platform
-      (name "p1")
       (running #f)
+      (name "p1")
       (sprite "images/objects/platforms/small.sprite")
       (path
         (node
@@ -56,8 +56,8 @@
       )
     )
     (platform
-      (name "p2a")
       (running #f)
+      (name "p2a")
       (sprite "images/objects/platforms/big.sprite")
       (path
         (node
@@ -73,8 +73,8 @@
       )
     )
     (platform
-      (name "p2b")
       (running #f)
+      (name "p2b")
       (sprite "images/objects/platforms/big.sprite")
       (path
         (node
@@ -90,8 +90,8 @@
       )
     )
     (platform
-      (name "p2")
       (running #f)
+      (name "p2")
       (sprite "images/objects/flying_platform/flying_platform.sprite")
       (path
         (node
@@ -107,8 +107,8 @@
       )
     )
     (platform
-      (name "door2b")
       (running #f)
+      (name "door2b")
       (sprite "images/objects/platforms/pedestal.sprite")
       (path
         (node
@@ -124,8 +124,8 @@
       )
     )
     (platform
-      (name "door2a")
       (running #f)
+      (name "door2a")
       (sprite "images/objects/platforms/pedestal.sprite")
       (path
         (node
@@ -141,8 +141,8 @@
       )
     )
     (platform
-      (name "door2c")
       (running #f)
+      (name "door2c")
       (sprite "images/objects/platforms/pedestal.sprite")
       (path
         (node
@@ -156,8 +156,8 @@
       )
     )
     (platform
-      (name "door1a")
       (running #f)
+      (name "door1a")
       (sprite "images/objects/platforms/big.sprite")
       (path
         (node
@@ -175,8 +175,8 @@
       )
     )
     (platform
-      (name "door1b")
       (running #f)
+      (name "door1b")
       (sprite "images/objects/platforms/small.sprite")
       (path
         (node
@@ -194,8 +194,8 @@
       )
     )
     (platform
-      (name "door1d")
       (running #f)
+      (name "door1d")
       (sprite "images/objects/platforms/big.sprite")
       (path
         (node
@@ -213,8 +213,8 @@
       )
     )
     (platform
-      (name "door1c")
       (running #f)
+      (name "door1c")
       (sprite "images/objects/platforms/small.sprite")
       (path
         (node
@@ -232,8 +232,8 @@
       )
     )
     (platform
-      (name "ps1")
       (running #f)
+      (name "ps1")
       (sprite "images/objects/platforms/big.sprite")
       (path
         (node
@@ -249,8 +249,8 @@
       )
     )
     (platform
-      (name "door2d")
       (running #f)
+      (name "door2d")
       (sprite "images/objects/platforms/pedestal.sprite")
       (path
         (node

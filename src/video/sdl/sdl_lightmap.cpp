@@ -16,6 +16,8 @@
 
 #include "video/sdl/sdl_lightmap.hpp"
 
+#include <sstream>
+
 #include "supertux/globals.hpp"
 #include "util/log.hpp"
 #include "video/drawing_request.hpp"

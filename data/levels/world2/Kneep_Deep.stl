@@ -34,8 +34,8 @@
       (y 1104)
     )
     (platform
-      (name "plat1")
       (running #f)
+      (name "plat1")
       (sprite "images/objects/platforms/big.sprite")
       (path
         (node
@@ -60,8 +60,8 @@
       )
     )
     (platform
-      (name "plat2")
       (running #f)
+      (name "plat2")
       (sprite "images/objects/platforms/big.sprite")
       (path
         (node

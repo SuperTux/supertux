@@ -18,7 +18,7 @@
 #ifndef HEADER_SUPERTUX_WORLDMAP_WORLDMAP_HPP
 #define HEADER_SUPERTUX_WORLDMAP_WORLDMAP_HPP
 
-#include <list>
+#include <vector>
 
 #include "math/vector.hpp"
 #include "supertux/game_object_ptr.hpp"
@@ -84,7 +84,7 @@ private:
   std::string init_script;
 
   GameObjects game_objects;
-  std::list<TileMap*> solid_tilemaps;
+  std::vector<TileMap*> solid_tilemaps;
 
 public:
   /** Variables to deal with the passive map messages */

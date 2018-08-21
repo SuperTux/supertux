@@ -250,7 +250,7 @@
     (gradient
       (top_color 0.5000076 0.5000076 0.6980392)
       (bottom_color 0 0.2941177 0.6078432)
-      (layer -400)
+      (z-pos -400)
     )
     (jumpy
       (x 3952)

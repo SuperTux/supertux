@@ -16,24 +16,24 @@
       (mode "normal")
     )
     (powerup
+      (sprite "images/powerups/egg/egg.sprite")
       (x 128)
       (y 256)
-      (sprite "images/powerups/egg/egg.sprite")
     )
     (powerup
+      (sprite "images/powerups/egg/egg.sprite")
       (x 288)
       (y 256)
-      (sprite "images/powerups/egg/egg.sprite")
     )
     (powerup
+      (sprite "images/powerups/egg/egg.sprite")
       (x 800)
       (y 224)
-      (sprite "images/powerups/egg/egg.sprite")
     )
     (powerup
+      (sprite "images/powerups/egg/egg.sprite")
       (x 576)
       (y 256)
-      (sprite "images/powerups/egg/egg.sprite")
     )
     (spawnpoint
       (name "main")
@@ -41,8 +41,8 @@
       (y 96)
     )
     (tilemap
-      (z-pos 0)
       (solid #t)
+      (z-pos 0)
       (name "Interactive")
       (width 100)
       (height 35)

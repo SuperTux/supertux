@@ -26,18 +26,17 @@
       end_level();
       ")
       (disable-physics #t)
+      (sprite "images/objects/keys/key_water.sprite")
       (x 200)
       (y 602)
-      (sprite "images/objects/keys/key_water.sprite")
     )
     (scriptedobject
-      (name "flip")
-      (visible #t)
       (physic-enabled #f)
       (solid #f)
+      (name "flip")
+      (sprite "images/creatures/tux/tux.sprite")
       (x 457.3015)
       (y 507.799)
-      (sprite "images/creatures/tux_flip/flip.sprite")
     )
     (spawnpoint
       (name "main")
@@ -45,8 +44,8 @@
       (y 96)
     )
     (tilemap
-      (z-pos -90)
       (solid #f)
+      (z-pos -90)
       (width 100)
       (height 35)
       (tiles
@@ -88,8 +87,8 @@
       )
     )
     (tilemap
-      (z-pos -100)
       (solid #f)
+      (z-pos -100)
       (width 100)
       (height 35)
       (tiles
@@ -131,8 +130,8 @@
       )
     )
     (tilemap
-      (z-pos 0)
       (solid #t)
+      (z-pos 0)
       (width 100)
       (height 35)
       (tiles
@@ -174,8 +173,8 @@
       )
     )
     (tilemap
-      (z-pos 100)
       (solid #f)
+      (z-pos 100)
       (width 100)
       (height 35)
       (tiles

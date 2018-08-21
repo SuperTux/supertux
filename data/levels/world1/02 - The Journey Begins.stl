@@ -16,10 +16,10 @@
       (mode "normal")
     )
     (decal
+      (z-pos -10)
+      (sprite "images/decal/explanations/billboard-star.png")
       (x 3872)
       (y 192)
-      (layer -10)
-      (sprite "images/decal/explanations/billboard-star.png")
     )
     (firefly
       (x 5568)

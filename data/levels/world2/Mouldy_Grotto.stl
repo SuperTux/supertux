@@ -74,8 +74,8 @@
       )
     )
     (platform
-      (name "lift1")
       (running #f)
+      (name "lift1")
       (sprite "images/objects/platforms/big.sprite")
       (path
         (node
@@ -96,8 +96,8 @@
       )
     )
     (platform
-      (name "lift2")
       (running #f)
+      (name "lift2")
       (sprite "images/objects/platforms/big.sprite")
       (path
         (node
@@ -118,8 +118,8 @@
       )
     )
     (platform
-      (name "lift3")
       (running #f)
+      (name "lift3")
       (sprite "images/objects/platforms/big.sprite")
       (path
         (node
@@ -140,8 +140,8 @@
       )
     )
     (platform
-      (name "lift4")
       (running #f)
+      (name "lift4")
       (sprite "images/objects/platforms/big.sprite")
       (path
         (node

@@ -31,15 +31,15 @@ EditorSectorMenu::EditorSectorMenu() :
 {
   add_label(_("Sector") + " " + sector->get_name());
   add_hl();
-  add_textfield(_("Name"), &sector->name);
-  add_script(_("Initialization script"), &sector->init_script);
-  add_color(_("Ambient light"), &sector->ambient_light);
-  add_numfield(_("Gravity"), &sector->gravity);
+  add_textfield(_("Name"), &sector->m_name);
+  add_script(_("Initialization script"), &sector->m_init_script);
+  add_color(_("Ambient light"), &sector->m_ambient_light);
+  add_numfield(_("Gravity"), &sector->m_gravity);
 
   std::vector<std::string> music_formats;
   music_formats.push_back(".ogg");
   music_formats.push_back(".music");
-  add_file(_("Music"), &sector->music, music_formats);
+  add_file(_("Music"), &sector->m_music, music_formats);
 
   add_hl();
   add_intfield(_("Width"), &(new_size.width));
@@ -61,7 +61,7 @@ EditorSectorMenu::~EditorSectorMenu()
   // Makes sure that the name of the sector isn't already used.
   auto level = editor->get_level();
   bool is_sector = false;
-  for(auto const& sector_ : level->sectors) {
+  for(auto const& sector_ : level->m_sectors) {
     if(sector_->get_name() == sector->get_name()) {
       if (is_sector) {
         // Puts the name that was there before when the name is already used.

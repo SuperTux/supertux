@@ -20,13 +20,13 @@
 #include "video/video_system.hpp"
 
 SurfacePtr
-Surface::create(const std::string& file)
+Surface::from_file(const std::string& file)
 {
   return SurfacePtr(new Surface(file));
 }
 
 SurfacePtr
-Surface::create(const std::string& file, const Rect& rect)
+Surface::from_file(const std::string& file, const Rect& rect)
 {
   return SurfacePtr(new Surface(file, rect));
 }

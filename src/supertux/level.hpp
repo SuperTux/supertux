@@ -29,18 +29,18 @@ class Sector;
  */
 class Level
 {
-public:
-  std::string name;
-  std::string author;
-  std::string contact;
-  std::string license;
-  std::string filename;
-  std::vector<std::unique_ptr<Sector> > sectors;
-  Statistics  stats;
-  float       target_time;
-  std::string tileset;
-
   friend class LevelParser;
+
+public:
+  std::string m_name;
+  std::string m_author;
+  std::string m_contact;
+  std::string m_license;
+  std::string m_filename;
+  std::vector<std::unique_ptr<Sector> > m_sectors;
+  Statistics  m_stats;
+  float       m_target_time;
+  std::string m_tileset;
 
 public:
   Level();
@@ -53,28 +53,28 @@ public:
   void save(const std::string& filename, bool retry = false);
 
   void add_sector(std::unique_ptr<Sector> sector);
-  const std::string& get_name() const { return name; }
-  const std::string& get_author() const { return author; }
+  const std::string& get_name() const { return m_name; }
+  const std::string& get_author() const { return m_author; }
 
   Sector* get_sector(const std::string& name) const;
 
   size_t get_sector_count() const;
   Sector* get_sector(size_t num) const;
 
-  std::string get_tileset() const { return tileset; }
+  std::string get_tileset() const { return m_tileset; }
 
   int get_total_coins() const;
   int get_total_badguys() const;
   int get_total_secrets() const;
 
   static Level* current() {
-    return _current;
+    return s_current;
   }
 
   void reactivate();
 
 private:
-  static Level* _current;
+  static Level* s_current;
 
   void load_old_format(const ReaderMapping& reader);
 

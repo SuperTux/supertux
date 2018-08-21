@@ -1190,12 +1190,12 @@
       (y 1184)
     )
     (wind
-      (name "Wind")
       (speed-x 2000)
       (speed-y -800)
       (acceleration 4000)
       (width 28)
       (height 252)
+      (name "Wind")
       (x 896)
       (y 2400)
     )

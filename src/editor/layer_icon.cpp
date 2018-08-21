@@ -37,7 +37,7 @@ LayerIcon::LayerIcon(GameObject *layer_) :
   auto tm = dynamic_cast<TileMap*>(layer_);
   if (tm) {
     is_tilemap = true;
-    selection = Surface::create("images/engine/editor/selection.png");
+    selection = Surface::from_file("images/engine/editor/selection.png");
   }
 }
 
@@ -51,7 +51,7 @@ LayerIcon::draw(DrawingContext& context, const Vector& pos) {
     context.color().draw_text(Resources::small_font, std::to_string(l),
                                 pos + Vector(16,16),
                                 ALIGN_CENTER, LAYER_GUI, ColorScheme::Menu::default_color);
-    if (is_tilemap) if ((static_cast<TileMap*>(layer))->editor_active) {
+    if (is_tilemap) if ((static_cast<TileMap*>(layer))->m_editor_active) {
         context.color().draw_surface(selection, pos, LAYER_GUI - 1);
     }
   }

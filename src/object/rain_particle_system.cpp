@@ -44,8 +44,8 @@ RainParticleSystem::~RainParticleSystem()
 
 void RainParticleSystem::init()
 {
-  rainimages[0] = Surface::create("images/objects/particles/rain0.png");
-  rainimages[1] = Surface::create("images/objects/particles/rain1.png");
+  rainimages[0] = Surface::from_file("images/objects/particles/rain0.png");
+  rainimages[1] = Surface::from_file("images/objects/particles/rain1.png");
 
   virtual_width = static_cast<float>(SCREEN_WIDTH) * 2.0f;
 

@@ -28,8 +28,7 @@ class TileSet;
 class TileManager : public Currenton<TileManager>
 {
 private:
-  typedef std::map<std::string, std::unique_ptr<TileSet> > TileSets;
-  TileSets tilesets;
+  std::map<std::string, std::unique_ptr<TileSet> > m_tilesets;
 
 public:
   TileManager();

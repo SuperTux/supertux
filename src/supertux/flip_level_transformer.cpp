@@ -31,7 +31,7 @@ FlipLevelTransformer::transform_sector(Sector* sector)
 {
   float height = sector->get_height();
 
-  for(auto& object : sector->gameobjects) {
+  for(auto& object : sector->m_gameobjects) {
     auto tilemap = dynamic_cast<TileMap*>(object.get());
     if(tilemap) {
       transform_tilemap(height, *tilemap);
@@ -64,7 +64,7 @@ FlipLevelTransformer::transform_sector(Sector* sector)
       transform_moving_object(height, *mobject);
     }
   }
-  for(auto& spawnpoint : sector->spawnpoints) {
+  for(auto& spawnpoint : sector->m_spawnpoints) {
     transform_spawnpoint(height, *spawnpoint);
   }
 

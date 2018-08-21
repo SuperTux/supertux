@@ -17,6 +17,8 @@
 
 #include "supertux/textscroller.hpp"
 
+#include <sstream>
+
 #include "audio/sound_manager.hpp"
 #include "control/input_manager.hpp"
 #include "supertux/fadein.hpp"
@@ -164,7 +166,7 @@ TextScroller::TextScroller(const std::string& filename) :
   }
 
   // load background image
-  background = Surface::create("images/background/" + background_file);
+  background = Surface::from_file("images/background/" + background_file);
 }
 
 TextScroller::~TextScroller()

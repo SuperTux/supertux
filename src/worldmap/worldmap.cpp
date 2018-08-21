@@ -421,7 +421,7 @@ WorldMap::finished_level(Level* gamelevel)
   level->sprite->set_action("solved");
 
   // deal with statistics
-  level->statistics.merge(gamelevel->stats);
+  level->statistics.merge(gamelevel->m_stats);
   calculate_total_stats();
 
   if(level->statistics.completed(level->statistics, level->target_time)) {
@@ -653,7 +653,7 @@ WorldMap::tile_data_at(const Vector& p) const
 
   for(const auto& tilemap : solid_tilemaps) {
     const auto tile = tilemap->get_tile(static_cast<int>(p.x), static_cast<int>(p.y));
-    int dirdata = tile->getData();
+    int dirdata = tile->get_data();
     dirs |= dirdata;
   }
 

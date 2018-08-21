@@ -11,10 +11,6 @@
     (camera
       (mode "normal")
     )
-    (decal
-      (x 928)
-      (y 192)
-    )
     (icecrusher
       (sprite "images/creatures/icecrusher/icecrusher.sprite")
       (x 1643)
