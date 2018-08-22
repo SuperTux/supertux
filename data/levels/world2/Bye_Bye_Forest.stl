@@ -1365,27 +1365,22 @@
       )
     )
     (torch
-      (sprite "images/objects/torch/torch1.sprite")
       (x 272)
       (y 160)
     )
     (torch
-      (sprite "images/objects/torch/torch1.sprite")
       (x 1392)
       (y 352)
     )
     (torch
-      (sprite "images/objects/torch/torch1.sprite")
       (x 1904)
       (y 352)
     )
     (torch
-      (sprite "images/objects/torch/torch1.sprite")
       (x 2160)
       (y 736)
     )
     (torch
-      (sprite "images/objects/torch/torch1.sprite")
       (x 2960)
       (y 288)
     )

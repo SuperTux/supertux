@@ -1904,7 +1904,6 @@
       )
     )
     (torch
-      (sprite "images/objects/torch/torch1.sprite")
       (x 80)
       (y 352)
     )
@@ -1924,7 +1923,6 @@
       (y 832)
     )
     (torch
-      (sprite "images/objects/torch/torch1.sprite")
       (x 13232)
       (y 800)
     )
@@ -1934,7 +1932,6 @@
       (y 576)
     )
     (torch
-      (sprite "images/objects/torch/torch1.sprite")
       (x 18032)
       (y 1024)
     )
@@ -1959,12 +1956,10 @@
       (y 608)
     )
     (torch
-      (sprite "images/objects/torch/torch1.sprite")
       (x 19024)
       (y 800)
     )
     (torch
-      (sprite "images/objects/torch/torch1.sprite")
       (x 18320)
       (y 640)
     )

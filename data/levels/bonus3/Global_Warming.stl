@@ -12,7 +12,6 @@
       (mode "normal")
     )
     (icecrusher
-      (sprite "images/creatures/icecrusher/icecrusher.sprite")
       (x 1643)
       (y 488)
     )

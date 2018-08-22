@@ -169,12 +169,10 @@
       (bottom_color 0 0 0)
     )
     (icecrusher
-      (sprite "images/creatures/icecrusher/icecrusher.sprite")
       (x 2944.04)
       (y 287.5147)
     )
     (icecrusher
-      (sprite "images/creatures/icecrusher/icecrusher.sprite")
       (x 1439.729)
       (y 95.05759)
     )

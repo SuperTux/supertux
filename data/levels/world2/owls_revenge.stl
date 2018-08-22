@@ -286,12 +286,10 @@
       )
     )
     (torch
-      (sprite "images/objects/torch/torch1.sprite")
       (x 1296)
       (y 128)
     )
     (torch
-      (sprite "images/objects/torch/torch1.sprite")
       (x 176)
       (y 128)
     )

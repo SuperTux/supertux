@@ -764,17 +764,14 @@
       )
     )
     (torch
-      (sprite "images/objects/torch/torch1.sprite")
       (x 5210.321)
       (y 573.375)
     )
     (torch
-      (sprite "images/objects/torch/torch1.sprite")
       (x 9760.647)
       (y 538.5454)
     )
     (torch
-      (sprite "images/objects/torch/torch1.sprite")
       (x 11075.69)
       (y 384.332)
     )

@@ -213,7 +213,6 @@
       (bottom_color 0.1341726 0.1474327 0.4788281)
     )
     (icecrusher
-      (sprite "images/creatures/icecrusher/icecrusher.sprite")
       (x 3616)
       (y 128)
     )

@@ -10,7 +10,6 @@
       (image "images/background/arctis.jpg")
     )
     (bicycle-platform
-      (sprite "images/objects/platforms/small.sprite")
       (x 320)
       (y 640)
     )

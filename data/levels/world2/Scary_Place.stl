@@ -469,7 +469,6 @@
       )
     )
     (torch
-      (sprite "images/objects/torch/torch1.sprite")
       (x 529.375)
       (y 412.2833)
     )

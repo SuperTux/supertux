@@ -787,7 +787,6 @@ block3.goto_node(2);")
       (y 160)
     )
     (unstable_tile
-      (sprite "images/objects/unstable_tile/snow.sprite")
       (x 2560)
       (y 224)
     )

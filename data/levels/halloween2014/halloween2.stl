@@ -556,7 +556,6 @@
       )
     )
     (torch
-      (sprite "images/objects/torch/torch1.sprite")
       (x 2384)
       (y 864)
     )
@@ -566,7 +565,6 @@
       (y 832)
     )
     (torch
-      (sprite "images/objects/torch/torch1.sprite")
       (x 912)
       (y 832)
     )
@@ -576,12 +574,10 @@
       (y 832)
     )
     (torch
-      (sprite "images/objects/torch/torch1.sprite")
       (x 1744)
       (y 896)
     )
     (torch
-      (sprite "images/objects/torch/torch1.sprite")
       (x 22224)
       (y 1024)
     )
@@ -591,7 +587,6 @@
       (y 1056)
     )
     (torch
-      (sprite "images/objects/torch/torch1.sprite")
       (x 112)
       (y 512)
     )
@@ -606,7 +601,6 @@
       (y 1056)
     )
     (torch
-      (sprite "images/objects/torch/torch1.sprite")
       (x 3952)
       (y 1056)
     )
@@ -616,7 +610,6 @@
       (y 352)
     )
     (torch
-      (sprite "images/objects/torch/torch1.sprite")
       (x 7280)
       (y 352)
     )
@@ -626,12 +619,10 @@
       (y 1024)
     )
     (torch
-      (sprite "images/objects/torch/torch1.sprite")
       (x 7216)
       (y 1024)
     )
     (torch
-      (sprite "images/objects/torch/torch1.sprite")
       (x 13360)
       (y 1056)
     )
@@ -676,12 +667,10 @@
       (y 992)
     )
     (torch
-      (sprite "images/objects/torch/torch1.sprite")
       (x 15824)
       (y 224)
     )
     (torch
-      (sprite "images/objects/torch/torch1.sprite")
       (x 16080)
       (y 672)
     )
@@ -691,12 +680,10 @@
       (y 672)
     )
     (torch
-      (sprite "images/objects/torch/torch1.sprite")
       (x 17936)
       (y 800)
     )
     (torch
-      (sprite "images/objects/torch/torch1.sprite")
       (x 18352)
       (y 928)
     )
@@ -706,7 +693,6 @@
       (y 768)
     )
     (torch
-      (sprite "images/objects/torch/torch1.sprite")
       (x 20592)
       (y 1024)
     )
