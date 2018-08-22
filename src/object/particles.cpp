@@ -158,7 +158,7 @@ float
 Particles::angle(Vector &pos)
 {
   float dot_product = m_epicenter * pos;
-  float lengths = m_epicenter.magnitude() * pos.magnitude();
+  float lengths = m_epicenter.norm() * pos.norm();
   return (dot_product / lengths); 
 }
 

@@ -116,11 +116,6 @@ public:
     return Vector(floorf(x), floorf(y));
   }
 
-  float magnitude()
-  {
-    return sqrt(x * x + y * y);
-  }
-
   // ... add the other operators as needed, I'm too lazy now ...
 
   float x, y; // leave this public, get/set methods just give me headaches
