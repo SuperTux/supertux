@@ -68,6 +68,7 @@ Sector::Sector(Level* parent) :
   level(parent),
   name(),
   bullets(),
+  platforms(),
   init_script(),
   gameobjects_new(),
   currentmusic(LEVEL_MUSIC),
@@ -86,6 +87,7 @@ Sector::Sector(Level* parent) :
   portables(),
   music(),
   gravity(10.0),
+  colgraph(),
   player(0),
   solid_tilemaps(),
   camera(0),
@@ -984,11 +986,11 @@ Sector::collision_static_constrains(MovingObject& object, collision_graph& graph
 {
 
   using namespace collision;
-  float infinity = (std::numeric_limits<float>::has_infinity ? std::numeric_limits<float>::infinity() : std::numeric_limits<float>::max());
+  //float infinity = (std::numeric_limits<float>::has_infinity ? std::numeric_limits<float>::infinity() : std::numeric_limits<float>::max());
 
   Constraints constraints;
   Vector movement = object.get_movement();
-  Vector pressure = Vector(0,0);
+  //Vector pressure = Vector(0,0);
   Rectf& dest = object.dest;
   collision_static(&constraints, Vector(movement.x, movement.y), dest, object, graph, broad);
 

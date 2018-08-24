@@ -2,12 +2,17 @@
 #define SUPERTUX_HEADER_MATH_POLYGON
 #include "math/vector.hpp"
 #include <vector>
+
 struct Manifold {
   Vector normal;
   double depth;
+
+  Manifold() : normal(), depth() {}
 };
+
 class Polygon {
   public:
+    Polygon();
     /**
      *  Adds a vertice to this polygon.
      *  @param point The new vertice

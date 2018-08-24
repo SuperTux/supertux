@@ -3,6 +3,17 @@
 #include "math/polygon.hpp"
 #include "util/log.hpp"
 
+Polygon::Polygon() :
+  original_vertices(),
+  rotation_angle(),
+  vertices(),
+  edges(),
+  normals(),
+  middle_point(),
+  disabled_normals()
+{
+}
+
 void Polygon::add_vertice(Vector v)
 {
   vertices.push_back(v);
@@ -62,7 +73,7 @@ void Polygon::handle_collision(Polygon& b, Manifold& m)
   Vector minAxis;
   for(size_t i = 0; i < edges.size(); i++)
   {
-    auto axis = edges[i];
+    //auto axis = edges[i];
     double overlap;
     if(disabled_normals[i])
       continue;
@@ -93,7 +104,7 @@ void Polygon::handle_collision(Polygon& b, Manifold& m)
   // Check if any of b's axes seperates
   for(size_t i = 0; i < b.edges.size(); i++)
   {
-    auto axis = b.edges[i];
+    //auto axis = b.edges[i];
     double overlap;
     if(b.disabled_normals[i])
       continue;
@@ -183,7 +194,7 @@ void Polygon::setup()
   }
   sumv *= (double)1/vertices.size();
   middle_point = sumv;
-  for(int i = 0;i < normals.size();i++)
+  for(size_t i = 0;i < normals.size(); ++i)
   {
     // Check if normal faces inwards
     Vector point = vertices[i];

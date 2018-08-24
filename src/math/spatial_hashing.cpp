@@ -3,22 +3,25 @@
 #include "util/log.hpp"
 #include <iostream>
 #include <cmath>
-spatial_hashing::spatial_hashing(int width, int height, int gridx, int gridy)
+
+spatial_hashing::spatial_hashing(int width_, int height_, int gridx_, int gridy_) :
+  gridx(gridx_),
+  gridy(gridy_),
+  rows(width_ / gridx + 100),
+  cols(height_ / gridy +100),
+  width(width_),
+  height(height_),
+  grid(),
+  current_stored()
 {
-  this->gridx = gridx;
-  this->gridy = gridy;
-  this->rows = width / gridx +100;
-  this->cols = height / gridy +100;
-  this->width = width;
-  this->height = height;
   // Set up the vector
-  grid.resize(rows+10);
-  for(int i = 0;i<rows;i++)
-    grid[i].resize(cols+10);
+  grid.resize(rows + 10);
+  for(int i = 0; i < rows; ++i)
+    grid[i].resize(cols + 10);
   // Initial grid is set up.
 }
 
-void spatial_hashing::insert(Rectf aabb,MovingObject* obj)
+void spatial_hashing::insert(Rectf aabb, MovingObject* obj)
 {
   if(obj == NULL)
     return;
@@ -124,9 +127,9 @@ bool spatial_hashing::remove(MovingObject* obj)
 void spatial_hashing::clear()
 {
   // Delete every cell
-  for(int i = 0;i<grid.size();i++)
+  for(size_t i = 0;i<grid.size();i++)
   {
-    for(int j = 0; j < grid[i].size(); j++)
+    for(size_t j = 0; j < grid[i].size(); j++)
       grid[i][j].clear();
     grid[i].clear();
   }

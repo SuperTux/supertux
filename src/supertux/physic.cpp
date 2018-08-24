@@ -23,7 +23,11 @@ Physic::Physic() :
   ax(0), ay(0),
   vx(0), vy(0),
   gravity_enabled_flag(true),
-  gravity_modifier(1.0f)
+  gravity_modifier(1.0f),
+  avx(0),
+  avy(0),
+  angular_enabled(),
+  angle()
 {
 }
 

@@ -76,6 +76,8 @@ class MovingObject : public GameObject
 {
 public:
   MovingObject();
+  MovingObject(const MovingObject&) = default;
+  MovingObject& operator=(const MovingObject&) = default;
   virtual ~MovingObject();
 
   /** this function is called when the object collided with something solid */
