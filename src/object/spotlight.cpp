@@ -32,6 +32,7 @@ Spotlight::Spotlight(const ReaderMapping& lisp) :
   lightcone(SpriteManager::current()->create("images/objects/spotlight/lightcone.sprite")),
   color(1.0f, 1.0f, 1.0f),
   speed(50.0f),
+  emittin(true),
   counter_clockwise()
 {
   group = COLGROUP_DISABLED;
@@ -44,8 +45,6 @@ Spotlight::Spotlight(const ReaderMapping& lisp) :
   lisp.get("angle", angle, 0.0f);
   lisp.get("speed", speed, 50.0f);
   lisp.get("counter-clockwise", counter_clockwise, false);
-
-  emitting=true;
 
   std::vector<float> vColor;
   if( lisp.get( "color", vColor ) ){
