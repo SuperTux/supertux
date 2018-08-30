@@ -30,6 +30,7 @@
 
 TextureManager::TextureManager() :
   m_image_textures(),
+  m_font_textures(),
   m_surfaces()
 {
 }
@@ -92,6 +93,23 @@ TextureManager::get(const std::string& _filename, const Rect& rect)
     m_image_textures[key] = texture;
   }
 
+  return texture;
+}
+
+TexturePtr
+TextureManager::get(TTF_Font* font, const std::string& text, const Color& color)
+{
+  std::string key = std::to_string(color.red) + "|" +
+                    std::to_string(color.green) + "|" +
+                    std::to_string(color.blue) + text;
+  auto i = m_font_textures.find(key);
+  TexturePtr texture;
+  if(i != m_font_textures.end())
+    texture = i->second;
+  if(!texture) {
+    texture = create_text_texture(font, text, color);
+    m_font_textures[key] = texture;
+  }
   return texture;
 }
 
@@ -187,6 +205,29 @@ TextureManager::create_image_texture_raw(const std::string& filename)
   {
     std::ostringstream msg;
     msg << "Couldn't load image '" << filename << "' :" << SDL_GetError();
+    throw std::runtime_error(msg.str());
+  }
+  else
+  {
+    TexturePtr texture = VideoSystem::current()->new_texture(image.get());
+    image.reset(NULL);
+    return texture;
+  }
+}
+
+TexturePtr
+TextureManager::create_text_texture(TTF_Font* font, const std::string& text,
+                                    const Color& color)
+{
+  Uint8 r = static_cast<Uint8>(color.red * 255);
+  Uint8 g = static_cast<Uint8>(color.green * 255);
+  Uint8 b = static_cast<Uint8>(color.blue * 255);
+  Uint8 a = static_cast<Uint8>(color.alpha * 255);
+  SDLSurfacePtr image(TTF_RenderUTF8_Blended(font, text.c_str(), {r, g, b, a}));
+  if (!image)
+  {
+    std::ostringstream msg;
+    msg << "Couldn't load image '" << text << "' :" << SDL_GetError();
     throw std::runtime_error(msg.str());
   }
   else

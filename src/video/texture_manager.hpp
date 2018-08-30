@@ -24,7 +24,10 @@
 #include <string>
 #include <vector>
 
+#include <SDL_ttf.h>
+
 #include "util/currenton.hpp"
+#include "video/color.hpp"
 #include "video/glutil.hpp"
 #include "video/texture_ptr.hpp"
 
@@ -44,6 +47,7 @@ public:
 
   TexturePtr get(const std::string& filename);
   TexturePtr get(const std::string& filename, const Rect& rect);
+  TexturePtr get(TTF_Font* font, const std::string& text, const Color& color = Color::BLACK);
 
 private:
   void reap_cache_entry(const std::string& filename);
@@ -57,10 +61,13 @@ private:
   TexturePtr create_image_texture_raw(const std::string& filename);
   TexturePtr create_image_texture_raw(const std::string& filename, const Rect& rect);
 
+  TexturePtr create_text_texture(TTF_Font* font, const std::string& text, const Color& color);
+
   TexturePtr create_dummy_texture();
 
 private:
   std::map<std::string, std::weak_ptr<Texture> > m_image_textures;
+  std::map<std::string, std::shared_ptr<Texture> > m_font_textures;
   std::map<std::string, SDL_Surface*> m_surfaces;
 };
 

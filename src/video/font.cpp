@@ -24,6 +24,7 @@
 #include <sstream>
 
 #include "physfs/physfs_sdl.hpp"
+#include "supertux/resources.hpp"
 #include "util/file_system.hpp"
 #include "util/log.hpp"
 #include "util/reader_document.hpp"
@@ -85,6 +86,24 @@ Font::Font(GlyphWidth glyph_width_,
   }
   PHYSFS_freeList(rc);
 }
+
+Font::Font(const std::string& filename,
+           int font_size,
+           int shadowsize_):
+  shadowsize(shadowsize_),
+  border(0),
+  rtl(false),
+  file_name(filename),
+  fontsize(font_size),
+  ttf_font()
+{
+  ttf_font = TTF_OpenFont(filename.c_str(), font_size);
+  if(ttf_font == nullptr)
+  {
+    log_debug << "Couldn't open font " << filename << "." << std::endl;
+  }
+}
+
 
 void
 Font::loadFontFile(const std::string &filename)
@@ -266,53 +285,55 @@ abort:
 
 Font::~Font()
 {
+  if(ttf_font != NULL)
+  {
+    TTF_CloseFont(ttf_font);
+    ttf_font = NULL;
+  }
 }
 
 float
 Font::get_text_width(const std::string& text) const
 {
-  float curr_width = 0;
-  float last_width = 0;
+  if(get_ttf_font() == nullptr)
+    return 0;
 
-  for(UTF8Iterator it(text); !it.done(); ++it)
-  {
-    if (*it == '\n')
-    {
-      last_width = std::max(last_width, curr_width);
-      curr_width = 0;
-    }
-    else
-    {
-      if( glyphs.at(*it).surface_idx != -1 )
-        curr_width += glyphs[*it].advance;
-      else
-        curr_width += glyphs[0x20].advance;
-    }
-  }
+  if(text.length() == 0)
+    return 0;
 
-  return std::max(curr_width, last_width);
+  auto texture_manager = TextureManager::current();
+  auto texture = texture_manager->get(get_ttf_font(), text);
+  return texture->get_texture_width();
 }
 
 float
 Font::get_text_height(const std::string& text) const
 {
-  std::string::size_type text_height = char_height;
+  if(text.length() == 0)
+    return 0;
+
+  auto texture_manager = TextureManager::current();
+  auto texture = texture_manager->get(get_ttf_font(), text);
+  std::string::size_type text_height = texture->get_texture_height();
 
   for(std::string::const_iterator it = text.begin(); it != text.end(); ++it)
   { // since UTF8 multibyte characters are decoded with values
     // outside the ASCII range there is no risk of overlapping and
     // thus we don't need to decode the utf-8 string
     if (*it == '\n')
-      text_height += char_height + 2;
+    {
+      text_height += texture->get_texture_height() + 2;
+    }
   }
 
-  return static_cast<float>(text_height);
+  return text_height;
 }
 
 float
 Font::get_height() const
 {
-  return static_cast<float>(char_height);
+  // Adding a 2 pixel margin so that it looks better!
+  return fontsize + 2;
 }
 
 std::string
@@ -457,6 +478,21 @@ Font::draw_chars(Painter& painter, bool notshadow, const std::string& text,
       p.x += glyph.advance;
     }
   }
+}
+
+TTF_Font*
+Font::get_ttf_font() const
+{
+  if(ttf_font != NULL)
+    return ttf_font;
+
+  return Resources::normal_font->get_ttf_font();
+}
+
+unsigned int
+Font::get_shadow_size() const
+{
+  return shadowsize;
 }
 
 /* EOF */

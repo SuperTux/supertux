@@ -20,6 +20,8 @@
 
 #include <string>
 
+#include <SDL_ttf.h>
+
 #include "math/rectf.hpp"
 #include "math/vector.hpp"
 #include "video/color.hpp"
@@ -50,6 +52,18 @@ public:
    *  @param sgadowsize   offset of shadow
    */
   Font(GlyphWidth glyph_width, const std::string& fontfile, int shadowsize = 2);
+
+  /** Load a font file supported by SDL_ttf
+   *
+   *  @param fontfile     Path to the ttf file 
+   *  @param fontsize     size of the font
+   *  @param sgadowsize   offset of shadow
+   */
+  Font(const std::string& fontfile, int fontsize, int shadowsize);
+
+  /**
+   * Destructor
+   */
   ~Font();
 
   /** returns the width of a given text. (Note that I won't add a normal
@@ -69,6 +83,16 @@ public:
    * returns the height of the font.
    */
   float get_height() const;
+
+  /**
+   * Returns the TTF font that we use
+   */
+  TTF_Font* get_ttf_font() const;
+
+  /**
+   * Returns the shadow size
+   */
+  unsigned int get_shadow_size() const;
 
   /**
    * returns the given string, truncated (preferably at whitespace) to be at most max_chars characters long
@@ -141,6 +165,13 @@ private:
 
   /** 65536 of glyphs */
   std::vector<Glyph> glyphs;
+
+  const std::string file_name;
+  int fontsize;
+  TTF_Font* ttf_font;
+
+  Font(const Font&);
+  Font operator=(const Font&);
 };
 
 #endif
