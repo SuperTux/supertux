@@ -20,6 +20,7 @@
 #include <version.h>
 
 #include <SDL_image.h>
+#include <SDL_ttf.h>
 #include <boost/filesystem.hpp>
 #include <boost/locale.hpp>
 #include <physfs.h>
@@ -311,12 +312,22 @@ public:
       msg << "Couldn't initialize SDL: " << SDL_GetError();
       throw std::runtime_error(msg.str());
     }
+    
+    if(TTF_Init() < 0)
+    {
+      std::stringstream msg;
+      msg << "Couldn't initialize SDL TTF: " << SDL_GetError();
+      throw std::runtime_error(msg.str());
+    }
+
     // just to be sure
+    atexit(TTF_Quit);
     atexit(SDL_Quit);
   }
 
   ~SDLSubsystem()
   {
+    TTF_Quit();
     SDL_Quit();
   }
 };
