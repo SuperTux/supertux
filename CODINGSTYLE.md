@@ -7,7 +7,7 @@ Do not have spaces at the end of lines.
 Files should always end with `/* EOF */` and a newline or a similar marker approprimate for
 the given language.
 
-Use one file per class.
+Aim for one file per class, small helper classes in the same file are ok.
 
 ## Repository Structure
 
@@ -29,7 +29,8 @@ Conditional includes should be indented.
 #endif
 ```
 
-Use the `#include <>` syntax for libraries in `external/`.
+Use the `#include <>` syntax for libraries in `external/`, use `cmake`
+to set the include path properly.
 
 Include guards are of the form:
 
@@ -57,12 +58,13 @@ Keep use of `std::smart_ptr<>` to a minimum, prefer `std::unique_ptr<>` when pos
 Namespaces should be written in the form:
 
 ```c++
-namespace NameSpace {
-  // ...
-} // namespace NameSpace
+namespace my_namespace {
+...
+} // namespace my_namespace
 ```
 
-With no newline before the `{`.
+With no newline before the `{`. Do not indent the content inside the
+namespace. The namespace itself should be all lowercase.
 
 ## Compiler options
 
@@ -88,8 +90,8 @@ For translator information, use the `// l10n:` syntax.
 Don't do `*` prefix decorations in comments, keep things simple and
 compact:
 
-```
-/*c++
+```c++
+/*
  *  Don't do this
  */
 ```
