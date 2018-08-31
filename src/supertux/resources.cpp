@@ -43,11 +43,11 @@ Resources::Resources()
                                      "images/engine/menu/mousecursor-link.png"));
   MouseCursor::set_current(mouse_cursor.get());
 
-  // Load global images:
-  fixed_font.reset(new Font(Font::FIXED, "fonts/white.stf"));
-  normal_font.reset(new Font(Font::VARIABLE, "fonts/white.stf"));
-  small_font.reset(new Font(Font::VARIABLE, "fonts/white-small.stf", 1));
-  big_font.reset(new Font(Font::VARIABLE, "fonts/white-big.stf", 3));
+    // Load global images:
+  fixed_font.reset(new Font("../data/fonts/ttf/FreeMono.ttf", 18));
+  normal_font.reset(new Font("../data/fonts/ttf/FreeSansBold.ttf", 18));
+  small_font.reset(new Font("../data/fonts/ttf/FreeSans.ttf", 10, 1));
+  big_font.reset(new Font("../data/fonts/ttf/FreeSansBold.ttf", 25, 3));
 
   /* Load menu images */
   checkbox = Surface::from_file("images/engine/menu/checkbox-unchecked.png");
