@@ -59,7 +59,7 @@ public:
    *  @param fontsize     size of the font
    *  @param sgadowsize   offset of shadow
    */
-  Font(const std::string& fontfile, int fontsize, int shadowsize = 2);
+  Font(const std::string& fontfile, int fontsize, int shadowsize = 2, int border = 0);
 
   /**
    * Destructor

@@ -89,10 +89,10 @@ Font::Font(GlyphWidth glyph_width_,
 
 Font::Font(const std::string& filename,
            int font_size,
-           int shadowsize_):
+           int shadowsize_,
+           int border_):
   shadowsize(shadowsize_),
-  border(0),
-  rtl(false),
+  border(border_),
   file_name(filename),
   fontsize(font_size),
   ttf_font()
@@ -103,6 +103,11 @@ Font::Font(const std::string& filename,
   if(ttf_font == nullptr)
   {
     log_debug << "Couldn't open font " << filename << "." << std::endl;
+  }
+
+  if(border > 0)
+  {
+    TTF_SetFontOutline(ttf_font, border);
   }
 }
 
