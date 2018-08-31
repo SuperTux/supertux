@@ -104,13 +104,10 @@ public:
    */
   std::string wrap_to_width(const std::string& text, float width, std::string* overflow);
 
-  /** Draws the given text to the screen. Also needs the position.
-   * Type of alignment, drawing effect and alpha are optional. */
-  void draw(Painter& painter, const std::string& text, const Vector& pos,
-            FontAlignment alignment = ALIGN_LEFT,
-            DrawingEffect drawing_effect = NO_EFFECT,
-            Color color = Color(1.0,1.0,1.0),
-            float alpha = 1.0f) const;
+  /**
+   * Checks if this font contains all glyphs for the text given
+   */
+  bool has_all_glyphs(const std::string& text) const;
 
 private:
   friend class DrawingContext;

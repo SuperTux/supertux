@@ -502,4 +502,15 @@ Font::get_shadow_size() const
   return shadowsize;
 }
 
+bool
+Font::has_all_glyphs(const std::string& text) const
+{
+  for(const auto& c : text)
+  {
+    if(!TTF_GlyphIsProvided(ttf_font, static_cast<Uint16>(c)))
+      return false;
+  }
+  return true;
+}
+
 /* EOF */
