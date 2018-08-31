@@ -31,11 +31,26 @@ Surface::from_file(const std::string& file, const Rect& rect)
   return SurfacePtr(new Surface(file, rect));
 }
 
+SurfacePtr
+Surface::from_texture(TexturePtr texture)
+{
+  return SurfacePtr(new Surface(texture));
+}
+
 Surface::Surface(const std::string& file) :
   m_texture(TextureManager::current()->get(file)),
   m_rect(0, 0,
          Size(m_texture->get_image_width(),
               m_texture->get_image_height())),
+  m_flipx(false)
+{
+}
+
+Surface::Surface(TexturePtr texture) :
+  m_texture(texture),
+  m_rect(0, 0,
+      Size(m_texture->get_image_width(),
+           m_texture->get_image_height())),
   m_flipx(false)
 {
 }
