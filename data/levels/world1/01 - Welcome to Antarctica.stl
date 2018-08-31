@@ -17,12 +17,6 @@
     )
     (decal
       (z-pos -10)
-      (sprite "images/decal/explanations/billboard-resetpoint.png")
-      (x 4896)
-      (y 864)
-    )
-    (decal
-      (z-pos -10)
       (sprite "images/decal/explanations/billboard-runjump.png")
       (x 7296)
       (y 864)
