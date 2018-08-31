@@ -22,7 +22,7 @@
 BrokenBrick::BrokenBrick(SpritePtr sprite_,
                          const Vector& pos, const Vector& nmovement) :
   timer(),
-  sprite(sprite_),
+  sprite(std::move(sprite_)),
   position(pos),
   movement(nmovement)
 {
