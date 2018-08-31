@@ -20,6 +20,8 @@
 #include <string>
 #include <vector>
 
+#include <SDL_image.h>
+
 class Color
 {
 public:
@@ -81,6 +83,11 @@ public:
   std::string to_string() const
   {
     return std::to_string(red) + " " + std::to_string(green) + " " + std::to_string(blue);
+  }
+
+  SDL_Color to_sdl_color() const
+  {
+    return { r8(), g8(), b8(), a8() };
   }
 
 public:
