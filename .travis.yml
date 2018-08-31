@@ -56,7 +56,7 @@ before_install:
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then
       brew update;
       brew upgrade cmake;
-      brew install bash libogg libvorbis glew openal-soft sdl2 sdl2_image sdl2_ttf freetype harfbuzz fribidi glib gtk-doc;;
+      brew install bash libogg libvorbis glew openal-soft sdl2 sdl2_image sdl2_ttf freetype harfbuzz fribidi glib gtk-doc;
     fi
 
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then
