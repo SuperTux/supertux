@@ -33,6 +33,7 @@ public:
   virtual void draw_gradient(const DrawingRequest& request) override;
   virtual void draw_filled_rect(const DrawingRequest& request) override;
   virtual void draw_inverse_ellipse(const DrawingRequest& request) override;
+  virtual void draw_text(const DrawingRequest& request) override;
   virtual void draw_line(const DrawingRequest& request) override;
   virtual void draw_triangle(const DrawingRequest& request) override;
 

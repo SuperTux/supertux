@@ -28,6 +28,7 @@
 #include "video/gl/gl_texture.hpp"
 #include "video/gl/gl_vertex_arrays.hpp"
 #include "video/gl/gl_video_system.hpp"
+#include "video/surface.hpp"
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
@@ -446,6 +447,76 @@ GLPainter::draw_inverse_ellipse(const DrawingRequest& request)
   context.draw_arrays(GL_TRIANGLES, 0, points);
 
   assert_gl("");
+}
+
+void
+GLPainter::draw_text(const DrawingRequest& request)
+{
+  const auto& data = static_cast<const TextRequest&>(request);
+
+  auto font = data.font->get_ttf_font();
+  int line_height = static_cast<int>(data.font->get_height());
+  int shadow_size = static_cast<int>(data.font->get_shadow_size());
+
+  int last_pos = 0;
+  int last_y = static_cast<int>(data.pos.y);
+  for(size_t i = 0; i < data.text.length(); i++)
+  {
+    if(data.text[i] != '\n' /* new line */ && i != data.text.length() - 1 /* end of string */)
+    {
+      continue;
+    }
+    std::string str;
+    if(data.text[i] == '\n')
+      str = data.text.substr(last_pos, i - last_pos);
+    else
+      str = data.text.substr(last_pos, i + 1);
+
+    last_pos = static_cast<int>(i + 1);
+
+    auto texture = TextureManager::current()->get(font, str, data.color);
+    auto gltexture = std::dynamic_pointer_cast<GLTexture>(texture);
+    auto surface = Surface::from_texture(texture);
+
+    int last_x = static_cast<int>(data.pos.x);
+    if(data.alignment == ALIGN_CENTER)
+      last_x -= surface->get_width() / 2;
+    else if(data.alignment == ALIGN_RIGHT)
+      last_x -= surface->get_width();
+
+    GLuint th = gltexture->get_handle();
+    if (th != s_last_texture) {
+      s_last_texture = th;
+      glBindTexture(GL_TEXTURE_2D, th);
+    }
+
+    intern_draw(last_x + shadow_size, last_y + shadow_size,
+                last_x + shadow_size + surface->get_width(),
+                last_y + shadow_size + surface->get_height(),
+                0,
+                0,
+                1,
+                1,
+                request.angle,
+                request.alpha,
+                Color(0, 0, 0, 0.45f),
+                request.blend,
+                request.drawing_effect);
+
+    intern_draw(last_x, last_y,
+                last_x + surface->get_width(),
+                last_y + surface->get_height(),
+                0,
+                0,
+                1,
+                1,
+                request.angle,
+                request.alpha,
+                data.color,
+                request.blend,
+                request.drawing_effect);
+    last_y += line_height;
+  }
 }
 
 void

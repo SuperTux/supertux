@@ -344,6 +344,78 @@ SDLPainter::draw_inverse_ellipse(const DrawingRequest& request)
 }
 
 void
+SDLPainter::draw_text(const DrawingRequest& request)
+{
+  const auto& data = static_cast<const TextRequest&>(request);
+
+  auto font = data.font->get_ttf_font();
+  int line_height = static_cast<int>(data.font->get_height());
+  int shadow_size = static_cast<int>(data.font->get_shadow_size());
+
+  // 2 pixel shadow looks "weird" on the menu items, but only in SDL renderer
+  if(shadow_size > 1)
+    shadow_size -= 1;
+
+  int last_pos = 0;
+  int last_y = static_cast<int>(data.pos.y);
+  for(size_t i = 0; i < data.text.length(); i++)
+  {
+    if(data.text[i] != '\n' /* new line */ && i != data.text.length() - 1 /* end of string */)
+    {
+      continue;
+    }
+    std::string str;
+    if(data.text[i] == '\n')
+      str = data.text.substr(last_pos, i - last_pos);
+    else
+      str = data.text.substr(last_pos, i + 1);
+
+    last_pos = static_cast<int>(i + 1);
+
+    auto texture = std::dynamic_pointer_cast<SDLTexture>(
+      TextureManager::current()->get(font, str, data.color));
+
+    SDL_Rect dst_rect;
+    dst_rect.x = static_cast<int>(data.pos.x);
+    dst_rect.y = last_y;
+    dst_rect.w = texture->get_texture_width();
+    dst_rect.h = texture->get_texture_height();
+
+    if(data.alignment == ALIGN_CENTER)
+      dst_rect.x -= texture->get_texture_width() / 2;
+    else if(data.alignment == ALIGN_RIGHT)
+      dst_rect.x -= texture->get_texture_width();
+
+    SDL_Rect dst_shadow_rect = dst_rect;
+    dst_shadow_rect.x += shadow_size;
+    dst_shadow_rect.y += shadow_size;
+    dst_shadow_rect.w += shadow_size;
+    dst_shadow_rect.h += shadow_size;
+
+    SDL_RendererFlip flip = SDL_FLIP_NONE;
+    if (request.drawing_effect & HORIZONTAL_FLIP)
+    {
+      flip = static_cast<SDL_RendererFlip>(flip | SDL_FLIP_HORIZONTAL);
+    }
+
+    if (request.drawing_effect & VERTICAL_FLIP)
+    {
+      flip = static_cast<SDL_RendererFlip>(flip | SDL_FLIP_VERTICAL);
+    }
+
+    SDL_SetTextureColorMod(texture->get_texture(), 0, 0, 0);
+    SDL_SetTextureAlphaMod(texture->get_texture(), static_cast<Uint8>(request.alpha * 0.45 * 255));
+    SDL_RenderCopyEx(m_renderer, texture->get_texture(), NULL, &dst_shadow_rect, request.angle, NULL, flip);
+
+    SDL_SetTextureColorMod(texture->get_texture(), 255, 255, 255);
+    SDL_SetTextureAlphaMod(texture->get_texture(), static_cast<Uint8>(request.alpha * 255));
+    SDL_RenderCopyEx(m_renderer, texture->get_texture(), NULL, &dst_rect, request.angle, NULL, flip);
+
+    last_y += line_height;
+  }
+}
+
+void
 SDLPainter::draw_line(const DrawingRequest& request)
 {
   const auto& data = static_cast<const LineRequest&>(request);

@@ -104,11 +104,7 @@ Canvas::render(VideoSystem& video_system, Filter filter)
         break;
 
       case TEXT:
-        {
-          const auto& text_request = static_cast<const TextRequest&>(request);
-          text_request.font->draw(painter, text_request.text, text_request.pos,
-                                  text_request.alignment, request.drawing_effect, text_request.color, request.alpha);
-        }
+        painter.draw_text(request);
         break;
 
       case FILLRECT:

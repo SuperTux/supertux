@@ -44,6 +44,7 @@ public:
   void draw_gradient(const DrawingRequest& request);
   void draw_filled_rect(const DrawingRequest& request);
   void draw_inverse_ellipse(const DrawingRequest& request);
+  void draw_text(const DrawingRequest& request);
   void draw_line(const DrawingRequest& request);
   void draw_triangle(const DrawingRequest& request);
 
