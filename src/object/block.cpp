@@ -37,7 +37,7 @@ static const float BOUNCY_BRICK_SPEED = 90;
 static const float BUMP_ROTATION_ANGLE = 10;
 
 Block::Block(SpritePtr newsprite) :
-  sprite(newsprite),
+  sprite(std::move(newsprite)),
   sprite_name(),
   default_sprite_name(),
   bouncing(false),

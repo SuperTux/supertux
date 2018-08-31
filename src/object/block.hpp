@@ -17,6 +17,7 @@
 #ifndef HEADER_SUPERTUX_OBJECT_BLOCK_HPP
 #define HEADER_SUPERTUX_OBJECT_BLOCK_HPP
 
+#include "sprite/sprite.hpp"
 #include "sprite/sprite_ptr.hpp"
 #include "supertux/moving_object.hpp"
 
