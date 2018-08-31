@@ -44,10 +44,10 @@ Resources::Resources()
   MouseCursor::set_current(mouse_cursor.get());
 
     // Load global images:
-  fixed_font.reset(new Font("../data/fonts/ttf/FreeMono.ttf", 18));
-  normal_font.reset(new Font("../data/fonts/ttf/FreeSansBold.ttf", 18));
-  small_font.reset(new Font("../data/fonts/ttf/FreeSans.ttf", 10, 1));
-  big_font.reset(new Font("../data/fonts/ttf/FreeSansBold.ttf", 25, 3));
+  fixed_font.reset(new Font("fonts/ttf/FreeMono.ttf", 18));
+  normal_font.reset(new Font("fonts/ttf/FreeSansBold.ttf", 18));
+  small_font.reset(new Font("fonts/ttf/FreeSans.ttf", 10, 1));
+  big_font.reset(new Font("fonts/ttf/FreeSansBold.ttf", 25, 3));
 
   /* Load menu images */
   checkbox = Surface::from_file("images/engine/menu/checkbox-unchecked.png");

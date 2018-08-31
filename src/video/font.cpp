@@ -97,7 +97,9 @@ Font::Font(const std::string& filename,
   fontsize(font_size),
   ttf_font()
 {
-  ttf_font = TTF_OpenFont(filename.c_str(), font_size);
+  std::string directory = PHYSFS_getRealDir(filename.c_str());
+  std::string full_path = FileSystem::join(directory, filename);
+  ttf_font = TTF_OpenFont(full_path.c_str(), font_size);
   if(ttf_font == nullptr)
   {
     log_debug << "Couldn't open font " << filename << "." << std::endl;

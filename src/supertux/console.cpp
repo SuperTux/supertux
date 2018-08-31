@@ -116,7 +116,7 @@ Console::Console(ConsoleBuffer& buffer) :
   m_alpha(1.0),
   m_offset(0),
   m_focused(false),
-  m_font(new Font("../data/fonts/ttf/FreeMono.ttf", 10, 0)),
+  m_font(new Font("fonts/ttf/FreeMono.ttf", 10, 0)),
   m_stayOpen(0)
 {
   buffer.set_console(this);
