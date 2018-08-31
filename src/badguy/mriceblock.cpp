@@ -19,8 +19,10 @@
 #include <math.h>
 
 #include "audio/sound_manager.hpp"
+#include "math/random_generator.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/sector.hpp"
 
 namespace {
 const float KICKSPEED = 500;
@@ -210,7 +212,20 @@ MrIceBlock::collision_squished(GameObject& object)
       break;
   }
 
-  if (player) player->bounce(*this);
+  if (player)
+  {
+    player->bounce(*this); 
+    printf("Testing\n");
+    Sector *sector = Sector::current();
+    Vector pos = get_pos();
+    float red = graphicsRandom.randf(0.6f, 1.0f);
+    float green = graphicsRandom.randf(0.6f, 1.0f);
+    float blue = graphicsRandom.randf(0.6f, 1.0f);
+    sector->add_object(std::make_shared<Particles>(pos, -60, 60, 200, 200,
+                                                   Vector(0, 0), 45, Color(red, green, blue), 3, 5.0f,
+                                                   LAYER_FOREGROUND1+1, 600.0f, 200.0f)); 
+
+  }
   return true;
 }
 

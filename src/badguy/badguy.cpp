@@ -482,8 +482,6 @@ BadGuy::kill_squished(GameObject& object)
     // particles code, as seen in fireworks.cpp
     Sector *sector = Sector::current();
     Vector pos = get_pos();
-    //pos += Vector(graphicsRandom.randf(static_cast<float>(SCREEN_WIDTH)),
-    //              graphicsRandom.randf(static_cast<float>(SCREEN_HEIGHT) / 2.0f));
     float red = graphicsRandom.randf(0.6f, 1.0f);
     float green = graphicsRandom.randf(0.6f, 1.0f);
     float blue = graphicsRandom.randf(0.6f, 1.0f);

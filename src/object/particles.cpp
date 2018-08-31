@@ -148,9 +148,14 @@ Particles::update(float elapsed_time)
 void
 Particles::draw(DrawingContext& context)
 {
+  float particle_size = 1.0f / timer.get_timegone();
+  if(particle_size > size)
+  {
+    particle_size = size;
+  }
   // draw particles
   for(auto& particle : particles) {
-    context.color().draw_filled_rect(particle->pos, Vector(size,size), color, drawing_layer);
+    context.color().draw_filled_rect(particle->pos, Vector(particle_size, particle_size), color, drawing_layer);
   }
 }
 
