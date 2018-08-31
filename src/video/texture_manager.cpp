@@ -219,11 +219,7 @@ TexturePtr
 TextureManager::create_text_texture(TTF_Font* font, const std::string& text,
                                     const Color& color)
 {
-  Uint8 r = static_cast<Uint8>(color.red * 255);
-  Uint8 g = static_cast<Uint8>(color.green * 255);
-  Uint8 b = static_cast<Uint8>(color.blue * 255);
-  Uint8 a = static_cast<Uint8>(color.alpha * 255);
-  SDLSurfacePtr image(TTF_RenderUTF8_Blended(font, text.c_str(), {r, g, b, a}));
+  SDLSurfacePtr image(TTF_RenderUTF8_Blended(font, text.c_str(), color.to_sdl_color()));
   if (!image)
   {
     std::ostringstream msg;
