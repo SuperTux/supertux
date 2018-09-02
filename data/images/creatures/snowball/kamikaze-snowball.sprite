@@ -1,12 +1,12 @@
 (supertux-sprite
   (action
     (name "left")
-    (hitbox 0 0 37 28)
+    (hitbox 1 1 36 26)
     (images "kamikaze-left.png")
   )
   (action
     (name "right")
-    (hitbox 0 0 37 28)
+    (hitbox 1 1 36 26)
     (mirror-action "left")
   )
   (action
