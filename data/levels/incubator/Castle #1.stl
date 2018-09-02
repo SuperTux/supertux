@@ -329,11 +329,6 @@
       (x 9227)
       (y 1864)
     )
-    (powerup
-      (sprite "images/powerups/egg/egg.sprite")
-      (x 5440)
-      (y 672)
-    )
     (kamikazesnowball
       (direction "left")
       (x 2560)
@@ -378,6 +373,11 @@
       (direction "left")
       (x 3328)
       (y 1376)
+    )
+    (powerup
+      (sprite "images/powerups/egg/egg.sprite")
+      (x 5440)
+      (y 672)
     )
     (spawnpoint
       (name "main")
