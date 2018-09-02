@@ -165,13 +165,13 @@ LevelIntro::draw(Compositor& compositor)
   }
 
   draw_stats_line(context, py, _("Coins"),
-                  Statistics::coins_to_string((best_level_statistics && (best_level_statistics->coins >= 0)) ? best_level_statistics->coins : 0, stats.total_coins));
+                  Statistics::coins_to_string(std::max(best_level_statistics->coins, 0), stats.total_coins));
   draw_stats_line(context, py, _("Badguys killed"),
-                  Statistics::frags_to_string((best_level_statistics && (best_level_statistics->coins >= 0)) ? best_level_statistics->badguys : 0, stats.total_badguys));
+                  Statistics::frags_to_string(std::max(best_level_statistics->badguys, 0), stats.total_badguys));
   draw_stats_line(context, py, _("Secrets"),
-                  Statistics::secrets_to_string((best_level_statistics && (best_level_statistics->coins >= 0)) ? best_level_statistics->secrets : 0, stats.total_secrets));
+                  Statistics::secrets_to_string(std::max(best_level_statistics->secrets, 0), stats.total_secrets));
   draw_stats_line(context, py, _("Best time"),
-                  Statistics::time_to_string((best_level_statistics && (best_level_statistics->coins >= 0)) ? best_level_statistics->time : 0));
+                  Statistics::time_to_string(std::max(best_level_statistics->time, 0.0f)));
   if (level->m_target_time != 0.0f) {
     draw_stats_line(context, py, _("Level target time"),
                   Statistics::time_to_string(level->m_target_time));
