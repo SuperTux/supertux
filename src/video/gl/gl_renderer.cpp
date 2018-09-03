@@ -39,10 +39,10 @@ GLRenderer::start_draw()
 {
   glDisable(GL_DEPTH_TEST);
   glDisable(GL_CULL_FACE);
-  glEnable(GL_TEXTURE_2D);
+  //glEnable(GL_TEXTURE_2D);
   glEnable(GL_BLEND);
-  glEnableClientState(GL_VERTEX_ARRAY);
-  glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+  //glEnableClientState(GL_VERTEX_ARRAY);
+  //glEnableClientState(GL_TEXTURE_COORD_ARRAY);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
   const Viewport& viewport = m_video_system.get_viewport();
@@ -50,19 +50,19 @@ GLRenderer::start_draw()
 
   glViewport(rect.left, rect.top, rect.get_width(), rect.get_height());
 
-  glMatrixMode(GL_PROJECTION);
-  glLoadIdentity();
+  // glMatrixMode(GL_PROJECTION);
+  // glLoadIdentity();
+  //
+  // glOrtho(0,
+  //         viewport.get_screen_width(),
+  //         viewport.get_screen_height(),
+  //         0,
+  //         -1,
+  //         1);
 
-  glOrtho(0,
-          viewport.get_screen_width(),
-          viewport.get_screen_height(),
-          0,
-          -1,
-          1);
-
-  glMatrixMode(GL_MODELVIEW);
-  glLoadIdentity();
-  glTranslatef(0, 0, 0);
+  //glMatrixMode(GL_MODELVIEW);
+  //glLoadIdentity();
+  //glTranslatef(0, 0, 0);
   assert_gl("Setting up view matrices");
 
   // clear the screen to get rid of lightmap remains

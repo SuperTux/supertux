@@ -115,6 +115,8 @@ GLPainter::GLPainter(GLVideoSystem& video_system) :
 void
 GLPainter::draw_texture(const DrawingRequest& request)
 {
+#if FIXME_OPENGL33
+  assert_gl("");
   const auto& data = static_cast<const TextureRequest&>(request);
   const auto& texture = static_cast<const GLTexture&>(*data.texture);
 
@@ -140,11 +142,15 @@ GLPainter::draw_texture(const DrawingRequest& request)
               data.color,
               request.blend,
               request.drawing_effect);
+  assert_gl("");
+#endif
 }
 
 void
 GLPainter::draw_texture_batch(const DrawingRequest& request)
 {
+#if FIXME_OPENGL33
+  assert_gl("");
   const auto& data = static_cast<const TextureBatchRequest&>(request);
   const auto& texture = static_cast<const GLTexture&>(*data.texture);
 
@@ -213,11 +219,15 @@ GLPainter::draw_texture_batch(const DrawingRequest& request)
   // FIXME: find a better way to restore the blend mode
   glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+  assert_gl("");
+#endif
 }
 
 void
 GLPainter::draw_gradient(const DrawingRequest& request)
 {
+#if FIXME_OPENGL33
+  assert_gl("");
   const auto& data = static_cast<const GradientRequest&>(request);
 
   const Color& top = data.top;
@@ -265,11 +275,15 @@ GLPainter::draw_gradient(const DrawingRequest& request)
 
   glEnable(GL_TEXTURE_2D);
   glColor4f(1, 1, 1, 1);
+  assert_gl("");
+#endif
 }
 
 void
 GLPainter::draw_filled_rect(const DrawingRequest& request)
 {
+#if FIXME_OPENGL33
+  assert_gl("");
   const auto& data = static_cast<const FillRectRequest&>(request);
 
   glDisable(GL_TEXTURE_2D);
@@ -344,11 +358,14 @@ GLPainter::draw_filled_rect(const DrawingRequest& request)
   glEnableClientState(GL_TEXTURE_COORD_ARRAY);
   glEnable(GL_TEXTURE_2D);
   glColor4f(1, 1, 1, 1);
+  assert_gl("");
+#endif
 }
 
 void
 GLPainter::draw_inverse_ellipse(const DrawingRequest& request)
 {
+  assert_gl("");
   const auto& data = static_cast<const InverseEllipseRequest&>(request);
 
   glDisable(GL_TEXTURE_2D);
@@ -428,11 +445,13 @@ GLPainter::draw_inverse_ellipse(const DrawingRequest& request)
 
   glEnable(GL_TEXTURE_2D);
   glColor4f(1, 1, 1, 1);
+  assert_gl("");
 }
 
 void
 GLPainter::draw_line(const DrawingRequest& request)
 {
+  assert_gl("");
   const auto& data = static_cast<const LineRequest&>(request);
 
   glDisable(GL_TEXTURE_2D);
@@ -455,11 +474,13 @@ GLPainter::draw_line(const DrawingRequest& request)
   glEnableClientState(GL_TEXTURE_COORD_ARRAY);
   glEnable(GL_TEXTURE_2D);
   glColor4f(1, 1, 1, 1);
+  assert_gl("");
 }
 
 void
 GLPainter::draw_triangle(const DrawingRequest& request)
 {
+  assert_gl("");
   const auto& data = static_cast<const TriangleRequest&>(request);
 
   glDisable(GL_TEXTURE_2D);
@@ -485,6 +506,7 @@ GLPainter::draw_triangle(const DrawingRequest& request)
   glEnableClientState(GL_TEXTURE_COORD_ARRAY);
   glEnable(GL_TEXTURE_2D);
   glColor4f(1, 1, 1, 1);
+  assert_gl("");
 }
 
 /* EOF */
