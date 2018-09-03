@@ -28,6 +28,9 @@ using namespace gl;
 #include "SDL_opengl.h"
 #endif
 
+#include "video/drawing_effect.hpp"
+
+class Blend;
 class GLVideoSystem;
 struct DrawingRequest;
 
@@ -49,6 +52,15 @@ public:
   void draw_inverse_ellipse(const DrawingRequest& request);
   void draw_line(const DrawingRequest& request);
   void draw_triangle(const DrawingRequest& request);
+
+private:
+  inline void intern_draw(float left, float top, float right, float bottom,
+                          float uv_left, float uv_top,
+                          float uv_right, float uv_bottom,
+                          float angle, float alpha,
+                          const Color& color,
+                          const Blend& blend,
+                          const DrawingEffect& effect);
 
 private:
   GLPainter(const GLPainter&) = delete;

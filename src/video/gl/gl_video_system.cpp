@@ -28,6 +28,7 @@
 #include "supertux/globals.hpp"
 #include "util/log.hpp"
 #include "video/gl/gl_lightmap.hpp"
+#include "video/gl/gl_program.hpp"
 #include "video/gl/gl_renderer.hpp"
 #include "video/gl/gl_texture.hpp"
 
@@ -35,6 +36,7 @@ GLVideoSystem::GLVideoSystem() :
   m_texture_manager(),
   m_renderer(),
   m_lightmap(),
+  m_program(),
   m_window(),
   m_glcontext(),
   m_desktop_size(),
@@ -48,8 +50,14 @@ GLVideoSystem::GLVideoSystem() :
 
   m_texture_manager.reset(new TextureManager);
   m_renderer.reset(new GLRenderer(*this));
+  m_program.reset(new GLProgram);
 
   apply_config();
+
+  // FIXME: In OpenGL3.3Core VAO are mandatory, this hack creates one
+  GLuint vao;
+  glGenVertexArrays(1, &vao);
+  glBindVertexArray(vao);
 }
 
 GLVideoSystem::~GLVideoSystem()

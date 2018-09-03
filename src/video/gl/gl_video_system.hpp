@@ -26,6 +26,7 @@
 
 class GLRenderer;
 class GLLightmap;
+class GLProgram;
 class Rect;
 class TextureManager;
 struct SDL_Surface;
@@ -54,6 +55,8 @@ public:
 
   Size get_window_size() const;
 
+  GLProgram& get_program() const { return *m_program; }
+
 private:
   void create_window();
   void apply_video_mode();
@@ -62,6 +65,7 @@ private:
   std::unique_ptr<TextureManager> m_texture_manager;
   std::unique_ptr<GLRenderer> m_renderer;
   std::unique_ptr<GLLightmap> m_lightmap;
+  std::unique_ptr<GLProgram> m_program;
 
   SDL_Window* m_window;
   SDL_GLContext m_glcontext;

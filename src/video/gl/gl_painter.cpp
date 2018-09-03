@@ -16,12 +16,14 @@
 
 #include "video/gl/gl_painter.hpp"
 
+#include <iostream>
 #include <algorithm>
 #include <math.h>
 
 #include "math/util.hpp"
 #include "supertux/globals.hpp"
 #include "video/drawing_request.hpp"
+#include "video/gl/gl_program.hpp"
 #include "video/gl/gl_texture.hpp"
 #include "video/gl/gl_video_system.hpp"
 #include "video/video_system.hpp"
@@ -29,16 +31,21 @@
 
 GLuint GLPainter::s_last_texture = static_cast<GLuint>(-1);
 
-namespace {
-
-inline void intern_draw(float left, float top, float right, float bottom,
-                        float uv_left, float uv_top,
-                        float uv_right, float uv_bottom,
-                        float angle, float alpha,
-                        const Color& color,
-                        const Blend& blend,
-                        DrawingEffect effect)
+void
+GLPainter::intern_draw(float left, float top, float right, float bottom,
+                       float uv_left, float uv_top,
+                       float uv_right, float uv_bottom,
+                       float angle, float alpha,
+                       const Color& color,
+                       const Blend& blend,
+                       const DrawingEffect& effect)
 {
+  GLint position_loc = m_video_system.get_program().get_attrib_location("position");
+  std::cout << "pos: " << position_loc << std::endl;
+
+  GLint texcoord_loc = m_video_system.get_program().get_attrib_location("texcoord");
+  std::cout << "tex: " << texcoord_loc << std::endl;
+
   if(effect & HORIZONTAL_FLIP)
     std::swap(uv_left, uv_right);
 
@@ -46,7 +53,7 @@ inline void intern_draw(float left, float top, float right, float bottom,
     std::swap(uv_top, uv_bottom);
 
   glBlendFunc(blend.sfactor, blend.dfactor);
-  glColor4f(color.red, color.green, color.blue, color.alpha * alpha);
+  //glColor4f(color.red, color.green, color.blue, color.alpha * alpha);
 
   // unrotated blit
   if (angle == 0.0f) {
@@ -56,7 +63,8 @@ inline void intern_draw(float left, float top, float right, float bottom,
       right, bottom,
       left, bottom,
     };
-    glVertexPointer(2, GL_FLOAT, 0, vertices);
+    //glVertexPointer(2, GL_FLOAT, 0, vertices);
+    glVertexAttribPointer(position_loc, 4, GL_FLOAT, GL_FALSE, 0, vertices);
 
     float uvs[] = {
       uv_left, uv_top,
@@ -64,7 +72,8 @@ inline void intern_draw(float left, float top, float right, float bottom,
       uv_right, uv_bottom,
       uv_left, uv_bottom,
     };
-    glTexCoordPointer(2, GL_FLOAT, 0, uvs);
+    //glTexCoordPointer(2, GL_FLOAT, 0, uvs);
+    glVertexAttribPointer(texcoord_loc, 4, GL_FLOAT, GL_FALSE, 0, uvs);
 
     glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
   } else {
@@ -87,7 +96,8 @@ inline void intern_draw(float left, float top, float right, float bottom,
       right*ca - bottom*sa + center_x, right*sa + bottom*ca + center_y,
       left*ca - bottom*sa + center_x, left*sa + bottom*ca + center_y
     };
-    glVertexPointer(2, GL_FLOAT, 0, vertices);
+    //glVertexPointer(2, GL_FLOAT, 0, vertices);
+    glVertexAttribPointer(position_loc, 4, GL_FLOAT, GL_FALSE, 0, vertices);
 
     float uvs[] = {
       uv_left, uv_top,
@@ -95,17 +105,16 @@ inline void intern_draw(float left, float top, float right, float bottom,
       uv_right, uv_bottom,
       uv_left, uv_bottom,
     };
-    glTexCoordPointer(2, GL_FLOAT, 0, uvs);
+    //glTexCoordPointer(2, GL_FLOAT, 0, uvs);
+    glVertexAttribPointer(texcoord_loc, 4, GL_FLOAT, GL_FALSE, 0, uvs);
 
     glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
   }
 
   // FIXME: find a better way to restore the blend mode
-  glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+  //glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
-
-} // namespace
 
 GLPainter::GLPainter(GLVideoSystem& video_system) :
   m_video_system(video_system)
@@ -115,7 +124,6 @@ GLPainter::GLPainter(GLVideoSystem& video_system) :
 void
 GLPainter::draw_texture(const DrawingRequest& request)
 {
-#if FIXME_OPENGL33
   assert_gl("");
   const auto& data = static_cast<const TextureRequest&>(request);
   const auto& texture = static_cast<const GLTexture&>(*data.texture);
@@ -143,7 +151,6 @@ GLPainter::draw_texture(const DrawingRequest& request)
               request.blend,
               request.drawing_effect);
   assert_gl("");
-#endif
 }
 
 void
