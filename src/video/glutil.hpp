@@ -52,12 +52,13 @@ using namespace gl;
 #  define glOrtho glOrthof
 #endif
 
-static inline void check_gl_error(const char* message)
+static inline void check_gl_error(const char* filename, int line, const char* message)
 {
   GLenum error = glGetError();
   if(error != GL_NO_ERROR) {
     std::ostringstream msg;
-    msg << "OpenGLError while '" << message << "': ";
+    msg << filename << ":" << line << ": "
+        << "OpenGLError while '" << message << "': ";
     switch(error) {
       case GL_INVALID_ENUM:
         msg << "INVALID_ENUM: An unacceptable value is specified for an "
@@ -93,10 +94,7 @@ static inline void check_gl_error(const char* message)
   }
 }
 
-static inline void assert_gl(const char* message)
-{
-  check_gl_error(message);
-}
+#define assert_gl(message) check_gl_error(__FILE__, __LINE__, message)
 
 #else
 

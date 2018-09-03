@@ -169,7 +169,7 @@ GLVideoSystem::create_window()
     if (GLEW_OK != err)
     {
       std::ostringstream out;
-      out << "GLRenderer: " << glewGetErrorString(err);
+      out << "GLRenderer: GlewError: " << glewGetErrorString(err);
       throw std::runtime_error(out.str());
     }
 
