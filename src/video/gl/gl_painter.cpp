@@ -388,6 +388,7 @@ GLPainter::draw_filled_rect(const DrawingRequest& request)
 void
 GLPainter::draw_inverse_ellipse(const DrawingRequest& request)
 {
+#if FIXME_OPENGL33
   assert_gl("");
   const auto& data = static_cast<const InverseEllipseRequest&>(request);
 
@@ -469,11 +470,13 @@ GLPainter::draw_inverse_ellipse(const DrawingRequest& request)
   glEnable(GL_TEXTURE_2D);
   glColor4f(1, 1, 1, 1);
   assert_gl("");
+#endif
 }
 
 void
 GLPainter::draw_line(const DrawingRequest& request)
 {
+#if FIXME_OPENGL33
   assert_gl("");
   const auto& data = static_cast<const LineRequest&>(request);
 
@@ -498,11 +501,13 @@ GLPainter::draw_line(const DrawingRequest& request)
   glEnable(GL_TEXTURE_2D);
   glColor4f(1, 1, 1, 1);
   assert_gl("");
+#endif
 }
 
 void
 GLPainter::draw_triangle(const DrawingRequest& request)
 {
+#if FIXME_OPENGL33
   assert_gl("");
   const auto& data = static_cast<const TriangleRequest&>(request);
 
@@ -530,6 +535,7 @@ GLPainter::draw_triangle(const DrawingRequest& request)
   glEnable(GL_TEXTURE_2D);
   glColor4f(1, 1, 1, 1);
   assert_gl("");
+#endif
 }
 
 /* EOF */
