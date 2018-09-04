@@ -110,10 +110,6 @@ GLPainter::intern_draw(float left, float top, float right, float bottom,
 
     glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
   }
-
-  // FIXME: find a better way to restore the blend mode
-  //glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 GLPainter::GLPainter(GLVideoSystem& video_system) :
@@ -216,10 +212,6 @@ GLPainter::draw_texture_batch(const DrawingRequest& request)
   // glColor4f(data.color.red, data.color.green, data.color.blue, data.color.alpha * request.alpha);
 
   glDrawArrays(GL_TRIANGLES, 0, static_cast<GLsizei>(data.srcrects.size() * 2 * 3));
-
-  // FIXME: find a better way to restore the blend mode
-  //glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   assert_gl("");
 }
 
@@ -278,11 +270,6 @@ GLPainter::draw_gradient(const DrawingRequest& request)
 
   glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 
-  //glDisableClientState(GL_COLOR_ARRAY);
-  //glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-
-  //glEnable(GL_TEXTURE_2D);
-  //glColor4f(1, 1, 1, 1);
   assert_gl("");
 }
 
@@ -373,9 +360,6 @@ GLPainter::draw_filled_rect(const DrawingRequest& request)
     glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
   }
 
-  //glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-  //glEnable(GL_TEXTURE_2D);
-  //glColor4f(1, 1, 1, 1);
   assert_gl("");
 }
 
@@ -466,10 +450,6 @@ GLPainter::draw_inverse_ellipse(const DrawingRequest& request)
 
   glDrawArrays(GL_TRIANGLES, 0, points);
 
-  //glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-
-  //glEnable(GL_TEXTURE_2D);
-  //glColor4f(1, 1, 1, 1);
   assert_gl("");
 }
 
@@ -521,9 +501,6 @@ GLPainter::draw_line(const DrawingRequest& request)
   vertex_arrays.set_positions(vertices, sizeof(vertices));
   glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
-  //glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-  //glEnable(GL_TEXTURE_2D);
-  //glColor4f(1, 1, 1, 1);
   assert_gl("");
 }
 
@@ -561,9 +538,7 @@ GLPainter::draw_triangle(const DrawingRequest& request)
   vertex_arrays.set_positions(vertices, sizeof(vertices));
 
   glDrawArrays(GL_TRIANGLES, 0, 3);
-  //glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-  //glEnable(GL_TEXTURE_2D);
-  //glColor4f(1, 1, 1, 1);
+
   assert_gl("");
 }
 
