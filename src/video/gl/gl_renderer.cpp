@@ -68,6 +68,19 @@ GLRenderer::start_draw()
   //         0,
   //         -1,
   //         1);
+  const float sx = 2.0f / static_cast<float>(viewport.get_screen_width());
+  const float sy = -2.0f / static_cast<float>(viewport.get_screen_height());
+
+  const float tx = -1.0f;
+  const float ty = 1.0f;
+
+  const float mvp_matrix[] = {
+    sx, 0, tx,
+    0, sy, ty,
+    0, 0, 1
+  };
+  const GLint mvp_loc = program.get_uniform_location("modelviewprojection");
+  glUniformMatrix3fv(mvp_loc, 1, false, mvp_matrix);
 
   //glMatrixMode(GL_MODELVIEW);
   //glLoadIdentity();
