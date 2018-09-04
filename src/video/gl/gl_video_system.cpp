@@ -31,7 +31,7 @@
 #include "video/gl/gl_program.hpp"
 #include "video/gl/gl_renderer.hpp"
 #include "video/gl/gl_texture.hpp"
-#include "video/gl/gl_vertices.hpp"
+#include "video/gl/gl_vertex_arrays.hpp"
 
 GLVideoSystem::GLVideoSystem() :
   m_texture_manager(),
@@ -53,7 +53,7 @@ GLVideoSystem::GLVideoSystem() :
   m_texture_manager.reset(new TextureManager);
   m_renderer.reset(new GLRenderer(*this));
   m_program.reset(new GLProgram);
-  m_vertex_arrays.reset(new GLVertices(*this));
+  m_vertex_arrays.reset(new GLVertexArrays(*this));
 
   apply_config();
 }

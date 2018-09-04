@@ -14,12 +14,12 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "video/gl/gl_vertices.hpp"
+#include "video/gl/gl_vertex_arrays.hpp"
 
 #include "video/gl/gl_program.hpp"
 #include "video/gl/gl_video_system.hpp"
 
-GLVertices::GLVertices(GLVideoSystem& video_system) :
+GLVertexArrays::GLVertexArrays(GLVideoSystem& video_system) :
   m_video_system(video_system),
   m_vao(),
   m_element_count(),
@@ -33,7 +33,7 @@ GLVertices::GLVertices(GLVideoSystem& video_system) :
   assert_gl("");
 }
 
-GLVertices::~GLVertices()
+GLVertexArrays::~GLVertexArrays()
 {
   glDeleteBuffers(1, &m_positions_buffer);
   glDeleteBuffers(1, &m_texcoords_buffer);
@@ -41,13 +41,13 @@ GLVertices::~GLVertices()
 }
 
 void
-GLVertices::set_element_count(int n)
+GLVertexArrays::set_element_count(int n)
 {
   m_element_count = n;
 }
 
 void
-GLVertices::bind()
+GLVertexArrays::bind()
 {
   assert_gl("");
   glBindVertexArray(m_vao);
@@ -55,7 +55,7 @@ GLVertices::bind()
 }
 
 void
-GLVertices::set_positions(const float* data, size_t size)
+GLVertexArrays::set_positions(const float* data, size_t size)
 {
   assert_gl("");
   glBindBuffer(GL_ARRAY_BUFFER, m_positions_buffer);
@@ -68,7 +68,7 @@ GLVertices::set_positions(const float* data, size_t size)
 }
 
 void
-GLVertices::set_texcoords(const float* data, size_t size)
+GLVertexArrays::set_texcoords(const float* data, size_t size)
 {
   assert_gl("");
   glBindBuffer(GL_ARRAY_BUFFER, m_texcoords_buffer);

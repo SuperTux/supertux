@@ -25,7 +25,7 @@
 #include "video/drawing_request.hpp"
 #include "video/gl/gl_program.hpp"
 #include "video/gl/gl_texture.hpp"
-#include "video/gl/gl_vertices.hpp"
+#include "video/gl/gl_vertex_arrays.hpp"
 #include "video/gl/gl_video_system.hpp"
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
@@ -42,7 +42,7 @@ GLPainter::intern_draw(float left, float top, float right, float bottom,
                        const DrawingEffect& effect)
 {
   GLProgram& program = m_video_system.get_program();
-  GLVertices& vertex_arrays = m_video_system.get_vertex_arrays();
+  GLVertexArrays& vertex_arrays = m_video_system.get_vertex_arrays();
 
   GLint diffuse_loc = program.get_uniform_location("diffuse");
 
@@ -161,7 +161,7 @@ void
 GLPainter::draw_texture_batch(const DrawingRequest& request)
 {
   GLProgram& program = m_video_system.get_program();
-  GLVertices& vertex_arrays = m_video_system.get_vertex_arrays();
+  GLVertexArrays& vertex_arrays = m_video_system.get_vertex_arrays();
   GLint diffuse_loc = program.get_uniform_location("diffuse");
 
   assert_gl("");

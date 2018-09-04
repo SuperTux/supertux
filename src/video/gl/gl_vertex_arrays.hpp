@@ -21,11 +21,11 @@
 
 class GLVideoSystem;
 
-class GLVertices
+class GLVertexArrays
 {
 public:
-  GLVertices(GLVideoSystem& video_system);
-  ~GLVertices();
+  GLVertexArrays(GLVideoSystem& video_system);
+  ~GLVertexArrays();
 
   void bind();
 
@@ -44,8 +44,8 @@ private:
   GLuint m_texcoords_buffer;
 
 private:
-  GLVertices(const GLVertices&) = delete;
-  GLVertices& operator=(const GLVertices&) = delete;
+  GLVertexArrays(const GLVertexArrays&) = delete;
+  GLVertexArrays& operator=(const GLVertexArrays&) = delete;
 };
 
 #endif
