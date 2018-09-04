@@ -23,7 +23,6 @@
 GLVertexArrays::GLVertexArrays(GLVideoSystem& video_system) :
   m_video_system(video_system),
   m_vao(),
-  m_element_count(),
   m_positions_buffer(),
   m_texcoords_buffer(),
   m_color_buffer()
@@ -42,12 +41,6 @@ GLVertexArrays::~GLVertexArrays()
   glDeleteBuffers(1, &m_texcoords_buffer);
   glDeleteBuffers(1, &m_color_buffer);
   glDeleteVertexArrays(1, &m_vao);
-}
-
-void
-GLVertexArrays::set_element_count(int n)
-{
-  m_element_count = n;
 }
 
 void

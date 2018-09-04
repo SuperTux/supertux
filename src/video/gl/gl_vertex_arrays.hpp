@@ -30,8 +30,6 @@ public:
 
   void bind();
 
-  void set_element_count(int n);
-
   void set_positions(const float* data, size_t size);
 
   /** size is in bytes */
@@ -45,7 +43,6 @@ public:
 private:
   GLVideoSystem& m_video_system;
   GLuint m_vao;
-  GLsizei m_element_count;
   GLuint m_positions_buffer;
   GLuint m_texcoords_buffer;
   GLuint m_color_buffer;
