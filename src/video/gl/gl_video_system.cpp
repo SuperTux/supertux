@@ -31,12 +31,14 @@
 #include "video/gl/gl_program.hpp"
 #include "video/gl/gl_renderer.hpp"
 #include "video/gl/gl_texture.hpp"
+#include "video/gl/gl_vertices.hpp"
 
 GLVideoSystem::GLVideoSystem() :
   m_texture_manager(),
   m_renderer(),
   m_lightmap(),
   m_program(),
+  m_vertex_arrays(),
   m_window(),
   m_glcontext(),
   m_desktop_size(),
@@ -51,13 +53,9 @@ GLVideoSystem::GLVideoSystem() :
   m_texture_manager.reset(new TextureManager);
   m_renderer.reset(new GLRenderer(*this));
   m_program.reset(new GLProgram);
+  m_vertex_arrays.reset(new GLVertices(*this));
 
   apply_config();
-
-  // FIXME: In OpenGL3.3Core VAO are mandatory, this hack creates one
-  GLuint vao;
-  glGenVertexArrays(1, &vao);
-  glBindVertexArray(vao);
 }
 
 GLVideoSystem::~GLVideoSystem()

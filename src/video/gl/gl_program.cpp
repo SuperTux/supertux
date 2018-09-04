@@ -54,6 +54,12 @@ GLProgram::~GLProgram()
   glDeleteProgram(m_program);
 }
 
+void
+GLProgram::bind()
+{
+  glUseProgram(m_program);
+}
+
 bool
 GLProgram::get_link_status() const
 {

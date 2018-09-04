@@ -17,6 +17,7 @@
 #ifndef HEADER_SUPERTUX_VIDEO_GL_GL_PROGRAM_HPP
 #define HEADER_SUPERTUX_VIDEO_GL_GL_PROGRAM_HPP
 
+#include <assert.h>
 #include <memory>
 
 #include "video/glutil.hpp"
@@ -28,9 +29,22 @@ public:
   GLProgram();
   ~GLProgram();
 
+  void bind();
+
+  GLuint get_handle() const { return m_program; }
+
   GLint get_attrib_location(const char* name)
   {
-    return glGetAttribLocation(m_program, name);
+    GLint loc = glGetAttribLocation(m_program, name);
+    assert(loc != -1);
+    return loc;
+  }
+
+  GLint get_uniform_location(const char* name)
+  {
+    GLint loc = glGetUniformLocation(m_program, name);
+    assert(loc != -1);
+    return loc;
   }
 
 private:

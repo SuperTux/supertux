@@ -21,6 +21,8 @@
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "util/log.hpp"
+#include "video/gl/gl_program.hpp"
+#include "video/gl/gl_vertices.hpp"
 #include "video/gl/gl_video_system.hpp"
 #include "video/glutil.hpp"
 
@@ -37,6 +39,13 @@ GLRenderer::~GLRenderer()
 void
 GLRenderer::start_draw()
 {
+  GLProgram& program = m_video_system.get_program();
+  GLVertices& vertex_arrays = m_video_system.get_vertex_arrays();
+  program.bind();
+  vertex_arrays.bind();
+
+  assert_gl("");
+
   glDisable(GL_DEPTH_TEST);
   glDisable(GL_CULL_FACE);
   //glEnable(GL_TEXTURE_2D);
@@ -68,6 +77,8 @@ GLRenderer::start_draw()
   // clear the screen to get rid of lightmap remains
   glClearColor(0, 0, 0, 1);
   glClear(GL_COLOR_BUFFER_BIT);
+
+  assert_gl("");
 }
 
 void

@@ -24,9 +24,10 @@
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
-class GLRenderer;
 class GLLightmap;
 class GLProgram;
+class GLRenderer;
+class GLVertices;
 class Rect;
 class TextureManager;
 struct SDL_Surface;
@@ -56,6 +57,7 @@ public:
   Size get_window_size() const;
 
   GLProgram& get_program() const { return *m_program; }
+  GLVertices& get_vertex_arrays() const { return *m_vertex_arrays; }
 
 private:
   void create_window();
@@ -66,6 +68,7 @@ private:
   std::unique_ptr<GLRenderer> m_renderer;
   std::unique_ptr<GLLightmap> m_lightmap;
   std::unique_ptr<GLProgram> m_program;
+  std::unique_ptr<GLVertices> m_vertex_arrays;
 
   SDL_Window* m_window;
   SDL_GLContext m_glcontext;

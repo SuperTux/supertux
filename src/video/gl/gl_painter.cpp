@@ -25,6 +25,7 @@
 #include "video/drawing_request.hpp"
 #include "video/gl/gl_program.hpp"
 #include "video/gl/gl_texture.hpp"
+#include "video/gl/gl_vertices.hpp"
 #include "video/gl/gl_video_system.hpp"
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
@@ -40,11 +41,17 @@ GLPainter::intern_draw(float left, float top, float right, float bottom,
                        const Blend& blend,
                        const DrawingEffect& effect)
 {
-  GLint position_loc = m_video_system.get_program().get_attrib_location("position");
+  GLProgram& program = m_video_system.get_program();
+  GLVertices& vertex_arrays = m_video_system.get_vertex_arrays();
+
+  GLint position_loc = program.get_attrib_location("position");
   std::cout << "pos: " << position_loc << std::endl;
 
-  GLint texcoord_loc = m_video_system.get_program().get_attrib_location("texcoord");
+  GLint texcoord_loc = program.get_attrib_location("texcoord");
   std::cout << "tex: " << texcoord_loc << std::endl;
+
+  GLint diffuse_loc = program.get_uniform_location("diffuse");
+  std::cout << "diffuse: " << diffuse_loc << std::endl;
 
   if(effect & HORIZONTAL_FLIP)
     std::swap(uv_left, uv_right);
@@ -54,6 +61,7 @@ GLPainter::intern_draw(float left, float top, float right, float bottom,
 
   glBlendFunc(blend.sfactor, blend.dfactor);
   //glColor4f(color.red, color.green, color.blue, color.alpha * alpha);
+  glUniform4f(diffuse_loc, color.red, color.green, color.blue, color.alpha * alpha);
 
   // unrotated blit
   if (angle == 0.0f) {
@@ -64,7 +72,8 @@ GLPainter::intern_draw(float left, float top, float right, float bottom,
       left, bottom,
     };
     //glVertexPointer(2, GL_FLOAT, 0, vertices);
-    glVertexAttribPointer(position_loc, 4, GL_FLOAT, GL_FALSE, 0, vertices);
+    //glVertexAttribPointer(position_loc, 4, GL_FLOAT, GL_FALSE, 0, vertices);
+    vertex_arrays.set_positions(vertices, sizeof(vertices));
 
     float uvs[] = {
       uv_left, uv_top,
@@ -73,7 +82,9 @@ GLPainter::intern_draw(float left, float top, float right, float bottom,
       uv_left, uv_bottom,
     };
     //glTexCoordPointer(2, GL_FLOAT, 0, uvs);
-    glVertexAttribPointer(texcoord_loc, 4, GL_FLOAT, GL_FALSE, 0, uvs);
+    vertex_arrays.set_texcoords(uvs, sizeof(uvs));
+
+    //vertex_arrays.set_element_count();
 
     glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
   } else {
@@ -97,7 +108,7 @@ GLPainter::intern_draw(float left, float top, float right, float bottom,
       left*ca - bottom*sa + center_x, left*sa + bottom*ca + center_y
     };
     //glVertexPointer(2, GL_FLOAT, 0, vertices);
-    glVertexAttribPointer(position_loc, 4, GL_FLOAT, GL_FALSE, 0, vertices);
+    vertex_arrays.set_positions(vertices, sizeof(vertices));
 
     float uvs[] = {
       uv_left, uv_top,
@@ -106,7 +117,7 @@ GLPainter::intern_draw(float left, float top, float right, float bottom,
       uv_left, uv_bottom,
     };
     //glTexCoordPointer(2, GL_FLOAT, 0, uvs);
-    glVertexAttribPointer(texcoord_loc, 4, GL_FLOAT, GL_FALSE, 0, uvs);
+    vertex_arrays.set_positions(uvs, sizeof(uvs));
 
     glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
   }
