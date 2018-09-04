@@ -238,7 +238,8 @@ GLPainter::draw_texture_batch(const DrawingRequest& request)
 void
 GLPainter::draw_gradient(const DrawingRequest& request)
 {
-#if FIXME_OPENGL33
+  GLVertexArrays& vertex_arrays = m_video_system.get_vertex_arrays();
+
   assert_gl("");
   const auto& data = static_cast<const GradientRequest&>(request);
 
@@ -247,9 +248,9 @@ GLPainter::draw_gradient(const DrawingRequest& request)
   const GradientDirection& direction = data.direction;
   const Rectf& region = data.region;
 
-  glDisable(GL_TEXTURE_2D);
-  glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-  glEnableClientState(GL_COLOR_ARRAY);
+  //glDisable(GL_TEXTURE_2D);
+  //glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+  //glEnableClientState(GL_COLOR_ARRAY);
 
   float vertices[] = {
     region.p1.x, region.p1.y,
@@ -257,7 +258,8 @@ GLPainter::draw_gradient(const DrawingRequest& request)
     region.p2.x, region.p2.y,
     region.p1.x, region.p2.y
   };
-  glVertexPointer(2, GL_FLOAT, 0, vertices);
+  // glVertexPointer(2, GL_FLOAT, 0, vertices);
+  vertex_arrays.set_positions(vertices, sizeof(vertices));
 
   if(direction == VERTICAL || direction == VERTICAL_SECTOR)
   {
@@ -267,7 +269,8 @@ GLPainter::draw_gradient(const DrawingRequest& request)
       bottom.red, bottom.green, bottom.blue, bottom.alpha,
       bottom.red, bottom.green, bottom.blue, bottom.alpha,
     };
-    glColorPointer(4, GL_FLOAT, 0, colors);
+    // glColorPointer(4, GL_FLOAT, 0, colors);
+    vertex_arrays.set_colors(colors, sizeof(colors));
   }
   else
   {
@@ -277,18 +280,22 @@ GLPainter::draw_gradient(const DrawingRequest& request)
       bottom.red, bottom.green, bottom.blue, bottom.alpha,
       top.red, top.green, top.blue, top.alpha,
     };
-    glColorPointer(4, GL_FLOAT, 0, colors);
+    // glColorPointer(4, GL_FLOAT, 0, colors);
+    vertex_arrays.set_colors(colors, sizeof(colors));
   }
+
+  // white dummy texture to make the shader happy
+  glBindTexture(GL_TEXTURE_2D, m_video_system.get_white_texture().get_handle());
+  vertex_arrays.set_texcoord(0.0f, 0.0f);
 
   glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 
-  glDisableClientState(GL_COLOR_ARRAY);
-  glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+  //glDisableClientState(GL_COLOR_ARRAY);
+  //glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
-  glEnable(GL_TEXTURE_2D);
-  glColor4f(1, 1, 1, 1);
+  //glEnable(GL_TEXTURE_2D);
+  //glColor4f(1, 1, 1, 1);
   assert_gl("");
-#endif
 }
 
 void

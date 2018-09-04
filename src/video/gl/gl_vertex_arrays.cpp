@@ -85,6 +85,16 @@ GLVertexArrays::set_texcoords(const float* data, size_t size)
 }
 
 void
+GLVertexArrays::set_texcoord(float u, float v)
+{
+  assert_gl("");
+  int loc = m_video_system.get_program().get_attrib_location("texcoord");
+  glVertexAttrib2f(loc, u, v);
+  glDisableVertexAttribArray(loc);
+  assert_gl("");
+}
+
+void
 GLVertexArrays::set_colors(const float* data, size_t size)
 {
   assert_gl("");
