@@ -24,6 +24,7 @@
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
+class GLContext;
 class GLLightmap;
 class GLProgram;
 class GLRenderer;
@@ -57,9 +58,7 @@ public:
 
   Size get_window_size() const;
 
-  GLProgram& get_program() const { return *m_program; }
-  GLVertexArrays& get_vertex_arrays() const { return *m_vertex_arrays; }
-  GLTexture& get_white_texture() const { return *m_white_texture; }
+  GLContext& get_context() const { return *m_context; }
 
 private:
   void create_window();
@@ -69,9 +68,7 @@ private:
   std::unique_ptr<TextureManager> m_texture_manager;
   std::unique_ptr<GLRenderer> m_renderer;
   std::unique_ptr<GLLightmap> m_lightmap;
-  std::unique_ptr<GLProgram> m_program;
-  std::unique_ptr<GLVertexArrays> m_vertex_arrays;
-  std::unique_ptr<GLTexture> m_white_texture;
+  std::unique_ptr<GLContext> m_context;
 
   SDL_Window* m_window;
   SDL_GLContext m_glcontext;

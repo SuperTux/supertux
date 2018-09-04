@@ -20,12 +20,12 @@
 #include "video/glutil.hpp"
 
 class Color;
-class GLVideoSystem;
+class GL33CoreContext;
 
 class GLVertexArrays
 {
 public:
-  GLVertexArrays(GLVideoSystem& video_system);
+  GLVertexArrays(GL33CoreContext& context);
   ~GLVertexArrays();
 
   void bind();
@@ -40,7 +40,7 @@ public:
   void set_color(const Color& color);
 
 private:
-  GLVideoSystem& m_video_system;
+  GL33CoreContext& m_context;
   GLuint m_vao;
   GLuint m_positions_buffer;
   GLuint m_texcoords_buffer;

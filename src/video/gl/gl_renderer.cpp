@@ -21,6 +21,7 @@
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "util/log.hpp"
+#include "video/gl/gl_context.hpp"
 #include "video/gl/gl_program.hpp"
 #include "video/gl/gl_vertex_arrays.hpp"
 #include "video/gl/gl_video_system.hpp"
@@ -39,10 +40,8 @@ GLRenderer::~GLRenderer()
 void
 GLRenderer::start_draw()
 {
-  GLProgram& program = m_video_system.get_program();
-  GLVertexArrays& vertex_arrays = m_video_system.get_vertex_arrays();
-  program.bind();
-  vertex_arrays.bind();
+  GLContext& context = m_video_system.get_context();
+  context.bind();
 
   assert_gl("");
 
@@ -59,33 +58,8 @@ GLRenderer::start_draw()
 
   glViewport(rect.left, rect.top, rect.get_width(), rect.get_height());
 
-  // glMatrixMode(GL_PROJECTION);
-  // glLoadIdentity();
-  //
-  // glOrtho(0,
-  //         viewport.get_screen_width(),
-  //         viewport.get_screen_height(),
-  //         0,
-  //         -1,
-  //         1);
-  const float sx = 2.0f / static_cast<float>(viewport.get_screen_width());
-  const float sy = -2.0f / static_cast<float>(viewport.get_screen_height());
-
-  const float tx = -1.0f;
-  const float ty = 1.0f;
-
-  const float mvp_matrix[] = {
-    sx, 0, tx,
-    0, sy, ty,
-    0, 0, 1
-  };
-  const GLint mvp_loc = program.get_uniform_location("modelviewprojection");
-  glUniformMatrix3fv(mvp_loc, 1, false, mvp_matrix);
-
-  //glMatrixMode(GL_MODELVIEW);
-  //glLoadIdentity();
-  //glTranslatef(0, 0, 0);
-  assert_gl("Setting up view matrices");
+  m_video_system.get_context().ortho(static_cast<float>(viewport.get_screen_width()),
+                                     static_cast<float>(viewport.get_screen_height()));
 
   // clear the screen to get rid of lightmap remains
   glClearColor(0, 0, 0, 1);

@@ -17,11 +17,12 @@
 #include "video/gl/gl_vertex_arrays.hpp"
 
 #include "video/color.hpp"
+#include "video/gl/gl33core_context.hpp"
 #include "video/gl/gl_program.hpp"
 #include "video/gl/gl_video_system.hpp"
 
-GLVertexArrays::GLVertexArrays(GLVideoSystem& video_system) :
-  m_video_system(video_system),
+GLVertexArrays::GLVertexArrays(GL33CoreContext& context) :
+  m_context(context),
   m_vao(),
   m_positions_buffer(),
   m_texcoords_buffer(),
@@ -58,7 +59,7 @@ GLVertexArrays::set_positions(const float* data, size_t size)
   glBindBuffer(GL_ARRAY_BUFFER, m_positions_buffer);
   glBufferData(GL_ARRAY_BUFFER, size, data, GL_DYNAMIC_DRAW);
 
-  int loc = m_video_system.get_program().get_attrib_location("position");
+  int loc = m_context.get_program().get_attrib_location("position");
   glVertexAttribPointer(loc, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
   glEnableVertexAttribArray(loc);
   assert_gl("");
@@ -71,7 +72,7 @@ GLVertexArrays::set_texcoords(const float* data, size_t size)
   glBindBuffer(GL_ARRAY_BUFFER, m_texcoords_buffer);
   glBufferData(GL_ARRAY_BUFFER, size, data, GL_DYNAMIC_DRAW);
 
-  int loc = m_video_system.get_program().get_attrib_location("texcoord");
+  int loc = m_context.get_program().get_attrib_location("texcoord");
   glVertexAttribPointer(loc, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
   glEnableVertexAttribArray(loc);
   assert_gl("");
@@ -81,7 +82,7 @@ void
 GLVertexArrays::set_texcoord(float u, float v)
 {
   assert_gl("");
-  int loc = m_video_system.get_program().get_attrib_location("texcoord");
+  int loc = m_context.get_program().get_attrib_location("texcoord");
   glVertexAttrib2f(loc, u, v);
   glDisableVertexAttribArray(loc);
   assert_gl("");
@@ -94,7 +95,7 @@ GLVertexArrays::set_colors(const float* data, size_t size)
   glBindBuffer(GL_ARRAY_BUFFER, m_texcoords_buffer);
   glBufferData(GL_ARRAY_BUFFER, size, data, GL_DYNAMIC_DRAW);
 
-  int loc = m_video_system.get_program().get_attrib_location("diffuse");
+  int loc = m_context.get_program().get_attrib_location("diffuse");
   glVertexAttribPointer(loc, 4, GL_FLOAT, GL_FALSE, 0, nullptr);
   glEnableVertexAttribArray(loc);
   assert_gl("");
@@ -104,7 +105,7 @@ void
 GLVertexArrays::set_color(const Color& color)
 {
   assert_gl("");
-  int loc = m_video_system.get_program().get_attrib_location("diffuse");
+  int loc = m_context.get_program().get_attrib_location("diffuse");
   glVertexAttrib4f(loc, color.red, color.green, color.blue, color.alpha);
   glDisableVertexAttribArray(loc);
   assert_gl("");

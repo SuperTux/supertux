@@ -27,6 +27,9 @@
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "util/log.hpp"
+#include "video/gl/gl_context.hpp"
+#include "video/gl/gl33core_context.hpp"
+#include "video/gl/gl20_context.hpp"
 #include "video/gl/gl_lightmap.hpp"
 #include "video/gl/gl_program.hpp"
 #include "video/gl/gl_renderer.hpp"
@@ -37,9 +40,7 @@ GLVideoSystem::GLVideoSystem() :
   m_texture_manager(),
   m_renderer(),
   m_lightmap(),
-  m_program(),
-  m_vertex_arrays(),
-  m_white_texture(),
+  m_context(),
   m_window(),
   m_glcontext(),
   m_desktop_size(),
@@ -53,9 +54,9 @@ GLVideoSystem::GLVideoSystem() :
 
   m_texture_manager.reset(new TextureManager);
   m_renderer.reset(new GLRenderer(*this));
-  m_program.reset(new GLProgram);
-  m_vertex_arrays.reset(new GLVertexArrays(*this));
-  m_white_texture.reset(new GLTexture(1, 1, Color::WHITE));
+
+  m_context.reset(new GL33CoreContext);
+  //m_context.reset(new GL20Context);
 
   apply_config();
 }
@@ -104,7 +105,7 @@ GLVideoSystem::create_window()
 // #else
   if (false)
   {
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0); // this only goes to 0
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_COMPATIBILITY);
   }

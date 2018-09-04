@@ -20,6 +20,7 @@
 
 #include "supertux/globals.hpp"
 #include "video/drawing_request.hpp"
+#include "video/gl/gl_context.hpp"
 #include "video/gl/gl_painter.hpp"
 #include "video/gl/gl_program.hpp"
 #include "video/gl/gl_texture.hpp"
@@ -54,10 +55,8 @@ void
 GLLightmap::start_draw()
 {
   assert_gl("");
-  GLProgram& program = m_video_system.get_program();
-  GLVertexArrays& vertex_arrays = m_video_system.get_vertex_arrays();
-  program.bind();
-  vertex_arrays.bind();
+  GLContext& context = m_video_system.get_context();
+  context.bind();
 
   if (!m_lightmap)
   {
@@ -79,19 +78,7 @@ GLLightmap::start_draw()
   //         0,
   //         -1.0, 1.0);
 
-  const float sx = 2.0f / static_cast<float>(m_size.width);
-  const float sy = -2.0f / static_cast<float>(m_size.height);
-
-  const float tx = -1.0f;
-  const float ty = 1.0f;
-
-  const float mvp_matrix[] = {
-    sx, 0, tx,
-    0, sy, ty,
-    0, 0, 1
-  };
-  const GLint mvp_loc = program.get_uniform_location("modelviewprojection");
-  glUniformMatrix3fv(mvp_loc, 1, false, mvp_matrix);
+  context.ortho(static_cast<float>(m_size.width), static_cast<float>(m_size.height));
 
   //glMatrixMode(GL_MODELVIEW);
   //glLoadIdentity();
@@ -115,15 +102,14 @@ GLLightmap::end_draw()
 void
 GLLightmap::render()
 {
-  GLVertexArrays& vertex_arrays = m_video_system.get_vertex_arrays();
+  GLContext& context = m_video_system.get_context();
 
   assert_gl("");
   // multiple the lightmap with the framebuffer
   glBlendFunc(GL_DST_COLOR, GL_ZERO);
 
-  glBindTexture(GL_TEXTURE_2D, m_lightmap->get_handle());
-
-  vertex_arrays.set_color(Color::WHITE);
+  context.bind_texture(*m_lightmap);
+  context.set_color(Color::WHITE);
 
   float vertices[] = {
     0, 0,
@@ -132,7 +118,7 @@ GLLightmap::render()
     0, static_cast<float>(m_size.height)
   };
   //glVertexPointer(2, GL_FLOAT, 0, vertices);
-  vertex_arrays.set_positions(vertices, sizeof(vertices));
+  context.set_positions(vertices, sizeof(vertices));
 
   float uv_right = static_cast<float>(m_lightmap_width) / static_cast<float>(m_lightmap->get_texture_width());
   float uv_bottom = static_cast<float>(m_lightmap_height) / static_cast<float>(m_lightmap->get_texture_height());
@@ -143,7 +129,7 @@ GLLightmap::render()
     0, 0
   };
   //glTexCoordPointer(2, GL_FLOAT, 0, uvs);
-  vertex_arrays.set_texcoords(uvs, sizeof(uvs));
+  context.set_texcoords(uvs, sizeof(uvs));
 
   glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 

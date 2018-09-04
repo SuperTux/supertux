@@ -23,6 +23,7 @@
 #include "math/util.hpp"
 #include "supertux/globals.hpp"
 #include "video/drawing_request.hpp"
+#include "video/gl/gl_context.hpp"
 #include "video/gl/gl_program.hpp"
 #include "video/gl/gl_texture.hpp"
 #include "video/gl/gl_vertex_arrays.hpp"
@@ -49,8 +50,8 @@ GLPainter::intern_draw(float left, float top, float right, float bottom,
   glBlendFunc(blend.sfactor, blend.dfactor);
   //glColor4f(color.red, color.green, color.blue, color.alpha * alpha);
 
-  GLVertexArrays& vertex_arrays = m_video_system.get_vertex_arrays();
-  vertex_arrays.set_color(Color(color.red, color.green, color.blue, color.alpha * alpha));
+  GLContext& context = m_video_system.get_context();
+  context.set_color(Color(color.red, color.green, color.blue, color.alpha * alpha));
 
   // unrotated blit
   if (angle == 0.0f) {
@@ -61,8 +62,7 @@ GLPainter::intern_draw(float left, float top, float right, float bottom,
       left, bottom,
     };
     //glVertexPointer(2, GL_FLOAT, 0, vertices);
-    //glVertexAttribPointer(position_loc, 4, GL_FLOAT, GL_FALSE, 0, vertices);
-    vertex_arrays.set_positions(vertices, sizeof(vertices));
+    context.set_positions(vertices, sizeof(vertices));
 
     float uvs[] = {
       uv_left, uv_top,
@@ -71,9 +71,9 @@ GLPainter::intern_draw(float left, float top, float right, float bottom,
       uv_left, uv_bottom,
     };
     //glTexCoordPointer(2, GL_FLOAT, 0, uvs);
-    vertex_arrays.set_texcoords(uvs, sizeof(uvs));
+    context.set_texcoords(uvs, sizeof(uvs));
 
-    glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+    context.draw_arrays(GL_TRIANGLE_FAN, 0, 4);
   } else {
     // rotated blit
     float center_x = (left + right) / 2;
@@ -95,7 +95,7 @@ GLPainter::intern_draw(float left, float top, float right, float bottom,
       left*ca - bottom*sa + center_x, left*sa + bottom*ca + center_y
     };
     //glVertexPointer(2, GL_FLOAT, 0, vertices);
-    vertex_arrays.set_positions(vertices, sizeof(vertices));
+    context.set_positions(vertices, sizeof(vertices));
 
     float uvs[] = {
       uv_left, uv_top,
@@ -104,9 +104,9 @@ GLPainter::intern_draw(float left, float top, float right, float bottom,
       uv_left, uv_bottom,
     };
     //glTexCoordPointer(2, GL_FLOAT, 0, uvs);
-    vertex_arrays.set_texcoords(uvs, sizeof(uvs));
+    context.set_texcoords(uvs, sizeof(uvs));
 
-    glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+    context.draw_arrays(GL_TRIANGLE_FAN, 0, 4);
   }
 }
 
@@ -122,7 +122,8 @@ GLPainter::draw_texture(const DrawingRequest& request)
   const auto& data = static_cast<const TextureRequest&>(request);
   const auto& texture = static_cast<const GLTexture&>(*data.texture);
 
-  glBindTexture(GL_TEXTURE_2D, texture.get_handle());
+  GLContext& context = m_video_system.get_context();
+  context.bind_texture(texture);
 
   intern_draw(data.dstrect.p1.x,
               data.dstrect.p1.y,
@@ -151,7 +152,8 @@ GLPainter::draw_texture_batch(const DrawingRequest& request)
 
   assert(data.srcrects.size() == data.dstrects.size());
 
-  glBindTexture(GL_TEXTURE_2D, texture.get_handle());
+  GLContext& context = m_video_system.get_context();
+  context.bind_texture(texture);
 
   std::vector<float> vertices;
   std::vector<float> uvs;
@@ -200,17 +202,15 @@ GLPainter::draw_texture_batch(const DrawingRequest& request)
 
   glBlendFunc(request.blend.sfactor, request.blend.dfactor);
 
-  GLVertexArrays& vertex_arrays = m_video_system.get_vertex_arrays();
-
   // glVertexPointer(2, GL_FLOAT, 0, vertices.data());
   // glTexCoordPointer(2, GL_FLOAT, 0, uvs.data());
   // glColor4f(data.color.red, data.color.green, data.color.blue, data.color.alpha * request.alpha);
 
-  vertex_arrays.set_positions(vertices.data(), sizeof(float) * vertices.size());
-  vertex_arrays.set_texcoords(uvs.data(), sizeof(float) * uvs.size());
-  vertex_arrays.set_color(Color(data.color.red, data.color.green, data.color.blue, data.color.alpha * request.alpha));
+  context.set_positions(vertices.data(), sizeof(float) * vertices.size());
+  context.set_texcoords(uvs.data(), sizeof(float) * uvs.size());
+  context.set_color(Color(data.color.red, data.color.green, data.color.blue, data.color.alpha * request.alpha));
 
-  glDrawArrays(GL_TRIANGLES, 0, static_cast<GLsizei>(data.srcrects.size() * 2 * 3));
+  context.draw_arrays(GL_TRIANGLES, 0, static_cast<GLsizei>(data.srcrects.size() * 2 * 3));
   assert_gl("");
 }
 
@@ -229,7 +229,7 @@ GLPainter::draw_gradient(const DrawingRequest& request)
   //glDisableClientState(GL_TEXTURE_COORD_ARRAY);
   //glEnableClientState(GL_COLOR_ARRAY);
 
-  GLVertexArrays& vertex_arrays = m_video_system.get_vertex_arrays();
+  GLContext& context = m_video_system.get_context();
 
   float vertices[] = {
     region.p1.x, region.p1.y,
@@ -238,7 +238,7 @@ GLPainter::draw_gradient(const DrawingRequest& request)
     region.p1.x, region.p2.y
   };
   // glVertexPointer(2, GL_FLOAT, 0, vertices);
-  vertex_arrays.set_positions(vertices, sizeof(vertices));
+  context.set_positions(vertices, sizeof(vertices));
 
   if(direction == VERTICAL || direction == VERTICAL_SECTOR)
   {
@@ -249,7 +249,7 @@ GLPainter::draw_gradient(const DrawingRequest& request)
       bottom.red, bottom.green, bottom.blue, bottom.alpha,
     };
     // glColorPointer(4, GL_FLOAT, 0, colors);
-    vertex_arrays.set_colors(colors, sizeof(colors));
+    context.set_colors(colors, sizeof(colors));
   }
   else
   {
@@ -260,14 +260,13 @@ GLPainter::draw_gradient(const DrawingRequest& request)
       top.red, top.green, top.blue, top.alpha,
     };
     // glColorPointer(4, GL_FLOAT, 0, colors);
-    vertex_arrays.set_colors(colors, sizeof(colors));
+    context.set_colors(colors, sizeof(colors));
   }
 
-  // white dummy texture to make the shader happy
-  glBindTexture(GL_TEXTURE_2D, m_video_system.get_white_texture().get_handle());
-  vertex_arrays.set_texcoord(0.0f, 0.0f);
+  context.bind_no_texture();
+  context.set_texcoord(0.0f, 0.0f);
 
-  glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+  context.draw_arrays(GL_TRIANGLE_FAN, 0, 4);
 
   assert_gl("");
 }
@@ -283,12 +282,11 @@ GLPainter::draw_filled_rect(const DrawingRequest& request)
   //          data.color.blue, data.color.alpha);
   //glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 
-  GLVertexArrays& vertex_arrays = m_video_system.get_vertex_arrays();
-  vertex_arrays.set_color(data.color);
+  GLContext& context = m_video_system.get_context();
+  context.set_color(data.color);
 
-  // white dummy texture to make the shader happy
-  glBindTexture(GL_TEXTURE_2D, m_video_system.get_white_texture().get_handle());
-  vertex_arrays.set_texcoord(0.0f, 0.0f);
+  context.bind_no_texture();
+  context.set_texcoord(0.0f, 0.0f);
 
   if (data.radius != 0.0f)
   {
@@ -334,9 +332,9 @@ GLPainter::draw_filled_rect(const DrawingRequest& request)
     }
 
     //glVertexPointer(2, GL_FLOAT, 0, &*vertices.begin());
-    vertex_arrays.set_positions(vertices.data(), sizeof(float) * vertices.size());
+    context.set_positions(vertices.data(), sizeof(float) * vertices.size());
 
-    glDrawArrays(GL_TRIANGLE_STRIP, 0,  static_cast<GLsizei>(vertices.size() / 2));
+    context.draw_arrays(GL_TRIANGLE_STRIP, 0,  static_cast<GLsizei>(vertices.size() / 2));
   }
   else
   {
@@ -353,9 +351,9 @@ GLPainter::draw_filled_rect(const DrawingRequest& request)
     };
 
     //glVertexPointer(2, GL_FLOAT, 0, vertices);
-    vertex_arrays.set_positions(vertices, sizeof(vertices));
+    context.set_positions(vertices, sizeof(vertices));
 
-    glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+    context.draw_arrays(GL_TRIANGLE_FAN, 0, 4);
   }
 
   assert_gl("");
@@ -364,7 +362,7 @@ GLPainter::draw_filled_rect(const DrawingRequest& request)
 void
 GLPainter::draw_inverse_ellipse(const DrawingRequest& request)
 {
-  GLVertexArrays& vertex_arrays = m_video_system.get_vertex_arrays();
+  GLContext& context = m_video_system.get_context();
 
   assert_gl("");
   const auto& data = static_cast<const InverseEllipseRequest&>(request);
@@ -372,11 +370,10 @@ GLPainter::draw_inverse_ellipse(const DrawingRequest& request)
   //glDisable(GL_TEXTURE_2D);
   //glColor4f(data.color.red,  data.color.green,
   //          data.color.blue, data.color.alpha);
-  vertex_arrays.set_color(data.color);
+  context.set_color(data.color);
 
-  // white dummy texture to make the shader happy
-  glBindTexture(GL_TEXTURE_2D, m_video_system.get_white_texture().get_handle());
-  vertex_arrays.set_texcoord(0.0f, 0.0f);
+  context.bind_no_texture();
+  context.set_texcoord(0.0f, 0.0f);
 
   float x = data.pos.x;
   float y = data.pos.y;
@@ -444,9 +441,9 @@ GLPainter::draw_inverse_ellipse(const DrawingRequest& request)
 
   //glDisableClientState(GL_TEXTURE_COORD_ARRAY);
   //glVertexPointer(2, GL_FLOAT, 0, vertices);
-  vertex_arrays.set_positions(vertices, sizeof(vertices));
+  context.set_positions(vertices, sizeof(vertices));
 
-  glDrawArrays(GL_TRIANGLES, 0, points);
+  context.draw_arrays(GL_TRIANGLES, 0, points);
 
   assert_gl("");
 }
@@ -454,7 +451,7 @@ GLPainter::draw_inverse_ellipse(const DrawingRequest& request)
 void
 GLPainter::draw_line(const DrawingRequest& request)
 {
-  GLVertexArrays& vertex_arrays = m_video_system.get_vertex_arrays();
+  GLContext& context = m_video_system.get_context();
 
   assert_gl("");
   const auto& data = static_cast<const LineRequest&>(request);
@@ -463,11 +460,10 @@ GLPainter::draw_line(const DrawingRequest& request)
   //glColor4f(data.color.red, data.color.green, data.color.blue, data.color.alpha);
   //glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 
-  vertex_arrays.set_color(data.color);
+  context.set_color(data.color);
 
-  // white dummy texture to make the shader happy
-  glBindTexture(GL_TEXTURE_2D, m_video_system.get_white_texture().get_handle());
-  vertex_arrays.set_texcoord(0.0f, 0.0f);
+  context.bind_no_texture();
+  context.set_texcoord(0.0f, 0.0f);
 
   float x1 = data.pos.x;
   float y1 = data.pos.y;
@@ -496,8 +492,8 @@ GLPainter::draw_line(const DrawingRequest& request)
   };
 
   //glVertexPointer(2, GL_FLOAT, 0, vertices);
-  vertex_arrays.set_positions(vertices, sizeof(vertices));
-  glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+  context.set_positions(vertices, sizeof(vertices));
+  context.draw_arrays(GL_TRIANGLE_STRIP, 0, 4);
 
   assert_gl("");
 }
@@ -505,7 +501,7 @@ GLPainter::draw_line(const DrawingRequest& request)
 void
 GLPainter::draw_triangle(const DrawingRequest& request)
 {
-  GLVertexArrays& vertex_arrays = m_video_system.get_vertex_arrays();
+  GLContext& context = m_video_system.get_context();
 
   assert_gl("");
   const auto& data = static_cast<const TriangleRequest&>(request);
@@ -514,11 +510,10 @@ GLPainter::draw_triangle(const DrawingRequest& request)
   //glColor4f(data.color.red, data.color.green, data.color.blue, data.color.alpha);
   //glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 
-  vertex_arrays.set_color(data.color);
+  context.set_color(data.color);
 
-  // white dummy texture to make the shader happy
-  glBindTexture(GL_TEXTURE_2D, m_video_system.get_white_texture().get_handle());
-  vertex_arrays.set_texcoord(0.0f, 0.0f);
+  context.bind_no_texture();
+  context.set_texcoord(0.0f, 0.0f);
 
   float x1 = data.pos1.x;
   float y1 = data.pos1.y;
@@ -533,9 +528,9 @@ GLPainter::draw_triangle(const DrawingRequest& request)
     x3, y3
   };
   //glVertexPointer(2, GL_FLOAT, 0, vertices);
-  vertex_arrays.set_positions(vertices, sizeof(vertices));
+  context.set_positions(vertices, sizeof(vertices));
 
-  glDrawArrays(GL_TRIANGLES, 0, 3);
+  context.draw_arrays(GL_TRIANGLES, 0, 3);
 
   assert_gl("");
 }
