@@ -36,10 +36,10 @@ class VideoSystem : public Currenton<VideoSystem>
 {
 public:
   enum Enum {
-    AUTO_VIDEO,
-    OPENGL,
-    PURE_SDL,
-    NUM_SYSTEMS
+    VIDEO_AUTO,
+    VIDEO_OPENGL33CORE,
+    VIDEO_OPENGL20,
+    VIDEO_SDL
   };
 
   static std::unique_ptr<VideoSystem> create(VideoSystem::Enum video_system);

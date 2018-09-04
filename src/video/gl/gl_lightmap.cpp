@@ -20,8 +20,11 @@
 
 #include "supertux/globals.hpp"
 #include "video/drawing_request.hpp"
+#include "video/gl/gl_context.hpp"
 #include "video/gl/gl_painter.hpp"
+#include "video/gl/gl_program.hpp"
 #include "video/gl/gl_texture.hpp"
+#include "video/gl/gl_vertex_arrays.hpp"
 #include "video/gl/gl_video_system.hpp"
 #include "video/glutil.hpp"
 
@@ -51,6 +54,10 @@ GLLightmap::~GLLightmap()
 void
 GLLightmap::start_draw()
 {
+  assert_gl("");
+  GLContext& context = m_video_system.get_context();
+  context.bind();
+
   if (!m_lightmap)
   {
     m_lightmap_width = m_size.width / s_LIGHTMAP_DIV;
@@ -62,22 +69,26 @@ GLLightmap::start_draw()
 
   glViewport(0, 0, m_lightmap_width, m_lightmap_height);
 
-  glMatrixMode(GL_PROJECTION);
-  glLoadIdentity();
+  //glMatrixMode(GL_PROJECTION);
+  //glLoadIdentity();
 
-  glOrtho(0,
-          m_size.width,
-          m_size.height,
-          0,
-          -1.0, 1.0);
+  // glOrtho(0,
+  //         m_size.width,
+  //         m_size.height,
+  //         0,
+  //         -1.0, 1.0);
 
-  glMatrixMode(GL_MODELVIEW);
-  glLoadIdentity();
+  context.ortho(static_cast<float>(m_size.width), static_cast<float>(m_size.height));
+
+  //glMatrixMode(GL_MODELVIEW);
+  //glLoadIdentity();
+  assert_gl("");
 }
 
 void
 GLLightmap::end_draw()
 {
+  assert_gl("");
   glBindTexture(GL_TEXTURE_2D, m_lightmap->get_handle());
   glCopyTexSubImage2D(GL_TEXTURE_2D,
                       0, // level
@@ -85,15 +96,20 @@ GLLightmap::end_draw()
                       0, 0, // x, y
                       m_lightmap_width,
                       m_lightmap_height);
+  assert_gl("");
 }
 
 void
 GLLightmap::render()
 {
+  GLContext& context = m_video_system.get_context();
+
+  assert_gl("");
   // multiple the lightmap with the framebuffer
   glBlendFunc(GL_DST_COLOR, GL_ZERO);
 
-  glBindTexture(GL_TEXTURE_2D, m_lightmap->get_handle());
+  context.bind_texture(*m_lightmap);
+  context.set_color(Color::WHITE);
 
   float vertices[] = {
     0, 0,
@@ -101,7 +117,8 @@ GLLightmap::render()
     static_cast<float>(m_size.width), static_cast<float>(m_size.height),
     0, static_cast<float>(m_size.height)
   };
-  glVertexPointer(2, GL_FLOAT, 0, vertices);
+  //glVertexPointer(2, GL_FLOAT, 0, vertices);
+  context.set_positions(vertices, sizeof(vertices));
 
   float uv_right = static_cast<float>(m_lightmap_width) / static_cast<float>(m_lightmap->get_texture_width());
   float uv_bottom = static_cast<float>(m_lightmap_height) / static_cast<float>(m_lightmap->get_texture_height());
@@ -111,39 +128,48 @@ GLLightmap::render()
     uv_right, 0,
     0, 0
   };
-  glTexCoordPointer(2, GL_FLOAT, 0, uvs);
+  //glTexCoordPointer(2, GL_FLOAT, 0, uvs);
+  context.set_texcoords(uvs, sizeof(uvs));
 
   glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+  assert_gl("");
 }
 
 void
 GLLightmap::clear(const Color& color)
 {
+  assert_gl("");
   glClearColor(color.red, color.green, color.blue, color.alpha);
   glClear(GL_COLOR_BUFFER_BIT);
+  assert_gl("");
 }
 
 void
 GLLightmap::set_clip_rect(const Rect& clip_rect)
 {
+  assert_gl("");
   glScissor(m_lightmap_width * clip_rect.left / m_size.width,
             m_lightmap_height * clip_rect.top / m_size.height,
             m_lightmap_width * clip_rect.get_width() / m_size.width,
             m_lightmap_height * clip_rect.get_height() / m_size.height);
   glEnable(GL_SCISSOR_TEST);
+  assert_gl("");
 }
 
 void
 GLLightmap::clear_clip_rect()
 {
+  assert_gl("");
   glDisable(GL_SCISSOR_TEST);
+  assert_gl("");
 }
 
 void
 GLLightmap::get_light(const DrawingRequest& request) const
 {
+  assert_gl("");
   const auto& data = static_cast<const GetLightRequest&>(request);
 
   float pixels[3] = { 0.0f, 0.0f, 0.0f };
@@ -156,6 +182,7 @@ GLLightmap::get_light(const DrawingRequest& request) const
                1, 1, GL_RGB, GL_FLOAT, pixels);
 
   *(data.color_ptr) = Color(pixels[0], pixels[1], pixels[2]);
+  assert_gl("");
 }
 
 /* EOF */

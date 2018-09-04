@@ -16,29 +16,31 @@
 
 #include "video/gl/gl_painter.hpp"
 
+#include <iostream>
 #include <algorithm>
 #include <math.h>
 
 #include "math/util.hpp"
 #include "supertux/globals.hpp"
 #include "video/drawing_request.hpp"
+#include "video/gl/gl_context.hpp"
+#include "video/gl/gl_program.hpp"
 #include "video/gl/gl_texture.hpp"
+#include "video/gl/gl_vertex_arrays.hpp"
 #include "video/gl/gl_video_system.hpp"
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
-GLuint GLPainter::s_last_texture = static_cast<GLuint>(-1);
-
-namespace {
-
-inline void intern_draw(float left, float top, float right, float bottom,
-                        float uv_left, float uv_top,
-                        float uv_right, float uv_bottom,
-                        float angle, float alpha,
-                        const Color& color,
-                        const Blend& blend,
-                        DrawingEffect effect)
+void
+GLPainter::intern_draw(float left, float top, float right, float bottom,
+                       float uv_left, float uv_top,
+                       float uv_right, float uv_bottom,
+                       float angle, float alpha,
+                       const Color& color,
+                       const Blend& blend,
+                       const DrawingEffect& effect)
 {
+
   if(effect & HORIZONTAL_FLIP)
     std::swap(uv_left, uv_right);
 
@@ -46,7 +48,10 @@ inline void intern_draw(float left, float top, float right, float bottom,
     std::swap(uv_top, uv_bottom);
 
   glBlendFunc(blend.sfactor, blend.dfactor);
-  glColor4f(color.red, color.green, color.blue, color.alpha * alpha);
+  //glColor4f(color.red, color.green, color.blue, color.alpha * alpha);
+
+  GLContext& context = m_video_system.get_context();
+  context.set_color(Color(color.red, color.green, color.blue, color.alpha * alpha));
 
   // unrotated blit
   if (angle == 0.0f) {
@@ -56,7 +61,8 @@ inline void intern_draw(float left, float top, float right, float bottom,
       right, bottom,
       left, bottom,
     };
-    glVertexPointer(2, GL_FLOAT, 0, vertices);
+    //glVertexPointer(2, GL_FLOAT, 0, vertices);
+    context.set_positions(vertices, sizeof(vertices));
 
     float uvs[] = {
       uv_left, uv_top,
@@ -64,9 +70,10 @@ inline void intern_draw(float left, float top, float right, float bottom,
       uv_right, uv_bottom,
       uv_left, uv_bottom,
     };
-    glTexCoordPointer(2, GL_FLOAT, 0, uvs);
+    //glTexCoordPointer(2, GL_FLOAT, 0, uvs);
+    context.set_texcoords(uvs, sizeof(uvs));
 
-    glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+    context.draw_arrays(GL_TRIANGLE_FAN, 0, 4);
   } else {
     // rotated blit
     float center_x = (left + right) / 2;
@@ -87,7 +94,8 @@ inline void intern_draw(float left, float top, float right, float bottom,
       right*ca - bottom*sa + center_x, right*sa + bottom*ca + center_y,
       left*ca - bottom*sa + center_x, left*sa + bottom*ca + center_y
     };
-    glVertexPointer(2, GL_FLOAT, 0, vertices);
+    //glVertexPointer(2, GL_FLOAT, 0, vertices);
+    context.set_positions(vertices, sizeof(vertices));
 
     float uvs[] = {
       uv_left, uv_top,
@@ -95,17 +103,12 @@ inline void intern_draw(float left, float top, float right, float bottom,
       uv_right, uv_bottom,
       uv_left, uv_bottom,
     };
-    glTexCoordPointer(2, GL_FLOAT, 0, uvs);
+    //glTexCoordPointer(2, GL_FLOAT, 0, uvs);
+    context.set_texcoords(uvs, sizeof(uvs));
 
-    glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+    context.draw_arrays(GL_TRIANGLE_FAN, 0, 4);
   }
-
-  // FIXME: find a better way to restore the blend mode
-  glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
-
-} // namespace
 
 GLPainter::GLPainter(GLVideoSystem& video_system) :
   m_video_system(video_system)
@@ -115,15 +118,12 @@ GLPainter::GLPainter(GLVideoSystem& video_system) :
 void
 GLPainter::draw_texture(const DrawingRequest& request)
 {
+  assert_gl("");
   const auto& data = static_cast<const TextureRequest&>(request);
   const auto& texture = static_cast<const GLTexture&>(*data.texture);
 
-  GLuint handle = texture.get_handle();
-  if (handle != s_last_texture)
-  {
-    s_last_texture = handle;
-    glBindTexture(GL_TEXTURE_2D, handle);
-  }
+  GLContext& context = m_video_system.get_context();
+  context.bind_texture(texture);
 
   intern_draw(data.dstrect.p1.x,
               data.dstrect.p1.y,
@@ -140,22 +140,20 @@ GLPainter::draw_texture(const DrawingRequest& request)
               data.color,
               request.blend,
               request.drawing_effect);
+  assert_gl("");
 }
 
 void
 GLPainter::draw_texture_batch(const DrawingRequest& request)
 {
+  assert_gl("");
   const auto& data = static_cast<const TextureBatchRequest&>(request);
   const auto& texture = static_cast<const GLTexture&>(*data.texture);
 
   assert(data.srcrects.size() == data.dstrects.size());
 
-  GLuint handle = texture.get_handle();
-  if (handle != s_last_texture)
-  {
-    s_last_texture = handle;
-    glBindTexture(GL_TEXTURE_2D, handle);
-  }
+  GLContext& context = m_video_system.get_context();
+  context.bind_texture(texture);
 
   std::vector<float> vertices;
   std::vector<float> uvs;
@@ -202,22 +200,24 @@ GLPainter::draw_texture_batch(const DrawingRequest& request)
     uvs.insert(uvs.end(), std::begin(uvs_lst), std::end(uvs_lst));
   }
 
-  glVertexPointer(2, GL_FLOAT, 0, vertices.data());
-  glTexCoordPointer(2, GL_FLOAT, 0, uvs.data());
-
   glBlendFunc(request.blend.sfactor, request.blend.dfactor);
-  glColor4f(data.color.red, data.color.green, data.color.blue, data.color.alpha * request.alpha);
 
-  glDrawArrays(GL_TRIANGLES, 0, static_cast<GLsizei>(data.srcrects.size() * 2 * 3));
+  // glVertexPointer(2, GL_FLOAT, 0, vertices.data());
+  // glTexCoordPointer(2, GL_FLOAT, 0, uvs.data());
+  // glColor4f(data.color.red, data.color.green, data.color.blue, data.color.alpha * request.alpha);
 
-  // FIXME: find a better way to restore the blend mode
-  glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+  context.set_positions(vertices.data(), sizeof(float) * vertices.size());
+  context.set_texcoords(uvs.data(), sizeof(float) * uvs.size());
+  context.set_color(Color(data.color.red, data.color.green, data.color.blue, data.color.alpha * request.alpha));
+
+  context.draw_arrays(GL_TRIANGLES, 0, static_cast<GLsizei>(data.srcrects.size() * 2 * 3));
+  assert_gl("");
 }
 
 void
 GLPainter::draw_gradient(const DrawingRequest& request)
 {
+  assert_gl("");
   const auto& data = static_cast<const GradientRequest&>(request);
 
   const Color& top = data.top;
@@ -225,9 +225,11 @@ GLPainter::draw_gradient(const DrawingRequest& request)
   const GradientDirection& direction = data.direction;
   const Rectf& region = data.region;
 
-  glDisable(GL_TEXTURE_2D);
-  glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-  glEnableClientState(GL_COLOR_ARRAY);
+  //glDisable(GL_TEXTURE_2D);
+  //glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+  //glEnableClientState(GL_COLOR_ARRAY);
+
+  GLContext& context = m_video_system.get_context();
 
   float vertices[] = {
     region.p1.x, region.p1.y,
@@ -235,7 +237,8 @@ GLPainter::draw_gradient(const DrawingRequest& request)
     region.p2.x, region.p2.y,
     region.p1.x, region.p2.y
   };
-  glVertexPointer(2, GL_FLOAT, 0, vertices);
+  // glVertexPointer(2, GL_FLOAT, 0, vertices);
+  context.set_positions(vertices, sizeof(vertices));
 
   if(direction == VERTICAL || direction == VERTICAL_SECTOR)
   {
@@ -245,7 +248,8 @@ GLPainter::draw_gradient(const DrawingRequest& request)
       bottom.red, bottom.green, bottom.blue, bottom.alpha,
       bottom.red, bottom.green, bottom.blue, bottom.alpha,
     };
-    glColorPointer(4, GL_FLOAT, 0, colors);
+    // glColorPointer(4, GL_FLOAT, 0, colors);
+    context.set_colors(colors, sizeof(colors));
   }
   else
   {
@@ -255,27 +259,34 @@ GLPainter::draw_gradient(const DrawingRequest& request)
       bottom.red, bottom.green, bottom.blue, bottom.alpha,
       top.red, top.green, top.blue, top.alpha,
     };
-    glColorPointer(4, GL_FLOAT, 0, colors);
+    // glColorPointer(4, GL_FLOAT, 0, colors);
+    context.set_colors(colors, sizeof(colors));
   }
 
-  glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+  context.bind_no_texture();
+  context.set_texcoord(0.0f, 0.0f);
 
-  glDisableClientState(GL_COLOR_ARRAY);
-  glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+  context.draw_arrays(GL_TRIANGLE_FAN, 0, 4);
 
-  glEnable(GL_TEXTURE_2D);
-  glColor4f(1, 1, 1, 1);
+  assert_gl("");
 }
 
 void
 GLPainter::draw_filled_rect(const DrawingRequest& request)
 {
+  assert_gl("");
   const auto& data = static_cast<const FillRectRequest&>(request);
 
-  glDisable(GL_TEXTURE_2D);
-  glColor4f(data.color.red, data.color.green,
-            data.color.blue, data.color.alpha);
-  glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+  //glDisable(GL_TEXTURE_2D);
+  //glColor4f(data.color.red, data.color.green,
+  //          data.color.blue, data.color.alpha);
+  //glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+
+  GLContext& context = m_video_system.get_context();
+  context.set_color(data.color);
+
+  context.bind_no_texture();
+  context.set_texcoord(0.0f, 0.0f);
 
   if (data.radius != 0.0f)
   {
@@ -320,8 +331,10 @@ GLPainter::draw_filled_rect(const DrawingRequest& request)
       vertices[p++] = irect.get_bottom() + y;
     }
 
-    glVertexPointer(2, GL_FLOAT, 0, &*vertices.begin());
-    glDrawArrays(GL_TRIANGLE_STRIP, 0,  static_cast<GLsizei>(vertices.size() / 2));
+    //glVertexPointer(2, GL_FLOAT, 0, &*vertices.begin());
+    context.set_positions(vertices.data(), sizeof(float) * vertices.size());
+
+    context.draw_arrays(GL_TRIANGLE_STRIP, 0,  static_cast<GLsizei>(vertices.size() / 2));
   }
   else
   {
@@ -336,24 +349,31 @@ GLPainter::draw_filled_rect(const DrawingRequest& request)
       x+w, y+h,
       x,   y+h
     };
-    glVertexPointer(2, GL_FLOAT, 0, vertices);
 
-    glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+    //glVertexPointer(2, GL_FLOAT, 0, vertices);
+    context.set_positions(vertices, sizeof(vertices));
+
+    context.draw_arrays(GL_TRIANGLE_FAN, 0, 4);
   }
 
-  glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-  glEnable(GL_TEXTURE_2D);
-  glColor4f(1, 1, 1, 1);
+  assert_gl("");
 }
 
 void
 GLPainter::draw_inverse_ellipse(const DrawingRequest& request)
 {
+  GLContext& context = m_video_system.get_context();
+
+  assert_gl("");
   const auto& data = static_cast<const InverseEllipseRequest&>(request);
 
-  glDisable(GL_TEXTURE_2D);
-  glColor4f(data.color.red,  data.color.green,
-            data.color.blue, data.color.alpha);
+  //glDisable(GL_TEXTURE_2D);
+  //glColor4f(data.color.red,  data.color.green,
+  //          data.color.blue, data.color.alpha);
+  context.set_color(data.color);
+
+  context.bind_no_texture();
+  context.set_texcoord(0.0f, 0.0f);
 
   float x = data.pos.x;
   float y = data.pos.y;
@@ -419,52 +439,81 @@ GLPainter::draw_inverse_ellipse(const DrawingRequest& request)
     vertices[p++] = x - ex2;      vertices[p++] = y + ey2;
   }
 
-  glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-  glVertexPointer(2, GL_FLOAT, 0, vertices);
+  //glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+  //glVertexPointer(2, GL_FLOAT, 0, vertices);
+  context.set_positions(vertices, sizeof(vertices));
 
-  glDrawArrays(GL_TRIANGLES, 0, points);
+  context.draw_arrays(GL_TRIANGLES, 0, points);
 
-  glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-
-  glEnable(GL_TEXTURE_2D);
-  glColor4f(1, 1, 1, 1);
+  assert_gl("");
 }
 
 void
 GLPainter::draw_line(const DrawingRequest& request)
 {
+  GLContext& context = m_video_system.get_context();
+
+  assert_gl("");
   const auto& data = static_cast<const LineRequest&>(request);
 
-  glDisable(GL_TEXTURE_2D);
-  glColor4f(data.color.red, data.color.green, data.color.blue, data.color.alpha);
-  glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+  //glDisable(GL_TEXTURE_2D);
+  //glColor4f(data.color.red, data.color.green, data.color.blue, data.color.alpha);
+  //glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+
+  context.set_color(data.color);
+
+  context.bind_no_texture();
+  context.set_texcoord(0.0f, 0.0f);
 
   float x1 = data.pos.x;
   float y1 = data.pos.y;
   float x2 = data.dest_pos.x;
   float y2 = data.dest_pos.y;
 
+  // OpenGL3.3 doesn't have GL_LINES anymore, so instead we transform
+  // the line into a quad and draw it as triangle strip.
+  // triangle strip
+  float x_step = (y2 - y1);
+  float y_step = -(x2 - x1);
+
+  float step_norm = sqrtf(x_step * x_step + y_step * y_step);
+  x_step /= step_norm;
+  y_step /= step_norm;
+
+  x_step *= 0.5f;
+  y_step *= 0.5f;
+
+  // FIXME: this results in lines of not quite consistant width
   float vertices[] = {
-    x1, y1,
-    x2, y2
+    (x1 - x_step), (y1 - y_step),
+    (x2 - x_step), (y2 - y_step),
+    (x1 + x_step), (y1 + y_step),
+    (x2 + x_step), (y2 + y_step),
   };
-  glVertexPointer(2, GL_FLOAT, 0, vertices);
 
-  glDrawArrays(GL_LINES, 0, 2);
+  //glVertexPointer(2, GL_FLOAT, 0, vertices);
+  context.set_positions(vertices, sizeof(vertices));
+  context.draw_arrays(GL_TRIANGLE_STRIP, 0, 4);
 
-  glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-  glEnable(GL_TEXTURE_2D);
-  glColor4f(1, 1, 1, 1);
+  assert_gl("");
 }
 
 void
 GLPainter::draw_triangle(const DrawingRequest& request)
 {
+  GLContext& context = m_video_system.get_context();
+
+  assert_gl("");
   const auto& data = static_cast<const TriangleRequest&>(request);
 
-  glDisable(GL_TEXTURE_2D);
-  glColor4f(data.color.red, data.color.green, data.color.blue, data.color.alpha);
-  glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+  //glDisable(GL_TEXTURE_2D);
+  //glColor4f(data.color.red, data.color.green, data.color.blue, data.color.alpha);
+  //glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+
+  context.set_color(data.color);
+
+  context.bind_no_texture();
+  context.set_texcoord(0.0f, 0.0f);
 
   float x1 = data.pos1.x;
   float y1 = data.pos1.y;
@@ -478,13 +527,12 @@ GLPainter::draw_triangle(const DrawingRequest& request)
     x2, y2,
     x3, y3
   };
-  glVertexPointer(2, GL_FLOAT, 0, vertices);
+  //glVertexPointer(2, GL_FLOAT, 0, vertices);
+  context.set_positions(vertices, sizeof(vertices));
 
-  glDrawArrays(GL_TRIANGLES, 0, 3);
+  context.draw_arrays(GL_TRIANGLES, 0, 3);
 
-  glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-  glEnable(GL_TEXTURE_2D);
-  glColor4f(1, 1, 1, 1);
+  assert_gl("");
 }
 
 /* EOF */

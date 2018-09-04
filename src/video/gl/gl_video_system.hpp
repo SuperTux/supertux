@@ -24,8 +24,12 @@
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
-class GLRenderer;
+class GLContext;
 class GLLightmap;
+class GLProgram;
+class GLRenderer;
+class GLTexture;
+class GLVertexArrays;
 class Rect;
 class TextureManager;
 struct SDL_Surface;
@@ -33,7 +37,7 @@ struct SDL_Surface;
 class GLVideoSystem final : public VideoSystem
 {
 public:
-  GLVideoSystem();
+  GLVideoSystem(bool use_opengl33core);
   ~GLVideoSystem();
 
   virtual Renderer& get_renderer() const override;
@@ -54,14 +58,18 @@ public:
 
   Size get_window_size() const;
 
+  GLContext& get_context() const { return *m_context; }
+
 private:
   void create_window();
   void apply_video_mode();
 
 private:
+  bool m_use_opengl33core;
   std::unique_ptr<TextureManager> m_texture_manager;
   std::unique_ptr<GLRenderer> m_renderer;
   std::unique_ptr<GLLightmap> m_lightmap;
+  std::unique_ptr<GLContext> m_context;
 
   SDL_Window* m_window;
   SDL_GLContext m_glcontext;

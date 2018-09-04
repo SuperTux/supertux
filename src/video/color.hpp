@@ -64,10 +64,18 @@ public:
 
   std::vector<float> toVector();
 
-  uint8_t r8() const { return static_cast<uint8_t>(255.0f * red); }
-  uint8_t g8() const { return static_cast<uint8_t>(255.0f * green); }
-  uint8_t b8() const { return static_cast<uint8_t>(255.0f * blue); }
-  uint8_t a8() const { return static_cast<uint8_t>(255.0f * alpha); }
+  inline uint8_t r8() const { return static_cast<uint8_t>(255.0f * red); }
+  inline uint8_t g8() const { return static_cast<uint8_t>(255.0f * green); }
+  inline uint8_t b8() const { return static_cast<uint8_t>(255.0f * blue); }
+  inline uint8_t a8() const { return static_cast<uint8_t>(255.0f * alpha); }
+
+  inline uint32_t rgba() const
+  {
+    return ((r8() << 24) |
+            (g8() << 16) |
+            (b8() <<  8) |
+            (a8() <<  0));
+  }
 
   /** Return a human-readable string representation for this color */
   std::string to_string() const

@@ -1,0 +1,67 @@
+//  SuperTux
+//  Copyright (C) 2018 Ingo Ruhnke <grumbel@gmail.com>
+//
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+#ifndef HEADER_SUPERTUX_VIDEO_GL_GL33CORE_CONTEXT_HPP
+#define HEADER_SUPERTUX_VIDEO_GL_GL33CORE_CONTEXT_HPP
+
+#include "video/gl/gl_context.hpp"
+
+#include <memory>
+
+class GLProgram;
+class GLTexture;
+class GLVertexArrays;
+class GLVideoSystem;
+
+class GL33CoreContext final : public GLContext
+{
+public:
+  GL33CoreContext();
+  ~GL33CoreContext();
+
+  virtual void bind() override;
+
+  virtual void ortho(float width, float height) override;
+
+  virtual void set_positions(const float* data, size_t size) override;
+
+  virtual void set_texcoords(const float* data, size_t size) override;
+  virtual void set_texcoord(float u, float v) override;
+
+  virtual void set_colors(const float* data, size_t size) override;
+  virtual void set_color(const Color& color) override;
+
+  virtual void bind_texture(const GLTexture& texture) override;
+  virtual void bind_no_texture() override;
+  virtual void draw_arrays(GLenum type, GLint first, GLsizei count) override;
+
+  GLProgram& get_program() const { return *m_program; }
+  GLVertexArrays& get_vertex_arrays() const { return *m_vertex_arrays; }
+  GLTexture& get_white_texture() const { return *m_white_texture; }
+
+private:
+  std::unique_ptr<GLProgram> m_program;
+  std::unique_ptr<GLVertexArrays> m_vertex_arrays;
+  std::unique_ptr<GLTexture> m_white_texture;
+
+private:
+  GL33CoreContext(const GL33CoreContext&) = delete;
+  GL33CoreContext& operator=(const GL33CoreContext&) = delete;
+};
+
+#endif
+
+/* EOF */

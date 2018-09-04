@@ -27,14 +27,21 @@
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "util/log.hpp"
+#include "video/gl/gl_context.hpp"
+#include "video/gl/gl33core_context.hpp"
+#include "video/gl/gl20_context.hpp"
 #include "video/gl/gl_lightmap.hpp"
+#include "video/gl/gl_program.hpp"
 #include "video/gl/gl_renderer.hpp"
 #include "video/gl/gl_texture.hpp"
+#include "video/gl/gl_vertex_arrays.hpp"
 
-GLVideoSystem::GLVideoSystem() :
+GLVideoSystem::GLVideoSystem(bool use_opengl33core) :
+  m_use_opengl33core(use_opengl33core),
   m_texture_manager(),
   m_renderer(),
   m_lightmap(),
+  m_context(),
   m_window(),
   m_glcontext(),
   m_desktop_size(),
@@ -48,6 +55,15 @@ GLVideoSystem::GLVideoSystem() :
 
   m_texture_manager.reset(new TextureManager);
   m_renderer.reset(new GLRenderer(*this));
+
+  if (use_opengl33core)
+  {
+    m_context.reset(new GL33CoreContext);
+  }
+  else
+  {
+    m_context.reset(new GL20Context);
+  }
 
   apply_config();
 }
@@ -94,10 +110,22 @@ GLVideoSystem::create_window()
 //   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
 //   SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_ES);
 // #else
-//   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-//   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
-//   SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_COMPATIBILITY);
-// #endif
+
+  if (m_use_opengl33core)
+  {
+    log_info << "Requesting OpenGL 3.3 Core context" << std::endl;
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+  }
+  else
+  {
+    log_info << "Requesting OpenGL 2.0 context" << std::endl;
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0); // this only goes to 0
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_COMPATIBILITY);
+  }
+   //#endif
 
   m_window = SDL_CreateWindow("SuperTux",
                               SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
@@ -173,7 +201,8 @@ GLVideoSystem::create_window()
       throw std::runtime_error(out.str());
     }
 
-  log_info << "OpenGL 3.3: " << GLEW_VERSION_3_3 << std::endl;
+  // log_info << "OpenGL 3.3: " << GLEW_VERSION_3_3 << std::endl;
+  log_info << "OpenGL: " << glGetString(GL_VERSION) << std::endl;
   log_info << "Using GLEW " << glewGetString(GLEW_VERSION) << std::endl;
   log_info << "GLEW_ARB_texture_non_power_of_two: " << static_cast<int>(GLEW_ARB_texture_non_power_of_two) << std::endl;
 #  endif
