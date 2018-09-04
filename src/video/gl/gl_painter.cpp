@@ -394,13 +394,19 @@ GLPainter::draw_filled_rect(const DrawingRequest& request)
 void
 GLPainter::draw_inverse_ellipse(const DrawingRequest& request)
 {
-#if FIXME_OPENGL33
+  GLVertexArrays& vertex_arrays = m_video_system.get_vertex_arrays();
+
   assert_gl("");
   const auto& data = static_cast<const InverseEllipseRequest&>(request);
 
-  glDisable(GL_TEXTURE_2D);
-  glColor4f(data.color.red,  data.color.green,
-            data.color.blue, data.color.alpha);
+  //glDisable(GL_TEXTURE_2D);
+  //glColor4f(data.color.red,  data.color.green,
+  //          data.color.blue, data.color.alpha);
+  vertex_arrays.set_color(data.color);
+
+  // white dummy texture to make the shader happy
+  glBindTexture(GL_TEXTURE_2D, m_video_system.get_white_texture().get_handle());
+  vertex_arrays.set_texcoord(0.0f, 0.0f);
 
   float x = data.pos.x;
   float y = data.pos.y;
@@ -466,60 +472,90 @@ GLPainter::draw_inverse_ellipse(const DrawingRequest& request)
     vertices[p++] = x - ex2;      vertices[p++] = y + ey2;
   }
 
-  glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-  glVertexPointer(2, GL_FLOAT, 0, vertices);
+  //glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+  //glVertexPointer(2, GL_FLOAT, 0, vertices);
+  vertex_arrays.set_positions(vertices, sizeof(vertices));
 
   glDrawArrays(GL_TRIANGLES, 0, points);
 
-  glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+  //glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
-  glEnable(GL_TEXTURE_2D);
-  glColor4f(1, 1, 1, 1);
+  //glEnable(GL_TEXTURE_2D);
+  //glColor4f(1, 1, 1, 1);
   assert_gl("");
-#endif
 }
 
 void
 GLPainter::draw_line(const DrawingRequest& request)
 {
-#if FIXME_OPENGL33
+  GLVertexArrays& vertex_arrays = m_video_system.get_vertex_arrays();
+
   assert_gl("");
   const auto& data = static_cast<const LineRequest&>(request);
 
-  glDisable(GL_TEXTURE_2D);
-  glColor4f(data.color.red, data.color.green, data.color.blue, data.color.alpha);
-  glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+  //glDisable(GL_TEXTURE_2D);
+  //glColor4f(data.color.red, data.color.green, data.color.blue, data.color.alpha);
+  //glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+
+  vertex_arrays.set_color(data.color);
+
+  // white dummy texture to make the shader happy
+  glBindTexture(GL_TEXTURE_2D, m_video_system.get_white_texture().get_handle());
+  vertex_arrays.set_texcoord(0.0f, 0.0f);
 
   float x1 = data.pos.x;
   float y1 = data.pos.y;
   float x2 = data.dest_pos.x;
   float y2 = data.dest_pos.y;
 
+  // OpenGL3.3 doesn't have GL_LINES anymore, so instead we transform
+  // the line into a quad and draw it as triangle strip.
+  // triangle strip
+  float x_step = (y2 - y1);
+  float y_step = -(x2 - x1);
+
+  float step_norm = sqrtf(x_step * x_step + y_step * y_step);
+  x_step /= step_norm;
+  y_step /= step_norm;
+
+  x_step *= 0.5f;
+  y_step *= 0.5f;
+
+  // FIXME: this results in lines of not quite consistant width
   float vertices[] = {
-    x1, y1,
-    x2, y2
+    (x1 - x_step), (y1 - y_step),
+    (x2 - x_step), (y2 - y_step),
+    (x1 + x_step), (y1 + y_step),
+    (x2 + x_step), (y2 + y_step),
   };
-  glVertexPointer(2, GL_FLOAT, 0, vertices);
 
-  glDrawArrays(GL_LINES, 0, 2);
+  //glVertexPointer(2, GL_FLOAT, 0, vertices);
+  vertex_arrays.set_positions(vertices, sizeof(vertices));
+  glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
-  glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-  glEnable(GL_TEXTURE_2D);
-  glColor4f(1, 1, 1, 1);
+  //glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+  //glEnable(GL_TEXTURE_2D);
+  //glColor4f(1, 1, 1, 1);
   assert_gl("");
-#endif
 }
 
 void
 GLPainter::draw_triangle(const DrawingRequest& request)
 {
-#if FIXME_OPENGL33
+  GLVertexArrays& vertex_arrays = m_video_system.get_vertex_arrays();
+
   assert_gl("");
   const auto& data = static_cast<const TriangleRequest&>(request);
 
-  glDisable(GL_TEXTURE_2D);
-  glColor4f(data.color.red, data.color.green, data.color.blue, data.color.alpha);
-  glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+  //glDisable(GL_TEXTURE_2D);
+  //glColor4f(data.color.red, data.color.green, data.color.blue, data.color.alpha);
+  //glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+
+  vertex_arrays.set_color(data.color);
+
+  // white dummy texture to make the shader happy
+  glBindTexture(GL_TEXTURE_2D, m_video_system.get_white_texture().get_handle());
+  vertex_arrays.set_texcoord(0.0f, 0.0f);
 
   float x1 = data.pos1.x;
   float y1 = data.pos1.y;
@@ -533,15 +569,14 @@ GLPainter::draw_triangle(const DrawingRequest& request)
     x2, y2,
     x3, y3
   };
-  glVertexPointer(2, GL_FLOAT, 0, vertices);
+  //glVertexPointer(2, GL_FLOAT, 0, vertices);
+  vertex_arrays.set_positions(vertices, sizeof(vertices));
 
   glDrawArrays(GL_TRIANGLES, 0, 3);
-
-  glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-  glEnable(GL_TEXTURE_2D);
-  glColor4f(1, 1, 1, 1);
+  //glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+  //glEnable(GL_TEXTURE_2D);
+  //glColor4f(1, 1, 1, 1);
   assert_gl("");
-#endif
 }
 
 /* EOF */
