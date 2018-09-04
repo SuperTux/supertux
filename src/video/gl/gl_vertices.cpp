@@ -62,7 +62,7 @@ GLVertices::set_positions(const float* data, size_t size)
   glBufferData(GL_ARRAY_BUFFER, size, data, GL_DYNAMIC_DRAW);
 
   int loc = m_video_system.get_program().get_attrib_location("position");
-  glVertexAttribPointer(loc, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
+  glVertexAttribPointer(loc, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
   glEnableVertexAttribArray(loc);
   assert_gl("");
 }
