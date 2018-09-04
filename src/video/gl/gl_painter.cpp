@@ -167,7 +167,10 @@ GLPainter::draw_texture(const DrawingRequest& request)
 void
 GLPainter::draw_texture_batch(const DrawingRequest& request)
 {
-#if FIXME_OPENGL33
+  GLProgram& program = m_video_system.get_program();
+  GLVertices& vertex_arrays = m_video_system.get_vertex_arrays();
+  GLint diffuse_loc = program.get_uniform_location("diffuse");
+
   assert_gl("");
   const auto& data = static_cast<const TextureBatchRequest&>(request);
   const auto& texture = static_cast<const GLTexture&>(*data.texture);
@@ -226,19 +229,21 @@ GLPainter::draw_texture_batch(const DrawingRequest& request)
     uvs.insert(uvs.end(), std::begin(uvs_lst), std::end(uvs_lst));
   }
 
-  glVertexPointer(2, GL_FLOAT, 0, vertices.data());
-  glTexCoordPointer(2, GL_FLOAT, 0, uvs.data());
+  //glVertexPointer(2, GL_FLOAT, 0, vertices.data());
+  //glTexCoordPointer(2, GL_FLOAT, 0, uvs.data());
+  vertex_arrays.set_positions(vertices.data(), sizeof(float) * vertices.size());
+  vertex_arrays.set_texcoords(uvs.data(), sizeof(float) * uvs.size());
 
   glBlendFunc(request.blend.sfactor, request.blend.dfactor);
-  glColor4f(data.color.red, data.color.green, data.color.blue, data.color.alpha * request.alpha);
+  glUniform4f(diffuse_loc, data.color.red, data.color.green, data.color.blue, data.color.alpha * request.alpha);
+  // glColor4f(data.color.red, data.color.green, data.color.blue, data.color.alpha * request.alpha);
 
   glDrawArrays(GL_TRIANGLES, 0, static_cast<GLsizei>(data.srcrects.size() * 2 * 3));
 
   // FIXME: find a better way to restore the blend mode
-  glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+  //glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   assert_gl("");
-#endif
 }
 
 void
