@@ -44,14 +44,7 @@ GLPainter::intern_draw(float left, float top, float right, float bottom,
   GLProgram& program = m_video_system.get_program();
   GLVertices& vertex_arrays = m_video_system.get_vertex_arrays();
 
-  GLint position_loc = program.get_attrib_location("position");
-  std::cout << "pos: " << position_loc << std::endl;
-
-  GLint texcoord_loc = program.get_attrib_location("texcoord");
-  std::cout << "tex: " << texcoord_loc << std::endl;
-
   GLint diffuse_loc = program.get_uniform_location("diffuse");
-  std::cout << "diffuse: " << diffuse_loc << std::endl;
 
   if(effect & HORIZONTAL_FLIP)
     std::swap(uv_left, uv_right);
