@@ -41,10 +41,7 @@ GLPainter::intern_draw(float left, float top, float right, float bottom,
                        const Blend& blend,
                        const DrawingEffect& effect)
 {
-  GLProgram& program = m_video_system.get_program();
   GLVertexArrays& vertex_arrays = m_video_system.get_vertex_arrays();
-
-  GLint diffuse_loc = program.get_uniform_location("diffuse");
 
   if(effect & HORIZONTAL_FLIP)
     std::swap(uv_left, uv_right);
@@ -54,7 +51,8 @@ GLPainter::intern_draw(float left, float top, float right, float bottom,
 
   glBlendFunc(blend.sfactor, blend.dfactor);
   //glColor4f(color.red, color.green, color.blue, color.alpha * alpha);
-  glUniform4f(diffuse_loc, color.red, color.green, color.blue, color.alpha * alpha);
+
+  vertex_arrays.set_color(Color(color.red, color.green, color.blue, color.alpha * alpha));
 
   // unrotated blit
   if (angle == 0.0f) {
@@ -160,9 +158,7 @@ GLPainter::draw_texture(const DrawingRequest& request)
 void
 GLPainter::draw_texture_batch(const DrawingRequest& request)
 {
-  GLProgram& program = m_video_system.get_program();
   GLVertexArrays& vertex_arrays = m_video_system.get_vertex_arrays();
-  GLint diffuse_loc = program.get_uniform_location("diffuse");
 
   assert_gl("");
   const auto& data = static_cast<const TextureBatchRequest&>(request);
@@ -228,7 +224,7 @@ GLPainter::draw_texture_batch(const DrawingRequest& request)
   vertex_arrays.set_texcoords(uvs.data(), sizeof(float) * uvs.size());
 
   glBlendFunc(request.blend.sfactor, request.blend.dfactor);
-  glUniform4f(diffuse_loc, data.color.red, data.color.green, data.color.blue, data.color.alpha * request.alpha);
+  vertex_arrays.set_color(Color(data.color.red, data.color.green, data.color.blue, data.color.alpha * request.alpha));
   // glColor4f(data.color.red, data.color.green, data.color.blue, data.color.alpha * request.alpha);
 
   glDrawArrays(GL_TRIANGLES, 0, static_cast<GLsizei>(data.srcrects.size() * 2 * 3));

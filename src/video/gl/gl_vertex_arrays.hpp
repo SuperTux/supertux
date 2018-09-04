@@ -19,6 +19,7 @@
 
 #include "video/glutil.hpp"
 
+class Color;
 class GLVideoSystem;
 
 class GLVertexArrays
@@ -36,12 +37,16 @@ public:
   /** size is in bytes */
   void set_texcoords(const float* data, size_t size);
 
+  void set_colors(const float* data, size_t size);
+  void set_color(const Color& color);
+
 private:
   GLVideoSystem& m_video_system;
   GLuint m_vao;
   GLsizei m_element_count;
   GLuint m_positions_buffer;
   GLuint m_texcoords_buffer;
+  GLuint m_color_buffer;
 
 private:
   GLVertexArrays(const GLVertexArrays&) = delete;

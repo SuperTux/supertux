@@ -2,8 +2,10 @@
 
 attribute vec2 texcoord;
 attribute vec2 position;
+attribute vec4 diffuse;
 
 varying vec2 texcoord_var;
+varying vec4 diffuse_var;
 
 uniform mat3 modelviewprojection;
 

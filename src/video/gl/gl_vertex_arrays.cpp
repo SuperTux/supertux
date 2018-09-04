@@ -16,6 +16,7 @@
 
 #include "video/gl/gl_vertex_arrays.hpp"
 
+#include "video/color.hpp"
 #include "video/gl/gl_program.hpp"
 #include "video/gl/gl_video_system.hpp"
 
@@ -24,12 +25,14 @@ GLVertexArrays::GLVertexArrays(GLVideoSystem& video_system) :
   m_vao(),
   m_element_count(),
   m_positions_buffer(),
-  m_texcoords_buffer()
+  m_texcoords_buffer(),
+  m_color_buffer()
 {
   assert_gl("");
   glGenVertexArrays(1, &m_vao);
   glGenBuffers(1, &m_positions_buffer);
   glGenBuffers(1, &m_texcoords_buffer);
+  glGenBuffers(1, &m_color_buffer);
   assert_gl("");
 }
 
@@ -37,6 +40,7 @@ GLVertexArrays::~GLVertexArrays()
 {
   glDeleteBuffers(1, &m_positions_buffer);
   glDeleteBuffers(1, &m_texcoords_buffer);
+  glDeleteBuffers(1, &m_color_buffer);
   glDeleteVertexArrays(1, &m_vao);
 }
 
@@ -77,6 +81,29 @@ GLVertexArrays::set_texcoords(const float* data, size_t size)
   int loc = m_video_system.get_program().get_attrib_location("texcoord");
   glVertexAttribPointer(loc, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
   glEnableVertexAttribArray(loc);
+  assert_gl("");
+}
+
+void
+GLVertexArrays::set_colors(const float* data, size_t size)
+{
+  assert_gl("");
+  glBindBuffer(GL_ARRAY_BUFFER, m_texcoords_buffer);
+  glBufferData(GL_ARRAY_BUFFER, size, data, GL_DYNAMIC_DRAW);
+
+  int loc = m_video_system.get_program().get_attrib_location("diffuse");
+  glVertexAttribPointer(loc, 4, GL_FLOAT, GL_FALSE, 0, nullptr);
+  glEnableVertexAttribArray(loc);
+  assert_gl("");
+}
+
+void
+GLVertexArrays::set_color(const Color& color)
+{
+  assert_gl("");
+  int loc = m_video_system.get_program().get_attrib_location("diffuse");
+  glVertexAttrib4f(loc, color.red, color.green, color.blue, color.alpha);
+  glDisableVertexAttribArray(loc);
   assert_gl("");
 }
 
