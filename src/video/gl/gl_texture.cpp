@@ -42,7 +42,7 @@ inline int next_power_of_two(int val)
 
 } // namespace
 
-GLTexture::GLTexture(unsigned int width, unsigned int height) :
+GLTexture::GLTexture(unsigned int width, unsigned int height, boost::optional<Color> fill_color) :
   m_handle(),
   m_texture_width(),
   m_texture_height(),
@@ -64,8 +64,17 @@ GLTexture::GLTexture(unsigned int width, unsigned int height) :
   try {
     glBindTexture(GL_TEXTURE_2D, m_handle);
 
-    glTexImage2D(GL_TEXTURE_2D, 0, static_cast<GLint>(GL_RGBA), m_texture_width,
-				 m_texture_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+    if (fill_color)
+    {
+      std::vector<uint32_t> pixels(m_texture_width * m_texture_height, fill_color->rgba());
+      glTexImage2D(GL_TEXTURE_2D, 0, static_cast<GLint>(GL_RGBA), m_texture_width,
+                   m_texture_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels.data());
+    }
+    else
+    {
+      glTexImage2D(GL_TEXTURE_2D, 0, static_cast<GLint>(GL_RGBA), m_texture_width,
+                   m_texture_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+    }
 
     set_texture_params();
   } catch(...) {

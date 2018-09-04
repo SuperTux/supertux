@@ -17,6 +17,9 @@
 #ifndef HEADER_SUPERTUX_VIDEO_GL_TEXTURE_HPP
 #define HEADER_SUPERTUX_VIDEO_GL_TEXTURE_HPP
 
+#include <boost/optional.hpp>
+
+#include "video/color.hpp"
 #include "video/texture.hpp"
 
 /** This class is a wrapper around a texture handle. It stores the
@@ -32,7 +35,7 @@ protected:
   unsigned int m_image_height;
 
 public:
-  GLTexture(unsigned int width, unsigned int height);
+  GLTexture(unsigned int width, unsigned int height, boost::optional<Color> fill_color = boost::none);
   GLTexture(SDL_Surface* image);
   ~GLTexture();
 

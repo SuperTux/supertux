@@ -39,6 +39,7 @@ GLVideoSystem::GLVideoSystem() :
   m_lightmap(),
   m_program(),
   m_vertex_arrays(),
+  m_white_texture(),
   m_window(),
   m_glcontext(),
   m_desktop_size(),
@@ -54,6 +55,7 @@ GLVideoSystem::GLVideoSystem() :
   m_renderer.reset(new GLRenderer(*this));
   m_program.reset(new GLProgram);
   m_vertex_arrays.reset(new GLVertexArrays(*this));
+  m_white_texture.reset(new GLTexture(1, 1, Color::WHITE));
 
   apply_config();
 }

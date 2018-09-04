@@ -27,6 +27,7 @@
 class GLLightmap;
 class GLProgram;
 class GLRenderer;
+class GLTexture;
 class GLVertexArrays;
 class Rect;
 class TextureManager;
@@ -58,6 +59,7 @@ public:
 
   GLProgram& get_program() const { return *m_program; }
   GLVertexArrays& get_vertex_arrays() const { return *m_vertex_arrays; }
+  GLTexture& get_white_texture() const { return *m_white_texture; }
 
 private:
   void create_window();
@@ -69,6 +71,7 @@ private:
   std::unique_ptr<GLLightmap> m_lightmap;
   std::unique_ptr<GLProgram> m_program;
   std::unique_ptr<GLVertexArrays> m_vertex_arrays;
+  std::unique_ptr<GLTexture> m_white_texture;
 
   SDL_Window* m_window;
   SDL_GLContext m_glcontext;
