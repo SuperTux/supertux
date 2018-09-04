@@ -215,15 +215,14 @@ MrIceBlock::collision_squished(GameObject& object)
   if (player)
   {
     player->bounce(*this); 
-    printf("Testing\n");
     Sector *sector = Sector::current();
     Vector pos = get_pos();
     float red = graphicsRandom.randf(0.6f, 1.0f);
     float green = graphicsRandom.randf(0.6f, 1.0f);
     float blue = graphicsRandom.randf(0.6f, 1.0f);
-    sector->add_object(std::make_shared<Particles>(pos, -60, 60, 200, 200,
-                                                   Vector(0, 0), 45, Color(red, green, blue), 3, 5.0f,
-                                                   LAYER_FOREGROUND1+1, 600.0f, 200.0f)); 
+    sector->add_object(std::make_shared<Particles>(pos, 0, 75, 200, 200,
+                                                   Vector(0, 0), 45, Color(red, green, blue), 20, 3.0f,
+                                                   LAYER_FOREGROUND1+1, 450.0f, 200.0f)); 
 
   }
   return true;

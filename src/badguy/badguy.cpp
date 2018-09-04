@@ -486,8 +486,8 @@ BadGuy::kill_squished(GameObject& object)
     float green = graphicsRandom.randf(0.6f, 1.0f);
     float blue = graphicsRandom.randf(0.6f, 1.0f);
     sector->add_object(std::make_shared<Particles>(pos, -60, 60, 140, 140,
-                                                   Vector(0, 0), 45, Color(red, green, blue), 3, 0.5f,
-                                                   LAYER_FOREGROUND1+1, 600.0f, 200.0f)); 
+                                                   Vector(0, 0), 45, Color(red, green, blue), 20, 1.5f,
+                                                   LAYER_FOREGROUND1+1, 450.0f, 200.0f)); 
 
   }
 
