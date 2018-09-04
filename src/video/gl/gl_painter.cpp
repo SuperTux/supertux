@@ -30,8 +30,6 @@
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
-GLuint GLPainter::s_last_texture = static_cast<GLuint>(-1);
-
 void
 GLPainter::intern_draw(float left, float top, float right, float bottom,
                        float uv_left, float uv_top,
@@ -130,12 +128,7 @@ GLPainter::draw_texture(const DrawingRequest& request)
   const auto& data = static_cast<const TextureRequest&>(request);
   const auto& texture = static_cast<const GLTexture&>(*data.texture);
 
-  GLuint handle = texture.get_handle();
-  if (handle != s_last_texture)
-  {
-    s_last_texture = handle;
-    glBindTexture(GL_TEXTURE_2D, handle);
-  }
+  glBindTexture(GL_TEXTURE_2D, texture.get_handle());
 
   intern_draw(data.dstrect.p1.x,
               data.dstrect.p1.y,
@@ -166,12 +159,7 @@ GLPainter::draw_texture_batch(const DrawingRequest& request)
 
   assert(data.srcrects.size() == data.dstrects.size());
 
-  GLuint handle = texture.get_handle();
-  if (handle != s_last_texture)
-  {
-    s_last_texture = handle;
-    glBindTexture(GL_TEXTURE_2D, handle);
-  }
+  glBindTexture(GL_TEXTURE_2D, texture.get_handle());
 
   std::vector<float> vertices;
   std::vector<float> uvs;

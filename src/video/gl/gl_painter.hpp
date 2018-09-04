@@ -36,12 +36,6 @@ struct DrawingRequest;
 
 class GLPainter : public Painter
 {
-private:
-  static GLuint s_last_texture;
-
-private:
-  GLVideoSystem& m_video_system;
-
 public:
   GLPainter(GLVideoSystem& video_system);
 
@@ -61,6 +55,8 @@ private:
                           const Color& color,
                           const Blend& blend,
                           const DrawingEffect& effect);
+private:
+  GLVideoSystem& m_video_system;
 
 private:
   GLPainter(const GLPainter&) = delete;
