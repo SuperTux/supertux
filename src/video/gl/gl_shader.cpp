@@ -33,7 +33,16 @@ GLShader::from_file(GLenum type, const std::string& filename)
     sources.push_back(line + "\n");
   }
 
-  return from_source(type, sources);
+  try
+  {
+    return from_source(type, sources);
+  }
+  catch(const std::exception& err)
+  {
+    std::ostringstream out;
+    out << filename << ": " << err.what();
+    throw std::runtime_error(out.str());
+  }
 }
 
 std::unique_ptr<GLShader>
