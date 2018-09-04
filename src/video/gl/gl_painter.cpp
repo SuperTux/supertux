@@ -108,7 +108,7 @@ GLPainter::intern_draw(float left, float top, float right, float bottom,
       uv_left, uv_bottom,
     };
     //glTexCoordPointer(2, GL_FLOAT, 0, uvs);
-    vertex_arrays.set_positions(uvs, sizeof(uvs));
+    vertex_arrays.set_texcoords(uvs, sizeof(uvs));
 
     glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
   }
