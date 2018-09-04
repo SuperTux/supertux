@@ -123,6 +123,8 @@ GLLightmap::render()
 
   glBindTexture(GL_TEXTURE_2D, m_lightmap->get_handle());
 
+  vertex_arrays.set_color(Color::WHITE);
+
   float vertices[] = {
     0, 0,
     static_cast<float>(m_size.width), 0,
