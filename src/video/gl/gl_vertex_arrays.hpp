@@ -34,7 +34,6 @@ public:
 
   /** size is in bytes */
   void set_texcoords(const float* data, size_t size);
-
   void set_texcoord(float u, float v);
 
   void set_colors(const float* data, size_t size);
