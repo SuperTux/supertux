@@ -20,8 +20,12 @@
 #include <algorithm>
 #include <math.h>
 
+#include <SDL_ttf.h>
+
 #include "math/util.hpp"
 #include "supertux/globals.hpp"
+#include "supertux/resources.hpp"
+#include "util/log.hpp"
 #include "video/drawing_request.hpp"
 #include "video/gl/gl_context.hpp"
 #include "video/gl/gl_program.hpp"
@@ -473,6 +477,16 @@ GLPainter::draw_text(const DrawingRequest& request)
       str = data.text.substr(last_pos, i + 1);
 
     last_pos = static_cast<int>(i + 1);
+
+    if(!data.font->has_all_glyphs(str))
+    {
+      log_warning << "Font file " << data.font->get_filename() << " does not contain all the glyphs to render " << str << std::endl;
+      font = Resources::get_fallback_font(data.font)->get_ttf_font();
+    }
+    else
+    {
+      font = data.font->get_ttf_font();
+    }
 
     auto texture = TextureManager::current()->get(font, str, data.color);
     auto gltexture = std::dynamic_pointer_cast<GLTexture>(texture);

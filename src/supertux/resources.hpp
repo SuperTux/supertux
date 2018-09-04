@@ -35,12 +35,37 @@ public:
   static FontPtr small_font;
   static FontPtr big_font;
 
+  // Fallback fonts
+  static FontPtr fixed_font_fallback;
+  static FontPtr normal_font_fallback;
+  static FontPtr small_font_fallback;
+  static FontPtr big_font_fallback;
+
   static SurfacePtr checkbox;
   static SurfacePtr checkbox_checked;
   static SurfacePtr back;
   static SurfacePtr arrow_left;
   static SurfacePtr arrow_right;
   static SurfacePtr no_tile;
+
+  static void reload_font_config();
+
+  static FontPtr& get_fallback_font(const Font* font)
+  {
+    if(font == fixed_font.get())
+      return fixed_font_fallback;
+    if(font == normal_font.get())
+      return normal_font_fallback;
+    if(font == small_font.get())
+      return small_font_fallback;
+    if(font == big_font.get())
+      return big_font_fallback;
+    
+    return normal_font_fallback;
+  }
+
+private:
+  static void use_fallback_fonts();
 
 public:
   Resources();

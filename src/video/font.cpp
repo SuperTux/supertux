@@ -508,7 +508,10 @@ Font::has_all_glyphs(const std::string& text) const
   for(const auto& c : text)
   {
     if(!TTF_GlyphIsProvided(ttf_font, static_cast<Uint16>(c)))
+    {
+      log_warning << c << " not available in font!" << std::endl;
       return false;
+    }
   }
   return true;
 }

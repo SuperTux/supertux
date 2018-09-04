@@ -25,6 +25,7 @@ extern "C" {
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/menu/menu_storage.hpp"
+#include "supertux/resources.hpp"
 #include "util/gettext.hpp"
 
 enum {
@@ -92,6 +93,9 @@ LanguageMenu::menu_action(MenuItem* item)
       }
     }
   }
+
+  Resources::reload_font_config();
+
   if(g_dictionary_manager->get_language().get_language() != "en")
     MenuManager::instance().push_menu(MenuStorage::LANGPACK_AUTO_UPDATE_MENU);
 }

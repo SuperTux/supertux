@@ -24,6 +24,7 @@
 #include "physfs/physfs_sdl.hpp"
 #include "util/file_system.hpp"
 #include "util/log.hpp"
+#include "video/font.hpp"
 #include "video/sdl_surface_ptr.hpp"
 #include "video/texture.hpp"
 #include "video/video_system.hpp"
@@ -219,6 +220,7 @@ TexturePtr
 TextureManager::create_text_texture(TTF_Font* font, const std::string& text,
                                     const Color& color)
 {
+  log_warning << "Creating text texture for " << text << std::endl;
   SDLSurfacePtr image(TTF_RenderUTF8_Blended(font, text.c_str(), color.to_sdl_color()));
   if (!image)
   {

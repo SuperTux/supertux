@@ -17,9 +17,11 @@
 #include "video/sdl/sdl_painter.hpp"
 
 #include <SDL.h>
+#include <SDL_ttf.h>
 #include <algorithm>
 
 #include "supertux/globals.hpp"
+#include "supertux/resources.hpp"
 #include "util/log.hpp"
 #include "video/drawing_request.hpp"
 #include "video/sdl/sdl_texture.hpp"
@@ -371,6 +373,15 @@ SDLPainter::draw_text(const DrawingRequest& request)
       str = data.text.substr(last_pos, i + 1);
 
     last_pos = static_cast<int>(i + 1);
+
+    if(!data.font->has_all_glyphs(str))
+    {
+      font = Resources::get_fallback_font(data.font)->get_ttf_font();
+    }
+    else
+    {
+      font = data.font->get_ttf_font();
+    }
 
     auto texture = std::dynamic_pointer_cast<SDLTexture>(
       TextureManager::current()->get(font, str, data.color));

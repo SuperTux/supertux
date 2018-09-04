@@ -49,6 +49,11 @@ public:
   TexturePtr get(const std::string& filename, const Rect& rect);
   TexturePtr get(TTF_Font* font, const std::string& text, const Color& color = Color::BLACK);
 
+  void clear_text_textures()
+  {
+    m_font_textures.clear();
+  }
+
 private:
   void reap_cache_entry(const std::string& filename);
 

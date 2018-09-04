@@ -109,6 +109,14 @@ public:
    */
   bool has_all_glyphs(const std::string& text) const;
 
+  /**
+   * Returns the font file name
+   */
+  std::string get_filename() const
+  {
+    return file_name;
+  }
+
 private:
   friend class DrawingContext;
 
