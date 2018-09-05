@@ -391,6 +391,20 @@ set_target_properties(tinygettext_lib PROPERTIES IMPORTED_LOCATION "${TINYGETTEX
 
 include_directories(SYSTEM ${TINYGETTEXT_PREFIX}/include)
 
+## external/SDL_ttf with patches
+find_package(Freetype)
+find_package(RAQM)
+set(SDL_TTF_PREFIX ${CMAKE_BINARY_DIR}/SDL_ttf/)
+ExternalProject_Add(SDL_ttf
+  SOURCE_DIR "${CMAKE_SOURCE_DIR}/external/SDL_ttf/"
+  CONFIGURE_COMMAND ${CMAKE_SOURCE_DIR}/external/SDL_ttf/autogen.sh && env CC=${CMAKE_C_COMPILER} ${CMAKE_SOURCE_DIR}/external/SDL_ttf/configure --prefix=${SDL_TTF_PREFIX} --enable-static --disable-shared --with-raqm --with-freetype-prefix=${FREETYPE_DIR} --with-sdl-prefix=${SDL2_PREFIX}
+  BUILD_COMMAND ${MAKE}
+  BUILD_IN_SOURCE 1)
+add_library(SDL_ttf_lib STATIC IMPORTED)
+set_target_properties(SDL_ttf_lib PROPERTIES IMPORTED_LOCATION "${SDL_TTF_PREFIX}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}SDL2_ttf${CMAKE_STATIC_LIBRARY_SUFFIX}")
+link_directories(${SDL_TTF_PREFIX}/lib)
+include_directories(SYSTEM ${SDL_TTF_PREFIX}/include/SDL2)
+
 ## Some additional include paths
 
 include_directories(${CMAKE_BINARY_DIR}/)
@@ -613,11 +627,16 @@ endif(WIN32)
 
 add_dependencies(supertux2_lib tinygettext)
 add_dependencies(supertux2_lib squirrel)
+add_dependencies(supertux2_lib SDL_ttf)
 
 target_include_directories(supertux2_lib SYSTEM PUBLIC ${SDL2_INCLUDE_DIRS})
 target_include_directories(supertux2_lib SYSTEM PUBLIC ${SDL2IMAGE_INCLUDE_DIRS})
+target_include_directories(supertux2_lib SYSTEM PUBLIC ${SDL_TTF_PREFIX}/include/SDL2)
 target_link_libraries(supertux2_lib PUBLIC ${SDL2_LIBRARIES})
 target_link_libraries(supertux2_lib PUBLIC ${SDL2IMAGE_LIBRARIES})
+target_link_libraries(supertux2_lib PUBLIC SDL_ttf_lib)
+target_link_libraries(supertux2_lib PUBLIC ${FREETYPE_LIBRARIES})
+target_link_libraries(supertux2_lib PUBLIC ${RAQM_LIBRARIES})
 
 target_link_libraries(supertux2_lib PUBLIC squirrel_lib)
 target_link_libraries(supertux2_lib PUBLIC sqstdlib_lib)
@@ -916,6 +935,11 @@ mark_as_advanced(
 mark_as_advanced(
   OPENAL_INCLUDE_DIR
   OPENAL_LIBRARY
+)
+
+mark_as_advanced(
+  SDL2TTF_INCLUDE_DIRS
+  SDL2TTF_LIBRARIES
   )
 
 mark_as_advanced(
