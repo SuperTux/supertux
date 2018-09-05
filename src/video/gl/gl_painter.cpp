@@ -16,7 +16,6 @@
 
 #include "video/gl/gl_painter.hpp"
 
-#include <iostream>
 #include <algorithm>
 #include <math.h>
 
@@ -28,6 +27,7 @@
 #include "video/gl/gl_texture.hpp"
 #include "video/gl/gl_vertex_arrays.hpp"
 #include "video/gl/gl_video_system.hpp"
+#include "video/glutil.hpp"
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 

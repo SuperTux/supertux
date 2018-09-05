@@ -19,15 +19,6 @@
 
 #include "video/painter.hpp"
 
-#ifdef USE_GLBINDING
-#include <glbinding/gl/gl.h>
-using namespace gl;
-#else
-#include <GL/glew.h>
-
-#include "SDL_opengl.h"
-#endif
-
 #include "video/drawing_effect.hpp"
 
 class Blend;

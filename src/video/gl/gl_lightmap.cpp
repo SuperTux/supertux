@@ -16,10 +16,9 @@
 
 #include "video/gl/gl_lightmap.hpp"
 
-#include <iostream>
-
 #include "supertux/globals.hpp"
 #include "video/drawing_request.hpp"
+#include "video/gl.hpp"
 #include "video/gl/gl_context.hpp"
 #include "video/gl/gl_painter.hpp"
 #include "video/gl/gl_program.hpp"

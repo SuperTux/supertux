@@ -24,6 +24,7 @@
 
 #include "math/rectf.hpp"
 #include "math/vector.hpp"
+#include "video/gl.hpp"
 #include "video/color.hpp"
 #include "video/font.hpp"
 #include "video/font_ptr.hpp"

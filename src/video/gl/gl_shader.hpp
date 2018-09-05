@@ -18,7 +18,7 @@
 #include <string>
 #include <vector>
 
-#include "video/glutil.hpp"
+#include "video/gl.hpp"
 
 class GLShader
 {

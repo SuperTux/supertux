@@ -20,7 +20,7 @@
 #include <assert.h>
 #include <memory>
 
-#include "video/glutil.hpp"
+#include "video/gl.hpp"
 #include "video/gl/gl_shader.hpp"
 
 class GLProgram

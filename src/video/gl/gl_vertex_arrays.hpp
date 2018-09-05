@@ -17,7 +17,9 @@
 #ifndef HEADER_SUPERTUX_VIDEO_GL_GL_VERTICES_HPP
 #define HEADER_SUPERTUX_VIDEO_GL_GL_VERTICES_HPP
 
-#include "video/glutil.hpp"
+#include <stddef.h>
+
+#include "video/gl.hpp"
 
 class Color;
 class GL33CoreContext;

@@ -20,6 +20,7 @@
 #include <boost/optional.hpp>
 
 #include "video/color.hpp"
+#include "video/gl.hpp"
 #include "video/texture.hpp"
 
 /** This class is a wrapper around a texture handle. It stores the

@@ -25,12 +25,11 @@
 #include <vector>
 
 #include "util/currenton.hpp"
-#include "video/glutil.hpp"
 #include "video/texture_ptr.hpp"
 
-class Texture;
 class GLTexture;
 class Rect;
+class Texture;
 struct SDL_Surface;
 
 class TextureManager : public Currenton<TextureManager>

@@ -17,7 +17,7 @@
 #include "video/gl/gl_shader.hpp"
 
 #include <fstream>
-#include <iostream>
+#include <sstream>
 
 #include "physfs/ifile_stream.hpp"
 

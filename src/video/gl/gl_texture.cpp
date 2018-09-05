@@ -19,28 +19,7 @@
 #include <SDL.h>
 #include <assert.h>
 
-#ifdef USE_GLBINDING
-  #include <glbinding/ContextInfo.h>
-#endif
-
-namespace {
-
-#ifdef GL_VERSION_ES_CM_1_0
-inline bool is_power_of_2(int v)
-{
-  return (v & (v-1)) == 0;
-}
-#endif
-
-inline int next_power_of_two(int val)
-{
-  int result = 1;
-  while(result < val)
-    result *= 2;
-  return result;
-}
-
-} // namespace
+#include "video/glutil.hpp"
 
 GLTexture::GLTexture(unsigned int width, unsigned int height, boost::optional<Color> fill_color) :
   m_handle(),
@@ -90,30 +69,16 @@ GLTexture::GLTexture(SDL_Surface* image) :
   m_image_width(),
   m_image_height()
 {
-#ifdef GL_VERSION_ES_CM_1_0
-  m_texture_width = next_power_of_two(image->w);
-  m_texture_height = next_power_of_two(image->h);
-#else
-#  ifdef USE_GLBINDING
-  static auto extensions = glbinding::ContextInfo::extensions();
-  if (extensions.find(GLextension::GL_ARB_texture_non_power_of_two) != extensions.end())
-  {
-    m_texture_width  = image->w;
-    m_texture_height = image->h;
-  }
-#  else
-  if (GLEW_ARB_texture_non_power_of_two)
-  {
-    m_texture_width  = image->w;
-    m_texture_height = image->h;
-  }
-#  endif
-  else
+  if (gl_needs_power_of_two())
   {
     m_texture_width = next_power_of_two(image->w);
     m_texture_height = next_power_of_two(image->h);
   }
-#endif
+  else
+  {
+    m_texture_width  = image->w;
+    m_texture_height = image->h;
+  }
 
   m_image_width  = image->w;
   m_image_height = image->h;
@@ -156,7 +121,7 @@ GLTexture::GLTexture(SDL_Surface* image) :
 #else
     /* OpenGL ES doesn't support UNPACK_ROW_LENGTH, let's hope SDL didn't add
      * padding bytes, otherwise we need some extra code here... */
-    assert(convert->pitch == m_texture_width * convert->format->BytesPerPixel);
+    assert(convert->pitch == static_cast<int>(m_texture_width * convert->format->BytesPerPixel));
 #endif
 
     if(SDL_MUSTLOCK(convert))

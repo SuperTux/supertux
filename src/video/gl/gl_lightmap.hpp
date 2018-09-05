@@ -19,8 +19,8 @@
 
 #include <memory>
 
+#include "video/gl.hpp"
 #include "video/gl/gl_painter.hpp"
-#include "video/glutil.hpp"
 #include "video/lightmap.hpp"
 
 class GLTexture;

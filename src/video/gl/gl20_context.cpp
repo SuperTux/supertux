@@ -16,6 +16,7 @@
 
 #include "video/gl/gl20_context.hpp"
 
+#include "video/glutil.hpp"
 #include "video/color.hpp"
 #include "video/gl/gl_texture.hpp"
 

@@ -20,6 +20,7 @@
 #include "video/gl/gl33core_context.hpp"
 #include "video/gl/gl_program.hpp"
 #include "video/gl/gl_video_system.hpp"
+#include "video/glutil.hpp"
 
 GLVertexArrays::GLVertexArrays(GL33CoreContext& context) :
   m_context(context),

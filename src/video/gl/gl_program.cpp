@@ -16,7 +16,7 @@
 
 #include "video/gl/gl_program.hpp"
 
-#include <iostream>
+#include <sstream>
 
 GLProgram::GLProgram() :
   m_program(glCreateProgram()),
