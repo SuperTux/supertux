@@ -137,7 +137,7 @@ if(WIN32)
   find_library(SDL2_LIBRARIES NAMES SDL2 PATHS "${DEPENDENCY_FOLDER}/lib")
   find_library(SDL2IMAGE_LIBRARIES NAMES SDL2_image PATHS "${DEPENDENCY_FOLDER}/lib")
   find_library(SDL2MAIN_LIBRARIES NAMES SDL2main PATHS "${DEPENDENCY_FOLDER}/lib")
-find_path(PHYSFS_INCLUDE_DIR NAMES physfs.h PATHS "${DEPENDENCY_FOLDER}/include/physfs")
+  find_path(PHYSFS_INCLUDE_DIR NAMES physfs.h PATHS "${DEPENDENCY_FOLDER}/include/physfs")
 else(WIN32)
   include(FindPkgConfig)
   pkg_search_module(SDL2 REQUIRED sdl2>=2.0.1)
@@ -185,47 +185,47 @@ include(CheckSymbolExists)
 find_package(PhysFS)
 check_symbol_exists("PHYSFS_getPrefDir" "${PHYSFS_INCLUDE_DIR}/physfs.h" HAVE_PHYSFS_GETPREFDIR)
 if(HAVE_PHYSFS_GETPREFDIR)
-	SET(USE_SYSTEM_PHYSFS ON CACHE BOOL "Use preinstalled physfs (must support getPrefDir)")
+  set(USE_SYSTEM_PHYSFS ON CACHE BOOL "Use preinstalled physfs (must support getPrefDir)")
 else(HAVE_PHYSFS_GETPREFDIR)
-	SET(USE_SYSTEM_PHYSFS OFF CACHE BOOL "Use preinstalled physfs (must support getPrefDir)")
+  set(USE_SYSTEM_PHYSFS OFF CACHE BOOL "Use preinstalled physfs (must support getPrefDir)")
 endif(HAVE_PHYSFS_GETPREFDIR)
 
 if(NOT USE_SYSTEM_PHYSFS)
-	IF(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/external/physfs/CMakeLists.txt)
-	  message(FATAL_ERROR "physfs submodule is not checked out or ${CMAKE_CURRENT_SOURCE_DIR}/external/physfs/CMakeLists.txt is missing")
-	ENDIF()
+  if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/external/physfs/CMakeLists.txt)
+    message(FATAL_ERROR "physfs submodule is not checked out or ${CMAKE_CURRENT_SOURCE_DIR}/external/physfs/CMakeLists.txt is missing")
+  endif()
 
-	IF(WIN32)
-		SET(PHYSFS_BUILD_SHARED TRUE)
-		SET(PHYSFS_BUILD_STATIC FALSE)
-	ELSE(WIN32)
-		SET(PHYSFS_BUILD_SHARED FALSE)
-		SET(PHYSFS_BUILD_STATIC TRUE)
-	ENDIF()
+  if(WIN32)
+    set(PHYSFS_BUILD_SHARED TRUE)
+    set(PHYSFS_BUILD_STATIC FALSE)
+  else(WIN32)
+    set(PHYSFS_BUILD_SHARED FALSE)
+    set(PHYSFS_BUILD_STATIC TRUE)
+  endif()
 
-	SET(PHYSFS_PREFIX ${CMAKE_BINARY_DIR}/physfs/)
-	ExternalProject_Add(physfs
-	  SOURCE_DIR "${CMAKE_SOURCE_DIR}/external/physfs/"
-	  CMAKE_ARGS
-	  -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
-	  -DCMAKE_C_FLAGS=${CMAKE_C_FLAGS}
-	  -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
-	  -DCMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}
-	  -DCMAKE_INSTALL_PREFIX=${PHYSFS_PREFIX}
-	  -DLIB_SUFFIX=${LIB_SUFFIX}
-	  -DPHYSFS_BUILD_SHARED=${PHYSFS_BUILD_SHARED}
-	  -DPHYSFS_BUILD_STATIC=${PHYSFS_BUILD_STATIC}
-	  -DPHYSFS_BUILD_TEST=FALSE)
+  set(PHYSFS_PREFIX ${CMAKE_BINARY_DIR}/physfs/)
+  ExternalProject_Add(physfs
+    SOURCE_DIR "${CMAKE_SOURCE_DIR}/external/physfs/"
+    CMAKE_ARGS
+    -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
+    -DCMAKE_C_FLAGS=${CMAKE_C_FLAGS}
+    -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
+    -DCMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}
+    -DCMAKE_INSTALL_PREFIX=${PHYSFS_PREFIX}
+    -DLIB_SUFFIX=${LIB_SUFFIX}
+    -DPHYSFS_BUILD_SHARED=${PHYSFS_BUILD_SHARED}
+    -DPHYSFS_BUILD_STATIC=${PHYSFS_BUILD_STATIC}
+    -DPHYSFS_BUILD_TEST=FALSE)
 
-	IF(WIN32)
-		ADD_LIBRARY(physfs_lib SHARED IMPORTED)
-		SET_TARGET_PROPERTIES(physfs_lib PROPERTIES IMPORTED_LOCATION "${PHYSFS_PREFIX}/bin/${CMAKE_SHARED_LIBRARY_PREFIX}physfs${CMAKE_SHARED_LIBRARY_SUFFIX}")
-		SET_TARGET_PROPERTIES(physfs_lib PROPERTIES IMPORTED_IMPLIB "${PHYSFS_PREFIX}/lib${LIB_SUFFIX}/physfs${CMAKE_LINK_LIBRARY_SUFFIX}")
-	ELSE()
-		ADD_LIBRARY(physfs_lib STATIC IMPORTED)
-		SET_TARGET_PROPERTIES(physfs_lib PROPERTIES IMPORTED_LOCATION "${PHYSFS_PREFIX}/lib${LIB_SUFFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}physfs${CMAKE_STATIC_LIBRARY_SUFFIX}")
-	ENDIF()
-	SET(PHYSFS_INCLUDE_DIR "${PHYSFS_PREFIX}/include/")
+  if(WIN32)
+    add_library(physfs_lib SHARED IMPORTED)
+    set_target_properties(physfs_lib PROPERTIES IMPORTED_LOCATION "${PHYSFS_PREFIX}/bin/${CMAKE_SHARED_LIBRARY_PREFIX}physfs${CMAKE_SHARED_LIBRARY_SUFFIX}")
+    set_target_properties(physfs_lib PROPERTIES IMPORTED_IMPLIB "${PHYSFS_PREFIX}/lib${LIB_SUFFIX}/physfs${CMAKE_LINK_LIBRARY_SUFFIX}")
+  else()
+    add_library(physfs_lib STATIC IMPORTED)
+    set_target_properties(physfs_lib PROPERTIES IMPORTED_LOCATION "${PHYSFS_PREFIX}/lib${LIB_SUFFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}physfs${CMAKE_STATIC_LIBRARY_SUFFIX}")
+  endif()
+  set(PHYSFS_INCLUDE_DIR "${PHYSFS_PREFIX}/include/")
 endif()
 
 include_directories(BEFORE SYSTEM ${PHYSFS_INCLUDE_DIR})
@@ -235,8 +235,8 @@ include_directories(BEFORE SYSTEM ${PHYSFS_INCLUDE_DIR})
 ## so it's not required to add them here
 find_package(CURL REQUIRED)
 if(CURL_FOUND)
-	INCLUDE_DIRECTORIES(SYSTEM ${CURL_INCLUDE_DIR})
-	SET(HAVE_LIBCURL TRUE)
+  include_directories(SYSTEM ${CURL_INCLUDE_DIR})
+  set(HAVE_LIBCURL TRUE)
 endif(CURL_FOUND)
 
 #find_package(ICONV REQUIRED)
@@ -244,45 +244,45 @@ endif(CURL_FOUND)
 #link_libraries(${ICONV_LIBRARY})
 
 if(EXISTS "${CMAKE_SOURCE_DIR}/.git")
-	## Find revision of WC
-	MARK_AS_ADVANCED(GIT_EXECUTABLE)
-	FIND_PROGRAM(GIT_EXECUTABLE git)
-	IF(NOT GIT_EXECUTABLE EQUAL "GIT_EXECUTABLE-NOTFOUND")
-		INCLUDE(GetGitRevisionDescription)
-		git_describe(VERSION_STRING_GIT "--tags" "--match" "?[0-9]*.[0-9]*.[0-9]*")
-		STRING(REPLACE "v" "" VERSION_LIST ${VERSION_STRING_GIT})
-		STRING(REGEX REPLACE "(-|_|\\.)" ";" VERSION_LIST ";${VERSION_LIST}")
-        endif()
+  ## Find revision of WC
+  mark_as_advanced(GIT_EXECUTABLE)
+  find_program(GIT_EXECUTABLE git)
+  if(NOT GIT_EXECUTABLE EQUAL "GIT_EXECUTABLE-NOTFOUND")
+    include(GetGitRevisionDescription)
+    git_describe(VERSION_STRING_GIT "--tags" "--match" "?[0-9]*.[0-9]*.[0-9]*")
+    string(REPLACE "v" "" VERSION_LIST ${VERSION_STRING_GIT})
+    string(REGEX REPLACE "(-|_|\\.)" ";" VERSION_LIST ";${VERSION_LIST}")
+  endif()
 endif(EXISTS "${CMAKE_SOURCE_DIR}/.git")
 
 get_filename_component(BASEDIR ${CMAKE_SOURCE_DIR} NAME)
 if("${VERSION_LIST}" STREQUAL "")
-	IF(${BASEDIR} MATCHES "supertux2-[0-9\\.]*")
-		STRING(REGEX REPLACE "(\\.|_|-)" ";" VERSION_LIST ${BASEDIR})
-	ENDIF()
+  if(${BASEDIR} MATCHES "supertux2-[0-9\\.]*")
+    string(REGEX REPLACE "(\\.|_|-)" ";" VERSION_LIST ${BASEDIR})
+  endif()
 endif()
 
 file(GLOB ORIG_TGZ ../*.orig.tar.gz)
 if("${VERSION_LIST}" STREQUAL "" AND (NOT "${ORIG_TGZ}" STREQUAL ""))
-	GET_FILENAME_COMPONENT(BASEDIR ${ORIG_TGZ} NAME)
-	STRING(REGEX REPLACE "(\\.|_|-)" ";" VERSION_LIST ${BASEDIR})
+  get_filename_component(BASEDIR ${ORIG_TGZ} NAME)
+  string(REGEX REPLACE "(\\.|_|-)" ";" VERSION_LIST ${BASEDIR})
 endif()
 
 list(LENGTH VERSION_LIST VERSION_LIST_SIZE)
 
 if(${VERSION_LIST_SIZE} GREATER 0)
-	LIST(GET VERSION_LIST 1 MAJOR_VERSION_GIT)
-	LIST(GET VERSION_LIST 2 MINOR_VERSION_GIT)
-	LIST(GET VERSION_LIST 3 PATCH_VERSION_GIT)
+  list(GET VERSION_LIST 1 MAJOR_VERSION_GIT)
+  list(GET VERSION_LIST 2 MINOR_VERSION_GIT)
+  list(GET VERSION_LIST 3 PATCH_VERSION_GIT)
 
-	IF("${VERSION_STRING_GIT}" STREQUAL "")
-		SET(VERSION_STRING_GIT "${MAJOR_VERSION_GIT}.${MINOR_VERSION_GIT}.${PATCH_VERSION_GIT}")
-	ENDIF()
+  if("${VERSION_STRING_GIT}" STREQUAL "")
+    set(VERSION_STRING_GIT "${MAJOR_VERSION_GIT}.${MINOR_VERSION_GIT}.${PATCH_VERSION_GIT}")
+  endif()
 
-	CONFIGURE_FILE("${CMAKE_SOURCE_DIR}/version.cmake.in" "${CMAKE_SOURCE_DIR}/version.cmake")
+  configure_file("${CMAKE_SOURCE_DIR}/version.cmake.in" "${CMAKE_SOURCE_DIR}/version.cmake")
 endif()
 if(NOT EXISTS "${CMAKE_SOURCE_DIR}/version.cmake")
-	 MESSAGE( SEND_ERROR "Cound not find GIT or valid version.cmake. Version information will be invalid." )
+  message( SEND_ERROR "Cound not find GIT or valid version.cmake. Version information will be invalid." )
 endif(NOT EXISTS "${CMAKE_SOURCE_DIR}/version.cmake")
 include("${CMAKE_SOURCE_DIR}/version.cmake")
 
@@ -292,13 +292,13 @@ set(SUPERTUX_VERSION ${SUPERTUX_VERSION_STRING})
 configure_file(version.h.in ${CMAKE_BINARY_DIR}/version.h )
 
 set_source_files_properties(${CMAKE_BINARY_DIR}/version.h
-                            PROPERTIES GENERATED true)
+  PROPERTIES GENERATED true)
 set_source_files_properties(${CMAKE_CURRENT_SOURCE_DIR}/src/supertux/main.cpp
-                            PROPERTIES OBJECT_DEPENDS "${CMAKE_BINARY_DIR}/version.h")
+  PROPERTIES OBJECT_DEPENDS "${CMAKE_BINARY_DIR}/version.h")
 set_source_files_properties(${CMAKE_CURRENT_SOURCE_DIR}/src/supertux/title_screen.cpp
-                            PROPERTIES OBJECT_DEPENDS "${CMAKE_BINARY_DIR}/version.h")
+  PROPERTIES OBJECT_DEPENDS "${CMAKE_BINARY_DIR}/version.h")
 set_source_files_properties(${CMAKE_CURRENT_SOURCE_DIR}/src/addon/addon_manager.cpp
-                            PROPERTIES OBJECT_DEPENDS "${CMAKE_BINARY_DIR}/version.h")
+  PROPERTIES OBJECT_DEPENDS "${CMAKE_BINARY_DIR}/version.h")
 
 ## Configure doxygen
 # Adapted from https://tty1.net/blog/2014/cmake-doxygen_en.html
@@ -307,20 +307,20 @@ find_package(Doxygen)
 option(BUILD_DOCUMENTATION "Build API documentation using Doxygen" ${DOXYGEN_FOUND})
 
 if(BUILD_DOCUMENTATION)
-    if(NOT DOXYGEN_FOUND)
-        message(FATAL_ERROR "Doxygen is needed to build the documentation.")
-    endif()
+  if(NOT DOXYGEN_FOUND)
+    message(FATAL_ERROR "Doxygen is needed to build the documentation.")
+  endif()
 
-    set(doxyfile_in ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in)
-    set(doxyfile ${CMAKE_CURRENT_BINARY_DIR}/docs/Doxyfile)
+  set(doxyfile_in ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in)
+  set(doxyfile ${CMAKE_CURRENT_BINARY_DIR}/docs/Doxyfile)
 
-    configure_file(${doxyfile_in} ${doxyfile} @ONLY)
+  configure_file(${doxyfile_in} ${doxyfile} @ONLY)
 
-    add_custom_target(doc
-        COMMAND ${DOXYGEN_EXECUTABLE} ${doxyfile}
-        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-        COMMENT "Generating API documentation with Doxygen"
-        VERBATIM)
+  add_custom_target(doc
+    COMMAND ${DOXYGEN_EXECUTABLE} ${doxyfile}
+    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+    COMMENT "Generating API documentation with Doxygen"
+    VERBATIM)
 endif()
 
 ## Check platform-dependent build options
@@ -347,20 +347,20 @@ ExternalProject_Add(squirrel
   -DINSTALL_INC_DIR=include)
 
 if(WIN32)
-	ADD_LIBRARY(squirrel_lib SHARED IMPORTED)
-	SET_TARGET_PROPERTIES(squirrel_lib PROPERTIES IMPORTED_LOCATION "${SQUIRREL_PREFIX}/bin/${CMAKE_SHARED_LIBRARY_PREFIX}squirrel${CMAKE_SHARED_LIBRARY_SUFFIX}")
-	SET_TARGET_PROPERTIES(squirrel_lib PROPERTIES IMPORTED_IMPLIB "${SQUIRREL_PREFIX}/lib/squirrel${CMAKE_LINK_LIBRARY_SUFFIX}")
-	ADD_LIBRARY(sqstdlib_lib SHARED IMPORTED)
-	SET_TARGET_PROPERTIES(sqstdlib_lib PROPERTIES IMPORTED_LOCATION "${SQUIRREL_PREFIX}/bin/${CMAKE_SHARED_LIBRARY_PREFIX}sqstdlib${CMAKE_SHARED_LIBRARY_SUFFIX}")
-	SET_TARGET_PROPERTIES(sqstdlib_lib PROPERTIES IMPORTED_IMPLIB "${SQUIRREL_PREFIX}/lib/sqstdlib${CMAKE_LINK_LIBRARY_SUFFIX}")
-	
-	#For debug run purposes
-	CONFIGURE_FILE("${CMAKE_CURRENT_SOURCE_DIR}/mk/msvc/run_supertux.bat.in" "${PROJECT_BINARY_DIR}/run_supertux.bat")
+  add_library(squirrel_lib SHARED IMPORTED)
+  set_target_properties(squirrel_lib PROPERTIES IMPORTED_LOCATION "${SQUIRREL_PREFIX}/bin/${CMAKE_SHARED_LIBRARY_PREFIX}squirrel${CMAKE_SHARED_LIBRARY_SUFFIX}")
+  set_target_properties(squirrel_lib PROPERTIES IMPORTED_IMPLIB "${SQUIRREL_PREFIX}/lib/squirrel${CMAKE_LINK_LIBRARY_SUFFIX}")
+  add_library(sqstdlib_lib SHARED IMPORTED)
+  set_target_properties(sqstdlib_lib PROPERTIES IMPORTED_LOCATION "${SQUIRREL_PREFIX}/bin/${CMAKE_SHARED_LIBRARY_PREFIX}sqstdlib${CMAKE_SHARED_LIBRARY_SUFFIX}")
+  set_target_properties(sqstdlib_lib PROPERTIES IMPORTED_IMPLIB "${SQUIRREL_PREFIX}/lib/sqstdlib${CMAKE_LINK_LIBRARY_SUFFIX}")
+
+  #For debug run purposes
+  configure_file("${CMAKE_CURRENT_SOURCE_DIR}/mk/msvc/run_supertux.bat.in" "${PROJECT_BINARY_DIR}/run_supertux.bat")
 else()
-	ADD_LIBRARY(squirrel_lib STATIC IMPORTED)
-	SET_TARGET_PROPERTIES(squirrel_lib PROPERTIES IMPORTED_LOCATION "${SQUIRREL_PREFIX}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}squirrel_static${CMAKE_STATIC_LIBRARY_SUFFIX}")
-	ADD_LIBRARY(sqstdlib_lib STATIC IMPORTED)
-	SET_TARGET_PROPERTIES(sqstdlib_lib PROPERTIES IMPORTED_LOCATION "${SQUIRREL_PREFIX}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}sqstdlib_static${CMAKE_STATIC_LIBRARY_SUFFIX}")
+  add_library(squirrel_lib STATIC IMPORTED)
+  set_target_properties(squirrel_lib PROPERTIES IMPORTED_LOCATION "${SQUIRREL_PREFIX}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}squirrel_static${CMAKE_STATIC_LIBRARY_SUFFIX}")
+  add_library(sqstdlib_lib STATIC IMPORTED)
+  set_target_properties(sqstdlib_lib PROPERTIES IMPORTED_LOCATION "${SQUIRREL_PREFIX}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}sqstdlib_static${CMAKE_STATIC_LIBRARY_SUFFIX}")
 endif()
 
 include_directories(SYSTEM ${SQUIRREL_PREFIX}/include)
@@ -493,7 +493,7 @@ option(GENERATE_MESSAGESPOT "Generate messages.pot files" OFF)
 if(GENERATE_MESSAGESPOT)
   mark_as_advanced(
     XGETTEXT_EXECUTABLE
-  )
+    )
   find_program(XGETTEXT_EXECUTABLE xgettext)
   if(NOT XGETTEXT_EXECUTABLE)
     message(STATUS "Warning: xgettext not found - will not update messages.pot")
@@ -508,7 +508,7 @@ if(GENERATE_MESSAGESPOT)
       DEPENDS ${SUPERTUX_SOURCES_CXX}
       WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
       COMMENT "Generating POT file ${MESSAGES_POT_FILE}"
-    )
+      )
     list(APPEND MESSAGES_POT_FILES ${MESSAGES_POT_FILE})
 
     file(GLOB SUPERTUX_LEVEL_DIRS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} data/levels/*)
@@ -517,16 +517,16 @@ if(GENERATE_MESSAGESPOT)
 
       ## Do not add target if SUPERTUX_LEVELS is empty. This is needed for cmake <=2.4
       if(SUPERTUX_LEVELS)
-      set(MESSAGES_POT_FILE ${CMAKE_CURRENT_SOURCE_DIR}/${SUPERTUX_LEVEL_DIR}/messages.pot)
-      add_custom_command(
-        OUTPUT ${MESSAGES_POT_FILE}
-        COMMAND ${XGETTEXT_EXECUTABLE}
-        ARGS --keyword="_:1" --language=Lisp --force-po --sort-by-file "--output=${MESSAGES_POT_FILE}" ${SUPERTUX_LEVELS}
-        DEPENDS ${SUPERTUX_LEVELS}
-        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-        COMMENT "Generating POT file ${MESSAGES_POT_FILE}"
-      )
-      list(APPEND MESSAGES_POT_FILES ${MESSAGES_POT_FILE})
+        set(MESSAGES_POT_FILE ${CMAKE_CURRENT_SOURCE_DIR}/${SUPERTUX_LEVEL_DIR}/messages.pot)
+        add_custom_command(
+          OUTPUT ${MESSAGES_POT_FILE}
+          COMMAND ${XGETTEXT_EXECUTABLE}
+          ARGS --keyword="_:1" --language=Lisp --force-po --sort-by-file "--output=${MESSAGES_POT_FILE}" ${SUPERTUX_LEVELS}
+          DEPENDS ${SUPERTUX_LEVELS}
+          WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+          COMMENT "Generating POT file ${MESSAGES_POT_FILE}"
+          )
+        list(APPEND MESSAGES_POT_FILES ${MESSAGES_POT_FILE})
       endif(SUPERTUX_LEVELS)
 
     endforeach(SUPERTUX_LEVEL_DIR)
@@ -534,7 +534,7 @@ if(GENERATE_MESSAGESPOT)
     add_custom_target(
       supertux2-messages ALL
       DEPENDS ${MESSAGES_POT_FILES}
-    )
+      )
 
   endif(NOT XGETTEXT_EXECUTABLE)
 endif(GENERATE_MESSAGESPOT)
@@ -552,11 +552,11 @@ endif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 ## On Windows, add an icon
 
 if(WIN32)
-#  set(SUPERTUX_SOURCES_C ${SUPERTUX_SOURCES_C} ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.rc)
+  #  set(SUPERTUX_SOURCES_C ${SUPERTUX_SOURCES_C} ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.rc)
   if(MINGW)
     add_custom_command(
-    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/supertux_rc.o
-    COMMAND ${CMAKE_RC_COMPILER} -I${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons -i${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.rc -o ${CMAKE_CURRENT_BINARY_DIR}/supertux_rc.o)
+      OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/supertux_rc.o
+      COMMAND ${CMAKE_RC_COMPILER} -I${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons -i${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.rc -o ${CMAKE_CURRENT_BINARY_DIR}/supertux_rc.o)
     set(SUPERTUX_SOURCES_C ${SUPERTUX_SOURCES_C} ${CMAKE_CURRENT_BINARY_DIR}/supertux_rc.o)
   endif(MINGW)
 endif(WIN32)
@@ -574,7 +574,7 @@ if(GENERATE_WRAPPER)
     ARGS --input miniswig.tmp --output-cpp ${CMAKE_CURRENT_SOURCE_DIR}/src/scripting/wrapper.cpp --output-hpp ${CMAKE_CURRENT_SOURCE_DIR}/src/scripting/wrapper.hpp --module supertux --select-namespace scripting
     DEPENDS tools/miniswig/miniswig
     IMPLICIT_DEPENDS CXX ${CMAKE_CURRENT_SOURCE_DIR}/src/scripting/wrapper.interface.hpp
-  )
+    )
 endif(GENERATE_WRAPPER)
 
 ## Generate supertux executable in the right place
@@ -587,10 +587,10 @@ set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 add_library(supertux2_c OBJECT ${SUPERTUX_SOURCES_C})
 add_library(supertux2_lib STATIC ${CMAKE_BINARY_DIR}/version.h ${SUPERTUX_SOURCES_CXX} ${SUPERTUX_RESOURCES} $<TARGET_OBJECTS:supertux2_c>)
 if(WIN32)
-    add_executable(supertux2 WIN32 src/main.cpp ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.rc)
-    target_link_libraries(supertux2 ${SDL2MAIN_LIBRARIES})
+  add_executable(supertux2 WIN32 src/main.cpp ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.rc)
+  target_link_libraries(supertux2 ${SDL2MAIN_LIBRARIES})
 else()
-    add_executable(supertux2 src/main.cpp)
+  add_executable(supertux2 src/main.cpp)
 endif(WIN32)
 target_link_libraries(supertux2 supertux2_lib)
 set_target_properties(supertux2 PROPERTIES OUTPUT_NAME supertux2)
@@ -601,12 +601,12 @@ if(WIN32)
   ## Copy dlls on windows
   add_custom_command(TARGET supertux2_lib POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
-      "${DEPENDENCY_FOLDER}/dll"
-      $<TARGET_FILE_DIR:supertux2_lib>)
-#  add_custom_command(TARGET supertux2 POST_BUILD
-#    COMMAND ${CMAKE_COMMAND} -E copy
-#     "${DEPENDENCY_FOLDER}/DigiCertHighAssuranceEVRootCA.pem"
-#     $<TARGET_FILE_DIR:supertux2_lib>)
+    "${DEPENDENCY_FOLDER}/dll"
+    $<TARGET_FILE_DIR:supertux2_lib>)
+  #  add_custom_command(TARGET supertux2 POST_BUILD
+  #    COMMAND ${CMAKE_COMMAND} -E copy
+  #     "${DEPENDENCY_FOLDER}/DigiCertHighAssuranceEVRootCA.pem"
+  #     $<TARGET_FILE_DIR:supertux2_lib>)
 endif(WIN32)
 
 ## Link supertux binary with squirrel and other libraries
@@ -628,24 +628,24 @@ target_link_libraries(supertux2_lib PUBLIC ${OPENAL_LIBRARY})
 target_link_libraries(supertux2_lib PUBLIC ${OGGVORBIS_LIBRARIES})
 target_link_libraries(supertux2_lib PUBLIC ${Boost_LIBRARIES})
 if(USE_SYSTEM_PHYSFS)
-    target_link_libraries(supertux2_lib PUBLIC ${PHYSFS_LIBRARY})
+  target_link_libraries(supertux2_lib PUBLIC ${PHYSFS_LIBRARY})
 else()
-    add_dependencies(supertux2_lib physfs)
-    target_link_libraries(supertux2_lib PUBLIC physfs_lib)
-    if(APPLE)
-        target_link_libraries(supertux2_lib PUBLIC "-framework CoreFoundation")
-        target_link_libraries(supertux2_lib PUBLIC "-framework Foundation")
-        target_link_libraries(supertux2_lib PUBLIC "-framework IOKit")
-    endif()
+  add_dependencies(supertux2_lib physfs)
+  target_link_libraries(supertux2_lib PUBLIC physfs_lib)
+  if(APPLE)
+    target_link_libraries(supertux2_lib PUBLIC "-framework CoreFoundation")
+    target_link_libraries(supertux2_lib PUBLIC "-framework Foundation")
+    target_link_libraries(supertux2_lib PUBLIC "-framework IOKit")
+  endif()
 endif()
 
 if(HAVE_OPENGL)
-    target_link_libraries(supertux2_lib PUBLIC ${OPENGL_LIBRARY})
-    if(GLBINDING_FOUND)
-      target_link_libraries(supertux2_lib PUBLIC ${GLBINDING_LIBRARIES})
-    else()
-      target_link_libraries(supertux2_lib PUBLIC ${GLEW_LIBRARY})
-    endif()
+  target_link_libraries(supertux2_lib PUBLIC ${OPENGL_LIBRARY})
+  if(GLBINDING_FOUND)
+    target_link_libraries(supertux2_lib PUBLIC ${GLBINDING_LIBRARIES})
+  else()
+    target_link_libraries(supertux2_lib PUBLIC ${GLEW_LIBRARY})
+  endif()
 endif(HAVE_OPENGL)
 if(HAVE_LIBCURL)
   target_link_libraries(supertux2_lib PUBLIC ${CURL_LIBRARY})
@@ -698,52 +698,52 @@ if(WIN32 AND NOT UNIX)
     install(FILES ${CMAKE_INSTALL_SYSTEM_RUNTIME_LIBS} DESTINATION ${INSTALL_SUBDIR_BIN})
     include(FindWindowsSDK)
     if(${CMAKE_VS_PLATFORM_NAME} STREQUAL "Win32")
-        set(UCRT_PATH "${WINDOWSSDK_PREFERRED_DIR}/Redist/ucrt/DLLs/x86")
+      set(UCRT_PATH "${WINDOWSSDK_PREFERRED_DIR}/Redist/ucrt/DLLs/x86")
     else()
-        set(UCRT_PATH "${WINDOWSSDK_PREFERRED_DIR}/Redist/ucrt/DLLs/x64")
+      set(UCRT_PATH "${WINDOWSSDK_PREFERRED_DIR}/Redist/ucrt/DLLs/x64")
     endif()
     file(GLOB UCRT_DLLS "${UCRT_PATH}/*")
     install(FILES ${UCRT_DLLS} DESTINATION ${INSTALL_SUBDIR_BIN})
   endif()
 
 else(WIN32 AND NOT UNIX)
-if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin" AND DISABLE_CPACK_BUNDLING)
+  if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin" AND DISABLE_CPACK_BUNDLING)
 
-  set(INFOPLIST_CFBUNDLEEXECUTABLE "supertux2")
+    set(INFOPLIST_CFBUNDLEEXECUTABLE "supertux2")
 
-  set(INSTALL_SUBDIR_BIN "SuperTux.app/Contents/MacOS" CACHE STRING "Installation subdir for binaries")
-  set(INSTALL_SUBDIR_SHARE "SuperTux.app/Contents/Resources/data" CACHE STRING "Installation subdir for data")
-  set(INSTALL_SUBDIR_DOC "SuperTux.app/Contents/Resources" CACHE STRING "Installation subdir for docs")
+    set(INSTALL_SUBDIR_BIN "SuperTux.app/Contents/MacOS" CACHE STRING "Installation subdir for binaries")
+    set(INSTALL_SUBDIR_SHARE "SuperTux.app/Contents/Resources/data" CACHE STRING "Installation subdir for data")
+    set(INSTALL_SUBDIR_DOC "SuperTux.app/Contents/Resources" CACHE STRING "Installation subdir for docs")
 
-  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/tools/darwin/info.plist.in ${CMAKE_BINARY_DIR}/tools/darwin/info.plist)
-  install(FILES ${CMAKE_BINARY_DIR}/tools/darwin/info.plist DESTINATION "SuperTux.app/Contents/")
-  install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/tools/darwin/receipt DESTINATION "SuperTux.app/Contents/_MASReceipt/")
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/tools/darwin/info.plist.in ${CMAKE_BINARY_DIR}/tools/darwin/info.plist)
+    install(FILES ${CMAKE_BINARY_DIR}/tools/darwin/info.plist DESTINATION "SuperTux.app/Contents/")
+    install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/tools/darwin/receipt DESTINATION "SuperTux.app/Contents/_MASReceipt/")
 
-  install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.png ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.icns DESTINATION "SuperTux.app/Contents/Resources/")
+    install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.png ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.icns DESTINATION "SuperTux.app/Contents/Resources/")
 
-else(${CMAKE_SYSTEM_NAME} MATCHES "Darwin" AND DISABLE_CPACK_BUNDLING)
+  else(${CMAKE_SYSTEM_NAME} MATCHES "Darwin" AND DISABLE_CPACK_BUNDLING)
 
-  set(INSTALL_SUBDIR_BIN "games" CACHE STRING "Installation subdir for binaries")
-  set(INSTALL_SUBDIR_SHARE "share/games/supertux2" CACHE STRING "Installation subdir for data")
-  set(INSTALL_SUBDIR_DOC "share/doc/supertux2" CACHE STRING "Installation subdir for docs")
+    set(INSTALL_SUBDIR_BIN "games" CACHE STRING "Installation subdir for binaries")
+    set(INSTALL_SUBDIR_SHARE "share/games/supertux2" CACHE STRING "Installation subdir for data")
+    set(INSTALL_SUBDIR_DOC "share/doc/supertux2" CACHE STRING "Installation subdir for docs")
 
-  install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/supertux2.desktop DESTINATION "share/applications")
+    install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/supertux2.desktop DESTINATION "share/applications")
 
-  set(APPS "\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${INSTALL_SUBDIR_BIN}/supertux2")
+    set(APPS "\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${INSTALL_SUBDIR_BIN}/supertux2")
 
-  install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.png ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.xpm DESTINATION "share/pixmaps/")
-  install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/supertux2.svg DESTINATION "share/icons/hicolor/scalable/apps")
+    install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.png ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.xpm DESTINATION "share/pixmaps/")
+    install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/supertux2.svg DESTINATION "share/icons/hicolor/scalable/apps")
 
-endif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin" AND DISABLE_CPACK_BUNDLING)
+  endif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin" AND DISABLE_CPACK_BUNDLING)
 endif(WIN32 AND NOT UNIX)
 
 install(TARGETS supertux2 DESTINATION ${INSTALL_SUBDIR_BIN})
 
 if(WIN32)
-	GET_PROPERTY(SQUIRREL_LIB_PATH TARGET squirrel_lib PROPERTY IMPORTED_LOCATION)
-	GET_PROPERTY(SQSTDLIB_LIB_PATH TARGET sqstdlib_lib PROPERTY IMPORTED_LOCATION)
-	GET_PROPERTY(PHYSFS_LIB_PATH TARGET physfs_lib PROPERTY IMPORTED_LOCATION)
-	INSTALL(FILES ${SQUIRREL_LIB_PATH} ${SQSTDLIB_LIB_PATH} ${PHYSFS_LIB_PATH} DESTINATION ${INSTALL_SUBDIR_BIN})
+  get_property(SQUIRREL_LIB_PATH TARGET squirrel_lib PROPERTY IMPORTED_LOCATION)
+  get_property(SQSTDLIB_LIB_PATH TARGET sqstdlib_lib PROPERTY IMPORTED_LOCATION)
+  get_property(PHYSFS_LIB_PATH TARGET physfs_lib PROPERTY IMPORTED_LOCATION)
+  install(FILES ${SQUIRREL_LIB_PATH} ${SQSTDLIB_LIB_PATH} ${PHYSFS_LIB_PATH} DESTINATION ${INSTALL_SUBDIR_BIN})
 endif()
 
 install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/INSTALL.md ${CMAKE_CURRENT_SOURCE_DIR}/README.md ${CMAKE_CURRENT_SOURCE_DIR}/LICENSE.txt ${CMAKE_CURRENT_SOURCE_DIR}/NEWS.md DESTINATION ${INSTALL_SUBDIR_DOC})
@@ -752,26 +752,27 @@ install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/credits.stxt DESTINATION ${INSTAL
 
 install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/supertux2.appdata.xml DESTINATION "share/metainfo" )
 
-install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/data/images
-                  ${CMAKE_CURRENT_SOURCE_DIR}/data/fonts
-                  ${CMAKE_CURRENT_SOURCE_DIR}/data/music
-                  ${CMAKE_CURRENT_SOURCE_DIR}/data/scripts
-                  ${CMAKE_CURRENT_SOURCE_DIR}/data/speech
-                  ${CMAKE_CURRENT_SOURCE_DIR}/data/sounds
-                  ${CMAKE_CURRENT_SOURCE_DIR}/data/locale
-                  DESTINATION ${INSTALL_SUBDIR_SHARE})
+install(DIRECTORY
+  ${CMAKE_CURRENT_SOURCE_DIR}/data/images
+  ${CMAKE_CURRENT_SOURCE_DIR}/data/fonts
+  ${CMAKE_CURRENT_SOURCE_DIR}/data/music
+  ${CMAKE_CURRENT_SOURCE_DIR}/data/scripts
+  ${CMAKE_CURRENT_SOURCE_DIR}/data/speech
+  ${CMAKE_CURRENT_SOURCE_DIR}/data/sounds
+  ${CMAKE_CURRENT_SOURCE_DIR}/data/locale
+  DESTINATION ${INSTALL_SUBDIR_SHARE})
 
 if(CMAKE_BUILD_TYPE MATCHES "Release|RelWithDebInfo")
   install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/data/levels
-                    DESTINATION ${INSTALL_SUBDIR_SHARE}
-                    PATTERN "data/levels/test" EXCLUDE
-                    PATTERN "data/levels/test_old" EXCLUDE
-                    PATTERN "data/levels/incubator" EXCLUDE
-                    PATTERN "data/levels/misc/menu.stl.in" EXCLUDE)
+    DESTINATION ${INSTALL_SUBDIR_SHARE}
+    PATTERN "data/levels/test" EXCLUDE
+    PATTERN "data/levels/test_old" EXCLUDE
+    PATTERN "data/levels/incubator" EXCLUDE
+    PATTERN "data/levels/misc/menu.stl.in" EXCLUDE)
 else()
   install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/data/levels
-                    DESTINATION ${INSTALL_SUBDIR_SHARE}
-                    PATTERN "data/levels/misc/menu.stl.in" EXCLUDE)
+    DESTINATION ${INSTALL_SUBDIR_SHARE}
+    PATTERN "data/levels/misc/menu.stl.in" EXCLUDE)
 endif()
 
 install(FILES "${CMAKE_BINARY_DIR}/data/levels/misc/menu.stl" DESTINATION "${INSTALL_SUBDIR_SHARE}/levels/misc")
@@ -782,9 +783,9 @@ configure_file(config.h.cmake ${CMAKE_BINARY_DIR}/config.h )
 
 ## Configure main menu logo
 if("${SUPERTUX_VERSION_STRING}" MATCHES "^v[0-9]+\\.[0-9]+\\.[0-9]+$")
-    set(LOGO_FILE "logo_final.sprite")
+  set(LOGO_FILE "logo_final.sprite")
 else()
-    set(LOGO_FILE "logo.sprite")
+  set(LOGO_FILE "logo.sprite")
 endif()
 configure_file(data/levels/misc/menu.stl.in ${CMAKE_BINARY_DIR}/data/levels/misc/menu.stl )
 
@@ -795,39 +796,38 @@ include(InstallRequiredSystemLibraries)
 set(DIRS ${Boost_LIBRARY_DIRS} ${CMAKE_CURRENT_BINARY_DIR}/external/squirrel ${CMAKE_CURRENT_BINARY_DIR}/external/tinygettext)
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin" AND NOT DISABLE_CPACK_BUNDLING)
-    set(INFOPLIST_CFBUNDLEEXECUTABLE "SuperTux")
+  set(INFOPLIST_CFBUNDLEEXECUTABLE "SuperTux")
 
-    find_package(png)
-    foreach (_file ${PNG_LIBRARIES})
-        get_filename_component(_resolvedFile "${_file}" REALPATH)
-        get_filename_component(_name "${_file}" NAME)
-	INSTALL(FILES ${_resolvedFile} DESTINATION "MacOS" RENAME ${_name})
-    endforeach()
-    find_package(jpeg)
-    foreach (_file ${JPEG_LIBRARIES})
-        get_filename_component(_resolvedFile "${_file}" REALPATH)
-        get_filename_component(_name "${_file}" NAME)
-	INSTALL(FILES ${_resolvedFile} DESTINATION "MacOS" RENAME ${_name})
-    endforeach()
+  find_package(png)
+  foreach (_file ${PNG_LIBRARIES})
+    get_filename_component(_resolvedFile "${_file}" REALPATH)
+    get_filename_component(_name "${_file}" NAME)
+    install(FILES ${_resolvedFile} DESTINATION "MacOS" RENAME ${_name})
+  endforeach()
+  find_package(jpeg)
+  foreach (_file ${JPEG_LIBRARIES})
+    get_filename_component(_resolvedFile "${_file}" REALPATH)
+    get_filename_component(_name "${_file}" NAME)
+    install(FILES ${_resolvedFile} DESTINATION "MacOS" RENAME ${_name})
+  endforeach()
 
-    install(CODE "
+  install(CODE "
        if(\"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/\" MATCHES \".*\\\\.app.*\")
        include(BundleUtilities)
        fixup_bundle(\"${APPS}\"   \"\"   \"${DIRS}\")
        endif()
        ")
 
-    configure_file("${CMAKE_CURRENT_SOURCE_DIR}/tools/darwin/info.plist.in" "${CMAKE_BINARY_DIR}/tools/darwin/info.plist")
+  configure_file("${CMAKE_CURRENT_SOURCE_DIR}/tools/darwin/info.plist.in" "${CMAKE_BINARY_DIR}/tools/darwin/info.plist")
 
-    set(CPACK_BUNDLE_NAME "SuperTux")
-    set(CPACK_BUNDLE_PLIST "${CMAKE_BINARY_DIR}/tools/darwin/info.plist")
-    set(CPACK_BUNDLE_ICON "${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.icns")
-    set(CPACK_BUNDLE_STARTUP_COMMAND "${CMAKE_CURRENT_SOURCE_DIR}/tools/darwin/startup.sh")
-    set(CPACK_DMG_VOLUME_NAME "SuperTux ${SUPERTUX_VERSION_STRING}")
-    set(CPACK_DMG_DS_STORE_SETUP_SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/tools/darwin/dsstore_setup.scpt")
-    set(CPACK_DMG_BACKGROUND_IMAGE "${CMAKE_CURRENT_SOURCE_DIR}/tools/darwin/background.png")
+  set(CPACK_BUNDLE_NAME "SuperTux")
+  set(CPACK_BUNDLE_PLIST "${CMAKE_BINARY_DIR}/tools/darwin/info.plist")
+  set(CPACK_BUNDLE_ICON "${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.icns")
+  set(CPACK_BUNDLE_STARTUP_COMMAND "${CMAKE_CURRENT_SOURCE_DIR}/tools/darwin/startup.sh")
+  set(CPACK_DMG_VOLUME_NAME "SuperTux ${SUPERTUX_VERSION_STRING}")
+  set(CPACK_DMG_DS_STORE_SETUP_SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/tools/darwin/dsstore_setup.scpt")
+  set(CPACK_DMG_BACKGROUND_IMAGE "${CMAKE_CURRENT_SOURCE_DIR}/tools/darwin/background.png")
 endif()
-
 
 
 set(CPACK_PACKAGE_NAME "SuperTux")
@@ -849,9 +849,9 @@ set(CPACK_PACKAGE_VERSION_MAJOR ${SUPERTUX_VERSION_MAJOR})
 set(CPACK_PACKAGE_VERSION_MINOR ${SUPERTUX_VERSION_MINOR})
 
 if(SUPERTUX_VERSION_TWEAK)
-    set(CPACK_PACKAGE_VERSION_PATCH "${SUPERTUX_VERSION_PATCH}.${SUPERTUX_VERSION_TWEAK}")
+  set(CPACK_PACKAGE_VERSION_PATCH "${SUPERTUX_VERSION_PATCH}.${SUPERTUX_VERSION_TWEAK}")
 else()
-    set(CPACK_PACKAGE_VERSION_PATCH ${SUPERTUX_VERSION_PATCH})
+  set(CPACK_PACKAGE_VERSION_PATCH ${SUPERTUX_VERSION_PATCH})
 endif(SUPERTUX_VERSION_TWEAK)
 set(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${SUPERTUX_VERSION_STRING}-${SUPERTUX_SYSTEM_NAME}")
 set(CPACK_SOURCE_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${SUPERTUX_VERSION_STRING}-Source")
@@ -877,7 +877,7 @@ mark_as_advanced(
   INSTALL_SUBDIR_BIN
   INSTALL_SUBDIR_SHARE
   INSTALL_SUBDIR_DOC
-)
+  )
 
 mark_as_advanced(
   CMAKE_BACKWARDS_COMPATIBILITY
@@ -887,36 +887,36 @@ mark_as_advanced(
   LIBRARY_OUTPUT_PATH
   CMAKE_OSX_ARCHITECTURES
   CMAKE_OSX_SYSROOT
-)
+  )
 
 mark_as_advanced(
   APPDATADIR
-)
+  )
 
 mark_as_advanced(
   Boost_INCLUDE_DIR
   Boost_LIBRARIES
-)
+  )
 
 mark_as_advanced(
   GLEW_INCLUDE_DIR
   GLEW_LIBRARY
-)
+  )
 
 mark_as_advanced(
   SDL2_INCLUDE_DIRS
   SDL2_LIBRARIES
-)
+  )
 
 mark_as_advanced(
   SDL2IMAGE_INCLUDE_DIRS
   SDL2IMAGE_LIBRARIES
-)
+  )
 
 mark_as_advanced(
   OPENAL_INCLUDE_DIR
   OPENAL_LIBRARY
-)
+  )
 
 mark_as_advanced(
   OGG_LIBRARY
@@ -924,9 +924,9 @@ mark_as_advanced(
   VORBISFILE_LIBRARY
   VORBIS_INCLUDE_DIR
   VORBIS_LIBRARY
-)
+  )
 
 mark_as_advanced(
   PHYSFS_INCLUDE_DIR
   PHYSFS_LIBRARY
-)
+  )
