@@ -37,14 +37,6 @@ GLProgram::GLProgram() :
     out << "link failure:\n" << get_info_log() << std::endl;
     throw std::runtime_error(out.str());
   }
-
-  glValidateProgram(m_program);
-  if (!get_validate_status())
-  {
-    std::ostringstream out;
-    out << "validate failure:\n" << get_info_log() << std::endl;
-    throw std::runtime_error(out.str());
-  }
 }
 
 GLProgram::~GLProgram()
@@ -58,6 +50,18 @@ void
 GLProgram::bind()
 {
   glUseProgram(m_program);
+}
+
+void
+GLProgram::validate()
+{
+  glValidateProgram(m_program);
+  if (!get_validate_status())
+  {
+    std::ostringstream out;
+    out << "validate failure:\n" << get_info_log() << std::endl;
+    throw std::runtime_error(out.str());
+  }
 }
 
 bool

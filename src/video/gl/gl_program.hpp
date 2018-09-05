@@ -30,6 +30,7 @@ public:
   ~GLProgram();
 
   void bind();
+  void validate();
 
   GLuint get_handle() const { return m_program; }
 
