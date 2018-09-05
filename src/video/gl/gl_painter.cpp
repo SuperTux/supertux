@@ -498,11 +498,7 @@ GLPainter::draw_text(const DrawingRequest& request)
     else if(data.alignment == ALIGN_RIGHT)
       last_x -= surface->get_width();
 
-    GLuint th = gltexture->get_handle();
-    if (th != s_last_texture) {
-      s_last_texture = th;
-      glBindTexture(GL_TEXTURE_2D, th);
-    }
+    glBindTexture(GL_TEXTURE_2D, gltexture->get_handle());
 
     intern_draw(last_x + shadow_size, last_y + shadow_size,
                 last_x + shadow_size + surface->get_width(),
