@@ -23,8 +23,13 @@ GLProgram::GLProgram() :
   m_frag_shader(),
   m_vert_shader()
 {
-  m_frag_shader = GLShader::from_file(GL_FRAGMENT_SHADER, "shader/shader.frag");
-  m_vert_shader = GLShader::from_file(GL_VERTEX_SHADER, "shader/shader.vert");
+#if defined(USE_OPENGLES2)
+  m_frag_shader = GLShader::from_file(GL_FRAGMENT_SHADER, "shader/shader100.frag");
+  m_vert_shader = GLShader::from_file(GL_VERTEX_SHADER, "shader/shader100.vert");
+#else
+  m_frag_shader = GLShader::from_file(GL_FRAGMENT_SHADER, "shader/shader330.frag");
+  m_vert_shader = GLShader::from_file(GL_VERTEX_SHADER, "shader/shader330.vert");
+#endif
 
   glAttachShader(m_program, m_frag_shader->get_handle());
   glAttachShader(m_program, m_vert_shader->get_handle());
