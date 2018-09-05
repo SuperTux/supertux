@@ -1,11 +1,11 @@
 #version 330 core
 
-attribute vec2 texcoord;
-attribute vec2 position;
-attribute vec4 diffuse;
+in vec2 texcoord;
+in vec2 position;
+in vec4 diffuse;
 
-varying vec2 texcoord_var;
-varying vec4 diffuse_var;
+out vec2 texcoord_var;
+out vec4 diffuse_var;
 
 uniform mat3 modelviewprojection;
 

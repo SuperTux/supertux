@@ -2,12 +2,14 @@
 
 uniform sampler2D diffuse_texture;
 
-varying vec4 diffuse_var;
-varying vec2 texcoord_var;
+in vec4 diffuse_var;
+in vec2 texcoord_var;
+
+out vec4 fragColor;
 
 void main(void)
 {
-  gl_FragColor = diffuse_var * texture(diffuse_texture, texcoord_var.st);
+  fragColor = diffuse_var * texture(diffuse_texture, texcoord_var.st);
 }
 
 /* EOF */
