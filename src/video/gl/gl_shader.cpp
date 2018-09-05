@@ -71,7 +71,7 @@ GLShader::compile()
 
   GLint compile_status;
   glGetShaderiv(m_shader, GL_COMPILE_STATUS, &compile_status);
-  if (compile_status != GL_TRUE)
+  if (!compile_status)
   {
     std::ostringstream out;
     out << "Shader compile failed: " << get_shader_info_log() << std::endl;
