@@ -16,25 +16,26 @@
 
 #include "video/gl/gl_video_system.hpp"
 
+#include "math/rect.hpp"
+#include "supertux/gameconfig.hpp"
+#include "supertux/globals.hpp"
+#include "util/log.hpp"
+#include "video/gl/gl20_context.hpp"
+#include "video/gl/gl33core_context.hpp"
+#include "video/gl/gl_context.hpp"
+#include "video/gl/gl_lightmap.hpp"
+#include "video/gl/gl_program.hpp"
+#include "video/gl/gl_renderer.hpp"
+#include "video/gl/gl_texture.hpp"
+#include "video/gl/gl_vertex_arrays.hpp"
+#include "video/glutil.hpp"
+
 #ifdef USE_GLBINDING
 #  include <glbinding/Binding.h>
 #  include <glbinding/ContextInfo.h>
 #  include <glbinding/gl/extension.h>
 #  include <glbinding/callbacks.h>
 #endif
-
-#include "math/rect.hpp"
-#include "supertux/gameconfig.hpp"
-#include "supertux/globals.hpp"
-#include "util/log.hpp"
-#include "video/gl/gl_context.hpp"
-#include "video/gl/gl33core_context.hpp"
-#include "video/gl/gl20_context.hpp"
-#include "video/gl/gl_lightmap.hpp"
-#include "video/gl/gl_program.hpp"
-#include "video/gl/gl_renderer.hpp"
-#include "video/gl/gl_texture.hpp"
-#include "video/gl/gl_vertex_arrays.hpp"
 
 GLVideoSystem::GLVideoSystem(bool use_opengl33core) :
   m_use_opengl33core(use_opengl33core),
@@ -56,6 +57,11 @@ GLVideoSystem::GLVideoSystem(bool use_opengl33core) :
   m_texture_manager.reset(new TextureManager);
   m_renderer.reset(new GLRenderer(*this));
 
+#if defined(USE_OPENGLES2)
+  m_context.reset(new GL33CoreContext);
+#elif defined(USE_OPENGLES1)
+  m_context.reset(new GL20Context);
+#else
   if (use_opengl33core)
   {
     m_context.reset(new GL33CoreContext);
@@ -64,6 +70,7 @@ GLVideoSystem::GLVideoSystem(bool use_opengl33core) :
   {
     m_context.reset(new GL20Context);
   }
+#endif
 
   apply_config();
 }
@@ -105,12 +112,20 @@ GLVideoSystem::create_window()
   SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 5);
   SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE,  5);
 
-// #ifdef HAVE_OPENGLES2
-//   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
-//   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
-//   SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_ES);
-// #else
+#if defined(USE_OPENGLES2)
+  log_info << "Requesting OpenGLES2 context" << std::endl;
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_ES);
 
+  SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+  SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
+#elif defined(USE_OPENGLES1)
+  log_info << "Requesting OpenGLES1 context" << std::endl;
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 1);
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_ES);
+#else
   if (m_use_opengl33core)
   {
     log_info << "Requesting OpenGL 3.3 Core context" << std::endl;
@@ -125,7 +140,7 @@ GLVideoSystem::create_window()
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0); // this only goes to 0
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_COMPATIBILITY);
   }
-   //#endif
+#endif
 
   m_window = SDL_CreateWindow("SuperTux",
                               SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
@@ -140,8 +155,8 @@ GLVideoSystem::create_window()
 
   m_glcontext = SDL_GL_CreateContext(m_window);
 
-  if(g_config->try_vsync) {
-    /* we want vsync for smooth scrolling */
+  if (g_config->try_vsync) {
+    // we want vsync for smooth scrolling
     if (SDL_GL_SetSwapInterval(-1) != 0)
     {
       log_info << "no support for late swap tearing vsync: " << SDL_GetError() << std::endl;
@@ -152,10 +167,15 @@ GLVideoSystem::create_window()
     }
   }
 
-#ifdef USE_GLBINDING
+#if defined(USE_OPENGLES2)
+  // nothing to do
+#elif defined(USE_OPENGLES1)
+  // nothing to do
+#else
+#  ifdef USE_GLBINDING
   glbinding::Binding::initialize();
 
-#ifdef USE_GLBINDING_DEBUG_OUTPUT
+#    ifdef USE_GLBINDING_DEBUG_OUTPUT
   glbinding::setCallbackMask(glbinding::CallbackMask::After | glbinding::CallbackMask::ParametersAndReturnValue);
 
   glbinding::setAfterCallback([](const glbinding::FunctionCall & call) {
@@ -177,23 +197,26 @@ GLVideoSystem::create_window()
 
       std::cout << std::endl;
     });
-#endif
-
+#    endif
   static auto extensions = glbinding::ContextInfo::extensions();
   log_info << "Using glbinding" << std::endl;
   log_info << "ARB_texture_non_power_of_two: " << static_cast<int>(extensions.find(GLextension::GL_ARB_texture_non_power_of_two) != extensions.end()) << std::endl;
-#endif
-
-#ifndef GL_VERSION_ES_CM_1_0
-#ifndef USE_GLBINDING
+#  else
   GLenum err = glewInit();
-#ifdef GLEW_ERROR_NO_GLX_DISPLAY
+#    ifdef GLEW_ERROR_NO_GLX_DISPLAY
+  // Glew can't open glx display when it's running on wayland session
+  // and thus returns an error. But glXGetProcAddress is fully usable
+  // on wayland, so we can just ignore the "no glx display" error.
+  //
+  // Note that GLEW_ERROR_NO_GLX_DISPLAY needs glew >= 2.1. Older
+  // versions assume that glx display is always available and will
+  // just crash.
   if (GLEW_ERROR_NO_GLX_DISPLAY == err)
   {
     log_info << "GLEW couldn't open GLX display" << std::endl;
   }
   else
-#endif
+#    endif
     if (GLEW_OK != err)
     {
       std::ostringstream out;

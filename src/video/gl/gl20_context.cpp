@@ -20,6 +20,8 @@
 #include "video/color.hpp"
 #include "video/gl/gl_texture.hpp"
 
+#ifndef USE_OPENGLES2
+
 GL20Context::GL20Context()
 {
 }
@@ -46,7 +48,6 @@ GL20Context::ortho(float width, float height)
           0,
           -1,
           1);
-
 
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
@@ -122,5 +123,7 @@ GL20Context::draw_arrays(GLenum type, GLint first, GLsizei count)
   glDrawArrays(type, first, count);
   assert_gl("");
 }
+
+#endif
 
 /* EOF */

@@ -19,6 +19,8 @@
 
 #include "video/gl/gl_context.hpp"
 
+#ifndef USE_OPENGLES2
+
 class GL20Context final : public GLContext
 {
 public:
@@ -46,6 +48,8 @@ private:
   GL20Context(const GL20Context&) = delete;
   GL20Context& operator=(const GL20Context&) = delete;
 };
+
+#endif
 
 #endif
 
