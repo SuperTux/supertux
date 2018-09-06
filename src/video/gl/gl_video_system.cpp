@@ -322,7 +322,7 @@ GLVideoSystem::new_texture(SDL_Surface* image)
 void
 GLVideoSystem::flip()
 {
-  assert_gl("flip");
+  assert_gl();
   SDL_GL_SwapWindow(m_window);
 }
 

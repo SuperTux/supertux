@@ -113,7 +113,7 @@ GLPainter::GLPainter(GLVideoSystem& video_system) :
 void
 GLPainter::draw_texture(const DrawingRequest& request)
 {
-  assert_gl("");
+  assert_gl();
   const auto& data = static_cast<const TextureRequest&>(request);
   const auto& texture = static_cast<const GLTexture&>(*data.texture);
 
@@ -135,13 +135,13 @@ GLPainter::draw_texture(const DrawingRequest& request)
               data.color,
               request.blend,
               request.drawing_effect);
-  assert_gl("");
+  assert_gl();
 }
 
 void
 GLPainter::draw_texture_batch(const DrawingRequest& request)
 {
-  assert_gl("");
+  assert_gl();
   const auto& data = static_cast<const TextureBatchRequest&>(request);
   const auto& texture = static_cast<const GLTexture&>(*data.texture);
 
@@ -202,13 +202,13 @@ GLPainter::draw_texture_batch(const DrawingRequest& request)
 
   context.draw_arrays(GL_TRIANGLES, 0, static_cast<GLsizei>(data.srcrects.size() * 2 * 3));
 
-  assert_gl("");
+  assert_gl();
 }
 
 void
 GLPainter::draw_gradient(const DrawingRequest& request)
 {
-  assert_gl("");
+  assert_gl();
   const auto& data = static_cast<const GradientRequest&>(request);
 
   const Color& top = data.top;
@@ -252,13 +252,13 @@ GLPainter::draw_gradient(const DrawingRequest& request)
 
   context.draw_arrays(GL_TRIANGLE_FAN, 0, 4);
 
-  assert_gl("");
+  assert_gl();
 }
 
 void
 GLPainter::draw_filled_rect(const DrawingRequest& request)
 {
-  assert_gl("");
+  assert_gl();
   const auto& data = static_cast<const FillRectRequest&>(request);
 
   GLContext& context = m_video_system.get_context();
@@ -333,13 +333,13 @@ GLPainter::draw_filled_rect(const DrawingRequest& request)
     context.draw_arrays(GL_TRIANGLE_FAN, 0, 4);
   }
 
-  assert_gl("");
+  assert_gl();
 }
 
 void
 GLPainter::draw_inverse_ellipse(const DrawingRequest& request)
 {
-  assert_gl("");
+  assert_gl();
   const auto& data = static_cast<const InverseEllipseRequest&>(request);
 
   float x = data.pos.x;
@@ -415,13 +415,13 @@ GLPainter::draw_inverse_ellipse(const DrawingRequest& request)
 
   context.draw_arrays(GL_TRIANGLES, 0, points);
 
-  assert_gl("");
+  assert_gl();
 }
 
 void
 GLPainter::draw_line(const DrawingRequest& request)
 {
-  assert_gl("");
+  assert_gl();
   const auto& data = static_cast<const LineRequest&>(request);
 
   float x1 = data.pos.x;
@@ -460,13 +460,13 @@ GLPainter::draw_line(const DrawingRequest& request)
 
   context.draw_arrays(GL_TRIANGLE_STRIP, 0, 4);
 
-  assert_gl("");
+  assert_gl();
 }
 
 void
 GLPainter::draw_triangle(const DrawingRequest& request)
 {
-  assert_gl("");
+  assert_gl();
   const auto& data = static_cast<const TriangleRequest&>(request);
 
   float x1 = data.pos1.x;
@@ -491,7 +491,7 @@ GLPainter::draw_triangle(const DrawingRequest& request)
 
   context.draw_arrays(GL_TRIANGLES, 0, 3);
 
-  assert_gl("");
+  assert_gl();
 }
 
 /* EOF */

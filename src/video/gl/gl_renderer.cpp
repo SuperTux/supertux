@@ -43,7 +43,7 @@ GLRenderer::start_draw()
   GLContext& context = m_video_system.get_context();
   context.bind();
 
-  assert_gl("");
+  assert_gl();
 
   glDisable(GL_DEPTH_TEST);
   glDisable(GL_CULL_FACE);
@@ -63,7 +63,7 @@ GLRenderer::start_draw()
   glClearColor(0, 0, 0, 1);
   glClear(GL_COLOR_BUFFER_BIT);
 
-  assert_gl("");
+  assert_gl();
 }
 
 void

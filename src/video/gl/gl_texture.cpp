@@ -37,7 +37,7 @@ GLTexture::GLTexture(unsigned int width, unsigned int height, boost::optional<Co
   m_image_width  = width;
   m_image_height = height;
 
-  assert_gl("before creating texture");
+  assert_gl();
   glGenTextures(1, &m_handle);
 
   try {
@@ -100,7 +100,7 @@ GLTexture::GLTexture(SDL_Surface* image) :
   SDL_SetSurfaceBlendMode(image, SDL_BLENDMODE_NONE);
   SDL_BlitSurface(image, 0, convert, 0);
 
-  assert_gl("before creating texture");
+  assert_gl();
   glGenTextures(1, &m_handle);
 
   try {
@@ -144,7 +144,7 @@ GLTexture::GLTexture(SDL_Surface* image) :
       SDL_UnlockSurface(convert);
     }
 
-    assert_gl("creating texture");
+    assert_gl();
 
     set_texture_params();
   } catch(...) {
@@ -169,7 +169,7 @@ GLTexture::set_texture_params()
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, static_cast<GLint>(GL_CLAMP_TO_EDGE));
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, static_cast<GLint>(GL_CLAMP_TO_EDGE));
 
-  assert_gl("set texture params");
+  assert_gl();
 }
 
 /* EOF */

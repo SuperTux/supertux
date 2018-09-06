@@ -53,7 +53,7 @@ GLLightmap::~GLLightmap()
 void
 GLLightmap::start_draw()
 {
-  assert_gl("");
+  assert_gl();
   GLContext& context = m_video_system.get_context();
   context.bind();
 
@@ -70,13 +70,13 @@ GLLightmap::start_draw()
 
   context.ortho(static_cast<float>(m_size.width), static_cast<float>(m_size.height));
 
-  assert_gl("");
+  assert_gl();
 }
 
 void
 GLLightmap::end_draw()
 {
-  assert_gl("");
+  assert_gl();
   glBindTexture(GL_TEXTURE_2D, m_lightmap->get_handle());
   glCopyTexSubImage2D(GL_TEXTURE_2D,
                       0, // level
@@ -84,7 +84,7 @@ GLLightmap::end_draw()
                       0, 0, // x, y
                       m_lightmap_width,
                       m_lightmap_height);
-  assert_gl("");
+  assert_gl();
 }
 
 void
@@ -92,7 +92,7 @@ GLLightmap::render()
 {
   GLContext& context = m_video_system.get_context();
 
-  assert_gl("");
+  assert_gl();
   // multiple the lightmap with the framebuffer
   context.blend_func(GL_DST_COLOR, GL_ZERO);
 
@@ -120,42 +120,42 @@ GLLightmap::render()
   glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 
   context.blend_func(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-  assert_gl("");
+  assert_gl();
 }
 
 void
 GLLightmap::clear(const Color& color)
 {
-  assert_gl("");
+  assert_gl();
   glClearColor(color.red, color.green, color.blue, color.alpha);
   glClear(GL_COLOR_BUFFER_BIT);
-  assert_gl("");
+  assert_gl();
 }
 
 void
 GLLightmap::set_clip_rect(const Rect& clip_rect)
 {
-  assert_gl("");
+  assert_gl();
   glScissor(m_lightmap_width * clip_rect.left / m_size.width,
             m_lightmap_height * clip_rect.top / m_size.height,
             m_lightmap_width * clip_rect.get_width() / m_size.width,
             m_lightmap_height * clip_rect.get_height() / m_size.height);
   glEnable(GL_SCISSOR_TEST);
-  assert_gl("");
+  assert_gl();
 }
 
 void
 GLLightmap::clear_clip_rect()
 {
-  assert_gl("");
+  assert_gl();
   glDisable(GL_SCISSOR_TEST);
-  assert_gl("");
+  assert_gl();
 }
 
 void
 GLLightmap::get_light(const DrawingRequest& request) const
 {
-  assert_gl("");
+  assert_gl();
   const auto& data = static_cast<const GetLightRequest&>(request);
 
   float pixels[3] = { 0.0f, 0.0f, 0.0f };
@@ -168,7 +168,7 @@ GLLightmap::get_light(const DrawingRequest& request) const
                1, 1, GL_RGB, GL_FLOAT, pixels);
 
   *(data.color_ptr) = Color(pixels[0], pixels[1], pixels[2]);
-  assert_gl("");
+  assert_gl();
 }
 
 /* EOF */

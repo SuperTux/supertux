@@ -38,7 +38,7 @@ GL20Context::bind()
 void
 GL20Context::ortho(float width, float height)
 {
-  assert_gl("");
+  assert_gl();
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
 
@@ -52,7 +52,7 @@ GL20Context::ortho(float width, float height)
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
   glTranslatef(0, 0, 0);
-  assert_gl("Setting up view matrices");
+  assert_gl();
 }
 
 void
@@ -64,70 +64,70 @@ GL20Context::blend_func(GLenum src, GLenum dst)
 void
 GL20Context::set_positions(const float* data, size_t size)
 {
-  assert_gl("");
+  assert_gl();
   glEnableClientState(GL_VERTEX_ARRAY);
   glVertexPointer(2, GL_FLOAT, 0, data);
-  assert_gl("");
+  assert_gl();
 }
 
 void
 GL20Context::set_texcoords(const float* data, size_t size)
 {
-  assert_gl("");
+  assert_gl();
   glEnableClientState(GL_TEXTURE_COORD_ARRAY);
   glTexCoordPointer(2, GL_FLOAT, 0, data);
-  assert_gl("");
+  assert_gl();
 }
 
 void
 GL20Context::set_texcoord(float u, float v)
 {
-  assert_gl("");
+  assert_gl();
   glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-  assert_gl("");
+  assert_gl();
 }
 
 void
 GL20Context::set_colors(const float* data, size_t size)
 {
-  assert_gl("");
+  assert_gl();
   glEnableClientState(GL_COLOR_ARRAY);
   glColorPointer(4, GL_FLOAT, 0, data);
-  assert_gl("");
+  assert_gl();
 }
 
 void
 GL20Context::set_color(const Color& color)
 {
-  assert_gl("");
+  assert_gl();
   glDisableClientState(GL_COLOR_ARRAY);
   glColor4f(color.red, color.green, color.blue, color.alpha);
-  assert_gl("");
+  assert_gl();
 }
 
 void
 GL20Context::bind_texture(const GLTexture& texture)
 {
-  assert_gl("");
+  assert_gl();
   glEnable(GL_TEXTURE_2D);
   glBindTexture(GL_TEXTURE_2D, texture.get_handle());
-  assert_gl("");
+  assert_gl();
 }
 
 void
 GL20Context::bind_no_texture()
 {
-  assert_gl("");
+  assert_gl();
   glDisable(GL_TEXTURE_2D);
-  assert_gl("");
+  assert_gl();
 }
 
 void
 GL20Context::draw_arrays(GLenum type, GLint first, GLsizei count)
 {
-  assert_gl("");
+  assert_gl();
   glDrawArrays(type, first, count);
-  assert_gl("");
+  assert_gl();
 }
 
 #endif

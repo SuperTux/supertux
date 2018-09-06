@@ -27,13 +27,12 @@
 #  include <glbinding/gl/extension.h>
 #endif
 
-inline void check_gl_error(const char* filename, int line, const char* message)
+inline void check_gl_error(const char* filename, int line)
 {
   GLenum error = glGetError();
   if(error != GL_NO_ERROR) {
     std::ostringstream msg;
-    msg << filename << ":" << line << ": "
-        << "OpenGLError while '" << message << "': ";
+    msg << filename << ":" << line << ": " << "glGetError: ";
     switch(error) {
       case GL_INVALID_ENUM:
         msg << "INVALID_ENUM: An unacceptable value is specified for an "
@@ -73,7 +72,7 @@ inline void check_gl_error(const char* filename, int line, const char* message)
   }
 }
 
-#define assert_gl(message) check_gl_error(__FILE__, __LINE__, message)
+#define assert_gl() check_gl_error(__FILE__, __LINE__)
 
 inline bool gl_needs_power_of_two()
 {
