@@ -53,6 +53,8 @@ Do not use raw pointers and `new` or `delete`. Use `std::unique_ptr<>` instead.
 
 Keep use of `std::smart_ptr<>` to a minimum, prefer `std::unique_ptr<>` when possible.
 
+Pass and return values as value, `&` or `const&`, don't use `*` unless absolutely necessary.
+
 ## Namespaces
 
 Namespaces should be written in the form:
