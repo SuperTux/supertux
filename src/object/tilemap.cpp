@@ -353,10 +353,9 @@ TileMap::draw(DrawingContext& context)
       assert (index < (m_width * m_height));
 
       if (m_tiles[index] == 0) continue;
-      const Tile* tile = m_tileset->get(m_tiles[index]);
-      assert(tile != 0);
+      const Tile& tile = m_tileset->get(m_tiles[index]);
 
-      const SurfacePtr& surface = tile->get_current_surface();
+      const SurfacePtr& surface = tile.get_current_surface();
       if (surface)
       {
         std::get<0>(batches[surface]).push_back(Rectf(0, 0,
@@ -516,7 +515,7 @@ TileMap::get_tile_id(int x, int y) const
   return m_tiles[y*m_width + x];
 }
 
-const Tile*
+const Tile&
 TileMap::get_tile(int x, int y) const
 {
   uint32_t id = get_tile_id(x, y);
@@ -530,7 +529,7 @@ TileMap::get_tile_id_at(const Vector& pos) const
   return get_tile_id(int(xy.x), int(xy.y));
 }
 
-const Tile*
+const Tile&
 TileMap::get_tile_at(const Vector& pos) const
 {
   uint32_t id = get_tile_id_at(pos);

@@ -26,14 +26,8 @@ void
 draw_tile(Canvas& canvas, const TileSet& tileset, uint32_t id, const Vector& pos,
           int z_pos, const Color& color)
 {
-  const Tile* tile = tileset.get(id);
-  if (tile) {
-    tile->draw(canvas, pos, z_pos, color);
-  } else {
-    canvas.draw_surface(Resources::no_tile, pos, 0, color, Blend(), z_pos);
-    canvas.draw_text(Resources::small_font, std::to_string(id),
-                     pos + Vector(16, 16), ALIGN_CENTER, z_pos, color);
-  }
+  const Tile& tile = tileset.get(id);
+  tile.draw(canvas, pos, z_pos, color);
 }
 
 /* EOF */

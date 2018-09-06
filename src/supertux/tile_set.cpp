@@ -66,21 +66,21 @@ TileSet::add_tile(int id, std::unique_ptr<Tile> tile)
   }
 }
 
-const Tile*
+const Tile&
 TileSet::get(const uint32_t id) const
 {
   if (id >= m_tiles.size()) {
 //    log_warning << "Invalid tile: " << id << std::endl;
-    return m_tiles[0].get();
+    return *m_tiles[0];
   } else {
     assert(id < m_tiles.size());
     Tile* tile = m_tiles[id].get();
     if(tile) {
       tile->load_images();
-      return tile;
+      return *tile;
     } else {
 //      log_warning << "Invalid tile: " << id << std::endl;
-      return m_tiles[0].get();
+      return *m_tiles[0];
     }
   }
 }

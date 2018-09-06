@@ -55,7 +55,7 @@ public:
 
   void add_tilegroup(const Tilegroup& tilegroup);
 
-  const Tile* get(const uint32_t id) const;
+  const Tile& get(const uint32_t id) const;
 
   uint32_t get_max_tileid() const {
     return static_cast<uint32_t>(m_tiles.size());

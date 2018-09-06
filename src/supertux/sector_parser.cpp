@@ -344,18 +344,18 @@ SectorParser::fix_old_tiles()
     {
       for(int y=0; y < tm->get_height(); ++y)
       {
-        const auto& tile = tm->get_tile(x, y);
+        const Tile& tile = tm->get_tile(x, y);
 
-        if (!tile->get_object_name().empty())
+        if (!tile.get_object_name().empty())
         {
           // If a tile is associated with an object, insert that
           // object and remove the tile
-          if (tile->get_object_name() == "decal" ||
+          if (tile.get_object_name() == "decal" ||
               tm->is_solid())
           {
             Vector pos = tm->get_tile_position(x, y);
             try {
-              GameObjectPtr object = ObjectFactory::instance().create(tile->get_object_name(), pos, AUTO, tile->get_object_data());
+              GameObjectPtr object = ObjectFactory::instance().create(tile.get_object_name(), pos, AUTO, tile.get_object_data());
               m_sector.add_object(object);
               tm->change(x, y, 0);
             } catch(std::exception& e) {
@@ -366,7 +366,7 @@ SectorParser::fix_old_tiles()
         else
         {
           // add lights for fire tiles
-          uint32_t attributes = tile->get_attributes();
+          uint32_t attributes = tile.get_attributes();
           Vector pos = tm->get_tile_position(x, y);
           Vector center = pos + Vector(16, 16);
 
@@ -374,15 +374,17 @@ SectorParser::fix_old_tiles()
             if (attributes & Tile::HURTS) {
               // lava or lavaflow
               // space lights a bit
-              if ((tm->get_tile(x-1, y)->get_attributes() != attributes || x%3 == 0)
-                  && (tm->get_tile(x, y-1)->get_attributes() != attributes || y%3 == 0)) {
+              if ((tm->get_tile(x-1, y).get_attributes() != attributes || x%3 == 0)
+                  && (tm->get_tile(x, y-1).get_attributes() != attributes || y%3 == 0)) {
                 float pseudo_rnd = static_cast<float>(static_cast<int>(pos.x) % 10) / 10;
-                m_sector.add_object(std::make_shared<PulsingLight>(center, 1.0f + pseudo_rnd, 0.8f, 1.0f, Color(1.0f, 0.3f, 0.0f, 1.0f)));
+                m_sector.add_object(std::make_shared<PulsingLight>(center, 1.0f + pseudo_rnd, 0.8f, 1.0f,
+                                                                   Color(1.0f, 0.3f, 0.0f, 1.0f)));
               }
             } else {
               // torch
               float pseudo_rnd = static_cast<float>(static_cast<int>(pos.x) % 10) / 10;
-              m_sector.add_object(std::make_shared<PulsingLight>(center, 1.0f + pseudo_rnd, 0.9f, 1.0f, Color(1.0f, 1.0f, 0.6f, 1.0f)));
+              m_sector.add_object(std::make_shared<PulsingLight>(center, 1.0f + pseudo_rnd, 0.9f, 1.0f,
+                                                                 Color(1.0f, 1.0f, 0.6f, 1.0f)));
             }
           }
         }
