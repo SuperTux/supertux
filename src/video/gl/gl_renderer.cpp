@@ -51,7 +51,7 @@ GLRenderer::start_draw()
   glEnable(GL_BLEND);
   //glEnableClientState(GL_VERTEX_ARRAY);
   //glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+  context.blend_func(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
   const Viewport& viewport = m_video_system.get_viewport();
   const Rect& rect = viewport.get_rect();

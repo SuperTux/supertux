@@ -62,6 +62,12 @@ GL33CoreContext::ortho(float width, float height)
 }
 
 void
+GL33CoreContext::blend_func(GLenum src, GLenum dst)
+{
+  glBlendFunc(src, dst);
+}
+
+void
 GL33CoreContext::set_positions(const float* data, size_t size)
 {
   m_vertex_arrays->set_positions(data, size);

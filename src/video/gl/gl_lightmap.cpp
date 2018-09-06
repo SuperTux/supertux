@@ -105,7 +105,7 @@ GLLightmap::render()
 
   assert_gl("");
   // multiple the lightmap with the framebuffer
-  glBlendFunc(GL_DST_COLOR, GL_ZERO);
+  context.blend_func(GL_DST_COLOR, GL_ZERO);
 
   context.bind_texture(*m_lightmap);
   context.set_color(Color::WHITE);
@@ -132,7 +132,7 @@ GLLightmap::render()
 
   glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 
-  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+  context.blend_func(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   assert_gl("");
 }
 

@@ -47,10 +47,9 @@ GLPainter::intern_draw(float left, float top, float right, float bottom,
   if(effect & VERTICAL_FLIP)
     std::swap(uv_top, uv_bottom);
 
-  glBlendFunc(blend.sfactor, blend.dfactor);
-  //glColor4f(color.red, color.green, color.blue, color.alpha * alpha);
-
   GLContext& context = m_video_system.get_context();
+
+  context.blend_func(blend.sfactor, blend.dfactor);
   context.set_color(Color(color.red, color.green, color.blue, color.alpha * alpha));
 
   // unrotated blit

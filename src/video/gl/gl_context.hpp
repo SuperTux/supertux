@@ -34,6 +34,8 @@ public:
 
   virtual void ortho(float width, float height) = 0;
 
+  virtual void blend_func(GLenum src, GLenum dst) = 0;
+
   virtual void set_positions(const float* data, size_t size) = 0;
 
   virtual void set_texcoords(const float* data, size_t size) = 0;

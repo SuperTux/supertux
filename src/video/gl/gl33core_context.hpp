@@ -36,6 +36,8 @@ public:
 
   virtual void ortho(float width, float height) override;
 
+  virtual void blend_func(GLenum src, GLenum dst) override;
+
   virtual void set_positions(const float* data, size_t size) override;
 
   virtual void set_texcoords(const float* data, size_t size) override;

@@ -56,6 +56,12 @@ GL20Context::ortho(float width, float height)
 }
 
 void
+GL20Context::blend_func(GLenum src, GLenum dst)
+{
+  glBlendFunc(src, dst);
+}
+
+void
 GL20Context::set_positions(const float* data, size_t size)
 {
   assert_gl("");
