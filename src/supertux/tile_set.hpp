@@ -29,12 +29,14 @@ class DrawingContext;
 class Tile;
 class Vector;
 
-class Tilegroup {
-  public:
-    Tilegroup();
-    bool developers_group = false;
-    std::string name;
-    std::vector<int> tiles;
+class Tilegroup
+{
+public:
+  Tilegroup();
+
+  bool developers_group = false;
+  std::string name;
+  std::vector<int> tiles;
 };
 
 class TileSet
@@ -42,30 +44,36 @@ class TileSet
 public:
   static std::unique_ptr<TileSet> from_file(const std::string& filename);
 
-private:
-  std::vector<std::unique_ptr<Tile> > m_tiles;
-
 public:
   TileSet();
 
-  std::vector<Tilegroup> tilegroups;
-
   void add_tile(int id, std::unique_ptr<Tile> tile);
 
-  /**
-   * Adds a group of tiles that haven't
-   * been assigned to any other group
-   */
+  /** Adds a group of tiles that haven't
+      been assigned to any other group */
   void add_unassigned_tilegroup();
+
+  void add_tilegroup(const Tilegroup& tilegroup);
 
   const Tile* get(const uint32_t id) const;
 
-  uint32_t get_max_tileid() const
-  {
+  uint32_t get_max_tileid() const {
     return static_cast<uint32_t>(m_tiles.size());
   }
 
+  const std::vector<Tilegroup>& get_tilegroups() const {
+    return m_tilegroups;
+  }
+
   void print_debug_info(const std::string& filename);
+
+private:
+  std::vector<std::unique_ptr<Tile> > m_tiles;
+  std::vector<Tilegroup> m_tilegroups;
+
+private:
+  TileSet(const TileSet&) = delete;
+  TileSet& operator=(const TileSet&) = delete;
 };
 
 #endif

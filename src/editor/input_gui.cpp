@@ -246,14 +246,14 @@ EditorInputGui::event(SDL_Event& ev) {
           case HI_TILEGROUP:
           {
             auto editor = Editor::current();
-            if(editor->get_tileset()->tilegroups.size() > 1)
+            if(editor->get_tileset()->get_tilegroups().size() > 1)
             {
               Editor::current()->disable_keyboard();
               MenuManager::instance().push_menu(MenuStorage::EDITOR_TILEGROUP_MENU);
             }
             else
             {
-              active_tilegroup.reset(new Tilegroup(editor->get_tileset()->tilegroups[0]));
+              active_tilegroup.reset(new Tilegroup(editor->get_tileset()->get_tilegroups()[0]));
               input_type = EditorInputGui::IP_TILE;
               reset_pos();
               update_mouse_icon();

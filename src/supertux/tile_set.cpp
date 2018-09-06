@@ -47,7 +47,7 @@ TileSet::from_file(const std::string& filename)
 
 TileSet::TileSet() :
   m_tiles(1),
-  tilegroups()
+  m_tilegroups()
 {
   m_tiles[0] = std::unique_ptr<Tile>(new Tile);
 }
@@ -88,11 +88,15 @@ TileSet::get(const uint32_t id) const
 void
 TileSet::add_unassigned_tilegroup()
 {
-  Tilegroup* unassigned_group = NULL;
+  Tilegroup unassigned_group;
+
+  unassigned_group.name = _("Others");
+  unassigned_group.developers_group = true;
+
   for(auto tile = 0; tile < static_cast<int>(m_tiles.size()); tile++)
   {
     bool found = false;
-    for(const auto& group : tilegroups)
+    for(const auto& group : m_tilegroups)
     {
       for(const auto& tile_in_group : group.tiles)
       {
@@ -108,21 +112,20 @@ TileSet::add_unassigned_tilegroup()
     // spacing between other tiles).
     if(found == false && m_tiles[tile].get())
     {
-      if(unassigned_group == NULL)
-      {
-        unassigned_group = new Tilegroup();
-        unassigned_group->name = _("Others");
-        unassigned_group->developers_group = true;
-      }
-      unassigned_group->tiles.push_back(tile);
+      unassigned_group.tiles.push_back(tile);
     }
   }
-  if(unassigned_group != NULL)
+
+  if (!unassigned_group.tiles.empty())
   {
-    tilegroups.push_back(*unassigned_group);
-    delete unassigned_group;
-    unassigned_group = NULL;
+    m_tilegroups.push_back(unassigned_group);
   }
+}
+
+void
+TileSet::add_tilegroup(const Tilegroup& tilegroup)
+{
+  m_tilegroups.push_back(tilegroup);
 }
 
 void

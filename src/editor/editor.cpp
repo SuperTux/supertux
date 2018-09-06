@@ -502,7 +502,7 @@ Editor::sort_layers() {
 
 void
 Editor::select_tilegroup(int id) {
-  tileselect.active_tilegroup.reset(new Tilegroup(tileset->tilegroups[id]));
+  tileselect.active_tilegroup.reset(new Tilegroup(tileset->get_tilegroups()[id]));
   tileselect.input_type = EditorInputGui::IP_TILE;
   tileselect.reset_pos();
   tileselect.update_mouse_icon();
@@ -510,7 +510,7 @@ Editor::select_tilegroup(int id) {
 
 const std::vector<Tilegroup>&
 Editor::get_tilegroups() const {
-	return tileset->tilegroups;
+	return tileset->get_tilegroups();
 }
 
 void

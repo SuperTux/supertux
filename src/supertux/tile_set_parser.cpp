@@ -63,7 +63,7 @@ TileSetParser::parse()
       Tilegroup tilegroup;
       reader.get("name", tilegroup.name);
       reader.get("tiles", tilegroup.tiles);
-      m_tileset.tilegroups.push_back(tilegroup);
+      m_tileset.add_tilegroup(tilegroup);
     }
     else if (iter.get_key() == "tiles")
     {
