@@ -68,19 +68,8 @@ GLLightmap::start_draw()
 
   glViewport(0, 0, m_lightmap_width, m_lightmap_height);
 
-  //glMatrixMode(GL_PROJECTION);
-  //glLoadIdentity();
-
-  // glOrtho(0,
-  //         m_size.width,
-  //         m_size.height,
-  //         0,
-  //         -1.0, 1.0);
-
   context.ortho(static_cast<float>(m_size.width), static_cast<float>(m_size.height));
 
-  //glMatrixMode(GL_MODELVIEW);
-  //glLoadIdentity();
   assert_gl("");
 }
 
@@ -116,7 +105,6 @@ GLLightmap::render()
     static_cast<float>(m_size.width), static_cast<float>(m_size.height),
     0, static_cast<float>(m_size.height)
   };
-  //glVertexPointer(2, GL_FLOAT, 0, vertices);
   context.set_positions(vertices, sizeof(vertices));
 
   float uv_right = static_cast<float>(m_lightmap_width) / static_cast<float>(m_lightmap->get_texture_width());
@@ -127,7 +115,6 @@ GLLightmap::render()
     uv_right, 0,
     0, 0
   };
-  //glTexCoordPointer(2, GL_FLOAT, 0, uvs);
   context.set_texcoords(uvs, sizeof(uvs));
 
   glDrawArrays(GL_TRIANGLE_FAN, 0, 4);

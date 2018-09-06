@@ -47,10 +47,8 @@ GLRenderer::start_draw()
 
   glDisable(GL_DEPTH_TEST);
   glDisable(GL_CULL_FACE);
-  //glEnable(GL_TEXTURE_2D);
   glEnable(GL_BLEND);
-  //glEnableClientState(GL_VERTEX_ARRAY);
-  //glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
   context.blend_func(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
   const Viewport& viewport = m_video_system.get_viewport();

@@ -60,7 +60,6 @@ GLPainter::intern_draw(float left, float top, float right, float bottom,
       right, bottom,
       left, bottom,
     };
-    //glVertexPointer(2, GL_FLOAT, 0, vertices);
     context.set_positions(vertices, sizeof(vertices));
 
     float uvs[] = {
@@ -69,7 +68,6 @@ GLPainter::intern_draw(float left, float top, float right, float bottom,
       uv_right, uv_bottom,
       uv_left, uv_bottom,
     };
-    //glTexCoordPointer(2, GL_FLOAT, 0, uvs);
     context.set_texcoords(uvs, sizeof(uvs));
 
     context.draw_arrays(GL_TRIANGLE_FAN, 0, 4);
@@ -93,7 +91,6 @@ GLPainter::intern_draw(float left, float top, float right, float bottom,
       right*ca - bottom*sa + center_x, right*sa + bottom*ca + center_y,
       left*ca - bottom*sa + center_x, left*sa + bottom*ca + center_y
     };
-    //glVertexPointer(2, GL_FLOAT, 0, vertices);
     context.set_positions(vertices, sizeof(vertices));
 
     float uvs[] = {
@@ -102,7 +99,6 @@ GLPainter::intern_draw(float left, float top, float right, float bottom,
       uv_right, uv_bottom,
       uv_left, uv_bottom,
     };
-    //glTexCoordPointer(2, GL_FLOAT, 0, uvs);
     context.set_texcoords(uvs, sizeof(uvs));
 
     context.draw_arrays(GL_TRIANGLE_FAN, 0, 4);
@@ -201,9 +197,6 @@ GLPainter::draw_texture_batch(const DrawingRequest& request)
 
   glBlendFunc(request.blend.sfactor, request.blend.dfactor);
 
-  // glVertexPointer(2, GL_FLOAT, 0, vertices.data());
-  // glTexCoordPointer(2, GL_FLOAT, 0, uvs.data());
-  // glColor4f(data.color.red, data.color.green, data.color.blue, data.color.alpha * request.alpha);
 
   context.set_positions(vertices.data(), sizeof(float) * vertices.size());
   context.set_texcoords(uvs.data(), sizeof(float) * uvs.size());
@@ -224,10 +217,6 @@ GLPainter::draw_gradient(const DrawingRequest& request)
   const GradientDirection& direction = data.direction;
   const Rectf& region = data.region;
 
-  //glDisable(GL_TEXTURE_2D);
-  //glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-  //glEnableClientState(GL_COLOR_ARRAY);
-
   GLContext& context = m_video_system.get_context();
 
   float vertices[] = {
@@ -236,7 +225,6 @@ GLPainter::draw_gradient(const DrawingRequest& request)
     region.p2.x, region.p2.y,
     region.p1.x, region.p2.y
   };
-  // glVertexPointer(2, GL_FLOAT, 0, vertices);
   context.set_positions(vertices, sizeof(vertices));
 
   if(direction == VERTICAL || direction == VERTICAL_SECTOR)
@@ -247,7 +235,6 @@ GLPainter::draw_gradient(const DrawingRequest& request)
       bottom.red, bottom.green, bottom.blue, bottom.alpha,
       bottom.red, bottom.green, bottom.blue, bottom.alpha,
     };
-    // glColorPointer(4, GL_FLOAT, 0, colors);
     context.set_colors(colors, sizeof(colors));
   }
   else
@@ -258,7 +245,6 @@ GLPainter::draw_gradient(const DrawingRequest& request)
       bottom.red, bottom.green, bottom.blue, bottom.alpha,
       top.red, top.green, top.blue, top.alpha,
     };
-    // glColorPointer(4, GL_FLOAT, 0, colors);
     context.set_colors(colors, sizeof(colors));
   }
 
@@ -275,11 +261,6 @@ GLPainter::draw_filled_rect(const DrawingRequest& request)
 {
   assert_gl("");
   const auto& data = static_cast<const FillRectRequest&>(request);
-
-  //glDisable(GL_TEXTURE_2D);
-  //glColor4f(data.color.red, data.color.green,
-  //          data.color.blue, data.color.alpha);
-  //glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 
   GLContext& context = m_video_system.get_context();
   context.set_color(data.color);
@@ -330,7 +311,6 @@ GLPainter::draw_filled_rect(const DrawingRequest& request)
       vertices[p++] = irect.get_bottom() + y;
     }
 
-    //glVertexPointer(2, GL_FLOAT, 0, &*vertices.begin());
     context.set_positions(vertices.data(), sizeof(float) * vertices.size());
 
     context.draw_arrays(GL_TRIANGLE_STRIP, 0,  static_cast<GLsizei>(vertices.size() / 2));
@@ -349,7 +329,6 @@ GLPainter::draw_filled_rect(const DrawingRequest& request)
       x,   y+h
     };
 
-    //glVertexPointer(2, GL_FLOAT, 0, vertices);
     context.set_positions(vertices, sizeof(vertices));
 
     context.draw_arrays(GL_TRIANGLE_FAN, 0, 4);
@@ -366,9 +345,6 @@ GLPainter::draw_inverse_ellipse(const DrawingRequest& request)
   assert_gl("");
   const auto& data = static_cast<const InverseEllipseRequest&>(request);
 
-  //glDisable(GL_TEXTURE_2D);
-  //glColor4f(data.color.red,  data.color.green,
-  //          data.color.blue, data.color.alpha);
   context.set_color(data.color);
 
   context.bind_no_texture();
@@ -438,8 +414,6 @@ GLPainter::draw_inverse_ellipse(const DrawingRequest& request)
     vertices[p++] = x - ex2;      vertices[p++] = y + ey2;
   }
 
-  //glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-  //glVertexPointer(2, GL_FLOAT, 0, vertices);
   context.set_positions(vertices, sizeof(vertices));
 
   context.draw_arrays(GL_TRIANGLES, 0, points);
@@ -454,10 +428,6 @@ GLPainter::draw_line(const DrawingRequest& request)
 
   assert_gl("");
   const auto& data = static_cast<const LineRequest&>(request);
-
-  //glDisable(GL_TEXTURE_2D);
-  //glColor4f(data.color.red, data.color.green, data.color.blue, data.color.alpha);
-  //glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 
   context.set_color(data.color);
 
@@ -490,7 +460,6 @@ GLPainter::draw_line(const DrawingRequest& request)
     (x2 + x_step), (y2 + y_step),
   };
 
-  //glVertexPointer(2, GL_FLOAT, 0, vertices);
   context.set_positions(vertices, sizeof(vertices));
   context.draw_arrays(GL_TRIANGLE_STRIP, 0, 4);
 
@@ -504,10 +473,6 @@ GLPainter::draw_triangle(const DrawingRequest& request)
 
   assert_gl("");
   const auto& data = static_cast<const TriangleRequest&>(request);
-
-  //glDisable(GL_TEXTURE_2D);
-  //glColor4f(data.color.red, data.color.green, data.color.blue, data.color.alpha);
-  //glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 
   context.set_color(data.color);
 
@@ -526,7 +491,6 @@ GLPainter::draw_triangle(const DrawingRequest& request)
     x2, y2,
     x3, y3
   };
-  //glVertexPointer(2, GL_FLOAT, 0, vertices);
   context.set_positions(vertices, sizeof(vertices));
 
   context.draw_arrays(GL_TRIANGLES, 0, 3);
