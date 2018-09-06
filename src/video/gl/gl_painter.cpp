@@ -498,7 +498,8 @@ GLPainter::draw_text(const DrawingRequest& request)
     else if(data.alignment == ALIGN_RIGHT)
       last_x -= surface->get_width();
 
-    glBindTexture(GL_TEXTURE_2D, gltexture->get_handle());
+    GLContext& context = m_video_system.get_context();
+    context.bind_texture(*gltexture);
 
     intern_draw(last_x + shadow_size, last_y + shadow_size,
                 last_x + shadow_size + surface->get_width(),
