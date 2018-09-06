@@ -179,7 +179,7 @@ WorldMap::move_to_spawnpoint(const std::string& spawnpoint, bool pan, bool main_
 void
 WorldMap::change(const std::string& filename, const std::string& force_spawnpoint_)
 {
-  m_savegame.get_player_status()->last_worldmap = filename;
+  m_savegame.get_player_status().last_worldmap = filename;
   ScreenManager::current()->pop_screen();
   ScreenManager::current()->push_screen(std::unique_ptr<Screen>(new WorldMap(filename, m_savegame, force_spawnpoint_)));
 }
@@ -761,7 +761,7 @@ WorldMap::draw_status(DrawingContext& context)
   context.push_transform();
   context.set_translation(Vector(0, 0));
 
-  m_savegame.get_player_status()->draw(context);
+  m_savegame.get_player_status().draw(context);
 
   if (!tux->is_moving()) {
     for(const auto& level : levels) {

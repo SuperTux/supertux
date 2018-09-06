@@ -32,30 +32,30 @@
 
 #include <boost/format.hpp>
 
-LevelIntro::LevelIntro(const Level* level_, const Statistics* best_level_statistics_, const PlayerStatus* player_status_) :
-  m_level(level_),
-  m_best_level_statistics(best_level_statistics_),
+LevelIntro::LevelIntro(const Level& level, const Statistics* best_level_statistics, const PlayerStatus& player_status) :
+  m_level(level),
+  m_best_level_statistics(best_level_statistics),
   m_player_sprite(SpriteManager::current()->create("images/creatures/tux/tux.sprite")),
   m_power_sprite(SpriteManager::current()->create("images/creatures/tux/powerups.sprite")),
   m_player_sprite_py(0),
   m_player_sprite_vy(0),
   m_player_sprite_jump_timer(),
-  m_player_status(player_status_)
+  m_player_status(player_status)
 {
   //Show appropriate tux animation for player status.
-  if(m_player_status->bonus == FIRE_BONUS && g_config->christmas_mode)
+  if(m_player_status.bonus == FIRE_BONUS && g_config->christmas_mode)
   {
     m_player_sprite->set_action("big-walk-right");
     m_power_sprite->set_action("santa-walk-right");
   }
   else
   {
-    m_player_sprite->set_action(m_player_status->get_bonus_prefix() + "-walk-right");
+    m_player_sprite->set_action(m_player_status.get_bonus_prefix() + "-walk-right");
   }
   m_player_sprite_jump_timer.start(graphicsRandom.randf(5,10));
 
   /* Set Tux powerup sprite action */
-  if (m_player_status->bonus == EARTH_BONUS || m_player_status->bonus == AIR_BONUS)
+  if (m_player_status.bonus == EARTH_BONUS || m_player_status.bonus == AIR_BONUS)
   {
     m_power_sprite->set_action(m_player_sprite->get_action());
   }
@@ -74,8 +74,8 @@ void
 LevelIntro::update(float elapsed_time)
 {
   auto controller = InputManager::current()->get_controller();
-  auto bonus_prefix = m_player_status->get_bonus_prefix();
-  if(m_player_status->bonus == FIRE_BONUS && g_config->christmas_mode)
+  auto bonus_prefix = m_player_status.get_bonus_prefix();
+  if(m_player_status.bonus == FIRE_BONUS && g_config->christmas_mode)
   {
     bonus_prefix = "big";
   }
@@ -120,7 +120,7 @@ LevelIntro::draw(Compositor& compositor)
 {
   auto& context = compositor.make_context();
 
-  const Statistics& stats = m_level->m_stats;
+  const Statistics& stats = m_level.m_stats;
   int py = static_cast<int>(static_cast<float>(context.get_height()) / 2.0f - Resources::normal_font->get_height() / 2.0f);
 
   context.set_ambient_color(Color(1.0f, 1.0f, 1.0f, 1.0f));
@@ -130,11 +130,11 @@ LevelIntro::draw(Compositor& compositor)
                                    Color(0.0f, 0.0f, 0.0f, 1.0f), 0);
 
   {
-    context.color().draw_center_text(Resources::normal_font, m_level->get_name(), Vector(0, static_cast<float>(py)), LAYER_FOREGROUND1, s_header_color);
+    context.color().draw_center_text(Resources::normal_font, m_level.get_name(), Vector(0, static_cast<float>(py)), LAYER_FOREGROUND1, s_header_color);
     py += static_cast<int>(Resources::normal_font->get_height());
   }
 
-  std::string author = m_level->get_author();
+  std::string author = m_level.get_author();
   if ((!author.empty()) && (author != "SuperTux Team")) {
     std::string author_text = str(boost::format(_("contributed by %s")) % author);
     context.color().draw_center_text(Resources::small_font, author_text, Vector(0, static_cast<float>(py)), LAYER_FOREGROUND1, s_author_color);
@@ -147,9 +147,9 @@ LevelIntro::draw(Compositor& compositor)
     m_player_sprite->draw(context.color(), Vector((static_cast<float>(context.get_width()) - m_player_sprite->get_current_hitbox_width()) / 2,
                                                 static_cast<float>(py) + m_player_sprite_py), LAYER_FOREGROUND1);
 
-    if (m_player_status->bonus == EARTH_BONUS
-        || m_player_status->bonus == AIR_BONUS
-        || (m_player_status->bonus == FIRE_BONUS && g_config->christmas_mode))
+    if (m_player_status.bonus == EARTH_BONUS
+        || m_player_status.bonus == AIR_BONUS
+        || (m_player_status.bonus == FIRE_BONUS && g_config->christmas_mode))
     {
       m_power_sprite->draw(context.color(), Vector((static_cast<float>(context.get_width()) - m_player_sprite->get_current_hitbox_width()) / 2,
                                                  static_cast<float>(py) + m_player_sprite_py), LAYER_FOREGROUND1);
@@ -177,9 +177,9 @@ LevelIntro::draw(Compositor& compositor)
     draw_stats_line(context, py, _("Best time"),
                     Statistics::time_to_string(m_best_level_statistics->time));
 
-    if (m_level->m_target_time != 0.0f) {
+    if (m_level.m_target_time != 0.0f) {
       draw_stats_line(context, py, _("Level target time"),
-                      Statistics::time_to_string(m_level->m_target_time));
+                      Statistics::time_to_string(m_level.m_target_time));
     }
   }
 }

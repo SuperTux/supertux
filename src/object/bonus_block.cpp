@@ -265,7 +265,7 @@ BonusBlock::try_open(Player* player)
     case CONTENT_COIN:
     {
       Sector::current()->add_object(std::make_shared<BouncyCoin>(get_pos(), true));
-      player->get_status()->add_coins(1);
+      player->get_status().add_coins(1);
       if (m_hit_counter != 0)
         Sector::current()->get_level()->m_stats.coins++;
       break;
@@ -498,7 +498,7 @@ void
 BonusBlock::raise_growup_bonus(Player* player, const BonusType& bonus, const Direction& dir)
 {
   std::shared_ptr<MovingObject> obj;
-  if (player->get_status()->bonus == NO_BONUS) {
+  if (player->get_status().bonus == NO_BONUS) {
     obj = std::make_shared<GrowUp>(dir);
   } else {
     obj = std::make_shared<Flower>(bonus);

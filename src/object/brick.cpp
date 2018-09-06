@@ -107,7 +107,7 @@ Brick::try_break(Player* player)
   if(coin_counter > 0 ){
     sector->add_object(std::make_shared<BouncyCoin>(get_pos(), true));
     coin_counter--;
-    player_one.get_status()->add_coins(1);
+    player_one.get_status().add_coins(1);
     if(coin_counter == 0)
       sprite->set_action("empty");
     start_bounce(player);

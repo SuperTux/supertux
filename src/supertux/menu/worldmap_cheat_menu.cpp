@@ -56,34 +56,34 @@ WorldmapCheatMenu::menu_action(MenuItem* item)
   }
   else
   {
-    auto status = worldmap->get_savegame().get_player_status();
+    PlayerStatus& status = worldmap->get_savegame().get_player_status();
 
     switch(item->id)
     {
       case MNID_GROW:
-        status->bonus = GROWUP_BONUS;
+        status.bonus = GROWUP_BONUS;
         break;
 
       case MNID_FIRE:
-        status->bonus = FIRE_BONUS;
-        status->max_fire_bullets++;
+        status.bonus = FIRE_BONUS;
+        status.max_fire_bullets++;
         break;
 
       case MNID_ICE:
-        status->bonus = ICE_BONUS;
-        status->max_ice_bullets++;
+        status.bonus = ICE_BONUS;
+        status.max_ice_bullets++;
         break;
 
       case MNID_AIR:
-        status->bonus = AIR_BONUS;
+        status.bonus = AIR_BONUS;
         break;
 
       case MNID_EARTH:
-        status->bonus = EARTH_BONUS;
+        status.bonus = EARTH_BONUS;
         break;
 
       case MNID_SHRINK:
-        status->bonus = NO_BONUS;
+        status.bonus = NO_BONUS;
         break;
 
       case MNID_FINISH_LEVEL:

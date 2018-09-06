@@ -79,15 +79,10 @@ Sector::Sector(Level* parent) :
   m_camera(0),
   m_effect(0)
 {
-  PlayerStatus* player_status;
-  if (Editor::is_active()) {
-    player_status = Editor::current()->m_savegame->get_player_status();
-  } else {
-    player_status = GameSession::current()->get_savegame().get_player_status();
-  }
-  if (!player_status) {
-    log_warning << "Player status is not initialized." << std::endl;
-  }
+  PlayerStatus& player_status = Editor::is_active() ?
+    Editor::current()->m_savegame->get_player_status() :
+    GameSession::current()->get_savegame().get_player_status();
+
   add_object(std::make_shared<Player>(player_status, "Tux"));
   add_object(std::make_shared<DisplayEffect>("Effect"));
   add_object(std::make_shared<TextObject>("Text"));

@@ -54,7 +54,7 @@ public:
   }
 
 public:
-  Player(PlayerStatus* player_status, const std::string& name);
+  Player(PlayerStatus& player_status, const std::string& name);
   virtual ~Player();
 
   void set_controller(Controller* controller);
@@ -121,7 +121,7 @@ public:
    */
   bool set_bonus(BonusType type, bool animate = false);
 
-  PlayerStatus* get_status() const
+  PlayerStatus& get_status() const
   {
     return m_player_status;
   }
@@ -279,7 +279,7 @@ private:
 
   Controller* m_controller;
   std::unique_ptr<CodeController> m_scripting_controller; /**< This controller is used when the Player is controlled via scripting */
-  PlayerStatus* m_player_status;
+  PlayerStatus& m_player_status;
   bool m_duck;
   bool m_dead;
 

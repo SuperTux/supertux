@@ -78,10 +78,10 @@ void
 GameSession::reset_level()
 {
   m_currentsector->m_player->set_bonus(m_bonus_at_start);
-  PlayerStatus *currentStatus = m_savegame.get_player_status();
-  currentStatus->coins = m_coins_at_start;
-  currentStatus->max_fire_bullets = m_max_fire_bullets_at_start;
-  currentStatus->max_ice_bullets = m_max_ice_bullets_at_start;
+  PlayerStatus& currentStatus = m_savegame.get_player_status();
+  currentStatus.coins = m_coins_at_start;
+  currentStatus.max_fire_bullets = m_max_fire_bullets_at_start;
+  currentStatus.max_ice_bullets = m_max_ice_bullets_at_start;
   m_reset_sector = "";
   m_reset_pos = Vector();
 }
@@ -89,11 +89,11 @@ GameSession::reset_level()
 int
 GameSession::restart_level(bool after_death)
 {
-  PlayerStatus* currentStatus = m_savegame.get_player_status();
-  m_coins_at_start = currentStatus->coins;
-  m_bonus_at_start = currentStatus->bonus;
-  m_max_fire_bullets_at_start = currentStatus->max_fire_bullets;
-  m_max_ice_bullets_at_start = currentStatus->max_ice_bullets;
+  const PlayerStatus& currentStatus = m_savegame.get_player_status();
+  m_coins_at_start = currentStatus.coins;
+  m_bonus_at_start = currentStatus.bonus;
+  m_max_fire_bullets_at_start = currentStatus.max_fire_bullets;
+  m_max_ice_bullets_at_start = currentStatus.max_ice_bullets;
 
   if (m_edit_mode) {
     force_ghost_mode();
@@ -193,10 +193,10 @@ GameSession::abort_level()
   MenuManager::instance().clear_menu_stack();
   ScreenManager::current()->pop_screen();
   m_currentsector->m_player->set_bonus(m_bonus_at_start);
-  PlayerStatus *currentStatus = m_savegame.get_player_status();
-  currentStatus->coins = m_coins_at_start;
-  currentStatus->max_fire_bullets = m_max_fire_bullets_at_start;
-  currentStatus->max_ice_bullets = m_max_ice_bullets_at_start;
+  PlayerStatus& currentStatus = m_savegame.get_player_status();
+  currentStatus.coins = m_coins_at_start;
+  currentStatus.max_fire_bullets = m_max_fire_bullets_at_start;
+  currentStatus.max_ice_bullets = m_max_ice_bullets_at_start;
   SoundManager::current()->stop_sounds();
 }
 
@@ -287,7 +287,7 @@ GameSession::setup()
   if ((!m_levelintro_shown) && (total_stats_to_be_collected > 0)) {
     m_levelintro_shown = true;
     m_active = false;
-    ScreenManager::current()->push_screen(std::unique_ptr<Screen>(new LevelIntro(m_level.get(), m_best_level_statistics, m_savegame.get_player_status())));
+    ScreenManager::current()->push_screen(std::unique_ptr<Screen>(new LevelIntro(*m_level, m_best_level_statistics, m_savegame.get_player_status())));
   }
   ScreenManager::current()->set_screen_fade(std::unique_ptr<ScreenFade>(new FadeIn(1)));
   m_end_seq_started = false;
@@ -532,7 +532,7 @@ GameSession::start_sequence(Sequence seq, const SequenceData* data)
 void
 GameSession::drawstatus(DrawingContext& context)
 {
-  m_savegame.get_player_status()->draw(context);
+  m_savegame.get_player_status().draw(context);
 
   // draw level stats while end_sequence is running
   if (m_end_sequence) {

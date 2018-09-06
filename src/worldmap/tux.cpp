@@ -38,7 +38,7 @@ static const float map_message_TIME = 2.8f;
 Tux::Tux(WorldMap* worldmap_) :
   back_direction(),
   worldmap(worldmap_),
-  sprite(SpriteManager::current()->create(worldmap->get_savegame().get_player_status()->worldmap_sprite)),
+  sprite(SpriteManager::current()->create(worldmap->get_savegame().get_player_status().worldmap_sprite)),
   controller(),
   input_direction(D_NONE),
   direction(D_NONE),
@@ -52,7 +52,7 @@ Tux::Tux(WorldMap* worldmap_) :
 void
 Tux::draw(DrawingContext& context)
 {
-  std::string action = get_action_prefix_for_bonus(worldmap->get_savegame().get_player_status()->bonus);
+  std::string action = get_action_prefix_for_bonus(worldmap->get_savegame().get_player_status().bonus);
   if(!action.empty())
   {
     sprite->set_action(moving ? action + "-walking" : action + "-stop");
@@ -182,7 +182,7 @@ Tux::ChangeSprite(SpriteChange* sprite_change)
   if(sprite_change != NULL) {
     sprite = sprite_change->sprite->clone();
     sprite_change->clear_stay_action();
-    worldmap->get_savegame().get_player_status()->worldmap_sprite = sprite_change->sprite_name;
+    worldmap->get_savegame().get_player_status().worldmap_sprite = sprite_change->sprite_name;
   }
 }
 

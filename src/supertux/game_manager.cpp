@@ -57,7 +57,7 @@ GameManager::run_worldmap(World* world, const std::string& worldmap_filename, co
     m_savegame.reset(new Savegame(world->get_savegame_filename()));
     m_savegame->load();
 
-    auto filename = m_savegame->get_player_status()->last_worldmap;
+    auto filename = m_savegame->get_player_status().last_worldmap;
     // If we specified a worldmap filename manually,
     // this overrides the default choice of "last worldmap"
     if(!worldmap_filename.empty())
