@@ -27,17 +27,14 @@ class Level;
 class PlayerStatus;
 class Statistics;
 
-/**
- * Screen that welcomes the player to a level
- */
-class LevelIntro : public Screen
+/** Screen that welcomes the player to a level */
+class LevelIntro final : public Screen
 {
 private:
-  static Color header_color;
-  static Color author_color;
-  static Color stat_hdr_color;
-  static Color stat_color;
-
+  static Color s_header_color;
+  static Color s_author_color;
+  static Color s_stat_hdr_color;
+  static Color s_stat_color;
 
 public:
   LevelIntro(const Level* level, const Statistics* best_level_statistics, const PlayerStatus* player_status);
@@ -48,15 +45,17 @@ public:
   void update(float elapsed_time);
 
 private:
-  const Level* level; /**< The level of which this is the intro screen */
-  const Statistics* best_level_statistics; /**< Best level statistics of the level of which is the intro screen */
-  SpritePtr player_sprite; /**< Sprite representing the player */
-  SpritePtr power_sprite;
-  float player_sprite_py; /**< Position (y axis) for the player sprite */
-  float player_sprite_vy; /**< Velocity (y axis) for the player sprite */
-  Timer player_sprite_jump_timer; /**< When timer fires, the player sprite will "jump" */
-  const PlayerStatus* player_status; /**The player status passed from GameSession*/
   void draw_stats_line(DrawingContext& context, int& py, const std::string& name, const std::string& stat);
+
+private:
+  const Level* m_level; /**< The level of which this is the intro screen */
+  const Statistics* m_best_level_statistics; /**< Best level statistics of the level of which is the intro screen */
+  SpritePtr m_player_sprite; /**< Sprite representing the player */
+  SpritePtr m_power_sprite;
+  float m_player_sprite_py; /**< Position (y axis) for the player sprite */
+  float m_player_sprite_vy; /**< Velocity (y axis) for the player sprite */
+  Timer m_player_sprite_jump_timer; /**< When timer fires, the player sprite will "jump" */
+  const PlayerStatus* m_player_status; /**The player status passed from GameSession*/
 
 private:
   LevelIntro(const LevelIntro&);
