@@ -147,9 +147,6 @@ GLPainter::draw_texture_batch(const DrawingRequest& request)
 
   assert(data.srcrects.size() == data.dstrects.size());
 
-  GLContext& context = m_video_system.get_context();
-  context.bind_texture(texture);
-
   std::vector<float> vertices;
   std::vector<float> uvs;
   for(size_t i = 0; i < data.srcrects.size(); ++i)
@@ -195,14 +192,16 @@ GLPainter::draw_texture_batch(const DrawingRequest& request)
     uvs.insert(uvs.end(), std::begin(uvs_lst), std::end(uvs_lst));
   }
 
-  glBlendFunc(request.blend.sfactor, request.blend.dfactor);
+  GLContext& context = m_video_system.get_context();
 
-
+  context.bind_texture(texture);
+  context.blend_func(request.blend.sfactor, request.blend.dfactor);
   context.set_positions(vertices.data(), sizeof(float) * vertices.size());
   context.set_texcoords(uvs.data(), sizeof(float) * uvs.size());
   context.set_color(Color(data.color.red, data.color.green, data.color.blue, data.color.alpha * request.alpha));
 
   context.draw_arrays(GL_TRIANGLES, 0, static_cast<GLsizei>(data.srcrects.size() * 2 * 3));
+
   assert_gl("");
 }
 
@@ -340,15 +339,8 @@ GLPainter::draw_filled_rect(const DrawingRequest& request)
 void
 GLPainter::draw_inverse_ellipse(const DrawingRequest& request)
 {
-  GLContext& context = m_video_system.get_context();
-
   assert_gl("");
   const auto& data = static_cast<const InverseEllipseRequest&>(request);
-
-  context.set_color(data.color);
-
-  context.bind_no_texture();
-  context.set_texcoord(0.0f, 0.0f);
 
   float x = data.pos.x;
   float y = data.pos.y;
@@ -414,7 +406,12 @@ GLPainter::draw_inverse_ellipse(const DrawingRequest& request)
     vertices[p++] = x - ex2;      vertices[p++] = y + ey2;
   }
 
+  GLContext& context = m_video_system.get_context();
+
+  context.set_color(data.color);
+  context.bind_no_texture();
   context.set_positions(vertices, sizeof(vertices));
+  context.set_texcoord(0.0f, 0.0f);
 
   context.draw_arrays(GL_TRIANGLES, 0, points);
 
@@ -424,15 +421,8 @@ GLPainter::draw_inverse_ellipse(const DrawingRequest& request)
 void
 GLPainter::draw_line(const DrawingRequest& request)
 {
-  GLContext& context = m_video_system.get_context();
-
   assert_gl("");
   const auto& data = static_cast<const LineRequest&>(request);
-
-  context.set_color(data.color);
-
-  context.bind_no_texture();
-  context.set_texcoord(0.0f, 0.0f);
 
   float x1 = data.pos.x;
   float y1 = data.pos.y;
@@ -452,7 +442,8 @@ GLPainter::draw_line(const DrawingRequest& request)
   x_step *= 0.5f;
   y_step *= 0.5f;
 
-  // FIXME: this results in lines of not quite consistant width
+  // FIXME: this results in lines of not quite consistant width when
+  // the window is scaled
   float vertices[] = {
     (x1 - x_step), (y1 - y_step),
     (x2 - x_step), (y2 - y_step),
@@ -460,7 +451,13 @@ GLPainter::draw_line(const DrawingRequest& request)
     (x2 + x_step), (y2 + y_step),
   };
 
+  GLContext& context = m_video_system.get_context();
+
+  context.set_color(data.color);
+  context.bind_no_texture();
+  context.set_texcoord(0.0f, 0.0f);
   context.set_positions(vertices, sizeof(vertices));
+
   context.draw_arrays(GL_TRIANGLE_STRIP, 0, 4);
 
   assert_gl("");
@@ -469,15 +466,8 @@ GLPainter::draw_line(const DrawingRequest& request)
 void
 GLPainter::draw_triangle(const DrawingRequest& request)
 {
-  GLContext& context = m_video_system.get_context();
-
   assert_gl("");
   const auto& data = static_cast<const TriangleRequest&>(request);
-
-  context.set_color(data.color);
-
-  context.bind_no_texture();
-  context.set_texcoord(0.0f, 0.0f);
 
   float x1 = data.pos1.x;
   float y1 = data.pos1.y;
@@ -491,6 +481,12 @@ GLPainter::draw_triangle(const DrawingRequest& request)
     x2, y2,
     x3, y3
   };
+
+  GLContext& context = m_video_system.get_context();
+
+  context.set_color(data.color);
+  context.bind_no_texture();
+  context.set_texcoord(0.0f, 0.0f);
   context.set_positions(vertices, sizeof(vertices));
 
   context.draw_arrays(GL_TRIANGLES, 0, 3);
