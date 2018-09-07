@@ -20,13 +20,21 @@
 #include <sstream>
 #include <iostream>
 
+#include "supertux/globals.hpp"
 #include "video/sdl_surface_ptr.hpp"
 #include "video/surface.hpp"
 #include "video/ttf_font.hpp"
 #include "video/video_system.hpp"
 
+TTFFontManager::CacheEntry::CacheEntry(const SurfacePtr& s) :
+  surface(s),
+  last_access(game_time)
+{
+}
+
 TTFFontManager::TTFFontManager() :
-  m_cache()
+  m_cache(),
+  m_cache_iter(m_cache.end())
 {
 }
 
@@ -37,10 +45,15 @@ TTFFontManager::create_surface(const TTFFont& font, const std::string& text)
   auto it = m_cache.find(key);
   if (it != m_cache.end())
   {
-    return m_cache[key];
+    auto& entry = m_cache[key];
+    entry.last_access = game_time;
+    return entry.surface;
   }
   else
   {
+    std::cout << "Cache Size: " << m_cache.size() << std::endl;
+    cache_cleanup_step();
+
     SDLSurfacePtr surface(TTF_RenderUTF8_Blended(font.get_ttf_font(),
                                                  text.c_str(),
                                                  Color::WHITE.to_sdl_color()));
@@ -58,6 +71,31 @@ TTFFontManager::create_surface(const TTFFont& font, const std::string& text)
       return result;
     }
   }
+}
+
+void
+TTFFontManager::cache_cleanup_step()
+{
+  if (m_cache.empty())
+    return;
+
+  if (m_cache_iter == m_cache.end())
+  {
+    m_cache_iter = m_cache.begin();
+  }
+
+  // std::cout << game_time << "  " << m_cache_iter->second.last_access << std::endl;
+  while(game_time - m_cache_iter->second.last_access > 10.0f)
+  {
+    std::cout << "cleaning cache entry\n";
+    m_cache_iter = m_cache.erase(m_cache_iter);
+    if (m_cache_iter == m_cache.end())
+    {
+      return;
+    }
+  }
+
+  ++m_cache_iter;
 }
 
 /* EOF */

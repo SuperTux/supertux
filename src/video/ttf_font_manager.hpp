@@ -27,7 +27,7 @@
 
 class TTFFont;
 
-/** rename to TTFFontSurfaceManager */
+/** rename to TTFSurfaceManager */
 class TTFFontManager : public Currenton<TTFFontManager>
 {
 public:
@@ -36,8 +36,23 @@ public:
   SurfacePtr create_surface(const TTFFont& font, const std::string& text);
 
 private:
+  void cache_cleanup_step();
+
+private:
+  struct CacheEntry
+  {
+    CacheEntry() : surface(), last_access() {}
+    CacheEntry(const SurfacePtr& s);
+
+    SurfacePtr surface;
+    float last_access;
+  };
+
+private:
   using Key = std::tuple<void*, std::string>;
-  std::map<Key, SurfacePtr> m_cache;
+  std::map<Key, CacheEntry> m_cache;
+
+  std::map<Key, CacheEntry>::iterator m_cache_iter;
 
 private:
   TTFFontManager(const TTFFontManager&) = delete;
