@@ -110,7 +110,7 @@ TTFFont::draw_text(Canvas& canvas, const std::string& text,
 
     last_pos = static_cast<int>(i + 1);
 
-    SurfacePtr surface = TTFFontManager::current()->create_surface(*this, str, Color::WHITE);
+    SurfacePtr surface = TTFFontManager::current()->create_surface(*this, str);
 
     Vector new_pos(pos.x, last_y);
 

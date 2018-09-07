@@ -33,10 +33,10 @@ class TTFFontManager : public Currenton<TTFFontManager>
 public:
   TTFFontManager();
 
-  SurfacePtr create_surface(const TTFFont& font, const std::string& text, const Color& color = Color::WHITE);
+  SurfacePtr create_surface(const TTFFont& font, const std::string& text);
 
 private:
-  using Key = std::tuple<void*, Color, std::string>;
+  using Key = std::tuple<void*, std::string>;
   std::map<Key, SurfacePtr> m_cache;
 
 private:

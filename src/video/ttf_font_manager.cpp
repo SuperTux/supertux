@@ -31,9 +31,9 @@ TTFFontManager::TTFFontManager() :
 }
 
 SurfacePtr
-TTFFontManager::create_surface(const TTFFont& font, const std::string& text, const Color& color)
+TTFFontManager::create_surface(const TTFFont& font, const std::string& text)
 {
-  auto key = Key(font.get_ttf_font(), color, text);
+  auto key = Key(font.get_ttf_font(), text);
   auto it = m_cache.find(key);
   if (it != m_cache.end())
   {
@@ -43,7 +43,7 @@ TTFFontManager::create_surface(const TTFFont& font, const std::string& text, con
   {
     SDLSurfacePtr surface(TTF_RenderUTF8_Blended(font.get_ttf_font(),
                                                  text.c_str(),
-                                                 color.to_sdl_color()));
+                                                 Color::WHITE.to_sdl_color()));
     if (!surface)
     {
       std::ostringstream msg;
