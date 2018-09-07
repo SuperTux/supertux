@@ -33,27 +33,30 @@ TTFFontManager::TTFFontManager() :
 SurfacePtr
 TTFFontManager::create_surface(const TTFFont& font, const std::string& text, const Color& color)
 {
-  std::string key = font.get_filename() + "_" + color.to_string() + "_" + text;
-  if(m_cache.count(key) > 0)
+  auto key = Key(font.get_ttf_font(), color, text);
+  auto it = m_cache.find(key);
+  if (it != m_cache.end())
   {
     return m_cache[key];
   }
-
-  SDLSurfacePtr surface(TTF_RenderUTF8_Blended(font.get_ttf_font(),
-                                               text.c_str(),
-                                               color.to_sdl_color()));
-  if (!surface)
-  {
-    std::ostringstream msg;
-    msg << "Couldn't load image '" << text << "' :" << SDL_GetError();
-    throw std::runtime_error(msg.str());
-  }
   else
   {
-    TexturePtr texture = VideoSystem::current()->new_texture(surface.get());
-    SurfacePtr result(new Surface(texture));
-    m_cache[key] = result;
-    return result;
+    SDLSurfacePtr surface(TTF_RenderUTF8_Blended(font.get_ttf_font(),
+                                                 text.c_str(),
+                                                 color.to_sdl_color()));
+    if (!surface)
+    {
+      std::ostringstream msg;
+      msg << "Couldn't load image '" << text << "' :" << SDL_GetError();
+      throw std::runtime_error(msg.str());
+    }
+    else
+    {
+      TexturePtr texture = VideoSystem::current()->new_texture(surface.get());
+      SurfacePtr result(new Surface(texture));
+      m_cache[key] = result;
+      return result;
+    }
   }
 }
 
