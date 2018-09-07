@@ -24,7 +24,9 @@
 
 #include "util/log.hpp"
 
-static Sint64 funcSeek(struct SDL_RWops* context, Sint64 offset, int whence)
+namespace {
+
+Sint64 funcSeek(struct SDL_RWops* context, Sint64 offset, int whence)
 {
   PHYSFS_file* file = static_cast<PHYSFS_file*>(context->hidden.unknown.data1);
   int res;
@@ -51,7 +53,7 @@ static Sint64 funcSeek(struct SDL_RWops* context, Sint64 offset, int whence)
   return static_cast<int>(PHYSFS_tell(file));
 }
 
-static size_t  funcRead(struct SDL_RWops* context, void* ptr, size_t size, size_t maxnum)
+size_t funcRead(struct SDL_RWops* context, void* ptr, size_t size, size_t maxnum)
 {
   PHYSFS_file* file = static_cast<PHYSFS_file*>(context->hidden.unknown.data1);
 
@@ -66,7 +68,7 @@ static size_t  funcRead(struct SDL_RWops* context, void* ptr, size_t size, size_
   }
 }
 
-static int funcClose(struct SDL_RWops* context)
+int funcClose(struct SDL_RWops* context)
 {
   PHYSFS_file* file = static_cast<PHYSFS_file*>(context->hidden.unknown.data1);
 
@@ -75,6 +77,8 @@ static int funcClose(struct SDL_RWops* context)
 
   return 0;
 }
+
+} // namespace
 
 SDL_RWops* get_physfs_SDLRWops(const std::string& filename)
 {
