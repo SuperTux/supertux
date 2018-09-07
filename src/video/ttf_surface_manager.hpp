@@ -14,8 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_VIDEO_TTF_FONT_MANAGER_HPP
-#define HEADER_SUPERTUX_VIDEO_TTF_FONT_MANAGER_HPP
+#ifndef HEADER_SUPERTUX_VIDEO_TTF_SURFACE_MANAGER_HPP
+#define HEADER_SUPERTUX_VIDEO_TTF_SURFACE_MANAGER_HPP
 
 #include <tuple>
 #include <map>
@@ -27,11 +27,10 @@
 
 class TTFFont;
 
-/** rename to TTFSurfaceManager */
-class TTFFontManager : public Currenton<TTFFontManager>
+class TTFSurfaceManager : public Currenton<TTFSurfaceManager>
 {
 public:
-  TTFFontManager();
+  TTFSurfaceManager();
 
   SurfacePtr create_surface(const TTFFont& font, const std::string& text);
 
@@ -55,8 +54,8 @@ private:
   std::map<Key, CacheEntry>::iterator m_cache_iter;
 
 private:
-  TTFFontManager(const TTFFontManager&) = delete;
-  TTFFontManager& operator=(const TTFFontManager&) = delete;
+  TTFSurfaceManager(const TTFSurfaceManager&) = delete;
+  TTFSurfaceManager& operator=(const TTFSurfaceManager&) = delete;
 };
 
 #endif

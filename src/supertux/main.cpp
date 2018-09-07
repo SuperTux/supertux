@@ -69,7 +69,7 @@ extern "C" {
 #include "util/gettext.hpp"
 #include "video/sdl_surface_ptr.hpp"
 #include "video/sdl_surface.hpp"
-#include "video/ttf_font_manager.hpp"
+#include "video/ttf_surface_manager.hpp"
 #include "worldmap/worldmap.hpp"
 
 class ConfigSubsystem
@@ -382,7 +382,7 @@ Main::launch_game(const CommandLineArguments& args)
   std::unique_ptr<VideoSystem> video_system = VideoSystem::create(g_config->video);
   init_video();
 
-  TTFFontManager ttf_font_manager;
+  TTFSurfaceManager ttf_surface_manager;
 
   timelog("audio");
   SoundManager sound_manager;

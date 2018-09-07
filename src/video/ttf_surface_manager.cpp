@@ -14,7 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "video/ttf_font_manager.hpp"
+#include "video/ttf_surface_manager.hpp"
 
 #include <SDL_ttf.h>
 #include <sstream>
@@ -26,20 +26,20 @@
 #include "video/ttf_font.hpp"
 #include "video/video_system.hpp"
 
-TTFFontManager::CacheEntry::CacheEntry(const SurfacePtr& s) :
+TTFSurfaceManager::CacheEntry::CacheEntry(const SurfacePtr& s) :
   surface(s),
   last_access(game_time)
 {
 }
 
-TTFFontManager::TTFFontManager() :
+TTFSurfaceManager::TTFSurfaceManager() :
   m_cache(),
   m_cache_iter(m_cache.end())
 {
 }
 
 SurfacePtr
-TTFFontManager::create_surface(const TTFFont& font, const std::string& text)
+TTFSurfaceManager::create_surface(const TTFFont& font, const std::string& text)
 {
   auto key = Key(font.get_ttf_font(), text);
   auto it = m_cache.find(key);
@@ -74,7 +74,7 @@ TTFFontManager::create_surface(const TTFFont& font, const std::string& text)
 }
 
 void
-TTFFontManager::cache_cleanup_step()
+TTFSurfaceManager::cache_cleanup_step()
 {
   if (m_cache.empty())
     return;

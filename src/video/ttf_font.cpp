@@ -23,7 +23,7 @@
 #include "physfs/physfs_sdl.hpp"
 #include "video/canvas.hpp"
 #include "video/surface.hpp"
-#include "video/ttf_font_manager.hpp"
+#include "video/ttf_surface_manager.hpp"
 
 TTFFont::TTFFont(const std::string& filename, int font_size, int shadow_size, int border) :
   m_font(),
@@ -110,7 +110,7 @@ TTFFont::draw_text(Canvas& canvas, const std::string& text,
 
     last_pos = static_cast<int>(i + 1);
 
-    SurfacePtr surface = TTFFontManager::current()->create_surface(*this, str);
+    SurfacePtr surface = TTFSurfaceManager::current()->create_surface(*this, str);
 
     Vector new_pos(pos.x, last_y);
 
