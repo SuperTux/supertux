@@ -43,6 +43,14 @@ public:
   float get_text_width(const std::string& text) const;
   float get_text_height(const std::string& text) const;
 
+  /**
+   * Return the filename of this font
+   */
+  std::string get_filename() const
+  {
+    return m_filename;
+  }
+
   std::string wrap_to_width(const std::string& text, float width, std::string* overflow);
 
   void draw_text(Canvas& canvas, const std::string& text,

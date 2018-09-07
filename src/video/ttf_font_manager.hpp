@@ -17,6 +17,7 @@
 #ifndef HEADER_SUPERTUX_VIDEO_TTF_FONT_MANAGER_HPP
 #define HEADER_SUPERTUX_VIDEO_TTF_FONT_MANAGER_HPP
 
+#include <map>
 #include <string>
 
 #include "util/currenton.hpp"
@@ -34,7 +35,7 @@ public:
   SurfacePtr create_surface(const TTFFont& font, const std::string& text, const Color& color = Color::WHITE);
 
 private:
-  std::vector<SurfacePtr> m_cache;
+  std::map<std::string, SurfacePtr> m_cache;
 
 private:
   TTFFontManager(const TTFFontManager&) = delete;
