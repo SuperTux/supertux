@@ -81,9 +81,6 @@ public:
   void toggle(); /**< display the console if hidden, hide otherwise */
 
   bool hasFocus() const; /**< true if characters should be sent to the console instead of their normal target */
-  FontPtr get_font() const {
-    return m_font;
-  }
 
 private:
   ConsoleBuffer& m_buffer;
@@ -105,7 +102,7 @@ private:
   float m_alpha;
   int m_offset; /**< decrease to scroll text up */
   bool m_focused; /**< true if console has input focus */
-  FontPtr m_font;
+  TTFFontPtr m_font;
 
   float m_stayOpen;
 

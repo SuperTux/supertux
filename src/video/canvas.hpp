@@ -141,10 +141,10 @@ public:
                           const std::vector<Rectf>& dstrects,
                           const Color& color,
                           int layer);
-  void draw_text(FontPtr font, const std::string& text,
+  void draw_text(TTFFontPtr font, const std::string& text,
                  const Vector& position, FontAlignment alignment, int layer, const Color& color = Color(1.0,1.0,1.0));
   /** Draw text to the center of the screen */
-  void draw_center_text(FontPtr font, const std::string& text,
+  void draw_center_text(TTFFontPtr font, const std::string& text,
                         const Vector& position, int layer, const Color& color = Color(1.0,1.0,1.0));
   void draw_gradient(const Color& from, const Color& to, int layer, const GradientDirection& direction, const Rectf& region);
   void draw_filled_rect(const Vector& topleft, const Vector& size,

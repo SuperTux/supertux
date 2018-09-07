@@ -113,8 +113,8 @@ EditorInputGui::draw_tilegroup(DrawingContext& context) {
       if (g_config->developer_mode && active_tilegroup->developers_group)
       {
         // Display tile ID on top of tile:
-        context.color().draw_text(Console::current()->get_font(), std::to_string(tile_ID),
-                                    position + Vector(16, 16), ALIGN_CENTER, LAYER_GUI - 9, Color::WHITE);
+        context.color().draw_text(Resources::console_font, std::to_string(tile_ID),
+                                  position + Vector(16, 16), ALIGN_CENTER, LAYER_GUI - 9, Color::WHITE);
       }
       /*if (tile_ID == 0) {
         continue;

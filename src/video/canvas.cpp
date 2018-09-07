@@ -226,27 +226,36 @@ Canvas::draw_surface_batch(SurfacePtr surface,
 }
 
 void
-Canvas::draw_text(FontPtr font, const std::string& text,
-                  const Vector& position, FontAlignment alignment, int layer, const Color& color)
+Canvas::draw_text(TTFFontPtr font, const std::string& text,
+                  const Vector& pos, FontAlignment alignment, int layer, const Color& color)
 {
-  auto request = new(m_obst) TextRequest();
+  if (false)
+  {
+#if 0
+    auto request = new(m_obst) TextRequest();
 
-  request->type = TEXT;
-  request->layer = layer;
-  request->drawing_effect = m_context.transform().drawing_effect;
-  request->alpha = m_context.transform().alpha;
+    request->type = TEXT;
+    request->layer = layer;
+    request->drawing_effect = m_context.transform().drawing_effect;
+    request->alpha = m_context.transform().alpha;
 
-  request->pos = apply_translate(position);
-  request->font = font.get();
-  request->text = text;
-  request->alignment = alignment;
-  request->color = color;
+    request->pos = apply_translate(position);
+    request->font = font.get();
+    request->text = text;
+    request->alignment = alignment;
+    request->color = color;
 
-  m_requests.push_back(request);
+    m_requests.push_back(request);
+#endif
+  }
+  else
+  {
+    font->draw_text(*this, text, pos, alignment, layer, color);
+  }
 }
 
 void
-Canvas::draw_center_text(FontPtr font, const std::string& text,
+Canvas::draw_center_text(TTFFontPtr font, const std::string& text,
                          const Vector& position, int layer, const Color& color)
 {
   draw_text(font, text, Vector(position.x + static_cast<float>(m_context.get_width()) / 2.0f, position.y),

@@ -61,7 +61,7 @@ public:
 
 private:
   InfoBoxLine::LineType lineType;
-  FontPtr font;
+  TTFFontPtr font;
   Color color;
   std::string text;
   SurfacePtr image;

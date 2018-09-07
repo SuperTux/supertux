@@ -22,6 +22,7 @@
 #include "supertux/colorscheme.hpp"
 #include "supertux/console.hpp"
 #include "supertux/globals.hpp"
+#include "supertux/resources.hpp"
 #include "video/drawing_context.hpp"
 
 ItemScriptLine::ItemScriptLine(std::string* input_, int id_) :
@@ -32,20 +33,19 @@ ItemScriptLine::ItemScriptLine(std::string* input_, int id_) :
 void
 ItemScriptLine::draw(DrawingContext& context, const Vector& pos, int menu_width, bool active) {
   std::string r_input = *input;
-  auto font = Console::current()->get_font();
   bool fl = active && (int(real_time*2)%2);
   if ( fl ) {
     r_input += "_";
   }
-  context.color().draw_text(font, r_input,
+  context.color().draw_text(Resources::console_font, r_input,
                             Vector(pos.x + 16.0f,
-                                   pos.y - font->get_height() / 2.0f),
+                                   pos.y - Resources::console_font->get_height() / 2.0f),
                             ALIGN_LEFT, LAYER_GUI, ColorScheme::Menu::field_color);
 }
 
 int
 ItemScriptLine::get_width() const {
-  return static_cast<int>(Console::current()->get_font()->get_text_width(*input)) + 16 + flickw;
+  return static_cast<int>(Resources::console_font->get_text_width(*input)) + 16 + flickw;
 }
 
 void

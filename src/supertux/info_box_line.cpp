@@ -26,7 +26,7 @@ static const float ITEMS_SPACE = 4;
 
 namespace {
 
-FontPtr get_font_by_format_char(char format_char) {
+TTFFontPtr get_font_by_format_char(char format_char) {
   switch(format_char)
   {
     case ' ':
@@ -143,7 +143,7 @@ InfoBoxLine::split(const std::string& text, float width)
     // append wrapped parts of line into list
     std::string overflow;
     do {
-      FontPtr font = get_font_by_format_char(format_char);
+      TTFFontPtr font = get_font_by_format_char(format_char);
       std::string s2 = s;
       if (font) s2 = font->wrap_to_width(s2, width, &overflow);
       lines.emplace_back(new InfoBoxLine(format_char, s2));

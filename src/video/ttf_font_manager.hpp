@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2009 Ingo Ruhnke <grumbel@gmail.com>
+//  Copyright (C) 2016 Ingo Ruhnke <grumbel@gmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,17 +14,32 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_VIDEO_FONT_PTR_HPP
-#define HEADER_SUPERTUX_VIDEO_FONT_PTR_HPP
+#ifndef HEADER_SUPERTUX_VIDEO_TTF_FONT_MANAGER_HPP
+#define HEADER_SUPERTUX_VIDEO_TTF_FONT_MANAGER_HPP
 
-#include <memory>
+#include <string>
 
-class Font;
-typedef std::shared_ptr<Font> FontPtr;
+#include "util/currenton.hpp"
+#include "video/color.hpp"
+#include "video/surface_ptr.hpp"
 
 class TTFFont;
-typedef std::shared_ptr<TTFFont> TTFFontPtr;
 
+/** rename to TTFFontSurfaceManager */
+class TTFFontManager : public Currenton<TTFFontManager>
+{
+public:
+  TTFFontManager();
+
+  SurfacePtr create_surface(const TTFFont& font, const std::string& text, const Color& color = Color::WHITE);
+
+private:
+  std::vector<SurfacePtr> m_cache;
+
+private:
+  TTFFontManager(const TTFFontManager&) = delete;
+  TTFFontManager& operator=(const TTFFontManager&) = delete;
+};
 
 #endif
 

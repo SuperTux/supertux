@@ -143,6 +143,9 @@ private:
   std::vector<Glyph> glyphs;
 };
 
+// FIXME: temp include fix
+#include "video/ttf_font.hpp"
+
 #endif
 
 /* EOF */
