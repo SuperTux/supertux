@@ -32,18 +32,13 @@ TTFFont::TTFFont(const std::string& filename, int font_size, int shadow_size, in
   m_shadow_size(shadow_size),
   m_border(border)
 {
-  std::cout << "LOADING FONT: " << filename << " " << font_size << std::endl;
-  //std::unique_ptr<SDL_RWops> rwops(get_physfs_SDLRWops(filename));
-  //m_font = TTF_OpenFontRW(rwops.get(), 0, font_size);
-  m_font = TTF_OpenFont(filename.c_str(), font_size);
+  m_font = TTF_OpenFontRW(get_physfs_SDLRWops(filename), 1, font_size);
   if (!m_font)
   {
     std::ostringstream msg;
     msg << "Couldn't load TTFFont: " << filename << ": " << SDL_GetError();
     throw std::runtime_error(msg.str());
   }
-
-  TTF_SetFontOutline(m_font, m_border);
 }
 
 TTFFont::~TTFFont()

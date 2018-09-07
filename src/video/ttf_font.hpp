@@ -38,7 +38,6 @@ public:
     // Adding a 2 pixel margin so that it looks better!
     return static_cast<float>(m_font_size + 2);
   }
-  TTF_Font* get_ttf_font() const { return m_font; }
 
   float get_text_width(const std::string& text) const;
   float get_text_height(const std::string& text) const;
@@ -55,6 +54,8 @@ public:
 
   void draw_text(Canvas& canvas, const std::string& text,
                  const Vector& pos, FontAlignment alignment, int layer, const Color& color);
+
+  TTF_Font* get_ttf_font() const { return m_font; }
 
 private:
   TTF_Font* m_font;
