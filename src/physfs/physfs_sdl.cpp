@@ -26,6 +26,12 @@
 
 namespace {
 
+Sint64 funcSize(struct SDL_RWops* context)
+{
+  PHYSFS_file* file = static_cast<PHYSFS_file*>(context->hidden.unknown.data1);
+  return PHYSFS_fileLength(file);
+}
+
 Sint64 funcSeek(struct SDL_RWops* context, Sint64 offset, int whence)
 {
   PHYSFS_file* file = static_cast<PHYSFS_file*>(context->hidden.unknown.data1);
@@ -68,6 +74,12 @@ size_t funcRead(struct SDL_RWops* context, void* ptr, size_t size, size_t maxnum
   }
 }
 
+size_t funcWrite(struct SDL_RWops* context, const void* ptr, size_t size, size_t num)
+{
+  SDL_SetError("PHYSFS_file is read-only");
+  return 0;
+}
+
 int funcClose(struct SDL_RWops* context)
 {
   PHYSFS_file* file = static_cast<PHYSFS_file*>(context->hidden.unknown.data1);
@@ -96,13 +108,15 @@ SDL_RWops* get_physfs_SDLRWops(const std::string& filename)
     throw std::runtime_error(msg.str());
   }
 
-  SDL_RWops* ops = new SDL_RWops();
-  ops->type = 0;
-  ops->hidden.unknown.data1 = file;
+  SDL_RWops* ops = new SDL_RWops;
+  ops->size = funcSize;
   ops->seek = funcSeek;
   ops->read = funcRead;
-  ops->write = 0;
+  ops->write = funcWrite;
   ops->close = funcClose;
+  ops->type = SDL_RWOPS_UNKNOWN;
+  ops->hidden.unknown.data1 = file;
+
   return ops;
 }
 
