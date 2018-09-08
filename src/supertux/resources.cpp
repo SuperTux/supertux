@@ -53,11 +53,11 @@ Resources::Resources()
   small_font.reset(new TTFFont("fonts/SuperTux-Medium.ttf", 10, 1));
   big_font.reset(new TTFFont("fonts/SuperTux-Medium.ttf", 25, 2));
 #else
-  console_font.reset(new BitmapFont(Font::FIXED, "fonts/andale12.stf", 1));
-  fixed_font.reset(new BitmapFont(Font::FIXED, "fonts/white.stf"));
-  normal_font.reset(new BitmapFont(Font::VARIABLE, "fonts/white.stf"));
-  small_font.reset(new BitmapFont(Font::VARIABLE, "fonts/white-small.stf", 1));
-  big_font.reset(new BitmapFont(Font::VARIABLE, "fonts/white-big.stf", 3));
+  console_font.reset(new BitmapFont(BitmapFont::FIXED, "fonts/andale12.stf", 1));
+  fixed_font.reset(new BitmapFont(BitmapFont::FIXED, "fonts/white.stf"));
+  normal_font.reset(new BitmapFont(BitmapFont::VARIABLE, "fonts/white.stf"));
+  small_font.reset(new BitmapFont(BitmapFont::VARIABLE, "fonts/white-small.stf", 1));
+  big_font.reset(new BitmapFont(BitmapFont::VARIABLE, "fonts/white-big.stf", 3));
 #endif
 
   /* Load menu images */

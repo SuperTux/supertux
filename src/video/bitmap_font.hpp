@@ -29,7 +29,7 @@
 
 class Painter;
 
-class BitmapFont : Font
+class BitmapFont final : public Font
 {
 public:
   enum GlyphWidth {
@@ -45,50 +45,44 @@ public:
    *  @param sgadowsize   offset of shadow
    */
   BitmapFont(GlyphWidth glyph_width, const std::string& fontfile, int shadowsize = 2);
-  ~BitmapFont();
+  virtual ~BitmapFont();
+
+  int get_shadow_size() const { return shadowsize; }
 
   /** returns the width of a given text. (Note that I won't add a normal
    * get_width function here, as we might switch to variable width fonts in the
    * future.)
    * Supports breaklines.
    */
-  float get_text_width(const std::string& text) const;
+  virtual float get_text_width(const std::string& text) const override;
 
   /** returns the height of a given text. This function supports breaklines.
    * In case, you are positive that your text doesn't use break lines, you can
    * just use get_height().
    */
-  float get_text_height(const std::string& text) const;
+  virtual float get_text_height(const std::string& text) const override;
 
   /**
    * returns the height of the font.
    */
-  float get_height() const;
+  virtual float get_height() const override;
 
   /**
    * returns the given string, truncated (preferably at whitespace) to be at most "width" pixels wide
    */
-  std::string wrap_to_width(const std::string& text, float width, std::string* overflow);
+  virtual std::string wrap_to_width(const std::string& text, float width, std::string* overflow) override;
 
-  /** Draws the given text to the screen. Also needs the position.
-   * Type of alignment, drawing effect and alpha are optional. */
-  void draw(Painter& painter, const std::string& text, const Vector& pos,
-            FontAlignment alignment = ALIGN_LEFT,
-            DrawingEffect drawing_effect = NO_EFFECT,
-            Color color = Color(1.0,1.0,1.0),
-            float alpha = 1.0f) const;
+  virtual void draw_text(Canvas& canvas, const std::string& text,
+                         const Vector& pos, FontAlignment alignment, int layer, const Color& color) override;
 
 private:
   friend class DrawingContext;
 
-  void draw_text(Painter& painter, const std::string& text, const Vector& pos,
-                 DrawingEffect drawing_effect = NO_EFFECT,
-                 Color color = Color(1.0,1.0,1.0),
-                 float alpha = 1.0f) const;
+  void draw_text(Canvas& painter, const std::string& text, const Vector& pos, int layer,
+                 Color color = Color(1.0,1.0,1.0)) const;
 
-  void draw_chars(Painter& painter, bool nonshadow, const std::string& text,
-                  const Vector& position, DrawingEffect drawing_effect, Color color,
-                  float alpha) const;
+  void draw_chars(Canvas& painter, bool nonshadow, const std::string& text,
+                  const Vector& position, int layer, Color color) const;
 
   void loadFontFile(const std::string &filename);
   void loadFontSurface(const std::string &glyphimage,

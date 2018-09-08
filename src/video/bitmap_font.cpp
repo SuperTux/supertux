@@ -333,10 +333,10 @@ BitmapFont::wrap_to_width(const std::string& s_, float width, std::string* overf
   return s;
 }
 
+
 void
-BitmapFont::draw(Painter& painter, const std::string& text, const Vector& pos_,
-           FontAlignment alignment, DrawingEffect drawing_effect, Color color,
-           float alpha) const
+BitmapFont::draw_text(Canvas& canvas, const std::string& text,
+                      const Vector& pos_, FontAlignment alignment, int layer, const Color& color)
 {
   float x = pos_.x;
   float y = pos_.y;
@@ -360,7 +360,7 @@ BitmapFont::draw(Painter& painter, const std::string& text, const Vector& pos_,
       // no blurring as we would get with subpixel positions
       pos.x = std::truncf(pos.x);
 
-      draw_text(painter, temp, pos, drawing_effect, color, alpha);
+      draw_text(canvas, temp, pos, layer, color);
 
       if (i == text.size())
         break;
@@ -372,20 +372,18 @@ BitmapFont::draw(Painter& painter, const std::string& text, const Vector& pos_,
 }
 
 void
-BitmapFont::draw_text(Painter& painter, const std::string& text, const Vector& pos,
-                DrawingEffect drawing_effect, Color color, float alpha) const
+BitmapFont::draw_text(Canvas& canvas, const std::string& text, const Vector& pos, int layer, Color color) const
 {
   if(shadowsize > 0)
-    draw_chars(painter, false, rtl ? std::string(text.rbegin(), text.rend()) : text,
-               pos + Vector(static_cast<float>(shadowsize), static_cast<float>(shadowsize)), drawing_effect, Color(1,1,1), alpha);
+    draw_chars(canvas, false, rtl ? std::string(text.rbegin(), text.rend()) : text,
+               pos + Vector(static_cast<float>(shadowsize), static_cast<float>(shadowsize)), layer,
+               Color(1,1,1));
 
-  draw_chars(painter, true, rtl ? std::string(text.rbegin(), text.rend()) : text, pos, drawing_effect, color, alpha);
+  draw_chars(canvas, true, rtl ? std::string(text.rbegin(), text.rend()) : text, pos, layer, color);
 }
 
 void
-BitmapFont::draw_chars(Painter& painter, bool notshadow, const std::string& text,
-                 const Vector& pos, DrawingEffect drawing_effect, Color color,
-                 float alpha) const
+BitmapFont::draw_chars(Canvas& canvas, bool notshadow, const std::string& text, const Vector& pos, int layer, Color color) const
 {
   Vector p = pos;
 
@@ -408,21 +406,13 @@ BitmapFont::draw_chars(Painter& painter, bool notshadow, const std::string& text
       else
         glyph = glyphs[0x20];
 
-      // FIXME: this could all be handled in Canvas, no need for Font
-      // to mess around with low level code
-      TextureRequest request;
-
-      request.drawing_effect = drawing_effect;
-      request.alpha = alpha;
-
-      request.color = color;
-      request.srcrect = glyph.rect;
-      request.dstrect = Rectf(p + glyph.offset, glyph.rect.get_size());
-      request.texture = notshadow ?
-        glyph_surfaces[glyph.surface_idx]->get_texture().get() :
-        shadow_surfaces[glyph.surface_idx]->get_texture().get();
-
-      painter.draw_texture(request);
+      // FIXME: not supported! request.color = color;
+      canvas.draw_surface_part(notshadow ?
+                               glyph_surfaces[glyph.surface_idx] :
+                               shadow_surfaces[glyph.surface_idx],
+                               glyph.rect,
+                               Rectf(p + glyph.offset, glyph.rect.get_size()),
+                               layer);
 
       p.x += glyph.advance;
     }
