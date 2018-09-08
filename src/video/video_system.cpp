@@ -26,6 +26,7 @@
 
 #include "util/log.hpp"
 #include "video/sdl/sdl_video_system.hpp"
+#include "video/sdl_surface_ptr.hpp"
 
 #ifdef HAVE_OPENGL
 #  include "video/gl/gl_video_system.hpp"
@@ -138,7 +139,7 @@ VideoSystem::get_video_string(VideoSystem::Enum video)
 void
 VideoSystem::do_take_screenshot()
 {
-  SDL_Surface* surface = make_screenshot();
+  SDLSurfacePtr surface = make_screenshot();
   if (!surface) {
     log_warning << "Creating the screenshot has failed" << std::endl;
     return;
@@ -173,8 +174,10 @@ VideoSystem::do_take_screenshot()
   }
   else
   {
-    SDL_Surface* tmp = SDL_PNGFormatAlpha(surface);
-    if (SDL_SavePNG(tmp, filename->c_str()))
+    // This does not lead to a double free when 'tmp == screen', as
+    // SDL_PNGFormatAlpha() will increase the refcount of surface.
+    SDLSurfacePtr tmp(SDL_PNGFormatAlpha(surface.get()));
+    if (SDL_SavePNG(tmp.get(), filename->c_str()))
     {
       log_warning << "Saving screenshot failed: " << SDL_GetError() << std::endl;
     }
@@ -182,12 +185,7 @@ VideoSystem::do_take_screenshot()
     {
       log_info << "Wrote screenshot to \"" << *filename << "\"" << std::endl;
     }
-    // This does not lead to a double free when 'tmp == screen', as
-    // SDL_PNGFormatAlpha() will increase the refcount of surface.
-    SDL_FreeSurface(tmp);
   }
-
-  SDL_FreeSurface(surface);
 }
 
 /* EOF */

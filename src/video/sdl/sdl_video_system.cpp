@@ -17,13 +17,14 @@
 #include "video/sdl/sdl_video_system.hpp"
 
 #include "math/rect.hpp"
-#include "supertux/globals.hpp"
 #include "supertux/gameconfig.hpp"
+#include "supertux/globals.hpp"
 #include "util/log.hpp"
 #include "video/renderer.hpp"
 #include "video/sdl/sdl_lightmap.hpp"
 #include "video/sdl/sdl_renderer.hpp"
 #include "video/sdl/sdl_texture.hpp"
+#include "video/sdl_surface.hpp"
 
 SDLVideoSystem::SDLVideoSystem() :
   m_sdl_window(),
@@ -174,7 +175,7 @@ SDLVideoSystem::get_lightmap() const
 }
 
 TexturePtr
-SDLVideoSystem::new_texture(SDL_Surface* image)
+SDLVideoSystem::new_texture(const SDLSurfacePtr& image)
 {
   return TexturePtr(new SDLTexture(image));
 }
@@ -201,9 +202,9 @@ SDLVideoSystem::set_title(const std::string& title)
 }
 
 void
-SDLVideoSystem::set_icon(SDL_Surface* icon)
+SDLVideoSystem::set_icon(const SDLSurfacePtr& icon)
 {
-  SDL_SetWindowIcon(m_sdl_window, icon);
+  SDL_SetWindowIcon(m_sdl_window, icon.get());
 }
 
 void
@@ -212,7 +213,7 @@ SDLVideoSystem::flip()
   m_renderer->flip();
 }
 
-SDL_Surface*
+SDLSurfacePtr
 SDLVideoSystem::make_screenshot()
 {
   int width;
@@ -220,48 +221,27 @@ SDLVideoSystem::make_screenshot()
   if (SDL_GetRendererOutputSize(m_renderer->get_sdl_renderer(), &width, &height) != 0)
   {
     log_warning << "SDL_GetRenderOutputSize failed: " << SDL_GetError() << std::endl;
-    return nullptr;
+    return {};
   }
   else
   {
-#if SDL_BYTEORDER == SDL_BIG_ENDIAN
-    Uint32 rmask = 0xff000000;
-    Uint32 gmask = 0x00ff0000;
-    Uint32 bmask = 0x0000ff00;
-    Uint32 amask = 0x000000ff;
-#else
-    Uint32 rmask = 0x000000ff;
-    Uint32 gmask = 0x0000ff00;
-    Uint32 bmask = 0x00ff0000;
-    Uint32 amask = 0xff000000;
-#endif
+    SDLSurfacePtr surface = SDLSurface::create_rgba(width, height);
 
-    SDL_Surface* surface = SDL_CreateRGBSurface(0, width, height, 32,
-                                                rmask, gmask, bmask, amask);
-    if (!surface)
+    SDL_LockSurface(surface.get());
+    int ret = SDL_RenderReadPixels(m_renderer->get_sdl_renderer(), NULL,
+                                   SDL_PIXELFORMAT_ABGR8888,
+                                   surface->pixels,
+                                   surface->pitch);
+    SDL_UnlockSurface(surface.get());
+
+    if (ret != 0)
     {
-      log_warning << "SDL_CreateRGBSurface failed: " << SDL_GetError() << std::endl;
-      return nullptr;
+      log_warning << "SDL_RenderReadPixels failed: " << SDL_GetError() << std::endl;
+      return {};
     }
     else
     {
-      SDL_LockSurface(surface);
-      int ret = SDL_RenderReadPixels(m_renderer->get_sdl_renderer(), NULL,
-                                     SDL_PIXELFORMAT_ABGR8888,
-                                     surface->pixels,
-                                     surface->pitch);
-      SDL_UnlockSurface(surface);
-
-      if (ret != 0)
-      {
-        log_warning << "SDL_RenderReadPixels failed: " << SDL_GetError() << std::endl;
-        SDL_FreeSurface(surface);
-        return nullptr;
-      }
-      else
-      {
-        return surface;
-      }
+      return surface;
     }
   }
 }

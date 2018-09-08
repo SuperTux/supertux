@@ -29,6 +29,7 @@
 #include "video/gl/gl_texture.hpp"
 #include "video/gl/gl_vertex_arrays.hpp"
 #include "video/glutil.hpp"
+#include "video/sdl_surface.hpp"
 
 #ifdef USE_GLBINDING
 #  include <glbinding/Binding.h>
@@ -314,7 +315,7 @@ GLVideoSystem::get_lightmap() const
 }
 
 TexturePtr
-GLVideoSystem::new_texture(SDL_Surface* image)
+GLVideoSystem::new_texture(const SDLSurfacePtr& image)
 {
   return TexturePtr(new GLTexture(image));
 }
@@ -349,9 +350,9 @@ GLVideoSystem::set_title(const std::string& title)
 }
 
 void
-GLVideoSystem::set_icon(SDL_Surface* icon)
+GLVideoSystem::set_icon(const SDLSurfacePtr& icon)
 {
-  SDL_SetWindowIcon(m_window, icon);
+  SDL_SetWindowIcon(m_window, icon.get());
 }
 
 Size
@@ -362,7 +363,7 @@ GLVideoSystem::get_window_size() const
   return size;
 }
 
-SDL_Surface*
+SDLSurfacePtr
 GLVideoSystem::make_screenshot()
 {
   GLint viewport[4];
@@ -373,37 +374,21 @@ GLVideoSystem::make_screenshot()
   const int& viewport_width = viewport[2];
   const int& viewport_height = viewport[3];
 
-#if SDL_BYTEORDER == SDL_BIG_ENDIAN
-  Uint32 rmask = 0xff000000;
-  Uint32 gmask = 0x00ff0000;
-  Uint32 bmask = 0x0000ff00;
-  Uint32 amask = 0x000000ff;
-#else
-  Uint32 rmask = 0x000000ff;
-  Uint32 gmask = 0x0000ff00;
-  Uint32 bmask = 0x00ff0000;
-  Uint32 amask = 0xff000000;
-#endif
-  SDL_Surface* surface = SDL_CreateRGBSurface(0, viewport_width, viewport_height, 24,
-                                              rmask, gmask, bmask, amask);
-  if (!surface) {
-    log_warning << "Could not create RGB Surface to contain screenshot" << std::endl;
-    return nullptr;
-  }
+  SDLSurfacePtr surface = SDLSurface::create_rgb(viewport_width, viewport_height);
 
   std::vector<char> pixels(3 * viewport_width * viewport_height);
 
   glPixelStorei(GL_PACK_ALIGNMENT, 1);
   glReadPixels(viewport_x, viewport_y, viewport_width, viewport_height, GL_RGB, GL_UNSIGNED_BYTE, pixels.data());
 
-  SDL_LockSurface(surface);
+  SDL_LockSurface(surface.get());
   for (int i = 0; i < viewport_height; i++)
   {
     char* src = &pixels[3 * viewport_width * (viewport_height - i - 1)];
     char* dst = (static_cast<char*>(surface->pixels)) + i * surface->pitch;
     memcpy(dst, src, 3 * viewport_width);
   }
-  SDL_UnlockSurface(surface);
+  SDL_UnlockSurface(surface.get());
 
   return surface;
 }

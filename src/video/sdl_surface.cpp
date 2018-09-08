@@ -19,6 +19,10 @@
 #include <sstream>
 #include <stdexcept>
 
+#include <SDL_image.h>
+
+#include "physfs/physfs_sdl.hpp"
+
 SDLSurfacePtr
 SDLSurface::create_rgba(int width, int height)
 {
@@ -33,7 +37,7 @@ SDLSurface::create_rgba(int width, int height)
   Uint32 bmask = 0x00ff0000;
   Uint32 amask = 0xff000000;
 #endif
-  SDL_Surface* surface = SDL_CreateRGBSurface(0, width, height, 32, rmask, gmask, bmask, amask);
+  SDLSurfacePtr surface(SDL_CreateRGBSurface(0, width, height, 32, rmask, gmask, bmask, amask));
   if (!surface) {
     std::ostringstream out;
     out << "failed to create SDL_Surface: " << SDL_GetError();
@@ -65,6 +69,22 @@ SDLSurface::create_rgb(int width, int height)
   }
 
   return surface;
+}
+
+SDLSurfacePtr
+SDLSurface::from_file(const std::string& filename)
+{
+  SDLSurfacePtr surface(IMG_Load_RW(get_physfs_SDLRWops(filename.c_str()), 1));
+  if (!surface)
+  {
+    std::ostringstream msg;
+    msg << "Couldn't load image '" << filename << "' :" << SDL_GetError();
+    throw std::runtime_error(msg.str());
+  }
+  else
+  {
+    return surface;
+  }
 }
 
 /* EOF */

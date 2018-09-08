@@ -66,6 +66,8 @@ extern "C" {
 #include "supertux/world.hpp"
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
+#include "video/sdl_surface_ptr.hpp"
+#include "video/sdl_surface.hpp"
 #include "worldmap/worldmap.hpp"
 
 class ConfigSubsystem
@@ -325,16 +327,10 @@ Main::init_video()
   VideoSystem::current()->set_title(PACKAGE_NAME " " PACKAGE_VERSION);
 
   const char* icon_fname = "images/engine/icons/supertux-256x256.png";
-  SDL_Surface* icon = IMG_Load_RW(get_physfs_SDLRWops(icon_fname), true);
-  if (!icon)
-  {
-    log_warning << "Couldn't load icon '" << icon_fname << "': " << SDL_GetError() << std::endl;
-  }
-  else
-  {
-    VideoSystem::current()->set_icon(icon);
-    SDL_FreeSurface(icon);
-  }
+
+  SDLSurfacePtr icon = SDLSurface::from_file(icon_fname);
+  VideoSystem::current()->set_icon(icon);
+
   SDL_ShowCursor(0);
 
   log_info << (g_config->use_fullscreen?"fullscreen ":"window ")

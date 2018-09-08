@@ -44,11 +44,6 @@ TextureManager::~TextureManager()
     }
   }
   m_image_textures.clear();
-
-  for(auto& surface : m_surfaces)
-  {
-    SDL_FreeSurface(surface.second);
-  }
   m_surfaces.clear();
 }
 
@@ -118,19 +113,17 @@ TextureManager::create_image_texture(const std::string& filename, const Rect& re
   }
 }
 
-TexturePtr
-TextureManager::create_image_texture_raw(const std::string& filename, const Rect& rect)
+SDLSurfacePtr&
+TextureManager::get_surface(const std::string& filename)
 {
-  SDL_Surface *image = nullptr;
-
   auto i = m_surfaces.find(filename);
   if (i != m_surfaces.end())
   {
-    image = i->second;
+    return i->second;
   }
   else
   {
-    image = IMG_Load_RW(get_physfs_SDLRWops(filename), 1);
+    SDLSurfacePtr image(IMG_Load_RW(get_physfs_SDLRWops(filename), 1));
     if (!image)
     {
       std::ostringstream msg;
@@ -138,31 +131,43 @@ TextureManager::create_image_texture_raw(const std::string& filename, const Rect
       throw std::runtime_error(msg.str());
     }
 
-    m_surfaces[filename] = image;
+    return m_surfaces[filename] = std::move(image);
   }
+}
 
-  auto format = image->format;
-  if(format->Rmask == 0 && format->Gmask == 0 && format->Bmask == 0 && format->Amask == 0) {
+TexturePtr
+TextureManager::create_image_texture_raw(const std::string& filename, const Rect& rect)
+{
+  const SDLSurfacePtr& src_surface = get_surface(filename);
+
+  SDLSurfacePtr convert;
+  if (src_surface->format->Rmask == 0 &&
+      src_surface->format->Gmask == 0 &&
+      src_surface->format->Bmask == 0 &&
+      src_surface->format->Amask == 0)
+  {
     log_debug << "Wrong surface format for image " << filename << ". Compensating." << std::endl;
-    image = SDL_ConvertSurfaceFormat(image, SDL_PIXELFORMAT_RGBA8888, 0);
+    convert.reset(SDL_ConvertSurfaceFormat(src_surface.get(), SDL_PIXELFORMAT_RGBA8888, 0));
   }
 
-  SDLSurfacePtr subimage(SDL_CreateRGBSurfaceFrom(static_cast<uint8_t*>(image->pixels) +
-                                                  rect.top * image->pitch +
-                                                  rect.left * image->format->BytesPerPixel,
+  const SDLSurfacePtr& surface = convert ? convert : src_surface;
+
+  SDLSurfacePtr subimage(SDL_CreateRGBSurfaceFrom(static_cast<uint8_t*>(surface->pixels) +
+                                                  rect.top * surface->pitch +
+                                                  rect.left * surface->format->BytesPerPixel,
                                                   rect.get_width(), rect.get_height(),
-                                                  image->format->BitsPerPixel,
-                                                  image->pitch,
-                                                  image->format->Rmask,
-                                                  image->format->Gmask,
-                                                  image->format->Bmask,
-                                                  image->format->Amask));
+                                                  surface->format->BitsPerPixel,
+                                                  surface->pitch,
+                                                  surface->format->Rmask,
+                                                  surface->format->Gmask,
+                                                  surface->format->Bmask,
+                                                  surface->format->Amask));
   if (!subimage)
   {
     throw std::runtime_error("SDL_CreateRGBSurfaceFrom() call failed");
   }
 
-  return VideoSystem::current()->new_texture(subimage.get());
+  return VideoSystem::current()->new_texture(subimage);
 }
 
 TexturePtr
@@ -191,7 +196,7 @@ TextureManager::create_image_texture_raw(const std::string& filename)
   }
   else
   {
-    TexturePtr texture = VideoSystem::current()->new_texture(image.get());
+    TexturePtr texture = VideoSystem::current()->new_texture(image);
     image.reset(NULL);
     return texture;
   }
@@ -220,8 +225,7 @@ TextureManager::create_dummy_texture()
     else
     {
       log_warning << "Couldn't load texture '" << dummy_texture_fname << "' (now using empty one): " << err.what() << std::endl;
-      TexturePtr texture = VideoSystem::current()->new_texture(image.get());
-      image.reset(NULL);
+      TexturePtr texture = VideoSystem::current()->new_texture(image);
       return texture;
     }
   }

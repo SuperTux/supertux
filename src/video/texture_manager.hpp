@@ -25,6 +25,7 @@
 #include <vector>
 
 #include "util/currenton.hpp"
+#include "video/sdl_surface_ptr.hpp"
 #include "video/texture_ptr.hpp"
 
 class GLTexture;
@@ -45,6 +46,7 @@ public:
   TexturePtr get(const std::string& filename, const Rect& rect);
 
 private:
+  SDLSurfacePtr& get_surface(const std::string& filename);
   void reap_cache_entry(const std::string& filename);
 
   TexturePtr create_image_texture(const std::string& filename, const Rect& rect);
@@ -60,7 +62,7 @@ private:
 
 private:
   std::map<std::string, std::weak_ptr<Texture> > m_image_textures;
-  std::map<std::string, SDL_Surface*> m_surfaces;
+  std::map<std::string, SDLSurfacePtr> m_surfaces;
 };
 
 #endif

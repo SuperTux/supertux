@@ -16,10 +16,10 @@
 
 #include "video/gl/gl_texture.hpp"
 
-#include <SDL.h>
 #include <assert.h>
 
 #include "video/glutil.hpp"
+#include "video/sdl_surface.hpp"
 
 GLTexture::GLTexture(unsigned int width, unsigned int height, boost::optional<Color> fill_color) :
   m_handle(),
@@ -62,7 +62,7 @@ GLTexture::GLTexture(unsigned int width, unsigned int height, boost::optional<Co
   }
 }
 
-GLTexture::GLTexture(SDL_Surface* image) :
+GLTexture::GLTexture(const SDLSurfacePtr& image) :
   m_handle(),
   m_texture_width(),
   m_texture_height(),
@@ -83,22 +83,10 @@ GLTexture::GLTexture(SDL_Surface* image) :
   m_image_width  = image->w;
   m_image_height = image->h;
 
-#if SDL_BYTEORDER == SDL_BIG_ENDIAN
-  SDL_Surface* convert = SDL_CreateRGBSurface(0,
-                                              m_texture_width, m_texture_height, 32,
-                                              0xff000000, 0x00ff0000, 0x0000ff00, 0x000000ff);
-#else
-  SDL_Surface* convert = SDL_CreateRGBSurface(0,
-                                              m_texture_width, m_texture_height, 32,
-                                              0x000000ff, 0x0000ff00, 0x00ff0000, 0xff000000);
-#endif
+  SDLSurfacePtr convert = SDLSurface::create_rgba(m_texture_width, m_texture_height);
 
-  if(convert == 0) {
-    throw std::runtime_error("Couldn't create texture: out of memory");
-  }
-
-  SDL_SetSurfaceBlendMode(image, SDL_BLENDMODE_NONE);
-  SDL_BlitSurface(image, 0, convert, 0);
+  SDL_SetSurfaceBlendMode(image.get(), SDL_BLENDMODE_NONE);
+  SDL_BlitSurface(image.get(), 0, convert.get(), 0);
 
   assert_gl();
   glGenTextures(1, &m_handle);
@@ -126,7 +114,7 @@ GLTexture::GLTexture(SDL_Surface* image) :
 
     if(SDL_MUSTLOCK(convert))
     {
-      SDL_LockSurface(convert);
+      SDL_LockSurface(convert.get());
     }
 
     glTexImage2D(GL_TEXTURE_2D, 0, static_cast<GLint>(GL_RGBA),
@@ -139,9 +127,9 @@ GLTexture::GLTexture(SDL_Surface* image) :
       glGenerateMipmap(GL_TEXTURE_2D);
     }
 
-    if(SDL_MUSTLOCK(convert))
+    if(SDL_MUSTLOCK(convert.get()))
     {
-      SDL_UnlockSurface(convert);
+      SDL_UnlockSurface(convert.get());
     }
 
     assert_gl();
@@ -149,10 +137,8 @@ GLTexture::GLTexture(SDL_Surface* image) :
     set_texture_params();
   } catch(...) {
     glDeleteTextures(1, &m_handle);
-    SDL_FreeSurface(convert);
     throw;
   }
-  SDL_FreeSurface(convert);
 }
 
 GLTexture::~GLTexture()

@@ -28,10 +28,10 @@ private:
 
 public:
   SDLSurfacePtr() :
-    m_surface(0)
+    m_surface(nullptr)
   {}
 
-  SDLSurfacePtr(SDL_Surface* surface) :
+  explicit SDLSurfacePtr(SDL_Surface* surface) :
     m_surface(surface)
   {}
 
@@ -41,12 +41,37 @@ public:
     other.m_surface = nullptr;
   }
 
+  SDLSurfacePtr& operator=(SDLSurfacePtr&& other)
+  {
+    if (this != &other)
+    {
+      m_surface = other.m_surface;
+      other.m_surface = nullptr;
+    }
+    return *this;
+  }
+
   ~SDLSurfacePtr()
   {
     SDL_FreeSurface(m_surface);
   }
 
+  SDL_Surface& operator*()
+  {
+    return *m_surface;
+  }
+
+  const SDL_Surface& operator*() const
+  {
+    return *m_surface;
+  }
+
   SDL_Surface* operator->()
+  {
+    return m_surface;
+  }
+
+  const SDL_Surface* operator->() const
   {
     return m_surface;
   }
@@ -57,7 +82,7 @@ public:
     m_surface = surface;
   }
 
-  SDL_Surface* get()
+  SDL_Surface* get() const
   {
     return m_surface;
   }

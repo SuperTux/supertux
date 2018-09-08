@@ -17,7 +17,6 @@
 
 #include "video/font.hpp"
 
-#include <SDL_image.h>
 #include <algorithm>
 #include <physfs.h>
 #include <cmath>
@@ -32,10 +31,11 @@
 #include "video/drawing_request.hpp"
 #include "video/painter.hpp"
 #include "video/surface.hpp"
+#include "video/sdl_surface.hpp"
 
 namespace {
 
-bool vline_empty(SDL_Surface* surface, int x, int start_y, int end_y, Uint8 threshold)
+bool vline_empty(const SDLSurfacePtr& surface, int x, int start_y, int end_y, Uint8 threshold)
 {
   Uint8* pixels = static_cast<Uint8*>(surface->pixels);
 
@@ -166,13 +166,11 @@ Font::loadFontFile(const std::string &filename)
 }
 
 void
-Font::loadFontSurface(
-  const std::string &glyphimage,
-  const std::string &shadowimage,
-  const std::vector<std::string> &chars,
-  GlyphWidth glyph_width_,
-  int char_width
-  )
+Font::loadFontSurface(const std::string& glyphimage,
+                      const std::string& shadowimage,
+                      const std::vector<std::string>& chars,
+                      GlyphWidth glyph_width_,
+                      int char_width)
 {
   SurfacePtr glyph_surface  = Surface::from_file("images/engine/fonts/" + glyphimage);
   SurfacePtr shadow_surface = Surface::from_file("images/engine/fonts/" + shadowimage);
@@ -181,21 +179,16 @@ Font::loadFontSurface(
   glyph_surfaces.push_back(glyph_surface);
   shadow_surfaces.push_back(shadow_surface);
 
-  int row=0, col=0;
+  int row = 0;
+  int col = 0;
   int wrap = glyph_surface->get_width() / char_width;
 
-  SDL_Surface *surface = NULL;
+  SDLSurfacePtr surface;
 
-  if( glyph_width_ == VARIABLE ) {
-    //this does not work:
-    // surface = ((SDL::Texture *)glyph_surface.get_texture())->get_texture();
-    surface = IMG_Load_RW(get_physfs_SDLRWops("images/engine/fonts/"+glyphimage), 1);
-    if(surface == NULL) {
-      std::ostringstream msg;
-      msg << "Couldn't load image '" << glyphimage << "' :" << SDL_GetError();
-      throw std::runtime_error(msg.str());
-    }
-    SDL_LockSurface(surface);
+  if( glyph_width_ == VARIABLE )
+  {
+    surface = SDLSurface::from_file("images/engine/fonts/" + glyphimage);
+    SDL_LockSurface(surface.get());
   }
 
   for(unsigned int i = 0; i < chars.size(); ++i) {
@@ -258,9 +251,8 @@ Font::loadFontSurface(
   }
 abort:
 
-  if( surface != NULL ) {
-    SDL_UnlockSurface(surface);
-    SDL_FreeSurface(surface);
+  if (surface) {
+    SDL_UnlockSurface(surface.get());
   }
 }
 
