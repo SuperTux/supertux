@@ -30,18 +30,11 @@ class Resources
 public:
   static std::unique_ptr<MouseCursor> mouse_cursor;
 
-#if 1
-  static TTFFontPtr console_font;
-  static TTFFontPtr fixed_font;
-  static TTFFontPtr normal_font;
-  static TTFFontPtr small_font;
-  static TTFFontPtr big_font;
-#else
+  static FontPtr console_font;
   static FontPtr fixed_font;
   static FontPtr normal_font;
   static FontPtr small_font;
   static FontPtr big_font;
-#endif
 
   static SurfacePtr checkbox;
   static SurfacePtr checkbox_checked;

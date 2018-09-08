@@ -75,7 +75,7 @@ public:
   void update(float elapsed_time);
 
 private:
-  TTFFontPtr font;
+  FontPtr font;
   std::string text;
   float fading;
   float fadetime;

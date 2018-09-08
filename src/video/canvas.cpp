@@ -105,9 +105,11 @@ Canvas::render(VideoSystem& video_system, Filter filter)
 
       case TEXT:
         {
+#if 0
           const auto& text_request = static_cast<const TextRequest&>(request);
-          text_request.font->draw(painter, text_request.text, text_request.pos,
+          text_request.font->draw(*this, text_request.text, text_request.pos,
                                   text_request.alignment, request.drawing_effect, text_request.color, request.alpha);
+#endif
         }
         break;
 
@@ -226,7 +228,7 @@ Canvas::draw_surface_batch(SurfacePtr surface,
 }
 
 void
-Canvas::draw_text(TTFFontPtr font, const std::string& text,
+Canvas::draw_text(FontPtr font, const std::string& text,
                   const Vector& pos, FontAlignment alignment, int layer, const Color& color)
 {
   if (false)
@@ -255,7 +257,7 @@ Canvas::draw_text(TTFFontPtr font, const std::string& text,
 }
 
 void
-Canvas::draw_center_text(TTFFontPtr font, const std::string& text,
+Canvas::draw_center_text(FontPtr font, const std::string& text,
                          const Vector& position, int layer, const Color& color)
 {
   draw_text(font, text, Vector(position.x + static_cast<float>(m_context.get_width()) / 2.0f, position.y),

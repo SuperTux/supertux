@@ -20,23 +20,16 @@
 #include "gui/mousecursor.hpp"
 #include "video/font.hpp"
 #include "video/ttf_font.hpp"
+#include "video/bitmap_font.hpp"
 #include "video/surface.hpp"
 
 std::unique_ptr<MouseCursor> Resources::mouse_cursor;
 
-#if 1
-TTFFontPtr Resources::console_font;
-TTFFontPtr Resources::fixed_font;
-TTFFontPtr Resources::normal_font;
-TTFFontPtr Resources::small_font;
-TTFFontPtr Resources::big_font;
-#else
 FontPtr Resources::console_font;
 FontPtr Resources::fixed_font;
 FontPtr Resources::normal_font;
 FontPtr Resources::small_font;
 FontPtr Resources::big_font;
-#endif
 
 SurfacePtr Resources::checkbox;
 SurfacePtr Resources::checkbox_checked;
@@ -60,11 +53,11 @@ Resources::Resources()
   small_font.reset(new TTFFont("fonts/SuperTux-Medium.ttf", 10, 1));
   big_font.reset(new TTFFont("fonts/SuperTux-Medium.ttf", 25, 2));
 #else
-  console_font.reset(new Font(Font::FIXED, "fonts/andale12.stf", 1));
-  fixed_font.reset(new Font(Font::FIXED, "fonts/white.stf"));
-  normal_font.reset(new Font(Font::VARIABLE, "fonts/white.stf"));
-  small_font.reset(new Font(Font::VARIABLE, "fonts/white-small.stf", 1));
-  big_font.reset(new Font(Font::VARIABLE, "fonts/white-big.stf", 3));
+  console_font.reset(new BitmapFont(Font::FIXED, "fonts/andale12.stf", 1));
+  fixed_font.reset(new BitmapFont(Font::FIXED, "fonts/white.stf"));
+  normal_font.reset(new BitmapFont(Font::VARIABLE, "fonts/white.stf"));
+  small_font.reset(new BitmapFont(Font::VARIABLE, "fonts/white-small.stf", 1));
+  big_font.reset(new BitmapFont(Font::VARIABLE, "fonts/white-big.stf", 3));
 #endif
 
   /* Load menu images */

@@ -22,10 +22,6 @@
 class Font;
 typedef std::shared_ptr<Font> FontPtr;
 
-class TTFFont;
-typedef std::shared_ptr<TTFFont> TTFFontPtr;
-
-
 #endif
 
 /* EOF */

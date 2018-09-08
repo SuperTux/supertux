@@ -27,7 +27,7 @@ class Canvas;
 class Painter;
 class Vector;
 
-class TTFFont
+class TTFFont : public Font
 {
 public:
   TTFFont(const std::string& filename, int size, int shadowsize = 0, int border = 0);

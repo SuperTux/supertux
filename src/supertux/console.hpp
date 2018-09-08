@@ -102,7 +102,7 @@ private:
   float m_alpha;
   int m_offset; /**< decrease to scroll text up */
   bool m_focused; /**< true if console has input focus */
-  TTFFontPtr m_font;
+  FontPtr m_font;
 
   float m_stayOpen;
 
