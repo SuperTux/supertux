@@ -123,17 +123,6 @@ TTFFont::draw_text(Canvas& canvas, const std::string& text,
       new_pos.x -= static_cast<float>(surface->get_width());
     }
 
-    // draw outline
-    for(int offy = -m_shadow_size ; offy <= m_shadow_size; ++offy)
-      for(int offx = -m_shadow_size ; offx <= m_shadow_size; ++offx)
-        canvas.draw_surface(surface, new_pos + Vector(static_cast<float>(4 + offx), static_cast<float>(4 + offy)),
-                            0.0f, Color(0, 0, 0, 0.125f), Blend(), layer);
-
-    for(int offy = -1 ; offy <= 1; ++offy)
-      for(int offx = -1 ; offx <= 1; ++offx)
-        canvas.draw_surface(surface, new_pos + Vector(static_cast<float>(offx), static_cast<float>(offy)),
-                            0.0f, Color::BLACK, Blend(), layer);
-
     // draw text
     canvas.draw_surface(surface, new_pos, 0.0f, color, Blend(), layer);
 
