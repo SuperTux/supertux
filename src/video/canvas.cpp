@@ -103,16 +103,6 @@ Canvas::render(VideoSystem& video_system, Filter filter)
         painter.draw_gradient(request);
         break;
 
-      case TEXT:
-        {
-#if 0
-          const auto& text_request = static_cast<const TextRequest&>(request);
-          text_request.font->draw(*this, text_request.text, text_request.pos,
-                                  text_request.alignment, request.drawing_effect, text_request.color, request.alpha);
-#endif
-        }
-        break;
-
       case FILLRECT:
         painter.draw_filled_rect(request);
         break;
