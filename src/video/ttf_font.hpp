@@ -27,37 +27,29 @@ class Canvas;
 class Painter;
 class Vector;
 
-class TTFFont : public Font
+class TTFFont final : public Font
 {
 public:
   TTFFont(const std::string& filename, int size, int shadowsize = 0, int border = 0);
-  ~TTFFont();
+  virtual ~TTFFont();
 
-  int get_shadow_size() const { return m_shadow_size; }
-  float get_height() const {
+  virtual float get_height() const override {
     // Adding a 2 pixel margin so that it looks better!
     return static_cast<float>(m_font_size + 2);
   }
 
-  float get_text_width(const std::string& text) const;
-  float get_text_height(const std::string& text) const;
+  virtual float get_text_width(const std::string& text) const override;
+  virtual float get_text_height(const std::string& text) const override;
 
-  /**
-   * Return the filename of this font
-   */
-  std::string get_filename() const
-  {
-    return m_filename;
-  }
+  virtual std::string wrap_to_width(const std::string& text, float width, std::string* overflow) override;
 
-  std::string wrap_to_width(const std::string& text, float width, std::string* overflow);
+  virtual void draw_text(Canvas& canvas, const std::string& text,
+                         const Vector& pos, FontAlignment alignment, int layer, const Color& color) override;
 
-  void draw_text(Canvas& canvas, const std::string& text,
-                 const Vector& pos, FontAlignment alignment, int layer, const Color& color);
+  int get_shadow_size() const { return m_shadow_size; }
+  int get_border() const { return m_border; }
 
   TTF_Font* get_ttf_font() const { return m_font; }
-
-  int get_border() const { return m_border; }
 
 private:
   TTF_Font* m_font;

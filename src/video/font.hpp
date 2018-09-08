@@ -45,20 +45,15 @@ public:
 public:
   virtual ~Font() {}
 
-  virtual int get_shadow_size() const = 0;
   virtual float get_height() const = 0;
 
   virtual float get_text_width(const std::string& text) const = 0;
   virtual float get_text_height(const std::string& text) const = 0;
 
-  virtual std::string get_filename() const = 0;
-
   virtual std::string wrap_to_width(const std::string& text, float width, std::string* overflow) = 0;
 
   virtual void draw_text(Canvas& canvas, const std::string& text,
                          const Vector& pos, FontAlignment alignment, int layer, const Color& color) = 0;
-
-  virtual int get_border() const = 0;
 };
 
 #endif
