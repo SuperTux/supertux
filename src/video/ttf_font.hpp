@@ -57,6 +57,8 @@ public:
 
   TTF_Font* get_ttf_font() const { return m_font; }
 
+  int get_border() const { return m_border; }
+
 private:
   TTF_Font* m_font;
   std::string m_filename;

@@ -24,10 +24,11 @@
 #include "video/sdl_surface_ptr.hpp"
 #include "video/surface.hpp"
 #include "video/ttf_font.hpp"
+#include "video/ttf_surface.hpp"
 #include "video/video_system.hpp"
 
-TTFSurfaceManager::CacheEntry::CacheEntry(const SurfacePtr& s) :
-  surface(s),
+TTFSurfaceManager::CacheEntry::CacheEntry(const TTFSurfacePtr& s) :
+  ttf_surface(s),
   last_access(game_time)
 {
 }
@@ -47,29 +48,16 @@ TTFSurfaceManager::create_surface(const TTFFont& font, const std::string& text)
   {
     auto& entry = m_cache[key];
     entry.last_access = game_time;
-    return entry.surface;
+    return entry.ttf_surface->get_surface();
   }
   else
   {
     std::cout << "Cache Size: " << m_cache.size() << std::endl;
     cache_cleanup_step();
 
-    SDLSurfacePtr surface(TTF_RenderUTF8_Blended(font.get_ttf_font(),
-                                                 text.c_str(),
-                                                 Color::WHITE.to_sdl_color()));
-    if (!surface)
-    {
-      std::ostringstream msg;
-      msg << "Couldn't load image '" << text << "' :" << SDL_GetError();
-      throw std::runtime_error(msg.str());
-    }
-    else
-    {
-      TexturePtr texture = VideoSystem::current()->new_texture(surface.get());
-      SurfacePtr result(new Surface(texture));
-      m_cache[key] = result;
-      return result;
-    }
+    TTFSurfacePtr ttf_surface = TTFSurface::create(font, text);
+    m_cache[key] = ttf_surface;
+    return ttf_surface->get_surface();
   }
 }
 

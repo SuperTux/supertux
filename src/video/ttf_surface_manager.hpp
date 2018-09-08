@@ -24,6 +24,7 @@
 #include "util/currenton.hpp"
 #include "video/color.hpp"
 #include "video/surface_ptr.hpp"
+#include "video/ttf_surface.hpp"
 
 class TTFFont;
 
@@ -40,10 +41,10 @@ private:
 private:
   struct CacheEntry
   {
-    CacheEntry() : surface(), last_access() {}
-    CacheEntry(const SurfacePtr& s);
+    CacheEntry() : ttf_surface(), last_access() {}
+    CacheEntry(const TTFSurfacePtr& s);
 
-    SurfacePtr surface;
+    TTFSurfacePtr ttf_surface;
     float last_access;
   };
 
