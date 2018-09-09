@@ -44,6 +44,10 @@ public:
   static SurfacePtr no_tile;
 
 public:
+  static void load();
+  static void unload();
+
+public:
   Resources();
   ~Resources();
 };

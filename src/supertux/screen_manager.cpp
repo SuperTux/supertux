@@ -24,8 +24,9 @@
 #include "scripting/time_scheduler.hpp"
 #include "supertux/console.hpp"
 #include "supertux/constants.hpp"
-#include "supertux/gameconfig.hpp"
 #include "supertux/game_session.hpp"
+#include "supertux/gameconfig.hpp"
+#include "supertux/globals.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/screen_fade.hpp"
@@ -267,7 +268,12 @@ ScreenManager::process_events()
         break;
 
       case SDL_KEYDOWN:
-        if (event.key.keysym.sym == SDLK_F10)
+        if (event.key.keysym.sym == SDLK_F9)
+        {
+          g_use_bitmap_fonts = !g_use_bitmap_fonts;
+          Resources::load();
+        }
+        else if (event.key.keysym.sym == SDLK_F10)
         {
           g_config->show_fps = !g_config->show_fps;
         }
