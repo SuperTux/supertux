@@ -221,29 +221,7 @@ void
 Canvas::draw_text(FontPtr font, const std::string& text,
                   const Vector& pos, FontAlignment alignment, int layer, const Color& color)
 {
-  if (false)
-  {
-#if 0
-    auto request = new(m_obst) TextRequest();
-
-    request->type = TEXT;
-    request->layer = layer;
-    request->drawing_effect = m_context.transform().drawing_effect;
-    request->alpha = m_context.transform().alpha;
-
-    request->pos = apply_translate(position);
-    request->font = font.get();
-    request->text = text;
-    request->alignment = alignment;
-    request->color = color;
-
-    m_requests.push_back(request);
-#endif
-  }
-  else
-  {
-    font->draw_text(*this, text, pos, alignment, layer, color);
-  }
+  font->draw_text(*this, text, pos, alignment, layer, color);
 }
 
 void
