@@ -412,7 +412,8 @@ BitmapFont::draw_chars(Canvas& canvas, bool notshadow, const std::string& text, 
                                shadow_surfaces[glyph.surface_idx],
                                glyph.rect,
                                Rectf(p + glyph.offset, glyph.rect.get_size()),
-                               layer);
+                               layer,
+                               PaintStyle().set_color(color));
 
       p.x += glyph.advance;
     }
