@@ -45,15 +45,21 @@ TTFSurface::create(const TTFFont& font, const std::string& text)
   SDLSurfacePtr target = SDLSurface::create_rgba(text_surface->w + grow, text_surface->h + grow);
 
   { // shadow
-    SDL_SetSurfaceAlphaMod(text_surface.get(), 64);
+    SDL_SetSurfaceAlphaMod(text_surface.get(), 192);
     SDL_SetSurfaceColorMod(text_surface.get(), 0, 0, 0);
 
-    //std::tuple<int, int> positions[] = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
-    std::tuple<int, int> positions[] = {{-2, 0}, {2, 0}, {0, -2}, {0, 2},
-                                        {-1, -1}, {1, -1}, {-1, 1}, {1, 1},};
-    for(const auto& p : positions)
+    const std::initializer_list<std::tuple<int, int> > positions[] = {
+      {},
+      {{0, 0}},
+      {{-1, 0}, {1, 0}, {0, -1}, {0, 1}},
+      {{-2, 0}, {2, 0}, {0, -2}, {0, 2},
+       {-1, -1}, {1, -1}, {-1, 1}, {1, 1}}
+    };
+
+    int shadow_size = std::min(2, font.get_shadow_size());
+    for(const auto& p : positions[shadow_size])
     {
-      SDL_Rect dstrect{std::get<0>(p) + 3, std::get<1>(p) + 3, text_surface->w, text_surface->h};
+      SDL_Rect dstrect{std::get<0>(p) + 2, std::get<1>(p) + 2, text_surface->w, text_surface->h};
       SDL_BlitSurface(text_surface.get(), NULL,
                       target.get(), &dstrect);
     }
@@ -63,10 +69,15 @@ TTFSurface::create(const TTFFont& font, const std::string& text)
     SDL_SetSurfaceAlphaMod(text_surface.get(), 255);
     SDL_SetSurfaceColorMod(text_surface.get(), 0, 0, 0);
 
-    //std::tuple<int, int> positions[] = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
-    std::tuple<int, int> positions[] = {{-2, 0}, {2, 0}, {0, -2}, {0, 2},
-                                        {-1, -1}, {1, -1}, {-1, 1}, {1, 1},};
-    for(const auto& p : positions)
+    const std::initializer_list<std::tuple<int, int> > positions[] = {
+      {},
+      {{-1, 0}, {1, 0}, {0, -1}, {0, 1}},
+      {{-2, 0}, {2, 0}, {0, -2}, {0, 2},
+       {-1, -1}, {1, -1}, {-1, 1}, {1, 1}}
+    };
+
+    int border = std::min(2, font.get_border());
+    for(const auto& p : positions[border])
     {
       SDL_Rect dstrect{std::get<0>(p), std::get<1>(p), text_surface->w, text_surface->h};
       SDL_BlitSurface(text_surface.get(), NULL,
