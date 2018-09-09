@@ -175,9 +175,8 @@ Canvas::draw_surface(SurfacePtr surface, const Vector& position, int layer)
 }
 
 void
-Canvas::draw_surface_part(SurfacePtr surface,
-                          const Rectf& srcrect, const Rectf& dstrect,
-                          int layer)
+Canvas::draw_surface_part(SurfacePtr surface, const Rectf& srcrect, const Rectf& dstrect,
+                          int layer, const PaintStyle& style)
 {
   assert(surface != 0);
 
@@ -186,11 +185,13 @@ Canvas::draw_surface_part(SurfacePtr surface,
   request->type = TEXTURE;
   request->layer = layer;
   request->drawing_effect = m_context.transform().drawing_effect ^ effect_from_surface(*surface);
-  request->alpha = m_context.transform().alpha;
+  request->alpha = m_context.transform().alpha * style.get_alpha();
+  request->blend = style.get_blend();
 
   request->srcrect = srcrect;
   request->dstrect = Rectf(apply_translate(dstrect.p1), dstrect.get_size());
   request->texture = surface->get_texture().get();
+  request->color = style.get_color();
 
   m_requests.push_back(request);
 }

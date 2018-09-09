@@ -80,6 +80,48 @@ public:
   {}
 };
 
+class PaintStyle
+{
+public:
+  PaintStyle() :
+    m_color(Color::WHITE),
+    m_alpha(1.0f),
+    m_blend(),
+    m_effect(NO_EFFECT)
+  {}
+
+  PaintStyle& set_color(const Color& color) {
+    m_color = color;
+    return *this;
+  }
+
+  PaintStyle& set_alpha(const float& alpha) {
+    m_alpha = alpha;
+    return *this;
+  }
+
+  PaintStyle& set_blend(const Blend& blend) {
+    m_blend = blend;
+    return *this;
+  }
+
+  PaintStyle& set_effect(const DrawingEffect& effect) {
+    m_effect = effect;
+    return *this;
+  }
+
+  const Color& get_color() const { return m_color; }
+  const float& get_alpha() const { return m_alpha; }
+  const Blend& get_blend() const { return m_blend; }
+  const DrawingEffect& get_effect() const { return m_effect; }
+
+private:
+  Color m_color;
+  float m_alpha;
+  Blend m_blend;
+  DrawingEffect m_effect;
+};
+
 class Canvas
 {
 public:
@@ -89,14 +131,11 @@ public:
   Canvas(DrawingTarget target, DrawingContext& context, obstack& obst);
   ~Canvas();
 
-  void draw_surface(SurfacePtr surface, const Vector& position,
+  void draw_surface(SurfacePtr surface, const Vector& position, int layer);
+  void draw_surface(SurfacePtr surface, const Vector& position, float angle, const Color& color, const Blend& blend,
                     int layer);
-  void draw_surface(SurfacePtr surface, const Vector& position,
-                    float angle, const Color& color, const Blend& blend,
-                    int layer);
-  void draw_surface_part(SurfacePtr surface,
-                         const Rectf& srcrect, const Rectf& dstrect,
-                         int layer);
+  void draw_surface_part(SurfacePtr surface, const Rectf& srcrect, const Rectf& dstrect,
+                         int layer, const PaintStyle& style = PaintStyle());
   void draw_surface_batch(SurfacePtr surface,
                           const std::vector<Rectf>& srcrects,
                           const std::vector<Rectf>& dstrects,
