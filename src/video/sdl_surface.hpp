@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_VIDEO_SDL_SURFACE_HPP
 
 #include <string>
+#include <SDL.h>
 
 #include "video/sdl_surface_ptr.hpp"
 
@@ -27,6 +28,7 @@ public:
   static SDLSurfacePtr create_rgba(int width, int height);
   static SDLSurfacePtr create_rgb(int width, int height);
   static SDLSurfacePtr from_file(const std::string& filename);
+  static int save_png(const SDL_Surface& surface, const std::string& filename);
 };
 
 #endif

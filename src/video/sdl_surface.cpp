@@ -20,8 +20,10 @@
 #include <stdexcept>
 
 #include <SDL_image.h>
+#include <savepng.h>
 
 #include "physfs/physfs_sdl.hpp"
+#include "util/log.hpp"
 
 SDLSurfacePtr
 SDLSurface::create_rgba(int width, int height)
@@ -84,6 +86,24 @@ SDLSurface::from_file(const std::string& filename)
   else
   {
     return surface;
+  }
+}
+
+int
+SDLSurface::save_png(const SDL_Surface& surface, const std::string& filename)
+{
+  // This does not lead to a double free when 'tmp == screen', as
+  // SDL_PNGFormatAlpha() will increase the refcount of surface.
+  SDLSurfacePtr tmp(SDL_PNGFormatAlpha(const_cast<SDL_Surface*>(&surface)));
+  int ret = SDL_SavePNG(tmp.get(), filename.c_str());
+  if (ret < 0)
+  {
+    log_warning << "Saving " << filename << " failed: " << SDL_GetError() << std::endl;
+    return false;
+  }
+  else
+  {
+    return true;
   }
 }
 

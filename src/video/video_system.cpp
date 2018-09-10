@@ -22,10 +22,10 @@
 #include <iomanip>
 #include <physfs.h>
 #include <sstream>
-#include <savepng.h>
 
 #include "util/log.hpp"
 #include "video/sdl/sdl_video_system.hpp"
+#include "video/sdl_surface.hpp"
 #include "video/sdl_surface_ptr.hpp"
 
 #ifdef HAVE_OPENGL
@@ -174,15 +174,7 @@ VideoSystem::do_take_screenshot()
   }
   else
   {
-    // This does not lead to a double free when 'tmp == screen', as
-    // SDL_PNGFormatAlpha() will increase the refcount of surface.
-    SDLSurfacePtr tmp(SDL_PNGFormatAlpha(surface.get()));
-    if (SDL_SavePNG(tmp.get(), filename->c_str()))
-    {
-      log_warning << "Saving screenshot failed: " << SDL_GetError() << std::endl;
-    }
-    else
-    {
+    if (SDLSurface::save_png(*surface, *filename)) {
       log_info << "Wrote screenshot to \"" << *filename << "\"" << std::endl;
     }
   }
