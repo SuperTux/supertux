@@ -22,13 +22,13 @@
 #include "video/sdl/sdl_renderer.hpp"
 #include "video/video_system.hpp"
 
-SDLTexture::SDLTexture(const SDLSurfacePtr& image) :
+SDLTexture::SDLTexture(const SDL_Surface& image) :
   m_texture(),
   m_width(),
   m_height()
 {
   m_texture = SDL_CreateTextureFromSurface(static_cast<SDLRenderer&>(VideoSystem::current()->get_renderer()).get_sdl_renderer(),
-                                           image.get());
+                                           const_cast<SDL_Surface*>(&image));
   if (!m_texture)
   {
     std::ostringstream msg;
@@ -36,8 +36,8 @@ SDLTexture::SDLTexture(const SDLSurfacePtr& image) :
     throw std::runtime_error(msg.str());
   }
 
-  m_width = image->w;
-  m_height = image->h;
+  m_width = image.w;
+  m_height = image.h;
 }
 
 SDLTexture::~SDLTexture()

@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_VIDEO_VIDEO_SYSTEM_HPP
 
 #include <string>
+#include <SDL.h>
 
 #include "math/size.hpp"
 #include "util/currenton.hpp"
@@ -53,7 +54,7 @@ public:
   virtual Renderer& get_renderer() const = 0;
   virtual Lightmap& get_lightmap() const = 0;
 
-  virtual TexturePtr new_texture(const SDLSurfacePtr& image) = 0;
+  virtual TexturePtr new_texture(const SDL_Surface& image) = 0;
 
   virtual const Viewport& get_viewport() const = 0;
   virtual void apply_config() = 0;
@@ -62,7 +63,7 @@ public:
 
   virtual void set_gamma(float gamma) = 0;
   virtual void set_title(const std::string& title) = 0;
-  virtual void set_icon(const SDLSurfacePtr& icon) = 0;
+  virtual void set_icon(const SDL_Surface& icon) = 0;
   virtual SDLSurfacePtr make_screenshot() = 0;
 
   void do_take_screenshot();

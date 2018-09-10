@@ -329,7 +329,7 @@ Main::init_video()
   const char* icon_fname = "images/engine/icons/supertux-256x256.png";
 
   SDLSurfacePtr icon = SDLSurface::from_file(icon_fname);
-  VideoSystem::current()->set_icon(icon);
+  VideoSystem::current()->set_icon(*icon);
 
   SDL_ShowCursor(0);
 

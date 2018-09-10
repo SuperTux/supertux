@@ -46,7 +46,7 @@ public:
   TexturePtr get(const std::string& filename, const Rect& rect);
 
 private:
-  SDLSurfacePtr& get_surface(const std::string& filename);
+  const SDL_Surface& get_surface(const std::string& filename);
   void reap_cache_entry(const std::string& filename);
 
   TexturePtr create_image_texture(const std::string& filename, const Rect& rect);

@@ -37,7 +37,7 @@ protected:
 
 public:
   GLTexture(unsigned int width, unsigned int height, boost::optional<Color> fill_color = boost::none);
-  GLTexture(const SDLSurfacePtr& image);
+  GLTexture(const SDL_Surface& image);
   ~GLTexture();
 
   const GLuint &get_handle() const {

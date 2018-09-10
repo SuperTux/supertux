@@ -175,7 +175,7 @@ SDLVideoSystem::get_lightmap() const
 }
 
 TexturePtr
-SDLVideoSystem::new_texture(const SDLSurfacePtr& image)
+SDLVideoSystem::new_texture(const SDL_Surface& image)
 {
   return TexturePtr(new SDLTexture(image));
 }
@@ -202,9 +202,9 @@ SDLVideoSystem::set_title(const std::string& title)
 }
 
 void
-SDLVideoSystem::set_icon(const SDLSurfacePtr& icon)
+SDLVideoSystem::set_icon(const SDL_Surface& icon)
 {
-  SDL_SetWindowIcon(m_sdl_window, icon.get());
+  SDL_SetWindowIcon(m_sdl_window, const_cast<SDL_Surface*>(&icon));
 }
 
 void

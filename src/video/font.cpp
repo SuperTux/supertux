@@ -35,13 +35,13 @@
 
 namespace {
 
-bool vline_empty(const SDLSurfacePtr& surface, int x, int start_y, int end_y, Uint8 threshold)
+bool vline_empty(const SDL_Surface& surface, int x, int start_y, int end_y, Uint8 threshold)
 {
-  Uint8* pixels = static_cast<Uint8*>(surface->pixels);
+  Uint8* pixels = static_cast<Uint8*>(surface.pixels);
 
   for(int y = start_y; y < end_y; ++y)
   {
-    const Uint8& p = pixels[surface->pitch*y + x*surface->format->BytesPerPixel + 3];
+    const Uint8& p = pixels[surface.pitch*y + x * surface.format->BytesPerPixel + 3];
     if (p > threshold)
     {
       return false;
@@ -219,10 +219,10 @@ Font::loadFontSurface(const std::string& glyphimage,
         }
 
         int left = x;
-        while (left < x + char_width && vline_empty(surface, left, y, y + char_height, 64))
+        while (left < x + char_width && vline_empty(*surface, left, y, y + char_height, 64))
           left += 1;
         int right = x + char_width - 1;
-        while (right > left && vline_empty(surface, right, y, y + char_height, 64))
+        while (right > left && vline_empty(*surface, right, y, y + char_height, 64))
           right -= 1;
 
         if (left <= right)

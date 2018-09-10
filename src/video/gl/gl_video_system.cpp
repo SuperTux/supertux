@@ -315,7 +315,7 @@ GLVideoSystem::get_lightmap() const
 }
 
 TexturePtr
-GLVideoSystem::new_texture(const SDLSurfacePtr& image)
+GLVideoSystem::new_texture(const SDL_Surface& image)
 {
   return TexturePtr(new GLTexture(image));
 }
@@ -350,9 +350,9 @@ GLVideoSystem::set_title(const std::string& title)
 }
 
 void
-GLVideoSystem::set_icon(const SDLSurfacePtr& icon)
+GLVideoSystem::set_icon(const SDL_Surface& icon)
 {
-  SDL_SetWindowIcon(m_window, icon.get());
+  SDL_SetWindowIcon(m_window, const_cast<SDL_Surface*>(&icon));
 }
 
 Size

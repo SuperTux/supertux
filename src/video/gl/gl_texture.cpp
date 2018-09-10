@@ -62,7 +62,7 @@ GLTexture::GLTexture(unsigned int width, unsigned int height, boost::optional<Co
   }
 }
 
-GLTexture::GLTexture(const SDLSurfacePtr& image) :
+GLTexture::GLTexture(const SDL_Surface& image) :
   m_handle(),
   m_texture_width(),
   m_texture_height(),
@@ -71,22 +71,22 @@ GLTexture::GLTexture(const SDLSurfacePtr& image) :
 {
   if (gl_needs_power_of_two())
   {
-    m_texture_width = next_power_of_two(image->w);
-    m_texture_height = next_power_of_two(image->h);
+    m_texture_width = next_power_of_two(image.w);
+    m_texture_height = next_power_of_two(image.h);
   }
   else
   {
-    m_texture_width  = image->w;
-    m_texture_height = image->h;
+    m_texture_width  = image.w;
+    m_texture_height = image.h;
   }
 
-  m_image_width  = image->w;
-  m_image_height = image->h;
+  m_image_width  = image.w;
+  m_image_height = image.h;
 
   SDLSurfacePtr convert = SDLSurface::create_rgba(m_texture_width, m_texture_height);
 
-  SDL_SetSurfaceBlendMode(image.get(), SDL_BLENDMODE_NONE);
-  SDL_BlitSurface(image.get(), 0, convert.get(), 0);
+  SDL_SetSurfaceBlendMode(const_cast<SDL_Surface*>(&image), SDL_BLENDMODE_NONE);
+  SDL_BlitSurface(const_cast<SDL_Surface*>(&image), 0, convert.get(), 0);
 
   assert_gl();
   glGenTextures(1, &m_handle);

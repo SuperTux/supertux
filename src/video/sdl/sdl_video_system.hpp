@@ -37,7 +37,7 @@ public:
   virtual Renderer& get_renderer() const override;
   virtual Lightmap& get_lightmap() const override;
 
-  virtual TexturePtr new_texture(const SDLSurfacePtr& image) override;
+  virtual TexturePtr new_texture(const SDL_Surface& image) override;
 
   virtual const Viewport& get_viewport() const override { return m_viewport; }
   virtual void apply_config() override;
@@ -46,7 +46,7 @@ public:
 
   virtual void set_gamma(float gamma) override;
   virtual void set_title(const std::string& title) override;
-  virtual void set_icon(const SDLSurfacePtr& icon) override;
+  virtual void set_icon(const SDL_Surface& icon) override;
 
   virtual SDLSurfacePtr make_screenshot() override;
 
