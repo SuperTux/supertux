@@ -16,6 +16,7 @@
 
 #include "supertux/console.hpp"
 
+#include "math/sizef.hpp"
 #include "physfs/ifile_stream.hpp"
 #include "scripting/scripting.hpp"
 #include "scripting/squirrel_util.hpp"
@@ -553,18 +554,23 @@ Console::draw(DrawingContext& context) const
     lineNo++;
     float py = m_height-4-1 * m_font->get_height();
     std::string line = "> " + m_inputBuffer;
+    context.color().draw_text(m_font, line, Vector(4, py), ALIGN_LEFT, layer);
+
     if (SDL_GetTicks() % 500 < 250) {
       std::string::size_type p = 2 + m_inputBufferPosition;
+      float cursor_x;
       if (p >= line.size())
       {
-        line += "_";
+        cursor_x = m_font->get_text_width(line);
       }
       else
       {
-        line[p] = '_';
+        cursor_x = m_font->get_text_width(line.substr(0, p));
       }
+      context.color().draw_filled_rect(Rectf(Vector(3 + cursor_x, py),
+                                             Sizef(2.0f, m_font->get_height() - 2)),
+                                       Color(1.0f, 1.0f, 1.0f, 0.75f), layer);
     }
-    context.color().draw_text(m_font, line, Vector(4, py), ALIGN_LEFT, layer);
   }
 
   int skipLines = -m_offset;
