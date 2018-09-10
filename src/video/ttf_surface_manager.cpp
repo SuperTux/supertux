@@ -39,7 +39,7 @@ TTFSurfaceManager::TTFSurfaceManager() :
 {
 }
 
-SurfacePtr
+TTFSurfacePtr
 TTFSurfaceManager::create_surface(const TTFFont& font, const std::string& text)
 {
   auto key = Key(font.get_ttf_font(), text);
@@ -48,7 +48,7 @@ TTFSurfaceManager::create_surface(const TTFFont& font, const std::string& text)
   {
     auto& entry = m_cache[key];
     entry.last_access = game_time;
-    return entry.ttf_surface->get_surface();
+    return entry.ttf_surface;
   }
   else
   {
@@ -57,7 +57,7 @@ TTFSurfaceManager::create_surface(const TTFFont& font, const std::string& text)
 
     TTFSurfacePtr ttf_surface = TTFSurface::create(font, text);
     m_cache[key] = ttf_surface;
-    return ttf_surface->get_surface();
+    return ttf_surface;
   }
 }
 

@@ -33,7 +33,7 @@ class TTFSurfaceManager : public Currenton<TTFSurfaceManager>
 public:
   TTFSurfaceManager();
 
-  SurfacePtr create_surface(const TTFFont& font, const std::string& text);
+  TTFSurfacePtr create_surface(const TTFFont& font, const std::string& text);
 
 private:
   void cache_cleanup_step();

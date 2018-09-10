@@ -110,21 +110,21 @@ TTFFont::draw_text(Canvas& canvas, const std::string& text,
 
     last_pos = static_cast<int>(i + 1);
 
-    SurfacePtr surface = TTFSurfaceManager::current()->create_surface(*this, str);
+    TTFSurfacePtr ttf_surface = TTFSurfaceManager::current()->create_surface(*this, str);
 
     Vector new_pos(pos.x, last_y);
 
     if (alignment == ALIGN_CENTER)
     {
-      new_pos.x -= static_cast<float>(surface->get_width()) / 2.0f;
+      new_pos.x -= static_cast<float>(ttf_surface->get_width()) / 2.0f;
     }
     else if (alignment == ALIGN_RIGHT)
     {
-      new_pos.x -= static_cast<float>(surface->get_width());
+      new_pos.x -= static_cast<float>(ttf_surface->get_width());
     }
 
     // draw text
-    canvas.draw_surface(surface, new_pos.to_int_vec(), 0.0f, color, Blend(), layer);
+    canvas.draw_surface(ttf_surface->get_surface(), new_pos.to_int_vec(), 0.0f, color, Blend(), layer);
 
     last_y += get_height();
   }
