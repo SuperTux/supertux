@@ -53,24 +53,35 @@ TTFFont::get_text_width(const std::string& text) const
   if(text.empty())
     return 0.0f;
 
-  // Since create_surface() takes a surface from the cache instead of
-  // generating it from scratch it should be faster than doing a whole
-  // layout.
-  if (false)
+  float max_width = 0.0f;
+
+  LineIterator iter(text);
+  while(iter.next())
   {
-    int w = 0;
-    int h = 0;
-    int ret = TTF_SizeUTF8(m_font, text.c_str(), &w, &h);
-    if (ret < 0)
+    const std::string& line = iter.get();
+
+    // Since create_surface() takes a surface from the cache instead of
+    // generating it from scratch it should be faster than doing a whole
+    // layout.
+    if (false)
     {
-      std::cout << "TTFFont::get_text_width(): " << TTF_GetError() << std::endl;
+      int w = 0;
+      int h = 0;
+      int ret = TTF_SizeUTF8(m_font, line.c_str(), &w, &h);
+      if (ret < 0)
+      {
+        std::cout << "TTFFont::get_text_width(): " << TTF_GetError() << std::endl;
+      }
+      max_width = std::max(max_width, static_cast<float>(w));
+    }
+    else
+    {
+      TTFSurfacePtr surface = TTFSurfaceManager::current()->create_surface(*this, line);
+      max_width = std::max(max_width, static_cast<float>(surface->get_width()));
     }
   }
-  else
-  {
-    TTFSurfacePtr surface = TTFSurfaceManager::current()->create_surface(*this, text);
-    return static_cast<float>(surface->get_width());
-  }
+
+  return max_width;
 }
 
 float
