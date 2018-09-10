@@ -19,6 +19,19 @@ install:
 
 before_build:
 - cmd: |
+    echo Installing dependencies...
+    vcpkg install boost:x64-windows
+    vcpkg install boost-date-time:x64-windows
+    vcpkg install boost-filesystem:x64-windows
+    vcpkg install boost-locale:x64-windows
+    vcpkg install boost-system:x64-windows
+    vcpkg install curl:x64-windows
+    vcpkg install glew:x64-windows
+    vcpkg install libogg:x64-windows
+    vcpkg install libvorbis:x64-windows
+    vcpkg install openal-soft:x64-windows
+    vcpkg install sdl2:x64-windows
+    vcpkg install sdl2-image:x64-windows
     git submodule update --init --recursive
     echo Running cmake ..
     cmake -G "Visual Studio 14 2015 Win64" -DCMAKE_INSTALL_PREFIX=%P% -DHAVE_SDL=true -DPACKAGE_VCREDIST=true

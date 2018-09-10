@@ -11,14 +11,21 @@ branches:
   except:
     - coverity_scan # No need for Windows builds on that branch
 
-install:
-- ps: |
-    Invoke-WebRequest https://download.supertux.org/builddep/dependencies-win32.zip -OutFile "$env:APPVEYOR_BUILD_FOLDER/dependencies.zip"
-    Add-Type -assembly "system.io.compression.filesystem"
-    [io.compression.zipfile]::ExtractToDirectory("$env:APPVEYOR_BUILD_FOLDER/dependencies.zip", "$env:APPVEYOR_BUILD_FOLDER/")
-
 before_build:
 - cmd: |
+    echo Installing dependencies...
+    vcpkg install boost:x86-windows
+    vcpkg install boost-date-time:x86-windows
+    vcpkg install boost-filesystem:x86-windows
+    vcpkg install boost-locale:x86-windows
+    vcpkg install boost-system:x86-windows
+    vcpkg install curl:x86-windows
+    vcpkg install glew:x86-windows
+    vcpkg install libogg:x86-windows
+    vcpkg install libvorbis:x86-windows
+    vcpkg install openal-soft:x86-windows
+    vcpkg install sdl2:x86-windows
+    vcpkg install sdl2-image:x86-windows
     git submodule update --init --recursive
     echo Running cmake ..
     cmake -G "Visual Studio 14 2015" -DCMAKE_INSTALL_PREFIX=%P% -DHAVE_SDL=true -DPACKAGE_VCREDIST=true
