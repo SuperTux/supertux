@@ -11,19 +11,14 @@ branches:
   except:
     - coverity_scan # No need for Windows builds on that branch
 
-install:
-- ps: |
-    Invoke-WebRequest https://download.supertux.org/builddep/dependencies-win64.zip -OutFile "$env:APPVEYOR_BUILD_FOLDER/dependencies.zip"
-    Add-Type -assembly "system.io.compression.filesystem"
-    [io.compression.zipfile]::ExtractToDirectory("$env:APPVEYOR_BUILD_FOLDER/dependencies.zip", "$env:APPVEYOR_BUILD_FOLDER/")
-
 before_build:
 - cmd: |
     echo Installing dependencies...
-    vcpkg install boost:x64-windows
     vcpkg install boost-date-time:x64-windows
     vcpkg install boost-filesystem:x64-windows
+    vcpkg install boost-format:x64-windows
     vcpkg install boost-locale:x64-windows
+    vcpkg install boost-optional:x64-windows
     vcpkg install boost-system:x64-windows
     vcpkg install curl:x64-windows
     vcpkg install glew:x64-windows
