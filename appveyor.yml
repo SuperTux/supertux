@@ -29,7 +29,7 @@ before_build:
     vcpkg install sdl2-image:x86-windows
     git submodule update --init --recursive
     echo Running cmake ..
-    cmake -G "Visual Studio 14 2015" -DCMAKE_INSTALL_PREFIX=%P% -DHAVE_SDL=true -DPACKAGE_VCREDIST=true
+    cmake -G "Visual Studio 14 2015" -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_INSTALL_PREFIX=%P% -DHAVE_SDL=true -DPACKAGE_VCREDIST=true
 
 build:
   project: ALL_BUILD.vcxproj
