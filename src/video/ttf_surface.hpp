@@ -27,7 +27,7 @@ class TTFSurface;
 
 typedef std::shared_ptr<TTFSurface> TTFSurfacePtr;
 
-/** A rendered string */
+/** TTFSurface class holds a rendered string */
 class TTFSurface
 {
 public:
@@ -38,6 +38,9 @@ public:
 
   SurfacePtr get_surface() { return m_surface; }
   Vector get_offset() const { return m_offset; }
+
+  int get_width() const;
+  int get_height() const;
 
 private:
   SurfacePtr m_surface;

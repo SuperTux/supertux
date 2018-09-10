@@ -104,4 +104,16 @@ TTFSurface::TTFSurface(const SurfacePtr& surface, const Vector& offset) :
 {
 }
 
+int
+TTFSurface::get_width() const
+{
+  return m_surface->get_width();
+}
+
+int
+TTFSurface::get_height() const
+{
+  return m_surface->get_height();
+}
+
 /* EOF */

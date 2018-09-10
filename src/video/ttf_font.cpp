@@ -52,15 +52,24 @@ TTFFont::get_text_width(const std::string& text) const
   if(text.empty())
     return 0.0f;
 
-  int w = 0;
-  int h = 0;
-  int ret = TTF_SizeUTF8(m_font, text.c_str(), &w, &h);
-  if (ret < 0)
+  // Since create_surface() takes a surface from the cache instead of
+  // generating it from scratch it should be faster than doing a whole
+  // layout.
+  if (false)
   {
-    std::cout << "TTFFont::get_text_width(): " << TTF_GetError() << std::endl;
+    int w = 0;
+    int h = 0;
+    int ret = TTF_SizeUTF8(m_font, text.c_str(), &w, &h);
+    if (ret < 0)
+    {
+      std::cout << "TTFFont::get_text_width(): " << TTF_GetError() << std::endl;
+    }
   }
-
-  return static_cast<float>(w);
+  else
+  {
+    TTFSurfacePtr surface = TTFSurfaceManager::current()->create_surface(*this, text);
+    return static_cast<float>(surface->get_width());
+  }
 }
 
 float
