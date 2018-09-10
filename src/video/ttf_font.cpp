@@ -20,6 +20,7 @@
 #include <iostream>
 #include <sstream>
 
+#include "util/line_iterator.hpp"
 #include "physfs/physfs_sdl.hpp"
 #include "video/canvas.hpp"
 #include "video/surface.hpp"
@@ -98,42 +99,31 @@ TTFFont::draw_text(Canvas& canvas, const std::string& text,
                    const Vector& pos, FontAlignment alignment, int layer, const Color& color)
 
 {
-  int last_pos = 0;
   float last_y = pos.y;
-  for(size_t i = 0; i < text.size(); i++)
+
+  LineIterator iter(text);
+  while(iter.next())
   {
-    if (text[i] != '\n' && i != text.size() - 1)
+    const std::string& line = iter.get();
+
+    if (!line.empty())
     {
-      continue;
+      TTFSurfacePtr ttf_surface = TTFSurfaceManager::current()->create_surface(*this, line);
+
+      Vector new_pos(pos.x, last_y);
+
+      if (alignment == ALIGN_CENTER)
+      {
+        new_pos.x -= static_cast<float>(ttf_surface->get_width()) / 2.0f;
+      }
+      else if (alignment == ALIGN_RIGHT)
+      {
+        new_pos.x -= static_cast<float>(ttf_surface->get_width());
+      }
+
+      // draw text
+      canvas.draw_surface(ttf_surface->get_surface(), new_pos.to_int_vec(), 0.0f, color, Blend(), layer);
     }
-
-    std::string str;
-    if(text[i] == '\n')
-    {
-      str = text.substr(last_pos, i - last_pos);
-    }
-    else
-    {
-      str = text.substr(last_pos, i + 1);
-    }
-
-    last_pos = static_cast<int>(i + 1);
-
-    TTFSurfacePtr ttf_surface = TTFSurfaceManager::current()->create_surface(*this, str);
-
-    Vector new_pos(pos.x, last_y);
-
-    if (alignment == ALIGN_CENTER)
-    {
-      new_pos.x -= static_cast<float>(ttf_surface->get_width()) / 2.0f;
-    }
-    else if (alignment == ALIGN_RIGHT)
-    {
-      new_pos.x -= static_cast<float>(ttf_surface->get_width());
-    }
-
-    // draw text
-    canvas.draw_surface(ttf_surface->get_surface(), new_pos.to_int_vec(), 0.0f, color, Blend(), layer);
 
     last_y += get_height();
   }
