@@ -552,11 +552,19 @@ Console::draw(DrawingContext& context) const
   if (m_focused) {
     lineNo++;
     float py = m_height-4-1 * m_font->get_height();
-    context.color().draw_text(m_font, "> "+m_inputBuffer, Vector(4, py), ALIGN_LEFT, layer);
-    if (SDL_GetTicks() % 1000 < 750) {
-      int cursor_px = 2 + m_inputBufferPosition;
-      context.color().draw_text(m_font, "_", Vector(4.0f + (static_cast<float>(cursor_px) * m_font->get_text_width("X")), static_cast<float>(py)), ALIGN_LEFT, layer);
+    std::string line = "> " + m_inputBuffer;
+    if (SDL_GetTicks() % 500 < 250) {
+      std::string::size_type p = 2 + m_inputBufferPosition;
+      if (p >= line.size())
+      {
+        line += "_";
+      }
+      else
+      {
+        line[p] = '_';
+      }
     }
+    context.color().draw_text(m_font, line, Vector(4, py), ALIGN_LEFT, layer);
   }
 
   int skipLines = -m_offset;
