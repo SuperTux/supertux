@@ -79,7 +79,7 @@ before_install:
   - git fetch --unshallow
   # Install libRAQM
   - git clone --depth 1 https://github.com/HOST-Oman/libraqm.git;
-    cd libraqm && ./autogen.sh && ./configure --prefix=/usr && make -j3 && sudo make install;
+    cd libraqm && ./autogen.sh && ./configure --prefix=/usr --disable-Werror && make -j3 && sudo make install;
     cd ..;
 
 script:
