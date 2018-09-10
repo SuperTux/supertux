@@ -58,11 +58,11 @@ Resources::load()
   }
   else
   {
-    console_font.reset(new TTFFont("fonts/SuperTux-Medium.ttf", 12, 0, 0));
-    fixed_font.reset(new TTFFont("fonts/SuperTux-Medium.ttf", 18, 0, 0));
-    normal_font.reset(new TTFFont("fonts/SuperTux-Medium.ttf", 18, 2, 1));
-    small_font.reset(new TTFFont("fonts/SuperTux-Medium.ttf", 10, 2, 1));
-    big_font.reset(new TTFFont("fonts/SuperTux-Medium.ttf", 22, 2, 1));
+    console_font.reset(new TTFFont("fonts/SuperTux-Medium.ttf", 12, 1.25f, 0, 0));
+    fixed_font.reset(new TTFFont("fonts/SuperTux-Medium.ttf", 18, 1.25f, 0, 0));
+    normal_font.reset(new TTFFont("fonts/SuperTux-Medium.ttf", 18, 1.25f, 2, 1));
+    small_font.reset(new TTFFont("fonts/SuperTux-Medium.ttf", 10, 1.25f, 2, 1));
+    big_font.reset(new TTFFont("fonts/SuperTux-Medium.ttf", 22, 1.25f, 2, 1));
   }
 
   /* Load menu images */

@@ -30,12 +30,15 @@ class Vector;
 class TTFFont final : public Font
 {
 public:
-  TTFFont(const std::string& filename, int size, int shadowsize = 0, int border = 0);
+  TTFFont(const std::string& filename, int size, float line_spacing = 1.0f, int shadowsize = 0, int border = 0);
   virtual ~TTFFont();
 
+  float get_line_spacing() {
+    return m_line_spacing;
+  }
+
   virtual float get_height() const override {
-    // Adding a 2 pixel margin so that it looks better!
-    return static_cast<float>(m_font_size + 2);
+    return static_cast<float>(m_font_size) * m_line_spacing;
   }
 
   virtual float get_text_width(const std::string& text) const override;
@@ -55,6 +58,7 @@ private:
   TTF_Font* m_font;
   std::string m_filename;
   int m_font_size;
+  float m_line_spacing;
   int m_shadow_size;
   int m_border;
 

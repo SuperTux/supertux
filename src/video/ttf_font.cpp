@@ -26,10 +26,11 @@
 #include "video/surface.hpp"
 #include "video/ttf_surface_manager.hpp"
 
-TTFFont::TTFFont(const std::string& filename, int font_size, int shadow_size, int border) :
+TTFFont::TTFFont(const std::string& filename, int font_size, float line_spacing, int shadow_size, int border) :
   m_font(),
   m_filename(filename),
   m_font_size(font_size),
+  m_line_spacing(line_spacing),
   m_shadow_size(shadow_size),
   m_border(border)
 {
@@ -110,7 +111,7 @@ TTFFont::draw_text(Canvas& canvas, const std::string& text,
                    const Vector& pos, FontAlignment alignment, int layer, const Color& color)
 
 {
-  float last_y = pos.y;
+  float last_y = pos.y - (static_cast<float>(m_font_size) - get_height()) / 2.0f;
 
   LineIterator iter(text);
   while(iter.next())
