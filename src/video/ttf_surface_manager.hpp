@@ -20,6 +20,7 @@
 #include <tuple>
 #include <map>
 #include <string>
+#include <iosfwd>
 
 #include "util/currenton.hpp"
 #include "video/color.hpp"
@@ -34,6 +35,8 @@ public:
   TTFSurfaceManager();
 
   TTFSurfacePtr create_surface(const TTFFont& font, const std::string& text);
+
+  void print_debug_info(std::ostream& out);
 
 private:
   void cache_cleanup_step();

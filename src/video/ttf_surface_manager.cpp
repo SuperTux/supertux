@@ -52,7 +52,15 @@ TTFSurfaceManager::create_surface(const TTFFont& font, const std::string& text)
   }
   else
   {
-    std::cout << "Cache Size: " << m_cache.size() << std::endl;
+    if (false)
+    {
+      // Font debug output should go to 'std::cerr', not any of the
+      // log_* functions, as those are mirrored on the console which
+      // in turn will lead to the creation of more TTFSurface's and
+      // screw up the results.
+      print_debug_info(std::cerr);
+    }
+
     cache_cleanup_step();
 
     TTFSurfacePtr ttf_surface = TTFSurface::create(font, text);
@@ -72,10 +80,8 @@ TTFSurfaceManager::cache_cleanup_step()
     m_cache_iter = m_cache.begin();
   }
 
-  // std::cout << game_time << "  " << m_cache_iter->second.last_access << std::endl;
   while(game_time - m_cache_iter->second.last_access > 10.0f)
   {
-    std::cout << "cleaning cache entry\n";
     m_cache_iter = m_cache.erase(m_cache_iter);
     if (m_cache_iter == m_cache.end())
     {
@@ -84,6 +90,17 @@ TTFSurfaceManager::cache_cleanup_step()
   }
 
   ++m_cache_iter;
+}
+
+void
+TTFSurfaceManager::print_debug_info(std::ostream& out)
+{
+  int cache_bytes = 0;
+  for(const auto& entry : m_cache)
+  {
+    cache_bytes += entry.second.ttf_surface->get_width() * entry.second.ttf_surface->get_height() * 4;
+  }
+  out << "TTFSurfaceManager.cache_size: " << m_cache.size() << "  " << cache_bytes / 1000 << "KB" << std::endl;
 }
 
 /* EOF */

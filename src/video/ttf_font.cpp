@@ -70,7 +70,7 @@ TTFFont::get_text_width(const std::string& text) const
       int ret = TTF_SizeUTF8(m_font, line.c_str(), &w, &h);
       if (ret < 0)
       {
-        std::cout << "TTFFont::get_text_width(): " << TTF_GetError() << std::endl;
+        std::cerr << "TTFFont::get_text_width(): " << TTF_GetError() << std::endl;
       }
       max_width = std::max(max_width, static_cast<float>(w));
     }
