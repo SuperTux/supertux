@@ -406,6 +406,7 @@ if(VCPKG_BUILD)
     -DBUILD_SHARED_LIBS=OFF
     -DHAVE_SDL=ON
     -DCMAKE_INSTALL_PREFIX=${TINYGETTEXT_PREFIX}
+    -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
     -DSDL2_INCLUDE_DIRS=${SDL2_INCLUDE_DIRS}
     -DLIB_SUFFIX=${LIB_SUFFIX})
 else()
@@ -475,11 +476,11 @@ add_library(sexp STATIC ${SEXP_SOURCES_CXX})
 
 file(GLOB SAVEPNG_SOURCES_CXX RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} external/SDL_SavePNG/savepng.c)
 add_library(savepng STATIC ${SAVEPNG_SOURCES_CXX})
-if(VCPKG_BUILD)
-  target_include_directories(savepng SYSTEM PUBLIC ${PNG_INCLUDE_DIRS})
-else(VCPKG_BUILD)
+#if(VCPKG_BUILD)
+#  target_include_directories(savepng SYSTEM PUBLIC ${PNG_INCLUDE_DIRS})
+#else(VCPKG_BUILD)
   target_include_directories(savepng SYSTEM PUBLIC ${SDL2_INCLUDE_DIRS} ${PNG_INCLUDE_DIRS})
-endif(VCPKG_BUILD)
+#endif(VCPKG_BUILD)
 target_link_libraries(savepng PUBLIC ${PNG_LIBRARIES})
 
 if(HAVE_OPENGL)
