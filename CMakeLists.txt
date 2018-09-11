@@ -72,7 +72,7 @@ elseif(CMAKE_BUILD_TYPE MATCHES Debug)
 endif()
 
 set(SUPERTUX_SYSTEM_NAME ${CMAKE_SYSTEM_NAME})
-set(VCPKG_BUILD OFF)
+set(VCPKG_BUILD OFF CACHE BOOL "Use dependencies installed via vcpkg (not dependency package)")
 ## These variables enable MSVC to find libraries located in "dependencies{32|64}"
 if(WIN32)
   if(NOT VCPKG_BUILD)
