@@ -6,6 +6,7 @@ platform: x64
 environment:
   DOWNLOAD_APIKEY:
     secure: SEKmgfhiwujukYrr2xjqp63FEwvDUcoQOy7pCuYSyu+CTbGRRIzTbUCwwu4EPJmE
+  APPVEYOR_SAVE_CACHE_ON_ERROR: true
 
 branches:
   except:
