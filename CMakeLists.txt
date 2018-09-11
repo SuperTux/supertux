@@ -140,7 +140,7 @@ find_package(PNG REQUIRED)
 
 if(WIN32)
   if(VCPKG_BUILD)
-    find_package(SDL2 REQUIRED)
+    find_package(SDL2 CONFIG REQUIRED)
     find_package(SDL2IMAGE REQUIRED)
     find_path(SDL2_INCLUDE_DIRS NAMES SDL.h)
     find_path(SDL2IMAGE_INCLUDE_DIRS NAMES SDL_image.h)
