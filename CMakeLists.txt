@@ -143,8 +143,6 @@ if(WIN32)
     message("Using VCPKG BUILD...")
     find_package(SDL2 CONFIG REQUIRED)
     find_package(SDL2IMAGE REQUIRED)
-    set(SDL2_INCLUDE_DIRS ${SDL2_INCLUDE_DIR})
-    set(SDL2IMAGE_INCLUDE_DIRS ${SDL2_INCLUDE_DIR})
   else(VCPKG_BUILD)
   message("Using dependency package BUILD...")
     find_path(SDL2_INCLUDE_DIRS NAMES SDL.h PATHS "${DEPENDENCY_FOLDER}/include/SDL2")
@@ -398,19 +396,34 @@ if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/external/tinygettext/CMakeLists.txt)
 endif()
 
 set(TINYGETTEXT_PREFIX ${CMAKE_BINARY_DIR}/tinygettext/)
-ExternalProject_Add(tinygettext
-  SOURCE_DIR "${CMAKE_SOURCE_DIR}/external/tinygettext/"
-  CMAKE_ARGS
-  -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
-  -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
-  -DCMAKE_C_FLAGS=${CMAKE_C_FLAGS}
-  -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
-  -DCMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}
-  -DBUILD_SHARED_LIBS=OFF
-  -DHAVE_SDL=ON
-  -DCMAKE_INSTALL_PREFIX=${TINYGETTEXT_PREFIX}
-  -DSDL2_INCLUDE_DIRS=${SDL2_INCLUDE_DIRS}
-  -DLIB_SUFFIX=${LIB_SUFFIX})
+if(VCPKG_BUILD)
+  ExternalProject_Add(tinygettext
+    SOURCE_DIR "${CMAKE_SOURCE_DIR}/external/tinygettext/"
+    CMAKE_ARGS
+    -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+    -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
+    -DCMAKE_C_FLAGS=${CMAKE_C_FLAGS}
+    -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
+    -DCMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}
+    -DBUILD_SHARED_LIBS=OFF
+    -DHAVE_SDL=ON
+    -DCMAKE_INSTALL_PREFIX=${TINYGETTEXT_PREFIX}
+    -DSDL2_INCLUDE_DIRS=${SDL2_INCLUDE_DIRS}
+    -DLIB_SUFFIX=${LIB_SUFFIX})
+else()
+  ExternalProject_Add(tinygettext
+    SOURCE_DIR "${CMAKE_SOURCE_DIR}/external/tinygettext/"
+    CMAKE_ARGS
+    -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+    -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
+    -DCMAKE_C_FLAGS=${CMAKE_C_FLAGS}
+    -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
+    -DCMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}
+    -DBUILD_SHARED_LIBS=OFF
+    -DHAVE_SDL=ON
+    -DCMAKE_INSTALL_PREFIX=${TINYGETTEXT_PREFIX}
+    -DLIB_SUFFIX=${LIB_SUFFIX})
+endif()
 
 add_library(tinygettext_lib STATIC IMPORTED)
 set_target_properties(tinygettext_lib PROPERTIES IMPORTED_LOCATION "${TINYGETTEXT_PREFIX}/lib${LIB_SUFFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}tinygettext${CMAKE_STATIC_LIBRARY_SUFFIX}")
@@ -464,7 +477,11 @@ add_library(sexp STATIC ${SEXP_SOURCES_CXX})
 
 file(GLOB SAVEPNG_SOURCES_CXX RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} external/SDL_SavePNG/savepng.c)
 add_library(savepng STATIC ${SAVEPNG_SOURCES_CXX})
-target_include_directories(savepng SYSTEM PUBLIC ${SDL2_INCLUDE_DIRS} ${PNG_INCLUDE_DIRS})
+if(VCPKG_BUILD)
+  target_include_directories(savepng SYSTEM PUBLIC ${PNG_INCLUDE_DIRS})
+else(VCPKG_BUILD)
+  target_include_directories(savepng SYSTEM PUBLIC ${SDL2_INCLUDE_DIRS} ${PNG_INCLUDE_DIRS})
+endif(VCPKG_BUILD)
 target_link_libraries(savepng PUBLIC ${PNG_LIBRARIES})
 
 if(HAVE_OPENGL)
@@ -689,8 +706,10 @@ add_dependencies(supertux2_lib tinygettext)
 add_dependencies(supertux2_lib squirrel)
 add_dependencies(supertux2_lib SDL_ttf)
 
-target_include_directories(supertux2_lib SYSTEM PUBLIC ${SDL2_INCLUDE_DIRS})
-target_include_directories(supertux2_lib SYSTEM PUBLIC ${SDL2IMAGE_INCLUDE_DIRS})
+if(NOT VCPKG_BUILD)
+  target_include_directories(supertux2_lib SYSTEM PUBLIC ${SDL2_INCLUDE_DIRS})
+  target_include_directories(supertux2_lib SYSTEM PUBLIC ${SDL2IMAGE_INCLUDE_DIRS})
+endif()
 target_include_directories(supertux2_lib SYSTEM PUBLIC ${SDL_TTF_PREFIX}/include/SDL2)
 target_link_libraries(supertux2_lib PUBLIC ${SDL2_LIBRARIES})
 target_link_libraries(supertux2_lib PUBLIC ${SDL2IMAGE_LIBRARIES})
