@@ -30,6 +30,7 @@ class Resources
 public:
   static std::unique_ptr<MouseCursor> mouse_cursor;
 
+  static FontPtr console_font;
   static FontPtr fixed_font;
   static FontPtr normal_font;
   static FontPtr small_font;
@@ -41,6 +42,10 @@ public:
   static SurfacePtr arrow_left;
   static SurfacePtr arrow_right;
   static SurfacePtr no_tile;
+
+public:
+  static void load();
+  static void unload();
 
 public:
   Resources();

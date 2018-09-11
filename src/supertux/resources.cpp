@@ -18,11 +18,15 @@
 #include "supertux/resources.hpp"
 
 #include "gui/mousecursor.hpp"
+#include "supertux/globals.hpp"
+#include "video/bitmap_font.hpp"
 #include "video/font.hpp"
 #include "video/surface.hpp"
+#include "video/ttf_font.hpp"
 
 std::unique_ptr<MouseCursor> Resources::mouse_cursor;
 
+FontPtr Resources::console_font;
 FontPtr Resources::fixed_font;
 FontPtr Resources::normal_font;
 FontPtr Resources::small_font;
@@ -35,7 +39,8 @@ SurfacePtr Resources::arrow_left;
 SurfacePtr Resources::arrow_right;
 SurfacePtr Resources::no_tile;
 
-Resources::Resources()
+void
+Resources::load()
 {
   // Load the mouse-cursor
   mouse_cursor.reset(new MouseCursor("images/engine/menu/mousecursor.png",
@@ -43,11 +48,22 @@ Resources::Resources()
                                      "images/engine/menu/mousecursor-link.png"));
   MouseCursor::set_current(mouse_cursor.get());
 
-  // Load global images:
-  fixed_font.reset(new Font(Font::FIXED, "fonts/white.stf"));
-  normal_font.reset(new Font(Font::VARIABLE, "fonts/white.stf"));
-  small_font.reset(new Font(Font::VARIABLE, "fonts/white-small.stf", 1));
-  big_font.reset(new Font(Font::VARIABLE, "fonts/white-big.stf", 3));
+  if (g_use_bitmap_fonts)
+  {
+    console_font.reset(new BitmapFont(BitmapFont::FIXED, "fonts/andale12.stf", 1));
+    fixed_font.reset(new BitmapFont(BitmapFont::FIXED, "fonts/white.stf"));
+    normal_font.reset(new BitmapFont(BitmapFont::VARIABLE, "fonts/white.stf"));
+    small_font.reset(new BitmapFont(BitmapFont::VARIABLE, "fonts/white-small.stf", 1));
+    big_font.reset(new BitmapFont(BitmapFont::VARIABLE, "fonts/white-big.stf", 3));
+  }
+  else
+  {
+    console_font.reset(new TTFFont("fonts/SuperTux-Medium.ttf", 12, 1.25f, 0, 0));
+    fixed_font.reset(new TTFFont("fonts/SuperTux-Medium.ttf", 18, 1.25f, 0, 0));
+    normal_font.reset(new TTFFont("fonts/SuperTux-Medium.ttf", 18, 1.25f, 2, 1));
+    small_font.reset(new TTFFont("fonts/SuperTux-Medium.ttf", 10, 1.25f, 2, 1));
+    big_font.reset(new TTFFont("fonts/SuperTux-Medium.ttf", 22, 1.25f, 2, 1));
+  }
 
   /* Load menu images */
   checkbox = Surface::from_file("images/engine/menu/checkbox-unchecked.png");
@@ -58,7 +74,8 @@ Resources::Resources()
   no_tile = Surface::from_file("images/tiles/auxiliary/notile.png");
 }
 
-Resources::~Resources()
+void
+Resources::unload()
 {
   // Free menu images
   no_tile.reset();
@@ -69,12 +86,23 @@ Resources::~Resources()
   arrow_right.reset();
 
   // Free global images:
+  console_font.reset();
   fixed_font.reset();
   normal_font.reset();
   small_font.reset();
   big_font.reset();
 
   mouse_cursor.reset();
+}
+
+Resources::Resources()
+{
+  load();
+}
+
+Resources::~Resources()
+{
+  unload();
 }
 
 /* EOF */

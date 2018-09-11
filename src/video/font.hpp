@@ -26,7 +26,7 @@
 #include "video/surface_ptr.hpp"
 #include "video/texture.hpp"
 
-class Painter;
+class Canvas;
 
 enum FontAlignment {
   ALIGN_LEFT,
@@ -37,110 +37,23 @@ enum FontAlignment {
 class Font
 {
 public:
-  enum GlyphWidth {
-    FIXED,
-    VARIABLE
-  };
-
-public:
-  /** Construct a fixed-width font
-   *
-   *  @param glyph_width  VARIABLE for proportional fonts, VARIABLE for monospace ones
-   *  @param fontfile     file in format supertux-font
-   *  @param sgadowsize   offset of shadow
-   */
-  Font(GlyphWidth glyph_width, const std::string& fontfile, int shadowsize = 2);
-  ~Font();
-
-  /** returns the width of a given text. (Note that I won't add a normal
-   * get_width function here, as we might switch to variable width fonts in the
-   * future.)
-   * Supports breaklines.
-   */
-  float get_text_width(const std::string& text) const;
-
-  /** returns the height of a given text. This function supports breaklines.
-   * In case, you are positive that your text doesn't use break lines, you can
-   * just use get_height().
-   */
-  float get_text_height(const std::string& text) const;
-
-  /**
-   * returns the height of the font.
-   */
-  float get_height() const;
-
   /**
    * returns the given string, truncated (preferably at whitespace) to be at most max_chars characters long
    */
   static std::string wrap_to_chars(const std::string& text, int max_chars, std::string* overflow);
 
-  /**
-   * returns the given string, truncated (preferably at whitespace) to be at most "width" pixels wide
-   */
-  std::string wrap_to_width(const std::string& text, float width, std::string* overflow);
+public:
+  virtual ~Font() {}
 
-  /** Draws the given text to the screen. Also needs the position.
-   * Type of alignment, drawing effect and alpha are optional. */
-  void draw(Painter& painter, const std::string& text, const Vector& pos,
-            FontAlignment alignment = ALIGN_LEFT,
-            DrawingEffect drawing_effect = NO_EFFECT,
-            Color color = Color(1.0,1.0,1.0),
-            float alpha = 1.0f) const;
+  virtual float get_height() const = 0;
 
-private:
-  friend class DrawingContext;
+  virtual float get_text_width(const std::string& text) const = 0;
+  virtual float get_text_height(const std::string& text) const = 0;
 
-  void draw_text(Painter& painter, const std::string& text, const Vector& pos,
-                 DrawingEffect drawing_effect = NO_EFFECT,
-                 Color color = Color(1.0,1.0,1.0),
-                 float alpha = 1.0f) const;
+  virtual std::string wrap_to_width(const std::string& text, float width, std::string* overflow) = 0;
 
-  void draw_chars(Painter& painter, bool nonshadow, const std::string& text,
-                  const Vector& position, DrawingEffect drawing_effect, Color color,
-                  float alpha) const;
-
-  void loadFontFile(const std::string &filename);
-  void loadFontSurface(const std::string &glyphimage,
-                       const std::string &shadowimage,
-                       const std::vector<std::string> &chars,
-                       GlyphWidth glyph_width,
-                       int char_width);
-private:
-  struct Glyph {
-    /** How many pixels should the cursor advance after printing the
-        glyph */
-    float advance;
-
-    /** Offset that is used when drawing the glyph */
-    Vector offset;
-
-    /** index of containing surface */
-    int surface_idx;
-
-    /** Position of the glyph inside the surface */
-    Rectf rect;
-
-    Glyph() :
-      advance(),
-      offset(),
-      surface_idx(),
-      rect()
-    {}
-  };
-
-private:
-  GlyphWidth glyph_width;
-
-  std::vector<SurfacePtr>  glyph_surfaces;
-  std::vector<SurfacePtr>  shadow_surfaces;
-  int char_height;
-  int shadowsize;
-  int border;
-  bool rtl;
-
-  /** 65536 of glyphs */
-  std::vector<Glyph> glyphs;
+  virtual void draw_text(Canvas& canvas, const std::string& text,
+                         const Vector& pos, FontAlignment alignment, int layer, const Color& color) = 0;
 };
 
 #endif

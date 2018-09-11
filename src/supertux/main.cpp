@@ -20,6 +20,7 @@
 #include <version.h>
 
 #include <SDL_image.h>
+#include <SDL_ttf.h>
 #include <boost/filesystem.hpp>
 #include <boost/locale.hpp>
 #include <physfs.h>
@@ -68,6 +69,7 @@ extern "C" {
 #include "util/gettext.hpp"
 #include "video/sdl_surface_ptr.hpp"
 #include "video/sdl_surface.hpp"
+#include "video/ttf_surface_manager.hpp"
 #include "worldmap/worldmap.hpp"
 
 class ConfigSubsystem
@@ -311,12 +313,22 @@ public:
       msg << "Couldn't initialize SDL: " << SDL_GetError();
       throw std::runtime_error(msg.str());
     }
+
+    if(TTF_Init() < 0)
+    {
+      std::stringstream msg;
+      msg << "Couldn't initialize SDL TTF: " << SDL_GetError();
+      throw std::runtime_error(msg.str());
+    }
+
     // just to be sure
+    atexit(TTF_Quit);
     atexit(SDL_Quit);
   }
 
   ~SDLSubsystem()
   {
+    TTF_Quit();
     SDL_Quit();
   }
 };
@@ -370,12 +382,12 @@ Main::launch_game(const CommandLineArguments& args)
   std::unique_ptr<VideoSystem> video_system = VideoSystem::create(g_config->video);
   init_video();
 
+  TTFSurfaceManager ttf_surface_manager;
+
   timelog("audio");
   SoundManager sound_manager;
   sound_manager.enable_sound(g_config->sound_enabled);
   sound_manager.enable_music(g_config->music_enabled);
-
-  Console console(console_buffer);
 
   timelog("scripting");
   scripting::Scripting scripting(g_config->enable_script_debugger);
@@ -387,6 +399,8 @@ Main::launch_game(const CommandLineArguments& args)
 
   timelog("addons");
   AddonManager addon_manager("addons", g_config->addons);
+
+  Console console(console_buffer);
 
   timelog(0);
 

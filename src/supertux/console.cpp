@@ -16,11 +16,13 @@
 
 #include "supertux/console.hpp"
 
+#include "math/sizef.hpp"
 #include "physfs/ifile_stream.hpp"
 #include "scripting/scripting.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
+#include "supertux/resources.hpp"
 #include "util/log.hpp"
 #include "video/drawing_context.hpp"
 #include "video/surface.hpp"
@@ -116,7 +118,7 @@ Console::Console(ConsoleBuffer& buffer) :
   m_alpha(1.0),
   m_offset(0),
   m_focused(false),
-  m_font(new Font(Font::FIXED, "fonts/andale12.stf", 1)),
+  m_font(Resources::console_font),
   m_stayOpen(0)
 {
   buffer.set_console(this);
@@ -551,10 +553,23 @@ Console::draw(DrawingContext& context) const
   if (m_focused) {
     lineNo++;
     float py = m_height-4-1 * m_font->get_height();
-    context.color().draw_text(m_font, "> "+m_inputBuffer, Vector(4, py), ALIGN_LEFT, layer);
-    if (SDL_GetTicks() % 1000 < 750) {
-      int cursor_px = 2 + m_inputBufferPosition;
-      context.color().draw_text(m_font, "_", Vector(4.0f + (static_cast<float>(cursor_px) * m_font->get_text_width("X")), static_cast<float>(py)), ALIGN_LEFT, layer);
+    std::string line = "> " + m_inputBuffer;
+    context.color().draw_text(m_font, line, Vector(4, py), ALIGN_LEFT, layer);
+
+    if (SDL_GetTicks() % 500 < 250) {
+      std::string::size_type p = 2 + m_inputBufferPosition;
+      float cursor_x;
+      if (p >= line.size())
+      {
+        cursor_x = m_font->get_text_width(line);
+      }
+      else
+      {
+        cursor_x = m_font->get_text_width(line.substr(0, p));
+      }
+      context.color().draw_filled_rect(Rectf(Vector(3 + cursor_x, py),
+                                             Sizef(2.0f, m_font->get_height() - 2)),
+                                       Color(1.0f, 1.0f, 1.0f, 0.75f), layer);
     }
   }
 

@@ -103,14 +103,6 @@ Canvas::render(VideoSystem& video_system, Filter filter)
         painter.draw_gradient(request);
         break;
 
-      case TEXT:
-        {
-          const auto& text_request = static_cast<const TextRequest&>(request);
-          text_request.font->draw(painter, text_request.text, text_request.pos,
-                                  text_request.alignment, request.drawing_effect, text_request.color, request.alpha);
-        }
-        break;
-
       case FILLRECT:
         painter.draw_filled_rect(request);
         break;
@@ -227,22 +219,9 @@ Canvas::draw_surface_batch(SurfacePtr surface,
 
 void
 Canvas::draw_text(FontPtr font, const std::string& text,
-                  const Vector& position, FontAlignment alignment, int layer, const Color& color)
+                  const Vector& pos, FontAlignment alignment, int layer, const Color& color)
 {
-  auto request = new(m_obst) TextRequest();
-
-  request->type = TEXT;
-  request->layer = layer;
-  request->drawing_effect = m_context.transform().drawing_effect;
-  request->alpha = m_context.transform().alpha;
-
-  request->pos = apply_translate(position);
-  request->font = font.get();
-  request->text = text;
-  request->alignment = alignment;
-  request->color = color;
-
-  m_requests.push_back(request);
+  font->draw_text(*this, text, pos, alignment, layer, color);
 }
 
 void

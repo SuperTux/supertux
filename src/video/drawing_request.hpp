@@ -30,7 +30,7 @@ class Surface;
 
 enum RequestType
 {
-  TEXTURE, TEXTURE_BATCH, TEXT, GRADIENT, FILLRECT, INVERSEELLIPSE, GETLIGHT, LINE, TRIANGLE
+  TEXTURE, TEXTURE_BATCH, GRADIENT, FILLRECT, INVERSEELLIPSE, GETLIGHT, LINE, TRIANGLE
 };
 
 struct DrawingRequest
@@ -93,28 +93,6 @@ struct TextureBatchRequest : public DrawingRequest
 private:
   TextureBatchRequest(const TextureBatchRequest&) = delete;
   TextureBatchRequest& operator=(const TextureBatchRequest&) = delete;
-};
-
-struct TextRequest : public DrawingRequest
-{
-  TextRequest() :
-    DrawingRequest(TEXT),
-    pos(),
-    font(),
-    text(),
-    alignment(),
-    color()
-  {}
-
-  Vector pos;
-  const Font* font;
-  std::string text;
-  FontAlignment alignment;
-  Color color;
-
-private:
-  TextRequest(const TextRequest&);
-  TextRequest& operator=(const TextRequest&);
 };
 
 struct GradientRequest : public DrawingRequest
