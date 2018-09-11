@@ -72,19 +72,26 @@ elseif(CMAKE_BUILD_TYPE MATCHES Debug)
 endif()
 
 set(SUPERTUX_SYSTEM_NAME ${CMAKE_SYSTEM_NAME})
+set(VCPKG_BUILD OFF)
 ## These variables enable MSVC to find libraries located in "dependencies{32|64}"
 if(WIN32)
-  ## Store path of dependecy folder
-  set(DEPENDENCY_FOLDER "${PROJECT_SOURCE_DIR}/dependencies")
+  if(not VCPKG_BUILD)
+    ## Store path of dependecy folder
+    set(DEPENDENCY_FOLDER "${PROJECT_SOURCE_DIR}/dependencies")
+  endif()
 
   ## To test if the host (not the build) is x64:
   ## "$ENV{PROCESSOR_ARCHITEW6432}" STREQUAL "AMD64"
   if(${CMAKE_SIZEOF_VOID_P} EQUAL 8)
     set(WIN64 ON)
-    set(DEPENDENCY_FOLDER "${DEPENDENCY_FOLDER}64")
+    if(not VCPKG_BUILD)
+      set(DEPENDENCY_FOLDER "${DEPENDENCY_FOLDER}64")
+    endif()
   else(${CMAKE_SIZEOF_VOID_P} EQUAL 8)
     set(WIN64 OFF)
-    set(DEPENDENCY_FOLDER "${DEPENDENCY_FOLDER}32")
+    if(not VCPKG_BUILD)
+      set(DEPENDENCY_FOLDER "${DEPENDENCY_FOLDER}32")
+    endif()
   endif(${CMAKE_SIZEOF_VOID_P} EQUAL 8)
 
   if(WIN64)
@@ -93,9 +100,11 @@ if(WIN32)
     set(SUPERTUX_SYSTEM_NAME win32)
   endif(WIN64)
 
-  set(ENV{PATH} "$ENV{PATH};${DEPENDENCY_FOLDER}/include")
-  set(ENV{LIB} "${DEPENDENCY_FOLDER}/lib")
-  set(ENV{OPENALDIR} "${DEPENDENCY_FOLDER}")
+  if(not VCPKG_BUILD)
+    set(ENV{PATH} "$ENV{PATH};${DEPENDENCY_FOLDER}/include")
+    set(ENV{LIB} "${DEPENDENCY_FOLDER}/lib")
+    set(ENV{OPENALDIR} "${DEPENDENCY_FOLDER}")
+  endif()
 
   ## Enable multi-processor compilation (faster)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP")
@@ -105,7 +114,9 @@ if(WIN32)
   configure_file("${CMAKE_CURRENT_SOURCE_DIR}/mk/msvc/icon_rc.template" "${PROJECT_BINARY_DIR}/tmp/icon.rc")
 
   ## Find all used libraries
-  file(GLOB DLLS "${DEPENDENCY_FOLDER}/dll/*")
+  if(not VCPKG_BUILD)
+    file(GLOB DLLS "${DEPENDENCY_FOLDER}/dll/*")
+  endif()
 endif(WIN32)
 
 ## Add lots of dependencies to compiler switches
@@ -128,12 +139,18 @@ link_directories(${Boost_LIBRARY_DIRS})
 find_package(PNG REQUIRED)
 
 if(WIN32)
-  find_path(SDL2_INCLUDE_DIRS NAMES SDL.h PATHS "${DEPENDENCY_FOLDER}/include/SDL2")
-  find_path(SDL2IMAGE_INCLUDE_DIRS NAMES SDL_image.h PATHS "${DEPENDENCY_FOLDER}/include/SDL2_image")
-  find_library(SDL2_LIBRARIES NAMES SDL2 PATHS "${DEPENDENCY_FOLDER}/lib")
-  find_library(SDL2IMAGE_LIBRARIES NAMES SDL2_image PATHS "${DEPENDENCY_FOLDER}/lib")
-  find_library(SDL2MAIN_LIBRARIES NAMES SDL2main PATHS "${DEPENDENCY_FOLDER}/lib")
-  find_path(PHYSFS_INCLUDE_DIR NAMES physfs.h PATHS "${DEPENDENCY_FOLDER}/include/physfs")
+  if(VCPKG_BUILD)
+    find_package(SDL2 REQUIRED)
+    find_package(SDL2IMAGE REQUIRED)
+  else(VCPKG_BUILD) 
+    find_path(SDL2_INCLUDE_DIRS NAMES SDL.h PATHS "${DEPENDENCY_FOLDER}/include/SDL2")
+    find_path(SDL2IMAGE_INCLUDE_DIRS NAMES SDL_image.h PATHS "${DEPENDENCY_FOLDER}/include/SDL2_image")
+    find_library(SDL2_LIBRARIES NAMES SDL2 PATHS "${DEPENDENCY_FOLDER}/lib")
+    find_library(SDL2IMAGE_LIBRARIES NAMES SDL2_image PATHS "${DEPENDENCY_FOLDER}/lib")
+    find_library(SDL2MAIN_LIBRARIES NAMES SDL2main PATHS "${DEPENDENCY_FOLDER}/lib")
+    find_path(PHYSFS_INCLUDE_DIR NAMES physfs.h PATHS "${DEPENDENCY_FOLDER}/include/physfs")
+  endif()
+
 else(WIN32)
   include(FindPkgConfig)
   pkg_search_module(SDL2 REQUIRED sdl2>=2.0.1)
