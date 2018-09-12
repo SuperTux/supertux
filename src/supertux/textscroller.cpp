@@ -212,26 +212,44 @@ TextScroller::draw(Compositor& compositor)
 {
   auto& context = compositor.make_context();
 
-  context.color().draw_filled_rect(Vector(0, 0), Vector(static_cast<float>(context.get_width()), static_cast<float>(context.get_height())),
-                           Color(0.6f, 0.7f, 0.8f, 0.5f), 0);
-  context.color().draw_surface_part(background, Rectf(0, 0,
-                                                      static_cast<float>(background->get_width()),
-                                                      static_cast<float>(background->get_height())),
-                                    Rectf(0, 0,
-                                          static_cast<float>(context.get_width()),
-                                          static_cast<float>(context.get_height())), 0);
+  const float bg_w = static_cast<float>(background->get_width());
+  const float bg_h = static_cast<float>(background->get_height());
 
+  const float ctx_w = static_cast<float>(context.get_width());
+  const float ctx_h = static_cast<float>(context.get_height());
 
-  float y = static_cast<float>(context.get_height()) - scroll;
-  for (auto& line : lines) {
-    if (y + line->get_height() >= 0 && static_cast<float>(context.get_height()) - y >= 0) {
-      line->draw(context, Rectf(LEFT_BORDER, y, static_cast<float>(context.get_width()) - 2*LEFT_BORDER, y), LAYER_GUI);
+  const float bg_ratio = bg_w / bg_h;
+  const float ctx_ratio = ctx_w / ctx_h;
+
+  if (bg_ratio > ctx_ratio)
+  {
+    float new_bg_w = bg_h * ctx_ratio;
+    context.color().draw_surface_part(background,
+                                      Rectf(Vector(bg_w / 2.0f - new_bg_w / 2.0f, 0), Sizef(new_bg_w, bg_h)),
+                                      Rectf(0, 0, ctx_w, ctx_h),
+                                      0);
+  }
+  else
+  {
+    float new_bg_h = bg_w / ctx_ratio;
+    context.color().draw_surface_part(background,
+                                      Rectf(Vector(0, bg_h / 2.0f - new_bg_h / 2.0f), Sizef(bg_w, new_bg_h)),
+                                      Rectf(0, 0, ctx_w, ctx_h),
+                                      0);
+  }
+
+  float y = ctx_h - scroll;
+  for (const auto& line : lines)
+  {
+    if (y + line->get_height() >= 0 && ctx_h - y >= 0) {
+      line->draw(context, Rectf(LEFT_BORDER, y, ctx_w - 2*LEFT_BORDER, y), LAYER_GUI);
     }
 
     y += line->get_height();
   }
 
-  if(y < 0 && !fading ) {
+  if (y < 0 && !fading)
+  {
     fading = true;
     ScreenManager::current()->pop_screen(std::unique_ptr<ScreenFade>(new FadeOut(0.5)));
   }
