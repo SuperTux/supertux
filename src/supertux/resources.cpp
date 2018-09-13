@@ -58,9 +58,9 @@ Resources::load()
   }
   else
   {
-    fixed_font.reset(new TTFFont("fonts/SuperTux-Medium.ttf", 18, 1.25f, 0, 0));
-    normal_font.reset(new TTFFont("fonts/SuperTux-Medium.ttf", 18, 1.25f, 2, 1));
     console_font.reset(new TTFFont("fonts/SuperTux-Medium.ttf", 12, 1.25f, 0, 1));
+    fixed_font.reset(new TTFFont("fonts/SuperTux-Medium.ttf", 18, 1.25f, 2, 1));
+    normal_font = fixed_font;
     small_font.reset(new TTFFont("fonts/SuperTux-Medium.ttf", 10, 1.25f, 2, 1));
     big_font.reset(new TTFFont("fonts/SuperTux-Medium.ttf", 22, 1.25f, 2, 1));
   }
