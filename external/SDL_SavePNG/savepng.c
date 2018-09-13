@@ -6,9 +6,9 @@
  */
 
 #ifdef VCPKG_BUILD
-    #include <SDL2/SDL.hpp>
+    #include <SDL2/SDL.h>
 #else
-    #include <SDL.hpp>
+    #include <SDL.h>
 #endif
 #include <png.h>
 
