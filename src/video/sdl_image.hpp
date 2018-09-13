@@ -18,7 +18,7 @@
 #define HEADER_SUPERTUX_VIDEO_SDL_IMAGE_HPP
 
 #ifdef VCPKG_BUILD
-    #include <SDL2_image/SDL_image.h>
+    #include <SDL2/SDL_image.h>
 #else
     #include <SDL_image.h>
 #endif
