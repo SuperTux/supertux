@@ -16,9 +16,9 @@
 
 #include "video/sdl/sdl_texture.hpp"
 
-#include <SDL.h>
 #include <sstream>
 
+#include "video/sdl.hpp"
 #include "video/sdl/sdl_screen_renderer.hpp"
 #include "video/video_system.hpp"
 

@@ -18,10 +18,10 @@
 #ifndef HEADER_SUPERTUX_CONTROL_JOYSTICK_MANAGER_HPP
 #define HEADER_SUPERTUX_CONTROL_JOYSTICK_MANAGER_HPP
 
-#include <SDL.h>
 #include <vector>
 
 #include "control/controller.hpp"
+#include "video/sdl.hpp"
 
 class InputManager;
 class JoystickConfig;

@@ -18,9 +18,9 @@
 #define HEADER_SUPERTUX_CONTROL_JOYSTICK_CONFIG_HPP
 
 #include <map>
-#include <SDL.h>
 
 #include "control/controller.hpp"
+#include "video/sdl.hpp"
 
 class ReaderMapping;
 class Writer;

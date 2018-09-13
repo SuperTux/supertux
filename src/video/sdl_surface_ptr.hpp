@@ -17,7 +17,7 @@
 #ifndef HEADER_SUPERTUX_VIDEO_SDL_SURFACE_PTR_HPP
 #define HEADER_SUPERTUX_VIDEO_SDL_SURFACE_PTR_HPP
 
-#include <SDL.h>
+#include "video/sdl.hpp"
 
 /** Simple Wrapper class around SDL_Surface that provides execption
     safety */

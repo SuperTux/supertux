@@ -18,11 +18,10 @@
 #ifndef HEADER_SUPERTUX_VIDEO_GL_GL_SCREEN_RENDERER_HPP
 #define HEADER_SUPERTUX_VIDEO_GL_GL_SCREEN_RENDERER_HPP
 
-#include <SDL.h>
-
 #include "math/vector.hpp"
 #include "video/gl/gl_painter.hpp"
 #include "video/renderer.hpp"
+#include "video/sdl.hpp"
 
 class GLVideoSystem;
 struct DrawingRequest;

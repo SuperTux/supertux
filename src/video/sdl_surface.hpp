@@ -18,8 +18,8 @@
 #define HEADER_SUPERTUX_VIDEO_SDL_SURFACE_HPP
 
 #include <string>
-#include <SDL.h>
 
+#include "video/sdl.hpp"
 #include "video/sdl_surface_ptr.hpp"
 
 class SDLSurface final

@@ -17,8 +17,9 @@
 #ifndef HEADER_SUPERTUX_PHYSFS_PHYSFS_SDL_HPP
 #define HEADER_SUPERTUX_PHYSFS_PHYSFS_SDL_HPP
 
-#include <SDL.h>
 #include <string>
+
+#include "video/sdl.hpp"
 
 /** The returned SDL_RWops object must be freed with SDL_RWclose(),
     SDL library functions have a flag to perform that call

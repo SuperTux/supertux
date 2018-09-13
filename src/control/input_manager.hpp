@@ -19,13 +19,13 @@
 
 #include "control/controller.hpp"
 
-#include <SDL.h>
 #include <map>
 #include <string>
 #include <vector>
 #include <memory>
 
 #include "util/currenton.hpp"
+#include "video/sdl.hpp"
 
 class GameControllerManager;
 class JoystickManager;

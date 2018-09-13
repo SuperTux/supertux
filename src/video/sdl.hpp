@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2014 Ingo Ruhnke <grumbel@gmail.com>
+//  Copyright (C) 2018 Tobias Markus <tobbi.bugs@googlemail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,33 +14,13 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_CONTROL_KEYBOARD_CONFIG_HPP
-#define HEADER_SUPERTUX_CONTROL_KEYBOARD_CONFIG_HPP
+#ifndef HEADER_SUPERTUX_VIDEO_SDL_HPP
+#define HEADER_SUPERTUX_VIDEO_SDL_HPP
 
-#include <map>
-
-#include "control/controller.hpp"
-#include "video/sdl.hpp"
-
-class ReaderMapping;
-class Writer;
-
-class KeyboardConfig final
-{
-public:
-  KeyboardConfig();
-
-  SDL_Keycode reversemap_key(Controller::Control c) const;
-  void bind_key(SDL_Keycode key, Controller::Control c);
-
-  void read(const ReaderMapping& keymap_lisp);
-  void write(Writer& writer);
-
-  typedef std::map<SDL_Keycode, Controller::Control> KeyMap;
-  KeyMap keymap;
-  bool jump_with_up_kbd;
-};
-
+#ifdef VCPKG_BUILD
+    #include <SDL2/SDL.h>
+#else
+    #include <SDL.h>
 #endif
 
-/* EOF */
+#endif
