@@ -39,14 +39,6 @@ public:
   void draw_triangle(const DrawingRequest& request);
 
 private:
-  inline void intern_draw(float left, float top, float right, float bottom,
-                          float uv_left, float uv_top,
-                          float uv_right, float uv_bottom,
-                          float angle, float alpha,
-                          const Color& color,
-                          const Blend& blend,
-                          const DrawingEffect& effect);
-private:
   GLVideoSystem& m_video_system;
 
 private:

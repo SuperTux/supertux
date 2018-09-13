@@ -31,80 +31,6 @@
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
-void
-GLPainter::intern_draw(float left, float top, float right, float bottom,
-                       float uv_left, float uv_top,
-                       float uv_right, float uv_bottom,
-                       float angle, float alpha,
-                       const Color& color,
-                       const Blend& blend,
-                       const DrawingEffect& effect)
-{
-
-  if(effect & HORIZONTAL_FLIP)
-    std::swap(uv_left, uv_right);
-
-  if(effect & VERTICAL_FLIP)
-    std::swap(uv_top, uv_bottom);
-
-  GLContext& context = m_video_system.get_context();
-
-  context.blend_func(blend.sfactor, blend.dfactor);
-  context.set_color(Color(color.red, color.green, color.blue, color.alpha * alpha));
-
-  // unrotated blit
-  if (angle == 0.0f) {
-    float vertices[] = {
-      left, top,
-      right, top,
-      right, bottom,
-      left, bottom,
-    };
-    context.set_positions(vertices, sizeof(vertices));
-
-    float uvs[] = {
-      uv_left, uv_top,
-      uv_right, uv_top,
-      uv_right, uv_bottom,
-      uv_left, uv_bottom,
-    };
-    context.set_texcoords(uvs, sizeof(uvs));
-
-    context.draw_arrays(GL_TRIANGLE_FAN, 0, 4);
-  } else {
-    // rotated blit
-    float center_x = (left + right) / 2;
-    float center_y = (top + bottom) / 2;
-
-    float sa = sinf(math::radians(angle));
-    float ca = cosf(math::radians(angle));
-
-    left  -= center_x;
-    right -= center_x;
-
-    top    -= center_y;
-    bottom -= center_y;
-
-    float vertices[] = {
-      left*ca - top*sa + center_x, left*sa + top*ca + center_y,
-      right*ca - top*sa + center_x, right*sa + top*ca + center_y,
-      right*ca - bottom*sa + center_x, right*sa + bottom*ca + center_y,
-      left*ca - bottom*sa + center_x, left*sa + bottom*ca + center_y
-    };
-    context.set_positions(vertices, sizeof(vertices));
-
-    float uvs[] = {
-      uv_left, uv_top,
-      uv_right, uv_top,
-      uv_right, uv_bottom,
-      uv_left, uv_bottom,
-    };
-    context.set_texcoords(uvs, sizeof(uvs));
-
-    context.draw_arrays(GL_TRIANGLE_FAN, 0, 4);
-  }
-}
-
 GLPainter::GLPainter(GLVideoSystem& video_system) :
   m_video_system(video_system)
 {
@@ -120,21 +46,85 @@ GLPainter::draw_texture(const DrawingRequest& request)
   GLContext& context = m_video_system.get_context();
   context.bind_texture(texture);
 
-  intern_draw(data.dstrect.p1.x,
-              data.dstrect.p1.y,
-              data.dstrect.p2.x,
-              data.dstrect.p2.y,
+  float left = data.dstrect.p1.x;
+  float top = data.dstrect.p1.y;
+  float right = data.dstrect.p2.x;
+  float bottom = data.dstrect.p2.y;
 
-              data.srcrect.get_left() / static_cast<float>(texture.get_texture_width()),
-              data.srcrect.get_top() / static_cast<float>(texture.get_texture_height()),
-              data.srcrect.get_right() / static_cast<float>(texture.get_texture_width()),
-              data.srcrect.get_bottom() / static_cast<float>(texture.get_texture_height()),
+  float uv_left = data.srcrect.get_left() / static_cast<float>(texture.get_texture_width());
+  float uv_top = data.srcrect.get_top() / static_cast<float>(texture.get_texture_height());
+  float uv_right = data.srcrect.get_right() / static_cast<float>(texture.get_texture_width());
+  float uv_bottom = data.srcrect.get_bottom() / static_cast<float>(texture.get_texture_height());
 
-              request.angle,
-              request.alpha,
-              data.color,
-              request.blend,
-              request.drawing_effect);
+  if (data.drawing_effect & HORIZONTAL_FLIP)
+    std::swap(uv_left, uv_right);
+
+  if (data.drawing_effect & VERTICAL_FLIP)
+    std::swap(uv_top, uv_bottom);
+
+  context.blend_func(data.blend.sfactor, data.blend.dfactor);
+  context.set_color(Color(data.color.red,
+                          data.color.green,
+                          data.color.blue,
+                          data.color.alpha * data.alpha));
+
+  if (data.angle == 0.0f)
+  {
+    // unrotated blit
+    const float vertices[] = {
+      left, top,
+      right, top,
+      right, bottom,
+      left, bottom,
+    };
+
+    const float uvs[] = {
+      uv_left, uv_top,
+      uv_right, uv_top,
+      uv_right, uv_bottom,
+      uv_left, uv_bottom,
+    };
+
+    context.set_positions(vertices, sizeof(vertices));
+    context.set_texcoords(uvs, sizeof(uvs));
+
+    context.draw_arrays(GL_TRIANGLE_FAN, 0, 4);
+  }
+  else
+  {
+    // rotated blit
+    const float center_x = (left + right) / 2;
+    const float center_y = (top + bottom) / 2;
+
+    const float sa = sinf(math::radians(data.angle));
+    const float ca = cosf(math::radians(data.angle));
+
+    left -= center_x;
+    right -= center_x;
+
+    top -= center_y;
+    bottom -= center_y;
+
+    const float vertices[] = {
+      left*ca - top*sa + center_x, left*sa + top*ca + center_y,
+      right*ca - top*sa + center_x, right*sa + top*ca + center_y,
+      right*ca - bottom*sa + center_x, right*sa + bottom*ca + center_y,
+      left*ca - bottom*sa + center_x, left*sa + bottom*ca + center_y
+    };
+
+    const float uvs[] = {
+      uv_left, uv_top,
+      uv_right, uv_top,
+      uv_right, uv_bottom,
+      uv_left, uv_bottom,
+    };
+
+    context.set_positions(vertices, sizeof(vertices));
+    context.set_texcoords(uvs, sizeof(uvs));
+
+    context.draw_arrays(GL_TRIANGLE_FAN, 0, 4);
+  }
+
   assert_gl();
 }
 
