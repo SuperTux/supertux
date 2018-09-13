@@ -27,15 +27,6 @@
 #include "video/gl/gl_video_system.hpp"
 #include "video/glutil.hpp"
 
-inline int next_po2(int val)
-{
-  int result = 1;
-  while(result < val)
-    result *= 2;
-
-  return result;
-}
-
 GLLightmap::GLLightmap(GLVideoSystem& video_system, const Size& size) :
   m_video_system(video_system),
   m_size(size),
@@ -62,8 +53,8 @@ GLLightmap::start_draw()
     m_lightmap_width = m_size.width / s_LIGHTMAP_DIV;
     m_lightmap_height = m_size.height / s_LIGHTMAP_DIV;
 
-    m_lightmap.reset(new GLTexture(next_po2(m_lightmap_width),
-                                   next_po2(m_lightmap_height)));
+    m_lightmap.reset(new GLTexture(next_power_of_two(m_lightmap_width),
+                                   next_power_of_two(m_lightmap_height)));
   }
 
   glViewport(0, 0, m_lightmap_width, m_lightmap_height);
