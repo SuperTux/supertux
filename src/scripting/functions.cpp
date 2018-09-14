@@ -64,7 +64,7 @@ SQInteger is_christmas(HSQUIRRELVM vm)
 
 void wait(HSQUIRRELVM vm, float seconds)
 {
-  TimeScheduler::instance->schedule_thread(vm, game_time + seconds);
+  TimeScheduler::instance->schedule_thread(vm, g_game_time + seconds);
 }
 
 void wait_for_screenswitch(HSQUIRRELVM vm)

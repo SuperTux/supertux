@@ -415,7 +415,7 @@ Player::update(float elapsed_time)
                                       // dark sparkle when invincibility is about to end
                                       (m_invincible_timer.get_timeleft() > TUX_INVINCIBLE_TIME_WARNING) ?
                                       // make every other a longer sparkle to make trail a bit fuzzy
-                                      (size_t(game_time*20)%2) ? "small" : "medium"
+                                      (size_t(g_game_time*20)%2) ? "small" : "medium"
                                       :
                                       "dark", ppos, ANCHOR_MIDDLE, pspeed, paccel, LAYER_OBJECTS+1+5));
     }
@@ -1288,7 +1288,7 @@ Player::draw(DrawingContext& context)
   */
 
   /* Draw Tux */
-  if (m_safe_timer.started() && size_t(game_time*40)%2)
+  if (m_safe_timer.started() && size_t(g_game_time*40)%2)
     ;  // don't draw Tux
   else if (m_player_status.bonus == EARTH_BONUS){ // draw special effects with earthflower bonus
     // shake at end of maximum stone duration

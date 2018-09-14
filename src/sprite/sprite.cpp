@@ -35,7 +35,7 @@ Sprite::Sprite(SpriteData& newdata) :
 {
   if(!action)
     action = data.actions.begin()->second.get();
-  last_ticks = game_time;
+  last_ticks = g_game_time;
 }
 
 Sprite::Sprite(const Sprite& other) :
@@ -43,7 +43,7 @@ Sprite::Sprite(const Sprite& other) :
   frame(other.frame),
   frameidx(other.frameidx),
   animation_loops(other.animation_loops),
-  last_ticks(game_time),
+  last_ticks(g_game_time),
   angle(0.0f), // FIXME: this can't be right
   color(1.0f, 1.0f, 1.0f, 1.0f),
   blend(),
@@ -102,8 +102,8 @@ Sprite::animation_done() const
 void
 Sprite::update()
 {
-  float frame_inc = action->fps * (game_time - last_ticks);
-  last_ticks = game_time;
+  float frame_inc = action->fps * (g_game_time - last_ticks);
+  last_ticks = g_game_time;
 
   frame += frame_inc;
 

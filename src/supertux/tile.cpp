@@ -111,7 +111,7 @@ Tile::draw(Canvas& canvas, const Vector& pos, int z_pos, Color color) const
 {
   if(draw_editor_images) {
     if(m_editor_images.size() > 1) {
-      size_t frame = size_t(game_time * m_fps) % m_editor_images.size();
+      size_t frame = size_t(g_game_time * m_fps) % m_editor_images.size();
       canvas.draw_surface(m_editor_images[frame], pos, 0, color, Blend(), z_pos);
       return;
     } else if (m_editor_images.size() == 1) {
@@ -121,7 +121,7 @@ Tile::draw(Canvas& canvas, const Vector& pos, int z_pos, Color color) const
   }
 
   if(m_images.size() > 1) {
-    size_t frame = size_t(game_time * m_fps) % m_images.size();
+    size_t frame = size_t(g_game_time * m_fps) % m_images.size();
     canvas.draw_surface(m_images[frame], pos, 0, color, Blend(), z_pos);
   } else if (m_images.size() == 1) {
     canvas.draw_surface(m_images[0], pos, 0, color, Blend(), z_pos);
@@ -132,7 +132,7 @@ SurfacePtr
 Tile::get_current_surface() const
 {
   if(m_images.size() > 1) {
-    size_t frame = size_t(game_time * m_fps) % m_images.size();
+    size_t frame = size_t(g_game_time * m_fps) % m_images.size();
     return m_images[frame];
   } else if (m_images.size() == 1) {
     return m_images[0];

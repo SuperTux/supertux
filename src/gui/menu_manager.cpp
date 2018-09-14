@@ -73,7 +73,7 @@ public:
     m_from_rect = from_rect;
     m_to_rect = to_rect;
 
-    m_effect_start_time = real_time;
+    m_effect_start_time = g_real_time;
     m_effect_progress = 0.0f;
 
     m_is_active = true;
@@ -94,7 +94,7 @@ public:
     }
     if (m_is_active)
     {
-      m_effect_progress = (real_time - m_effect_start_time) * 6.0f;
+      m_effect_progress = (g_real_time - m_effect_start_time) * 6.0f;
 
       if (m_effect_progress > 1.0f)
       {

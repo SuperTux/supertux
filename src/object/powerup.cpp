@@ -161,7 +161,7 @@ PowerUp::update(float elapsed_time)
                                           // draw bright sparkles when very close to Tux, dark sparkles when slightly further
                                           (disp_x*disp_x + disp_y*disp_y <= 128*128) ?
                                           // make every other a longer sparkle to make trail a bit fuzzy
-                                          (size_t(game_time*20)%2) ? "small" : "medium" : "dark",
+                                          (size_t(g_game_time*20)%2) ? "small" : "medium" : "dark",
                                           ppos, ANCHOR_MIDDLE, pspeed, paccel, LAYER_OBJECTS+1+5));
         }
       }

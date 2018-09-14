@@ -78,7 +78,7 @@ LevelTime::draw(DrawingContext& context)
   context.push_transform();
   context.set_translation(Vector(0, 0));
 
-  if ((time_left > TIME_WARNING) || (int(game_time * 2.5) % 2)) {
+  if ((time_left > TIME_WARNING) || (int(g_game_time * 2.5) % 2)) {
     std::stringstream ss;
     ss << int(time_left);
     std::string time_text = ss.str();

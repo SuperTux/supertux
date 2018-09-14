@@ -30,7 +30,7 @@ Timer::start(float period_, bool cyclic_)
 {
   period = period_;
   cyclic = cyclic_;
-  cycle_start = game_time;
+  cycle_start = g_game_time;
 }
 
 bool
@@ -39,9 +39,9 @@ Timer::check()
   if(period == 0)
     return false;
 
-  if(game_time - cycle_start >= period) {
+  if(g_game_time - cycle_start >= period) {
     if(cyclic) {
-      cycle_start = game_time - fmodf(game_time - cycle_start, period);
+      cycle_start = g_game_time - fmodf(g_game_time - cycle_start, period);
     } else {
       period = 0;
     }

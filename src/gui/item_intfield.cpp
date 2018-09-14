@@ -32,7 +32,7 @@ ItemIntField::ItemIntField(const std::string& text_, int* input_, int id_) :
 void
 ItemIntField::draw(DrawingContext& context, const Vector& pos, int menu_width, bool active) {
   std::string r_input = input;
-  bool fl = active && (int(real_time*2)%2);
+  bool fl = active && (int(g_real_time*2)%2);
   if ( fl ) {
     r_input += "_";
   }

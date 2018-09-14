@@ -29,7 +29,7 @@
 
 TTFSurfaceManager::CacheEntry::CacheEntry(const TTFSurfacePtr& s) :
   ttf_surface(s),
-  last_access(game_time)
+  last_access(g_game_time)
 {
 }
 
@@ -47,7 +47,7 @@ TTFSurfaceManager::create_surface(const TTFFont& font, const std::string& text)
   if (it != m_cache.end())
   {
     auto& entry = m_cache[key];
-    entry.last_access = game_time;
+    entry.last_access = g_game_time;
     return entry.ttf_surface;
   }
   else
@@ -80,7 +80,7 @@ TTFSurfaceManager::cache_cleanup_step()
     m_cache_iter = m_cache.begin();
   }
 
-  while(game_time - m_cache_iter->second.last_access > 10.0f)
+  while(g_game_time - m_cache_iter->second.last_access > 10.0f)
   {
     m_cache_iter = m_cache.erase(m_cache_iter);
     if (m_cache_iter == m_cache.end())

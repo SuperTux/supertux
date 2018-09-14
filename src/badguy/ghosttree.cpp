@@ -220,7 +220,7 @@ GhostTree::draw(DrawingContext& context)
 
   context.push_transform();
   if (mystate == STATE_SUCKING) {
-    context.set_alpha(0.5f + fmodf(game_time, 0.5f));
+    context.set_alpha(0.5f + fmodf(g_game_time, 0.5f));
   } else {
     context.set_alpha(0.5f);
   }

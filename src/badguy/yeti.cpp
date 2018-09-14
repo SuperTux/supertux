@@ -116,7 +116,7 @@ void
 Yeti::draw(DrawingContext& context)
 {
   // we blink when we are safe
-  if(safe_timer.started() && size_t(game_time*40)%2)
+  if(safe_timer.started() && size_t(g_game_time * 40) % 2)
     return;
 
   draw_hit_points(context);

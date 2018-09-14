@@ -510,8 +510,8 @@ Camera::update_scroll_normal(float elapsed_time)
        * he has to do this for a certain time to add robustness against
        * sudden changes */
       if(m_changetime < 0) {
-        m_changetime = game_time;
-      } else if(game_time - m_changetime > config_.dirchange_time) {
+        m_changetime = g_game_time;
+      } else if(g_game_time - m_changetime > config_.dirchange_time) {
         if(m_lookahead_mode == LOOKAHEAD_LEFT &&
            player_pos.x > m_cached_translation.x + RIGHTEND) {
           m_lookahead_mode = LOOKAHEAD_RIGHT;

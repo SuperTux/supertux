@@ -272,42 +272,42 @@ Menu::process_input()
   /** check main input controller... */
   if(controller->pressed(Controller::UP)) {
     menuaction = MENU_ACTION_UP;
-    menu_repeat_time = real_time + MENU_REPEAT_INITIAL;
+    menu_repeat_time = g_real_time + MENU_REPEAT_INITIAL;
   }
   if(controller->hold(Controller::UP) &&
-     menu_repeat_time != 0 && real_time > menu_repeat_time) {
+     menu_repeat_time != 0 && g_real_time > menu_repeat_time) {
     menuaction = MENU_ACTION_UP;
-    menu_repeat_time = real_time + MENU_REPEAT_RATE;
+    menu_repeat_time = g_real_time + MENU_REPEAT_RATE;
   }
 
   if(controller->pressed(Controller::DOWN)) {
     menuaction = MENU_ACTION_DOWN;
-    menu_repeat_time = real_time + MENU_REPEAT_INITIAL;
+    menu_repeat_time = g_real_time + MENU_REPEAT_INITIAL;
   }
   if(controller->hold(Controller::DOWN) &&
-     menu_repeat_time != 0 && real_time > menu_repeat_time) {
+     menu_repeat_time != 0 && g_real_time > menu_repeat_time) {
     menuaction = MENU_ACTION_DOWN;
-    menu_repeat_time = real_time + MENU_REPEAT_RATE;
+    menu_repeat_time = g_real_time + MENU_REPEAT_RATE;
   }
 
   if(controller->pressed(Controller::LEFT)) {
     menuaction = MENU_ACTION_LEFT;
-    menu_repeat_time = real_time + MENU_REPEAT_INITIAL;
+    menu_repeat_time = g_real_time + MENU_REPEAT_INITIAL;
   }
   if(controller->hold(Controller::LEFT) &&
-     menu_repeat_time != 0 && real_time > menu_repeat_time) {
+     menu_repeat_time != 0 && g_real_time > menu_repeat_time) {
     menuaction = MENU_ACTION_LEFT;
-    menu_repeat_time = real_time + MENU_REPEAT_RATE;
+    menu_repeat_time = g_real_time + MENU_REPEAT_RATE;
   }
 
   if(controller->pressed(Controller::RIGHT)) {
     menuaction = MENU_ACTION_RIGHT;
-    menu_repeat_time = real_time + MENU_REPEAT_INITIAL;
+    menu_repeat_time = g_real_time + MENU_REPEAT_INITIAL;
   }
   if(controller->hold(Controller::RIGHT) &&
-     menu_repeat_time != 0 && real_time > menu_repeat_time) {
+     menu_repeat_time != 0 && g_real_time > menu_repeat_time) {
     menuaction = MENU_ACTION_RIGHT;
-    menu_repeat_time = real_time + MENU_REPEAT_RATE;
+    menu_repeat_time = g_real_time + MENU_REPEAT_RATE;
   }
 
   if(controller->pressed(Controller::ACTION)
@@ -323,12 +323,12 @@ Menu::process_input()
 
   if(controller->pressed(Controller::REMOVE)) {
     menuaction = MENU_ACTION_REMOVE;
-    menu_repeat_time = real_time + MENU_REPEAT_INITIAL;
+    menu_repeat_time = g_real_time + MENU_REPEAT_INITIAL;
   }
   if(controller->hold(Controller::REMOVE) &&
-     menu_repeat_time != 0 && real_time > menu_repeat_time) {
+     menu_repeat_time != 0 && g_real_time > menu_repeat_time) {
     menuaction = MENU_ACTION_REMOVE;
-    menu_repeat_time = real_time + MENU_REPEAT_RATE;
+    menu_repeat_time = g_real_time + MENU_REPEAT_RATE;
   }
 
   if(items.size() == 0)
@@ -406,7 +406,7 @@ Menu::draw_item(DrawingContext& context, int index)
 
   if(active_item == index)
   {
-    float blink = (sinf(real_time * math::PI * 1.0f)/2.0f + 0.5f) * 0.5f + 0.25f;
+    float blink = (sinf(g_real_time * math::PI * 1.0f)/2.0f + 0.5f) * 0.5f + 0.25f;
     context.color().draw_filled_rect(Rectf(Vector(pos.x - menu_width_/2 + 10 - 2, y_pos - 12 - 2),
                                    Vector(pos.x + menu_width_/2 - 10 + 2, y_pos + 12 + 2)),
                              Color(1.0f, 1.0f, 1.0f, blink),

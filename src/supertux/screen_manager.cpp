@@ -201,7 +201,7 @@ void
 ScreenManager::update_gamelogic(float elapsed_time)
 {
   scripting::Scripting::current()->update_debugger();
-  scripting::TimeScheduler::instance->update(game_time);
+  scripting::TimeScheduler::instance->update(g_game_time);
 
   if (!m_screen_stack.empty())
   {
@@ -414,9 +414,9 @@ ScreenManager::run()
     {
       elapsed_ticks -= ticks_per_frame;
       float timestep = 1.0 / LOGICAL_FPS;
-      real_time += timestep;
+      g_real_time += timestep;
       timestep *= m_speed;
-      game_time += timestep;
+      g_game_time += timestep;
 
       process_events();
       update_gamelogic(timestep);
