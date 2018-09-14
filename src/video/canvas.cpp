@@ -362,8 +362,9 @@ Canvas::draw_triangle(const Vector& pos1, const Vector& pos2, const Vector& pos3
 Vector
 Canvas::apply_translate(const Vector& pos) const
 {
-  return m_context.transform().apply(pos) + Vector(static_cast<float>(m_context.get_viewport().left),
-                                                   static_cast<float>(m_context.get_viewport().top));
+  Vector translation = m_context.transform().translation.to_int_vec();
+  return (pos - translation) + Vector(static_cast<float>(m_context.get_viewport().left),
+                                      static_cast<float>(m_context.get_viewport().top));
 }
 
 /* EOF */
