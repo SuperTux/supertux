@@ -242,16 +242,19 @@ Background::set_speed(float speed_)
 void
 Background::draw_image(DrawingContext& context, const Vector& pos_)
 {
-  Sizef level(Sector::current()->get_width(), Sector::current()->get_height());
-  Sizef screen(static_cast<float>(context.get_width()),
+  const Sizef level(Sector::current()->get_width(), Sector::current()->get_height());
+  const Sizef screen(static_cast<float>(context.get_width()),
                static_cast<float>(context.get_height()));
-  Sizef parallax_image_size = (1.0f - speed) * screen + level * speed;
-  Rectf cliprect = context.get_cliprect();
+  const Sizef parallax_image_size = (1.0f - speed) * screen + level * speed;
 
-  int start_x = static_cast<int>(floorf((cliprect.get_left()  - (pos_.x - static_cast<float>(image->get_width()) /2.0f)) / static_cast<float>(image->get_width())));
-  int end_x   = static_cast<int>(ceilf((cliprect.get_right()  - (pos_.x + static_cast<float>(image->get_width()) /2.0f)) / static_cast<float>(image->get_width()))) + 1;
-  int start_y = static_cast<int>(floorf((cliprect.get_top()   - (pos_.y - static_cast<float>(image->get_height())/2.0f)) / static_cast<float>(image->get_height())));
-  int end_y   = static_cast<int>(ceilf((cliprect.get_bottom() - (pos_.y + static_cast<float>(image->get_height())/2.0f)) / static_cast<float>(image->get_height()))) + 1;
+  const Rectf cliprect = context.get_cliprect();
+  const float img_w = static_cast<float>(image->get_width());
+  const float img_h = static_cast<float>(image->get_height());
+
+  const int start_x = static_cast<int>(floorf((cliprect.get_left() - (pos_.x - img_w /2.0f)) / img_w));
+  const int end_x   = static_cast<int>(ceilf((cliprect.get_right() - (pos_.x + img_w /2.0f)) / img_w)) + 1;
+  const int start_y = static_cast<int>(floorf((cliprect.get_top() - (pos_.y - img_h/2.0f)) / img_h));
+  const int end_y   = static_cast<int>(ceilf((cliprect.get_bottom() - (pos_.y + img_h/2.0f)) / img_h)) + 1;
 
   switch(alignment)
   {
@@ -259,7 +262,7 @@ Background::draw_image(DrawingContext& context, const Vector& pos_)
       for(int y = start_y; y < end_y; ++y)
       {
         Vector p(pos_.x - parallax_image_size.width / 2.0f,
-                 pos_.y + static_cast<float>(y) * static_cast<float>(image->get_height()) - static_cast<float>(image->get_height()) / 2.0f);
+                 pos_.y + static_cast<float>(y) * img_h - img_h / 2.0f);
         context.color().draw_surface(image, p, layer);
       }
       break;
@@ -267,8 +270,8 @@ Background::draw_image(DrawingContext& context, const Vector& pos_)
     case RIGHT_ALIGNMENT:
       for(int y = start_y; y < end_y; ++y)
       {
-        Vector p(pos_.x + parallax_image_size.width / 2.0f - static_cast<float>(image->get_width()),
-                 pos_.y + static_cast<float>(y) * static_cast<float>(image->get_height()) - static_cast<float>(image->get_height()) / 2.0f);
+        Vector p(pos_.x + parallax_image_size.width / 2.0f - img_w,
+                 pos_.y + static_cast<float>(y) * img_h - img_h / 2.0f);
         context.color().draw_surface(image, p, layer);
       }
       break;
@@ -276,7 +279,7 @@ Background::draw_image(DrawingContext& context, const Vector& pos_)
     case TOP_ALIGNMENT:
       for(int x = start_x; x < end_x; ++x)
       {
-        Vector p(pos_.x + static_cast<float>(x) * static_cast<float>(image->get_width()) - static_cast<float>(image->get_width()) / 2.0f,
+        Vector p(pos_.x + static_cast<float>(x) * img_w - img_w / 2.0f,
                  pos_.y - parallax_image_size.height / 2.0f);
         context.color().draw_surface(image, p, layer);
       }
@@ -285,8 +288,8 @@ Background::draw_image(DrawingContext& context, const Vector& pos_)
     case BOTTOM_ALIGNMENT:
       for(int x = start_x; x < end_x; ++x)
       {
-        Vector p(pos_.x + static_cast<float>(x) * static_cast<float>(image->get_width()) - static_cast<float>(image->get_width()) / 2.0f,
-                 pos_.y - static_cast<float>(image->get_height()) + parallax_image_size.height / 2.0f);
+        Vector p(pos_.x + static_cast<float>(x) * img_w - img_w / 2.0f,
+                 pos_.y - img_h + parallax_image_size.height / 2.0f);
         context.color().draw_surface(image, p, layer);
       }
       break;
@@ -295,8 +298,8 @@ Background::draw_image(DrawingContext& context, const Vector& pos_)
       for(int y = start_y; y < end_y; ++y)
         for(int x = start_x; x < end_x; ++x)
         {
-          Vector p(pos_.x + static_cast<float>(x) * static_cast<float>(image->get_width()) - static_cast<float>(image->get_width()) / 2.0f,
-                   pos_.y + static_cast<float>(y) * static_cast<float>(image->get_height()) - static_cast<float>(image->get_height()) / 2.0f);
+          Vector p(pos_.x + static_cast<float>(x) * img_w - img_w / 2.0f,
+                   pos_.y + static_cast<float>(y) * img_h - img_h / 2.0f);
 
           if (image_top.get() != NULL && (y < 0))
           {
