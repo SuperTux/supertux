@@ -53,11 +53,6 @@ before_install:
   - if [ "$TRAVIS_OS_NAME" = "osx" ] && [ "$BUILD_TYPE" = "Release" ]; then
       export RELEASE="ON";
     fi;
-  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then
-      brew update;
-      brew upgrade cmake;
-      brew install bash libogg libvorbis glew openal-soft sdl2 sdl2_image sdl2_ttf freetype harfbuzz fribidi glib gtk-doc;
-    fi
 
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then
       if [ "$CXX" = "g++" ]; then export CXX="g++-8" CC="gcc-8"; fi;
@@ -71,9 +66,6 @@ before_install:
       cd glbinding-$GLBINDING_VERSION && ./configure --prefix=/usr && ./configure --prefix=/usr;
       cd build && make && sudo make install;
       cd ../..;
-    fi
-  - if [ "$TRAVIS_OS_NAME" = "osx" ] && [ "$USE_GLBINDING" = "ON" ]; then
-      brew install glbinding;
     fi
   # Fetch the entire git history
   - git fetch --unshallow
@@ -138,6 +130,24 @@ addons:
     - gtk-doc-tools
     - rpm
     - sshpass
+  homebrew:
+    packages:
+    - cmake
+    - bash
+    - libogg
+    - libvorbis
+    - glew
+    - openal-soft
+    - sdl2
+    - sdl2_image
+    - sdl2_ttf
+    - freetype
+    - harfbuzz
+    - fribidi
+    - glib
+    - gtk-doc
+    - glbinding
+    update: true
   coverity_scan:
     project:
       name: "SuperTux/supertux"
