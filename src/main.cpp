@@ -15,6 +15,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "supertux/main.hpp"
+#include "video/sdl.hpp"
 
 int main(int argc, char** argv)
 {
