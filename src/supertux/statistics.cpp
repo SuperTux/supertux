@@ -322,12 +322,6 @@ Statistics::completed(const Statistics& stats, const float target_time) const
       ((target_time == 0.0f) || (stats.time <= target_time)));
 }
 
-void
-Statistics::declare_invalid()
-{
-  valid = false;
-}
-
 std::string
 Statistics::coins_to_string(int coins, int total_coins) {
   std::ostringstream os;
