@@ -679,7 +679,7 @@ set_target_properties(supertux2 PROPERTIES OUTPUT_NAME supertux2)
 set_target_properties(supertux2_lib PROPERTIES OUTPUT_NAME supertux2)
 set_target_properties(supertux2_lib PROPERTIES COMPILE_FLAGS "${SUPERTUX2_EXTRA_WARNING_FLAGS}")
 
-if(WIN32)
+if(WIN32 AND NOT VCPKG_BUILD)
   ## Copy dlls on windows
   add_custom_command(TARGET supertux2_lib POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
@@ -689,7 +689,7 @@ if(WIN32)
   #    COMMAND ${CMAKE_COMMAND} -E copy
   #     "${DEPENDENCY_FOLDER}/DigiCertHighAssuranceEVRootCA.pem"
   #     $<TARGET_FILE_DIR:supertux2_lib>)
-endif(WIN32)
+endif(WIN32 AND NOT VCPKG_BUILD)
 
 ## Link supertux binary with squirrel and other libraries
 
