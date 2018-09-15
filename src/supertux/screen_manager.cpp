@@ -36,8 +36,6 @@
 
 #include <stdio.h>
 
-/** ticks (as returned from SDL_GetTicks) per frame */
-static const Uint32 TICKS_PER_FRAME = static_cast<Uint32>(1000.0 / LOGICAL_FPS);
 /** don't skip more than every 2nd frame */
 static const int MAX_FRAME_SKIP = 2;
 
@@ -47,6 +45,7 @@ ScreenManager::ScreenManager(VideoSystem& video_system) :
   m_menu_storage(new MenuStorage),
   m_menu_manager(new MenuManager),
   m_speed(1.0),
+  m_target_framerate(60.0f),
   m_actions(),
   m_fps(0),
   m_screen_fade(),
@@ -109,6 +108,18 @@ void
 ScreenManager::set_speed(float speed)
 {
   m_speed = speed;
+}
+
+void
+ScreenManager::set_target_framerate(float framerate)
+{
+  m_target_framerate = framerate;
+}
+
+float
+ScreenManager::get_target_framerate() const
+{
+  return m_target_framerate;
 }
 
 float
@@ -390,7 +401,8 @@ ScreenManager::run()
     elapsed_ticks += ticks - last_ticks;
     last_ticks = ticks;
 
-    Uint32 ticks_per_frame = static_cast<Uint32>(TICKS_PER_FRAME * g_game_speed);
+    /** ticks (as returned from SDL_GetTicks) per frame */
+    const Uint32 ticks_per_frame = static_cast<Uint32>(1000.0 / m_target_framerate * g_game_speed);
 
     if (elapsed_ticks > ticks_per_frame*4)
     {
@@ -413,7 +425,7 @@ ScreenManager::run()
     while (elapsed_ticks >= ticks_per_frame && frames < MAX_FRAME_SKIP)
     {
       elapsed_ticks -= ticks_per_frame;
-      float timestep = 1.0 / LOGICAL_FPS;
+      float timestep = 1.0f / m_target_framerate;
       g_real_time += timestep;
       timestep *= m_speed;
       g_game_time += timestep;

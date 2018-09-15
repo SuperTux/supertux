@@ -20,10 +20,11 @@
 #include "audio/sound_manager.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
-#include "supertux/gameconfig.hpp"
 #include "supertux/game_session.hpp"
+#include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/menu/menu_storage.hpp"
+#include "supertux/screen_manager.hpp"
 #include "util/gettext.hpp"
 #include "util/log.hpp"
 #include "video/renderer.hpp"
@@ -33,6 +34,7 @@ enum OptionsMenuIDs {
   MNID_FULLSCREEN_RESOLUTION,
   MNID_MAGNIFICATION,
   MNID_ASPECTRATIO,
+  MNID_FRAMERATE,
   MNID_SOUND,
   MNID_MUSIC,
   MNID_DEVELOPER_MODE,
@@ -46,9 +48,11 @@ OptionsMenu::OptionsMenu(bool complete) :
   next_magnification(0),
   next_aspect_ratio(0),
   next_resolution(0),
+  next_framerate(0),
   magnifications(),
   aspect_ratios(),
-  resolutions()
+  resolutions(),
+  framerates()
 {
   add_label(_("Options"));
   add_hl();
@@ -177,6 +181,26 @@ OptionsMenu::OptionsMenu(bool complete) :
     resolutions.push_back(fullscreen_size_str);
   }
 
+  framerates.push_back("30");
+  framerates.push_back("60");
+  framerates.push_back("75");
+  framerates.push_back("90");
+  framerates.push_back("120");
+  framerates.push_back("144");
+  framerates.push_back("240");
+  framerates.push_back("288");
+  framerates.push_back("500");
+  framerates.push_back("1000");
+  next_framerate = 1;
+  const int target_framerate = static_cast<int>(ScreenManager::current()->get_target_framerate());
+  for(size_t i = 0; i < framerates.size(); ++i)
+  {
+    if (std::to_string(target_framerate) == framerates[i])
+    {
+      next_framerate = static_cast<int>(i);
+    }
+  }
+
   if (complete)
   {
     // Language and profile changes are only be possible in the
@@ -199,6 +223,9 @@ OptionsMenu::OptionsMenu(bool complete) :
 
   auto magnification = add_string_select(MNID_MAGNIFICATION, _("Magnification"), &next_magnification, magnifications);
   magnification->set_help(_("Change the magnification of the game area"));
+
+  auto framerate = add_string_select(MNID_FRAMERATE, _("Framerate"), &next_framerate, framerates);
+  framerate->set_help(_("Change the maximum framerate of the game"));
 
   auto aspect = add_string_select(MNID_ASPECTRATIO, _("Aspect Ratio"), &next_aspect_ratio, aspect_ratios);
   aspect->set_help(_("Adjust the aspect ratio"));
@@ -313,6 +340,10 @@ OptionsMenu::menu_action(MenuItem* item)
             g_config->fullscreen_refresh_rate = 0;
         }
       }
+      break;
+
+    case MNID_FRAMERATE:
+      ScreenManager::current()->set_target_framerate(std::stof(framerates[next_framerate]));
       break;
 
     case MNID_FULLSCREEN:
