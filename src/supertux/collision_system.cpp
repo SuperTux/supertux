@@ -31,8 +31,13 @@
 #include "video/drawing_context.hpp"
 
 namespace {
+
 const float MAX_SPEED = 16.0f;
-}
+
+// a small value... be careful as CD is very sensitive to it
+const float DELTA = .002f;
+
+} // namespace
 
 CollisionSystem::CollisionSystem(Sector& sector) :
   m_sector(sector),
