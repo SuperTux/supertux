@@ -32,11 +32,13 @@ class OptionsMenu : public Menu
     int next_magnification;
     int next_aspect_ratio;
     int next_resolution;
+    int next_vsync;
     int next_framerate;
 
     std::vector<std::string> magnifications;
     std::vector<std::string> aspect_ratios;
     std::vector<std::string> resolutions;
+    std::vector<std::string> vsyncs;
     std::vector<std::string> framerates;
 };
 

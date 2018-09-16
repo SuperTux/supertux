@@ -34,6 +34,7 @@ enum OptionsMenuIDs {
   MNID_FULLSCREEN_RESOLUTION,
   MNID_MAGNIFICATION,
   MNID_ASPECTRATIO,
+  MNID_VSYNC,
   MNID_FRAMERATE,
   MNID_SOUND,
   MNID_MUSIC,
@@ -48,10 +49,12 @@ OptionsMenu::OptionsMenu(bool complete) :
   next_magnification(0),
   next_aspect_ratio(0),
   next_resolution(0),
+  next_vsync(0),
   next_framerate(0),
   magnifications(),
   aspect_ratios(),
   resolutions(),
+  vsyncs(),
   framerates()
 {
   add_label(_("Options"));
@@ -201,6 +204,32 @@ OptionsMenu::OptionsMenu(bool complete) :
     }
   }
 
+  { // vsync
+    vsyncs.push_back("on");
+    vsyncs.push_back("off");
+    vsyncs.push_back("adaptive");
+    int mode = VideoSystem::current()->get_vsync();
+
+    switch (mode)
+    {
+      case -1:
+        next_vsync = 2;
+        break;
+
+      case 0:
+        next_vsync = 1;
+        break;
+
+      case 1:
+        next_vsync = 0;
+          break;
+
+      default:
+        log_warning << "Unknown swap mode: " << mode << std::endl;
+        next_vsync = 0;
+    }
+  }
+
   if (complete)
   {
     // Language and profile changes are only be possible in the
@@ -223,6 +252,9 @@ OptionsMenu::OptionsMenu(bool complete) :
 
   auto magnification = add_string_select(MNID_MAGNIFICATION, _("Magnification"), &next_magnification, magnifications);
   magnification->set_help(_("Change the magnification of the game area"));
+
+  auto vsync = add_string_select(MNID_VSYNC, _("VSync"), &next_vsync, vsyncs);
+  vsync->set_help(_("Set the VSync mode"));
 
   auto framerate = add_string_select(MNID_FRAMERATE, _("Framerate"), &next_framerate, framerates);
   framerate->set_help(_("Change the maximum framerate of the game"));
@@ -344,6 +376,27 @@ OptionsMenu::menu_action(MenuItem* item)
 
     case MNID_FRAMERATE:
       ScreenManager::current()->set_target_framerate(std::stof(framerates[next_framerate]));
+      break;
+
+    case MNID_VSYNC:
+      switch (next_vsync)
+      {
+        case 2:
+          VideoSystem::current()->set_vsync(-1);
+          break;
+
+        case 1:
+          VideoSystem::current()->set_vsync(0);
+          break;
+
+        case 0:
+          VideoSystem::current()->set_vsync(1);
+          break;
+
+        default:
+          assert(false && "never reached");
+          break;
+      }
       break;
 
     case MNID_FULLSCREEN:
