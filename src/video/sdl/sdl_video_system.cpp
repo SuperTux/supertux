@@ -188,6 +188,18 @@ SDLVideoSystem::on_resize(int w, int h)
 }
 
 void
+SDLVideoSystem::set_vsync(int mode)
+{
+  log_warning << "Setting vsync not supported by SDL renderer" << std::endl;
+}
+
+int
+SDLVideoSystem::get_vsync() const
+{
+  return 0;
+}
+
+void
 SDLVideoSystem::set_gamma(float gamma)
 {
   Uint16 ramp[256];

@@ -336,6 +336,25 @@ GLVideoSystem::on_resize(int w, int h)
 }
 
 void
+GLVideoSystem::set_vsync(int mode)
+{
+  if (SDL_GL_SetSwapInterval(mode) < 0)
+  {
+    log_warning << "Setting vsync mode failed: " << SDL_GetError() << std::endl;
+  }
+  else
+  {
+    log_info << "Setting vsync mode to " << mode << std::endl;
+  }
+}
+
+int
+GLVideoSystem::get_vsync() const
+{
+  return SDL_GL_GetSwapInterval();
+}
+
+void
 GLVideoSystem::set_gamma(float gamma)
 {
   Uint16 ramp[256];
