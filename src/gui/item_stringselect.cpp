@@ -68,7 +68,7 @@ ItemStringSelect::process_action(const MenuAction& action) {
       } else {
         (*selected) = static_cast<int>(list.size()) - 1;
       }
-      MenuManager::instance().current_menu()->menu_action(this);
+      MenuManager::instance().current_menu()->menu_action(*this);
       break;
     case MENU_ACTION_RIGHT:
     case MENU_ACTION_HIT:
@@ -77,7 +77,7 @@ ItemStringSelect::process_action(const MenuAction& action) {
       } else {
         (*selected) = 0;
       }
-      MenuManager::instance().current_menu()->menu_action(this);
+      MenuManager::instance().current_menu()->menu_action(*this);
       break;
     default:
       break;

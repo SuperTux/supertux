@@ -235,51 +235,51 @@ OptionsMenu::OptionsMenu(bool complete) :
     // Language and profile changes are only be possible in the
     // main menu, since elsewhere it might not always work fully
     add_submenu(_("Select Language"), MenuStorage::LANGUAGE_MENU)
-      ->set_help(_("Select a different language to display text in"));
+      .set_help(_("Select a different language to display text in"));
 
     add_submenu(_("Language Packs"), MenuStorage::LANGPACK_MENU)
-      ->set_help(_("Language packs contain up-to-date translations"));
+      .set_help(_("Language packs contain up-to-date translations"));
 
     add_submenu(_("Select Profile"), MenuStorage::PROFILE_MENU)
-      ->set_help(_("Select a profile to play with"));
+      .set_help(_("Select a profile to play with"));
   }
 
   add_toggle(MNID_FULLSCREEN,_("Fullscreen"), &g_config->use_fullscreen)
-    ->set_help(_("Fill the entire screen"));
+    .set_help(_("Fill the entire screen"));
 
-  auto fullscreen_res = add_string_select(MNID_FULLSCREEN_RESOLUTION, _("Resolution"), &next_resolution, resolutions);
-  fullscreen_res->set_help(_("Determine the resolution used in fullscreen mode (you must toggle fullscreen to complete the change)"));
+  MenuItem& fullscreen_res = add_string_select(MNID_FULLSCREEN_RESOLUTION, _("Resolution"), &next_resolution, resolutions);
+  fullscreen_res.set_help(_("Determine the resolution used in fullscreen mode (you must toggle fullscreen to complete the change)"));
 
-  auto magnification = add_string_select(MNID_MAGNIFICATION, _("Magnification"), &next_magnification, magnifications);
-  magnification->set_help(_("Change the magnification of the game area"));
+  MenuItem& magnification = add_string_select(MNID_MAGNIFICATION, _("Magnification"), &next_magnification, magnifications);
+  magnification.set_help(_("Change the magnification of the game area"));
 
-  auto vsync = add_string_select(MNID_VSYNC, _("VSync"), &next_vsync, vsyncs);
-  vsync->set_help(_("Set the VSync mode"));
+  MenuItem& vsync = add_string_select(MNID_VSYNC, _("VSync"), &next_vsync, vsyncs);
+  vsync.set_help(_("Set the VSync mode"));
 
-  auto framerate = add_string_select(MNID_FRAMERATE, _("Framerate"), &next_framerate, framerates);
-  framerate->set_help(_("Change the maximum framerate of the game"));
+  MenuItem& framerate = add_string_select(MNID_FRAMERATE, _("Framerate"), &next_framerate, framerates);
+  framerate.set_help(_("Change the maximum framerate of the game"));
 
-  auto aspect = add_string_select(MNID_ASPECTRATIO, _("Aspect Ratio"), &next_aspect_ratio, aspect_ratios);
-  aspect->set_help(_("Adjust the aspect ratio"));
+  MenuItem& aspect = add_string_select(MNID_ASPECTRATIO, _("Aspect Ratio"), &next_aspect_ratio, aspect_ratios);
+  aspect.set_help(_("Adjust the aspect ratio"));
 
   if (SoundManager::current()->is_audio_enabled()) {
     add_toggle(MNID_SOUND, _("Sound"), &g_config->sound_enabled)
-      ->set_help(_("Disable all sound effects"));
+      .set_help(_("Disable all sound effects"));
     add_toggle(MNID_MUSIC, _("Music"), &g_config->music_enabled)
-      ->set_help(_("Disable all music"));
+      .set_help(_("Disable all music"));
   } else {
     add_inactive( _("Sound (disabled)"));
     add_inactive( _("Music (disabled)"));
   }
 
   add_submenu(_("Setup Keyboard"), MenuStorage::KEYBOARD_MENU)
-    ->set_help(_("Configure key-action mappings"));
+    .set_help(_("Configure key-action mappings"));
 
   add_submenu(_("Setup Joystick"), MenuStorage::JOYSTICK_MENU)
-    ->set_help(_("Configure joystick control-action mappings"));
+    .set_help(_("Configure joystick control-action mappings"));
 
-  auto enable_transitions = add_toggle(MNID_TRANSITIONS, _("Enable transitions"), &g_config->transitions_enabled);
-  enable_transitions->set_help(_("Enable screen transitions and smooth menu animation"));
+  MenuItem& enable_transitions = add_toggle(MNID_TRANSITIONS, _("Enable transitions"), &g_config->transitions_enabled);
+  enable_transitions.set_help(_("Enable screen transitions and smooth menu animation"));
 
   if (g_config->developer_mode)
   {
@@ -291,9 +291,9 @@ OptionsMenu::OptionsMenu(bool complete) :
     add_toggle(MNID_CHRISTMAS_MODE, _("Christmas Mode"), &g_config->christmas_mode);
   }
 
-  add_toggle(MNID_CONFIRMATION_DIALOG, _("Confirmation Dialog"), &g_config->confirmation_dialog)->set_help("Confirm aborting level");
+  add_toggle(MNID_CONFIRMATION_DIALOG, _("Confirmation Dialog"), &g_config->confirmation_dialog).set_help("Confirm aborting level");
   add_toggle(MNID_CONFIRMATION_DIALOG, _("Pause on focus loss"), &g_config->pause_on_focusloss)
-    ->set_help("Automatically pause the game when the window loses focus");
+    .set_help("Automatically pause the game when the window loses focus");
   add_hl();
   add_back(_("Back"));
 }
@@ -303,9 +303,9 @@ OptionsMenu::~OptionsMenu()
 }
 
 void
-OptionsMenu::menu_action(MenuItem* item)
+OptionsMenu::menu_action(MenuItem& item)
 {
-  switch (item->id) {
+  switch (item.id) {
     case MNID_ASPECTRATIO:
       {
         if (aspect_ratios[next_aspect_ratio] == _("auto"))

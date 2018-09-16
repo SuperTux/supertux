@@ -24,7 +24,7 @@ class EditorNewLevelsetMenu : public Menu
 public:
   EditorNewLevelsetMenu();
 
-  void menu_action(MenuItem* item) override;
+  void menu_action(MenuItem& item) override;
 
 private:
   std::string levelset_name;

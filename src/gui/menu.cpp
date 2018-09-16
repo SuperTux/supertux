@@ -59,18 +59,18 @@ Menu::set_center_pos(float x, float y)
 }
 
 /* Add an item to a menu */
-MenuItem*
+MenuItem&
 Menu::add_item(std::unique_ptr<MenuItem> new_item)
 {
   items.push_back(std::move(new_item));
-  auto item = items.back().get();
+  MenuItem& item = *items.back();
 
   /* If a new menu is being built, the active item shouldn't be set to
    * something that isn't selectable. Set the active_item to the first
    * selectable item added.
    */
 
-  if (active_item == -1 && !item->skippable())
+  if (active_item == -1 && !item.skippable())
   {
     active_item = static_cast<int>(items.size()) - 1;
   }
@@ -80,11 +80,11 @@ Menu::add_item(std::unique_ptr<MenuItem> new_item)
   return item;
 }
 
-MenuItem*
+MenuItem&
 Menu::add_item(std::unique_ptr<MenuItem> new_item, int pos_)
 {
   items.insert(items.begin()+pos_,std::move(new_item));
-  MenuItem* item = items[pos_].get();
+  MenuItem& item = *items[pos_];
 
   /* When the item is inserted before the selected item, the
    * same menu item should be still selected.
@@ -120,21 +120,21 @@ Menu::delete_item(int pos_)
   }
 }
 
-MenuItem*
+MenuItem&
 Menu::add_hl()
 {
   std::unique_ptr<ItemHorizontalLine> item(new ItemHorizontalLine());
   return add_item(std::move(item));
 }
 
-MenuItem*
+MenuItem&
 Menu::add_label(const std::string& text)
 {
   std::unique_ptr<ItemLabel> item(new ItemLabel(text));
   return add_item(std::move(item));
 }
 
-MenuItem*
+MenuItem&
 Menu::add_controlfield(int id, const std::string& text,
                        const std::string& mapping)
 {
@@ -142,109 +142,109 @@ Menu::add_controlfield(int id, const std::string& text,
   return add_item(std::move(item));
 }
 
-MenuItem*
+MenuItem&
 Menu::add_textfield(const std::string& text, std::string* input, int id)
 {
   std::unique_ptr<ItemTextField> item(new ItemTextField(text, input, id));
   return add_item(std::move(item));
 }
 
-MenuItem*
+MenuItem&
 Menu::add_script(const std::string& text, std::string* script, int id)
 {
   std::unique_ptr<ItemScript> item(new ItemScript(text, script, id));
   return add_item(std::move(item));
 }
 
-MenuItem*
+MenuItem&
 Menu::add_script_line(std::string* input, int id)
 {
   std::unique_ptr<ItemScriptLine> item(new ItemScriptLine(input, id));
   return add_item(std::move(item));
 }
 
-MenuItem*
+MenuItem&
 Menu::add_intfield(const std::string& text, int* input, int id)
 {
   std::unique_ptr<ItemIntField> item(new ItemIntField(text, input, id));
   return add_item(std::move(item));
 }
 
-MenuItem*
+MenuItem&
 Menu::add_numfield(const std::string& text, float* input, int id)
 {
   std::unique_ptr<ItemNumField> item(new ItemNumField(text, input, id));
   return add_item(std::move(item));
 }
 
-MenuItem*
+MenuItem&
 Menu::add_entry(int id, const std::string& text)
 {
   std::unique_ptr<ItemAction> item(new ItemAction(text, id));
   return add_item(std::move(item));
 }
 
-MenuItem*
+MenuItem&
 Menu::add_inactive(const std::string& text)
 {
   std::unique_ptr<ItemInactive> item(new ItemInactive(text));
   return add_item(std::move(item));
 }
 
-MenuItem*
+MenuItem&
 Menu::add_toggle(int id, const std::string& text, bool* toggled)
 {
   std::unique_ptr<ItemToggle> item(new ItemToggle(text, toggled, id));
   return add_item(std::move(item));
 }
 
-MenuItem*
+MenuItem&
 Menu::add_string_select(int id, const std::string& text, int* selected, const std::vector<std::string>& strings)
 {
   std::unique_ptr<ItemStringSelect> item(new ItemStringSelect(text, strings, selected, id));
   return add_item(std::move(item));
 }
 
-MenuItem*
+MenuItem&
 Menu::add_file(const std::string& text, std::string* input, const std::vector<std::string>& extensions, int id)
 {
   std::unique_ptr<ItemFile> item(new ItemFile(text, input, extensions, id));
   return add_item(std::move(item));
 }
 
-MenuItem*
+MenuItem&
 Menu::add_back(const std::string& text, int id)
 {
   std::unique_ptr<ItemBack> item(new ItemBack(text, id));
   return add_item(std::move(item));
 }
 
-MenuItem*
+MenuItem&
 Menu::add_submenu(const std::string& text, int submenu, int id)
 {
   std::unique_ptr<ItemGoTo> item(new ItemGoTo(text, submenu, id));
   return add_item(std::move(item));
 }
 
-MenuItem*
+MenuItem&
 Menu::add_color_channel(float* input, Color channel, int id) {
   std::unique_ptr<ItemColorChannel> item(new ItemColorChannel(input, channel, id));
   return add_item(std::move(item));
 }
 
-MenuItem*
+MenuItem&
 Menu::add_color_display(Color* color, int id) {
   std::unique_ptr<ItemColorDisplay> item(new ItemColorDisplay(color, id));
   return add_item(std::move(item));
 }
 
-MenuItem*
+MenuItem&
 Menu::add_color(const std::string& text, Color* color, int id) {
   std::unique_ptr<ItemColor> item(new ItemColor(text, color, id));
   return add_item(std::move(item));
 }
 
-MenuItem*
+MenuItem&
 Menu::add_badguy_select(const std::string& text, std::vector<std::string>* badguys, int id) {
   std::unique_ptr<ItemBadguySelect> item(new ItemBadguySelect(text, badguys, id));
   return add_item(std::move(item));
@@ -387,7 +387,7 @@ Menu::process_action(const MenuAction& menuaction)
     calculate_width();
   }
   if(menuaction == MENU_ACTION_HIT) {
-    menu_action(items[active_item].get());
+    menu_action(*items[active_item]);
   }
 }
 

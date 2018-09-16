@@ -63,9 +63,9 @@ EditorLevelsetMenu::initialize() {
 }
 
 void
-EditorLevelsetMenu::menu_action(MenuItem* item)
+EditorLevelsetMenu::menu_action(MenuItem& item)
 {
-  switch(item->id)
+  switch(item.id)
   {
   case 1:
     world->m_is_levelset = (levelset_type == 1);

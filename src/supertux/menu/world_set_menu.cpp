@@ -33,9 +33,9 @@ WorldSetMenu::WorldSetMenu()
    add_back(_("Back"));
 }
 
-void WorldSetMenu::menu_action(MenuItem* item)
+void WorldSetMenu::menu_action(MenuItem& item)
 {
-  switch(item->id)
+  switch(item.id)
   {
     case WORLDSET_STORY:
     {
@@ -43,9 +43,9 @@ void WorldSetMenu::menu_action(MenuItem* item)
       GameManager::current()->start_worldmap(std::move(world));
       break;
     }
-    
+
     case WORLDSET_CONTRIB:
-	    MenuManager::instance().push_menu(MenuStorage::CONTRIB_MENU);    
+	    MenuManager::instance().push_menu(MenuStorage::CONTRIB_MENU);
 	    break;
   }
 }

@@ -50,9 +50,9 @@ GameMenu::GameMenu() :
 }
 
 void
-GameMenu::menu_action(MenuItem* item)
+GameMenu::menu_action(MenuItem& item)
 {
-  switch (item->id)
+  switch (item.id)
   {
     case MNID_CONTINUE:
       MenuManager::instance().clear_menu_stack();

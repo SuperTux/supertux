@@ -78,10 +78,10 @@ EditorMenu::~EditorMenu()
 }
 
 void
-EditorMenu::menu_action(MenuItem* item)
+EditorMenu::menu_action(MenuItem& item)
 {
   auto editor = Editor::current();
-  switch (item->id)
+  switch (item.id)
   {
     case MNID_RETURNTOEDITOR:
       MenuManager::instance().clear_menu_stack();

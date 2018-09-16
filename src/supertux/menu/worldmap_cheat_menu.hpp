@@ -40,7 +40,7 @@ private:
 public:
   WorldmapCheatMenu();
 
-  void menu_action(MenuItem* item) override;
+  void menu_action(MenuItem& item) override;
 
 private:
   WorldmapCheatMenu(const WorldmapCheatMenu&) = delete;

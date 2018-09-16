@@ -113,14 +113,14 @@ EditorSectorsMenu::delete_sector()
 }
 
 void
-EditorSectorsMenu::menu_action(MenuItem* item)
+EditorSectorsMenu::menu_action(MenuItem& item)
 {
-  if (item->id >= 0)
+  if (item.id >= 0)
   {
-    Editor::current()->load_sector(item->id);
+    Editor::current()->load_sector(item.id);
     MenuManager::instance().clear_menu_stack();
   } else {
-    switch (item->id) {
+    switch (item.id) {
       case -1:
         break;
       case -2:

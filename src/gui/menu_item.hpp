@@ -92,4 +92,5 @@ class MenuItem
   #include "gui/item_textfield.hpp"
   #include "gui/item_toggle.hpp"
 #endif
+
 /* EOF */

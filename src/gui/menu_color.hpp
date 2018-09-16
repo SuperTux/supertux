@@ -24,7 +24,7 @@ class ColorMenu : public Menu
 public:
   ColorMenu(Color* color_);
 
-  void menu_action(MenuItem* item) override;
+  void menu_action(MenuItem& item) override;
 
 private:
   Color* color;

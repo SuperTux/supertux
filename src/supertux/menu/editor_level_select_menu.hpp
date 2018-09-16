@@ -32,7 +32,7 @@ public:
   EditorLevelSelectMenu(std::unique_ptr<World> world);
   ~EditorLevelSelectMenu();
 
-  void menu_action(MenuItem* item) override;
+  void menu_action(MenuItem& item) override;
 
 private:
   void initialize();

@@ -34,7 +34,7 @@ public:
   MainMenu();
 
   void on_window_resize() override;
-  void menu_action(MenuItem* item) override;
+  void menu_action(MenuItem& item) override;
 
 private:
   MainMenu(const MainMenu&);

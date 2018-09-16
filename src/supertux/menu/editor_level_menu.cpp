@@ -64,7 +64,7 @@ EditorLevelMenu::~EditorLevelMenu()
 }
 
 void
-EditorLevelMenu::menu_action(MenuItem* item)
+EditorLevelMenu::menu_action(MenuItem& item)
 {
 }
 

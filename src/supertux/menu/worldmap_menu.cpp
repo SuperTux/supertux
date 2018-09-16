@@ -34,9 +34,9 @@ WorldmapMenu::WorldmapMenu()
 }
 
 void
-WorldmapMenu::menu_action(MenuItem* item)
+WorldmapMenu::menu_action(MenuItem& item)
 {
-  switch (item->id)
+  switch (item.id)
   {
     case MNID_RETURNWORLDMAP:
       MenuManager::instance().clear_menu_stack();

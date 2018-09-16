@@ -32,7 +32,7 @@ public:
 
   void refresh() override;
   std::string get_key_name(SDL_Keycode key) const;
-  void menu_action(MenuItem* item) override;
+  void menu_action(MenuItem& item) override;
 
 private:
   KeyboardMenu(const KeyboardMenu&);

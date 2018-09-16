@@ -25,7 +25,7 @@ public:
   EditorObjectgroupMenu();
   ~EditorObjectgroupMenu();
 
-  void menu_action(MenuItem* item) override;
+  void menu_action(MenuItem& item) override;
 
 private:
   EditorObjectgroupMenu(const EditorObjectgroupMenu&);

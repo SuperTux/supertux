@@ -31,7 +31,7 @@ public:
   void refresh_menu_item(Controller::Control id);
 
   std::string get_button_name(int button) const;
-  void menu_action(MenuItem* item) override;
+  void menu_action(MenuItem& item) override;
 
 private:
   void recreate_menu();
