@@ -49,6 +49,8 @@ public:
 
   virtual void draw_arrays(GLenum type, GLint first, GLsizei count) = 0;
 
+  virtual bool supports_framebuffer() const = 0;
+
 private:
   GLContext(const GLContext&) = delete;
   GLContext& operator=(const GLContext&) = delete;

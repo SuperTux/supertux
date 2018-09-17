@@ -46,6 +46,8 @@ public:
 
   virtual void draw_arrays(GLenum type, GLint first, GLsizei count) override;
 
+  virtual bool supports_framebuffer() const override { return false; }
+
 private:
   GL20Context(const GL20Context&) = delete;
   GL20Context& operator=(const GL20Context&) = delete;
