@@ -23,6 +23,7 @@
 #include "video/gl/gl_painter.hpp"
 #include "video/lightmap.hpp"
 
+class GLFramebuffer;
 class GLTexture;
 class GLVideoSystem;
 class Rect;
@@ -57,6 +58,7 @@ private:
   GLPainter m_painter;
 
   std::shared_ptr<GLTexture> m_lightmap;
+  std::unique_ptr<GLFramebuffer> m_framebuffer;
   int m_lightmap_width;
   int m_lightmap_height;
 

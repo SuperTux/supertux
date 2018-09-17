@@ -17,9 +17,11 @@
 #include "video/gl/gl_lightmap.hpp"
 
 #include "supertux/globals.hpp"
+#include "util/log.hpp"
 #include "video/drawing_request.hpp"
 #include "video/gl.hpp"
 #include "video/gl/gl_context.hpp"
+#include "video/gl/gl_framebuffer.hpp"
 #include "video/gl/gl_painter.hpp"
 #include "video/gl/gl_program.hpp"
 #include "video/gl/gl_texture.hpp"
@@ -32,6 +34,7 @@ GLLightmap::GLLightmap(GLVideoSystem& video_system, const Size& size) :
   m_size(size),
   m_painter(m_video_system),
   m_lightmap(),
+  m_framebuffer(),
   m_lightmap_width(),
   m_lightmap_height()
 {
@@ -55,6 +58,16 @@ GLLightmap::start_draw()
 
     m_lightmap.reset(new GLTexture(next_power_of_two(m_lightmap_width),
                                    next_power_of_two(m_lightmap_height)));
+
+    if (m_video_system.get_context().supports_framebuffer())
+    {
+      m_framebuffer = std::make_unique<GLFramebuffer>(*m_lightmap);
+    }
+  }
+
+  if (m_framebuffer)
+  {
+    glBindFramebuffer(GL_FRAMEBUFFER, m_framebuffer->get_handle());
   }
 
   glViewport(0, 0, m_lightmap_width, m_lightmap_height);
@@ -68,13 +81,23 @@ void
 GLLightmap::end_draw()
 {
   assert_gl();
-  glBindTexture(GL_TEXTURE_2D, m_lightmap->get_handle());
-  glCopyTexSubImage2D(GL_TEXTURE_2D,
-                      0, // level
-                      0, 0, // offset
-                      0, 0, // x, y
-                      m_lightmap_width,
-                      m_lightmap_height);
+
+  if (m_framebuffer)
+  {
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+  }
+  else
+  {
+    assert_gl();
+    glBindTexture(GL_TEXTURE_2D, m_lightmap->get_handle());
+    glCopyTexSubImage2D(GL_TEXTURE_2D,
+                        0, // level
+                        0, 0, // offset
+                        0, 0, // x, y
+                        m_lightmap_width,
+                        m_lightmap_height);
+  }
+
   assert_gl();
 }
 
