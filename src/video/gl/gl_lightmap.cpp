@@ -167,10 +167,10 @@ GLLightmap::clear_clip_rect()
 }
 
 void
-GLLightmap::get_light(const DrawingRequest& request) const
+GLLightmap::get_pixel(const DrawingRequest& request) const
 {
   assert_gl();
-  const auto& data = static_cast<const GetLightRequest&>(request);
+  const auto& data = static_cast<const GetPixelRequest&>(request);
 
   float pixels[3] = { 0.0f, 0.0f, 0.0f };
 

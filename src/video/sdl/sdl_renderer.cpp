@@ -132,7 +132,7 @@ SDLRenderer::flip()
 }
 
 void
-SDLRenderer::get_light(const DrawingRequest& request) const
+SDLRenderer::get_pixel(const DrawingRequest& request) const
 {
   assert(false && "not implemented yet");
 }

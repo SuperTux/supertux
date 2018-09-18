@@ -119,9 +119,9 @@ SDLLightmap::clear_clip_rect()
 }
 
 void
-SDLLightmap::get_light(const DrawingRequest& request) const
+SDLLightmap::get_pixel(const DrawingRequest& request) const
 {
-  const auto& data = static_cast<const GetLightRequest&>(request);
+  const auto& data = static_cast<const GetPixelRequest&>(request);
 
   SDL_Rect rect;
   rect.x = static_cast<int>(data.pos.x / static_cast<float>(m_LIGHTMAP_DIV));

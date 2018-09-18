@@ -99,7 +99,7 @@ GLRenderer::clear_clip_rect()
 }
 
 void
-GLRenderer::get_light(const DrawingRequest& request) const
+GLRenderer::get_pixel(const DrawingRequest& request) const
 {
   assert(false && "not implemented yet");
 }

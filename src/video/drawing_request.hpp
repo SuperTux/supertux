@@ -173,9 +173,9 @@ struct TriangleRequest : public DrawingRequest
   Color  color;
 };
 
-struct GetLightRequest : public DrawingRequest
+struct GetPixelRequest : public DrawingRequest
 {
-  GetLightRequest() :
+  GetPixelRequest() :
     DrawingRequest(GETLIGHT),
     pos(),
     color_ptr() {}
@@ -184,8 +184,8 @@ struct GetLightRequest : public DrawingRequest
   Color* color_ptr;
 
 private:
-  GetLightRequest(const GetLightRequest&) = delete;
-  GetLightRequest& operator=(const GetLightRequest&) = delete;
+  GetPixelRequest(const GetPixelRequest&) = delete;
+  GetPixelRequest& operator=(const GetPixelRequest&) = delete;
 };
 
 #endif

@@ -56,7 +56,7 @@ DrawingContext::get_light(const Vector& position, Color* color_out)
     return;
   }
 
-  auto request = new(m_obst) GetLightRequest();
+  auto request = new(m_obst) GetPixelRequest();
 
   request->layer = LAYER_GUI; //make sure all get_light requests are handled last.
 
