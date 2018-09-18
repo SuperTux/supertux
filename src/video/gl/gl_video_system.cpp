@@ -308,7 +308,7 @@ GLVideoSystem::get_renderer() const
   return *m_renderer;
 }
 
-Lightmap&
+Renderer&
 GLVideoSystem::get_lightmap() const
 {
   return *m_lightmap;

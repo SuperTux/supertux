@@ -168,7 +168,7 @@ SDLVideoSystem::get_renderer() const
   return *m_renderer;
 }
 
-Lightmap&
+Renderer&
 SDLVideoSystem::get_lightmap() const
 {
   return *m_lightmap;

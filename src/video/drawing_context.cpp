@@ -21,7 +21,6 @@
 #include "supertux/globals.hpp"
 #include "util/obstackpp.hpp"
 #include "video/drawing_request.hpp"
-#include "video/lightmap.hpp"
 #include "video/renderer.hpp"
 #include "video/surface.hpp"
 #include "video/video_system.hpp"

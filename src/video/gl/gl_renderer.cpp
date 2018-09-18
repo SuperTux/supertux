@@ -98,4 +98,16 @@ GLRenderer::clear_clip_rect()
   glDisable(GL_SCISSOR_TEST);
 }
 
+void
+GLRenderer::get_light(const DrawingRequest& request) const
+{
+  assert(false && "not implemented yet");
+}
+
+void
+GLRenderer::render()
+{
+  // nothing to do, we already render directly to the screen
+}
+
 /* EOF */

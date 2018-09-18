@@ -22,7 +22,6 @@
 #include "util/log.hpp"
 #include "util/obstackpp.hpp"
 #include "video/drawing_request.hpp"
-#include "video/lightmap.hpp"
 #include "video/painter.hpp"
 #include "video/renderer.hpp"
 #include "video/surface.hpp"
@@ -76,7 +75,7 @@ Canvas::render(VideoSystem& video_system, Filter filter)
                    });
 
   Renderer& renderer = video_system.get_renderer();
-  Lightmap& lightmap = video_system.get_lightmap();
+  Renderer& lightmap = video_system.get_lightmap();
 
   Painter& painter = (m_target == DrawingTarget::LIGHTMAP) ?
     lightmap.get_painter() :

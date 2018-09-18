@@ -17,11 +17,10 @@
 #ifndef HEADER_SUPERTUX_VIDEO_SDL_LIGHTMAP_HPP
 #define HEADER_SUPERTUX_VIDEO_SDL_LIGHTMAP_HPP
 
-#include "video/lightmap.hpp"
-
 #include <SDL.h>
 #include <boost/optional.hpp>
 
+#include "video/renderer.hpp"
 #include "video/sdl/sdl_painter.hpp"
 
 class Color;
@@ -30,7 +29,7 @@ struct DrawingRequest;
 struct SDL_Renderer;
 struct SDL_Texture;
 
-class SDLLightmap : public Lightmap
+class SDLLightmap final : public Renderer
 {
 public:
   SDLLightmap(SDLVideoSystem& video_system, SDL_Renderer* renderer, const Size& size);

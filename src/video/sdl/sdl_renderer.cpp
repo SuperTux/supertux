@@ -131,4 +131,16 @@ SDLRenderer::flip()
   SDL_RenderPresent(m_renderer);
 }
 
+void
+SDLRenderer::get_light(const DrawingRequest& request) const
+{
+  assert(false && "not implemented yet");
+}
+
+void
+SDLRenderer::render()
+{
+  // nothing to do, we already render directly to the screen
+}
+
 /* EOF */

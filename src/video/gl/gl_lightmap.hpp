@@ -21,7 +21,7 @@
 
 #include "video/gl.hpp"
 #include "video/gl/gl_painter.hpp"
-#include "video/lightmap.hpp"
+#include "video/renderer.hpp"
 
 class GLFramebuffer;
 class GLTexture;
@@ -30,7 +30,7 @@ class Rect;
 class Texture;
 struct DrawingRequest;
 
-class GLLightmap final : public Lightmap
+class GLLightmap final : public Renderer
 {
 public:
   GLLightmap(GLVideoSystem& video_system, const Size& size);

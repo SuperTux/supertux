@@ -41,6 +41,9 @@ public:
   virtual void set_clip_rect(const Rect& rect) override;
   virtual void clear_clip_rect() override;
 
+  virtual void get_light(const DrawingRequest& request) const override;
+  virtual void render() override;
+
   void flip();
   SDL_Renderer* get_sdl_renderer() const { return m_renderer; };
 

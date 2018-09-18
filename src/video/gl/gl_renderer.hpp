@@ -26,7 +26,7 @@
 class GLVideoSystem;
 struct DrawingRequest;
 
-class GLRenderer : public Renderer
+class GLRenderer final : public Renderer
 {
 private:
 
@@ -43,6 +43,9 @@ public:
 
   virtual void set_clip_rect(const Rect& rect) override;
   virtual void clear_clip_rect() override;
+
+  virtual void get_light(const DrawingRequest& request) const override;
+  virtual void render() override;
 
 private:
   GLVideoSystem& m_video_system;

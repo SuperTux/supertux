@@ -24,7 +24,6 @@
 #include "util/currenton.hpp"
 #include "video/texture_ptr.hpp"
 
-class Lightmap;
 class Rect;
 class Renderer;
 class SDLSurfacePtr;
@@ -52,7 +51,7 @@ public:
   virtual ~VideoSystem() {}
 
   virtual Renderer& get_renderer() const = 0;
-  virtual Lightmap& get_lightmap() const = 0;
+  virtual Renderer& get_lightmap() const = 0;
 
   virtual TexturePtr new_texture(const SDL_Surface& image) = 0;
 

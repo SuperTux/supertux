@@ -39,6 +39,9 @@ public:
 
   virtual void set_clip_rect(const Rect& rect) = 0;
   virtual void clear_clip_rect() = 0;
+
+  virtual void get_light(const DrawingRequest& request) const = 0;
+  virtual void render() = 0;
 };
 
 #endif

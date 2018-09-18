@@ -19,7 +19,6 @@
 
 #include "math/rect.hpp"
 #include "video/drawing_request.hpp"
-#include "video/lightmap.hpp"
 #include "video/renderer.hpp"
 #include "video/video_system.hpp"
 
