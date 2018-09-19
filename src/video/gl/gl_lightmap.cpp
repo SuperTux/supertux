@@ -33,7 +33,7 @@ GLLightmap::GLLightmap(GLVideoSystem& video_system, const Size& size) :
   m_video_system(video_system),
   m_size(size),
   m_painter(m_video_system),
-  m_lightmap(),
+  m_texture(),
   m_framebuffer()
 {
 }
@@ -49,14 +49,14 @@ GLLightmap::start_draw()
   GLContext& context = m_video_system.get_context();
   context.bind();
 
-  if (!m_lightmap)
+  if (!m_texture)
   {
-    m_lightmap.reset(new GLTexture(m_size.width / s_LIGHTMAP_DIV,
-                                   m_size.height / s_LIGHTMAP_DIV));
+    m_texture.reset(new GLTexture(m_size.width / s_LIGHTMAP_DIV,
+                                  m_size.height / s_LIGHTMAP_DIV));
 
     if (m_video_system.get_context().supports_framebuffer())
     {
-      m_framebuffer = std::make_unique<GLFramebuffer>(*m_lightmap);
+      m_framebuffer = std::make_unique<GLFramebuffer>(*m_texture);
     }
   }
 
@@ -65,7 +65,7 @@ GLLightmap::start_draw()
     glBindFramebuffer(GL_FRAMEBUFFER, m_framebuffer->get_handle());
   }
 
-  glViewport(0, 0, m_lightmap->get_image_width(), m_lightmap->get_image_height());
+  glViewport(0, 0, m_texture->get_image_width(), m_texture->get_image_height());
 
   context.ortho(static_cast<float>(m_size.width), static_cast<float>(m_size.height));
 
@@ -84,13 +84,13 @@ GLLightmap::end_draw()
   else
   {
     assert_gl();
-    glBindTexture(GL_TEXTURE_2D, m_lightmap->get_handle());
+    glBindTexture(GL_TEXTURE_2D, m_texture->get_handle());
     glCopyTexSubImage2D(GL_TEXTURE_2D,
                         0, // level
                         0, 0, // offset
                         0, 0, // x, y
-                        m_lightmap->get_image_width(),
-                        m_lightmap->get_image_height());
+                        m_texture->get_image_width(),
+                        m_texture->get_image_height());
   }
 
   assert_gl();
@@ -105,7 +105,7 @@ GLLightmap::render()
   // multiple the lightmap with the framebuffer
   context.blend_func(GL_DST_COLOR, GL_ZERO);
 
-  context.bind_texture(*m_lightmap);
+  context.bind_texture(*m_texture);
   context.set_color(Color::WHITE);
 
   float vertices[] = {
@@ -116,8 +116,8 @@ GLLightmap::render()
   };
   context.set_positions(vertices, sizeof(vertices));
 
-  float uv_right = static_cast<float>(m_lightmap->get_image_width()) / static_cast<float>(m_lightmap->get_texture_width());
-  float uv_bottom = static_cast<float>(m_lightmap->get_image_height()) / static_cast<float>(m_lightmap->get_texture_height());
+  float uv_right = static_cast<float>(m_texture->get_image_width()) / static_cast<float>(m_texture->get_texture_width());
+  float uv_bottom = static_cast<float>(m_texture->get_image_height()) / static_cast<float>(m_texture->get_texture_height());
   float uvs[] = {
     0, uv_bottom,
     uv_right, uv_bottom,
@@ -145,10 +145,10 @@ void
 GLLightmap::set_clip_rect(const Rect& clip_rect)
 {
   assert_gl();
-  glScissor(m_lightmap->get_image_width() * clip_rect.left / m_size.width,
-            m_lightmap->get_image_height() * clip_rect.top / m_size.height,
-            m_lightmap->get_image_width() * clip_rect.get_width() / m_size.width,
-            m_lightmap->get_image_height() * clip_rect.get_height() / m_size.height);
+  glScissor(m_texture->get_image_width() * clip_rect.left / m_size.width,
+            m_texture->get_image_height() * clip_rect.top / m_size.height,
+            m_texture->get_image_width() * clip_rect.get_width() / m_size.width,
+            m_texture->get_image_height() * clip_rect.get_height() / m_size.height);
   glEnable(GL_SCISSOR_TEST);
   assert_gl();
 }
@@ -169,11 +169,11 @@ GLLightmap::get_pixel(const DrawingRequest& request) const
 
   float pixels[3] = { 0.0f, 0.0f, 0.0f };
 
-  float x = data.pos.x * static_cast<float>(m_lightmap->get_image_width()) / static_cast<float>(m_size.width);
-  float y = data.pos.y * static_cast<float>(m_lightmap->get_image_height()) / static_cast<float>(m_size.height);
+  float x = data.pos.x * static_cast<float>(m_texture->get_image_width()) / static_cast<float>(m_size.width);
+  float y = data.pos.y * static_cast<float>(m_texture->get_image_height()) / static_cast<float>(m_size.height);
 
   glReadPixels(static_cast<GLint>(x),
-               m_lightmap->get_image_height() - static_cast<GLint>(y),
+               m_texture->get_image_height() - static_cast<GLint>(y),
                1, 1, GL_RGB, GL_FLOAT, pixels);
 
   *(data.color_ptr) = Color(pixels[0], pixels[1], pixels[2]);

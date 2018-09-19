@@ -57,7 +57,7 @@ private:
   Size m_size;
   GLPainter m_painter;
 
-  std::shared_ptr<GLTexture> m_lightmap;
+  std::shared_ptr<GLTexture> m_texture;
   std::unique_ptr<GLFramebuffer> m_framebuffer;
 
 private:
