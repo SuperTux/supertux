@@ -38,6 +38,10 @@ GL33CoreContext::~GL33CoreContext()
 void
 GL33CoreContext::bind()
 {
+  glDisable(GL_DEPTH_TEST);
+  glDisable(GL_CULL_FACE);
+  glEnable(GL_BLEND);
+
   m_program->bind();
   m_vertex_arrays->bind();
 }

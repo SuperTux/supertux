@@ -33,6 +33,9 @@ GL20Context::~GL20Context()
 void
 GL20Context::bind()
 {
+  glDisable(GL_DEPTH_TEST);
+  glDisable(GL_CULL_FACE);
+  glEnable(GL_BLEND);
 }
 
 void

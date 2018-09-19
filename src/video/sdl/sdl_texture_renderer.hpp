@@ -29,22 +29,20 @@ struct DrawingRequest;
 struct SDL_Renderer;
 struct SDL_Texture;
 
-class SDLLightmap final : public Renderer
+class SDLTextureRenderer final : public Renderer
 {
 public:
-  SDLLightmap(SDLVideoSystem& video_system, SDL_Renderer* renderer, const Size& size);
-  ~SDLLightmap();
+  SDLTextureRenderer(SDLVideoSystem& video_system, SDL_Renderer* renderer, const Size& size, int downscale);
+  ~SDLTextureRenderer();
 
   virtual void start_draw() override;
   virtual void end_draw() override;
 
   virtual SDLPainter& get_painter() override { return m_painter; }
-  virtual void clear(const Color& color) override;
 
-  virtual void set_clip_rect(const Rect& rect) override;
-  virtual void clear_clip_rect() override;
+  virtual Rect get_rect() const override;
+  virtual Size get_logical_size() const override;
 
-  virtual void get_pixel(const DrawingRequest& request) const override;
   virtual void render() override;
 
 private:
@@ -52,14 +50,13 @@ private:
   SDL_Renderer* m_renderer;
   SDLPainter m_painter;
   Size m_size;
+  int m_downscale;
 
   SDL_Texture* m_texture;
-  int m_LIGHTMAP_DIV;
-  boost::optional<SDL_Rect> m_cliprect;
 
 private:
-  SDLLightmap(const SDLLightmap&);
-  SDLLightmap& operator=(const SDLLightmap&);
+  SDLTextureRenderer(const SDLTextureRenderer&);
+  SDLTextureRenderer& operator=(const SDLTextureRenderer&);
 };
 
 #endif

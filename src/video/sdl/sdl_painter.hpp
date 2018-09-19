@@ -19,6 +19,10 @@
 
 #include "video/painter.hpp"
 
+#include <boost/optional.hpp>
+
+class Renderer;
+class SDLScreenRenderer;
 class SDLVideoSystem;
 struct DrawingRequest;
 struct SDL_Renderer;
@@ -26,7 +30,7 @@ struct SDL_Renderer;
 class SDLPainter : public Painter
 {
 public:
-  SDLPainter(SDLVideoSystem& video_system, SDL_Renderer* renderer);
+  SDLPainter(SDLVideoSystem& video_system, Renderer& renderer, SDL_Renderer* sdl_renderer);
 
   virtual void draw_texture(const DrawingRequest& request) override;
   virtual void draw_texture_batch(const DrawingRequest& request) override;
@@ -36,9 +40,17 @@ public:
   virtual void draw_line(const DrawingRequest& request) override;
   virtual void draw_triangle(const DrawingRequest& request) override;
 
+  virtual void clear(const Color& color) override;
+  virtual void get_pixel(const DrawingRequest& request) const override;
+
+  virtual void set_clip_rect(const Rect& rect) override;
+  virtual void clear_clip_rect() override;
+
 private:
   SDLVideoSystem& m_video_system;
-  SDL_Renderer* m_renderer;
+  Renderer& m_renderer;
+  SDL_Renderer* m_sdl_renderer;
+  boost::optional<SDL_Rect> m_cliprect;
 
 private:
   SDLPainter(const SDLPainter&);

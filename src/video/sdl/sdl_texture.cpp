@@ -19,7 +19,7 @@
 #include <SDL.h>
 #include <sstream>
 
-#include "video/sdl/sdl_renderer.hpp"
+#include "video/sdl/sdl_screen_renderer.hpp"
 #include "video/video_system.hpp"
 
 SDLTexture::SDLTexture(const SDL_Surface& image) :
@@ -27,7 +27,7 @@ SDLTexture::SDLTexture(const SDL_Surface& image) :
   m_width(),
   m_height()
 {
-  m_texture = SDL_CreateTextureFromSurface(static_cast<SDLRenderer&>(VideoSystem::current()->get_renderer()).get_sdl_renderer(),
+  m_texture = SDL_CreateTextureFromSurface(static_cast<SDLScreenRenderer&>(VideoSystem::current()->get_renderer()).get_sdl_renderer(),
                                            const_cast<SDL_Surface*>(&image));
   if (!m_texture)
   {

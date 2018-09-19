@@ -40,6 +40,12 @@ public:
   virtual void draw_line(const DrawingRequest& request) = 0;
   virtual void draw_triangle(const DrawingRequest& request) = 0;
 
+  virtual void clear(const Color& color) = 0;
+  virtual void get_pixel(const DrawingRequest& request) const = 0;
+
+  virtual void set_clip_rect(const Rect& rect) = 0;
+  virtual void clear_clip_rect() = 0;
+
 private:
   Painter(const Painter&) = delete;
   Painter& operator=(const Painter&) = delete;

@@ -15,7 +15,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "video/gl/gl_renderer.hpp"
+#include "video/gl/gl_screen_renderer.hpp"
 
 #include "math/rect.hpp"
 #include "supertux/gameconfig.hpp"
@@ -27,27 +27,23 @@
 #include "video/gl/gl_video_system.hpp"
 #include "video/glutil.hpp"
 
-GLRenderer::GLRenderer(GLVideoSystem& video_system) :
+GLScreenRenderer::GLScreenRenderer(GLVideoSystem& video_system) :
   m_video_system(video_system),
-  m_painter(m_video_system)
+  m_painter(m_video_system, *this)
 {
 }
 
-GLRenderer::~GLRenderer()
+GLScreenRenderer::~GLScreenRenderer()
 {
 }
 
 void
-GLRenderer::start_draw()
+GLScreenRenderer::start_draw()
 {
-  GLContext& context = m_video_system.get_context();
-  context.bind();
-
   assert_gl();
 
-  glDisable(GL_DEPTH_TEST);
-  glDisable(GL_CULL_FACE);
-  glEnable(GL_BLEND);
+  GLContext& context = m_video_system.get_context();
+  context.bind();
 
   context.blend_func(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -56,8 +52,8 @@ GLRenderer::start_draw()
 
   glViewport(rect.left, rect.top, rect.get_width(), rect.get_height());
 
-  m_video_system.get_context().ortho(static_cast<float>(viewport.get_screen_width()),
-                                     static_cast<float>(viewport.get_screen_height()));
+  context.ortho(static_cast<float>(viewport.get_screen_width()),
+                static_cast<float>(viewport.get_screen_height()));
 
   // clear the screen to get rid of lightmap remains
   glClearColor(0, 0, 0, 1);
@@ -67,45 +63,27 @@ GLRenderer::start_draw()
 }
 
 void
-GLRenderer::end_draw()
+GLScreenRenderer::end_draw()
 {
 }
 
-void
-GLRenderer::clear(const Color& color)
+Rect
+GLScreenRenderer::get_rect() const
 {
-  glClearColor(color.red, color.green, color.blue, color.alpha);
-  glClear(GL_COLOR_BUFFER_BIT);
-}
-
-void
-GLRenderer::set_clip_rect(const Rect& clip_rect)
-{
-  auto window_size = m_video_system.get_window_size();
-
   const Viewport& viewport = m_video_system.get_viewport();
-
-  glScissor(window_size.width * clip_rect.left / viewport.get_screen_width(),
-            window_size.height - (window_size.height * clip_rect.bottom / viewport.get_screen_height()),
-            window_size.width * clip_rect.get_width() / viewport.get_screen_width(),
-            window_size.height * clip_rect.get_height() / viewport.get_screen_height());
-  glEnable(GL_SCISSOR_TEST);
+  return viewport.get_rect();
 }
 
-void
-GLRenderer::clear_clip_rect()
+Size
+GLScreenRenderer::get_logical_size() const
 {
-  glDisable(GL_SCISSOR_TEST);
+  const Viewport& viewport = m_video_system.get_viewport();
+  return Size(viewport.get_screen_width(),
+              viewport.get_screen_height());
 }
 
 void
-GLRenderer::get_pixel(const DrawingRequest& request) const
-{
-  assert(false && "not implemented yet");
-}
-
-void
-GLRenderer::render()
+GLScreenRenderer::render()
 {
   // nothing to do, we already render directly to the screen
 }

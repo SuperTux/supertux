@@ -21,8 +21,8 @@
 #include "supertux/globals.hpp"
 #include "util/log.hpp"
 #include "video/renderer.hpp"
-#include "video/sdl/sdl_lightmap.hpp"
-#include "video/sdl/sdl_renderer.hpp"
+#include "video/sdl/sdl_texture_renderer.hpp"
+#include "video/sdl/sdl_screen_renderer.hpp"
 #include "video/sdl/sdl_texture.hpp"
 #include "video/sdl_surface.hpp"
 
@@ -45,7 +45,7 @@ SDLVideoSystem::SDLVideoSystem() :
     m_desktop_size = Size(mode.w, mode.h);
   }
 
-  log_info << "creating SDLRenderer" << std::endl;
+  log_info << "Creating SDLVideoSystem" << std::endl;
   int width  = g_config->window_size.width;
   int height = g_config->window_size.height;
 
@@ -79,7 +79,7 @@ SDLVideoSystem::SDLVideoSystem() :
 
   g_config->window_size = Size(width, height);
 
-  m_renderer.reset(new SDLRenderer(*this, m_sdl_renderer));
+  m_renderer.reset(new SDLScreenRenderer(*this, m_sdl_renderer));
   m_texture_manager.reset(new TextureManager);
 
   apply_config();
@@ -104,7 +104,7 @@ SDLVideoSystem::apply_config()
     m_viewport = Viewport::from_size(target_size, m_desktop_size);
   }
 
-  m_lightmap.reset(new SDLLightmap(*this, m_sdl_renderer, m_viewport.get_screen_size()));
+  m_lightmap.reset(new SDLTextureRenderer(*this, m_sdl_renderer, m_viewport.get_screen_size(), 5));
 }
 
 void

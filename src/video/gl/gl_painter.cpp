@@ -24,6 +24,7 @@
 #include "video/drawing_request.hpp"
 #include "video/gl/gl_context.hpp"
 #include "video/gl/gl_program.hpp"
+#include "video/gl/gl_renderer.hpp"
 #include "video/gl/gl_texture.hpp"
 #include "video/gl/gl_vertex_arrays.hpp"
 #include "video/gl/gl_video_system.hpp"
@@ -31,8 +32,9 @@
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
-GLPainter::GLPainter(GLVideoSystem& video_system) :
-  m_video_system(video_system)
+GLPainter::GLPainter(GLVideoSystem& video_system, GLRenderer& renderer) :
+  m_video_system(video_system),
+  m_renderer(renderer)
 {
 }
 
@@ -481,6 +483,72 @@ GLPainter::draw_triangle(const DrawingRequest& request)
 
   context.draw_arrays(GL_TRIANGLES, 0, 3);
 
+  assert_gl();
+}
+
+void
+GLPainter::clear(const Color& color)
+{
+  assert_gl();
+  glClearColor(color.red, color.green, color.blue, color.alpha);
+  glClear(GL_COLOR_BUFFER_BIT);
+  assert_gl();
+}
+
+void
+GLPainter::get_pixel(const DrawingRequest& request) const
+{
+  const Rect& rect = m_renderer.get_rect();
+  const Size& logical_size = m_renderer.get_logical_size();
+
+  assert_gl();
+  const auto& data = static_cast<const GetPixelRequest&>(request);
+
+  float pixels[3] = { 0.0f, 0.0f, 0.0f };
+
+  float x = data.pos.x * static_cast<float>(rect.get_width()) / static_cast<float>(logical_size.width);
+  float y = data.pos.y * static_cast<float>(rect.get_height()) / static_cast<float>(logical_size.height);
+
+  x += static_cast<float>(rect.left);
+  y += static_cast<float>(rect.top);
+
+  glReadPixels(static_cast<GLint>(x),
+               rect.get_height() - static_cast<GLint>(y),
+               1, 1, GL_RGB, GL_FLOAT, pixels);
+
+  *(data.color_ptr) = Color(pixels[0], pixels[1], pixels[2]);
+  assert_gl();
+}
+
+void
+GLPainter::set_clip_rect(const Rect& clip_rect)
+{
+  assert_gl();
+
+  const Rect& rect = m_renderer.get_rect();
+  const Size& logical_size = m_renderer.get_logical_size();
+
+  int y = rect.get_height() * clip_rect.top / logical_size.height;
+
+  if (false) // FIXME: invert
+  {
+    y = rect.get_height() - y;
+  }
+
+  glScissor(rect.left + rect.get_width() * clip_rect.left / logical_size.width,
+            rect.top + y,
+            rect.get_width() * clip_rect.get_width() / logical_size.width,
+            rect.get_height() * clip_rect.get_height() / logical_size.height);
+  glEnable(GL_SCISSOR_TEST);
+
+  assert_gl();
+}
+
+void
+GLPainter::clear_clip_rect()
+{
+  assert_gl();
+  glDisable(GL_SCISSOR_TEST);
   assert_gl();
 }
 

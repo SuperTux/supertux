@@ -1,5 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//                2018 Ingo Ruhnke <grumbel@gmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,7 +15,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "video/gl/gl_lightmap.hpp"
+#include "video/gl/gl_texture_renderer.hpp"
 
 #include "supertux/globals.hpp"
 #include "util/log.hpp"
@@ -29,36 +30,43 @@
 #include "video/gl/gl_video_system.hpp"
 #include "video/glutil.hpp"
 
-GLLightmap::GLLightmap(GLVideoSystem& video_system, const Size& size) :
+GLTextureRenderer::GLTextureRenderer(GLVideoSystem& video_system, const Size& size, int downscale) :
   m_video_system(video_system),
+  m_painter(m_video_system, *this),
   m_size(size),
-  m_painter(m_video_system),
+  m_downscale(downscale),
   m_texture(),
   m_framebuffer()
 {
 }
 
-GLLightmap::~GLLightmap()
+GLTextureRenderer::~GLTextureRenderer()
 {
 }
 
 void
-GLLightmap::start_draw()
+GLTextureRenderer::prepare()
 {
-  assert_gl();
-  GLContext& context = m_video_system.get_context();
-  context.bind();
-
   if (!m_texture)
   {
-    m_texture.reset(new GLTexture(m_size.width / s_LIGHTMAP_DIV,
-                                  m_size.height / s_LIGHTMAP_DIV));
+    m_texture.reset(new GLTexture(m_size.width / m_downscale,
+                                  m_size.height / m_downscale));
 
     if (m_video_system.get_context().supports_framebuffer())
     {
       m_framebuffer = std::make_unique<GLFramebuffer>(*m_texture);
     }
   }
+}
+
+void
+GLTextureRenderer::start_draw()
+{
+  assert_gl();
+  prepare();
+
+  GLContext& context = m_video_system.get_context();
+  context.bind();
 
   if (m_framebuffer)
   {
@@ -69,11 +77,15 @@ GLLightmap::start_draw()
 
   context.ortho(static_cast<float>(m_size.width), static_cast<float>(m_size.height));
 
+  // clear the screen to get rid of lightmap remains
+  glClearColor(0, 0, 0, 1);
+  glClear(GL_COLOR_BUFFER_BIT);
+
   assert_gl();
 }
 
 void
-GLLightmap::end_draw()
+GLTextureRenderer::end_draw()
 {
   assert_gl();
 
@@ -96,8 +108,22 @@ GLLightmap::end_draw()
   assert_gl();
 }
 
+Size
+GLTextureRenderer::get_logical_size() const
+{
+  return m_size;
+}
+
+Rect
+GLTextureRenderer::get_rect() const
+{
+  return Rect(0, 0,
+              Size(m_texture->get_image_width(),
+                   m_texture->get_image_height()));
+}
+
 void
-GLLightmap::render()
+GLTextureRenderer::render()
 {
   GLContext& context = m_video_system.get_context();
 
@@ -129,54 +155,6 @@ GLLightmap::render()
   glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 
   context.blend_func(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-  assert_gl();
-}
-
-void
-GLLightmap::clear(const Color& color)
-{
-  assert_gl();
-  glClearColor(color.red, color.green, color.blue, color.alpha);
-  glClear(GL_COLOR_BUFFER_BIT);
-  assert_gl();
-}
-
-void
-GLLightmap::set_clip_rect(const Rect& clip_rect)
-{
-  assert_gl();
-  glScissor(m_texture->get_image_width() * clip_rect.left / m_size.width,
-            m_texture->get_image_height() * clip_rect.top / m_size.height,
-            m_texture->get_image_width() * clip_rect.get_width() / m_size.width,
-            m_texture->get_image_height() * clip_rect.get_height() / m_size.height);
-  glEnable(GL_SCISSOR_TEST);
-  assert_gl();
-}
-
-void
-GLLightmap::clear_clip_rect()
-{
-  assert_gl();
-  glDisable(GL_SCISSOR_TEST);
-  assert_gl();
-}
-
-void
-GLLightmap::get_pixel(const DrawingRequest& request) const
-{
-  assert_gl();
-  const auto& data = static_cast<const GetPixelRequest&>(request);
-
-  float pixels[3] = { 0.0f, 0.0f, 0.0f };
-
-  float x = data.pos.x * static_cast<float>(m_texture->get_image_width()) / static_cast<float>(m_size.width);
-  float y = data.pos.y * static_cast<float>(m_texture->get_image_height()) / static_cast<float>(m_size.height);
-
-  glReadPixels(static_cast<GLint>(x),
-               m_texture->get_image_height() - static_cast<GLint>(y),
-               1, 1, GL_RGB, GL_FLOAT, pixels);
-
-  *(data.color_ptr) = Color(pixels[0], pixels[1], pixels[2]);
   assert_gl();
 }
 

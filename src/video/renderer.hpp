@@ -35,12 +35,10 @@ public:
   virtual void end_draw() = 0;
 
   virtual Painter& get_painter() = 0;
-  virtual void clear(const Color& color) = 0;
 
-  virtual void set_clip_rect(const Rect& rect) = 0;
-  virtual void clear_clip_rect() = 0;
+  virtual Rect get_rect() const = 0;
+  virtual Size get_logical_size() const = 0;
 
-  virtual void get_pixel(const DrawingRequest& request) const = 0;
   virtual void render() = 0;
 };
 

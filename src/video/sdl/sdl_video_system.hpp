@@ -24,8 +24,8 @@
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
-class SDLLightmap;
-class SDLRenderer;
+class SDLScreenRenderer;
+class SDLTextureRenderer;
 class TextureManager;
 
 class SDLVideoSystem final : public VideoSystem
@@ -60,8 +60,8 @@ private:
   SDL_Renderer* m_sdl_renderer;
   Size m_desktop_size;
   Viewport m_viewport;
-  std::unique_ptr<SDLRenderer> m_renderer;
-  std::unique_ptr<SDLLightmap> m_lightmap;
+  std::unique_ptr<SDLScreenRenderer> m_renderer;
+  std::unique_ptr<SDLTextureRenderer> m_lightmap;
   std::unique_ptr<TextureManager> m_texture_manager;
 
 private:

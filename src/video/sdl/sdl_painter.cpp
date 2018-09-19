@@ -22,6 +22,7 @@
 #include "supertux/globals.hpp"
 #include "util/log.hpp"
 #include "video/drawing_request.hpp"
+#include "video/renderer.hpp"
 #include "video/sdl/sdl_texture.hpp"
 #include "video/sdl/sdl_video_system.hpp"
 #include "video/viewport.hpp"
@@ -59,9 +60,11 @@ SDL_BlendMode blend2sdl(const Blend& blend)
 
 } // namespace
 
-SDLPainter::SDLPainter(SDLVideoSystem& video_system, SDL_Renderer* renderer) :
+SDLPainter::SDLPainter(SDLVideoSystem& video_system, Renderer& renderer, SDL_Renderer* sdl_renderer) :
   m_video_system(video_system),
-  m_renderer(renderer)
+  m_renderer(renderer),
+  m_sdl_renderer(sdl_renderer),
+  m_cliprect()
 {}
 
 void
@@ -102,7 +105,7 @@ SDLPainter::draw_texture(const DrawingRequest& request)
     flip = static_cast<SDL_RendererFlip>(flip | SDL_FLIP_VERTICAL);
   }
 
-  SDL_RenderCopyEx(m_renderer, texture.get_texture(), &src_rect, &dst_rect, request.angle, NULL, flip);
+  SDL_RenderCopyEx(m_sdl_renderer, texture.get_texture(), &src_rect, &dst_rect, request.angle, NULL, flip);
 }
 
 void
@@ -147,7 +150,7 @@ SDLPainter::draw_texture_batch(const DrawingRequest& request)
       flip = static_cast<SDL_RendererFlip>(flip | SDL_FLIP_VERTICAL);
     }
 
-    SDL_RenderCopyEx(m_renderer, texture.get_texture(), &src_rect, &dst_rect, request.angle, NULL, flip);
+    SDL_RenderCopyEx(m_sdl_renderer, texture.get_texture(), &src_rect, &dst_rect, request.angle, NULL, flip);
   }
 }
 
@@ -203,9 +206,9 @@ SDLPainter::draw_gradient(const DrawingRequest& request)
         a = static_cast<Uint8>(((1.0f - p) * top.alpha + p * bottom.alpha) * 255);
     }
 
-    SDL_SetRenderDrawBlendMode(m_renderer, SDL_BLENDMODE_BLEND);
-    SDL_SetRenderDrawColor(m_renderer, r, g, b, a);
-    SDL_RenderFillRect(m_renderer, &rect);
+    SDL_SetRenderDrawBlendMode(m_sdl_renderer, SDL_BLENDMODE_BLEND);
+    SDL_SetRenderDrawColor(m_sdl_renderer, r, g, b, a);
+    SDL_RenderFillRect(m_sdl_renderer, &rect);
   }
 }
 
@@ -270,17 +273,17 @@ SDLPainter::draw_filled_rect(const DrawingRequest& request)
       rects.push_back(tmp);
     }
 
-    SDL_SetRenderDrawBlendMode(m_renderer, SDL_BLENDMODE_BLEND);
-    SDL_SetRenderDrawColor(m_renderer, r, g, b, a);
-    SDL_RenderFillRects(m_renderer, &*rects.begin(), static_cast<int>(rects.size()));
+    SDL_SetRenderDrawBlendMode(m_sdl_renderer, SDL_BLENDMODE_BLEND);
+    SDL_SetRenderDrawColor(m_sdl_renderer, r, g, b, a);
+    SDL_RenderFillRects(m_sdl_renderer, &*rects.begin(), static_cast<int>(rects.size()));
   }
   else
   {
     if((rect.w != 0) && (rect.h != 0))
     {
-      SDL_SetRenderDrawBlendMode(m_renderer, SDL_BLENDMODE_BLEND);
-      SDL_SetRenderDrawColor(m_renderer, r, g, b, a);
-      SDL_RenderFillRect(m_renderer, &rect);
+      SDL_SetRenderDrawBlendMode(m_sdl_renderer, SDL_BLENDMODE_BLEND);
+      SDL_SetRenderDrawColor(m_sdl_renderer, r, g, b, a);
+      SDL_RenderFillRect(m_sdl_renderer, &rect);
     }
   }
 }
@@ -338,9 +341,9 @@ SDLPainter::draw_inverse_ellipse(const DrawingRequest& request)
   Uint8 b = static_cast<Uint8>(data.color.blue * 255);
   Uint8 a = static_cast<Uint8>(data.color.alpha * 255);
 
-  SDL_SetRenderDrawBlendMode(m_renderer, SDL_BLENDMODE_BLEND);
-  SDL_SetRenderDrawColor(m_renderer, r, g, b, a);
-  SDL_RenderFillRects(m_renderer, rects, 2*slices+2);
+  SDL_SetRenderDrawBlendMode(m_sdl_renderer, SDL_BLENDMODE_BLEND);
+  SDL_SetRenderDrawColor(m_sdl_renderer, r, g, b, a);
+  SDL_RenderFillRects(m_sdl_renderer, rects, 2*slices+2);
 }
 
 void
@@ -358,9 +361,9 @@ SDLPainter::draw_line(const DrawingRequest& request)
   int x2 = static_cast<int>(data.dest_pos.x);
   int y2 = static_cast<int>(data.dest_pos.y);
 
-  SDL_SetRenderDrawBlendMode(m_renderer, SDL_BLENDMODE_BLEND);
-  SDL_SetRenderDrawColor(m_renderer, r, g, b, a);
-  SDL_RenderDrawLine(m_renderer, x1, y1, x2, y2);
+  SDL_SetRenderDrawBlendMode(m_sdl_renderer, SDL_BLENDMODE_BLEND);
+  SDL_SetRenderDrawColor(m_sdl_renderer, r, g, b, a);
+  SDL_RenderDrawLine(m_sdl_renderer, x1, y1, x2, y2);
 }
 
 namespace {
@@ -449,11 +452,82 @@ SDLPainter::draw_triangle(const DrawingRequest& request)
   int shortEdge1 = (longEdge + 1) % 3;
   int shortEdge2 = (longEdge + 2) % 3;
 
-  SDL_SetRenderDrawBlendMode(m_renderer, SDL_BLENDMODE_BLEND);
-  SDL_SetRenderDrawColor(m_renderer, r, g, b, a);
+  SDL_SetRenderDrawBlendMode(m_sdl_renderer, SDL_BLENDMODE_BLEND);
+  SDL_SetRenderDrawColor(m_sdl_renderer, r, g, b, a);
 
-  draw_span_between_edges(m_renderer, edges[longEdge], edges[shortEdge1]);
-  draw_span_between_edges(m_renderer, edges[longEdge], edges[shortEdge2]);
+  draw_span_between_edges(m_sdl_renderer, edges[longEdge], edges[shortEdge1]);
+  draw_span_between_edges(m_sdl_renderer, edges[longEdge], edges[shortEdge2]);
+}
+
+void
+SDLPainter::clear(const Color& color)
+{
+  SDL_SetRenderDrawColor(m_sdl_renderer, color.r8(), color.g8(), color.b8(), color.a8());
+
+  if (m_cliprect)
+  {
+    SDL_SetRenderDrawBlendMode(m_sdl_renderer, SDL_BLENDMODE_NONE);
+    SDL_RenderFillRect(m_sdl_renderer, &*m_cliprect);
+  }
+  else
+  {
+    // This ignores the cliprect:
+    SDL_RenderClear(m_sdl_renderer);
+  }
+}
+
+void
+SDLPainter::set_clip_rect(const Rect& rect)
+{
+  m_cliprect = SDL_Rect{ rect.left,
+                         rect.top,
+                         rect.get_width(),
+                         rect.get_height() };
+
+  int ret = SDL_RenderSetClipRect(m_sdl_renderer, &*m_cliprect);
+  if (ret < 0)
+  {
+    log_warning << "SDLPainter::set_clip_rect(): SDL_RenderSetClipRect() failed: " << SDL_GetError() << std::endl;
+  }
+}
+
+void
+SDLPainter::clear_clip_rect()
+{
+  m_cliprect.reset();
+
+  int ret = SDL_RenderSetClipRect(m_sdl_renderer, nullptr);
+  if (ret < 0)
+  {
+    log_warning << "SDLPainter::clear_clip_rect(): SDL_RenderSetClipRect() failed: " << SDL_GetError() << std::endl;
+  }
+}
+
+void
+SDLPainter::get_pixel(const DrawingRequest& request) const
+{
+  const auto& data = static_cast<const GetPixelRequest&>(request);
+
+  const Rect& rect = m_renderer.get_rect();
+  const Size& logical_size = m_renderer.get_logical_size();
+
+  SDL_Rect srcrect;
+  srcrect.x = rect.left + static_cast<int>(data.pos.x * static_cast<float>(rect.get_width()) / static_cast<float>(logical_size.width));
+  srcrect.y = rect.top + static_cast<int>(data.pos.y * static_cast<float>(rect.get_height()) / static_cast<float>(logical_size.height));
+  srcrect.w = 1;
+  srcrect.h = 1;
+
+  Uint8 pixel[4];
+  int ret = SDL_RenderReadPixels(m_sdl_renderer, &srcrect,
+                                 SDL_PIXELFORMAT_RGB888,
+                                 pixel,
+                                 1);
+  if (ret != 0)
+  {
+    log_warning << "failed to read pixels: " << SDL_GetError() << std::endl;
+  }
+
+  *(data.color_ptr) = Color::from_rgb888(pixel[2], pixel[1], pixel[0]);
 }
 
 /* EOF */

@@ -118,9 +118,8 @@ Canvas::render(VideoSystem& video_system, Filter filter)
         painter.draw_triangle(request);
         break;
 
-      case GETLIGHT:
-        // FIXME: turn this into a generic get_pixel that works on Renderer as well
-        lightmap.get_pixel(request);
+      case GETPIXEL:
+        painter.get_pixel(request);
         break;
     }
   }

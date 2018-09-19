@@ -23,10 +23,11 @@
 #include "video/gl/gl20_context.hpp"
 #include "video/gl/gl33core_context.hpp"
 #include "video/gl/gl_context.hpp"
-#include "video/gl/gl_lightmap.hpp"
 #include "video/gl/gl_program.hpp"
-#include "video/gl/gl_renderer.hpp"
+#include "video/gl/gl_screen_renderer.hpp"
 #include "video/gl/gl_texture.hpp"
+#include "video/gl/gl_texture_renderer.hpp"
+#include "video/gl/gl_texture_renderer.hpp"
 #include "video/gl/gl_vertex_arrays.hpp"
 #include "video/glutil.hpp"
 #include "video/sdl_surface.hpp"
@@ -56,7 +57,7 @@ GLVideoSystem::GLVideoSystem(bool use_opengl33core) :
   create_window();
 
   m_texture_manager.reset(new TextureManager);
-  m_renderer.reset(new GLRenderer(*this));
+  m_renderer.reset(new GLScreenRenderer(*this));
 
 #if defined(USE_OPENGLES2)
   m_context.reset(new GL33CoreContext);
@@ -244,7 +245,7 @@ GLVideoSystem::apply_config()
 
   m_viewport = Viewport::from_size(target_size, m_desktop_size);
 
-  m_lightmap.reset(new GLLightmap(*this, m_viewport.get_screen_size()));
+  m_lightmap.reset(new GLTextureRenderer(*this, m_viewport.get_screen_size(), 5));
 }
 
 void

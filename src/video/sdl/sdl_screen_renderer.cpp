@@ -15,7 +15,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "video/sdl/sdl_renderer.hpp"
+#include "video/sdl/sdl_screen_renderer.hpp"
 
 #include "math/rect.hpp"
 #include "supertux/gameconfig.hpp"
@@ -24,11 +24,10 @@
 #include "video/sdl/sdl_painter.hpp"
 #include "video/sdl/sdl_video_system.hpp"
 
-SDLRenderer::SDLRenderer(SDLVideoSystem& video_system, SDL_Renderer* renderer) :
+SDLScreenRenderer::SDLScreenRenderer(SDLVideoSystem& video_system, SDL_Renderer* renderer) :
   m_video_system(video_system),
   m_renderer(renderer),
-  m_painter(m_video_system, m_renderer),
-  m_cliprect()
+  m_painter(m_video_system, *this, m_renderer)
 {
   SDL_RendererInfo info;
   if (SDL_GetRendererInfo(m_renderer, &info) != 0)
@@ -53,12 +52,12 @@ SDLRenderer::SDLRenderer(SDLVideoSystem& video_system, SDL_Renderer* renderer) :
   }
 }
 
-SDLRenderer::~SDLRenderer()
+SDLScreenRenderer::~SDLScreenRenderer()
 {
 }
 
 void
-SDLRenderer::start_draw()
+SDLScreenRenderer::start_draw()
 {
   const Rect& viewport = m_video_system.get_viewport().get_rect();
   const Vector& scale = m_video_system.get_viewport().get_scale();
@@ -77,68 +76,30 @@ SDLRenderer::start_draw()
 }
 
 void
-SDLRenderer::end_draw()
+SDLScreenRenderer::end_draw()
 {
 }
 
-void
-SDLRenderer::clear(const Color& color)
+Rect
+SDLScreenRenderer::get_rect() const
 {
-  SDL_SetRenderDrawColor(m_renderer, color.r8(), color.g8(), color.b8(), color.a8());
+  return m_video_system.get_viewport().get_rect();
+}
 
-  if (m_cliprect)
-  {
-    SDL_SetRenderDrawBlendMode(m_renderer, SDL_BLENDMODE_NONE);
-    SDL_RenderFillRect(m_renderer, &*m_cliprect);
-  }
-  else
-  {
-    // This ignores the cliprect:
-    SDL_RenderClear(m_renderer);
-  }
+Size
+SDLScreenRenderer::get_logical_size() const
+{
+  return m_video_system.get_viewport().get_screen_size();
 }
 
 void
-SDLRenderer::set_clip_rect(const Rect& rect)
-{
-  m_cliprect = SDL_Rect{ rect.left,
-                         rect.top,
-                         rect.get_width(),
-                         rect.get_height() };
-
-  int ret = SDL_RenderSetClipRect(m_renderer, &*m_cliprect);
-  if (ret < 0)
-  {
-    log_warning << "SDLRenderer::set_clip_rect(): SDL_RenderSetClipRect() failed: " << SDL_GetError() << std::endl;
-  }
-}
-
-void
-SDLRenderer::clear_clip_rect()
-{
-  m_cliprect.reset();
-
-  int ret = SDL_RenderSetClipRect(m_renderer, nullptr);
-  if (ret < 0)
-  {
-    log_warning << "SDLRenderer::clear_clip_rect(): SDL_RenderSetClipRect() failed: " << SDL_GetError() << std::endl;
-  }
-}
-
-void
-SDLRenderer::flip()
+SDLScreenRenderer::flip()
 {
   SDL_RenderPresent(m_renderer);
 }
 
 void
-SDLRenderer::get_pixel(const DrawingRequest& request) const
-{
-  assert(false && "not implemented yet");
-}
-
-void
-SDLRenderer::render()
+SDLScreenRenderer::render()
 {
   // nothing to do, we already render directly to the screen
 }

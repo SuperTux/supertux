@@ -30,7 +30,7 @@ class Surface;
 
 enum RequestType
 {
-  TEXTURE, TEXTURE_BATCH, GRADIENT, FILLRECT, INVERSEELLIPSE, GETLIGHT, LINE, TRIANGLE
+  TEXTURE, TEXTURE_BATCH, GRADIENT, FILLRECT, INVERSEELLIPSE, GETPIXEL, LINE, TRIANGLE
 };
 
 struct DrawingRequest
@@ -176,7 +176,7 @@ struct TriangleRequest : public DrawingRequest
 struct GetPixelRequest : public DrawingRequest
 {
   GetPixelRequest() :
-    DrawingRequest(GETLIGHT),
+    DrawingRequest(GETPIXEL),
     pos(),
     color_ptr() {}
 

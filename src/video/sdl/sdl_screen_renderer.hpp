@@ -26,22 +26,20 @@
 
 class SDLVideoSystem;
 
-class SDLRenderer : public Renderer
+class SDLScreenRenderer : public Renderer
 {
 public:
-  SDLRenderer(SDLVideoSystem& video_system, SDL_Renderer* renderer);
-  ~SDLRenderer();
+  SDLScreenRenderer(SDLVideoSystem& video_system, SDL_Renderer* renderer);
+  ~SDLScreenRenderer();
 
   virtual void start_draw() override;
   virtual void end_draw() override;
 
   virtual SDLPainter& get_painter() override { return m_painter; }
-  virtual void clear(const Color& color) override;
 
-  virtual void set_clip_rect(const Rect& rect) override;
-  virtual void clear_clip_rect() override;
+  virtual Rect get_rect() const override;
+  virtual Size get_logical_size() const override;
 
-  virtual void get_pixel(const DrawingRequest& request) const override;
   virtual void render() override;
 
   void flip();
@@ -51,11 +49,10 @@ private:
   SDLVideoSystem& m_video_system;
   SDL_Renderer* m_renderer;
   SDLPainter m_painter;
-  boost::optional<SDL_Rect> m_cliprect;
 
 private:
-  SDLRenderer(const SDLRenderer&);
-  SDLRenderer& operator=(const SDLRenderer&);
+  SDLScreenRenderer(const SDLScreenRenderer&);
+  SDLScreenRenderer& operator=(const SDLScreenRenderer&);
 };
 
 #endif

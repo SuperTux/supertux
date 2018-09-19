@@ -22,24 +22,32 @@
 #include "video/drawing_effect.hpp"
 
 class Blend;
+class GLRenderer;
 class GLVideoSystem;
 struct DrawingRequest;
 
 class GLPainter : public Painter
 {
 public:
-  GLPainter(GLVideoSystem& video_system);
+  GLPainter(GLVideoSystem& video_system, GLRenderer& renderer);
 
-  void draw_texture(const DrawingRequest& request);
-  void draw_texture_batch(const DrawingRequest& request);
-  void draw_gradient(const DrawingRequest& request);
-  void draw_filled_rect(const DrawingRequest& request);
-  void draw_inverse_ellipse(const DrawingRequest& request);
-  void draw_line(const DrawingRequest& request);
-  void draw_triangle(const DrawingRequest& request);
+  virtual void draw_texture(const DrawingRequest& request) override;
+  virtual void draw_texture_batch(const DrawingRequest& request) override;
+  virtual void draw_gradient(const DrawingRequest& request) override;
+  virtual void draw_filled_rect(const DrawingRequest& request) override;
+  virtual void draw_inverse_ellipse(const DrawingRequest& request) override;
+  virtual void draw_line(const DrawingRequest& request) override;
+  virtual void draw_triangle(const DrawingRequest& request) override;
+
+  virtual void clear(const Color& color) override;
+  virtual void get_pixel(const DrawingRequest& request) const override;
+
+  virtual void set_clip_rect(const Rect& rect) override;
+  virtual void clear_clip_rect() override;
 
 private:
   GLVideoSystem& m_video_system;
+  GLRenderer& m_renderer;
 
 private:
   GLPainter(const GLPainter&) = delete;

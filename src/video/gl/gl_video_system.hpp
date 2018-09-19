@@ -21,14 +21,16 @@
 #include <SDL.h>
 
 #include "math/size.hpp"
+#include "video/gl/gl_renderer.hpp"
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
 class GLContext;
 class GLLightmap;
 class GLProgram;
-class GLRenderer;
+class GLScreenRenderer;
 class GLTexture;
+class GLTextureRenderer;
 class GLVertexArrays;
 class Rect;
 class TextureManager;
@@ -69,8 +71,8 @@ private:
 private:
   bool m_use_opengl33core;
   std::unique_ptr<TextureManager> m_texture_manager;
-  std::unique_ptr<GLRenderer> m_renderer;
-  std::unique_ptr<GLLightmap> m_lightmap;
+  std::unique_ptr<GLScreenRenderer> m_renderer;
+  std::unique_ptr<GLTextureRenderer> m_lightmap;
   std::unique_ptr<GLContext> m_context;
 
   SDL_Window* m_window;
