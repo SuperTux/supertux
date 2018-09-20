@@ -117,6 +117,8 @@ if(WIN32)
   ## Find all used libraries
   if(NOT VCPKG_BUILD)
     file(GLOB DLLS "${DEPENDENCY_FOLDER}/dll/*")
+  else()
+    file(GLOB DLLS "${CMAKE_CURRENT_BINARY_DIR}/*.dll")
   endif()
 endif(WIN32)
 
