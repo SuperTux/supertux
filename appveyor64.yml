@@ -12,7 +12,7 @@ branches:
   except:
     - coverity_scan # No need for Windows builds on that branch
 
-# cache: c:\tools\vcpkg\installed\
+cache: c:\tools\vcpkg\installed -> appveyor64.yml
 
 before_build:
 - cmd: |
