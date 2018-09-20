@@ -27,11 +27,13 @@ GL33CoreContext::GL33CoreContext(GLVideoSystem& video_system) :
   m_video_system(video_system),
   m_program(),
   m_vertex_arrays(),
-  m_white_texture()
+  m_white_texture(),
+  m_black_texture()
 {
   m_program.reset(new GLProgram);
   m_vertex_arrays.reset(new GLVertexArrays(*this));
   m_white_texture.reset(new GLTexture(1, 1, Color::WHITE));
+  m_black_texture.reset(new GLTexture(1, 1, Color::BLACK));
 }
 
 GL33CoreContext::~GL33CoreContext()

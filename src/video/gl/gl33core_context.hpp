@@ -61,6 +61,7 @@ private:
   std::unique_ptr<GLProgram> m_program;
   std::unique_ptr<GLVertexArrays> m_vertex_arrays;
   std::unique_ptr<GLTexture> m_white_texture;
+  std::unique_ptr<GLTexture> m_black_texture;
 
 private:
   GL33CoreContext(const GL33CoreContext&) = delete;
