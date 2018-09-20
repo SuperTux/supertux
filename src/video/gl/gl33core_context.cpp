@@ -51,8 +51,43 @@ GL33CoreContext::bind()
   m_vertex_arrays->bind();
 
   glActiveTexture(GL_TEXTURE1);
-  GLTextureRenderer* renderer = static_cast<GLTextureRenderer*>(m_video_system.get_back_renderer());
-  glBindTexture(GL_TEXTURE_2D, renderer->get_texture().get_handle());
+  GLTextureRenderer* back_renderer = static_cast<GLTextureRenderer*>(m_video_system.get_back_renderer());
+  if (back_renderer->is_rendering())
+  {
+    glBindTexture(GL_TEXTURE_2D, m_black_texture->get_handle());
+    glUniform1f(m_program->get_uniform_location("backbuffer"), 0.0f);
+  }
+  else
+  {
+    glBindTexture(GL_TEXTURE_2D, back_renderer->get_texture().get_handle());
+    glUniform1f(m_program->get_uniform_location("backbuffer"), 1.0f);
+  }
+
+  const float tsx =
+    static_cast<float>(back_renderer->get_texture().get_image_width()) /
+    static_cast<float>(back_renderer->get_texture().get_texture_width());
+
+  const float tsy =
+    static_cast<float>(back_renderer->get_texture().get_image_height()) /
+    static_cast<float>(back_renderer->get_texture().get_texture_height());
+
+  const Rect& rect = m_video_system.get_viewport().get_rect();
+
+  const float sx = tsx / static_cast<float>(rect.get_width());
+  const float sy = tsy / static_cast<float>(rect.get_height());
+  const float tx = -static_cast<float>(rect.left) / static_cast<float>(rect.get_width());
+  const float ty = -static_cast<float>(rect.top) / static_cast<float>(rect.get_height());
+
+  const float matrix[3*3] = {
+    sx, 0.0, 0,
+    0.0, sy, 0,
+    tx, ty, 1.0,
+  };
+  glUniformMatrix3fv(m_program->get_uniform_location("fragcoord2uv"),
+                     1, false, matrix);
+
+  glUniform1i(m_program->get_uniform_location("diffuse_texture"), 0);
+  glUniform1i(m_program->get_uniform_location("framebuffer_texture"), 1);
 }
 
 void
