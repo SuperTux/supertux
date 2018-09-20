@@ -30,13 +30,13 @@ class GLTexture : public Texture
 {
 protected:
   GLuint m_handle;
-  unsigned int m_texture_width;
-  unsigned int m_texture_height;
-  unsigned int m_image_width;
-  unsigned int m_image_height;
+  int m_texture_width;
+  int m_texture_height;
+  int m_image_width;
+  int m_image_height;
 
 public:
-  GLTexture(unsigned int width, unsigned int height, boost::optional<Color> fill_color = boost::none);
+  GLTexture(int width, int height, boost::optional<Color> fill_color = boost::none);
   GLTexture(const SDL_Surface& image);
   ~GLTexture();
 
@@ -48,32 +48,32 @@ public:
     m_handle = handle;
   }
 
-  unsigned int get_texture_width() const
+  int get_texture_width() const
   {
     return m_texture_width;
   }
 
-  unsigned int get_texture_height() const
+  int get_texture_height() const
   {
     return m_texture_height;
   }
 
-  unsigned int get_image_width() const
+  int get_image_width() const
   {
     return m_image_width;
   }
 
-  unsigned int get_image_height() const
+  int get_image_height() const
   {
     return m_image_height;
   }
 
-  void set_image_width(unsigned int width)
+  void set_image_width(int width)
   {
     m_image_width = width;
   }
 
-  void set_image_height(unsigned int height)
+  void set_image_height(int height)
   {
     m_image_height = height;
   }

@@ -37,22 +37,22 @@ public:
     return m_texture;
   }
 
-  unsigned int get_texture_width() const
+  int get_texture_width() const
   {
     return m_width;
   }
 
-  unsigned int get_texture_height() const
+  int get_texture_height() const
   {
     return m_height;
   }
 
-  unsigned int get_image_width() const
+  int get_image_width() const
   {
     return m_width;
   }
 
-  unsigned int get_image_height() const
+  int get_image_height() const
   {
     return m_height;
   }

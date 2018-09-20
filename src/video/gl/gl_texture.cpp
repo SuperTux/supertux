@@ -21,7 +21,7 @@
 #include "video/glutil.hpp"
 #include "video/sdl_surface.hpp"
 
-GLTexture::GLTexture(unsigned int width, unsigned int height, boost::optional<Color> fill_color) :
+GLTexture::GLTexture(int width, int height, boost::optional<Color> fill_color) :
   m_handle(),
   m_texture_width(),
   m_texture_height(),

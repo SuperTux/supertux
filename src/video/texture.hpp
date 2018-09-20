@@ -43,10 +43,10 @@ public:
       TextureManager::current()->reap_cache_entry(cache_filename);
   }
 
-  virtual unsigned int get_texture_width() const = 0;
-  virtual unsigned int get_texture_height() const = 0;
-  virtual unsigned int get_image_width() const = 0;
-  virtual unsigned int get_image_height() const = 0;
+  virtual int get_texture_width() const = 0;
+  virtual int get_texture_height() const = 0;
+  virtual int get_image_width() const = 0;
+  virtual int get_image_height() const = 0;
 
 private:
   Texture(const Texture&);
