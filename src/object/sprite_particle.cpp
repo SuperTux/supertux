@@ -92,7 +92,7 @@ SpriteParticle::draw(DrawingContext& context)
 
   //Sparkles glow in the dark
   if(glow){
-    context.get_light(position, &light );
+    context.light().get_pixel(position, &light );
     if (light.red + light.green + light.blue < 3.0){
       sprite->draw(context.light(), position, drawing_layer);
       lightsprite->draw(context.light(), position + Vector(12,12), 0);

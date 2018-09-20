@@ -157,6 +157,9 @@ public:
   void draw_line(const Vector& pos1, const Vector& pos2, const Color& color, int layer);
   void draw_triangle(const Vector& pos1, const Vector& pos2, const Vector& pos3, const Color& color, int layer);
 
+  /** on next update, set color to lightmap's color at position */
+  void get_pixel(const Vector& position, Color* color_out);
+
   void clear();
   void render(VideoSystem& video_system, Filter filter);
 

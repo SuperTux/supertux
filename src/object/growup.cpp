@@ -59,7 +59,7 @@ GrowUp::draw(DrawingContext& context)
   //Draw shade
   shadesprite->draw(context.color(), get_pos(), layer);
   //Draw the light when dark
-  context.get_light( get_bbox().get_middle(), &light );
+  context.light().get_pixel( get_bbox().get_middle(), &light );
   if (light.red + light.green < 2.0){
     lightsprite->draw(context.light(), get_bbox().get_middle(), 0);
   }

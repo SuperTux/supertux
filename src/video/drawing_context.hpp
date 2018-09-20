@@ -48,9 +48,6 @@ public:
   /** Returns the visible area in world coordinates */
   Rectf get_cliprect() const;
 
-  /** on next update, set color to lightmap's color at position */
-  void get_light(const Vector& position, Color* color_out);
-
   Canvas& color() { return m_colormap_canvas; }
   Canvas& light() { assert(!m_overlay); return m_lightmap_canvas; }
   Canvas& get_canvas(DrawingTarget target) {

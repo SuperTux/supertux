@@ -173,7 +173,7 @@ MagicBlock::update(float elapsed_time)
 void
 MagicBlock::draw(DrawingContext& context){
   //Ask for update about lightmap at center of this block
-  context.get_light( center, &light );
+  context.light().get_pixel( center, &light );
 
   //Draw the Sprite.
   MovingSprite::draw(context);

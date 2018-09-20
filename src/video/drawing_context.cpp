@@ -46,37 +46,6 @@ DrawingContext::~DrawingContext()
 }
 
 void
-DrawingContext::get_light(const Vector& position, Color* color_out)
-{
-  if (m_ambient_color.red == 1.0f &&
-      m_ambient_color.green == 1.0f &&
-      m_ambient_color.blue == 1.0f)
-  {
-    *color_out = Color( 1.0f, 1.0f, 1.0f);
-    return;
-  }
-
-  auto request = new(m_obst) GetPixelRequest();
-
-  request->layer = LAYER_GUI; //make sure all get_light requests are handled last.
-
-  request->pos = transform().apply(position);
-  request->color_ptr = color_out;
-
-  //There is no light offscreen.
-  if(request->pos.x >= static_cast<float>(m_viewport.get_width()) ||
-     request->pos.y >= static_cast<float>(m_viewport.get_height()) ||
-     request->pos.x < 0.0f ||
-     request->pos.y < 0.0f)
-  {
-    *color_out = Color( 0, 0, 0);
-    return;
-  }
-
-  m_lightmap_canvas.get_requests().push_back(request);
-}
-
-void
 DrawingContext::set_ambient_color(Color ambient_color)
 {
   m_ambient_color = ambient_color;

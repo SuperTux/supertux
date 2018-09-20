@@ -153,7 +153,7 @@ Kugelblitz::draw(DrawingContext& context)
   sprite->draw(context.color(), get_pos(), layer);
 
   //Only draw light in dark areas
-  context.get_light( bbox.get_middle(), &light );
+  context.light().get_pixel( bbox.get_middle(), &light );
   if (light.red + light.green < 2.0){
     sprite->draw(context.light(), get_pos(), layer);
     lightsprite->draw(context.light(), bbox.get_middle(), 0);

@@ -357,6 +357,29 @@ Canvas::draw_triangle(const Vector& pos1, const Vector& pos2, const Vector& pos3
   m_requests.push_back(request);
 }
 
+void
+Canvas::get_pixel(const Vector& position, Color* color_out)
+{
+  auto request = new(m_obst) GetPixelRequest();
+
+  request->layer = LAYER_GUI; //make sure all get_light requests are handled last.
+
+  request->pos = m_context.transform().apply(position);
+  request->color_ptr = color_out;
+
+  //There is no light offscreen.
+  if(request->pos.x >= static_cast<float>(m_context.get_viewport().get_width()) ||
+     request->pos.y >= static_cast<float>(m_context.get_viewport().get_height()) ||
+     request->pos.x < 0.0f ||
+     request->pos.y < 0.0f)
+  {
+    *color_out = Color( 0, 0, 0);
+    return;
+  }
+
+  m_requests.push_back(request);
+}
+
 Vector
 Canvas::apply_translate(const Vector& pos) const
 {

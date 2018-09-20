@@ -174,7 +174,7 @@ PowerUp::draw(DrawingContext& context){
   //Draw the Sprite.
   sprite->draw(context.color(), get_pos(), layer);
   //Draw light when dark for defaults
-  context.get_light( bbox.get_middle(), &light );
+  context.light().get_pixel( bbox.get_middle(), &light );
   if (light.red + light.green + light.blue < 3.0){
     //Stars are brighter
     if (sprite_name == "images/powerups/star/star.sprite") {

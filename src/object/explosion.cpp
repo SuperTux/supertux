@@ -129,7 +129,7 @@ Explosion::draw(DrawingContext& context)
   //Draw the Sprite.
   sprite->draw(context.color(), get_pos(), LAYER_OBJECTS+40);
   //Explosions produce light (if ambient light is not maxed)
-  context.get_light( bbox.get_middle(), &light);
+  context.light().get_pixel( bbox.get_middle(), &light);
   if (light.red + light.green + light.blue < 3.0){
     lightsprite->draw(context.light(), bbox.get_middle(), 0);
   }
