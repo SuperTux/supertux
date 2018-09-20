@@ -22,7 +22,6 @@
 
 #include "video/gl.hpp"
 #include "video/gl/gl_painter.hpp"
-#include "video/gl/gl_renderer.hpp"
 #include "video/renderer.hpp"
 
 class GLFramebuffer;
@@ -32,7 +31,7 @@ class Rect;
 class Texture;
 struct DrawingRequest;
 
-class GLTextureRenderer final : public GLRenderer
+class GLTextureRenderer final : public Renderer
 {
 public:
   GLTextureRenderer(GLVideoSystem& video_system, const Size& size, int downscale);

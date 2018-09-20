@@ -21,7 +21,6 @@
 #include <SDL.h>
 
 #include "math/size.hpp"
-#include "video/gl/gl_renderer.hpp"
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 

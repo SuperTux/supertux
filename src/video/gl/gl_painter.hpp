@@ -22,14 +22,14 @@
 #include "video/drawing_effect.hpp"
 
 class Blend;
-class GLRenderer;
+class Renderer;
 class GLVideoSystem;
 struct DrawingRequest;
 
 class GLPainter : public Painter
 {
 public:
-  GLPainter(GLVideoSystem& video_system, GLRenderer& renderer);
+  GLPainter(GLVideoSystem& video_system, Renderer& renderer);
 
   virtual void draw_texture(const DrawingRequest& request) override;
   virtual void draw_texture_batch(const DrawingRequest& request) override;
@@ -47,7 +47,7 @@ public:
 
 private:
   GLVideoSystem& m_video_system;
-  GLRenderer& m_renderer;
+  Renderer& m_renderer;
 
 private:
   GLPainter(const GLPainter&) = delete;

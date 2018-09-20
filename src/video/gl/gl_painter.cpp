@@ -24,15 +24,15 @@
 #include "video/drawing_request.hpp"
 #include "video/gl/gl_context.hpp"
 #include "video/gl/gl_program.hpp"
-#include "video/gl/gl_renderer.hpp"
 #include "video/gl/gl_texture.hpp"
 #include "video/gl/gl_vertex_arrays.hpp"
 #include "video/gl/gl_video_system.hpp"
 #include "video/glutil.hpp"
+#include "video/renderer.hpp"
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
-GLPainter::GLPainter(GLVideoSystem& video_system, GLRenderer& renderer) :
+GLPainter::GLPainter(GLVideoSystem& video_system, Renderer& renderer) :
   m_video_system(video_system),
   m_renderer(renderer)
 {

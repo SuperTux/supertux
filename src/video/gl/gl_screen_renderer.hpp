@@ -22,12 +22,12 @@
 
 #include "math/vector.hpp"
 #include "video/gl/gl_painter.hpp"
-#include "video/gl/gl_renderer.hpp"
+#include "video/renderer.hpp"
 
 class GLVideoSystem;
 struct DrawingRequest;
 
-class GLScreenRenderer final : public GLRenderer
+class GLScreenRenderer final : public Renderer
 {
 public:
   GLScreenRenderer(GLVideoSystem& video_system);
