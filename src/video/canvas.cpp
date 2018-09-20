@@ -40,8 +40,7 @@ DrawingEffect effect_from_surface(const Surface& surface)
 
 } // namespace
 
-Canvas::Canvas(DrawingTarget target, DrawingContext& context, obstack& obst) :
-  m_target(target),
+Canvas::Canvas(DrawingContext& context, obstack& obst) :
   m_context(context),
   m_obst(obst),
   m_requests()
@@ -64,7 +63,7 @@ Canvas::clear()
 }
 
 void
-Canvas::render(VideoSystem& video_system, Filter filter)
+Canvas::render(Renderer& renderer, Filter filter)
 {
   // On a regular level, each frame has around 50-250 requests (before
   // batching it was 1000-3000), the sort comparator function is
@@ -74,12 +73,7 @@ Canvas::render(VideoSystem& video_system, Filter filter)
                      return r1->layer < r2->layer;
                    });
 
-  Renderer& renderer = video_system.get_renderer();
-  Renderer& lightmap = video_system.get_lightmap();
-
-  Painter& painter = (m_target == DrawingTarget::LIGHTMAP) ?
-    lightmap.get_painter() :
-    renderer.get_painter();
+  Painter& painter = renderer.get_painter();
 
   for(const auto& i : m_requests) {
     const DrawingRequest& request = *i;

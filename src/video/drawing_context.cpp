@@ -35,8 +35,8 @@ DrawingContext::DrawingContext(VideoSystem& video_system_, obstack& obst, bool o
              m_video_system.get_viewport().get_screen_height()),
   m_ambient_color(Color::WHITE),
   m_transform_stack(1),
-  m_colormap_canvas(DrawingTarget::COLORMAP, *this, m_obst),
-  m_lightmap_canvas(DrawingTarget::LIGHTMAP, *this, m_obst)
+  m_colormap_canvas(*this, m_obst),
+  m_lightmap_canvas(*this, m_obst)
 {
 }
 

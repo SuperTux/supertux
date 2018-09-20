@@ -30,9 +30,10 @@
 #include "video/font_ptr.hpp"
 #include "video/drawing_target.hpp"
 
-struct DrawingRequest;
-class VideoSystem;
 class DrawingContext;
+class Renderer;
+class VideoSystem;
+struct DrawingRequest;
 
 // some constants for predefined layer values
 enum {
@@ -128,7 +129,7 @@ public:
   enum Filter { BELOW_LIGHTMAP, ABOVE_LIGHTMAP, ALL };
 
 public:
-  Canvas(DrawingTarget target, DrawingContext& context, obstack& obst);
+  Canvas(DrawingContext& context, obstack& obst);
   ~Canvas();
 
   void draw_surface(SurfacePtr surface, const Vector& position, int layer);
@@ -161,7 +162,7 @@ public:
   void get_pixel(const Vector& position, Color* color_out);
 
   void clear();
-  void render(VideoSystem& video_system, Filter filter);
+  void render(Renderer& renderer, Filter filter);
 
   DrawingContext& get_context() { return m_context; }
 
@@ -172,7 +173,6 @@ private:
   Vector apply_translate(const Vector& pos) const;
 
 private:
-  DrawingTarget m_target;
   DrawingContext& m_context;
   obstack& m_obst;
   std::vector<DrawingRequest*> m_requests;

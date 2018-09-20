@@ -72,7 +72,7 @@ Compositor::render()
         painter.set_clip_rect(ctx->get_viewport());
         painter.clear(ctx->get_ambient_color());
 
-        ctx->light().render(m_video_system, Canvas::ALL);
+        ctx->light().render(lightmap, Canvas::ALL);
 
         painter.clear_clip_rect();
       }
@@ -88,7 +88,7 @@ Compositor::render()
     for(auto& ctx : m_drawing_contexts)
     {
       painter.set_clip_rect(ctx->get_viewport());
-      ctx->color().render(m_video_system, Canvas::BELOW_LIGHTMAP);
+      ctx->color().render(renderer, Canvas::BELOW_LIGHTMAP);
       painter.clear_clip_rect();
     }
 
@@ -101,7 +101,7 @@ Compositor::render()
     for(auto& ctx : m_drawing_contexts)
     {
       painter.set_clip_rect(ctx->get_viewport());
-      ctx->color().render(m_video_system, Canvas::ABOVE_LIGHTMAP);
+      ctx->color().render(renderer, Canvas::ABOVE_LIGHTMAP);
       painter.clear_clip_rect();
     }
 
