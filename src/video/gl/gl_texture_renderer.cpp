@@ -36,7 +36,8 @@ GLTextureRenderer::GLTextureRenderer(GLVideoSystem& video_system, const Size& si
   m_size(size),
   m_downscale(downscale),
   m_texture(),
-  m_framebuffer()
+  m_framebuffer(),
+  m_rendering(false)
 {
 }
 
@@ -59,9 +60,18 @@ GLTextureRenderer::prepare()
   }
 }
 
+bool
+GLTextureRenderer::is_rendering() const
+{
+  return m_rendering;
+}
+
 void
 GLTextureRenderer::start_draw()
 {
+  assert(!m_rendering);
+  m_rendering = true;
+
   assert_gl();
   prepare();
 
@@ -106,6 +116,9 @@ GLTextureRenderer::end_draw()
   }
 
   assert_gl();
+
+  assert(m_rendering);
+  m_rendering = false;
 }
 
 Size

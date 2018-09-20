@@ -49,6 +49,7 @@ public:
 
   GLTexture& get_texture() const { return *m_texture; }
   void prepare();
+  bool is_rendering() const;
 
 private:
   GLVideoSystem& m_video_system;
@@ -58,6 +59,7 @@ private:
   int m_downscale;
   std::shared_ptr<GLTexture> m_texture;
   std::unique_ptr<GLFramebuffer> m_framebuffer;
+  bool m_rendering;
 
 private:
   GLTextureRenderer(const GLTextureRenderer&);
