@@ -44,6 +44,7 @@ GLVideoSystem::GLVideoSystem(bool use_opengl33core) :
   m_texture_manager(),
   m_renderer(),
   m_lightmap(),
+  m_back_renderer(),
   m_context(),
   m_window(),
   m_glcontext(),
@@ -60,13 +61,13 @@ GLVideoSystem::GLVideoSystem(bool use_opengl33core) :
   m_renderer.reset(new GLScreenRenderer(*this));
 
 #if defined(USE_OPENGLES2)
-  m_context.reset(new GL33CoreContext);
+  m_context.reset(new GL33CoreContext(*this));
 #elif defined(USE_OPENGLES1)
   m_context.reset(new GL20Context);
 #else
   if (use_opengl33core)
   {
-    m_context.reset(new GL33CoreContext);
+    m_context.reset(new GL33CoreContext(*this));
   }
   else
   {
@@ -246,6 +247,10 @@ GLVideoSystem::apply_config()
   m_viewport = Viewport::from_size(target_size, m_desktop_size);
 
   m_lightmap.reset(new GLTextureRenderer(*this, m_viewport.get_screen_size(), 5));
+  if (m_use_opengl33core)
+  {
+    m_back_renderer.reset(new GLTextureRenderer(*this, m_viewport.get_screen_size(), 5));
+  }
 }
 
 void
@@ -313,6 +318,12 @@ Renderer&
 GLVideoSystem::get_lightmap() const
 {
   return *m_lightmap;
+}
+
+Renderer*
+GLVideoSystem::get_back_renderer() const
+{
+  return m_back_renderer.get();
 }
 
 TexturePtr

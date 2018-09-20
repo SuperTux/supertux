@@ -41,6 +41,7 @@ public:
   GLVideoSystem(bool use_opengl33core);
   ~GLVideoSystem();
 
+  virtual Renderer* get_back_renderer() const override;
   virtual Renderer& get_renderer() const override;
   virtual Renderer& get_lightmap() const override;
 
@@ -72,6 +73,7 @@ private:
   std::unique_ptr<TextureManager> m_texture_manager;
   std::unique_ptr<GLScreenRenderer> m_renderer;
   std::unique_ptr<GLTextureRenderer> m_lightmap;
+  std::unique_ptr<GLTextureRenderer> m_back_renderer;
   std::unique_ptr<GLContext> m_context;
 
   SDL_Window* m_window;

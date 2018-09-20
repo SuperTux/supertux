@@ -47,6 +47,7 @@ public:
 
   virtual void render() override;
 
+  GLTexture& get_texture() const { return *m_texture; }
   void prepare();
 
 private:

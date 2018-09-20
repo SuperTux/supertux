@@ -49,7 +49,6 @@ Compositor::make_context(bool overlay)
 void
 Compositor::render()
 {
-  auto& renderer = m_video_system.get_renderer();
   auto& lightmap = m_video_system.get_lightmap();
 
   bool use_lightmap = std::any_of(m_drawing_contexts.begin(), m_drawing_contexts.end(),
@@ -80,8 +79,27 @@ Compositor::render()
     lightmap.end_draw();
   }
 
+  auto back_renderer = m_video_system.get_back_renderer();
+  if (back_renderer)
+  {
+    back_renderer->start_draw();
+
+    Painter& painter = back_renderer->get_painter();
+
+    for(auto& ctx : m_drawing_contexts)
+    {
+      painter.set_clip_rect(ctx->get_viewport());
+      ctx->color().render(*back_renderer, Canvas::BELOW_LIGHTMAP);
+      painter.clear_clip_rect();
+    }
+
+    back_renderer->end_draw();
+  }
+
   // compose the screen
   {
+    auto& renderer = m_video_system.get_renderer();
+
     renderer.start_draw();
     Painter& painter = renderer.get_painter();
 

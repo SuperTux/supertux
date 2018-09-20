@@ -19,9 +19,12 @@
 #include "video/color.hpp"
 #include "video/gl/gl_program.hpp"
 #include "video/gl/gl_texture.hpp"
+#include "video/gl/gl_texture_renderer.hpp"
 #include "video/gl/gl_vertex_arrays.hpp"
+#include "video/gl/gl_video_system.hpp"
 
-GL33CoreContext::GL33CoreContext() :
+GL33CoreContext::GL33CoreContext(GLVideoSystem& video_system) :
+  m_video_system(video_system),
   m_program(),
   m_vertex_arrays(),
   m_white_texture()
@@ -44,6 +47,10 @@ GL33CoreContext::bind()
 
   m_program->bind();
   m_vertex_arrays->bind();
+
+  glActiveTexture(GL_TEXTURE1);
+  GLTextureRenderer* renderer = static_cast<GLTextureRenderer*>(m_video_system.get_back_renderer());
+  glBindTexture(GL_TEXTURE_2D, renderer->get_texture().get_handle());
 }
 
 void
@@ -104,12 +111,14 @@ GL33CoreContext::set_color(const Color& color)
 void
 GL33CoreContext::bind_texture(const GLTexture& texture)
 {
+  glActiveTexture(GL_TEXTURE0);
   glBindTexture(GL_TEXTURE_2D, texture.get_handle());
 }
 
 void
 GL33CoreContext::bind_no_texture()
 {
+  glActiveTexture(GL_TEXTURE0);
   glBindTexture(GL_TEXTURE_2D, m_white_texture->get_handle());
 }
 

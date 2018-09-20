@@ -29,7 +29,7 @@ class GLVideoSystem;
 class GL33CoreContext final : public GLContext
 {
 public:
-  GL33CoreContext();
+  GL33CoreContext(GLVideoSystem& video_system);
   ~GL33CoreContext();
 
   virtual void bind() override;
@@ -57,6 +57,7 @@ public:
   GLTexture& get_white_texture() const { return *m_white_texture; }
 
 private:
+  GLVideoSystem& m_video_system;
   std::unique_ptr<GLProgram> m_program;
   std::unique_ptr<GLVertexArrays> m_vertex_arrays;
   std::unique_ptr<GLTexture> m_white_texture;
