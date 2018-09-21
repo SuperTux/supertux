@@ -16,6 +16,7 @@
 
 #include "video/gl/gl33core_context.hpp"
 
+#include "supertux/globals.hpp"
 #include "video/color.hpp"
 #include "video/gl/gl_program.hpp"
 #include "video/gl/gl_texture.hpp"
@@ -88,6 +89,9 @@ GL33CoreContext::bind()
 
   glUniform1i(m_program->get_uniform_location("diffuse_texture"), 0);
   glUniform1i(m_program->get_uniform_location("framebuffer_texture"), 1);
+
+  glUniform1f(m_program->get_uniform_location("game_time"), g_game_time);
+  glUniform1f(m_program->get_uniform_location("real_time"), g_real_time);
 }
 
 void
