@@ -34,19 +34,8 @@ public:
 
   GLuint get_handle() const { return m_program; }
 
-  GLint get_attrib_location(const char* name)
-  {
-    GLint loc = glGetAttribLocation(m_program, name);
-    assert(loc != -1);
-    return loc;
-  }
-
-  GLint get_uniform_location(const char* name)
-  {
-    GLint loc = glGetUniformLocation(m_program, name);
-    assert(loc != -1);
-    return loc;
-  }
+  GLint get_attrib_location(const char* name) const;
+  GLint get_uniform_location(const char* name) const;
 
 private:
   bool get_link_status() const;

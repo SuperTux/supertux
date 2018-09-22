@@ -18,6 +18,8 @@
 
 #include <sstream>
 
+#include "util/log.hpp"
+
 GLProgram::GLProgram() :
   m_program(glCreateProgram()),
   m_frag_shader(),
@@ -67,6 +69,28 @@ GLProgram::validate()
     out << "validate failure:\n" << get_info_log() << std::endl;
     throw std::runtime_error(out.str());
   }
+}
+
+GLint
+GLProgram::get_attrib_location(const char* name) const
+{
+  GLint loc = glGetAttribLocation(m_program, name);
+  if (loc == -1)
+  {
+    log_debug << "GLProgram::get_attrib_location(\"" << name << "\") failed" << std::endl;
+  }
+  return loc;
+}
+
+GLint
+GLProgram::get_uniform_location(const char* name) const
+{
+  GLint loc = glGetUniformLocation(m_program, name);
+  if (loc == -1)
+  {
+    log_debug << "GLProgram::get_uniform_location(\"" << name << "\") failed" << std::endl;
+  }
+  return loc;
 }
 
 bool
