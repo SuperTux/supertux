@@ -123,7 +123,7 @@ Compositor::render()
       painter.clear_clip_rect();
     }
 
-    painter.clear_clip_rect();
+    renderer.end_draw();
   }
 
   // cleanup
