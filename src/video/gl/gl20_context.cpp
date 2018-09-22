@@ -109,11 +109,11 @@ GL20Context::set_color(const Color& color)
 }
 
 void
-GL20Context::bind_texture(const GLTexture& texture)
+GL20Context::bind_texture(const Texture& texture)
 {
   assert_gl();
   glEnable(GL_TEXTURE_2D);
-  glBindTexture(GL_TEXTURE_2D, texture.get_handle());
+  glBindTexture(GL_TEXTURE_2D, static_cast<const GLTexture&>(texture).get_handle());
   assert_gl();
 }
 

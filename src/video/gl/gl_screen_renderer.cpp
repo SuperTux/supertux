@@ -82,10 +82,4 @@ GLScreenRenderer::get_logical_size() const
               viewport.get_screen_height());
 }
 
-void
-GLScreenRenderer::render()
-{
-  // nothing to do, we already render directly to the screen
-}
-
 /* EOF */

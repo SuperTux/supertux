@@ -112,7 +112,27 @@ Compositor::render()
 
     if (use_lightmap)
     {
-      lightmap.render();
+      const TexturePtr& texture = lightmap.get_texture();
+      if (texture)
+      {
+        TextureRequest request;
+
+        request.type = TEXTURE;
+        request.drawing_effect = VERTICAL_FLIP;
+        request.alpha = 1.0f;
+        request.angle = 0.0f;
+        request.blend = Blend(GL_DST_COLOR, GL_ZERO);
+
+        request.srcrect = Rectf(0, 0,
+                                static_cast<float>(texture->get_image_width()),
+                                static_cast<float>(texture->get_image_height()));
+        request.dstrect = Rectf(Vector(0, 0), lightmap.get_logical_size());
+
+        request.texture = texture.get();
+        request.color = Color::WHITE;
+
+        painter.draw_texture(request);
+      }
     }
 
     // Render overlay elements

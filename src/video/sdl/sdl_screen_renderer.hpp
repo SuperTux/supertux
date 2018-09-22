@@ -40,7 +40,7 @@ public:
   virtual Rect get_rect() const override;
   virtual Size get_logical_size() const override;
 
-  virtual void render() override;
+  virtual TexturePtr get_texture() const override { return {}; }
 
   void flip();
   SDL_Renderer* get_sdl_renderer() const { return m_renderer; };

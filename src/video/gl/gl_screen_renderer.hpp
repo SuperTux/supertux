@@ -41,7 +41,7 @@ public:
   virtual Rect get_rect() const override;
   virtual Size get_logical_size() const override;
 
-  virtual void render() override;
+  virtual TexturePtr get_texture() const override { return {}; }
 
 private:
   GLVideoSystem& m_video_system;

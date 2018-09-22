@@ -55,7 +55,7 @@ GLTextureRenderer::prepare()
 
     if (m_video_system.get_context().supports_framebuffer())
     {
-      m_framebuffer = std::make_unique<GLFramebuffer>(*m_texture);
+      m_framebuffer = std::make_unique<GLFramebuffer>(static_cast<GLTexture&>(*m_texture));
     }
   }
 }
@@ -106,7 +106,7 @@ GLTextureRenderer::end_draw()
   else
   {
     assert_gl();
-    glBindTexture(GL_TEXTURE_2D, m_texture->get_handle());
+    glBindTexture(GL_TEXTURE_2D, static_cast<GLTexture&>(*m_texture).get_handle());
     glCopyTexSubImage2D(GL_TEXTURE_2D,
                         0, // level
                         0, 0, // offset
@@ -133,42 +133,6 @@ GLTextureRenderer::get_rect() const
   return Rect(0, 0,
               Size(m_texture->get_image_width(),
                    m_texture->get_image_height()));
-}
-
-void
-GLTextureRenderer::render()
-{
-  GLContext& context = m_video_system.get_context();
-
-  assert_gl();
-  // multiple the lightmap with the framebuffer
-  context.blend_func(GL_DST_COLOR, GL_ZERO);
-
-  context.bind_texture(*m_texture);
-  context.set_color(Color::WHITE);
-
-  float vertices[] = {
-    0, 0,
-    static_cast<float>(m_size.width), 0,
-    static_cast<float>(m_size.width), static_cast<float>(m_size.height),
-    0, static_cast<float>(m_size.height)
-  };
-  context.set_positions(vertices, sizeof(vertices));
-
-  float uv_right = static_cast<float>(m_texture->get_image_width()) / static_cast<float>(m_texture->get_texture_width());
-  float uv_bottom = static_cast<float>(m_texture->get_image_height()) / static_cast<float>(m_texture->get_texture_height());
-  float uvs[] = {
-    0, uv_bottom,
-    uv_right, uv_bottom,
-    uv_right, 0,
-    0, 0
-  };
-  context.set_texcoords(uvs, sizeof(uvs));
-
-  glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
-
-  context.blend_func(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-  assert_gl();
 }
 
 /* EOF */

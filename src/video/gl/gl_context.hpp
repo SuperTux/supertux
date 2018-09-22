@@ -23,6 +23,7 @@
 
 class Color;
 class GLTexture;
+class Texture;
 
 class GLContext
 {
@@ -44,7 +45,7 @@ public:
   virtual void set_colors(const float* data, size_t size) = 0;
   virtual void set_color(const Color& color) = 0;
 
-  virtual void bind_texture(const GLTexture& texture) = 0;
+  virtual void bind_texture(const Texture& texture) = 0;
   virtual void bind_no_texture() = 0;
 
   virtual void draw_arrays(GLenum type, GLint first, GLsizei count) = 0;

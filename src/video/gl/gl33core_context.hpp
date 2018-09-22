@@ -46,7 +46,7 @@ public:
   virtual void set_colors(const float* data, size_t size) override;
   virtual void set_color(const Color& color) override;
 
-  virtual void bind_texture(const GLTexture& texture) override;
+  virtual void bind_texture(const Texture& texture) override;
   virtual void bind_no_texture() override;
   virtual void draw_arrays(GLenum type, GLint first, GLsizei count) override;
 

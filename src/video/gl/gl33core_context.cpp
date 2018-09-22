@@ -53,24 +53,28 @@ GL33CoreContext::bind()
 
   glActiveTexture(GL_TEXTURE1);
   GLTextureRenderer* back_renderer = static_cast<GLTextureRenderer*>(m_video_system.get_back_renderer());
-  if (back_renderer->is_rendering())
+
+  GLTexture* texture;
+  if (back_renderer->is_rendering() || !back_renderer->get_texture())
   {
-    glBindTexture(GL_TEXTURE_2D, m_black_texture->get_handle());
+    texture = m_black_texture.get();
     glUniform1f(m_program->get_uniform_location("backbuffer"), 0.0f);
   }
   else
   {
-    glBindTexture(GL_TEXTURE_2D, back_renderer->get_texture().get_handle());
+    texture = static_cast<GLTexture*>(back_renderer->get_texture().get());
     glUniform1f(m_program->get_uniform_location("backbuffer"), 1.0f);
   }
 
+  glBindTexture(GL_TEXTURE_2D, texture->get_handle());
+
   const float tsx =
-    static_cast<float>(back_renderer->get_texture().get_image_width()) /
-    static_cast<float>(back_renderer->get_texture().get_texture_width());
+    static_cast<float>(texture->get_image_width()) /
+    static_cast<float>(texture->get_texture_width());
 
   const float tsy =
-    static_cast<float>(back_renderer->get_texture().get_image_height()) /
-    static_cast<float>(back_renderer->get_texture().get_texture_height());
+    static_cast<float>(texture->get_image_height()) /
+    static_cast<float>(texture->get_texture_height());
 
   const Rect& rect = m_video_system.get_viewport().get_rect();
 
@@ -150,10 +154,10 @@ GL33CoreContext::set_color(const Color& color)
 }
 
 void
-GL33CoreContext::bind_texture(const GLTexture& texture)
+GL33CoreContext::bind_texture(const Texture& texture)
 {
   glActiveTexture(GL_TEXTURE0);
-  glBindTexture(GL_TEXTURE_2D, texture.get_handle());
+  glBindTexture(GL_TEXTURE_2D, static_cast<const GLTexture&>(texture).get_handle());
 }
 
 void

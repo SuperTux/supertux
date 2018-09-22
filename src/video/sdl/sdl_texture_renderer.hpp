@@ -20,10 +20,12 @@
 #include <SDL.h>
 #include <boost/optional.hpp>
 
+#include "video/texture_ptr.hpp"
 #include "video/renderer.hpp"
 #include "video/sdl/sdl_painter.hpp"
 
 class Color;
+class SDLTexture;
 class SDLVideoSystem;
 struct DrawingRequest;
 struct SDL_Renderer;
@@ -43,7 +45,10 @@ public:
   virtual Rect get_rect() const override;
   virtual Size get_logical_size() const override;
 
-  virtual void render() override;
+  virtual TexturePtr get_texture() const override;
+
+private:
+  SDL_Texture* get_sdl_texture() const;
 
 private:
   SDLVideoSystem& m_video_system;
@@ -52,7 +57,7 @@ private:
   Size m_size;
   int m_downscale;
 
-  SDL_Texture* m_texture;
+  TexturePtr m_texture;
 
 private:
   SDLTextureRenderer(const SDLTextureRenderer&);

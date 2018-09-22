@@ -98,10 +98,4 @@ SDLScreenRenderer::flip()
   SDL_RenderPresent(m_renderer);
 }
 
-void
-SDLScreenRenderer::render()
-{
-  // nothing to do, we already render directly to the screen
-}
-
 /* EOF */

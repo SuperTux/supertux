@@ -23,6 +23,7 @@
 #include "video/gl.hpp"
 #include "video/gl/gl_painter.hpp"
 #include "video/renderer.hpp"
+#include "video/texture_ptr.hpp"
 
 class GLFramebuffer;
 class GLTexture;
@@ -45,11 +46,12 @@ public:
   virtual Rect get_rect() const override;
   virtual Size get_logical_size() const override;
 
-  virtual void render() override;
+  virtual TexturePtr get_texture() const override { return m_texture; }
 
-  GLTexture& get_texture() const { return *m_texture; }
-  void prepare();
   bool is_rendering() const;
+
+private:
+  void prepare();
 
 private:
   GLVideoSystem& m_video_system;
@@ -57,7 +59,7 @@ private:
 
   Size m_size;
   int m_downscale;
-  std::shared_ptr<GLTexture> m_texture;
+  TexturePtr m_texture;
   std::unique_ptr<GLFramebuffer> m_framebuffer;
   bool m_rendering;
 

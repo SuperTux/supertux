@@ -20,6 +20,7 @@
 #include "math/rect.hpp"
 #include "math/vector.hpp"
 #include "video/color.hpp"
+#include "video/texture_ptr.hpp"
 
 class Painter;
 class Rect;
@@ -39,7 +40,7 @@ public:
   virtual Rect get_rect() const = 0;
   virtual Size get_logical_size() const = 0;
 
-  virtual void render() = 0;
+  virtual TexturePtr get_texture() const = 0;
 };
 
 #endif
