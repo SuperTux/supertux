@@ -34,7 +34,7 @@ public:
 
   virtual void bind() override;
 
-  virtual void ortho(float width, float height) override;
+  virtual void ortho(float width, float height, bool vflip) override;
 
   virtual void blend_func(GLenum src, GLenum dst) override;
 

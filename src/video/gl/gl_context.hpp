@@ -33,7 +33,7 @@ public:
 
   virtual void bind() = 0;
 
-  virtual void ortho(float width, float height) = 0;
+  virtual void ortho(float width, float height, bool vflip) = 0;
 
   virtual void blend_func(GLenum src, GLenum dst) = 0;
 

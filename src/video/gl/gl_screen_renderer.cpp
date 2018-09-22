@@ -53,7 +53,8 @@ GLScreenRenderer::start_draw()
   glViewport(rect.left, rect.top, rect.get_width(), rect.get_height());
 
   context.ortho(static_cast<float>(viewport.get_screen_width()),
-                static_cast<float>(viewport.get_screen_height()));
+                static_cast<float>(viewport.get_screen_height()),
+                true);
 
   // clear the screen to get rid of lightmap remains
   glClearColor(0, 0, 0, 1);

@@ -99,13 +99,13 @@ GL33CoreContext::bind()
 }
 
 void
-GL33CoreContext::ortho(float width, float height)
+GL33CoreContext::ortho(float width, float height, bool vflip)
 {
   const float sx = 2.0f / static_cast<float>(width);
-  const float sy = -2.0f / static_cast<float>(height);
+  const float sy = -2.0f / static_cast<float>(height) * (vflip ? 1.0f : -1.0f);
 
   const float tx = -1.0f;
-  const float ty = 1.0f;
+  const float ty = 1.0f * (vflip ? 1.0f : -1.0f);
 
   const float mvp_matrix[] = {
     sx, 0, tx,

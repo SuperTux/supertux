@@ -85,9 +85,10 @@ GLTextureRenderer::start_draw()
 
   glViewport(0, 0, m_texture->get_image_width(), m_texture->get_image_height());
 
-  context.ortho(static_cast<float>(m_size.width), static_cast<float>(m_size.height));
+  context.ortho(static_cast<float>(m_size.width),
+                static_cast<float>(m_size.height),
+                false);
 
-  // clear the screen to get rid of lightmap remains
   glClearColor(0, 0, 0, 1);
   glClear(GL_COLOR_BUFFER_BIT);
 

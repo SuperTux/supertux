@@ -506,8 +506,7 @@ GLPainter::get_pixel(const GetPixelRequest& request) const
 
   float pixels[3] = { 0.0f, 0.0f, 0.0f };
 
-  glReadPixels(static_cast<GLint>(x),
-               rect.get_height() - static_cast<GLint>(y),
+  glReadPixels(static_cast<GLint>(x), static_cast<GLint>(y),
                1, 1, GL_RGB, GL_FLOAT, pixels);
 
   *(request.color_ptr) = Color(pixels[0], pixels[1], pixels[2]);

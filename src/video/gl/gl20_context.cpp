@@ -39,22 +39,27 @@ GL20Context::bind()
 }
 
 void
-GL20Context::ortho(float width, float height)
+GL20Context::ortho(float width, float height, bool vflip)
 {
   assert_gl();
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
 
-  glOrtho(0,
-          width,
-          height,
-          0,
-          -1,
-          1);
+  if (vflip)
+  {
+    glOrtho(0, width,
+            height, 0,
+            -1, 1);
+  }
+  else
+  {
+    glOrtho(0, width,
+            0, height,
+            -1, 1);
+  }
 
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
-  glTranslatef(0, 0, 0);
   assert_gl();
 }
 
