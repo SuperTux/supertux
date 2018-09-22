@@ -39,38 +39,38 @@ GLPainter::GLPainter(GLVideoSystem& video_system, Renderer& renderer) :
 }
 
 void
-GLPainter::draw_texture(const TextureRequest& data)
+GLPainter::draw_texture(const TextureRequest& request)
 {
   assert_gl();
 
-  const auto& texture = static_cast<const GLTexture&>(*data.texture);
+  const auto& texture = static_cast<const GLTexture&>(*request.texture);
 
   GLContext& context = m_video_system.get_context();
   context.bind_texture(texture);
 
-  float left = data.dstrect.p1.x;
-  float top = data.dstrect.p1.y;
-  float right = data.dstrect.p2.x;
-  float bottom = data.dstrect.p2.y;
+  float left = request.dstrect.p1.x;
+  float top = request.dstrect.p1.y;
+  float right = request.dstrect.p2.x;
+  float bottom = request.dstrect.p2.y;
 
-  float uv_left = data.srcrect.get_left() / static_cast<float>(texture.get_texture_width());
-  float uv_top = data.srcrect.get_top() / static_cast<float>(texture.get_texture_height());
-  float uv_right = data.srcrect.get_right() / static_cast<float>(texture.get_texture_width());
-  float uv_bottom = data.srcrect.get_bottom() / static_cast<float>(texture.get_texture_height());
+  float uv_left = request.srcrect.get_left() / static_cast<float>(texture.get_texture_width());
+  float uv_top = request.srcrect.get_top() / static_cast<float>(texture.get_texture_height());
+  float uv_right = request.srcrect.get_right() / static_cast<float>(texture.get_texture_width());
+  float uv_bottom = request.srcrect.get_bottom() / static_cast<float>(texture.get_texture_height());
 
-  if (data.drawing_effect & HORIZONTAL_FLIP)
+  if (request.drawing_effect & HORIZONTAL_FLIP)
     std::swap(uv_left, uv_right);
 
-  if (data.drawing_effect & VERTICAL_FLIP)
+  if (request.drawing_effect & VERTICAL_FLIP)
     std::swap(uv_top, uv_bottom);
 
-  context.blend_func(data.blend.sfactor, data.blend.dfactor);
-  context.set_color(Color(data.color.red,
-                          data.color.green,
-                          data.color.blue,
-                          data.color.alpha * data.alpha));
+  context.blend_func(request.blend.sfactor, request.blend.dfactor);
+  context.set_color(Color(request.color.red,
+                          request.color.green,
+                          request.color.blue,
+                          request.color.alpha * request.alpha));
 
-  if (data.angle == 0.0f)
+  if (request.angle == 0.0f)
   {
     // unrotated blit
     const float vertices[] = {
@@ -98,8 +98,8 @@ GLPainter::draw_texture(const TextureRequest& data)
     const float center_x = (left + right) / 2;
     const float center_y = (top + bottom) / 2;
 
-    const float sa = sinf(math::radians(data.angle));
-    const float ca = cosf(math::radians(data.angle));
+    const float sa = sinf(math::radians(request.angle));
+    const float ca = cosf(math::radians(request.angle));
 
     left -= center_x;
     right -= center_x;
@@ -131,32 +131,32 @@ GLPainter::draw_texture(const TextureRequest& data)
 }
 
 void
-GLPainter::draw_texture_batch(const TextureBatchRequest& data)
+GLPainter::draw_texture_batch(const TextureBatchRequest& request)
 {
   assert_gl();
 
-  const auto& texture = static_cast<const GLTexture&>(*data.texture);
+  const auto& texture = static_cast<const GLTexture&>(*request.texture);
 
-  assert(data.srcrects.size() == data.dstrects.size());
+  assert(request.srcrects.size() == request.dstrects.size());
 
   std::vector<float> vertices;
   std::vector<float> uvs;
-  for(size_t i = 0; i < data.srcrects.size(); ++i)
+  for(size_t i = 0; i < request.srcrects.size(); ++i)
   {
-    const float left = data.dstrects[i].p1.x;
-    const float top = data.dstrects[i].p1.y;
-    const float right  = data.dstrects[i].p2.x;
-    const float bottom = data.dstrects[i].p2.y;
+    const float left = request.dstrects[i].p1.x;
+    const float top = request.dstrects[i].p1.y;
+    const float right  = request.dstrects[i].p2.x;
+    const float bottom = request.dstrects[i].p2.y;
 
-    float uv_left = data.srcrects[i].get_left() / static_cast<float>(texture.get_texture_width());
-    float uv_top = data.srcrects[i].get_top() / static_cast<float>(texture.get_texture_height());
-    float uv_right = data.srcrects[i].get_right() / static_cast<float>(texture.get_texture_width());
-    float uv_bottom = data.srcrects[i].get_bottom() / static_cast<float>(texture.get_texture_height());
+    float uv_left = request.srcrects[i].get_left() / static_cast<float>(texture.get_texture_width());
+    float uv_top = request.srcrects[i].get_top() / static_cast<float>(texture.get_texture_height());
+    float uv_right = request.srcrects[i].get_right() / static_cast<float>(texture.get_texture_width());
+    float uv_bottom = request.srcrects[i].get_bottom() / static_cast<float>(texture.get_texture_height());
 
-    if (data.drawing_effect & HORIZONTAL_FLIP)
+    if (request.drawing_effect & HORIZONTAL_FLIP)
       std::swap(uv_left, uv_right);
 
-    if (data.drawing_effect & VERTICAL_FLIP)
+    if (request.drawing_effect & VERTICAL_FLIP)
       std::swap(uv_top, uv_bottom);
 
     auto vertices_lst = {
@@ -187,25 +187,25 @@ GLPainter::draw_texture_batch(const TextureBatchRequest& data)
   GLContext& context = m_video_system.get_context();
 
   context.bind_texture(texture);
-  context.blend_func(data.blend.sfactor, data.blend.dfactor);
+  context.blend_func(request.blend.sfactor, request.blend.dfactor);
   context.set_positions(vertices.data(), sizeof(float) * vertices.size());
   context.set_texcoords(uvs.data(), sizeof(float) * uvs.size());
-  context.set_color(Color(data.color.red, data.color.green, data.color.blue, data.color.alpha * data.alpha));
+  context.set_color(Color(request.color.red, request.color.green, request.color.blue, request.color.alpha * request.alpha));
 
-  context.draw_arrays(GL_TRIANGLES, 0, static_cast<GLsizei>(data.srcrects.size() * 2 * 3));
+  context.draw_arrays(GL_TRIANGLES, 0, static_cast<GLsizei>(request.srcrects.size() * 2 * 3));
 
   assert_gl();
 }
 
 void
-GLPainter::draw_gradient(const GradientRequest& data)
+GLPainter::draw_gradient(const GradientRequest& request)
 {
   assert_gl();
 
-  const Color& top = data.top;
-  const Color& bottom = data.bottom;
-  const GradientDirection& direction = data.direction;
-  const Rectf& region = data.region;
+  const Color& top = request.top;
+  const Color& bottom = request.bottom;
+  const GradientDirection& direction = request.direction;
+  const Rectf& region = request.region;
 
   GLContext& context = m_video_system.get_context();
 
@@ -247,30 +247,30 @@ GLPainter::draw_gradient(const GradientRequest& data)
 }
 
 void
-GLPainter::draw_filled_rect(const FillRectRequest& data)
+GLPainter::draw_filled_rect(const FillRectRequest& request)
 {
   assert_gl();
 
   GLContext& context = m_video_system.get_context();
-  context.set_color(data.color);
+  context.set_color(request.color);
 
   context.bind_no_texture();
   context.set_texcoord(0.0f, 0.0f);
 
-  if (data.radius != 0.0f)
+  if (request.radius != 0.0f)
   {
     // draw round rect
     // Keep radius in the limits, so that we get a circle instead of
     // just graphic junk
-    float radius = std::min(data.radius,
-                            std::min(data.size.x/2,
-                                     data.size.y/2));
+    float radius = std::min(request.radius,
+                            std::min(request.size.x/2,
+                                     request.size.y/2));
 
     // inner rectangle
-    Rectf irect(data.pos.x    + radius,
-                data.pos.y    + radius,
-                data.pos.x + data.size.x - radius,
-                data.pos.y + data.size.y - radius);
+    Rectf irect(request.pos.x    + radius,
+                request.pos.y    + radius,
+                request.pos.x + request.size.x - radius,
+                request.pos.y + request.size.y - radius);
 
     int n = 8;
     size_t p = 0;
@@ -306,10 +306,10 @@ GLPainter::draw_filled_rect(const FillRectRequest& data)
   }
   else
   {
-    float x = data.pos.x;
-    float y = data.pos.y;
-    float w = data.size.x;
-    float h = data.size.y;
+    float x = request.pos.x;
+    float y = request.pos.y;
+    float w = request.size.x;
+    float h = request.size.y;
 
     float vertices[] = {
       x,   y,
@@ -327,14 +327,14 @@ GLPainter::draw_filled_rect(const FillRectRequest& data)
 }
 
 void
-GLPainter::draw_inverse_ellipse(const InverseEllipseRequest& data)
+GLPainter::draw_inverse_ellipse(const InverseEllipseRequest& request)
 {
   assert_gl();
 
-  float x = data.pos.x;
-  float y = data.pos.y;
-  float w = data.size.x/2.0f;
-  float h = data.size.y/2.0f;
+  float x = request.pos.x;
+  float y = request.pos.y;
+  float w = request.size.x/2.0f;
+  float h = request.size.y/2.0f;
 
   static const int slices = 16;
   static const int points = (slices+1) * 12;
@@ -397,7 +397,7 @@ GLPainter::draw_inverse_ellipse(const InverseEllipseRequest& data)
 
   GLContext& context = m_video_system.get_context();
 
-  context.set_color(data.color);
+  context.set_color(request.color);
   context.bind_no_texture();
   context.set_positions(vertices, sizeof(vertices));
   context.set_texcoord(0.0f, 0.0f);
@@ -408,14 +408,14 @@ GLPainter::draw_inverse_ellipse(const InverseEllipseRequest& data)
 }
 
 void
-GLPainter::draw_line(const LineRequest& data)
+GLPainter::draw_line(const LineRequest& request)
 {
   assert_gl();
 
-  float x1 = data.pos.x;
-  float y1 = data.pos.y;
-  float x2 = data.dest_pos.x;
-  float y2 = data.dest_pos.y;
+  float x1 = request.pos.x;
+  float y1 = request.pos.y;
+  float x2 = request.dest_pos.x;
+  float y2 = request.dest_pos.y;
 
   // OpenGL3.3 doesn't have GL_LINES anymore, so instead we transform
   // the line into a quad and draw it as triangle strip.
@@ -441,7 +441,7 @@ GLPainter::draw_line(const LineRequest& data)
 
   GLContext& context = m_video_system.get_context();
 
-  context.set_color(data.color);
+  context.set_color(request.color);
   context.bind_no_texture();
   context.set_texcoord(0.0f, 0.0f);
   context.set_positions(vertices, sizeof(vertices));
@@ -452,16 +452,16 @@ GLPainter::draw_line(const LineRequest& data)
 }
 
 void
-GLPainter::draw_triangle(const TriangleRequest& data)
+GLPainter::draw_triangle(const TriangleRequest& request)
 {
   assert_gl();
 
-  float x1 = data.pos1.x;
-  float y1 = data.pos1.y;
-  float x2 = data.pos2.x;
-  float y2 = data.pos2.y;
-  float x3 = data.pos3.x;
-  float y3 = data.pos3.y;
+  float x1 = request.pos1.x;
+  float y1 = request.pos1.y;
+  float x2 = request.pos2.x;
+  float y2 = request.pos2.y;
+  float x3 = request.pos3.x;
+  float y3 = request.pos3.y;
 
   float vertices[] = {
     x1, y1,
@@ -471,7 +471,7 @@ GLPainter::draw_triangle(const TriangleRequest& data)
 
   GLContext& context = m_video_system.get_context();
 
-  context.set_color(data.color);
+  context.set_color(request.color);
   context.bind_no_texture();
   context.set_texcoord(0.0f, 0.0f);
   context.set_positions(vertices, sizeof(vertices));
@@ -491,26 +491,27 @@ GLPainter::clear(const Color& color)
 }
 
 void
-GLPainter::get_pixel(const GetPixelRequest& data) const
+GLPainter::get_pixel(const GetPixelRequest& request) const
 {
+  assert_gl();
+
   const Rect& rect = m_renderer.get_rect();
   const Size& logical_size = m_renderer.get_logical_size();
 
-  assert_gl();
-
-  float pixels[3] = { 0.0f, 0.0f, 0.0f };
-
-  float x = data.pos.x * static_cast<float>(rect.get_width()) / static_cast<float>(logical_size.width);
-  float y = data.pos.y * static_cast<float>(rect.get_height()) / static_cast<float>(logical_size.height);
+  float x = request.pos.x * static_cast<float>(rect.get_width()) / static_cast<float>(logical_size.width);
+  float y = request.pos.y * static_cast<float>(rect.get_height()) / static_cast<float>(logical_size.height);
 
   x += static_cast<float>(rect.left);
   y += static_cast<float>(rect.top);
+
+  float pixels[3] = { 0.0f, 0.0f, 0.0f };
 
   glReadPixels(static_cast<GLint>(x),
                rect.get_height() - static_cast<GLint>(y),
                1, 1, GL_RGB, GL_FLOAT, pixels);
 
-  *(data.color_ptr) = Color(pixels[0], pixels[1], pixels[2]);
+  *(request.color_ptr) = Color(pixels[0], pixels[1], pixels[2]);
+
   assert_gl();
 }
 
