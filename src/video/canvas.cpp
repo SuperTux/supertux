@@ -27,19 +27,6 @@
 #include "video/surface.hpp"
 #include "video/video_system.hpp"
 
-namespace {
-
-DrawingEffect effect_from_surface(const Surface& surface)
-{
-  if (surface.get_flipx()) {
-    return HORIZONTAL_FLIP;
-  } else {
-    return 0;
-  }
-}
-
-} // namespace
-
 Canvas::Canvas(DrawingContext& context, obstack& obst) :
   m_context(context),
   m_obst(obst),
@@ -139,7 +126,7 @@ Canvas::draw_surface(SurfacePtr surface, const Vector& position,
 
   request->type = TEXTURE;
   request->layer = layer;
-  request->drawing_effect = m_context.transform().drawing_effect ^ effect_from_surface(*surface);
+  request->drawing_effect = m_context.transform().drawing_effect ^ surface->get_effect();
   request->alpha = m_context.transform().alpha;
   request->angle = angle;
   request->blend = blend;
@@ -168,7 +155,7 @@ Canvas::draw_surface_part(SurfacePtr surface, const Rectf& srcrect, const Rectf&
 
   request->type = TEXTURE;
   request->layer = layer;
-  request->drawing_effect = m_context.transform().drawing_effect ^ effect_from_surface(*surface);
+  request->drawing_effect = m_context.transform().drawing_effect ^ surface->get_effect();
   request->alpha = m_context.transform().alpha * style.get_alpha();
   request->blend = style.get_blend();
 
@@ -193,7 +180,7 @@ Canvas::draw_surface_batch(SurfacePtr surface,
 
   request->type = TEXTURE_BATCH;
   request->layer = layer;
-  request->drawing_effect = m_context.transform().drawing_effect ^ effect_from_surface(*surface);
+  request->drawing_effect = m_context.transform().drawing_effect ^ surface->get_effect();
   request->alpha = m_context.transform().alpha;
   request->color = color;
 

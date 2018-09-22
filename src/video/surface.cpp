@@ -36,7 +36,7 @@ Surface::Surface(const TexturePtr& texture) :
   m_rect(0, 0,
          Size(m_texture->get_image_width(),
               m_texture->get_image_height())),
-  m_flipx(false)
+  m_effect()
 {
 }
 
@@ -45,21 +45,21 @@ Surface::Surface(const std::string& file) :
   m_rect(0, 0,
          Size(m_texture->get_image_width(),
               m_texture->get_image_height())),
-  m_flipx(false)
+  m_effect()
 {
 }
 
 Surface::Surface(const std::string& file, const Rect& rect_) :
   m_texture(TextureManager::current()->get(file, rect_)),
   m_rect(0, 0, Size(rect_.get_width(), rect_.get_height())),
-  m_flipx(false)
+  m_effect()
 {
 }
 
 Surface::Surface(const Surface& rhs) :
   m_texture(rhs.m_texture),
   m_rect(rhs.m_rect),
-  m_flipx(false) // FIXME: Why no copy here?
+  m_effect(rhs.m_effect)
 {
 }
 
@@ -74,23 +74,17 @@ Surface::~Surface()
 }
 
 SurfacePtr
-Surface::clone() const
+Surface::clone(DrawingEffect effect) const
 {
   SurfacePtr surface(new Surface(*this));
+  surface->m_effect ^= effect;
   return surface;
 }
 
-/** flip the surface horizontally */
-void
-Surface::hflip()
+DrawingEffect
+Surface::get_effect() const
 {
-  m_flipx = !m_flipx;
-}
-
-bool
-Surface::get_flipx() const
-{
-  return m_flipx;
+  return m_effect;
 }
 
 TexturePtr

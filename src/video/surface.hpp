@@ -19,8 +19,9 @@
 
 #include <string>
 
-#include "math/vector.hpp"
 #include "math/rect.hpp"
+#include "math/vector.hpp"
+#include "video/drawing_effect.hpp"
 #include "video/surface_ptr.hpp"
 #include "video/texture_ptr.hpp"
 
@@ -39,7 +40,7 @@ public:
 private:
   TexturePtr m_texture;
   Rect m_rect;
-  bool m_flipx;
+  DrawingEffect m_effect;
 
 private:
   Surface(const std::string& file);
@@ -50,11 +51,8 @@ private:
 public:
   ~Surface();
 
-  SurfacePtr clone() const;
-
-  /** flip the surface horizontally */
-  void hflip();
-  bool get_flipx() const;
+  SurfacePtr clone(DrawingEffect effect = 0) const;
+  DrawingEffect get_effect() const;
 
   TexturePtr get_texture() const;
   int get_x() const;
