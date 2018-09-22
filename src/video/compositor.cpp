@@ -118,7 +118,7 @@ Compositor::render()
         TextureRequest request;
 
         request.type = TEXTURE;
-        request.drawing_effect = VERTICAL_FLIP;
+        request.drawing_effect = 0;
         request.alpha = 1.0f;
         request.angle = 0.0f;
         request.blend = Blend(GL_DST_COLOR, GL_ZERO);
