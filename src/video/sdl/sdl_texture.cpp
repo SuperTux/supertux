@@ -22,6 +22,13 @@
 #include "video/sdl/sdl_screen_renderer.hpp"
 #include "video/video_system.hpp"
 
+SDLTexture::SDLTexture(SDL_Texture* texture, int width, int height) :
+  m_texture(texture),
+  m_width(width),
+  m_height(height)
+{
+}
+
 SDLTexture::SDLTexture(const SDL_Surface& image) :
   m_texture(),
   m_width(),
