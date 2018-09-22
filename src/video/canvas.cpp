@@ -85,35 +85,35 @@ Canvas::render(Renderer& renderer, Filter filter)
 
     switch(request.type) {
       case TEXTURE:
-        painter.draw_texture(request);
+        painter.draw_texture(static_cast<const TextureRequest&>(request));
         break;
 
       case TEXTURE_BATCH:
-        painter.draw_texture_batch(request);
+        painter.draw_texture_batch(static_cast<const TextureBatchRequest&>(request));
         break;
 
       case GRADIENT:
-        painter.draw_gradient(request);
+        painter.draw_gradient(static_cast<const GradientRequest&>(request));
         break;
 
       case FILLRECT:
-        painter.draw_filled_rect(request);
+        painter.draw_filled_rect(static_cast<const FillRectRequest&>(request));
         break;
 
       case INVERSEELLIPSE:
-        painter.draw_inverse_ellipse(request);
+        painter.draw_inverse_ellipse(static_cast<const InverseEllipseRequest&>(request));
         break;
 
       case LINE:
-        painter.draw_line(request);
+        painter.draw_line(static_cast<const LineRequest&>(request));
         break;
 
       case TRIANGLE:
-        painter.draw_triangle(request);
+        painter.draw_triangle(static_cast<const TriangleRequest&>(request));
         break;
 
       case GETPIXEL:
-        painter.get_pixel(request);
+        painter.get_pixel(static_cast<const GetPixelRequest&>(request));
         break;
     }
   }

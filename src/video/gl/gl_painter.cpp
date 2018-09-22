@@ -39,10 +39,10 @@ GLPainter::GLPainter(GLVideoSystem& video_system, Renderer& renderer) :
 }
 
 void
-GLPainter::draw_texture(const DrawingRequest& request)
+GLPainter::draw_texture(const TextureRequest& data)
 {
   assert_gl();
-  const auto& data = static_cast<const TextureRequest&>(request);
+
   const auto& texture = static_cast<const GLTexture&>(*data.texture);
 
   GLContext& context = m_video_system.get_context();
@@ -131,10 +131,10 @@ GLPainter::draw_texture(const DrawingRequest& request)
 }
 
 void
-GLPainter::draw_texture_batch(const DrawingRequest& request)
+GLPainter::draw_texture_batch(const TextureBatchRequest& data)
 {
   assert_gl();
-  const auto& data = static_cast<const TextureBatchRequest&>(request);
+
   const auto& texture = static_cast<const GLTexture&>(*data.texture);
 
   assert(data.srcrects.size() == data.dstrects.size());
@@ -153,10 +153,10 @@ GLPainter::draw_texture_batch(const DrawingRequest& request)
     float uv_right = data.srcrects[i].get_right() / static_cast<float>(texture.get_texture_width());
     float uv_bottom = data.srcrects[i].get_bottom() / static_cast<float>(texture.get_texture_height());
 
-    if (request.drawing_effect & HORIZONTAL_FLIP)
+    if (data.drawing_effect & HORIZONTAL_FLIP)
       std::swap(uv_left, uv_right);
 
-    if (request.drawing_effect & VERTICAL_FLIP)
+    if (data.drawing_effect & VERTICAL_FLIP)
       std::swap(uv_top, uv_bottom);
 
     auto vertices_lst = {
@@ -187,10 +187,10 @@ GLPainter::draw_texture_batch(const DrawingRequest& request)
   GLContext& context = m_video_system.get_context();
 
   context.bind_texture(texture);
-  context.blend_func(request.blend.sfactor, request.blend.dfactor);
+  context.blend_func(data.blend.sfactor, data.blend.dfactor);
   context.set_positions(vertices.data(), sizeof(float) * vertices.size());
   context.set_texcoords(uvs.data(), sizeof(float) * uvs.size());
-  context.set_color(Color(data.color.red, data.color.green, data.color.blue, data.color.alpha * request.alpha));
+  context.set_color(Color(data.color.red, data.color.green, data.color.blue, data.color.alpha * data.alpha));
 
   context.draw_arrays(GL_TRIANGLES, 0, static_cast<GLsizei>(data.srcrects.size() * 2 * 3));
 
@@ -198,10 +198,9 @@ GLPainter::draw_texture_batch(const DrawingRequest& request)
 }
 
 void
-GLPainter::draw_gradient(const DrawingRequest& request)
+GLPainter::draw_gradient(const GradientRequest& data)
 {
   assert_gl();
-  const auto& data = static_cast<const GradientRequest&>(request);
 
   const Color& top = data.top;
   const Color& bottom = data.bottom;
@@ -248,10 +247,9 @@ GLPainter::draw_gradient(const DrawingRequest& request)
 }
 
 void
-GLPainter::draw_filled_rect(const DrawingRequest& request)
+GLPainter::draw_filled_rect(const FillRectRequest& data)
 {
   assert_gl();
-  const auto& data = static_cast<const FillRectRequest&>(request);
 
   GLContext& context = m_video_system.get_context();
   context.set_color(data.color);
@@ -329,10 +327,9 @@ GLPainter::draw_filled_rect(const DrawingRequest& request)
 }
 
 void
-GLPainter::draw_inverse_ellipse(const DrawingRequest& request)
+GLPainter::draw_inverse_ellipse(const InverseEllipseRequest& data)
 {
   assert_gl();
-  const auto& data = static_cast<const InverseEllipseRequest&>(request);
 
   float x = data.pos.x;
   float y = data.pos.y;
@@ -411,10 +408,9 @@ GLPainter::draw_inverse_ellipse(const DrawingRequest& request)
 }
 
 void
-GLPainter::draw_line(const DrawingRequest& request)
+GLPainter::draw_line(const LineRequest& data)
 {
   assert_gl();
-  const auto& data = static_cast<const LineRequest&>(request);
 
   float x1 = data.pos.x;
   float y1 = data.pos.y;
@@ -456,10 +452,9 @@ GLPainter::draw_line(const DrawingRequest& request)
 }
 
 void
-GLPainter::draw_triangle(const DrawingRequest& request)
+GLPainter::draw_triangle(const TriangleRequest& data)
 {
   assert_gl();
-  const auto& data = static_cast<const TriangleRequest&>(request);
 
   float x1 = data.pos1.x;
   float y1 = data.pos1.y;
@@ -496,13 +491,12 @@ GLPainter::clear(const Color& color)
 }
 
 void
-GLPainter::get_pixel(const DrawingRequest& request) const
+GLPainter::get_pixel(const GetPixelRequest& data) const
 {
   const Rect& rect = m_renderer.get_rect();
   const Size& logical_size = m_renderer.get_logical_size();
 
   assert_gl();
-  const auto& data = static_cast<const GetPixelRequest&>(request);
 
   float pixels[3] = { 0.0f, 0.0f, 0.0f };
 
