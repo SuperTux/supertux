@@ -46,7 +46,7 @@ GLPainter::draw_texture(const TextureRequest& request)
   const auto& texture = static_cast<const GLTexture&>(*request.texture);
 
   GLContext& context = m_video_system.get_context();
-  context.bind_texture(texture);
+  context.bind_texture(texture, request.displacement_texture);
 
   float left = request.dstrect.p1.x;
   float top = request.dstrect.p1.y;
@@ -186,7 +186,7 @@ GLPainter::draw_texture_batch(const TextureBatchRequest& request)
 
   GLContext& context = m_video_system.get_context();
 
-  context.bind_texture(texture);
+  context.bind_texture(texture, nullptr);
   context.blend_func(request.blend.sfactor, request.blend.dfactor);
   context.set_positions(vertices.data(), sizeof(float) * vertices.size());
   context.set_texcoords(uvs.data(), sizeof(float) * uvs.size());

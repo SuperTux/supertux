@@ -60,12 +60,14 @@ struct TextureRequest : public DrawingRequest
   TextureRequest() :
     DrawingRequest(TEXTURE),
     texture(),
+    displacement_texture(),
     srcrect(),
     dstrect(),
     color(1.0f, 1.0f, 1.0f)
   {}
 
   const Texture* texture;
+  const Texture* displacement_texture;
   Rectf srcrect;
   Rectf dstrect;
   Color color;

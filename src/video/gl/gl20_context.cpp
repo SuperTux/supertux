@@ -114,7 +114,7 @@ GL20Context::set_color(const Color& color)
 }
 
 void
-GL20Context::bind_texture(const Texture& texture)
+GL20Context::bind_texture(const Texture& texture, const Texture* displacement_texture)
 {
   assert_gl();
   glEnable(GL_TEXTURE_2D);

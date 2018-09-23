@@ -46,7 +46,7 @@ public:
   virtual void set_colors(const float* data, size_t size) override;
   virtual void set_color(const Color& color) override;
 
-  virtual void bind_texture(const Texture& texture) override;
+  virtual void bind_texture(const Texture& texture, const Texture* displacement_texture) override;
   virtual void bind_no_texture() override;
   virtual void draw_arrays(GLenum type, GLint first, GLsizei count) override;
 
@@ -62,6 +62,7 @@ private:
   std::unique_ptr<GLVertexArrays> m_vertex_arrays;
   std::unique_ptr<GLTexture> m_white_texture;
   std::unique_ptr<GLTexture> m_black_texture;
+  std::unique_ptr<GLTexture> m_grey_texture;
 
 private:
   GL33CoreContext(const GL33CoreContext&) = delete;

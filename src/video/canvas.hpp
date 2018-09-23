@@ -135,6 +135,9 @@ public:
   void draw_surface(SurfacePtr surface, const Vector& position, int layer);
   void draw_surface(SurfacePtr surface, const Vector& position, float angle, const Color& color, const Blend& blend,
                     int layer);
+  void draw_surface(SurfacePtr surface, SurfacePtr displacement_surface,
+                    const Vector& position, float angle, const Color& color, const Blend& blend,
+                    int layer);
   void draw_surface_part(SurfacePtr surface, const Rectf& srcrect, const Rectf& dstrect,
                          int layer, const PaintStyle& style = PaintStyle());
   void draw_surface_batch(SurfacePtr surface,

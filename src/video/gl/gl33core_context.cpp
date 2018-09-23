@@ -29,12 +29,14 @@ GL33CoreContext::GL33CoreContext(GLVideoSystem& video_system) :
   m_program(),
   m_vertex_arrays(),
   m_white_texture(),
-  m_black_texture()
+  m_black_texture(),
+  m_grey_texture()
 {
   m_program.reset(new GLProgram);
   m_vertex_arrays.reset(new GLVertexArrays(*this));
   m_white_texture.reset(new GLTexture(1, 1, Color::WHITE));
   m_black_texture.reset(new GLTexture(1, 1, Color::BLACK));
+  m_grey_texture.reset(new GLTexture(1, 1, Color::from_rgba8888(128, 128, 0, 0)));
 }
 
 GL33CoreContext::~GL33CoreContext()
@@ -51,7 +53,6 @@ GL33CoreContext::bind()
   m_program->bind();
   m_vertex_arrays->bind();
 
-  glActiveTexture(GL_TEXTURE1);
   GLTextureRenderer* back_renderer = static_cast<GLTextureRenderer*>(m_video_system.get_back_renderer());
 
   GLTexture* texture;
@@ -66,6 +67,7 @@ GL33CoreContext::bind()
     glUniform1f(m_program->get_uniform_location("backbuffer"), 1.0f);
   }
 
+  glActiveTexture(GL_TEXTURE2);
   glBindTexture(GL_TEXTURE_2D, texture->get_handle());
 
   const float tsx =
@@ -92,7 +94,8 @@ GL33CoreContext::bind()
                      1, false, matrix);
 
   glUniform1i(m_program->get_uniform_location("diffuse_texture"), 0);
-  glUniform1i(m_program->get_uniform_location("framebuffer_texture"), 1);
+  glUniform1i(m_program->get_uniform_location("displacement_texture"), 1);
+  glUniform1i(m_program->get_uniform_location("framebuffer_texture"), 2);
 
   glUniform1f(m_program->get_uniform_location("game_time"), g_game_time);
   glUniform1f(m_program->get_uniform_location("real_time"), g_real_time);
@@ -154,10 +157,21 @@ GL33CoreContext::set_color(const Color& color)
 }
 
 void
-GL33CoreContext::bind_texture(const Texture& texture)
+GL33CoreContext::bind_texture(const Texture& texture, const Texture* displacement_texture)
 {
   glActiveTexture(GL_TEXTURE0);
   glBindTexture(GL_TEXTURE_2D, static_cast<const GLTexture&>(texture).get_handle());
+
+  if (displacement_texture)
+  {
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, static_cast<const GLTexture&>(*displacement_texture).get_handle());
+  }
+  else
+  {
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, m_grey_texture->get_handle());
+  }
 }
 
 void
