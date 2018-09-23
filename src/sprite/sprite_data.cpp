@@ -34,7 +34,8 @@ SpriteData::Action::Action() :
   fps(10),
   loops(-1),
   has_custom_loops(false),
-  surfaces()
+  surfaces(),
+  displacement_surfaces()
 {
 }
 
@@ -129,6 +130,16 @@ SpriteData::parse_action(const ReaderMapping& lisp, const std::string& basedir)
       }
       if (action->hitbox_w < 1) action->hitbox_w = max_w - action->x_offset;
       if (action->hitbox_h < 1) action->hitbox_h = max_h - action->y_offset;
+    }
+
+    std::vector<std::string> displacement_images;
+    if(lisp.get("displacement-images", displacement_images))
+    {
+      for(const auto& image : displacement_images)
+      {
+        auto surface = Surface::from_file(basedir + image);
+        action->displacement_surfaces.push_back(surface);
+      }
     }
   }
   actions[action->name] = std::move(action);

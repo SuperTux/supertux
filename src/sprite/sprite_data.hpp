@@ -64,11 +64,12 @@ private:
     /** Loops (-1 = looping endlessly) */
     int loops;
 
-    /** Flag that gets set to true if the action 
+    /** Flag that gets set to true if the action
         has custom loops defined */
     bool has_custom_loops;
 
     std::vector<SurfacePtr> surfaces;
+    std::vector<SurfacePtr> displacement_surfaces;
   };
 
   typedef std::map <std::string, std::unique_ptr<Action> > Actions;

@@ -138,13 +138,29 @@ Sprite::draw(Canvas& canvas, const Vector& pos, int layer,
 
   DrawingContext& context = canvas.get_context();
   context.push_transform();
+
   context.set_drawing_effect(context.get_drawing_effect() ^ effect);
-  canvas.draw_surface(action->surfaces[frameidx],
-                      pos - Vector(action->x_offset, action->y_offset),
-                      angle,
-                      color,
-                      blend,
-                      layer + action->z_order);
+
+  if (action->surfaces.size() == action->displacement_surfaces.size())
+  {
+    canvas.draw_surface(action->surfaces[frameidx],
+                        action->displacement_surfaces[frameidx],
+                        pos - Vector(action->x_offset, action->y_offset),
+                        angle,
+                        color,
+                        blend,
+                        layer + action->z_order);
+  }
+  else
+  {
+    canvas.draw_surface(action->surfaces[frameidx],
+                        pos - Vector(action->x_offset, action->y_offset),
+                        angle,
+                        color,
+                        blend,
+                        layer + action->z_order);
+  }
+
   context.pop_transform();
 }
 
