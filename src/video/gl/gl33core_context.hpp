@@ -63,6 +63,7 @@ private:
   std::unique_ptr<GLTexture> m_white_texture;
   std::unique_ptr<GLTexture> m_black_texture;
   std::unique_ptr<GLTexture> m_grey_texture;
+  std::unique_ptr<GLTexture> m_transparent_texture;
 
 private:
   GL33CoreContext(const GL33CoreContext&) = delete;

@@ -30,13 +30,15 @@ GL33CoreContext::GL33CoreContext(GLVideoSystem& video_system) :
   m_vertex_arrays(),
   m_white_texture(),
   m_black_texture(),
-  m_grey_texture()
+  m_grey_texture(),
+  m_transparent_texture()
 {
   m_program.reset(new GLProgram);
   m_vertex_arrays.reset(new GLVertexArrays(*this));
   m_white_texture.reset(new GLTexture(1, 1, Color::WHITE));
   m_black_texture.reset(new GLTexture(1, 1, Color::BLACK));
   m_grey_texture.reset(new GLTexture(1, 1, Color::from_rgba8888(128, 128, 0, 0)));
+  m_transparent_texture.reset(new GLTexture(1, 1, Color(1.0f, 0, 0, 0)));
 }
 
 GL33CoreContext::~GL33CoreContext()
@@ -159,8 +161,18 @@ GL33CoreContext::set_color(const Color& color)
 void
 GL33CoreContext::bind_texture(const Texture& texture, const Texture* displacement_texture)
 {
-  glActiveTexture(GL_TEXTURE0);
-  glBindTexture(GL_TEXTURE_2D, static_cast<const GLTexture&>(texture).get_handle());
+  GLTextureRenderer* back_renderer = static_cast<GLTextureRenderer*>(m_video_system.get_back_renderer());
+
+  if (displacement_texture && back_renderer->is_rendering())
+  {
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, m_transparent_texture->get_handle());
+  }
+  else
+  {
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, static_cast<const GLTexture&>(texture).get_handle());
+  }
 
   if (displacement_texture)
   {
