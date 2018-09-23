@@ -73,10 +73,10 @@ public:
 
   inline uint32_t rgba() const
   {
-    return ((r8() << 24) |
-            (g8() << 16) |
-            (b8() <<  8) |
-            (a8() <<  0));
+    return ((a8() << 24) |
+            (b8() << 16) |
+            (g8() <<  8) |
+            (r8() <<  0));
   }
 
   /** Return a human-readable string representation for this color */
