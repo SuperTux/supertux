@@ -15,7 +15,8 @@
                  ))
       (action
          (name "empty")
-         (images "empty.png"))
+         (images "empty.png")
+         (displacement-images "displacement.png"))
       (action
          (name "on")
          (images "on.png"))
