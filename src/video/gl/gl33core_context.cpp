@@ -191,6 +191,9 @@ GL33CoreContext::bind_no_texture()
 {
   glActiveTexture(GL_TEXTURE0);
   glBindTexture(GL_TEXTURE_2D, m_white_texture->get_handle());
+
+  glActiveTexture(GL_TEXTURE1);
+  glBindTexture(GL_TEXTURE_2D, m_grey_texture->get_handle());
 }
 
 void
