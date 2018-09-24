@@ -4392,6 +4392,7 @@
     (ids 3041 3042 3043)
     (attributes 257 257 257)
     (image "objects/icecube/iceslick.png")
+    (displacement-image "objects/icecube/iceslick-displacement.png")
   )
   (tiles
     (width 4)(height 4)
