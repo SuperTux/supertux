@@ -30,6 +30,8 @@ bool Tile::draw_editor_images = false;
 Tile::Tile() :
   m_imagespecs(),
   m_images(),
+  m_displacement_imagespecs(),
+  m_displacement_images(),
   m_editor_imagespecs(),
   m_editor_images(),
   m_attributes(0),
@@ -41,11 +43,15 @@ Tile::Tile() :
 {
 }
 
-Tile::Tile(const std::vector<ImageSpec>& imagespecs_, const std::vector<ImageSpec>& editor_imagespecs_,
+Tile::Tile(const std::vector<ImageSpec>& imagespecs_,
+           const std::vector<ImageSpec>& displacement_imagespecs,
+           const std::vector<ImageSpec>& editor_imagespecs_,
            uint32_t attributes_, uint32_t data_, float fps_, const std::string& obj_name,
            const std::string& obj_data, bool deprecated) :
   m_imagespecs(imagespecs_),
   m_images(),
+  m_displacement_imagespecs(displacement_imagespecs),
+  m_displacement_images(),
   m_editor_imagespecs(editor_imagespecs_),
   m_editor_images(),
   m_attributes(attributes_),
@@ -80,6 +86,28 @@ Tile::load_images()
                                             static_cast<int>(spec.rect.get_height()))));
       }
       m_images.push_back(surface);
+    }
+  }
+
+  if(m_displacement_images.size() == 0 && m_displacement_imagespecs.size() != 0)
+  {
+    assert(m_displacement_images.size() == 0);
+    for(const auto& spec : m_displacement_imagespecs)
+    {
+      SurfacePtr surface;
+      if(spec.rect.get_width() <= 0)
+      {
+        surface = Surface::from_file(spec.file);
+      }
+      else
+      {
+        surface = Surface::from_file(spec.file,
+                                     Rect(static_cast<int>(spec.rect.p1.x),
+                                          static_cast<int>(spec.rect.p1.y),
+                                          Size(static_cast<int>(spec.rect.get_width()),
+                                               static_cast<int>(spec.rect.get_height()))));
+      }
+      m_displacement_images.push_back(surface);
     }
   }
 
@@ -122,9 +150,27 @@ Tile::draw(Canvas& canvas, const Vector& pos, int z_pos, Color color) const
 
   if(m_images.size() > 1) {
     size_t frame = size_t(g_game_time * m_fps) % m_images.size();
-    canvas.draw_surface(m_images[frame], pos, 0, color, Blend(), z_pos);
+    if (m_images.size() == m_displacement_images.size())
+    {
+      canvas.draw_surface(m_images[frame], m_displacement_images[frame], pos, 0, color, Blend(), z_pos);
+    }
+    else if (m_displacement_images.size() == 1)
+    {
+      canvas.draw_surface(m_images[frame], m_displacement_images[0], pos, 0, color, Blend(), z_pos);
+    }
+    else
+    {
+      canvas.draw_surface(m_images[frame], pos, 0, color, Blend(), z_pos);
+    }
   } else if (m_images.size() == 1) {
-    canvas.draw_surface(m_images[0], pos, 0, color, Blend(), z_pos);
+    if (m_displacement_images.size() == 1)
+    {
+      canvas.draw_surface(m_images[0], m_displacement_images[0], pos, 0, color, Blend(), z_pos);
+    }
+    else
+    {
+      canvas.draw_surface(m_images[0], pos, 0, color, Blend(), z_pos);
+    }
   }
 }
 
@@ -136,6 +182,19 @@ Tile::get_current_surface() const
     return m_images[frame];
   } else if (m_images.size() == 1) {
     return m_images[0];
+  } else {
+    return {};
+  }
+}
+
+SurfacePtr
+Tile::get_current_displacement_surface() const
+{
+  if(m_displacement_images.size() > 1) {
+    size_t frame = size_t(g_game_time * m_fps) % m_displacement_images.size();
+    return m_displacement_images[frame];
+  } else if (m_displacement_images.size() == 1) {
+    return m_displacement_images[0];
   } else {
     return {};
   }
