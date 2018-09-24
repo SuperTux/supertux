@@ -1,0 +1,6 @@
+(supertux-sprite
+ (action
+  (name "default")
+  (displacement-images "heatshimmer-displacement.png")
+  (images "heatshimmer.png")))
+
