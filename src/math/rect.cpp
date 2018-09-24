@@ -16,7 +16,7 @@
 
 #include "math/rect.hpp"
 
-#include <iostream>
+#include <ostream>
 
 std::ostream& operator<<(std::ostream& out, const Rect& rect)
 {
