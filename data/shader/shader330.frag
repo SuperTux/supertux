@@ -31,7 +31,7 @@ void main(void)
     vec4 back_color = texture(framebuffer_texture, uv);
 
     vec4 color =  diffuse_var * texture(diffuse_texture, texcoord_var.st);
-    fragColor = mix(color, back_color, color.a * alpha);
+    fragColor = vec4(mix(color.rgb, back_color.rgb, alpha), color.a);
   }
   else
   {
