@@ -82,12 +82,14 @@ struct TextureBatchRequest : public DrawingRequest
   TextureBatchRequest() :
     DrawingRequest(TEXTURE),
     texture(),
+    displacement_texture(),
     srcrects(),
     dstrects(),
     color(1.0f, 1.0f, 1.0f)
   {}
 
   const Texture* texture;
+  const Texture* displacement_texture;
   std::vector<Rectf> srcrects;
   std::vector<Rectf> dstrects;
   Color color;
