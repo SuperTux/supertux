@@ -3811,7 +3811,9 @@
     )
     (attributes
       512 512 512 512
-    )
+      )
+    (displacement-image
+      "tiles/water/antarctic-displacement.png")
     (image
       "tiles/water/antarctic-1.png"
       "tiles/water/antarctic-2.png"
