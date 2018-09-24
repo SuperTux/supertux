@@ -285,7 +285,6 @@ TileSetParser::parse_tiles(const ReaderMapping& reader)
         std::vector<Tile::ImageSpec> tile_displacement_imagespecs;
         for(size_t j = 0; j < displacement_imagespecs.size(); ++j)
         {
-          std::cout << "XX" << std::endl;
           tile_displacement_imagespecs.push_back(
             Tile::ImageSpec(displacement_imagespecs[j].file,
                             Rectf(static_cast<float>(x) + displacement_imagespecs[j].rect.get_left(),
