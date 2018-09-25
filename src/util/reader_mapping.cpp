@@ -227,6 +227,13 @@ ReaderMapping::get(const char* key, std::string& value, std::string defaultValue
   }
 
 bool
+ReaderMapping::get(const char* key, std::vector<bool>& value) const
+{
+  value.clear();
+  GET_VALUES_MACRO("bool", is_boolean, as_bool);
+}
+
+bool
 ReaderMapping::get(const char* key, std::vector<int>& value) const
 {
   value.clear();
