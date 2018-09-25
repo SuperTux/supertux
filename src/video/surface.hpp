@@ -33,8 +33,8 @@ class SurfaceData;
 class Surface
 {
 public:
-  static SurfacePtr from_file(const std::string& file);
-  static SurfacePtr from_file(const std::string& file, const Rect& rect);
+  static SurfacePtr from_file(const std::string& filename);
+  static SurfacePtr from_file(const std::string& filename, const Rect& rect);
   static SurfacePtr from_texture(const TexturePtr& texture);
 
 private:
@@ -43,9 +43,7 @@ private:
   DrawingEffect m_effect;
 
 private:
-  Surface(const std::string& file);
-  Surface(const std::string& file, const Rect& rect);
-  Surface(const TexturePtr& texture);
+  Surface(const TexturePtr& texture, const Rect& rect, DrawingEffect effect);
   Surface(const Surface&);
 
 public:
@@ -60,8 +58,6 @@ public:
   int get_width() const;
   int get_height() const;
   Vector get_position() const;
-
-  /** returns a vector containing width and height */
   Vector get_size() const;
 
 private:

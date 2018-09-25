@@ -20,39 +20,25 @@
 #include "video/video_system.hpp"
 
 SurfacePtr
-Surface::from_file(const std::string& file)
+Surface::from_file(const std::string& filename)
 {
-  return SurfacePtr(new Surface(file));
+  TexturePtr texture = TextureManager::current()->get(filename);
+  Rect srcrect(0, 0, texture->get_image_width(), texture->get_image_height());
+  return SurfacePtr(new Surface(texture, srcrect, NO_EFFECT));
 }
 
 SurfacePtr
-Surface::from_file(const std::string& file, const Rect& rect)
+Surface::from_file(const std::string& filename, const Rect& rect)
 {
-  return SurfacePtr(new Surface(file, rect));
+  TexturePtr texture = TextureManager::current()->get(filename, rect);
+  Rect srcrect(0, 0, texture->get_image_width(), texture->get_image_height());
+  return SurfacePtr(new Surface(texture, srcrect, NO_EFFECT));
 }
 
-Surface::Surface(const TexturePtr& texture) :
+Surface::Surface(const TexturePtr& texture, const Rect& rect, DrawingEffect effect = NO_EFFECT) :
   m_texture(texture),
-  m_rect(0, 0,
-         Size(m_texture->get_image_width(),
-              m_texture->get_image_height())),
-  m_effect()
-{
-}
-
-Surface::Surface(const std::string& file) :
-  m_texture(TextureManager::current()->get(file)),
-  m_rect(0, 0,
-         Size(m_texture->get_image_width(),
-              m_texture->get_image_height())),
-  m_effect()
-{
-}
-
-Surface::Surface(const std::string& file, const Rect& rect_) :
-  m_texture(TextureManager::current()->get(file, rect_)),
-  m_rect(0, 0, Size(rect_.get_width(), rect_.get_height())),
-  m_effect()
+  m_rect(rect),
+  m_effect(effect)
 {
 }
 
@@ -66,7 +52,8 @@ Surface::Surface(const Surface& rhs) :
 SurfacePtr
 Surface::from_texture(const TexturePtr& texture)
 {
-  return SurfacePtr(new Surface(texture));
+  Rect srcrect(0, 0, texture->get_image_width(), texture->get_image_height());
+  return SurfacePtr(new Surface(texture, srcrect, NO_EFFECT));
 }
 
 Surface::~Surface()
