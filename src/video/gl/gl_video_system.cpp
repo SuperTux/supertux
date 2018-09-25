@@ -31,6 +31,7 @@
 #include "video/gl/gl_vertex_arrays.hpp"
 #include "video/glutil.hpp"
 #include "video/sdl_surface.hpp"
+#include "video/texture_manager.hpp"
 
 #ifdef USE_GLBINDING
 #  include <glbinding/Binding.h>

@@ -17,6 +17,7 @@
 #include "video/surface.hpp"
 
 #include "video/texture.hpp"
+#include "video/texture_manager.hpp"
 #include "video/video_system.hpp"
 
 SurfacePtr

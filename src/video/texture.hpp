@@ -18,30 +18,27 @@
 #define HEADER_SUPERTUX_VIDEO_TEXTURE_HPP
 
 #include <string>
+#include <tuple>
 
 #include "video/drawing_effect.hpp"
-#include "video/texture_manager.hpp"
 
 /** This class is a wrapper around a texture handle. It stores the
     texture width and height and provides convenience functions for
     uploading SDL_Surfaces into the texture. */
 class Texture
 {
-private:
+public:
   friend class TextureManager;
-  /** The name under which this texture is cached by the texture
-      manager, or the empty string if not. */
-  std::string cache_filename;
+  using Key = std::tuple<std::string, int, int, int, int>;
+
+private:
+  Key m_cache_key;
+
+protected:
+  Texture();
 
 public:
-  Texture() : cache_filename() {}
-  virtual ~Texture()
-  {
-    if (TextureManager::current() && !cache_filename.empty())
-      /* The cache entry is now useless: its weak pointer to us has
-         been cleared. Remove the entry altogether to save memory. */
-      TextureManager::current()->reap_cache_entry(cache_filename);
-  }
+  virtual ~Texture();
 
   virtual int get_texture_width() const = 0;
   virtual int get_texture_height() const = 0;

@@ -19,6 +19,8 @@
 
 #include "video/texture.hpp"
 
+#include <SDL.h>
+
 struct SDL_Texture;
 
 class SDLTexture : public Texture

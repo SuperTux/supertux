@@ -40,7 +40,7 @@ TextureManager::~TextureManager()
   {
     if(!texture.second.expired())
     {
-      log_warning << "Texture '" << texture.first << "' not freed" << std::endl;
+      log_warning << "Texture '" << std::get<0>(texture.first) << "' not freed" << std::endl;
     }
   }
   m_image_textures.clear();
@@ -51,7 +51,8 @@ TexturePtr
 TextureManager::get(const std::string& _filename)
 {
   std::string filename = FileSystem::normalize(_filename);
-  auto i = m_image_textures.find(filename);
+  Texture::Key key(filename, 0, 0, 0, 0);
+  auto i = m_image_textures.find(key);
 
   TexturePtr texture;
   if(i != m_image_textures.end())
@@ -59,8 +60,8 @@ TextureManager::get(const std::string& _filename)
 
   if(!texture) {
     texture = create_image_texture(filename);
-    texture->cache_filename = filename;
-    m_image_textures[filename] = texture;
+    texture->m_cache_key = key;
+    m_image_textures[key] = texture;
   }
 
   return texture;
@@ -70,11 +71,7 @@ TexturePtr
 TextureManager::get(const std::string& _filename, const Rect& rect)
 {
   std::string filename = FileSystem::normalize(_filename);
-  std::string key = filename + "_" +
-                    std::to_string(rect.left)  + "|" +
-                    std::to_string(rect.top)   + "|" +
-                    std::to_string(rect.right) + "|" +
-                    std::to_string(rect.bottom);
+  Texture::Key key(filename, rect.left, rect.top, rect.right, rect.bottom);
   auto i = m_image_textures.find(key);
 
   TexturePtr texture;
@@ -83,7 +80,7 @@ TextureManager::get(const std::string& _filename, const Rect& rect)
 
   if(!texture) {
     texture = create_image_texture(filename, rect);
-    texture->cache_filename = key;
+    texture->m_cache_key = key;
     m_image_textures[key] = texture;
   }
 
@@ -91,9 +88,9 @@ TextureManager::get(const std::string& _filename, const Rect& rect)
 }
 
 void
-TextureManager::reap_cache_entry(const std::string& filename)
+TextureManager::reap_cache_entry(const Texture::Key& key)
 {
-  auto i = m_image_textures.find(filename);
+  auto i = m_image_textures.find(key);
   assert(i != m_image_textures.end());
   assert(i->second.expired());
   m_image_textures.erase(i);

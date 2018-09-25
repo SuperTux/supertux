@@ -21,10 +21,11 @@
 #include "supertux/globals.hpp"
 #include "util/log.hpp"
 #include "video/renderer.hpp"
-#include "video/sdl/sdl_texture_renderer.hpp"
 #include "video/sdl/sdl_screen_renderer.hpp"
 #include "video/sdl/sdl_texture.hpp"
+#include "video/sdl/sdl_texture_renderer.hpp"
 #include "video/sdl_surface.hpp"
+#include "video/texture_manager.hpp"
 
 SDLVideoSystem::SDLVideoSystem() :
   m_sdl_window(),
