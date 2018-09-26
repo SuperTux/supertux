@@ -176,16 +176,6 @@ Canvas::draw_surface_batch(SurfacePtr surface,
                            const Color& color,
                            int layer)
 {
-  draw_surface_batch(surface, {}, srcrects, dstrects, color, layer);
-}
-
-void
-Canvas::draw_surface_batch(SurfacePtr surface, SurfacePtr displacement_surface,
-                           const std::vector<Rectf>& srcrects,
-                           const std::vector<Rectf>& dstrects,
-                           const Color& color,
-                           int layer)
-{
   assert(surface != 0);
 
   auto request = new(m_obst) TextureBatchRequest();
@@ -204,7 +194,9 @@ Canvas::draw_surface_batch(SurfacePtr surface, SurfacePtr displacement_surface,
   }
 
   request->texture = surface->get_texture().get();
-  request->displacement_texture = displacement_surface ? displacement_surface->get_texture().get() : nullptr;
+
+  if (surface->get_displacement_texture())
+    request->displacement_texture = surface->get_displacement_texture().get();
 
   m_requests.push_back(request);
 }
