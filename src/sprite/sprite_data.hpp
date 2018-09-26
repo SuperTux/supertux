@@ -69,7 +69,6 @@ private:
     bool has_custom_loops;
 
     std::vector<SurfacePtr> surfaces;
-    std::vector<SurfacePtr> displacement_surfaces;
   };
 
   typedef std::map <std::string, std::unique_ptr<Action> > Actions;

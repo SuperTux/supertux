@@ -21,7 +21,9 @@
 #include <sstream>
 
 #include "util/log.hpp"
+#include "util/reader_collection.hpp"
 #include "util/reader_mapping.hpp"
+#include "util/reader_object.hpp"
 #include "video/surface.hpp"
 
 SpriteData::Action::Action() :
@@ -34,8 +36,7 @@ SpriteData::Action::Action() :
   fps(10),
   loops(-1),
   has_custom_loops(false),
-  surfaces(),
-  displacement_surfaces()
+  surfaces()
 {
 }
 
@@ -113,13 +114,10 @@ SpriteData::parse_action(const ReaderMapping& lisp, const std::string& basedir)
       if (action->hitbox_h < 1) action->hitbox_h = max_h - action->y_offset;
     }
   } else { // Load images
+    ReaderCollection surfaces_collection;
     std::vector<std::string> images;
-    if(!lisp.get("images", images)) {
-      std::stringstream msg;
-      msg << "Sprite '" << name << "' contains no images in action '"
-          << action->name << "'.";
-      throw std::runtime_error(msg.str());
-    } else {
+    if (lisp.get("images", images))
+    {
       float max_w = 0;
       float max_h = 0;
       for(const auto& image : images) {
@@ -131,15 +129,39 @@ SpriteData::parse_action(const ReaderMapping& lisp, const std::string& basedir)
       if (action->hitbox_w < 1) action->hitbox_w = max_w - action->x_offset;
       if (action->hitbox_h < 1) action->hitbox_h = max_h - action->y_offset;
     }
-
-    std::vector<std::string> displacement_images;
-    if(lisp.get("displacement-images", displacement_images))
+    else if (lisp.get("surfaces", surfaces_collection))
     {
-      for(const auto& image : displacement_images)
+      for(const auto& i : surfaces_collection.get_objects())
       {
-        auto surface = Surface::from_file(basedir + image);
-        action->displacement_surfaces.push_back(surface);
+        if (i.get_name() == "surface")
+        {
+          action->surfaces.push_back(Surface::from_reader(i.get_mapping()));
+        }
+        else
+        {
+          std::stringstream msg;
+          msg << "Sprite '" << name << "' unknown tag in 'surfaces' << " << i.get_name();
+          throw std::runtime_error(msg.str());
+        }
       }
+
+      // calculate hitbox
+      float max_w = 0;
+      float max_h = 0;
+      for (const auto& surface : action->surfaces)
+      {
+        max_w = std::max(max_w, static_cast<float>(surface->get_width()));
+        max_h = std::max(max_h, static_cast<float>(surface->get_height()));
+      }
+      if (action->hitbox_w < 1) action->hitbox_w = max_w - action->x_offset;
+      if (action->hitbox_h < 1) action->hitbox_h = max_h - action->y_offset;
+    }
+    else
+    {
+      std::stringstream msg;
+      msg << "Sprite '" << name << "' contains no images in action '"
+          << action->name << "'.";
+      throw std::runtime_error(msg.str());
     }
   }
   actions[action->name] = std::move(action);
