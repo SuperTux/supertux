@@ -111,9 +111,7 @@ Canvas::draw_surface(SurfacePtr surface,
                      const Vector& position, float angle, const Color& color, const Blend& blend,
                      int layer)
 {
-  assert(surface != 0);
-
-  auto request = new(m_obst) TextureRequest();
+  assert(surface);
 
   const auto& cliprect = m_context.get_cliprect();
 
@@ -123,6 +121,8 @@ Canvas::draw_surface(SurfacePtr surface,
      position.x + static_cast<float>(surface->get_width()) < cliprect.get_left() ||
      position.y + static_cast<float>(surface->get_height()) < cliprect.get_top())
     return;
+
+  auto request = new(m_obst) TextureRequest();
 
   request->type = TEXTURE;
   request->layer = layer;
@@ -134,8 +134,7 @@ Canvas::draw_surface(SurfacePtr surface,
   request->srcrect = Rectf(0, 0, static_cast<float>(surface->get_width()), static_cast<float>(surface->get_height()));
   request->dstrect = Rectf(apply_translate(position), Size(surface->get_width(), surface->get_height()));
   request->texture = surface->get_texture().get();
-  if (surface->get_displacement_texture())
-    request->displacement_texture = surface->get_displacement_texture().get();
+  request->displacement_texture = surface->get_displacement_texture().get();
   request->color = color;
 
   m_requests.push_back(request);
@@ -151,7 +150,7 @@ void
 Canvas::draw_surface_part(SurfacePtr surface, const Rectf& srcrect, const Rectf& dstrect,
                           int layer, const PaintStyle& style)
 {
-  assert(surface != 0);
+  assert(surface);
 
   auto request = new(m_obst) TextureRequest();
 
@@ -194,9 +193,7 @@ Canvas::draw_surface_batch(SurfacePtr surface,
   }
 
   request->texture = surface->get_texture().get();
-
-  if (surface->get_displacement_texture())
-    request->displacement_texture = surface->get_displacement_texture().get();
+  request->displacement_texture = surface->get_displacement_texture().get();
 
   m_requests.push_back(request);
 }
