@@ -105,8 +105,6 @@ public:
 private:
   std::vector<ImageSpec> m_imagespecs;
   std::vector<SurfacePtr> m_images;
-  std::vector<ImageSpec> m_displacement_imagespecs;
-  std::vector<SurfacePtr> m_displacement_images;
   std::vector<ImageSpec> m_editor_imagespecs;
   std::vector<SurfacePtr> m_editor_images;
 
@@ -126,7 +124,6 @@ private:
 public:
   Tile();
   Tile(const std::vector<ImageSpec>& images,
-       const std::vector<ImageSpec>& displacement_images,
        const std::vector<ImageSpec>& editor_images,
        uint32_t attributes, uint32_t data, float fps, const std::string& obj_name = "",
        const std::string& obj_data = "", bool deprecated = false);
@@ -138,7 +135,6 @@ public:
   void draw(Canvas& canvas, const Vector& pos, int z_pos, Color color = Color(1, 1, 1)) const;
 
   SurfacePtr get_current_surface() const;
-  SurfacePtr get_current_displacement_surface() const;
 
   uint32_t get_attributes() const
   { return m_attributes; }

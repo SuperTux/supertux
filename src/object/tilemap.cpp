@@ -346,8 +346,7 @@ TileMap::draw(DrawingContext& context)
 
   std::unordered_map<SurfacePtr,
                      std::tuple<std::vector<Rectf>,
-                                std::vector<Rectf>,
-                                SurfacePtr>> batches;
+                                std::vector<Rectf>>> batches;
 
   for(pos.x = start.x, tx = t_draw_rect.left; tx < t_draw_rect.right; pos.x += 32, ++tx) {
     for(pos.y = start.y, ty = t_draw_rect.top; ty < t_draw_rect.bottom; pos.y += 32, ++ty) {
@@ -359,7 +358,6 @@ TileMap::draw(DrawingContext& context)
       const Tile& tile = m_tileset->get(m_tiles[index]);
 
       const SurfacePtr& surface = tile.get_current_surface();
-      const SurfacePtr& displacement_surface = tile.get_current_displacement_surface();
 
       if (surface)
       {
@@ -369,9 +367,6 @@ TileMap::draw(DrawingContext& context)
         std::get<1>(batches[surface]).push_back(Rectf(pos,
                                                       Sizef(static_cast<float>(surface->get_width()),
                                                             static_cast<float>(surface->get_height()))));
-
-        // Let's assume that all surfaces share the same displacement_surface
-        std::get<2>(batches[surface]) = displacement_surface;
       }
     }
   }
@@ -385,10 +380,8 @@ TileMap::draw(DrawingContext& context)
 
     const std::vector<Rectf>& srcrects = std::get<0>(it.second);
     const std::vector<Rectf>& dstrects = std::get<1>(it.second);
-    const SurfacePtr& displacement_surface = std::get<2>(it.second);
 
-    canvas.draw_surface_batch(surface, displacement_surface,
-                              srcrects, dstrects, m_current_tint, m_z_pos);
+    canvas.draw_surface_batch(surface, srcrects, dstrects, m_current_tint, m_z_pos);
   }
 
   context.pop_transform();

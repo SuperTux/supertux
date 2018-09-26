@@ -153,16 +153,10 @@ TileSetParser::parse_tile(const ReaderMapping& reader)
     imagespecs = parse_imagespecs(images);
   }
 
-  std::vector<Tile::ImageSpec> displacement_imagespecs;
-  ReaderMapping displacement_images;
-  if(reader.get("displacement-images", displacement_images)) {
-    displacement_imagespecs = parse_imagespecs(displacement_images);
-  }
-
   bool deprecated = false;
   reader.get("deprecated", deprecated);
 
-  std::unique_ptr<Tile> tile(new Tile(imagespecs, displacement_imagespecs, editor_imagespecs,
+  std::unique_ptr<Tile> tile(new Tile(imagespecs, editor_imagespecs,
                                       attributes, data, fps,
                                       object_name, object_data, deprecated));
   m_tileset.add_tile(id, std::move(tile));
@@ -282,17 +276,6 @@ TileSetParser::parse_tiles(const ReaderMapping& reader)
                                                           static_cast<float>(y) + imagespecs[j].rect.get_top() + 32.0f)));
         }
 
-        std::vector<Tile::ImageSpec> tile_displacement_imagespecs;
-        for(size_t j = 0; j < displacement_imagespecs.size(); ++j)
-        {
-          tile_displacement_imagespecs.push_back(
-            Tile::ImageSpec(displacement_imagespecs[j].file,
-                            Rectf(static_cast<float>(x) + displacement_imagespecs[j].rect.get_left(),
-                                  static_cast<float>(y) + displacement_imagespecs[j].rect.get_top(),
-                                  static_cast<float>(x) + displacement_imagespecs[j].rect.get_left() + 32.0f,
-                                  static_cast<float>(y) + displacement_imagespecs[j].rect.get_top() + 32.0f)));
-        }
-
         std::vector<Tile::ImageSpec> tile_editor_imagespecs;
         for(size_t j = 0; j < editor_imagespecs.size(); ++j)
         {
@@ -304,7 +287,6 @@ TileSetParser::parse_tiles(const ReaderMapping& reader)
         }
 
         std::unique_ptr<Tile> tile(new Tile(tile_imagespecs,
-                                            tile_displacement_imagespecs,
                                             tile_editor_imagespecs,
                                             (has_attributes ? attributes[i] : 0),
                                             (has_datas ? datas[i] : 0),
