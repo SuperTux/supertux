@@ -150,27 +150,9 @@ Tile::draw(Canvas& canvas, const Vector& pos, int z_pos, Color color) const
 
   if(m_images.size() > 1) {
     size_t frame = size_t(g_game_time * m_fps) % m_images.size();
-    if (m_images.size() == m_displacement_images.size())
-    {
-      canvas.draw_surface(m_images[frame], m_displacement_images[frame], pos, 0, color, Blend(), z_pos);
-    }
-    else if (m_displacement_images.size() == 1)
-    {
-      canvas.draw_surface(m_images[frame], m_displacement_images[0], pos, 0, color, Blend(), z_pos);
-    }
-    else
-    {
-      canvas.draw_surface(m_images[frame], pos, 0, color, Blend(), z_pos);
-    }
+    canvas.draw_surface(m_images[frame], pos, 0, color, Blend(), z_pos);
   } else if (m_images.size() == 1) {
-    if (m_displacement_images.size() == 1)
-    {
-      canvas.draw_surface(m_images[0], m_displacement_images[0], pos, 0, color, Blend(), z_pos);
-    }
-    else
-    {
-      canvas.draw_surface(m_images[0], pos, 0, color, Blend(), z_pos);
-    }
+    canvas.draw_surface(m_images[0], pos, 0, color, Blend(), z_pos);
   }
 }
 

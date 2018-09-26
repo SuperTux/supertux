@@ -111,14 +111,6 @@ Canvas::draw_surface(SurfacePtr surface,
                      const Vector& position, float angle, const Color& color, const Blend& blend,
                      int layer)
 {
-  draw_surface(surface, {},  position,  angle, color, blend, layer);
-}
-
-void
-Canvas::draw_surface(SurfacePtr surface, SurfacePtr displacement_surface,
-                     const Vector& position, float angle, const Color& color, const Blend& blend,
-                     int layer)
-{
   assert(surface != 0);
 
   auto request = new(m_obst) TextureRequest();
@@ -142,8 +134,8 @@ Canvas::draw_surface(SurfacePtr surface, SurfacePtr displacement_surface,
   request->srcrect = Rectf(0, 0, static_cast<float>(surface->get_width()), static_cast<float>(surface->get_height()));
   request->dstrect = Rectf(apply_translate(position), Size(surface->get_width(), surface->get_height()));
   request->texture = surface->get_texture().get();
-  if (displacement_surface)
-    request->displacement_texture = displacement_surface->get_texture().get();
+  if (surface->get_displacement_texture())
+    request->displacement_texture = surface->get_displacement_texture().get();
   request->color = color;
 
   m_requests.push_back(request);
