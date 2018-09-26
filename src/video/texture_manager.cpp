@@ -91,9 +91,15 @@ void
 TextureManager::reap_cache_entry(const Texture::Key& key)
 {
   auto i = m_image_textures.find(key);
-  assert(i != m_image_textures.end());
-  assert(i->second.expired());
-  m_image_textures.erase(i);
+  if (i == m_image_textures.end())
+  {
+    log_warning << "no cache entry for '" << std::get<0>(key) << "'" << std::endl;
+  }
+  else
+  {
+    assert(i->second.expired());
+    m_image_textures.erase(i);
+  }
 }
 
 TexturePtr

@@ -19,6 +19,7 @@
 
 #include <string>
 #include <tuple>
+#include <boost/optional.hpp>
 
 #include "video/drawing_effect.hpp"
 
@@ -32,7 +33,7 @@ public:
   using Key = std::tuple<std::string, int, int, int, int>;
 
 private:
-  Key m_cache_key;
+  boost::optional<Key> m_cache_key;
 
 protected:
   Texture();
