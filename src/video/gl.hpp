@@ -60,6 +60,11 @@ using namespace gl;
 #define GL_ONE 3
 #define GL_ZERO 4
 #define GL_DST_COLOR 5
+#define GL_LINEAR 6
+#define GL_NEAREST 7
+#define GL_CLAMP_TO_EDGE 8
+#define GL_MIRRORED_REPEAT 9
+#define GL_REPEAT 10
 
 #endif
 
