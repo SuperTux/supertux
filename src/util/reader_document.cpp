@@ -20,6 +20,7 @@
 #include <sstream>
 
 #include "physfs/ifile_streambuf.hpp"
+#include "util/file_system.hpp"
 #include "util/log.hpp"
 
 ReaderDocument
@@ -68,6 +69,12 @@ std::string
 ReaderDocument::get_filename() const
 {
   return m_filename;
+}
+
+std::string
+ReaderDocument::get_dirname() const
+{
+  return FileSystem::dirname(m_filename);
 }
 
 /* EOF */

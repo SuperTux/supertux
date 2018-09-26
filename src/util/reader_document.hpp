@@ -35,6 +35,7 @@ public:
 
   ReaderObject get_root() const;
   std::string get_filename() const;
+  std::string get_dirname() const;
 
 private:
   std::string m_filename;
