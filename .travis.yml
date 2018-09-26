@@ -114,6 +114,7 @@ addons:
     packages:
     - cmake
     - build-essential
+    - automake-1.15
     - clang-6.0
     - g++-8
     - libc++-dev
