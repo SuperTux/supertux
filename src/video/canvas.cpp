@@ -126,7 +126,7 @@ Canvas::draw_surface(SurfacePtr surface,
 
   request->type = TEXTURE;
   request->layer = layer;
-  request->drawing_effect = m_context.transform().drawing_effect ^ surface->get_effect();
+  request->flip = m_context.transform().flip ^ surface->get_flip();
   request->alpha = m_context.transform().alpha;
   request->angle = angle;
   request->blend = blend;
@@ -157,7 +157,7 @@ Canvas::draw_surface_part(SurfacePtr surface, const Rectf& srcrect, const Rectf&
 
   request->type = TEXTURE;
   request->layer = layer;
-  request->drawing_effect = m_context.transform().drawing_effect ^ surface->get_effect();
+  request->flip = m_context.transform().flip ^ surface->get_flip();
   request->alpha = m_context.transform().alpha * style.get_alpha();
   request->blend = style.get_blend();
 
@@ -182,7 +182,7 @@ Canvas::draw_surface_batch(SurfacePtr surface,
 
   request->type = TEXTURE_BATCH;
   request->layer = layer;
-  request->drawing_effect = m_context.transform().drawing_effect ^ surface->get_effect();
+  request->flip = m_context.transform().flip ^ surface->get_flip();
   request->alpha = m_context.transform().alpha;
   request->color = color;
 
@@ -225,7 +225,7 @@ Canvas::draw_gradient(const Color& top, const Color& bottom, int layer,
   request->type = GRADIENT;
   request->layer = layer;
 
-  request->drawing_effect = m_context.transform().drawing_effect;
+  request->flip = m_context.transform().flip;
   request->alpha = m_context.transform().alpha;
 
   request->top = top;
@@ -246,7 +246,7 @@ Canvas::draw_filled_rect(const Vector& topleft, const Vector& size,
   request->type = FILLRECT;
   request->layer = layer;
 
-  request->drawing_effect = m_context.transform().drawing_effect;
+  request->flip = m_context.transform().flip;
   request->alpha = m_context.transform().alpha;
 
   request->pos = apply_translate(topleft);
@@ -273,7 +273,7 @@ Canvas::draw_filled_rect(const Rectf& rect, const Color& color, float radius, in
   request->type   = FILLRECT;
   request->layer  = layer;
 
-  request->drawing_effect = m_context.transform().drawing_effect;
+  request->flip = m_context.transform().flip;
   request->alpha = m_context.transform().alpha;
 
   request->pos = apply_translate(rect.p1);
@@ -293,7 +293,7 @@ Canvas::draw_inverse_ellipse(const Vector& pos, const Vector& size, const Color&
   request->type   = INVERSEELLIPSE;
   request->layer  = layer;
 
-  request->drawing_effect = m_context.transform().drawing_effect;
+  request->flip = m_context.transform().flip;
   request->alpha = m_context.transform().alpha;
 
   request->pos          = apply_translate(pos);
@@ -312,7 +312,7 @@ Canvas::draw_line(const Vector& pos1, const Vector& pos2, const Color& color, in
   request->type   = LINE;
   request->layer  = layer;
 
-  request->drawing_effect = m_context.transform().drawing_effect;
+  request->flip = m_context.transform().flip;
   request->alpha = m_context.transform().alpha;
 
   request->pos          = apply_translate(pos1);
@@ -331,7 +331,7 @@ Canvas::draw_triangle(const Vector& pos1, const Vector& pos2, const Vector& pos3
   request->type   = TRIANGLE;
   request->layer  = layer;
 
-  request->drawing_effect = m_context.transform().drawing_effect;
+  request->flip = m_context.transform().flip;
   request->alpha = m_context.transform().alpha;
 
   request->pos1 = apply_translate(pos1);

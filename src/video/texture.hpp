@@ -21,7 +21,7 @@
 #include <tuple>
 #include <boost/optional.hpp>
 
-#include "video/drawing_effect.hpp"
+#include "video/flip.hpp"
 
 /** This class is a wrapper around a texture handle. It stores the
     texture width and height and provides convenience functions for

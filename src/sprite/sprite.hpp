@@ -31,7 +31,7 @@ public:
 
   /** Draw sprite, automatically calculates next frame */
   void draw(Canvas& canvas, const Vector& pos, int layer,
-            DrawingEffect effect = NO_EFFECT);
+            Flip flip = NO_FLIP);
 
   void draw_part(Canvas& canvas, const Vector& source,
                  const Vector& size, const Vector& pos, int layer);

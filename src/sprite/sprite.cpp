@@ -130,7 +130,7 @@ Sprite::update()
 
 void
 Sprite::draw(Canvas& canvas, const Vector& pos, int layer,
-             DrawingEffect effect)
+             Flip flip)
 {
   assert(action != 0);
   update();
@@ -139,7 +139,7 @@ Sprite::draw(Canvas& canvas, const Vector& pos, int layer,
   DrawingContext& context = canvas.get_context();
   context.push_transform();
 
-  context.set_drawing_effect(context.get_drawing_effect() ^ effect);
+  context.set_flip(context.get_flip() ^ flip);
 
   canvas.draw_surface(action->surfaces[frameidx],
                       pos - Vector(action->x_offset, action->y_offset),

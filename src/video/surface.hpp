@@ -21,7 +21,7 @@
 
 #include "math/rect.hpp"
 #include "math/vector.hpp"
-#include "video/drawing_effect.hpp"
+#include "video/flip.hpp"
 #include "video/surface_ptr.hpp"
 #include "video/texture_ptr.hpp"
 
@@ -45,19 +45,19 @@ private:
           const Vector& scale,
           float rotate,
           const Vector& rotate_center,
-          DrawingEffect effect);
+          Flip flip);
   Surface(const Surface&) = default;
 
 public:
   ~Surface();
 
-  SurfacePtr clone(DrawingEffect effect = 0) const;
-  DrawingEffect get_effect() const;
+  SurfacePtr clone(Flip flip = NO_FLIP) const;
 
   TexturePtr get_texture() const;
   TexturePtr get_displacement_texture() const;
   int get_width() const;
   int get_height() const;
+  Flip get_flip() const { return m_flip; }
 
 private:
   TexturePtr m_diffuse_texture;
@@ -66,7 +66,7 @@ private:
   Vector m_scale;
   float m_rotate;
   Vector m_rotate_center;
-  DrawingEffect m_effect;
+  Flip m_flip;
 
 private:
   Surface& operator=(const Surface&) = delete;

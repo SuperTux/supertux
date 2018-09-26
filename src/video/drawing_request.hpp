@@ -38,7 +38,7 @@ struct DrawingRequest
   RequestType type;
 
   int layer;
-  DrawingEffect drawing_effect;
+  Flip flip;
   float alpha;
   Blend blend;
   float angle;
@@ -47,7 +47,7 @@ struct DrawingRequest
   DrawingRequest(RequestType type_) :
     type(type_),
     layer(),
-    drawing_effect(),
+    flip(),
     alpha(),
     blend(),
     angle(0.0f)

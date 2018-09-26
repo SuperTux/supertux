@@ -61,15 +61,15 @@ DrawingContext::get_cliprect() const
 }
 
 void
-DrawingContext::set_drawing_effect(DrawingEffect effect)
+DrawingContext::set_flip(Flip flip)
 {
-  transform().drawing_effect = effect;
+  transform().flip = flip;
 }
 
-DrawingEffect
-DrawingContext::get_drawing_effect() const
+Flip
+DrawingContext::get_flip() const
 {
-  return transform().drawing_effect;
+  return transform().flip;
 }
 
 void

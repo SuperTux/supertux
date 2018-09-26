@@ -88,7 +88,7 @@ public:
     m_color(Color::WHITE),
     m_alpha(1.0f),
     m_blend(),
-    m_effect(NO_EFFECT)
+    m_flip(NO_FLIP)
   {}
 
   PaintStyle& set_color(const Color& color) {
@@ -106,21 +106,21 @@ public:
     return *this;
   }
 
-  PaintStyle& set_effect(const DrawingEffect& effect) {
-    m_effect = effect;
+  PaintStyle& set_flip(const Flip& flip) {
+    m_flip = flip;
     return *this;
   }
 
   const Color& get_color() const { return m_color; }
   const float& get_alpha() const { return m_alpha; }
   const Blend& get_blend() const { return m_blend; }
-  const DrawingEffect& get_effect() const { return m_effect; }
+  const Flip& get_flip() const { return m_flip; }
 
 private:
   Color m_color;
   float m_alpha;
   Blend m_blend;
-  DrawingEffect m_effect;
+  Flip m_flip;
 };
 
 class Canvas

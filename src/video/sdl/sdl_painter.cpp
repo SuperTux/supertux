@@ -94,12 +94,12 @@ SDLPainter::draw_texture(const TextureRequest& request)
   SDL_SetTextureBlendMode(texture.get_texture(), blend2sdl(request.blend));
 
   SDL_RendererFlip flip = SDL_FLIP_NONE;
-  if ((request.drawing_effect & HORIZONTAL_FLIP) != 0)
+  if ((request.flip & HORIZONTAL_FLIP) != 0)
   {
     flip = static_cast<SDL_RendererFlip>(flip | SDL_FLIP_HORIZONTAL);
   }
 
-  if ((request.drawing_effect & VERTICAL_FLIP) != 0)
+  if ((request.flip & VERTICAL_FLIP) != 0)
   {
     flip = static_cast<SDL_RendererFlip>(flip | SDL_FLIP_VERTICAL);
   }
@@ -138,12 +138,12 @@ SDLPainter::draw_texture_batch(const TextureBatchRequest& request)
     SDL_SetTextureBlendMode(texture.get_texture(), blend2sdl(request.blend));
 
     SDL_RendererFlip flip = SDL_FLIP_NONE;
-    if ((request.drawing_effect & HORIZONTAL_FLIP) != 0)
+    if ((request.flip & HORIZONTAL_FLIP) != 0)
     {
       flip = static_cast<SDL_RendererFlip>(flip | SDL_FLIP_HORIZONTAL);
     }
 
-    if ((request.drawing_effect & VERTICAL_FLIP) != 0)
+    if ((request.flip & VERTICAL_FLIP) != 0)
     {
       flip = static_cast<SDL_RendererFlip>(flip | SDL_FLIP_VERTICAL);
     }

@@ -28,7 +28,7 @@
 #include "scripting/tilemap.hpp"
 #include "supertux/game_object.hpp"
 #include "video/color.hpp"
-#include "video/drawing_effect.hpp"
+#include "video/flip.hpp"
 #include "video/drawing_target.hpp"
 
 class DrawingContext;
@@ -137,14 +137,14 @@ public:
   /** changes all tiles with the given ID */
   void change_all(uint32_t oldtile, uint32_t newtile);
 
-  void set_drawing_effect(DrawingEffect effect)
+  void set_flip(Flip flip)
   {
-    m_drawing_effect = effect;
+    m_flip = flip;
   }
 
-  DrawingEffect get_drawing_effect() const
+  Flip get_flip() const
   {
-    return m_drawing_effect;
+    return m_flip;
   }
 
   /** Start fading the tilemap to opacity given by @c alpha.
@@ -201,7 +201,7 @@ private:
   Vector m_offset;
   Vector m_movement; /**< The movement that happened last frame */
 
-  DrawingEffect m_drawing_effect;
+  Flip m_flip;
   float m_alpha; /**< requested tilemap opacity */
   float m_current_alpha; /**< current tilemap opacity */
   float m_remaining_fade_time; /**< seconds until requested tilemap opacity is reached */

@@ -72,13 +72,13 @@ FlipLevelTransformer::transform_sector(Sector* sector)
     sector->m_camera->reset(sector->m_player->get_pos());
 }
 
-DrawingEffect
-FlipLevelTransformer::transform_drawing_effect(DrawingEffect effect)
+Flip
+FlipLevelTransformer::transform_flip(Flip flip)
 {
-  if (effect & VERTICAL_FLIP) {
-    return effect & ~VERTICAL_FLIP;
+  if (flip & VERTICAL_FLIP) {
+    return flip & ~VERTICAL_FLIP;
   } else {
-    return effect | VERTICAL_FLIP;
+    return flip | VERTICAL_FLIP;
   }
 }
 
@@ -104,7 +104,7 @@ FlipLevelTransformer::transform_tilemap(float height, TileMap& tilemap)
       tilemap.change(x, y2, t1);
     }
   }
-  tilemap.set_drawing_effect(transform_drawing_effect(tilemap.get_drawing_effect()));
+  tilemap.set_flip(transform_flip(tilemap.get_flip()));
   Vector offset = tilemap.get_offset();
   offset.y = height - offset.y - tilemap.get_bbox().get_height();
   tilemap.set_offset(offset);
@@ -140,7 +140,7 @@ FlipLevelTransformer::transform_moving_object(float height, MovingObject& object
 void
 FlipLevelTransformer::transform_flower(Flower& flower)
 {
-  flower.drawing_effect = transform_drawing_effect(flower.drawing_effect);
+  flower.flip = transform_flip(flower.flip);
 }
 
 void

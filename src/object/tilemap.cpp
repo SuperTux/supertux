@@ -45,7 +45,7 @@ TileMap::TileMap(const TileSet *new_tileset) :
   m_z_pos(0),
   m_offset(Vector(0,0)),
   m_movement(0,0),
-  m_drawing_effect(NO_EFFECT),
+  m_flip(NO_FLIP),
   m_alpha(1.0),
   m_current_alpha(1.0),
   m_remaining_fade_time(0),
@@ -78,7 +78,7 @@ TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
   m_z_pos(0),
   m_offset(Vector(0,0)),
   m_movement(Vector(0,0)),
-  m_drawing_effect(NO_EFFECT),
+  m_flip(NO_FLIP),
   m_alpha(1.0),
   m_current_alpha(1.0),
   m_remaining_fade_time(0),
@@ -317,7 +317,7 @@ TileMap::draw(DrawingContext& context)
 
   context.push_transform();
 
-  if(m_drawing_effect != 0) context.set_drawing_effect(m_drawing_effect);
+  if (m_flip != NO_FLIP) context.set_flip(m_flip);
 
   if (m_editor_active) {
     if(m_current_alpha != 1.0) {

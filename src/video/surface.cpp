@@ -65,12 +65,12 @@ Surface::from_reader(const ReaderMapping& mapping)
     rotate_center.y = rotate_center_v[1];
   }
 
-  DrawingEffect effect = NO_EFFECT;
+  Flip flip = NO_FLIP;
   std::vector<bool> flip_v;
   if (mapping.get("flip", flip_v))
   {
-    effect ^= flip_v[0] ? HORIZONTAL_FLIP : NO_EFFECT;
-    effect ^= flip_v[1] ? VERTICAL_FLIP : NO_EFFECT;
+    flip ^= flip_v[0] ? HORIZONTAL_FLIP : NO_FLIP;
+    flip ^= flip_v[1] ? VERTICAL_FLIP : NO_FLIP;
   }
 
   return SurfacePtr(new Surface(diffuse_texture, displacement_texture,
@@ -78,21 +78,21 @@ Surface::from_reader(const ReaderMapping& mapping)
                                 scale,
                                 rotate,
                                 rotate_center,
-                                effect));
+                                flip));
 }
 
 SurfacePtr
 Surface::from_file(const std::string& filename)
 {
   TexturePtr texture = TextureManager::current()->get(filename);
-  return SurfacePtr(new Surface(texture, TexturePtr(), Vector(), Vector(1.0f, 1.0f), 0.0f, Vector(), NO_EFFECT));
+  return SurfacePtr(new Surface(texture, TexturePtr(), Vector(), Vector(1.0f, 1.0f), 0.0f, Vector(), NO_FLIP));
 }
 
 SurfacePtr
 Surface::from_file(const std::string& filename, const Rect& rect)
 {
   TexturePtr texture = TextureManager::current()->get(filename, rect);
-  return SurfacePtr(new Surface(texture, TexturePtr(), Vector(), Vector(1.0f, 1.0f), 0.0f, Vector(), NO_EFFECT));
+  return SurfacePtr(new Surface(texture, TexturePtr(), Vector(), Vector(1.0f, 1.0f), 0.0f, Vector(), NO_FLIP));
 }
 
 Surface::Surface(const TexturePtr& diffuse_texture,
@@ -101,21 +101,21 @@ Surface::Surface(const TexturePtr& diffuse_texture,
                  const Vector& scale,
                  float rotate,
                  const Vector& rotate_center,
-                 DrawingEffect effect) :
+                 Flip flip) :
   m_diffuse_texture(diffuse_texture),
   m_displacement_texture(displacement_texture),
   m_translate(translate),
   m_scale(scale),
   m_rotate(rotate),
   m_rotate_center(rotate_center),
-  m_effect(effect)
+  m_flip(flip)
 {
 }
 
 SurfacePtr
 Surface::from_texture(const TexturePtr& texture)
 {
-  return SurfacePtr(new Surface(texture, TexturePtr(), Vector(), Vector(1.0f, 1.0f), 0.0f, Vector(), NO_EFFECT));
+  return SurfacePtr(new Surface(texture, TexturePtr(), Vector(), Vector(1.0f, 1.0f), 0.0f, Vector(), NO_FLIP));
 }
 
 Surface::~Surface()
@@ -123,17 +123,11 @@ Surface::~Surface()
 }
 
 SurfacePtr
-Surface::clone(DrawingEffect effect) const
+Surface::clone(Flip flip) const
 {
   SurfacePtr surface(new Surface(*this));
-  surface->m_effect ^= effect;
+  surface->m_flip ^= flip;
   return surface;
-}
-
-DrawingEffect
-Surface::get_effect() const
-{
-  return m_effect;
 }
 
 TexturePtr

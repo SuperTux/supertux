@@ -24,12 +24,12 @@ class DrawingTransform
 {
 public:
   Vector translation;
-  DrawingEffect drawing_effect;
+  Flip flip;
   float alpha;
 
   DrawingTransform() :
     translation(),
-    drawing_effect(NO_EFFECT),
+    flip(NO_FLIP),
     alpha(1.0f)
   {}
 

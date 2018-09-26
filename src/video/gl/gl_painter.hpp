@@ -19,7 +19,7 @@
 
 #include "video/painter.hpp"
 
-#include "video/drawing_effect.hpp"
+#include "video/flip.hpp"
 
 class Blend;
 class Renderer;

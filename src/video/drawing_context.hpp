@@ -75,9 +75,9 @@ public:
   void set_translation(const Vector& newtranslation)
   {  transform().translation = newtranslation;  }
 
-  /** Apply that effect in the next draws (effects are listed on surface.h). */
-  void set_drawing_effect(DrawingEffect effect);
-  DrawingEffect get_drawing_effect() const;
+  /** Apply that flip in the next draws (flips are listed on surface.h). */
+  void set_flip(Flip flip);
+  Flip get_flip() const;
 
   /** apply that alpha in the next draws (1.0 means fully opaque) */
   void set_alpha(float alpha);

@@ -58,10 +58,10 @@ GLPainter::draw_texture(const TextureRequest& request)
   float uv_right = request.srcrect.get_right() / static_cast<float>(texture.get_texture_width());
   float uv_bottom = request.srcrect.get_bottom() / static_cast<float>(texture.get_texture_height());
 
-  if (request.drawing_effect & HORIZONTAL_FLIP)
+  if (request.flip & HORIZONTAL_FLIP)
     std::swap(uv_left, uv_right);
 
-  if (request.drawing_effect & VERTICAL_FLIP)
+  if (request.flip & VERTICAL_FLIP)
     std::swap(uv_top, uv_bottom);
 
   context.blend_func(request.blend.sfactor, request.blend.dfactor);
@@ -153,10 +153,10 @@ GLPainter::draw_texture_batch(const TextureBatchRequest& request)
     float uv_right = request.srcrects[i].get_right() / static_cast<float>(texture.get_texture_width());
     float uv_bottom = request.srcrects[i].get_bottom() / static_cast<float>(texture.get_texture_height());
 
-    if (request.drawing_effect & HORIZONTAL_FLIP)
+    if (request.flip & HORIZONTAL_FLIP)
       std::swap(uv_left, uv_right);
 
-    if (request.drawing_effect & VERTICAL_FLIP)
+    if (request.flip & VERTICAL_FLIP)
       std::swap(uv_top, uv_bottom);
 
     auto vertices_lst = {
