@@ -24,9 +24,56 @@
 #include "physfs/physfs_sdl.hpp"
 #include "util/file_system.hpp"
 #include "util/log.hpp"
+#include "util/reader_document.hpp"
+#include "util/reader_mapping.hpp"
+#include "video/color.hpp"
+#include "video/gl.hpp"
+#include "video/sampler.hpp"
 #include "video/sdl_surface_ptr.hpp"
 #include "video/texture.hpp"
 #include "video/video_system.hpp"
+
+namespace {
+
+GLenum string2wrap(const std::string& text)
+{
+  if (text == "clamp-to-edge")
+  {
+    return GL_CLAMP_TO_EDGE;
+  }
+  else if (text == "repeat")
+  {
+    return GL_REPEAT;
+  }
+  else if (text == "mirrored-repeat")
+  {
+    return GL_MIRRORED_REPEAT;
+  }
+  else
+  {
+    log_warning << "unknown texture wrap: " << text << std::endl;
+    return GL_CLAMP_TO_EDGE;
+  }
+}
+
+GLenum string2filter(const std::string& text)
+{
+  if (text == "nearest")
+  {
+    return GL_NEAREST;
+  }
+  else if (text == "linear")
+  {
+    return GL_LINEAR;
+  }
+  else
+  {
+    log_warning << "unknown texture filter: " << text << std::endl;
+    return GL_LINEAR;
+  }
+}
+
+} // namespace
 
 TextureManager::TextureManager() :
   m_image_textures(),
@@ -48,6 +95,65 @@ TextureManager::~TextureManager()
 }
 
 TexturePtr
+TextureManager::get(const ReaderMapping& mapping)
+{
+  std::string filename;
+  if (!mapping.get("file", filename))
+  {
+    log_warning << "'file' tag missing" << std::endl;
+  }
+  else
+  {
+    filename = FileSystem::join(mapping.get_doc()->get_dirname(), filename);
+  }
+
+  boost::optional<Rect> rect;
+  std::vector<int> rect_v;
+  if (mapping.get("rect", rect_v))
+  {
+    if (rect_v.size() == 4)
+    {
+      rect = Rect(rect_v[0], rect_v[1], rect_v[2], rect_v[3]);
+    }
+    else
+    {
+      log_warning << "'rect' requires four elements" << std::endl;
+    }
+  }
+
+  GLenum wrap_s = GL_CLAMP_TO_EDGE;
+  GLenum wrap_t = GL_CLAMP_TO_EDGE;
+
+  std::vector<std::string> wrap_v;
+  if (mapping.get("wrap", wrap_v))
+  {
+    if (wrap_v.size() == 1)
+    {
+      wrap_s = string2wrap(wrap_v[0]);
+      wrap_t = string2wrap(wrap_v[0]);
+    }
+    else if (wrap_v.size() == 2)
+    {
+      wrap_s = string2wrap(wrap_v[0]);
+      wrap_t = string2wrap(wrap_v[1]);
+    }
+    else
+    {
+      log_warning << "unknown number of wrap arguments" << std::endl;
+    }
+  }
+
+  GLenum filter = GL_LINEAR;
+  std::string filter_s;
+  if (mapping.get("filter", filter_s))
+  {
+    filter = string2filter(filter_s);
+  }
+
+  return get(filename, rect, Sampler(filter, wrap_s, wrap_t));
+}
+
+TexturePtr
 TextureManager::get(const std::string& _filename)
 {
   std::string filename = FileSystem::normalize(_filename);
@@ -59,7 +165,7 @@ TextureManager::get(const std::string& _filename)
     texture = i->second.lock();
 
   if(!texture) {
-    texture = create_image_texture(filename);
+    texture = create_image_texture(filename, Sampler());
     texture->m_cache_key = key;
     m_image_textures[key] = texture;
   }
@@ -68,18 +174,36 @@ TextureManager::get(const std::string& _filename)
 }
 
 TexturePtr
-TextureManager::get(const std::string& _filename, const Rect& rect)
+TextureManager::get(const std::string& _filename,
+                    const boost::optional<Rect>& rect,
+                    const Sampler& sampler)
 {
   std::string filename = FileSystem::normalize(_filename);
-  Texture::Key key(filename, rect.left, rect.top, rect.right, rect.bottom);
+  Texture::Key key;
+  if (rect)
+  {
+    key = Texture::Key(filename, rect->left, rect->top, rect->right, rect->bottom);
+  }
+  else
+  {
+    key = Texture::Key(filename, 0, 0, 0, 0);
+  }
+
   auto i = m_image_textures.find(key);
 
   TexturePtr texture;
   if(i != m_image_textures.end())
     texture = i->second.lock();
 
-  if(!texture) {
-    texture = create_image_texture(filename, rect);
+  if (!texture) {
+    if (rect)
+    {
+      texture = create_image_texture(filename, *rect, sampler);
+    }
+    else
+    {
+      texture = create_image_texture(filename, sampler);
+    }
     texture->m_cache_key = key;
     m_image_textures[key] = texture;
   }
@@ -103,11 +227,11 @@ TextureManager::reap_cache_entry(const Texture::Key& key)
 }
 
 TexturePtr
-TextureManager::create_image_texture(const std::string& filename, const Rect& rect)
+TextureManager::create_image_texture(const std::string& filename, const Rect& rect, const Sampler& sampler)
 {
   try
   {
-    return create_image_texture_raw(filename, rect);
+    return create_image_texture_raw(filename, rect, sampler);
   }
   catch(const std::exception& err)
   {
@@ -139,7 +263,7 @@ TextureManager::get_surface(const std::string& filename)
 }
 
 TexturePtr
-TextureManager::create_image_texture_raw(const std::string& filename, const Rect& rect)
+TextureManager::create_image_texture_raw(const std::string& filename, const Rect& rect, const Sampler& sampler)
 {
   const SDL_Surface& src_surface = get_surface(filename);
 
@@ -170,15 +294,15 @@ TextureManager::create_image_texture_raw(const std::string& filename, const Rect
     throw std::runtime_error("SDL_CreateRGBSurfaceFrom() call failed");
   }
 
-  return VideoSystem::current()->new_texture(*subimage);
+  return VideoSystem::current()->new_texture(*subimage, sampler);
 }
 
 TexturePtr
-TextureManager::create_image_texture(const std::string& filename)
+TextureManager::create_image_texture(const std::string& filename, const Sampler& sampler)
 {
   try
   {
-    return create_image_texture_raw(filename);
+    return create_image_texture_raw(filename, sampler);
   }
   catch (const std::exception& err)
   {
@@ -188,7 +312,7 @@ TextureManager::create_image_texture(const std::string& filename)
 }
 
 TexturePtr
-TextureManager::create_image_texture_raw(const std::string& filename)
+TextureManager::create_image_texture_raw(const std::string& filename, const Sampler& sampler)
 {
   SDLSurfacePtr image(IMG_Load_RW(get_physfs_SDLRWops(filename), 1));
   if (!image)
@@ -199,7 +323,7 @@ TextureManager::create_image_texture_raw(const std::string& filename)
   }
   else
   {
-    TexturePtr texture = VideoSystem::current()->new_texture(*image);
+    TexturePtr texture = VideoSystem::current()->new_texture(*image, sampler);
     image.reset(NULL);
     return texture;
   }
@@ -213,7 +337,7 @@ TextureManager::create_dummy_texture()
   // on error, try loading placeholder file
   try
   {
-    TexturePtr tex = create_image_texture_raw(dummy_texture_fname);
+    TexturePtr tex = create_image_texture_raw(dummy_texture_fname, Sampler());
     return tex;
   }
   catch (const std::exception& err)

@@ -25,6 +25,7 @@
 #include "video/surface_ptr.hpp"
 #include "video/texture_ptr.hpp"
 
+class ReaderMapping;
 class SurfaceData;
 
 /** A rectangular image.  The class basically holds a reference to a
@@ -36,14 +37,26 @@ public:
   static SurfacePtr from_file(const std::string& filename);
   static SurfacePtr from_file(const std::string& filename, const Rect& rect);
   static SurfacePtr from_texture(const TexturePtr& texture);
+  static SurfacePtr from_reader(const ReaderMapping& mapping);
 
 private:
-  TexturePtr m_texture;
+  TexturePtr m_diffuse_texture;
+  TexturePtr m_displacement_texture;
+  // FIXME: backward compat-only, remove me
   Rect m_rect;
+  Vector m_translate;
+  Vector m_scale;
+  float m_rotate;
+  Vector m_rotate_center;
   DrawingEffect m_effect;
 
 private:
-  Surface(const TexturePtr& texture, const Rect& rect, DrawingEffect effect);
+  Surface(const TexturePtr& diffuse_texture, const TexturePtr& displacement_texture,
+          const Vector& translate,
+          const Vector& scale,
+          float rotate,
+          const Vector& rotate_center,
+          DrawingEffect effect);
   Surface(const Surface&);
 
 public:
@@ -53,6 +66,7 @@ public:
   DrawingEffect get_effect() const;
 
   TexturePtr get_texture() const;
+  TexturePtr get_displacement_texture() const;
   int get_x() const;
   int get_y() const;
   int get_width() const;

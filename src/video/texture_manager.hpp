@@ -23,13 +23,16 @@
 #include <set>
 #include <string>
 #include <vector>
+#include <boost/optional.hpp>
 
 #include "util/currenton.hpp"
+#include "video/sampler.hpp"
 #include "video/sdl_surface_ptr.hpp"
 #include "video/texture.hpp"
 #include "video/texture_ptr.hpp"
 
 class GLTexture;
+class ReaderMapping;
 class Rect;
 struct SDL_Surface;
 
@@ -42,21 +45,24 @@ public:
   TextureManager();
   ~TextureManager();
 
+  TexturePtr get(const ReaderMapping& mapping);
   TexturePtr get(const std::string& filename);
-  TexturePtr get(const std::string& filename, const Rect& rect);
+  TexturePtr get(const std::string& filename,
+                 const boost::optional<Rect>& rect,
+                 const Sampler& sampler = Sampler());
 
 private:
   const SDL_Surface& get_surface(const std::string& filename);
   void reap_cache_entry(const Texture::Key& key);
 
-  TexturePtr create_image_texture(const std::string& filename, const Rect& rect);
+  TexturePtr create_image_texture(const std::string& filename, const Rect& rect, const Sampler& sampler);
 
   /** on failure a dummy texture is returned and no exception is thrown */
-  TexturePtr create_image_texture(const std::string& filename);
+  TexturePtr create_image_texture(const std::string& filename, const Sampler& sampler);
 
   /** throw an exception on error */
-  TexturePtr create_image_texture_raw(const std::string& filename);
-  TexturePtr create_image_texture_raw(const std::string& filename, const Rect& rect);
+  TexturePtr create_image_texture_raw(const std::string& filename, const Sampler& sampler);
+  TexturePtr create_image_texture_raw(const std::string& filename, const Rect& rect, const Sampler& sampler);
 
   TexturePtr create_dummy_texture();
 
