@@ -22,11 +22,13 @@
 
 #include "math/size.hpp"
 #include "util/currenton.hpp"
+#include "video/sampler.hpp"
 #include "video/texture_ptr.hpp"
 
 class Rect;
 class Renderer;
 class SDLSurfacePtr;
+class Sampler;
 class Surface;
 class SurfaceData;
 class Viewport;
@@ -54,7 +56,7 @@ public:
   virtual Renderer& get_renderer() const = 0;
   virtual Renderer& get_lightmap() const = 0;
 
-  virtual TexturePtr new_texture(const SDL_Surface& image) = 0;
+  virtual TexturePtr new_texture(const SDL_Surface& image, const Sampler& sampler = Sampler()) = 0;
 
   virtual const Viewport& get_viewport() const = 0;
   virtual void apply_config() = 0;

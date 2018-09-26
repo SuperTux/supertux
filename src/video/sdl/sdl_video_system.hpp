@@ -38,7 +38,7 @@ public:
   virtual Renderer& get_renderer() const override;
   virtual Renderer& get_lightmap() const override;
 
-  virtual TexturePtr new_texture(const SDL_Surface& image) override;
+  virtual TexturePtr new_texture(const SDL_Surface& image, const Sampler& sampler) override;
 
   virtual const Viewport& get_viewport() const override { return m_viewport; }
   virtual void apply_config() override;

@@ -19,6 +19,7 @@
 #include <assert.h>
 
 #include "video/glutil.hpp"
+#include "video/sampler.hpp"
 #include "video/sdl_surface.hpp"
 
 GLTexture::GLTexture(int width, int height, boost::optional<Color> fill_color) :
@@ -55,14 +56,14 @@ GLTexture::GLTexture(int width, int height, boost::optional<Color> fill_color) :
                    m_texture_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
     }
 
-    set_texture_params();
+    set_texture_params(Sampler());
   } catch(...) {
     glDeleteTextures(1, &m_handle);
     throw;
   }
 }
 
-GLTexture::GLTexture(const SDL_Surface& image) :
+GLTexture::GLTexture(const SDL_Surface& image, const Sampler& sampler) :
   m_handle(),
   m_texture_width(),
   m_texture_height(),
@@ -134,7 +135,7 @@ GLTexture::GLTexture(const SDL_Surface& image) :
 
     assert_gl();
 
-    set_texture_params();
+    set_texture_params(sampler);
   } catch(...) {
     glDeleteTextures(1, &m_handle);
     throw;
@@ -147,13 +148,13 @@ GLTexture::~GLTexture()
 }
 
 void
-GLTexture::set_texture_params()
+GLTexture::set_texture_params(const Sampler& sampler)
 {
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, static_cast<GLint>(GL_LINEAR));
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, static_cast<GLint>(GL_LINEAR));
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, static_cast<GLint>(sampler.get_filter()));
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, static_cast<GLint>(sampler.get_filter()));
 
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, static_cast<GLint>(GL_CLAMP_TO_EDGE));
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, static_cast<GLint>(GL_CLAMP_TO_EDGE));
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, static_cast<GLint>(sampler.get_wrap_s()));
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, static_cast<GLint>(sampler.get_wrap_t()));
 
   assert_gl();
 }

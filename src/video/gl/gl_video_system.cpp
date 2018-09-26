@@ -328,9 +328,9 @@ GLVideoSystem::get_back_renderer() const
 }
 
 TexturePtr
-GLVideoSystem::new_texture(const SDL_Surface& image)
+GLVideoSystem::new_texture(const SDL_Surface& image, const Sampler& sampler)
 {
-  return TexturePtr(new GLTexture(image));
+  return TexturePtr(new GLTexture(image, sampler));
 }
 
 void

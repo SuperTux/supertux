@@ -23,6 +23,8 @@
 #include "video/gl.hpp"
 #include "video/texture.hpp"
 
+class Sampler;
+
 /** This class is a wrapper around a texture handle. It stores the
     texture width and height and provides convenience functions for
     uploading SDL_Surfaces into the texture. */
@@ -37,7 +39,7 @@ protected:
 
 public:
   GLTexture(int width, int height, boost::optional<Color> fill_color = boost::none);
-  GLTexture(const SDL_Surface& image);
+  GLTexture(const SDL_Surface& image, const Sampler& sampler);
   ~GLTexture();
 
   const GLuint &get_handle() const {
@@ -79,7 +81,7 @@ public:
   }
 
 private:
-  void set_texture_params();
+  void set_texture_params(const Sampler& sampler);
 };
 
 #endif
