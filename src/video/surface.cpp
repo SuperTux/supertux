@@ -104,7 +104,6 @@ Surface::Surface(const TexturePtr& diffuse_texture,
                  DrawingEffect effect) :
   m_diffuse_texture(diffuse_texture),
   m_displacement_texture(displacement_texture),
-  m_rect(0, 0, diffuse_texture->get_image_width(), diffuse_texture->get_image_height()),
   m_translate(translate),
   m_scale(scale),
   m_rotate(rotate),
@@ -113,22 +112,9 @@ Surface::Surface(const TexturePtr& diffuse_texture,
 {
 }
 
-Surface::Surface(const Surface& rhs) :
-  m_diffuse_texture(rhs.m_diffuse_texture),
-  m_displacement_texture(rhs.m_displacement_texture),
-  m_rect(rhs.m_rect),
-  m_translate(rhs.m_translate),
-  m_scale(rhs.m_scale),
-  m_rotate(rhs.m_rotate),
-  m_rotate_center(rhs.m_rotate_center),
-  m_effect(rhs.m_effect)
-{
-}
-
 SurfacePtr
 Surface::from_texture(const TexturePtr& texture)
 {
-  Rect srcrect(0, 0, texture->get_image_width(), texture->get_image_height());
   return SurfacePtr(new Surface(texture, TexturePtr(), Vector(), Vector(1.0f, 1.0f), 0.0f, Vector(), NO_EFFECT));
 }
 
@@ -163,41 +149,15 @@ Surface::get_displacement_texture() const
 }
 
 int
-Surface::get_x() const
-{
-  return m_rect.left;
-}
-
-int
-Surface::get_y() const
-{
-  return m_rect.top;
-}
-
-int
 Surface::get_width() const
 {
-  return m_rect.get_width();
+  return m_diffuse_texture->get_image_width();
 }
 
 int
 Surface::get_height() const
 {
-  return m_rect.get_height();
-}
-
-Vector
-Surface::get_position() const
-{
-  return Vector(static_cast<float>(get_x()),
-                static_cast<float>(get_y()));
-}
-
-Vector
-Surface::get_size() const
-{
-  return Vector(static_cast<float>(get_width()),
-                static_cast<float>(get_height()));
+  return m_diffuse_texture->get_image_height();
 }
 
 /* EOF */

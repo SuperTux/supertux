@@ -524,7 +524,8 @@ BonusBlock::draw(DrawingContext& context)
   Block::draw(context);
   // then Draw the light if on.
   if (sprite->get_action() == "on") {
-    Vector pos = get_pos() + (bbox.get_size().as_vector() - m_lightsprite->get_size()) / 2;
+    Vector pos = get_pos() + (bbox.get_size().as_vector() - Vector(static_cast<float>(m_lightsprite->get_width()),
+                                                                   static_cast<float>(m_lightsprite->get_height()))) / 2.0f;
     context.light().draw_surface(m_lightsprite, pos, 10);
   }
 }
