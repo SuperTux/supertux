@@ -46,7 +46,6 @@ private:
           float rotate,
           const Vector& rotate_center,
           Flip flip);
-  Surface(const Surface&) = default;
 
 public:
   ~Surface();
@@ -57,16 +56,20 @@ public:
   TexturePtr get_displacement_texture() const;
   int get_width() const;
   int get_height() const;
+  Vector get_translation() const { return m_translate; }
+  Vector get_scale() const { return m_scale; }
+  float get_rotate() const { return m_rotate; }
+  Vector get_rotate_center() const { return m_rotate_center; }
   Flip get_flip() const { return m_flip; }
 
 private:
-  TexturePtr m_diffuse_texture;
-  TexturePtr m_displacement_texture;
-  Vector m_translate;
-  Vector m_scale;
-  float m_rotate;
-  Vector m_rotate_center;
-  Flip m_flip;
+  const TexturePtr m_diffuse_texture;
+  const TexturePtr m_displacement_texture;
+  const Vector m_translate;
+  const Vector m_scale;
+  const float m_rotate;
+  const Vector m_rotate_center;
+  const Flip m_flip;
 
 private:
   Surface& operator=(const Surface&) = delete;
