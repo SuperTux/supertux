@@ -150,13 +150,13 @@ Surface::get_displacement_texture() const
 int
 Surface::get_width() const
 {
-  return m_diffuse_texture->get_image_width();
+  return m_diffuse_texture ? m_diffuse_texture->get_image_width() : 0;
 }
 
 int
 Surface::get_height() const
 {
-  return m_diffuse_texture->get_image_height();
+  return m_diffuse_texture ? m_diffuse_texture->get_image_height() : 0;
 }
 
 /* EOF */
