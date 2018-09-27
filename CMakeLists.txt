@@ -406,8 +406,7 @@ find_package(RAQM)
 set(SDL_TTF_PREFIX ${CMAKE_BINARY_DIR}/SDL_ttf/)
 ExternalProject_Add(SDL_ttf
   SOURCE_DIR "${CMAKE_SOURCE_DIR}/external/SDL_ttf/"
-  CONFIGURE_COMMAND find "${CMAKE_SOURCE_DIR}/external/SDL_ttf/" -type f -exec touch {} +
-  COMMAND env CC=${CMAKE_C_COMPILER} ${CMAKE_SOURCE_DIR}/external/SDL_ttf/configure --prefix=${SDL_TTF_PREFIX} --enable-static --disable-shared --with-raqm --with-freetype-prefix=${FREETYPE_DIR} --with-sdl-prefix=${SDL2_PREFIX}
+  CONFIGURE_COMMAND env CC=${CMAKE_C_COMPILER} ${CMAKE_SOURCE_DIR}/external/SDL_ttf/configure --prefix=${SDL_TTF_PREFIX} --enable-static --disable-shared --with-raqm --with-freetype-prefix=${FREETYPE_DIR} --with-sdl-prefix=${SDL2_PREFIX}
   BUILD_COMMAND ${MAKE})
 add_library(SDL_ttf_lib STATIC IMPORTED)
 set_target_properties(SDL_ttf_lib PROPERTIES IMPORTED_LOCATION "${SDL_TTF_PREFIX}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}SDL2_ttf${CMAKE_STATIC_LIBRARY_SUFFIX}")
