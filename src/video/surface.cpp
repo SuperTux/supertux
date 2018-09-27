@@ -125,7 +125,7 @@ Surface::~Surface()
 SurfacePtr
 Surface::clone(Flip flip) const
 {
-  SurfacePtr surface(new Surface(m_displacement_texture,
+  SurfacePtr surface(new Surface(m_diffuse_texture,
                                  m_displacement_texture,
                                  m_translate,
                                  m_scale,
