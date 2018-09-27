@@ -32,11 +32,6 @@ public:
     flip(NO_FLIP),
     alpha(1.0f)
   {}
-
-  Vector apply(const Vector& v) const
-  {
-    return v - translation;
-  }
 };
 
 #endif

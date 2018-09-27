@@ -347,7 +347,7 @@ Canvas::get_pixel(const Vector& position, Color* color_out)
 
   request->layer = LAYER_GUI; //make sure all get_light requests are handled last.
 
-  request->pos = m_context.transform().apply(position);
+  request->pos = apply_translate(position);
   request->color_ptr = color_out;
 
   //There is no light offscreen.
