@@ -131,7 +131,7 @@ Canvas::draw_surface(SurfacePtr surface,
   request->angle = angle;
   request->blend = blend;
 
-  request->srcrect = Rectf(0, 0, static_cast<float>(surface->get_width()), static_cast<float>(surface->get_height()));
+  request->srcrect = Rectf(surface->get_region());
   request->dstrect = Rectf(apply_translate(position), Size(surface->get_width(), surface->get_height()));
   request->texture = surface->get_texture().get();
   request->displacement_texture = surface->get_displacement_texture().get();

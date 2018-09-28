@@ -361,9 +361,7 @@ TileMap::draw(DrawingContext& context)
 
       if (surface)
       {
-        std::get<0>(batches[surface]).push_back(Rectf(0, 0,
-                                                      static_cast<float>(surface->get_width()),
-                                                      static_cast<float>(surface->get_height())));
+        std::get<0>(batches[surface]).push_back(Rectf(surface->get_region())),
         std::get<1>(batches[surface]).push_back(Rectf(pos,
                                                       Sizef(static_cast<float>(surface->get_width()),
                                                             static_cast<float>(surface->get_height()))));
