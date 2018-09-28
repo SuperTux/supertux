@@ -169,14 +169,14 @@ int
 Sprite::get_width() const
 {
   assert(frameidx < get_frames());
-  return static_cast<int>(action->surfaces[get_frame()]->get_width());
+  return static_cast<int>(action->surfaces[frameidx]->get_width());
 }
 
 int
 Sprite::get_height() const
 {
   assert(frameidx < get_frames());
-  return static_cast<int>(action->surfaces[get_frame()]->get_height());
+  return static_cast<int>(action->surfaces[frameidx]->get_height());
 }
 
 float

@@ -52,8 +52,6 @@ public:
   /** Check if animation is stopped or not */
   bool animation_done() const;
 
-  float get_fps() const
-  { return action->fps; }
   /** Get current action total frames */
   int get_frames() const
   { return static_cast<int>(action->surfaces.size()); }
@@ -91,21 +89,6 @@ public:
   void set_blend(const Blend& blend);
 
   Blend get_blend() const;
-
-  /** Get current frame */
-  int get_frame() const
-  { return frameidx; }
-  /** Set current frame */
-  void set_frame(int frame_)
-  {
-    frame = 0;
-    frameidx = frame_ % get_frames();
-  }
-  SurfacePtr get_frame(int frame_) const
-  {
-    assert(frame_ < static_cast<int>(action->surfaces.size()));
-    return action->surfaces[frame_];
-  }
 
   bool has_action (const std::string& name) const
   {
