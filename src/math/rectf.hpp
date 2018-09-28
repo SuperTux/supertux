@@ -24,6 +24,8 @@
 #include "math/vector.hpp"
 #include "object/anchor_point.hpp"
 
+class Rect;
+
 /** This class represents a rectangle.
  * (Implementation Note) We're using upper left and lower right point instead of
  * upper left and width/height here, because that makes the collision detection
@@ -62,6 +64,8 @@ public:
     p2(p1_.x + size.width, p1_.y + size.height)
   {
   }
+
+  Rectf(const Rect& rect);
 
   float get_left() const
   { return p1.x; }
