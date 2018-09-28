@@ -20,7 +20,6 @@
 #include "badguy/dispenser.hpp"
 #include "editor/editor.hpp"
 #include "math/random_generator.hpp"
-#include "object/broken_brick.hpp"
 #include "object/bullet.hpp"
 #include "object/camera.hpp"
 #include "object/player.hpp"
@@ -494,7 +493,11 @@ BadGuy::kill_fall()
       for (pr_pos.y = 0; pr_pos.y < bbox.get_height(); pr_pos.y += 16) {
         Vector speed = Vector((pr_pos.x - cx) * 8, (pr_pos.y - cy) * 8 + 100);
         Sector::current()->add_object(
-          std::make_shared<BrokenBrick>(sprite->clone(), bbox.p1 + pr_pos, speed));
+          std::make_shared<SpriteParticle>(
+            "images/particles/ice_piece1.sprite", "default",
+            bbox.p1 + pr_pos, ANCHOR_MIDDLE,
+            speed,
+            Vector(0, Sector::current()->get_gravity() * 100.0f)));
       }
     }
     // start dead-script
