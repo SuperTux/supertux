@@ -84,15 +84,6 @@ public:
     WORLDMAP_CNSEW = WORLDMAP_NORTH | WORLDMAP_SOUTH | WORLDMAP_EAST | WORLDMAP_WEST
   };
 
-  struct ImageSpec {
-    ImageSpec(const std::string& newfile, const Rectf& newrect)
-      : file(newfile), rect(newrect)
-    { }
-
-    std::string file;
-    Rectf rect;
-  };
-
   enum
   {
     UNI_DIR_NORTH = 0,
@@ -103,9 +94,7 @@ public:
   };
 
 private:
-  std::vector<ImageSpec> m_imagespecs;
   std::vector<SurfacePtr> m_images;
-  std::vector<ImageSpec> m_editor_imagespecs;
   std::vector<SurfacePtr> m_editor_images;
 
   /// tile attributes
@@ -123,13 +112,10 @@ private:
 
 public:
   Tile();
-  Tile(const std::vector<ImageSpec>& images,
-       const std::vector<ImageSpec>& editor_images,
+  Tile(const std::vector<SurfacePtr>& images,
+       const std::vector<SurfacePtr>& editor_images,
        uint32_t attributes, uint32_t data, float fps, const std::string& obj_name = "",
        const std::string& obj_data = "", bool deprecated = false);
-
-  /** load Surfaces, if not already loaded */
-  void load_images();
 
   /** Draw a tile on the screen */
   void draw(Canvas& canvas, const Vector& pos, int z_pos, Color color = Color(1, 1, 1)) const;
@@ -187,8 +173,6 @@ public:
   const std::string& get_object_data() const {
     return m_object_data;
   }
-
-  void print_debug(int id) const;
 
 private:
   //Correct small oddities in attributes that naive people

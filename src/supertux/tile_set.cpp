@@ -59,7 +59,7 @@ TileSet::add_tile(int id, std::unique_ptr<Tile> tile)
     m_tiles.resize(id + 1);
   }
 
-  if (m_tiles[id] != 0) {
+  if (m_tiles[id]) {
     log_warning << "Tile with ID " << id << " redefined" << std::endl;
   } else {
     m_tiles[id] = std::move(tile);
@@ -76,7 +76,6 @@ TileSet::get(const uint32_t id) const
     assert(id < m_tiles.size());
     Tile* tile = m_tiles[id].get();
     if(tile) {
-      tile->load_images();
       return *tile;
     } else {
 //      log_warning << "Invalid tile: " << id << std::endl;
@@ -145,19 +144,6 @@ TileSet::print_debug_info(const std::string& filename)
       {
         log_info << "Free Tile IDs (" << i - last << "): " << last << " - " << i-1 << std::endl;
         last = -1;
-      }
-    }
-  }
-
-  if (false)
-  { // enable this to dump the (large) list of tiles to log_debug
-    // Two dumps are identical iff the tilesets specify identical tiles
-    log_debug << "Tileset in " << filename << std::endl;
-    for(int i = 0; i < int(m_tiles.size()); ++i)
-    {
-      if(m_tiles[i] != 0)
-      {
-        m_tiles[i]->print_debug(i);
       }
     }
   }

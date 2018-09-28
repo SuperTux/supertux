@@ -45,9 +45,7 @@ bool is_below_line (float l_x, float l_y, float m,
 } // namespace
 
 Tile::Tile() :
-  m_imagespecs(),
   m_images(),
-  m_editor_imagespecs(),
   m_editor_images(),
   m_attributes(0),
   m_data(0),
@@ -58,14 +56,12 @@ Tile::Tile() :
 {
 }
 
-Tile::Tile(const std::vector<ImageSpec>& imagespecs_,
-           const std::vector<ImageSpec>& editor_imagespecs_,
+Tile::Tile(const std::vector<SurfacePtr>& images,
+           const std::vector<SurfacePtr>& editor_images,
            uint32_t attributes_, uint32_t data_, float fps_, const std::string& obj_name,
            const std::string& obj_data, bool deprecated) :
-  m_imagespecs(imagespecs_),
-  m_images(),
-  m_editor_imagespecs(editor_imagespecs_),
-  m_editor_images(),
+  m_images(images),
+  m_editor_images(editor_images),
   m_attributes(attributes_),
   m_data(data_),
   m_fps(fps_),
@@ -74,54 +70,6 @@ Tile::Tile(const std::vector<ImageSpec>& imagespecs_,
   m_deprecated(deprecated)
 {
   correct_attributes();
-}
-
-void
-Tile::load_images()
-{
-  if(m_images.size() == 0 && m_imagespecs.size() != 0)
-  {
-    assert(m_images.size() == 0);
-    for(const auto& spec : m_imagespecs)
-    {
-      SurfacePtr surface;
-      if(spec.rect.get_width() <= 0)
-      {
-        surface = Surface::from_file(spec.file);
-      }
-      else
-      {
-        surface = Surface::from_file(spec.file,
-                                     Rect(static_cast<int>(spec.rect.p1.x),
-                                          static_cast<int>(spec.rect.p1.y),
-                                          Size(static_cast<int>(spec.rect.get_width()),
-                                               static_cast<int>(spec.rect.get_height()))));
-      }
-      m_images.push_back(surface);
-    }
-  }
-
-  if(m_editor_images.size() == 0 && m_editor_imagespecs.size() != 0)
-  {
-    assert(m_editor_images.size() == 0);
-    for(const auto& spec : m_editor_imagespecs)
-    {
-      SurfacePtr surface;
-      if(spec.rect.get_width() <= 0)
-      {
-        surface = Surface::from_file(spec.file);
-      }
-      else
-      {
-        surface = Surface::from_file(spec.file,
-                                  Rect(static_cast<int>(spec.rect.p1.x),
-                                       static_cast<int>(spec.rect.p1.y),
-                                       Size(static_cast<int>(spec.rect.get_width()),
-                                            static_cast<int>(spec.rect.get_height()))));
-      }
-      m_editor_images.push_back(surface);
-    }
-  }
 }
 
 void
@@ -170,16 +118,6 @@ Tile::correct_attributes()
     //But still be vocal about it
     log_warning << "Tile with image " << imagespecs[0].file << " needs solid attribute." << std::endl;
   }*/
-}
-
-void
-Tile::print_debug(int id) const
-{
-  log_debug << " Tile: id " << id << ", data " << get_data() << ", attributes " << get_attributes() << ":" << std::endl;
-  for(const auto& im : m_editor_imagespecs)
-    log_debug << "  Editor Imagespec: file " << im.file << "; rect " << im.rect << std::endl;
-  for(const auto& im : m_imagespecs)
-    log_debug << "  Imagespec:        file " << im.file << "; rect " << im.rect << std::endl;
 }
 
 /* Check if the tile is solid given the current movement. This works

@@ -28,6 +28,7 @@
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/file_system.hpp"
+#include "video/surface.hpp"
 
 TileSetParser::TileSetParser(TileSet& tileset, const std::string& filename) :
   m_tileset(tileset),
@@ -141,22 +142,22 @@ TileSetParser::parse_tile(const ReaderMapping& reader)
     attributes |= Tile::SOLID | Tile::SLOPE;
   }
 
-  std::vector<Tile::ImageSpec> editor_imagespecs;
-  ReaderMapping editor_images;
-  if(reader.get("editor-images", editor_images)) {
-    editor_imagespecs = parse_imagespecs(editor_images);
+  std::vector<SurfacePtr> editor_surfaces;
+  ReaderMapping editor_images_mapping;
+  if(reader.get("editor-images", editor_images_mapping)) {
+    editor_surfaces = parse_imagespecs(editor_images_mapping);
   }
 
-  std::vector<Tile::ImageSpec> imagespecs;
-  ReaderMapping images;
-  if(reader.get("images", images)) {
-    imagespecs = parse_imagespecs(images);
+  std::vector<SurfacePtr> surfaces;
+  ReaderMapping images_mapping;
+  if(reader.get("images", images_mapping)) {
+    surfaces = parse_imagespecs(images_mapping);
   }
 
   bool deprecated = false;
   reader.get("deprecated", deprecated);
 
-  std::unique_ptr<Tile> tile(new Tile(imagespecs, editor_imagespecs,
+  std::unique_ptr<Tile> tile(new Tile(surfaces, editor_surfaces,
                                       attributes, data, fps,
                                       object_name, object_data, deprecated));
   m_tileset.add_tile(id, std::move(tile));
@@ -171,8 +172,6 @@ TileSetParser::parse_tiles(const ReaderMapping& reader)
   std::vector<uint32_t> attributes;
   // List of data for the tiles
   std::vector<uint32_t> datas;
-  // Name used to report errors.
-  std::string image_name;
 
   // width and height of the image in tile units, this is used for two
   // purposes:
@@ -188,30 +187,18 @@ TileSetParser::parse_tiles(const ReaderMapping& reader)
   bool has_attributes = reader.get("attributes", attributes);
   bool has_datas = reader.get("datas", datas);
 
-  std::vector<Tile::ImageSpec> editor_imagespecs;
-  ReaderMapping editor_images;
-  if(reader.get("editor-images", editor_images)) {
-    editor_imagespecs = parse_imagespecs(editor_images);
+  std::vector<SurfacePtr> editor_surfaces;
+  ReaderMapping editor_surfaces_mapping;
+  if(reader.get("editor-images", editor_surfaces_mapping)) {
+    editor_surfaces = parse_imagespecs(editor_surfaces_mapping);
   }
 
-  std::vector<Tile::ImageSpec> imagespecs;
-  ReaderMapping images;
-  if(reader.get("image", images) ||
-     reader.get("images", images)) {
-    imagespecs = parse_imagespecs(images);
+  std::vector<SurfacePtr> surfaces;
+  ReaderMapping surfaces_mapping;
+  if(reader.get("image", surfaces_mapping) ||
+     reader.get("images", surfaces_mapping)) {
+    surfaces = parse_imagespecs(surfaces_mapping);
   }
-
-  std::vector<Tile::ImageSpec> displacement_imagespecs;
-  ReaderMapping displacement_images;
-  if(reader.get("displacement-image", displacement_images) ||
-     reader.get("displacement-images", displacement_images)) {
-    displacement_imagespecs = parse_imagespecs(displacement_images);
-  }
-
-  if (imagespecs.size() > 0)
-    image_name = imagespecs[0].file;
-  else
-    image_name = "(no image)";
 
   reader.get("width",      width);
   reader.get("height",     height);
@@ -240,54 +227,47 @@ TileSetParser::parse_tiles(const ReaderMapping& reader)
     std::ostringstream err;
     err << "Number of ids (" << ids.size() <<  ") and "
       "dimensions of image (" << width << "x" << height << " = " << width*height << ") "
-      "differ for image " << image_name;
+      "differ";
     throw std::runtime_error(err.str());
   }
   else if (has_attributes && (ids.size() != attributes.size()))
   {
     std::ostringstream err;
     err << "Number of ids (" << ids.size() <<  ") and attributes (" << attributes.size()
-        << ") mismatch for image '" << image_name << "', but must be equal";
+        << ") mismatch, but must be equal";
     throw std::runtime_error(err.str());
   }
   else if (has_datas && ids.size() != datas.size())
   {
     std::ostringstream err;
     err << "Number of ids (" << ids.size() <<  ") and datas (" << datas.size()
-        << ") mismatch for image '" << image_name << "', but must be equal";
+        << ") mismatch, but must be equal";
     throw std::runtime_error(err.str());
   }
   else
   {
-    for(std::vector<uint32_t>::size_type i = 0; i < ids.size() && i < width*height; ++i)
+    for(size_t i = 0; i < ids.size(); ++i)
     {
       if (ids[i] != 0)
       {
         int x = static_cast<int>(32 * (i % width));
         int y = static_cast<int>(32 * (i / width));
 
-        std::vector<Tile::ImageSpec> tile_imagespecs;
-        for(size_t j = 0; j < imagespecs.size(); ++j)
+        std::vector<SurfacePtr> regions;
+        std::vector<SurfacePtr> editor_regions;
+
+        for(const auto& surface : surfaces)
         {
-          tile_imagespecs.push_back(Tile::ImageSpec(imagespecs[j].file,
-                                                    Rectf(static_cast<float>(x) + imagespecs[j].rect.get_left(),
-                                                          static_cast<float>(y) + imagespecs[j].rect.get_top(),
-                                                          static_cast<float>(x) + imagespecs[j].rect.get_left() + 32.0f,
-                                                          static_cast<float>(y) + imagespecs[j].rect.get_top() + 32.0f)));
+          regions.push_back(surface->region(Rect(x, y, Size(32, 32))));
         }
 
-        std::vector<Tile::ImageSpec> tile_editor_imagespecs;
-        for(size_t j = 0; j < editor_imagespecs.size(); ++j)
+        for(const auto& surface : editor_surfaces)
         {
-          tile_editor_imagespecs.push_back(Tile::ImageSpec(editor_imagespecs[j].file,
-                                                           Rectf(static_cast<float>(x) + editor_imagespecs[j].rect.get_left(),
-                                                                 static_cast<float>(y) + editor_imagespecs[j].rect.get_top(),
-                                                                 static_cast<float>(x) + editor_imagespecs[j].rect.get_left() + 32.0f,
-                                                                 static_cast<float>(y) + editor_imagespecs[j].rect.get_top() + 32.0f)));
+          editor_regions.push_back(surface->region(Rect(x, y, Size(32, 32))));
         }
 
-        std::unique_ptr<Tile> tile(new Tile(tile_imagespecs,
-                                            tile_editor_imagespecs,
+        std::unique_ptr<Tile> tile(new Tile(regions,
+                                            editor_regions,
                                             (has_attributes ? attributes[i] : 0),
                                             (has_datas ? datas[i] : 0),
                                             fps));
@@ -298,10 +278,10 @@ TileSetParser::parse_tiles(const ReaderMapping& reader)
   }
 }
 
-std::vector<Tile::ImageSpec>
+std::vector<SurfacePtr>
 TileSetParser::parse_imagespecs(const ReaderMapping& images_lisp) const
 {
-  std::vector<Tile::ImageSpec> imagespecs;
+  std::vector<SurfacePtr> surfaces;
 
   // (images "foo.png" "foo.bar" ...)
   // (images (region "foo.png" 0 0 32 32))
@@ -311,7 +291,11 @@ TileSetParser::parse_imagespecs(const ReaderMapping& images_lisp) const
     if(iter.is_string())
     {
       std::string file = iter.as_string_item();
-      imagespecs.push_back(Tile::ImageSpec(m_tiles_path + file, Rectf(0, 0, 0, 0)));
+      surfaces.push_back(Surface::from_file(FileSystem::join(m_tiles_path, file)));
+    }
+    else if(iter.is_pair() && iter.get_key() == "surface")
+    {
+      surfaces.push_back(Surface::from_reader(iter.as_mapping()));
     }
     else if(iter.is_pair() && iter.get_key() == "region")
     {
@@ -323,13 +307,13 @@ TileSetParser::parse_imagespecs(const ReaderMapping& images_lisp) const
       }
       else
       {
-        std::string file = arr[1].as_string();
-        float x = arr[2].as_float();
-        float y = arr[3].as_float();
-        float w = arr[4].as_float();
-        float h = arr[5].as_float();
+        const std::string file = arr[1].as_string();
+        const int x = arr[2].as_int();
+        const int y = arr[3].as_int();
+        const int w = arr[4].as_int();
+        const int h = arr[5].as_int();
 
-        imagespecs.push_back(Tile::ImageSpec(m_tiles_path + file, Rectf(x, y, x+w, y+h)));
+        surfaces.push_back(Surface::from_file(FileSystem::join(m_tiles_path, file), Rect(x, y, x + w, y + h)));
       }
     }
     else
@@ -338,7 +322,7 @@ TileSetParser::parse_imagespecs(const ReaderMapping& images_lisp) const
     }
   }
 
-  return imagespecs;
+  return surfaces;
 }
 
 /* EOF */
