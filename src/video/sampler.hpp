@@ -17,13 +17,14 @@
 #ifndef HEADER_SUPERTUX_VIDEO_SAMPLER_HPP
 #define HEADER_SUPERTUX_VIDEO_SAMPLER_HPP
 
+#include "math/vector.hpp"
 #include "video/gl.hpp"
 
 class Sampler
 {
 public:
   Sampler();
-  Sampler(GLenum filter, GLenum wrap_s, GLenum wrap_t);
+  Sampler(GLenum filter, GLenum wrap_s, GLenum wrap_t, const Vector& animate);
   Sampler(const Sampler&) = default;
 
   Sampler& operator=(const Sampler&) = default;
@@ -31,11 +32,13 @@ public:
   GLenum get_filter() const { return m_filter; }
   GLenum get_wrap_s() const { return m_wrap_s; }
   GLenum get_wrap_t() const { return m_wrap_t; }
+  Vector get_animate() const { return m_animate; }
 
 private:
   GLenum m_filter;
   GLenum m_wrap_s;
   GLenum m_wrap_t;
+  Vector m_animate;
 };
 
 #endif

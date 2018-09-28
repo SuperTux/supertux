@@ -21,6 +21,7 @@
 
 #include "video/color.hpp"
 #include "video/gl.hpp"
+#include "video/sampler.hpp"
 #include "video/texture.hpp"
 
 class Sampler;
@@ -32,6 +33,7 @@ class GLTexture : public Texture
 {
 protected:
   GLuint m_handle;
+  Sampler m_sampler;
   int m_texture_width;
   int m_texture_height;
   int m_image_width;
@@ -48,6 +50,11 @@ public:
 
   void set_handle(GLuint handle) {
     m_handle = handle;
+  }
+
+  const Sampler& get_sampler() const
+  {
+    return m_sampler;
   }
 
   int get_texture_width() const
@@ -81,7 +88,7 @@ public:
   }
 
 private:
-  void set_texture_params(const Sampler& sampler);
+  void set_texture_params();
 };
 
 #endif

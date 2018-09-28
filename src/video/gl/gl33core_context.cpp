@@ -172,6 +172,13 @@ GL33CoreContext::bind_texture(const Texture& texture, const Texture* displacemen
   {
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, static_cast<const GLTexture&>(texture).get_handle());
+
+    Vector animate = static_cast<const GLTexture&>(texture).get_sampler().get_animate();
+
+    animate.x /= static_cast<float>(texture.get_image_width());
+    animate.y /= static_cast<float>(texture.get_image_height());
+
+    glUniform2f(m_program->get_uniform_location("animate"), animate.x, animate.y);
   }
 
   if (displacement_texture)

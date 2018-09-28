@@ -7,6 +7,7 @@ uniform mat3 fragcoord2uv;
 uniform float backbuffer;
 uniform float game_time;
 uniform float real_time;
+uniform vec2 animate;
 
 in vec4 diffuse_var;
 in vec2 texcoord_var;
@@ -17,7 +18,7 @@ void main(void)
 {
   if (backbuffer == 0.0)
   {
-    vec4 color =  diffuse_var * texture(diffuse_texture, texcoord_var.st);
+    vec4 color =  diffuse_var * texture(diffuse_texture, texcoord_var.st + (animate * game_time));
     fragColor = color;
   }
   else if (true)
@@ -30,7 +31,7 @@ void main(void)
     uv = vec2(uv.x, 1.0 - uv.y);
     vec4 back_color = texture(framebuffer_texture, uv);
 
-    vec4 color =  diffuse_var * texture(diffuse_texture, texcoord_var.st);
+    vec4 color =  diffuse_var * texture(diffuse_texture, texcoord_var.st + (animate * game_time));
     fragColor = vec4(mix(color.rgb, back_color.rgb, alpha), color.a);
   }
   else

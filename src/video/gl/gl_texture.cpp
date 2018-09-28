@@ -24,6 +24,7 @@
 
 GLTexture::GLTexture(int width, int height, boost::optional<Color> fill_color) :
   m_handle(),
+  m_sampler(),
   m_texture_width(),
   m_texture_height(),
   m_image_width(),
@@ -56,7 +57,7 @@ GLTexture::GLTexture(int width, int height, boost::optional<Color> fill_color) :
                    m_texture_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
     }
 
-    set_texture_params(Sampler());
+    set_texture_params();
   } catch(...) {
     glDeleteTextures(1, &m_handle);
     throw;
@@ -65,6 +66,7 @@ GLTexture::GLTexture(int width, int height, boost::optional<Color> fill_color) :
 
 GLTexture::GLTexture(const SDL_Surface& image, const Sampler& sampler) :
   m_handle(),
+  m_sampler(sampler),
   m_texture_width(),
   m_texture_height(),
   m_image_width(),
@@ -135,7 +137,7 @@ GLTexture::GLTexture(const SDL_Surface& image, const Sampler& sampler) :
 
     assert_gl();
 
-    set_texture_params(sampler);
+    set_texture_params();
   } catch(...) {
     glDeleteTextures(1, &m_handle);
     throw;
@@ -148,13 +150,13 @@ GLTexture::~GLTexture()
 }
 
 void
-GLTexture::set_texture_params(const Sampler& sampler)
+GLTexture::set_texture_params()
 {
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, static_cast<GLint>(sampler.get_filter()));
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, static_cast<GLint>(sampler.get_filter()));
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, static_cast<GLint>(m_sampler.get_filter()));
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, static_cast<GLint>(m_sampler.get_filter()));
 
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, static_cast<GLint>(sampler.get_wrap_s()));
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, static_cast<GLint>(sampler.get_wrap_t()));
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, static_cast<GLint>(m_sampler.get_wrap_s()));
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, static_cast<GLint>(m_sampler.get_wrap_t()));
 
   assert_gl();
 }

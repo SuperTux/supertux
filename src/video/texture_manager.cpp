@@ -150,7 +150,18 @@ TextureManager::get(const ReaderMapping& mapping)
     filter = string2filter(filter_s);
   }
 
-  return get(filename, rect, Sampler(filter, wrap_s, wrap_t));
+  Vector animate;
+  std::vector<float> animate_v;
+  if (mapping.get("animate", animate_v))
+  {
+    if (animate_v.size() == 2)
+    {
+      animate.x = animate_v[0];
+      animate.y = animate_v[1];
+    }
+  }
+
+  return get(filename, rect, Sampler(filter, wrap_s, wrap_t, animate));
 }
 
 TexturePtr
