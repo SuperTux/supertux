@@ -27,7 +27,24 @@
 SpriteParticle::SpriteParticle(const std::string& sprite_name, const std::string& action,
                                const Vector& position_, AnchorPoint anchor, const Vector& velocity_, const Vector& acceleration_,
                                int drawing_layer_) :
-  sprite(SpriteManager::current()->create(sprite_name)),
+  SpriteParticle(SpriteManager::current()->create(sprite_name), action,
+                 position_, anchor, velocity_, acceleration_,
+                 drawing_layer_)
+{
+  if (sprite_name == "images/objects/particles/sparkle.sprite")
+  {
+    glow = true;
+    if(action=="dark") {
+      lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
+      lightsprite->set_color(Color(0.1f, 0.1f, 0.1f));
+    }
+  }
+}
+
+SpriteParticle::SpriteParticle(SpritePtr sprite_, const std::string& action,
+                               const Vector& position_, AnchorPoint anchor, const Vector& velocity_, const Vector& acceleration_,
+                               int drawing_layer_) :
+  sprite(std::move(sprite_)),
   position(position_),
   velocity(velocity_),
   acceleration(acceleration_),
@@ -36,19 +53,10 @@ SpriteParticle::SpriteParticle(const std::string& sprite_name, const std::string
   lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-tiny.sprite")),
   glow(false)
 {
-  if (!sprite.get()) throw std::runtime_error("Could not load sprite "+sprite_name);
   sprite->set_action(action, 1);
   sprite->set_animation_loops(1); //TODO: this is necessary because set_action will not set "loops" when "action" is the default action
 
   position -= get_anchor_pos(sprite->get_current_hitbox(), anchor);
-
-  if(sprite_name=="images/objects/particles/sparkle.sprite") {
-    glow = true;
-    if(action=="dark") {
-      lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
-      lightsprite->set_color(Color(0.1f, 0.1f, 0.1f));
-    }
-  }
 }
 
 SpriteParticle::~SpriteParticle()
