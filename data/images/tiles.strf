@@ -3812,17 +3812,24 @@
     (attributes
       512 512 512 512
       )
-    (displacement-image
-      "tiles/water/antarctic-displacement.png")
+
     (image
-      "tiles/water/antarctic-1.png"
-      "tiles/water/antarctic-2.png"
-      "tiles/water/antarctic-3.png"
-      "tiles/water/antarctic-4.png"
-      "tiles/water/antarctic-5.png"
-      "tiles/water/antarctic-6.png"
-      "tiles/water/antarctic-7.png"
-      "tiles/water/antarctic-8.png"
+     (surface (diffuse-texture (file "tiles/water/antarctic-1.png"))
+              (displacement-texture (file "tiles/water/antarctic-displacement.png")))
+     (surface (diffuse-texture (file "tiles/water/antarctic-2.png"))
+              (displacement-texture (file "tiles/water/antarctic-displacement.png")))
+     (surface (diffuse-texture (file "tiles/water/antarctic-3.png"))
+              (displacement-texture (file "tiles/water/antarctic-displacement.png")))
+     (surface (diffuse-texture (file "tiles/water/antarctic-4.png"))
+              (displacement-texture (file "tiles/water/antarctic-displacement.png")))
+     (surface (diffuse-texture (file "tiles/water/antarctic-5.png"))
+              (displacement-texture (file "tiles/water/antarctic-displacement.png")))
+     (surface (diffuse-texture (file "tiles/water/antarctic-6.png"))
+              (displacement-texture (file "tiles/water/antarctic-displacement.png")))
+     (surface (diffuse-texture (file "tiles/water/antarctic-7.png"))
+              (displacement-texture (file "tiles/water/antarctic-displacement.png")))
+     (surface (diffuse-texture (file "tiles/water/antarctic-8.png"))
+              (displacement-texture (file "tiles/water/antarctic-displacement.png")))
     )
     (fps 16)
   )
@@ -4393,9 +4400,9 @@
     (width 3)(height 1)
     (ids 3041 3042 3043)
     (attributes 257 257 257)
-    (image "objects/icecube/iceslick.png")
-    (displacement-image "objects/icecube/iceslick-displacement.png")
-  )
+    (images
+     (surface (diffuse-texture (file "objects/icecube/iceslick.png"))
+              (displacement-texture (file "objects/icecube/iceslick-displacement.png")))))
   (tiles
     (width 4)(height 4)
     (ids
