@@ -151,20 +151,6 @@ Sprite::draw(Canvas& canvas, const Vector& pos, int layer,
   context.pop_transform();
 }
 
-void
-Sprite::draw_part(Canvas& canvas, const Vector& source,
-                  const Vector& size, const Vector& pos, int layer)
-{
-  assert(m_action != 0);
-  update();
-
-  canvas.draw_surface_part(m_action->surfaces[m_frameidx],
-                           Rectf(source, Sizef(size)),
-                           Rectf(pos - Vector(m_action->x_offset, m_action->y_offset),
-                                 Sizef(size)),
-                           layer + m_action->z_order);
-}
-
 int
 Sprite::get_width() const
 {

@@ -33,9 +33,6 @@ public:
   void draw(Canvas& canvas, const Vector& pos, int layer,
             Flip flip = NO_FLIP);
 
-  void draw_part(Canvas& canvas, const Vector& source,
-                 const Vector& size, const Vector& pos, int layer);
-
   /** Set action (or state) */
   void set_action(const std::string& name, int loops = -1);
 
