@@ -223,19 +223,19 @@ TextScroller::draw(Compositor& compositor)
 
   if (bg_ratio > ctx_ratio)
   {
-    float new_bg_w = bg_h * ctx_ratio;
-    context.color().draw_surface_part(background,
-                                      Rectf(Vector(bg_w / 2.0f - new_bg_w / 2.0f, 0), Sizef(new_bg_w, bg_h)),
-                                      Rectf(0, 0, ctx_w, ctx_h),
-                                      0);
+    const float new_bg_w = ctx_h * bg_ratio;
+    context.color().draw_surface_scaled(background,
+                                        Rectf::from_center(Vector(ctx_w / 2.0f, ctx_h / 2.0f),
+                                                           Sizef(new_bg_w, ctx_h)),
+                                        0);
   }
   else
   {
-    float new_bg_h = bg_w / ctx_ratio;
-    context.color().draw_surface_part(background,
-                                      Rectf(Vector(0, bg_h / 2.0f - new_bg_h / 2.0f), Sizef(bg_w, new_bg_h)),
-                                      Rectf(0, 0, ctx_w, ctx_h),
-                                      0);
+    const float new_bg_h = ctx_w / bg_ratio;
+    context.color().draw_surface_scaled(background,
+                                        Rectf::from_center(Vector(ctx_w / 2.0f, ctx_h / 2.0f),
+                                                           Sizef(ctx_w, new_bg_h)),
+                                        0);
   }
 
   float y = ctx_h - scroll;
