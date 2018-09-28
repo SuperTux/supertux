@@ -104,6 +104,25 @@ Surface::Surface(const TexturePtr& diffuse_texture,
                  Flip flip) :
   m_diffuse_texture(diffuse_texture),
   m_displacement_texture(displacement_texture),
+  m_region(0, 0, m_diffuse_texture->get_image_width(), m_diffuse_texture->get_image_height()),
+  m_translate(translate),
+  m_scale(scale),
+  m_rotate(rotate),
+  m_rotate_center(rotate_center),
+  m_flip(flip)
+{
+}
+
+Surface::Surface(const TexturePtr& diffuse_texture, const TexturePtr& displacement_texture,
+                 const Rect& region,
+                 const Vector& translate,
+                 const Vector& scale,
+                 float rotate,
+                 const Vector& rotate_center,
+                 Flip flip) :
+  m_diffuse_texture(diffuse_texture),
+  m_displacement_texture(displacement_texture),
+  m_region(region),
   m_translate(translate),
   m_scale(scale),
   m_rotate(rotate),
@@ -127,11 +146,26 @@ Surface::clone(Flip flip) const
 {
   SurfacePtr surface(new Surface(m_diffuse_texture,
                                  m_displacement_texture,
+                                 m_region,
                                  m_translate,
                                  m_scale,
                                  m_rotate,
                                  m_rotate_center,
                                  m_flip ^ flip));
+  return surface;
+}
+
+SurfacePtr
+Surface::region(const Rect& rect) const
+{
+  SurfacePtr surface(new Surface(m_diffuse_texture,
+                                 m_displacement_texture,
+                                 rect,
+                                 m_translate,
+                                 m_scale,
+                                 m_rotate,
+                                 m_rotate_center,
+                                 m_flip));
   return surface;
 }
 
@@ -150,13 +184,13 @@ Surface::get_displacement_texture() const
 int
 Surface::get_width() const
 {
-  return m_diffuse_texture ? m_diffuse_texture->get_image_width() : 0;
+  return m_region.get_width();
 }
 
 int
 Surface::get_height() const
 {
-  return m_diffuse_texture ? m_diffuse_texture->get_image_height() : 0;
+  return m_region.get_height();
 }
 
 /* EOF */

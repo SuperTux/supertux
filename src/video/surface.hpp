@@ -47,13 +47,23 @@ private:
           const Vector& rotate_center,
           Flip flip);
 
+  Surface(const TexturePtr& diffuse_texture, const TexturePtr& displacement_texture,
+          const Rect& region,
+          const Vector& translate,
+          const Vector& scale,
+          float rotate,
+          const Vector& rotate_center,
+          Flip flip);
+
 public:
   ~Surface();
 
+  SurfacePtr region(const Rect& rect) const;
   SurfacePtr clone(Flip flip = NO_FLIP) const;
 
   TexturePtr get_texture() const;
   TexturePtr get_displacement_texture() const;
+  Rect get_region() const { return m_region; }
   int get_width() const;
   int get_height() const;
   Vector get_translation() const { return m_translate; }
@@ -65,6 +75,7 @@ public:
 private:
   const TexturePtr m_diffuse_texture;
   const TexturePtr m_displacement_texture;
+  const Rect m_region;
   const Vector m_translate;
   const Vector m_scale;
   const float m_rotate;
