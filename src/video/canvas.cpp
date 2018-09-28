@@ -147,6 +147,14 @@ Canvas::draw_surface(SurfacePtr surface, const Vector& position, int layer)
 }
 
 void
+Canvas::draw_surface_scaled(SurfacePtr surface, const Rectf& dstrect,
+                            int layer, const PaintStyle& style)
+{
+  draw_surface_part(surface, Rectf(0.0f, 0.0f, static_cast<float>(surface->get_width()), static_cast<float>(surface->get_height())),
+                    dstrect, layer, style);
+}
+
+void
 Canvas::draw_surface_part(SurfacePtr surface, const Rectf& srcrect, const Rectf& dstrect,
                           int layer, const PaintStyle& style)
 {

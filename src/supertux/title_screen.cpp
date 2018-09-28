@@ -108,10 +108,9 @@ TitleScreen::draw(Compositor& compositor)
   Sector* sector  = titlesession->get_current_sector();
   sector->draw(context);
 
-  context.color().draw_surface_part(frame,
-                                    Rectf(0, 0, static_cast<float>(frame->get_width()), static_cast<float>(frame->get_height())),
-                                    Rectf(0, 0, static_cast<float>(context.get_width()), static_cast<float>(context.get_height())),
-                                    LAYER_FOREGROUND1);
+  context.color().draw_surface_scaled(frame,
+                                      Rectf(0, 0, static_cast<float>(context.get_width()), static_cast<float>(context.get_height())),
+                                      LAYER_FOREGROUND1);
 
   context.color().draw_text(Resources::small_font,
                             copyright_text,

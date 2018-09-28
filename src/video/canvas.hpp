@@ -137,6 +137,8 @@ public:
                     int layer);
   void draw_surface_part(SurfacePtr surface, const Rectf& srcrect, const Rectf& dstrect,
                          int layer, const PaintStyle& style = PaintStyle());
+  void draw_surface_scaled(SurfacePtr surface, const Rectf& dstrect,
+                           int layer, const PaintStyle& style = PaintStyle());
   void draw_surface_batch(SurfacePtr surface,
                           const std::vector<Rectf>& srcrects,
                           const std::vector<Rectf>& dstrects,

@@ -92,12 +92,10 @@ void Editor::draw(Compositor& compositor)
                                      Color(0.0f, 0.0f, 0.0f),
                                      0.0f, std::numeric_limits<int>::min());
   } else {
-    context.color().draw_surface_part(bgr_surface, Rectf(Vector(0, 0),
-                                                         Sizef(static_cast<float>(bgr_surface->get_width()),
-                                                               static_cast<float>(bgr_surface->get_height()))),
-                                      Rectf(Vector(0, 0), Vector(static_cast<float>(context.get_width()),
-                                                                 static_cast<float>(context.get_height()))),
-                                      -100);
+    context.color().draw_surface_scaled(bgr_surface,
+                                        Rectf(Vector(0, 0), Vector(static_cast<float>(context.get_width()),
+                                                                   static_cast<float>(context.get_height()))),
+                                        -100);
   }
   inputcenter.draw(context);
   tileselect.draw(context);
