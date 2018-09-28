@@ -21,10 +21,11 @@
 #include "audio/sound_manager.hpp"
 #include "badguy/badguy.hpp"
 #include "badguy/bomb.hpp"
-#include "object/broken_brick.hpp"
+#include "math/random_generator.hpp"
 #include "object/coin.hpp"
 #include "object/growup.hpp"
 #include "object/player.hpp"
+#include "object/sprite_particle.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/constants.hpp"
@@ -183,17 +184,19 @@ void
 Block::break_me()
 {
   auto sector = Sector::current();
-  sector->add_object(
-    std::make_shared<BrokenBrick>(sprite->clone(), get_pos(), Vector(-100, -400)));
-  sector->add_object(
-    std::make_shared<BrokenBrick>(sprite->clone(), get_pos() + Vector(0, 16),
-                                  Vector(-150, -300)));
-  sector->add_object(
-    std::make_shared<BrokenBrick>(sprite->clone(), get_pos() + Vector(16, 0),
-                                  Vector(100, -400)));
-  sector->add_object(
-    std::make_shared<BrokenBrick>(sprite->clone(), get_pos() + Vector(16, 16),
-                                  Vector(150, -300)));
+  const auto gravity = sector->get_gravity() * 100;
+  Vector pos = get_pos() + Vector(16.0f, 16.0f);
+
+  for (const char* action : {"piece1", "piece2", "piece3", "piece4", "piece5", "piece6"})
+  {
+    Vector velocity(graphicsRandom.randf(-100, 100),
+                    graphicsRandom.randf(-400, -300));
+    sector->add_object(std::make_shared<SpriteParticle>(sprite->clone(), action,
+                                                        pos, ANCHOR_MIDDLE,
+                                                        velocity, Vector(0, gravity),
+                                                        LAYER_OBJECTS + 1));
+  }
+
   remove_me();
 }
 
