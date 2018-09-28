@@ -27,6 +27,23 @@
 
 bool Tile::draw_editor_images = false;
 
+namespace {
+
+bool is_above_line (float l_x, float l_y, float m,
+                    float p_x, float p_y)
+{
+  float interp_y = (l_y + (m * (p_x - l_x)));
+  return (interp_y >= p_y);
+}
+
+bool is_below_line (float l_x, float l_y, float m,
+                    float p_x, float p_y)
+{
+  return !is_above_line (l_x, l_y, m, p_x, p_y);
+}
+
+} // namespace
+
 Tile::Tile() :
   m_imagespecs(),
   m_images(),
@@ -171,7 +188,8 @@ Tile::print_debug(int id) const
  * in quotation marks because because the slope's gradient is taken.
  * Also, this uses the movement relative to the tilemaps own movement
  * (if any).  --octo */
-bool Tile::check_movement_unisolid (const Vector& movement) const
+bool
+Tile::check_movement_unisolid (const Vector& movement) const
 {
   int slope_info;
   double mv_x;
@@ -260,25 +278,13 @@ bool Tile::check_movement_unisolid (const Vector& movement) const
   }
 
   return false;
-} /* int check_movement_unisolid */
-
-bool is_above_line (float l_x, float l_y, float m,
-                    float p_x, float p_y)
-{
-  float interp_y = (l_y + (m * (p_x - l_x)));
-  return (interp_y >= p_y);
-}
-
-bool is_below_line (float l_x, float l_y, float m,
-                    float p_x, float p_y)
-{
-  return !is_above_line (l_x, l_y, m, p_x, p_y);
 }
 
 /* Check whether the object is already *in* the tile. If so, the tile
  * is non-solid. Otherwise, if the object is "above" (south slopes)
  * or "below" (north slopes), the tile will be solid. */
-bool Tile::check_position_unisolid (const Rectf& obj_bbox,
+bool
+Tile::check_position_unisolid (const Rectf& obj_bbox,
                                     const Rectf& tile_bbox) const
 {
   int slope_info;
@@ -427,23 +433,25 @@ bool Tile::check_position_unisolid (const Rectf& obj_bbox,
   {
     return !is_above_line (tile_x, tile_y, gradient, obj_x + delta_x, obj_y + delta_y);
   }
-} /* int check_position_unisolid */
+}
 
-bool Tile::is_solid (const Rectf& tile_bbox, const Rectf& position, const Vector& movement) const
+bool
+Tile::is_solid (const Rectf& tile_bbox, const Rectf& position, const Vector& movement) const
 {
   if (!(m_attributes & SOLID))
     return false;
 
   return is_collisionful(tile_bbox, position, movement);
-} /* bool Tile::is_solid */
+}
 
-bool Tile::is_collisionful(const Rectf& tile_bbox, const Rectf& position, const Vector& movement) const
+bool
+Tile::is_collisionful(const Rectf& tile_bbox, const Rectf& position, const Vector& movement) const
 {
   if (!(m_attributes & UNISOLID))
     return true;
 
   return check_movement_unisolid (movement) &&
          check_position_unisolid (position, tile_bbox);
-} /* bool Tile::is_collisionful */
+}
 
 /* EOF */
