@@ -32,6 +32,15 @@
 class Rectf
 {
 public:
+  static Rectf from_center(const Vector& center, const Sizef& size)
+  {
+    return Rectf(center.x - size.width / 2.0f,
+                 center.y - size.height / 2.0f,
+                 center.x + size.width / 2.0f,
+                 center.y + size.height / 2.0f);
+  }
+
+public:
   Rectf() :
     p1(),
     p2()
