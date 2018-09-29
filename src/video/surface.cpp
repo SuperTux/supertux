@@ -22,20 +22,20 @@
 #include "video/video_system.hpp"
 
 SurfacePtr
-Surface::from_reader(const ReaderMapping& mapping)
+Surface::from_reader(const ReaderMapping& mapping, const boost::optional<Rect>& rect)
 {
   TexturePtr diffuse_texture;
   ReaderMapping diffuse_texture_mapping;
   if (mapping.get("diffuse-texture", diffuse_texture_mapping))
   {
-    diffuse_texture = TextureManager::current()->get(diffuse_texture_mapping);
+    diffuse_texture = TextureManager::current()->get(diffuse_texture_mapping, rect);
   }
 
   TexturePtr displacement_texture;
   ReaderMapping displacement_texture_mapping;
   if (mapping.get("displacement-texture", displacement_texture_mapping))
   {
-    displacement_texture = TextureManager::current()->get(displacement_texture_mapping);
+    displacement_texture = TextureManager::current()->get(displacement_texture_mapping, rect);
   }
 
   Vector translate;
@@ -82,17 +82,18 @@ Surface::from_reader(const ReaderMapping& mapping)
 }
 
 SurfacePtr
-Surface::from_file(const std::string& filename)
+Surface::from_file(const std::string& filename, const boost::optional<Rect>& rect)
 {
-  TexturePtr texture = TextureManager::current()->get(filename);
-  return SurfacePtr(new Surface(texture, TexturePtr(), Vector(), Vector(1.0f, 1.0f), 0.0f, Vector(), NO_FLIP));
-}
-
-SurfacePtr
-Surface::from_file(const std::string& filename, const Rect& rect)
-{
-  TexturePtr texture = TextureManager::current()->get(filename, rect);
-  return SurfacePtr(new Surface(texture, TexturePtr(), Vector(), Vector(1.0f, 1.0f), 0.0f, Vector(), NO_FLIP));
+  if (rect)
+  {
+    TexturePtr texture = TextureManager::current()->get(filename, *rect);
+    return SurfacePtr(new Surface(texture, TexturePtr(), Vector(), Vector(1.0f, 1.0f), 0.0f, Vector(), NO_FLIP));
+  }
+  else
+  {
+    TexturePtr texture = TextureManager::current()->get(filename);
+    return SurfacePtr(new Surface(texture, TexturePtr(), Vector(), Vector(1.0f, 1.0f), 0.0f, Vector(), NO_FLIP));
+  }
 }
 
 Surface::Surface(const TexturePtr& diffuse_texture,

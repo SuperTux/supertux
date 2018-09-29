@@ -25,6 +25,7 @@
 #include <vector>
 #include <boost/optional.hpp>
 
+#include "math/rect.hpp"
 #include "util/currenton.hpp"
 #include "video/sampler.hpp"
 #include "video/sdl_surface_ptr.hpp"
@@ -33,7 +34,6 @@
 
 class GLTexture;
 class ReaderMapping;
-class Rect;
 struct SDL_Surface;
 
 class TextureManager : public Currenton<TextureManager>
@@ -45,7 +45,7 @@ public:
   TextureManager();
   ~TextureManager();
 
-  TexturePtr get(const ReaderMapping& mapping);
+  TexturePtr get(const ReaderMapping& mapping, const boost::optional<Rect>& region = boost::none);
   TexturePtr get(const std::string& filename);
   TexturePtr get(const std::string& filename,
                  const boost::optional<Rect>& rect,

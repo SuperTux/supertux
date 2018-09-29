@@ -95,7 +95,7 @@ TextureManager::~TextureManager()
 }
 
 TexturePtr
-TextureManager::get(const ReaderMapping& mapping)
+TextureManager::get(const ReaderMapping& mapping, const boost::optional<Rect>& region)
 {
   std::string filename;
   if (!mapping.get("file", filename))
@@ -158,6 +158,22 @@ TextureManager::get(const ReaderMapping& mapping)
     {
       animate.x = animate_v[0];
       animate.y = animate_v[1];
+    }
+  }
+
+  if (region)
+  {
+    if (!rect)
+    {
+      rect = region;
+    }
+    else
+    {
+      rect->left += region->left;
+      rect->top += region->top;
+
+      rect->right = rect->left + region->get_width();
+      rect->bottom = rect->top + region->get_height();
     }
   }
 
