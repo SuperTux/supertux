@@ -19,7 +19,11 @@
 
 #include <iosfwd>
 
+#include <SDL.h>
+
 #include "math/size.hpp"
+
+class Rectf;
 
 class Rect
 {
@@ -28,6 +32,15 @@ public:
   int top;
   int right;
   int bottom;
+
+public:
+  static Rect from_center(int center_x, int center_y, int width, int height)
+  {
+    return Rect(center_x - width / 2,
+                center_y - height / 2,
+                center_x + width / 2,
+                center_y + height / 2);
+  }
 
 public:
   Rect() :
@@ -51,9 +64,59 @@ public:
     bottom(top_ + size.height)
   {}
 
+  Rect(const SDL_Rect& rect) :
+    left(rect.x),
+    top(rect.y),
+    right(rect.x + rect.w),
+    bottom(rect.y + rect.h)
+  {}
+
+  explicit Rect(const Rectf& other);
+
+  bool operator==(const Rect& other) const
+  {
+    return (left == other.left &&
+            top == other.top &&
+            right == other.right &&
+            bottom == other.bottom);
+  }
+
+  bool contains(int x, int y) const
+  {
+    return (left <= x && x < right &&
+            top <= y && y < bottom);
+  }
+
+  bool contains(const Rect& other) const
+  {
+    return (left <= other.left && other.right <= right &&
+            top <= other.top && other.bottom <= bottom);
+  }
+
   int get_width()  const { return right - left; }
   int get_height() const { return bottom - top; }
   Size get_size() const { return Size(right - left, bottom - top); }
+
+  Rect moved(int x, int y) const
+  {
+    return Rect(left + x,
+                top + y,
+                right + x,
+                bottom + y);
+  }
+
+  Rect grown(int border) const
+  {
+    return Rect(left - border,
+                top - border,
+                right + border,
+                bottom + border);
+  }
+
+  SDL_Rect to_sdl() const
+  {
+    return {left, top, get_width(), get_height()};
+  }
 };
 
 std::ostream& operator<<(std::ostream& out, const Rect& rect);
