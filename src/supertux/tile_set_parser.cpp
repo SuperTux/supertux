@@ -187,21 +187,11 @@ TileSetParser::parse_tiles(const ReaderMapping& reader)
   bool has_attributes = reader.get("attributes", attributes);
   bool has_datas = reader.get("datas", datas);
 
-  std::vector<SurfacePtr> editor_surfaces;
-  ReaderMapping editor_surfaces_mapping;
-  if(reader.get("editor-images", editor_surfaces_mapping)) {
-    editor_surfaces = parse_imagespecs(editor_surfaces_mapping);
-  }
+  reader.get("width", width);
+  reader.get("height", height);
 
-  std::vector<SurfacePtr> surfaces;
-  ReaderMapping surfaces_mapping;
-  if(reader.get("image", surfaces_mapping) ||
-     reader.get("images", surfaces_mapping)) {
-    surfaces = parse_imagespecs(surfaces_mapping);
-  }
-
-  reader.get("width",      width);
-  reader.get("height",     height);
+  bool shared_surface = false;
+  reader.get("shared-surface", shared_surface);
 
   float fps = 10;
   reader.get("fps",     fps);
@@ -246,40 +236,89 @@ TileSetParser::parse_tiles(const ReaderMapping& reader)
   }
   else
   {
-    for(size_t i = 0; i < ids.size(); ++i)
+    if (shared_surface)
     {
-      if (ids[i] != 0)
+      std::vector<SurfacePtr> editor_surfaces;
+      ReaderMapping editor_surfaces_mapping;
+      if(reader.get("editor-images", editor_surfaces_mapping)) {
+        editor_surfaces = parse_imagespecs(editor_surfaces_mapping);
+      }
+
+      std::vector<SurfacePtr> surfaces;
+      ReaderMapping surfaces_mapping;
+      if(reader.get("image", surfaces_mapping) ||
+         reader.get("images", surfaces_mapping)) {
+        surfaces = parse_imagespecs(surfaces_mapping);
+      }
+
+      for(size_t i = 0; i < ids.size(); ++i)
       {
-        int x = static_cast<int>(32 * (i % width));
-        int y = static_cast<int>(32 * (i / width));
-
-        std::vector<SurfacePtr> regions;
-        std::vector<SurfacePtr> editor_regions;
-
-        for(const auto& surface : surfaces)
+        if (ids[i] != 0)
         {
-          regions.push_back(surface->region(Rect(x, y, Size(32, 32))));
-        }
+          int x = static_cast<int>(32 * (i % width));
+          int y = static_cast<int>(32 * (i / width));
 
-        for(const auto& surface : editor_surfaces)
+          std::vector<SurfacePtr> regions;
+          std::vector<SurfacePtr> editor_regions;
+
+          for(const auto& surface : surfaces)
+          {
+            regions.push_back(surface->region(Rect(x, y, Size(32, 32))));
+          }
+
+          for(const auto& surface : editor_surfaces)
+          {
+            editor_regions.push_back(surface->region(Rect(x, y, Size(32, 32))));
+          }
+
+          std::unique_ptr<Tile> tile(new Tile(regions,
+                                              editor_regions,
+                                              (has_attributes ? attributes[i] : 0),
+                                              (has_datas ? datas[i] : 0),
+                                              fps));
+
+          m_tileset.add_tile(ids[i], std::move(tile));
+        }
+      }
+    }
+    else // (!shared_surface)
+    {
+      for(size_t i = 0; i < ids.size(); ++i)
+      {
+        if (ids[i] != 0)
         {
-          editor_regions.push_back(surface->region(Rect(x, y, Size(32, 32))));
+          int x = static_cast<int>(32 * (i % width));
+          int y = static_cast<int>(32 * (i / width));
+
+          std::vector<SurfacePtr> surfaces;
+          ReaderMapping surfaces_mapping;
+          if(reader.get("image", surfaces_mapping) ||
+             reader.get("images", surfaces_mapping)) {
+            surfaces = parse_imagespecs(surfaces_mapping, Rect(x, y, Size(32, 32)));
+          }
+
+          std::vector<SurfacePtr> editor_surfaces;
+          ReaderMapping editor_surfaces_mapping;
+          if(reader.get("editor-images", editor_surfaces_mapping)) {
+            editor_surfaces = parse_imagespecs(editor_surfaces_mapping, Rect(x, y, Size(32, 32)));
+          }
+
+          std::unique_ptr<Tile> tile(new Tile(surfaces,
+                                              editor_surfaces,
+                                              (has_attributes ? attributes[i] : 0),
+                                              (has_datas ? datas[i] : 0),
+                                              fps));
+
+          m_tileset.add_tile(ids[i], std::move(tile));
         }
-
-        std::unique_ptr<Tile> tile(new Tile(regions,
-                                            editor_regions,
-                                            (has_attributes ? attributes[i] : 0),
-                                            (has_datas ? datas[i] : 0),
-                                            fps));
-
-        m_tileset.add_tile(ids[i], std::move(tile));
       }
     }
   }
 }
 
 std::vector<SurfacePtr>
-TileSetParser::parse_imagespecs(const ReaderMapping& images_lisp) const
+  TileSetParser::parse_imagespecs(const ReaderMapping& images_lisp,
+                                  const boost::optional<Rect>& surface_region) const
 {
   std::vector<SurfacePtr> surfaces;
 
@@ -291,11 +330,11 @@ TileSetParser::parse_imagespecs(const ReaderMapping& images_lisp) const
     if(iter.is_string())
     {
       std::string file = iter.as_string_item();
-      surfaces.push_back(Surface::from_file(FileSystem::join(m_tiles_path, file)));
+      surfaces.push_back(Surface::from_file(FileSystem::join(m_tiles_path, file), surface_region));
     }
     else if(iter.is_pair() && iter.get_key() == "surface")
     {
-      surfaces.push_back(Surface::from_reader(iter.as_mapping()));
+      surfaces.push_back(Surface::from_reader(iter.as_mapping(), surface_region));
     }
     else if(iter.is_pair() && iter.get_key() == "region")
     {
@@ -313,7 +352,19 @@ TileSetParser::parse_imagespecs(const ReaderMapping& images_lisp) const
         const int w = arr[4].as_int();
         const int h = arr[5].as_int();
 
-        surfaces.push_back(Surface::from_file(FileSystem::join(m_tiles_path, file), Rect(x, y, x + w, y + h)));
+        Rect rect(x, y, x + w, y + h);
+
+        if (surface_region)
+        {
+          rect.left += surface_region->left;
+          rect.top += surface_region->top;
+
+          rect.right = rect.left + surface_region->get_width();
+          rect.bottom = rect.top + surface_region->get_height();
+        }
+
+        surfaces.push_back(Surface::from_file(FileSystem::join(m_tiles_path, file),
+                                              rect));
       }
     }
     else
