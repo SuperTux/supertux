@@ -16,6 +16,7 @@
 
 #include "video/gl/gl20_context.hpp"
 
+#include "supertux/globals.hpp"
 #include "video/glutil.hpp"
 #include "video/color.hpp"
 #include "video/gl/gl_texture.hpp"
@@ -120,6 +121,26 @@ GL20Context::bind_texture(const Texture& texture, const Texture* displacement_te
   glEnable(GL_TEXTURE_2D);
   glBindTexture(GL_TEXTURE_2D, static_cast<const GLTexture&>(texture).get_handle());
   assert_gl();
+
+  Vector animate = static_cast<const GLTexture&>(texture).get_sampler().get_animate();
+  if (animate.x == 0.0f && animate.y == 0.0f)
+  {
+    glMatrixMode(GL_TEXTURE);
+    glLoadIdentity();
+    glMatrixMode(GL_MODELVIEW);
+  }
+  else
+  {
+    animate.x /= static_cast<float>(texture.get_image_width());
+    animate.y /= static_cast<float>(texture.get_image_height());
+
+    animate *= g_game_time;
+
+    glMatrixMode(GL_TEXTURE);
+    glLoadIdentity();
+    glTranslatef(animate.x, animate.y, 0.0f);
+    glMatrixMode(GL_MODELVIEW);
+  }
 }
 
 void
