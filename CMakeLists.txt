@@ -677,7 +677,7 @@ else()
 endif(WIN32)
 target_link_libraries(supertux2 supertux2_lib)
 set_target_properties(supertux2 PROPERTIES OUTPUT_NAME supertux2)
-set_target_properties(supertux2_lib PROPERTIES OUTPUT_NAME supertux2)
+set_target_properties(supertux2_lib PROPERTIES OUTPUT_NAME supertux2_lib)
 set_target_properties(supertux2_lib PROPERTIES COMPILE_FLAGS "${SUPERTUX2_EXTRA_WARNING_FLAGS}")
 
 if(WIN32 AND NOT VCPKG_BUILD)
