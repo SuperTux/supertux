@@ -675,7 +675,7 @@ if(WIN32)
 else()
   add_executable(supertux2 src/main.cpp)
 endif(WIN32)
-
+target_link_libraries(supertux2 supertux2_lib)
 set_target_properties(supertux2 PROPERTIES OUTPUT_NAME supertux2)
 set_target_properties(supertux2_lib PROPERTIES OUTPUT_NAME supertux2_lib)
 set_target_properties(supertux2_lib PROPERTIES COMPILE_FLAGS "${SUPERTUX2_EXTRA_WARNING_FLAGS}")
@@ -740,9 +740,6 @@ endif(HAVE_OPENGL)
 if(HAVE_LIBCURL)
   target_link_libraries(supertux2_lib PUBLIC ${CURL_LIBRARY})
 endif(HAVE_LIBCURL)
-
-add_dependencies(supertux2 supertux2_lib)
-target_link_libraries(supertux2 PUBLIC supertux2_lib)
 
 if(BUILD_TESTS)
   find_package(Threads REQUIRED)
