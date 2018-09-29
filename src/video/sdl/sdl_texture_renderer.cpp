@@ -65,7 +65,7 @@ SDLTextureRenderer::start_draw()
       throw std::runtime_error(msg.str());
     }
 
-    m_texture = TexturePtr(new SDLTexture(sdl_texture, w, h));
+    m_texture = TexturePtr(new SDLTexture(sdl_texture, w, h, Sampler()));
   }
 
   SDL_SetRenderTarget(m_renderer, get_sdl_texture());

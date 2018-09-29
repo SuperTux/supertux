@@ -21,6 +21,8 @@
 
 #include <SDL.h>
 
+#include "video/sampler.hpp"
+
 struct SDL_Texture;
 
 class SDLTexture : public Texture
@@ -29,15 +31,21 @@ protected:
   SDL_Texture* m_texture;
   int m_width;
   int m_height;
+  Sampler m_sampler;
 
 public:
-  SDLTexture(SDL_Texture* texture, int width, int height);
-  SDLTexture(const SDL_Surface& );
+  SDLTexture(SDL_Texture* texture, int width, int height, const Sampler& sampler);
+  SDLTexture(const SDL_Surface& sdl_surface, const Sampler& sampler);
   virtual ~SDLTexture();
 
   SDL_Texture *get_texture() const
   {
     return m_texture;
+  }
+
+  const Sampler& get_sampler() const
+  {
+    return m_sampler;
   }
 
   int get_texture_width() const

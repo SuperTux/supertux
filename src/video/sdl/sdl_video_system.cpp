@@ -178,7 +178,7 @@ SDLVideoSystem::get_lightmap() const
 TexturePtr
 SDLVideoSystem::new_texture(const SDL_Surface& image, const Sampler& sampler)
 {
-  return TexturePtr(new SDLTexture(image));
+  return TexturePtr(new SDLTexture(image, sampler));
 }
 
 void
