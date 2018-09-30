@@ -51,6 +51,16 @@ inline float radians(float deg)
   return deg / 360.0f * TAU;
 }
 
+inline int positive_mod(int lhs, int rhs)
+{
+  return (lhs % rhs + rhs) % rhs;
+}
+
+inline float positive_fmodf(float lhs, float rhs)
+{
+  return fmodf(fmodf(lhs, rhs) + rhs, rhs);
+}
+
 } // namespace math
 
 #endif
