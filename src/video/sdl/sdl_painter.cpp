@@ -157,13 +157,18 @@ void RenderCopyEx(SDL_Renderer*          renderer,
   }
   else
   {
-    // This part deal with texture animation. Texture animation is
+    // This part deals with texture animation. Texture animation is
     // accomplished by shifting the srcrect across the input texture.
     // If the srcrect goes out of bounds of the texture, it is broken
-    // up into multiple RenderCopy calls.
+    // up into multiple rectangles that wrap around and fall back into
+    // the texture space.
+    //
+    // If a srcrect is passed to SDL that goes out of bounds SDL will
+    // clip it to be inside the bounds, without adjusting dstrect,
+    // thus result in stretching artifacts.
     //
     // FIXME: Neither flipping nor wrap modes are supported at the
-    // moment. wrap is treated as if it was 'repeat'.
+    // moment. wrap is treated as if it was set to 'repeat'.
     int width;
     int height;
 
