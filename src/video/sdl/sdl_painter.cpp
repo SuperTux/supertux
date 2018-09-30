@@ -18,8 +18,10 @@
 
 #include <SDL.h>
 #include <algorithm>
+#include <assert.h>
 
 #include "supertux/globals.hpp"
+#include "math/util.hpp"
 #include "util/log.hpp"
 #include "video/drawing_request.hpp"
 #include "video/renderer.hpp"
@@ -55,6 +57,138 @@ SDL_BlendMode blend2sdl(const Blend& blend)
   {
     log_warning << "unknown blend mode combinations: sfactor=" << blend.sfactor << " dfactor=" << blend.dfactor << std::endl;
     return SDL_BLENDMODE_BLEND;
+  }
+}
+
+/* Creates a new rectangle covering the area where srcrect and imgrect
+   overlap, in addition create four more rectangles for the areas
+   where srcrect is outside of imgrect, some of those rects will be
+   empty. The rectangles will be returned in the order inside, top,
+   left, right, bottom */
+std::tuple<Rect, Rect, Rect, Rect, Rect>
+intersect(const Rect& srcrect, const Rect& imgrect)
+{
+  return std::make_tuple(
+    // inside
+    Rect(std::max(srcrect.left, imgrect.left), std::max(srcrect.top, imgrect.top),
+         std::min(srcrect.right, imgrect.right), std::min(srcrect.bottom, imgrect.bottom)),
+
+    // top
+    Rect(srcrect.left, srcrect.top,
+         srcrect.right, imgrect.top),
+
+    // left
+    Rect(srcrect.left, std::max(srcrect.top, imgrect.top),
+         imgrect.left, std::min(srcrect.bottom, imgrect.bottom)),
+
+    // right
+    Rect(imgrect.right, std::max(srcrect.top, imgrect.top),
+         srcrect.right, std::min(srcrect.bottom, imgrect.bottom)),
+
+    // bottom
+    Rect(srcrect.left, imgrect.bottom,
+         srcrect.right, srcrect.bottom)
+    );
+}
+
+/* Map the area covered by inside in srcrect to dstrect */
+Rect relative_map(const Rect& inside, const Rect& srcrect, const Rect& dstrect)
+{
+  assert(srcrect.contains(inside));
+
+  Rect result(dstrect.left + (inside.left - srcrect.left) * dstrect.get_width() / srcrect.get_width(),
+              dstrect.top + (inside.top - srcrect.top) * dstrect.get_height() / srcrect.get_height(),
+              dstrect.left + (inside.right - srcrect.left) * dstrect.get_width() / srcrect.get_width(),
+              dstrect.top + (inside.bottom - srcrect.top) * dstrect.get_height() / srcrect.get_height());
+
+  assert(dstrect.contains(result));
+
+  return result;
+}
+
+void render_texture(SDL_Renderer* renderer,
+                    SDL_Texture* texture, const Rect& imgrect,
+                    const Rect& srcrect, const Rect& dstrect)
+{
+  assert(imgrect.contains(srcrect.left, srcrect.top));
+
+  if (srcrect.empty() || dstrect.empty())
+    return;
+
+  if (imgrect.contains(srcrect))
+  {
+    SDL_Rect sdl_srcrect = srcrect.to_sdl();
+    SDL_Rect sdl_dstrect = dstrect.to_sdl();
+    SDL_RenderCopy(renderer, texture, &sdl_srcrect, &sdl_dstrect);
+  }
+  else
+  {
+    Rect inside;
+    std::array<Rect, 4> rest;
+    std::tie(inside, rest[0], rest[1], rest[2], rest[3]) = intersect(srcrect, imgrect);
+
+    render_texture(renderer, texture, imgrect, inside, relative_map(inside, srcrect, dstrect));
+
+    for(const Rect& rect : rest)
+    {
+      const Rect new_srcrect(math::positive_mod(rect.left, imgrect.get_width()),
+                             math::positive_mod(rect.top, imgrect.get_height()),
+                             rect.get_size());
+      render_texture(renderer, texture, imgrect,
+                     new_srcrect, relative_map(rect, srcrect, dstrect));
+    }
+  }
+}
+
+/* A version SDL_RenderCopyEx that supports texture animation as specified by Sampler */
+void RenderCopyEx(SDL_Renderer*          renderer,
+                  SDL_Texture*           texture,
+                  const SDL_Rect*        sdl_srcrect,
+                  const SDL_Rect*        sdl_dstrect,
+                  const double           angle,
+                  const SDL_Point*       center,
+                  const SDL_RendererFlip flip,
+                  const Sampler& sampler)
+{
+  Vector animate = sampler.get_animate();
+  if (animate.x == 0.0f && animate.y == 0.0f)
+  {
+    SDL_RenderCopyEx(renderer, texture, sdl_srcrect, sdl_dstrect, angle, NULL, flip);
+  }
+  else
+  {
+    // This part deal with texture animation. Texture animation is
+    // accomplished by shifting the srcrect across the input texture.
+    // If the srcrect goes out of bounds of the texture, it is broken
+    // up into multiple RenderCopy calls.
+    //
+    // FIXME: Neither flipping nor wrap modes are supported at the
+    // moment. wrap is treated as if it was 'repeat'.
+    int width;
+    int height;
+
+    SDL_QueryTexture(texture, NULL, NULL, &width, &height);
+
+    animate *= g_game_time;
+
+    int tex_off_x = math::positive_mod(static_cast<int>(animate.x), width);
+    int tex_off_y = math::positive_mod(static_cast<int>(animate.y), height);
+
+    if ((tex_off_x == 0 && tex_off_y == 0) ||
+        flip ||
+        angle != 0.0f)
+    {
+      SDL_RenderCopyEx(renderer, texture, sdl_srcrect, sdl_dstrect, angle, NULL, flip);
+    }
+    else
+    {
+      Rect imgrect(0, 0, Size(width, height));
+      Rect srcrect(math::positive_mod(sdl_srcrect->x + tex_off_x, width),
+                   math::positive_mod(sdl_srcrect->y + tex_off_y, height),
+                   Size(sdl_srcrect->w, sdl_srcrect->h));
+
+      render_texture(renderer, texture, imgrect, srcrect, Rect(*sdl_dstrect));
+    }
   }
 }
 
@@ -104,7 +238,8 @@ SDLPainter::draw_texture(const TextureRequest& request)
     flip = static_cast<SDL_RendererFlip>(flip | SDL_FLIP_VERTICAL);
   }
 
-  SDL_RenderCopyEx(m_sdl_renderer, texture.get_texture(), &src_rect, &dst_rect, request.angle, NULL, flip);
+  RenderCopyEx(m_sdl_renderer, texture.get_texture(), &src_rect, &dst_rect, request.angle, NULL, flip,
+               texture.get_sampler());
 }
 
 void
@@ -148,7 +283,8 @@ SDLPainter::draw_texture_batch(const TextureBatchRequest& request)
       flip = static_cast<SDL_RendererFlip>(flip | SDL_FLIP_VERTICAL);
     }
 
-    SDL_RenderCopyEx(m_sdl_renderer, texture.get_texture(), &src_rect, &dst_rect, request.angle, NULL, flip);
+    RenderCopyEx(m_sdl_renderer, texture.get_texture(), &src_rect, &dst_rect, request.angle, NULL, flip,
+                 texture.get_sampler());
   }
 }
 
