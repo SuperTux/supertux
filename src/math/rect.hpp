@@ -19,6 +19,7 @@
 
 #include <iosfwd>
 
+#include <algorithm>
 #include <SDL.h>
 
 #include "math/size.hpp"
@@ -96,6 +97,25 @@ public:
   int get_width()  const { return right - left; }
   int get_height() const { return bottom - top; }
   Size get_size() const { return Size(right - left, bottom - top); }
+
+  bool empty() const
+  {
+    return (get_width() <= 0 ||
+            get_height() <= 0);
+  }
+
+  bool valid() const
+  {
+    return left <= right && top <= bottom;
+  }
+
+  Rect normalized() const
+  {
+    return Rect(std::min(left, right),
+                std::min(top, bottom),
+                std::max(left, right),
+                std::max(top, bottom));
+  }
 
   Rect moved(int x, int y) const
   {

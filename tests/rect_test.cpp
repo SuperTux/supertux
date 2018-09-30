@@ -37,6 +37,26 @@ TEST(RectTest, moved)
   ASSERT_EQ(Rect(0, 0, 100, 300).moved(-16, -32), Rect(-16, -32, 84, 268));
 }
 
+TEST(RectTest, normalized)
+{
+  ASSERT_EQ(Rect(0, 0, 100, 300).normalized(), Rect(0, 0, 100, 300));
+  ASSERT_EQ(Rect(100, 300, 0, 0).normalized(), Rect(0, 0, 100, 300));
+}
+
+TEST(RectTest, valid)
+{
+  ASSERT_TRUE(Rect(0, 0, 100, 300).valid());
+  ASSERT_FALSE(Rect(100, 300, 0, 0).valid());
+  ASSERT_TRUE(Rect(0, 0, 0, 0).valid());
+}
+
+TEST(RectTest, empty)
+{
+  ASSERT_FALSE(Rect(0, 0, 100, 300).empty());
+  ASSERT_TRUE(Rect(100, 300, 0, 0).empty());
+  ASSERT_TRUE(Rect(0, 0, 0, 0).empty());
+}
+
 TEST(RectTest, size)
 {
   ASSERT_EQ(Rect(50, 50, 100, 300).get_width(), 50);
