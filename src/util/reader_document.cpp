@@ -56,7 +56,7 @@ ReaderDocument::ReaderDocument(const std::string& filename, sexp::Value sx) :
 ReaderObject
 ReaderDocument::get_root() const
 {
-  return ReaderObject(this, &m_sx);
+  return ReaderObject(*this, m_sx);
 }
 
 std::string

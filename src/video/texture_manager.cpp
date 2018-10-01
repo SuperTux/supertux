@@ -104,7 +104,7 @@ TextureManager::get(const ReaderMapping& mapping, const boost::optional<Rect>& r
   }
   else
   {
-    filename = FileSystem::join(mapping.get_doc()->get_directory(), filename);
+    filename = FileSystem::join(mapping.get_doc().get_directory(), filename);
   }
 
   boost::optional<Rect> rect;

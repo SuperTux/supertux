@@ -31,13 +31,13 @@ class ReaderCollection final
 {
 public:
   /** sx should point to (section (objname (name value)...)...) */
-  ReaderCollection(const ReaderDocument* doc, const sexp::Value* sx);
+  ReaderCollection(const ReaderDocument& doc, const sexp::Value& sx);
 
   std::vector<ReaderObject> get_objects() const;
 
 private:
-  const ReaderDocument* m_doc;
-  const sexp::Value* m_sx;
+  const ReaderDocument& m_doc;
+  const sexp::Value& m_sx;
 };
 
 #endif

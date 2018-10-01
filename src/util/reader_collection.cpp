@@ -20,27 +20,22 @@
 
 #include "util/reader_error.hpp"
 
-ReaderCollection::ReaderCollection(const ReaderDocument* doc, const sexp::Value* sx) :
+ReaderCollection::ReaderCollection(const ReaderDocument& doc, const sexp::Value& sx) :
   m_doc(doc),
   m_sx(sx)
 {
-  assert(m_doc);
-  assert(m_sx);
 }
 
 std::vector<ReaderObject>
 ReaderCollection::get_objects() const
 {
-  assert(m_doc);
-  assert(m_sx);
-
-  assert_is_array(*m_doc, *m_sx);
+  assert_is_array(m_doc, m_sx);
 
   std::vector<ReaderObject> result;
-  auto const& arr = m_sx->as_array();
+  auto const& arr = m_sx.as_array();
   for(size_t i = 1; i < arr.size(); ++i)
   {
-    result.push_back(ReaderObject(m_doc, &arr[i]));
+    result.push_back(ReaderObject(m_doc, arr[i]));
   }
   return result;
 }

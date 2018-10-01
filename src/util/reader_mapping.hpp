@@ -32,7 +32,7 @@ class ReaderMapping final
 {
 public:
   // sx should point to (section (name value)...)
-  ReaderMapping(const ReaderDocument* doc, const sexp::Value* sx);
+  ReaderMapping(const ReaderDocument& doc, const sexp::Value& sx);
 
   static bool translations_enabled;
 
@@ -58,18 +58,18 @@ public:
   bool get(const char* key, boost::optional<ReaderMapping>&) const;
   bool get(const char* key, boost::optional<ReaderCollection>&) const;
 
-  const sexp::Value& get_sexp() const { return *m_sx; }
+  const sexp::Value& get_sexp() const { return m_sx; }
 
-  const ReaderDocument* get_doc() const { return m_doc; }
+  const ReaderDocument& get_doc() const { return m_doc; }
 
 private:
   /** Returns pointer to (key value) */
   const sexp::Value* get_item(const char* key) const;
 
 private:
-  const ReaderDocument* m_doc;
-  const sexp::Value* m_sx;
-  std::vector<sexp::Value> const* m_arr;
+  const ReaderDocument& m_doc;
+  const sexp::Value& m_sx;
+  const std::vector<sexp::Value>& m_arr;
 };
 
 #endif
