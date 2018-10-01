@@ -30,9 +30,7 @@ class ReaderDocument;
 class ReaderCollection final
 {
 public:
-  ReaderCollection();
-
-  // sx should point to (section (objname (name value)...)...)
+  /** sx should point to (section (objname (name value)...)...) */
   ReaderCollection(const ReaderDocument* doc, const sexp::Value* sx);
 
   std::vector<ReaderObject> get_objects() const;

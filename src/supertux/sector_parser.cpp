@@ -283,9 +283,9 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
   }
 
   // read reset-points (now spawn-points)
-  ReaderMapping resetpoints;
+  boost::optional<ReaderMapping> resetpoints;
   if(reader.get("reset-points", resetpoints)) {
-    auto iter = resetpoints.get_iter();
+    auto iter = resetpoints->get_iter();
     while(iter.next()) {
       if(iter.get_key() == "point") {
         Vector sp_pos;
@@ -303,9 +303,9 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
   }
 
   // read objects
-  ReaderCollection objects;
+  boost::optional<ReaderCollection> objects;
   if(reader.get("objects", objects)) {
-    for(auto const& obj : objects.get_objects())
+    for(auto const& obj : objects->get_objects())
     {
       auto object = parse_object(obj.get_name(), obj.get_mapping());
       if(object) {

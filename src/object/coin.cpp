@@ -64,10 +64,10 @@ Coin::Coin(const ReaderMapping& reader)
     physic(),
     collect_script()
 {
-  ReaderMapping path_mapping;
+  boost::optional<ReaderMapping> path_mapping;
   if (reader.get("path", path_mapping)) {
     path.reset(new Path());
-    path->read(path_mapping);
+    path->read(*path_mapping);
     walker.reset(new PathWalker(path.get()));
     Vector v = path->get_base();
     set_pos(v);

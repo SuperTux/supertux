@@ -42,7 +42,7 @@ Platform::Platform(const ReaderMapping& reader, const std::string& default_sprit
     automatic = true;
   }
 
-  ReaderMapping path_mapping;
+  boost::optional<ReaderMapping> path_mapping;
   if (!reader.get("path", path_mapping))
   {
     path.reset(new Path(bbox.p1));
@@ -51,7 +51,7 @@ Platform::Platform(const ReaderMapping& reader, const std::string& default_sprit
   else
   {
     path.reset(new Path());
-    path->read(path_mapping);
+    path->read(*path_mapping);
     walker.reset(new PathWalker(path.get(), running));
     bbox.set_pos(path->get_base());
   }

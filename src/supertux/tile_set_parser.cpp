@@ -143,15 +143,15 @@ TileSetParser::parse_tile(const ReaderMapping& reader)
   }
 
   std::vector<SurfacePtr> editor_surfaces;
-  ReaderMapping editor_images_mapping;
+  boost::optional<ReaderMapping> editor_images_mapping;
   if(reader.get("editor-images", editor_images_mapping)) {
-    editor_surfaces = parse_imagespecs(editor_images_mapping);
+    editor_surfaces = parse_imagespecs(*editor_images_mapping);
   }
 
   std::vector<SurfacePtr> surfaces;
-  ReaderMapping images_mapping;
+  boost::optional<ReaderMapping> images_mapping;
   if(reader.get("images", images_mapping)) {
-    surfaces = parse_imagespecs(images_mapping);
+    surfaces = parse_imagespecs(*images_mapping);
   }
 
   bool deprecated = false;
@@ -239,16 +239,16 @@ TileSetParser::parse_tiles(const ReaderMapping& reader)
     if (shared_surface)
     {
       std::vector<SurfacePtr> editor_surfaces;
-      ReaderMapping editor_surfaces_mapping;
+      boost::optional<ReaderMapping> editor_surfaces_mapping;
       if(reader.get("editor-images", editor_surfaces_mapping)) {
-        editor_surfaces = parse_imagespecs(editor_surfaces_mapping);
+        editor_surfaces = parse_imagespecs(*editor_surfaces_mapping);
       }
 
       std::vector<SurfacePtr> surfaces;
-      ReaderMapping surfaces_mapping;
+      boost::optional<ReaderMapping> surfaces_mapping;
       if(reader.get("image", surfaces_mapping) ||
          reader.get("images", surfaces_mapping)) {
-        surfaces = parse_imagespecs(surfaces_mapping);
+        surfaces = parse_imagespecs(*surfaces_mapping);
       }
 
       for(size_t i = 0; i < ids.size(); ++i)
@@ -291,16 +291,16 @@ TileSetParser::parse_tiles(const ReaderMapping& reader)
           int y = static_cast<int>(32 * (i / width));
 
           std::vector<SurfacePtr> surfaces;
-          ReaderMapping surfaces_mapping;
+          boost::optional<ReaderMapping> surfaces_mapping;
           if(reader.get("image", surfaces_mapping) ||
              reader.get("images", surfaces_mapping)) {
-            surfaces = parse_imagespecs(surfaces_mapping, Rect(x, y, Size(32, 32)));
+            surfaces = parse_imagespecs(*surfaces_mapping, Rect(x, y, Size(32, 32)));
           }
 
           std::vector<SurfacePtr> editor_surfaces;
-          ReaderMapping editor_surfaces_mapping;
+          boost::optional<ReaderMapping> editor_surfaces_mapping;
           if(reader.get("editor-images", editor_surfaces_mapping)) {
-            editor_surfaces = parse_imagespecs(editor_surfaces_mapping, Rect(x, y, Size(32, 32)));
+            editor_surfaces = parse_imagespecs(*editor_surfaces_mapping, Rect(x, y, Size(32, 32)));
           }
 
           std::unique_ptr<Tile> tile(new Tile(surfaces,

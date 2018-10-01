@@ -74,11 +74,11 @@ TextScroller::TextScroller(const std::string& filename) :
         // Split text string lines into a vector
         lines = InfoBoxLine::split(text, static_cast<float>(SCREEN_WIDTH) - 2.0f * LEFT_BORDER);
       } else if (version == 2) {
-        ReaderMapping content;
+        boost::optional<ReaderMapping> content;
         if (!text_lisp.get("content", content)) {
           throw std::runtime_error("File doesn't contain content");
         } else {
-          auto iter = content.get_iter();
+          auto iter = content->get_iter();
           while (iter.next()) {
             if (iter.get_key() == "image") {
               std::string image_file;

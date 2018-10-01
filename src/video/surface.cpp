@@ -25,17 +25,17 @@ SurfacePtr
 Surface::from_reader(const ReaderMapping& mapping, const boost::optional<Rect>& rect)
 {
   TexturePtr diffuse_texture;
-  ReaderMapping diffuse_texture_mapping;
+  boost::optional<ReaderMapping> diffuse_texture_mapping;
   if (mapping.get("diffuse-texture", diffuse_texture_mapping))
   {
-    diffuse_texture = TextureManager::current()->get(diffuse_texture_mapping, rect);
+    diffuse_texture = TextureManager::current()->get(*diffuse_texture_mapping, rect);
   }
 
   TexturePtr displacement_texture;
-  ReaderMapping displacement_texture_mapping;
+  boost::optional<ReaderMapping> displacement_texture_mapping;
   if (mapping.get("displacement-texture", displacement_texture_mapping))
   {
-    displacement_texture = TextureManager::current()->get(displacement_texture_mapping, rect);
+    displacement_texture = TextureManager::current()->get(*displacement_texture_mapping, rect);
   }
 
   Vector translate;

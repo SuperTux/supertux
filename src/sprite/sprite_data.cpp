@@ -114,7 +114,7 @@ SpriteData::parse_action(const ReaderMapping& lisp, const std::string& basedir)
       if (action->hitbox_h < 1) action->hitbox_h = max_h - action->y_offset;
     }
   } else { // Load images
-    ReaderCollection surfaces_collection;
+    boost::optional<ReaderCollection> surfaces_collection;
     std::vector<std::string> images;
     if (lisp.get("images", images))
     {
@@ -131,7 +131,7 @@ SpriteData::parse_action(const ReaderMapping& lisp, const std::string& basedir)
     }
     else if (lisp.get("surfaces", surfaces_collection))
     {
-      for(const auto& i : surfaces_collection.get_objects())
+      for(const auto& i : surfaces_collection->get_objects())
       {
         if (i.get_name() == "surface")
         {

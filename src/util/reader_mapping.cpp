@@ -27,13 +27,6 @@
 
 bool ReaderMapping::translations_enabled = true;
 
-ReaderMapping::ReaderMapping() :
-  m_doc(nullptr),
-  m_sx(nullptr),
-  m_arr(nullptr)
-{
-}
-
 ReaderMapping::ReaderMapping(const ReaderDocument* doc, const sexp::Value* sx) :
   m_doc(doc),
   m_sx(sx),
@@ -265,11 +258,11 @@ ReaderMapping::get(const char* key, std::vector<unsigned int>& value) const
 #undef GET_VALUES_MACRO
 
 bool
-ReaderMapping::get(const char* key, ReaderMapping& value) const
+ReaderMapping::get(const char* key, boost::optional<ReaderMapping>& value) const
 {
   auto const sx = get_item(key);
   if (sx) {
-    value = ReaderMapping(m_doc, sx);
+    *value = ReaderMapping(m_doc, sx);
     return true;
   } else {
     return false;
@@ -277,11 +270,11 @@ ReaderMapping::get(const char* key, ReaderMapping& value) const
 }
 
 bool
-ReaderMapping::get(const char* key, ReaderCollection& value) const
+ReaderMapping::get(const char* key, boost::optional<ReaderCollection>& value) const
 {
   auto const sx = get_item(key);
   if (sx) {
-    value = ReaderCollection(m_doc, sx);
+    *value = ReaderCollection(m_doc, sx);
     return true;
   } else {
     return false;

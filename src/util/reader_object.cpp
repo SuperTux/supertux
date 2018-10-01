@@ -32,12 +32,6 @@ ReaderObject::ReaderObject(const ReaderDocument* doc, const sexp::Value* sx) :
   assert(m_sx);
 }
 
-ReaderObject::ReaderObject() :
-  m_doc(nullptr),
-  m_sx(nullptr)
-{
-}
-
 std::string
 ReaderObject::get_name() const
 {

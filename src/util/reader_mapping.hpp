@@ -17,6 +17,8 @@
 #ifndef HEADER_SUPERTUX_UTIL_READER_MAPPING_HPP
 #define HEADER_SUPERTUX_UTIL_READER_MAPPING_HPP
 
+#include <boost/optional.hpp>
+
 #include "util/reader_iterator.hpp"
 
 namespace sexp {
@@ -29,8 +31,6 @@ class ReaderCollection;
 class ReaderMapping final
 {
 public:
-  ReaderMapping();
-
   // sx should point to (section (name value)...)
   ReaderMapping(const ReaderDocument* doc, const sexp::Value* sx);
 
@@ -55,8 +55,8 @@ public:
   bool get(const char* key, std::vector<std::string>& value) const;
   bool get(const char* key, std::vector<unsigned int>& value) const;
 
-  bool get(const char* key, ReaderMapping&) const;
-  bool get(const char* key, ReaderCollection&) const;
+  bool get(const char* key, boost::optional<ReaderMapping>&) const;
+  bool get(const char* key, boost::optional<ReaderCollection>&) const;
 
   const sexp::Value& get_sexp() const { return *m_sx; }
 

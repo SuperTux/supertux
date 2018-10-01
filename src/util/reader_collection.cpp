@@ -28,12 +28,6 @@ ReaderCollection::ReaderCollection(const ReaderDocument* doc, const sexp::Value*
   assert(m_sx);
 }
 
-ReaderCollection::ReaderCollection() :
-  m_doc(nullptr),
-  m_sx(nullptr)
-{
-}
-
 std::vector<ReaderObject>
 ReaderCollection::get_objects() const
 {

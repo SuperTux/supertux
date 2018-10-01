@@ -163,16 +163,16 @@ Savegame::load()
         }
         else
         {
-          ReaderMapping tux;
+          boost::optional<ReaderMapping> tux;
           if(!mapping.get("tux", tux))
           {
             throw std::runtime_error("No tux section in savegame");
           }
           {
-            m_player_status->read(tux);
+            m_player_status->read(*tux);
           }
 
-          ReaderMapping state;
+          boost::optional<ReaderMapping> state;
           if(!mapping.get("state", state))
           {
             throw std::runtime_error("No state section in savegame");
@@ -181,7 +181,7 @@ Savegame::load()
           {
             sq_pushroottable(vm);
             get_table_entry(vm, "state");
-            scripting::load_squirrel_table(vm, -1, state);
+            scripting::load_squirrel_table(vm, -1, *state);
             sq_pop(vm, 2);
           }
         }

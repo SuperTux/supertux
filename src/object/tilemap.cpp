@@ -107,11 +107,11 @@ TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
     m_speed_y = 1;
   }
 
-  ReaderMapping path_mapping;
+  boost::optional<ReaderMapping> path_mapping;
   if (reader.get("path", path_mapping)) {
     reader.get("running", m_running, false);
     path.reset(new Path());
-    path->read(path_mapping);
+    path->read(*path_mapping);
     walker.reset(new PathWalker(path.get(), m_running));
     Vector v = path->get_base();
     set_offset(v);

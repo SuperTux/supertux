@@ -30,7 +30,6 @@ class ReaderCollection;
 class ReaderObject final
 {
 public:
-  ReaderObject();
   ReaderObject(const ReaderDocument* doc, const sexp::Value* sx);
 
   std::string get_name() const;

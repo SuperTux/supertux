@@ -215,11 +215,11 @@ WorldMap::load(const std::string& filename)
       tileset = TileManager::current()->get_tileset("images/worldmap.strf");
     }
 
-    ReaderMapping sector;
+    boost::optional<ReaderMapping> sector;
     if(!level_.get("sector", sector)) {
       throw std::runtime_error("No sector specified in worldmap file.");
     } else {
-      auto iter = sector.get_iter();
+      auto iter = sector->get_iter();
       while(iter.next()) {
         if(iter.get_key() == "tilemap") {
           add_object(std::make_shared<TileMap>(tileset, iter.as_mapping()));
@@ -254,7 +254,7 @@ WorldMap::load(const std::string& filename)
           add_object(decal);
         } else if(iter.get_key() == "ambient-light") {
           std::vector<float> vColor;
-          bool hasColor = sector.get( "ambient-light", vColor );
+          bool hasColor = sector->get( "ambient-light", vColor );
           if(vColor.size() < 3 || !hasColor) {
             log_warning << "(ambient-light) requires a color as argument" << std::endl;
           } else {

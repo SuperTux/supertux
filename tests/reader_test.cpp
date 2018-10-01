@@ -67,15 +67,15 @@ TEST(ReaderTest, get)
   }
 
   {
-    ReaderMapping child_mapping;
+    boost::optional<ReaderMapping> child_mapping;
     mapping.get("mymapping", child_mapping);
 
     int a;
-    child_mapping.get("a", a);
+    child_mapping->get("a", a);
     ASSERT_EQ(1, a);
 
     int b;
-    child_mapping.get("b", b);
+    child_mapping->get("b", b);
     ASSERT_EQ(2, b);
   }
 
@@ -110,14 +110,14 @@ TEST(ReaderTest, syntax_error)
   bool mybool;
   int myint;
   float myfloat;
-  ReaderMapping mymapping;
+  boost::optional<ReaderMapping> mymapping;
   ASSERT_THROW({mapping.get("mybool", mybool);}, std::runtime_error);
   ASSERT_THROW({mapping.get("myint", myint);}, std::runtime_error);
   ASSERT_THROW({mapping.get("myfloat", myfloat);}, std::runtime_error);
 
   mapping.get("mymapping", mymapping);
-  ASSERT_THROW({mymapping.get("a", myint);}, std::runtime_error);
-  ASSERT_THROW({mymapping.get("b", myint);}, std::runtime_error);
+  ASSERT_THROW({mymapping->get("a", myint);}, std::runtime_error);
+  ASSERT_THROW({mymapping->get("b", myint);}, std::runtime_error);
 }
 
 /* EOF */

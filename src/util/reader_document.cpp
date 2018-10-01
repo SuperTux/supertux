@@ -47,12 +47,6 @@ ReaderDocument::parse(const std::string& filename)
   }
 }
 
-ReaderDocument::ReaderDocument() :
-  m_filename(),
-  m_sx()
-{
-}
-
 ReaderDocument::ReaderDocument(const std::string& filename, sexp::Value sx) :
   m_filename(filename),
   m_sx(std::move(sx))
@@ -72,7 +66,7 @@ ReaderDocument::get_filename() const
 }
 
 std::string
-ReaderDocument::get_dirname() const
+ReaderDocument::get_directory() const
 {
   return FileSystem::dirname(m_filename);
 }

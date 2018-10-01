@@ -22,7 +22,8 @@
 
 #include "util/reader_object.hpp"
 
-/** The ReaderDocument holds the memory */
+/** The ReaderDocument holds a parsed document in memory, access to
+    it's content is provided by get_root() */
 class ReaderDocument final
 {
 public:
@@ -30,12 +31,16 @@ public:
   static ReaderDocument parse(const std::string& filename);
 
 public:
-  ReaderDocument();
   ReaderDocument(const std::string& filename, sexp::Value sx);
 
+  /** Returns the root object */
   ReaderObject get_root() const;
+
+  /** Returns the filename of the document */
   std::string get_filename() const;
-  std::string get_dirname() const;
+
+  /** Returns the directory of the document */
+  std::string get_directory() const;
 
 private:
   std::string m_filename;
