@@ -4,7 +4,6 @@
   (author "Esteban")
   (contact "supertuxeditor@yahoo.es")
   (license "GPL 2+ / CC-by-sa 3.0")
-  (target-time 0)
   (sector
     (name "main")
     (music "music/chipdisko.ogg")
@@ -50,8 +49,8 @@
       (y -97)
     )
     (platform
-      (name "bote")
       (running #f)
+      (name "bote")
       (sprite "images/objects/platforms/icefloe.sprite")
       (path
         (node
@@ -112,8 +111,8 @@
       )
     )
     (platform
-      (name "bloquespinas")
       (running #f)
+      (name "bloquespinas")
       (sprite "images/objects/platforms/vertical-wood.sprite")
       (path
         (node
@@ -128,8 +127,8 @@
       )
     )
     (platform
-      (name "block2")
       (running #f)
+      (name "block2")
       (sprite "images/objects/platforms/wood-tiny.sprite")
       (path
         (node
@@ -147,8 +146,8 @@
       )
     )
     (platform
-      (name "block1")
       (running #f)
+      (name "block1")
       (sprite "images/objects/platforms/wood-tiny.sprite")
       (path
         (node
@@ -166,8 +165,8 @@
       )
     )
     (platform
-      (name "block3")
       (running #f)
+      (name "block3")
       (sprite "images/objects/platforms/wood-tiny.sprite")
       (path
         (node
@@ -202,8 +201,8 @@
       (bottom_color 1 1 1)
     )
     (hurting_platform
+      (running #f)
       (name "spinatrampa1")
-      (running #f)
       (sprite "images/objects/sawblade/spikeleft.sprite")
       (path
         (node
@@ -218,8 +217,8 @@
       )
     )
     (hurting_platform
+      (running #f)
       (name "spinatrampa2")
-      (running #f)
       (sprite "images/objects/sawblade/spikeleft.sprite")
       (path
         (node
@@ -234,8 +233,8 @@
       )
     )
     (hurting_platform
+      (running #f)
       (name "spinatrampa3")
-      (running #f)
       (sprite "images/objects/sawblade/spikeleft.sprite")
       (path
         (node
@@ -250,8 +249,8 @@
       )
     )
     (hurting_platform
-      (name "spinatrampa4")
       (running #f)
+      (name "spinatrampa4")
       (sprite "images/objects/sawblade/spikeleft.sprite")
       (path
         (node
@@ -788,7 +787,6 @@ block3.goto_node(2);")
       (y 160)
     )
     (unstable_tile
-      (sprite "images/objects/unstable_tile/snow.sprite")
       (x 2560)
       (y 224)
     )
@@ -863,8 +861,6 @@ block3.goto_node(2);")
       (y 773)
     )
     (secretarea
-      (script "")
-      (message "")
       (width 92)
       (height 92)
       (x 1728)

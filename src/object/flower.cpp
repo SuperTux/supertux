@@ -24,7 +24,7 @@
 Flower::Flower(BonusType _type) :
   type(_type),
   sprite(),
-  drawing_effect(NO_EFFECT),
+  flip(NO_FLIP),
   light(1.0f,1.0f,1.0f),
   lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
 {
@@ -66,9 +66,9 @@ void
 Flower::draw(DrawingContext& context)
 {
   //Draw the Sprite.
-  sprite->draw(context.color(), get_pos(), LAYER_OBJECTS, drawing_effect);
+  sprite->draw(context.color(), get_pos(), LAYER_OBJECTS, flip);
   //Draw the light when dark
-  context.get_light( bbox.get_middle(), &light );
+  context.light().get_pixel( bbox.get_middle(), &light );
   if (light.red + light.green + light.blue < 3.0){
     lightsprite->draw(context.light(), bbox.get_middle(), 0);
   }

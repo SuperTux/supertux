@@ -3,7 +3,6 @@
   (name (_ "Bonus Island III"))
   (author "Various Authors")
   (license "GPL 2 / CC-by-sa 3.0")
-  (target-time 0)
   (sector
     (name "main")
     (music "music/voc-daytime2.music")
@@ -929,8 +928,8 @@
       (y 10)
     )
     (level
-      (name "flowers.stl")
       (auto-play #t)
+      (name "flowers.stl")
       (sprite "images/worldmap/common/hiddendot.sprite")
       (x 21)
       (y 25)

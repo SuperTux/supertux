@@ -29,10 +29,10 @@
       (y 615)
     )
     (decal
+      (z-pos 100)
+      (sprite "images/tiles/goal/exitfg.png")
       (x 10176)
       (y 192)
-      (layer 100)
-      (sprite "images/tiles/goal/exitfg.png")
     )
     (gradient
       (top_color 0 0.3137255 1)
@@ -152,8 +152,6 @@
     )
     (secretarea
       (fade-tilemap "secr1")
-      (script "")
-      (message "")
       (width 156)
       (height 40)
       (x 64)

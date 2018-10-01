@@ -85,7 +85,7 @@ static inline void unexpose_object(HSQUIRRELVM v, SQInteger table_idx,
                                    const std::string& name)
 {
   assert(name.length() < std::numeric_limits<SQInteger>::max());
-  sq_pushstring(v, name.c_str(), (SQInteger)name.length());
+  sq_pushstring(v, name.c_str(), static_cast<SQInteger>(name.length()));
 
   if(table_idx < 0)
     table_idx -= 1;

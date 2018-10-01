@@ -73,7 +73,7 @@ public:
     m_from_rect = from_rect;
     m_to_rect = to_rect;
 
-    m_effect_start_time = real_time;
+    m_effect_start_time = g_real_time;
     m_effect_progress = 0.0f;
 
     m_is_active = true;
@@ -94,7 +94,7 @@ public:
     }
     if (m_is_active)
     {
-      m_effect_progress = (real_time - m_effect_start_time) * 6.0f;
+      m_effect_progress = (g_real_time - m_effect_start_time) * 6.0f;
 
       if (m_effect_progress > 1.0f)
       {
@@ -119,16 +119,16 @@ public:
 
     // draw menu background rectangles
     context.color().draw_filled_rect(Rectf(rect.p1.x - 4, rect.p1.y - 10-4,
-                                   rect.p2.x + 4, rect.p2.y + 10 + 4),
-                             Color(0.2f, 0.3f, 0.4f, 0.8f),
-                             20.0f,
-                             LAYER_GUI-10);
+                                             rect.p2.x + 4, rect.p2.y + 10 + 4),
+                                       Color(0.2f, 0.3f, 0.4f, 0.8f),
+                                       20.0f,
+                                       LAYER_GUI-10);
 
     context.color().draw_filled_rect(Rectf(rect.p1.x, rect.p1.y - 10,
-                                   rect.p2.x, rect.p2.y + 10),
-                             Color(0.6f, 0.7f, 0.8f, 0.5f),
-                             16.0f,
-                             LAYER_GUI-10);
+                                             rect.p2.x, rect.p2.y + 10),
+                                       Color(0.6f, 0.7f, 0.8f, 0.5f),
+                                       16.0f,
+                                       LAYER_GUI-10);
   }
 
   bool is_active() const

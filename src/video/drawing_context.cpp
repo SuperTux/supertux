@@ -21,112 +21,28 @@
 #include "supertux/globals.hpp"
 #include "util/obstackpp.hpp"
 #include "video/drawing_request.hpp"
-#include "video/lightmap.hpp"
 #include "video/renderer.hpp"
 #include "video/surface.hpp"
 #include "video/video_system.hpp"
+#include "video/viewport.hpp"
 
-bool DrawingContext::render_lighting = true;
-
-DrawingContext::DrawingContext(VideoSystem& video_system_) :
+DrawingContext::DrawingContext(VideoSystem& video_system_, obstack& obst, bool overlay) :
   m_video_system(video_system_),
-  m_obst(),
-  m_canvas_groups(),
-  m_ambient_color(1.0f, 1.0f, 1.0f, 1.0f),
-  m_transformstack(),
-  m_transform()
+  m_obst(obst),
+  m_overlay(overlay),
+  m_viewport(0, 0,
+             m_video_system.get_viewport().get_screen_width(),
+             m_video_system.get_viewport().get_screen_height()),
+  m_ambient_color(Color::WHITE),
+  m_transform_stack(1),
+  m_colormap_canvas(*this, m_obst),
+  m_lightmap_canvas(*this, m_obst)
 {
-  obstack_init(&m_obst);
-  m_canvas_groups.emplace_back(new CanvasGroup(*this, m_obst));
 }
 
 DrawingContext::~DrawingContext()
 {
-  m_canvas_groups.clear();
-  obstack_free(&m_obst, NULL);
-}
-
-void
-DrawingContext::get_light(const Vector& position, Color* color_out)
-{
-  if (m_ambient_color.red == 1.0f &&
-      m_ambient_color.green == 1.0f &&
-      m_ambient_color.blue == 1.0f)
-  {
-    *color_out = Color( 1.0f, 1.0f, 1.0f);
-    return;
-  }
-
-  auto request = new(m_obst) DrawingRequest();
-  request->type = GETLIGHT;
-  request->pos = m_transform.apply(position);
-
-  //There is no light offscreen.
-  if(request->pos.x >= SCREEN_WIDTH || request->pos.y >= SCREEN_HEIGHT
-     || request->pos.x < 0 || request->pos.y < 0){
-    *color_out = Color( 0, 0, 0);
-    return;
-  }
-
-  request->layer = LAYER_GUI; //make sure all get_light requests are handled last.
-  auto getlightrequest = new(m_obst) GetLightRequest();
-  getlightrequest->color_ptr = color_out;
-  request->request_data = getlightrequest;
-
-  current_canvas_group().light().get_requests().push_back(request);
-}
-
-void
-DrawingContext::do_drawing()
-{
-  assert(m_transformstack.empty());
-
-  Renderer& renderer = m_video_system.get_renderer();
-
-  for(auto& canvas_group : m_canvas_groups)
-  {
-    if (canvas_group->has_clip_rect())
-    {
-      m_video_system.set_clip_rect(canvas_group->get_clip_rect());
-    }
-
-    //Use Lightmap if ambient color is not white.
-    bool use_lightmap = ( m_ambient_color.red != 1.0f ||
-                          m_ambient_color.green != 1.0f ||
-                          m_ambient_color.blue != 1.0f );
-
-    // PART1: create lightmap
-    if(use_lightmap) {
-      auto& lightmap = m_video_system.get_lightmap();
-
-      lightmap.start_draw(m_ambient_color);
-      canvas_group->light().render(m_video_system);
-      lightmap.end_draw();
-
-      if (render_lighting) {
-        auto request = new(m_obst) DrawingRequest();
-        request->type = DRAW_LIGHTMAP;
-        request->layer = LAYER_HUD - 1;
-        canvas_group->color().get_requests().push_back(request);
-      }
-    }
-
-    renderer.start_draw();
-    canvas_group->color().render(m_video_system);
-    renderer.end_draw();
-
-    canvas_group->clear();
-
-    obstack_free(&m_obst, NULL);
-    obstack_init(&m_obst);
-
-    if (canvas_group->has_clip_rect())
-    {
-      m_video_system.clear_clip_rect();
-    }
-  }
-
-  renderer.flip();
+  clear();
 }
 
 void
@@ -138,48 +54,61 @@ DrawingContext::set_ambient_color(Color ambient_color)
 Rectf
 DrawingContext::get_cliprect() const
 {
-  return Rectf(get_translation().x, get_translation().y,
-               get_translation().x + SCREEN_WIDTH,
-               get_translation().y + SCREEN_HEIGHT);
+  return Rectf(get_translation().x,
+               get_translation().y,
+               get_translation().x + static_cast<float>(m_viewport.get_width()),
+               get_translation().y + static_cast<float>(m_viewport.get_height()));
 }
 
 void
-DrawingContext::set_drawing_effect(DrawingEffect effect)
+DrawingContext::set_flip(Flip flip)
 {
-  m_transform.drawing_effect = effect;
+  transform().flip = flip;
 }
 
-DrawingEffect
-DrawingContext::get_drawing_effect() const
+Flip
+DrawingContext::get_flip() const
 {
-  return m_transform.drawing_effect;
+  return transform().flip;
 }
 
 void
 DrawingContext::set_alpha(float alpha)
 {
-  m_transform.alpha = alpha;
+  transform().alpha = alpha;
 }
 
 float
 DrawingContext::get_alpha() const
 {
-  return m_transform.alpha;
+  return transform().alpha;
+}
+
+DrawingTransform&
+DrawingContext::transform()
+{
+  assert(!m_transform_stack.empty());
+  return m_transform_stack.back();
+}
+
+const DrawingTransform&
+DrawingContext::transform() const
+{
+  assert(!m_transform_stack.empty());
+  return m_transform_stack.back();
 }
 
 void
 DrawingContext::push_transform()
 {
-  m_transformstack.push_back(m_transform);
+  m_transform_stack.push_back(transform());
 }
 
 void
 DrawingContext::pop_transform()
 {
-  assert(!m_transformstack.empty());
-
-  m_transform = m_transformstack.back();
-  m_transformstack.pop_back();
+  m_transform_stack.pop_back();
+  assert(!m_transform_stack.empty());
 }
 
 /* EOF */

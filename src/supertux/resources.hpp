@@ -30,9 +30,20 @@ class Resources
 public:
   static std::unique_ptr<MouseCursor> mouse_cursor;
 
+  /** Font used in the console */
+  static FontPtr console_font;
+
+  /** A version of the regular font with fixed spacing for displaying
+      coin counts and other numbers in the HUD */
   static FontPtr fixed_font;
+
+  /** Regular sized font for menus and text scrolls. */
   static FontPtr normal_font;
+
+  /** Small font for statistics, FPS, etc. */
   static FontPtr small_font;
+
+  /** Big font for menu titles and headers in text scrolls */
   static FontPtr big_font;
 
   static SurfacePtr checkbox;
@@ -40,6 +51,11 @@ public:
   static SurfacePtr back;
   static SurfacePtr arrow_left;
   static SurfacePtr arrow_right;
+  static SurfacePtr no_tile;
+
+public:
+  static void load();
+  static void unload();
 
 public:
   Resources();

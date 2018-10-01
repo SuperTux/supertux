@@ -38,7 +38,7 @@ private:
     WDS_FALLING,
     WDS_SPLASH,
     WDS_PUDDLE
-  }WaterDropState;
+  } WaterDropState;
 
   WaterDropState wd_state;
 

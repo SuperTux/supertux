@@ -4,7 +4,6 @@
   (author "Eliminator")
   (contact "Jacob_vejvoda@hotmail.com")
   (license "GPL 2+ / CC-by-sa 3.0")
-  (target-time 0)
   (sector
     (name "main")
     (music "music/airship_remix.music")
@@ -127,19 +126,19 @@ if(query(\"yellow\")){
       (y 1799)
     )
     (decal
+      (sprite "images/decal/nightcave/lightflower3.png")
       (x 1089.277)
       (y 1069.507)
-      (sprite "images/decal/nightcave/lightflower3.png")
     )
     (decal
+      (sprite "images/decal/nightcave/lightflower2.png")
       (x 283.2094)
       (y 1100.838)
-      (sprite "images/decal/nightcave/lightflower2.png")
     )
     (decal
+      (sprite "images/decal/nightcave/lightflower1.png")
       (x 1666.31)
       (y 974.9734)
-      (sprite "images/decal/nightcave/lightflower1.png")
     )
     (dispenser
       (cycle 5)
@@ -215,8 +214,8 @@ if(query(\"yellow\")){
       )
     )
     (platform
-      (name "sm5")
       (running #f)
+      (name "sm5")
       (sprite "images/objects/snowman/snow_man_big_passable.sprite")
       (path
         (node
@@ -230,8 +229,8 @@ if(query(\"yellow\")){
       )
     )
     (platform
-      (name "sm2")
       (running #f)
+      (name "sm2")
       (sprite "images/objects/snowman/snow_man_big.sprite")
       (path
         (node
@@ -245,8 +244,8 @@ if(query(\"yellow\")){
       )
     )
     (platform
+      (running #f)
       (name "sm3")
-      (running #f)
       (sprite "images/objects/snowman/snow_man_big.sprite")
       (path
         (node
@@ -260,8 +259,8 @@ if(query(\"yellow\")){
       )
     )
     (platform
+      (running #f)
       (name "sm4")
-      (running #f)
       (sprite "images/objects/snowman/snow_man_big.sprite")
       (path
         (node
@@ -275,8 +274,8 @@ if(query(\"yellow\")){
       )
     )
     (platform
-      (name "sm1")
       (running #f)
+      (name "sm1")
       (sprite "images/objects/snowman/snow_man_big.sprite")
       (path
         (node
@@ -303,8 +302,8 @@ if(query(\"yellow\")){
       )
     )
     (platform
-      (name "plat1")
       (running #f)
+      (name "plat1")
       (sprite "images/objects/platforms/small.sprite")
       (path
         (node
@@ -319,8 +318,8 @@ if(query(\"yellow\")){
       )
     )
     (platform
+      (running #f)
       (name "eye2")
-      (running #f)
       (sprite "images/objects/platforms/small.sprite")
       (path
         (node
@@ -334,8 +333,8 @@ if(query(\"yellow\")){
       )
     )
     (platform
+      (running #f)
       (name "eye1")
-      (running #f)
       (sprite "images/objects/platforms/small.sprite")
       (path
         (node
@@ -349,8 +348,8 @@ if(query(\"yellow\")){
       )
     )
     (platform
+      (running #f)
       (name "eye4")
-      (running #f)
       (sprite "images/objects/platforms/small.sprite")
       (path
         (node
@@ -364,8 +363,8 @@ if(query(\"yellow\")){
       )
     )
     (platform
-      (name "eye3")
       (running #f)
+      (name "eye3")
       (sprite "images/objects/platforms/small.sprite")
       (path
         (node
@@ -427,27 +426,22 @@ if(query(\"yellow\")){
       )
     )
     (icecrusher
-      (sprite "images/creatures/icecrusher/icecrusher.sprite")
       (x 1185.1)
       (y 549.1716)
     )
     (icecrusher
-      (sprite "images/creatures/icecrusher/icecrusher.sprite")
       (x 5067)
       (y 424)
     )
     (icecrusher
-      (sprite "images/creatures/icecrusher/icecrusher.sprite")
       (x 3138.515)
       (y 1387.716)
     )
     (icecrusher
-      (sprite "images/creatures/icecrusher/icecrusher.sprite")
       (x 2399.686)
       (y 1850.551)
     )
     (icecrusher
-      (sprite "images/creatures/icecrusher/icecrusher.sprite")
       (x 715)
       (y 8)
     )
@@ -661,8 +655,6 @@ eye3.goto_node(1);")
       (y 1991.407)
     )
     (secretarea
-      (script "")
-      (message "")
       (width 76)
       (height 204)
       (x 1172)
@@ -1753,57 +1745,46 @@ eye3.goto_node(1);")
       )
     )
     (unstable_tile
-      (sprite "images/objects/unstable_tile/snow.sprite")
       (x 641.0538)
       (y 2677.213)
     )
     (unstable_tile
-      (sprite "images/objects/unstable_tile/snow.sprite")
       (x 757.7264)
       (y 2674.385)
     )
     (unstable_tile
-      (sprite "images/objects/unstable_tile/snow.sprite")
       (x 698.3295)
       (y 2674.385)
     )
     (unstable_tile
-      (sprite "images/objects/unstable_tile/snow.sprite")
       (x 828.4371)
       (y 2681.456)
     )
     (unstable_tile
-      (sprite "images/objects/unstable_tile/snow.sprite")
       (x 892.0768)
       (y 2676.506)
     )
     (unstable_tile
-      (sprite "images/objects/unstable_tile/snow.sprite")
       (x 1007.335)
       (y 2680.042)
     )
     (unstable_tile
-      (sprite "images/objects/unstable_tile/snow.sprite")
       (x 1076.632)
       (y 2675.092)
     )
     (unstable_tile
-      (sprite "images/objects/unstable_tile/snow.sprite")
       (x 513.4142)
       (y 2674.385)
     )
     (unstable_tile
-      (sprite "images/objects/unstable_tile/snow.sprite")
       (x 256)
       (y 2592)
     )
     (unstable_tile
-      (sprite "images/objects/unstable_tile/snow.sprite")
       (x 579.8822)
       (y 2675.799)
     )
     (unstable_tile
-      (sprite "images/objects/unstable_tile/snow.sprite")
       (x 947.2311)
       (y 2679.334)
     )

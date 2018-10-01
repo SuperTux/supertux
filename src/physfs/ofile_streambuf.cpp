@@ -43,7 +43,7 @@ OFileStreambuf::~OFileStreambuf()
 int
 OFileStreambuf::overflow(int c)
 {
-  char c2 = (char)c;
+  char c2 = static_cast<char>(c);
 
   if(pbase() == pptr())
     return 0;

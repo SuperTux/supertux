@@ -19,6 +19,7 @@
 #include <algorithm>
 #include <math.h>
 
+#include "math/util.hpp"
 #include "object/player.hpp"
 #include "object/portable.hpp"
 #include "supertux/sector.hpp"
@@ -46,7 +47,7 @@ BicyclePlatform::BicyclePlatform(BicyclePlatform* master_) :
   slave(this),
   center(master->center),
   radius(master->radius),
-  angle(master->angle + M_PI),
+  angle(master->angle + math::PI),
   angular_speed(0),
   contacts(),
   momentum(0),
@@ -105,9 +106,9 @@ BicyclePlatform::update(float elapsed_time)
     return;
   }
   if (this == slave) {
-    angle = master->angle + M_PI;
-    while (angle < 0) { angle += 2*M_PI; }
-    while (angle > 2*M_PI) { angle -= 2*M_PI; }
+    angle = master->angle + math::PI;
+    while (angle < 0) { angle += math::PI; }
+    while (angle > math::TAU) { angle -= math::PI; }
     Vector dest_ = center + Vector(cosf(angle), sinf(angle)) * radius - (bbox.get_size().as_vector() * 0.5);
     movement = dest_ - get_pos();
   }
@@ -118,12 +119,12 @@ BicyclePlatform::update(float elapsed_time)
 
     float angular_momentum = cosf(angle) * momentum_diff;
 
-    angular_speed += (angular_momentum * elapsed_time) * M_PI;
-    angular_speed *= 1 - elapsed_time * 0.2;
+    angular_speed += (angular_momentum * elapsed_time) * math::PI;
+    angular_speed *= 1.0f - elapsed_time * 0.2f;
     angle += angular_speed * elapsed_time;
-    while (angle < 0) { angle += 2*M_PI; }
-    while (angle > 2*M_PI) { angle -= 2*M_PI; }
-    angular_speed = std::min(std::max(angular_speed, static_cast<float>(-128*M_PI*elapsed_time)), static_cast<float>(128*M_PI*elapsed_time));
+    while (angle < 0) { angle += math::PI; }
+    while (angle > math::TAU) { angle -= math::PI; }
+    angular_speed = std::min(std::max(angular_speed, -128.0f * math::PI * elapsed_time), 128.0f * math::PI * elapsed_time);
     Vector dest_ = center + Vector(cosf(angle), sinf(angle)) * radius - (bbox.get_size().as_vector() * 0.5);
     movement = dest_ - get_pos();
 

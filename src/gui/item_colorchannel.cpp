@@ -22,7 +22,7 @@
 ItemColorChannel::ItemColorChannel(float* input_, Color channel_, int id_) :
   MenuItem(std::to_string(*input_), id_),
   number(input_),
-  flickw(Resources::normal_font->get_text_width("_")),
+  flickw(static_cast<int>(Resources::normal_font->get_text_width("_"))),
   has_comma(true),
   channel(channel_)
 {
@@ -45,12 +45,12 @@ ItemColorChannel::draw(DrawingContext& context, const Vector& pos, int menu_widt
   MenuItem::draw(context, pos, menu_width, active);
   float lw = float(menu_width - 32) * (*number);
   context.color().draw_filled_rect(Rectf(pos + Vector(16, 6), pos + Vector(16 + lw, 16)),
-                           channel, 0.0f, LAYER_GUI-1);
+                                     channel, 0.0f, LAYER_GUI-1);
 }
 
 int
 ItemColorChannel::get_width() const {
-  return Resources::normal_font->get_text_width(text) + 16 + flickw;
+  return static_cast<int>(Resources::normal_font->get_text_width(text) + 16 + static_cast<float>(flickw));
 }
 
 void

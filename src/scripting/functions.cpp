@@ -34,6 +34,7 @@
 #include "supertux/tile.hpp"
 #include "video/renderer.hpp"
 #include "video/video_system.hpp"
+#include "video/viewport.hpp"
 #include "worldmap/tux.hpp"
 #include "worldmap/worldmap.hpp"
 
@@ -63,7 +64,7 @@ SQInteger is_christmas(HSQUIRRELVM vm)
 
 void wait(HSQUIRRELVM vm, float seconds)
 {
-  TimeScheduler::instance->schedule_thread(vm, game_time + seconds);
+  TimeScheduler::instance->schedule_thread(vm, g_game_time + seconds);
 }
 
 void wait_for_screenswitch(HSQUIRRELVM vm)
@@ -155,7 +156,7 @@ void import(HSQUIRRELVM vm, const std::string& filename)
 
 void debug_collrects(bool enable)
 {
-  ::Sector::show_collrects = enable;
+  ::Sector::s_show_collrects = enable;
 }
 
 void debug_show_fps(bool enable)
@@ -165,7 +166,7 @@ void debug_show_fps(bool enable)
 
 void debug_draw_solids_only(bool enable)
 {
-  ::Sector::draw_solids_only = enable;
+  ::Sector::s_draw_solids_only = enable;
 }
 
 void debug_draw_editor_images(bool enable)
@@ -221,7 +222,7 @@ bool validate_sector_player()
     return false;
   }
 
-  if (::Sector::current()->player == 0)
+  if (::Sector::current()->m_player == 0)
   {
     log_info << "No player." << std::endl;
     return false;
@@ -242,29 +243,29 @@ void play_sound(const std::string& filename)
 void grease()
 {
   if (!validate_sector_player()) return;
-  auto tux = ::Sector::current()->player; // scripting::Player != ::Player
+  auto tux = ::Sector::current()->m_player; // scripting::Player != ::Player
   tux->get_physic().set_velocity_x(tux->get_physic().get_velocity_x()*3);
 }
 
 void invincible()
 {
   if (!validate_sector_player()) return;
-  auto tux = ::Sector::current()->player;
-  tux->invincible_timer.start(10000);
+  auto tux = ::Sector::current()->m_player;
+  tux->m_invincible_timer.start(10000);
 }
 
 void ghost()
 {
   if (!validate_sector_player()) return;
-  auto tux = ::Sector::current()->player;
+  auto tux = ::Sector::current()->m_player;
   tux->set_ghost_mode(true);
 }
 
 void mortal()
 {
   if (!validate_sector_player()) return;
-  auto tux = ::Sector::current()->player;
-  tux->invincible_timer.stop();
+  auto tux = ::Sector::current()->m_player;
+  tux->m_invincible_timer.stop();
   tux->set_ghost_mode(false);
 }
 
@@ -282,34 +283,34 @@ void restart()
 void whereami()
 {
   if (!validate_sector_player()) return;
-  auto tux = ::Sector::current()->player;
-  log_info << "You are at x " << ((int) tux->get_pos().x) << ", y " << ((int) tux->get_pos().y) << std::endl;
+  auto tux = ::Sector::current()->m_player;
+  log_info << "You are at x " << (static_cast<int>(tux->get_pos().x)) << ", y " << (static_cast<int>(tux->get_pos().y)) << std::endl;
 }
 
 void gotoend()
 {
   if (!validate_sector_player()) return;
-  auto tux = ::Sector::current()->player;
+  auto tux = ::Sector::current()->m_player;
   tux->move(Vector(
-              (::Sector::current()->get_width()) - (SCREEN_WIDTH*2), 0));
-  ::Sector::current()->camera->reset(
+              (::Sector::current()->get_width()) - (static_cast<float>(SCREEN_WIDTH) * 2.0f), 0));
+  ::Sector::current()->m_camera->reset(
     Vector(tux->get_pos().x, tux->get_pos().y));
 }
 
 void warp(float offset_x, float offset_y)
 {
   if (!validate_sector_player()) return;
-  auto tux = ::Sector::current()->player;
+  auto tux = ::Sector::current()->m_player;
   tux->move(Vector(
               tux->get_pos().x + (offset_x*32), tux->get_pos().y - (offset_y*32)));
-  ::Sector::current()->camera->reset(
+  ::Sector::current()->m_camera->reset(
     Vector(tux->get_pos().x, tux->get_pos().y));
 }
 
 void camera()
 {
   if (!validate_sector_player()) return;
-  auto& cam_pos = ::Sector::current()->camera->get_translation();
+  auto& cam_pos = ::Sector::current()->m_camera->get_translation();
   log_info << "Camera is at " << cam_pos.x << "," << cam_pos.y << std::endl;
 }
 

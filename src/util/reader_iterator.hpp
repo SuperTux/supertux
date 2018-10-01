@@ -34,7 +34,7 @@ class ReaderIterator final
 {
 public:
   // sx should point to (section (name value)...)
-  ReaderIterator(const ReaderDocument* doc, const sexp::Value* sx);
+  ReaderIterator(const ReaderDocument& doc, const sexp::Value& sx);
 
   /** must be called once before any of the other function become
       valid, i.e. ReaderIterator it; while(it.next()) { ... } */
@@ -54,7 +54,7 @@ public:
   ReaderMapping as_mapping() const;
 
 private:
-  const ReaderDocument* m_doc;
+  const ReaderDocument& m_doc;
   const std::vector<sexp::Value>& m_arr;
   size_t m_idx;
 };

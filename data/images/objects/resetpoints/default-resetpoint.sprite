@@ -1,9 +1,8 @@
 (supertux-sprite
  (action
   (name "normal")
-  (x-offset 0)
-  (y-offset 0)
   (images "bell-m.png")
+  (hitbox 8 0 32 32)
  )
  (action
   (name "ringing")
@@ -16,6 +15,7 @@
    "bell-r.png"
    "bell-r_0.png"
    "bell-m.png"
-  )
- )              
+   )
+  (hitbox 8 0 32 32)
+ )
 )

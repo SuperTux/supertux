@@ -1,8 +1,8 @@
 (supertux-level
   (version 2)
-  (name (_ "Castle in the Sky"))  (license "GPL 2+ / CC-by-sa 3.0")
+  (name (_ "Castle in the Sky"))
   (author "Kevin")
-  (target-time 0)
+  (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
     (music "music/fortress.music")
@@ -161,7 +161,6 @@
     (gradient
       (top_color 0 0 0.003921569)
       (bottom_color 0 0.03178454 0.2893416)
-      (layer -300)
     )
     (haywire
       (x 1893)
@@ -236,8 +235,6 @@
     )
     (secretarea
       (fade-tilemap "secret")
-      (script "")
-      (message "")
       (width 604)
       (height 232)
       (x 3776)

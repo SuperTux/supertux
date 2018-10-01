@@ -3,7 +3,6 @@
   (name (_ "Bad Guys Stink!"))
   (author "Jason W. Thompson")
   (license "GPL 2+ / CC-by-sa 3.0")
-  (target-time 0)
   (sector
     (name "main")
     (music "music/chipdisko.ogg")
@@ -124,16 +123,12 @@
     )
     (secretarea
       (fade-tilemap "secret")
-      (script "")
-      (message "")
       (width 129.5808)
       (height 111.196)
       (x 480)
       (y 704)
     )
     (secretarea
-      (script "")
-      (message "")
       (width 69.24023)
       (height 96.40521)
       (x 12064)

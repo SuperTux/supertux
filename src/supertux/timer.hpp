@@ -44,9 +44,9 @@ public:
   float get_period() const
   { return period; }
   float get_timeleft() const
-  { return period - (game_time - cycle_start); }
+  { return period - (g_game_time - cycle_start); }
   float get_timegone() const
-  { return game_time - cycle_start; }
+  { return g_game_time - cycle_start; }
   bool started() const
   { return period != 0 && get_timeleft() > 0; }
 

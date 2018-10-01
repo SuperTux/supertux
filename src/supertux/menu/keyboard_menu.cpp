@@ -45,12 +45,6 @@ KeyboardMenu::KeyboardMenu(InputManager& input_manager) :
   if (g_config->developer_mode) {
     add_controlfield(Controller::CHEAT_MENU, _("Cheat Menu"));
   }
-  add_hl();
-  add_inactive(_("The following feature is deprecated."));
-  // l10n: Continuation of string "The following feature is deprecated."
-  add_inactive(_("It will be removed from the next release"));
-  // l10n: Continuation of string "It will be removed from the next release"
-  add_inactive(_("of SuperTux."));
   add_toggle(Controller::CONTROLCOUNT, _("Jump with Up"), &g_config->keyboard_config.jump_with_up_kbd);
   add_hl();
   add_back(_("Back"));
@@ -97,15 +91,15 @@ KeyboardMenu::get_key_name(SDL_Keycode key) const
 }
 
 void
-KeyboardMenu::menu_action(MenuItem* item)
+KeyboardMenu::menu_action(MenuItem& item)
 {
-  if(item->id >= 0 && item->id < Controller::CONTROLCOUNT){
-    ItemControlField* itemcf = dynamic_cast<ItemControlField*>(item);
+  if(item.id >= 0 && item.id < Controller::CONTROLCOUNT){
+    ItemControlField* itemcf = dynamic_cast<ItemControlField*>(&item);
     if (!itemcf) {
       return;
     }
     itemcf->change_input(_("Press Key"));
-    m_input_manager.keyboard_manager->bind_next_event_to(static_cast<Controller::Control>(item->id));
+    m_input_manager.keyboard_manager->bind_next_event_to(static_cast<Controller::Control>(item.id));
   }
 }
 
@@ -115,34 +109,34 @@ KeyboardMenu::refresh()
   KeyboardConfig& kbd_cfg = g_config->keyboard_config;
   ItemControlField* micf;
 
-  micf = dynamic_cast<ItemControlField*>(&get_item_by_id((int) Controller::UP));
+  micf = dynamic_cast<ItemControlField*>(&get_item_by_id(static_cast<int>(Controller::UP)));
   if (micf) micf->change_input(get_key_name(kbd_cfg.reversemap_key(Controller::UP)));
-  micf = dynamic_cast<ItemControlField*>(&get_item_by_id((int) Controller::DOWN));
+  micf = dynamic_cast<ItemControlField*>(&get_item_by_id(static_cast<int>(Controller::DOWN)));
   if (micf) micf->change_input(get_key_name(kbd_cfg.reversemap_key(Controller::DOWN)));
-  micf = dynamic_cast<ItemControlField*>(&get_item_by_id((int) Controller::LEFT));
+  micf = dynamic_cast<ItemControlField*>(&get_item_by_id(static_cast<int>(Controller::LEFT)));
   if (micf) micf->change_input(get_key_name(kbd_cfg.reversemap_key(Controller::LEFT)));
-  micf = dynamic_cast<ItemControlField*>(&get_item_by_id((int) Controller::RIGHT));
+  micf = dynamic_cast<ItemControlField*>(&get_item_by_id(static_cast<int>(Controller::RIGHT)));
   if (micf) micf->change_input(get_key_name(kbd_cfg.reversemap_key(Controller::RIGHT)));
-  micf = dynamic_cast<ItemControlField*>(&get_item_by_id((int) Controller::JUMP));
+  micf = dynamic_cast<ItemControlField*>(&get_item_by_id(static_cast<int>(Controller::JUMP)));
   if (micf) micf->change_input(get_key_name(kbd_cfg.reversemap_key(Controller::JUMP)));
-  micf = dynamic_cast<ItemControlField*>(&get_item_by_id((int) Controller::ACTION));
+  micf = dynamic_cast<ItemControlField*>(&get_item_by_id(static_cast<int>(Controller::ACTION)));
   if (micf) micf->change_input(get_key_name(kbd_cfg.reversemap_key(Controller::ACTION)));
-  micf = dynamic_cast<ItemControlField*>(&get_item_by_id((int) Controller::PEEK_LEFT));
+  micf = dynamic_cast<ItemControlField*>(&get_item_by_id(static_cast<int>(Controller::PEEK_LEFT)));
   if (micf) micf->change_input(get_key_name(kbd_cfg.reversemap_key(Controller::PEEK_LEFT)));
-  micf = dynamic_cast<ItemControlField*>(&get_item_by_id((int) Controller::PEEK_RIGHT));
+  micf = dynamic_cast<ItemControlField*>(&get_item_by_id(static_cast<int>(Controller::PEEK_RIGHT)));
   if (micf) micf->change_input(get_key_name(kbd_cfg.reversemap_key(Controller::PEEK_RIGHT)));
-  micf = dynamic_cast<ItemControlField*>(&get_item_by_id((int) Controller::PEEK_UP));
+  micf = dynamic_cast<ItemControlField*>(&get_item_by_id(static_cast<int>(Controller::PEEK_UP)));
   if (micf) micf->change_input(get_key_name(kbd_cfg.reversemap_key(Controller::PEEK_UP)));
-  micf = dynamic_cast<ItemControlField*>(&get_item_by_id((int) Controller::PEEK_DOWN));
+  micf = dynamic_cast<ItemControlField*>(&get_item_by_id(static_cast<int>(Controller::PEEK_DOWN)));
   if (micf) micf->change_input(get_key_name(kbd_cfg.reversemap_key(Controller::PEEK_DOWN)));
 
   if (g_config->developer_mode) {
-    micf = dynamic_cast<ItemControlField*>(&get_item_by_id((int) Controller::CHEAT_MENU));
+    micf = dynamic_cast<ItemControlField*>(&get_item_by_id(static_cast<int>(Controller::CHEAT_MENU)));
     if (micf) micf->change_input(get_key_name(kbd_cfg.reversemap_key(Controller::CHEAT_MENU)));
   }
 
   if (g_config->developer_mode) {
-    micf = dynamic_cast<ItemControlField*>(&get_item_by_id((int) Controller::CONSOLE));
+    micf = dynamic_cast<ItemControlField*>(&get_item_by_id(static_cast<int>(Controller::CONSOLE)));
     if (micf) micf->change_input(get_key_name(kbd_cfg.reversemap_key(Controller::CONSOLE)));
   }
 }

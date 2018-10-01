@@ -16,34 +16,15 @@
 
 #include "video/gl/gl_texture.hpp"
 
-#include <SDL.h>
 #include <assert.h>
 
-#ifdef USE_GLBINDING
-  #include <glbinding/ContextInfo.h>
-#endif
+#include "video/glutil.hpp"
+#include "video/sampler.hpp"
+#include "video/sdl_surface.hpp"
 
-namespace {
-
-#ifdef GL_VERSION_ES_CM_1_0
-inline bool is_power_of_2(int v)
-{
-  return (v & (v-1)) == 0;
-}
-#endif
-
-inline int next_power_of_two(int val)
-{
-  int result = 1;
-  while(result < val)
-    result *= 2;
-  return result;
-}
-
-} // namespace
-
-GLTexture::GLTexture(unsigned int width, unsigned int height) :
+GLTexture::GLTexture(int width, int height, boost::optional<Color> fill_color) :
   m_handle(),
+  m_sampler(),
   m_texture_width(),
   m_texture_height(),
   m_image_width(),
@@ -58,14 +39,23 @@ GLTexture::GLTexture(unsigned int width, unsigned int height) :
   m_image_width  = width;
   m_image_height = height;
 
-  assert_gl("before creating texture");
+  assert_gl();
   glGenTextures(1, &m_handle);
 
   try {
     glBindTexture(GL_TEXTURE_2D, m_handle);
 
-    glTexImage2D(GL_TEXTURE_2D, 0, static_cast<GLint>(GL_RGBA), m_texture_width,
-				 m_texture_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+    if (fill_color)
+    {
+      std::vector<uint32_t> pixels(m_texture_width * m_texture_height, fill_color->rgba());
+      glTexImage2D(GL_TEXTURE_2D, 0, static_cast<GLint>(GL_RGBA), m_texture_width,
+                   m_texture_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels.data());
+    }
+    else
+    {
+      glTexImage2D(GL_TEXTURE_2D, 0, static_cast<GLint>(GL_RGBA), m_texture_width,
+                   m_texture_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+    }
 
     set_texture_params();
   } catch(...) {
@@ -74,59 +64,34 @@ GLTexture::GLTexture(unsigned int width, unsigned int height) :
   }
 }
 
-GLTexture::GLTexture(SDL_Surface* image) :
+GLTexture::GLTexture(const SDL_Surface& image, const Sampler& sampler) :
   m_handle(),
+  m_sampler(sampler),
   m_texture_width(),
   m_texture_height(),
   m_image_width(),
   m_image_height()
 {
-#ifdef GL_VERSION_ES_CM_1_0
-  m_texture_width = next_power_of_two(image->w);
-  m_texture_height = next_power_of_two(image->h);
-#else
-#  ifdef USE_GLBINDING
-  static auto extensions = glbinding::ContextInfo::extensions();
-  if (extensions.find(GLextension::GL_ARB_texture_non_power_of_two) != extensions.end())
+  if (gl_needs_power_of_two())
   {
-    m_texture_width  = image->w;
-    m_texture_height = image->h;
+    m_texture_width = next_power_of_two(image.w);
+    m_texture_height = next_power_of_two(image.h);
   }
-#  else
-  if (GLEW_ARB_texture_non_power_of_two)
-  {
-    m_texture_width  = image->w;
-    m_texture_height = image->h;
-  }
-#  endif
   else
   {
-    m_texture_width = next_power_of_two(image->w);
-    m_texture_height = next_power_of_two(image->h);
-  }
-#endif
-
-  m_image_width  = image->w;
-  m_image_height = image->h;
-
-#if SDL_BYTEORDER == SDL_BIG_ENDIAN
-  SDL_Surface* convert = SDL_CreateRGBSurface(0,
-                                              m_texture_width, m_texture_height, 32,
-                                              0xff000000, 0x00ff0000, 0x0000ff00, 0x000000ff);
-#else
-  SDL_Surface* convert = SDL_CreateRGBSurface(0,
-                                              m_texture_width, m_texture_height, 32,
-                                              0x000000ff, 0x0000ff00, 0x00ff0000, 0xff000000);
-#endif
-
-  if(convert == 0) {
-    throw std::runtime_error("Couldn't create texture: out of memory");
+    m_texture_width  = image.w;
+    m_texture_height = image.h;
   }
 
-  SDL_SetSurfaceBlendMode(image, SDL_BLENDMODE_NONE);
-  SDL_BlitSurface(image, 0, convert, 0);
+  m_image_width  = image.w;
+  m_image_height = image.h;
 
-  assert_gl("before creating texture");
+  SDLSurfacePtr convert = SDLSurface::create_rgba(m_texture_width, m_texture_height);
+
+  SDL_SetSurfaceBlendMode(const_cast<SDL_Surface*>(&image), SDL_BLENDMODE_NONE);
+  SDL_BlitSurface(const_cast<SDL_Surface*>(&image), 0, convert.get(), 0);
+
+  assert_gl();
   glGenTextures(1, &m_handle);
 
   try {
@@ -147,12 +112,12 @@ GLTexture::GLTexture(SDL_Surface* image) :
 #else
     /* OpenGL ES doesn't support UNPACK_ROW_LENGTH, let's hope SDL didn't add
      * padding bytes, otherwise we need some extra code here... */
-    assert(convert->pitch == m_texture_width * convert->format->BytesPerPixel);
+    assert(convert->pitch == static_cast<int>(m_texture_width * convert->format->BytesPerPixel));
 #endif
 
     if(SDL_MUSTLOCK(convert))
     {
-      SDL_LockSurface(convert);
+      SDL_LockSurface(convert.get());
     }
 
     glTexImage2D(GL_TEXTURE_2D, 0, static_cast<GLint>(GL_RGBA),
@@ -165,20 +130,18 @@ GLTexture::GLTexture(SDL_Surface* image) :
       glGenerateMipmap(GL_TEXTURE_2D);
     }
 
-    if(SDL_MUSTLOCK(convert))
+    if(SDL_MUSTLOCK(convert.get()))
     {
-      SDL_UnlockSurface(convert);
+      SDL_UnlockSurface(convert.get());
     }
 
-    assert_gl("creating texture");
+    assert_gl();
 
     set_texture_params();
   } catch(...) {
     glDeleteTextures(1, &m_handle);
-    SDL_FreeSurface(convert);
     throw;
   }
-  SDL_FreeSurface(convert);
 }
 
 GLTexture::~GLTexture()
@@ -189,13 +152,13 @@ GLTexture::~GLTexture()
 void
 GLTexture::set_texture_params()
 {
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, static_cast<GLint>(GL_LINEAR));
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, static_cast<GLint>(GL_LINEAR));
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, static_cast<GLint>(m_sampler.get_filter()));
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, static_cast<GLint>(m_sampler.get_filter()));
 
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, static_cast<GLint>(GL_CLAMP_TO_EDGE));
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, static_cast<GLint>(GL_CLAMP_TO_EDGE));
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, static_cast<GLint>(m_sampler.get_wrap_s()));
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, static_cast<GLint>(m_sampler.get_wrap_t()));
 
-  assert_gl("set texture params");
+  assert_gl();
 }
 
 /* EOF */

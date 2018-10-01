@@ -4,7 +4,6 @@
   (author "LMH")
   (contact "lmh.0013@gmail.com")
   (license "GPL 2 / CC-by-sa 3.0")
-  (target-time 0)
   (sector
     (name "main")
     (music "music/clavelian_march.music")
@@ -26,67 +25,54 @@
       (mode "normal")
     )
     (candle
-      (color 1 1 1)
       (x 1968)
       (y 448)
     )
     (candle
-      (color 1 1 1)
       (x 2752)
       (y 704)
     )
     (candle
-      (color 1 1 1)
       (x 3104)
       (y 704)
     )
     (candle
-      (color 1 1 1)
       (x 4416)
       (y 576)
     )
     (candle
-      (color 1 1 1)
       (x 4032)
       (y 640)
     )
     (candle
-      (color 1 1 1)
       (x 3840)
       (y 480)
     )
     (candle
-      (color 1 1 1)
       (x 4608)
       (y 576)
     )
     (candle
-      (color 1 1 1)
       (x 4896)
       (y 704)
     )
     (candle
-      (color 1 1 1)
       (x 5088)
       (y 1088)
     )
     (candle
-      (color 1 1 1)
       (x 4672)
       (y 1216)
     )
     (candle
-      (color 1 1 1)
       (x 5632)
       (y 1216)
     )
     (candle
-      (color 1 1 1)
       (x 7520)
       (y 992)
     )
     (candle
-      (color 1 1 1)
       (x 9216)
       (y 704)
     )
@@ -445,8 +431,6 @@
       (y 512)
     )
     (secretarea
-      (script "")
-      (message "")
       (width 444)
       (height 170)
       (x 2912)
@@ -955,52 +939,42 @@
       (y 768)
     )
     (candle
-      (color 1 1 1)
       (x 1088)
       (y 608)
     )
     (candle
-      (color 1 1 1)
       (x 448)
       (y 704)
     )
     (candle
-      (color 1 1 1)
       (x 256)
       (y 608)
     )
     (candle
-      (color 1 1 1)
       (x 256)
       (y 608)
     )
     (candle
-      (color 1 1 1)
       (x 1248)
       (y 608)
     )
     (lantern
-      (color 1 1 1)
       (x 288)
       (y 182)
     )
     (lantern
-      (color 1 1 1)
       (x 64)
       (y 182)
     )
     (lantern
-      (color 1 1 1)
       (x 576)
       (y 182)
     )
     (lantern
-      (color 1 1 1)
       (x 768)
       (y 182)
     )
     (lantern
-      (color 1 1 1)
       (x 1216)
       (y 278)
     )
@@ -1013,8 +987,6 @@
       (y 796)
     )
     (secretarea
-      (script "")
-      (message "")
       (width 124)
       (height 32)
       (x 128)

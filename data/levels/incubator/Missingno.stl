@@ -3,7 +3,6 @@
   (name (_ "Missingno"))
   (author "sK!LL")
   (license "GPL 2+ / CC-by-sa 3.0")
-  (target-time 0)
   (sector
     (name "main")
     (music "music/chipdisko.ogg")
@@ -1191,12 +1190,12 @@
       (y 1184)
     )
     (wind
-      (name "Wind")
       (speed-x 2000)
       (speed-y -800)
       (acceleration 4000)
       (width 28)
       (height 252)
+      (name "Wind")
       (x 896)
       (y 2400)
     )

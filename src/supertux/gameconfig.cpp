@@ -30,7 +30,7 @@ Config::Config() :
   aspect_size(0, 0), // auto detect
   magnification(0.0f),
   use_fullscreen(false),
-  video(VideoSystem::AUTO_VIDEO),
+  video(VideoSystem::VIDEO_AUTO),
   try_vsync(true),
   show_fps(false),
   show_player_pos(false),
@@ -51,6 +51,7 @@ Config::Config() :
   christmas_mode(false),
   transitions_enabled(true),
   confirmation_dialog(false),
+  pause_on_focusloss(true),
   repository_url()
 {
 }
@@ -71,6 +72,7 @@ Config::load()
   config_lisp.get("show_player_pos", show_player_pos);
   config_lisp.get("developer", developer_mode);
   config_lisp.get("confirmation_dialog", confirmation_dialog);
+  config_lisp.get("pause_on_focusloss", pause_on_focusloss);
 
   if(is_christmas()) {
     if(!config_lisp.get("christmas", christmas_mode))
@@ -83,60 +85,60 @@ Config::load()
   config_lisp.get("random_seed", random_seed);
   config_lisp.get("repository_url", repository_url);
 
-  ReaderMapping config_video_lisp;
+  boost::optional<ReaderMapping> config_video_lisp;
   if(config_lisp.get("video", config_video_lisp))
   {
-    config_video_lisp.get("fullscreen", use_fullscreen);
+    config_video_lisp->get("fullscreen", use_fullscreen);
     std::string video_string;
-    config_video_lisp.get("video", video_string);
+    config_video_lisp->get("video", video_string);
     video = VideoSystem::get_video_system(video_string);
-    config_video_lisp.get("vsync", try_vsync);
+    config_video_lisp->get("vsync", try_vsync);
 
-    config_video_lisp.get("fullscreen_width",  fullscreen_size.width);
-    config_video_lisp.get("fullscreen_height", fullscreen_size.height);
+    config_video_lisp->get("fullscreen_width",  fullscreen_size.width);
+    config_video_lisp->get("fullscreen_height", fullscreen_size.height);
     if(fullscreen_size.width < 0 || fullscreen_size.height < 0)
     {
       // Somehow, an invalid size got entered into the config file,
       // let's use the "auto" setting instead.
       fullscreen_size = Size(0, 0);
     }
-    config_video_lisp.get("fullscreen_refresh_rate", fullscreen_refresh_rate);
+    config_video_lisp->get("fullscreen_refresh_rate", fullscreen_refresh_rate);
 
-    config_video_lisp.get("window_width",  window_size.width);
-    config_video_lisp.get("window_height", window_size.height);
+    config_video_lisp->get("window_width",  window_size.width);
+    config_video_lisp->get("window_height", window_size.height);
 
-    config_video_lisp.get("aspect_width",  aspect_size.width);
-    config_video_lisp.get("aspect_height", aspect_size.height);
+    config_video_lisp->get("aspect_width",  aspect_size.width);
+    config_video_lisp->get("aspect_height", aspect_size.height);
 
-    config_video_lisp.get("magnification", magnification);
+    config_video_lisp->get("magnification", magnification);
   }
 
-  ReaderMapping config_audio_lisp;
+  boost::optional<ReaderMapping> config_audio_lisp;
   if(config_lisp.get("audio", config_audio_lisp)) {
-    config_audio_lisp.get("sound_enabled", sound_enabled);
-    config_audio_lisp.get("music_enabled", music_enabled);
+    config_audio_lisp->get("sound_enabled", sound_enabled);
+    config_audio_lisp->get("music_enabled", music_enabled);
   }
 
-  ReaderMapping config_control_lisp;
+  boost::optional<ReaderMapping> config_control_lisp;
   if (config_lisp.get("control", config_control_lisp))
   {
-    ReaderMapping keymap_lisp;
-    if (config_control_lisp.get("keymap", keymap_lisp))
+    boost::optional<ReaderMapping> keymap_lisp;
+    if (config_control_lisp->get("keymap", keymap_lisp))
     {
-      keyboard_config.read(keymap_lisp);
+      keyboard_config.read(*keymap_lisp);
     }
 
-    ReaderMapping joystick_lisp;
-    if (config_control_lisp.get("joystick", joystick_lisp))
+    boost::optional<ReaderMapping> joystick_lisp;
+    if (config_control_lisp->get("joystick", joystick_lisp))
     {
-      joystick_config.read(joystick_lisp);
+      joystick_config.read(*joystick_lisp);
     }
   }
 
-  ReaderCollection config_addons_lisp;
+  boost::optional<ReaderCollection> config_addons_lisp;
   if (config_lisp.get("addons", config_addons_lisp))
   {
-    for(auto const& addon_node : config_addons_lisp.get_objects())
+    for(auto const& addon_node : config_addons_lisp->get_objects())
     {
       if (addon_node.get_name() == "addon")
       {
@@ -170,6 +172,7 @@ Config::save()
   writer.write("show_player_pos", show_player_pos);
   writer.write("developer", developer_mode);
   writer.write("confirmation_dialog", confirmation_dialog);
+  writer.write("pause_on_focusloss", pause_on_focusloss);
   if(is_christmas()) {
     writer.write("christmas", christmas_mode);
   }

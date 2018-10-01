@@ -104,5 +104,4 @@ ShortFuse::ignite()
   kill_fall();
 }
 
-/* vim: set sw=2 sts=2 et : */
 /* EOF */

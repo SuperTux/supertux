@@ -125,10 +125,10 @@ BadguySelectMenu::add_badguy()
 }
 
 void
-BadguySelectMenu::menu_action(MenuItem* item)
+BadguySelectMenu::menu_action(MenuItem& item)
 {
-  if (item->id >= 0) {
-    remove_item = item->id;
+  if (item.id >= 0) {
+    remove_item = item.id;
     auto self  = this;
     // confirmation dialog
     std::unique_ptr<Dialog> dialog(new Dialog);
@@ -138,7 +138,7 @@ BadguySelectMenu::menu_action(MenuItem* item)
     });
     dialog->add_cancel_button(_("No"));
     MenuManager::instance().set_dialog(std::move(dialog));
-  } else if (item->id == -3) {
+  } else if (item.id == -3) {
     add_badguy();
   }
 }

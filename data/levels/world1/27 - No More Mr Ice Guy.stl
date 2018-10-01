@@ -3,7 +3,6 @@
   (name (_ "No More Mr Ice Guy"))
   (author "SuperTux Team")
   (license "GPL 2+ / CC-by-sa 3.0")
-  (target-time 0)
   (sector
     (name "main")
     (music "music/bossattack.music")
@@ -20,8 +19,6 @@ Effect.fade_in(1);
     )
     (secretarea
       (fade-tilemap "Secret")
-      (script "")
-      (message "")
       (width 1032)
       (height 264)
       (x 180)

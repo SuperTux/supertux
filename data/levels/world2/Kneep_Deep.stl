@@ -3,7 +3,6 @@
   (name (_ "Kneep-deep in the depth"))
   (author "Christoph Sommer")
   (license "GPL 2+ / CC-by-sa 3.0")
-  (target-time 0)
   (sector
     (name "main")
     (music "music/forest.music")
@@ -35,8 +34,8 @@
       (y 1104)
     )
     (platform
-      (name "plat1")
       (running #f)
+      (name "plat1")
       (sprite "images/objects/platforms/big.sprite")
       (path
         (node
@@ -61,8 +60,8 @@
       )
     )
     (platform
-      (name "plat2")
       (running #f)
+      (name "plat2")
       (sprite "images/objects/platforms/big.sprite")
       (path
         (node
@@ -129,8 +128,6 @@ plat2.goto_node(3);")
       (y 2674)
     )
     (secretarea
-      (script "")
-      (message "")
       (width 124)
       (height 140)
       (x 2016)

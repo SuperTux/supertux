@@ -17,6 +17,8 @@
 
 #include "supertux/textscroller.hpp"
 
+#include <sstream>
+
 #include "audio/sound_manager.hpp"
 #include "control/input_manager.hpp"
 #include "supertux/fadein.hpp"
@@ -28,8 +30,11 @@
 #include "util/reader.hpp"
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
+#include "video/compositor.hpp"
 #include "video/drawing_context.hpp"
 #include "video/surface.hpp"
+#include "video/video_system.hpp"
+#include "video/viewport.hpp"
 
 static const float DEFAULT_SPEED = 20;
 static const float LEFT_BORDER = 50;
@@ -67,13 +72,13 @@ TextScroller::TextScroller(const std::string& filename) :
         }
 
         // Split text string lines into a vector
-        lines = InfoBoxLine::split(text, SCREEN_WIDTH - 2*LEFT_BORDER);
+        lines = InfoBoxLine::split(text, static_cast<float>(SCREEN_WIDTH) - 2.0f * LEFT_BORDER);
       } else if (version == 2) {
-        ReaderMapping content;
+        boost::optional<ReaderMapping> content;
         if (!text_lisp.get("content", content)) {
           throw std::runtime_error("File doesn't contain content");
         } else {
-          auto iter = content.get_iter();
+          auto iter = content->get_iter();
           while (iter.next()) {
             if (iter.get_key() == "image") {
               std::string image_file;
@@ -161,7 +166,7 @@ TextScroller::TextScroller(const std::string& filename) :
   }
 
   // load background image
-  background = Surface::create("images/background/" + background_file);
+  background = Surface::from_file("images/background/" + background_file);
 }
 
 TextScroller::~TextScroller()
@@ -203,24 +208,48 @@ TextScroller::update(float elapsed_time)
 }
 
 void
-TextScroller::draw(DrawingContext& context)
+TextScroller::draw(Compositor& compositor)
 {
-  context.color().draw_filled_rect(Vector(0, 0), Vector(SCREEN_WIDTH, SCREEN_HEIGHT),
-                           Color(0.6f, 0.7f, 0.8f, 0.5f), 0);
-  context.color().draw_surface_part(background, Rectf(0, 0, background->get_width(), background->get_height()),
-                            Rectf(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT), 0);
+  auto& context = compositor.make_context();
 
+  const float bg_w = static_cast<float>(background->get_width());
+  const float bg_h = static_cast<float>(background->get_height());
 
-  float y = SCREEN_HEIGHT - scroll;
-  for (auto& line : lines) {
-    if (y + line->get_height() >= 0 && SCREEN_HEIGHT - y >= 0) {
-      line->draw(context, Rectf(LEFT_BORDER, y, SCREEN_WIDTH - 2*LEFT_BORDER, y), LAYER_GUI);
+  const float ctx_w = static_cast<float>(context.get_width());
+  const float ctx_h = static_cast<float>(context.get_height());
+
+  const float bg_ratio = bg_w / bg_h;
+  const float ctx_ratio = ctx_w / ctx_h;
+
+  if (bg_ratio > ctx_ratio)
+  {
+    const float new_bg_w = ctx_h * bg_ratio;
+    context.color().draw_surface_scaled(background,
+                                        Rectf::from_center(Vector(ctx_w / 2.0f, ctx_h / 2.0f),
+                                                           Sizef(new_bg_w, ctx_h)),
+                                        0);
+  }
+  else
+  {
+    const float new_bg_h = ctx_w / bg_ratio;
+    context.color().draw_surface_scaled(background,
+                                        Rectf::from_center(Vector(ctx_w / 2.0f, ctx_h / 2.0f),
+                                                           Sizef(ctx_w, new_bg_h)),
+                                        0);
+  }
+
+  float y = ctx_h - scroll;
+  for (const auto& line : lines)
+  {
+    if (y + line->get_height() >= 0 && ctx_h - y >= 0) {
+      line->draw(context, Rectf(LEFT_BORDER, y, ctx_w - 2*LEFT_BORDER, y), LAYER_GUI);
     }
 
     y += line->get_height();
   }
 
-  if(y < 0 && !fading ) {
+  if (y < 0 && !fading)
+  {
     fading = true;
     ScreenManager::current()->pop_screen(std::unique_ptr<ScreenFade>(new FadeOut(0.5)));
   }

@@ -18,25 +18,29 @@
 #define HEADER_SUPERTUX_VIDEO_VIDEO_SYSTEM_HPP
 
 #include <string>
+#include <SDL.h>
 
+#include "math/size.hpp"
 #include "util/currenton.hpp"
+#include "video/sampler.hpp"
 #include "video/texture_ptr.hpp"
 
-class Lightmap;
 class Rect;
 class Renderer;
+class SDLSurfacePtr;
+class Sampler;
 class Surface;
 class SurfaceData;
-struct SDL_Surface;
+class Viewport;
 
 class VideoSystem : public Currenton<VideoSystem>
 {
 public:
   enum Enum {
-    AUTO_VIDEO,
-    OPENGL,
-    PURE_SDL,
-    NUM_SYSTEMS
+    VIDEO_AUTO,
+    VIDEO_OPENGL33CORE,
+    VIDEO_OPENGL20,
+    VIDEO_SDL
   };
 
   static std::unique_ptr<VideoSystem> create(VideoSystem::Enum video_system);
@@ -48,22 +52,25 @@ public:
   VideoSystem() {}
   virtual ~VideoSystem() {}
 
+  virtual Renderer* get_back_renderer() const = 0;
   virtual Renderer& get_renderer() const = 0;
-  virtual Lightmap& get_lightmap() const = 0;
-  virtual TexturePtr new_texture(SDL_Surface *image) = 0;
-  virtual SurfaceData* new_surface_data(const Surface &surface) = 0;
-  virtual void free_surface_data(SurfaceData* surface_data) = 0;
+  virtual Renderer& get_lightmap() const = 0;
 
+  virtual TexturePtr new_texture(const SDL_Surface& image, const Sampler& sampler = Sampler()) = 0;
+
+  virtual const Viewport& get_viewport() const = 0;
   virtual void apply_config() = 0;
-  virtual void resize(int w, int h) = 0;
+  virtual void flip() = 0;
+  virtual void on_resize(int w, int h) = 0;
 
+  virtual void set_vsync(int mode) = 0;
+  virtual int get_vsync() const = 0;
   virtual void set_gamma(float gamma) = 0;
   virtual void set_title(const std::string& title) = 0;
-  virtual void set_icon(SDL_Surface* icon) = 0;
-  virtual void do_take_screenshot() = 0;
+  virtual void set_icon(const SDL_Surface& icon) = 0;
+  virtual SDLSurfacePtr make_screenshot() = 0;
 
-  virtual void set_clip_rect(const Rect& rect) = 0;
-  virtual void clear_clip_rect() = 0;
+  void do_take_screenshot();
 
 private:
   VideoSystem(const VideoSystem&) = delete;

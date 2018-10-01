@@ -4,7 +4,6 @@
   (author "Hume")
   (contact "Nemám zájem, aby mě někdo otravoval.")
   (license "GPL 2+ / CC-by-sa 3.0")
-  (target-time 0)
   (sector
     (name "main")
     (ambient-light 1 1 1)
@@ -42,30 +41,30 @@
       )
     )
     (platform
-      (name "p")
       (running #f)
+      (name "p")
       (sprite "images/objects/flying_platform/flying_platform.sprite")
       (path
         (mode "unordered")
         (node
-          (time 3)
           (x 192)
           (y 704)
+          (time 3)
         )
         (node
-          (time 3)
           (x 448)
           (y 832)
+          (time 3)
         )
         (node
-          (time 3)
           (x 736)
           (y 832)
+          (time 3)
         )
         (node
-          (time 3)
           (x 960)
           (y 704)
+          (time 3)
         )
       )
     )

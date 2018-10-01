@@ -205,24 +205,18 @@
     )
     (secretarea
       (fade-tilemap "Secret1")
-      (script "")
-      (message "")
       (width 811)
       (height 81)
       (x 10746)
       (y 695)
     )
     (secretarea
-      (script "")
-      (message "")
       (width 110)
       (height 172)
       (x 13402)
       (y 156)
     )
     (secretarea
-      (script "")
-      (message "")
       (width 116)
       (height 129)
       (x -3)
@@ -389,42 +383,34 @@
       )
     )
     (unstable_tile
-      (sprite "images/objects/unstable_tile/snow.sprite")
       (x 14880)
       (y 448)
     )
     (unstable_tile
-      (sprite "images/objects/unstable_tile/snow.sprite")
       (x 14912)
       (y 448)
     )
     (unstable_tile
-      (sprite "images/objects/unstable_tile/snow.sprite")
       (x 14944)
       (y 448)
     )
     (unstable_tile
-      (sprite "images/objects/unstable_tile/snow.sprite")
       (x 14976)
       (y 448)
     )
     (unstable_tile
-      (sprite "images/objects/unstable_tile/snow.sprite")
       (x 15008)
       (y 448)
     )
     (unstable_tile
-      (sprite "images/objects/unstable_tile/snow.sprite")
       (x 14848)
       (y 448)
     )
     (unstable_tile
-      (sprite "images/objects/unstable_tile/snow.sprite")
       (x 3808)
       (y 480)
     )
     (unstable_tile
-      (sprite "images/objects/unstable_tile/snow.sprite")
       (x 3840)
       (y 480)
     )

@@ -18,127 +18,102 @@
       (mode "normal")
     )
     (candle
-      (color 1 1 1)
       (x 64)
       (y 576)
     )
     (candle
-      (color 1 1 1)
       (x 0)
       (y 576)
     )
     (candle
-      (color 1 1 1)
       (x 192)
       (y 576)
     )
     (candle
-      (color 1 1 1)
       (x 128)
       (y 576)
     )
     (candle
-      (color 1 1 1)
       (x 1856)
       (y 96)
     )
     (candle
-      (color 1 1 1)
       (x 1760)
       (y 96)
     )
     (candle
-      (color 1 1 1)
       (x 2240)
       (y 704)
     )
     (candle
-      (color 1 1 1)
       (x 3360)
       (y 512)
     )
     (candle
-      (color 1 1 1)
       (x 2624)
       (y 640)
     )
     (candle
-      (color 1 1 1)
       (x 2912)
       (y 576)
     )
     (candle
-      (color 1 1 1)
       (x 3136)
       (y 512)
     )
     (candle
-      (color 1 1 1)
       (x 3456)
       (y 608)
     )
     (candle
-      (color 1 1 1)
       (x 3680)
       (y 448)
     )
     (candle
-      (color 1 1 1)
       (x 3712)
       (y 448)
     )
     (candle
-      (color 1 1 1)
       (x 3552)
       (y 480)
     )
     (candle
-      (color 1 1 1)
       (x 3584)
       (y 480)
     )
     (candle
-      (color 1 1 1)
       (x 3424)
       (y 608)
     )
     (candle
-      (color 1 1 1)
       (x 3936)
       (y 736)
     )
     (candle
-      (color 1 1 1)
       (x 4224)
       (y 640)
     )
     (candle
-      (color 1 1 1)
       (x 4064)
       (y 736)
     )
     (candle
-      (color 1 1 1)
       (x 4192)
       (y 640)
     )
     (candle
-      (color 1 1 1)
       (x 5536)
       (y 576)
     )
     (candle
-      (color 1 1 1)
       (x 5344)
       (y 576)
     )
     (candle
-      (color 1 1 1)
       (x 5536)
       (y 160)
     )
     (candle
-      (color 1 1 1)
       (x 5536)
       (y 288)
     )
@@ -217,7 +192,6 @@
       (y 704)
     )
     (lantern
-      (color 1 1 1)
       (x 4448)
       (y 544)
     )
@@ -545,8 +519,6 @@
     )
     (secretarea
       (fade-tilemap "secret1")
-      (script "")
-      (message "")
       (width 156)
       (height 124)
       (x 736)
@@ -596,7 +568,6 @@
     )
     (spotlight
       (angle 0)
-      (color 1 1 1)
       (x 1216)
       (y 352)
     )
@@ -632,13 +603,11 @@
     )
     (spotlight
       (angle 0)
-      (color 1 1 1)
       (x 1984)
       (y 640)
     )
     (spotlight
       (angle 0)
-      (color 1 1 1)
       (x 1984)
       (y 544)
     )

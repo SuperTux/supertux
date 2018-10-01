@@ -64,10 +64,10 @@ Coin::Coin(const ReaderMapping& reader)
     physic(),
     collect_script()
 {
-  ReaderMapping path_mapping;
+  boost::optional<ReaderMapping> path_mapping;
   if (reader.get("path", path_mapping)) {
     path.reset(new Path());
-    path->read(path_mapping);
+    path->read(*path_mapping);
     walker.reset(new PathWalker(path.get()));
     Vector v = path->get_base();
     set_pos(v);
@@ -171,9 +171,9 @@ Coin::collect()
   SoundManager::current()->manage_source(std::move(soundSource));
 
   auto sector = Sector::current();
-  sector->player->get_status()->add_coins(1, false);
+  sector->m_player->get_status().add_coins(1, false);
   sector->add_object(std::make_shared<BouncyCoin>(get_pos(), false, get_sprite_name()));
-  sector->get_level()->stats.coins++;
+  sector->get_level()->m_stats.m_coins++;
   remove_me();
 
   if(!collect_script.empty()) {
@@ -222,7 +222,7 @@ HeavyCoin::update(float elapsed_time)
 void
 HeavyCoin::collision_solid(const CollisionHit& hit)
 {
-  int clink_threshold = 100; // sets the minimum speed needed to result in collision noise
+  float clink_threshold = 100.0f; // sets the minimum speed needed to result in collision noise
   //TODO: colliding HeavyCoins should have their own unique sound
   if(hit.bottom) {
     if(physic.get_velocity_y() > clink_threshold)

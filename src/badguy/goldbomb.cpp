@@ -216,17 +216,18 @@ GoldBomb::ungrab(MovingObject& object, Direction dir_)
     toss_velocity_y += -500;
 
   // toss to the side when moving sideways
-  if(player && player->physic.get_velocity_x()*(dir_ == LEFT ? -1 : 1) > 1) {
+  if(player && player->m_physic.get_velocity_x()*(dir_ == LEFT ? -1 : 1) > 1) {
     toss_velocity_x += (dir_ == LEFT) ? -200 : 200;
     toss_velocity_y = (toss_velocity_y < -200) ? toss_velocity_y : -200;
     // toss farther when running
-    if(player && player->physic.get_velocity_x()*(dir_ == LEFT ? -1 : 1) > 200)
-      toss_velocity_x += player->physic.get_velocity_x()-(190*(dir_ == LEFT ? -1 : 1));
+    if(player && player->m_physic.get_velocity_x()*(dir_ == LEFT ? -1 : 1) > 200)
+      toss_velocity_x += static_cast<int>(player->m_physic.get_velocity_x() - (190*(dir_ == LEFT ? -1 : 1)));
   }
   log_warning << toss_velocity_x << toss_velocity_y << std::endl;////
 
   //set_pos(object.get_pos() + Vector((dir_ == LEFT ? -33 : 33), get_bbox().get_height()*0.66666 - 32));
-  physic.set_velocity(toss_velocity_x, toss_velocity_y);
+  physic.set_velocity(static_cast<float>(toss_velocity_x),
+                      static_cast<float>(toss_velocity_y));
   set_colgroup_active(COLGROUP_MOVING);
   grabbed = false;
 }

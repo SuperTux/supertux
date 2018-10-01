@@ -20,16 +20,18 @@
 #include "editor/layer_icon.hpp"
 #include "editor/object_menu.hpp"
 #include "editor/tip.hpp"
+#include "gui/menu_manager.hpp"
 #include "math/vector.hpp"
 #include "object/camera.hpp"
 #include "object/tilemap.hpp"
-#include "gui/menu_manager.hpp"
-#include "supertux/menu/menu_storage.hpp"
 #include "supertux/colorscheme.hpp"
+#include "supertux/menu/menu_storage.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/sector.hpp"
+#include "video/drawing_context.hpp"
 #include "video/renderer.hpp"
 #include "video/video_system.hpp"
+#include "video/viewport.hpp"
 
 EditorLayersGui::EditorLayersGui() :
   layers(),
@@ -52,19 +54,20 @@ EditorLayersGui::draw(DrawingContext& context) {
     object_tip->draw_up(context, position);
   }
 
-  context.color().draw_filled_rect(Rectf(Vector(0, Ypos), Vector(Width, SCREEN_HEIGHT)),
-                           Color(0.9f, 0.9f, 1.0f, 0.6f),
-                           0.0f,
-                           LAYER_GUI-10);
+  context.color().draw_filled_rect(Rectf(Vector(0, static_cast<float>(Ypos)), Vector(static_cast<float>(Width), static_cast<float>(SCREEN_HEIGHT))),
+                                     Color(0.9f, 0.9f, 1.0f, 0.6f),
+                                     0.0f,
+                                     LAYER_GUI-10);
 
   Rectf target_rect = Rectf(0, 0, 0, 0);
   bool draw_rect = true;
   switch (hovered_item) {
     case HI_SPAWNPOINTS:
-      target_rect = Rectf(Vector(0, Ypos), Vector(Xpos, SCREEN_HEIGHT));
+      target_rect = Rectf(Vector(0, static_cast<float>(Ypos)), Vector(static_cast<float>(Xpos), static_cast<float>(SCREEN_HEIGHT)));
       break;
     case HI_SECTOR:
-      target_rect = Rectf(Vector(Xpos, Ypos), Vector(sector_text_width + Xpos, SCREEN_HEIGHT));
+      target_rect = Rectf(Vector(static_cast<float>(Xpos), static_cast<float>(Ypos)),
+                          Vector(static_cast<float>(sector_text_width + Xpos), static_cast<float>(SCREEN_HEIGHT)));
       break;
     case HI_LAYERS: {
       Vector coords = get_layer_coords(hovered_layer);
@@ -77,7 +80,7 @@ EditorLayersGui::draw(DrawingContext& context) {
   if(draw_rect)
   {
     context.color().draw_filled_rect(target_rect, Color(0.9f, 0.9f, 1.0f, 0.6f), 0.0f,
-                             LAYER_GUI-5);
+                                       LAYER_GUI-5);
   }
 
   if (!Editor::current()->is_level_loaded()) {
@@ -85,8 +88,8 @@ EditorLayersGui::draw(DrawingContext& context) {
   }
 
   context.color().draw_text(Resources::normal_font, sector_text,
-                    Vector(35, Ypos+5),
-                    ALIGN_LEFT, LAYER_GUI, ColorScheme::Menu::default_color);
+                            Vector(35.0f, static_cast<float>(Ypos) + 5.0f),
+                            ALIGN_LEFT, LAYER_GUI, ColorScheme::Menu::default_color);
 
   int pos = 0;
   for(const auto& layer_icon : layers) {
@@ -128,11 +131,11 @@ EditorLayersGui::event(SDL_Event& ev) {
             }
             if ( layers[hovered_layer]->is_tilemap ) {
               if (selected_tilemap) {
-                ((TileMap*)selected_tilemap)->editor_active = false;
+                (static_cast<TileMap*>(selected_tilemap))->m_editor_active = false;
               }
               selected_tilemap = layers[hovered_layer]->layer;
-              ((TileMap*)selected_tilemap)->editor_active = true;
-              editor->edit_path(((TileMap*)selected_tilemap)->get_path(),
+              (static_cast<TileMap*>(selected_tilemap))->m_editor_active = true;
+              editor->edit_path((static_cast<TileMap*>(selected_tilemap))->get_path(),
                                                        selected_tilemap);
             } else {
               auto cam = dynamic_cast<Camera*>(layers[hovered_layer]->layer);
@@ -158,10 +161,10 @@ EditorLayersGui::event(SDL_Event& ev) {
 
     case SDL_MOUSEMOTION:
     {
-      Vector mouse_pos = VideoSystem::current()->get_renderer().to_logical(ev.motion.x, ev.motion.y);
-      float x = mouse_pos.x - Xpos;
-      float y = mouse_pos.y - Ypos;
-      if (y < 0 || x > Width) {
+      Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(ev.motion.x, ev.motion.y);
+      float x = mouse_pos.x - static_cast<float>(Xpos);
+      float y = mouse_pos.y - static_cast<float>(Ypos);
+      if (y < 0 || x > static_cast<float>(Width)) {
         hovered_item = HI_NONE;
         object_tip = NULL;
         return false;
@@ -171,7 +174,7 @@ EditorLayersGui::event(SDL_Event& ev) {
         object_tip = NULL;
         break;
       } else {
-        if (x <= sector_text_width) {
+        if (x <= static_cast<float>(sector_text_width)) {
           hovered_item = HI_SECTOR;
           object_tip = NULL;
         } else {
@@ -247,12 +250,13 @@ EditorLayersGui::update_tip() {
 
 Vector
 EditorLayersGui::get_layer_coords(const int pos) const {
-  return Vector( pos * 35 + Xpos + sector_text_width, Ypos);
+  return Vector(static_cast<float>(pos * 35 + Xpos + sector_text_width),
+                static_cast<float>(Ypos));
 }
 
 int
 EditorLayersGui::get_layer_pos(const Vector& coords) const {
-  return (coords.x - Xpos - sector_text_width) / 35;
+  return static_cast<int>((coords.x - static_cast<float>(Xpos) - static_cast<float>(sector_text_width)) / 35.0f);
 }
 
 bool

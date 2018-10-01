@@ -31,10 +31,7 @@ public:
 
   /** Draw sprite, automatically calculates next frame */
   void draw(Canvas& canvas, const Vector& pos, int layer,
-            DrawingEffect effect = NO_EFFECT);
-
-  void draw_part(Canvas& canvas, const Vector& source,
-                 const Vector& size, const Vector& pos, int layer);
+            Flip flip = NO_FLIP);
 
   /** Set action (or state) */
   void set_action(const std::string& name, int loops = -1);
@@ -44,25 +41,23 @@ public:
 
   /** Set number of animation cycles until animation stops */
   void set_animation_loops(int loops = -1)
-  { animation_loops = loops; }
+  { m_animation_loops = loops; }
 
   /* Stop animation */
   void stop_animation()
-  { animation_loops = 0; }
+  { m_animation_loops = 0; }
   /** Check if animation is stopped or not */
   bool animation_done() const;
 
-  float get_fps() const
-  { return action->fps; }
   /** Get current action total frames */
-  size_t get_frames() const
-  { return action->surfaces.size(); }
+  int get_frames() const
+  { return static_cast<int>(m_action->surfaces.size()); }
   /** Get sprite's name */
   const std::string& get_name() const
-  { return data.name; }
+  { return m_data.name; }
   /** Get current action name */
   const std::string& get_action() const
-  { return action->name; }
+  { return m_action->name; }
 
   int get_width() const;
   int get_height() const;
@@ -92,42 +87,27 @@ public:
 
   Blend get_blend() const;
 
-  /** Get current frame */
-  unsigned int get_frame() const
-  { return frameidx; }
-  /** Set current frame */
-  void set_frame(unsigned int frame_)
-  {
-    frame = 0;
-    frameidx = frame_ % get_frames();
-  }
-  SurfacePtr get_frame(unsigned int frame_) const
-  {
-    assert(frame_ < action->surfaces.size());
-    return action->surfaces[frame_];
-  }
-
   bool has_action (const std::string& name) const
   {
-    return (data.get_action(name) != NULL);
+    return (m_data.get_action(name) != nullptr);
   }
 
 private:
   void update();
 
-  SpriteData& data;
+  SpriteData& m_data;
 
   // between 0 and 1
-  float frame;
+  float m_frame;
   // between 0 and get_frames()
-  unsigned int frameidx;
-  int   animation_loops;
-  float last_ticks;
-  float angle;
-  Color color;
-  Blend blend;
+  int m_frameidx;
+  int m_animation_loops;
+  float m_last_ticks;
+  float m_angle;
+  Color m_color;
+  Blend m_blend;
 
-  const SpriteData::Action* action;
+  const SpriteData::Action* m_action;
 
 private:
   Sprite(const Sprite& other);

@@ -17,6 +17,7 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_TILE_SET_HPP
 #define HEADER_SUPERTUX_SUPERTUX_TILE_SET_HPP
 
+#include <memory>
 #include <stdint.h>
 #include <string>
 
@@ -28,45 +29,51 @@ class DrawingContext;
 class Tile;
 class Vector;
 
-class Tilegroup {
-  public:
-    Tilegroup();
-    bool developers_group = false;
-    std::string name;
-    std::vector<int> tiles;
+class Tilegroup
+{
+public:
+  Tilegroup();
+
+  bool developers_group = false;
+  std::string name;
+  std::vector<int> tiles;
 };
 
 class TileSet
 {
-private:
-  std::vector<std::unique_ptr<Tile> > m_tiles;
-  SurfacePtr notile_surface;
+public:
+  static std::unique_ptr<TileSet> from_file(const std::string& filename);
 
 public:
-  TileSet(const std::string& filename);
   TileSet();
 
-  std::vector<Tilegroup> tilegroups;
-
-  void merge(const TileSet *tileset, uint32_t start, uint32_t end,
-             uint32_t offset);
   void add_tile(int id, std::unique_ptr<Tile> tile);
 
-  void draw_tile(Canvas& canvas, uint32_t id, const Vector& pos,
-                 int z_pos, Color color = Color(1, 1, 1)) const;
-
-  const Tile* get(const uint32_t id) const;
-
-  /**
-   * Adds a group of tiles that haven't
-   * been assigned to any other group
-   */
+  /** Adds a group of tiles that haven't
+      been assigned to any other group */
   void add_unassigned_tilegroup();
 
-  uint32_t get_max_tileid() const
-  {
+  void add_tilegroup(const Tilegroup& tilegroup);
+
+  const Tile& get(const uint32_t id) const;
+
+  uint32_t get_max_tileid() const {
     return static_cast<uint32_t>(m_tiles.size());
   }
+
+  const std::vector<Tilegroup>& get_tilegroups() const {
+    return m_tilegroups;
+  }
+
+  void print_debug_info(const std::string& filename);
+
+private:
+  std::vector<std::unique_ptr<Tile> > m_tiles;
+  std::vector<Tilegroup> m_tilegroups;
+
+private:
+  TileSet(const TileSet&) = delete;
+  TileSet& operator=(const TileSet&) = delete;
 };
 
 #endif

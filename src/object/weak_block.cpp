@@ -131,7 +131,9 @@ WeakBlock::update(float )
         // cause burn light to flicker randomly
         if (linked) {
           if(gameRandom.rand(10) >= 7) {
-            lightsprite->set_color(Color(0.2f + gameRandom.rand(20)/100.0f, 0.1f + gameRandom.rand(20)/100.0f, 0.1f));
+            lightsprite->set_color(Color(0.2f + gameRandom.randf(20.0f) / 100.0f,
+                                         0.1f + gameRandom.randf(20.0f)/100.0f,
+                                         0.1f));
           } else
             lightsprite->set_color(Color(0.3f, 0.2f, 0.1f));
         }
@@ -164,7 +166,7 @@ WeakBlock::draw(DrawingContext& context)
   sprite->draw(context.color(), get_pos(), LAYER_OBJECTS + 10);
   //Draw the light if burning and dark
   if(linked && (state != STATE_NORMAL)){
-    context.get_light( bbox.get_middle(), &light );
+    context.light().get_pixel( bbox.get_middle(), &light );
     if (light.red + light.green + light.blue < 3.0){
       sprite->draw(context.light(), get_pos(), LAYER_OBJECTS + 10);
       lightsprite->draw(context.light(), bbox.get_middle(), 0);
@@ -195,7 +197,7 @@ WeakBlock::spreadHit()
       log_debug << "no current sector" << std::endl;
       return;
     }
-    for(const auto& i : sector->gameobjects) {
+    for(const auto& i : sector->m_gameobjects) {
       auto wb = dynamic_cast<WeakBlock*>(i.get());
       if (!wb) continue;
       if (wb == this) continue;

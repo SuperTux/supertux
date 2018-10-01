@@ -32,7 +32,7 @@ EditorSectorsMenu::EditorSectorsMenu()
   add_hl();
 
   int id = 0;
-  for(const auto& sector : Editor::current()->get_level()->sectors) {
+  for(const auto& sector : Editor::current()->get_level()->m_sectors) {
     add_entry(id, sector->get_name());
     id++;
   }
@@ -99,9 +99,9 @@ EditorSectorsMenu::delete_sector()
     dialog->add_cancel_button(_("Cancel"));
     dialog->add_button(_("Delete sector"), [level] {
         MenuManager::instance().clear_menu_stack();
-        for(auto i = level->sectors.begin(); i != level->sectors.end(); ++i) {
+        for(auto i = level->m_sectors.begin(); i != level->m_sectors.end(); ++i) {
           if ( i->get() == Editor::current()->currentsector ) {
-            level->sectors.erase(i);
+            level->m_sectors.erase(i);
             break;
           }
         }
@@ -113,14 +113,14 @@ EditorSectorsMenu::delete_sector()
 }
 
 void
-EditorSectorsMenu::menu_action(MenuItem* item)
+EditorSectorsMenu::menu_action(MenuItem& item)
 {
-  if (item->id >= 0)
+  if (item.id >= 0)
   {
-    Editor::current()->load_sector(item->id);
+    Editor::current()->load_sector(item.id);
     MenuManager::instance().clear_menu_stack();
   } else {
-    switch (item->id) {
+    switch (item.id) {
       case -1:
         break;
       case -2:

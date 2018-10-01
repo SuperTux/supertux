@@ -23,6 +23,8 @@
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 #include "video/drawing_context.hpp"
+#include "video/video_system.hpp"
+#include "video/viewport.hpp"
 
 static const float MESSAGE_TIME=3.5;
 
@@ -64,7 +66,7 @@ SecretAreaTrigger::get_settings() {
   new_size.x = bbox.get_width();
   new_size.y = bbox.get_height();
   ObjectSettings result(_("Secret area"));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &m_name));
   result.options.push_back( ObjectOption(MN_NUMFIELD, _("Width"), &new_size.x, "width"));
   result.options.push_back( ObjectOption(MN_NUMFIELD, _("Height"), &new_size.y, "height"));
   result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Fade-tilemap"), &fade_tilemap,
@@ -92,7 +94,7 @@ SecretAreaTrigger::draw(DrawingContext& context)
   if (message_timer.started()) {
     context.push_transform();
     context.set_translation(Vector(0, 0));
-    Vector pos = Vector(0, SCREEN_HEIGHT/2 - Resources::normal_font->get_height()/2);
+    Vector pos = Vector(0, static_cast<float>(SCREEN_HEIGHT) / 2.0f - Resources::normal_font->get_height() / 2.0f);
     context.color().draw_center_text(Resources::normal_font, message, pos, LAYER_HUD, SecretAreaTrigger::text_color);
     context.pop_transform();
   }
@@ -111,12 +113,12 @@ SecretAreaTrigger::event(Player& , EventType type)
     if (!message_displayed) {
       message_timer.start(MESSAGE_TIME);
       message_displayed = true;
-      Sector::current()->get_level()->stats.secrets++;
+      Sector::current()->get_level()->m_stats.m_secrets++;
 
       if (!fade_tilemap.empty()) {
         // fade away tilemaps
         auto& sector = *Sector::current();
-        for(const auto& i : sector.gameobjects) {
+        for(const auto& i : sector.m_gameobjects) {
           auto tm = dynamic_cast<TileMap*>(i.get());
           if (!tm) continue;
           if (tm->get_name() != fade_tilemap) continue;

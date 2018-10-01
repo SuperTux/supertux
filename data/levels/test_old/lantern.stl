@@ -15,14 +15,14 @@
       (mode "normal")
     )
     (lantern
+      (color 1 1 0)
       (x 752)
       (y 136)
-      (color 1 1 0)
     )
     (lantern
+      (color 0 0 0)
       (x 240)
       (y 328)
-      (color 0 0 0)
     )
     (spawnpoint
       (name "main")
@@ -30,8 +30,8 @@
       (y 96)
     )
     (tilemap
-      (z-pos -100)
       (solid #f)
+      (z-pos -100)
       (name "Background")
       (width 48)
       (height 16)
@@ -55,8 +55,8 @@
       )
     )
     (tilemap
-      (z-pos 0)
       (solid #t)
+      (z-pos 0)
       (name "Interactive")
       (width 48)
       (height 16)
@@ -80,8 +80,8 @@
       )
     )
     (tilemap
-      (z-pos 100)
       (solid #f)
+      (z-pos 100)
       (name "Foreground")
       (width 48)
       (height 16)

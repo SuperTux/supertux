@@ -20,6 +20,7 @@
 #include <version.h>
 
 #include <SDL_image.h>
+#include <SDL_ttf.h>
 #include <boost/filesystem.hpp>
 #include <boost/locale.hpp>
 #include <physfs.h>
@@ -59,12 +60,16 @@ extern "C" {
 #include "supertux/screen_fade.hpp"
 #include "supertux/screen_manager.hpp"
 #include "supertux/sector.hpp"
+#include "supertux/spawn_point.hpp"
 #include "supertux/tile.hpp"
 #include "supertux/tile_manager.hpp"
 #include "supertux/title_screen.hpp"
 #include "supertux/world.hpp"
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
+#include "video/sdl_surface_ptr.hpp"
+#include "video/sdl_surface.hpp"
+#include "video/ttf_surface_manager.hpp"
 #include "worldmap/worldmap.hpp"
 
 class ConfigSubsystem
@@ -308,12 +313,22 @@ public:
       msg << "Couldn't initialize SDL: " << SDL_GetError();
       throw std::runtime_error(msg.str());
     }
+
+    if(TTF_Init() < 0)
+    {
+      std::stringstream msg;
+      msg << "Couldn't initialize SDL TTF: " << SDL_GetError();
+      throw std::runtime_error(msg.str());
+    }
+
     // just to be sure
+    atexit(TTF_Quit);
     atexit(SDL_Quit);
   }
 
   ~SDLSubsystem()
   {
+    TTF_Quit();
     SDL_Quit();
   }
 };
@@ -324,16 +339,10 @@ Main::init_video()
   VideoSystem::current()->set_title(PACKAGE_NAME " " PACKAGE_VERSION);
 
   const char* icon_fname = "images/engine/icons/supertux-256x256.png";
-  SDL_Surface* icon = IMG_Load_RW(get_physfs_SDLRWops(icon_fname), true);
-  if (!icon)
-  {
-    log_warning << "Couldn't load icon '" << icon_fname << "': " << SDL_GetError() << std::endl;
-  }
-  else
-  {
-    VideoSystem::current()->set_icon(icon);
-    SDL_FreeSurface(icon);
-  }
+
+  SDLSurfacePtr icon = SDLSurface::from_file(icon_fname);
+  VideoSystem::current()->set_icon(*icon);
+
   SDL_ShowCursor(0);
 
   log_info << (g_config->use_fullscreen?"fullscreen ":"window ")
@@ -358,7 +367,7 @@ static inline void timelog(const char* component)
 }
 
 void
-Main::launch_game()
+Main::launch_game(const CommandLineArguments& args)
 {
 
   SDLSubsystem sdl_subsystem;
@@ -373,12 +382,12 @@ Main::launch_game()
   std::unique_ptr<VideoSystem> video_system = VideoSystem::create(g_config->video);
   init_video();
 
+  TTFSurfaceManager ttf_surface_manager;
+
   timelog("audio");
   SoundManager sound_manager;
   sound_manager.enable_sound(g_config->sound_enabled);
   sound_manager.enable_music(g_config->music_enabled);
-
-  Console console(console_buffer);
 
   timelog("scripting");
   scripting::Scripting scripting(g_config->enable_script_debugger);
@@ -390,6 +399,8 @@ Main::launch_game()
 
   timelog("addons");
   AddonManager addon_manager("addons", g_config->addons);
+
+  Console console(console_buffer);
 
   timelog(0);
 
@@ -424,9 +435,19 @@ Main::launch_game()
       g_config->random_seed = gameRandom.srand(g_config->random_seed);
       graphicsRandom.srand(0);
 
+      if (args.sector || args.spawnpoint)
+      {
+        std::string sectorname = args.sector.get_value_or("main");
+        std::string default_spawnpoint = session->get_current_sector()->m_spawnpoints.empty() ?
+          "" : session->get_current_sector()->m_spawnpoints[0]->name;
+        std::string spawnpointname = args.spawnpoint.get_value_or(default_spawnpoint);
+
+        session->respawn(sectorname, spawnpointname);
+      }
+
       if (g_config->tux_spawn_pos)
       {
-        session->get_current_sector()->player->set_pos(*g_config->tux_spawn_pos);
+        session->get_current_sector()->m_player->set_pos(*g_config->tux_spawn_pos);
       }
 
       if(!g_config->start_demo.empty())
@@ -524,7 +545,7 @@ Main::run(int argc, char** argv)
         return 0;
 
       default:
-        launch_game();
+        launch_game(args);
         break;
     }
   }

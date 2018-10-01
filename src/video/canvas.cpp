@@ -19,15 +19,15 @@
 #include <algorithm>
 
 #include "supertux/globals.hpp"
+#include "util/log.hpp"
 #include "util/obstackpp.hpp"
 #include "video/drawing_request.hpp"
-#include "video/lightmap.hpp"
+#include "video/painter.hpp"
 #include "video/renderer.hpp"
 #include "video/surface.hpp"
 #include "video/video_system.hpp"
 
-Canvas::Canvas(Target target, DrawingContext& context, obstack& obst) :
-  m_target(target),
+Canvas::Canvas(DrawingContext& context, obstack& obst) :
   m_context(context),
   m_obst(obst),
   m_requests()
@@ -44,138 +44,98 @@ Canvas::clear()
 {
   for(auto& request : m_requests)
   {
-    if (request->request_data)
-    {
-      request->request_data->~DrawingRequestData();
-    }
     request->~DrawingRequest();
   }
   m_requests.clear();
 }
 
 void
-Canvas::render(VideoSystem& video_system)
+Canvas::render(Renderer& renderer, Filter filter)
 {
-  // On a regular level, each frame has around 1000-3000 requests
+  // On a regular level, each frame has around 50-250 requests (before
+  // batching it was 1000-3000), the sort comparator function is
+  // called approximatly 3-7 times for each request.
   std::stable_sort(m_requests.begin(), m_requests.end(),
                    [](const DrawingRequest* r1, const DrawingRequest* r2){
                      return r1->layer < r2->layer;
                    });
 
-  Renderer& renderer = video_system.get_renderer();
-  Lightmap& lightmap = video_system.get_lightmap();
+  Painter& painter = renderer.get_painter();
 
-  for(auto i = m_requests.begin(); i != m_requests.end(); ++i) {
-    const DrawingRequest& request = **i;
+  for(const auto& i : m_requests) {
+    const DrawingRequest& request = *i;
 
-    switch(m_target) {
-      case NORMAL:
-        switch(request.type) {
-          case SURFACE:
-            renderer.draw_surface(request);
-            break;
-          case SURFACE_PART:
-            renderer.draw_surface_part(request);
-            break;
-          case GRADIENT:
-            renderer.draw_gradient(request);
-            break;
-          case TEXT:
-          {
-            const auto textrequest = static_cast<TextRequest*>(request.request_data);
-            textrequest->font->draw(&renderer, textrequest->text, request.pos,
-                                    textrequest->alignment, request.drawing_effect, request.color, request.alpha);
-          }
-          break;
-          case FILLRECT:
-            renderer.draw_filled_rect(request);
-            break;
-          case INVERSEELLIPSE:
-            renderer.draw_inverse_ellipse(request);
-            break;
-          case DRAW_LIGHTMAP:
-            lightmap.do_draw();
-            break;
-          case GETLIGHT:
-            lightmap.get_light(request);
-            break;
-          case LINE:
-            renderer.draw_line(request);
-            break;
-          case TRIANGLE:
-            renderer.draw_triangle(request);
-            break;
-        }
+    if (filter == BELOW_LIGHTMAP && request.layer >= LAYER_LIGHTMAP)
+      continue;
+    else if (filter == ABOVE_LIGHTMAP && request.layer <= LAYER_LIGHTMAP)
+      continue;
+
+    switch(request.type) {
+      case TEXTURE:
+        painter.draw_texture(static_cast<const TextureRequest&>(request));
         break;
-      case LIGHTMAP:
-        switch(request.type) {
-          case SURFACE:
-            lightmap.draw_surface(request);
-            break;
-          case SURFACE_PART:
-            lightmap.draw_surface_part(request);
-            break;
-          case GRADIENT:
-            lightmap.draw_gradient(request);
-            break;
-          case TEXT:
-          {
-            const auto textrequest = static_cast<TextRequest*>(request.request_data);
-            textrequest->font->draw(&renderer, textrequest->text, request.pos,
-                                    textrequest->alignment, request.drawing_effect, request.color, request.alpha);
-          }
-          break;
-          case FILLRECT:
-            lightmap.draw_filled_rect(request);
-            break;
-          case INVERSEELLIPSE:
-            assert(!"InverseEllipse doesn't make sense on the lightmap");
-            break;
-          case DRAW_LIGHTMAP:
-            lightmap.do_draw();
-            break;
-          case GETLIGHT:
-            lightmap.get_light(request);
-            break;
-          case LINE:
-            lightmap.draw_line(request);
-            break;
-          case TRIANGLE:
-            lightmap.draw_triangle(request);
-            break;
-        }
+
+      case TEXTURE_BATCH:
+        painter.draw_texture_batch(static_cast<const TextureBatchRequest&>(request));
+        break;
+
+      case GRADIENT:
+        painter.draw_gradient(static_cast<const GradientRequest&>(request));
+        break;
+
+      case FILLRECT:
+        painter.draw_filled_rect(static_cast<const FillRectRequest&>(request));
+        break;
+
+      case INVERSEELLIPSE:
+        painter.draw_inverse_ellipse(static_cast<const InverseEllipseRequest&>(request));
+        break;
+
+      case LINE:
+        painter.draw_line(static_cast<const LineRequest&>(request));
+        break;
+
+      case TRIANGLE:
+        painter.draw_triangle(static_cast<const TriangleRequest&>(request));
+        break;
+
+      case GETPIXEL:
+        painter.get_pixel(static_cast<const GetPixelRequest&>(request));
         break;
     }
   }
 }
 
 void
-Canvas::draw_surface(SurfacePtr surface, const Vector& position,
-                             float angle, const Color& color, const Blend& blend,
-                             int layer)
+Canvas::draw_surface(SurfacePtr surface,
+                     const Vector& position, float angle, const Color& color, const Blend& blend,
+                     int layer)
 {
-  assert(surface != 0);
+  assert(surface);
 
-  auto request = new(m_obst) DrawingRequest();
+  const auto& cliprect = m_context.get_cliprect();
 
-  request->type = SURFACE;
-  request->pos = m_context.get_transform().apply(position);
-
-  if(request->pos.x >= SCREEN_WIDTH || request->pos.y >= SCREEN_HEIGHT
-     || request->pos.x + surface->get_width() < 0
-     || request->pos.y + surface->get_height() < 0)
+  // discard clipped surface
+  if(position.x > cliprect.get_right() ||
+     position.y > cliprect.get_bottom() ||
+     position.x + static_cast<float>(surface->get_width()) < cliprect.get_left() ||
+     position.y + static_cast<float>(surface->get_height()) < cliprect.get_top())
     return;
 
+  auto request = new(m_obst) TextureRequest();
+
+  request->type = TEXTURE;
   request->layer = layer;
-  request->drawing_effect = m_context.get_transform().drawing_effect;
-  request->alpha = m_context.get_transform().alpha;
+  request->flip = m_context.transform().flip ^ surface->get_flip();
+  request->alpha = m_context.transform().alpha;
   request->angle = angle;
-  request->color = color;
   request->blend = blend;
 
-  auto surfacerequest = new(m_obst) SurfaceRequest();
-  surfacerequest->surface = surface.get();
-  request->request_data = surfacerequest;
+  request->srcrect = Rectf(surface->get_region());
+  request->dstrect = Rectf(apply_translate(position), Size(surface->get_width(), surface->get_height()));
+  request->texture = surface->get_texture().get();
+  request->displacement_texture = surface->get_displacement_texture().get();
+  request->color = color;
 
   m_requests.push_back(request);
 }
@@ -187,109 +147,125 @@ Canvas::draw_surface(SurfacePtr surface, const Vector& position, int layer)
 }
 
 void
-Canvas::draw_surface_part(SurfacePtr surface,
-                          const Rectf& srcrect, const Rectf& dstrect,
-                          int layer)
+Canvas::draw_surface_scaled(SurfacePtr surface, const Rectf& dstrect,
+                            int layer, const PaintStyle& style)
+{
+  draw_surface_part(surface, Rectf(0.0f, 0.0f, static_cast<float>(surface->get_width()), static_cast<float>(surface->get_height())),
+                    dstrect, layer, style);
+}
+
+void
+Canvas::draw_surface_part(SurfacePtr surface, const Rectf& srcrect, const Rectf& dstrect,
+                          int layer, const PaintStyle& style)
+{
+  assert(surface);
+
+  auto request = new(m_obst) TextureRequest();
+
+  request->type = TEXTURE;
+  request->layer = layer;
+  request->flip = m_context.transform().flip ^ surface->get_flip();
+  request->alpha = m_context.transform().alpha * style.get_alpha();
+  request->blend = style.get_blend();
+
+  request->srcrect = srcrect;
+  request->dstrect = Rectf(apply_translate(dstrect.p1), dstrect.get_size());
+  request->texture = surface->get_texture().get();
+  request->color = style.get_color();
+
+  m_requests.push_back(request);
+}
+
+void
+Canvas::draw_surface_batch(SurfacePtr surface,
+                           const std::vector<Rectf>& srcrects,
+                           const std::vector<Rectf>& dstrects,
+                           const Color& color,
+                           int layer)
 {
   assert(surface != 0);
 
-  auto request = new(m_obst) DrawingRequest();
+  auto request = new(m_obst) TextureBatchRequest();
 
-  request->type = SURFACE_PART;
-  request->pos = m_context.get_transform().apply(dstrect.p1);
+  request->type = TEXTURE_BATCH;
   request->layer = layer;
-  request->drawing_effect = m_context.get_transform().drawing_effect;
-  request->alpha = m_context.get_transform().alpha;
+  request->flip = m_context.transform().flip ^ surface->get_flip();
+  request->alpha = m_context.transform().alpha;
+  request->color = color;
 
-  auto surfacepartrequest = new(m_obst) SurfacePartRequest();
-  surfacepartrequest->srcrect = srcrect;
-  surfacepartrequest->dstsize = dstrect.get_size();
-  surfacepartrequest->surface = surface.get();
+  request->srcrects = srcrects;
+  request->dstrects = dstrects;
+  for(auto& dstrect : request->dstrects)
+  {
+    dstrect = Rectf(apply_translate(dstrect.p1), dstrect.get_size());
+  }
 
-  request->request_data = surfacepartrequest;
+  request->texture = surface->get_texture().get();
+  request->displacement_texture = surface->get_displacement_texture().get();
 
   m_requests.push_back(request);
 }
 
 void
 Canvas::draw_text(FontPtr font, const std::string& text,
-                          const Vector& position, FontAlignment alignment, int layer, Color color)
+                  const Vector& pos, FontAlignment alignment, int layer, const Color& color)
 {
-  auto request = new(m_obst) DrawingRequest();
-
-  request->type = TEXT;
-  request->pos = m_context.get_transform().apply(position);
-  request->layer = layer;
-  request->drawing_effect = m_context.get_transform().drawing_effect;
-  request->alpha = m_context.get_transform().alpha;
-  request->color = color;
-
-  auto textrequest = new(m_obst) TextRequest();
-  textrequest->font = font.get();
-  textrequest->text = text;
-  textrequest->alignment = alignment;
-  request->request_data = textrequest;
-
-  m_requests.push_back(request);
+  font->draw_text(*this, text, pos, alignment, layer, color);
 }
 
 void
 Canvas::draw_center_text(FontPtr font, const std::string& text,
-                                 const Vector& position, int layer, Color color)
+                         const Vector& position, int layer, const Color& color)
 {
-  draw_text(font, text, Vector(position.x + SCREEN_WIDTH/2, position.y),
+  draw_text(font, text, Vector(position.x + static_cast<float>(m_context.get_width()) / 2.0f, position.y),
             ALIGN_CENTER, layer, color);
 }
 
 void
 Canvas::draw_gradient(const Color& top, const Color& bottom, int layer,
-                              const GradientDirection& direction, const Rectf& region)
+                      const GradientDirection& direction, const Rectf& region)
 {
-  auto request = new(m_obst) DrawingRequest();
+  auto request = new(m_obst) GradientRequest();
 
   request->type = GRADIENT;
-  request->pos = Vector(0,0);
   request->layer = layer;
 
-  request->drawing_effect = m_context.get_transform().drawing_effect;
-  request->alpha = m_context.get_transform().alpha;
+  request->flip = m_context.transform().flip;
+  request->alpha = m_context.transform().alpha;
 
-  auto gradientrequest = new(m_obst) GradientRequest();
-  gradientrequest->top = top;
-  gradientrequest->bottom = bottom;
-  gradientrequest->direction = direction;
-  gradientrequest->region = region;
-  request->request_data = gradientrequest;
+  request->top = top;
+  request->bottom = bottom;
+  request->direction = direction;
+  request->region = Rectf(apply_translate(region.p1),
+                                  apply_translate(region.p2));
 
   m_requests.push_back(request);
 }
 
 void
 Canvas::draw_filled_rect(const Vector& topleft, const Vector& size,
-                                 const Color& color, int layer)
+                         const Color& color, int layer)
 {
-  auto request = new(m_obst) DrawingRequest();
+  auto request = new(m_obst) FillRectRequest();
 
   request->type = FILLRECT;
-  request->pos = m_context.get_transform().apply(topleft);
   request->layer = layer;
 
-  request->drawing_effect = m_context.get_transform().drawing_effect;
-  request->alpha = m_context.get_transform().alpha;
+  request->flip = m_context.transform().flip;
+  request->alpha = m_context.transform().alpha;
 
-  auto fillrectrequest = new(m_obst) FillRectRequest();
-  fillrectrequest->size = size;
-  fillrectrequest->color = color;
-  fillrectrequest->color.alpha = color.alpha * m_context.get_transform().alpha;
-  fillrectrequest->radius = 0.0f;
-  request->request_data = fillrectrequest;
+  request->pos = apply_translate(topleft);
+  request->size = size;
+  request->color = color;
+  request->color.alpha = color.alpha * m_context.transform().alpha;
+  request->radius = 0.0f;
 
   m_requests.push_back(request);
 }
 
 void
 Canvas::draw_filled_rect(const Rectf& rect, const Color& color,
-                                 int layer)
+                         int layer)
 {
   draw_filled_rect(rect, color, 0.0f, layer);
 }
@@ -297,21 +273,19 @@ Canvas::draw_filled_rect(const Rectf& rect, const Color& color,
 void
 Canvas::draw_filled_rect(const Rectf& rect, const Color& color, float radius, int layer)
 {
-  auto request = new(m_obst) DrawingRequest();
+  auto request = new(m_obst) FillRectRequest;
 
   request->type   = FILLRECT;
-  request->pos    = m_context.get_transform().apply(rect.p1);
   request->layer  = layer;
 
-  request->drawing_effect = m_context.get_transform().drawing_effect;
-  request->alpha = m_context.get_transform().alpha;
+  request->flip = m_context.transform().flip;
+  request->alpha = m_context.transform().alpha;
 
-  auto fillrectrequest = new(m_obst) FillRectRequest;
-  fillrectrequest->size = Vector(rect.get_width(), rect.get_height());
-  fillrectrequest->color = color;
-  fillrectrequest->color.alpha = color.alpha * m_context.get_transform().alpha;
-  fillrectrequest->radius = radius;
-  request->request_data = fillrectrequest;
+  request->pos = apply_translate(rect.p1);
+  request->size = Vector(rect.get_width(), rect.get_height());
+  request->color = color;
+  request->color.alpha = color.alpha * m_context.transform().alpha;
+  request->radius = radius;
 
   m_requests.push_back(request);
 }
@@ -319,21 +293,18 @@ Canvas::draw_filled_rect(const Rectf& rect, const Color& color, float radius, in
 void
 Canvas::draw_inverse_ellipse(const Vector& pos, const Vector& size, const Color& color, int layer)
 {
-  auto request = new(m_obst) DrawingRequest();
+  auto request = new(m_obst) InverseEllipseRequest;
 
   request->type   = INVERSEELLIPSE;
-  request->pos    = m_context.get_transform().apply(pos);
   request->layer  = layer;
 
-  request->drawing_effect = m_context.get_transform().drawing_effect;
-  request->alpha = m_context.get_transform().alpha;
+  request->flip = m_context.transform().flip;
+  request->alpha = m_context.transform().alpha;
 
-  auto ellipse = new(m_obst)InverseEllipseRequest;
-
-  ellipse->color        = color;
-  ellipse->color.alpha  = color.alpha * m_context.get_transform().alpha;
-  ellipse->size         = size;
-  request->request_data = ellipse;
+  request->pos          = apply_translate(pos);
+  request->color        = color;
+  request->color.alpha  = color.alpha * m_context.transform().alpha;
+  request->size         = size;
 
   m_requests.push_back(request);
 }
@@ -341,21 +312,18 @@ Canvas::draw_inverse_ellipse(const Vector& pos, const Vector& size, const Color&
 void
 Canvas::draw_line(const Vector& pos1, const Vector& pos2, const Color& color, int layer)
 {
-  auto request = new(m_obst) DrawingRequest();
+  auto request = new(m_obst) LineRequest;
 
   request->type   = LINE;
-  request->pos    = m_context.get_transform().apply(pos1);
   request->layer  = layer;
 
-  request->drawing_effect = m_context.get_transform().drawing_effect;
-  request->alpha = m_context.get_transform().alpha;
+  request->flip = m_context.transform().flip;
+  request->alpha = m_context.transform().alpha;
 
-  auto line = new(m_obst) LineRequest;
-
-  line->color        = color;
-  line->color.alpha  = color.alpha * m_context.get_transform().alpha;
-  line->dest_pos     = m_context.get_transform().apply(pos2);
-  request->request_data = line;
+  request->pos          = apply_translate(pos1);
+  request->color        = color;
+  request->color.alpha  = color.alpha * m_context.transform().alpha;
+  request->dest_pos     = apply_translate(pos2);
 
   m_requests.push_back(request);
 }
@@ -363,24 +331,53 @@ Canvas::draw_line(const Vector& pos1, const Vector& pos2, const Color& color, in
 void
 Canvas::draw_triangle(const Vector& pos1, const Vector& pos2, const Vector& pos3, const Color& color, int layer)
 {
-  auto request = new(m_obst) DrawingRequest();
+  auto request = new(m_obst) TriangleRequest;
 
   request->type   = TRIANGLE;
-  request->pos    = m_context.get_transform().apply(pos1);
   request->layer  = layer;
 
-  request->drawing_effect = m_context.get_transform().drawing_effect;
-  request->alpha = m_context.get_transform().alpha;
+  request->flip = m_context.transform().flip;
+  request->alpha = m_context.transform().alpha;
 
-  auto triangle = new(m_obst) TriangleRequest;
-
-  triangle->color        = color;
-  triangle->color.alpha  = color.alpha * m_context.get_transform().alpha;
-  triangle->pos2         = m_context.get_transform().apply(pos2);
-  triangle->pos3         = m_context.get_transform().apply(pos3);
-  request->request_data = triangle;
+  request->pos1 = apply_translate(pos1);
+  request->pos2 = apply_translate(pos2);
+  request->pos3 = apply_translate(pos3);
+  request->color = color;
+  request->color.alpha = color.alpha * m_context.transform().alpha;
 
   m_requests.push_back(request);
+}
+
+void
+Canvas::get_pixel(const Vector& position, Color* color_out)
+{
+  Vector pos = apply_translate(position);
+
+  // There is no light offscreen.
+  if (pos.x >= static_cast<float>(m_context.get_viewport().get_width()) ||
+      pos.y >= static_cast<float>(m_context.get_viewport().get_height()) ||
+      pos.x < 0.0f ||
+      pos.y < 0.0f)
+  {
+    *color_out = Color(0, 0, 0);
+    return;
+  }
+
+  auto request = new(m_obst) GetPixelRequest();
+
+  request->layer = LAYER_GUI; //make sure all get_light requests are handled last.
+  request->pos = pos;
+  request->color_ptr = color_out;
+
+  m_requests.push_back(request);
+}
+
+Vector
+Canvas::apply_translate(const Vector& pos) const
+{
+  Vector translation = m_context.transform().translation.to_int_vec();
+  return (pos - translation) + Vector(static_cast<float>(m_context.get_viewport().left),
+                                      static_cast<float>(m_context.get_viewport().top));
 }
 
 /* EOF */

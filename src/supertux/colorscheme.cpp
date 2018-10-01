@@ -26,16 +26,16 @@
 #include "trigger/secretarea_trigger.hpp"
 #include "worldmap/worldmap.hpp"
 
-Color LevelIntro::header_color(1.f,1.f,0.6f);
-Color LevelIntro::author_color(1.f,1.f,1.f);
-Color LevelIntro::stat_hdr_color(0.2f,0.5f,1.f);
-Color LevelIntro::stat_color(1.f,1.f,1.f);
+Color LevelIntro::s_header_color(1.f,1.f,0.6f);
+Color LevelIntro::s_author_color(1.f,1.f,1.f);
+Color LevelIntro::s_stat_hdr_color(0.2f,0.5f,1.f);
+Color LevelIntro::s_stat_color(1.f,1.f,1.f);
 
 Color Statistics::header_color(1.f,1.f,1.f);
 Color Statistics::text_color(1.f,1.f,0.6f);
 
 Color ColorScheme::Menu::default_color(1.f,1.f,1.f);
-Color ColorScheme::Menu::active_color(0.2f,0.5f,1.f);
+Color ColorScheme::Menu::active_color(0.4f,0.66f,1.f);
 Color ColorScheme::Menu::inactive_color(0.5f,0.5f,0.5f);
 Color ColorScheme::Menu::label_color(0.f,1.f,1.f);
 Color ColorScheme::Menu::field_color(1.f,1.f,0.6f);

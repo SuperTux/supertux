@@ -73,7 +73,7 @@ InfoBlock::hit(Player& player)
     // first hide all other InfoBlocks' messages in same sector
     auto parent = Sector::current();
     if (!parent) return;
-    for (const auto& object : parent->gameobjects) {
+    for (const auto& object : parent->m_gameobjects) {
       auto block = dynamic_cast<InfoBlock*>(object.get());
       if (!block) continue;
       if (block != this) block->hide_message();
@@ -93,7 +93,7 @@ InfoBlock::collision(GameObject& other, const CollisionHit& hit_)
   auto player = dynamic_cast<Player*> (&other);
   if (player)
   {
-    if (player->does_buttjump)
+    if (player->m_does_buttjump)
       InfoBlock::hit(*player);
   }
   return Block::collision(other, hit_);

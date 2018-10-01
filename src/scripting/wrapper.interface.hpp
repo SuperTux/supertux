@@ -18,6 +18,7 @@
 #include "scripting/scripted_object.hpp"
 #include "scripting/sector.hpp"
 #include "scripting/text.hpp"
+#include "scripting/text_array.hpp"
 #include "scripting/thunderstorm.hpp"
 #include "scripting/tilemap.hpp"
 #include "scripting/torch.hpp"

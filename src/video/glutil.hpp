@@ -17,44 +17,22 @@
 #ifndef HEADER_SUPERTUX_VIDEO_GLUTIL_HPP
 #define HEADER_SUPERTUX_VIDEO_GLUTIL_HPP
 
-#include <config.h>
-
-#ifdef HAVE_OPENGL
-
 #include <sstream>
 #include <stdexcept>
 
+#include "video/gl.hpp"
 
 #ifdef USE_GLBINDING
-
-#include <glbinding/gl/gl.h>
-using namespace gl;
-
-#else
-
-#ifndef GL_VERSION_ES_CM_1_0
-#  include <GL/glew.h>
+#  include <glbinding/ContextInfo.h>
+#  include <glbinding/gl/extension.h>
 #endif
 
-#if defined(MACOSX)
-#  include <OpenGL/gl.h>
-#  include <OpenGL/glext.h>
-#elif defined(GL_VERSION_ES_CM_1_0)
-#  include <GLES/gl.h>
-#  include <GLES/glext.h>
-#else
-#  include <GL/gl.h>
-#  include <GL/glext.h>
-#endif
-
-#endif
-
-static inline void check_gl_error(const char* message)
+inline void check_gl_error(const char* filename, int line)
 {
   GLenum error = glGetError();
   if(error != GL_NO_ERROR) {
     std::ostringstream msg;
-    msg << "OpenGLError while '" << message << "': ";
+    msg << filename << ":" << line << ": " << "glGetError: ";
     switch(error) {
       case GL_INVALID_ENUM:
         msg << "INVALID_ENUM: An unacceptable value is specified for an "
@@ -67,12 +45,16 @@ static inline void check_gl_error(const char* message)
         msg << "INVALID_OPERATION: The specified operation is not allowed "
           "in the current state.";
         break;
+#ifdef GL_STACK_OVERFLOW
       case GL_STACK_OVERFLOW:
         msg << "STACK_OVERFLOW: This command would cause a stack overflow.";
         break;
+#endif
+#ifdef GL_STACK_UNDERFLOW
       case GL_STACK_UNDERFLOW:
         msg << "STACK_UNDERFLOW: This command would cause a stack underflow.";
         break;
+#endif
       case GL_OUT_OF_MEMORY:
         msg << "OUT_OF_MEMORY: There is not enough memory left to execute the "
           "command.";
@@ -90,21 +72,36 @@ static inline void check_gl_error(const char* message)
   }
 }
 
-static inline void assert_gl(const char* message)
+#define assert_gl() check_gl_error(__FILE__, __LINE__)
+
+inline bool gl_needs_power_of_two()
 {
-  check_gl_error(message);
+#if defined(USE_OPENGLES2)
+  return true;
+#elif defined(USE_OPENGLES1)
+  return true;
+#else
+#  ifdef USE_GLBINDING
+  static auto extensions = glbinding::ContextInfo::extensions();
+  return extensions.find(GLextension::GL_ARB_texture_non_power_of_two) == extensions.end();
+#  else
+  return !GLEW_ARB_texture_non_power_of_two;
+#  endif
+#endif
 }
 
-#else
+inline bool is_power_of_2(int v)
+{
+  return (v & (v-1)) == 0;
+}
 
-#define GLenum int
-#define GLint int
-#define GL_SRC_ALPHA 0
-#define GL_ONE_MINUS_SRC_ALPHA 1
-#define GL_RGBA 2
-#define GL_ONE 3
-
-#endif
+inline int next_power_of_two(int val)
+{
+  int result = 1;
+  while(result < val)
+    result *= 2;
+  return result;
+}
 
 #endif
 

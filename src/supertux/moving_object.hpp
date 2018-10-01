@@ -72,6 +72,9 @@ enum CollisionGroup {
     feedback. */
 class MovingObject : public GameObject
 {
+  friend class Sector;
+  friend class CollisionSystem;
+
 public:
   MovingObject();
   MovingObject(const ReaderMapping& reader);
@@ -166,8 +169,6 @@ public:
   }
 
 protected:
-  friend class Sector;
-
   void set_group(CollisionGroup group_)
   {
     group = group_;

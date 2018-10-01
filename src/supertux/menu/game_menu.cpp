@@ -47,7 +47,7 @@ GameMenu::GameMenu() :
 {
   Level* level = GameSession::current()->get_current_level();
 
-  add_label(level->name);
+  add_label(level->m_name);
   add_hl();
   add_entry(MNID_CONTINUE, _("Continue"));
   add_entry(MNID_RESETLEVEL, _("Restart Level"));
@@ -64,9 +64,9 @@ GameMenu::GameMenu() :
 }
 
 void
-GameMenu::menu_action(MenuItem* item)
+GameMenu::menu_action(MenuItem& item)
 {
-  switch (item->id)
+  switch (item.id)
   {
     case MNID_CONTINUE:
       MenuManager::instance().clear_menu_stack();

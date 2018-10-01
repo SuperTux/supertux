@@ -16,16 +16,16 @@
 
 #include "object/moving_sprite.hpp"
 
+#include <math.h>
+#include <physfs.h>
+
 #include "math/random_generator.hpp"
+#include "math/util.hpp"
 #include "object/sprite_particle.hpp"
-#include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
-
-#include <math.h>
-#include <physfs.h>
 
 MovingSprite::MovingSprite(const Vector& pos, const std::string& sprite_name_,
                            int layer_, CollisionGroup collision_group) :
@@ -197,10 +197,10 @@ void MovingSprite::spawn_explosion_sprites(int count, const std::string& sprite_
 {
     for (int i = 0; i < count; i++) {
       Vector ppos = bbox.get_middle();
-      float angle = graphicsRandom.randf(-M_PI_2, M_PI_2);
+      float angle = graphicsRandom.randf(-math::PI_2, math::PI_2);
       float velocity = graphicsRandom.randf(350, 400);
-      float vx = sin(angle)*velocity;
-      float vy = -cos(angle)*velocity;
+      float vx = sinf(angle)*velocity;
+      float vy = -cosf(angle)*velocity;
       Vector pspeed = Vector(vx, vy);
       Vector paccel = Vector(0, Sector::current()->get_gravity()*10);
       Sector::current()->add_object(std::make_shared<SpriteParticle>(sprite_path,

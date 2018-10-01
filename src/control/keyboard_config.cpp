@@ -43,6 +43,7 @@ KeyboardConfig::KeyboardConfig() :
   keymap[SDLK_HOME]     = Controller::PEEK_UP;
   keymap[SDLK_END]      = Controller::PEEK_DOWN;
   keymap[SDLK_F1]       = Controller::CHEAT_MENU;
+  keymap[SDLK_BACKSPACE]= Controller::REMOVE;
 }
 
 void
@@ -141,7 +142,7 @@ KeyboardConfig::write(Writer& writer)
   for(const auto& i : keymap)
   {
     writer.start_list("map");
-    writer.write("key", (int) i.first);
+    writer.write("key", static_cast<int>(i.first));
     writer.write("control", Controller::controlNames[i.second]);
     writer.end_list("map");
   }

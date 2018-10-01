@@ -23,31 +23,31 @@
 #include "video/surface.hpp"
 
 Sprite::Sprite(SpriteData& newdata) :
-  data(newdata),
-  frame(0),
-  frameidx(0),
-  animation_loops(-1),
-  last_ticks(),
-  angle(0.0f),
-  color(1.0f, 1.0f, 1.0f, 1.0f),
-  blend(),
-  action(data.get_action("normal"))
+  m_data(newdata),
+  m_frame(0),
+  m_frameidx(0),
+  m_animation_loops(-1),
+  m_last_ticks(),
+  m_angle(0.0f),
+  m_color(1.0f, 1.0f, 1.0f, 1.0f),
+  m_blend(),
+  m_action(m_data.get_action("normal"))
 {
-  if(!action)
-    action = data.actions.begin()->second.get();
-  last_ticks = game_time;
+  if(!m_action)
+    m_action = m_data.actions.begin()->second.get();
+  m_last_ticks = g_game_time;
 }
 
 Sprite::Sprite(const Sprite& other) :
-  data(other.data),
-  frame(other.frame),
-  frameidx(other.frameidx),
-  animation_loops(other.animation_loops),
-  last_ticks(game_time),
-  angle(0.0f), // FIXME: this can't be right
-  color(1.0f, 1.0f, 1.0f, 1.0f),
-  blend(),
-  action(other.action)
+  m_data(other.m_data),
+  m_frame(other.m_frame),
+  m_frameidx(other.m_frameidx),
+  m_animation_loops(other.m_animation_loops),
+  m_last_ticks(g_game_time),
+  m_angle(0.0f), // FIXME: this can't be right
+  m_color(1.0f, 1.0f, 1.0f, 1.0f),
+  m_blend(),
+  m_action(other.m_action)
 {
 }
 
@@ -60,186 +60,175 @@ Sprite::clone() const
 void
 Sprite::set_action(const std::string& name, int loops)
 {
-  if(action && action->name == name)
+  if(m_action && m_action->name == name)
     return;
 
-  const SpriteData::Action* newaction = data.get_action(name);
+  const SpriteData::Action* newaction = m_data.get_action(name);
   if(!newaction) {
     log_debug << "Action '" << name << "' not found." << std::endl;
     return;
   }
 
-  action = newaction;
+  m_action = newaction;
   // If the new action has a loops property,
   // we prefer that over the parameter.
-  animation_loops = newaction->has_custom_loops ? newaction->loops : loops;
-  frame = 0;
-  frameidx = 0;
+  m_animation_loops = newaction->has_custom_loops ? newaction->loops : loops;
+  m_frame = 0;
+  m_frameidx = 0;
 }
 
 void
 Sprite::set_action_continued(const std::string& name)
 {
-  if(action && action->name == name)
+  if(m_action && m_action->name == name)
     return;
 
-  const SpriteData::Action* newaction = data.get_action(name);
+  const SpriteData::Action* newaction = m_data.get_action(name);
   if(!newaction) {
     log_debug << "Action '" << name << "' not found." << std::endl;
     return;
   }
 
-  action = newaction;
+  m_action = newaction;
   update();
 }
 
 bool
 Sprite::animation_done() const
 {
-  return animation_loops == 0;
+  return m_animation_loops == 0;
 }
 
 void
 Sprite::update()
 {
-  float frame_inc = action->fps * (game_time - last_ticks);
-  last_ticks = game_time;
+  float frame_inc = m_action->fps * (g_game_time - m_last_ticks);
+  m_last_ticks = g_game_time;
 
-  frame += frame_inc;
+  m_frame += frame_inc;
 
-  while(frame >= 1.0f) {
-    frame -= 1.0f;
-    frameidx++;
+  while(m_frame >= 1.0f) {
+    m_frame -= 1.0f;
+    m_frameidx++;
   }
 
-  while(frameidx >= get_frames()) {
-    frameidx -= get_frames();
-    animation_loops--;
+  while(m_frameidx >= get_frames()) {
+    m_frameidx -= get_frames();
+    m_animation_loops--;
     if(animation_done()) {
       break;
     }
   }
 
   if(animation_done()) {
-    frame = 0;
-    frameidx = get_frames()-1;
+    m_frame = 0;
+    m_frameidx = get_frames() - 1;
   }
 
-  assert(frameidx < get_frames());
+  assert(m_frameidx < get_frames());
 }
 
 void
 Sprite::draw(Canvas& canvas, const Vector& pos, int layer,
-             DrawingEffect effect)
+             Flip flip)
 {
-  assert(action != 0);
+  assert(m_action != 0);
   update();
 
 
   DrawingContext& context = canvas.get_context();
   context.push_transform();
-  context.set_drawing_effect(context.get_drawing_effect() ^ effect);
-  canvas.draw_surface(action->surfaces[frameidx],
-                      pos - Vector(action->x_offset, action->y_offset),
-                      angle,
-                      color,
-                      blend,
-                      layer + action->z_order);
+
+  context.set_flip(context.get_flip() ^ flip);
+
+  canvas.draw_surface(m_action->surfaces[m_frameidx],
+                      pos - Vector(m_action->x_offset, m_action->y_offset),
+                      m_angle,
+                      m_color,
+                      m_blend,
+                      layer + m_action->z_order);
+
   context.pop_transform();
-}
-
-void
-Sprite::draw_part(Canvas& canvas, const Vector& source,
-                  const Vector& size, const Vector& pos, int layer)
-{
-  assert(action != 0);
-  update();
-
-  canvas.draw_surface_part(action->surfaces[frameidx],
-                           Rectf(source, Sizef(size)),
-                           Rectf(pos - Vector(action->x_offset, action->y_offset),
-                                 Sizef(size)),
-                           layer + action->z_order);
 }
 
 int
 Sprite::get_width() const
 {
-  assert(frameidx < get_frames());
-  return (int) action->surfaces[get_frame()]->get_width();
+  assert(m_frameidx < get_frames());
+  return static_cast<int>(m_action->surfaces[m_frameidx]->get_width());
 }
 
 int
 Sprite::get_height() const
 {
-  assert(frameidx < get_frames());
-  return (int) action->surfaces[get_frame()]->get_height();
+  assert(m_frameidx < get_frames());
+  return static_cast<int>(m_action->surfaces[m_frameidx]->get_height());
 }
 
 float
 Sprite::get_current_hitbox_x_offset() const
 {
-  return action->x_offset;
+  return m_action->x_offset;
 }
 
 float
 Sprite::get_current_hitbox_y_offset() const
 {
-  return action->y_offset;
+  return m_action->y_offset;
 }
 
 float
 Sprite::get_current_hitbox_width() const
 {
-  return action->hitbox_w;
+  return m_action->hitbox_w;
 }
 
 float
 Sprite::get_current_hitbox_height() const
 {
-  return action->hitbox_h;
+  return m_action->hitbox_h;
 }
 
 Rectf
 Sprite::get_current_hitbox() const
 {
-  return Rectf(action->x_offset, action->y_offset, action->x_offset + action->hitbox_w, action->y_offset + action->hitbox_h);
+  return Rectf(m_action->x_offset, m_action->y_offset, m_action->x_offset + m_action->hitbox_w, m_action->y_offset + m_action->hitbox_h);
 }
 
 void
 Sprite::set_angle(float a)
 {
-  angle = a;
+  m_angle = a;
 }
 
 float
 Sprite::get_angle() const
 {
-  return angle;
+  return m_angle;
 }
 
 void
 Sprite::set_color(const Color& c)
 {
-  color = c;
+  m_color = c;
 }
 
 Color
 Sprite::get_color() const
 {
-  return color;
+  return m_color;
 }
 
 void
 Sprite::set_blend(const Blend& b)
 {
-  blend = b;
+  m_blend = b;
 }
 
 Blend
 Sprite::get_blend() const
 {
-  return blend;
+  return m_blend;
 }
 
 /* EOF */

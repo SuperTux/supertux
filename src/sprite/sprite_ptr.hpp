@@ -21,7 +21,7 @@
 
 class Sprite;
 
-typedef std::shared_ptr<Sprite> SpritePtr;
+typedef std::unique_ptr<Sprite> SpritePtr;
 
 #endif
 

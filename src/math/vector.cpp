@@ -15,6 +15,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <math.h>
+#include <ostream>
 
 #include "math/vector.hpp"
 
@@ -25,7 +26,13 @@ Vector Vector::unit() const
 
 float Vector::norm() const
 {
-  return sqrt(x*x + y*y);
+  return sqrtf(x*x + y*y);
+}
+
+std::ostream& operator<<(std::ostream& out, const Vector& vector)
+{
+  out << "Vector(" << vector.x << ", " << vector.y << ')';
+  return out;
 }
 
 /* EOF */

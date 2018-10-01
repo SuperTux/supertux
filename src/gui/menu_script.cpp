@@ -85,7 +85,7 @@ ScriptMenu::add_line() {
 }
 
 void
-ScriptMenu::menu_action(MenuItem* item)
+ScriptMenu::menu_action(MenuItem& item)
 {
 
 }

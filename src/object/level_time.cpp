@@ -32,7 +32,7 @@ static const float TIME_WARNING = 20;
 LevelTime::LevelTime(const ReaderMapping& reader) :
   GameObject(reader),
   ExposedObject<LevelTime, scripting::LevelTime>(this),
-  time_surface(Surface::create("images/engine/hud/time-0.png")),
+  time_surface(Surface::from_file("images/engine/hud/time-0.png")),
   running(!Editor::is_active()),
   time_left()
 {
@@ -57,17 +57,17 @@ LevelTime::update(float elapsed_time)
 {
   if (!running) return;
 
-  int prev_time = (int) floor(time_left*5);
+  int prev_time = static_cast<int>(floorf(time_left*5));
   time_left -= elapsed_time;
   if(time_left <= 0) {
-    if(time_left <= -5 || !Sector::current()->player->get_coins())
+    if(time_left <= -5 || !Sector::current()->m_player->get_coins())
     {
-      Sector::current()->player->kill(true);
+      Sector::current()->m_player->kill(true);
       stop();
     }
-    if(prev_time != (int) floor(time_left*5))
+    if(prev_time != static_cast<int>(floorf(time_left*5)))
     {
-      Sector::current()->player->add_coins(-1);
+      Sector::current()->m_player->add_coins(-1);
     }
   }
 }
@@ -78,18 +78,22 @@ LevelTime::draw(DrawingContext& context)
   context.push_transform();
   context.set_translation(Vector(0, 0));
 
-  if ((time_left > TIME_WARNING) || (int(game_time * 2.5) % 2)) {
+  if ((time_left > TIME_WARNING) || (int(g_game_time * 2.5) % 2)) {
     std::stringstream ss;
     ss << int(time_left);
     std::string time_text = ss.str();
 
     if (time_surface)
     {
-      float all_width = time_surface->get_width() + Resources::normal_font->get_text_width(time_text);
-      context.color().draw_surface(time_surface, Vector((SCREEN_WIDTH - all_width)/2, BORDER_Y + 1), LAYER_FOREGROUND1);
+      float all_width = static_cast<float>(time_surface->get_width()) + Resources::normal_font->get_text_width(time_text);
+      context.color().draw_surface(time_surface,
+                                   Vector((static_cast<float>(context.get_width()) - all_width) / 2.0f,
+                                          BORDER_Y + 1),
+                                   LAYER_FOREGROUND1);
       context.color().draw_text(Resources::normal_font, time_text,
-                        Vector((SCREEN_WIDTH - all_width)/2 + time_surface->get_width(), BORDER_Y),
-                        ALIGN_LEFT, LAYER_FOREGROUND1, LevelTime::text_color);
+                                Vector((static_cast<float>(context.get_width()) - all_width) / 2.0f + static_cast<float>(time_surface->get_width()),
+                                       BORDER_Y),
+                                ALIGN_LEFT, LAYER_FOREGROUND1, LevelTime::text_color);
     }
   }
 

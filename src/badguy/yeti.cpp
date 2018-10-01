@@ -75,7 +75,7 @@ Yeti::Yeti(const ReaderMapping& reader) :
   SoundManager::current()->preload("sounds/yeti_roar.wav");
 
   reader.get("hud-icon", hud_icon, "images/creatures/yeti/hudlife.png");
-  hud_head = Surface::create(hud_icon);
+  hud_head = Surface::from_file(hud_icon);
 
   initialize();
 
@@ -116,7 +116,7 @@ void
 Yeti::draw(DrawingContext& context)
 {
   // we blink when we are safe
-  if(safe_timer.started() && size_t(game_time*40)%2)
+  if(safe_timer.started() && size_t(g_game_time * 40) % 2)
     return;
 
   draw_hit_points(context);
@@ -134,7 +134,7 @@ Yeti::draw_hit_points(DrawingContext& context)
 
     for (int i = 0; i < hit_points; ++i)
     {
-      context.color().draw_surface(hud_head, Vector(BORDER_X + (i * hud_head->get_width()), BORDER_Y + 1), LAYER_FOREGROUND1);
+      context.color().draw_surface(hud_head, Vector(BORDER_X + (static_cast<float>(i * hud_head->get_width())), BORDER_Y + 1), LAYER_FOREGROUND1);
     }
 
     context.pop_transform();
@@ -169,7 +169,7 @@ Yeti::active_update(float elapsed_time)
         if (dir != newdir && dir == RIGHT) {
           SoundManager::current()->play("sounds/stomp.wav");
           add_snow_explosions();
-          Sector::current()->camera->shake(.05f, 0, 5);
+          Sector::current()->m_camera->shake(.05f, 0, 5);
         }
         dir = newdir;
         sprite->set_action((dir==RIGHT)?"jump-right":"jump-left");
@@ -286,25 +286,25 @@ void
 Yeti::drop_stalactite()
 {
   // make a stalactite falling down and shake camera a bit
-  Sector::current()->camera->shake(.1f, 0, 10);
+  Sector::current()->m_camera->shake(.1f, 0, 10);
 
   auto player = get_nearest_player();
   if (!player) return;
 
   Sector* sector = Sector::current();
-  for(const auto& obj : sector->gameobjects) {
+  for(const auto& obj : sector->m_gameobjects) {
     auto stalactite = dynamic_cast<YetiStalactite*>(obj.get());
     if(stalactite && stalactite->is_hanging()) {
       if (hit_points >= 3) {
         // drop stalactites within 3 of player, going out with each jump
         float distancex = fabsf(stalactite->get_bbox().get_middle().x - player->get_bbox().get_middle().x);
-        if(distancex < stomp_count*32) {
+        if(distancex < static_cast<float>(stomp_count) * 32.0f) {
           stalactite->start_shaking();
         }
       }
       else { /* if (hitpoints < 3) */
         // drop every 3rd pair of stalactites
-        if(((((int)stalactite->get_pos().x + 16) / 64) % 3) == (stomp_count % 3)) {
+        if((((static_cast<int>(stalactite->get_pos().x) + 16) / 64) % 3) == (stomp_count % 3)) {
           stalactite->start_shaking();
         }
       }
@@ -373,11 +373,11 @@ void Yeti::add_snow_explosions()
 {
   for (int i = 0; i < SNOW_EXPLOSIONS_COUNT; i++) {
     Vector pos = get_pos(), velocity;
-    velocity.x = SNOW_EXPLOSIONS_VX * graphicsRandom.randf(0.5, 2) * (graphicsRandom.rand(2) ? 1 : -1);
-    velocity.y = SNOW_EXPLOSIONS_VY * graphicsRandom.randf(0.5, 2);
-    pos.x += sprite->get_width() / 2;
-    pos.x += sprite->get_width() * graphicsRandom.randf(0.3, 0.5) * ((velocity.x > 0) ? 1 : -1);
-    pos.y += sprite->get_height() * graphicsRandom.randf(-0.3, 0.3);
+    velocity.x = SNOW_EXPLOSIONS_VX * graphicsRandom.randf(0.5f, 2.0f) * (graphicsRandom.rand(2) ? 1.0f : -1.0f);
+    velocity.y = SNOW_EXPLOSIONS_VY * graphicsRandom.randf(0.5f, 2.0f);
+    pos.x += static_cast<float>(sprite->get_width()) / 2.0f;
+    pos.x += static_cast<float>(sprite->get_width()) * graphicsRandom.randf(0.3f, 0.5f) * ((velocity.x > 0) ? 1.0f : -1.0f);
+    pos.y += static_cast<float>(sprite->get_height()) * graphicsRandom.randf(-0.3f, 0.3f);
     velocity.x += physic.get_velocity_x();
     Sector::current()->add_object(std::make_shared<SnowExplosionParticle>(pos, velocity));
   }

@@ -27,111 +27,83 @@
 
 bool Tile::draw_editor_images = false;
 
+namespace {
+
+bool is_above_line (float l_x, float l_y, float m,
+                    float p_x, float p_y)
+{
+  float interp_y = (l_y + (m * (p_x - l_x)));
+  return (interp_y >= p_y);
+}
+
+bool is_below_line (float l_x, float l_y, float m,
+                    float p_x, float p_y)
+{
+  return !is_above_line (l_x, l_y, m, p_x, p_y);
+}
+
+} // namespace
+
 Tile::Tile() :
-  imagespecs(),
-  images(),
-  editor_imagespecs(),
-  editor_images(),
-  attributes(0),
-  data(0),
-  fps(1),
-  object_name(),
-  object_data()
+  m_images(),
+  m_editor_images(),
+  m_attributes(0),
+  m_data(0),
+  m_fps(1),
+  m_object_name(),
+  m_object_data(),
+  m_deprecated(false)
 {
 }
 
-Tile::Tile(const std::vector<ImageSpec>& imagespecs_, const std::vector<ImageSpec>& editor_imagespecs_,
+Tile::Tile(const std::vector<SurfacePtr>& images,
+           const std::vector<SurfacePtr>& editor_images,
            uint32_t attributes_, uint32_t data_, float fps_, const std::string& obj_name,
-           const std::string& obj_data) :
-  imagespecs(imagespecs_),
-  images(),
-  editor_imagespecs(editor_imagespecs_),
-  editor_images(),
-  attributes(attributes_),
-  data(data_),
-  fps(fps_),
-  object_name(obj_name),
-  object_data(obj_data)
+           const std::string& obj_data, bool deprecated) :
+  m_images(images),
+  m_editor_images(editor_images),
+  m_attributes(attributes_),
+  m_data(data_),
+  m_fps(fps_),
+  m_object_name(obj_name),
+  m_object_data(obj_data),
+  m_deprecated(deprecated)
 {
   correct_attributes();
 }
 
 void
-Tile::load_images()
+Tile::draw(Canvas& canvas, const Vector& pos, int z_pos, Color color) const
 {
-  if(images.size() == 0 && imagespecs.size() != 0)
-  {
-    assert(images.size() == 0);
-    for(const auto& spec : imagespecs)
-    {
-      SurfacePtr surface;
-      if(spec.rect.get_width() <= 0)
-      {
-        surface = Surface::create(spec.file);
-      }
-      else
-      {
-        surface = Surface::create(spec.file,
-                                  Rect((int) spec.rect.p1.x,
-                                       (int) spec.rect.p1.y,
-                                       Size((int) spec.rect.get_width(),
-                                            (int) spec.rect.get_height())));
-      }
-      images.push_back(surface);
+  if(draw_editor_images) {
+    if(m_editor_images.size() > 1) {
+      size_t frame = size_t(g_game_time * m_fps) % m_editor_images.size();
+      canvas.draw_surface(m_editor_images[frame], pos, 0, color, Blend(), z_pos);
+      return;
+    } else if (m_editor_images.size() == 1) {
+      canvas.draw_surface(m_editor_images[0], pos, 0, color, Blend(), z_pos);
+      return;
     }
   }
 
-  if(editor_images.size() == 0 && editor_imagespecs.size() != 0)
-  {
-    assert(editor_images.size() == 0);
-    for(const auto& spec : editor_imagespecs)
-    {
-      SurfacePtr surface;
-      if(spec.rect.get_width() <= 0)
-      {
-        surface = Surface::create(spec.file);
-      }
-      else
-      {
-        surface = Surface::create(spec.file,
-                                  Rect((int) spec.rect.p1.x,
-                                       (int) spec.rect.p1.y,
-                                       Size((int) spec.rect.get_width(),
-                                            (int) spec.rect.get_height())));
-      }
-      editor_images.push_back(surface);
-    }
+  if(m_images.size() > 1) {
+    size_t frame = size_t(g_game_time * m_fps) % m_images.size();
+    canvas.draw_surface(m_images[frame], pos, 0, color, Blend(), z_pos);
+  } else if (m_images.size() == 1) {
+    canvas.draw_surface(m_images[0], pos, 0, color, Blend(), z_pos);
   }
 }
 
 SurfacePtr
-Tile::get_current_image() const
+Tile::get_current_surface() const
 {
-  if (draw_editor_images) {
-    if (editor_images.size() > 1) {
-      size_t frame = size_t(game_time * fps) % editor_images.size();
-      return editor_images[frame];
-    } else if (editor_images.size() == 1) {
-      return editor_images[0];
-    }
-  }
-
-  if (images.size() > 1) {
-    size_t frame = size_t(game_time * fps) % images.size();
-    return images[frame];
-  } else if (images.size() == 1) {
-    return images[0];
+  if(m_images.size() > 1) {
+    size_t frame = size_t(g_game_time * m_fps) % m_images.size();
+    return m_images[frame];
+  } else if (m_images.size() == 1) {
+    return m_images[0];
   } else {
-    return nullptr;
-  }
-}
-
-void
-Tile::draw(Canvas& canvas, const Vector& pos, int z_pos, Color color) const
-{
-  SurfacePtr surface = get_current_image();
-  if (surface) {
-    canvas.draw_surface(surface, pos, 0, color, Blend(), z_pos);
+    return {};
   }
 }
 
@@ -148,23 +120,14 @@ Tile::correct_attributes()
   }*/
 }
 
-void
-Tile::print_debug(int id) const
-{
-  log_debug << " Tile: id " << id << ", data " << getData() << ", attributes " << getAttributes() << ":" << std::endl;
-  for(const auto& im : editor_imagespecs)
-    log_debug << "  Editor Imagespec: file " << im.file << "; rect " << im.rect << std::endl;
-  for(const auto& im : imagespecs)
-    log_debug << "  Imagespec:        file " << im.file << "; rect " << im.rect << std::endl;
-}
-
 /* Check if the tile is solid given the current movement. This works
  * for south-slopes (which are solid when moving "down") and
  * north-slopes (which are solid when moving "up". "up" and "down" is
  * in quotation marks because because the slope's gradient is taken.
  * Also, this uses the movement relative to the tilemaps own movement
  * (if any).  --octo */
-bool Tile::check_movement_unisolid (const Vector& movement) const
+bool
+Tile::check_movement_unisolid (const Vector& movement) const
 {
   int slope_info;
   double mv_x;
@@ -175,7 +138,7 @@ bool Tile::check_movement_unisolid (const Vector& movement) const
   /* If the tile is not a slope, this is very easy. */
   if (!is_slope())
   {
-    int dir = getData() & Tile::UNI_DIR_MASK;
+    int dir = get_data() & Tile::UNI_DIR_MASK;
 
     return ((dir == Tile::UNI_DIR_NORTH) && (movement.y >= 0))  /* moving down */
         || ((dir == Tile::UNI_DIR_SOUTH) && (movement.y <= 0))  /* moving up */
@@ -191,10 +154,10 @@ bool Tile::check_movement_unisolid (const Vector& movement) const
    *   / !
    *  +--+
    */
-  mv_x = (double) movement.x; //note switch to double for no good reason
-  mv_y = (double) movement.y;
+  mv_x = static_cast<double>(movement.x); //note switch to double for no good reason
+  mv_y = static_cast<double>(movement.y);
 
-  slope_info = getData();
+  slope_info = get_data();
   switch (slope_info & AATriangle::DIRECTION_MASK)
   {
     case AATriangle::SOUTHEAST: /*    . */
@@ -253,25 +216,13 @@ bool Tile::check_movement_unisolid (const Vector& movement) const
   }
 
   return false;
-} /* int check_movement_unisolid */
-
-bool is_above_line (float l_x, float l_y, float m,
-                    float p_x, float p_y)
-{
-  float interp_y = (l_y + (m * (p_x - l_x)));
-  return (interp_y >= p_y);
-}
-
-bool is_below_line (float l_x, float l_y, float m,
-                    float p_x, float p_y)
-{
-  return !is_above_line (l_x, l_y, m, p_x, p_y);
 }
 
 /* Check whether the object is already *in* the tile. If so, the tile
  * is non-solid. Otherwise, if the object is "above" (south slopes)
  * or "below" (north slopes), the tile will be solid. */
-bool Tile::check_position_unisolid (const Rectf& obj_bbox,
+bool
+Tile::check_position_unisolid (const Rectf& obj_bbox,
                                     const Rectf& tile_bbox) const
 {
   int slope_info;
@@ -286,7 +237,7 @@ bool Tile::check_position_unisolid (const Rectf& obj_bbox,
   /* If this is not a slope, this is - again - easy */
   if (!is_slope())
   {
-    int dir = getData() & Tile::UNI_DIR_MASK;
+    int dir = get_data() & Tile::UNI_DIR_MASK;
 
     return ((dir == Tile::UNI_DIR_NORTH) && ((obj_bbox.get_bottom() - SHIFT_DELTA) <= tile_bbox.get_top()   ))
         || ((dir == Tile::UNI_DIR_SOUTH) && ((obj_bbox.get_top()    + SHIFT_DELTA) >= tile_bbox.get_bottom()))
@@ -297,7 +248,7 @@ bool Tile::check_position_unisolid (const Rectf& obj_bbox,
   /* There are 20 different cases. For each case, calculate a line that
    * describes the slope's surface. The line is defined by x, y, and m, the
    * gradient. */
-  slope_info = getData();
+  slope_info = get_data();
   switch (slope_info
       & (AATriangle::DIRECTION_MASK | AATriangle::DEFORM_MASK))
   {
@@ -420,24 +371,25 @@ bool Tile::check_position_unisolid (const Rectf& obj_bbox,
   {
     return !is_above_line (tile_x, tile_y, gradient, obj_x + delta_x, obj_y + delta_y);
   }
-} /* int check_position_unisolid */
+}
 
-bool Tile::is_solid (const Rectf& tile_bbox, const Rectf& position, const Vector& movement) const
+bool
+Tile::is_solid (const Rectf& tile_bbox, const Rectf& position, const Vector& movement) const
 {
-  if (!(attributes & SOLID))
+  if (!(m_attributes & SOLID))
     return false;
 
   return is_collisionful(tile_bbox, position, movement);
-} /* bool Tile::is_solid */
+}
 
-bool Tile::is_collisionful(const Rectf& tile_bbox, const Rectf& position, const Vector& movement) const
+bool
+Tile::is_collisionful(const Rectf& tile_bbox, const Rectf& position, const Vector& movement) const
 {
-  if (!(attributes & UNISOLID))
+  if (!(m_attributes & UNISOLID))
     return true;
 
   return check_movement_unisolid (movement) &&
          check_position_unisolid (position, tile_bbox);
-} /* bool Tile::is_collisionful */
+}
 
-/* vim: set sw=2 sts=2 et : */
 /* EOF */

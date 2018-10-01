@@ -3,7 +3,6 @@
   (name (_ "Castle #1"))
   (author "sK!LL")
   (license "GPL 2+ / CC-by-sa 3.0")
-  (target-time 0)
   (sector
     (name "main")
     (music "music/fortress.music")
@@ -11,7 +10,7 @@
     (background
       (speed 0.8)
       (image "images/background/castle_foreground.png")
-      (layer -110)
+      (z-pos -110)
     )
     (camera
       (mode "normal")
@@ -215,154 +214,120 @@
       )
     )
     (icecrusher
-      (sprite "images/creatures/icecrusher/icecrusher.sprite")
       (x 4043)
       (y 744)
     )
     (icecrusher
-      (sprite "images/creatures/icecrusher/icecrusher.sprite")
       (x 3915)
       (y 1032)
     )
     (icecrusher
-      (sprite "images/creatures/icecrusher/icecrusher.sprite")
       (x 5803)
       (y 392)
     )
     (icecrusher
-      (sprite "images/creatures/icecrusher/icecrusher.sprite")
       (x 8587)
       (y 1864)
     )
     (icecrusher
-      (sprite "images/creatures/icecrusher/icecrusher.sprite")
       (x 8651)
       (y 1864)
     )
     (icecrusher
-      (sprite "images/creatures/icecrusher/icecrusher.sprite")
       (x 8907)
       (y 1864)
     )
     (icecrusher
-      (sprite "images/creatures/icecrusher/icecrusher.sprite")
       (x 8971)
       (y 1864)
     )
     (icecrusher
-      (sprite "images/creatures/icecrusher/icecrusher.sprite")
       (x 9291)
       (y 1864)
     )
     (icecrusher
-      (sprite "images/creatures/icecrusher/icecrusher.sprite")
       (x 7691)
       (y 1864)
     )
     (icecrusher
-      (sprite "images/creatures/icecrusher/icecrusher.sprite")
       (x 7755)
       (y 1864)
     )
     (icecrusher
-      (sprite "images/creatures/icecrusher/icecrusher.sprite")
       (x 7819)
       (y 1864)
     )
     (icecrusher
-      (sprite "images/creatures/icecrusher/icecrusher.sprite")
       (x 7883)
       (y 1864)
     )
     (icecrusher
-      (sprite "images/creatures/icecrusher/icecrusher.sprite")
       (x 7947)
       (y 1864)
     )
     (icecrusher
-      (sprite "images/creatures/icecrusher/icecrusher.sprite")
       (x 8011)
       (y 1864)
     )
     (icecrusher
-      (sprite "images/creatures/icecrusher/icecrusher.sprite")
       (x 8075)
       (y 1864)
     )
     (icecrusher
-      (sprite "images/creatures/icecrusher/icecrusher.sprite")
       (x 8139)
       (y 1864)
     )
     (icecrusher
-      (sprite "images/creatures/icecrusher/icecrusher.sprite")
       (x 8203)
       (y 1864)
     )
     (icecrusher
-      (sprite "images/creatures/icecrusher/icecrusher.sprite")
       (x 8267)
       (y 1864)
     )
     (icecrusher
-      (sprite "images/creatures/icecrusher/icecrusher.sprite")
       (x 8331)
       (y 1864)
     )
     (icecrusher
-      (sprite "images/creatures/icecrusher/icecrusher.sprite")
       (x 8395)
       (y 1864)
     )
     (icecrusher
-      (sprite "images/creatures/icecrusher/icecrusher.sprite")
       (x 8459)
       (y 1864)
     )
     (icecrusher
-      (sprite "images/creatures/icecrusher/icecrusher.sprite")
       (x 8523)
       (y 1864)
     )
     (icecrusher
-      (sprite "images/creatures/icecrusher/icecrusher.sprite")
       (x 8715)
       (y 1864)
     )
     (icecrusher
-      (sprite "images/creatures/icecrusher/icecrusher.sprite")
       (x 8779)
       (y 1864)
     )
     (icecrusher
-      (sprite "images/creatures/icecrusher/icecrusher.sprite")
       (x 8843)
       (y 1864)
     )
     (icecrusher
-      (sprite "images/creatures/icecrusher/icecrusher.sprite")
       (x 9035)
       (y 1864)
     )
     (icecrusher
-      (sprite "images/creatures/icecrusher/icecrusher.sprite")
       (x 9099)
       (y 1864)
     )
     (icecrusher
-      (sprite "images/creatures/icecrusher/icecrusher.sprite")
       (x 9163)
       (y 1864)
     )
     (icecrusher
-      (sprite "images/creatures/icecrusher/icecrusher.sprite")
       (x 9227)
       (y 1864)
-    )
-    (powerup
-      (sprite "images/powerups/egg/egg.sprite")
-      (x 5440)
-      (y 672)
     )
     (kamikazesnowball
       (direction "left")
@@ -408,6 +373,11 @@
       (direction "left")
       (x 3328)
       (y 1376)
+    )
+    (powerup
+      (sprite "images/powerups/egg/egg.sprite")
+      (x 5440)
+      (y 672)
     )
     (spawnpoint
       (name "main")

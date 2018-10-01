@@ -29,7 +29,7 @@ class WorldmapMenu : public Menu
 public:
   WorldmapMenu();
 
-  void menu_action(MenuItem* item) override;
+  void menu_action(MenuItem& item) override;
 
 private:
   WorldmapMenu(const WorldmapMenu&);

@@ -43,7 +43,7 @@ SequenceTrigger::SequenceTrigger(const ReaderMapping& reader) :
 
   reader.get("new_spawnpoint", new_spawnpoint);
   reader.get("fade_tilemap", fade_tilemap);
-  reader.get("fade", (int&)fade);
+  reader.get("fade", reinterpret_cast<int&>(fade));
 }
 
 SequenceTrigger::SequenceTrigger(const Vector& pos, const std::string& sequence_name) :
@@ -69,7 +69,7 @@ SequenceTrigger::get_settings() {
   new_size.x = bbox.get_width();
   new_size.y = bbox.get_height();
   ObjectSettings result(_("Sequence trigger"));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &m_name));
   result.options.push_back( ObjectOption(MN_NUMFIELD, _("Width"), &new_size.x, "width"));
   result.options.push_back( ObjectOption(MN_NUMFIELD, _("Height"), &new_size.y, "height"));
 

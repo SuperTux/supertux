@@ -4,7 +4,6 @@
   (author "Arvid Norlander")
   (contact "http://developer.berlios.de/projects/supertux/")
   (license "GPL 2+ / CC-by-sa 3.0")
-  (target-time 0)
   (sector
     (name "main")
     (music "music/forest.music")
@@ -62,8 +61,8 @@
       (y 2496)
     )
     (platform
-      (name "final_lift")
       (running #f)
+      (name "final_lift")
       (sprite "images/objects/platforms/small.sprite")
       (path
         (node
@@ -79,8 +78,8 @@
       )
     )
     (platform
+      (running #f)
       (name "blocker1")
-      (running #f)
       (sprite "images/objects/platforms/vertical-wood.sprite")
       (path
         (node
@@ -94,8 +93,8 @@
       )
     )
     (platform
+      (running #f)
       (name "blocker2")
-      (running #f)
       (sprite "images/objects/platforms/vertical-wood.sprite")
       (path
         (node
@@ -109,8 +108,8 @@
       )
     )
     (platform
+      (running #f)
       (name "blocker4")
-      (running #f)
       (sprite "images/objects/platforms/vertical-wood.sprite")
       (path
         (node
@@ -124,8 +123,8 @@
       )
     )
     (platform
-      (name "blocker5")
       (running #f)
+      (name "blocker5")
       (sprite "images/objects/platforms/vertical-wood.sprite")
       (path
         (node
@@ -139,8 +138,8 @@
       )
     )
     (platform
-      (name "blocker6")
       (running #f)
+      (name "blocker6")
       (sprite "images/objects/platforms/vertical-wood.sprite")
       (path
         (node
@@ -154,8 +153,8 @@
       )
     )
     (platform
-      (name "blocker3")
       (running #f)
+      (name "blocker3")
       (sprite "images/objects/platforms/vertical-wood.sprite")
       (path
         (node
@@ -275,16 +274,12 @@ end_level();
       (y 320)
     )
     (secretarea
-      (script "")
-      (message "")
       (width 220)
       (height 188)
       (x 6016)
       (y 2368)
     )
     (secretarea
-      (script "")
-      (message "")
       (width 92)
       (height 92)
       (x 2976)

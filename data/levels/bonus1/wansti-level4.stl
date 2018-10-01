@@ -3,7 +3,6 @@
   (name (_ "Collapse Imminent!"))
   (author "SuperTux Team")
   (license "GPL 2+ / CC-by-sa 3.0")
-  (target-time 0)
   (sector
     (name "main")
     (music "music/cave.music")
@@ -136,8 +135,6 @@
     )
     (secretarea
       (fade-tilemap "secret2")
-      (script "")
-      (message "")
       (width 1009.213)
       (height 60)
       (x 11232)
@@ -145,8 +142,6 @@
     )
     (secretarea
       (fade-tilemap "secret1")
-      (script "")
-      (message "")
       (width 504)
       (height 140)
       (x 10804)

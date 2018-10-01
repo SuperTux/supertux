@@ -58,7 +58,7 @@ MD5 md5_from_file(const std::string& filename)
       unsigned char buffer[1024];
       PHYSFS_sint64 len = PHYSFS_readBytes(file, buffer, sizeof(buffer));
       if (len <= 0) break;
-      md5.update(buffer, len);
+      md5.update(buffer, static_cast<unsigned int>(len));
     }
     PHYSFS_close(file);
 

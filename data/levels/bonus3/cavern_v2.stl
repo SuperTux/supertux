@@ -18,7 +18,6 @@
       (mode "normal")
     )
     (candle
-      (color 1 1 1)
       (x 1455.237)
       (y 283)
     )
@@ -27,22 +26,18 @@
       (y 352)
     )
     (icecrusher
-      (sprite "images/creatures/icecrusher/icecrusher.sprite")
       (x 863.0058)
       (y 191.4474)
     )
     (icecrusher
-      (sprite "images/creatures/icecrusher/icecrusher.sprite")
       (x 1855.713)
       (y 192.7184)
     )
     (icecrusher
-      (sprite "images/creatures/icecrusher/icecrusher.sprite")
       (x 3743.853)
       (y 159.5147)
     )
     (icecrusher
-      (sprite "images/creatures/icecrusher/icecrusher.sprite")
       (x 3647.686)
       (y 159.1612)
     )
@@ -458,8 +453,6 @@
     )
     (secretarea
       (fade-tilemap "secret")
-      (script "")
-      (message "")
       (width 252)
       (height 125.25)
       (x 1344)
@@ -467,8 +460,6 @@
     )
     (secretarea
       (fade-tilemap "secret2")
-      (script "")
-      (message "")
       (width 508)
       (height 92)
       (x 3040)
@@ -476,8 +467,6 @@
     )
     (secretarea
       (fade-tilemap "secret3")
-      (script "")
-      (message "")
       (width 104)
       (height 220)
       (x 5140)

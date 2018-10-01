@@ -38,7 +38,7 @@ Tip::Tip(GameObject* object) :
     if (oo.type != MN_REMOVE && (oo.flags & OPTION_VISIBLE)) {
       auto value = oo.to_string();
       if(value.empty()) {
-        value = _("<empty>");
+        continue;
       }
       strings.push_back(oo.text + ": " + value);
     }
@@ -50,18 +50,18 @@ Tip::draw(DrawingContext& context, const Vector& pos) {
   auto position = pos;
   position.y += 35;
   context.color().draw_text(Resources::normal_font, header, position,
-                    ALIGN_LEFT, LAYER_GUI-11, ColorScheme::Menu::label_color);
+                              ALIGN_LEFT, LAYER_GUI-11, ColorScheme::Menu::label_color);
 
   for(const auto& str : strings) {
     position.y += 22;
     context.color().draw_text(Resources::normal_font, str, position,
-                      ALIGN_LEFT, LAYER_GUI-11, ColorScheme::Menu::default_color);
+                                ALIGN_LEFT, LAYER_GUI-11, ColorScheme::Menu::default_color);
   }
 }
 
 void
 Tip::draw_up(DrawingContext& context, const Vector& pos) {
-  auto position = Vector(pos.x, pos.y - (strings.size() + 1) * 22 - 35);
+  auto position = Vector(pos.x, pos.y - (static_cast<float>(strings.size()) + 1.0f) * 22.0f - 35.0f);
   draw(context, position);
 }
 

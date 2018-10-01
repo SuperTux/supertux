@@ -45,14 +45,14 @@ CheatMenu::CheatMenu()
 }
 
 void
-CheatMenu::menu_action(MenuItem* item)
+CheatMenu::menu_action(MenuItem& item)
 {
   if (Sector::current())
   {
     std::vector<Player*> players = Sector::current()->get_players();
     auto player = players.empty() ? nullptr : players[0];
 
-    switch(item->id)
+    switch(item.id)
     {
       case MNID_GROW:
         if (player)

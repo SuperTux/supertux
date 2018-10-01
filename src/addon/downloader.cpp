@@ -44,7 +44,14 @@ size_t my_curl_physfs_write(void* ptr, size_t size, size_t nmemb, void* userdata
   PHYSFS_file* f = static_cast<PHYSFS_file*>(userdata);
   PHYSFS_sint64 written = PHYSFS_writeBytes(f, ptr, size * nmemb);
   log_debug << "read " << size * nmemb << " bytes of data..." << std::endl;
-  return written;
+  if (written < 0)
+  {
+    return 0;
+  }
+  else
+  {
+    return static_cast<size_t>(written);
+  }
 }
 
 } // namespace

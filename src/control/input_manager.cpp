@@ -17,8 +17,6 @@
 
 #include "control/input_manager.hpp"
 
-#include <iostream>
-
 #include "control/game_controller_manager.hpp"
 #include "control/joystick_config.hpp"
 #include "control/joystick_manager.hpp"

@@ -45,7 +45,7 @@ LevelsetScreen::LevelsetScreen(const std::string& basedir, const std::string& le
 }
 
 void
-LevelsetScreen::draw(DrawingContext&)
+LevelsetScreen::draw(Compositor& compositor)
 {
 }
 

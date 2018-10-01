@@ -102,7 +102,7 @@ StreamSoundSource::update()
   }
 
   if(fade_state == FadingOn || fade_state == FadingResume) {
-    float time = real_time - fade_start_time;
+    float time = g_real_time - fade_start_time;
     if(time >= fade_time) {
       set_gain(1.0);
       fade_state = NoFading;
@@ -110,7 +110,7 @@ StreamSoundSource::update()
       set_gain(time / fade_time);
     }
   } else if(fade_state == FadingOff || fade_state == FadingPause) {
-    float time = real_time - fade_start_time;
+    float time = g_real_time - fade_start_time;
     if(time >= fade_time) {
       if(fade_state == FadingOff)
         stop();
@@ -128,7 +128,7 @@ StreamSoundSource::set_fading(FadeState state, float fade_time_)
 {
   fade_state = state;
   fade_time = fade_time_;
-  fade_start_time = real_time;
+  fade_start_time = g_real_time;
 }
 
 bool
@@ -153,7 +153,7 @@ StreamSoundSource::fillBufferAndQueue(ALuint buffer)
     ALenum format = SoundManager::get_sample_format(*file);
     try
     {
-      alBufferData(buffer, format, bufferdata.get(), bytesread, file->rate);
+      alBufferData(buffer, format, bufferdata.get(), static_cast<ALsizei>(bytesread), file->rate);
       SoundManager::check_al_error("Couldn't refill audio buffer: ");
 
       alSourceQueueBuffers(source, 1, &buffer);

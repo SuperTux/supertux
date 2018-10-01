@@ -15,7 +15,10 @@
                  ))
       (action
          (name "empty")
-         (images "empty.png"))
+         (surfaces
+          (surface
+           (diffuse-texture (file "empty.png"))
+           (displacement-texture (file "displacement.png")))))
       (action
          (name "on")
          (images "on.png"))

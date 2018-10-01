@@ -16,6 +16,8 @@
 
 #include "trigger/switch.hpp"
 
+#include <sstream>
+
 #include "audio/sound_manager.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
@@ -54,7 +56,7 @@ Switch::~Switch()
 ObjectSettings
 Switch::get_settings() {
   ObjectSettings result(_("Switch"));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &m_name));
   ObjectOption spr(MN_FILE, _("Sprite"), &sprite_name, "sprite", (OPTION_VISIBLE));
   spr.select.push_back(".sprite");
   result.options.push_back(spr);

@@ -3,7 +3,6 @@
   (name (_ "Up and Down"))
   (author "Wolfgang Becker")
   (license "GPL 2+ / CC-by-sa 3.0")
-  (target-time 0)
   (sector
     (name "main")
     (music "music/forest.music")
@@ -17,7 +16,7 @@
       (speed 0.7)
       (image "images/background/BlueRock_Forest/rolling-para.png")
       (image-bottom "images/background/BlueRock_Forest/rolling-bottom.jpg")
-      (layer -199)
+      (z-pos -199)
     )
     (camera
       (mode "normal")
@@ -66,8 +65,8 @@
       )
     )
     (platform
+      (running #f)
       (name "zwei")
-      (running #f)
       (sprite "images/objects/flying_platform/flying_platform.sprite")
       (path
         (node
@@ -91,8 +90,8 @@
       )
     )
     (platform
+      (running #f)
       (name "drei")
-      (running #f)
       (sprite "images/objects/flying_platform/flying_platform.sprite")
       (path
         (node
@@ -116,8 +115,8 @@
       )
     )
     (platform
-      (name "raus")
       (running #f)
+      (name "raus")
       (sprite "images/objects/flying_platform/flying_platform.sprite")
       (path
         (node

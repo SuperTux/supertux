@@ -21,22 +21,20 @@
 
 class Config;
 
-/** The width of the display (this is a logical value, not the
-    physical value, since aspect_ration and projection_area might
-    shrink or scale things) */
-extern int SCREEN_WIDTH;
-
-/** The width of the display (this is a logical value, not the
-    physical value, since aspect_ration and projection_area might
-    shrink or scale things) */
-extern int SCREEN_HEIGHT;
+// This is meant to be temporarily. Code should not use
+// SCREEN_WIDTH/HEIGHT, but instead use context.get_width()/height()
+// inside the draw() call.
+#define SCREEN_WIDTH (VideoSystem::current()->get_viewport().get_screen_width())
+#define SCREEN_HEIGHT (VideoSystem::current()->get_viewport().get_screen_height())
 
 extern std::unique_ptr<Config> g_config;
 
-extern float game_time;
-extern float real_time;
+extern float g_game_time;
+extern float g_real_time;
 
 extern float g_game_speed;
+
+extern bool g_use_bitmap_fonts;
 
 #endif
 

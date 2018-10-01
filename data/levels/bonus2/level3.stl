@@ -1,8 +1,8 @@
 (supertux-level
   (version 2)
-  (name (_ "Cliff Jumping"))  (license "GPL 2+ / CC-by-sa 3.0")
+  (name (_ "Cliff Jumping"))
   (author "Jason Kleinemas")
-  (target-time 0)
+  (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
     (music "music/theme.music")
@@ -22,78 +22,6 @@
     )
     (leveltime
       (time 100)
-    )
-    (smartblock
-      (x 4763)
-      (y 469)
-    )
-    (smartblock
-      (x 4455)
-      (y 472)
-    )
-    (smartblock
-      (x 5053)
-      (y 526)
-    )
-    (smartblock
-      (x 5408)
-      (y 626)
-    )
-    (smartblock
-      (x 6018)
-      (y 622)
-    )
-    (smartblock
-      (x 6618)
-      (y 411)
-    )
-    (smartblock
-      (x 7072)
-      (y 508)
-    )
-    (smartblock
-      (x 7376)
-      (y 698)
-    )
-    (smartblock
-      (x 7469)
-      (y 563)
-    )
-    (smartblock
-      (x 7712)
-      (y 656)
-    )
-    (smartblock
-      (x 8141)
-      (y 682)
-    )
-    (smartblock
-      (x 9516)
-      (y 597)
-    )
-    (smartblock
-      (x 10268)
-      (y 437)
-    )
-    (smartblock
-      (x 10807)
-      (y 438)
-    )
-    (smartblock
-      (x 10973)
-      (y 622)
-    )
-    (smartblock
-      (x 12051)
-      (y 478)
-    )
-    (smartblock
-      (x 11870)
-      (y 530)
-    )
-    (smartblock
-      (x 12339)
-      (y 530)
     )
     (smartball
       (x 450)
@@ -226,6 +154,78 @@
     (smartball
       (x 12539)
       (y 406)
+    )
+    (smartblock
+      (x 4763)
+      (y 469)
+    )
+    (smartblock
+      (x 4455)
+      (y 472)
+    )
+    (smartblock
+      (x 5053)
+      (y 526)
+    )
+    (smartblock
+      (x 5408)
+      (y 626)
+    )
+    (smartblock
+      (x 6018)
+      (y 622)
+    )
+    (smartblock
+      (x 6618)
+      (y 411)
+    )
+    (smartblock
+      (x 7072)
+      (y 508)
+    )
+    (smartblock
+      (x 7376)
+      (y 698)
+    )
+    (smartblock
+      (x 7469)
+      (y 563)
+    )
+    (smartblock
+      (x 7712)
+      (y 656)
+    )
+    (smartblock
+      (x 8141)
+      (y 682)
+    )
+    (smartblock
+      (x 9516)
+      (y 597)
+    )
+    (smartblock
+      (x 10268)
+      (y 437)
+    )
+    (smartblock
+      (x 10807)
+      (y 438)
+    )
+    (smartblock
+      (x 10973)
+      (y 622)
+    )
+    (smartblock
+      (x 12051)
+      (y 478)
+    )
+    (smartblock
+      (x 11870)
+      (y 530)
+    )
+    (smartblock
+      (x 12339)
+      (y 530)
     )
     (spawnpoint
       (name "main")

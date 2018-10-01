@@ -53,7 +53,7 @@ JoystickMenu::recreate_menu()
 
   add_toggle(MNID_AUTO_JOYSTICK_CFG, _("Manual Configuration"),
              &m_auto_joystick_cfg)
-    ->set_help(_("Use manual configuration instead of SDL2's automatic GameController support"));
+    .set_help(_("Use manual configuration instead of SDL2's automatic GameController support"));
 
   if (m_input_manager.use_game_controller())
   {
@@ -82,12 +82,6 @@ JoystickMenu::recreate_menu()
       if (g_config->developer_mode) {
         add_controlfield(Controller::CHEAT_MENU, _("Cheat Menu"));
       }
-      add_hl();
-      add_inactive(_("The following feature is deprecated."));
-      // l10n: Continuation of string "The following feature is deprecated."
-      add_inactive(_("It will be removed from the next release"));
-      // l10n: Continuation of string "It will be removed from the next release"
-      add_inactive(_("of SuperTux."));
       add_toggle(MNID_JUMP_WITH_UP, _("Jump with Up"), &g_config->joystick_config.jump_with_up_joy);
     }
     else
@@ -120,25 +114,25 @@ JoystickMenu::get_button_name(int button) const
 }
 
 void
-JoystickMenu::menu_action(MenuItem* item)
+JoystickMenu::menu_action(MenuItem& item)
 {
-  if (0 <= item->id && item->id < Controller::CONTROLCOUNT)
+  if (0 <= item.id && item.id < Controller::CONTROLCOUNT)
   {
-    ItemControlField* micf = dynamic_cast<ItemControlField*>(item);
+    ItemControlField* micf = dynamic_cast<ItemControlField*>(&item);
     if (!micf) {
       return;
     }
     micf->change_input(_("Press Button"));
-    m_input_manager.joystick_manager->bind_next_event_to(static_cast<Controller::Control>(item->id));
+    m_input_manager.joystick_manager->bind_next_event_to(static_cast<Controller::Control>(item.id));
   }
-  else if (item->id == MNID_AUTO_JOYSTICK_CFG)
+  else if (item.id == MNID_AUTO_JOYSTICK_CFG)
   {
-    //m_input_manager.use_game_controller(!item->toggled);
+    //m_input_manager.use_game_controller(!item.toggled);
     m_input_manager.use_game_controller(!m_auto_joystick_cfg);
     m_input_manager.reset();
     recreate_menu();
   }
-  else if(item->id == MNID_SCAN_JOYSTICKS)
+  else if(item.id == MNID_SCAN_JOYSTICKS)
   {
     m_input_manager.reset();
     recreate_menu();

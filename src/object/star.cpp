@@ -62,7 +62,7 @@ Star::update(float elapsed_time)
                                         // draw bright sparkles when very close to Tux, dark sparkles when slightly further
                                         (disp_x*disp_x + disp_y*disp_y <= 128*128) ?
                                         // make every other a longer sparkle to make trail a bit fuzzy
-                                        (size_t(game_time*20)%2) ? "small" : "medium" : "dark",
+                                        (size_t(g_game_time*20)%2) ? "small" : "medium" : "dark",
                                         ppos, ANCHOR_MIDDLE, pspeed, paccel, LAYER_OBJECTS+1+5));
       }
     }
@@ -74,7 +74,7 @@ Star::draw(DrawingContext& context){
   //Draw the Sprite.
   MovingSprite::draw(context);
   //Draw the light when dark
-  context.get_light( bbox.get_middle(), &light );
+  context.light().get_pixel( bbox.get_middle(), &light );
   if (light.red + light.green + light.blue < 3.0){
     MovingSprite::draw(context);
     lightsprite->draw(context.light(), bbox.get_middle(), 0);

@@ -22,7 +22,7 @@
 #include "editor/editor.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "util/gettext.hpp"
-#include "video/drawing_context.hpp"
+#include "video/compositor.hpp"
 
 EditorMenu::EditorMenu()
 {
@@ -55,7 +55,7 @@ EditorMenu::EditorMenu()
 
   add_string_select(-1, _("Grid size"), &EditorInputCenter::selected_snap_grid_size, snap_grid_sizes);
 
-  add_toggle(-1, _("Render lighting (F6)"), &DrawingContext::render_lighting);
+  add_toggle(-1, _("Render lighting (F6)"), &Compositor::s_render_lighting);
   add_toggle(-1, _("Snap objects to grid (F7)"), &EditorInputCenter::snap_to_grid);
   add_toggle(-1, _("Show grid (F8)"), &EditorInputCenter::render_grid);
   add_toggle(-1, _("Render background"), &EditorInputCenter::render_background);
@@ -78,10 +78,10 @@ EditorMenu::~EditorMenu()
 }
 
 void
-EditorMenu::menu_action(MenuItem* item)
+EditorMenu::menu_action(MenuItem& item)
 {
   auto editor = Editor::current();
-  switch (item->id)
+  switch (item.id)
   {
     case MNID_RETURNTOEDITOR:
       MenuManager::instance().clear_menu_stack();

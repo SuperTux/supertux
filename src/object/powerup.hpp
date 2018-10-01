@@ -22,6 +22,12 @@
 
 class PowerUp : public MovingSprite
 {
+private:
+
+  /**
+   * Initialize power up sprites and other defaults
+   */
+  void initialize();
 public:
   PowerUp(const ReaderMapping& lisp);
   PowerUp(const Vector& pos, const std::string& sprite_name);

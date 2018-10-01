@@ -117,8 +117,6 @@
     )
     (secretarea
       (fade-tilemap "secret")
-      (script "")
-      (message "")
       (width 316)
       (height 44)
       (x 2624)
@@ -393,127 +391,102 @@
       )
     )
     (weak_block
-      (linked #t)
       (x 128)
       (y 896)
     )
     (weak_block
-      (linked #t)
       (x 64)
       (y 960)
     )
     (weak_block
-      (linked #t)
       (x 128)
       (y 960)
     )
     (weak_block
-      (linked #t)
       (x 128)
       (y 928)
     )
     (weak_block
-      (linked #t)
       (x 64)
       (y 928)
     )
     (weak_block
-      (linked #t)
       (x 32)
       (y 928)
     )
     (weak_block
-      (linked #t)
       (x 32)
       (y 960)
     )
     (weak_block
-      (linked #t)
       (x 128)
       (y 864)
     )
     (weak_block
-      (linked #t)
       (x 128)
       (y 832)
     )
     (weak_block
-      (linked #t)
       (x 96)
       (y 896)
     )
     (weak_block
-      (linked #t)
       (x 96)
       (y 864)
     )
     (weak_block
-      (linked #t)
       (x 0)
       (y 928)
     )
     (weak_block
-      (linked #t)
       (x 0)
       (y 960)
     )
     (weak_block
-      (linked #t)
       (x 64)
       (y 864)
     )
     (weak_block
-      (linked #t)
       (x 64)
       (y 896)
     )
     (weak_block
-      (linked #t)
       (x 32)
       (y 896)
     )
     (weak_block
-      (linked #t)
       (x 32)
       (y 864)
     )
     (weak_block
-      (linked #t)
       (x 0)
       (y 896)
     )
     (weak_block
-      (linked #t)
       (x 0)
       (y 864)
     )
     (weak_block
-      (linked #t)
       (x 96)
       (y 960)
     )
     (weak_block
-      (linked #t)
       (x 96)
       (y 928)
     )
     (weak_block
-      (linked #t)
       (x 96)
       (y 832)
     )
     (weak_block
-      (linked #t)
       (x 64)
       (y 832)
     )
     (weak_block
-      (linked #t)
       (x 32)
       (y 832)
     )
     (weak_block
-      (linked #t)
       (x 0)
       (y 832)
     )

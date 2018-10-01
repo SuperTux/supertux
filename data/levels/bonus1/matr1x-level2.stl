@@ -3,7 +3,6 @@
   (name (_ "Something Fishy"))
   (author "Matr1x")
   (license "GPL 2+ / CC-by-sa 3.0")
-  (target-time 0)
   (sector
     (name "main")
     (music "music/chipdisko.ogg")
@@ -275,8 +274,6 @@
     )
     (secretarea
       (fade-tilemap "secret")
-      (script "")
-      (message "")
       (width 159)
       (height 128)
       (x 7360.662)

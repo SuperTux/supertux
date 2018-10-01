@@ -3,7 +3,6 @@
   (name (_ "In Flanders Ice Field"))
   (author "Kevin")
   (license "GPL 2+ / CC-by-sa 3.0")
-  (target-time 0)
   (sector
     (name "main")
     (music "music/chipdisko.ogg")

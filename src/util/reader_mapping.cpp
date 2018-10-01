@@ -27,33 +27,17 @@
 
 bool ReaderMapping::translations_enabled = true;
 
-ReaderMapping::ReaderMapping() :
-  m_doc(nullptr),
-  m_sx(nullptr),
-  m_arr(nullptr)
-{
-}
-
-ReaderMapping::ReaderMapping(const ReaderDocument* doc, const sexp::Value* sx) :
+ReaderMapping::ReaderMapping(const ReaderDocument& doc, const sexp::Value& sx) :
   m_doc(doc),
   m_sx(sx),
-  m_arr()
+  m_arr([this]() -> decltype(m_arr){ assert_is_array(m_doc, m_sx); return m_sx.as_array();}())
 {
-  assert(m_doc);
-  assert(m_sx);
-
-  assert_is_array(*m_doc, *m_sx);
-
-  m_arr = &m_sx->as_array();
 }
 
 ReaderIterator
 ReaderMapping::get_iter() const
 {
-  assert(m_doc);
-  assert(m_sx);
-
-  assert_is_array(*m_doc, *m_sx);
+  assert_is_array(m_doc, m_sx);
 
   return ReaderIterator(m_doc, m_sx);
 }
@@ -61,17 +45,15 @@ ReaderMapping::get_iter() const
 const sexp::Value*
 ReaderMapping::get_item(const char* key) const
 {
-  assert(m_arr);
-
-  for(size_t i = 1; i < m_arr->size(); ++i)
+  for(size_t i = 1; i < m_arr.size(); ++i)
   {
-    auto const& pair = (*m_arr)[i];
+    auto const& pair = m_arr[i];
 
     // size should be >=2 not >=1, but we have to allow smaller once
     // due to get_iter(), e.g. (particles-snow)
-    assert_array_size_ge(*m_doc, pair, 1);
+    assert_array_size_ge(m_doc, pair, 1);
 
-    assert_is_symbol(*m_doc, pair.as_array()[0]);
+    assert_is_symbol(m_doc, pair.as_array()[0]);
 
     if (pair.as_array()[0].as_string() == key)
     {
@@ -86,8 +68,8 @@ ReaderMapping::get_item(const char* key) const
   if (!sx) {                                                            \
     return false;                                                       \
   } else {                                                              \
-    assert_array_size_eq(*m_doc, *sx, 2);                               \
-    assert_##checker(*m_doc, sx->as_array()[1]);                        \
+    assert_array_size_eq(m_doc, *sx, 2);                               \
+    assert_##checker(m_doc, sx->as_array()[1]);                        \
     value = sx->as_array()[1].getter();                                 \
     return true;                                                        \
   }
@@ -155,7 +137,7 @@ ReaderMapping::get(const char* key, std::string& value) const
   if (!sx) {
     return false;
   } else {
-    assert_array_size_eq(*m_doc, *sx, 2);
+    assert_array_size_eq(m_doc, *sx, 2);
 
     auto const& item = sx->as_array();
 
@@ -174,7 +156,7 @@ ReaderMapping::get(const char* key, std::string& value) const
       }
       return true;
     } else {
-      raise_exception(*m_doc, item[1], "expected string");
+      raise_exception(m_doc, item[1], "expected string");
     }
   }
 }
@@ -187,7 +169,7 @@ ReaderMapping::get(const char* key, std::string& value, std::string defaultValue
   if (!sx) {
     return false;
   } else {
-    assert_array_size_eq(*m_doc, *sx, 2);
+    assert_array_size_eq(m_doc, *sx, 2);
 
     auto const& item = sx->as_array();
 
@@ -206,7 +188,7 @@ ReaderMapping::get(const char* key, std::string& value, std::string defaultValue
       }
       return true;
     } else {
-      raise_exception(*m_doc, item[1], "expected string");
+      raise_exception(m_doc, item[1], "expected string");
     }
   }
 }
@@ -216,15 +198,22 @@ ReaderMapping::get(const char* key, std::string& value, std::string defaultValue
   if (!sx) {                                                            \
     return false;                                                       \
   } else {                                                              \
-    assert_is_array(*m_doc, *sx);                                       \
+    assert_is_array(m_doc, *sx);                                        \
     auto const& item = sx->as_array();                                  \
     for(size_t i = 1; i < item.size(); ++i)                             \
     {                                                                   \
-      assert_##checker(*m_doc, item[i]);                                \
+      assert_##checker(m_doc, item[i]);                                 \
       value.emplace_back(item[i].getter());                             \
     }                                                                   \
     return true;                                                        \
   }
+
+bool
+ReaderMapping::get(const char* key, std::vector<bool>& value) const
+{
+  value.clear();
+  GET_VALUES_MACRO("bool", is_boolean, as_bool);
+}
 
 bool
 ReaderMapping::get(const char* key, std::vector<int>& value) const
@@ -258,11 +247,11 @@ ReaderMapping::get(const char* key, std::vector<unsigned int>& value) const
 #undef GET_VALUES_MACRO
 
 bool
-ReaderMapping::get(const char* key, ReaderMapping& value) const
+ReaderMapping::get(const char* key, boost::optional<ReaderMapping>& value) const
 {
   auto const sx = get_item(key);
   if (sx) {
-    value = ReaderMapping(m_doc, sx);
+    value.emplace(m_doc, *sx);
     return true;
   } else {
     return false;
@@ -270,11 +259,11 @@ ReaderMapping::get(const char* key, ReaderMapping& value) const
 }
 
 bool
-ReaderMapping::get(const char* key, ReaderCollection& value) const
+ReaderMapping::get(const char* key, boost::optional<ReaderCollection>& value) const
 {
   auto const sx = get_item(key);
   if (sx) {
-    value = ReaderCollection(m_doc, sx);
+    value.emplace(m_doc, *sx);
     return true;
   } else {
     return false;

@@ -84,15 +84,6 @@ public:
     WORLDMAP_CNSEW = WORLDMAP_NORTH | WORLDMAP_SOUTH | WORLDMAP_EAST | WORLDMAP_WEST
   };
 
-  struct ImageSpec {
-    ImageSpec(const std::string& newfile, const Rectf& newrect)
-      : file(newfile), rect(newrect)
-    { }
-
-    std::string file;
-    Rectf rect;
-  };
-
   enum
   {
     UNI_DIR_NORTH = 0,
@@ -103,46 +94,44 @@ public:
   };
 
 private:
-  std::vector<ImageSpec> imagespecs;
-  std::vector<SurfacePtr>  images;
-  std::vector<ImageSpec> editor_imagespecs;
-  std::vector<SurfacePtr>  editor_images;
+  std::vector<SurfacePtr> m_images;
+  std::vector<SurfacePtr> m_editor_images;
 
   /// tile attributes
-  uint32_t attributes;
+  uint32_t m_attributes;
 
   /** General purpose data attached to a tile (content of a box, type of coin)*/
-  int data;
+  int m_data;
 
-  float fps;
+  float m_fps;
 
-  std::string object_name;
-  std::string object_data;
+  std::string m_object_name;
+  std::string m_object_data;
+
+  bool m_deprecated;
 
 public:
   Tile();
-  Tile(const std::vector<ImageSpec>& images, const std::vector<ImageSpec>& editor_images,
+  Tile(const std::vector<SurfacePtr>& images,
+       const std::vector<SurfacePtr>& editor_images,
        uint32_t attributes, uint32_t data, float fps, const std::string& obj_name = "",
-       const std::string& obj_data = "");
-
-  /** load Surfaces, if not already loaded */
-  void load_images();
-
-  SurfacePtr get_current_image() const;
+       const std::string& obj_data = "", bool deprecated = false);
 
   /** Draw a tile on the screen */
   void draw(Canvas& canvas, const Vector& pos, int z_pos, Color color = Color(1, 1, 1)) const;
 
-  uint32_t getAttributes() const
-  { return attributes; }
+  SurfacePtr get_current_surface() const;
 
-  int getData() const
-  { return data; }
+  uint32_t get_attributes() const
+  { return m_attributes; }
+
+  int get_data() const
+  { return m_data; }
 
   /** Checks the SLOPE attribute. Returns "true" if set, "false" otherwise. */
   bool is_slope() const
   {
-    return attributes & SLOPE;
+    return (m_attributes & SLOPE) != 0;
   }
 
   /** Determine the solidity of a tile. This version behaves correctly for
@@ -158,7 +147,7 @@ public:
    * method that takes position and movement into account (see above). */
   bool is_solid() const
   {
-    return attributes & SOLID;
+    return (m_attributes & SOLID) != 0;
   }
 
   /** Determines whether the tile's attributes are important to calculate the
@@ -169,18 +158,21 @@ public:
   /** Checks the UNISOLID attribute. Returns "true" if set, "false" otherwise. */
   bool is_unisolid() const
   {
-    return attributes & UNISOLID;
+    return (m_attributes & UNISOLID) != 0;
   }
 
-  std::string get_object_name() const {
-    return object_name;
+  bool is_deprecated() const
+  {
+    return m_deprecated;
   }
 
-  std::string get_object_data() const {
-    return object_data;
+  const std::string& get_object_name() const {
+    return m_object_name;
   }
 
-  void print_debug(int id) const;
+  const std::string& get_object_data() const {
+    return m_object_data;
+  }
 
 private:
   //Correct small oddities in attributes that naive people

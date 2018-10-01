@@ -75,13 +75,13 @@ FloatingImage::get_pos_y() const
 void
 FloatingImage::set_anchor_point(int anchor)
 {
-  floating_image->set_anchor_point((AnchorPoint) anchor);
+  floating_image->set_anchor_point(static_cast<AnchorPoint>(anchor));
 }
 
 int
 FloatingImage::get_anchor_point() const
 {
-  return (int) floating_image->get_anchor_point();
+  return static_cast<int>(floating_image->get_anchor_point());
 }
 
 bool

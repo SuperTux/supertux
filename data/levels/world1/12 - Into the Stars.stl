@@ -68,8 +68,8 @@
       (y 1344)
     )
     (platform
-      (name "Platform1")
       (running #f)
+      (name "Platform1")
       (sprite "images/objects/platforms/icefloe_small.sprite")
       (path
         (node
@@ -162,8 +162,6 @@
     )
     (secretarea
       (fade-tilemap "Secret1")
-      (script "")
-      (message "")
       (width 64)
       (height 96)
       (x 10400)
@@ -446,17 +444,14 @@ Platform1.goto_node(0);")
       )
     )
     (unstable_tile
-      (sprite "images/objects/unstable_tile/snow.sprite")
       (x 8608)
       (y 1408)
     )
     (unstable_tile
-      (sprite "images/objects/unstable_tile/snow.sprite")
       (x 8672)
       (y 1408)
     )
     (unstable_tile
-      (sprite "images/objects/unstable_tile/snow.sprite")
       (x 8640)
       (y 1408)
     )

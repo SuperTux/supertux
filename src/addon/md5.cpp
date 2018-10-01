@@ -62,12 +62,12 @@ void MD5::update (uint8_t* input, uint32_t input_length) {
   if (finalized) throw std::runtime_error("MD5::update: Can't update a finalized digest!");
 
   // Compute number of bytes mod 64
-  buffer_index = (unsigned int)((count[0] >> 3) & 0x3F);
+  buffer_index = static_cast<unsigned int>((count[0] >> 3) & 0x3F);
 
   // Update number of bits
-  if ( (count[0] += ((uint32_t) input_length << 3))<((uint32_t) input_length << 3) ) count[1]++;
+  if ( (count[0] += (static_cast<uint32_t>(input_length) << 3))<(static_cast<uint32_t>(input_length) << 3) ) count[1]++;
 
-  count[1] += ((uint32_t)input_length >> 29);
+  count[1] += (static_cast<uint32_t>(input_length) >> 29);
 
   buffer_space = 64 - buffer_index; // how much space is left in buffer
 
@@ -92,9 +92,9 @@ void MD5::update (uint8_t* input, uint32_t input_length) {
 
 void MD5::update(FILE *file) {
   uint8_t buffer_[1024];
-  int len;
+  size_t len;
 
-  while ((len=fread(buffer_, 1, 1024, file))) update(buffer_, len);
+  while ((len = fread(buffer_, 1, 1024, file))) update(buffer_, static_cast<int>(len));
 
   fclose (file);
 }
@@ -103,9 +103,9 @@ void MD5::update(std::istream& stream) {
   uint8_t buffer_[1024];
 
   while (stream.good()) {
-    stream.read((char*)buffer_, 1024); // note that return value of read is unusable.
-    int len = stream.gcount();
-    update(buffer_, len);
+    stream.read(reinterpret_cast<char*>(buffer_), 1024); // note that return value of read is unusable.
+    size_t len = stream.gcount();
+    update(buffer_, static_cast<unsigned int>(len));
   }
 }
 
@@ -113,9 +113,9 @@ void MD5::update(std::ifstream& stream) {
   uint8_t buffer_[1024];
 
   while (stream.good()) {
-    stream.read((char*)buffer_, 1024); // note that return value of read is unusable.
-    int len = stream.gcount();
-    update(buffer_, len);
+    stream.read(reinterpret_cast<char*>(buffer_), 1024); // note that return value of read is unusable.
+    size_t len = stream.gcount();
+    update(buffer_, static_cast<unsigned int>(len));
   }
 }
 
@@ -205,7 +205,7 @@ void MD5::finalize() {
   encode (bits, count, 8);
 
   // Pad out to 56 mod 64.
-  index = (uint32_t) ((count[0] >> 3) & 0x3f);
+  index = static_cast<uint32_t>((count[0] >> 3) & 0x3f);
   padLen = (index < 56) ? (56 - index) : (120 - index);
   update (PADDING, padLen);
 
@@ -327,17 +327,17 @@ void MD5::transform (uint8_t block[64]) {
   state[3] += d;
 
   // Zeroize sensitive information.
-  memset ( (uint8_t* ) x, 0, sizeof(x));
+  memset ( reinterpret_cast<uint8_t*>(x), 0, sizeof(x));
 }
 
 void MD5::encode (uint8_t* output, uint32_t* input, uint32_t len) {
   unsigned int i, j;
 
   for (i = 0, j = 0; j < len; i++, j += 4) {
-    output[j]   = (uint8_t) (input[i] & 0xff);
-    output[j+1] = (uint8_t) ((input[i] >> 8) & 0xff);
-    output[j+2] = (uint8_t) ((input[i] >> 16) & 0xff);
-    output[j+3] = (uint8_t) ((input[i] >> 24) & 0xff);
+    output[j]   = static_cast<uint8_t>(input[i] & 0xff);
+    output[j+1] = static_cast<uint8_t>((input[i] >> 8) & 0xff);
+    output[j+2] = static_cast<uint8_t>((input[i] >> 16) & 0xff);
+    output[j+3] = static_cast<uint8_t>((input[i] >> 24) & 0xff);
   }
 }
 
@@ -345,7 +345,7 @@ void MD5::decode (uint32_t* output, uint8_t* input, uint32_t len) {
   unsigned int i, j;
 
   for (i = 0, j = 0; j < len; i++, j += 4) {
-    output[i] = ((uint32_t)input[j]) | (((uint32_t)input[j+1]) << 8) | (((uint32_t)input[j+2]) << 16) | (((uint32_t)input[j+3]) << 24);
+    output[i] = (static_cast<uint32_t>(input[j])) | ((static_cast<uint32_t>(input[j+1])) << 8) | ((static_cast<uint32_t>(input[j+2])) << 16) | ((static_cast<uint32_t>(input[j+3])) << 24);
   }
 }
 

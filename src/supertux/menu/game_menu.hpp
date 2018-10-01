@@ -40,7 +40,7 @@ private:
 public:
   GameMenu();
 
-  void menu_action(MenuItem* item) override;
+  void menu_action(MenuItem& item) override;
 
 private:
   GameMenu(const GameMenu&);

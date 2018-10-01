@@ -39,8 +39,8 @@
       (y 1277.114)
     )
     (platform
-      (name "p1")
       (running #f)
+      (name "p1")
       (sprite "images/objects/platforms/small.sprite")
       (path
         (node
@@ -56,8 +56,8 @@
       )
     )
     (platform
-      (name "p2a")
       (running #f)
+      (name "p2a")
       (sprite "images/objects/platforms/big.sprite")
       (path
         (node
@@ -73,8 +73,8 @@
       )
     )
     (platform
-      (name "p2b")
       (running #f)
+      (name "p2b")
       (sprite "images/objects/platforms/big.sprite")
       (path
         (node
@@ -90,8 +90,8 @@
       )
     )
     (platform
-      (name "p2")
       (running #f)
+      (name "p2")
       (sprite "images/objects/flying_platform/flying_platform.sprite")
       (path
         (node
@@ -107,8 +107,8 @@
       )
     )
     (platform
-      (name "door2b")
       (running #f)
+      (name "door2b")
       (sprite "images/objects/platforms/pedestal.sprite")
       (path
         (node
@@ -124,8 +124,8 @@
       )
     )
     (platform
-      (name "door2a")
       (running #f)
+      (name "door2a")
       (sprite "images/objects/platforms/pedestal.sprite")
       (path
         (node
@@ -141,8 +141,8 @@
       )
     )
     (platform
-      (name "door2c")
       (running #f)
+      (name "door2c")
       (sprite "images/objects/platforms/pedestal.sprite")
       (path
         (node
@@ -156,8 +156,8 @@
       )
     )
     (platform
-      (name "door1a")
       (running #f)
+      (name "door1a")
       (sprite "images/objects/platforms/big.sprite")
       (path
         (node
@@ -175,8 +175,8 @@
       )
     )
     (platform
-      (name "door1b")
       (running #f)
+      (name "door1b")
       (sprite "images/objects/platforms/small.sprite")
       (path
         (node
@@ -194,8 +194,8 @@
       )
     )
     (platform
-      (name "door1d")
       (running #f)
+      (name "door1d")
       (sprite "images/objects/platforms/big.sprite")
       (path
         (node
@@ -213,8 +213,8 @@
       )
     )
     (platform
-      (name "door1c")
       (running #f)
+      (name "door1c")
       (sprite "images/objects/platforms/small.sprite")
       (path
         (node
@@ -232,8 +232,8 @@
       )
     )
     (platform
-      (name "ps1")
       (running #f)
+      (name "ps1")
       (sprite "images/objects/platforms/big.sprite")
       (path
         (node
@@ -249,8 +249,8 @@
       )
     )
     (platform
-      (name "door2d")
       (running #f)
+      (name "door2d")
       (sprite "images/objects/platforms/pedestal.sprite")
       (path
         (node
@@ -367,22 +367,22 @@ Effect.fade_in(1);")
 door2b.goto_node(1);
 door2c.goto_node(1);
 door2d.goto_node(1);")
+      (sprite "images/objects/switch/left.sprite")
       (x 1383.037)
       (y 1777.474)
-      (sprite "images/objects/switch/left.sprite")
     )
     (switch
       (script "door1a.goto_node(2);
 door1b.goto_node(2);
 door1c.goto_node(2);
 door1d.goto_node(2);")
+      (sprite "images/objects/switch/right.sprite")
       (x 4472.528)
       (y 849.8708)
-      (sprite "images/objects/switch/right.sprite")
     )
     (tilemap
-      (z-pos -100)
       (solid #f)
+      (z-pos -100)
       (width 320)
       (height 150)
       (tiles
@@ -539,8 +539,8 @@ door1d.goto_node(2);")
       )
     )
     (tilemap
-      (z-pos 0)
       (solid #t)
+      (z-pos 0)
       (width 320)
       (height 150)
       (tiles
@@ -697,8 +697,8 @@ door1d.goto_node(2);")
       )
     )
     (tilemap
-      (z-pos 100)
       (solid #f)
+      (z-pos 100)
       (width 320)
       (height 150)
       (tiles
@@ -855,84 +855,84 @@ door1d.goto_node(2);")
       )
     )
     (unstable_tile
+      (sprite "images/objects/unstable_tile/castleblock.sprite")
       (x 8352)
       (y 4608)
-      (sprite "images/objects/unstable_tile/castleblock.sprite")
     )
     (unstable_tile
+      (sprite "images/objects/unstable_tile/castleblock.sprite")
       (x 8832)
       (y 4608)
-      (sprite "images/objects/unstable_tile/castleblock.sprite")
     )
     (unstable_tile
+      (sprite "images/objects/unstable_tile/castleblock.sprite")
       (x 8800)
       (y 4608)
-      (sprite "images/objects/unstable_tile/castleblock.sprite")
     )
     (unstable_tile
+      (sprite "images/objects/unstable_tile/castleblock.sprite")
       (x 8768)
       (y 4608)
-      (sprite "images/objects/unstable_tile/castleblock.sprite")
     )
     (unstable_tile
+      (sprite "images/objects/unstable_tile/castleblock.sprite")
       (x 8736)
       (y 4608)
-      (sprite "images/objects/unstable_tile/castleblock.sprite")
     )
     (unstable_tile
+      (sprite "images/objects/unstable_tile/castleblock.sprite")
       (x 8704)
       (y 4608)
-      (sprite "images/objects/unstable_tile/castleblock.sprite")
     )
     (unstable_tile
+      (sprite "images/objects/unstable_tile/castleblock.sprite")
       (x 8672)
       (y 4608)
-      (sprite "images/objects/unstable_tile/castleblock.sprite")
     )
     (unstable_tile
+      (sprite "images/objects/unstable_tile/castleblock.sprite")
       (x 8640)
       (y 4608)
-      (sprite "images/objects/unstable_tile/castleblock.sprite")
     )
     (unstable_tile
+      (sprite "images/objects/unstable_tile/castleblock.sprite")
       (x 8608)
       (y 4608)
-      (sprite "images/objects/unstable_tile/castleblock.sprite")
     )
     (unstable_tile
+      (sprite "images/objects/unstable_tile/castleblock.sprite")
       (x 8576)
       (y 4608)
-      (sprite "images/objects/unstable_tile/castleblock.sprite")
     )
     (unstable_tile
+      (sprite "images/objects/unstable_tile/castleblock.sprite")
       (x 8544)
       (y 4608)
-      (sprite "images/objects/unstable_tile/castleblock.sprite")
     )
     (unstable_tile
+      (sprite "images/objects/unstable_tile/castleblock.sprite")
       (x 8512)
       (y 4608)
-      (sprite "images/objects/unstable_tile/castleblock.sprite")
     )
     (unstable_tile
+      (sprite "images/objects/unstable_tile/castleblock.sprite")
       (x 8480)
       (y 4608)
-      (sprite "images/objects/unstable_tile/castleblock.sprite")
     )
     (unstable_tile
+      (sprite "images/objects/unstable_tile/castleblock.sprite")
       (x 8448)
       (y 4608)
-      (sprite "images/objects/unstable_tile/castleblock.sprite")
     )
     (unstable_tile
+      (sprite "images/objects/unstable_tile/castleblock.sprite")
       (x 8416)
       (y 4608)
-      (sprite "images/objects/unstable_tile/castleblock.sprite")
     )
     (unstable_tile
+      (sprite "images/objects/unstable_tile/castleblock.sprite")
       (x 8384)
       (y 4608)
-      (sprite "images/objects/unstable_tile/castleblock.sprite")
     )
   )
 )

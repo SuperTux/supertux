@@ -23,7 +23,7 @@
 
 ObjectIcon::ObjectIcon(const std::string& name, const std::string& icon) :
   object_name(name),
-  surface(Surface::create(icon)),
+  surface(Surface::from_file(icon)),
   offset()
 {
   calculate_offset();
@@ -37,7 +37,7 @@ ObjectIcon::ObjectIcon(const ReaderMapping& reader) :
   std::string icon = "images/engine/icons/supertux.png";
   reader.get("class", object_name);
   reader.get("icon", icon);
-  surface = Surface::create(icon);
+  surface = Surface::from_file(icon);
   calculate_offset();
 }
 
@@ -47,8 +47,8 @@ ObjectIcon::~ObjectIcon() {
 
 void
 ObjectIcon::calculate_offset() {
-  float w = surface->get_width();
-  float h = surface->get_height();
+  float w = static_cast<float>(surface->get_width());
+  float h = static_cast<float>(surface->get_height());
 
   if (w > h) {
     offset.x = 0;
@@ -61,8 +61,8 @@ ObjectIcon::calculate_offset() {
 
 void
 ObjectIcon::draw(DrawingContext& context, const Vector& pos) {
-  context.color().draw_surface_part(surface, Rectf(Vector(0,0), surface->get_size()),
-                            Rectf(pos + offset, pos + Vector(32,32) - offset), LAYER_GUI - 9);
+  context.color().draw_surface_scaled(surface,
+                                      Rectf(pos + offset, pos + Vector(32,32) - offset), LAYER_GUI - 9);
 }
 
 /* EOF */

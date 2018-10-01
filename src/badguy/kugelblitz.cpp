@@ -113,7 +113,7 @@ Kugelblitz::hit(const CollisionHit& hit_)
     //Set random initial speed and direction
     direction = gameRandom.rand(2)? 1: -1;
     int speed = (BASE_SPEED + (gameRandom.rand(RAND_SPEED))) * direction;
-    physic.set_velocity_x(speed);
+    physic.set_velocity_x(static_cast<float>(speed));
     movement_timer.start(MOVETIME);
     lifetime.start(LIFETIME);
 
@@ -133,7 +133,7 @@ Kugelblitz::active_update(float elapsed_time)
       if (movement_timer.check()) {
         if (direction == 1) direction = -1; else direction = 1;
         int speed = (BASE_SPEED + (gameRandom.rand(RAND_SPEED))) * direction;
-        physic.set_velocity_x(speed);
+        physic.set_velocity_x(static_cast<float>(speed));
         movement_timer.start(MOVETIME);
       }
     }
@@ -153,7 +153,7 @@ Kugelblitz::draw(DrawingContext& context)
   sprite->draw(context.color(), get_pos(), layer);
 
   //Only draw light in dark areas
-  context.get_light( bbox.get_middle(), &light );
+  context.light().get_pixel( bbox.get_middle(), &light );
   if (light.red + light.green < 2.0){
     sprite->draw(context.light(), get_pos(), layer);
     lightsprite->draw(context.light(), bbox.get_middle(), 0);

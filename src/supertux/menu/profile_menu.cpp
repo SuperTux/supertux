@@ -48,9 +48,9 @@ ProfileMenu::ProfileMenu()
 }
 
 void
-ProfileMenu::menu_action(MenuItem* item)
+ProfileMenu::menu_action(MenuItem& item)
 {
-  g_config->profile = item->id;
+  g_config->profile = item.id;
   MenuManager::instance().clear_menu_stack();
 }
 

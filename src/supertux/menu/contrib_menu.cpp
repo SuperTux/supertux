@@ -174,9 +174,9 @@ ContribMenu::ContribMenu() :
 }
 
 void
-ContribMenu::menu_action(MenuItem* item)
+ContribMenu::menu_action(MenuItem& item)
 {
-  int index = item->id;
+  int index = item.id;
   if (index != -1)
   {
     // reload the World so that we have something that we can safely

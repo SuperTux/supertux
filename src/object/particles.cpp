@@ -19,9 +19,12 @@
 #include <math.h>
 
 #include "math/random_generator.hpp"
+#include "math/util.hpp"
 #include "object/camera.hpp"
 #include "supertux/sector.hpp"
 #include "video/drawing_context.hpp"
+#include "video/video_system.hpp"
+#include "video/viewport.hpp"
 
 //TODO: remove this function in favor of the one below
 Particles::Particles(const Vector& epicenter, int min_angle, int max_angle,
@@ -31,7 +34,7 @@ Particles::Particles(const Vector& epicenter, int min_angle, int max_angle,
   timer(),
   live_forever(),
   color(color_),
-  size(size_),
+  size(static_cast<float>(size_)),
   drawing_layer(drawing_layer_),
   particles()
 {
@@ -48,13 +51,12 @@ Particles::Particles(const Vector& epicenter, int min_angle, int max_angle,
     auto particle = std::unique_ptr<Particle>(new Particle);
     particle->pos = epicenter;
 
-    float angle = graphicsRandom.rand(min_angle, max_angle)
-      * (M_PI / 180);  // convert to radius (radians?)
-    particle->vel.x = /*fabs*/(sin(angle)) * initial_velocity.x;
-    //    if(angle >= M_PI && angle < M_PI*2)
+    float angle = math::radians(graphicsRandom.randf(static_cast<float>(min_angle), static_cast<float>(max_angle)));
+    particle->vel.x = /*fabs*/(sinf(angle)) * initial_velocity.x;
+    //    if(angle >= math::PI && angle < math::TAU)
     //      particle->vel.x *= -1;  // work around to fix signal
-    particle->vel.y = /*fabs*/(cos(angle)) * initial_velocity.y;
-    //    if(angle >= M_PI_2 && angle < 3*M_PI_2)
+    particle->vel.y = /*fabs*/(cosf(angle)) * initial_velocity.y;
+    //    if(angle >= math::PI_2 && angle < 3*math::PI_2)
     //      particle->vel.y *= -1;
 
     particles.push_back(std::move(particle));
@@ -70,7 +72,7 @@ Particles::Particles(const Vector& epicenter, int min_angle, int max_angle,
   timer(),
   live_forever(),
   color(color_),
-  size(size_),
+  size(static_cast<float>(size_)),
   drawing_layer(drawing_layer_),
   particles()
 {
@@ -88,12 +90,13 @@ Particles::Particles(const Vector& epicenter, int min_angle, int max_angle,
     particle->pos = epicenter;
 
     float velocity = (min_initial_velocity == max_initial_velocity) ? min_initial_velocity :
-                     graphicsRandom.rand(min_initial_velocity, max_initial_velocity);
-    float angle = (min_angle == max_angle) ? min_angle * (M_PI / 180) :
-                     graphicsRandom.rand(min_angle, max_angle) * (M_PI / 180);  // convert to radians
+                     graphicsRandom.randf(min_initial_velocity, max_initial_velocity);
+    float angle = (min_angle == max_angle) ?
+      math::radians(static_cast<float>(min_angle)) :
+      math::radians(graphicsRandom.randf(static_cast<float>(min_angle), static_cast<float>(max_angle)));
     // Note that angle defined as clockwise from vertical (up is zero degrees, right is 90 degrees)
-    particle->vel.x = (sin(angle)) * velocity;
-    particle->vel.y = (-cos(angle)) * velocity;
+    particle->vel.x = (sinf(angle)) * velocity;
+    particle->vel.y = (-cosf(angle)) * velocity;
 
     particles.push_back(std::move(particle));
   }
@@ -102,7 +105,7 @@ Particles::Particles(const Vector& epicenter, int min_angle, int max_angle,
 void
 Particles::update(float elapsed_time)
 {
-  Vector camera = Sector::current()->camera->get_translation();
+  Vector camera = Sector::current()->m_camera->get_translation();
 
   // update particles
   for(auto i = particles.begin(); i != particles.end(); ) {
@@ -112,8 +115,8 @@ Particles::update(float elapsed_time)
     (*i)->vel.x += accel.x * elapsed_time;
     (*i)->vel.y += accel.y * elapsed_time;
 
-    if((*i)->pos.x < camera.x || (*i)->pos.x > SCREEN_WIDTH + camera.x ||
-       (*i)->pos.y < camera.y || (*i)->pos.y > SCREEN_HEIGHT + camera.y) {
+    if((*i)->pos.x < camera.x || (*i)->pos.x > static_cast<float>(SCREEN_WIDTH) + camera.x ||
+       (*i)->pos.y < camera.y || (*i)->pos.y > static_cast<float>(SCREEN_HEIGHT) + camera.y) {
       i = particles.erase(i);
     } else {
       ++i;

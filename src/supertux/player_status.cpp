@@ -18,6 +18,7 @@
 #include "supertux/player_status.hpp"
 
 #include <algorithm>
+#include <sstream>
 
 #include "audio/sound_manager.hpp"
 #include "supertux/globals.hpp"
@@ -47,7 +48,7 @@ PlayerStatus::PlayerStatus() :
   last_worldmap(),
   displayed_coins(DISPLAYED_COINS_UNSET),
   displayed_coins_frame(0),
-  coin_surface(Surface::create("images/engine/hud/coins-0.png"))
+  coin_surface(Surface::from_file("images/engine/hud/coins-0.png"))
 {
   reset();
 
@@ -73,9 +74,9 @@ PlayerStatus::add_coins(int count, bool play_sound)
   static float sound_played_time = 0;
   if(count >= 100)
     SoundManager::current()->play("sounds/lifeup.wav");
-  else if (real_time > sound_played_time + 0.010) {
+  else if (g_real_time > sound_played_time + 0.010) {
     SoundManager::current()->play("sounds/coin.wav");
-    sound_played_time = real_time;
+    sound_played_time = g_real_time;
   }
 }
 
@@ -178,17 +179,17 @@ PlayerStatus::draw(DrawingContext& context)
   if (coin_surface)
   {
     context.color().draw_surface(coin_surface,
-                         Vector(SCREEN_WIDTH - BORDER_X - coin_surface->get_width() - Resources::fixed_font->get_text_width(coins_text),
-                                BORDER_Y + 1 + (Resources::fixed_font->get_text_height(coins_text) + 5) * player_id),
-                         LAYER_HUD);
+                                 Vector(static_cast<float>(context.get_width()) - BORDER_X - static_cast<float>(coin_surface->get_width()) - Resources::fixed_font->get_text_width(coins_text),
+                                        BORDER_Y + 1.0f + (Resources::fixed_font->get_text_height(coins_text) + 5) * static_cast<float>(player_id)),
+                                   LAYER_HUD);
   }
   context.color().draw_text(Resources::fixed_font,
-                    coins_text,
-                    Vector(SCREEN_WIDTH - BORDER_X - Resources::fixed_font->get_text_width(coins_text),
-                           BORDER_Y + (Resources::fixed_font->get_text_height(coins_text) + 5) * player_id),
-                    ALIGN_LEFT,
-                    LAYER_HUD,
-                    PlayerStatus::text_color);
+                            coins_text,
+                            Vector(static_cast<float>(context.get_width()) - BORDER_X - Resources::fixed_font->get_text_width(coins_text),
+                                   BORDER_Y + (Resources::fixed_font->get_text_height(coins_text) + 5.0f) * static_cast<float>(player_id)),
+                            ALIGN_LEFT,
+                            LAYER_HUD,
+                            PlayerStatus::text_color);
 
   context.pop_transform();
 }

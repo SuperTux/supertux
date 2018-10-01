@@ -69,7 +69,7 @@ WaterDrop::collision_solid(const CollisionHit& hit)
 }
 
 HitResponse
-WaterDrop::collision(GameObject& other, const CollisionHit& )
+WaterDrop::collision(GameObject&, const CollisionHit& )
 {
   return FORCE_MOVE;
 }

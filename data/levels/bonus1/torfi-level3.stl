@@ -3,7 +3,6 @@
   (name (_ "Still too easy"))
   (author "Torfi Gunnarsson")
   (license "GPL 2+ / CC-by-sa 3.0")
-  (target-time 0)
   (sector
     (name "main")
     (music "music/chipdisko.ogg")
@@ -76,8 +75,6 @@
     )
     (secretarea
       (fade-tilemap "secret")
-      (script "")
-      (message "")
       (width 156)
       (height 64.52692)
       (x 4608)

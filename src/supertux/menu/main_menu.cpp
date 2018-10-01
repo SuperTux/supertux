@@ -26,10 +26,13 @@
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/screen_manager.hpp"
 #include "supertux/textscroller.hpp"
+#include "video/video_system.hpp"
+#include "video/viewport.hpp"
 
 MainMenu::MainMenu()
 {
-  set_center_pos(SCREEN_WIDTH/2, SCREEN_HEIGHT/2 + 35);
+  set_center_pos(static_cast<float>(SCREEN_WIDTH) / 2.0f,
+                 static_cast<float>(SCREEN_HEIGHT) / 2.0f + 35.0f);
 
   add_entry(MNID_STARTGAME, _("Start Game"));
   add_entry(MNID_ADDONS, _("Add-ons"));
@@ -42,13 +45,14 @@ MainMenu::MainMenu()
 void
 MainMenu::on_window_resize()
 {
-  set_center_pos(SCREEN_WIDTH/2, SCREEN_HEIGHT/2 + 35);
+  set_center_pos(static_cast<float>(SCREEN_WIDTH) / 2.0f,
+                 static_cast<float>(SCREEN_HEIGHT) / 2.0f + 35.0f);
 }
 
 void
-MainMenu::menu_action(MenuItem* item)
+MainMenu::menu_action(MenuItem& item)
 {
-  switch (item->id)
+  switch (item.id)
   {
 
     case MNID_STARTGAME:

@@ -17,19 +17,40 @@
 #ifndef HEADER_SUPERTUX_VIDEO_SDL_PAINTER_HPP
 #define HEADER_SUPERTUX_VIDEO_SDL_PAINTER_HPP
 
+#include "video/painter.hpp"
+
+#include <boost/optional.hpp>
+
+class Renderer;
+class SDLScreenRenderer;
+class SDLVideoSystem;
 struct DrawingRequest;
 struct SDL_Renderer;
 
-class SDLPainter
+class SDLPainter : public Painter
 {
 public:
-  static void draw_surface(SDL_Renderer* renderer, const DrawingRequest& request);
-  static void draw_surface_part(SDL_Renderer* renderer, const DrawingRequest& request);
-  static void draw_gradient(SDL_Renderer* renderer, const DrawingRequest& request);
-  static void draw_filled_rect(SDL_Renderer* renderer, const DrawingRequest& request);
-  static void draw_inverse_ellipse(SDL_Renderer* renderer, const DrawingRequest& request);
-  static void draw_line(SDL_Renderer* renderer, const DrawingRequest& request);
-  static void draw_triangle(SDL_Renderer* renderer, const DrawingRequest& request);
+  SDLPainter(SDLVideoSystem& video_system, Renderer& renderer, SDL_Renderer* sdl_renderer);
+
+  virtual void draw_texture(const TextureRequest& request) override;
+  virtual void draw_texture_batch(const TextureBatchRequest& request) override;
+  virtual void draw_gradient(const GradientRequest& request) override;
+  virtual void draw_filled_rect(const FillRectRequest& request) override;
+  virtual void draw_inverse_ellipse(const InverseEllipseRequest& request) override;
+  virtual void draw_line(const LineRequest& request) override;
+  virtual void draw_triangle(const TriangleRequest& request) override;
+
+  virtual void clear(const Color& color) override;
+  virtual void get_pixel(const GetPixelRequest& request) const override;
+
+  virtual void set_clip_rect(const Rect& rect) override;
+  virtual void clear_clip_rect() override;
+
+private:
+  SDLVideoSystem& m_video_system;
+  Renderer& m_renderer;
+  SDL_Renderer* m_sdl_renderer;
+  boost::optional<SDL_Rect> m_cliprect;
 
 private:
   SDLPainter(const SDLPainter&);

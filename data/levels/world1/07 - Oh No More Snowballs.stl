@@ -74,7 +74,6 @@
     (gradient
       (top_color 0.1376822 0.5950408 0.66804)
       (bottom_color 0.8468757 0.7540703 0.0362707)
-      (layer -300)
     )
     (jumpy
       (x 11264)
@@ -455,32 +454,26 @@
       )
     )
     (unstable_tile
-      (sprite "images/objects/unstable_tile/snow.sprite")
       (x 12672)
       (y 608)
     )
     (unstable_tile
-      (sprite "images/objects/unstable_tile/snow.sprite")
       (x 12704)
       (y 608)
     )
     (unstable_tile
-      (sprite "images/objects/unstable_tile/snow.sprite")
       (x 8352)
       (y 352)
     )
     (unstable_tile
-      (sprite "images/objects/unstable_tile/snow.sprite")
       (x 8384)
       (y 352)
     )
     (unstable_tile
-      (sprite "images/objects/unstable_tile/snow.sprite")
       (x 8512)
       (y 352)
     )
     (unstable_tile
-      (sprite "images/objects/unstable_tile/snow.sprite")
       (x 8544)
       (y 352)
     )

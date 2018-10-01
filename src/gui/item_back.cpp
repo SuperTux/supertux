@@ -31,16 +31,18 @@ void
 ItemBack::draw(DrawingContext& context, const Vector& pos, int menu_width, bool active) {
   float text_width = Resources::normal_font->get_text_width(text);
   context.color().draw_text(Resources::normal_font, text,
-                    Vector( pos.x + menu_width/2 , pos.y - int(Resources::normal_font->get_height()/2)),
-                    ALIGN_CENTER, LAYER_GUI, active ? ColorScheme::Menu::active_color : get_color());
+                            Vector( pos.x + static_cast<float>(menu_width) / 2.0f,
+                                    pos.y - static_cast<float>(int(Resources::normal_font->get_height()/2))),
+                            ALIGN_CENTER, LAYER_GUI, active ? ColorScheme::Menu::active_color : get_color());
   context.color().draw_surface(Resources::back,
-                       Vector(pos.x + menu_width/2 + text_width/2  + 16, pos.y - 8),
-                       LAYER_GUI);
+                               Vector(pos.x + static_cast<float>(menu_width / 2) + text_width / 2.0f  + 16.0f,
+                                      pos.y - 8.0f),
+                                 LAYER_GUI);
 }
 
 int
 ItemBack::get_width() const {
-  return Resources::normal_font->get_text_width(text) + 32 + Resources::back->get_width();
+  return static_cast<int>(Resources::normal_font->get_text_width(text)) + 32 + Resources::back->get_width();
 }
 
 void

@@ -24,9 +24,17 @@
 
 #include "util/log.hpp"
 
-static Sint64 funcSeek(struct SDL_RWops* context, Sint64 offset, int whence)
+namespace {
+
+Sint64 funcSize(struct SDL_RWops* context)
 {
-  PHYSFS_file* file = (PHYSFS_file*) context->hidden.unknown.data1;
+  PHYSFS_file* file = static_cast<PHYSFS_file*>(context->hidden.unknown.data1);
+  return PHYSFS_fileLength(file);
+}
+
+Sint64 funcSeek(struct SDL_RWops* context, Sint64 offset, int whence)
+{
+  PHYSFS_file* file = static_cast<PHYSFS_file*>(context->hidden.unknown.data1);
   int res;
   switch(whence) {
     case SEEK_SET:
@@ -48,26 +56,41 @@ static Sint64 funcSeek(struct SDL_RWops* context, Sint64 offset, int whence)
     return -1;
   }
 
-  return (int) PHYSFS_tell(file);
+  return static_cast<int>(PHYSFS_tell(file));
 }
 
-static size_t  funcRead(struct SDL_RWops* context, void* ptr, size_t  size, size_t  maxnum)
+size_t funcRead(struct SDL_RWops* context, void* ptr, size_t size, size_t maxnum)
 {
-  PHYSFS_file* file = (PHYSFS_file*) context->hidden.unknown.data1;
+  PHYSFS_file* file = static_cast<PHYSFS_file*>(context->hidden.unknown.data1);
 
-  int res = PHYSFS_readBytes(file, ptr, size * maxnum);
-  return res / size;
+  PHYSFS_sint64 res = PHYSFS_readBytes(file, ptr, size * maxnum);
+  if (res < 0)
+  {
+    return 0;
+  }
+  else
+  {
+    return static_cast<size_t>(res / size);
+  }
 }
 
-static int funcClose(struct SDL_RWops* context)
+size_t funcWrite(struct SDL_RWops* context, const void* ptr, size_t size, size_t num)
 {
-  PHYSFS_file* file = (PHYSFS_file*) context->hidden.unknown.data1;
+  SDL_SetError("PHYSFS_file is read-only");
+  return 0;
+}
+
+int funcClose(struct SDL_RWops* context)
+{
+  PHYSFS_file* file = static_cast<PHYSFS_file*>(context->hidden.unknown.data1);
 
   PHYSFS_close(file);
   delete context;
 
   return 0;
 }
+
+} // namespace
 
 SDL_RWops* get_physfs_SDLRWops(const std::string& filename)
 {
@@ -77,7 +100,7 @@ SDL_RWops* get_physfs_SDLRWops(const std::string& filename)
     throw std::runtime_error("Couldn't open file: empty filename");
   }
 
-  PHYSFS_file* file = (PHYSFS_file*) PHYSFS_openRead(filename.c_str());
+  PHYSFS_file* file = static_cast<PHYSFS_file*>(PHYSFS_openRead(filename.c_str()));
   if(!file) {
     std::stringstream msg;
     msg << "Couldn't open '" << filename << "': "
@@ -85,13 +108,15 @@ SDL_RWops* get_physfs_SDLRWops(const std::string& filename)
     throw std::runtime_error(msg.str());
   }
 
-  SDL_RWops* ops = new SDL_RWops();
-  ops->type = 0;
-  ops->hidden.unknown.data1 = file;
+  SDL_RWops* ops = new SDL_RWops;
+  ops->size = funcSize;
   ops->seek = funcSeek;
   ops->read = funcRead;
-  ops->write = 0;
+  ops->write = funcWrite;
   ops->close = funcClose;
+  ops->type = SDL_RWOPS_UNKNOWN;
+  ops->hidden.unknown.data1 = file;
+
   return ops;
 }
 

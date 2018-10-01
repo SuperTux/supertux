@@ -377,8 +377,6 @@
       (y 1440)
     )
     (secretarea
-      (script "")
-      (message "")
       (width 124)
       (height 60)
       (x 9440)

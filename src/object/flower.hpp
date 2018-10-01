@@ -36,7 +36,7 @@ public:
 private:
   BonusType type;
   SpritePtr sprite;
-  DrawingEffect drawing_effect;
+  Flip flip;
 
 private:
   Flower(const Flower&);

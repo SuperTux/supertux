@@ -1,4 +1,4 @@
-//  SuperTux=
+//  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
 //  This program is free software: you can redistribute it and/or modify
@@ -93,6 +93,7 @@ public:
   bool christmas_mode;
   bool transitions_enabled;
   bool confirmation_dialog;
+  bool pause_on_focusloss;
 
   std::string repository_url;
 

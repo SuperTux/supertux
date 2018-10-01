@@ -1,8 +1,8 @@
 (supertux-level
   (version 2)
-  (name (_ "Luft Airship"))  (license "GPL 2+ / CC-by-sa 3.0")
+  (name (_ "Luft Airship"))
   (author "Corlin Heydman")
-  (target-time 0)
+  (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
     (music "music/chipdisko.ogg")
@@ -11,13 +11,13 @@
       (alignment "bottom")
       (speed 0.5)
       (image "images/background/arcticskies3.png")
-      (layer -199)
+      (z-pos -199)
     )
     (background
       (alignment "bottom")
       (speed 2)
       (image "images/background/arcticskies35.png")
-      (layer 101)
+      (z-pos 101)
     )
     (bouncingsnowball
       (x 849)
@@ -249,16 +249,12 @@
     )
     (secretarea
       (fade-tilemap "blb")
-      (script "")
-      (message "")
       (width 764)
       (height 124)
       (x 5376)
       (y 640)
     )
     (secretarea
-      (script "")
-      (message "")
       (width 44)
       (height 76)
       (x 3892)

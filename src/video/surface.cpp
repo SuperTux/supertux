@@ -16,119 +16,182 @@
 
 #include "video/surface.hpp"
 
+#include "util/reader_mapping.hpp"
 #include "video/texture.hpp"
+#include "video/texture_manager.hpp"
 #include "video/video_system.hpp"
 
 SurfacePtr
-Surface::create(const std::string& file)
+Surface::from_reader(const ReaderMapping& mapping, const boost::optional<Rect>& rect)
 {
-  return SurfacePtr(new Surface(file));
+  TexturePtr diffuse_texture;
+  boost::optional<ReaderMapping> diffuse_texture_mapping;
+  if (mapping.get("diffuse-texture", diffuse_texture_mapping))
+  {
+    diffuse_texture = TextureManager::current()->get(*diffuse_texture_mapping, rect);
+  }
+
+  TexturePtr displacement_texture;
+  boost::optional<ReaderMapping> displacement_texture_mapping;
+  if (mapping.get("displacement-texture", displacement_texture_mapping))
+  {
+    displacement_texture = TextureManager::current()->get(*displacement_texture_mapping, rect);
+  }
+
+  Vector translate;
+  std::vector<float> translate_v;
+  if (mapping.get("translate", translate_v))
+  {
+    translate.x = translate_v[0];
+    translate.y = translate_v[1];
+  }
+
+  Vector scale;
+  std::vector<float> scale_v;
+  if (mapping.get("scale", scale_v))
+  {
+    scale.x = scale_v[0];
+    scale.y = scale_v[1];
+  }
+
+  float rotate = 0.0f;
+  mapping.get("rotate", rotate);
+
+  Vector rotate_center;
+  std::vector<float> rotate_center_v;
+  if (mapping.get("rotate-center", rotate_center_v))
+  {
+    rotate_center.x = rotate_center_v[0];
+    rotate_center.y = rotate_center_v[1];
+  }
+
+  Flip flip = NO_FLIP;
+  std::vector<bool> flip_v;
+  if (mapping.get("flip", flip_v))
+  {
+    flip ^= flip_v[0] ? HORIZONTAL_FLIP : NO_FLIP;
+    flip ^= flip_v[1] ? VERTICAL_FLIP : NO_FLIP;
+  }
+
+  return SurfacePtr(new Surface(diffuse_texture, displacement_texture,
+                                translate,
+                                scale,
+                                rotate,
+                                rotate_center,
+                                flip));
 }
 
 SurfacePtr
-Surface::create(const std::string& file, const Rect& rect)
+Surface::from_file(const std::string& filename, const boost::optional<Rect>& rect)
 {
-  return SurfacePtr(new Surface(file, rect));
+  if (rect)
+  {
+    TexturePtr texture = TextureManager::current()->get(filename, *rect);
+    return SurfacePtr(new Surface(texture, TexturePtr(), Vector(), Vector(1.0f, 1.0f), 0.0f, Vector(), NO_FLIP));
+  }
+  else
+  {
+    TexturePtr texture = TextureManager::current()->get(filename);
+    return SurfacePtr(new Surface(texture, TexturePtr(), Vector(), Vector(1.0f, 1.0f), 0.0f, Vector(), NO_FLIP));
+  }
 }
 
-Surface::Surface(const std::string& file) :
-  texture(TextureManager::current()->get(file)),
-  surface_data(),
-  rect(0, 0,
-      Size(texture->get_image_width(),
-           texture->get_image_height())),
-  flipx(false)
+Surface::Surface(const TexturePtr& diffuse_texture,
+                 const TexturePtr& displacement_texture,
+                 const Vector& translate,
+                 const Vector& scale,
+                 float rotate,
+                 const Vector& rotate_center,
+                 Flip flip) :
+  m_diffuse_texture(diffuse_texture),
+  m_displacement_texture(displacement_texture),
+  m_region(0, 0, m_diffuse_texture->get_image_width(), m_diffuse_texture->get_image_height()),
+  m_translate(translate),
+  m_scale(scale),
+  m_rotate(rotate),
+  m_rotate_center(rotate_center),
+  m_flip(flip)
 {
-  surface_data = VideoSystem::current()->new_surface_data(*this);
 }
 
-Surface::Surface(const std::string& file, const Rect& rect_) :
-  texture(TextureManager::current()->get(file, rect_)),
-  surface_data(),
-  rect(0, 0, Size(rect_.get_width(), rect_.get_height())),
-  flipx(false)
+Surface::Surface(const TexturePtr& diffuse_texture, const TexturePtr& displacement_texture,
+                 const Rect& region,
+                 const Vector& translate,
+                 const Vector& scale,
+                 float rotate,
+                 const Vector& rotate_center,
+                 Flip flip) :
+  m_diffuse_texture(diffuse_texture),
+  m_displacement_texture(displacement_texture),
+  m_region(region),
+  m_translate(translate),
+  m_scale(scale),
+  m_rotate(rotate),
+  m_rotate_center(rotate_center),
+  m_flip(flip)
 {
-  surface_data = VideoSystem::current()->new_surface_data(*this);
 }
 
-Surface::Surface(const Surface& rhs) :
-  texture(rhs.texture),
-  surface_data(),
-  rect(rhs.rect),
-  flipx(false)
+SurfacePtr
+Surface::from_texture(const TexturePtr& texture)
 {
-  surface_data = VideoSystem::current()->new_surface_data(*this);
+  return SurfacePtr(new Surface(texture, TexturePtr(), Vector(), Vector(1.0f, 1.0f), 0.0f, Vector(), NO_FLIP));
 }
 
 Surface::~Surface()
 {
-  VideoSystem::current()->free_surface_data(surface_data);
 }
 
 SurfacePtr
-Surface::clone() const
+Surface::clone(Flip flip) const
 {
-  SurfacePtr surface(new Surface(*this));
+  SurfacePtr surface(new Surface(m_diffuse_texture,
+                                 m_displacement_texture,
+                                 m_region,
+                                 m_translate,
+                                 m_scale,
+                                 m_rotate,
+                                 m_rotate_center,
+                                 m_flip ^ flip));
   return surface;
 }
 
-/** flip the surface horizontally */
-void Surface::hflip()
+SurfacePtr
+Surface::region(const Rect& rect) const
 {
-  flipx = !flipx;
-}
-
-bool Surface::get_flipx() const
-{
-  return flipx;
+  SurfacePtr surface(new Surface(m_diffuse_texture,
+                                 m_displacement_texture,
+                                 rect,
+                                 m_translate,
+                                 m_scale,
+                                 m_rotate,
+                                 m_rotate_center,
+                                 m_flip));
+  return surface;
 }
 
 TexturePtr
 Surface::get_texture() const
 {
-  return texture;
+  return m_diffuse_texture;
 }
 
-SurfaceData*
-Surface::get_surface_data() const
+TexturePtr
+Surface::get_displacement_texture() const
 {
-  return surface_data;
-}
-
-int
-Surface::get_x() const
-{
-  return rect.left;
-}
-
-int
-Surface::get_y() const
-{
-  return rect.top;
+  return m_displacement_texture;
 }
 
 int
 Surface::get_width() const
 {
-  return rect.get_width();
+  return m_region.get_width();
 }
 
 int
 Surface::get_height() const
 {
-  return rect.get_height();
-}
-
-Vector
-Surface::get_position() const
-{
-  return Vector(get_x(), get_y());
-}
-
-Vector
-Surface::get_size() const
-{
-  return Vector(get_width(), get_height());
+  return m_region.get_height();
 }
 
 /* EOF */

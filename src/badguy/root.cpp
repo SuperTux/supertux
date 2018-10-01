@@ -61,8 +61,8 @@ Root::active_update(float elapsed_time)
   }
   else if (mystate == STATE_GROWING) {
     offset_y -= elapsed_time * SPEED_GROW;
-    if (offset_y < -sprite->get_height()) {
-      offset_y = -sprite->get_height();
+    if (offset_y < static_cast<float>(-sprite->get_height())) {
+      offset_y = static_cast<float>(-sprite->get_height());
       mystate = STATE_SHRINKING;
     }
     set_pos(start_position + Vector(0, offset_y));

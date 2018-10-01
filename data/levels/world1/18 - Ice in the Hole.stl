@@ -3,7 +3,7 @@
   (name (_ "Ice in the Hole"))
   (author "SuperTux Team")
   (license "GPL 2+ / CC-by-sa 3.0")
-  (target-time 70)
+  (target-time 80)
   (sector
     (name "main")
     (music "music/cave.music")
@@ -48,17 +48,14 @@
       (y 407)
     )
     (icecrusher
-      (sprite "images/creatures/icecrusher/icecrusher.sprite")
       (x 8960)
       (y 96)
     )
     (icecrusher
-      (sprite "images/creatures/icecrusher/icecrusher.sprite")
       (x 9280)
       (y 96)
     )
     (icecrusher
-      (sprite "images/creatures/icecrusher/icecrusher.sprite")
       (x 9856)
       (y 96)
     )
@@ -244,8 +241,6 @@
     )
     (secretarea
       (fade-tilemap "Secret1")
-      (script "")
-      (message "")
       (width 92)
       (height 156)
       (x 160)
@@ -253,8 +248,6 @@
     )
     (secretarea
       (fade-tilemap "Secret2")
-      (script "")
-      (message "")
       (width 96)
       (height 172)
       (x 5748)

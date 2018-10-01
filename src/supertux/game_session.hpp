@@ -47,10 +47,11 @@ class GameSession : public Screen,
 public:
   GameSession(const std::string& levelfile, Savegame& savegame, Statistics* statistics = NULL);
 
-  void draw(DrawingContext& context) override;
-  void update(float frame_ratio) override;
-  void setup() override;
-  void leave() override;
+  virtual void draw(Compositor& compositor) override;
+  virtual void update(float frame_ratio) override;
+  virtual void setup() override;
+  virtual void leave() override;
+
   void on_window_resize();
 
   /// ends the current level
@@ -60,16 +61,16 @@ public:
   void reset_level();
   void set_reset_point(const std::string& sectorname, const Vector& pos);
   std::string get_reset_point_sectorname() const
-  { return reset_sector; }
+  { return m_reset_sector; }
 
   Vector get_reset_point_pos() const
-  { return reset_pos; }
+  { return m_reset_pos; }
 
   Sector* get_current_sector() const
-  { return currentsector; }
+  { return m_currentsector; }
 
   Level* get_current_level() const
-  { return level.get(); }
+  { return m_level.get(); }
 
   void start_sequence(Sequence seq, const SequenceData* data = NULL);
 
@@ -107,55 +108,56 @@ private:
 
   void on_escape_press();
 
-  std::unique_ptr<Level> level;
-  std::unique_ptr<Level> old_level;
-  SurfacePtr statistics_backdrop;
+private:
+  std::unique_ptr<Level> m_level;
+  std::unique_ptr<Level> m_old_level;
+  SurfacePtr m_statistics_backdrop;
 
   // scripts
   typedef std::vector<HSQOBJECT> ScriptList;
-  ScriptList scripts;
+  ScriptList m_scripts;
 
-  Sector* currentsector;
+  Sector* m_currentsector;
 
-  std::shared_ptr<EndSequence> end_sequence;
+  std::shared_ptr<EndSequence> m_end_sequence;
 
-  bool  game_pause;
-  float speed_before_pause;
+  bool  m_game_pause;
+  float m_speed_before_pause;
 
-  std::string levelfile;
+  std::string m_levelfile;
 
   // reset point (the point where tux respawns if he dies)
-  std::string reset_sector;
-  Vector reset_pos;
+  std::string m_reset_sector;
+  Vector m_reset_pos;
 
   // the sector and spawnpoint we should spawn after this frame
-  std::string newsector;
-  std::string newspawnpoint;
-  
-  // Whether the player had invincibility before spawning in a new sector
-  bool pastinvincibility;
-  int newinvincibilityperiod;
+  std::string m_newsector;
+  std::string m_newspawnpoint;
 
-  Statistics* best_level_statistics;
+  // Whether the player had invincibility before spawning in a new sector
+  bool m_pastinvincibility;
+  int m_newinvincibilityperiod;
+
+  Statistics* m_best_level_statistics;
   Savegame& m_savegame;
 
-  float play_time; /**< total time in seconds that this session ran interactively */
+  float m_play_time; /**< total time in seconds that this session ran interactively */
 
-  bool edit_mode; /**< true if GameSession runs in level editor mode */
-  bool levelintro_shown; /**< true if the LevelIntro screen was already shown */
+  bool m_edit_mode; /**< true if GameSession runs in level editor mode */
+  bool m_levelintro_shown; /**< true if the LevelIntro screen was already shown */
 
-  int coins_at_start; /** How many coins does the player have at the start */
-  BonusType bonus_at_start; /** What bonuses does the player have at the start */
-  int max_fire_bullets_at_start; /** How many fire bullets does the player have */
-  int max_ice_bullets_at_start; /** How many ice bullets does the player have */
+  int m_coins_at_start; /** How many coins does the player have at the start */
+  BonusType m_bonus_at_start; /** What bonuses does the player have at the start */
+  int m_max_fire_bullets_at_start; /** How many fire bullets does the player have */
+  int m_max_ice_bullets_at_start; /** How many ice bullets does the player have */
 
-  bool active; /** Game active? **/
+  bool m_active; /** Game active? **/
 
-  bool end_seq_started;
+  bool m_end_seq_started;
 
 private:
-  GameSession(const GameSession&);
-  GameSession& operator=(const GameSession&);
+  GameSession(const GameSession&) = delete;
+  GameSession& operator=(const GameSession&) = delete;
 };
 
 #endif /*SUPERTUX_GAMELOOP_H*/

@@ -50,7 +50,7 @@ inline void makePlane(const Vector& p1, const Vector& p2, Vector& n, float& c)
 bool rectangle_aatriangle(Constraints* constraints, const Rectf& rect,
                           const AATriangle& triangle, const Vector& addl_ground_movement)
 {
-  if(!intersects(rect, (const Rectf&) triangle))
+  if(!intersects(rect, triangle.bbox))
     return false;
 
   Vector normal;

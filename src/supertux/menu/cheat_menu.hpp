@@ -38,7 +38,7 @@ private:
 public:
   CheatMenu();
 
-  void menu_action(MenuItem* item) override;
+  void menu_action(MenuItem& item) override;
 
 private:
   CheatMenu(const CheatMenu&) = delete;

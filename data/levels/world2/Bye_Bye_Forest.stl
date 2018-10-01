@@ -3,7 +3,6 @@
   (name (_ "Bye Bye Forest"))
   (author "alex")
   (license "CC-BY-SA 4.0 International")
-  (target-time 0)
   (sector
     (name "main")
     (music "music/forest_theme.ogg")
@@ -14,7 +13,7 @@
       (image-top "images/background/forest2_para.png")
       (image "images/background/forest2_para.png")
       (image-bottom "images/background/forest2_para.png")
-      (layer -190)
+      (z-pos -190)
     )
     (camera
       (mode "normal")
@@ -763,8 +762,6 @@
     )
     (secretarea
       (fade-tilemap "secret")
-      (script "")
-      (message "")
       (width 284)
       (height 124)
       (x 5056)
@@ -1368,27 +1365,22 @@
       )
     )
     (torch
-      (sprite "images/objects/torch/torch1.sprite")
       (x 272)
       (y 160)
     )
     (torch
-      (sprite "images/objects/torch/torch1.sprite")
       (x 1392)
       (y 352)
     )
     (torch
-      (sprite "images/objects/torch/torch1.sprite")
       (x 1904)
       (y 352)
     )
     (torch
-      (sprite "images/objects/torch/torch1.sprite")
       (x 2160)
       (y 736)
     )
     (torch
-      (sprite "images/objects/torch/torch1.sprite")
       (x 2960)
       (y 288)
     )

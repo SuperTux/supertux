@@ -1,8 +1,8 @@
 (supertux-level
   (version 2)
-  (name (_ "...Where Everything Is Possible"))  (license "GPL 2+ / CC-by-sa 3.0")
+  (name (_ "...Where Everything Is Possible"))
   (author "Marek Moeckel")
-  (target-time 0)
+  (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
     (music "music/theme.music")
@@ -163,8 +163,6 @@
     )
     (secretarea
       (fade-tilemap "s1")
-      (script "")
-      (message "")
       (width 44)
       (height 124)
       (x 2292)
@@ -172,8 +170,6 @@
     )
     (secretarea
       (fade-tilemap "s2")
-      (script "")
-      (message "")
       (width 40)
       (height 124)
       (x 4704)
@@ -181,8 +177,6 @@
     )
     (secretarea
       (fade-tilemap "s3")
-      (script "")
-      (message "")
       (width 252)
       (height 284)
       (x 10720)

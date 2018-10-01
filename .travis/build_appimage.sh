@@ -36,17 +36,9 @@ cd $APP.AppDir
 get_apprun
 get_desktop
 
-# Our icon filename doesn't match the binary filename, so we can't use the
-# get_icon function here.
-find ./usr/share/pixmaps/supertux.png -exec cp {} . \; 2>/dev/null || true
-find ./usr/share/icons -path *64* -name supertux.png -exec cp {} . \; 2>/dev/null || true
-find ./usr/share/icons -path *128* -name supertux.png -exec cp {} . \; 2>/dev/null || true
-find ./usr/share/icons -path *512* -name supertux.png -exec cp {} . \; 2>/dev/null || true
-find ./usr/share/icons -path *256* -name supertux.png -exec cp {} . \; 2>/dev/null || true
-ls -lh supertux.png || true
-
-# Fix desktop file so it works with generate_type2_appimage
-sed -i 's/Icon=supertux\.png/Icon=supertux/' supertux2.desktop
+# SVG icons are not supported by get_icon, copy it over manually.
+cp ./usr/share/icons/hicolor/scalable/apps/$LOWERAPP.svg . || true
+ls -lh $LOWERAPP.svg || true
 
 ########################################################################
 # Copy in the dependencies that cannot be assumed to be available

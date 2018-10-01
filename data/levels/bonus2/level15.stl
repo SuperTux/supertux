@@ -1,8 +1,8 @@
 (supertux-level
   (version 2)
-  (name (_ "Frozen Tunnel"))  (license "GPL 2+ / CC-by-sa 3.0")
+  (name (_ "Frozen Tunnel"))
   (author "Nilrok")
-  (target-time 0)
+  (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
     (music "music/salcon.ogg")
@@ -171,8 +171,6 @@
       (y 790)
     )
     (secretarea
-      (script "")
-      (message "")
       (width 188)
       (height 32)
       (x 544)

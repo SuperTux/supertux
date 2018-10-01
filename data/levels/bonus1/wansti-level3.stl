@@ -1,8 +1,8 @@
 (supertux-level
   (version 2)
-  (name (_ "A Maze In The Sky"))  (license "GPL 2+ / CC-by-sa 3.0")
+  (name (_ "A Maze In The Sky"))
   (author "SuperTux Team")
-  (target-time 0)
+  (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
     (music "music/chipdisko.ogg")

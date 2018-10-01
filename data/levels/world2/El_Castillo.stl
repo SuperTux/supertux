@@ -3,7 +3,6 @@
   (name (_ "A Short Visit to El Castillo"))
   (author "Christoph Sommer")
   (license "GPL 2+ / CC-by-sa 3.0")
-  (target-time 0)
   (sector
     (name "main")
     (music "music/fortress.music")
@@ -20,12 +19,10 @@
       (mode "normal")
     )
     (candle
-      (color 1 1 1)
       (x 2848)
       (y 1856)
     )
     (candle
-      (color 1 1 1)
       (x 3040)
       (y 1856)
     )
@@ -74,8 +71,8 @@
       (y 1329.5)
     )
     (platform
+      (running #f)
       (name "trapdoor2")
-      (running #f)
       (sprite "images/objects/platforms/big.sprite")
       (path
         (node
@@ -106,8 +103,8 @@
       )
     )
     (platform
+      (running #f)
       (name "trapdoor1")
-      (running #f)
       (sprite "images/objects/platforms/big.sprite")
       (path
         (node
@@ -138,8 +135,8 @@
       )
     )
     (platform
+      (running #f)
       (name "trapdoor4")
-      (running #f)
       (sprite "images/objects/platforms/big.sprite")
       (path
         (node
@@ -170,8 +167,8 @@
       )
     )
     (platform
+      (running #f)
       (name "trapdoor3")
-      (running #f)
       (sprite "images/objects/platforms/big.sprite")
       (path
         (node
@@ -202,8 +199,8 @@
       )
     )
     (platform
-      (name "maindoor")
       (running #f)
+      (name "maindoor")
       (sprite "images/objects/platforms/vertical-wood.sprite")
       (path
         (node
@@ -219,8 +216,8 @@
       )
     )
     (platform
+      (running #f)
       (name "dropdoor1")
-      (running #f)
       (sprite "images/objects/platforms/vertical-wood.sprite")
       (path
         (node
@@ -235,8 +232,8 @@
       )
     )
     (platform
+      (running #f)
       (name "dropdoor2")
-      (running #f)
       (sprite "images/objects/platforms/vertical-wood.sprite")
       (path
         (node
@@ -251,8 +248,8 @@
       )
     )
     (platform
-      (name "dropdoor3")
       (running #f)
+      (name "dropdoor3")
       (sprite "images/objects/platforms/big.sprite")
       (path
         (node
@@ -328,8 +325,6 @@ dropdoor3.goto_node(1);
     )
     (secretarea
       (fade-tilemap "secret1")
-      (script "")
-      (message "")
       (width 307.9458)
       (height 178.6429)
       (x 4244)

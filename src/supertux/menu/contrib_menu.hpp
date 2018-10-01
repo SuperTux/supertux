@@ -29,7 +29,7 @@ private:
 public:
   ContribMenu();
 
-  void menu_action(MenuItem* item) override;
+  void menu_action(MenuItem& item) override;
 
 private:
   ContribMenu(const ContribMenu&);

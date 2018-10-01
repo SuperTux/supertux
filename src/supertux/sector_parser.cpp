@@ -101,15 +101,15 @@ SectorParser::parse(const ReaderMapping& sector)
   auto iter = sector.get_iter();
   while(iter.next()) {
     if(iter.get_key() == "name") {
-      iter.get(m_sector.name);
+      iter.get(m_sector.m_name);
     } else if(iter.get_key() == "gravity") {
-      iter.get(m_sector.gravity);
+      iter.get(m_sector.m_gravity);
     } else if(iter.get_key() == "music") {
-      iter.get(m_sector.music);
+      iter.get(m_sector.m_music);
     } else if(iter.get_key() == "spawnpoint") {
       auto sp = std::make_shared<SpawnPoint>(iter.as_mapping());
       if (!sp->name.empty() && sp->pos.x >= 0 && sp->pos.y >= 0) {
-        m_sector.spawnpoints.push_back(sp);
+        m_sector.m_spawnpoints.push_back(sp);
       }
       if (Editor::is_active()) {
         GameObjectPtr object = parse_object("spawnpoint", iter.as_mapping());
@@ -118,14 +118,14 @@ SectorParser::parse(const ReaderMapping& sector)
         }
       }
     } else if(iter.get_key() == "init-script") {
-      iter.get(m_sector.init_script);
+      iter.get(m_sector.m_init_script);
     } else if(iter.get_key() == "ambient-light") {
       std::vector<float> vColor;
       bool hasColor = sector.get( "ambient-light", vColor );
       if(vColor.size() < 3 || !hasColor) {
         log_warning << "(ambient-light) requires a color as argument" << std::endl;
       } else {
-        m_sector.ambient_light = Color( vColor );
+        m_sector.m_ambient_light = Color( vColor );
       }
     } else {
       GameObjectPtr object = parse_object(iter.get_key(), iter.as_mapping());
@@ -148,29 +148,29 @@ SectorParser::parse(const ReaderMapping& sector)
 
   m_sector.update_game_objects();
 
-  if (m_sector.solid_tilemaps.empty()) {
-    log_warning << "sector '" << m_sector.name << "' does not contain a solid tile layer." << std::endl;
+  if (m_sector.m_solid_tilemaps.empty()) {
+    log_warning << "sector '" << m_sector.m_name << "' does not contain a solid tile layer." << std::endl;
   }
 
   if (!Editor::is_active()) {
     fix_old_tiles();
   }
 
-  if (!m_sector.camera) {
-    log_warning << "sector '" << m_sector.name << "' does not contain a camera." << std::endl;
+  if (!m_sector.m_camera) {
+    log_warning << "sector '" << m_sector.m_name << "' does not contain a camera." << std::endl;
     m_sector.update_game_objects();
     m_sector.add_object(std::make_shared<Camera>(&m_sector, "Camera"));
   }
 
   m_sector.update_game_objects();
-  m_sector.foremost_layer = m_sector.calculate_foremost_layer();
+  m_sector.m_foremost_layer = m_sector.calculate_foremost_layer();
 }
 
 void
 SectorParser::parse_old_format(const ReaderMapping& reader)
 {
-  m_sector.name = "main";
-  reader.get("gravity", m_sector.gravity);
+  m_sector.m_name = "main";
+  reader.get("gravity", m_sector.m_gravity);
 
   std::string backgroundimage;
   if (reader.get("background", backgroundimage) && (!backgroundimage.empty())) {
@@ -230,14 +230,14 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
   auto spawn = std::make_shared<SpawnPoint>();
   spawn->pos = startpos;
   spawn->name = "main";
-  m_sector.spawnpoints.push_back(spawn);
+  m_sector.m_spawnpoints.push_back(spawn);
 
-  m_sector.music = "chipdisko.ogg";
+  m_sector.m_music = "chipdisko.ogg";
   // skip reading music filename. It's all .ogg now, anyway
   /*
     reader.get("music", music);
   */
-  m_sector.music = "music/" + m_sector.music;
+  m_sector.m_music = "music/" + m_sector.m_music;
 
   int width = 30, height = 15;
   reader.get("width", width);
@@ -246,13 +246,13 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
   std::vector<unsigned int> tiles;
   if(reader.get("interactive-tm", tiles)
      || reader.get("tilemap", tiles)) {
-    auto tileset = TileManager::current()->get_tileset(m_sector.level->get_tileset());
+    auto tileset = TileManager::current()->get_tileset(m_sector.m_level->get_tileset());
     auto tilemap = std::make_shared<TileMap>(tileset);
     tilemap->set(width, height, tiles, LAYER_TILES, true);
 
     // replace tile id 112 (old invisible tile) with 1311 (new invisible tile)
-    for(size_t x=0; x < tilemap->get_width(); ++x) {
-      for(size_t y=0; y < tilemap->get_height(); ++y) {
+    for(int x=0; x < tilemap->get_width(); ++x) {
+      for(int y=0; y < tilemap->get_height(); ++y) {
         uint32_t id = tilemap->get_tile_id(x, y);
         if(id == 112)
           tilemap->change(x, y, 1311);
@@ -264,7 +264,7 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
   }
 
   if(reader.get("background-tm", tiles)) {
-    auto tileset = TileManager::current()->get_tileset(m_sector.level->get_tileset());
+    auto tileset = TileManager::current()->get_tileset(m_sector.m_level->get_tileset());
     auto tilemap = std::make_shared<TileMap>(tileset);
     tilemap->set(width, height, tiles, LAYER_BACKGROUNDTILES, false);
     if (height < 19) tilemap->resize(width, 19);
@@ -272,7 +272,7 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
   }
 
   if(reader.get("foreground-tm", tiles)) {
-    auto tileset = TileManager::current()->get_tileset(m_sector.level->get_tileset());
+    auto tileset = TileManager::current()->get_tileset(m_sector.m_level->get_tileset());
     auto tilemap = std::make_shared<TileMap>(tileset);
     tilemap->set(width, height, tiles, LAYER_FOREGROUNDTILES, false);
 
@@ -283,9 +283,9 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
   }
 
   // read reset-points (now spawn-points)
-  ReaderMapping resetpoints;
+  boost::optional<ReaderMapping> resetpoints;
   if(reader.get("reset-points", resetpoints)) {
-    auto iter = resetpoints.get_iter();
+    auto iter = resetpoints->get_iter();
     while(iter.next()) {
       if(iter.get_key() == "point") {
         Vector sp_pos;
@@ -294,7 +294,7 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
           auto sp = std::make_shared<SpawnPoint>();
           sp->name = "main";
           sp->pos = sp_pos;
-          m_sector.spawnpoints.push_back(sp);
+          m_sector.m_spawnpoints.push_back(sp);
         }
       } else {
         log_warning << "Unknown token '" << iter.get_key() << "' in reset-points." << std::endl;
@@ -303,9 +303,9 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
   }
 
   // read objects
-  ReaderCollection objects;
+  boost::optional<ReaderCollection> objects;
   if(reader.get("objects", objects)) {
-    for(auto const& obj : objects.get_objects())
+    for(auto const& obj : objects->get_objects())
     {
       auto object = parse_object(obj.get_name(), obj.get_mapping());
       if(object) {
@@ -322,8 +322,8 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
 
   m_sector.update_game_objects();
 
-  if (m_sector.solid_tilemaps.empty()) {
-    log_warning << "sector '" << m_sector.name << "' does not contain a solid tile layer." << std::endl;
+  if (m_sector.m_solid_tilemaps.empty()) {
+    log_warning << "sector '" << m_sector.m_name << "' does not contain a solid tile layer." << std::endl;
   }
 
   if (!Editor::is_active()) {
@@ -335,53 +335,59 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
 void
 SectorParser::fix_old_tiles()
 {
-  for(const auto& solids : m_sector.solid_tilemaps) {
-    for(size_t x=0; x < solids->get_width(); ++x) {
-      for(size_t y=0; y < solids->get_height(); ++y) {
-        const auto& tile = solids->get_tile(x, y);
-
-        if (tile->get_object_name().length() > 0) {
-          Vector pos = solids->get_tile_position(x, y);
-          try {
-            GameObjectPtr object = ObjectFactory::instance().create(tile->get_object_name(), pos, AUTO, tile->get_object_data());
-            m_sector.add_object(object);
-            solids->change(x, y, 0);
-          } catch(std::exception& e) {
-            log_warning << e.what() << "" << std::endl;
-          }
-        }
-
-      }
-    }
-  }
-
   // add lights for special tiles
-  for(const auto& obj : m_sector.gameobjects) {
+  for(const auto& obj : m_sector.m_gameobjects) {
     auto tm = dynamic_cast<TileMap*>(obj.get());
     if (!tm) continue;
-    for(size_t x=0; x < tm->get_width(); ++x) {
-      for(size_t y=0; y < tm->get_height(); ++y) {
-        const auto& tile = tm->get_tile(x, y);
-        uint32_t attributes = tile->getAttributes();
-        Vector pos = tm->get_tile_position(x, y);
-        Vector center = pos + Vector(16, 16);
 
-        if (attributes & Tile::FIRE) {
-          if (attributes & Tile::HURTS) {
-            // lava or lavaflow
-            // space lights a bit
-            if ((tm->get_tile(x-1, y)->getAttributes() != attributes || x%3 == 0)
-                 && (tm->get_tile(x, y-1)->getAttributes() != attributes || y%3 == 0)) {
-              float pseudo_rnd = (float)((int)pos.x % 10) / 10;
-              m_sector.add_object(std::make_shared<PulsingLight>(center, 1.0f + pseudo_rnd, 0.8f, 1.0f, Color(1.0f, 0.3f, 0.0f, 1.0f)));
+    for(int x=0; x < tm->get_width(); ++x)
+    {
+      for(int y=0; y < tm->get_height(); ++y)
+      {
+        const Tile& tile = tm->get_tile(x, y);
+
+        if (!tile.get_object_name().empty())
+        {
+          // If a tile is associated with an object, insert that
+          // object and remove the tile
+          if (tile.get_object_name() == "decal" ||
+              tm->is_solid())
+          {
+            Vector pos = tm->get_tile_position(x, y);
+            try {
+              GameObjectPtr object = ObjectFactory::instance().create(tile.get_object_name(), pos, AUTO, tile.get_object_data());
+              m_sector.add_object(object);
+              tm->change(x, y, 0);
+            } catch(std::exception& e) {
+              log_warning << e.what() << "" << std::endl;
             }
-          } else {
-            // torch
-            float pseudo_rnd = (float)((int)pos.x % 10) / 10;
-            m_sector.add_object(std::make_shared<PulsingLight>(center, 1.0f + pseudo_rnd, 0.9f, 1.0f, Color(1.0f, 1.0f, 0.6f, 1.0f)));
           }
         }
+        else
+        {
+          // add lights for fire tiles
+          uint32_t attributes = tile.get_attributes();
+          Vector pos = tm->get_tile_position(x, y);
+          Vector center = pos + Vector(16, 16);
 
+          if (attributes & Tile::FIRE) {
+            if (attributes & Tile::HURTS) {
+              // lava or lavaflow
+              // space lights a bit
+              if ((tm->get_tile(x-1, y).get_attributes() != attributes || x%3 == 0)
+                  && (tm->get_tile(x, y-1).get_attributes() != attributes || y%3 == 0)) {
+                float pseudo_rnd = static_cast<float>(static_cast<int>(pos.x) % 10) / 10;
+                m_sector.add_object(std::make_shared<PulsingLight>(center, 1.0f + pseudo_rnd, 0.8f, 1.0f,
+                                                                   Color(1.0f, 0.3f, 0.0f, 1.0f)));
+              }
+            } else {
+              // torch
+              float pseudo_rnd = static_cast<float>(static_cast<int>(pos.x) % 10) / 10;
+              m_sector.add_object(std::make_shared<PulsingLight>(center, 1.0f + pseudo_rnd, 0.9f, 1.0f,
+                                                                 Color(1.0f, 1.0f, 0.6f, 1.0f)));
+            }
+          }
+        }
       }
     }
   }
@@ -390,7 +396,7 @@ SectorParser::fix_old_tiles()
 void
 SectorParser::create_sector()
 {
-  auto tileset = TileManager::current()->get_tileset(m_sector.level->get_tileset());
+  auto tileset = TileManager::current()->get_tileset(m_sector.m_level->get_tileset());
   bool worldmap = Editor::current() ? Editor::current()->get_worldmap_mode() : false;
   if (!worldmap) {
     auto background = std::make_shared<Background>();
@@ -424,7 +430,7 @@ SectorParser::create_sector()
   auto spawn_point = std::make_shared<SpawnPoint>();
   spawn_point->name = "main";
   spawn_point->pos = Vector(64, 480);
-  m_sector.spawnpoints.push_back(spawn_point);
+  m_sector.m_spawnpoints.push_back(spawn_point);
 
   if (worldmap) {
     GameObjectPtr spawn_point_marker = std::make_shared<worldmap_editor::WorldmapSpawnPoint>("main", Vector(4, 4));

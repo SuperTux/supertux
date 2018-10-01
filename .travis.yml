@@ -53,31 +53,37 @@ before_install:
   - if [ "$TRAVIS_OS_NAME" = "osx" ] && [ "$BUILD_TYPE" = "Release" ]; then
       export RELEASE="ON";
     fi;
-  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then
-      brew update;
-      brew upgrade cmake;
-      brew install bash libogg libvorbis glew openal-soft sdl2 sdl2_image;
+
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then
+      if [ "$CXX" = "g++" ]; then export CXX="g++-8" CC="gcc-8"; fi;
+      if [ "$CXX" = "clang++" ]; then export CXX="clang++-6.0" CC="clang-6.0"; fi;
     fi
+
   # Try building with GLBinding
   # Note: glbindings ./configure needs to be run twice in order to generate a makefile
   - if [ "$TRAVIS_OS_NAME" = "linux" ] && [ "$USE_GLBINDING" = "ON" ]; then
       wget https://github.com/cginternals/glbinding/archive/v$GLBINDING_VERSION.tar.gz -O - | tar xz;
       cd glbinding-$GLBINDING_VERSION && ./configure --prefix=/usr && ./configure --prefix=/usr;
-      cd build && make -j3 && sudo make install;
+      cd build && make && sudo make install;
       cd ../..;
-    fi
-  - if [ "$TRAVIS_OS_NAME" = "osx" ] && [ "$USE_GLBINDING" = "ON" ]; then
-      brew install glbinding;
     fi
   # Fetch the entire git history
   - git fetch --unshallow
+  # Install libRAQM
+  - git clone --depth 1 https://github.com/HOST-Oman/libraqm.git;
+    if [ "$TRAVIS_OS_NAME" = "linux" ]; then cd libraqm && ./autogen.sh && ./configure --prefix=/usr --disable-Werror && make -j3 && sudo make install; fi;
+    if [ "$TRAVIS_OS_NAME" = "osx" ]; then cd libraqm && ./autogen.sh && ./configure --prefix=/usr/local --disable-Werror && make -j3 && sudo make install; fi;
+    cd ..;
 
 script:
+  - cmake --version
+  - $CXX --version
+  - env
   - mkdir "build-$BUILD_TYPE"
   - cd "build-$BUILD_TYPE"
   - cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DWARNINGS=ON -DWERROR=ON -DGLBINDING_ENABLED=$USE_GLBINDING -DBUILD_TESTS=ON -DCMAKE_INSTALL_MESSAGE=NEVER -DCMAKE_INSTALL_PREFIX=/usr -DINSTALL_SUBDIR_BIN=bin -DINSTALL_SUBDIR_SHARE=share/supertux2
-  - make -j3
-  - make install DESTDIR="/tmp/supertux-$BUILD_TYPE"
+  - make VERBOSE=1
+  - make install DESTDIR="/tmp/supertux-$BUILD_TYPE" VERBOSE=1
   - ./test_supertux2
 
 after_success:
@@ -102,9 +108,15 @@ deploy:
 
 addons:
   apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    - llvm-toolchain-trusty-6.0
     packages:
     - cmake
     - build-essential
+    - automake
+    - clang-6.0
+    - g++-8
     - libc++-dev
     - libogg-dev
     - libvorbis-dev
@@ -113,8 +125,31 @@ addons:
     - libboost-all-dev
     - libsdl2-dev
     - libsdl2-image-dev
+    - libfreetype6-dev
+    - libharfbuzz-dev
+    - libfribidi-dev
+    - libglib2.0-dev
+    - gtk-doc-tools
     - rpm
     - sshpass
+  homebrew:
+    packages:
+    - cmake
+    - bash
+    - libogg
+    - libvorbis
+    - glew
+    - openal-soft
+    - sdl2
+    - sdl2_image
+    - sdl2_ttf
+    - freetype
+    - harfbuzz
+    - fribidi
+    - glib
+    - gtk-doc
+    - glbinding
+    update: true
   coverity_scan:
     project:
       name: "SuperTux/supertux"

@@ -64,7 +64,7 @@ private:
     /** Loops (-1 = looping endlessly) */
     int loops;
 
-    /** Flag that gets set to true if the action 
+    /** Flag that gets set to true if the action
         has custom loops defined */
     bool has_custom_loops;
 

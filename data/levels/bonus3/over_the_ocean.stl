@@ -39,7 +39,6 @@
       (y 416)
     )
     (icecrusher
-      (sprite "images/creatures/icecrusher/icecrusher.sprite")
       (x 7072)
       (y 288)
     )
@@ -94,8 +93,6 @@
     )
     (secretarea
       (fade-tilemap "secr1")
-      (script "")
-      (message "")
       (width 92)
       (height 104)
       (x 6432)

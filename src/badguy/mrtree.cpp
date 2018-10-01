@@ -22,6 +22,7 @@
 #include "badguy/poisonivy.hpp"
 #include "badguy/stumpy.hpp"
 #include "math/random_generator.hpp"
+#include "math/util.hpp"
 #include "object/player.hpp"
 #include "object/sprite_particle.hpp"
 #include "sprite/sprite.hpp"
@@ -53,7 +54,7 @@ bool
 MrTree::collision_squished(GameObject& object)
 {
   auto player = dynamic_cast<Player*>(&object);
-  if(player && (player->does_buttjump || player->is_invincible())) {
+  if(player && (player->m_does_buttjump || player->is_invincible())) {
     player->bounce(*this);
     kill_fall();
     return true;
@@ -73,12 +74,13 @@ MrTree::collision_squished(GameObject& object)
 
   // spawn some particles
   // TODO: provide convenience function in MovingSprite or MovingObject?
-  for (int px = (int)stumpy->get_bbox().p1.x; px < (int)stumpy->get_bbox().p2.x; px+=10) {
-    Vector ppos = Vector(px, stumpy->get_bbox().p1.y-5);
-    float angle = graphicsRandom.randf(-M_PI_2, M_PI_2);
+  for (int px = static_cast<int>(stumpy->get_bbox().p1.x); px < static_cast<int>(stumpy->get_bbox().p2.x); px+=10) {
+    Vector ppos = Vector(static_cast<float>(px),
+                         static_cast<float>(stumpy->get_bbox().p1.y) - 5.0f);
+    float angle = graphicsRandom.randf(-math::PI_2, math::PI_2);
     float velocity = graphicsRandom.randf(45, 90);
-    float vx = sin(angle)*velocity;
-    float vy = -cos(angle)*velocity;
+    float vx = sinf(angle)*velocity;
+    float vy = -cosf(angle)*velocity;
     Vector pspeed = Vector(vx, vy);
     Vector paccel = Vector(0, Sector::current()->get_gravity()*10);
     Sector::current()->add_object(std::make_shared<SpriteParticle>("images/objects/particles/leaf.sprite",

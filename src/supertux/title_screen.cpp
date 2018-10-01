@@ -28,11 +28,12 @@
 #include "supertux/resources.hpp"
 #include "supertux/screen_manager.hpp"
 #include "supertux/sector.hpp"
+#include "video/compositor.hpp"
 #include "video/drawing_context.hpp"
 #include "video/surface.hpp"
 
 TitleScreen::TitleScreen(Savegame& savegame) :
-  frame(Surface::create("images/engine/menu/frame.png")),
+  frame(Surface::from_file("images/engine/menu/frame.png")),
   controller(new CodeController()),
   titlesession(new GameSession("levels/misc/menu.stl", savegame)),
   copyright_text("SuperTux " PACKAGE_VERSION "\n" +
@@ -41,7 +42,7 @@ TitleScreen::TitleScreen(Savegame& savegame) :
       "redistribute it under certain conditions; see the license file for details.\n"
    ))
 {
-  auto player = titlesession->get_current_sector()->player;
+  auto player = titlesession->get_current_sector()->m_player;
   player->set_controller(controller.get());
   player->set_speedlimit(230); //MAX_WALK_XM
 }
@@ -51,7 +52,7 @@ TitleScreen::make_tux_jump()
 {
   static bool jumpWasReleased = true;
   Sector* sector  = titlesession->get_current_sector();
-  Player* tux = sector->player;
+  Player* tux = sector->m_player;
 
   controller->update();
   controller->press(Controller::RIGHT);
@@ -70,7 +71,7 @@ TitleScreen::make_tux_jump()
   // Wrap around at the end of the level back to the beginning
   if(sector->get_width() - 320 < tux->get_pos().x) {
     sector->activate("main");
-    sector->camera->reset(tux->get_pos());
+    sector->m_camera->reset(tux->get_pos());
   }
 }
 
@@ -84,7 +85,7 @@ TitleScreen::setup()
   Sector* sector = titlesession->get_current_sector();
   if(Sector::current() != sector) {
     sector->play_music(LEVEL_MUSIC);
-    sector->activate(sector->player->get_pos());
+    sector->activate(sector->m_player->get_pos());
   }
 
   MenuManager::instance().set_menu(MenuStorage::MAIN_MENU);
@@ -100,20 +101,21 @@ TitleScreen::leave()
 }
 
 void
-TitleScreen::draw(DrawingContext& context)
+TitleScreen::draw(Compositor& compositor)
 {
+  auto& context = compositor.make_context();
+
   Sector* sector  = titlesession->get_current_sector();
   sector->draw(context);
 
-  context.color().draw_surface_part(frame,
-                            Rectf(0, 0, frame->get_width(), frame->get_height()),
-                            Rectf(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT),
-                            LAYER_FOREGROUND1);
+  context.color().draw_surface_scaled(frame,
+                                      Rectf(0, 0, static_cast<float>(context.get_width()), static_cast<float>(context.get_height())),
+                                      LAYER_FOREGROUND1);
 
   context.color().draw_text(Resources::small_font,
-                    copyright_text,
-                    Vector(5, SCREEN_HEIGHT - 50),
-                    ALIGN_LEFT, LAYER_FOREGROUND1);
+                            copyright_text,
+                            Vector(5.0f, static_cast<float>(context.get_height()) - 50.0f),
+                            ALIGN_LEFT, LAYER_FOREGROUND1);
 }
 
 void

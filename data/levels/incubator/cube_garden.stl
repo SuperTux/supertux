@@ -32,7 +32,7 @@
     (gradient
       (top_color 0 0 0.3013504)
       (bottom_color 0 0 0)
-      (layer -210)
+      (z-pos -210)
     )
     (haywire
       (x 4581)

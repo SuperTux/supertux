@@ -39,9 +39,9 @@
       (y 512)
     )
     (powerup
+      (sprite "images/powerups/egg/egg.sprite")
       (x 100)
       (y 700)
-      (sprite "images/powerups/egg/egg.sprite")
     )
     (spawnpoint
       (name "main")
@@ -49,8 +49,8 @@
       (y 700)
     )
     (tilemap
-      (z-pos -100)
       (solid #f)
+      (z-pos -100)
       (width 30)
       (height 30)
       (tiles
@@ -87,8 +87,8 @@
       )
     )
     (tilemap
-      (z-pos 0)
       (solid #t)
+      (z-pos 0)
       (width 30)
       (height 30)
       (tiles

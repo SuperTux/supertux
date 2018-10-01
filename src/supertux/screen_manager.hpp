@@ -24,10 +24,12 @@
 #include "supertux/screen.hpp"
 #include "util/currenton.hpp"
 
-class VideoSystem;
+class Compositor;
+class DrawingContext;
 class MenuManager;
 class MenuStorage;
 class ScreenFade;
+class VideoSystem;
 
 /**
  * Manages, updates and draws all Screens, Controllers, Menus and the Console.
@@ -41,6 +43,8 @@ public:
   void run();
   void quit(std::unique_ptr<ScreenFade> fade = {});
   void set_speed(float speed);
+  void set_target_framerate(float framerate);
+  float get_target_framerate() const;
   float get_speed() const;
   bool has_pending_fadeout() const;
 
@@ -55,7 +59,7 @@ public:
 private:
   void draw_fps(DrawingContext& context, float fps);
   void draw_player_pos(DrawingContext& context);
-  void draw(DrawingContext& context);
+  void draw(Compositor& compositor);
   void update_gamelogic(float elapsed_time);
   void process_events();
   void handle_screen_switch();
@@ -66,6 +70,8 @@ private:
   std::unique_ptr<MenuManager> m_menu_manager;
 
   float m_speed;
+  float m_target_framerate;
+
   struct Action
   {
     enum Type { PUSH_ACTION, POP_ACTION, QUIT_ACTION };

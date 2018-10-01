@@ -3,7 +3,6 @@
   (name (_ "Semi-Frozen"))
   (author "SuperTux Team")
   (license "GPL 2+ / CC-by-sa 3.0")
-  (target-time 0)
   (sector
     (name "main")
     (music "music/chipdisko.ogg")
@@ -108,16 +107,12 @@
     )
     (secretarea
       (fade-tilemap "secret")
-      (script "")
-      (message "")
       (width 206.6582)
       (height 127.9922)
       (x 13504)
       (y 608)
     )
     (secretarea
-      (script "")
-      (message "")
       (width 96)
       (height 96)
       (x 5696)
@@ -628,8 +623,6 @@
       (y 0)
     )
     (secretarea
-      (script "")
-      (message "")
       (width 156)
       (height 92)
       (x 32)

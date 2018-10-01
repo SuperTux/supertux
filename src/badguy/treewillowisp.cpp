@@ -21,6 +21,7 @@
 #include "audio/sound_manager.hpp"
 #include "audio/sound_source.hpp"
 #include "badguy/ghosttree.hpp"
+#include "math/util.hpp"
 #include "object/lantern.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
@@ -126,10 +127,10 @@ TreeWillOWisp::active_update(float elapsed_time)
     return;
   }
 
-  angle = fmodf(angle + elapsed_time * speed, (float) (2*M_PI));
-  Vector newpos(start_position + Vector(sin(angle) * radius, 0));
+  angle = fmodf(angle + elapsed_time * speed, math::TAU);
+  Vector newpos(start_position + Vector(sinf(angle) * radius, 0));
   movement = newpos - get_pos();
-  float sizemod = cos(angle) * 0.8f;
+  float sizemod = cosf(angle) * 0.8f;
   /* TODO: modify sprite size */
 
   sound_source->set_position(get_pos());

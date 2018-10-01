@@ -51,11 +51,11 @@ EditorObjectgroupMenu::~EditorObjectgroupMenu()
 }
 
 void
-EditorObjectgroupMenu::menu_action(MenuItem* item)
+EditorObjectgroupMenu::menu_action(MenuItem& item)
 {
-  if (item->id >= 0)
+  if (item.id >= 0)
   {
-    Editor::current()->select_objectgroup(item->id);
+    Editor::current()->select_objectgroup(item.id);
   }
   MenuManager::instance().clear_menu_stack();
 }

@@ -30,162 +30,166 @@ class Surface;
 
 enum RequestType
 {
-  SURFACE, SURFACE_PART, TEXT, GRADIENT, FILLRECT, INVERSEELLIPSE, DRAW_LIGHTMAP, GETLIGHT, LINE, TRIANGLE
-};
-
-struct DrawingRequestData
-{
-  virtual ~DrawingRequestData()
-  {}
-};
-
-struct SurfaceRequest : public DrawingRequestData
-{
-  SurfaceRequest() :
-    surface()
-  {}
-
-  const Surface* surface;
-
-private:
-  SurfaceRequest(const SurfaceRequest&) = delete;
-  SurfaceRequest& operator=(const SurfaceRequest&) = delete;
-};
-
-struct SurfacePartRequest : public DrawingRequestData
-{
-  SurfacePartRequest() :
-    surface(),
-    srcrect(),
-    dstsize()
-  {}
-
-  const Surface* surface;
-  Rectf srcrect;
-  Sizef dstsize;
-
-private:
-  SurfacePartRequest(const SurfacePartRequest&) = delete;
-  SurfacePartRequest& operator=(const SurfacePartRequest&) = delete;
-};
-
-struct TextRequest : public DrawingRequestData
-{
-  TextRequest() :
-    font(),
-    text(),
-    alignment()
-  {}
-
-  const Font* font;
-  std::string text;
-  FontAlignment alignment;
-
-private:
-  TextRequest(const TextRequest&);
-  TextRequest& operator=(const TextRequest&);
-};
-
-struct GradientRequest : public DrawingRequestData
-{
-  GradientRequest()  :
-    top(),
-    bottom(),
-    size(),
-    direction(),
-    region()
-  {}
-
-  Color top;
-  Color bottom;
-  Vector size;
-  GradientDirection direction;
-  Rectf region;
-};
-
-struct FillRectRequest : public DrawingRequestData
-{
-  FillRectRequest() :
-    color(),
-    size(),
-    radius()
-  {}
-
-  Color  color;
-  Vector size;
-  float  radius;
-};
-
-struct InverseEllipseRequest : public DrawingRequestData
-{
-  InverseEllipseRequest() :
-    color(),
-    size()
-  {}
-
-  Color  color;
-  Vector size;
-};
-
-struct LineRequest : public DrawingRequestData
-{
-  LineRequest() :
-    color(),
-    dest_pos()
-  {}
-
-  Color  color;
-  Vector dest_pos;
-};
-
-struct TriangleRequest : public DrawingRequestData
-{
-  TriangleRequest() :
-    color(),
-    pos2(),
-    pos3()
-  {}
-
-  Color  color;
-  Vector pos2, pos3;
+  TEXTURE, TEXTURE_BATCH, GRADIENT, FILLRECT, INVERSEELLIPSE, GETPIXEL, LINE, TRIANGLE
 };
 
 struct DrawingRequest
 {
   RequestType type;
-  Vector pos;
 
   int layer;
-  DrawingEffect drawing_effect;
+  Flip flip;
   float alpha;
   Blend blend;
   float angle;
-  Color color;
 
-  DrawingRequestData* request_data;
-
-  DrawingRequest() :
-    type(),
-    pos(),
+  DrawingRequest() = delete;
+  DrawingRequest(RequestType type_) :
+    type(type_),
     layer(),
-    drawing_effect(),
+    flip(),
     alpha(),
     blend(),
-    angle(0.0f),
-    color(1.0f, 1.0f, 1.0f, 1.0f),
-    request_data()
+    angle(0.0f)
   {}
+  virtual ~DrawingRequest() {}
 };
 
-struct GetLightRequest : public DrawingRequestData
+struct TextureRequest : public DrawingRequest
 {
-  GetLightRequest() : color_ptr() {}
+  TextureRequest() :
+    DrawingRequest(TEXTURE),
+    texture(),
+    displacement_texture(),
+    srcrect(),
+    dstrect(),
+    color(1.0f, 1.0f, 1.0f)
+  {}
 
+  const Texture* texture;
+  const Texture* displacement_texture;
+  Rectf srcrect;
+  Rectf dstrect;
+  Color color;
+
+private:
+  TextureRequest(const TextureRequest&) = delete;
+  TextureRequest& operator=(const TextureRequest&) = delete;
+};
+
+struct TextureBatchRequest : public DrawingRequest
+{
+  TextureBatchRequest() :
+    DrawingRequest(TEXTURE),
+    texture(),
+    displacement_texture(),
+    srcrects(),
+    dstrects(),
+    color(1.0f, 1.0f, 1.0f)
+  {}
+
+  const Texture* texture;
+  const Texture* displacement_texture;
+  std::vector<Rectf> srcrects;
+  std::vector<Rectf> dstrects;
+  Color color;
+
+private:
+  TextureBatchRequest(const TextureBatchRequest&) = delete;
+  TextureBatchRequest& operator=(const TextureBatchRequest&) = delete;
+};
+
+struct GradientRequest : public DrawingRequest
+{
+  GradientRequest()  :
+    DrawingRequest(GRADIENT),
+    pos(),
+    size(),
+    top(),
+    bottom(),
+    direction(),
+    region()
+  {}
+
+  Vector pos;
+  Vector size;
+  Color top;
+  Color bottom;
+  GradientDirection direction;
+  Rectf region;
+};
+
+struct FillRectRequest : public DrawingRequest
+{
+  FillRectRequest() :
+    DrawingRequest(FILLRECT),
+    pos(),
+    size(),
+    color(),
+    radius()
+  {}
+
+  Vector pos;
+  Vector size;
+  Color  color;
+  float  radius;
+};
+
+struct InverseEllipseRequest : public DrawingRequest
+{
+  InverseEllipseRequest() :
+    DrawingRequest(INVERSEELLIPSE),
+    pos(),
+    size(),
+    color()
+  {}
+
+  Vector pos;
+  Vector size;
+  Color color;
+};
+
+struct LineRequest : public DrawingRequest
+{
+  LineRequest() :
+    DrawingRequest(LINE),
+    pos(),
+    dest_pos(),
+    color()
+  {}
+
+  Vector pos;
+  Vector dest_pos;
+  Color color;
+};
+
+struct TriangleRequest : public DrawingRequest
+{
+  TriangleRequest() :
+    DrawingRequest(TRIANGLE),
+    pos1(),
+    pos2(),
+    pos3(),
+    color()
+  {}
+
+  Vector pos1, pos2, pos3;
+  Color  color;
+};
+
+struct GetPixelRequest : public DrawingRequest
+{
+  GetPixelRequest() :
+    DrawingRequest(GETPIXEL),
+    pos(),
+    color_ptr() {}
+
+  Vector pos;
   Color* color_ptr;
 
 private:
-  GetLightRequest(const GetLightRequest&) = delete;
-  GetLightRequest& operator=(const GetLightRequest&) = delete;
+  GetPixelRequest(const GetPixelRequest&) = delete;
+  GetPixelRequest& operator=(const GetPixelRequest&) = delete;
 };
 
 #endif

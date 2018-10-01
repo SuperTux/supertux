@@ -19,14 +19,16 @@
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/globals.hpp"
+#include "video/video_system.hpp"
+#include "video/viewport.hpp"
 
 FallingCoin::FallingCoin(const Vector& start_position, const int vel_x) :
   physic(),
   pos(start_position),
   sprite(SpriteManager::current()->create("images/objects/coin/coin.sprite"))
 {
-  physic.set_velocity_y(-800);
-  physic.set_velocity_x(vel_x);
+  physic.set_velocity_y(-800.0f);
+  physic.set_velocity_x(static_cast<float>(vel_x));
 }
 
 void
@@ -39,7 +41,7 @@ void
 FallingCoin::update(float elapsed_time)
 {
   pos += physic.get_movement(elapsed_time);
-  if (pos.y > SCREEN_HEIGHT)
+  if (pos.y > static_cast<float>(SCREEN_HEIGHT))
     remove_me();
 }
 

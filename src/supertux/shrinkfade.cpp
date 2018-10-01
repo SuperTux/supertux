@@ -18,12 +18,14 @@
 
 #include "supertux/globals.hpp"
 #include "video/drawing_context.hpp"
+#include "video/video_system.hpp"
+#include "video/viewport.hpp"
 
 ShrinkFade::ShrinkFade(const Vector& dest_, float fade_time_) :
   dest(dest_),
   fade_time(fade_time_),
   accum_time(0),
-  initial_size(SCREEN_HEIGHT > SCREEN_WIDTH ? SCREEN_HEIGHT : SCREEN_WIDTH)
+  initial_size(static_cast<float>(SCREEN_HEIGHT > SCREEN_WIDTH ? SCREEN_HEIGHT : SCREEN_WIDTH))
 {
 }
 
@@ -41,7 +43,7 @@ ShrinkFade::draw(DrawingContext& context)
   float progress = accum_time / fade_time;
   float diameter = 2 * initial_size * (1.0f - progress);
   context.color().draw_inverse_ellipse(dest, Vector(1.1f * diameter, diameter),
-                               Color(0, 0, 0), LAYER_GUI+1);
+                                         Color(0, 0, 0), LAYER_GUI+1);
 }
 
 bool

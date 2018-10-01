@@ -88,7 +88,7 @@ void
 LevelParser::load(const std::string& filepath)
 {
   try {
-    m_level.filename = filepath;
+    m_level.m_filename = filepath;
     register_translation_directory(filepath);
     auto doc = ReaderDocument::parse(filepath);
     auto root = doc.get_root();
@@ -104,13 +104,13 @@ LevelParser::load(const std::string& filepath)
       log_info << "[" <<  filepath << "] level uses old format: version 1" << std::endl;
       load_old_format(level);
     } else if (version == 2) {
-      level.get("tileset", m_level.tileset);
+      level.get("tileset", m_level.m_tileset);
 
-      level.get("name", m_level.name);
-      level.get("author", m_level.author);
-      level.get("contact", m_level.contact);
-      level.get("license", m_level.license);
-      level.get("target-time", m_level.target_time);
+      level.get("name", m_level.m_name);
+      level.get("author", m_level.m_author);
+      level.get("contact", m_level.m_contact);
+      level.get("license", m_level.m_license);
+      level.get("target-time", m_level.m_target_time);
 
       auto iter = level.get_iter();
       while(iter.next()) {
@@ -120,10 +120,10 @@ LevelParser::load(const std::string& filepath)
         }
       }
 
-      if (m_level.license.empty()) {
-        log_warning << "[" <<  filepath << "] The level author \"" << m_level.author
+      if (m_level.m_license.empty()) {
+        log_warning << "[" <<  filepath << "] The level author \"" << m_level.m_author
                     << "\" did not specify a license for this level \""
-                    << m_level.name << "\". You might not be allowed to share it."
+                    << m_level.m_name << "\". You might not be allowed to share it."
                     << std::endl;
       }
     } else {
@@ -139,8 +139,8 @@ LevelParser::load(const std::string& filepath)
 void
 LevelParser::load_old_format(const ReaderMapping& reader)
 {
-  reader.get("name", m_level.name);
-  reader.get("author", m_level.author);
+  reader.get("name", m_level.m_name);
+  reader.get("author", m_level.m_author);
 
   auto sector = SectorParser::from_reader_old_format(m_level, reader);
   m_level.add_sector(std::move(sector));
@@ -149,10 +149,10 @@ LevelParser::load_old_format(const ReaderMapping& reader)
 void
 LevelParser::create(const std::string& filepath, const std::string& levelname, bool worldmap)
 {
-  m_level.filename = filepath;
-  m_level.name = levelname;
-  m_level.license = "CC-BY-SA 4.0 International";
-  m_level.tileset = worldmap ? "images/worldmap.strf" : "images/tiles.strf";
+  m_level.m_filename = filepath;
+  m_level.m_name = levelname;
+  m_level.m_license = "CC-BY-SA 4.0 International";
+  m_level.m_tileset = worldmap ? "images/worldmap.strf" : "images/tiles.strf";
 
   auto sector = SectorParser::from_nothing(m_level);
   sector->set_name("main");

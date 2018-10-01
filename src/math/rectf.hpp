@@ -18,10 +18,13 @@
 #define HEADER_SUPERTUX_MATH_RECTF_HPP
 
 #include <assert.h>
+#include <iosfwd>
 
 #include "math/sizef.hpp"
 #include "math/vector.hpp"
 #include "object/anchor_point.hpp"
+
+class Rect;
 
 /** This class represents a rectangle.
  * (Implementation Note) We're using upper left and lower right point instead of
@@ -30,6 +33,15 @@
  */
 class Rectf
 {
+public:
+  static Rectf from_center(const Vector& center, const Sizef& size)
+  {
+    return Rectf(center.x - size.width / 2.0f,
+                 center.y - size.height / 2.0f,
+                 center.x + size.width / 2.0f,
+                 center.y + size.height / 2.0f);
+  }
+
 public:
   Rectf() :
     p1(),
@@ -52,6 +64,8 @@ public:
     p2(p1_.x + size.width, p1_.y + size.height)
   {
   }
+
+  Rectf(const Rect& rect);
 
   float get_left() const
   { return p1.x; }
@@ -145,6 +159,8 @@ public:
   /// lower right edge
   Vector p2;
 };
+
+std::ostream& operator<<(std::ostream& out, const Rectf& rect);
 
 #endif
 

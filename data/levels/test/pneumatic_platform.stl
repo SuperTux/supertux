@@ -12,24 +12,21 @@
     (camera
       (mode "normal")
     )
-    (rock
-      (x 90)
-      (y 500)
-    )
     (pneumatic-platform
-      (sprite "images/objects/platforms/small.sprite")
       (x 162)
       (y 640)
     )
     (pneumatic-platform
-      (sprite "images/objects/platforms/small.sprite")
       (x 418)
       (y 640)
     )
     (pneumatic-platform
-      (sprite "images/objects/platforms/small.sprite")
       (x 290)
       (y 640)
+    )
+    (rock
+      (x 90)
+      (y 500)
     )
     (spawnpoint
       (name "main")
@@ -37,8 +34,8 @@
       (y 500)
     )
     (tilemap
-      (z-pos -100)
       (solid #f)
+      (z-pos -100)
       (width 30)
       (height 30)
       (tiles
@@ -75,8 +72,8 @@
       )
     )
     (tilemap
-      (z-pos 0)
       (solid #t)
+      (z-pos 0)
       (width 30)
       (height 30)
       (tiles
@@ -113,8 +110,8 @@
       )
     )
     (tilemap
-      (z-pos 100)
       (solid #f)
+      (z-pos 100)
       (width 30)
       (height 30)
       (tiles

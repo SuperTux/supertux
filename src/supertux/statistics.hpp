@@ -31,16 +31,18 @@ class DrawingContext;
  *  number of jumps and stuff */
 class Statistics
 {
+private:
   static Color header_color;
   static Color text_color;
+
 public:
-  int coins; /**< coins collected */
-  int total_coins; /**< coins in level */
-  int badguys; /**< badguys actively killed */
-  int total_badguys; /**< (vincible) badguys in level */
-  float time; /**< seconds needed */
-  int secrets; /**< secret areas found */
-  int total_secrets; /**< secret areas in level */
+  int m_coins; /**< coins collected */
+  int m_total_coins; /**< coins in level */
+  int m_badguys; /**< badguys actively killed */
+  int m_total_badguys; /**< (vincible) badguys in level */
+  float m_time; /**< seconds needed */
+  int m_secrets; /**< secret areas found */
+  int m_total_secrets; /**< secret areas in level */
 
 public:
   Statistics(); /**< Creates new statistics, call reset() before counting */
@@ -64,16 +66,14 @@ public:
   void operator+=(const Statistics& o); /**< Add two Statistics objects */
   bool completed(const Statistics& stats, const float target_time) const; /* Check if stats match total stats */
 
-  void declare_invalid(); /**< marks statistics as invalid for their entire lifetime (e.g. after cheating). Invalid statistics will not be merged or drawn. */
-
   static std::string coins_to_string(int coins, int total_coins);
   static std::string frags_to_string(int badguys, int total_badguys);
   static std::string time_to_string(float time);
   static std::string secrets_to_string(int secrets, int total_secrets);
 
 private:
-  bool valid; /**< stores whether these statistics can be trusted */
-  int max_width; /** < Gets the max width of a stats line, 255 by default */
+  bool m_valid; /**< stores whether these statistics can be trusted */
+  int m_max_width; /** < Gets the max width of a stats line, 255 by default */
   /** Captions */
   std::string CAPTION_MAX_COINS;
   std::string CAPTION_MAX_FRAGGING;

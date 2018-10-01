@@ -157,10 +157,10 @@
       (y 455)
     )
     (decal
+      (z-pos -1)
+      (sprite "images/tiles/goal/exitbg.png")
       (x 16640)
       (y 64)
-      (layer -1)
-      (sprite "images/tiles/goal/exitbg.png")
     )
     (dispenser
       (cycle 3)
@@ -213,7 +213,6 @@
       (bottom_color 0.1341726 0.1474327 0.4788281)
     )
     (icecrusher
-      (sprite "images/creatures/icecrusher/icecrusher.sprite")
       (x 3616)
       (y 128)
     )
@@ -251,8 +250,6 @@
     )
     (secretarea
       (fade-tilemap "secret1")
-      (script "")
-      (message "")
       (width 444)
       (height 78)
       (x 8032)
@@ -260,8 +257,6 @@
     )
     (secretarea
       (fade-tilemap "secret2")
-      (script "")
-      (message "")
       (width 264)
       (height 188)
       (x 13940)
@@ -269,8 +264,6 @@
     )
     (secretarea
       (fade-tilemap "secret3")
-      (script "")
-      (message "")
       (width 76)
       (height 92)
       (x 1332)

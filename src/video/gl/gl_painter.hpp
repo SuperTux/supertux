@@ -17,32 +17,36 @@
 #ifndef HEADER_SUPERTUX_VIDEO_GL_GL_PAINTER_HPP
 #define HEADER_SUPERTUX_VIDEO_GL_GL_PAINTER_HPP
 
-#ifdef USE_GLBINDING
-#include <glbinding/gl/gl.h>
-using namespace gl;
-#else
-#include <GL/glew.h>
+#include "video/painter.hpp"
 
-#include "SDL_opengl.h"
-#endif
+#include "video/flip.hpp"
 
-struct DrawingRequest;
+class Blend;
+class Renderer;
+class GLVideoSystem;
 
-class GLPainter
+class GLPainter : public Painter
 {
-private:
-  static GLuint s_last_texture;
-
 public:
-  GLPainter();
+  GLPainter(GLVideoSystem& video_system, Renderer& renderer);
 
-  static void draw_surface(const DrawingRequest& request);
-  static void draw_surface_part(const DrawingRequest& request);
-  static void draw_gradient(const DrawingRequest& request);
-  static void draw_filled_rect(const DrawingRequest& request);
-  static void draw_inverse_ellipse(const DrawingRequest& request);
-  static void draw_line(const DrawingRequest& request);
-  static void draw_triangle(const DrawingRequest& request);
+  virtual void draw_texture(const TextureRequest& request) override;
+  virtual void draw_texture_batch(const TextureBatchRequest& request) override;
+  virtual void draw_gradient(const GradientRequest& request) override;
+  virtual void draw_filled_rect(const FillRectRequest& request) override;
+  virtual void draw_inverse_ellipse(const InverseEllipseRequest& request) override;
+  virtual void draw_line(const LineRequest& request) override;
+  virtual void draw_triangle(const TriangleRequest& request) override;
+
+  virtual void clear(const Color& color) override;
+  virtual void get_pixel(const GetPixelRequest& request) const override;
+
+  virtual void set_clip_rect(const Rect& rect) override;
+  virtual void clear_clip_rect() override;
+
+private:
+  GLVideoSystem& m_video_system;
+  Renderer& m_renderer;
 
 private:
   GLPainter(const GLPainter&) = delete;

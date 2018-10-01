@@ -3,7 +3,6 @@
   (name (_ "Deeper Down"))
   (author "Carsten")
   (license "GPL 2 / CC-by-sa 3.0")
-  (target-time 0)
   (sector
     (name "main")
     (music "music/clavelian_march.music")
@@ -12,67 +11,54 @@
       (mode "normal")
     )
     (candle
-      (color 1 1 1)
       (x 3616)
       (y 800)
     )
     (candle
-      (color 1 1 1)
       (x 5408)
       (y 800)
     )
     (candle
-      (color 1 1 1)
       (x 416)
       (y 352)
     )
     (candle
-      (color 1 1 1)
       (x 6752)
       (y 704)
     )
     (candle
-      (color 1 1 1)
       (x 6420)
       (y 640)
     )
     (candle
-      (color 1 1 1)
       (x 8160)
       (y 704)
     )
     (candle
-      (color 1 1 1)
       (x 8096)
       (y 480)
     )
     (candle
-      (color 1 1 1)
       (x 11052)
       (y 736)
     )
     (candle
-      (color 1 1 1)
       (x 10636)
       (y 704)
     )
     (candle
-      (color 1 1 1)
       (x 9905)
       (y 672)
     )
     (candle
-      (color 1 1 1)
       (x 10292)
       (y 768)
     )
     (candle
-      (color 1 1 1)
       (x 7968)
       (y 608)
     )
     (candle
-      (color 1 1 1)
       (x 7776)
       (y 608)
     )
@@ -89,8 +75,8 @@
       (y 931)
     )
     (platform
-      (name "downlift")
       (running #f)
+      (name "downlift")
       (sprite "images/objects/platforms/big.sprite")
       (path
         (node
@@ -102,7 +88,6 @@
     (gradient
       (top_color 0 0 0 0)
       (bottom_color 0 0 0 0)
-      (layer -300)
     )
     (jumpy
       (x 1159)
@@ -195,8 +180,6 @@ downlift.goto_node(0);")
     )
     (secretarea
       (fade-tilemap "SecretArea")
-      (script "")
-      (message "")
       (width 456)
       (height 264)
       (x 2228)
@@ -204,8 +187,6 @@ downlift.goto_node(0);")
     )
     (secretarea
       (fade-tilemap "SecretArea2")
-      (script "")
-      (message "")
       (width 380)
       (height 252)
       (x 7104)

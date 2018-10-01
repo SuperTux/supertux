@@ -25,7 +25,7 @@ public:
   EditorMenu();
   ~EditorMenu();
 
-  void menu_action(MenuItem* item) override;
+  void menu_action(MenuItem& item) override;
 
 private:
   enum MenuIDs {

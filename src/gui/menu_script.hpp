@@ -25,7 +25,7 @@ public:
   ScriptMenu(std::string* script_);
   ~ScriptMenu();
 
-  void menu_action(MenuItem* item) override;
+  void menu_action(MenuItem& item) override;
 
   void remove_line();
   void add_line();

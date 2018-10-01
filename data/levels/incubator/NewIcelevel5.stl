@@ -4,7 +4,6 @@
   (author "Esteban")
   (contact "supertuxeditor@yahoo.es")
   (license "GPL 2+ / CC-by-sa 3.0")
-  (target-time 0)
   (sector
     (name "main")
     (music "music/darkforestkeep.ogg")
@@ -23,40 +22,40 @@
       (mode "normal")
     )
     (decal
+      (z-pos 99)
+      (sprite "images/decal/misc/Antena2.png")
       (x 5344)
       (y 608)
-      (layer 99)
-      (sprite "images/decal/misc/Antena2.png")
     )
     (decal
+      (z-pos -101)
+      (sprite "images/decal/misc/Antena2.png")
       (x 5664)
       (y 608)
-      (layer -101)
-      (sprite "images/decal/misc/Antena2.png")
     )
     (decal
+      (z-pos 99)
+      (sprite "images/decal/misc/Antena2.png")
       (x 4928)
       (y 320)
-      (layer 99)
-      (sprite "images/decal/misc/Antena2.png")
     )
     (decal
+      (z-pos -101)
+      (sprite "images/decal/misc/Antena2.png")
       (x 5312)
       (y 320)
-      (layer -101)
-      (sprite "images/decal/misc/Antena2.png")
     )
     (decal
+      (z-pos 99)
+      (sprite "images/decal/misc/Antena2.png")
       (x 5952)
       (y 704)
-      (layer 99)
-      (sprite "images/decal/misc/Antena2.png")
     )
     (decal
+      (z-pos -101)
+      (sprite "images/decal/misc/Antena2.png")
       (x 6240)
       (y 704)
-      (layer -101)
-      (sprite "images/decal/misc/Antena2.png")
     )
     (firefly
       (x 7680)
@@ -67,8 +66,8 @@
       (y 672)
     )
     (platform
-      (name "SpikePlatform")
       (running #f)
+      (name "SpikePlatform")
       (sprite "images/objects/platforms/vertical-wood.sprite")
       (path
         (node
@@ -84,8 +83,8 @@
       )
     )
     (platform
-      (name "Plataforma2")
       (running #f)
+      (name "Plataforma2")
       (sprite "images/objects/platforms/big.sprite")
       (path
         (node
@@ -99,8 +98,8 @@
       )
     )
     (platform
-      (name "Pasaje2")
       (running #f)
+      (name "Pasaje2")
       (sprite "images/objects/platforms/vertical-wood.sprite")
       (path
         (node
@@ -119,8 +118,8 @@
       )
     )
     (platform
-      (name "Pasaje1")
       (running #f)
+      (name "Pasaje1")
       (sprite "images/objects/platforms/vertical-wood.sprite")
       (path
         (node
@@ -139,8 +138,8 @@
       )
     )
     (platform
-      (name "Subir1")
       (running #f)
+      (name "Subir1")
       (sprite "images/objects/platforms/big.sprite")
       (path
         (node
@@ -154,8 +153,8 @@
       )
     )
     (platform
-      (name "Subir2")
       (running #f)
+      (name "Subir2")
       (sprite "images/objects/platforms/big.sprite")
       (path
         (node
@@ -169,8 +168,8 @@
       )
     )
     (platform
-      (name "Subir3")
       (running #f)
+      (name "Subir3")
       (sprite "images/objects/platforms/wood-tiny.sprite")
       (path
         (node
@@ -184,8 +183,8 @@
       )
     )
     (platform
-      (name "Plataformapuerta1")
       (running #f)
+      (name "Plataformapuerta1")
       (sprite "images/objects/platforms/vertical-wood.sprite")
       (path
         (node
@@ -204,8 +203,8 @@
       )
     )
     (platform
-      (name "Bloquesalir2")
       (running #f)
+      (name "Bloquesalir2")
       (sprite "images/objects/platforms/wood-tiny.sprite")
       (path
         (node
@@ -224,8 +223,8 @@
       )
     )
     (platform
-      (name "Bloquesalir1")
       (running #f)
+      (name "Bloquesalir1")
       (sprite "images/objects/platforms/wood-tiny.sprite")
       (path
         (node
@@ -239,8 +238,8 @@
       )
     )
     (platform
-      (name "TrapSmall")
       (running #f)
+      (name "TrapSmall")
       (sprite "images/objects/platforms/small.sprite")
       (path
         (node
@@ -255,8 +254,8 @@
       )
     )
     (platform
-      (name "Plataforma1")
       (running #f)
+      (name "Plataforma1")
       (sprite "images/objects/platforms/small.sprite")
       (path
         (node
@@ -274,8 +273,8 @@
       )
     )
     (platform
-      (name "Subir4")
       (running #f)
+      (name "Subir4")
       (sprite "images/objects/platforms/small.sprite")
       (path
         (node
@@ -289,8 +288,8 @@
       )
     )
     (platform
-      (name "Subir5")
       (running #f)
+      (name "Subir5")
       (sprite "images/objects/platforms/big.sprite")
       (path
         (node
@@ -304,8 +303,8 @@
       )
     )
     (platform
-      (name "Subir6")
       (running #f)
+      (name "Subir6")
       (sprite "images/objects/platforms/wood-tiny.sprite")
       (path
         (node
@@ -321,8 +320,8 @@
       )
     )
     (platform
-      (name "right")
       (running #f)
+      (name "right")
       (sprite "images/objects/platforms/vertical-wood.sprite")
       (path
         (node
@@ -346,8 +345,8 @@
       (bottom_color 1 1 1)
     )
     (hurting_platform
+      (running #f)
       (name "spikebad4")
-      (running #f)
       (sprite "images/objects/sawblade/spikeright.sprite")
       (path
         (node
@@ -363,8 +362,8 @@
       )
     )
     (hurting_platform
+      (running #f)
       (name "spikebad3")
-      (running #f)
       (sprite "images/objects/sawblade/spikeright.sprite")
       (path
         (node
@@ -380,8 +379,8 @@
       )
     )
     (hurting_platform
+      (running #f)
       (name "spikebad2")
-      (running #f)
       (sprite "images/objects/sawblade/spikeright.sprite")
       (path
         (node
@@ -397,8 +396,8 @@
       )
     )
     (hurting_platform
+      (running #f)
       (name "spikebad1")
-      (running #f)
       (sprite "images/objects/sawblade/spikeright.sprite")
       (path
         (node
@@ -414,8 +413,8 @@
       )
     )
     (hurting_platform
-      (name "Rayo1")
       (running #f)
+      (name "Rayo1")
       (sprite "images/objects/sawblade/thunder.sprite")
       (path
         (node
@@ -439,8 +438,8 @@
       )
     )
     (hurting_platform
-      (name "Rayo2")
       (running #f)
+      (name "Rayo2")
       (sprite "images/objects/sawblade/thunder.sprite")
       (path
         (node
@@ -579,8 +578,8 @@
       )
     )
     (hurting_platform
-      (name "RayoArriba1")
       (running #f)
+      (name "RayoArriba1")
       (sprite "images/objects/sawblade/thunder.sprite")
       (path
         (node
@@ -596,8 +595,8 @@
       )
     )
     (hurting_platform
-      (name "RayoArriba2")
       (running #f)
+      (name "RayoArriba2")
       (sprite "images/objects/sawblade/thunder.sprite")
       (path
         (node
@@ -856,8 +855,6 @@ Plataformapuerta1.start_moving();
     )
     (secretarea
       (fade-tilemap "Gotosky")
-      (script "")
-      (message "")
       (width 28)
       (height 124)
       (x 9984)
@@ -1341,77 +1338,62 @@ this.Electric1 <- true;
       (y 704)
     )
     (unstable_tile
-      (sprite "images/objects/unstable_tile/snow.sprite")
       (x 6816)
       (y 704)
     )
     (unstable_tile
-      (sprite "images/objects/unstable_tile/snow.sprite")
       (x 7072)
       (y 736)
     )
     (unstable_tile
-      (sprite "images/objects/unstable_tile/snow.sprite")
       (x 6464)
       (y 896)
     )
     (unstable_tile
-      (sprite "images/objects/unstable_tile/snow.sprite")
       (x 6560)
       (y 832)
     )
     (unstable_tile
-      (sprite "images/objects/unstable_tile/snow.sprite")
       (x 6624)
       (y 768)
     )
     (unstable_tile
-      (sprite "images/objects/unstable_tile/snow.sprite")
       (x 6720)
       (y 736)
     )
     (unstable_tile
-      (sprite "images/objects/unstable_tile/snow.sprite")
       (x 6912)
       (y 640)
     )
     (unstable_tile
-      (sprite "images/objects/unstable_tile/snow.sprite")
       (x 11104)
       (y 1088)
     )
     (unstable_tile
-      (sprite "images/objects/unstable_tile/snow.sprite")
       (x 11200)
       (y 1024)
     )
     (unstable_tile
-      (sprite "images/objects/unstable_tile/snow.sprite")
       (x 11264)
       (y 960)
     )
     (unstable_tile
-      (sprite "images/objects/unstable_tile/snow.sprite")
       (x 11328)
       (y 896)
     )
     (unstable_tile
-      (sprite "images/objects/unstable_tile/snow.sprite")
       (x 11392)
       (y 832)
     )
     (unstable_tile
-      (sprite "images/objects/unstable_tile/snow.sprite")
       (x 11392)
       (y 672)
     )
     (unstable_tile
-      (sprite "images/objects/unstable_tile/snow.sprite")
       (x 9792)
       (y 288)
     )
     (unstable_tile
-      (sprite "images/objects/unstable_tile/snow.sprite")
       (x 9760)
       (y 288)
     )

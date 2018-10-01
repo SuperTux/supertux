@@ -3,7 +3,6 @@
   (name (_ "Let us snow!"))
   (author "Hume")
   (license "GPL 2+ / CC-by-sa 3.0")
-  (target-time 0)
   (sector
     (name "main")
     (music "music/chipdisko.ogg")
@@ -123,8 +122,8 @@
       (y 1088)
     )
     (platform
-      (name "door1")
       (running #f)
+      (name "door1")
       (sprite "images/objects/platforms/vertical-wood.sprite")
       (path
         (node
@@ -138,8 +137,8 @@
       )
     )
     (platform
-      (name "door2")
       (running #f)
+      (name "door2")
       (sprite "images/objects/platforms/vertical-wood.sprite")
       (path
         (node
@@ -153,8 +152,8 @@
       )
     )
     (platform
-      (name "door3")
       (running #f)
+      (name "door3")
       (sprite "images/objects/platforms/vertical-wood.sprite")
       (path
         (node
@@ -168,8 +167,8 @@
       )
     )
     (platform
-      (name "door4")
       (running #f)
+      (name "door4")
       (sprite "images/objects/platforms/vertical-wood.sprite")
       (path
         (node
@@ -183,8 +182,8 @@
       )
     )
     (platform
-      (name "door5")
       (running #f)
+      (name "door5")
       (sprite "images/objects/platforms/vertical-wood.sprite")
       (path
         (node
@@ -312,10 +311,8 @@ Tux.activate()")
       (y 1392)
     )
     (scriptedobject
-      (name "pitomec")
-      (visible #t)
       (physic-enabled #f)
-      (solid #t)
+      (name "pitomec")
       (sprite "images/creatures/angrystone/angrystone.sprite")
       (x 3232)
       (y -96)
@@ -688,13 +685,13 @@ Tux.activate()")
       (y -128)
     )
     (wind
-      (name "wind1")
       (blowing #f)
       (speed-x 0)
       (speed-y -1600)
       (acceleration 5000)
       (width 64)
       (height 96)
+      (name "wind1")
       (x 448)
       (y 1344)
     )

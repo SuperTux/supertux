@@ -36,27 +36,7 @@ PowerUp::PowerUp(const ReaderMapping& lisp) :
 {
   lisp.get("script", script, "");
   lisp.get("disable-physics", no_physics, false);
-  physic.enable_gravity(true);
-  SoundManager::current()->preload("sounds/grow.ogg");
-  SoundManager::current()->preload("sounds/fire-flower.wav");
-  SoundManager::current()->preload("sounds/gulp.wav");
-  //set default light for glow effect for standard sprites
-  lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
-  lightsprite->set_color(Color(0.0f, 0.0f, 0.0f));
-  if (sprite_name == "images/powerups/egg/egg.sprite") {
-    lightsprite->set_color(Color(0.2f, 0.2f, 0.0f));
-  } else if (sprite_name == "images/powerups/fireflower/fireflower.sprite") {
-    lightsprite->set_color(Color(0.3f, 0.0f, 0.0f));
-  } else if (sprite_name == "images/powerups/iceflower/iceflower.sprite") {
-    lightsprite->set_color(Color(0.0f, 0.1f, 0.2f));
-  } else if (sprite_name == "images/powerups/airflower/airflower.sprite") {
-    lightsprite->set_color(Color(0.15f, 0.0f, 0.15f));
-  } else if (sprite_name == "images/powerups/earthflower/earthflower.sprite") {
-    lightsprite->set_color(Color(0.0f, 0.3f, 0.0f));
-  } else if (sprite_name == "images/powerups/star/star.sprite") {
-    lightsprite->set_color(Color(0.4f, 0.4f, 0.4f));
-  }
-
+  initialize();
 }
 
 PowerUp::PowerUp(const Vector& pos, const std::string& sprite_name_) :
@@ -67,9 +47,16 @@ PowerUp::PowerUp(const Vector& pos, const std::string& sprite_name_) :
   light(0.0f,0.0f,0.0f),
   lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
 {
+  initialize();
+}
+
+void
+PowerUp::initialize()
+{
   physic.enable_gravity(true);
   SoundManager::current()->preload("sounds/grow.ogg");
   SoundManager::current()->preload("sounds/fire-flower.wav");
+   SoundManager::current()->preload("sounds/gulp.wav");
   //set default light for glow effect for standard sprites
   lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
   lightsprite->set_color(Color(0.0f, 0.0f, 0.0f));
@@ -141,7 +128,7 @@ PowerUp::collision(GameObject& other, const CollisionHit&)
   } else if (sprite_name == "images/powerups/star/star.sprite") {
     player->make_invincible();
   } else if (sprite_name == "images/powerups/1up/1up.sprite") {
-    player->get_status()->add_coins(100);
+    player->get_status().add_coins(100);
   } else if (sprite_name == "images/powerups/potions/red-potion.sprite") {
     scripting::Level_flip_vertically();
   }
@@ -164,8 +151,8 @@ PowerUp::update(float elapsed_time)
       if (disp_x*disp_x + disp_y*disp_y <= 256*256)
       {
         if (graphicsRandom.rand(0, 2) == 0) {
-          float px = graphicsRandom.randf(bbox.p1.x * 1.0, bbox.p2.x * 1.0);
-          float py = graphicsRandom.randf(bbox.p1.y * 1.0, bbox.p2.y * 1.0);
+          float px = graphicsRandom.randf(bbox.p1.x * 1.0f, bbox.p2.x * 1.0f);
+          float py = graphicsRandom.randf(bbox.p1.y * 1.0f, bbox.p2.y * 1.0f);
           Vector ppos = Vector(px, py);
           Vector pspeed = Vector(0, 0);
           Vector paccel = Vector(0, 0);
@@ -174,7 +161,7 @@ PowerUp::update(float elapsed_time)
                                           // draw bright sparkles when very close to Tux, dark sparkles when slightly further
                                           (disp_x*disp_x + disp_y*disp_y <= 128*128) ?
                                           // make every other a longer sparkle to make trail a bit fuzzy
-                                          (size_t(game_time*20)%2) ? "small" : "medium" : "dark",
+                                          (size_t(g_game_time*20)%2) ? "small" : "medium" : "dark",
                                           ppos, ANCHOR_MIDDLE, pspeed, paccel, LAYER_OBJECTS+1+5));
         }
       }
@@ -187,7 +174,7 @@ PowerUp::draw(DrawingContext& context){
   //Draw the Sprite.
   sprite->draw(context.color(), get_pos(), layer);
   //Draw light when dark for defaults
-  context.get_light( bbox.get_middle(), &light );
+  context.light().get_pixel( bbox.get_middle(), &light );
   if (light.red + light.green + light.blue < 3.0){
     //Stars are brighter
     if (sprite_name == "images/powerups/star/star.sprite") {

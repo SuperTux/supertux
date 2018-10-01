@@ -173,10 +173,10 @@ AmbientSound::update(float deltat)
     float px,py;
     float rx,ry;
 
-    if (!Sector::current() || !Sector::current()->camera) return;
+    if (!Sector::current() || !Sector::current()->m_camera) return;
     // Camera position
-    px=Sector::current()->camera->get_center().x;
-    py=Sector::current()->camera->get_center().y;
+    px=Sector::current()->m_camera->get_center().x;
+    py=Sector::current()->m_camera->get_center().y;
 
     // Relate to which point in the area
     rx=px<bbox.p1.x?bbox.p1.x:
@@ -214,7 +214,7 @@ AmbientSound::update(float deltat)
         latency=0;
       }
       else // set a reasonable latency
-        latency=(int)(0.001/distance_factor);
+        latency = static_cast<int>(0.001/distance_factor);
       //(int)(10*((sqrdistance-silence_distance)/silence_distance));
     }
   }

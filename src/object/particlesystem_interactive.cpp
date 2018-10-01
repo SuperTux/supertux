@@ -22,6 +22,9 @@
 #include "supertux/globals.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/tile.hpp"
+#include "video/drawing_context.hpp"
+#include "video/video_system.hpp"
+#include "video/viewport.hpp"
 
 //TODO: Find a way to make rain collide with objects like bonus blocks
 //      Add an option to set rain strength
@@ -29,8 +32,8 @@
 ParticleSystem_Interactive::ParticleSystem_Interactive() :
   ParticleSystem()
 {
-  virtual_width = SCREEN_WIDTH;
-  virtual_height = SCREEN_HEIGHT;
+  virtual_width = static_cast<float>(SCREEN_WIDTH);
+  virtual_height = static_cast<float>(SCREEN_HEIGHT);
   z_pos = 0;
 }
 
@@ -86,28 +89,27 @@ ParticleSystem_Interactive::collision(Particle* object, const Vector& movement)
   dest.move(movement);
   Constraints constraints;
 
-  for(const auto& solids : Sector::current()->solid_tilemaps) {
+  for(const auto& solids : Sector::current()->m_solid_tilemaps) {
     // FIXME Handle a nonzero tilemap offset
     for(int x = starttilex; x*32 < max_x; ++x) {
       for(int y = starttiley; y*32 < max_y; ++y) {
-        const Tile* tile = solids->get_tile(x, y);
-        if(!tile)
-          continue;
+        const Tile& tile = solids->get_tile(x, y);
+
         // skip non-solid tiles, except water
-        if(! (tile->getAttributes() & (Tile::WATER | Tile::SOLID)))
+        if(! (tile.get_attributes() & (Tile::WATER | Tile::SOLID)))
           continue;
 
         Rectf rect = solids->get_tile_bbox(x, y);
-        if(tile->is_slope ()) { // slope tile
-          AATriangle triangle = AATriangle(rect, tile->getData());
+        if(tile.is_slope ()) { // slope tile
+          AATriangle triangle = AATriangle(rect, tile.get_data());
 
           if(rectangle_aatriangle(&constraints, dest, triangle)) {
-            if(tile->getAttributes() & Tile::WATER)
+            if(tile.get_attributes() & Tile::WATER)
               water = true;
           }
         } else { // normal rectangular tile
           if(intersects(dest, rect)) {
-            if(tile->getAttributes() & Tile::WATER)
+            if(tile.get_attributes() & Tile::WATER)
               water = true;
             set_rectangle_rectangle_constraints(&constraints, dest, rect);
           }

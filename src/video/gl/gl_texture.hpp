@@ -17,25 +17,31 @@
 #ifndef HEADER_SUPERTUX_VIDEO_GL_TEXTURE_HPP
 #define HEADER_SUPERTUX_VIDEO_GL_TEXTURE_HPP
 
+#include <boost/optional.hpp>
+
+#include "video/color.hpp"
+#include "video/gl.hpp"
+#include "video/sampler.hpp"
 #include "video/texture.hpp"
 
-/**
- * This class is a wrapper around a texture handle. It stores the texture width
- * and height and provides convenience functions for uploading SDL_Surfaces
- * into the texture
- */
+class Sampler;
+
+/** This class is a wrapper around a texture handle. It stores the
+    texture width and height and provides convenience functions for
+    uploading SDL_Surfaces into the texture. */
 class GLTexture : public Texture
 {
 protected:
   GLuint m_handle;
-  unsigned int m_texture_width;
-  unsigned int m_texture_height;
-  unsigned int m_image_width;
-  unsigned int m_image_height;
+  Sampler m_sampler;
+  int m_texture_width;
+  int m_texture_height;
+  int m_image_width;
+  int m_image_height;
 
 public:
-  GLTexture(unsigned int width, unsigned int height);
-  GLTexture(SDL_Surface* image);
+  GLTexture(int width, int height, boost::optional<Color> fill_color = boost::none);
+  GLTexture(const SDL_Surface& image, const Sampler& sampler);
   ~GLTexture();
 
   const GLuint &get_handle() const {
@@ -46,32 +52,37 @@ public:
     m_handle = handle;
   }
 
-  unsigned int get_texture_width() const
+  const Sampler& get_sampler() const
+  {
+    return m_sampler;
+  }
+
+  int get_texture_width() const
   {
     return m_texture_width;
   }
 
-  unsigned int get_texture_height() const
+  int get_texture_height() const
   {
     return m_texture_height;
   }
 
-  unsigned int get_image_width() const
+  int get_image_width() const
   {
     return m_image_width;
   }
 
-  unsigned int get_image_height() const
+  int get_image_height() const
   {
     return m_image_height;
   }
 
-  void set_image_width(unsigned int width)
+  void set_image_width(int width)
   {
     m_image_width = width;
   }
 
-  void set_image_height(unsigned int height)
+  void set_image_height(int height)
   {
     m_image_height = height;
   }

@@ -33,7 +33,7 @@ CoinRain::CoinRain(const Vector& pos, bool emerge) :
   drop(0)
 {
   if(emerge) {
-    emerge_distance = sprite->get_height();
+    emerge_distance = static_cast<float>(sprite->get_height());
   }
 }
 
@@ -48,7 +48,8 @@ CoinRain::update(float elapsed_time)
   } // then the first collectable coin drops from one of ten random positions
   else if (counter==0){
     drop = gameRandom.rand(10);
-    Sector::current()->add_object(std::make_shared<HeavyCoin>(Vector (position.x+32*((drop<5)?-drop-1:drop-4),-32), Vector (0,0)));
+    Sector::current()->add_object(std::make_shared<HeavyCoin>(Vector(position.x + 32.0f * static_cast<float>((drop < 5) ? -drop - 1 : drop - 4), -32.0f),
+                                                              Vector(0, 0)));
     counter++;
     timer.start(DROP_TIME);
   } // finally the remainder of the coins drop in a determined but appears to be a random order
@@ -56,7 +57,8 @@ CoinRain::update(float elapsed_time)
     if(counter<10){
       drop += 7;
       if(drop >= 10) drop -=10;
-      Sector::current()->add_object(std::make_shared<HeavyCoin>(Vector (position.x+32*((drop<5)?-drop-1:drop-4),-32), Vector (0,0)));
+      Sector::current()->add_object(std::make_shared<HeavyCoin>(Vector(position.x + 32.0f * static_cast<float>((drop < 5) ? -drop - 1 : drop - 4), -32.0f),
+                                                                Vector(0, 0)));
       counter++;
       timer.start(DROP_TIME);
     } else {

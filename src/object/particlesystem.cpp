@@ -23,14 +23,16 @@
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
 #include "video/drawing_context.hpp"
+#include "video/video_system.hpp"
+#include "video/viewport.hpp"
 
 ParticleSystem::ParticleSystem(float max_particle_size_) :
   ExposedObject<ParticleSystem, scripting::ParticleSystem>(this),
   max_particle_size(max_particle_size_),
   z_pos(LAYER_BACKGROUND1),
   particles(),
-  virtual_width( SCREEN_WIDTH + max_particle_size * 2),
-  virtual_height(SCREEN_HEIGHT + max_particle_size * 2),
+  virtual_width(static_cast<float>(SCREEN_WIDTH) + max_particle_size * 2.0f),
+  virtual_height(static_cast<float>(SCREEN_HEIGHT) + max_particle_size * 2.0f),
   enabled(true)
 {
 }
@@ -47,7 +49,7 @@ ParticleSystem::get_settings() {
 
 void ParticleSystem::parse(const ReaderMapping& reader)
 {
-  reader.get("name", name, "");
+  reader.get("name", m_name, "");
   reader.get("enabled", enabled, true);
   z_pos = reader_get_layer (reader, /* default = */ LAYER_BACKGROUND1);
 }

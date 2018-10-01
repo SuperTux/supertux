@@ -24,17 +24,16 @@
 
 #include "math/rectf.hpp"
 #include "math/vector.hpp"
+#include "video/gl.hpp"
 #include "video/color.hpp"
 #include "video/font.hpp"
 #include "video/font_ptr.hpp"
+#include "video/drawing_target.hpp"
 
-struct DrawingRequest;
-class VideoSystem;
 class DrawingContext;
-
-enum Target {
-  NORMAL, LIGHTMAP
-};
+class Renderer;
+class VideoSystem;
+struct DrawingRequest;
 
 // some constants for predefined layer values
 enum {
@@ -56,6 +55,9 @@ enum {
   LAYER_FOREGROUND0 = 300,
   //
   LAYER_FOREGROUND1 = 400,
+
+  LAYER_LIGHTMAP = 450,
+
   // Hitpoints, time, coins, etc.
   LAYER_HUD = 500,
   // Menus, mouse, console etc.
@@ -79,35 +81,75 @@ public:
   {}
 };
 
+class PaintStyle
+{
+public:
+  PaintStyle() :
+    m_color(Color::WHITE),
+    m_alpha(1.0f),
+    m_blend(),
+    m_flip(NO_FLIP)
+  {}
+
+  PaintStyle& set_color(const Color& color) {
+    m_color = color;
+    return *this;
+  }
+
+  PaintStyle& set_alpha(const float& alpha) {
+    m_alpha = alpha;
+    return *this;
+  }
+
+  PaintStyle& set_blend(const Blend& blend) {
+    m_blend = blend;
+    return *this;
+  }
+
+  PaintStyle& set_flip(const Flip& flip) {
+    m_flip = flip;
+    return *this;
+  }
+
+  const Color& get_color() const { return m_color; }
+  const float& get_alpha() const { return m_alpha; }
+  const Blend& get_blend() const { return m_blend; }
+  const Flip& get_flip() const { return m_flip; }
+
+private:
+  Color m_color;
+  float m_alpha;
+  Blend m_blend;
+  Flip m_flip;
+};
+
 class Canvas
 {
 public:
-  Canvas(Target target, DrawingContext& context, obstack& obst);
+  enum Filter { BELOW_LIGHTMAP, ABOVE_LIGHTMAP, ALL };
+
+public:
+  Canvas(DrawingContext& context, obstack& obst);
   ~Canvas();
 
-  /// Adds a drawing request for a surface into the request list.
-  void draw_surface(SurfacePtr surface, const Vector& position,
+  void draw_surface(SurfacePtr surface, const Vector& position, int layer);
+  void draw_surface(SurfacePtr surface, const Vector& position, float angle, const Color& color, const Blend& blend,
                     int layer);
-  /// Adds a drawing request for a surface into the request list.
-  void draw_surface(SurfacePtr surface, const Vector& position,
-                    float angle, const Color& color, const Blend& blend,
-                    int layer);
-  /// Adds a drawing request for part of a surface.
-  void draw_surface_part(SurfacePtr surface,
-                         const Rectf& srcrect, const Rectf& dstrect,
-                         int layer);
-  /// Draws a text.
+  void draw_surface_part(SurfacePtr surface, const Rectf& srcrect, const Rectf& dstrect,
+                         int layer, const PaintStyle& style = PaintStyle());
+  void draw_surface_scaled(SurfacePtr surface, const Rectf& dstrect,
+                           int layer, const PaintStyle& style = PaintStyle());
+  void draw_surface_batch(SurfacePtr surface,
+                          const std::vector<Rectf>& srcrects,
+                          const std::vector<Rectf>& dstrects,
+                          const Color& color,
+                          int layer);
   void draw_text(FontPtr font, const std::string& text,
-                 const Vector& position, FontAlignment alignment, int layer, Color color = Color(1.0,1.0,1.0));
-
-  /// Draws text on screen center (feed Vector.x with a 0).
-  /// This is the same as draw_text() with a SCREEN_WIDTH/2 position and
-  /// alignment set to LEFT_ALIGN
+                 const Vector& position, FontAlignment alignment, int layer, const Color& color = Color(1.0,1.0,1.0));
+  /** Draw text to the center of the screen */
   void draw_center_text(FontPtr font, const std::string& text,
-                        const Vector& position, int layer, Color color = Color(1.0,1.0,1.0));
-  /// Draws a color gradient onto the whole screen */
+                        const Vector& position, int layer, const Color& color = Color(1.0,1.0,1.0));
   void draw_gradient(const Color& from, const Color& to, int layer, const GradientDirection& direction, const Rectf& region);
-  /// Fills a rectangle.
   void draw_filled_rect(const Vector& topleft, const Vector& size,
                         const Color& color, int layer);
   void draw_filled_rect(const Rectf& rect, const Color& color, int layer);
@@ -118,8 +160,11 @@ public:
   void draw_line(const Vector& pos1, const Vector& pos2, const Color& color, int layer);
   void draw_triangle(const Vector& pos1, const Vector& pos2, const Vector& pos3, const Color& color, int layer);
 
+  /** on next update, set color to lightmap's color at position */
+  void get_pixel(const Vector& position, Color* color_out);
+
   void clear();
-  void render(VideoSystem& video_system);
+  void render(Renderer& renderer, Filter filter);
 
   DrawingContext& get_context() { return m_context; }
 
@@ -127,7 +172,9 @@ public:
   std::vector<DrawingRequest*>& get_requests() { return m_requests; }
 
 private:
-  Target m_target;
+  Vector apply_translate(const Vector& pos) const;
+
+private:
   DrawingContext& m_context;
   obstack& m_obst;
   std::vector<DrawingRequest*> m_requests;

@@ -3,7 +3,6 @@
   (name (_ "Owls' Revenge"))
   (author "Christoph Sommer")
   (license "CC-BY-SA 4.0 International")
-  (target-time 0)
   (sector
     (name "main")
     (music "music/greatgigantic.music")
@@ -14,7 +13,7 @@
       (image-top "images/background/bridgecloud-light.png")
       (image "images/background/bridgecloud-light.png")
       (image-bottom "images/background/bridgecloud-light.png")
-      (layer -190)
+      (z-pos -190)
     )
     (background
       (alignment "bottom")
@@ -22,7 +21,7 @@
       (image-top "images/background/forest_para2.png")
       (image "images/background/forest_para2.png")
       (image-bottom "images/background/forest_para2.png")
-      (layer -190)
+      (z-pos -190)
     )
     (camera
       (mode "normal")
@@ -56,8 +55,6 @@
       (y 1016.586)
     )
     (secretarea
-      (script "")
-      (message "")
       (width 1116)
       (height 156)
       (x 160)
@@ -289,12 +286,10 @@
       )
     )
     (torch
-      (sprite "images/objects/torch/torch1.sprite")
       (x 1296)
       (y 128)
     )
     (torch
-      (sprite "images/objects/torch/torch1.sprite")
       (x 176)
       (y 128)
     )

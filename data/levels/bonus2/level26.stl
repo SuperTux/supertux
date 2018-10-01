@@ -1,8 +1,8 @@
 (supertux-level
   (version 2)
-  (name (_ "Firestorm"))  (license "GPL 2+ / CC-by-sa 3.0")
+  (name (_ "Firestorm"))
   (author "Penguinmaster")
-  (target-time 0)
+  (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
     (music "music/chipdisko.ogg")
@@ -176,7 +176,6 @@
     (gradient
       (top_color 0 0 0 0)
       (bottom_color 0 0.03721675 0.2483711)
-      (layer -300)
     )
     (leveltime
       (time 600)

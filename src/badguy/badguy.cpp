@@ -20,7 +20,6 @@
 #include "badguy/dispenser.hpp"
 #include "editor/editor.hpp"
 #include "math/random_generator.hpp"
-#include "object/broken_brick.hpp"
 #include "object/bullet.hpp"
 #include "object/camera.hpp"
 #include "object/player.hpp"
@@ -129,7 +128,7 @@ BadGuy::draw(DrawingContext& context)
     return;
   if(state == STATE_FALLING) {
     context.push_transform();
-    context.set_drawing_effect(context.get_drawing_effect() ^ VERTICAL_FLIP);
+    context.set_flip(context.get_flip() ^ VERTICAL_FLIP);
     sprite->draw(context.color(), get_pos(), layer);
     context.pop_transform();
   } else {
@@ -405,7 +404,7 @@ BadGuy::collision_squished(GameObject& object)
   if(frozen)
   {
     auto player = dynamic_cast<Player*>(&object);
-    if(player && (player->does_buttjump)) {
+    if(player && (player->m_does_buttjump)) {
       player->bounce(*this);
       kill_fall();
       return true;
@@ -494,7 +493,11 @@ BadGuy::kill_fall()
       for (pr_pos.y = 0; pr_pos.y < bbox.get_height(); pr_pos.y += 16) {
         Vector speed = Vector((pr_pos.x - cx) * 8, (pr_pos.y - cy) * 8 + 100);
         Sector::current()->add_object(
-          std::make_shared<BrokenBrick>(sprite->clone(), bbox.p1 + pr_pos, speed));
+          std::make_shared<SpriteParticle>(
+            "images/particles/ice_piece1.sprite", "default",
+            bbox.p1 + pr_pos, ANCHOR_MIDDLE,
+            speed,
+            Vector(0, Sector::current()->get_gravity() * 100.0f)));
       }
     }
     // start dead-script
@@ -520,7 +523,7 @@ void
 BadGuy::run_dead_script()
 {
   if (countMe)
-    Sector::current()->get_level()->stats.badguys++;
+    Sector::current()->get_level()->m_stats.m_badguys++;
 
   countMe = false;
 
@@ -577,7 +580,7 @@ BadGuy::is_offscreen() const
 {
   Vector dist;
   if (Editor::is_active()) {
-    auto cam = Sector::current()->camera;
+    auto cam = Sector::current()->m_camera;
     dist = cam->get_center() - bbox.get_middle();
   }
   auto player = get_nearest_player();
@@ -631,7 +634,7 @@ BadGuy::might_fall(int height) const
   float x1;
   float x2;
   float y1 = bbox.p2.y + 1;
-  float y2 = bbox.p2.y + 1 + height;
+  float y2 = bbox.p2.y + 1 + static_cast<float>(height);
   if (dir == LEFT) {
     x1 = bbox.p1.x - 1;
     x2 = bbox.p1.x;

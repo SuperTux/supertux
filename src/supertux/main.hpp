@@ -17,13 +17,15 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_MAIN_HPP
 #define HEADER_SUPERTUX_SUPERTUX_MAIN_HPP
 
+class CommandLineArguments;
+
 class Main
 {
 private:
   void init_tinygettext();
   void init_video();
 
-  void launch_game();
+  void launch_game(const CommandLineArguments& args);
 
 public:
   /** We call it run() instead of main() as main collides with

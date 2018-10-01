@@ -115,8 +115,8 @@ EditorLevelSelectMenu::create_item()
   auto new_item = editor->get_worldmap_mode() ?
       LevelParser::from_nothing_worldmap(basedir, world->m_title) :
       LevelParser::from_nothing(basedir);
-  new_item->save(basedir + "/" + new_item->filename);
-  editor->set_level(new_item->filename);
+  new_item->save(basedir + "/" + new_item->m_filename);
+  editor->set_level(new_item->m_filename);
   MenuManager::instance().clear_menu_stack();
 
   if(editor->get_worldmap_mode())
@@ -130,17 +130,17 @@ EditorLevelSelectMenu::create_item()
 }
 
 void
-EditorLevelSelectMenu::menu_action(MenuItem* item)
+EditorLevelSelectMenu::menu_action(MenuItem& item)
 {
   auto editor = Editor::current();
   World* world = editor->get_world();
-  if (item->id >= 0)
+  if (item.id >= 0)
   {
-    editor->set_level(m_levelset->get_level_filename(item->id));
+    editor->set_level(m_levelset->get_level_filename(item.id));
     editor->set_worldmap_mode(false);
     MenuManager::instance().clear_menu_stack();
   } else {
-    switch (item->id) {
+    switch (item.id) {
       case -1:
         create_level();
         break;

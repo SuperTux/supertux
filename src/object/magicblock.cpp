@@ -27,6 +27,8 @@
 #include "supertux/constants.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
+#include "video/video_system.hpp"
+#include "video/viewport.hpp"
 
 namespace {
 const float MIN_INTENSITY = 0.8f;
@@ -108,10 +110,10 @@ MagicBlock::update(float elapsed_time)
 {
   //Check if center of this block is on screen.
   //Don't update if not, because there is no light off screen.
-  float screen_left = Sector::current()->camera->get_translation().x;
-  float screen_top = Sector::current()->camera->get_translation().y;
-  float screen_right = screen_left+ SCREEN_WIDTH;
-  float screen_bottom = screen_top + SCREEN_HEIGHT;
+  float screen_left = Sector::current()->m_camera->get_translation().x;
+  float screen_top = Sector::current()->m_camera->get_translation().y;
+  float screen_right = screen_left + static_cast<float>(SCREEN_WIDTH);
+  float screen_bottom = screen_top + static_cast<float>(SCREEN_HEIGHT);
   if((center.x > screen_right ) || ( center.y > screen_bottom) ||
      ( center.x < screen_left) || ( center.y < screen_top)) {
     switch_delay = SWITCH_DELAY;
@@ -171,7 +173,7 @@ MagicBlock::update(float elapsed_time)
 void
 MagicBlock::draw(DrawingContext& context){
   //Ask for update about lightmap at center of this block
-  context.get_light( center, &light );
+  context.light().get_pixel( center, &light );
 
   //Draw the Sprite.
   MovingSprite::draw(context);

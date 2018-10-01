@@ -40,7 +40,7 @@ Thunderstorm::Thunderstorm(const ReaderMapping& reader) :
   time_to_lightning(),
   flash_display_timer()
 {
-  reader.get("name", name);
+  reader.get("name", m_name);
   reader.get("running", running);
   reader.get("interval", interval);
   if(interval <= 0) {
@@ -93,7 +93,10 @@ Thunderstorm::draw(DrawingContext& context)
   float alpha = 0.33f;
   context.push_transform();
   context.set_translation(Vector(0, 0));
-  context.color().draw_filled_rect(Vector(0, 0), Vector(SCREEN_WIDTH, SCREEN_HEIGHT), Color(1, 1, 1, alpha), layer);
+  context.color().draw_filled_rect(Vector(0, 0),
+                                   Vector(static_cast<float>(context.get_width()),
+                                          static_cast<float>(context.get_height())),
+                                   Color(1, 1, 1, alpha), layer);
   context.pop_transform();
 
 }

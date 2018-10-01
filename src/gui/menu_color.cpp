@@ -35,9 +35,8 @@ ColorMenu::ColorMenu(Color* color_) :
 }
 
 void
-ColorMenu::menu_action(MenuItem* item)
+ColorMenu::menu_action(MenuItem& item)
 {
-
 }
 
 /* EOF */

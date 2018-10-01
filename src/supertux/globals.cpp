@@ -18,14 +18,13 @@
 
 #include "supertux/gameconfig.hpp"
 
-int SCREEN_WIDTH;
-int SCREEN_HEIGHT;
-
 std::unique_ptr<Config> g_config;
 
-float game_time = 0;
-float real_time = 0;
+float g_game_time = 0;
+float g_real_time = 0;
 
 float g_game_speed = 1.0f;
+
+bool g_use_bitmap_fonts = false;
 
 /* EOF */

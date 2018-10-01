@@ -20,6 +20,7 @@
 #include <sstream>
 
 #include "physfs/ifile_streambuf.hpp"
+#include "util/file_system.hpp"
 #include "util/log.hpp"
 
 ReaderDocument
@@ -46,12 +47,6 @@ ReaderDocument::parse(const std::string& filename)
   }
 }
 
-ReaderDocument::ReaderDocument() :
-  m_filename(),
-  m_sx()
-{
-}
-
 ReaderDocument::ReaderDocument(const std::string& filename, sexp::Value sx) :
   m_filename(filename),
   m_sx(std::move(sx))
@@ -61,13 +56,19 @@ ReaderDocument::ReaderDocument(const std::string& filename, sexp::Value sx) :
 ReaderObject
 ReaderDocument::get_root() const
 {
-  return ReaderObject(this, &m_sx);
+  return ReaderObject(*this, m_sx);
 }
 
 std::string
 ReaderDocument::get_filename() const
 {
   return m_filename;
+}
+
+std::string
+ReaderDocument::get_directory() const
+{
+  return FileSystem::dirname(m_filename);
 }
 
 /* EOF */

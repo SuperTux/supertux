@@ -35,9 +35,9 @@ ScriptedObject::ScriptedObject(const ReaderMapping& lisp) :
   new_vel(),
   new_size()
 {
-  if(name.empty()) {
-    name = "unnamed" + std::to_string(graphicsRandom.rand());
-    log_warning << "Scripted object must have a name specified, setting to: " << name << std::endl;
+  if(m_name.empty()) {
+    m_name = "unnamed" + std::to_string(graphicsRandom.rand());
+    log_warning << "Scripted object must have a name specified, setting to: " << m_name << std::endl;
   }
 
   lisp.get("solid", solid, true);
@@ -155,12 +155,6 @@ std::string
 ScriptedObject::get_action() const
 {
   return sprite->get_action();
-}
-
-std::string
-ScriptedObject::get_name() const
-{
-  return name;
 }
 
 void

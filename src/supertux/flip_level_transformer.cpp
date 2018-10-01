@@ -31,7 +31,7 @@ FlipLevelTransformer::transform_sector(Sector* sector)
 {
   float height = sector->get_height();
 
-  for(auto& object : sector->gameobjects) {
+  for(auto& object : sector->m_gameobjects) {
     auto tilemap = dynamic_cast<TileMap*>(object.get());
     if(tilemap) {
       transform_tilemap(height, *tilemap);
@@ -64,21 +64,21 @@ FlipLevelTransformer::transform_sector(Sector* sector)
       transform_moving_object(height, *mobject);
     }
   }
-  for(auto& spawnpoint : sector->spawnpoints) {
+  for(auto& spawnpoint : sector->m_spawnpoints) {
     transform_spawnpoint(height, *spawnpoint);
   }
 
-  if(sector->camera != 0 && sector->player != 0)
-    sector->camera->reset(sector->player->get_pos());
+  if(sector->m_camera != 0 && sector->m_player != 0)
+    sector->m_camera->reset(sector->m_player->get_pos());
 }
 
-DrawingEffect
-FlipLevelTransformer::transform_drawing_effect(DrawingEffect effect)
+Flip
+FlipLevelTransformer::transform_flip(Flip flip)
 {
-  if (effect & VERTICAL_FLIP) {
-    return effect & ~VERTICAL_FLIP;
+  if (flip & VERTICAL_FLIP) {
+    return flip & ~VERTICAL_FLIP;
   } else {
-    return effect | VERTICAL_FLIP;
+    return flip | VERTICAL_FLIP;
   }
 }
 
@@ -94,8 +94,8 @@ FlipLevelTransformer::transform_path(float height, float obj_height, Path& path)
 void
 FlipLevelTransformer::transform_tilemap(float height, TileMap& tilemap)
 {
-  for(size_t x = 0; x < tilemap.get_width(); ++x) {
-    for(size_t y = 0; y < tilemap.get_height()/2; ++y) {
+  for(int x = 0; x < tilemap.get_width(); ++x) {
+    for(int y = 0; y < tilemap.get_height()/2; ++y) {
       // swap tiles
       int y2 = tilemap.get_height()-1-y;
       uint32_t t1 = tilemap.get_tile_id(x, y);
@@ -104,7 +104,7 @@ FlipLevelTransformer::transform_tilemap(float height, TileMap& tilemap)
       tilemap.change(x, y2, t1);
     }
   }
-  tilemap.set_drawing_effect(transform_drawing_effect(tilemap.get_drawing_effect()));
+  tilemap.set_flip(transform_flip(tilemap.get_flip()));
   Vector offset = tilemap.get_offset();
   offset.y = height - offset.y - tilemap.get_bbox().get_height();
   tilemap.set_offset(offset);
@@ -140,7 +140,7 @@ FlipLevelTransformer::transform_moving_object(float height, MovingObject& object
 void
 FlipLevelTransformer::transform_flower(Flower& flower)
 {
-  flower.drawing_effect = transform_drawing_effect(flower.drawing_effect);
+  flower.flip = transform_flip(flower.flip);
 }
 
 void
