@@ -78,8 +78,13 @@ private:
 private:
   /** Backgrounds with NO_ALIGNMENT are repeated over the whole
       screen, backgrounds with left, right, top, bottom alignment are
-      only repeated in one direction and attached to the level edge */
+      only repeated in one direction and attached to the level edge. */
   Alignment m_alignment;
+
+  /** If fill is set, the background will not repeat and is instead
+      stretched over the whole screen, alignment and top/bottom images
+      are ignored in that case. */
+  bool m_fill;
 
   int m_layer;
   std::string m_imagefile_top;
