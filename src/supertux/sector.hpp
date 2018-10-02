@@ -206,11 +206,6 @@ public:
    */
   void change_solid_tiles(uint32_t old_tile_id, uint32_t new_tile_id);
 
-  typedef std::vector<GameObjectPtr> GameObjects;
-  typedef std::vector<MovingObject*> MovingObjects;
-  typedef std::vector<std::shared_ptr<SpawnPoint> > SpawnPoints;
-  typedef std::vector<Portable*> Portables;
-
   // --- scripting ---
   /**
    *  get/set color of ambient light
@@ -274,14 +269,13 @@ private:
   std::string m_init_script;
 
   /// container for newly created objects, they'll be added in Sector::update
-  GameObjects m_gameobjects_new;
+  std::vector<GameObjectPtr> m_gameobjects_new;
 
   MusicType m_currentmusic;
 
   HSQOBJECT m_sector_table;
   /// sector scripts
-  typedef std::vector<HSQOBJECT> ScriptList;
-  ScriptList m_scripts;
+  std::vector<HSQOBJECT> m_scripts;
 
   Color m_ambient_light;
 
@@ -313,10 +307,10 @@ private:
   int m_foremost_layer;
 
 public:
-  GameObjects m_gameobjects;
+  std::vector<GameObjectPtr> m_gameobjects;
   std::unique_ptr<CollisionSystem> m_collision_system;
-  SpawnPoints m_spawnpoints;
-  Portables m_portables;
+  std::vector<std::shared_ptr<SpawnPoint> > m_spawnpoints;
+  std::vector<Portable*> m_portables;
 
   std::string m_music;
 private:
