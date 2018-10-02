@@ -65,12 +65,6 @@ public:
   static Color teleporter_message_color;
 
 private:
-  typedef std::vector<SpecialTile*> SpecialTiles;
-  typedef std::vector<SpriteChange*> SpriteChanges;
-  typedef std::vector<LevelTile*> LevelTiles;
-  typedef std::vector<GameObjectPtr> GameObjects;
-  typedef std::vector<HSQOBJECT> ScriptList;
-
   std::shared_ptr<Tux> tux;
 
   Savegame& m_savegame;
@@ -83,7 +77,7 @@ private:
   std::string music;
   std::string init_script;
 
-  GameObjects game_objects;
+  std::vector<GameObjectPtr> game_objects;
   std::vector<TileMap*> solid_tilemaps;
 
 public:
@@ -95,16 +89,16 @@ private:
   std::string map_filename;
   std::string levels_path;
 
-  SpecialTiles special_tiles;
-  LevelTiles levels;
-  SpriteChanges sprite_changes;
+  std::vector<SpecialTile*> special_tiles;
+  std::vector<LevelTile*> levels;
+  std::vector<SpriteChange*> sprite_changes;
   std::vector<std::unique_ptr<SpawnPoint> > spawn_points;
   std::vector<Teleporter*> teleporters;
 
   Statistics total_stats;
 
   HSQOBJECT worldmap_table;
-  ScriptList scripts;
+  std::vector<HSQOBJECT> scripts;
 
   Color ambient_light;
   std::string force_spawnpoint; /**< if set, spawnpoint will be forced to this value */

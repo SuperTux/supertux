@@ -513,8 +513,7 @@ WorldMap::update(float delta)
     }
 
     // remove old GameObjects
-    for(GameObjects::iterator i = game_objects.begin();
-        i != game_objects.end(); ) {
+    for(auto i = game_objects.begin(); i != game_objects.end(); ) {
       auto& object = *i;
       if(!object->is_valid()) {
         try_unexpose(object);
