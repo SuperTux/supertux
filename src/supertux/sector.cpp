@@ -52,7 +52,7 @@ Sector* Sector::s_current = 0;
 bool Sector::s_show_collrects = false;
 bool Sector::s_draw_solids_only = false;
 
-Sector::Sector(Level* parent) :
+Sector::Sector(Level& parent) :
   m_level(parent),
   m_name(),
   m_bullets(),
@@ -129,7 +129,7 @@ Sector::~Sector()
   }
 }
 
-Level*
+Level&
 Sector::get_level() const
 {
   return m_level;
@@ -234,7 +234,7 @@ Sector::activate(const Vector& player_pos)
 
     // spawning tux in the ground would kill him
     if(!is_free_of_tiles(p->get_bbox())) {
-      std::string current_level = "[" + Sector::current()->get_level()->m_filename + "] ";
+      std::string current_level = "[" + Sector::current()->get_level().m_filename + "] ";
       log_warning << current_level << "Tried spawning Tux in solid matter. Compensating." << std::endl;
       Vector npos = p->get_bbox().p1;
       npos.y-=32;
@@ -253,7 +253,7 @@ Sector::activate(const Vector& player_pos)
 
   //Run default.nut just before init script
   //Check to see if it's in a levelset (info file)
-  std::string basedir = FileSystem::dirname(get_level()->m_filename);
+  std::string basedir = FileSystem::dirname(get_level().m_filename);
   if(PHYSFS_exists((basedir + "/info").c_str())) {
     try {
       IFileStreambuf ins(basedir + "/default.nut");

@@ -46,7 +46,7 @@ static const std::string DEFAULT_BG_BOTTOM = "images/background/BlueRock_Forest/
 std::unique_ptr<Sector>
 SectorParser::from_reader(Level& level, const ReaderMapping& reader)
 {
-  std::unique_ptr<Sector> sector(new Sector(&level));
+  std::unique_ptr<Sector> sector(new Sector(level));
   SectorParser parser(*sector);
   parser.parse(reader);
   return sector;
@@ -55,7 +55,7 @@ SectorParser::from_reader(Level& level, const ReaderMapping& reader)
 std::unique_ptr<Sector>
 SectorParser::from_reader_old_format(Level& level, const ReaderMapping& reader)
 {
-  std::unique_ptr<Sector> sector(new Sector(&level));
+  std::unique_ptr<Sector> sector(new Sector(level));
   SectorParser parser(*sector);
   parser.parse_old_format(reader);
   return sector;
@@ -64,7 +64,7 @@ SectorParser::from_reader_old_format(Level& level, const ReaderMapping& reader)
 std::unique_ptr<Sector>
 SectorParser::from_nothing(Level& level)
 {
-  std::unique_ptr<Sector> sector(new Sector(&level));
+  std::unique_ptr<Sector> sector(new Sector(level));
   SectorParser parser(*sector);
   parser.create_sector();
   return sector;
@@ -246,7 +246,7 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
   std::vector<unsigned int> tiles;
   if(reader.get("interactive-tm", tiles)
      || reader.get("tilemap", tiles)) {
-    auto tileset = TileManager::current()->get_tileset(m_sector.m_level->get_tileset());
+    auto tileset = TileManager::current()->get_tileset(m_sector.get_level().get_tileset());
     auto tilemap = std::make_shared<TileMap>(tileset);
     tilemap->set(width, height, tiles, LAYER_TILES, true);
 
@@ -264,7 +264,7 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
   }
 
   if(reader.get("background-tm", tiles)) {
-    auto tileset = TileManager::current()->get_tileset(m_sector.m_level->get_tileset());
+    auto tileset = TileManager::current()->get_tileset(m_sector.get_level().get_tileset());
     auto tilemap = std::make_shared<TileMap>(tileset);
     tilemap->set(width, height, tiles, LAYER_BACKGROUNDTILES, false);
     if (height < 19) tilemap->resize(width, 19);
@@ -272,7 +272,7 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
   }
 
   if(reader.get("foreground-tm", tiles)) {
-    auto tileset = TileManager::current()->get_tileset(m_sector.m_level->get_tileset());
+    auto tileset = TileManager::current()->get_tileset(m_sector.get_level().get_tileset());
     auto tilemap = std::make_shared<TileMap>(tileset);
     tilemap->set(width, height, tiles, LAYER_FOREGROUNDTILES, false);
 
@@ -396,7 +396,7 @@ SectorParser::fix_old_tiles()
 void
 SectorParser::create_sector()
 {
-  auto tileset = TileManager::current()->get_tileset(m_sector.m_level->get_tileset());
+  auto tileset = TileManager::current()->get_tileset(m_sector.get_level().get_tileset());
   bool worldmap = Editor::current() ? Editor::current()->get_worldmap_mode() : false;
   if (!worldmap) {
     auto background = std::make_shared<Background>();

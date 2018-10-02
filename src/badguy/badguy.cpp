@@ -523,7 +523,7 @@ void
 BadGuy::run_dead_script()
 {
   if (countMe)
-    Sector::current()->get_level()->m_stats.m_badguys++;
+    Sector::current()->get_level().m_stats.m_badguys++;
 
   countMe = false;
 

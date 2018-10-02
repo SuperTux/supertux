@@ -173,7 +173,7 @@ Coin::collect()
   auto sector = Sector::current();
   sector->m_player->get_status().add_coins(1, false);
   sector->add_object(std::make_shared<BouncyCoin>(get_pos(), false, get_sprite_name()));
-  sector->get_level()->m_stats.m_coins++;
+  sector->get_level().m_stats.m_coins++;
   remove_me();
 
   if(!collect_script.empty()) {

@@ -65,11 +65,10 @@ public:
   friend class CollisionSystem;
 
 public:
-  Sector(Level* parent);
+  Sector(Level& parent);
   ~Sector();
 
-  /// get parent level
-  Level* get_level() const;
+  Level& get_level() const;
 
   /// activates this sector (change music, initialize player class, ...)
   void activate(const std::string& spawnpoint);
@@ -260,7 +259,7 @@ public: // TODO make this private again
   static bool s_draw_solids_only;
 
 private:
-  Level* m_level; /**< Parent level containing this sector */
+  Level& m_level; /**< Parent level containing this sector */
 
   std::string m_name;
 
