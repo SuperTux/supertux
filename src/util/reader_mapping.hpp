@@ -39,16 +39,11 @@ public:
 
   ReaderIterator get_iter() const;
 
-  bool get(const char* key, bool& value) const;
-  bool get(const char* key, bool& value, const bool defaultValue) const;
-  bool get(const char* key, int& value) const;
-  bool get(const char* key, int& value, const int defaultValue) const;
-  bool get(const char* key, uint32_t& value) const;
-  bool get(const char* key, uint32_t& value, const uint32_t defaultValue) const;
-  bool get(const char* key, float& value) const;
-  bool get(const char* key, float& value, const float defaultValue) const;
-  bool get(const char* key, std::string& value) const;
-  bool get(const char* key, std::string& value, std::string defaultValue) const;
+  bool get(const char* key, bool& value, const boost::optional<bool>& default_value = boost::none) const;
+  bool get(const char* key, int& value, const boost::optional<int>& default_value = boost::none) const;
+  bool get(const char* key, uint32_t& value, const boost::optional<uint32_t>& default_value = boost::none) const;
+  bool get(const char* key, float& value, const boost::optional<float>& default_value = boost::none) const;
+  bool get(const char* key, std::string& value, const boost::optional<const char*>& default_value = boost::none) const;
 
   bool get(const char* key, std::vector<bool>& value) const;
   bool get(const char* key, std::vector<int>& value) const;
