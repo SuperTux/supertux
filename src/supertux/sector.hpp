@@ -122,7 +122,6 @@ public:
 
   int get_active_bullets() const
   { return static_cast<int>(m_bullets.size()); }
-  bool add_smoke_cloud(const Vector& pos);
 
   /** get currently activated sector. */
   static Sector* current()

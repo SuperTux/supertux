@@ -609,13 +609,6 @@ Sector::can_see_player(const Vector& eye) const
   return false;
 }
 
-bool
-Sector::add_smoke_cloud(const Vector& pos)
-{
-  add_object(std::make_shared<SmokeCloud>(pos));
-  return true;
-}
-
 void
 Sector::play_music(MusicType type)
 {
