@@ -65,52 +65,52 @@ public:
   static Color teleporter_message_color;
 
 private:
-  std::shared_ptr<Tux> tux;
+  std::shared_ptr<Tux> m_tux;
 
   Savegame& m_savegame;
 
-  TileSet* tileset;
+  TileSet* m_tileset;
 
-  Vector camera_offset;
+  Vector m_camera_offset;
 
-  std::string name;
-  std::string music;
-  std::string init_script;
+  std::string m_name;
+  std::string m_music;
+  std::string m_init_script;
 
-  std::vector<GameObjectPtr> game_objects;
-  std::vector<TileMap*> solid_tilemaps;
+  std::vector<GameObjectPtr> m_game_objects;
+  std::vector<TileMap*> m_solid_tilemaps;
 
 public:
   /** Variables to deal with the passive map messages */
-  Timer passive_message_timer;
-  std::string passive_message;
+  Timer m_passive_message_timer;
+  std::string m_passive_message;
 
 private:
-  std::string map_filename;
-  std::string levels_path;
+  std::string m_map_filename;
+  std::string m_levels_path;
 
-  std::vector<SpecialTile*> special_tiles;
-  std::vector<LevelTile*> levels;
-  std::vector<SpriteChange*> sprite_changes;
-  std::vector<std::unique_ptr<SpawnPoint> > spawn_points;
-  std::vector<Teleporter*> teleporters;
+  std::vector<SpecialTile*> m_special_tiles;
+  std::vector<LevelTile*> m_levels;
+  std::vector<SpriteChange*> m_sprite_changes;
+  std::vector<std::unique_ptr<SpawnPoint> > m_spawn_points;
+  std::vector<Teleporter*> m_teleporters;
 
-  Statistics total_stats;
+  Statistics m_total_stats;
 
-  HSQOBJECT worldmap_table;
-  std::vector<HSQOBJECT> scripts;
+  HSQOBJECT m_worldmap_table;
+  std::vector<HSQOBJECT> m_scripts;
 
-  Color ambient_light;
-  std::string force_spawnpoint; /**< if set, spawnpoint will be forced to this value */
-  bool main_is_default;
-  std::string initial_fade_tilemap;
-  int fade_direction;
+  Color m_ambient_light;
+  std::string m_force_spawnpoint; /**< if set, spawnpoint will be forced to this value */
+  bool m_main_is_default;
+  std::string m_initial_fade_tilemap;
+  int m_fade_direction;
 
-  bool in_level;
+  bool m_in_level;
 
   /* variables to track panning to a spawn point */
-  Vector pan_pos;
-  bool panning;
+  Vector m_pan_pos;
+  bool m_panning;
 
 public:
   WorldMap(const std::string& filename, Savegame& savegame, const std::string& force_spawnpoint = "");
@@ -151,7 +151,7 @@ public:
   void finished_level(Level* level);
 
   /** returns current Tux incarnation */
-  Tux* get_tux() const { return tux.get(); }
+  Tux* get_tux() const { return m_tux.get(); }
 
   Savegame& get_savegame() const { return m_savegame; }
 
@@ -162,7 +162,7 @@ public:
    */
   SpawnPoint* get_spawnpoint_by_name(const std::string& spawnpoint_name) const
   {
-    for(const auto& sp : spawn_points) {
+    for(const auto& sp : m_spawn_points) {
       if(sp->name == spawnpoint_name) {
         return sp.get();
       }
@@ -197,7 +197,7 @@ public:
   void load_state();
 
   const std::string& get_title() const
-  { return name; }
+  { return m_name; }
 
   HSQUIRRELVM run_script(const std::string& script, const std::string& sourcename);
 
@@ -242,8 +242,8 @@ public:
    */
   void set_initial_fade_tilemap(const std::string& tilemap_name, int direction)
   {
-    initial_fade_tilemap = tilemap_name;
-    fade_direction = direction;
+    m_initial_fade_tilemap = tilemap_name;
+    m_fade_direction = direction;
   }
 
   /**
@@ -251,11 +251,11 @@ public:
    */
   void set_initial_spawnpoint(const std::string& spawnpoint_name)
   {
-    force_spawnpoint = spawnpoint_name;
+    m_force_spawnpoint = spawnpoint_name;
 
     // If spawnpoint we specified can not be found,
     // don't bother moving to the main spawnpoint.
-    main_is_default = false;
+    m_main_is_default = false;
   }
 
 private:

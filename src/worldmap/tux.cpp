@@ -230,7 +230,7 @@ Tux::tryContinueWalking(float elapsed_time)
       || (teleporter) || ghost_mode) {
     if(special_tile && !special_tile->map_message.empty()
        && !special_tile->passive_message)
-      worldmap->passive_message_timer.start(0);
+      worldmap->m_passive_message_timer.start(0);
     stop();
     return;
   }
@@ -326,8 +326,8 @@ Tux::process_special_tile(SpecialTile* special_tile) {
   }
 
   if(special_tile->passive_message) {
-    worldmap->passive_message = special_tile->map_message;
-    worldmap->passive_message_timer.start(map_message_TIME);
+    worldmap->m_passive_message = special_tile->map_message;
+    worldmap->m_passive_message_timer.start(map_message_TIME);
   } else if(!special_tile->script.empty()) {
     try {
       std::istringstream in(special_tile->script);
