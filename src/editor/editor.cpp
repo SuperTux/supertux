@@ -357,10 +357,10 @@ void Editor::reload_level() {
   level = NULL;
   levelloaded = true;
 
-  ReaderMapping::translations_enabled = false;
+  ReaderMapping::s_translations_enabled = false;
   level = LevelParser::from_file(world ? FileSystem::join(world->get_basedir(),
                                                           levelfile) : levelfile);
-  ReaderMapping::translations_enabled = true;
+  ReaderMapping::s_translations_enabled = true;
 
   tileset = TileManager::current()->get_tileset(level->get_tileset());
   load_sector("main");

@@ -31,10 +31,11 @@ class ReaderCollection;
 class ReaderMapping final
 {
 public:
+  static bool s_translations_enabled;
+
+public:
   // sx should point to (section (name value)...)
   ReaderMapping(const ReaderDocument& doc, const sexp::Value& sx);
-
-  static bool translations_enabled;
 
   ReaderIterator get_iter() const;
 
