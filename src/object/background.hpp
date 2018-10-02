@@ -40,9 +40,9 @@ public:
   void set_speed(float bgd_speed);
 
   std::string get_image() const
-  { return imagefile; }
+  { return m_imagefile; }
   float get_speed() const
-  { return speed; }
+  { return m_speed; }
 
   virtual void update(float elapsed_time);
 
@@ -54,7 +54,7 @@ public:
   }
 
   int get_layer() const
-  { return layer; }
+  { return m_layer; }
 
   std::string get_display_name() const {
     return _("Background");
@@ -75,25 +75,27 @@ private:
     BOTTOM_ALIGNMENT
   };
 
+private:
   /** Backgrounds with NO_ALIGNMENT are repeated over the whole
       screen, backgrounds with left, right, top, bottom alignment are
       only repeated in one direction and attached to the level edge */
-  Alignment alignment;
+  Alignment m_alignment;
 
-  int layer;
-  std::string imagefile_top;
-  std::string imagefile;
-  std::string imagefile_bottom;
-  Vector pos; /**< coordinates of upper-left corner of image */
-  float speed; /**< scroll-speed in horizontal direction */
-  float speed_y; /**< scroll-speed in vertical direction */
-  Vector scroll_speed;
-  Vector scroll_offset;
-  SurfacePtr image_top; /**< image to draw above pos */
-  SurfacePtr image; /**< image to draw, anchored at pos */
-  SurfacePtr image_bottom; /**< image to draw below pos+screenheight */
+  int m_layer;
+  std::string m_imagefile_top;
+  std::string m_imagefile;
+  std::string m_imagefile_bottom;
+  Vector m_pos; /**< coordinates of upper-left corner of image */
+  float m_speed; /**< scroll-speed in horizontal direction */
+  float m_speed_y; /**< scroll-speed in vertical direction */
+  Vector m_scroll_speed;
+  Vector m_scroll_offset;
+  SurfacePtr m_image_top; /**< image to draw above pos */
+  SurfacePtr m_image; /**< image to draw, anchored at pos */
+  SurfacePtr m_image_bottom; /**< image to draw below pos+screenheight */
 
-  bool has_pos_x, has_pos_y;
+  bool m_has_pos_x;
+  bool m_has_pos_y;
 };
 
 #endif /*SUPERTUX_BACKGROUND_H*/
