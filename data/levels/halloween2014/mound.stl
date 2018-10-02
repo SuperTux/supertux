@@ -32,8 +32,8 @@
       (z-pos 101)
     )
     (background
-      (alignment "bottom")
       (speed 0)
+      (fill #t)
       (image "images/background/halloween/vignette.png")
       (z-pos 1000)
     )
