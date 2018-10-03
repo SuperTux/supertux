@@ -16,7 +16,11 @@
 
 #include "video/surface.hpp"
 
+#include <sstream>
+
+#include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
+#include "util/string_util.hpp"
 #include "video/texture.hpp"
 #include "video/texture_manager.hpp"
 #include "video/video_system.hpp"
@@ -52,15 +56,33 @@ Surface::from_reader(const ReaderMapping& mapping, const boost::optional<Rect>& 
 SurfacePtr
 Surface::from_file(const std::string& filename, const boost::optional<Rect>& rect)
 {
-  if (rect)
+  if (StringUtil::has_suffix(filename, ".surface"))
   {
-    TexturePtr texture = TextureManager::current()->get(filename, *rect);
-    return SurfacePtr(new Surface(texture, TexturePtr(), NO_FLIP));
+    ReaderDocument doc = ReaderDocument::parse(filename);
+    ReaderObject object = doc.get_root();
+    if (object.get_name() != "supertux-surface")
+    {
+      std::ostringstream msg;
+      msg << filename << ": error: not a 'supertux-surface' file";
+      throw std::runtime_error(msg.str());
+    }
+    else
+    {
+      return Surface::from_reader(object.get_mapping());
+    }
   }
   else
   {
-    TexturePtr texture = TextureManager::current()->get(filename);
-    return SurfacePtr(new Surface(texture, TexturePtr(), NO_FLIP));
+    if (rect)
+    {
+      TexturePtr texture = TextureManager::current()->get(filename, *rect);
+      return SurfacePtr(new Surface(texture, TexturePtr(), NO_FLIP));
+    }
+    else
+    {
+      TexturePtr texture = TextureManager::current()->get(filename);
+      return SurfacePtr(new Surface(texture, TexturePtr(), NO_FLIP));
+    }
   }
 }
 

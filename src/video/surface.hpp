@@ -35,10 +35,9 @@ class SurfaceData;
 class Surface
 {
 public:
-  static SurfacePtr from_file(const std::string& filename, const boost::optional<Rect>& rect = boost::none);
   static SurfacePtr from_texture(const TexturePtr& texture);
-  static SurfacePtr from_reader(const ReaderMapping& mapping,
-                                const boost::optional<Rect>& rect = boost::none);
+  static SurfacePtr from_file(const std::string& filename, const boost::optional<Rect>& rect = boost::none);
+  static SurfacePtr from_reader(const ReaderMapping& mapping, const boost::optional<Rect>& rect = boost::none);
 
 private:
   Surface(const TexturePtr& diffuse_texture, const TexturePtr& displacement_texture, Flip flip);
