@@ -41,20 +41,8 @@ public:
                                 const boost::optional<Rect>& rect = boost::none);
 
 private:
-  Surface(const TexturePtr& diffuse_texture, const TexturePtr& displacement_texture,
-          const Vector& translate,
-          const Vector& scale,
-          float rotate,
-          const Vector& rotate_center,
-          Flip flip);
-
-  Surface(const TexturePtr& diffuse_texture, const TexturePtr& displacement_texture,
-          const Rect& region,
-          const Vector& translate,
-          const Vector& scale,
-          float rotate,
-          const Vector& rotate_center,
-          Flip flip);
+  Surface(const TexturePtr& diffuse_texture, const TexturePtr& displacement_texture, Flip flip);
+  Surface(const TexturePtr& diffuse_texture, const TexturePtr& displacement_texture, const Rect& region, Flip flip);
 
 public:
   ~Surface();
@@ -67,20 +55,12 @@ public:
   Rect get_region() const { return m_region; }
   int get_width() const;
   int get_height() const;
-  Vector get_translation() const { return m_translate; }
-  Vector get_scale() const { return m_scale; }
-  float get_rotate() const { return m_rotate; }
-  Vector get_rotate_center() const { return m_rotate_center; }
   Flip get_flip() const { return m_flip; }
 
 private:
   const TexturePtr m_diffuse_texture;
   const TexturePtr m_displacement_texture;
   const Rect m_region;
-  const Vector m_translate;
-  const Vector m_scale;
-  const float m_rotate;
-  const Vector m_rotate_center;
   const Flip m_flip;
 
 private:
