@@ -8,6 +8,7 @@ uniform float backbuffer;
 uniform float game_time;
 uniform float real_time;
 uniform vec2 animate;
+uniform vec2 displacement_animate;
 
 in vec4 diffuse_var;
 in vec2 texcoord_var;
@@ -23,7 +24,7 @@ void main(void)
   }
   else if (true)
   {
-    vec4 pixel = texture(displacement_texture, texcoord_var.st);
+    vec4 pixel = texture(displacement_texture, texcoord_var.st + (displacement_animate * game_time));
     vec2 displacement = (pixel.rg - vec2(0.5, 0.5)) * 255;
     float alpha = pixel.a;
 
