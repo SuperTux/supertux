@@ -16,6 +16,7 @@
      (file "heatshimmer-displacement.png")
      (wrap "repeat")
      (filter "nearest")
+     (animate 0 32)
      )
     )
    )
