@@ -250,7 +250,7 @@ GLVideoSystem::apply_config()
   m_lightmap.reset(new GLTextureRenderer(*this, m_viewport.get_screen_size(), 5));
   if (m_use_opengl33core)
   {
-    m_back_renderer.reset(new GLTextureRenderer(*this, m_viewport.get_screen_size(), 5));
+    m_back_renderer.reset(new GLTextureRenderer(*this, m_viewport.get_screen_size(), 1));
   }
 }
 
