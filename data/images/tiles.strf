@@ -3176,7 +3176,7 @@
     (hurts #t)
     (fire #t)
     (solid #f)
-    (fps 2)
+    (fps 8)
   )
   (tile
     (id 1701)
@@ -3189,7 +3189,7 @@
     (hurts #t)
     (fire #t)
     (solid #f)
-    (fps 2)
+    (fps 8)
   )
   (tile
     (id 1702)
@@ -3205,7 +3205,7 @@
     (hurts #t)
     (fire #t)
     (solid #f)
-    (fps 2)
+    (fps 8)
   )
   (tile
     (id 1703)
@@ -3220,7 +3220,7 @@
       "tiles/lava/zone/bubble-in-1-4.png")
     (fire #t)
     (solid #f)
-    (fps 2)
+    (fps 8)
   )
   (tile
     (id 1704)
@@ -3236,7 +3236,7 @@
     )
     (fire #t)
     (solid #f)
-    (fps 2)
+    (fps 8)
   )
   (tile
     (id 1705)
@@ -3249,7 +3249,7 @@
     (hurts #t)
     (fire #t)
     (solid #f)
-    (fps 2)
+    (fps 8)
   )
   (tile
     (id 1706)
@@ -3262,7 +3262,7 @@
     (hurts #t)
     (fire #t)
     (solid #f)
-    (fps 2)
+    (fps 8)
   )
   (tile
     (id 1707)
@@ -3273,7 +3273,7 @@
       "tiles/lava/zone/edge-right-1-4.png")
     (fire #t)
     (solid #f)
-    (fps 2)
+    (fps 8)
   )
   (tile
     (id 1708)
@@ -3283,7 +3283,7 @@
       "tiles/lava/zone/surface-1-3.png"
       "tiles/lava/zone/surface-1-4.png")
     (solid #f)
-    (fps 2)
+    (fps 8)
   )
   (tile
     (id 1709)
@@ -3294,7 +3294,7 @@
       "tiles/lava/zone/edge-left-1-4.png")
     (fire #t)
     (solid #f)
-    (fps 2)
+    (fps 8)
   )
   (tile
     (id 1710)
@@ -3305,7 +3305,7 @@
       "tiles/lava/zone/edge-right-1-1.png")
     (fire #t)
     (solid #f)
-    (fps 2)
+    (fps 8)
   )
   (tile
     (id 1711)
@@ -3316,7 +3316,7 @@
       "tiles/lava/zone/edge-left-1-4.png")
     (fire #t)
     (solid #f)
-    (fps 2)
+    (fps 8)
   )
   (tile
     (id 1712)
@@ -3327,7 +3327,7 @@
       "tiles/lava/zone/edge-flip-1-4.png")
     (fire #t)
     (solid #f)
-    (fps 2)
+    (fps 8)
   )
   (tile
     (id 1713)
@@ -3338,7 +3338,7 @@
       "tiles/lava/zone/bubble-bottom-1-4.png")
     (fire #t)
     (solid #f)
-    (fps 2)
+    (fps 8)
   )
   (tile
     (id 1714)
@@ -3353,7 +3353,7 @@
       "tiles/lava/zone/bubble-out-1-4.png")
     (fire #t)
     (solid #f)
-    (fps 2)
+    (fps 8)
   )
   (tile
     (id 1715)
@@ -3368,7 +3368,7 @@
       "tiles/lava/zone/rest.png")
     (fire #t)
     (solid #f)
-    (fps 2)
+    (fps 8)
   )
 
   (tile
@@ -3385,7 +3385,7 @@
     )
     (fire #t)
     (solid #f)
-    (fps 2)
+    (fps 8)
   )
   (tiles
     (width 5)
