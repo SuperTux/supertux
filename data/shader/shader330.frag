@@ -28,7 +28,7 @@ void main(void)
     vec2 displacement = (pixel.rg - vec2(0.5, 0.5)) * 255;
     float alpha = pixel.a;
 
-    vec2 uv = (fragcoord2uv * (gl_FragCoord.xyw + vec3(displacement.xy, 0))).xy;
+    vec2 uv = (fragcoord2uv * (gl_FragCoord.xyw + vec3(displacement.xy * alpha, 0))).xy;
     uv = vec2(uv.x, 1.0 - uv.y);
     vec4 back_color = texture(framebuffer_texture, uv);
 
