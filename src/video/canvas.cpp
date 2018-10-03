@@ -171,6 +171,7 @@ Canvas::draw_surface_part(SurfacePtr surface, const Rectf& srcrect, const Rectf&
   request->srcrect = srcrect;
   request->dstrect = Rectf(apply_translate(dstrect.p1), dstrect.get_size());
   request->texture = surface->get_texture().get();
+  request->displacement_texture = surface->get_displacement_texture().get();
   request->color = style.get_color();
 
   m_requests.push_back(request);
