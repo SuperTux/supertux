@@ -123,10 +123,10 @@ Compositor::render()
         request.angle = 0.0f;
         request.blend = Blend(GL_DST_COLOR, GL_ZERO);
 
-        request.srcrect = Rectf(0, 0,
-                                static_cast<float>(texture->get_image_width()),
-                                static_cast<float>(texture->get_image_height()));
-        request.dstrect = Rectf(Vector(0, 0), lightmap.get_logical_size());
+        request.srcrects.emplace_back(0, 0,
+                                      static_cast<float>(texture->get_image_width()),
+                                      static_cast<float>(texture->get_image_height()));
+        request.dstrects.emplace_back(Vector(0, 0), lightmap.get_logical_size());
 
         request.texture = texture.get();
         request.color = Color::WHITE;

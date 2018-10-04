@@ -45,98 +45,6 @@ GLPainter::draw_texture(const TextureRequest& request)
 
   const auto& texture = static_cast<const GLTexture&>(*request.texture);
 
-  GLContext& context = m_video_system.get_context();
-  context.bind_texture(texture, request.displacement_texture);
-
-  float left = request.dstrect.p1.x;
-  float top = request.dstrect.p1.y;
-  float right = request.dstrect.p2.x;
-  float bottom = request.dstrect.p2.y;
-
-  float uv_left = request.srcrect.get_left() / static_cast<float>(texture.get_texture_width());
-  float uv_top = request.srcrect.get_top() / static_cast<float>(texture.get_texture_height());
-  float uv_right = request.srcrect.get_right() / static_cast<float>(texture.get_texture_width());
-  float uv_bottom = request.srcrect.get_bottom() / static_cast<float>(texture.get_texture_height());
-
-  if (request.flip & HORIZONTAL_FLIP)
-    std::swap(uv_left, uv_right);
-
-  if (request.flip & VERTICAL_FLIP)
-    std::swap(uv_top, uv_bottom);
-
-  context.blend_func(request.blend.sfactor, request.blend.dfactor);
-  context.set_color(Color(request.color.red,
-                          request.color.green,
-                          request.color.blue,
-                          request.color.alpha * request.alpha));
-
-  if (request.angle == 0.0f)
-  {
-    // unrotated blit
-    const float vertices[] = {
-      left, top,
-      right, top,
-      right, bottom,
-      left, bottom,
-    };
-
-    const float uvs[] = {
-      uv_left, uv_top,
-      uv_right, uv_top,
-      uv_right, uv_bottom,
-      uv_left, uv_bottom,
-    };
-
-    context.set_positions(vertices, sizeof(vertices));
-    context.set_texcoords(uvs, sizeof(uvs));
-
-    context.draw_arrays(GL_TRIANGLE_FAN, 0, 4);
-  }
-  else
-  {
-    // rotated blit
-    const float center_x = (left + right) / 2;
-    const float center_y = (top + bottom) / 2;
-
-    const float sa = sinf(math::radians(request.angle));
-    const float ca = cosf(math::radians(request.angle));
-
-    left -= center_x;
-    right -= center_x;
-
-    top -= center_y;
-    bottom -= center_y;
-
-    const float vertices[] = {
-      left*ca - top*sa + center_x, left*sa + top*ca + center_y,
-      right*ca - top*sa + center_x, right*sa + top*ca + center_y,
-      right*ca - bottom*sa + center_x, right*sa + bottom*ca + center_y,
-      left*ca - bottom*sa + center_x, left*sa + bottom*ca + center_y
-    };
-
-    const float uvs[] = {
-      uv_left, uv_top,
-      uv_right, uv_top,
-      uv_right, uv_bottom,
-      uv_left, uv_bottom,
-    };
-
-    context.set_positions(vertices, sizeof(vertices));
-    context.set_texcoords(uvs, sizeof(uvs));
-
-    context.draw_arrays(GL_TRIANGLE_FAN, 0, 4);
-  }
-
-  assert_gl();
-}
-
-void
-GLPainter::draw_texture_batch(const TextureBatchRequest& request)
-{
-  assert_gl();
-
-  const auto& texture = static_cast<const GLTexture&>(*request.texture);
-
   assert(request.srcrects.size() == request.dstrects.size());
 
   std::vector<float> vertices;
@@ -159,38 +67,74 @@ GLPainter::draw_texture_batch(const TextureBatchRequest& request)
     if (request.flip & VERTICAL_FLIP)
       std::swap(uv_top, uv_bottom);
 
-    auto vertices_lst = {
-      left, top,
-      right, top,
-      right, bottom,
+    if (request.angle == 0.0f)
+    {
+      auto vertices_lst = {
+        left, top,
+        right, top,
+        right, bottom,
 
-      left, bottom,
-      left, top,
-      right, bottom,
-    };
+        left, bottom,
+        left, top,
+        right, bottom,
+      };
+      vertices.insert(vertices.end(), std::begin(vertices_lst), std::end(vertices_lst));
 
-    vertices.insert(vertices.end(), std::begin(vertices_lst), std::end(vertices_lst));
+      auto uvs_lst = {
+        uv_left, uv_top,
+        uv_right, uv_top,
+        uv_right, uv_bottom,
 
-    auto uvs_lst = {
-      uv_left, uv_top,
-      uv_right, uv_top,
-      uv_right, uv_bottom,
+        uv_left, uv_bottom,
+        uv_left, uv_top,
+        uv_right, uv_bottom,
+      };
+      uvs.insert(uvs.end(), std::begin(uvs_lst), std::end(uvs_lst));
+    }
+    else
+    {
+      // rotated blit
+      const float center_x = (left + right) / 2;
+      const float center_y = (top + bottom) / 2;
 
-      uv_left, uv_bottom,
-      uv_left, uv_top,
-      uv_right, uv_bottom,
-    };
+      const float sa = sinf(math::radians(request.angle));
+      const float ca = cosf(math::radians(request.angle));
 
-    uvs.insert(uvs.end(), std::begin(uvs_lst), std::end(uvs_lst));
+      const float new_left = left - center_x;
+      const float new_right = right - center_x;
+
+      const float new_top = top - center_y;
+      const float new_bottom = bottom - center_y;
+
+      const float vertices_lst[] = {
+        new_left*ca - new_top*sa + center_x, new_left*sa + new_top*ca + center_y,
+        new_right*ca - new_top*sa + center_x, new_right*sa + new_top*ca + center_y,
+        new_right*ca - new_bottom*sa + center_x, new_right*sa + new_bottom*ca + center_y,
+        new_left*ca - new_bottom*sa + center_x, new_left*sa + new_bottom*ca + center_y
+      };
+      vertices.insert(vertices.end(), std::begin(vertices_lst), std::end(vertices_lst));
+
+      const float uvs_lst[] = {
+        uv_left, uv_top,
+        uv_right, uv_top,
+        uv_right, uv_bottom,
+        uv_left, uv_bottom,
+      };
+      uvs.insert(uvs.end(), std::begin(uvs_lst), std::end(uvs_lst));
+    }
   }
 
   GLContext& context = m_video_system.get_context();
 
-  context.bind_texture(texture, request.displacement_texture);
-  context.blend_func(request.blend.sfactor, request.blend.dfactor);
   context.set_positions(vertices.data(), sizeof(float) * vertices.size());
   context.set_texcoords(uvs.data(), sizeof(float) * uvs.size());
-  context.set_color(Color(request.color.red, request.color.green, request.color.blue, request.color.alpha * request.alpha));
+
+  context.bind_texture(texture, request.displacement_texture);
+  context.blend_func(request.blend.sfactor, request.blend.dfactor);
+  context.set_color(Color(request.color.red,
+                          request.color.green,
+                          request.color.blue,
+                          request.color.alpha * request.alpha));
 
   context.draw_arrays(GL_TRIANGLES, 0, static_cast<GLsizei>(request.srcrects.size() * 2 * 3));
 

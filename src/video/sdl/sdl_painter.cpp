@@ -212,47 +212,6 @@ SDLPainter::draw_texture(const TextureRequest& request)
 {
   const auto& texture = static_cast<const SDLTexture&>(*request.texture);
 
-  SDL_Rect src_rect;
-  src_rect.x = static_cast<int>(request.srcrect.p1.x);
-  src_rect.y = static_cast<int>(request.srcrect.p1.y);
-  src_rect.w = static_cast<int>(request.srcrect.get_width());
-  src_rect.h = static_cast<int>(request.srcrect.get_height());
-
-  SDL_Rect dst_rect;
-  dst_rect.x = static_cast<int>(request.dstrect.p1.x);
-  dst_rect.y = static_cast<int>(request.dstrect.p1.y);
-  dst_rect.w = static_cast<int>(request.dstrect.get_width());
-  dst_rect.h = static_cast<int>(request.dstrect.get_height());
-
-  Uint8 r = static_cast<Uint8>(request.color.red * 255);
-  Uint8 g = static_cast<Uint8>(request.color.green * 255);
-  Uint8 b = static_cast<Uint8>(request.color.blue * 255);
-  Uint8 a = static_cast<Uint8>(request.color.alpha * request.alpha * 255);
-
-  SDL_SetTextureColorMod(texture.get_texture(), r, g, b);
-  SDL_SetTextureAlphaMod(texture.get_texture(), a);
-  SDL_SetTextureBlendMode(texture.get_texture(), blend2sdl(request.blend));
-
-  SDL_RendererFlip flip = SDL_FLIP_NONE;
-  if ((request.flip & HORIZONTAL_FLIP) != 0)
-  {
-    flip = static_cast<SDL_RendererFlip>(flip | SDL_FLIP_HORIZONTAL);
-  }
-
-  if ((request.flip & VERTICAL_FLIP) != 0)
-  {
-    flip = static_cast<SDL_RendererFlip>(flip | SDL_FLIP_VERTICAL);
-  }
-
-  RenderCopyEx(m_sdl_renderer, texture.get_texture(), &src_rect, &dst_rect, request.angle, NULL, flip,
-               texture.get_sampler());
-}
-
-void
-SDLPainter::draw_texture_batch(const TextureBatchRequest& request)
-{
-  const auto& texture = static_cast<const SDLTexture&>(*request.texture);
-
   assert(request.srcrects.size() == request.dstrects.size());
 
   for(size_t i = 0; i < request.srcrects.size(); ++i)

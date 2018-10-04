@@ -30,7 +30,7 @@ class Surface;
 
 enum RequestType
 {
-  TEXTURE, TEXTURE_BATCH, GRADIENT, FILLRECT, INVERSEELLIPSE, GETPIXEL, LINE, TRIANGLE
+  TEXTURE, GRADIENT, FILLRECT, INVERSEELLIPSE, GETPIXEL, LINE, TRIANGLE
 };
 
 struct DrawingRequest
@@ -61,28 +61,6 @@ struct TextureRequest : public DrawingRequest
     DrawingRequest(TEXTURE),
     texture(),
     displacement_texture(),
-    srcrect(),
-    dstrect(),
-    color(1.0f, 1.0f, 1.0f)
-  {}
-
-  const Texture* texture;
-  const Texture* displacement_texture;
-  Rectf srcrect;
-  Rectf dstrect;
-  Color color;
-
-private:
-  TextureRequest(const TextureRequest&) = delete;
-  TextureRequest& operator=(const TextureRequest&) = delete;
-};
-
-struct TextureBatchRequest : public DrawingRequest
-{
-  TextureBatchRequest() :
-    DrawingRequest(TEXTURE),
-    texture(),
-    displacement_texture(),
     srcrects(),
     dstrects(),
     color(1.0f, 1.0f, 1.0f)
@@ -95,8 +73,8 @@ struct TextureBatchRequest : public DrawingRequest
   Color color;
 
 private:
-  TextureBatchRequest(const TextureBatchRequest&) = delete;
-  TextureBatchRequest& operator=(const TextureBatchRequest&) = delete;
+  TextureRequest(const TextureRequest&) = delete;
+  TextureRequest& operator=(const TextureRequest&) = delete;
 };
 
 struct GradientRequest : public DrawingRequest

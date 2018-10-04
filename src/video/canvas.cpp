@@ -75,10 +75,6 @@ Canvas::render(Renderer& renderer, Filter filter)
         painter.draw_texture(static_cast<const TextureRequest&>(request));
         break;
 
-      case TEXTURE_BATCH:
-        painter.draw_texture_batch(static_cast<const TextureBatchRequest&>(request));
-        break;
-
       case GRADIENT:
         painter.draw_gradient(static_cast<const GradientRequest&>(request));
         break;
@@ -131,8 +127,8 @@ Canvas::draw_surface(SurfacePtr surface,
   request->angle = angle;
   request->blend = blend;
 
-  request->srcrect = Rectf(surface->get_region());
-  request->dstrect = Rectf(apply_translate(position), Size(surface->get_width(), surface->get_height()));
+  request->srcrects.emplace_back(Rectf(surface->get_region()));
+  request->dstrects.emplace_back(Rectf(apply_translate(position), Size(surface->get_width(), surface->get_height())));
   request->texture = surface->get_texture().get();
   request->displacement_texture = surface->get_displacement_texture().get();
   request->color = color;
@@ -168,8 +164,8 @@ Canvas::draw_surface_part(SurfacePtr surface, const Rectf& srcrect, const Rectf&
   request->alpha = m_context.transform().alpha * style.get_alpha();
   request->blend = style.get_blend();
 
-  request->srcrect = srcrect;
-  request->dstrect = Rectf(apply_translate(dstrect.p1), dstrect.get_size());
+  request->srcrects.emplace_back(srcrect);
+  request->dstrects.emplace_back(apply_translate(dstrect.p1), dstrect.get_size());
   request->texture = surface->get_texture().get();
   request->displacement_texture = surface->get_displacement_texture().get();
   request->color = style.get_color();
@@ -186,9 +182,9 @@ Canvas::draw_surface_batch(SurfacePtr surface,
 {
   assert(surface != 0);
 
-  auto request = new(m_obst) TextureBatchRequest();
+  auto request = new(m_obst) TextureRequest();
 
-  request->type = TEXTURE_BATCH;
+  request->type = TEXTURE;
   request->layer = layer;
   request->flip = m_context.transform().flip ^ surface->get_flip();
   request->alpha = m_context.transform().alpha;
