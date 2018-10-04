@@ -304,7 +304,7 @@ SDLPainter::draw_gradient(const GradientRequest& request)
         a = static_cast<Uint8>(((1.0f - p) * top.alpha + p * bottom.alpha) * 255);
     }
 
-    SDL_SetRenderDrawBlendMode(m_sdl_renderer, SDL_BLENDMODE_BLEND);
+    SDL_SetRenderDrawBlendMode(m_sdl_renderer, blend2sdl(request.blend));
     SDL_SetRenderDrawColor(m_sdl_renderer, r, g, b, a);
     SDL_RenderFillRect(m_sdl_renderer, &rect);
   }

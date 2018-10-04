@@ -220,7 +220,8 @@ Canvas::draw_center_text(FontPtr font, const std::string& text,
 
 void
 Canvas::draw_gradient(const Color& top, const Color& bottom, int layer,
-                      const GradientDirection& direction, const Rectf& region)
+                      const GradientDirection& direction, const Rectf& region,
+                      const Blend& blend)
 {
   auto request = new(m_obst) GradientRequest();
 
@@ -229,12 +230,13 @@ Canvas::draw_gradient(const Color& top, const Color& bottom, int layer,
 
   request->flip = m_context.transform().flip;
   request->alpha = m_context.transform().alpha;
+  request->blend = blend;
 
   request->top = top;
   request->bottom = bottom;
   request->direction = direction;
   request->region = Rectf(apply_translate(region.p1),
-                                  apply_translate(region.p2));
+                          apply_translate(region.p2));
 
   m_requests.push_back(request);
 }

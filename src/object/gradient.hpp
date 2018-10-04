@@ -75,6 +75,7 @@ private:
   Color m_gradient_top;
   Color m_gradient_bottom;
   GradientDirection m_gradient_direction;
+  Blend m_blend;
 };
 
 #endif

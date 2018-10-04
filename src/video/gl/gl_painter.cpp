@@ -184,6 +184,7 @@ GLPainter::draw_gradient(const GradientRequest& request)
 
   context.bind_no_texture();
   context.set_texcoord(0.0f, 0.0f);
+  context.blend_func(request.blend.sfactor, request.blend.dfactor);
 
   context.draw_arrays(GL_TRIANGLE_FAN, 0, 4);
 
