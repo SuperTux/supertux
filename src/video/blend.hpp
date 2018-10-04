@@ -29,6 +29,9 @@ public:
   static const Blend MOD;
 
 public:
+  static Blend from_string(const std::string& text);
+
+public:
   GLenum sfactor;
   GLenum dfactor;
 
@@ -39,6 +42,13 @@ public:
   Blend(GLenum s, GLenum d)
     : sfactor(s), dfactor(d)
   {}
+
+  bool operator==(const Blend& other) const {
+    return (sfactor == other.sfactor &&
+            dfactor == other.dfactor);
+  }
+
+  std::string to_string() const;
 };
 
 #endif
