@@ -31,7 +31,8 @@ Gradient::Gradient() :
   m_gradient_top(),
   m_gradient_bottom(),
   m_gradient_direction(),
-  m_blend()
+  m_blend(),
+  m_target(DrawingTarget::COLORMAP)
 {
 }
 
@@ -42,7 +43,8 @@ Gradient::Gradient(const ReaderMapping& reader) :
   m_gradient_top(),
   m_gradient_bottom(),
   m_gradient_direction(),
-  m_blend()
+  m_blend(),
+  m_target(DrawingTarget::COLORMAP)
 {
   m_layer = reader_get_layer (reader, /* default = */ LAYER_BACKGROUND0);
   std::vector<float> bkgd_top_color, bkgd_bottom_color;
@@ -100,6 +102,7 @@ Gradient::Gradient(const ReaderMapping& reader) :
   }
 
   reader.get_custom("blend", m_blend, Blend::from_string);
+  reader.get_custom("target", m_target, DrawingTarget_from_string);
 }
 
 void
@@ -209,8 +212,8 @@ Gradient::draw(DrawingContext& context)
 
   context.push_transform();
   context.set_translation(Vector(0, 0));
-  context.color().draw_gradient(m_gradient_top, m_gradient_bottom, m_layer, m_gradient_direction,
-                                gradient_region, m_blend);
+  context.get_canvas(m_target).draw_gradient(m_gradient_top, m_gradient_bottom, m_layer, m_gradient_direction,
+                                             gradient_region, m_blend);
   context.pop_transform();
 }
 
