@@ -54,8 +54,25 @@ public:
   bool get(const char* key, boost::optional<ReaderMapping>&) const;
   bool get(const char* key, boost::optional<ReaderCollection>&) const;
 
-  const sexp::Value& get_sexp() const { return m_sx; }
+  template<typename C>
+  bool get(const char* key, C& value, const boost::optional<C>& default_value = boost::none) const
+  {
+    std::string text;
+    if (!get(key, text))
+    {
+      if (default_value) {
+        value = *default_value;
+      }
+      return false;
+    }
+    else
+    {
+      value = C::from_string(text);
+      return true;
+    }
+  }
 
+  const sexp::Value& get_sexp() const { return m_sx; }
   const ReaderDocument& get_doc() const { return m_doc; }
 
 private:
