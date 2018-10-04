@@ -24,104 +24,20 @@
 
 #include "math/rectf.hpp"
 #include "math/vector.hpp"
-#include "video/gl.hpp"
+#include "video/blend.hpp"
 #include "video/color.hpp"
+#include "video/drawing_target.hpp"
 #include "video/font.hpp"
 #include "video/font_ptr.hpp"
-#include "video/drawing_target.hpp"
+#include "video/gl.hpp"
+#include "video/gradient.hpp"
+#include "video/layers.hpp"
+#include "video/paint_style.hpp"
 
 class DrawingContext;
 class Renderer;
 class VideoSystem;
 struct DrawingRequest;
-
-// some constants for predefined layer values
-enum {
-  // Image/gradient backgrounds (should cover entire screen)
-  LAYER_BACKGROUND0 = -300,
-  // Particle backgrounds
-  LAYER_BACKGROUND1 = -200,
-  // Tilemap backgrounds
-  LAYER_BACKGROUNDTILES = -100,
-  // Solid tilemaps
-  LAYER_TILES = 0,
-  // Ordinary objects
-  LAYER_OBJECTS = 50,
-  // Objects that pass through walls
-  LAYER_FLOATINGOBJECTS = 150,
-  //
-  LAYER_FOREGROUNDTILES = 200,
-  //
-  LAYER_FOREGROUND0 = 300,
-  //
-  LAYER_FOREGROUND1 = 400,
-
-  LAYER_LIGHTMAP = 450,
-
-  // Hitpoints, time, coins, etc.
-  LAYER_HUD = 500,
-  // Menus, mouse, console etc.
-  LAYER_GUI         = 600
-};
-
-enum GradientDirection { VERTICAL, HORIZONTAL, VERTICAL_SECTOR, HORIZONTAL_SECTOR };
-
-class Blend
-{
-public:
-  GLenum sfactor;
-  GLenum dfactor;
-
-  Blend()
-    : sfactor(GL_SRC_ALPHA), dfactor(GL_ONE_MINUS_SRC_ALPHA)
-  {}
-
-  Blend(GLenum s, GLenum d)
-    : sfactor(s), dfactor(d)
-  {}
-};
-
-class PaintStyle
-{
-public:
-  PaintStyle() :
-    m_color(Color::WHITE),
-    m_alpha(1.0f),
-    m_blend(),
-    m_flip(NO_FLIP)
-  {}
-
-  PaintStyle& set_color(const Color& color) {
-    m_color = color;
-    return *this;
-  }
-
-  PaintStyle& set_alpha(const float& alpha) {
-    m_alpha = alpha;
-    return *this;
-  }
-
-  PaintStyle& set_blend(const Blend& blend) {
-    m_blend = blend;
-    return *this;
-  }
-
-  PaintStyle& set_flip(const Flip& flip) {
-    m_flip = flip;
-    return *this;
-  }
-
-  const Color& get_color() const { return m_color; }
-  const float& get_alpha() const { return m_alpha; }
-  const Blend& get_blend() const { return m_blend; }
-  const Flip& get_flip() const { return m_flip; }
-
-private:
-  Color m_color;
-  float m_alpha;
-  Blend m_blend;
-  Flip m_flip;
-};
 
 class Canvas
 {
