@@ -21,6 +21,8 @@
 #include "scripting/background.hpp"
 #include "scripting/exposed_object.hpp"
 #include "supertux/game_object.hpp"
+#include "video/blend.hpp"
+#include "video/drawing_context.hpp"
 #include "video/surface_ptr.hpp"
 
 class ReaderMapping;
@@ -101,6 +103,9 @@ private:
 
   bool m_has_pos_x;
   bool m_has_pos_y;
+
+  Blend m_blend;
+  DrawingTarget m_target;
 };
 
 #endif /*SUPERTUX_BACKGROUND_H*/
