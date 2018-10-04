@@ -54,8 +54,8 @@ public:
   bool get(const char* key, boost::optional<ReaderMapping>&) const;
   bool get(const char* key, boost::optional<ReaderCollection>&) const;
 
-  template<typename C>
-  bool get(const char* key, C& value, const boost::optional<C>& default_value = boost::none) const
+  template<typename F, typename C>
+  bool get_custom(const char* key, C& value, F& func, const boost::optional<C>& default_value = boost::none) const
   {
     std::string text;
     if (!get(key, text))
@@ -67,7 +67,7 @@ public:
     }
     else
     {
-      value = C::from_string(text);
+      value = func(text);
       return true;
     }
   }
