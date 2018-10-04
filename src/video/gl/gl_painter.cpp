@@ -110,7 +110,10 @@ GLPainter::draw_texture(const TextureRequest& request)
         new_left*ca - new_top*sa + center_x, new_left*sa + new_top*ca + center_y,
         new_right*ca - new_top*sa + center_x, new_right*sa + new_top*ca + center_y,
         new_right*ca - new_bottom*sa + center_x, new_right*sa + new_bottom*ca + center_y,
-        new_left*ca - new_bottom*sa + center_x, new_left*sa + new_bottom*ca + center_y
+
+        new_left*ca - new_bottom*sa + center_x, new_left*sa + new_bottom*ca + center_y,
+        new_left*ca - new_top*sa + center_x, new_left*sa + new_top*ca + center_y,
+        new_right*ca - new_bottom*sa + center_x, new_right*sa + new_bottom*ca + center_y,
       };
       vertices.insert(vertices.end(), std::begin(vertices_lst), std::end(vertices_lst));
 
@@ -118,7 +121,10 @@ GLPainter::draw_texture(const TextureRequest& request)
         uv_left, uv_top,
         uv_right, uv_top,
         uv_right, uv_bottom,
+
         uv_left, uv_bottom,
+        uv_left, uv_top,
+        uv_right, uv_bottom,
       };
       uvs.insert(uvs.end(), std::begin(uvs_lst), std::end(uvs_lst));
     }
