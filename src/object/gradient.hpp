@@ -39,13 +39,13 @@ public:
   void set_gradient(Color top, Color bottom);
 
   Color get_gradient_top() const
-  { return gradient_top; }
+  { return m_gradient_top; }
 
   Color get_gradient_bottom() const
-  { return gradient_bottom; }
+  { return m_gradient_bottom; }
 
   GradientDirection get_direction() const
-  { return gradient_direction; }
+  { return m_gradient_direction; }
 
   void set_direction(const GradientDirection& direction);
 
@@ -62,7 +62,7 @@ public:
   }
 
   int get_layer() const
-  { return layer; }
+  { return m_layer; }
 
   virtual ObjectSettings get_settings() override;
 
@@ -71,10 +71,10 @@ public:
   }
 
 private:
-  int layer;
-  Color gradient_top;
-  Color gradient_bottom;
-  GradientDirection gradient_direction;
+  int m_layer;
+  Color m_gradient_top;
+  Color m_gradient_bottom;
+  GradientDirection m_gradient_direction;
 };
 
 #endif
