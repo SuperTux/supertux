@@ -47,7 +47,7 @@ Kugelblitz::Kugelblitz(const ReaderMapping& reader) :
   physic.enable_gravity(false);
   countMe = false;
 
-  lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
+  lightsprite->set_blend(Blend::ADD);
   lightsprite->set_color(Color(0.2f, 0.1f, 0.0f));
 
   SoundManager::current()->preload("sounds/lightning.wav");

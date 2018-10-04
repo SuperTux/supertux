@@ -121,7 +121,7 @@ Compositor::render()
         request.flip = 0;
         request.alpha = 1.0f;
         request.angle = 0.0f;
-        request.blend = Blend(GL_DST_COLOR, GL_ZERO);
+        request.blend = Blend::MOD;
 
         request.srcrects.emplace_back(0, 0,
                                       static_cast<float>(texture->get_image_width()),

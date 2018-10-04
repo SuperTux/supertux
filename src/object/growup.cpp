@@ -37,7 +37,7 @@ GrowUp::GrowUp(Direction direction) :
   //shadow to remain in place as egg rolls
   shadesprite->set_action("shadow");
   //set light for glow effect
-  lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
+  lightsprite->set_blend(Blend::ADD);
   lightsprite->set_color(Color(0.2f, 0.2f, 0.0f));
 }
 

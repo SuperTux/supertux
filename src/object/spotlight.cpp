@@ -81,7 +81,7 @@ void
 Spotlight::draw(DrawingContext& context)
 {
   light->set_color(color);
-  light->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
+  light->set_blend(Blend::ADD);
   light->set_angle(angle);
   light->draw(context.light(), bbox.p1, 0);
 

@@ -53,7 +53,7 @@ Firefly::Firefly(const ReaderMapping& lisp) :
 
   if (sprite_name.find("torch", 0) != std::string::npos) {
     m_sprite_light = SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite");
-    m_sprite_light->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
+    m_sprite_light->set_blend(Blend::ADD);
     m_sprite_light->set_color(TORCH_LIGHT_COLOR);
   }
 

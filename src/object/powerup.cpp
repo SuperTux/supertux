@@ -58,7 +58,7 @@ PowerUp::initialize()
   SoundManager::current()->preload("sounds/fire-flower.wav");
    SoundManager::current()->preload("sounds/gulp.wav");
   //set default light for glow effect for standard sprites
-  lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
+  lightsprite->set_blend(Blend::ADD);
   lightsprite->set_color(Color(0.0f, 0.0f, 0.0f));
   if (sprite_name == "images/powerups/egg/egg.sprite") {
     lightsprite->set_color(Color(0.2f, 0.2f, 0.0f));

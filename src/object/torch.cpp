@@ -41,8 +41,8 @@ Torch::Torch(const ReaderMapping& reader) :
   m_torch = SpriteManager::current()->create(sprite_name);
   bbox.set_size(static_cast<float>(m_torch->get_width()),
                 static_cast<float>(m_torch->get_height()));
-  m_flame_glow->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
-  m_flame_light->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
+  m_flame_glow->set_blend(Blend::ADD);
+  m_flame_light->set_blend(Blend::ADD);
   set_group(COLGROUP_TOUCHABLE);
 }
 

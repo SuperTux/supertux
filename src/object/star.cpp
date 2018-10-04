@@ -35,7 +35,7 @@ Star::Star(const Vector& pos, Direction direction) :
 {
   physic.set_velocity((direction == LEFT) ? -STAR_SPEED : STAR_SPEED, INITIALJUMP);
   //set light for glow effect
-  lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
+  lightsprite->set_blend(Blend::ADD);
   lightsprite->set_color(Color(0.4f, 0.4f, 0.4f));
 }
 

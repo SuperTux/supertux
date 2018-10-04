@@ -48,7 +48,7 @@ WeakBlock::WeakBlock(const ReaderMapping& lisp)
   }
 
   if (sprite_name == "images/objects/weak_block/strawbox.sprite") {
-    lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
+    lightsprite->set_blend(Blend::ADD);
     lightsprite->set_color(Color(0.3f, 0.2f, 0.1f));
     SoundManager::current()->preload("sounds/fire.ogg"); // TODO: use own sound?
   } else if (sprite_name == "images/objects/weak_block/meltbox.sprite") {
@@ -144,7 +144,7 @@ WeakBlock::update(float )
           spreadHit();
           set_group(COLGROUP_DISABLED);
           lightsprite = SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-tiny.sprite");
-          lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
+          lightsprite->set_blend(Blend::ADD);
           lightsprite->set_color(Color(0.3f, 0.2f, 0.1f));
         }
         break;

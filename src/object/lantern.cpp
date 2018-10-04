@@ -37,7 +37,7 @@ Lantern::Lantern(const ReaderMapping& reader) :
   } else {
     lightcolor = Color(0, 0, 0);
   }
-  lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
+  lightsprite->set_blend(Blend::ADD);
   updateColor();
   SoundManager::current()->preload("sounds/willocatch.wav");
 }
@@ -47,7 +47,7 @@ Lantern::Lantern(const Vector& pos) :
   lightcolor(0.0f, 0.0f, 0.0f),
   lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light.sprite"))
 {
-  lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
+  lightsprite->set_blend(Blend::ADD);
   updateColor();
   SoundManager::current()->preload("sounds/willocatch.wav");
 }

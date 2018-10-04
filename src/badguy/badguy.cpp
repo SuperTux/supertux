@@ -76,7 +76,7 @@ BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite
   SoundManager::current()->preload("sounds/fire.ogg");
 
   dir = (start_dir == AUTO) ? LEFT : start_dir;
-  lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
+  lightsprite->set_blend(Blend::ADD);
 }
 
 BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name_, int layer_,
@@ -116,7 +116,7 @@ BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name_, int
   SoundManager::current()->preload("sounds/fire.ogg");
 
   dir = (start_dir == AUTO) ? LEFT : start_dir;
-  lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
+  lightsprite->set_blend(Blend::ADD);
 }
 
 void

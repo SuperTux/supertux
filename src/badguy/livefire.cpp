@@ -130,7 +130,7 @@ LiveFire::kill_fall()
   physic.set_velocity_y(0);
   physic.set_acceleration_y(0);
   physic.enable_gravity(false);
-  lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
+  lightsprite->set_blend(Blend::ADD);
   lightsprite->set_color(Color(1.0f, 0.9f, 0.8f));
   set_group(COLGROUP_DISABLED);
 

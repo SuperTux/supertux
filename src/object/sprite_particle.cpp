@@ -35,7 +35,7 @@ SpriteParticle::SpriteParticle(const std::string& sprite_name, const std::string
   {
     glow = true;
     if(action=="dark") {
-      lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
+      lightsprite->set_blend(Blend::ADD);
       lightsprite->set_color(Color(0.1f, 0.1f, 0.1f));
     }
   }

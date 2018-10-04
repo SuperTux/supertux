@@ -192,7 +192,7 @@ Player::Player(PlayerStatus& player_status, const std::string& name_) :
   m_sprite->set_angle(0.0f);
   m_powersprite->set_angle(0.0f);
   m_lightsprite->set_angle(0.0f);
-  m_lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
+  m_lightsprite->set_blend(Blend::ADD);
 
   m_physic.reset();
 }

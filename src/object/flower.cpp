@@ -29,7 +29,7 @@ Flower::Flower(BonusType _type) :
   lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
 {
   bbox.set_size(32, 32);
-  lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
+  lightsprite->set_blend(Blend::ADD);
 
   if(type == FIRE_BONUS) {
     sprite = SpriteManager::current()->create("images/powerups/fireflower/fireflower.sprite");

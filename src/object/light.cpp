@@ -39,7 +39,7 @@ void
 Light::draw(DrawingContext& context)
 {
   sprite->set_color(color);
-  sprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
+  sprite->set_blend(Blend::ADD);
   sprite->draw(context.light(), position, 0);
 }
 

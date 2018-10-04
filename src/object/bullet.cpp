@@ -42,7 +42,7 @@ Bullet::Bullet(const Vector& pos, float xm, int dir, BonusType type_) :
 
   if(type == FIRE_BONUS) {
     sprite = SpriteManager::current()->create("images/objects/bullets/firebullet.sprite");
-    lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
+    lightsprite->set_blend(Blend::ADD);
     lightsprite->set_color(Color(0.3f, 0.1f, 0.0f));
  } else if(type == ICE_BONUS) {
     life_count = 10;

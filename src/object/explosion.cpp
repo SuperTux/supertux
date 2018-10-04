@@ -37,7 +37,7 @@ Explosion::Explosion(const Vector& pos) :
   SoundManager::current()->preload("sounds/explosion.wav");
   SoundManager::current()->preload("sounds/firecracker.ogg");
   set_pos(get_pos() - (bbox.get_middle() - get_pos()));
-  lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
+  lightsprite->set_blend(Blend::ADD);
   lightsprite->set_color(Color(0.6f, 0.6f, 0.6f));
 }
 
@@ -51,7 +51,7 @@ Explosion::Explosion(const ReaderMapping& reader) :
 {
   SoundManager::current()->preload("sounds/explosion.wav");
   SoundManager::current()->preload("sounds/firecracker.ogg");
-  lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
+  lightsprite->set_blend(Blend::ADD);
   lightsprite->set_color(Color(0.6f, 0.6f, 0.6f));
 }
 
