@@ -457,8 +457,24 @@ GLPainter::get_pixel(const GetPixelRequest& request) const
 
   float pixels[3] = { 0.0f, 0.0f, 0.0f };
 
-  glReadPixels(static_cast<GLint>(x), static_cast<GLint>(y),
-               1, 1, GL_RGB, GL_FLOAT, pixels);
+  {
+    // FIXME: this is temporary code to experiment with PBOs. PBO
+    // reading needs to be moved to the end of the frame or even to
+    // the next one to avoid stalling the pipeline
+    assert_gl();
+    GLuint buffer;
+    GLintptr offset = 0;
+
+    glGenBuffers(1, &buffer);
+    glBindBuffer(GL_PIXEL_PACK_BUFFER, buffer);
+    glBufferData(GL_PIXEL_PACK_BUFFER, sizeof(pixels), nullptr, GL_DYNAMIC_READ);
+    glReadPixels(static_cast<GLint>(x), static_cast<GLint>(y),
+                 1, 1, GL_RGB, GL_FLOAT, reinterpret_cast<GLvoid*>(offset));
+    glGetBufferSubData(GL_PIXEL_PACK_BUFFER, offset, sizeof(pixels), reinterpret_cast<GLvoid*>(pixels));
+    glBindBuffer(GL_PIXEL_PACK_BUFFER, 0);
+    glDeleteBuffers(1, &buffer);
+    assert_gl();
+  }
 
   *(request.color_ptr) = Color(pixels[0], pixels[1], pixels[2]);
 
