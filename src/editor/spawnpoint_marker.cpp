@@ -25,8 +25,8 @@ SpawnPointMarker::SpawnPointMarker (const ReaderMapping& lisp) :
   surface(Surface::from_file("images/engine/editor/spawnpoint.png"))
 {
   lisp.get("name", m_name, "");
-  lisp.get("x", bbox.p1.x, 0);
-  lisp.get("y", bbox.p1.y, 0);
+  lisp.get("x", bbox.p1.x, 0.0f);
+  lisp.get("y", bbox.p1.y, 0.0f);
 
   setup();
 }

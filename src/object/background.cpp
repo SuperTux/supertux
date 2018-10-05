@@ -112,16 +112,16 @@ Background::Background(const ReaderMapping& reader) :
     }
   }
 
-  reader.get("scroll-offset-x", m_scroll_offset.x, 0);
-  reader.get("scroll-offset-y", m_scroll_offset.y, 0);
+  reader.get("scroll-offset-x", m_scroll_offset.x, 0.0f);
+  reader.get("scroll-offset-y", m_scroll_offset.y, 0.0f);
 
-  reader.get("scroll-speed-x", m_scroll_speed.x, 0.5);
-  reader.get("scroll-speed-y", m_scroll_speed.y, 0.5);
+  reader.get("scroll-speed-x", m_scroll_speed.x, 0.5f);
+  reader.get("scroll-speed-y", m_scroll_speed.y, 0.5f);
 
   m_layer = reader_get_layer (reader, /* default = */ LAYER_BACKGROUND0);
 
   reader.get("image", m_imagefile, "images/background/transparent_up.png");
-  reader.get("speed", m_speed, 0.5);
+  reader.get("speed", m_speed, 0.5f);
 
   set_image(m_imagefile, m_speed);
   reader.get("speed-y", m_speed_y, m_speed);

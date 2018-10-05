@@ -25,10 +25,10 @@ InvisibleWall::InvisibleWall(const ReaderMapping& lisp):
   width(),
   height()
 {
-  lisp.get("x", bbox.p1.x, 0);
-  lisp.get("y", bbox.p1.y, 0);
-  lisp.get("width", width, 32);
-  lisp.get("height", height, 32);
+  lisp.get("x", bbox.p1.x, 0.0f);
+  lisp.get("y", bbox.p1.y, 0.0f);
+  lisp.get("width", width, 32.0f);
+  lisp.get("height", height, 32.0f);
 
   bbox.set_size(width, height);
 

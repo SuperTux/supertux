@@ -33,8 +33,8 @@ Spotlight::Spotlight(const ReaderMapping& lisp) :
 {
   group = COLGROUP_DISABLED;
 
-  lisp.get("x", bbox.p1.x, 0);
-  lisp.get("y", bbox.p1.y, 0);
+  lisp.get("x", bbox.p1.x, 0.0f);
+  lisp.get("y", bbox.p1.y, 0.0f);
   bbox.set_size(32, 32);
 
   lisp.get("angle", angle, 0.0f);

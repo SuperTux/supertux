@@ -45,7 +45,7 @@ Dispenser::Dispenser(const ReaderMapping& reader) :
 {
   set_colgroup_active(COLGROUP_MOVING_STATIC);
   SoundManager::current()->preload("sounds/squish.wav");
-  reader.get("cycle", cycle, 5);
+  reader.get("cycle", cycle, 5.0f);
   if ( !reader.get("badguy", badguys)) badguys.clear();
   reader.get("random", random, false);
   std::string type_s = "dropper"; //default

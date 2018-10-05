@@ -34,18 +34,18 @@ Wind::Wind(const ReaderMapping& reader) :
   elapsed_time(0)
 {
   float w,h;
-  reader.get("x", bbox.p1.x, 0);
-  reader.get("y", bbox.p1.y, 0);
-  reader.get("width", w, 32);
-  reader.get("height", h, 32);
+  reader.get("x", bbox.p1.x, 0.0f);
+  reader.get("y", bbox.p1.y, 0.0f);
+  reader.get("width", w, 32.0f);
+  reader.get("height", h, 32.0f);
   bbox.set_size(w, h);
 
   reader.get("blowing", blowing, true);
 
-  reader.get("speed-x", speed.x, 0);
-  reader.get("speed-y", speed.y, 0);
+  reader.get("speed-x", speed.x, 0.0f);
+  reader.get("speed-y", speed.y, 0.0f);
 
-  reader.get("acceleration", acceleration, 100);
+  reader.get("acceleration", acceleration, 100.0f);
 
   set_group(COLGROUP_TOUCHABLE);
 }

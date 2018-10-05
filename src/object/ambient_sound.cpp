@@ -44,16 +44,16 @@ AmbientSound::AmbientSound(const ReaderMapping& lisp) :
   group = COLGROUP_DISABLED;
 
   float w, h;
-  lisp.get("x", bbox.p1.x, 0);
-  lisp.get("y", bbox.p1.y, 0);
-  lisp.get("width" , w, 32);
-  lisp.get("height", h, 32);
+  lisp.get("x", bbox.p1.x, 0.0f);
+  lisp.get("y", bbox.p1.y, 0.0f);
+  lisp.get("width" , w, 32.0f);
+  lisp.get("height", h, 32.0f);
   bbox.set_size(w, h);
 
-  lisp.get("distance_factor",distance_factor, 0);
-  lisp.get("distance_bias"  ,distance_bias  , 0);
+  lisp.get("distance_factor",distance_factor, 0.0f);
+  lisp.get("distance_bias"  ,distance_bias  , 0.0f);
   lisp.get("sample"         ,sample         , "");
-  lisp.get("volume"         ,maximumvolume  , 1);
+  lisp.get("volume"         ,maximumvolume  , 1.0f);
 
   // square all distances (saves us a sqrt later)
 

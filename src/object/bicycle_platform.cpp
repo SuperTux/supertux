@@ -37,7 +37,7 @@ BicyclePlatform::BicyclePlatform(const ReaderMapping& reader) :
   momentum(0),
   momentum_change_rate(0.1f)
 {
-  reader.get("radius", radius, 128);
+  reader.get("radius", radius, 128.0f);
   reader.get("momentum-change-rate", momentum_change_rate, 0.1f);
 }
 

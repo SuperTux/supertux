@@ -38,8 +38,8 @@ DartTrap::DartTrap(const ReaderMapping& reader) :
   fire_timer()
 {
   reader.get("enabled", enabled, true);
-  reader.get("initial-delay", initial_delay, 0);
-  reader.get("fire-delay", fire_delay, 2);
+  reader.get("initial-delay", initial_delay, 0.0f);
+  reader.get("fire-delay", fire_delay, 2.0f);
   reader.get("ammo", ammo, -1);
   countMe = false;
   SoundManager::current()->preload("sounds/dartfire.wav");
