@@ -364,7 +364,7 @@ Canvas::get_pixel(const Vector& position, Color* color_out)
 
   auto request = new(m_obst) GetPixelRequest();
 
-  request->layer = LAYER_GUI; //make sure all get_light requests are handled last.
+  request->layer = LAYER_GETPIXEL;
   request->pos = pos;
   request->color_ptr = color_out;
 
