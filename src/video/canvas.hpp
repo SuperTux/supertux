@@ -31,7 +31,7 @@
 #include "video/font_ptr.hpp"
 #include "video/gl.hpp"
 #include "video/gradient.hpp"
-#include "video/layers.hpp"
+#include "video/layer.hpp"
 #include "video/paint_style.hpp"
 
 class DrawingContext;
