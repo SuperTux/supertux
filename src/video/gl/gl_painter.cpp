@@ -457,6 +457,7 @@ GLPainter::get_pixel(const GetPixelRequest& request) const
 
   float pixels[3] = { 0.0f, 0.0f, 0.0f };
 
+#ifndef USE_OPENGLES2
   {
     // FIXME: this is temporary code to experiment with PBOs. PBO
     // reading needs to be moved to the end of the frame or even to
@@ -475,6 +476,11 @@ GLPainter::get_pixel(const GetPixelRequest& request) const
     glDeleteBuffers(1, &buffer);
     assert_gl();
   }
+#else
+  // OpenGLES2 does not have PBOs, only GLES3 has
+  glReadPixels(static_cast<GLint>(x), static_cast<GLint>(y),
+               1, 1, GL_RGB, GL_FLOAT, pixels);
+#endif
 
   *(request.color_ptr) = Color(pixels[0], pixels[1], pixels[2]);
 
