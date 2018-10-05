@@ -85,9 +85,6 @@ public:
 
   DrawingContext& get_context() { return m_context; }
 
-  // FIXME: this function is temporary only, should be refactored out
-  std::vector<DrawingRequest*>& get_requests() { return m_requests; }
-
 private:
   Vector apply_translate(const Vector& pos) const;
 
