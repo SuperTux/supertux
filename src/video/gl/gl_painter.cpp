@@ -23,6 +23,7 @@
 #include "supertux/globals.hpp"
 #include "video/drawing_request.hpp"
 #include "video/gl/gl_context.hpp"
+#include "video/gl/gl_pixel_request.hpp"
 #include "video/gl/gl_program.hpp"
 #include "video/gl/gl_texture.hpp"
 #include "video/gl/gl_vertex_arrays.hpp"
@@ -455,34 +456,23 @@ GLPainter::get_pixel(const GetPixelRequest& request) const
   x += static_cast<float>(rect.left);
   y += static_cast<float>(rect.top);
 
-  float pixels[3] = { 0.0f, 0.0f, 0.0f };
-
 #ifndef USE_OPENGLES2
-  {
-    // FIXME: this is temporary code to experiment with PBOs. PBO
-    // reading needs to be moved to the end of the frame or even to
-    // the next one to avoid stalling the pipeline
-    assert_gl();
-    GLuint buffer;
-    GLintptr offset = 0;
+  GLPixelRequest pixel_request(1, 1);
+  pixel_request.request(static_cast<int>(x), static_cast<int>(y));
 
-    glGenBuffers(1, &buffer);
-    glBindBuffer(GL_PIXEL_PACK_BUFFER, buffer);
-    glBufferData(GL_PIXEL_PACK_BUFFER, sizeof(pixels), nullptr, GL_DYNAMIC_READ);
-    glReadPixels(static_cast<GLint>(x), static_cast<GLint>(y),
-                 1, 1, GL_RGB, GL_FLOAT, reinterpret_cast<GLvoid*>(offset));
-    glGetBufferSubData(GL_PIXEL_PACK_BUFFER, offset, sizeof(pixels), reinterpret_cast<GLvoid*>(pixels));
-    glBindBuffer(GL_PIXEL_PACK_BUFFER, 0);
-    glDeleteBuffers(1, &buffer);
-    assert_gl();
-  }
+  uint8_t data[4];
+  pixel_request.get(data, sizeof(data));
+  *(request.color_ptr) = Color::from_rgb888(data[0], data[1], data[2]);
+
 #else
+  float pixels[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
+
   // OpenGLES2 does not have PBOs, only GLES3 has
   glReadPixels(static_cast<GLint>(x), static_cast<GLint>(y),
                1, 1, GL_RGB, GL_FLOAT, pixels);
-#endif
 
   *(request.color_ptr) = Color(pixels[0], pixels[1], pixels[2]);
+#endif
 
   assert_gl();
 }
