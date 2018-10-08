@@ -21,6 +21,8 @@
 #include "util/log.hpp"
 #include "video/glutil.hpp"
 
+#ifndef USE_OPENGLES2
+
 GLPixelRequest::GLPixelRequest(int width, int height) :
   m_buffer(),
   m_width(width),
@@ -98,5 +100,7 @@ GLPixelRequest::get(void* buffer, size_t length)
   glBindBuffer(GL_PIXEL_PACK_BUFFER, 0);
   assert_gl();
 }
+
+#endif
 
 /* EOF */

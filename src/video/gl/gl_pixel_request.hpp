@@ -21,6 +21,8 @@
 
 #include "video/gl.hpp"
 
+#ifndef USE_OPENGLES2
+
 class GLPixelRequest
 {
 public:
@@ -42,6 +44,8 @@ private:
   GLPixelRequest(const GLPixelRequest&) = delete;
   GLPixelRequest& operator=(const GLPixelRequest&) = delete;
 };
+
+#endif
 
 #endif
 
