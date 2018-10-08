@@ -87,15 +87,9 @@ Bullet::update(float elapsed_time)
 void
 Bullet::draw(DrawingContext& context)
 {
-  //Draw the Sprite.
   sprite->draw(context.color(), get_pos(), LAYER_OBJECTS);
-  //Draw the light if fire and dark
   if(type == FIRE_BONUS){
-    context.light().get_pixel( bbox.get_middle(), &light );
-    if (light.red + light.green < 2.0){
-      sprite->draw(context.light(), get_pos(), LAYER_OBJECTS);
-      lightsprite->draw(context.light(), bbox.get_middle(), 0);
-    }
+    lightsprite->draw(context.light(), bbox.get_middle(), 0);
   }
 }
 

@@ -164,13 +164,10 @@ WeakBlock::draw(DrawingContext& context)
 {
   //Draw the Sprite just in front of other objects
   sprite->draw(context.color(), get_pos(), LAYER_OBJECTS + 10);
-  //Draw the light if burning and dark
-  if(linked && (state != STATE_NORMAL)){
-    context.light().get_pixel( bbox.get_middle(), &light );
-    if (light.red + light.green + light.blue < 3.0){
-      sprite->draw(context.light(), get_pos(), LAYER_OBJECTS + 10);
-      lightsprite->draw(context.light(), bbox.get_middle(), 0);
-    }
+
+  if (linked && (state != STATE_NORMAL))
+  {
+    lightsprite->draw(context.light(), bbox.get_middle(), 0);
   }
 }
 

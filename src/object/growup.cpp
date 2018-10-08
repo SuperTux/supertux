@@ -51,18 +51,11 @@ void
 GrowUp::draw(DrawingContext& context)
 {
   if(physic.get_velocity_x() != 0) {
-    //Set Sprite rotation angle
     sprite->set_angle(get_pos().x * 360.0f / (32.0f * math::PI));
   }
-  //Draw the Sprite.
   MovingSprite::draw(context);
-  //Draw shade
   shadesprite->draw(context.color(), get_pos(), layer);
-  //Draw the light when dark
-  context.light().get_pixel( get_bbox().get_middle(), &light );
-  if (light.red + light.green < 2.0){
-    lightsprite->draw(context.light(), get_bbox().get_middle(), 0);
-  }
+  lightsprite->draw(context.light(), get_bbox().get_middle(), 0);
 }
 
 void

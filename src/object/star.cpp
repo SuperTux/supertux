@@ -70,15 +70,10 @@ Star::update(float elapsed_time)
 }
 
 void
-Star::draw(DrawingContext& context){
-  //Draw the Sprite.
+Star::draw(DrawingContext& context)
+{
   MovingSprite::draw(context);
-  //Draw the light when dark
-  context.light().get_pixel( bbox.get_middle(), &light );
-  if (light.red + light.green + light.blue < 3.0){
-    MovingSprite::draw(context);
-    lightsprite->draw(context.light(), bbox.get_middle(), 0);
-  }
+  lightsprite->draw(context.light(), bbox.get_middle(), 0);
 }
 
 void

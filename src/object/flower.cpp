@@ -65,13 +65,8 @@ Flower::update(float )
 void
 Flower::draw(DrawingContext& context)
 {
-  //Draw the Sprite.
   sprite->draw(context.color(), get_pos(), LAYER_OBJECTS, flip);
-  //Draw the light when dark
-  context.light().get_pixel( bbox.get_middle(), &light );
-  if (light.red + light.green + light.blue < 3.0){
-    lightsprite->draw(context.light(), bbox.get_middle(), 0);
-  }
+  lightsprite->draw(context.light(), bbox.get_middle(), 0);
 }
 
 HitResponse
