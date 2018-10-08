@@ -17,6 +17,8 @@
 #ifndef HEADER_SUPERTUX_VIDEO_GL_GL_PIXEL_REQUEST_HPP
 #define HEADER_SUPERTUX_VIDEO_GL_GL_PIXEL_REQUEST_HPP
 
+#include <stddef.h>
+
 #include "video/gl.hpp"
 
 class GLPixelRequest
