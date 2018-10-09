@@ -90,7 +90,7 @@ LevelParser::load(const std::string& filepath)
   try {
     m_level.m_filename = filepath;
     register_translation_directory(filepath);
-    auto doc = ReaderDocument::parse(filepath);
+    auto doc = ReaderDocument::from_file(filepath);
     auto root = doc.get_root();
 
     if(root.get_name() != "supertux-level")

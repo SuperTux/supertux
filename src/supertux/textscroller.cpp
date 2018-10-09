@@ -54,7 +54,7 @@ TextScroller::TextScroller(const std::string& filename) :
 
   try {
     register_translation_directory(filename);
-    auto doc = ReaderDocument::parse(filename);
+    auto doc = ReaderDocument::from_file(filename);
     auto root = doc.get_root();
 
     if(root.get_name() != "supertux-text") {

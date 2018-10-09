@@ -26,7 +26,7 @@ ObjectInput::ObjectInput() :
   //lisp::Parser parser;
   //const lisp::Lisp* root = parser.parse("images/engine/editor/objects.stoi");
 
-  auto doc = ReaderDocument::parse("images/engine/editor/objects.stoi");
+  auto doc = ReaderDocument::from_file("images/engine/editor/objects.stoi");
   auto root = doc.get_root();
 
   if(root.get_name() != "supertux-objectinfo") {

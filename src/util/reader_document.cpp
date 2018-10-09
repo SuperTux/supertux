@@ -24,14 +24,14 @@
 #include "util/log.hpp"
 
 ReaderDocument
-ReaderDocument::parse(std::istream& stream, const std::string& filename)
+ReaderDocument::from_stream(std::istream& stream, const std::string& filename)
 {
   sexp::Value sx = sexp::Parser::from_stream(stream, sexp::Parser::USE_ARRAYS);
   return ReaderDocument(filename, std::move(sx));
 }
 
 ReaderDocument
-ReaderDocument::parse(const std::string& filename)
+ReaderDocument::from_file(const std::string& filename)
 {
   log_debug << "ReaderDocument::parse: " << filename << std::endl;
 
@@ -43,7 +43,7 @@ ReaderDocument::parse(const std::string& filename)
     msg << "Parser problem: Couldn't open file '" << filename << "'.";
     throw std::runtime_error(msg.str());
   } else {
-    return parse(in, filename);
+    return from_stream(in, filename);
   }
 }
 

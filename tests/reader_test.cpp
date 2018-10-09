@@ -31,7 +31,7 @@ TEST(ReaderTest, get)
     "   (mymapping (a 1) (b 2))\n"
     ")\n");
 
-  auto doc = ReaderDocument::parse(in);
+  auto doc = ReaderDocument::from_stream(in);
   auto root = doc.get_root();
   ASSERT_EQ("supertux-test", root.get_name());
   auto mapping = root.get_mapping();
@@ -102,7 +102,7 @@ TEST(ReaderTest, syntax_error)
     "   (mymapping err (a 1) (b 2))\n"
     ")\n");
 
-  auto doc = ReaderDocument::parse(in);
+  auto doc = ReaderDocument::from_stream(in);
   auto root = doc.get_root();
   ASSERT_EQ("supertux-test", root.get_name());
   auto mapping = root.get_mapping();

@@ -55,14 +55,14 @@ SpriteManager::load(const std::string& filename)
     try {
       if(filename.size() >= 7 && filename.compare(filename.size() - 7, 7, ".sprite") == 0) {
         // Sprite file
-        return ReaderDocument::parse(filename);
+        return ReaderDocument::from_file(filename);
       } else {
         // Load image file directly
         std::stringstream lisptext;
         lisptext << "(supertux-sprite (action "
         <<    "(name \"default\") "
         <<    "(images \"" << FileSystem::basename(filename) << "\")))";
-        return ReaderDocument::parse(lisptext);
+        return ReaderDocument::from_stream(lisptext, filename);
       }
     } catch(const std::exception& e) {
       std::ostringstream msg;
@@ -79,8 +79,7 @@ SpriteManager::load(const std::string& filename)
     msg << "'" << filename << "' is not a supertux-sprite file";
     throw std::runtime_error(msg.str());
   } else {
-    std::unique_ptr<SpriteData> data (
-      new SpriteData(root.get_mapping(), FileSystem::dirname(filename)) );
+    std::unique_ptr<SpriteData> data(new SpriteData(root.get_mapping()));
     sprites[filename] = std::move(data);
 
     return sprites[filename].get();

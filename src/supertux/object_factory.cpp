@@ -287,7 +287,7 @@ ObjectFactory::create(const std::string& name, const Vector& pos, const Directio
     lisptext << ")";
   }
 
-  auto doc = ReaderDocument::parse(lisptext);
+  auto doc = ReaderDocument::from_stream(lisptext);
   return create(name, doc.get_root().get_mapping());
 }
 

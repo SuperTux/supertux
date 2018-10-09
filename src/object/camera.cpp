@@ -88,7 +88,7 @@ public:
 
   void load(const std::string& filename)
   {
-    auto doc = ReaderDocument::parse(filename);
+    auto doc = ReaderDocument::from_file(filename);
     auto root = doc.get_root();
     if(root.get_name() == "camera-config")
     {

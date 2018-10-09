@@ -58,7 +58,7 @@ Surface::from_file(const std::string& filename, const boost::optional<Rect>& rec
 {
   if (StringUtil::has_suffix(filename, ".surface"))
   {
-    ReaderDocument doc = ReaderDocument::parse(filename);
+    ReaderDocument doc = ReaderDocument::from_file(filename);
     ReaderObject object = doc.get_root();
     if (object.get_name() != "supertux-surface")
     {

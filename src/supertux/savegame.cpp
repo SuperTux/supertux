@@ -144,7 +144,7 @@ Savegame::load()
     {
       HSQUIRRELVM vm = scripting::global_vm;
 
-      auto doc = ReaderDocument::parse(m_filename);
+      auto doc = ReaderDocument::from_file(m_filename);
       auto root = doc.get_root();
 
       if(root.get_name() != "supertux-savegame")

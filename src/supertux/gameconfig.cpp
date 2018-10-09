@@ -59,7 +59,7 @@ Config::Config() :
 void
 Config::load()
 {
-  auto doc = ReaderDocument::parse("config");
+  auto doc = ReaderDocument::from_file("config");
   auto root = doc.get_root();
   if(root.get_name() != "supertux-config")
   {

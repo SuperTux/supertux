@@ -27,8 +27,8 @@
 class ReaderDocument final
 {
 public:
-  static ReaderDocument parse(std::istream& stream, const std::string& filename = "<stream>");
-  static ReaderDocument parse(const std::string& filename);
+  static ReaderDocument from_stream(std::istream& stream, const std::string& filename = "<stream>");
+  static ReaderDocument from_file(const std::string& filename);
 
 public:
   ReaderDocument(const std::string& filename, sexp::Value sx);
