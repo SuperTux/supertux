@@ -16,10 +16,11 @@
 
 #include "util/reader_mapping.hpp"
 
+#include <boost/ref.hpp>
+#include <boost/utility/typed_in_place_factory.hpp>
 #include <sexp/io.hpp>
 #include <sstream>
 #include <stdexcept>
-#include <boost/utility/typed_in_place_factory.hpp>
 
 #include "util/gettext.hpp"
 #include "util/reader_collection.hpp"
@@ -200,7 +201,7 @@ ReaderMapping::get(const char* key, boost::optional<ReaderMapping>& value) const
 {
   auto const sx = get_item(key);
   if (sx) {
-    value = boost::in_place<ReaderMapping>(m_doc, *sx);
+    value = boost::in_place<ReaderMapping>(boost::ref(m_doc), boost::ref(*sx));
     return true;
   } else {
     return false;
@@ -212,7 +213,7 @@ ReaderMapping::get(const char* key, boost::optional<ReaderCollection>& value) co
 {
   auto const sx = get_item(key);
   if (sx) {
-    value = boost::in_place<ReaderMapping>(m_doc, *sx);
+    value = boost::in_place<ReaderMapping>(boost::ref(m_doc), boost::ref(*sx));
     return true;
   } else {
     return false;
