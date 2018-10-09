@@ -20,8 +20,10 @@
 #include <stdexcept>
 #include <sstream>
 
+#include "util/file_system.hpp"
 #include "util/log.hpp"
 #include "util/reader_collection.hpp"
+#include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/reader_object.hpp"
 #include "video/surface.hpp"
@@ -40,7 +42,7 @@ SpriteData::Action::Action() :
 {
 }
 
-SpriteData::SpriteData(const ReaderMapping& lisp, const std::string& basedir) :
+SpriteData::SpriteData(const ReaderMapping& lisp) :
   actions(),
   name()
 {
@@ -49,7 +51,7 @@ SpriteData::SpriteData(const ReaderMapping& lisp, const std::string& basedir) :
     if(iter.get_key() == "name") {
       iter.get(name);
     } else if(iter.get_key() == "action") {
-      parse_action(iter.as_mapping(), basedir);
+      parse_action(iter.as_mapping());
     } else {
       log_warning << "Unknown sprite field: " << iter.get_key() << std::endl;
     }
@@ -59,7 +61,7 @@ SpriteData::SpriteData(const ReaderMapping& lisp, const std::string& basedir) :
 }
 
 void
-SpriteData::parse_action(const ReaderMapping& lisp, const std::string& basedir)
+SpriteData::parse_action(const ReaderMapping& lisp)
 {
   auto action = std::unique_ptr<Action>(new Action);
 
@@ -121,7 +123,7 @@ SpriteData::parse_action(const ReaderMapping& lisp, const std::string& basedir)
       float max_w = 0;
       float max_h = 0;
       for(const auto& image : images) {
-        auto surface = Surface::from_file(basedir + image);
+        auto surface = Surface::from_file(FileSystem::join(lisp.get_doc().get_directory(), image));
         max_w = std::max(max_w, static_cast<float>(surface->get_width()));
         max_h = std::max(max_h, static_cast<float>(surface->get_height()));
         action->surfaces.push_back(surface);
