@@ -213,7 +213,7 @@ ReaderMapping::get(const char* key, boost::optional<ReaderCollection>& value) co
 {
   auto const sx = get_item(key);
   if (sx) {
-    value = boost::in_place<ReaderMapping>(boost::ref(m_doc), boost::ref(*sx));
+    value = boost::in_place<ReaderCollection>(boost::ref(m_doc), boost::ref(*sx));
     return true;
   } else {
     return false;
