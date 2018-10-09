@@ -27,7 +27,6 @@
 GrowUp::GrowUp(Direction direction) :
   MovingSprite(Vector(0,0), "images/powerups/egg/egg.sprite", LAYER_OBJECTS, COLGROUP_MOVING),
   physic(),
-  light(0.0f,0.0f,0.0f),
   shadesprite(SpriteManager::current()->create("images/powerups/egg/egg.sprite")),
   lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
 {

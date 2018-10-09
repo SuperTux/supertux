@@ -55,19 +55,19 @@ protected:
   void spreadHit();
 
 private:
+  virtual HitResponse collision_bullet(Bullet& bullet, const CollisionHit& hit);
+
+private:
   enum State {
     STATE_NORMAL, /**< default state */
     STATE_BURNING, /**< on fire, still solid */
     STATE_DISINTEGRATING /**< crumbling to dust, no longer solid */
   };
+
+private:
   State state;
-
   bool linked;
-  virtual HitResponse collision_bullet(Bullet& bullet, const CollisionHit& hit);
-
-  Color light;
   SpritePtr lightsprite;
-
 };
 
 #endif

@@ -31,7 +31,6 @@ PowerUp::PowerUp(const ReaderMapping& lisp) :
   physic(),
   script(),
   no_physics(),
-  light(0.0f,0.0f,0.0f),
   lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
 {
   lisp.get("script", script, "");
@@ -44,7 +43,6 @@ PowerUp::PowerUp(const Vector& pos, const std::string& sprite_name_) :
   physic(),
   script(),
   no_physics(false),
-  light(0.0f,0.0f,0.0f),
   lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
 {
   initialize();

@@ -49,7 +49,6 @@ SpriteParticle::SpriteParticle(SpritePtr sprite_, const std::string& action,
   velocity(velocity_),
   acceleration(acceleration_),
   drawing_layer(drawing_layer_),
-  light(0.0f,0.0f,0.0f),
   lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-tiny.sprite")),
   glow(false)
 {

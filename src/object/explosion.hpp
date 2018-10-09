@@ -72,7 +72,6 @@ private:
   bool hurt;
   bool push;
   State state;
-  Color light;
   SpritePtr lightsprite;
 
 };

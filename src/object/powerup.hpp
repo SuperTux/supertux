@@ -49,7 +49,6 @@ private:
   Physic physic;
   std::string script;
   bool no_physics;
-  Color light;
   SpritePtr lightsprite;
 };
 

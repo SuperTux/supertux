@@ -31,7 +31,6 @@ Explosion::Explosion(const Vector& pos) :
   hurt(true),
   push(false),
   state(STATE_WAITING),
-  light(0.0f,0.0f,0.0f),
   lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-large.sprite"))
 {
   SoundManager::current()->preload("sounds/explosion.wav");
@@ -46,7 +45,6 @@ Explosion::Explosion(const ReaderMapping& reader) :
   hurt(true),
   push(false),
   state(STATE_WAITING),
-  light(0.0f,0.0f,0.0f),
   lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-large.sprite"))
 {
   SoundManager::current()->preload("sounds/explosion.wav");

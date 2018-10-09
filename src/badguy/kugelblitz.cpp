@@ -39,7 +39,6 @@ Kugelblitz::Kugelblitz(const ReaderMapping& reader) :
   movement_timer(),
   lifetime(),
   direction(),
-  light(0.0f,0.0f,0.0f),
   lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light.sprite"))
 {
   start_position.x = bbox.p1.x;

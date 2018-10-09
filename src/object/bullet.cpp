@@ -33,7 +33,6 @@ Bullet::Bullet(const Vector& pos, float xm, int dir, BonusType type_) :
   physic(),
   life_count(3),
   sprite(),
-  light(0.0f,0.0f,0.0f),
   lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite")),
   type(type_)
 {

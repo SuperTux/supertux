@@ -54,7 +54,6 @@ private:
   Timer movement_timer;
   Timer lifetime;
   int direction;
-  Color light;
   SpritePtr lightsprite;
 };
 

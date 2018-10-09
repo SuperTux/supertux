@@ -25,7 +25,6 @@ Flower::Flower(BonusType _type) :
   type(_type),
   sprite(),
   flip(NO_FLIP),
-  light(1.0f,1.0f,1.0f),
   lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
 {
   bbox.set_size(32, 32);
