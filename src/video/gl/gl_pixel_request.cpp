@@ -53,7 +53,7 @@ GLPixelRequest::request(int x, int y)
   glBindBuffer(GL_PIXEL_PACK_BUFFER, m_buffer);
   glReadPixels(x, y, m_width, m_height, GL_BGRA, GL_UNSIGNED_BYTE,
                reinterpret_cast<GLvoid*>(m_offset));
-  m_sync = glFenceSync(GL_SYNC_GPU_COMMANDS_COMPLETE, 0);
+  m_sync = glFenceSync(GL_SYNC_GPU_COMMANDS_COMPLETE, GL_NONE_BIT);
   glBindBuffer(GL_PIXEL_PACK_BUFFER, 0);
 
   assert_gl();
@@ -64,7 +64,7 @@ GLPixelRequest::is_ready() const
 {
   assert_gl();
 
-  GLenum ret = glClientWaitSync(m_sync, 0, 0);
+  GLenum ret = glClientWaitSync(m_sync, GL_NONE_BIT, 0);
 
   if (ret == GL_CONDITION_SATISFIED ||
       ret == GL_ALREADY_SIGNALED)
