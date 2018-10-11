@@ -57,7 +57,6 @@ Sector::Sector(Level& parent) :
   m_name(),
   m_bullets(),
   m_init_script(),
-  m_gameobjects_new(),
   m_currentmusic(LEVEL_MUSIC),
   m_sector_table(),
   m_scripts(),
@@ -68,7 +67,6 @@ Sector::Sector(Level& parent) :
   m_ambient_light_fade_duration(0.0f),
   m_ambient_light_fade_accum(0.0f),
   m_foremost_layer(),
-  m_gameobjects(),
   m_collision_system(new CollisionSystem(*this)),
   m_spawnpoints(),
   m_portables(),
@@ -158,22 +156,6 @@ Sector::run_script(std::istream& in, const std::string& sourcename)
     log_warning << "Error running sector script: " << e.what() << std::endl;
     return NULL;
   }
-}
-
-void
-Sector::add_object(GameObjectPtr object)
-{
-  // make sure the object isn't already in the list
-#ifndef NDEBUG
-  for(const auto& game_object : m_gameobjects) {
-    assert(game_object != object);
-  }
-  for(const auto& gameobject : m_gameobjects_new) {
-    assert(gameobject != object);
-  }
-#endif
-
-  m_gameobjects_new.push_back(object);
 }
 
 void
@@ -366,56 +348,11 @@ Sector::update(float elapsed_time)
     }
   }
 
-  /* update objects */
-  for(const auto& object : m_gameobjects) {
-    if(!object->is_valid())
-      continue;
-
-    object->update(elapsed_time);
-  }
+  GameObjectManager::update(elapsed_time);
 
   /* Handle all possible collisions. */
   m_collision_system->update();
   update_game_objects();
-}
-
-void
-Sector::update_game_objects()
-{
-  /** cleanup marked objects */
-  for(auto i = m_gameobjects.begin();
-      i != m_gameobjects.end(); /* nothing */) {
-    const GameObjectPtr& object = *i;
-
-    if(object->is_valid()) {
-      ++i;
-      continue;
-    }
-
-    before_object_remove(object);
-
-    i = m_gameobjects.erase(i);
-  }
-
-  /* add newly created objects */
-  for(const auto& object : m_gameobjects_new)
-  {
-    before_object_add(object);
-
-    m_gameobjects.push_back(object);
-  }
-  m_gameobjects_new.clear();
-
-  /* update solid_tilemaps list */
-  //FIXME: this could be more efficient
-  m_solid_tilemaps.clear();
-  for(const auto& obj : m_gameobjects)
-  {
-    const auto& tm = dynamic_cast<TileMap*>(obj.get());
-    if (!tm) continue;
-    if (tm->is_solid()) m_solid_tilemaps.push_back(tm);
-  }
-
 }
 
 bool
@@ -540,19 +477,7 @@ Sector::draw(DrawingContext& context)
   context.push_transform();
   context.set_translation(m_camera->get_translation());
 
-  for(const auto& object : m_gameobjects) {
-    if(!object->is_valid())
-      continue;
-
-    if (s_draw_solids_only)
-    {
-      auto tm = dynamic_cast<TileMap*>(object.get());
-      if (tm && !tm->is_solid())
-        continue;
-    }
-
-    object->draw(context);
-  }
+  GameObjectManager::draw(context);
 
   if(s_show_collrects) {
     m_collision_system->draw(context);

@@ -23,6 +23,7 @@
 
 #include "object/anchor_point.hpp"
 #include "supertux/game_object_ptr.hpp"
+#include "supertux/game_object_manager.hpp"
 #include "video/color.hpp"
 
 namespace collision {
@@ -57,7 +58,7 @@ enum MusicType {
  *
  * Sectors contain GameObjects, e.g. Badguys and Players.
  */
-class Sector final
+class Sector final : public GameObjectManager
 {
 public:
   friend class SectorParser;
@@ -76,7 +77,6 @@ public:
   void deactivate();
 
   void update(float elapsed_time);
-  void update_game_objects();
 
   void draw(DrawingContext& context);
 
@@ -100,9 +100,6 @@ public:
    * roottable of this squirrel VM)
    */
   HSQUIRRELVM run_script(std::istream& in, const std::string& sourcename);
-
-  /// adds a gameobject
-  void add_object(GameObjectPtr object);
 
   void set_name(const std::string& name_)
   { m_name = name_; }
@@ -233,20 +230,19 @@ public:
   void set_gravity(float gravity);
   float get_gravity() const;
 
+  const std::vector<GameObjectPtr>& get_objects() const;
   const std::vector<MovingObject*>& get_moving_objects() const;
 
 private:
   uint32_t collision_tile_attributes(const Rectf& dest, const Vector& mov) const;
 
-  void before_object_remove(GameObjectPtr object);
-  bool before_object_add(GameObjectPtr object);
+  virtual void before_object_remove(GameObjectPtr object) override;
+  virtual bool before_object_add(GameObjectPtr object) override;
 
   void try_expose(GameObjectPtr object);
   void try_unexpose(GameObjectPtr object);
   void try_expose_me();
   void try_unexpose_me();
-
-  GameObjectPtr parse_object(const std::string& name, const ReaderMapping& lisp);
 
   int calculate_foremost_layer() const;
 
@@ -266,9 +262,6 @@ private:
   std::vector<Bullet*> m_bullets;
 
   std::string m_init_script;
-
-  /// container for newly created objects, they'll be added in Sector::update
-  std::vector<GameObjectPtr> m_gameobjects_new;
 
   MusicType m_currentmusic;
 
@@ -306,7 +299,6 @@ private:
   int m_foremost_layer;
 
 public:
-  std::vector<GameObjectPtr> m_gameobjects;
   std::unique_ptr<CollisionSystem> m_collision_system;
   std::vector<std::shared_ptr<SpawnPoint> > m_spawnpoints;
   std::vector<Portable*> m_portables;
