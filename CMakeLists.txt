@@ -204,7 +204,7 @@ if(ENABLE_OPENGL)
 endif(ENABLE_OPENGL)
 
 if(VCPKG_BUILD)
-  find_package(openal-soft CONFIG REQUIRED)
+  find_package(OpenAL CONFIG REQUIRED)
 else()
   find_package(OpenAL REQUIRED)
 endif()
