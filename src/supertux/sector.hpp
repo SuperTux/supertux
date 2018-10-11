@@ -230,6 +230,9 @@ public:
   void set_gravity(float gravity);
   float get_gravity() const;
 
+  void set_music(const std::string& music);
+  std::string get_music() const;
+
   const std::vector<GameObjectPtr>& get_objects() const;
   const std::vector<MovingObject*>& get_moving_objects() const;
 
@@ -298,18 +301,17 @@ private:
 
   int m_foremost_layer;
 
-public:
-  std::unique_ptr<CollisionSystem> m_collision_system;
-  std::vector<std::shared_ptr<SpawnPoint> > m_spawnpoints;
-  std::vector<Portable*> m_portables;
-
-  std::string m_music;
 private:
+  std::unique_ptr<CollisionSystem> m_collision_system;
+
   float m_gravity;
+  std::string m_music;
 
 public:
   // some special objects, where we need direct access
   // (try to avoid accessing them directly)
+  std::vector<std::shared_ptr<SpawnPoint> > m_spawnpoints;
+  std::vector<Portable*> m_portables;
   Player* m_player;
   std::vector<TileMap*> m_solid_tilemaps;
   Camera* m_camera;

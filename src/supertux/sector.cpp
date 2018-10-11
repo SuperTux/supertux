@@ -68,10 +68,10 @@ Sector::Sector(Level& parent) :
   m_ambient_light_fade_accum(0.0f),
   m_foremost_layer(),
   m_collision_system(new CollisionSystem(*this)),
+  m_gravity(10.0),
+  m_music(),
   m_spawnpoints(),
   m_portables(),
-  m_music(),
-  m_gravity(10.0),
   m_player(0),
   m_solid_tilemaps(),
   m_camera(0),
@@ -723,6 +723,18 @@ float
 Sector::get_gravity() const
 {
   return m_gravity;
+}
+
+void
+Sector::set_music(const std::string& music)
+{
+  m_music = music;
+}
+
+std::string
+Sector::get_music() const
+{
+  return m_music;
 }
 
 Player*
