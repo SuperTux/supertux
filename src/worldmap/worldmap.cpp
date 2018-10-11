@@ -505,145 +505,145 @@ WorldMap::clamp_camera_position(Vector& c) const
 void
 WorldMap::update(float delta)
 {
-  if (!m_in_level && !MenuManager::instance().is_active())
-  {
-    // update GameObjects
-    for(const auto& object : m_game_objects) {
-      if(!m_panning || object != m_tux) {
-        object->update(delta);
-      }
+  if (m_in_level) return;
+  if (MenuManager::instance().is_active()) return;
+
+  // update GameObjects
+  for(const auto& object : m_game_objects) {
+    if(!m_panning || object != m_tux) {
+      object->update(delta);
     }
+  }
 
-    // remove old GameObjects
-    for(auto i = m_game_objects.begin(); i != m_game_objects.end(); ) {
-      auto& object = *i;
-      if(!object->is_valid()) {
-        try_unexpose(object);
-        i = m_game_objects.erase(i);
-      } else {
-        ++i;
-      }
-    }
-
-    /* update solid_tilemaps list */
-    //FIXME: this could be more efficient
-    m_solid_tilemaps.clear();
-    for(auto& i : m_game_objects)
-    {
-      auto tm = dynamic_cast<TileMap*>(i.get());
-      if (!tm) continue;
-      if (tm->is_solid()) m_solid_tilemaps.push_back(tm);
-    }
-
-    Vector requested_pos;
-
-    // position "camera"
-    if(!m_panning) {
-      m_camera_offset = get_camera_pos_for_tux();
+  // remove old GameObjects
+  for(auto i = m_game_objects.begin(); i != m_game_objects.end(); ) {
+    auto& object = *i;
+    if(!object->is_valid()) {
+      try_unexpose(object);
+      i = m_game_objects.erase(i);
     } else {
-      Vector delta__ = m_pan_pos - m_camera_offset;
-      float mag = delta__.norm();
-      if(mag > CAMERA_PAN_SPEED) {
-        delta__ *= CAMERA_PAN_SPEED/mag;
-      }
-      m_camera_offset += delta__;
-      if(m_camera_offset == m_pan_pos) {
-        m_panning = false;
-      }
+      ++i;
     }
+  }
 
-    requested_pos = m_camera_offset;
-    clamp_camera_position(m_camera_offset);
+  /* update solid_tilemaps list */
+  //FIXME: this could be more efficient
+  m_solid_tilemaps.clear();
+  for(auto& i : m_game_objects)
+  {
+    auto tm = dynamic_cast<TileMap*>(i.get());
+    if (!tm) continue;
+    if (tm->is_solid()) m_solid_tilemaps.push_back(tm);
+  }
 
-    if(m_panning) {
-      if(requested_pos.x != m_camera_offset.x) {
-        m_pan_pos.x = m_camera_offset.x;
-      }
-      if(requested_pos.y != m_camera_offset.y) {
-        m_pan_pos.y = m_camera_offset.y;
-      }
+  Vector requested_pos;
+
+  // position "camera"
+  if(!m_panning) {
+    m_camera_offset = get_camera_pos_for_tux();
+  } else {
+    Vector delta__ = m_pan_pos - m_camera_offset;
+    float mag = delta__.norm();
+    if(mag > CAMERA_PAN_SPEED) {
+      delta__ *= CAMERA_PAN_SPEED/mag;
     }
-
-    // handle input
-    auto controller = InputManager::current()->get_controller();
-    bool enter_level = false;
-    if(controller->pressed(Controller::ACTION)
-       || controller->pressed(Controller::JUMP)
-       || controller->pressed(Controller::MENU_SELECT)) {
-      /* some people define UP and JUMP on the same key... */
-      if(!controller->pressed(Controller::UP))
-        enter_level = true;
+    m_camera_offset += delta__;
+    if(m_camera_offset == m_pan_pos) {
+      m_panning = false;
     }
-    if(controller->pressed(Controller::START) ||
-       controller->pressed(Controller::ESCAPE))
-    {
-      on_escape_press();
-    }
+  }
 
-    if(controller->pressed(Controller::CHEAT_MENU) &&
-       g_config->developer_mode)
-    {
-      MenuManager::instance().set_menu(MenuStorage::WORLDMAP_CHEAT_MENU);
-    }
+  requested_pos = m_camera_offset;
+  clamp_camera_position(m_camera_offset);
 
-    // check for teleporters
-    auto teleporter = at_teleporter(m_tux->get_tile_pos());
-    if (teleporter && (teleporter->automatic || (enter_level && (!m_tux->is_moving())))) {
-      enter_level = false;
-      if (!teleporter->worldmap.empty()) {
-        change(teleporter->worldmap, teleporter->spawnpoint);
-      } else {
-        // TODO: an animation, camera scrolling or a fading would be a nice touch
-        SoundManager::current()->play("sounds/warp.wav");
-        m_tux->back_direction = D_NONE;
-        move_to_spawnpoint(teleporter->spawnpoint, true);
-      }
+  if(m_panning) {
+    if(requested_pos.x != m_camera_offset.x) {
+      m_pan_pos.x = m_camera_offset.x;
     }
+    if(requested_pos.y != m_camera_offset.y) {
+      m_pan_pos.y = m_camera_offset.y;
+    }
+  }
 
-    // check for auto-play levels
-    auto level = at_level();
-    if (level && (level->auto_play) && (!level->solved) && (!m_tux->is_moving())) {
+  // handle input
+  auto controller = InputManager::current()->get_controller();
+  bool enter_level = false;
+  if(controller->pressed(Controller::ACTION)
+     || controller->pressed(Controller::JUMP)
+     || controller->pressed(Controller::MENU_SELECT)) {
+    /* some people define UP and JUMP on the same key... */
+    if(!controller->pressed(Controller::UP))
       enter_level = true;
-      // automatically mark these levels as solved in case player aborts
-      level->solved = true;
-    }
+  }
+  if(controller->pressed(Controller::START) ||
+     controller->pressed(Controller::ESCAPE))
+  {
+    on_escape_press();
+  }
 
-    if (enter_level && !m_tux->is_moving())
-    {
-      /* Check level action */
-      auto level_ = at_level();
-      if (!level_) {
-        //Respawn if player on a tile with no level and nowhere to go.
-        int tile_data = tile_data_at(m_tux->get_tile_pos());
-        if(!( tile_data & ( Tile::WORLDMAP_NORTH |  Tile::WORLDMAP_SOUTH | Tile::WORLDMAP_WEST | Tile::WORLDMAP_EAST ))){
-          log_warning << "Player at illegal position " << m_tux->get_tile_pos().x << ", " << m_tux->get_tile_pos().y << " respawning." << std::endl;
-          move_to_spawnpoint("main");
-          return;
-        }
-        log_warning << "No level to enter at: " << m_tux->get_tile_pos().x << ", " << m_tux->get_tile_pos().y << std::endl;
+  if(controller->pressed(Controller::CHEAT_MENU) &&
+     g_config->developer_mode)
+  {
+    MenuManager::instance().set_menu(MenuStorage::WORLDMAP_CHEAT_MENU);
+  }
+
+  // check for teleporters
+  auto teleporter = at_teleporter(m_tux->get_tile_pos());
+  if (teleporter && (teleporter->automatic || (enter_level && (!m_tux->is_moving())))) {
+    enter_level = false;
+    if (!teleporter->worldmap.empty()) {
+      change(teleporter->worldmap, teleporter->spawnpoint);
+    } else {
+      // TODO: an animation, camera scrolling or a fading would be a nice touch
+      SoundManager::current()->play("sounds/warp.wav");
+      m_tux->back_direction = D_NONE;
+      move_to_spawnpoint(teleporter->spawnpoint, true);
+    }
+  }
+
+  // check for auto-play levels
+  auto level = at_level();
+  if (level && (level->auto_play) && (!level->solved) && (!m_tux->is_moving())) {
+    enter_level = true;
+    // automatically mark these levels as solved in case player aborts
+    level->solved = true;
+  }
+
+  if (enter_level && !m_tux->is_moving())
+  {
+    /* Check level action */
+    auto level_ = at_level();
+    if (!level_) {
+      //Respawn if player on a tile with no level and nowhere to go.
+      int tile_data = tile_data_at(m_tux->get_tile_pos());
+      if(!( tile_data & ( Tile::WORLDMAP_NORTH |  Tile::WORLDMAP_SOUTH | Tile::WORLDMAP_WEST | Tile::WORLDMAP_EAST ))){
+        log_warning << "Player at illegal position " << m_tux->get_tile_pos().x << ", " << m_tux->get_tile_pos().y << " respawning." << std::endl;
+        move_to_spawnpoint("main");
         return;
       }
+      log_warning << "No level to enter at: " << m_tux->get_tile_pos().x << ", " << m_tux->get_tile_pos().y << std::endl;
+      return;
+    }
 
-      if (level_->pos == m_tux->get_tile_pos()) {
-        try {
-          Vector shrinkpos = Vector(level_->pos.x*32 + 16 - m_camera_offset.x,
-                                    level_->pos.y*32 +  8 - m_camera_offset.y);
-          std::string levelfile = m_levels_path + level_->get_name();
+    if (level_->pos == m_tux->get_tile_pos()) {
+      try {
+        Vector shrinkpos = Vector(level_->pos.x*32 + 16 - m_camera_offset.x,
+                                  level_->pos.y*32 +  8 - m_camera_offset.y);
+        std::string levelfile = m_levels_path + level_->get_name();
 
-          // update state and savegame
-          save_state();
-          ScreenManager::current()->push_screen(std::unique_ptr<Screen>(new GameSession(levelfile, m_savegame, &level_->statistics)),
-                                                std::unique_ptr<ScreenFade>(new ShrinkFade(shrinkpos, 1.0f)));
-          m_in_level = true;
-        } catch(std::exception& e) {
-          log_fatal << "Couldn't load level: " << e.what() << std::endl;
-        }
+        // update state and savegame
+        save_state();
+        ScreenManager::current()->push_screen(std::unique_ptr<Screen>(new GameSession(levelfile, m_savegame, &level_->statistics)),
+                                              std::unique_ptr<ScreenFade>(new ShrinkFade(shrinkpos, 1.0f)));
+        m_in_level = true;
+      } catch(std::exception& e) {
+        log_fatal << "Couldn't load level: " << e.what() << std::endl;
       }
     }
-    else
-    {
-      //      tux->set_direction(input_direction);
-    }
+  }
+  else
+  {
+    //      tux->set_direction(input_direction);
   }
 }
 
@@ -806,7 +806,6 @@ WorldMap::draw_status(DrawingContext& context)
                           static_cast<float>(context.get_height()) - Resources::normal_font->get_height() - 30.0f);
       context.color().draw_text(Resources::normal_font, teleporter->message, pos, ALIGN_CENTER, LAYER_FOREGROUND1, WorldMap::teleporter_message_color);
     }
-
   }
 
   /* Display a passive message in the map, if needed */
