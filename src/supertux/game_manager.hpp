@@ -26,13 +26,6 @@ class World;
 
 class GameManager : public Currenton<GameManager>
 {
-private:
-  std::unique_ptr<World> m_world;
-  std::unique_ptr<Savegame> m_savegame;
-
-  void run_level(World* world, const std::string& level_filename);
-  void run_worldmap(World* world, const std::string& worldmap_filename, const std::string& spawnpoint);
-
 public:
   GameManager();
 
@@ -53,11 +46,19 @@ public:
   void set_next_worldmap(const std::string& worldmap, const std::string &spawnpoint);
 
 private:
+  void run_level(World* world, const std::string& level_filename);
+  void run_worldmap(World* world, const std::string& worldmap_filename, const std::string& spawnpoint);
+
+private:
+  std::unique_ptr<World> m_world;
+  std::unique_ptr<Savegame> m_savegame;
+
+  std::string m_next_worldmap;
+  std::string m_next_spawnpoint;
+
+private:
   GameManager(const GameManager&) = delete;
   GameManager& operator=(const GameManager&) = delete;
-
-  std::string next_worldmap;
-  std::string next_spawnpoint;
 };
 
 #endif

@@ -33,8 +33,8 @@
 GameManager::GameManager() :
   m_world(),
   m_savegame(),
-  next_worldmap(),
-  next_spawnpoint()
+  m_next_worldmap(),
+  m_next_spawnpoint()
 {
 }
 
@@ -139,26 +139,26 @@ GameManager::get_level_name(const std::string& filename) const
 bool
 GameManager::load_next_worldmap()
 {
-  if (next_worldmap.empty())
+  if (m_next_worldmap.empty())
   {
     return false;
   }
-  std::unique_ptr<World> world = World::load(next_worldmap);
-  next_worldmap = "";
+  std::unique_ptr<World> world = World::load(m_next_worldmap);
+  m_next_worldmap = "";
   if (!world)
   {
-    log_warning << "Can't load world '" << next_worldmap << "'" <<  std::endl;
+    log_warning << "Can't load world '" << m_next_worldmap << "'" <<  std::endl;
     return false;
   }
-  start_worldmap(std::move(world), next_spawnpoint); // New world, new savegame
+  start_worldmap(std::move(world), m_next_spawnpoint); // New world, new savegame
   return true;
 }
 
 void
 GameManager::set_next_worldmap(const std::string& worldmap, const std::string &spawnpoint)
 {
-  next_worldmap = worldmap;
-  next_spawnpoint = spawnpoint;
+  m_next_worldmap = worldmap;
+  m_next_spawnpoint = spawnpoint;
 }
 
 /* EOF */
