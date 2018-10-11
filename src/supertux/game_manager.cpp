@@ -28,6 +28,7 @@
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
 #include "worldmap/worldmap.hpp"
+#include "worldmap/worldmap_screen.hpp"
 
 GameManager::GameManager() :
   m_world(),
@@ -73,8 +74,9 @@ GameManager::run_worldmap(World* world, const std::string& worldmap_filename, co
       filename = world->get_worldmap_filename();
     }
 
-    auto worldmap = new worldmap::WorldMap(filename, *m_savegame, spawnpoint);
-    ScreenManager::current()->push_screen(std::unique_ptr<Screen>(worldmap));
+    auto worldmap = std::make_unique<worldmap::WorldMap>(filename, *m_savegame, spawnpoint);
+    auto worldmap_screen = std::make_unique<worldmap::WorldMapScreen>(std::move(worldmap));
+    ScreenManager::current()->push_screen(std::move(worldmap_screen));
   }
   catch(std::exception& e)
   {

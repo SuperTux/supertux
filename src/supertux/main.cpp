@@ -71,6 +71,7 @@ extern "C" {
 #include "video/sdl_surface.hpp"
 #include "video/ttf_surface_manager.hpp"
 #include "worldmap/worldmap.hpp"
+#include "worldmap/worldmap_screen.hpp"
 
 class ConfigSubsystem
 {
@@ -425,8 +426,8 @@ Main::launch_game(const CommandLineArguments& args)
     if(g_config->start_level.size() > 4 &&
        g_config->start_level.compare(g_config->start_level.size() - 5, 5, ".stwm") == 0)
     {
-      screen_manager.push_screen(std::unique_ptr<Screen>(
-                                              new worldmap::WorldMap(filename, *default_savegame)));
+      screen_manager.push_screen(std::make_unique<worldmap::WorldMapScreen>(
+                                   std::make_unique<worldmap::WorldMap>(filename, *default_savegame)));
     } else {
       std::unique_ptr<GameSession> session (
         new GameSession(filename, *default_savegame));

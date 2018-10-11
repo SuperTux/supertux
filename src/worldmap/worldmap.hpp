@@ -22,7 +22,6 @@
 
 #include "math/vector.hpp"
 #include "supertux/game_object_ptr.hpp"
-#include "supertux/screen.hpp"
 #include "supertux/statistics.hpp"
 #include "supertux/timer.hpp"
 #include "util/currenton.hpp"
@@ -53,11 +52,7 @@ enum {
   WEST_EAST_WAY
 };
 
-/**
- * Screen that runs a WorldMap, which lets the player choose a Level.
- */
-class WorldMap : public Screen,
-                 public Currenton<WorldMap>
+class WorldMap final : public Currenton<WorldMap>
 {
 public:
   static Color level_title_color;
@@ -121,11 +116,11 @@ public:
   void try_expose(const GameObjectPtr& object);
   void try_unexpose(const GameObjectPtr& object);
 
-  virtual void setup() override;
-  virtual void leave() override;
+  void setup();
+  void leave();
 
-  virtual void draw(Compositor& compositor) override;
-  virtual void update(float delta) override;
+  void draw(DrawingContext& context);
+  void update(float delta);
 
   Vector get_next_tile(const Vector& pos, const Direction& direction) const;
 

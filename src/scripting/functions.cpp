@@ -37,6 +37,7 @@
 #include "video/viewport.hpp"
 #include "worldmap/tux.hpp"
 #include "worldmap/worldmap.hpp"
+#include "worldmap/worldmap_screen.hpp"
 
 namespace scripting {
 
@@ -127,7 +128,8 @@ void load_worldmap(const std::string& filename)
   }
   else
   {
-    ScreenManager::current()->push_screen(std::unique_ptr<Screen>(new WorldMap(filename, WorldMap::current()->get_savegame())));
+    ScreenManager::current()->push_screen(std::make_unique<WorldMapScreen>(
+                                            std::make_unique<WorldMap>(filename, WorldMap::current()->get_savegame())));
   }
 }
 

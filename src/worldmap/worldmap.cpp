@@ -52,6 +52,7 @@
 #include "worldmap/sprite_change.hpp"
 #include "worldmap/teleporter.hpp"
 #include "worldmap/tux.hpp"
+#include "worldmap/worldmap_screen.hpp"
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
@@ -181,7 +182,8 @@ WorldMap::change(const std::string& filename, const std::string& force_spawnpoin
 {
   m_savegame.get_player_status().last_worldmap = filename;
   ScreenManager::current()->pop_screen();
-  ScreenManager::current()->push_screen(std::unique_ptr<Screen>(new WorldMap(filename, m_savegame, force_spawnpoint_)));
+  ScreenManager::current()->push_screen(std::make_unique<WorldMapScreen>(
+                                          std::make_unique<WorldMap>(filename, m_savegame, force_spawnpoint_)));
 }
 
 void
@@ -709,10 +711,8 @@ WorldMap::at_teleporter(const Vector& pos) const
 }
 
 void
-WorldMap::draw(Compositor& compositor)
+WorldMap::draw(DrawingContext& context)
 {
-  auto& context = compositor.make_context();
-
   if (int(get_width()*32) < context.get_width() || int(get_height()*32) < context.get_height())
     context.color().draw_filled_rect(Vector(0, 0), Vector(static_cast<float>(context.get_width()),
                                                           static_cast<float>(context.get_height())),
