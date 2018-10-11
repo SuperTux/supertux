@@ -73,7 +73,7 @@ InfoBlock::hit(Player& player)
     // first hide all other InfoBlocks' messages in same sector
     auto parent = Sector::current();
     if (!parent) return;
-    for (const auto& object : parent->m_gameobjects) {
+    for (const auto& object : parent->get_objects()) {
       auto block = dynamic_cast<InfoBlock*>(object.get());
       if (!block) continue;
       if (block != this) block->hide_message();

@@ -31,7 +31,7 @@ FlipLevelTransformer::transform_sector(Sector* sector)
 {
   float height = sector->get_height();
 
-  for(auto& object : sector->m_gameobjects) {
+  for(auto& object : sector->get_objects()) {
     auto tilemap = dynamic_cast<TileMap*>(object.get());
     if(tilemap) {
       transform_tilemap(height, *tilemap);

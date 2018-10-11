@@ -520,7 +520,7 @@ GameSession::start_sequence(Sequence seq, const SequenceData* data)
   m_currentsector->m_player->set_winning();
 
   // Stop all clocks.
-  for(const auto& obj : m_currentsector->m_gameobjects)
+  for(const auto& obj : m_currentsector->get_objects())
   {
     auto lt = std::dynamic_pointer_cast<LevelTime>(obj);
     if(lt)

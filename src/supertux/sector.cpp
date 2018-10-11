@@ -882,6 +882,12 @@ Sector::save(Writer &writer)
   writer.end_list("sector");
 }
 
+const std::vector<GameObjectPtr>&
+Sector::get_objects() const
+{
+  return m_gameobjects;
+}
+
 const std::vector<MovingObject*>&
 Sector::get_moving_objects() const
 {

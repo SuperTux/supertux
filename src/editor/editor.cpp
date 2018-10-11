@@ -309,7 +309,7 @@ void Editor::load_layers() {
   layerselect.selected_tilemap = NULL;
   layerselect.layers.clear();
   bool tsel = false;
-  for(auto& i : currentsector->m_gameobjects) {
+  for(auto& i : currentsector->get_objects()) {
     auto go = i.get();
     auto mo = dynamic_cast<MovingObject*>(go);
     if ( !mo && go->is_saveable() ) {
@@ -518,7 +518,7 @@ Editor::change_tileset() {
   tileset = TileManager::current()->get_tileset(level->get_tileset());
   tileselect.input_type = EditorInputGui::IP_NONE;
   for(const auto& sector : level->m_sectors) {
-    for(const auto& object : sector->m_gameobjects) {
+    for(const auto& object : sector->get_objects()) {
       auto tilemap = dynamic_cast<TileMap*>(object.get());
       if (tilemap) {
         tilemap->set_tileset(tileset);

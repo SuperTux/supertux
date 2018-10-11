@@ -193,7 +193,7 @@ WeakBlock::spreadHit()
       log_debug << "no current sector" << std::endl;
       return;
     }
-    for(const auto& i : sector->m_gameobjects) {
+    for(const auto& i : sector->get_objects()) {
       auto wb = dynamic_cast<WeakBlock*>(i.get());
       if (!wb) continue;
       if (wb == this) continue;

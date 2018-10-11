@@ -162,7 +162,7 @@ Level::get_total_coins() const
 {
   int total_coins = 0;
   for(auto const& sector : m_sectors) {
-    for(const auto& o: sector->m_gameobjects) {
+    for(const auto& o: sector->get_objects()) {
       auto coin = dynamic_cast<Coin*>(o.get());
       if(coin)
       {
