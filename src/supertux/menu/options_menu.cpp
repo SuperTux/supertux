@@ -29,6 +29,22 @@
 #include "util/log.hpp"
 #include "video/renderer.hpp"
 
+namespace {
+
+bool less_than_volume(const std::string& lhs, const std::string& rhs) {
+  int lhs_i, rhs_i;
+  if (sscanf(lhs.c_str(), "%i", &lhs_i) == 1 &&
+      sscanf(rhs.c_str(), "%i", &rhs_i) == 1)
+  {
+    return lhs_i < rhs_i;
+  }
+
+  return false;
+}
+
+
+} // namespace
+
 enum OptionsMenuIDs {
   MNID_FULLSCREEN,
   MNID_FULLSCREEN_RESOLUTION,
@@ -38,6 +54,8 @@ enum OptionsMenuIDs {
   MNID_FRAMERATE,
   MNID_SOUND,
   MNID_MUSIC,
+  MNID_SOUND_VOLUME,
+  MNID_MUSIC_VOLUME,
   MNID_DEVELOPER_MODE,
   MNID_CHRISTMAS_MODE,
   MNID_TRANSITIONS,
@@ -51,11 +69,15 @@ OptionsMenu::OptionsMenu(bool complete) :
   next_resolution(0),
   next_vsync(0),
   next_framerate(0),
+  next_sound_volume(0),
+  next_music_volume(0),
   magnifications(),
   aspect_ratios(),
   resolutions(),
   vsyncs(),
-  framerates()
+  framerates(),
+  sound_volumes(),
+  music_volumes()
 {
   add_label(_("Options"));
   add_hl();
@@ -222,12 +244,79 @@ OptionsMenu::OptionsMenu(bool complete) :
 
       case 1:
         next_vsync = 0;
-          break;
+        break;
 
       default:
         log_warning << "Unknown swap mode: " << mode << std::endl;
         next_vsync = 0;
     }
+  }
+
+  // Sound Volume
+  sound_volumes.clear();
+  for(const char* percent : {"0%", "10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "100%"}) {
+    sound_volumes.push_back(percent);
+  }
+
+  std::ostringstream sound_vol_stream;
+  sound_vol_stream << g_config->sound_volume << "%";
+  std::string sound_vol_string = sound_vol_stream.str();
+
+  if(std::find(sound_volumes.begin(),
+               sound_volumes.end(), sound_vol_string) == sound_volumes.end())
+  {
+    sound_volumes.push_back(sound_vol_string);
+  }
+
+  std::sort(sound_volumes.begin(), sound_volumes.end(), less_than_volume);
+
+  std::ostringstream out;
+  out << g_config->sound_volume << "%";
+  std::string sound_volume = out.str();
+  int cnt_ = 0;
+  for(const auto& volume : sound_volumes)
+  {
+    if(volume == sound_volume)
+    {
+      sound_volume.clear();
+      next_sound_volume = cnt_;
+      break;
+    }
+    ++cnt_;
+  }
+
+  // Music Volume
+  music_volumes.clear();
+  for(const char* percent : {"0%", "10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "100%"}) {
+    music_volumes.push_back(percent);
+  }
+
+  std::ostringstream music_vol_stream;
+  music_vol_stream << g_config->music_volume << "%";
+  std::string music_vol_string = music_vol_stream.str();
+
+  if(std::find(music_volumes.begin(),
+               music_volumes.end(), music_vol_string) == music_volumes.end())
+  {
+    music_volumes.push_back(music_vol_string);
+  }
+
+  std::sort(music_volumes.begin(), music_volumes.end(), less_than_volume);
+
+  out.str("");
+  out.clear();
+  out << g_config->music_volume << "%";
+  std::string music_volume = out.str();
+  cnt_ = 0;
+  for(const auto& volume : music_volumes)
+  {
+    if(volume == music_volume)
+    {
+      music_volume.clear();
+      next_music_volume = cnt_;
+      break;
+    }
+    ++cnt_;
   }
 
   if (complete)
@@ -262,12 +351,21 @@ OptionsMenu::OptionsMenu(bool complete) :
   MenuItem& aspect = add_string_select(MNID_ASPECTRATIO, _("Aspect Ratio"), &next_aspect_ratio, aspect_ratios);
   aspect.set_help(_("Adjust the aspect ratio"));
 
-  if (SoundManager::current()->is_audio_enabled()) {
+  if (SoundManager::current()->is_audio_enabled())
+  {
     add_toggle(MNID_SOUND, _("Sound"), &g_config->sound_enabled)
       .set_help(_("Disable all sound effects"));
     add_toggle(MNID_MUSIC, _("Music"), &g_config->music_enabled)
       .set_help(_("Disable all music"));
-  } else {
+
+    MenuItem& sound_volume_select = add_string_select(MNID_SOUND_VOLUME, _("Sound Volume"), &next_sound_volume, sound_volumes);
+    sound_volume_select.set_help(_("Adjust sound volume"));
+
+    MenuItem& music_volume_select = add_string_select(MNID_MUSIC_VOLUME, _("Music Volume"), &next_music_volume, music_volumes);
+    music_volume_select.set_help(_("Adjust music volume"));
+  }
+  else
+  {
     add_inactive( _("Sound (disabled)"));
     add_inactive( _("Music (disabled)"));
   }
@@ -410,9 +508,29 @@ OptionsMenu::menu_action(MenuItem& item)
       g_config->save();
       break;
 
+    case MNID_SOUND_VOLUME:
+      if (sscanf(sound_volumes[next_sound_volume].c_str(), "%i", &g_config->sound_volume) == 1)
+      {
+        bool sound_enabled = g_config->sound_volume > 0 ? true : false;
+        SoundManager::current()->enable_sound(sound_enabled);
+        SoundManager::current()->set_sound_volume(g_config->sound_volume);
+        g_config->save();
+      }
+      break;
+
     case MNID_MUSIC:
       SoundManager::current()->enable_music(g_config->music_enabled);
       g_config->save();
+      break;
+
+    case MNID_MUSIC_VOLUME:
+      if (sscanf(music_volumes[next_music_volume].c_str(), "%i", &g_config->music_volume) == 1)
+      {
+        bool music_enabled = g_config->music_volume > 0 ? true : false;
+        SoundManager::current()->enable_music(music_enabled);
+        SoundManager::current()->set_music_volume(g_config->music_volume);
+        g_config->save();
+      }
       break;
 
     default:

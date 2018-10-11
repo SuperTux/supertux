@@ -58,6 +58,8 @@ public:
   bool show_player_pos;
   bool sound_enabled;
   bool music_enabled;
+  int sound_volume;
+  int music_volume;
 
   /** initial random seed.  0 ==> set from time() */
   int random_seed;

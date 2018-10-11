@@ -20,7 +20,9 @@
 #include "util/log.hpp"
 
 OpenALSoundSource::OpenALSoundSource() :
-  source()
+  source(),
+  m_gain(1.0f),
+  m_volume(1.0f)
 {
   alGenSources(1, &source);
   try
@@ -138,7 +140,8 @@ OpenALSoundSource::set_velocity(const Vector& velocity)
 void
 OpenALSoundSource::set_gain(float gain)
 {
-  alSourcef(source, AL_GAIN, gain);
+  alSourcef(source, AL_GAIN, gain * m_volume);
+  m_gain = gain;
 }
 
 void
@@ -151,6 +154,13 @@ void
 OpenALSoundSource::set_reference_distance(float distance)
 {
   alSourcef(source, AL_REFERENCE_DISTANCE, distance);
+}
+
+void
+OpenALSoundSource::set_volume(float volume)
+{
+  m_volume = volume;
+  alSourcef(source, AL_GAIN, m_gain * m_volume);
 }
 
 /* EOF */

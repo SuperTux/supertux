@@ -389,6 +389,8 @@ Main::launch_game(const CommandLineArguments& args)
   SoundManager sound_manager;
   sound_manager.enable_sound(g_config->sound_enabled);
   sound_manager.enable_music(g_config->music_enabled);
+  sound_manager.set_sound_volume(g_config->sound_volume);
+  sound_manager.set_music_volume(g_config->music_volume);
 
   timelog("scripting");
   scripting::Scripting scripting(g_config->enable_script_debugger);

@@ -34,12 +34,16 @@ class OptionsMenu : public Menu
     int next_resolution;
     int next_vsync;
     int next_framerate;
+    int next_sound_volume;
+    int next_music_volume;
 
     std::vector<std::string> magnifications;
     std::vector<std::string> aspect_ratios;
     std::vector<std::string> resolutions;
     std::vector<std::string> vsyncs;
     std::vector<std::string> framerates;
+    std::vector<std::string> sound_volumes;
+    std::vector<std::string> music_volumes;
 };
 
 #endif

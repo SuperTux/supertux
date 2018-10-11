@@ -31,11 +31,13 @@ SoundManager::SoundManager() :
   device(alcOpenDevice(0)),
   context(alcCreateContext(device, /* attributes = */ 0)),
   sound_enabled(false),
+  sound_volume(0.0f),
   buffers(),
   sources(),
   update_list(),
   music_source(),
   music_enabled(false),
+  music_volume(0.0f),
   current_music()
 {
   try {
@@ -113,6 +115,7 @@ SoundManager::intern_create_sound_source(const std::string& filename)
   assert(sound_enabled);
 
   std::unique_ptr<OpenALSoundSource> source(new OpenALSoundSource);
+  source->set_volume(static_cast<float>(sound_volume) / 100.0f);
 
   ALuint buffer;
 
@@ -273,6 +276,13 @@ SoundManager::stop_music(float fadetime)
 }
 
 void
+SoundManager::set_music_volume(int volume)
+{
+  music_volume = volume;
+  if(music_source != NULL) music_source->set_volume(static_cast<float>(volume) / 100.0f);
+}
+
+void
 SoundManager::play_music(const std::string& filename, bool fade)
 {
   if(filename == current_music && music_source != NULL)
@@ -301,6 +311,7 @@ SoundManager::play_music(const std::string& filename, bool fade)
     newmusic->set_sound_file(load_sound_file(filename));
     newmusic->set_looping(true);
     newmusic->set_relative(true);
+    newmusic->set_volume(static_cast<float>(music_volume) / 100.0f);
     if(fade)
       newmusic->set_fading(StreamSoundSource::FadingOn, .5f);
     newmusic->play();
@@ -353,6 +364,15 @@ SoundManager::stop_sounds()
 {
   for(auto& source : sources) {
     source->stop();
+  }
+}
+
+void
+SoundManager::set_sound_volume(int volume)
+{
+  sound_volume = volume;
+  for(auto& source : sources) {
+    source->set_volume(static_cast<float>(volume) / 100.0f);
   }
 }
 

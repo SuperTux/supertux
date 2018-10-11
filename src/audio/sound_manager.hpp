@@ -68,10 +68,12 @@ public:
   void pause_music(float fadetime = 0);
   void resume_music(float fadetime = 0);
   void stop_music(float fadetime = 0);
+  void set_music_volume(int volume);
 
   void pause_sounds();
   void resume_sounds();
   void stop_sounds();
+  void set_sound_volume(int volume);
 
   bool is_music_enabled() const { return music_enabled; }
   bool is_sound_enabled() const { return sound_enabled; }
@@ -109,6 +111,7 @@ private:
   ALCdevice* device;
   ALCcontext* context;
   bool sound_enabled;
+  int sound_volume;
 
   typedef std::map<std::string, ALuint> SoundBuffers;
   SoundBuffers buffers;
@@ -121,6 +124,7 @@ private:
   std::unique_ptr<StreamSoundSource> music_source;
 
   bool music_enabled;
+  int music_volume;
   std::string current_music;
 
 private:
