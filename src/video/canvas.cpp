@@ -180,7 +180,7 @@ Canvas::draw_surface_batch(SurfacePtr surface,
                            const Color& color,
                            int layer)
 {
-  assert(surface != 0);
+  assert(surface != nullptr);
 
   auto request = new(m_obst) TextureRequest();
 

@@ -70,13 +70,13 @@ KeyboardConfig::read(const ReaderMapping& keymap_lisp)
         map.get("control", control);
 
         int i = 0;
-        for(i = 0; Controller::controlNames[i] != 0; ++i)
+        for(i = 0; Controller::controlNames[i] != nullptr; ++i)
         {
           if (control == Controller::controlNames[i])
             break;
         }
 
-        if (Controller::controlNames[i] == 0)
+        if (Controller::controlNames[i] == nullptr)
         {
           log_info << "Invalid control '" << control << "' in keymap" << std::endl;
           continue;

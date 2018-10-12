@@ -23,7 +23,7 @@
 
 MoleRock::MoleRock(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/mole/mole_rock.sprite", LAYER_TILES - 2),
-  parent(0),
+  parent(nullptr),
   initial_velocity(Vector(0, -400))
 {
   physic.enable_gravity(true);
@@ -32,7 +32,7 @@ MoleRock::MoleRock(const ReaderMapping& reader) :
   SoundManager::current()->preload("sounds/stomp.wav");
 }
 
-MoleRock::MoleRock(const Vector& pos, const Vector& velocity, const BadGuy* parent_ = 0) :
+MoleRock::MoleRock(const Vector& pos, const Vector& velocity, const BadGuy* parent_ = nullptr) :
   BadGuy(pos, LEFT, "images/creatures/mole/mole_rock.sprite", LAYER_TILES - 2),
   parent(parent_),
   initial_velocity(velocity)

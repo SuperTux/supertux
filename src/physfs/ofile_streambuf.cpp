@@ -24,7 +24,7 @@ OFileStreambuf::OFileStreambuf(const std::string& filename) :
   file()
 {
   file = PHYSFS_openWrite(filename.c_str());
-  if(file == 0) {
+  if(file == nullptr) {
     std::stringstream msg;
     msg << "Couldn't open file '" << filename << "': "
         << PHYSFS_getLastErrorCode();

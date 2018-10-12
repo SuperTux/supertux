@@ -49,7 +49,7 @@ GhostTree::GhostTree(const ReaderMapping& lisp) :
   root_timer(),
   treecolor(0),
   suck_lantern_color(),
-  suck_lantern(0),
+  suck_lantern(nullptr),
   willowisps()
 {
   set_colgroup_active(COLGROUP_TOUCHABLE);
@@ -171,7 +171,7 @@ GhostTree::active_update(float /*elapsed_time*/)
         dir_ = delta;
         suck_lantern->ungrab(*this, RIGHT);
         suck_lantern->remove_me();
-        suck_lantern = 0;
+        suck_lantern = nullptr;
         sprite->set_action("swallow", 1);
       } else {
         pos += dir_;

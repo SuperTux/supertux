@@ -136,7 +136,7 @@ TileSet::print_debug_info(const std::string& filename)
     int last = -1;
     for(int i = 0; i < int(m_tiles.size()); ++i)
     {
-      if (m_tiles[i] == 0 && last == -1)
+      if (m_tiles[i] == nullptr && last == -1)
       {
         last = i;
       }

@@ -79,7 +79,7 @@ public:
   bool is_sound_enabled() const { return sound_enabled; }
 
   bool is_audio_enabled() const {
-    return device != 0 && context != 0;
+    return device != nullptr && context != nullptr;
   }
   std::string get_current_music() const {
     return current_music;

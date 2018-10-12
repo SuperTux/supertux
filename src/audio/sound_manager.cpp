@@ -28,8 +28,8 @@
 #include "util/log.hpp"
 
 SoundManager::SoundManager() :
-  device(alcOpenDevice(0)),
-  context(alcCreateContext(device, /* attributes = */ 0)),
+  device(alcOpenDevice(nullptr)),
+  context(alcCreateContext(device, /* attributes = */ nullptr)),
   sound_enabled(false),
   sound_volume(0.0f),
   buffers(),

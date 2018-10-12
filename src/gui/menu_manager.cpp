@@ -26,7 +26,7 @@
 #include "util/log.hpp"
 #include "video/drawing_context.hpp"
 
-MenuManager* MenuManager::s_instance = 0;
+MenuManager* MenuManager::s_instance = nullptr;
 
 MenuManager&
 MenuManager::instance()

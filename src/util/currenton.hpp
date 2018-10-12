@@ -45,7 +45,7 @@ protected:
   {
     if (s_current == this)
     {
-      s_current = 0;
+      s_current = nullptr;
     }
   }
 
@@ -53,7 +53,7 @@ public:
   static C* current() { return s_current; }
 };
 
-template<class C> C* Currenton<C>::s_current = 0;
+template<class C> C* Currenton<C>::s_current = nullptr;
 
 #endif
 

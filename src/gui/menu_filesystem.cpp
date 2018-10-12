@@ -69,7 +69,7 @@ FileSystemMenu::refresh_items()
   char** dir_files = PHYSFS_enumerateFiles(directory.c_str());
   if (dir_files)
   {
-    for(const char* const* file = dir_files; *file != 0; ++file)
+    for(const char* const* file = dir_files; *file != nullptr; ++file)
     {
       std::string filepath = FileSystem::join(directory, *file);
       if(PhysFSFileSystem::is_directory(filepath))

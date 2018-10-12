@@ -28,7 +28,7 @@ Zeekling::Zeekling(const ReaderMapping& reader) :
   speed(gameRandom.randf(130.0f, 171.0f)),
   diveRecoverTimer(),
   state(FLYING),
-  last_player(0),
+  last_player(nullptr),
   last_player_pos(),
   last_self_pos()
 {

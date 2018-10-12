@@ -147,16 +147,16 @@ public:
    * 2.) MovingObjects in COLGROUP_STATIC.
    * Note that this does not include badguys or players.
    */
-  bool is_free_of_statics(const Rectf& rect, const MovingObject* ignore_object = 0, const bool ignoreUnisolid = false) const;
+  bool is_free_of_statics(const Rectf& rect, const MovingObject* ignore_object = nullptr, const bool ignoreUnisolid = false) const;
   /**
    * Checks if the specified rectangle is free of both
    * 1.) solid tiles and
    * 2.) MovingObjects in COLGROUP_STATIC, COLGROUP_MOVINGSTATIC or COLGROUP_MOVING.
    * This includes badguys and players.
    */
-  bool is_free_of_movingstatics(const Rectf& rect, const MovingObject* ignore_object = 0) const;
+  bool is_free_of_movingstatics(const Rectf& rect, const MovingObject* ignore_object = nullptr) const;
 
-  bool free_line_of_sight(const Vector& line_start, const Vector& line_end, const MovingObject* ignore_object = 0) const;
+  bool free_line_of_sight(const Vector& line_start, const Vector& line_end, const MovingObject* ignore_object = nullptr) const;
   bool can_see_player(const Vector& eye) const;
 
 /**

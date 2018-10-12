@@ -27,8 +27,8 @@
 
 BicyclePlatform::BicyclePlatform(const ReaderMapping& reader) :
   MovingSprite(reader, "images/objects/platforms/small.sprite", LAYER_OBJECTS, COLGROUP_STATIC),
-  master(0),
-  slave(0),
+  master(nullptr),
+  slave(nullptr),
   center(get_pos()),
   radius(128),
   angle(0),
@@ -61,15 +61,15 @@ BicyclePlatform::BicyclePlatform(BicyclePlatform* master_) :
 BicyclePlatform::~BicyclePlatform()
 {
   if ((this == master) && (master)) {
-    slave->master = 0;
-    slave->slave = 0;
+    slave->master = nullptr;
+    slave->slave = nullptr;
   }
   if ((master) && (this == slave)) {
-    master->master = 0;
-    master->slave = 0;
+    master->master = nullptr;
+    master->slave = nullptr;
   }
-  master = 0;
-  slave = 0;
+  master = nullptr;
+  slave = nullptr;
 }
 
 HitResponse

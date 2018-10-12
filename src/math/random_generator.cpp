@@ -62,7 +62,7 @@ RandomGenerator::RandomGenerator() :
 int RandomGenerator::srand(int x)    {
   int x0 = x;
   while (x <= 0)                          // random seed of zero means
-    x = static_cast<int>(time(0)) % RandomGenerator::rand_max; // randomize with time
+    x = static_cast<int>(time(nullptr)) % RandomGenerator::rand_max; // randomize with time
 
   if (debug > 0)
     printf("==== srand(%10d) (%10d) rand_max=%x =====\n",

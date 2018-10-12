@@ -88,7 +88,7 @@ HitResponse
 PowerUp::collision(GameObject& other, const CollisionHit&)
 {
   Player* player = dynamic_cast<Player*>(&other);
-  if(player == 0)
+  if(player == nullptr)
     return FORCE_MOVE;
 
   if (sprite_name == "images/powerups/potions/blue-potion.sprite" ||

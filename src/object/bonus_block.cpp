@@ -117,7 +117,7 @@ BonusBlock::BonusBlock(const ReaderMapping& mapping) :
         ReaderMapping object_mapping = iter.as_mapping();
         GameObjectPtr game_object = ObjectFactory::instance().create(token, object_mapping);
         m_object = std::dynamic_pointer_cast<MovingObject>(game_object);
-        if (m_object == 0)
+        if (m_object == nullptr)
           throw std::runtime_error(
             "Only MovingObjects are allowed inside BonusBlocks");
       } else {

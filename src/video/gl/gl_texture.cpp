@@ -54,7 +54,7 @@ GLTexture::GLTexture(int width, int height, boost::optional<Color> fill_color) :
     else
     {
       glTexImage2D(GL_TEXTURE_2D, 0, static_cast<GLint>(GL_RGBA), m_texture_width,
-                   m_texture_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+                   m_texture_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
     }
 
     set_texture_params();
@@ -89,7 +89,7 @@ GLTexture::GLTexture(const SDL_Surface& image, const Sampler& sampler) :
   SDLSurfacePtr convert = SDLSurface::create_rgba(m_texture_width, m_texture_height);
 
   SDL_SetSurfaceBlendMode(const_cast<SDL_Surface*>(&image), SDL_BLENDMODE_NONE);
-  SDL_BlitSurface(const_cast<SDL_Surface*>(&image), 0, convert.get(), 0);
+  SDL_BlitSurface(const_cast<SDL_Surface*>(&image), nullptr, convert.get(), nullptr);
 
   assert_gl();
   glGenTextures(1, &m_handle);

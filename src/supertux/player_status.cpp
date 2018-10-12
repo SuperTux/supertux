@@ -34,7 +34,7 @@ static const int MAX_COINS = 9999;
 
 static const int DISPLAYED_COINS_UNSET = -1;
 
-PlayerStatus* player_status = 0;
+PlayerStatus* player_status = nullptr;
 
 PlayerStatus::PlayerStatus() :
   /* Do we really want -Weffc++ to bully us into duplicating code from "reset" here? */

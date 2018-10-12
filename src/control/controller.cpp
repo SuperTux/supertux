@@ -35,7 +35,7 @@ const char* Controller::controlNames[] = {
   "peek-right",
   "peek-up",
   "peek-down",
-  0
+  nullptr
 };
 
 Controller::Controller()

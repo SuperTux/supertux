@@ -218,13 +218,13 @@ void load_state()
 // in this file
 bool validate_sector_player()
 {
-  if (::Sector::current() == 0)
+  if (::Sector::current() == nullptr)
   {
     log_info << "No current sector." << std::endl;
     return false;
   }
 
-  if (::Sector::current()->m_player == 0)
+  if (::Sector::current()->m_player == nullptr)
   {
     log_info << "No player." << std::endl;
     return false;
@@ -274,7 +274,7 @@ void mortal()
 void restart()
 {
   auto session = GameSession::current();
-  if (session == 0)
+  if (session == nullptr)
   {
     log_info << "No game session" << std::endl;
     return;
@@ -338,7 +338,7 @@ void set_game_speed(float speed)
 
 void record_demo(const std::string& filename)
 {
-  if (GameSession::current() == 0)
+  if (GameSession::current() == nullptr)
   {
     log_info << "No game session" << std::endl;
     return;
@@ -350,7 +350,7 @@ void record_demo(const std::string& filename)
 void play_demo(const std::string& filename)
 {
   auto session = GameSession::current();
-  if (session == 0)
+  if (session == nullptr)
   {
     log_info << "No game session" << std::endl;
     return;

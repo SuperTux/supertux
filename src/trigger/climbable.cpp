@@ -33,7 +33,7 @@ const float POSITION_FIX_AY = 50; // y-wise acceleration applied to player when 
 }
 
 Climbable::Climbable(const ReaderMapping& reader) :
-  climbed_by(0),
+  climbed_by(nullptr),
   activate_try_timer(),
   message(),
   new_size()
@@ -48,7 +48,7 @@ Climbable::Climbable(const ReaderMapping& reader) :
 }
 
 Climbable::Climbable(const Rectf& area) :
-  climbed_by(0),
+  climbed_by(nullptr),
   activate_try_timer(),
   message(),
   new_size()
@@ -60,7 +60,7 @@ Climbable::~Climbable()
 {
   if (climbed_by) {
     climbed_by->stop_climbing(*this);
-    climbed_by = 0;
+    climbed_by = nullptr;
   }
 }
 
@@ -88,7 +88,7 @@ Climbable::update(float /*elapsed_time*/)
 
   if (!may_climb(*climbed_by)) {
     climbed_by->stop_climbing(*this);
-    climbed_by = 0;
+    climbed_by = nullptr;
   }
 }
 
@@ -129,7 +129,7 @@ Climbable::event(Player& player, EventType type)
   }
   if(type == EVENT_LOSETOUCH) {
     player.stop_climbing(*this);
-    climbed_by = 0;
+    climbed_by = nullptr;
   }
 }
 

@@ -132,7 +132,7 @@ Player::Player(PlayerStatus& player_status, const std::string& name_) :
   m_stone(false),
   m_swimming(false),
   m_speedlimit(0), //no special limit
-  m_scripting_controller_old(0),
+  m_scripting_controller_old(nullptr),
   m_jump_early_apex(false),
   m_on_ice(false),
   m_ice_this_frame(false),
@@ -173,7 +173,7 @@ Player::Player(PlayerStatus& player_status, const std::string& name_) :
   m_unduck_hurt_timer(),
   m_idle_timer(),
   m_idle_stage(0),
-  m_climbing(0)
+  m_climbing(nullptr)
 {
   m_name = name_;
   m_idle_timer.start(static_cast<float>(IDLE_TIME[0]) / 1000.0f);
@@ -238,14 +238,14 @@ Player::use_scripting_controller(bool use_or_release)
   }
   if ((use_or_release == false) && (m_controller == m_scripting_controller.get())) {
     set_controller(m_scripting_controller_old);
-    m_scripting_controller_old = 0;
+    m_scripting_controller_old = nullptr;
   }
 }
 
 void
 Player::do_scripting_controller(const std::string& control, bool pressed)
 {
-  for(int i = 0; Controller::controlNames[i] != 0; ++i) {
+  for(int i = 0; Controller::controlNames[i] != nullptr; ++i) {
     if(control == std::string(Controller::controlNames[i])) {
       m_scripting_controller->press(Controller::Control(i), pressed);
     }
@@ -1682,7 +1682,7 @@ Player::stop_climbing(Climbable& /*climbable*/)
 {
   if (!m_climbing) return;
 
-  m_climbing = 0;
+  m_climbing = nullptr;
 
   if (m_grabbed_object) {
     m_grabbed_object->ungrab(*this, m_dir);

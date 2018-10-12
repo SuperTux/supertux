@@ -55,7 +55,7 @@ Teleporter::Teleporter(const ReaderMapping& lisp) :
 void
 Teleporter::draw(DrawingContext& context)
 {
-  if (sprite.get() != 0) sprite->draw(context.color(), pos*32 + Vector(16, 16), LAYER_OBJECTS - 1);
+  if (sprite.get() != nullptr) sprite->draw(context.color(), pos*32 + Vector(16, 16), LAYER_OBJECTS - 1);
 }
 
 void

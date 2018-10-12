@@ -68,7 +68,7 @@ FlipLevelTransformer::transform_sector(Sector* sector)
     transform_spawnpoint(height, *spawnpoint);
   }
 
-  if(sector->m_camera != 0 && sector->m_player != 0)
+  if(sector->m_camera != nullptr && sector->m_player != nullptr)
     sector->m_camera->reset(sector->m_player->get_pos());
 }
 

@@ -135,12 +135,12 @@ Explosion::collision(GameObject& other, const CollisionHit& )
     return ABORT_MOVE;
 
   auto player = dynamic_cast<Player*>(&other);
-  if(player != 0) {
+  if(player != nullptr) {
     player->kill(false);
   }
 
   auto badguy = dynamic_cast<BadGuy*>(&other);
-  if(badguy != 0) {
+  if(badguy != nullptr) {
     badguy->kill_fall();
   }
 

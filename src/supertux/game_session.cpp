@@ -48,7 +48,7 @@ GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Stat
   m_statistics_backdrop(Surface::from_file("images/engine/menu/score-backdrop.png")),
   m_scripts(),
   m_currentsector(nullptr),
-  m_end_sequence(0),
+  m_end_sequence(nullptr),
   m_game_pause(false),
   m_speed_before_pause(ScreenManager::current()->get_speed()),
   m_levelfile(levelfile_),
@@ -101,11 +101,11 @@ GameSession::restart_level(bool after_death)
   }
 
   m_game_pause   = false;
-  m_end_sequence = 0;
+  m_end_sequence = nullptr;
 
   InputManager::current()->reset();
 
-  m_currentsector = 0;
+  m_currentsector = nullptr;
 
   const std::string base_dir = FileSystem::dirname(m_levelfile);
   if(base_dir == "./") {
@@ -339,7 +339,7 @@ GameSession::update(float elapsed_time)
   // respawning in new sector?
   if(!m_newsector.empty() && !m_newspawnpoint.empty()) {
     auto sector = m_level->get_sector(m_newsector);
-    if(sector == 0) {
+    if(sector == nullptr) {
       log_warning << "Sector '" << m_newsector << "' not found" << std::endl;
       sector = m_level->get_sector("main");
     }

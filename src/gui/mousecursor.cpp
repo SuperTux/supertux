@@ -24,7 +24,7 @@
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
-MouseCursor* MouseCursor::current_ = 0;
+MouseCursor* MouseCursor::current_ = nullptr;
 
 MouseCursor::MouseCursor(const std::string& cursor_file,
                          const std::string& cursor_click_file,

@@ -43,7 +43,7 @@
 #include "supertux/menu/world_set_menu.hpp"
 #include "util/log.hpp"
 
-MenuStorage* MenuStorage::s_instance = 0;
+MenuStorage* MenuStorage::s_instance = nullptr;
 
 MenuStorage&
 MenuStorage::instance()
@@ -108,7 +108,7 @@ MenuStorage::create(MenuId menu_id)
       return std::unique_ptr<Menu>(new ContribMenu);
 
     case CONTRIB_WORLD_MENU:
-      return 0; //return new ContribWorldMenu();
+      return nullptr; //return new ContribWorldMenu();
 
     case ADDON_MENU:
       return std::unique_ptr<Menu>(new AddonMenu);

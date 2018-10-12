@@ -29,8 +29,8 @@ static const std::string LAND_ON_TOTEM_SOUND = "sounds/totem.ogg";
 
 Totem::Totem(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/totem/totem.sprite"),
-  carrying(0),
-  carried_by(0)
+  carrying(nullptr),
+  carried_by(nullptr)
 {
   SoundManager::current()->preload( LAND_ON_TOTEM_SOUND );
 }
@@ -238,9 +238,9 @@ Totem::jump_off() {
     return;
   }
 
-  carried_by->carrying = 0;
+  carried_by->carrying = nullptr;
 
-  carried_by = 0;
+  carried_by = nullptr;
 
   initialize();
   bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());

@@ -28,7 +28,7 @@ static const std::string DART_SOUND = "sounds/flame.wav";
 
 Dart::Dart(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/dart/dart.sprite"),
-  parent(0),
+  parent(nullptr),
   sound_source()
 {
   physic.enable_gravity(false);
@@ -38,7 +38,7 @@ Dart::Dart(const ReaderMapping& reader) :
   SoundManager::current()->preload("sounds/stomp.wav");
 }
 
-Dart::Dart(const Vector& pos, Direction d, const BadGuy* parent_ = 0) :
+Dart::Dart(const Vector& pos, Direction d, const BadGuy* parent_ = nullptr) :
   BadGuy(pos, d, "images/creatures/dart/dart.sprite"),
   parent(parent_),
   sound_source()

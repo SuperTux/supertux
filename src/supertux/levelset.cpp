@@ -55,7 +55,7 @@ Levelset::walk_directory(const std::string& directory, bool recursively)
     return;
   }
 
-  for(const char* const* filename = files; *filename != 0; ++filename)
+  for(const char* const* filename = files; *filename != nullptr; ++filename)
   {
     auto filepath = FileSystem::join(directory.c_str(), *filename);
     if(PhysFSFileSystem::is_directory(filepath) && recursively)

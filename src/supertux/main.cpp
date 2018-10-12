@@ -353,13 +353,13 @@ Main::init_video()
 }
 
 static Uint32 last_timelog_ticks = 0;
-static const char* last_timelog_component = 0;
+static const char* last_timelog_component = nullptr;
 
 static inline void timelog(const char* component)
 {
   Uint32 current_ticks = SDL_GetTicks();
 
-  if(last_timelog_component != 0) {
+  if(last_timelog_component != nullptr) {
     log_info << "Component '" << last_timelog_component <<  "' finished after " << (current_ticks - last_timelog_ticks) / 1000.0 << " seconds" << std::endl;
   }
 
@@ -405,7 +405,7 @@ Main::launch_game(const CommandLineArguments& args)
 
   Console console(console_buffer);
 
-  timelog(0);
+  timelog(nullptr);
 
   const std::unique_ptr<Savegame> default_savegame(new Savegame(std::string()));
 

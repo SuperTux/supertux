@@ -47,7 +47,7 @@
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
-Sector* Sector::s_current = 0;
+Sector* Sector::s_current = nullptr;
 
 bool Sector::s_show_collrects = false;
 bool Sector::s_draw_solids_only = false;
@@ -72,10 +72,10 @@ Sector::Sector(Level& parent) :
   m_music(),
   m_spawnpoints(),
   m_portables(),
-  m_player(0),
+  m_player(nullptr),
   m_solid_tilemaps(),
-  m_camera(0),
-  m_effect(0)
+  m_camera(nullptr),
+  m_effect(nullptr)
 {
   PlayerStatus& player_status = Editor::is_active() ?
     Editor::current()->m_savegame->get_player_status() :
@@ -383,7 +383,7 @@ Sector::before_object_add(GameObjectPtr object)
 
   auto camera_ = dynamic_cast<Camera*>(object.get());
   if(camera_) {
-    if(m_camera != 0) {
+    if(m_camera != nullptr) {
       log_warning << "Multiple cameras added. Ignoring" << std::endl;
       return false;
     }
@@ -392,7 +392,7 @@ Sector::before_object_add(GameObjectPtr object)
 
   auto player_ = dynamic_cast<Player*>(object.get());
   if(player_) {
-    if(m_player != 0) {
+    if(m_player != nullptr) {
       log_warning << "Multiple players added. Ignoring" << std::endl;
       return false;
     }
@@ -401,7 +401,7 @@ Sector::before_object_add(GameObjectPtr object)
 
   auto effect_ = dynamic_cast<DisplayEffect*>(object.get());
   if(effect_) {
-    if(m_effect != 0) {
+    if(m_effect != nullptr) {
       log_warning << "Multiple DisplayEffects added. Ignoring" << std::endl;
       return false;
     }

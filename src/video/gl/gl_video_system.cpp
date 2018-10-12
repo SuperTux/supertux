@@ -283,7 +283,7 @@ GLVideoSystem::apply_video_mode()
       mode.w = g_config->fullscreen_size.width;
       mode.h = g_config->fullscreen_size.height;
       mode.refresh_rate = g_config->fullscreen_refresh_rate;
-      mode.driverdata = 0;
+      mode.driverdata = nullptr;
 
       if (SDL_SetWindowDisplayMode(m_window, &mode) != 0)
       {

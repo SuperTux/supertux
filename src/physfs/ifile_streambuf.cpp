@@ -31,7 +31,7 @@ IFileStreambuf::IFileStreambuf(const std::string& filename) :
     throw std::runtime_error("Couldn't open file: empty filename");
   }
   file = PHYSFS_openRead(filename.c_str());
-  if(file == 0) {
+  if(file == nullptr) {
     std::stringstream msg;
     msg << "Couldn't open file '" << filename << "': "
         << PHYSFS_getLastErrorCode();

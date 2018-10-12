@@ -30,7 +30,7 @@ PhysFSFileSystem::open_directory(const std::string& pathname)
   std::vector<std::string> files;
 
   char** directory = PHYSFS_enumerateFiles(pathname.c_str());
-  for(char** i = directory; *i != 0; ++i)
+  for(char** i = directory; *i != nullptr; ++i)
   {
     files.push_back(*i);
   }

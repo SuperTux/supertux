@@ -560,7 +560,7 @@ AddonManager::scan_for_archives() const
   std::unique_ptr<char*, decltype(&PHYSFS_freeList)>
     rc(PHYSFS_enumerateFiles(m_addon_directory.c_str()),
        PHYSFS_freeList);
-  for(char** i = rc.get(); *i != 0; ++i)
+  for(char** i = rc.get(); *i != nullptr; ++i)
   {
     if (StringUtil::has_suffix(*i, ".zip"))
     {
@@ -581,7 +581,7 @@ AddonManager::scan_for_info(const std::string& archive_os_path) const
   std::unique_ptr<char*, decltype(&PHYSFS_freeList)>
     rc2(PHYSFS_enumerateFiles("/"),
         PHYSFS_freeList);
-  for(char** j = rc2.get(); *j != 0; ++j)
+  for(char** j = rc2.get(); *j != nullptr; ++j)
   {
     if (StringUtil::has_suffix(*j, ".nfo"))
     {

@@ -195,7 +195,7 @@ AmbientSound::update(float deltat)
     currentvolume*=pow(rise,deltat*10);
     currentvolume += 1e-6f; // volume is at least 1e-6 (0 would never rise)
 
-    if (sound_source != 0) {
+    if (sound_source != nullptr) {
 
       // set the volume
       sound_source->set_gain(currentvolume*maximumvolume);

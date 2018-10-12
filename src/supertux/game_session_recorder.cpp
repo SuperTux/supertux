@@ -26,10 +26,10 @@
 #include "util/log.hpp"
 
 GameSessionRecorder::GameSessionRecorder() :
-  capture_demo_stream(0),
+  capture_demo_stream(nullptr),
   capture_file(),
-  playback_demo_stream(0),
-  demo_controller(0),
+  playback_demo_stream(nullptr),
+  demo_controller(nullptr),
   m_playing(false)
 {
 }
@@ -139,7 +139,7 @@ void
 GameSessionRecorder::process_events()
 {
   // playback a demo?
-  if(playback_demo_stream != 0) {
+  if(playback_demo_stream != nullptr) {
     demo_controller->update();
     char left, right, up, down, jump, action;
     playback_demo_stream->get(left);
@@ -157,7 +157,7 @@ GameSessionRecorder::process_events()
   }
 
   // save input for demo?
-  if(capture_demo_stream != 0) {
+  if(capture_demo_stream != nullptr) {
     auto controller = InputManager::current()->get_controller();
     capture_demo_stream ->put(controller->hold(Controller::LEFT));
     capture_demo_stream ->put(controller->hold(Controller::RIGHT));

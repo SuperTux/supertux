@@ -22,8 +22,8 @@
 
 PneumaticPlatform::PneumaticPlatform(const ReaderMapping& reader) :
   MovingSprite(reader, "images/objects/platforms/small.sprite", LAYER_OBJECTS, COLGROUP_STATIC),
-  master(0),
-  slave(0),
+  master(nullptr),
+  slave(nullptr),
   start_y(0),
   offset_y(0),
   speed_y(0),
@@ -49,15 +49,15 @@ PneumaticPlatform::PneumaticPlatform(PneumaticPlatform* master_) :
 PneumaticPlatform::~PneumaticPlatform()
 {
   if ((this == master) && (master)) {
-    slave->master = 0;
-    slave->slave = 0;
+    slave->master = nullptr;
+    slave->slave = nullptr;
   }
   if ((master) && (this == slave)) {
-    master->master = 0;
-    master->slave = 0;
+    master->master = nullptr;
+    master->slave = nullptr;
   }
-  master = 0;
-  slave = 0;
+  master = nullptr;
+  slave = nullptr;
 }
 
 HitResponse
@@ -71,7 +71,7 @@ PneumaticPlatform::collision(GameObject& other, const CollisionHit& )
 
   auto pl = dynamic_cast<Player*>(mo);
   if (pl) {
-    if (pl->is_big()) contacts.insert(0);
+    if (pl->is_big()) contacts.insert(nullptr);
     auto po = pl->get_grabbed_object();
     auto pomo = dynamic_cast<MovingObject*>(po);
     if (pomo) contacts.insert(pomo);

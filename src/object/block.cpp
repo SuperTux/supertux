@@ -98,9 +98,9 @@ Block::collision(GameObject& other, const CollisionHit& )
   auto portable = dynamic_cast<Portable*> (&other);
   auto moving_object = dynamic_cast<MovingObject*> (&other);
   auto bomb = dynamic_cast<Bomb*> (&other);
-  bool is_portable = ((portable != 0) && portable->is_portable());
-  bool is_bomb = (bomb != 0); // bombs need to explode, although they are considered portable
-  bool hit_mo_from_below = ((moving_object == 0) || (moving_object->get_bbox().get_bottom() < (bbox.get_top() + SHIFT_DELTA)));
+  bool is_portable = ((portable != nullptr) && portable->is_portable());
+  bool is_bomb = (bomb != nullptr); // bombs need to explode, although they are considered portable
+  bool hit_mo_from_below = ((moving_object == nullptr) || (moving_object->get_bbox().get_bottom() < (bbox.get_top() + SHIFT_DELTA)));
   if(bouncing && (!is_portable || is_bomb) && hit_mo_from_below) {
 
     // Badguys get killed

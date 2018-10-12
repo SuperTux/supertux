@@ -185,7 +185,7 @@ HitResponse
 Coin::collision(GameObject& other, const CollisionHit& )
 {
   auto player = dynamic_cast<Player*>(&other);
-  if(player == 0)
+  if(player == nullptr)
     return ABORT_MOVE;
 
   collect();

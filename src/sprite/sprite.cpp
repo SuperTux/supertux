@@ -132,7 +132,7 @@ void
 Sprite::draw(Canvas& canvas, const Vector& pos, int layer,
              Flip flip)
 {
-  assert(m_action != 0);
+  assert(m_action != nullptr);
   update();
 
 

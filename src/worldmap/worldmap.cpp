@@ -135,7 +135,7 @@ void
 WorldMap::add_object(GameObjectPtr object)
 {
   auto tilemap = dynamic_cast<TileMap*>(object.get());
-  if(tilemap != 0 && tilemap->is_solid()) {
+  if(tilemap != nullptr && tilemap->is_solid()) {
     m_solid_tilemaps.push_back(tilemap);
   }
 
