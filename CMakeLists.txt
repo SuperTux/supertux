@@ -514,6 +514,7 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
       "-Wnon-virtual-dtor "
       "-Wcast-qual "
       "-Wold-style-cast "
+      "-Wzero-as-null-pointer-constant "
       )
     if(CMAKE_COMPILER_IS_GNUCXX)
       string(CONCAT SUPERTUX2_EXTRA_WARNING_FLAGS
