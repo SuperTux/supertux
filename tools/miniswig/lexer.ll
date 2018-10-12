@@ -85,6 +85,7 @@ class                                   { return T_CLASS; }
 struct                                  { return T_STRUCT; }
 static                                  { return T_STATIC; }
 virtual                                 { }
+final                                   { }
 const                                   { return T_CONST; }
 unsigned                                { return T_UNSIGNED; }
 signed                                  { return T_SIGNED; }
