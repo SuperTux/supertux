@@ -20,7 +20,7 @@
 
 #include "badguy/badguy.hpp"
 
-class Zeekling : public BadGuy
+class Zeekling final : public BadGuy
 {
 public:
   Zeekling(const ReaderMapping& reader);

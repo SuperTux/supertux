@@ -20,7 +20,7 @@
 #include <string>
 #include <vector>
 
-class Writer
+class Writer final
 {
 public:
   Writer(const std::string& filename);

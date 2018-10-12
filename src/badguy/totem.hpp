@@ -22,7 +22,7 @@
 /**
  * "Totem" Badguy - A variable-height stack of wooden blocks
  */
-class Totem : public BadGuy
+class Totem final : public BadGuy
 {
 public:
   Totem(const ReaderMapping& reader);

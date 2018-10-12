@@ -20,7 +20,7 @@
 #include <string>
 #include <vector>
 
-class Levelset
+class Levelset final
 {
 private:
   std::string m_basedir;

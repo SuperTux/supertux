@@ -24,7 +24,7 @@
 class Color;
 class GL33CoreContext;
 
-class GLVertexArrays
+class GLVertexArrays final
 {
 public:
   GLVertexArrays(GL33CoreContext& context);

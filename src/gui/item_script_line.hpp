@@ -19,7 +19,7 @@
 
 #include "gui/item_textfield.hpp"
 
-class ItemScriptLine : public ItemTextField
+class ItemScriptLine final : public ItemTextField
 {
   public:
     ItemScriptLine(std::string* input_, int id_ = -1);

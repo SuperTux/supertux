@@ -25,7 +25,7 @@ class Color;
 class DrawingContext;
 class ReaderMapping;
 
-class SecretAreaTrigger : public TriggerBase
+class SecretAreaTrigger final : public TriggerBase
 {
   static Color text_color;
 public:

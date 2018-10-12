@@ -22,7 +22,7 @@
 /**
  * Simple timer designed to be used in the update functions of objects
  */
-class Timer
+class Timer final
 {
 public:
   Timer();

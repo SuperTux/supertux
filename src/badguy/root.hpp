@@ -19,7 +19,7 @@
 
 #include "badguy/badguy.hpp"
 
-class Root : public BadGuy
+class Root final : public BadGuy
 {
 public:
   Root(const Vector& pos);

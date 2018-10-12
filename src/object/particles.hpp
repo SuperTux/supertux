@@ -24,7 +24,7 @@
 #include "supertux/timer.hpp"
 #include "video/color.hpp"
 
-class Particles : public GameObject
+class Particles final : public GameObject
 {
 public:
   Particles(const Vector& epicenter, int min_angle, int max_angle,

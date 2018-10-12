@@ -29,7 +29,7 @@ namespace scripting {
 /**
  * A text array intended for scripts with narration
  */
-class TextArray
+class TextArray final
 {
 
 #ifndef SCRIPTING_API

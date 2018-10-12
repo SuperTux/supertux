@@ -22,7 +22,7 @@
 
 class DrawingContext;
 
-class Fireworks : public GameObject
+class Fireworks final : public GameObject
 {
 public:
   Fireworks();

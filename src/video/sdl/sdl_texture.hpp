@@ -25,7 +25,7 @@
 
 struct SDL_Texture;
 
-class SDLTexture : public Texture
+class SDLTexture final : public Texture
 {
 protected:
   SDL_Texture* m_texture;

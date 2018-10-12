@@ -19,7 +19,7 @@
 
 #include "badguy/badguy.hpp"
 
-class Kugelblitz : public BadGuy
+class Kugelblitz final : public BadGuy
 {
 public:
   Kugelblitz(const ReaderMapping& reader);

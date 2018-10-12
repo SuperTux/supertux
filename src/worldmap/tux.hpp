@@ -31,7 +31,7 @@ class SpecialTile;
 class SpriteChange;
 class WorldMap;
 
-class Tux : public GameObject
+class Tux final : public GameObject
 {
 public:
   Direction back_direction;

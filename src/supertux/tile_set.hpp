@@ -29,7 +29,7 @@ class DrawingContext;
 class Tile;
 class Vector;
 
-class Tilegroup
+class Tilegroup final
 {
 public:
   Tilegroup();
@@ -39,7 +39,7 @@ public:
   std::vector<int> tiles;
 };
 
-class TileSet
+class TileSet final
 {
 public:
   static std::unique_ptr<TileSet> from_file(const std::string& filename);

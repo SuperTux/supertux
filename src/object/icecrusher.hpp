@@ -25,7 +25,7 @@ class Player;
 /**
  * This class is the base class for icecrushers that tux can stand on
  */
-class IceCrusher : public MovingSprite
+class IceCrusher final : public MovingSprite
 {
 public:
   IceCrusher(const ReaderMapping& reader);

@@ -23,7 +23,7 @@
 /**
  * Badguy "Snail" - a snail-like creature that can be flipped and tossed around at an angle
  */
-class Snail : public WalkingBadguy,
+class Snail final : public WalkingBadguy,
               public Portable
 {
 public:

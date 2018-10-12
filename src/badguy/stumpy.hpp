@@ -19,7 +19,7 @@
 
 #include "badguy/walking_badguy.hpp"
 
-class Stumpy : public WalkingBadguy
+class Stumpy final : public WalkingBadguy
 {
 public:
   Stumpy(const ReaderMapping& reader);

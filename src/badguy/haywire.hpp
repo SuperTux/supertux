@@ -22,7 +22,7 @@
 
 class SoundSource;
 
-class Haywire : public WalkingBadguy
+class Haywire final : public WalkingBadguy
 {
 public:
   Haywire(const ReaderMapping& reader);

@@ -23,7 +23,7 @@
 
 class Player;
 
-class RainSplash : public GameObject
+class RainSplash final : public GameObject
 {
 public:
   RainSplash(const Vector& pos, bool vertical);

@@ -25,7 +25,7 @@ class Menu;
 class OptionsMenu;
 class ProfileMenu;
 
-class MenuStorage
+class MenuStorage final
 {
 private:
   static MenuStorage* s_instance;

@@ -23,7 +23,7 @@ class Wind;
 
 namespace scripting {
 
-class Wind
+class Wind final
 {
 public:
 #ifndef SCRIPTING_API

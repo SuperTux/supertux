@@ -23,7 +23,7 @@
 
 #ifndef USE_OPENGLES2
 
-class GLPixelRequest
+class GLPixelRequest final
 {
 public:
   GLPixelRequest(int width, int height);

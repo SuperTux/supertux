@@ -22,7 +22,7 @@
 class ReaderMapping;
 
 /** A tile that starts falling down if tux stands to long on it */
-class InvisibleWall : public MovingObject
+class InvisibleWall final : public MovingObject
 {
 public:
   InvisibleWall(const ReaderMapping& lisp);

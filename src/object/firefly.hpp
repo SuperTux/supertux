@@ -24,7 +24,7 @@
  * A Firefly: When tux touches it, it begins buzzing and you will respawn at this
  * position.
  */
-class Firefly : public MovingSprite
+class Firefly final : public MovingSprite
 {
 public:
   Firefly(const ReaderMapping& lisp);

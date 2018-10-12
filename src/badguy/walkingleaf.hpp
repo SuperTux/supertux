@@ -22,7 +22,7 @@
 /*
  * Easy to kill badguy that does not jump down from it's ledge.
  */
-class WalkingLeaf : public WalkingBadguy
+class WalkingLeaf final : public WalkingBadguy
 {
 public:
   WalkingLeaf(const ReaderMapping& reader);

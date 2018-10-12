@@ -31,7 +31,7 @@ class Rectf;
 /**
  * Helper class for InfoBox: Represents a line of text
  */
-class InfoBoxLine
+class InfoBoxLine final
 {
 public:
   enum LineType { NORMAL, NORMAL_LEFT, SMALL, HEADING, REFERENCE, IMAGE};

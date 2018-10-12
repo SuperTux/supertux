@@ -22,7 +22,7 @@
 /**
  * Badguy "Igel" - a hedgehog that can absorb bullets
  */
-class Igel : public WalkingBadguy
+class Igel final : public WalkingBadguy
 {
 public:
   Igel(const ReaderMapping& reader);

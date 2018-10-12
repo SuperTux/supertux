@@ -20,7 +20,7 @@
 #include <memory>
 #include <string>
 
-class World
+class World final
 {
 private:
   World();

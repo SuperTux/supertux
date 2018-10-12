@@ -22,7 +22,7 @@
 /**
  * Badguy "DartTrap" - Shoots a Dart at regular intervals
  */
-class DartTrap : public BadGuy
+class DartTrap final : public BadGuy
 {
 public:
   DartTrap(const ReaderMapping& reader);

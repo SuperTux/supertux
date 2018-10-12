@@ -19,7 +19,7 @@
 
 #include "badguy/badguy.hpp"
 
-class Jumpy : public BadGuy
+class Jumpy final : public BadGuy
 {
 public:
   Jumpy(const ReaderMapping& reader);

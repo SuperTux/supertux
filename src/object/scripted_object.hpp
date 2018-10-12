@@ -22,7 +22,7 @@
 #include "scripting/exposed_object.hpp"
 #include "supertux/physic.hpp"
 
-class ScriptedObject : public MovingSprite,
+class ScriptedObject final : public MovingSprite,
                        public ExposedObject<ScriptedObject, scripting::ScriptedObject>
 {
 public:

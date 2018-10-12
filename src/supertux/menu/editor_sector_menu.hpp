@@ -22,7 +22,7 @@
 
 class Sector;
 
-class EditorSectorMenu : public Menu
+class EditorSectorMenu final : public Menu
 {
 private:
 public:

@@ -19,7 +19,7 @@
 
 #include "gui/menu.hpp"
 
-class ScriptMenu : public Menu
+class ScriptMenu final : public Menu
 {
 public:
   ScriptMenu(std::string* script_);

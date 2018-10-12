@@ -22,7 +22,7 @@
 #include "video/canvas.hpp"
 #include "video/drawing_context.hpp"
 
-class Sprite
+class Sprite final
 {
 public:
   Sprite(SpriteData& data);

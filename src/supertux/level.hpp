@@ -27,7 +27,7 @@ class Sector;
  *
  * Each Sector in turn contains GameObjects, e.g. Badguys and Players.
  */
-class Level
+class Level final
 {
   friend class LevelParser;
 

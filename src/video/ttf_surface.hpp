@@ -28,7 +28,7 @@ class TTFSurface;
 typedef std::shared_ptr<TTFSurface> TTFSurfacePtr;
 
 /** TTFSurface class holds a rendered string */
-class TTFSurface
+class TTFSurface final
 {
 public:
   static TTFSurfacePtr create(const TTFFont& font, const std::string& text);

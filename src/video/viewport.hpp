@@ -20,7 +20,7 @@
 #include "math/rect.hpp"
 #include "math/vector.hpp"
 
-class Viewport
+class Viewport final
 {
 private:
 public:

@@ -26,7 +26,7 @@
 
 class SDLVideoSystem;
 
-class SDLScreenRenderer : public Renderer
+class SDLScreenRenderer final : public Renderer
 {
 public:
   SDLScreenRenderer(SDLVideoSystem& video_system, SDL_Renderer* renderer);

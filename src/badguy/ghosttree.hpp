@@ -22,7 +22,7 @@
 class TreeWillOWisp;
 class Lantern;
 
-class GhostTree : public BadGuy
+class GhostTree final : public BadGuy
 {
 public:
   GhostTree(const ReaderMapping& lisp);

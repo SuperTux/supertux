@@ -26,7 +26,7 @@
 
 class Rectf;
 
-class Rect
+class Rect final
 {
 public:
   int left;

@@ -25,7 +25,7 @@
 class ReaderMapping;
 class Writer;
 
-class KeyboardConfig
+class KeyboardConfig final
 {
 public:
   KeyboardConfig();

@@ -28,7 +28,7 @@ class DrawingContext;
 class InfoBoxLine;
 
 /** This class is displaying a box with information text inside the game */
-class InfoBox
+class InfoBox final
 {
 public:
   InfoBox(const std::string& text);

@@ -20,7 +20,7 @@
 #include <stdexcept>
 #include <string>
 
-class SoundError : public std::exception
+class SoundError final : public std::exception
 {
 public:
   SoundError(const std::string& message) throw();

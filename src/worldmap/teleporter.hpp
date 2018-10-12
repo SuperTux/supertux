@@ -27,7 +27,7 @@ class ReaderMapping;
 
 namespace worldmap {
 
-class Teleporter : public GameObject
+class Teleporter final : public GameObject
 {
 public:
   Teleporter(const ReaderMapping& lisp);

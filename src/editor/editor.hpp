@@ -36,7 +36,7 @@ class Sector;
 class TileSet;
 class World;
 
-class Editor : public Screen,
+class Editor final : public Screen,
                public Currenton<Editor>
 {
   public:

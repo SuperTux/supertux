@@ -28,7 +28,7 @@ enum ObjectOptionFlags {
   OPTION_VISIBLE = (1 << 1)
 };
 
-class ObjectOption
+class ObjectOption final
 {
   public:
     ObjectOption(MenuItemKind ip_type, const std::string& text_, void* ip,

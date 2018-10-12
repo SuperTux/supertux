@@ -22,7 +22,7 @@
 /**
  * Light source that changes alpha value to give the impression of a pulsating light
  */
-class PulsingLight : public Light
+class PulsingLight final : public Light
 {
 public:
   PulsingLight(const Vector& center, float cycle_len = 5.0, float min_alpha = 0.0, float max_alpha = 1.0, const Color& color = Color(1.0, 1.0, 1.0, 1.0));

@@ -24,7 +24,7 @@ class ReaderMapping;
 /**
  * A decorative image, perhaps part of the terrain
  */
-class Decal : public MovingSprite
+class Decal final : public MovingSprite
 {
 public:
   Decal(const ReaderMapping& reader);

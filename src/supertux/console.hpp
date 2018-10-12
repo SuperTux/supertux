@@ -30,7 +30,7 @@ class Console;
 class ConsoleStreamBuffer;
 class DrawingContext;
 
-class ConsoleBuffer : public Currenton<ConsoleBuffer>
+class ConsoleBuffer final : public Currenton<ConsoleBuffer>
 {
 public:
   static std::ostream output; /**< stream of characters to output to the console. Do not forget to send std::endl or to flush the stream. */
@@ -55,7 +55,7 @@ private:
   ConsoleBuffer& operator=(const ConsoleBuffer&) = delete;
 };
 
-class Console : public Currenton<Console>
+class Console final : public Currenton<Console>
 {
 public:
   Console(ConsoleBuffer& buffer);
@@ -121,7 +121,7 @@ private:
   Console & operator=(const Console&);
 };
 
-class ConsoleStreamBuffer : public std::stringbuf
+class ConsoleStreamBuffer final : public std::stringbuf
 {
 public:
   virtual int sync() override

@@ -28,7 +28,7 @@
 typedef int TransferId;
 class Downloader;
 
-class TransferStatus
+class TransferStatus final
 {
 public:
   Downloader& m_downloader;
@@ -66,7 +66,7 @@ using TransferStatusPtr = std::shared_ptr<TransferStatus>;
 
 class Transfer;
 
-class Downloader
+class Downloader final
 {
 private:
   CURLM* m_multi_handle;

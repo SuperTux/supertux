@@ -24,7 +24,7 @@
 /**
  * A burning candle: Simple, scriptable level decoration.
  */
-class Candle : public MovingSprite,
+class Candle final : public MovingSprite,
                public ExposedObject<Candle, scripting::Candle>
 {
 public:

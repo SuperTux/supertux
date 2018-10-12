@@ -22,7 +22,7 @@
 #include "supertux/game_object.hpp"
 #include "supertux/timer.hpp"
 
-class SmokeCloud : public GameObject
+class SmokeCloud final : public GameObject
 {
 public:
   SmokeCloud(const Vector& pos);

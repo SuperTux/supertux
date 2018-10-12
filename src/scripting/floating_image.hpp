@@ -27,7 +27,7 @@ class FloatingImage;
 
 namespace scripting {
 
-class FloatingImage
+class FloatingImage final
 {
 public:
   FloatingImage(const std::string& spritefile);

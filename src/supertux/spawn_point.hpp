@@ -24,7 +24,7 @@
 class ReaderMapping;
 class Writer;
 
-class SpawnPoint
+class SpawnPoint final
 {
 public:
   SpawnPoint();

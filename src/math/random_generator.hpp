@@ -34,7 +34,7 @@
 #ifndef HEADER_SUPERTUX_MATH_RANDOM_GENERATOR_HPP
 #define HEADER_SUPERTUX_MATH_RANDOM_GENERATOR_HPP
 
-class RandomGenerator
+class RandomGenerator final
 {
 private:
   // Array versions of the above information to make code run faster --

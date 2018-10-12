@@ -22,7 +22,7 @@
 #include "supertux/game_object.hpp"
 #include "supertux/timer.hpp"
 
-class BouncyCoin : public GameObject
+class BouncyCoin final : public GameObject
 {
 public:
   BouncyCoin(const Vector& pos, bool emerge = false,

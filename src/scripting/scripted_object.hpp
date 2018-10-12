@@ -25,7 +25,7 @@ class ScriptedObject;
 
 namespace scripting {
 
-class ScriptedObject
+class ScriptedObject final
 {
 #ifndef SCRIPTING_API
 private:

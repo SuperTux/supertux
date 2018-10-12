@@ -28,7 +28,7 @@
 class ReaderMapping;
 class TileSet;
 
-class TileSetParser
+class TileSetParser final
 {
 private:
   TileSet&    m_tileset;

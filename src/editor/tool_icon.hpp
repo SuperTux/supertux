@@ -25,7 +25,7 @@
 
 class DrawingContext;
 
-class ToolIcon
+class ToolIcon final
 {
   public:
     ToolIcon(const std::string& icon);

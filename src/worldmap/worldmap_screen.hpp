@@ -27,7 +27,7 @@ namespace worldmap {
 
 class WorldMap;
 
-class WorldMapScreen : public Screen,
+class WorldMapScreen final : public Screen,
                        public Currenton<WorldMapScreen>
 {
 public:

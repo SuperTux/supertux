@@ -24,7 +24,7 @@ class Background;
 
 namespace scripting {
 
-class Background
+class Background final
 {
 #ifndef SCRIPTING_API
 private:

@@ -20,7 +20,7 @@
 #include "badguy/badguy.hpp"
 #include "object/portable.hpp"
 
-class SkyDive : public BadGuy, public Portable
+class SkyDive final : public BadGuy, public Portable
 {
   private:
     bool is_grabbed;

@@ -49,7 +49,7 @@ class Player;
 class ReaderMapping;
 class SoundSource;
 
-class AmbientSound : public MovingObject,
+class AmbientSound final : public MovingObject,
                      public ExposedObject<AmbientSound, scripting::AmbientSound>
 {
 public:

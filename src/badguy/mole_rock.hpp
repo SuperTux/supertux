@@ -22,7 +22,7 @@
 /**
  * Badguy "MoleRock" - Rock thrown by "Mole" Badguy
  */
-class MoleRock : public BadGuy
+class MoleRock final : public BadGuy
 {
 public:
   MoleRock(const ReaderMapping& reader);

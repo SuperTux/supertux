@@ -35,7 +35,7 @@
    0 is never get there, 1 is instant */
 static const float PEEK_ARRIVE_RATIO = 0.1f;
 
-class CameraConfig
+class CameraConfig final
 {
 public:
   // 0 = No, 1 = Fix, 2 = Mario/Yoshi, 3 = Kirby, 4 = Super Metroid-like

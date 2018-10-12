@@ -21,7 +21,7 @@
 #include "control/input_manager.hpp"
 #include "gui/menu_item.hpp"
 
-class JoystickMenu : public Menu
+class JoystickMenu final : public Menu
 {
 public:
   JoystickMenu(InputManager& input_manager);

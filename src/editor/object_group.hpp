@@ -24,7 +24,7 @@
 
 class ReaderMapping;
 
-class ObjectGroup
+class ObjectGroup final
 {
   public:
     ObjectGroup();

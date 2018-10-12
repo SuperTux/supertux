@@ -26,7 +26,7 @@ class Menu;
 class MenuTransition;
 union SDL_Event;
 
-class MenuManager
+class MenuManager final
 {
 private:
   static MenuManager* s_instance;

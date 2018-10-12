@@ -19,7 +19,7 @@
 
 #include "editor/object_group.hpp"
 
-class ObjectInput
+class ObjectInput final
 {
 private:
   int get_num_groups(bool for_worldmap) const

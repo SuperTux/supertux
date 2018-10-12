@@ -21,7 +21,7 @@
 
 class GameObject;
 
-class ObjectMenu : public Menu
+class ObjectMenu final : public Menu
 {
   public:
     ObjectMenu(GameObject *go);

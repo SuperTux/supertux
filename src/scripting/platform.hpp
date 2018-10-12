@@ -23,7 +23,7 @@ class Platform;
 
 namespace scripting {
 
-class Platform
+class Platform final
 {
 public:
 #ifndef SCRIPTING_API

@@ -21,7 +21,7 @@
 
 #include "editor/object_option.hpp"
 
-class ObjectSettings
+class ObjectSettings final
 {
   public:
     ObjectSettings(const std::string& name_);

@@ -19,7 +19,7 @@
 
 #include "object/block.hpp"
 
-class Brick : public Block
+class Brick final : public Block
 {
 public:
   Brick(const Vector& pos, int data, const std::string& spriteName);

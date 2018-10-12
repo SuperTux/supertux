@@ -21,7 +21,7 @@
 
 class Color;
 
-class ItemColor : public MenuItem
+class ItemColor final : public MenuItem
 {
   public:
     ItemColor(const std::string& text_, Color* color_, int id = -1);

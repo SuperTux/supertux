@@ -26,7 +26,7 @@ class ReaderMapping;
 
 namespace worldmap {
 
-class SpawnPoint
+class SpawnPoint final
 {
 public:
   SpawnPoint(const ReaderMapping& lisp);

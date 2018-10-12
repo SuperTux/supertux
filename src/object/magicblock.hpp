@@ -26,7 +26,7 @@
 
 #include "object/moving_sprite.hpp"
 
-class MagicBlock: public MovingSprite
+class MagicBlock final: public MovingSprite
 {
 public:
   MagicBlock(const ReaderMapping& reader);

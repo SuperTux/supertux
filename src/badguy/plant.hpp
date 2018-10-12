@@ -19,7 +19,7 @@
 
 #include "badguy/badguy.hpp"
 
-class Plant : public BadGuy
+class Plant final : public BadGuy
 {
 public:
   Plant(const ReaderMapping& reader);

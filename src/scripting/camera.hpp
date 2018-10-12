@@ -23,7 +23,7 @@ class Camera;
 
 namespace scripting {
 
-class Camera
+class Camera final
 {
 public:
 #ifndef SCRIPTING_API

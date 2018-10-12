@@ -22,7 +22,7 @@
 
 #include <SDL_image.h>
 
-class Color
+class Color final
 {
 public:
   static const Color BLACK;

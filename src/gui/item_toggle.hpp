@@ -19,7 +19,7 @@
 
 #include "gui/menu_item.hpp"
 
-class ItemToggle : public MenuItem
+class ItemToggle final : public MenuItem
 {
   public:
     ItemToggle(const std::string& text_, bool* toggled_, int id = -1);

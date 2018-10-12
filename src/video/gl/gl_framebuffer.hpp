@@ -24,7 +24,7 @@
 class GLTexture;
 class GLVideoSystem;
 
-class GLFramebuffer
+class GLFramebuffer final
 {
 private:
 public:

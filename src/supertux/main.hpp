@@ -19,7 +19,7 @@
 
 class CommandLineArguments;
 
-class Main
+class Main final
 {
 private:
   void init_tinygettext();

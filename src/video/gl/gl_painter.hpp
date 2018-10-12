@@ -25,7 +25,7 @@ class Blend;
 class Renderer;
 class GLVideoSystem;
 
-class GLPainter : public Painter
+class GLPainter final : public Painter
 {
 public:
   GLPainter(GLVideoSystem& video_system, Renderer& renderer);

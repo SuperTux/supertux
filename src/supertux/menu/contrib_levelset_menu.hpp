@@ -22,7 +22,7 @@
 class Levelset;
 class World;
 
-class ContribLevelsetMenu : public Menu
+class ContribLevelsetMenu final : public Menu
 {
 private:
   std::unique_ptr<World> m_world;

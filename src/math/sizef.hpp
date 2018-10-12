@@ -23,7 +23,7 @@
 
 class Size;
 
-class Sizef
+class Sizef final
 {
 public:
   Sizef() :

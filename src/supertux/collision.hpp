@@ -27,7 +27,7 @@ class AATriangle;
 
 namespace collision {
 
-class Constraints
+class Constraints final
 {
 public:
   Constraints() :

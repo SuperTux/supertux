@@ -26,7 +26,7 @@ class Level;
 class ReaderMapping;
 class Sector;
 
-class SectorParser
+class SectorParser final
 {
 public:
   static std::unique_ptr<Sector> from_reader(Level& level, const ReaderMapping& sector);

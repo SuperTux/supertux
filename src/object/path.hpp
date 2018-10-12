@@ -28,7 +28,7 @@ class ObjectOption;
 class ReaderMapping;
 class Writer;
 
-class Path
+class Path final
 {
 public:
   Path();

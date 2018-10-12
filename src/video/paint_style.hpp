@@ -22,7 +22,7 @@
 #include "video/color.hpp"
 #include "video/flip.hpp"
 
-class PaintStyle
+class PaintStyle final
 {
 public:
   PaintStyle() :

@@ -25,7 +25,7 @@
 
 class MouseCursor;
 
-class Resources
+class Resources final
 {
 public:
   static std::unique_ptr<MouseCursor> mouse_cursor;

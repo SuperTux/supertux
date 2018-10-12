@@ -34,7 +34,7 @@ class VideoSystem;
 /**
  * Manages, updates and draws all Screens, Controllers, Menus and the Console.
  */
-class ScreenManager : public Currenton<ScreenManager>
+class ScreenManager final : public Currenton<ScreenManager>
 {
 public:
   ScreenManager(VideoSystem& video_system);

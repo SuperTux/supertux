@@ -28,7 +28,7 @@ enum MainMenuIDs {
   MNID_QUITMAINMENU
 };
 
-class MainMenu : public Menu
+class MainMenu final : public Menu
 {
 public:
   MainMenu();

@@ -36,7 +36,7 @@ class GLTexture;
 class ReaderMapping;
 struct SDL_Surface;
 
-class TextureManager : public Currenton<TextureManager>
+class TextureManager final : public Currenton<TextureManager>
 {
 public:
   friend class Texture;

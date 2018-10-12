@@ -29,7 +29,7 @@ class Sprite;
 
 namespace worldmap {
 
-class SpriteChange : public GameObject
+class SpriteChange final : public GameObject
 {
 public:
   SpriteChange(const ReaderMapping& lisp);

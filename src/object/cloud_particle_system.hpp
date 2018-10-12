@@ -22,7 +22,7 @@
 
 class ReaderMapping;
 
-class CloudParticleSystem : public ParticleSystem
+class CloudParticleSystem final : public ParticleSystem
 {
 public:
   CloudParticleSystem();

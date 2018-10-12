@@ -47,7 +47,7 @@ Rectf menu2rect(const Menu& menu)
 
 } // namespace
 
-class MenuTransition
+class MenuTransition final
 {
 private:
   Rectf m_from_rect;

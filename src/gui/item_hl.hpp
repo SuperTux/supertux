@@ -19,7 +19,7 @@
 
 #include "gui/menu_item.hpp"
 
-class ItemHorizontalLine : public MenuItem
+class ItemHorizontalLine final : public MenuItem
 {
   public:
     ItemHorizontalLine();

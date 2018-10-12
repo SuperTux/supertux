@@ -41,7 +41,7 @@ protected:
   void kill_collision();
 };
 
-class LeafShot : public KamikazeSnowball
+class LeafShot final : public KamikazeSnowball
 {
   public:
     LeafShot(const ReaderMapping& reader);

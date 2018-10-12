@@ -19,7 +19,7 @@
 
 #include "gui/menu.hpp"
 
-class ColorMenu : public Menu
+class ColorMenu final : public Menu
 {
 public:
   ColorMenu(Color* color_);

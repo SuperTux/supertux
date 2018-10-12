@@ -21,7 +21,7 @@
 #include "scripting/display_effect.hpp"
 #include "scripting/exposed_object.hpp"
 
-class DisplayEffect : public GameObject,
+class DisplayEffect final : public GameObject,
                       public ExposedObject<DisplayEffect, scripting::DisplayEffect>
 {
 public:

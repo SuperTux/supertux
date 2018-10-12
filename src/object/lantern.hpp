@@ -22,7 +22,7 @@
 /**
  * Lantern. A portable Light Source.
  */
-class Lantern : public Rock
+class Lantern final : public Rock
 {
 public:
   Lantern(const Vector& pos);

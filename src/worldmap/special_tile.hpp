@@ -28,7 +28,7 @@ class ReaderMapping;
 
 namespace worldmap {
 
-class SpecialTile : public GameObject
+class SpecialTile final : public GameObject
 {
 public:
   SpecialTile(const ReaderMapping& lisp);

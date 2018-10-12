@@ -39,7 +39,7 @@ class DrawingContext;
     The mouse cursors can be animated
     and can be used in four different states.
     (MC_NORMAL, MC_CLICK, MC_LINK or MC_HIDE) */
-class MouseCursor
+class MouseCursor final
 {
 public:
   MouseCursor(const std::string& cursor_file,

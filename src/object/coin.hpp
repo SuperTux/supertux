@@ -61,7 +61,7 @@ private:
   std::string collect_script;
 };
 
-class HeavyCoin : public Coin
+class HeavyCoin final : public Coin
 {
 public:
   HeavyCoin(const Vector& pos, const Vector& init_velocity);

@@ -19,7 +19,7 @@
 
 #include "badguy/flame.hpp"
 
-class Ghostflame : public Flame
+class Ghostflame final : public Flame
 {
 public:
   Ghostflame(const ReaderMapping& reader);

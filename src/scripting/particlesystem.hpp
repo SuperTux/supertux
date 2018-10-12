@@ -23,7 +23,7 @@ class ParticleSystem;
 
 namespace scripting {
 
-class ParticleSystem
+class ParticleSystem final
 {
 public:
 #ifndef SCRIPTING_API

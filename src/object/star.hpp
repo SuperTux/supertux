@@ -21,7 +21,7 @@
 #include "supertux/direction.hpp"
 #include "supertux/physic.hpp"
 
-class Star : public MovingSprite
+class Star final : public MovingSprite
 {
 public:
   Star(const Vector& pos, Direction direction = RIGHT);

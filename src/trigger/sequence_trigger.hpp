@@ -23,7 +23,7 @@
 class Player;
 class ReaderMapping;
 
-class SequenceTrigger : public TriggerBase
+class SequenceTrigger final : public TriggerBase
 {
 public:
   SequenceTrigger(const ReaderMapping& reader);

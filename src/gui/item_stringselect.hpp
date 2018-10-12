@@ -19,7 +19,7 @@
 
 #include "gui/menu_item.hpp"
 
-class ItemStringSelect : public MenuItem
+class ItemStringSelect final : public MenuItem
 {
   public:
     ItemStringSelect(const std::string& text_, const std::vector<std::string>& list_, int* selected_, int _id = -1);

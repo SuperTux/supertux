@@ -24,7 +24,7 @@ enum WorldMapMenuIDs {
   MNID_QUITWORLDMAP
 };
 
-class WorldmapMenu : public Menu
+class WorldmapMenu final : public Menu
 {
 public:
   WorldmapMenu();

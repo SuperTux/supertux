@@ -26,7 +26,7 @@ class Bullet;
 /**
  * A block that can be destroyed by Bullet hits
  */
-class WeakBlock : public MovingSprite
+class WeakBlock final : public MovingSprite
 {
 public:
   WeakBlock(const ReaderMapping& lisp);

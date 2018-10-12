@@ -21,7 +21,7 @@
 #include <iosfwd>
 
 /** Simple two dimensional vector. */
-class Vector
+class Vector final
 {
 public:
   Vector(float nx, float ny)

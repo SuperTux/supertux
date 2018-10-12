@@ -21,7 +21,7 @@
 #include "supertux/moving_object.hpp"
 #include "supertux/player_status.hpp"
 
-class Flower : public MovingObject
+class Flower final : public MovingObject
 {
 public:
   Flower(BonusType type);

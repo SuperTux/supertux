@@ -19,7 +19,7 @@
 
 #include "gui/menu.hpp"
 
-class ProfileMenu : public Menu
+class ProfileMenu final : public Menu
 {
 public:
   ProfileMenu();

@@ -24,7 +24,7 @@
 class Savegame;
 class World;
 
-class GameManager : public Currenton<GameManager>
+class GameManager final : public Currenton<GameManager>
 {
 public:
   GameManager();

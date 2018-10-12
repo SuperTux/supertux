@@ -26,7 +26,7 @@ class ObjectOption;
 /**
  * A walker that travels along a path
  */
-class PathWalker
+class PathWalker final
 {
 public:
   PathWalker(const Path* path, bool running = true);

@@ -19,7 +19,7 @@
 
 #include "gui/menu.hpp"
 
-class EditorTilegroupMenu : public Menu
+class EditorTilegroupMenu final : public Menu
 {
 public:
   EditorTilegroupMenu();

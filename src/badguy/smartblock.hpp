@@ -19,7 +19,7 @@
 
 #include "badguy/mriceblock.hpp"
 
-class SmartBlock : public MrIceBlock
+class SmartBlock final : public MrIceBlock
 {
 public:
   SmartBlock(const ReaderMapping& reader);

@@ -22,7 +22,7 @@
 class DrawingContext;
 union SDL_Event;
 
-class EditorScroller
+class EditorScroller final
 {
   public:
     EditorScroller();

@@ -21,7 +21,7 @@
 
 #include "video/color.hpp"
 
-class ItemColorDisplay : public MenuItem
+class ItemColorDisplay final : public MenuItem
 {
   public:
     ItemColorDisplay(Color* color, int id_ = -1);

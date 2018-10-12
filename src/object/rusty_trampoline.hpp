@@ -25,7 +25,7 @@
  * After 3 jumps, it breaks (configurable)
  * It cannot be carried (breaks on ungrab)
  */
-class RustyTrampoline : public Rock
+class RustyTrampoline final : public Rock
 {
 public:
   RustyTrampoline(const ReaderMapping& reader);

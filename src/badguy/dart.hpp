@@ -24,7 +24,7 @@ class SoundSource;
 /**
  * Badguy "Dart" - Your average poison dart
  */
-class Dart : public BadGuy
+class Dart final : public BadGuy
 {
 public:
   Dart(const ReaderMapping& reader);

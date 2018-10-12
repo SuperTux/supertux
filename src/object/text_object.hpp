@@ -25,7 +25,7 @@
 #include "video/font_ptr.hpp"
 
 /** A text object intended for scripts that want to tell a story */
-class TextObject : public GameObject,
+class TextObject final : public GameObject,
                    public ExposedObject<TextObject, scripting::Text>
 {
   static Color default_color;

@@ -21,7 +21,7 @@
 
 #include "video/color.hpp"
 
-class ItemColorChannel : public MenuItem
+class ItemColorChannel final : public MenuItem
 {
   public:
     ItemColorChannel(float* input_, Color channel_, int id_ = -1);

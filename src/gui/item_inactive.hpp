@@ -21,7 +21,7 @@
 
 class Color;
 
-class ItemInactive : public MenuItem
+class ItemInactive final : public MenuItem
 {
   public:
     ItemInactive(const std::string& text_);

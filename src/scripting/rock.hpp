@@ -23,7 +23,7 @@ class Rock;
 
 namespace scripting {
 
-class Rock
+class Rock final
 {
 public:
 #ifndef SCRIPTING_API

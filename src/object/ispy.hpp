@@ -23,7 +23,7 @@
 /**
  * An Ispy: When it spots Tux, a script will run.
  */
-class Ispy : public MovingSprite
+class Ispy final : public MovingSprite
 {
 public:
   Ispy(const ReaderMapping& lisp);

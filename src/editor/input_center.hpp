@@ -29,7 +29,7 @@ class Path;
 class Rectf;
 class Tip;
 
-class EditorInputCenter
+class EditorInputCenter final
 {
   public:
     EditorInputCenter();

@@ -23,7 +23,7 @@
 class Level;
 class ReaderMapping;
 
-class LevelParser
+class LevelParser final
 {
 public:
   static std::unique_ptr<Level> from_file(const std::string& filename);

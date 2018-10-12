@@ -73,7 +73,7 @@ extern "C" {
 #include "worldmap/worldmap.hpp"
 #include "worldmap/worldmap_screen.hpp"
 
-class ConfigSubsystem
+class ConfigSubsystem final
 {
 public:
   ConfigSubsystem()
@@ -137,7 +137,7 @@ Main::init_tinygettext()
   }
 }
 
-class PhysfsSubsystem
+class PhysfsSubsystem final
 {
 private:
   boost::optional<std::string> m_forced_datadir;
@@ -303,7 +303,7 @@ public:
   }
 };
 
-class SDLSubsystem
+class SDLSubsystem final
 {
 public:
   SDLSubsystem()

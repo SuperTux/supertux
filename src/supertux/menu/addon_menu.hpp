@@ -22,7 +22,7 @@
 class Addon;
 class AddonManager;
 
-class AddonMenu : public Menu
+class AddonMenu final : public Menu
 {
 private:
   enum {

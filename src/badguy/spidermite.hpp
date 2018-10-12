@@ -19,7 +19,7 @@
 
 #include "badguy/badguy.hpp"
 
-class SpiderMite : public BadGuy
+class SpiderMite final : public BadGuy
 {
 public:
   SpiderMite(const ReaderMapping& reader);

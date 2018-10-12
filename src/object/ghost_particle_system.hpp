@@ -22,7 +22,7 @@
 
 class ReaderMapping;
 
-class GhostParticleSystem : public ParticleSystem
+class GhostParticleSystem final : public ParticleSystem
 {
 public:
   GhostParticleSystem();

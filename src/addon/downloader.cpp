@@ -68,7 +68,7 @@ TransferStatus::update()
   m_downloader.update();
 }
 
-class Transfer
+class Transfer final
 {
 private:
   Downloader& m_downloader;

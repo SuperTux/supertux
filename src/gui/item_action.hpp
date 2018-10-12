@@ -19,7 +19,7 @@
 
 #include "gui/menu_item.hpp"
 
-class ItemAction : public MenuItem
+class ItemAction final : public MenuItem
 {
   public:
     ItemAction(const std::string& text_, int id = -1);

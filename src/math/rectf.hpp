@@ -31,7 +31,7 @@ class Rect;
  * upper left and width/height here, because that makes the collision detection
  * a little bit more efficient.
  */
-class Rectf
+class Rectf final
 {
 public:
   static Rectf from_center(const Vector& center, const Sizef& size)

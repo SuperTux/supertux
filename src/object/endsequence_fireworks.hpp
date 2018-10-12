@@ -20,7 +20,7 @@
 #include "object/endsequence.hpp"
 #include "supertux/timer.hpp"
 
-class EndSequenceFireworks : public EndSequence
+class EndSequenceFireworks final : public EndSequence
 {
 public:
   EndSequenceFireworks();

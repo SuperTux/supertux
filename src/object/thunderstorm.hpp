@@ -28,7 +28,7 @@ class ReaderMapping;
 /**
  * Thunderstorm scriptable GameObject; plays thunder, lightning and electrifies water at regular interval
  */
-class Thunderstorm : public GameObject,
+class Thunderstorm final : public GameObject,
                      public ExposedObject<Thunderstorm, scripting::Thunderstorm>
 {
 public:

@@ -21,7 +21,7 @@
 #include "supertux/direction.hpp"
 #include "supertux/physic.hpp"
 
-class OneUp : public MovingSprite
+class OneUp final : public MovingSprite
 {
 public:
   OneUp(const Vector& pos, Direction direction = RIGHT);

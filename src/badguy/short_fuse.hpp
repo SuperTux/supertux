@@ -20,7 +20,7 @@
 
 #include "badguy/walking_badguy.hpp"
 
-class ShortFuse : public WalkingBadguy
+class ShortFuse final : public WalkingBadguy
 {
 public:
   ShortFuse(const ReaderMapping& reader);

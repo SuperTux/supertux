@@ -25,7 +25,7 @@
 
 class ReaderMapping;
 
-class Torch : public MovingObject,
+class Torch final : public MovingObject,
               public ExposedObject<Torch, scripting::Torch>
 {
 public:

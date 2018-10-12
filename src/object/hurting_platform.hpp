@@ -22,7 +22,7 @@
 /**
  * Platform that hurts Tux and Badguys when touched
  */
-class HurtingPlatform : public Platform
+class HurtingPlatform final : public Platform
 {
 public:
   HurtingPlatform(const ReaderMapping& reader);

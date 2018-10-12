@@ -24,7 +24,7 @@ struct PHYSFS_File;
 /** This class implements a C++ streambuf object for physfs files.
  * So that you can use normal istream operations on them
  */
-class IFileStreambuf : public std::streambuf
+class IFileStreambuf final : public std::streambuf
 {
 public:
   IFileStreambuf(const std::string& filename);

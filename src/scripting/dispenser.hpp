@@ -23,7 +23,7 @@ class Dispenser;
 
 namespace scripting {
 
-class Dispenser
+class Dispenser final
 {
 #ifndef SCRIPTING_API
 private:

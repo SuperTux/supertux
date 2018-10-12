@@ -20,7 +20,7 @@
 #include "math/vector.hpp"
 #include "supertux/game_object.hpp"
 
-class CoinExplode : public GameObject
+class CoinExplode final : public GameObject
 {
 public:
   CoinExplode(const Vector& pos);

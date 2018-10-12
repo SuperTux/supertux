@@ -19,7 +19,7 @@
 
 #include "gui/menu.hpp"
 
-class EditorSectorsMenu : public Menu
+class EditorSectorsMenu final : public Menu
 {
 public:
   EditorSectorsMenu();

@@ -21,7 +21,7 @@
 
 class World;
 
-class EditorLevelsetMenu : public Menu
+class EditorLevelsetMenu final : public Menu
 {
 private:
 public:

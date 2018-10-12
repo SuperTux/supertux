@@ -25,7 +25,7 @@ class DrawingContext;
 class Player;
 class ReaderMapping;
 
-class Climbable : public TriggerBase
+class Climbable final : public TriggerBase
 {
   static Color text_color;
 public:

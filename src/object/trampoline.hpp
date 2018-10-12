@@ -22,7 +22,7 @@
 /**
  * Jumping on a trampoline makes tux jump higher.
  */
-class Trampoline : public Rock
+class Trampoline final : public Rock
 {
 public:
   Trampoline(const ReaderMapping& reader);

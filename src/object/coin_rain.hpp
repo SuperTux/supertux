@@ -22,7 +22,7 @@
 #include "supertux/game_object.hpp"
 #include "supertux/timer.hpp"
 
-class CoinRain : public GameObject
+class CoinRain final : public GameObject
 {
 public:
   CoinRain(const Vector& pos, bool emerge=false);

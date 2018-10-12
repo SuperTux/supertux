@@ -23,7 +23,7 @@
 class Player;
 class ReaderMapping;
 
-class Door : public TriggerBase
+class Door final : public TriggerBase
 {
 public:
   Door(const ReaderMapping& reader);

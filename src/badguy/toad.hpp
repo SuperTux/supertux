@@ -22,7 +22,7 @@
 /**
  * Badguy "Toad" - A jumping toad
  */
-class Toad : public BadGuy
+class Toad final : public BadGuy
 {
 public:
   Toad(const ReaderMapping& reader);

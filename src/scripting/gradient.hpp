@@ -24,7 +24,7 @@ class Gradient;
 
 namespace scripting {
 
-class Gradient
+class Gradient final
 {
 #ifndef SCRIPTING_API
 private:

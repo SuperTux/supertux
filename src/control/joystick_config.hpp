@@ -25,7 +25,7 @@
 class ReaderMapping;
 class Writer;
 
-class JoystickConfig
+class JoystickConfig final
 {
 public:
   typedef Uint8 JoyId;

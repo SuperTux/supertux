@@ -39,7 +39,7 @@ class Renderer;
 class VideoSystem;
 struct DrawingRequest;
 
-class Canvas
+class Canvas final
 {
 public:
   enum Filter { BELOW_LIGHTMAP, ABOVE_LIGHTMAP, ALL };

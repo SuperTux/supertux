@@ -22,7 +22,7 @@
 
 /** When a badguy melts, it creates this object. */
 
-class WaterDrop : public MovingSprite
+class WaterDrop final : public MovingSprite
 {
 public:
   WaterDrop(const Vector& pos, const std::string& sprite_path_, const Vector& velocity);

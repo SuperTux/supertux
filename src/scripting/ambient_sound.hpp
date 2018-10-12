@@ -23,7 +23,7 @@ class AmbientSound;
 
 namespace scripting {
 
-class AmbientSound
+class AmbientSound final
 {
 #ifndef SCRIPTING_API
 private:

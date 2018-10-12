@@ -21,7 +21,7 @@
 #include "sprite/sprite_ptr.hpp"
 #include "supertux/game_object.hpp"
 
-class FloatingImage : public GameObject
+class FloatingImage final : public GameObject
 {
 public:
   FloatingImage(const std::string& sprite);

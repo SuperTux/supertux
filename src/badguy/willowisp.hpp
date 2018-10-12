@@ -24,7 +24,7 @@
 
 class SoundSource;
 
-class WillOWisp : public BadGuy,
+class WillOWisp final : public BadGuy,
                   public ExposedObject<WillOWisp, scripting::WillOWisp>,
                   public PathObject
 {

@@ -19,7 +19,7 @@
 
 #include "badguy/stalactite.hpp"
 
-class YetiStalactite : public Stalactite
+class YetiStalactite final : public Stalactite
 {
 public:
   YetiStalactite(const ReaderMapping& lisp);

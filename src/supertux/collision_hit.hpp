@@ -41,7 +41,7 @@ enum HitResponse
 /**
  * This class collects data about a collision
  */
-class CollisionHit
+class CollisionHit final
 {
 public:
   CollisionHit() :

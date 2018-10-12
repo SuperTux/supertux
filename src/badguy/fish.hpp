@@ -19,7 +19,7 @@
 
 #include "badguy/badguy.hpp"
 
-class Fish : public BadGuy
+class Fish final : public BadGuy
 {
 public:
   Fish(const ReaderMapping& );

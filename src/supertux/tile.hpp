@@ -29,7 +29,7 @@
 class Canvas;
 class DrawingContext;
 
-class Tile
+class Tile final
 {
 public:
   static bool draw_editor_images;

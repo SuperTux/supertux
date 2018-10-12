@@ -26,7 +26,7 @@ class ReaderMapping;
 /**
  * Defines an area that will gently push Players in one direction
  */
-class Wind : public MovingObject,
+class Wind final : public MovingObject,
              public ExposedObject<Wind, scripting::Wind>
 {
 public:

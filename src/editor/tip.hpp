@@ -24,7 +24,7 @@ class DrawingContext;
 class GameObject;
 class Vector;
 
-class Tip
+class Tip final
 {
   public:
     Tip(GameObject* object);

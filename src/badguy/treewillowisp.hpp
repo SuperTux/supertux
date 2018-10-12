@@ -22,7 +22,7 @@
 class GhostTree;
 class SoundSource;
 
-class TreeWillOWisp : public BadGuy
+class TreeWillOWisp final : public BadGuy
 {
 public:
   TreeWillOWisp(GhostTree* tree, const Vector& pos, float radius, float speed);

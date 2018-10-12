@@ -19,7 +19,7 @@
 
 #include "gui/menu_item.hpp"
 
-class ItemFile : public MenuItem
+class ItemFile final : public MenuItem
 {
   public:
     ItemFile(const std::string& text_, std::string* filename_,

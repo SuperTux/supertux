@@ -25,7 +25,7 @@
 
 class ReaderMapping;
 
-class SpriteData
+class SpriteData final
 {
 public:
   /** cur has to be a pointer to data in the form of ((hitbox 5 10 0 0) ...) */

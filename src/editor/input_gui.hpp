@@ -30,7 +30,7 @@ class TileSelection;
 class ToolIcon;
 class Rectf;
 
-class EditorInputGui
+class EditorInputGui final
 {
   public:
     EditorInputGui();

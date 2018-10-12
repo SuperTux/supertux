@@ -23,7 +23,7 @@ class Thunderstorm;
 
 namespace scripting {
 
-class Thunderstorm
+class Thunderstorm final
 {
 public:
 #ifndef SCRIPTING_API

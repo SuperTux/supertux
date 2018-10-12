@@ -20,7 +20,7 @@
 #include <memory>
 #include <ostream>
 
-class OFileStream : public std::ostream
+class OFileStream final : public std::ostream
 {
 protected:
   std::unique_ptr<std::streambuf> sb;

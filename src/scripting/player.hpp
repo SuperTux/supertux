@@ -25,7 +25,7 @@ class Player;
 
 namespace scripting {
 
-class Player
+class Player final
 {
 #ifndef SCRIPTING_API
 private:

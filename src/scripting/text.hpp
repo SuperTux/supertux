@@ -25,7 +25,7 @@ class TextObject;
 
 namespace scripting {
 
-class Text
+class Text final
 {
 #ifndef SCRIPTING_API
 private:

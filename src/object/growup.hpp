@@ -21,7 +21,7 @@
 #include "supertux/direction.hpp"
 #include "supertux/physic.hpp"
 
-class GrowUp : public MovingSprite
+class GrowUp final : public MovingSprite
 {
 public:
   GrowUp(Direction direction = RIGHT);

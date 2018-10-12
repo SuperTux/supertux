@@ -21,7 +21,7 @@
 
 /** Simple Wrapper class around SDL_Surface that provides execption
     safety */
-class SDLSurfacePtr
+class SDLSurfacePtr final
 {
 private:
   SDL_Surface* m_surface;

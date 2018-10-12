@@ -19,7 +19,7 @@
 
 #include "badguy/walking_badguy.hpp"
 
-class WalkingCandle : public WalkingBadguy
+class WalkingCandle final : public WalkingBadguy
 {
 public:
   WalkingCandle(const ReaderMapping& reader);

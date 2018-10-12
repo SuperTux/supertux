@@ -23,7 +23,7 @@
 
 class ReaderMapping;
 
-class Addon
+class Addon final
 {
 public:
   static std::unique_ptr<Addon> parse(const ReaderMapping& lisp);

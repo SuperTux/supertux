@@ -22,7 +22,7 @@
 
 #include "video/sdl_surface_ptr.hpp"
 
-class SDLSurface
+class SDLSurface final
 {
 public:
   static SDLSurfacePtr create_rgba(int width, int height);

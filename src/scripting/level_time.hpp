@@ -23,7 +23,7 @@ class LevelTime;
 
 namespace scripting {
 
-class LevelTime
+class LevelTime final
 {
 public:
 #ifndef SCRIPTING_API

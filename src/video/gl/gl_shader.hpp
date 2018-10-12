@@ -20,7 +20,7 @@
 
 #include "video/gl.hpp"
 
-class GLShader
+class GLShader final
 {
 public:
   static std::unique_ptr<GLShader> from_file(GLenum type, const std::string& filename);

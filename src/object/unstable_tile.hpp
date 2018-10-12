@@ -25,7 +25,7 @@
 /**
  * A block that disintegrates when stood on
  */
-class UnstableTile : public MovingSprite
+class UnstableTile final : public MovingSprite
 {
 public:
   UnstableTile(const ReaderMapping& lisp);

@@ -23,7 +23,7 @@
 
 class ReaderMapping;
 
-class Spotlight : public MovingObject
+class Spotlight final : public MovingObject
 {
 public:
   Spotlight(const ReaderMapping& reader);

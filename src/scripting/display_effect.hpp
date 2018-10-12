@@ -23,7 +23,7 @@ class DisplayEffect;
 
 namespace scripting {
 
-class DisplayEffect
+class DisplayEffect final
 {
 #ifndef SCRIPTING_API
 private:

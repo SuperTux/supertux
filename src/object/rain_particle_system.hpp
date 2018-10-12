@@ -20,7 +20,7 @@
 #include "object/particlesystem_interactive.hpp"
 #include "video/surface_ptr.hpp"
 
-class RainParticleSystem : public ParticleSystem_Interactive
+class RainParticleSystem final : public ParticleSystem_Interactive
 {
 public:
   RainParticleSystem();

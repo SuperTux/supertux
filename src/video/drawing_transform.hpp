@@ -20,7 +20,7 @@
 #include "math/vector.hpp"
 #include "video/texture.hpp"
 
-class DrawingTransform
+class DrawingTransform final
 {
 public:
   Vector translation;

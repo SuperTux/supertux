@@ -19,7 +19,7 @@
 
 #include "gui/menu.hpp"
 
-class CheatMenu : public Menu
+class CheatMenu final : public Menu
 {
 private:
   enum MenuIDs {

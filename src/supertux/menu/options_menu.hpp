@@ -20,7 +20,7 @@
 
 #include "gui/menu.hpp"
 
-class OptionsMenu : public Menu
+class OptionsMenu final : public Menu
 {
   public:
     OptionsMenu(bool complete);

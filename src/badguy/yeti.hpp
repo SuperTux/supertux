@@ -20,7 +20,7 @@
 
 #include "badguy/badguy.hpp"
 
-class Yeti : public BadGuy
+class Yeti final : public BadGuy
 {
 public:
   Yeti(const ReaderMapping& lisp);

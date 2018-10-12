@@ -20,7 +20,7 @@
 #include "math/vector.hpp"
 #include "video/gl.hpp"
 
-class Sampler
+class Sampler final
 {
 public:
   Sampler();

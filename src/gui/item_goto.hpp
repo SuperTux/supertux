@@ -19,7 +19,7 @@
 
 #include "gui/menu_item.hpp"
 
-class ItemGoTo : public MenuItem
+class ItemGoTo final : public MenuItem
 {
   public:
     ItemGoTo(const std::string& text_, int target_menu_, int id = -1);

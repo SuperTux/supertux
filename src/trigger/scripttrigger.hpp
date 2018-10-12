@@ -22,7 +22,7 @@
 class ReaderMapping;
 class Writer;
 
-class ScriptTrigger : public TriggerBase
+class ScriptTrigger final : public TriggerBase
 {
 public:
   ScriptTrigger(const ReaderMapping& reader);

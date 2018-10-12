@@ -38,7 +38,7 @@ enum BonusType {
  * This class keeps player status between different game sessions (for
  * example when switching maps in the worldmap)
  */
-class PlayerStatus
+class PlayerStatus final
 {
   static Color text_color;
 public:

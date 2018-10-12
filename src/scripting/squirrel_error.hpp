@@ -27,7 +27,7 @@ namespace scripting {
  * sq_geterror() to retrieve additional information about the last error that
  * occurred and creates a readable message from that.
  */
-class SquirrelError : public std::exception
+class SquirrelError final : public std::exception
 {
 public:
   SquirrelError(HSQUIRRELVM v, const std::string& message) throw();

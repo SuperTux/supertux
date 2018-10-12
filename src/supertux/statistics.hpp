@@ -29,7 +29,7 @@ class DrawingContext;
 /** This class is a layer between level and worldmap to keep
  *  track of stuff like scores, and minor, but funny things, like
  *  number of jumps and stuff */
-class Statistics
+class Statistics final
 {
 private:
   static Color header_color;

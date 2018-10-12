@@ -27,7 +27,7 @@ enum GameMenuIDs {
   MNID_ABORTLEVEL
 };
 
-class GameMenu : public Menu
+class GameMenu final : public Menu
 {
 private:
   // stores callback for level reset

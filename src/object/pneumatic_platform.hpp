@@ -22,7 +22,7 @@
 /**
  * Used to construct a pair of pneumatic platforms: If one is pushed down, the other one rises
  */
-class PneumaticPlatform : public MovingSprite
+class PneumaticPlatform final : public MovingSprite
 {
 public:
   PneumaticPlatform(const ReaderMapping& reader);

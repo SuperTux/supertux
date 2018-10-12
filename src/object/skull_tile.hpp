@@ -22,7 +22,7 @@
 #include "supertux/timer.hpp"
 
 /** A tile that starts falling down if tux stands to long on it */
-class SkullTile : public MovingSprite
+class SkullTile final : public MovingSprite
 {
 public:
   SkullTile(const ReaderMapping& lisp);

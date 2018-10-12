@@ -19,7 +19,7 @@
 
 #include "badguy/walking_badguy.hpp"
 
-class Snowman : public WalkingBadguy
+class Snowman final : public WalkingBadguy
 {
 public:
   Snowman(const ReaderMapping& reader);

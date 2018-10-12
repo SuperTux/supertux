@@ -30,7 +30,7 @@ class ReaderMapping;
 class Vector;
 class GameObject;
 
-class ObjectFactory
+class ObjectFactory final
 {
 public:
   static ObjectFactory& instance();

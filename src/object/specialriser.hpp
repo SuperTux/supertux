@@ -23,7 +23,7 @@
  * special object that contains another object and slowly rises it out of a
  * bonus block.
  */
-class SpecialRiser : public GameObject
+class SpecialRiser final : public GameObject
 {
 public:
   SpecialRiser(const Vector& pos, std::shared_ptr<MovingObject> child);

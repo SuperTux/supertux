@@ -24,7 +24,7 @@ class Sector;
 
 namespace scripting {
 
-class Sector
+class Sector final
 {
 #ifndef SCRIPTING_API
 private:

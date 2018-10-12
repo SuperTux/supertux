@@ -23,7 +23,7 @@
 /**
  * Fades a screen towards a specific color
  */
-class FadeOut : public ScreenFade
+class FadeOut final : public ScreenFade
 {
 public:
   FadeOut(float fade_time, Color dest_color = Color(0, 0, 0));

@@ -53,7 +53,7 @@ protected:
   SState state;
 };
 
-class LiveFireAsleep : public LiveFire
+class LiveFireAsleep final : public LiveFire
 {
 public:
   LiveFireAsleep(const ReaderMapping& reader);
@@ -67,7 +67,7 @@ public:
   }
 };
 
-class LiveFireDormant : public LiveFire
+class LiveFireDormant final : public LiveFire
 {
 public:
   LiveFireDormant(const ReaderMapping& reader);

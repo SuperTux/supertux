@@ -22,7 +22,7 @@
 /**
  * Badguy "SkullyHop" - A Hopping Skull
  */
-class SkullyHop : public BadGuy
+class SkullyHop final : public BadGuy
 {
 public:
   SkullyHop(const ReaderMapping& reader);

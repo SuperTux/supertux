@@ -32,7 +32,7 @@ using TransferStatusPtr = std::shared_ptr<TransferStatus>;
 typedef std::string AddonId;
 
 /** Checks for, installs and removes Add-ons */
-class AddonManager : public Currenton<AddonManager>
+class AddonManager final : public Currenton<AddonManager>
 {
 public:
   using AddonList = std::vector<std::unique_ptr<Addon> >;

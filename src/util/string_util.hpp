@@ -19,7 +19,7 @@
 
 #include <string>
 
-class StringUtil
+class StringUtil final
 {
 public:
   static bool has_suffix(const std::string& data, const std::string& suffix);

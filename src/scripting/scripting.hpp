@@ -25,7 +25,7 @@ namespace scripting {
 
 extern HSQUIRRELVM global_vm;
 
-class Scripting : public Currenton<Scripting>
+class Scripting final : public Currenton<Scripting>
 {
 public:
   Scripting(bool enable_debugger);

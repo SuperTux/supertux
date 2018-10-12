@@ -23,7 +23,7 @@
 
 class InfoBoxLine;
 
-class InfoBlock : public Block
+class InfoBlock final : public Block
 {
 public:
   InfoBlock(const ReaderMapping& lisp);

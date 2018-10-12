@@ -21,7 +21,7 @@
 
 struct PHYSFS_File;
 
-class OFileStreambuf : public std::streambuf
+class OFileStreambuf final : public std::streambuf
 {
 public:
   OFileStreambuf(const std::string& filename);

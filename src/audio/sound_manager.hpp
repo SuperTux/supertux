@@ -33,7 +33,7 @@ class SoundSource;
 class StreamSoundSource;
 class OpenALSoundSource;
 
-class SoundManager : public Currenton<SoundManager>
+class SoundManager final : public Currenton<SoundManager>
 {
 public:
   SoundManager();

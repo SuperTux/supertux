@@ -27,7 +27,7 @@
 
 class ReaderMapping;
 
-class Background : public GameObject,
+class Background final : public GameObject,
                    public ExposedObject<Background, scripting::Background>
 {
 public:

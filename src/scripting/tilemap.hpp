@@ -23,7 +23,7 @@ class TileMap;
 
 namespace scripting {
 
-class TileMap
+class TileMap final
 {
 public:
 #ifndef SCRIPTING_API

@@ -26,7 +26,7 @@
 
 class SpriteData;
 
-class SpriteManager : public Currenton<SpriteManager>
+class SpriteManager final : public Currenton<SpriteManager>
 {
 private:
   typedef std::map<std::string, std::unique_ptr<SpriteData> > Sprites;

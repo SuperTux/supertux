@@ -19,7 +19,7 @@
 
 #include "video/color.hpp"
 
-class ColorScheme
+class ColorScheme final
 {
 public:
   class Menu

@@ -27,7 +27,7 @@
  *  while(it.next())
  *    std::cout << it.get() << std::endl;
  */
-class LineIterator
+class LineIterator final
 {
 private:
   std::string::const_iterator first;

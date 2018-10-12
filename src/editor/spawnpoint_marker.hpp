@@ -25,7 +25,7 @@ class ReaderMapping;
 class SpawnPoint;
 class DrawingContext;
 
-class SpawnPointMarker : public MovingObject
+class SpawnPointMarker final : public MovingObject
 {
   public:
     SpawnPointMarker(const ReaderMapping& lisp);

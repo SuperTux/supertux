@@ -23,7 +23,7 @@
 
 class ReaderMapping;
 
-class Switch : public TriggerBase
+class Switch final : public TriggerBase
 {
 public:
   Switch(const ReaderMapping& reader);

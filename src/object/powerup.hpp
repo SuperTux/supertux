@@ -20,7 +20,7 @@
 #include "object/moving_sprite.hpp"
 #include "supertux/physic.hpp"
 
-class PowerUp : public MovingSprite
+class PowerUp final : public MovingSprite
 {
 private:
   /**

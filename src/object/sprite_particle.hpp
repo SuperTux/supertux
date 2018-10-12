@@ -25,7 +25,7 @@
 
 class Player;
 
-class SpriteParticle : public GameObject
+class SpriteParticle final : public GameObject
 {
 public:
   SpriteParticle(SpritePtr sprite, const std::string& action,

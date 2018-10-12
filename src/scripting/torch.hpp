@@ -24,7 +24,7 @@ class Torch;
 
 namespace scripting {
 
-class Torch
+class Torch final
 {
 public:
 #ifndef SCRIPTING_API

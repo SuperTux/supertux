@@ -22,7 +22,7 @@
 
 class Portable;
 
-class Owl : public BadGuy
+class Owl final : public BadGuy
 {
 public:
   Owl(const ReaderMapping& reader);

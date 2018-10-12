@@ -29,7 +29,7 @@
 
 class TTFFont;
 
-class TTFSurfaceManager : public Currenton<TTFSurfaceManager>
+class TTFSurfaceManager final : public Currenton<TTFSurfaceManager>
 {
 public:
   TTFSurfaceManager();

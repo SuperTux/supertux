@@ -25,7 +25,7 @@ enum WorldSetMenuIDs
   WORLDSET_CONTRIB
 };
 
-class WorldSetMenu : public Menu
+class WorldSetMenu final : public Menu
 {
 public:
   WorldSetMenu();

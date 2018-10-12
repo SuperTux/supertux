@@ -19,7 +19,7 @@
 
 #include "gui/menu_item.hpp"
 
-class ItemScript : public MenuItem
+class ItemScript final : public MenuItem
 {
   public:
     ItemScript(const std::string& text_, std::string* script_, int id = -1);

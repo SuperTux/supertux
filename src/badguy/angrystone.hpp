@@ -19,7 +19,7 @@
 
 #include "badguy/badguy.hpp"
 
-class AngryStone : public BadGuy
+class AngryStone final : public BadGuy
 {
 public:
   AngryStone(const ReaderMapping& reader);

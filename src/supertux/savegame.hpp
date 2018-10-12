@@ -63,7 +63,7 @@ public:
   std::vector<LevelState> level_states;
 };
 
-class Savegame
+class Savegame final
 {
 private:
   std::string m_filename;

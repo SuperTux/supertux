@@ -20,7 +20,7 @@
 #include "object/endsequence.hpp"
 #include "supertux/timer.hpp"
 
-class EndSequenceWalkRight : public EndSequence
+class EndSequenceWalkRight final : public EndSequence
 {
 public:
   EndSequenceWalkRight();

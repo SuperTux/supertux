@@ -24,7 +24,7 @@
 
 class SoundSource;
 
-class GoldBomb : public WalkingBadguy, public Portable
+class GoldBomb final : public WalkingBadguy, public Portable
 {
 public:
   GoldBomb(const ReaderMapping& reader);

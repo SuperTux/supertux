@@ -25,7 +25,7 @@ class WillOWisp;
 
 namespace scripting {
 
-class WillOWisp
+class WillOWisp final
 {
 #ifndef SCRIPTING_API
 private:

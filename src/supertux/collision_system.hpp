@@ -29,7 +29,7 @@ class Rectf;
 class Sector;
 class Vector;
 
-class CollisionSystem
+class CollisionSystem final
 {
 public:
   CollisionSystem(Sector& sector);

@@ -21,7 +21,7 @@
 
 class ReaderMapping;
 
-class InvisibleBlock : public Block
+class InvisibleBlock final : public Block
 {
 public:
   InvisibleBlock(const Vector& pos);

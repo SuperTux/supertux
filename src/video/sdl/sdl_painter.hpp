@@ -27,7 +27,7 @@ class SDLVideoSystem;
 struct DrawingRequest;
 struct SDL_Renderer;
 
-class SDLPainter : public Painter
+class SDLPainter final : public Painter
 {
 public:
   SDLPainter(SDLVideoSystem& video_system, Renderer& renderer, SDL_Renderer* sdl_renderer);

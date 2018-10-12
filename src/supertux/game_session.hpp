@@ -40,9 +40,9 @@ class Savegame;
 /**
  * Screen that runs a Level, where Players run and jump through Sectors.
  */
-class GameSession : public Screen,
-                    public GameSessionRecorder,
-                    public Currenton<GameSession>
+class GameSession final : public Screen,
+                          public GameSessionRecorder,
+                          public Currenton<GameSession>
 {
 public:
   GameSession(const std::string& levelfile, Savegame& savegame, Statistics* statistics = NULL);

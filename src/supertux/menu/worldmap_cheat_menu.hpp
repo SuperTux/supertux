@@ -19,7 +19,7 @@
 
 #include "gui/menu.hpp"
 
-class WorldmapCheatMenu : public Menu
+class WorldmapCheatMenu final : public Menu
 {
 private:
 private:

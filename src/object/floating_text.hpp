@@ -22,7 +22,7 @@
 #include "supertux/timer.hpp"
 #include "video/color.hpp"
 
-class FloatingText : public GameObject
+class FloatingText final : public GameObject
 {
   static Color text_color;
 public:

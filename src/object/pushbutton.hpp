@@ -22,7 +22,7 @@
 /**
  * PushButton - jump on it to run a script
  */
-class PushButton : public MovingSprite
+class PushButton final : public MovingSprite
 {
 public:
   PushButton(const ReaderMapping& reader);

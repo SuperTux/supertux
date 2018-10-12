@@ -28,7 +28,7 @@ class Vector;
 class Tip;
 class DrawingContext;
 
-class EditorLayersGui
+class EditorLayersGui final
 {
   public:
     EditorLayersGui();

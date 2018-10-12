@@ -23,7 +23,7 @@
 /**
  * Shrinks a rectangle screen towards a specific position
  */
-class ShrinkFade : public ScreenFade
+class ShrinkFade final : public ScreenFade
 {
 public:
   ShrinkFade(const Vector& point, float fade_time);

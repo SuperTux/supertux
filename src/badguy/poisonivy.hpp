@@ -19,7 +19,7 @@
 
 #include "badguy/walking_badguy.hpp"
 
-class PoisonIvy : public WalkingBadguy
+class PoisonIvy final : public WalkingBadguy
 {
 public:
   PoisonIvy(const ReaderMapping& reader);

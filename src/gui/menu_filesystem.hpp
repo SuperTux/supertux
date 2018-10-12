@@ -19,7 +19,7 @@
 
 #include "gui/menu.hpp"
 
-class FileSystemMenu : public Menu
+class FileSystemMenu final : public Menu
 {
 public:
   FileSystemMenu(std::string* filename_, const std::vector<std::string>& extensions_);

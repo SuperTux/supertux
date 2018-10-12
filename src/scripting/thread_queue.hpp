@@ -25,7 +25,7 @@ namespace scripting {
 /**
  * Keeps a list of SquirrelThreads that wait for a wakeup event
  */
-class ThreadQueue
+class ThreadQueue final
 {
 public:
   ThreadQueue();

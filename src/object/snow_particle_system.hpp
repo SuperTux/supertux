@@ -22,7 +22,7 @@
 
 class ReaderMapping;
 
-class SnowParticleSystem : public ParticleSystem
+class SnowParticleSystem final : public ParticleSystem
 {
 public:
   SnowParticleSystem();

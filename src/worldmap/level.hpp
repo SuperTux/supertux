@@ -27,7 +27,7 @@ class ReaderMapping;
 
 namespace worldmap {
 
-class LevelTile : public GameObject
+class LevelTile final : public GameObject
 {
 public:
   LevelTile(const std::string& basedir, const ReaderMapping& lisp);

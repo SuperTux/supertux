@@ -19,7 +19,7 @@
 
 #include "badguy/walking_badguy.hpp"
 
-class SSpiky : public WalkingBadguy
+class SSpiky final : public WalkingBadguy
 {
 public:
   SSpiky(const ReaderMapping& reader);

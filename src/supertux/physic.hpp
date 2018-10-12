@@ -24,7 +24,7 @@ class Vector;
 /** This is a very simplistic physics engine handling accelerated and constant
  * movement along with gravity.
  */
-class Physic
+class Physic final
 {
 public:
   Physic();

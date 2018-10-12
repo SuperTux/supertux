@@ -30,7 +30,7 @@ class Block;
 class Path;
 
 /** Vertically or horizontally flip a level */
-class FlipLevelTransformer : public LevelTransformer
+class FlipLevelTransformer final : public LevelTransformer
 {
 public:
   virtual void transform_sector(Sector* sector) override;

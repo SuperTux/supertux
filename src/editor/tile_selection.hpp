@@ -21,7 +21,7 @@
 #include <stdint.h>
 #include <vector>
 
-class TileSelection
+class TileSelection final
 {
   public:
     TileSelection();

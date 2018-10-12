@@ -25,7 +25,7 @@
 
 class ReaderMapping;
 
-class LevelTime : public GameObject,
+class LevelTime final : public GameObject,
                   public ExposedObject<LevelTime, scripting::LevelTime>
 {
   static Color text_color;

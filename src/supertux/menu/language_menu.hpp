@@ -20,7 +20,7 @@
 
 #include "gui/menu.hpp"
 
-class LanguageMenu : public Menu
+class LanguageMenu final : public Menu
 {
 public:
   LanguageMenu();

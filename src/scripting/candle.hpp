@@ -23,7 +23,7 @@ class Candle;
 
 namespace scripting {
 
-class Candle
+class Candle final
 {
 public:
 #ifndef SCRIPTING_API

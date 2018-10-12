@@ -20,7 +20,7 @@
 
 #include "video/gl.hpp"
 
-class Blend
+class Blend final
 {
 public:
   static const Blend NONE;

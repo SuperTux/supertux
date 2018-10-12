@@ -33,7 +33,7 @@ typedef size_t ta_index;
 /**
  * A text array object intended for narration
  */
-class TextArrayObject : public GameObject,
+class TextArrayObject final : public GameObject,
                         public ExposedObject<TextArrayObject, scripting::TextArray>
 {
 public:

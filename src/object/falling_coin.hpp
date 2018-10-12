@@ -22,7 +22,7 @@
 #include "supertux/game_object.hpp"
 #include "supertux/physic.hpp"
 
-class FallingCoin : public GameObject
+class FallingCoin final : public GameObject
 {
 public:
   FallingCoin(const Vector& start_position, const int x_vel);

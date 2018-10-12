@@ -27,7 +27,7 @@
 class Config;
 
 /** Command line argument parsing */
-class CommandLineArguments
+class CommandLineArguments final
 {
 public:
   enum Action

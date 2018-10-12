@@ -32,7 +32,7 @@ class SurfaceData;
 /** A rectangular image.  The class basically holds a reference to a
     texture with additional UV coordinates that specify a rectangular
     area on this texture */
-class Surface
+class Surface final
 {
 public:
   static SurfacePtr from_texture(const TexturePtr& texture);

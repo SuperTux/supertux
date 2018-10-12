@@ -22,7 +22,7 @@
 
 class InputManager;
 
-class KeyboardMenu : public Menu
+class KeyboardMenu final : public Menu
 {
 private:
   InputManager& m_input_manager;

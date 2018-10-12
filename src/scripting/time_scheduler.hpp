@@ -25,7 +25,7 @@ namespace scripting {
  * This class keeps a list of squirrel threads that are scheduled for a certain
  * time. (the typical result of a wait() command in a squirrel script)
  */
-class TimeScheduler
+class TimeScheduler final
 {
 public:
   TimeScheduler();

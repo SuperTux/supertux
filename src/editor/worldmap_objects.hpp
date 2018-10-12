@@ -44,7 +44,7 @@ class WorldmapObject : public MovingSprite
     virtual void save(Writer& writer) override;
 };
 
-class LevelDot : public WorldmapObject
+class LevelDot final : public WorldmapObject
 {
   public:
     LevelDot(const ReaderMapping& lisp);
@@ -66,7 +66,7 @@ class LevelDot : public WorldmapObject
     Color title_color;
 };
 
-class Teleporter : public WorldmapObject
+class Teleporter final : public WorldmapObject
 {
   public:
     Teleporter(const ReaderMapping& lisp);
@@ -88,7 +88,7 @@ class Teleporter : public WorldmapObject
     bool change_worldmap;
 };
 
-class WorldmapSpawnPoint : public WorldmapObject
+class WorldmapSpawnPoint final : public WorldmapObject
 {
   public:
     WorldmapSpawnPoint(const ReaderMapping& lisp);
@@ -105,7 +105,7 @@ class WorldmapSpawnPoint : public WorldmapObject
     worldmap::Direction dir;
 };
 
-class SpriteChange : public WorldmapObject
+class SpriteChange final : public WorldmapObject
 {
   public:
     SpriteChange(const ReaderMapping& lisp);
@@ -125,7 +125,7 @@ class SpriteChange : public WorldmapObject
     bool change_on_touch;
 };
 
-class SpecialTile : public WorldmapObject
+class SpecialTile final : public WorldmapObject
 {
   public:
     SpecialTile(const ReaderMapping& lisp);

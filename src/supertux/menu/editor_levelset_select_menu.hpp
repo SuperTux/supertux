@@ -19,7 +19,7 @@
 
 #include "gui/menu.hpp"
 
-class EditorLevelsetSelectMenu : public Menu
+class EditorLevelsetSelectMenu final : public Menu
 {
 private:
   std::vector<std::string> m_contrib_worlds;

@@ -19,7 +19,7 @@
 
 #include "gui/menu_item.hpp"
 
-class ItemControlField : public MenuItem
+class ItemControlField final : public MenuItem
 {
   public:
     ItemControlField(const std::string& text_, const std::string& input_, int id = -1);

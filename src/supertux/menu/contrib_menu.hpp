@@ -21,7 +21,7 @@
 
 class World;
 
-class ContribMenu : public Menu
+class ContribMenu final : public Menu
 {
 private:
   std::vector<std::unique_ptr<World> > m_contrib_worlds;

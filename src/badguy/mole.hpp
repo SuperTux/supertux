@@ -19,7 +19,7 @@
 
 #include "badguy/badguy.hpp"
 
-class Mole : public BadGuy
+class Mole final : public BadGuy
 {
 public:
   Mole(const ReaderMapping& );

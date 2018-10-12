@@ -19,7 +19,7 @@
 
 #include "badguy/walking_badguy.hpp"
 
-class SnowBall : public WalkingBadguy
+class SnowBall final : public WalkingBadguy
 {
 public:
   SnowBall(const ReaderMapping& reader);

@@ -19,7 +19,7 @@
 
 #include "gui/menu_item.hpp"
 
-class ItemLabel : public MenuItem
+class ItemLabel final : public MenuItem
 {
   public:
     ItemLabel(const std::string& text_);

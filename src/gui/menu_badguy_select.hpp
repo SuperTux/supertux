@@ -19,7 +19,7 @@
 
 #include "gui/menu.hpp"
 
-class BadguySelectMenu : public Menu
+class BadguySelectMenu final : public Menu
 {
 public:
   BadguySelectMenu(std::vector<std::string>* badguys_);

@@ -22,7 +22,7 @@
 /**
  * Used to construct a pair of bicycle platforms: If one is pushed down, the other one rises
  */
-class BicyclePlatform : public MovingSprite
+class BicyclePlatform final : public MovingSprite
 {
 public:
   BicyclePlatform(const ReaderMapping& reader);

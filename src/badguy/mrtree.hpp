@@ -19,7 +19,7 @@
 
 #include "badguy/walking_badguy.hpp"
 
-class MrTree : public WalkingBadguy
+class MrTree final : public WalkingBadguy
 {
 public:
   MrTree(const ReaderMapping& reader);
