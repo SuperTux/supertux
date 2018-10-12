@@ -100,7 +100,7 @@ public:
     virtual ~SQIntegerType()
     {
         assert(_instance == this);
-        _instance = NULL;
+        _instance = nullptr;
     }
 
     static SQIntegerType* instance()
@@ -122,7 +122,7 @@ public:
     virtual ~HSQUIRRELVMType()
     {
         assert(_instance == this);
-        _instance = NULL;
+        _instance = nullptr;
     }
 
     static HSQUIRRELVMType* instance()
