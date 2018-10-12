@@ -99,7 +99,7 @@ private:
   friend class OpenALSoundSource;
   friend class StreamSoundSource;
 
-  /** creates a new sound source, might throw exceptions, never returns NULL */
+  /** creates a new sound source, might throw exceptions, never returns nullptr */
   std::unique_ptr<OpenALSoundSource> intern_create_sound_source(const std::string& filename);
   static ALuint load_file_into_buffer(SoundFile& file);
   static ALenum get_sample_format(const SoundFile& file);

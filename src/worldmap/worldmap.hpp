@@ -162,7 +162,7 @@ public:
         return sp.get();
       }
     }
-    return NULL;
+    return nullptr;
   }
 
   /**

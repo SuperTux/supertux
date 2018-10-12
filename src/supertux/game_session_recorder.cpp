@@ -126,7 +126,7 @@ GameSessionRecorder::play_demo(const std::string& filename)
 void
 GameSessionRecorder::reset_demo_controller()
 {
-  if(demo_controller == NULL)
+  if(demo_controller == nullptr)
   {
     demo_controller = new CodeController();
   }

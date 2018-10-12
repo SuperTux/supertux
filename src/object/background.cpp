@@ -197,7 +197,7 @@ Background::get_settings() {
   result.options.push_back(img2);
   result.options.push_back(img3);
 
-  result.options.push_back( ObjectOption(MN_REMOVE, "", NULL));
+  result.options.push_back( ObjectOption(MN_REMOVE, "", nullptr));
   return result;
 }
 
@@ -329,11 +329,11 @@ Background::draw_image(DrawingContext& context, const Vector& pos__)
             Vector p(pos_.x + static_cast<float>(x) * img_w - img_w_2,
                      pos_.y + static_cast<float>(y) * img_h - img_h_2);
 
-            if (m_image_top.get() != NULL && (y < 0))
+            if (m_image_top.get() != nullptr && (y < 0))
             {
               canvas.draw_surface(m_image_top, p, m_layer);
             }
-            else if (m_image_bottom.get() != NULL && (y > 0))
+            else if (m_image_bottom.get() != nullptr && (y > 0))
             {
               canvas.draw_surface(m_image_bottom, p, m_layer);
             }
@@ -353,7 +353,7 @@ Background::draw(DrawingContext& context)
   if(Editor::is_active() && !EditorInputCenter::render_background)
     return;
 
-  if(m_image.get() == NULL)
+  if(m_image.get() == nullptr)
     return;
 
   Sizef level_size(Sector::current()->get_width(),

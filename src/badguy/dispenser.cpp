@@ -259,7 +259,7 @@ Dispenser::launch_badguy()
 
       /* Need to allocate the badguy first to figure out its bounding box. */
       game_object = ObjectFactory::instance().create(badguy, get_pos(), launchdir);
-      if (game_object == NULL)
+      if (game_object == nullptr)
         throw std::runtime_error("Creating " + badguy + " object failed.");
 
       auto& bad_guy = dynamic_cast<BadGuy&>(*game_object);

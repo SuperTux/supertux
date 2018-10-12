@@ -351,7 +351,7 @@ TextureManager::create_image_texture_raw(const std::string& filename, const Samp
   else
   {
     TexturePtr texture = VideoSystem::current()->new_texture(*image, sampler);
-    image.reset(NULL);
+    image.reset(nullptr);
     return texture;
   }
 }

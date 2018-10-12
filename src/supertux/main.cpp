@@ -188,7 +188,7 @@ public:
       {
         datadir = BUILD_DATA_DIR;
         // Add config dir for supplemental files
-        PHYSFS_mount(boost::filesystem::canonical(BUILD_CONFIG_DATA_DIR).string().c_str(), NULL, 1);
+        PHYSFS_mount(boost::filesystem::canonical(BUILD_CONFIG_DATA_DIR).string().c_str(), nullptr, 1);
       }
       else
       {
@@ -199,7 +199,7 @@ public:
       }
     }
 
-    if (!PHYSFS_mount(boost::filesystem::canonical(datadir).string().c_str(), NULL, 1))
+    if (!PHYSFS_mount(boost::filesystem::canonical(datadir).string().c_str(), nullptr, 1))
     {
       log_warning << "Couldn't add '" << datadir << "' to physfs searchpath: " << PHYSFS_getLastErrorCode() << std::endl;
     }
@@ -281,7 +281,7 @@ public:
       throw std::runtime_error(msg.str());
     }
 
-    PHYSFS_mount(userdir.c_str(), NULL, 0);
+    PHYSFS_mount(userdir.c_str(), nullptr, 0);
   }
 
   static void print_search_path()
@@ -290,7 +290,7 @@ public:
     log_info << "PhysfsWriteDir: " << (writedir ? writedir : "(null)") << std::endl;
     log_info << "PhysfsSearchPath:" << std::endl;
     char** searchpath = PHYSFS_getSearchPath();
-    for(char** i = searchpath; *i != NULL; ++i)
+    for(char** i = searchpath; *i != nullptr; ++i)
     {
       log_info << "  " << *i << std::endl;
     }
@@ -423,7 +423,7 @@ Main::launch_game(const CommandLineArguments& args)
       dir = dir.replace(position, fileProtocol.length(), "");
     }
     log_debug << "Adding dir: " << dir << std::endl;
-    PHYSFS_mount(dir.c_str(), NULL, true);
+    PHYSFS_mount(dir.c_str(), nullptr, true);
 
     if(g_config->start_level.size() > 4 &&
        g_config->start_level.compare(g_config->start_level.size() - 5, 5, ".stwm") == 0)

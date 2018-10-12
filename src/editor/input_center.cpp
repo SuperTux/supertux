@@ -45,11 +45,11 @@ EditorInputCenter::EditorInputCenter() :
   dragging(false),
   dragging_right(false),
   drag_start(0, 0),
-  dragged_object(NULL),
-  hovered_object(NULL),
-  marked_object(NULL),
-  edited_path(NULL),
-  last_node_marker(NULL),
+  dragged_object(nullptr),
+  hovered_object(nullptr),
+  marked_object(nullptr),
+  edited_path(nullptr),
+  last_node_marker(nullptr),
   object_tip(),
   obj_mouse_desync(0, 0)
 {
@@ -58,8 +58,8 @@ EditorInputCenter::EditorInputCenter() :
 void
 EditorInputCenter::update(float elapsed_time) {
   if (hovered_object && !hovered_object->is_valid()) {
-    hovered_object = NULL;
-    object_tip = NULL;
+    hovered_object = nullptr;
+    object_tip = nullptr;
   }
 
   if (marked_object && !marked_object->is_valid()) {
@@ -80,9 +80,9 @@ EditorInputCenter::delete_markers() {
       marker->remove_me();
     }
   }
-  marked_object = NULL;
-  edited_path = NULL;
-  last_node_marker = NULL;
+  marked_object = nullptr;
+  edited_path = nullptr;
+  last_node_marker = nullptr;
 }
 
 Rectf
@@ -268,8 +268,8 @@ EditorInputCenter::hover_object() {
       return;
     }
   }
-  object_tip = NULL;
-  hovered_object = NULL;
+  object_tip = nullptr;
+  hovered_object = nullptr;
 }
 
 void
@@ -278,7 +278,7 @@ EditorInputCenter::edit_path(Path* path, GameObject* new_marked_object) {
   delete_markers();
 
   if (!path->is_valid()) {
-    edited_path = NULL;
+    edited_path = nullptr;
     return;
   }
   edited_path = path;
@@ -310,7 +310,7 @@ void
 EditorInputCenter::grab_object() {
   if (hovered_object) {
     if (!hovered_object->is_valid()) {
-      hovered_object = NULL;
+      hovered_object = nullptr;
       return;
     }
 
@@ -324,7 +324,7 @@ EditorInputCenter::grab_object() {
     last_node_marker = dynamic_cast<NodeMarker*>(pm);
     return;
   }
-  dragged_object = NULL;
+  dragged_object = nullptr;
   if (edited_path && Editor::current()->get_tileselect_object() == "#node") {
     if (edited_path->is_valid()) {
       return;
@@ -338,7 +338,7 @@ EditorInputCenter::clone_object() {
   auto editor = Editor::current();
   if (hovered_object && hovered_object->is_saveable()) {
     if (!hovered_object->is_valid()) {
-      hovered_object = NULL;
+      hovered_object = nullptr;
       return;
     }
 
@@ -371,7 +371,7 @@ EditorInputCenter::clone_object() {
     dragged_object->after_editor_set();
     return;
   }
-  dragged_object = NULL;
+  dragged_object = nullptr;
   delete_markers();
 }
 
@@ -389,7 +389,7 @@ void
 EditorInputCenter::move_object() {
   if (dragged_object) {
     if (!dragged_object->is_valid()) {
-      dragged_object = NULL;
+      dragged_object = nullptr;
       return;
     }
     Vector new_pos = sector_pos - obj_mouse_desync;
@@ -414,7 +414,7 @@ EditorInputCenter::rubber_object() {
   if (dragged_object) {
     dragged_object->editor_delete();
   }
-  last_node_marker = NULL;
+  last_node_marker = nullptr;
 }
 
 void
@@ -427,7 +427,7 @@ EditorInputCenter::rubber_rect() {
       moving_object->editor_delete();
     }
   }
-  last_node_marker = NULL;
+  last_node_marker = nullptr;
 }
 
 void
@@ -484,7 +484,7 @@ EditorInputCenter::put_object() {
     log_warning << "Error creating object " << obj << ": " << e.what() << std::endl;
     return;
   }
-  if (game_object == NULL)
+  if (game_object == nullptr)
     throw std::runtime_error("Creating " + obj + " object failed.");
 
   auto mo = dynamic_cast<MovingObject*> (game_object.get());
@@ -754,7 +754,7 @@ EditorInputCenter::draw_tile_grid(DrawingContext& context, const Color& line_col
   }
 
   auto current_tm = dynamic_cast<TileMap*>(editor->get_selected_tilemap());
-  if ( current_tm == NULL )
+  if ( current_tm == nullptr )
     return;
   int tm_width = current_tm->get_width() * (32 / tile_size);
   int tm_height = current_tm->get_height() * (32 / tile_size);

@@ -71,7 +71,7 @@ Editor::Editor() :
   currentsector(),
   levelloaded(false),
   leveltested(false),
-  tileset(NULL),
+  tileset(nullptr),
   inputcenter(),
   tileselect(),
   layerselect(),
@@ -133,7 +133,7 @@ void Editor::update(float elapsed_time)
 
   if (test_request) {
     test_request = false;
-    MouseCursor::current()->set_icon(NULL);
+    MouseCursor::current()->set_icon(nullptr);
     test_level();
     return;
   }
@@ -159,7 +159,7 @@ void Editor::test_level() {
   Tile::draw_editor_images = false;
   Compositor::s_render_lighting = true;
   auto backup_filename = levelfile + "~";
-  if(world != NULL)
+  if(world != nullptr)
   {
     auto basedir = world->get_basedir();
     if(basedir == "./")
@@ -306,7 +306,7 @@ void Editor::update_keyboard() {
 }
 
 void Editor::load_layers() {
-  layerselect.selected_tilemap = NULL;
+  layerselect.selected_tilemap = nullptr;
   layerselect.layers.clear();
   bool tsel = false;
   for(auto& i : currentsector->get_objects()) {
@@ -354,7 +354,7 @@ void Editor::reload_level() {
   enabled = true;
   tileselect.input_type = EditorInputGui::IP_NONE;
   // Re/load level
-  level = NULL;
+  level = nullptr;
   levelloaded = true;
 
   ReaderMapping::s_translations_enabled = false;
@@ -372,7 +372,7 @@ void Editor::reload_level() {
 
 void Editor::quit_editor() {
   //Quit level editor
-  world = NULL;
+  world = nullptr;
   levelfile = "";
   levelloaded = false;
   quit_request = false;
@@ -383,7 +383,7 @@ void Editor::quit_editor() {
 
 void Editor::leave()
 {
-  MouseCursor::current()->set_icon(NULL);
+  MouseCursor::current()->set_icon(nullptr);
   Compositor::s_render_lighting = true;
 }
 

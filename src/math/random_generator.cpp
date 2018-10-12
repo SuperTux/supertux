@@ -395,7 +395,7 @@ void RandomGenerator::srandomdev()
   {
     struct timeval tv;
 
-    gettimeofday(&tv, NULL);
+    gettimeofday(&tv, nullptr);
     srandom(tv.tv_sec ^ tv.tv_usec);
     return;
   }
@@ -438,7 +438,7 @@ char * RandomGenerator::initstate(unsigned long seed, char *arg_state, long n)
   else
     state[-1] = MAX_TYPES * (rptr - state) + rand_type;
 
-  if (n < BREAK_0) return NULL;
+  if (n < BREAK_0) return nullptr;
 
   if (n < BREAK_1)
   {

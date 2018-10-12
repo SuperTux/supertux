@@ -241,7 +241,7 @@ SDLVideoSystem::make_screenshot()
     SDLSurfacePtr surface = SDLSurface::create_rgba(width, height);
 
     SDL_LockSurface(surface.get());
-    int ret = SDL_RenderReadPixels(m_renderer->get_sdl_renderer(), NULL,
+    int ret = SDL_RenderReadPixels(m_renderer->get_sdl_renderer(), nullptr,
                                    SDL_PIXELFORMAT_ABGR8888,
                                    surface->pixels,
                                    surface->pitch);

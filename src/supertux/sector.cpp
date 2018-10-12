@@ -138,7 +138,7 @@ Sector::run_script(const std::string& script, const std::string& sourcename)
 {
   if(script.empty())
   {
-    return NULL;
+    return nullptr;
   }
   std::istringstream stream(script);
   return run_script(stream, sourcename);
@@ -154,7 +154,7 @@ Sector::run_script(std::istream& in, const std::string& sourcename)
   catch(const std::exception& e)
   {
     log_warning << "Error running sector script: " << e.what() << std::endl;
-    return NULL;
+    return nullptr;
   }
 }
 
@@ -184,7 +184,7 @@ void
 Sector::activate(const Vector& player_pos)
 {
   if(s_current != this) {
-    if(s_current != NULL)
+    if(s_current != nullptr)
       s_current->deactivate();
     s_current = this;
 
@@ -269,7 +269,7 @@ Sector::deactivate()
   }
 
   try_unexpose_me();
-  s_current = NULL;
+  s_current = nullptr;
 }
 
 Rectf
@@ -740,7 +740,7 @@ Sector::get_music() const
 Player*
 Sector::get_nearest_player (const Vector& pos) const
 {
-  Player *nearest_player = NULL;
+  Player *nearest_player = nullptr;
   float nearest_dist = std::numeric_limits<float>::max();
 
   std::vector<Player*> players = get_players();

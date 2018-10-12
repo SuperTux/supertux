@@ -74,16 +74,16 @@ CollisionSystem::draw(DrawingContext& context)
 /** r1 is supposed to be moving, r2 a solid object */
 void check_collisions(collision::Constraints* constraints,
                       const Vector& obj_movement, const Rectf& obj_rect, const Rectf& other_rect,
-                      GameObject* object = NULL, MovingObject* other = NULL, const Vector& other_movement = Vector(0,0))
+                      GameObject* object = nullptr, MovingObject* other = nullptr, const Vector& other_movement = Vector(0,0))
 {
   if(!collision::intersects(obj_rect, other_rect))
     return;
 
   auto moving_object = dynamic_cast<MovingObject*> (object);
   CollisionHit dummy;
-  if(other != NULL && object != NULL && !other->collides(*object, dummy))
+  if(other != nullptr && object != nullptr && !other->collides(*object, dummy))
     return;
-  if(moving_object != NULL && other != NULL && !moving_object->collides(*other, dummy))
+  if(moving_object != nullptr && other != nullptr && !moving_object->collides(*other, dummy))
     return;
 
   // calculate intersection
@@ -112,7 +112,7 @@ void check_collisions(collision::Constraints* constraints,
   }
 
   constraints->ground_movement += other_movement;
-  if(other != NULL && object != NULL) {
+  if(other != nullptr && object != nullptr) {
     HitResponse response = other->collision(*object, dummy);
     if(response == ABORT_MOVE)
       return;
@@ -190,7 +190,7 @@ CollisionSystem::collision_tilemap(collision::Constraints* constraints,
           collision::rectangle_aatriangle(constraints, dest, triangle,
               solids->get_movement(/* actual = */ false));
         } else { // normal rectangular tile
-          check_collisions(constraints, movement, dest, tile_bbox, NULL, NULL,
+          check_collisions(constraints, movement, dest, tile_bbox, nullptr, nullptr,
               solids->get_movement(/* actual = */ false));
         }
       }

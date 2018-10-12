@@ -43,7 +43,7 @@ ParticleSystem::get_settings() {
   result.options.push_back( ObjectOption(MN_INTFIELD, _("Z-pos"), &z_pos,
                                          "z-pos"));
 
-  result.options.push_back( ObjectOption(MN_REMOVE, "", NULL));
+  result.options.push_back( ObjectOption(MN_REMOVE, "", nullptr));
   return result;
 }
 

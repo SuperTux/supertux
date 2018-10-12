@@ -445,7 +445,7 @@ AddonManager::enable_addon(const AddonId& addon_id)
     {
       if(addon.get_type() == Addon::LANGUAGEPACK)
       {
-        PHYSFS_enumerate(addon.get_id().c_str(), add_to_dictionary_path, NULL);
+        PHYSFS_enumerate(addon.get_id().c_str(), add_to_dictionary_path, nullptr);
       }
       addon.set_enabled(true);
     }
@@ -473,7 +473,7 @@ AddonManager::disable_addon(const AddonId& addon_id)
     {
       if(addon.get_type() == Addon::LANGUAGEPACK)
       {
-        PHYSFS_enumerate(addon.get_id().c_str(), remove_from_dictionary_path, NULL);
+        PHYSFS_enumerate(addon.get_id().c_str(), remove_from_dictionary_path, nullptr);
       }
       addon.set_enabled(false);
     }
@@ -619,7 +619,7 @@ AddonManager::add_installed_archive(const std::string& archive, const std::strin
   {
     std::string os_path = FileSystem::join(realdir, archive);
 
-    PHYSFS_mount(os_path.c_str(), NULL, 0);
+    PHYSFS_mount(os_path.c_str(), nullptr, 0);
 
     std::string nfo_filename = scan_for_info(os_path);
 

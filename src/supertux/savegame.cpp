@@ -248,7 +248,7 @@ Savegame::save()
   writer.write("version", 1);
 
   using namespace worldmap;
-  if(WorldMap::current() != NULL)
+  if(WorldMap::current() != nullptr)
   {
     std::ostringstream title;
     title << WorldMap::current()->get_title();

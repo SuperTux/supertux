@@ -78,10 +78,10 @@ MrBomb::collision_squished(GameObject& object)
 
     // Do not trigger dispenser because we need to wait for
     // the bomb instance to explode.
-    if(get_parent_dispenser() != NULL)
+    if(get_parent_dispenser() != nullptr)
     {
       bomb->set_parent_dispenser(get_parent_dispenser());
-      set_parent_dispenser(NULL);
+      set_parent_dispenser(nullptr);
     }
     remove_me();
     Sector::current()->add_object(bomb);

@@ -154,7 +154,7 @@ void RenderCopyEx(SDL_Renderer*          renderer,
   Vector animate = sampler.get_animate();
   if (animate.x == 0.0f && animate.y == 0.0f)
   {
-    SDL_RenderCopyEx(renderer, texture, sdl_srcrect, sdl_dstrect, angle, NULL, flip);
+    SDL_RenderCopyEx(renderer, texture, sdl_srcrect, sdl_dstrect, angle, nullptr, flip);
   }
   else
   {
@@ -173,7 +173,7 @@ void RenderCopyEx(SDL_Renderer*          renderer,
     int width;
     int height;
 
-    SDL_QueryTexture(texture, NULL, NULL, &width, &height);
+    SDL_QueryTexture(texture, nullptr, nullptr, &width, &height);
 
     animate *= g_game_time;
 
@@ -184,7 +184,7 @@ void RenderCopyEx(SDL_Renderer*          renderer,
         flip ||
         angle != 0.0f)
     {
-      SDL_RenderCopyEx(renderer, texture, sdl_srcrect, sdl_dstrect, angle, NULL, flip);
+      SDL_RenderCopyEx(renderer, texture, sdl_srcrect, sdl_dstrect, angle, nullptr, flip);
     }
     else
     {
@@ -248,7 +248,7 @@ SDLPainter::draw_texture(const TextureRequest& request)
       flip = static_cast<SDL_RendererFlip>(flip | SDL_FLIP_VERTICAL);
     }
 
-    RenderCopyEx(m_sdl_renderer, texture.get_texture(), &src_rect, &dst_rect, request.angle, NULL, flip,
+    RenderCopyEx(m_sdl_renderer, texture.get_texture(), &src_rect, &dst_rect, request.angle, nullptr, flip,
                  texture.get_sampler());
   }
 }

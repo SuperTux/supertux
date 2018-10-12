@@ -31,7 +31,7 @@ GoldBomb::GoldBomb(const ReaderMapping& reader) :
   WalkingBadguy(reader, "images/creatures/gold_bomb/gold_bomb.sprite", "left", "right"),
   tstate(STATE_NORMAL),
   grabbed(false),
-  grabber(NULL),
+  grabber(nullptr),
   ticking()
 {
   walk_speed = 80;
@@ -159,7 +159,7 @@ GoldBomb::kill_fall()
   // Make the player let go before we explode, otherwise the player is holding
   // an invalid object. There's probably a better way to do this than in the
   // GoldBomb class.
-  if (grabber != NULL) {
+  if (grabber != nullptr) {
     Player* player = dynamic_cast<Player*>(grabber);
 
     if (player)

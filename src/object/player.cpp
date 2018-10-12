@@ -161,7 +161,7 @@ Player::Player(PlayerStatus& player_status, const std::string& name_) :
   m_backflip_timer(),
   m_physic(),
   m_visible(true),
-  m_grabbed_object(NULL),
+  m_grabbed_object(nullptr),
   // if/when we have complete penny gfx, we can
   // load those instead of Tux's sprite in the
   // constructor
@@ -385,13 +385,13 @@ Player::update(float elapsed_time)
   // calculate movement for this frame
   movement = m_physic.get_movement(elapsed_time);
 
-  if(m_grabbed_object != NULL && !m_dying) {
+  if(m_grabbed_object != nullptr && !m_dying) {
     position_grabbed_object();
   }
 
-  if(m_grabbed_object != NULL && m_dying){
+  if(m_grabbed_object != nullptr && m_dying){
     m_grabbed_object->ungrab(*this, m_dir);
-    m_grabbed_object = NULL;
+    m_grabbed_object = nullptr;
   }
 
   if(!m_ice_this_frame && on_ground())
@@ -894,7 +894,7 @@ Player::handle_input()
         } else {
           m_grabbed_object->ungrab(*this, m_dir);
         }
-        m_grabbed_object = NULL;
+        m_grabbed_object = nullptr;
       }
     } else {
       log_debug << "Non MovingObject grabbed?!?" << std::endl;
@@ -1413,7 +1413,7 @@ Player::collision(GameObject& other, const CollisionHit& hit)
   if(hit.left || hit.right) {
     try_grab(); //grab objects right now, in update it will be too late
   }
-  assert(dynamic_cast<MovingObject*> (&other) != NULL);
+  assert(dynamic_cast<MovingObject*> (&other) != nullptr);
   auto moving_object = static_cast<MovingObject*> (&other);
   if(moving_object->get_group() == COLGROUP_TOUCHABLE) {
     auto trigger = dynamic_cast<TriggerBase*> (&other);
@@ -1426,7 +1426,7 @@ Player::collision(GameObject& other, const CollisionHit& hit)
   }
 
   auto badguy = dynamic_cast<BadGuy*> (&other);
-  if(badguy != NULL) {
+  if(badguy != nullptr) {
     if(m_safe_timer.started() || m_invincible_timer.started())
       return FORCE_MOVE;
     if(m_stone)
@@ -1640,7 +1640,7 @@ Player::set_ghost_mode(bool enable)
 
   if (m_grabbed_object) {
     m_grabbed_object->ungrab(*this, m_dir);
-    m_grabbed_object = NULL;
+    m_grabbed_object = nullptr;
   }
 
   if (enable) {
@@ -1686,7 +1686,7 @@ Player::stop_climbing(Climbable& /*climbable*/)
 
   if (m_grabbed_object) {
     m_grabbed_object->ungrab(*this, m_dir);
-    m_grabbed_object = NULL;
+    m_grabbed_object = nullptr;
   }
 
   m_physic.enable_gravity(true);

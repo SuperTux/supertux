@@ -179,7 +179,7 @@ void
 Tux::ChangeSprite(SpriteChange* sprite_change)
 {
   //SpriteChange* sprite_change = worldmap->at_sprite_change(tile_pos);
-  if(sprite_change != NULL) {
+  if(sprite_change != nullptr) {
     sprite = sprite_change->sprite->clone();
     sprite_change->clear_stay_action();
     worldmap->get_savegame().get_player_status().worldmap_sprite = sprite_change->sprite_name;
@@ -275,11 +275,11 @@ Tux::tryContinueWalking(float elapsed_time)
   }
 
   auto next_sprite = worldmap->at_sprite_change(next_tile);
-  if(next_sprite != NULL && next_sprite->change_on_touch) {
+  if(next_sprite != nullptr && next_sprite->change_on_touch) {
     ChangeSprite(next_sprite);
   }
   //SpriteChange* last_sprite = worldmap->at_sprite_change(tile_pos);
-  if(sprite_change != NULL && next_sprite != NULL) {
+  if(sprite_change != nullptr && next_sprite != nullptr) {
     log_debug << "Old: " << tile_pos << " New: " << next_tile << std::endl;
     sprite_change->set_stay_action();
   }

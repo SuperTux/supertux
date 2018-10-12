@@ -65,7 +65,7 @@ Thunderstorm::get_settings() {
   result.options.push_back( ObjectOption(MN_NUMFIELD, _("Interval"), &interval,
                                          "interval"));
 
-  result.options.push_back( ObjectOption(MN_REMOVE, "", NULL));
+  result.options.push_back( ObjectOption(MN_REMOVE, "", nullptr));
   return result;
 }
 

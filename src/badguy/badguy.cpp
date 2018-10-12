@@ -527,7 +527,7 @@ BadGuy::run_dead_script()
 
   countMe = false;
 
-  if(parent_dispenser != NULL)
+  if(parent_dispenser != nullptr)
   {
     parent_dispenser->notify_dead();
   }

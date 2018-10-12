@@ -30,7 +30,7 @@ static SQInteger AmbientSound_set_pos_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::AmbientSound*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -69,7 +69,7 @@ static SQInteger AmbientSound_get_pos_x_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::AmbientSound*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -99,7 +99,7 @@ static SQInteger AmbientSound_get_pos_y_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::AmbientSound*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -136,7 +136,7 @@ static SQInteger Background_set_image_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Background*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -170,7 +170,7 @@ static SQInteger Background_set_images_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Background*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -214,7 +214,7 @@ static SQInteger Background_set_speed_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Background*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -255,7 +255,7 @@ static SQInteger Camera_reload_config_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Camera*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -284,7 +284,7 @@ static SQInteger Camera_shake_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Camera*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -328,7 +328,7 @@ static SQInteger Camera_set_pos_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Camera*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -367,7 +367,7 @@ static SQInteger Camera_set_mode_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Camera*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -401,7 +401,7 @@ static SQInteger Camera_scroll_to_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Camera*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -452,7 +452,7 @@ static SQInteger Candle_get_burning_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Candle*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -482,7 +482,7 @@ static SQInteger Candle_set_burning_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Candle*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -523,7 +523,7 @@ static SQInteger Dispenser_activate_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Dispenser*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -552,7 +552,7 @@ static SQInteger Dispenser_deactivate_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Dispenser*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -588,7 +588,7 @@ static SQInteger DisplayEffect_fade_out_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::DisplayEffect*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -622,7 +622,7 @@ static SQInteger DisplayEffect_fade_in_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::DisplayEffect*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -656,7 +656,7 @@ static SQInteger DisplayEffect_set_black_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::DisplayEffect*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -690,7 +690,7 @@ static SQInteger DisplayEffect_is_black_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::DisplayEffect*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -720,7 +720,7 @@ static SQInteger DisplayEffect_sixteen_to_nine_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::DisplayEffect*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -754,7 +754,7 @@ static SQInteger DisplayEffect_four_to_three_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::DisplayEffect*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -823,7 +823,7 @@ static SQInteger FloatingImage_set_layer_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::FloatingImage*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -857,7 +857,7 @@ static SQInteger FloatingImage_get_layer_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::FloatingImage*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -887,7 +887,7 @@ static SQInteger FloatingImage_set_pos_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::FloatingImage*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -926,7 +926,7 @@ static SQInteger FloatingImage_get_pos_x_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::FloatingImage*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -956,7 +956,7 @@ static SQInteger FloatingImage_get_pos_y_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::FloatingImage*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -986,7 +986,7 @@ static SQInteger FloatingImage_set_anchor_point_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::FloatingImage*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -1020,7 +1020,7 @@ static SQInteger FloatingImage_get_anchor_point_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::FloatingImage*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -1050,7 +1050,7 @@ static SQInteger FloatingImage_set_visible_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::FloatingImage*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -1084,7 +1084,7 @@ static SQInteger FloatingImage_get_visible_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::FloatingImage*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -1114,7 +1114,7 @@ static SQInteger FloatingImage_set_action_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::FloatingImage*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -1148,7 +1148,7 @@ static SQInteger FloatingImage_get_action_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::FloatingImage*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -1179,7 +1179,7 @@ static SQInteger FloatingImage_fade_in_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::FloatingImage*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -1213,7 +1213,7 @@ static SQInteger FloatingImage_fade_out_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::FloatingImage*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -1254,7 +1254,7 @@ static SQInteger Gradient_set_direction_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Gradient*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -1288,7 +1288,7 @@ static SQInteger Gradient_get_direction_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Gradient*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -1319,7 +1319,7 @@ static SQInteger Gradient_set_color1_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Gradient*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -1363,7 +1363,7 @@ static SQInteger Gradient_set_color2_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Gradient*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -1407,7 +1407,7 @@ static SQInteger Gradient_swap_colors_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Gradient*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -1443,7 +1443,7 @@ static SQInteger LevelTime_start_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::LevelTime*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -1472,7 +1472,7 @@ static SQInteger LevelTime_stop_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::LevelTime*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -1501,7 +1501,7 @@ static SQInteger LevelTime_get_time_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::LevelTime*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -1531,7 +1531,7 @@ static SQInteger LevelTime_set_time_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::LevelTime*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -1572,7 +1572,7 @@ static SQInteger ParticleSystem_set_enabled_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::ParticleSystem*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -1606,7 +1606,7 @@ static SQInteger ParticleSystem_get_enabled_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::ParticleSystem*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -1643,7 +1643,7 @@ static SQInteger Platform_goto_node_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Platform*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -1677,7 +1677,7 @@ static SQInteger Platform_start_moving_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Platform*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -1706,7 +1706,7 @@ static SQInteger Platform_stop_moving_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Platform*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -1742,7 +1742,7 @@ static SQInteger Player_add_bonus_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Player*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -1777,7 +1777,7 @@ static SQInteger Player_set_bonus_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Player*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -1812,7 +1812,7 @@ static SQInteger Player_add_coins_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Player*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -1846,7 +1846,7 @@ static SQInteger Player_get_coins_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Player*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -1876,7 +1876,7 @@ static SQInteger Player_make_invincible_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Player*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -1905,7 +1905,7 @@ static SQInteger Player_deactivate_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Player*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -1934,7 +1934,7 @@ static SQInteger Player_activate_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Player*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -1963,7 +1963,7 @@ static SQInteger Player_walk_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Player*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -1997,7 +1997,7 @@ static SQInteger Player_set_dir_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Player*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -2031,7 +2031,7 @@ static SQInteger Player_set_visible_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Player*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -2065,7 +2065,7 @@ static SQInteger Player_get_visible_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Player*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -2095,7 +2095,7 @@ static SQInteger Player_kill_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Player*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -2129,7 +2129,7 @@ static SQInteger Player_set_ghost_mode_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Player*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -2163,7 +2163,7 @@ static SQInteger Player_get_ghost_mode_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Player*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -2193,7 +2193,7 @@ static SQInteger Player_kick_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Player*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -2222,7 +2222,7 @@ static SQInteger Player_do_cheer_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Player*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -2251,7 +2251,7 @@ static SQInteger Player_do_duck_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Player*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -2280,7 +2280,7 @@ static SQInteger Player_do_standup_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Player*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -2309,7 +2309,7 @@ static SQInteger Player_do_backflip_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Player*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -2338,7 +2338,7 @@ static SQInteger Player_do_jump_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Player*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -2372,7 +2372,7 @@ static SQInteger Player_trigger_sequence_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Player*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -2406,7 +2406,7 @@ static SQInteger Player_use_scripting_controller_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Player*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -2440,7 +2440,7 @@ static SQInteger Player_has_grabbed_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Player*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -2475,7 +2475,7 @@ static SQInteger Player_do_scripting_controller_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Player*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -2514,7 +2514,7 @@ static SQInteger Player_get_velocity_x_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Player*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -2544,7 +2544,7 @@ static SQInteger Player_get_velocity_y_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Player*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -2588,7 +2588,7 @@ static SQInteger ScriptedObject_set_action_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::ScriptedObject*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -2622,7 +2622,7 @@ static SQInteger ScriptedObject_get_action_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::ScriptedObject*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -2653,7 +2653,7 @@ static SQInteger ScriptedObject_move_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::ScriptedObject*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -2692,7 +2692,7 @@ static SQInteger ScriptedObject_set_pos_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::ScriptedObject*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -2731,7 +2731,7 @@ static SQInteger ScriptedObject_get_pos_x_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::ScriptedObject*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -2761,7 +2761,7 @@ static SQInteger ScriptedObject_get_pos_y_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::ScriptedObject*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -2791,7 +2791,7 @@ static SQInteger ScriptedObject_set_velocity_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::ScriptedObject*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -2830,7 +2830,7 @@ static SQInteger ScriptedObject_get_velocity_x_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::ScriptedObject*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -2860,7 +2860,7 @@ static SQInteger ScriptedObject_get_velocity_y_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::ScriptedObject*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -2890,7 +2890,7 @@ static SQInteger ScriptedObject_enable_gravity_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::ScriptedObject*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -2924,7 +2924,7 @@ static SQInteger ScriptedObject_gravity_enabled_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::ScriptedObject*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -2954,7 +2954,7 @@ static SQInteger ScriptedObject_set_visible_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::ScriptedObject*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -2988,7 +2988,7 @@ static SQInteger ScriptedObject_is_visible_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::ScriptedObject*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -3018,7 +3018,7 @@ static SQInteger ScriptedObject_set_solid_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::ScriptedObject*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -3052,7 +3052,7 @@ static SQInteger ScriptedObject_is_solid_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::ScriptedObject*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -3082,7 +3082,7 @@ static SQInteger ScriptedObject_get_name_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::ScriptedObject*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -3120,7 +3120,7 @@ static SQInteger Sector_set_ambient_light_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Sector*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -3164,7 +3164,7 @@ static SQInteger Sector_fade_to_ambient_light_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Sector*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -3213,7 +3213,7 @@ static SQInteger Sector_get_ambient_red_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Sector*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -3243,7 +3243,7 @@ static SQInteger Sector_get_ambient_green_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Sector*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -3273,7 +3273,7 @@ static SQInteger Sector_get_ambient_blue_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Sector*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -3303,7 +3303,7 @@ static SQInteger Sector_set_gravity_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Sector*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -3337,7 +3337,7 @@ static SQInteger Sector_set_music_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Sector*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -3378,7 +3378,7 @@ static SQInteger Text_set_text_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Text*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -3412,7 +3412,7 @@ static SQInteger Text_set_font_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Text*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -3446,7 +3446,7 @@ static SQInteger Text_fade_in_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Text*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -3480,7 +3480,7 @@ static SQInteger Text_fade_out_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Text*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -3514,7 +3514,7 @@ static SQInteger Text_set_visible_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Text*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -3548,7 +3548,7 @@ static SQInteger Text_set_centered_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Text*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -3582,7 +3582,7 @@ static SQInteger Text_set_pos_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Text*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -3621,7 +3621,7 @@ static SQInteger Text_get_pos_x_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Text*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -3651,7 +3651,7 @@ static SQInteger Text_get_pos_y_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Text*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -3681,7 +3681,7 @@ static SQInteger Text_set_anchor_point_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Text*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -3715,7 +3715,7 @@ static SQInteger Text_get_anchor_point_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Text*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -3752,7 +3752,7 @@ static SQInteger TextArray_clear_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::TextArray*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -3781,7 +3781,7 @@ static SQInteger TextArray_add_text_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::TextArray*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -3815,7 +3815,7 @@ static SQInteger TextArray_add_text_duration_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::TextArray*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -3854,7 +3854,7 @@ static SQInteger TextArray_set_text_index_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::TextArray*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -3888,7 +3888,7 @@ static SQInteger TextArray_set_keep_visible_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::TextArray*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -3922,7 +3922,7 @@ static SQInteger TextArray_set_fade_transition_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::TextArray*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -3956,7 +3956,7 @@ static SQInteger TextArray_set_fade_time_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::TextArray*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -3990,7 +3990,7 @@ static SQInteger TextArray_set_done_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::TextArray*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -4024,7 +4024,7 @@ static SQInteger TextArray_set_auto_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::TextArray*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -4058,7 +4058,7 @@ static SQInteger TextArray_next_text_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::TextArray*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -4087,7 +4087,7 @@ static SQInteger TextArray_prev_text_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::TextArray*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -4116,7 +4116,7 @@ static SQInteger TextArray_set_text_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::TextArray*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -4150,7 +4150,7 @@ static SQInteger TextArray_set_font_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::TextArray*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -4184,7 +4184,7 @@ static SQInteger TextArray_fade_in_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::TextArray*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -4218,7 +4218,7 @@ static SQInteger TextArray_fade_out_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::TextArray*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -4252,7 +4252,7 @@ static SQInteger TextArray_set_visible_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::TextArray*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -4286,7 +4286,7 @@ static SQInteger TextArray_set_centered_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::TextArray*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -4320,7 +4320,7 @@ static SQInteger TextArray_set_pos_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::TextArray*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -4359,7 +4359,7 @@ static SQInteger TextArray_get_pos_x_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::TextArray*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -4389,7 +4389,7 @@ static SQInteger TextArray_get_pos_y_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::TextArray*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -4419,7 +4419,7 @@ static SQInteger TextArray_set_anchor_point_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::TextArray*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -4453,7 +4453,7 @@ static SQInteger TextArray_get_anchor_point_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::TextArray*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -4490,7 +4490,7 @@ static SQInteger Thunderstorm_start_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Thunderstorm*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -4519,7 +4519,7 @@ static SQInteger Thunderstorm_stop_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Thunderstorm*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -4548,7 +4548,7 @@ static SQInteger Thunderstorm_thunder_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Thunderstorm*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -4577,7 +4577,7 @@ static SQInteger Thunderstorm_lightning_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Thunderstorm*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -4606,7 +4606,7 @@ static SQInteger Thunderstorm_flash_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Thunderstorm*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -4635,7 +4635,7 @@ static SQInteger Thunderstorm_electrify_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Thunderstorm*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -4671,7 +4671,7 @@ static SQInteger TileMap_goto_node_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::TileMap*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -4705,7 +4705,7 @@ static SQInteger TileMap_start_moving_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::TileMap*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -4734,7 +4734,7 @@ static SQInteger TileMap_stop_moving_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::TileMap*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -4763,7 +4763,7 @@ static SQInteger TileMap_get_tile_id_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::TileMap*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -4803,7 +4803,7 @@ static SQInteger TileMap_get_tile_id_at_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::TileMap*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -4843,7 +4843,7 @@ static SQInteger TileMap_change_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::TileMap*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -4887,7 +4887,7 @@ static SQInteger TileMap_change_at_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::TileMap*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -4931,7 +4931,7 @@ static SQInteger TileMap_fade_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::TileMap*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -4970,7 +4970,7 @@ static SQInteger TileMap_tint_fade_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::TileMap*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -5024,7 +5024,7 @@ static SQInteger TileMap_set_alpha_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::TileMap*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -5058,7 +5058,7 @@ static SQInteger TileMap_get_alpha_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::TileMap*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -5088,7 +5088,7 @@ static SQInteger TileMap_set_solid_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::TileMap*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -5129,7 +5129,7 @@ static SQInteger Torch_get_burning_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Torch*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -5159,7 +5159,7 @@ static SQInteger Torch_set_burning_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Torch*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -5200,7 +5200,7 @@ static SQInteger WillOWisp_goto_node_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::WillOWisp*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -5234,7 +5234,7 @@ static SQInteger WillOWisp_set_state_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::WillOWisp*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -5268,7 +5268,7 @@ static SQInteger WillOWisp_start_moving_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::WillOWisp*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -5297,7 +5297,7 @@ static SQInteger WillOWisp_stop_moving_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::WillOWisp*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -5333,7 +5333,7 @@ static SQInteger Wind_start_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Wind*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 
@@ -5362,7 +5362,7 @@ static SQInteger Wind_stop_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Wind*> (data);
 
-  if (_this == NULL) {
+  if (_this == nullptr) {
     return SQ_ERROR;
   }
 

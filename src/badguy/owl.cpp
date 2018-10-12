@@ -33,7 +33,7 @@
 Owl::Owl(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/owl/owl.sprite", LAYER_OBJECTS + 1),
   carried_obj_name(),
-  carried_object(NULL)
+  carried_object(nullptr)
 {
   reader.get("carry", carried_obj_name, "skydive");
   set_action (dir == LEFT ? "left" : "right", /* loops = */ -1);
@@ -61,14 +61,14 @@ Owl::initialize()
   }
 
   auto game_object = ObjectFactory::instance().create(carried_obj_name, get_pos(), dir);
-  if (game_object == NULL)
+  if (game_object == nullptr)
   {
     log_fatal << "Creating \"" << carried_obj_name << "\" object failed." << std::endl;
   }
   else
   {
     carried_object = dynamic_cast<Portable*>(game_object.get());
-    if (carried_object == NULL)
+    if (carried_object == nullptr)
     {
       log_warning << "Object is not portable: " << carried_obj_name << std::endl;
     }
@@ -105,7 +105,7 @@ Owl::active_update (float elapsed_time)
   if(frozen)
     return;
 
-  if (carried_object != NULL) {
+  if (carried_object != nullptr) {
     if (!is_above_player ()) {
       Vector obj_pos = get_anchor_pos (bbox, ANCHOR_BOTTOM);
       obj_pos.x -= 16.f; /* FIXME: Actually do use the half width of the carried object here. */
@@ -114,7 +114,7 @@ Owl::active_update (float elapsed_time)
       //To drop enemie before leave the screen
       if (obj_pos.x<=16 || obj_pos.x+16>=Sector::current()->get_width()){
         carried_object->ungrab (*this, dir);
-        carried_object = NULL;
+        carried_object = nullptr;
       }
 
      else
@@ -122,7 +122,7 @@ Owl::active_update (float elapsed_time)
     }
     else { /* if (is_above_player) */
       carried_object->ungrab (*this, dir);
-      carried_object = NULL;
+      carried_object = nullptr;
     }
   }
 }
@@ -134,9 +134,9 @@ Owl::collision_squished(GameObject&)
   if (player)
     player->bounce (*this);
 
-  if (carried_object != NULL) {
+  if (carried_object != nullptr) {
     carried_object->ungrab (*this, dir);
-    carried_object = NULL;
+    carried_object = nullptr;
   }
 
   kill_fall ();
@@ -152,9 +152,9 @@ Owl::kill_fall()
   physic.enable_gravity(true);
   set_state(STATE_FALLING);
 
-  if (carried_object != NULL) {
+  if (carried_object != nullptr) {
     carried_object->ungrab (*this, dir);
-    carried_object = NULL;
+    carried_object = nullptr;
   }
 
   // start dead-script
@@ -164,9 +164,9 @@ Owl::kill_fall()
 void
 Owl::freeze()
 {
-  if (carried_object != NULL) {
+  if (carried_object != nullptr) {
     carried_object->ungrab (*this, dir);
-    carried_object = NULL;
+    carried_object = nullptr;
   }
   physic.enable_gravity(true);
   BadGuy::freeze();
@@ -213,9 +213,9 @@ Owl::collision_solid(const CollisionHit& hit)
 
 void
 Owl::ignite() {
-  if (carried_object != NULL) {
+  if (carried_object != nullptr) {
     carried_object->ungrab (*this, dir);
-    carried_object = NULL;
+    carried_object = nullptr;
   }
   BadGuy::ignite();
 }

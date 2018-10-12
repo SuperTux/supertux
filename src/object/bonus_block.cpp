@@ -253,10 +253,10 @@ BonusBlock::try_open(Player* player)
   auto sector = Sector::current();
   assert(sector);
 
-  if (player == NULL)
+  if (player == nullptr)
     player = sector->m_player;
 
-  if (player == NULL)
+  if (player == nullptr)
     return;
 
   Direction direction = (player->get_bbox().get_middle().x > bbox.get_middle().x) ? LEFT : RIGHT;
@@ -390,10 +390,10 @@ BonusBlock::try_drop(Player *player)
     return;
   }
 
-  if (player == NULL)
+  if (player == nullptr)
     player = sector->m_player;
 
-  if (player == NULL)
+  if (player == nullptr)
     return;
 
   Direction direction = (player->get_bbox().get_middle().x > bbox.get_middle().x) ? LEFT : RIGHT;

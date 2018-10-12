@@ -42,7 +42,7 @@ class EditorInputCenter final
     void delete_markers();
     void update_node_iterators();
 
-    void edit_path(Path* path, GameObject* new_marked_object = NULL);
+    void edit_path(Path* path, GameObject* new_marked_object = nullptr);
 
     static bool render_background;
     static bool render_grid;

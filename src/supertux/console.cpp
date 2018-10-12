@@ -111,7 +111,7 @@ Console::Console(ConsoleBuffer& buffer) :
   m_history_position(m_history.end()),
   m_background(Surface::from_file("images/engine/console.png")),
   m_background2(Surface::from_file("images/engine/console2.png")),
-  m_vm(NULL),
+  m_vm(nullptr),
   m_vm_object(),
   m_backgroundOffset(0),
   m_height(0),
@@ -126,7 +126,7 @@ Console::Console(ConsoleBuffer& buffer) :
 
 Console::~Console()
 {
-  if (m_vm != NULL && scripting::global_vm != NULL)
+  if (m_vm != nullptr && scripting::global_vm != nullptr)
   {
     sq_release(scripting::global_vm, &m_vm_object);
   }
@@ -152,10 +152,10 @@ Console::on_buffer_change(int line_count)
 void
 Console::ready_vm()
 {
-  if(m_vm == NULL) {
+  if(m_vm == nullptr) {
     m_vm = scripting::global_vm;
     HSQUIRRELVM new_vm = sq_newthread(m_vm, 16);
-    if(new_vm == NULL)
+    if(new_vm == nullptr)
       throw scripting::SquirrelError(m_vm, "Couldn't create new VM thread for console");
 
     // store reference to thread

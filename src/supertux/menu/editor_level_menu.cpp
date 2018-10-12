@@ -47,7 +47,7 @@ EditorLevelMenu::EditorLevelMenu() :
 EditorLevelMenu::~EditorLevelMenu()
 {
   auto editor = Editor::current();
-  if(editor == NULL) {
+  if(editor == nullptr) {
     return;
   }
   if (editor->get_level()->m_tileset != old_tileset) {

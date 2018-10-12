@@ -112,7 +112,7 @@ void
 Climbable::event(Player& player, EventType type)
 {
   if ((type == EVENT_ACTIVATE) || (activate_try_timer.started())) {
-    if(player.get_grabbed_object() == NULL){
+    if(player.get_grabbed_object() == nullptr){
       if(may_climb(player)) {
         climbed_by = &player;
         player.start_climbing(*this);

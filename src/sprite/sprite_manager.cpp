@@ -36,7 +36,7 @@ SpriteManager::create(const std::string& name)
   if(i == sprites.end()) {
     // try loading the spritefile
     data = load(name);
-    if(data == NULL) {
+    if(data == nullptr) {
       std::stringstream msg;
       msg << "Sprite '" << name << "' not found.";
       throw std::runtime_error(msg.str());

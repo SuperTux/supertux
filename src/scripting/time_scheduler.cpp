@@ -23,7 +23,7 @@
 
 namespace scripting {
 
-TimeScheduler* TimeScheduler::instance = NULL;
+TimeScheduler* TimeScheduler::instance = nullptr;
 
 TimeScheduler::TimeScheduler() :
   schedule()

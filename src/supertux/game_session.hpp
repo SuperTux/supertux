@@ -45,7 +45,7 @@ class GameSession final : public Screen,
                           public Currenton<GameSession>
 {
 public:
-  GameSession(const std::string& levelfile, Savegame& savegame, Statistics* statistics = NULL);
+  GameSession(const std::string& levelfile, Savegame& savegame, Statistics* statistics = nullptr);
 
   virtual void draw(Compositor& compositor) override;
   virtual void update(float frame_ratio) override;
@@ -72,7 +72,7 @@ public:
   Level* get_current_level() const
   { return m_level.get(); }
 
-  void start_sequence(Sequence seq, const SequenceData* data = NULL);
+  void start_sequence(Sequence seq, const SequenceData* data = nullptr);
 
   /**
    * returns the "working directory" usually this is the directory where the

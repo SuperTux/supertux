@@ -47,7 +47,7 @@ EditorSectorsMenu::EditorSectorsMenu()
 EditorSectorsMenu::~EditorSectorsMenu()
 {
   auto editor = Editor::current();
-  if(editor == NULL) {
+  if(editor == nullptr) {
     return;
   }
   editor->reactivate_request = true;

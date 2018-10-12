@@ -167,7 +167,7 @@ EditorInputGui::update(float elapsed_time) {
       if (input_type == IP_OBJECT){
         size = static_cast<int>(object_input->groups[active_objectgroup].icons.size());
       } else {
-        if(active_tilegroup == NULL)
+        if(active_tilegroup == nullptr)
         {
           return;
         }
@@ -433,7 +433,7 @@ void
 EditorInputGui::update_mouse_icon() {
   switch (input_type) {
     case IP_NONE:
-      MouseCursor::current()->set_icon(NULL);
+      MouseCursor::current()->set_icon(nullptr);
       break;
     case IP_OBJECT:
       if (object.empty()) {

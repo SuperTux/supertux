@@ -98,7 +98,7 @@ SpriteData::parse_action(const ReaderMapping& lisp)
   std::string mirror_action;
   if (lisp.get("mirror-action", mirror_action)) {
     const auto act_tmp = get_action(mirror_action);
-    if(act_tmp == NULL) {
+    if(act_tmp == nullptr) {
       std::ostringstream msg;
       msg << "Could not mirror action. Action not found: \"" << mirror_action << "\"\n"
           << "Mirror actions must be defined after the real one!";

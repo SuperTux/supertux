@@ -159,7 +159,7 @@ void
 WorldMap::move_to_spawnpoint(const std::string& spawnpoint, bool pan, bool main_as_default)
 {
   auto sp = get_spawnpoint_by_name(spawnpoint);
-  if(sp != NULL) {
+  if(sp != nullptr) {
     Vector p = sp->pos;
     m_tux->set_tile_pos(p);
     m_tux->set_direction(sp->auto_dir);
@@ -206,14 +206,14 @@ WorldMap::load(const std::string& filename)
 
     std::string tileset_name;
     if(level_.get("tileset", tileset_name)) {
-      if(m_tileset != NULL) {
+      if(m_tileset != nullptr) {
         log_warning << "multiple tilesets specified in level_" << std::endl;
       } else {
         m_tileset = TileManager::current()->get_tileset(tileset_name);
       }
     }
     /* load default tileset */
-    if(m_tileset == NULL) {
+    if(m_tileset == nullptr) {
       m_tileset = TileManager::current()->get_tileset("images/worldmap.strf");
     }
 
@@ -414,7 +414,7 @@ WorldMap::finished_level(Level* gamelevel)
   // TODO use Level* parameter here?
   auto level = at_level();
 
-  if(level == NULL) {
+  if(level == nullptr) {
     return;
   }
 
@@ -675,7 +675,7 @@ WorldMap::at_level() const
       return level;
   }
 
-  return NULL;
+  return nullptr;
 }
 
 SpecialTile*
@@ -686,7 +686,7 @@ WorldMap::at_special_tile() const
       return special_tile;
   }
 
-  return NULL;
+  return nullptr;
 }
 
 SpriteChange*
@@ -697,7 +697,7 @@ WorldMap::at_sprite_change(const Vector& pos) const
       return sprite_change;
   }
 
-  return NULL;
+  return nullptr;
 }
 
 Teleporter*
@@ -707,7 +707,7 @@ WorldMap::at_teleporter(const Vector& pos) const
     if(teleporter->pos == pos) return teleporter;
   }
 
-  return NULL;
+  return nullptr;
 }
 
 void
@@ -838,7 +838,7 @@ WorldMap::setup()
   if (!m_initial_fade_tilemap.empty())
   {
     auto tilemap = get_tilemap_by_name(m_initial_fade_tilemap);
-    if(tilemap != NULL)
+    if(tilemap != nullptr)
     {
       if(m_fade_direction == 0)
       {
@@ -1062,7 +1062,7 @@ WorldMap::load_state()
         if(SQ_SUCCEEDED(sq_getstring(vm, -2, &key)))
         {
           auto tilemap = get_tilemap_by_name(key);
-          if(tilemap != NULL)
+          if(tilemap != nullptr)
           {
             sq_pushnull(vm); // null iterator (inner);
             while(SQ_SUCCEEDED(sq_next(vm, -2)))
@@ -1167,7 +1167,7 @@ WorldMap::run_script(const std::string& script, const std::string& sourcename)
 {
   if(script.empty())
   {
-    return NULL;
+    return nullptr;
   }
   std::istringstream in(script);
   return run_script(in, sourcename);
@@ -1182,7 +1182,7 @@ WorldMap::run_script(std::istream& in, const std::string& sourcename)
   catch(const std::exception& e)
   {
     log_warning << "Error running worldmap script: " << e.what() << std::endl;
-    return NULL;
+    return nullptr;
   }
 }
 
@@ -1218,7 +1218,7 @@ WorldMap::get_tilemap_by_name(const std::string& tilemap_name) const
       return tilemap;
     }
   }
-  return NULL;
+  return nullptr;
 }
 
 } // namespace worldmap

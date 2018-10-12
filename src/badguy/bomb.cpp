@@ -27,7 +27,7 @@ Bomb::Bomb(const Vector& pos, Direction dir_, std::string custom_sprite /*= "ima
   BadGuy( pos, dir_, custom_sprite ),
   state(STATE_TICKING),
   grabbed(false),
-  grabber(NULL),
+  grabber(nullptr),
   ticking(SoundManager::current()->create_sound_source("sounds/fizz.wav"))
 {
   set_action(dir_ == LEFT ? "ticking-left" : "ticking-right", 1);
@@ -90,7 +90,7 @@ Bomb::explode()
   // Make the player let go before we explode, otherwise the player is holding
   // an invalid object. There's probably a better way to do this than in the
   // Bomb class.
-  if (grabber != NULL) {
+  if (grabber != nullptr) {
     auto player = dynamic_cast<Player*>(grabber);
 
     if (player)

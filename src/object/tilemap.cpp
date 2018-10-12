@@ -241,7 +241,7 @@ TileMap::get_settings() {
   }
 
   if (!m_editor_active) {
-    result.options.push_back( ObjectOption(MN_REMOVE, "", NULL));
+    result.options.push_back( ObjectOption(MN_REMOVE, "", nullptr));
   }
   return result;
 }

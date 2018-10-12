@@ -275,7 +275,7 @@ GameSession::draw_pause(DrawingContext& context)
 void
 GameSession::setup()
 {
-  if (m_currentsector == NULL)
+  if (m_currentsector == nullptr)
     return;
 
   if(m_currentsector != Sector::current()) {
@@ -380,7 +380,7 @@ GameSession::update(float elapsed_time)
     }
   }
 
-  if(m_currentsector == NULL)
+  if(m_currentsector == nullptr)
     return;
 
   // update sounds
@@ -497,7 +497,7 @@ GameSession::start_sequence(Sequence seq, const SequenceData* data)
 
   if(const auto& worldmap = worldmap::WorldMap::current())
   {
-    if(data != NULL)
+    if(data != nullptr)
     {
       if(!data->fade_tilemap.empty())
       {

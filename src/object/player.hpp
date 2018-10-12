@@ -190,7 +190,7 @@ public:
   }
   void stop_grabbing()
   {
-    m_grabbed_object = NULL;
+    m_grabbed_object = nullptr;
   }
   /**
    * Checks whether the player has grabbed a certain object
@@ -226,14 +226,14 @@ public:
    * @param sequence_name Name of the sequence to start
    * @param data Custom additional sequence data
    */
-  void trigger_sequence(const std::string& sequence_name, const SequenceData* data = NULL);
+  void trigger_sequence(const std::string& sequence_name, const SequenceData* data = nullptr);
 
   /**
    * Orders the current GameSession to start a sequence
    * @param sequence Sequence to start
    * @param data Custom additional sequence data
    */
-  void trigger_sequence(Sequence seq, const SequenceData* data = NULL);
+  void trigger_sequence(Sequence seq, const SequenceData* data = nullptr);
 
   /**
    * Requests that the player start climbing the given Climbable

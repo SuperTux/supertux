@@ -135,7 +135,7 @@ WillOWisp::active_update(float elapsed_time)
 
     case STATE_PATHMOVING:
     case STATE_PATHMOVING_TRACK:
-      if(walker.get() == NULL)
+      if(walker.get() == nullptr)
         return;
       movement = walker->advance(elapsed_time) - get_pos();
       if(mystate == STATE_PATHMOVING_TRACK && dist.norm() <= track_range) {
@@ -165,7 +165,7 @@ WillOWisp::activate()
 void
 WillOWisp::deactivate()
 {
-  sound_source.reset(NULL);
+  sound_source.reset(nullptr);
 
   switch (mystate) {
     case STATE_STOPPED:

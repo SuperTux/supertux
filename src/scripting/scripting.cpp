@@ -34,7 +34,7 @@
 #ifdef ENABLE_SQDBG
 #  include "../../external/squirrel/sqdbg/sqrdbg.h"
 namespace {
-HSQREMOTEDBG debugger = NULL;
+HSQREMOTEDBG debugger = nullptr;
 } // namespace
 #endif
 
@@ -51,10 +51,10 @@ void printfunc(HSQUIRRELVM, const char* fmt, ...)
   va_start(arglist, fmt);
   vsnprintf(buf, sizeof(buf), fmt, arglist);
   char* ptr = strtok(buf, separator);
-  while(ptr != NULL)
+  while(ptr != nullptr)
   {
     ConsoleBuffer::output << "[SCRIPTING] " << ptr << std::endl;
-    ptr = strtok(NULL, separator);
+    ptr = strtok(nullptr, separator);
   }
   va_end(arglist);
 }
@@ -63,19 +63,19 @@ void printfunc(HSQUIRRELVM, const char* fmt, ...)
 
 namespace scripting {
 
-HSQUIRRELVM global_vm = NULL;
+HSQUIRRELVM global_vm = nullptr;
 
 Scripting::Scripting(bool enable_debugger)
 {
   global_vm = sq_open(64);
-  if(global_vm == NULL)
+  if(global_vm == nullptr)
     throw std::runtime_error("Couldn't initialize squirrel vm");
 
   if(enable_debugger) {
 #ifdef ENABLE_SQDBG
     sq_enabledebuginfo(global_vm, SQTrue);
     debugger = sq_rdbg_init(global_vm, 1234, SQFalse);
-    if(debugger == NULL)
+    if(debugger == nullptr)
       throw SquirrelError(global_vm, "Couldn't initialize squirrel debugger");
 
     sq_enabledebuginfo(global_vm, SQTrue);
@@ -121,23 +121,23 @@ Scripting::Scripting(bool enable_debugger)
 Scripting::~Scripting()
 {
 #ifdef ENABLE_SQDBG
-  if(debugger != NULL) {
+  if(debugger != nullptr) {
     sq_rdbg_shutdown(debugger);
-    debugger = NULL;
+    debugger = nullptr;
   }
 #endif
 
   if (global_vm)
     sq_close(global_vm);
 
-  global_vm = NULL;
+  global_vm = nullptr;
 }
 
 void
 Scripting::update_debugger()
 {
 #ifdef ENABLE_SQDBG
-  if(debugger != NULL)
+  if(debugger != nullptr)
     sq_rdbg_update(debugger);
 #endif
 }

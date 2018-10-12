@@ -226,7 +226,7 @@ SQInteger squirrel_read_char(SQUserPointer file)
 void try_expose(const GameObjectPtr& object, const HSQOBJECT& table)
 {
   auto object_ = dynamic_cast<ScriptInterface*>(object.get());
-  if(object_ != NULL) {
+  if(object_ != nullptr) {
     HSQUIRRELVM vm = scripting::global_vm;
     sq_pushobject(vm, table);
     object_->expose(vm, -1);
@@ -237,7 +237,7 @@ void try_expose(const GameObjectPtr& object, const HSQOBJECT& table)
 void try_unexpose(const GameObjectPtr& object, const HSQOBJECT& table)
 {
   auto object_ = dynamic_cast<ScriptInterface*>(object.get());
-  if(object_ != NULL) {
+  if(object_ != nullptr) {
     HSQUIRRELVM vm = scripting::global_vm;
     SQInteger oldtop = sq_gettop(vm);
     sq_pushobject(vm, table);
@@ -273,7 +273,7 @@ HSQUIRRELVM run_script(std::istream& in, const std::string& sourcename,
     HSQUIRRELVM vm = object_to_vm(object);
 
     // set root table
-    if(root_table != NULL)
+    if(root_table != nullptr)
     {
       sq_pushobject(vm, *root_table);
       sq_setroottable(vm);
@@ -325,7 +325,7 @@ void release_scripts(HSQUIRRELVM vm, ScriptList& scripts, HSQOBJECT& root_table)
 HSQOBJECT create_thread(HSQUIRRELVM vm)
 {
   HSQUIRRELVM new_vm = sq_newthread(vm, 64);
-  if(new_vm == NULL)
+  if(new_vm == nullptr)
     throw SquirrelError(vm, "Couldn't create new VM");
 
   HSQOBJECT vm_object;
@@ -352,7 +352,7 @@ HSQOBJECT vm_to_object(HSQUIRRELVM vm)
 HSQUIRRELVM object_to_vm(HSQOBJECT object)
 {
   if(object._type != OT_THREAD)
-    return NULL;
+    return nullptr;
 
   return object._unVal.pThread;
 }

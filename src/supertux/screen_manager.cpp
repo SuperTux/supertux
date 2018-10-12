@@ -59,7 +59,7 @@ ScreenManager::~ScreenManager()
 {
   using namespace scripting;
   delete TimeScheduler::instance;
-  TimeScheduler::instance = NULL;
+  TimeScheduler::instance = nullptr;
 }
 
 void
@@ -147,7 +147,7 @@ ScreenManager::draw_player_pos(DrawingContext& context)
   if (auto session = GameSession::current())
   {
     auto sector = session->get_current_sector();
-    if (sector == NULL)
+    if (sector == nullptr)
       return;
     auto pos = sector->get_players()[0]->get_pos();
     auto pos_text = "X:" + std::to_string(int(pos.x)) + " Y:" + std::to_string(int(pos.y));
@@ -260,7 +260,7 @@ ScreenManager::process_events()
             if (Editor::is_active()) {
               Editor::current()->resize();
             }
-            if(session != NULL)
+            if(session != nullptr)
             {
               session->on_window_resize();
             }
@@ -269,7 +269,7 @@ ScreenManager::process_events()
           case SDL_WINDOWEVENT_FOCUS_LOST:
             if (g_config->pause_on_focusloss)
             {
-              if(session != NULL && session->is_active())
+              if(session != nullptr && session->is_active())
               {
                 session->toggle_pause();
               }

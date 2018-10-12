@@ -81,7 +81,7 @@ ObjectMenu::~ObjectMenu()
   object->after_editor_set();
 
   auto editor = Editor::current();
-  if(editor == NULL) {
+  if(editor == nullptr) {
     return;
   }
   editor->reactivate_request = true;

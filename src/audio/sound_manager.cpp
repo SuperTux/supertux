@@ -41,7 +41,7 @@ SoundManager::SoundManager() :
   current_music()
 {
   try {
-    if (device == NULL) {
+    if (device == nullptr) {
       throw std::runtime_error("Couldn't open audio device.");
     }
     check_alc_error("Couldn't create audio context: ");
@@ -54,13 +54,13 @@ SoundManager::SoundManager() :
 
     set_listener_orientation(Vector(0.0f, 0.0f), Vector(0.0f, -1.0f));
   } catch(std::exception& e) {
-    if(context != NULL) {
+    if(context != nullptr) {
       alcDestroyContext(context);
-      context = NULL;
+      context = nullptr;
     }
-    if(device != NULL) {
+    if(device != nullptr) {
       alcCloseDevice(device);
-      device = NULL;
+      device = nullptr;
     }
     log_warning << "Couldn't initialize audio device: " << e.what() << std::endl;
     print_openal_version();
@@ -76,13 +76,13 @@ SoundManager::~SoundManager()
     alDeleteBuffers(1, &buffer.second);
   }
 
-  if(context != NULL) {
+  if(context != nullptr) {
     alcDestroyContext(context);
-    context = NULL;
+    context = nullptr;
   }
-  if(device != NULL) {
+  if(device != nullptr) {
     alcCloseDevice(device);
-    device = NULL;
+    device = nullptr;
   }
 }
 
@@ -240,7 +240,7 @@ SoundManager::remove_from_update(StreamSoundSource* sss)
 void
 SoundManager::enable_sound(bool enable)
 {
-  if(device == NULL)
+  if(device == nullptr)
     return;
 
   sound_enabled = enable;
@@ -249,7 +249,7 @@ SoundManager::enable_sound(bool enable)
 void
 SoundManager::enable_music(bool enable)
 {
-  if(device == NULL)
+  if(device == nullptr)
     return;
 
   music_enabled = enable;
@@ -279,13 +279,13 @@ void
 SoundManager::set_music_volume(int volume)
 {
   music_volume = volume;
-  if(music_source != NULL) music_source->set_volume(static_cast<float>(volume) / 100.0f);
+  if(music_source != nullptr) music_source->set_volume(static_cast<float>(volume) / 100.0f);
 }
 
 void
 SoundManager::play_music(const std::string& filename, bool fade)
 {
-  if(filename == current_music && music_source != NULL)
+  if(filename == current_music && music_source != nullptr)
   {
     if(music_source->paused())
     {
@@ -327,7 +327,7 @@ SoundManager::play_music(const std::string& filename, bool fade)
 void
 SoundManager::pause_music(float fadetime)
 {
-  if(music_source == NULL)
+  if(music_source == nullptr)
     return;
 
   if(fadetime > 0) {
@@ -379,7 +379,7 @@ SoundManager::set_sound_volume(int volume)
 void
 SoundManager::resume_music(float fadetime)
 {
-  if(music_source == NULL)
+  if(music_source == nullptr)
     return;
 
   if(fadetime > 0) {

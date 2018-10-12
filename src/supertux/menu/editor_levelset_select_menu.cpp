@@ -99,7 +99,7 @@ EditorLevelsetSelectMenu::EditorLevelsetSelectMenu() :
 EditorLevelsetSelectMenu::~EditorLevelsetSelectMenu()
 {
   auto editor = Editor::current();
-  if(editor == NULL) {
+  if(editor == nullptr) {
     return;
   }
   if (!editor->is_level_loaded() && !editor->reload_request) {

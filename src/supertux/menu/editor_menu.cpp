@@ -27,7 +27,7 @@
 EditorMenu::EditorMenu()
 {
   bool worldmap = Editor::current()->get_worldmap_mode();
-  bool is_world = Editor::current()->get_world() != NULL;
+  bool is_world = Editor::current()->get_world() != nullptr;
   std::vector<std::string> snap_grid_sizes;
   snap_grid_sizes.push_back(_("1/8 tile (4px)"));
   snap_grid_sizes.push_back(_("1/4 tile (8px)"));
@@ -71,7 +71,7 @@ EditorMenu::EditorMenu()
 EditorMenu::~EditorMenu()
 {
   auto editor = Editor::current();
-  if(editor == NULL) {
+  if(editor == nullptr) {
     return;
   }
   editor->reactivate_request = true;

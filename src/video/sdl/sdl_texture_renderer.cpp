@@ -78,7 +78,7 @@ void
 SDLTextureRenderer::end_draw()
 {
   SDL_RenderSetScale(m_renderer, 1.0f, 1.0f);
-  SDL_SetRenderTarget(m_renderer, NULL);
+  SDL_SetRenderTarget(m_renderer, nullptr);
 }
 
 Rect

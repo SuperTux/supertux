@@ -55,7 +55,7 @@ EditorSectorMenu::EditorSectorMenu() :
 EditorSectorMenu::~EditorSectorMenu()
 {
   auto editor = Editor::current();
-  if(editor == NULL) {
+  if(editor == nullptr) {
     return;
   }
   // Makes sure that the name of the sector isn't already used.
