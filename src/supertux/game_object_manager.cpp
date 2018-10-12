@@ -17,6 +17,8 @@
 
 #include "supertux/game_object_manager.hpp"
 
+#include <algorithm>
+
 #include "object/tilemap.hpp"
 #include "supertux/sector.hpp"
 
@@ -80,22 +82,19 @@ GameObjectManager::draw(DrawingContext& context)
 void
 GameObjectManager::update_game_objects()
 {
-  /** cleanup marked objects */
-  for(auto i = m_gameobjects.begin();
-      i != m_gameobjects.end(); /* nothing */) {
-    const GameObjectPtr& object = *i;
+  {
+    // cleanup marked objects
+    auto erase_it = std::remove_if(m_gameobjects.begin(), m_gameobjects.end(),
+                                   [](const GameObjectPtr& obj){ return !obj->is_valid(); });
 
-    if(object->is_valid()) {
-      ++i;
-      continue;
+    for(auto it = erase_it; it != m_gameobjects.end(); ++it) {
+      before_object_remove(*it);
     }
 
-    before_object_remove(object);
-
-    i = m_gameobjects.erase(i);
+    m_gameobjects.erase(erase_it, m_gameobjects.end());
   }
 
-  /* add newly created objects */
+  // add newly created objects
   for(const auto& object : m_gameobjects_new)
   {
     before_object_add(object);
@@ -104,7 +103,7 @@ GameObjectManager::update_game_objects()
   }
   m_gameobjects_new.clear();
 
-  /* update solid_tilemaps list */
+  // update solid_tilemaps list
   //FIXME: this could be more efficient
   static_cast<Sector*>(this)->m_solid_tilemaps.clear();
   for(const auto& obj : m_gameobjects)
