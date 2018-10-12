@@ -18,13 +18,14 @@ before_build:
 - cmd: |
     echo Installing dependencies...
     vcpkg integrate install
-    copy mk\cmake\x86-windows.cmake C:\tools\vcpkg\triplets\
+    #copy mk\cmake\x86-windows.cmake C:\tools\vcpkg\triplets\
     vcpkg install boost-date-time:x86-windows
     vcpkg install boost-filesystem:x86-windows
     vcpkg install boost-format:x86-windows
     vcpkg install boost-locale:x86-windows
     vcpkg install boost-optional:x86-windows
     vcpkg install boost-system:x86-windows
+    vcpkg remove curl:x86-windows
     vcpkg install curl:x86-windows
     vcpkg install glew:x86-windows
     vcpkg install libogg:x86-windows
