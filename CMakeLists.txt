@@ -496,11 +496,40 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
     #   -Wpadded -Wabi -Winline -Wunsafe-loop-optimizations -Wstrict-overflow=5
     # fails on MinGW:
     #   -ansi
-    set(SUPERTUX2_EXTRA_WARNING_FLAGS "-fdiagnostics-show-option -pedantic -Wno-long-long -Wcast-align -Wdisabled-optimization -Winit-self -Winvalid-pch -Wmissing-include-dirs -Wmissing-noreturn -Wpacked -Wredundant-decls -Wformat=2 -Weffc++ -Wctor-dtor-privacy  -Wno-unused-parameter -Wshadow -Wnon-virtual-dtor -Wcast-qual -Wold-style-cast")
+    string(CONCAT SUPERTUX2_EXTRA_WARNING_FLAGS
+      "-fdiagnostics-show-option "
+      "-pedantic "
+      "-Wno-long-long "
+      "-Wcast-align "
+      "-Wdisabled-optimization "
+      "-Winit-self -Winvalid-pch "
+      "-Wmissing-include-dirs "
+      "-Wmissing-noreturn "
+      "-Wpacked -Wredundant-decls "
+      "-Wformat=2 "
+      "-Weffc++ "
+      "-Wctor-dtor-privacy "
+      "-Wno-unused-parameter "
+      "-Wshadow "
+      "-Wnon-virtual-dtor "
+      "-Wcast-qual "
+      "-Wold-style-cast "
+      )
     if(CMAKE_COMPILER_IS_GNUCXX)
-      set(SUPERTUX2_EXTRA_WARNING_FLAGS "${SUPERTUX2_EXTRA_WARNING_FLAGS} -Wconversion -Wlogical-op -Wstrict-null-sentinel -Wint-in-bool-context -Wsuggest-override")
+      string(CONCAT SUPERTUX2_EXTRA_WARNING_FLAGS
+        "${SUPERTUX2_EXTRA_WARNING_FLAGS} "
+        "-Wconversion "
+        "-Wlogical-op "
+        "-Wstrict-null-sentinel "
+        "-Wint-in-bool-context "
+        "-Wsuggest-override "
+        )
     else()
-      set(SUPERTUX2_EXTRA_WARNING_FLAGS "${SUPERTUX2_EXTRA_WARNING_FLAGS} -Wconversion -Wno-sign-conversion")
+      string(CONCAT SUPERTUX2_EXTRA_WARNING_FLAGS
+        "${SUPERTUX2_EXTRA_WARNING_FLAGS} "
+        "-Wconversion "
+        "-Wno-sign-conversion "
+        )
     endif()
   endif(WARNINGS)
 endif()
