@@ -25,16 +25,16 @@ class ItemHorizontalLine : public MenuItem
     ItemHorizontalLine();
 
     /** Draws the menu item. */
-    virtual void draw(DrawingContext&, const Vector& pos, int menu_width, bool active);
+    virtual void draw(DrawingContext&, const Vector& pos, int menu_width, bool active) override;
 
     /** Returns true when the menu item has no action and therefore can be skipped.
         Useful for labels and horizontal lines.*/
-    virtual bool skippable() const {
+    virtual bool skippable() const override {
       return true;
     }
 
     /** Returns the minimum width of the menu item. */
-    virtual int get_width() const;
+    virtual int get_width() const override;
 
   private:
     ItemHorizontalLine(const ItemHorizontalLine&);

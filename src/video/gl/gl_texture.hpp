@@ -29,7 +29,7 @@ class Sampler;
 /** This class is a wrapper around a texture handle. It stores the
     texture width and height and provides convenience functions for
     uploading SDL_Surfaces into the texture. */
-class GLTexture : public Texture
+class GLTexture final : public Texture
 {
 protected:
   GLuint m_handle;
@@ -57,22 +57,22 @@ public:
     return m_sampler;
   }
 
-  int get_texture_width() const
+  virtual int get_texture_width() const override
   {
     return m_texture_width;
   }
 
-  int get_texture_height() const
+  virtual int get_texture_height() const override
   {
     return m_texture_height;
   }
 
-  int get_image_width() const
+  virtual int get_image_width() const override
   {
     return m_image_width;
   }
 
-  int get_image_height() const
+  virtual int get_image_height() const override
   {
     return m_image_height;
   }

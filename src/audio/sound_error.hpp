@@ -26,7 +26,8 @@ public:
   SoundError(const std::string& message) throw();
   virtual ~SoundError() throw();
 
-  const char* what() const throw();
+  virtual const char* what() const throw() override;
+
 private:
   std::string message;
 };

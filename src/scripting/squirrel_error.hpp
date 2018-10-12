@@ -33,7 +33,8 @@ public:
   SquirrelError(HSQUIRRELVM v, const std::string& message) throw();
   virtual ~SquirrelError() throw();
 
-  const char* what() const throw();
+  virtual const char* what() const throw() override;
+
 private:
   std::string message;
 };

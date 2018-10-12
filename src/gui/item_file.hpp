@@ -26,7 +26,7 @@ class ItemFile : public MenuItem
              const std::vector<std::string>& extensions_, int _id = -1);
 
     /** Processes the menu action. */
-    virtual void process_action(const MenuAction& action);
+    virtual void process_action(const MenuAction& action) override;
 
   private:
     std::string* filename;

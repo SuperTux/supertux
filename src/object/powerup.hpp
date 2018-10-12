@@ -23,27 +23,27 @@
 class PowerUp : public MovingSprite
 {
 private:
-
   /**
    * Initialize power up sprites and other defaults
    */
-  void initialize();
+  virtual void initialize();
+
 public:
   PowerUp(const ReaderMapping& lisp);
   PowerUp(const Vector& pos, const std::string& sprite_name);
 
-  virtual void update(float elapsed_time);
-  virtual void draw(DrawingContext& context);
-  virtual void collision_solid(const CollisionHit& hit);
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
-  std::string get_class() const {
+  virtual void update(float elapsed_time) override;
+  virtual void draw(DrawingContext& context) override;
+  virtual void collision_solid(const CollisionHit& hit) override;
+  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual std::string get_class() const override {
     return "powerup";
   }
-  std::string get_display_name() const {
+  virtual std::string get_display_name() const override {
     return _("Power up");
   }
 
-  virtual ObjectSettings get_settings();
+  virtual ObjectSettings get_settings() override;
 
 private:
   Physic physic;

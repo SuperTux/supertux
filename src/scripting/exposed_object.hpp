@@ -63,7 +63,7 @@ public:
    * @param vm The squirrel virtual machine to expose the object on
    * @param table_idx Index of the table to expose the object on
    */
-  void expose(HSQUIRRELVM vm, SQInteger table_idx)
+  virtual void expose(HSQUIRRELVM vm, SQInteger table_idx) override
   {
     auto name = m_parent->get_name();
     if (name.empty())
@@ -82,7 +82,7 @@ public:
    * @param vm The squirrel virtual machine to un-expose the object on
    * @param table_idx Index of the table to un-expose the object on
    */
-  void unexpose(HSQUIRRELVM vm, SQInteger table_idx)
+  virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx) override
   {
     auto name = m_parent->get_name();
     if (name.empty())

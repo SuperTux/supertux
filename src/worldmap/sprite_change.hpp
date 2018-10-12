@@ -35,8 +35,8 @@ public:
   SpriteChange(const ReaderMapping& lisp);
   virtual ~SpriteChange();
 
-  virtual void draw(DrawingContext& context);
-  virtual void update(float elapsed_time);
+  virtual void draw(DrawingContext& context) override;
+  virtual void update(float elapsed_time) override;
 
   /**
    * Activates the SpriteChange's stay action, if applicable

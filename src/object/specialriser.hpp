@@ -27,12 +27,12 @@ class SpecialRiser : public GameObject
 {
 public:
   SpecialRiser(const Vector& pos, std::shared_ptr<MovingObject> child);
-  virtual bool is_saveable() const {
+  virtual bool is_saveable() const override {
     return false;
   }
 
-  virtual void update(float elapsed_time);
-  virtual void draw(DrawingContext& context);
+  virtual void update(float elapsed_time) override;
+  virtual void draw(DrawingContext& context) override;
 
 private:
   float offset;

@@ -32,19 +32,19 @@ public:
   Rock(const ReaderMapping& reader);
   Rock(const ReaderMapping& reader, const std::string& spritename);
 
-  void collision_solid(const CollisionHit& hit);
-  HitResponse collision(GameObject& other, const CollisionHit& hit);
-  void update(float elapsed_time);
+  virtual void collision_solid(const CollisionHit& hit) override;
+  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual void update(float elapsed_time) override;
 
-  void grab(MovingObject& object, const Vector& pos, Direction dir);
-  void ungrab(MovingObject& object, Direction dir);
-  std::string get_class() const {
+  virtual void grab(MovingObject& object, const Vector& pos, Direction dir) override;
+  virtual void ungrab(MovingObject& object, Direction dir) override;
+  virtual std::string get_class() const override {
     return "rock";
   }
-  std::string get_display_name() const {
+  virtual std::string get_display_name() const override {
     return _("Rock");
   }
-  ObjectSettings get_settings();
+  virtual ObjectSettings get_settings() override;
 
 protected:
   Physic physic;

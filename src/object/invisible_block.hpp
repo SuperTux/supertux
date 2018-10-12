@@ -26,19 +26,19 @@ class InvisibleBlock : public Block
 public:
   InvisibleBlock(const Vector& pos);
   InvisibleBlock(const ReaderMapping& lisp);
-  std::string get_class() const {
+  virtual std::string get_class() const override {
     return "invisible_block";
   }
-  std::string get_display_name() const {
+  virtual std::string get_display_name() const override {
     return _("Invisible block");
   }
 
-  virtual void draw(DrawingContext& context);
-  virtual bool collides(GameObject& other, const CollisionHit& hit) const;
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
+  virtual void draw(DrawingContext& context) override;
+  virtual bool collides(GameObject& other, const CollisionHit& hit) const override;
+  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
 
 protected:
-  virtual void hit(Player& player);
+  virtual void hit(Player& player) override;
 
 private:
   bool visible;

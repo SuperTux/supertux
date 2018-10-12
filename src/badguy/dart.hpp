@@ -30,34 +30,34 @@ public:
   Dart(const ReaderMapping& reader);
   Dart(const Vector& pos, Direction d, const BadGuy* parent);
 
-  void initialize();
-  void activate();
-  void deactivate();
+  virtual void initialize() override;
+  virtual void activate() override;
+  virtual void deactivate() override;
 
-  void active_update(float elapsed_time);
+  virtual void active_update(float elapsed_time) override;
 
-  void collision_solid(const CollisionHit& hit);
-  HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
-  HitResponse collision_player(Player& player, const CollisionHit& hit);
+  virtual void collision_solid(const CollisionHit& hit) override;
+  virtual HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit) override;
+  virtual HitResponse collision_player(Player& player, const CollisionHit& hit) override;
 
   virtual bool updatePointers(const GameObject* from_object, GameObject* to_object);
-  std::string get_class() const {
+  virtual std::string get_class() const override {
     return "dart";
   }
-  std::string get_display_name() const {
+  virtual std::string get_display_name() const override {
     return _("Dart");
   }
 
-  bool is_flammable() const;
+  virtual bool is_flammable() const override;
 
-  bool is_hurtable() const {
+  virtual bool is_hurtable() const override {
     return false;
   }
 
-  void stop_looping_sounds();
-  void play_looping_sounds();
+  virtual void stop_looping_sounds() override;
+  virtual void play_looping_sounds() override;
 
-  void after_editor_set();
+  virtual void after_editor_set() override;
 
 protected:
   const BadGuy* parent; /**< collisions with this BadGuy will be ignored */

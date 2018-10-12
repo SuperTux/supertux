@@ -57,17 +57,17 @@ public:
   AmbientSound(const Vector& pos, float factor, float bias, float vol, const std::string& file);
   ~AmbientSound();
 
-  HitResponse collision(GameObject& other, const CollisionHit& hit_);
+  virtual HitResponse collision(GameObject& other, const CollisionHit& hit_) override;
 
   const Vector get_pos() const
   {
     return bbox.p1;
   }
-  std::string get_class() const {
+  virtual std::string get_class() const override {
     return "ambient_sound";
   }
 
-  bool has_variable_size() const {
+  virtual bool has_variable_size() const override {
     return true;
   }
 
@@ -76,7 +76,7 @@ public:
    * @{
    */
 #ifndef SCRIPTING_API
-  void set_pos(const Vector& pos);
+  virtual void set_pos(const Vector& pos) override;
 #endif
   void set_pos(float x, float y);
   float get_pos_x() const;
@@ -85,17 +85,16 @@ public:
    * @}
    */
 
-  void draw(DrawingContext& context);
+  virtual void draw(DrawingContext& context) override;
 
-  std::string get_display_name() const {
+  virtual std::string get_display_name() const override {
     return _("Ambient sound");
   }
-  virtual ObjectSettings get_settings();
-  virtual void after_editor_set();
+  virtual ObjectSettings get_settings() override;
+  virtual void after_editor_set() override;
 
 protected:
-  virtual void hit(Player& player);
-  virtual void update(float time);
+  virtual void update(float time) override;
   virtual void start_playing();
   virtual void stop_playing();
 

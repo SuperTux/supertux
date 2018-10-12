@@ -27,26 +27,26 @@ class Haywire : public WalkingBadguy
 public:
   Haywire(const ReaderMapping& reader);
 
-  void kill_fall();
-  void ignite();
+  virtual void kill_fall() override;
+  virtual void ignite() override;
 
-  void active_update(float elapsed_time);
+  virtual void active_update(float elapsed_time) override;
 
-  bool is_freezable() const;
-  void freeze();
+  virtual bool is_freezable() const override;
+  virtual void freeze() override;
 
-  void stop_looping_sounds();
-  void play_looping_sounds();
+  virtual void stop_looping_sounds() override;
+  virtual void play_looping_sounds() override;
 
-  std::string get_class() const {
+  virtual std::string get_class() const override {
     return "haywire";
   }
-  std::string get_display_name() const {
+  virtual std::string get_display_name() const override {
     return _("Haywire");
   }
 
 protected:
-  bool collision_squished(GameObject& object);
+  virtual bool collision_squished(GameObject& object) override;
 
 private:
   void start_exploding();

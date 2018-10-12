@@ -19,15 +19,17 @@
 
 #include <tinygettext/file_system.hpp>
 
-class PhysFSFileSystem : public tinygettext::FileSystem
+class PhysFSFileSystem final : public tinygettext::FileSystem
 {
+public:
+  static bool is_directory(const std::string& filename);
+  static bool remove(const std::string& filenam);
+
 public:
   PhysFSFileSystem();
 
-  std::vector<std::string>    open_directory(const std::string& pathname);
-  std::unique_ptr<std::istream> open_file(const std::string& filename);
-  static bool is_directory(const std::string& filename);
-  static bool remove(const std::string& filenam);
+  virtual std::vector<std::string> open_directory(const std::string& pathname) override;
+  virtual std::unique_ptr<std::istream> open_file(const std::string& filename) override;
 };
 
 #endif

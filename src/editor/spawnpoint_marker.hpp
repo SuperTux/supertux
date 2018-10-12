@@ -31,24 +31,24 @@ class SpawnPointMarker : public MovingObject
     SpawnPointMarker(const ReaderMapping& lisp);
     SpawnPointMarker(const SpawnPoint* sp);
 
-    void update(float elapsed_time) {
+    virtual void update(float elapsed_time) override {
       //No updates needed
     }
 
-    void draw(DrawingContext& context);
+    virtual void draw(DrawingContext& context) override;
 
-    void collision_solid(const CollisionHit& hit) {
+    virtual void collision_solid(const CollisionHit& hit) override {
       //This function wouldn't be called anyway.
     }
 
-    HitResponse collision(GameObject& other, const CollisionHit& hit) {
+    virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override {
       return FORCE_MOVE;
     }
 
-    virtual std::string get_class() const {
+    virtual std::string get_class() const override {
       return "spawnpoint";
     }
-    virtual std::string get_display_name() const {
+    virtual std::string get_display_name() const override {
       return _("Spawn point");
     }
 

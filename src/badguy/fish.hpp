@@ -24,22 +24,22 @@ class Fish : public BadGuy
 public:
   Fish(const ReaderMapping& );
 
-  void draw(DrawingContext& context);
+  virtual void draw(DrawingContext& context) override;
 
-  void collision_solid(const CollisionHit& hit);
-  HitResponse collision_badguy(BadGuy& , const CollisionHit& );
-  void collision_tile(uint32_t tile_attributes);
+  virtual void collision_solid(const CollisionHit& hit) override;
+  virtual HitResponse collision_badguy(BadGuy& , const CollisionHit& ) override;
+  virtual void collision_tile(uint32_t tile_attributes) override;
 
-  void active_update(float);
+  virtual void active_update(float) override;
 
-  void freeze();
-  void unfreeze();
-  void kill_fall();
-  bool is_freezable() const;
-  std::string get_class() const {
+  virtual void freeze() override;
+  virtual void unfreeze() override;
+  virtual void kill_fall() override;
+  virtual bool is_freezable() const override;
+  virtual std::string get_class() const override {
     return "fish";
   }
-  std::string get_display_name() const {
+  virtual std::string get_display_name() const override {
     return _("Fish");
   }
 

@@ -27,12 +27,12 @@ class ItemColorDisplay : public MenuItem
     ItemColorDisplay(Color* color, int id_ = -1);
 
     /** Draws the menu item. */
-    virtual void draw(DrawingContext&, const Vector& pos, int menu_width, bool active);
+    virtual void draw(DrawingContext&, const Vector& pos, int menu_width, bool active) override;
 
     /** Returns the minimum width of the menu item. */
-    virtual int get_width() const;
+    virtual int get_width() const override;
 
-    virtual bool skippable() const {
+    virtual bool skippable() const override {
       return true;
     }
 

@@ -34,8 +34,8 @@ public:
   SpecialTile(const ReaderMapping& lisp);
   virtual ~SpecialTile();
 
-  virtual void draw(DrawingContext& context);
-  virtual void update(float elapsed_time);
+  virtual void draw(DrawingContext& context) override;
+  virtual void update(float elapsed_time) override;
 
 public:
   Vector pos;

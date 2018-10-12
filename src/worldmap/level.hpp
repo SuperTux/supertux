@@ -33,8 +33,8 @@ public:
   LevelTile(const std::string& basedir, const ReaderMapping& lisp);
   virtual ~LevelTile();
 
-  virtual void draw(DrawingContext& context);
-  virtual void update(float elapsed_time);
+  virtual void draw(DrawingContext& context) override;
+  virtual void update(float elapsed_time) override;
 
   void set_solved(bool v);
   void set_perfect(bool v);

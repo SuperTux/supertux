@@ -31,17 +31,17 @@ class WeakBlock : public MovingSprite
 public:
   WeakBlock(const ReaderMapping& lisp);
 
-  HitResponse collision(GameObject& other, const CollisionHit& hit);
-  void update(float elapsed_time);
-  void draw(DrawingContext& context);
-  std::string get_class() const {
+  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual void update(float elapsed_time) override;
+  virtual void draw(DrawingContext& context) override;
+  virtual std::string get_class() const override {
     return "weak_block";
   }
-  std::string get_display_name() const {
+  virtual std::string get_display_name() const override {
     return _("Weak block");
   }
 
-  virtual ObjectSettings get_settings();
+  virtual ObjectSettings get_settings() override;
 
 protected:
   /**

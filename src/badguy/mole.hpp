@@ -24,21 +24,21 @@ class Mole : public BadGuy
 public:
   Mole(const ReaderMapping& );
 
-  void kill_fall();
-  HitResponse collision_badguy(BadGuy& , const CollisionHit& );
-  bool collision_squished(GameObject& object);
+  virtual void kill_fall() override;
+  virtual HitResponse collision_badguy(BadGuy& , const CollisionHit& ) override;
+  virtual bool collision_squished(GameObject& object) override;
 
-  void activate();
-  void active_update(float);
+  virtual void activate() override;
+  virtual void active_update(float) override;
 
-  bool is_freezable() const;
+  virtual bool is_freezable() const override;
 
-  virtual void ignite();
+  virtual void ignite() override;
 
-  std::string get_class() const {
+  virtual std::string get_class() const override {
     return "mole";
   }
-  std::string get_display_name() const {
+  virtual std::string get_display_name() const override {
     return _("Mole");
   }
 

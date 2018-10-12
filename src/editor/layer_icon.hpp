@@ -30,7 +30,7 @@ class LayerIcon : public ObjectIcon
 
     GameObject *layer;
 
-    virtual void draw(DrawingContext& context, const Vector& pos);
+    virtual void draw(DrawingContext& context, const Vector& pos) override;
 
     int get_zpos() const;
     bool is_valid() const;

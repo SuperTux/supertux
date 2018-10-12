@@ -25,16 +25,16 @@ public:
   PoisonIvy(const ReaderMapping& reader);
   PoisonIvy(const Vector& pos, Direction d);
 
-  bool is_freezable() const;
-  std::string get_class() const {
+  virtual bool is_freezable() const override;
+  virtual std::string get_class() const override {
     return "poisonivy";
   }
-  std::string get_display_name() const {
+  virtual std::string get_display_name() const override {
     return _("Poisonous ivy");
   }
 
 protected:
-  bool collision_squished(GameObject& object);
+  virtual bool collision_squished(GameObject& object) override;
 
 };
 

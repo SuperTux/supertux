@@ -24,15 +24,15 @@ class Plant : public BadGuy
 public:
   Plant(const ReaderMapping& reader);
 
-  void initialize();
-  void collision_solid(const CollisionHit& hit);
-  HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
-  void active_update(float elapsed_time);
-  void ignite();
-  std::string get_class() const {
+  virtual void initialize() override;
+  virtual void collision_solid(const CollisionHit& hit) override;
+  virtual HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit) override;
+  virtual void active_update(float elapsed_time) override;
+  virtual void ignite() override;
+  virtual std::string get_class() const override {
     return "plant";
   }
-  std::string get_display_name() const {
+  virtual std::string get_display_name() const override {
     return _("Plant");
   }
 

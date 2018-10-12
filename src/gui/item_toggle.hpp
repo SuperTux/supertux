@@ -25,13 +25,13 @@ class ItemToggle : public MenuItem
     ItemToggle(const std::string& text_, bool* toggled_, int id = -1);
 
     /** Draws the menu item. */
-    virtual void draw(DrawingContext&, const Vector& pos, int menu_width, bool active);
+    virtual void draw(DrawingContext&, const Vector& pos, int menu_width, bool active) override;
 
     /** Returns the minimum width of the menu item. */
-    virtual int get_width() const;
+    virtual int get_width() const override;
 
     /** Processes the menu action. */
-    virtual void process_action(const MenuAction& action);
+    virtual void process_action(const MenuAction& action) override;
 
     bool* toggled;
 

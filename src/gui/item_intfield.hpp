@@ -25,13 +25,13 @@ class ItemIntField : public MenuItem
     ItemIntField(const std::string& text_, int* input_, int id_ = -1);
 
     /** Draws the menu item. */
-    virtual void draw(DrawingContext&, const Vector& pos, int menu_width, bool active);
+    virtual void draw(DrawingContext&, const Vector& pos, int menu_width, bool active) override;
 
     /** Returns the minimum width of the menu item. */
-    virtual int get_width() const;
+    virtual int get_width() const override;
 
     /** Processes the menu action. */
-    virtual void process_action(const MenuAction& action);
+    virtual void process_action(const MenuAction& action) override;
 
     int* number;
 
@@ -40,9 +40,9 @@ class ItemIntField : public MenuItem
     }
 
     /** Processes the given event. */
-    virtual void event(const SDL_Event& ev);
+    virtual void event(const SDL_Event& ev) override;
 
-    virtual bool changes_width() const {
+    virtual bool changes_width() const override {
       return true;
     }
 

@@ -21,7 +21,7 @@
 
 class SoundFile;
 
-class StreamSoundSource : public OpenALSoundSource
+class StreamSoundSource final : public OpenALSoundSource
 {
 public:
   StreamSoundSource();
@@ -36,9 +36,9 @@ public:
   {
     return fade_state;
   }
-  void update();
+  virtual void update() override;
 
-  void set_looping(bool looping_)
+  virtual void set_looping(bool looping_) override
   {
     looping = looping_;
   }

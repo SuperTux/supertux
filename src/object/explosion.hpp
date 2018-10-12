@@ -22,7 +22,7 @@
 /**
  * Just your average explosion - goes boom, hurts Tux
  */
-class Explosion : public MovingSprite
+class Explosion final : public MovingSprite
 {
 public:
   /**
@@ -31,10 +31,10 @@ public:
   Explosion(const Vector& pos);
   Explosion(const ReaderMapping& reader);
 
-  void update(float elapsed_time);
-  void draw(DrawingContext& context);
-  HitResponse collision(GameObject& other, const CollisionHit& hit);
-  virtual bool is_saveable() const {
+  virtual void update(float elapsed_time) override;
+  virtual void draw(DrawingContext& context) override;
+  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual bool is_saveable() const override {
     return false;
   }
 

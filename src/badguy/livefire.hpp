@@ -24,13 +24,13 @@ class LiveFire : public WalkingBadguy
 public:
   LiveFire(const ReaderMapping& reader);
 
-  void collision_solid(const CollisionHit& hit) override;
-  HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit) override;
-  void active_update(float elapsed_time) override;
+  virtual void collision_solid(const CollisionHit& hit) override;
+  virtual HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit) override;
+  virtual void active_update(float elapsed_time) override;
 
-  void freeze() override;
-  bool is_freezable() const override;
-  bool is_flammable() const override;
+  virtual void freeze() override;
+  virtual bool is_freezable() const override;
+  virtual bool is_flammable() const override;
 
   virtual void kill_fall() override;
   virtual std::string get_class() const override {
@@ -58,11 +58,11 @@ class LiveFireAsleep : public LiveFire
 public:
   LiveFireAsleep(const ReaderMapping& reader);
 
-  void initialize();
-  std::string get_class() const {
+  virtual void initialize() override;
+  virtual std::string get_class() const override {
     return "livefire_asleep";
   }
-  std::string get_display_name() const {
+  virtual std::string get_display_name() const override {
     return _("Sleeping live fire");
   }
 };
@@ -72,11 +72,11 @@ class LiveFireDormant : public LiveFire
 public:
   LiveFireDormant(const ReaderMapping& reader);
 
-  void initialize();
-  std::string get_class() const {
+  virtual void initialize() override;
+  virtual std::string get_class() const override {
     return "livefire_dormant";
   }
-  std::string get_display_name() const {
+  virtual std::string get_display_name() const override {
     return _("Dormant live fire");
   }
 };

@@ -26,29 +26,29 @@ class Owl : public BadGuy
 {
 public:
   Owl(const ReaderMapping& reader);
-  virtual void save(Writer& writer);
+  virtual void save(Writer& writer) override;
 
-  void initialize();
-  void collision_solid(const CollisionHit& hit);
-  void kill_fall();
+  virtual void initialize() override;
+  virtual void collision_solid(const CollisionHit& hit) override;
+  virtual void kill_fall() override;
 
-  void freeze();
-  void unfreeze();
-  bool is_freezable() const;
-  void ignite();
-  std::string get_class() const {
+  virtual void freeze() override;
+  virtual void unfreeze() override;
+  virtual bool is_freezable() const override;
+  virtual void ignite() override;
+  virtual std::string get_class() const override {
     return "owl";
   }
-  std::string get_display_name() const {
+  virtual std::string get_display_name() const override {
     return _("Owl");
   }
 
-  void after_editor_set();
+  virtual void after_editor_set() override;
 
 protected:
   bool is_above_player() const;
-  void active_update (float elapsed_time);
-  bool collision_squished(GameObject& object);
+  virtual void active_update (float elapsed_time) override;
+  virtual bool collision_squished(GameObject& object) override;
 
   std::string carried_obj_name;
   Portable *carried_object;

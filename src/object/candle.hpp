@@ -29,9 +29,9 @@ class Candle : public MovingSprite,
 {
 public:
   Candle(const ReaderMapping& lisp);
-  virtual void draw(DrawingContext& context);
+  virtual void draw(DrawingContext& context) override;
 
-  HitResponse collision(GameObject& other, const CollisionHit& hit);
+  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
 
   /**
    * @name Scriptable Methods
@@ -43,15 +43,15 @@ public:
   /**
    * @}
    */
-  std::string get_class() const {
+  virtual std::string get_class() const override {
     return "candle";
   }
-  std::string get_display_name() const {
+  virtual std::string get_display_name() const override {
     return _("Candle");
   }
 
-  virtual ObjectSettings get_settings();
-  virtual void after_editor_set();
+  virtual ObjectSettings get_settings() override;
+  virtual void after_editor_set() override;
 
 private:
   bool burning; /**< true if candle is currently lighted */

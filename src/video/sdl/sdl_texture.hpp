@@ -48,22 +48,22 @@ public:
     return m_sampler;
   }
 
-  int get_texture_width() const
+  virtual int get_texture_width() const override
   {
     return m_width;
   }
 
-  int get_texture_height() const
+  virtual int get_texture_height() const override
   {
     return m_height;
   }
 
-  int get_image_width() const
+  virtual int get_image_width() const override
   {
     return m_width;
   }
 
-  int get_image_height() const
+  virtual int get_image_height() const override
   {
     return m_height;
   }

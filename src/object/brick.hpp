@@ -26,17 +26,17 @@ public:
   Brick(const ReaderMapping& lisp);
 
   void try_break(Player* player);
-  HitResponse collision(GameObject& other, const CollisionHit& hit);
-  virtual ObjectSettings get_settings();
-  std::string get_class() const {
+  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual ObjectSettings get_settings() override;
+  virtual std::string get_class() const override {
     return "brick";
   }
-  std::string get_display_name() const {
+  virtual std::string get_display_name() const override {
     return _("Brick");
   }
 
 protected:
-  virtual void hit(Player& player);
+  virtual void hit(Player& player) override;
 
 private:
   bool breakable;

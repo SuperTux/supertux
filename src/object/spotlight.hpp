@@ -29,19 +29,19 @@ public:
   Spotlight(const ReaderMapping& reader);
   virtual ~Spotlight();
 
-  void update(float elapsed_time);
-  void draw(DrawingContext& context);
+  virtual void update(float elapsed_time) override;
+  virtual void draw(DrawingContext& context) override;
 
-  HitResponse collision(GameObject& other, const CollisionHit& hit_);
+  virtual HitResponse collision(GameObject& other, const CollisionHit& hit_) override;
 
-  std::string get_class() const {
+  virtual std::string get_class() const override {
     return "spotlight";
   }
-  std::string get_display_name() const {
+  virtual std::string get_display_name() const override {
     return _("Spotlight");
   }
 
-  virtual ObjectSettings get_settings();
+  virtual ObjectSettings get_settings() override;
 
 private:
   float   angle;

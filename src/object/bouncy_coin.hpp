@@ -27,9 +27,9 @@ class BouncyCoin : public GameObject
 public:
   BouncyCoin(const Vector& pos, bool emerge = false,
              const std::string& sprite_path = "images/objects/coin/coin.sprite");
-  virtual void update(float elapsed_time);
-  virtual void draw(DrawingContext& context);
-  virtual bool is_saveable() const {
+  virtual void update(float elapsed_time) override;
+  virtual void draw(DrawingContext& context) override;
+  virtual bool is_saveable() const override {
     return false;
   }
 

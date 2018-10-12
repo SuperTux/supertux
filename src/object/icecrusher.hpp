@@ -31,18 +31,18 @@ public:
   IceCrusher(const ReaderMapping& reader);
   IceCrusher(const IceCrusher& icecrusher);
 
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
-  virtual void collision_solid(const CollisionHit& hit);
-  virtual void update(float elapsed_time);
-  virtual void draw(DrawingContext& context);
-  std::string get_class() const {
+  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual void collision_solid(const CollisionHit& hit) override;
+  virtual void update(float elapsed_time) override;
+  virtual void draw(DrawingContext& context) override;
+  virtual std::string get_class() const override {
     return "icecrusher";
   }
-  std::string get_display_name() const {
+  virtual std::string get_display_name() const override {
     return _("Ice crusher");
   }
 
-  void after_editor_set();
+  virtual void after_editor_set() override;
 
 protected:
   enum IceCrusherState {

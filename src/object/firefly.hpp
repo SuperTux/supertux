@@ -29,13 +29,13 @@ class Firefly : public MovingSprite
 public:
   Firefly(const ReaderMapping& lisp);
 
-  void draw(DrawingContext& context);
+  virtual void draw(DrawingContext& context) override;
 
-  HitResponse collision(GameObject& other, const CollisionHit& hit);
-  std::string get_class() const {
+  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual std::string get_class() const override {
     return "firefly";
   }
-  std::string get_display_name() const {
+  virtual std::string get_display_name() const override {
     return _("Reset point");
   }
 

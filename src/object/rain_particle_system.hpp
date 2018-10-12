@@ -28,18 +28,18 @@ public:
   virtual ~RainParticleSystem();
 
   void init();
-  virtual void update(float elapsed_time);
+  virtual void update(float elapsed_time) override;
 
   std::string type() const
   { return "RainParticleSystem"; }
-  std::string get_class() const {
+  virtual std::string get_class() const override {
     return "particles-rain";
   }
-  std::string get_display_name() const {
+  virtual std::string get_display_name() const override {
     return _("Rain particles");
   }
 
-  virtual const std::string get_icon_path() const {
+  virtual const std::string get_icon_path() const override {
     return "images/engine/editor/rain.png";
   }
 

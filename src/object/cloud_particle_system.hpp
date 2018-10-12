@@ -30,18 +30,18 @@ public:
   virtual ~CloudParticleSystem();
 
   void init();
-  virtual void update(float elapsed_time);
+  virtual void update(float elapsed_time) override;
 
-  std::string type() const
+  virtual std::string type() const
   { return "CloudParticleSystem"; }
-  std::string get_class() const {
+  virtual std::string get_class() const override {
     return "particles-clouds";
   }
-  std::string get_display_name() const {
+  virtual std::string get_display_name() const override {
     return _("Cloud particles");
   }
 
-  virtual const std::string get_icon_path() const {
+  virtual const std::string get_icon_path() const override {
     return "images/engine/editor/clouds.png";
   }
 

@@ -27,20 +27,20 @@ class ScriptTrigger : public TriggerBase
 public:
   ScriptTrigger(const ReaderMapping& reader);
   ScriptTrigger(const Vector& pos, const std::string& script);
-  std::string get_class() const {
+  virtual std::string get_class() const override {
     return "scripttrigger";
   }
 
-  bool has_variable_size() const {
+  virtual bool has_variable_size() const override {
     return true;
   }
 
-  virtual ObjectSettings get_settings();
-  virtual void after_editor_set();
+  virtual ObjectSettings get_settings() override;
+  virtual void after_editor_set() override;
 
   void write(Writer& writer);
-  void event(Player& player, EventType type);
-  void draw(DrawingContext& context);
+  virtual void event(Player& player, EventType type) override;
+  virtual void draw(DrawingContext& context) override;
 
 private:
   EventType triggerevent;

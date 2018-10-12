@@ -102,7 +102,7 @@ public:
   virtual std::string get_class() const override {
     return "camera";
   }
-  std::string get_display_name() const override {
+  virtual std::string get_display_name() const override {
     return _("Camera");
   }
 

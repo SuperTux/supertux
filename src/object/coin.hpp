@@ -36,22 +36,22 @@ public:
   Coin(const Vector& pos, TileMap* tilemap);
   Coin(const ReaderMapping& reader);
 
-  HitResponse collision(GameObject& other, const CollisionHit& hit);
+  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
 
   void collect();
-  virtual void update(float elapsed_time);
-  virtual void save(Writer& writer);
-  std::string get_class() const {
+  virtual void update(float elapsed_time) override;
+  virtual void save(Writer& writer) override;
+  virtual std::string get_class() const override {
     return "coin";
   }
-  std::string get_display_name() const {
+  virtual std::string get_display_name() const override {
     return _("Coin");
   }
 
-  ObjectSettings get_settings();
-  void after_editor_set();
+  virtual ObjectSettings get_settings() override;
+  virtual void after_editor_set() override;
 
-  virtual void move_to(const Vector& pos);
+  virtual void move_to(const Vector& pos) override;
 
 private:
   Vector offset;
@@ -67,18 +67,18 @@ public:
   HeavyCoin(const Vector& pos, const Vector& init_velocity);
   HeavyCoin(const ReaderMapping& reader);
 
-  virtual void update(float elapsed_time);
-  virtual void collision_solid(const CollisionHit& hit);
+  virtual void update(float elapsed_time) override;
+  virtual void collision_solid(const CollisionHit& hit) override;
 
-  virtual std::string get_class() const {
+  virtual std::string get_class() const override {
     return "heavycoin";
   }
-  std::string get_display_name() const {
+  virtual std::string get_display_name() const override {
     return _("Heavy coin");
   }
 
-  ObjectSettings get_settings();
-  void after_editor_set();
+  virtual ObjectSettings get_settings() override;
+  virtual void after_editor_set() override;
 
 private:
   Physic physic;

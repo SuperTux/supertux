@@ -25,12 +25,12 @@ class EndSequenceFireworks : public EndSequence
 public:
   EndSequenceFireworks();
   virtual ~EndSequenceFireworks();
-  virtual void draw(DrawingContext& context);
+  virtual void draw(DrawingContext& context) override;
 
 protected:
-  virtual void starting(); /**< called when EndSequence starts */
-  virtual void running(float elapsed_time); /**< called while the EndSequence is running */
-  virtual void stopping(); /**< called when EndSequence stops */
+  virtual void starting() override; /**< called when EndSequence starts */
+  virtual void running(float elapsed_time) override; /**< called while the EndSequence is running */
+  virtual void stopping() override; /**< called when EndSequence stops */
 
   Timer endsequence_timer;
 };

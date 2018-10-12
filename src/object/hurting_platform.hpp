@@ -27,11 +27,11 @@ class HurtingPlatform : public Platform
 public:
   HurtingPlatform(const ReaderMapping& reader);
 
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
-  std::string get_class() const {
+  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual std::string get_class() const override {
     return "hurting_platform";
   }
-  std::string get_display_name() const {
+  virtual std::string get_display_name() const override {
     return _("Hurting platform");
   }
 

@@ -33,7 +33,7 @@ class Path;
 class FlipLevelTransformer : public LevelTransformer
 {
 public:
-  virtual void transform_sector(Sector* sector);
+  virtual void transform_sector(Sector* sector) override;
 
 private:
   Flip transform_flip(Flip flip);

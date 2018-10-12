@@ -19,25 +19,25 @@
 
 #include "badguy/badguy.hpp"
 
-class BouncingSnowball : public BadGuy
+class BouncingSnowball final : public BadGuy
 {
 public:
   BouncingSnowball(const ReaderMapping& reader);
 
-  void initialize();
-  void collision_solid(const CollisionHit& hit);
-  HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
-  std::string get_class() const {
+  virtual void initialize() override;
+  virtual void collision_solid(const CollisionHit& hit) override;
+  virtual HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit) override;
+  virtual std::string get_class() const override {
     return "bouncingsnowball";
   }
-  std::string get_display_name() const {
+  virtual std::string get_display_name() const override {
     return _("Bouncing Snowball");
   }
 
-  void after_editor_set();
+  virtual void after_editor_set() override;
 
 protected:
-  bool collision_squished(GameObject& object);
+  virtual bool collision_squished(GameObject& object) override;
 };
 
 #endif

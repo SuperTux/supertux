@@ -28,9 +28,9 @@ public:
   DisplayEffect(const std::string& name = std::string());
   virtual ~DisplayEffect();
 
-  void update(float elapsed_time);
-  void draw(DrawingContext& context);
-  virtual bool is_saveable() const {
+  virtual void update(float elapsed_time) override;
+  virtual void draw(DrawingContext& context) override;
+  virtual bool is_saveable() const override {
     return false;
   }
 

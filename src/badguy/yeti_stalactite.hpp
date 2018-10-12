@@ -24,16 +24,16 @@ class YetiStalactite : public Stalactite
 public:
   YetiStalactite(const ReaderMapping& lisp);
 
-  void active_update(float elapsed_time);
+  virtual void active_update(float elapsed_time) override;
   void start_shaking();
   bool is_hanging() const;
-  void update(float elapsed_time);
+  virtual void update(float elapsed_time) override;
 
-  bool is_flammable() const;
-  std::string get_class() const {
+  virtual bool is_flammable() const override;
+  virtual std::string get_class() const override {
     return "yeti_stalactite";
   }
-  std::string get_display_name() const {
+  virtual std::string get_display_name() const override {
     return _("Yeti's stalactite");
   }
 

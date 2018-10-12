@@ -25,16 +25,16 @@ public:
   Stumpy(const ReaderMapping& reader);
   Stumpy(const Vector& pos, Direction d);
 
-  void initialize();
-  void active_update(float elapsed_time);
-  void collision_solid(const CollisionHit& hit);
-  HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
+  virtual void initialize() override;
+  virtual void active_update(float elapsed_time) override;
+  virtual void collision_solid(const CollisionHit& hit) override;
+  virtual HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit) override;
 
-  bool is_freezable() const;
-  std::string get_class() const {
+  virtual bool is_freezable() const override;
+  virtual std::string get_class() const override {
     return "stumpy";
   }
-  std::string get_display_name() const {
+  virtual std::string get_display_name() const override {
     return _("Stumpy");
   }
 
@@ -44,7 +44,7 @@ protected:
   };
 
 protected:
-  bool collision_squished(GameObject& object);
+  virtual bool collision_squished(GameObject& object) override;
 
 private:
   MyState mystate;

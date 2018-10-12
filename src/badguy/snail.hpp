@@ -29,28 +29,28 @@ class Snail : public WalkingBadguy,
 public:
   Snail(const ReaderMapping& reader);
 
-  void initialize();
-  void collision_solid(const CollisionHit& hit);
-  HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
-  HitResponse collision_player(Player& player, const CollisionHit& hit);
-  bool can_break() const;
+  virtual void initialize() override;
+  virtual void collision_solid(const CollisionHit& hit) override;
+  virtual HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit) override;
+  virtual HitResponse collision_player(Player& player, const CollisionHit& hit) override;
+  virtual bool can_break() const override;
 
-  void active_update(float elapsed_time);
+  virtual void active_update(float elapsed_time) override;
 
-  bool is_freezable() const;
-  std::string get_class() const {
+  virtual bool is_freezable() const override;
+  virtual std::string get_class() const override {
     return "snail";
   }
-  std::string get_display_name() const {
+  virtual std::string get_display_name() const override {
     return _("Snail");
   }
-  
-  bool is_portable() const;
-  void ungrab(MovingObject& , Direction dir_);
-  void grab(MovingObject&, const Vector& pos, Direction dir_);
+
+  virtual bool is_portable() const override;
+  virtual void ungrab(MovingObject& , Direction dir_) override;
+  virtual void grab(MovingObject&, const Vector& pos, Direction dir_) override;
 
 protected:
-  bool collision_squished(GameObject& object);
+  virtual bool collision_squished(GameObject& object) override;
   void be_normal(); /**< switch to state STATE_NORMAL */
   void be_flat(); /**< switch to state STATE_FLAT */
   void be_kicked(); /**< switch to state STATE_KICKED_DELAY */

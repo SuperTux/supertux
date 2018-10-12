@@ -30,26 +30,18 @@ class WorldmapObject : public MovingSprite
     WorldmapObject(const ReaderMapping& lisp);
     WorldmapObject(const Vector& pos, const std::string& default_sprite);
 
-    void update(float elapsed_time) {
-      //No updates needed
-    }
-
-    void collision_solid(const CollisionHit& hit) {
-      //This function wouldn't be called anyway.
-    }
-
-    HitResponse collision(GameObject& other, const CollisionHit& hit) {
+    HitResponse collision(GameObject& other, const CollisionHit& hit) override {
       return FORCE_MOVE;
     }
 
-    virtual std::string get_class() const {
+    virtual std::string get_class() const override {
       return "worldmap-object";
     }
 
-    virtual void move_to(const Vector& pos);
+    virtual void move_to(const Vector& pos) override;
 
     //virtual ObjectSettings get_settings();
-    virtual void save(Writer& writer);
+    virtual void save(Writer& writer) override;
 };
 
 class LevelDot : public WorldmapObject
@@ -57,15 +49,15 @@ class LevelDot : public WorldmapObject
   public:
     LevelDot(const ReaderMapping& lisp);
 
-    virtual std::string get_class() const {
+    virtual std::string get_class() const override {
       return "level";
     }
 
-    void draw(DrawingContext& context);
+    virtual void draw(DrawingContext& context) override;
 
-    ObjectSettings get_settings();
-    void save(Writer& writer);
-    void after_editor_set();
+    virtual ObjectSettings get_settings() override;
+    virtual void save(Writer& writer) override;
+    virtual void after_editor_set() override;
 
   private:
     std::string level;
@@ -79,14 +71,14 @@ class Teleporter : public WorldmapObject
   public:
     Teleporter(const ReaderMapping& lisp);
 
-    virtual std::string get_class() const {
+    virtual std::string get_class() const override {
       return "teleporter";
     }
 
-    void draw(DrawingContext& context);
+    virtual void draw(DrawingContext& context) override;
 
-    ObjectSettings get_settings();
-    void save(Writer& writer);
+    virtual ObjectSettings get_settings() override;
+    virtual void save(Writer& writer) override;
 
   private:
     std::string worldmap;
@@ -102,12 +94,12 @@ class WorldmapSpawnPoint : public WorldmapObject
     WorldmapSpawnPoint(const ReaderMapping& lisp);
     WorldmapSpawnPoint(const std::string& name_, const Vector& pos);
 
-    virtual std::string get_class() const {
+    virtual std::string get_class() const override {
       return "worldmap-spawnpoint";
     }
 
-    ObjectSettings get_settings();
-    void save(Writer& writer);
+    virtual ObjectSettings get_settings() override;
+    virtual void save(Writer& writer) override;
 
   private:
     worldmap::Direction dir;
@@ -118,12 +110,12 @@ class SpriteChange : public WorldmapObject
   public:
     SpriteChange(const ReaderMapping& lisp);
 
-    virtual std::string get_class() const {
+    virtual std::string get_class() const override {
       return "sprite-change";
     }
 
-    ObjectSettings get_settings();
-    void save(Writer& writer);
+    virtual ObjectSettings get_settings() override;
+    virtual void save(Writer& writer) override;
 
   private:
     std::string target_sprite;
@@ -138,12 +130,12 @@ class SpecialTile : public WorldmapObject
   public:
     SpecialTile(const ReaderMapping& lisp);
 
-    virtual std::string get_class() const {
+    virtual std::string get_class() const override {
       return "special-tile";
     }
 
-    ObjectSettings get_settings();
-    void save(Writer& writer);
+    virtual ObjectSettings get_settings() override;
+    virtual void save(Writer& writer) override;
 
   private:
     std::string map_message;

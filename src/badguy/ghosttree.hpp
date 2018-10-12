@@ -27,23 +27,23 @@ class GhostTree : public BadGuy
 public:
   GhostTree(const ReaderMapping& lisp);
 
-  virtual bool is_flammable() const { return false; }
-  virtual bool is_freezable() const { return false; }
-  virtual void kill_fall() { }
+  virtual bool is_flammable() const override { return false; }
+  virtual bool is_freezable() const override { return false; }
+  virtual void kill_fall() override { }
 
-  void activate();
-  void active_update(float elapsed_time);
+  virtual void activate() override;
+  virtual void active_update(float elapsed_time) override;
   void willowisp_died(TreeWillOWisp* willowisp);
-  virtual void draw(DrawingContext& context);
+  virtual void draw(DrawingContext& context) override;
 
-  virtual bool collides(GameObject& other, const CollisionHit& hit) const;
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
+  virtual bool collides(GameObject& other, const CollisionHit& hit) const override;
+  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
 
   void die();
-  std::string get_class() const {
+  virtual std::string get_class() const override {
     return "ghosttree";
   }
-  std::string get_display_name() const {
+  virtual std::string get_display_name() const override {
     return _("Ghost tree");
   }
 

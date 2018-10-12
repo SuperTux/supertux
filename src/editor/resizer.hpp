@@ -30,12 +30,12 @@ class Resizer : public PointMarker
 
     Resizer(Rectf* rect_, Side vert_, Side horz_);
 
-    void update(float elapsed_time);
-    virtual void move_to(const Vector& pos);
-    virtual Vector get_point_vector() const;
-    virtual Vector get_offset() const;
+    virtual void update(float elapsed_time) override;
+    virtual void move_to(const Vector& pos) override;
+    virtual Vector get_point_vector() const override;
+    virtual Vector get_offset() const override;
 
-    virtual bool is_saveable() const {
+    virtual bool is_saveable() const override {
       return false;
     }
 

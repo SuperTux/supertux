@@ -31,7 +31,7 @@ class Torch : public MovingObject,
 public:
   Torch(const ReaderMapping& reader);
 
-  void draw(DrawingContext& context) override;
+  virtual void draw(DrawingContext& context) override;
   void update(float) override;
 
   HitResponse collision(GameObject& other, const CollisionHit& ) override;
@@ -47,15 +47,15 @@ public:
    * @}
    */
 
-  std::string get_class() const override {
+  virtual std::string get_class() const override {
     return "torch";
   }
-  std::string get_display_name() const override {
+  virtual std::string get_display_name() const override {
     return _("Torch");
   }
 
-  ObjectSettings get_settings() override;
-  void after_editor_set() override;
+  virtual ObjectSettings get_settings() override;
+  virtual void after_editor_set() override;
 
 private:
   SpritePtr m_torch;

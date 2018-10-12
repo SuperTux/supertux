@@ -27,16 +27,16 @@ class WalkingLeaf : public WalkingBadguy
 public:
   WalkingLeaf(const ReaderMapping& reader);
 
-  bool is_freezable() const;
-  std::string get_class() const {
+  virtual bool is_freezable() const override;
+  virtual std::string get_class() const override {
     return "walkingleaf";
   }
-  std::string get_display_name() const {
+  virtual std::string get_display_name() const override {
     return _("Walking leaf");
   }
 
 protected:
-  bool collision_squished(GameObject& object);
+  virtual bool collision_squished(GameObject& object) override;
 
 };
 

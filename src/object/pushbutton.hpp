@@ -27,16 +27,16 @@ class PushButton : public MovingSprite
 public:
   PushButton(const ReaderMapping& reader);
 
-  HitResponse collision(GameObject& other, const CollisionHit& hit);
-  void update(float elapsed_time);
-  std::string get_class() const {
+  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual void update(float elapsed_time) override;
+  virtual std::string get_class() const override {
     return "pushbutton";
   }
-  std::string get_display_name() const {
+  virtual std::string get_display_name() const override {
     return _("Button");
   }
 
-  virtual ObjectSettings get_settings();
+  virtual ObjectSettings get_settings() override;
 
 private:
   enum PushButtonState {

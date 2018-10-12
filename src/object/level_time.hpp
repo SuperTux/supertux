@@ -32,8 +32,8 @@ class LevelTime : public GameObject,
 public:
   LevelTime(const ReaderMapping& reader);
 
-  void update(float elapsed_time);
-  void draw(DrawingContext& context);
+  virtual void update(float elapsed_time) override;
+  virtual void draw(DrawingContext& context) override;
 
   /**
    * @name Scriptable Methods
@@ -63,16 +63,16 @@ public:
   /**
    * @}
    */
-  std::string get_class() const {
+  virtual std::string get_class() const override {
     return "leveltime";
   }
-  std::string get_display_name() const {
+  virtual std::string get_display_name() const override {
     return _("Level time");
   }
 
-  virtual ObjectSettings get_settings();
+  virtual ObjectSettings get_settings() override;
 
-  virtual const std::string get_icon_path() const {
+  virtual const std::string get_icon_path() const override {
     return "images/engine/editor/clock.png";
   }
 

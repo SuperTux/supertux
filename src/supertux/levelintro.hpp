@@ -40,9 +40,9 @@ public:
   LevelIntro(const Level& level, const Statistics* best_level_statistics, const PlayerStatus& player_status);
   virtual ~LevelIntro();
 
-  void setup();
-  void draw(Compositor& compositor);
-  void update(float elapsed_time);
+  virtual void setup() override;
+  virtual void draw(Compositor& compositor) override;
+  virtual void update(float elapsed_time) override;
 
 private:
   void draw_stats_line(DrawingContext& context, int& py, const std::string& name, const std::string& stat);

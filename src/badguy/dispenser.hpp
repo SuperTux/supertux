@@ -21,28 +21,28 @@
 #include "scripting/dispenser.hpp"
 #include "scripting/exposed_object.hpp"
 
-class Dispenser : public BadGuy,
-                  public ExposedObject<Dispenser, scripting::Dispenser>
+class Dispenser final : public BadGuy,
+                        public ExposedObject<Dispenser, scripting::Dispenser>
 {
 public:
   Dispenser(const ReaderMapping& reader);
 
-  void draw(DrawingContext& context);
-  void activate();
-  void deactivate();
-  void active_update(float elapsed_time);
+  virtual void draw(DrawingContext& context) override;
+  virtual void activate() override;
+  virtual void deactivate() override;
+  virtual void active_update(float elapsed_time) override;
 
-  void freeze();
-  void unfreeze();
-  bool is_freezable() const;
-  bool is_flammable() const;
-  std::string get_class() const {
+  virtual void freeze() override;
+  virtual void unfreeze() override;
+  virtual bool is_freezable() const override;
+  virtual bool is_flammable() const override;
+  virtual std::string get_class() const override {
     return "dispenser";
   }
-  std::string get_display_name() const {
+  virtual std::string get_display_name() const override {
     return _("Dispenser");
   }
-  std::string get_type_string() const {
+  virtual std::string get_type_string() const {
     switch(type) {
     case DT_DROPPER:
       return "dropper";
@@ -57,8 +57,8 @@ public:
     }
   }
 
-  ObjectSettings get_settings();
-  void after_editor_set();
+  virtual ObjectSettings get_settings() override;
+  virtual void after_editor_set() override;
 
   void notify_dead()
   {
@@ -69,8 +69,8 @@ public:
   }
 
 protected:
-  bool collision_squished(GameObject& object);
-  HitResponse collision(GameObject& other, const CollisionHit& hit);
+  virtual bool collision_squished(GameObject& object) override;
+  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
   void launch_badguy();
 
 private:

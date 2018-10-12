@@ -104,8 +104,8 @@ public:
   /** This function saves the object.
    *  Editor will use that.
    */
-  virtual void save(Writer& writer);
-  virtual std::string get_class() const {
+  virtual void save(Writer& writer) override;
+  virtual std::string get_class() const override {
     return "moving-object";
   }
 

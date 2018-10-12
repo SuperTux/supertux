@@ -33,11 +33,11 @@ public:
   Platform(const ReaderMapping& reader);
   Platform(const ReaderMapping& reader, const std::string& default_sprite);
   Platform(const Platform& platform);
-  virtual void save(Writer& writer);
-  virtual ObjectSettings get_settings();
+  virtual void save(Writer& writer) override;
+  virtual ObjectSettings get_settings() override;
 
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
-  virtual void update(float elapsed_time);
+  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual void update(float elapsed_time) override;
 
   const Vector& get_speed() const
   {
@@ -62,12 +62,12 @@ public:
    * @}
    */
 
-  virtual void move_to(const Vector& pos);
+  virtual void move_to(const Vector& pos) override;
 
-  std::string get_class() const {
+  virtual std::string get_class() const override {
     return "platform";
   }
-  std::string get_display_name() const {
+  virtual std::string get_display_name() const override {
     return _("Platform");
   }
 

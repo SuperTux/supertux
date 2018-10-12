@@ -28,25 +28,25 @@ class SkyDive : public BadGuy, public Portable
   public:
     SkyDive(const ReaderMapping& reader);
 
-    void collision_solid(const CollisionHit& hit);
-    HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
-    void collision_tile(uint32_t tile_attributes);
+    virtual void collision_solid(const CollisionHit& hit) override;
+    virtual HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit) override;
+    virtual void collision_tile(uint32_t tile_attributes) override;
 
     /* Inherited from Portable */
-    void grab(MovingObject& object, const Vector& pos, Direction dir);
-    void ungrab(MovingObject& object, Direction dir);
-    std::string get_class() const {
+    virtual void grab(MovingObject& object, const Vector& pos, Direction dir) override;
+    virtual void ungrab(MovingObject& object, Direction dir) override;
+    virtual std::string get_class() const override {
       return "skydive";
     }
-    std::string get_display_name() const {
+    virtual std::string get_display_name() const override {
       return _("Sky dive");
     }
 
   protected:
-    HitResponse collision_player(Player& player, const CollisionHit& hit);
-    bool collision_squished (GameObject& obj);
+    virtual HitResponse collision_player(Player& player, const CollisionHit& hit) override;
+    virtual bool collision_squished (GameObject& obj) override;
 
-    void active_update (float elapsed_time);
+    virtual void active_update (float elapsed_time) override;
 
     void explode();
 };

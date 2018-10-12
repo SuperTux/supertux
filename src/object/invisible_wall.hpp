@@ -27,25 +27,25 @@ class InvisibleWall : public MovingObject
 public:
   InvisibleWall(const ReaderMapping& lisp);
 
-  HitResponse collision(GameObject& other, const CollisionHit& hit);
-  void draw(DrawingContext& context);
+  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual void draw(DrawingContext& context) override;
 
-  std::string get_class() const {
+  virtual std::string get_class() const override {
     return "invisible_wall";
   }
-  std::string get_display_name() const {
+  virtual std::string get_display_name() const override {
     return _("Invisible wall");
   }
 
-  bool has_variable_size() const {
+  virtual bool has_variable_size() const override {
     return true;
   }
 
-  virtual ObjectSettings get_settings();
-  virtual void after_editor_set();
+  virtual ObjectSettings get_settings() override;
+  virtual void after_editor_set() override;
 
 private:
-  void update(float elapsed_time);
+  virtual void update(float elapsed_time) override;
 
   float width, height;
 };

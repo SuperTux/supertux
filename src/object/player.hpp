@@ -49,7 +49,7 @@ public:
   //Tux can only go this fast. If set to 0 no special limit is used, only the default limits.
   void set_speedlimit(float newlimit);
   float get_speedlimit() const;
-  virtual bool is_saveable() const {
+  virtual bool is_saveable() const override {
     return false;
   }
 
@@ -75,11 +75,11 @@ public:
   void use_scripting_controller(bool use_or_release);
   void do_scripting_controller(const std::string& control, bool pressed);
 
-  virtual void update(float elapsed_time);
-  virtual void draw(DrawingContext& context);
-  virtual void collision_solid(const CollisionHit& hit);
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
-  virtual void collision_tile(uint32_t tile_attributes);
+  virtual void update(float elapsed_time) override;
+  virtual void draw(DrawingContext& context) override;
+  virtual void collision_solid(const CollisionHit& hit) override;
+  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual void collision_tile(uint32_t tile_attributes) override;
 
   void make_invincible();
   bool is_invincible() const

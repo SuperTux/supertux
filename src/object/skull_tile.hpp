@@ -26,13 +26,13 @@ class SkullTile : public MovingSprite
 {
 public:
   SkullTile(const ReaderMapping& lisp);
-  std::string get_class() const {
+  virtual std::string get_class() const override {
     return "skulltile";
   }
 
-  HitResponse collision(GameObject& other, const CollisionHit& hit);
-  void update(float elapsed_time);
-  void draw(DrawingContext& context);
+  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual void update(float elapsed_time) override;
+  virtual void draw(DrawingContext& context) override;
 
 private:
   Physic physic;

@@ -24,20 +24,20 @@ class KamikazeSnowball : public BadGuy
 public:
   KamikazeSnowball(const ReaderMapping& reader);
 
-  void initialize();
-  void collision_solid(const CollisionHit& hit);
-  virtual std::string get_class() const {
+  virtual void initialize() override;
+  virtual void collision_solid(const CollisionHit& hit) override;
+  virtual std::string get_class() const override {
     return "kamikazesnowball";
   }
-  virtual std::string get_display_name() const {
+  virtual std::string get_display_name() const override {
     return _("Kamikaze snowball");
   }
 
-  void after_editor_set();
+  virtual void after_editor_set() override;
 
 protected:
-  bool collision_squished(GameObject& object);
-  HitResponse collision_player(Player& player, const CollisionHit& hit);
+  virtual bool collision_squished(GameObject& object) override;
+  virtual HitResponse collision_player(Player& player, const CollisionHit& hit) override;
   void kill_collision();
 };
 
@@ -46,17 +46,17 @@ class LeafShot : public KamikazeSnowball
   public:
     LeafShot(const ReaderMapping& reader);
 
-    void initialize();
-    bool is_freezable() const;
-    std::string get_class() const {
+    virtual void initialize() override;
+    virtual bool is_freezable() const override;
+    virtual std::string get_class() const override {
       return "leafshot";
     }
-    std::string get_display_name() const {
+    virtual std::string get_display_name() const override {
       return _("Leaf Shot");
     }
 
   protected:
-    bool collision_squished(GameObject& object);
+    virtual bool collision_squished(GameObject& object) override;
 };
 
 #endif

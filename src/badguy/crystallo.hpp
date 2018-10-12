@@ -22,23 +22,23 @@
 /*
  * Basic badguy, patrols around a fixed position.
  */
-class Crystallo : public WalkingBadguy
+class Crystallo final : public WalkingBadguy
 {
 public:
   Crystallo(const ReaderMapping& reader);
-  ObjectSettings get_settings();
-  std::string get_class() const {
+  virtual ObjectSettings get_settings() override;
+  virtual std::string get_class() const override{
     return "crystallo";
   }
-  std::string get_display_name() const {
+  virtual std::string get_display_name() const override {
     return _("Crystallo");
   }
 
-  void active_update(float elapsed_time);
-  bool is_flammable() const;
+  virtual void active_update(float elapsed_time) override;
+  virtual bool is_flammable() const override;
 
 protected:
-  bool collision_squished(GameObject& object);
+  virtual bool collision_squished(GameObject& object) override;
 
 private:
   float radius;

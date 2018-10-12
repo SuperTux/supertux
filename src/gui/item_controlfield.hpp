@@ -25,10 +25,10 @@ class ItemControlField : public MenuItem
     ItemControlField(const std::string& text_, const std::string& input_, int id = -1);
 
     /** Draws the menu item. */
-    virtual void draw(DrawingContext&, const Vector& pos, int menu_width, bool active);
+    virtual void draw(DrawingContext&, const Vector& pos, int menu_width, bool active) override;
 
     /** Returns the minimum width of the menu item. */
-    virtual int get_width() const;
+    virtual int get_width() const override;
 
     std::string input;
 
@@ -36,7 +36,7 @@ class ItemControlField : public MenuItem
       input = input_;
     }
 
-    virtual bool changes_width() const {
+    virtual bool changes_width() const override {
       return true;
     }
 

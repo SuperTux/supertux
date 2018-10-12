@@ -24,18 +24,18 @@ class Jumpy : public BadGuy
 public:
   Jumpy(const ReaderMapping& reader);
 
-  void collision_solid(const CollisionHit& hit);
-  HitResponse collision_badguy(BadGuy& other, const CollisionHit& hit);
+  virtual void collision_solid(const CollisionHit& hit) override;
+  virtual HitResponse collision_badguy(BadGuy& other, const CollisionHit& hit) override;
 
-  void active_update(float);
+  virtual void active_update(float) override;
 
-  void freeze();
-  bool is_freezable() const;
-  bool is_flammable() const;
-  std::string get_class() const {
+  virtual void freeze() override;
+  virtual bool is_freezable() const override;
+  virtual bool is_flammable() const override;
+  virtual std::string get_class() const override {
     return "jumpy";
   }
-  std::string get_display_name() const {
+  virtual std::string get_display_name() const override {
     return _("Jumpy");
   }
 

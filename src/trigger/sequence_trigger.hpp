@@ -28,20 +28,20 @@ class SequenceTrigger : public TriggerBase
 public:
   SequenceTrigger(const ReaderMapping& reader);
   SequenceTrigger(const Vector& pos, const std::string& sequence_name);
-  virtual void save(Writer& writer);
-  std::string get_class() const {
+  virtual void save(Writer& writer) override;
+  virtual std::string get_class() const override {
     return "sequencetrigger";
   }
 
-  bool has_variable_size() const {
+  virtual bool has_variable_size() const override {
     return true;
   }
 
-  virtual ObjectSettings get_settings();
-  virtual void after_editor_set();
+  virtual ObjectSettings get_settings() override;
+  virtual void after_editor_set() override;
 
-  void event(Player& player, EventType type);
-  void draw(DrawingContext& context);
+  virtual void event(Player& player, EventType type) override;
+  virtual void draw(DrawingContext& context) override;
 
   std::string get_sequence_name() const;
 

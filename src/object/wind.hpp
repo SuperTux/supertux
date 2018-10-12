@@ -32,11 +32,11 @@ class Wind : public MovingObject,
 public:
   Wind(const ReaderMapping& reader);
 
-  void update(float elapsed_time);
-  void draw(DrawingContext& context);
-  HitResponse collision(GameObject& other, const CollisionHit& hit);
+  virtual void update(float elapsed_time) override;
+  virtual void draw(DrawingContext& context) override;
+  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
 
-  bool has_variable_size() const {
+  virtual bool has_variable_size() const override {
     return true;
   }
 
@@ -59,14 +59,14 @@ public:
    * @}
    */
 
-  std::string get_class() const {
+  virtual std::string get_class() const override {
     return "wind";
   }
-  std::string get_display_name() const {
+  virtual std::string get_display_name() const override {
     return _("Wind");
   }
 
-  virtual ObjectSettings get_settings();
+  virtual ObjectSettings get_settings() override;
 
 private:
   bool blowing; /**< true if wind is currently switched on */

@@ -27,9 +27,9 @@ class ItemColor : public MenuItem
     ItemColor(const std::string& text_, Color* color_, int id = -1);
 
     /** Processes the menu action. */
-    virtual void process_action(const MenuAction& action);
+    virtual void process_action(const MenuAction& action) override;
 
-    virtual Color get_color() const;
+    virtual Color get_color() const override;
 
     //int target_menu;
 

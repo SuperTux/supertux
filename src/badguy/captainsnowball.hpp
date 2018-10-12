@@ -19,25 +19,24 @@
 
 #include "badguy/walking_badguy.hpp"
 
-class CaptainSnowball : public WalkingBadguy
+class CaptainSnowball final : public WalkingBadguy
 {
 public:
   CaptainSnowball(const ReaderMapping& reader);
 
-  virtual void active_update(float elapsed_time);
-  void collision_solid(const CollisionHit& hit);
+  virtual void active_update(float elapsed_time) override;
+  virtual void collision_solid(const CollisionHit& hit) override;
 
   bool might_climb(int width, int height) const;
-  std::string get_class() const {
+  virtual std::string get_class() const override {
     return "captainsnowball";
   }
-  std::string get_display_name() const {
+  virtual std::string get_display_name() const override {
     return _("Captain snowball");
   }
 
 protected:
-  bool collision_squished(GameObject& object);
-
+  virtual bool collision_squished(GameObject& object) override;
 };
 
 #endif

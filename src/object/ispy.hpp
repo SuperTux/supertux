@@ -27,20 +27,20 @@ class Ispy : public MovingSprite
 {
 public:
   Ispy(const ReaderMapping& lisp);
-  virtual void save(Writer& writer);
+  virtual void save(Writer& writer) override;
 
-  HitResponse collision(GameObject& other, const CollisionHit& hit);
+  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
 
-  virtual void update(float elapsed_time);
-  std::string get_class() const {
+  virtual void update(float elapsed_time) override;
+  virtual std::string get_class() const override {
     return "ispy";
   }
-  std::string get_display_name() const {
+  virtual std::string get_display_name() const override {
     return _("Ispy");
   }
 
-  virtual ObjectSettings get_settings();
-  virtual void after_editor_set();
+  virtual ObjectSettings get_settings() override;
+  virtual void after_editor_set() override;
 
 private:
   enum IspyState {

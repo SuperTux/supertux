@@ -28,22 +28,22 @@ public:
   MoleRock(const ReaderMapping& reader);
   MoleRock(const Vector& pos, const Vector& velocity, const BadGuy* parent);
 
-  void initialize();
-  void deactivate();
+  virtual void initialize() override;
+  virtual void deactivate() override;
 
-  void active_update(float elapsed_time);
+  virtual void active_update(float elapsed_time) override;
 
-  void collision_solid(const CollisionHit& hit);
-  HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
-  HitResponse collision_player(Player& player, const CollisionHit& hit);
+  virtual void collision_solid(const CollisionHit& hit) override;
+  virtual HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit) override;
+  virtual HitResponse collision_player(Player& player, const CollisionHit& hit) override;
 
   virtual bool updatePointers(const GameObject* from_object, GameObject* to_object);
 
-  bool is_flammable() const;
-  std::string get_class() const {
+  virtual bool is_flammable() const override;
+  virtual std::string get_class() const override {
     return "mole_rock";
   }
-  std::string get_display_name() const {
+  virtual std::string get_display_name() const override {
     return _("Mole's rock");
   }
 

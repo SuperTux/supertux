@@ -28,23 +28,23 @@ class InfoBlock : public Block
 public:
   InfoBlock(const ReaderMapping& lisp);
   virtual ~InfoBlock();
-  void update(float elapsed_time);
-  void draw(DrawingContext& context);
+  virtual void update(float elapsed_time) override;
+  virtual void draw(DrawingContext& context) override;
 
   void show_message();
   void hide_message();
-  std::string get_class() const {
+  virtual std::string get_class() const override {
     return "infoblock";
   }
-  std::string get_display_name() const {
+  virtual std::string get_display_name() const override {
     return _("Info block");
   }
 
-  virtual ObjectSettings get_settings();
+  virtual ObjectSettings get_settings() override;
 
 protected:
-  virtual void hit(Player& player);
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
+  virtual void hit(Player& player) override;
+  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
   Player* get_nearest_player() const;
 
 protected:

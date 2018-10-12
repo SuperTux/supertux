@@ -135,11 +135,6 @@ AmbientSound::after_editor_set() {
 }
 
 void
-AmbientSound::hit(Player& )
-{
-}
-
-void
 AmbientSound::stop_playing()
 {
   sound_source.reset();

@@ -27,19 +27,19 @@ class SmartBall : public WalkingBadguy
 public:
   SmartBall(const ReaderMapping& reader);
 
-  virtual std::string get_water_sprite() const {
+  virtual std::string get_water_sprite() const override {
     return "images/objects/water_drop/pink_drop.sprite";
   }
 
-  std::string get_class() const {
+  virtual std::string get_class() const override {
     return "smartball";
   }
-  std::string get_display_name() const {
+  virtual std::string get_display_name() const override {
     return _("Smart Ball");
   }
 
 protected:
-  bool collision_squished(GameObject& object);
+  virtual bool collision_squished(GameObject& object) override;
 };
 
 #endif

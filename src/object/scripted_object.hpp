@@ -28,11 +28,11 @@ class ScriptedObject : public MovingSprite,
 public:
   ScriptedObject(const ReaderMapping& lisp);
 
-  void update(float elapsed_time);
-  void draw(DrawingContext& context);
+  virtual void update(float elapsed_time) override;
+  virtual void draw(DrawingContext& context) override;
 
-  void collision_solid(const CollisionHit& hit);
-  HitResponse collision(GameObject& other, const CollisionHit& hit);
+  virtual void collision_solid(const CollisionHit& hit) override;
+  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
 
   // --- scripting Interface stuff ---
 
@@ -52,14 +52,14 @@ public:
   void enable_gravity(bool f);
   bool gravity_enabled() const;
 
-  std::string get_class() const {
+  virtual std::string get_class() const override {
     return "scriptedobject";
   }
-  std::string get_display_name() const {
+  virtual std::string get_display_name() const override {
     return _("Scripted object");
   }
 
-  virtual ObjectSettings get_settings();
+  virtual ObjectSettings get_settings() override;
 
 private:
   Physic physic;

@@ -35,12 +35,12 @@ public:
             const float min_initial_velocity, const float max_initial_velocity,
             const Vector& acceleration, int number, Color color,
             int size, float life_time, int drawing_layer);
-  virtual bool is_saveable() const {
+  virtual bool is_saveable() const override {
     return false;
   }
 
-  virtual void update(float elapsed_time);
-  virtual void draw(DrawingContext& context);
+  virtual void update(float elapsed_time) override;
+  virtual void draw(DrawingContext& context) override;
 
 private:
   struct Particle {

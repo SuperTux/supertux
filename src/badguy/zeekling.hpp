@@ -25,22 +25,22 @@ class Zeekling : public BadGuy
 public:
   Zeekling(const ReaderMapping& reader);
 
-  void initialize();
-  void collision_solid(const CollisionHit& hit);
-  void active_update(float elapsed_time);
+  virtual void initialize() override;
+  virtual void collision_solid(const CollisionHit& hit) override;
+  virtual void active_update(float elapsed_time) override;
 
-  void freeze();
-  void unfreeze();
-  bool is_freezable() const;
-  std::string get_class() const {
+  virtual void freeze() override;
+  virtual void unfreeze() override;
+  virtual bool is_freezable() const override;
+  virtual std::string get_class() const override {
     return "zeekling";
   }
-  std::string get_display_name() const {
+  virtual std::string get_display_name() const override {
     return _("Zeekling");
   }
 
 private:
-  bool collision_squished(GameObject& object);
+  virtual bool collision_squished(GameObject& object) override;
   bool should_we_dive();
   void onBumpHorizontal();
   void onBumpVertical();

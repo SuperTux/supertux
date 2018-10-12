@@ -30,12 +30,12 @@ class UnstableTile : public MovingSprite
 public:
   UnstableTile(const ReaderMapping& lisp);
 
-  HitResponse collision(GameObject& other, const CollisionHit& hit);
-  void update(float elapsed_time);
-  std::string get_class() const {
+  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual void update(float elapsed_time) override;
+  virtual std::string get_class() const override {
     return "unstable_tile";
   }
-  std::string get_display_name() const {
+  virtual std::string get_display_name() const override {
     return _("Unstable tile");
   }
 

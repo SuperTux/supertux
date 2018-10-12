@@ -27,22 +27,22 @@ class Toad : public BadGuy
 public:
   Toad(const ReaderMapping& reader);
 
-  void initialize();
-  void collision_solid(const CollisionHit& hit);
-  HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
-  bool collision_squished(GameObject& object);
-  void active_update(float elapsed_time);
+  virtual void initialize() override;
+  virtual void collision_solid(const CollisionHit& hit) override;
+  virtual HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit) override;
+  virtual bool collision_squished(GameObject& object) override;
+  virtual void active_update(float elapsed_time) override;
 
-  void unfreeze();
-  bool is_freezable() const;
-  std::string get_class() const {
+  virtual void unfreeze() override;
+  virtual bool is_freezable() const override;
+  virtual std::string get_class() const override {
     return "toad";
   }
-  std::string get_display_name() const {
+  virtual std::string get_display_name() const override {
     return _("Toad");
   }
 
-  void after_editor_set();
+  virtual void after_editor_set() override;
 
 protected:
   enum ToadState {

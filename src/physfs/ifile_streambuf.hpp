@@ -31,10 +31,10 @@ public:
   ~IFileStreambuf();
 
 protected:
-  virtual int underflow();
+  virtual int underflow() override;
   virtual pos_type seekoff(off_type pos, std::ios_base::seekdir,
-                           std::ios_base::openmode);
-  virtual pos_type seekpos(pos_type pos, std::ios_base::openmode);
+                           std::ios_base::openmode) override;
+  virtual pos_type seekpos(pos_type pos, std::ios_base::openmode) override;
 
 private:
   PHYSFS_File* file;

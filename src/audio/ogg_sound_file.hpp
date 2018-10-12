@@ -23,14 +23,14 @@
 
 struct PHYSFS_File;
 
-class OggSoundFile : public SoundFile
+class OggSoundFile final : public SoundFile
 {
 public:
   OggSoundFile(PHYSFS_File* file, double loop_begin, double loop_at);
   ~OggSoundFile();
 
-  size_t read(void* buffer, size_t buffer_size);
-  void reset();
+  virtual size_t read(void* buffer, size_t buffer_size) override;
+  virtual void reset() override;
 
 private:
   static size_t cb_read(void* ptr, size_t size, size_t nmemb, void* source);

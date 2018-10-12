@@ -46,13 +46,13 @@ public:
                 int layer = LAYER_OBJECTS,
                 const std::string& light_sprite_name = "images/objects/lightmap_light/lightmap_light-medium.sprite");
 
-  void initialize();
-  void active_update(float elapsed_time);
+  virtual void initialize() override;
+  virtual void active_update(float elapsed_time) override;
   void active_update(float elapsed_time, float target_velocity);
-  void collision_solid(const CollisionHit& hit);
-  HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
-  void freeze();
-  void unfreeze();
+  virtual void collision_solid(const CollisionHit& hit) override;
+  virtual HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit) override;
+  virtual void freeze() override;
+  virtual void unfreeze() override;
 
   float get_velocity_y() const;
   void set_velocity_y(float vy);
@@ -72,7 +72,7 @@ public:
     return BadGuy::is_active();
   }
 
-  void after_editor_set();
+  virtual void after_editor_set() override;
 
 protected:
   void turn_around();

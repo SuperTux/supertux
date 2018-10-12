@@ -25,13 +25,13 @@ class Flower : public MovingObject
 {
 public:
   Flower(BonusType type);
-  virtual bool is_saveable() const {
+  virtual bool is_saveable() const override {
     return false;
   }
 
-  virtual void update(float elapsed_time);
-  virtual void draw(DrawingContext& context);
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
+  virtual void update(float elapsed_time) override;
+  virtual void draw(DrawingContext& context) override;
+  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
 
 private:
   BonusType type;

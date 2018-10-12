@@ -64,8 +64,8 @@ public:
   Tux(WorldMap* worldmap_);
 
   void setup(); /**< called prior to first update */
-  void draw(DrawingContext& context);
-  void update(float elapsed_time);
+  virtual void draw(DrawingContext& context) override;
+  virtual void update(float elapsed_time) override;
 
   void set_direction(Direction dir);
 

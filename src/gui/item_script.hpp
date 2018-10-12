@@ -25,7 +25,7 @@ class ItemScript : public MenuItem
     ItemScript(const std::string& text_, std::string* script_, int id = -1);
 
     /** Processes the menu action. */
-    virtual void process_action(const MenuAction& action);
+    virtual void process_action(const MenuAction& action) override;
 
   private:
     std::string* script;

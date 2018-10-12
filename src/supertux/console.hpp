@@ -124,7 +124,7 @@ private:
 class ConsoleStreamBuffer : public std::stringbuf
 {
 public:
-  int sync()
+  virtual int sync() override
   {
     int result = std::stringbuf::sync();
     if(ConsoleBuffer::current())

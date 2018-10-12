@@ -24,16 +24,16 @@ class AngryStone : public BadGuy
 public:
   AngryStone(const ReaderMapping& reader);
 
-  void collision_solid(const CollisionHit& hit);
-  HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
-  void active_update(float elapsed_time);
-  void kill_fall();
-  bool is_freezable() const;
-  bool is_flammable() const;
-  std::string get_class() const {
+  virtual void collision_solid(const CollisionHit& hit) override;
+  virtual HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit) override;
+  virtual void active_update(float elapsed_time) override;
+  virtual void kill_fall() override;
+  virtual bool is_freezable() const override;
+  virtual bool is_flammable() const override;
+  virtual std::string get_class() const override {
     return "angrystone";
   }
-  std::string get_display_name() const {
+  virtual std::string get_display_name() const override {
     return _("Angry stone");
   }
 

@@ -28,11 +28,11 @@ class FadeOut : public ScreenFade
 public:
   FadeOut(float fade_time, Color dest_color = Color(0, 0, 0));
 
-  void update(float elapsed_time);
-  void draw(DrawingContext& context);
+  virtual void update(float elapsed_time) override;
+  virtual void draw(DrawingContext& context) override;
 
   /// returns true if the effect is completed
-  bool done() const;
+  virtual bool done() const override;
 
 private:
   Color color;

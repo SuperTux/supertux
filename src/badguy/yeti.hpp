@@ -25,23 +25,23 @@ class Yeti : public BadGuy
 public:
   Yeti(const ReaderMapping& lisp);
 
-  void draw(DrawingContext& context);
-  void initialize();
-  void active_update(float elapsed_time);
-  void collision_solid(const CollisionHit& hit);
-  bool collision_squished(GameObject& object);
+  virtual void draw(DrawingContext& context) override;
+  virtual void initialize() override;
+  virtual void active_update(float elapsed_time) override;
+  virtual void collision_solid(const CollisionHit& hit) override;
+  virtual bool collision_squished(GameObject& object) override;
   void kill_squished(GameObject& object);
-  void kill_fall();
+  virtual void kill_fall() override;
 
-  bool is_flammable() const;
-  std::string get_class() const {
+  virtual bool is_flammable() const override;
+  virtual std::string get_class() const override {
     return "yeti";
   }
-  std::string get_display_name() const {
+  virtual std::string get_display_name() const override {
     return _("Yeti");
   }
 
-  virtual ObjectSettings get_settings();
+  virtual ObjectSettings get_settings() override;
 
 private:
   void run();

@@ -27,19 +27,19 @@ class DartTrap : public BadGuy
 public:
   DartTrap(const ReaderMapping& reader);
 
-  void initialize();
-  void activate();
-  void active_update(float elapsed_time);
-  HitResponse collision_player(Player& player, const CollisionHit& hit);
-  std::string get_class() const {
+  virtual void initialize() override;
+  virtual void activate() override;
+  virtual void active_update(float elapsed_time) override;
+  virtual HitResponse collision_player(Player& player, const CollisionHit& hit) override;
+  virtual std::string get_class() const override {
     return "darttrap";
   }
-  std::string get_display_name() const {
+  virtual std::string get_display_name() const override {
     return _("Dart trap");
   }
 
-  ObjectSettings get_settings();
-  void after_editor_set();
+  virtual ObjectSettings get_settings() override;
+  virtual void after_editor_set() override;
 
 protected:
   enum State {

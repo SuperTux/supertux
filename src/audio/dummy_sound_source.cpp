@@ -20,7 +20,7 @@
 
 #include "audio/sound_source.hpp"
 
-class DummySoundSource : public SoundSource
+class DummySoundSource final : public SoundSource
 {
 public:
   DummySoundSource() :
@@ -29,46 +29,46 @@ public:
   virtual ~DummySoundSource()
   {}
 
-  virtual void play()
+  virtual void play() override
   {
     is_playing = true;
   }
 
-  virtual void stop()
+  virtual void stop() override
   {
     is_playing = false;
   }
 
-  virtual bool playing() const
+  virtual bool playing() const override
   {
     return is_playing;
   }
 
-  virtual void set_looping(bool )
+  virtual void set_looping(bool ) override
   {
   }
 
-  virtual void set_relative(bool )
+  virtual void set_relative(bool ) override
   {
   }
 
-  virtual void set_gain(float )
+  virtual void set_gain(float ) override
   {
   }
 
-  virtual void set_pitch(float )
+  virtual void set_pitch(float ) override
   {
   }
 
-  virtual void set_position(const Vector& )
+  virtual void set_position(const Vector& ) override
   {
   }
 
-  virtual void set_velocity(const Vector& )
+  virtual void set_velocity(const Vector& ) override
   {
   }
 
-  virtual void set_reference_distance(float )
+  virtual void set_reference_distance(float ) override
   {
   }
 

@@ -30,17 +30,17 @@ public:
   Decal(const ReaderMapping& reader);
   virtual ~Decal();
 
-  virtual HitResponse collision(GameObject& , const CollisionHit& ) {
+  virtual HitResponse collision(GameObject& , const CollisionHit& ) override {
     return FORCE_MOVE;
   }
-  std::string get_class() const {
+  virtual std::string get_class() const override {
     return "decal";
   }
-  std::string get_display_name() const {
+  virtual std::string get_display_name() const override {
     return _("Decal");
   }
 
-  virtual ObjectSettings get_settings();
+  virtual ObjectSettings get_settings() override;
 
 private:
   std::string default_action;

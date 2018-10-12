@@ -30,18 +30,18 @@ public:
   virtual ~SnowParticleSystem();
 
   void init();
-  virtual void update(float elapsed_time);
+  virtual void update(float elapsed_time) override;
 
   std::string type() const
   { return "SnowParticleSystem"; }
-  std::string get_class() const {
+  virtual std::string get_class() const override {
     return "particles-snow";
   }
-  std::string get_display_name() const {
+  virtual std::string get_display_name() const override {
     return _("Snow particles");
   }
 
-  virtual const std::string get_icon_path() const {
+  virtual const std::string get_icon_path() const override {
     return "images/engine/editor/snow.png";
   }
 

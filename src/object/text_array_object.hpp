@@ -167,7 +167,7 @@ public:
    *
    * @param: context  the drawing context.
    */
-  void draw(DrawingContext& context);
+  virtual void draw(DrawingContext& context) override;
 
   /**
    * Updates the text array.
@@ -176,7 +176,7 @@ public:
    *
    * @param: elapsed_time  the elapsed time.
    */
-  void update(float elapsed_time);
+  virtual void update(float elapsed_time) override;
 
   /////////// internals  ///////////
 

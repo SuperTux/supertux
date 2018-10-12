@@ -32,8 +32,8 @@ class Teleporter : public GameObject
 public:
   Teleporter(const ReaderMapping& lisp);
 
-  virtual void draw(DrawingContext& context);
-  virtual void update(float elapsed_time);
+  virtual void draw(DrawingContext& context) override;
+  virtual void update(float elapsed_time) override;
 
 public:
   /** Position (in tiles, not pixels) */

@@ -22,16 +22,16 @@
 #include "supertux/physic.hpp"
 #include "supertux/player_status.hpp"
 
-class Bullet : public MovingObject
+class Bullet final : public MovingObject
 {
 public:
   Bullet(const Vector& pos, float xm, int dir, BonusType type);
 
-  void update(float elapsed_time);
-  void draw(DrawingContext& context);
-  void collision_solid(const CollisionHit& hit);
-  HitResponse collision(GameObject& other, const CollisionHit& hit);
-  virtual bool is_saveable() const {
+  virtual void update(float elapsed_time) override;
+  virtual void draw(DrawingContext& context) override;
+  virtual void collision_solid(const CollisionHit& hit) override;
+  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual bool is_saveable() const override {
     return false;
   }
 

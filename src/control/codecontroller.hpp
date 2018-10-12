@@ -30,7 +30,7 @@ public:
   virtual ~CodeController();
 
   void press(Control c, bool pressed = true);
-  void update();
+  virtual void update() override;
 };
 
 #endif

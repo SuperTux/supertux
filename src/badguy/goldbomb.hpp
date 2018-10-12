@@ -29,34 +29,34 @@ class GoldBomb : public WalkingBadguy, public Portable
 public:
   GoldBomb(const ReaderMapping& reader);
 
-  void collision_solid(const CollisionHit& hit);
-  HitResponse collision(GameObject& object, const CollisionHit& hit);
-  HitResponse collision_player(Player& player, const CollisionHit& hit);
-  HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
+  virtual void collision_solid(const CollisionHit& hit) override;
+  virtual HitResponse collision(GameObject& object, const CollisionHit& hit) override;
+  virtual HitResponse collision_player(Player& player, const CollisionHit& hit) override;
+  virtual HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit) override;
 
-  void active_update(float elapsed_time);
+  virtual void active_update(float elapsed_time) override;
 
-  void grab(MovingObject& object, const Vector& pos, Direction dir);
-  void ungrab(MovingObject& object, Direction dir);
-  bool is_portable() const;
+  virtual void grab(MovingObject& object, const Vector& pos, Direction dir) override;
+  virtual void ungrab(MovingObject& object, Direction dir) override;
+  virtual bool is_portable() const override;
 
-  void freeze();
-  bool is_freezable() const;
+  virtual void freeze() override;
+  virtual bool is_freezable() const override;
 
-  void kill_fall();
-  void ignite();
-  std::string get_class() const {
+  virtual void kill_fall() override;
+  virtual void ignite() override;
+  virtual std::string get_class() const override {
     return "goldbomb";
   }
-  std::string get_display_name() const {
+  virtual std::string get_display_name() const override {
     return _("Golden bomb");
   }
 
-  void stop_looping_sounds();
-  void play_looping_sounds();
+  virtual void stop_looping_sounds() override;
+  virtual void play_looping_sounds() override;
 
 protected:
-  bool collision_squished(GameObject& object);
+  virtual bool collision_squished(GameObject& object) override;
 
 private:
   GoldBomb(const GoldBomb&);

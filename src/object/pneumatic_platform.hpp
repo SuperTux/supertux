@@ -29,22 +29,22 @@ public:
   PneumaticPlatform(PneumaticPlatform* master);
   virtual ~PneumaticPlatform();
 
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
-  virtual void update(float elapsed_time);
-  std::string get_class() const {
+  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual void update(float elapsed_time) override;
+  virtual std::string get_class() const override {
     return "pneumatic-platform";
   }
-  std::string get_display_name() const {
+  virtual std::string get_display_name() const override {
     return _("Pneumatic platform");
   }
 
-  bool is_saveable() const {
+  virtual bool is_saveable() const override {
     return this == master;
   }
 
-  void move_to(const Vector& pos);
-  void editor_delete();
-  void after_editor_set();
+  virtual void move_to(const Vector& pos) override;
+  virtual void editor_delete() override;
+  virtual void after_editor_set() override;
 
 protected:
   PneumaticPlatform* master; /**< pointer to PneumaticPlatform that does movement calculation */

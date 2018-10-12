@@ -22,27 +22,29 @@
 
 class SoundSource;
 
-class Bomb : public BadGuy,
-             public Portable
+class Bomb final : public BadGuy,
+                   public Portable
 {
 public:
   Bomb(const Vector& pos, Direction dir, std::string custom_sprite = "images/creatures/mr_bomb/bomb.sprite" );
-  virtual bool is_saveable() const {
+  virtual bool is_saveable() const override {
     return false;
   }
 
-  void collision_solid(const CollisionHit& hit);
-  HitResponse collision_player(Player& player, const CollisionHit& hit);
-  HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
-  void active_update(float elapsed_time);
-  void kill_fall();
-  void ignite();
-  void explode();
-  void grab(MovingObject& object, const Vector& pos, Direction dir);
-  void ungrab(MovingObject& object, Direction dir);
+  virtual void collision_solid(const CollisionHit& hit) override;
+  virtual HitResponse collision_player(Player& player, const CollisionHit& hit) override;
+  virtual HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit) override;
 
-  void stop_looping_sounds();
-  void play_looping_sounds();
+  virtual void active_update(float elapsed_time) override;
+  virtual void kill_fall() override;
+  virtual void ignite() override;
+  void explode();
+
+  virtual void grab(MovingObject& object, const Vector& pos, Direction dir) override;
+  virtual void ungrab(MovingObject& object, Direction dir) override;
+
+  virtual void stop_looping_sounds() override;
+  virtual void play_looping_sounds() override;
 
 private:
   enum State {

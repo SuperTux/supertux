@@ -24,16 +24,16 @@ class Iceflame : public Flame
 public:
   Iceflame(const ReaderMapping& reader);
 
-  void active_update(float elapsed_time);
+  virtual void active_update(float elapsed_time) override;
 
-  void ignite();
-  bool is_flammable() const;
-  bool is_freezable() const;
-  std::string get_class() const {
+  virtual void ignite() override;
+  virtual bool is_flammable() const override;
+  virtual bool is_freezable() const override;
+  virtual std::string get_class() const override {
     return "iceflame";
   }
 
-  std::string get_display_name() const {
+  virtual std::string get_display_name() const override {
     return _("Ice flame");
   }
 };

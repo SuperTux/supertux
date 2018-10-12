@@ -28,8 +28,8 @@ public:
   ~OFileStreambuf();
 
 protected:
-  virtual int overflow(int c);
-  virtual int sync();
+  virtual int overflow(int c) override;
+  virtual int sync() override;
 
 private:
   PHYSFS_File* file;

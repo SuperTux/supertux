@@ -23,17 +23,17 @@ class Snowman : public WalkingBadguy
 {
 public:
   Snowman(const ReaderMapping& reader);
-  std::string get_class() const {
+  virtual std::string get_class() const override {
     return "snowman";
   }
-  std::string get_display_name() const {
+  virtual std::string get_display_name() const override {
     return _("Snowman");
   }
 
 protected:
   void loose_head();
-  virtual HitResponse collision_bullet(Bullet& bullet, const CollisionHit& hit);
-  bool collision_squished(GameObject& object);
+  virtual HitResponse collision_bullet(Bullet& bullet, const CollisionHit& hit) override;
+  virtual bool collision_squished(GameObject& object) override;
 
 };
 

@@ -37,13 +37,13 @@ class Electrifier : public GameObject
 public:
   Electrifier(TileChangeMap replacements, float seconds);
   Electrifier(uint32_t oldtile, uint32_t newtile, float seconds);
-  virtual bool is_saveable() const {
+  virtual bool is_saveable() const override {
     return false;
   }
 
 protected:
-  virtual void update(float time);
-  virtual void draw(DrawingContext& context);
+  virtual void update(float time) override;
+  virtual void draw(DrawingContext& context) override;
 
 private:
   TileChangeMap change_map;

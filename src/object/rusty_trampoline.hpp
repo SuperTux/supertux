@@ -30,17 +30,17 @@ class RustyTrampoline : public Rock
 public:
   RustyTrampoline(const ReaderMapping& reader);
 
-  HitResponse collision(GameObject& other, const CollisionHit& hit);
-  void collision_solid(const CollisionHit& hit);
-  void update(float elapsed_time);
+  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual void collision_solid(const CollisionHit& hit) override;
+  virtual void update(float elapsed_time) override;
 
-  void grab(MovingObject&, const Vector& pos, Direction);
-  void ungrab(MovingObject&, Direction);
-  bool is_portable() const;
-  std::string get_class() const {
+  virtual void grab(MovingObject&, const Vector& pos, Direction) override;
+  virtual void ungrab(MovingObject&, Direction) override;
+  virtual bool is_portable() const override;
+  virtual std::string get_class() const override {
     return "rustytrampoline";
   }
-  std::string get_display_name() const {
+  virtual std::string get_display_name() const override {
     return _("Rusty trampoline");
   }
 

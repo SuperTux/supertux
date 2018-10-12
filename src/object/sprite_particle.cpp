@@ -64,11 +64,6 @@ SpriteParticle::~SpriteParticle()
 }
 
 void
-SpriteParticle::hit(Player& )
-{
-}
-
-void
 SpriteParticle::update(float elapsed_time)
 {
   // die when animation is complete

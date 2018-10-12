@@ -32,7 +32,7 @@ class TextObject : public GameObject,
 public:
   TextObject(const std::string& name = std::string());
   virtual ~TextObject();
-  virtual bool is_saveable() const {
+  virtual bool is_saveable() const override {
     return false;
   }
 
@@ -71,8 +71,8 @@ public:
     return static_cast<int>(anchor);
   }
 
-  void draw(DrawingContext& context);
-  void update(float elapsed_time);
+  virtual void draw(DrawingContext& context) override;
+  virtual void update(float elapsed_time) override;
 
 private:
   FontPtr font;

@@ -29,23 +29,23 @@ public:
   BicyclePlatform(BicyclePlatform* master);
   virtual ~BicyclePlatform();
 
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
-  virtual void update(float elapsed_time);
-  std::string get_class() const {
+  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual void update(float elapsed_time) override;
+  virtual std::string get_class() const override {
     return "bicycle-platform";
   }
-  std::string get_display_name() const {
+  virtual std::string get_display_name() const override {
     return _("Bicycle platform");
   }
 
-  bool is_saveable() const {
+  virtual bool is_saveable() const override {
     return this == master;
   }
 
-  virtual void move_to(const Vector& pos);
-  ObjectSettings get_settings();
-  virtual void editor_delete();
-  virtual void after_editor_set();
+  virtual void move_to(const Vector& pos) override;
+  virtual ObjectSettings get_settings() override;
+  virtual void editor_delete() override;
+  virtual void after_editor_set() override;
 
 protected:
   BicyclePlatform* master; /**< pointer to BicyclePlatform that does movement calculation */
