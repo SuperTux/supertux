@@ -336,7 +336,7 @@ void
 SectorParser::fix_old_tiles()
 {
   // add lights for special tiles
-  for(const auto& obj : m_sector.m_gameobjects) {
+  for(const auto& obj : m_sector.get_objects()) {
     auto tm = dynamic_cast<TileMap*>(obj.get());
     if (!tm) continue;
 

@@ -130,7 +130,7 @@ public:
   template<class T> int get_total_count() const
   {
     int total = 0;
-    for(const auto& obj : m_gameobjects) {
+    for(const auto& obj : get_objects()) {
       if (dynamic_cast<T*>(obj.get())) total++;
     }
     return total;
@@ -233,7 +233,6 @@ public:
   void set_music(const std::string& music);
   std::string get_music() const;
 
-  const std::vector<GameObjectPtr>& get_objects() const;
   const std::vector<MovingObject*>& get_moving_objects() const;
 
 private:

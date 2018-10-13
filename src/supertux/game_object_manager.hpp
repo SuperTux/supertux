@@ -35,6 +35,8 @@ public:
   void update(float delta);
   void draw(DrawingContext& context);
 
+  const std::vector<GameObjectPtr>& get_objects() const;
+
   void update_game_objects();
 
   /** Hook that is called before an object is added to the vector */
@@ -43,7 +45,7 @@ public:
   /** Hook that is called before an object is removed from the vector */
   virtual void before_object_remove(GameObjectPtr object) = 0;
 
-protected:
+private:
   std::vector<GameObjectPtr> m_gameobjects;
 
   /** container for newly created objects, they'll be added in update_game_objects() */

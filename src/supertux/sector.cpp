@@ -122,7 +122,7 @@ Sector::~Sector()
   update_game_objects();
   assert(m_gameobjects_new.size() == 0);
 
-  for(const auto& object: m_gameobjects) {
+  for(const auto& object: get_objects()) {
     before_object_remove(object);
   }
 }
@@ -194,7 +194,7 @@ Sector::activate(const Vector& player_pos)
     scripting::store_object(vm, "sector", m_sector_table);
     sq_pop(vm, 1);
 
-    for(auto& object : m_gameobjects) {
+    for(auto& object : get_objects()) {
       try_expose(object);
     }
   }
@@ -203,7 +203,7 @@ Sector::activate(const Vector& player_pos)
 
   // two-player hack: move other players to main player's position
   // Maybe specify 2 spawnpoints in the level?
-  for(auto& object : m_gameobjects) {
+  for(auto& object : get_objects()) {
     auto p = dynamic_cast<Player*>(object.get());
     if (!p) continue;
 
@@ -264,7 +264,7 @@ Sector::deactivate()
   scripting::delete_table_entry(vm, "sector");
   sq_pop(vm, 1);
 
-  for(const auto& object: m_gameobjects) {
+  for(const auto& object: get_objects()) {
     try_unexpose(object);
   }
 
@@ -285,7 +285,7 @@ int
 Sector::calculate_foremost_layer() const
 {
   int layer = LAYER_BACKGROUND0;
-  for(const auto& obj : m_gameobjects)
+  for(const auto& obj : get_objects())
   {
     const auto& tm = dynamic_cast<TileMap*>(obj.get());
     if (!tm) continue;
@@ -489,7 +489,7 @@ Sector::draw(DrawingContext& context)
 void
 Sector::on_window_resize()
 {
-  for(const auto& obj : m_gameobjects)
+  for(const auto& obj : get_objects())
   {
     obj->on_window_resize();
   }
@@ -578,7 +578,7 @@ int
 Sector::get_total_badguys() const
 {
   int total_badguys = 0;
-  for(const auto& object : m_gameobjects) {
+  for(const auto& object : get_objects()) {
     auto badguy = dynamic_cast<BadGuy*>(object.get());
     if (badguy && badguy->countMe)
       total_badguys++;
@@ -645,7 +645,7 @@ Sector::resize_sector(const Size& old_size, const Size& new_size, const Size& re
   bool is_offset = resize_offset.width || resize_offset.height;
   Vector obj_shift = Vector(static_cast<float>(resize_offset.width) * 32.0f,
                             static_cast<float>(resize_offset.height) * 32.0f);
-  for(const auto& object : m_gameobjects) {
+  for(const auto& object : get_objects()) {
     auto tilemap = dynamic_cast<TileMap*>(object.get());
     if (tilemap) {
       if (tilemap->get_size() == old_size) {
@@ -769,14 +769,14 @@ Sector::get_nearby_objects (const Vector& center, float max_distance) const
 void
 Sector::stop_looping_sounds()
 {
-  for(auto& object : m_gameobjects) {
+  for(auto& object : get_objects()) {
     object->stop_looping_sounds();
   }
 }
 
 void Sector::play_looping_sounds()
 {
-  for(const auto& object : m_gameobjects) {
+  for(const auto& object : get_objects()) {
     object->play_looping_sounds();
   }
 }
@@ -808,7 +808,7 @@ Sector::save(Writer &writer)
   // Do not save spawnpoints since we have spawnpoint markers.
 
   // saving oběcts (not really)
-  for(auto& obj : m_gameobjects) {
+  for(auto& obj : get_objects()) {
     if (obj->is_saveable()) {
       writer.start_list(obj->get_class());
       obj->save(writer);
@@ -817,12 +817,6 @@ Sector::save(Writer &writer)
   }
 
   writer.end_list("sector");
-}
-
-const std::vector<GameObjectPtr>&
-Sector::get_objects() const
-{
-  return m_gameobjects;
 }
 
 const std::vector<MovingObject*>&

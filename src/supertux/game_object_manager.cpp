@@ -32,6 +32,12 @@ GameObjectManager::~GameObjectManager()
 {
 }
 
+const std::vector<GameObjectPtr>&
+GameObjectManager::get_objects() const
+{
+  return m_gameobjects;
+}
+
 void
 GameObjectManager::add_object(GameObjectPtr object)
 {
