@@ -29,7 +29,7 @@
 #include "video/color.hpp"
 #include "video/gl.hpp"
 #include "video/sampler.hpp"
-#include "video/sdl_surface_ptr.hpp"
+#include "video/sdl_surface.hpp"
 #include "video/texture.hpp"
 #include "video/video_system.hpp"
 
@@ -277,7 +277,7 @@ TextureManager::get_surface(const std::string& filename)
   }
   else
   {
-    SDLSurfacePtr image(IMG_Load_RW(get_physfs_SDLRWops(filename), 1));
+    SDLSurfacePtr image = SDLSurface::from_file(filename);
     if (!image)
     {
       std::ostringstream msg;
@@ -341,7 +341,7 @@ TextureManager::create_image_texture(const std::string& filename, const Sampler&
 TexturePtr
 TextureManager::create_image_texture_raw(const std::string& filename, const Sampler& sampler)
 {
-  SDLSurfacePtr image(IMG_Load_RW(get_physfs_SDLRWops(filename), 1));
+  SDLSurfacePtr image = SDLSurface::from_file(filename);
   if (!image)
   {
     std::ostringstream msg;
