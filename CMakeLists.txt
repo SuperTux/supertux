@@ -797,7 +797,11 @@ if(WIN32 AND NOT UNIX)
   set(INSTALL_SUBDIR_SHARE "data" CACHE STRING "Installation subdir for data")
   set(INSTALL_SUBDIR_DOC "doc" CACHE STRING "Installation subdir for docs")
 
+  if(VCPKG_BUILD)
+    install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} DESTINATION ${INSTALL_SUBDIR_BIN} FILES_MATCHING PATTERN "*.dll")
+  else()
   install(FILES ${DLLS} DESTINATION ${INSTALL_SUBDIR_BIN})
+  endif()
 
   install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.png ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.ico DESTINATION ".")
 
