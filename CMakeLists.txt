@@ -798,7 +798,7 @@ if(WIN32 AND NOT UNIX)
   set(INSTALL_SUBDIR_DOC "doc" CACHE STRING "Installation subdir for docs")
 
   if(VCPKG_BUILD)
-    file(GLOB DLL_DEPS "${CMAKE_CURRENT_BINARY_DIR}/*.dll")
+    file(GLOB_RECURSE DLL_DEPS "${CMAKE_CURRENT_BINARY_DIR}/*.dll")
     install(FILES ${DLL_DEPS} DESTINATION ${INSTALL_SUBDIR_BIN})
     # install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/ DESTINATION ${INSTALL_SUBDIR_BIN} FILES_MATCHING PATTERN "*.dll")
     #foreach(dll_name SDL2 SDL2_image libpng16 vorbisfile boost_filesystem-vc140-mt-x32-1_68 boost_date_time-vc140-mt-x32-1_68 boost_locale-vc140-mt-x32-1_68 glew32 libcurl-d)
