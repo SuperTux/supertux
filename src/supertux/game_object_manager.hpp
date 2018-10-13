@@ -32,6 +32,7 @@ public:
 
   /** Queue an object up to be added to the object list */
   void add_object(GameObjectPtr object);
+  void clear_objects();
 
   void update(float delta);
   void draw(DrawingContext& context);

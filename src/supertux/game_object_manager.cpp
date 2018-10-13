@@ -30,6 +30,9 @@ GameObjectManager::GameObjectManager() :
 
 GameObjectManager::~GameObjectManager()
 {
+  // clear_objects() must be called before destructing the GameObjectManager
+  assert(m_gameobjects.size() == 0);
+  assert(m_gameobjects_new.size() == 0);
 }
 
 const std::vector<GameObjectPtr>&
@@ -52,6 +55,17 @@ GameObjectManager::add_object(GameObjectPtr object)
 #endif
 
   m_gameobjects_new.push_back(object);
+}
+
+void
+GameObjectManager::clear_objects()
+{
+  update_game_objects();
+
+  for(const auto& obj: m_gameobjects) {
+    before_object_remove(obj);
+  }
+  m_gameobjects.clear();
 }
 
 void

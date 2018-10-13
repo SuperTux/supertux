@@ -119,12 +119,7 @@ Sector::~Sector()
 
   release_scripts(global_vm, m_scripts, m_sector_table);
 
-  update_game_objects();
-  assert(m_gameobjects_new.size() == 0);
-
-  for(const auto& object: get_objects()) {
-    before_object_remove(object);
-  }
+  clear_objects();
 }
 
 Level&
