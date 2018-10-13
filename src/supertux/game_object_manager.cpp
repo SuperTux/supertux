@@ -90,14 +90,18 @@ GameObjectManager::update_game_objects()
 {
   {
     // cleanup marked objects
-    auto erase_it = std::remove_if(m_gameobjects.begin(), m_gameobjects.end(),
-                                   [](const GameObjectPtr& obj){ return !obj->is_valid(); });
-
-    for(auto it = erase_it; it != m_gameobjects.end(); ++it) {
-      before_object_remove(*it);
-    }
-
-    m_gameobjects.erase(erase_it, m_gameobjects.end());
+    m_gameobjects.erase(
+      std::remove_if(m_gameobjects.begin(), m_gameobjects.end(),
+                     [this](const GameObjectPtr& obj) {
+                       if (!obj->is_valid())
+                       {
+                         before_object_remove(obj);
+                         return true;
+                       } else {
+                         return false;
+                       }
+                     }),
+      m_gameobjects.end());
   }
 
   // add newly created objects
