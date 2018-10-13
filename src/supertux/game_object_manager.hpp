@@ -30,6 +30,7 @@ public:
   GameObjectManager();
   virtual ~GameObjectManager();
 
+  /** Queue an object up to be added to the object list */
   void add_object(GameObjectPtr object);
 
   void update(float delta);
@@ -37,6 +38,7 @@ public:
 
   const std::vector<GameObjectPtr>& get_objects() const;
 
+  /** Commit the queued up additions and deletions to the object list */
   void update_game_objects();
 
   /** Hook that is called before an object is added to the vector */
