@@ -113,9 +113,6 @@ public:
 
   void add_object(GameObjectPtr object);
 
-  void try_expose(const GameObjectPtr& object);
-  void try_unexpose(const GameObjectPtr& object);
-
   void setup();
   void leave();
 
@@ -254,6 +251,9 @@ public:
   }
 
 private:
+  void try_expose(const GameObjectPtr& object);
+  void try_unexpose(const GameObjectPtr& object);
+
   void load_level_information(LevelTile& level);
   void draw_status(DrawingContext& context);
   void calculate_total_stats();
