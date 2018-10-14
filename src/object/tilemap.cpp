@@ -465,11 +465,10 @@ TileMap::resize(int new_width, int new_height, int fill_id,
 
   //Apply offset
   if (xoffset || yoffset) {
-    int X, Y;
     for(int y = 0; y < m_height; y++) {
-      Y = (yoffset < 0) ? y : (m_height - y - 1);
+      int Y = (yoffset < 0) ? y : (m_height - y - 1);
       for(int x = 0; x < m_width; x++) {
-        X = (xoffset < 0) ? x : (m_width - x - 1);
+        int X = (xoffset < 0) ? x : (m_width - x - 1);
         if (Y - yoffset < 0 || Y - yoffset >= m_height ||
             X - xoffset < 0 || X - xoffset >= m_width) {
           m_tiles[Y * new_width + X] = fill_id;
