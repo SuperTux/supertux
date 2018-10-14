@@ -55,23 +55,44 @@ GLVideoSystem::GLVideoSystem(bool use_opengl33core) :
   SDL_DisplayMode mode;
   SDL_GetCurrentDisplayMode(0, &mode);
   m_desktop_size = Size(mode.w, mode.h);
+#  if defined(USE_GLBINDING)
+  if(!GLEW_VERSION_3_3) {
+    //TODO make this work
+    DONT COMPILE!!
+    use_opengl33core = false;
+  }
+  if(!GLEW_VERSION_2_0) {
+    //TODO make this work
+    DONT COMPILE!!
+    throw std::runtime_error("OpenGL >= 2.0 not found");
+  }
+#  else
+  if(!GLEW_VERSION_3_3) {
+    use_opengl33core = false;
+  }
+  if(!GLEW_VERSION_2_0) {
+    throw std::runtime_error("OpenGL >= 2.0 not found");
+  }
+#  endif
 
   create_window();
 
   m_texture_manager.reset(new TextureManager);
   m_renderer.reset(new GLScreenRenderer(*this));
 
+
 #if defined(USE_OPENGLES2)
   m_context.reset(new GL33CoreContext(*this));
 #elif defined(USE_OPENGLES1)
   m_context.reset(new GL20Context);
 #else
+
   if (use_opengl33core)
   {
     m_context.reset(new GL33CoreContext(*this));
   }
   else
-  {
+  { 
     m_context.reset(new GL20Context);
   }
 #endif

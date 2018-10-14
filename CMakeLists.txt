@@ -267,6 +267,20 @@ include_directories(BEFORE SYSTEM ${PHYSFS_INCLUDE_DIR})
 ## The curl headers are in the standard include path in dependencies
 ## so it's not required to add them here
 find_package(CURL REQUIRED)
+if(WIN32 AND VCPKG_BUILD)
+  list(LENGTH CURL_LIBRARY CURL_LIBRARY_LENGTH)
+  if (CURL_LIBRARY_LENGTH EQUAL 1)
+    set(CURL_LIBRARY_DEBUG_LIB   ${CURL_LIBRARY})
+      set(CURL_LIBRARY_RELEASE_LIB ${CURL_LIBRARY_DEBUG_LIB}/../../../lib/libcurl.lib)
+      get_filename_component(CURL_LIBRARY_RELEASE_LIB ${CURL_LIBRARY_RELEASE_LIB} REALPATH)
+      unset(CURL_LIBRARY CACHE)
+      unset(CURL_LIBRARY)
+      unset(CURL_LIBRARIES  CACHE)
+      unset(CURL_LIBRARIES)
+      set(CURL_LIBRARY "debug;${CURL_LIBRARY_DEBUG_LIB};optimized;${CURL_LIBRARY_RELEASE_LIB}")
+      set(CURL_LIBRARIES ${CURL_LIBRARY})
+  endif()
+endif()
 if(CURL_FOUND)
   include_directories(SYSTEM ${CURL_INCLUDE_DIR})
   set(HAVE_LIBCURL TRUE)
@@ -367,7 +381,7 @@ if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/external/squirrel/CMakeLists.txt)
   message(FATAL_ERROR "squirrel submodule is not checked out or ${CMAKE_CURRENT_SOURCE_DIR}/external/squirrel/CMakeLists.txt is missing")
 endif()
 
-set(SQUIRREL_PREFIX ${CMAKE_BINARY_DIR}/squirrel/)
+set(SQUIRREL_PREFIX ${CMAKE_BINARY_DIR}/squirrel/ex)
 ExternalProject_Add(squirrel
   SOURCE_DIR "${CMAKE_SOURCE_DIR}/external/squirrel/"
   CMAKE_ARGS
@@ -690,10 +704,6 @@ if(WIN32 AND NOT VCPKG_BUILD)
     COMMAND ${CMAKE_COMMAND} -E copy_directory
     "${DEPENDENCY_FOLDER}/dll"
     $<TARGET_FILE_DIR:supertux2_lib>)
-  #  add_custom_command(TARGET supertux2 POST_BUILD
-  #    COMMAND ${CMAKE_COMMAND} -E copy
-  #     "${DEPENDENCY_FOLDER}/DigiCertHighAssuranceEVRootCA.pem"
-  #     $<TARGET_FILE_DIR:supertux2_lib>)
 endif(WIN32 AND NOT VCPKG_BUILD)
 
 ## Link supertux binary with squirrel and other libraries
@@ -750,7 +760,7 @@ if(HAVE_OPENGL)
   if(GLBINDING_FOUND)
     target_link_libraries(supertux2_lib PUBLIC ${GLBINDING_LIBRARIES})
   else()
-    target_link_libraries(supertux2_lib PUBLIC ${GLEW_LIBRARY})
+    target_link_libraries(supertux2_lib PUBLIC GLEW::GLEW)
   endif()
 endif(HAVE_OPENGL)
 if(HAVE_LIBCURL)
@@ -798,12 +808,7 @@ if(WIN32 AND NOT UNIX)
   set(INSTALL_SUBDIR_DOC "doc" CACHE STRING "Installation subdir for docs")
 
   if(VCPKG_BUILD)
-    file(GLOB_RECURSE DLL_DEPS "${CMAKE_CURRENT_BINARY_DIR}/*.dll")
-    install(FILES ${DLL_DEPS} DESTINATION ${INSTALL_SUBDIR_BIN})
-    # install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/ DESTINATION ${INSTALL_SUBDIR_BIN} FILES_MATCHING PATTERN "*.dll")
-    #foreach(dll_name SDL2 SDL2_image libpng16 vorbisfile boost_filesystem-vc140-mt-x32-1_68 boost_date_time-vc140-mt-x32-1_68 boost_locale-vc140-mt-x32-1_68 glew32 libcurl-d)
-    #  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${dll_name}.dll DESTINATION ${INSTALL_SUBDIR_BIN})
-    #endforeach()
+    install(DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/\${CMAKE_INSTALL_CONFIG_NAME}/" DESTINATION ${INSTALL_SUBDIR_BIN} FILES_MATCHING PATTERN "*.dll")
   else()
     install(FILES ${DLLS} DESTINATION ${INSTALL_SUBDIR_BIN})
   endif()
@@ -813,16 +818,8 @@ if(WIN32 AND NOT UNIX)
   option(PACKAGE_VCREDIST "Package the VCREDIST libraries with the program" OFF)
 
   if(PACKAGE_VCREDIST)
+    set(CMAKE_INSTALL_UCRT_LIBRARIES true)
     include(InstallRequiredSystemLibraries)
-    install(FILES ${CMAKE_INSTALL_SYSTEM_RUNTIME_LIBS} DESTINATION ${INSTALL_SUBDIR_BIN})
-    include(FindWindowsSDK)
-    if(${CMAKE_VS_PLATFORM_NAME} STREQUAL "Win32")
-      set(UCRT_PATH "${WINDOWSSDK_PREFERRED_DIR}/Redist/ucrt/DLLs/x86")
-    else()
-      set(UCRT_PATH "${WINDOWSSDK_PREFERRED_DIR}/Redist/ucrt/DLLs/x64")
-    endif()
-    file(GLOB UCRT_DLLS "${UCRT_PATH}/*")
-    install(FILES ${UCRT_DLLS} DESTINATION ${INSTALL_SUBDIR_BIN})
   endif()
 
 else(WIN32 AND NOT UNIX)
