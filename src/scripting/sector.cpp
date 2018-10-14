@@ -17,6 +17,7 @@
 #include "scripting/sector.hpp"
 
 #include "supertux/sector.hpp"
+#include "video/color.hpp"
 
 namespace scripting {
 
@@ -34,7 +35,7 @@ Sector::fade_to_ambient_light(float red, float green, float blue, float fadetime
 void
 Sector::set_ambient_light(float red, float green, float blue)
 {
-  m_parent->set_ambient_light(red, green, blue);
+  m_parent->set_ambient_light(Color(red, green, blue));
 }
 
 float

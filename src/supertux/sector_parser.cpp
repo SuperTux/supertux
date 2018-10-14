@@ -16,6 +16,7 @@
 
 #include "supertux/sector_parser.hpp"
 
+#include <iostream>
 #include <physfs.h>
 
 #include "badguy/jumpy.hpp"
@@ -26,7 +27,6 @@
 #include "object/camera.hpp"
 #include "object/cloud_particle_system.hpp"
 #include "object/gradient.hpp"
-#include "object/pulsing_light.hpp"
 #include "object/rain_particle_system.hpp"
 #include "object/snow_particle_system.hpp"
 #include "object/tilemap.hpp"
@@ -97,15 +97,20 @@ SectorParser::parse_object(const std::string& name_, const ReaderMapping& reader
 void
 SectorParser::parse(const ReaderMapping& sector)
 {
-  bool has_background = false;
   auto iter = sector.get_iter();
   while(iter.next()) {
     if(iter.get_key() == "name") {
-      iter.get(m_sector.m_name);
+      std::string value;
+      iter.get(value);
+      m_sector.set_name(value);
     } else if(iter.get_key() == "gravity") {
-      iter.get(m_sector.m_gravity);
+      float value;
+      iter.get(value);
+      m_sector.set_gravity(value);
     } else if(iter.get_key() == "music") {
-      iter.get(m_sector.m_music);
+      std::string value;
+      iter.get(value);
+      m_sector.set_music(value);
     } else if(iter.get_key() == "spawnpoint") {
       auto sp = std::make_shared<SpawnPoint>(iter.as_mapping());
       if (!sp->name.empty() && sp->pos.x >= 0 && sp->pos.y >= 0) {
@@ -118,59 +123,36 @@ SectorParser::parse(const ReaderMapping& sector)
         }
       }
     } else if(iter.get_key() == "init-script") {
-      iter.get(m_sector.m_init_script);
+      std::string value;
+      iter.get(value);
+      m_sector.set_init_script(value);
     } else if(iter.get_key() == "ambient-light") {
       std::vector<float> vColor;
       bool hasColor = sector.get( "ambient-light", vColor );
       if(vColor.size() < 3 || !hasColor) {
         log_warning << "(ambient-light) requires a color as argument" << std::endl;
       } else {
-        m_sector.m_ambient_light = Color( vColor );
+        m_sector.set_ambient_light(Color(vColor));
       }
     } else {
       GameObjectPtr object = parse_object(iter.get_key(), iter.as_mapping());
       if(object) {
-        if(std::dynamic_pointer_cast<Background>(object)) {
-          has_background = true;
-        } else if(std::dynamic_pointer_cast<Gradient>(object)) {
-          has_background = true;
-        }
         m_sector.add_object(object);
       }
     }
   }
 
-  if(!has_background) {
-    auto gradient = std::make_shared<Gradient>();
-    gradient->set_gradient(Color(0.3f, 0.4f, 0.75f), Color(1.f, 1.f, 1.f));
-    m_sector.add_object(gradient);
-  }
-
-  m_sector.update_game_objects();
-
-  if (m_sector.m_solid_tilemaps.empty()) {
-    log_warning << "sector '" << m_sector.m_name << "' does not contain a solid tile layer." << std::endl;
-  }
-
-  if (!Editor::is_active()) {
-    fix_old_tiles();
-  }
-
-  if (!m_sector.m_camera) {
-    log_warning << "sector '" << m_sector.m_name << "' does not contain a camera." << std::endl;
-    m_sector.update_game_objects();
-    m_sector.add_object(std::make_shared<Camera>(&m_sector, "Camera"));
-  }
-
-  m_sector.update_game_objects();
-  m_sector.m_foremost_layer = m_sector.calculate_foremost_layer();
+  m_sector.construct();
 }
 
 void
 SectorParser::parse_old_format(const ReaderMapping& reader)
 {
-  m_sector.m_name = "main";
-  reader.get("gravity", m_sector.m_gravity);
+  m_sector.set_name("main");
+
+  float gravity;
+  if (reader.get("gravity", gravity))
+    m_sector.set_gravity(gravity);
 
   std::string backgroundimage;
   if (reader.get("background", backgroundimage) && (!backgroundimage.empty())) {
@@ -232,12 +214,12 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
   spawn->name = "main";
   m_sector.m_spawnpoints.push_back(spawn);
 
-  m_sector.m_music = "chipdisko.ogg";
+  m_sector.set_music("chipdisko.ogg");
   // skip reading music filename. It's all .ogg now, anyway
   /*
     reader.get("music", music);
   */
-  m_sector.m_music = "music/" + m_sector.m_music;
+  m_sector.set_music("music/" + m_sector.get_music());
 
   int width = 30, height = 15;
   reader.get("width", width);
@@ -323,74 +305,10 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
   m_sector.update_game_objects();
 
   if (m_sector.m_solid_tilemaps.empty()) {
-    log_warning << "sector '" << m_sector.m_name << "' does not contain a solid tile layer." << std::endl;
+    log_warning << "sector '" << m_sector.get_name() << "' does not contain a solid tile layer." << std::endl;
   }
 
-  if (!Editor::is_active()) {
-    fix_old_tiles();
-  }
-  m_sector.update_game_objects();
-}
-
-void
-SectorParser::fix_old_tiles()
-{
-  // add lights for special tiles
-  for(const auto& obj : m_sector.get_objects()) {
-    auto tm = dynamic_cast<TileMap*>(obj.get());
-    if (!tm) continue;
-
-    for(int x=0; x < tm->get_width(); ++x)
-    {
-      for(int y=0; y < tm->get_height(); ++y)
-      {
-        const Tile& tile = tm->get_tile(x, y);
-
-        if (!tile.get_object_name().empty())
-        {
-          // If a tile is associated with an object, insert that
-          // object and remove the tile
-          if (tile.get_object_name() == "decal" ||
-              tm->is_solid())
-          {
-            Vector pos = tm->get_tile_position(x, y);
-            try {
-              GameObjectPtr object = ObjectFactory::instance().create(tile.get_object_name(), pos, AUTO, tile.get_object_data());
-              m_sector.add_object(object);
-              tm->change(x, y, 0);
-            } catch(std::exception& e) {
-              log_warning << e.what() << "" << std::endl;
-            }
-          }
-        }
-        else
-        {
-          // add lights for fire tiles
-          uint32_t attributes = tile.get_attributes();
-          Vector pos = tm->get_tile_position(x, y);
-          Vector center = pos + Vector(16, 16);
-
-          if (attributes & Tile::FIRE) {
-            if (attributes & Tile::HURTS) {
-              // lava or lavaflow
-              // space lights a bit
-              if ((tm->get_tile(x-1, y).get_attributes() != attributes || x%3 == 0)
-                  && (tm->get_tile(x, y-1).get_attributes() != attributes || y%3 == 0)) {
-                float pseudo_rnd = static_cast<float>(static_cast<int>(pos.x) % 10) / 10;
-                m_sector.add_object(std::make_shared<PulsingLight>(center, 1.0f + pseudo_rnd, 0.8f, 1.0f,
-                                                                   Color(1.0f, 0.3f, 0.0f, 1.0f)));
-              }
-            } else {
-              // torch
-              float pseudo_rnd = static_cast<float>(static_cast<int>(pos.x) % 10) / 10;
-              m_sector.add_object(std::make_shared<PulsingLight>(center, 1.0f + pseudo_rnd, 0.9f, 1.0f,
-                                                                 Color(1.0f, 1.0f, 0.6f, 1.0f)));
-            }
-          }
-        }
-      }
-    }
-  }
+  m_sector.construct();
 }
 
 void
@@ -443,7 +361,7 @@ SectorParser::create_sector()
   auto camera = std::make_shared<Camera>(&m_sector, "Camera");
   m_sector.add_object(camera);
 
-  m_sector.update_game_objects();
+  m_sector.construct();
 }
 
 /* EOF */

@@ -61,13 +61,16 @@ enum MusicType {
 class Sector final : public GameObjectManager
 {
 public:
-  friend class SectorParser;
   friend class EditorSectorMenu;
   friend class CollisionSystem;
 
 public:
   Sector(Level& parent);
   ~Sector();
+
+  /** Needs to be called after parsing to finish the construction of
+      the Sector before using it. */
+  void construct();
 
   Level& get_level() const;
 
@@ -206,7 +209,7 @@ public:
   /**
    *  get/set color of ambient light
    */
-  void set_ambient_light(float red, float green, float blue);
+  void set_ambient_light(const Color& ambient_light);
   float get_ambient_red() const;
   float get_ambient_green() const;
   float get_ambient_blue() const;
@@ -233,6 +236,10 @@ public:
   void set_music(const std::string& music);
   std::string get_music() const;
 
+  void set_init_script(const std::string& init_script) {
+    m_init_script = init_script;
+  }
+
   const std::vector<MovingObject*>& get_moving_objects() const;
 
 private:
@@ -247,6 +254,10 @@ private:
   void try_unexpose_me();
 
   int calculate_foremost_layer() const;
+
+  /** Convert tiles into their corresponding GameObjects (e.g.
+      bonusblocks, add light to lava tiles) */
+  void convert_tiles2gameobject();
 
 private:
   static Sector* s_current;

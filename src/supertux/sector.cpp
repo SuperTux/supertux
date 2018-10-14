@@ -17,20 +17,24 @@
 #include "supertux/sector.hpp"
 
 #include <physfs.h>
+#include <algorithm>
 
 #include "audio/sound_manager.hpp"
 #include "badguy/badguy.hpp"
 #include "editor/editor.hpp"
 #include "math/aatriangle.hpp"
 #include "math/rect.hpp"
+#include "object/background.hpp"
 #include "object/bullet.hpp"
 #include "object/camera.hpp"
 #include "object/display_effect.hpp"
+#include "object/gradient.hpp"
 #include "object/player.hpp"
 #include "object/portable.hpp"
+#include "object/pulsing_light.hpp"
 #include "object/smoke_cloud.hpp"
-#include "object/text_object.hpp"
 #include "object/text_array_object.hpp"
+#include "object/text_object.hpp"
 #include "object/tilemap.hpp"
 #include "physfs/ifile_streambuf.hpp"
 #include "scripting/sector.hpp"
@@ -39,6 +43,7 @@
 #include "supertux/constants.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/level.hpp"
+#include "supertux/object_factory.hpp"
 #include "supertux/savegame.hpp"
 #include "supertux/spawn_point.hpp"
 #include "supertux/tile.hpp"
@@ -120,6 +125,40 @@ Sector::~Sector()
   release_scripts(global_vm, m_scripts, m_sector_table);
 
   clear_objects();
+}
+
+void
+Sector::construct()
+{
+  update_game_objects();
+
+  if (!Editor::is_active()) {
+    convert_tiles2gameobject();
+  }
+
+  bool has_background = std::any_of(get_objects().begin(), get_objects().end(),
+                                     [](const GameObjectPtr& obj) {
+                                      return (dynamic_cast<Background*>(obj.get()) ||
+                                              dynamic_cast<Gradient*>(obj.get()));
+                                     });
+  if (!has_background) {
+    auto gradient = std::make_shared<Gradient>();
+    gradient->set_gradient(Color(0.3f, 0.4f, 0.75f), Color(1.f, 1.f, 1.f));
+    add_object(gradient);
+  }
+
+  if (m_solid_tilemaps.empty()) {
+    log_warning << "sector '" << get_name() << "' does not contain a solid tile layer." << std::endl;
+  }
+
+  if (!m_camera) {
+    log_warning << "sector '" << get_name() << "' does not contain a camera." << std::endl;
+    add_object(std::make_shared<Camera>(this, "Camera"));
+  }
+
+  update_game_objects();
+
+  m_foremost_layer = calculate_foremost_layer();
 }
 
 Level&
@@ -666,11 +705,9 @@ Sector::change_solid_tiles(uint32_t old_tile_id, uint32_t new_tile_id)
 }
 
 void
-Sector::set_ambient_light(float red, float green, float blue)
+Sector::set_ambient_light(const Color& ambient_light)
 {
-  m_ambient_light.red = red;
-  m_ambient_light.green = green;
-  m_ambient_light.blue = blue;
+  m_ambient_light = ambient_light;
 }
 
 void
@@ -708,10 +745,14 @@ Sector::get_ambient_blue() const
 }
 
 void
-Sector::set_gravity(float gravity_)
+Sector::set_gravity(float gravity)
 {
-  log_warning << "Changing a Sector's gravitational constant might have unforeseen side-effects" << std::endl;
-  m_gravity = gravity_;
+  if (gravity != 10.0)
+  {
+    log_warning << "Changing a Sector's gravitational constant might have unforeseen side-effects: " << gravity << std::endl;
+  }
+
+  m_gravity = gravity;
 }
 
 float
@@ -818,6 +859,67 @@ const std::vector<MovingObject*>&
 Sector::get_moving_objects() const
 {
   return m_collision_system->get_moving_objects();
+}
+
+void
+Sector::convert_tiles2gameobject()
+{
+  // add lights for special tiles
+  for(const auto& obj : get_objects()) {
+    auto tm = dynamic_cast<TileMap*>(obj.get());
+    if (!tm) continue;
+
+    for(int x=0; x < tm->get_width(); ++x)
+    {
+      for(int y=0; y < tm->get_height(); ++y)
+      {
+        const Tile& tile = tm->get_tile(x, y);
+
+        if (!tile.get_object_name().empty())
+        {
+          // If a tile is associated with an object, insert that
+          // object and remove the tile
+          if (tile.get_object_name() == "decal" ||
+              tm->is_solid())
+          {
+            Vector pos = tm->get_tile_position(x, y);
+            try {
+              GameObjectPtr object = ObjectFactory::instance().create(tile.get_object_name(), pos, AUTO, tile.get_object_data());
+              add_object(object);
+              tm->change(x, y, 0);
+            } catch(std::exception& e) {
+              log_warning << e.what() << "" << std::endl;
+            }
+          }
+        }
+        else
+        {
+          // add lights for fire tiles
+          uint32_t attributes = tile.get_attributes();
+          Vector pos = tm->get_tile_position(x, y);
+          Vector center = pos + Vector(16, 16);
+
+          if (attributes & Tile::FIRE) {
+            if (attributes & Tile::HURTS) {
+              // lava or lavaflow
+              // space lights a bit
+              if ((tm->get_tile(x-1, y).get_attributes() != attributes || x%3 == 0)
+                  && (tm->get_tile(x, y-1).get_attributes() != attributes || y%3 == 0)) {
+                float pseudo_rnd = static_cast<float>(static_cast<int>(pos.x) % 10) / 10;
+                add_object(std::make_shared<PulsingLight>(center, 1.0f + pseudo_rnd, 0.8f, 1.0f,
+                                                                   Color(1.0f, 0.3f, 0.0f, 1.0f)));
+              }
+            } else {
+              // torch
+              float pseudo_rnd = static_cast<float>(static_cast<int>(pos.x) % 10) / 10;
+              add_object(std::make_shared<PulsingLight>(center, 1.0f + pseudo_rnd, 0.9f, 1.0f,
+                                                                 Color(1.0f, 1.0f, 0.6f, 1.0f)));
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
 /* EOF */

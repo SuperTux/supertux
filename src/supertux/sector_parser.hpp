@@ -36,7 +36,6 @@ public:
 private:
   SectorParser(Sector& sector);
 
-  void fix_old_tiles();
   void parse_old_format(const ReaderMapping& reader);
   void parse(const ReaderMapping& sector);
   void create_sector();
