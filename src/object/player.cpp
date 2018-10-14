@@ -706,9 +706,9 @@ Player::handle_vertical_input()
       // airflower allows for higher jumps-
       // jump a bit higher if we are running; else do a normal jump
       if(m_player_status.bonus == AIR_BONUS)
-        do_jump((fabsf(m_physic.get_velocity_x()) > MAX_WALK_XM) ? -620 : -580);
+        do_jump((fabsf(m_physic.get_velocity_x()) > MAX_WALK_XM) ? -620.0f : -580.0f);
       else
-        do_jump((fabsf(m_physic.get_velocity_x()) > MAX_WALK_XM) ? -580 : -520);
+        do_jump((fabsf(m_physic.get_velocity_x()) > MAX_WALK_XM) ? -580.0f : -520.0f);
     }
     // airflower glide only when holding jump key
   } else  if (m_controller->hold(Controller::JUMP) && m_player_status.bonus == AIR_BONUS && m_physic.get_velocity_y() > MAX_GLIDE_YM) {
@@ -1082,7 +1082,7 @@ Player::set_bonus(BonusType type, bool animate)
 
   if ((type == NO_BONUS) || (type == GROWUP_BONUS)) {
     Vector ppos = Vector((bbox.p1.x + bbox.p2.x) / 2, bbox.p1.y);
-    Vector pspeed = Vector(((m_dir == LEFT) ? 100 : -100), -300);
+    Vector pspeed = Vector(((m_dir == LEFT) ? 100.0f : -100.0f), -300.0f);
     Vector paccel = Vector(0, 1000);
     std::string action = (m_dir == LEFT) ? "left" : "right";
     std::string particle_name = "";
@@ -1137,10 +1137,7 @@ void
 Player::set_visible(bool visible_)
 {
   m_visible = visible_;
-  if( visible_ )
-    set_group(COLGROUP_MOVING);
-  else
-    set_group(COLGROUP_DISABLED);
+  set_group(visible_ ? COLGROUP_MOVING : COLGROUP_DISABLED);
 }
 
 bool
