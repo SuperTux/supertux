@@ -186,7 +186,9 @@ Sector::activate(const Vector& player_pos)
       try_expose(object);
     }
   }
-  try_expose_me();
+
+  // The Sector object is called 'settings' as it is accessed as 'sector.settings'
+  expose("settings", std::make_unique<scripting::Sector>(this));
 
   // two-player hack: move other players to main player's position
   // Maybe specify 2 spawnpoints in the level?
@@ -255,7 +257,8 @@ Sector::deactivate()
     try_unexpose(object);
   }
 
-  try_unexpose_me();
+  unexpose("settings");
+
   s_current = nullptr;
 }
 
@@ -420,30 +423,6 @@ Sector::before_object_remove(GameObjectPtr object)
 
   if(s_current == this)
     try_unexpose(object);
-}
-
-void
-Sector::try_expose_me()
-{
-  HSQUIRRELVM vm = scripting::global_vm;
-  sq_pushobject(vm, m_table);
-  auto obj = new scripting::Sector(this);
-  scripting::expose_object(vm, -1, obj, "settings", true);
-  sq_pop(vm, 1);
-}
-
-void
-Sector::try_unexpose_me()
-{
-  HSQUIRRELVM vm = scripting::global_vm;
-  SQInteger oldtop = sq_gettop(vm);
-  sq_pushobject(vm, m_table);
-  try {
-    scripting::unexpose_object(vm, -1, "settings");
-  } catch(std::exception& e) {
-    log_warning << "Couldn't unregister object: " << e.what() << std::endl;
-  }
-  sq_settop(vm, oldtop);
 }
 
 void

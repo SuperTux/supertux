@@ -226,9 +226,6 @@ private:
   virtual bool before_object_add(GameObjectPtr object) override;
   virtual void before_object_remove(GameObjectPtr object) override;
 
-  void try_expose_me();
-  void try_unexpose_me();
-
   int calculate_foremost_layer() const;
 
   /** Convert tiles into their corresponding GameObjects (e.g.

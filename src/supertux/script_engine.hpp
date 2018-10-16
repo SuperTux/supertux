@@ -24,6 +24,9 @@
 #include <squirrel.h>
 
 #include "supertux/game_object_ptr.hpp"
+#include "scripting/squirrel_util.hpp"
+
+class ScriptInterface;
 
 class ScriptEngine
 {
@@ -31,8 +34,22 @@ public:
   ScriptEngine();
   virtual ~ScriptEngine();
 
+  /** Expose the GameObject if it has a ScriptInterface, otherwise do
+      nothing. */
   void try_expose(GameObjectPtr object);
   void try_unexpose(GameObjectPtr object);
+
+  /** Generic expose function, T must be a type that has a
+      create_squirrel_instance() associated with it. */
+  template<typename T>
+  void expose(const std::string& name, std::unique_ptr<T> script_object)
+  {
+    HSQUIRRELVM vm = scripting::global_vm;
+    sq_pushobject(vm, m_table);
+    scripting::expose_object(vm, -1, script_object.release(), name.c_str(), true);
+    sq_pop(vm, 1);
+  }
+  void unexpose(const std::string& name);
 
   /** Convenience function that takes an std::string instead of an
       std::istream& */

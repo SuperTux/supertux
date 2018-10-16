@@ -58,6 +58,20 @@ ScriptEngine::try_unexpose(GameObjectPtr object)
   scripting::try_unexpose(object, m_table);
 }
 
+void
+ScriptEngine::unexpose(const std::string& name)
+{
+  HSQUIRRELVM vm = scripting::global_vm;
+  SQInteger oldtop = sq_gettop(vm);
+  sq_pushobject(vm, m_table);
+  try {
+    scripting::unexpose_object(vm, -1, name.c_str());
+  } catch(std::exception& e) {
+    log_warning << "Couldn't unregister object: " << e.what() << std::endl;
+  }
+  sq_settop(vm, oldtop);
+}
+
 HSQUIRRELVM
 ScriptEngine::run_script(const std::string& script, const std::string& sourcename)
 {
