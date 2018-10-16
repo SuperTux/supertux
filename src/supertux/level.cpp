@@ -206,7 +206,7 @@ Level::get_total_secrets() const
 {
   int total_secrets = 0;
   for(auto const& sector : m_sectors) {
-    total_secrets += sector->get_total_count<SecretAreaTrigger>();
+    total_secrets += sector->get_object_count<SecretAreaTrigger>();
   }
   return total_secrets;
 }

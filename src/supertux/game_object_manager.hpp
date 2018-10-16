@@ -48,6 +48,20 @@ public:
   /** Hook that is called before an object is removed from the vector */
   virtual void before_object_remove(GameObjectPtr object) = 0;
 
+  /** Get total number of GameObjects of given type */
+  template<class T>
+  int get_object_count() const
+  {
+    int total = 0;
+    for(const auto& obj : m_gameobjects) {
+      if (dynamic_cast<T*>(obj.get()))
+      {
+        total += 1;
+      }
+    }
+    return total;
+  }
+
 private:
   std::vector<GameObjectPtr> m_gameobjects;
 

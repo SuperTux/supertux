@@ -129,16 +129,6 @@ public:
   /** Get total number of badguys */
   int get_total_badguys() const;
 
-  /** Get total number of GameObjects of given type */
-  template<class T> int get_total_count() const
-  {
-    int total = 0;
-    for(const auto& obj : get_objects()) {
-      if (dynamic_cast<T*>(obj.get())) total++;
-    }
-    return total;
-  }
-
   /**
    * Checks if the specified rectangle is free of (solid) tiles.
    * Note that this does not include static objects, e.g. bonus blocks.
