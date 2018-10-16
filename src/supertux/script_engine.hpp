@@ -59,13 +59,13 @@ protected:
 public:
   /** Convenience function that takes an std::string instead of an
       std::istream& */
-  HSQUIRRELVM run_script(const std::string& script, const std::string& sourcename);
+  void run_script(const std::string& script, const std::string& sourcename);
 
   /** Runs a script in the context of the ScriptEngine (m_table will
       be the roottable of this squirrel VM) and keeps a reference to
       the script so the script gets destroyed when the ScriptEngine is
       destroyed). */
-  HSQUIRRELVM run_script(std::istream& in, const std::string& sourcename);
+  void run_script(std::istream& in, const std::string& sourcename);
 
 private:
   HSQUIRRELVM m_vm;

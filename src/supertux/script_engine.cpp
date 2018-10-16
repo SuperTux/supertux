@@ -113,28 +113,25 @@ ScriptEngine::unexpose(const std::string& name)
   sq_settop(m_vm, oldtop);
 }
 
-HSQUIRRELVM
+void
 ScriptEngine::run_script(const std::string& script, const std::string& sourcename)
 {
-  if(script.empty())
-  {
-    return nullptr;
-  }
+  if (script.empty()) return;
+
   std::istringstream stream(script);
-  return run_script(stream, sourcename);
+  run_script(stream, sourcename);
 }
 
-HSQUIRRELVM
+void
 ScriptEngine::run_script(std::istream& in, const std::string& sourcename)
 {
-  try {
-    return scripting::run_script(in, "Script - " + sourcename,
-                                 m_scripts, &m_table);
+  try
+  {
+    scripting::run_script(in, "Script - " + sourcename, m_scripts, &m_table);
   }
   catch(const std::exception& e)
   {
     log_warning << "Error running script: " << e.what() << std::endl;
-    return nullptr;
   }
 }
 
