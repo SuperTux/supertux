@@ -53,17 +53,25 @@ enum MusicType {
   HERRING_WARNING_MUSIC
 };
 
-/**
- * Represents one of (potentially) multiple, separate parts of a Level.
- *
- * Sectors contain GameObjects, e.g. Badguys and Players.
- */
+/** Represents one of (potentially) multiple, separate parts of a Level.
+    Sectors contain GameObjects, e.g. Badguys and Players. */
 class Sector final : public GameObjectManager,
                      public ScriptEngine
 {
 public:
   friend class EditorSectorMenu;
   friend class CollisionSystem;
+
+private:
+  static Sector* s_current;
+
+public:
+  /** get currently activated sector. */
+  static Sector* current() { return s_current; }
+
+public: // TODO make this private again
+  /** show collision rectangles of moving objects (for debugging) */
+  static bool s_show_collrects;
 
 public:
   Sector(Level& parent);
@@ -75,7 +83,7 @@ public:
 
   Level& get_level() const;
 
-  /// activates this sector (change music, initialize player class, ...)
+  /** activates this sector (change music, initialize player class, ...) */
   void activate(const std::string& spawnpoint);
   void activate(const Vector& player_pos);
   void deactivate();
@@ -86,69 +94,53 @@ public:
 
   void save(Writer &writer);
 
-  /// stops all looping sounds in whole sector.
+  /** stops all looping sounds in whole sector. */
   void stop_looping_sounds();
 
-  /// continues the looping sounds in whole sector.
+  /** continues the looping sounds in whole sector. */
   void play_looping_sounds();
 
-  void set_name(const std::string& name_)
-  { m_name = name_; }
-  const std::string& get_name() const
-  { return m_name; }
+  void set_name(const std::string& name_) { m_name = name_; }
+  const std::string& get_name() const { return m_name; }
 
-  /**
-   * tests if a given rectangle is inside the sector
-   * (a rectangle that is on top of the sector is considered inside)
-   */
+  /** tests if a given rectangle is inside the sector
+      (a rectangle that is on top of the sector is considered inside) */
   bool inside(const Rectf& rectangle) const;
 
   void play_music(MusicType musictype);
   void resume_music();
   MusicType get_music_type() const;
 
-  int get_active_bullets() const
-  { return static_cast<int>(m_bullets.size()); }
-
-  /** get currently activated sector. */
-  static Sector* current()
-  { return s_current; }
+  int get_active_bullets() const { return static_cast<int>(m_bullets.size()); }
 
   /** Get total number of badguys */
   int get_total_badguys() const;
 
-  /**
-   * Checks if the specified rectangle is free of (solid) tiles.
-   * Note that this does not include static objects, e.g. bonus blocks.
-   */
+  /** Checks if the specified rectangle is free of (solid) tiles.
+      Note that this does not include static objects, e.g. bonus blocks. */
   bool is_free_of_tiles(const Rectf& rect, const bool ignoreUnisolid = false) const;
-  /**
-   * Checks if the specified rectangle is free of both
-   * 1.) solid tiles and
-   * 2.) MovingObjects in COLGROUP_STATIC.
-   * Note that this does not include badguys or players.
-   */
+
+  /** Checks if the specified rectangle is free of both
+      1.) solid tiles and
+      2.) MovingObjects in COLGROUP_STATIC.
+      Note that this does not include badguys or players. */
   bool is_free_of_statics(const Rectf& rect, const MovingObject* ignore_object = nullptr, const bool ignoreUnisolid = false) const;
-  /**
-   * Checks if the specified rectangle is free of both
-   * 1.) solid tiles and
-   * 2.) MovingObjects in COLGROUP_STATIC, COLGROUP_MOVINGSTATIC or COLGROUP_MOVING.
-   * This includes badguys and players.
-   */
+
+  /** Checks if the specified rectangle is free of both
+      1.) solid tiles and
+      2.) MovingObjects in COLGROUP_STATIC, COLGROUP_MOVINGSTATIC or COLGROUP_MOVING.
+      This includes badguys and players. */
   bool is_free_of_movingstatics(const Rectf& rect, const MovingObject* ignore_object = nullptr) const;
 
   bool free_line_of_sight(const Vector& line_start, const Vector& line_end, const MovingObject* ignore_object = nullptr) const;
   bool can_see_player(const Vector& eye) const;
 
-/**
-   * returns a list of players currently in the sector
-   */
+  /** returns a list of players currently in the sector */
   std::vector<Player*> get_players() const {
     return std::vector<Player*>(1, m_player);
   }
   Player* get_nearest_player (const Vector& pos) const;
-  Player* get_nearest_player (const Rectf& pos) const
-  {
+  Player* get_nearest_player (const Rectf& pos) const {
     return (get_nearest_player (get_anchor_pos (pos, ANCHOR_MIDDLE)));
   }
 
@@ -158,56 +150,36 @@ public:
 
   int get_foremost_layer() const;
 
-  /**
-   * returns the width (in px) of a sector)
-   */
+  /** returns the width (in px) of a sector) */
   float get_width() const;
 
-  /**
-   * returns the height (in px) of a sector)
-   */
+  /** returns the height (in px) of a sector) */
   float get_height() const;
 
-  /**
-   * returns the editor size (in tiles) of a sector
-   */
+  /** returns the editor size (in tiles) of a sector */
   Size get_editor_size() const;
 
-  /**
-   * resize all tilemaps with given size
-   */
+  /** resize all tilemaps with given size */
   void resize_sector(const Size& old_size, const Size& new_size, const Size& resize_offset);
 
-  /**
-   * globally changes solid tilemaps' tile ids
-   */
+  /** globally changes solid tilemaps' tile ids */
   void change_solid_tiles(uint32_t old_tile_id, uint32_t new_tile_id);
 
-  // --- scripting ---
-  /**
-   *  get/set color of ambient light
-   */
+  /** get/set color of ambient light */
   void set_ambient_light(const Color& ambient_light);
   float get_ambient_red() const;
   float get_ambient_green() const;
   float get_ambient_blue() const;
 
-  /**
-   * Return the sector's current ambient light
-   */
-  Color get_ambient_light() const
-  {
+  /** Return the sector's current ambient light */
+  Color get_ambient_light() const {
     return m_ambient_light;
   }
 
-  /**
-   * Fades to the target ambient light
-   */
+  /** Fades to the target ambient light */
   void fade_to_ambient_light(float red, float green, float blue, float seconds);
 
-  /**
-   *  set gravity throughout sector
-   */
+  /** set gravity throughout sector */
   void set_gravity(float gravity);
   float get_gravity() const;
 
@@ -233,14 +205,8 @@ private:
   void convert_tiles2gameobject();
 
 private:
-  static Sector* s_current;
-
-public: // TODO make this private again
-  /// show collision rectangles of moving objects (for debugging)
-  static bool s_show_collrects;
-
-private:
-  Level& m_level; /**< Parent level containing this sector */
+  /** Parent level containing this sector */
+  Level& m_level;
 
   std::string m_name;
 
@@ -252,30 +218,20 @@ private:
 
   Color m_ambient_light;
 
-  /**
-   * Specifies whether we're fading the ambient light
-   */
+  /** Specifies whether we're fading the ambient light*/
   bool m_ambient_light_fading;
 
-  /**
-   * Source color for fading
-   */
+  /** Source color for fading */
   Color m_source_ambient_light;
 
-  /**
-   * Target color for fading
-   */
+  /** Target color for fading */
   Color m_target_ambient_light;
 
-  /**
-   * Ambient light fade duration
-   */
-   float m_ambient_light_fade_duration;
+  /** Ambient light fade duration */
+  float m_ambient_light_fade_duration;
 
-  /**
-   * Accumulated time for fading
-   */
-   float m_ambient_light_fade_accum;
+  /** Accumulated time for fading */
+  float m_ambient_light_fade_accum;
 
   int m_foremost_layer;
 
