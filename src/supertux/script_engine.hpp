@@ -34,6 +34,7 @@ public:
   ScriptEngine();
   virtual ~ScriptEngine();
 
+protected:
   /** Expose this engine in the global_vm under 'name' */
   void expose_self(const std::string& name);
   void unexpose_self(const std::string& name);
@@ -55,6 +56,7 @@ public:
   }
   void unexpose(const std::string& name);
 
+public:
   /** Convenience function that takes an std::string instead of an
       std::istream& */
   HSQUIRRELVM run_script(const std::string& script, const std::string& sourcename);
