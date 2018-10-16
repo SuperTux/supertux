@@ -34,6 +34,10 @@ public:
   ScriptEngine();
   virtual ~ScriptEngine();
 
+  /** Expose this engine in the global_vm under 'name' */
+  void expose_self(const std::string& name);
+  void unexpose_self(const std::string& name);
+
   /** Expose the GameObject if it has a ScriptInterface, otherwise do
       nothing. */
   void try_expose(GameObjectPtr object);
@@ -59,7 +63,7 @@ public:
       the roottable of this squirrel VM) */
   HSQUIRRELVM run_script(std::istream& in, const std::string& sourcename);
 
-protected:
+private:
   HSQOBJECT m_table;
   std::vector<HSQOBJECT> m_scripts;
 

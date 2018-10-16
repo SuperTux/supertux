@@ -31,7 +31,7 @@ ScriptEngine::ScriptEngine() :
   sq_newtable(scripting::global_vm);
   sq_pushroottable(scripting::global_vm);
   if(SQ_FAILED(sq_setdelegate(scripting::global_vm, -2)))
-    throw scripting::SquirrelError(scripting::global_vm, "Couldn't set sector_table delegate");
+    throw scripting::SquirrelError(scripting::global_vm, "Couldn't set table delegate");
 
   sq_resetobject(&m_table);
   if (SQ_FAILED(sq_getstackobj(scripting::global_vm, -1, &m_table))) {
@@ -44,6 +44,24 @@ ScriptEngine::ScriptEngine() :
 ScriptEngine::~ScriptEngine()
 {
   scripting::release_scripts(scripting::global_vm, m_scripts, m_table);
+}
+
+void
+ScriptEngine::expose_self(const std::string& name)
+{
+  HSQUIRRELVM vm = scripting::global_vm;
+  sq_pushroottable(vm);
+  scripting::store_object(vm, name.c_str(), m_table);
+  sq_pop(vm, 1);
+}
+
+void
+ScriptEngine::unexpose_self(const std::string& name)
+{
+  HSQUIRRELVM vm = scripting::global_vm;
+  sq_pushroottable(vm);
+  scripting::delete_table_entry(vm, name.c_str());
+  sq_pop(vm, 1);
 }
 
 void
@@ -87,12 +105,12 @@ HSQUIRRELVM
 ScriptEngine::run_script(std::istream& in, const std::string& sourcename)
 {
   try {
-    return scripting::run_script(in, "Sector - " + sourcename,
+    return scripting::run_script(in, "Script - " + sourcename,
                                  m_scripts, &m_table);
   }
   catch(const std::exception& e)
   {
-    log_warning << "Error running sector script: " << e.what() << std::endl;
+    log_warning << "Error running script: " << e.what() << std::endl;
     return nullptr;
   }
 }

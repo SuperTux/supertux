@@ -176,11 +176,7 @@ Sector::activate(const Vector& player_pos)
       s_current->deactivate();
     s_current = this;
 
-    // register sectortable as sector in scripting
-    HSQUIRRELVM vm = scripting::global_vm;
-    sq_pushroottable(vm);
-    scripting::store_object(vm, "sector", m_table);
-    sq_pop(vm, 1);
+    ScriptEngine::expose_self("sector");
 
     for(auto& object : get_objects()) {
       try_expose(object);
@@ -247,11 +243,7 @@ Sector::deactivate()
   if(s_current != this)
     return;
 
-  // remove sector entry from global vm
-  HSQUIRRELVM vm = scripting::global_vm;
-  sq_pushroottable(vm);
-  scripting::delete_table_entry(vm, "sector");
-  sq_pop(vm, 1);
+  ScriptEngine::unexpose_self("sector");
 
   for(const auto& object: get_objects()) {
     try_unexpose(object);
