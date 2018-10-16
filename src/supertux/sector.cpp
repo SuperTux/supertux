@@ -520,15 +520,6 @@ Sector::draw(DrawingContext& context)
   context.pop_transform();
 }
 
-void
-Sector::on_window_resize()
-{
-  for(const auto& obj : get_objects())
-  {
-    obj->on_window_resize();
-  }
-}
-
 bool
 Sector::is_free_of_tiles(const Rectf& rect, const bool ignoreUnisolid) const
 {

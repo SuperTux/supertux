@@ -258,12 +258,6 @@ GameSession::draw(Compositor& compositor)
 }
 
 void
-GameSession::on_window_resize()
-{
-  m_currentsector->on_window_resize();
-}
-
-void
 GameSession::draw_pause(DrawingContext& context)
 {
   context.color().draw_filled_rect(

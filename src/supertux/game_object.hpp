@@ -68,11 +68,6 @@ public:
       (secret area trigger, wind, etc.) */
   virtual bool has_variable_size() const { return false; }
 
-  /** This method is called once the window was resized. This is
-      useful for game objects such as the gradient, which will need to
-      be resized. */
-  virtual void on_window_resize() {}
-
   virtual ObjectSettings get_settings();
   virtual void after_editor_set() {}
 

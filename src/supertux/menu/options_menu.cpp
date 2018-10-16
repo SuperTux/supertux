@@ -437,10 +437,6 @@ OptionsMenu::menu_action(MenuItem& item)
       }
       VideoSystem::current()->apply_config();
       MenuManager::instance().on_window_resize();
-      if(GameSession::current() != nullptr)
-      {
-        GameSession::current()->on_window_resize();
-      }
       break;
 
     case MNID_FULLSCREEN_RESOLUTION:

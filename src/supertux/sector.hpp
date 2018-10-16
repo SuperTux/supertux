@@ -83,8 +83,6 @@ public:
 
   void draw(DrawingContext& context);
 
-  void on_window_resize();
-
   void save(Writer &writer);
 
   /// stops all looping sounds in whole sector.

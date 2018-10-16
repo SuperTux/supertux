@@ -52,8 +52,6 @@ public:
   virtual void setup() override;
   virtual void leave() override;
 
-  void on_window_resize();
-
   /// ends the current level
   void finish(bool win = true);
   void respawn(const std::string& sectorname, const std::string& spawnpointname, 

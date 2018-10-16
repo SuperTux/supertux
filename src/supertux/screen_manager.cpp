@@ -260,10 +260,6 @@ ScreenManager::process_events()
             if (Editor::is_active()) {
               Editor::current()->resize();
             }
-            if(session != nullptr)
-            {
-              session->on_window_resize();
-            }
             break;
 
           case SDL_WINDOWEVENT_FOCUS_LOST:
