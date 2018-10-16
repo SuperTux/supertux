@@ -17,6 +17,8 @@
 #ifndef HEADER_SUPERTUX_SCRIPTING_EXPOSED_OBJECT_HPP
 #define HEADER_SUPERTUX_SCRIPTING_EXPOSED_OBJECT_HPP
 
+#include <memory>
+
 #include "scripting/scripting.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "supertux/script_interface.hpp"
@@ -73,8 +75,8 @@ public:
 
     log_debug << "Exposing " << m_parent->get_class() << " object " << name << std::endl;
 
-    auto object = new T(m_parent);
-    scripting::expose_object(vm, table_idx, object, name, true);
+    auto object = std::make_unique<T>(m_parent);
+    scripting::expose_object(vm, table_idx, std::move(object), name);
   }
 
   /**

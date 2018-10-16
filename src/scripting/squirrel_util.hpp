@@ -19,6 +19,7 @@
 
 #include <assert.h>
 #include <limits>
+#include <memory>
 #include <sstream>
 #include <vector>
 
@@ -45,11 +46,11 @@ void compile_and_run(HSQUIRRELVM vm, std::istream& in,
                      const std::string& sourcename);
 
 template<typename T>
-void expose_object(HSQUIRRELVM v, SQInteger table_idx, T* object,
-                   const std::string& name, bool free = false)
+void expose_object(HSQUIRRELVM v, SQInteger table_idx,
+                   std::unique_ptr<T> object, const std::string& name)
 {
   sq_pushstring(v, name.c_str(), -1);
-  scripting::create_squirrel_instance(v, object, free);
+  scripting::create_squirrel_instance(v, object.release(), true);
 
   if(table_idx < 0)
     table_idx -= 2;
