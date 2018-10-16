@@ -475,19 +475,7 @@ WorldMap::update(float delta)
   if (m_in_level) return;
   if (MenuManager::instance().is_active()) return;
 
-  // update GameObjects
-  if (m_panning)
-  {
-    for (const auto& object : get_objects()) {
-      if (object != m_tux) {
-        object->update(delta);
-      }
-    }
-  }
-  else
-  {
-    GameObjectManager::update(delta);
-  }
+  GameObjectManager::update(delta);
 
   Vector requested_pos;
 
@@ -675,18 +663,7 @@ WorldMap::draw(DrawingContext& context)
   context.push_transform();
   context.set_translation(m_camera_offset);
 
-  if (m_panning)
-  {
-    for (const auto& object : get_objects()) {
-      if (object != m_tux) {
-        object->draw(context);
-      }
-    }
-  }
-  else
-  {
-    GameObjectManager::draw(context);
-  }
+  GameObjectManager::draw(context);
 
   /*
   // FIXME: make this a runtime switch similar to draw_collrects/show_collrects?

@@ -238,6 +238,8 @@ public:
     m_main_is_default = false;
   }
 
+  bool is_panning() const { return m_panning; }
+
 protected:
   virtual bool before_object_add(GameObjectPtr object) override;
   virtual void before_object_remove(GameObjectPtr object) override;

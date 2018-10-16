@@ -52,6 +52,8 @@ Tux::Tux(WorldMap* worldmap_) :
 void
 Tux::draw(DrawingContext& context)
 {
+  if (worldmap->is_panning()) return;
+
   std::string action = get_action_prefix_for_bonus(worldmap->get_savegame().get_player_status().bonus);
   if(!action.empty())
   {
@@ -304,6 +306,8 @@ Tux::updateInputDirection()
 void
 Tux::update(float elapsed_time)
 {
+  if (worldmap->is_panning()) return;
+
   updateInputDirection();
   if (moving)
     tryContinueWalking(elapsed_time);
