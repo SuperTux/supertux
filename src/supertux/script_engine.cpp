@@ -19,6 +19,8 @@
 #include "scripting/scripting.hpp"
 #include "scripting/squirrel_error.hpp"
 #include "scripting/squirrel_util.hpp"
+#include "supertux/game_object.hpp"
+#include "supertux/script_interface.hpp"
 #include "util/log.hpp"
 
 ScriptEngine::ScriptEngine() :
@@ -38,14 +40,20 @@ ScriptEngine::ScriptEngine() :
     throw scripting::SquirrelError(scripting::global_vm, "Couldn't get table");
   }
 
-  // FIXME: Do we need to call sq_release() on this?
   sq_addref(scripting::global_vm, &m_table);
   sq_pop(scripting::global_vm, 1);
 }
 
 ScriptEngine::~ScriptEngine()
 {
-  scripting::release_scripts(scripting::global_vm, m_scripts, m_table);
+  for(auto& script: m_scripts)
+  {
+    sq_release(scripting::global_vm, &script);
+  }
+  m_scripts.clear();
+  sq_release(scripting::global_vm, &m_table);
+
+  sq_collectgarbage(scripting::global_vm);
 }
 
 void
@@ -69,13 +77,30 @@ ScriptEngine::unexpose_self(const std::string& name)
 void
 ScriptEngine::try_expose(GameObjectPtr object)
 {
-  scripting::try_expose(object, m_table);
+  auto script_object = dynamic_cast<ScriptInterface*>(object.get());
+  if (script_object != nullptr) {
+    HSQUIRRELVM vm = scripting::global_vm;
+    sq_pushobject(vm, m_table);
+    script_object->expose(vm, -1);
+    sq_pop(vm, 1);
+  }
 }
 
 void
 ScriptEngine::try_unexpose(GameObjectPtr object)
 {
-  scripting::try_unexpose(object, m_table);
+  auto script_object = dynamic_cast<ScriptInterface*>(object.get());
+  if (script_object != nullptr) {
+    HSQUIRRELVM vm = scripting::global_vm;
+    SQInteger oldtop = sq_gettop(vm);
+    sq_pushobject(vm, m_table);
+    try {
+      script_object->unexpose(vm, -1);
+    } catch(std::exception& e) {
+      log_warning << "Couldn't unregister object: " << e.what() << std::endl;
+    }
+    sq_settop(vm, oldtop);
+  }
 }
 
 void

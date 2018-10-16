@@ -223,33 +223,6 @@ SQInteger squirrel_read_char(SQUserPointer file)
   return c;
 }
 
-void try_expose(const GameObjectPtr& object, const HSQOBJECT& table)
-{
-  auto object_ = dynamic_cast<ScriptInterface*>(object.get());
-  if(object_ != nullptr) {
-    HSQUIRRELVM vm = scripting::global_vm;
-    sq_pushobject(vm, table);
-    object_->expose(vm, -1);
-    sq_pop(vm, 1);
-  }
-}
-
-void try_unexpose(const GameObjectPtr& object, const HSQOBJECT& table)
-{
-  auto object_ = dynamic_cast<ScriptInterface*>(object.get());
-  if(object_ != nullptr) {
-    HSQUIRRELVM vm = scripting::global_vm;
-    SQInteger oldtop = sq_gettop(vm);
-    sq_pushobject(vm, table);
-    try {
-      object_->unexpose(vm, -1);
-    } catch(std::exception& e) {
-      log_warning << "Couldn't unregister object: " << e.what() << std::endl;
-    }
-    sq_settop(vm, oldtop);
-  }
-}
-
 HSQUIRRELVM run_script(std::istream& in, const std::string& sourcename,
                        ScriptList& scripts, const HSQOBJECT* root_table)
 {
@@ -310,16 +283,6 @@ void compile_and_run(HSQUIRRELVM vm, std::istream& in,
   if(sq_getvmstate(vm) != SQ_VMSTATE_SUSPENDED) {
     sq_settop(vm, oldtop-1);
   }
-}
-
-void release_scripts(HSQUIRRELVM vm, ScriptList& scripts, HSQOBJECT& root_table)
-{
-  for(auto& script: scripts)
-  {
-    sq_release(vm, &script);
-  }
-  sq_release(vm, &root_table);
-  sq_collectgarbage(vm);
 }
 
 HSQOBJECT create_thread(HSQUIRRELVM vm)

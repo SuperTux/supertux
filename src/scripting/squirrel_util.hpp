@@ -26,10 +26,6 @@
 #include "scripting/squirrel_error.hpp"
 #include "scripting/wrapper.hpp"
 
-#include "supertux/game_object_ptr.hpp"
-
-class GameObject;
-
 namespace scripting {
 
 typedef std::vector<HSQOBJECT> ScriptList;
@@ -43,9 +39,6 @@ HSQOBJECT create_thread(HSQUIRRELVM vm);
 SQObject vm_to_object(HSQUIRRELVM vm);
 HSQUIRRELVM object_to_vm(HSQOBJECT object);
 
-void try_expose(const GameObjectPtr& object, const HSQOBJECT& table);
-void try_unexpose(const GameObjectPtr& object, const HSQOBJECT& table);
-
 HSQUIRRELVM run_script(std::istream& in, const std::string& sourcename,
                        ScriptList& scripts, const HSQOBJECT* root_table);
 
@@ -53,15 +46,6 @@ void compile_script(HSQUIRRELVM vm, std::istream& in,
                     const std::string& sourcename);
 void compile_and_run(HSQUIRRELVM vm, std::istream& in,
                      const std::string& sourcename);
-
-/**
- * Deletes the provided scripts from memory, freeing any resources
- * used by them.
- * @param v Squirrel VM to release objects from
- * @param scripts Lists of scripts to be released
- * @param root_table Root table these scripts belong to
- */
-void release_scripts(HSQUIRRELVM vm, ScriptList& scripts, HSQOBJECT& root_table);
 
 template<typename T>
 void expose_object(HSQUIRRELVM v, SQInteger table_idx, T* object,
