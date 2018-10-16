@@ -89,7 +89,7 @@ ParticleSystem_Interactive::collision(Particle* object, const Vector& movement)
   dest.move(movement);
   Constraints constraints;
 
-  for(const auto& solids : Sector::current()->m_solid_tilemaps) {
+  for(const auto& solids : Sector::current()->get_solid_tilemaps()) {
     // FIXME Handle a nonzero tilemap offset
     for(int x = starttilex; x*32 < max_x; ++x) {
       for(int y = starttiley; y*32 < max_y; ++y) {

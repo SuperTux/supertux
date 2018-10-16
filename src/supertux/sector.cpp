@@ -55,7 +55,6 @@
 Sector* Sector::s_current = nullptr;
 
 bool Sector::s_show_collrects = false;
-bool Sector::s_draw_solids_only = false;
 
 Sector::Sector(Level& parent) :
   m_level(parent),
@@ -76,7 +75,6 @@ Sector::Sector(Level& parent) :
   m_spawnpoints(),
   m_portables(),
   m_player(nullptr),
-  m_solid_tilemaps(),
   m_camera(nullptr),
   m_effect(nullptr)
 {
@@ -126,7 +124,7 @@ Sector::construct()
     add_object(gradient);
   }
 
-  if (m_solid_tilemaps.empty()) {
+  if (get_solid_tilemaps().empty()) {
     log_warning << "sector '" << get_name() << "' does not contain a solid tile layer." << std::endl;
   }
 
@@ -358,11 +356,6 @@ Sector::before_object_add(GameObjectPtr object)
     m_portables.push_back(portable);
   }
 
-  auto tilemap = dynamic_cast<TileMap*>(object.get());
-  if(tilemap && tilemap->is_solid()) {
-    m_solid_tilemaps.push_back(tilemap);
-  }
-
   auto camera_ = dynamic_cast<Camera*>(object.get());
   if(camera_) {
     if(m_camera != nullptr) {
@@ -528,7 +521,7 @@ Sector::get_total_badguys() const
 bool
 Sector::inside(const Rectf& rect) const
 {
-  for(const auto& solids : m_solid_tilemaps) {
+  for(const auto& solids : get_solid_tilemaps()) {
     Rectf bbox = solids->get_bbox();
     bbox.p1.y = -INFINITY; // pretend the tilemap extends infinitely far upwards
 
@@ -542,7 +535,7 @@ float
 Sector::get_width() const
 {
   float width = 0;
-  for(auto& solids: m_solid_tilemaps) {
+  for(auto& solids: get_solid_tilemaps()) {
     width = std::max(width, solids->get_bbox().get_right());
   }
 
@@ -553,7 +546,7 @@ float
 Sector::get_height() const
 {
   float height = 0;
-  for(const auto& solids: m_solid_tilemaps) {
+  for(const auto& solids: get_solid_tilemaps()) {
     height = std::max(height, solids->get_bbox().get_bottom());
   }
 
@@ -566,7 +559,7 @@ Sector::get_editor_size() const
   // Find the solid tilemap with the greatest surface
   size_t max_surface = 0;
   Size size;
-  for(const auto& solids: m_solid_tilemaps) {
+  for(const auto& solids: get_solid_tilemaps()) {
     size_t surface = solids->get_width() * solids->get_height();
     if (surface > max_surface) {
       max_surface = surface;
@@ -603,7 +596,7 @@ Sector::resize_sector(const Size& old_size, const Size& new_size, const Size& re
 void
 Sector::change_solid_tiles(uint32_t old_tile_id, uint32_t new_tile_id)
 {
-  for(auto& solids: m_solid_tilemaps) {
+  for(auto& solids: get_solid_tilemaps()) {
     solids->change_all(old_tile_id, new_tile_id);
   }
 }

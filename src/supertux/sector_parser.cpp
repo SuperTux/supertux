@@ -304,7 +304,7 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
 
   m_sector.update_game_objects();
 
-  if (m_sector.m_solid_tilemaps.empty()) {
+  if (m_sector.get_solid_tilemaps().empty()) {
     log_warning << "sector '" << m_sector.get_name() << "' does not contain a solid tile layer." << std::endl;
   }
 

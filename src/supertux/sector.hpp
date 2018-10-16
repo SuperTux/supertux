@@ -238,7 +238,6 @@ private:
 public: // TODO make this private again
   /// show collision rectangles of moving objects (for debugging)
   static bool s_show_collrects;
-  static bool s_draw_solids_only;
 
 private:
   Level& m_level; /**< Parent level containing this sector */
@@ -292,7 +291,6 @@ public:
   std::vector<std::shared_ptr<SpawnPoint> > m_spawnpoints;
   std::vector<Portable*> m_portables;
   Player* m_player;
-  std::vector<TileMap*> m_solid_tilemaps;
   Camera* m_camera;
   DisplayEffect* m_effect;
 

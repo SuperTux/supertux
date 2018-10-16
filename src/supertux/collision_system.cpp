@@ -155,7 +155,7 @@ CollisionSystem::collision_tilemap(collision::Constraints* constraints,
   float y1 = dest.get_top();
   float y2 = dest.get_bottom();
 
-  for(const auto& solids : m_sector.m_solid_tilemaps) {
+  for(const auto& solids : m_sector.get_solid_tilemaps()) {
     // test with all tiles in this rectangle
     Rect test_tiles = solids->get_tiles_overlapping(Rectf(x1, y1, x2, y2));
 
@@ -207,7 +207,7 @@ CollisionSystem::collision_tile_attributes(const Rectf& dest, const Vector& mov)
   float y2 = dest.p2.y;
 
   uint32_t result = 0;
-  for(auto& solids: m_sector.m_solid_tilemaps) {
+  for(auto& solids: m_sector.get_solid_tilemaps()) {
     // test with all tiles in this rectangle
     Rect test_tiles = solids->get_tiles_overlapping(Rectf(x1, y1, x2, y2));
     // For ice (only), add a little fudge to recognize tiles Tux is standing on.
@@ -548,7 +548,7 @@ CollisionSystem::is_free_of_tiles(const Rectf& rect, const bool ignoreUnisolid) 
 {
   using namespace collision;
 
-  for(const auto& solids : m_sector.m_solid_tilemaps) {
+  for(const auto& solids : m_sector.get_solid_tilemaps()) {
     // test with all tiles in this rectangle
     Rect test_tiles = solids->get_tiles_overlapping(rect);
 
@@ -627,7 +627,7 @@ CollisionSystem::free_line_of_sight(const Vector& line_start, const Vector& line
   float ley = std::max(line_start.y, line_end.y);
   for (float test_x = lsx; test_x <= lex; test_x += 16) {
     for (float test_y = lsy; test_y <= ley; test_y += 16) {
-      for(const auto& solids : m_sector.m_solid_tilemaps) {
+      for(const auto& solids : m_sector.get_solid_tilemaps()) {
         const Tile& tile = solids->get_tile_at(Vector(test_x, test_y));
         // FIXME: check collision with slope tiles
         if((tile.get_attributes() & Tile::SOLID)) return false;

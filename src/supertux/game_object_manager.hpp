@@ -23,6 +23,7 @@
 #include "supertux/game_object_ptr.hpp"
 
 class DrawingContext;
+class TileMap;
 
 class GameObjectManager
 {
@@ -62,11 +63,18 @@ public:
     return total;
   }
 
+  const std::vector<TileMap*>& get_solid_tilemaps() const { return m_solid_tilemaps; }
+
+public:
+  static bool s_draw_solids_only;
+
 private:
   std::vector<GameObjectPtr> m_gameobjects;
 
   /** container for newly created objects, they'll be added in update_game_objects() */
   std::vector<GameObjectPtr> m_gameobjects_new;
+
+  std::vector<TileMap*> m_solid_tilemaps;
 
 private:
   GameObjectManager(const GameObjectManager&) = delete;

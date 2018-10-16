@@ -22,9 +22,12 @@
 #include "object/tilemap.hpp"
 #include "supertux/sector.hpp"
 
+bool GameObjectManager::s_draw_solids_only = false;
+
 GameObjectManager::GameObjectManager() :
   m_gameobjects(),
-  m_gameobjects_new()
+  m_gameobjects_new(),
+  m_solid_tilemaps()
 {
 }
 
@@ -88,7 +91,7 @@ GameObjectManager::draw(DrawingContext& context)
     if(!object->is_valid())
       continue;
 
-    if (static_cast<Sector*>(this)->s_draw_solids_only) // FIXME: hack
+    if (s_draw_solids_only)
     {
       auto tm = dynamic_cast<TileMap*>(object.get());
       if (tm && !tm->is_solid())
@@ -129,7 +132,7 @@ GameObjectManager::update_game_objects()
 
   // update solid_tilemaps list
   //FIXME: this could be more efficient
-  static_cast<Sector*>(this)->m_solid_tilemaps.clear();
+  m_solid_tilemaps.clear();
   for(const auto& obj : m_gameobjects)
   {
     const auto& tm = dynamic_cast<TileMap*>(obj.get());
