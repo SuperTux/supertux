@@ -51,15 +51,13 @@ ScreenManager::ScreenManager(VideoSystem& video_system) :
   m_screen_fade(),
   m_screen_stack()
 {
-  using namespace scripting;
-  TimeScheduler::instance = new TimeScheduler();
+  scripting::TimeScheduler::instance = new scripting::TimeScheduler();
 }
 
 ScreenManager::~ScreenManager()
 {
-  using namespace scripting;
-  delete TimeScheduler::instance;
-  TimeScheduler::instance = nullptr;
+  delete scripting::TimeScheduler::instance;
+  scripting::TimeScheduler::instance = nullptr;
 }
 
 void

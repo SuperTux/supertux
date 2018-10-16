@@ -94,25 +94,22 @@ Sector::Sector(Level& parent) :
   SoundManager::current()->preload("sounds/shoot.wav");
 
   // create a new squirrel table for the sector
-  using namespace scripting;
+  sq_collectgarbage(scripting::global_vm);
 
-  sq_collectgarbage(global_vm);
-
-  sq_newtable(global_vm);
-  sq_pushroottable(global_vm);
-  if(SQ_FAILED(sq_setdelegate(global_vm, -2)))
-    throw scripting::SquirrelError(global_vm, "Couldn't set sector_table delegate");
+  sq_newtable(scripting::global_vm);
+  sq_pushroottable(scripting::global_vm);
+  if(SQ_FAILED(sq_setdelegate(scripting::global_vm, -2)))
+    throw scripting::SquirrelError(scripting::global_vm, "Couldn't set sector_table delegate");
 
   sq_resetobject(&m_sector_table);
-  if(SQ_FAILED(sq_getstackobj(global_vm, -1, &m_sector_table)))
-    throw scripting::SquirrelError(global_vm, "Couldn't get sector table");
-  sq_addref(global_vm, &m_sector_table);
-  sq_pop(global_vm, 1);
+  if(SQ_FAILED(sq_getstackobj(scripting::global_vm, -1, &m_sector_table)))
+    throw scripting::SquirrelError(scripting::global_vm, "Couldn't get sector table");
+  sq_addref(scripting::global_vm, &m_sector_table);
+  sq_pop(scripting::global_vm, 1);
 }
 
 Sector::~Sector()
 {
-  using namespace scripting;
   try
   {
     deactivate();
@@ -122,7 +119,7 @@ Sector::~Sector()
     log_warning << err.what() << std::endl;
   }
 
-  release_scripts(global_vm, m_scripts, m_sector_table);
+  scripting::release_scripts(scripting::global_vm, m_scripts, m_sector_table);
 
   clear_objects();
 }

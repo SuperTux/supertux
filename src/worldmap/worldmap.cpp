@@ -97,20 +97,18 @@ WorldMap::WorldMap(const std::string& filename, Savegame& savegame, const std::s
   m_total_stats.reset();
 
   // create a new squirrel table for the worldmap
-  using namespace scripting;
-
-  sq_collectgarbage(global_vm);
-  sq_newtable(global_vm);
-  sq_pushroottable(global_vm);
-  if(SQ_FAILED(sq_setdelegate(global_vm, -2)))
-    throw scripting::SquirrelError(global_vm, "Couldn't set worldmap_table delegate");
+  sq_collectgarbage(scripting::global_vm);
+  sq_newtable(scripting::global_vm);
+  sq_pushroottable(scripting::global_vm);
+  if(SQ_FAILED(sq_setdelegate(scripting::global_vm, -2)))
+    throw scripting::SquirrelError(scripting::global_vm, "Couldn't set worldmap_table delegate");
 
   sq_resetobject(&m_worldmap_table);
-  if(SQ_FAILED(sq_getstackobj(global_vm, -1, &m_worldmap_table)))
-    throw scripting::SquirrelError(global_vm, "Couldn't get table from stack");
+  if(SQ_FAILED(sq_getstackobj(scripting::global_vm, -1, &m_worldmap_table)))
+    throw scripting::SquirrelError(scripting::global_vm, "Couldn't get table from stack");
 
-  sq_addref(global_vm, &m_worldmap_table);
-  sq_pop(global_vm, 1);
+  sq_addref(scripting::global_vm, &m_worldmap_table);
+  sq_pop(scripting::global_vm, 1);
 
   SoundManager::current()->preload("sounds/warp.wav");
 
@@ -120,15 +118,13 @@ WorldMap::WorldMap(const std::string& filename, Savegame& savegame, const std::s
 
 WorldMap::~WorldMap()
 {
-  using namespace scripting;
-
   for(auto& object : m_game_objects) {
     try_unexpose(object);
   }
 
   m_spawn_points.clear();
 
-  release_scripts(global_vm, m_scripts, m_worldmap_table);
+  scripting::release_scripts(scripting::global_vm, m_scripts, m_worldmap_table);
 }
 
 void
@@ -855,11 +851,9 @@ WorldMap::setup()
   m_tux->setup();
 
   // register worldmap_table as worldmap in scripting
-  using namespace scripting;
-
-  sq_pushroottable(global_vm);
-  scripting::store_object(global_vm, "worldmap", m_worldmap_table);
-  sq_pop(global_vm, 1);
+  sq_pushroottable(scripting::global_vm);
+  scripting::store_object(scripting::global_vm, "worldmap", m_worldmap_table);
+  sq_pop(scripting::global_vm, 1);
 
   //Run default.nut just before init script
   try {
@@ -879,15 +873,13 @@ WorldMap::setup()
 void
 WorldMap::leave()
 {
-  using namespace scripting;
-
   // save state of world and player
   save_state();
 
   // remove worldmap_table from roottable
-  sq_pushroottable(global_vm);
-  scripting::delete_table_entry(global_vm, "worldmap");
-  sq_pop(global_vm, 1);
+  sq_pushroottable(scripting::global_vm);
+  scripting::delete_table_entry(scripting::global_vm, "worldmap");
+  sq_pop(scripting::global_vm, 1);
 
   GameManager::current()->load_next_worldmap();
 }
@@ -905,45 +897,43 @@ WorldMap::set_levels_solved(bool solved, bool perfect)
 void
 WorldMap::save_state()
 {
-  using namespace scripting;
-
-  HSQUIRRELVM vm = global_vm;
+  HSQUIRRELVM vm = scripting::global_vm;
   SQInteger oldtop = sq_gettop(vm);
 
   try {
     // get state table
     sq_pushroottable(vm);
-    get_table_entry(vm, "state");
-    get_or_create_table_entry(vm, "worlds");
+    scripting::get_table_entry(vm, "state");
+    scripting::get_or_create_table_entry(vm, "worlds");
 
-    delete_table_entry(vm, m_map_filename.c_str());
+    scripting::delete_table_entry(vm, m_map_filename.c_str());
 
     // construct new table for this worldmap
-    begin_table(vm, m_map_filename.c_str());
+    scripting::begin_table(vm, m_map_filename.c_str());
 
     // store tux
-    begin_table(vm, "tux");
+    scripting::begin_table(vm, "tux");
 
-    store_float(vm, "x", m_tux->get_tile_pos().x);
-    store_float(vm, "y", m_tux->get_tile_pos().y);
-    store_string(vm, "back", direction_to_string(m_tux->back_direction));
-    
-    end_table(vm, "tux");
+    scripting::store_float(vm, "x", m_tux->get_tile_pos().x);
+    scripting::store_float(vm, "y", m_tux->get_tile_pos().y);
+    scripting::store_string(vm, "back", direction_to_string(m_tux->back_direction));
+
+    scripting::end_table(vm, "tux");
 
     // sprite change objects:
     if(m_sprite_changes.size() > 0)
     {
-      begin_table(vm, "sprite-changes");
+      scripting::begin_table(vm, "sprite-changes");
 
       for(const auto& sc : m_sprite_changes)
       {
         auto key = std::to_string(int(sc->pos.x)) + "_" +
                    std::to_string(int(sc->pos.y));
-        begin_table(vm, key.c_str());
-        store_bool(vm, "show-stay-action", sc->show_stay_action());
-        end_table(vm, key.c_str());
+        scripting::begin_table(vm, key.c_str());
+        scripting::store_bool(vm, "show-stay-action", sc->show_stay_action());
+        scripting::end_table(vm, key.c_str());
       }
-      end_table(vm, "sprite-changes");
+      scripting::end_table(vm, "sprite-changes");
     }
 
     // tilemap visibility
@@ -956,7 +946,7 @@ WorldMap::save_state()
       {
         sq_pushstring(vm, tilemap->get_name().c_str(), -1);
         sq_newtable(vm);
-        store_float(vm, "alpha", tilemap->get_alpha());
+        scripting::store_float(vm, "alpha", tilemap->get_alpha());
         if(SQ_FAILED(sq_createslot(vm, -3)))
         {
           throw std::runtime_error("failed to create '" + m_name + "' table entry");
@@ -969,22 +959,22 @@ WorldMap::save_state()
     }
 
     // levels...
-    begin_table(vm, "levels");
+    scripting::begin_table(vm, "levels");
 
     for(const auto& level : m_levels) {
-      begin_table(vm, level->get_name().c_str());
-      store_bool(vm, "solved", level->solved);
-      store_bool(vm, "perfect", level->perfect);
+      scripting::begin_table(vm, level->get_name().c_str());
+      scripting::store_bool(vm, "solved", level->solved);
+      scripting::store_bool(vm, "perfect", level->perfect);
       level->statistics.serialize_to_squirrel(vm);
-      end_table(vm, level->get_name().c_str());
+      scripting::end_table(vm, level->get_name().c_str());
     }
-    end_table(vm, "levels");
+    scripting::end_table(vm, "levels");
 
     // overall statistics...
     m_total_stats.serialize_to_squirrel(vm);
 
     // push world into worlds table
-    end_table(vm, m_map_filename.c_str());
+    scripting::end_table(vm, m_map_filename.c_str());
   } catch(std::exception& ) {
     sq_settop(vm, oldtop);
   }
@@ -999,27 +989,26 @@ WorldMap::load_state()
 {
   log_debug << "loading worldmap state" << std::endl;
 
-  using namespace scripting;
-
-  HSQUIRRELVM vm = global_vm;
+  HSQUIRRELVM vm = scripting::global_vm;
   SQInteger oldtop = sq_gettop(vm);
 
   try {
     // get state table
     sq_pushroottable(vm);
-    get_table_entry(vm, "state");
-    get_table_entry(vm, "worlds");
-    get_table_entry(vm, m_map_filename);
+    scripting::get_table_entry(vm, "state");
+    scripting::get_table_entry(vm, "worlds");
+    scripting::get_table_entry(vm, m_map_filename);
 
     // load tux
-    get_table_entry(vm, "tux");
+    scripting::get_table_entry(vm, "tux");
+
     Vector p;
-    if(!get_float(vm, "x", p.x) || !get_float(vm, "y", p.y))
+    if(!scripting::get_float(vm, "x", p.x) || !scripting::get_float(vm, "y", p.y))
     {
       log_warning << "Player position not set, respawning." << std::endl;
       move_to_spawnpoint("main");
     }
-    std::string back_str = read_string(vm, "back");
+    std::string back_str = scripting::read_string(vm, "back");
     m_tux->back_direction = string_to_direction(back_str);
     m_tux->set_tile_pos(p);
 
@@ -1032,15 +1021,15 @@ WorldMap::load_state()
     sq_pop(vm, 1);
 
     // load levels
-    get_table_entry(vm, "levels");
+    scripting::get_table_entry(vm, "levels");
     for(const auto& level : m_levels) {
       sq_pushstring(vm, level->get_name().c_str(), -1);
       if(SQ_SUCCEEDED(sq_get(vm, -2))) {
-        if(!get_bool(vm, "solved", level->solved))
+        if(!scripting::get_bool(vm, "solved", level->solved))
         {
           level->solved = false;
         }
-        if(!get_bool(vm, "perfect", level->perfect))
+        if(!scripting::get_bool(vm, "perfect", level->perfect))
         {
           level->perfect = false;
         }
@@ -1054,7 +1043,7 @@ WorldMap::load_state()
     sq_pop(vm, 1);
 
     try {
-      get_table_entry(vm, "tilemaps");
+      scripting::get_table_entry(vm, "tilemaps");
       sq_pushnull(vm); // Null-iterator
       while(SQ_SUCCEEDED(sq_next(vm, -2)))
       {
@@ -1100,7 +1089,7 @@ WorldMap::load_state()
     if(m_sprite_changes.size() > 0)
     {
       // load sprite change action:
-      get_table_entry(vm, "sprite-changes");
+      scripting::get_table_entry(vm, "sprite-changes");
       for(const auto& sc : m_sprite_changes)
       {
         auto key = std::to_string(int(sc->pos.x)) + "_" +
@@ -1108,7 +1097,7 @@ WorldMap::load_state()
         sq_pushstring(vm, key.c_str(), -1);
         if(SQ_SUCCEEDED(sq_get(vm, -2))) {
           bool show_stay_action = false;
-          if(!get_bool(vm, "show-stay-action", show_stay_action))
+          if(!scripting::get_bool(vm, "show-stay-action", show_stay_action))
           {
             sc->clear_stay_action(/* propagate = */ false);
           }

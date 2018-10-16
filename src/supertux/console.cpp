@@ -188,22 +188,20 @@ Console::ready_vm()
 void
 Console::execute_script(const std::string& command)
 {
-  using namespace scripting;
-
   ready_vm();
 
   SQInteger oldtop = sq_gettop(m_vm);
   try {
     if(SQ_FAILED(sq_compilebuffer(m_vm, command.c_str(), command.length(),
                                   "", SQTrue)))
-      throw SquirrelError(m_vm, "Couldn't compile command");
+      throw scripting::SquirrelError(m_vm, "Couldn't compile command");
 
     sq_pushroottable(m_vm);
     if(SQ_FAILED(sq_call(m_vm, 1, SQTrue, SQTrue)))
-      throw SquirrelError(m_vm, "Problem while executing command");
+      throw scripting::SquirrelError(m_vm, "Problem while executing command");
 
     if(sq_gettype(m_vm, -1) != OT_NULL)
-      m_buffer.addLines(squirrel2string(m_vm, -1));
+      m_buffer.addLines(scripting::squirrel2string(m_vm, -1));
   } catch(std::exception& e) {
     m_buffer.addLines(e.what());
   }
