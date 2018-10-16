@@ -68,6 +68,7 @@ public:
   HSQUIRRELVM run_script(std::istream& in, const std::string& sourcename);
 
 private:
+  HSQUIRRELVM m_vm;
   HSQOBJECT m_table;
   std::vector<HSQOBJECT> m_scripts;
 

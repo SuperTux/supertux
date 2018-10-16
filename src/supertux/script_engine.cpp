@@ -24,54 +24,53 @@
 #include "util/log.hpp"
 
 ScriptEngine::ScriptEngine() :
+  m_vm(scripting::global_vm),
   m_table(),
   m_scripts()
 {
   // garbage collector has to be invoked manually
-  sq_collectgarbage(scripting::global_vm);
+  sq_collectgarbage(m_vm);
 
-  sq_newtable(scripting::global_vm);
-  sq_pushroottable(scripting::global_vm);
-  if(SQ_FAILED(sq_setdelegate(scripting::global_vm, -2)))
-    throw scripting::SquirrelError(scripting::global_vm, "Couldn't set table delegate");
+  sq_newtable(m_vm);
+  sq_pushroottable(m_vm);
+  if(SQ_FAILED(sq_setdelegate(m_vm, -2)))
+    throw scripting::SquirrelError(m_vm, "Couldn't set table delegate");
 
   sq_resetobject(&m_table);
-  if (SQ_FAILED(sq_getstackobj(scripting::global_vm, -1, &m_table))) {
-    throw scripting::SquirrelError(scripting::global_vm, "Couldn't get table");
+  if (SQ_FAILED(sq_getstackobj(m_vm, -1, &m_table))) {
+    throw scripting::SquirrelError(m_vm, "Couldn't get table");
   }
 
-  sq_addref(scripting::global_vm, &m_table);
-  sq_pop(scripting::global_vm, 1);
+  sq_addref(m_vm, &m_table);
+  sq_pop(m_vm, 1);
 }
 
 ScriptEngine::~ScriptEngine()
 {
   for(auto& script: m_scripts)
   {
-    sq_release(scripting::global_vm, &script);
+    sq_release(m_vm, &script);
   }
   m_scripts.clear();
-  sq_release(scripting::global_vm, &m_table);
+  sq_release(m_vm, &m_table);
 
-  sq_collectgarbage(scripting::global_vm);
+  sq_collectgarbage(m_vm);
 }
 
 void
 ScriptEngine::expose_self(const std::string& name)
 {
-  HSQUIRRELVM vm = scripting::global_vm;
-  sq_pushroottable(vm);
-  scripting::store_object(vm, name.c_str(), m_table);
-  sq_pop(vm, 1);
+  sq_pushroottable(m_vm);
+  scripting::store_object(m_vm, name.c_str(), m_table);
+  sq_pop(m_vm, 1);
 }
 
 void
 ScriptEngine::unexpose_self(const std::string& name)
 {
-  HSQUIRRELVM vm = scripting::global_vm;
-  sq_pushroottable(vm);
-  scripting::delete_table_entry(vm, name.c_str());
-  sq_pop(vm, 1);
+  sq_pushroottable(m_vm);
+  scripting::delete_table_entry(m_vm, name.c_str());
+  sq_pop(m_vm, 1);
 }
 
 void
@@ -79,10 +78,9 @@ ScriptEngine::try_expose(GameObjectPtr object)
 {
   auto script_object = dynamic_cast<ScriptInterface*>(object.get());
   if (script_object != nullptr) {
-    HSQUIRRELVM vm = scripting::global_vm;
-    sq_pushobject(vm, m_table);
-    script_object->expose(vm, -1);
-    sq_pop(vm, 1);
+    sq_pushobject(m_vm, m_table);
+    script_object->expose(m_vm, -1);
+    sq_pop(m_vm, 1);
   }
 }
 
@@ -91,30 +89,28 @@ ScriptEngine::try_unexpose(GameObjectPtr object)
 {
   auto script_object = dynamic_cast<ScriptInterface*>(object.get());
   if (script_object != nullptr) {
-    HSQUIRRELVM vm = scripting::global_vm;
-    SQInteger oldtop = sq_gettop(vm);
-    sq_pushobject(vm, m_table);
+    SQInteger oldtop = sq_gettop(m_vm);
+    sq_pushobject(m_vm, m_table);
     try {
-      script_object->unexpose(vm, -1);
+      script_object->unexpose(m_vm, -1);
     } catch(std::exception& e) {
       log_warning << "Couldn't unregister object: " << e.what() << std::endl;
     }
-    sq_settop(vm, oldtop);
+    sq_settop(m_vm, oldtop);
   }
 }
 
 void
 ScriptEngine::unexpose(const std::string& name)
 {
-  HSQUIRRELVM vm = scripting::global_vm;
-  SQInteger oldtop = sq_gettop(vm);
-  sq_pushobject(vm, m_table);
+  SQInteger oldtop = sq_gettop(m_vm);
+  sq_pushobject(m_vm, m_table);
   try {
-    scripting::unexpose_object(vm, -1, name.c_str());
+    scripting::unexpose_object(m_vm, -1, name.c_str());
   } catch(std::exception& e) {
     log_warning << "Couldn't unregister object: " << e.what() << std::endl;
   }
-  sq_settop(vm, oldtop);
+  sq_settop(m_vm, oldtop);
 }
 
 HSQUIRRELVM
