@@ -80,8 +80,6 @@ WorldMap::WorldMap(const std::string& filename, Savegame& savegame, const std::s
   m_spawn_points(),
   m_teleporters(),
   m_total_stats(),
-  m_worldmap_table(),
-  m_scripts(),
   m_ambient_light( 1.0f, 1.0f, 1.0f, 1.0f ),
   m_force_spawnpoint(force_spawnpoint_),
   m_main_is_default(true),
@@ -96,20 +94,6 @@ WorldMap::WorldMap(const std::string& filename, Savegame& savegame, const std::s
 
   m_total_stats.reset();
 
-  // create a new squirrel table for the worldmap
-  sq_collectgarbage(scripting::global_vm);
-  sq_newtable(scripting::global_vm);
-  sq_pushroottable(scripting::global_vm);
-  if(SQ_FAILED(sq_setdelegate(scripting::global_vm, -2)))
-    throw scripting::SquirrelError(scripting::global_vm, "Couldn't set worldmap_table delegate");
-
-  sq_resetobject(&m_worldmap_table);
-  if(SQ_FAILED(sq_getstackobj(scripting::global_vm, -1, &m_worldmap_table)))
-    throw scripting::SquirrelError(scripting::global_vm, "Couldn't get table from stack");
-
-  sq_addref(scripting::global_vm, &m_worldmap_table);
-  sq_pop(scripting::global_vm, 1);
-
   SoundManager::current()->preload("sounds/warp.wav");
 
   // load worldmap objects
@@ -123,8 +107,6 @@ WorldMap::~WorldMap()
   }
 
   m_spawn_points.clear();
-
-  scripting::release_scripts(scripting::global_vm, m_scripts, m_worldmap_table);
 }
 
 void
@@ -137,18 +119,6 @@ WorldMap::add_object(GameObjectPtr object)
 
   try_expose(object);
   m_game_objects.push_back(object);
-}
-
-void
-WorldMap::try_expose(const GameObjectPtr& object)
-{
-  scripting::try_expose(object, m_worldmap_table);
-}
-
-void
-WorldMap::try_unexpose(const GameObjectPtr& object)
-{
-  scripting::try_unexpose(object, m_worldmap_table);
 }
 
 void
@@ -851,9 +821,7 @@ WorldMap::setup()
   m_tux->setup();
 
   // register worldmap_table as worldmap in scripting
-  sq_pushroottable(scripting::global_vm);
-  scripting::store_object(scripting::global_vm, "worldmap", m_worldmap_table);
-  sq_pop(scripting::global_vm, 1);
+  expose_self("worldmap");
 
   //Run default.nut just before init script
   try {
@@ -877,9 +845,7 @@ WorldMap::leave()
   save_state();
 
   // remove worldmap_table from roottable
-  sq_pushroottable(scripting::global_vm);
-  scripting::delete_table_entry(scripting::global_vm, "worldmap");
-  sq_pop(scripting::global_vm, 1);
+  unexpose_self("worldmap");
 
   GameManager::current()->load_next_worldmap();
 }
@@ -1149,30 +1115,6 @@ WorldMap::solved_level_count() const
   }
 
   return count;
-}
-
-HSQUIRRELVM
-WorldMap::run_script(const std::string& script, const std::string& sourcename)
-{
-  if(script.empty())
-  {
-    return nullptr;
-  }
-  std::istringstream in(script);
-  return run_script(in, sourcename);
-}
-
-HSQUIRRELVM
-WorldMap::run_script(std::istream& in, const std::string& sourcename)
-{
-  try {
-    return scripting::run_script(in, sourcename, m_scripts, &m_worldmap_table);
-  }
-  catch(const std::exception& e)
-  {
-    log_warning << "Error running worldmap script: " << e.what() << std::endl;
-    return nullptr;
-  }
 }
 
 float

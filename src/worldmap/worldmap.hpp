@@ -22,6 +22,7 @@
 
 #include "math/vector.hpp"
 #include "supertux/game_object_ptr.hpp"
+#include "supertux/script_engine.hpp"
 #include "supertux/statistics.hpp"
 #include "supertux/timer.hpp"
 #include "util/currenton.hpp"
@@ -52,7 +53,8 @@ enum {
   WEST_EAST_WAY
 };
 
-class WorldMap final : public Currenton<WorldMap>
+class WorldMap final : public Currenton<WorldMap>,
+                       public ScriptEngine
 {
 public:
   static Color level_title_color;
@@ -91,9 +93,6 @@ private:
   std::vector<Teleporter*> m_teleporters;
 
   Statistics m_total_stats;
-
-  HSQOBJECT m_worldmap_table;
-  std::vector<HSQOBJECT> m_scripts;
 
   Color m_ambient_light;
   std::string m_force_spawnpoint; /**< if set, spawnpoint will be forced to this value */
@@ -191,14 +190,6 @@ public:
   const std::string& get_title() const
   { return m_name; }
 
-  HSQUIRRELVM run_script(const std::string& script, const std::string& sourcename);
-
-  /**
-   * runs a script in the context of the worldmap (and keeps a reference to
-   * the script (so the script gets destroyed when the worldmap is destroyed)
-   */
-  HSQUIRRELVM run_script(std::istream& in, const std::string& sourcename);
-
   /**
    * switch to another worldmap.
    * filename is relative to data root path
@@ -251,9 +242,6 @@ public:
   }
 
 private:
-  void try_expose(const GameObjectPtr& object);
-  void try_unexpose(const GameObjectPtr& object);
-
   void load_level_information(LevelTile& level);
   void draw_status(DrawingContext& context);
   void calculate_total_stats();
