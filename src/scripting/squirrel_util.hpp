@@ -39,9 +39,6 @@ HSQOBJECT create_thread(HSQUIRRELVM vm);
 SQObject vm_to_object(HSQUIRRELVM vm);
 HSQUIRRELVM object_to_vm(HSQOBJECT object);
 
-HSQUIRRELVM run_script(std::istream& in, const std::string& sourcename,
-                       ScriptList& scripts, const HSQOBJECT* root_table);
-
 void compile_script(HSQUIRRELVM vm, std::istream& in,
                     const std::string& sourcename);
 void compile_and_run(HSQUIRRELVM vm, std::istream& in,

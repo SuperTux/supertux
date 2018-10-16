@@ -127,7 +127,30 @@ ScriptEngine::run_script(std::istream& in, const std::string& sourcename)
 {
   try
   {
-    scripting::run_script(in, "Script - " + sourcename, m_scripts, &m_table);
+    // garbage collect thread list
+    for(auto i = m_scripts.begin(); i != m_scripts.end(); ) {
+      HSQOBJECT& object = *i;
+      HSQUIRRELVM vm = scripting::object_to_vm(object);
+
+      if(sq_getvmstate(vm) != SQ_VMSTATE_SUSPENDED) {
+        sq_release(m_vm, &object);
+        i = m_scripts.erase(i);
+        continue;
+      }
+
+      ++i;
+    }
+
+    HSQOBJECT object = scripting::create_thread(m_vm);
+    m_scripts.push_back(object);
+
+    HSQUIRRELVM vm = scripting::object_to_vm(object);
+
+    // set root table
+    sq_pushobject(vm, m_table);
+    sq_setroottable(vm);
+
+    scripting::compile_and_run(vm, in, sourcename);
   }
   catch(const std::exception& e)
   {
