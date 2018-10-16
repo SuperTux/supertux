@@ -18,12 +18,12 @@
 #define HEADER_SUPERTUX_SUPERTUX_SECTOR_HPP
 
 #include <vector>
-#include <squirrel.h>
 #include <stdint.h>
 
 #include "object/anchor_point.hpp"
 #include "supertux/game_object_ptr.hpp"
 #include "supertux/game_object_manager.hpp"
+#include "supertux/script_engine.hpp"
 #include "video/color.hpp"
 
 namespace collision {
@@ -58,7 +58,8 @@ enum MusicType {
  *
  * Sectors contain GameObjects, e.g. Badguys and Players.
  */
-class Sector final : public GameObjectManager
+class Sector final : public GameObjectManager,
+                     public ScriptEngine
 {
 public:
   friend class EditorSectorMenu;
@@ -90,17 +91,6 @@ public:
 
   /// continues the looping sounds in whole sector.
   void play_looping_sounds();
-
-  /**
-   * Convenience function that takes an std::string instead of an std::istream&
-   */
-  HSQUIRRELVM run_script(const std::string& script, const std::string& sourcename);
-
-  /**
-   * runs a script in the context of the sector (sector_table will be the
-   * roottable of this squirrel VM)
-   */
-  HSQUIRRELVM run_script(std::istream& in, const std::string& sourcename);
 
   void set_name(const std::string& name_)
   { m_name = name_; }
@@ -233,11 +223,9 @@ public:
 private:
   uint32_t collision_tile_attributes(const Rectf& dest, const Vector& mov) const;
 
-  virtual void before_object_remove(GameObjectPtr object) override;
   virtual bool before_object_add(GameObjectPtr object) override;
+  virtual void before_object_remove(GameObjectPtr object) override;
 
-  void try_expose(GameObjectPtr object);
-  void try_unexpose(GameObjectPtr object);
   void try_expose_me();
   void try_unexpose_me();
 
@@ -265,10 +253,6 @@ private:
   std::string m_init_script;
 
   MusicType m_currentmusic;
-
-  HSQOBJECT m_sector_table;
-  /// sector scripts
-  std::vector<HSQOBJECT> m_scripts;
 
   Color m_ambient_light;
 

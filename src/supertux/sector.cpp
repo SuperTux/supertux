@@ -63,8 +63,6 @@ Sector::Sector(Level& parent) :
   m_bullets(),
   m_init_script(),
   m_currentmusic(LEVEL_MUSIC),
-  m_sector_table(),
-  m_scripts(),
   m_ambient_light( 1.0f, 1.0f, 1.0f, 1.0f ),
   m_ambient_light_fading(false),
   m_source_ambient_light(1.0f, 1.0f, 1.0f, 1.0f),
@@ -92,20 +90,6 @@ Sector::Sector(Level& parent) :
   add_object(std::make_shared<TextArrayObject>("TextArray"));
 
   SoundManager::current()->preload("sounds/shoot.wav");
-
-  // create a new squirrel table for the sector
-  sq_collectgarbage(scripting::global_vm);
-
-  sq_newtable(scripting::global_vm);
-  sq_pushroottable(scripting::global_vm);
-  if(SQ_FAILED(sq_setdelegate(scripting::global_vm, -2)))
-    throw scripting::SquirrelError(scripting::global_vm, "Couldn't set sector_table delegate");
-
-  sq_resetobject(&m_sector_table);
-  if(SQ_FAILED(sq_getstackobj(scripting::global_vm, -1, &m_sector_table)))
-    throw scripting::SquirrelError(scripting::global_vm, "Couldn't get sector table");
-  sq_addref(scripting::global_vm, &m_sector_table);
-  sq_pop(scripting::global_vm, 1);
 }
 
 Sector::~Sector()
@@ -118,8 +102,6 @@ Sector::~Sector()
   {
     log_warning << err.what() << std::endl;
   }
-
-  scripting::release_scripts(scripting::global_vm, m_scripts, m_sector_table);
 
   clear_objects();
 }
@@ -164,31 +146,6 @@ Sector::get_level() const
   return m_level;
 }
 
-HSQUIRRELVM
-Sector::run_script(const std::string& script, const std::string& sourcename)
-{
-  if(script.empty())
-  {
-    return nullptr;
-  }
-  std::istringstream stream(script);
-  return run_script(stream, sourcename);
-}
-
-HSQUIRRELVM
-Sector::run_script(std::istream& in, const std::string& sourcename)
-{
-  try {
-    return scripting::run_script(in, "Sector " + m_name + " - " + sourcename,
-                                 m_scripts, &m_sector_table);
-  }
-  catch(const std::exception& e)
-  {
-    log_warning << "Error running sector script: " << e.what() << std::endl;
-    return nullptr;
-  }
-}
-
 void
 Sector::activate(const std::string& spawnpoint)
 {
@@ -222,7 +179,7 @@ Sector::activate(const Vector& player_pos)
     // register sectortable as sector in scripting
     HSQUIRRELVM vm = scripting::global_vm;
     sq_pushroottable(vm);
-    scripting::store_object(vm, "sector", m_sector_table);
+    scripting::store_object(vm, "sector", m_table);
     sq_pop(vm, 1);
 
     for(auto& object : get_objects()) {
@@ -230,7 +187,6 @@ Sector::activate(const Vector& player_pos)
     }
   }
   try_expose_me();
-
 
   // two-player hack: move other players to main player's position
   // Maybe specify 2 spawnpoints in the level?
@@ -447,22 +403,6 @@ Sector::before_object_add(GameObjectPtr object)
 }
 
 void
-Sector::try_expose(GameObjectPtr object)
-{
-  scripting::try_expose(object, m_sector_table);
-}
-
-void
-Sector::try_expose_me()
-{
-  HSQUIRRELVM vm = scripting::global_vm;
-  sq_pushobject(vm, m_sector_table);
-  auto obj = new scripting::Sector(this);
-  expose_object(vm, -1, obj, "settings", true);
-  sq_pop(vm, 1);
-}
-
-void
 Sector::before_object_remove(GameObjectPtr object)
 {
   auto portable = dynamic_cast<Portable*>(object.get());
@@ -483,9 +423,13 @@ Sector::before_object_remove(GameObjectPtr object)
 }
 
 void
-Sector::try_unexpose(GameObjectPtr object)
+Sector::try_expose_me()
 {
-  scripting::try_unexpose(object, m_sector_table);
+  HSQUIRRELVM vm = scripting::global_vm;
+  sq_pushobject(vm, m_table);
+  auto obj = new scripting::Sector(this);
+  scripting::expose_object(vm, -1, obj, "settings", true);
+  sq_pop(vm, 1);
 }
 
 void
@@ -493,7 +437,7 @@ Sector::try_unexpose_me()
 {
   HSQUIRRELVM vm = scripting::global_vm;
   SQInteger oldtop = sq_gettop(vm);
-  sq_pushobject(vm, m_sector_table);
+  sq_pushobject(vm, m_table);
   try {
     scripting::unexpose_object(vm, -1, "settings");
   } catch(std::exception& e) {
@@ -501,6 +445,7 @@ Sector::try_unexpose_me()
   }
   sq_settop(vm, oldtop);
 }
+
 void
 Sector::draw(DrawingContext& context)
 {
