@@ -124,9 +124,10 @@ GameObjectManager::update_game_objects()
   // add newly created objects
   for(const auto& object : m_gameobjects_new)
   {
-    before_object_add(object);
-
-    m_gameobjects.push_back(object);
+    if (before_object_add(object))
+    {
+      m_gameobjects.push_back(object);
+    }
   }
   m_gameobjects_new.clear();
 

@@ -68,8 +68,6 @@ WorldMap::WorldMap(const std::string& filename, Savegame& savegame, const std::s
   m_name("<no title>"),
   m_music("music/salcon.ogg"),
   m_init_script(),
-  m_game_objects(),
-  m_solid_tilemaps(),
   m_passive_message_timer(),
   m_passive_message(),
   m_map_filename(),
@@ -102,23 +100,24 @@ WorldMap::WorldMap(const std::string& filename, Savegame& savegame, const std::s
 
 WorldMap::~WorldMap()
 {
-  for(auto& object : m_game_objects) {
+  for(auto& object : get_objects()) {
     try_unexpose(object);
   }
 
   m_spawn_points.clear();
 }
 
-void
-WorldMap::add_object(GameObjectPtr object)
+bool
+WorldMap::before_object_add(GameObjectPtr object)
 {
-  auto tilemap = dynamic_cast<TileMap*>(object.get());
-  if(tilemap != nullptr && tilemap->is_solid()) {
-    m_solid_tilemaps.push_back(tilemap);
-  }
-
   try_expose(object);
-  m_game_objects.push_back(object);
+  return true;
+}
+
+void
+WorldMap::before_object_remove(GameObjectPtr object)
+{
+  try_unexpose(object);
 }
 
 void
@@ -236,7 +235,9 @@ WorldMap::load(const std::string& filename)
       }
     }
 
-    if(m_solid_tilemaps.empty())
+    update_game_objects();
+
+    if (get_solid_tilemaps().empty())
       throw std::runtime_error("No solid tilemap specified");
 
     move_to_spawnpoint("main");
@@ -475,31 +476,17 @@ WorldMap::update(float delta)
   if (MenuManager::instance().is_active()) return;
 
   // update GameObjects
-  for(const auto& object : m_game_objects) {
-    if(!m_panning || object != m_tux) {
-      object->update(delta);
-    }
-  }
-
-  // remove old GameObjects
-  for(auto i = m_game_objects.begin(); i != m_game_objects.end(); ) {
-    auto& object = *i;
-    if(!object->is_valid()) {
-      try_unexpose(object);
-      i = m_game_objects.erase(i);
-    } else {
-      ++i;
-    }
-  }
-
-  /* update solid_tilemaps list */
-  //FIXME: this could be more efficient
-  m_solid_tilemaps.clear();
-  for(auto& i : m_game_objects)
+  if (m_panning)
   {
-    auto tm = dynamic_cast<TileMap*>(i.get());
-    if (!tm) continue;
-    if (tm->is_solid()) m_solid_tilemaps.push_back(tm);
+    for (const auto& object : get_objects()) {
+      if (object != m_tux) {
+        object->update(delta);
+      }
+    }
+  }
+  else
+  {
+    GameObjectManager::update(delta);
   }
 
   Vector requested_pos;
@@ -618,7 +605,7 @@ WorldMap::tile_data_at(const Vector& p) const
 {
   int dirs = 0;
 
-  for(const auto& tilemap : m_solid_tilemaps) {
+  for(const auto& tilemap : get_solid_tilemaps()) {
     const Tile& tile = tilemap->get_tile(static_cast<int>(p.x), static_cast<int>(p.y));
     int dirdata = tile.get_data();
     dirs |= dirdata;
@@ -688,11 +675,17 @@ WorldMap::draw(DrawingContext& context)
   context.push_transform();
   context.set_translation(m_camera_offset);
 
-  for(const auto& object : m_game_objects)
+  if (m_panning)
   {
-    if(!m_panning || object != m_tux) {
-      object->draw(context);
+    for (const auto& object : get_objects()) {
+      if (object != m_tux) {
+        object->draw(context);
+      }
     }
+  }
+  else
+  {
+    GameObjectManager::draw(context);
   }
 
   /*
@@ -905,7 +898,7 @@ WorldMap::save_state()
     // tilemap visibility
     sq_pushstring(vm, "tilemaps", -1);
     sq_newtable(vm);
-    for(const auto& object : m_game_objects)
+    for(const auto& object : get_objects())
     {
       auto tilemap = dynamic_cast<::TileMap*>(object.get());
       if(tilemap && !tilemap->get_name().empty())
@@ -1121,7 +1114,7 @@ float
 WorldMap::get_width() const
 {
   float width = 0;
-  for(const auto& solids : m_solid_tilemaps) {
+  for(const auto& solids : get_solid_tilemaps()) {
     if (static_cast<float>(solids->get_width()) > width) width = static_cast<float>(solids->get_width());
   }
   return width;
@@ -1131,7 +1124,7 @@ float
 WorldMap::get_height() const
 {
   float height = 0;
-  for(const auto& solids : m_solid_tilemaps) {
+  for(const auto& solids : get_solid_tilemaps()) {
     if (static_cast<float>(solids->get_height()) > height)
       height = static_cast<float>(solids->get_height());
   }
@@ -1141,9 +1134,9 @@ WorldMap::get_height() const
 TileMap*
 WorldMap::get_tilemap_by_name(const std::string& tilemap_name) const
 {
-  for(const auto& object : m_game_objects)
+  for(const auto& object : get_objects())
   {
-    auto tilemap = static_cast<TileMap*>(object.get());
+    auto tilemap = dynamic_cast<TileMap*>(object.get());
     if(tilemap && tilemap->get_name() == tilemap_name)
     {
       return tilemap;

@@ -22,6 +22,7 @@
 
 #include "math/vector.hpp"
 #include "supertux/game_object_ptr.hpp"
+#include "supertux/game_object_manager.hpp"
 #include "supertux/script_engine.hpp"
 #include "supertux/statistics.hpp"
 #include "supertux/timer.hpp"
@@ -53,8 +54,9 @@ enum {
   WEST_EAST_WAY
 };
 
-class WorldMap final : public Currenton<WorldMap>,
-                       public ScriptEngine
+class WorldMap final : public GameObjectManager,
+                       public ScriptEngine,
+                       public Currenton<WorldMap>
 {
 public:
   static Color level_title_color;
@@ -73,9 +75,6 @@ private:
   std::string m_name;
   std::string m_music;
   std::string m_init_script;
-
-  std::vector<GameObjectPtr> m_game_objects;
-  std::vector<TileMap*> m_solid_tilemaps;
 
 public:
   /** Variables to deal with the passive map messages */
@@ -109,8 +108,6 @@ private:
 public:
   WorldMap(const std::string& filename, Savegame& savegame, const std::string& force_spawnpoint = "");
   ~WorldMap();
-
-  void add_object(GameObjectPtr object);
 
   void setup();
   void leave();
@@ -240,6 +237,10 @@ public:
     // don't bother moving to the main spawnpoint.
     m_main_is_default = false;
   }
+
+protected:
+  virtual bool before_object_add(GameObjectPtr object) override;
+  virtual void before_object_remove(GameObjectPtr object) override;
 
 private:
   void load_level_information(LevelTile& level);
