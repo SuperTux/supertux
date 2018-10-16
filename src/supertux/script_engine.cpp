@@ -37,6 +37,8 @@ ScriptEngine::ScriptEngine() :
   if (SQ_FAILED(sq_getstackobj(scripting::global_vm, -1, &m_table))) {
     throw scripting::SquirrelError(scripting::global_vm, "Couldn't get table");
   }
+
+  // FIXME: Do we need to call sq_release() on this?
   sq_addref(scripting::global_vm, &m_table);
   sq_pop(scripting::global_vm, 1);
 }

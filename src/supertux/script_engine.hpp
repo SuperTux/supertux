@@ -61,8 +61,10 @@ public:
       std::istream& */
   HSQUIRRELVM run_script(const std::string& script, const std::string& sourcename);
 
-  /** runs a script in the context of the sector (sector_table will be
-      the roottable of this squirrel VM) */
+  /** Runs a script in the context of the ScriptEngine (m_table will
+      be the roottable of this squirrel VM) and keeps a reference to
+      the script so the script gets destroyed when the ScriptEngine is
+      destroyed). */
   HSQUIRRELVM run_script(std::istream& in, const std::string& sourcename);
 
 private:
