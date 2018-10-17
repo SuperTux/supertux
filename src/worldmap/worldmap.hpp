@@ -151,12 +151,6 @@ public:
    */
   void move_to_spawnpoint(const std::string& spawnpoint, bool pan = false, bool main_as_default = true);
 
-  /** returns the width (in tiles) of a worldmap */
-  float get_tiles_width() const;
-
-  /** returns the height (in tiles) of a worldmap */
-  float get_tiles_height() const;
-
   /**
    * Mark all levels as solved or unsolved
    */

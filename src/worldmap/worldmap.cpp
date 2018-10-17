@@ -714,28 +714,6 @@ WorldMap::solved_level_count() const
   return count;
 }
 
-float
-WorldMap::get_tiles_width() const
-{
-  float width = 0;
-  for(const auto& solids : get_solid_tilemaps()) {
-    if (static_cast<float>(solids->get_width()) > width)
-      width = static_cast<float>(solids->get_width());
-  }
-  return width;
-}
-
-float
-WorldMap::get_tiles_height() const
-{
-  float height = 0;
-  for(const auto& solids : get_solid_tilemaps()) {
-    if (static_cast<float>(solids->get_height()) > height)
-      height = static_cast<float>(solids->get_height());
-  }
-  return height;
-}
-
 void
 WorldMap::load_state()
 {

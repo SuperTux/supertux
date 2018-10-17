@@ -46,6 +46,12 @@ public:
   float get_width() const;
   float get_height() const;
 
+  /** returns the width (in tiles) of a worldmap */
+  float get_tiles_width() const;
+
+  /** returns the height (in tiles) of a worldmap */
+  float get_tiles_height() const;
+
   /** Hook that is called before an object is added to the vector */
   virtual bool before_object_add(GameObjectPtr object) = 0;
 
