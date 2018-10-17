@@ -22,7 +22,6 @@
 #include "audio/sound_manager.hpp"
 #include "control/input_manager.hpp"
 #include "gui/menu_manager.hpp"
-#include "object/background.hpp"
 #include "object/decal.hpp"
 #include "object/tilemap.hpp"
 #include "physfs/ifile_streambuf.hpp"
@@ -52,6 +51,7 @@
 #include "worldmap/sprite_change.hpp"
 #include "worldmap/teleporter.hpp"
 #include "worldmap/tux.hpp"
+#include "worldmap/worldmap_parser.hpp"
 #include "worldmap/worldmap_screen.hpp"
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
@@ -95,7 +95,8 @@ WorldMap::WorldMap(const std::string& filename, Savegame& savegame, const std::s
   SoundManager::current()->preload("sounds/warp.wav");
 
   // load worldmap objects
-  load(filename);
+  WorldMapParser parser(*this);
+  parser.load_worldmap(filename);
 }
 
 WorldMap::~WorldMap()
@@ -149,105 +150,6 @@ WorldMap::change(const std::string& filename, const std::string& force_spawnpoin
   ScreenManager::current()->pop_screen();
   ScreenManager::current()->push_screen(std::make_unique<WorldMapScreen>(
                                           std::make_unique<WorldMap>(filename, m_savegame, force_spawnpoint_)));
-}
-
-void
-WorldMap::load(const std::string& filename)
-{
-  m_map_filename = filename;
-  m_levels_path = FileSystem::dirname(m_map_filename);
-
-  try {
-    register_translation_directory(m_map_filename);
-    auto doc = ReaderDocument::from_file(m_map_filename);
-    auto root = doc.get_root();
-
-    if(root.get_name() != "supertux-level")
-      throw std::runtime_error("file isn't a supertux-level file.");
-
-    auto level_ = root.get_mapping();
-
-    level_.get("name", m_name);
-
-    std::string tileset_name;
-    if(level_.get("tileset", tileset_name)) {
-      if(m_tileset != nullptr) {
-        log_warning << "multiple tilesets specified in level_" << std::endl;
-      } else {
-        m_tileset = TileManager::current()->get_tileset(tileset_name);
-      }
-    }
-    /* load default tileset */
-    if(m_tileset == nullptr) {
-      m_tileset = TileManager::current()->get_tileset("images/worldmap.strf");
-    }
-
-    boost::optional<ReaderMapping> sector;
-    if(!level_.get("sector", sector)) {
-      throw std::runtime_error("No sector specified in worldmap file.");
-    } else {
-      auto iter = sector->get_iter();
-      while(iter.next()) {
-        if(iter.get_key() == "tilemap") {
-          add_object(std::make_shared<TileMap>(m_tileset, iter.as_mapping()));
-        } else if(iter.get_key() == "background") {
-          add_object(std::make_shared<Background>(iter.as_mapping()));
-        } else if(iter.get_key() == "music") {
-          iter.get(m_music);
-        } else if(iter.get_key() == "init-script") {
-          iter.get(m_init_script);
-        } else if(iter.get_key() == "worldmap-spawnpoint") {
-          std::unique_ptr<SpawnPoint> sp(new SpawnPoint(iter.as_mapping()));
-          m_spawn_points.push_back(std::move(sp));
-        } else if(iter.get_key() == "level") {
-          auto level = std::make_shared<LevelTile>(m_levels_path, iter.as_mapping());
-          load_level_information(*level.get());
-          m_levels.push_back(level.get());
-          add_object(level);
-        } else if(iter.get_key() == "special-tile") {
-          auto special_tile = std::make_shared<SpecialTile>(iter.as_mapping());
-          m_special_tiles.push_back(special_tile.get());
-          add_object(special_tile);
-        } else if(iter.get_key() == "sprite-change") {
-          auto sprite_change = std::make_shared<SpriteChange>(iter.as_mapping());
-          m_sprite_changes.push_back(sprite_change.get());
-          add_object(sprite_change);
-        } else if(iter.get_key() == "teleporter") {
-          auto teleporter = std::make_shared<Teleporter>(iter.as_mapping());
-          m_teleporters.push_back(teleporter.get());
-          add_object(teleporter);
-        } else if(iter.get_key() == "decal") {
-          auto decal = std::make_shared<Decal>(iter.as_mapping());
-          add_object(decal);
-        } else if(iter.get_key() == "ambient-light") {
-          std::vector<float> vColor;
-          bool hasColor = sector->get( "ambient-light", vColor );
-          if(vColor.size() < 3 || !hasColor) {
-            log_warning << "(ambient-light) requires a color as argument" << std::endl;
-          } else {
-            m_ambient_light = Color( vColor );
-          }
-        } else if(iter.get_key() == "name") {
-          // skip
-        } else {
-          log_warning << "Unknown token '" << iter.get_key() << "' in worldmap" << std::endl;
-        }
-      }
-    }
-
-    update_game_objects();
-
-    if (get_solid_tilemaps().empty())
-      throw std::runtime_error("No solid tilemap specified");
-
-    move_to_spawnpoint("main");
-
-  } catch(std::exception& e) {
-    std::stringstream msg;
-    msg << "Problem when parsing worldmap '" << m_map_filename << "': " <<
-      e.what();
-    throw std::runtime_error(msg.str());
-  }
 }
 
 void

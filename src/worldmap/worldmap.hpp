@@ -59,6 +59,8 @@ class WorldMap final : public GameObjectManager,
                        public Currenton<WorldMap>
 {
 public:
+  friend class WorldMapParser;
+
   static Color level_title_color;
   static Color message_color;
   static Color teleporter_message_color;
