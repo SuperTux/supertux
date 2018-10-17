@@ -66,48 +66,6 @@ public:
   static Color message_color;
   static Color teleporter_message_color;
 
-private:
-  std::shared_ptr<Tux> m_tux;
-
-  Savegame& m_savegame;
-
-  TileSet* m_tileset;
-
-  Vector m_camera_offset;
-
-  std::string m_name;
-  std::string m_music;
-  std::string m_init_script;
-
-public:
-  /** Variables to deal with the passive map messages */
-  Timer m_passive_message_timer;
-  std::string m_passive_message;
-
-private:
-  std::string m_map_filename;
-  std::string m_levels_path;
-
-  std::vector<SpecialTile*> m_special_tiles;
-  std::vector<LevelTile*> m_levels;
-  std::vector<SpriteChange*> m_sprite_changes;
-  std::vector<std::unique_ptr<SpawnPoint> > m_spawn_points;
-  std::vector<Teleporter*> m_teleporters;
-
-  Statistics m_total_stats;
-
-  Color m_ambient_light;
-  std::string m_force_spawnpoint; /**< if set, spawnpoint will be forced to this value */
-  bool m_main_is_default;
-  std::string m_initial_fade_tilemap;
-  int m_fade_direction;
-
-  bool m_in_level;
-
-  /* variables to track panning to a spawn point */
-  Vector m_pan_pos;
-  bool m_panning;
-
 public:
   WorldMap(const std::string& filename, Savegame& savegame, const std::string& force_spawnpoint = "");
   ~WorldMap();
@@ -244,6 +202,48 @@ private:
 
   Vector get_camera_pos_for_tux() const;
   void clamp_camera_position(Vector& c) const;
+
+private:
+  std::shared_ptr<Tux> m_tux;
+
+  Savegame& m_savegame;
+
+  TileSet* m_tileset;
+
+  Vector m_camera_offset;
+
+  std::string m_name;
+  std::string m_music;
+  std::string m_init_script;
+
+public:
+  /** Variables to deal with the passive map messages */
+  Timer m_passive_message_timer;
+  std::string m_passive_message;
+
+private:
+  std::string m_map_filename;
+  std::string m_levels_path;
+
+  std::vector<SpecialTile*> m_special_tiles;
+  std::vector<LevelTile*> m_levels;
+  std::vector<SpriteChange*> m_sprite_changes;
+  std::vector<std::unique_ptr<SpawnPoint> > m_spawn_points;
+  std::vector<Teleporter*> m_teleporters;
+
+  Statistics m_total_stats;
+
+  Color m_ambient_light;
+  std::string m_force_spawnpoint; /**< if set, spawnpoint will be forced to this value */
+  bool m_main_is_default;
+  std::string m_initial_fade_tilemap;
+  int m_fade_direction;
+
+  bool m_in_level;
+
+  /* variables to track panning to a spawn point */
+  Vector m_pan_pos;
+  bool m_panning;
 
 private:
   WorldMap(const WorldMap&);
