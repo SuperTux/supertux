@@ -41,6 +41,7 @@
 #include "supertux/collision.hpp"
 #include "supertux/collision_system.hpp"
 #include "supertux/constants.hpp"
+#include "supertux/debug.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/level.hpp"
 #include "supertux/object_factory.hpp"
@@ -53,8 +54,6 @@
 #include "video/viewport.hpp"
 
 Sector* Sector::s_current = nullptr;
-
-bool Sector::s_show_collrects = false;
 
 Sector::Sector(Level& parent) :
   m_level(parent),
@@ -419,7 +418,7 @@ Sector::draw(DrawingContext& context)
 
   GameObjectManager::draw(context);
 
-  if(s_show_collrects) {
+  if (g_debug.show_collision_rects) {
     m_collision_system->draw(context);
   }
 

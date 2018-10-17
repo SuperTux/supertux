@@ -27,6 +27,7 @@
 #include "physfs/ifile_streambuf.hpp"
 #include "physfs/physfs_file_system.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/debug.hpp"
 #include "supertux/fadein.hpp"
 #include "supertux/game_manager.hpp"
 #include "supertux/game_session.hpp"
@@ -45,6 +46,8 @@
 #include "util/reader_mapping.hpp"
 #include "video/compositor.hpp"
 #include "video/video_system.hpp"
+#include "video/video_system.hpp"
+#include "video/viewport.hpp"
 #include "worldmap/level.hpp"
 #include "worldmap/spawn_point.hpp"
 #include "worldmap/special_tile.hpp"
@@ -54,8 +57,6 @@
 #include "worldmap/worldmap_parser.hpp"
 #include "worldmap/worldmap_screen.hpp"
 #include "worldmap/worldmap_state.hpp"
-#include "video/video_system.hpp"
-#include "video/viewport.hpp"
 
 static const float CAMERA_PAN_SPEED = 5.0;
 
@@ -531,26 +532,25 @@ WorldMap::draw(DrawingContext& context)
 
   GameObjectManager::draw(context);
 
-  /*
-  // FIXME: make this a runtime switch similar to draw_collrects/show_collrects?
-  // draw visual indication of possible walk directions
-  static int flipme = 0;
-  if (flipme++ & 0x04)
-  for (int x = 0; x < get_width(); x++) {
-  for (int y = 0; y < get_height(); y++) {
-  int data = tile_data_at(Vector(x,y));
-  int px = x * 32;
-  int py = y * 32;
-  const int W = 4;
-  if (data & Tile::WORLDMAP_NORTH)    context.color().draw_filled_rect(Rect(px + 16-W, py       , px + 16+W, py + 16-W), Color(0.2f, 0.2f, 0.2f, 0.7f), LAYER_FOREGROUND1 + 1000);
-  if (data & Tile::WORLDMAP_SOUTH)    context.color().draw_filled_rect(Rect(px + 16-W, py + 16+W, px + 16+W, py + 32  ), Color(0.2f, 0.2f, 0.2f, 0.7f), LAYER_FOREGROUND1 + 1000);
-  if (data & Tile::WORLDMAP_EAST)     context.color().draw_filled_rect(Rect(px + 16+W, py + 16-W, px + 32  , py + 16+W), Color(0.2f, 0.2f, 0.2f, 0.7f), LAYER_FOREGROUND1 + 1000);
-  if (data & Tile::WORLDMAP_WEST)     context.color().draw_filled_rect(Rect(px       , py + 16-W, px + 16-W, py + 16+W), Color(0.2f, 0.2f, 0.2f, 0.7f), LAYER_FOREGROUND1 + 1000);
-  if (data & Tile::WORLDMAP_DIR_MASK) context.color().draw_filled_rect(Rect(px + 16-W, py + 16-W, px + 16+W, py + 16+W), Color(0.2f, 0.2f, 0.2f, 0.7f), LAYER_FOREGROUND1 + 1000);
-  if (data & Tile::WORLDMAP_STOP)     context.color().draw_filled_rect(Rect(px + 4   , py + 4   , px + 28  , py + 28  ), Color(0.2f, 0.2f, 0.2f, 0.7f), LAYER_FOREGROUND1 + 1000);
+  if (g_debug.show_worldmap_path)
+  {
+    for (int x = 0; x < static_cast<int>(get_tiles_width()); x++) {
+      for (int y = 0; y < static_cast<int>(get_tiles_height()); y++) {
+        const int data = tile_data_at(Vector(static_cast<float>(x), static_cast<float>(y)));
+        const int px = x * 32;
+        const int py = y * 32;
+        const int W = 4;
+        const int layer = LAYER_FOREGROUND1 + 1000;
+        const Color color(1.0f, 0.0f, 1.0f, 0.5f);
+        if (data & Tile::WORLDMAP_NORTH)    context.color().draw_filled_rect(Rect(px + 16-W, py       , px + 16+W, py + 16-W), color, layer);
+        if (data & Tile::WORLDMAP_SOUTH)    context.color().draw_filled_rect(Rect(px + 16-W, py + 16+W, px + 16+W, py + 32  ), color, layer);
+        if (data & Tile::WORLDMAP_EAST)     context.color().draw_filled_rect(Rect(px + 16+W, py + 16-W, px + 32  , py + 16+W), color, layer);
+        if (data & Tile::WORLDMAP_WEST)     context.color().draw_filled_rect(Rect(px       , py + 16-W, px + 16-W, py + 16+W), color, layer);
+        if (data & Tile::WORLDMAP_DIR_MASK) context.color().draw_filled_rect(Rect(px + 16-W, py + 16-W, px + 16+W, py + 16+W), color, layer);
+        if (data & Tile::WORLDMAP_STOP)     context.color().draw_filled_rect(Rect(px + 4   , py + 4   , px + 28  , py + 28  ), color, layer);
+      }
+    }
   }
-  }
-  */
 
   draw_status(context);
   context.pop_transform();

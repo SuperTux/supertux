@@ -23,6 +23,7 @@
 #include "physfs/ifile_stream.hpp"
 #include "scripting/time_scheduler.hpp"
 #include "supertux/console.hpp"
+#include "supertux/debug.hpp"
 #include "supertux/fadeout.hpp"
 #include "supertux/game_manager.hpp"
 #include "supertux/game_session.hpp"
@@ -158,7 +159,7 @@ void import(HSQUIRRELVM vm, const std::string& filename)
 
 void debug_collrects(bool enable)
 {
-  ::Sector::s_show_collrects = enable;
+  g_debug.show_collision_rects = enable;
 }
 
 void debug_show_fps(bool enable)

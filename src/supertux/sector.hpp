@@ -69,10 +69,6 @@ public:
   /** get currently activated sector. */
   static Sector* current() { return s_current; }
 
-public: // TODO make this private again
-  /** show collision rectangles of moving objects (for debugging) */
-  static bool s_show_collrects;
-
 public:
   Sector(Level& parent);
   ~Sector();
