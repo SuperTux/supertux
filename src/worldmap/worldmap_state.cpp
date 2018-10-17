@@ -60,7 +60,7 @@ WorldMapState::load_state()
       m_worldmap.move_to_spawnpoint("main");
     }
     std::string back_str = scripting::read_string(vm, "back");
-    m_worldmap.m_tux->back_direction = string_to_direction(back_str);
+    m_worldmap.m_tux->m_back_direction = string_to_direction(back_str);
     m_worldmap.m_tux->set_tile_pos(p);
 
     int tile_data = m_worldmap.tile_data_at(p);
@@ -206,7 +206,7 @@ WorldMapState::save_state() const
 
     scripting::store_float(vm, "x", m_worldmap.m_tux->get_tile_pos().x);
     scripting::store_float(vm, "y", m_worldmap.m_tux->get_tile_pos().y);
-    scripting::store_string(vm, "back", direction_to_string(m_worldmap.m_tux->back_direction));
+    scripting::store_string(vm, "back", direction_to_string(m_worldmap.m_tux->m_back_direction));
 
     scripting::end_table(vm, "tux");
 

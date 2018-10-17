@@ -34,7 +34,7 @@ class WorldMap;
 class Tux final : public GameObject
 {
 public:
-  Tux(WorldMap* worldmap_);
+  Tux(WorldMap* worldmap);
 
   void setup(); /**< called prior to first update */
   virtual void draw(DrawingContext& context) override;
@@ -45,10 +45,10 @@ public:
   void set_ghost_mode(bool enabled);
   bool get_ghost_mode() const;
 
-  bool is_moving() const { return moving; }
+  bool is_moving() const { return m_moving; }
   Vector get_pos() const;
-  Vector get_tile_pos() const { return tile_pos; }
-  void  set_tile_pos(const Vector& p) { tile_pos = p; }
+  Vector get_tile_pos() const { return m_tile_pos; }
+  void  set_tile_pos(const Vector& p) { m_tile_pos = p; }
 
   void process_special_tile(SpecialTile* special_tile);
 
@@ -63,22 +63,22 @@ private:
   void ChangeSprite(SpriteChange* sc); /**< Uses the given sprite change */
 
 public:
-  Direction back_direction;
+  Direction m_back_direction;
 
 private:
-  WorldMap* worldmap;
-  SpritePtr sprite;
-  Controller* controller;
+  WorldMap* m_worldmap;
+  SpritePtr m_sprite;
+  Controller* m_controller;
 
-  Direction input_direction;
-  Direction direction;
-  Vector tile_pos;
+  Direction m_input_direction;
+  Direction m_direction;
+  Vector m_tile_pos;
   /** Length by which tux is away from its current tile, length is in
       input_direction direction */
-  float offset;
-  bool  moving;
+  float m_offset;
+  bool m_moving;
 
-  bool ghost_mode;
+  bool m_ghost_mode;
 
 private:
   Tux(const Tux&) = delete;

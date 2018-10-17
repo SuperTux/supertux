@@ -278,16 +278,16 @@ WorldMap::finished_level(Level* gamelevel)
         dirdata == Tile::WORLDMAP_CNSEW)
       dir = D_NONE;
     else if (dirdata & Tile::WORLDMAP_NORTH
-             && m_tux->back_direction != D_NORTH)
+             && m_tux->m_back_direction != D_NORTH)
       dir = D_NORTH;
     else if (dirdata & Tile::WORLDMAP_SOUTH
-             && m_tux->back_direction != D_SOUTH)
+             && m_tux->m_back_direction != D_SOUTH)
       dir = D_SOUTH;
     else if (dirdata & Tile::WORLDMAP_EAST
-             && m_tux->back_direction != D_EAST)
+             && m_tux->m_back_direction != D_EAST)
       dir = D_EAST;
     else if (dirdata & Tile::WORLDMAP_WEST
-             && m_tux->back_direction != D_WEST)
+             && m_tux->m_back_direction != D_WEST)
       dir = D_WEST;
 
     if (dir != D_NONE) {
@@ -400,7 +400,7 @@ WorldMap::update(float delta)
     } else {
       // TODO: an animation, camera scrolling or a fading would be a nice touch
       SoundManager::current()->play("sounds/warp.wav");
-      m_tux->back_direction = D_NONE;
+      m_tux->m_back_direction = D_NONE;
       move_to_spawnpoint(teleporter->spawnpoint, true);
     }
   }
