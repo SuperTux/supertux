@@ -76,6 +76,7 @@ SDLSurface::create_rgb(int width, int height)
 SDLSurfacePtr
 SDLSurface::from_file(const std::string& filename)
 {
+  log_debug << "loading image: " << filename << std::endl;
   SDLSurfacePtr surface(IMG_Load_RW(get_physfs_SDLRWops(filename), 1));
   if (!surface)
   {
