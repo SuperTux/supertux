@@ -322,17 +322,30 @@ Statistics::completed(const Statistics& stats, const float target_time) const
       ((target_time == 0.0f) || (stats.m_time <= target_time)));
 }
 
+namespace {
+    template<typename T>
+    T clamp(T v, T low, T high)
+    {
+        if (v < low)
+            v = low;
+        else if (v > high)
+            v = high;
+        return v;
+    }
+}
+
+
 std::string
 Statistics::coins_to_string(int coins, int total_coins) {
   std::ostringstream os;
-  os << std::min(std::min(coins, total_coins), 999) << "/" << std::min(total_coins, 999);
+  os << clamp(std::min(coins, total_coins), 0, 999) << "/" << std::min(total_coins, 999);
   return os.str();
 }
 
 std::string
 Statistics::frags_to_string(int badguys, int total_badguys) {
   std::ostringstream os;
-  os << std::min(std::min(badguys, total_badguys), 999) << "/" << std::min(total_badguys, 999);
+  os << clamp(std::min(badguys, total_badguys), 0, 999) << "/" << std::min(total_badguys, 999);
   return os.str();
 }
 
@@ -344,14 +357,21 @@ Statistics::time_to_string(float time) {
   int cscs = (time_csecs % 6000) % 100;
 
   std::ostringstream os;
-  os << std::setw(2) << std::setfill('0') << mins << ":" << std::setw(2) << std::setfill('0') << secs << "." << std::setw(2) << std::setfill('0') << cscs;
+  if ( (mins < 0) || (secs < 0) || (cscs < 0) ) // this happens when time is too large, kinda hacky, maybe figure out better idea in future
+  {
+      os << "--:--:--";
+  }
+  else
+  {
+      os << std::setw(2) << std::setfill('0') << mins << ":" << std::setw(2) << std::setfill('0') << secs << "." << std::setw(2) << std::setfill('0') << cscs;
+  }
   return os.str();
 }
 
 std::string
 Statistics::secrets_to_string(int secrets, int total_secrets) {
   std::ostringstream os;
-  os << std::min(secrets, 999) << "/" << std::min(total_secrets, 999);
+  os << clamp(std::min(secrets, total_secrets), 0, 999) << "/" << std::min(total_secrets, 999);
   return os.str();
 }
 
