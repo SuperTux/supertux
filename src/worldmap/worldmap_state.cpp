@@ -101,7 +101,7 @@ WorldMapState::load_state()
         const char* key; // Name of specific tilemap table
         if (SQ_SUCCEEDED(sq_getstring(vm, -2, &key)))
         {
-          auto tilemap = m_worldmap.get_tilemap_by_name(key);
+          auto tilemap = m_worldmap.get_object_by_name<TileMap>(key);
           if (tilemap != nullptr)
           {
             sq_pushnull(vm); // null iterator (inner);

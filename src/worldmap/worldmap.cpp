@@ -639,7 +639,7 @@ WorldMap::setup()
   // If we specified a fade tilemap, let's fade it:
   if (!m_initial_fade_tilemap.empty())
   {
-    auto tilemap = get_tilemap_by_name(m_initial_fade_tilemap);
+    auto tilemap = get_object_by_name<TileMap>(m_initial_fade_tilemap);
     if(tilemap != nullptr)
     {
       if(m_fade_direction == 0)
@@ -733,20 +733,6 @@ WorldMap::get_tiles_height() const
       height = static_cast<float>(solids->get_height());
   }
   return height;
-}
-
-TileMap*
-WorldMap::get_tilemap_by_name(const std::string& tilemap_name) const
-{
-  for(const auto& object : get_objects())
-  {
-    auto tilemap = dynamic_cast<TileMap*>(object.get());
-    if(tilemap && tilemap->get_name() == tilemap_name)
-    {
-      return tilemap;
-    }
-  }
-  return nullptr;
 }
 
 void

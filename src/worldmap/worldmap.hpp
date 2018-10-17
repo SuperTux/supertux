@@ -161,13 +161,6 @@ public:
     return nullptr;
   }
 
-  /**
-   * Get a tile map by its name
-   * @param name The name of the tilemap
-   * @return tilemap corresponding to that name
-   */
-  TileMap* get_tilemap_by_name(const std::string& tilemap_name) const;
-
   LevelTile* at_level() const;
   SpecialTile* at_special_tile() const;
   SpriteChange* at_sprite_change(const Vector& pos) const;

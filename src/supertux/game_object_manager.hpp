@@ -49,6 +49,22 @@ public:
   /** Hook that is called before an object is removed from the vector */
   virtual void before_object_remove(GameObjectPtr object) = 0;
 
+  template<class T>
+  T* get_object_by_name(const std::string& name) const
+  {
+    for(const auto& obj : get_objects())
+    {
+      if (auto typed_obj = dynamic_cast<T*>(obj.get()))
+      {
+        if (typed_obj->get_name() == name)
+        {
+          return typed_obj;
+        }
+      }
+    }
+    return nullptr;
+  }
+
   /** Get total number of GameObjects of given type */
   template<class T>
   int get_object_count() const
