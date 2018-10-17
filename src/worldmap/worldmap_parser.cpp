@@ -16,9 +16,12 @@
 
 #include "worldmap/worldmap_parser.hpp"
 
+#include <physfs.h>
+
 #include "object/background.hpp"
 #include "object/decal.hpp"
 #include "object/tilemap.hpp"
+#include "physfs/physfs_file_system.hpp"
 #include "supertux/tile_manager.hpp"
 #include "util/file_system.hpp"
 #include "util/log.hpp"
@@ -93,7 +96,7 @@ WorldMapParser::load_worldmap(const std::string& filename)
           m_worldmap.m_spawn_points.push_back(std::move(sp));
         } else if(iter.get_key() == "level") {
           auto level = std::make_shared<LevelTile>(m_worldmap.m_levels_path, iter.as_mapping());
-          m_worldmap.load_level_information(*level.get());
+          load_level_information(*level.get());
           m_worldmap.m_levels.push_back(level.get());
           m_worldmap.add_object(level);
         } else if(iter.get_key() == "special-tile") {
@@ -139,6 +142,46 @@ WorldMapParser::load_worldmap(const std::string& filename)
     msg << "Problem when parsing worldmap '" << m_worldmap.m_map_filename << "': " <<
       e.what();
     throw std::runtime_error(msg.str());
+  }
+}
+
+void
+WorldMapParser::load_level_information(LevelTile& level)
+{
+  /** get special_tile's title */
+  level.title = _("<no title>");
+  level.target_time = 0.0f;
+
+  try {
+    std::string filename = m_worldmap.m_levels_path + level.get_name();
+
+    if (m_worldmap.m_levels_path == "./")
+      filename = level.get_name();
+
+    if (!PHYSFS_exists(filename.c_str()))
+    {
+      log_warning << "Level file '" << filename << "' does not exist. Skipping." << std::endl;
+      return;
+    }
+    if (PhysFSFileSystem::is_directory(filename))
+    {
+      log_warning << "Level file '" << filename << "' is a directory. Skipping." << std::endl;
+      return;
+    }
+
+    register_translation_directory(filename);
+    auto doc = ReaderDocument::from_file(filename);
+    auto root = doc.get_root();
+    if(root.get_name() != "supertux-level") {
+      return;
+    } else {
+      auto level_lisp = root.get_mapping();
+      level_lisp.get("name", level.title);
+      level_lisp.get("target-time", level.target_time);
+    }
+  } catch(std::exception& e) {
+    log_warning << "Problem when reading level information: " << e.what() << std::endl;
+    return;
   }
 }
 

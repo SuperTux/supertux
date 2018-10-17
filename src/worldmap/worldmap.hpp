@@ -247,7 +247,6 @@ protected:
   virtual void before_object_remove(GameObjectPtr object) override;
 
 private:
-  void load_level_information(LevelTile& level);
   void draw_status(DrawingContext& context);
   void calculate_total_stats();
 

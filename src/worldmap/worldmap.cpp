@@ -152,46 +152,6 @@ WorldMap::change(const std::string& filename, const std::string& force_spawnpoin
                                           std::make_unique<WorldMap>(filename, m_savegame, force_spawnpoint_)));
 }
 
-void
-WorldMap::load_level_information(LevelTile& level)
-{
-  /** get special_tile's title */
-  level.title = _("<no title>");
-  level.target_time = 0.0f;
-
-  try {
-    std::string filename = m_levels_path + level.get_name();
-
-    if(m_levels_path == "./")
-      filename = level.get_name();
-
-    if(!PHYSFS_exists(filename.c_str()))
-    {
-      log_warning << "Level file '" << filename << "' does not exist. Skipping." << std::endl;
-      return;
-    }
-    if(PhysFSFileSystem::is_directory(filename))
-    {
-      log_warning << "Level file '" << filename << "' is a directory. Skipping." << std::endl;
-      return;
-    }
-
-    register_translation_directory(filename);
-    auto doc = ReaderDocument::from_file(filename);
-    auto root = doc.get_root();
-    if(root.get_name() != "supertux-level") {
-      return;
-    } else {
-      auto level_lisp = root.get_mapping();
-      level_lisp.get("name", level.title);
-      level_lisp.get("target-time", level.target_time);
-    }
-  } catch(std::exception& e) {
-    log_warning << "Problem when reading level information: " << e.what() << std::endl;
-    return;
-  }
-}
-
 void WorldMap::calculate_total_stats()
 {
   m_total_stats.zero();

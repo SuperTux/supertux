@@ -22,6 +22,7 @@
 
 namespace worldmap {
 
+class LevelTile;
 class WorldMap;
 
 class WorldMapParser
@@ -30,6 +31,7 @@ public:
   WorldMapParser(WorldMap& worldmap);
 
   void load_worldmap(const std::string& filename);
+  void load_level_information(LevelTile& level);
 
 private:
   WorldMap& m_worldmap;
