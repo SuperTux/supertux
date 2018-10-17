@@ -300,19 +300,6 @@ Statistics::merge(const Statistics& s2)
   m_secrets = std::min(m_secrets, m_total_secrets);
 }
 
-void
-Statistics::operator+=(const Statistics& s2)
-{
-  if (!s2.m_valid) return;
-  if (s2.m_coins != nv_coins) m_coins += s2.m_coins;
-  if (s2.m_total_coins != nv_coins) m_total_coins += s2.m_total_coins;
-  if (s2.m_badguys != nv_badguys) m_badguys += s2.m_badguys;
-  if (s2.m_total_badguys != nv_badguys) m_total_badguys += s2.m_total_badguys;
-  if (s2.m_time != nv_time) m_time += s2.m_time;
-  if (s2.m_secrets != nv_secrets) m_secrets += s2.m_secrets;
-  if (s2.m_total_secrets != nv_secrets) m_total_secrets += s2.m_total_secrets;
-}
-
 bool
 Statistics::completed(const Statistics& stats, const float target_time) const
 {

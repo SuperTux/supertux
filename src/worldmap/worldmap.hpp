@@ -186,7 +186,6 @@ protected:
 
 private:
   void draw_status(DrawingContext& context);
-  void calculate_total_stats();
 
   void load(const std::string& filename);
   void on_escape_press();
@@ -221,8 +220,6 @@ private:
   std::vector<SpriteChange*> m_sprite_changes;
   std::vector<std::unique_ptr<SpawnPoint> > m_spawn_points;
   std::vector<Teleporter*> m_teleporters;
-
-  Statistics m_total_stats;
 
   Color m_ambient_light;
   std::string m_force_spawnpoint; /**< if set, spawnpoint will be forced to this value */

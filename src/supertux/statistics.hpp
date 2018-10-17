@@ -63,7 +63,6 @@ public:
   void zero(); /**< Set stats to zero */
   void reset(); /**< Set stats (but not totals) to zero */
   void merge(const Statistics& stats); /**< Given another Statistics object finds the best of each one */
-  void operator+=(const Statistics& o); /**< Add two Statistics objects */
   bool completed(const Statistics& stats, const float target_time) const; /* Check if stats match total stats */
 
   static std::string coins_to_string(int coins, int total_coins);

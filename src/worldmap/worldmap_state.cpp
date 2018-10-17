@@ -171,9 +171,6 @@ WorldMapState::load_state()
       sq_pop(vm, 1);
     }
 
-    // load overall statistics
-    m_worldmap.m_total_stats.unserialize_from_squirrel(vm);
-
   } catch(std::exception& e) {
     log_debug << "Not loading worldmap state: " << e.what() << std::endl;
     save_state(); // make new initial save
@@ -259,9 +256,6 @@ WorldMapState::save_state() const
       scripting::end_table(vm, level->get_name().c_str());
     }
     scripting::end_table(vm, "levels");
-
-    // overall statistics...
-    m_worldmap.m_total_stats.serialize_to_squirrel(vm);
 
     // push world into worlds table
     scripting::end_table(vm, m_worldmap.m_map_filename.c_str());

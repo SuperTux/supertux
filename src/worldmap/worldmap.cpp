@@ -79,7 +79,6 @@ WorldMap::WorldMap(const std::string& filename, Savegame& savegame, const std::s
   m_sprite_changes(),
   m_spawn_points(),
   m_teleporters(),
-  m_total_stats(),
   m_ambient_light( 1.0f, 1.0f, 1.0f, 1.0f ),
   m_force_spawnpoint(force_spawnpoint_),
   m_main_is_default(true),
@@ -91,8 +90,6 @@ WorldMap::WorldMap(const std::string& filename, Savegame& savegame, const std::s
 {
   m_tux = std::make_shared<Tux>(this);
   add_object(m_tux);
-
-  m_total_stats.reset();
 
   SoundManager::current()->preload("sounds/warp.wav");
 
@@ -152,16 +149,6 @@ WorldMap::change(const std::string& filename, const std::string& force_spawnpoin
   ScreenManager::current()->pop_screen();
   ScreenManager::current()->push_screen(std::make_unique<WorldMapScreen>(
                                           std::make_unique<WorldMap>(filename, m_savegame, force_spawnpoint_)));
-}
-
-void WorldMap::calculate_total_stats()
-{
-  m_total_stats.zero();
-  for(const auto& level : m_levels) {
-    if (level->solved) {
-      m_total_stats += level->statistics;
-    }
-  }
 }
 
 void
@@ -255,7 +242,6 @@ WorldMap::finished_level(Level* gamelevel)
 
   // deal with statistics
   level->statistics.merge(gamelevel->m_stats);
-  calculate_total_stats();
 
   if(level->statistics.completed(level->statistics, level->target_time)) {
     level->perfect = true;
