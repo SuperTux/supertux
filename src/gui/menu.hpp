@@ -17,12 +17,13 @@
 #ifndef HEADER_SUPERTUX_GUI_MENU_HPP
 #define HEADER_SUPERTUX_GUI_MENU_HPP
 
+#include <functional>
 #include <memory>
 #include <SDL.h>
 
+#include "gui/menu_action.hpp"
 #include "math/vector.hpp"
 #include "video/color.hpp"
-#include "gui/menu_action.hpp"
 
 class DrawingContext;
 class MenuItem;
@@ -37,6 +38,9 @@ public:
   MenuItem& add_label(const std::string& text);
   MenuItem& add_entry(int id, const std::string& text);
   MenuItem& add_toggle(int id, const std::string& text, bool* toggled);
+  MenuItem& add_toggle(int id, const std::string& text,
+                       std::function<bool()> get_func,
+                       std::function<void(bool)> set_func);
   MenuItem& add_inactive(const std::string& text);
   MenuItem& add_back(const std::string& text, int id = -1);
   MenuItem& add_submenu(const std::string& text, int submenu, int id = -1);

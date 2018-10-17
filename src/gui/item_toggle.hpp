@@ -17,27 +17,35 @@
 #ifndef HEADER_SUPERTUX_GUI_ITEM_TOGGLE_HPP
 #define HEADER_SUPERTUX_GUI_ITEM_TOGGLE_HPP
 
+#include <functional>
+
 #include "gui/menu_item.hpp"
 
 class ItemToggle final : public MenuItem
 {
-  public:
-    ItemToggle(const std::string& text_, bool* toggled_, int id = -1);
+public:
+  ItemToggle(const std::string& text, bool* toggled, int id = -1);
+  ItemToggle(const std::string& text,
+             std::function<bool()> get_func,
+             std::function<void(bool)> set_func,
+             int id = -1);
 
-    /** Draws the menu item. */
-    virtual void draw(DrawingContext&, const Vector& pos, int menu_width, bool active) override;
+  /** Draws the menu item. */
+  virtual void draw(DrawingContext&, const Vector& pos, int menu_width, bool active) override;
 
-    /** Returns the minimum width of the menu item. */
-    virtual int get_width() const override;
+  /** Returns the minimum width of the menu item. */
+  virtual int get_width() const override;
 
-    /** Processes the menu action. */
-    virtual void process_action(const MenuAction& action) override;
+  /** Processes the menu action. */
+  virtual void process_action(const MenuAction& action) override;
 
-    bool* toggled;
+private:
+  std::function<bool()> m_get_func;
+  std::function<void(bool)> m_set_func;
 
-  private:
-    ItemToggle(const ItemToggle&);
-    ItemToggle& operator=(const ItemToggle&);
+private:
+  ItemToggle(const ItemToggle&);
+  ItemToggle& operator=(const ItemToggle&);
 };
 
 #endif

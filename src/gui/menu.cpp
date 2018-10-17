@@ -215,6 +215,15 @@ Menu::add_toggle(int id, const std::string& text, bool* toggled)
 }
 
 MenuItem&
+Menu::add_toggle(int id, const std::string& text,
+                 std::function<bool()> get_func,
+                 std::function<void(bool)> set_func)
+{
+  std::unique_ptr<ItemToggle> item(new ItemToggle(text, get_func, set_func, id));
+  return add_item(std::move(item));
+}
+
+MenuItem&
 Menu::add_string_select(int id, const std::string& text, int* selected, const std::vector<std::string>& strings)
 {
   std::unique_ptr<ItemStringSelect> item(new ItemStringSelect(text, strings, selected, id));
