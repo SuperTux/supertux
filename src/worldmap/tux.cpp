@@ -39,7 +39,7 @@ Tux::Tux(WorldMap* worldmap_) :
   back_direction(),
   worldmap(worldmap_),
   sprite(SpriteManager::current()->create(worldmap->get_savegame().get_player_status().worldmap_sprite)),
-  controller(),
+  controller(InputManager::current()->get_controller()),
   input_direction(D_NONE),
   direction(D_NONE),
   tile_pos(),
@@ -292,14 +292,13 @@ Tux::tryContinueWalking(float elapsed_time)
 void
 Tux::updateInputDirection()
 {
-  auto controller_ = InputManager::current()->get_controller();
-  if(controller_->hold(Controller::UP))
+  if (controller->hold(Controller::UP))
     input_direction = D_NORTH;
-  else if(controller_->hold(Controller::DOWN))
+  else if (controller->hold(Controller::DOWN))
     input_direction = D_SOUTH;
-  else if(controller_->hold(Controller::LEFT))
+  else if (controller->hold(Controller::LEFT))
     input_direction = D_WEST;
-  else if(controller_->hold(Controller::RIGHT))
+  else if (controller->hold(Controller::RIGHT))
     input_direction = D_EAST;
 }
 
