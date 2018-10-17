@@ -321,15 +321,15 @@ WorldMap::clamp_camera_position(Vector& c) const
   if (c.y < 0)
     c.y = 0;
 
-  if (c.x > static_cast<float>(static_cast<int>(get_tiles_width()) * 32 - SCREEN_WIDTH))
-    c.x = static_cast<float>(static_cast<int>(get_tiles_width()) * 32 - SCREEN_WIDTH);
-  if (c.y > static_cast<float>(static_cast<int>(get_tiles_height())* 32 - SCREEN_HEIGHT))
-    c.y = static_cast<float>(static_cast<int>(get_tiles_height()) * 32 - SCREEN_HEIGHT);
+  if (c.x > get_width() - static_cast<float>(SCREEN_WIDTH))
+    c.x = get_width() - static_cast<float>(SCREEN_WIDTH);
+  if (c.y > get_height() - static_cast<float>(SCREEN_HEIGHT))
+    c.y = get_height() - static_cast<float>(SCREEN_HEIGHT);
 
-  if (int(get_tiles_width()*32) < SCREEN_WIDTH)
-    c.x = get_tiles_width()*16.f - static_cast<float>(SCREEN_WIDTH)/2.f;
-  if (int(get_tiles_height()*32) < SCREEN_HEIGHT)
-    c.y = get_tiles_height()*16.f - static_cast<float>(SCREEN_HEIGHT)/2.f;
+  if (get_width() < static_cast<float>(SCREEN_WIDTH))
+    c.x = (get_width() - static_cast<float>(SCREEN_WIDTH)) / 2.0f;
+  if (get_height() < static_cast<float>(SCREEN_HEIGHT))
+    c.y = (get_height() - static_cast<float>(SCREEN_HEIGHT)) / 2.0f;
 }
 
 void
@@ -517,10 +517,13 @@ WorldMap::at_teleporter(const Vector& pos) const
 void
 WorldMap::draw(DrawingContext& context)
 {
-  if (int(get_tiles_width()*32) < context.get_width() || int(get_tiles_height()*32) < context.get_height())
+  if (get_width() < static_cast<float>(context.get_width()) ||
+      get_height() < static_cast<float>(context.get_height()))
+  {
     context.color().draw_filled_rect(Vector(0, 0), Vector(static_cast<float>(context.get_width()),
                                                           static_cast<float>(context.get_height())),
-                             Color(0.0f, 0.0f, 0.0f, 1.0f), LAYER_BACKGROUND0);
+                                     Color(0.0f, 0.0f, 0.0f, 1.0f), LAYER_BACKGROUND0);
+  }
 
   context.set_ambient_color( m_ambient_light );
   context.push_transform();
