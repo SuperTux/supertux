@@ -23,6 +23,8 @@
 
 namespace worldmap {
 
+std::list<SpriteChange*> SpriteChange::s_all_sprite_changes;
+
 SpriteChange::SpriteChange(const ReaderMapping& lisp) :
   pos(),
   change_on_touch(false),
@@ -44,12 +46,12 @@ SpriteChange::SpriteChange(const ReaderMapping& lisp) :
 
   lisp.get("stay-group", stay_group);
 
-  all_sprite_changes.push_back(this);
+  s_all_sprite_changes.push_back(this);
 }
 
 SpriteChange::~SpriteChange()
 {
-  all_sprite_changes.remove(this);
+  s_all_sprite_changes.remove(this);
 }
 
 void
@@ -85,15 +87,13 @@ SpriteChange::clear_stay_action(bool propagate)
 
   // if we are in a stay_group, also clear all stay actions in this group
   if (!stay_group.empty() && propagate) {
-    for (auto& sc : all_sprite_changes) {
+    for (auto& sc : s_all_sprite_changes) {
       if (sc->stay_group != stay_group) continue;
       sc->in_stay_action = false;
     }
   }
 }
 
-std::list<SpriteChange*> SpriteChange::all_sprite_changes;
-
-}
+} // namespace worldmap
 
 /* EOF */

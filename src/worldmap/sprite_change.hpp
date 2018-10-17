@@ -31,6 +31,9 @@ namespace worldmap {
 
 class SpriteChange final : public GameObject
 {
+private:
+  static std::list<SpriteChange*> s_all_sprite_changes;
+
 public:
   SpriteChange(const ReaderMapping& lisp);
   virtual ~SpriteChange();
@@ -77,9 +80,6 @@ public:
 private:
   /** should the stayaction be displayed */
   bool in_stay_action;
-
-private:
-  static std::list<SpriteChange*> all_sprite_changes;
 
 private:
   SpriteChange(const SpriteChange&) = delete;
