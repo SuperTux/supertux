@@ -100,10 +100,7 @@ WorldMap::WorldMap(const std::string& filename, Savegame& savegame, const std::s
 
 WorldMap::~WorldMap()
 {
-  for(auto& object : get_objects()) {
-    try_unexpose(object);
-  }
-
+  clear_objects();
   m_spawn_points.clear();
 }
 
