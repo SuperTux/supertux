@@ -8,7 +8,6 @@ uniform sampler2D framebuffer_texture;
 uniform mat3 fragcoord2uv;
 uniform float backbuffer;
 uniform float game_time;
-uniform float real_time;
 uniform vec2 animate;
 uniform vec2 displacement_animate;
 

@@ -100,7 +100,6 @@ GL33CoreContext::bind()
   glUniform1i(m_program->get_uniform_location("framebuffer_texture"), 2);
 
   glUniform1f(m_program->get_uniform_location("game_time"), g_game_time);
-  glUniform1f(m_program->get_uniform_location("real_time"), g_real_time);
 }
 
 void
