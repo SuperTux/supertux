@@ -34,33 +34,6 @@ class WorldMap;
 class Tux final : public GameObject
 {
 public:
-  Direction back_direction;
-private:
-  WorldMap* worldmap;
-  SpritePtr sprite;
-  Controller* controller;
-
-  Direction input_direction;
-  Direction direction;
-  Vector tile_pos;
-  /** Length by which tux is away from its current tile, length is in
-      input_direction direction */
-  float offset;
-  bool  moving;
-
-  bool ghost_mode;
-
-private:
-  void stop();
-  std::string get_action_prefix_for_bonus(const BonusType& bonus) const;
-  bool canWalk(int tile_data, Direction dir) const; /**< check if we can leave a tile (with given "tile_data") in direction "dir" */
-  void updateInputDirection(); /**< if controller was pressed, update input_direction */
-  void tryStartWalking(); /**< try starting to walk in input_direction */
-  void tryContinueWalking(float elapsed_time); /**< try to continue walking in current direction */
-
-  void ChangeSprite(SpriteChange* sc); /**< Uses the given sprite change */
-
-public:
   Tux(WorldMap* worldmap_);
 
   void setup(); /**< called prior to first update */
@@ -80,8 +53,36 @@ public:
   void process_special_tile(SpecialTile* special_tile);
 
 private:
-  Tux(const Tux&);
-  Tux& operator=(const Tux&);
+  void stop();
+  std::string get_action_prefix_for_bonus(const BonusType& bonus) const;
+  bool canWalk(int tile_data, Direction dir) const; /**< check if we can leave a tile (with given "tile_data") in direction "dir" */
+  void updateInputDirection(); /**< if controller was pressed, update input_direction */
+  void tryStartWalking(); /**< try starting to walk in input_direction */
+  void tryContinueWalking(float elapsed_time); /**< try to continue walking in current direction */
+
+  void ChangeSprite(SpriteChange* sc); /**< Uses the given sprite change */
+
+public:
+  Direction back_direction;
+
+private:
+  WorldMap* worldmap;
+  SpritePtr sprite;
+  Controller* controller;
+
+  Direction input_direction;
+  Direction direction;
+  Vector tile_pos;
+  /** Length by which tux is away from its current tile, length is in
+      input_direction direction */
+  float offset;
+  bool  moving;
+
+  bool ghost_mode;
+
+private:
+  Tux(const Tux&) = delete;
+  Tux& operator=(const Tux&) = delete;
 };
 
 } // namespace worldmap
