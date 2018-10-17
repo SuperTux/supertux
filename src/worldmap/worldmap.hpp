@@ -60,6 +60,7 @@ class WorldMap final : public GameObjectManager,
 {
 public:
   friend class WorldMapParser;
+  friend class WorldMapState;
 
   static Color level_title_color;
   static Color message_color;
@@ -176,14 +177,10 @@ public:
       if possible, write the new position to \a new_pos */
   bool path_ok(const Direction& direction, const Vector& pos, Vector* new_pos) const;
 
-  /**
-   * Save worldmap state to squirrel state table
-   */
+  /** Save worldmap state to squirrel state table */
   void save_state();
 
-  /**
-   * Load worldmap state from squirrel state table
-   */
+  /** Load worldmap state from squirrel state table */
   void load_state();
 
   const std::string& get_title() const
