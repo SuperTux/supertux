@@ -719,7 +719,8 @@ WorldMap::get_tiles_width() const
 {
   float width = 0;
   for(const auto& solids : get_solid_tilemaps()) {
-    if (static_cast<float>(solids->get_width()) > width) width = static_cast<float>(solids->get_width());
+    if (static_cast<float>(solids->get_width()) > width)
+      width = static_cast<float>(solids->get_width());
   }
   return width;
 }
