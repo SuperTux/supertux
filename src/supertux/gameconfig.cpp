@@ -205,6 +205,8 @@ Config::save()
   writer.end_list("video");
 
   writer.start_list("audio");
+  writer.write("sound_enabled", sound_enabled);
+  writer.write("music_enabled", music_enabled);
   writer.write("sound_volume", sound_volume);
   writer.write("music_volume", music_volume);
   writer.end_list("audio");
