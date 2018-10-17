@@ -21,7 +21,7 @@
 #include "supertux/player_status.hpp"
 #include "supertux/savegame.hpp"
 #include "util/log.hpp"
-#include "worldmap/level.hpp"
+#include "worldmap/level_tile.hpp"
 #include "worldmap/worldmap.hpp"
 
 WorldmapCheatMenu::WorldmapCheatMenu()

@@ -29,7 +29,7 @@
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/reader_object.hpp"
-#include "worldmap/level.hpp"
+#include "worldmap/level_tile.hpp"
 #include "worldmap/spawn_point.hpp"
 #include "worldmap/special_tile.hpp"
 #include "worldmap/sprite_change.hpp"

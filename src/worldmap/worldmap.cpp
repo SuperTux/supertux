@@ -48,7 +48,7 @@
 #include "video/video_system.hpp"
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
-#include "worldmap/level.hpp"
+#include "worldmap/level_tile.hpp"
 #include "worldmap/spawn_point.hpp"
 #include "worldmap/special_tile.hpp"
 #include "worldmap/sprite_change.hpp"
