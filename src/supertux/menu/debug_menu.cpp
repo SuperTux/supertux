@@ -25,7 +25,9 @@ DebugMenu::DebugMenu()
   add_hl();
   add_toggle(-1, _("Show Collision Rects"), &g_debug.show_collision_rects);
   add_toggle(-1, _("Show Worldmap Path"), &g_debug.show_worldmap_path);
-  add_toggle(-1, _("Use Bitmap Fonts"), &g_debug.use_bitmap_fonts);
+  add_toggle(-1, _("Use Bitmap Fonts"),
+             []{ return g_debug.get_use_bitmap_fonts(); },
+             [](bool value){ g_debug.set_use_bitmap_fonts(value); });
   add_hl();
   add_back(_("Back"));
 }

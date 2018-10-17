@@ -20,11 +20,10 @@
 class Debug
 {
 public:
-  Debug() :
-    show_collision_rects(false),
-    show_worldmap_path(false),
-    use_bitmap_fonts(false)
-  {}
+  Debug();
+
+  void set_use_bitmap_fonts(bool value);
+  bool get_use_bitmap_fonts() const;
 
 public:
   /** Show collision rectangles of moving objects */
@@ -33,8 +32,9 @@ public:
   /** Draw the path on the worldmap, including invisible paths */
   bool show_worldmap_path;
 
+private:
   /** Use old bitmap fonts instead of TTF */
-  bool use_bitmap_fonts;
+  bool m_use_bitmap_fonts;
 
 private:
   Debug(const Debug&) = delete;

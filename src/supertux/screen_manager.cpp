@@ -276,8 +276,7 @@ ScreenManager::process_events()
       case SDL_KEYDOWN:
         if (event.key.keysym.sym == SDLK_F9)
         {
-          g_debug.use_bitmap_fonts = !g_debug.use_bitmap_fonts;
-          Resources::load();
+          g_debug.set_use_bitmap_fonts(!g_debug.get_use_bitmap_fonts());
         }
         else if (event.key.keysym.sym == SDLK_F10)
         {

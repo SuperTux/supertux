@@ -49,7 +49,7 @@ Resources::load()
                                      "images/engine/menu/mousecursor-link.png"));
   MouseCursor::set_current(mouse_cursor.get());
 
-  if (g_debug.use_bitmap_fonts)
+  if (g_debug.get_use_bitmap_fonts())
   {
     console_font.reset(new BitmapFont(BitmapFont::FIXED, "fonts/andale12.stf", 1));
     fixed_font.reset(new BitmapFont(BitmapFont::FIXED, "fonts/white.stf"));

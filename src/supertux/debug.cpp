@@ -16,6 +16,28 @@
 
 #include "supertux/debug.hpp"
 
+#include "supertux/resources.hpp"
+
 Debug g_debug;
+
+Debug::Debug() :
+  show_collision_rects(false),
+  show_worldmap_path(false),
+  m_use_bitmap_fonts(false)
+{
+}
+
+void
+Debug::set_use_bitmap_fonts(bool value)
+{
+  m_use_bitmap_fonts = value;
+  Resources::load();
+}
+
+bool
+Debug::get_use_bitmap_fonts() const
+{
+  return m_use_bitmap_fonts;
+}
 
 /* EOF */
