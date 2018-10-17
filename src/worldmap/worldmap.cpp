@@ -203,8 +203,8 @@ WorldMap::path_ok(const Direction& direction, const Vector& old_pos, Vector* new
 {
   *new_pos = get_next_tile(old_pos, direction);
 
-  if (!(new_pos->x >= 0 && new_pos->x < get_width()
-        && new_pos->y >= 0 && new_pos->y < get_height()))
+  if (!(new_pos->x >= 0 && new_pos->x < get_tiles_width()
+        && new_pos->y >= 0 && new_pos->y < get_tiles_height()))
   { // New position is outsite the tilemap
     return false;
   }
@@ -321,15 +321,15 @@ WorldMap::clamp_camera_position(Vector& c) const
   if (c.y < 0)
     c.y = 0;
 
-  if (c.x > static_cast<float>(static_cast<int>(get_width()) * 32 - SCREEN_WIDTH))
-    c.x = static_cast<float>(static_cast<int>(get_width()) * 32 - SCREEN_WIDTH);
-  if (c.y > static_cast<float>(static_cast<int>(get_height())* 32 - SCREEN_HEIGHT))
-    c.y = static_cast<float>(static_cast<int>(get_height()) * 32 - SCREEN_HEIGHT);
+  if (c.x > static_cast<float>(static_cast<int>(get_tiles_width()) * 32 - SCREEN_WIDTH))
+    c.x = static_cast<float>(static_cast<int>(get_tiles_width()) * 32 - SCREEN_WIDTH);
+  if (c.y > static_cast<float>(static_cast<int>(get_tiles_height())* 32 - SCREEN_HEIGHT))
+    c.y = static_cast<float>(static_cast<int>(get_tiles_height()) * 32 - SCREEN_HEIGHT);
 
-  if (int(get_width()*32) < SCREEN_WIDTH)
-    c.x = get_width()*16.f - static_cast<float>(SCREEN_WIDTH)/2.f;
-  if (int(get_height()*32) < SCREEN_HEIGHT)
-    c.y = get_height()*16.f - static_cast<float>(SCREEN_HEIGHT)/2.f;
+  if (int(get_tiles_width()*32) < SCREEN_WIDTH)
+    c.x = get_tiles_width()*16.f - static_cast<float>(SCREEN_WIDTH)/2.f;
+  if (int(get_tiles_height()*32) < SCREEN_HEIGHT)
+    c.y = get_tiles_height()*16.f - static_cast<float>(SCREEN_HEIGHT)/2.f;
 }
 
 void
@@ -517,7 +517,7 @@ WorldMap::at_teleporter(const Vector& pos) const
 void
 WorldMap::draw(DrawingContext& context)
 {
-  if (int(get_width()*32) < context.get_width() || int(get_height()*32) < context.get_height())
+  if (int(get_tiles_width()*32) < context.get_width() || int(get_tiles_height()*32) < context.get_height())
     context.color().draw_filled_rect(Vector(0, 0), Vector(static_cast<float>(context.get_width()),
                                                           static_cast<float>(context.get_height())),
                              Color(0.0f, 0.0f, 0.0f, 1.0f), LAYER_BACKGROUND0);
@@ -712,7 +712,7 @@ WorldMap::solved_level_count() const
 }
 
 float
-WorldMap::get_width() const
+WorldMap::get_tiles_width() const
 {
   float width = 0;
   for(const auto& solids : get_solid_tilemaps()) {
@@ -722,7 +722,7 @@ WorldMap::get_width() const
 }
 
 float
-WorldMap::get_height() const
+WorldMap::get_tiles_height() const
 {
   float height = 0;
   for(const auto& solids : get_solid_tilemaps()) {

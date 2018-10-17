@@ -203,12 +203,12 @@ public:
   /**
    * returns the width (in tiles) of a worldmap
    */
-  float get_width() const;
+  float get_tiles_width() const;
 
   /**
    * returns the height (in tiles) of a worldmap
    */
-  float get_height() const;
+  float get_tiles_height() const;
 
   /**
    * Mark all levels as solved or unsolved
