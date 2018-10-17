@@ -189,7 +189,6 @@ Statistics::draw_worldmap_info(DrawingContext& context, float target_time)
     context.color().draw_text(Resources::small_font, stat_buf, Vector(WMAP_INFO_RIGHT_X, posy), ALIGN_RIGHT, LAYER_HUD, Statistics::header_color);
     posy += Resources::small_font->get_height() + 2;
   }
-
 }
 
 void
@@ -285,18 +284,19 @@ Statistics::reset()
 }
 
 void
-Statistics::merge(const Statistics& s2)
+Statistics::merge(const Statistics& other)
 {
-  if (!s2.m_valid) return;
-  m_coins = std::max(m_coins, s2.m_coins);
-  m_total_coins = s2.m_total_coins;
+  if (!other.m_valid) return;
+
+  m_coins = std::max(m_coins, other.m_coins);
+  m_total_coins = other.m_total_coins;
   m_coins = std::min(m_coins, m_total_coins);
-  m_badguys = std::max(m_badguys, s2.m_badguys);
-  m_total_badguys = s2.m_total_badguys;
+  m_badguys = std::max(m_badguys, other.m_badguys);
+  m_total_badguys = other.m_total_badguys;
   m_badguys = std::min(m_badguys, m_total_badguys);
-  m_time = std::min(m_time, s2.m_time);
-  m_secrets = std::max(m_secrets, s2.m_secrets);
-  m_total_secrets = s2.m_total_secrets;
+  m_time = std::min(m_time, other.m_time);
+  m_secrets = std::max(m_secrets, other.m_secrets);
+  m_total_secrets = other.m_total_secrets;
   m_secrets = std::min(m_secrets, m_total_secrets);
 }
 
@@ -304,27 +304,30 @@ bool
 Statistics::completed(const Statistics& stats, const float target_time) const
 {
   return (stats.m_coins == stats.m_total_coins &&
-      stats.m_badguys == stats.m_total_badguys &&
-      stats.m_secrets == stats.m_total_secrets &&
-      ((target_time == 0.0f) || (stats.m_time <= target_time)));
+          stats.m_badguys == stats.m_total_badguys &&
+          stats.m_secrets == stats.m_total_secrets &&
+          ((target_time == 0.0f) || (stats.m_time <= target_time)));
 }
 
 std::string
-Statistics::coins_to_string(int coins, int total_coins) {
+Statistics::coins_to_string(int coins, int total_coins)
+{
   std::ostringstream os;
   os << std::min(std::min(coins, total_coins), 999) << "/" << std::min(total_coins, 999);
   return os.str();
 }
 
 std::string
-Statistics::frags_to_string(int badguys, int total_badguys) {
+Statistics::frags_to_string(int badguys, int total_badguys)
+{
   std::ostringstream os;
   os << std::min(std::min(badguys, total_badguys), 999) << "/" << std::min(total_badguys, 999);
   return os.str();
 }
 
 std::string
-Statistics::time_to_string(float time) {
+Statistics::time_to_string(float time)
+{
   int time_csecs = std::min(static_cast<int>(time * 100), 99 * 6000 + 9999);
   int mins = (time_csecs / 6000);
   int secs = (time_csecs % 6000) / 100;
@@ -336,7 +339,8 @@ Statistics::time_to_string(float time) {
 }
 
 std::string
-Statistics::secrets_to_string(int secrets, int total_secrets) {
+Statistics::secrets_to_string(int secrets, int total_secrets)
+{
   std::ostringstream os;
   os << std::min(secrets, 999) << "/" << std::min(total_secrets, 999);
   return os.str();
