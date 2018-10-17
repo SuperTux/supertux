@@ -34,8 +34,6 @@ extern float g_real_time;
 
 extern float g_game_speed;
 
-extern bool g_use_bitmap_fonts;
-
 #endif
 
 /* EOF */

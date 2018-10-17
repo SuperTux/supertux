@@ -24,6 +24,7 @@
 #include "scripting/time_scheduler.hpp"
 #include "supertux/console.hpp"
 #include "supertux/constants.hpp"
+#include "supertux/debug.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
@@ -275,7 +276,7 @@ ScreenManager::process_events()
       case SDL_KEYDOWN:
         if (event.key.keysym.sym == SDLK_F9)
         {
-          g_use_bitmap_fonts = !g_use_bitmap_fonts;
+          g_debug.use_bitmap_fonts = !g_debug.use_bitmap_fonts;
           Resources::load();
         }
         else if (event.key.keysym.sym == SDLK_F10)

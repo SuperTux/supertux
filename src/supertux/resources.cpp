@@ -18,6 +18,7 @@
 #include "supertux/resources.hpp"
 
 #include "gui/mousecursor.hpp"
+#include "supertux/debug.hpp"
 #include "supertux/globals.hpp"
 #include "video/bitmap_font.hpp"
 #include "video/font.hpp"
@@ -48,7 +49,7 @@ Resources::load()
                                      "images/engine/menu/mousecursor-link.png"));
   MouseCursor::set_current(mouse_cursor.get());
 
-  if (g_use_bitmap_fonts)
+  if (g_debug.use_bitmap_fonts)
   {
     console_font.reset(new BitmapFont(BitmapFont::FIXED, "fonts/andale12.stf", 1));
     fixed_font.reset(new BitmapFont(BitmapFont::FIXED, "fonts/white.stf"));

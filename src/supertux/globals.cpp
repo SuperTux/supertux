@@ -25,6 +25,4 @@ float g_real_time = 0;
 
 float g_game_speed = 1.0f;
 
-bool g_use_bitmap_fonts = false;
-
 /* EOF */

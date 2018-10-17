@@ -22,15 +22,19 @@ class Debug
 public:
   Debug() :
     show_collision_rects(false),
-    show_worldmap_path(false)
+    show_worldmap_path(false),
+    use_bitmap_fonts(false)
   {}
 
 public:
-  /** show collision rectangles of moving objects */
+  /** Show collision rectangles of moving objects */
   bool show_collision_rects;
 
-  /** draw the path on the worldmap, including invisible paths */
+  /** Draw the path on the worldmap, including invisible paths */
   bool show_worldmap_path;
+
+  /** Use old bitmap fonts instead of TTF */
+  bool use_bitmap_fonts;
 
 private:
   Debug(const Debug&) = delete;
