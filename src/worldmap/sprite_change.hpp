@@ -80,6 +80,10 @@ private:
 
 private:
   static std::list<SpriteChange*> all_sprite_changes;
+
+private:
+  SpriteChange(const SpriteChange&) = delete;
+  SpriteChange& operator=(const SpriteChange&) = delete;
 };
 
 } // namespace worldmap

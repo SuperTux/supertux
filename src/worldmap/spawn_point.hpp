@@ -34,9 +34,13 @@ public:
   std::string name;
   Vector pos;
   Direction auto_dir; /**< automatically start walking in this direction */
+
+private:
+  SpawnPoint(const SpawnPoint&) = delete;
+  SpawnPoint& operator=(const SpawnPoint&) = delete;
 };
 
-}
+} // namespace worldmap
 
 #endif
 

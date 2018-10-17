@@ -53,6 +53,10 @@ public:
 
   /** optional map message to display */
   std::string message;
+
+private:
+  Teleporter(const Teleporter&) = delete;
+  Teleporter& operator=(const Teleporter&) = delete;
 };
 
 } // namespace worldmap

@@ -58,6 +58,10 @@ public:
   bool apply_action_east;
   bool apply_action_south;
   bool apply_action_west;
+
+private:
+  SpecialTile(const SpecialTile&) = delete;
+  SpecialTile& operator=(const SpecialTile&) = delete;
 };
 
 } // namespace worldmap

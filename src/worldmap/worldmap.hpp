@@ -246,8 +246,8 @@ private:
   bool m_panning;
 
 private:
-  WorldMap(const WorldMap&);
-  WorldMap& operator=(const WorldMap&);
+  WorldMap(const WorldMap&) = delete;
+  WorldMap& operator=(const WorldMap&) = delete;
 };
 
 } // namespace worldmap

@@ -64,8 +64,8 @@ private:
   std::string basedir;
 
 private:
-  LevelTile(const LevelTile&);
-  LevelTile& operator=(const LevelTile&);
+  LevelTile(const LevelTile&) = delete;
+  LevelTile& operator=(const LevelTile&) = delete;
 };
 
 } // namespace worldmap
