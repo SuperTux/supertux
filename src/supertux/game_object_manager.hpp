@@ -43,6 +43,9 @@ public:
   /** Commit the queued up additions and deletions to the object list */
   void update_game_objects();
 
+  float get_width() const;
+  float get_height() const;
+
   /** Hook that is called before an object is added to the vector */
   virtual bool before_object_add(GameObjectPtr object) = 0;
 

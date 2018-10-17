@@ -531,28 +531,6 @@ Sector::inside(const Rectf& rect) const
   return false;
 }
 
-float
-Sector::get_width() const
-{
-  float width = 0;
-  for(auto& solids: get_solid_tilemaps()) {
-    width = std::max(width, solids->get_bbox().get_right());
-  }
-
-  return width;
-}
-
-float
-Sector::get_height() const
-{
-  float height = 0;
-  for(const auto& solids: get_solid_tilemaps()) {
-    height = std::max(height, solids->get_bbox().get_bottom());
-  }
-
-  return height;
-}
-
 Size
 Sector::get_editor_size() const
 {

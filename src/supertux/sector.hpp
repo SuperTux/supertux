@@ -150,12 +150,6 @@ public:
 
   int get_foremost_layer() const;
 
-  /** returns the width (in px) of a sector) */
-  float get_width() const;
-
-  /** returns the height (in px) of a sector) */
-  float get_height() const;
-
   /** returns the editor size (in tiles) of a sector */
   Size get_editor_size() const;
 

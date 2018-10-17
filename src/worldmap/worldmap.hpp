@@ -157,9 +157,6 @@ public:
   /** returns the height (in tiles) of a worldmap */
   float get_tiles_height() const;
 
-  float get_width() const { return get_tiles_width() * 32.0f; }
-  float get_height() const { return get_tiles_height() * 32.0f; }
-
   /**
    * Mark all levels as solved or unsolved
    */

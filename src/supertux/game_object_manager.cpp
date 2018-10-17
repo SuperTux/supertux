@@ -142,4 +142,26 @@ GameObjectManager::update_game_objects()
   }
 }
 
+float
+GameObjectManager::get_width() const
+{
+  float width = 0;
+  for(auto& solids: get_solid_tilemaps()) {
+    width = std::max(width, solids->get_bbox().get_right());
+  }
+
+  return width;
+}
+
+float
+GameObjectManager::get_height() const
+{
+  float height = 0;
+  for(const auto& solids: get_solid_tilemaps()) {
+    height = std::max(height, solids->get_bbox().get_bottom());
+  }
+
+  return height;
+}
+
 /* EOF */
