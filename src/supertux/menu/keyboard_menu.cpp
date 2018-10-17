@@ -44,6 +44,7 @@ KeyboardMenu::KeyboardMenu(InputManager& input_manager) :
   }
   if (g_config->developer_mode) {
     add_controlfield(Controller::CHEAT_MENU, _("Cheat Menu"));
+    add_controlfield(Controller::DEBUG_MENU, _("Debug Menu"));
   }
   add_toggle(Controller::CONTROLCOUNT, _("Jump with Up"), &g_config->keyboard_config.jump_with_up_kbd);
   add_hl();
@@ -133,6 +134,9 @@ KeyboardMenu::refresh()
   if (g_config->developer_mode) {
     micf = dynamic_cast<ItemControlField*>(&get_item_by_id(static_cast<int>(Controller::CHEAT_MENU)));
     if (micf) micf->change_input(get_key_name(kbd_cfg.reversemap_key(Controller::CHEAT_MENU)));
+
+    micf = dynamic_cast<ItemControlField*>(&get_item_by_id(static_cast<int>(Controller::DEBUG_MENU)));
+    if (micf) micf->change_input(get_key_name(kbd_cfg.reversemap_key(Controller::DEBUG_MENU)));
   }
 
   if (g_config->developer_mode) {

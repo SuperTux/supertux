@@ -20,6 +20,7 @@
 
 #include "supertux/menu/addon_menu.hpp"
 #include "supertux/menu/cheat_menu.hpp"
+#include "supertux/menu/debug_menu.hpp"
 #include "supertux/menu/contrib_menu.hpp"
 #include "supertux/menu/editor_menu.hpp"
 #include "supertux/menu/editor_level_menu.hpp"
@@ -101,9 +102,12 @@ MenuStorage::create(MenuId menu_id)
     case CHEAT_MENU:
       return std::unique_ptr<Menu>(new CheatMenu);
 
+    case DEBUG_MENU:
+      return std::unique_ptr<Menu>(new DebugMenu);
+
     case WORLDSET_MENU:
       return std::unique_ptr<Menu>(new WorldSetMenu);
-      
+
     case CONTRIB_MENU:
       return std::unique_ptr<Menu>(new ContribMenu);
 

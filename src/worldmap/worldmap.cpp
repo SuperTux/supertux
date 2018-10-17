@@ -392,6 +392,12 @@ WorldMap::update(float delta)
     MenuManager::instance().set_menu(MenuStorage::WORLDMAP_CHEAT_MENU);
   }
 
+  if(controller->pressed(Controller::DEBUG_MENU) &&
+     g_config->developer_mode)
+  {
+    MenuManager::instance().set_menu(MenuStorage::DEBUG_MENU);
+  }
+
   // check for teleporters
   auto teleporter = at_teleporter(m_tux->get_tile_pos());
   if (teleporter && (teleporter->automatic || (enter_level && (!m_tux->is_moving())))) {

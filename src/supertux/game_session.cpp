@@ -317,6 +317,15 @@ GameSession::update(float elapsed_time)
     }
   }
 
+  if(controller->pressed(Controller::DEBUG_MENU) && g_config->developer_mode)
+  {
+    if (!MenuManager::instance().is_active())
+    {
+      m_game_pause = true;
+      MenuManager::instance().set_menu(MenuStorage::DEBUG_MENU);
+    }
+  }
+
   process_events();
 
   // Unpause the game if the menu has been closed

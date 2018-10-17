@@ -81,6 +81,7 @@ JoystickMenu::recreate_menu()
       }
       if (g_config->developer_mode) {
         add_controlfield(Controller::CHEAT_MENU, _("Cheat Menu"));
+        add_controlfield(Controller::DEBUG_MENU, _("Debug Menu"));
       }
       add_toggle(MNID_JUMP_WITH_UP, _("Jump with Up"), &g_config->joystick_config.jump_with_up_joy);
     }
@@ -237,6 +238,7 @@ JoystickMenu::refresh()
     }
     if (g_config->developer_mode) {
       refresh_menu_item(Controller::CHEAT_MENU);
+      refresh_menu_item(Controller::DEBUG_MENU);
     }
   }
 }

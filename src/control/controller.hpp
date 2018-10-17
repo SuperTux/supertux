@@ -39,6 +39,7 @@ public:
     REMOVE,
 
     CHEAT_MENU,
+    DEBUG_MENU,
     CONSOLE,
 
     PEEK_LEFT,
