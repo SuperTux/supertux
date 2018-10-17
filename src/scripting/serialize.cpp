@@ -75,7 +75,7 @@ void load_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, const ReaderMappin
         sq_pushbool(vm, value.as_bool() ? SQTrue : SQFalse);
         break;
       case sexp::Value::TYPE_SYMBOL:
-        std::cerr << "Unexpected symbol in lisp file...";
+        log_fatal << "Unexpected symbol in lisp file: " << value.as_string() << std::endl;
         sq_pushnull(vm);
         break;
       default:
