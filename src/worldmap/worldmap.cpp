@@ -238,7 +238,7 @@ WorldMap::finished_level(Level* gamelevel)
   level->sprite->set_action("solved");
 
   // deal with statistics
-  level->statistics.merge(gamelevel->m_stats);
+  level->statistics.update(gamelevel->m_stats);
 
   if(level->statistics.completed(level->statistics, level->target_time)) {
     level->perfect = true;

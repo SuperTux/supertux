@@ -134,6 +134,8 @@ LevelParser::load(const std::string& filepath)
     msg << "Problem when reading level '" << filepath << "': " << e.what();
     throw std::runtime_error(msg.str());
   }
+
+  m_level.m_stats.init(m_level);
 }
 
 void

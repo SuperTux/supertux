@@ -22,8 +22,10 @@
 #include <iomanip>
 #include <limits>
 
+#include "math/util.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "supertux/globals.hpp"
+#include "supertux/level.hpp"
 #include "supertux/resources.hpp"
 #include "util/gettext.hpp"
 #include "util/log.hpp"
@@ -32,27 +34,20 @@
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
-namespace {
-const int nv_coins = std::numeric_limits<int>::min();
-const int nv_badguys = std::numeric_limits<int>::min();
-const float nv_time = std::numeric_limits<float>::max();
-const int nv_secrets = std::numeric_limits<int>::min();
-}
-
 float WMAP_INFO_LEFT_X;
 float WMAP_INFO_RIGHT_X;
 float WMAP_INFO_TOP_Y1;
 float WMAP_INFO_TOP_Y2;
 
 Statistics::Statistics() :
-  m_coins(nv_coins),
-  m_total_coins(nv_coins),
-  m_badguys(nv_badguys),
-  m_total_badguys(nv_badguys),
-  m_time(nv_time),
-  m_secrets(nv_secrets),
-  m_total_secrets(nv_secrets),
-  m_valid(true),
+  m_status(INVALID),
+  m_total_coins(),
+  m_total_badguys(),
+  m_total_secrets(),
+  m_coins(),
+  m_badguys(),
+  m_secrets(),
+  m_time(),
   m_max_width(256),
   CAPTION_MAX_COINS(_("Max coins collected:")),
   CAPTION_MAX_FRAGGING(_("Max fragging:")),
@@ -91,14 +86,16 @@ Statistics::calculate_max_caption_length()
 void
 Statistics::serialize_to_squirrel(HSQUIRRELVM vm)
 {
+  if (m_status != FINAL) return;
+
   scripting::begin_table(vm, "statistics");
-  if (m_coins != nv_coins) scripting::store_int(vm, "coins-collected", m_coins);
-  if (m_total_coins != nv_coins) scripting::store_int(vm, "coins-collected-total", m_total_coins);
-  if (m_badguys != nv_badguys) scripting::store_int(vm, "badguys-killed", m_badguys);
-  if (m_total_badguys != nv_badguys) scripting::store_int(vm, "badguys-killed-total", m_total_badguys);
-  if (m_time != nv_time) scripting::store_float(vm, "time-needed", m_time);
-  if (m_secrets != nv_secrets) scripting::store_int(vm, "secrets-found", m_secrets);
-  if (m_total_secrets != nv_secrets) scripting::store_int(vm, "secrets-found-total", m_total_secrets);
+  scripting::store_int(vm, "coins-collected", m_coins);
+  scripting::store_int(vm, "badguys-killed", m_badguys);
+  scripting::store_int(vm, "secrets-found", m_secrets);
+  scripting::store_float(vm, "time-needed", m_time);
+  scripting::store_int(vm, "coins-collected-total", m_total_coins);
+  scripting::store_int(vm, "badguys-killed-total", m_total_badguys);
+  scripting::store_int(vm, "secrets-found-total", m_total_secrets);
   scripting::end_table(vm, "statistics");
 }
 
@@ -109,30 +106,26 @@ Statistics::unserialize_from_squirrel(HSQUIRRELVM vm)
   {
     scripting::get_table_entry(vm, "statistics");
     scripting::get_int(vm, "coins-collected", m_coins);
-    scripting::get_int(vm, "coins-collected-total", m_total_coins);
     scripting::get_int(vm, "badguys-killed", m_badguys);
-    scripting::get_int(vm, "badguys-killed-total", m_total_badguys);
-    scripting::get_float(vm, "time-needed", m_time);
     scripting::get_int(vm, "secrets-found", m_secrets);
+    scripting::get_float(vm, "time-needed", m_time);
+    scripting::get_int(vm, "coins-collected-total", m_total_coins);
+    scripting::get_int(vm, "badguys-killed-total", m_total_badguys);
     scripting::get_int(vm, "secrets-found-total", m_total_secrets);
     sq_pop(vm, 1);
+
+    m_status = FINAL;
   }
   catch(const std::exception&)
   {
+    // ignore non-existing or malformed statistics table
   }
 }
 
 void
 Statistics::draw_worldmap_info(DrawingContext& context, float target_time)
 {
-  // skip draw if level was never played
-  if (m_coins == nv_coins) return;
-
-  // skip draw if stats were declared invalid
-  if (!m_valid) return;
-
-  // no sense drawing stats if there are none
-  if (m_total_coins + m_total_badguys + m_total_secrets == 0) return;
+  if (m_status != FINAL) return;
 
   // check to see if screen size has been changed
   if (!(WMAP_INFO_TOP_Y1 == static_cast<float>(SCREEN_HEIGHT - 100))) {
@@ -194,14 +187,7 @@ Statistics::draw_worldmap_info(DrawingContext& context, float target_time)
 void
 Statistics::draw_endseq_panel(DrawingContext& context, Statistics* best_stats, SurfacePtr backdrop)
 {
-  // skip draw if stats were declared invalid
-  if (!m_valid) return;
-
-  // abort if we have no backdrop
-  if (!backdrop) return;
-
-  // no sense drawing stats if there are none
-  if (m_total_coins + m_total_badguys + m_total_secrets == 0) return;
+  if (m_status != FINAL) return;
 
   int box_w = 220+110+110;
   int box_h = 30+20+20+20;
@@ -266,38 +252,52 @@ Statistics::draw_endseq_panel(DrawingContext& context, Statistics* best_stats, S
 }
 
 void
-Statistics::zero()
+Statistics::init(const Level& level)
 {
-  reset();
-  m_total_coins = 0;
-  m_total_badguys = 0;
-  m_total_secrets = 0;
-}
+  m_status = ACCUMULATING;
 
-void
-Statistics::reset()
-{
   m_coins = 0;
   m_badguys = 0;
-  m_time = 0;
   m_secrets = 0;
+
+  m_total_coins = level.get_total_coins();
+  m_total_badguys = level.get_total_badguys();
+  m_total_secrets = level.get_total_secrets();
 }
 
 void
-Statistics::merge(const Statistics& other)
+Statistics::finish(float time)
 {
-  if (!other.m_valid) return;
+  m_status = FINAL;
+  m_time = time;
+}
+
+void
+Statistics::invalidate()
+{
+  m_status = INVALID;
+}
+
+void
+Statistics::update(const Statistics& other)
+{
+  if (other.m_status != FINAL) return;
 
   m_coins = std::max(m_coins, other.m_coins);
-  m_total_coins = other.m_total_coins;
-  m_coins = std::min(m_coins, m_total_coins);
   m_badguys = std::max(m_badguys, other.m_badguys);
-  m_total_badguys = other.m_total_badguys;
-  m_badguys = std::min(m_badguys, m_total_badguys);
-  m_time = std::min(m_time, other.m_time);
   m_secrets = std::max(m_secrets, other.m_secrets);
+  if (m_time == 0)
+    m_time = other.m_time;
+  else
+    m_time = std::min(m_time, other.m_time);
+
+  m_total_coins = other.m_total_coins;
+  m_total_badguys = other.m_total_badguys;
   m_total_secrets = other.m_total_secrets;
-  m_secrets = std::min(m_secrets, m_total_secrets);
+
+  m_coins = math::clamp(m_coins, 0, m_total_coins);
+  m_badguys = math::clamp(m_badguys, 0, m_total_badguys);
+  m_secrets = math::clamp(m_secrets, 0, m_total_secrets);
 }
 
 bool
@@ -328,13 +328,21 @@ Statistics::frags_to_string(int badguys, int total_badguys)
 std::string
 Statistics::time_to_string(float time)
 {
-  int time_csecs = std::min(static_cast<int>(time * 100), 99 * 6000 + 9999);
+  int time_csecs = static_cast<int>(time * 100);
   int mins = (time_csecs / 6000);
   int secs = (time_csecs % 6000) / 100;
   int cscs = (time_csecs % 6000) % 100;
 
   std::ostringstream os;
-  os << std::setw(2) << std::setfill('0') << mins << ":" << std::setw(2) << std::setfill('0') << secs << "." << std::setw(2) << std::setfill('0') << cscs;
+  if (time == 0.0f)
+  {
+    os << "--:--:--";
+  }
+  else
+  {
+    os << std::setw(2) << std::setfill('0') << mins << ":" << std::setw(2) << std::setfill('0') << secs << "." << std::setw(2) << std::setfill('0') << cscs;
+  }
+
   return os.str();
 }
 

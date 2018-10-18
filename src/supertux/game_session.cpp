@@ -115,10 +115,6 @@ GameSession::restart_level(bool after_death)
   try {
     m_old_level = std::move(m_level);
     m_level = LevelParser::from_file(m_levelfile);
-    m_level->m_stats.m_total_coins = m_level->get_total_coins();
-    m_level->m_stats.m_total_badguys = m_level->get_total_badguys();
-    m_level->m_stats.m_total_secrets = m_level->get_total_secrets();
-    m_level->m_stats.reset();
 
     if(!m_reset_sector.empty()) {
       m_currentsector = m_level->get_sector(m_reset_sector);
@@ -372,7 +368,7 @@ GameSession::update(float elapsed_time)
     // Update the world
     if (!m_end_sequence) {
       m_play_time += elapsed_time; //TODO: make sure we don't count cutscene time
-      m_level->m_stats.m_time = m_play_time;
+      m_level->m_stats.finish(m_play_time);
       m_currentsector->update(elapsed_time);
     } else {
       if (!m_end_sequence->is_tux_stopped()) {

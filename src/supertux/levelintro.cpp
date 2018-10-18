@@ -175,7 +175,7 @@ LevelIntro::draw(Compositor& compositor)
     draw_stats_line(context, py, _("Secrets"),
                     Statistics::secrets_to_string(m_best_level_statistics->m_secrets, stats.m_total_secrets));
     draw_stats_line(context, py, _("Best time"),
-                    Statistics::time_to_string(m_best_level_statistics->m_time));
+                    Statistics::time_to_string(m_best_level_statistics->get_time()));
 
     if (m_level.m_target_time != 0.0f) {
       draw_stats_line(context, py, _("Level target time"),
