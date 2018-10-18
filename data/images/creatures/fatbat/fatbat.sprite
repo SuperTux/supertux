@@ -2,7 +2,7 @@
   (action
     (name "left")
     (fps 20)
-    (hitbox 6 7 32 32)
+    (hitbox 16 7 32 32)
     (images "fly-0.png"
             "fly-1.png"
             "fly-2.png"
@@ -12,7 +12,7 @@
   (action
     (name "right")
     (fps 20)
-    (hitbox 6 7 32 32)
+    (hitbox 16 7 32 32)
     (mirror-action "left")
   )
 
