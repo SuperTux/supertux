@@ -17,6 +17,7 @@
 #ifndef HEADER_SUPERTUX_UTIL_UID_HPP
 #define HEADER_SUPERTUX_UTIL_UID_HPP
 
+#include <assert.h>
 #include <stdint.h>
 #include <functional>
 #include <iosfwd>
@@ -45,7 +46,9 @@ public:
 private:
   explicit UID(uint32_t value) :
     m_value(value)
-  {}
+  {
+    assert(m_value != 0);
+  }
 
 public:
   UID() : m_value(0) {}
