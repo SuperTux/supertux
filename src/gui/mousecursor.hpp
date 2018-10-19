@@ -22,8 +22,6 @@
 
 #include "video/surface_ptr.hpp"
 
-#define MC_STATES_NB 3
-
 enum MouseCursorState
 {
   MC_NORMAL = 0,
