@@ -24,12 +24,6 @@
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 
-namespace {
-
-const float EXPLOSION_FORCE = 1000.0f;
-
-} // namespace
-
 ShortFuse::ShortFuse(const ReaderMapping& reader) :
   WalkingBadguy(reader, "images/creatures/short_fuse/short_fuse.sprite", "left", "right")
 {
