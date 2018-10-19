@@ -100,9 +100,12 @@ BonusBlock::BonusBlock(const ReaderMapping& mapping) :
             const ReaderObject& spec = object_specs[0];
             GameObjectPtr game_object = ObjectFactory::instance().create(spec.get_name(), spec.get_mapping());
 
-            m_object = std::dynamic_pointer_cast<MovingObject>(game_object);
-            if (!m_object) {
+            GameObject* tmp_ptr = game_object.release();
+            MovingObject* typed_tmp_ptr = dynamic_cast<MovingObject*>(tmp_ptr);
+            if (!typed_tmp_ptr) {
               log_warning << "Only MovingObjects are allowed inside BonusBlocks" << std::endl;
+            } else {
+              m_object = std::unique_ptr<MovingObject>(typed_tmp_ptr);
             }
           }
         }
@@ -116,10 +119,13 @@ BonusBlock::BonusBlock(const ReaderMapping& mapping) :
         // addon-src repository is using this anymore
         ReaderMapping object_mapping = iter.as_mapping();
         GameObjectPtr game_object = ObjectFactory::instance().create(token, object_mapping);
-        m_object = std::dynamic_pointer_cast<MovingObject>(game_object);
-        if (m_object == nullptr)
-          throw std::runtime_error(
-            "Only MovingObjects are allowed inside BonusBlocks");
+
+        MovingObject* moving_object_ptr = dynamic_cast<MovingObject*>(game_object.get());
+        if (moving_object_ptr == nullptr) {
+          throw std::runtime_error("Only MovingObjects are allowed inside BonusBlocks");
+        } else {
+          m_object.reset(static_cast<MovingObject*>(game_object.get()));
+        }
       } else {
         log_warning << "Invalid element '" << token << "' in bonusblock" << std::endl;
       }
@@ -311,8 +317,7 @@ BonusBlock::try_open(Player* player)
 
     case CONTENT_CUSTOM:
     {
-      sector->add<SpecialRiser>(get_pos(), m_object);
-      m_object.reset();
+      sector->add<SpecialRiser>(get_pos(), std::move(m_object));
       SoundManager::current()->play("sounds/upgrade.wav");
       break;
     }
@@ -331,7 +336,7 @@ BonusBlock::try_open(Player* player)
     }
     case CONTENT_TRAMPOLINE:
     {
-      sector->add<SpecialRiser>(get_pos(), std::make_shared<Trampoline>(get_pos(), false));
+      sector->add<SpecialRiser>(get_pos(), std::make_unique<Trampoline>(get_pos(), false));
       SoundManager::current()->play("sounds/upgrade.wav");
       break;
     }
@@ -449,8 +454,7 @@ BonusBlock::try_drop(Player *player)
     {
       //NOTE: non-portable trampolines could be moved to CONTENT_CUSTOM, but they should not drop
       m_object->set_pos(get_pos() +  Vector(0, 32));
-      sector->add_object(m_object);
-      m_object.reset();
+      sector->add_object(std::move(m_object));
       SoundManager::current()->play("sounds/upgrade.wav");
       countdown = true;
       break;
@@ -495,14 +499,14 @@ BonusBlock::try_drop(Player *player)
 void
 BonusBlock::raise_growup_bonus(Player* player, const BonusType& bonus, const Direction& dir)
 {
-  std::shared_ptr<MovingObject> obj;
+  std::unique_ptr<MovingObject> obj;
   if (player->get_status().bonus == NO_BONUS) {
-    obj = std::make_shared<GrowUp>(dir);
+    obj = std::make_unique<GrowUp>(dir);
   } else {
-    obj = std::make_shared<Flower>(bonus);
+    obj = std::make_unique<Flower>(bonus);
   }
 
-  Sector::current()->add<SpecialRiser>(get_pos(), obj);
+  Sector::current()->add<SpecialRiser>(get_pos(), std::move(obj));
   SoundManager::current()->play("sounds/upgrade.wav");
 }
 
@@ -611,15 +615,15 @@ BonusBlock::preload_contents(int d)
       break;
 
     case 8: // Trampoline
-      m_object = std::make_shared<Trampoline>(get_pos(), true);
+      m_object = std::make_unique<Trampoline>(get_pos(), true);
       break;
 
     case 9: // Rock
-      m_object = std::make_shared<Rock>(get_pos(), "images/objects/rock/rock.sprite");
+      m_object = std::make_unique<Rock>(get_pos(), "images/objects/rock/rock.sprite");
       break;
 
     case 12: // Red potion
-      m_object = std::make_shared<PowerUp>(get_pos(), "images/powerups/potions/red-potion.sprite");
+      m_object = std::make_unique<PowerUp>(get_pos(), "images/powerups/potions/red-potion.sprite");
       break;
 
     default:

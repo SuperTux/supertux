@@ -64,9 +64,8 @@ MrTree::collision_squished(GameObject& object)
   Vector stumpy_pos = get_pos();
   stumpy_pos.x += 20;
   stumpy_pos.y += 25;
-  auto stumpy = std::make_shared<Stumpy>(stumpy_pos, dir);
+  auto stumpy = Sector::current()->add<Stumpy>(stumpy_pos, dir);
   remove_me();
-  Sector::current()->add_object(stumpy);
 
   // give Feedback
   SoundManager::current()->play("sounds/mr_tree.ogg", get_pos());
@@ -95,18 +94,16 @@ MrTree::collision_squished(GameObject& object)
     Vector leaf1_pos(stumpy_pos.x - POISONIVY_WIDTH - 1, stumpy_pos.y - POISONIVY_Y_OFFSET);
     Rectf leaf1_bbox(leaf1_pos.x, leaf1_pos.y, leaf1_pos.x + POISONIVY_WIDTH, leaf1_pos.y + POISONIVY_HEIGHT);
     if (Sector::current()->is_free_of_movingstatics(leaf1_bbox, this)) {
-      auto leaf1 = std::make_shared<PoisonIvy>(leaf1_bbox.p1, LEFT);
+      auto leaf1 = Sector::current()->add<PoisonIvy>(leaf1_bbox.p1, LEFT);
       leaf1->countMe = false;
-      Sector::current()->add_object(leaf1);
     }
 
     // spawn PoisonIvy
     Vector leaf2_pos(stumpy_pos.x + sprite->get_current_hitbox_width() + 1, stumpy_pos.y - POISONIVY_Y_OFFSET);
     Rectf leaf2_bbox(leaf2_pos.x, leaf2_pos.y, leaf2_pos.x + POISONIVY_WIDTH, leaf2_pos.y + POISONIVY_HEIGHT);
     if (Sector::current()->is_free_of_movingstatics(leaf2_bbox, this)) {
-      auto leaf2 = std::make_shared<PoisonIvy>(leaf2_bbox.p1, RIGHT);
+      auto leaf2 = Sector::current()->add<PoisonIvy>(leaf2_bbox.p1, RIGHT);
       leaf2->countMe = false;
-      Sector::current()->add_object(leaf2);
     }
   }
   return true;

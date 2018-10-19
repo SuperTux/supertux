@@ -57,7 +57,7 @@ private:
   void add_factory(const char* name)
   {
     add_factory(name, [](const ReaderMapping& reader) {
-        return std::make_shared<C>(reader);
+        return std::make_unique<C>(reader);
       });
   }
   void init_factories();

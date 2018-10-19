@@ -24,14 +24,14 @@
 namespace scripting {
 
 FloatingImage::FloatingImage(const std::string& spritefile) :
-  floating_image(std::make_shared<::FloatingImage>(spritefile))
+  floating_image()
 {
   using namespace worldmap;
 
   if(::Sector::current() != nullptr) {
-    ::Sector::current()->add_object(floating_image);
+    floating_image = ::Sector::current()->add<::FloatingImage>(spritefile);
   } else if(WorldMap::current() != nullptr) {
-    WorldMap::current()->add_object(floating_image);
+    floating_image = WorldMap::current()->add<::FloatingImage>(spritefile);
   } else {
     throw std::runtime_error("Neither sector nor worldmap active");
   }

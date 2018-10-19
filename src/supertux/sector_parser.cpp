@@ -79,11 +79,11 @@ GameObjectPtr
 SectorParser::parse_object(const std::string& name_, const ReaderMapping& reader)
 {
   if(name_ == "camera") {
-    auto camera_ = std::make_shared<Camera>(&m_sector, "Camera");
+    auto camera_ = std::make_unique<Camera>(&m_sector, "Camera");
     camera_->parse(reader);
     return camera_;
   } else if(name_ == "money") { // for compatibility with old maps
-    return std::make_shared<Jumpy>(reader);
+    return std::make_unique<Jumpy>(reader);
   } else {
     try {
       return ObjectFactory::instance().create(name_, reader);
@@ -119,7 +119,7 @@ SectorParser::parse(const ReaderMapping& sector)
       if (Editor::is_active()) {
         GameObjectPtr object = parse_object("spawnpoint", iter.as_mapping());
         if(object) {
-          m_sector.add_object(object);
+          m_sector.add_object(std::move(object));
         }
       }
     } else if(iter.get_key() == "init-script") {
@@ -137,7 +137,7 @@ SectorParser::parse(const ReaderMapping& sector)
     } else {
       GameObjectPtr object = parse_object(iter.get_key(), iter.as_mapping());
       if(object) {
-        m_sector.add_object(object);
+        m_sector.add_object(std::move(object));
       }
     }
   }
@@ -227,7 +227,7 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
   if(reader.get("interactive-tm", tiles)
      || reader.get("tilemap", tiles)) {
     auto tileset = TileManager::current()->get_tileset(m_sector.get_level().get_tileset());
-    auto tilemap = std::make_shared<TileMap>(tileset);
+    auto tilemap = m_sector.add<TileMap>(tileset);
     tilemap->set(width, height, tiles, LAYER_TILES, true);
 
     // replace tile id 112 (old invisible tile) with 1311 (new invisible tile)
@@ -240,7 +240,6 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
     }
 
     if (height < 19) tilemap->resize(width, 19);
-    m_sector.add_object(tilemap);
   }
 
   if(reader.get("background-tm", tiles)) {
@@ -286,7 +285,7 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
     {
       auto object = parse_object(obj.get_name(), obj.get_mapping());
       if(object) {
-        m_sector.add_object(object);
+        m_sector.add_object(std::move(object));
       } else {
         log_warning << "Unknown object '" << obj.get_name() << "' in level." << std::endl;
       }
@@ -294,8 +293,8 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
   }
 
   // add a camera
-  auto camera_ = std::make_shared<Camera>(&m_sector, "Camera");
-  m_sector.add_object(camera_);
+  auto camera_ = std::make_unique<Camera>(&m_sector, "Camera");
+  m_sector.add_object(std::move(camera_));
 
   m_sector.update_game_objects();
 

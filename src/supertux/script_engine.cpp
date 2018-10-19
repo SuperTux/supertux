@@ -74,7 +74,7 @@ ScriptEngine::unexpose_self(const std::string& name)
 }
 
 void
-ScriptEngine::try_expose(GameObjectPtr object)
+ScriptEngine::try_expose(const GameObjectPtr& object)
 {
   auto script_object = dynamic_cast<ScriptInterface*>(object.get());
   if (script_object != nullptr) {
@@ -85,7 +85,7 @@ ScriptEngine::try_expose(GameObjectPtr object)
 }
 
 void
-ScriptEngine::try_unexpose(GameObjectPtr object)
+ScriptEngine::try_unexpose(const GameObjectPtr& object)
 {
   auto script_object = dynamic_cast<ScriptInterface*>(object.get());
   if (script_object != nullptr) {

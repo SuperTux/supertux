@@ -819,9 +819,7 @@ Player::handle_input()
       active_bullets < m_player_status.max_ice_bullets))
     {
       Vector pos = get_pos() + ((m_dir == LEFT)? Vector(0, bbox.get_height()/2) : Vector(32, bbox.get_height()/2));
-      auto new_bullet = std::make_shared<Bullet>(pos, m_physic.get_velocity_x(), m_dir, m_player_status.bonus);
-      sector->add_object(new_bullet);
-
+      sector->add<Bullet>(pos, m_physic.get_velocity_x(), m_dir, m_player_status.bonus);
       SoundManager::current()->play("sounds/shoot.wav");
       m_shooting_timer.start(SHOOTING_TIME);
     }

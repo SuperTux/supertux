@@ -47,9 +47,11 @@ GameObjectManager::get_objects() const
   return m_gameobjects;
 }
 
-void
+GameObject*
 GameObjectManager::add_object(GameObjectPtr object)
 {
+  assert(object);
+
   // make sure the object isn't already in the list
 #ifndef NDEBUG
   for(const auto& game_object : m_gameobjects) {
@@ -60,7 +62,9 @@ GameObjectManager::add_object(GameObjectPtr object)
   }
 #endif
 
-  m_gameobjects_new.push_back(object);
+  GameObject* tmp = object.get();
+  m_gameobjects_new.push_back(std::move(object));
+  return tmp;
 }
 
 void
@@ -125,13 +129,13 @@ GameObjectManager::update_game_objects()
   }
 
   { // add newly created objects
-    for(const auto& object : m_gameobjects_new)
+    for(auto& object : m_gameobjects_new)
     {
       if (before_object_add(object))
       {
         object->set_uid(m_uid_generator.next());
         this_before_object_add(object);
-        m_gameobjects.push_back(object);
+        m_gameobjects.push_back(std::move(object));
       }
     }
     m_gameobjects_new.clear();

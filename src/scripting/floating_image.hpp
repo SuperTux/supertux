@@ -91,7 +91,11 @@ public:
 
 #ifndef SCRIPTING_API
 private:
-  std::shared_ptr<::FloatingImage> floating_image;
+  ::FloatingImage* floating_image;
+
+private:
+  FloatingImage(const FloatingImage&) = delete;
+  FloatingImage& operator=(const FloatingImage&) = delete;
 #endif
 };
 

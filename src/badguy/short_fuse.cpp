@@ -48,11 +48,9 @@ ShortFuse::explode()
   if (!is_valid())
     return;
 
-  auto explosion = std::make_shared<Explosion>(get_bbox ().get_middle());
-
+  auto explosion = Sector::current()->add<Explosion>(get_bbox ().get_middle());
   explosion->hurts(false);
   explosion->pushes(true);
-  Sector::current()->add_object(explosion);
 
   run_dead_script();
   remove_me();

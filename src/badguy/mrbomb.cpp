@@ -74,7 +74,7 @@ MrBomb::collision_squished(GameObject& object)
     return true;
   }
   if(is_valid()) {
-    auto bomb = std::make_shared<Bomb>(get_pos(), dir, sprite_name);
+    auto bomb = Sector::current()->add<Bomb>(get_pos(), dir, sprite_name);
 
     // Do not trigger dispenser because we need to wait for
     // the bomb instance to explode.
@@ -83,8 +83,8 @@ MrBomb::collision_squished(GameObject& object)
       bomb->set_parent_dispenser(get_parent_dispenser());
       set_parent_dispenser(nullptr);
     }
+
     remove_me();
-    Sector::current()->add_object(bomb);
   }
   kill_squished(object);
   return true;

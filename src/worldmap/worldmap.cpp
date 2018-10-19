@@ -88,8 +88,7 @@ WorldMap::WorldMap(const std::string& filename, Savegame& savegame, const std::s
   m_pan_pos(),
   m_panning(false)
 {
-  m_tux = std::make_shared<Tux>(this);
-  add_object(m_tux);
+  m_tux = add<Tux>(this);
 
   SoundManager::current()->preload("sounds/warp.wav");
 
@@ -105,14 +104,14 @@ WorldMap::~WorldMap()
 }
 
 bool
-WorldMap::before_object_add(GameObjectPtr object)
+WorldMap::before_object_add(const GameObjectPtr& object)
 {
   try_expose(object);
   return true;
 }
 
 void
-WorldMap::before_object_remove(GameObjectPtr object)
+WorldMap::before_object_remove(const GameObjectPtr& object)
 {
   try_unexpose(object);
 }

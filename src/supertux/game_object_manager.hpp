@@ -38,15 +38,16 @@ public:
   virtual ~GameObjectManager();
 
   /** Queue an object up to be added to the object list */
-  void add_object(GameObjectPtr object);
+  GameObject* add_object(GameObjectPtr object);
   void clear_objects();
 
   template<typename T, typename... Args>
   T* add(Args&&... args)
   {
-    auto obj = std::make_shared<T>(std::forward<Args>(args)...);
-    add_object(obj);
-    return obj.get();
+    auto obj = std::make_unique<T>(std::forward<Args>(args)...);
+    T* obj_ptr = obj.get();
+    add_object(std::move(obj));
+    return obj_ptr;
   }
 
   void update(float delta);
@@ -67,10 +68,10 @@ public:
   float get_tiles_height() const;
 
   /** Hook that is called before an object is added to the vector */
-  virtual bool before_object_add(GameObjectPtr object) = 0;
+  virtual bool before_object_add(const GameObjectPtr& object) = 0;
 
   /** Hook that is called before an object is removed from the vector */
-  virtual void before_object_remove(GameObjectPtr object) = 0;
+  virtual void before_object_remove(const GameObjectPtr& object) = 0;
 
   template<class T>
   T* get_object_by_uid(const UID& uid) const

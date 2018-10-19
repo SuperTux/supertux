@@ -253,7 +253,7 @@ ObjectFactory::init_factories()
 
   add_factory("tilemap", [](const ReaderMapping& reader) {
       auto tileset = TileManager::current()->get_tileset(Level::current()->get_tileset());
-      return std::make_shared<TileMap>(tileset, reader);
+      return std::make_unique<TileMap>(tileset, reader);
     });
 }
 

@@ -118,9 +118,8 @@ Sector::construct()
                                               dynamic_cast<Gradient*>(obj.get()));
                                      });
   if (!has_background) {
-    auto gradient = std::make_shared<Gradient>();
+    auto gradient = add<Gradient>();
     gradient->set_gradient(Color(0.3f, 0.4f, 0.75f), Color(1.f, 1.f, 1.f));
-    add_object(gradient);
   }
 
   if (get_solid_tilemaps().empty()) {
@@ -129,7 +128,7 @@ Sector::construct()
 
   if (!m_camera) {
     log_warning << "sector '" << get_name() << "' does not contain a camera." << std::endl;
-    add_object(std::make_shared<Camera>(this, "Camera"));
+    add<Camera>(this, "Camera");
   }
 
   update_game_objects();
@@ -335,7 +334,7 @@ Sector::update(float elapsed_time)
 }
 
 bool
-Sector::before_object_add(GameObjectPtr object)
+Sector::before_object_add(const GameObjectPtr& object)
 {
   auto bullet = dynamic_cast<Bullet*>(object.get());
   if (bullet)
@@ -390,7 +389,7 @@ Sector::before_object_add(GameObjectPtr object)
 }
 
 void
-Sector::before_object_remove(GameObjectPtr object)
+Sector::before_object_remove(const GameObjectPtr& object)
 {
   auto portable = dynamic_cast<Portable*>(object.get());
   if (portable) {
@@ -759,7 +758,7 @@ Sector::convert_tiles2gameobject()
             Vector pos = tm->get_tile_position(x, y);
             try {
               GameObjectPtr object = ObjectFactory::instance().create(tile.get_object_name(), pos, AUTO, tile.get_object_data());
-              add_object(object);
+              add_object(std::move(object));
               tm->change(x, y, 0);
             } catch(std::exception& e) {
               log_warning << e.what() << "" << std::endl;
@@ -780,14 +779,14 @@ Sector::convert_tiles2gameobject()
               if ((tm->get_tile(x-1, y).get_attributes() != attributes || x%3 == 0)
                   && (tm->get_tile(x, y-1).get_attributes() != attributes || y%3 == 0)) {
                 float pseudo_rnd = static_cast<float>(static_cast<int>(pos.x) % 10) / 10;
-                add_object(std::make_shared<PulsingLight>(center, 1.0f + pseudo_rnd, 0.8f, 1.0f,
-                                                                   Color(1.0f, 0.3f, 0.0f, 1.0f)));
+                add<PulsingLight>(center, 1.0f + pseudo_rnd, 0.8f, 1.0f,
+                                  Color(1.0f, 0.3f, 0.0f, 1.0f));
               }
             } else {
               // torch
               float pseudo_rnd = static_cast<float>(static_cast<int>(pos.x) % 10) / 10;
-              add_object(std::make_shared<PulsingLight>(center, 1.0f + pseudo_rnd, 0.9f, 1.0f,
-                                                                 Color(1.0f, 1.0f, 0.6f, 1.0f)));
+              add<PulsingLight>(center, 1.0f + pseudo_rnd, 0.9f, 1.0f,
+                                Color(1.0f, 1.0f, 0.6f, 1.0f));
             }
           }
         }

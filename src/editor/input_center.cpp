@@ -359,7 +359,7 @@ EditorInputCenter::clone_object() {
       throw std::runtime_error("Cloning object failed.");
 
     try {
-      editor->currentsector->add_object(game_object);
+      editor->currentsector->add_object(std::move(game_object));
     } catch(const std::exception& e) {
       log_warning << "Error adding object " << editor->get_tileselect_object() << ": " << e.what() << std::endl;
       return;
@@ -500,7 +500,7 @@ EditorInputCenter::put_object() {
   }
 
   try {
-    editor->currentsector->add_object(game_object);
+    editor->currentsector->add_object(std::move(game_object));
   } catch(const std::exception& e) {
     log_warning << "Error adding object " << obj << ": " << e.what() << std::endl;
     return;

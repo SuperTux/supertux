@@ -116,7 +116,7 @@ private:
 
   Sector* m_currentsector;
 
-  std::shared_ptr<EndSequence> m_end_sequence;
+  EndSequence* m_end_sequence;
 
   bool  m_game_pause;
   float m_speed_before_pause;

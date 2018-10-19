@@ -185,8 +185,8 @@ public:
 private:
   uint32_t collision_tile_attributes(const Rectf& dest, const Vector& mov) const;
 
-  virtual bool before_object_add(GameObjectPtr object) override;
-  virtual void before_object_remove(GameObjectPtr object) override;
+  virtual bool before_object_add(const GameObjectPtr& object) override;
+  virtual void before_object_remove(const GameObjectPtr& object) override;
 
   int calculate_foremost_layer() const;
 

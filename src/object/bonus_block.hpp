@@ -76,7 +76,7 @@ private:
 
 private:
   Contents m_contents;
-  std::shared_ptr<MovingObject> m_object;
+  std::unique_ptr<MovingObject> m_object;
   int m_hit_counter;
 
 private:

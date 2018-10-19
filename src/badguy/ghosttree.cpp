@@ -117,8 +117,7 @@ GhostTree::active_update(float /*elapsed_time*/)
     if(willowisp_timer.check()) {
       if(willowisps.size() < WILLOWISP_COUNT) {
         Vector pos = Vector(bbox.get_width() / 2, bbox.get_height() / 2 + willo_spawn_y + WILLOWISP_TOP_OFFSET);
-        auto willowisp = std::make_shared<TreeWillOWisp>(this, pos, 200 + willo_radius, willo_speed);
-        Sector::current()->add_object(willowisp);
+        auto willowisp = Sector::current()->add<TreeWillOWisp>(this, pos, 200 + willo_radius, willo_speed);
         willowisps.push_back(willowisp);
 
         willo_spawn_y -= 40;
@@ -155,8 +154,7 @@ GhostTree::active_update(float /*elapsed_time*/)
       /* TODO indicate root with an animation */
       auto player = get_nearest_player();
       if (player) {
-        auto root = std::make_shared<Root>(Vector(player->get_bbox().get_left(), bbox.get_bottom()+ROOT_TOP_OFFSET));
-        Sector::current()->add_object(root);
+        Sector::current()->add<Root>(Vector(player->get_bbox().get_left(), bbox.get_bottom()+ROOT_TOP_OFFSET));
       }
     }
   } else if (mystate == STATE_SWALLOWING) {
@@ -206,9 +204,9 @@ GhostTree::willowisp_died(TreeWillOWisp *willowisp)
     mystate = STATE_IDLE;
   }
   willowisps.erase(std::find_if(willowisps.begin(), willowisps.end(),
-                                [willowisp](const std::shared_ptr<TreeWillOWisp>& lhs)
+                                [willowisp](GameObject* lhs)
                                 {
-                                  return lhs.get() == willowisp;
+                                  return lhs == willowisp;
                                 }));
 }
 
@@ -260,8 +258,7 @@ GhostTree::collision(GameObject& other, const CollisionHit& )
 void
 GhostTree::spawn_lantern()
 {
-  auto lantern = std::make_shared<Lantern>(bbox.get_middle() + SUCK_TARGET_OFFSET);
-  Sector::current()->add_object(lantern);
+  Sector::current()->add<Lantern>(bbox.get_middle() + SUCK_TARGET_OFFSET);
 }
 
 /* EOF */

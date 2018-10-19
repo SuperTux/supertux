@@ -26,7 +26,7 @@
 class SpecialRiser final : public GameObject
 {
 public:
-  SpecialRiser(const Vector& pos, std::shared_ptr<MovingObject> child);
+  SpecialRiser(const Vector& pos, std::unique_ptr<MovingObject> child);
   virtual bool is_saveable() const override {
     return false;
   }
@@ -36,7 +36,7 @@ public:
 
 private:
   float offset;
-  std::shared_ptr<MovingObject> child;
+  std::unique_ptr<MovingObject> child;
 
 private:
   SpecialRiser(const SpecialRiser&);

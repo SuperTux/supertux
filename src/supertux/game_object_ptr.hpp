@@ -21,7 +21,7 @@
 
 class GameObject;
 
-using GameObjectPtr = std::shared_ptr<GameObject>;
+using GameObjectPtr = std::unique_ptr<GameObject>;
 
 #endif
 

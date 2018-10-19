@@ -67,7 +67,7 @@ private:
 
   Lantern* suck_lantern; /**< Lantern that is currently being sucked in */
 
-  std::vector<std::shared_ptr<TreeWillOWisp> > willowisps;
+  std::vector<TreeWillOWisp*> willowisps;
 
   bool is_color_deadly(Color color) const;
   void spawn_lantern();

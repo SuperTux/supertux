@@ -100,7 +100,7 @@ public:
   void finished_level(Level* level);
 
   /** returns current Tux incarnation */
-  Tux* get_tux() const { return m_tux.get(); }
+  Tux* get_tux() const { return m_tux; }
 
   Savegame& get_savegame() const { return m_savegame; }
 
@@ -181,8 +181,8 @@ public:
   bool is_panning() const { return m_panning; }
 
 protected:
-  virtual bool before_object_add(GameObjectPtr object) override;
-  virtual void before_object_remove(GameObjectPtr object) override;
+  virtual bool before_object_add(const GameObjectPtr& object) override;
+  virtual void before_object_remove(const GameObjectPtr& object) override;
 
 private:
   void draw_status(DrawingContext& context);
@@ -194,7 +194,7 @@ private:
   void clamp_camera_position(Vector& c) const;
 
 private:
-  std::shared_ptr<Tux> m_tux;
+  Tux* m_tux;
 
   Savegame& m_savegame;
 

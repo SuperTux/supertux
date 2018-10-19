@@ -78,7 +78,7 @@ Owl::initialize()
     }
     else
     {
-      Sector::current()->add_object(game_object);
+      Sector::current()->add_object(std::move(game_object));
     }
   }
 }

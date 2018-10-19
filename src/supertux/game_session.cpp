@@ -481,14 +481,16 @@ GameSession::start_sequence(Sequence seq, const SequenceData* data)
   if (m_end_sequence)
     return;
 
+
+  std::unique_ptr<EndSequence> end_sequence;
   if (seq == SEQ_ENDSEQUENCE) {
     if (m_currentsector->get_players()[0]->get_physic().get_velocity_x() < 0) {
-      m_end_sequence = std::make_shared<EndSequenceWalkLeft>();
+      end_sequence = std::unique_ptr<EndSequenceWalkLeft>();
     } else {
-      m_end_sequence = std::make_shared<EndSequenceWalkRight>();
+      end_sequence = std::unique_ptr<EndSequenceWalkRight>();
     }
   } else if (seq == SEQ_FIREWORKS) {
-    m_end_sequence = std::make_shared<EndSequenceFireworks>();
+    end_sequence = std::unique_ptr<EndSequenceFireworks>();
   } else {
     log_warning << "Unknown sequence '" << static_cast<int>(seq) << "'. Ignoring." << std::endl;
     return;
@@ -512,7 +514,7 @@ GameSession::start_sequence(Sequence seq, const SequenceData* data)
   /* slow down the game for end-sequence */
   ScreenManager::current()->set_speed(0.5f);
 
-  m_currentsector->add_object(m_end_sequence);
+  m_end_sequence = static_cast<EndSequence*>(m_currentsector->add_object(std::move(end_sequence)));
   m_end_sequence->start();
 
   SoundManager::current()->play_music("music/leveldone.ogg", false);
@@ -521,7 +523,7 @@ GameSession::start_sequence(Sequence seq, const SequenceData* data)
   // Stop all clocks.
   for(const auto& obj : m_currentsector->get_objects())
   {
-    auto lt = std::dynamic_pointer_cast<LevelTime>(obj);
+    auto lt = dynamic_cast<LevelTime*>(obj.get());
     if(lt)
       lt->stop();
   }

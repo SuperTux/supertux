@@ -19,11 +19,11 @@
 #include "supertux/sector.hpp"
 #include "video/drawing_context.hpp"
 
-SpecialRiser::SpecialRiser(const Vector& pos, std::shared_ptr<MovingObject> _child) :
+SpecialRiser::SpecialRiser(const Vector& pos, std::unique_ptr<MovingObject> child_) :
   offset(0),
-  child(_child)
+  child(std::move(child_))
 {
-  _child->set_pos(pos - Vector(0, 32));
+  child->set_pos(pos - Vector(0, 32));
 }
 
 void
@@ -31,7 +31,7 @@ SpecialRiser::update(float elapsed_time)
 {
   offset += 50 * elapsed_time;
   if(offset > 32) {
-    Sector::current()->add_object(child);
+    Sector::current()->add_object(std::move(child));
     remove_me();
   }
 }
