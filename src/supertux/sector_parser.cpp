@@ -187,23 +187,21 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
   bkgd_bottom.blue = static_cast<float> (b) / 255.0f;
 
   if(!backgroundimage.empty()) {
-    auto background = std::make_shared<Background>();
+    auto background = m_sector.add<Background>();
     background->set_image(backgroundimage, bgspeed);
-    m_sector.add_object(background);
   } else {
-    auto gradient = std::make_shared<Gradient>();
+    auto gradient = m_sector.add<Gradient>();
     gradient->set_gradient(bkgd_top, bkgd_bottom);
-    m_sector.add_object(gradient);
   }
 
   std::string particlesystem;
   reader.get("particle_system", particlesystem);
   if(particlesystem == "clouds")
-    m_sector.add_object(std::make_shared<CloudParticleSystem>());
+    m_sector.add<CloudParticleSystem>();
   else if(particlesystem == "snow")
-    m_sector.add_object(std::make_shared<SnowParticleSystem>());
+    m_sector.add<SnowParticleSystem>();
   else if(particlesystem == "rain")
-    m_sector.add_object(std::make_shared<RainParticleSystem>());
+    m_sector.add<RainParticleSystem>();
 
   Vector startpos(100, 170);
   reader.get("start_pos_x", startpos.x);
@@ -247,21 +245,18 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
 
   if(reader.get("background-tm", tiles)) {
     auto tileset = TileManager::current()->get_tileset(m_sector.get_level().get_tileset());
-    auto tilemap = std::make_shared<TileMap>(tileset);
+    auto tilemap = m_sector.add<TileMap>(tileset);
     tilemap->set(width, height, tiles, LAYER_BACKGROUNDTILES, false);
     if (height < 19) tilemap->resize(width, 19);
-    m_sector.add_object(tilemap);
   }
 
   if(reader.get("foreground-tm", tiles)) {
     auto tileset = TileManager::current()->get_tileset(m_sector.get_level().get_tileset());
-    auto tilemap = std::make_shared<TileMap>(tileset);
+    auto tilemap = m_sector.add<TileMap>(tileset);
     tilemap->set(width, height, tiles, LAYER_FOREGROUNDTILES, false);
 
     // fill additional space in foreground with tiles of ID 2035 (lightmap/black)
     if (height < 19) tilemap->resize(width, 19, 2035);
-
-    m_sector.add_object(tilemap);
   }
 
   // read reset-points (now spawn-points)
@@ -317,25 +312,22 @@ SectorParser::create_sector()
   auto tileset = TileManager::current()->get_tileset(m_sector.get_level().get_tileset());
   bool worldmap = Editor::current() ? Editor::current()->get_worldmap_mode() : false;
   if (!worldmap) {
-    auto background = std::make_shared<Background>();
+    auto background = m_sector.add<Background>();
     background->set_images(DEFAULT_BG_TOP, DEFAULT_BG_MIDDLE, DEFAULT_BG_BOTTOM);
     background->set_speed(0.5);
-    m_sector.add_object(background);
 
-    auto bkgrd = std::make_shared<TileMap>(tileset);
+    auto bkgrd = m_sector.add<TileMap>(tileset);
     bkgrd->resize(100, 35);
     bkgrd->set_layer(-100);
     bkgrd->set_solid(false);
-    m_sector.add_object(bkgrd);
 
-    auto frgrd = std::make_shared<TileMap>(tileset);
+    auto frgrd = m_sector.add<TileMap>(tileset);
     frgrd->resize(100, 35);
     frgrd->set_layer(100);
     frgrd->set_solid(false);
-    m_sector.add_object(frgrd);
   }
 
-  auto intact = std::make_shared<TileMap>(tileset);
+  auto intact = m_sector.add<TileMap>(tileset);
   if (worldmap) {
     intact->resize(100, 100, 9);
   } else {
@@ -343,7 +335,6 @@ SectorParser::create_sector()
   }
   intact->set_layer(0);
   intact->set_solid(true);
-  m_sector.add_object(intact);
 
   auto spawn_point = std::make_shared<SpawnPoint>();
   spawn_point->name = "main";
@@ -351,15 +342,12 @@ SectorParser::create_sector()
   m_sector.m_spawnpoints.push_back(spawn_point);
 
   if (worldmap) {
-    GameObjectPtr spawn_point_marker = std::make_shared<worldmap_editor::WorldmapSpawnPoint>("main", Vector(4, 4));
-    m_sector.add_object(spawn_point_marker);
+    m_sector.add<worldmap_editor::WorldmapSpawnPoint>("main", Vector(4, 4));
   } else {
-    GameObjectPtr spawn_point_marker = std::make_shared<SpawnPointMarker>( spawn_point.get() );
-    m_sector.add_object(spawn_point_marker);
+    m_sector.add<SpawnPointMarker>(spawn_point.get());
   }
 
-  auto camera = std::make_shared<Camera>(&m_sector, "Camera");
-  m_sector.add_object(camera);
+  m_sector.add<Camera>(&m_sector, "Camera");
 
   m_sector.construct();
 }

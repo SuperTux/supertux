@@ -84,9 +84,9 @@ WorldMapParser::load_worldmap(const std::string& filename)
       auto iter = sector->get_iter();
       while(iter.next()) {
         if(iter.get_key() == "tilemap") {
-          m_worldmap.add_object(std::make_shared<TileMap>(m_worldmap.m_tileset, iter.as_mapping()));
+          m_worldmap.add<TileMap>(m_worldmap.m_tileset, iter.as_mapping());
         } else if(iter.get_key() == "background") {
-          m_worldmap.add_object(std::make_shared<Background>(iter.as_mapping()));
+          m_worldmap.add<Background>(iter.as_mapping());
         } else if(iter.get_key() == "music") {
           iter.get(m_worldmap.m_music);
         } else if(iter.get_key() == "init-script") {
@@ -95,25 +95,20 @@ WorldMapParser::load_worldmap(const std::string& filename)
           std::unique_ptr<SpawnPoint> sp(new SpawnPoint(iter.as_mapping()));
           m_worldmap.m_spawn_points.push_back(std::move(sp));
         } else if(iter.get_key() == "level") {
-          auto level = std::make_shared<LevelTile>(m_worldmap.m_levels_path, iter.as_mapping());
-          load_level_information(*level.get());
-          m_worldmap.m_levels.push_back(level.get());
-          m_worldmap.add_object(level);
+          auto level = m_worldmap.add<LevelTile>(m_worldmap.m_levels_path, iter.as_mapping());
+          load_level_information(*level);
+          m_worldmap.m_levels.push_back(level);
         } else if(iter.get_key() == "special-tile") {
-          auto special_tile = std::make_shared<SpecialTile>(iter.as_mapping());
-          m_worldmap.m_special_tiles.push_back(special_tile.get());
-          m_worldmap.add_object(special_tile);
-        } else if(iter.get_key() == "sprite-change") {
-          auto sprite_change = std::make_shared<SpriteChange>(iter.as_mapping());
-          m_worldmap.m_sprite_changes.push_back(sprite_change.get());
-          m_worldmap.add_object(sprite_change);
-        } else if(iter.get_key() == "teleporter") {
-          auto teleporter = std::make_shared<Teleporter>(iter.as_mapping());
-          m_worldmap.m_teleporters.push_back(teleporter.get());
-          m_worldmap.add_object(teleporter);
+          auto special_tile = m_worldmap.add<SpecialTile>(iter.as_mapping());
+          m_worldmap.m_special_tiles.push_back(special_tile);
+      } else if(iter.get_key() == "sprite-change") {
+          auto sprite_change = m_worldmap.add<SpriteChange>(iter.as_mapping());
+          m_worldmap.m_sprite_changes.push_back(sprite_change);
+      } else if(iter.get_key() == "teleporter") {
+          auto teleporter = m_worldmap.add<Teleporter>(iter.as_mapping());
+          m_worldmap.m_teleporters.push_back(teleporter);
         } else if(iter.get_key() == "decal") {
-          auto decal = std::make_shared<Decal>(iter.as_mapping());
-          m_worldmap.add_object(decal);
+          m_worldmap.add<Decal>(iter.as_mapping());
         } else if(iter.get_key() == "ambient-light") {
           std::vector<float> vColor;
           bool hasColor = sector->get( "ambient-light", vColor );

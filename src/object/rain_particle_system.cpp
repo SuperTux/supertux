@@ -95,7 +95,7 @@ void RainParticleSystem::update(float elapsed_time)
         /* else {
            splash_x = int(particle->pos.x) - (int(particle->pos.x) % 32) + 32;
            splash_y = int(particle->pos.y);
-           Sector::current()->add_object(new RainSplash(Vector(splash_x, splash_y),vertical));
+           Sector::current()->add<RainSplash>(Vector(splash_x, splash_y),vertical);
            } */
       }
       int new_x = graphicsRandom.rand(int(virtual_width)) + int(abs_x);

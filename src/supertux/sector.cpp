@@ -81,10 +81,10 @@ Sector::Sector(Level& parent) :
     Editor::current()->m_savegame->get_player_status() :
     GameSession::current()->get_savegame().get_player_status();
 
-  add_object(std::make_shared<Player>(player_status, "Tux"));
-  add_object(std::make_shared<DisplayEffect>("Effect"));
-  add_object(std::make_shared<TextObject>("Text"));
-  add_object(std::make_shared<TextArrayObject>("TextArray"));
+  add<Player>(player_status, "Tux");
+  add<DisplayEffect>("Effect");
+  add<TextObject>("Text");
+  add<TextArrayObject>("TextArray");
 
   SoundManager::current()->preload("sounds/shoot.wav");
 }

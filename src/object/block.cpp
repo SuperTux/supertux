@@ -191,10 +191,10 @@ Block::break_me()
   {
     Vector velocity(graphicsRandom.randf(-100, 100),
                     graphicsRandom.randf(-400, -300));
-    sector->add_object(std::make_shared<SpriteParticle>(sprite->clone(), action,
-                                                        pos, ANCHOR_MIDDLE,
-                                                        velocity, Vector(0, gravity),
-                                                        LAYER_OBJECTS + 1));
+    sector->add<SpriteParticle>(sprite->clone(), action,
+                                pos, ANCHOR_MIDDLE,
+                                velocity, Vector(0, gravity),
+                                LAYER_OBJECTS + 1);
   }
 
   remove_me();

@@ -123,11 +123,10 @@ SkyDive::explode()
   if (!is_valid())
     return;
 
-  auto explosion = std::make_shared<Explosion>(get_anchor_pos (bbox, ANCHOR_BOTTOM));
+  auto explosion = Sector::current()->add<Explosion>(get_anchor_pos (bbox, ANCHOR_BOTTOM));
 
   explosion->hurts(true);
   explosion->pushes(false);
-  Sector::current()->add_object(explosion);
 
   remove_me();
 }

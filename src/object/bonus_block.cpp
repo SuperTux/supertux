@@ -297,23 +297,22 @@ BonusBlock::try_open(Player* player)
 
     case CONTENT_STAR:
     {
-      sector->add_object(std::make_shared<Star>(get_pos() + Vector(0, -32), direction));
+      sector->add<Star>(get_pos() + Vector(0, -32), direction);
       SoundManager::current()->play("sounds/upgrade.wav");
       break;
     }
 
     case CONTENT_1UP:
     {
-      sector->add_object(std::make_shared<OneUp>(get_pos(), direction));
+      sector->add<OneUp>(get_pos(), direction);
       SoundManager::current()->play("sounds/upgrade.wav");
       break;
     }
 
     case CONTENT_CUSTOM:
     {
-      auto riser = std::make_shared<SpecialRiser>(get_pos(), m_object);
+      sector->add<SpecialRiser>(get_pos(), m_object);
       m_object.reset();
-      sector->add_object(riser);
       SoundManager::current()->play("sounds/upgrade.wav");
       break;
     }
@@ -332,8 +331,7 @@ BonusBlock::try_open(Player* player)
     }
     case CONTENT_TRAMPOLINE:
     {
-      auto riser = std::make_shared<SpecialRiser>(get_pos(), std::make_shared<Trampoline>(get_pos(), false));
-      sector->add_object(riser);
+      sector->add<SpecialRiser>(get_pos(), std::make_shared<Trampoline>(get_pos(), false));
       SoundManager::current()->play("sounds/upgrade.wav");
       break;
     }
@@ -433,7 +431,7 @@ BonusBlock::try_drop(Player *player)
 
     case CONTENT_STAR:
     {
-      sector->add_object(std::make_shared<Star>(get_pos() + Vector(0, 32), direction));
+      sector->add<Star>(get_pos() + Vector(0, 32), direction);
       SoundManager::current()->play("sounds/upgrade.wav");
       countdown = true;
       break;
@@ -441,7 +439,7 @@ BonusBlock::try_drop(Player *player)
 
     case CONTENT_1UP:
     {
-      sector->add_object(std::make_shared<OneUp>(get_pos(), DOWN));
+      sector->add<OneUp>(get_pos(), DOWN);
       SoundManager::current()->play("sounds/upgrade.wav");
       countdown = true;
       break;
