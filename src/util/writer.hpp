@@ -49,6 +49,7 @@ private:
   void indent();
 
 private:
+  std::string m_filename;
   std::ostream* out;
   bool out_owned;
   int indent_depth;

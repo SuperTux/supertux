@@ -20,6 +20,7 @@
 #include "util/log.hpp"
 
 Writer::Writer(const std::string& filename) :
+  m_filename(filename),
   out(new OFileStream(filename)),
   out_owned(true),
   indent_depth(0),
@@ -29,6 +30,7 @@ Writer::Writer(const std::string& filename) :
 }
 
 Writer::Writer(std::ostream* newout) :
+  m_filename("<stream>"),
   out(newout),
   out_owned(false),
   indent_depth(0),
@@ -40,7 +42,7 @@ Writer::Writer(std::ostream* newout) :
 Writer::~Writer()
 {
   if(lists.size() > 0) {
-    log_warning << "Not all sections closed in lispwriter" << std::endl;
+    log_warning << m_filename << ": Not all sections closed in lispwriter" << std::endl;
   }
   if(out_owned)
     delete out;
@@ -71,11 +73,11 @@ void
 Writer::end_list(const std::string& listname)
 {
   if(lists.size() == 0) {
-    log_warning << "Trying to close list '" << listname << "', which is not open" << std::endl;
+    log_warning << m_filename << ": Trying to close list '" << listname << "', which is not open" << std::endl;
     return;
   }
   if(lists.back() != listname) {
-    log_warning << "trying to close list '" << listname << "' while list '" << lists.back() << "' is open" << std::endl;
+    log_warning << m_filename << ": trying to close list '" << listname << "' while list '" << lists.back() << "' is open" << std::endl;
     return;
   }
   lists.pop_back();
