@@ -28,6 +28,8 @@
 class DrawingContext;
 class TileMap;
 
+template<class T> class GameObjectRange;
+
 class GameObjectManager
 {
 public:
@@ -72,6 +74,12 @@ public:
 
   /** Hook that is called before an object is removed from the vector */
   virtual void before_object_remove(const GameObjectPtr& object) = 0;
+
+  template<class T>
+  GameObjectRange<T> get_objects_by_type() const
+  {
+    return GameObjectRange<T>(*this);
+  }
 
   template<class T>
   T* get_object_by_uid(const UID& uid) const
@@ -139,6 +147,8 @@ private:
   GameObjectManager(const GameObjectManager&) = delete;
   GameObjectManager& operator=(const GameObjectManager&) = delete;
 };
+
+#include "supertux/game_object_iterator.hpp"
 
 #endif
 
