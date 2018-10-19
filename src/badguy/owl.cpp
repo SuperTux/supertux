@@ -27,8 +27,12 @@
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
 
-#define FLYING_SPEED 120.f
-#define ACTIVATION_DISTANCE 128.f
+namespace {
+
+const float FLYING_SPEED = 120.0f;
+const float ACTIVATION_DISTANCE = 128.0f;
+
+} // namespace
 
 Owl::Owl(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/owl/owl.sprite", LAYER_OBJECTS + 1),

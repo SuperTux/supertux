@@ -26,10 +26,14 @@
 #include "sprite/sprite_manager.hpp"
 #include "supertux/sector.hpp"
 
-#define  LIFETIME 5
-#define  MOVETIME 0.75
-#define  BASE_SPEED 200
-#define  RAND_SPEED 150
+namespace {
+
+const float LIFETIME = 5.0f;
+const float MOVETIME = 0.75f;
+const int BASE_SPEED = 200;
+const int RAND_SPEED = 150;
+
+} // namespace
 
 Kugelblitz::Kugelblitz(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/kugelblitz/kugelblitz.sprite"),

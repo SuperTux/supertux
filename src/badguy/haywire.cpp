@@ -25,11 +25,15 @@
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 
-#define TIME_EXPLOSION 5.0
-#define TIME_STUNNED   0.5
+namespace {
 
-#define NORMAL_WALK_SPEED    80
-#define EXPLODING_WALK_SPEED 160
+const float TIME_EXPLOSION = 5.0f;
+const float TIME_STUNNED = 0.5f;
+
+const float NORMAL_WALK_SPEED = 80.0f;
+const float EXPLODING_WALK_SPEED = 160.0f;
+
+} // namespace
 
 Haywire::Haywire(const ReaderMapping& reader) :
   WalkingBadguy(reader, "images/creatures/haywire/haywire.sprite", "left", "right"),
