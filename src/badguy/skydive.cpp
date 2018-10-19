@@ -38,7 +38,7 @@ SkyDive::collision_solid(const CollisionHit& hit)
 
   if (hit.left || hit.right)
     physic.set_velocity_x (0.0);
-} /* void collision_solid */
+}
 
 HitResponse
 SkyDive::collision_badguy(BadGuy&, const CollisionHit& hit)
@@ -49,7 +49,7 @@ SkyDive::collision_badguy(BadGuy&, const CollisionHit& hit)
   }
 
   return FORCE_MOVE;
-} /* HitResponse collision_badguy */
+}
 
 void
 SkyDive::grab(MovingObject&, const Vector& pos, Direction dir_)
@@ -86,7 +86,7 @@ SkyDive::collision_player(Player&, const CollisionHit& hit)
   }
 
   return FORCE_MOVE;
-} /* HitResponse collision_player */
+}
 
 bool
 SkyDive::collision_squished(GameObject& obj)
@@ -99,7 +99,7 @@ SkyDive::collision_squished(GameObject& obj)
 
   explode();
   return false;
-} /* bool collision_squished */
+}
 
 void
 SkyDive::collision_tile(uint32_t tile_attributes)
@@ -109,12 +109,13 @@ SkyDive::collision_tile(uint32_t tile_attributes)
     explode();
   }
 }
+
 void
 SkyDive::active_update(float elapsed_time)
 {
   if (!is_grabbed)
     movement = physic.get_movement(elapsed_time);
-} /* void active_update */
+}
 
 void
 SkyDive::explode()
@@ -129,6 +130,6 @@ SkyDive::explode()
   Sector::current()->add_object(explosion);
 
   remove_me();
-} /* void explode */
+}
 
 /* EOF */

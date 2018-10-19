@@ -131,7 +131,7 @@ Haywire::active_update(float elapsed_time)
         target_velocity = walk_speed;
       else /* player in on the left */
         target_velocity = (-1.f) * walk_speed;
-    } /* if (player) */
+    }
 
     WalkingBadguy::active_update(elapsed_time, target_velocity);
   }
