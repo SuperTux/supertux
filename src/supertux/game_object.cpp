@@ -24,6 +24,7 @@
 #include "video/color.hpp"
 
 GameObject::GameObject() :
+  m_uid(),
   m_wants_to_die(false),
   m_remove_listeners(),
   m_name()
@@ -31,6 +32,7 @@ GameObject::GameObject() :
 }
 
 GameObject::GameObject(const GameObject& rhs) :
+  m_uid(),
   m_wants_to_die(rhs.m_wants_to_die),
   m_remove_listeners(),
   m_name(rhs.m_name)

@@ -21,6 +21,7 @@
 
 #include "editor/object_settings.hpp"
 #include "util/gettext.hpp"
+#include "util/uid.hpp"
 
 class DrawingContext;
 class ObjectRemoveListener;
@@ -41,11 +42,15 @@ class Writer;
 */
 class GameObject
 {
+  friend class GameObjectManager;
+
 public:
   GameObject();
   GameObject(const GameObject& rhs);
   GameObject(const ReaderMapping& reader);
   virtual ~GameObject();
+
+  UID get_uid() const { return m_uid; }
 
   /** This function is called once per frame and allows the object to
       update it's state. The elapsed_time is the time since the last
@@ -101,6 +106,11 @@ public:
   virtual void play_looping_sounds() {}
 
 private:
+  void set_uid(const UID& uid) { m_uid = uid; }
+
+private:
+  UID m_uid;
+
   /** this flag indicates if the object should be removed at the end of the frame */
   bool m_wants_to_die;
 
