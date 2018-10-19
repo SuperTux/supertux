@@ -14,8 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef WORLD_SET_MENU_HPP_INCLUDED
-#define WORLD_SET_MENU_HPP_INCLUDED
+#ifndef HEADER_SUPERTUX_SUPERTUX_MENU_WORLD_SET_MENU_HPP
+#define HEADER_SUPERTUX_SUPERTUX_MENU_WORLD_SET_MENU_HPP
 
 #include "gui/menu.hpp"
 

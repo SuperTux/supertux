@@ -16,8 +16,8 @@
 **  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef HEADER_WINDSTILLE_UTIL_CURRENTON_HPP
-#define HEADER_WINDSTILLE_UTIL_CURRENTON_HPP
+#ifndef HEADER_SUPERTUX_UTIL_CURRENTON_HPP
+#define HEADER_SUPERTUX_UTIL_CURRENTON_HPP
 
 /**
  *   A 'Currenton' allows access to the currently active instance of a

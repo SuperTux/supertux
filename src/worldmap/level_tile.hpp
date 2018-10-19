@@ -15,8 +15,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_WORLDMAP_LEVEL_HPP
-#define HEADER_SUPERTUX_WORLDMAP_LEVEL_HPP
+#ifndef HEADER_SUPERTUX_WORLDMAP_LEVEL_TILE_HPP
+#define HEADER_SUPERTUX_WORLDMAP_LEVEL_TILE_HPP
 
 #include "math/vector.hpp"
 #include "sprite/sprite_ptr.hpp"

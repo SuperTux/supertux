@@ -14,8 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_PINGUS_UTIL_LINE_ITERATOR_HPP
-#define HEADER_PINGUS_UTIL_LINE_ITERATOR_HPP
+#ifndef HEADER_SUPERTUX_UTIL_LINE_ITERATOR_HPP
+#define HEADER_SUPERTUX_UTIL_LINE_ITERATOR_HPP
 
 #include <string>
 
