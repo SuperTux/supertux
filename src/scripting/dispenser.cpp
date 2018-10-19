@@ -33,3 +33,5 @@ void Dispenser::deactivate() {
 }
 
 }
+
+/* EOF */

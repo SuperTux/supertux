@@ -36,3 +36,5 @@ int AATriangle::vertical_flip(int dir) {
   }
   return (direction | deform);
 }
+
+/* EOF */

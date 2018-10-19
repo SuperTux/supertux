@@ -117,3 +117,5 @@ Color
 ItemColorChannel::get_color() const {
   return channel;
 }
+
+/* EOF */

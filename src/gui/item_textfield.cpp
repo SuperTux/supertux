@@ -74,3 +74,5 @@ ItemTextField::process_action(const MenuAction& action) {
     }
   }
 }
+
+/* EOF */

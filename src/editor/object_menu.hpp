@@ -40,4 +40,6 @@ class ObjectMenu final : public Menu
     ObjectMenu& operator=(const ObjectMenu&);
 };
 
-#endif // HEADER_SUPERTUX_EDITOR_OBJECT_MENU_HPP
+#endif
+
+/* EOF */

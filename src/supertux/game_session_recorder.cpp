@@ -168,3 +168,4 @@ GameSessionRecorder::process_events()
   }
 }
 
+/* EOF */

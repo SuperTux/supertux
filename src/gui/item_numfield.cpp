@@ -135,3 +135,5 @@ ItemNumField::process_action(const MenuAction& action) {
     }
   }
 }
+
+/* EOF */

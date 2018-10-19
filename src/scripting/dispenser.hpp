@@ -48,6 +48,9 @@ public:
   void deactivate();
 
 };
-}
+
+} // namespace scripting
 
 #endif
+
+/* EOF */

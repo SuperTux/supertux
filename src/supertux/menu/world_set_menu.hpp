@@ -33,5 +33,6 @@ public:
   void menu_action(MenuItem& item) override;
 };
 
+#endif
 
-#endif // WORLD_SET_MENU_HPP_INCLUDED
+/* EOF */
