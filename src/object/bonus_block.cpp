@@ -264,7 +264,7 @@ BonusBlock::try_open(Player* player)
   switch(m_contents) {
     case CONTENT_COIN:
     {
-      Sector::current()->add_object(std::make_shared<BouncyCoin>(get_pos(), true));
+      Sector::current()->add<BouncyCoin>(get_pos(), true);
       player->get_status().add_coins(1);
       if (m_hit_counter != 0)
         Sector::current()->get_level().m_stats.m_coins++;
@@ -340,14 +340,14 @@ BonusBlock::try_open(Player* player)
     case CONTENT_RAIN:
     {
       m_hit_counter = 1; // multiple hits of coin rain is not allowed
-      Sector::current()->add_object(std::make_shared<CoinRain>(get_pos(), true));
+      Sector::current()->add<CoinRain>(get_pos(), true);
       SoundManager::current()->play("sounds/upgrade.wav");
       break;
     }
     case CONTENT_EXPLODE:
     {
       m_hit_counter = 1; // multiple hits of coin explode is not allowed
-      Sector::current()->add_object(std::make_shared<CoinExplode>(get_pos() + Vector (0, -40)));
+      Sector::current()->add<CoinExplode>(get_pos() + Vector (0, -40));
       SoundManager::current()->play("sounds/upgrade.wav");
       break;
     }
@@ -474,7 +474,7 @@ BonusBlock::try_drop(Player *player)
     case CONTENT_EXPLODE:
     {
       m_hit_counter = 1; // multiple hits of coin explode is not allowed
-      Sector::current()->add_object(std::make_shared<CoinExplode>(get_pos() + Vector (0, 40)));
+      Sector::current()->add<CoinExplode>(get_pos() + Vector (0, 40));
       SoundManager::current()->play("sounds/upgrade.wav");
       countdown = true;
       break;
@@ -504,15 +504,14 @@ BonusBlock::raise_growup_bonus(Player* player, const BonusType& bonus, const Dir
     obj = std::make_shared<Flower>(bonus);
   }
 
-  auto riser = std::make_shared<SpecialRiser>(get_pos(), obj);
-  Sector::current()->add_object(riser);
+  Sector::current()->add<SpecialRiser>(get_pos(), obj);
   SoundManager::current()->play("sounds/upgrade.wav");
 }
 
 void
 BonusBlock::drop_growup_bonus(const std::string& bonus_sprite_name, bool& countdown)
 {
-  Sector::current()->add_object(std::make_shared<PowerUp>(get_pos() + Vector(0, 32), bonus_sprite_name));
+  Sector::current()->add<PowerUp>(get_pos() + Vector(0, 32), bonus_sprite_name);
   SoundManager::current()->play("sounds/upgrade.wav");
   countdown = true;
 }

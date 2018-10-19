@@ -68,8 +68,8 @@ Explosion::explode()
   // spawn some particles
   int pnumber = push ? 8 : 100;
   Vector accel = Vector(0, Sector::current()->get_gravity()*100);
-  Sector::current()->add_object(std::make_shared<Particles>(
-    bbox.get_middle(), -360, 360, 450, 900, accel , pnumber, Color(.4f, .4f, .4f), 3, .8f, LAYER_OBJECTS-1));
+  Sector::current()->add<Particles>(
+    bbox.get_middle(), -360, 360, 450, 900, accel , pnumber, Color(.4f, .4f, .4f), 3, .8f, LAYER_OBJECTS-1);
 
   if (push) {
     Vector center = bbox.get_middle ();

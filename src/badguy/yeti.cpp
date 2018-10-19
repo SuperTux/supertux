@@ -379,7 +379,7 @@ void Yeti::add_snow_explosions()
     pos.x += static_cast<float>(sprite->get_width()) * graphicsRandom.randf(0.3f, 0.5f) * ((velocity.x > 0) ? 1.0f : -1.0f);
     pos.y += static_cast<float>(sprite->get_height()) * graphicsRandom.randf(-0.3f, 0.3f);
     velocity.x += physic.get_velocity_x();
-    Sector::current()->add_object(std::make_shared<SnowExplosionParticle>(pos, velocity));
+    Sector::current()->add<SnowExplosionParticle>(pos, velocity);
   }
 }
 

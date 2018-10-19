@@ -133,14 +133,14 @@ IceCrusher::collision_solid(const CollisionHit& hit)
           // throw some particles, bigger and more for large icecrusher
           for(int j = 0; j < 9; j++)
           {
-            Sector::current()->add_object(std::make_shared<Particles>(
-                                            Vector(bbox.p2.x - static_cast<float>(j) * 8.0f - 4.0f, bbox.p2.y),
-                                            0, 90-5*j, 140, 380, Vector(0.0f, 300.0f),
-                                            1, Color(.6f, .6f, .6f), 5, 1.8f, LAYER_OBJECTS+1));
-            Sector::current()->add_object(std::make_shared<Particles>(
-                                            Vector(bbox.p1.x + static_cast<float>(j) * 8.0f + 4.0f, bbox.p2.y),
-                                            270+5*j, 360, 140, 380, Vector(0.0f, 300.0f),
-                                            1, Color(.6f, .6f, .6f), 5, 1.8f, LAYER_OBJECTS+1));
+            Sector::current()->add<Particles>(
+              Vector(bbox.p2.x - static_cast<float>(j) * 8.0f - 4.0f, bbox.p2.y),
+              0, 90-5*j, 140, 380, Vector(0.0f, 300.0f),
+              1, Color(.6f, .6f, .6f), 5, 1.8f, LAYER_OBJECTS+1);
+            Sector::current()->add<Particles>(
+              Vector(bbox.p1.x + static_cast<float>(j) * 8.0f + 4.0f, bbox.p2.y),
+              270+5*j, 360, 140, 380, Vector(0.0f, 300.0f),
+              1, Color(.6f, .6f, .6f), 5, 1.8f, LAYER_OBJECTS+1);
           }
         }
         else {
@@ -158,16 +158,16 @@ IceCrusher::collision_solid(const CollisionHit& hit)
           // throw some particles
           for(int j = 0; j < 5; j++)
           {
-            Sector::current()->add_object(std::make_shared<Particles>(
-                                            Vector(bbox.p2.x - static_cast<float>(j) * 8.0f - 4.0f,
-                                                   bbox.p2.y),
-                                            0, 90+10*j, 140, 260, Vector(0, 300),
-                                            1, Color(.6f, .6f, .6f), 4, 1.6f, LAYER_OBJECTS+1));
-            Sector::current()->add_object(std::make_shared<Particles>(
-                                            Vector(bbox.p1.x + static_cast<float>(j) * 8.0f + 4.0f,
-                                                   bbox.p2.y),
-                                            270+10*j, 360, 140, 260, Vector(0, 300),
-                                            1, Color(.6f, .6f, .6f), 4, 1.6f, LAYER_OBJECTS+1));
+            Sector::current()->add<Particles>(
+              Vector(bbox.p2.x - static_cast<float>(j) * 8.0f - 4.0f,
+                     bbox.p2.y),
+              0, 90+10*j, 140, 260, Vector(0, 300),
+              1, Color(.6f, .6f, .6f), 4, 1.6f, LAYER_OBJECTS+1);
+            Sector::current()->add<Particles>(
+              Vector(bbox.p1.x + static_cast<float>(j) * 8.0f + 4.0f,
+                     bbox.p2.y),
+              270+10*j, 360, 140, 260, Vector(0, 300),
+              1, Color(.6f, .6f, .6f), 4, 1.6f, LAYER_OBJECTS+1);
           }
         }
         set_state(RECOVERING);

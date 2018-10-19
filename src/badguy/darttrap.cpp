@@ -109,7 +109,7 @@ DartTrap::fire()
   py += MUZZLE_Y;
 
   SoundManager::current()->play("sounds/dartfire.wav", get_pos());
-  Sector::current()->add_object(std::make_shared<Dart>(Vector(px, py), dir, this));
+  Sector::current()->add<Dart>(Vector(px, py), dir, this);
   state = IDLE;
   sprite->set_action(dir == LEFT ? "idle-left" : "idle-right");
 }

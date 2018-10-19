@@ -409,15 +409,15 @@ Player::update(float elapsed_time)
       Vector ppos = Vector(px, py);
       Vector pspeed = Vector(0, 0);
       Vector paccel = Vector(0, 0);
-      Sector::current()->add_object(std::make_shared<SpriteParticle>(
-                                      "images/objects/particles/sparkle.sprite",
-                                      // draw bright sparkle when there is lots of time left,
-                                      // dark sparkle when invincibility is about to end
-                                      (m_invincible_timer.get_timeleft() > TUX_INVINCIBLE_TIME_WARNING) ?
-                                      // make every other a longer sparkle to make trail a bit fuzzy
-                                      (size_t(g_game_time*20)%2) ? "small" : "medium"
-                                      :
-                                      "dark", ppos, ANCHOR_MIDDLE, pspeed, paccel, LAYER_OBJECTS+1+5));
+      Sector::current()->add<SpriteParticle>(
+        "images/objects/particles/sparkle.sprite",
+        // draw bright sparkle when there is lots of time left,
+        // dark sparkle when invincibility is about to end
+        (m_invincible_timer.get_timeleft() > TUX_INVINCIBLE_TIME_WARNING) ?
+        // make every other a longer sparkle to make trail a bit fuzzy
+        (size_t(g_game_time*20)%2) ? "small" : "medium"
+        :
+        "dark", ppos, ANCHOR_MIDDLE, pspeed, paccel, LAYER_OBJECTS + 1 + 5);
     }
   }
 
@@ -542,11 +542,10 @@ Player::handle_horizontal_input()
         m_skidding_timer.start(SKID_TIME);
         SoundManager::current()->play("sounds/skid.wav");
         // dust some particles
-        Sector::current()->add_object(
-          std::make_shared<Particles>(
+        Sector::current()->add<Particles>(
             Vector(m_dir == LEFT ? bbox.p2.x : bbox.p1.x, bbox.p2.y),
             m_dir == LEFT ? 50 : -70, m_dir == LEFT ? 70 : -50, 260, 280,
-            Vector(0, 300), 3, Color(.4f, .4f, .4f), 3, .8f, LAYER_OBJECTS+1));
+            Vector(0, 300), 3, Color(.4f, .4f, .4f), 3, .8f, LAYER_OBJECTS+1);
 
         ax *= 2.5f;
       } else {
@@ -855,9 +854,9 @@ Player::handle_input()
                            bbox.get_top() + 16.0f * static_cast<float>(i % 4));
       float grey = graphicsRandom.randf(.4f, .8f);
       Color pcolor = Color(grey, grey, grey);
-      Sector::current()->add_object(std::make_shared<Particles>(ppos, -60, 240, 42, 81, Vector(0.0f, 500.0f),
+      Sector::current()->add<Particles>(ppos, -60, 240, 42, 81, Vector(0.0f, 500.0f),
                                                                 8, pcolor, 4 + graphicsRandom.randf(-0.4f, 0.4f),
-                                                                0.8f + graphicsRandom.randf(0.0f, 0.4f), LAYER_OBJECTS + 2));
+                                                                0.8f + graphicsRandom.randf(0.0f, 0.4f), LAYER_OBJECTS + 2);
     }
   }
 
@@ -1109,7 +1108,8 @@ Player::set_bonus(BonusType type, bool animate)
       particle_name = "earthtux-hardhat";
     }
     if(!particle_name.empty() && animate) {
-      Sector::current()->add_object(std::make_shared<SpriteParticle>("images/objects/particles/" + particle_name + ".sprite", action, ppos, ANCHOR_TOP, pspeed, paccel, LAYER_OBJECTS - 1));
+      Sector::current()->add<SpriteParticle>("images/objects/particles/" + particle_name + ".sprite",
+                                             action, ppos, ANCHOR_TOP, pspeed, paccel, LAYER_OBJECTS - 1);
     }
     if(m_climbing) stop_climbing(*m_climbing);
 
@@ -1301,9 +1301,9 @@ Player::draw(DrawingContext& context)
       float px = graphicsRandom.randf(bbox.p1.x, bbox.p2.x);
       float py = bbox.p2.y+8;
       Vector ppos = Vector(px, py);
-      Sector::current()->add_object(std::make_shared<SpriteParticle>(
+      Sector::current()->add<SpriteParticle>(
         "images/objects/particles/sparkle.sprite", "dark",
-        ppos, ANCHOR_MIDDLE, Vector(0, 0), Vector(0, 0), LAYER_OBJECTS+1+5));
+        ppos, ANCHOR_MIDDLE, Vector(0, 0), Vector(0, 0), LAYER_OBJECTS+1+5);
     }
   }
   else {
@@ -1364,14 +1364,14 @@ Player::collision_solid(const CollisionHit& hit)
       m_does_buttjump = false;
       m_physic.set_velocity_y(-300);
       m_on_ground_flag = false;
-      Sector::current()->add_object(std::make_shared<Particles>(
+      Sector::current()->add<Particles>(
                                       bbox.p2,
                                       50, 70, 260, 280, Vector(0, 300), 3,
-                                      Color(.4f, .4f, .4f), 3, .8f, LAYER_OBJECTS+1));
-      Sector::current()->add_object(std::make_shared<Particles>(
+                                      Color(.4f, .4f, .4f), 3, .8f, LAYER_OBJECTS+1);
+      Sector::current()->add<Particles>(
                                       Vector(bbox.p1.x, bbox.p2.y),
                                       -70, -50, 260, 280, Vector(0, 300), 3,
-                                      Color(.4f, .4f, .4f), 3, .8f, LAYER_OBJECTS+1));
+                                      Color(.4f, .4f, .4f), 3, .8f, LAYER_OBJECTS+1);
       Sector::current()->m_camera->shake(.1f, 0, 5);
     }
 
@@ -1490,9 +1490,9 @@ Player::kill(bool completely)
       for (int i = 0; i < 5; i++)
       {
         // the numbers: starting x, starting y, velocity y
-        Sector::current()->add_object(std::make_shared<FallingCoin>(get_pos() +
+        Sector::current()->add<FallingCoin>(get_pos() +
                                                       Vector(graphicsRandom.randf(5.0f), graphicsRandom.randf(-32.0f, 18.0f)),
-                                                      graphicsRandom.randf(-100.0f, 100.0f)));
+                                                      graphicsRandom.randf(-100.0f, 100.0f));
       }
       m_player_status.coins -= std::max(m_player_status.coins/10, 25);
     }

@@ -88,8 +88,8 @@ void RainParticleSystem::update(float elapsed_time)
                                   // uncommenting the else statement below.
           splash_x = int(particle->pos.x);
           splash_y = int(particle->pos.y) - (int(particle->pos.y) % 32) + 32;
-          Sector::current()->add_object(std::make_shared<RainSplash>(Vector(static_cast<float>(splash_x), static_cast<float>(splash_y)),
-                                                                     vertical));
+          Sector::current()->add<RainSplash>(Vector(static_cast<float>(splash_x), static_cast<float>(splash_y)),
+                                             vertical);
         }
         // Uncomment the following to display vertical splashes, too
         /* else {

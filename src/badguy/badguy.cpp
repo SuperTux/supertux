@@ -198,7 +198,7 @@ BadGuy::update(float elapsed_time)
       is_active_flag = false;
       movement = physic.get_movement(elapsed_time);
       if ( sprite->animation_done() || on_ground() ) {
-        Sector::current()->add_object( std::make_shared<WaterDrop>(bbox.p1, get_water_sprite(), physic.get_velocity()) );
+        Sector::current()->add<WaterDrop>(bbox.p1, get_water_sprite(), physic.get_velocity());
         remove_me();
         break;
       }
@@ -221,10 +221,10 @@ BadGuy::update(float elapsed_time)
       float px = graphicsRandom.randf(bbox.p1.x, bbox.p2.x);
       float py = graphicsRandom.randf(bbox.p1.y, bbox.p2.y);
       Vector ppos = Vector(px, py);
-      Sector::current()->add_object(std::make_shared<SpriteParticle>(get_water_sprite(), "particle_" + std::to_string(pa),
-                                                                     ppos, ANCHOR_MIDDLE,
-                                                                     Vector(0, 0), Vector(0, 100 * Sector::current()->get_gravity()),
-                                                                     LAYER_OBJECTS-1));
+      Sector::current()->add<SpriteParticle>(get_water_sprite(), "particle_" + std::to_string(pa),
+                                             ppos, ANCHOR_MIDDLE,
+                                             Vector(0, 0), Vector(0, 100 * Sector::current()->get_gravity()),
+                                             LAYER_OBJECTS-1);
     } break;
     case STATE_FALLING:
       is_active_flag = false;
@@ -492,12 +492,11 @@ BadGuy::kill_fall()
     for (pr_pos.x = 0; pr_pos.x < bbox.get_width(); pr_pos.x += 16) {
       for (pr_pos.y = 0; pr_pos.y < bbox.get_height(); pr_pos.y += 16) {
         Vector speed = Vector((pr_pos.x - cx) * 8, (pr_pos.y - cy) * 8 + 100);
-        Sector::current()->add_object(
-          std::make_shared<SpriteParticle>(
+        Sector::current()->add<SpriteParticle>(
             "images/particles/ice_piece1.sprite", "default",
             bbox.p1 + pr_pos, ANCHOR_MIDDLE,
             speed,
-            Vector(0, Sector::current()->get_gravity() * 100.0f)));
+            Vector(0, Sector::current()->get_gravity() * 100.0f));
       }
     }
     // start dead-script

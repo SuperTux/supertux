@@ -103,8 +103,7 @@ MrBomb::kill_fall()
 {
   if(is_valid()) {
     remove_me();
-    auto explosion = std::make_shared<Explosion>(bbox.get_middle());
-    Sector::current()->add_object(explosion);
+    Sector::current()->add<Explosion>(bbox.get_middle());
   }
 
   run_dead_script();

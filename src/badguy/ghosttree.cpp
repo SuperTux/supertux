@@ -118,7 +118,6 @@ GhostTree::active_update(float /*elapsed_time*/)
       if(willowisps.size() < WILLOWISP_COUNT) {
         Vector pos = Vector(bbox.get_width() / 2, bbox.get_height() / 2 + willo_spawn_y + WILLOWISP_TOP_OFFSET);
         auto willowisp = std::make_shared<TreeWillOWisp>(this, pos, 200 + willo_radius, willo_speed);
-
         Sector::current()->add_object(willowisp);
         willowisps.push_back(willowisp);
 

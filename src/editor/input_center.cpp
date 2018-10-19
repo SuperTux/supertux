@@ -450,9 +450,7 @@ EditorInputCenter::add_path_node() {
   new_node.position = sector_pos;
   new_node.time = 1;
   edited_path->nodes.insert(last_node_marker->node + 1, new_node);
-  GameObjectPtr marker;
-  marker = std::make_shared<NodeMarker>(edited_path, edited_path->nodes.end() - 1, edited_path->nodes.size() - 1);
-  Sector::current()->add_object(marker);
+  Sector::current()->add<NodeMarker>(edited_path, edited_path->nodes.end() - 1, edited_path->nodes.size() - 1);
   //last_node_marker = dynamic_cast<NodeMarker*>(marker.get());
   update_node_iterators();
   Editor::current()->currentsector->update(0);

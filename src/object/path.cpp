@@ -146,9 +146,7 @@ void
 Path::edit_path() {
   int id = 0;
   for(auto i = nodes.begin(); i != nodes.end(); ++i) {
-    GameObjectPtr marker;
-    marker = std::make_shared<NodeMarker>(this, i, id);
-    Sector::current()->add_object(marker);
+    Sector::current()->add<NodeMarker>(this, i, id);
     id++;
   }
 }

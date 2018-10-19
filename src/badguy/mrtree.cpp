@@ -83,11 +83,11 @@ MrTree::collision_squished(GameObject& object)
     float vy = -cosf(angle)*velocity;
     Vector pspeed = Vector(vx, vy);
     Vector paccel = Vector(0, Sector::current()->get_gravity()*10);
-    Sector::current()->add_object(std::make_shared<SpriteParticle>("images/objects/particles/leaf.sprite",
-                                                                   "default",
-                                                                   ppos, ANCHOR_MIDDLE,
-                                                                   pspeed, paccel,
-                                                                   LAYER_OBJECTS-1));
+    Sector::current()->add<SpriteParticle>("images/objects/particles/leaf.sprite",
+                                           "default",
+                                           ppos, ANCHOR_MIDDLE,
+                                           pspeed, paccel,
+                                           LAYER_OBJECTS-1);
   }
 
   if (!frozen) { //Frozen Mr.Trees don't spawn any PoisonIvys.

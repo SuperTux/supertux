@@ -40,7 +40,7 @@ EndSequenceFireworks::starting()
 {
   EndSequence::starting();
   endsequence_timer.start(7.3f * ScreenManager::current()->get_speed());
-  Sector::current()->add_object(std::make_shared<Fireworks>());
+  Sector::current()->add<Fireworks>();
 }
 
 void
