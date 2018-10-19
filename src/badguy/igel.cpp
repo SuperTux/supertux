@@ -69,7 +69,7 @@ Igel::active_update(float elapsed_time)
   // check if we see a fire bullet
   auto sector = Sector::current();
   for (const auto& object : sector->get_objects()) {
-    auto bullet = reinterpret_cast<Bullet*>(object.get());
+    auto bullet = dynamic_cast<Bullet*>(object.get());
     if (!bullet) continue;
     if (bullet->get_type() != FIRE_BONUS) continue;
     if (can_see(*bullet)) wants_to_flee = true;
