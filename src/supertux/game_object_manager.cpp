@@ -129,8 +129,8 @@ GameObjectManager::update_game_objects()
     {
       if (before_object_add(object))
       {
-        this_before_object_add(object);
         object->set_uid(m_uid_generator.next());
+        this_before_object_add(object);
         m_gameobjects.push_back(object);
       }
     }
