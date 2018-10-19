@@ -100,6 +100,6 @@ class EditorInputGui final
     EditorInputGui& operator=(const EditorInputGui&);
 };
 
-#endif // HEADER_SUPERTUX_EDITOR_INPUT_GUI_HPP
+#endif
 
 /* EOF */

@@ -44,6 +44,6 @@ private:
   EditorLevelSelectMenu& operator=(const EditorLevelSelectMenu&);
 };
 
-#endif // HEADER_SUPERTUX_SUPERTUX_MENU_EDITOR_LEVEL_SELECT_MENU_HPP
+#endif
 
 /* EOF */

@@ -58,6 +58,6 @@ class SpawnPointMarker final : public MovingObject
     void setup();
 };
 
-#endif // HEADER_SUPERTUX_EDITOR_SPAWNPOINT_MARKER_HPP
+#endif
 
 /* EOF */

@@ -81,6 +81,6 @@ public:
 
 } // namespace scripting
 
-#endif // HEADER_SUPERTUX_SCRIPTING_TEXT_ARRAY_HPP
+#endif
 
 /* EOF */

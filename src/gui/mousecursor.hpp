@@ -82,6 +82,6 @@ private:
   MouseCursor& operator=(const MouseCursor&);
 };
 
-#endif /*SUPERTUX_MOUSECURSOR_H*/
+#endif
 
 /* EOF */

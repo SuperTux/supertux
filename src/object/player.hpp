@@ -356,6 +356,6 @@ private:
   Player& operator=(const Player&);
 };
 
-#endif /*SUPERTUX_PLAYER_H*/
+#endif
 
 /* EOF */

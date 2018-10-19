@@ -45,6 +45,6 @@ class EditorScroller final
     EditorScroller& operator=(const EditorScroller&);
 };
 
-#endif // HEADER_SUPERTUX_EDITOR_SCROLLER_HPP
+#endif
 
 /* EOF */

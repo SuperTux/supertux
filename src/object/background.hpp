@@ -108,6 +108,6 @@ private:
   DrawingTarget m_target;
 };
 
-#endif /*SUPERTUX_BACKGROUND_H*/
+#endif
 
 /* EOF */

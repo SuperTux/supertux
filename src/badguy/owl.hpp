@@ -58,6 +58,6 @@ private:
   Owl& operator=(const Owl&);
 };
 
-#endif /* HEADER_SUPERTUX_BADGUY_OWL_HPP */
+#endif
 
 /* EOF */

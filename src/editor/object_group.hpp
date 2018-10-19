@@ -37,6 +37,6 @@ class ObjectGroup final
     void add_icon(const std::string& object, const std::string& icon_path);
 };
 
-#endif // HEADER_SUPERTUX_EDITOR_OBJECT_GROUP_HPP
+#endif
 
 /* EOF */

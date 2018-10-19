@@ -44,6 +44,6 @@ class ItemColorDisplay final : public MenuItem
     ItemColorDisplay& operator=(const ItemColorDisplay&);
 };
 
-#endif // HEADER_SUPERTUX_GUI_ITEM_COLORDISPLAY_HPP
+#endif
 
 /* EOF */

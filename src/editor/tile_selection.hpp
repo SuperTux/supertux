@@ -45,6 +45,6 @@ class TileSelection final
     bool empty() const;
 };
 
-#endif //  HEADER_SUPERTUX_EDITOR_TILE_SELECTION_HPP
+#endif
 
 /* EOF */

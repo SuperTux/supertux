@@ -32,6 +32,6 @@ class ObjectSettings final
     void copy_from(ObjectSettings* other);
 };
 
-#endif // HEADER_SUPERTUX_EDITOR_OBJECT_SETTINGS_HPP
+#endif
 
 /* EOF */

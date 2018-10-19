@@ -107,6 +107,6 @@ class EditorInputCenter final
     EditorInputCenter& operator=(const EditorInputCenter&);
 };
 
-#endif // INPUT_CENTER_HPP
+#endif
 
 /* EOF */

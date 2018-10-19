@@ -40,6 +40,6 @@ protected:
   void explode();
 };
 
-#endif /* HEADER_SUPERTUX_BADGUY_SHORT_FUSE_HPP */
+#endif
 
 /* EOF */

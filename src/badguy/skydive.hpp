@@ -51,6 +51,6 @@ class SkyDive final : public BadGuy, public Portable
     void explode();
 };
 
-#endif /* HEADER_SUPERTUX_BADGUY_BOMBFISH_HPP */
+#endif
 
 /* EOF */

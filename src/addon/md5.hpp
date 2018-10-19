@@ -93,6 +93,6 @@ private:
 
 };
 
-#endif /*SUPERTUX_ADDON_MD5_HPP*/
+#endif
 
 /* EOF */

@@ -52,6 +52,6 @@ class ToolIcon final
     ToolIcon& operator=(const ToolIcon&);
 };
 
-#endif // HEADER_SUPERTUX_EDITOR_TOOL_ICON_HPP
+#endif
 
 /* EOF */

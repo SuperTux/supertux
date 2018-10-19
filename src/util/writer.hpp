@@ -59,6 +59,6 @@ private:
   Writer & operator=(const Writer&);
 };
 
-#endif //HEADER_SUPERTUX_UTIL_WRITER_HPP
+#endif
 
 /* EOF */

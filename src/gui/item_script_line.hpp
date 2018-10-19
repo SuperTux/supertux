@@ -42,6 +42,6 @@ class ItemScriptLine final : public ItemTextField
     ItemScriptLine& operator=(const ItemScriptLine&);
 };
 
-#endif // HEADER_SUPERTUX_GUI_ITEM_SCRIPT_LINE_HPP
+#endif
 
 /* EOF */

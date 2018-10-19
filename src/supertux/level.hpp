@@ -83,6 +83,6 @@ private:
   Level& operator=(const Level&);
 };
 
-#endif /*SUPERTUX_LEVEL_H*/
+#endif
 
 /* EOF */

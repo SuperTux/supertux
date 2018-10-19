@@ -39,6 +39,6 @@ private:
   EditorLevelMenu& operator=(const EditorLevelMenu&);
 };
 
-#endif //HEADER_SUPERTUX_SUPERTUX_MENU_EDITOR_LEVEL_MENU_HPP
+#endif
 
 /* EOF */

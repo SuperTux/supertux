@@ -47,6 +47,6 @@ private:
   bool solid;
 };
 
-#endif /*SUPERTUX_DECAL_H*/
+#endif
 
 /* EOF */

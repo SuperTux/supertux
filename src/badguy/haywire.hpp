@@ -62,6 +62,6 @@ private:
   std::unique_ptr<SoundSource> grunting;
 };
 
-#endif /* HEADER_SUPERTUX_BADGUY_HAYWIRE_HPP */
+#endif
 
 /* EOF */

@@ -69,6 +69,6 @@ class ObjectOption final
     const std::string to_string() const;
 };
 
-#endif // HEADER_SUPERTUX_EDITOR_OBJECT_OPTION_HPP
+#endif
 
 /* EOF */

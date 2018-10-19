@@ -125,6 +125,6 @@ private:
   GameObject& operator=(const GameObject&);
 };
 
-#endif /*SUPERTUX_GAMEOBJECT_H*/
+#endif
 
 /* EOF */

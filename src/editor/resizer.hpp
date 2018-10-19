@@ -50,6 +50,6 @@ class Resizer : public PointMarker
     Resizer& operator=(const Resizer&);
 };
 
-#endif // HEADER_SUPERTUX_EDITOR_RESIZER_HPP
+#endif
 
 /* EOF */

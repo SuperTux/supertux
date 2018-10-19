@@ -147,6 +147,6 @@ class SpecialTile final : public WorldmapObject
 
 } // namespace worldmap_editor
 
-#endif // HEADER_SUPERTUX_EDITOR_WORLDMAP_OBJECTS_HPP
+#endif
 
 /* EOF */

@@ -57,6 +57,6 @@ class ItemTextField : public MenuItem
     ItemTextField& operator=(const ItemTextField&);
 };
 
-#endif // HEADER_SUPERTUX_GUI_ITEM_TEXTFIELD_HPP
+#endif
 
 /* EOF */

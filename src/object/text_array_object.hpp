@@ -224,6 +224,6 @@ private:
   Timer m_waiting;
 };
 
-#endif // HEADER_SUPERTUX_OBJECT_TEXT_ARRAY_OBJECT_HPP
+#endif
 
 /* EOF */

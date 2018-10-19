@@ -49,6 +49,6 @@ class PointMarker : public MovingObject
     PointMarker& operator=(const PointMarker&);
 };
 
-#endif // HEADER_SUPERTUX_EDITOR_POINT_MARKER_HPP
+#endif
 
 /* EOF */

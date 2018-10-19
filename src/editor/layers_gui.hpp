@@ -74,6 +74,6 @@ class EditorLayersGui final
     EditorLayersGui& operator=(const EditorLayersGui&);
 };
 
-#endif // HEADER_SUPERTUX_EDITOR_LAYERS_GUI_HPP
+#endif
 
 /* EOF */

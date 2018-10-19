@@ -58,6 +58,6 @@ class ItemNumField final : public MenuItem
     ItemNumField& operator=(const ItemNumField&);
 };
 
-#endif // HEADER_SUPERTUX_GUI_ITEM_NUMFIELD_HPP
+#endif
 
 /* EOF */

@@ -45,6 +45,6 @@ class LayerIcon : public ObjectIcon
     LayerIcon& operator=(const LayerIcon&);
 };
 
-#endif // LAYER_ICON_HPP
+#endif
 
 /* EOF */

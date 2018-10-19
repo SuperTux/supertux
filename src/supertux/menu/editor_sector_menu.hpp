@@ -47,6 +47,6 @@ private:
   EditorSectorMenu& operator=(const EditorSectorMenu&);
 };
 
-#endif //HEADER_SUPERTUX_SUPERTUX_MENU_EDITOR_SECTOR_MENU_HPP
+#endif
 
 /* EOF */

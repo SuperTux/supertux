@@ -63,6 +63,6 @@ class ItemColorChannel final : public MenuItem
     ItemColorChannel& operator=(const ItemColorChannel&);
 };
 
-#endif // HEADER_SUPERTUX_GUI_ITEM_COLORCHANEL_HPP
+#endif
 
 /* EOF */

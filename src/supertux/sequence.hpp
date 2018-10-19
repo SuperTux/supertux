@@ -45,5 +45,5 @@ struct SequenceData {
 Sequence string_to_sequence(const std::string& sequencename);
 std::string sequence_to_string(const Sequence& seq);
 
-#endif // HEADER_SUPERTUX_SUPERTUX_SEQUENCE_HPP
+#endif
 /* EOF */

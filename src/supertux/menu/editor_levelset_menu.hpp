@@ -42,6 +42,6 @@ private:
   EditorLevelsetMenu& operator=(const EditorLevelsetMenu&);
 };
 
-#endif //HEADER_SUPERTUX_SUPERTUX_MENU_EDITOR_LEVELSET_MENU_HPP
+#endif
 
 /* EOF */

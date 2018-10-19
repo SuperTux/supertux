@@ -43,6 +43,6 @@ class ObjectIcon
     void calculate_offset();
 };
 
-#endif // HEADER_SUPERTUX_EDITOR_OBJECT_ICON_HPP
+#endif
 
 /* EOF */

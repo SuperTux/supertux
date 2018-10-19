@@ -198,6 +198,6 @@ class Editor final : public Screen,
     Editor& operator=(const Editor&);
 };
 
-#endif // HEADER_SUPERTUX_EDITOR_EDITOR_HPP
+#endif
 
 /* EOF */

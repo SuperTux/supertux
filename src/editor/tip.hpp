@@ -37,6 +37,6 @@ class Tip final
     std::string header;
 };
 
-#endif // HEADER_SUPERTUX_EDITOR_TIP_HPP
+#endif
 
 /* EOF */

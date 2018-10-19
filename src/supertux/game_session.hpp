@@ -157,6 +157,6 @@ private:
   GameSession& operator=(const GameSession&) = delete;
 };
 
-#endif /*SUPERTUX_GAMELOOP_H*/
+#endif
 
 /* EOF */

@@ -65,6 +65,6 @@ private:
   TriggerBase& operator=(const TriggerBase&);
 };
 
-#endif /*SUPERTUX_INTERACTIVE_OBJECT_H*/
+#endif
 
 /* EOF */

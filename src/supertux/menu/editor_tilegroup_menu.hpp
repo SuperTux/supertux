@@ -32,6 +32,6 @@ private:
   EditorTilegroupMenu& operator=(const EditorTilegroupMenu&);
 };
 
-#endif // HEADER_SUPERTUX_SUPERTUX_MENU_EDITOR_TILEGROUP_MENU_HPP
+#endif
 
 /* EOF */

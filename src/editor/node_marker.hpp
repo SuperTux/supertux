@@ -44,6 +44,6 @@ class NodeMarker : public PointMarker
     NodeMarker& operator=(const NodeMarker&);
 };
 
-#endif // HEADER_SUPERTUX_EDITOR_NODE_MARKER_HPP
+#endif
 
 /* EOF */
