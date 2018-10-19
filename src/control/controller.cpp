@@ -30,6 +30,7 @@ const char* Controller::controlNames[] = {
   "menu-back",
   "remove",
   "cheat-menu",
+  "debug-menu",
   "console",
   "peek-left",
   "peek-right",
