@@ -18,15 +18,21 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_GAME_OBJECT_MANAGER_HPP
 #define HEADER_SUPERTUX_SUPERTUX_GAME_OBJECT_MANAGER_HPP
 
+#include <unordered_map>
 #include <vector>
 
+#include "supertux/game_object.hpp"
 #include "supertux/game_object_ptr.hpp"
+#include "util/uid_generator.hpp"
 
 class DrawingContext;
 class TileMap;
 
 class GameObjectManager
 {
+public:
+  static bool s_draw_solids_only;
+
 public:
   GameObjectManager();
   virtual ~GameObjectManager();
@@ -59,19 +65,31 @@ public:
   virtual void before_object_remove(GameObjectPtr object) = 0;
 
   template<class T>
+  T* get_object_by_uid(const UID& uid) const
+  {
+    auto it = m_objects_by_uid.find(uid);
+    if (it != m_objects_by_uid.end())
+    {
+      return nullptr;
+    }
+    else
+    {
+      return dynamic_cast<T*>(it->second);
+    }
+  }
+
+  template<class T>
   T* get_object_by_name(const std::string& name) const
   {
-    for(const auto& obj : get_objects())
+    auto it = m_objects_by_name.find(name);
+    if (it == m_objects_by_name.end())
     {
-      if (auto typed_obj = dynamic_cast<T*>(obj.get()))
-      {
-        if (typed_obj->get_name() == name)
-        {
-          return typed_obj;
-        }
-      }
+      return nullptr;
     }
-    return nullptr;
+    else
+    {
+      return dynamic_cast<T*>(it->second);
+    }
   }
 
   /** Get total number of GameObjects of given type */
@@ -90,16 +108,23 @@ public:
 
   const std::vector<TileMap*>& get_solid_tilemaps() const { return m_solid_tilemaps; }
 
-public:
-  static bool s_draw_solids_only;
+private:
+  void this_before_object_add(const GameObjectPtr& object);
+  void this_before_object_remove(const GameObjectPtr& object);
 
 private:
+  UIDGenerator m_uid_generator;
+
   std::vector<GameObjectPtr> m_gameobjects;
 
   /** container for newly created objects, they'll be added in update_game_objects() */
   std::vector<GameObjectPtr> m_gameobjects_new;
 
+  /** Fast access to solid tilemaps */
   std::vector<TileMap*> m_solid_tilemaps;
+
+  std::unordered_map<std::string, GameObject*> m_objects_by_name;
+  std::unordered_map<UID, GameObject*> m_objects_by_uid;
 
 private:
   GameObjectManager(const GameObjectManager&) = delete;

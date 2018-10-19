@@ -25,9 +25,12 @@
 bool GameObjectManager::s_draw_solids_only = false;
 
 GameObjectManager::GameObjectManager() :
+  m_uid_generator(),
   m_gameobjects(),
   m_gameobjects_new(),
-  m_solid_tilemaps()
+  m_solid_tilemaps(),
+  m_objects_by_name(),
+  m_objects_by_uid()
 {
 }
 
@@ -105,13 +108,13 @@ GameObjectManager::draw(DrawingContext& context)
 void
 GameObjectManager::update_game_objects()
 {
-  {
-    // cleanup marked objects
+  { // cleanup marked objects
     m_gameobjects.erase(
       std::remove_if(m_gameobjects.begin(), m_gameobjects.end(),
                      [this](const GameObjectPtr& obj) {
                        if (!obj->is_valid())
                        {
+                         this_before_object_remove(obj);
                          before_object_remove(obj);
                          return true;
                        } else {
@@ -121,24 +124,60 @@ GameObjectManager::update_game_objects()
       m_gameobjects.end());
   }
 
-  // add newly created objects
-  for(const auto& object : m_gameobjects_new)
-  {
-    if (before_object_add(object))
+  { // add newly created objects
+    for(const auto& object : m_gameobjects_new)
     {
-      m_gameobjects.push_back(object);
+      if (before_object_add(object))
+      {
+        this_before_object_add(object);
+        object->set_uid(m_uid_generator.next());
+        m_gameobjects.push_back(object);
+      }
+    }
+    m_gameobjects_new.clear();
+  }
+
+  { // update solid_tilemaps list
+    m_solid_tilemaps.clear();
+    for(const auto& obj : m_gameobjects)
+    {
+      const auto& tm = dynamic_cast<TileMap*>(obj.get());
+      if (!tm) continue;
+      if (tm->is_solid()) static_cast<Sector*>(this)->m_solid_tilemaps.push_back(tm);
     }
   }
-  m_gameobjects_new.clear();
+}
 
-  // update solid_tilemaps list
-  //FIXME: this could be more efficient
-  m_solid_tilemaps.clear();
-  for(const auto& obj : m_gameobjects)
-  {
-    const auto& tm = dynamic_cast<TileMap*>(obj.get());
-    if (!tm) continue;
-    if (tm->is_solid()) static_cast<Sector*>(this)->m_solid_tilemaps.push_back(tm);
+void
+GameObjectManager::this_before_object_add(const GameObjectPtr& object)
+{
+  { // by_name
+    if (!object->get_name().empty())
+    {
+      m_objects_by_name[object->get_name()] = object.get();
+    }
+  }
+
+  { // by_id
+    assert(object->get_uid());
+
+    m_objects_by_uid[object->get_uid()] = object.get();
+  }
+}
+
+void
+GameObjectManager::this_before_object_remove(const GameObjectPtr& object)
+{
+  { // by_name
+    const std::string& name = object->get_name();
+    if (!name.empty())
+    {
+      m_objects_by_name.erase(name);
+    }
+  }
+
+  { // by_id
+    m_objects_by_uid.erase(object->get_uid());
   }
 }
 
