@@ -41,6 +41,14 @@ public:
   void add_object(GameObjectPtr object);
   void clear_objects();
 
+  template<typename T, typename... Args>
+  T* add(Args&&... args)
+  {
+    auto obj = std::make_shared<T>(std::forward<Args>(args)...);
+    add_object(obj);
+    return obj.get();
+  }
+
   void update(float delta);
   void draw(DrawingContext& context);
 
