@@ -16,6 +16,8 @@
 
 #include "audio/wav_sound_file.hpp"
 
+#include <config.h>
+
 #include <string.h>
 #include <stdint.h>
 #include <assert.h>
