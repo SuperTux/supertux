@@ -44,7 +44,7 @@ void CloudParticleSystem::init()
 
   // create some random clouds
   for(size_t i=0; i<15; ++i) {
-    auto particle = std::unique_ptr<CloudParticle>(new CloudParticle);
+    auto particle = std::make_unique<CloudParticle>();
     particle->pos.x = graphicsRandom.randf(virtual_width);
     particle->pos.y = graphicsRandom.randf(virtual_height);
     particle->texture = cloudimage;

@@ -40,7 +40,7 @@ void TextArrayObject::clear()
 
 void TextArrayObject::add_text(const std::string& text_, float duration_)
 {
-  std::unique_ptr<TextArrayItem> pText(new TextArrayItem());
+  auto pText = std::make_unique<TextArrayItem>();
   assert(pText);
 
   pText->duration = duration_;

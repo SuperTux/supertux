@@ -28,6 +28,7 @@
 #include "supertux/game_manager.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/gameconfig.hpp"
+#include "supertux/level.hpp"
 #include "supertux/screen_manager.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/shrinkfade.hpp"
@@ -81,12 +82,12 @@ void exit_screen()
 
 void fadeout_screen(float seconds)
 {
-  ScreenManager::current()->set_screen_fade(std::unique_ptr<ScreenFade>(new FadeOut(seconds)));
+  ScreenManager::current()->set_screen_fade(std::make_unique<FadeOut>(seconds));
 }
 
 void shrink_screen(float dest_x, float dest_y, float seconds)
 {
-  ScreenManager::current()->set_screen_fade(std::unique_ptr<ScreenFade>(new ShrinkFade(Vector(dest_x, dest_y), seconds)));
+  ScreenManager::current()->set_screen_fade(std::make_unique<ShrinkFade>(Vector(dest_x, dest_y), seconds));
 }
 
 void abort_screenfade()
@@ -116,7 +117,7 @@ std::string __(const std::string& text, const std::string& text_plural, int num)
 
 void display_text_file(const std::string& filename)
 {
-  ScreenManager::current()->push_screen(std::unique_ptr<Screen>(new TextScroller(filename)));
+  ScreenManager::current()->push_screen(std::make_unique<TextScroller>(filename));
 }
 
 void load_worldmap(const std::string& filename)
@@ -147,7 +148,7 @@ void load_level(const std::string& filename)
   }
   else
   {
-    ScreenManager::current()->push_screen(std::unique_ptr<Screen>(new GameSession(filename, GameSession::current()->get_savegame())));
+    ScreenManager::current()->push_screen(std::make_unique<GameSession>(filename, GameSession::current()->get_savegame()));
   }
 }
 

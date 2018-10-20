@@ -72,7 +72,7 @@ void SnowParticleSystem::init()
   // create some random snowflakes
   int snowflakecount = static_cast<int>(virtual_width / 10.0f);
   for(int i = 0; i < snowflakecount; ++i) {
-    auto particle = std::unique_ptr<SnowParticle>(new SnowParticle);
+    auto particle = std::make_unique<SnowParticle>();
     int snowsize = graphicsRandom.rand(3);
 
     particle->pos.x = graphicsRandom.randf(virtual_width);

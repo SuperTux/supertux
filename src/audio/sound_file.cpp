@@ -67,11 +67,11 @@ std::unique_ptr<SoundFile> load_music_file(const std::string& filename)
     auto format = SoundFile::get_file_format(file, raw_music_file);
     if(format == SoundFile::FORMAT_WAV)
     {
-      return std::unique_ptr<SoundFile>(new WavSoundFile(file));
+      return std::make_unique<WavSoundFile>(file);
     }
     else
     {
-      return std::unique_ptr<SoundFile>(new OggSoundFile(file, loop_begin, loop_at));
+      return std::make_unique<OggSoundFile>(file, loop_begin, loop_at);
     }
   }
 }
@@ -93,11 +93,11 @@ std::unique_ptr<SoundFile> load_sound_file(const std::string& filename)
   auto format = SoundFile::get_file_format(file, filename);
   if(format == SoundFile::FORMAT_WAV)
   {
-    return std::unique_ptr<SoundFile>(new WavSoundFile(file));
+    return std::make_unique<WavSoundFile>(file);
   }
   else
   {
-    return std::unique_ptr<SoundFile>(new OggSoundFile(file, 0, -1));
+    return std::make_unique<OggSoundFile>(file, 0, -1);
   }
 }
 

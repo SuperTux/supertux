@@ -131,7 +131,7 @@ BadguySelectMenu::menu_action(MenuItem& item)
     remove_item = item.id;
     auto self  = this;
     // confirmation dialog
-    std::unique_ptr<Dialog> dialog(new Dialog);
+    auto dialog = std::make_unique<Dialog>();
     dialog->set_text(_("Do you want to delete this badguy from the list?"));
     dialog->add_default_button(_("Yes"), [self] {
       self->remove_badguy();

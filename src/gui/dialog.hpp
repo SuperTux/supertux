@@ -74,7 +74,7 @@ public:
 
   static void show_message(const std::string& text)
   {
-    std::unique_ptr<Dialog> dialog(new Dialog);
+    auto dialog = std::make_unique<Dialog>();
     dialog->set_text(text);
     dialog->clear_buttons();
     dialog->add_button(_("OK"), [] {});
@@ -83,7 +83,7 @@ public:
 
   static void show_confirmation(const std::string& text, const std::function<void ()>& callback)
   {
-    std::unique_ptr<Dialog> dialog(new Dialog);
+    auto dialog = std::make_unique<Dialog>();
     dialog->set_text(text);
     dialog->clear_buttons();
     dialog->add_default_button(_("Yes"), callback);

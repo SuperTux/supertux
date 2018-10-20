@@ -84,7 +84,7 @@ void
 EditorSectorsMenu::delete_sector()
 {
   Level* level = Editor::current()->get_level();
-  std::unique_ptr<Dialog> dialog(new Dialog);
+  auto dialog = std::make_unique<Dialog>();
 
   // Do not delete sector when there would be no left.
   if (level->get_sector_count() < 2) {

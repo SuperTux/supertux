@@ -150,7 +150,7 @@ EditorLayersGui::event(SDL_Event& ev) {
         }
       } else if (ev.button.button == SDL_BUTTON_RIGHT) {
         if (hovered_item == HI_LAYERS && hovered_layer < layers.size()) {
-          std::unique_ptr<Menu> om(new ObjectMenu(layers[hovered_layer]->layer));
+          auto om = std::make_unique<ObjectMenu>(layers[hovered_layer]->layer);
           editor->deactivate_request = true;
           MenuManager::instance().push_menu(move(om));
         } else {
@@ -224,7 +224,7 @@ EditorLayersGui::sort_layers() {
 
 void
 EditorLayersGui::add_layer(GameObject* layer) {
-  std::unique_ptr<LayerIcon> icon(new LayerIcon(layer));
+  auto icon = std::make_unique<LayerIcon>(layer);
   int z_pos = icon->get_zpos();
 
   // The icon is inserted to the correct position.
@@ -244,7 +244,7 @@ EditorLayersGui::update_tip() {
     object_tip = nullptr;
     return;
   }
-  std::unique_ptr<Tip> new_tip(new Tip(layers[hovered_layer]->layer));
+  auto new_tip = std::make_unique<Tip>(layers[hovered_layer]->layer);
   object_tip = move(new_tip);
 }
 

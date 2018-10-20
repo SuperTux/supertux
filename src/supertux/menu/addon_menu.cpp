@@ -336,7 +336,7 @@ AddonMenu::check_online()
         }
       }
     });
-    std::unique_ptr<DownloadDialog> dialog(new DownloadDialog(status, false, m_auto_install_langpack));
+    auto dialog = std::make_unique<DownloadDialog>(status, false, m_auto_install_langpack);
     dialog->set_title(_("Downloading Add-On Repository Index"));
     MenuManager::instance().set_dialog(std::move(dialog));
   }
@@ -351,7 +351,7 @@ AddonMenu::install_addon(const Addon& addon)
 {
   auto addon_id = addon.get_id();
   TransferStatusPtr status = m_addon_manager.request_install_addon(addon_id);
-  std::unique_ptr<DownloadDialog> dialog(new DownloadDialog(status, false, m_auto_install_langpack));
+  auto dialog = std::make_unique<DownloadDialog>(status, false, m_auto_install_langpack);
   dialog->set_title(str(boost::format( _("Downloading %s") ) % generate_menu_item_text(addon)));
   status->then([this, addon_id](bool success)
   {
@@ -398,7 +398,7 @@ AddonMenu::toggle_addon(const Addon& addon)
   }
   if(addon.get_type() == Addon::LANGUAGEPACK)
   {
-    std::unique_ptr<Dialog> dialog(new Dialog);
+    auto dialog = std::make_unique<Dialog>();
     dialog->set_text(_("Please restart SuperTux\nfor these changes to take effect."));
     dialog->add_cancel_button(_("OK"));
     MenuManager::instance().set_dialog(std::move(dialog));

@@ -139,14 +139,14 @@ Menu::delete_item(int pos_)
 MenuItem&
 Menu::add_hl()
 {
-  std::unique_ptr<ItemHorizontalLine> item(new ItemHorizontalLine());
+  auto item = std::make_unique<ItemHorizontalLine>();
   return add_item(std::move(item));
 }
 
 MenuItem&
 Menu::add_label(const std::string& text)
 {
-  std::unique_ptr<ItemLabel> item(new ItemLabel(text));
+  auto item = std::make_unique<ItemLabel>(text);
   return add_item(std::move(item));
 }
 
@@ -154,63 +154,63 @@ MenuItem&
 Menu::add_controlfield(int id, const std::string& text,
                        const std::string& mapping)
 {
-  std::unique_ptr<ItemControlField> item(new ItemControlField(text, mapping, id));
+  auto item = std::make_unique<ItemControlField>(text, mapping, id);
   return add_item(std::move(item));
 }
 
 MenuItem&
 Menu::add_textfield(const std::string& text, std::string* input, int id)
 {
-  std::unique_ptr<ItemTextField> item(new ItemTextField(text, input, id));
+  auto item = std::make_unique<ItemTextField>(text, input, id);
   return add_item(std::move(item));
 }
 
 MenuItem&
 Menu::add_script(const std::string& text, std::string* script, int id)
 {
-  std::unique_ptr<ItemScript> item(new ItemScript(text, script, id));
+  auto item = std::make_unique<ItemScript>(text, script, id);
   return add_item(std::move(item));
 }
 
 MenuItem&
 Menu::add_script_line(std::string* input, int id)
 {
-  std::unique_ptr<ItemScriptLine> item(new ItemScriptLine(input, id));
+  auto item = std::make_unique<ItemScriptLine>(input, id);
   return add_item(std::move(item));
 }
 
 MenuItem&
 Menu::add_intfield(const std::string& text, int* input, int id)
 {
-  std::unique_ptr<ItemIntField> item(new ItemIntField(text, input, id));
+  auto item = std::make_unique<ItemIntField>(text, input, id);
   return add_item(std::move(item));
 }
 
 MenuItem&
 Menu::add_numfield(const std::string& text, float* input, int id)
 {
-  std::unique_ptr<ItemNumField> item(new ItemNumField(text, input, id));
+  auto item = std::make_unique<ItemNumField>(text, input, id);
   return add_item(std::move(item));
 }
 
 MenuItem&
 Menu::add_entry(int id, const std::string& text)
 {
-  std::unique_ptr<ItemAction> item(new ItemAction(text, id));
+  auto item = std::make_unique<ItemAction>(text, id);
   return add_item(std::move(item));
 }
 
 MenuItem&
 Menu::add_inactive(const std::string& text)
 {
-  std::unique_ptr<ItemInactive> item(new ItemInactive(text));
+  auto item = std::make_unique<ItemInactive>(text);
   return add_item(std::move(item));
 }
 
 MenuItem&
 Menu::add_toggle(int id, const std::string& text, bool* toggled)
 {
-  std::unique_ptr<ItemToggle> item(new ItemToggle(text, toggled, id));
+  auto item = std::make_unique<ItemToggle>(text, toggled, id);
   return add_item(std::move(item));
 }
 
@@ -219,59 +219,59 @@ Menu::add_toggle(int id, const std::string& text,
                  std::function<bool()> get_func,
                  std::function<void(bool)> set_func)
 {
-  std::unique_ptr<ItemToggle> item(new ItemToggle(text, get_func, set_func, id));
+  auto item = std::make_unique<ItemToggle>(text, get_func, set_func, id);
   return add_item(std::move(item));
 }
 
 MenuItem&
 Menu::add_string_select(int id, const std::string& text, int* selected, const std::vector<std::string>& strings)
 {
-  std::unique_ptr<ItemStringSelect> item(new ItemStringSelect(text, strings, selected, id));
+  auto item = std::make_unique<ItemStringSelect>(text, strings, selected, id);
   return add_item(std::move(item));
 }
 
 MenuItem&
 Menu::add_file(const std::string& text, std::string* input, const std::vector<std::string>& extensions, int id)
 {
-  std::unique_ptr<ItemFile> item(new ItemFile(text, input, extensions, id));
+  auto item = std::make_unique<ItemFile>(text, input, extensions, id);
   return add_item(std::move(item));
 }
 
 MenuItem&
 Menu::add_back(const std::string& text, int id)
 {
-  std::unique_ptr<ItemBack> item(new ItemBack(text, id));
+  auto item = std::make_unique<ItemBack>(text, id);
   return add_item(std::move(item));
 }
 
 MenuItem&
 Menu::add_submenu(const std::string& text, int submenu, int id)
 {
-  std::unique_ptr<ItemGoTo> item(new ItemGoTo(text, submenu, id));
+  auto item = std::make_unique<ItemGoTo>(text, submenu, id);
   return add_item(std::move(item));
 }
 
 MenuItem&
 Menu::add_color_channel(float* input, Color channel, int id) {
-  std::unique_ptr<ItemColorChannel> item(new ItemColorChannel(input, channel, id));
+  auto item = std::make_unique<ItemColorChannel>(input, channel, id);
   return add_item(std::move(item));
 }
 
 MenuItem&
 Menu::add_color_display(Color* color, int id) {
-  std::unique_ptr<ItemColorDisplay> item(new ItemColorDisplay(color, id));
+  auto item = std::make_unique<ItemColorDisplay>(color, id);
   return add_item(std::move(item));
 }
 
 MenuItem&
 Menu::add_color(const std::string& text, Color* color, int id) {
-  std::unique_ptr<ItemColor> item(new ItemColor(text, color, id));
+  auto item = std::make_unique<ItemColor>(text, color, id);
   return add_item(std::move(item));
 }
 
 MenuItem&
 Menu::add_badguy_select(const std::string& text, std::vector<std::string>* badguys, int id) {
-  std::unique_ptr<ItemBadguySelect> item(new ItemBadguySelect(text, badguys, id));
+  auto item = std::make_unique<ItemBadguySelect>(text, badguys, id);
   return add_item(std::move(item));
 }
 

@@ -114,7 +114,7 @@ SoundManager::intern_create_sound_source(const std::string& filename)
 {
   assert(sound_enabled);
 
-  std::unique_ptr<OpenALSoundSource> source(new OpenALSoundSource);
+  auto source = std::make_unique<OpenALSoundSource>();
   source->set_volume(static_cast<float>(sound_volume) / 100.0f);
 
   ALuint buffer;
@@ -131,7 +131,7 @@ SoundManager::intern_create_sound_source(const std::string& filename)
       buffer = load_file_into_buffer(*file);
       buffers.insert(std::make_pair(filename, buffer));
     } else {
-      std::unique_ptr<StreamSoundSource> source_(new StreamSoundSource);
+      auto source_ = std::make_unique<StreamSoundSource>();
       source_->set_sound_file(std::move(file));
       return std::move(source_);
     }
@@ -307,7 +307,7 @@ SoundManager::play_music(const std::string& filename, bool fade)
   }
 
   try {
-    std::unique_ptr<StreamSoundSource> newmusic (new StreamSoundSource());
+    auto newmusic = std::make_unique<StreamSoundSource>();
     newmusic->set_sound_file(load_sound_file(filename));
     newmusic->set_looping(true);
     newmusic->set_relative(true);

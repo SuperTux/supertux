@@ -49,7 +49,7 @@ TileSet::TileSet() :
   m_tiles(1),
   m_tilegroups()
 {
-  m_tiles[0] = std::unique_ptr<Tile>(new Tile);
+  m_tiles[0] = std::make_unique<Tile>();
 }
 
 void

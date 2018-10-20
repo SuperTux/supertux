@@ -18,6 +18,7 @@
 
 #include "editor/editor.hpp"
 #include "supertux/game_session.hpp"
+#include "supertux/level.hpp"
 #include "supertux/levelset.hpp"
 #include "supertux/savegame.hpp"
 #include "supertux/screen_fade.hpp"
@@ -79,8 +80,8 @@ LevelsetScreen::setup()
       log_warning << "Editor is still active, quiting Levelset screen" << std::endl;
       ScreenManager::current()->pop_screen();
     } else {
-      std::unique_ptr<Screen> screen(new GameSession(FileSystem::join(m_basedir, m_level_filename),
-                                                     m_savegame));
+      auto screen = std::make_unique<GameSession>(FileSystem::join(m_basedir, m_level_filename),
+                                                  m_savegame);
       ScreenManager::current()->push_screen(std::move(screen));
     }
   }

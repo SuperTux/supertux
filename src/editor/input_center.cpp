@@ -260,7 +260,7 @@ EditorInputCenter::hover_object() {
     if (bbox.contains(sector_pos)) {
       if (moving_object != hovered_object) {
         if (moving_object->is_saveable()) {
-          std::unique_ptr<Tip> new_tip(new Tip(moving_object));
+          auto new_tip = std::make_unique<Tip>(moving_object);
           object_tip = move(new_tip);
         }
         hovered_object = moving_object;
@@ -378,7 +378,7 @@ EditorInputCenter::clone_object() {
 void
 EditorInputCenter::set_object() {
   if (hovered_object && hovered_object->is_valid() && hovered_object->is_saveable()) {
-    std::unique_ptr<Menu> om(new ObjectMenu(hovered_object));
+    auto om = std::make_unique<ObjectMenu>(hovered_object);
     Editor::current()->deactivate_request = true;
     MenuManager::instance().push_menu(move(om));
     return;

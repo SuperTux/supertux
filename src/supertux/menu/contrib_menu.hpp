@@ -18,8 +18,7 @@
 #define HEADER_SUPERTUX_SUPERTUX_MENU_CONTRIB_MENU_HPP
 
 #include "gui/menu.hpp"
-
-class World;
+#include "supertux/world.hpp"
 
 class ContribMenu final : public Menu
 {

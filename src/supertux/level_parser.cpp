@@ -30,7 +30,7 @@
 std::unique_ptr<Level>
 LevelParser::from_file(const std::string& filename)
 {
-  std::unique_ptr<Level> level(new Level);
+  auto level = std::make_unique<Level>();
   LevelParser parser(*level);
   parser.load(filename);
   return level;
@@ -39,7 +39,7 @@ LevelParser::from_file(const std::string& filename)
 std::unique_ptr<Level>
 LevelParser::from_nothing(const std::string& basedir)
 {
-  std::unique_ptr<Level> level(new Level);
+  auto level = std::make_unique<Level>();
   LevelParser parser(*level);
 
   // Find a free level filename
@@ -59,7 +59,7 @@ LevelParser::from_nothing(const std::string& basedir)
 std::unique_ptr<Level>
 LevelParser::from_nothing_worldmap(const std::string& basedir, const std::string& name)
 {
-  std::unique_ptr<Level> level(new Level);
+  auto level = std::make_unique<Level>();
   LevelParser parser(*level);
 
   // Find a free level filename

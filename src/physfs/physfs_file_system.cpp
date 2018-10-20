@@ -42,7 +42,7 @@ PhysFSFileSystem::open_directory(const std::string& pathname)
 std::unique_ptr<std::istream>
 PhysFSFileSystem::open_file(const std::string& filename)
 {
-  return std::unique_ptr<std::istream>(new IFileStream(filename));
+  return std::make_unique<IFileStream>(filename);
 }
 
 bool

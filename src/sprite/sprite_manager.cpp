@@ -79,7 +79,7 @@ SpriteManager::load(const std::string& filename)
     msg << "'" << filename << "' is not a supertux-sprite file";
     throw std::runtime_error(msg.str());
   } else {
-    std::unique_ptr<SpriteData> data(new SpriteData(root.get_mapping()));
+    auto data = std::make_unique<SpriteData>(root.get_mapping());
     sprites[filename] = std::move(data);
 
     return sprites[filename].get();

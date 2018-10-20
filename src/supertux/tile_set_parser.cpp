@@ -157,9 +157,9 @@ TileSetParser::parse_tile(const ReaderMapping& reader)
   bool deprecated = false;
   reader.get("deprecated", deprecated);
 
-  std::unique_ptr<Tile> tile(new Tile(surfaces, editor_surfaces,
-                                      attributes, data, fps,
-                                      object_name, object_data, deprecated));
+  auto tile = std::make_unique<Tile>(surfaces, editor_surfaces,
+                                     attributes, data, fps,
+                                     object_name, object_data, deprecated);
   m_tileset.add_tile(id, std::move(tile));
 }
 
@@ -271,11 +271,11 @@ TileSetParser::parse_tiles(const ReaderMapping& reader)
             editor_regions.push_back(surface->region(Rect(x, y, Size(32, 32))));
           }
 
-          std::unique_ptr<Tile> tile(new Tile(regions,
-                                              editor_regions,
-                                              (has_attributes ? attributes[i] : 0),
-                                              (has_datas ? datas[i] : 0),
-                                              fps));
+          auto tile = std::make_unique<Tile>(regions,
+                                             editor_regions,
+                                             (has_attributes ? attributes[i] : 0),
+                                             (has_datas ? datas[i] : 0),
+                                             fps);
 
           m_tileset.add_tile(ids[i], std::move(tile));
         }
@@ -303,11 +303,11 @@ TileSetParser::parse_tiles(const ReaderMapping& reader)
             editor_surfaces = parse_imagespecs(*editor_surfaces_mapping, Rect(x, y, Size(32, 32)));
           }
 
-          std::unique_ptr<Tile> tile(new Tile(surfaces,
-                                              editor_surfaces,
-                                              (has_attributes ? attributes[i] : 0),
-                                              (has_datas ? datas[i] : 0),
-                                              fps));
+          auto tile = std::make_unique<Tile>(surfaces,
+                                             editor_surfaces,
+                                             (has_attributes ? attributes[i] : 0),
+                                             (has_datas ? datas[i] : 0),
+                                             fps);
 
           m_tileset.add_tile(ids[i], std::move(tile));
         }

@@ -177,7 +177,7 @@ void
 TextScroller::setup()
 {
   SoundManager::current()->play_music(music);
-  ScreenManager::current()->set_screen_fade(std::unique_ptr<ScreenFade>(new FadeIn(0.5)));
+  ScreenManager::current()->set_screen_fade(std::make_unique<FadeIn>(0.5));
 }
 
 void
@@ -198,7 +198,7 @@ TextScroller::update(float elapsed_time)
     scroll += SCROLL;
   if(controller->pressed(Controller::START) ||
      controller->pressed(Controller::ESCAPE)) {
-    ScreenManager::current()->pop_screen(std::unique_ptr<ScreenFade>(new FadeOut(0.5)));
+    ScreenManager::current()->pop_screen(std::make_unique<FadeOut>(0.5));
   }
 
   scroll += speed * elapsed_time;
@@ -251,7 +251,7 @@ TextScroller::draw(Compositor& compositor)
   if (y < 0 && !fading)
   {
     fading = true;
-    ScreenManager::current()->pop_screen(std::unique_ptr<ScreenFade>(new FadeOut(0.5)));
+    ScreenManager::current()->pop_screen(std::make_unique<FadeOut>(0.5));
   }
 }
 

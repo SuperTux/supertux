@@ -114,7 +114,7 @@ public:
 void
 Main::init_tinygettext()
 {
-  g_dictionary_manager.reset(new tinygettext::DictionaryManager(std::unique_ptr<tinygettext::FileSystem>(new PhysFSFileSystem), "UTF-8"));
+  g_dictionary_manager.reset(new tinygettext::DictionaryManager(std::make_unique<PhysFSFileSystem>(), "UTF-8"));
 
   tinygettext::Log::set_log_info_callback(log_info_callback);
   tinygettext::Log::set_log_warning_callback(log_warning_callback);
@@ -407,7 +407,7 @@ Main::launch_game(const CommandLineArguments& args)
 
   timelog(nullptr);
 
-  const std::unique_ptr<Savegame> default_savegame(new Savegame(std::string()));
+  const auto default_savegame = std::make_unique<Savegame>(std::string());
 
   GameManager game_manager;
   ScreenManager screen_manager(*video_system);
@@ -461,11 +461,11 @@ Main::launch_game(const CommandLineArguments& args)
       screen_manager.push_screen(std::move(session));
     }
   } else {
-    screen_manager.push_screen(std::unique_ptr<Screen>(new TitleScreen(*default_savegame)));
+    screen_manager.push_screen(std::make_unique<TitleScreen>(*default_savegame));
 
     if (g_config->edit_level) {
       if (PHYSFS_exists(g_config->edit_level->c_str())) {
-        std::unique_ptr<Editor> editor(new Editor());
+        auto editor = std::make_unique<Editor>();
         editor->set_level(*(g_config->edit_level));
         editor->setup();
         editor->update(0);

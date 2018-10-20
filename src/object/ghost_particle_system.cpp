@@ -52,7 +52,7 @@ void GhostParticleSystem::init()
   // create two ghosts
   size_t ghostcount = 2;
   for(size_t i=0; i<ghostcount; ++i) {
-    auto particle = std::unique_ptr<GhostParticle>(new GhostParticle);
+    auto particle = std::make_unique<GhostParticle>();
     particle->pos.x = graphicsRandom.randf(virtual_width);
     particle->pos.y = graphicsRandom.randf(static_cast<float>(SCREEN_HEIGHT));
     int size = graphicsRandom.rand(2);

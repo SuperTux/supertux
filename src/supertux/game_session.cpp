@@ -277,9 +277,9 @@ GameSession::setup()
   if ((!m_levelintro_shown) && (total_stats_to_be_collected > 0)) {
     m_levelintro_shown = true;
     m_active = false;
-    ScreenManager::current()->push_screen(std::unique_ptr<Screen>(new LevelIntro(*m_level, m_best_level_statistics, m_savegame.get_player_status())));
+    ScreenManager::current()->push_screen(std::make_unique<LevelIntro>(*m_level, m_best_level_statistics, m_savegame.get_player_status()));
   }
-  ScreenManager::current()->set_screen_fade(std::unique_ptr<ScreenFade>(new FadeIn(1)));
+  ScreenManager::current()->set_screen_fade(std::make_unique<FadeIn>(1));
   m_end_seq_started = false;
 }
 

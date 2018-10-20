@@ -44,9 +44,9 @@ GameManager::run_level(World* world, const std::string& level_filename)
   m_savegame.reset(new Savegame(world->get_savegame_filename()));
   m_savegame->load();
 
-  std::unique_ptr<Screen> screen(new LevelsetScreen(world->get_basedir(),
-                                                    level_filename,
-                                                    *m_savegame));
+  auto screen = std::make_unique<LevelsetScreen>(world->get_basedir(),
+                                                 level_filename,
+                                                 *m_savegame);
   ScreenManager::current()->push_screen(std::move(screen));
 }
 

@@ -46,7 +46,7 @@ static const std::string DEFAULT_BG_BOTTOM = "images/background/BlueRock_Forest/
 std::unique_ptr<Sector>
 SectorParser::from_reader(Level& level, const ReaderMapping& reader)
 {
-  std::unique_ptr<Sector> sector(new Sector(level));
+  auto sector = std::make_unique<Sector>(level);
   SectorParser parser(*sector);
   parser.parse(reader);
   return sector;
@@ -55,7 +55,7 @@ SectorParser::from_reader(Level& level, const ReaderMapping& reader)
 std::unique_ptr<Sector>
 SectorParser::from_reader_old_format(Level& level, const ReaderMapping& reader)
 {
-  std::unique_ptr<Sector> sector(new Sector(level));
+  auto sector = std::make_unique<Sector>(level);
   SectorParser parser(*sector);
   parser.parse_old_format(reader);
   return sector;
@@ -64,7 +64,7 @@ SectorParser::from_reader_old_format(Level& level, const ReaderMapping& reader)
 std::unique_ptr<Sector>
 SectorParser::from_nothing(Level& level)
 {
-  std::unique_ptr<Sector> sector(new Sector(level));
+  auto sector = std::make_unique<Sector>(level);
   SectorParser parser(*sector);
   parser.create_sector();
   return sector;
