@@ -26,8 +26,26 @@
 #include "video/color.hpp"
 
 class DrawingContext;
-class MenuItem;
+class ItemBack;
+class ItemBadguySelect;
+class ItemColor;
+class ItemColorChannel;
+class ItemColorDisplay;
+class ItemControlField;
+class ItemAction;
+class ItemFile;
+class ItemGoTo;
+class ItemHorizontalLine;
+class ItemInactive;
+class ItemIntField;
+class ItemLabel;
+class ItemNumField;
+class ItemScript;
+class ItemScriptLine;
 class ItemStringSelect;
+class ItemTextField;
+class ItemToggle;
+class MenuItem;
 
 class Menu
 {
@@ -35,30 +53,30 @@ public:
   Menu();
   virtual ~Menu();
 
-  MenuItem& add_hl();
-  MenuItem& add_label(const std::string& text);
-  MenuItem& add_entry(int id, const std::string& text);
-  MenuItem& add_toggle(int id, const std::string& text, bool* toggled);
-  MenuItem& add_toggle(int id, const std::string& text,
-                       std::function<bool()> get_func,
-                       std::function<void(bool)> set_func);
-  MenuItem& add_inactive(const std::string& text);
-  MenuItem& add_back(const std::string& text, int id = -1);
-  MenuItem& add_submenu(const std::string& text, int submenu, int id = -1);
-  MenuItem& add_controlfield(int id, const std::string& text,
+  ItemHorizontalLine& add_hl();
+  ItemLabel& add_label(const std::string& text);
+  ItemAction& add_entry(int id, const std::string& text);
+  ItemToggle& add_toggle(int id, const std::string& text, bool* toggled);
+  ItemToggle& add_toggle(int id, const std::string& text,
+                         std::function<bool()> get_func,
+                         std::function<void(bool)> set_func);
+  ItemInactive& add_inactive(const std::string& text);
+  ItemBack& add_back(const std::string& text, int id = -1);
+  ItemGoTo& add_submenu(const std::string& text, int submenu, int id = -1);
+  ItemControlField& add_controlfield(int id, const std::string& text,
                              const std::string& mapping = "");
   ItemStringSelect& add_string_select(int id, const std::string& text, int* selected, const std::vector<std::string>& strings);
-  MenuItem& add_textfield(const std::string& text, std::string* input, int id = -1);
-  MenuItem& add_script(const std::string& text, std::string* script, int id = -1);
-  MenuItem& add_script_line(std::string* input, int id = -1);
-  MenuItem& add_intfield(const std::string& text, int* input, int id = -1);
-  MenuItem& add_numfield(const std::string& text, float* input, int id = -1);
-  MenuItem& add_badguy_select(const std::string& text, std::vector<std::string>* badguys, int id = -1);
-  MenuItem& add_file(const std::string& text, std::string* input, const std::vector<std::string>& extensions, int id = -1);
+  ItemTextField& add_textfield(const std::string& text, std::string* input, int id = -1);
+  ItemScript& add_script(const std::string& text, std::string* script, int id = -1);
+  ItemScriptLine& add_script_line(std::string* input, int id = -1);
+  ItemIntField& add_intfield(const std::string& text, int* input, int id = -1);
+  ItemNumField& add_numfield(const std::string& text, float* input, int id = -1);
+  ItemBadguySelect& add_badguy_select(const std::string& text, std::vector<std::string>* badguys, int id = -1);
+  ItemFile& add_file(const std::string& text, std::string* input, const std::vector<std::string>& extensions, int id = -1);
 
-  MenuItem& add_color(const std::string& text, Color* color, int id = -1);
-  MenuItem& add_color_display(Color* color, int id = -1);
-  MenuItem& add_color_channel(float* input, Color channel, int id = -1);
+  ItemColor& add_color(const std::string& text, Color* color, int id = -1);
+  ItemColorDisplay& add_color_display(Color* color, int id = -1);
+  ItemColorChannel& add_color_channel(float* input, Color channel, int id = -1);
 
   virtual void menu_action(MenuItem& item) = 0;
 

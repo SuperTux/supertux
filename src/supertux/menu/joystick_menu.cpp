@@ -19,6 +19,7 @@
 
 #include "control/joystick_manager.hpp"
 #include "gui/item_controlfield.hpp"
+#include "gui/item_toggle.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "util/gettext.hpp"

@@ -18,7 +18,9 @@
 #include "supertux/menu/options_menu.hpp"
 
 #include "audio/sound_manager.hpp"
+#include "gui/item_goto.hpp"
 #include "gui/item_stringselect.hpp"
+#include "gui/item_toggle.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
 #include "supertux/game_session.hpp"
