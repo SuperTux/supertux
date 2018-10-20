@@ -27,6 +27,7 @@
 
 class DrawingContext;
 class MenuItem;
+class ItemStringSelect;
 
 class Menu
 {
@@ -46,7 +47,7 @@ public:
   MenuItem& add_submenu(const std::string& text, int submenu, int id = -1);
   MenuItem& add_controlfield(int id, const std::string& text,
                              const std::string& mapping = "");
-  MenuItem& add_string_select(int id, const std::string& text, int* selected, const std::vector<std::string>& strings);
+  ItemStringSelect& add_string_select(int id, const std::string& text, int* selected, const std::vector<std::string>& strings);
   MenuItem& add_textfield(const std::string& text, std::string* input, int id = -1);
   MenuItem& add_script(const std::string& text, std::string* script, int id = -1);
   MenuItem& add_script_line(std::string* input, int id = -1);

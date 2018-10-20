@@ -223,11 +223,13 @@ Menu::add_toggle(int id, const std::string& text,
   return add_item(std::move(item));
 }
 
-MenuItem&
+ItemStringSelect&
 Menu::add_string_select(int id, const std::string& text, int* selected, const std::vector<std::string>& strings)
 {
   auto item = std::make_unique<ItemStringSelect>(text, strings, selected, id);
-  return add_item(std::move(item));
+  auto item_ptr = item.get();
+  add_item(std::move(item));
+  return *item_ptr;
 }
 
 MenuItem&
