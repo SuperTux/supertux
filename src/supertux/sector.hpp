@@ -67,7 +67,7 @@ private:
 
 public:
   /** get currently activated sector. */
-  static Sector* current() { return s_current; }
+  static Sector& current() { assert(s_current != nullptr); return *s_current; }
 
 public:
   Sector(Level& parent);
