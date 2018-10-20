@@ -17,6 +17,8 @@
 #ifndef HEADER_SUPERTUX_GUI_ITEM_STRINGSELECT_HPP
 #define HEADER_SUPERTUX_GUI_ITEM_STRINGSELECT_HPP
 
+#include <functional>
+
 #include "gui/menu_item.hpp"
 
 class ItemStringSelect final : public MenuItem
@@ -37,8 +39,14 @@ class ItemStringSelect final : public MenuItem
       return true;
     }
 
+    void set_callback(const std::function<void(int)>& callback) {
+      m_callback = callback;
+    }
+
     std::vector<std::string> list; // list of values for a STRINGSELECT item
     int* selected; // currently selected item
+  private:
+    std::function<void(int)> m_callback;
 
   private:
     ItemStringSelect(const ItemStringSelect&);

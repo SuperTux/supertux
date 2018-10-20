@@ -25,7 +25,8 @@
 ItemStringSelect::ItemStringSelect(const std::string& text_, const std::vector<std::string>& list_, int* selected_, int _id) :
   MenuItem(text_, _id),
   list(list_),
-  selected(selected_)
+  selected(selected_),
+  m_callback()
 {
 }
 
@@ -69,6 +70,9 @@ ItemStringSelect::process_action(const MenuAction& action) {
         (*selected) = static_cast<int>(list.size()) - 1;
       }
       MenuManager::instance().current_menu()->menu_action(*this);
+      if (m_callback) {
+        m_callback(*selected);
+      }
       break;
     case MENU_ACTION_RIGHT:
     case MENU_ACTION_HIT:
@@ -78,6 +82,9 @@ ItemStringSelect::process_action(const MenuAction& action) {
         (*selected) = 0;
       }
       MenuManager::instance().current_menu()->menu_action(*this);
+      if (m_callback) {
+        m_callback(*selected);
+      }
       break;
     default:
       break;
