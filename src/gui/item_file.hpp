@@ -21,19 +21,19 @@
 
 class ItemFile final : public MenuItem
 {
-  public:
-    ItemFile(const std::string& text_, std::string* filename_,
-             const std::vector<std::string>& extensions_, int _id = -1);
+public:
+  ItemFile(const std::string& text_, std::string* filename_,
+           const std::vector<std::string>& extensions_, int _id = -1);
 
-    /** Processes the menu action. */
-    virtual void process_action(const MenuAction& action) override;
+  /** Processes the menu action. */
+  virtual void process_action(const MenuAction& action) override;
 
-  private:
-    std::string* filename;
-    std::vector<std::string> extensions;
+private:
+  std::string* filename;
+  std::vector<std::string> extensions;
 
-    ItemFile(const ItemFile&);
-    ItemFile& operator=(const ItemFile&);
+  ItemFile(const ItemFile&);
+  ItemFile& operator=(const ItemFile&);
 };
 
 #endif

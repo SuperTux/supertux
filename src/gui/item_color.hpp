@@ -23,21 +23,21 @@ class Color;
 
 class ItemColor final : public MenuItem
 {
-  public:
-    ItemColor(const std::string& text_, Color* color_, int id = -1);
+public:
+  ItemColor(const std::string& text_, Color* color_, int id = -1);
 
-    /** Processes the menu action. */
-    virtual void process_action(const MenuAction& action) override;
+  /** Processes the menu action. */
+  virtual void process_action(const MenuAction& action) override;
 
-    virtual Color get_color() const override;
+  virtual Color get_color() const override;
 
-    //int target_menu;
+  //int target_menu;
 
-  private:
-    Color* color;
+private:
+  Color* color;
 
-    ItemColor(const ItemColor&);
-    ItemColor& operator=(const ItemColor&);
+  ItemColor(const ItemColor&);
+  ItemColor& operator=(const ItemColor&);
 };
 
 #endif

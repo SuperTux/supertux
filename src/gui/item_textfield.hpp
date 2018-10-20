@@ -21,40 +21,40 @@
 
 class ItemTextField : public MenuItem
 {
-  public:
-    ItemTextField(const std::string& text_, std::string* input_, int id_ = -1);
+public:
+  ItemTextField(const std::string& text_, std::string* input_, int id_ = -1);
 
-    /** Draws the menu item. */
-    virtual void draw(DrawingContext&, const Vector& pos, int menu_width, bool active) override;
+  /** Draws the menu item. */
+  virtual void draw(DrawingContext&, const Vector& pos, int menu_width, bool active) override;
 
-    /** Returns the minimum width of the menu item. */
-    virtual int get_width() const override;
+  /** Returns the minimum width of the menu item. */
+  virtual int get_width() const override;
 
-    /** Processes the menu action. */
-    virtual void process_action(const MenuAction& action) override;
+  /** Processes the menu action. */
+  virtual void process_action(const MenuAction& action) override;
 
-    std::string* input;
+  std::string* input;
 
-    void change_input(const std::string& input_) {
-      *input = input_;
-    }
+  void change_input(const std::string& input_) {
+    *input = input_;
+  }
 
-    /** Calls when the user wants to remove an invalid char. */
-    virtual void invalid_remove() {}
+  /** Calls when the user wants to remove an invalid char. */
+  virtual void invalid_remove() {}
 
-    /** Processes the given event. */
-    virtual void event(const SDL_Event& ev) override;
+  /** Processes the given event. */
+  virtual void event(const SDL_Event& ev) override;
 
-    virtual bool changes_width() const override {
-      return true;
-    }
+  virtual bool changes_width() const override {
+    return true;
+  }
 
-  protected:
-    int flickw;
+protected:
+  int flickw;
 
-  private:
-    ItemTextField(const ItemTextField&);
-    ItemTextField& operator=(const ItemTextField&);
+private:
+  ItemTextField(const ItemTextField&);
+  ItemTextField& operator=(const ItemTextField&);
 };
 
 #endif

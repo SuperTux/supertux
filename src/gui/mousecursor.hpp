@@ -23,12 +23,12 @@
 #include "video/surface_ptr.hpp"
 
 enum MouseCursorState
-{
-  MC_NORMAL = 0,
-  MC_CLICK,
-  MC_LINK,
-  MC_HIDE
-};
+  {
+    MC_NORMAL = 0,
+    MC_CLICK,
+    MC_LINK,
+    MC_HIDE
+  };
 
 class DrawingContext;
 

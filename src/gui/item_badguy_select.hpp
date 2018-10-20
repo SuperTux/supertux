@@ -21,17 +21,17 @@
 
 class ItemBadguySelect final : public MenuItem
 {
-  public:
-    ItemBadguySelect(const std::string& text_, std::vector<std::string>* badguys_, int id = -1);
+public:
+  ItemBadguySelect(const std::string& text_, std::vector<std::string>* badguys_, int id = -1);
 
-    /** Processes the menu action. */
-    virtual void process_action(const MenuAction& action) override;
+  /** Processes the menu action. */
+  virtual void process_action(const MenuAction& action) override;
 
-  private:
-    std::vector<std::string>* badguys;
+private:
+  std::vector<std::string>* badguys;
 
-    ItemBadguySelect(const ItemBadguySelect&);
-    ItemBadguySelect& operator=(const ItemBadguySelect&);
+  ItemBadguySelect(const ItemBadguySelect&);
+  ItemBadguySelect& operator=(const ItemBadguySelect&);
 };
 
 #endif

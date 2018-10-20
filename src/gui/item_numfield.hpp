@@ -21,41 +21,41 @@
 
 class ItemNumField final : public MenuItem
 {
-  public:
-    ItemNumField(const std::string& text_, float* input_, int id_ = -1);
+public:
+  ItemNumField(const std::string& text_, float* input_, int id_ = -1);
 
-    /** Draws the menu item. */
-    virtual void draw(DrawingContext&, const Vector& pos, int menu_width, bool active) override;
+  /** Draws the menu item. */
+  virtual void draw(DrawingContext&, const Vector& pos, int menu_width, bool active) override;
 
-    /** Returns the minimum width of the menu item. */
-    virtual int get_width() const override;
+  /** Returns the minimum width of the menu item. */
+  virtual int get_width() const override;
 
-    /** Processes the menu action. */
-    virtual void process_action(const MenuAction& action) override;
+  /** Processes the menu action. */
+  virtual void process_action(const MenuAction& action) override;
 
-    float* number;
+  float* number;
 
-    void change_input(const std::string& input_) {
-      input = input_;
-    }
+  void change_input(const std::string& input_) {
+    input = input_;
+  }
 
-    /** Processes the given event. */
-    virtual void event(const SDL_Event& ev) override;
+  /** Processes the given event. */
+  virtual void event(const SDL_Event& ev) override;
 
-    virtual bool changes_width() const override {
-      return true;
-    }
+  virtual bool changes_width() const override {
+    return true;
+  }
 
-  private:
+private:
 
-    std::string input;
-    int flickw;
-    bool has_comma;
+  std::string input;
+  int flickw;
+  bool has_comma;
 
-    void add_char(char c);
+  void add_char(char c);
 
-    ItemNumField(const ItemNumField&);
-    ItemNumField& operator=(const ItemNumField&);
+  ItemNumField(const ItemNumField&);
+  ItemNumField& operator=(const ItemNumField&);
 };
 
 #endif

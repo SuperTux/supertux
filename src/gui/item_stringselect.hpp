@@ -23,34 +23,34 @@
 
 class ItemStringSelect final : public MenuItem
 {
-  public:
-    ItemStringSelect(const std::string& text_, const std::vector<std::string>& list_, int* selected_, int _id = -1);
+public:
+  ItemStringSelect(const std::string& text_, const std::vector<std::string>& list_, int* selected_, int _id = -1);
 
-    /** Draws the menu item. */
-    virtual void draw(DrawingContext&, const Vector& pos, int menu_width, bool active) override;
+  /** Draws the menu item. */
+  virtual void draw(DrawingContext&, const Vector& pos, int menu_width, bool active) override;
 
-    /** Returns the minimum width of the menu item. */
-    virtual int get_width() const override;
+  /** Returns the minimum width of the menu item. */
+  virtual int get_width() const override;
 
-    /** Processes the menu action. */
-    virtual void process_action(const MenuAction& action) override;
+  /** Processes the menu action. */
+  virtual void process_action(const MenuAction& action) override;
 
-    virtual bool changes_width() const override {
-      return true;
-    }
+  virtual bool changes_width() const override {
+    return true;
+  }
 
-    void set_callback(const std::function<void(int)>& callback) {
-      m_callback = callback;
-    }
+  void set_callback(const std::function<void(int)>& callback) {
+    m_callback = callback;
+  }
 
-    std::vector<std::string> list; // list of values for a STRINGSELECT item
-    int* selected; // currently selected item
-  private:
-    std::function<void(int)> m_callback;
+  std::vector<std::string> list; // list of values for a STRINGSELECT item
+  int* selected; // currently selected item
+private:
+  std::function<void(int)> m_callback;
 
-  private:
-    ItemStringSelect(const ItemStringSelect&);
-    ItemStringSelect& operator=(const ItemStringSelect&);
+private:
+  ItemStringSelect(const ItemStringSelect&);
+  ItemStringSelect& operator=(const ItemStringSelect&);
 };
 
 #endif
