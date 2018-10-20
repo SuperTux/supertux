@@ -22,7 +22,7 @@
 #include "object/bullet.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
-#include "supertux/object_factory.hpp"
+#include "supertux/game_object_factory.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 
@@ -258,7 +258,7 @@ Dispenser::launch_badguy()
       Rectf object_bbox;
 
       /* Need to allocate the badguy first to figure out its bounding box. */
-      game_object = ObjectFactory::instance().create(badguy, get_pos(), launchdir);
+      game_object = GameObjectFactory::instance().create(badguy, get_pos(), launchdir);
       if (game_object == nullptr)
         throw std::runtime_error("Creating " + badguy + " object failed.");
 

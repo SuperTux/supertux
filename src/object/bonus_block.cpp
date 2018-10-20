@@ -32,7 +32,7 @@
 #include "sprite/sprite_manager.hpp"
 #include "supertux/constants.hpp"
 #include "supertux/level.hpp"
-#include "supertux/object_factory.hpp"
+#include "supertux/game_object_factory.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/reader_collection.hpp"
@@ -98,7 +98,7 @@ BonusBlock::BonusBlock(const ReaderMapping& mapping) :
             }
 
             const ReaderObject& spec = object_specs[0];
-            GameObjectPtr game_object = ObjectFactory::instance().create(spec.get_name(), spec.get_mapping());
+            GameObjectPtr game_object = GameObjectFactory::instance().create(spec.get_name(), spec.get_mapping());
 
             GameObject* tmp_ptr = game_object.release();
             MovingObject* typed_tmp_ptr = dynamic_cast<MovingObject*>(tmp_ptr);
@@ -118,7 +118,7 @@ BonusBlock::BonusBlock(const ReaderMapping& mapping) :
         // 16. Aug 2018 no level in either the supertux or the
         // addon-src repository is using this anymore
         ReaderMapping object_mapping = iter.as_mapping();
-        GameObjectPtr game_object = ObjectFactory::instance().create(token, object_mapping);
+        GameObjectPtr game_object = GameObjectFactory::instance().create(token, object_mapping);
 
         MovingObject* moving_object_ptr = dynamic_cast<MovingObject*>(game_object.get());
         if (moving_object_ptr == nullptr) {

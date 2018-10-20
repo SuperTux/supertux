@@ -1,6 +1,7 @@
 //  SuperTux
 //  Copyright (C) 2004 Ricardo Cruz <rick2@aeiou.pt>
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//  Copyright (C) 2018 Ingo Ruhnke <grumbel@gmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -15,32 +16,30 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#ifndef HEADER_SUPERTUX_SUPERTUX_GAME_OBJECT_FACTORY_HPP
+#define HEADER_SUPERTUX_SUPERTUX_GAME_OBJECT_FACTORY_HPP
+
 #include "supertux/object_factory.hpp"
 
-#include <sstream>
-
-#include "supertux/game_object.hpp"
-
-ObjectFactory::ObjectFactory() :
-  factories()
+class GameObjectFactory final : public ObjectFactory
 {
-}
+public:
+  static GameObjectFactory& instance();
 
-GameObjectPtr
-ObjectFactory::create(const std::string& name, const ReaderMapping& reader) const
-{
-  auto it = factories.find(name);
+public:
+  using ObjectFactory::create;
+  GameObjectPtr create(const std::string& name, const Vector& pos, const Direction& dir = AUTO, const std::string& data = {}) const;
 
-  if (it == factories.end())
-  {
-    std::stringstream msg;
-    msg << "No factory for object '" << name << "' found.";
-    throw std::runtime_error(msg.str());
-  }
-  else
-  {
-    return it->second(reader);
-  }
-}
+private:
+  GameObjectFactory();
+
+  void init_factories();
+
+private:
+  GameObjectFactory(const GameObjectFactory&) = delete;
+  GameObjectFactory& operator=(const GameObjectFactory&) = delete;
+};
+
+#endif
 
 /* EOF */

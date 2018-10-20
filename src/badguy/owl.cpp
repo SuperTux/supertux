@@ -22,7 +22,7 @@
 #include "object/player.hpp"
 #include "object/portable.hpp"
 #include "sprite/sprite.hpp"
-#include "supertux/object_factory.hpp"
+#include "supertux/game_object_factory.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
@@ -64,7 +64,7 @@ Owl::initialize()
     return;
   }
 
-  auto game_object = ObjectFactory::instance().create(carried_obj_name, get_pos(), dir);
+  auto game_object = GameObjectFactory::instance().create(carried_obj_name, get_pos(), dir);
   if (game_object == nullptr)
   {
     log_fatal << "Creating \"" << carried_obj_name << "\" object failed." << std::endl;

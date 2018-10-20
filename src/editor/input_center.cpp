@@ -27,7 +27,7 @@
 #include "gui/menu_manager.hpp"
 #include "object/camera.hpp"
 #include "object/tilemap.hpp"
-#include "supertux/object_factory.hpp"
+#include "supertux/game_object_factory.hpp"
 #include "supertux/sector.hpp"
 #include "video/renderer.hpp"
 #include "video/video_system.hpp"
@@ -350,7 +350,7 @@ EditorInputCenter::clone_object() {
 
     GameObjectPtr game_object;
     try {
-      game_object = ObjectFactory::instance().create(hovered_object->get_class(), hovered_object->get_pos());
+      game_object = GameObjectFactory::instance().create(hovered_object->get_class(), hovered_object->get_pos());
     } catch(const std::exception& e) {
       log_warning << "Error creating object " << hovered_object->get_class() << ": " << e.what() << std::endl;
       return;
@@ -477,7 +477,7 @@ EditorInputCenter::put_object() {
       auto& snap_grid_size = snap_grid_sizes[selected_snap_grid_size];
       target_pos = (sector_pos / static_cast<float>(snap_grid_size)).to_int_vec() * static_cast<float>(snap_grid_size);
     }
-    game_object = ObjectFactory::instance().create(obj, target_pos, LEFT);
+    game_object = GameObjectFactory::instance().create(obj, target_pos, LEFT);
   } catch(const std::exception& e) {
     log_warning << "Error creating object " << obj << ": " << e.what() << std::endl;
     return;

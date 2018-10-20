@@ -44,7 +44,7 @@
 #include "supertux/debug.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/level.hpp"
-#include "supertux/object_factory.hpp"
+#include "supertux/game_object_factory.hpp"
 #include "supertux/savegame.hpp"
 #include "supertux/spawn_point.hpp"
 #include "supertux/tile.hpp"
@@ -750,7 +750,7 @@ Sector::convert_tiles2gameobject()
           {
             Vector pos = tm.get_tile_position(x, y);
             try {
-              GameObjectPtr object = ObjectFactory::instance().create(tile.get_object_name(), pos, AUTO, tile.get_object_data());
+              GameObjectPtr object = GameObjectFactory::instance().create(tile.get_object_name(), pos, AUTO, tile.get_object_data());
               add_object(std::move(object));
               tm.change(x, y, 0);
             } catch(std::exception& e) {

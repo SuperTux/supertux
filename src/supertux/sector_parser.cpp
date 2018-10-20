@@ -31,7 +31,7 @@
 #include "object/snow_particle_system.hpp"
 #include "object/tilemap.hpp"
 #include "supertux/level.hpp"
-#include "supertux/object_factory.hpp"
+#include "supertux/game_object_factory.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/spawn_point.hpp"
 #include "supertux/tile.hpp"
@@ -86,7 +86,7 @@ SectorParser::parse_object(const std::string& name_, const ReaderMapping& reader
     return std::make_unique<Jumpy>(reader);
   } else {
     try {
-      return ObjectFactory::instance().create(name_, reader);
+      return GameObjectFactory::instance().create(name_, reader);
     } catch(std::exception& e) {
       log_warning << e.what() << "" << std::endl;
       return {};

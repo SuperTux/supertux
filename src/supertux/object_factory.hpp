@@ -30,22 +30,18 @@ class ReaderMapping;
 class Vector;
 class GameObject;
 
-class ObjectFactory final
+class ObjectFactory
 {
-public:
-  static ObjectFactory& instance();
-
 private:
   typedef std::map<std::string, std::function<GameObjectPtr (const ReaderMapping&)> > Factories;
   Factories factories;
 
 public:
+  GameObjectPtr create(const std::string& name, const ReaderMapping& reader) const;
+
+protected:
   ObjectFactory();
 
-  GameObjectPtr create(const std::string& name, const ReaderMapping& reader) const;
-  GameObjectPtr create(const std::string& name, const Vector& pos, const Direction& dir = AUTO, const std::string& data = {}) const;
-
-private:
   void add_factory(const char* name,
                    std::function<GameObjectPtr (const ReaderMapping&)> func)
   {
@@ -60,7 +56,6 @@ private:
         return std::make_unique<C>(reader);
       });
   }
-  void init_factories();
 };
 
 #endif
