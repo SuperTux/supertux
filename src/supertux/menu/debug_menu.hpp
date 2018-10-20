@@ -21,6 +21,13 @@
 
 class DebugMenu final : public Menu
 {
+private:
+  enum {
+    MNID_GAME_SPEED
+  };
+
+  int next_game_speed;
+
 public:
   DebugMenu();
 
