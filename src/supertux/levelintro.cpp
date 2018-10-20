@@ -90,7 +90,7 @@ LevelIntro::update(float elapsed_time)
   }
 
   m_player_sprite_py += m_player_sprite_vy * elapsed_time;
-  m_player_sprite_vy += 100 * elapsed_time * Sector::current()->get_gravity();
+  m_player_sprite_vy += 100 * elapsed_time * Sector::get().get_gravity();
   if (m_player_sprite_py >= 0) {
     m_player_sprite_py = 0;
     m_player_sprite_vy = 0;

@@ -89,11 +89,11 @@ Ispy::update(float )
     if (dir == UP) eye = Vector(bbox.get_middle().x, bbox.p1.y);
     if (dir == DOWN) eye = Vector(bbox.get_middle().x, bbox.p2.y);
 
-    if (Sector::current()->can_see_player(eye)) {
+    if (Sector::get().can_see_player(eye)) {
       sprite->set_action((dir == DOWN) ? "alert-down" : ((dir == LEFT) ? "alert-left" : "alert-right"), 1);
       state = ISPYSTATE_ALERT;
 
-      Sector::current()->run_script(script, "Ispy");
+      Sector::get().run_script(script, "Ispy");
     }
   }
   if (state == ISPYSTATE_ALERT) {

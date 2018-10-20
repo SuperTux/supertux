@@ -70,7 +70,7 @@ void
 FlyingSnowBall::active_update(float elapsed_time)
 {
 
-  const float grav = Sector::current()->get_gravity() * 100.0f;
+  const float grav = Sector::get().get_gravity() * 100.0f;
   if (get_pos().y > start_position.y + 2*32) {
 
     // Flying too low - increased propeller speed
@@ -105,7 +105,7 @@ FlyingSnowBall::active_update(float elapsed_time)
     Vector ppos = bbox.get_middle();
     Vector pspeed = Vector(gameRandom.randf(-10, 10), 150);
     Vector paccel = Vector(0,0);
-    Sector::current()->add<SpriteParticle>("images/objects/particles/smoke.sprite",
+    Sector::get().add<SpriteParticle>("images/objects/particles/smoke.sprite",
                                            "default",
                                            ppos, ANCHOR_MIDDLE, pspeed, paccel,
                                            LAYER_OBJECTS-1);

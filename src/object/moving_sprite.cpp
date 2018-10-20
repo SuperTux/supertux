@@ -202,8 +202,8 @@ void MovingSprite::spawn_explosion_sprites(int count, const std::string& sprite_
       float vx = sinf(angle)*velocity;
       float vy = -cosf(angle)*velocity;
       Vector pspeed = Vector(vx, vy);
-      Vector paccel = Vector(0, Sector::current()->get_gravity()*10);
-      Sector::current()->add<SpriteParticle>(sprite_path,
+      Vector paccel = Vector(0, Sector::get().get_gravity()*10);
+      Sector::get().add<SpriteParticle>(sprite_path,
                                              "default",
                                              ppos, ANCHOR_MIDDLE,
                                              pspeed, paccel,

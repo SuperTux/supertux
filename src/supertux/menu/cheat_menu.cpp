@@ -24,7 +24,7 @@
 
 CheatMenu::CheatMenu()
 {
-  std::vector<Player*> players = Sector::current()->get_players();
+  std::vector<Player*> players = Sector::get().get_players();
   auto player = players.empty() ? nullptr : players[0];
 
   add_label(_("Cheats"));
@@ -49,7 +49,7 @@ CheatMenu::menu_action(MenuItem& item)
 {
   if (Sector::current())
   {
-    std::vector<Player*> players = Sector::current()->get_players();
+    std::vector<Player*> players = Sector::get().get_players();
     auto player = players.empty() ? nullptr : players[0];
 
     switch(item.id)

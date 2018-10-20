@@ -194,7 +194,7 @@ Sector::activate(const Vector& player_pos)
 
     // spawning tux in the ground would kill him
     if(!is_free_of_tiles(player.get_bbox())) {
-      std::string current_level = "[" + Sector::current()->get_level().m_filename + "] ";
+      std::string current_level = "[" + Sector::get().get_level().m_filename + "] ";
       log_warning << current_level << "Tried spawning Tux in solid matter. Compensating." << std::endl;
       Vector npos = player.get_bbox().p1;
       npos.y-=32;

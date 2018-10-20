@@ -263,7 +263,7 @@ Player::adjust_height(float new_height)
   if(new_height > bbox.get_height()) {
     Rectf additional_space = bbox2;
     additional_space.set_height(new_height - bbox.get_height());
-    if(!Sector::current()->is_free_of_statics(additional_space, this, true))
+    if(!Sector::get().is_free_of_statics(additional_space, this, true))
       return false;
   }
 
@@ -297,7 +297,7 @@ Player::update(float elapsed_time)
   no_water = true;
 
   if(m_dying && m_dying_timer.check()) {
-    Sector::current()->stop_looping_sounds();
+    Sector::get().stop_looping_sounds();
     set_bonus(NO_BONUS, true);
     m_dead = true;
     return;
@@ -409,7 +409,7 @@ Player::update(float elapsed_time)
       Vector ppos = Vector(px, py);
       Vector pspeed = Vector(0, 0);
       Vector paccel = Vector(0, 0);
-      Sector::current()->add<SpriteParticle>(
+      Sector::get().add<SpriteParticle>(
         "images/objects/particles/sparkle.sprite",
         // draw bright sparkle when there is lots of time left,
         // dark sparkle when invincibility is about to end
@@ -542,7 +542,7 @@ Player::handle_horizontal_input()
         m_skidding_timer.start(SKID_TIME);
         SoundManager::current()->play("sounds/skid.wav");
         // dust some particles
-        Sector::current()->add<Particles>(
+        Sector::get().add<Particles>(
             Vector(m_dir == LEFT ? bbox.p2.x : bbox.p1.x, bbox.p2.y),
             m_dir == LEFT ? 50 : -70, m_dir == LEFT ? 70 : -50, 260, 280,
             Vector(0, 300), 3, Color(.4f, .4f, .4f), 3, .8f, LAYER_OBJECTS+1);
@@ -810,8 +810,7 @@ Player::handle_input()
   if (!m_stone) handle_vertical_input();
 
   /* Shoot! */
-  auto sector = Sector::current();
-  auto active_bullets = sector->get_active_bullets();
+  auto active_bullets = Sector::get().get_active_bullets();
   if (m_controller->pressed(Controller::ACTION) && (m_player_status.bonus == FIRE_BONUS || m_player_status.bonus == ICE_BONUS)) {
     if((m_player_status.bonus == FIRE_BONUS &&
       active_bullets < m_player_status.max_fire_bullets) ||
@@ -819,7 +818,7 @@ Player::handle_input()
       active_bullets < m_player_status.max_ice_bullets))
     {
       Vector pos = get_pos() + ((m_dir == LEFT)? Vector(0, bbox.get_height()/2) : Vector(32, bbox.get_height()/2));
-      sector->add<Bullet>(pos, m_physic.get_velocity_x(), m_dir, m_player_status.bonus);
+      Sector::get().add<Bullet>(pos, m_physic.get_velocity_x(), m_dir, m_player_status.bonus);
       SoundManager::current()->play("sounds/shoot.wav");
       m_shooting_timer.start(SHOOTING_TIME);
     }
@@ -852,7 +851,7 @@ Player::handle_input()
                            bbox.get_top() + 16.0f * static_cast<float>(i % 4));
       float grey = graphicsRandom.randf(.4f, .8f);
       Color pcolor = Color(grey, grey, grey);
-      Sector::current()->add<Particles>(ppos, -60, 240, 42, 81, Vector(0.0f, 500.0f),
+      Sector::get().add<Particles>(ppos, -60, 240, 42, 81, Vector(0.0f, 500.0f),
                                                                 8, pcolor, 4 + graphicsRandom.randf(-0.4f, 0.4f),
                                                                 0.8f + graphicsRandom.randf(0.0f, 0.4f), LAYER_OBJECTS + 2);
     }
@@ -883,8 +882,8 @@ Player::handle_input()
         dest_.p1.x = bbox.get_right() + 1;
         dest_.p2.x = dest_.p1.x + grabbed_bbox.get_width();
       }
-      if(sector->is_free_of_tiles(dest_, true) &&
-         sector->is_free_of_statics(dest_, moving_object, true)) {
+      if(Sector::get().is_free_of_tiles(dest_, true) &&
+         Sector::get().is_free_of_statics(dest_, moving_object, true)) {
         moving_object->set_pos(dest_.p1);
         if(m_controller->hold(Controller::UP)) {
           m_grabbed_object->ungrab(*this, UP);
@@ -928,7 +927,7 @@ Player::try_grab()
 {
   if(m_controller->hold(Controller::ACTION) && !m_grabbed_object
      && !m_duck) {
-    auto sector = Sector::current();
+
     Vector pos;
     if(m_dir == LEFT) {
       pos = Vector(bbox.get_left() - 5, bbox.get_bottom() - 16);
@@ -936,7 +935,7 @@ Player::try_grab()
       pos = Vector(bbox.get_right() + 5, bbox.get_bottom() - 16);
     }
 
-    for(auto& portable : sector->m_portables) {
+    for(auto& portable : Sector::get().m_portables) {
       if(!portable->is_portable())
         continue;
 
@@ -1106,7 +1105,7 @@ Player::set_bonus(BonusType type, bool animate)
       particle_name = "earthtux-hardhat";
     }
     if(!particle_name.empty() && animate) {
-      Sector::current()->add<SpriteParticle>("images/objects/particles/" + particle_name + ".sprite",
+      Sector::get().add<SpriteParticle>("images/objects/particles/" + particle_name + ".sprite",
                                              action, ppos, ANCHOR_TOP, pspeed, paccel, LAYER_OBJECTS - 1);
     }
     if(m_climbing) stop_climbing(*m_climbing);
@@ -1161,9 +1160,9 @@ Player::draw(DrawingContext& context)
     return;
 
   // if Tux is above camera, draw little "air arrow" to show where he is x-wise
-  if (Sector::current() && Sector::current()->m_camera && (bbox.p2.y - 16 < Sector::current()->m_camera->get_translation().y)) {
+  if (Sector::get().m_camera && (bbox.p2.y - 16 < Sector::get().m_camera->get_translation().y)) {
     float px = bbox.p1.x + (bbox.p2.x - bbox.p1.x - static_cast<float>(m_airarrow.get()->get_width())) / 2.0f;
-    float py = Sector::current()->m_camera->get_translation().y;
+    float py = Sector::get().m_camera->get_translation().y;
     py += std::min(((py - (bbox.p2.y + 16)) / 4), 16.0f);
     context.color().draw_surface(m_airarrow, Vector(px, py), LAYER_HUD - 1);
   }
@@ -1299,14 +1298,14 @@ Player::draw(DrawingContext& context)
       float px = graphicsRandom.randf(bbox.p1.x, bbox.p2.x);
       float py = bbox.p2.y+8;
       Vector ppos = Vector(px, py);
-      Sector::current()->add<SpriteParticle>(
+      Sector::get().add<SpriteParticle>(
         "images/objects/particles/sparkle.sprite", "dark",
         ppos, ANCHOR_MIDDLE, Vector(0, 0), Vector(0, 0), LAYER_OBJECTS+1+5);
     }
   }
   else {
     if(m_dying)
-      m_sprite->draw(context.color(), get_pos(), Sector::current()->get_foremost_layer());
+      m_sprite->draw(context.color(), get_pos(), Sector::get().get_foremost_layer());
     else
       m_sprite->draw(context.color(), get_pos(), LAYER_OBJECTS + 1);
 
@@ -1362,15 +1361,15 @@ Player::collision_solid(const CollisionHit& hit)
       m_does_buttjump = false;
       m_physic.set_velocity_y(-300);
       m_on_ground_flag = false;
-      Sector::current()->add<Particles>(
+      Sector::get().add<Particles>(
                                       bbox.p2,
                                       50, 70, 260, 280, Vector(0, 300), 3,
                                       Color(.4f, .4f, .4f), 3, .8f, LAYER_OBJECTS+1);
-      Sector::current()->add<Particles>(
+      Sector::get().add<Particles>(
                                       Vector(bbox.p1.x, bbox.p2.y),
                                       -70, -50, 260, 280, Vector(0, 300), 3,
                                       Color(.4f, .4f, .4f), 3, .8f, LAYER_OBJECTS+1);
-      Sector::current()->m_camera->shake(.1f, 0, 5);
+      Sector::get().m_camera->shake(.1f, 0, 5);
     }
 
   } else if(hit.top) {
@@ -1436,7 +1435,7 @@ Player::make_invincible()
 {
   SoundManager::current()->play("sounds/invincible_start.ogg");
   m_invincible_timer.start(TUX_INVINCIBLE_TIME);
-  Sector::current()->play_music(HERRING_MUSIC);
+  Sector::get().play_music(HERRING_MUSIC);
 }
 
 /* Kill Player! */
@@ -1488,7 +1487,7 @@ Player::kill(bool completely)
       for (int i = 0; i < 5; i++)
       {
         // the numbers: starting x, starting y, velocity y
-        Sector::current()->add<FallingCoin>(get_pos() +
+        Sector::get().add<FallingCoin>(get_pos() +
                                                       Vector(graphicsRandom.randf(5.0f), graphicsRandom.randf(-32.0f, 18.0f)),
                                                       graphicsRandom.randf(-100.0f, 100.0f));
       }
@@ -1510,7 +1509,7 @@ Player::kill(bool completely)
     set_group(COLGROUP_DISABLED);
 
     // TODO: need nice way to handle players dying in co-op mode
-    Sector::current()->m_effect->fade_out(3.0);
+    Sector::get().m_effect->fade_out(3.0);
     SoundManager::current()->pause_music(3.0);
   }
 }
@@ -1543,14 +1542,14 @@ Player::check_bounds()
     set_pos(Vector(0, get_pos().y));
   }
 
-  if (bbox.get_right() > Sector::current()->get_width()) {
+  if (bbox.get_right() > Sector::get().get_width()) {
     // Lock Tux to the size of the level, so that he doesn't fall off
     // the right side
-    set_pos(Vector(Sector::current()->get_width() - bbox.get_width(), bbox.p1.y));
+    set_pos(Vector(Sector::get().get_width() - bbox.get_width(), bbox.p1.y));
   }
 
   /* fallen out of the level? */
-  if ((get_pos().y > Sector::current()->get_height()) && (!m_ghost_mode)) {
+  if ((get_pos().y > Sector::get().get_height()) && (!m_ghost_mode)) {
     kill(true);
     return;
   }

@@ -170,14 +170,13 @@ Coin::collect()
   soundSource->play();
   SoundManager::current()->manage_source(std::move(soundSource));
 
-  auto sector = Sector::current();
-  sector->m_player->get_status().add_coins(1, false);
-  sector->add<BouncyCoin>(get_pos(), false, get_sprite_name());
-  sector->get_level().m_stats.m_coins++;
+  Sector::get().m_player->get_status().add_coins(1, false);
+  Sector::get().add<BouncyCoin>(get_pos(), false, get_sprite_name());
+  Sector::get().get_level().m_stats.m_coins++;
   remove_me();
 
   if(!collect_script.empty()) {
-    sector->run_script(collect_script, "collect-script");
+    Sector::get().run_script(collect_script, "collect-script");
   }
 }
 

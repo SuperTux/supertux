@@ -168,8 +168,8 @@ GoldBomb::kill_fall()
 
   if(is_valid()) {
     remove_me();
-    Sector::current()->add<Explosion>(bbox.get_middle());
-    Sector::current()->add<CoinExplode>(get_pos() + Vector (0, -40));
+    Sector::get().add<Explosion>(bbox.get_middle());
+    Sector::get().add<CoinExplode>(get_pos() + Vector (0, -40));
   }
 
   run_dead_script();

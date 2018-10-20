@@ -48,7 +48,7 @@ CoinRain::update(float elapsed_time)
   } // then the first collectable coin drops from one of ten random positions
   else if (counter==0){
     drop = gameRandom.rand(10);
-    Sector::current()->add<HeavyCoin>(Vector(position.x + 32.0f * static_cast<float>((drop < 5) ? -drop - 1 : drop - 4), -32.0f),
+    Sector::get().add<HeavyCoin>(Vector(position.x + 32.0f * static_cast<float>((drop < 5) ? -drop - 1 : drop - 4), -32.0f),
                                                               Vector(0, 0));
     counter++;
     timer.start(DROP_TIME);
@@ -57,7 +57,7 @@ CoinRain::update(float elapsed_time)
     if(counter<10){
       drop += 7;
       if(drop >= 10) drop -=10;
-      Sector::current()->add<HeavyCoin>(Vector(position.x + 32.0f * static_cast<float>((drop < 5) ? -drop - 1 : drop - 4), -32.0f),
+      Sector::get().add<HeavyCoin>(Vector(position.x + 32.0f * static_cast<float>((drop < 5) ? -drop - 1 : drop - 4), -32.0f),
                                                                 Vector(0, 0));
       counter++;
       timer.start(DROP_TIME);

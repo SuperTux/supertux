@@ -40,14 +40,14 @@ EndSequenceFireworks::starting()
 {
   EndSequence::starting();
   endsequence_timer.start(7.3f * ScreenManager::current()->get_speed());
-  Sector::current()->add<Fireworks>();
+  Sector::get().add<Fireworks>();
 }
 
 void
 EndSequenceFireworks::running(float elapsed_time)
 {
   EndSequence::running(elapsed_time);
-  //Player& tux = *Sector::current()->player;
+  //Player& tux = *Sector::get().player;
 
   if (tux_may_walk) {
     end_sequence_controller->press(Controller::JUMP);

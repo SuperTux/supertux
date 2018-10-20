@@ -169,7 +169,7 @@ Yeti::active_update(float elapsed_time)
         if (dir != newdir && dir == RIGHT) {
           SoundManager::current()->play("sounds/stomp.wav");
           add_snow_explosions();
-          Sector::current()->m_camera->shake(.05f, 0, 5);
+          Sector::get().m_camera->shake(.05f, 0, 5);
         }
         dir = newdir;
         sprite->set_action((dir==RIGHT)?"jump-right":"jump-left");
@@ -265,7 +265,7 @@ void Yeti::take_hit(Player& )
 
     // Set the badguy layer to be above the foremost, so that
     // this does not reveal secret tilemaps:
-    layer = Sector::current()->get_foremost_layer() + 1;
+    layer = Sector::get().get_foremost_layer() + 1;
     state = SQUISHED;
     state_timer.start(YETI_SQUISH_TIME);
     set_colgroup_active(COLGROUP_MOVING_ONLY_STATIC);
@@ -286,13 +286,12 @@ void
 Yeti::drop_stalactite()
 {
   // make a stalactite falling down and shake camera a bit
-  Sector::current()->m_camera->shake(.1f, 0, 10);
+  Sector::get().m_camera->shake(.1f, 0, 10);
 
   auto player = get_nearest_player();
   if (!player) return;
 
-  Sector* sector = Sector::current();
-  for (auto& stalactite : sector->get_objects_by_type<YetiStalactite>())
+  for (auto& stalactite : Sector::get().get_objects_by_type<YetiStalactite>())
   {
     if(stalactite.is_hanging()) {
       if (hit_points >= 3) {
@@ -379,7 +378,7 @@ void Yeti::add_snow_explosions()
     pos.x += static_cast<float>(sprite->get_width()) * graphicsRandom.randf(0.3f, 0.5f) * ((velocity.x > 0) ? 1.0f : -1.0f);
     pos.y += static_cast<float>(sprite->get_height()) * graphicsRandom.randf(-0.3f, 0.3f);
     velocity.x += physic.get_velocity_x();
-    Sector::current()->add<SnowExplosionParticle>(pos, velocity);
+    Sector::get().add<SnowExplosionParticle>(pos, velocity);
   }
 }
 
@@ -390,7 +389,7 @@ Yeti::SnowExplosionParticle::SnowExplosionParticle(const Vector& pos, const Vect
   physic.set_velocity_y(velocity.y);
   physic.enable_gravity(true);
   set_state(STATE_FALLING);
-  layer = Sector::current()->get_foremost_layer() + 1;
+  layer = Sector::get().get_foremost_layer() + 1;
 }
 
 /* EOF */

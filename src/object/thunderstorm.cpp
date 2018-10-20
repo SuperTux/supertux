@@ -153,7 +153,7 @@ Thunderstorm::electrify()
     {3431, 3527}, {3432, 3528},
     {3433, 3529}, {3434, 3530}
   });
-  Sector::current()->add<Electrifier>(changing_tiles, ELECTRIFY_TIME);
+  Sector::get().add<Electrifier>(changing_tiles, ELECTRIFY_TIME);
 }
 
 /* EOF */

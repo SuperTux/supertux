@@ -143,8 +143,8 @@ TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
     m_width = 0;
     m_height = 0;
     m_tiles.clear();
-    resize(static_cast<int>(Sector::current()->get_width() / 32.0f),
-           static_cast<int>(Sector::current()->get_height() / 32.0f));
+    resize(static_cast<int>(Sector::get().get_width() / 32.0f),
+           static_cast<int>(Sector::get().get_height() / 32.0f));
     m_editor_active = false;
   } else {
     if(!reader.get("tiles", m_tiles))

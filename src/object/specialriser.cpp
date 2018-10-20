@@ -31,7 +31,7 @@ SpecialRiser::update(float elapsed_time)
 {
   offset += 50 * elapsed_time;
   if(offset > 32) {
-    Sector::current()->add_object(std::move(child));
+    Sector::get().add_object(std::move(child));
     remove_me();
   }
 }

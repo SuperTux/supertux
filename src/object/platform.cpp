@@ -110,7 +110,7 @@ Platform::update(float elapsed_time)
       // Player doesn't touch platform and Platform is not moving
 
       // Travel to node nearest to nearest player
-      auto player = Sector::current()->get_nearest_player(bbox);
+      auto player = Sector::get().get_nearest_player(bbox);
       if (player) {
         int nearest_node_id = path->get_nearest_node_no(player->get_bbox().p2);
         if (nearest_node_id != -1) {

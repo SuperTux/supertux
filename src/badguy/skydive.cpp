@@ -123,7 +123,7 @@ SkyDive::explode()
   if (!is_valid())
     return;
 
-  auto explosion = Sector::current()->add<Explosion>(get_anchor_pos (bbox, ANCHOR_BOTTOM));
+  auto explosion = Sector::get().add<Explosion>(get_anchor_pos (bbox, ANCHOR_BOTTOM));
 
   explosion->hurts(true);
   explosion->pushes(false);

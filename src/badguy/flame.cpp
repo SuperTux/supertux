@@ -104,7 +104,7 @@ Flame::freeze()
 {
   SoundManager::current()->play("sounds/sizzle.ogg", get_pos());
   sprite->set_action("fade", 1);
-  Sector::current()->add<SpriteParticle>("images/objects/particles/smoke.sprite",
+  Sector::get().add<SpriteParticle>("images/objects/particles/smoke.sprite",
                                          "default",
                                          bbox.get_middle(), ANCHOR_MIDDLE,
                                          Vector(0, -150), Vector(0,0), LAYER_BACKGROUNDTILES+2);

@@ -29,7 +29,7 @@ FloatingImage::FloatingImage(const std::string& spritefile) :
   using namespace worldmap;
 
   if(::Sector::current() != nullptr) {
-    floating_image = ::Sector::current()->add<::FloatingImage>(spritefile);
+    floating_image = ::Sector::get().add<::FloatingImage>(spritefile);
   } else if(WorldMap::current() != nullptr) {
     floating_image = WorldMap::current()->add<::FloatingImage>(spritefile);
   } else {

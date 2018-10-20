@@ -481,7 +481,6 @@ GameSession::start_sequence(Sequence seq, const SequenceData* data)
   if (m_end_sequence)
     return;
 
-
   std::unique_ptr<EndSequence> end_sequence;
   if (seq == SEQ_ENDSEQUENCE) {
     if (m_currentsector->get_players()[0]->get_physic().get_velocity_x() < 0) {

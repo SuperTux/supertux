@@ -143,7 +143,7 @@ BadGuy::draw(DrawingContext& context)
 void
 BadGuy::update(float elapsed_time)
 {
-  if(!Sector::current()->inside(bbox)) {
+  if(!Sector::get().inside(bbox)) {
     run_dead_script();
     is_active_flag = false;
     remove_me();
@@ -154,7 +154,7 @@ BadGuy::update(float elapsed_time)
       int path_chars = badguy.rfind("/",badguy.length());
       badguy = badguy.substr(path_chars + 1, badguy.length() - path_chars);
       // log warning since badguys_killed can no longer reach total_badguys
-      std::string current_level = "[" + Sector::current()->get_level()->filename + "] ";
+      std::string current_level = "[" + Sector::get().get_level()->filename + "] ";
       log_warning << current_level << "Counted badguy " << badguy << " starting at " << start_position << " has left the sector" <<std::endl;;
     }*/
     return;
@@ -198,7 +198,7 @@ BadGuy::update(float elapsed_time)
       is_active_flag = false;
       movement = physic.get_movement(elapsed_time);
       if ( sprite->animation_done() || on_ground() ) {
-        Sector::current()->add<WaterDrop>(bbox.p1, get_water_sprite(), physic.get_velocity());
+        Sector::get().add<WaterDrop>(bbox.p1, get_water_sprite(), physic.get_velocity());
         remove_me();
         break;
       }
@@ -221,9 +221,9 @@ BadGuy::update(float elapsed_time)
       float px = graphicsRandom.randf(bbox.p1.x, bbox.p2.x);
       float py = graphicsRandom.randf(bbox.p1.y, bbox.p2.y);
       Vector ppos = Vector(px, py);
-      Sector::current()->add<SpriteParticle>(get_water_sprite(), "particle_" + std::to_string(pa),
+      Sector::get().add<SpriteParticle>(get_water_sprite(), "particle_" + std::to_string(pa),
                                              ppos, ANCHOR_MIDDLE,
-                                             Vector(0, 0), Vector(0, 100 * Sector::current()->get_gravity()),
+                                             Vector(0, 0), Vector(0, 100 * Sector::get().get_gravity()),
                                              LAYER_OBJECTS-1);
     } break;
     case STATE_FALLING:
@@ -492,11 +492,11 @@ BadGuy::kill_fall()
     for (pr_pos.x = 0; pr_pos.x < bbox.get_width(); pr_pos.x += 16) {
       for (pr_pos.y = 0; pr_pos.y < bbox.get_height(); pr_pos.y += 16) {
         Vector speed = Vector((pr_pos.x - cx) * 8, (pr_pos.y - cy) * 8 + 100);
-        Sector::current()->add<SpriteParticle>(
+        Sector::get().add<SpriteParticle>(
             "images/particles/ice_piece1.sprite", "default",
             bbox.p1 + pr_pos, ANCHOR_MIDDLE,
             speed,
-            Vector(0, Sector::current()->get_gravity() * 100.0f));
+            Vector(0, Sector::get().get_gravity() * 100.0f));
       }
     }
     // start dead-script
@@ -511,7 +511,7 @@ BadGuy::kill_fall()
 
     // Set the badguy layer to be the foremost, so that
     // this does not reveal secret tilemaps:
-    layer = Sector::current()->get_foremost_layer() + 1;
+    layer = Sector::get().get_foremost_layer() + 1;
     // start dead-script
     run_dead_script();
   }
@@ -522,7 +522,7 @@ void
 BadGuy::run_dead_script()
 {
   if (countMe)
-    Sector::current()->get_level().m_stats.m_badguys++;
+    Sector::get().get_level().m_stats.m_badguys++;
 
   countMe = false;
 
@@ -533,7 +533,7 @@ BadGuy::run_dead_script()
 
   // start dead-script
   if(!dead_script.empty()) {
-    Sector::current()->run_script(dead_script, "dead-script");
+    Sector::get().run_script(dead_script, "dead-script");
   }
 }
 
@@ -579,7 +579,7 @@ BadGuy::is_offscreen() const
 {
   Vector dist;
   if (Editor::is_active()) {
-    auto cam = Sector::current()->m_camera;
+    auto cam = Sector::get().m_camera;
     dist = cam->get_center() - bbox.get_middle();
   }
   auto player = get_nearest_player();
@@ -641,13 +641,13 @@ BadGuy::might_fall(int height) const
     x1 = bbox.p2.x;
     x2 = bbox.p2.x + 1;
   }
-  return Sector::current()->is_free_of_statics(Rectf(x1, y1, x2, y2));
+  return Sector::get().is_free_of_statics(Rectf(x1, y1, x2, y2));
 }
 
 Player*
 BadGuy::get_nearest_player() const
 {
-  return Sector::current()->get_nearest_player(bbox);
+  return Sector::get().get_nearest_player(bbox);
 }
 
 void

@@ -38,7 +38,7 @@ InfoBlock::InfoBlock(const ReaderMapping& lisp) :
   }
   //stopped = false;
   //ringing = new AmbientSound(get_pos(), 0.5, 300, 1, "sounds/phone.wav");
-  //Sector::current()->add_object(ringing);
+  //Sector::get().add_object(ringing);
 
   // Split text string lines into a vector
   lines = InfoBoxLine::split(message, 400);
@@ -71,8 +71,7 @@ InfoBlock::hit(Player& player)
   if (dest_pct != 1) {
 
     // first hide all other InfoBlocks' messages in same sector
-    auto sector = Sector::current();
-    for (auto& block : sector->get_objects_by_type<InfoBlock>())
+    for (auto& block : Sector::get().get_objects_by_type<InfoBlock>())
     {
       if (&block != this)
       {
@@ -102,7 +101,7 @@ InfoBlock::collision(GameObject& other, const CollisionHit& hit_)
 Player*
 InfoBlock::get_nearest_player() const
 {
-  return Sector::current()->get_nearest_player (bbox);
+  return Sector::get().get_nearest_player (bbox);
 }
 
 void
@@ -156,8 +155,8 @@ InfoBlock::draw(DrawingContext& context)
     x2 = width;
   }
 
-  if(x2 > Sector::current()->get_width()) {
-    x2 = Sector::current()->get_width();
+  if(x2 > Sector::get().get_width()) {
+    x2 = Sector::get().get_width();
     x1 = x2 - width;
   }
 

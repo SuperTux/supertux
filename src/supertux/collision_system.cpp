@@ -653,7 +653,7 @@ std::vector<MovingObject*>
 CollisionSystem::get_nearby_objects (const Vector& center, float max_distance) const
 {
   std::vector<MovingObject*> ret;
-  std::vector<Player*> players = Sector::current()->get_players();
+  std::vector<Player*> players = Sector::get().get_players();
 
   for(const auto& player_ : players) {
     float distance = player_->get_bbox().distance(center);

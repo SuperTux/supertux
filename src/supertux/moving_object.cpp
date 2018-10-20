@@ -55,14 +55,14 @@ MovingObject::edit_bbox() {
   }
 
   GameObjectPtr marker1, marker2, marker3, marker4, marker5, marker6, marker7, marker8;
-  Sector::current()->add<Resizer>(&bbox, Resizer::LEFT_UP, Resizer::LEFT_UP);
-  Sector::current()->add<Resizer>(&bbox, Resizer::LEFT_UP, Resizer::NONE);
-  Sector::current()->add<Resizer>(&bbox, Resizer::LEFT_UP, Resizer::RIGHT_DOWN);
-  Sector::current()->add<Resizer>(&bbox, Resizer::NONE, Resizer::LEFT_UP);
-  Sector::current()->add<Resizer>(&bbox, Resizer::NONE, Resizer::RIGHT_DOWN);
-  Sector::current()->add<Resizer>(&bbox, Resizer::RIGHT_DOWN, Resizer::LEFT_UP);
-  Sector::current()->add<Resizer>(&bbox, Resizer::RIGHT_DOWN, Resizer::NONE);
-  Sector::current()->add<Resizer>(&bbox, Resizer::RIGHT_DOWN, Resizer::RIGHT_DOWN);
+  Sector::get().add<Resizer>(&bbox, Resizer::LEFT_UP, Resizer::LEFT_UP);
+  Sector::get().add<Resizer>(&bbox, Resizer::LEFT_UP, Resizer::NONE);
+  Sector::get().add<Resizer>(&bbox, Resizer::LEFT_UP, Resizer::RIGHT_DOWN);
+  Sector::get().add<Resizer>(&bbox, Resizer::NONE, Resizer::LEFT_UP);
+  Sector::get().add<Resizer>(&bbox, Resizer::NONE, Resizer::RIGHT_DOWN);
+  Sector::get().add<Resizer>(&bbox, Resizer::RIGHT_DOWN, Resizer::LEFT_UP);
+  Sector::get().add<Resizer>(&bbox, Resizer::RIGHT_DOWN, Resizer::NONE);
+  Sector::get().add<Resizer>(&bbox, Resizer::RIGHT_DOWN, Resizer::RIGHT_DOWN);
 }
 
 /* EOF */

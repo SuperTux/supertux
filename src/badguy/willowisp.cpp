@@ -216,7 +216,7 @@ WillOWisp::collision_player(Player& player, const CollisionHit& ) {
   sprite->set_action("warping", 1);
 
   if(!hit_script.empty()) {
-    Sector::current()->run_script(hit_script, "hit-script");
+    Sector::get().run_script(hit_script, "hit-script");
   } else {
     GameSession::current()->respawn(target_sector, target_spawnpoint);
   }

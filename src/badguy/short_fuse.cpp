@@ -48,7 +48,7 @@ ShortFuse::explode()
   if (!is_valid())
     return;
 
-  auto explosion = Sector::current()->add<Explosion>(get_bbox ().get_middle());
+  auto explosion = Sector::get().add<Explosion>(get_bbox ().get_middle());
   explosion->hurts(false);
   explosion->pushes(true);
 

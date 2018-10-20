@@ -255,7 +255,7 @@ Background::draw_image(DrawingContext& context, const Vector& pos__)
 {
   const Vector pos_ = pos__.to_int_vec();
 
-  const Sizef level(Sector::current()->get_width(), Sector::current()->get_height());
+  const Sizef level(Sector::get().get_width(), Sector::get().get_height());
   const Sizef screen(static_cast<float>(context.get_width()),
                      static_cast<float>(context.get_height()));
   const Sizef parallax_image_size = (1.0f - m_speed) * screen + level * m_speed;
@@ -356,8 +356,8 @@ Background::draw(DrawingContext& context)
   if(m_image.get() == nullptr)
     return;
 
-  Sizef level_size(Sector::current()->get_width(),
-                   Sector::current()->get_height());
+  Sizef level_size(Sector::get().get_width(),
+                   Sector::get().get_height());
   Sizef screen(static_cast<float>(context.get_width()),
                static_cast<float>(context.get_height()));
   Sizef translation_range = level_size - screen;

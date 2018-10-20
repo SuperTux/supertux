@@ -113,12 +113,11 @@ SecretAreaTrigger::event(Player& , EventType type)
     if (!message_displayed) {
       message_timer.start(MESSAGE_TIME);
       message_displayed = true;
-      Sector::current()->get_level().m_stats.m_secrets++;
+      Sector::get().get_level().m_stats.m_secrets++;
 
       if (!fade_tilemap.empty()) {
         // fade away tilemaps
-        auto& sector = *Sector::current();
-        for(auto& tm : sector.get_objects_by_type<TileMap>()) {
+        for(auto& tm : Sector::get().get_objects_by_type<TileMap>()) {
           if (tm.get_name() == fade_tilemap) {
             tm.fade(0.0, 1.0);
           }
@@ -126,7 +125,7 @@ SecretAreaTrigger::event(Player& , EventType type)
       }
 
       if(!script.empty()) {
-        Sector::current()->run_script(script, "SecretAreaScript");
+        Sector::get().run_script(script, "SecretAreaScript");
       }
     }
   }

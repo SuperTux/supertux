@@ -143,7 +143,7 @@ Rock::grab(MovingObject& , const Vector& pos, Direction)
   grabbed = true;
 
   if(!on_grab_script.empty()) {
-    Sector::current()->run_script(on_grab_script, "Rock::on_grab");
+    Sector::get().run_script(on_grab_script, "Rock::on_grab");
   }
 }
 
@@ -162,7 +162,7 @@ Rock::ungrab(MovingObject& , Direction dir)
   grabbed = false;
 
   if(!on_ungrab_script.empty()) {
-    Sector::current()->run_script(on_ungrab_script, "Rock::on_ungrab");
+    Sector::get().run_script(on_ungrab_script, "Rock::on_ungrab");
   }
 }
 

@@ -97,7 +97,7 @@ PowerUp::collision(GameObject& other, const CollisionHit&)
   }
 
   if (!script.empty()) {
-    Sector::current()->run_script(script, "powerup-script");
+    Sector::get().run_script(script, "powerup-script");
     remove_me();
     return ABORT_MOVE;
   }
@@ -142,7 +142,7 @@ PowerUp::update(float elapsed_time)
     movement = physic.get_movement(elapsed_time);
   //Stars sparkle when close to Tux
   if (sprite_name == "images/powerups/star/star.sprite"){
-    Player* player = Sector::current()->get_nearest_player(bbox);
+    Player* player = Sector::get().get_nearest_player(bbox);
     if (player) {
       float disp_x = player->get_bbox().p1.x - bbox.p1.x;
       float disp_y = player->get_bbox().p1.y - bbox.p1.y;
@@ -154,7 +154,7 @@ PowerUp::update(float elapsed_time)
           Vector ppos = Vector(px, py);
           Vector pspeed = Vector(0, 0);
           Vector paccel = Vector(0, 0);
-          Sector::current()->add<SpriteParticle>(
+          Sector::get().add<SpriteParticle>(
             "images/objects/particles/sparkle.sprite",
             // draw bright sparkles when very close to Tux, dark sparkles when slightly further
             (disp_x*disp_x + disp_y*disp_y <= 128*128) ?

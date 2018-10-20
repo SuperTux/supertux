@@ -202,7 +202,7 @@ ScriptedObject::collision(GameObject& other, const CollisionHit& )
 {
   auto player = dynamic_cast<Player*> (&other);
   if (player && !hit_script.empty()) {
-    Sector::current()->run_script(hit_script, "hit-script");
+    Sector::get().run_script(hit_script, "hit-script");
   }
 
   return FORCE_MOVE;

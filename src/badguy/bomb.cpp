@@ -99,7 +99,7 @@ Bomb::explode()
 
   if(is_valid()) {
     remove_me();
-    Sector::current()->add<Explosion>(bbox.get_middle());
+    Sector::get().add<Explosion>(bbox.get_middle());
   }
 
   run_dead_script();

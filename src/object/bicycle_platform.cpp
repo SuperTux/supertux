@@ -84,14 +84,14 @@ BicyclePlatform::collision(GameObject& other, const CollisionHit& )
   auto pl = dynamic_cast<Player*>(mo);
   if (pl) {
     if (pl->is_big()) momentum += momentum_change_rate
- * Sector::current()->get_gravity();
+ * Sector::get().get_gravity();
     auto po = pl->get_grabbed_object();
     auto pomo = dynamic_cast<MovingObject*>(po);
     if (contacts.insert(pomo).second) momentum += momentum_change_rate
- * Sector::current()->get_gravity();
+ * Sector::get().get_gravity();
   }
 
-  if (contacts.insert(&other).second) momentum += momentum_change_rate * Sector::current()->get_gravity();
+  if (contacts.insert(&other).second) momentum += momentum_change_rate * Sector::get().get_gravity();
   return FORCE_MOVE;
 }
 
@@ -99,7 +99,7 @@ void
 BicyclePlatform::update(float elapsed_time)
 {
   if (!slave) {
-    Sector::current()->add<BicyclePlatform>(this);
+    Sector::get().add<BicyclePlatform>(this);
     return;
   }
   if (!master) {

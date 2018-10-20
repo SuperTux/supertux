@@ -31,7 +31,7 @@ OneUp::OneUp(const Vector& pos, Direction direction) :
 void
 OneUp::update(float elapsed_time)
 {
-  if(!Sector::current()->inside(bbox))
+  if(!Sector::get().inside(bbox))
     remove_me();
 
   movement = physic.get_movement(elapsed_time);
@@ -45,7 +45,7 @@ OneUp::collision(GameObject& other, const CollisionHit& )
     player->get_status().add_coins(100);
 #if 0
     // FIXME: do we want this? q.v. src/level.cpp
-    Sector::current()->get_level()->stats.coins += 100;
+    Sector::get().get_level()->stats.coins += 100;
 #endif
     remove_me();
     return ABORT_MOVE;

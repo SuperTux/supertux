@@ -78,7 +78,7 @@ Owl::initialize()
     }
     else
     {
-      Sector::current()->add_object(std::move(game_object));
+      Sector::get().add_object(std::move(game_object));
     }
   }
 }
@@ -86,7 +86,7 @@ Owl::initialize()
 bool
 Owl::is_above_player() const
 {
-  auto player = Sector::current()->get_nearest_player (bbox);
+  auto player = Sector::get().get_nearest_player (bbox);
   if (!player)
     return false;
 
@@ -116,7 +116,7 @@ Owl::active_update (float elapsed_time)
       obj_pos.y += 3.f; /* Move a little away from the hitbox (the body). Looks nicer. */
 
       //To drop enemie before leave the screen
-      if (obj_pos.x<=16 || obj_pos.x+16>=Sector::current()->get_width()){
+      if (obj_pos.x<=16 || obj_pos.x+16>=Sector::get().get_width()){
         carried_object->ungrab (*this, dir);
         carried_object = nullptr;
       }
@@ -134,7 +134,7 @@ Owl::active_update (float elapsed_time)
 bool
 Owl::collision_squished(GameObject&)
 {
-  auto player = Sector::current()->get_nearest_player (bbox);
+  auto player = Sector::get().get_nearest_player (bbox);
   if (player)
     player->bounce (*this);
 

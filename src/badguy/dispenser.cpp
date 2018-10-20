@@ -298,7 +298,7 @@ Dispenser::launch_badguy()
         current_badguys++;
       }
 
-      Sector::current()->add_object(std::move(game_object));
+      Sector::get().add_object(std::move(game_object));
     } catch(const std::exception& e) {
       log_warning << "Error dispensing badguy: " << e.what() << std::endl;
       return;

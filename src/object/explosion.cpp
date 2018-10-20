@@ -67,13 +67,13 @@ Explosion::explode()
 
   // spawn some particles
   int pnumber = push ? 8 : 100;
-  Vector accel = Vector(0, Sector::current()->get_gravity()*100);
-  Sector::current()->add<Particles>(
+  Vector accel = Vector(0, Sector::get().get_gravity()*100);
+  Sector::get().add<Particles>(
     bbox.get_middle(), -360, 360, 450, 900, accel , pnumber, Color(.4f, .4f, .4f), 3, .8f, LAYER_OBJECTS-1);
 
   if (push) {
     Vector center = bbox.get_middle ();
-    auto near_objects = Sector::current()->get_nearby_objects (center, 10.0 * 32.0);
+    auto near_objects = Sector::get().get_nearby_objects (center, 10.0 * 32.0);
 
     for(auto& obj: near_objects) {
       Vector obj_vector = obj->get_bbox ().get_middle ();

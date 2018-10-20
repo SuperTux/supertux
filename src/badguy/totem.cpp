@@ -82,32 +82,29 @@ Totem::active_update(float elapsed_time)
       initialize();
     }
 
-    auto s = Sector::current();
-    if (s) {
-      // jump a bit if we find a suitable totem
-      for (const auto& obj : s->get_moving_objects()) {
-        auto t = dynamic_cast<Totem*>(obj);
-        if (!t) continue;
+    // jump a bit if we find a suitable totem
+    for (const auto& obj : Sector::get().get_moving_objects()) {
+      auto t = dynamic_cast<Totem*>(obj);
+      if (!t) continue;
 
-        // skip if we are not approaching each other
-        if (!((dir == LEFT) && (t->dir == RIGHT))) continue;
+      // skip if we are not approaching each other
+      if (!((dir == LEFT) && (t->dir == RIGHT))) continue;
 
-        Vector p1 = bbox.p1;
-        Vector p2 = t->get_pos();
+      Vector p1 = bbox.p1;
+      Vector p2 = t->get_pos();
 
-        // skip if not on same height
-        float dy = (p1.y - p2.y);
-        if (fabsf(dy - 0) > 2) continue;
+      // skip if not on same height
+      float dy = (p1.y - p2.y);
+      if (fabsf(dy - 0) > 2) continue;
 
-        // skip if too far away
-        float dx = (p1.x - p2.x);
-        if (fabsf(dx - 128) > 2) continue;
+      // skip if too far away
+      float dx = (p1.x - p2.x);
+      if (fabsf(dx - 128) > 2) continue;
 
-        physic.set_velocity_y(JUMP_ON_SPEED_Y);
-        p1.y -= 1;
-        set_pos(p1);
-        break;
-      }
+      physic.set_velocity_y(JUMP_ON_SPEED_Y);
+      p1.y -= 1;
+      set_pos(p1);
+      break;
     }
   }
 

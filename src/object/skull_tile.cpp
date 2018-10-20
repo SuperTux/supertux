@@ -60,7 +60,7 @@ SkullTile::update(float elapsed_time)
 {
   if(falling) {
     movement = physic.get_movement(elapsed_time);
-    if(!Sector::current()->inside(bbox)) {
+    if(!Sector::get().inside(bbox)) {
       remove_me();
       return;
     }

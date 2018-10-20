@@ -128,16 +128,16 @@ IceCrusher::collision_solid(const CollisionHit& hit)
       if (hit.bottom) {
         if (ic_size == LARGE) {
           cooldown_timer = PAUSE_TIME_LARGE;
-          Sector::current()->m_camera->shake (/* frequency = */ .125f, /* x = */ 0.0, /* y = */ 16.0);
+          Sector::get().m_camera->shake (/* frequency = */ .125f, /* x = */ 0.0, /* y = */ 16.0);
           SoundManager::current()->play("sounds/brick.wav");
           // throw some particles, bigger and more for large icecrusher
           for(int j = 0; j < 9; j++)
           {
-            Sector::current()->add<Particles>(
+            Sector::get().add<Particles>(
               Vector(bbox.p2.x - static_cast<float>(j) * 8.0f - 4.0f, bbox.p2.y),
               0, 90-5*j, 140, 380, Vector(0.0f, 300.0f),
               1, Color(.6f, .6f, .6f), 5, 1.8f, LAYER_OBJECTS+1);
-            Sector::current()->add<Particles>(
+            Sector::get().add<Particles>(
               Vector(bbox.p1.x + static_cast<float>(j) * 8.0f + 4.0f, bbox.p2.y),
               270+5*j, 360, 140, 380, Vector(0.0f, 300.0f),
               1, Color(.6f, .6f, .6f), 5, 1.8f, LAYER_OBJECTS+1);
@@ -145,7 +145,7 @@ IceCrusher::collision_solid(const CollisionHit& hit)
         }
         else {
           cooldown_timer = PAUSE_TIME_NORMAL;
-          Sector::current()->m_camera->shake (/* frequency = */ .1f, /* x = */ 0.0, /* y = */ 8.0);
+          Sector::get().m_camera->shake (/* frequency = */ .1f, /* x = */ 0.0, /* y = */ 8.0);
           if( sprite_name.find("rock_crusher") != std::string::npos ||
               sprite_name.find("moss_crusher") != std::string::npos )
           {
@@ -158,12 +158,12 @@ IceCrusher::collision_solid(const CollisionHit& hit)
           // throw some particles
           for(int j = 0; j < 5; j++)
           {
-            Sector::current()->add<Particles>(
+            Sector::get().add<Particles>(
               Vector(bbox.p2.x - static_cast<float>(j) * 8.0f - 4.0f,
                      bbox.p2.y),
               0, 90+10*j, 140, 260, Vector(0, 300),
               1, Color(.6f, .6f, .6f), 4, 1.6f, LAYER_OBJECTS+1);
-            Sector::current()->add<Particles>(
+            Sector::get().add<Particles>(
               Vector(bbox.p1.x + static_cast<float>(j) * 8.0f + 4.0f,
                      bbox.p2.y),
               270+10*j, 360, 140, 260, Vector(0, 300),
@@ -250,7 +250,7 @@ IceCrusher::after_editor_set() {
 bool
 IceCrusher::found_victim() const
 {
-  auto player = Sector::current()->get_nearest_player(bbox);
+  auto player = Sector::get().get_nearest_player(bbox);
   if (!player) return false;
 
   const Rectf& player_bbox = player->get_bbox();
@@ -258,7 +258,7 @@ IceCrusher::found_victim() const
   if ((player_bbox.p1.y >= bbox.p2.y) /* player is below crusher */
       && (player_bbox.p2.x > (bbox.p1.x - DROP_ACTIVATION_DISTANCE))
       && (player_bbox.p1.x < (bbox.p2.x + DROP_ACTIVATION_DISTANCE))
-      && (Sector::current()->is_free_of_statics(crush_area, this, false))/* and area to player is free of objects */)
+      && (Sector::get().is_free_of_statics(crush_area, this, false))/* and area to player is free of objects */)
     return true;
   else
     return false;
@@ -269,7 +269,7 @@ IceCrusher::eye_position(bool right) const
 {
   if(state == IDLE)
   {
-    auto player = Sector::current()->get_nearest_player (bbox);
+    auto player = Sector::get().get_nearest_player (bbox);
     if(player)
     {
       // Icecrusher focuses on approximate position of player's head

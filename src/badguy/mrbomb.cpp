@@ -74,7 +74,7 @@ MrBomb::collision_squished(GameObject& object)
     return true;
   }
   if(is_valid()) {
-    auto bomb = Sector::current()->add<Bomb>(get_pos(), dir, sprite_name);
+    auto bomb = Sector::get().add<Bomb>(get_pos(), dir, sprite_name);
 
     // Do not trigger dispenser because we need to wait for
     // the bomb instance to explode.
@@ -103,7 +103,7 @@ MrBomb::kill_fall()
 {
   if(is_valid()) {
     remove_me();
-    Sector::current()->add<Explosion>(bbox.get_middle());
+    Sector::get().add<Explosion>(bbox.get_middle());
   }
 
   run_dead_script();

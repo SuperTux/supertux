@@ -154,7 +154,7 @@ Door::collision(GameObject& other, const CollisionHit& hit_)
         state = CLOSING;
         sprite->set_action("closing", 1);
         if(!script.empty()) {
-          Sector::current()->run_script(script, "Door");
+          Sector::get().run_script(script, "Door");
         }
 
         if(!target_sector.empty()) {

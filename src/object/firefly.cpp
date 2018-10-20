@@ -119,7 +119,7 @@ Firefly::collision(GameObject& other, const CollisionHit& )
       float vy = -cosf(angle)*velocity;
       Vector pspeed = Vector(vx, vy);
       Vector paccel = Vector(0.0f, 1000.0f);
-      Sector::current()->add<SpriteParticle>("images/objects/particles/reset.sprite", "default", ppos, ANCHOR_MIDDLE, pspeed, paccel, LAYER_OBJECTS-1);
+      Sector::get().add<SpriteParticle>("images/objects/particles/reset.sprite", "default", ppos, ANCHOR_MIDDLE, pspeed, paccel, LAYER_OBJECTS-1);
     }
 
     if( sprite_name.find("vbell", 0) != std::string::npos ) {
@@ -133,7 +133,7 @@ Firefly::collision(GameObject& other, const CollisionHit& )
     }
 
     sprite->set_action("ringing");
-    GameSession::current()->set_reset_point(Sector::current()->get_name(),
+    GameSession::current()->set_reset_point(Sector::get().get_name(),
                                             initial_position);
   }
 

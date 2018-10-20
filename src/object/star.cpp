@@ -44,7 +44,7 @@ Star::update(float elapsed_time)
   movement = physic.get_movement(elapsed_time);
 
   // when near Tux, spawn particles
-  auto player = Sector::current()->get_nearest_player (bbox);
+  auto player = Sector::get().get_nearest_player (bbox);
   if (player) {
     float disp_x = player->get_bbox().p1.x - bbox.p1.x;
     float disp_y = player->get_bbox().p1.y - bbox.p1.y;
@@ -56,7 +56,7 @@ Star::update(float elapsed_time)
         Vector ppos = Vector(px, py);
         Vector pspeed = Vector(0, 0);
         Vector paccel = Vector(0, 0);
-        Sector::current()->add<SpriteParticle>(
+        Sector::get().add<SpriteParticle>(
           "images/objects/particles/sparkle.sprite",
           // draw bright sparkles when very close to Tux, dark sparkles when slightly further
           (disp_x*disp_x + disp_y*disp_y <= 128*128) ?

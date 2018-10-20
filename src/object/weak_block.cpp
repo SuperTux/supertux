@@ -188,8 +188,7 @@ WeakBlock::spreadHit()
 {
   //Destroy adjacent weakblocks if applicable
   if(linked) {
-    auto sector = Sector::current();
-    for(auto& wb : sector->get_objects_by_type<WeakBlock>()) {
+    for(auto& wb : Sector::get().get_objects_by_type<WeakBlock>()) {
       if (&wb != this && wb.state == STATE_NORMAL)
       {
         const float dx = fabsf(wb.get_pos().x - bbox.p1.x);

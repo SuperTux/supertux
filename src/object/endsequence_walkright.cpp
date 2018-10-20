@@ -48,7 +48,7 @@ void
 EndSequenceWalkRight::running(float elapsed_time)
 {
   EndSequence::running(elapsed_time);
-  Player& tux = *Sector::current()->m_player;
+  Player& tux = *Sector::get().m_player;
 
   if (tux_may_walk) {
     end_sequence_controller->press(Controller::RIGHT);

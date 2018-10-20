@@ -31,16 +31,16 @@ CoinExplode::update(float )
   float mag = 100.0f; // madnitude that coins are to be thrown
   float rand = 30.0f; // max variation to be subtracted from magnitide
 
-  Sector::current()->add<HeavyCoin>(position, Vector(2.5, -4.5) * (mag - gameRandom.randf(rand)));
-  Sector::current()->add<HeavyCoin>(position, Vector(2, -5) * (mag - gameRandom.randf(rand)));
-  Sector::current()->add<HeavyCoin>(position, Vector(1.5, -5.5) * (mag - gameRandom.randf(rand)));
-  Sector::current()->add<HeavyCoin>(position, Vector(1, -6) * (mag+gameRandom.randf(rand)));
-  Sector::current()->add<HeavyCoin>(position, Vector(0.5, -6.5) * (mag - gameRandom.randf(rand)));
-  Sector::current()->add<HeavyCoin>(position, Vector(-2.5, -4.5) * (mag - gameRandom.randf(rand)));
-  Sector::current()->add<HeavyCoin>(position, Vector(-2, -5) * (mag - gameRandom.randf(rand)));
-  Sector::current()->add<HeavyCoin>(position, Vector(-1.5, -5.5) * (mag - gameRandom.randf(rand)));
-  Sector::current()->add<HeavyCoin>(position, Vector(-1, -6) * (mag+gameRandom.randf(rand)));
-  Sector::current()->add<HeavyCoin>(position, Vector(-0.5, -6.5) * (mag - gameRandom.randf(rand)));
+  Sector::get().add<HeavyCoin>(position, Vector(2.5, -4.5) * (mag - gameRandom.randf(rand)));
+  Sector::get().add<HeavyCoin>(position, Vector(2, -5) * (mag - gameRandom.randf(rand)));
+  Sector::get().add<HeavyCoin>(position, Vector(1.5, -5.5) * (mag - gameRandom.randf(rand)));
+  Sector::get().add<HeavyCoin>(position, Vector(1, -6) * (mag+gameRandom.randf(rand)));
+  Sector::get().add<HeavyCoin>(position, Vector(0.5, -6.5) * (mag - gameRandom.randf(rand)));
+  Sector::get().add<HeavyCoin>(position, Vector(-2.5, -4.5) * (mag - gameRandom.randf(rand)));
+  Sector::get().add<HeavyCoin>(position, Vector(-2, -5) * (mag - gameRandom.randf(rand)));
+  Sector::get().add<HeavyCoin>(position, Vector(-1.5, -5.5) * (mag - gameRandom.randf(rand)));
+  Sector::get().add<HeavyCoin>(position, Vector(-1, -6) * (mag+gameRandom.randf(rand)));
+  Sector::get().add<HeavyCoin>(position, Vector(-0.5, -6.5) * (mag - gameRandom.randf(rand)));
 
   remove_me();
 }

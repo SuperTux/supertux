@@ -146,7 +146,7 @@ void
 Path::edit_path() {
   int id = 0;
   for(auto i = nodes.begin(); i != nodes.end(); ++i) {
-    Sector::current()->add<NodeMarker>(this, i, id);
+    Sector::get().add<NodeMarker>(this, i, id);
     id++;
   }
 }

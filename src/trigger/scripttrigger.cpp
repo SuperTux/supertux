@@ -95,7 +95,7 @@ ScriptTrigger::event(Player& , EventType type)
     return;
   }
 
-  Sector::current()->run_script(script, "ScriptTrigger");
+  Sector::get().run_script(script, "ScriptTrigger");
   runcount++;
 }
 

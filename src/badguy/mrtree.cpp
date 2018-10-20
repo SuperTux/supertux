@@ -64,7 +64,7 @@ MrTree::collision_squished(GameObject& object)
   Vector stumpy_pos = get_pos();
   stumpy_pos.x += 20;
   stumpy_pos.y += 25;
-  auto stumpy = Sector::current()->add<Stumpy>(stumpy_pos, dir);
+  auto stumpy = Sector::get().add<Stumpy>(stumpy_pos, dir);
   remove_me();
 
   // give Feedback
@@ -81,8 +81,8 @@ MrTree::collision_squished(GameObject& object)
     float vx = sinf(angle)*velocity;
     float vy = -cosf(angle)*velocity;
     Vector pspeed = Vector(vx, vy);
-    Vector paccel = Vector(0, Sector::current()->get_gravity()*10);
-    Sector::current()->add<SpriteParticle>("images/objects/particles/leaf.sprite",
+    Vector paccel = Vector(0, Sector::get().get_gravity()*10);
+    Sector::get().add<SpriteParticle>("images/objects/particles/leaf.sprite",
                                            "default",
                                            ppos, ANCHOR_MIDDLE,
                                            pspeed, paccel,
@@ -93,16 +93,16 @@ MrTree::collision_squished(GameObject& object)
     // spawn PoisonIvy
     Vector leaf1_pos(stumpy_pos.x - POISONIVY_WIDTH - 1, stumpy_pos.y - POISONIVY_Y_OFFSET);
     Rectf leaf1_bbox(leaf1_pos.x, leaf1_pos.y, leaf1_pos.x + POISONIVY_WIDTH, leaf1_pos.y + POISONIVY_HEIGHT);
-    if (Sector::current()->is_free_of_movingstatics(leaf1_bbox, this)) {
-      auto leaf1 = Sector::current()->add<PoisonIvy>(leaf1_bbox.p1, LEFT);
+    if (Sector::get().is_free_of_movingstatics(leaf1_bbox, this)) {
+      auto leaf1 = Sector::get().add<PoisonIvy>(leaf1_bbox.p1, LEFT);
       leaf1->countMe = false;
     }
 
     // spawn PoisonIvy
     Vector leaf2_pos(stumpy_pos.x + sprite->get_current_hitbox_width() + 1, stumpy_pos.y - POISONIVY_Y_OFFSET);
     Rectf leaf2_bbox(leaf2_pos.x, leaf2_pos.y, leaf2_pos.x + POISONIVY_WIDTH, leaf2_pos.y + POISONIVY_HEIGHT);
-    if (Sector::current()->is_free_of_movingstatics(leaf2_bbox, this)) {
-      auto leaf2 = Sector::current()->add<PoisonIvy>(leaf2_bbox.p1, RIGHT);
+    if (Sector::get().is_free_of_movingstatics(leaf2_bbox, this)) {
+      auto leaf2 = Sector::get().add<PoisonIvy>(leaf2_bbox.p1, RIGHT);
       leaf2->countMe = false;
     }
   }

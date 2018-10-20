@@ -117,7 +117,7 @@ GhostTree::active_update(float /*elapsed_time*/)
     if(willowisp_timer.check()) {
       if(willowisps.size() < WILLOWISP_COUNT) {
         Vector pos = Vector(bbox.get_width() / 2, bbox.get_height() / 2 + willo_spawn_y + WILLOWISP_TOP_OFFSET);
-        auto willowisp = Sector::current()->add<TreeWillOWisp>(this, pos, 200 + willo_radius, willo_speed);
+        auto willowisp = Sector::get().add<TreeWillOWisp>(this, pos, 200 + willo_radius, willo_speed);
         willowisps.push_back(willowisp);
 
         willo_spawn_y -= 40;
@@ -154,7 +154,7 @@ GhostTree::active_update(float /*elapsed_time*/)
       /* TODO indicate root with an animation */
       auto player = get_nearest_player();
       if (player) {
-        Sector::current()->add<Root>(Vector(player->get_bbox().get_left(), bbox.get_bottom()+ROOT_TOP_OFFSET));
+        Sector::get().add<Root>(Vector(player->get_bbox().get_left(), bbox.get_bottom()+ROOT_TOP_OFFSET));
       }
     }
   } else if (mystate == STATE_SWALLOWING) {
@@ -258,7 +258,7 @@ GhostTree::collision(GameObject& other, const CollisionHit& )
 void
 GhostTree::spawn_lantern()
 {
-  Sector::current()->add<Lantern>(bbox.get_middle() + SUCK_TARGET_OFFSET);
+  Sector::get().add<Lantern>(bbox.get_middle() + SUCK_TARGET_OFFSET);
 }
 
 /* EOF */

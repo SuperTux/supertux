@@ -73,9 +73,9 @@ void RainParticleSystem::update(float elapsed_time)
     auto particle = dynamic_cast<RainParticle*>(it.get());
     assert(particle);
 
-    float movement = particle->speed * elapsed_time * Sector::current()->get_gravity();
-    float abs_x = Sector::current()->m_camera->get_translation().x;
-    float abs_y = Sector::current()->m_camera->get_translation().y;
+    float movement = particle->speed * elapsed_time * Sector::get().get_gravity();
+    float abs_x = Sector::get().m_camera->get_translation().x;
+    float abs_y = Sector::get().m_camera->get_translation().y;
     particle->pos.y += movement;
     particle->pos.x -= movement;
     int col = collision(particle, Vector(-movement, movement));
@@ -88,14 +88,14 @@ void RainParticleSystem::update(float elapsed_time)
                                   // uncommenting the else statement below.
           splash_x = int(particle->pos.x);
           splash_y = int(particle->pos.y) - (int(particle->pos.y) % 32) + 32;
-          Sector::current()->add<RainSplash>(Vector(static_cast<float>(splash_x), static_cast<float>(splash_y)),
+          Sector::get().add<RainSplash>(Vector(static_cast<float>(splash_x), static_cast<float>(splash_y)),
                                              vertical);
         }
         // Uncomment the following to display vertical splashes, too
         /* else {
            splash_x = int(particle->pos.x) - (int(particle->pos.x) % 32) + 32;
            splash_y = int(particle->pos.y);
-           Sector::current()->add<RainSplash>(Vector(splash_x, splash_y),vertical);
+           Sector::get().add<RainSplash>(Vector(splash_x, splash_y),vertical);
            } */
       }
       int new_x = graphicsRandom.rand(int(virtual_width)) + int(abs_x);

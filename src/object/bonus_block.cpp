@@ -256,11 +256,8 @@ BonusBlock::try_open(Player* player)
     return;
   }
 
-  auto sector = Sector::current();
-  assert(sector);
-
   if (player == nullptr)
-    player = sector->m_player;
+    player = Sector::get().m_player;
 
   if (player == nullptr)
     return;
@@ -270,10 +267,10 @@ BonusBlock::try_open(Player* player)
   switch(m_contents) {
     case CONTENT_COIN:
     {
-      Sector::current()->add<BouncyCoin>(get_pos(), true);
+      Sector::get().add<BouncyCoin>(get_pos(), true);
       player->get_status().add_coins(1);
       if (m_hit_counter != 0)
-        Sector::current()->get_level().m_stats.m_coins++;
+        Sector::get().get_level().m_stats.m_coins++;
       break;
     }
 
@@ -303,21 +300,21 @@ BonusBlock::try_open(Player* player)
 
     case CONTENT_STAR:
     {
-      sector->add<Star>(get_pos() + Vector(0, -32), direction);
+      Sector::get().add<Star>(get_pos() + Vector(0, -32), direction);
       SoundManager::current()->play("sounds/upgrade.wav");
       break;
     }
 
     case CONTENT_1UP:
     {
-      sector->add<OneUp>(get_pos(), direction);
+      Sector::get().add<OneUp>(get_pos(), direction);
       SoundManager::current()->play("sounds/upgrade.wav");
       break;
     }
 
     case CONTENT_CUSTOM:
     {
-      sector->add<SpecialRiser>(get_pos(), std::move(m_object));
+      Sector::get().add<SpecialRiser>(get_pos(), std::move(m_object));
       SoundManager::current()->play("sounds/upgrade.wav");
       break;
     }
@@ -336,28 +333,28 @@ BonusBlock::try_open(Player* player)
     }
     case CONTENT_TRAMPOLINE:
     {
-      sector->add<SpecialRiser>(get_pos(), std::make_unique<Trampoline>(get_pos(), false));
+      Sector::get().add<SpecialRiser>(get_pos(), std::make_unique<Trampoline>(get_pos(), false));
       SoundManager::current()->play("sounds/upgrade.wav");
       break;
     }
     case CONTENT_RAIN:
     {
       m_hit_counter = 1; // multiple hits of coin rain is not allowed
-      Sector::current()->add<CoinRain>(get_pos(), true);
+      Sector::get().add<CoinRain>(get_pos(), true);
       SoundManager::current()->play("sounds/upgrade.wav");
       break;
     }
     case CONTENT_EXPLODE:
     {
       m_hit_counter = 1; // multiple hits of coin explode is not allowed
-      Sector::current()->add<CoinExplode>(get_pos() + Vector (0, -40));
+      Sector::get().add<CoinExplode>(get_pos() + Vector (0, -40));
       SoundManager::current()->play("sounds/upgrade.wav");
       break;
     }
   }
 
   if (!m_script.empty()) { // scripts always run if defined
-    Sector::current()->run_script(m_script, "BonusBlockScript");
+    Sector::get().run_script(m_script, "BonusBlockScript");
   }
 
   start_bounce(player);
@@ -377,9 +374,6 @@ BonusBlock::try_drop(Player *player)
     return;
   }
 
-  auto sector = Sector::current();
-  assert(sector);
-
   // First what's below the bonus block, if solid send it up anyway (excepting doll)
   Rectf dest_;
   dest_.p1.x = bbox.get_left() + 1;
@@ -387,14 +381,14 @@ BonusBlock::try_drop(Player *player)
   dest_.p2.x = bbox.get_right() - 1;
   dest_.p2.y = dest_.p1.y + 30;
 
-  if (!Sector::current()->is_free_of_statics(dest_, this, true) && !(m_contents == CONTENT_1UP))
+  if (!Sector::get().is_free_of_statics(dest_, this, true) && !(m_contents == CONTENT_1UP))
   {
     try_open(player);
     return;
   }
 
   if (player == nullptr)
-    player = sector->m_player;
+    player = Sector::get().m_player;
 
   if (player == nullptr)
     return;
@@ -436,7 +430,7 @@ BonusBlock::try_drop(Player *player)
 
     case CONTENT_STAR:
     {
-      sector->add<Star>(get_pos() + Vector(0, 32), direction);
+      Sector::get().add<Star>(get_pos() + Vector(0, 32), direction);
       SoundManager::current()->play("sounds/upgrade.wav");
       countdown = true;
       break;
@@ -444,7 +438,7 @@ BonusBlock::try_drop(Player *player)
 
     case CONTENT_1UP:
     {
-      sector->add<OneUp>(get_pos(), DOWN);
+      Sector::get().add<OneUp>(get_pos(), DOWN);
       SoundManager::current()->play("sounds/upgrade.wav");
       countdown = true;
       break;
@@ -454,7 +448,7 @@ BonusBlock::try_drop(Player *player)
     {
       //NOTE: non-portable trampolines could be moved to CONTENT_CUSTOM, but they should not drop
       m_object->set_pos(get_pos() +  Vector(0, 32));
-      sector->add_object(std::move(m_object));
+      Sector::get().add_object(std::move(m_object));
       SoundManager::current()->play("sounds/upgrade.wav");
       countdown = true;
       break;
@@ -476,7 +470,7 @@ BonusBlock::try_drop(Player *player)
     case CONTENT_EXPLODE:
     {
       m_hit_counter = 1; // multiple hits of coin explode is not allowed
-      Sector::current()->add<CoinExplode>(get_pos() + Vector (0, 40));
+      Sector::get().add<CoinExplode>(get_pos() + Vector (0, 40));
       SoundManager::current()->play("sounds/upgrade.wav");
       countdown = true;
       break;
@@ -484,7 +478,7 @@ BonusBlock::try_drop(Player *player)
   }
 
   if (!m_script.empty()) { // scripts always run if defined
-    Sector::current()->run_script(m_script, "powerup-script");
+    Sector::get().run_script(m_script, "powerup-script");
   }
 
   if (countdown) { // only decrease hit counter if try_open was not called
@@ -506,14 +500,14 @@ BonusBlock::raise_growup_bonus(Player* player, const BonusType& bonus, const Dir
     obj = std::make_unique<Flower>(bonus);
   }
 
-  Sector::current()->add<SpecialRiser>(get_pos(), std::move(obj));
+  Sector::get().add<SpecialRiser>(get_pos(), std::move(obj));
   SoundManager::current()->play("sounds/upgrade.wav");
 }
 
 void
 BonusBlock::drop_growup_bonus(const std::string& bonus_sprite_name, bool& countdown)
 {
-  Sector::current()->add<PowerUp>(get_pos() + Vector(0, 32), bonus_sprite_name);
+  Sector::get().add<PowerUp>(get_pos() + Vector(0, 32), bonus_sprite_name);
   SoundManager::current()->play("sounds/upgrade.wav");
   countdown = true;
 }

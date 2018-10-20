@@ -60,9 +60,9 @@ WaterDrop::collision_solid(const CollisionHit& hit)
       Vector pspeed = ppos - bbox.get_middle();
       pspeed.x *= 12;
       pspeed.y *= 12;
-      Sector::current()->add<SpriteParticle>(sprite_path, "particle_" + std::to_string(pa),
+      Sector::get().add<SpriteParticle>(sprite_path, "particle_" + std::to_string(pa),
                                              ppos, ANCHOR_MIDDLE,
-                                             pspeed, Vector(0, 100 * Sector::current()->get_gravity()),
+                                             pspeed, Vector(0, 100 * Sector::get().get_gravity()),
                                              LAYER_OBJECTS+1);
     }
   }
