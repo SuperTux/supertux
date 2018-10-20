@@ -126,7 +126,7 @@ AddonManager::AddonManager(const std::string& addon_directory,
                            std::vector<Config::Addon>& addon_config) :
   m_downloader(),
   m_addon_directory(addon_directory),
-  m_repository_url("https://raw.githubusercontent.com/SuperTux/addons/master/index-0_5.nfo"),
+  m_repository_url("https://raw.githubusercontent.com/SuperTux/addons/master/index-0_6.nfo"),
   m_addon_config(addon_config),
   m_installed_addons(),
   m_repository_addons(),
@@ -725,7 +725,7 @@ AddonManager::check_for_langpack_updates()
     check_online();
     try
     {
-      const std::string& addon_id = "langpack-" + language;
+      const std::string& addon_id = "language-pack";
       log_debug << "Looking for language addon with ID " << addon_id << "..." << std::endl;
       Addon& langpack = get_repository_addon(addon_id);
 
