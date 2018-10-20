@@ -91,7 +91,16 @@ public:
     }
     else
     {
-      return dynamic_cast<T*>(it->second);
+#ifdef NDEBUG
+      return static_cast<T*>(it->second);
+#else
+      // Since uids should be unique, there should be no need to guess
+      // the type, thus we assert() when the object type is not what
+      // we expected.
+      auto ptr = dynamic_cast<T*>(it->second);
+      assert(ptr != nullptr);
+      return ptr;
+#endif
     }
   }
 
