@@ -25,6 +25,9 @@ public:
   void set_use_bitmap_fonts(bool value);
   bool get_use_bitmap_fonts() const;
 
+  void set_game_speed_multiplier(float v);
+  float get_game_speed_multiplier() const;
+
 public:
   /** Show collision rectangles of moving objects */
   bool show_collision_rects;
@@ -35,6 +38,9 @@ public:
 private:
   /** Use old bitmap fonts instead of TTF */
   bool m_use_bitmap_fonts;
+
+  /** Speed up or slow down the game */
+  float m_game_speed_multiplier;
 
 private:
   Debug(const Debug&) = delete;

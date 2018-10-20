@@ -396,7 +396,7 @@ ScreenManager::run()
     last_ticks = ticks;
 
     /** ticks (as returned from SDL_GetTicks) per frame */
-    const Uint32 ticks_per_frame = static_cast<Uint32>(1000.0 / m_target_framerate * g_game_speed);
+    const Uint32 ticks_per_frame = static_cast<Uint32>(1000.0 / m_target_framerate * g_debug.get_game_speed_multiplier());
 
     if (elapsed_ticks > ticks_per_frame*4)
     {

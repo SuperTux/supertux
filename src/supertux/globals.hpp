@@ -32,8 +32,6 @@ extern std::unique_ptr<Config> g_config;
 extern float g_game_time;
 extern float g_real_time;
 
-extern float g_game_speed;
-
 #endif
 
 /* EOF */

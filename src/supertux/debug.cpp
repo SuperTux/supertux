@@ -17,13 +17,15 @@
 #include "supertux/debug.hpp"
 
 #include "supertux/resources.hpp"
+#include "util/log.hpp"
 
 Debug g_debug;
 
 Debug::Debug() :
   show_collision_rects(false),
   show_worldmap_path(false),
-  m_use_bitmap_fonts(false)
+  m_use_bitmap_fonts(false),
+  m_game_speed_multiplier(1.0f)
 {
 }
 
@@ -38,6 +40,19 @@ bool
 Debug::get_use_bitmap_fonts() const
 {
   return m_use_bitmap_fonts;
+}
+
+void
+Debug::set_game_speed_multiplier(float v)
+{
+  m_game_speed_multiplier = v;
+  log_info << m_game_speed_multiplier << std::endl;
+}
+
+float
+Debug::get_game_speed_multiplier() const
+{
+  return m_game_speed_multiplier;
 }
 
 /* EOF */

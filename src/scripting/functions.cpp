@@ -335,7 +335,7 @@ int rand()
 
 void set_game_speed(float speed)
 {
-  ::g_game_speed = speed;
+  ::g_debug.set_game_speed_multiplier(speed);
 }
 
 void record_demo(const std::string& filename)
