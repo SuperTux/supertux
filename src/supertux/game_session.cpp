@@ -484,12 +484,12 @@ GameSession::start_sequence(Sequence seq, const SequenceData* data)
   std::unique_ptr<EndSequence> end_sequence;
   if (seq == SEQ_ENDSEQUENCE) {
     if (m_currentsector->get_players()[0]->get_physic().get_velocity_x() < 0) {
-      end_sequence = std::unique_ptr<EndSequenceWalkLeft>();
+      end_sequence = std::make_unique<EndSequenceWalkLeft>();
     } else {
-      end_sequence = std::unique_ptr<EndSequenceWalkRight>();
+      end_sequence = std::make_unique<EndSequenceWalkRight>();
     }
   } else if (seq == SEQ_FIREWORKS) {
-    end_sequence = std::unique_ptr<EndSequenceFireworks>();
+    end_sequence = std::make_unique<EndSequenceFireworks>();
   } else {
     log_warning << "Unknown sequence '" << static_cast<int>(seq) << "'. Ignoring." << std::endl;
     return;
