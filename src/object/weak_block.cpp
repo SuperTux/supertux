@@ -189,24 +189,22 @@ WeakBlock::spreadHit()
   //Destroy adjacent weakblocks if applicable
   if(linked) {
     auto sector = Sector::current();
-    if (!sector) {
-      log_debug << "no current sector" << std::endl;
-      return;
-    }
-    for(const auto& i : sector->get_objects()) {
-      auto wb = dynamic_cast<WeakBlock*>(i.get());
-      if (!wb) continue;
-      if (wb == this) continue;
-      if (wb->state != STATE_NORMAL) continue;
-      float dx = fabsf(wb->get_pos().x - bbox.p1.x);
-      float dy = fabsf(wb->get_pos().y - bbox.p1.y);
-      if ((dx <= 32.5) && (dy <= 32.5)) wb->startBurning();
+    for(auto& wb : sector->get_objects_by_type<WeakBlock>()) {
+      if (&wb != this && wb.state == STATE_NORMAL)
+      {
+        const float dx = fabsf(wb.get_pos().x - bbox.p1.x);
+        const float dy = fabsf(wb.get_pos().y - bbox.p1.y);
+        if ((dx <= 32.5) && (dy <= 32.5)) {
+          wb.startBurning();
+        }
+      }
     }
   }
 }
 
 ObjectSettings
-WeakBlock::get_settings() {
+WeakBlock::get_settings()
+{
   ObjectSettings result = MovingSprite::get_settings();
   result.options.push_back( ObjectOption(MN_TOGGLE, _("Linked"), &linked,
                                          "linked"));

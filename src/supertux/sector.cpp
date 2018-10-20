@@ -184,24 +184,21 @@ Sector::activate(const Vector& player_pos)
 
   // two-player hack: move other players to main player's position
   // Maybe specify 2 spawnpoints in the level?
-  for(auto& object : get_objects()) {
-    auto p = dynamic_cast<Player*>(object.get());
-    if (!p) continue;
-
+  for(auto& player : get_objects_by_type<Player>()) {
     // spawn smalltux below spawnpoint
-    if (!p->is_big()) {
-      p->move(player_pos + Vector(0,32));
+    if (!player.is_big()) {
+      player.move(player_pos + Vector(0,32));
     } else {
-      p->move(player_pos);
+      player.move(player_pos);
     }
 
     // spawning tux in the ground would kill him
-    if(!is_free_of_tiles(p->get_bbox())) {
+    if(!is_free_of_tiles(player.get_bbox())) {
       std::string current_level = "[" + Sector::current()->get_level().m_filename + "] ";
       log_warning << current_level << "Tried spawning Tux in solid matter. Compensating." << std::endl;
-      Vector npos = p->get_bbox().p1;
+      Vector npos = player.get_bbox().p1;
       npos.y-=32;
-      p->move(npos);
+      player.move(npos);
     }
   }
 
@@ -263,19 +260,17 @@ int
 Sector::calculate_foremost_layer() const
 {
   int layer = LAYER_BACKGROUND0;
-  for(const auto& obj : get_objects())
+  for(auto& tm : get_objects_by_type<TileMap>())
   {
-    const auto& tm = dynamic_cast<TileMap*>(obj.get());
-    if (!tm) continue;
-    if(tm->get_layer() > layer)
+    if(tm.get_layer() > layer)
     {
-      if( (tm->get_alpha() < 1.0) )
+      if( (tm.get_alpha() < 1.0) )
       {
-        layer = tm->get_layer() - 1;
+        layer = tm.get_layer() - 1;
       }
       else
       {
-        layer = tm->get_layer() + 1;
+        layer = tm.get_layer() + 1;
       }
     }
   }
@@ -507,10 +502,10 @@ int
 Sector::get_total_badguys() const
 {
   int total_badguys = 0;
-  for(const auto& object : get_objects()) {
-    auto badguy = dynamic_cast<BadGuy*>(object.get());
-    if (badguy && badguy->countMe)
+  for(auto& badguy : get_objects_by_type<BadGuy>()) {
+    if (badguy.countMe) {
       total_badguys++;
+    }
   }
 
   return total_badguys;
@@ -738,28 +733,26 @@ void
 Sector::convert_tiles2gameobject()
 {
   // add lights for special tiles
-  for(const auto& obj : get_objects()) {
-    auto tm = dynamic_cast<TileMap*>(obj.get());
-    if (!tm) continue;
-
-    for(int x=0; x < tm->get_width(); ++x)
+  for(auto& tm : get_objects_by_type<TileMap>())
+  {
+    for(int x=0; x < tm.get_width(); ++x)
     {
-      for(int y=0; y < tm->get_height(); ++y)
+      for(int y=0; y < tm.get_height(); ++y)
       {
-        const Tile& tile = tm->get_tile(x, y);
+        const Tile& tile = tm.get_tile(x, y);
 
         if (!tile.get_object_name().empty())
         {
           // If a tile is associated with an object, insert that
           // object and remove the tile
           if (tile.get_object_name() == "decal" ||
-              tm->is_solid())
+              tm.is_solid())
           {
-            Vector pos = tm->get_tile_position(x, y);
+            Vector pos = tm.get_tile_position(x, y);
             try {
               GameObjectPtr object = ObjectFactory::instance().create(tile.get_object_name(), pos, AUTO, tile.get_object_data());
               add_object(std::move(object));
-              tm->change(x, y, 0);
+              tm.change(x, y, 0);
             } catch(std::exception& e) {
               log_warning << e.what() << "" << std::endl;
             }
@@ -769,15 +762,15 @@ Sector::convert_tiles2gameobject()
         {
           // add lights for fire tiles
           uint32_t attributes = tile.get_attributes();
-          Vector pos = tm->get_tile_position(x, y);
+          Vector pos = tm.get_tile_position(x, y);
           Vector center = pos + Vector(16, 16);
 
           if (attributes & Tile::FIRE) {
             if (attributes & Tile::HURTS) {
               // lava or lavaflow
               // space lights a bit
-              if ((tm->get_tile(x-1, y).get_attributes() != attributes || x%3 == 0)
-                  && (tm->get_tile(x, y-1).get_attributes() != attributes || y%3 == 0)) {
+              if ((tm.get_tile(x-1, y).get_attributes() != attributes || x%3 == 0)
+                  && (tm.get_tile(x, y-1).get_attributes() != attributes || y%3 == 0)) {
                 float pseudo_rnd = static_cast<float>(static_cast<int>(pos.x) % 10) / 10;
                 add<PulsingLight>(center, 1.0f + pseudo_rnd, 0.8f, 1.0f,
                                   Color(1.0f, 0.3f, 0.0f, 1.0f));

@@ -226,14 +226,13 @@ WorldMapState::save_state() const
     // tilemap visibility
     sq_pushstring(vm, "tilemaps", -1);
     sq_newtable(vm);
-    for(const auto& object : m_worldmap.get_objects())
+    for(auto& tilemap : m_worldmap.get_objects_by_type<::TileMap>())
     {
-      auto tilemap = dynamic_cast<::TileMap*>(object.get());
-      if (tilemap && !tilemap->get_name().empty())
+      if (!tilemap.get_name().empty())
       {
-        sq_pushstring(vm, tilemap->get_name().c_str(), -1);
+        sq_pushstring(vm, tilemap.get_name().c_str(), -1);
         sq_newtable(vm);
-        scripting::store_float(vm, "alpha", tilemap->get_alpha());
+        scripting::store_float(vm, "alpha", tilemap.get_alpha());
         if (SQ_FAILED(sq_createslot(vm, -3)))
         {
           throw std::runtime_error("failed to create '" + m_worldmap.m_name + "' table entry");

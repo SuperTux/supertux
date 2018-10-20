@@ -292,23 +292,23 @@ Yeti::drop_stalactite()
   if (!player) return;
 
   Sector* sector = Sector::current();
-  for(const auto& obj : sector->get_objects()) {
-    auto stalactite = dynamic_cast<YetiStalactite*>(obj.get());
-    if(stalactite && stalactite->is_hanging()) {
+  for (auto& stalactite : sector->get_objects_by_type<YetiStalactite>())
+  {
+    if(stalactite.is_hanging()) {
       if (hit_points >= 3) {
         // drop stalactites within 3 of player, going out with each jump
-        float distancex = fabsf(stalactite->get_bbox().get_middle().x - player->get_bbox().get_middle().x);
+        float distancex = fabsf(stalactite.get_bbox().get_middle().x - player->get_bbox().get_middle().x);
         if(distancex < static_cast<float>(stomp_count) * 32.0f) {
-          stalactite->start_shaking();
+          stalactite.start_shaking();
         }
       }
       else { /* if (hitpoints < 3) */
         // drop every 3rd pair of stalactites
-        if((((static_cast<int>(stalactite->get_pos().x) + 16) / 64) % 3) == (stomp_count % 3)) {
-          stalactite->start_shaking();
+        if((((static_cast<int>(stalactite.get_pos().x) + 16) / 64) % 3) == (stomp_count % 3)) {
+          stalactite.start_shaking();
         }
       }
-    } /* if(stalactite && stalactite->is_hanging()) */
+    }
   }
 }
 

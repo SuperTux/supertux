@@ -518,11 +518,8 @@ Editor::change_tileset() {
   tileset = TileManager::current()->get_tileset(level->get_tileset());
   tileselect.input_type = EditorInputGui::IP_NONE;
   for(const auto& sector : level->m_sectors) {
-    for(const auto& object : sector->get_objects()) {
-      auto tilemap = dynamic_cast<TileMap*>(object.get());
-      if (tilemap) {
-        tilemap->set_tileset(tileset);
-      }
+    for(auto& tilemap : sector->get_objects_by_type<TileMap>()) {
+      tilemap.set_tileset(tileset);
     }
   }
 }
