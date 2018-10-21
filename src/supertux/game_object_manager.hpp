@@ -85,8 +85,15 @@ public:
   T* get_object_by_uid(const UID& uid) const
   {
     auto it = m_objects_by_uid.find(uid);
-    if (it != m_objects_by_uid.end())
+    if (it == m_objects_by_uid.end())
     {
+      // FIXME: Is this a good idea? Should gameobjects be made
+      // accessible even when not fully inserted into the manager?
+      for(auto&& itnew : m_gameobjects_new)
+      {
+        if (itnew->get_uid() == uid)
+          return static_cast<T*>(itnew.get());
+      }
       return nullptr;
     }
     else
