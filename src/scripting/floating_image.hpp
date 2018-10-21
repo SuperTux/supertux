@@ -20,6 +20,8 @@
 #ifndef SCRIPTING_API
 #include <memory>
 
+#include "util/uid.hpp"
+
 #define HEADER_SUPERTUX_SCRIPTING_FLOATING_IMAGE_HPP
 
 class FloatingImage;
@@ -91,7 +93,10 @@ public:
 
 #ifndef SCRIPTING_API
 private:
-  ::FloatingImage* floating_image;
+  ::FloatingImage* get_floating_image() const;
+
+private:
+  UID m_parent_uid;
 
 private:
   FloatingImage(const FloatingImage&) = delete;
