@@ -30,8 +30,6 @@ if(is_christmas()) {
 logo.set_anchor_point(ANCHOR_MIDDLE);
 logo.set_pos(0, -171);
 logo.set_visible(true);
-// Suspend (this is needed so that logo doesn't get deleted)
-suspend();
 ")
     (music "/music/theme.music")
     (gravity 10)

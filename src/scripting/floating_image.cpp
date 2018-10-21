@@ -37,13 +37,6 @@ FloatingImage::FloatingImage(const std::string& spritefile) :
   }
 }
 
-FloatingImage::~FloatingImage()
-{
-  ::FloatingImage* floating_image = get_floating_image();
-  if (floating_image)
-    floating_image->remove_me();
-}
-
 ::FloatingImage*
 FloatingImage::get_floating_image() const
 {

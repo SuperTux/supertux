@@ -33,7 +33,6 @@ class FloatingImage final
 {
 public:
   FloatingImage(const std::string& spritefile);
-  ~FloatingImage();
 
   /**
    * Sets the layer of the floating image
