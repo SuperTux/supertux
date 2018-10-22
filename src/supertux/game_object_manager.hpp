@@ -22,7 +22,6 @@
 #include <vector>
 
 #include "supertux/game_object.hpp"
-#include "supertux/game_object_ptr.hpp"
 #include "util/uid_generator.hpp"
 
 class DrawingContext;
@@ -40,7 +39,7 @@ public:
   virtual ~GameObjectManager();
 
   /** Queue an object up to be added to the object list */
-  GameObject* add_object(GameObjectPtr object);
+  GameObject* add_object(std::unique_ptr<GameObject> object);
   void clear_objects();
 
   template<typename T, typename... Args>
@@ -55,7 +54,7 @@ public:
   void update(float delta);
   void draw(DrawingContext& context);
 
-  const std::vector<GameObjectPtr>& get_objects() const;
+  const std::vector<std::unique_ptr<GameObject> >& get_objects() const;
 
   /** Commit the queued up additions and deletions to the object list */
   void update_game_objects();
@@ -148,10 +147,10 @@ private:
 private:
   UIDGenerator m_uid_generator;
 
-  std::vector<GameObjectPtr> m_gameobjects;
+  std::vector<std::unique_ptr<GameObject>> m_gameobjects;
 
   /** container for newly created objects, they'll be added in update_game_objects() */
-  std::vector<GameObjectPtr> m_gameobjects_new;
+  std::vector<std::unique_ptr<GameObject>> m_gameobjects_new;
 
   /** Fast access to solid tilemaps */
   std::vector<TileMap*> m_solid_tilemaps;

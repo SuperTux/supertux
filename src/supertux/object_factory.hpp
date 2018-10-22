@@ -24,7 +24,6 @@
 #include <functional>
 
 #include "supertux/direction.hpp"
-#include "supertux/game_object_ptr.hpp"
 
 class ReaderMapping;
 class Vector;
@@ -33,17 +32,17 @@ class GameObject;
 class ObjectFactory
 {
 private:
-  typedef std::map<std::string, std::function<GameObjectPtr (const ReaderMapping&)> > Factories;
+  typedef std::function<std::unique_ptr<GameObject> (const ReaderMapping&)> FactoryFunction;
+  typedef std::map<std::string, FactoryFunction> Factories;
   Factories factories;
 
 public:
-  GameObjectPtr create(const std::string& name, const ReaderMapping& reader) const;
+  std::unique_ptr<GameObject> create(const std::string& name, const ReaderMapping& reader) const;
 
 protected:
   ObjectFactory();
 
-  void add_factory(const char* name,
-                   std::function<GameObjectPtr (const ReaderMapping&)> func)
+  void add_factory(const char* name, const FactoryFunction& func)
   {
     assert(factories.find(name) == factories.end());
     factories[name] = func;

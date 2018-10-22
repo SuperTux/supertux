@@ -253,19 +253,16 @@ Dispenser::launch_badguy()
     }
 
     try {
-      GameObjectPtr game_object;
-      Vector spawnpoint;
-      Rectf object_bbox;
-
       /* Need to allocate the badguy first to figure out its bounding box. */
-      game_object = GameObjectFactory::instance().create(badguy, get_pos(), launchdir);
+      auto game_object = GameObjectFactory::instance().create(badguy, get_pos(), launchdir);
       if (game_object == nullptr)
         throw std::runtime_error("Creating " + badguy + " object failed.");
 
       auto& bad_guy = dynamic_cast<BadGuy&>(*game_object);
 
-      object_bbox = bad_guy.get_bbox();
+      Rectf object_bbox = bad_guy.get_bbox();
 
+      Vector spawnpoint;
       switch (type) {
         case DT_DROPPER:
           spawnpoint = get_anchor_pos (bbox, ANCHOR_BOTTOM);

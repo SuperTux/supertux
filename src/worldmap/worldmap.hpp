@@ -21,7 +21,6 @@
 #include <vector>
 
 #include "math/vector.hpp"
-#include "supertux/game_object_ptr.hpp"
 #include "supertux/game_object_manager.hpp"
 #include "supertux/script_engine.hpp"
 #include "supertux/statistics.hpp"

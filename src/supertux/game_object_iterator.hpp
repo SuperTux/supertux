@@ -19,14 +19,13 @@
 
 #include <vector>
 
-#include "game_object_ptr.hpp"
 #include "game_object_manager.hpp"
 
 template<typename T>
 class GameObjectIterator
 {
 public:
-  typedef std::vector<GameObjectPtr>::const_iterator Iterator;
+  typedef std::vector<std::unique_ptr<GameObject> >::const_iterator Iterator;
 
 public:
   GameObjectIterator(Iterator it, Iterator end) :
@@ -36,8 +35,7 @@ public:
   {
     if (m_it != m_end)
     {
-      const GameObjectPtr& obj = *m_it;
-      m_object = dynamic_cast<T*>(obj.get());
+      m_object = dynamic_cast<T*>(m_it->get());
       if (!m_object)
       {
         skip_to_next();
@@ -88,8 +86,7 @@ private:
       }
       else
       {
-        const GameObjectPtr& obj = *m_it;
-        m_object = dynamic_cast<T*>(obj.get());
+        m_object = dynamic_cast<T*>(m_it->get());
       }
     }
     while(!m_object);

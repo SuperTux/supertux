@@ -41,14 +41,14 @@ GameObjectManager::~GameObjectManager()
   assert(m_gameobjects_new.size() == 0);
 }
 
-const std::vector<GameObjectPtr>&
+const std::vector<std::unique_ptr<GameObject> >&
 GameObjectManager::get_objects() const
 {
   return m_gameobjects;
 }
 
 GameObject*
-GameObjectManager::add_object(GameObjectPtr object)
+GameObjectManager::add_object(std::unique_ptr<GameObject> object)
 {
   assert(object);
   assert(!object->get_uid());
@@ -118,7 +118,7 @@ GameObjectManager::update_game_objects()
   { // cleanup marked objects
     m_gameobjects.erase(
       std::remove_if(m_gameobjects.begin(), m_gameobjects.end(),
-                     [this](const GameObjectPtr& obj) {
+                     [this](const auto& obj) {
                        if (!obj->is_valid())
                        {
                          this_before_object_remove(*obj);

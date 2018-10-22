@@ -75,7 +75,7 @@ SectorParser::SectorParser(Sector& sector) :
 {
 }
 
-GameObjectPtr
+std::unique_ptr<GameObject>
 SectorParser::parse_object(const std::string& name_, const ReaderMapping& reader)
 {
   if(name_ == "camera") {
@@ -117,7 +117,7 @@ SectorParser::parse(const ReaderMapping& sector)
         m_sector.m_spawnpoints.push_back(sp);
       }
       if (Editor::is_active()) {
-        GameObjectPtr object = parse_object("spawnpoint", iter.as_mapping());
+        auto object = parse_object("spawnpoint", iter.as_mapping());
         if(object) {
           m_sector.add_object(std::move(object));
         }
@@ -135,7 +135,7 @@ SectorParser::parse(const ReaderMapping& sector)
         m_sector.set_ambient_light(Color(vColor));
       }
     } else {
-      GameObjectPtr object = parse_object(iter.get_key(), iter.as_mapping());
+      auto object = parse_object(iter.get_key(), iter.as_mapping());
       if(object) {
         m_sector.add_object(std::move(object));
       }

@@ -26,7 +26,7 @@ ObjectFactory::ObjectFactory() :
 {
 }
 
-GameObjectPtr
+std::unique_ptr<GameObject>
 ObjectFactory::create(const std::string& name, const ReaderMapping& reader) const
 {
   auto it = factories.find(name);

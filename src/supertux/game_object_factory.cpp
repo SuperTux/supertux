@@ -253,7 +253,7 @@ GameObjectFactory::init_factories()
     });
 }
 
-GameObjectPtr
+std::unique_ptr<GameObject>
 GameObjectFactory::create(const std::string& name, const Vector& pos, const Direction& dir, const std::string& data) const
 {
   std::stringstream lisptext;

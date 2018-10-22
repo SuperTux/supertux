@@ -54,7 +54,6 @@ MovingObject::edit_bbox() {
     return;
   }
 
-  GameObjectPtr marker1, marker2, marker3, marker4, marker5, marker6, marker7, marker8;
   Sector::get().add<Resizer>(&bbox, Resizer::LEFT_UP, Resizer::LEFT_UP);
   Sector::get().add<Resizer>(&bbox, Resizer::LEFT_UP, Resizer::NONE);
   Sector::get().add<Resizer>(&bbox, Resizer::LEFT_UP, Resizer::RIGHT_DOWN);

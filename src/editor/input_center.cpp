@@ -348,7 +348,7 @@ EditorInputCenter::clone_object() {
     }
     obj_mouse_desync = sector_pos - hovered_object->get_pos();
 
-    GameObjectPtr game_object;
+    std::unique_ptr<GameObject> game_object;
     try {
       game_object = GameObjectFactory::instance().create(hovered_object->get_class(), hovered_object->get_pos());
     } catch(const std::exception& e) {
@@ -469,7 +469,7 @@ EditorInputCenter::put_object() {
     }
     return;
   }
-  GameObjectPtr game_object;
+  std::unique_ptr<GameObject> game_object;
   try {
     auto target_pos = sector_pos;
     if(snap_to_grid)

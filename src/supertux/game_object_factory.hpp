@@ -28,7 +28,9 @@ public:
 
 public:
   using ObjectFactory::create;
-  GameObjectPtr create(const std::string& name, const Vector& pos, const Direction& dir = AUTO, const std::string& data = {}) const;
+  std::unique_ptr<GameObject> create(const std::string& name,
+                                     const Vector& pos, const Direction& dir = AUTO,
+                                     const std::string& data = {}) const;
 
 private:
   GameObjectFactory();

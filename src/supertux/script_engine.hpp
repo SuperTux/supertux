@@ -23,9 +23,9 @@
 
 #include <squirrel.h>
 
-#include "supertux/game_object_ptr.hpp"
 #include "scripting/squirrel_util.hpp"
 
+class GameObject;
 class ScriptInterface;
 
 class ScriptEngine

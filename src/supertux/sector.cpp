@@ -113,7 +113,7 @@ Sector::construct()
   }
 
   bool has_background = std::any_of(get_objects().begin(), get_objects().end(),
-                                     [](const GameObjectPtr& obj) {
+                                     [](const auto& obj) {
                                       return (dynamic_cast<Background*>(obj.get()) ||
                                               dynamic_cast<Gradient*>(obj.get()));
                                      });
@@ -750,7 +750,7 @@ Sector::convert_tiles2gameobject()
           {
             Vector pos = tm.get_tile_position(x, y);
             try {
-              GameObjectPtr object = GameObjectFactory::instance().create(tile.get_object_name(), pos, AUTO, tile.get_object_data());
+              auto object = GameObjectFactory::instance().create(tile.get_object_name(), pos, AUTO, tile.get_object_data());
               add_object(std::move(object));
               tm.change(x, y, 0);
             } catch(std::exception& e) {

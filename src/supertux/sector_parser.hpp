@@ -20,8 +20,7 @@
 #include <memory>
 #include <string>
 
-#include "supertux/game_object_ptr.hpp"
-
+class GameObject;
 class Level;
 class ReaderMapping;
 class Sector;
@@ -39,7 +38,7 @@ private:
   void parse_old_format(const ReaderMapping& reader);
   void parse(const ReaderMapping& sector);
   void create_sector();
-  GameObjectPtr parse_object(const std::string& name_, const ReaderMapping& reader);
+  std::unique_ptr<GameObject> parse_object(const std::string& name_, const ReaderMapping& reader);
 
 private:
   Sector& m_sector;

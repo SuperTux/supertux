@@ -21,7 +21,6 @@
 #include <stdint.h>
 
 #include "object/anchor_point.hpp"
-#include "supertux/game_object_ptr.hpp"
 #include "supertux/game_object_manager.hpp"
 #include "supertux/script_engine.hpp"
 #include "video/color.hpp"
