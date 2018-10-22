@@ -18,31 +18,33 @@
 #define HEADER_SUPERTUX_SCRIPTING_CANDLE_HPP
 
 #ifndef SCRIPTING_API
+#include "scripting/game_object.hpp"
+
 class Candle;
 #endif
 
 namespace scripting {
 
 class Candle final
+#ifndef SCRIPTING_API
+  : public GameObject<::Candle>
+#endif
 {
 public:
 #ifndef SCRIPTING_API
-  Candle(::Candle* candle);
-#endif
-
-  bool get_burning() const; /**< returns true if candle is lighted */
-  void set_burning(bool burning); /**< true: light candle, false: extinguish candle */
-
-#ifndef SCRIPTING_API
-  ::Candle* candle;
+  using GameObject::GameObject;
 
 private:
-  Candle(const Candle&);
-  Candle& operator=(const Candle&);
+  Candle(const Candle&) = delete;
+  Candle& operator=(const Candle&) = delete;
 #endif
+
+public:
+  bool get_burning() const; /**< returns true if candle is lighted */
+  void set_burning(bool burning); /**< true: light candle, false: extinguish candle */
 };
 
-}
+} // namespace scripting
 
 #endif
 

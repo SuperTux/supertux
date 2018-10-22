@@ -20,20 +20,20 @@
 
 namespace scripting {
 
-Torch::Torch(::Torch* torch_)
-  : torch(torch_)
-{ }
-
-bool Torch::get_burning() const
+bool
+Torch::get_burning() const
 {
-  return torch->get_burning();
+  SCRIPT_GUARD_DEFAULT;
+  return object.get_burning();
 }
 
-void Torch::set_burning(bool burning)
+void
+Torch::set_burning(bool burning)
 {
-  torch->set_burning(burning);
+  SCRIPT_GUARD_VOID;
+  object.set_burning(burning);
 }
 
-}
+} // namespace scripting
 
 /* EOF */

@@ -18,17 +18,21 @@
 #define HEADER_SUPERTUX_SCRIPTING_ROCK_HPP
 
 #ifndef SCRIPTING_API
+#include "scripting/game_object.hpp"
+
 class Rock;
 #endif
 
 namespace scripting {
 
 class Rock final
-{
-public:
 #ifndef SCRIPTING_API
-  Rock(::Rock* rock_) : rock(rock_) {}
-  ::Rock* rock;
+  : public GameObject<::Rock>
+#endif
+{
+#ifndef SCRIPTING_API
+public:
+  using GameObject::GameObject;
 
 private:
   Rock(const Rock&);
@@ -36,7 +40,7 @@ private:
 #endif
 };
 
-}
+} // namespace scripting
 
 #endif
 

@@ -20,33 +20,32 @@
 
 namespace scripting {
 
-WillOWisp::WillOWisp(::WillOWisp* parent) :
-  m_parent(parent)
-{
-}
-
 void
 WillOWisp::goto_node(int node_no)
 {
-  m_parent->goto_node(node_no);
+  SCRIPT_GUARD_VOID;
+  object.goto_node(node_no);
 }
 
 void
 WillOWisp::set_state(const std::string& state)
 {
-  m_parent->set_state(state);
+  SCRIPT_GUARD_VOID;
+  object.set_state(state);
 }
 
 void
 WillOWisp::start_moving()
 {
-  m_parent->start_moving();
+  SCRIPT_GUARD_VOID;
+  object.start_moving();
 }
 
 void
 WillOWisp::stop_moving()
 {
-  m_parent->stop_moving();
+  SCRIPT_GUARD_VOID;
+  object.stop_moving();
 }
 
 } // namespace scripting

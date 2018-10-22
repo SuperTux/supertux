@@ -18,18 +18,29 @@
 #define HEADER_SUPERTUX_SCRIPTING_LEVEL_TIME_HPP
 
 #ifndef SCRIPTING_API
+#include "scripting/game_object.hpp"
+
 class LevelTime;
 #endif
 
 namespace scripting {
 
 class LevelTime final
+#ifndef SCRIPTING_API
+  : public GameObject<::LevelTime>
+#endif
 {
 public:
 #ifndef SCRIPTING_API
-  LevelTime(::LevelTime* level_time);
+public:
+  using GameObject::GameObject;
+
+private:
+  LevelTime(const LevelTime&);
+  LevelTime& operator=(const LevelTime&);
 #endif
 
+public:
   /**
    * Resumes the countdown
    */
@@ -49,17 +60,9 @@ public:
    * Changes the number of seconds left on the clock
    */
   void set_time(float time_left);
-
-#ifndef SCRIPTING_API
-  ::LevelTime* level_time;
-
-private:
-  LevelTime(const LevelTime&);
-  LevelTime& operator=(const LevelTime&);
-#endif
 };
 
-}
+} // namespace scripting
 
 #endif
 

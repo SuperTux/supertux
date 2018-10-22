@@ -19,20 +19,19 @@
 
 namespace scripting {
 
-Candle::Candle(::Candle* candle_)
-  : candle(candle_)
-{ }
-
-bool Candle::get_burning() const
+bool
+Candle::get_burning() const
 {
-  return candle->get_burning();
+  SCRIPT_GUARD_DEFAULT;
+  return object.get_burning();
 }
 
 void Candle::set_burning(bool burning)
 {
-  candle->set_burning(burning);
+  SCRIPT_GUARD_VOID;
+  object.set_burning(burning);
 }
 
-}
+} // namespace scripting
 
 /* EOF */

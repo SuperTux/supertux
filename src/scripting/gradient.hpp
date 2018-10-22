@@ -19,19 +19,22 @@
 
 #ifndef SCRIPTING_API
 #include <string>
+
+#include "scripting/game_object.hpp"
+
 class Gradient;
 #endif
 
 namespace scripting {
 
 class Gradient final
+#ifndef SCRIPTING_API
+  : public GameObject<::Gradient>
+#endif
 {
 #ifndef SCRIPTING_API
 private:
-  ::Gradient* gradient;
-
-public:
-  Gradient(::Gradient* parent);
+  using GameObject::GameObject;
 
 private:
   Gradient(const Gradient&) = delete;
@@ -48,7 +51,7 @@ public:
   void swap_colors();
 };
 
-}
+} // namespace scripting
 
 #endif
 

@@ -22,14 +22,11 @@
 
 namespace scripting {
 
-Background::Background(::Background* parent) :
-  m_parent(parent)
-{
-}
-
 void
 Background::set_image(const std::string& image)
 {
+  SCRIPT_GUARD_VOID;
+
   if(image.empty())
   {
     log_info << "No filename / path for background image specified" << std::endl;
@@ -42,13 +39,15 @@ Background::set_image(const std::string& image)
   if(!PHYSFS_exists(image.c_str()))
     path_valid = false;
 
-  m_parent->set_image(path_valid ? image : default_dir + image);
+  object.set_image(path_valid ? image : default_dir + image);
 }
 
 void
 Background::set_images(const std::string& top_image, const std::string& middle_image,
-                              const std::string& bottom_image)
+                       const std::string& bottom_image)
 {
+  SCRIPT_GUARD_VOID;
+
   if(top_image.empty() || middle_image.empty() || bottom_image.empty())
   {
     log_info << "No filename / path for background image specified" << std::endl;
@@ -67,15 +66,16 @@ Background::set_images(const std::string& top_image, const std::string& middle_i
   if(!PHYSFS_exists(bottom_image.c_str()))
     bottom_image_valid = false;
 
-  m_parent->set_images(top_image_valid ? top_image : default_dir + top_image,
-                       middle_image_valid ? middle_image : default_dir + middle_image,
-                       bottom_image_valid ? bottom_image : default_dir + bottom_image);
+  object.set_images(top_image_valid ? top_image : default_dir + top_image,
+                    middle_image_valid ? middle_image : default_dir + middle_image,
+                    bottom_image_valid ? bottom_image : default_dir + bottom_image);
 }
 
 void
 Background::set_speed(float speed)
 {
-  m_parent->set_image(m_parent->get_image(), speed);
+  SCRIPT_GUARD_VOID;
+  object.set_image(object.get_image(), speed);
 }
 
 } // namespace scripting

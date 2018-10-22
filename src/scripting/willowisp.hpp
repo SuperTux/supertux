@@ -19,6 +19,7 @@
 
 #ifndef SCRIPTING_API
 #include <string>
+#include "scripting/game_object.hpp"
 
 class WillOWisp;
 #endif
@@ -26,13 +27,13 @@ class WillOWisp;
 namespace scripting {
 
 class WillOWisp final
+#ifndef SCRIPTING_API
+  : public GameObject<::WillOWisp>
+#endif
 {
 #ifndef SCRIPTING_API
-private:
-  ::WillOWisp* m_parent;
-
 public:
-  WillOWisp(::WillOWisp* parent);
+  using GameObject::GameObject;
 
 private:
   WillOWisp(const WillOWisp&) = delete;

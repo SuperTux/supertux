@@ -19,25 +19,27 @@
 
 namespace scripting {
 
-Platform::Platform(::Platform* platform_)
-  : platform(platform_)
-{ }
-
-void Platform::goto_node(int node_no)
+void
+Platform::goto_node(int node_no)
 {
-  platform->goto_node(node_no);
+  SCRIPT_GUARD_VOID;
+  object.goto_node(node_no);
 }
 
-void Platform::start_moving()
+void
+Platform::start_moving()
 {
-  platform->start_moving();
+  SCRIPT_GUARD_VOID;
+  object.start_moving();
 }
 
-void Platform::stop_moving()
+void
+Platform::stop_moving()
 {
-  platform->stop_moving();
+  SCRIPT_GUARD_VOID;
+  object.stop_moving();
 }
 
-}
+} // namespace scripting
 
 /* EOF */

@@ -18,19 +18,21 @@
 #define HEADER_SUPERTUX_SCRIPTING_AMBIENT_SOUND_HPP
 
 #ifndef SCRIPTING_API
+#include "scripting/game_object.hpp"
+
 class AmbientSound;
 #endif
 
 namespace scripting {
 
 class AmbientSound final
+#ifndef SCRIPTING_API
+  : public GameObject<::AmbientSound>
+#endif
 {
 #ifndef SCRIPTING_API
-private:
-  ::AmbientSound* m_parent;
-
 public:
-  AmbientSound(::AmbientSound* parent);
+  using GameObject::GameObject;
 
 private:
   AmbientSound(const AmbientSound&) = delete;
@@ -54,7 +56,7 @@ public:
   float get_pos_y() const;
 };
 
-}
+} // namespace scripting
 
 #endif
 

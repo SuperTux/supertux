@@ -20,165 +20,186 @@
 
 namespace scripting {
 
-Player::Player(::Player* parent) :
-  m_parent(parent)
-{
-}
-
 bool
 Player::add_bonus(const std::string& bonus)
 {
-  return m_parent->add_bonus(bonus);
+  SCRIPT_GUARD_DEFAULT;
+  return object.add_bonus(bonus);
 }
 
 bool
 Player::set_bonus(const std::string& bonus)
 {
-  return m_parent->set_bonus(bonus);
+  SCRIPT_GUARD_DEFAULT;
+  return object.set_bonus(bonus);
 }
 
 void
 Player::add_coins(int count)
 {
-  m_parent->add_coins(count);
+  SCRIPT_GUARD_VOID;
+  object.add_coins(count);
 }
 
 int
 Player::get_coins() const
 {
-  return m_parent->get_coins();
+  SCRIPT_GUARD_DEFAULT;
+  return object.get_coins();
 }
 
 void
 Player::make_invincible()
 {
-  m_parent->make_invincible();
+  SCRIPT_GUARD_VOID;
+  object.make_invincible();
 }
 
 void
 Player::deactivate()
 {
-  m_parent->deactivate();
+  SCRIPT_GUARD_VOID;
+  object.deactivate();
 }
 
 void
 Player::activate()
 {
-  m_parent->activate();
+  SCRIPT_GUARD_VOID;
+  object.activate();
 }
 
 void
 Player::walk(float speed)
 {
-  m_parent->walk(speed);
+  SCRIPT_GUARD_VOID;
+  object.walk(speed);
 }
 
 void
 Player::set_dir(bool right)
 {
-  m_parent->set_dir(right);
+  SCRIPT_GUARD_VOID;
+  object.set_dir(right);
 }
 
 void
 Player::set_visible(bool visible)
 {
-  m_parent->set_visible(visible);
+  SCRIPT_GUARD_VOID;
+  object.set_visible(visible);
 }
 
 bool
 Player::get_visible() const
 {
-  return m_parent->get_visible();
+  SCRIPT_GUARD_DEFAULT;
+  return object.get_visible();
 }
 
 void
 Player::kill(bool completely)
 {
-  m_parent->kill(completely);
+  SCRIPT_GUARD_VOID;
+  object.kill(completely);
 }
 
 void
 Player::set_ghost_mode(bool enable)
 {
-  m_parent->set_ghost_mode(enable);
+  SCRIPT_GUARD_VOID;
+  object.set_ghost_mode(enable);
 }
 
 bool
 Player::get_ghost_mode() const
 {
-  return m_parent->get_ghost_mode();
+  SCRIPT_GUARD_DEFAULT;
+  return object.get_ghost_mode();
 }
 
 void
 Player::kick()
 {
-  m_parent->kick();
+  SCRIPT_GUARD_VOID;
+  object.kick();
 }
 
 void
 Player::do_cheer()
 {
-  m_parent->do_cheer();
+  SCRIPT_GUARD_VOID;
+  object.do_cheer();
 }
 
 void
 Player::do_duck()
 {
-  m_parent->do_duck();
+  SCRIPT_GUARD_VOID;
+  object.do_duck();
 }
 
 void
 Player::do_standup()
 {
-  m_parent->do_standup();
+  SCRIPT_GUARD_VOID;
+  object.do_standup();
 }
 
 void
 Player::do_backflip()
 {
-  m_parent->do_backflip();
+  SCRIPT_GUARD_VOID;
+  object.do_backflip();
 }
 
 void
 Player::do_jump(float yspeed)
 {
-  m_parent->do_jump(yspeed);
+  SCRIPT_GUARD_VOID;
+  object.do_jump(yspeed);
 }
 
 void
 Player::trigger_sequence(const std::string& sequence_name)
 {
-  m_parent->trigger_sequence(sequence_name);
+  SCRIPT_GUARD_VOID;
+  object.trigger_sequence(sequence_name);
 }
 
 void
 Player::use_scripting_controller(bool use_or_release)
 {
-  m_parent->use_scripting_controller(use_or_release);
+  SCRIPT_GUARD_VOID;
+  object.use_scripting_controller(use_or_release);
 }
 
 void
 Player::do_scripting_controller(const std::string& control, bool pressed)
 {
-  m_parent->do_scripting_controller(control, pressed);
+  SCRIPT_GUARD_VOID;
+  object.do_scripting_controller(control, pressed);
 }
 
 float
 Player::get_velocity_x() const
 {
-  return m_parent->m_physic.get_velocity_x();
+  SCRIPT_GUARD_DEFAULT;
+  return object.m_physic.get_velocity_x();
 }
 
 float
 Player::get_velocity_y() const
 {
-  return m_parent->m_physic.get_velocity_y();
+  SCRIPT_GUARD_DEFAULT;
+  return object.m_physic.get_velocity_y();
 }
 
 bool
 Player::has_grabbed(const std::string& name) const
 {
-  return m_parent->has_grabbed(name);
+  SCRIPT_GUARD_DEFAULT;
+  return object.has_grabbed(name);
 }
 
 } // namespace scripting

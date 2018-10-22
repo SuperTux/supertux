@@ -112,7 +112,8 @@ void get_table_entry(HSQUIRRELVM vm, const std::string& name);
 void get_or_create_table_entry(HSQUIRRELVM vm, const std::string& name);
 void delete_table_entry(HSQUIRRELVM vm, const char* name);
 std::vector<std::string> get_table_keys(HSQUIRRELVM vm);
-}
+
+} // namespace scripting
 
 #endif
 

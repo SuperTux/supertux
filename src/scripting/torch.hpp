@@ -19,31 +19,33 @@
 #define HEADER_SUPERTUX_SCRIPTING_TORCH_HPP
 
 #ifndef SCRIPTING_API
+#include "scripting/game_object.hpp"
+
 class Torch;
 #endif
 
 namespace scripting {
 
 class Torch final
+#ifndef SCRIPTING_API
+  : public GameObject<::Torch>
+#endif
 {
 public:
 #ifndef SCRIPTING_API
-  Torch(::Torch* torch);
-#endif
-
-  bool get_burning() const; /**< returns true if torch is lighted */
-  void set_burning(bool burning); /**< true: light torch, false: extinguish torch */
-
-#ifndef SCRIPTING_API
-  ::Torch* torch;
-
+public:
+  using GameObject::GameObject;
 private:
   Torch(const Torch&);
   Torch& operator=(const Torch&);
 #endif
+
+public:
+  bool get_burning() const; /**< returns true if torch is lighted */
+  void set_burning(bool burning); /**< true: light torch, false: extinguish torch */
 };
 
-}
+} // namespace scripting
 
 #endif
 

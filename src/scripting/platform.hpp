@@ -18,18 +18,27 @@
 #define HEADER_SUPERTUX_SCRIPTING_PLATFORM_HPP
 
 #ifndef SCRIPTING_API
+#include "scripting/game_object.hpp"
+
 class Platform;
 #endif
 
 namespace scripting {
 
 class Platform final
-{
-public:
 #ifndef SCRIPTING_API
-  Platform(::Platform* platform);
+  : public GameObject<::Platform>
+#endif
+{
+#ifndef SCRIPTING_API
+public:
+  using GameObject::GameObject;
+private:
+  Platform(const Platform&);
+  Platform& operator=(const Platform&);
 #endif
 
+public:
   /** Move platform until at given node, then stop */
   void goto_node(int node_no);
 
@@ -38,17 +47,9 @@ public:
 
   /** Stop platform at next node */
   void stop_moving();
-
-#ifndef SCRIPTING_API
-  ::Platform* platform;
-
-private:
-  Platform(const Platform&);
-  Platform& operator=(const Platform&);
-#endif
 };
 
-}
+} // namespace scripting
 
 #endif
 

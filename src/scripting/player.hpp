@@ -20,19 +20,21 @@
 #ifndef SCRIPTING_API
 #include <string>
 
+#include "scripting/game_object.hpp"
+
 class Player;
 #endif
 
 namespace scripting {
 
 class Player final
+#ifndef SCRIPTING_API
+  : public GameObject<::Player>
+#endif
 {
 #ifndef SCRIPTING_API
-private:
-  ::Player* m_parent;
-
 public:
-  Player(::Player* parent);
+  using GameObject::GameObject;
 
 private:
   Player(const Player&) = delete;
@@ -165,7 +167,6 @@ public:
 
   float get_velocity_x() const;
   float get_velocity_y() const;
-
 };
 
 } // namespace scripting

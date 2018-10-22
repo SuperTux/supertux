@@ -18,19 +18,21 @@
 #define HEADER_SUPERTUX_SCRIPTING_DISPLAY_EFFECT_HPP
 
 #ifndef SCRIPTING_API
+#include "scripting/game_object.hpp"
+
 class DisplayEffect;
 #endif
 
 namespace scripting {
 
 class DisplayEffect final
+#ifndef SCRIPTING_API
+  : public GameObject<::DisplayEffect>
+#endif
 {
 #ifndef SCRIPTING_API
-private:
-  ::DisplayEffect* m_parent;
-
 public:
-  DisplayEffect(::DisplayEffect* parent);
+  using GameObject::GameObject;
 
 private:
   DisplayEffect(const DisplayEffect&) = delete;
@@ -56,7 +58,7 @@ public:
   // void shrink_fade(const Vector& goal, float radius, float fadetime);
 };
 
-}
+} // namespace scripting
 
 #endif
 

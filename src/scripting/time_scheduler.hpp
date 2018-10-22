@@ -53,7 +53,7 @@ private:
   ScheduleHeap schedule;
 };
 
-}
+} // namespace scripting
 
 #endif
 

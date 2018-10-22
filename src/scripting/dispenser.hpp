@@ -18,19 +18,21 @@
 #define HEADER_SUPERTUX_SCRIPTING_DISPENSER_HPP
 
 #ifndef SCRIPTING_API
+#include "scripting/game_object.hpp"
+
 class Dispenser;
 #endif
 
 namespace scripting {
 
 class Dispenser final
+#ifndef SCRIPTING_API
+  : public GameObject<::Dispenser>
+#endif
 {
 #ifndef SCRIPTING_API
-private:
-  ::Dispenser* m_parent;
-
 public:
-  Dispenser(::Dispenser* parent);
+  using GameObject::GameObject;
 
 private:
   Dispenser(const Dispenser&) = delete;
@@ -46,7 +48,6 @@ public:
    * Make the Dispenser stop dispensing BadGuys
    */
   void deactivate();
-
 };
 
 } // namespace scripting

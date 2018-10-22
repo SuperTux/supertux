@@ -18,41 +18,42 @@
 
 namespace scripting {
 
-Thunderstorm::Thunderstorm(::Thunderstorm* thunderstorm_)
-  : thunderstorm(thunderstorm_)
-{
-}
-
 void Thunderstorm::start()
 {
-  thunderstorm->start();
+  SCRIPT_GUARD_VOID;
+  object.start();
 }
 
 void Thunderstorm::stop()
 {
-  thunderstorm->stop();
+  SCRIPT_GUARD_VOID;
+  object.stop();
 }
 
 void Thunderstorm::thunder()
 {
-  thunderstorm->thunder();
+  SCRIPT_GUARD_VOID;
+  object.thunder();
 }
 
 void Thunderstorm::lightning()
 {
-  thunderstorm->lightning();
+  SCRIPT_GUARD_VOID;
+  object.lightning();
 }
 
 void Thunderstorm::flash()
 {
-  thunderstorm->flash();
+  SCRIPT_GUARD_VOID;
+  object.flash();
 }
 
 void Thunderstorm::electrify()
 {
-  thunderstorm->electrify();
+  SCRIPT_GUARD_VOID;
+  object.electrify();
 }
 
-}
+} // namespace scripting
 
 /* EOF */

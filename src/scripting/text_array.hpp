@@ -20,6 +20,8 @@
 #ifndef SCRIPTING_API
 #include <string>
 
+#include "scripting/game_object.hpp"
+
 class TextArrayObject;
 #endif
 
@@ -30,14 +32,13 @@ namespace scripting {
  * A text array intended for scripts with narration
  */
 class TextArray final
-{
-
 #ifndef SCRIPTING_API
-private:
-  ::TextArrayObject* m_parent;
-
+  : public GameObject<::TextArrayObject>
+#endif
+{
+#ifndef SCRIPTING_API
 public:
-  TextArray(::TextArrayObject* parent);
+  using GameObject::GameObject;
 
 private:
   TextArray(const TextArray&) = delete;
@@ -45,7 +46,6 @@ private:
 #endif
 
 public:
-
   /*
    * The text array api.
    * @see: text_array_object.hpp
@@ -76,7 +76,7 @@ public:
   float get_pos_x() const;
   float get_pos_y() const;
   void set_anchor_point(int anchor);
-  int  get_anchor_point() const;
+  int get_anchor_point() const;
 };
 
 } // namespace scripting

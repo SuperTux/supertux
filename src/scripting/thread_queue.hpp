@@ -40,7 +40,7 @@ private:
   ThreadList threads;
 };
 
-}
+} // namespace scripting
 
 #endif
 

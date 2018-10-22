@@ -20,75 +20,81 @@
 
 namespace scripting {
 
-Text::Text(::TextObject* parent) :
-  m_parent(parent)
-{
-}
-
 void
 Text::set_text(const std::string& text)
 {
-  m_parent->set_text(text);
+  SCRIPT_GUARD_VOID;
+  object.set_text(text);
 }
 
 void
 Text::set_font(const std::string& fontname)
 {
-  m_parent->set_font(fontname);
+  SCRIPT_GUARD_VOID;
+  object.set_font(fontname);
 }
 
 void
 Text::fade_in(float fadetime)
 {
-  m_parent->fade_in(fadetime);
+  SCRIPT_GUARD_VOID;
+  object.fade_in(fadetime);
 }
 
 void
 Text::fade_out(float fadetime)
 {
-  m_parent->fade_out(fadetime);
+  SCRIPT_GUARD_VOID;
+  object.fade_out(fadetime);
 }
 
 void
 Text::set_visible(bool visible)
 {
-  m_parent->set_visible(visible);
+  SCRIPT_GUARD_VOID;
+  object.set_visible(visible);
 }
 
 void
 Text::set_centered(bool centered)
 {
-  m_parent->set_centered(centered);
+  SCRIPT_GUARD_VOID;
+  object.set_centered(centered);
 }
 
 void
 Text::set_pos(float x, float y)
 {
-  m_parent->set_pos(Vector(x, y));
+  SCRIPT_GUARD_VOID;
+  object.set_pos(Vector(x, y));
 }
 
 float
 Text::get_pos_x() const
 {
-  return m_parent->get_pos_x();
+  SCRIPT_GUARD_DEFAULT;
+  return object.get_pos_x();
 }
 
 float
 Text::get_pos_y() const
 {
-  return m_parent->get_pos_y();
+  SCRIPT_GUARD_DEFAULT;
+  return object.get_pos_y();
 }
 
 void
 Text::set_anchor_point(int anchor)
 {
-  m_parent->set_anchor_point(anchor);
+  SCRIPT_GUARD_VOID;
+  object.set_anchor_point(anchor);
 }
 
 int
 Text::get_anchor_point() const
 {
-  return m_parent->get_anchor_point();
+  SCRIPT_GUARD_DEFAULT;
+  return object.get_anchor_point();
 }
 
 } // namespace scripting

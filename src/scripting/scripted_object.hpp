@@ -19,6 +19,7 @@
 
 #ifndef SCRIPTING_API
 #include <string>
+#include "scripting/game_object.hpp"
 
 class ScriptedObject;
 #endif
@@ -26,13 +27,13 @@ class ScriptedObject;
 namespace scripting {
 
 class ScriptedObject final
+#ifndef SCRIPTING_API
+  : public GameObject<::ScriptedObject>
+#endif
 {
 #ifndef SCRIPTING_API
-private:
-  ::ScriptedObject* m_parent;
-
 public:
-  ScriptedObject(::ScriptedObject* parent);
+  using GameObject::GameObject;
 
 private:
   ScriptedObject(const ScriptedObject&) = delete;

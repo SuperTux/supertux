@@ -30,7 +30,7 @@ static const int ANCHOR_TOP_RIGHT   = 0x0012;
 static const int ANCHOR_BOTTOM_LEFT = 0x0021;
 static const int ANCHOR_BOTTOM_RIGHT = 0x0022;
 
-}
+} // namespace scripting
 
 #endif
 

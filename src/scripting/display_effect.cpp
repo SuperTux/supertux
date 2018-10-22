@@ -20,45 +20,46 @@
 
 namespace scripting {
 
-DisplayEffect::DisplayEffect(::DisplayEffect* parent) :
-  m_parent(parent)
-{
-}
-
 void
 DisplayEffect::fade_out(float fadetime)
 {
-  m_parent->fade_out(fadetime);
+  SCRIPT_GUARD_VOID;
+  object.fade_out(fadetime);
 }
 
 void
 DisplayEffect::fade_in(float fadetime)
 {
-  m_parent->fade_in(fadetime);
+  SCRIPT_GUARD_VOID;
+  object.fade_in(fadetime);
 }
 
 void
 DisplayEffect::set_black(bool enabled)
 {
-  m_parent->set_black(enabled);
+  SCRIPT_GUARD_VOID;
+  object.set_black(enabled);
 }
 
 bool
 DisplayEffect::is_black() const
 {
-  return m_parent->is_black();
+  SCRIPT_GUARD_DEFAULT;
+  return object.is_black();
 }
 
 void
 DisplayEffect::sixteen_to_nine(float fadetime)
 {
-  m_parent->sixteen_to_nine(fadetime);
+  SCRIPT_GUARD_VOID;
+  object.sixteen_to_nine(fadetime);
 }
 
 void
 DisplayEffect::four_to_three(float fadetime)
 {
-  m_parent->four_to_three(fadetime);
+  SCRIPT_GUARD_VOID;
+  object.four_to_three(fadetime);
 }
 
 } // namespace scripting

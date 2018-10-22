@@ -18,31 +18,32 @@
 #define HEADER_SUPERTUX_SCRIPTING_WIND_HPP
 
 #ifndef SCRIPTING_API
+#include "scripting/game_object.hpp"
+
 class Wind;
 #endif
 
 namespace scripting {
 
 class Wind final
-{
-public:
 #ifndef SCRIPTING_API
-  Wind(::Wind* wind);
+  : public GameObject<::Wind>
+#endif
+{
+#ifndef SCRIPTING_API
+public:
+  using GameObject::GameObject;
+private:
+  Wind(const Wind&);
+  Wind& operator=(const Wind&);
 #endif
 
+public:
   /** Start wind */
   void start();
 
   /** Stop wind */
   void stop();
-
-#ifndef SCRIPTING_API
-  ::Wind* wind;
-
-private:
-  Wind(const Wind&);
-  Wind& operator=(const Wind&);
-#endif
 };
 
 } // namespace scripting

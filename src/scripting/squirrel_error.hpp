@@ -39,7 +39,7 @@ private:
   std::string message;
 };
 
-}
+} // namespace scripting
 
 #endif
 

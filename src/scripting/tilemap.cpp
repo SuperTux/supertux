@@ -19,70 +19,90 @@
 
 namespace scripting {
 
-TileMap::TileMap(::TileMap* tilemap_)
-  : tilemap(tilemap_)
-{ }
-
-void TileMap::goto_node(int node_no)
+void
+TileMap::goto_node(int node_no)
 {
-  tilemap->goto_node(node_no);
+  SCRIPT_GUARD_VOID;
+  object.goto_node(node_no);
 }
 
-void TileMap::start_moving()
+void
+TileMap::start_moving()
 {
-  tilemap->start_moving();
+  SCRIPT_GUARD_VOID;
+  object.start_moving();
 }
 
-void TileMap::stop_moving()
+void
+TileMap::stop_moving()
 {
-  tilemap->stop_moving();
+  SCRIPT_GUARD_VOID;
+  object.stop_moving();
 }
 
-int TileMap::get_tile_id(int x, int y) const
+int
+TileMap::get_tile_id(int x, int y) const
 {
-  return tilemap->get_tile_id(x, y);
+  SCRIPT_GUARD_DEFAULT;
+  return object.get_tile_id(x, y);
 }
 
-int TileMap::get_tile_id_at(float x, float y) const
+int
+TileMap::get_tile_id_at(float x, float y) const
 {
-  return tilemap->get_tile_id_at( Vector(x, y) );
+  SCRIPT_GUARD_DEFAULT;
+  return object.get_tile_id_at( Vector(x, y) );
 }
 
-void TileMap::change(int x, int y, int newtile)
+void
+TileMap::change(int x, int y, int newtile)
 {
-  tilemap->change(x, y, newtile);
+  SCRIPT_GUARD_VOID;
+  object.change(x, y, newtile);
 }
 
-void TileMap::change_at(float x, float y, int newtile)
+void
+TileMap::change_at(float x, float y, int newtile)
 {
-  tilemap->change_at(Vector(x, y), newtile);
+  SCRIPT_GUARD_VOID;
+  object.change_at(Vector(x, y), newtile);
 }
 
-void TileMap::fade(float alpha, float seconds)
+void
+TileMap::fade(float alpha, float seconds)
 {
-  tilemap->fade(alpha, seconds);
+  SCRIPT_GUARD_VOID;
+  object.fade(alpha, seconds);
 }
 
-void TileMap::tint_fade(float seconds, float red, float green, float blue, float alpha)
+void
+TileMap::tint_fade(float seconds, float red, float green, float blue, float alpha)
 {
-  tilemap->tint_fade(Color(red, green, blue, alpha), seconds);
+  SCRIPT_GUARD_VOID;
+  object.tint_fade(Color(red, green, blue, alpha), seconds);
 }
 
-void TileMap::set_alpha(float alpha)
+void
+TileMap::set_alpha(float alpha)
 {
-  tilemap->set_alpha(alpha);
+  SCRIPT_GUARD_VOID;
+  object.set_alpha(alpha);
 }
 
-float TileMap::get_alpha() const
+float
+TileMap::get_alpha() const
 {
-  return tilemap->get_alpha();
+  SCRIPT_GUARD_DEFAULT;
+  return object.get_alpha();
 }
 
-void TileMap::set_solid(bool solid)
+void
+TileMap::set_solid(bool solid)
 {
-  tilemap->set_solid(solid);
+  SCRIPT_GUARD_VOID;
+  object.set_solid(solid);
 }
 
-}
+} // namespace scripting
 
 /* EOF */

@@ -20,105 +20,116 @@
 
 namespace scripting {
 
-ScriptedObject::ScriptedObject(::ScriptedObject* parent) :
-  m_parent(parent)
-{
-}
-
 void
 ScriptedObject::set_action(const std::string& animation)
 {
-  m_parent->set_action(animation);
+  SCRIPT_GUARD_VOID;
+  object.set_action(animation);
 }
 
 std::string
 ScriptedObject::get_action() const
 {
-  return m_parent->get_action();
+  SCRIPT_GUARD_DEFAULT;
+  return object.get_action();
 }
 
 void
 ScriptedObject::move(float x, float y)
 {
-  m_parent->move(x, y);
+  SCRIPT_GUARD_VOID;
+  object.move(x, y);
 }
 
 void
 ScriptedObject::set_pos(float x, float y)
 {
-  m_parent->set_pos(Vector(x, y));
+  SCRIPT_GUARD_VOID;
+  object.set_pos(Vector(x, y));
 }
 
 float
 ScriptedObject::get_pos_x() const
 {
-  return m_parent->get_pos_x();
+  SCRIPT_GUARD_DEFAULT;
+  return object.get_pos_x();
 }
 
 float
 ScriptedObject::get_pos_y() const
 {
-  return m_parent->get_pos_y();
+  SCRIPT_GUARD_DEFAULT;
+  return object.get_pos_y();
 }
 
 void
 ScriptedObject::set_velocity(float x, float y)
 {
-  m_parent->set_velocity(x, y);
+  SCRIPT_GUARD_VOID;
+  object.set_velocity(x, y);
 }
 
 float
 ScriptedObject::get_velocity_x() const
 {
-  return m_parent->get_velocity_x();
+  SCRIPT_GUARD_DEFAULT;
+  return object.get_velocity_x();
 }
 
 float
 ScriptedObject::get_velocity_y() const
 {
-  return m_parent->get_velocity_y();
+  SCRIPT_GUARD_DEFAULT;
+  return object.get_velocity_y();
 }
 
 void
 ScriptedObject::enable_gravity(bool f)
 {
-  m_parent->enable_gravity(f);
+  SCRIPT_GUARD_VOID;
+  object.enable_gravity(f);
 }
 
 bool
 ScriptedObject::gravity_enabled() const
 {
-  return m_parent->gravity_enabled();
+  SCRIPT_GUARD_DEFAULT;
+  return object.gravity_enabled();
 }
 
 void
 ScriptedObject::set_visible(bool visible)
 {
-  m_parent->set_visible(visible);
+  SCRIPT_GUARD_VOID;
+  object.set_visible(visible);
 }
 
 bool
 ScriptedObject::is_visible() const
 {
-  return m_parent->is_visible();
+  SCRIPT_GUARD_DEFAULT;
+  return object.is_visible();
 }
 
 void
 ScriptedObject::set_solid(bool solid)
 {
-  return m_parent->set_solid(solid);
+  SCRIPT_GUARD_VOID;
+  return object.set_solid(solid);
 }
 
 bool
 ScriptedObject::is_solid() const
 {
-  return m_parent->is_solid();
+  SCRIPT_GUARD_DEFAULT;
+  return object.is_solid();
 }
 
 std::string
 ScriptedObject::get_name() const
 {
-  return m_parent->get_name();
+  SCRIPT_GUARD_DEFAULT;
+  return object.get_name();
 }
 
 } // namespace scripting

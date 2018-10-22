@@ -18,31 +18,34 @@
 #define HEADER_SUPERTUX_SCRIPTING_PARTICLESYSTEM_HPP
 
 #ifndef SCRIPTING_API
+#include "scripting/game_object.hpp"
+
 class ParticleSystem;
 #endif
 
 namespace scripting {
 
 class ParticleSystem final
+#ifndef SCRIPTING_API
+  : public GameObject<::ParticleSystem>
+#endif
 {
 public:
 #ifndef SCRIPTING_API
-  ParticleSystem(::ParticleSystem* parent);
-#endif
-
-  void set_enabled(bool enable);
-  bool get_enabled() const;
-
-#ifndef SCRIPTING_API
-  ::ParticleSystem* particlesystem;
+public:
+  using GameObject::GameObject;
 
 private:
   ParticleSystem(const ParticleSystem&) = delete;
   ParticleSystem& operator=(const ParticleSystem&) = delete;
 #endif
+
+public:
+  void set_enabled(bool enable);
+  bool get_enabled() const;
 };
 
-}
+} // namespace scripting
 
 #endif
 

@@ -19,20 +19,18 @@
 
 namespace scripting {
 
-Wind::Wind(::Wind* wind_)
-  : wind(wind_)
-{ }
-
 void Wind::start()
 {
-  wind->start();
+  SCRIPT_GUARD_VOID;
+  object.start();
 }
 
 void Wind::stop()
 {
-  wind->stop();
+  SCRIPT_GUARD_VOID;
+  object.stop();
 }
 
-}
+} // namespace scripting
 
 /* EOF */

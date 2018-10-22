@@ -21,126 +21,160 @@
 
 namespace scripting {
 
-TextArray::TextArray(::TextArrayObject* parent) : m_parent(parent)
+void
+TextArray::add_text_duration(const std::string& text, float duration)
 {
+  SCRIPT_GUARD_VOID;
+  object.add_text(text, duration);
 }
 
-void TextArray::add_text_duration(const std::string& text, float duration)
+void
+TextArray::add_text(const std::string& text)
 {
-  m_parent->add_text(text, duration);
+  SCRIPT_GUARD_VOID;
+  object.add_text(text);
 }
 
-void TextArray::add_text(const std::string& text)
+void
+TextArray::clear()
 {
-  m_parent->add_text(text);
+  SCRIPT_GUARD_VOID;
+  object.clear();
 }
 
-void TextArray::clear()
+void
+TextArray::set_fade_transition(bool fade_transition)
 {
-  m_parent->clear();
+  SCRIPT_GUARD_VOID;
+  object.set_fade_transition(fade_transition);
 }
 
-void TextArray::set_fade_transition(bool fade_transition)
+void
+TextArray::set_fade_time(float fadetime)
 {
-  m_parent->set_fade_transition(fade_transition);
+  SCRIPT_GUARD_VOID;
+  object.set_fade_time(fadetime);
 }
 
-void TextArray::set_fade_time(float fadetime)
+void
+TextArray::set_text_index(int index_)
 {
-  m_parent->set_fade_time(fadetime);
+  SCRIPT_GUARD_VOID;
+  object.set_text_index(index_);
 }
 
-void TextArray::set_text_index(int index_)
+void
+TextArray::next_text()
 {
-  m_parent->set_text_index(index_);
+  SCRIPT_GUARD_VOID;
+  object.next_text();
 }
 
-void TextArray::next_text()
+void
+TextArray::prev_text()
 {
-  m_parent->next_text();
+  SCRIPT_GUARD_VOID;
+  object.prev_text();
 }
 
-void TextArray::prev_text()
+void
+TextArray::set_keep_visible(bool keep_visible_)
 {
-  m_parent->prev_text();
+  SCRIPT_GUARD_VOID;
+  object.set_keep_visible(keep_visible_);
 }
 
-void TextArray::set_keep_visible(bool keep_visible_)
+void
+TextArray::set_done(bool done)
 {
-  m_parent->set_keep_visible(keep_visible_);
+  SCRIPT_GUARD_VOID;
+  object.set_done(done);
 }
 
-void TextArray::set_done(bool done)
+void
+TextArray::set_auto(bool is_auto)
 {
-  m_parent->set_done(done);
-}
-
-void TextArray::set_auto(bool is_auto)
-{
-  m_parent->set_auto(is_auto);
+  SCRIPT_GUARD_VOID;
+  object.set_auto(is_auto);
 }
 
 /////////// text api
 
-void TextArray::set_text(const std::string& text)
+void
+TextArray::set_text(const std::string& text)
 {
-  auto* textItem = m_parent->get_current_text_item();
+  SCRIPT_GUARD_VOID;
+  auto* textItem = object.get_current_text_item();
 
   if (textItem != nullptr)
     textItem->text_object.set_text(text);
 }
 
-void TextArray::set_font(const std::string& fontname)
+void
+TextArray::set_font(const std::string& fontname)
 {
-  auto* textItem = m_parent->get_current_text_item();
+  SCRIPT_GUARD_VOID;
+  auto* textItem = object.get_current_text_item();
 
   if (textItem != nullptr)
     textItem->text_object.set_font(fontname);
 }
 
-void TextArray::fade_in(float fadetime)
+void
+TextArray::fade_in(float fadetime)
 {
-  auto* textItem = m_parent->get_current_text_item();
+  SCRIPT_GUARD_VOID;
+  auto* textItem = object.get_current_text_item();
 
   if (textItem != nullptr)
     textItem->text_object.fade_in(fadetime);
 }
 
-void TextArray::fade_out(float fadetime)
+void
+TextArray::fade_out(float fadetime)
 {
-  auto* textItem = m_parent->get_current_text_item();
+  SCRIPT_GUARD_VOID;
+  auto* textItem = object.get_current_text_item();
 
   if (textItem != nullptr)
     textItem->text_object.fade_out(fadetime);
 }
 
-void TextArray::set_visible(bool visible)
+void
+TextArray::set_visible(bool visible)
 {
-  auto* textItem = m_parent->get_current_text_item();
+  SCRIPT_GUARD_VOID;
+  auto* textItem = object.get_current_text_item();
 
   if (textItem != nullptr)
     textItem->text_object.set_visible(visible);
 }
 
-void TextArray::set_centered(bool centered)
+void
+TextArray::set_centered(bool centered)
 {
-  auto* textItem = m_parent->get_current_text_item();
+  SCRIPT_GUARD_VOID;
+  auto* textItem = object.get_current_text_item();
 
   if (textItem != nullptr)
     textItem->text_object.set_centered(centered);
 }
 
-void TextArray::set_pos(float x, float y)
+void
+TextArray::set_pos(float x, float y)
 {
-  auto* textItem = m_parent->get_current_text_item();
+  SCRIPT_GUARD_VOID;
+  auto* textItem = object.get_current_text_item();
 
   if (textItem != nullptr)
     textItem->text_object.set_pos(Vector(x, y));
 }
 
-float TextArray::get_pos_x() const
+float
+TextArray::get_pos_x() const
 {
-  auto* textItem = m_parent->get_current_text_item();
+  SCRIPT_GUARD_DEFAULT;
+  auto* textItem = object.get_current_text_item();
 
   if (textItem != nullptr)
     return textItem->text_object.get_pos_x();
@@ -149,9 +183,11 @@ float TextArray::get_pos_x() const
   return 0;
 }
 
-float TextArray::get_pos_y() const
+float
+TextArray::get_pos_y() const
 {
-  auto* textItem = m_parent->get_current_text_item();
+  SCRIPT_GUARD_DEFAULT;
+  auto* textItem = object.get_current_text_item();
 
   if (textItem != nullptr)
     return textItem->text_object.get_pos_y();
@@ -160,24 +196,27 @@ float TextArray::get_pos_y() const
   return 0;
 }
 
-void TextArray::set_anchor_point(int anchor)
+void
+TextArray::set_anchor_point(int anchor)
 {
-  auto* textItem = m_parent->get_current_text_item();
+  SCRIPT_GUARD_VOID;
+  auto* textItem = object.get_current_text_item();
 
   if (textItem != nullptr)
     textItem->text_object.set_anchor_point(anchor);
 }
 
-int TextArray:: get_anchor_point() const
+int
+TextArray::get_anchor_point() const
 {
-  auto* textItem = m_parent->get_current_text_item();
+  SCRIPT_GUARD_DEFAULT;
+  auto* textItem = object.get_current_text_item();
 
   if (textItem != nullptr)
     return textItem->text_object.get_anchor_point();
   return -1;
 }
 
-
-}
+} // namespace scripting
 
 /* EOF */
