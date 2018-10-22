@@ -18,26 +18,36 @@
 #define HEADER_SUPERTUX_SCRIPTING_GAME_OBJECT_HPP
 
 #include "supertux/game_object_manager.hpp"
+#include "util/log.hpp"
 #include "util/uid.hpp"
 
 #ifndef SCRIPTING_API
 
-#define SCRIPT_GUARD_VOID                       \
-  auto object_ptr = get_object_ptr();           \
-  if (object_ptr == nullptr)                    \
-    return;                                     \
+#define SCRIPT_GUARD_VOID                                               \
+  auto object_ptr = get_object_ptr();                                   \
+  if (object_ptr == nullptr) {                                          \
+    log_fatal << "error: script is accessing a dead object: "           \
+              << m_uid << std::endl;                                    \
+    return;                                                             \
+  }                                                                     \
   auto& object = *object_ptr
 
-#define SCRIPT_GUARD_DEFAULT                    \
-  auto object_ptr = get_object_ptr();           \
-  if (object_ptr == nullptr)                    \
-    return {};                                  \
+#define SCRIPT_GUARD_DEFAULT                                            \
+  auto object_ptr = get_object_ptr();                                   \
+  if (object_ptr == nullptr) {                                          \
+    log_fatal << "error: script is accessing a dead object: "           \
+              << m_uid << std::endl;                                    \
+    return {};                                                          \
+  }                                                                     \
   auto& object = *object_ptr
 
-#define SCRIPT_GUARD_RETURN(x)                          \
-  auto object_ptr = get_object_ptr();                   \
-  if (object_ptr == nullptr)                            \
-    return x;                                           \
+#define SCRIPT_GUARD_RETURN(x)                                          \
+  auto object_ptr = get_object_ptr();                                   \
+  if (object_ptr == nullptr) {                                          \
+    log_fatal << "error: script is accessing a dead object: "           \
+              << m_uid << std::endl;                                    \
+    return x;                                                           \
+  }                                                                     \
   auto& object __attribute__((unused)) = *object_ptr
 
 class GameObjectManager;
@@ -63,7 +73,7 @@ public:
     return get_game_object_manager().get_object_by_uid<T>(m_uid);
   }
 
-private:
+protected:
   UID m_uid;
 };
 
