@@ -90,12 +90,11 @@ public:
   void fade_in(float fadetime);
   void fade_out(float fadetime);
 
+  bool is_valid() const;
+
 #ifndef SCRIPTING_API
 private:
-  ::FloatingImage* get_floating_image() const;
-
-private:
-  UID m_parent_uid;
+  UID m_uid;
 
 private:
   FloatingImage(const FloatingImage&) = delete;

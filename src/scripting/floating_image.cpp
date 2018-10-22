@@ -21,150 +21,145 @@
 #include "supertux/sector.hpp"
 #include "worldmap/worldmap.hpp"
 
-namespace scripting {
+#define SCRIPT_GUARD_VOID \
+  auto object_ptr = get_game_object_manager().get_object_by_uid<::FloatingImage>(m_uid); \
+  if (object_ptr == nullptr)                    \
+    return;                                     \
+  auto& object = *object_ptr
 
-FloatingImage::FloatingImage(const std::string& spritefile) :
-  m_parent_uid()
+#define SCRIPT_GUARD_DEFAULT \
+  auto object_ptr = get_game_object_manager().get_object_by_uid<::FloatingImage>(m_uid); \
+  if (object_ptr == nullptr)                    \
+    return {};                                  \
+  auto& object = *object_ptr
+
+#define SCRIPT_GUARD_RETURN(x) \
+  auto object_ptr = get_game_object_manager().get_object_by_uid<::FloatingImage>(m_uid); \
+  if (object_ptr == nullptr)                    \
+    return x;                                   \
+  auto& object __attribute__((unused)) = *object_ptr
+
+namespace {
+
+GameObjectManager& get_game_object_manager()
 {
   using namespace worldmap;
 
-  if(::Sector::current() != nullptr) {
-    m_parent_uid = ::Sector::get().add<::FloatingImage>(spritefile)->get_uid();
+  if (::Sector::current() != nullptr) {
+    return ::Sector::get();
   } else if(WorldMap::current() != nullptr) {
-    m_parent_uid = WorldMap::current()->add<::FloatingImage>(spritefile)->get_uid();
+    return *WorldMap::current();
   } else {
     throw std::runtime_error("Neither sector nor worldmap active");
   }
 }
 
-::FloatingImage*
-FloatingImage::get_floating_image() const
-{
-  using namespace worldmap;
+} // namespace
 
-  if(::Sector::current() != nullptr) {
-    return ::Sector::get().get_object_by_uid<::FloatingImage>(m_parent_uid);
-  } else if(WorldMap::current() != nullptr) {
-    return WorldMap::current()->get_object_by_uid<::FloatingImage>(m_parent_uid);
-  } else {
-    return nullptr;
-  }
+namespace scripting {
+
+FloatingImage::FloatingImage(const std::string& spritefile) :
+  m_uid()
+{
+  m_uid = get_game_object_manager().add<::FloatingImage>(spritefile)->get_uid();
 }
 
 void
 FloatingImage::set_layer(int layer)
 {
-  ::FloatingImage* floating_image = get_floating_image();
-  if (floating_image)
-    floating_image->set_layer(layer);
+  SCRIPT_GUARD_VOID;
+  object.set_layer(layer);
 }
 
 int
 FloatingImage::get_layer() const
 {
-  ::FloatingImage* floating_image = get_floating_image();
-  if (floating_image)
-    return floating_image->get_layer();
-  else
-    return 0;
+  SCRIPT_GUARD_DEFAULT;
+  return object.get_layer();
 }
 
 void
 FloatingImage::set_pos(float x, float y)
 {
-  ::FloatingImage* floating_image = get_floating_image();
-  if (floating_image)
-    floating_image->set_pos(Vector(x, y));
+  SCRIPT_GUARD_VOID;
+  object.set_pos(Vector(x, y));
 }
 
 float
 FloatingImage::get_pos_x() const
 {
-  ::FloatingImage* floating_image = get_floating_image();
-  if (floating_image)
-    return floating_image->get_pos().x;
-  else
-    return 0.0f;
+  SCRIPT_GUARD_DEFAULT;
+  return object.get_pos().x;
 }
 
 float
 FloatingImage::get_pos_y() const
 {
-  ::FloatingImage* floating_image = get_floating_image();
-  if (floating_image)
-    return floating_image->get_pos().y;
-  else
-    return 0.0f;
+  SCRIPT_GUARD_DEFAULT;
+  return object.get_pos().y;
 }
 
 void
 FloatingImage::set_anchor_point(int anchor)
 {
-  ::FloatingImage* floating_image = get_floating_image();
-  if (floating_image)
-    floating_image->set_anchor_point(static_cast<AnchorPoint>(anchor));
+  SCRIPT_GUARD_VOID;
+  object.set_anchor_point(static_cast<AnchorPoint>(anchor));
 }
 
 int
 FloatingImage::get_anchor_point() const
 {
-  ::FloatingImage* floating_image = get_floating_image();
-  if (floating_image)
-    return static_cast<int>(floating_image->get_anchor_point());
-  else
-    return 0;
+  SCRIPT_GUARD_DEFAULT;
+  return static_cast<int>(object.get_anchor_point());
 }
 
 bool
 FloatingImage::get_visible() const
 {
-  ::FloatingImage* floating_image = get_floating_image();
-  if (floating_image)
-    return floating_image->get_visible();
-  else
-    return false;
+  SCRIPT_GUARD_DEFAULT;
+  return object.get_visible();
 }
 
 void
 FloatingImage::set_visible(bool visible)
 {
-  ::FloatingImage* floating_image = get_floating_image();
-  if (floating_image)
-    floating_image->set_visible(visible);
+  SCRIPT_GUARD_VOID;
+  object.set_visible(visible);
 }
 
 void
 FloatingImage::set_action(const std::string& action)
 {
-  ::FloatingImage* floating_image = get_floating_image();
-  if (floating_image)
-    floating_image->set_action(action);
+  SCRIPT_GUARD_VOID;
+  object.set_action(action);
 }
 
 std::string
 FloatingImage::get_action() const
 {
-  ::FloatingImage* floating_image = get_floating_image();
-  if (floating_image)
-    return floating_image->get_action();
-  else
-    return {};
+  SCRIPT_GUARD_DEFAULT;
+  return object.get_action();
 }
 
 void
 FloatingImage::fade_in(float fadetime)
 {
-  ::FloatingImage* floating_image = get_floating_image();
-  if (floating_image)
-    floating_image->fade_in(fadetime);
+  SCRIPT_GUARD_VOID;
+  object.fade_in(fadetime);
 }
 
 void
 FloatingImage::fade_out(float fadetime)
 {
-  ::FloatingImage* floating_image = get_floating_image();
-  if (floating_image)
-    floating_image->fade_out(fadetime);
+  SCRIPT_GUARD_VOID;
+  object.fade_out(fadetime);
+}
+
+bool
+FloatingImage::is_valid() const
+{
+  SCRIPT_GUARD_RETURN(false);
+  return true;
 }
 
 } // scripting
