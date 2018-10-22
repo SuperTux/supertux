@@ -20,16 +20,17 @@
 #ifndef SCRIPTING_API
 #include <memory>
 
-#include "util/uid.hpp"
-
-#define HEADER_SUPERTUX_SCRIPTING_FLOATING_IMAGE_HPP
-
 class FloatingImage;
+
+#include "scripting/game_object.hpp"
 #endif
 
 namespace scripting {
 
 class FloatingImage final
+#ifndef SCRIPTING_API
+  : public GameObject<::FloatingImage>
+#endif
 {
 public:
   FloatingImage(const std::string& spritefile);
@@ -90,19 +91,14 @@ public:
   void fade_in(float fadetime);
   void fade_out(float fadetime);
 
-  bool is_valid() const;
-
 #ifndef SCRIPTING_API
-private:
-  UID m_uid;
-
 private:
   FloatingImage(const FloatingImage&) = delete;
   FloatingImage& operator=(const FloatingImage&) = delete;
 #endif
 };
 
-}
+} // namespace scripting
 
 #endif
 

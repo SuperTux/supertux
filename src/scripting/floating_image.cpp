@@ -21,47 +21,11 @@
 #include "supertux/sector.hpp"
 #include "worldmap/worldmap.hpp"
 
-#define SCRIPT_GUARD_VOID \
-  auto object_ptr = get_game_object_manager().get_object_by_uid<::FloatingImage>(m_uid); \
-  if (object_ptr == nullptr)                    \
-    return;                                     \
-  auto& object = *object_ptr
-
-#define SCRIPT_GUARD_DEFAULT \
-  auto object_ptr = get_game_object_manager().get_object_by_uid<::FloatingImage>(m_uid); \
-  if (object_ptr == nullptr)                    \
-    return {};                                  \
-  auto& object = *object_ptr
-
-#define SCRIPT_GUARD_RETURN(x) \
-  auto object_ptr = get_game_object_manager().get_object_by_uid<::FloatingImage>(m_uid); \
-  if (object_ptr == nullptr)                    \
-    return x;                                   \
-  auto& object __attribute__((unused)) = *object_ptr
-
-namespace {
-
-GameObjectManager& get_game_object_manager()
-{
-  using namespace worldmap;
-
-  if (::Sector::current() != nullptr) {
-    return ::Sector::get();
-  } else if(WorldMap::current() != nullptr) {
-    return *WorldMap::current();
-  } else {
-    throw std::runtime_error("Neither sector nor worldmap active");
-  }
-}
-
-} // namespace
-
 namespace scripting {
 
 FloatingImage::FloatingImage(const std::string& spritefile) :
-  m_uid()
+  GameObject(get_game_object_manager().add<::FloatingImage>(spritefile)->get_uid())
 {
-  m_uid = get_game_object_manager().add<::FloatingImage>(spritefile)->get_uid();
 }
 
 void
@@ -153,13 +117,6 @@ FloatingImage::fade_out(float fadetime)
 {
   SCRIPT_GUARD_VOID;
   object.fade_out(fadetime);
-}
-
-bool
-FloatingImage::is_valid() const
-{
-  SCRIPT_GUARD_RETURN(false);
-  return true;
 }
 
 } // scripting
