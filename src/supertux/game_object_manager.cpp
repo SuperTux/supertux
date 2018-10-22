@@ -76,7 +76,7 @@ GameObjectManager::clear_objects()
   update_game_objects();
 
   for(const auto& obj: m_gameobjects) {
-    before_object_remove(obj);
+    before_object_remove(*obj);
   }
   m_gameobjects.clear();
 }
@@ -121,8 +121,8 @@ GameObjectManager::update_game_objects()
                      [this](const GameObjectPtr& obj) {
                        if (!obj->is_valid())
                        {
-                         this_before_object_remove(obj);
-                         before_object_remove(obj);
+                         this_before_object_remove(*obj);
+                         before_object_remove(*obj);
                          return true;
                        } else {
                          return false;
@@ -134,9 +134,9 @@ GameObjectManager::update_game_objects()
   { // add newly created objects
     for(auto& object : m_gameobjects_new)
     {
-      if (before_object_add(object))
+      if (before_object_add(*object))
       {
-        this_before_object_add(object);
+        this_before_object_add(*object);
         m_gameobjects.push_back(std::move(object));
       }
     }
@@ -155,27 +155,27 @@ GameObjectManager::update_game_objects()
 }
 
 void
-GameObjectManager::this_before_object_add(const GameObjectPtr& object)
+GameObjectManager::this_before_object_add(GameObject& object)
 {
   { // by_name
-    if (!object->get_name().empty())
+    if (!object.get_name().empty())
     {
-      m_objects_by_name[object->get_name()] = object.get();
+      m_objects_by_name[object.get_name()] = &object;
     }
   }
 
   { // by_id
-    assert(object->get_uid());
+    assert(object.get_uid());
 
-    m_objects_by_uid[object->get_uid()] = object.get();
+    m_objects_by_uid[object.get_uid()] = &object;
   }
 }
 
 void
-GameObjectManager::this_before_object_remove(const GameObjectPtr& object)
+GameObjectManager::this_before_object_remove(GameObject& object)
 {
   { // by_name
-    const std::string& name = object->get_name();
+    const std::string& name = object.get_name();
     if (!name.empty())
     {
       m_objects_by_name.erase(name);
@@ -183,7 +183,7 @@ GameObjectManager::this_before_object_remove(const GameObjectPtr& object)
   }
 
   { // by_id
-    m_objects_by_uid.erase(object->get_uid());
+    m_objects_by_uid.erase(object.get_uid());
   }
 }
 

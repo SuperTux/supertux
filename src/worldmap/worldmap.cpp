@@ -104,14 +104,14 @@ WorldMap::~WorldMap()
 }
 
 bool
-WorldMap::before_object_add(const GameObjectPtr& object)
+WorldMap::before_object_add(GameObject& object)
 {
   try_expose(object);
   return true;
 }
 
 void
-WorldMap::before_object_remove(const GameObjectPtr& object)
+WorldMap::before_object_remove(GameObject& object)
 {
   try_unexpose(object);
 }

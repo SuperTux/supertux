@@ -41,8 +41,8 @@ protected:
 
   /** Expose the GameObject if it has a ScriptInterface, otherwise do
       nothing. */
-  void try_expose(const GameObjectPtr& object);
-  void try_unexpose(const GameObjectPtr& object);
+  void try_expose(GameObject& object);
+  void try_unexpose(GameObject& object);
 
   /** Generic expose function, T must be a type that has a
       create_squirrel_instance() associated with it. */

@@ -181,8 +181,8 @@ public:
   bool is_panning() const { return m_panning; }
 
 protected:
-  virtual bool before_object_add(const GameObjectPtr& object) override;
-  virtual void before_object_remove(const GameObjectPtr& object) override;
+  virtual bool before_object_add(GameObject& object) override;
+  virtual void before_object_remove(GameObject& object) override;
 
 private:
   void draw_status(DrawingContext& context);

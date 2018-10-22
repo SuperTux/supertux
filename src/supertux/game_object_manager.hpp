@@ -70,10 +70,10 @@ public:
   float get_tiles_height() const;
 
   /** Hook that is called before an object is added to the vector */
-  virtual bool before_object_add(const GameObjectPtr& object) = 0;
+  virtual bool before_object_add(GameObject& object) = 0;
 
   /** Hook that is called before an object is removed from the vector */
-  virtual void before_object_remove(const GameObjectPtr& object) = 0;
+  virtual void before_object_remove(GameObject& object) = 0;
 
   template<class T>
   GameObjectRange<T> get_objects_by_type() const
@@ -142,8 +142,8 @@ public:
   const std::vector<TileMap*>& get_solid_tilemaps() const { return m_solid_tilemaps; }
 
 private:
-  void this_before_object_add(const GameObjectPtr& object);
-  void this_before_object_remove(const GameObjectPtr& object);
+  void this_before_object_add(GameObject& object);
+  void this_before_object_remove(GameObject& object);
 
 private:
   UIDGenerator m_uid_generator;

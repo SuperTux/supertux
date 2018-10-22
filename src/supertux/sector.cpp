@@ -175,7 +175,7 @@ Sector::activate(const Vector& player_pos)
     ScriptEngine::expose_self("sector");
 
     for(auto& object : get_objects()) {
-      try_expose(object);
+      try_expose(*object);
     }
   }
 
@@ -239,7 +239,7 @@ Sector::deactivate()
   ScriptEngine::unexpose_self("sector");
 
   for(const auto& object: get_objects()) {
-    try_unexpose(object);
+    try_unexpose(*object);
   }
 
   unexpose("settings");
@@ -329,27 +329,27 @@ Sector::update(float elapsed_time)
 }
 
 bool
-Sector::before_object_add(const GameObjectPtr& object)
+Sector::before_object_add(GameObject& object)
 {
-  auto bullet = dynamic_cast<Bullet*>(object.get());
+  auto bullet = dynamic_cast<Bullet*>(&object);
   if (bullet)
   {
     m_bullets.push_back(bullet);
   }
 
-  auto movingobject = dynamic_cast<MovingObject*>(object.get());
+  auto movingobject = dynamic_cast<MovingObject*>(&object);
   if (movingobject)
   {
     m_collision_system->add(movingobject);
   }
 
-  auto portable = dynamic_cast<Portable*>(object.get());
+  auto portable = dynamic_cast<Portable*>(&object);
   if(portable)
   {
     m_portables.push_back(portable);
   }
 
-  auto camera_ = dynamic_cast<Camera*>(object.get());
+  auto camera_ = dynamic_cast<Camera*>(&object);
   if(camera_) {
     if(m_camera != nullptr) {
       log_warning << "Multiple cameras added. Ignoring" << std::endl;
@@ -358,7 +358,7 @@ Sector::before_object_add(const GameObjectPtr& object)
     m_camera = camera_;
   }
 
-  auto player_ = dynamic_cast<Player*>(object.get());
+  auto player_ = dynamic_cast<Player*>(&object);
   if(player_) {
     if(m_player != nullptr) {
       log_warning << "Multiple players added. Ignoring" << std::endl;
@@ -367,7 +367,7 @@ Sector::before_object_add(const GameObjectPtr& object)
     m_player = player_;
   }
 
-  auto effect_ = dynamic_cast<DisplayEffect*>(object.get());
+  auto effect_ = dynamic_cast<DisplayEffect*>(&object);
   if(effect_) {
     if(m_effect != nullptr) {
       log_warning << "Multiple DisplayEffects added. Ignoring" << std::endl;
@@ -384,17 +384,17 @@ Sector::before_object_add(const GameObjectPtr& object)
 }
 
 void
-Sector::before_object_remove(const GameObjectPtr& object)
+Sector::before_object_remove(GameObject& object)
 {
-  auto portable = dynamic_cast<Portable*>(object.get());
+  auto portable = dynamic_cast<Portable*>(&object);
   if (portable) {
     m_portables.erase(std::find(m_portables.begin(), m_portables.end(), portable));
   }
-  auto bullet = dynamic_cast<Bullet*>(object.get());
+  auto bullet = dynamic_cast<Bullet*>(&object);
   if (bullet) {
     m_bullets.erase(std::find(m_bullets.begin(), m_bullets.end(), bullet));
   }
-  auto moving_object = dynamic_cast<MovingObject*>(object.get());
+  auto moving_object = dynamic_cast<MovingObject*>(&object);
   if (moving_object) {
     m_collision_system->remove(moving_object);
   }

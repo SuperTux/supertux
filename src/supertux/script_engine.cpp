@@ -74,9 +74,9 @@ ScriptEngine::unexpose_self(const std::string& name)
 }
 
 void
-ScriptEngine::try_expose(const GameObjectPtr& object)
+ScriptEngine::try_expose(GameObject& object)
 {
-  auto script_object = dynamic_cast<ScriptInterface*>(object.get());
+  auto script_object = dynamic_cast<ScriptInterface*>(&object);
   if (script_object != nullptr) {
     sq_pushobject(m_vm, m_table);
     script_object->expose(m_vm, -1);
@@ -85,9 +85,9 @@ ScriptEngine::try_expose(const GameObjectPtr& object)
 }
 
 void
-ScriptEngine::try_unexpose(const GameObjectPtr& object)
+ScriptEngine::try_unexpose(GameObject& object)
 {
-  auto script_object = dynamic_cast<ScriptInterface*>(object.get());
+  auto script_object = dynamic_cast<ScriptInterface*>(&object);
   if (script_object != nullptr) {
     SQInteger oldtop = sq_gettop(m_vm);
     sq_pushobject(m_vm, m_table);
