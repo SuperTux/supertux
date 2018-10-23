@@ -48,16 +48,11 @@ SquirrelThreadQueue::add(HSQUIRRELVM vm)
 void
 SquirrelThreadQueue::wakeup()
 {
-  // we traverse the list in reverse orders and use indices. This should be
-  // robust for scripts that add new entries to the list while we're traversing
-  // it
-  size_t i = m_threads.size() - 1;
-  size_t end = static_cast<size_t>(0 - 1);
-  size_t size_begin = m_threads.size();
-  while(i != end)
-  {
-    HSQOBJECT object = m_threads[i];
+  std::vector<HSQOBJECT> threads = std::move(m_threads);
+  m_threads.clear();
 
+  for(HSQOBJECT object : threads)
+  {
     sq_pushobject(m_vm, object);
     sq_getweakrefval(m_vm, -1);
 
@@ -72,10 +67,7 @@ SquirrelThreadQueue::wakeup()
 
     sq_release(m_vm, &object);
     sq_pop(m_vm, 1);
-    i--;
   }
-
-  m_threads.erase(m_threads.begin(), m_threads.begin() + size_begin);
 }
 
 /* EOF */
