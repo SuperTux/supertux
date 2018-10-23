@@ -28,16 +28,15 @@ class SquirrelThreadQueue final
 public:
   SquirrelThreadQueue();
 
-  /// adds a thread (actually a weakref to the thread)
+  /** adds a thread (actually a weakref to the thread) */
   void add(HSQUIRRELVM vm);
-  /// wakes up threads in the list
+
+  /** wakes up threads in the list */
   void wakeup();
 
 private:
   HSQUIRRELVM m_vm;
-
-  typedef std::vector<HSQOBJECT> ThreadList;
-  ThreadList threads;
+  std::vector<HSQOBJECT> m_threads;
 
 private:
   SquirrelThreadQueue(const SquirrelThreadQueue&) = delete;

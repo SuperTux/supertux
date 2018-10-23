@@ -22,7 +22,7 @@
 
 SquirrelThreadQueue::SquirrelThreadQueue() :
   m_vm(Scripting::current()->get_vm()),
-  threads()
+  m_threads()
 {
 }
 
@@ -40,7 +40,7 @@ SquirrelThreadQueue::add(HSQUIRRELVM vm)
     throw SquirrelError(m_vm, "Couldn't get thread weakref from vm");
   }
   sq_addref(m_vm, &object);
-  threads.push_back(object);
+  m_threads.push_back(object);
 
   sq_pop(m_vm, 2);
 }
@@ -51,18 +51,20 @@ SquirrelThreadQueue::wakeup()
   // we traverse the list in reverse orders and use indices. This should be
   // robust for scripts that add new entries to the list while we're traversing
   // it
-  size_t i = threads.size() - 1;
+  size_t i = m_threads.size() - 1;
   size_t end = static_cast<size_t>(0 - 1);
-  size_t size_begin = threads.size();
-  while(i != end) {
-    HSQOBJECT object = threads[i];
+  size_t size_begin = m_threads.size();
+  while(i != end)
+  {
+    HSQOBJECT object = m_threads[i];
 
     sq_pushobject(m_vm, object);
     sq_getweakrefval(m_vm, -1);
 
     HSQUIRRELVM scheduled_vm;
     if(sq_gettype(m_vm, -1) == OT_THREAD &&
-       SQ_SUCCEEDED(sq_getthread(m_vm, -1, &scheduled_vm))) {
+       SQ_SUCCEEDED(sq_getthread(m_vm, -1, &scheduled_vm)))
+    {
       if(SQ_FAILED(sq_wakeupvm(scheduled_vm, SQFalse, SQFalse, SQTrue, SQFalse))) {
         log_warning << "Couldn't wakeup scheduled squirrel VM" << std::endl;
       }
@@ -73,7 +75,7 @@ SquirrelThreadQueue::wakeup()
     i--;
   }
 
-  threads.erase(threads.begin(), threads.begin() + size_begin);
+  m_threads.erase(m_threads.begin(), m_threads.begin() + size_begin);
 }
 
 /* EOF */
