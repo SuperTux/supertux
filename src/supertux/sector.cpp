@@ -167,6 +167,8 @@ Sector::activate(const std::string& spawnpoint)
 void
 Sector::activate(const Vector& player_pos)
 {
+  auto sector_guard = d_sector.bind(*this);
+
   if(s_current != this) {
     if(s_current != nullptr)
       s_current->deactivate();
@@ -233,6 +235,8 @@ Sector::activate(const Vector& player_pos)
 void
 Sector::deactivate()
 {
+  auto sector_guard = d_sector.bind(*this);
+
   if(s_current != this)
     return;
 
@@ -287,6 +291,8 @@ Sector::get_foremost_layer() const
 void
 Sector::update(float elapsed_time)
 {
+  auto sector_guard = d_sector.bind(*this);
+
   m_player->check_bounds();
 
   if(m_ambient_light_fading)
@@ -406,6 +412,8 @@ Sector::before_object_remove(GameObject& object)
 void
 Sector::draw(DrawingContext& context)
 {
+  auto sector_guard = d_sector.bind(*this);
+
   context.set_ambient_color( m_ambient_light );
   context.push_transform();
   context.set_translation(m_camera->get_translation());
