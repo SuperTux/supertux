@@ -96,7 +96,7 @@ PneumaticPlatform::update(float elapsed_time)
     movement = Vector(0, (start_y + offset_y) - get_pos().y);
   }
   if (this == master) {
-    size_t contact_diff = contacts.size() - slave->contacts.size();
+    int contact_diff = static_cast<int>(contacts.size()) - static_cast<int>(slave->contacts.size());
     contacts.clear();
     slave->contacts.clear();
 
