@@ -1,10 +1,10 @@
 #!/bin/sh
 
 for i in "$@"; do
-    echo $i
-    NAME=$(echo $i | sed "s/[\/\.]/_/g;s/^/HEADER_SUPERTUX_/" | tr [a-z] [A-Z])
-    sed  -i "s/^#ifndef .*_H_\$/#ifndef $NAME/" $i; 
-    sed  -i "s/^#define .*_H_\$/#define $NAME/" $i; 
+    NAME=$(echo $i | sed "s/[\/\.]/_/g;s/^/SUPERTUX_/" | tr [a-z] [A-Z])
+    echo $i $NAME
+    sed  -i "s/^#ifndef HEADER_.*/#ifndef HEADER_$NAME/" $i;
+    sed  -i "s/^#define HEADER_.*/#define HEADER_$NAME/" $i;
 done
 
 # EOF #
