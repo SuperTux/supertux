@@ -33,7 +33,7 @@ Stalactite::Stalactite(const ReaderMapping& lisp) :
   state(STALACTITE_HANGING),
   shake_delta()
 {
-  countMe = false;
+  m_countMe = false;
   set_colgroup_active(COLGROUP_TOUCHABLE);
   SoundManager::current()->preload("sounds/cracking.wav");
   SoundManager::current()->preload("sounds/sizzle.ogg");
@@ -60,11 +60,11 @@ Stalactite::active_update(float elapsed_time)
     shake_delta = Vector(static_cast<float>(graphicsRandom.rand(-3, 3)), 0.0f);
     if(timer.check()) {
       state = STALACTITE_FALLING;
-      physic.enable_gravity(true);
+      m_physic.enable_gravity(true);
       set_colgroup_active(COLGROUP_MOVING);
     }
   } else if(state == STALACTITE_FALLING) {
-    m_movement = physic.get_movement(elapsed_time);
+    m_movement = m_physic.get_movement(elapsed_time);
   }
 }
 
@@ -72,9 +72,9 @@ void
 Stalactite::squish()
 {
   state = STALACTITE_SQUISHED;
-  physic.enable_gravity(true);
-  physic.set_velocity_x(0);
-  physic.set_velocity_y(0);
+  m_physic.enable_gravity(true);
+  m_physic.set_velocity_x(0);
+  m_physic.set_velocity_y(0);
   set_state(STATE_SQUISHED);
   m_sprite->set_action("squished");
   SoundManager::current()->play("sounds/icecrash.ogg", get_pos());
@@ -89,7 +89,7 @@ Stalactite::collision_solid(const CollisionHit& hit)
     if (hit.bottom) squish();
   }
   if(state == STALACTITE_SQUISHED) {
-    physic.set_velocity_y(0);
+    m_physic.set_velocity_y(0);
   }
 }
 

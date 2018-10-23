@@ -39,29 +39,29 @@ SkullyHop::initialize()
 {
   // initial state is JUMPING, because we might start airborne
   state = JUMPING;
-  m_sprite->set_action(dir == LEFT ? "jumping-left" : "jumping-right");
+  m_sprite->set_action(m_dir == LEFT ? "jumping-left" : "jumping-right");
 }
 
 void
 SkullyHop::set_state(SkullyHopState newState)
 {
   if (newState == STANDING) {
-    physic.set_velocity_x(0);
-    physic.set_velocity_y(0);
-    m_sprite->set_action(dir == LEFT ? "standing-left" : "standing-right");
+    m_physic.set_velocity_x(0);
+    m_physic.set_velocity_y(0);
+    m_sprite->set_action(m_dir == LEFT ? "standing-left" : "standing-right");
 
     float recover_time = gameRandom.randf(MIN_RECOVER_TIME,MAX_RECOVER_TIME);
     recover_timer.start(recover_time);
   } else
     if (newState == CHARGING) {
-      m_sprite->set_action(dir == LEFT ? "charging-left" : "charging-right", 1);
+      m_sprite->set_action(m_dir == LEFT ? "charging-left" : "charging-right", 1);
     } else
       if (newState == JUMPING) {
-        m_sprite->set_action(dir == LEFT ? "jumping-left" : "jumping-right");
+        m_sprite->set_action(m_dir == LEFT ? "jumping-left" : "jumping-right");
 const float HORIZONTAL_SPEED = 220; /**< x-speed when jumping */
-        physic.set_velocity_x(dir == LEFT ? -HORIZONTAL_SPEED : HORIZONTAL_SPEED);
+        m_physic.set_velocity_x(m_dir == LEFT ? -HORIZONTAL_SPEED : HORIZONTAL_SPEED);
 const float VERTICAL_SPEED = -450;   /**< y-speed when jumping */
-        physic.set_velocity_y(VERTICAL_SPEED);
+        m_physic.set_velocity_y(VERTICAL_SPEED);
         SoundManager::current()->play( SKULLYHOP_SOUND, get_pos());
       }
 
@@ -71,10 +71,10 @@ const float VERTICAL_SPEED = -450;   /**< y-speed when jumping */
 bool
 SkullyHop::collision_squished(GameObject& object)
 {
-  if (frozen)
+  if (m_frozen)
     return BadGuy::collision_squished(object);
 
-  m_sprite->set_action(dir == LEFT ? "squished-left" : "squished-right");
+  m_sprite->set_action(m_dir == LEFT ? "squished-left" : "squished-right");
   kill_squished(object);
   return true;
 }
@@ -82,7 +82,7 @@ SkullyHop::collision_squished(GameObject& object)
 void
 SkullyHop::collision_solid(const CollisionHit& hit)
 {
-  if (frozen || BadGuy::get_state() == STATE_BURNING)
+  if (m_frozen || BadGuy::get_state() == STATE_BURNING)
   {
     BadGuy::collision_solid(hit);
     return;
@@ -98,19 +98,19 @@ SkullyHop::collision_solid(const CollisionHit& hit)
     return;
 
   // check if we hit the floor while falling
-  if(hit.bottom && physic.get_velocity_y() > 0 ) {
+  if(hit.bottom && m_physic.get_velocity_y() > 0 ) {
     set_state(STANDING);
   }
   // check if we hit the roof while climbing
   if(hit.top) {
-    physic.set_velocity_y(0);
+    m_physic.set_velocity_y(0);
   }
 
   // check if we hit left or right while moving in either direction
   if(hit.left || hit.right) {
-    dir = dir == LEFT ? RIGHT : LEFT;
-    m_sprite->set_action(dir == LEFT ? "jumping-left" : "jumping-right");
-    physic.set_velocity_x(-0.25f*physic.get_velocity_x());
+    m_dir = m_dir == LEFT ? RIGHT : LEFT;
+    m_sprite->set_action(m_dir == LEFT ? "jumping-left" : "jumping-right");
+    m_physic.set_velocity_x(-0.25f*m_physic.get_velocity_x());
   }
 }
 
@@ -129,7 +129,7 @@ SkullyHop::active_update(float elapsed_time)
   BadGuy::active_update(elapsed_time);
 
   // no change if frozen
-  if (frozen)
+  if (m_frozen)
     return;
 
   // charge when fully recovered
@@ -162,7 +162,7 @@ void
 SkullyHop::after_editor_set()
 {
   BadGuy::after_editor_set();
-  m_sprite->set_action(dir == LEFT ? "standing-left" : "standing-right");
+  m_sprite->set_action(m_dir == LEFT ? "standing-left" : "standing-right");
 }
 
 /* EOF */

@@ -23,7 +23,7 @@
 Ghostflame::Ghostflame(const ReaderMapping& reader) :
   Flame(reader)
 {
-  lightsprite->set_color(Color(0.21f, 0.00f, 0.21f));
+  m_lightsprite->set_color(Color(0.21f, 0.00f, 0.21f));
   m_sprite = SpriteManager::current()->create("images/creatures/flame/ghostflame.sprite");
 }
 

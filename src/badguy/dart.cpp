@@ -31,8 +31,8 @@ Dart::Dart(const ReaderMapping& reader) :
   parent(nullptr),
   sound_source()
 {
-  physic.enable_gravity(false);
-  countMe = false;
+  m_physic.enable_gravity(false);
+  m_countMe = false;
   SoundManager::current()->preload(DART_SOUND);
   SoundManager::current()->preload("sounds/darthit.wav");
   SoundManager::current()->preload("sounds/stomp.wav");
@@ -43,8 +43,8 @@ Dart::Dart(const Vector& pos, Direction d, const BadGuy* parent_ = nullptr) :
   parent(parent_),
   sound_source()
 {
-  physic.enable_gravity(false);
-  countMe = false;
+  m_physic.enable_gravity(false);
+  m_countMe = false;
   SoundManager::current()->preload(DART_SOUND);
   SoundManager::current()->preload("sounds/darthit.wav");
   SoundManager::current()->preload("sounds/stomp.wav");
@@ -63,8 +63,8 @@ Dart::updatePointers(const GameObject* from_object, GameObject* to_object)
 void
 Dart::initialize()
 {
-  physic.set_velocity_x(dir == LEFT ? -::DART_SPEED : ::DART_SPEED);
-  m_sprite->set_action(dir == LEFT ? "flying-left" : "flying-right");
+  m_physic.set_velocity_x(m_dir == LEFT ? -::DART_SPEED : ::DART_SPEED);
+  m_sprite->set_action(m_dir == LEFT ? "flying-left" : "flying-right");
 }
 
 void
@@ -144,7 +144,7 @@ void
 Dart::after_editor_set()
 {
   BadGuy::after_editor_set();
-  m_sprite->set_action(dir == LEFT ? "flying-left" : "flying-right");
+  m_sprite->set_action(m_dir == LEFT ? "flying-left" : "flying-right");
 }
 
 /* EOF */

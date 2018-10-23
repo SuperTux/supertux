@@ -74,7 +74,7 @@ MrBomb::collision_squished(GameObject& object)
     return true;
   }
   if(is_valid()) {
-    auto bomb = Sector::get().add<Bomb>(get_pos(), dir, m_sprite_name);
+    auto bomb = Sector::get().add<Bomb>(get_pos(), m_dir, m_sprite_name);
 
     // Do not trigger dispenser because we need to wait for
     // the bomb instance to explode.
@@ -118,9 +118,9 @@ MrBomb::ignite()
 void
 MrBomb::grab(MovingObject&, const Vector& pos, Direction dir_)
 {
-  assert(frozen);
+  assert(m_frozen);
   m_movement = pos - get_pos();
-  dir = dir_;
+  m_dir = dir_;
   m_sprite->set_action(dir_ == LEFT ? "iced-left" : "iced-right");
   set_colgroup_active(COLGROUP_DISABLED);
   grabbed = true;
@@ -129,7 +129,7 @@ MrBomb::grab(MovingObject&, const Vector& pos, Direction dir_)
 void
 MrBomb::ungrab(MovingObject& , Direction dir_)
 {
-  dir = dir_;
+  m_dir = dir_;
   set_colgroup_active(COLGROUP_MOVING);
   grabbed = false;
 }
@@ -143,7 +143,7 @@ MrBomb::is_freezable() const
 bool
 MrBomb::is_portable() const
 {
-  return frozen;
+  return m_frozen;
 }
 
 /* EOF */

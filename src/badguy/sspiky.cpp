@@ -30,8 +30,8 @@ void
 SSpiky::initialize()
 {
   state = SSPIKY_SLEEPING;
-  physic.set_velocity_x(0);
-  m_sprite->set_action(dir == LEFT ? "sleeping-left" : "sleeping-right");
+  m_physic.set_velocity_x(0);
+  m_sprite->set_action(m_dir == LEFT ? "sleeping-left" : "sleeping-right");
 }
 
 void
@@ -67,14 +67,14 @@ SSpiky::active_update(float elapsed_time) {
     if (player) {
       Rectf pb = player->get_bbox();
 
-      bool inReach_left = (pb.p2.x >= m_bbox.p2.x-((dir == LEFT) ? 256 : 0));
-      bool inReach_right = (pb.p1.x <= m_bbox.p1.x+((dir == RIGHT) ? 256 : 0));
+      bool inReach_left = (pb.p2.x >= m_bbox.p2.x-((m_dir == LEFT) ? 256 : 0));
+      bool inReach_right = (pb.p1.x <= m_bbox.p1.x+((m_dir == RIGHT) ? 256 : 0));
       bool inReach_top = (pb.p2.y >= m_bbox.p1.y);
       bool inReach_bottom = (pb.p1.y <= m_bbox.p2.y);
 
       if (inReach_left && inReach_right && inReach_top && inReach_bottom) {
         // wake up
-        m_sprite->set_action(dir == LEFT ? "waking-left" : "waking-right", 1);
+        m_sprite->set_action(m_dir == LEFT ? "waking-left" : "waking-right", 1);
         state = SSPIKY_WAKING;
       }
     }

@@ -39,16 +39,16 @@ Snowman::loose_head()
   snowball_pos.y += 1;
 
   /* Create death animation for the (now headless) snowman. */
-  set_action (dir == LEFT ? "headless-left" : "headless-right", /* loops = */ -1);
+  set_action (m_dir == LEFT ? "headless-left" : "headless-right", /* loops = */ -1);
   set_pos (get_pos () + Vector (-4.0, 19.0)); /* difference in the sprite offsets */
-  physic.set_velocity_y(0);
-  physic.set_acceleration_y(0);
-  physic.enable_gravity(true);
+  m_physic.set_velocity_y(0);
+  m_physic.set_acceleration_y(0);
+  m_physic.enable_gravity(true);
   set_state (STATE_FALLING);
-  countMe = false;
+  m_countMe = false;
 
   /* Create a new snowball where the snowman's head was */
-  Sector::get().add<SnowBall>(snowball_pos, dir, dead_script);
+  Sector::get().add<SnowBall>(snowball_pos, m_dir, m_dead_script);
 }
 
 HitResponse
@@ -62,7 +62,7 @@ Snowman::collision_bullet(Bullet& bullet, const CollisionHit& hit)
     snowball_pos.y += 1;
 
     /* Create a new snowball where the snowman's head was */
-    Sector::get().add<SnowBall>(snowball_pos, dir, dead_script);
+    Sector::get().add<SnowBall>(snowball_pos, m_dir, m_dead_script);
 
     SoundManager::current()->play("sounds/pop.ogg", get_pos()); // this could be a different sound
     bullet.remove_me();

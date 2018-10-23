@@ -27,22 +27,22 @@ SpiderMite::SpiderMite(const ReaderMapping& reader) :
   mode(),
   timer()
 {
-  physic.enable_gravity(false);
+  m_physic.enable_gravity(false);
 }
 
 void
 SpiderMite::initialize()
 {
-  m_sprite->set_action(dir == LEFT ? "left" : "right");
+  m_sprite->set_action(m_dir == LEFT ? "left" : "right");
   mode = FLY_UP;
-  physic.set_velocity_y(MOVE_SPEED);
+  m_physic.set_velocity_y(MOVE_SPEED);
   timer.start(FLYTIME/2);
 }
 
 bool
 SpiderMite::collision_squished(GameObject& object)
 {
-  m_sprite->set_action(dir == LEFT ? "squished-left" : "squished-right");
+  m_sprite->set_action(m_dir == LEFT ? "squished-left" : "squished-right");
   kill_squished(object);
   return true;
 }
@@ -51,14 +51,14 @@ void
 SpiderMite::collision_solid(const CollisionHit& hit)
 {
   if(hit.top || hit.bottom) { // hit floor or roof?
-    physic.set_velocity_y(0);
+    m_physic.set_velocity_y(0);
   }
 }
 
 void
 SpiderMite::active_update(float elapsed_time)
 {
-  if(frozen)
+  if(m_frozen)
   {
     BadGuy::active_update(elapsed_time);
     return;
@@ -66,26 +66,26 @@ SpiderMite::active_update(float elapsed_time)
   if(timer.check()) {
     if(mode == FLY_UP) {
       mode = FLY_DOWN;
-      physic.set_velocity_y(-MOVE_SPEED);
+      m_physic.set_velocity_y(-MOVE_SPEED);
     } else if(mode == FLY_DOWN) {
       mode = FLY_UP;
-      physic.set_velocity_y(MOVE_SPEED);
+      m_physic.set_velocity_y(MOVE_SPEED);
     }
     timer.start(FLYTIME);
   }
-  m_movement=physic.get_movement(elapsed_time);
+  m_movement=m_physic.get_movement(elapsed_time);
 
   auto player = get_nearest_player();
   if (player) {
-    dir = (player->get_pos().x > get_pos().x) ? RIGHT : LEFT;
-    m_sprite->set_action(dir == LEFT ? "left" : "right");
+    m_dir = (player->get_pos().x > get_pos().x) ? RIGHT : LEFT;
+    m_sprite->set_action(m_dir == LEFT ? "left" : "right");
   }
 }
 
 void
 SpiderMite::freeze()
 {
-  physic.enable_gravity(true);
+  m_physic.enable_gravity(true);
   BadGuy::freeze();
 }
 
@@ -93,7 +93,7 @@ void
 SpiderMite::unfreeze()
 {
   BadGuy::unfreeze();
-  physic.enable_gravity(false);
+  m_physic.enable_gravity(false);
   initialize();
 }
 

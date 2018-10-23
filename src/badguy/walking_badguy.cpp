@@ -72,12 +72,12 @@ WalkingBadguy::WalkingBadguy(const ReaderMapping& reader,
 void
 WalkingBadguy::initialize()
 {
-  if(frozen)
+  if(m_frozen)
     return;
-  m_sprite->set_action(dir == LEFT ? walk_left_action : walk_right_action);
+  m_sprite->set_action(m_dir == LEFT ? walk_left_action : walk_right_action);
   m_bbox.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
-  physic.set_velocity_x(dir == LEFT ? -walk_speed : walk_speed);
-  physic.set_acceleration_x (0.0);
+  m_physic.set_velocity_x(m_dir == LEFT ? -walk_speed : walk_speed);
+  m_physic.set_acceleration_x (0.0);
 }
 
 void
@@ -90,7 +90,7 @@ WalkingBadguy::set_walk_speed (float ws)
 void
 WalkingBadguy::add_velocity (const Vector& velocity)
 {
-  physic.set_velocity(physic.get_velocity() + velocity);
+  m_physic.set_velocity(m_physic.get_velocity() + velocity);
 }
 
 void
@@ -98,19 +98,19 @@ WalkingBadguy::active_update(float elapsed_time, float dest_x_velocity)
 {
   BadGuy::active_update(elapsed_time);
 
-  float current_x_velocity = physic.get_velocity_x ();
+  float current_x_velocity = m_physic.get_velocity_x ();
 
-  if (frozen)
+  if (m_frozen)
   {
-    physic.set_velocity_x (0.0);
-    physic.set_acceleration_x (0.0);
+    m_physic.set_velocity_x (0.0);
+    m_physic.set_acceleration_x (0.0);
   }
   /* We're very close to our target speed. Just set it to avoid oscillation */
   else if ((current_x_velocity > (dest_x_velocity - 5.0))
       && (current_x_velocity < (dest_x_velocity + 5.0)))
   {
-    physic.set_velocity_x (dest_x_velocity);
-    physic.set_acceleration_x (0.0);
+    m_physic.set_velocity_x (dest_x_velocity);
+    m_physic.set_acceleration_x (0.0);
   }
   /* Check if we're going too slow or even in the wrong direction */
   else if (((dest_x_velocity <= 0.0) && (current_x_velocity > dest_x_velocity))
@@ -118,7 +118,7 @@ WalkingBadguy::active_update(float elapsed_time, float dest_x_velocity)
   {
     /* acceleration == walk-speed => it will take one second to get from zero
      * to full speed. */
-    physic.set_acceleration_x (dest_x_velocity);
+    m_physic.set_acceleration_x (dest_x_velocity);
   }
   /* Check if we're going too fast */
   else if (((dest_x_velocity <= 0.0) && (current_x_velocity < dest_x_velocity))
@@ -126,7 +126,7 @@ WalkingBadguy::active_update(float elapsed_time, float dest_x_velocity)
   {
     /* acceleration == walk-speed => it will take one second to get twice the
      * speed to normal speed. */
-    physic.set_acceleration_x ((-1.f) * dest_x_velocity);
+    m_physic.set_acceleration_x ((-1.f) * dest_x_velocity);
   }
   else
   {
@@ -141,12 +141,12 @@ WalkingBadguy::active_update(float elapsed_time, float dest_x_velocity)
     }
   }
 
-  if ((dir == LEFT) && (physic.get_velocity_x () > 0.0)) {
-    dir = RIGHT;
+  if ((m_dir == LEFT) && (m_physic.get_velocity_x () > 0.0)) {
+    m_dir = RIGHT;
     set_action (walk_right_action, /* loops = */ -1);
   }
-  else if ((dir == RIGHT) && (physic.get_velocity_x () < 0.0)) {
-    dir = LEFT;
+  else if ((m_dir == RIGHT) && (m_physic.get_velocity_x () < 0.0)) {
+    m_dir = LEFT;
     set_action (walk_left_action, /* loops = */ -1);
   }
 }
@@ -154,7 +154,7 @@ WalkingBadguy::active_update(float elapsed_time, float dest_x_velocity)
 void
 WalkingBadguy::active_update(float elapsed_time)
 {
-  active_update (elapsed_time, (dir == LEFT) ? -walk_speed : +walk_speed);
+  active_update (elapsed_time, (m_dir == LEFT) ? -walk_speed : +walk_speed);
 }
 
 void
@@ -164,13 +164,13 @@ WalkingBadguy::collision_solid(const CollisionHit& hit)
   update_on_ground_flag(hit);
 
   if (hit.top) {
-    if (physic.get_velocity_y() < 0) physic.set_velocity_y(0);
+    if (m_physic.get_velocity_y() < 0) m_physic.set_velocity_y(0);
   }
   if (hit.bottom) {
-    if (physic.get_velocity_y() > 0) physic.set_velocity_y(0);
+    if (m_physic.get_velocity_y() > 0) m_physic.set_velocity_y(0);
   }
 
-  if ((hit.left && (dir == LEFT)) || (hit.right && (dir == RIGHT))) {
+  if ((hit.left && (m_dir == LEFT)) || (hit.right && (m_dir == RIGHT))) {
     turn_around();
   }
 
@@ -183,7 +183,7 @@ WalkingBadguy::collision_badguy(BadGuy& , const CollisionHit& hit)
     return FORCE_MOVE;
   }
 
-  if ((hit.left && (dir == LEFT)) || (hit.right && (dir == RIGHT))) {
+  if ((hit.left && (m_dir == LEFT)) || (hit.right && (m_dir == RIGHT))) {
     turn_around();
   }
 
@@ -193,14 +193,14 @@ WalkingBadguy::collision_badguy(BadGuy& , const CollisionHit& hit)
 void
 WalkingBadguy::turn_around()
 {
-  if(frozen)
+  if(m_frozen)
     return;
-  dir = dir == LEFT ? RIGHT : LEFT;
+  m_dir = m_dir == LEFT ? RIGHT : LEFT;
   if (get_state() == STATE_INIT || get_state() == STATE_INACTIVE || get_state() == STATE_ACTIVE) {
-    m_sprite->set_action(dir == LEFT ? walk_left_action : walk_right_action);
+    m_sprite->set_action(m_dir == LEFT ? walk_left_action : walk_right_action);
   }
-  physic.set_velocity_x(-physic.get_velocity_x());
-  physic.set_acceleration_x (-physic.get_acceleration_x ());
+  m_physic.set_velocity_x(-m_physic.get_velocity_x());
+  m_physic.set_acceleration_x (-m_physic.get_acceleration_x ());
 
   // if we get dizzy, we fall off the screen
   if (turn_around_timer.started()) {
@@ -216,7 +216,7 @@ void
 WalkingBadguy::freeze()
 {
   BadGuy::freeze();
-  physic.set_velocity_x(0);
+  m_physic.set_velocity_x(0);
 }
 
 void
@@ -229,20 +229,20 @@ WalkingBadguy::unfreeze()
 float
 WalkingBadguy::get_velocity_y() const
 {
-  return physic.get_velocity_y();
+  return m_physic.get_velocity_y();
 }
 
 void
 WalkingBadguy::set_velocity_y(float vy)
 {
-  physic.set_velocity_y(vy);
+  m_physic.set_velocity_y(vy);
 }
 
 void
 WalkingBadguy::after_editor_set()
 {
   BadGuy::after_editor_set();
-  m_sprite->set_action(dir == LEFT ? walk_left_action : walk_right_action);
+  m_sprite->set_action(m_dir == LEFT ? walk_left_action : walk_right_action);
 }
 
 /* EOF */

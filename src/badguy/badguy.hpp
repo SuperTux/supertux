@@ -57,8 +57,8 @@ public:
 
   virtual ObjectSettings get_settings() override {
     ObjectSettings result = MovingSprite::get_settings();
-    result.options.push_back( dir_option(&dir) );
-    result.options.push_back( ObjectOption(MN_SCRIPT, _("Death script"), &dead_script));
+    result.options.push_back( dir_option(&m_dir) );
+    result.options.push_back( ObjectOption(MN_SCRIPT, _("Death script"), &m_dead_script));
     return result;
   }
 
@@ -87,12 +87,12 @@ public:
 
   Vector get_start_position() const
   {
-    return start_position;
+    return m_start_position;
   }
 
   void set_start_position(const Vector& vec)
   {
-    start_position = vec;
+    m_start_position = vec;
   }
 
   /** Called when hit by a fire bullet, and is_flammable() returns true */
@@ -138,7 +138,7 @@ public:
    */
   void set_parent_dispenser(Dispenser* parent)
   {
-    parent_dispenser = parent;
+    m_parent_dispenser = parent;
   }
 
   /**
@@ -146,7 +146,7 @@ public:
    */
   Dispenser* get_parent_dispenser() const
   {
-    return parent_dispenser;
+    return m_parent_dispenser;
   }
 
 protected:
@@ -202,10 +202,10 @@ protected:
 
   void set_state(State state);
   State get_state() const
-  { return state; }
+  { return m_state; }
 
   bool check_state_timer() {
-    return state_timer.check();
+    return m_state_timer.check();
   }
 
   /** returns a pointer to the nearest player or 0 if no player is available */
@@ -249,60 +249,60 @@ private:
   void try_activate();
 
 protected:
-  Physic physic;
+  Physic m_physic;
 
 public:
   /** Count this badguy to the statistics? This value should not be
       changed during runtime. */
-  bool countMe;
+  bool m_countMe;
 
 protected:
   /** true if initialize() has already been called */
-  bool is_initialized;
+  bool m_is_initialized;
 
-  Vector start_position;
+  Vector m_start_position;
 
   /** The direction we currently face in */
-  Direction dir;
+  Direction m_dir;
 
   /** The direction we initially faced in */
-  Direction start_dir;
+  Direction m_start_dir;
 
-  bool frozen;
-  bool ignited; /**< true if this badguy is currently on fire */
-  bool in_water; /** < true if the badguy is currently in water */
+  bool m_frozen;
+  bool m_ignited; /**< true if this badguy is currently on fire */
+  bool m_in_water; /** < true if the badguy is currently in water */
 
-  std::string dead_script; /**< script to execute when badguy is killed */
+  std::string m_dead_script; /**< script to execute when badguy is killed */
 
-  float melting_time;
+  float m_melting_time;
 
-  SpritePtr lightsprite;
-  bool glowing;
+  SpritePtr m_lightsprite;
+  bool m_glowing;
 
 private:
-  State state;
+  State m_state;
 
   /** true if state was STATE_ACTIVE at the beginning of the last call
       to update() */
-  bool is_active_flag;
+  bool m_is_active_flag;
 
-  Timer state_timer;
+  Timer m_state_timer;
 
   /** true if we touched something solid from above and
       update_on_ground_flag was called last frame */
-  bool on_ground_flag;
+  bool m_on_ground_flag;
 
   /** floor normal stored the last time when update_on_ground_flag was
       called and we touched something solid from above */
-  Vector floor_normal;
+  Vector m_floor_normal;
 
   /** CollisionGroup the badguy should be in while active */
-  CollisionGroup colgroup_active;
+  CollisionGroup m_colgroup_active;
 
   /** If this badguy was dispensed from a dispenser,
    * save the dispenser here.
    */
-  Dispenser* parent_dispenser;
+  Dispenser* m_parent_dispenser;
 
 private:
   BadGuy(const BadGuy&);

@@ -26,8 +26,8 @@ MoleRock::MoleRock(const ReaderMapping& reader) :
   parent(nullptr),
   initial_velocity(Vector(0, -400))
 {
-  physic.enable_gravity(true);
-  countMe = false;
+  m_physic.enable_gravity(true);
+  m_countMe = false;
   SoundManager::current()->preload("sounds/darthit.wav");
   SoundManager::current()->preload("sounds/stomp.wav");
 }
@@ -37,8 +37,8 @@ MoleRock::MoleRock(const Vector& pos, const Vector& velocity, const BadGuy* pare
   parent(parent_),
   initial_velocity(velocity)
 {
-  physic.enable_gravity(true);
-  countMe = false;
+  m_physic.enable_gravity(true);
+  m_countMe = false;
   SoundManager::current()->preload("sounds/darthit.wav");
   SoundManager::current()->preload("sounds/stomp.wav");
 }
@@ -56,7 +56,7 @@ MoleRock::updatePointers(const GameObject* from_object, GameObject* to_object)
 void
 MoleRock::initialize()
 {
-  physic.set_velocity(initial_velocity);
+  m_physic.set_velocity(initial_velocity);
   m_sprite->set_action("default");
 }
 

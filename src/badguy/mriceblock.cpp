@@ -83,7 +83,7 @@ MrIceBlock::collision_solid(const CollisionHit& hit)
   update_on_ground_flag(hit);
 
   if(hit.top || hit.bottom) { // floor or roof
-    physic.set_velocity_y(0);
+    m_physic.set_velocity_y(0);
   }
 
   // hit left or right
@@ -92,19 +92,19 @@ MrIceBlock::collision_solid(const CollisionHit& hit)
       WalkingBadguy::collision_solid(hit);
       break;
     case ICESTATE_KICKED: {
-      if((hit.right && dir == RIGHT) || (hit.left && dir == LEFT)) {
-        dir = (dir == LEFT) ? RIGHT : LEFT;
+      if((hit.right && m_dir == RIGHT) || (hit.left && m_dir == LEFT)) {
+        m_dir = (m_dir == LEFT) ? RIGHT : LEFT;
         SoundManager::current()->play("sounds/iceblock_bump.wav", get_pos());
-        physic.set_velocity_x(-physic.get_velocity_x()*.975f);
+        m_physic.set_velocity_x(-m_physic.get_velocity_x()*.975f);
       }
-      set_action(dir == LEFT ? "flat-left" : "flat-right", /* loops = */ -1);
-      if(fabsf(physic.get_velocity_x()) < walk_speed*1.5)
+      set_action(m_dir == LEFT ? "flat-left" : "flat-right", /* loops = */ -1);
+      if(fabsf(m_physic.get_velocity_x()) < walk_speed*1.5)
         set_state(ICESTATE_NORMAL);
       break;
     }
     case ICESTATE_FLAT:
     case ICESTATE_WAKING:
-      physic.set_velocity_x(0);
+      m_physic.set_velocity_x(0);
       break;
     case ICESTATE_GRABBED:
       break;
@@ -126,12 +126,12 @@ MrIceBlock::collision_player(Player& player, const CollisionHit& hit)
   // handle kicks from left or right side
   if(ice_state == ICESTATE_FLAT && get_state() == STATE_ACTIVE) {
     if(hit.left) {
-      dir = RIGHT;
+      m_dir = RIGHT;
       player.kick();
       set_state(ICESTATE_KICKED);
       return FORCE_MOVE;
     } else if(hit.right) {
-      dir = LEFT;
+      m_dir = LEFT;
       player.kick();
       set_state(ICESTATE_KICKED);
       return FORCE_MOVE;
@@ -198,9 +198,9 @@ MrIceBlock::collision_squished(GameObject& object)
     {
       auto movingobject = dynamic_cast<MovingObject*>(&object);
       if (movingobject && (movingobject->get_pos().x < get_pos().x)) {
-        dir = RIGHT;
+        m_dir = RIGHT;
       } else {
-        dir = LEFT;
+        m_dir = LEFT;
       }
     }
     if (nokick_timer.check()) set_state(ICESTATE_KICKED);
@@ -222,25 +222,25 @@ MrIceBlock::set_state(IceState state_, bool up)
 
   switch(state_) {
     case ICESTATE_NORMAL:
-      set_action(dir == LEFT ? "left" : "right", /* loops = */ -1);
+      set_action(m_dir == LEFT ? "left" : "right", /* loops = */ -1);
       WalkingBadguy::initialize();
       break;
     case ICESTATE_FLAT:
       if(up) {
-        physic.set_velocity_y(-KICKSPEED);
+        m_physic.set_velocity_y(-KICKSPEED);
       } else {
         SoundManager::current()->play("sounds/stomp.wav", get_pos());
-        physic.set_velocity_x(0);
-        physic.set_velocity_y(0);
+        m_physic.set_velocity_x(0);
+        m_physic.set_velocity_y(0);
       }
-      set_action(dir == LEFT ? "flat-left" : "flat-right", /* loops = */ -1);
+      set_action(m_dir == LEFT ? "flat-left" : "flat-right", /* loops = */ -1);
       flat_timer.start(4);
       break;
     case ICESTATE_KICKED:
       SoundManager::current()->play("sounds/kick.wav", get_pos());
 
-      physic.set_velocity_x(dir == LEFT ? -KICKSPEED : KICKSPEED);
-      set_action(dir == LEFT ? "flat-left" : "flat-right", /* loops = */ -1);
+      m_physic.set_velocity_x(m_dir == LEFT ? -KICKSPEED : KICKSPEED);
+      set_action(m_dir == LEFT ? "flat-left" : "flat-right", /* loops = */ -1);
       // we should slide above 1 block holes now...
       m_bbox.set_size(34, 31.8f);
       break;
@@ -248,7 +248,7 @@ MrIceBlock::set_state(IceState state_, bool up)
       flat_timer.stop();
       break;
     case ICESTATE_WAKING:
-      m_sprite->set_action(dir == LEFT ? "waking-left" : "waking-right",
+      m_sprite->set_action(m_dir == LEFT ? "waking-left" : "waking-right",
                          /* loops = */ 1);
       break;
     default:
@@ -261,7 +261,7 @@ void
 MrIceBlock::grab(MovingObject&, const Vector& pos, Direction dir_)
 {
   m_movement = pos - get_pos();
-  dir = dir_;
+  m_dir = dir_;
   set_action(dir_ == LEFT ? "flat-left" : "flat-right", /* loops = */ -1);
   set_state(ICESTATE_GRABBED);
   set_colgroup_active(COLGROUP_DISABLED);
@@ -273,7 +273,7 @@ MrIceBlock::ungrab(MovingObject& , Direction dir_)
   if(dir_ == UP) {
     set_state(ICESTATE_FLAT, true);
   } else {
-    dir = dir_;
+    m_dir = dir_;
     set_state(ICESTATE_KICKED);
   }
   set_colgroup_active(COLGROUP_MOVING);

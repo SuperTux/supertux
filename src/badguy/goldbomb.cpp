@@ -57,12 +57,12 @@ GoldBomb::collision_solid(const CollisionHit& hit)
 {
   if(tstate == STATE_TICKING) {
     if(hit.bottom) {
-      physic.set_velocity_y(0);
-      physic.set_velocity_x(0);
+      m_physic.set_velocity_y(0);
+      m_physic.set_velocity_x(0);
     }else if (hit.left || hit.right)
-      physic.set_velocity_x(-physic.get_velocity_x());
+      m_physic.set_velocity_x(-m_physic.get_velocity_x());
     else if (hit.top)
-      physic.set_velocity_y(0);
+      m_physic.set_velocity_y(0);
     update_on_ground_flag(hit);
     return;
   }
@@ -114,9 +114,9 @@ GoldBomb::collision_squished(GameObject& object)
   }
   if(is_valid() && tstate == STATE_NORMAL) {
     tstate = STATE_TICKING;
-    frozen = false;
-    set_action(dir == LEFT ? "ticking-left" : "ticking-right", 1);
-    physic.set_velocity_x(0);
+    m_frozen = false;
+    set_action(m_dir == LEFT ? "ticking-left" : "ticking-right", 1);
+    m_physic.set_velocity_x(0);
 
     if (player)
       player->bounce(*this);
@@ -135,13 +135,13 @@ void
 GoldBomb::active_update(float elapsed_time)
 {
   if(tstate == STATE_TICKING) {
-    if (on_ground()) physic.set_velocity_x(0);
+    if (on_ground()) m_physic.set_velocity_x(0);
     ticking->set_position(get_pos());
     if(m_sprite->animation_done()) {
       kill_fall();
     }
     else if (!grabbed) {
-      m_movement = physic.get_movement(elapsed_time);
+      m_movement = m_physic.get_movement(elapsed_time);
     }
     return;
   }
@@ -186,18 +186,18 @@ GoldBomb::grab(MovingObject& object, const Vector& pos, Direction dir_)
 {
   if(tstate == STATE_TICKING){
     m_movement = pos - get_pos();
-    dir = dir_;
+    m_dir = dir_;
 
     // We actually face the opposite direction of Tux here to make the fuse more
     // visible instead of hiding it behind Tux
-    m_sprite->set_action_continued(dir == LEFT ? "ticking-right" : "ticking-left");
+    m_sprite->set_action_continued(m_dir == LEFT ? "ticking-right" : "ticking-left");
     set_colgroup_active(COLGROUP_DISABLED);
     grabbed = true;
     grabber = &object;
   }
-  else if(frozen){
+  else if(m_frozen){
     m_movement = pos - get_pos();
-    dir = dir_;
+    m_dir = dir_;
     m_sprite->set_action(dir_ == LEFT ? "iced-left" : "iced-right");
     set_colgroup_active(COLGROUP_DISABLED);
     grabbed = true;
@@ -226,7 +226,7 @@ GoldBomb::ungrab(MovingObject& object, Direction dir_)
   log_warning << toss_velocity_x << toss_velocity_y << std::endl;////
 
   //set_pos(object.get_pos() + Vector((dir_ == LEFT ? -33 : 33), get_bbox().get_height()*0.66666 - 32));
-  physic.set_velocity(static_cast<float>(toss_velocity_x),
+  m_physic.set_velocity(static_cast<float>(toss_velocity_x),
                       static_cast<float>(toss_velocity_y));
   set_colgroup_active(COLGROUP_MOVING);
   grabbed = false;
@@ -249,7 +249,7 @@ GoldBomb::is_freezable() const
 bool
 GoldBomb::is_portable() const
 {
-  return (frozen || (tstate == STATE_TICKING));
+  return (m_frozen || (tstate == STATE_TICKING));
 }
 
 void GoldBomb::stop_looping_sounds()

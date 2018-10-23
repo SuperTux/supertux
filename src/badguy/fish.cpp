@@ -27,7 +27,7 @@ Fish::Fish(const ReaderMapping& reader) :
   waiting(),
   stop_y(0)
 {
-  physic.enable_gravity(true);
+  m_physic.enable_gravity(true);
 }
 
 void
@@ -55,7 +55,7 @@ HitResponse
 Fish::hit(const CollisionHit& hit_)
 {
   if(hit_.top) {
-    physic.set_velocity_y(0);
+    m_physic.set_velocity_y(0);
   }
 
   return CONTINUE;
@@ -64,20 +64,20 @@ Fish::hit(const CollisionHit& hit_)
 void
 Fish::collision_tile(uint32_t tile_attributes)
 {
-  if ((tile_attributes & Tile::WATER) && (physic.get_velocity_y() >= 0)) {
+  if ((tile_attributes & Tile::WATER) && (m_physic.get_velocity_y() >= 0)) {
 
     // initialize stop position if uninitialized
     if (stop_y == 0) stop_y = get_pos().y + m_bbox.get_height();
 
     // stop when we have reached the stop position
     if (get_pos().y >= stop_y) {
-      if(!frozen)
+      if(!m_frozen)
         start_waiting();
       m_movement = Vector(0, 0);
     }
 
   }
-  if ((!(tile_attributes & Tile::WATER) || frozen) && (tile_attributes & Tile::HURTS)) {
+  if ((!(tile_attributes & Tile::WATER) || m_frozen) && (tile_attributes & Tile::HURTS)) {
     kill_fall();
   }
 }
@@ -93,17 +93,17 @@ Fish::active_update(float elapsed_time)
   }
 
   // set sprite
-  if(!frozen)
-    m_sprite->set_action(physic.get_velocity_y() < 0 ? "normal" : "down");
+  if(!m_frozen)
+    m_sprite->set_action(m_physic.get_velocity_y() < 0 ? "normal" : "down");
 
   // we can't afford flying out of the tilemap, 'cause the engine would remove us.
   if ((get_pos().y - 31.8) < 0) // too high, let us fall
   {
-    physic.set_velocity_y(0);
-    physic.enable_gravity(true);
+    m_physic.set_velocity_y(0);
+    m_physic.enable_gravity(true);
   }
 
-  if (ignited)
+  if (m_ignited)
     remove_me();
 }
 
@@ -112,15 +112,15 @@ Fish::start_waiting()
 {
   waiting.start(FISH_WAIT_TIME);
   set_colgroup_active(COLGROUP_DISABLED);
-  physic.enable_gravity(false);
-  physic.set_velocity_y(0);
+  m_physic.enable_gravity(false);
+  m_physic.set_velocity_y(0);
 }
 
 void
 Fish::jump()
 {
-  physic.set_velocity_y(FISH_JUMP_POWER);
-  physic.enable_gravity(true);
+  m_physic.set_velocity_y(FISH_JUMP_POWER);
+  m_physic.enable_gravity(true);
   set_colgroup_active(COLGROUP_MOVING);
 }
 
@@ -128,7 +128,7 @@ void
 Fish::freeze()
 {
   BadGuy::freeze();
-  m_sprite->set_action(physic.get_velocity_y() < 0 ? "iced" : "iced-down");
+  m_sprite->set_action(m_physic.get_velocity_y() < 0 ? "iced" : "iced-down");
   m_sprite->set_color(Color(1.0f, 1.0f, 1.0f));
   waiting.stop();
 }

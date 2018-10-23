@@ -41,9 +41,9 @@ DartTrap::DartTrap(const ReaderMapping& reader) :
   reader.get("initial-delay", initial_delay, 0.0f);
   reader.get("fire-delay", fire_delay, 2.0f);
   reader.get("ammo", ammo, -1);
-  countMe = false;
+  m_countMe = false;
   SoundManager::current()->preload("sounds/dartfire.wav");
-  if (start_dir == AUTO) { log_warning << "Setting a DartTrap's direction to AUTO is no good idea" << std::endl; }
+  if (m_start_dir == AUTO) { log_warning << "Setting a DartTrap's direction to AUTO is no good idea" << std::endl; }
   state = IDLE;
   set_colgroup_active(COLGROUP_DISABLED);
   if (initial_delay == 0) initial_delay = 0.1f;
@@ -52,7 +52,7 @@ DartTrap::DartTrap(const ReaderMapping& reader) :
 void
 DartTrap::initialize()
 {
-  m_sprite->set_action(dir == LEFT ? "idle-left" : "idle-right");
+  m_sprite->set_action(m_dir == LEFT ? "idle-left" : "idle-right");
 }
 
 void
@@ -97,21 +97,21 @@ void
 DartTrap::load()
 {
   state = LOADING;
-  m_sprite->set_action(dir == LEFT ? "loading-left" : "loading-right", 1);
+  m_sprite->set_action(m_dir == LEFT ? "loading-left" : "loading-right", 1);
 }
 
 void
 DartTrap::fire()
 {
   float px = get_pos().x;
-  if (dir == RIGHT) px += 5;
+  if (m_dir == RIGHT) px += 5;
   float py = get_pos().y;
   py += MUZZLE_Y;
 
   SoundManager::current()->play("sounds/dartfire.wav", get_pos());
-  Sector::get().add<Dart>(Vector(px, py), dir, this);
+  Sector::get().add<Dart>(Vector(px, py), m_dir, this);
   state = IDLE;
-  m_sprite->set_action(dir == LEFT ? "idle-left" : "idle-right");
+  m_sprite->set_action(m_dir == LEFT ? "idle-left" : "idle-right");
 }
 
 
@@ -134,7 +134,7 @@ void
 DartTrap::after_editor_set()
 {
   BadGuy::after_editor_set();
-  m_sprite->set_action(dir == LEFT ? "idle-left" : "idle-right");
+  m_sprite->set_action(m_dir == LEFT ? "idle-left" : "idle-right");
 }
 
 /* EOF */

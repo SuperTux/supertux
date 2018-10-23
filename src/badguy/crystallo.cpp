@@ -39,13 +39,13 @@ Crystallo::get_settings() {
 void
 Crystallo::active_update(float elapsed_time)
 {
-  if(get_pos().x > (start_position.x + radius)){
-    if(dir != LEFT){
+  if(get_pos().x > (m_start_position.x + radius)){
+    if(m_dir != LEFT){
       turn_around();
     }
   }
-  if( get_pos().x < (start_position.x - radius)){
-    if(dir != RIGHT){
+  if( get_pos().x < (m_start_position.x - radius)){
+    if(m_dir != RIGHT){
       turn_around();
     }
   }
@@ -55,7 +55,7 @@ Crystallo::active_update(float elapsed_time)
 bool
 Crystallo::collision_squished(GameObject& object)
 {
-  set_action(dir == LEFT ? "shattered-left" : "shattered-right", /* loops = */ -1, ANCHOR_BOTTOM);
+  set_action(m_dir == LEFT ? "shattered-left" : "shattered-right", /* loops = */ -1, ANCHOR_BOTTOM);
   kill_squished(object);
   return true;
 }

@@ -28,13 +28,13 @@ SnowBall::SnowBall(const Vector& pos, Direction d, std::string script)
   : WalkingBadguy(pos, d, "images/creatures/snowball/snowball.sprite", "left", "right")
 {
   walk_speed = 80;
-  dead_script = script;
+  m_dead_script = script;
 }
 
 bool
 SnowBall::collision_squished(GameObject& object)
 {
-  m_sprite->set_action(dir == LEFT ? "squished-left" : "squished-right");
+  m_sprite->set_action(m_dir == LEFT ? "squished-left" : "squished-right");
   kill_squished(object);
   return true;
 }

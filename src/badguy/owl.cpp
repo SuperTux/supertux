@@ -40,7 +40,7 @@ Owl::Owl(const ReaderMapping& reader) :
   carried_object(nullptr)
 {
   reader.get("carry", carried_obj_name, "skydive");
-  set_action (dir == LEFT ? "left" : "right", /* loops = */ -1);
+  set_action (m_dir == LEFT ? "left" : "right", /* loops = */ -1);
 }
 
 void
@@ -52,9 +52,9 @@ Owl::save(Writer& writer) {
 void
 Owl::initialize()
 {
-  physic.set_velocity_x(dir == LEFT ? -FLYING_SPEED : FLYING_SPEED);
-  physic.enable_gravity(false);
-  m_sprite->set_action(dir == LEFT ? "left" : "right");
+  m_physic.set_velocity_x(m_dir == LEFT ? -FLYING_SPEED : FLYING_SPEED);
+  m_physic.enable_gravity(false);
+  m_sprite->set_action(m_dir == LEFT ? "left" : "right");
 
   // If we add the carried object to the sector while we're editing 
   // a level with the editor, it gets written to the level file,
@@ -64,7 +64,7 @@ Owl::initialize()
     return;
   }
 
-  auto game_object = GameObjectFactory::instance().create(carried_obj_name, get_pos(), dir);
+  auto game_object = GameObjectFactory::instance().create(carried_obj_name, get_pos(), m_dir);
   if (game_object == nullptr)
   {
     log_fatal << "Creating \"" << carried_obj_name << "\" object failed." << std::endl;
@@ -92,7 +92,7 @@ Owl::is_above_player() const
 
   /* Let go of carried objects a short while *before* Tux is below us. This
    * makes it more likely that we'll hit him. */
-  float x_offset = (dir == LEFT) ? ACTIVATION_DISTANCE : -ACTIVATION_DISTANCE;
+  float x_offset = (m_dir == LEFT) ? ACTIVATION_DISTANCE : -ACTIVATION_DISTANCE;
 
   const Rectf& player_bbox = player->get_bbox();
 
@@ -106,7 +106,7 @@ Owl::active_update (float elapsed_time)
 {
   BadGuy::active_update (elapsed_time);
 
-  if(frozen)
+  if(m_frozen)
     return;
 
   if (carried_object != nullptr) {
@@ -117,15 +117,15 @@ Owl::active_update (float elapsed_time)
 
       //To drop enemie before leave the screen
       if (obj_pos.x<=16 || obj_pos.x+16>=Sector::get().get_width()){
-        carried_object->ungrab (*this, dir);
+        carried_object->ungrab (*this, m_dir);
         carried_object = nullptr;
       }
 
      else
-        carried_object->grab (*this, obj_pos, dir);
+        carried_object->grab (*this, obj_pos, m_dir);
     }
     else { /* if (is_above_player) */
-      carried_object->ungrab (*this, dir);
+      carried_object->ungrab (*this, m_dir);
       carried_object = nullptr;
     }
   }
@@ -139,7 +139,7 @@ Owl::collision_squished(GameObject&)
     player->bounce (*this);
 
   if (carried_object != nullptr) {
-    carried_object->ungrab (*this, dir);
+    carried_object->ungrab (*this, m_dir);
     carried_object = nullptr;
   }
 
@@ -151,13 +151,13 @@ void
 Owl::kill_fall()
 {
   SoundManager::current()->play("sounds/fall.wav", get_pos());
-  physic.set_velocity_y(0);
-  physic.set_acceleration_y(0);
-  physic.enable_gravity(true);
+  m_physic.set_velocity_y(0);
+  m_physic.set_acceleration_y(0);
+  m_physic.enable_gravity(true);
   set_state(STATE_FALLING);
 
   if (carried_object != nullptr) {
-    carried_object->ungrab (*this, dir);
+    carried_object->ungrab (*this, m_dir);
     carried_object = nullptr;
   }
 
@@ -169,10 +169,10 @@ void
 Owl::freeze()
 {
   if (carried_object != nullptr) {
-    carried_object->ungrab (*this, dir);
+    carried_object->ungrab (*this, m_dir);
     carried_object = nullptr;
   }
-  physic.enable_gravity(true);
+  m_physic.enable_gravity(true);
   BadGuy::freeze();
 }
 
@@ -180,9 +180,9 @@ void
 Owl::unfreeze()
 {
   BadGuy::unfreeze();
-  physic.set_velocity_x(dir == LEFT ? -FLYING_SPEED : FLYING_SPEED);
-  physic.enable_gravity(false);
-  m_sprite->set_action(dir == LEFT ? "left" : "right");
+  m_physic.set_velocity_x(m_dir == LEFT ? -FLYING_SPEED : FLYING_SPEED);
+  m_physic.enable_gravity(false);
+  m_sprite->set_action(m_dir == LEFT ? "left" : "right");
 }
 
 bool
@@ -194,23 +194,23 @@ Owl::is_freezable() const
 void
 Owl::collision_solid(const CollisionHit& hit)
 {
-  if(frozen)
+  if(m_frozen)
   {
     BadGuy::collision_solid(hit);
     return;
   }
   if(hit.top || hit.bottom) {
-    physic.set_velocity_y(0);
+    m_physic.set_velocity_y(0);
   } else if(hit.left || hit.right) {
-    if (dir == LEFT) {
+    if (m_dir == LEFT) {
       set_action ("right", /* loops = */ -1);
-      dir = RIGHT;
-      physic.set_velocity_x (FLYING_SPEED);
+      m_dir = RIGHT;
+      m_physic.set_velocity_x (FLYING_SPEED);
     }
     else {
       set_action ("left", /* loops = */ -1);
-      dir = LEFT;
-      physic.set_velocity_x (-FLYING_SPEED);
+      m_dir = LEFT;
+      m_physic.set_velocity_x (-FLYING_SPEED);
     }
   }
 } /* void Owl::collision_solid */
@@ -218,7 +218,7 @@ Owl::collision_solid(const CollisionHit& hit)
 void
 Owl::ignite() {
   if (carried_object != nullptr) {
-    carried_object->ungrab (*this, dir);
+    carried_object->ungrab (*this, m_dir);
     carried_object = nullptr;
   }
   BadGuy::ignite();
@@ -228,7 +228,7 @@ void
 Owl::after_editor_set()
 {
   BadGuy::after_editor_set();
-  m_sprite->set_action(dir == LEFT ? "left" : "right");
+  m_sprite->set_action(m_dir == LEFT ? "left" : "right");
 }
 
 /* EOF */

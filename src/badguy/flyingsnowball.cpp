@@ -32,13 +32,13 @@ FlyingSnowBall::FlyingSnowBall(const ReaderMapping& reader) :
   normal_propeller_speed(),
   puff_timer()
 {
-  physic.enable_gravity(true);
+  m_physic.enable_gravity(true);
 }
 
 void
 FlyingSnowBall::initialize()
 {
-  m_sprite->set_action(dir == LEFT ? "left" : "right");
+  m_sprite->set_action(m_dir == LEFT ? "left" : "right");
 }
 
 void
@@ -51,9 +51,9 @@ FlyingSnowBall::activate()
 bool
 FlyingSnowBall::collision_squished(GameObject& object)
 {
-  m_sprite->set_action(dir == LEFT ? "squished-left" : "squished-right");
-  physic.set_acceleration_y(0);
-  physic.set_velocity_y(0);
+  m_sprite->set_action(m_dir == LEFT ? "squished-left" : "squished-right");
+  m_physic.set_acceleration_y(0);
+  m_physic.set_velocity_y(0);
   kill_squished(object);
   return true;
 }
@@ -62,7 +62,7 @@ void
 FlyingSnowBall::collision_solid(const CollisionHit& hit)
 {
   if(hit.top || hit.bottom) {
-    physic.set_velocity_y(0);
+    m_physic.set_velocity_y(0);
   }
 }
 
@@ -71,33 +71,33 @@ FlyingSnowBall::active_update(float elapsed_time)
 {
 
   const float grav = Sector::get().get_gravity() * 100.0f;
-  if (get_pos().y > start_position.y + 2*32) {
+  if (get_pos().y > m_start_position.y + 2*32) {
 
     // Flying too low - increased propeller speed
-    physic.set_acceleration_y(-grav*1.2f);
+    m_physic.set_acceleration_y(-grav*1.2f);
 
-    physic.set_velocity_y(physic.get_velocity_y() * 0.99f);
+    m_physic.set_velocity_y(m_physic.get_velocity_y() * 0.99f);
 
-  } else if (get_pos().y < start_position.y - 2*32) {
+  } else if (get_pos().y < m_start_position.y - 2*32) {
 
     // Flying too high - decreased propeller speed
-    physic.set_acceleration_y(-grav*0.8f);
+    m_physic.set_acceleration_y(-grav*0.8f);
 
-    physic.set_velocity_y(physic.get_velocity_y() * 0.99f);
+    m_physic.set_velocity_y(m_physic.get_velocity_y() * 0.99f);
 
   } else {
 
     // Flying at acceptable altitude - normal propeller speed
-    physic.set_acceleration_y(-grav*normal_propeller_speed);
+    m_physic.set_acceleration_y(-grav*normal_propeller_speed);
 
   }
 
-  m_movement=physic.get_movement(elapsed_time);
+  m_movement=m_physic.get_movement(elapsed_time);
 
   auto player = get_nearest_player();
   if (player) {
-    dir = (player->get_pos().x > get_pos().x) ? RIGHT : LEFT;
-    m_sprite->set_action(dir == LEFT ? "left" : "right");
+    m_dir = (player->get_pos().x > get_pos().x) ? RIGHT : LEFT;
+    m_sprite->set_action(m_dir == LEFT ? "left" : "right");
   }
 
   // spawn smoke puffs
@@ -112,7 +112,7 @@ FlyingSnowBall::active_update(float elapsed_time)
     puff_timer.start(gameRandom.randf(PUFF_INTERVAL_MIN, PUFF_INTERVAL_MAX));
 
     normal_propeller_speed = gameRandom.randf(0.95f, 1.05f);
-    physic.set_velocity_y(physic.get_velocity_y() - 50);
+    m_physic.set_velocity_y(m_physic.get_velocity_y() - 50);
   }
 }
 

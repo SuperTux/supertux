@@ -60,12 +60,12 @@ Totem::initialize()
 {
   if (!carried_by) {
 static const float WALKSPEED = 100;
-    physic.set_velocity_x(dir == LEFT ? -WALKSPEED : WALKSPEED);
-    m_sprite->set_action(dir == LEFT ? "walking-left" : "walking-right");
+    m_physic.set_velocity_x(m_dir == LEFT ? -WALKSPEED : WALKSPEED);
+    m_sprite->set_action(m_dir == LEFT ? "walking-left" : "walking-right");
     return;
   } else {
     synchronize_with(carried_by);
-    m_sprite->set_action(dir == LEFT ? "stacked-left" : "stacked-right");
+    m_sprite->set_action(m_dir == LEFT ? "stacked-left" : "stacked-right");
     return;
   }
 }
@@ -78,7 +78,7 @@ Totem::active_update(float elapsed_time)
   if (!carried_by) {
     if (on_ground() && might_fall())
     {
-      dir = (dir == LEFT ? RIGHT : LEFT);
+      m_dir = (m_dir == LEFT ? RIGHT : LEFT);
       initialize();
     }
 
@@ -88,7 +88,7 @@ Totem::active_update(float elapsed_time)
       if (!t) continue;
 
       // skip if we are not approaching each other
-      if (!((dir == LEFT) && (t->dir == RIGHT))) continue;
+      if (!((m_dir == LEFT) && (t->m_dir == RIGHT))) continue;
 
       Vector p1 = m_bbox.p1;
       Vector p2 = t->get_pos();
@@ -101,7 +101,7 @@ Totem::active_update(float elapsed_time)
       float dx = (p1.x - p2.x);
       if (fabsf(dx - 128) > 2) continue;
 
-      physic.set_velocity_y(JUMP_ON_SPEED_Y);
+      m_physic.set_velocity_y(JUMP_ON_SPEED_Y);
       p1.y -= 1;
       set_pos(p1);
       break;
@@ -133,7 +133,7 @@ Totem::collision_squished(GameObject& object)
     jump_off();
   }
 
-  m_sprite->set_action(dir == LEFT ? "squished-left" : "squished-right");
+  m_sprite->set_action(m_dir == LEFT ? "squished-left" : "squished-right");
   m_bbox.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
 
   kill_squished(object);
@@ -153,16 +153,16 @@ Totem::collision_solid(const CollisionHit& hit)
 
   // If we hit something from above or below: stop moving in this direction
   if (hit.top || hit.bottom) {
-    physic.set_velocity_y(0);
+    m_physic.set_velocity_y(0);
   }
 
   // If we are hit from the direction we are facing: turn around
-  if (hit.left && (dir == LEFT)) {
-    dir = RIGHT;
+  if (hit.left && (m_dir == LEFT)) {
+    m_dir = RIGHT;
     initialize();
   }
-  if (hit.right && (dir == RIGHT)) {
-    dir = LEFT;
+  if (hit.right && (m_dir == RIGHT)) {
+    m_dir = LEFT;
     initialize();
   }
 }
@@ -188,12 +188,12 @@ Totem::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
   }
 
   // If we are hit from the direction we are facing: turn around
-  if(hit.left && (dir == LEFT)) {
-    dir = RIGHT;
+  if(hit.left && (m_dir == LEFT)) {
+    m_dir = RIGHT;
     initialize();
   }
-  if(hit.right && (dir == RIGHT)) {
-    dir = LEFT;
+  if(hit.right && (m_dir == RIGHT)) {
+    m_dir = LEFT;
     initialize();
   }
 
@@ -242,24 +242,24 @@ Totem::jump_off() {
   initialize();
   m_bbox.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
 
-  physic.set_velocity_y(JUMP_OFF_SPEED_Y);
+  m_physic.set_velocity_y(JUMP_OFF_SPEED_Y);
 }
 
 void
 Totem::synchronize_with(Totem* base)
 {
 
-  if (dir != base->dir) {
-    dir = base->dir;
-    m_sprite->set_action(dir == LEFT ? "stacked-left" : "stacked-right");
+  if (m_dir != base->m_dir) {
+    m_dir = base->m_dir;
+    m_sprite->set_action(m_dir == LEFT ? "stacked-left" : "stacked-right");
   }
 
   Vector pos = base->get_pos();
   pos.y -= m_sprite->get_current_hitbox_height();
   set_pos(pos);
 
-  physic.set_velocity_x(base->physic.get_velocity_x());
-  physic.set_velocity_y(base->physic.get_velocity_y());
+  m_physic.set_velocity_x(base->m_physic.get_velocity_x());
+  m_physic.set_velocity_y(base->m_physic.get_velocity_y());
 }
 
 /* EOF */

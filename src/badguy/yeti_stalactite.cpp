@@ -32,7 +32,7 @@ YetiStalactite::start_shaking()
   timer.start(YT_SHAKE_TIME);
   state = STALACTITE_SHAKING;
   if((static_cast<int>(get_pos().x) / 32) % 2 == 0) {
-    physic.set_velocity_y(100);
+    m_physic.set_velocity_y(100);
   }
 }
 
@@ -65,7 +65,7 @@ YetiStalactite::update(float elapsed_time)
     state = STALACTITE_HANGING;
     // Hopefully we shouldn't come into contact with anything...
     m_sprite->set_action("normal");
-    set_pos(start_position);
+    set_pos(m_start_position);
     set_colgroup_active(COLGROUP_TOUCHABLE);
   }
 

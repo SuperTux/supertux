@@ -56,9 +56,9 @@ Stumpy::initialize()
 {
   switch (mystate) {
     case STATE_INVINCIBLE:
-      m_sprite->set_action(dir == LEFT ? "dizzy-left" : "dizzy-right");
+      m_sprite->set_action(m_dir == LEFT ? "dizzy-left" : "dizzy-right");
       m_bbox.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
-      physic.set_velocity_x(0);
+      m_physic.set_velocity_x(0);
       break;
     case STATE_NORMAL:
       WalkingBadguy::initialize();
@@ -97,7 +97,7 @@ Stumpy::collision_squished(GameObject& object)
 
   // if we can die, we do
   if (mystate == STATE_NORMAL) {
-    m_sprite->set_action(dir == LEFT ? "squished-left" : "squished-right");
+    m_sprite->set_action(m_dir == LEFT ? "squished-left" : "squished-right");
     set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
     kill_squished(object);
     // spawn some particles
@@ -133,10 +133,10 @@ Stumpy::collision_solid(const CollisionHit& hit)
   switch (mystate) {
     case STATE_INVINCIBLE:
       if(hit.top || hit.bottom) {
-        physic.set_velocity_y(0);
+        m_physic.set_velocity_y(0);
       }
       if(hit.left || hit.right) {
-        physic.set_velocity_x(0);
+        m_physic.set_velocity_x(0);
       }
       break;
     case STATE_NORMAL:
@@ -151,10 +151,10 @@ Stumpy::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
   switch (mystate) {
     case STATE_INVINCIBLE:
       if(hit.top || hit.bottom) {
-        physic.set_velocity_y(0);
+        m_physic.set_velocity_y(0);
       }
       if(hit.left || hit.right) {
-        physic.set_velocity_x(0);
+        m_physic.set_velocity_x(0);
       }
       return CONTINUE;
       break;

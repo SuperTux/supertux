@@ -29,8 +29,8 @@ LiveFire::LiveFire(const ReaderMapping& reader) :
 {
   walk_speed = 80;
   max_drop_height = 20;
-  lightsprite->set_color(Color(1.0f, 1.0f, 1.0f));
-  glowing = true;
+  m_lightsprite->set_color(Color(1.0f, 1.0f, 1.0f));
+  m_glowing = true;
 }
 
 void
@@ -70,14 +70,14 @@ LiveFire::active_update(float elapsed_time) {
     if (player) {
       Rectf pb = player->get_bbox();
 
-      bool inReach_left = (pb.p2.x >= m_bbox.p2.x-((dir == LEFT) ? 256 : 0));
-      bool inReach_right = (pb.p1.x <= m_bbox.p1.x+((dir == RIGHT) ? 256 : 0));
+      bool inReach_left = (pb.p2.x >= m_bbox.p2.x-((m_dir == LEFT) ? 256 : 0));
+      bool inReach_right = (pb.p1.x <= m_bbox.p1.x+((m_dir == RIGHT) ? 256 : 0));
       bool inReach_top = (pb.p2.y >= m_bbox.p1.y);
       bool inReach_bottom = (pb.p1.y <= m_bbox.p2.y);
 
       if (inReach_left && inReach_right && inReach_top && inReach_bottom) {
         // wake up
-        m_sprite->set_action(dir == LEFT ? "waking-left" : "waking-right", 1);
+        m_sprite->set_action(m_dir == LEFT ? "waking-left" : "waking-right", 1);
         state = STATE_WAKING;
       }
     }
@@ -126,12 +126,12 @@ LiveFire::kill_fall()
                                          pspeed, paccel,
                                          LAYER_BACKGROUNDTILES+2);
   // extinguish the flame
-  m_sprite->set_action(dir == LEFT ? "extinguish-left" : "extinguish-right", 1);
-  physic.set_velocity_y(0);
-  physic.set_acceleration_y(0);
-  physic.enable_gravity(false);
-  lightsprite->set_blend(Blend::ADD);
-  lightsprite->set_color(Color(1.0f, 0.9f, 0.8f));
+  m_sprite->set_action(m_dir == LEFT ? "extinguish-left" : "extinguish-right", 1);
+  m_physic.set_velocity_y(0);
+  m_physic.set_acceleration_y(0);
+  m_physic.enable_gravity(false);
+  m_lightsprite->set_blend(Blend::ADD);
+  m_lightsprite->set_color(Color(1.0f, 0.9f, 0.8f));
   set_group(COLGROUP_DISABLED);
 
   // start dead-script
@@ -149,8 +149,8 @@ LiveFireAsleep::LiveFireAsleep(const ReaderMapping& reader) :
 void
 LiveFireAsleep::initialize()
 {
-  physic.set_velocity_x(0);
-  m_sprite->set_action(dir == LEFT ? "sleeping-left" : "sleeping-right");
+  m_physic.set_velocity_x(0);
+  m_sprite->set_action(m_dir == LEFT ? "sleeping-left" : "sleeping-right");
 }
 
 /* The following defines a dormant version that never wakes */
@@ -164,8 +164,8 @@ LiveFireDormant::LiveFireDormant(const ReaderMapping& reader) :
 void
 LiveFireDormant::initialize()
 {
-  physic.set_velocity_x(0);
-  m_sprite->set_action(dir == LEFT ? "sleeping-left" : "sleeping-right");
+  m_physic.set_velocity_x(0);
+  m_sprite->set_action(m_dir == LEFT ? "sleeping-left" : "sleeping-right");
 }
 
 /* EOF */

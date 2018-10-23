@@ -127,7 +127,7 @@ TreeWillOWisp::active_update(float elapsed_time)
   }
 
   angle = fmodf(angle + elapsed_time * speed, math::TAU);
-  Vector newpos(start_position + Vector(sinf(angle) * radius, 0));
+  Vector newpos(m_start_position + Vector(sinf(angle) * radius, 0));
   m_movement = newpos - get_pos();
   float sizemod = cosf(angle) * 0.8f;
   /* TODO: modify sprite size */

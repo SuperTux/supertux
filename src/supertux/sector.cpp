@@ -503,7 +503,7 @@ Sector::get_total_badguys() const
 {
   int total_badguys = 0;
   for(auto& badguy : get_objects_by_type<BadGuy>()) {
-    if (badguy.countMe) {
+    if (badguy.m_countMe) {
       total_badguys++;
     }
   }

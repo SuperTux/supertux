@@ -38,16 +38,16 @@ Flame::Flame(const ReaderMapping& reader) :
   reader.get("radius", radius, 100.0f);
   reader.get("speed", speed, 2.0f);
   if (!Editor::is_active()) {
-    m_bbox.set_pos(Vector(start_position.x + cosf(angle) * radius,
-                        start_position.y + sinf(angle) * radius));
+    m_bbox.set_pos(Vector(m_start_position.x + cosf(angle) * radius,
+                        m_start_position.y + sinf(angle) * radius));
   }
-  countMe = false;
+  m_countMe = false;
   SoundManager::current()->preload(FLAME_SOUND);
 
   set_colgroup_active(COLGROUP_TOUCHABLE);
 
-  lightsprite->set_color(Color(0.21f, 0.13f, 0.08f));
-  glowing = true;
+  m_lightsprite->set_color(Color(0.21f, 0.13f, 0.08f));
+  m_glowing = true;
 }
 
 ObjectSettings
@@ -65,8 +65,8 @@ Flame::active_update(float elapsed_time)
 {
   angle = fmodf(angle + elapsed_time * speed, math::TAU);
   if (!Editor::is_active()) {
-    Vector newpos(start_position.x + cosf(angle) * radius,
-                  start_position.y + sinf(angle) * radius);
+    Vector newpos(m_start_position.x + cosf(angle) * radius,
+                  m_start_position.y + sinf(angle) * radius);
     m_movement = newpos - get_pos();
     sound_source->set_position(get_pos());
   }

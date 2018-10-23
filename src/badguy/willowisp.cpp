@@ -65,12 +65,12 @@ WillOWisp::WillOWisp(const ReaderMapping& reader) :
       mystate = STATE_PATHMOVING_TRACK;
   }
 
-  countMe = false;
+  m_countMe = false;
   SoundManager::current()->preload(SOUNDFILE);
   SoundManager::current()->preload("sounds/warp.wav");
 
-  lightsprite->set_color(Color(0.0f, 0.2f, 0.0f));
-  glowing = true;
+  m_lightsprite->set_color(Color(0.0f, 0.2f, 0.0f));
+  m_glowing = true;
 
   m_sprite->set_action("idle");
 }
@@ -272,7 +272,7 @@ ObjectSettings
 WillOWisp::get_settings() {
   ObjectSettings result(_("Will 'o' wisp"));
   result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &m_name));
-  result.options.push_back( dir_option(&dir) );
+  result.options.push_back( dir_option(&m_dir) );
   result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Sector"), &target_sector, "sector"));
   result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Spawnpoint"), &target_spawnpoint, "spawnpoint"));
   result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Hit script"), &hit_script, "hit-script"));

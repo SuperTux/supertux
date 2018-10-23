@@ -32,10 +32,10 @@ WalkingCandle::WalkingCandle(const ReaderMapping& reader)
     lightcolor = Color(vColor);
   }
   m_sprite->set_color(lightcolor);
-  lightsprite->set_color(lightcolor);
+  m_lightsprite->set_color(lightcolor);
 
-  countMe = false;
-  glowing = true;
+  m_countMe = false;
+  m_glowing = true;
 }
 
 bool
@@ -47,25 +47,25 @@ WalkingCandle::is_freezable() const
 bool
 WalkingCandle::is_flammable() const
 {
-  return frozen;
+  return m_frozen;
 }
 
 void
 WalkingCandle::freeze() {
   BadGuy::freeze();
-  glowing = false;
+  m_glowing = false;
 }
 
 void
 WalkingCandle::unfreeze() {
   BadGuy::unfreeze();
-  glowing = true;
+  m_glowing = true;
 }
 
 HitResponse
 WalkingCandle::collision(GameObject& other, const CollisionHit& hit) {
   auto l = dynamic_cast<Lantern*>(&other);
-  if (l && !frozen) if (l->get_bbox().p2.y < m_bbox.p1.y) {
+  if (l && !m_frozen) if (l->get_bbox().p2.y < m_bbox.p1.y) {
     l->add_color(lightcolor);
     run_dead_script();
     remove_me();
@@ -84,7 +84,7 @@ WalkingCandle::get_settings() {
 void
 WalkingCandle::after_editor_set() {
   m_sprite->set_color(lightcolor);
-  lightsprite->set_color(lightcolor);
+  m_lightsprite->set_color(lightcolor);
 }
 
 /* EOF */

@@ -31,7 +31,7 @@ Bomb::Bomb(const Vector& pos, Direction dir_, std::string custom_sprite /*= "ima
   ticking(SoundManager::current()->create_sound_source("sounds/fizz.wav"))
 {
   set_action(dir_ == LEFT ? "ticking-left" : "ticking-right", 1);
-  countMe = false;
+  m_countMe = false;
 
   ticking->set_position(get_pos());
   ticking->set_looping(true);
@@ -47,11 +47,11 @@ Bomb::collision_solid(const CollisionHit& hit)
     return;
   }
   if(hit.top || hit.bottom)
-    physic.set_velocity_y(0);
+    m_physic.set_velocity_y(0);
   if(hit.left || hit.right)
-    physic.set_velocity_x(-physic.get_velocity_x());
+    m_physic.set_velocity_x(-m_physic.get_velocity_x());
   if(hit.crush)
-    physic.set_velocity(0, 0);
+    m_physic.set_velocity(0, 0);
 
   update_on_ground_flag(hit);
 }
@@ -71,14 +71,14 @@ Bomb::collision_badguy(BadGuy& , const CollisionHit& )
 void
 Bomb::active_update(float elapsed_time)
 {
-  if (on_ground()) physic.set_velocity_x(0);
+  if (on_ground()) m_physic.set_velocity_x(0);
 
   ticking->set_position(get_pos());
   if(m_sprite->animation_done()) {
     explode();
   }
   else if (!grabbed) {
-    m_movement = physic.get_movement(elapsed_time);
+    m_movement = m_physic.get_movement(elapsed_time);
   }
 }
 
@@ -121,11 +121,11 @@ void
 Bomb::grab(MovingObject& object, const Vector& pos, Direction dir_)
 {
   m_movement = pos - get_pos();
-  dir = dir_;
+  m_dir = dir_;
 
   // We actually face the opposite direction of Tux here to make the fuse more
   // visible instead of hiding it behind Tux
-  m_sprite->set_action_continued(dir == LEFT ? "ticking-right" : "ticking-left");
+  m_sprite->set_action_continued(m_dir == LEFT ? "ticking-right" : "ticking-left");
   set_colgroup_active(COLGROUP_DISABLED);
   grabbed = true;
   grabber = &object;
@@ -134,7 +134,7 @@ Bomb::grab(MovingObject& object, const Vector& pos, Direction dir_)
 void
 Bomb::ungrab(MovingObject& object, Direction dir_)
 {
-  dir = dir_;
+  m_dir = dir_;
   // This object is now thrown.
   int toss_velocity_x = 0;
   int toss_velocity_y = 0;
@@ -153,7 +153,7 @@ Bomb::ungrab(MovingObject& object, Direction dir_)
       toss_velocity_x += static_cast<int>(player->m_physic.get_velocity_x() - (190.0f * (dir_ == LEFT ? -1.0f : 1.0f)));
   }
 
-  physic.set_velocity(static_cast<float>(toss_velocity_x),
+  m_physic.set_velocity(static_cast<float>(toss_velocity_x),
                       static_cast<float>(toss_velocity_y));
 
   set_colgroup_active(COLGROUP_MOVING);

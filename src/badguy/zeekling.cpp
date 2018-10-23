@@ -32,71 +32,73 @@ Zeekling::Zeekling(const ReaderMapping& reader) :
   last_player_pos(),
   last_self_pos()
 {
-  physic.enable_gravity(false);
+  m_physic.enable_gravity(false);
 }
 
 void
 Zeekling::initialize()
 {
-  physic.set_velocity_x(dir == LEFT ? -speed : speed);
-  m_sprite->set_action(dir == LEFT ? "left" : "right");
+  m_physic.set_velocity_x(m_dir == LEFT ? -speed : speed);
+  m_sprite->set_action(m_dir == LEFT ? "left" : "right");
 }
 
 bool
 Zeekling::collision_squished(GameObject& object)
 {
-  m_sprite->set_action(dir == LEFT ? "squished-left" : "squished-right");
+  m_sprite->set_action(m_dir == LEFT ? "squished-left" : "squished-right");
   kill_squished(object);
   return true;
 }
 
 void
-Zeekling::onBumpHorizontal() {
-  if (frozen)
+Zeekling::onBumpHorizontal()
+{
+  if (m_frozen)
   {
-    physic.set_velocity_x(0);
+    m_physic.set_velocity_x(0);
     return;
   }
   if (state == FLYING) {
-    dir = (dir == LEFT ? RIGHT : LEFT);
-    m_sprite->set_action(dir == LEFT ? "left" : "right");
-    physic.set_velocity_x(dir == LEFT ? -speed : speed);
+    m_dir = (m_dir == LEFT ? RIGHT : LEFT);
+    m_sprite->set_action(m_dir == LEFT ? "left" : "right");
+    m_physic.set_velocity_x(m_dir == LEFT ? -speed : speed);
   } else
     if (state == DIVING) {
-      dir = (dir == LEFT ? RIGHT : LEFT);
+      m_dir = (m_dir == LEFT ? RIGHT : LEFT);
       state = FLYING;
-      m_sprite->set_action(dir == LEFT ? "left" : "right");
-      physic.set_velocity_x(dir == LEFT ? -speed : speed);
-      physic.set_velocity_y(0);
+      m_sprite->set_action(m_dir == LEFT ? "left" : "right");
+      m_physic.set_velocity_x(m_dir == LEFT ? -speed : speed);
+      m_physic.set_velocity_y(0);
     } else
       if (state == CLIMBING) {
-        dir = (dir == LEFT ? RIGHT : LEFT);
-        m_sprite->set_action(dir == LEFT ? "left" : "right");
-        physic.set_velocity_x(dir == LEFT ? -speed : speed);
+        m_dir = (m_dir == LEFT ? RIGHT : LEFT);
+        m_sprite->set_action(m_dir == LEFT ? "left" : "right");
+        m_physic.set_velocity_x(m_dir == LEFT ? -speed : speed);
       } else {
         assert(false);
       }
 }
 
 void
-Zeekling::onBumpVertical() {
-  if (frozen || BadGuy::get_state() == STATE_BURNING)
+Zeekling::onBumpVertical()
+{
+  if (m_frozen || BadGuy::get_state() == STATE_BURNING)
   {
-    physic.set_velocity_y(0);
-    physic.set_velocity_x(0);
+    m_physic.set_velocity_y(0);
+    m_physic.set_velocity_x(0);
     return;
   }
   if (state == FLYING) {
-    physic.set_velocity_y(0);
+    m_physic.set_velocity_y(0);
   } else
     if (state == DIVING) {
       state = CLIMBING;
-      physic.set_velocity_y(-speed);
-      m_sprite->set_action(dir == LEFT ? "left" : "right");
+      m_physic.set_velocity_y(-speed);
+      m_sprite->set_action(m_dir == LEFT ? "left" : "right");
     } else
       if (state == CLIMBING) {
         state = FLYING;
-        physic.set_velocity_y(0);
+        m_physic.set_velocity_y(0);
       }
 }
 
@@ -121,7 +123,7 @@ Zeekling::collision_solid(const CollisionHit& hit)
  */
 bool
 Zeekling::should_we_dive() {
-  if (frozen)
+  if (m_frozen)
     return false;
 
   const auto player = get_nearest_player();
@@ -175,8 +177,8 @@ Zeekling::active_update(float elapsed_time) {
   if (state == FLYING) {
     if (should_we_dive()) {
       state = DIVING;
-      physic.set_velocity_y(2*fabsf(physic.get_velocity_x()));
-      m_sprite->set_action(dir == LEFT ? "diving-left" : "diving-right");
+      m_physic.set_velocity_y(2*fabsf(m_physic.get_velocity_x()));
+      m_sprite->set_action(m_dir == LEFT ? "diving-left" : "diving-right");
     }
     BadGuy::active_update(elapsed_time);
     return;
@@ -185,9 +187,9 @@ Zeekling::active_update(float elapsed_time) {
     return;
   } else if (state == CLIMBING) {
     // stop climbing when we're back at initial height
-    if (get_pos().y <= start_position.y) {
+    if (get_pos().y <= m_start_position.y) {
       state = FLYING;
-      physic.set_velocity_y(0);
+      m_physic.set_velocity_y(0);
     }
     BadGuy::active_update(elapsed_time);
     return;
@@ -200,14 +202,14 @@ void
 Zeekling::freeze()
 {
   BadGuy::freeze();
-  physic.enable_gravity(true);
+  m_physic.enable_gravity(true);
 }
 
 void
 Zeekling::unfreeze()
 {
   BadGuy::unfreeze();
-  physic.enable_gravity(false);
+  m_physic.enable_gravity(false);
   state = FLYING;
   initialize();
 }

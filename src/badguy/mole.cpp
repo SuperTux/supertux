@@ -36,7 +36,7 @@ Mole::Mole(const ReaderMapping& reader) :
   timer(),
   throw_timer()
 {
-  physic.enable_gravity(false);
+  m_physic.enable_gravity(false);
   SoundManager::current()->preload("sounds/fall.wav");
   SoundManager::current()->preload("sounds/squish.wav");
   SoundManager::current()->preload("sounds/dartfire.wav");
@@ -65,7 +65,7 @@ Mole::collision_badguy(BadGuy& , const CollisionHit& )
 bool
 Mole::collision_squished(GameObject& )
 {
-  if (frozen) {
+  if (m_frozen) {
     unfreeze();
   }
 
@@ -91,7 +91,7 @@ Mole::active_update(float elapsed_time)
 {
   BadGuy::active_update(elapsed_time);
 
-  if (frozen)
+  if (m_frozen)
     return;
 
   switch (state) {
@@ -139,7 +139,7 @@ Mole::is_freezable() const
 void
 Mole::set_state(MoleState new_state)
 {
-  if (frozen)
+  if (m_frozen)
     return;
 
   switch (new_state) {

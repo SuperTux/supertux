@@ -45,10 +45,10 @@ Kugelblitz::Kugelblitz(const ReaderMapping& reader) :
   direction(),
   lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light.sprite"))
 {
-  start_position.x = m_bbox.p1.x;
+  m_start_position.x = m_bbox.p1.x;
   m_sprite->set_action("falling");
-  physic.enable_gravity(false);
-  countMe = false;
+  m_physic.enable_gravity(false);
+  m_countMe = false;
 
   lightsprite->set_blend(Blend::ADD);
   lightsprite->set_color(Color(0.2f, 0.1f, 0.0f));
@@ -59,8 +59,8 @@ Kugelblitz::Kugelblitz(const ReaderMapping& reader) :
 void
 Kugelblitz::initialize()
 {
-  physic.set_velocity_y(300);
-  physic.set_velocity_x(-20); //fall a little to the left
+  m_physic.set_velocity_y(300);
+  m_physic.set_velocity_x(-20); //fall a little to the left
   direction = 1;
   dying = false;
 }
@@ -112,11 +112,11 @@ Kugelblitz::hit(const CollisionHit& hit_)
       groundhit_pos_set = true;
     }
     m_sprite->set_action("flying");
-    physic.set_velocity_y(0);
+    m_physic.set_velocity_y(0);
     //Set random initial speed and direction
     direction = gameRandom.rand(2)? 1: -1;
     int speed = (BASE_SPEED + (gameRandom.rand(RAND_SPEED))) * direction;
-    physic.set_velocity_x(static_cast<float>(speed));
+    m_physic.set_velocity_x(static_cast<float>(speed));
     movement_timer.start(MOVETIME);
     lifetime.start(LIFETIME);
 
@@ -136,7 +136,7 @@ Kugelblitz::active_update(float elapsed_time)
       if (movement_timer.check()) {
         if (direction == 1) direction = -1; else direction = 1;
         int speed = (BASE_SPEED + (gameRandom.rand(RAND_SPEED))) * direction;
-        physic.set_velocity_x(static_cast<float>(speed));
+        m_physic.set_velocity_x(static_cast<float>(speed));
         movement_timer.start(MOVETIME);
       }
     }
@@ -186,20 +186,20 @@ Kugelblitz::try_activate()
   Vector dist = player_->get_bbox().get_middle() - m_bbox.get_middle();
   if ((fabsf(dist.x) <= X_OFFSCREEN_DISTANCE) && (fabsf(dist.y) <= Y_OFFSCREEN_DISTANCE)) {
     set_state(STATE_ACTIVE);
-    if (!is_initialized) {
+    if (!m_is_initialized) {
 
       // if starting direction was set to AUTO, this is our chance to re-orient the badguy
-      if (start_dir == AUTO) {
+      if (m_start_dir == AUTO) {
         Player* player__ = get_nearest_player();
         if (player__ && (player__->get_bbox().p1.x > m_bbox.p2.x)) {
-          dir = RIGHT;
+          m_dir = RIGHT;
         } else {
-          dir = LEFT;
+          m_dir = LEFT;
         }
       }
 
       initialize();
-      is_initialized = true;
+      m_is_initialized = true;
     }
     activate();
   }

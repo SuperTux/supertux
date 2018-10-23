@@ -32,7 +32,7 @@ Root::Root(const Vector& pos) :
 {
   base_sprite->set_action("appearing", 1);
   base_sprite->set_animation_loops(1); // TODO: necessary because set_action ignores loops for default action
-  physic.enable_gravity(false);
+  m_physic.enable_gravity(false);
   set_colgroup_active(COLGROUP_TOUCHABLE);
 }
 
@@ -65,7 +65,7 @@ Root::active_update(float elapsed_time)
       offset_y = static_cast<float>(-m_sprite->get_height());
       mystate = STATE_SHRINKING;
     }
-    set_pos(start_position + Vector(0, offset_y));
+    set_pos(m_start_position + Vector(0, offset_y));
   }
   else if (mystate == STATE_SHRINKING) {
     offset_y += elapsed_time * SPEED_SHRINK;
@@ -75,7 +75,7 @@ Root::active_update(float elapsed_time)
       base_sprite->set_action("vanishing", 2);
       base_sprite->set_animation_loops(2); // TODO: doesn't seem to work for loops=1
     }
-    set_pos(start_position + Vector(0, offset_y));
+    set_pos(m_start_position + Vector(0, offset_y));
   }
   else if (mystate == STATE_VANISHING) {
     if (base_sprite->animation_done()) remove_me();
@@ -86,7 +86,7 @@ Root::active_update(float elapsed_time)
 void
 Root::draw(DrawingContext& context)
 {
-  base_sprite->draw(context.color(), start_position, LAYER_TILES+1);
+  base_sprite->draw(context.color(), m_start_position, LAYER_TILES+1);
   if ((mystate != STATE_APPEARING) && (mystate != STATE_VANISHING)) BadGuy::draw(context);
 }
 

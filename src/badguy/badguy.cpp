@@ -49,74 +49,74 @@ BadGuy::BadGuy(const Vector& pos, const std::string& sprite_name_, int layer_,
 BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite_name_, int layer_,
                const std::string& light_sprite_name) :
   MovingSprite(pos, sprite_name_, layer_, COLGROUP_DISABLED),
-  physic(),
-  countMe(true),
-  is_initialized(false),
-  start_position(m_bbox.p1),
-  dir(direction),
-  start_dir(direction),
-  frozen(false),
-  ignited(false),
-  in_water(false),
-  dead_script(),
-  melting_time(0),
-  lightsprite(SpriteManager::current()->create(light_sprite_name)),
-  glowing(false),
-  state(STATE_INIT),
-  is_active_flag(),
-  state_timer(),
-  on_ground_flag(false),
-  floor_normal(),
-  colgroup_active(COLGROUP_MOVING),
-  parent_dispenser()
+  m_physic(),
+  m_countMe(true),
+  m_is_initialized(false),
+  m_start_position(m_bbox.p1),
+  m_dir(direction),
+  m_start_dir(direction),
+  m_frozen(false),
+  m_ignited(false),
+  m_in_water(false),
+  m_dead_script(),
+  m_melting_time(0),
+  m_lightsprite(SpriteManager::current()->create(light_sprite_name)),
+  m_glowing(false),
+  m_state(STATE_INIT),
+  m_is_active_flag(),
+  m_state_timer(),
+  m_on_ground_flag(false),
+  m_floor_normal(),
+  m_colgroup_active(COLGROUP_MOVING),
+  m_parent_dispenser()
 {
   SoundManager::current()->preload("sounds/squish.wav");
   SoundManager::current()->preload("sounds/fall.wav");
   SoundManager::current()->preload("sounds/splash.ogg");
   SoundManager::current()->preload("sounds/fire.ogg");
 
-  dir = (start_dir == AUTO) ? LEFT : start_dir;
-  lightsprite->set_blend(Blend::ADD);
+  m_dir = (m_start_dir == AUTO) ? LEFT : m_start_dir;
+  m_lightsprite->set_blend(Blend::ADD);
 }
 
 BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name_, int layer_,
                const std::string& light_sprite_name) :
   MovingSprite(reader, sprite_name_, layer_, COLGROUP_DISABLED),
-  physic(),
-  countMe(true),
-  is_initialized(false),
-  start_position(m_bbox.p1),
-  dir(LEFT),
-  start_dir(AUTO),
-  frozen(false),
-  ignited(false),
-  in_water(false),
-  dead_script(),
-  melting_time(0),
-  lightsprite(SpriteManager::current()->create(light_sprite_name)),
-  glowing(false),
-  state(STATE_INIT),
-  is_active_flag(),
-  state_timer(),
-  on_ground_flag(false),
-  floor_normal(),
-  colgroup_active(COLGROUP_MOVING),
-  parent_dispenser()
+  m_physic(),
+  m_countMe(true),
+  m_is_initialized(false),
+  m_start_position(m_bbox.p1),
+  m_dir(LEFT),
+  m_start_dir(AUTO),
+  m_frozen(false),
+  m_ignited(false),
+  m_in_water(false),
+  m_dead_script(),
+  m_melting_time(0),
+  m_lightsprite(SpriteManager::current()->create(light_sprite_name)),
+  m_glowing(false),
+  m_state(STATE_INIT),
+  m_is_active_flag(),
+  m_state_timer(),
+  m_on_ground_flag(false),
+  m_floor_normal(),
+  m_colgroup_active(COLGROUP_MOVING),
+  m_parent_dispenser()
 {
   std::string dir_str = "auto";
   reader.get("direction", dir_str);
-  start_dir = str2dir( dir_str );
-  dir = start_dir;
+  m_start_dir = str2dir( dir_str );
+  m_dir = m_start_dir;
 
-  reader.get("dead-script", dead_script);
+  reader.get("dead-script", m_dead_script);
 
   SoundManager::current()->preload("sounds/squish.wav");
   SoundManager::current()->preload("sounds/fall.wav");
   SoundManager::current()->preload("sounds/splash.ogg");
   SoundManager::current()->preload("sounds/fire.ogg");
 
-  dir = (start_dir == AUTO) ? LEFT : start_dir;
-  lightsprite->set_blend(Blend::ADD);
+  m_dir = (m_start_dir == AUTO) ? LEFT : m_start_dir;
+  m_lightsprite->set_blend(Blend::ADD);
 }
 
 void
@@ -124,9 +124,9 @@ BadGuy::draw(DrawingContext& context)
 {
   if(!m_sprite.get())
     return;
-  if(state == STATE_INIT || state == STATE_INACTIVE)
+  if(m_state == STATE_INIT || m_state == STATE_INACTIVE)
     return;
-  if(state == STATE_FALLING) {
+  if(m_state == STATE_FALLING) {
     context.push_transform();
     context.set_flip(context.get_flip() ^ VERTICAL_FLIP);
     m_sprite->draw(context.color(), get_pos(), m_layer);
@@ -135,8 +135,8 @@ BadGuy::draw(DrawingContext& context)
     m_sprite->draw(context.color(), get_pos(), m_layer);
   }
 
-  if (glowing) {
-    lightsprite->draw(context.light(), m_bbox.get_middle(), 0);
+  if (m_glowing) {
+    m_lightsprite->draw(context.light(), m_bbox.get_middle(), 0);
   }
 }
 
@@ -145,7 +145,7 @@ BadGuy::update(float elapsed_time)
 {
   if(!Sector::get().inside(m_bbox)) {
     run_dead_script();
-    is_active_flag = false;
+    m_is_active_flag = false;
     remove_me();
     // This was removed due to fixing a bug. If is it needed somewhere, then I'm sorry. --Hume2
     /**if(countMe) {
@@ -159,14 +159,14 @@ BadGuy::update(float elapsed_time)
     }*/
     return;
   }
-  if ((state != STATE_INACTIVE) && is_offscreen()) {
-    if (state == STATE_ACTIVE) deactivate();
+  if ((m_state != STATE_INACTIVE) && is_offscreen()) {
+    if (m_state == STATE_ACTIVE) deactivate();
     set_state(STATE_INACTIVE);
   }
 
-  switch(state) {
+  switch(m_state) {
     case STATE_ACTIVE:
-      is_active_flag = true;
+      m_is_active_flag = true;
       if (Editor::is_active()) {
         break;
       }
@@ -174,47 +174,47 @@ BadGuy::update(float elapsed_time)
       break;
     case STATE_INIT:
     case STATE_INACTIVE:
-      is_active_flag = false;
+      m_is_active_flag = false;
       inactive_update(elapsed_time);
       try_activate();
       break;
     case STATE_BURNING: {
-      is_active_flag = false;
-      m_movement = physic.get_movement(elapsed_time);
+      m_is_active_flag = false;
+      m_movement = m_physic.get_movement(elapsed_time);
       if ( m_sprite->animation_done() ) {
         remove_me();
       }
     } break;
     case STATE_GEAR:
     case STATE_SQUISHED:
-      is_active_flag = false;
-      if(state_timer.check()) {
+      m_is_active_flag = false;
+      if(m_state_timer.check()) {
         remove_me();
         break;
       }
-      m_movement = physic.get_movement(elapsed_time);
+      m_movement = m_physic.get_movement(elapsed_time);
       break;
     case STATE_MELTING: {
-      is_active_flag = false;
-      m_movement = physic.get_movement(elapsed_time);
+      m_is_active_flag = false;
+      m_movement = m_physic.get_movement(elapsed_time);
       if ( m_sprite->animation_done() || on_ground() ) {
-        Sector::get().add<WaterDrop>(m_bbox.p1, get_water_sprite(), physic.get_velocity());
+        Sector::get().add<WaterDrop>(m_bbox.p1, get_water_sprite(), m_physic.get_velocity());
         remove_me();
         break;
       }
     } break;
     case STATE_GROUND_MELTING:
-      is_active_flag = false;
-      m_movement = physic.get_movement(elapsed_time);
+      m_is_active_flag = false;
+      m_movement = m_physic.get_movement(elapsed_time);
       if ( m_sprite->animation_done() ) {
         remove_me();
       }
       break;
     case STATE_INSIDE_MELTING: {
-      is_active_flag = false;
-      m_movement = physic.get_movement(elapsed_time);
+      m_is_active_flag = false;
+      m_movement = m_physic.get_movement(elapsed_time);
       if ( on_ground() && m_sprite->animation_done() ) {
-        m_sprite->set_action(dir == LEFT ? "gear-left" : "gear-right", 1);
+        m_sprite->set_action(m_dir == LEFT ? "gear-left" : "gear-right", 1);
         set_state(STATE_GEAR);
       }
       int pa = graphicsRandom.rand(0,3);
@@ -227,20 +227,20 @@ BadGuy::update(float elapsed_time)
                                              LAYER_OBJECTS-1);
     } break;
     case STATE_FALLING:
-      is_active_flag = false;
-      m_movement = physic.get_movement(elapsed_time);
+      m_is_active_flag = false;
+      m_movement = m_physic.get_movement(elapsed_time);
       break;
   }
 
-  on_ground_flag = false;
+  m_on_ground_flag = false;
 }
 
 void
 BadGuy::save(Writer& writer) {
   MovingSprite::save(writer);
-  writer.write("direction", dir_to_string(dir), false);
-  if(!dead_script.empty()) {
-    writer.write("dead-script", dead_script, false);
+  writer.write("direction", dir_to_string(m_dir), false);
+  if(!m_dead_script.empty()) {
+    writer.write("dead-script", m_dead_script, false);
   }
 }
 
@@ -277,8 +277,8 @@ BadGuy::deactivate()
 void
 BadGuy::active_update(float elapsed_time)
 {
-  m_movement = physic.get_movement(elapsed_time);
-  if(frozen)
+  m_movement = m_physic.get_movement(elapsed_time);
+  if(m_frozen)
     m_sprite->stop_animation();
 }
 
@@ -295,12 +295,12 @@ BadGuy::collision_tile(uint32_t tile_attributes)
 
   if(tile_attributes & Tile::WATER && !is_in_water())
   {
-    in_water = true;
+    m_in_water = true;
     SoundManager::current()->play("sounds/splash.ogg", get_pos());
   }
   if(!(tile_attributes & Tile::WATER) && is_in_water())
   {
-    in_water = false;
+    m_in_water = false;
   }
 
   if(tile_attributes & Tile::HURTS && is_hurtable()) {    
@@ -369,8 +369,8 @@ BadGuy::collision(GameObject& other, const CollisionHit& hit)
 void
 BadGuy::collision_solid(const CollisionHit& hit)
 {
-  physic.set_velocity_x(0);
-  physic.set_velocity_y(0);
+  m_physic.set_velocity_x(0);
+  m_physic.set_velocity_y(0);
   update_on_ground_flag(hit);
 }
 
@@ -383,7 +383,7 @@ BadGuy::collision_player(Player& player, const CollisionHit& )
   }
 
   //TODO: unfreeze timer
-  if(frozen)
+  if(m_frozen)
     //unfreeze();
     return FORCE_MOVE;
 
@@ -401,7 +401,7 @@ bool
 BadGuy::collision_squished(GameObject& object)
 {
   // frozen badguys can be killed with butt-jump
-  if(frozen)
+  if(m_frozen)
   {
     auto player = dynamic_cast<Player*>(&object);
     if(player && (player->m_does_buttjump)) {
@@ -465,9 +465,9 @@ BadGuy::kill_squished(GameObject& object)
   if (!is_active()) return;
 
   SoundManager::current()->play("sounds/squish.wav", get_pos());
-  physic.enable_gravity(true);
-  physic.set_velocity_x(0);
-  physic.set_velocity_y(0);
+  m_physic.enable_gravity(true);
+  m_physic.set_velocity_x(0);
+  m_physic.set_velocity_y(0);
   set_state(STATE_SQUISHED);
   set_group(COLGROUP_MOVING_ONLY_STATIC);
   auto player = dynamic_cast<Player*>(&object);
@@ -484,7 +484,7 @@ BadGuy::kill_fall()
 {
   if (!is_active()) return;
 
-  if (frozen) {
+  if (m_frozen) {
     SoundManager::current()->play("sounds/brick.wav");
     Vector pr_pos;
     float cx = m_bbox.get_width() / 2;
@@ -504,9 +504,9 @@ BadGuy::kill_fall()
     remove_me();
   } else {
     SoundManager::current()->play("sounds/fall.wav", get_pos());
-    physic.set_velocity_y(0);
-    physic.set_acceleration_y(0);
-    physic.enable_gravity(true);
+    m_physic.set_velocity_y(0);
+    m_physic.set_acceleration_y(0);
+    m_physic.enable_gravity(true);
     set_state(STATE_FALLING);
 
     // Set the badguy layer to be the foremost, so that
@@ -521,42 +521,42 @@ BadGuy::kill_fall()
 void
 BadGuy::run_dead_script()
 {
-  if (countMe)
+  if (m_countMe)
     Sector::get().get_level().m_stats.m_badguys++;
 
-  countMe = false;
+  m_countMe = false;
 
-  if(parent_dispenser != nullptr)
+  if(m_parent_dispenser != nullptr)
   {
-    parent_dispenser->notify_dead();
+    m_parent_dispenser->notify_dead();
   }
 
   // start dead-script
-  if(!dead_script.empty()) {
-    Sector::get().run_script(dead_script, "dead-script");
+  if(!m_dead_script.empty()) {
+    Sector::get().run_script(m_dead_script, "dead-script");
   }
 }
 
 void
 BadGuy::set_state(State state_)
 {
-  if(state == state_)
+  if(m_state == state_)
     return;
 
-  State laststate = state;
-  state = state_;
+  State laststate = m_state;
+  m_state = state_;
   switch(state_) {
     case STATE_BURNING:
-      state_timer.start(BURN_TIME);
+      m_state_timer.start(BURN_TIME);
       break;
     case STATE_SQUISHED:
-      state_timer.start(SQUISH_TIME);
+      m_state_timer.start(SQUISH_TIME);
       break;
     case STATE_GEAR:
-      state_timer.start(GEAR_TIME);
+      m_state_timer.start(GEAR_TIME);
       break;
     case STATE_ACTIVE:
-      set_group(colgroup_active);
+      set_group(m_colgroup_active);
       //bbox.set_pos(start_position);
       break;
     case STATE_INACTIVE:
@@ -605,20 +605,20 @@ BadGuy::try_activate()
 
   if (!is_offscreen()) {
     set_state(STATE_ACTIVE);
-    if (!is_initialized) {
+    if (!m_is_initialized) {
 
       // if starting direction was set to AUTO, this is our chance to re-orient the badguy
-      if (start_dir == AUTO) {
+      if (m_start_dir == AUTO) {
         auto player_ = get_nearest_player();
         if (player_ && (player_->get_bbox().p1.x > m_bbox.p2.x)) {
-          dir = RIGHT;
+          m_dir = RIGHT;
         } else {
-          dir = LEFT;
+          m_dir = LEFT;
         }
       }
 
       initialize();
-      is_initialized = true;
+      m_is_initialized = true;
     }
     activate();
   }
@@ -634,7 +634,7 @@ BadGuy::might_fall(int height) const
   float x2;
   float y1 = m_bbox.p2.y + 1;
   float y2 = m_bbox.p2.y + 1 + static_cast<float>(height);
-  if (dir == LEFT) {
+  if (m_dir == LEFT) {
     x1 = m_bbox.p1.x - 1;
     x2 = m_bbox.p1.x;
   } else {
@@ -654,37 +654,37 @@ void
 BadGuy::update_on_ground_flag(const CollisionHit& hit)
 {
   if (hit.bottom) {
-    on_ground_flag = true;
-    floor_normal = hit.slope_normal;
+    m_on_ground_flag = true;
+    m_floor_normal = hit.slope_normal;
   }
 }
 
 bool
 BadGuy::on_ground() const
 {
-  return on_ground_flag;
+  return m_on_ground_flag;
 }
 
 bool
 BadGuy::is_active() const
 {
-  return is_active_flag;
+  return m_is_active_flag;
 }
 
 Vector
 BadGuy::get_floor_normal() const
 {
-  return floor_normal;
+  return m_floor_normal;
 }
 
 void
 BadGuy::freeze()
 {
   set_group(COLGROUP_MOVING_STATIC);
-  frozen = true;
+  m_frozen = true;
 
   if(m_sprite->has_action("iced-left"))
-    m_sprite->set_action(dir == LEFT ? "iced-left" : "iced-right", 1);
+    m_sprite->set_action(m_dir == LEFT ? "iced-left" : "iced-right", 1);
   // when the sprite doesn't have separate actions for left and right, it tries to use an universal one.
   else
   {
@@ -702,8 +702,8 @@ BadGuy::freeze()
 void
 BadGuy::unfreeze()
 {
-  set_group(colgroup_active);
-  frozen = false;
+  set_group(m_colgroup_active);
+  m_frozen = false;
 
   // restore original color if needed
   if((!m_sprite->has_action("iced-left")) && (!m_sprite->has_action("iced")) )
@@ -722,38 +722,38 @@ BadGuy::is_freezable() const
 bool
 BadGuy::is_frozen() const
 {
-  return frozen;
+  return m_frozen;
 }
 
 bool
 BadGuy::is_in_water() const
 {
-  return in_water;
+  return m_in_water;
 }
 
 void
 BadGuy::ignite()
 {
-  if (!is_flammable() || ignited) {
+  if (!is_flammable() || m_ignited) {
     return;
   }
 
-  physic.enable_gravity(true);
-  physic.set_velocity_x(0);
-  physic.set_velocity_y(0);
+  m_physic.enable_gravity(true);
+  m_physic.set_velocity_x(0);
+  m_physic.set_velocity_y(0);
   set_group(COLGROUP_MOVING_ONLY_STATIC);
   m_sprite->stop_animation();
-  ignited = true;
+  m_ignited = true;
 
   if (m_sprite->has_action("melting-left")) {
 
     // melt it!
     if (m_sprite->has_action("ground-melting-left") && on_ground()) {
-      m_sprite->set_action(dir == LEFT ? "ground-melting-left" : "ground-melting-right", 1);
+      m_sprite->set_action(m_dir == LEFT ? "ground-melting-left" : "ground-melting-right", 1);
       SoundManager::current()->play("sounds/splash.ogg", get_pos());
       set_state(STATE_GROUND_MELTING);
     } else {
-      m_sprite->set_action(dir == LEFT ? "melting-left" : "melting-right", 1);
+      m_sprite->set_action(m_dir == LEFT ? "melting-left" : "melting-right", 1);
       SoundManager::current()->play("sounds/sizzle.ogg", get_pos());
       set_state(STATE_MELTING);
     }
@@ -762,15 +762,15 @@ BadGuy::ignite()
 
   } else if (m_sprite->has_action("burning-left")) {
     // burn it!
-    glowing = true;
+    m_glowing = true;
     SoundManager::current()->play("sounds/fire.ogg", get_pos());
-    m_sprite->set_action(dir == LEFT ? "burning-left" : "burning-right", 1);
+    m_sprite->set_action(m_dir == LEFT ? "burning-left" : "burning-right", 1);
     set_state(STATE_BURNING);
     run_dead_script();
   } else if (m_sprite->has_action("inside-melting-left")) {
     // melt it inside!
     SoundManager::current()->play("sounds/splash.ogg", get_pos());
-    m_sprite->set_action(dir == LEFT ? "inside-melting-left" : "inside-melting-right", 1);
+    m_sprite->set_action(m_dir == LEFT ? "inside-melting-left" : "inside-melting-right", 1);
     set_state(STATE_INSIDE_MELTING);
     run_dead_script();
   } else {
@@ -793,14 +793,14 @@ BadGuy::is_flammable() const
 bool
 BadGuy::is_ignited() const
 {
-  return ignited;
+  return m_ignited;
 }
 
 void
 BadGuy::set_colgroup_active(CollisionGroup group_)
 {
-  colgroup_active = group_;
-  if (state == STATE_ACTIVE) set_group(group_);
+  m_colgroup_active = group_;
+  if (m_state == STATE_ACTIVE) set_group(group_);
 }
 
 /* EOF */

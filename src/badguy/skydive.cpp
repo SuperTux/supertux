@@ -37,7 +37,7 @@ SkyDive::collision_solid(const CollisionHit& hit)
   }
 
   if (hit.left || hit.right)
-    physic.set_velocity_x (0.0);
+    m_physic.set_velocity_x (0.0);
 }
 
 HitResponse
@@ -55,14 +55,14 @@ void
 SkyDive::grab(MovingObject&, const Vector& pos, Direction dir_)
 {
   m_movement = pos - get_pos();
-  dir = dir_;
+  m_dir = dir_;
 
   is_grabbed = true;
 
-  physic.set_velocity_x(m_movement.x * LOGICAL_FPS);
-  physic.set_velocity_y(0.0);
-  physic.set_acceleration_y(0.0);
-  physic.enable_gravity(false);
+  m_physic.set_velocity_x(m_movement.x * LOGICAL_FPS);
+  m_physic.set_velocity_y(0.0);
+  m_physic.set_acceleration_y(0.0);
+  m_physic.enable_gravity(false);
   set_colgroup_active(COLGROUP_DISABLED);
 }
 
@@ -71,9 +71,9 @@ SkyDive::ungrab(MovingObject& , Direction)
 {
   is_grabbed = false;
 
-  physic.set_velocity_y(0);
-  physic.set_acceleration_y(0);
-  physic.enable_gravity(true);
+  m_physic.set_velocity_y(0);
+  m_physic.set_acceleration_y(0);
+  m_physic.enable_gravity(true);
   set_colgroup_active(COLGROUP_MOVING);
 }
 
@@ -114,7 +114,7 @@ void
 SkyDive::active_update(float elapsed_time)
 {
   if (!is_grabbed)
-    m_movement = physic.get_movement(elapsed_time);
+    m_movement = m_physic.get_movement(elapsed_time);
 }
 
 void

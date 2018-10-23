@@ -88,8 +88,8 @@ Haywire::collision_squished(GameObject& object)
 
   time_stunned = TIME_STUNNED;
   is_stunned = true;
-  physic.set_velocity_x(0.f);
-  physic.set_acceleration_x(0.f);
+  m_physic.set_velocity_x(0.f);
+  m_physic.set_acceleration_x(0.f);
 
   if (player)
     player->bounce (*this);
@@ -178,7 +178,7 @@ Haywire::freeze() {
 void
 Haywire::start_exploding()
 {
-  set_action ((dir == LEFT) ? "ticking-left" : "ticking-right", /* loops = */ -1);
+  set_action ((m_dir == LEFT) ? "ticking-left" : "ticking-right", /* loops = */ -1);
   walk_left_action = "ticking-left";
   walk_right_action = "ticking-right";
   set_walk_speed (EXPLODING_WALK_SPEED);

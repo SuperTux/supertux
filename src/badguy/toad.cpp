@@ -40,7 +40,7 @@ Toad::initialize()
 {
   // initial state is JUMPING, because we might start airborne
   state = JUMPING;
-  m_sprite->set_action(dir == LEFT ? "jumping-left" : "jumping-right");
+  m_sprite->set_action(m_dir == LEFT ? "jumping-left" : "jumping-right");
 }
 
 void
@@ -48,25 +48,25 @@ Toad::set_state(ToadState newState)
 {
 
   if (newState == IDLE) {
-    physic.set_velocity_x(0);
-    physic.set_velocity_y(0);
-    if (!frozen)
-      m_sprite->set_action(dir == LEFT ? "idle-left" : "idle-right");
+    m_physic.set_velocity_x(0);
+    m_physic.set_velocity_y(0);
+    if (!m_frozen)
+      m_sprite->set_action(m_dir == LEFT ? "idle-left" : "idle-right");
 
     recover_timer.start(TOAD_RECOVER_TIME);
   } else
     if (newState == JUMPING) {
-      m_sprite->set_action(dir == LEFT ? "jumping-left" : "jumping-right");
-      physic.set_velocity_x(dir == LEFT ? -HORIZONTAL_SPEED : HORIZONTAL_SPEED);
-      physic.set_velocity_y(VERTICAL_SPEED);
+      m_sprite->set_action(m_dir == LEFT ? "jumping-left" : "jumping-right");
+      m_physic.set_velocity_x(m_dir == LEFT ? -HORIZONTAL_SPEED : HORIZONTAL_SPEED);
+      m_physic.set_velocity_y(VERTICAL_SPEED);
       SoundManager::current()->play( HOP_SOUND, get_pos());
     } else
       if (newState == FALLING) {
         Player* player = get_nearest_player();
         // face player
-        if (player && (player->get_bbox().p2.x < m_bbox.p1.x) && (dir == RIGHT)) dir = LEFT;
-        if (player && (player->get_bbox().p1.x > m_bbox.p2.x) && (dir == LEFT)) dir = RIGHT;
-        m_sprite->set_action(dir == LEFT ? "idle-left" : "idle-right");
+        if (player && (player->get_bbox().p2.x < m_bbox.p1.x) && (m_dir == RIGHT)) m_dir = LEFT;
+        if (player && (player->get_bbox().p1.x > m_bbox.p2.x) && (m_dir == LEFT)) m_dir = RIGHT;
+        m_sprite->set_action(m_dir == LEFT ? "idle-left" : "idle-right");
       }
 
   state = newState;
@@ -75,7 +75,7 @@ Toad::set_state(ToadState newState)
 bool
 Toad::collision_squished(GameObject& object)
 {
-  m_sprite->set_action(dir == LEFT ? "squished-left" : "squished-right");
+  m_sprite->set_action(m_dir == LEFT ? "squished-left" : "squished-right");
   kill_squished(object);
   return true;
 }
@@ -84,7 +84,7 @@ void
 Toad::collision_solid(const CollisionHit& hit)
 {
   // default behavior when frozen
-  if (frozen || BadGuy::get_state() == STATE_BURNING)
+  if (m_frozen || BadGuy::get_state() == STATE_BURNING)
   {
     BadGuy::collision_solid(hit);
     return;
@@ -102,7 +102,7 @@ Toad::collision_solid(const CollisionHit& hit)
   }
 
   // check if we hit left or right while moving in either direction
-  if(((physic.get_velocity_x() < 0) && hit.left) || ((physic.get_velocity_x() > 0) && hit.right)) {
+  if(((m_physic.get_velocity_x() < 0) && hit.left) || ((m_physic.get_velocity_x() > 0) && hit.right)) {
     /*
       dir = dir == LEFT ? RIGHT : LEFT;
       if (state == JUMPING) {
@@ -111,7 +111,7 @@ Toad::collision_solid(const CollisionHit& hit)
       sprite->set_action(dir == LEFT ? "idle-left" : "idle-right");
       }
     */
-    physic.set_velocity_x(-0.25f*physic.get_velocity_x());
+    m_physic.set_velocity_x(-0.25f*m_physic.get_velocity_x());
   }
 
   // check if we hit the floor while falling
@@ -122,7 +122,7 @@ Toad::collision_solid(const CollisionHit& hit)
 
   // check if we hit the roof while climbing
   if ((state == JUMPING) && hit.top) {
-    physic.set_velocity_y(0);
+    m_physic.set_velocity_y(0);
   }
 
 }
@@ -143,13 +143,13 @@ Toad::active_update(float elapsed_time)
 
 
   // change sprite when we are falling and not frozen
-  if ((state == JUMPING) && (physic.get_velocity_y() > 0) && !frozen) {
+  if ((state == JUMPING) && (m_physic.get_velocity_y() > 0) && !m_frozen) {
     set_state(FALLING);
     return;
   }
 
   // jump when fully recovered and if not frozen
-  if ((state == IDLE) && (recover_timer.check() && !frozen)) {
+  if ((state == IDLE) && (recover_timer.check() && !m_frozen)) {
     set_state(JUMPING);
     return;
   }
@@ -173,7 +173,7 @@ void
 Toad::after_editor_set()
 {
   BadGuy::after_editor_set();
-  m_sprite->set_action(dir == LEFT ? "idle-left" : "idle-right");
+  m_sprite->set_action(m_dir == LEFT ? "idle-left" : "idle-right");
 }
 
 /* EOF */

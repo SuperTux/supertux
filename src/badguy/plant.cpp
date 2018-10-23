@@ -33,22 +33,22 @@ void
 Plant::initialize()
 {
   //FIXME: turns plant around for debugging
-  dir = dir == LEFT ? RIGHT : LEFT;
+  m_dir = m_dir == LEFT ? RIGHT : LEFT;
 
   state = PLANT_SLEEPING;
-  physic.set_velocity_x(0);
-  m_sprite->set_action(dir == LEFT ? "sleeping-left" : "sleeping-right");
+  m_physic.set_velocity_x(0);
+  m_sprite->set_action(m_dir == LEFT ? "sleeping-left" : "sleeping-right");
 }
 
 void
 Plant::collision_solid(const CollisionHit& hit)
 {
   if(hit.top || hit.bottom) {
-    physic.set_velocity_y(0);
+    m_physic.set_velocity_y(0);
   } else if(hit.left || hit.right) {
-    dir = dir == LEFT ? RIGHT : LEFT;
-    m_sprite->set_action(dir == LEFT ? "left" : "right");
-    physic.set_velocity_x(-physic.get_velocity_x());
+    m_dir = m_dir == LEFT ? RIGHT : LEFT;
+    m_sprite->set_action(m_dir == LEFT ? "left" : "right");
+    m_physic.set_velocity_x(-m_physic.get_velocity_x());
   }
 }
 
@@ -58,9 +58,9 @@ Plant::collision_badguy(BadGuy& , const CollisionHit& hit)
   if(state != PLANT_WALKING) return CONTINUE;
 
   if(hit.left || hit.right) {
-    dir = dir == LEFT ? RIGHT : LEFT;
-    m_sprite->set_action(dir == LEFT ? "left" : "right");
-    physic.set_velocity_x(-physic.get_velocity_x());
+    m_dir = m_dir == LEFT ? RIGHT : LEFT;
+    m_sprite->set_action(m_dir == LEFT ? "left" : "right");
+    m_physic.set_velocity_x(-m_physic.get_velocity_x());
   }
 
   return CONTINUE;
@@ -76,14 +76,14 @@ Plant::active_update(float elapsed_time) {
     if (player) {
       Rectf pb = player->get_bbox();
 
-      bool inReach_left = (pb.p2.x >= m_bbox.p2.x-((dir == LEFT) ? 256 : 0));
-      bool inReach_right = (pb.p1.x <= m_bbox.p1.x+((dir == RIGHT) ? 256 : 0));
+      bool inReach_left = (pb.p2.x >= m_bbox.p2.x-((m_dir == LEFT) ? 256 : 0));
+      bool inReach_right = (pb.p1.x <= m_bbox.p1.x+((m_dir == RIGHT) ? 256 : 0));
       bool inReach_top = (pb.p2.y >= m_bbox.p2.y);
       bool inReach_bottom = (pb.p1.y <= m_bbox.p1.y);
 
       if (inReach_left && inReach_right && inReach_top && inReach_bottom) {
         // wake up
-        m_sprite->set_action(dir == LEFT ? "waking-left" : "waking-right");
+        m_sprite->set_action(m_dir == LEFT ? "waking-left" : "waking-right");
         if(!timer.started()) timer.start(WAKE_TIME);
         state = PLANT_WAKING;
       }
@@ -93,8 +93,8 @@ Plant::active_update(float elapsed_time) {
   if(state == PLANT_WAKING) {
     if(timer.check()) {
       // start walking
-      m_sprite->set_action(dir == LEFT ? "left" : "right");
-      physic.set_velocity_x(dir == LEFT ? -PLANT_SPEED : PLANT_SPEED);
+      m_sprite->set_action(m_dir == LEFT ? "left" : "right");
+      m_physic.set_velocity_x(m_dir == LEFT ? -PLANT_SPEED : PLANT_SPEED);
       state = PLANT_WALKING;
     }
   }
@@ -106,7 +106,7 @@ Plant::ignite()
 {
   BadGuy::ignite();
   if (state == PLANT_SLEEPING && m_sprite->has_action("sleeping-burning-left")) {
-    m_sprite->set_action(dir == LEFT ? "sleeping-burning-left" : "sleeping-burning-right", 1);
+    m_sprite->set_action(m_dir == LEFT ? "sleeping-burning-left" : "sleeping-burning-right", 1);
   }
 }
 /* EOF */
