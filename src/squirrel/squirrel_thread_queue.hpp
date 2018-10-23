@@ -14,8 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SQUIRREL_THREAD_QUEUE_HPP
-#define HEADER_SUPERTUX_SQUIRREL_THREAD_QUEUE_HPP
+#ifndef HEADER_SUPERTUX_SQUIRREL_SQUIRREL_THREAD_QUEUE_HPP
+#define HEADER_SUPERTUX_SQUIRREL_SQUIRREL_THREAD_QUEUE_HPP
 
 #include <squirrel.h>
 #include <vector>
@@ -23,10 +23,10 @@
 /**
  * Keeps a list of SquirrelThreads that wait for a wakeup event
  */
-class ThreadQueue final
+class SquirrelThreadQueue final
 {
 public:
-  ThreadQueue();
+  SquirrelThreadQueue();
 
   /// adds a thread (actually a weakref to the thread)
   void add(HSQUIRRELVM vm);
@@ -40,8 +40,8 @@ private:
   ThreadList threads;
 
 private:
-  ThreadQueue(const ThreadQueue&) = delete;
-  ThreadQueue& operator=(const ThreadQueue&) = delete;
+  SquirrelThreadQueue(const SquirrelThreadQueue&) = delete;
+  SquirrelThreadQueue& operator=(const SquirrelThreadQueue&) = delete;
 };
 
 #endif

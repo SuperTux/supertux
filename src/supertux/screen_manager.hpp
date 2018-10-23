@@ -20,7 +20,7 @@
 
 #include <memory>
 
-#include "squirrel/thread_queue.hpp"
+#include "squirrel/squirrel_thread_queue.hpp"
 #include "supertux/screen.hpp"
 #include "util/currenton.hpp"
 
@@ -54,7 +54,7 @@ public:
   void set_screen_fade(std::unique_ptr<ScreenFade> fade);
 
   /// threads that wait for a screenswitch
-  ThreadQueue m_waiting_threads;
+  SquirrelThreadQueue m_waiting_threads;
 
 private:
   void draw_fps(DrawingContext& context, float fps);

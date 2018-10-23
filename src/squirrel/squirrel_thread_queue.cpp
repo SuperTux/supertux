@@ -14,20 +14,20 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "squirrel/thread_queue.hpp"
+#include "squirrel/squirrel_thread_queue.hpp"
 
 #include "squirrel/scripting.hpp"
 #include "squirrel/squirrel_util.hpp"
 #include "util/log.hpp"
 
-ThreadQueue::ThreadQueue() :
+SquirrelThreadQueue::SquirrelThreadQueue() :
   m_vm(Scripting::current()->get_vm()),
   threads()
 {
 }
 
 void
-ThreadQueue::add(HSQUIRRELVM vm)
+SquirrelThreadQueue::add(HSQUIRRELVM vm)
 {
   // create a weakref to the VM
   HSQOBJECT vm_obj = vm_to_object(vm);
@@ -46,7 +46,7 @@ ThreadQueue::add(HSQUIRRELVM vm)
 }
 
 void
-ThreadQueue::wakeup()
+SquirrelThreadQueue::wakeup()
 {
   // we traverse the list in reverse orders and use indices. This should be
   // robust for scripts that add new entries to the list while we're traversing
