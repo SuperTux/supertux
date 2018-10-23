@@ -19,7 +19,7 @@
 
 #include "object/moving_sprite.hpp"
 #include "scripting/candle.hpp"
-#include "scripting/exposed_object.hpp"
+#include "squirrel/exposed_object.hpp"
 
 /**
  * A burning candle: Simple, scriptable level decoration.

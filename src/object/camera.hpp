@@ -24,7 +24,7 @@
 #include "math/vector.hpp"
 #include "object/path_object.hpp"
 #include "scripting/camera.hpp"
-#include "scripting/exposed_object.hpp"
+#include "squirrel/exposed_object.hpp"
 #include "supertux/game_object.hpp"
 #include "supertux/timer.hpp"
 

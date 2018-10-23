@@ -18,7 +18,7 @@
 #ifndef HEADER_SUPERTUX_OBJECT_TORCH_HPP
 #define HEADER_SUPERTUX_OBJECT_TORCH_HPP
 
-#include "scripting/exposed_object.hpp"
+#include "squirrel/exposed_object.hpp"
 #include "scripting/torch.hpp"
 #include "sprite/sprite_ptr.hpp"
 #include "supertux/moving_object.hpp"

@@ -14,7 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "scripting/scripting.hpp"
+#include "squirrel/scripting.hpp"
 
 #include <sqstdaux.h>
 #include <sqstdblob.h>
@@ -25,7 +25,7 @@
 #include <stdio.h>
 
 #include "physfs/ifile_stream.hpp"
-#include "scripting/squirrel_error.hpp"
+#include "squirrel/squirrel_error.hpp"
 #include "scripting/wrapper.hpp"
 #include "squirrel_util.hpp"
 #include "supertux/console.hpp"

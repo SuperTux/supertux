@@ -8,7 +8,7 @@
 #include <limits>
 #include <sstream>
 
-#include "scripting/squirrel_error.hpp"
+#include "squirrel/squirrel_error.hpp"
 #include "scripting/wrapper.interface.hpp"
 
 namespace scripting {

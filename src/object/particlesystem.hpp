@@ -20,7 +20,7 @@
 #include <vector>
 
 #include "math/vector.hpp"
-#include "scripting/exposed_object.hpp"
+#include "squirrel/exposed_object.hpp"
 #include "scripting/particlesystem.hpp"
 #include "supertux/game_object.hpp"
 #include "video/surface_ptr.hpp"

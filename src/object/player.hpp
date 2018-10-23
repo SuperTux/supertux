@@ -17,9 +17,9 @@
 #ifndef HEADER_SUPERTUX_OBJECT_PLAYER_HPP
 #define HEADER_SUPERTUX_OBJECT_PLAYER_HPP
 
-#include "scripting/exposed_object.hpp"
 #include "scripting/player.hpp"
 #include "sprite/sprite_ptr.hpp"
+#include "squirrel/exposed_object.hpp"
 #include "supertux/direction.hpp"
 #include "supertux/moving_object.hpp"
 #include "supertux/physic.hpp"

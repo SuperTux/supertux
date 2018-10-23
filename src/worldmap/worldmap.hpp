@@ -22,7 +22,7 @@
 
 #include "math/vector.hpp"
 #include "supertux/game_object_manager.hpp"
-#include "supertux/script_engine.hpp"
+#include "squirrel/script_engine.hpp"
 #include "supertux/statistics.hpp"
 #include "supertux/timer.hpp"
 #include "util/currenton.hpp"

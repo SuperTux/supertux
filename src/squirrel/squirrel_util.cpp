@@ -14,7 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "scripting/squirrel_util.hpp"
+#include "squirrel/squirrel_util.hpp"
 
 #include <config.h>
 
@@ -25,8 +25,8 @@
 #include <sqstdstring.h>
 #include <stdarg.h>
 
+#include "squirrel/script_interface.hpp"
 #include "supertux/game_object.hpp"
-#include "supertux/script_interface.hpp"
 #include "util/log.hpp"
 
 namespace scripting {

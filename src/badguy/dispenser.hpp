@@ -19,7 +19,7 @@
 
 #include "badguy/badguy.hpp"
 #include "scripting/dispenser.hpp"
-#include "scripting/exposed_object.hpp"
+#include "squirrel/exposed_object.hpp"
 
 class Dispenser final : public BadGuy,
                         public ExposedObject<Dispenser, scripting::Dispenser>

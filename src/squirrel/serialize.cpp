@@ -14,16 +14,16 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "scripting/serialize.hpp"
+#include "squirrel/serialize.hpp"
 
 #include <iostream>
 #include <sexp/value.hpp>
 #include <sexp/util.hpp>
 
+#include "squirrel/squirrel_error.hpp"
 #include "util/log.hpp"
-#include "util/writer.hpp"
-#include "scripting/squirrel_error.hpp"
 #include "util/reader_mapping.hpp"
+#include "util/writer.hpp"
 
 namespace scripting {
 

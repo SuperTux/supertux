@@ -23,7 +23,7 @@
 #include <limits>
 
 #include "math/util.hpp"
-#include "scripting/squirrel_util.hpp"
+#include "squirrel/squirrel_util.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/level.hpp"
 #include "supertux/resources.hpp"

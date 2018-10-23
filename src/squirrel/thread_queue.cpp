@@ -14,10 +14,10 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "scripting/thread_queue.hpp"
+#include "squirrel/thread_queue.hpp"
 
-#include "scripting/scripting.hpp"
-#include "scripting/squirrel_util.hpp"
+#include "squirrel/scripting.hpp"
+#include "squirrel/squirrel_util.hpp"
 #include "util/log.hpp"
 
 namespace scripting

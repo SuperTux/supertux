@@ -18,8 +18,8 @@
 
 #include "math/sizef.hpp"
 #include "physfs/ifile_stream.hpp"
-#include "scripting/scripting.hpp"
-#include "scripting/squirrel_util.hpp"
+#include "squirrel/scripting.hpp"
+#include "squirrel/squirrel_util.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/resources.hpp"

@@ -23,8 +23,8 @@
 #include <sstream>
 #include <vector>
 
-#include "scripting/scripting.hpp"
-#include "scripting/squirrel_error.hpp"
+#include "squirrel/scripting.hpp"
+#include "squirrel/squirrel_error.hpp"
 #include "scripting/wrapper.hpp"
 
 namespace scripting {

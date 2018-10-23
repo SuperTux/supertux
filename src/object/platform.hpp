@@ -19,7 +19,7 @@
 
 #include "object/moving_sprite.hpp"
 #include "object/path_object.hpp"
-#include "scripting/exposed_object.hpp"
+#include "squirrel/exposed_object.hpp"
 #include "scripting/platform.hpp"
 
 /**

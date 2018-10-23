@@ -19,7 +19,7 @@
 
 #include "supertux/game_object.hpp"
 #include "scripting/display_effect.hpp"
-#include "scripting/exposed_object.hpp"
+#include "squirrel/exposed_object.hpp"
 
 class DisplayEffect final : public GameObject,
                       public ExposedObject<DisplayEffect, scripting::DisplayEffect>

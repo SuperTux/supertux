@@ -19,7 +19,7 @@
 
 #include "math/vector.hpp"
 #include "scripting/background.hpp"
-#include "scripting/exposed_object.hpp"
+#include "squirrel/exposed_object.hpp"
 #include "supertux/game_object.hpp"
 #include "video/blend.hpp"
 #include "video/drawing_context.hpp"

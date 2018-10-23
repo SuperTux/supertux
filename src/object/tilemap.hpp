@@ -24,7 +24,7 @@
 #include "math/size.hpp"
 #include "object/path_object.hpp"
 #include "object/path_walker.hpp"
-#include "scripting/exposed_object.hpp"
+#include "squirrel/exposed_object.hpp"
 #include "scripting/tilemap.hpp"
 #include "supertux/game_object.hpp"
 #include "video/color.hpp"

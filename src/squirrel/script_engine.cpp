@@ -14,13 +14,13 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "supertux/script_engine.hpp"
+#include "squirrel/script_engine.hpp"
 
-#include "scripting/scripting.hpp"
-#include "scripting/squirrel_error.hpp"
-#include "scripting/squirrel_util.hpp"
+#include "squirrel/script_interface.hpp"
+#include "squirrel/scripting.hpp"
+#include "squirrel/squirrel_error.hpp"
+#include "squirrel/squirrel_util.hpp"
 #include "supertux/game_object.hpp"
-#include "supertux/script_interface.hpp"
 #include "util/log.hpp"
 
 ScriptEngine::ScriptEngine() :

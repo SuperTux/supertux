@@ -20,7 +20,7 @@
 
 #include <memory>
 
-#include "scripting/thread_queue.hpp"
+#include "squirrel/thread_queue.hpp"
 #include "supertux/screen.hpp"
 #include "util/currenton.hpp"
 

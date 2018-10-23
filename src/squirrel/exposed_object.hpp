@@ -19,9 +19,9 @@
 
 #include <memory>
 
-#include "scripting/scripting.hpp"
-#include "scripting/squirrel_util.hpp"
-#include "supertux/script_interface.hpp"
+#include "squirrel/scripting.hpp"
+#include "squirrel/squirrel_util.hpp"
+#include "squirrel/script_interface.hpp"
 #include "util/log.hpp"
 
 /**

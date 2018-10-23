@@ -23,7 +23,7 @@
 
 #include <squirrel.h>
 
-#include "scripting/squirrel_util.hpp"
+#include "squirrel/squirrel_util.hpp"
 
 class GameObject;
 class ScriptInterface;

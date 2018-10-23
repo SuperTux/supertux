@@ -42,7 +42,7 @@
 #include "math/vector.hpp"
 #include "supertux/moving_object.hpp"
 #include "scripting/ambient_sound.hpp"
-#include "scripting/exposed_object.hpp"
+#include "squirrel/exposed_object.hpp"
 
 class GameObject;
 class Player;

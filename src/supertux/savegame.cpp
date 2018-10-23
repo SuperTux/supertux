@@ -21,9 +21,9 @@
 #include <physfs.h>
 
 #include "physfs/physfs_file_system.hpp"
-#include "scripting/scripting.hpp"
-#include "scripting/serialize.hpp"
-#include "scripting/squirrel_util.hpp"
+#include "squirrel/scripting.hpp"
+#include "squirrel/serialize.hpp"
+#include "squirrel/squirrel_util.hpp"
 #include "supertux/player_status.hpp"
 #include "util/file_system.hpp"
 #include "util/log.hpp"

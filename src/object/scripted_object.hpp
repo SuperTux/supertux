@@ -19,7 +19,7 @@
 
 #include "object/moving_sprite.hpp"
 #include "scripting/scripted_object.hpp"
-#include "scripting/exposed_object.hpp"
+#include "squirrel/exposed_object.hpp"
 #include "supertux/physic.hpp"
 
 class ScriptedObject final : public MovingSprite,

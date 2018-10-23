@@ -19,7 +19,7 @@
 
 #include "badguy/badguy.hpp"
 #include "object/path_object.hpp"
-#include "scripting/exposed_object.hpp"
+#include "squirrel/exposed_object.hpp"
 #include "scripting/willowisp.hpp"
 
 class SoundSource;

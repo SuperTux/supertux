@@ -19,7 +19,7 @@
 
 #include <memory>
 
-#include "scripting/exposed_object.hpp"
+#include "squirrel/exposed_object.hpp"
 #include "scripting/text_array.hpp"
 
 #include "supertux/game_object.hpp"
