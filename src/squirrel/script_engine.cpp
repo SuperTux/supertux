@@ -24,7 +24,7 @@
 #include "util/log.hpp"
 
 ScriptEngine::ScriptEngine() :
-  m_vm(scripting::global_vm),
+  m_vm(Scripting::current()->get_vm()),
   m_table(),
   m_scripts()
 {

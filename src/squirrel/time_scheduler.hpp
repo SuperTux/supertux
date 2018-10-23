@@ -34,6 +34,8 @@ public:
   static TimeScheduler* instance;
 
 private:
+  HSQUIRRELVM m_vm;
+
   struct ScheduleEntry {
     /// weak reference to the squirrel vm object
     HSQOBJECT thread_ref;
@@ -49,6 +51,10 @@ private:
 
   typedef std::vector<ScheduleEntry> ScheduleHeap;
   ScheduleHeap schedule;
+
+private:
+  TimeScheduler(const TimeScheduler&) = delete;
+  TimeScheduler& operator=(const TimeScheduler&) = delete;
 };
 
 #endif

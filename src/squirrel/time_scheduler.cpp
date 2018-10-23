@@ -24,6 +24,7 @@
 TimeScheduler* TimeScheduler::instance = nullptr;
 
 TimeScheduler::TimeScheduler() :
+  m_vm(Scripting::current()->get_vm()),
   schedule()
 {
 }
@@ -34,12 +35,12 @@ TimeScheduler::update(float time)
   while(!schedule.empty() && schedule.front().wakeup_time < time) {
     HSQOBJECT thread_ref = schedule.front().thread_ref;
 
-    sq_pushobject(scripting::global_vm, thread_ref);
-    sq_getweakrefval(scripting::global_vm, -1);
+    sq_pushobject(m_vm, thread_ref);
+    sq_getweakrefval(m_vm, -1);
 
     HSQUIRRELVM scheduled_vm;
-    if(sq_gettype(scripting::global_vm, -1) == OT_THREAD &&
-       SQ_SUCCEEDED(sq_getthread(scripting::global_vm, -1, &scheduled_vm))) {
+    if(sq_gettype(m_vm, -1) == OT_THREAD &&
+       SQ_SUCCEEDED(sq_getthread(m_vm, -1, &scheduled_vm))) {
       if(SQ_FAILED(sq_wakeupvm(scheduled_vm, SQFalse, SQFalse, SQTrue, SQFalse))) {
         std::ostringstream msg;
         msg << "Error waking VM: ";
@@ -56,8 +57,8 @@ TimeScheduler::update(float time)
       }
     }
 
-    sq_release(scripting::global_vm, &thread_ref);
-    sq_pop(scripting::global_vm, 2);
+    sq_release(m_vm, &thread_ref);
+    sq_pop(m_vm, 2);
 
     std::pop_heap(schedule.begin(), schedule.end());
     schedule.pop_back();
@@ -69,18 +70,18 @@ TimeScheduler::schedule_thread(HSQUIRRELVM scheduled_vm, float time)
 {
   // create a weakref to the VM
   SQObject vm_obj = vm_to_object(scheduled_vm);
-  sq_pushobject(scripting::global_vm, vm_obj);
-  sq_weakref(scripting::global_vm, -1);
+  sq_pushobject(m_vm, vm_obj);
+  sq_weakref(m_vm, -1);
 
   ScheduleEntry entry;
-  if(SQ_FAILED(sq_getstackobj(scripting::global_vm, -1, & entry.thread_ref))) {
-    sq_pop(scripting::global_vm, 2);
-    throw SquirrelError(scripting::global_vm, "Couldn't get thread weakref from vm");
+  if(SQ_FAILED(sq_getstackobj(m_vm, -1, & entry.thread_ref))) {
+    sq_pop(m_vm, 2);
+    throw SquirrelError(m_vm, "Couldn't get thread weakref from vm");
   }
   entry.wakeup_time = time;
 
-  sq_addref(scripting::global_vm, & entry.thread_ref);
-  sq_pop(scripting::global_vm, 2);
+  sq_addref(m_vm, & entry.thread_ref);
+  sq_pop(m_vm, 2);
 
   schedule.push_back(entry);
   std::push_heap(schedule.begin(), schedule.end());

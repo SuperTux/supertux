@@ -21,6 +21,7 @@
 #include "util/log.hpp"
 
 ThreadQueue::ThreadQueue() :
+  m_vm(Scripting::current()->get_vm()),
   threads()
 {
 }
@@ -30,18 +31,18 @@ ThreadQueue::add(HSQUIRRELVM vm)
 {
   // create a weakref to the VM
   HSQOBJECT vm_obj = vm_to_object(vm);
-  sq_pushobject(scripting::global_vm, vm_obj);
-  sq_weakref(scripting::global_vm, -1);
+  sq_pushobject(m_vm, vm_obj);
+  sq_weakref(m_vm, -1);
 
   HSQOBJECT object;
-  if(SQ_FAILED(sq_getstackobj(scripting::global_vm, -1, &object))) {
-    sq_pop(scripting::global_vm, 2);
-    throw SquirrelError(scripting::global_vm, "Couldn't get thread weakref from vm");
+  if(SQ_FAILED(sq_getstackobj(m_vm, -1, &object))) {
+    sq_pop(m_vm, 2);
+    throw SquirrelError(m_vm, "Couldn't get thread weakref from vm");
   }
-  sq_addref(scripting::global_vm, &object);
+  sq_addref(m_vm, &object);
   threads.push_back(object);
 
-  sq_pop(scripting::global_vm, 2);
+  sq_pop(m_vm, 2);
 }
 
 void
@@ -56,19 +57,19 @@ ThreadQueue::wakeup()
   while(i != end) {
     HSQOBJECT object = threads[i];
 
-    sq_pushobject(scripting::global_vm, object);
-    sq_getweakrefval(scripting::global_vm, -1);
+    sq_pushobject(m_vm, object);
+    sq_getweakrefval(m_vm, -1);
 
     HSQUIRRELVM scheduled_vm;
-    if(sq_gettype(scripting::global_vm, -1) == OT_THREAD &&
-       SQ_SUCCEEDED(sq_getthread(scripting::global_vm, -1, &scheduled_vm))) {
+    if(sq_gettype(m_vm, -1) == OT_THREAD &&
+       SQ_SUCCEEDED(sq_getthread(m_vm, -1, &scheduled_vm))) {
       if(SQ_FAILED(sq_wakeupvm(scheduled_vm, SQFalse, SQFalse, SQTrue, SQFalse))) {
         log_warning << "Couldn't wakeup scheduled squirrel VM" << std::endl;
       }
     }
 
-    sq_release(scripting::global_vm, &object);
-    sq_pop(scripting::global_vm, 1);
+    sq_release(m_vm, &object);
+    sq_pop(m_vm, 1);
     i--;
   }
 

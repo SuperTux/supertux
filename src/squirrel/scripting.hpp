@@ -21,12 +21,6 @@
 
 #include "util/currenton.hpp"
 
-namespace scripting {
-
-extern HSQUIRRELVM global_vm;
-
-} // namespace scripting
-
 class Scripting final : public Currenton<Scripting>
 {
 public:
@@ -34,6 +28,11 @@ public:
   ~Scripting();
 
   void update_debugger();
+
+  HSQUIRRELVM get_vm() const { return m_vm; }
+
+private:
+  HSQUIRRELVM m_vm;
 
 private:
   Scripting(const Scripting&) = delete;

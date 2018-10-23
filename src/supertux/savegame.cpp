@@ -139,7 +139,7 @@ Savegame::load()
 
     try
     {
-      HSQUIRRELVM vm = scripting::global_vm;
+      HSQUIRRELVM vm = Scripting::current()->get_vm();
 
       auto doc = ReaderDocument::from_file(m_filename);
       auto root = doc.get_root();
@@ -194,7 +194,7 @@ Savegame::load()
 void
 Savegame::clear_state_table()
 {
-  HSQUIRRELVM vm = scripting::global_vm;
+  HSQUIRRELVM vm = Scripting::current()->get_vm();
 
   // delete existing state table, if it exists
   sq_pushroottable(vm);
@@ -237,7 +237,7 @@ Savegame::save()
     }
   }
 
-  HSQUIRRELVM vm = scripting::global_vm;
+  HSQUIRRELVM vm = Scripting::current()->get_vm();
 
   Writer writer(m_filename);
 
@@ -281,7 +281,7 @@ Savegame::get_worldmaps()
 {
   std::vector<std::string> worlds;
 
-  HSQUIRRELVM vm = scripting::global_vm;
+  HSQUIRRELVM vm = Scripting::current()->get_vm();
   SQInteger oldtop = sq_gettop(vm);
 
   try
@@ -306,7 +306,7 @@ Savegame::get_worldmap_state(const std::string& name)
 {
   WorldmapState result;
 
-  HSQUIRRELVM vm = scripting::global_vm;
+  HSQUIRRELVM vm = Scripting::current()->get_vm();
   SQInteger oldtop = sq_gettop(vm);
 
   try
@@ -334,7 +334,7 @@ Savegame::get_levelsets()
 {
   std::vector<std::string> results;
 
-  HSQUIRRELVM vm = scripting::global_vm;
+  HSQUIRRELVM vm = Scripting::current()->get_vm();
   SQInteger oldtop = sq_gettop(vm);
 
   try
@@ -359,7 +359,7 @@ Savegame::get_levelset_state(const std::string& basedir)
 {
   LevelsetState result;
 
-  HSQUIRRELVM vm = scripting::global_vm;
+  HSQUIRRELVM vm = Scripting::current()->get_vm();
   SQInteger oldtop = sq_gettop(vm);
 
   try
@@ -389,7 +389,7 @@ Savegame::set_levelset_state(const std::string& basedir,
 {
   LevelsetState state = get_levelset_state(basedir);
 
-  HSQUIRRELVM vm = scripting::global_vm;
+  HSQUIRRELVM vm = Scripting::current()->get_vm();
   SQInteger oldtop = sq_gettop(vm);
 
   try

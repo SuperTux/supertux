@@ -34,8 +34,14 @@ public:
   void wakeup();
 
 private:
+  HSQUIRRELVM m_vm;
+
   typedef std::vector<HSQOBJECT> ThreadList;
   ThreadList threads;
+
+private:
+  ThreadQueue(const ThreadQueue&) = delete;
+  ThreadQueue& operator=(const ThreadQueue&) = delete;
 };
 
 #endif

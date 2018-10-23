@@ -35,7 +35,7 @@ public:
   virtual ~ScriptEngine();
 
 protected:
-  /** Expose this engine in the global_vm under 'name' */
+  /** Expose this engine under 'name' */
   void expose_self(const std::string& name);
   void unexpose_self(const std::string& name);
 
@@ -49,7 +49,7 @@ protected:
   template<typename T>
   void expose(const std::string& name, std::unique_ptr<T> script_object)
   {
-    HSQUIRRELVM vm = scripting::global_vm;
+    HSQUIRRELVM vm = Scripting::current()->get_vm();
     sq_pushobject(vm, m_table);
     expose_object(vm, -1, std::move(script_object), name.c_str());
     sq_pop(vm, 1);

@@ -40,7 +40,7 @@ WorldMapState::load_state()
 {
   log_debug << "loading worldmap state" << std::endl;
 
-  HSQUIRRELVM vm = scripting::global_vm;
+  HSQUIRRELVM vm = Scripting::current()->get_vm();
   SQInteger oldtop = sq_gettop(vm);
 
   try {
@@ -184,7 +184,7 @@ WorldMapState::load_state()
 void
 WorldMapState::save_state() const
 {
-  HSQUIRRELVM vm = scripting::global_vm;
+  HSQUIRRELVM vm = Scripting::current()->get_vm();
   SQInteger oldtop = sq_gettop(vm);
 
   try {
