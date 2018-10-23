@@ -27,7 +27,7 @@ InvisibleBlock::InvisibleBlock(const Vector& pos) :
    Block(SpriteManager::current()->create("images/objects/bonus_block/invisibleblock.sprite")),
    visible(false)
 {
-  bbox.set_pos(pos);
+  m_bbox.set_pos(pos);
   SoundManager::current()->preload("sounds/brick.wav");
   sprite->set_action("default-editor");
 }

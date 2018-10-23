@@ -64,7 +64,7 @@ void
 Dart::initialize()
 {
   physic.set_velocity_x(dir == LEFT ? -::DART_SPEED : ::DART_SPEED);
-  sprite->set_action(dir == LEFT ? "flying-left" : "flying-right");
+  m_sprite->set_action(dir == LEFT ? "flying-left" : "flying-right");
 }
 
 void
@@ -144,7 +144,7 @@ void
 Dart::after_editor_set()
 {
   BadGuy::after_editor_set();
-  sprite->set_action(dir == LEFT ? "flying-left" : "flying-right");
+  m_sprite->set_action(dir == LEFT ? "flying-left" : "flying-right");
 }
 
 /* EOF */

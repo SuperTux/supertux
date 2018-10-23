@@ -34,7 +34,7 @@ PushButton::PushButton(const ReaderMapping& lisp) :
 {
   SoundManager::current()->preload(BUTTON_SOUND);
   set_action("off", -1);
-  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
+  m_bbox.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
 
   if (!lisp.get("script", script)) {
     log_warning << "No script set for pushbutton." << std::endl;
@@ -71,9 +71,9 @@ PushButton::collision(GameObject& other, const CollisionHit& hit)
 
   // change appearance
   state = ON;
-  float old_bbox_height = bbox.get_height();
+  float old_bbox_height = m_bbox.get_height();
   set_action("on", -1);
-  float new_bbox_height = bbox.get_height();
+  float new_bbox_height = m_bbox.get_height();
   set_pos(get_pos() + Vector(0, old_bbox_height - new_bbox_height));
 
   // play sound

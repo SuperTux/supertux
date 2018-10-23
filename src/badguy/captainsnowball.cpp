@@ -40,16 +40,16 @@ CaptainSnowball::might_climb(int width, int height) const
 
   float x1;
   float x2;
-  float y1a = bbox.p1.y + 1;
-  float y2a = bbox.p2.y - 1;
-  float y1b = bbox.p1.y + 1 - static_cast<float>(height);
-  float y2b = bbox.p2.y - 1 - static_cast<float>(height);
+  float y1a = m_bbox.p1.y + 1;
+  float y2a = m_bbox.p2.y - 1;
+  float y1b = m_bbox.p1.y + 1 - static_cast<float>(height);
+  float y2b = m_bbox.p2.y - 1 - static_cast<float>(height);
   if (dir == LEFT) {
-    x1 = bbox.p1.x - static_cast<float>(width);
-    x2 = bbox.p1.x - 1;
+    x1 = m_bbox.p1.x - static_cast<float>(width);
+    x2 = m_bbox.p1.x - 1;
   } else {
-    x1 = bbox.p2.x + 1;
-    x2 = bbox.p2.x + static_cast<float>(width);
+    x1 = m_bbox.p2.x + 1;
+    x2 = m_bbox.p2.x + static_cast<float>(width);
   }
   return ((!Sector::get().is_free_of_statics(Rectf(x1, y1a, x2, y2a))) &&
           (Sector::get().is_free_of_statics(Rectf(x1, y1b, x2, y2b))));
@@ -81,7 +81,7 @@ CaptainSnowball::collision_solid(const CollisionHit& hit)
 bool
 CaptainSnowball::collision_squished(GameObject& object)
 {
-  sprite->set_action(dir == LEFT ? "squished-left" : "squished-right");
+  m_sprite->set_action(dir == LEFT ? "squished-left" : "squished-right");
   kill_squished(object);
   return true;
 }

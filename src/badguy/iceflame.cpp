@@ -30,24 +30,24 @@ Iceflame::Iceflame(const ReaderMapping& reader) :
   Flame(reader)
 {
   lightsprite->set_color(Color(0.00f, 0.13f, 0.18f));
-  sprite = SpriteManager::current()->create("images/creatures/flame/iceflame.sprite");
+  m_sprite = SpriteManager::current()->create("images/creatures/flame/iceflame.sprite");
 }
 
 void
 Iceflame::active_update(float elapsed_time)
 {
   Flame::active_update(elapsed_time);
-  sprite->set_angle(math::degrees(angle) * 3.0f);
+  m_sprite->set_angle(math::degrees(angle) * 3.0f);
 }
 
 void
 Iceflame::ignite()
 {
   SoundManager::current()->play("sounds/sizzle.ogg", get_pos());
-  sprite->set_action("fade", 1);
+  m_sprite->set_action("fade", 1);
   Sector::get().add<SpriteParticle>("images/objects/particles/smoke.sprite",
                                          "default",
-                                         bbox.get_middle(), ANCHOR_MIDDLE,
+                                         m_bbox.get_middle(), ANCHOR_MIDDLE,
                                          Vector(0, -150), Vector(0,0),
                                          LAYER_BACKGROUNDTILES+2);
   set_group(COLGROUP_DISABLED);

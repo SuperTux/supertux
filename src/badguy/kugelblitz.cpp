@@ -45,8 +45,8 @@ Kugelblitz::Kugelblitz(const ReaderMapping& reader) :
   direction(),
   lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light.sprite"))
 {
-  start_position.x = bbox.p1.x;
-  sprite->set_action("falling");
+  start_position.x = m_bbox.p1.x;
+  m_sprite->set_action("falling");
   physic.enable_gravity(false);
   countMe = false;
 
@@ -80,7 +80,7 @@ Kugelblitz::collision_player(Player& player, const CollisionHit& )
   }
   // hit from above?
   if(player.get_movement().y - get_movement().y > 0 && player.get_bbox().p2.y <
-     (bbox.p1.y + bbox.p2.y) / 2) {
+     (m_bbox.p1.y + m_bbox.p2.y) / 2) {
     // if it's not is it possible to squish us, then this will hurt
     if(!collision_squished(player))
       player.kill(false);
@@ -111,7 +111,7 @@ Kugelblitz::hit(const CollisionHit& hit_)
       pos_groundhit = get_pos();
       groundhit_pos_set = true;
     }
-    sprite->set_action("flying");
+    m_sprite->set_action("flying");
     physic.set_velocity_y(0);
     //Set random initial speed and direction
     direction = gameRandom.rand(2)? 1: -1;
@@ -152,8 +152,8 @@ Kugelblitz::active_update(float elapsed_time)
 void
 Kugelblitz::draw(DrawingContext& context)
 {
-  sprite->draw(context.color(), get_pos(), layer);
-  lightsprite->draw(context.light(), bbox.get_middle(), 0);
+  m_sprite->draw(context.color(), get_pos(), m_layer);
+  lightsprite->draw(context.light(), m_bbox.get_middle(), 0);
 }
 
 void
@@ -166,8 +166,8 @@ void
 Kugelblitz::explode()
 {
   if (!dying) {
-    SoundManager::current()->play("sounds/lightning.wav", bbox.p1);
-    sprite->set_action("pop");
+    SoundManager::current()->play("sounds/lightning.wav", m_bbox.p1);
+    m_sprite->set_action("pop");
     lifetime.start(0.2f);
     dying = true;
   }
@@ -183,7 +183,7 @@ Kugelblitz::try_activate()
 
   auto player_ = get_nearest_player();
   if (!player_) return;
-  Vector dist = player_->get_bbox().get_middle() - bbox.get_middle();
+  Vector dist = player_->get_bbox().get_middle() - m_bbox.get_middle();
   if ((fabsf(dist.x) <= X_OFFSCREEN_DISTANCE) && (fabsf(dist.y) <= Y_OFFSCREEN_DISTANCE)) {
     set_state(STATE_ACTIVE);
     if (!is_initialized) {
@@ -191,7 +191,7 @@ Kugelblitz::try_activate()
       // if starting direction was set to AUTO, this is our chance to re-orient the badguy
       if (start_dir == AUTO) {
         Player* player__ = get_nearest_player();
-        if (player__ && (player__->get_bbox().p1.x > bbox.p2.x)) {
+        if (player__ && (player__->get_bbox().p1.x > m_bbox.p2.x)) {
           dir = RIGHT;
         } else {
           dir = LEFT;

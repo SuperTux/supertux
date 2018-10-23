@@ -39,13 +39,13 @@ void
 Zeekling::initialize()
 {
   physic.set_velocity_x(dir == LEFT ? -speed : speed);
-  sprite->set_action(dir == LEFT ? "left" : "right");
+  m_sprite->set_action(dir == LEFT ? "left" : "right");
 }
 
 bool
 Zeekling::collision_squished(GameObject& object)
 {
-  sprite->set_action(dir == LEFT ? "squished-left" : "squished-right");
+  m_sprite->set_action(dir == LEFT ? "squished-left" : "squished-right");
   kill_squished(object);
   return true;
 }
@@ -59,19 +59,19 @@ Zeekling::onBumpHorizontal() {
   }
   if (state == FLYING) {
     dir = (dir == LEFT ? RIGHT : LEFT);
-    sprite->set_action(dir == LEFT ? "left" : "right");
+    m_sprite->set_action(dir == LEFT ? "left" : "right");
     physic.set_velocity_x(dir == LEFT ? -speed : speed);
   } else
     if (state == DIVING) {
       dir = (dir == LEFT ? RIGHT : LEFT);
       state = FLYING;
-      sprite->set_action(dir == LEFT ? "left" : "right");
+      m_sprite->set_action(dir == LEFT ? "left" : "right");
       physic.set_velocity_x(dir == LEFT ? -speed : speed);
       physic.set_velocity_y(0);
     } else
       if (state == CLIMBING) {
         dir = (dir == LEFT ? RIGHT : LEFT);
-        sprite->set_action(dir == LEFT ? "left" : "right");
+        m_sprite->set_action(dir == LEFT ? "left" : "right");
         physic.set_velocity_x(dir == LEFT ? -speed : speed);
       } else {
         assert(false);
@@ -92,7 +92,7 @@ Zeekling::onBumpVertical() {
     if (state == DIVING) {
       state = CLIMBING;
       physic.set_velocity_y(-speed);
-      sprite->set_action(dir == LEFT ? "left" : "right");
+      m_sprite->set_action(dir == LEFT ? "left" : "right");
     } else
       if (state == CLIMBING) {
         state = FLYING;
@@ -103,8 +103,8 @@ Zeekling::onBumpVertical() {
 void
 Zeekling::collision_solid(const CollisionHit& hit)
 {
-  if(sprite->get_action() == "squished-left" ||
-     sprite->get_action() == "squished-right")
+  if(m_sprite->get_action() == "squished-left" ||
+     m_sprite->get_action() == "squished-right")
   {
     return;
   }
@@ -130,7 +130,7 @@ Zeekling::should_we_dive() {
     // get positions, calculate movement
     const Vector& player_pos = player->get_pos();
     const Vector player_mov = (player_pos - last_player_pos);
-    const Vector self_pos = bbox.p1;
+    const Vector self_pos = m_bbox.p1;
     const Vector self_mov = (self_pos - last_self_pos);
 
     // new vertical speed to test with
@@ -164,7 +164,7 @@ Zeekling::should_we_dive() {
   last_player = player;
   if (player) {
     last_player_pos = player->get_pos();
-    last_self_pos = bbox.p1;
+    last_self_pos = m_bbox.p1;
   }
 
   return false;
@@ -176,7 +176,7 @@ Zeekling::active_update(float elapsed_time) {
     if (should_we_dive()) {
       state = DIVING;
       physic.set_velocity_y(2*fabsf(physic.get_velocity_x()));
-      sprite->set_action(dir == LEFT ? "diving-left" : "diving-right");
+      m_sprite->set_action(dir == LEFT ? "diving-left" : "diving-right");
     }
     BadGuy::active_update(elapsed_time);
     return;

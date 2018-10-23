@@ -41,7 +41,7 @@ const float PAUSE_TIME_LARGE  = 1.0f;
 IceCrusher::IceCrusher(const ReaderMapping& reader) :
   MovingSprite(reader, "images/creatures/icecrusher/icecrusher.sprite", LAYER_OBJECTS, COLGROUP_STATIC),
   state(IDLE),
-  start_position(bbox.p1),
+  start_position(m_bbox.p1),
   physic(),
   cooldown_timer(0.0),
   lefteye(),
@@ -51,8 +51,8 @@ IceCrusher::IceCrusher(const ReaderMapping& reader) :
 {
   // TODO: icecrusher hitting deserves its own sounds-
   // one for hitting the ground, one for hitting Tux
-  if( sprite_name.find("rock_crusher") != std::string::npos ||
-      sprite_name.find("moss_crusher") != std::string::npos )
+  if( m_sprite_name.find("rock_crusher") != std::string::npos ||
+      m_sprite_name.find("moss_crusher") != std::string::npos )
   {
     SoundManager::current()->preload("sounds/thud.ogg");
   }
@@ -73,18 +73,18 @@ IceCrusher::set_state(IceCrusherState state_, bool force)
     case IDLE:
       set_group(COLGROUP_STATIC);
       physic.enable_gravity (false);
-      sprite->set_action("idle");
+      m_sprite->set_action("idle");
       break;
     case CRUSHING:
       set_group(COLGROUP_MOVING_STATIC);
       physic.reset ();
       physic.enable_gravity (true);
-      sprite->set_action("crushing");
+      m_sprite->set_action("crushing");
       break;
     case RECOVERING:
       set_group(COLGROUP_MOVING_STATIC);
       physic.enable_gravity (false);
-      sprite->set_action("recovering");
+      m_sprite->set_action("recovering");
       break;
     default:
       log_debug << "IceCrusher in invalid state" << std::endl;
@@ -134,11 +134,11 @@ IceCrusher::collision_solid(const CollisionHit& hit)
           for(int j = 0; j < 9; j++)
           {
             Sector::get().add<Particles>(
-              Vector(bbox.p2.x - static_cast<float>(j) * 8.0f - 4.0f, bbox.p2.y),
+              Vector(m_bbox.p2.x - static_cast<float>(j) * 8.0f - 4.0f, m_bbox.p2.y),
               0, 90-5*j, 140, 380, Vector(0.0f, 300.0f),
               1, Color(.6f, .6f, .6f), 5, 1.8f, LAYER_OBJECTS+1);
             Sector::get().add<Particles>(
-              Vector(bbox.p1.x + static_cast<float>(j) * 8.0f + 4.0f, bbox.p2.y),
+              Vector(m_bbox.p1.x + static_cast<float>(j) * 8.0f + 4.0f, m_bbox.p2.y),
               270+5*j, 360, 140, 380, Vector(0.0f, 300.0f),
               1, Color(.6f, .6f, .6f), 5, 1.8f, LAYER_OBJECTS+1);
           }
@@ -146,8 +146,8 @@ IceCrusher::collision_solid(const CollisionHit& hit)
         else {
           cooldown_timer = PAUSE_TIME_NORMAL;
           Sector::get().m_camera->shake (/* frequency = */ .1f, /* x = */ 0.0, /* y = */ 8.0);
-          if( sprite_name.find("rock_crusher") != std::string::npos ||
-              sprite_name.find("moss_crusher") != std::string::npos )
+          if( m_sprite_name.find("rock_crusher") != std::string::npos ||
+              m_sprite_name.find("moss_crusher") != std::string::npos )
           {
             SoundManager::current()->play("sounds/thud.ogg");
           }
@@ -159,13 +159,13 @@ IceCrusher::collision_solid(const CollisionHit& hit)
           for(int j = 0; j < 5; j++)
           {
             Sector::get().add<Particles>(
-              Vector(bbox.p2.x - static_cast<float>(j) * 8.0f - 4.0f,
-                     bbox.p2.y),
+              Vector(m_bbox.p2.x - static_cast<float>(j) * 8.0f - 4.0f,
+                     m_bbox.p2.y),
               0, 90+10*j, 140, 260, Vector(0, 300),
               1, Color(.6f, .6f, .6f), 4, 1.6f, LAYER_OBJECTS+1);
             Sector::get().add<Particles>(
-              Vector(bbox.p1.x + static_cast<float>(j) * 8.0f + 4.0f,
-                     bbox.p2.y),
+              Vector(m_bbox.p1.x + static_cast<float>(j) * 8.0f + 4.0f,
+                     m_bbox.p2.y),
               270+10*j, 360, 140, 260, Vector(0, 300),
               1, Color(.6f, .6f, .6f), 4, 1.6f, LAYER_OBJECTS+1);
           }
@@ -195,19 +195,19 @@ IceCrusher::update(float elapsed_time)
 
   switch(state) {
     case IDLE:
-      movement = Vector (0, 0);
+      m_movement = Vector (0, 0);
       if (found_victim())
         set_state(CRUSHING);
       break;
     case CRUSHING:
-      movement = physic.get_movement (elapsed_time);
-      if (movement.y > MAX_DROP_SPEED)
-        movement.y = MAX_DROP_SPEED;
+      m_movement = physic.get_movement (elapsed_time);
+      if (m_movement.y > MAX_DROP_SPEED)
+        m_movement.y = MAX_DROP_SPEED;
       break;
     case RECOVERING:
-      if (bbox.p1.y <= start_position.y+1) {
+      if (m_bbox.p1.y <= start_position.y+1) {
         set_pos(start_position);
-        movement = Vector (0, 0);
+        m_movement = Vector (0, 0);
         if (ic_size == LARGE)
           cooldown_timer = PAUSE_TIME_LARGE;
         else
@@ -216,9 +216,9 @@ IceCrusher::update(float elapsed_time)
       }
       else {
         if (ic_size == LARGE)
-          movement = Vector (0, RECOVER_SPEED_LARGE);
+          m_movement = Vector (0, RECOVER_SPEED_LARGE);
         else
-          movement = Vector (0, RECOVER_SPEED_NORMAL);
+          m_movement = Vector (0, RECOVER_SPEED_NORMAL);
       }
       break;
     default:
@@ -230,14 +230,14 @@ IceCrusher::update(float elapsed_time)
 void
 IceCrusher::draw(DrawingContext& context)
 {
-  sprite->draw(context.color(), get_pos(), layer+2);
-  if(!(state == CRUSHING) && sprite->has_action("whites"))
+  m_sprite->draw(context.color(), get_pos(), m_layer+2);
+  if(!(state == CRUSHING) && m_sprite->has_action("whites"))
   {
     // draw icecrusher's eyes slightly behind
-    lefteye->draw(context.color(), get_pos()+eye_position(false), layer+1);
-    righteye->draw(context.color(), get_pos()+eye_position(true), layer+1);
+    lefteye->draw(context.color(), get_pos()+eye_position(false), m_layer+1);
+    righteye->draw(context.color(), get_pos()+eye_position(true), m_layer+1);
     // draw the whites of icecrusher's eyes even further behind
-    whites->draw(context.color(), get_pos(), layer);
+    whites->draw(context.color(), get_pos(), m_layer);
   }
 }
 
@@ -250,14 +250,14 @@ IceCrusher::after_editor_set() {
 bool
 IceCrusher::found_victim() const
 {
-  auto player = Sector::get().get_nearest_player(bbox);
+  auto player = Sector::get().get_nearest_player(m_bbox);
   if (!player) return false;
 
   const Rectf& player_bbox = player->get_bbox();
-  Rectf crush_area = Rectf(bbox.p1.x+1, bbox.p2.y, bbox.p2.x-1, std::max(bbox.p2.y,player_bbox.p1.y-1));
-  if ((player_bbox.p1.y >= bbox.p2.y) /* player is below crusher */
-      && (player_bbox.p2.x > (bbox.p1.x - DROP_ACTIVATION_DISTANCE))
-      && (player_bbox.p1.x < (bbox.p2.x + DROP_ACTIVATION_DISTANCE))
+  Rectf crush_area = Rectf(m_bbox.p1.x+1, m_bbox.p2.y, m_bbox.p2.x-1, std::max(m_bbox.p2.y,player_bbox.p1.y-1));
+  if ((player_bbox.p1.y >= m_bbox.p2.y) /* player is below crusher */
+      && (player_bbox.p2.x > (m_bbox.p1.x - DROP_ACTIVATION_DISTANCE))
+      && (player_bbox.p1.x < (m_bbox.p2.x + DROP_ACTIVATION_DISTANCE))
       && (Sector::get().is_free_of_statics(crush_area, this, false))/* and area to player is free of objects */)
     return true;
   else
@@ -269,22 +269,22 @@ IceCrusher::eye_position(bool right) const
 {
   if(state == IDLE)
   {
-    auto player = Sector::get().get_nearest_player (bbox);
+    auto player = Sector::get().get_nearest_player (m_bbox);
     if(player)
     {
       // Icecrusher focuses on approximate position of player's head
       const float player_focus_x = (player->get_bbox().p2.x + player->get_bbox().p1.x) * 0.5f;
       const float player_focus_y = player->get_bbox().p2.y * 0.25f + player->get_bbox().p1.y * 0.75f;
       // Icecrusher's approximate origin of line-of-sight
-      const float crusher_origin_x = bbox.get_middle().x;
-      const float crusher_origin_y = bbox.get_middle().y;
+      const float crusher_origin_x = m_bbox.get_middle().x;
+      const float crusher_origin_y = m_bbox.get_middle().y;
       // Line-of-sight displacement from icecrusher to player
       const float displacement_x = player_focus_x - crusher_origin_x;
       const float displacement_y = player_focus_y - crusher_origin_y;
       const float displacement_mag = powf(powf(displacement_x, 2.0f) + powf(displacement_y, 2.0f), 0.5f);
       // Determine weighting for eye displacement along x given icecrusher eye shape
-      int weight_x = sprite->get_width()/64 * (((displacement_x > 0) == right) ? 1 : 4);
-      int weight_y = sprite->get_width()/64 * 2;
+      int weight_x = m_sprite->get_width()/64 * (((displacement_x > 0) == right) ? 1 : 4);
+      int weight_y = m_sprite->get_width()/64 * 2;
 
       return Vector(displacement_x / displacement_mag * static_cast<float>(weight_x),
                     displacement_y / displacement_mag * static_cast<float>(weight_y) - static_cast<float>(weight_y));
@@ -296,14 +296,14 @@ IceCrusher::eye_position(bool right) const
     return Vector(sinf((right ? 1 : -1) * // X motion of each eye is opposite of the other
                        (get_pos().y/13 - // Phase factor due to y position
                         (ic_size==NORMAL ? RECOVER_SPEED_NORMAL : RECOVER_SPEED_LARGE) + cooldown_timer * 13.0f)) * //Phase factor due to cooldown timer
-                  static_cast<float>(sprite->get_width()) / 64.0f * 2.0f - (right ? 1 : -1) * // Amplitude dependent on size
-                  static_cast<float>(sprite->get_width()) / 64.0f * 2.0f, // Offset to keep eyes visible
+                  static_cast<float>(m_sprite->get_width()) / 64.0f * 2.0f - (right ? 1 : -1) * // Amplitude dependent on size
+                  static_cast<float>(m_sprite->get_width()) / 64.0f * 2.0f, // Offset to keep eyes visible
 
                   cosf((right ? 3.1415f : 0.0f) + // Eyes spin out of phase of eachother
                        get_pos().y / 13.0f - // Phase factor due to y position
                        (ic_size==NORMAL ? RECOVER_SPEED_NORMAL : RECOVER_SPEED_LARGE) + cooldown_timer * 13.0f) * //Phase factor due to cooldown timer
-                  static_cast<float>(sprite->get_width()) / 64.0f * 2.0f -  // Amplitude dependent on size
-                  static_cast<float>(sprite->get_width()) / 64.0f * 2.0f); // Offset to keep eyes visible
+                  static_cast<float>(m_sprite->get_width()) / 64.0f * 2.0f -  // Amplitude dependent on size
+                  static_cast<float>(m_sprite->get_width()) / 64.0f * 2.0f); // Offset to keep eyes visible
   }
 
   return Vector(0,0);
@@ -312,11 +312,11 @@ IceCrusher::eye_position(bool right) const
 void
 IceCrusher::after_sprite_set()
 {
-  float sprite_width = static_cast<float>(sprite->get_width());
+  float sprite_width = static_cast<float>(m_sprite->get_width());
   if (sprite_width >= 128.0)
     ic_size = LARGE;
 
-  if (!sprite->has_action("whites"))
+  if (!m_sprite->has_action("whites"))
   {
     lefteye.reset();
     righteye.reset();
@@ -324,11 +324,11 @@ IceCrusher::after_sprite_set()
   }
   else
   {
-    lefteye = sprite->clone();
+    lefteye = m_sprite->clone();
     lefteye->set_action("lefteye");
-    righteye = sprite->clone();
+    righteye = m_sprite->clone();
     righteye->set_action("righteye");
-    whites = sprite->clone();
+    whites = m_sprite->clone();
     whites->set_action("whites");
   }
 }

@@ -65,7 +65,7 @@ void
 TreeWillOWisp::vanish()
 {
   mystate = STATE_VANISHING;
-  sprite->set_action("vanishing", 1);
+  m_sprite->set_action("vanishing", 1);
   set_colgroup_active(COLGROUP_DISABLED);
 }
 
@@ -99,9 +99,8 @@ TreeWillOWisp::collides(GameObject& other, const CollisionHit& ) const
 void
 TreeWillOWisp::draw(DrawingContext& context)
 {
-  sprite->draw(context.color(), get_pos(), layer);
-
-  sprite->draw(context.light(), get_pos(), layer);
+  m_sprite->draw(context.color(), get_pos(), m_layer);
+  m_sprite->draw(context.light(), get_pos(), m_layer);
 }
 
 void
@@ -109,7 +108,7 @@ TreeWillOWisp::active_update(float elapsed_time)
 {
   // remove TreeWillOWisp if it has completely vanished
   if (mystate == STATE_VANISHING) {
-    if(sprite->animation_done()) {
+    if(m_sprite->animation_done()) {
       remove_me();
       tree->willowisp_died(this);
     }
@@ -123,22 +122,22 @@ TreeWillOWisp::active_update(float elapsed_time)
       return;
     }
     Vector newpos = get_pos() + dir_ * elapsed_time;
-    movement = newpos - get_pos();
+    m_movement = newpos - get_pos();
     return;
   }
 
   angle = fmodf(angle + elapsed_time * speed, math::TAU);
   Vector newpos(start_position + Vector(sinf(angle) * radius, 0));
-  movement = newpos - get_pos();
+  m_movement = newpos - get_pos();
   float sizemod = cosf(angle) * 0.8f;
   /* TODO: modify sprite size */
 
   sound_source->set_position(get_pos());
 
   if(sizemod < 0) {
-    layer = LAYER_OBJECTS + 5;
+    m_layer = LAYER_OBJECTS + 5;
   } else {
-    layer = LAYER_OBJECTS - 20;
+    m_layer = LAYER_OBJECTS - 20;
   }
 }
 
@@ -146,7 +145,7 @@ void
 TreeWillOWisp::set_color(const Color& color_)
 {
   color = color_;
-  sprite->set_color(color_);
+  m_sprite->set_color(color_);
 }
 
 Color

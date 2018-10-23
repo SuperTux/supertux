@@ -24,7 +24,7 @@ Decal::Decal(const ReaderMapping& reader) :
   default_action(),
   solid()
 {
-  layer = reader_get_layer (reader, /* default = */ LAYER_OBJECTS);
+  m_layer = reader_get_layer (reader, /* default = */ LAYER_OBJECTS);
 
   reader.get("solid", solid, false);
   if(solid)
@@ -36,13 +36,13 @@ Decal::Decal(const ReaderMapping& reader) :
 ObjectSettings
 Decal::get_settings() {
   ObjectSettings result = MovingObject::get_settings();
-  ObjectOption spr(MN_FILE, _("Sprite"), &sprite_name, "sprite");
+  ObjectOption spr(MN_FILE, _("Sprite"), &m_sprite_name, "sprite");
   spr.select.push_back(".png");
   spr.select.push_back(".sprite");
   result.options.push_back(spr);
   result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Action"), &default_action, "action"));
   result.options.push_back( ObjectOption(MN_TOGGLE, _("Solid"), &solid, "solid"));
-  result.options.push_back( ObjectOption(MN_INTFIELD, _("Z-pos"), &layer, "z-pos"));
+  result.options.push_back( ObjectOption(MN_INTFIELD, _("Z-pos"), &m_layer, "z-pos"));
 
   return result;
 }

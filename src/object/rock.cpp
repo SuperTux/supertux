@@ -81,7 +81,7 @@ Rock::update(float elapsed_time)
 
   if (on_ground) physic.set_velocity_x(0);
 
-  movement = physic.get_movement(elapsed_time);
+  m_movement = physic.get_movement(elapsed_time);
 }
 
 void
@@ -136,8 +136,8 @@ Rock::collision(GameObject& other, const CollisionHit& hit)
 void
 Rock::grab(MovingObject& , const Vector& pos, Direction)
 {
-  movement = pos - get_pos();
-  last_movement = movement;
+  m_movement = pos - get_pos();
+  last_movement = m_movement;
   set_group(COLGROUP_TOUCHABLE); //needed for lanterns catching willowisps
   on_ground = false;
   grabbed = true;

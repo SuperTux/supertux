@@ -61,11 +61,11 @@ Totem::initialize()
   if (!carried_by) {
 static const float WALKSPEED = 100;
     physic.set_velocity_x(dir == LEFT ? -WALKSPEED : WALKSPEED);
-    sprite->set_action(dir == LEFT ? "walking-left" : "walking-right");
+    m_sprite->set_action(dir == LEFT ? "walking-left" : "walking-right");
     return;
   } else {
     synchronize_with(carried_by);
-    sprite->set_action(dir == LEFT ? "stacked-left" : "stacked-right");
+    m_sprite->set_action(dir == LEFT ? "stacked-left" : "stacked-right");
     return;
   }
 }
@@ -90,7 +90,7 @@ Totem::active_update(float elapsed_time)
       // skip if we are not approaching each other
       if (!((dir == LEFT) && (t->dir == RIGHT))) continue;
 
-      Vector p1 = bbox.p1;
+      Vector p1 = m_bbox.p1;
       Vector p2 = t->get_pos();
 
       // skip if not on same height
@@ -133,8 +133,8 @@ Totem::collision_squished(GameObject& object)
     jump_off();
   }
 
-  sprite->set_action(dir == LEFT ? "squished-left" : "squished-right");
-  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
+  m_sprite->set_action(dir == LEFT ? "squished-left" : "squished-right");
+  m_bbox.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
 
   kill_squished(object);
   return true;
@@ -221,7 +221,7 @@ Totem::jump_on(Totem* target)
 
   carried_by = target;
   initialize();
-  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
+  m_bbox.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
 
   SoundManager::current()->play( LAND_ON_TOTEM_SOUND , get_pos());
 
@@ -240,7 +240,7 @@ Totem::jump_off() {
   carried_by = nullptr;
 
   initialize();
-  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
+  m_bbox.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
 
   physic.set_velocity_y(JUMP_OFF_SPEED_Y);
 }
@@ -251,11 +251,11 @@ Totem::synchronize_with(Totem* base)
 
   if (dir != base->dir) {
     dir = base->dir;
-    sprite->set_action(dir == LEFT ? "stacked-left" : "stacked-right");
+    m_sprite->set_action(dir == LEFT ? "stacked-left" : "stacked-right");
   }
 
   Vector pos = base->get_pos();
-  pos.y -= sprite->get_current_hitbox_height();
+  pos.y -= m_sprite->get_current_hitbox_height();
   set_pos(pos);
 
   physic.set_velocity_x(base->physic.get_velocity_x());

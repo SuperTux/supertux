@@ -32,25 +32,25 @@ namespace worldmap_editor {
 WorldmapObject::WorldmapObject (const ReaderMapping& lisp, const std::string& default_sprite) :
   MovingSprite(lisp, default_sprite)
 {
-  bbox.p1.x = 32 * bbox.p1.x;
-  bbox.p1.y = 32 * bbox.p1.y;
-  bbox.set_size(32, 32);
+  m_bbox.p1.x = 32 * m_bbox.p1.x;
+  m_bbox.p1.y = 32 * m_bbox.p1.y;
+  m_bbox.set_size(32, 32);
 }
 
 WorldmapObject::WorldmapObject (const ReaderMapping& lisp) :
   MovingSprite(lisp)
 {
-  bbox.p1.x = 32 * bbox.p1.x;
-  bbox.p1.y = 32 * bbox.p1.y;
-  bbox.set_size(32, 32);
+  m_bbox.p1.x = 32 * m_bbox.p1.x;
+  m_bbox.p1.y = 32 * m_bbox.p1.y;
+  m_bbox.set_size(32, 32);
 }
 
 WorldmapObject::WorldmapObject (const Vector& pos, const std::string& default_sprite) :
   MovingSprite(pos, default_sprite)
 {
-  bbox.p1.x = 32 * bbox.p1.x;
-  bbox.p1.y = 32 * bbox.p1.y;
-  bbox.set_size(32, 32);
+  m_bbox.p1.x = 32 * m_bbox.p1.x;
+  m_bbox.p1.y = 32 * m_bbox.p1.y;
+  m_bbox.set_size(32, 32);
 }
 
 void
@@ -63,8 +63,8 @@ WorldmapObject::move_to(const Vector& pos) {
 
 void
 WorldmapObject::save(Writer& writer) {
-  writer.write("x", int(bbox.p1.x / 32));
-  writer.write("y", int(bbox.p1.y / 32));
+  writer.write("x", int(m_bbox.p1.x / 32));
+  writer.write("y", int(m_bbox.p1.y / 32));
 }
 
 LevelDot::LevelDot (const ReaderMapping& lisp) :
@@ -90,7 +90,7 @@ LevelDot::LevelDot (const ReaderMapping& lisp) :
 void
 LevelDot::draw(DrawingContext& context)
 {
-  sprite->draw(context.color(), bbox.p1 + Vector(16, 16), layer);
+  m_sprite->draw(context.color(), m_bbox.p1 + Vector(16, 16), m_layer);
 }
 
 ObjectSettings
@@ -104,7 +104,7 @@ LevelDot::get_settings() {
   result.options.push_back( ObjectOption(MN_SCRIPT, _("Outro script"), &extro_script));
   result.options.push_back( ObjectOption(MN_TOGGLE, _("Auto play"), &auto_play));
 
-  ObjectOption spr(MN_FILE, _("Sprite"), &sprite_name);
+  ObjectOption spr(MN_FILE, _("Sprite"), &m_sprite_name);
   spr.select.push_back(".sprite");
   result.options.push_back(spr);
 
@@ -117,7 +117,7 @@ void
 LevelDot::save(Writer& writer) {
   WorldmapObject::save(writer);
   writer.write("name", m_name, false);
-  writer.write("sprite", sprite_name, false);
+  writer.write("sprite", m_sprite_name, false);
   writer.write("extro-script", extro_script, false);
   writer.write("auto-play", auto_play);
   writer.write("color", title_color.toVector());
@@ -170,7 +170,7 @@ Teleporter::Teleporter (const ReaderMapping& lisp) :
 void
 Teleporter::draw(DrawingContext& context)
 {
-  sprite->draw(context.color(), bbox.p1 + Vector(16, 16), layer);
+  m_sprite->draw(context.color(), m_bbox.p1 + Vector(16, 16), m_layer);
 }
 
 void
@@ -178,7 +178,7 @@ Teleporter::save(Writer& writer) {
   WorldmapObject::save(writer);
   writer.write("spawnpoint", spawnpoint, false);
   writer.write("message", message, true);
-  writer.write("sprite", sprite_name, false);
+  writer.write("sprite", m_sprite_name, false);
   writer.write("automatic", automatic);
 
   if (change_worldmap) {
@@ -198,7 +198,7 @@ Teleporter::get_settings() {
   wm.select.push_back(".stwm");
   result.options.push_back(wm);
 
-  ObjectOption spr(MN_FILE, _("Sprite"), &sprite_name);
+  ObjectOption spr(MN_FILE, _("Sprite"), &m_sprite_name);
   spr.select.push_back(".sprite");
   result.options.push_back(spr);
 
@@ -241,14 +241,14 @@ WorldmapSpawnPoint::get_settings() {
 
 SpriteChange::SpriteChange (const ReaderMapping& lisp) :
   WorldmapObject(lisp, "images/engine/editor/spritechange.png"),
-  target_sprite(sprite_name),
+  target_sprite(m_sprite_name),
   stay_action(),
   initial_stay_action(false),
   stay_group(),
   change_on_touch(true)
 {
   // To make obvious where the sprite change is, let's use an universal 32×32 sprite
-  sprite = SpriteManager::current()->create("images/engine/editor/spritechange.png");
+  m_sprite = SpriteManager::current()->create("images/engine/editor/spritechange.png");
 
   lisp.get("stay-action", stay_action);
   lisp.get("initial-stay-action", initial_stay_action);
@@ -309,8 +309,8 @@ SpecialTile::save(Writer& writer) {
   writer.write("map-message", map_message, true);
   writer.write("script", script, false);
 
-  if (sprite_name != "images/worldmap/common/messagedot.png") {
-    writer.write("sprite", sprite_name, false);
+  if (m_sprite_name != "images/worldmap/common/messagedot.png") {
+    writer.write("sprite", m_sprite_name, false);
   }
 
   writer.write("passive-message", passive_message);
@@ -328,7 +328,7 @@ SpecialTile::get_settings() {
   result.options.push_back( ObjectOption(MN_TOGGLE, _("Invisible"), &invisible_tile));
   result.options.push_back( worldmap::dir_option(&apply_to_direction));
 
-  ObjectOption spr(MN_FILE, _("Sprite"), &sprite_name);
+  ObjectOption spr(MN_FILE, _("Sprite"), &m_sprite_name);
   spr.select.push_back(".sprite");
   result.options.push_back(spr);
 

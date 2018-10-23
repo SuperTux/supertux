@@ -35,9 +35,9 @@ WaterDrop::WaterDrop(const Vector& pos, const std::string& sprite_path_, const V
 void
 WaterDrop::update(float elapsed_time)
 {
-  movement = physic.get_movement(elapsed_time);
+  m_movement = physic.get_movement(elapsed_time);
 
-  if ( sprite->animation_done() ) {
+  if ( m_sprite->animation_done() ) {
     remove_me();
   }
 }
@@ -49,15 +49,15 @@ WaterDrop::collision_solid(const CollisionHit& hit)
     wd_state = WDS_SPLASH;
     physic.enable_gravity(false);
     SoundManager::current()->play("sounds/splash.ogg", get_pos());
-    sprite->set_action("splash", 1);
+    m_sprite->set_action("splash", 1);
 
     // spawn water particles
     for (int i = 50; i; i--) {
       int pa = graphicsRandom.rand(0,3);
-      float px = graphicsRandom.randf(bbox.p1.x, bbox.p2.x);
-      float py = graphicsRandom.randf(bbox.p1.y, bbox.p2.y);
+      float px = graphicsRandom.randf(m_bbox.p1.x, m_bbox.p2.x);
+      float py = graphicsRandom.randf(m_bbox.p1.y, m_bbox.p2.y);
       Vector ppos = Vector(px, py);
-      Vector pspeed = ppos - bbox.get_middle();
+      Vector pspeed = ppos - m_bbox.get_middle();
       pspeed.x *= 12;
       pspeed.y *= 12;
       Sector::get().add<SpriteParticle>(sprite_path, "particle_" + std::to_string(pa),

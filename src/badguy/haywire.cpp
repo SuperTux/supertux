@@ -51,15 +51,15 @@ Haywire::Haywire(const ReaderMapping& reader) :
   SoundManager::current()->preload("sounds/explosion.wav");
 
   //Check if we need another sprite
-  if( !reader.get( "sprite", sprite_name ) ){
+  if( !reader.get( "sprite", m_sprite_name ) ){
     return;
   }
-  if (sprite_name.empty()) {
-    sprite_name = "images/creatures/haywire/haywire.sprite";
+  if (m_sprite_name.empty()) {
+    m_sprite_name = "images/creatures/haywire/haywire.sprite";
     return;
   }
   //Replace sprite
-  sprite = SpriteManager::current()->create( sprite_name );
+  m_sprite = SpriteManager::current()->create( m_sprite_name );
 }
 
 bool
@@ -149,7 +149,7 @@ Haywire::kill_fall()
   }
   if(is_valid()) {
     remove_me();
-    Sector::get().add<Explosion>(bbox.get_middle());
+    Sector::get().add<Explosion>(m_bbox.get_middle());
   }
 
   run_dead_script();

@@ -55,7 +55,7 @@ Vector NodeMarker::get_offset() const {
 
 void NodeMarker::move_to(const Vector& pos) {
   MovingObject::move_to(pos);
-  node->position = bbox.get_middle();
+  node->position = m_bbox.get_middle();
 }
 
 void NodeMarker::editor_delete() {

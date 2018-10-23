@@ -34,15 +34,15 @@ Door::Door(const ReaderMapping& reader) :
   sprite(SpriteManager::current()->create("images/objects/door/door.sprite")),
   stay_open_timer()
 {
-  reader.get("x", bbox.p1.x);
-  reader.get("y", bbox.p1.y);
+  reader.get("x", m_bbox.p1.x);
+  reader.get("y", m_bbox.p1.y);
   reader.get("sector", target_sector);
   reader.get("spawnpoint", target_spawnpoint);
 
   reader.get("script", script);
 
   sprite->set_action("closed");
-  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
+  m_bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
 
   SoundManager::current()->preload("sounds/door.wav");
 }
@@ -55,10 +55,10 @@ Door::Door(int x, int y, const std::string& sector, const std::string& spawnpoin
   sprite(SpriteManager::current()->create("images/objects/door/door.sprite")),
   stay_open_timer()
 {
-  bbox.set_pos(Vector(static_cast<float>(x), static_cast<float>(y)));
+  m_bbox.set_pos(Vector(static_cast<float>(x), static_cast<float>(y)));
 
   sprite->set_action("closed");
-  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
+  m_bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
 
   SoundManager::current()->preload("sounds/door.wav");
 }
@@ -110,7 +110,7 @@ Door::update(float )
 void
 Door::draw(DrawingContext& context)
 {
-  sprite->draw(context.color(), bbox.p1, LAYER_BACKGROUNDTILES+1);
+  sprite->draw(context.color(), m_bbox.p1, LAYER_BACKGROUNDTILES+1);
 }
 
 void

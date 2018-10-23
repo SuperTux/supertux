@@ -32,13 +32,13 @@ void
 BouncingSnowball::initialize()
 {
   physic.set_velocity_x(dir == LEFT ? -BSNOWBALL_WALKSPEED : BSNOWBALL_WALKSPEED);
-  sprite->set_action(dir == LEFT ? "left" : "right");
+  m_sprite->set_action(dir == LEFT ? "left" : "right");
 }
 
 bool
 BouncingSnowball::collision_squished(GameObject& object)
 {
-  sprite->set_action("squished");
+  m_sprite->set_action("squished");
   kill_squished(object);
   return true;
 }
@@ -46,7 +46,7 @@ BouncingSnowball::collision_squished(GameObject& object)
 void
 BouncingSnowball::collision_solid(const CollisionHit& hit)
 {
-  if(sprite->get_action() == "squished")
+  if(m_sprite->get_action() == "squished")
   {
     return;
   }
@@ -66,7 +66,7 @@ BouncingSnowball::collision_solid(const CollisionHit& hit)
   // The direction must correspond, else we got fake bounces on slopes.
   if((hit.left && dir == LEFT) || (hit.right && dir == RIGHT)) {
     dir = dir == LEFT ? RIGHT : LEFT;
-    sprite->set_action(dir == LEFT ? "left" : "right");
+    m_sprite->set_action(dir == LEFT ? "left" : "right");
     physic.set_velocity_x(-physic.get_velocity_x());
   }
 
@@ -83,7 +83,7 @@ void
 BouncingSnowball::after_editor_set()
 {
   BadGuy::after_editor_set();
-  sprite->set_action(dir == LEFT ? "left" : "right");
+  m_sprite->set_action(dir == LEFT ? "left" : "right");
 }
 
 /* EOF */

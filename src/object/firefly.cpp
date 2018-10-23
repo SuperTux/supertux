@@ -38,20 +38,20 @@ Firefly::Firefly(const ReaderMapping& lisp) :
    activated(false),
    initial_position(get_pos())
 {
-  if( !lisp.get( "sprite", sprite_name ) ){
+  if( !lisp.get( "sprite", m_sprite_name ) ){
     reactivate();
     return;
   }
-  if (sprite_name.empty()) {
-    sprite_name = "images/objects/resetpoints/default-resetpoint.sprite";
+  if (m_sprite_name.empty()) {
+    m_sprite_name = "images/objects/resetpoints/default-resetpoint.sprite";
     reactivate();
     return;
   }
   //Replace sprite
-  sprite = SpriteManager::current()->create( sprite_name );
-  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
+  m_sprite = SpriteManager::current()->create( m_sprite_name );
+  m_bbox.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
 
-  if (sprite_name.find("torch", 0) != std::string::npos) {
+  if (m_sprite_name.find("torch", 0) != std::string::npos) {
     m_sprite_light = SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite");
     m_sprite_light->set_blend(Blend::ADD);
     m_sprite_light->set_color(TORCH_LIGHT_COLOR);
@@ -60,10 +60,10 @@ Firefly::Firefly(const ReaderMapping& lisp) :
   reactivate();
 
   //Load sound
-    if( sprite_name.find("vbell", 0) != std::string::npos ) {
+    if( m_sprite_name.find("vbell", 0) != std::string::npos ) {
       SoundManager::current()->preload("sounds/savebell_low.wav");
     }
-    else if( sprite_name.find("torch", 0) != std::string::npos ) {
+    else if( m_sprite_name.find("torch", 0) != std::string::npos ) {
       SoundManager::current()->preload("sounds/fire.ogg");
     }
     else {
@@ -76,9 +76,9 @@ Firefly::draw(DrawingContext& context)
 {
   MovingSprite::draw(context);
 
-  if (sprite_name.find("torch", 0) != std::string::npos && (activated ||
-        sprite->get_action() == "ringing")) {
-    m_sprite_light->draw(context.light(), bbox.get_middle() - TORCH_LIGHT_OFFSET, 0);
+  if (m_sprite_name.find("torch", 0) != std::string::npos && (activated ||
+        m_sprite->get_action() == "ringing")) {
+    m_sprite_light->draw(context.light(), m_bbox.get_middle() - TORCH_LIGHT_OFFSET, 0);
   }
 }
 
@@ -95,7 +95,7 @@ Firefly::reactivate()
     // Worst case a resetpoint in a different sector at the same position as the real
     // resetpoint the player is spawning is set to ringing, too. Until we can check the sector, too, dont set
     // activated = true; here.
-    sprite->set_action("ringing");
+    m_sprite->set_action("ringing");
   }
 }
 
@@ -103,7 +103,7 @@ HitResponse
 Firefly::collision(GameObject& other, const CollisionHit& )
 {
   // If the bell is already activated, don't ring it again!
-  if(activated || sprite->get_action() == "ringing")
+  if(activated || m_sprite->get_action() == "ringing")
     return ABORT_MOVE;
 
   auto player = dynamic_cast<Player*> (&other);
@@ -112,7 +112,7 @@ Firefly::collision(GameObject& other, const CollisionHit& )
     // spawn some particles
     // TODO: provide convenience function in MovingSprite or MovingObject?
     for (int i = 0; i < 5; i++) {
-      Vector ppos = bbox.get_middle();
+      Vector ppos = m_bbox.get_middle();
       float angle = graphicsRandom.randf(-math::PI_2, math::PI_2);
       float velocity = graphicsRandom.randf(450.0f, 900.0f);
       float vx = sinf(angle)*velocity;
@@ -122,17 +122,17 @@ Firefly::collision(GameObject& other, const CollisionHit& )
       Sector::get().add<SpriteParticle>("images/objects/particles/reset.sprite", "default", ppos, ANCHOR_MIDDLE, pspeed, paccel, LAYER_OBJECTS-1);
     }
 
-    if( sprite_name.find("vbell", 0) != std::string::npos ) {
+    if( m_sprite_name.find("vbell", 0) != std::string::npos ) {
       SoundManager::current()->play("sounds/savebell_low.wav");
     }
-    else if( sprite_name.find("torch", 0) != std::string::npos) {
+    else if( m_sprite_name.find("torch", 0) != std::string::npos) {
       SoundManager::current()->play("sounds/fire.ogg");
     }
     else {
       SoundManager::current()->play("sounds/savebell2.wav");
     }
 
-    sprite->set_action("ringing");
+    m_sprite->set_action("ringing");
     GameSession::current()->set_reset_point(Sector::get().get_name(),
                                             initial_position);
   }

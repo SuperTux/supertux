@@ -37,11 +37,11 @@ Switch::Switch(const ReaderMapping& reader) :
   state(OFF),
   bistable()
 {
-  if (!reader.get("x", bbox.p1.x)) throw std::runtime_error("no x position set");
-  if (!reader.get("y", bbox.p1.y)) throw std::runtime_error("no y position set");
+  if (!reader.get("x", m_bbox.p1.x)) throw std::runtime_error("no x position set");
+  if (!reader.get("y", m_bbox.p1.y)) throw std::runtime_error("no y position set");
   if (!reader.get("sprite", sprite_name)) sprite_name = "images/objects/switch/left.sprite";
   sprite = SpriteManager::current()->create(sprite_name);
-  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
+  m_bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
 
   reader.get("script", script);
   bistable = reader.get("off-script", off_script);
@@ -80,7 +80,7 @@ Switch::update(float )
     case TURN_ON:
       if(sprite->animation_done()) {
         std::ostringstream location;
-        location << "switch" << bbox.p1;
+        location << "switch" << m_bbox.p1;
         Sector::get().run_script(script, location.str());
 
         sprite->set_action("on", 1);
@@ -97,7 +97,7 @@ Switch::update(float )
       if(sprite->animation_done()) {
         if (bistable) {
           std::ostringstream location;
-          location << "switch" << bbox.p1;
+          location << "switch" << m_bbox.p1;
           Sector::get().run_script(off_script, location.str());
         }
 
@@ -111,7 +111,7 @@ Switch::update(float )
 void
 Switch::draw(DrawingContext& context)
 {
-  sprite->draw(context.color(), bbox.p1, LAYER_TILES);
+  sprite->draw(context.color(), m_bbox.p1, LAYER_TILES);
 }
 
 void

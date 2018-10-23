@@ -21,19 +21,19 @@
 #include "util/writer.hpp"
 
 MovingObject::MovingObject() :
-  bbox(),
-  movement(),
-  group(COLGROUP_MOVING),
-  dest()
+  m_bbox(),
+  m_movement(),
+  m_group(COLGROUP_MOVING),
+  m_dest()
 {
 }
 
 MovingObject::MovingObject(const ReaderMapping& reader) :
   GameObject(reader),
-  bbox(),
-  movement(),
-  group(COLGROUP_MOVING),
-  dest()
+  m_bbox(),
+  m_movement(),
+  m_group(COLGROUP_MOVING),
+  m_dest()
 {
 }
 
@@ -44,8 +44,8 @@ MovingObject::~MovingObject()
 void
 MovingObject::save(Writer& writer) {
   GameObject::save(writer);
-  writer.write("x", bbox.p1.x);
-  writer.write("y", bbox.p1.y);
+  writer.write("x", m_bbox.p1.x);
+  writer.write("y", m_bbox.p1.y);
 }
 
 void
@@ -54,14 +54,14 @@ MovingObject::edit_bbox() {
     return;
   }
 
-  Sector::get().add<Resizer>(&bbox, Resizer::LEFT_UP, Resizer::LEFT_UP);
-  Sector::get().add<Resizer>(&bbox, Resizer::LEFT_UP, Resizer::NONE);
-  Sector::get().add<Resizer>(&bbox, Resizer::LEFT_UP, Resizer::RIGHT_DOWN);
-  Sector::get().add<Resizer>(&bbox, Resizer::NONE, Resizer::LEFT_UP);
-  Sector::get().add<Resizer>(&bbox, Resizer::NONE, Resizer::RIGHT_DOWN);
-  Sector::get().add<Resizer>(&bbox, Resizer::RIGHT_DOWN, Resizer::LEFT_UP);
-  Sector::get().add<Resizer>(&bbox, Resizer::RIGHT_DOWN, Resizer::NONE);
-  Sector::get().add<Resizer>(&bbox, Resizer::RIGHT_DOWN, Resizer::RIGHT_DOWN);
+  Sector::get().add<Resizer>(&m_bbox, Resizer::LEFT_UP, Resizer::LEFT_UP);
+  Sector::get().add<Resizer>(&m_bbox, Resizer::LEFT_UP, Resizer::NONE);
+  Sector::get().add<Resizer>(&m_bbox, Resizer::LEFT_UP, Resizer::RIGHT_DOWN);
+  Sector::get().add<Resizer>(&m_bbox, Resizer::NONE, Resizer::LEFT_UP);
+  Sector::get().add<Resizer>(&m_bbox, Resizer::NONE, Resizer::RIGHT_DOWN);
+  Sector::get().add<Resizer>(&m_bbox, Resizer::RIGHT_DOWN, Resizer::LEFT_UP);
+  Sector::get().add<Resizer>(&m_bbox, Resizer::RIGHT_DOWN, Resizer::NONE);
+  Sector::get().add<Resizer>(&m_bbox, Resizer::RIGHT_DOWN, Resizer::RIGHT_DOWN);
 }
 
 /* EOF */

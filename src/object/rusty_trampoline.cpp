@@ -45,11 +45,11 @@ RustyTrampoline::RustyTrampoline(const ReaderMapping& lisp) :
 void
 RustyTrampoline::update(float elapsed_time)
 {
-  if(sprite->animation_done()) {
+  if(m_sprite->animation_done()) {
     if (counter < 1) {
       remove_me();
     } else {
-      sprite->set_action("normal");
+      m_sprite->set_action("normal");
     }
 
   }
@@ -77,9 +77,9 @@ RustyTrampoline::collision(GameObject& other, const CollisionHit& hit)
         SoundManager::current()->play(BOUNCE_SOUND);
         counter--;
         if (counter > 0) {
-          sprite->set_action("swinging", 1);
+          m_sprite->set_action("swinging", 1);
         } else {
-          sprite->set_action("breaking", 1);
+          m_sprite->set_action("breaking", 1);
         }
 
         return FORCE_MOVE;
@@ -96,9 +96,9 @@ RustyTrampoline::collision(GameObject& other, const CollisionHit& hit)
         SoundManager::current()->play(BOUNCE_SOUND);
         counter--;
         if (counter > 0) {
-          sprite->set_action("swinging", 1);
+          m_sprite->set_action("swinging", 1);
         } else {
-          sprite->set_action("breaking", 1);
+          m_sprite->set_action("breaking", 1);
         }
         return FORCE_MOVE;
       }
@@ -121,7 +121,7 @@ RustyTrampoline::grab(MovingObject& object, const Vector& pos, Direction dir) {
 void
 RustyTrampoline::ungrab(MovingObject& object, Direction dir) {
   Rock::ungrab(object, dir);
-  sprite->set_action("breaking", 1);
+  m_sprite->set_action("breaking", 1);
   counter = 0; //remove in update()
 }
 

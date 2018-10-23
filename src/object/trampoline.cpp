@@ -43,9 +43,9 @@ Trampoline::Trampoline(const ReaderMapping& lisp) :
   if(lisp.get("portable", portable)) {
     if(!portable) {
       //we need another sprite
-      sprite_name = "images/objects/trampoline/trampoline_fix.sprite";
-      sprite = SpriteManager::current()->create(sprite_name);
-      sprite->set_action("normal");
+      m_sprite_name = "images/objects/trampoline/trampoline_fix.sprite";
+      m_sprite = SpriteManager::current()->create(m_sprite_name);
+      m_sprite->set_action("normal");
     }
   }
 }
@@ -56,17 +56,17 @@ Trampoline::Trampoline(const Vector& pos, bool port) :
 {
   SoundManager::current()->preload(TRAMPOLINE_SOUND);
   if(!port) {
-    sprite_name = "images/objects/trampoline/trampoline_fix.sprite";
-    sprite = SpriteManager::current()->create(sprite_name);
-    sprite->set_action("normal");
+    m_sprite_name = "images/objects/trampoline/trampoline_fix.sprite";
+    m_sprite = SpriteManager::current()->create(m_sprite_name);
+    m_sprite->set_action("normal");
   }
 }
 
 void
 Trampoline::update(float elapsed_time)
 {
-  if(sprite->animation_done()) {
-    sprite->set_action("normal");
+  if(m_sprite->animation_done()) {
+    m_sprite->set_action("normal");
   }
 
   Rock::update(elapsed_time);
@@ -93,7 +93,7 @@ Trampoline::collision(GameObject& other, const CollisionHit& hit)
           vy = player->get_controller()->hold(Controller::JUMP) ? VY_MIN - 300 : VY_INITIAL - 40;
         player->get_physic().set_velocity_y(vy);
         SoundManager::current()->play(TRAMPOLINE_SOUND);
-        sprite->set_action("swinging", 1);
+        m_sprite->set_action("swinging", 1);
         return FORCE_MOVE;
       }
     }
@@ -106,7 +106,7 @@ Trampoline::collision(GameObject& other, const CollisionHit& hit)
         vy = VY_INITIAL;
         walking_badguy->set_velocity_y(vy);
         SoundManager::current()->play(TRAMPOLINE_SOUND);
-        sprite->set_action("swinging", 1);
+        m_sprite->set_action("swinging", 1);
         return FORCE_MOVE;
       }
     }
@@ -117,7 +117,7 @@ Trampoline::collision(GameObject& other, const CollisionHit& hit)
 
 void
 Trampoline::grab(MovingObject& object, const Vector& pos, Direction dir) {
-  sprite->set_animation_loops(0);
+  m_sprite->set_animation_loops(0);
   Rock::grab(object, pos, dir);
 }
 

@@ -36,12 +36,12 @@ SecretAreaTrigger::SecretAreaTrigger(const ReaderMapping& reader) :
   script(),
   new_size()
 {
-  reader.get("x", bbox.p1.x);
-  reader.get("y", bbox.p1.y);
+  reader.get("x", m_bbox.p1.x);
+  reader.get("y", m_bbox.p1.y);
   float w,h;
   reader.get("width", w, 32.0f);
   reader.get("height", h, 32.0f);
-  bbox.set_size(w, h);
+  m_bbox.set_size(w, h);
   reader.get("fade-tilemap", fade_tilemap);
   reader.get("message", message);
   if(message.empty() && !Editor::is_active()) {
@@ -58,13 +58,13 @@ SecretAreaTrigger::SecretAreaTrigger(const Rectf& area, std::string fade_tilemap
   script(),
   new_size()
 {
-  bbox = area;
+  m_bbox = area;
 }
 
 ObjectSettings
 SecretAreaTrigger::get_settings() {
-  new_size.x = bbox.get_width();
-  new_size.y = bbox.get_height();
+  new_size.x = m_bbox.get_width();
+  new_size.y = m_bbox.get_height();
   ObjectSettings result(_("Secret area"));
   result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &m_name));
   result.options.push_back( ObjectOption(MN_NUMFIELD, _("Width"), &new_size.x, "width"));
@@ -79,7 +79,7 @@ SecretAreaTrigger::get_settings() {
 
 void
 SecretAreaTrigger::after_editor_set() {
-  bbox.set_size(new_size.x, new_size.y);
+  m_bbox.set_size(new_size.x, new_size.y);
 }
 
 std::string
@@ -99,7 +99,7 @@ SecretAreaTrigger::draw(DrawingContext& context)
     context.pop_transform();
   }
   if (Editor::is_active()) {
-    context.color().draw_filled_rect(bbox, Color(0.0f, 1.0f, 0.0f, 0.6f),
+    context.color().draw_filled_rect(m_bbox, Color(0.0f, 1.0f, 0.0f, 0.6f),
                              0.0f, LAYER_OBJECTS);
   } else if (message_timer.check()) {
     remove_me();

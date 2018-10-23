@@ -67,13 +67,13 @@ Fish::collision_tile(uint32_t tile_attributes)
   if ((tile_attributes & Tile::WATER) && (physic.get_velocity_y() >= 0)) {
 
     // initialize stop position if uninitialized
-    if (stop_y == 0) stop_y = get_pos().y + bbox.get_height();
+    if (stop_y == 0) stop_y = get_pos().y + m_bbox.get_height();
 
     // stop when we have reached the stop position
     if (get_pos().y >= stop_y) {
       if(!frozen)
         start_waiting();
-      movement = Vector(0, 0);
+      m_movement = Vector(0, 0);
     }
 
   }
@@ -94,7 +94,7 @@ Fish::active_update(float elapsed_time)
 
   // set sprite
   if(!frozen)
-    sprite->set_action(physic.get_velocity_y() < 0 ? "normal" : "down");
+    m_sprite->set_action(physic.get_velocity_y() < 0 ? "normal" : "down");
 
   // we can't afford flying out of the tilemap, 'cause the engine would remove us.
   if ((get_pos().y - 31.8) < 0) // too high, let us fall
@@ -128,8 +128,8 @@ void
 Fish::freeze()
 {
   BadGuy::freeze();
-  sprite->set_action(physic.get_velocity_y() < 0 ? "iced" : "iced-down");
-  sprite->set_color(Color(1.0f, 1.0f, 1.0f));
+  m_sprite->set_action(physic.get_velocity_y() < 0 ? "iced" : "iced-down");
+  m_sprite->set_color(Color(1.0f, 1.0f, 1.0f));
   waiting.stop();
 }
 
@@ -143,7 +143,7 @@ Fish::unfreeze()
 void
 Fish::kill_fall()
 {
-  sprite->set_action("normal");
+  m_sprite->set_action("normal");
   BadGuy::kill_fall();
 }
 

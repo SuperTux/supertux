@@ -59,7 +59,7 @@ MrIceBlock::active_update(float elapsed_time)
     set_state(ICESTATE_WAKING);
   }
 
-  if (ice_state == ICESTATE_WAKING && sprite->animation_done()) {
+  if (ice_state == ICESTATE_WAKING && m_sprite->animation_done()) {
     set_state(ICESTATE_NORMAL);
   }
 
@@ -242,13 +242,13 @@ MrIceBlock::set_state(IceState state_, bool up)
       physic.set_velocity_x(dir == LEFT ? -KICKSPEED : KICKSPEED);
       set_action(dir == LEFT ? "flat-left" : "flat-right", /* loops = */ -1);
       // we should slide above 1 block holes now...
-      bbox.set_size(34, 31.8f);
+      m_bbox.set_size(34, 31.8f);
       break;
     case ICESTATE_GRABBED:
       flat_timer.stop();
       break;
     case ICESTATE_WAKING:
-      sprite->set_action(dir == LEFT ? "waking-left" : "waking-right",
+      m_sprite->set_action(dir == LEFT ? "waking-left" : "waking-right",
                          /* loops = */ 1);
       break;
     default:
@@ -260,7 +260,7 @@ MrIceBlock::set_state(IceState state_, bool up)
 void
 MrIceBlock::grab(MovingObject&, const Vector& pos, Direction dir_)
 {
-  movement = pos - get_pos();
+  m_movement = pos - get_pos();
   dir = dir_;
   set_action(dir_ == LEFT ? "flat-left" : "flat-right", /* loops = */ -1);
   set_state(ICESTATE_GRABBED);

@@ -52,15 +52,15 @@ SkullTile::draw(DrawingContext& context)
     pos.x += static_cast<float>(graphicsRandom.rand(-3, 3));
   }
 
-  sprite->draw(context.color(), pos, layer);
+  m_sprite->draw(context.color(), pos, m_layer);
 }
 
 void
 SkullTile::update(float elapsed_time)
 {
   if(falling) {
-    movement = physic.get_movement(elapsed_time);
-    if(!Sector::get().inside(bbox)) {
+    m_movement = physic.get_movement(elapsed_time);
+    if(!Sector::get().inside(m_bbox)) {
       remove_me();
       return;
     }

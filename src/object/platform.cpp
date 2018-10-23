@@ -45,7 +45,7 @@ Platform::Platform(const ReaderMapping& reader, const std::string& default_sprit
   boost::optional<ReaderMapping> path_mapping;
   if (!reader.get("path", path_mapping))
   {
-    path.reset(new Path(bbox.p1));
+    path.reset(new Path(m_bbox.p1));
     walker.reset(new PathWalker(path.get(), running));
   }
   else
@@ -53,7 +53,7 @@ Platform::Platform(const ReaderMapping& reader, const std::string& default_sprit
     path.reset(new Path());
     path->read(*path_mapping);
     walker.reset(new PathWalker(path.get(), running));
-    bbox.set_pos(path->get_base());
+    m_bbox.set_pos(path->get_base());
   }
 }
 
@@ -110,7 +110,7 @@ Platform::update(float elapsed_time)
       // Player doesn't touch platform and Platform is not moving
 
       // Travel to node nearest to nearest player
-      auto player = Sector::get().get_nearest_player(bbox);
+      auto player = Sector::get().get_nearest_player(m_bbox);
       if (player) {
         int nearest_node_id = path->get_nearest_node_no(player->get_bbox().p2);
         if (nearest_node_id != -1) {
@@ -138,8 +138,8 @@ Platform::update(float elapsed_time)
   if (Editor::is_active()) {
     set_pos(new_pos);
   } else {
-    movement = new_pos - get_pos();
-    speed = movement / elapsed_time;
+    m_movement = new_pos - get_pos();
+    speed = m_movement / elapsed_time;
   }
 
 }
@@ -165,7 +165,7 @@ Platform::stop_moving()
 void
 Platform::move_to(const Vector& pos)
 {
-  Vector shift = pos - bbox.p1;
+  Vector shift = pos - m_bbox.p1;
   if (path) {
     path->move_by(shift);
   }

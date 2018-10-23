@@ -38,7 +38,7 @@ FlyingSnowBall::FlyingSnowBall(const ReaderMapping& reader) :
 void
 FlyingSnowBall::initialize()
 {
-  sprite->set_action(dir == LEFT ? "left" : "right");
+  m_sprite->set_action(dir == LEFT ? "left" : "right");
 }
 
 void
@@ -51,7 +51,7 @@ FlyingSnowBall::activate()
 bool
 FlyingSnowBall::collision_squished(GameObject& object)
 {
-  sprite->set_action(dir == LEFT ? "squished-left" : "squished-right");
+  m_sprite->set_action(dir == LEFT ? "squished-left" : "squished-right");
   physic.set_acceleration_y(0);
   physic.set_velocity_y(0);
   kill_squished(object);
@@ -92,17 +92,17 @@ FlyingSnowBall::active_update(float elapsed_time)
 
   }
 
-  movement=physic.get_movement(elapsed_time);
+  m_movement=physic.get_movement(elapsed_time);
 
   auto player = get_nearest_player();
   if (player) {
     dir = (player->get_pos().x > get_pos().x) ? RIGHT : LEFT;
-    sprite->set_action(dir == LEFT ? "left" : "right");
+    m_sprite->set_action(dir == LEFT ? "left" : "right");
   }
 
   // spawn smoke puffs
   if (puff_timer.check()) {
-    Vector ppos = bbox.get_middle();
+    Vector ppos = m_bbox.get_middle();
     Vector pspeed = Vector(gameRandom.randf(-10, 10), 150);
     Vector paccel = Vector(0,0);
     Sector::get().add<SpriteParticle>("images/objects/particles/smoke.sprite",

@@ -25,8 +25,8 @@ SpawnPointMarker::SpawnPointMarker (const ReaderMapping& lisp) :
   surface(Surface::from_file("images/engine/editor/spawnpoint.png"))
 {
   lisp.get("name", m_name, "");
-  lisp.get("x", bbox.p1.x, 0.0f);
-  lisp.get("y", bbox.p1.y, 0.0f);
+  lisp.get("x", m_bbox.p1.x, 0.0f);
+  lisp.get("y", m_bbox.p1.y, 0.0f);
 
   setup();
 }
@@ -35,16 +35,16 @@ SpawnPointMarker::SpawnPointMarker (const SpawnPoint* sp) :
   surface(Surface::from_file("images/engine/editor/spawnpoint.png"))
 {
   m_name = sp->name;
-  bbox.p1 = sp->pos;
+  m_bbox.p1 = sp->pos;
   setup();
 }
 
 void SpawnPointMarker::setup() {
-  bbox.set_size(32, 32);
+  m_bbox.set_size(32, 32);
 }
 
 void SpawnPointMarker::draw(DrawingContext& context) {
-  context.color().draw_surface(surface, bbox.p1, LAYER_FOREGROUND1);
+  context.color().draw_surface(surface, m_bbox.p1, LAYER_FOREGROUND1);
 }
 
 /* EOF */

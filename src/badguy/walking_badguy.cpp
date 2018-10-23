@@ -74,8 +74,8 @@ WalkingBadguy::initialize()
 {
   if(frozen)
     return;
-  sprite->set_action(dir == LEFT ? walk_left_action : walk_right_action);
-  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
+  m_sprite->set_action(dir == LEFT ? walk_left_action : walk_right_action);
+  m_bbox.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
   physic.set_velocity_x(dir == LEFT ? -walk_speed : walk_speed);
   physic.set_acceleration_x (0.0);
 }
@@ -197,7 +197,7 @@ WalkingBadguy::turn_around()
     return;
   dir = dir == LEFT ? RIGHT : LEFT;
   if (get_state() == STATE_INIT || get_state() == STATE_INACTIVE || get_state() == STATE_ACTIVE) {
-    sprite->set_action(dir == LEFT ? walk_left_action : walk_right_action);
+    m_sprite->set_action(dir == LEFT ? walk_left_action : walk_right_action);
   }
   physic.set_velocity_x(-physic.get_velocity_x());
   physic.set_acceleration_x (-physic.get_acceleration_x ());
@@ -242,7 +242,7 @@ void
 WalkingBadguy::after_editor_set()
 {
   BadGuy::after_editor_set();
-  sprite->set_action(dir == LEFT ? walk_left_action : walk_right_action);
+  m_sprite->set_action(dir == LEFT ? walk_left_action : walk_right_action);
 }
 
 /* EOF */

@@ -67,7 +67,7 @@ PneumaticPlatform::collision(GameObject& other, const CollisionHit& )
   // somehow the hit parameter does not get filled in, so to determine (hit.top == true) we do this:
   auto mo = dynamic_cast<MovingObject*>(&other);
   if (!mo) return FORCE_MOVE;
-  if ((mo->get_bbox().p2.y) > (bbox.p1.y + 2)) return FORCE_MOVE;
+  if ((mo->get_bbox().p2.y) > (m_bbox.p1.y + 2)) return FORCE_MOVE;
 
   auto pl = dynamic_cast<Player*>(mo);
   if (pl) {
@@ -93,7 +93,7 @@ PneumaticPlatform::update(float elapsed_time)
   }
   if (this == slave) {
     offset_y = -master->offset_y;
-    movement = Vector(0, (start_y + offset_y) - get_pos().y);
+    m_movement = Vector(0, (start_y + offset_y) - get_pos().y);
   }
   if (this == master) {
     int contact_diff = static_cast<int>(contacts.size()) - static_cast<int>(slave->contacts.size());
@@ -106,13 +106,13 @@ PneumaticPlatform::update(float elapsed_time)
     offset_y += speed_y * elapsed_time * Sector::get().get_gravity();
     if (offset_y < -256) { offset_y = -256; speed_y = 0; }
     if (offset_y > 256) { offset_y = 256; speed_y = -0; }
-    movement = Vector(0, (start_y + offset_y) - get_pos().y);
+    m_movement = Vector(0, (start_y + offset_y) - get_pos().y);
   }
 }
 
 void
 PneumaticPlatform::move_to(const Vector& pos) {
-  Vector shift = pos - bbox.p1;
+  Vector shift = pos - m_bbox.p1;
   if (this == slave) {
     master->set_pos(master->get_pos() + shift);
   } else if (this == master) {
@@ -131,7 +131,7 @@ PneumaticPlatform::editor_delete() {
 void
 PneumaticPlatform::after_editor_set() {
   MovingSprite::after_editor_set();
-  slave->change_sprite(sprite_name);
+  slave->change_sprite(m_sprite_name);
 }
 
 /* EOF */

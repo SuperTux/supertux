@@ -44,7 +44,7 @@ ScriptedObject::ScriptedObject(const ReaderMapping& lisp) :
   lisp.get("physic-enabled", physic_enabled, true);
   lisp.get("visible", visible, true);
   lisp.get("hit-script", hit_script, "");
-  layer = reader_get_layer (lisp, /* default = */ LAYER_OBJECTS);
+  m_layer = reader_get_layer (lisp, /* default = */ LAYER_OBJECTS);
   if( solid ){
     set_group( COLGROUP_MOVING_STATIC );
   } else {
@@ -53,8 +53,8 @@ ScriptedObject::ScriptedObject(const ReaderMapping& lisp) :
 }
 ObjectSettings
 ScriptedObject::get_settings() {
-  new_size.x = bbox.get_width();
-  new_size.y = bbox.get_height();
+  new_size.x = m_bbox.get_width();
+  new_size.y = m_bbox.get_height();
   ObjectSettings result = MovingSprite::get_settings();
   result.options.push_back( ObjectOption(MN_NUMFIELD, "width", &new_size.x, "width", false));
   result.options.push_back( ObjectOption(MN_NUMFIELD, "height", &new_size.y, "height", false));
@@ -70,7 +70,7 @@ ScriptedObject::get_settings() {
 void
 ScriptedObject::move(float x, float y)
 {
-  bbox.move(Vector(x, y));
+  m_bbox.move(Vector(x, y));
 }
 
 float
@@ -148,13 +148,13 @@ ScriptedObject::enable_gravity(bool f)
 void
 ScriptedObject::set_action(const std::string& animation)
 {
-  sprite->set_action(animation);
+  m_sprite->set_action(animation);
 }
 
 std::string
 ScriptedObject::get_action() const
 {
-  return sprite->get_action();
+  return m_sprite->get_action();
 }
 
 void
@@ -167,7 +167,7 @@ ScriptedObject::update(float elapsed_time)
     physic.set_velocity(new_vel.x, new_vel.y);
     new_vel_set = false;
   }
-  movement = physic.get_movement(elapsed_time);
+  m_movement = physic.get_movement(elapsed_time);
 }
 
 void
@@ -176,7 +176,7 @@ ScriptedObject::draw(DrawingContext& context)
   if(!visible)
     return;
 
-  sprite->draw(context.color(), get_pos(), layer);
+  m_sprite->draw(context.color(), get_pos(), m_layer);
 }
 
 void

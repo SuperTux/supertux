@@ -41,15 +41,15 @@ GoldBomb::GoldBomb(const ReaderMapping& reader) :
   SoundManager::current()->preload("sounds/explosion.wav");
 
   //Check if we need another sprite
-  if( !reader.get( "sprite", sprite_name ) ){
+  if( !reader.get( "sprite", m_sprite_name ) ){
     return;
   }
-  if (sprite_name.empty()) {
-    sprite_name = "images/creatures/gold_bomb/gold_bomb.sprite";
+  if (m_sprite_name.empty()) {
+    m_sprite_name = "images/creatures/gold_bomb/gold_bomb.sprite";
     return;
   }
   //Replace sprite
-  sprite = SpriteManager::current()->create( sprite_name );
+  m_sprite = SpriteManager::current()->create( m_sprite_name );
 }
 
 void
@@ -137,11 +137,11 @@ GoldBomb::active_update(float elapsed_time)
   if(tstate == STATE_TICKING) {
     if (on_ground()) physic.set_velocity_x(0);
     ticking->set_position(get_pos());
-    if(sprite->animation_done()) {
+    if(m_sprite->animation_done()) {
       kill_fall();
     }
     else if (!grabbed) {
-      movement = physic.get_movement(elapsed_time);
+      m_movement = physic.get_movement(elapsed_time);
     }
     return;
   }
@@ -168,7 +168,7 @@ GoldBomb::kill_fall()
 
   if(is_valid()) {
     remove_me();
-    Sector::get().add<Explosion>(bbox.get_middle());
+    Sector::get().add<Explosion>(m_bbox.get_middle());
     Sector::get().add<CoinExplode>(get_pos() + Vector (0, -40));
   }
 
@@ -185,20 +185,20 @@ void
 GoldBomb::grab(MovingObject& object, const Vector& pos, Direction dir_)
 {
   if(tstate == STATE_TICKING){
-    movement = pos - get_pos();
+    m_movement = pos - get_pos();
     dir = dir_;
 
     // We actually face the opposite direction of Tux here to make the fuse more
     // visible instead of hiding it behind Tux
-    sprite->set_action_continued(dir == LEFT ? "ticking-right" : "ticking-left");
+    m_sprite->set_action_continued(dir == LEFT ? "ticking-right" : "ticking-left");
     set_colgroup_active(COLGROUP_DISABLED);
     grabbed = true;
     grabber = &object;
   }
   else if(frozen){
-    movement = pos - get_pos();
+    m_movement = pos - get_pos();
     dir = dir_;
-    sprite->set_action(dir_ == LEFT ? "iced-left" : "iced-right");
+    m_sprite->set_action(dir_ == LEFT ? "iced-left" : "iced-right");
     set_colgroup_active(COLGROUP_DISABLED);
     grabbed = true;
   }

@@ -58,17 +58,17 @@ PowerUp::initialize()
   //set default light for glow effect for standard sprites
   lightsprite->set_blend(Blend::ADD);
   lightsprite->set_color(Color(0.0f, 0.0f, 0.0f));
-  if (sprite_name == "images/powerups/egg/egg.sprite") {
+  if (m_sprite_name == "images/powerups/egg/egg.sprite") {
     lightsprite->set_color(Color(0.2f, 0.2f, 0.0f));
-  } else if (sprite_name == "images/powerups/fireflower/fireflower.sprite") {
+  } else if (m_sprite_name == "images/powerups/fireflower/fireflower.sprite") {
     lightsprite->set_color(Color(0.3f, 0.0f, 0.0f));
-  } else if (sprite_name == "images/powerups/iceflower/iceflower.sprite") {
+  } else if (m_sprite_name == "images/powerups/iceflower/iceflower.sprite") {
     lightsprite->set_color(Color(0.0f, 0.1f, 0.2f));
-  } else if (sprite_name == "images/powerups/airflower/airflower.sprite") {
+  } else if (m_sprite_name == "images/powerups/airflower/airflower.sprite") {
     lightsprite->set_color(Color(0.15f, 0.0f, 0.15f));
-  } else if (sprite_name == "images/powerups/earthflower/earthflower.sprite") {
+  } else if (m_sprite_name == "images/powerups/earthflower/earthflower.sprite") {
     lightsprite->set_color(Color(0.0f, 0.3f, 0.0f));
-  } else if (sprite_name == "images/powerups/star/star.sprite") {
+  } else if (m_sprite_name == "images/powerups/star/star.sprite") {
     lightsprite->set_color(Color(0.4f, 0.4f, 0.4f));
   }
 }
@@ -91,8 +91,8 @@ PowerUp::collision(GameObject& other, const CollisionHit&)
   if(player == nullptr)
     return FORCE_MOVE;
 
-  if (sprite_name == "images/powerups/potions/blue-potion.sprite" ||
-      sprite_name == "images/powerups/potions/red-potion.sprite") {
+  if (m_sprite_name == "images/powerups/potions/blue-potion.sprite" ||
+      m_sprite_name == "images/powerups/potions/red-potion.sprite") {
       SoundManager::current()->play("sounds/gulp.wav");
   }
 
@@ -103,31 +103,31 @@ PowerUp::collision(GameObject& other, const CollisionHit&)
   }
 
   // some defaults if no script has been set
-  if (sprite_name == "images/powerups/egg/egg.sprite") {
+  if (m_sprite_name == "images/powerups/egg/egg.sprite") {
     if(!player->add_bonus(GROWUP_BONUS, true))
       return FORCE_MOVE;
     SoundManager::current()->play("sounds/grow.ogg");
-  } else if (sprite_name == "images/powerups/fireflower/fireflower.sprite") {
+  } else if (m_sprite_name == "images/powerups/fireflower/fireflower.sprite") {
     if(!player->add_bonus(FIRE_BONUS, true))
       return FORCE_MOVE;
     SoundManager::current()->play("sounds/fire-flower.wav");
-  } else if (sprite_name == "images/powerups/iceflower/iceflower.sprite") {
+  } else if (m_sprite_name == "images/powerups/iceflower/iceflower.sprite") {
     if(!player->add_bonus(ICE_BONUS, true))
       return FORCE_MOVE;
     SoundManager::current()->play("sounds/fire-flower.wav");
-  } else if (sprite_name == "images/powerups/airflower/airflower.sprite") {
+  } else if (m_sprite_name == "images/powerups/airflower/airflower.sprite") {
     if(!player->add_bonus(AIR_BONUS, true))
       return FORCE_MOVE;
     SoundManager::current()->play("sounds/fire-flower.wav");
-  } else if (sprite_name == "images/powerups/earthflower/earthflower.sprite") {
+  } else if (m_sprite_name == "images/powerups/earthflower/earthflower.sprite") {
     if(!player->add_bonus(EARTH_BONUS, true))
       return FORCE_MOVE;
     SoundManager::current()->play("sounds/fire-flower.wav");
-  } else if (sprite_name == "images/powerups/star/star.sprite") {
+  } else if (m_sprite_name == "images/powerups/star/star.sprite") {
     player->make_invincible();
-  } else if (sprite_name == "images/powerups/1up/1up.sprite") {
+  } else if (m_sprite_name == "images/powerups/1up/1up.sprite") {
     player->get_status().add_coins(100);
-  } else if (sprite_name == "images/powerups/potions/red-potion.sprite") {
+  } else if (m_sprite_name == "images/powerups/potions/red-potion.sprite") {
     scripting::Level_flip_vertically();
   }
 
@@ -139,18 +139,18 @@ void
 PowerUp::update(float elapsed_time)
 {
   if (!no_physics)
-    movement = physic.get_movement(elapsed_time);
+    m_movement = physic.get_movement(elapsed_time);
   //Stars sparkle when close to Tux
-  if (sprite_name == "images/powerups/star/star.sprite"){
-    Player* player = Sector::get().get_nearest_player(bbox);
+  if (m_sprite_name == "images/powerups/star/star.sprite"){
+    Player* player = Sector::get().get_nearest_player(m_bbox);
     if (player) {
-      float disp_x = player->get_bbox().p1.x - bbox.p1.x;
-      float disp_y = player->get_bbox().p1.y - bbox.p1.y;
+      float disp_x = player->get_bbox().p1.x - m_bbox.p1.x;
+      float disp_y = player->get_bbox().p1.y - m_bbox.p1.y;
       if (disp_x*disp_x + disp_y*disp_y <= 256*256)
       {
         if (graphicsRandom.rand(0, 2) == 0) {
-          float px = graphicsRandom.randf(bbox.p1.x * 1.0f, bbox.p2.x * 1.0f);
-          float py = graphicsRandom.randf(bbox.p1.y * 1.0f, bbox.p2.y * 1.0f);
+          float px = graphicsRandom.randf(m_bbox.p1.x * 1.0f, m_bbox.p2.x * 1.0f);
+          float py = graphicsRandom.randf(m_bbox.p1.y * 1.0f, m_bbox.p2.y * 1.0f);
           Vector ppos = Vector(px, py);
           Vector pspeed = Vector(0, 0);
           Vector paccel = Vector(0, 0);
@@ -170,15 +170,15 @@ PowerUp::update(float elapsed_time)
 void
 PowerUp::draw(DrawingContext& context)
 {
-  sprite->draw(context.color(), get_pos(), layer);
+  m_sprite->draw(context.color(), get_pos(), m_layer);
 
   // Stars are brighter
-  if (sprite_name == "images/powerups/star/star.sprite")
+  if (m_sprite_name == "images/powerups/star/star.sprite")
   {
-    sprite->draw(context.color(), get_pos(), layer);
+    m_sprite->draw(context.color(), get_pos(), m_layer);
   }
 
-  lightsprite->draw(context.light(), bbox.get_middle(), 0);
+  lightsprite->draw(context.light(), m_bbox.get_middle(), 0);
 }
 
 ObjectSettings

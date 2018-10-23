@@ -31,10 +31,10 @@ OneUp::OneUp(const Vector& pos, Direction direction) :
 void
 OneUp::update(float elapsed_time)
 {
-  if(!Sector::get().inside(bbox))
+  if(!Sector::get().inside(m_bbox))
     remove_me();
 
-  movement = physic.get_movement(elapsed_time);
+  m_movement = physic.get_movement(elapsed_time);
 }
 
 HitResponse

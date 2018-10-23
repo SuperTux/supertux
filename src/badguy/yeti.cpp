@@ -101,10 +101,10 @@ void
 Yeti::recalculate_pos()
 {
   if (dir == RIGHT) {
-    left_stand_x = bbox.p1.x;
+    left_stand_x = m_bbox.p1.x;
     right_stand_x = left_stand_x + RUN_DISTANCE;
   } else {
-    right_stand_x = bbox.p1.x;
+    right_stand_x = m_bbox.p1.x;
     left_stand_x = right_stand_x - RUN_DISTANCE;
   }
 
@@ -159,7 +159,7 @@ Yeti::active_update(float elapsed_time)
     case BE_ANGRY:
       if(state_timer.check() && on_ground()) {
         physic.set_velocity_y(STOMP_VY);
-        sprite->set_action((dir==RIGHT)?"stomp-right":"stomp-left");
+        m_sprite->set_action((dir==RIGHT)?"stomp-right":"stomp-left");
         SoundManager::current()->play("sounds/yeti_gna.wav");
       }
       break;
@@ -172,7 +172,7 @@ Yeti::active_update(float elapsed_time)
           Sector::get().m_camera->shake(.05f, 0, 5);
         }
         dir = newdir;
-        sprite->set_action((dir==RIGHT)?"jump-right":"jump-left");
+        m_sprite->set_action((dir==RIGHT)?"jump-right":"jump-left");
       }
       if (state_timer.check()) {
         BadGuy::kill_fall();
@@ -189,13 +189,13 @@ Yeti::active_update(float elapsed_time)
       break;
   }
 
-  movement = physic.get_movement(elapsed_time);
+  m_movement = physic.get_movement(elapsed_time);
 }
 
 void
 Yeti::jump_down()
 {
-  sprite->set_action((dir==RIGHT)?"jump-right":"jump-left");
+  m_sprite->set_action((dir==RIGHT)?"jump-right":"jump-left");
   physic.set_velocity_x((dir==RIGHT)?(+JUMP_DOWN_VX):(-JUMP_DOWN_VX));
   physic.set_velocity_y(JUMP_DOWN_VY);
   state = JUMP_DOWN;
@@ -204,7 +204,7 @@ Yeti::jump_down()
 void
 Yeti::run()
 {
-  sprite->set_action((dir==RIGHT)?"run-right":"run-left");
+  m_sprite->set_action((dir==RIGHT)?"run-right":"run-left");
   physic.set_velocity_x((dir==RIGHT)?(+RUN_VX):(-RUN_VX));
   physic.set_velocity_y(0);
   state = RUN;
@@ -213,7 +213,7 @@ Yeti::run()
 void
 Yeti::jump_up()
 {
-  sprite->set_action((dir==RIGHT)?"jump-right":"jump-left");
+  m_sprite->set_action((dir==RIGHT)?"jump-right":"jump-left");
   physic.set_velocity_x((dir==RIGHT)?(+JUMP_UP_VX):(-JUMP_UP_VX));
   physic.set_velocity_y(JUMP_UP_VY);
   state = JUMP_UP;
@@ -225,7 +225,7 @@ Yeti::be_angry()
   //turn around
   dir = (dir==RIGHT) ? LEFT : RIGHT;
 
-  sprite->set_action((dir==RIGHT) ? "stand-right" : "stand-left");
+  m_sprite->set_action((dir==RIGHT) ? "stand-right" : "stand-left");
   physic.set_velocity_x(0);
   stomp_count = 0;
   state = BE_ANGRY;
@@ -265,7 +265,7 @@ void Yeti::take_hit(Player& )
 
     // Set the badguy layer to be above the foremost, so that
     // this does not reveal secret tilemaps:
-    layer = Sector::get().get_foremost_layer() + 1;
+    m_layer = Sector::get().get_foremost_layer() + 1;
     state = SQUISHED;
     state_timer.start(YETI_SQUISH_TIME);
     set_colgroup_active(COLGROUP_MOVING_ONLY_STATIC);
@@ -329,7 +329,7 @@ Yeti::collision_solid(const CollisionHit& hit)
       case BE_ANGRY:
         // we just landed
         if(!state_timer.started()) {
-          sprite->set_action((dir==RIGHT)?"stand-right":"stand-left");
+          m_sprite->set_action((dir==RIGHT)?"stand-right":"stand-left");
           stomp_count++;
           drop_stalactite();
 
@@ -374,9 +374,9 @@ void Yeti::add_snow_explosions()
     Vector pos = get_pos(), velocity;
     velocity.x = SNOW_EXPLOSIONS_VX * graphicsRandom.randf(0.5f, 2.0f) * (graphicsRandom.rand(2) ? 1.0f : -1.0f);
     velocity.y = SNOW_EXPLOSIONS_VY * graphicsRandom.randf(0.5f, 2.0f);
-    pos.x += static_cast<float>(sprite->get_width()) / 2.0f;
-    pos.x += static_cast<float>(sprite->get_width()) * graphicsRandom.randf(0.3f, 0.5f) * ((velocity.x > 0) ? 1.0f : -1.0f);
-    pos.y += static_cast<float>(sprite->get_height()) * graphicsRandom.randf(-0.3f, 0.3f);
+    pos.x += static_cast<float>(m_sprite->get_width()) / 2.0f;
+    pos.x += static_cast<float>(m_sprite->get_width()) * graphicsRandom.randf(0.3f, 0.5f) * ((velocity.x > 0) ? 1.0f : -1.0f);
+    pos.y += static_cast<float>(m_sprite->get_height()) * graphicsRandom.randf(-0.3f, 0.3f);
     velocity.x += physic.get_velocity_x();
     Sector::get().add<SnowExplosionParticle>(pos, velocity);
   }
@@ -389,7 +389,7 @@ Yeti::SnowExplosionParticle::SnowExplosionParticle(const Vector& pos, const Vect
   physic.set_velocity_y(velocity.y);
   physic.enable_gravity(true);
   set_state(STATE_FALLING);
-  layer = Sector::get().get_foremost_layer() + 1;
+  m_layer = Sector::get().get_foremost_layer() + 1;
 }
 
 /* EOF */

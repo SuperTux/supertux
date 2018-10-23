@@ -31,15 +31,15 @@ ShortFuse::ShortFuse(const ReaderMapping& reader) :
   max_drop_height = -1;
 
   //Check if we need another sprite
-  if( !reader.get( "sprite", sprite_name ) ){
+  if( !reader.get( "sprite", m_sprite_name ) ){
     return;
   }
-  if (sprite_name.empty()) {
-    sprite_name = "images/creatures/short_fuse/short_fuse.sprite";
+  if (m_sprite_name.empty()) {
+    m_sprite_name = "images/creatures/short_fuse/short_fuse.sprite";
     return;
   }
   //Replace sprite
-  sprite = SpriteManager::current()->create( sprite_name );
+  m_sprite = SpriteManager::current()->create( m_sprite_name );
 }
 
 void

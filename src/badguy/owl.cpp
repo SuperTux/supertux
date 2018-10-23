@@ -54,7 +54,7 @@ Owl::initialize()
 {
   physic.set_velocity_x(dir == LEFT ? -FLYING_SPEED : FLYING_SPEED);
   physic.enable_gravity(false);
-  sprite->set_action(dir == LEFT ? "left" : "right");
+  m_sprite->set_action(dir == LEFT ? "left" : "right");
 
   // If we add the carried object to the sector while we're editing 
   // a level with the editor, it gets written to the level file,
@@ -86,7 +86,7 @@ Owl::initialize()
 bool
 Owl::is_above_player() const
 {
-  auto player = Sector::get().get_nearest_player (bbox);
+  auto player = Sector::get().get_nearest_player (m_bbox);
   if (!player)
     return false;
 
@@ -96,9 +96,9 @@ Owl::is_above_player() const
 
   const Rectf& player_bbox = player->get_bbox();
 
-  return ((player_bbox.p1.y >= bbox.p2.y) /* player is below us */
-          && ((player_bbox.p2.x + x_offset) > bbox.p1.x)
-          && ((player_bbox.p1.x + x_offset) < bbox.p2.x));
+  return ((player_bbox.p1.y >= m_bbox.p2.y) /* player is below us */
+          && ((player_bbox.p2.x + x_offset) > m_bbox.p1.x)
+          && ((player_bbox.p1.x + x_offset) < m_bbox.p2.x));
 }
 
 void
@@ -111,7 +111,7 @@ Owl::active_update (float elapsed_time)
 
   if (carried_object != nullptr) {
     if (!is_above_player ()) {
-      Vector obj_pos = get_anchor_pos (bbox, ANCHOR_BOTTOM);
+      Vector obj_pos = get_anchor_pos (m_bbox, ANCHOR_BOTTOM);
       obj_pos.x -= 16.f; /* FIXME: Actually do use the half width of the carried object here. */
       obj_pos.y += 3.f; /* Move a little away from the hitbox (the body). Looks nicer. */
 
@@ -134,7 +134,7 @@ Owl::active_update (float elapsed_time)
 bool
 Owl::collision_squished(GameObject&)
 {
-  auto player = Sector::get().get_nearest_player (bbox);
+  auto player = Sector::get().get_nearest_player (m_bbox);
   if (player)
     player->bounce (*this);
 
@@ -182,7 +182,7 @@ Owl::unfreeze()
   BadGuy::unfreeze();
   physic.set_velocity_x(dir == LEFT ? -FLYING_SPEED : FLYING_SPEED);
   physic.enable_gravity(false);
-  sprite->set_action(dir == LEFT ? "left" : "right");
+  m_sprite->set_action(dir == LEFT ? "left" : "right");
 }
 
 bool
@@ -228,7 +228,7 @@ void
 Owl::after_editor_set()
 {
   BadGuy::after_editor_set();
-  sprite->set_action(dir == LEFT ? "left" : "right");
+  m_sprite->set_action(dir == LEFT ? "left" : "right");
 }
 
 /* EOF */

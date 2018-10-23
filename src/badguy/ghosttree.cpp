@@ -61,7 +61,7 @@ void
 GhostTree::die()
 {
   mystate = STATE_DYING;
-  sprite->set_action("dying", 1);
+  m_sprite->set_action("dying", 1);
   glow_sprite->set_action("dying", 1);
 
   for(const auto& willo : willowisps) {
@@ -106,7 +106,7 @@ GhostTree::active_update(float /*elapsed_time*/)
       for(const auto& willo : willowisps) {
         if(willo->get_color() == col) {
           willo->start_sucking(
-            bbox.get_middle() + SUCK_TARGET_OFFSET
+            m_bbox.get_middle() + SUCK_TARGET_OFFSET
             + Vector(gameRandom.randf(-SUCK_TARGET_SPREAD, SUCK_TARGET_SPREAD),
                      gameRandom.randf(-SUCK_TARGET_SPREAD, SUCK_TARGET_SPREAD)));
         }
@@ -116,7 +116,7 @@ GhostTree::active_update(float /*elapsed_time*/)
 
     if(willowisp_timer.check()) {
       if(willowisps.size() < WILLOWISP_COUNT) {
-        Vector pos = Vector(bbox.get_width() / 2, bbox.get_height() / 2 + willo_spawn_y + WILLOWISP_TOP_OFFSET);
+        Vector pos = Vector(m_bbox.get_width() / 2, m_bbox.get_height() / 2 + willo_spawn_y + WILLOWISP_TOP_OFFSET);
         auto willowisp = Sector::get().add<TreeWillOWisp>(this, pos, 200 + willo_radius, willo_speed);
         willowisps.push_back(willowisp);
 
@@ -154,7 +154,7 @@ GhostTree::active_update(float /*elapsed_time*/)
       /* TODO indicate root with an animation */
       auto player = get_nearest_player();
       if (player) {
-        Sector::get().add<Root>(Vector(player->get_bbox().get_left(), bbox.get_bottom()+ROOT_TOP_OFFSET));
+        Sector::get().add<Root>(Vector(player->get_bbox().get_left(), m_bbox.get_bottom()+ROOT_TOP_OFFSET));
       }
     }
   } else if (mystate == STATE_SWALLOWING) {
@@ -162,25 +162,25 @@ GhostTree::active_update(float /*elapsed_time*/)
       // suck in lantern
       assert (suck_lantern);
       Vector pos = suck_lantern->get_pos();
-      Vector delta = bbox.get_middle() + SUCK_TARGET_OFFSET - pos;
+      Vector delta = m_bbox.get_middle() + SUCK_TARGET_OFFSET - pos;
       Vector dir_ = delta.unit();
       if (delta.norm() < 1) {
         dir_ = delta;
         suck_lantern->ungrab(*this, RIGHT);
         suck_lantern->remove_me();
         suck_lantern = nullptr;
-        sprite->set_action("swallow", 1);
+        m_sprite->set_action("swallow", 1);
       } else {
         pos += dir_;
         suck_lantern->grab(*this, pos, RIGHT);
       }
     } else {
       // wait until lantern is swallowed
-      if (sprite->animation_done()) {
+      if (m_sprite->animation_done()) {
         if (is_color_deadly(suck_lantern_color)) {
           die();
         } else {
-          sprite->set_action("default");
+          m_sprite->set_action("default");
           mystate = STATE_IDLE;
           spawn_lantern();
         }
@@ -221,7 +221,7 @@ GhostTree::draw(DrawingContext& context)
   } else {
     context.set_alpha(0.5f);
   }
-  glow_sprite->draw(context.light(), get_pos(), layer);
+  glow_sprite->draw(context.light(), get_pos(), m_layer);
   context.pop_transform();
 }
 
@@ -258,7 +258,7 @@ GhostTree::collision(GameObject& other, const CollisionHit& )
 void
 GhostTree::spawn_lantern()
 {
-  Sector::get().add<Lantern>(bbox.get_middle() + SUCK_TARGET_OFFSET);
+  Sector::get().add<Lantern>(m_bbox.get_middle() + SUCK_TARGET_OFFSET);
 }
 
 /* EOF */

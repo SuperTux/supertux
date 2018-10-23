@@ -38,7 +38,7 @@ Flame::Flame(const ReaderMapping& reader) :
   reader.get("radius", radius, 100.0f);
   reader.get("speed", speed, 2.0f);
   if (!Editor::is_active()) {
-    bbox.set_pos(Vector(start_position.x + cosf(angle) * radius,
+    m_bbox.set_pos(Vector(start_position.x + cosf(angle) * radius,
                         start_position.y + sinf(angle) * radius));
   }
   countMe = false;
@@ -67,11 +67,11 @@ Flame::active_update(float elapsed_time)
   if (!Editor::is_active()) {
     Vector newpos(start_position.x + cosf(angle) * radius,
                   start_position.y + sinf(angle) * radius);
-    movement = newpos - get_pos();
+    m_movement = newpos - get_pos();
     sound_source->set_position(get_pos());
   }
 
-  if (sprite->get_action() == "fade" && sprite->animation_done()) remove_me();
+  if (m_sprite->get_action() == "fade" && m_sprite->animation_done()) remove_me();
 }
 
 void
@@ -103,10 +103,10 @@ void
 Flame::freeze()
 {
   SoundManager::current()->play("sounds/sizzle.ogg", get_pos());
-  sprite->set_action("fade", 1);
+  m_sprite->set_action("fade", 1);
   Sector::get().add<SpriteParticle>("images/objects/particles/smoke.sprite",
                                          "default",
-                                         bbox.get_middle(), ANCHOR_MIDDLE,
+                                         m_bbox.get_middle(), ANCHOR_MIDDLE,
                                          Vector(0, -150), Vector(0,0), LAYER_BACKGROUNDTILES+2);
   set_group(COLGROUP_DISABLED);
 

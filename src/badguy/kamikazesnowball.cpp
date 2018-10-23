@@ -42,13 +42,13 @@ KamikazeSnowball::initialize()
 {
   physic.set_velocity_x(dir == LEFT ? -KAMIKAZE_SPEED : KAMIKAZE_SPEED);
   physic.enable_gravity(false);
-  sprite->set_action(dir == LEFT ? "left" : "right");
+  m_sprite->set_action(dir == LEFT ? "left" : "right");
 }
 
 bool
 KamikazeSnowball::collision_squished(GameObject& object)
 {
-  sprite->set_action(dir == LEFT ? "squished-left" : "squished-right");
+  m_sprite->set_action(dir == LEFT ? "squished-left" : "squished-right");
   kill_squished(object);
   return true;
 }
@@ -67,7 +67,7 @@ KamikazeSnowball::collision_solid(const CollisionHit& hit)
 void
 KamikazeSnowball::kill_collision()
 {
-  sprite->set_action(dir == LEFT ? "collision-left" : "collision-right");
+  m_sprite->set_action(dir == LEFT ? "collision-left" : "collision-right");
   SoundManager::current()->play(SPLAT_SOUND, get_pos());
   physic.set_velocity_x(0);
   physic.set_velocity_y(0);
@@ -93,13 +93,13 @@ void
 KamikazeSnowball::after_editor_set()
 {
   BadGuy::after_editor_set();
-  sprite->set_action(dir == LEFT ? "left" : "right");
+  m_sprite->set_action(dir == LEFT ? "left" : "right");
 }
 
 LeafShot::LeafShot(const ReaderMapping& reader) :
   KamikazeSnowball(reader)
 {
-  sprite = SpriteManager::current()->create("images/creatures/leafshot/leafshot.sprite");
+  m_sprite = SpriteManager::current()->create("images/creatures/leafshot/leafshot.sprite");
 }
 
 void
@@ -107,7 +107,7 @@ LeafShot::initialize()
 {
   physic.set_velocity_x(dir == LEFT ? -LEAFSHOT_SPEED : LEAFSHOT_SPEED);
   physic.enable_gravity(false);
-  sprite->set_action(dir == LEFT ? "left" : "right");
+  m_sprite->set_action(dir == LEFT ? "left" : "right");
 }
 
 bool
@@ -119,7 +119,7 @@ LeafShot::is_freezable() const
 bool
 LeafShot::collision_squished(GameObject& object)
 {
-  sprite->set_action(dir == LEFT ? "squished-left" : "squished-right");
+  m_sprite->set_action(dir == LEFT ? "squished-left" : "squished-right");
   // Spawn death particles
   spawn_explosion_sprites(3, "images/objects/particles/leafshot.sprite");
   kill_squished(object);

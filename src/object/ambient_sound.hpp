@@ -61,7 +61,7 @@ public:
 
   const Vector get_pos() const
   {
-    return bbox.p1;
+    return m_bbox.p1;
   }
   virtual std::string get_class() const override {
     return "ambient_sound";

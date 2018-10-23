@@ -72,7 +72,7 @@ WillOWisp::WillOWisp(const ReaderMapping& reader) :
   lightsprite->set_color(Color(0.0f, 0.2f, 0.0f));
   glowing = true;
 
-  sprite->set_action("idle");
+  m_sprite->set_action("idle");
 }
 
 void
@@ -91,7 +91,7 @@ WillOWisp::active_update(float elapsed_time)
 
   auto player = get_nearest_player();
   if (!player) return;
-  Vector p1 = bbox.get_middle();
+  Vector p1 = m_bbox.get_middle();
   Vector p2 = player->get_bbox().get_middle();
   Vector dist = (p2 - p1);
 
@@ -110,7 +110,7 @@ WillOWisp::active_update(float elapsed_time)
         vanish();
       } else if (dist.norm() >= 1) {
         Vector dir_ = dist.unit();
-        movement = dir_ * elapsed_time * flyspeed;
+        m_movement = dir_ * elapsed_time * flyspeed;
       } else {
         /* We somehow landed right on top of the player without colliding.
          * Sit tight and avoid a division by zero. */
@@ -119,15 +119,15 @@ WillOWisp::active_update(float elapsed_time)
       break;
 
     case STATE_WARPING:
-      if(sprite->animation_done()) {
+      if(m_sprite->animation_done()) {
         remove_me();
       }
       break;
 
     case STATE_VANISHING: {
       Vector dir_ = dist.unit();
-      movement = dir_ * elapsed_time * flyspeed;
-      if(sprite->animation_done()) {
+      m_movement = dir_ * elapsed_time * flyspeed;
+      if(m_sprite->animation_done()) {
         remove_me();
       }
       break;
@@ -137,7 +137,7 @@ WillOWisp::active_update(float elapsed_time)
     case STATE_PATHMOVING_TRACK:
       if(walker.get() == nullptr)
         return;
-      movement = walker->advance(elapsed_time) - get_pos();
+      m_movement = walker->advance(elapsed_time) - get_pos();
       if(mystate == STATE_PATHMOVING_TRACK && dist.norm() <= track_range) {
         mystate = STATE_TRACKING;
       }
@@ -187,7 +187,7 @@ void
 WillOWisp::vanish()
 {
   mystate = STATE_VANISHING;
-  sprite->set_action("vanishing", 1);
+  m_sprite->set_action("vanishing", 1);
   set_colgroup_active(COLGROUP_DISABLED);
 }
 
@@ -213,7 +213,7 @@ WillOWisp::collision_player(Player& player, const CollisionHit& ) {
     return ABORT_MOVE;
 
   mystate = STATE_WARPING;
-  sprite->set_action("warping", 1);
+  m_sprite->set_action("warping", 1);
 
   if(!hit_script.empty()) {
     Sector::get().run_script(hit_script, "hit-script");
@@ -299,7 +299,7 @@ void WillOWisp::play_looping_sounds()
 void
 WillOWisp::move_to(const Vector& pos)
 {
-  Vector shift = pos - bbox.p1;
+  Vector shift = pos - m_bbox.p1;
   if (path) {
     path->move_by(shift);
   }

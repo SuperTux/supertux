@@ -56,8 +56,8 @@ void
 LiveFire::active_update(float elapsed_time) {
 
   // Remove when extinguish animation is done
-  if((sprite->get_action() == "extinguish-left" || sprite->get_action() == "extinguish-right" )
-    && sprite->animation_done()) remove_me();
+  if((m_sprite->get_action() == "extinguish-left" || m_sprite->get_action() == "extinguish-right" )
+    && m_sprite->animation_done()) remove_me();
 
   if(state == STATE_WALKING) {
     WalkingBadguy::active_update(elapsed_time);
@@ -70,20 +70,20 @@ LiveFire::active_update(float elapsed_time) {
     if (player) {
       Rectf pb = player->get_bbox();
 
-      bool inReach_left = (pb.p2.x >= bbox.p2.x-((dir == LEFT) ? 256 : 0));
-      bool inReach_right = (pb.p1.x <= bbox.p1.x+((dir == RIGHT) ? 256 : 0));
-      bool inReach_top = (pb.p2.y >= bbox.p1.y);
-      bool inReach_bottom = (pb.p1.y <= bbox.p2.y);
+      bool inReach_left = (pb.p2.x >= m_bbox.p2.x-((dir == LEFT) ? 256 : 0));
+      bool inReach_right = (pb.p1.x <= m_bbox.p1.x+((dir == RIGHT) ? 256 : 0));
+      bool inReach_top = (pb.p2.y >= m_bbox.p1.y);
+      bool inReach_bottom = (pb.p1.y <= m_bbox.p2.y);
 
       if (inReach_left && inReach_right && inReach_top && inReach_bottom) {
         // wake up
-        sprite->set_action(dir == LEFT ? "waking-left" : "waking-right", 1);
+        m_sprite->set_action(dir == LEFT ? "waking-left" : "waking-right", 1);
         state = STATE_WAKING;
       }
     }
   }
   else if(state == STATE_WAKING) {
-    if(sprite->animation_done()) {
+    if(m_sprite->animation_done()) {
       // start walking
       state = STATE_WALKING;
       WalkingBadguy::initialize();
@@ -118,7 +118,7 @@ LiveFire::kill_fall()
 {
   SoundManager::current()->play(death_sound, get_pos());
   // throw a puff of smoke
-  Vector ppos = bbox.get_middle();
+  Vector ppos = m_bbox.get_middle();
   Vector pspeed = Vector(0, -150);
   Vector paccel = Vector(0,0);
   Sector::get().add<SpriteParticle>("images/objects/particles/smoke.sprite",
@@ -126,7 +126,7 @@ LiveFire::kill_fall()
                                          pspeed, paccel,
                                          LAYER_BACKGROUNDTILES+2);
   // extinguish the flame
-  sprite->set_action(dir == LEFT ? "extinguish-left" : "extinguish-right", 1);
+  m_sprite->set_action(dir == LEFT ? "extinguish-left" : "extinguish-right", 1);
   physic.set_velocity_y(0);
   physic.set_acceleration_y(0);
   physic.enable_gravity(false);
@@ -150,7 +150,7 @@ void
 LiveFireAsleep::initialize()
 {
   physic.set_velocity_x(0);
-  sprite->set_action(dir == LEFT ? "sleeping-left" : "sleeping-right");
+  m_sprite->set_action(dir == LEFT ? "sleeping-left" : "sleeping-right");
 }
 
 /* The following defines a dormant version that never wakes */
@@ -165,7 +165,7 @@ void
 LiveFireDormant::initialize()
 {
   physic.set_velocity_x(0);
-  sprite->set_action(dir == LEFT ? "sleeping-left" : "sleeping-right");
+  m_sprite->set_action(dir == LEFT ? "sleeping-left" : "sleeping-right");
 }
 
 /* EOF */

@@ -31,7 +31,7 @@ WalkingCandle::WalkingCandle(const ReaderMapping& reader)
   if (reader.get("color", vColor)) {
     lightcolor = Color(vColor);
   }
-  sprite->set_color(lightcolor);
+  m_sprite->set_color(lightcolor);
   lightsprite->set_color(lightcolor);
 
   countMe = false;
@@ -65,7 +65,7 @@ WalkingCandle::unfreeze() {
 HitResponse
 WalkingCandle::collision(GameObject& other, const CollisionHit& hit) {
   auto l = dynamic_cast<Lantern*>(&other);
-  if (l && !frozen) if (l->get_bbox().p2.y < bbox.p1.y) {
+  if (l && !frozen) if (l->get_bbox().p2.y < m_bbox.p1.y) {
     l->add_color(lightcolor);
     run_dead_script();
     remove_me();
@@ -83,7 +83,7 @@ WalkingCandle::get_settings() {
 
 void
 WalkingCandle::after_editor_set() {
-  sprite->set_color(lightcolor);
+  m_sprite->set_color(lightcolor);
   lightsprite->set_color(lightcolor);
 }
 

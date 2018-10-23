@@ -30,7 +30,7 @@ Jumpy::Jumpy(const ReaderMapping& reader) :
   pos_groundhit(),
   groundhit_pos_set(false)
 {
-  sprite->set_action("left-middle");
+  m_sprite->set_action("left-middle");
   // TODO create a nice sound for this...
   //SoundManager::current()->preload("sounds/skid.wav");
 }
@@ -84,17 +84,17 @@ Jumpy::active_update(float elapsed_time)
 
   if (!groundhit_pos_set)
   {
-    sprite->set_action(dir == LEFT ? "left-middle" : "right-middle");
+    m_sprite->set_action(dir == LEFT ? "left-middle" : "right-middle");
     return;
   }
 
   if ( get_pos().y < (pos_groundhit.y - JUMPY_MID_TOLERANCE ) )
-    sprite->set_action(dir == LEFT ? "left-up" : "right-up");
+    m_sprite->set_action(dir == LEFT ? "left-up" : "right-up");
   else if ( get_pos().y >= (pos_groundhit.y - JUMPY_MID_TOLERANCE) &&
             get_pos().y < (pos_groundhit.y - JUMPY_LOW_TOLERANCE) )
-    sprite->set_action(dir == LEFT ? "left-middle" : "right-middle");
+    m_sprite->set_action(dir == LEFT ? "left-middle" : "right-middle");
   else
-    sprite->set_action(dir == LEFT ? "left-down" : "right-down");
+    m_sprite->set_action(dir == LEFT ? "left-down" : "right-down");
 }
 
 void

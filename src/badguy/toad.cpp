@@ -40,7 +40,7 @@ Toad::initialize()
 {
   // initial state is JUMPING, because we might start airborne
   state = JUMPING;
-  sprite->set_action(dir == LEFT ? "jumping-left" : "jumping-right");
+  m_sprite->set_action(dir == LEFT ? "jumping-left" : "jumping-right");
 }
 
 void
@@ -51,12 +51,12 @@ Toad::set_state(ToadState newState)
     physic.set_velocity_x(0);
     physic.set_velocity_y(0);
     if (!frozen)
-      sprite->set_action(dir == LEFT ? "idle-left" : "idle-right");
+      m_sprite->set_action(dir == LEFT ? "idle-left" : "idle-right");
 
     recover_timer.start(TOAD_RECOVER_TIME);
   } else
     if (newState == JUMPING) {
-      sprite->set_action(dir == LEFT ? "jumping-left" : "jumping-right");
+      m_sprite->set_action(dir == LEFT ? "jumping-left" : "jumping-right");
       physic.set_velocity_x(dir == LEFT ? -HORIZONTAL_SPEED : HORIZONTAL_SPEED);
       physic.set_velocity_y(VERTICAL_SPEED);
       SoundManager::current()->play( HOP_SOUND, get_pos());
@@ -64,9 +64,9 @@ Toad::set_state(ToadState newState)
       if (newState == FALLING) {
         Player* player = get_nearest_player();
         // face player
-        if (player && (player->get_bbox().p2.x < bbox.p1.x) && (dir == RIGHT)) dir = LEFT;
-        if (player && (player->get_bbox().p1.x > bbox.p2.x) && (dir == LEFT)) dir = RIGHT;
-        sprite->set_action(dir == LEFT ? "idle-left" : "idle-right");
+        if (player && (player->get_bbox().p2.x < m_bbox.p1.x) && (dir == RIGHT)) dir = LEFT;
+        if (player && (player->get_bbox().p1.x > m_bbox.p2.x) && (dir == LEFT)) dir = RIGHT;
+        m_sprite->set_action(dir == LEFT ? "idle-left" : "idle-right");
       }
 
   state = newState;
@@ -75,7 +75,7 @@ Toad::set_state(ToadState newState)
 bool
 Toad::collision_squished(GameObject& object)
 {
-  sprite->set_action(dir == LEFT ? "squished-left" : "squished-right");
+  m_sprite->set_action(dir == LEFT ? "squished-left" : "squished-right");
   kill_squished(object);
   return true;
 }
@@ -173,7 +173,7 @@ void
 Toad::after_editor_set()
 {
   BadGuy::after_editor_set();
-  sprite->set_action(dir == LEFT ? "idle-left" : "idle-right");
+  m_sprite->set_action(dir == LEFT ? "idle-left" : "idle-right");
 }
 
 /* EOF */

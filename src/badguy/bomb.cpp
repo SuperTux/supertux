@@ -74,11 +74,11 @@ Bomb::active_update(float elapsed_time)
   if (on_ground()) physic.set_velocity_x(0);
 
   ticking->set_position(get_pos());
-  if(sprite->animation_done()) {
+  if(m_sprite->animation_done()) {
     explode();
   }
   else if (!grabbed) {
-    movement = physic.get_movement(elapsed_time);
+    m_movement = physic.get_movement(elapsed_time);
   }
 }
 
@@ -99,7 +99,7 @@ Bomb::explode()
 
   if(is_valid()) {
     remove_me();
-    Sector::get().add<Explosion>(bbox.get_middle());
+    Sector::get().add<Explosion>(m_bbox.get_middle());
   }
 
   run_dead_script();
@@ -120,12 +120,12 @@ Bomb::ignite()
 void
 Bomb::grab(MovingObject& object, const Vector& pos, Direction dir_)
 {
-  movement = pos - get_pos();
+  m_movement = pos - get_pos();
   dir = dir_;
 
   // We actually face the opposite direction of Tux here to make the fuse more
   // visible instead of hiding it behind Tux
-  sprite->set_action_continued(dir == LEFT ? "ticking-right" : "ticking-left");
+  m_sprite->set_action_continued(dir == LEFT ? "ticking-right" : "ticking-left");
   set_colgroup_active(COLGROUP_DISABLED);
   grabbed = true;
   grabber = &object;

@@ -29,7 +29,7 @@ UnstableTile::UnstableTile(const ReaderMapping& lisp) :
   state(STATE_NORMAL),
   slowfall_timer()
 {
-  sprite->set_action("normal");
+  m_sprite->set_action("normal");
   physic.set_gravity_modifier(.98f);
   physic.enable_gravity(false);
 }
@@ -40,7 +40,7 @@ UnstableTile::collision(GameObject& other, const CollisionHit& )
   if(state == STATE_NORMAL) {
     Player* player = dynamic_cast<Player*> (&other);
     if(player != nullptr &&
-       player->get_bbox().get_bottom() < bbox.get_top() + SHIFT_DELTA) {
+       player->get_bbox().get_bottom() < m_bbox.get_top() + SHIFT_DELTA) {
       shake ();
     }
 
@@ -56,7 +56,7 @@ void UnstableTile::shake()
   if (state != STATE_NORMAL)
     return;
 
-  if (sprite->has_action ("shake")) {
+  if (m_sprite->has_action ("shake")) {
     state = STATE_SHAKE;
     set_action ("shake", /* loops = */ 1);
   }
@@ -70,7 +70,7 @@ void UnstableTile::dissolve()
   if ((state != STATE_NORMAL) && (state != STATE_SHAKE))
     return;
 
-  if (sprite->has_action ("dissolve")) {
+  if (m_sprite->has_action ("dissolve")) {
     state = STATE_DISSOLVE;
     set_action ("dissolve", /* loops = */ 1);
   }
@@ -87,7 +87,7 @@ void UnstableTile::slow_fall()
     return;
   }
 
-  if (sprite->has_action ("fall-down")) {
+  if (m_sprite->has_action ("fall-down")) {
     state = STATE_SLOWFALL;
     set_action ("fall-down", /* loops = */ 1);
     physic.set_gravity_modifier (.10f);
@@ -104,7 +104,7 @@ void UnstableTile::fall_down()
   if (state == STATE_FALL)
     return;
 
-  if (sprite->has_action ("fall-down")) {
+  if (m_sprite->has_action ("fall-down")) {
     state = STATE_FALL;
     set_action ("fall-down", /* loops = */ 1);
     physic.set_gravity_modifier (.98f);
@@ -124,12 +124,12 @@ UnstableTile::update(float elapsed_time)
       break;
 
     case STATE_SHAKE:
-      if (sprite->animation_done())
+      if (m_sprite->animation_done())
         dissolve ();
       break;
 
     case STATE_DISSOLVE:
-      if (sprite->animation_done()) {
+      if (m_sprite->animation_done()) {
         /* dissolving is done. Set to non-solid. */
         set_group (COLGROUP_DISABLED);
         fall_down ();
@@ -141,14 +141,14 @@ UnstableTile::update(float elapsed_time)
 	slowfall_timer -= elapsed_time;
       else /* Switch to normal falling procedure */
 	fall_down ();
-      movement = physic.get_movement (elapsed_time);
+      m_movement = physic.get_movement (elapsed_time);
       break;
 
     case STATE_FALL:
-      if (sprite->animation_done())
+      if (m_sprite->animation_done())
         remove_me ();
       else
-        movement = physic.get_movement (elapsed_time);
+        m_movement = physic.get_movement (elapsed_time);
       break;
   }
 }

@@ -37,15 +37,15 @@ MrBomb::MrBomb(const ReaderMapping& reader) :
   SoundManager::current()->preload("sounds/explosion.wav");
 
   //Check if we need another sprite
-  if( !reader.get( "sprite", sprite_name ) ){
+  if( !reader.get( "sprite", m_sprite_name ) ){
     return;
   }
-  if (sprite_name.empty()) {
-    sprite_name = "images/creatures/mr_bomb/mr_bomb.sprite";
+  if (m_sprite_name.empty()) {
+    m_sprite_name = "images/creatures/mr_bomb/mr_bomb.sprite";
     return;
   }
   //Replace sprite
-  sprite = SpriteManager::current()->create( sprite_name );
+  m_sprite = SpriteManager::current()->create( m_sprite_name );
 }
 
 HitResponse
@@ -74,7 +74,7 @@ MrBomb::collision_squished(GameObject& object)
     return true;
   }
   if(is_valid()) {
-    auto bomb = Sector::get().add<Bomb>(get_pos(), dir, sprite_name);
+    auto bomb = Sector::get().add<Bomb>(get_pos(), dir, m_sprite_name);
 
     // Do not trigger dispenser because we need to wait for
     // the bomb instance to explode.
@@ -103,7 +103,7 @@ MrBomb::kill_fall()
 {
   if(is_valid()) {
     remove_me();
-    Sector::get().add<Explosion>(bbox.get_middle());
+    Sector::get().add<Explosion>(m_bbox.get_middle());
   }
 
   run_dead_script();
@@ -119,9 +119,9 @@ void
 MrBomb::grab(MovingObject&, const Vector& pos, Direction dir_)
 {
   assert(frozen);
-  movement = pos - get_pos();
+  m_movement = pos - get_pos();
   dir = dir_;
-  sprite->set_action(dir_ == LEFT ? "iced-left" : "iced-right");
+  m_sprite->set_action(dir_ == LEFT ? "iced-left" : "iced-right");
   set_colgroup_active(COLGROUP_DISABLED);
   grabbed = true;
 }

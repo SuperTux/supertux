@@ -57,7 +57,7 @@ void
 MoleRock::initialize()
 {
   physic.set_velocity(initial_velocity);
-  sprite->set_action("default");
+  m_sprite->set_action("default");
 }
 
 void

@@ -41,14 +41,14 @@ AmbientSound::AmbientSound(const ReaderMapping& lisp) :
   volume_ptr(),
   new_size()
 {
-  group = COLGROUP_DISABLED;
+  m_group = COLGROUP_DISABLED;
 
   float w, h;
-  lisp.get("x", bbox.p1.x, 0.0f);
-  lisp.get("y", bbox.p1.y, 0.0f);
+  lisp.get("x", m_bbox.p1.x, 0.0f);
+  lisp.get("y", m_bbox.p1.y, 0.0f);
   lisp.get("width" , w, 32.0f);
   lisp.get("height", h, 32.0f);
-  bbox.set_size(w, h);
+  m_bbox.set_size(w, h);
 
   lisp.get("distance_factor",distance_factor, 0.0f);
   lisp.get("distance_bias"  ,distance_bias  , 0.0f);
@@ -90,10 +90,10 @@ AmbientSound::AmbientSound(const Vector& pos, float factor, float bias, float vo
   volume_ptr(),
   new_size()
 {
-  group = COLGROUP_DISABLED;
+  m_group = COLGROUP_DISABLED;
 
-  bbox.set_pos(pos);
-  bbox.set_size(0, 0);
+  m_bbox.set_pos(pos);
+  m_bbox.set_size(0, 0);
 
   // set default silence_distance
 
@@ -113,8 +113,8 @@ AmbientSound::~AmbientSound()
 
 ObjectSettings
 AmbientSound::get_settings() {
-  new_size.x = bbox.get_width();
-  new_size.y = bbox.get_height();
+  new_size.x = m_bbox.get_width();
+  new_size.y = m_bbox.get_height();
   ObjectSettings result = MovingObject::get_settings();
 
   ObjectOption smp(MN_FILE, _("Sound"), &sample, "sample");
@@ -131,7 +131,7 @@ AmbientSound::get_settings() {
 
 void
 AmbientSound::after_editor_set() {
-  bbox.set_size(new_size.x, new_size.y);
+  m_bbox.set_size(new_size.x, new_size.y);
 }
 
 void
@@ -173,10 +173,10 @@ AmbientSound::update(float deltat)
     py=Sector::get().m_camera->get_center().y;
 
     // Relate to which point in the area
-    rx=px<bbox.p1.x?bbox.p1.x:
-      (px<bbox.p2.x?px:bbox.p2.x);
-    ry=py<bbox.p1.y?bbox.p1.y:
-      (py<bbox.p2.y?py:bbox.p2.y);
+    rx=px<m_bbox.p1.x?m_bbox.p1.x:
+      (px<m_bbox.p2.x?px:m_bbox.p2.x);
+    ry=py<m_bbox.p1.y?m_bbox.p1.y:
+      (py<m_bbox.p2.y?py:m_bbox.p2.y);
 
     // calculate square of distance
     float sqrdistance=(px-rx)*(px-rx)+(py-ry)*(py-ry);
@@ -230,19 +230,19 @@ AmbientSound::set_pos(const Vector& pos)
 void
 AmbientSound::set_pos(float x, float y)
 {
-  bbox.set_pos(Vector(x, y));
+  m_bbox.set_pos(Vector(x, y));
 }
 
 float
 AmbientSound::get_pos_x() const
 {
-  return bbox.p1.x;
+  return m_bbox.p1.x;
 }
 
 float
 AmbientSound::get_pos_y() const
 {
-  return bbox.p1.y;
+  return m_bbox.p1.y;
 }
 
 HitResponse
@@ -255,7 +255,7 @@ void
 AmbientSound::draw(DrawingContext& context)
 {
   if (Editor::is_active()) {
-    context.color().draw_filled_rect(bbox, Color(0.0f, 0.0f, 1.0f, 0.6f),
+    context.color().draw_filled_rect(m_bbox, Color(0.0f, 0.0f, 1.0f, 0.6f),
                              0.0f, LAYER_OBJECTS);
   }
 }

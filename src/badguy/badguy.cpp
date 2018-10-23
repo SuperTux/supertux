@@ -52,7 +52,7 @@ BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite
   physic(),
   countMe(true),
   is_initialized(false),
-  start_position(bbox.p1),
+  start_position(m_bbox.p1),
   dir(direction),
   start_dir(direction),
   frozen(false),
@@ -85,7 +85,7 @@ BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name_, int
   physic(),
   countMe(true),
   is_initialized(false),
-  start_position(bbox.p1),
+  start_position(m_bbox.p1),
   dir(LEFT),
   start_dir(AUTO),
   frozen(false),
@@ -122,28 +122,28 @@ BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name_, int
 void
 BadGuy::draw(DrawingContext& context)
 {
-  if(!sprite.get())
+  if(!m_sprite.get())
     return;
   if(state == STATE_INIT || state == STATE_INACTIVE)
     return;
   if(state == STATE_FALLING) {
     context.push_transform();
     context.set_flip(context.get_flip() ^ VERTICAL_FLIP);
-    sprite->draw(context.color(), get_pos(), layer);
+    m_sprite->draw(context.color(), get_pos(), m_layer);
     context.pop_transform();
   } else {
-    sprite->draw(context.color(), get_pos(), layer);
+    m_sprite->draw(context.color(), get_pos(), m_layer);
   }
 
   if (glowing) {
-    lightsprite->draw(context.light(), bbox.get_middle(), 0);
+    lightsprite->draw(context.light(), m_bbox.get_middle(), 0);
   }
 }
 
 void
 BadGuy::update(float elapsed_time)
 {
-  if(!Sector::get().inside(bbox)) {
+  if(!Sector::get().inside(m_bbox)) {
     run_dead_script();
     is_active_flag = false;
     remove_me();
@@ -180,8 +180,8 @@ BadGuy::update(float elapsed_time)
       break;
     case STATE_BURNING: {
       is_active_flag = false;
-      movement = physic.get_movement(elapsed_time);
-      if ( sprite->animation_done() ) {
+      m_movement = physic.get_movement(elapsed_time);
+      if ( m_sprite->animation_done() ) {
         remove_me();
       }
     } break;
@@ -192,34 +192,34 @@ BadGuy::update(float elapsed_time)
         remove_me();
         break;
       }
-      movement = physic.get_movement(elapsed_time);
+      m_movement = physic.get_movement(elapsed_time);
       break;
     case STATE_MELTING: {
       is_active_flag = false;
-      movement = physic.get_movement(elapsed_time);
-      if ( sprite->animation_done() || on_ground() ) {
-        Sector::get().add<WaterDrop>(bbox.p1, get_water_sprite(), physic.get_velocity());
+      m_movement = physic.get_movement(elapsed_time);
+      if ( m_sprite->animation_done() || on_ground() ) {
+        Sector::get().add<WaterDrop>(m_bbox.p1, get_water_sprite(), physic.get_velocity());
         remove_me();
         break;
       }
     } break;
     case STATE_GROUND_MELTING:
       is_active_flag = false;
-      movement = physic.get_movement(elapsed_time);
-      if ( sprite->animation_done() ) {
+      m_movement = physic.get_movement(elapsed_time);
+      if ( m_sprite->animation_done() ) {
         remove_me();
       }
       break;
     case STATE_INSIDE_MELTING: {
       is_active_flag = false;
-      movement = physic.get_movement(elapsed_time);
-      if ( on_ground() && sprite->animation_done() ) {
-        sprite->set_action(dir == LEFT ? "gear-left" : "gear-right", 1);
+      m_movement = physic.get_movement(elapsed_time);
+      if ( on_ground() && m_sprite->animation_done() ) {
+        m_sprite->set_action(dir == LEFT ? "gear-left" : "gear-right", 1);
         set_state(STATE_GEAR);
       }
       int pa = graphicsRandom.rand(0,3);
-      float px = graphicsRandom.randf(bbox.p1.x, bbox.p2.x);
-      float py = graphicsRandom.randf(bbox.p1.y, bbox.p2.y);
+      float px = graphicsRandom.randf(m_bbox.p1.x, m_bbox.p2.x);
+      float py = graphicsRandom.randf(m_bbox.p1.y, m_bbox.p2.y);
       Vector ppos = Vector(px, py);
       Sector::get().add<SpriteParticle>(get_water_sprite(), "particle_" + std::to_string(pa),
                                              ppos, ANCHOR_MIDDLE,
@@ -228,7 +228,7 @@ BadGuy::update(float elapsed_time)
     } break;
     case STATE_FALLING:
       is_active_flag = false;
-      movement = physic.get_movement(elapsed_time);
+      m_movement = physic.get_movement(elapsed_time);
       break;
   }
 
@@ -277,9 +277,9 @@ BadGuy::deactivate()
 void
 BadGuy::active_update(float elapsed_time)
 {
-  movement = physic.get_movement(elapsed_time);
+  m_movement = physic.get_movement(elapsed_time);
   if(frozen)
-    sprite->stop_animation();
+    m_sprite->stop_animation();
 }
 
 void
@@ -341,7 +341,7 @@ BadGuy::collision(GameObject& other, const CollisionHit& hit)
   if(player) {
 
     // hit from above?
-    if (player->get_bbox().p2.y < (bbox.p1.y + 16)) {
+    if (player->get_bbox().p2.y < (m_bbox.p1.y + 16)) {
       if(player->is_stone()) {
         kill_fall();
         return FORCE_MOVE;
@@ -487,14 +487,14 @@ BadGuy::kill_fall()
   if (frozen) {
     SoundManager::current()->play("sounds/brick.wav");
     Vector pr_pos;
-    float cx = bbox.get_width() / 2;
-    float cy = bbox.get_height() / 2;
-    for (pr_pos.x = 0; pr_pos.x < bbox.get_width(); pr_pos.x += 16) {
-      for (pr_pos.y = 0; pr_pos.y < bbox.get_height(); pr_pos.y += 16) {
+    float cx = m_bbox.get_width() / 2;
+    float cy = m_bbox.get_height() / 2;
+    for (pr_pos.x = 0; pr_pos.x < m_bbox.get_width(); pr_pos.x += 16) {
+      for (pr_pos.y = 0; pr_pos.y < m_bbox.get_height(); pr_pos.y += 16) {
         Vector speed = Vector((pr_pos.x - cx) * 8, (pr_pos.y - cy) * 8 + 100);
         Sector::get().add<SpriteParticle>(
             "images/particles/ice_piece1.sprite", "default",
-            bbox.p1 + pr_pos, ANCHOR_MIDDLE,
+            m_bbox.p1 + pr_pos, ANCHOR_MIDDLE,
             speed,
             Vector(0, Sector::get().get_gravity() * 100.0f));
       }
@@ -511,7 +511,7 @@ BadGuy::kill_fall()
 
     // Set the badguy layer to be the foremost, so that
     // this does not reveal secret tilemaps:
-    layer = Sector::get().get_foremost_layer() + 1;
+    m_layer = Sector::get().get_foremost_layer() + 1;
     // start dead-script
     run_dead_script();
   }
@@ -580,13 +580,13 @@ BadGuy::is_offscreen() const
   Vector dist;
   if (Editor::is_active()) {
     auto cam = Sector::get().m_camera;
-    dist = cam->get_center() - bbox.get_middle();
+    dist = cam->get_center() - m_bbox.get_middle();
   }
   auto player = get_nearest_player();
   if (!player)
     return false;
   if(!Editor::is_active()) {
-    dist = player->get_bbox().get_middle() - bbox.get_middle();
+    dist = player->get_bbox().get_middle() - m_bbox.get_middle();
   }
   // In SuperTux 0.1.x, Badguys were activated when Tux<->Badguy center distance was approx. <= ~668px
   // This doesn't work for wide-screen monitors which give us a virt. res. of approx. 1066px x 600px
@@ -610,7 +610,7 @@ BadGuy::try_activate()
       // if starting direction was set to AUTO, this is our chance to re-orient the badguy
       if (start_dir == AUTO) {
         auto player_ = get_nearest_player();
-        if (player_ && (player_->get_bbox().p1.x > bbox.p2.x)) {
+        if (player_ && (player_->get_bbox().p1.x > m_bbox.p2.x)) {
           dir = RIGHT;
         } else {
           dir = LEFT;
@@ -632,14 +632,14 @@ BadGuy::might_fall(int height) const
 
   float x1;
   float x2;
-  float y1 = bbox.p2.y + 1;
-  float y2 = bbox.p2.y + 1 + static_cast<float>(height);
+  float y1 = m_bbox.p2.y + 1;
+  float y2 = m_bbox.p2.y + 1 + static_cast<float>(height);
   if (dir == LEFT) {
-    x1 = bbox.p1.x - 1;
-    x2 = bbox.p1.x;
+    x1 = m_bbox.p1.x - 1;
+    x2 = m_bbox.p1.x;
   } else {
-    x1 = bbox.p2.x;
-    x2 = bbox.p2.x + 1;
+    x1 = m_bbox.p2.x;
+    x2 = m_bbox.p2.x + 1;
   }
   return Sector::get().is_free_of_statics(Rectf(x1, y1, x2, y2));
 }
@@ -647,7 +647,7 @@ BadGuy::might_fall(int height) const
 Player*
 BadGuy::get_nearest_player() const
 {
-  return Sector::get().get_nearest_player(bbox);
+  return Sector::get().get_nearest_player(m_bbox);
 }
 
 void
@@ -683,18 +683,18 @@ BadGuy::freeze()
   set_group(COLGROUP_MOVING_STATIC);
   frozen = true;
 
-  if(sprite->has_action("iced-left"))
-    sprite->set_action(dir == LEFT ? "iced-left" : "iced-right", 1);
+  if(m_sprite->has_action("iced-left"))
+    m_sprite->set_action(dir == LEFT ? "iced-left" : "iced-right", 1);
   // when the sprite doesn't have separate actions for left and right, it tries to use an universal one.
   else
   {
-    if(sprite->has_action("iced"))
-      sprite->set_action("iced", 1);
+    if(m_sprite->has_action("iced"))
+      m_sprite->set_action("iced", 1);
       // when no iced action exists, default to shading badguy blue
     else
     {
-      sprite->set_color(Color(0.60f, 0.72f, 0.88f));
-      sprite->stop_animation();
+      m_sprite->set_color(Color(0.60f, 0.72f, 0.88f));
+      m_sprite->stop_animation();
     }
   }
 }
@@ -706,10 +706,10 @@ BadGuy::unfreeze()
   frozen = false;
 
   // restore original color if needed
-  if((!sprite->has_action("iced-left")) && (!sprite->has_action("iced")) )
+  if((!m_sprite->has_action("iced-left")) && (!m_sprite->has_action("iced")) )
   {
-    sprite->set_color(Color(1.f, 1.f, 1.f));
-    sprite->set_animation_loops();
+    m_sprite->set_color(Color(1.f, 1.f, 1.f));
+    m_sprite->set_animation_loops();
   }
 }
 
@@ -742,35 +742,35 @@ BadGuy::ignite()
   physic.set_velocity_x(0);
   physic.set_velocity_y(0);
   set_group(COLGROUP_MOVING_ONLY_STATIC);
-  sprite->stop_animation();
+  m_sprite->stop_animation();
   ignited = true;
 
-  if (sprite->has_action("melting-left")) {
+  if (m_sprite->has_action("melting-left")) {
 
     // melt it!
-    if (sprite->has_action("ground-melting-left") && on_ground()) {
-      sprite->set_action(dir == LEFT ? "ground-melting-left" : "ground-melting-right", 1);
+    if (m_sprite->has_action("ground-melting-left") && on_ground()) {
+      m_sprite->set_action(dir == LEFT ? "ground-melting-left" : "ground-melting-right", 1);
       SoundManager::current()->play("sounds/splash.ogg", get_pos());
       set_state(STATE_GROUND_MELTING);
     } else {
-      sprite->set_action(dir == LEFT ? "melting-left" : "melting-right", 1);
+      m_sprite->set_action(dir == LEFT ? "melting-left" : "melting-right", 1);
       SoundManager::current()->play("sounds/sizzle.ogg", get_pos());
       set_state(STATE_MELTING);
     }
 
     run_dead_script();
 
-  } else if (sprite->has_action("burning-left")) {
+  } else if (m_sprite->has_action("burning-left")) {
     // burn it!
     glowing = true;
     SoundManager::current()->play("sounds/fire.ogg", get_pos());
-    sprite->set_action(dir == LEFT ? "burning-left" : "burning-right", 1);
+    m_sprite->set_action(dir == LEFT ? "burning-left" : "burning-right", 1);
     set_state(STATE_BURNING);
     run_dead_script();
-  } else if (sprite->has_action("inside-melting-left")) {
+  } else if (m_sprite->has_action("inside-melting-left")) {
     // melt it inside!
     SoundManager::current()->play("sounds/splash.ogg", get_pos());
-    sprite->set_action(dir == LEFT ? "inside-melting-left" : "inside-melting-right", 1);
+    m_sprite->set_action(dir == LEFT ? "inside-melting-left" : "inside-melting-right", 1);
     set_state(STATE_INSIDE_MELTING);
     run_dead_script();
   } else {

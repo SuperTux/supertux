@@ -43,17 +43,17 @@ GrowUp::GrowUp(Direction direction) :
 void
 GrowUp::update(float elapsed_time)
 {
-  movement = physic.get_movement(elapsed_time);
+  m_movement = physic.get_movement(elapsed_time);
 }
 
 void
 GrowUp::draw(DrawingContext& context)
 {
   if(physic.get_velocity_x() != 0) {
-    sprite->set_angle(get_pos().x * 360.0f / (32.0f * math::PI));
+    m_sprite->set_angle(get_pos().x * 360.0f / (32.0f * math::PI));
   }
   MovingSprite::draw(context);
-  shadesprite->draw(context.color(), get_pos(), layer);
+  shadesprite->draw(context.color(), get_pos(), m_layer);
   lightsprite->draw(context.light(), get_bbox().get_middle(), 0);
 }
 

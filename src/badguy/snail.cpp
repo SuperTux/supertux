@@ -61,7 +61,7 @@ void
 Snail::be_flat()
 {
   state = STATE_FLAT;
-  sprite->set_action(dir == LEFT ? "flat-left" : "flat-right", 1);
+  m_sprite->set_action(dir == LEFT ? "flat-left" : "flat-right", 1);
 
   physic.set_velocity_x(0);
   physic.set_velocity_y(0);
@@ -70,14 +70,14 @@ Snail::be_flat()
 void Snail::be_grabbed()
 {
   state = STATE_GRABBED;
-  sprite->set_action(dir == LEFT ? "flat-left" : "flat-right", 1);
+  m_sprite->set_action(dir == LEFT ? "flat-left" : "flat-right", 1);
 }
 
 void
 Snail::be_kicked()
 {
   state = STATE_KICKED_DELAY;
-  sprite->set_action(dir == LEFT ? "flat-left" : "flat-right", 1);
+  m_sprite->set_action(dir == LEFT ? "flat-left" : "flat-right", 1);
 
   physic.set_velocity_x(dir == LEFT ? -SNAIL_KICK_SPEED : SNAIL_KICK_SPEED);
   physic.set_velocity_y(0);
@@ -110,7 +110,7 @@ Snail::active_update(float elapsed_time)
       return;
 
     case STATE_FLAT:
-      if (sprite->animation_done()) {
+      if (m_sprite->animation_done()) {
         be_normal();
       }
       break;
@@ -125,7 +125,7 @@ Snail::active_update(float elapsed_time)
 
     case STATE_KICKED:
       physic.set_velocity_x(physic.get_velocity_x() * powf(0.99f, elapsed_time/0.02f));
-      if (sprite->animation_done() || (fabsf(physic.get_velocity_x()) < walk_speed)) be_normal();
+      if (m_sprite->animation_done() || (fabsf(physic.get_velocity_x()) < walk_speed)) be_normal();
       break;
 
     case STATE_GRABBED:
@@ -163,7 +163,7 @@ Snail::collision_solid(const CollisionHit& hit)
 
         if( ( dir == LEFT && hit.left ) || ( dir == RIGHT && hit.right) ){
           dir = (dir == LEFT) ? RIGHT : LEFT;
-          sprite->set_action(dir == LEFT ? "flat-left" : "flat-right");
+          m_sprite->set_action(dir == LEFT ? "flat-left" : "flat-right");
 
           physic.set_velocity_x(-physic.get_velocity_x());
         }
@@ -282,7 +282,7 @@ Snail::collision_squished(GameObject& object)
 void
 Snail::grab(MovingObject&, const Vector& pos, Direction dir_)
 {
-  movement = pos - get_pos();
+  m_movement = pos - get_pos();
   dir = dir_;
   set_action(dir_ == LEFT ? "flat-left" : "flat-right", /* loops = */ -1);
   be_grabbed();

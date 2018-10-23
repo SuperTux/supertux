@@ -111,7 +111,7 @@ public:
 
   const Vector& get_pos() const
   {
-    return bbox.p1;
+    return m_bbox.p1;
   }
 
   /** puts resizers at its edges, used in editor input center */
@@ -120,12 +120,12 @@ public:
   /** returns the bounding box of the Object */
   const Rectf& get_bbox() const
   {
-    return bbox;
+    return m_bbox;
   }
 
   const Vector& get_movement() const
   {
-    return movement;
+    return m_movement;
   }
 
   /** places the moving object at a specific position. Be careful when
@@ -133,8 +133,8 @@ public:
       performed here so bad things could happen. */
   virtual void set_pos(const Vector& pos)
   {
-    dest.move(pos-get_pos());
-    bbox.set_pos(pos);
+    m_dest.move(pos-get_pos());
+    m_bbox.set_pos(pos);
   }
 
   /** moves entire object to a specific position, including all
@@ -150,8 +150,8 @@ public:
       checks performed here so bad things could happen. */
   virtual void set_width(float w)
   {
-    dest.set_width(w);
-    bbox.set_width(w);
+    m_dest.set_width(w);
+    m_bbox.set_width(w);
   }
 
   /** sets the moving object's bbox to a specific size. Be careful
@@ -159,30 +159,31 @@ public:
       checks performed here so bad things could happen. */
   virtual void set_size(float w, float h)
   {
-    dest.set_size(w, h);
-    bbox.set_size(w, h);
+    m_dest.set_size(w, h);
+    m_bbox.set_size(w, h);
   }
 
   CollisionGroup get_group() const
   {
-    return group;
+    return m_group;
   }
 
 protected:
-  void set_group(CollisionGroup group_)
+  void set_group(CollisionGroup group)
   {
-    group = group_;
+    m_group = group;
   }
 
+protected:
   /** The bounding box of the object (as used for collision detection,
       this isn't necessarily the bounding box for graphics) */
-  Rectf bbox;
+  Rectf m_bbox;
 
   /** The movement that will happen till next frame */
-  Vector movement;
+  Vector m_movement;
 
   /** The collision group */
-  CollisionGroup group;
+  CollisionGroup m_group;
 
 private:
   /** this is only here for internal collision detection use (don't touch this
@@ -190,7 +191,7 @@ private:
 
       This field holds the currently anticipated destination of the object
       during collision detection */
-  Rectf dest;
+  Rectf m_dest;
 };
 
 #endif

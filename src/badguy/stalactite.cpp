@@ -46,11 +46,11 @@ Stalactite::active_update(float elapsed_time)
   if(state == STALACTITE_HANGING) {
     auto player = get_nearest_player();
     if (player && !player->get_ghost_mode()) {
-      if(player->get_bbox().p2.x > bbox.p1.x - SHAKE_RANGE_X
-         && player->get_bbox().p1.x < bbox.p2.x + SHAKE_RANGE_X
-         && player->get_bbox().p2.y > bbox.p1.y
-         && player->get_bbox().p1.y < bbox.p2.y + SHAKE_RANGE_Y
-         && Sector::get().can_see_player(bbox.get_middle())) {
+      if(player->get_bbox().p2.x > m_bbox.p1.x - SHAKE_RANGE_X
+         && player->get_bbox().p1.x < m_bbox.p2.x + SHAKE_RANGE_X
+         && player->get_bbox().p2.y > m_bbox.p1.y
+         && player->get_bbox().p1.y < m_bbox.p2.y + SHAKE_RANGE_Y
+         && Sector::get().can_see_player(m_bbox.get_middle())) {
         timer.start(SHAKE_TIME);
         state = STALACTITE_SHAKING;
         SoundManager::current()->play("sounds/cracking.wav", get_pos());
@@ -64,7 +64,7 @@ Stalactite::active_update(float elapsed_time)
       set_colgroup_active(COLGROUP_MOVING);
     }
   } else if(state == STALACTITE_FALLING) {
-    movement = physic.get_movement(elapsed_time);
+    m_movement = physic.get_movement(elapsed_time);
   }
 }
 
@@ -76,7 +76,7 @@ Stalactite::squish()
   physic.set_velocity_x(0);
   physic.set_velocity_y(0);
   set_state(STATE_SQUISHED);
-  sprite->set_action("squished");
+  m_sprite->set_action("squished");
   SoundManager::current()->play("sounds/icecrash.ogg", get_pos());
   set_group(COLGROUP_MOVING_ONLY_STATIC);
   run_dead_script();
@@ -149,11 +149,11 @@ Stalactite::draw(DrawingContext& context)
     return;
 
   if(state == STALACTITE_SQUISHED) {
-    sprite->draw(context.color(), get_pos(), LAYER_OBJECTS);
+    m_sprite->draw(context.color(), get_pos(), LAYER_OBJECTS);
   } else if(state == STALACTITE_SHAKING) {
-    sprite->draw(context.color(), get_pos() + shake_delta, layer);
+    m_sprite->draw(context.color(), get_pos() + shake_delta, m_layer);
   } else {
-    sprite->draw(context.color(), get_pos(), layer);
+    m_sprite->draw(context.color(), get_pos(), m_layer);
   }
 }
 

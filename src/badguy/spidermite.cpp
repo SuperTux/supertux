@@ -33,7 +33,7 @@ SpiderMite::SpiderMite(const ReaderMapping& reader) :
 void
 SpiderMite::initialize()
 {
-  sprite->set_action(dir == LEFT ? "left" : "right");
+  m_sprite->set_action(dir == LEFT ? "left" : "right");
   mode = FLY_UP;
   physic.set_velocity_y(MOVE_SPEED);
   timer.start(FLYTIME/2);
@@ -42,7 +42,7 @@ SpiderMite::initialize()
 bool
 SpiderMite::collision_squished(GameObject& object)
 {
-  sprite->set_action(dir == LEFT ? "squished-left" : "squished-right");
+  m_sprite->set_action(dir == LEFT ? "squished-left" : "squished-right");
   kill_squished(object);
   return true;
 }
@@ -73,12 +73,12 @@ SpiderMite::active_update(float elapsed_time)
     }
     timer.start(FLYTIME);
   }
-  movement=physic.get_movement(elapsed_time);
+  m_movement=physic.get_movement(elapsed_time);
 
   auto player = get_nearest_player();
   if (player) {
     dir = (player->get_pos().x > get_pos().x) ? RIGHT : LEFT;
-    sprite->set_action(dir == LEFT ? "left" : "right");
+    m_sprite->set_action(dir == LEFT ? "left" : "right");
   }
 }
 

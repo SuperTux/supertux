@@ -83,7 +83,7 @@ Mole::throw_rock()
   float vy = -sinf(angle) * THROW_VELOCITY;
 
   SoundManager::current()->play("sounds/dartfire.wav", get_pos());
-  Sector::get().add<MoleRock>(bbox.get_middle(), Vector(vx, vy), this);
+  Sector::get().add<MoleRock>(m_bbox.get_middle(), Vector(vx, vy), this);
 }
 
 void
@@ -115,12 +115,12 @@ Mole::active_update(float elapsed_time)
       }
       break;
     case PEEKING:
-      if (sprite->animation_done()) {
+      if (m_sprite->animation_done()) {
         set_state(PRE_THROWING);
       }
       break;
     case BURNING:
-      if (sprite->animation_done()) {
+      if (m_sprite->animation_done()) {
         set_state(DEAD);
       }
       break;
@@ -144,31 +144,31 @@ Mole::set_state(MoleState new_state)
 
   switch (new_state) {
     case PRE_THROWING:
-      sprite->set_action("idle");
+      m_sprite->set_action("idle");
       set_colgroup_active(COLGROUP_DISABLED);
       timer.start(MOLE_WAIT_TIME);
       break;
     case THROWING:
-      sprite->set_action("idle");
+      m_sprite->set_action("idle");
       set_colgroup_active(COLGROUP_DISABLED);
       timer.start(THROW_TIME);
       throw_timer.start(THROW_INTERVAL);
       break;
     case POST_THROWING:
-      sprite->set_action("idle");
+      m_sprite->set_action("idle");
       set_colgroup_active(COLGROUP_DISABLED);
       timer.start(MOLE_WAIT_TIME);
       break;
     case PEEKING:
-      sprite->set_action("peeking", 1);
+      m_sprite->set_action("peeking", 1);
       set_colgroup_active(COLGROUP_STATIC);
       break;
     case DEAD:
-      sprite->set_action("idle");
+      m_sprite->set_action("idle");
       set_colgroup_active(COLGROUP_DISABLED);
       break;
     case BURNING:
-      sprite->set_action("burning", 1);
+      m_sprite->set_action("burning", 1);
       set_colgroup_active(COLGROUP_DISABLED);
       break;
   }

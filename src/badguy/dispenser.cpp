@@ -78,10 +78,10 @@ Dispenser::Dispenser(const ReaderMapping& reader) :
 
   switch (type) {
     case DT_DROPPER:
-      sprite->set_action("dropper");
+      m_sprite->set_action("dropper");
       break;
     case DT_ROCKETLAUNCHER:
-      sprite->set_action(dir == LEFT ? "working-left" : "working-right");
+      m_sprite->set_action(dir == LEFT ? "working-left" : "working-right");
       set_colgroup_active(COLGROUP_MOVING); //if this were COLGROUP_MOVING_STATIC MrRocket would explode on launch.
 
       if (start_dir == AUTO) {
@@ -89,16 +89,16 @@ Dispenser::Dispenser(const ReaderMapping& reader) :
       }
       break;
     case DT_CANNON:
-      sprite->set_action("working");
+      m_sprite->set_action("working");
       break;
     case DT_POINT:
-      sprite->set_action("invisible");
+      m_sprite->set_action("invisible");
       set_colgroup_active(COLGROUP_DISABLED);
     default:
       break;
   }
 
-  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
+  m_bbox.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
   countMe = false;
 }
 
@@ -119,7 +119,7 @@ Dispenser::activate()
     auto player = get_nearest_player();
     if( player ){
       dir = (player->get_pos().x > get_pos().x) ? RIGHT : LEFT;
-      sprite->set_action(dir == LEFT ? "working-left" : "working-right");
+      m_sprite->set_action(dir == LEFT ? "working-left" : "working-right");
     }
   }
   dispense_timer.start(cycle, true);
@@ -146,7 +146,7 @@ Dispenser::collision_squished(GameObject& object)
     unfreeze();
   }
 
-  sprite->set_action(dir == LEFT ? "broken-left" : "broken-right");
+  m_sprite->set_action(dir == LEFT ? "broken-left" : "broken-right");
   dispense_timer.start(0);
   set_colgroup_active(COLGROUP_MOVING_STATIC); // Tux can stand on broken cannon.
   auto player = dynamic_cast<Player*>(&object);
@@ -164,7 +164,7 @@ Dispenser::collision(GameObject& other, const CollisionHit& hit)
   auto player = dynamic_cast<Player*> (&other);
   if(player) {
     // hit from above?
-    if (player->get_bbox().p2.y < (bbox.p1.y + 16)) {
+    if (player->get_bbox().p2.y < (m_bbox.p1.y + 16)) {
       collision_squished(*player);
       return FORCE_MOVE;
     }
@@ -188,8 +188,8 @@ Dispenser::active_update(float )
   if (dispense_timer.check()) {
     // auto always shoots in Tux's direction
     if( autotarget ){
-      if( sprite->animation_done()) {
-        sprite->set_action(dir == LEFT ? "working-left" : "working-right");
+      if( m_sprite->animation_done()) {
+        m_sprite->set_action(dir == LEFT ? "working-left" : "working-right");
         swivel = false;
       }
 
@@ -199,7 +199,7 @@ Dispenser::active_update(float )
         if( dir != targetdir ){ // no target: swivel cannon
           swivel = true;
           dir = targetdir;
-          sprite->set_action(dir == LEFT ? "swivel-left" : "swivel-right", 1);
+          m_sprite->set_action(dir == LEFT ? "swivel-left" : "swivel-right", 1);
         } else { // tux in sight: shoot
           launch_badguy();
         }
@@ -265,7 +265,7 @@ Dispenser::launch_badguy()
       Vector spawnpoint;
       switch (type) {
         case DT_DROPPER:
-          spawnpoint = get_anchor_pos (bbox, ANCHOR_BOTTOM);
+          spawnpoint = get_anchor_pos (m_bbox, ANCHOR_BOTTOM);
           spawnpoint.x -= 0.5f * object_bbox.get_width();
           break;
         case DT_ROCKETLAUNCHER:
@@ -274,10 +274,10 @@ Dispenser::launch_badguy()
           if (launchdir == LEFT)
             spawnpoint.x -= object_bbox.get_width() + 1;
           else
-            spawnpoint.x += bbox.get_width() + 1;
+            spawnpoint.x += m_bbox.get_width() + 1;
           break;
         case DT_POINT:
-          spawnpoint = bbox.p1;
+          spawnpoint = m_bbox.p1;
         default:
           break;
       }
@@ -313,25 +313,25 @@ Dispenser::freeze()
   set_group(COLGROUP_MOVING_STATIC);
   frozen = true;
 
-    if(type == DT_ROCKETLAUNCHER && sprite->has_action("iced-left"))
+    if(type == DT_ROCKETLAUNCHER && m_sprite->has_action("iced-left"))
     // Only swivel dispensers can use their left/right iced actions.
-    sprite->set_action(dir == LEFT ? "iced-left" : "iced-right", 1);
+    m_sprite->set_action(dir == LEFT ? "iced-left" : "iced-right", 1);
     // when the sprite doesn't have separate actions for left and right or isn't a rocketlauncher,
     // it tries to use an universal one.
   else
   {
-    if(type == DT_CANNON && sprite->has_action("iced"))
-      sprite->set_action("iced", 1);
+    if(type == DT_CANNON && m_sprite->has_action("iced"))
+      m_sprite->set_action("iced", 1);
       // When is the dispenser a cannon, it uses the "iced" action.
     else
     {
-      if(sprite->has_action("dropper-iced"))
-        sprite->set_action("dropper-iced", 1);
+      if(m_sprite->has_action("dropper-iced"))
+        m_sprite->set_action("dropper-iced", 1);
         // When is the dispenser a dropper, it uses the "dropper-iced".
       else
       {
-        sprite->set_color(Color(0.6f, 0.72f, 0.88f));
-        sprite->stop_animation();
+        m_sprite->set_color(Color(0.6f, 0.72f, 0.88f));
+        m_sprite->stop_animation();
         // When is the dispenser something else (unprobable), or has no matching iced sprite, it shades to blue.
       }
     }
@@ -369,16 +369,16 @@ Dispenser::set_correct_action()
 {
   switch (type) {
     case DT_DROPPER:
-      sprite->set_action("dropper");
+      m_sprite->set_action("dropper");
       break;
     case DT_ROCKETLAUNCHER:
-      sprite->set_action(dir == LEFT ? "working-left" : "working-right");
+      m_sprite->set_action(dir == LEFT ? "working-left" : "working-right");
       break;
     case DT_CANNON:
-      sprite->set_action("working");
+      m_sprite->set_action("working");
       break;
     case DT_POINT:
-      sprite->set_action("invisible");
+      m_sprite->set_action("invisible");
       break;
     default:
       break;

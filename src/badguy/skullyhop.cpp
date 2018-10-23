@@ -39,7 +39,7 @@ SkullyHop::initialize()
 {
   // initial state is JUMPING, because we might start airborne
   state = JUMPING;
-  sprite->set_action(dir == LEFT ? "jumping-left" : "jumping-right");
+  m_sprite->set_action(dir == LEFT ? "jumping-left" : "jumping-right");
 }
 
 void
@@ -48,16 +48,16 @@ SkullyHop::set_state(SkullyHopState newState)
   if (newState == STANDING) {
     physic.set_velocity_x(0);
     physic.set_velocity_y(0);
-    sprite->set_action(dir == LEFT ? "standing-left" : "standing-right");
+    m_sprite->set_action(dir == LEFT ? "standing-left" : "standing-right");
 
     float recover_time = gameRandom.randf(MIN_RECOVER_TIME,MAX_RECOVER_TIME);
     recover_timer.start(recover_time);
   } else
     if (newState == CHARGING) {
-      sprite->set_action(dir == LEFT ? "charging-left" : "charging-right", 1);
+      m_sprite->set_action(dir == LEFT ? "charging-left" : "charging-right", 1);
     } else
       if (newState == JUMPING) {
-        sprite->set_action(dir == LEFT ? "jumping-left" : "jumping-right");
+        m_sprite->set_action(dir == LEFT ? "jumping-left" : "jumping-right");
 const float HORIZONTAL_SPEED = 220; /**< x-speed when jumping */
         physic.set_velocity_x(dir == LEFT ? -HORIZONTAL_SPEED : HORIZONTAL_SPEED);
 const float VERTICAL_SPEED = -450;   /**< y-speed when jumping */
@@ -74,7 +74,7 @@ SkullyHop::collision_squished(GameObject& object)
   if (frozen)
     return BadGuy::collision_squished(object);
 
-  sprite->set_action(dir == LEFT ? "squished-left" : "squished-right");
+  m_sprite->set_action(dir == LEFT ? "squished-left" : "squished-right");
   kill_squished(object);
   return true;
 }
@@ -109,7 +109,7 @@ SkullyHop::collision_solid(const CollisionHit& hit)
   // check if we hit left or right while moving in either direction
   if(hit.left || hit.right) {
     dir = dir == LEFT ? RIGHT : LEFT;
-    sprite->set_action(dir == LEFT ? "jumping-left" : "jumping-right");
+    m_sprite->set_action(dir == LEFT ? "jumping-left" : "jumping-right");
     physic.set_velocity_x(-0.25f*physic.get_velocity_x());
   }
 }
@@ -139,7 +139,7 @@ SkullyHop::active_update(float elapsed_time)
   }
 
   // jump as soon as charging animation completed
-  if ((state == CHARGING) && (sprite->animation_done())) {
+  if ((state == CHARGING) && (m_sprite->animation_done())) {
     set_state(JUMPING);
     return;
   }
@@ -162,7 +162,7 @@ void
 SkullyHop::after_editor_set()
 {
   BadGuy::after_editor_set();
-  sprite->set_action(dir == LEFT ? "standing-left" : "standing-right");
+  m_sprite->set_action(dir == LEFT ? "standing-left" : "standing-right");
 }
 
 /* EOF */

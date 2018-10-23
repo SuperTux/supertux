@@ -54,9 +54,9 @@ YetiStalactite::active_update(float elapsed_time)
 void
 YetiStalactite::update(float elapsed_time)
 {
-  if (Editor::is_active() && sprite->get_action() != "yeti-stalactite" &&
-      sprite->has_action("yeti-stalactite")) {
-    sprite->set_action("yeti-stalactite");
+  if (Editor::is_active() && m_sprite->get_action() != "yeti-stalactite" &&
+      m_sprite->has_action("yeti-stalactite")) {
+    m_sprite->set_action("yeti-stalactite");
   }
 
   // Respawn instead of removing once squished
@@ -64,7 +64,7 @@ YetiStalactite::update(float elapsed_time)
     set_state(STATE_ACTIVE);
     state = STALACTITE_HANGING;
     // Hopefully we shouldn't come into contact with anything...
-    sprite->set_action("normal");
+    m_sprite->set_action("normal");
     set_pos(start_position);
     set_colgroup_active(COLGROUP_TOUCHABLE);
   }

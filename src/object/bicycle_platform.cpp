@@ -79,7 +79,7 @@ BicyclePlatform::collision(GameObject& other, const CollisionHit& )
   // somehow the hit parameter does not get filled in, so to determine (hit.top == true) we do this:
   auto mo = dynamic_cast<MovingObject*>(&other);
   if (!mo) return FORCE_MOVE;
-  if ((mo->get_bbox().p2.y) > (bbox.p1.y + 2)) return FORCE_MOVE;
+  if ((mo->get_bbox().p2.y) > (m_bbox.p1.y + 2)) return FORCE_MOVE;
 
   auto pl = dynamic_cast<Player*>(mo);
   if (pl) {
@@ -108,8 +108,8 @@ BicyclePlatform::update(float elapsed_time)
   if (this == slave) {
     angle = master->angle + math::PI;
     angle = math::positive_fmodf(angle, math::TAU);
-    Vector dest_ = center + Vector(cosf(angle), sinf(angle)) * radius - (bbox.get_size().as_vector() * 0.5);
-    movement = dest_ - get_pos();
+    Vector dest_ = center + Vector(cosf(angle), sinf(angle)) * radius - (m_bbox.get_size().as_vector() * 0.5);
+    m_movement = dest_ - get_pos();
   }
   if (this == master) {
     float momentum_diff = momentum - slave->momentum;
@@ -123,8 +123,8 @@ BicyclePlatform::update(float elapsed_time)
     angle += angular_speed * elapsed_time;
     angle = math::positive_fmodf(angle, math::TAU);
     angular_speed = std::min(std::max(angular_speed, -128.0f * math::PI * elapsed_time), 128.0f * math::PI * elapsed_time);
-    Vector dest_ = center + Vector(cosf(angle), sinf(angle)) * radius - (bbox.get_size().as_vector() * 0.5);
-    movement = dest_ - get_pos();
+    Vector dest_ = center + Vector(cosf(angle), sinf(angle)) * radius - (m_bbox.get_size().as_vector() * 0.5);
+    m_movement = dest_ - get_pos();
 
     center += Vector(angular_speed, 0) * elapsed_time * 32;
     slave->center += Vector(angular_speed, 0) * elapsed_time * 32;
@@ -134,7 +134,7 @@ BicyclePlatform::update(float elapsed_time)
 
 void
 BicyclePlatform::move_to(const Vector& pos) {
-  Vector shift = pos - bbox.p1;
+  Vector shift = pos - m_bbox.p1;
   if (this == slave) {
     master->set_pos(master->get_pos() + shift);
   } else if (this == master) {
@@ -153,7 +153,7 @@ BicyclePlatform::editor_delete() {
 void
 BicyclePlatform::after_editor_set() {
   MovingSprite::after_editor_set();
-  slave->change_sprite(sprite_name);
+  slave->change_sprite(m_sprite_name);
 }
 
 ObjectSettings

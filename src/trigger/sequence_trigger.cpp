@@ -30,12 +30,12 @@ SequenceTrigger::SequenceTrigger(const ReaderMapping& reader) :
   fade_tilemap(),
   fade()
 {
-  reader.get("x", bbox.p1.x, 0.0f);
-  reader.get("y", bbox.p1.y, 0.0f);
+  reader.get("x", m_bbox.p1.x, 0.0f);
+  reader.get("y", m_bbox.p1.y, 0.0f);
   float w, h;
   reader.get("width", w, 32.0f);
   reader.get("height", h, 32.0f);
-  bbox.set_size(w, h);
+  m_bbox.set_size(w, h);
   std::string sequence_name;
   if (reader.get("sequence", sequence_name)) {
     sequence = string_to_sequence(sequence_name);
@@ -54,8 +54,8 @@ SequenceTrigger::SequenceTrigger(const Vector& pos, const std::string& sequence_
   fade_tilemap(),
   fade()
 {
-  bbox.set_pos(pos);
-  bbox.set_size(32, 32);
+  m_bbox.set_pos(pos);
+  m_bbox.set_size(32, 32);
 }
 
 void
@@ -66,8 +66,8 @@ SequenceTrigger::save(Writer& writer) {
 
 ObjectSettings
 SequenceTrigger::get_settings() {
-  new_size.x = bbox.get_width();
-  new_size.y = bbox.get_height();
+  new_size.x = m_bbox.get_width();
+  new_size.y = m_bbox.get_height();
   ObjectSettings result(_("Sequence trigger"));
   result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &m_name));
   result.options.push_back( ObjectOption(MN_NUMFIELD, _("Width"), &new_size.x, "width"));
@@ -91,7 +91,7 @@ SequenceTrigger::get_settings() {
 
 void
 SequenceTrigger::after_editor_set() {
-  bbox.set_size(new_size.x, new_size.y);
+  m_bbox.set_size(new_size.x, new_size.y);
 }
 
 void
@@ -112,7 +112,7 @@ void
 SequenceTrigger::draw(DrawingContext& context)
 {
   if (Editor::is_active()) {
-    context.color().draw_filled_rect(bbox, Color(1.0f, 0.0f, 0.0f, 0.6f),
+    context.color().draw_filled_rect(m_bbox, Color(1.0f, 0.0f, 0.0f, 0.6f),
                              0.0f, LAYER_OBJECTS);
   }
 }

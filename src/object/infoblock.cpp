@@ -101,7 +101,7 @@ InfoBlock::collision(GameObject& other, const CollisionHit& hit_)
 Player*
 InfoBlock::get_nearest_player() const
 {
-  return Sector::get().get_nearest_player (bbox);
+  return Sector::get().get_nearest_player (m_bbox);
 }
 
 void
@@ -115,7 +115,7 @@ InfoBlock::update(float delta)
   if (dest_pct > 0) {
     auto player = get_nearest_player();
     if (player) {
-      Vector p1 = bbox.get_middle();
+      Vector p1 = m_bbox.get_middle();
       Vector p2 = player->get_bbox().get_middle();
       Vector dist = (p2 - p1);
       float d = dist.norm();
@@ -146,8 +146,8 @@ InfoBlock::draw(DrawingContext& context)
   float border = 8;
   float width = 400; // this is the text width only
   float height = lines_height; // this is the text height only
-  float x1 = (bbox.p1.x + bbox.p2.x)/2 - width/2;
-  float x2 = (bbox.p1.x + bbox.p2.x)/2 + width/2;
+  float x1 = (m_bbox.p1.x + m_bbox.p2.x)/2 - width/2;
+  float x2 = (m_bbox.p1.x + m_bbox.p2.x)/2 + width/2;
   float y1 = original_y - height;
 
   if(x1 < 0) {

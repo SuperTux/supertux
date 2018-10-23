@@ -269,11 +269,11 @@ CollisionSystem::collision_object(MovingObject* object1, MovingObject* object2) 
 {
   using namespace collision;
 
-  const Rectf& r1 = object1->dest;
-  const Rectf& r2 = object2->dest;
+  const Rectf& r1 = object1->m_dest;
+  const Rectf& r2 = object2->m_dest;
 
   CollisionHit hit;
-  if(intersects(object1->dest, object2->dest)) {
+  if(intersects(object1->m_dest, object2->m_dest)) {
     Vector normal;
     get_hit_normal(r1, r2, hit, normal);
 
@@ -292,14 +292,14 @@ CollisionSystem::collision_object(MovingObject* object1, MovingObject* object2) 
     HitResponse response2 = object2->collision(*object1, hit);
     if(response1 == CONTINUE && response2 == CONTINUE) {
       normal *= (0.5f + DELTA);
-      object1->dest.move(-normal);
-      object2->dest.move(normal);
+      object1->m_dest.move(-normal);
+      object2->m_dest.move(normal);
     } else if (response1 == CONTINUE && response2 == FORCE_MOVE) {
       normal *= (1 + DELTA);
-      object1->dest.move(-normal);
+      object1->m_dest.move(-normal);
     } else if (response1 == FORCE_MOVE && response2 == CONTINUE) {
       normal *= (1 + DELTA);
-      object2->dest.move(normal);
+      object2->m_dest.move(normal);
     }
   }
 }
@@ -320,7 +320,7 @@ CollisionSystem::collision_static(collision::Constraints* constraints,
       continue;
 
     if(moving_object != &object)
-      check_collisions(constraints, movement, dest, moving_object->bbox,
+      check_collisions(constraints, movement, dest, moving_object->m_bbox,
                        &object, moving_object);
   }
 }
@@ -334,7 +334,7 @@ CollisionSystem::collision_static_constrains(MovingObject& object)
   Constraints constraints;
   Vector movement = object.get_movement();
   Vector pressure = Vector(0,0);
-  Rectf& dest = object.dest;
+  Rectf& dest = object.m_dest;
 
   for(int i = 0; i < 2; ++i) {
     collision_static(&constraints, Vector(0, movement.y), dest, object);
@@ -455,12 +455,12 @@ CollisionSystem::update()
 
     // make sure movement is never faster than MAX_SPEED. Norm is pretty fat, so two addl. checks are done before.
     if (((mov.x > MAX_SPEED * M_SQRT1_2) || (mov.y > MAX_SPEED * M_SQRT1_2)) && (mov.norm() > MAX_SPEED)) {
-      moving_object->movement = mov.unit() * MAX_SPEED;
+      moving_object->m_movement = mov.unit() * MAX_SPEED;
       //log_debug << "Temporarily reduced object's speed of " << mov.norm() << " to " << moving_object->movement.norm() << "." << std::endl;
     }
 
-    moving_object->dest = moving_object->get_bbox();
-    moving_object->dest.move(moving_object->get_movement());
+    moving_object->m_dest = moving_object->get_bbox();
+    moving_object->m_dest.move(moving_object->get_movement());
   }
 
   // part1: COLGROUP_MOVING vs COLGROUP_STATIC and tilemap
@@ -482,7 +482,7 @@ CollisionSystem::update()
        || !moving_object->is_valid())
       continue;
 
-    uint32_t tile_attributes = collision_tile_attributes(moving_object->dest, moving_object->get_movement());
+    uint32_t tile_attributes = collision_tile_attributes(moving_object->m_dest, moving_object->get_movement());
     if(tile_attributes >= Tile::FIRST_INTERESTING_FLAG) {
       moving_object->collision_tile(tile_attributes);
     }
@@ -500,10 +500,10 @@ CollisionSystem::update()
          || !moving_object_2->is_valid())
         continue;
 
-      if(intersects(moving_object->dest, moving_object_2->dest)) {
+      if(intersects(moving_object->m_dest, moving_object_2->m_dest)) {
         Vector normal;
         CollisionHit hit;
-        get_hit_normal(moving_object->dest, moving_object_2->dest,
+        get_hit_normal(moving_object->m_dest, moving_object_2->m_dest,
                        hit, normal);
         if(!moving_object->collides(*moving_object_2, hit))
           continue;
@@ -538,8 +538,8 @@ CollisionSystem::update()
 
   // apply object movement
   for(const auto& moving_object : m_moving_objects) {
-    moving_object->bbox = moving_object->dest;
-    moving_object->movement = Vector(0, 0);
+    moving_object->m_bbox = moving_object->m_dest;
+    moving_object->m_movement = Vector(0, 0);
   }
 }
 

@@ -50,9 +50,9 @@ Candle::Candle(const ReaderMapping& lisp)
   }
 
   if (burning) {
-    sprite->set_action("on");
+    m_sprite->set_action("on");
   } else {
-    sprite->set_action("off");
+    m_sprite->set_action("off");
   }
 
 }
@@ -62,7 +62,7 @@ Candle::after_editor_set() {
   candle_light_1->set_color(lightcolor);
   candle_light_2->set_color(lightcolor);
 
-  sprite->set_action(burning ? "on" : "off");
+  m_sprite->set_action(burning ? "on" : "off");
 }
 
 ObjectSettings
@@ -79,7 +79,7 @@ void
 Candle::draw(DrawingContext& context)
 {
   // draw regular sprite
-  sprite->draw(context.color(), get_pos(), layer);
+  m_sprite->draw(context.color(), get_pos(), m_layer);
 
   // draw on lightmap
   if (burning) {
@@ -87,10 +87,10 @@ Candle::draw(DrawingContext& context)
     // draw approx. 1 in 10 frames darker. Makes the candle flicker
     if (gameRandom.rand(10) != 0 || !flicker) {
       //context.color().draw_surface(candle_light_1, pos, layer);
-      candle_light_1->draw(context.light(), bbox.get_middle(), 0);
+      candle_light_1->draw(context.light(), m_bbox.get_middle(), 0);
     } else {
       //context.color().draw_surface(candle_light_2, pos, layer);
-      candle_light_2->draw(context.light(), bbox.get_middle(), 0);
+      candle_light_2->draw(context.light(), m_bbox.get_middle(), 0);
     }
   }
 }
@@ -104,7 +104,7 @@ Candle::collision(GameObject&, const CollisionHit& )
 void
 Candle::puff_smoke()
 {
-  Vector ppos = bbox.get_middle();
+  Vector ppos = m_bbox.get_middle();
   Vector pspeed = Vector(0, -150);
   Vector paccel = Vector(0,0);
   Sector::get().add<SpriteParticle>("images/objects/particles/smoke.sprite",
@@ -126,9 +126,9 @@ Candle::set_burning(bool burning_)
   if (burning == burning_) return;
   burning = burning_;
   if (burning_) {
-    sprite->set_action("on");
+    m_sprite->set_action("on");
   } else {
-    sprite->set_action("off");
+    m_sprite->set_action("off");
   }
   //puff smoke for flickering light sources only
   if (flicker) puff_smoke();

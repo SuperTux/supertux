@@ -56,8 +56,8 @@ Stumpy::initialize()
 {
   switch (mystate) {
     case STATE_INVINCIBLE:
-      sprite->set_action(dir == LEFT ? "dizzy-left" : "dizzy-right");
-      bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
+      m_sprite->set_action(dir == LEFT ? "dizzy-left" : "dizzy-right");
+      m_bbox.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
       physic.set_velocity_x(0);
       break;
     case STATE_NORMAL:
@@ -97,13 +97,13 @@ Stumpy::collision_squished(GameObject& object)
 
   // if we can die, we do
   if (mystate == STATE_NORMAL) {
-    sprite->set_action(dir == LEFT ? "squished-left" : "squished-right");
-    set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
+    m_sprite->set_action(dir == LEFT ? "squished-left" : "squished-right");
+    set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
     kill_squished(object);
     // spawn some particles
     // TODO: provide convenience function in MovingSprite or MovingObject?
     for (int i = 0; i < 25; i++) {
-      Vector ppos = bbox.get_middle();
+      Vector ppos = m_bbox.get_middle();
       float angle = graphicsRandom.randf(-math::PI_2, math::PI_2);
       float velocity = graphicsRandom.randf(45, 90);
       float vx = sinf(angle)*velocity;

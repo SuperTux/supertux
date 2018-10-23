@@ -52,7 +52,7 @@ DartTrap::DartTrap(const ReaderMapping& reader) :
 void
 DartTrap::initialize()
 {
-  sprite->set_action(dir == LEFT ? "idle-left" : "idle-right");
+  m_sprite->set_action(dir == LEFT ? "idle-left" : "idle-right");
 }
 
 void
@@ -83,7 +83,7 @@ DartTrap::active_update(float )
       break;
 
     case LOADING:
-      if (sprite->animation_done()) {
+      if (m_sprite->animation_done()) {
         fire();
       }
       break;
@@ -97,7 +97,7 @@ void
 DartTrap::load()
 {
   state = LOADING;
-  sprite->set_action(dir == LEFT ? "loading-left" : "loading-right", 1);
+  m_sprite->set_action(dir == LEFT ? "loading-left" : "loading-right", 1);
 }
 
 void
@@ -111,7 +111,7 @@ DartTrap::fire()
   SoundManager::current()->play("sounds/dartfire.wav", get_pos());
   Sector::get().add<Dart>(Vector(px, py), dir, this);
   state = IDLE;
-  sprite->set_action(dir == LEFT ? "idle-left" : "idle-right");
+  m_sprite->set_action(dir == LEFT ? "idle-left" : "idle-right");
 }
 
 
@@ -134,7 +134,7 @@ void
 DartTrap::after_editor_set()
 {
   BadGuy::after_editor_set();
-  sprite->set_action(dir == LEFT ? "idle-left" : "idle-right");
+  m_sprite->set_action(dir == LEFT ? "idle-left" : "idle-right");
 }
 
 /* EOF */

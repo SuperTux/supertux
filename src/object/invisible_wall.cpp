@@ -25,20 +25,20 @@ InvisibleWall::InvisibleWall(const ReaderMapping& lisp):
   width(),
   height()
 {
-  lisp.get("x", bbox.p1.x, 0.0f);
-  lisp.get("y", bbox.p1.y, 0.0f);
+  lisp.get("x", m_bbox.p1.x, 0.0f);
+  lisp.get("y", m_bbox.p1.y, 0.0f);
   lisp.get("width", width, 32.0f);
   lisp.get("height", height, 32.0f);
 
-  bbox.set_size(width, height);
+  m_bbox.set_size(width, height);
 
-  group = COLGROUP_STATIC;
+  m_group = COLGROUP_STATIC;
 }
 
 ObjectSettings
 InvisibleWall::get_settings() {
-  width = bbox.get_width();
-  height = bbox.get_height();
+  width = m_bbox.get_width();
+  height = m_bbox.get_height();
 
   ObjectSettings result = MovingObject::get_settings();
   result.options.push_back( ObjectOption(MN_NUMFIELD, _("Width"), &width, "width"));
@@ -49,7 +49,7 @@ InvisibleWall::get_settings() {
 
 void
 InvisibleWall::after_editor_set() {
-  bbox.set_size(width, height);
+  m_bbox.set_size(width, height);
 }
 
 HitResponse
@@ -62,7 +62,7 @@ void
 InvisibleWall::draw(DrawingContext& context)
 {
   if (Editor::is_active()) {
-    context.color().draw_filled_rect(bbox, Color(0.0f, 0.0f, 0.0f, 0.6f),
+    context.color().draw_filled_rect(m_bbox, Color(0.0f, 0.0f, 0.0f, 0.6f),
                              0.0f, LAYER_OBJECTS);
   }
 }

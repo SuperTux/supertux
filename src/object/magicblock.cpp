@@ -77,8 +77,8 @@ MagicBlock::MagicBlock(const ReaderMapping& lisp) :
     trigger_blue = color.blue;
   }
 
-  center = bbox.get_middle();
-  solid_box = Rectf(bbox.p1.x + SHIFT_DELTA, bbox.p1.y + SHIFT_DELTA, bbox.p2.x - SHIFT_DELTA, bbox.p2.y - SHIFT_DELTA);
+  center = m_bbox.get_middle();
+  solid_box = Rectf(m_bbox.p1.x + SHIFT_DELTA, m_bbox.p1.y + SHIFT_DELTA, m_bbox.p2.x - SHIFT_DELTA, m_bbox.p2.y - SHIFT_DELTA);
 }
 
 ObjectSettings
@@ -102,7 +102,7 @@ MagicBlock::after_editor_set() {
     trigger_green = color.green;
     trigger_blue = color.blue;
   }
-  sprite->set_color(color);
+  m_sprite->set_color(color);
 }
 
 void
@@ -161,11 +161,11 @@ MagicBlock::update(float elapsed_time)
   if(is_solid) {
     solid_time+=elapsed_time;
     color.alpha = ALPHA_SOLID;
-    sprite->set_action("solid");
+    m_sprite->set_action("solid");
     set_group(COLGROUP_STATIC);
   } else {
     color.alpha = ALPHA_NONSOLID;
-    sprite->set_action("normal");
+    m_sprite->set_action("normal");
     set_group(COLGROUP_DISABLED);
   }
 }
@@ -176,7 +176,7 @@ MagicBlock::draw(DrawingContext& context){
   context.light().get_pixel( center, &light );
 
   MovingSprite::draw(context);
-  context.color().draw_filled_rect( bbox, color, layer);
+  context.color().draw_filled_rect( m_bbox, color, m_layer);
 }
 
 bool

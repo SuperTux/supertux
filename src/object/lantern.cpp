@@ -70,11 +70,11 @@ Lantern::updateColor(){
   lightsprite->set_color(lightcolor);
   //Turn lantern off if light is black
   if(lightcolor.red == 0 && lightcolor.green == 0 && lightcolor.blue == 0){
-    sprite->set_action("off");
-    sprite->set_color(Color(1.0f, 1.0f, 1.0f));
+    m_sprite->set_action("off");
+    m_sprite->set_color(Color(1.0f, 1.0f, 1.0f));
   } else {
-    sprite->set_action("normal");
-    sprite->set_color(lightcolor);
+    m_sprite->set_action("normal");
+    m_sprite->set_color(lightcolor);
   }
 }
 
@@ -83,7 +83,7 @@ Lantern::draw(DrawingContext& context){
   //Draw the Sprite.
   MovingSprite::draw(context);
   //Let there be light.
-  lightsprite->draw(context.light(), bbox.get_middle(), 0);
+  lightsprite->draw(context.light(), m_bbox.get_middle(), 0);
 }
 
 HitResponse Lantern::collision(GameObject& other, const CollisionHit& hit) {
@@ -115,7 +115,7 @@ Lantern::grab(MovingObject& object, const Vector& pos, Direction dir)
 
   // if lantern is not lit, draw it as opened
   if (is_open()) {
-    sprite->set_action("off-open");
+    m_sprite->set_action("off-open");
   }
 
 }
@@ -125,7 +125,7 @@ Lantern::ungrab(MovingObject& object, Direction dir)
 {
   // if lantern is not lit, it was drawn as opened while grabbed. Now draw it as closed again
   if (is_open()) {
-    sprite->set_action("off");
+    m_sprite->set_action("off");
   }
 
   Rock::ungrab(object, dir);

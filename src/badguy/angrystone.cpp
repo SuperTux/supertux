@@ -36,7 +36,7 @@ AngryStone::AngryStone(const ReaderMapping& reader) :
   physic.set_velocity_x(0);
   physic.set_velocity_y(0);
   physic.enable_gravity(true);
-  sprite->set_action("idle");
+  m_sprite->set_action("idle");
 }
 
 void
@@ -109,7 +109,7 @@ AngryStone::active_update(float elapsed_time) {
             attackDirection.y = -1;
           }
           if ((attackDirection.x != oldWallDirection.x) || (attackDirection.y != oldWallDirection.y)) {
-            sprite->set_action("charging");
+            m_sprite->set_action("charging");
             timer.start(CHARGE_TIME);
             state = CHARGING;
           }
@@ -122,7 +122,7 @@ AngryStone::active_update(float elapsed_time) {
             attackDirection.y = 0;
           }
           if ((attackDirection.x != oldWallDirection.x) || (attackDirection.y != oldWallDirection.y)) {
-            sprite->set_action("charging");
+            m_sprite->set_action("charging");
             timer.start(CHARGE_TIME);
             state = CHARGING;
           }
@@ -132,7 +132,7 @@ AngryStone::active_update(float elapsed_time) {
 
     case CHARGING: {
       if (timer.check()) {
-        sprite->set_action("attacking");
+        m_sprite->set_action("attacking");
         timer.start(ATTACK_TIME);
         state = ATTACKING;
         physic.enable_gravity(false);
@@ -147,7 +147,7 @@ AngryStone::active_update(float elapsed_time) {
       if (timer.check()) {
         timer.start(RECOVER_TIME);
         state = RECOVERING;
-        sprite->set_action("idle");
+        m_sprite->set_action("idle");
         physic.enable_gravity(true);
         physic.set_velocity_x(0);
         physic.set_velocity_y(0);
@@ -157,7 +157,7 @@ AngryStone::active_update(float elapsed_time) {
     case RECOVERING: {
       if (timer.check()) {
         state = IDLE;
-        sprite->set_action("idle");
+        m_sprite->set_action("idle");
         physic.enable_gravity(true);
         physic.set_velocity_x(0);
         physic.set_velocity_y(0);

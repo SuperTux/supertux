@@ -54,12 +54,12 @@ SkyDive::collision_badguy(BadGuy&, const CollisionHit& hit)
 void
 SkyDive::grab(MovingObject&, const Vector& pos, Direction dir_)
 {
-  movement = pos - get_pos();
+  m_movement = pos - get_pos();
   dir = dir_;
 
   is_grabbed = true;
 
-  physic.set_velocity_x(movement.x * LOGICAL_FPS);
+  physic.set_velocity_x(m_movement.x * LOGICAL_FPS);
   physic.set_velocity_y(0.0);
   physic.set_acceleration_y(0.0);
   physic.enable_gravity(false);
@@ -114,7 +114,7 @@ void
 SkyDive::active_update(float elapsed_time)
 {
   if (!is_grabbed)
-    movement = physic.get_movement(elapsed_time);
+    m_movement = physic.get_movement(elapsed_time);
 }
 
 void
@@ -123,7 +123,7 @@ SkyDive::explode()
   if (!is_valid())
     return;
 
-  auto explosion = Sector::get().add<Explosion>(get_anchor_pos (bbox, ANCHOR_BOTTOM));
+  auto explosion = Sector::get().add<Explosion>(get_anchor_pos (m_bbox, ANCHOR_BOTTOM));
 
   explosion->hurts(true);
   explosion->pushes(false);
