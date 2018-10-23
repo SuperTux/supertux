@@ -155,7 +155,7 @@ void load_level(const std::string& filename)
 void import(HSQUIRRELVM vm, const std::string& filename)
 {
   IFileStream in(filename);
-  scripting::compile_and_run(vm, in, filename);
+  compile_and_run(vm, in, filename);
 }
 
 void debug_collrects(bool enable)

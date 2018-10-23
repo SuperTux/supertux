@@ -18,8 +18,6 @@
 
 #include <sstream>
 
-namespace scripting {
-
 SquirrelError::SquirrelError(HSQUIRRELVM v, const std::string& message_) throw() :
   message()
 {
@@ -47,8 +45,6 @@ const char*
 SquirrelError::what() const throw()
 {
   return message.c_str();
-}
-
 }
 
 /* EOF */

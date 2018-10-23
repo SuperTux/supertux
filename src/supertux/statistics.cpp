@@ -88,15 +88,15 @@ Statistics::serialize_to_squirrel(HSQUIRRELVM vm)
 {
   if (m_status != FINAL) return;
 
-  scripting::begin_table(vm, "statistics");
-  scripting::store_int(vm, "coins-collected", m_coins);
-  scripting::store_int(vm, "badguys-killed", m_badguys);
-  scripting::store_int(vm, "secrets-found", m_secrets);
-  scripting::store_float(vm, "time-needed", m_time);
-  scripting::store_int(vm, "coins-collected-total", m_total_coins);
-  scripting::store_int(vm, "badguys-killed-total", m_total_badguys);
-  scripting::store_int(vm, "secrets-found-total", m_total_secrets);
-  scripting::end_table(vm, "statistics");
+  begin_table(vm, "statistics");
+  store_int(vm, "coins-collected", m_coins);
+  store_int(vm, "badguys-killed", m_badguys);
+  store_int(vm, "secrets-found", m_secrets);
+  store_float(vm, "time-needed", m_time);
+  store_int(vm, "coins-collected-total", m_total_coins);
+  store_int(vm, "badguys-killed-total", m_total_badguys);
+  store_int(vm, "secrets-found-total", m_total_secrets);
+  end_table(vm, "statistics");
 }
 
 void
@@ -104,14 +104,14 @@ Statistics::unserialize_from_squirrel(HSQUIRRELVM vm)
 {
   try
   {
-    scripting::get_table_entry(vm, "statistics");
-    scripting::get_int(vm, "coins-collected", m_coins);
-    scripting::get_int(vm, "badguys-killed", m_badguys);
-    scripting::get_int(vm, "secrets-found", m_secrets);
-    scripting::get_float(vm, "time-needed", m_time);
-    scripting::get_int(vm, "coins-collected-total", m_total_coins);
-    scripting::get_int(vm, "badguys-killed-total", m_total_badguys);
-    scripting::get_int(vm, "secrets-found-total", m_total_secrets);
+    get_table_entry(vm, "statistics");
+    get_int(vm, "coins-collected", m_coins);
+    get_int(vm, "badguys-killed", m_badguys);
+    get_int(vm, "secrets-found", m_secrets);
+    get_float(vm, "time-needed", m_time);
+    get_int(vm, "coins-collected-total", m_total_coins);
+    get_int(vm, "badguys-killed-total", m_total_badguys);
+    get_int(vm, "secrets-found-total", m_total_secrets);
     sq_pop(vm, 1);
 
     m_status = FINAL;

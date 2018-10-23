@@ -156,12 +156,12 @@ Console::ready_vm()
     m_vm = scripting::global_vm;
     HSQUIRRELVM new_vm = sq_newthread(m_vm, 16);
     if(new_vm == nullptr)
-      throw scripting::SquirrelError(m_vm, "Couldn't create new VM thread for console");
+      throw SquirrelError(m_vm, "Couldn't create new VM thread for console");
 
     // store reference to thread
     sq_resetobject(&m_vm_object);
     if(SQ_FAILED(sq_getstackobj(m_vm, -1, &m_vm_object)))
-      throw scripting::SquirrelError(m_vm, "Couldn't get vm object for console");
+      throw SquirrelError(m_vm, "Couldn't get vm object for console");
     sq_addref(m_vm, &m_vm_object);
     sq_pop(m_vm, 1);
 
@@ -169,7 +169,7 @@ Console::ready_vm()
     sq_newtable(new_vm);
     sq_pushroottable(new_vm);
     if(SQ_FAILED(sq_setdelegate(new_vm, -2)))
-      throw scripting::SquirrelError(new_vm, "Couldn't set console_table delegate");
+      throw SquirrelError(new_vm, "Couldn't set console_table delegate");
 
     sq_setroottable(new_vm);
 
@@ -178,7 +178,7 @@ Console::ready_vm()
     try {
       std::string filename = "scripts/console.nut";
       IFileStream stream(filename);
-      scripting::compile_and_run(m_vm, stream, filename);
+      compile_and_run(m_vm, stream, filename);
     } catch(std::exception& e) {
       log_warning << "Couldn't load console.nut: " << e.what() << std::endl;
     }
@@ -194,14 +194,14 @@ Console::execute_script(const std::string& command)
   try {
     if(SQ_FAILED(sq_compilebuffer(m_vm, command.c_str(), command.length(),
                                   "", SQTrue)))
-      throw scripting::SquirrelError(m_vm, "Couldn't compile command");
+      throw SquirrelError(m_vm, "Couldn't compile command");
 
     sq_pushroottable(m_vm);
     if(SQ_FAILED(sq_call(m_vm, 1, SQTrue, SQTrue)))
-      throw scripting::SquirrelError(m_vm, "Problem while executing command");
+      throw SquirrelError(m_vm, "Problem while executing command");
 
     if(sq_gettype(m_vm, -1) != OT_NULL)
-      m_buffer.addLines(scripting::squirrel2string(m_vm, -1));
+      m_buffer.addLines(squirrel2string(m_vm, -1));
   } catch(std::exception& e) {
     m_buffer.addLines(e.what());
   }

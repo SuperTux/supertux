@@ -51,7 +51,7 @@ protected:
   {
     HSQUIRRELVM vm = scripting::global_vm;
     sq_pushobject(vm, m_table);
-    scripting::expose_object(vm, -1, std::move(script_object), name.c_str());
+    expose_object(vm, -1, std::move(script_object), name.c_str());
     sq_pop(vm, 1);
   }
   void unexpose(const std::string& name);

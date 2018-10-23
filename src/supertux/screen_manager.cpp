@@ -52,13 +52,13 @@ ScreenManager::ScreenManager(VideoSystem& video_system) :
   m_screen_fade(),
   m_screen_stack()
 {
-  scripting::TimeScheduler::instance = new scripting::TimeScheduler();
+  TimeScheduler::instance = new TimeScheduler();
 }
 
 ScreenManager::~ScreenManager()
 {
-  delete scripting::TimeScheduler::instance;
-  scripting::TimeScheduler::instance = nullptr;
+  delete TimeScheduler::instance;
+  TimeScheduler::instance = nullptr;
 }
 
 void
@@ -210,8 +210,8 @@ ScreenManager::draw(Compositor& compositor)
 void
 ScreenManager::update_gamelogic(float elapsed_time)
 {
-  scripting::Scripting::current()->update_debugger();
-  scripting::TimeScheduler::instance->update(g_game_time);
+  Scripting::current()->update_debugger();
+  TimeScheduler::instance->update(g_game_time);
 
   if (!m_screen_stack.empty())
   {

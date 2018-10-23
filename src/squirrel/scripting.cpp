@@ -65,54 +65,56 @@ namespace scripting {
 
 HSQUIRRELVM global_vm = nullptr;
 
+} // namespace scripting
+
 Scripting::Scripting(bool enable_debugger)
 {
-  global_vm = sq_open(64);
-  if(global_vm == nullptr)
+  scripting::global_vm = sq_open(64);
+  if(scripting::global_vm == nullptr)
     throw std::runtime_error("Couldn't initialize squirrel vm");
 
   if(enable_debugger) {
 #ifdef ENABLE_SQDBG
-    sq_enabledebuginfo(global_vm, SQTrue);
-    debugger = sq_rdbg_init(global_vm, 1234, SQFalse);
+    sq_enabledebuginfo(scripting::global_vm, SQTrue);
+    debugger = sq_rdbg_init(scripting::global_vm, 1234, SQFalse);
     if(debugger == nullptr)
-      throw SquirrelError(global_vm, "Couldn't initialize squirrel debugger");
+      throw SquirrelError(scripting::global_vm, "Couldn't initialize squirrel debugger");
 
-    sq_enabledebuginfo(global_vm, SQTrue);
+    sq_enabledebuginfo(scripting::global_vm, SQTrue);
     log_info << "Waiting for debug client..." << std::endl;
     if(SQ_FAILED(sq_rdbg_waitforconnections(debugger)))
-      throw SquirrelError(global_vm, "Waiting for debug clients failed");
+      throw SquirrelError(scripting::global_vm, "Waiting for debug clients failed");
     log_info << "debug client connected." << std::endl;
 #endif
   }
 
-  sq_pushroottable(global_vm);
-  if(SQ_FAILED(sqstd_register_bloblib(global_vm)))
-    throw SquirrelError(global_vm, "Couldn't register blob lib");
-  if(SQ_FAILED(sqstd_register_mathlib(global_vm)))
-    throw SquirrelError(global_vm, "Couldn't register math lib");
-  if(SQ_FAILED(sqstd_register_stringlib(global_vm)))
-    throw SquirrelError(global_vm, "Couldn't register string lib");
+  sq_pushroottable(scripting::global_vm);
+  if(SQ_FAILED(sqstd_register_bloblib(scripting::global_vm)))
+    throw SquirrelError(scripting::global_vm, "Couldn't register blob lib");
+  if(SQ_FAILED(sqstd_register_mathlib(scripting::global_vm)))
+    throw SquirrelError(scripting::global_vm, "Couldn't register math lib");
+  if(SQ_FAILED(sqstd_register_stringlib(scripting::global_vm)))
+    throw SquirrelError(scripting::global_vm, "Couldn't register string lib");
 
   // remove rand and srand calls from sqstdmath, we'll provide our own
-  scripting::delete_table_entry(global_vm, "srand");
-  scripting::delete_table_entry(global_vm, "rand");
+  delete_table_entry(scripting::global_vm, "srand");
+  delete_table_entry(scripting::global_vm, "rand");
 
   // register supertux API
-  register_supertux_wrapper(global_vm);
+  scripting::register_supertux_wrapper(scripting::global_vm);
 
-  sq_pop(global_vm, 1);
+  sq_pop(scripting::global_vm, 1);
 
   // register print function
-  sq_setprintfunc(global_vm, printfunc, printfunc);
+  sq_setprintfunc(scripting::global_vm, printfunc, printfunc);
   // register default error handlers
-  sqstd_seterrorhandlers(global_vm);
+  sqstd_seterrorhandlers(scripting::global_vm);
 
   // try to load default script
   try {
     std::string filename = "scripts/default.nut";
     IFileStream stream(filename);
-    scripting::compile_and_run(global_vm, stream, filename);
+    compile_and_run(scripting::global_vm, stream, filename);
   } catch(std::exception& e) {
     log_warning << "Couldn't load default.nut: " << e.what() << std::endl;
   }
@@ -127,10 +129,10 @@ Scripting::~Scripting()
   }
 #endif
 
-  if (global_vm)
-    sq_close(global_vm);
+  if (scripting::global_vm)
+    sq_close(scripting::global_vm);
 
-  global_vm = nullptr;
+  scripting::global_vm = nullptr;
 }
 
 void
@@ -141,7 +143,5 @@ Scripting::update_debugger()
     sq_rdbg_update(debugger);
 #endif
 }
-
-} // namespace scripting
 
 /* EOF */

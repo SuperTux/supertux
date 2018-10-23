@@ -22,12 +22,8 @@
 class ReaderMapping;
 class Writer;
 
-namespace scripting {
-
 void save_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, Writer& writer);
 void load_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, const ReaderMapping& lisp);
-
-} // namespace scripting
 
 #endif
 

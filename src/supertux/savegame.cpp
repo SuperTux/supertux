@@ -33,9 +33,6 @@
 #include "worldmap/worldmap.hpp"
 
 namespace {
-using scripting::get_table_entry;
-using scripting::get_or_create_table_entry;
-using scripting::get_table_keys;
 
 std::vector<LevelState> get_level_states(HSQUIRRELVM vm)
 {
@@ -50,14 +47,14 @@ std::vector<LevelState> get_level_states(HSQUIRRELVM vm)
     {
       std::ostringstream msg;
       msg << "Couldn't get string value";
-      throw scripting::SquirrelError(vm, msg.str());
+      throw SquirrelError(vm, msg.str());
     }
     else
     {
       LevelState level_state;
       level_state.filename = result;
-      scripting::get_bool(vm, "solved", level_state.solved);
-      scripting::get_bool(vm, "perfect", level_state.perfect);
+      get_bool(vm, "solved", level_state.solved);
+      get_bool(vm, "perfect", level_state.perfect);
 
       results.push_back(level_state);
     }
@@ -181,7 +178,7 @@ Savegame::load()
           {
             sq_pushroottable(vm);
             get_table_entry(vm, "state");
-            scripting::load_squirrel_table(vm, -1, *state);
+            load_squirrel_table(vm, -1, *state);
             sq_pop(vm, 2);
           }
         }
@@ -203,7 +200,7 @@ Savegame::clear_state_table()
   sq_pushroottable(vm);
   {
     // create a new empty state table
-    scripting::create_empty_table(vm, "state");
+    create_empty_table(vm, "state");
   }
   sq_pop(vm, 1);
 }
@@ -266,8 +263,8 @@ Savegame::save()
   sq_pushroottable(vm);
   try
   {
-    scripting::get_table_entry(vm, "state"); // Push "state"
-    scripting::save_squirrel_table(vm, -1, writer);
+    get_table_entry(vm, "state"); // Push "state"
+    save_squirrel_table(vm, -1, writer);
     sq_pop(vm, 1); // Pop "state"
   }
   catch(const std::exception&)
@@ -405,8 +402,8 @@ Savegame::set_levelset_state(const std::string& basedir,
     get_or_create_table_entry(vm, level_filename);
 
     bool old_solved = false;
-    scripting::get_bool(vm, "solved", old_solved);
-    scripting::store_bool(vm, "solved", solved || old_solved);
+    get_bool(vm, "solved", old_solved);
+    store_bool(vm, "solved", solved || old_solved);
   }
   catch(const std::exception& err)
   {

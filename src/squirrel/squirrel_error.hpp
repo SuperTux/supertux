@@ -21,8 +21,6 @@
 #include <stdexcept>
 #include <string>
 
-namespace scripting {
-
 /** Exception class for squirrel errors, it takes a squirrelvm and uses
  * sq_geterror() to retrieve additional information about the last error that
  * occurred and creates a readable message from that.
@@ -38,8 +36,6 @@ public:
 private:
   std::string message;
 };
-
-} // namespace scripting
 
 #endif
 

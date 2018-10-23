@@ -19,8 +19,6 @@
 
 #include <vector>
 
-namespace scripting {
-
 /**
  * This class keeps a list of squirrel threads that are scheduled for a certain
  * time. (the typical result of a wait() command in a squirrel script)
@@ -52,8 +50,6 @@ private:
   typedef std::vector<ScheduleEntry> ScheduleHeap;
   ScheduleHeap schedule;
 };
-
-} // namespace scripting
 
 #endif
 

@@ -34,11 +34,11 @@ ScriptEngine::ScriptEngine() :
   sq_newtable(m_vm);
   sq_pushroottable(m_vm);
   if(SQ_FAILED(sq_setdelegate(m_vm, -2)))
-    throw scripting::SquirrelError(m_vm, "Couldn't set table delegate");
+    throw SquirrelError(m_vm, "Couldn't set table delegate");
 
   sq_resetobject(&m_table);
   if (SQ_FAILED(sq_getstackobj(m_vm, -1, &m_table))) {
-    throw scripting::SquirrelError(m_vm, "Couldn't get table");
+    throw SquirrelError(m_vm, "Couldn't get table");
   }
 
   sq_addref(m_vm, &m_table);
@@ -61,7 +61,7 @@ void
 ScriptEngine::expose_self(const std::string& name)
 {
   sq_pushroottable(m_vm);
-  scripting::store_object(m_vm, name.c_str(), m_table);
+  store_object(m_vm, name.c_str(), m_table);
   sq_pop(m_vm, 1);
 }
 
@@ -69,7 +69,7 @@ void
 ScriptEngine::unexpose_self(const std::string& name)
 {
   sq_pushroottable(m_vm);
-  scripting::delete_table_entry(m_vm, name.c_str());
+  delete_table_entry(m_vm, name.c_str());
   sq_pop(m_vm, 1);
 }
 
@@ -106,7 +106,7 @@ ScriptEngine::unexpose(const std::string& name)
   SQInteger oldtop = sq_gettop(m_vm);
   sq_pushobject(m_vm, m_table);
   try {
-    scripting::unexpose_object(m_vm, -1, name.c_str());
+    unexpose_object(m_vm, -1, name.c_str());
   } catch(std::exception& e) {
     log_warning << "Couldn't unregister object: " << e.what() << std::endl;
   }
@@ -130,7 +130,7 @@ ScriptEngine::run_script(std::istream& in, const std::string& sourcename)
     // garbage collect thread list
     for(auto i = m_scripts.begin(); i != m_scripts.end(); ) {
       HSQOBJECT& object = *i;
-      HSQUIRRELVM vm = scripting::object_to_vm(object);
+      HSQUIRRELVM vm = object_to_vm(object);
 
       if(sq_getvmstate(vm) != SQ_VMSTATE_SUSPENDED) {
         sq_release(m_vm, &object);
@@ -141,16 +141,16 @@ ScriptEngine::run_script(std::istream& in, const std::string& sourcename)
       ++i;
     }
 
-    HSQOBJECT object = scripting::create_thread(m_vm);
+    HSQOBJECT object = create_thread(m_vm);
     m_scripts.push_back(object);
 
-    HSQUIRRELVM vm = scripting::object_to_vm(object);
+    HSQUIRRELVM vm = object_to_vm(object);
 
     // set root table
     sq_pushobject(vm, m_table);
     sq_setroottable(vm);
 
-    scripting::compile_and_run(vm, in, sourcename);
+    compile_and_run(vm, in, sourcename);
   }
   catch(const std::exception& e)
   {

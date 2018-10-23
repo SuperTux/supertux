@@ -54,7 +54,7 @@ public:
   void set_screen_fade(std::unique_ptr<ScreenFade> fade);
 
   /// threads that wait for a screenswitch
-  scripting::ThreadQueue m_waiting_threads;
+  ThreadQueue m_waiting_threads;
 
 private:
   void draw_fps(DrawingContext& context, float fps);

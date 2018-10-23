@@ -76,7 +76,7 @@ public:
     log_debug << "Exposing " << m_parent->get_class() << " object " << name << std::endl;
 
     auto object = std::make_unique<T>(m_parent->get_uid());
-    scripting::expose_object(vm, table_idx, std::move(object), name);
+    expose_object(vm, table_idx, std::move(object), name);
   }
 
   /**
@@ -94,7 +94,7 @@ public:
 
     log_debug << "Unexposing object " << name << std::endl;
 
-    scripting::unexpose_object(vm, table_idx, name);
+    unexpose_object(vm, table_idx, name);
   }
 
 private:

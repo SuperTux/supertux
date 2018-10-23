@@ -27,8 +27,6 @@
 #include "squirrel/squirrel_error.hpp"
 #include "scripting/wrapper.hpp"
 
-namespace scripting {
-
 typedef std::vector<HSQOBJECT> ScriptList;
 
 std::string squirrel2string(HSQUIRRELVM vm, SQInteger i);
@@ -59,7 +57,7 @@ void expose_object(HSQUIRRELVM vm, SQInteger table_idx,
   if(SQ_FAILED(sq_createslot(vm, table_idx))) {
     std::ostringstream msg;
     msg << "Couldn't register object '" << name << "' in squirrel table";
-    throw scripting::SquirrelError(vm, msg.str());
+    throw SquirrelError(vm, msg.str());
   }
 }
 
@@ -75,7 +73,7 @@ static inline void unexpose_object(HSQUIRRELVM vm, SQInteger table_idx,
   if(SQ_FAILED(sq_deleteslot(vm, table_idx, SQFalse))) {
     std::ostringstream msg;
     msg << "Couldn't unregister object '" << name << "' in squirrel root table";
-    throw scripting::SquirrelError(vm, msg.str());
+    throw SquirrelError(vm, msg.str());
   }
 }
 
@@ -112,8 +110,6 @@ void get_table_entry(HSQUIRRELVM vm, const std::string& name);
 void get_or_create_table_entry(HSQUIRRELVM vm, const std::string& name);
 void delete_table_entry(HSQUIRRELVM vm, const char* name);
 std::vector<std::string> get_table_keys(HSQUIRRELVM vm);
-
-} // namespace scripting
 
 #endif
 

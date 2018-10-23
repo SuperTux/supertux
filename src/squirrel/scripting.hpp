@@ -25,6 +25,8 @@ namespace scripting {
 
 extern HSQUIRRELVM global_vm;
 
+} // namespace scripting
+
 class Scripting final : public Currenton<Scripting>
 {
 public:
@@ -37,8 +39,6 @@ private:
   Scripting(const Scripting&) = delete;
   Scripting& operator=(const Scripting&) = delete;
 };
-
-} // namespace scripting
 
 #endif
 

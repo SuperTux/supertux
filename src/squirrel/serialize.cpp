@@ -25,8 +25,6 @@
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
 
-namespace scripting {
-
 void load_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, const ReaderMapping& lisp)
 {
   if(table_idx < 0)
@@ -84,7 +82,7 @@ void load_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, const ReaderMappin
     }
 
     if(SQ_FAILED(sq_createslot(vm, table_idx)))
-      throw scripting::SquirrelError(vm, "Couldn't create new index");
+      throw SquirrelError(vm, "Couldn't create new index");
   }
 }
 
@@ -147,7 +145,5 @@ void save_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, Writer& writer)
   }
   sq_pop(vm, 1);
 }
-
-} // namespace scripting
 
 /* EOF */

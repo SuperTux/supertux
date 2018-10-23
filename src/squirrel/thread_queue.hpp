@@ -20,8 +20,6 @@
 #include <squirrel.h>
 #include <vector>
 
-namespace scripting {
-
 /**
  * Keeps a list of SquirrelThreads that wait for a wakeup event
  */
@@ -39,8 +37,6 @@ private:
   typedef std::vector<HSQOBJECT> ThreadList;
   ThreadList threads;
 };
-
-} // namespace scripting
 
 #endif
 
