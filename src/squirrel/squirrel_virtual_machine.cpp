@@ -14,7 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "squirrel/scripting.hpp"
+#include "squirrel/squirrel_virtual_machine.hpp"
 
 #include <sqstdaux.h>
 #include <sqstdblob.h>
@@ -61,7 +61,7 @@ void printfunc(HSQUIRRELVM, const char* fmt, ...)
 
 } // namespace
 
-Scripting::Scripting(bool enable_debugger) :
+SquirrelVirtualMachine::SquirrelVirtualMachine(bool enable_debugger) :
   m_vm()
 {
   m_vm = sq_open(64);
@@ -115,7 +115,7 @@ Scripting::Scripting(bool enable_debugger) :
   }
 }
 
-Scripting::~Scripting()
+SquirrelVirtualMachine::~SquirrelVirtualMachine()
 {
 #ifdef ENABLE_SQDBG
   if(debugger != nullptr) {
@@ -128,7 +128,7 @@ Scripting::~Scripting()
 }
 
 void
-Scripting::update_debugger()
+SquirrelVirtualMachine::update_debugger()
 {
 #ifdef ENABLE_SQDBG
   if(debugger != nullptr)

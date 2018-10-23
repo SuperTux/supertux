@@ -393,7 +393,7 @@ Main::launch_game(const CommandLineArguments& args)
   sound_manager.set_music_volume(g_config->music_volume);
 
   timelog("scripting");
-  Scripting scripting(g_config->enable_script_debugger);
+  SquirrelVirtualMachine scripting(g_config->enable_script_debugger);
 
   timelog("resources");
   TileManager tile_manager;

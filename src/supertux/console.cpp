@@ -18,7 +18,7 @@
 
 #include "math/sizef.hpp"
 #include "physfs/ifile_stream.hpp"
-#include "squirrel/scripting.hpp"
+#include "squirrel/squirrel_virtual_machine.hpp"
 #include "squirrel/squirrel_util.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
@@ -126,9 +126,9 @@ Console::Console(ConsoleBuffer& buffer) :
 
 Console::~Console()
 {
-  if (m_vm != nullptr && Scripting::current() != nullptr)
+  if (m_vm != nullptr && SquirrelVirtualMachine::current() != nullptr)
   {
-    sq_release(Scripting::current()->get_vm(), &m_vm_object);
+    sq_release(SquirrelVirtualMachine::current()->get_vm(), &m_vm_object);
   }
 }
 
@@ -153,7 +153,7 @@ void
 Console::ready_vm()
 {
   if(m_vm == nullptr) {
-    m_vm = Scripting::current()->get_vm();
+    m_vm = SquirrelVirtualMachine::current()->get_vm();
     HSQUIRRELVM new_vm = sq_newthread(m_vm, 16);
     if(new_vm == nullptr)
       throw SquirrelError(m_vm, "Couldn't create new VM thread for console");

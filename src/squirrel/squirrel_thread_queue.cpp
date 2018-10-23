@@ -16,12 +16,12 @@
 
 #include "squirrel/squirrel_thread_queue.hpp"
 
-#include "squirrel/scripting.hpp"
+#include "squirrel/squirrel_virtual_machine.hpp"
 #include "squirrel/squirrel_util.hpp"
 #include "util/log.hpp"
 
 SquirrelThreadQueue::SquirrelThreadQueue() :
-  m_vm(Scripting::current()->get_vm()),
+  m_vm(SquirrelVirtualMachine::current()->get_vm()),
   m_threads()
 {
 }

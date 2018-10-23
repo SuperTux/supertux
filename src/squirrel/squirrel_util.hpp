@@ -23,7 +23,7 @@
 #include <sstream>
 #include <vector>
 
-#include "squirrel/scripting.hpp"
+#include "squirrel/squirrel_virtual_machine.hpp"
 #include "squirrel/squirrel_error.hpp"
 #include "scripting/wrapper.hpp"
 

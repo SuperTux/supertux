@@ -19,7 +19,7 @@
 
 #include <memory>
 
-#include "squirrel/scripting.hpp"
+#include "squirrel/squirrel_virtual_machine.hpp"
 #include "squirrel/squirrel_util.hpp"
 #include "squirrel/script_interface.hpp"
 #include "util/log.hpp"

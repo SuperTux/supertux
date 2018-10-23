@@ -49,7 +49,7 @@ protected:
   template<typename T>
   void expose(const std::string& name, std::unique_ptr<T> script_object)
   {
-    HSQUIRRELVM vm = Scripting::current()->get_vm();
+    HSQUIRRELVM vm = SquirrelVirtualMachine::current()->get_vm();
     sq_pushobject(vm, m_table);
     expose_object(vm, -1, std::move(script_object), name.c_str());
     sq_pop(vm, 1);

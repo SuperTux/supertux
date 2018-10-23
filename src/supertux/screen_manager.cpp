@@ -20,7 +20,7 @@
 #include "audio/sound_manager.hpp"
 #include "editor/editor.hpp"
 #include "gui/menu_manager.hpp"
-#include "squirrel/scripting.hpp"
+#include "squirrel/squirrel_virtual_machine.hpp"
 #include "squirrel/time_scheduler.hpp"
 #include "supertux/console.hpp"
 #include "supertux/constants.hpp"
@@ -210,7 +210,7 @@ ScreenManager::draw(Compositor& compositor)
 void
 ScreenManager::update_gamelogic(float elapsed_time)
 {
-  Scripting::current()->update_debugger();
+  SquirrelVirtualMachine::current()->update_debugger();
   TimeScheduler::instance->update(g_game_time);
 
   if (!m_screen_stack.empty())

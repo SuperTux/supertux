@@ -17,14 +17,14 @@
 #include "squirrel/script_engine.hpp"
 
 #include "squirrel/script_interface.hpp"
-#include "squirrel/scripting.hpp"
+#include "squirrel/squirrel_virtual_machine.hpp"
 #include "squirrel/squirrel_error.hpp"
 #include "squirrel/squirrel_util.hpp"
 #include "supertux/game_object.hpp"
 #include "util/log.hpp"
 
 ScriptEngine::ScriptEngine() :
-  m_vm(Scripting::current()->get_vm()),
+  m_vm(SquirrelVirtualMachine::current()->get_vm()),
   m_table(),
   m_scripts()
 {

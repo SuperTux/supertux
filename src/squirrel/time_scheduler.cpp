@@ -16,7 +16,7 @@
 
 #include <algorithm>
 
-#include "squirrel/scripting.hpp"
+#include "squirrel/squirrel_virtual_machine.hpp"
 #include "squirrel/squirrel_util.hpp"
 #include "squirrel/time_scheduler.hpp"
 #include "util/log.hpp"
@@ -24,7 +24,7 @@
 TimeScheduler* TimeScheduler::instance = nullptr;
 
 TimeScheduler::TimeScheduler() :
-  m_vm(Scripting::current()->get_vm()),
+  m_vm(SquirrelVirtualMachine::current()->get_vm()),
   schedule()
 {
 }
