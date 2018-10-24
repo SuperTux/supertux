@@ -22,7 +22,7 @@
 
 #include "math/vector.hpp"
 #include "supertux/game_object_manager.hpp"
-#include "squirrel/script_engine.hpp"
+#include "squirrel/squirrel_environment.hpp"
 #include "supertux/statistics.hpp"
 #include "supertux/timer.hpp"
 #include "util/currenton.hpp"
@@ -32,7 +32,7 @@
 class Level;
 class PlayerStatus;
 class Savegame;
-class ScriptEngine;
+class SquirrelEnvironment;
 class Sprite;
 class TileMap;
 class TileSet;
@@ -195,7 +195,7 @@ private:
   void clamp_camera_position(Vector& c) const;
 
 private:
-  std::unique_ptr<ScriptEngine> m_script_engine;
+  std::unique_ptr<SquirrelEnvironment> m_squirrel_environment;
 
   Tux* m_tux;
 

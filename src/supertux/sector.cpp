@@ -38,7 +38,7 @@
 #include "object/tilemap.hpp"
 #include "physfs/ifile_streambuf.hpp"
 #include "scripting/sector.hpp"
-#include "squirrel/script_engine.hpp"
+#include "squirrel/squirrel_environment.hpp"
 #include "supertux/collision.hpp"
 #include "supertux/collision_system.hpp"
 #include "supertux/constants.hpp"
@@ -69,7 +69,7 @@ Sector::Sector(Level& parent) :
   m_ambient_light_fade_duration(0.0f),
   m_ambient_light_fade_accum(0.0f),
   m_foremost_layer(),
-  m_script_engine(new ScriptEngine),
+  m_squirrel_environment(new SquirrelEnvironment),
   m_collision_system(new CollisionSystem(*this)),
   m_gravity(10.0),
   m_music(),
@@ -176,15 +176,15 @@ Sector::activate(const Vector& player_pos)
       s_current->deactivate();
     s_current = this;
 
-    m_script_engine->expose_self("sector");
+    m_squirrel_environment->expose_self("sector");
 
     for(auto& object : get_objects()) {
-      m_script_engine->try_expose(*object);
+      m_squirrel_environment->try_expose(*object);
     }
   }
 
   // The Sector object is called 'settings' as it is accessed as 'sector.settings'
-  m_script_engine->expose("settings", std::make_unique<scripting::Sector>(this));
+  m_squirrel_environment->expose("settings", std::make_unique<scripting::Sector>(this));
 
   // two-player hack: move other players to main player's position
   // Maybe specify 2 spawnpoints in the level?
@@ -222,7 +222,7 @@ Sector::activate(const Vector& player_pos)
     try {
       IFileStreambuf ins(basedir + "/default.nut");
       std::istream in(&ins);
-      m_script_engine->run_script(in, "default.nut");
+      m_squirrel_environment->run_script(in, "default.nut");
     } catch(std::exception& ) {
       // doesn't exist or erroneous; do nothing
     }
@@ -242,13 +242,13 @@ Sector::deactivate()
   if(s_current != this)
     return;
 
-  m_script_engine->unexpose_self("sector");
+  m_squirrel_environment->unexpose_self("sector");
 
   for(const auto& object: get_objects()) {
-    m_script_engine->try_unexpose(*object);
+    m_squirrel_environment->try_unexpose(*object);
   }
 
-  m_script_engine->unexpose("settings");
+  m_squirrel_environment->unexpose("settings");
 
   s_current = nullptr;
 }
@@ -385,7 +385,7 @@ Sector::before_object_add(GameObject& object)
   }
 
   if(s_current == this) {
-    m_script_engine->try_expose(object);
+    m_squirrel_environment->try_expose(object);
   }
 
   return true;
@@ -408,7 +408,7 @@ Sector::before_object_remove(GameObject& object)
   }
 
   if(s_current == this)
-    m_script_engine->try_unexpose(object);
+    m_squirrel_environment->try_unexpose(object);
 }
 
 void
@@ -801,7 +801,7 @@ Sector::convert_tiles2gameobject()
 void
 Sector::run_script(const std::string& script, const std::string& sourcename)
 {
-  m_script_engine->run_script(script, sourcename);
+  m_squirrel_environment->run_script(script, sourcename);
 }
 
 /* EOF */

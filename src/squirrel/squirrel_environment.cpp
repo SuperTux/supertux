@@ -14,7 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "squirrel/script_engine.hpp"
+#include "squirrel/squirrel_environment.hpp"
 
 #include <algorithm>
 
@@ -25,7 +25,7 @@
 #include "supertux/game_object.hpp"
 #include "util/log.hpp"
 
-ScriptEngine::ScriptEngine() :
+SquirrelEnvironment::SquirrelEnvironment() :
   m_vm(SquirrelVirtualMachine::current()->get_vm()),
   m_table(),
   m_scripts()
@@ -47,7 +47,7 @@ ScriptEngine::ScriptEngine() :
   sq_pop(m_vm, 1);
 }
 
-ScriptEngine::~ScriptEngine()
+SquirrelEnvironment::~SquirrelEnvironment()
 {
   for(auto& script: m_scripts)
   {
@@ -60,7 +60,7 @@ ScriptEngine::~ScriptEngine()
 }
 
 void
-ScriptEngine::expose_self(const std::string& name)
+SquirrelEnvironment::expose_self(const std::string& name)
 {
   sq_pushroottable(m_vm);
   store_object(m_vm, name.c_str(), m_table);
@@ -68,7 +68,7 @@ ScriptEngine::expose_self(const std::string& name)
 }
 
 void
-ScriptEngine::unexpose_self(const std::string& name)
+SquirrelEnvironment::unexpose_self(const std::string& name)
 {
   sq_pushroottable(m_vm);
   delete_table_entry(m_vm, name.c_str());
@@ -76,7 +76,7 @@ ScriptEngine::unexpose_self(const std::string& name)
 }
 
 void
-ScriptEngine::try_expose(GameObject& object)
+SquirrelEnvironment::try_expose(GameObject& object)
 {
   auto script_object = dynamic_cast<ScriptInterface*>(&object);
   if (script_object != nullptr) {
@@ -87,7 +87,7 @@ ScriptEngine::try_expose(GameObject& object)
 }
 
 void
-ScriptEngine::try_unexpose(GameObject& object)
+SquirrelEnvironment::try_unexpose(GameObject& object)
 {
   auto script_object = dynamic_cast<ScriptInterface*>(&object);
   if (script_object != nullptr) {
@@ -103,7 +103,7 @@ ScriptEngine::try_unexpose(GameObject& object)
 }
 
 void
-ScriptEngine::unexpose(const std::string& name)
+SquirrelEnvironment::unexpose(const std::string& name)
 {
   SQInteger oldtop = sq_gettop(m_vm);
   sq_pushobject(m_vm, m_table);
@@ -116,7 +116,7 @@ ScriptEngine::unexpose(const std::string& name)
 }
 
 void
-ScriptEngine::run_script(const std::string& script, const std::string& sourcename)
+SquirrelEnvironment::run_script(const std::string& script, const std::string& sourcename)
 {
   if (script.empty()) return;
 
@@ -125,7 +125,7 @@ ScriptEngine::run_script(const std::string& script, const std::string& sourcenam
 }
 
 void
-ScriptEngine::garbage_collect()
+SquirrelEnvironment::garbage_collect()
 {
   m_scripts.erase(
     std::remove_if(m_scripts.begin(), m_scripts.end(),
@@ -143,7 +143,7 @@ ScriptEngine::garbage_collect()
 }
 
 void
-ScriptEngine::run_script(std::istream& in, const std::string& sourcename)
+SquirrelEnvironment::run_script(std::istream& in, const std::string& sourcename)
 {
   garbage_collect();
 

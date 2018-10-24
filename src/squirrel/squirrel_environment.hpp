@@ -15,8 +15,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SQUIRREL_SCRIPT_ENGINE_HPP
-#define HEADER_SUPERTUX_SQUIRREL_SCRIPT_ENGINE_HPP
+#ifndef HEADER_SUPERTUX_SQUIRREL_SQUIRREL_ENVIRONMENT_HPP
+#define HEADER_SUPERTUX_SQUIRREL_SQUIRREL_ENVIRONMENT_HPP
 
 #include <string>
 #include <vector>
@@ -28,11 +28,14 @@
 class GameObject;
 class ScriptInterface;
 
-class ScriptEngine
+/** The SquirrelEnvironment contains the environment in which a script
+    is executed, meaning a root table containing objects and
+    variables. */
+class SquirrelEnvironment
 {
 public:
-  ScriptEngine();
-  virtual ~ScriptEngine();
+  SquirrelEnvironment();
+  virtual ~SquirrelEnvironment();
 
 public:
   /** Expose this engine under 'name' */
@@ -60,9 +63,9 @@ public:
       std::istream& */
   void run_script(const std::string& script, const std::string& sourcename);
 
-  /** Runs a script in the context of the ScriptEngine (m_table will
+  /** Runs a script in the context of the SquirrelEnvironment (m_table will
       be the roottable of this squirrel VM) and keeps a reference to
-      the script so the script gets destroyed when the ScriptEngine is
+      the script so the script gets destroyed when the SquirrelEnvironment is
       destroyed). */
   void run_script(std::istream& in, const std::string& sourcename);
 
@@ -75,8 +78,8 @@ private:
   std::vector<HSQOBJECT> m_scripts;
 
 private:
-  ScriptEngine(const ScriptEngine&) = delete;
-  ScriptEngine& operator=(const ScriptEngine&) = delete;
+  SquirrelEnvironment(const SquirrelEnvironment&) = delete;
+  SquirrelEnvironment& operator=(const SquirrelEnvironment&) = delete;
 };
 
 #endif
