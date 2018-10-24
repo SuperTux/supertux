@@ -333,8 +333,7 @@ Tux::process_special_tile(SpecialTile* special_tile) {
     m_worldmap->m_passive_message_timer.start(map_message_TIME);
   } else if(!special_tile->script.empty()) {
     try {
-      std::istringstream in(special_tile->script);
-      m_worldmap->run_script(in, "specialtile");
+      m_worldmap->run_script(special_tile->script, "specialtile");
     } catch(std::exception& e) {
       log_warning << "Couldn't execute special tile script: " << e.what()
                   << std::endl;

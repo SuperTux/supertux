@@ -27,6 +27,7 @@
 #include "physfs/ifile_streambuf.hpp"
 #include "physfs/physfs_file_system.hpp"
 #include "sprite/sprite.hpp"
+#include "squirrel/script_engine.hpp"
 #include "supertux/debug.hpp"
 #include "supertux/fadein.hpp"
 #include "supertux/game_manager.hpp"
@@ -63,6 +64,7 @@ static const float CAMERA_PAN_SPEED = 5.0;
 namespace worldmap {
 
 WorldMap::WorldMap(const std::string& filename, Savegame& savegame, const std::string& force_spawnpoint_) :
+  m_script_engine(new ScriptEngine),
   m_tux(),
   m_savegame(savegame),
   m_tileset(nullptr),
@@ -106,14 +108,14 @@ WorldMap::~WorldMap()
 bool
 WorldMap::before_object_add(GameObject& object)
 {
-  try_expose(object);
+  m_script_engine->try_expose(object);
   return true;
 }
 
 void
 WorldMap::before_object_remove(GameObject& object)
 {
-  try_unexpose(object);
+  m_script_engine->try_unexpose(object);
 }
 
 void
@@ -645,19 +647,19 @@ WorldMap::setup()
   m_tux->setup();
 
   // register worldmap_table as worldmap in scripting
-  expose_self("worldmap");
+  m_script_engine->expose_self("worldmap");
 
   //Run default.nut just before init script
   try {
     IFileStreambuf ins(m_levels_path + "default.nut");
     std::istream in(&ins);
-    run_script(in, "WorldMap::default.nut");
+    m_script_engine->run_script(in, "WorldMap::default.nut");
   } catch(std::exception& ) {
     // doesn't exist or erroneous; do nothing
   }
 
   if(!m_init_script.empty()) {
-    run_script(m_init_script, "WorldMap::init");
+    m_script_engine->run_script(m_init_script, "WorldMap::init");
   }
   m_tux->process_special_tile( at_special_tile() );
 }
@@ -669,7 +671,7 @@ WorldMap::leave()
   save_state();
 
   // remove worldmap_table from roottable
-  unexpose_self("worldmap");
+  m_script_engine->unexpose_self("worldmap");
 
   GameManager::current()->load_next_worldmap();
 }
@@ -714,6 +716,12 @@ WorldMap::save_state()
 {
   WorldMapState state(*this);
   state.save_state();
+}
+
+void
+WorldMap::run_script(const std::string& script, const std::string& sourcename)
+{
+  m_script_engine->run_script(script, sourcename);
 }
 
 } // namespace worldmap

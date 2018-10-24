@@ -55,8 +55,7 @@ enum MusicType {
 
 /** Represents one of (potentially) multiple, separate parts of a Level.
     Sectors contain GameObjects, e.g. Badguys and Players. */
-class Sector final : public GameObjectManager,
-                     public ScriptEngine
+class Sector final : public GameObjectManager
 {
 public:
   friend class EditorSectorMenu;
@@ -183,6 +182,8 @@ public:
 
   const std::vector<MovingObject*>& get_moving_objects() const;
 
+  void run_script(const std::string& script, const std::string& sourcename);
+
 private:
   uint32_t collision_tile_attributes(const Rectf& dest, const Vector& mov) const;
 
@@ -226,7 +227,7 @@ private:
 
   int m_foremost_layer;
 
-private:
+  std::unique_ptr<ScriptEngine> m_script_engine;
   std::unique_ptr<CollisionSystem> m_collision_system;
 
   float m_gravity;

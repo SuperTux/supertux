@@ -32,6 +32,7 @@
 class Level;
 class PlayerStatus;
 class Savegame;
+class ScriptEngine;
 class Sprite;
 class TileMap;
 class TileSet;
@@ -54,7 +55,6 @@ enum {
 };
 
 class WorldMap final : public GameObjectManager,
-                       public ScriptEngine,
                        public Currenton<WorldMap>
 {
 public:
@@ -179,6 +179,8 @@ public:
 
   bool is_panning() const { return m_panning; }
 
+  void run_script(const std::string& script, const std::string& sourcename);
+
 protected:
   virtual bool before_object_add(GameObject& object) override;
   virtual void before_object_remove(GameObject& object) override;
@@ -193,6 +195,8 @@ private:
   void clamp_camera_position(Vector& c) const;
 
 private:
+  std::unique_ptr<ScriptEngine> m_script_engine;
+
   Tux* m_tux;
 
   Savegame& m_savegame;

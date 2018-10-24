@@ -34,7 +34,7 @@ public:
   ScriptEngine();
   virtual ~ScriptEngine();
 
-protected:
+public:
   /** Expose this engine under 'name' */
   void expose_self(const std::string& name);
   void unexpose_self(const std::string& name);
@@ -56,7 +56,6 @@ protected:
   }
   void unexpose(const std::string& name);
 
-public:
   /** Convenience function that takes an std::string instead of an
       std::istream& */
   void run_script(const std::string& script, const std::string& sourcename);
