@@ -67,6 +67,9 @@ public:
   void run_script(std::istream& in, const std::string& sourcename);
 
 private:
+  void garbage_collect();
+
+private:
   HSQUIRRELVM m_vm;
   HSQOBJECT m_table;
   std::vector<HSQOBJECT> m_scripts;

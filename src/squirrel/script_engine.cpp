@@ -16,6 +16,8 @@
 
 #include "squirrel/script_engine.hpp"
 
+#include <algorithm>
+
 #include "squirrel/script_interface.hpp"
 #include "squirrel/squirrel_virtual_machine.hpp"
 #include "squirrel/squirrel_error.hpp"
@@ -123,24 +125,30 @@ ScriptEngine::run_script(const std::string& script, const std::string& sourcenam
 }
 
 void
+ScriptEngine::garbage_collect()
+{
+  m_scripts.erase(
+    std::remove_if(m_scripts.begin(), m_scripts.end(),
+                   [this](HSQOBJECT& object){
+                     HSQUIRRELVM vm = object_to_vm(object);
+
+                     if(sq_getvmstate(vm) != SQ_VMSTATE_SUSPENDED) {
+                       sq_release(m_vm, &object);
+                       return true;
+                     } else {
+                       return false;
+                     }
+                   }),
+    m_scripts.end());
+}
+
+void
 ScriptEngine::run_script(std::istream& in, const std::string& sourcename)
 {
+  garbage_collect();
+
   try
   {
-    // garbage collect thread list
-    for(auto i = m_scripts.begin(); i != m_scripts.end(); ) {
-      HSQOBJECT& object = *i;
-      HSQUIRRELVM vm = object_to_vm(object);
-
-      if(sq_getvmstate(vm) != SQ_VMSTATE_SUSPENDED) {
-        sq_release(m_vm, &object);
-        i = m_scripts.erase(i);
-        continue;
-      }
-
-      ++i;
-    }
-
     HSQOBJECT object = create_thread(m_vm);
     m_scripts.push_back(object);
 
