@@ -28,14 +28,12 @@
 class SquirrelScheduler final
 {
 public:
-  SquirrelScheduler();
+  SquirrelScheduler(HSQUIRRELVM vm);
 
   void update(float time);
   void schedule_thread(HSQUIRRELVM vm, float time);
 
 private:
-  HSQUIRRELVM m_vm;
-
   struct ScheduleEntry {
     /// weak reference to the squirrel vm object
     HSQOBJECT thread_ref;
@@ -48,6 +46,9 @@ private:
       return wakeup_time > other.wakeup_time;
     }
   };
+
+private:
+  HSQUIRRELVM m_vm;
 
   typedef std::vector<ScheduleEntry> ScheduleHeap;
   ScheduleHeap schedule;

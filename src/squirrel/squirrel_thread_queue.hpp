@@ -26,7 +26,7 @@
 class SquirrelThreadQueue final
 {
 public:
-  SquirrelThreadQueue();
+  SquirrelThreadQueue(HSQUIRRELVM vm);
 
   /** adds a thread (actually a weakref to the thread) */
   void add(HSQUIRRELVM vm);

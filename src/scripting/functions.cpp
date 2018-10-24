@@ -66,12 +66,14 @@ SQInteger is_christmas(HSQUIRRELVM vm)
 
 void wait(HSQUIRRELVM vm, float seconds)
 {
-  SquirrelVirtualMachine::current()->wait_for_seconds(vm, seconds);
+  auto squirrelvm = static_cast<SquirrelVirtualMachine*>(sq_getforeignptr(vm));
+  squirrelvm->wait_for_seconds(vm, seconds);
 }
 
 void wait_for_screenswitch(HSQUIRRELVM vm)
 {
-  SquirrelVirtualMachine::current()->wait_for_screenswitch(vm);
+  auto squirrelvm = static_cast<SquirrelVirtualMachine*>(sq_getforeignptr(vm));
+  squirrelvm->wait_for_screenswitch(vm);
 }
 
 void exit_screen()

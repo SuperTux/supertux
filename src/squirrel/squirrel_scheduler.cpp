@@ -22,8 +22,8 @@
 #include "squirrel/squirrel_util.hpp"
 #include "util/log.hpp"
 
-SquirrelScheduler::SquirrelScheduler() :
-  m_vm(SquirrelVirtualMachine::current()->get_vm()),
+SquirrelScheduler::SquirrelScheduler(HSQUIRRELVM vm) :
+  m_vm(vm),
   schedule()
 {
 }

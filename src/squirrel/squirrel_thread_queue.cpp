@@ -20,8 +20,8 @@
 #include "squirrel/squirrel_util.hpp"
 #include "util/log.hpp"
 
-SquirrelThreadQueue::SquirrelThreadQueue() :
-  m_vm(SquirrelVirtualMachine::current()->get_vm()),
+SquirrelThreadQueue::SquirrelThreadQueue(HSQUIRRELVM vm) :
+  m_vm(vm),
   m_threads()
 {
 }
