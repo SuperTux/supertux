@@ -31,8 +31,6 @@ public:
   void update(float time);
   void schedule_thread(HSQUIRRELVM vm, float time);
 
-  static TimeScheduler* instance;
-
 private:
   HSQUIRRELVM m_vm;
 

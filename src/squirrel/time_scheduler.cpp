@@ -21,8 +21,6 @@
 #include "squirrel/time_scheduler.hpp"
 #include "util/log.hpp"
 
-TimeScheduler* TimeScheduler::instance = nullptr;
-
 TimeScheduler::TimeScheduler() :
   m_vm(SquirrelVirtualMachine::current()->get_vm()),
   schedule()

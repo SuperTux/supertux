@@ -51,13 +51,10 @@ ScreenManager::ScreenManager(VideoSystem& video_system) :
   m_screen_fade(),
   m_screen_stack()
 {
-  TimeScheduler::instance = new TimeScheduler();
 }
 
 ScreenManager::~ScreenManager()
 {
-  delete TimeScheduler::instance;
-  TimeScheduler::instance = nullptr;
 }
 
 void
@@ -209,8 +206,7 @@ ScreenManager::draw(Compositor& compositor)
 void
 ScreenManager::update_gamelogic(float elapsed_time)
 {
-  SquirrelVirtualMachine::current()->update_debugger();
-  TimeScheduler::instance->update(g_game_time);
+  SquirrelVirtualMachine::current()->update(g_game_time);
 
   if (!m_screen_stack.empty())
   {
