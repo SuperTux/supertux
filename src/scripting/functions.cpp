@@ -21,7 +21,6 @@
 #include "object/camera.hpp"
 #include "object/player.hpp"
 #include "physfs/ifile_stream.hpp"
-#include "squirrel/time_scheduler.hpp"
 #include "supertux/console.hpp"
 #include "supertux/debug.hpp"
 #include "supertux/fadeout.hpp"

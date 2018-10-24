@@ -21,7 +21,6 @@
 #include "editor/editor.hpp"
 #include "gui/menu_manager.hpp"
 #include "squirrel/squirrel_virtual_machine.hpp"
-#include "squirrel/time_scheduler.hpp"
 #include "supertux/console.hpp"
 #include "supertux/constants.hpp"
 #include "supertux/debug.hpp"

@@ -28,7 +28,7 @@
 #include "scripting/wrapper.hpp"
 #include "squirrel/squirrel_error.hpp"
 #include "squirrel/squirrel_thread_queue.hpp"
-#include "squirrel/time_scheduler.hpp"
+#include "squirrel/squirrel_scheduler.hpp"
 #include "squirrel_util.hpp"
 #include "supertux/console.hpp"
 #include "supertux/globals.hpp"
@@ -67,7 +67,7 @@ void printfunc(HSQUIRRELVM, const char* fmt, ...)
 SquirrelVirtualMachine::SquirrelVirtualMachine(bool enable_debugger) :
   m_vm(),
   m_screenswitch_queue(std::make_unique<SquirrelThreadQueue>()),
-  m_time_scheduler(std::make_unique<TimeScheduler>())
+  m_scheduler(std::make_unique<SquirrelScheduler>())
 {
   m_vm = sq_open(64);
   if(m_vm == nullptr)
@@ -136,7 +136,7 @@ void
 SquirrelVirtualMachine::update(float dt)
 {
   update_debugger();
-  m_time_scheduler->update(dt);
+  m_scheduler->update(dt);
 }
 
 void
@@ -151,7 +151,7 @@ SquirrelVirtualMachine::update_debugger()
 void
 SquirrelVirtualMachine::wait_for_seconds(HSQUIRRELVM vm, float seconds)
 {
-  m_time_scheduler->schedule_thread(vm, g_game_time + seconds);
+  m_scheduler->schedule_thread(vm, g_game_time + seconds);
 }
 
 void

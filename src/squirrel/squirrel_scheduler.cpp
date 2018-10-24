@@ -14,21 +14,22 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "squirrel/squirrel_scheduler.hpp"
+
 #include <algorithm>
 
 #include "squirrel/squirrel_virtual_machine.hpp"
 #include "squirrel/squirrel_util.hpp"
-#include "squirrel/time_scheduler.hpp"
 #include "util/log.hpp"
 
-TimeScheduler::TimeScheduler() :
+SquirrelScheduler::SquirrelScheduler() :
   m_vm(SquirrelVirtualMachine::current()->get_vm()),
   schedule()
 {
 }
 
 void
-TimeScheduler::update(float time)
+SquirrelScheduler::update(float time)
 {
   while(!schedule.empty() && schedule.front().wakeup_time < time) {
     HSQOBJECT thread_ref = schedule.front().thread_ref;
@@ -64,7 +65,7 @@ TimeScheduler::update(float time)
 }
 
 void
-TimeScheduler::schedule_thread(HSQUIRRELVM scheduled_vm, float time)
+SquirrelScheduler::schedule_thread(HSQUIRRELVM scheduled_vm, float time)
 {
   // create a weakref to the VM
   SQObject vm_obj = vm_to_object(scheduled_vm);

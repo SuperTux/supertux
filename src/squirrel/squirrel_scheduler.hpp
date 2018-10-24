@@ -14,19 +14,21 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SQUIRREL_TIME_SCHEDULER_HPP
-#define HEADER_SUPERTUX_SQUIRREL_TIME_SCHEDULER_HPP
+#ifndef HEADER_SUPERTUX_SQUIRREL_SQUIRREL_SCHEDULER_HPP
+#define HEADER_SUPERTUX_SQUIRREL_SQUIRREL_SCHEDULER_HPP
 
 #include <vector>
+
+#include <squirrel.h>
 
 /**
  * This class keeps a list of squirrel threads that are scheduled for a certain
  * time. (the typical result of a wait() command in a squirrel script)
  */
-class TimeScheduler final
+class SquirrelScheduler final
 {
 public:
-  TimeScheduler();
+  SquirrelScheduler();
 
   void update(float time);
   void schedule_thread(HSQUIRRELVM vm, float time);
@@ -51,8 +53,8 @@ private:
   ScheduleHeap schedule;
 
 private:
-  TimeScheduler(const TimeScheduler&) = delete;
-  TimeScheduler& operator=(const TimeScheduler&) = delete;
+  SquirrelScheduler(const SquirrelScheduler&) = delete;
+  SquirrelScheduler& operator=(const SquirrelScheduler&) = delete;
 };
 
 #endif

@@ -24,7 +24,7 @@
 #include "util/currenton.hpp"
 
 class SquirrelThreadQueue;
-class TimeScheduler;
+class SquirrelScheduler;
 
 class SquirrelVirtualMachine final : public Currenton<SquirrelVirtualMachine>
 {
@@ -50,7 +50,7 @@ private:
   HSQUIRRELVM m_vm;
 
   std::unique_ptr<SquirrelThreadQueue> m_screenswitch_queue;
-  std::unique_ptr<TimeScheduler> m_time_scheduler;
+  std::unique_ptr<SquirrelScheduler> m_scheduler;
 
 private:
   SquirrelVirtualMachine(const SquirrelVirtualMachine&) = delete;
