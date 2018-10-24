@@ -26,6 +26,7 @@
 
 #include "physfs/ifile_stream.hpp"
 #include "squirrel/squirrel_error.hpp"
+#include "squirrel/squirrel_thread_queue.hpp"
 #include "scripting/wrapper.hpp"
 #include "squirrel_util.hpp"
 #include "supertux/console.hpp"
@@ -62,7 +63,8 @@ void printfunc(HSQUIRRELVM, const char* fmt, ...)
 } // namespace
 
 SquirrelVirtualMachine::SquirrelVirtualMachine(bool enable_debugger) :
-  m_vm()
+  m_vm(),
+  m_screenswitch_queue(new SquirrelThreadQueue)
 {
   m_vm = sq_open(64);
   if(m_vm == nullptr)
@@ -134,6 +136,18 @@ SquirrelVirtualMachine::update_debugger()
   if(debugger != nullptr)
     sq_rdbg_update(debugger);
 #endif
+}
+
+void
+SquirrelVirtualMachine::wait_for_screenswitch(HSQUIRRELVM vm)
+{
+  m_screenswitch_queue->add(vm);
+}
+
+void
+SquirrelVirtualMachine::wakeup_screenswitch()
+{
+  m_screenswitch_queue->wakeup();
 }
 
 /* EOF */

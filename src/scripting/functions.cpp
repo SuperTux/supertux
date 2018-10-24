@@ -72,7 +72,7 @@ void wait(HSQUIRRELVM vm, float seconds)
 
 void wait_for_screenswitch(HSQUIRRELVM vm)
 {
-  ScreenManager::current()->m_waiting_threads.add(vm);
+  SquirrelVirtualMachine::current()->wait_for_screenswitch(vm);
 }
 
 void exit_screen()

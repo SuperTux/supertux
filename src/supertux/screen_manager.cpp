@@ -41,7 +41,6 @@
 static const int MAX_FRAME_SKIP = 2;
 
 ScreenManager::ScreenManager(VideoSystem& video_system) :
-  m_waiting_threads(),
   m_video_system(video_system),
   m_menu_storage(new MenuStorage),
   m_menu_manager(new MenuManager),
@@ -373,7 +372,7 @@ ScreenManager::handle_screen_switch()
           {
             m_screen_stack.back()->setup();
             m_speed = 1.0;
-            m_waiting_threads.wakeup();
+            SquirrelVirtualMachine::current()->wakeup_screenswitch();
           }
         }
       }

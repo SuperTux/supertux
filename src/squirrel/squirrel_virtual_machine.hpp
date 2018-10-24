@@ -17,9 +17,13 @@
 #ifndef HEADER_SUPERTUX_SQUIRREL_SQUIRREL_VIRTUAL_MACHINE_HPP
 #define HEADER_SUPERTUX_SQUIRREL_SQUIRREL_VIRTUAL_MACHINE_HPP
 
+#include <memory>
+
 #include <squirrel.h>
 
 #include "util/currenton.hpp"
+
+class SquirrelThreadQueue;
 
 class SquirrelVirtualMachine final : public Currenton<SquirrelVirtualMachine>
 {
@@ -31,8 +35,16 @@ public:
 
   HSQUIRRELVM get_vm() const { return m_vm; }
 
+  /** adds thread waiting for a screen switch event */
+  void wait_for_screenswitch(HSQUIRRELVM vm);
+
+  /** wakes up threads waiting for a screen switch event */
+  void wakeup_screenswitch();
+
 private:
   HSQUIRRELVM m_vm;
+
+  std::unique_ptr<SquirrelThreadQueue> m_screenswitch_queue;
 
 private:
   SquirrelVirtualMachine(const SquirrelVirtualMachine&) = delete;

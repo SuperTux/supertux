@@ -53,9 +53,6 @@ public:
   void pop_screen(std::unique_ptr<ScreenFade> fade = {});
   void set_screen_fade(std::unique_ptr<ScreenFade> fade);
 
-  /// threads that wait for a screenswitch
-  SquirrelThreadQueue m_waiting_threads;
-
 private:
   void draw_fps(DrawingContext& context, float fps);
   void draw_player_pos(DrawingContext& context);
