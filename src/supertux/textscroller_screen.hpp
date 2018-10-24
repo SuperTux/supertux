@@ -32,12 +32,6 @@ class InfoBoxLine;
 class TextScrollerScreen final : public Screen
 {
 public:
-  static Color small_color;
-  static Color heading_color;
-  static Color reference_color;
-  static Color normal_color;
-
-public:
   TextScrollerScreen(const std::string& file);
   virtual ~TextScrollerScreen();
 

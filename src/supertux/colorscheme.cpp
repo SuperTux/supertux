@@ -56,9 +56,9 @@ Color worldmap::WorldMap::level_title_color(1.f,1.f,1.f);
 Color worldmap::WorldMap::message_color(1.f,1.f,0.6f);
 Color worldmap::WorldMap::teleporter_message_color(1.f,1.f,1.f);
 
-Color TextScrollerScreen::small_color(1.f,1.f,1.f);
-Color TextScrollerScreen::heading_color(1.f,1.f,0.6f);
-Color TextScrollerScreen::reference_color(0.2f,0.6f,1.f);
-Color TextScrollerScreen::normal_color(1.f,1.f,1.f);
+Color ColorScheme::Text::small_color(1.f,1.f,1.f);
+Color ColorScheme::Text::heading_color(1.f,1.f,0.6f);
+Color ColorScheme::Text::reference_color(0.2f,0.6f,1.f);
+Color ColorScheme::Text::normal_color(1.f,1.f,1.f);
 
 /* EOF */
