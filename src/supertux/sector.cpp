@@ -69,7 +69,7 @@ Sector::Sector(Level& parent) :
   m_ambient_light_fade_duration(0.0f),
   m_ambient_light_fade_accum(0.0f),
   m_foremost_layer(),
-  m_squirrel_environment(new SquirrelEnvironment),
+  m_squirrel_environment(new SquirrelEnvironment(SquirrelVirtualMachine::current()->get_vm(), "sector")),
   m_collision_system(new CollisionSystem(*this)),
   m_gravity(10.0),
   m_music(),
@@ -176,7 +176,7 @@ Sector::activate(const Vector& player_pos)
       s_current->deactivate();
     s_current = this;
 
-    m_squirrel_environment->expose_self("sector");
+    m_squirrel_environment->expose_self();
 
     for(auto& object : get_objects()) {
       m_squirrel_environment->try_expose(*object);
@@ -242,7 +242,7 @@ Sector::deactivate()
   if(s_current != this)
     return;
 
-  m_squirrel_environment->unexpose_self("sector");
+  m_squirrel_environment->unexpose_self();
 
   for(const auto& object: get_objects()) {
     m_squirrel_environment->try_unexpose(*object);

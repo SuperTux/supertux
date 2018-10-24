@@ -34,13 +34,13 @@ class ScriptInterface;
 class SquirrelEnvironment
 {
 public:
-  SquirrelEnvironment();
+  SquirrelEnvironment(HSQUIRRELVM vm, const std::string& name);
   virtual ~SquirrelEnvironment();
 
 public:
   /** Expose this engine under 'name' */
-  void expose_self(const std::string& name);
-  void unexpose_self(const std::string& name);
+  void expose_self();
+  void unexpose_self();
 
   /** Expose the GameObject if it has a ScriptInterface, otherwise do
       nothing. */
@@ -75,6 +75,7 @@ private:
 private:
   HSQUIRRELVM m_vm;
   HSQOBJECT m_table;
+  std::string m_name;
   std::vector<HSQOBJECT> m_scripts;
 
 private:

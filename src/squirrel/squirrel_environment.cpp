@@ -25,9 +25,10 @@
 #include "supertux/game_object.hpp"
 #include "util/log.hpp"
 
-SquirrelEnvironment::SquirrelEnvironment() :
-  m_vm(SquirrelVirtualMachine::current()->get_vm()),
+SquirrelEnvironment::SquirrelEnvironment(HSQUIRRELVM vm, const std::string& name) :
+  m_vm(vm),
   m_table(),
+  m_name(name),
   m_scripts()
 {
   // garbage collector has to be invoked manually
@@ -60,18 +61,18 @@ SquirrelEnvironment::~SquirrelEnvironment()
 }
 
 void
-SquirrelEnvironment::expose_self(const std::string& name)
+SquirrelEnvironment::expose_self()
 {
   sq_pushroottable(m_vm);
-  store_object(m_vm, name.c_str(), m_table);
+  store_object(m_vm, m_name.c_str(), m_table);
   sq_pop(m_vm, 1);
 }
 
 void
-SquirrelEnvironment::unexpose_self(const std::string& name)
+SquirrelEnvironment::unexpose_self()
 {
   sq_pushroottable(m_vm);
-  delete_table_entry(m_vm, name.c_str());
+  delete_table_entry(m_vm, m_name.c_str());
   sq_pop(m_vm, 1);
 }
 

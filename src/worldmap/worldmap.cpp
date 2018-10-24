@@ -64,7 +64,7 @@ static const float CAMERA_PAN_SPEED = 5.0;
 namespace worldmap {
 
 WorldMap::WorldMap(const std::string& filename, Savegame& savegame, const std::string& force_spawnpoint_) :
-  m_squirrel_environment(new SquirrelEnvironment),
+  m_squirrel_environment(new SquirrelEnvironment(SquirrelVirtualMachine::current()->get_vm(), "worldmap")),
   m_tux(),
   m_savegame(savegame),
   m_tileset(nullptr),
@@ -647,7 +647,7 @@ WorldMap::setup()
   m_tux->setup();
 
   // register worldmap_table as worldmap in scripting
-  m_squirrel_environment->expose_self("worldmap");
+  m_squirrel_environment->expose_self();
 
   //Run default.nut just before init script
   try {
@@ -671,7 +671,7 @@ WorldMap::leave()
   save_state();
 
   // remove worldmap_table from roottable
-  m_squirrel_environment->unexpose_self("worldmap");
+  m_squirrel_environment->unexpose_self();
 
   GameManager::current()->load_next_worldmap();
 }
