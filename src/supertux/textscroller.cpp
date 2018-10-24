@@ -41,13 +41,13 @@ static const float LEFT_BORDER = 50;
 static const float SCROLL = 60;
 
 TextScroller::TextScroller(const std::string& filename) :
-  defaultspeed(DEFAULT_SPEED),
-  speed(defaultspeed),
-  music(),
-  background(),
-  lines(),
-  scroll(0),
-  fading(false)
+  m_defaultspeed(DEFAULT_SPEED),
+  m_speed(m_defaultspeed),
+  m_music(),
+  m_background(),
+  m_lines(),
+  m_scroll(0),
+  m_fading(false)
 {
   std::string text;
   std::string background_file;
@@ -57,7 +57,7 @@ TextScroller::TextScroller(const std::string& filename) :
     auto doc = ReaderDocument::from_file(filename);
     auto root = doc.get_root();
 
-    if(root.get_name() != "supertux-text") {
+    if (root.get_name() != "supertux-text") {
       throw std::runtime_error("File isn't a supertux-text file");
     } else {
       auto text_lisp = root.get_mapping();
@@ -67,12 +67,12 @@ TextScroller::TextScroller(const std::string& filename) :
       if (version == 1) {
         log_info << "[" << filename << "] Text uses old format: version 1" << std::endl;
 
-        if(!text_lisp.get("text", text)) {
+        if (!text_lisp.get("text", text)) {
           throw std::runtime_error("File doesn't contain a text field");
         }
 
         // Split text string lines into a vector
-        lines = InfoBoxLine::split(text, static_cast<float>(SCREEN_WIDTH) - 2.0f * LEFT_BORDER);
+        m_lines = InfoBoxLine::split(text, static_cast<float>(SCREEN_WIDTH) - 2.0f * LEFT_BORDER);
       } else if (version == 2) {
         boost::optional<ReaderMapping> content;
         if (!text_lisp.get("content", content)) {
@@ -83,7 +83,7 @@ TextScroller::TextScroller(const std::string& filename) :
             if (iter.get_key() == "image") {
               std::string image_file;
               iter.get(image_file);
-              lines.emplace_back(new InfoBoxLine('!', image_file));
+              m_lines.emplace_back(new InfoBoxLine('!', image_file));
             } else if (iter.get_key() == "person") {
               bool simple;
               std::string name, info, image_file;
@@ -101,23 +101,23 @@ TextScroller::TextScroller(const std::string& filename) :
                   log_warning << "[" << filename << "] Simple person entry shouldn't specify images" << std::endl;
                 }
 
-                lines.emplace_back(new InfoBoxLine(' ', name + " (" + info + ")"));
+                m_lines.emplace_back(new InfoBoxLine(' ', name + " (" + info + ")"));
               } else {
                 if (iter.as_mapping().get("name", name)) {
-                  lines.emplace_back(new InfoBoxLine('\t', name));
+                  m_lines.emplace_back(new InfoBoxLine('\t', name));
                 }
 
                 if (iter.as_mapping().get("image", image_file) && !simple) {
-                  lines.emplace_back(new InfoBoxLine('!', image_file));
+                  m_lines.emplace_back(new InfoBoxLine('!', image_file));
                 }
 
                 if (iter.as_mapping().get("info", info)) {
-                  lines.emplace_back(new InfoBoxLine(' ', info));
+                  m_lines.emplace_back(new InfoBoxLine(' ', info));
                 }
               }
             } else if (iter.get_key() == "blank") {
               // Empty line
-              lines.emplace_back(new InfoBoxLine('\t', ""));
+              m_lines.emplace_back(new InfoBoxLine('\t', ""));
             } else if (iter.get_key() == "text") {
               std::string type, string;
 
@@ -130,18 +130,18 @@ TextScroller::TextScroller(const std::string& filename) :
               }
 
               if (type == "normal")
-                lines.emplace_back(new InfoBoxLine('\t', string));
+                m_lines.emplace_back(new InfoBoxLine('\t', string));
               else if (type == "normal-left")
-                lines.emplace_back(new InfoBoxLine('#', string));
+                m_lines.emplace_back(new InfoBoxLine('#', string));
               else if (type == "small")
-                lines.emplace_back(new InfoBoxLine(' ', string));
+                m_lines.emplace_back(new InfoBoxLine(' ', string));
               else if (type == "heading")
-                lines.emplace_back(new InfoBoxLine('-', string));
+                m_lines.emplace_back(new InfoBoxLine('-', string));
               else if (type == "reference")
-                lines.emplace_back(new InfoBoxLine('*', string));
+                m_lines.emplace_back(new InfoBoxLine('*', string));
               else {
                 log_warning << "[" << filename << "] Unknown text type '" << type << "'" << std::endl;
-                lines.emplace_back(new InfoBoxLine('\t', string));
+                m_lines.emplace_back(new InfoBoxLine('\t', string));
               }
             } else {
               log_warning << "[" << filename << "] Unknown token '" << iter.get_key() << "'" << std::endl;
@@ -156,8 +156,8 @@ TextScroller::TextScroller(const std::string& filename) :
         throw std::runtime_error("File doesn't contain a background file");
       }
 
-      text_lisp.get("speed", defaultspeed);
-      text_lisp.get("music", music);
+      text_lisp.get("speed", m_defaultspeed);
+      text_lisp.get("music", m_music);
     }
   } catch (std::exception& e) {
     std::ostringstream msg;
@@ -166,7 +166,7 @@ TextScroller::TextScroller(const std::string& filename) :
   }
 
   // load background image
-  background = Surface::from_file("images/background/" + background_file);
+  m_background = Surface::from_file("images/background/" + background_file);
 }
 
 TextScroller::~TextScroller()
@@ -176,7 +176,7 @@ TextScroller::~TextScroller()
 void
 TextScroller::setup()
 {
-  SoundManager::current()->play_music(music);
+  SoundManager::current()->play_music(m_music);
   ScreenManager::current()->set_screen_fade(std::make_unique<FadeIn>(0.5));
 }
 
@@ -184,74 +184,86 @@ void
 TextScroller::update(float elapsed_time)
 {
   Controller* controller = InputManager::current()->get_controller();
-  if(controller->hold(Controller::UP)) {
-    speed = -defaultspeed*5;
-  } else if(controller->hold(Controller::DOWN)) {
-    speed = defaultspeed*5;
+  if (controller->hold(Controller::UP)) {
+    m_speed = -m_defaultspeed*5;
+  } else if (controller->hold(Controller::DOWN)) {
+    m_speed = m_defaultspeed*5;
   } else {
-    speed = defaultspeed;
+    m_speed = m_defaultspeed;
   }
-  if((controller->pressed(Controller::JUMP)
+  if ((controller->pressed(Controller::JUMP)
      || controller->pressed(Controller::ACTION)
      || controller->pressed(Controller::MENU_SELECT)
      )&& !(controller->pressed(Controller::UP))) // prevent skipping if jump with up is enabled
-    scroll += SCROLL;
-  if(controller->pressed(Controller::START) ||
+    m_scroll += SCROLL;
+  if (controller->pressed(Controller::START) ||
      controller->pressed(Controller::ESCAPE)) {
     ScreenManager::current()->pop_screen(std::make_unique<FadeOut>(0.5));
   }
 
-  scroll += speed * elapsed_time;
+  m_scroll += m_speed * elapsed_time;
 
-  if(scroll < 0)
-    scroll = 0;
+  if (m_scroll < 0)
+    m_scroll = 0;
 }
 
 void
 TextScroller::draw(Compositor& compositor)
 {
   auto& context = compositor.make_context();
+  draw(context);
+}
 
-  const float bg_w = static_cast<float>(background->get_width());
-  const float bg_h = static_cast<float>(background->get_height());
-
+void
+TextScroller::draw(DrawingContext& context)
+{
   const float ctx_w = static_cast<float>(context.get_width());
   const float ctx_h = static_cast<float>(context.get_height());
 
-  const float bg_ratio = bg_w / bg_h;
-  const float ctx_ratio = ctx_w / ctx_h;
+  { // draw background
+    const float bg_w = static_cast<float>(m_background->get_width());
+    const float bg_h = static_cast<float>(m_background->get_height());
 
-  if (bg_ratio > ctx_ratio)
-  {
-    const float new_bg_w = ctx_h * bg_ratio;
-    context.color().draw_surface_scaled(background,
-                                        Rectf::from_center(Vector(ctx_w / 2.0f, ctx_h / 2.0f),
-                                                           Sizef(new_bg_w, ctx_h)),
-                                        0);
-  }
-  else
-  {
-    const float new_bg_h = ctx_w / bg_ratio;
-    context.color().draw_surface_scaled(background,
-                                        Rectf::from_center(Vector(ctx_w / 2.0f, ctx_h / 2.0f),
-                                                           Sizef(ctx_w, new_bg_h)),
-                                        0);
-  }
+    const float bg_ratio = bg_w / bg_h;
+    const float ctx_ratio = ctx_w / ctx_h;
 
-  float y = ctx_h - scroll;
-  for (const auto& line : lines)
-  {
-    if (y + line->get_height() >= 0 && ctx_h - y >= 0) {
-      line->draw(context, Rectf(LEFT_BORDER, y, ctx_w - 2*LEFT_BORDER, y), LAYER_GUI);
+    if (bg_ratio > ctx_ratio)
+    {
+      const float new_bg_w = ctx_h * bg_ratio;
+      context.color().draw_surface_scaled(m_background,
+                                          Rectf::from_center(Vector(ctx_w / 2.0f, ctx_h / 2.0f),
+                                                             Sizef(new_bg_w, ctx_h)),
+                                          0);
     }
-
-    y += line->get_height();
+    else
+    {
+      const float new_bg_h = ctx_w / bg_ratio;
+      context.color().draw_surface_scaled(m_background,
+                                          Rectf::from_center(Vector(ctx_w / 2.0f, ctx_h / 2.0f),
+                                                             Sizef(ctx_w, new_bg_h)),
+                                          0);
+    }
   }
 
-  if (y < 0 && !fading)
-  {
-    fading = true;
-    ScreenManager::current()->pop_screen(std::make_unique<FadeOut>(0.5));
+  float y = ctx_h - m_scroll;
+
+  { // draw text
+    for (const auto& line : m_lines)
+    {
+      if (y + line->get_height() >= 0 && ctx_h - y >= 0) {
+        line->draw(context, Rectf(LEFT_BORDER, y, ctx_w - 2*LEFT_BORDER, y), LAYER_GUI);
+      }
+
+      y += line->get_height();
+    }
+  }
+
+  { // close when done
+    if (y < 0 && !m_fading)
+    {
+      m_fading = true;
+      ScreenManager::current()->pop_screen(std::make_unique<FadeOut>(0.5));
+    }
   }
 }
 

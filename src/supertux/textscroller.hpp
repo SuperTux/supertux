@@ -32,6 +32,12 @@ class InfoBoxLine;
 class TextScroller final : public Screen
 {
 public:
+  static Color small_color;
+  static Color heading_color;
+  static Color reference_color;
+  static Color normal_color;
+
+public:
   TextScroller(const std::string& file);
   virtual ~TextScroller();
 
@@ -39,19 +45,16 @@ public:
   virtual void draw(Compositor& compositor) override;
   virtual void update(float elapsed_time) override;
 
-  static Color small_color;
-  static Color heading_color;
-  static Color reference_color;
-  static Color normal_color;
+  void draw(DrawingContext& context);
 
 private:
-  float defaultspeed;
-  float speed;
-  std::string music;
-  SurfacePtr background;
-  std::vector<std::unique_ptr<InfoBoxLine> > lines;
-  float scroll;
-  bool fading;
+  float m_defaultspeed;
+  float m_speed;
+  std::string m_music;
+  SurfacePtr m_background;
+  std::vector<std::unique_ptr<InfoBoxLine> > m_lines;
+  float m_scroll;
+  bool m_fading;
 
 private:
   TextScroller(const TextScroller&);
