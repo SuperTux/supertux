@@ -14,8 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_TEXTSCROLLER_HPP
-#define HEADER_SUPERTUX_SUPERTUX_TEXTSCROLLER_HPP
+#ifndef HEADER_SUPERTUX_SUPERTUX_TEXTSCROLLER_SCREEN_HPP
+#define HEADER_SUPERTUX_SUPERTUX_TEXTSCROLLER_SCREEN_HPP
 
 #include <memory>
 
@@ -29,7 +29,7 @@ class InfoBoxLine;
 /**
  * Screen that displays intro text, extro text, etc.
  */
-class TextScroller final : public Screen
+class TextScrollerScreen final : public Screen
 {
 public:
   static Color small_color;
@@ -38,8 +38,8 @@ public:
   static Color normal_color;
 
 public:
-  TextScroller(const std::string& file);
-  virtual ~TextScroller();
+  TextScrollerScreen(const std::string& file);
+  virtual ~TextScrollerScreen();
 
   virtual void setup() override;
   virtual void draw(Compositor& compositor) override;
@@ -57,8 +57,8 @@ private:
   bool m_fading;
 
 private:
-  TextScroller(const TextScroller&);
-  TextScroller& operator=(const TextScroller&);
+  TextScrollerScreen(const TextScrollerScreen&);
+  TextScrollerScreen& operator=(const TextScrollerScreen&);
 };
 
 #endif

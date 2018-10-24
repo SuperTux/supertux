@@ -25,7 +25,7 @@
 #include "supertux/globals.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/screen_manager.hpp"
-#include "supertux/textscroller.hpp"
+#include "supertux/textscroller_screen.hpp"
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
@@ -68,7 +68,7 @@ MainMenu::menu_action(MenuItem& item)
 
     case MNID_CREDITS:
       MenuManager::instance().clear_menu_stack();
-      ScreenManager::current()->push_screen(std::unique_ptr<Screen>(new TextScroller("credits.stxt")),
+      ScreenManager::current()->push_screen(std::unique_ptr<Screen>(new TextScrollerScreen("credits.stxt")),
                                             std::unique_ptr<ScreenFade>(new FadeOut(0.5)));
       break;
 

@@ -31,7 +31,7 @@
 #include "supertux/screen_manager.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/shrinkfade.hpp"
-#include "supertux/textscroller.hpp"
+#include "supertux/textscroller_screen.hpp"
 #include "supertux/tile.hpp"
 #include "video/renderer.hpp"
 #include "video/video_system.hpp"
@@ -118,7 +118,7 @@ std::string __(const std::string& text, const std::string& text_plural, int num)
 
 void display_text_file(const std::string& filename)
 {
-  ScreenManager::current()->push_screen(std::make_unique<TextScroller>(filename));
+  ScreenManager::current()->push_screen(std::make_unique<TextScrollerScreen>(filename));
 }
 
 void load_worldmap(const std::string& filename)

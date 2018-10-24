@@ -21,7 +21,7 @@
 #include "object/text_object.hpp"
 #include "supertux/levelintro.hpp"
 #include "supertux/player_status.hpp"
-#include "supertux/textscroller.hpp"
+#include "supertux/textscroller_screen.hpp"
 #include "trigger/climbable.hpp"
 #include "trigger/secretarea_trigger.hpp"
 #include "worldmap/worldmap.hpp"
@@ -56,9 +56,9 @@ Color worldmap::WorldMap::level_title_color(1.f,1.f,1.f);
 Color worldmap::WorldMap::message_color(1.f,1.f,0.6f);
 Color worldmap::WorldMap::teleporter_message_color(1.f,1.f,1.f);
 
-Color TextScroller::small_color(1.f,1.f,1.f);
-Color TextScroller::heading_color(1.f,1.f,0.6f);
-Color TextScroller::reference_color(0.2f,0.6f,1.f);
-Color TextScroller::normal_color(1.f,1.f,1.f);
+Color TextScrollerScreen::small_color(1.f,1.f,1.f);
+Color TextScrollerScreen::heading_color(1.f,1.f,0.6f);
+Color TextScrollerScreen::reference_color(0.2f,0.6f,1.f);
+Color TextScrollerScreen::normal_color(1.f,1.f,1.f);
 
 /* EOF */

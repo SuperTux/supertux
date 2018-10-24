@@ -16,7 +16,7 @@
 
 #include "supertux/info_box_line.hpp"
 
-#include "supertux/textscroller.hpp"
+#include "supertux/textscroller_screen.hpp"
 #include "supertux/resources.hpp"
 #include "video/drawing_context.hpp"
 #include "video/font.hpp"
@@ -48,17 +48,17 @@ Color get_color_by_format_char(char format_char) {
   switch(format_char)
   {
     case ' ':
-      return TextScroller::small_color;
+      return TextScrollerScreen::small_color;
     case '-':
-      return TextScroller::heading_color;
+      return TextScrollerScreen::heading_color;
     case '*':
-      return TextScroller::reference_color;
+      return TextScrollerScreen::reference_color;
     case '\t':
     case '#':
     case '!':
-      return TextScroller::normal_color;
+      return TextScrollerScreen::normal_color;
     default:
-      return TextScroller::normal_color;
+      return TextScrollerScreen::normal_color;
       //log_warning << "Unknown format_char: '" << format_char << "'" << std::endl;
   }
 }

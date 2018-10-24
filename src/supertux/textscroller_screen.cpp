@@ -15,7 +15,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "supertux/textscroller.hpp"
+#include "supertux/textscroller_screen.hpp"
 
 #include <sstream>
 
@@ -40,7 +40,7 @@ static const float DEFAULT_SPEED = 20;
 static const float LEFT_BORDER = 50;
 static const float SCROLL = 60;
 
-TextScroller::TextScroller(const std::string& filename) :
+TextScrollerScreen::TextScrollerScreen(const std::string& filename) :
   m_defaultspeed(DEFAULT_SPEED),
   m_speed(m_defaultspeed),
   m_music(),
@@ -169,19 +169,19 @@ TextScroller::TextScroller(const std::string& filename) :
   m_background = Surface::from_file("images/background/" + background_file);
 }
 
-TextScroller::~TextScroller()
+TextScrollerScreen::~TextScrollerScreen()
 {
 }
 
 void
-TextScroller::setup()
+TextScrollerScreen::setup()
 {
   SoundManager::current()->play_music(m_music);
   ScreenManager::current()->set_screen_fade(std::make_unique<FadeIn>(0.5));
 }
 
 void
-TextScroller::update(float elapsed_time)
+TextScrollerScreen::update(float elapsed_time)
 {
   Controller* controller = InputManager::current()->get_controller();
   if (controller->hold(Controller::UP)) {
@@ -208,14 +208,14 @@ TextScroller::update(float elapsed_time)
 }
 
 void
-TextScroller::draw(Compositor& compositor)
+TextScrollerScreen::draw(Compositor& compositor)
 {
   auto& context = compositor.make_context();
   draw(context);
 }
 
 void
-TextScroller::draw(DrawingContext& context)
+TextScrollerScreen::draw(DrawingContext& context)
 {
   const float ctx_w = static_cast<float>(context.get_width());
   const float ctx_h = static_cast<float>(context.get_height());
