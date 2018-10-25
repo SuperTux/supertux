@@ -29,7 +29,7 @@
 #include "sprite/sprite.hpp"
 #include "squirrel/squirrel_environment.hpp"
 #include "supertux/debug.hpp"
-#include "supertux/fadein.hpp"
+#include "supertux/fadetoblack.hpp"
 #include "supertux/game_manager.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/gameconfig.hpp"
@@ -615,7 +615,7 @@ WorldMap::setup()
 {
   SoundManager::current()->play_music(m_music);
   MenuManager::instance().clear_menu_stack();
-  ScreenManager::current()->set_screen_fade(std::make_unique<FadeIn>(1));
+  ScreenManager::current()->set_screen_fade(std::make_unique<FadeToBlack>(FadeToBlack::FADEIN, 1));
 
   load_state();
 

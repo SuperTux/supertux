@@ -24,7 +24,7 @@
 #include "object/endsequence_walkleft.hpp"
 #include "object/endsequence_walkright.hpp"
 #include "object/level_time.hpp"
-#include "supertux/fadein.hpp"
+#include "supertux/fadetoblack.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/level.hpp"
 #include "supertux/level_parser.hpp"
@@ -279,7 +279,7 @@ GameSession::setup()
     m_active = false;
     ScreenManager::current()->push_screen(std::make_unique<LevelIntro>(*m_level, m_best_level_statistics, m_savegame.get_player_status()));
   }
-  ScreenManager::current()->set_screen_fade(std::make_unique<FadeIn>(1));
+  ScreenManager::current()->set_screen_fade(std::make_unique<FadeToBlack>(FadeToBlack::FADEIN, 1));
   m_end_seq_started = false;
 }
 

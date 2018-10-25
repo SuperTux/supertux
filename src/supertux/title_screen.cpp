@@ -21,7 +21,7 @@
 
 #include "gui/menu_manager.hpp"
 #include "object/camera.hpp"
-#include "supertux/fadein.hpp"
+#include "supertux/fadetoblack.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/level.hpp"
 #include "supertux/menu/menu_storage.hpp"
@@ -89,7 +89,7 @@ TitleScreen::setup()
   }
 
   MenuManager::instance().set_menu(MenuStorage::MAIN_MENU);
-  ScreenManager::current()->set_screen_fade(std::make_unique<FadeIn>(0.25));
+  ScreenManager::current()->set_screen_fade(std::make_unique<FadeToBlack>(FadeToBlack::FADEIN, 0.25));
 }
 
 void

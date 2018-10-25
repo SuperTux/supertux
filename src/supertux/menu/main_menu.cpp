@@ -21,7 +21,7 @@
 #include "gui/dialog.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
-#include "supertux/fadeout.hpp"
+#include "supertux/fadetoblack.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/screen_manager.hpp"
@@ -69,14 +69,14 @@ MainMenu::menu_action(MenuItem& item)
     case MNID_CREDITS:
       MenuManager::instance().clear_menu_stack();
       ScreenManager::current()->push_screen(std::unique_ptr<Screen>(new TextScrollerScreen("credits.stxt")),
-                                            std::unique_ptr<ScreenFade>(new FadeOut(0.5)));
+                                            std::unique_ptr<ScreenFade>(new FadeToBlack(FadeToBlack::FADEOUT, 0.5)));
       break;
 
     case MNID_LEVELEDITOR:
       {
         MenuManager::instance().clear_menu_stack();
         std::unique_ptr<Screen> screen(new Editor());
-        auto fade = std::make_unique<FadeOut>(0.5);
+        auto fade = std::make_unique<FadeToBlack>(FadeToBlack::FADEOUT, 0.5);
         SoundManager::current()->stop_music(0.5);
         ScreenManager::current()->push_screen(move(screen),move(fade));
         //Editor::current()->setup();
@@ -85,7 +85,7 @@ MainMenu::menu_action(MenuItem& item)
 
     case MNID_QUITMAINMENU:
       MenuManager::instance().clear_menu_stack();
-      ScreenManager::current()->quit(std::unique_ptr<ScreenFade>(new FadeOut(0.25)));
+      ScreenManager::current()->quit(std::unique_ptr<ScreenFade>(new FadeToBlack(FadeToBlack::FADEOUT, 0.25)));
       SoundManager::current()->stop_music(0.25);
       break;
   }

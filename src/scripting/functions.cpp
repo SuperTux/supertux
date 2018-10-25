@@ -23,7 +23,6 @@
 #include "physfs/ifile_stream.hpp"
 #include "supertux/console.hpp"
 #include "supertux/debug.hpp"
-#include "supertux/fadeout.hpp"
 #include "supertux/game_manager.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/gameconfig.hpp"

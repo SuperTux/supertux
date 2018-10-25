@@ -14,8 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_FADEIN_HPP
-#define HEADER_SUPERTUX_SUPERTUX_FADEIN_HPP
+#ifndef HEADER_SUPERTUX_SUPERTUX_FADETOBLACK_HPP
+#define HEADER_SUPERTUX_SUPERTUX_FADETOBLACK_HPP
 
 #include "supertux/screen_fade.hpp"
 #include "video/color.hpp"
@@ -23,10 +23,13 @@
 /**
  * Fades a screen towards a specific color
  */
-class FadeIn final : public ScreenFade
+class FadeToBlack final : public ScreenFade
 {
 public:
-  FadeIn(float fade_time, Color dest_color = Color(0, 0, 0));
+  enum Direction { FADEOUT, FADEIN };
+
+public:
+  FadeToBlack(Direction direction, float fade_time, Color dest_color = Color(0, 0, 0));
 
   virtual void update(float elapsed_time) override;
   virtual void draw(DrawingContext& context) override;
@@ -35,9 +38,10 @@ public:
   virtual bool done() const override;
 
 private:
-  Color color;
-  float fade_time;
-  float accum_time;
+  Direction m_direction;
+  float m_fade_time;
+  Color m_color;
+  float m_accum_time;
 };
 
 #endif

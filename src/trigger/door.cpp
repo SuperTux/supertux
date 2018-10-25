@@ -19,8 +19,7 @@
 #include "audio/sound_manager.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
-#include "supertux/fadein.hpp"
-#include "supertux/fadeout.hpp"
+#include "supertux/fadetoblack.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/screen_manager.hpp"
 #include "supertux/sector.hpp"
@@ -123,7 +122,7 @@ Door::event(Player& , EventType type)
         state = OPENING;
         SoundManager::current()->play("sounds/door.wav");
         sprite->set_action("opening", 1);
-        ScreenManager::current()->set_screen_fade(std::make_unique<FadeOut>(1));
+        ScreenManager::current()->set_screen_fade(std::make_unique<FadeToBlack>(FadeToBlack::FADEOUT, 1));
       }
       break;
     case OPENING:
@@ -160,7 +159,7 @@ Door::collision(GameObject& other, const CollisionHit& hit_)
         if(!target_sector.empty()) {
           GameSession::current()->respawn(target_sector, target_spawnpoint,
                                           invincible, invincibilityperiod);
-          ScreenManager::current()->set_screen_fade(std::make_unique<FadeIn>(1));
+          ScreenManager::current()->set_screen_fade(std::make_unique<FadeToBlack>(FadeToBlack::FADEIN, 1));
         }
       }
     }

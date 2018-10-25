@@ -14,39 +14,46 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "supertux/fadein.hpp"
+#include "supertux/fadetoblack.hpp"
 
 #include "supertux/globals.hpp"
 #include "video/drawing_context.hpp"
 
-FadeIn::FadeIn(float fade_time_, Color color_)
-  : color(color_), fade_time(fade_time_), accum_time(0)
+FadeToBlack::FadeToBlack(Direction direction, float fade_time, Color color) :
+  m_direction(direction),
+  m_fade_time(fade_time),
+  m_color(color),
+  m_accum_time(0)
 {
 }
 
 void
-FadeIn::update(float elapsed_time)
+FadeToBlack::update(float elapsed_time)
 {
-  accum_time += elapsed_time;
-  if(accum_time > fade_time)
-    accum_time = fade_time;
+  m_accum_time += elapsed_time;
+  if(m_accum_time > m_fade_time)
+    m_accum_time = m_fade_time;
 }
 
 void
-FadeIn::draw(DrawingContext& context)
+FadeToBlack::draw(DrawingContext& context)
 {
-  Color col = color;
-  col.alpha = 1 - (accum_time / fade_time);
+  Color col = m_color;
+  if (m_direction == FADEOUT) {
+    col.alpha = m_accum_time / m_fade_time;
+  } else {
+    col.alpha = 1.0f - m_accum_time / m_fade_time;
+  }
   context.color().draw_filled_rect(Vector(0, 0),
                                    Vector(static_cast<float>(context.get_width()),
                                           static_cast<float>(context.get_height())),
-                                   col, LAYER_GUI+1);
+                                   col, LAYER_GUI + 1);
 }
 
 bool
-FadeIn::done() const
+FadeToBlack::done() const
 {
-  return accum_time >= fade_time;
+  return m_accum_time >= m_fade_time;
 }
 
 /* EOF */

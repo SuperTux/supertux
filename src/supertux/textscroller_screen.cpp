@@ -22,8 +22,7 @@
 #include "audio/sound_manager.hpp"
 #include "control/input_manager.hpp"
 #include "object/textscroller.hpp"
-#include "supertux/fadein.hpp"
-#include "supertux/fadeout.hpp"
+#include "supertux/fadetoblack.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/info_box_line.hpp"
 #include "supertux/screen_manager.hpp"
@@ -87,7 +86,7 @@ void
 TextScrollerScreen::setup()
 {
   SoundManager::current()->play_music(m_music);
-  ScreenManager::current()->set_screen_fade(std::make_unique<FadeIn>(0.5));
+  ScreenManager::current()->set_screen_fade(std::make_unique<FadeToBlack>(FadeToBlack::FADEIN, 0.5));
 }
 
 void
@@ -111,14 +110,14 @@ TextScrollerScreen::update(float elapsed_time)
 
   if (controller->pressed(Controller::START) ||
       controller->pressed(Controller::ESCAPE)) {
-    ScreenManager::current()->pop_screen(std::make_unique<FadeOut>(0.5));
+    ScreenManager::current()->pop_screen(std::make_unique<FadeToBlack>(FadeToBlack::FADEOUT, 0.5));
   }
 
   { // close when done
     if (m_text_scroller->is_finished() && !m_fading)
     {
       m_fading = true;
-      ScreenManager::current()->pop_screen(std::make_unique<FadeOut>(0.5));
+      ScreenManager::current()->pop_screen(std::make_unique<FadeToBlack>(FadeToBlack::FADEOUT, 0.5));
     }
   }
 
