@@ -16,7 +16,7 @@
 
 #include "object/star.hpp"
 
-#include "math/random_generator.hpp"
+#include "math/random.hpp"
 #include "object/player.hpp"
 #include "object/sprite_particle.hpp"
 #include "sprite/sprite.hpp"

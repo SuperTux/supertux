@@ -18,7 +18,7 @@
 
 #include <math.h>
 
-#include "math/random_generator.hpp"
+#include "math/random.hpp"
 #include "object/sprite_particle.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"

@@ -16,7 +16,7 @@
 
 #include "object/cloud_particle_system.hpp"
 
-#include "math/random_generator.hpp"
+#include "math/random.hpp"
 #include "video/surface.hpp"
 
 CloudParticleSystem::CloudParticleSystem() :

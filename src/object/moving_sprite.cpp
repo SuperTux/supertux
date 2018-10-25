@@ -19,7 +19,7 @@
 #include <math.h>
 #include <physfs.h>
 
-#include "math/random_generator.hpp"
+#include "math/random.hpp"
 #include "math/util.hpp"
 #include "object/sprite_particle.hpp"
 #include "sprite/sprite_manager.hpp"

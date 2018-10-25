@@ -19,7 +19,7 @@
 #include "audio/sound_manager.hpp"
 #include "badguy/badguy.hpp"
 #include "badguy/walking_badguy.hpp"
-#include "math/random_generator.hpp"
+#include "math/random.hpp"
 #include "object/particles.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"

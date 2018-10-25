@@ -21,7 +21,7 @@
 
 #include "audio/sound_manager.hpp"
 #include "badguy/yeti_stalactite.hpp"
-#include "math/random_generator.hpp"
+#include "math/random.hpp"
 #include "object/camera.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"

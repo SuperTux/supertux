@@ -17,7 +17,7 @@
 #include "badguy/skullyhop.hpp"
 
 #include "audio/sound_manager.hpp"
-#include "math/random_generator.hpp"
+#include "math/random.hpp"
 #include "sprite/sprite.hpp"
 
 namespace {

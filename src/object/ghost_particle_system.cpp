@@ -19,7 +19,7 @@
 #include <algorithm>
 #include <math.h>
 
-#include "math/random_generator.hpp"
+#include "math/random.hpp"
 #include "supertux/globals.hpp"
 #include "video/surface.hpp"
 #include "video/video_system.hpp"

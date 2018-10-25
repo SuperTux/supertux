@@ -17,7 +17,7 @@
 #include "badguy/stalactite.hpp"
 
 #include "audio/sound_manager.hpp"
-#include "math/random_generator.hpp"
+#include "math/random.hpp"
 #include "object/bullet.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"

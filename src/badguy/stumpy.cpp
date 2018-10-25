@@ -19,7 +19,7 @@
 #include <math.h>
 
 #include "audio/sound_manager.hpp"
-#include "math/random_generator.hpp"
+#include "math/random.hpp"
 #include "math/util.hpp"
 #include "object/player.hpp"
 #include "object/sprite_particle.hpp"

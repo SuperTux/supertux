@@ -18,7 +18,7 @@
 
 #include <math.h>
 
-#include "math/random_generator.hpp"
+#include "math/random.hpp"
 #include "math/util.hpp"
 #include "object/camera.hpp"
 #include "supertux/sector.hpp"

@@ -19,7 +19,7 @@
 #include <fstream>
 
 #include "control/input_manager.hpp"
-#include "math/random_generator.hpp"
+#include "math/random.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/sector.hpp"
@@ -48,7 +48,8 @@ GameSessionRecorder::start_recording()
     int newSeed = 0;               // next run uses a new seed
     while (newSeed == 0)            // which is the next non-zero random num.
       newSeed = gameRandom.rand();
-    g_config->random_seed = gameRandom.srand(newSeed);
+    g_config->random_seed = newSeed;
+    gameRandom.seed(g_config->random_seed);
     log_info << "Next run uses random seed " << g_config->random_seed <<std::endl;
     record_demo(capture_file);
   }

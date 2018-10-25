@@ -16,7 +16,7 @@
 
 #include "object/bullet.hpp"
 
-#include "math/random_generator.hpp"
+#include "math/random.hpp"
 #include "object/camera.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"

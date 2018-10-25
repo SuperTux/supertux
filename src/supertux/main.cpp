@@ -42,7 +42,7 @@ extern "C" {
 #include "editor/tip.hpp"
 #include "editor/tool_icon.hpp"
 #include "gui/menu_manager.hpp"
-#include "math/random_generator.hpp"
+#include "math/random.hpp"
 #include "physfs/physfs_file_system.hpp"
 #include "physfs/physfs_sdl.hpp"
 #include "sprite/sprite_data.hpp"
@@ -88,8 +88,8 @@ public:
     }
 
     // init random number stuff
-    g_config->random_seed = gameRandom.srand(g_config->random_seed);
-    graphicsRandom.srand(0);
+    gameRandom.seed(g_config->random_seed);
+    graphicsRandom.seed(0);
     //const char *how = config->random_seed? ", user fixed.": ", from time().";
     //log_info << "Using random seed " << config->random_seed << how << std::endl;
   }
@@ -435,8 +435,8 @@ Main::launch_game(const CommandLineArguments& args)
         new GameSession(filename, *default_savegame));
 
       g_config->random_seed = session->get_demo_random_seed(g_config->start_demo);
-      g_config->random_seed = gameRandom.srand(g_config->random_seed);
-      graphicsRandom.srand(0);
+      gameRandom.seed(g_config->random_seed);
+      graphicsRandom.seed(0);
 
       if (args.sector || args.spawnpoint)
       {

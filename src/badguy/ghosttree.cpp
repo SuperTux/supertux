@@ -22,7 +22,7 @@
 #include "audio/sound_manager.hpp"
 #include "badguy/root.hpp"
 #include "badguy/treewillowisp.hpp"
-#include "math/random_generator.hpp"
+#include "math/random.hpp"
 #include "object/lantern.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"

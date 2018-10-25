@@ -17,7 +17,7 @@
 #include "supertux/levelintro.hpp"
 
 #include "control/input_manager.hpp"
-#include "math/random_generator.hpp"
+#include "math/random.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/fadeout.hpp"

@@ -17,7 +17,7 @@
 #include "object/fireworks.hpp"
 
 #include "audio/sound_manager.hpp"
-#include "math/random_generator.hpp"
+#include "math/random.hpp"
 #include "object/camera.hpp"
 #include "object/particles.hpp"
 #include "supertux/sector.hpp"

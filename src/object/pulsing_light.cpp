@@ -19,7 +19,7 @@
 #include <assert.h>
 #include <math.h>
 
-#include "math/random_generator.hpp"
+#include "math/random.hpp"
 #include "math/util.hpp"
 
 PulsingLight::PulsingLight(const Vector& center, float cycle_len_, float min_alpha_, float max_alpha_, const Color& color_) :

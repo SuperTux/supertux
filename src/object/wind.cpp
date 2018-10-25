@@ -17,7 +17,7 @@
 #include "object/wind.hpp"
 
 #include "editor/editor.hpp"
-#include "math/random_generator.hpp"
+#include "math/random.hpp"
 #include "object/particles.hpp"
 #include "object/player.hpp"
 #include "supertux/sector.hpp"

@@ -17,7 +17,7 @@
 #include "scripting/functions.hpp"
 
 #include "audio/sound_manager.hpp"
-#include "math/random_generator.hpp"
+#include "math/random.hpp"
 #include "object/camera.hpp"
 #include "object/player.hpp"
 #include "physfs/ifile_stream.hpp"
@@ -345,7 +345,7 @@ void play_demo(const std::string& filename)
   }
   // Reset random seed
   g_config->random_seed = session->get_demo_random_seed(filename);
-  g_config->random_seed = gameRandom.srand(g_config->random_seed);
+  gameRandom.seed(g_config->random_seed);
   session->restart_level();
   session->play_demo(filename);
 }

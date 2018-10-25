@@ -19,7 +19,7 @@
 
 #include <math.h>
 
-#include "math/random_generator.hpp"
+#include "math/random.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
 

@@ -18,7 +18,7 @@
 
 #include <assert.h>
 
-#include "math/random_generator.hpp"
+#include "math/random.hpp"
 #include "object/camera.hpp"
 #include "object/rainsplash.hpp"
 #include "supertux/sector.hpp"

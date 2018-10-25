@@ -21,7 +21,7 @@
 
 #include "audio/sound_manager.hpp"
 #include "badguy/badguy.hpp"
-#include "math/random_generator.hpp"
+#include "math/random.hpp"
 #include "object/bullet.hpp"
 #include "object/explosion.hpp"
 #include "supertux/globals.hpp"

@@ -18,7 +18,7 @@
 
 #include "editor/editor.hpp"
 #include "editor/object_option.hpp"
-#include "math/random_generator.hpp"
+#include "math/random.hpp"
 #include "util/gettext.hpp"
 
 #include <math.h>
