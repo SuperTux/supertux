@@ -45,7 +45,7 @@ SQInteger get_current_thread(HSQUIRRELVM vm) __custom("t");
 /**
  * Should use christmas mode
  */
-SQInteger is_christmas(HSQUIRRELVM vm) __custom("t");
+bool is_christmas();
 
 /**
  * Display a text file and scrolls it over the screen (on next screenswitch)

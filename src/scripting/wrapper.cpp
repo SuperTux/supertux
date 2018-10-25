@@ -5413,7 +5413,21 @@ static SQInteger get_current_thread_wrapper(HSQUIRRELVM vm)
 
 static SQInteger is_christmas_wrapper(HSQUIRRELVM vm)
 {
-  return scripting::is_christmas(vm);
+
+  try {
+    bool return_value = scripting::is_christmas();
+
+    sq_pushbool(vm, return_value);
+    return 1;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'is_christmas'"));
+    return SQ_ERROR;
+  }
+
 }
 
 static SQInteger display_text_file_wrapper(HSQUIRRELVM vm)
@@ -6994,7 +7008,7 @@ void register_supertux_wrapper(HSQUIRRELVM v)
 
   sq_pushstring(v, "is_christmas", -1);
   sq_newclosure(v, &is_christmas_wrapper, 0);
-  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "t");
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'is_christmas'");
   }

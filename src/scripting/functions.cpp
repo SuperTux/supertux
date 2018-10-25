@@ -59,9 +59,9 @@ SQInteger get_current_thread(HSQUIRRELVM vm)
   return 1;
 }
 
-SQInteger is_christmas(HSQUIRRELVM vm)
+bool is_christmas()
 {
-    return g_config->christmas_mode;
+  return g_config->christmas_mode;
 }
 
 void wait(HSQUIRRELVM vm, float seconds)
