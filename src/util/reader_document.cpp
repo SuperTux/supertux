@@ -19,7 +19,7 @@
 #include <sexp/parser.hpp>
 #include <sstream>
 
-#include "physfs/ifile_streambuf.hpp"
+#include "physfs/ifile_stream.hpp"
 #include "util/file_system.hpp"
 #include "util/log.hpp"
 
@@ -35,9 +35,7 @@ ReaderDocument::from_file(const std::string& filename)
 {
   log_debug << "ReaderDocument::parse: " << filename << std::endl;
 
-  IFileStreambuf ins(filename);
-  std::istream in(&ins);
-
+  IFileStream in(filename);
   if(!in.good()) {
     std::stringstream msg;
     msg << "Parser problem: Couldn't open file '" << filename << "'.";

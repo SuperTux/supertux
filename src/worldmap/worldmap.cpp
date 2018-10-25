@@ -24,7 +24,7 @@
 #include "gui/menu_manager.hpp"
 #include "object/decal.hpp"
 #include "object/tilemap.hpp"
-#include "physfs/ifile_streambuf.hpp"
+#include "physfs/ifile_stream.hpp"
 #include "physfs/physfs_file_system.hpp"
 #include "sprite/sprite.hpp"
 #include "squirrel/squirrel_environment.hpp"
@@ -651,8 +651,7 @@ WorldMap::setup()
 
   //Run default.nut just before init script
   try {
-    IFileStreambuf ins(m_levels_path + "default.nut");
-    std::istream in(&ins);
+    IFileStream in(m_levels_path + "default.nut");
     m_squirrel_environment->run_script(in, "WorldMap::default.nut");
   } catch(std::exception& ) {
     // doesn't exist or erroneous; do nothing

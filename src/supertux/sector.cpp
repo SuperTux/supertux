@@ -36,7 +36,7 @@
 #include "object/text_array_object.hpp"
 #include "object/text_object.hpp"
 #include "object/tilemap.hpp"
-#include "physfs/ifile_streambuf.hpp"
+#include "physfs/ifile_stream.hpp"
 #include "scripting/sector.hpp"
 #include "squirrel/squirrel_environment.hpp"
 #include "supertux/collision.hpp"
@@ -220,8 +220,7 @@ Sector::activate(const Vector& player_pos)
   std::string basedir = FileSystem::dirname(get_level().m_filename);
   if(PHYSFS_exists((basedir + "/info").c_str())) {
     try {
-      IFileStreambuf ins(basedir + "/default.nut");
-      std::istream in(&ins);
+      IFileStream in(basedir + "/default.nut");
       m_squirrel_environment->run_script(in, "default.nut");
     } catch(std::exception& ) {
       // doesn't exist or erroneous; do nothing
