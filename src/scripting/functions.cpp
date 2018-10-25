@@ -81,21 +81,6 @@ void exit_screen()
   ScreenManager::current()->pop_screen();
 }
 
-void fadeout_screen(float seconds)
-{
-  ScreenManager::current()->set_screen_fade(std::make_unique<FadeOut>(seconds));
-}
-
-void shrink_screen(float dest_x, float dest_y, float seconds)
-{
-  ScreenManager::current()->set_screen_fade(std::make_unique<ShrinkFade>(Vector(dest_x, dest_y), seconds));
-}
-
-void abort_screenfade()
-{
-  ScreenManager::current()->set_screen_fade(std::unique_ptr<ScreenFade>());
-}
-
 std::string translate(const std::string& text)
 {
   return g_dictionary_manager->get_dictionary().translate(text);

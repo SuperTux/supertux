@@ -84,23 +84,6 @@ void wait_for_screenswitch(HSQUIRRELVM vm) __suspend;
 void exit_screen();
 
 /**
- * Does a fadeout for the specified number of seconds before next screenchange
- */
-void fadeout_screen(float seconds);
-
-/**
- * Does a shrinking fade towards the destposition for the specified number of
- * seconds before next screenchange
- */
-void shrink_screen(float dest_x, float dest_y, float seconds);
-
-/**
- * Aborts any kind of previous screen fade; the screenchange will happen
- * anyway.
- */
-void abort_screenfade();
-
-/**
  * Translate a text into the users language (by looking it up in the .po
  * files)
  */
