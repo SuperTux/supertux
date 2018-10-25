@@ -25,6 +25,7 @@
 
 class DrawingContext;
 class InfoBoxLine;
+class TextScroller;
 
 /**
  * Screen that displays intro text, extro text, etc.
@@ -39,15 +40,11 @@ public:
   virtual void draw(Compositor& compositor) override;
   virtual void update(float elapsed_time) override;
 
-  void draw(DrawingContext& context);
-
 private:
   float m_defaultspeed;
-  float m_speed;
   std::string m_music;
   SurfacePtr m_background;
-  std::vector<std::unique_ptr<InfoBoxLine> > m_lines;
-  float m_scroll;
+  std::unique_ptr<TextScroller> m_text_scroller;
   bool m_fading;
 
 private:

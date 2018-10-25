@@ -24,27 +24,35 @@
 #include "supertux/info_box_line.hpp"
 #include "supertux/game_object.hpp"
 
-class InfoBoxLine;
 class DrawingContext;
-class ReaderMapping;
+class InfoBoxLine;
 class ReaderCollection;
+class ReaderMapping;
+class ReaderObject;
 
 class TextScroller : public GameObject
 {
 public:
   TextScroller(const ReaderMapping& mapping);
+  TextScroller(const ReaderObject& root);
 
   virtual void draw(DrawingContext& context) override;
   virtual void update(float elapsed_time) override;
 
+  void set_speed(float speed);
+  void scroll(float offset);
+  bool is_finished() const { return m_finished; }
+
 private:
   void parse_file(const std::string& filename);
+  void parse_root(const ReaderObject& root);
   void parse_content(const ReaderCollection& collection);
 
 private:
   std::vector<std::unique_ptr<InfoBoxLine> > m_lines;
   float m_scroll;
   float m_speed;
+  bool m_finished;
 
 private:
   TextScroller(const TextScroller&) = delete;

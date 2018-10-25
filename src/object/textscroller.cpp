@@ -41,7 +41,8 @@ const float DEFAULT_SPEED = 20;
 TextScroller::TextScroller(const ReaderMapping& mapping) :
   m_lines(),
   m_scroll(),
-  m_speed(DEFAULT_SPEED)
+  m_speed(DEFAULT_SPEED),
+  m_finished(false)
 {
   std::string filename;
   if (!mapping.get("file", filename))
@@ -56,13 +57,27 @@ TextScroller::TextScroller(const ReaderMapping& mapping) :
   mapping.get("speed", m_speed);
 }
 
+TextScroller::TextScroller(const ReaderObject& root) :
+  m_lines(),
+  m_scroll(),
+  m_speed(DEFAULT_SPEED),
+  m_finished(false)
+{
+  parse_root(root);
+}
+
 void
 TextScroller::parse_file(const std::string& filename)
 {
   register_translation_directory(filename);
   auto doc = ReaderDocument::from_file(filename);
   auto root = doc.get_root();
+  parse_root(root);
+}
 
+void
+TextScroller::parse_root(const ReaderObject& root)
+{
   if (root.get_name() != "supertux-text")
   {
     throw std::runtime_error("File isn't a supertux-text file");
@@ -75,7 +90,7 @@ TextScroller::parse_file(const std::string& filename)
     mapping.get("version", version);
     if (version == 1)
     {
-      log_info << "[" << filename << "] Text uses old format: version 1" << std::endl;
+      log_info << "[" << mapping.get_doc().get_filename() << "] Text uses old format: version 1" << std::endl;
 
       std::string text;
       if (!mapping.get("text", text)) {
@@ -202,6 +217,12 @@ TextScroller::draw(DrawingContext& context)
   }
 
   context.pop_transform();
+
+  // close when done
+  if (y < 0)
+  {
+    m_finished = true;
+  }
 }
 
 void
@@ -211,6 +232,22 @@ TextScroller::update(float elapsed_time)
 
   if (m_scroll < 0)
     m_scroll = 0;
+}
+
+void
+TextScroller::set_speed(float speed)
+{
+  m_speed = speed;
+}
+
+void
+TextScroller::scroll(float offset)
+{
+  m_scroll += offset;
+  if (m_scroll < 0.0f)
+  {
+    m_scroll = 0.0f;
+  }
 }
 
 /* EOF */
