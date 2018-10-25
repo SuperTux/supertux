@@ -100,6 +100,7 @@
 #include "object/skull_tile.hpp"
 #include "object/snow_particle_system.hpp"
 #include "object/spotlight.hpp"
+#include "object/textscroller.hpp"
 #include "object/thunderstorm.hpp"
 #include "object/tilemap.hpp"
 #include "object/torch.hpp"
@@ -221,6 +222,7 @@ GameObjectFactory::init_factories()
   add_factory<SkullTile>("skull_tile");
   add_factory<SnowParticleSystem>("particles-snow");
   add_factory<Spotlight>("spotlight");
+  add_factory<TextScroller>("textscroller");
   add_factory<Thunderstorm>("thunderstorm");
   add_factory<Torch>("torch");
   add_factory<Trampoline>("trampoline");
