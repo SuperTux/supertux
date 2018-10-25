@@ -36,9 +36,12 @@
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
-static const float DEFAULT_SPEED = 20;
-static const float LEFT_BORDER = 50;
-static const float SCROLL = 60;
+namespace {
+
+const float DEFAULT_SPEED = 20;
+const float SCROLL = 60;
+
+} // namespace
 
 TextScrollerScreen::TextScrollerScreen(const std::string& filename) :
   m_defaultspeed(DEFAULT_SPEED),
