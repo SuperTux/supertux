@@ -266,16 +266,6 @@ HSQOBJECT create_thread(HSQUIRRELVM vm)
   return vm_object;
 }
 
-HSQOBJECT vm_to_object(HSQUIRRELVM vm)
-{
-  HSQOBJECT object;
-  sq_resetobject(&object);
-  object._unVal.pThread = vm;
-  object._type = OT_THREAD;
-
-  return object;
-}
-
 HSQUIRRELVM object_to_vm(HSQOBJECT object)
 {
   if(object._type != OT_THREAD)

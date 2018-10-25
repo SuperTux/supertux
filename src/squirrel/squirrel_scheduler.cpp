@@ -68,8 +68,7 @@ void
 SquirrelScheduler::schedule_thread(HSQUIRRELVM scheduled_vm, float time)
 {
   // create a weakref to the VM
-  SQObject vm_obj = vm_to_object(scheduled_vm);
-  sq_pushobject(m_vm, vm_obj);
+  sq_pushthread(m_vm, scheduled_vm);
   sq_weakref(m_vm, -1);
 
   ScheduleEntry entry;

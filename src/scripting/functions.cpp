@@ -55,7 +55,7 @@ void print_stacktrace(HSQUIRRELVM vm)
 
 SQInteger get_current_thread(HSQUIRRELVM vm)
 {
-  sq_pushobject(vm, vm_to_object(vm));
+  sq_pushthread(vm, vm);
   return 1;
 }
 

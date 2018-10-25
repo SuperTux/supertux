@@ -30,8 +30,7 @@ void
 SquirrelThreadQueue::add(HSQUIRRELVM vm)
 {
   // create a weakref to the VM
-  HSQOBJECT vm_obj = vm_to_object(vm);
-  sq_pushobject(m_vm, vm_obj);
+  sq_pushthread(m_vm, vm);
   sq_weakref(m_vm, -1);
 
   HSQOBJECT object;
