@@ -73,7 +73,7 @@ SquirrelVirtualMachine::SquirrelVirtualMachine(bool enable_debugger) :
   if(m_vm == nullptr)
     throw std::runtime_error("Couldn't initialize squirrel vm");
 
-  sq_setforeignptr(m_vm, this);
+  sq_setsharedforeignptr(m_vm, this);
 
   m_screenswitch_queue = std::make_unique<SquirrelThreadQueue>(m_vm);
   m_scheduler = std::make_unique<SquirrelScheduler>(m_vm);

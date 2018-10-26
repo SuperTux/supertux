@@ -65,13 +65,15 @@ bool is_christmas()
 
 void wait(HSQUIRRELVM vm, float seconds)
 {
-  auto squirrelvm = static_cast<SquirrelVirtualMachine*>(sq_getforeignptr(vm));
+  auto squirrelvm = static_cast<SquirrelVirtualMachine*>(sq_getsharedforeignptr(vm));
+  //auto squirrelenv = static_cast<SquirrelEnvironment*>(sq_getforeignptr(vm));
   squirrelvm->wait_for_seconds(vm, seconds);
 }
 
 void wait_for_screenswitch(HSQUIRRELVM vm)
 {
-  auto squirrelvm = static_cast<SquirrelVirtualMachine*>(sq_getforeignptr(vm));
+  auto squirrelvm = static_cast<SquirrelVirtualMachine*>(sq_getsharedforeignptr(vm));
+  //auto squirrelenv = static_cast<SquirrelEnvironment*>(sq_getforeignptr(vm));
   squirrelvm->wait_for_screenswitch(vm);
 }
 

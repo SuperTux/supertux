@@ -155,7 +155,7 @@ SquirrelEnvironment::run_script(std::istream& in, const std::string& sourcename)
 
     HSQUIRRELVM vm = object_to_vm(object);
 
-    sq_setforeignptr(vm, SquirrelVirtualMachine::current());
+    sq_setforeignptr(vm, this);
 
     // set root table
     sq_pushobject(vm, m_table);
