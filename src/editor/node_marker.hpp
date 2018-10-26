@@ -22,26 +22,31 @@
 
 class NodeMarker : public PointMarker
 {
-  public:
-    NodeMarker(Path* path_, std::vector<Path::Node>::iterator node_iterator, size_t id_);
+public:
+  NodeMarker(Path* path_, std::vector<Path::Node>::iterator node_iterator, size_t id_);
 
-    Path* path;
-    std::vector<Path::Node>::iterator node;
-    size_t id;
+  virtual void update(float elapsed_time) override;
+  virtual void move_to(const Vector& pos) override;
+  virtual void editor_delete() override;
+  virtual Vector get_point_vector() const override;
+  virtual Vector get_offset() const override;
 
-    virtual void update(float elapsed_time) override;
-    virtual void move_to(const Vector& pos) override;
-    virtual void editor_delete() override;
-    virtual Vector get_point_vector() const override;
-    virtual Vector get_offset() const override;
+  virtual ObjectSettings get_settings() override;
 
-    virtual ObjectSettings get_settings() override;
+  void update_iterator();
 
-    void update_iterator();
+private:
+  Path* m_path;
 
-  private:
-    NodeMarker(const NodeMarker&);
-    NodeMarker& operator=(const NodeMarker&);
+public:
+  std::vector<Path::Node>::iterator m_node;
+
+private:
+  size_t m_id;
+
+private:
+  NodeMarker(const NodeMarker&);
+  NodeMarker& operator=(const NodeMarker&);
 };
 
 #endif

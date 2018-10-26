@@ -24,9 +24,43 @@
 #include "util/writer.hpp"
 #include "util/log.hpp"
 
+WalkMode
+string_to_walk_mode(const std::string& mode_string)
+{
+  if (mode_string == "oneshot")
+    return WalkMode::ONE_SHOT;
+  else if (mode_string == "pingpong")
+    return WalkMode::PING_PONG;
+  else if (mode_string == "circular")
+    return WalkMode::CIRCULAR;
+  else if (mode_string == "unordered")
+    return WalkMode::UNORDERED;
+  else {
+    log_warning << "Unknown path mode '" << mode_string << "'found. Using oneshot instead.";
+    return WalkMode::ONE_SHOT;
+  }
+}
+
+std::string
+walk_mode_to_string(WalkMode walk_mode)
+{
+  if (walk_mode == WalkMode::ONE_SHOT)
+    return "oneshot";
+  else if (walk_mode == WalkMode::PING_PONG)
+    return "pingpong";
+  else if (walk_mode == WalkMode::CIRCULAR)
+    return "circular";
+  else if (walk_mode == WalkMode::UNORDERED)
+    return "unordered";
+  else {
+    log_warning << "Unknown path mode found. Using oneshot instead.";
+    return "oneshot";
+  }
+}
+
 Path::Path() :
   m_nodes(),
-  m_mode(CIRCULAR)
+  m_mode(WalkMode::CIRCULAR)
 {
 }
 
@@ -45,7 +79,7 @@ Path::read(const ReaderMapping& reader)
 {
   auto iter = reader.get_iter();
 
-  m_mode = CIRCULAR;
+  m_mode = WalkMode::CIRCULAR;
   while(iter.next()) {
     if (iter.get_key() == "mode") {
       std::string mode_string;
@@ -77,7 +111,8 @@ Path::read(const ReaderMapping& reader)
 }
 
 void
-Path::save(Writer& writer) {
+Path::save(Writer& writer)
+{
   if (!is_valid()) return;
 
   writer.start_list("path");
@@ -125,7 +160,8 @@ Path::get_farthest_node_no(const Vector& reference_point) const
   int farthest_node_id = -1;
   float farthest_node_dist = 0;
   int id = 0;
-  for (std::vector<Node>::const_iterator i = m_nodes.begin(); i != m_nodes.end(); ++i, ++id) {
+  for (std::vector<Node>::const_iterator i = m_nodes.begin(); i != m_nodes.end(); ++i, ++id)
+{
     float dist = (i->position - reference_point).norm();
     if ((farthest_node_id == -1) || (dist > farthest_node_dist)) {
       farthest_node_id = id;
@@ -136,14 +172,16 @@ Path::get_farthest_node_no(const Vector& reference_point) const
 }
 
 void
-Path::move_by(const Vector& shift) {
+Path::move_by(const Vector& shift)
+{
   for(auto& nod : m_nodes) {
     nod.position += shift;
   }
 }
 
 void
-Path::edit_path() {
+Path::edit_path()
+{
   int id = 0;
   for(auto i = m_nodes.begin(); i != m_nodes.end(); ++i) {
     Sector::get().add<NodeMarker>(this, i, id);
@@ -156,41 +194,9 @@ Path::is_valid() const {
   return m_nodes.size();
 }
 
-Path::WalkMode
-Path::string_to_walk_mode(const std::string& mode_string) const {
-  if (mode_string == "oneshot")
-    return ONE_SHOT;
-  else if (mode_string == "pingpong")
-    return PING_PONG;
-  else if (mode_string == "circular")
-    return CIRCULAR;
-  else if (mode_string == "unordered")
-    return UNORDERED;
-  else {
-    log_warning << "Unknown path mode '" << mode_string << "'found. Using oneshot instead.";
-    return ONE_SHOT;
-  }
-}
-
-const std::string
-Path::walk_mode_to_string(const WalkMode& walk_mode) const
-{
-  if (walk_mode == ONE_SHOT)
-    return "oneshot";
-  else if (walk_mode == PING_PONG)
-    return "pingpong";
-  else if (walk_mode == CIRCULAR)
-    return "circular";
-  else if (walk_mode == UNORDERED)
-    return "unordered";
-  else {
-    log_warning << "Unknown path mode found. Using oneshot instead.";
-    return "oneshot";
-  }
-}
-
 ObjectOption
-Path::get_mode_option(WalkMode* mode_) {
+Path::get_mode_option(WalkMode* mode_)
+{
   ObjectOption result(MN_STRINGSELECT, _("Path Mode"), mode_);
   result.select.push_back(_("one shot"));
   result.select.push_back(_("ping pong"));
@@ -198,4 +204,5 @@ Path::get_mode_option(WalkMode* mode_) {
   result.select.push_back(_("unordered"));
   return result;
 }
+
 /* EOF */

@@ -28,6 +28,20 @@ class ObjectOption;
 class ReaderMapping;
 class Writer;
 
+enum class WalkMode {
+  // moves from first to last path node and stops
+  ONE_SHOT,
+  // moves from first to last node then in reverse order back to first
+  PING_PONG,
+  // moves from last node back to the first node
+  CIRCULAR,
+  // moves randomly among the nodes
+  UNORDERED
+};
+
+WalkMode string_to_walk_mode(const std::string& mode_string);
+std::string walk_mode_to_string(WalkMode walk_mode);
+
 class Path final
 {
 public:
@@ -44,16 +58,9 @@ public:
     {}
   };
 
-  enum WalkMode {
-    // moves from first to last path node and stops
-    ONE_SHOT,
-    // moves from first to last node then in reverse order back to first
-    PING_PONG,
-    // moves from last node back to the first node
-    CIRCULAR,
-    // moves randomly among the nodes
-    UNORDERED
-  };
+public:
+  /** Returns an object option that modifies the mode. */
+  static ObjectOption get_mode_option(WalkMode* mode);
 
 public:
   Path();
@@ -78,12 +85,6 @@ public:
 
   /** Returns false when has no nodes */
   bool is_valid() const;
-
-  WalkMode string_to_walk_mode(const std::string& mode_string) const;
-  const std::string walk_mode_to_string(const WalkMode& walk_mode) const;
-
-  /** Returns an object option that modifies the mode. */
-  static ObjectOption get_mode_option(WalkMode* mode_);
 
 public:
   std::vector<Node> m_nodes;

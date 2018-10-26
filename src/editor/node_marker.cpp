@@ -19,58 +19,72 @@
 #include "editor/editor.hpp"
 
 NodeMarker::NodeMarker (Path* path_, std::vector<Path::Node>::iterator node_iterator, size_t id_) :
-  path(path_),
-  node(node_iterator),
-  id(id_)
+  m_path(path_),
+  m_node(node_iterator),
+  m_id(id_)
 {
-  set_pos(node->position - Vector(8, 8));
+  set_pos(m_node->position - Vector(8, 8));
 }
 
-void NodeMarker::update_iterator() {
-  if (id >= path->m_nodes.size()) {
+void
+NodeMarker::update_iterator()
+{
+  if (m_id >= m_path->m_nodes.size()) {
     remove_me();
   } else {
-    node = path->m_nodes.begin() + id;
+    m_node = m_path->m_nodes.begin() + m_id;
   }
 }
 
-Vector NodeMarker::get_point_vector() const {
-  std::vector<Path::Node>::iterator next_node = node + 1;
-  if (next_node == path->m_nodes.end()) {
-    if (path->m_mode == Path::CIRCULAR || path->m_mode == Path::UNORDERED) {
+Vector
+NodeMarker::get_point_vector() const
+{
+  std::vector<Path::Node>::iterator next_node = m_node + 1;
+  if (next_node == m_path->m_nodes.end()) {
+    if (m_path->m_mode == WalkMode::CIRCULAR || m_path->m_mode == WalkMode::UNORDERED) {
       //loop to the first node
-      return path->m_nodes.begin()->position - node->position;
+      return m_path->m_nodes.begin()->position - m_node->position;
     } else {
       return Vector(0,0);
     }
   } else {
     //point to the next node
-    return next_node->position - node->position;
+    return next_node->position - m_node->position;
   }
 }
 
-Vector NodeMarker::get_offset() const {
+Vector
+NodeMarker::get_offset() const
+{
   return Vector(8, 8);
 }
 
-void NodeMarker::move_to(const Vector& pos) {
+void
+NodeMarker::move_to(const Vector& pos)
+{
   MovingObject::move_to(pos);
-  node->position = m_bbox.get_middle();
+  m_node->position = m_bbox.get_middle();
 }
 
-void NodeMarker::editor_delete() {
-  path->m_nodes.erase(node);
+void
+NodeMarker::editor_delete()
+{
+  m_path->m_nodes.erase(m_node);
   Editor::current()->update_node_iterators();
 }
 
-ObjectSettings NodeMarker::get_settings() {
+ObjectSettings
+NodeMarker::get_settings()
+{
   ObjectSettings result(_("Path Node"));
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Time"), &(node->time)));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Time"), &(m_node->time)));
   return result;
 }
 
-void NodeMarker::update(float elapsed_time) {
-  set_pos(node->position - Vector(8, 8));
+void
+NodeMarker::update(float elapsed_time)
+{
+  set_pos(m_node->position - Vector(8, 8));
 }
 
 /* EOF */

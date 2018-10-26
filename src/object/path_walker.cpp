@@ -96,12 +96,12 @@ PathWalker::get_pos() const
 void
 PathWalker::goto_node(int node_no)
 {
-  if (m_path->m_mode == Path::UNORDERED && m_running) return;
+  if (m_path->m_mode == WalkMode::UNORDERED && m_running) return;
   if (node_no == m_stop_at_node_nr) return;
   m_running = true;
   m_stop_at_node_nr = node_no;
 
-  if (m_path->m_mode == Path::UNORDERED) {
+  if (m_path->m_mode == WalkMode::UNORDERED) {
     m_next_node_nr = node_no;
   }
 }
@@ -127,7 +127,7 @@ PathWalker::advance_node()
   m_current_node_nr = m_next_node_nr;
   if (static_cast<int>(m_current_node_nr) == m_stop_at_node_nr) m_running = false;
 
-  if (m_path->m_mode == Path::UNORDERED) {
+  if (m_path->m_mode == WalkMode::UNORDERED) {
     m_next_node_nr = gameRandom.rand( static_cast<int>(m_path->m_nodes.size()) );
     return;
   }
@@ -138,21 +138,21 @@ PathWalker::advance_node()
   }
 
   switch(m_path->m_mode) {
-    case Path::ONE_SHOT:
+    case WalkMode::ONE_SHOT:
       m_next_node_nr = m_path->m_nodes.size() - 1;
       m_walking_speed = 0;
       return;
 
-    case Path::PING_PONG:
+    case WalkMode::PING_PONG:
       m_walking_speed = -m_walking_speed;
       m_next_node_nr = m_path->m_nodes.size() > 1 ? m_path->m_nodes.size() - 2 : 0;
       return;
 
-    case Path::CIRCULAR:
+    case WalkMode::CIRCULAR:
       m_next_node_nr = 0;
       return;
 
-    case Path::UNORDERED:
+    case WalkMode::UNORDERED:
       return;
   }
 
@@ -175,7 +175,7 @@ PathWalker::goback_node()
   }
 
   switch(m_path->m_mode) {
-    case Path::PING_PONG:
+    case WalkMode::PING_PONG:
       m_walking_speed = -m_walking_speed;
       m_next_node_nr = m_path->m_nodes.size() > 1 ? 1 : 0;
       return;

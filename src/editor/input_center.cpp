@@ -449,7 +449,7 @@ EditorInputCenter::add_path_node() {
   Path::Node new_node;
   new_node.position = sector_pos;
   new_node.time = 1;
-  edited_path->m_nodes.insert(last_node_marker->node + 1, new_node);
+  edited_path->m_nodes.insert(last_node_marker->m_node + 1, new_node);
   Sector::get().add<NodeMarker>(edited_path, edited_path->m_nodes.end() - 1, edited_path->m_nodes.size() - 1);
   //last_node_marker = dynamic_cast<NodeMarker*>(marker.get());
   update_node_iterators();
@@ -810,7 +810,7 @@ EditorInputCenter::draw_path(DrawingContext& context) {
     Path::Node* node1 = &(*i);
     Path::Node* node2;
     if (j == edited_path->m_nodes.end()) {
-      if (edited_path->m_mode == Path::CIRCULAR || edited_path->m_mode == Path::UNORDERED) {
+      if (edited_path->m_mode == WalkMode::CIRCULAR || edited_path->m_mode == WalkMode::UNORDERED) {
         //loop to the first node
         node2 = &(*edited_path->m_nodes.begin());
       } else {
