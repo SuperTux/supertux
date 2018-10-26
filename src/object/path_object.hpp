@@ -23,43 +23,39 @@
 #include "object/path.hpp"
 #include "object/path_walker.hpp"
 
-/**
- * A class for all objects that contain / make use of a path.
- */
+/** A class for all objects that contain / make use of a path. */
 class PathObject
 {
 public:
-  std::shared_ptr<Path> path;
-  std::shared_ptr<PathWalker> walker;
-
   PathObject() :
-    path(),
-    walker()
+    m_path(),
+    m_walker()
   {
   }
 
   PathObject(const PathObject& other) :
-    path(other.path),
-    walker(other.walker)
+    m_path(other.m_path),
+    m_walker(other.m_walker)
   {
   }
 
   virtual ~PathObject()
   {
   }
-  /**
-   * Returns this object's path
-   */
+
+  /** Returns this object's path */
   Path* get_path() const {
-    return path.get();
+    return m_path.get();
   }
 
-  /**
-   * Returns this object's path walker
-   */
+  /** Returns this object's path walker */
   PathWalker* get_walker() const {
-    return walker.get();
+    return m_walker.get();
   }
+
+protected:
+  std::shared_ptr<Path> m_path;
+  std::shared_ptr<PathWalker> m_walker;
 };
 
 #endif

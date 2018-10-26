@@ -58,9 +58,9 @@ WillOWisp::WillOWisp(const ReaderMapping& reader) :
 
   boost::optional<ReaderMapping> path_mapping;
   if(reader.get("path", path_mapping)) {
-    path.reset(new Path());
-    path->read(*path_mapping);
-    walker.reset(new PathWalker(path.get(), running));
+    m_path.reset(new Path());
+    m_path->read(*path_mapping);
+    m_walker.reset(new PathWalker(m_path.get(), running));
     if(running)
       mystate = STATE_PATHMOVING_TRACK;
   }
@@ -84,8 +84,8 @@ WillOWisp::save(Writer& writer) {
 void
 WillOWisp::active_update(float elapsed_time)
 {
-  if (Editor::is_active() && path.get() && path->is_valid()) {
-      set_pos(walker->advance(elapsed_time));
+  if (Editor::is_active() && m_path.get() && m_path->is_valid()) {
+      set_pos(m_walker->advance(elapsed_time));
       return;
   }
 
@@ -135,9 +135,9 @@ WillOWisp::active_update(float elapsed_time)
 
     case STATE_PATHMOVING:
     case STATE_PATHMOVING_TRACK:
-      if(walker.get() == nullptr)
+      if(m_walker.get() == nullptr)
         return;
-      m_movement = walker->advance(elapsed_time) - get_pos();
+      m_movement = m_walker->advance(elapsed_time) - get_pos();
       if(mystate == STATE_PATHMOVING_TRACK && dist.norm() <= track_range) {
         mystate = STATE_TRACKING;
       }
@@ -228,7 +228,7 @@ WillOWisp::collision_player(Player& player, const CollisionHit& ) {
 void
 WillOWisp::goto_node(int node_no)
 {
-  walker->goto_node(node_no);
+  m_walker->goto_node(node_no);
   if(mystate != STATE_PATHMOVING && mystate != STATE_PATHMOVING_TRACK) {
     mystate = STATE_PATHMOVING;
   }
@@ -237,13 +237,13 @@ WillOWisp::goto_node(int node_no)
 void
 WillOWisp::start_moving()
 {
-  walker->start_moving();
+  m_walker->start_moving();
 }
 
 void
 WillOWisp::stop_moving()
 {
-  walker->stop_moving();
+  m_walker->stop_moving();
 }
 
 void
@@ -255,10 +255,10 @@ WillOWisp::set_state(const std::string& new_state)
     mystate = STATE_IDLE;
   } else if(new_state == "move_path") {
     mystate = STATE_PATHMOVING;
-    walker->start_moving();
+    m_walker->start_moving();
   } else if(new_state == "move_path_track") {
     mystate = STATE_PATHMOVING_TRACK;
-    walker->start_moving();
+    m_walker->start_moving();
   } else if(new_state == "normal") {
     mystate = STATE_IDLE;
   } else if(new_state == "vanish") {
@@ -300,8 +300,8 @@ void
 WillOWisp::move_to(const Vector& pos)
 {
   Vector shift = pos - m_bbox.p1;
-  if (path) {
-    path->move_by(shift);
+  if (m_path) {
+    m_path->move_by(shift);
   }
   set_pos(pos);
 }

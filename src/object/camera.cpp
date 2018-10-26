@@ -120,7 +120,7 @@ public:
 void
 Camera::save(Writer& writer){
   GameObject::save(writer);
-  if (m_defaultmode == AUTOSCROLL && !path->is_valid()) {
+  if (m_defaultmode == AUTOSCROLL && !m_path->is_valid()) {
     m_defaultmode = NORMAL;
   }
   switch (m_defaultmode) {
@@ -128,7 +128,7 @@ Camera::save(Writer& writer){
     case MANUAL: writer.write("mode", "manual", false); break;
     case AUTOSCROLL:
       writer.write("mode", "autoscroll", false);
-      path->save(writer);
+      m_path->save(writer);
     case SCROLLTO: break;
   }
 }
@@ -142,8 +142,8 @@ Camera::get_settings() {
   moo.select.push_back(_("manual"));
   result.options.push_back(moo);
 
-  if (walker.get() && path->is_valid()) {
-    result.options.push_back( Path::get_mode_option(&path->mode) );
+  if (m_walker.get() && m_path->is_valid()) {
+    result.options.push_back( Path::get_mode_option(&m_path->m_mode) );
   }
 
   return result;
@@ -151,14 +151,14 @@ Camera::get_settings() {
 
 void
 Camera::after_editor_set() {
-  if (walker.get() && path->is_valid()) {
+  if (m_walker.get() && m_path->is_valid()) {
     if (m_defaultmode != AUTOSCROLL) {
-      path->nodes.clear();
+      m_path->m_nodes.clear();
     }
   } else {
     if (m_defaultmode == AUTOSCROLL) {
-      path.reset(new Path(Vector(0,0)));
-      walker.reset(new PathWalker(path.get()));
+      m_path.reset(new Path(Vector(0,0)));
+      m_walker.reset(new PathWalker(m_path.get()));
     }
   }
 }
@@ -215,9 +215,9 @@ Camera::parse(const ReaderMapping& reader)
       log_warning << "No path specified in autoscroll camera." << std::endl;
       m_mode = NORMAL;
     } else {
-      path.reset(new Path());
-      path->read(*path_mapping);
-      walker.reset(new PathWalker(path.get()));
+      m_path.reset(new Path());
+      m_path->read(*path_mapping);
+      m_walker.reset(new PathWalker(m_path.get()));
     }
   } else if(modename == "manual") {
     m_mode = MANUAL;
@@ -639,7 +639,7 @@ Camera::update_scroll_autoscroll(float elapsed_time)
   if(player->is_dying())
     return;
 
-  m_translation = walker->advance(elapsed_time);
+  m_translation = m_walker->advance(elapsed_time);
 
   keep_in_bounds(m_translation);
 }

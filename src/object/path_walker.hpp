@@ -23,18 +23,17 @@
 
 class ObjectOption;
 
-/**
- * A walker that travels along a path
- */
+/** A walker that travels along a path */
 class PathWalker final
 {
+public:
+  static ObjectOption get_running_option(bool* _running);
+
 public:
   PathWalker(const Path* path, bool running = true);
   virtual ~PathWalker();
 
-  /**
-   * advances the path walker on the path and returns its new position
-   */
+  /** advances the path walker on the path and returns its new position */
   virtual Vector advance(float elapsed_time);
 
   /** current position of path walker */
@@ -51,38 +50,32 @@ public:
 
   /** returns true if PathWalker is currently moving */
   bool is_moving() const {
-    return running;
+    return m_running;
   }
-
-  static ObjectOption get_running_option(bool* _running);
-
-  const Path* path;
-
-  /**
-   * set to false to immediately stop advancing
-   */
-  bool running;
 
 private:
   void advance_node();
   void goback_node();
 
-  size_t current_node_nr;
-  size_t next_node_nr;
+public:
+  const Path* m_path;
 
-  /**
-   * stop advancing automatically when this node is reached
-   */
-  int stop_at_node_nr;
+  /** set to false to immediately stop advancing */
+  bool m_running;
 
-  /**
-   * the position between the current node and the next node as fraction
-   * between 0 and 1
-   */
-  float node_time;
-  float node_mult;
+private:
+  size_t m_current_node_nr;
+  size_t m_next_node_nr;
 
-  float walking_speed;
+  /** stop advancing automatically when this node is reached */
+  int m_stop_at_node_nr;
+
+  /** the position between the current node and the next node as
+      fraction between 0 and 1 */
+  float m_node_time;
+  float m_node_mult;
+
+  float m_walking_speed;
 
 private:
   PathWalker(const PathWalker&);

@@ -47,8 +47,8 @@ Coin::Coin(const Vector& pos, TileMap* tilemap)
     physic(),
     collect_script()
 {
-  if(walker.get()) {
-    Vector v = path->get_base();
+  if(m_walker.get()) {
+    Vector v = m_path->get_base();
     offset = pos - v;
   }
 
@@ -66,10 +66,10 @@ Coin::Coin(const ReaderMapping& reader)
 {
   boost::optional<ReaderMapping> path_mapping;
   if (reader.get("path", path_mapping)) {
-    path.reset(new Path());
-    path->read(*path_mapping);
-    walker.reset(new PathWalker(path.get()));
-    Vector v = path->get_base();
+    m_path.reset(new Path());
+    m_path->read(*path_mapping);
+    m_walker.reset(new PathWalker(m_path.get()));
+    Vector v = m_path->get_base();
     set_pos(v);
   }
 
@@ -81,8 +81,8 @@ Coin::Coin(const ReaderMapping& reader)
 void
 Coin::save(Writer& writer) {
   MovingSprite::save(writer);
-  if (path) {
-    path->save(writer);
+  if (m_path) {
+    m_path->save(writer);
   }
 }
 
@@ -90,9 +90,9 @@ void
 Coin::update(float elapsed_time)
 {
   // if we have a path to follow, follow it
-  if (walker.get()) {
-    Vector v = from_tilemap ? offset + walker->get_pos() : walker->advance(elapsed_time);
-    if (path->is_valid()) {
+  if (m_walker.get()) {
+    Vector v = from_tilemap ? offset + m_walker->get_pos() : m_walker->advance(elapsed_time);
+    if (m_path->is_valid()) {
       if (Editor::is_active()) {
         set_pos(v);
       } else {
@@ -249,8 +249,8 @@ void
 Coin::move_to(const Vector& pos)
 {
   Vector shift = pos - m_bbox.p1;
-  if (path) {
-    path->move_by(shift);
+  if (m_path) {
+    m_path->move_by(shift);
   }
   set_pos(pos);
 }
@@ -260,11 +260,11 @@ Coin::get_settings()
 {
   ObjectSettings result = MovingSprite::get_settings();
 
-  add_path = walker.get() && path->is_valid();
+  add_path = m_walker.get() && m_path->is_valid();
   result.options.push_back( ObjectOption(MN_TOGGLE, _("Following path"), &add_path));
 
-  if (walker.get() && path->is_valid()) {
-    result.options.push_back( Path::get_mode_option(&path->mode) );
+  if (m_walker.get() && m_path->is_valid()) {
+    result.options.push_back( Path::get_mode_option(&m_path->m_mode) );
   }
 
   result.options.push_back( ObjectOption(MN_SCRIPT, _("Collect script"),
@@ -278,14 +278,14 @@ Coin::after_editor_set()
 {
   MovingSprite::after_editor_set();
 
-  if (walker.get() && path->is_valid()) {
+  if (m_walker.get() && m_path->is_valid()) {
     if (!add_path) {
-      path->nodes.clear();
+      m_path->m_nodes.clear();
     }
   } else {
     if (add_path) {
-      path.reset(new Path(m_bbox.p1));
-      walker.reset(new PathWalker(path.get()));
+      m_path.reset(new Path(m_bbox.p1));
+      m_walker.reset(new PathWalker(m_path.get()));
     }
   }
 }

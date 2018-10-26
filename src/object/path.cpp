@@ -25,19 +25,19 @@
 #include "util/log.hpp"
 
 Path::Path() :
-  nodes(),
-  mode(CIRCULAR)
+  m_nodes(),
+  m_mode(CIRCULAR)
 {
 }
 
 Path::Path(const Vector& pos) :
-  nodes(),
-  mode()
+  m_nodes(),
+  m_mode()
 {
   Node first_node;
   first_node.position = pos;
   first_node.time = 1;
-  nodes.push_back(first_node);
+  m_nodes.push_back(first_node);
 }
 
 void
@@ -45,12 +45,12 @@ Path::read(const ReaderMapping& reader)
 {
   auto iter = reader.get_iter();
 
-  mode = CIRCULAR;
+  m_mode = CIRCULAR;
   while(iter.next()) {
-    if(iter.get_key() == "mode") {
+    if (iter.get_key() == "mode") {
       std::string mode_string;
       iter.get(mode_string);
-      mode = string_to_walk_mode(mode_string);
+      m_mode = string_to_walk_mode(mode_string);
       continue;
     } else if (iter.get_key() == "node") {
       ReaderMapping node_mapping = iter.as_mapping();
@@ -58,21 +58,21 @@ Path::read(const ReaderMapping& reader)
       // each new node will inherit all values from the last one
       Node node;
       node.time = 1;
-      if( (!node_mapping.get("x", node.position.x) ||
+      if ( (!node_mapping.get("x", node.position.x) ||
            !node_mapping.get("y", node.position.y)))
         throw std::runtime_error("Path node without x and y coordinate specified");
       node_mapping.get("time", node.time);
 
-      if(node.time <= 0)
+      if (node.time <= 0)
         throw std::runtime_error("Path node with non-positive time");
 
-      nodes.push_back(node);
+      m_nodes.push_back(node);
     } else {
       log_warning << "unknown token '" << iter.get_key() << "' in Path nodes list. Ignored." << std::endl;
     }
   }
 
-  if (nodes.empty())
+  if (m_nodes.empty())
     throw std::runtime_error("Path with zero nodes");
 }
 
@@ -81,9 +81,9 @@ Path::save(Writer& writer) {
   if (!is_valid()) return;
 
   writer.start_list("path");
-  writer.write("mode", walk_mode_to_string(mode), false);
+  writer.write("mode", walk_mode_to_string(m_mode), false);
 
-  for(auto& nod : nodes) {
+  for(auto& nod : m_nodes) {
     writer.start_list("node");
     writer.write("x", nod.position.x);
     writer.write("y", nod.position.y);
@@ -97,10 +97,10 @@ Path::save(Writer& writer) {
 Vector
 Path::get_base() const
 {
-  if(nodes.empty())
+  if (m_nodes.empty())
     return Vector(0, 0);
 
-  return nodes[0].position;
+  return m_nodes[0].position;
 }
 
 int
@@ -109,7 +109,7 @@ Path::get_nearest_node_no(const Vector& reference_point) const
   int nearest_node_id = -1;
   float nearest_node_dist = 0;
   int id = 0;
-  for (std::vector<Node>::const_iterator i = nodes.begin(); i != nodes.end(); ++i, ++id) {
+  for (std::vector<Node>::const_iterator i = m_nodes.begin(); i != m_nodes.end(); ++i, ++id) {
     float dist = (i->position - reference_point).norm();
     if ((nearest_node_id == -1) || (dist < nearest_node_dist)) {
       nearest_node_id = id;
@@ -125,7 +125,7 @@ Path::get_farthest_node_no(const Vector& reference_point) const
   int farthest_node_id = -1;
   float farthest_node_dist = 0;
   int id = 0;
-  for (std::vector<Node>::const_iterator i = nodes.begin(); i != nodes.end(); ++i, ++id) {
+  for (std::vector<Node>::const_iterator i = m_nodes.begin(); i != m_nodes.end(); ++i, ++id) {
     float dist = (i->position - reference_point).norm();
     if ((farthest_node_id == -1) || (dist > farthest_node_dist)) {
       farthest_node_id = id;
@@ -137,7 +137,7 @@ Path::get_farthest_node_no(const Vector& reference_point) const
 
 void
 Path::move_by(const Vector& shift) {
-  for(auto& nod : nodes) {
+  for(auto& nod : m_nodes) {
     nod.position += shift;
   }
 }
@@ -145,7 +145,7 @@ Path::move_by(const Vector& shift) {
 void
 Path::edit_path() {
   int id = 0;
-  for(auto i = nodes.begin(); i != nodes.end(); ++i) {
+  for(auto i = m_nodes.begin(); i != m_nodes.end(); ++i) {
     Sector::get().add<NodeMarker>(this, i, id);
     id++;
   }
@@ -153,18 +153,18 @@ Path::edit_path() {
 
 bool
 Path::is_valid() const {
-  return nodes.size();
+  return m_nodes.size();
 }
 
 Path::WalkMode
 Path::string_to_walk_mode(const std::string& mode_string) const {
-  if(mode_string == "oneshot")
+  if (mode_string == "oneshot")
     return ONE_SHOT;
-  else if(mode_string == "pingpong")
+  else if (mode_string == "pingpong")
     return PING_PONG;
-  else if(mode_string == "circular")
+  else if (mode_string == "circular")
     return CIRCULAR;
-  else if(mode_string == "unordered")
+  else if (mode_string == "unordered")
     return UNORDERED;
   else {
     log_warning << "Unknown path mode '" << mode_string << "'found. Using oneshot instead.";
@@ -175,13 +175,13 @@ Path::string_to_walk_mode(const std::string& mode_string) const {
 const std::string
 Path::walk_mode_to_string(const WalkMode& walk_mode) const
 {
-  if(walk_mode == ONE_SHOT)
+  if (walk_mode == ONE_SHOT)
     return "oneshot";
-  else if(walk_mode == PING_PONG)
+  else if (walk_mode == PING_PONG)
     return "pingpong";
-  else if(walk_mode == CIRCULAR)
+  else if (walk_mode == CIRCULAR)
     return "circular";
-  else if(walk_mode == UNORDERED)
+  else if (walk_mode == UNORDERED)
     return "unordered";
   else {
     log_warning << "Unknown path mode found. Using oneshot instead.";

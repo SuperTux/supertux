@@ -27,19 +27,19 @@ NodeMarker::NodeMarker (Path* path_, std::vector<Path::Node>::iterator node_iter
 }
 
 void NodeMarker::update_iterator() {
-  if (id >= path->nodes.size()) {
+  if (id >= path->m_nodes.size()) {
     remove_me();
   } else {
-    node = path->nodes.begin() + id;
+    node = path->m_nodes.begin() + id;
   }
 }
 
 Vector NodeMarker::get_point_vector() const {
   std::vector<Path::Node>::iterator next_node = node + 1;
-  if (next_node == path->nodes.end()) {
-    if (path->mode == Path::CIRCULAR || path->mode == Path::UNORDERED) {
+  if (next_node == path->m_nodes.end()) {
+    if (path->m_mode == Path::CIRCULAR || path->m_mode == Path::UNORDERED) {
       //loop to the first node
-      return path->nodes.begin()->position - node->position;
+      return path->m_nodes.begin()->position - node->position;
     } else {
       return Vector(0,0);
     }
@@ -59,7 +59,7 @@ void NodeMarker::move_to(const Vector& pos) {
 }
 
 void NodeMarker::editor_delete() {
-  path->nodes.erase(node);
+  path->m_nodes.erase(node);
   Editor::current()->update_node_iterators();
 }
 

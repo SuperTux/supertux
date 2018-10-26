@@ -31,17 +31,7 @@ class Writer;
 class Path final
 {
 public:
-  Path();
-  Path(const Vector& pos);
-
-  void read(const ReaderMapping& reader);
-  void save(Writer& writer);
-
-  Vector get_base() const;
-
-  /**
-   * Helper class that stores an individual node of a Path
-   */
+  /** Helper class that stores an individual node of a Path */
   class Node
   {
   public:
@@ -54,33 +44,6 @@ public:
     {}
   };
 
-  std::vector<Node> nodes;
-
-  /**
-   * returns Node index nearest to reference_point or -1 if not applicable
-   */
-  int get_nearest_node_no(const Vector& reference_point) const;
-
-  /**
-   * returns Node index farthest from reference_point or -1 if not applicable
-   */
-  int get_farthest_node_no(const Vector& reference_point) const;
-
-  /**
-   * Moves all nodes by given shift.
-   */
-  void move_by(const Vector& shift);
-
-  /**
-   * Puts node markers to the nodes to edit them.
-   */
-  void edit_path();
-
-  /**
-   * Returns false when has no nodes
-   */
-  bool is_valid() const;
-
   enum WalkMode {
     // moves from first to last path node and stops
     ONE_SHOT,
@@ -92,15 +55,44 @@ public:
     UNORDERED
   };
 
-  WalkMode mode;
+public:
+  Path();
+  Path(const Vector& pos);
+
+  void read(const ReaderMapping& reader);
+  void save(Writer& writer);
+
+  Vector get_base() const;
+
+  /** returns Node index nearest to reference_point or -1 if not applicable */
+  int get_nearest_node_no(const Vector& reference_point) const;
+
+  /** returns Node index farthest from reference_point or -1 if not applicable */
+  int get_farthest_node_no(const Vector& reference_point) const;
+
+  /** Moves all nodes by given shift. */
+  void move_by(const Vector& shift);
+
+  /** Puts node markers to the nodes to edit them. */
+  void edit_path();
+
+  /** Returns false when has no nodes */
+  bool is_valid() const;
 
   WalkMode string_to_walk_mode(const std::string& mode_string) const;
   const std::string walk_mode_to_string(const WalkMode& walk_mode) const;
 
-  /**
-   * Returns an object option that modifies the mode.
-   */
+  /** Returns an object option that modifies the mode. */
   static ObjectOption get_mode_option(WalkMode* mode_);
+
+public:
+  std::vector<Node> m_nodes;
+
+  WalkMode m_mode;
+
+private:
+  Path(const Path&) = delete;
+  Path& operator=(const Path&) = delete;
 };
 
 #endif
