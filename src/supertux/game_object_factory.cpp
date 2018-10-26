@@ -90,6 +90,7 @@
 #include "object/lantern.hpp"
 #include "object/level_time.hpp"
 #include "object/magicblock.hpp"
+#include "object/path_gameobject.hpp"
 #include "object/platform.hpp"
 #include "object/pneumatic_platform.hpp"
 #include "object/powerup.hpp"
@@ -191,6 +192,7 @@ GameObjectFactory::init_factories()
   // other objects
   add_factory<AmbientSound>("ambient_sound");
   add_factory<Background>("background");
+  add_factory<PathGameObject>("path");
   add_factory<BicyclePlatform>("bicycle-platform");
   add_factory<BonusBlock>("bonusblock");
   add_factory<Brick>("brick");

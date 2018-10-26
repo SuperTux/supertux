@@ -86,6 +86,8 @@ public:
   /** Returns false when has no nodes */
   bool is_valid() const;
 
+  const std::vector<Node>& get_nodes() const { return m_nodes; }
+
 public:
   std::vector<Node> m_nodes;
 
