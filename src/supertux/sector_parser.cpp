@@ -142,7 +142,7 @@ SectorParser::parse(const ReaderMapping& sector)
     }
   }
 
-  m_sector.construct();
+  m_sector.finish_construction();
 }
 
 void
@@ -302,7 +302,7 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
     log_warning << "sector '" << m_sector.get_name() << "' does not contain a solid tile layer." << std::endl;
   }
 
-  m_sector.construct();
+  m_sector.finish_construction();
 }
 
 void
@@ -348,7 +348,7 @@ SectorParser::create_sector()
 
   m_sector.add<Camera>(&m_sector, "Camera");
 
-  m_sector.construct();
+  m_sector.finish_construction();
 }
 
 /* EOF */

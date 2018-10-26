@@ -50,6 +50,11 @@ public:
   GameObject(const ReaderMapping& reader);
   virtual ~GameObject();
 
+  /** Called after all objects have been added to the Sector and the
+      Sector is fully constructed. If objects refer to other objects
+      by name, those connection can be resolved here. */
+  virtual void finish_construction() {}
+
   UID get_uid() const { return m_uid; }
 
   /** This function is called once per frame and allows the object to

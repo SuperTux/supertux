@@ -106,7 +106,7 @@ Sector::~Sector()
 }
 
 void
-Sector::construct()
+Sector::finish_construction()
 {
   update_game_objects();
 
@@ -136,6 +136,12 @@ Sector::construct()
   update_game_objects();
 
   m_foremost_layer = calculate_foremost_layer();
+
+  for(auto& object : get_objects()) {
+    object->finish_construction();
+  }
+
+  update_game_objects();
 }
 
 Level&
