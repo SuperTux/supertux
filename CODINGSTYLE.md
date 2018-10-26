@@ -44,8 +44,48 @@ Include guards are of the form:
 Prefix member variable names with `m_`, global variables with `g_`, and static
 variables with `s_`.
 
+## Classes
+
 Properly separate data members and member functions. Do not mix them in the same
 `public`/`private`/`protected` section.
+
+The order of declarations in a class shall be as follows:
+
+```c++
+class Foo
+{
+public:
+protected:
+private:
+   // type declarations, needs to come first as later stuff might depend on them
+
+public:
+protected:
+private:
+   // static stuff
+
+public:
+protected:
+private:
+   // constructors
+   // destructor
+
+public:
+protected:
+private:
+   // member functions
+
+public:
+protected:
+private:
+   // member variables
+
+private:
+  // non-copyable footer
+  Foo(const Foo&) = delete;
+  Foo& operator=(const Foo&) = delete;
+};
+```
 
 ## Pointers
 
