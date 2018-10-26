@@ -45,12 +45,13 @@ Platform::Platform(const ReaderMapping& reader, const std::string& default_sprit
   boost::optional<ReaderMapping> path_mapping;
   if (!reader.get("path", path_mapping))
   {
+    // If no path is given, make a one-node dummy path
     m_path.reset(new Path(m_bbox.p1));
     m_walker.reset(new PathWalker(m_path.get(), running));
   }
   else
   {
-    m_path.reset(new Path());
+    m_path.reset(new Path);
     m_path->read(*path_mapping);
     m_walker.reset(new PathWalker(m_path.get(), running));
     m_bbox.set_pos(m_path->get_base());
@@ -58,35 +59,21 @@ Platform::Platform(const ReaderMapping& reader, const std::string& default_sprit
 }
 
 void
-Platform::save(Writer& writer) {
+Platform::save(Writer& writer)
+{
   MovingSprite::save(writer);
   writer.write("running", m_walker->is_moving());
   m_path->save(writer);
 }
 
 ObjectSettings
-Platform::get_settings() {
+Platform::get_settings()
+{
   ObjectSettings result = MovingSprite::get_settings();
   result.options.push_back( Path::get_mode_option(&m_path->m_mode) );
   result.options.push_back( PathWalker::get_running_option(&m_walker->m_running) );
   return result;
 }
-
-/*
-  Platform::Platform(const Platform& other) :
-  MovingSprite(other),
-  ScriptInterface(other),
-  speed(other.speed),
-  automatic(other.automatic),
-  player_contact(false),
-  last_player_contact(false)
-  {
-  name = other.name;
-  path.reset(new Path(*other.path));
-  walker.reset(new PathWalker(*other.walker));
-  walker->path = &*path;
-  }
-*/
 
 HitResponse
 Platform::collision(GameObject& other, const CollisionHit& )

@@ -22,9 +22,8 @@
 #include "squirrel/exposed_object.hpp"
 #include "scripting/platform.hpp"
 
-/**
- * This class is the base class for platforms that tux can stand on
- */
+/** This class is the base class for platforms that tux can stand
+    on */
 class Platform : public MovingSprite,
                  public ExposedObject<Platform, scripting::Platform>,
                  public PathObject
@@ -33,6 +32,7 @@ public:
   Platform(const ReaderMapping& reader);
   Platform(const ReaderMapping& reader, const std::string& default_sprite);
   Platform(const Platform& platform);
+
   virtual void save(Writer& writer) override;
   virtual ObjectSettings get_settings() override;
 
@@ -72,13 +72,19 @@ public:
   }
 
 private:
-
   Vector speed;
 
-  bool automatic; /**< true if Platform will automatically pick a destination based on collisions and current Player position */
-  bool player_contact; /**< true if a Player touched the Platform during the last round of collision detections */
-  bool last_player_contact; /**< true if a Player touched the Platform during the round before the last round of collision detections */
+  /** true if Platform will automatically pick a destination based on
+      collisions and current Player position */
+  bool automatic;
 
+  /** true if a Player touched the Platform during the last round of
+      collision detections */
+  bool player_contact;
+
+  /** true if a Player touched the Platform during the round before
+      the last round of collision detections */
+  bool last_player_contact;
 };
 
 #endif
