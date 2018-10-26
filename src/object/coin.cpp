@@ -38,23 +38,6 @@ Coin::Coin(const Vector& pos)
   SoundManager::current()->preload("sounds/coin.wav");
 }
 
-Coin::Coin(const Vector& pos, TileMap* tilemap)
-  : MovingSprite(pos, "images/objects/coin/coin.sprite", LAYER_OBJECTS - 1, COLGROUP_TOUCHABLE),
-    PathObject(*tilemap),
-    offset(),
-    from_tilemap(true),
-    add_path(false),
-    physic(),
-    collect_script()
-{
-  if(m_walker.get()) {
-    Vector v = m_path->get_base();
-    offset = pos - v;
-  }
-
-  SoundManager::current()->preload("sounds/coin.wav");
-}
-
 Coin::Coin(const ReaderMapping& reader)
   : MovingSprite(reader, "images/objects/coin/coin.sprite", LAYER_OBJECTS - 1, COLGROUP_TOUCHABLE),
     PathObject(),
