@@ -33,12 +33,6 @@ public:
   {
   }
 
-  PathObject(const PathObject& other) :
-    m_path(other.m_path),
-    m_walker(other.m_walker)
-  {
-  }
-
   virtual ~PathObject()
   {
   }
@@ -54,8 +48,12 @@ public:
   }
 
 protected:
-  std::shared_ptr<Path> m_path;
-  std::shared_ptr<PathWalker> m_walker;
+  std::unique_ptr<Path> m_path;
+  std::unique_ptr<PathWalker> m_walker;
+
+private:
+  PathObject(const PathObject&) = delete;
+  PathObject& operator=(const PathObject&) = delete;
 };
 
 #endif
