@@ -107,13 +107,13 @@ TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
     m_speed_y = 1;
   }
 
-  boost::optional<ReaderMapping> path_mapping;
-  if (reader.get("path", path_mapping)) {
-    reader.get("running", m_running, false);
-    m_path.reset(new Path());
-    m_path->read(*path_mapping);
-    m_walker.reset(new PathWalker(m_path.get(), m_running));
-    Vector v = m_path->get_base();
+  reader.get("running", m_running, false);
+
+  init_path(reader);
+
+  if (get_path())
+  {
+    Vector v = get_path()->get_base();
     set_offset(v);
   }
 
@@ -261,8 +261,7 @@ TileMap::after_editor_set()
     }
   } else {
     if (m_add_path) {
-      m_path.reset(new Path(m_offset));
-      m_walker.reset(new PathWalker(get_path(), m_running));
+      init_path_pos(m_offset, m_running);
     }
   }
 }
@@ -596,8 +595,7 @@ void
 TileMap::move_by(const Vector& shift)
 {
   if (!get_path()) {
-    m_path.reset(new Path(m_offset));
-    m_walker.reset(new PathWalker(get_path()));
+    init_path_pos(m_offset);
     m_add_path = true;
   }
   get_path()->move_by(shift);

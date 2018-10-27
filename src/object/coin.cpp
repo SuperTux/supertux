@@ -47,12 +47,11 @@ Coin::Coin(const ReaderMapping& reader) :
   m_physic(),
   m_collect_script()
 {
-  boost::optional<ReaderMapping> path_mapping;
-  if (reader.get("path", path_mapping)) {
-    m_path.reset(new Path());
-    m_path->read(*path_mapping);
-    m_walker.reset(new PathWalker(m_path.get()));
-    Vector v = m_path->get_base();
+  init_path(reader);
+
+  if (get_path())
+  {
+    Vector v = get_path()->get_base();
     set_pos(v);
   }
 
@@ -268,8 +267,7 @@ Coin::after_editor_set()
     }
   } else {
     if (m_add_path) {
-      m_path.reset(new Path(m_bbox.p1));
-      m_walker.reset(new PathWalker(m_path.get()));
+      init_path_pos(m_bbox.p1);
     }
   }
 }

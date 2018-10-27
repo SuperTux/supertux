@@ -37,6 +37,12 @@ public:
   {
   }
 
+  /** For compatibilty reasons this needs to get the GameObjects
+      main mapping, not the (path ...) mapping */
+  void init_path(const ReaderMapping& mapping);
+  void init_path_pos(const Vector& pos, bool running = false);
+  void init_path_empty();
+
   /** Returns this object's path */
   Path* get_path() const {
     return m_path.get();
@@ -47,7 +53,7 @@ public:
     return m_walker.get();
   }
 
-protected:
+private:
   std::unique_ptr<Path> m_path;
   std::unique_ptr<PathWalker> m_walker;
 

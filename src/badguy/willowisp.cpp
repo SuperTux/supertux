@@ -56,11 +56,10 @@ WillOWisp::WillOWisp(const ReaderMapping& reader) :
   bool running;
   if ( !reader.get("running", running)) running = false;
 
-  boost::optional<ReaderMapping> path_mapping;
-  if (reader.get("path", path_mapping)) {
-    m_path.reset(new Path());
-    m_path->read(*path_mapping);
-    m_walker.reset(new PathWalker(m_path.get(), running));
+  init_path(reader);
+
+  if (get_path())
+  {
     if (running)
       m_mystate = STATE_PATHMOVING_TRACK;
   }

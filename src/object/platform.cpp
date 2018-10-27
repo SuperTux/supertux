@@ -46,15 +46,13 @@ Platform::Platform(const ReaderMapping& reader, const std::string& default_sprit
   if (!reader.get("path", path_mapping))
   {
     // If no path is given, make a one-node dummy path
-    m_path.reset(new Path(m_bbox.p1));
-    m_walker.reset(new PathWalker(m_path.get(), running));
+    init_path_pos(m_bbox.p1, running);
   }
   else
   {
-    m_path.reset(new Path);
-    m_path->read(*path_mapping);
-    m_walker.reset(new PathWalker(m_path.get(), running));
-    m_bbox.set_pos(m_path->get_base());
+    init_path(reader);
+    if (get_path())
+      m_bbox.set_pos(get_path()->get_base());
   }
 }
 

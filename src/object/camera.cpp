@@ -160,8 +160,7 @@ Camera::after_editor_set()
     }
   } else {
     if (m_defaultmode == AUTOSCROLL) {
-      m_path.reset(new Path(Vector(0,0)));
-      m_walker.reset(new PathWalker(m_path.get()));
+      init_path_pos(Vector(0,0));
     }
   }
 }
@@ -218,9 +217,7 @@ Camera::parse(const ReaderMapping& reader)
       log_warning << "No path specified in autoscroll camera." << std::endl;
       m_mode = NORMAL;
     } else {
-      m_path.reset(new Path());
-      m_path->read(*path_mapping);
-      m_walker.reset(new PathWalker(m_path.get()));
+      init_path_empty();
     }
   } else if(modename == "manual") {
     m_mode = MANUAL;
