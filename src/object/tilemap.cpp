@@ -203,8 +203,8 @@ TileMap::save(Writer& writer) {
     writer.write("alpha", m_alpha);
   }
   writer.write("tint", m_tint.toVector());
-  if(m_path) {
-    m_path->save(writer);
+  if(get_path()) {
+    get_path()->save(writer);
   }
   writer.write("tiles", m_tiles);
 }
@@ -232,11 +232,11 @@ TileMap::get_settings() {
   draw_target_option.select.push_back(_("lightmap"));
   result.options.push_back(draw_target_option);
 
-  m_add_path = m_walker.get() && m_path->is_valid();
+  m_add_path = get_walker() && get_path()->is_valid();
   result.options.push_back( ObjectOption(MN_TOGGLE, _("Following path"), &m_add_path));
 
-  if (m_walker.get() && m_path->is_valid()) {
-    result.options.push_back( Path::get_mode_option(&m_path->m_mode) );
+  if (get_walker() && get_path()->is_valid()) {
+    result.options.push_back( Path::get_mode_option(&get_path()->m_mode) );
     result.options.push_back(ObjectOption(MN_TOGGLE, _("Running"), &m_running, "running"));
   }
 
@@ -255,14 +255,14 @@ TileMap::after_editor_set()
     resize(m_new_size_x, m_new_size_y, 0, m_new_offset_x, m_new_offset_y);
   }
 
-  if (m_walker.get() && m_path->is_valid()) {
+  if (get_walker() && get_path()->is_valid()) {
     if (!m_add_path) {
-      m_path->m_nodes.clear();
+      get_path()->m_nodes.clear();
     }
   } else {
     if (m_add_path) {
       m_path.reset(new Path(m_offset));
-      m_walker.reset(new PathWalker(m_path.get(), m_running));
+      m_walker.reset(new PathWalker(get_path(), m_running));
     }
   }
 }
@@ -298,9 +298,9 @@ TileMap::update(float elapsed_time)
 
   m_movement = Vector(0,0);
   // if we have a path to follow, follow it
-  if (m_walker.get()) {
-    Vector v = m_walker->advance(elapsed_time);
-    if (m_path->is_valid()) {
+  if (get_walker()) {
+    Vector v = get_walker()->advance(elapsed_time);
+    if (get_path()->is_valid()) {
       m_movement = v - get_offset();
       set_offset(v);
     } else {
@@ -388,22 +388,22 @@ TileMap::draw(DrawingContext& context)
 void
 TileMap::goto_node(int node_no)
 {
-  if (!m_walker.get()) return;
-  m_walker->goto_node(node_no);
+  if (!get_walker()) return;
+  get_walker()->goto_node(node_no);
 }
 
 void
 TileMap::start_moving()
 {
-  if (!m_walker.get()) return;
-  m_walker->start_moving();
+  if (!get_walker()) return;
+  get_walker()->start_moving();
 }
 
 void
 TileMap::stop_moving()
 {
-  if (!m_walker.get()) return;
-  m_walker->stop_moving();
+  if (!get_walker()) return;
+  get_walker()->stop_moving();
 }
 
 void
@@ -595,12 +595,12 @@ TileMap::get_alpha() const
 void
 TileMap::move_by(const Vector& shift)
 {
-  if (!m_path) {
+  if (!get_path()) {
     m_path.reset(new Path(m_offset));
-    m_walker.reset(new PathWalker(m_path.get()));
+    m_walker.reset(new PathWalker(get_path()));
     m_add_path = true;
   }
-  m_path->move_by(shift);
+  get_path()->move_by(shift);
   m_offset += shift;
 }
 

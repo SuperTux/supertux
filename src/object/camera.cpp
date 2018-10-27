@@ -118,9 +118,10 @@ public:
 };
 
 void
-Camera::save(Writer& writer){
+Camera::save(Writer& writer)
+{
   GameObject::save(writer);
-  if (m_defaultmode == AUTOSCROLL && !m_path->is_valid()) {
+  if (m_defaultmode == AUTOSCROLL && !get_path()->is_valid()) {
     m_defaultmode = NORMAL;
   }
   switch (m_defaultmode) {
@@ -128,13 +129,14 @@ Camera::save(Writer& writer){
     case MANUAL: writer.write("mode", "manual", false); break;
     case AUTOSCROLL:
       writer.write("mode", "autoscroll", false);
-      m_path->save(writer);
+      get_path()->save(writer);
     case SCROLLTO: break;
   }
 }
 
 ObjectSettings
-Camera::get_settings() {
+Camera::get_settings()
+{
   ObjectSettings result = GameObject::get_settings();
 
   ObjectOption moo(MN_STRINGSELECT, _("Mode"), &m_defaultmode);
@@ -142,18 +144,19 @@ Camera::get_settings() {
   moo.select.push_back(_("manual"));
   result.options.push_back(moo);
 
-  if (m_walker.get() && m_path->is_valid()) {
-    result.options.push_back( Path::get_mode_option(&m_path->m_mode) );
+  if (get_walker() && get_path()->is_valid()) {
+    result.options.push_back( Path::get_mode_option(&get_path()->m_mode) );
   }
 
   return result;
 }
 
 void
-Camera::after_editor_set() {
-  if (m_walker.get() && m_path->is_valid()) {
+Camera::after_editor_set()
+{
+  if (get_walker() && get_path()->is_valid()) {
     if (m_defaultmode != AUTOSCROLL) {
-      m_path->m_nodes.clear();
+      get_path()->m_nodes.clear();
     }
   } else {
     if (m_defaultmode == AUTOSCROLL) {
@@ -639,7 +642,7 @@ Camera::update_scroll_autoscroll(float elapsed_time)
   if(player->is_dying())
     return;
 
-  m_translation = m_walker->advance(elapsed_time);
+  m_translation = get_walker()->advance(elapsed_time);
 
   keep_in_bounds(m_translation);
 }

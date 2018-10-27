@@ -65,8 +65,8 @@ void
 Coin::save(Writer& writer)
 {
   MovingSprite::save(writer);
-  if (m_path) {
-    m_path->save(writer);
+  if (get_path()) {
+    get_path()->save(writer);
   }
 }
 
@@ -74,9 +74,9 @@ void
 Coin::update(float elapsed_time)
 {
   // if we have a path to follow, follow it
-  if (m_walker.get()) {
-    Vector v = m_from_tilemap ? m_offset + m_walker->get_pos() : m_walker->advance(elapsed_time);
-    if (m_path->is_valid()) {
+  if (get_walker()) {
+    Vector v = m_from_tilemap ? m_offset + get_walker()->get_pos() : get_walker()->advance(elapsed_time);
+    if (get_path()->is_valid()) {
       if (Editor::is_active()) {
         set_pos(v);
       } else {
@@ -233,8 +233,8 @@ void
 Coin::move_to(const Vector& pos)
 {
   Vector shift = pos - m_bbox.p1;
-  if (m_path) {
-    m_path->move_by(shift);
+  if (get_path()) {
+    get_path()->move_by(shift);
   }
   set_pos(pos);
 }
@@ -244,11 +244,11 @@ Coin::get_settings()
 {
   ObjectSettings result = MovingSprite::get_settings();
 
-  m_add_path = m_walker.get() && m_path->is_valid();
+  m_add_path = get_walker() && get_path()->is_valid();
   result.options.push_back( ObjectOption(MN_TOGGLE, _("Following path"), &m_add_path));
 
-  if (m_walker.get() && m_path->is_valid()) {
-    result.options.push_back( Path::get_mode_option(&m_path->m_mode) );
+  if (get_walker() && get_path()->is_valid()) {
+    result.options.push_back( Path::get_mode_option(&get_path()->m_mode) );
   }
 
   result.options.push_back( ObjectOption(MN_SCRIPT, _("Collect script"),
@@ -262,9 +262,9 @@ Coin::after_editor_set()
 {
   MovingSprite::after_editor_set();
 
-  if (m_walker.get() && m_path->is_valid()) {
+  if (get_walker() && get_path()->is_valid()) {
     if (!m_add_path) {
-      m_path->m_nodes.clear();
+      get_path()->m_nodes.clear();
     }
   } else {
     if (m_add_path) {

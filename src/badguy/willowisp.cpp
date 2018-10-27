@@ -85,8 +85,8 @@ WillOWisp::save(Writer& writer)
 void
 WillOWisp::active_update(float elapsed_time)
 {
-  if (Editor::is_active() && m_path.get() && m_path->is_valid()) {
-      set_pos(m_walker->advance(elapsed_time));
+  if (Editor::is_active() && get_path() && get_path()->is_valid()) {
+      set_pos(get_walker()->advance(elapsed_time));
       return;
   }
 
@@ -136,9 +136,9 @@ WillOWisp::active_update(float elapsed_time)
 
     case STATE_PATHMOVING:
     case STATE_PATHMOVING_TRACK:
-      if (m_walker.get() == nullptr)
+      if (get_walker() == nullptr)
         return;
-      m_movement = m_walker->advance(elapsed_time) - get_pos();
+      m_movement = get_walker()->advance(elapsed_time) - get_pos();
       if (m_mystate == STATE_PATHMOVING_TRACK && dist.norm() <= m_track_range) {
         m_mystate = STATE_TRACKING;
       }
@@ -229,7 +229,7 @@ WillOWisp::collision_player(Player& player, const CollisionHit& ) {
 void
 WillOWisp::goto_node(int node_no)
 {
-  m_walker->goto_node(node_no);
+  get_walker()->goto_node(node_no);
   if (m_mystate != STATE_PATHMOVING && m_mystate != STATE_PATHMOVING_TRACK) {
     m_mystate = STATE_PATHMOVING;
   }
@@ -238,13 +238,13 @@ WillOWisp::goto_node(int node_no)
 void
 WillOWisp::start_moving()
 {
-  m_walker->start_moving();
+  get_walker()->start_moving();
 }
 
 void
 WillOWisp::stop_moving()
 {
-  m_walker->stop_moving();
+  get_walker()->stop_moving();
 }
 
 void
@@ -256,10 +256,10 @@ WillOWisp::set_state(const std::string& new_state)
     m_mystate = STATE_IDLE;
   } else if (new_state == "move_path") {
     m_mystate = STATE_PATHMOVING;
-    m_walker->start_moving();
+    get_walker()->start_moving();
   } else if (new_state == "move_path_track") {
     m_mystate = STATE_PATHMOVING_TRACK;
-    m_walker->start_moving();
+    get_walker()->start_moving();
   } else if (new_state == "normal") {
     m_mystate = STATE_IDLE;
   } else if (new_state == "vanish") {
@@ -301,8 +301,8 @@ void
 WillOWisp::move_to(const Vector& pos)
 {
   Vector shift = pos - m_bbox.p1;
-  if (m_path) {
-    m_path->move_by(shift);
+  if (get_path()) {
+    get_path()->move_by(shift);
   }
   set_pos(pos);
 }
