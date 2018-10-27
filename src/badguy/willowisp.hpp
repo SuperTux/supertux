@@ -75,16 +75,16 @@ private:
   };
 
 private:
-  MyState mystate;
+  MyState m_mystate;
 
-  std::string target_sector;
-  std::string target_spawnpoint;
-  std::string hit_script;
+  std::string m_target_sector;
+  std::string m_target_spawnpoint;
+  std::string m_hit_script;
 
-  std::unique_ptr<SoundSource> sound_source;
-  float flyspeed;
-  float track_range;
-  float vanish_range;
+  std::unique_ptr<SoundSource> m_sound_source;
+  float m_flyspeed;
+  float m_track_range;
+  float m_vanish_range;
 };
 
 #endif

@@ -41,7 +41,7 @@ public:
 
   const Vector& get_speed() const
   {
-    return speed;
+    return m_speed;
   }
 
   /**
@@ -72,19 +72,19 @@ public:
   }
 
 private:
-  Vector speed;
+  Vector m_speed;
 
   /** true if Platform will automatically pick a destination based on
       collisions and current Player position */
-  bool automatic;
+  bool m_automatic;
 
   /** true if a Player touched the Platform during the last round of
       collision detections */
-  bool player_contact;
+  bool m_player_contact;
 
   /** true if a Player touched the Platform during the round before
       the last round of collision detections */
-  bool last_player_contact;
+  bool m_last_player_contact;
 };
 
 #endif

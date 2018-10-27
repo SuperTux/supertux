@@ -53,11 +53,11 @@ public:
   virtual void move_to(const Vector& pos) override;
 
 private:
-  Vector offset;
-  bool from_tilemap;
-  bool add_path;
-  Physic physic;
-  std::string collect_script;
+  Vector m_offset;
+  bool m_from_tilemap;
+  bool m_add_path;
+  Physic m_physic;
+  std::string m_collect_script;
 };
 
 class HeavyCoin final : public Coin
@@ -80,7 +80,7 @@ public:
   virtual void after_editor_set() override;
 
 private:
-  Physic physic;
+  Physic m_physic;
 };
 
 #endif

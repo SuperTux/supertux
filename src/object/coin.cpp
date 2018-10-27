@@ -26,26 +26,26 @@
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 
-Coin::Coin(const Vector& pos)
-  : MovingSprite(pos, "images/objects/coin/coin.sprite", LAYER_OBJECTS - 1, COLGROUP_TOUCHABLE),
-    PathObject(),
-    offset(),
-    from_tilemap(false),
-    add_path(false),
-    physic(),
-    collect_script()
+Coin::Coin(const Vector& pos) :
+  MovingSprite(pos, "images/objects/coin/coin.sprite", LAYER_OBJECTS - 1, COLGROUP_TOUCHABLE),
+  PathObject(),
+  m_offset(),
+  m_from_tilemap(false),
+  m_add_path(false),
+  m_physic(),
+  m_collect_script()
 {
   SoundManager::current()->preload("sounds/coin.wav");
 }
 
-Coin::Coin(const ReaderMapping& reader)
-  : MovingSprite(reader, "images/objects/coin/coin.sprite", LAYER_OBJECTS - 1, COLGROUP_TOUCHABLE),
-    PathObject(),
-    offset(),
-    from_tilemap(false),
-    add_path(false),
-    physic(),
-    collect_script()
+Coin::Coin(const ReaderMapping& reader) :
+  MovingSprite(reader, "images/objects/coin/coin.sprite", LAYER_OBJECTS - 1, COLGROUP_TOUCHABLE),
+  PathObject(),
+  m_offset(),
+  m_from_tilemap(false),
+  m_add_path(false),
+  m_physic(),
+  m_collect_script()
 {
   boost::optional<ReaderMapping> path_mapping;
   if (reader.get("path", path_mapping)) {
@@ -56,13 +56,14 @@ Coin::Coin(const ReaderMapping& reader)
     set_pos(v);
   }
 
-  reader.get("collect-script", collect_script, "");
+  reader.get("collect-script", m_collect_script, "");
 
   SoundManager::current()->preload("sounds/coin.wav");
 }
 
 void
-Coin::save(Writer& writer) {
+Coin::save(Writer& writer)
+{
   MovingSprite::save(writer);
   if (m_path) {
     m_path->save(writer);
@@ -74,7 +75,7 @@ Coin::update(float elapsed_time)
 {
   // if we have a path to follow, follow it
   if (m_walker.get()) {
-    Vector v = from_tilemap ? offset + m_walker->get_pos() : m_walker->advance(elapsed_time);
+    Vector v = m_from_tilemap ? m_offset + m_walker->get_pos() : m_walker->advance(elapsed_time);
     if (m_path->is_valid()) {
       if (Editor::is_active()) {
         set_pos(v);
@@ -158,8 +159,8 @@ Coin::collect()
   Sector::get().get_level().m_stats.m_coins++;
   remove_me();
 
-  if(!collect_script.empty()) {
-    Sector::get().run_script(collect_script, "collect-script");
+  if (!m_collect_script.empty()) {
+    Sector::get().run_script(m_collect_script, "collect-script");
   }
 }
 
@@ -167,7 +168,7 @@ HitResponse
 Coin::collision(GameObject& other, const CollisionHit& )
 {
   auto player = dynamic_cast<Player*>(&other);
-  if(player == nullptr)
+  if (player == nullptr)
     return ABORT_MOVE;
 
   collect();
@@ -175,21 +176,21 @@ Coin::collision(GameObject& other, const CollisionHit& )
 }
 
 /* The following defines a coin subject to gravity */
-HeavyCoin::HeavyCoin(const Vector& pos, const Vector& init_velocity)
-  : Coin(pos),
-  physic()
+HeavyCoin::HeavyCoin(const Vector& pos, const Vector& init_velocity) :
+  Coin(pos),
+  m_physic()
 {
-  physic.enable_gravity(true);
+  m_physic.enable_gravity(true);
   SoundManager::current()->preload("sounds/coin2.ogg");
   set_group(COLGROUP_MOVING);
-  physic.set_velocity(init_velocity);
+  m_physic.set_velocity(init_velocity);
 }
 
-HeavyCoin::HeavyCoin(const ReaderMapping& reader)
-  : Coin(reader),
-  physic()
+HeavyCoin::HeavyCoin(const ReaderMapping& reader) :
+  Coin(reader),
+  m_physic()
 {
-  physic.enable_gravity(true);
+  m_physic.enable_gravity(true);
   SoundManager::current()->preload("sounds/coin2.ogg");
   set_group(COLGROUP_MOVING);
 }
@@ -198,7 +199,7 @@ void
 HeavyCoin::update(float elapsed_time)
 {
   // enable physics
-  m_movement = physic.get_movement(elapsed_time);
+  m_movement = m_physic.get_movement(elapsed_time);
 }
 
 void
@@ -206,25 +207,25 @@ HeavyCoin::collision_solid(const CollisionHit& hit)
 {
   float clink_threshold = 100.0f; // sets the minimum speed needed to result in collision noise
   //TODO: colliding HeavyCoins should have their own unique sound
-  if(hit.bottom) {
-    if(physic.get_velocity_y() > clink_threshold)
+  if (hit.bottom) {
+    if (m_physic.get_velocity_y() > clink_threshold)
       SoundManager::current()->play("sounds/coin2.ogg");
-    if(physic.get_velocity_y() > 200) {// lets some coins bounce
-      physic.set_velocity_y(-99);
+    if (m_physic.get_velocity_y() > 200) {// lets some coins bounce
+      m_physic.set_velocity_y(-99);
     } else {
-      physic.set_velocity_y(0);
-      physic.set_velocity_x(0);
+      m_physic.set_velocity_y(0);
+      m_physic.set_velocity_x(0);
     }
   }
-  if(hit.right || hit.left) {
-    if(physic.get_velocity_x() > clink_threshold || physic.get_velocity_x() < clink_threshold)
+  if (hit.right || hit.left) {
+    if (m_physic.get_velocity_x() > clink_threshold || m_physic.get_velocity_x() < clink_threshold)
       SoundManager::current()->play("sounds/coin2.ogg");
-    physic.set_velocity_x(-physic.get_velocity_x());
+    m_physic.set_velocity_x(-m_physic.get_velocity_x());
   }
-  if(hit.top) {
-    if(physic.get_velocity_y() < clink_threshold)
+  if (hit.top) {
+    if (m_physic.get_velocity_y() < clink_threshold)
       SoundManager::current()->play("sounds/coin2.ogg");
-    physic.set_velocity_y(-physic.get_velocity_y());
+    m_physic.set_velocity_y(-m_physic.get_velocity_y());
   }
 }
 
@@ -243,15 +244,15 @@ Coin::get_settings()
 {
   ObjectSettings result = MovingSprite::get_settings();
 
-  add_path = m_walker.get() && m_path->is_valid();
-  result.options.push_back( ObjectOption(MN_TOGGLE, _("Following path"), &add_path));
+  m_add_path = m_walker.get() && m_path->is_valid();
+  result.options.push_back( ObjectOption(MN_TOGGLE, _("Following path"), &m_add_path));
 
   if (m_walker.get() && m_path->is_valid()) {
     result.options.push_back( Path::get_mode_option(&m_path->m_mode) );
   }
 
   result.options.push_back( ObjectOption(MN_SCRIPT, _("Collect script"),
-                                         &collect_script, "collect-script"));
+                                         &m_collect_script, "collect-script"));
 
   return result;
 }
@@ -262,11 +263,11 @@ Coin::after_editor_set()
   MovingSprite::after_editor_set();
 
   if (m_walker.get() && m_path->is_valid()) {
-    if (!add_path) {
+    if (!m_add_path) {
       m_path->m_nodes.clear();
     }
   } else {
-    if (add_path) {
+    if (m_add_path) {
       m_path.reset(new Path(m_bbox.p1));
       m_walker.reset(new PathWalker(m_path.get()));
     }
@@ -278,7 +279,7 @@ HeavyCoin::get_settings()
 {
   auto result = MovingSprite::get_settings();
   result.options.push_back( ObjectOption(MN_SCRIPT, _("Collect script"),
-                                         &collect_script, "collect-script"));
+                                         &m_collect_script, "collect-script"));
   return result;
 }
 

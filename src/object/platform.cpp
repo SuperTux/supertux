@@ -31,15 +31,15 @@ Platform::Platform(const ReaderMapping& reader, const std::string& default_sprit
   MovingSprite(reader, default_sprite, LAYER_OBJECTS, COLGROUP_STATIC),
   ExposedObject<Platform, scripting::Platform>(this),
   PathObject(),
-  speed(Vector(0,0)),
-  automatic(false),
-  player_contact(false),
-  last_player_contact(false)
+  m_speed(Vector(0,0)),
+  m_automatic(false),
+  m_player_contact(false),
+  m_last_player_contact(false)
 {
   bool running = true;
   reader.get("running", running);
   if ((m_name.empty()) && (!running)) {
-    automatic = true;
+    m_automatic = true;
   }
 
   boost::optional<ReaderMapping> path_mapping;
@@ -78,7 +78,7 @@ Platform::get_settings()
 HitResponse
 Platform::collision(GameObject& other, const CollisionHit& )
 {
-  if (dynamic_cast<Player*>(&other)) player_contact = true;
+  if (dynamic_cast<Player*>(&other)) m_player_contact = true;
   return FORCE_MOVE;
 }
 
@@ -91,9 +91,9 @@ Platform::update(float elapsed_time)
   }
 
   // check if Platform should automatically pick a destination
-  if (automatic) {
+  if (m_automatic) {
 
-    if (!player_contact && !m_walker->is_moving()) {
+    if (!m_player_contact && !m_walker->is_moving()) {
       // Player doesn't touch platform and Platform is not moving
 
       // Travel to node nearest to nearest player
@@ -106,7 +106,7 @@ Platform::update(float elapsed_time)
       }
     }
 
-    if (player_contact && !last_player_contact && !m_walker->is_moving()) {
+    if (m_player_contact && !m_last_player_contact && !m_walker->is_moving()) {
       // Player touched platform, didn't touch last frame and Platform is not moving
 
       // Travel to node farthest from current position
@@ -117,8 +117,8 @@ Platform::update(float elapsed_time)
     }
 
     // Clear player_contact flag set by collision() method
-    last_player_contact = player_contact;
-    player_contact = false;
+    m_last_player_contact = m_player_contact;
+    m_player_contact = false;
   }
 
   Vector new_pos = m_walker->advance(elapsed_time);
@@ -126,7 +126,7 @@ Platform::update(float elapsed_time)
     set_pos(new_pos);
   } else {
     m_movement = new_pos - get_pos();
-    speed = m_movement / elapsed_time;
+    m_speed = m_movement / elapsed_time;
   }
 
 }
