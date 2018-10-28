@@ -21,17 +21,20 @@
 #include "object/path.hpp"
 #include "supertux/debug.hpp"
 #include "util/log.hpp"
+#include "util/unique_name.hpp"
 #include "video/color.hpp"
 #include "video/drawing_context.hpp"
 
 PathGameObject::PathGameObject() :
   m_path(new Path)
 {
+  m_name = make_unique_name("path", this);
 }
 
 PathGameObject::PathGameObject(const Vector& pos) :
   m_path(new Path(pos))
 {
+  m_name = make_unique_name("path", this);
 }
 
 PathGameObject::PathGameObject(const ReaderMapping& mapping) :
@@ -39,6 +42,10 @@ PathGameObject::PathGameObject(const ReaderMapping& mapping) :
   m_path(new Path)
 {
   m_path->read(mapping);
+  if (m_name.empty())
+  {
+    m_name = make_unique_name("path", this);
+  }
 }
 
 void
