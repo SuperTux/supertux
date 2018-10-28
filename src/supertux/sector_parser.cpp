@@ -47,7 +47,7 @@ std::unique_ptr<Sector>
 SectorParser::from_reader(Level& level, const ReaderMapping& reader)
 {
   auto sector = std::make_unique<Sector>(level);
-  auto sector_guard = d_sector.bind(*sector);
+  BIND_SECTOR(*sector);
   SectorParser parser(*sector);
   parser.parse(reader);
   return sector;
@@ -57,7 +57,7 @@ std::unique_ptr<Sector>
 SectorParser::from_reader_old_format(Level& level, const ReaderMapping& reader)
 {
   auto sector = std::make_unique<Sector>(level);
-  auto sector_guard = d_sector.bind(*sector);
+  BIND_SECTOR(*sector);
   SectorParser parser(*sector);
   parser.parse_old_format(reader);
   return sector;
@@ -67,7 +67,7 @@ std::unique_ptr<Sector>
 SectorParser::from_nothing(Level& level)
 {
   auto sector = std::make_unique<Sector>(level);
-  auto sector_guard = d_sector.bind(*sector);
+  BIND_SECTOR(*sector);
   SectorParser parser(*sector);
   parser.create_sector();
   return sector;
