@@ -12,9 +12,21 @@
       (name "main")
       (x 96)
       (y 96)
+      )
+    (platform
+      (sprite "images/objects/flying_platform/flying_platform.sprite")
+      (path-ref "path1")
+      (running #t)
+    )
+    (platform
+      (name "dummyname")
+      (sprite "images/objects/flying_platform/flying_platform.sprite")
+      (path-ref "path2")
+      (running #f)
     )
     (path
-      (mode "unordered")
+      (name "path1")
+      (mode "pingpong")
       (node
         (x 352)
         (y 192)
@@ -41,29 +53,31 @@
           )
         )
       (path
-        (mode "unordered")
+        (name "path2")
+        (mode "pingpong")
         (node
           (x 192)
-          (y 704)
+          (y 504)
           (time 3)
         )
         (node
           (x 448)
-          (y 832)
+          (y 632)
           (time 3)
         )
         (node
           (x 736)
-          (y 832)
+          (y 632)
           (time 3)
         )
         (node
           (x 960)
-          (y 704)
+          (y 504)
           (time 3)
           )
         )
-    (tilemap
+
+(tilemap
       (solid #f)
       (z-pos -100)
       (name "Background")

@@ -36,24 +36,26 @@ Platform::Platform(const ReaderMapping& reader, const std::string& default_sprit
   m_player_contact(false),
   m_last_player_contact(false)
 {
-  bool running = true;
+  bool running = false;
   reader.get("running", running);
   if ((m_name.empty()) && (!running)) {
     m_automatic = true;
   }
 
-  boost::optional<ReaderMapping> path_mapping;
-  if (!reader.get("path", path_mapping))
+  init_path(reader, false);
+}
+
+void
+Platform::finish_construction()
+{
+  log_fatal << "finish_construction: " << get_path() << std::endl;
+  if (!get_path())
   {
     // If no path is given, make a one-node dummy path
-    init_path_pos(m_bbox.p1, running);
+    init_path_pos(m_bbox.p1, false);
   }
-  else
-  {
-    init_path(reader);
-    if (get_path())
-      m_bbox.set_pos(get_path()->get_base());
-  }
+
+  m_bbox.set_pos(get_path()->get_base());
 }
 
 void

@@ -56,7 +56,7 @@ WillOWisp::WillOWisp(const ReaderMapping& reader) :
   bool running;
   if ( !reader.get("running", running)) running = false;
 
-  init_path(reader);
+  init_path(reader, running);
 
   if (get_path())
   {

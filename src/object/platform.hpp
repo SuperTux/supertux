@@ -33,6 +33,8 @@ public:
   Platform(const ReaderMapping& reader, const std::string& default_sprite);
   Platform(const Platform& platform);
 
+  virtual void finish_construction() override;
+
   virtual void save(Writer& writer) override;
   virtual ObjectSettings get_settings() override;
 

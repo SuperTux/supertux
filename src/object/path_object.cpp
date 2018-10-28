@@ -24,20 +24,38 @@
 #include "util/log.hpp"
 #include "util/reader_mapping.hpp"
 
+PathObject::PathObject() :
+  m_path_uid(),
+  m_walker()
+{
+}
+
+PathObject::~PathObject()
+{
+}
+
 void
-PathObject::init_path(const ReaderMapping& mapping)
+PathObject::init_path(const ReaderMapping& mapping, bool running_default)
 {
   if (!d_sector) return;
 
-  bool running;
-  if ( !mapping.get("running", running)) running = false;
+  bool running = running_default;
+  mapping.get("running", running);
 
+  std::string path_ref;
   boost::optional<ReaderMapping> path_mapping;
   if (mapping.get("path", path_mapping))
   {
     auto path_gameobject = d_sector->add<PathGameObject>(*path_mapping);
     m_path_uid = path_gameobject->get_uid();
     m_walker.reset(new PathWalker(m_path_uid, running));
+  }
+  else if (mapping.get("path-ref", path_ref))
+  {
+    d_sector->request_name_resolve(path_ref, [this, running](UID uid){
+        m_path_uid = uid;
+        m_walker.reset(new PathWalker(uid, running));
+      });
   }
 }
 

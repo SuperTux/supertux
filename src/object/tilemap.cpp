@@ -107,9 +107,7 @@ TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
     m_speed_y = 1;
   }
 
-  reader.get("running", m_running, false);
-
-  init_path(reader);
+  init_path(reader, false);
 
   if (get_path())
   {

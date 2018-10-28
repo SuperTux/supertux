@@ -47,7 +47,7 @@ Coin::Coin(const ReaderMapping& reader) :
   m_physic(),
   m_collect_script()
 {
-  init_path(reader);
+  init_path(reader, true);
 
   if (get_path())
   {

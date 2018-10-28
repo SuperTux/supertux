@@ -28,19 +28,12 @@
 class PathObject
 {
 public:
-  PathObject() :
-    m_path_uid(),
-    m_walker()
-  {
-  }
-
-  virtual ~PathObject()
-  {
-  }
+  PathObject();
+  virtual ~PathObject();
 
   /** For compatibilty reasons this needs to get the GameObjects
       main mapping, not the (path ...) mapping */
-  void init_path(const ReaderMapping& mapping);
+  void init_path(const ReaderMapping& mapping, bool running_default);
   void init_path_pos(const Vector& pos, bool running = false);
   void init_path_empty();
 
