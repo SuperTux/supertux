@@ -39,6 +39,7 @@ public:
 
   /** Returns this object's path */
   Path* get_path();
+  std::string get_path_ref() const;
 
   /** Returns this object's path walker */
   PathWalker* get_walker() const {

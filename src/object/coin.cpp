@@ -25,6 +25,7 @@
 #include "supertux/level.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
+#include "util/writer.hpp"
 
 Coin::Coin(const Vector& pos) :
   MovingSprite(pos, "images/objects/coin/coin.sprite", LAYER_OBJECTS - 1, COLGROUP_TOUCHABLE),
@@ -65,7 +66,7 @@ Coin::save(Writer& writer)
 {
   MovingSprite::save(writer);
   if (get_path()) {
-    get_path()->save(writer);
+    writer.write("path-ref", get_path_ref());
   }
 }
 

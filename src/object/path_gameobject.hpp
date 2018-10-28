@@ -34,6 +34,8 @@ public:
 
   Path& get_path() { return *m_path; }
 
+  virtual void save(Writer& writer) override;
+
 private:
   std::unique_ptr<Path> m_path;
 

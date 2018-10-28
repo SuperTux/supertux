@@ -63,7 +63,9 @@ Platform::save(Writer& writer)
 {
   MovingSprite::save(writer);
   writer.write("running", get_walker()->is_moving());
-  get_path()->save(writer);
+  if (get_path()) {
+    writer.write("path-ref", get_path_ref());
+  }
 }
 
 ObjectSettings

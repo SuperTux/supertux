@@ -69,7 +69,8 @@ GameObject::del_remove_listener(ObjectRemoveListener* listener)
 }
 
 void
-GameObject::save(Writer& writer) {
+GameObject::save(Writer& writer)
+{
   if(m_name != "") {
     writer.write("name", m_name, false);
   }
@@ -112,7 +113,8 @@ GameObject::save(Writer& writer) {
 }
 
 ObjectSettings
-GameObject::get_settings() {
+GameObject::get_settings()
+{
   ObjectSettings result(get_display_name());
   result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &m_name));
   return result;

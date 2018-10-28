@@ -68,4 +68,11 @@ PathGameObject::draw(DrawingContext& context)
   }
 }
 
+void
+PathGameObject::save(Writer& writer)
+{
+  GameObject::save(writer);
+  m_path->save(writer);
+}
+
 /* EOF */
