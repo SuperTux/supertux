@@ -14,8 +14,24 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "supertux/d_sector.hpp"
+#ifndef HEADER_SUPERTUX_SUPERTUX_D_SCOPE_HPP
+#define HEADER_SUPERTUX_SUPERTUX_D_SCOPE_HPP
 
-DynamicScopedRef<Sector> d_sector;
+#include "util/dynamic_scoped_ref.hpp"
+
+class Sector;
+extern DynamicScopedRef<Sector> d_sector;
+
+namespace worldmap {
+
+class WorldMap;
+extern DynamicScopedRef<WorldMap> d_worldmap;
+
+} // namespace worldmap
+
+class GameObjectManager;
+extern DynamicScopedRef<GameObjectManager> d_gameobject_manager;
+
+#endif
 
 /* EOF */
