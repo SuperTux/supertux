@@ -19,9 +19,10 @@
 #include <boost/optional.hpp>
 
 #include "object/path.hpp"
-#include "video/drawing_context.hpp"
-#include "video/color.hpp"
+#include "supertux/debug.hpp"
 #include "util/log.hpp"
+#include "video/color.hpp"
+#include "video/drawing_context.hpp"
 
 PathGameObject::PathGameObject() :
   m_path(new Path)
@@ -49,18 +50,21 @@ PathGameObject::update(float elapsed_time)
 void
 PathGameObject::draw(DrawingContext& context)
 {
-  boost::optional<Vector> previous_node = boost::none;
-  for(const auto& node : m_path->get_nodes())
+  if (g_debug.show_collision_rects)
   {
-    if (previous_node)
+    boost::optional<Vector> previous_node;
+    for(const auto& node : m_path->get_nodes())
     {
-      context.color().draw_line(*previous_node, node.position, Color::MAGENTA, LAYER_OBJECTS - 2);
+      if (previous_node)
+      {
+        context.color().draw_line(*previous_node, node.position, Color::MAGENTA, LAYER_OBJECTS - 2);
+      }
+
+      context.color().draw_filled_rect(Rectf::from_center(node.position, Sizef(16.0f, 16.0f)),
+                                       Color::BLUE, LAYER_OBJECTS - 1);
+
+      previous_node = node.position;
     }
-
-    context.color().draw_filled_rect(Rectf::from_center(node.position, Sizef(16.0f, 16.0f)),
-                                     Color::BLUE, LAYER_OBJECTS - 1);
-
-    previous_node = node.position;
   }
 }
 
