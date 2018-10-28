@@ -27,29 +27,54 @@
 void
 PathObject::init_path(const ReaderMapping& mapping)
 {
+  if (!d_sector) return;
+
   bool running;
   if ( !mapping.get("running", running)) running = false;
 
   boost::optional<ReaderMapping> path_mapping;
-  if (mapping.get("path", path_mapping)) {
-    m_path.reset(new Path);
-    m_path->read(*path_mapping);
-    m_walker.reset(new PathWalker(m_path.get(), running));
+  if (mapping.get("path", path_mapping))
+  {
+    auto path_gameobject = d_sector->add<PathGameObject>(*path_mapping);
+    m_path_uid = path_gameobject->get_uid();
+    m_walker.reset(new PathWalker(m_path_uid, running));
   }
 }
 
 void
 PathObject::init_path_pos(const Vector& pos, bool running)
 {
-  m_path.reset(new Path(pos));
-  m_walker.reset(new PathWalker(m_path.get(), running));
+  if (!d_sector) return;
+
+  auto path_gameobject = d_sector->add<PathGameObject>(pos);
+  m_path_uid = path_gameobject->get_uid();
+  m_walker.reset(new PathWalker(path_gameobject->get_uid(), running));
 }
 
 void
 PathObject::init_path_empty()
 {
-  m_path.reset(new Path);
-  m_walker.reset(new PathWalker(m_path.get()));
+  if (!d_sector) return;
+
+  auto path_gameobject = d_sector->add<PathGameObject>();
+  m_path_uid = path_gameobject->get_uid();
+  m_walker.reset(new PathWalker(m_path_uid));
+}
+
+Path*
+PathObject::get_path()
+{
+  if (!d_sector) return nullptr;
+
+  auto path_gameobject = d_sector->get_object_by_uid<PathGameObject>(m_path_uid);
+  if (!path_gameobject)
+  {
+    return nullptr;
+  }
+  else
+  {
+    return &path_gameobject->get_path();
+  }
 }
 
 /* EOF */

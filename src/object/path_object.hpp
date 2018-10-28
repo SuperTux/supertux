@@ -22,13 +22,14 @@
 
 #include "object/path.hpp"
 #include "object/path_walker.hpp"
+#include "util/uid.hpp"
 
 /** A class for all objects that contain / make use of a path. */
 class PathObject
 {
 public:
   PathObject() :
-    m_path(),
+    m_path_uid(),
     m_walker()
   {
   }
@@ -44,9 +45,7 @@ public:
   void init_path_empty();
 
   /** Returns this object's path */
-  Path* get_path() const {
-    return m_path.get();
-  }
+  Path* get_path();
 
   /** Returns this object's path walker */
   PathWalker* get_walker() const {
@@ -54,7 +53,7 @@ public:
   }
 
 private:
-  std::unique_ptr<Path> m_path;
+  UID m_path_uid;
   std::unique_ptr<PathWalker> m_walker;
 
 private:

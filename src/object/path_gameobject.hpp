@@ -20,16 +20,19 @@
 #include "supertux/game_object.hpp"
 
 class Path;
+class Vector;
 
 class PathGameObject : public GameObject
 {
 public:
+  PathGameObject();
+  PathGameObject(const Vector& pos);
   PathGameObject(const ReaderMapping& mapping);
 
   virtual void update(float elapsed_time) override;
   virtual void draw(DrawingContext& context) override;
 
-  const Path& get_path() { return *m_path; }
+  Path& get_path() { return *m_path; }
 
 private:
   std::unique_ptr<Path> m_path;

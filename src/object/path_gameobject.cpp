@@ -23,6 +23,16 @@
 #include "video/color.hpp"
 #include "util/log.hpp"
 
+PathGameObject::PathGameObject() :
+  m_path(new Path)
+{
+}
+
+PathGameObject::PathGameObject(const Vector& pos) :
+  m_path(new Path(pos))
+{
+}
+
 PathGameObject::PathGameObject(const ReaderMapping& mapping) :
   GameObject(mapping),
   m_path(new Path)

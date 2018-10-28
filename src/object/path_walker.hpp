@@ -20,6 +20,7 @@
 #include <string.h>
 
 #include "object/path.hpp"
+#include "util/uid.hpp"
 
 class ObjectOption;
 
@@ -30,7 +31,7 @@ public:
   static ObjectOption get_running_option(bool* _running);
 
 public:
-  PathWalker(const Path* path, bool running = true);
+  PathWalker(UID path_uid, bool running = true);
   virtual ~PathWalker();
 
   /** advances the path walker on the path and returns its new position */
@@ -56,9 +57,10 @@ public:
 private:
   void advance_node();
   void goback_node();
+  Path* get_path() const;
 
 public:
-  const Path* m_path;
+  UID m_path_uid;
 
   /** set to false to immediately stop advancing */
   bool m_running;
