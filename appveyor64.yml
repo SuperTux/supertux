@@ -26,6 +26,7 @@ before_build:
     vcpkg install boost-optional:x64-windows
     vcpkg install boost-system:x64-windows
     vcpkg install curl:x64-windows
+    vcpkg install freetype:x64-windows
     vcpkg install glew:x64-windows
     vcpkg install libogg:x64-windows
     vcpkg install libvorbis:x64-windows
