@@ -18,6 +18,7 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_GAME_OBJECT_MANAGER_HPP
 #define HEADER_SUPERTUX_SUPERTUX_GAME_OBJECT_MANAGER_HPP
 
+#include <functional>
 #include <unordered_map>
 #include <vector>
 
@@ -33,6 +34,13 @@ class GameObjectManager
 {
 public:
   static bool s_draw_solids_only;
+
+private:
+  struct NameResolveRequest
+  {
+    std::string name;
+    std::function<void (UID)> callback;
+  };
 
 public:
   GameObjectManager();
@@ -110,6 +118,10 @@ public:
     }
   }
 
+  /** Register a callback to be called once the given name can be
+      resolsed to a UID */
+  void request_name_resolve(const std::string& name, std::function<void (UID)> callback);
+
   template<class T>
   T* get_object_by_name(const std::string& name) const
   {
@@ -140,6 +152,9 @@ public:
 
   const std::vector<TileMap*>& get_solid_tilemaps() const { return m_solid_tilemaps; }
 
+protected:
+  void process_resolve_requests();
+
 private:
   void this_before_object_add(GameObject& object);
   void this_before_object_remove(GameObject& object);
@@ -157,6 +172,8 @@ private:
 
   std::unordered_map<std::string, GameObject*> m_objects_by_name;
   std::unordered_map<UID, GameObject*> m_objects_by_uid;
+
+  std::vector<NameResolveRequest> m_name_resolve_requests;
 
 private:
   GameObjectManager(const GameObjectManager&) = delete;

@@ -30,7 +30,8 @@ GameObjectManager::GameObjectManager() :
   m_gameobjects_new(),
   m_solid_tilemaps(),
   m_objects_by_name(),
-  m_objects_by_uid()
+  m_objects_by_uid(),
+  m_name_resolve_requests()
 {
 }
 
@@ -39,6 +40,30 @@ GameObjectManager::~GameObjectManager()
   // clear_objects() must be called before destructing the GameObjectManager
   assert(m_gameobjects.size() == 0);
   assert(m_gameobjects_new.size() == 0);
+}
+
+void
+GameObjectManager::request_name_resolve(const std::string& name, std::function<void (UID)> callback)
+{
+  m_name_resolve_requests.push_back({name, callback});
+}
+
+void
+GameObjectManager::process_resolve_requests()
+{
+  for(const auto& request : m_name_resolve_requests)
+  {
+    GameObject* object = get_object_by_name<GameObject>(request.name);
+    if (!object)
+    {
+      request.callback({});
+    }
+    else
+    {
+      request.callback(object->get_uid());
+    }
+  }
+  m_name_resolve_requests.clear();
 }
 
 const std::vector<std::unique_ptr<GameObject> >&

@@ -137,6 +137,8 @@ Sector::finish_construction()
 
   m_foremost_layer = calculate_foremost_layer();
 
+  process_resolve_requests();
+
   for(auto& object : get_objects()) {
     object->finish_construction();
   }
