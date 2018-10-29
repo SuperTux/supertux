@@ -19,18 +19,43 @@
 
 #include "object/moving_sprite.hpp"
 
+class BicyclePlatform;
+
+class BicyclePlatformChild : public MovingSprite
+{
+  friend class BicyclePlatform;
+
+public:
+  BicyclePlatformChild(const ReaderMapping& reader, float angle_offset, BicyclePlatform& parent);
+
+  virtual void update(float dt_sec) override;
+  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+
+private:
+  BicyclePlatform& m_parent;
+  float m_angle_offset;
+  float m_momentum; /** angular momentum in rad per second per second*/
+  std::set<GameObject*> m_contacts; /**< objects that are currently pushing on the platform */
+
+private:
+  BicyclePlatformChild(const BicyclePlatformChild&) = delete;
+  BicyclePlatformChild& operator=(const BicyclePlatformChild&) = delete;
+};
+
 /**
  * Used to construct a pair of bicycle platforms: If one is pushed down, the other one rises
  */
-class BicyclePlatform final : public MovingSprite
+class BicyclePlatform final : public GameObject
 {
+  friend class BicyclePlatformChild;
+
 public:
   BicyclePlatform(const ReaderMapping& reader);
-  BicyclePlatform(BicyclePlatform* master);
   virtual ~BicyclePlatform();
 
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual void draw(DrawingContext& context) override;
   virtual void update(float dt_sec) override;
+
   virtual std::string get_class() const override {
     return "bicycle-platform";
   }
@@ -38,25 +63,20 @@ public:
     return _("Bicycle platform");
   }
 
-  virtual bool is_saveable() const override {
-    return this == master;
-  }
-
-  virtual void move_to(const Vector& pos) override;
   virtual ObjectSettings get_settings() override;
   virtual void editor_delete() override;
   virtual void after_editor_set() override;
 
-protected:
-  BicyclePlatform* master; /**< pointer to BicyclePlatform that does movement calculation */
-  BicyclePlatform* slave; /**< pointer to BicyclePlatform that reacts to master platform's movement calculation */
-  Vector center; /**< pivot point */
-  float radius; /**< radius of circle */
-  float angle; /**< current angle */
-  float angular_speed; /**< angular speed in rad per second */
-  std::set<GameObject*> contacts; /**< objects that are currently pushing on the platform */
-  float momentum; /** angular momentum in rad per second per second*/
-  float momentum_change_rate; /** Change in momentum every step **/
+private:
+  Vector m_center; /**< pivot point */
+  float m_radius; /**< radius of circle */
+
+  float m_angle; /**< current angle */
+  float m_angular_speed; /**< angular speed in rad per second */
+
+  float m_momentum_change_rate; /** Change in momentum every step **/
+
+  std::vector<BicyclePlatformChild*> m_children;
 
 private:
   BicyclePlatform(const BicyclePlatform&);
