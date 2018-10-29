@@ -46,7 +46,7 @@ class SkyDive final : public BadGuy, public Portable
     virtual HitResponse collision_player(Player& player, const CollisionHit& hit) override;
     virtual bool collision_squished (GameObject& obj) override;
 
-    virtual void active_update (float elapsed_time) override;
+    virtual void active_update (float dt_sec) override;
 
     void explode();
 };

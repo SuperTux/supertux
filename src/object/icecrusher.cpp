@@ -180,16 +180,16 @@ IceCrusher::collision_solid(const CollisionHit& hit)
 }
 
 void
-IceCrusher::update(float elapsed_time)
+IceCrusher::update(float dt_sec)
 {
-  if (cooldown_timer >= elapsed_time)
+  if (cooldown_timer >= dt_sec)
   {
-    cooldown_timer -= elapsed_time;
+    cooldown_timer -= dt_sec;
     return;
   }
   else if (cooldown_timer != 0.0)
   {
-    elapsed_time -= cooldown_timer;
+    dt_sec -= cooldown_timer;
     cooldown_timer = 0.0;
   }
 
@@ -200,7 +200,7 @@ IceCrusher::update(float elapsed_time)
         set_state(CRUSHING);
       break;
     case CRUSHING:
-      m_movement = physic.get_movement (elapsed_time);
+      m_movement = physic.get_movement (dt_sec);
       if (m_movement.y > MAX_DROP_SPEED)
         m_movement.y = MAX_DROP_SPEED;
       break;

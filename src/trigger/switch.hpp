@@ -35,7 +35,7 @@ public:
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
 
-  virtual void update(float elapsed_time) override;
+  virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
   virtual void event(Player& player, EventType type) override;
 

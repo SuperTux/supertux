@@ -34,7 +34,7 @@ class Thunderstorm final : public GameObject,
 public:
   Thunderstorm(const ReaderMapping& reader);
 
-  virtual void update(float elapsed_time) override;
+  virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
 
   /**

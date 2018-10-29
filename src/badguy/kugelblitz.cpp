@@ -126,7 +126,7 @@ Kugelblitz::hit(const CollisionHit& hit_)
 }
 
 void
-Kugelblitz::active_update(float elapsed_time)
+Kugelblitz::active_update(float dt_sec)
 {
   if (lifetime.check()) {
     explode();
@@ -146,7 +146,7 @@ Kugelblitz::active_update(float elapsed_time)
       explode();
     }
   }
-  BadGuy::active_update(elapsed_time);
+  BadGuy::active_update(dt_sec);
 }
 
 void

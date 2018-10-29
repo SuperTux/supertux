@@ -98,24 +98,24 @@ Haywire::collision_squished(GameObject& object)
 }
 
 void
-Haywire::active_update(float elapsed_time)
+Haywire::active_update(float dt_sec)
 {
   if (is_exploding) {
     ticking->set_position(get_pos());
     grunting->set_position(get_pos());
-    if (elapsed_time >= time_until_explosion) {
+    if (dt_sec >= time_until_explosion) {
       kill_fall ();
       return;
     }
     else
-      time_until_explosion -= elapsed_time;
+      time_until_explosion -= dt_sec;
   }
 
   if (is_stunned) {
-    if (time_stunned > elapsed_time) {
-      time_stunned -= elapsed_time;
+    if (time_stunned > dt_sec) {
+      time_stunned -= dt_sec;
     }
-    else { /* if (time_stunned <= elapsed_time) */
+    else { /* if (time_stunned <= dt_sec) */
       time_stunned = 0.f;
       is_stunned = false;
     }
@@ -133,10 +133,10 @@ Haywire::active_update(float elapsed_time)
         target_velocity = (-1.f) * walk_speed;
     }
 
-    WalkingBadguy::active_update(elapsed_time, target_velocity);
+    WalkingBadguy::active_update(dt_sec, target_velocity);
   }
   else {
-    WalkingBadguy::active_update(elapsed_time);
+    WalkingBadguy::active_update(dt_sec);
   }
 }
 

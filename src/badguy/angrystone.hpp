@@ -26,7 +26,7 @@ public:
 
   virtual void collision_solid(const CollisionHit& hit) override;
   virtual HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit) override;
-  virtual void active_update(float elapsed_time) override;
+  virtual void active_update(float dt_sec) override;
   virtual void kill_fall() override;
   virtual bool is_freezable() const override;
   virtual bool is_flammable() const override;

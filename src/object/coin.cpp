@@ -71,11 +71,11 @@ Coin::save(Writer& writer)
 }
 
 void
-Coin::update(float elapsed_time)
+Coin::update(float dt_sec)
 {
   // if we have a path to follow, follow it
   if (get_walker()) {
-    Vector v = m_from_tilemap ? m_offset + get_walker()->get_pos() : get_walker()->advance(elapsed_time);
+    Vector v = m_from_tilemap ? m_offset + get_walker()->get_pos() : get_walker()->advance(dt_sec);
     if (get_path()->is_valid()) {
       if (Editor::is_active()) {
         set_pos(v);
@@ -196,10 +196,10 @@ HeavyCoin::HeavyCoin(const ReaderMapping& reader) :
 }
 
 void
-HeavyCoin::update(float elapsed_time)
+HeavyCoin::update(float dt_sec)
 {
   // enable physics
-  m_movement = m_physic.get_movement(elapsed_time);
+  m_movement = m_physic.get_movement(dt_sec);
 }
 
 void

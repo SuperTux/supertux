@@ -35,7 +35,7 @@ public:
   virtual ~PathWalker();
 
   /** advances the path walker on the path and returns its new position */
-  virtual Vector advance(float elapsed_time);
+  virtual Vector advance(float dt_sec);
 
   /** current position of path walker */
   Vector get_pos() const;

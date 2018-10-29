@@ -41,7 +41,7 @@ Stalactite::Stalactite(const ReaderMapping& lisp) :
 }
 
 void
-Stalactite::active_update(float elapsed_time)
+Stalactite::active_update(float dt_sec)
 {
   if(state == STALACTITE_HANGING) {
     auto player = get_nearest_player();
@@ -64,7 +64,7 @@ Stalactite::active_update(float elapsed_time)
       set_colgroup_active(COLGROUP_MOVING);
     }
   } else if(state == STALACTITE_FALLING) {
-    m_movement = m_physic.get_movement(elapsed_time);
+    m_movement = m_physic.get_movement(dt_sec);
   }
 }
 

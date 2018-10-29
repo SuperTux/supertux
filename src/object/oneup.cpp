@@ -29,12 +29,12 @@ OneUp::OneUp(const Vector& pos, Direction direction) :
 }
 
 void
-OneUp::update(float elapsed_time)
+OneUp::update(float dt_sec)
 {
   if(!Sector::get().inside(m_bbox))
     remove_me();
 
-  m_movement = physic.get_movement(elapsed_time);
+  m_movement = physic.get_movement(dt_sec);
 }
 
 HitResponse

@@ -93,7 +93,7 @@ TextScrollerScreen::setup()
 }
 
 void
-TextScrollerScreen::update(float elapsed_time)
+TextScrollerScreen::update(float dt_sec)
 {
   Controller* controller = InputManager::current()->get_controller();
   if (controller->hold(Controller::UP)) {
@@ -124,7 +124,7 @@ TextScrollerScreen::update(float elapsed_time)
     }
   }
 
-  m_text_scroller->update(elapsed_time);
+  m_text_scroller->update(dt_sec);
 }
 
 void

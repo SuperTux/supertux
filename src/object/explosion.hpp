@@ -31,7 +31,7 @@ public:
   Explosion(const Vector& pos);
   Explosion(const ReaderMapping& reader);
 
-  virtual void update(float elapsed_time) override;
+  virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
   virtual bool is_saveable() const override {

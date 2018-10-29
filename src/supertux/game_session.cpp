@@ -289,7 +289,7 @@ GameSession::leave()
 }
 
 void
-GameSession::update(float elapsed_time)
+GameSession::update(float dt_sec)
 {
   // Set active flag
   if(!m_active)
@@ -367,14 +367,14 @@ GameSession::update(float elapsed_time)
   if(!m_game_pause) {
     // Update the world
     if (!m_end_sequence) {
-      m_play_time += elapsed_time; //TODO: make sure we don't count cutscene time
+      m_play_time += dt_sec; //TODO: make sure we don't count cutscene time
       m_level->m_stats.finish(m_play_time);
-      m_currentsector->update(elapsed_time);
+      m_currentsector->update(dt_sec);
     } else {
       if (!m_end_sequence->is_tux_stopped()) {
-        m_currentsector->update(elapsed_time);
+        m_currentsector->update(dt_sec);
       } else {
-        m_end_sequence->update(elapsed_time);
+        m_end_sequence->update(dt_sec);
       }
     }
   }

@@ -44,7 +44,7 @@ public:
 
   /** Called each frame. The default implementation checks badguy
       state and calls active_update and inactive_update */
-  virtual void update(float elapsed_time) override;
+  virtual void update(float dt_sec) override;
 
   virtual void save(Writer& writer) override;
   virtual std::string get_class() const override {
@@ -182,10 +182,10 @@ protected:
   virtual HitResponse collision_bullet(Bullet& bullet, const CollisionHit& hit);
 
   /** called each frame when the badguy is activated. */
-  virtual void active_update(float elapsed_time);
+  virtual void active_update(float dt_sec);
 
   /** called each frame when the badguy is not activated. */
-  virtual void inactive_update(float elapsed_time);
+  virtual void inactive_update(float dt_sec);
 
   /** called immediately before the first call to initialize */
   virtual void initialize();

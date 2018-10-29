@@ -64,7 +64,7 @@ SpriteParticle::~SpriteParticle()
 }
 
 void
-SpriteParticle::update(float elapsed_time)
+SpriteParticle::update(float dt_sec)
 {
   // die when animation is complete
   if (sprite->animation_done()) {
@@ -73,10 +73,10 @@ SpriteParticle::update(float elapsed_time)
   }
 
   // calculate new position and velocity
-  position.x += velocity.x * elapsed_time;
-  position.y += velocity.y * elapsed_time;
-  velocity.x += acceleration.x * elapsed_time;
-  velocity.y += acceleration.y * elapsed_time;
+  position.x += velocity.x * dt_sec;
+  position.y += velocity.y * dt_sec;
+  velocity.x += acceleration.x * dt_sec;
+  velocity.y += acceleration.y * dt_sec;
 
   // die when too far offscreen
   Vector camera = Sector::get().m_camera->get_translation();

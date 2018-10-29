@@ -33,7 +33,7 @@ public:
   Teleporter(const ReaderMapping& lisp);
 
   virtual void draw(DrawingContext& context) override;
-  virtual void update(float elapsed_time) override;
+  virtual void update(float dt_sec) override;
 
 public:
   /** Position (in tiles, not pixels) */

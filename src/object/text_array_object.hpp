@@ -174,9 +174,9 @@ public:
    *
    * @see: GameObject, TextObject
    *
-   * @param: elapsed_time  the elapsed time.
+   * @param: dt_sec  the elapsed time.
    */
-  virtual void update(float elapsed_time) override;
+  virtual void update(float dt_sec) override;
 
   /////////// internals  ///////////
 

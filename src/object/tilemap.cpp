@@ -174,9 +174,9 @@ TileMap::~TileMap()
 {
 }
 
-void TileMap::float_channel(float target, float &current, float remaining_time, float elapsed_time)
+void TileMap::float_channel(float target, float &current, float remaining_time, float dt_sec)
 {
-  float amt = (target - current) / (remaining_time / elapsed_time);
+  float amt = (target - current) / (remaining_time / dt_sec);
   if (amt > 0) current = std::min(current + amt, target);
   if (amt < 0) current = std::max(current + amt, target);
 }
@@ -265,15 +265,15 @@ TileMap::after_editor_set()
 }
 
 void
-TileMap::update(float elapsed_time)
+TileMap::update(float dt_sec)
 {
   // handle tilemap fading
   if (m_current_alpha != m_alpha) {
-    m_remaining_fade_time = std::max(0.0f, m_remaining_fade_time - elapsed_time);
+    m_remaining_fade_time = std::max(0.0f, m_remaining_fade_time - dt_sec);
     if (m_remaining_fade_time == 0.0f) {
       m_current_alpha = m_alpha;
     } else {
-      float_channel(m_alpha, m_current_alpha, m_remaining_fade_time, elapsed_time);
+      float_channel(m_alpha, m_current_alpha, m_remaining_fade_time, dt_sec);
     }
     update_effective_solid ();
   }
@@ -282,21 +282,21 @@ TileMap::update(float elapsed_time)
   if (m_current_tint.red != m_tint.red || m_current_tint.green != m_tint.green ||
       m_current_tint.blue != m_tint.blue || m_current_tint.alpha != m_tint.alpha) {
 
-    m_remaining_tint_fade_time = std::max(0.0f, m_remaining_tint_fade_time - elapsed_time);
+    m_remaining_tint_fade_time = std::max(0.0f, m_remaining_tint_fade_time - dt_sec);
     if (m_remaining_tint_fade_time == 0.0f) {
       m_current_tint = m_tint;
     } else {
-      float_channel(m_tint.red  , m_current_tint.red  , m_remaining_tint_fade_time, elapsed_time);
-      float_channel(m_tint.green, m_current_tint.green, m_remaining_tint_fade_time, elapsed_time);
-      float_channel(m_tint.blue , m_current_tint.blue , m_remaining_tint_fade_time, elapsed_time);
-      float_channel(m_tint.alpha, m_current_tint.alpha, m_remaining_tint_fade_time, elapsed_time);
+      float_channel(m_tint.red  , m_current_tint.red  , m_remaining_tint_fade_time, dt_sec);
+      float_channel(m_tint.green, m_current_tint.green, m_remaining_tint_fade_time, dt_sec);
+      float_channel(m_tint.blue , m_current_tint.blue , m_remaining_tint_fade_time, dt_sec);
+      float_channel(m_tint.alpha, m_current_tint.alpha, m_remaining_tint_fade_time, dt_sec);
     }
   }
 
   m_movement = Vector(0,0);
   // if we have a path to follow, follow it
   if (get_walker()) {
-    Vector v = get_walker()->advance(elapsed_time);
+    Vector v = get_walker()->advance(dt_sec);
     if (get_path()->is_valid()) {
       m_movement = v - get_offset();
       set_offset(v);

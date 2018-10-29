@@ -26,7 +26,7 @@ class Star final : public MovingSprite
 public:
   Star(const Vector& pos, Direction direction = RIGHT);
 
-  virtual void update(float elapsed_time) override;
+  virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
   virtual void collision_solid(const CollisionHit& hit) override;
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;

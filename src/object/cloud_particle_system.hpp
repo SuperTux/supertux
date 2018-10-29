@@ -30,7 +30,7 @@ public:
   virtual ~CloudParticleSystem();
 
   void init();
-  virtual void update(float elapsed_time) override;
+  virtual void update(float dt_sec) override;
 
   virtual std::string type() const
   { return "CloudParticleSystem"; }

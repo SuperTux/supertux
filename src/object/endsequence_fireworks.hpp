@@ -29,7 +29,7 @@ public:
 
 protected:
   virtual void starting() override; /**< called when EndSequence starts */
-  virtual void running(float elapsed_time) override; /**< called while the EndSequence is running */
+  virtual void running(float dt_sec) override; /**< called while the EndSequence is running */
   virtual void stopping() override; /**< called when EndSequence stops */
 
   Timer endsequence_timer;

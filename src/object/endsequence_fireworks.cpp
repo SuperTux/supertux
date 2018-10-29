@@ -44,9 +44,9 @@ EndSequenceFireworks::starting()
 }
 
 void
-EndSequenceFireworks::running(float elapsed_time)
+EndSequenceFireworks::running(float dt_sec)
 {
-  EndSequence::running(elapsed_time);
+  EndSequence::running(dt_sec);
   //Player& tux = *Sector::get().player;
 
   if (tux_may_walk) {

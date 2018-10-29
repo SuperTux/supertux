@@ -58,11 +58,11 @@ public:
   UID get_uid() const { return m_uid; }
 
   /** This function is called once per frame and allows the object to
-      update it's state. The elapsed_time is the time since the last
-      frame in seconds and should be the base for all timed
+      update it's state. The dt_sec is the time that has passed since
+      the last frame in seconds and should be the base for all timed
       calculations (don't use SDL_GetTicks directly as this will fail
       in pause mode) */
-  virtual void update(float elapsed_time) = 0;
+  virtual void update(float dt_sec) = 0;
 
   /** The GameObject should draw itself onto the provided
       DrawingContext if this function is called. */

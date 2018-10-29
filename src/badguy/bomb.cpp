@@ -69,7 +69,7 @@ Bomb::collision_badguy(BadGuy& , const CollisionHit& )
 }
 
 void
-Bomb::active_update(float elapsed_time)
+Bomb::active_update(float dt_sec)
 {
   if (on_ground()) m_physic.set_velocity_x(0);
 
@@ -78,7 +78,7 @@ Bomb::active_update(float elapsed_time)
     explode();
   }
   else if (!grabbed) {
-    m_movement = m_physic.get_movement(elapsed_time);
+    m_movement = m_physic.get_movement(dt_sec);
   }
 }
 

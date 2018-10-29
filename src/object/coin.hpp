@@ -38,7 +38,7 @@ public:
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
 
   void collect();
-  virtual void update(float elapsed_time) override;
+  virtual void update(float dt_sec) override;
   virtual void save(Writer& writer) override;
   virtual std::string get_class() const override {
     return "coin";
@@ -66,7 +66,7 @@ public:
   HeavyCoin(const Vector& pos, const Vector& init_velocity);
   HeavyCoin(const ReaderMapping& reader);
 
-  virtual void update(float elapsed_time) override;
+  virtual void update(float dt_sec) override;
   virtual void collision_solid(const CollisionHit& hit) override;
 
   virtual std::string get_class() const override {

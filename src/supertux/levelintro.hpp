@@ -42,7 +42,7 @@ public:
 
   virtual void setup() override;
   virtual void draw(Compositor& compositor) override;
-  virtual void update(float elapsed_time) override;
+  virtual void update(float dt_sec) override;
 
 private:
   void draw_stats_line(DrawingContext& context, int& py, const std::string& name, const std::string& stat);

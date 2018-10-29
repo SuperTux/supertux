@@ -101,7 +101,7 @@ EditorLayersGui::draw(DrawingContext& context) {
 }
 
 void
-EditorLayersGui::update(float elapsed_time) {
+EditorLayersGui::update(float dt_sec) {
   auto it = layers.begin();
   while(it != layers.end())
   {

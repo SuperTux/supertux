@@ -28,9 +28,9 @@ FadeToBlack::FadeToBlack(Direction direction, float fade_time, Color color) :
 }
 
 void
-FadeToBlack::update(float elapsed_time)
+FadeToBlack::update(float dt_sec)
 {
-  m_accum_time += elapsed_time;
+  m_accum_time += dt_sec;
   if(m_accum_time > m_fade_time)
     m_accum_time = m_fade_time;
 }

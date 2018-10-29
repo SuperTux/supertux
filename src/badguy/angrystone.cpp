@@ -75,8 +75,8 @@ AngryStone::collision_badguy(BadGuy& badguy, const CollisionHit& )
 }
 
 void
-AngryStone::active_update(float elapsed_time) {
-  BadGuy::active_update(elapsed_time);
+AngryStone::active_update(float dt_sec) {
+  BadGuy::active_update(dt_sec);
 
   if (m_frozen) {
     return;

@@ -91,11 +91,11 @@ MrBomb::collision_squished(GameObject& object)
 }
 
 void
-MrBomb::active_update(float elapsed_time)
+MrBomb::active_update(float dt_sec)
 {
   if(grabbed)
     return;
-  WalkingBadguy::active_update(elapsed_time);
+  WalkingBadguy::active_update(dt_sec);
 }
 
 void

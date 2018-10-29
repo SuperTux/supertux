@@ -24,7 +24,7 @@ class CaptainSnowball final : public WalkingBadguy
 public:
   CaptainSnowball(const ReaderMapping& reader);
 
-  virtual void active_update(float elapsed_time) override;
+  virtual void active_update(float dt_sec) override;
   virtual void collision_solid(const CollisionHit& hit) override;
 
   bool might_climb(int width, int height) const;

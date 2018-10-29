@@ -47,7 +47,7 @@ public:
 
 protected:
   bool is_above_player() const;
-  virtual void active_update (float elapsed_time) override;
+  virtual void active_update (float dt_sec) override;
   virtual bool collision_squished(GameObject& object) override;
 
   std::string carried_obj_name;

@@ -73,7 +73,7 @@ public:
   void leave();
 
   void draw(DrawingContext& context);
-  void update(float elapsed_time);
+  void update(float dt_sec);
 
   Vector get_next_tile(const Vector& pos, const Direction& direction) const;
 

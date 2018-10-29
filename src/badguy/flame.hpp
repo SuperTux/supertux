@@ -29,7 +29,7 @@ public:
   virtual void activate() override;
   virtual void deactivate() override;
 
-  virtual void active_update(float elapsed_time) override;
+  virtual void active_update(float dt_sec) override;
   virtual void kill_fall() override;
 
   virtual void freeze() override;

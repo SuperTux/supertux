@@ -35,7 +35,7 @@ public:
   virtual HitResponse collision_player(Player& player, const CollisionHit& hit) override;
   virtual bool can_break() const override;
 
-  virtual void active_update(float elapsed_time) override;
+  virtual void active_update(float dt_sec) override;
 
   virtual bool is_freezable() const override;
   virtual std::string get_class() const override {

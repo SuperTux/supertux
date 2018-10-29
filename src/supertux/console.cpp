@@ -499,21 +499,21 @@ Console::toggle()
 }
 
 void
-Console::update(float elapsed_time)
+Console::update(float dt_sec)
 {
   if(m_stayOpen > 0) {
-    m_stayOpen -= elapsed_time;
+    m_stayOpen -= dt_sec;
     if(m_stayOpen < 0)
       m_stayOpen = 0;
   } else if(!m_focused && m_height > 0) {
-    m_alpha -= elapsed_time * FADE_SPEED;
+    m_alpha -= dt_sec * FADE_SPEED;
     if(m_alpha < 0) {
       m_alpha = 0;
       m_height = 0;
     }
   }
 
-  m_backgroundOffset += static_cast<int>(600.0f * elapsed_time);
+  m_backgroundOffset += static_cast<int>(600.0f * dt_sec);
   if (m_backgroundOffset > static_cast<int>(m_background->get_width())) m_backgroundOffset -= static_cast<int>(m_background->get_width());
 }
 

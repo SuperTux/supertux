@@ -53,14 +53,14 @@ LiveFire::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
 }
 
 void
-LiveFire::active_update(float elapsed_time) {
+LiveFire::active_update(float dt_sec) {
 
   // Remove when extinguish animation is done
   if((m_sprite->get_action() == "extinguish-left" || m_sprite->get_action() == "extinguish-right" )
     && m_sprite->animation_done()) remove_me();
 
   if(state == STATE_WALKING) {
-    WalkingBadguy::active_update(elapsed_time);
+    WalkingBadguy::active_update(dt_sec);
     return;
   }
 
@@ -90,7 +90,7 @@ LiveFire::active_update(float elapsed_time) {
     }
   }
 
-  BadGuy::active_update(elapsed_time);
+  BadGuy::active_update(dt_sec);
 }
 
 void

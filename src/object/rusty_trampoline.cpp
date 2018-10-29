@@ -43,7 +43,7 @@ RustyTrampoline::RustyTrampoline(const ReaderMapping& lisp) :
 }
 
 void
-RustyTrampoline::update(float elapsed_time)
+RustyTrampoline::update(float dt_sec)
 {
   if(m_sprite->animation_done()) {
     if (counter < 1) {
@@ -54,7 +54,7 @@ RustyTrampoline::update(float elapsed_time)
 
   }
 
-  Rock::update(elapsed_time);
+  Rock::update(dt_sec);
 }
 
 HitResponse

@@ -31,7 +31,7 @@ public:
 public:
   FadeToBlack(Direction direction, float fade_time, Color dest_color = Color(0, 0, 0));
 
-  virtual void update(float elapsed_time) override;
+  virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
 
   /// returns true if the effect is completed

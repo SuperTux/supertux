@@ -117,16 +117,16 @@ TextObject::draw(DrawingContext& context)
 }
 
 void
-TextObject::update(float elapsed_time)
+TextObject::update(float dt_sec)
 {
   if(fading > 0) {
-    fading -= elapsed_time;
+    fading -= dt_sec;
     if(fading <= 0) {
       fading = 0;
       visible = true;
     }
   } else if(fading < 0) {
-    fading += elapsed_time;
+    fading += dt_sec;
     if(fading >= 0) {
       fading = 0;
       visible = false;

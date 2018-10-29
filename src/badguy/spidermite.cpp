@@ -56,11 +56,11 @@ SpiderMite::collision_solid(const CollisionHit& hit)
 }
 
 void
-SpiderMite::active_update(float elapsed_time)
+SpiderMite::active_update(float dt_sec)
 {
   if(m_frozen)
   {
-    BadGuy::active_update(elapsed_time);
+    BadGuy::active_update(dt_sec);
     return;
   }
   if(timer.check()) {
@@ -73,7 +73,7 @@ SpiderMite::active_update(float elapsed_time)
     }
     timer.start(FLYTIME);
   }
-  m_movement=m_physic.get_movement(elapsed_time);
+  m_movement=m_physic.get_movement(dt_sec);
 
   auto player = get_nearest_player();
   if (player) {

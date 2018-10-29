@@ -47,8 +47,8 @@ public:
                 const std::string& light_sprite_name = "images/objects/lightmap_light/lightmap_light-medium.sprite");
 
   virtual void initialize() override;
-  virtual void active_update(float elapsed_time) override;
-  void active_update(float elapsed_time, float target_velocity);
+  virtual void active_update(float dt_sec) override;
+  void active_update(float dt_sec, float target_velocity);
   virtual void collision_solid(const CollisionHit& hit) override;
   virtual HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit) override;
   virtual void freeze() override;

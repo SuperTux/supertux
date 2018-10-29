@@ -94,7 +94,7 @@ public:
   virtual void after_editor_set() override;
 
 protected:
-  virtual void update(float elapsed_time) override;
+  virtual void update(float dt_sec) override;
   virtual void start_playing();
   virtual void stop_playing();
 

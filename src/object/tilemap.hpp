@@ -53,7 +53,7 @@ public:
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
 
-  virtual void update(float elapsed_time) override;
+  virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
 
   /** Move tilemap until at given node, then stop */
@@ -176,7 +176,7 @@ public:
 
 private:
   void update_effective_solid();
-  void float_channel(float target, float &current, float remaining_time, float elapsed_time);
+  void float_channel(float target, float &current, float remaining_time, float dt_sec);
 
 public:
   bool m_editor_active;

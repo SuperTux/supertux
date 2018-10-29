@@ -41,9 +41,9 @@ GrowUp::GrowUp(Direction direction) :
 }
 
 void
-GrowUp::update(float elapsed_time)
+GrowUp::update(float dt_sec)
 {
-  m_movement = physic.get_movement(elapsed_time);
+  m_movement = physic.get_movement(dt_sec);
 }
 
 void

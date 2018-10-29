@@ -73,7 +73,7 @@ public:
   void move_cursor(int offset); /**< move the cursor @c offset chars to the right; Negative offset moves backward; 0xFFFF moves to the end */
 
   void draw(DrawingContext& context) const; /**< draw the console in a DrawingContext */
-  void update(float elapsed_time);
+  void update(float dt_sec);
 
   void show(); /**< display the console */
   void open(); /**< open the console for viewing for 6 seconds */

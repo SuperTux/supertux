@@ -24,7 +24,7 @@ class Iceflame final : public Flame
 public:
   Iceflame(const ReaderMapping& reader);
 
-  virtual void active_update(float elapsed_time) override;
+  virtual void active_update(float dt_sec) override;
 
   virtual void ignite() override;
   virtual bool is_flammable() const override;

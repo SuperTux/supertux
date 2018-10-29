@@ -93,7 +93,7 @@ public:
   /** \addtogroup GameObject
       @{ */
 
-  virtual void update(float elapsed_time) override;
+  virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& ) override;
 
   virtual bool is_saveable() const override;
@@ -116,9 +116,9 @@ public:
   /** @} */
 
 private:
-  void update_scroll_normal(float elapsed_time);
-  void update_scroll_autoscroll(float elapsed_time);
-  void update_scroll_to(float elapsed_time);
+  void update_scroll_normal(float dt_sec);
+  void update_scroll_autoscroll(float dt_sec);
+  void update_scroll_to(float dt_sec);
   void keep_in_bounds(Vector& vector);
   void shake();
 

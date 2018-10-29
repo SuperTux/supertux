@@ -24,7 +24,7 @@ class Stalactite : public BadGuy
 public:
   Stalactite(const ReaderMapping& reader);
 
-  virtual void active_update(float elapsed_time) override;
+  virtual void active_update(float dt_sec) override;
   virtual void collision_solid(const CollisionHit& hit) override;
   virtual HitResponse collision_player(Player& player, const CollisionHit& hit) override;
   virtual HitResponse collision_badguy(BadGuy& other, const CollisionHit& hit) override;

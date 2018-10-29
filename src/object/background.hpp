@@ -46,7 +46,7 @@ public:
   float get_speed() const
   { return m_speed; }
 
-  virtual void update(float elapsed_time) override;
+  virtual void update(float dt_sec) override;
 
   virtual void draw(DrawingContext& context) override;
   void draw_image(DrawingContext& context, const Vector& pos);

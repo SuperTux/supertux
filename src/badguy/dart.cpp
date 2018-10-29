@@ -86,9 +86,9 @@ Dart::deactivate()
 }
 
 void
-Dart::active_update(float elapsed_time)
+Dart::active_update(float dt_sec)
 {
-  BadGuy::active_update(elapsed_time);
+  BadGuy::active_update(dt_sec);
   sound_source->set_position(get_pos());
 }
 

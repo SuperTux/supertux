@@ -95,7 +95,7 @@ void SnowParticleSystem::init()
   }
 }
 
-void SnowParticleSystem::update(float elapsed_time)
+void SnowParticleSystem::update(float dt_sec)
 {
   if(!enabled)
     return;
@@ -118,14 +118,14 @@ void SnowParticleSystem::update(float elapsed_time)
   // Update velocities
   switch(state) {
     case ATTACKING:
-      gust_current_velocity += gust_onset * elapsed_time;
+      gust_current_velocity += gust_onset * dt_sec;
       break;
     case DECAYING:
-      gust_current_velocity -= gust_onset * elapsed_time * SNOW::DECAY_RATIO;
+      gust_current_velocity -= gust_onset * dt_sec * SNOW::DECAY_RATIO;
       break;
     case RELEASING:
       // uses current time/velocity instead of constants
-      gust_current_velocity -= gust_current_velocity * elapsed_time / timer.get_timeleft();
+      gust_current_velocity -= gust_current_velocity * dt_sec / timer.get_timeleft();
       break;
     case SUSTAINING:
     case RESTING:
@@ -145,17 +145,17 @@ void SnowParticleSystem::update(float elapsed_time)
     float anchor_delta;
 
     // Falling
-    particle->pos.y += particle->speed * elapsed_time * sq_g;
+    particle->pos.y += particle->speed * dt_sec * sq_g;
     // Drifting (speed approaches wind at a rate dependent on flake size)
     particle->drift_speed += (gust_current_velocity - particle->drift_speed) / static_cast<float>(particle->flake_size) + graphicsRandom.randf(-SNOW::EPSILON, SNOW::EPSILON);
-    particle->anchorx += particle->drift_speed * elapsed_time;
+    particle->anchorx += particle->drift_speed * dt_sec;
     // Wobbling (particle approaches anchorx)
-    particle->pos.x += particle->wobble * elapsed_time * sq_g;
+    particle->pos.x += particle->wobble * dt_sec * sq_g;
     anchor_delta = (particle->anchorx - particle->pos.x);
     particle->wobble += (SNOW::WOBBLE_FACTOR * anchor_delta) + graphicsRandom.randf(-SNOW::EPSILON, SNOW::EPSILON);
     particle->wobble *= SNOW::WOBBLE_DECAY;
     // Spinning
-    particle->angle += particle->spin_speed * elapsed_time;
+    particle->angle += particle->spin_speed * dt_sec;
     particle->angle = fmodf(particle->angle, 360.0);
   }
 }

@@ -119,11 +119,11 @@ TitleScreen::draw(Compositor& compositor)
 }
 
 void
-TitleScreen::update(float elapsed_time)
+TitleScreen::update(float dt_sec)
 {
   ScreenManager::current()->set_speed(0.6f);
   Sector* sector  = titlesession->get_current_sector();
-  sector->update(elapsed_time);
+  sector->update(dt_sec);
 
   make_tux_jump();
 

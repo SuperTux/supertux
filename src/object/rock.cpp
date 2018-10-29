@@ -74,14 +74,14 @@ Rock::Rock(const ReaderMapping& reader, const std::string& spritename) :
 }
 
 void
-Rock::update(float elapsed_time)
+Rock::update(float dt_sec)
 {
   if( grabbed )
     return;
 
   if (on_ground) physic.set_velocity_x(0);
 
-  m_movement = physic.get_movement(elapsed_time);
+  m_movement = physic.get_movement(dt_sec);
 }
 
 void

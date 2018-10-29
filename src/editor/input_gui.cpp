@@ -140,7 +140,7 @@ EditorInputGui::draw_objectgroup(DrawingContext& context) {
 }
 
 void
-EditorInputGui::update(float elapsed_time) {
+EditorInputGui::update(float dt_sec) {
   switch (tile_scrolling) {
     case TS_UP: 
     {

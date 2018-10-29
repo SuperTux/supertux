@@ -38,11 +38,11 @@ CoinRain::CoinRain(const Vector& pos, bool emerge) :
 }
 
 void
-CoinRain::update(float elapsed_time)
+CoinRain::update(float dt_sec)
 {
   // first a single (untouchable) coin flies up above the sector
   if(position.y > -32){
-    float dist = -500 * elapsed_time;
+    float dist = -500 * dt_sec;
     position.y += dist;
     emerge_distance += dist;
   } // then the first collectable coin drops from one of ten random positions

@@ -38,7 +38,7 @@ public:
 
   void setup(); /**< called prior to first update */
   virtual void draw(DrawingContext& context) override;
-  virtual void update(float elapsed_time) override;
+  virtual void update(float dt_sec) override;
 
   void set_direction(Direction dir);
 
@@ -58,7 +58,7 @@ private:
   bool canWalk(int tile_data, Direction dir) const; /**< check if we can leave a tile (with given "tile_data") in direction "dir" */
   void updateInputDirection(); /**< if controller was pressed, update input_direction */
   void tryStartWalking(); /**< try starting to walk in input_direction */
-  void tryContinueWalking(float elapsed_time); /**< try to continue walking in current direction */
+  void tryContinueWalking(float dt_sec); /**< try to continue walking in current direction */
 
   void ChangeSprite(SpriteChange* sc); /**< Uses the given sprite change */
 

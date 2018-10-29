@@ -50,9 +50,9 @@ WorldMapScreen::draw(Compositor& compositor)
 }
 
 void
-WorldMapScreen::update(float elapsed_time)
+WorldMapScreen::update(float dt_sec)
 {
-  m_worldmap->update(elapsed_time);
+  m_worldmap->update(dt_sec);
 }
 
 } // namespace worldmap

@@ -131,7 +131,7 @@ void TextArrayObject::set_auto(bool is_auto)
   this->reset_automation();
 }
 
-void TextArrayObject::update(float elapsed_time)
+void TextArrayObject::update(float dt_sec)
 {
   if (m_isDone)
     return;
@@ -151,14 +151,14 @@ void TextArrayObject::update(float elapsed_time)
   // update current
   auto* curTextItem = this->get_current_text_item();
   if (curTextItem)
-    curTextItem->text_object.update(elapsed_time);
+    curTextItem->text_object.update(dt_sec);
 
   // update last (if transition is enabled)
 
   if (this->should_fade()) {
     auto* lastTextItem = this->get_last_text_item();
     if (lastTextItem)
-      lastTextItem->text_object.update(elapsed_time);
+      lastTextItem->text_object.update(dt_sec);
   }
 }
 

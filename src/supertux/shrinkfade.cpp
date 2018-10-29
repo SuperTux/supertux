@@ -30,9 +30,9 @@ ShrinkFade::ShrinkFade(const Vector& dest_, float fade_time_) :
 }
 
 void
-ShrinkFade::update(float elapsed_time)
+ShrinkFade::update(float dt_sec)
 {
-  accum_time += elapsed_time;
+  accum_time += dt_sec;
   if(accum_time > fade_time)
     accum_time = fade_time;
 }

@@ -137,9 +137,9 @@ Toad::collision_badguy(BadGuy& , const CollisionHit& hit)
 }
 
 void
-Toad::active_update(float elapsed_time)
+Toad::active_update(float dt_sec)
 {
-  BadGuy::active_update(elapsed_time);
+  BadGuy::active_update(dt_sec);
 
 
   // change sprite when we are falling and not frozen

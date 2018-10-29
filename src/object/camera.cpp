@@ -274,17 +274,17 @@ Camera::draw(DrawingContext& context)
 }
 
 void
-Camera::update(float elapsed_time)
+Camera::update(float dt_sec)
 {
   switch(m_mode) {
     case NORMAL:
-      update_scroll_normal(elapsed_time);
+      update_scroll_normal(dt_sec);
       break;
     case AUTOSCROLL:
-      update_scroll_autoscroll(elapsed_time);
+      update_scroll_autoscroll(dt_sec);
       break;
     case SCROLLTO:
-      update_scroll_to(elapsed_time);
+      update_scroll_to(dt_sec);
       break;
     default:
       break;
@@ -332,7 +332,7 @@ Camera::shake()
 }
 
 void
-Camera::update_scroll_normal(float elapsed_time)
+Camera::update_scroll_normal(float dt_sec)
 {
   const auto& config_ = *(m_config);
   auto player = m_sector->m_player;
@@ -344,7 +344,7 @@ Camera::update_scroll_normal(float elapsed_time)
   last_player_pos = player_pos;
 
   // check that we don't have division by zero later
-  if(elapsed_time < CAMERA_EPSILON)
+  if(dt_sec < CAMERA_EPSILON)
     return;
 
   /****** Vertical Scrolling part ******/
@@ -371,7 +371,7 @@ Camera::update_scroll_normal(float elapsed_time)
     // delta_y is the distance we'd have to travel to directly reach target_y
     float delta_y = m_cached_translation.y - target_y;
     // speed is the speed the camera would need to reach target_y in this frame
-    float speed_y = delta_y / elapsed_time;
+    float speed_y = delta_y / dt_sec;
 
     // limit the camera speed when jumping upwards
     if(player->m_fall_mode != Player::FALLING
@@ -380,7 +380,7 @@ Camera::update_scroll_normal(float elapsed_time)
     }
 
     // scroll with calculated speed
-    m_cached_translation.y -= speed_y * elapsed_time;
+    m_cached_translation.y -= speed_y * dt_sec;
   }
   if(ymode == 3) {
     float halfsize = config_.kirby_rectsize_y * 0.5f;
@@ -543,15 +543,15 @@ Camera::update_scroll_normal(float elapsed_time)
     // that's the distance we would have to travel to reach target_x
     float delta_x = m_cached_translation.x - target_x;
     // the speed we'd need to travel to reach target_x in this frame
-    float speed_x = delta_x / elapsed_time;
+    float speed_x = delta_x / dt_sec;
 
     // limit our speed
-    float player_speed_x = player_delta.x / elapsed_time;
+    float player_speed_x = player_delta.x / dt_sec;
     float maxv = config_.max_speed_x + (fabsf(player_speed_x * config_.dynamic_max_speed_x));
     speed_x = math::clamp(speed_x, -maxv, maxv);
 
     // apply scrolling
-    m_cached_translation.x -= speed_x * elapsed_time;
+    m_cached_translation.x -= speed_x * dt_sec;
   }
   if(xmode == 3) {
     float halfsize = config_.kirby_rectsize_x * 0.5f;
@@ -635,21 +635,21 @@ Camera::update_scroll_normal(float elapsed_time)
 }
 
 void
-Camera::update_scroll_autoscroll(float elapsed_time)
+Camera::update_scroll_autoscroll(float dt_sec)
 {
   auto player = m_sector->m_player;
   if(player->is_dying())
     return;
 
-  m_translation = get_walker()->advance(elapsed_time);
+  m_translation = get_walker()->advance(dt_sec);
 
   keep_in_bounds(m_translation);
 }
 
 void
-Camera::update_scroll_to(float elapsed_time)
+Camera::update_scroll_to(float dt_sec)
 {
-  m_scroll_to_pos += elapsed_time * m_scrollspeed;
+  m_scroll_to_pos += dt_sec * m_scrollspeed;
   if(m_scroll_to_pos >= 1.0) {
     m_mode = MANUAL;
     m_translation = m_scroll_goal;

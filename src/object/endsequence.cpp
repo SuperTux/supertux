@@ -32,10 +32,10 @@ EndSequence::~EndSequence()
 }
 
 void
-EndSequence::update(float elapsed_time)
+EndSequence::update(float dt_sec)
 {
   if (!isrunning) return;
-  running(elapsed_time);
+  running(dt_sec);
 }
 
 void
@@ -91,7 +91,7 @@ EndSequence::starting()
 }
 
 void
-EndSequence::running(float /*elapsed_time*/)
+EndSequence::running(float /*dt_sec*/)
 {
   end_sequence_controller->update();
 }

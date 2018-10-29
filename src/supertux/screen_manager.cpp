@@ -203,23 +203,23 @@ ScreenManager::draw(Compositor& compositor)
 }
 
 void
-ScreenManager::update_gamelogic(float elapsed_time)
+ScreenManager::update_gamelogic(float dt_sec)
 {
   SquirrelVirtualMachine::current()->update(g_game_time);
 
   if (!m_screen_stack.empty())
   {
-    m_screen_stack.back()->update(elapsed_time);
+    m_screen_stack.back()->update(dt_sec);
   }
 
   m_menu_manager->process_input();
 
   if (m_screen_fade)
   {
-    m_screen_fade->update(elapsed_time);
+    m_screen_fade->update(dt_sec);
   }
 
-  Console::current()->update(elapsed_time);
+  Console::current()->update(dt_sec);
 }
 
 void

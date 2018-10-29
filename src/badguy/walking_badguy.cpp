@@ -94,9 +94,9 @@ WalkingBadguy::add_velocity (const Vector& velocity)
 }
 
 void
-WalkingBadguy::active_update(float elapsed_time, float dest_x_velocity)
+WalkingBadguy::active_update(float dt_sec, float dest_x_velocity)
 {
-  BadGuy::active_update(elapsed_time);
+  BadGuy::active_update(dt_sec);
 
   float current_x_velocity = m_physic.get_velocity_x ();
 
@@ -152,9 +152,9 @@ WalkingBadguy::active_update(float elapsed_time, float dest_x_velocity)
 }
 
 void
-WalkingBadguy::active_update(float elapsed_time)
+WalkingBadguy::active_update(float dt_sec)
 {
-  active_update (elapsed_time, (m_dir == LEFT) ? -walk_speed : +walk_speed);
+  active_update (dt_sec, (m_dir == LEFT) ? -walk_speed : +walk_speed);
 }
 
 void

@@ -226,9 +226,9 @@ TextScroller::draw(DrawingContext& context)
 }
 
 void
-TextScroller::update(float elapsed_time)
+TextScroller::update(float dt_sec)
 {
-  m_scroll += m_speed * elapsed_time;
+  m_scroll += m_speed * dt_sec;
 
   if (m_scroll < 0)
     m_scroll = 0;

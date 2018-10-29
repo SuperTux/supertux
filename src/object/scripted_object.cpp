@@ -158,7 +158,7 @@ ScriptedObject::get_action() const
 }
 
 void
-ScriptedObject::update(float elapsed_time)
+ScriptedObject::update(float dt_sec)
 {
   if(!physic_enabled)
     return;
@@ -167,7 +167,7 @@ ScriptedObject::update(float elapsed_time)
     physic.set_velocity(new_vel.x, new_vel.y);
     new_vel_set = false;
   }
-  m_movement = physic.get_movement(elapsed_time);
+  m_movement = physic.get_movement(dt_sec);
 }
 
 void

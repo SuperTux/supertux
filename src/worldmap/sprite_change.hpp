@@ -39,7 +39,7 @@ public:
   virtual ~SpriteChange();
 
   virtual void draw(DrawingContext& context) override;
-  virtual void update(float elapsed_time) override;
+  virtual void update(float dt_sec) override;
 
   /**
    * Activates the SpriteChange's stay action, if applicable

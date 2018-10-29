@@ -56,7 +56,7 @@ EditorInputCenter::EditorInputCenter() :
 }
 
 void
-EditorInputCenter::update(float elapsed_time) {
+EditorInputCenter::update(float dt_sec) {
   if (hovered_object && !hovered_object->is_valid()) {
     hovered_object = nullptr;
     object_tip = nullptr;

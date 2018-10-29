@@ -51,7 +51,7 @@ PushButton::get_settings() {
 }
 
 void
-PushButton::update(float /*elapsed_time*/)
+PushButton::update(float /*dt_sec*/)
 {
 }
 

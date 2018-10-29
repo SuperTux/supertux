@@ -32,7 +32,7 @@ public:
   virtual void kill_fall() override { }
 
   virtual void activate() override;
-  virtual void active_update(float elapsed_time) override;
+  virtual void active_update(float dt_sec) override;
   void willowisp_died(TreeWillOWisp* willowisp);
   virtual void draw(DrawingContext& context) override;
 

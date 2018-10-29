@@ -162,7 +162,7 @@ AmbientSound::start_playing()
 }
 
 void
-AmbientSound::update(float elapsed_time)
+AmbientSound::update(float dt_sec)
 {
   if (latency-- <= 0) {
     float px,py;
@@ -191,7 +191,7 @@ AmbientSound::update(float elapsed_time)
     float rise=targetvolume/currentvolume;
 
     // rise/fall half life?
-    currentvolume*=pow(rise, elapsed_time * 10);
+    currentvolume*=pow(rise, dt_sec * 10);
     currentvolume += 1e-6f; // volume is at least 1e-6 (0 would never rise)
 
     if (sound_source != nullptr) {

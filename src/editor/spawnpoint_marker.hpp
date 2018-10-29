@@ -31,7 +31,7 @@ class SpawnPointMarker final : public MovingObject
     SpawnPointMarker(const ReaderMapping& lisp);
     SpawnPointMarker(const SpawnPoint* sp);
 
-    virtual void update(float elapsed_time) override {
+    virtual void update(float dt_sec) override {
       //No updates needed
     }
 

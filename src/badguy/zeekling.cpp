@@ -173,17 +173,17 @@ Zeekling::should_we_dive() {
 }
 
 void
-Zeekling::active_update(float elapsed_time) {
+Zeekling::active_update(float dt_sec) {
   if (state == FLYING) {
     if (should_we_dive()) {
       state = DIVING;
       m_physic.set_velocity_y(2*fabsf(m_physic.get_velocity_x()));
       m_sprite->set_action(m_dir == LEFT ? "diving-left" : "diving-right");
     }
-    BadGuy::active_update(elapsed_time);
+    BadGuy::active_update(dt_sec);
     return;
   } else if (state == DIVING) {
-    BadGuy::active_update(elapsed_time);
+    BadGuy::active_update(dt_sec);
     return;
   } else if (state == CLIMBING) {
     // stop climbing when we're back at initial height
@@ -191,7 +191,7 @@ Zeekling::active_update(float elapsed_time) {
       state = FLYING;
       m_physic.set_velocity_y(0);
     }
-    BadGuy::active_update(elapsed_time);
+    BadGuy::active_update(dt_sec);
     return;
   } else {
     assert(false);

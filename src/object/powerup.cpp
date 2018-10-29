@@ -136,10 +136,10 @@ PowerUp::collision(GameObject& other, const CollisionHit&)
 }
 
 void
-PowerUp::update(float elapsed_time)
+PowerUp::update(float dt_sec)
 {
   if (!no_physics)
-    m_movement = physic.get_movement(elapsed_time);
+    m_movement = physic.get_movement(dt_sec);
   //Stars sparkle when close to Tux
   if (m_sprite_name == "images/powerups/star/star.sprite"){
     Player* player = Sector::get().get_nearest_player(m_bbox);

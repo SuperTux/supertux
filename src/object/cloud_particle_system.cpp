@@ -54,7 +54,7 @@ void CloudParticleSystem::init()
   }
 }
 
-void CloudParticleSystem::update(float elapsed_time)
+void CloudParticleSystem::update(float dt_sec)
 {
   if(!enabled)
     return;
@@ -63,7 +63,7 @@ void CloudParticleSystem::update(float elapsed_time)
     auto cloudParticle = dynamic_cast<CloudParticle*>(particle.get());
     if (!cloudParticle)
       continue;
-    cloudParticle->pos.x += cloudParticle->speed * elapsed_time;
+    cloudParticle->pos.x += cloudParticle->speed * dt_sec;
   }
 }
 

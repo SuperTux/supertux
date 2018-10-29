@@ -82,10 +82,10 @@ WillOWisp::save(Writer& writer)
 }
 
 void
-WillOWisp::active_update(float elapsed_time)
+WillOWisp::active_update(float dt_sec)
 {
   if (Editor::is_active() && get_path() && get_path()->is_valid()) {
-      set_pos(get_walker()->advance(elapsed_time));
+      set_pos(get_walker()->advance(dt_sec));
       return;
   }
 
@@ -110,7 +110,7 @@ WillOWisp::active_update(float elapsed_time)
         vanish();
       } else if (dist.norm() >= 1) {
         Vector dir_ = dist.unit();
-        m_movement = dir_ * elapsed_time * m_flyspeed;
+        m_movement = dir_ * dt_sec * m_flyspeed;
       } else {
         /* We somehow landed right on top of the player without colliding.
          * Sit tight and avoid a division by zero. */
@@ -126,7 +126,7 @@ WillOWisp::active_update(float elapsed_time)
 
     case STATE_VANISHING: {
       Vector dir_ = dist.unit();
-      m_movement = dir_ * elapsed_time * m_flyspeed;
+      m_movement = dir_ * dt_sec * m_flyspeed;
       if (m_sprite->animation_done()) {
         remove_me();
       }
@@ -137,7 +137,7 @@ WillOWisp::active_update(float elapsed_time)
     case STATE_PATHMOVING_TRACK:
       if (get_walker() == nullptr)
         return;
-      m_movement = get_walker()->advance(elapsed_time) - get_pos();
+      m_movement = get_walker()->advance(dt_sec) - get_pos();
       if (m_mystate == STATE_PATHMOVING_TRACK && dist.norm() <= m_track_range) {
         m_mystate = STATE_TRACKING;
       }

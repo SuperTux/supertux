@@ -35,7 +35,7 @@ public:
   virtual HitResponse collision_player(Player& player, const CollisionHit& hit) override;
   virtual HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit) override;
 
-  virtual void active_update(float elapsed_time) override;
+  virtual void active_update(float dt_sec) override;
   virtual void kill_fall() override;
   virtual void ignite() override;
   void explode();

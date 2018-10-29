@@ -80,12 +80,12 @@ EditorScroller::draw_arrow(DrawingContext& context, const Vector& pos) {
 }
 
 void
-EditorScroller::update(float elapsed_time) {
+EditorScroller::update(float dt_sec) {
   if (!rendered) return;
   if (!can_scroll()) return;
 
-  float horiz_scroll = scrolling_vec.x * elapsed_time;
-  float vert_scroll = scrolling_vec.y * elapsed_time;
+  float horiz_scroll = scrolling_vec.x * dt_sec;
+  float vert_scroll = scrolling_vec.y * dt_sec;
   auto editor = Editor::current();
 
   if (horiz_scroll < 0)

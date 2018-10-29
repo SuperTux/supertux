@@ -289,7 +289,7 @@ Player::trigger_sequence(Sequence seq, const SequenceData* data)
 }
 
 void
-Player::update(float elapsed_time)
+Player::update(float dt_sec)
 {
   if( no_water ){
     m_swimming = false;
@@ -335,7 +335,7 @@ Player::update(float elapsed_time)
     m_dir = (m_backflip_direction == 1) ? LEFT : RIGHT;
     if (m_backflip_timer.started()) m_physic.set_velocity_x(100.0f * static_cast<float>(m_backflip_direction));
     //rotate sprite during flip
-    m_sprite->set_angle(m_sprite->get_angle() + (m_dir==LEFT?1:-1) * elapsed_time * (360.0f / 0.5f));
+    m_sprite->set_angle(m_sprite->get_angle() + (m_dir==LEFT?1:-1) * dt_sec * (360.0f / 0.5f));
     if (m_player_status.bonus == EARTH_BONUS || m_player_status.bonus == AIR_BONUS ||
         (m_player_status.bonus == FIRE_BONUS && g_config->christmas_mode)) {
       m_powersprite->set_angle(m_sprite->get_angle());
@@ -383,7 +383,7 @@ Player::update(float elapsed_time)
   }
 
   // calculate movement for this frame
-  m_movement = m_physic.get_movement(elapsed_time);
+  m_movement = m_physic.get_movement(dt_sec);
 
   if(m_grabbed_object != nullptr && !m_dying) {
     position_grabbed_object();

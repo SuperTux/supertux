@@ -62,7 +62,7 @@ Igel::can_see(const MovingObject& o) const
 }
 
 void
-Igel::active_update(float elapsed_time)
+Igel::active_update(float dt_sec)
 {
   bool wants_to_flee = false;
 
@@ -75,12 +75,12 @@ Igel::active_update(float elapsed_time)
   // if we flee, handle this ourselves
   if (wants_to_flee && (!turn_recover_timer.started())) {
     turn_around();
-    BadGuy::active_update(elapsed_time);
+    BadGuy::active_update(dt_sec);
     return;
   }
 
   // else adhere to default behaviour
-  WalkingBadguy::active_update(elapsed_time);
+  WalkingBadguy::active_update(dt_sec);
 }
 
 HitResponse

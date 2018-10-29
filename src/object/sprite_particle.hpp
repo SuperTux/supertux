@@ -39,7 +39,7 @@ public:
   ~SpriteParticle();
 
 protected:
-  virtual void update(float elapsed_time) override;
+  virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
   virtual bool is_saveable() const override {
     return false;

@@ -49,7 +49,7 @@ PathGameObject::PathGameObject(const ReaderMapping& mapping) :
 }
 
 void
-PathGameObject::update(float elapsed_time)
+PathGameObject::update(float dt_sec)
 {
   // nothing to do
 }

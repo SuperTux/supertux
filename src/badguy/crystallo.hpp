@@ -34,7 +34,7 @@ public:
     return _("Crystallo");
   }
 
-  virtual void active_update(float elapsed_time) override;
+  virtual void active_update(float dt_sec) override;
   virtual bool is_flammable() const override;
 
 protected:

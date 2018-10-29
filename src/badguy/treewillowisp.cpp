@@ -104,7 +104,7 @@ TreeWillOWisp::draw(DrawingContext& context)
 }
 
 void
-TreeWillOWisp::active_update(float elapsed_time)
+TreeWillOWisp::active_update(float dt_sec)
 {
   // remove TreeWillOWisp if it has completely vanished
   if (mystate == STATE_VANISHING) {
@@ -121,12 +121,12 @@ TreeWillOWisp::active_update(float elapsed_time)
       vanish();
       return;
     }
-    Vector newpos = get_pos() + dir_ * elapsed_time;
+    Vector newpos = get_pos() + dir_ * dt_sec;
     m_movement = newpos - get_pos();
     return;
   }
 
-  angle = fmodf(angle + elapsed_time * speed, math::TAU);
+  angle = fmodf(angle + dt_sec * speed, math::TAU);
   Vector newpos(m_start_position + Vector(sinf(angle) * radius, 0));
   m_movement = newpos - get_pos();
   float sizemod = cosf(angle) * 0.8f;

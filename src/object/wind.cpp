@@ -31,7 +31,7 @@ Wind::Wind(const ReaderMapping& reader) :
   speed(),
   acceleration(),
   new_size(),
-  elapsed_time(0)
+  dt_sec(0)
 {
   float w,h;
   reader.get("x", m_bbox.p1.x, 0.0f);
@@ -72,9 +72,9 @@ Wind::get_settings() {
 }
 
 void
-Wind::update(float elapsed_time_)
+Wind::update(float dt_sec_)
 {
-  elapsed_time = elapsed_time_;
+  dt_sec = dt_sec_;
 
   if (!blowing) return;
   if (m_bbox.get_width() <= 16 || m_bbox.get_height() <= 16) return;
@@ -106,7 +106,7 @@ Wind::collision(GameObject& other, const CollisionHit& )
   auto player = dynamic_cast<Player*> (&other);
   if (player) {
     if (!player->on_ground()) {
-      player->add_velocity(speed * acceleration * elapsed_time, speed);
+      player->add_velocity(speed * acceleration * dt_sec, speed);
     }
   }
 

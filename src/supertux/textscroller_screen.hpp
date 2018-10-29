@@ -38,7 +38,7 @@ public:
 
   virtual void setup() override;
   virtual void draw(Compositor& compositor) override;
-  virtual void update(float elapsed_time) override;
+  virtual void update(float dt_sec) override;
 
 private:
   float m_defaultspeed;

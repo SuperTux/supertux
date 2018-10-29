@@ -34,9 +34,9 @@ Iceflame::Iceflame(const ReaderMapping& reader) :
 }
 
 void
-Iceflame::active_update(float elapsed_time)
+Iceflame::active_update(float dt_sec)
 {
-  Flame::active_update(elapsed_time);
+  Flame::active_update(dt_sec);
   m_sprite->set_angle(math::degrees(angle) * 3.0f);
 }
 

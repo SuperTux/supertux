@@ -104,7 +104,7 @@ void Editor::draw(Compositor& compositor)
   MouseCursor::current()->draw(context);
 }
 
-void Editor::update(float elapsed_time)
+void Editor::update(float dt_sec)
 {
   // Pass all requests
   if (reload_request) {
@@ -147,10 +147,10 @@ void Editor::update(float elapsed_time)
   // update other stuff
   if (is_active()) {
     currentsector->update(0);
-    tileselect.update(elapsed_time);
-    layerselect.update(elapsed_time);
-    inputcenter.update(elapsed_time);
-    scroller.update(elapsed_time);
+    tileselect.update(dt_sec);
+    layerselect.update(dt_sec);
+    inputcenter.update(dt_sec);
+    scroller.update(dt_sec);
     update_keyboard();
   }
 }

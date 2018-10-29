@@ -37,7 +37,7 @@ public:
   TextScroller(const ReaderObject& root);
 
   virtual void draw(DrawingContext& context) override;
-  virtual void update(float elapsed_time) override;
+  virtual void update(float dt_sec) override;
 
   void set_speed(float speed);
   void scroll(float offset);

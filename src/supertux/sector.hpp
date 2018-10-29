@@ -84,7 +84,7 @@ public:
   void activate(const Vector& player_pos);
   void deactivate();
 
-  void update(float elapsed_time);
+  void update(float dt_sec);
 
   void draw(DrawingContext& context);
 

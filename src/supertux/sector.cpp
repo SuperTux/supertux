@@ -298,17 +298,17 @@ Sector::get_foremost_layer() const
 }
 
 void
-Sector::update(float elapsed_time)
+Sector::update(float dt_sec)
 {
   BIND_SECTOR(*this);
 
-  m_squirrel_environment->update(elapsed_time);
+  m_squirrel_environment->update(dt_sec);
 
   m_player->check_bounds();
 
   if(m_ambient_light_fading)
   {
-    m_ambient_light_fade_accum += elapsed_time;
+    m_ambient_light_fade_accum += dt_sec;
     float percent_done = m_ambient_light_fade_accum / m_ambient_light_fade_duration * 1.0f;
     float r = (1.0f - percent_done) * m_source_ambient_light.red + percent_done * m_target_ambient_light.red;
     float g = (1.0f - percent_done) * m_source_ambient_light.green + percent_done * m_target_ambient_light.green;
@@ -338,7 +338,7 @@ Sector::update(float elapsed_time)
     }
   }
 
-  GameObjectManager::update(elapsed_time);
+  GameObjectManager::update(dt_sec);
 
   /* Handle all possible collisions. */
   m_collision_system->update();

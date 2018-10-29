@@ -45,9 +45,9 @@ EndSequenceWalkRight::starting()
 }
 
 void
-EndSequenceWalkRight::running(float elapsed_time)
+EndSequenceWalkRight::running(float dt_sec)
 {
-  EndSequence::running(elapsed_time);
+  EndSequence::running(dt_sec);
   Player& tux = *Sector::get().m_player;
 
   if (tux_may_walk) {

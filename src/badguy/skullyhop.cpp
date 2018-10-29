@@ -124,9 +124,9 @@ SkullyHop::collision_badguy(BadGuy& , const CollisionHit& hit)
 }
 
 void
-SkullyHop::active_update(float elapsed_time)
+SkullyHop::active_update(float dt_sec)
 {
-  BadGuy::active_update(elapsed_time);
+  BadGuy::active_update(dt_sec);
 
   // no change if frozen
   if (m_frozen)

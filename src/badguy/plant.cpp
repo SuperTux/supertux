@@ -67,8 +67,8 @@ Plant::collision_badguy(BadGuy& , const CollisionHit& hit)
 }
 
 void
-Plant::active_update(float elapsed_time) {
-  BadGuy::active_update(elapsed_time);
+Plant::active_update(float dt_sec) {
+  BadGuy::active_update(dt_sec);
 
   if(state == PLANT_SLEEPING) {
 

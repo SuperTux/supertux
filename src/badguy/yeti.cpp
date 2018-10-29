@@ -142,7 +142,7 @@ Yeti::draw_hit_points(DrawingContext& context)
 }
 
 void
-Yeti::active_update(float elapsed_time)
+Yeti::active_update(float dt_sec)
 {
   switch(state) {
     case JUMP_DOWN:
@@ -189,7 +189,7 @@ Yeti::active_update(float elapsed_time)
       break;
   }
 
-  m_movement = m_physic.get_movement(elapsed_time);
+  m_movement = m_physic.get_movement(dt_sec);
 }
 
 void

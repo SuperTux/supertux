@@ -57,7 +57,7 @@ private:
   void draw_fps(DrawingContext& context, float fps);
   void draw_player_pos(DrawingContext& context);
   void draw(Compositor& compositor);
-  void update_gamelogic(float elapsed_time);
+  void update_gamelogic(float dt_sec);
   void process_events();
   void handle_screen_switch();
 

@@ -65,7 +65,7 @@ PathWalker::get_path() const
 }
 
 Vector
-PathWalker::advance(float elapsed_time)
+PathWalker::advance(float dt_sec)
 {
   Path* path = get_path();
   if (!path) return {};
@@ -79,12 +79,12 @@ PathWalker::advance(float elapsed_time)
 
   if (!m_running) return path->m_nodes[m_current_node_nr].position;
 
-  assert(elapsed_time >= 0);
+  assert(dt_sec >= 0);
 
-  elapsed_time *= fabsf(m_walking_speed);
+  dt_sec *= fabsf(m_walking_speed);
 
-  while(m_node_time + elapsed_time * m_node_mult >= 1) {
-    elapsed_time -= (1 - m_node_time) / m_node_mult;
+  while(m_node_time + dt_sec * m_node_mult >= 1) {
+    dt_sec -= (1 - m_node_time) / m_node_mult;
 
     if (m_walking_speed > 0) {
       advance_node();
@@ -101,7 +101,7 @@ PathWalker::advance(float elapsed_time)
     }
   }
 
-  m_node_time += elapsed_time * m_node_mult;
+  m_node_time += dt_sec * m_node_mult;
 
   return get_pos();
 }

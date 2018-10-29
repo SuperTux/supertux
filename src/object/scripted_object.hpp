@@ -28,7 +28,7 @@ class ScriptedObject final : public MovingSprite,
 public:
   ScriptedObject(const ReaderMapping& lisp);
 
-  virtual void update(float elapsed_time) override;
+  virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
 
   virtual void collision_solid(const CollisionHit& hit) override;

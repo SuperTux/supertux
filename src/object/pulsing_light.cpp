@@ -40,11 +40,11 @@ PulsingLight::~PulsingLight()
 }
 
 void
-PulsingLight::update(float elapsed_time)
+PulsingLight::update(float dt_sec)
 {
-  Light::update(elapsed_time);
+  Light::update(dt_sec);
 
-  t += elapsed_time;
+  t += dt_sec;
   if (t > cycle_len) t -= cycle_len;
 }
 

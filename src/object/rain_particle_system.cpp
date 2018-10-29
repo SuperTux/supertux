@@ -64,7 +64,7 @@ void RainParticleSystem::init()
   }
 }
 
-void RainParticleSystem::update(float elapsed_time)
+void RainParticleSystem::update(float dt_sec)
 {
   if(!enabled)
     return;
@@ -73,7 +73,7 @@ void RainParticleSystem::update(float elapsed_time)
     auto particle = dynamic_cast<RainParticle*>(it.get());
     assert(particle);
 
-    float movement = particle->speed * elapsed_time * Sector::get().get_gravity();
+    float movement = particle->speed * dt_sec * Sector::get().get_gravity();
     float abs_x = Sector::get().m_camera->get_translation().x;
     float abs_y = Sector::get().m_camera->get_translation().y;
     particle->pos.y += movement;

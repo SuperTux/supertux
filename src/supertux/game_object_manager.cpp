@@ -107,14 +107,14 @@ GameObjectManager::clear_objects()
 }
 
 void
-GameObjectManager::update(float elapsed_time)
+GameObjectManager::update(float dt_sec)
 {
   for(const auto& object : m_gameobjects)
   {
     if(!object->is_valid())
       continue;
 
-    object->update(elapsed_time);
+    object->update(dt_sec);
   }
 }
 

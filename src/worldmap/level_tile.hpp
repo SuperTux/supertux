@@ -34,7 +34,7 @@ public:
   virtual ~LevelTile();
 
   virtual void draw(DrawingContext& context) override;
-  virtual void update(float elapsed_time) override;
+  virtual void update(float dt_sec) override;
 
   void set_solved(bool v);
   void set_perfect(bool v);

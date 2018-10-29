@@ -28,7 +28,7 @@ class ShrinkFade final : public ScreenFade
 public:
   ShrinkFade(const Vector& point, float fade_time);
 
-  virtual void update(float elapsed_time) override;
+  virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
 
   virtual bool done() const override;

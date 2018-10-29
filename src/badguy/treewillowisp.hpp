@@ -36,7 +36,7 @@ public:
   void vanish();
   void start_sucking(const Vector& suck_target);
 
-  virtual void active_update(float elapsed_time) override;
+  virtual void active_update(float dt_sec) override;
   void set_color(const Color& color);
   Color get_color() const;
 

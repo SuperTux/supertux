@@ -67,7 +67,7 @@ public:
   /** Set gravity modifier factor to apply to object when enabled */
   void set_gravity_modifier(float gravity);
 
-  Vector get_movement(float elapsed_time);
+  Vector get_movement(float dt_sec);
 
 private:
   /** horizontal and vertical acceleration */

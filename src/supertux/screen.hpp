@@ -51,7 +51,7 @@ public:
    * gets called for once (per logical) frame. Screens should do their state
    * updates and logic here
    */
-  virtual void update(float elapsed_time) = 0;
+  virtual void update(float dt_sec) = 0;
 };
 
 #endif

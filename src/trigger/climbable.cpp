@@ -82,7 +82,7 @@ Climbable::after_editor_set() {
 }
 
 void
-Climbable::update(float /*elapsed_time*/)
+Climbable::update(float /*dt_sec*/)
 {
   if (!climbed_by) return;
 

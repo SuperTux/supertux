@@ -50,7 +50,7 @@ MrIceBlock::initialize()
 }
 
 void
-MrIceBlock::active_update(float elapsed_time)
+MrIceBlock::active_update(float dt_sec)
 {
   if(ice_state == ICESTATE_GRABBED)
     return;
@@ -65,11 +65,11 @@ MrIceBlock::active_update(float elapsed_time)
 
   if (ice_state == ICESTATE_NORMAL)
   {
-    WalkingBadguy::active_update(elapsed_time);
+    WalkingBadguy::active_update(dt_sec);
     return;
   }
 
-  BadGuy::active_update(elapsed_time);
+  BadGuy::active_update(dt_sec);
 }
 
 bool

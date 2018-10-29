@@ -45,7 +45,7 @@ public:
   virtual void after_editor_set() override;
 
 private:
-  virtual void update(float elapsed_time) override;
+  virtual void update(float dt_sec) override;
 
   float width, height;
 };

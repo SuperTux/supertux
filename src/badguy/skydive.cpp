@@ -111,10 +111,10 @@ SkyDive::collision_tile(uint32_t tile_attributes)
 }
 
 void
-SkyDive::active_update(float elapsed_time)
+SkyDive::active_update(float dt_sec)
 {
   if (!is_grabbed)
-    m_movement = m_physic.get_movement(elapsed_time);
+    m_movement = m_physic.get_movement(dt_sec);
 }
 
 void

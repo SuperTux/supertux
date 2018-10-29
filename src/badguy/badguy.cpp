@@ -141,7 +141,7 @@ BadGuy::draw(DrawingContext& context)
 }
 
 void
-BadGuy::update(float elapsed_time)
+BadGuy::update(float dt_sec)
 {
   if(!Sector::get().inside(m_bbox)) {
     run_dead_script();
@@ -170,17 +170,17 @@ BadGuy::update(float elapsed_time)
       if (Editor::is_active()) {
         break;
       }
-      active_update(elapsed_time);
+      active_update(dt_sec);
       break;
     case STATE_INIT:
     case STATE_INACTIVE:
       m_is_active_flag = false;
-      inactive_update(elapsed_time);
+      inactive_update(dt_sec);
       try_activate();
       break;
     case STATE_BURNING: {
       m_is_active_flag = false;
-      m_movement = m_physic.get_movement(elapsed_time);
+      m_movement = m_physic.get_movement(dt_sec);
       if ( m_sprite->animation_done() ) {
         remove_me();
       }
@@ -192,11 +192,11 @@ BadGuy::update(float elapsed_time)
         remove_me();
         break;
       }
-      m_movement = m_physic.get_movement(elapsed_time);
+      m_movement = m_physic.get_movement(dt_sec);
       break;
     case STATE_MELTING: {
       m_is_active_flag = false;
-      m_movement = m_physic.get_movement(elapsed_time);
+      m_movement = m_physic.get_movement(dt_sec);
       if ( m_sprite->animation_done() || on_ground() ) {
         Sector::get().add<WaterDrop>(m_bbox.p1, get_water_sprite(), m_physic.get_velocity());
         remove_me();
@@ -205,14 +205,14 @@ BadGuy::update(float elapsed_time)
     } break;
     case STATE_GROUND_MELTING:
       m_is_active_flag = false;
-      m_movement = m_physic.get_movement(elapsed_time);
+      m_movement = m_physic.get_movement(dt_sec);
       if ( m_sprite->animation_done() ) {
         remove_me();
       }
       break;
     case STATE_INSIDE_MELTING: {
       m_is_active_flag = false;
-      m_movement = m_physic.get_movement(elapsed_time);
+      m_movement = m_physic.get_movement(dt_sec);
       if ( on_ground() && m_sprite->animation_done() ) {
         m_sprite->set_action(m_dir == LEFT ? "gear-left" : "gear-right", 1);
         set_state(STATE_GEAR);
@@ -228,7 +228,7 @@ BadGuy::update(float elapsed_time)
     } break;
     case STATE_FALLING:
       m_is_active_flag = false;
-      m_movement = m_physic.get_movement(elapsed_time);
+      m_movement = m_physic.get_movement(dt_sec);
       break;
   }
 
@@ -275,9 +275,9 @@ BadGuy::deactivate()
 }
 
 void
-BadGuy::active_update(float elapsed_time)
+BadGuy::active_update(float dt_sec)
 {
-  m_movement = m_physic.get_movement(elapsed_time);
+  m_movement = m_physic.get_movement(dt_sec);
   if(m_frozen)
     m_sprite->stop_animation();
 }

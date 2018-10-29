@@ -103,17 +103,17 @@ Particles::Particles(const Vector& epicenter, int min_angle, int max_angle,
 }
 
 void
-Particles::update(float elapsed_time)
+Particles::update(float dt_sec)
 {
   Vector camera = Sector::get().m_camera->get_translation();
 
   // update particles
   for(auto i = particles.begin(); i != particles.end(); ) {
-    (*i)->pos.x += (*i)->vel.x * elapsed_time;
-    (*i)->pos.y += (*i)->vel.y * elapsed_time;
+    (*i)->pos.x += (*i)->vel.x * dt_sec;
+    (*i)->pos.y += (*i)->vel.y * dt_sec;
 
-    (*i)->vel.x += accel.x * elapsed_time;
-    (*i)->vel.y += accel.y * elapsed_time;
+    (*i)->vel.x += accel.x * dt_sec;
+    (*i)->vel.y += accel.y * dt_sec;
 
     if((*i)->pos.x < camera.x || (*i)->pos.x > static_cast<float>(SCREEN_WIDTH) + camera.x ||
        (*i)->pos.y < camera.y || (*i)->pos.y > static_cast<float>(SCREEN_HEIGHT) + camera.y) {

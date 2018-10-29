@@ -67,7 +67,7 @@ Stumpy::initialize()
 }
 
 void
-Stumpy::active_update(float elapsed_time)
+Stumpy::active_update(float dt_sec)
 {
   switch (mystate) {
     case STATE_INVINCIBLE:
@@ -75,10 +75,10 @@ Stumpy::active_update(float elapsed_time)
         mystate = STATE_NORMAL;
         WalkingBadguy::initialize();
       }
-      BadGuy::active_update(elapsed_time);
+      BadGuy::active_update(dt_sec);
       break;
     case STATE_NORMAL:
-      WalkingBadguy::active_update(elapsed_time);
+      WalkingBadguy::active_update(dt_sec);
       break;
   }
 }

@@ -35,7 +35,7 @@ public:
   HSQUIRRELVM get_vm() const { return m_vm; }
 
   void wait_for_seconds(HSQUIRRELVM vm, float seconds);
-  void update(float elapsed_time);
+  void update(float dt_sec);
 
   /** adds thread waiting for a screen switch event */
   void wait_for_screenswitch(HSQUIRRELVM vm);

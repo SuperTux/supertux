@@ -96,7 +96,7 @@ BicyclePlatform::collision(GameObject& other, const CollisionHit& )
 }
 
 void
-BicyclePlatform::update(float elapsed_time)
+BicyclePlatform::update(float dt_sec)
 {
   if (!slave) {
     Sector::get().add<BicyclePlatform>(this);
@@ -118,16 +118,16 @@ BicyclePlatform::update(float elapsed_time)
 
     float angular_momentum = cosf(angle) * momentum_diff;
 
-    angular_speed += (angular_momentum * elapsed_time) * math::PI;
-    angular_speed *= 1.0f - elapsed_time * 0.2f;
-    angle += angular_speed * elapsed_time;
+    angular_speed += (angular_momentum * dt_sec) * math::PI;
+    angular_speed *= 1.0f - dt_sec * 0.2f;
+    angle += angular_speed * dt_sec;
     angle = math::positive_fmodf(angle, math::TAU);
-    angular_speed = std::min(std::max(angular_speed, -128.0f * math::PI * elapsed_time), 128.0f * math::PI * elapsed_time);
+    angular_speed = std::min(std::max(angular_speed, -128.0f * math::PI * dt_sec), 128.0f * math::PI * dt_sec);
     Vector dest_ = center + Vector(cosf(angle), sinf(angle)) * radius - (m_bbox.get_size().as_vector() * 0.5);
     m_movement = dest_ - get_pos();
 
-    center += Vector(angular_speed, 0) * elapsed_time * 32;
-    slave->center += Vector(angular_speed, 0) * elapsed_time * 32;
+    center += Vector(angular_speed, 0) * dt_sec * 32;
+    slave->center += Vector(angular_speed, 0) * dt_sec * 32;
 
   }
 }

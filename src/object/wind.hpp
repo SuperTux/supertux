@@ -32,7 +32,7 @@ class Wind final : public MovingObject,
 public:
   Wind(const ReaderMapping& reader);
 
-  virtual void update(float elapsed_time) override;
+  virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
 
@@ -74,7 +74,7 @@ private:
   float acceleration;
   Vector new_size;
 
-  float elapsed_time; /**< stores last elapsed_time gotten at update() */
+  float dt_sec; /**< stores last dt_sec gotten at update() */
 };
 
 #endif

@@ -39,7 +39,7 @@ public:
   virtual ObjectSettings get_settings() override;
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
-  virtual void update(float elapsed_time) override;
+  virtual void update(float dt_sec) override;
 
   const Vector& get_speed() const
   {

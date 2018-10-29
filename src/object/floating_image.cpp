@@ -36,16 +36,16 @@ FloatingImage::~FloatingImage()
 }
 
 void
-FloatingImage::update(float elapsed_time)
+FloatingImage::update(float dt_sec)
 {
   if(fading > 0) {
-    fading -= elapsed_time;
+    fading -= dt_sec;
     if(fading <= 0) {
       fading = 0;
       visible = true;
     }
   } else if(fading < 0) {
-    fading += elapsed_time;
+    fading += dt_sec;
     if(fading >= 0) {
       fading = 0;
       visible = false;

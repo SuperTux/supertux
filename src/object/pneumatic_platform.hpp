@@ -30,7 +30,7 @@ public:
   virtual ~PneumaticPlatform();
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
-  virtual void update(float elapsed_time) override;
+  virtual void update(float dt_sec) override;
   virtual std::string get_class() const override {
     return "pneumatic-platform";
   }

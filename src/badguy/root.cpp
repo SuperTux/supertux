@@ -48,7 +48,7 @@ Root::deactivate()
 }
 
 void
-Root::active_update(float elapsed_time)
+Root::active_update(float dt_sec)
 {
   if (mystate == STATE_APPEARING) {
     if (base_sprite->animation_done()) {
@@ -60,7 +60,7 @@ Root::active_update(float elapsed_time)
     if (!hatch_timer.started()) mystate = STATE_GROWING;
   }
   else if (mystate == STATE_GROWING) {
-    offset_y -= elapsed_time * SPEED_GROW;
+    offset_y -= dt_sec * SPEED_GROW;
     if (offset_y < static_cast<float>(-m_sprite->get_height())) {
       offset_y = static_cast<float>(-m_sprite->get_height());
       mystate = STATE_SHRINKING;
@@ -68,7 +68,7 @@ Root::active_update(float elapsed_time)
     set_pos(m_start_position + Vector(0, offset_y));
   }
   else if (mystate == STATE_SHRINKING) {
-    offset_y += elapsed_time * SPEED_SHRINK;
+    offset_y += dt_sec * SPEED_SHRINK;
     if (offset_y > 0) {
       offset_y = 0;
       mystate = STATE_VANISHING;
@@ -80,7 +80,7 @@ Root::active_update(float elapsed_time)
   else if (mystate == STATE_VANISHING) {
     if (base_sprite->animation_done()) remove_me();
   }
-  BadGuy::active_update(elapsed_time);
+  BadGuy::active_update(dt_sec);
 }
 
 void

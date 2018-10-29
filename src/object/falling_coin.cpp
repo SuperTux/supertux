@@ -38,9 +38,9 @@ FallingCoin::draw(DrawingContext& context)
 }
 
 void
-FallingCoin::update(float elapsed_time)
+FallingCoin::update(float dt_sec)
 {
-  pos += physic.get_movement(elapsed_time);
+  pos += physic.get_movement(dt_sec);
   if (pos.y > static_cast<float>(SCREEN_HEIGHT))
     remove_me();
 }

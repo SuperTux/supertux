@@ -67,9 +67,9 @@ MoleRock::deactivate()
 }
 
 void
-MoleRock::active_update(float elapsed_time)
+MoleRock::active_update(float dt_sec)
 {
-  BadGuy::active_update(elapsed_time);
+  BadGuy::active_update(dt_sec);
 }
 
 void

@@ -30,7 +30,7 @@ public:
   virtual ~GhostParticleSystem();
 
   void init();
-  virtual void update(float elapsed_time) override;
+  virtual void update(float dt_sec) override;
 
   std::string type() const
   { return "GhostParticleSystem"; }

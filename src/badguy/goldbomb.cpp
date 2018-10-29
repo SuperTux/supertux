@@ -132,7 +132,7 @@ GoldBomb::collision_squished(GameObject& object)
 }
 
 void
-GoldBomb::active_update(float elapsed_time)
+GoldBomb::active_update(float dt_sec)
 {
   if(tstate == STATE_TICKING) {
     if (on_ground()) m_physic.set_velocity_x(0);
@@ -141,13 +141,13 @@ GoldBomb::active_update(float elapsed_time)
       kill_fall();
     }
     else if (!grabbed) {
-      m_movement = m_physic.get_movement(elapsed_time);
+      m_movement = m_physic.get_movement(dt_sec);
     }
     return;
   }
   if(grabbed)
     return;
-  WalkingBadguy::active_update(elapsed_time);
+  WalkingBadguy::active_update(dt_sec);
 }
 
 void

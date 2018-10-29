@@ -42,7 +42,7 @@ public:
   }
 
 protected:
-  virtual void update(float elapsed_time) override;
+  virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
 
 private:

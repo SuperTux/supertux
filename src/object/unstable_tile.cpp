@@ -116,7 +116,7 @@ void UnstableTile::fall_down()
 }
 
 void
-UnstableTile::update(float elapsed_time)
+UnstableTile::update(float dt_sec)
 {
   switch (state)
   {
@@ -137,18 +137,18 @@ UnstableTile::update(float elapsed_time)
       break;
 
     case STATE_SLOWFALL:
-      if (slowfall_timer >= elapsed_time)
-	slowfall_timer -= elapsed_time;
+      if (slowfall_timer >= dt_sec)
+	slowfall_timer -= dt_sec;
       else /* Switch to normal falling procedure */
 	fall_down ();
-      m_movement = physic.get_movement (elapsed_time);
+      m_movement = physic.get_movement (dt_sec);
       break;
 
     case STATE_FALL:
       if (m_sprite->animation_done())
         remove_me ();
       else
-        m_movement = physic.get_movement (elapsed_time);
+        m_movement = physic.get_movement (dt_sec);
       break;
   }
 }

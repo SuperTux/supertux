@@ -92,21 +92,21 @@ Snail::can_break() const {
 }
 
 void
-Snail::active_update(float elapsed_time)
+Snail::active_update(float dt_sec)
 {
   if(state == STATE_GRABBED)
     return;
   
   if(m_frozen)
   {
-    BadGuy::active_update(elapsed_time);
+    BadGuy::active_update(dt_sec);
     return;
   }
 
   switch (state) {
 
     case STATE_NORMAL:
-      WalkingBadguy::active_update(elapsed_time);
+      WalkingBadguy::active_update(dt_sec);
       return;
 
     case STATE_FLAT:
@@ -124,7 +124,7 @@ Snail::active_update(float elapsed_time)
       break;
 
     case STATE_KICKED:
-      m_physic.set_velocity_x(m_physic.get_velocity_x() * powf(0.99f, elapsed_time/0.02f));
+      m_physic.set_velocity_x(m_physic.get_velocity_x() * powf(0.99f, dt_sec/0.02f));
       if (m_sprite->animation_done() || (fabsf(m_physic.get_velocity_x()) < walk_speed)) be_normal();
       break;
 
@@ -132,7 +132,7 @@ Snail::active_update(float elapsed_time)
       break;
   }
 
-  BadGuy::active_update(elapsed_time);
+  BadGuy::active_update(dt_sec);
 
   if (m_ignited)
     remove_me();

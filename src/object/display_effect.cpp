@@ -41,19 +41,19 @@ DisplayEffect::~DisplayEffect()
 }
 
 void
-DisplayEffect::update(float elapsed_time)
+DisplayEffect::update(float dt_sec)
 {
   switch(screen_fade) {
     case NO_FADE:
       break;
     case FADE_IN:
-      screen_fading -= elapsed_time;
+      screen_fading -= dt_sec;
       if(screen_fading < 0) {
         screen_fade = NO_FADE;
       }
       break;
     case FADE_OUT:
-      screen_fading -= elapsed_time;
+      screen_fading -= dt_sec;
       if(screen_fading < 0) {
         screen_fade = NO_FADE;
         black = true;
@@ -67,7 +67,7 @@ DisplayEffect::update(float elapsed_time)
     case NO_FADE:
       break;
     case FADE_IN:
-      border_fading -= elapsed_time;
+      border_fading -= dt_sec;
       if(border_fading < 0) {
         border_fade = NO_FADE;
       }
@@ -75,7 +75,7 @@ DisplayEffect::update(float elapsed_time)
         / border_fadetime * BORDER_SIZE;
       break;
     case FADE_OUT:
-      border_fading -= elapsed_time;
+      border_fading -= dt_sec;
       if(border_fading < 0) {
         borders = false;
         border_fade = NO_FADE;

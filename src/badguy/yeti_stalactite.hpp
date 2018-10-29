@@ -24,10 +24,10 @@ class YetiStalactite final : public Stalactite
 public:
   YetiStalactite(const ReaderMapping& lisp);
 
-  virtual void active_update(float elapsed_time) override;
+  virtual void active_update(float dt_sec) override;
   void start_shaking();
   bool is_hanging() const;
-  virtual void update(float elapsed_time) override;
+  virtual void update(float dt_sec) override;
 
   virtual bool is_flammable() const override;
   virtual std::string get_class() const override {

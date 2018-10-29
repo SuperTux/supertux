@@ -71,7 +71,7 @@ LevelIntro::setup()
 }
 
 void
-LevelIntro::update(float elapsed_time)
+LevelIntro::update(float dt_sec)
 {
   auto controller = InputManager::current()->get_controller();
   auto bonus_prefix = m_player_status.get_bonus_prefix();
@@ -89,8 +89,8 @@ LevelIntro::update(float elapsed_time)
     ScreenManager::current()->pop_screen(std::make_unique<FadeToBlack>(FadeToBlack::FADEOUT, 0.1f));
   }
 
-  m_player_sprite_py += m_player_sprite_vy * elapsed_time;
-  m_player_sprite_vy += 100 * elapsed_time * Sector::get().get_gravity();
+  m_player_sprite_py += m_player_sprite_vy * dt_sec;
+  m_player_sprite_vy += 100 * dt_sec * Sector::get().get_gravity();
   if (m_player_sprite_py >= 0) {
     m_player_sprite_py = 0;
     m_player_sprite_vy = 0;

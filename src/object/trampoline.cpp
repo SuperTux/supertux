@@ -63,13 +63,13 @@ Trampoline::Trampoline(const Vector& pos, bool port) :
 }
 
 void
-Trampoline::update(float elapsed_time)
+Trampoline::update(float dt_sec)
 {
   if(m_sprite->animation_done()) {
     m_sprite->set_action("normal");
   }
 
-  Rock::update(elapsed_time);
+  Rock::update(dt_sec);
 }
 
 HitResponse

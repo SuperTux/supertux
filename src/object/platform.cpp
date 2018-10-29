@@ -85,7 +85,7 @@ Platform::collision(GameObject& other, const CollisionHit& )
 }
 
 void
-Platform::update(float elapsed_time)
+Platform::update(float dt_sec)
 {
   if (!get_path()->is_valid()) {
     remove_me();
@@ -123,12 +123,12 @@ Platform::update(float elapsed_time)
     m_player_contact = false;
   }
 
-  Vector new_pos = get_walker()->advance(elapsed_time);
+  Vector new_pos = get_walker()->advance(dt_sec);
   if (Editor::is_active()) {
     set_pos(new_pos);
   } else {
     m_movement = new_pos - get_pos();
-    m_speed = m_movement / elapsed_time;
+    m_speed = m_movement / dt_sec;
   }
 
 }

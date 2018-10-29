@@ -29,7 +29,7 @@ public:
   Trampoline(const Vector& pos, bool port);
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
-  virtual void update(float elapsed_time) override;
+  virtual void update(float dt_sec) override;
 
   virtual void grab(MovingObject&, const Vector& pos, Direction) override;
   virtual bool is_portable() const override;

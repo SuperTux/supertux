@@ -26,7 +26,7 @@ public:
   ~Root();
 
   virtual void deactivate() override;
-  virtual void active_update(float elapsed_time) override;
+  virtual void active_update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
   virtual bool is_flammable() const override { return false; }
   virtual bool is_freezable() const override { return false; }

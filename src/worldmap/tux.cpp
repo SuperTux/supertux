@@ -189,13 +189,13 @@ Tux::ChangeSprite(SpriteChange* sprite_change)
 }
 
 void
-Tux::tryContinueWalking(float elapsed_time)
+Tux::tryContinueWalking(float dt_sec)
 {
   if (!m_moving)
     return;
 
   // Let tux walk
-  m_offset += TUXSPEED * elapsed_time;
+  m_offset += TUXSPEED * dt_sec;
 
   // Do nothing if we have not yet reached the next tile
   if (m_offset <= 32)
@@ -303,13 +303,13 @@ Tux::updateInputDirection()
 }
 
 void
-Tux::update(float elapsed_time)
+Tux::update(float dt_sec)
 {
   if (m_worldmap->is_panning()) return;
 
   updateInputDirection();
   if (m_moving)
-    tryContinueWalking(elapsed_time);
+    tryContinueWalking(dt_sec);
   else
     tryStartWalking();
 }

@@ -30,7 +30,7 @@ public:
   virtual void draw(DrawingContext& context) override;
   virtual void activate() override;
   virtual void deactivate() override;
-  virtual void active_update(float elapsed_time) override;
+  virtual void active_update(float dt_sec) override;
 
   virtual void freeze() override;
   virtual void unfreeze() override;

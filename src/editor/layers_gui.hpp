@@ -34,7 +34,7 @@ class EditorLayersGui final
     EditorLayersGui();
 
     void draw(DrawingContext&);
-    void update(float elapsed_time);
+    void update(float dt_sec);
     bool event(SDL_Event& ev);
     void setup();
     void resize();

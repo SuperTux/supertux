@@ -127,7 +127,7 @@ Block::collision(GameObject& other, const CollisionHit& )
 }
 
 void
-Block::update(float elapsed_time)
+Block::update(float dt_sec)
 {
   if(!bouncing)
     return;
@@ -135,17 +135,17 @@ Block::update(float elapsed_time)
   float offset = original_y - get_pos().y;
   if(offset > BOUNCY_BRICK_MAX_OFFSET) {
     bounce_dir = BOUNCY_BRICK_SPEED;
-    m_movement = Vector(0, bounce_dir * elapsed_time);
+    m_movement = Vector(0, bounce_dir * dt_sec);
     if(breaking){
       break_me();
     }
-  } else if(offset < BOUNCY_BRICK_SPEED * elapsed_time && bounce_dir > 0) {
+  } else if(offset < BOUNCY_BRICK_SPEED * dt_sec && bounce_dir > 0) {
     m_movement = Vector(0, offset);
     bounce_dir = 0;
     bouncing = false;
     sprite->set_angle(0);
   } else {
-    m_movement = Vector(0, bounce_dir * elapsed_time);
+    m_movement = Vector(0, bounce_dir * dt_sec);
   }
 }
 

@@ -82,7 +82,7 @@ NodeMarker::get_settings()
 }
 
 void
-NodeMarker::update(float elapsed_time)
+NodeMarker::update(float dt_sec)
 {
   set_pos(m_node->position - Vector(8, 8));
 }

@@ -65,7 +65,7 @@ public:
   void fade_in(float fadetime);
   void fade_out(float fadetime);
 
-  virtual void update(float elapsed_time) override;
+  virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
 
 private:

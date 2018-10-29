@@ -39,9 +39,9 @@ Star::Star(const Vector& pos, Direction direction) :
 }
 
 void
-Star::update(float elapsed_time)
+Star::update(float dt_sec)
 {
-  m_movement = physic.get_movement(elapsed_time);
+  m_movement = physic.get_movement(dt_sec);
 
   // when near Tux, spawn particles
   auto player = Sector::get().get_nearest_player (m_bbox);

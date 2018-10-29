@@ -71,9 +71,9 @@ static const float WALKSPEED = 100;
 }
 
 void
-Totem::active_update(float elapsed_time)
+Totem::active_update(float dt_sec)
 {
-  BadGuy::active_update(elapsed_time);
+  BadGuy::active_update(dt_sec);
 
   if (!carried_by) {
     if (on_ground() && might_fall())

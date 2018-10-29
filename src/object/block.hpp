@@ -31,7 +31,7 @@ public:
   Block(const ReaderMapping& lisp, const std::string& sprite_file);
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
-  virtual void update(float elapsed_time) override;
+  virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
 
   virtual std::string get_default_sprite_name() const {

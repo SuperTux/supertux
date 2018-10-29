@@ -27,9 +27,9 @@ SpecialRiser::SpecialRiser(const Vector& pos, std::unique_ptr<MovingObject> chil
 }
 
 void
-SpecialRiser::update(float elapsed_time)
+SpecialRiser::update(float dt_sec)
 {
-  offset += 50 * elapsed_time;
+  offset += 50 * dt_sec;
   if(offset > 32) {
     Sector::get().add_object(std::move(child));
     remove_me();

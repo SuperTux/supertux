@@ -27,7 +27,7 @@ public:
 
   virtual void draw(DrawingContext& context) override;
   virtual void initialize() override;
-  virtual void active_update(float elapsed_time) override;
+  virtual void active_update(float dt_sec) override;
   virtual void collision_solid(const CollisionHit& hit) override;
   virtual bool collision_squished(GameObject& object) override;
   void kill_squished(GameObject& object);

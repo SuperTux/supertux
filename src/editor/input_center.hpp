@@ -36,7 +36,7 @@ class EditorInputCenter final
 
     void event(SDL_Event& ev);
     void draw(DrawingContext&);
-    void update(float elapsed_time);
+    void update(float dt_sec);
 
     void update_pos();
     void delete_markers();

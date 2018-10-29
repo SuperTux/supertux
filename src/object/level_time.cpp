@@ -53,12 +53,12 @@ LevelTime::get_settings() {
 }
 
 void
-LevelTime::update(float elapsed_time)
+LevelTime::update(float dt_sec)
 {
   if (!running) return;
 
   int prev_time = static_cast<int>(floorf(time_left*5));
-  time_left -= elapsed_time;
+  time_left -= dt_sec;
   if(time_left <= 0) {
     if(time_left <= -5 || !Sector::get().m_player->get_coins())
     {

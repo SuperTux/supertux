@@ -56,7 +56,7 @@ CaptainSnowball::might_climb(int width, int height) const
 }
 
 void
-CaptainSnowball::active_update(float elapsed_time)
+CaptainSnowball::active_update(float dt_sec)
 {
   if (on_ground() && might_climb(8, 64)) {
     m_physic.set_velocity_y(-400);
@@ -65,7 +65,7 @@ CaptainSnowball::active_update(float elapsed_time)
     walk_speed = BOARDING_SPEED;
     m_physic.set_velocity_x(m_dir == LEFT ? -walk_speed : walk_speed);
   }
-  WalkingBadguy::active_update(elapsed_time);
+  WalkingBadguy::active_update(dt_sec);
 }
 
 void

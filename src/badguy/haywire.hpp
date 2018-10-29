@@ -30,7 +30,7 @@ public:
   virtual void kill_fall() override;
   virtual void ignite() override;
 
-  virtual void active_update(float elapsed_time) override;
+  virtual void active_update(float dt_sec) override;
 
   virtual bool is_freezable() const override;
   virtual void freeze() override;

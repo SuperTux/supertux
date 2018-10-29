@@ -87,9 +87,9 @@ Mole::throw_rock()
 }
 
 void
-Mole::active_update(float elapsed_time)
+Mole::active_update(float dt_sec)
 {
-  BadGuy::active_update(elapsed_time);
+  BadGuy::active_update(dt_sec);
 
   if (m_frozen)
     return;

@@ -106,7 +106,7 @@ MagicBlock::after_editor_set() {
 }
 
 void
-MagicBlock::update(float elapsed_time)
+MagicBlock::update(float dt_sec)
 {
   //Check if center of this block is on screen.
   //Don't update if not, because there is no light off screen.
@@ -135,7 +135,7 @@ MagicBlock::update(float elapsed_time)
   } else {
     if (switch_delay > 0) {
       lighting_ok = is_solid;
-      switch_delay -= elapsed_time;
+      switch_delay -= dt_sec;
     }
   }
 
@@ -159,7 +159,7 @@ MagicBlock::update(float elapsed_time)
 
   //Update Sprite.
   if(is_solid) {
-    solid_time+=elapsed_time;
+    solid_time+=dt_sec;
     color.alpha = ALPHA_SOLID;
     m_sprite->set_action("solid");
     set_group(COLGROUP_STATIC);

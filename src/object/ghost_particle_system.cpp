@@ -63,15 +63,15 @@ void GhostParticleSystem::init()
   }
 }
 
-void GhostParticleSystem::update(float elapsed_time)
+void GhostParticleSystem::update(float dt_sec)
 {
   if(!enabled)
     return;
 
   for(const auto& part : particles) {
     const auto& particle = dynamic_cast<GhostParticle*>(part.get());
-    particle->pos.y -= particle->speed * elapsed_time;
-    particle->pos.x -= particle->speed * elapsed_time;
+    particle->pos.y -= particle->speed * dt_sec;
+    particle->pos.x -= particle->speed * dt_sec;
     if(particle->pos.y > static_cast<float>(SCREEN_HEIGHT)) {
       particle->pos.y = fmodf(particle->pos.y , virtual_height);
       particle->pos.x = graphicsRandom.randf(virtual_width);

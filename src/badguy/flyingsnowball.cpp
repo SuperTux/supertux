@@ -67,7 +67,7 @@ FlyingSnowBall::collision_solid(const CollisionHit& hit)
 }
 
 void
-FlyingSnowBall::active_update(float elapsed_time)
+FlyingSnowBall::active_update(float dt_sec)
 {
 
   const float grav = Sector::get().get_gravity() * 100.0f;
@@ -92,7 +92,7 @@ FlyingSnowBall::active_update(float elapsed_time)
 
   }
 
-  m_movement=m_physic.get_movement(elapsed_time);
+  m_movement=m_physic.get_movement(dt_sec);
 
   auto player = get_nearest_player();
   if (player) {

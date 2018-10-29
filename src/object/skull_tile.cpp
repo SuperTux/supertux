@@ -56,10 +56,10 @@ SkullTile::draw(DrawingContext& context)
 }
 
 void
-SkullTile::update(float elapsed_time)
+SkullTile::update(float dt_sec)
 {
   if(falling) {
-    m_movement = physic.get_movement(elapsed_time);
+    m_movement = physic.get_movement(dt_sec);
     if(!Sector::get().inside(m_bbox)) {
       remove_me();
       return;

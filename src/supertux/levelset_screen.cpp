@@ -51,7 +51,7 @@ LevelsetScreen::draw(Compositor& compositor)
 }
 
 void
-LevelsetScreen::update(float elapsed_time)
+LevelsetScreen::update(float dt_sec)
 {
 }
 

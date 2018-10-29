@@ -82,7 +82,7 @@ PneumaticPlatform::collision(GameObject& other, const CollisionHit& )
 }
 
 void
-PneumaticPlatform::update(float elapsed_time)
+PneumaticPlatform::update(float dt_sec)
 {
   if (!slave) {
     Sector::get().add<PneumaticPlatform>(this);
@@ -100,10 +100,10 @@ PneumaticPlatform::update(float elapsed_time)
     contacts.clear();
     slave->contacts.clear();
 
-    speed_y += (static_cast<float>(contact_diff) * elapsed_time) * 12.8f;
-    speed_y -= (offset_y * elapsed_time * 0.05f);
-    speed_y *= 1 - elapsed_time;
-    offset_y += speed_y * elapsed_time * Sector::get().get_gravity();
+    speed_y += (static_cast<float>(contact_diff) * dt_sec) * 12.8f;
+    speed_y -= (offset_y * dt_sec * 0.05f);
+    speed_y *= 1 - dt_sec;
+    offset_y += speed_y * dt_sec * Sector::get().get_gravity();
     if (offset_y < -256) { offset_y = -256; speed_y = 0; }
     if (offset_y > 256) { offset_y = 256; speed_y = -0; }
     m_movement = Vector(0, (start_y + offset_y) - get_pos().y);

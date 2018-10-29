@@ -38,9 +38,9 @@ BouncyCoin::BouncyCoin(const Vector& pos, bool emerge, const std::string& sprite
 }
 
 void
-BouncyCoin::update(float elapsed_time)
+BouncyCoin::update(float dt_sec)
 {
-  float dist = -200 * elapsed_time;
+  float dist = -200 * dt_sec;
   position.y += dist;
   emerge_distance += dist;
 

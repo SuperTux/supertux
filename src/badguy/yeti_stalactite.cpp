@@ -43,16 +43,16 @@ YetiStalactite::is_hanging() const
 }
 
 void
-YetiStalactite::active_update(float elapsed_time)
+YetiStalactite::active_update(float dt_sec)
 {
   if(state == STALACTITE_HANGING)
     return;
 
-  Stalactite::active_update(elapsed_time);
+  Stalactite::active_update(dt_sec);
 }
 
 void
-YetiStalactite::update(float elapsed_time)
+YetiStalactite::update(float dt_sec)
 {
   if (Editor::is_active() && m_sprite->get_action() != "yeti-stalactite" &&
       m_sprite->has_action("yeti-stalactite")) {
@@ -70,7 +70,7 @@ YetiStalactite::update(float elapsed_time)
   }
 
   // Call back to badguy to do normal stuff
-  BadGuy::update(elapsed_time);
+  BadGuy::update(dt_sec);
 }
 
 bool

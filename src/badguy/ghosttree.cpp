@@ -79,7 +79,7 @@ GhostTree::activate()
 }
 
 void
-GhostTree::active_update(float /*elapsed_time*/)
+GhostTree::active_update(float /*dt_sec*/)
 {
   if (mystate == STATE_IDLE) {
     if(colorchange_timer.check()) {

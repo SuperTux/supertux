@@ -26,7 +26,7 @@ public:
   EndSequence();
   virtual ~EndSequence();
 
-  virtual void update(float elapsed_time) override;
+  virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
 
   void start(); /**< play EndSequence */
@@ -40,7 +40,7 @@ public:
 
 protected:
   virtual void starting(); /**< called when EndSequence starts */
-  virtual void running(float elapsed_time); /**< called while the EndSequence is running */
+  virtual void running(float dt_sec); /**< called while the EndSequence is running */
   virtual void stopping(); /**< called when EndSequence stops */
 
 protected:

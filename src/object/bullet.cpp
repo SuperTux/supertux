@@ -57,7 +57,7 @@ Bullet::Bullet(const Vector& pos, float xm, int dir, BonusType type_) :
 }
 
 void
-Bullet::update(float elapsed_time)
+Bullet::update(float dt_sec)
 {
   // cause fireball color to flicker randomly
   if (gameRandom.rand(5) != 0) {
@@ -80,7 +80,7 @@ Bullet::update(float elapsed_time)
     return;
   }
 
-  m_movement = physic.get_movement(elapsed_time);
+  m_movement = physic.get_movement(dt_sec);
 }
 
 void

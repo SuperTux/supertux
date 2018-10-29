@@ -43,7 +43,7 @@ class Editor final : public Screen,
     Editor();
 
     virtual void draw(Compositor&) override;
-    virtual void update(float elapsed_time) override;
+    virtual void update(float dt_sec) override;
 
     virtual void setup() override;
     virtual void leave() override;
