@@ -141,7 +141,7 @@ void
 SquirrelVirtualMachine::update(float dt)
 {
   update_debugger();
-  m_scheduler->update(dt);
+  m_scheduler->update(g_game_time);
 }
 
 void

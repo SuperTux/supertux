@@ -30,6 +30,7 @@ class SquirrelScheduler final
 public:
   SquirrelScheduler(HSQUIRRELVM vm);
 
+  /** time must be absolute time, not relative updates, i.e. g_game_time */
   void update(float time);
   void schedule_thread(HSQUIRRELVM vm, float time);
 
