@@ -22,48 +22,47 @@
 
 PneumaticPlatform::PneumaticPlatform(const ReaderMapping& reader) :
   MovingSprite(reader, "images/objects/platforms/small.sprite", LAYER_OBJECTS, COLGROUP_STATIC),
-  master(nullptr),
-  slave(nullptr),
-  start_y(0),
-  offset_y(0),
-  speed_y(0),
-  contacts()
+  m_master(nullptr),
+  m_slave(nullptr),
+  m_start_y(0),
+  m_offset_y(0),
+  m_speed_y(0),
+  m_contacts()
 {
-  start_y = get_pos().y;
+  m_start_y = get_pos().y;
 }
 
 PneumaticPlatform::PneumaticPlatform(PneumaticPlatform* master_) :
   MovingSprite(*master_),
-  master(master_),
-  slave(this),
-  start_y(master_->start_y),
-  offset_y(-master_->offset_y),
-  speed_y(0),
-  contacts()
+  m_master(master_),
+  m_slave(this),
+  m_start_y(master_->m_start_y),
+  m_offset_y(-master_->m_offset_y),
+  m_speed_y(0),
+  m_contacts()
 {
-  set_pos(get_pos() + Vector(master->get_bbox().get_width(), 0));
-  master->master = master;
-  master->slave = this;
+  set_pos(get_pos() + Vector(m_master->get_bbox().get_width(), 0));
+  m_master->m_master = m_master;
+  m_master->m_slave = this;
 }
 
 PneumaticPlatform::~PneumaticPlatform()
 {
-  if ((this == master) && (master)) {
-    slave->master = nullptr;
-    slave->slave = nullptr;
+  if ((this == m_master) && (m_master)) {
+    m_slave->m_master = nullptr;
+    m_slave->m_slave = nullptr;
   }
-  if ((master) && (this == slave)) {
-    master->master = nullptr;
-    master->slave = nullptr;
+  if ((m_master) && (this == m_slave)) {
+    m_master->m_master = nullptr;
+    m_master->m_slave = nullptr;
   }
-  master = nullptr;
-  slave = nullptr;
+  m_master = nullptr;
+  m_slave = nullptr;
 }
 
 HitResponse
 PneumaticPlatform::collision(GameObject& other, const CollisionHit& )
 {
-
   // somehow the hit parameter does not get filled in, so to determine (hit.top == true) we do this:
   auto mo = dynamic_cast<MovingObject*>(&other);
   if (!mo) return FORCE_MOVE;
@@ -71,67 +70,70 @@ PneumaticPlatform::collision(GameObject& other, const CollisionHit& )
 
   auto pl = dynamic_cast<Player*>(mo);
   if (pl) {
-    if (pl->is_big()) contacts.insert(nullptr);
+    if (pl->is_big()) m_contacts.insert(nullptr);
     auto po = pl->get_grabbed_object();
     auto pomo = dynamic_cast<MovingObject*>(po);
-    if (pomo) contacts.insert(pomo);
+    if (pomo) m_contacts.insert(pomo);
   }
 
-  contacts.insert(&other);
+  m_contacts.insert(&other);
   return FORCE_MOVE;
 }
 
 void
 PneumaticPlatform::update(float dt_sec)
 {
-  if (!slave) {
+  if (!m_slave) {
     Sector::get().add<PneumaticPlatform>(this);
     return;
   }
-  if (!master) {
+  if (!m_master) {
     return;
   }
-  if (this == slave) {
-    offset_y = -master->offset_y;
-    m_movement = Vector(0, (start_y + offset_y) - get_pos().y);
+  if (this == m_slave) {
+    m_offset_y = -m_master->m_offset_y;
+    m_movement = Vector(0, (m_start_y + m_offset_y) - get_pos().y);
   }
-  if (this == master) {
-    int contact_diff = static_cast<int>(contacts.size()) - static_cast<int>(slave->contacts.size());
-    contacts.clear();
-    slave->contacts.clear();
+  if (this == m_master) {
+    int contact_diff = static_cast<int>(m_contacts.size()) - static_cast<int>(m_slave->m_contacts.size());
+    m_contacts.clear();
+    m_slave->m_contacts.clear();
 
-    speed_y += (static_cast<float>(contact_diff) * dt_sec) * 12.8f;
-    speed_y -= (offset_y * dt_sec * 0.05f);
-    speed_y *= 1 - dt_sec;
-    offset_y += speed_y * dt_sec * Sector::get().get_gravity();
-    if (offset_y < -256) { offset_y = -256; speed_y = 0; }
-    if (offset_y > 256) { offset_y = 256; speed_y = -0; }
-    m_movement = Vector(0, (start_y + offset_y) - get_pos().y);
+    m_speed_y += (static_cast<float>(contact_diff) * dt_sec) * 12.8f;
+    m_speed_y -= (m_offset_y * dt_sec * 0.05f);
+    m_speed_y *= 1 - dt_sec;
+    m_offset_y += m_speed_y * dt_sec * Sector::get().get_gravity();
+    if (m_offset_y < -256) { m_offset_y = -256; m_speed_y = 0; }
+    if (m_offset_y > 256) { m_offset_y = 256; m_speed_y = -0; }
+    m_movement = Vector(0, (m_start_y + m_offset_y) - get_pos().y);
   }
 }
 
 void
-PneumaticPlatform::move_to(const Vector& pos) {
+PneumaticPlatform::move_to(const Vector& pos)
+{
   Vector shift = pos - m_bbox.p1;
-  if (this == slave) {
-    master->set_pos(master->get_pos() + shift);
-  } else if (this == master) {
-    slave->set_pos(slave->get_pos() + shift);
+  if (this == m_slave) {
+    m_master->set_pos(m_master->get_pos() + shift);
+  } else if (this == m_master) {
+    m_slave->set_pos(m_slave->get_pos() + shift);
   }
   MovingObject::move_to(pos);
-  start_y += shift.y;
+  m_start_y += shift.y;
 }
 
 void
-PneumaticPlatform::editor_delete() {
-  master->remove_me();
-  slave->remove_me();
+PneumaticPlatform::editor_delete()
+{
+  m_master->remove_me();
+  m_slave->remove_me();
 }
 
 void
-PneumaticPlatform::after_editor_set() {
+PneumaticPlatform::after_editor_set()
+{
   MovingSprite::after_editor_set();
-  slave->change_sprite(m_sprite_name);
+  m_slave->change_sprite(m_sprite_name);
 }
 
 /* EOF */

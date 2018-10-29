@@ -39,7 +39,7 @@ public:
   }
 
   virtual bool is_saveable() const override {
-    return this == master;
+    return this == m_master;
   }
 
   virtual void move_to(const Vector& pos) override;
@@ -47,12 +47,12 @@ public:
   virtual void after_editor_set() override;
 
 protected:
-  PneumaticPlatform* master; /**< pointer to PneumaticPlatform that does movement calculation */
-  PneumaticPlatform* slave; /**< pointer to PneumaticPlatform that reacts to master platform's movement calculation */
-  float start_y; /**< vertical start position */
-  float offset_y; /**< vertical offset from the start position in px */
-  float speed_y; /**< vertical speed */
-  std::set<GameObject*> contacts; /**< objects that are currently pushing on the platform */
+  PneumaticPlatform* m_master; /**< pointer to PneumaticPlatform that does movement calculation */
+  PneumaticPlatform* m_slave; /**< pointer to PneumaticPlatform that reacts to master platform's movement calculation */
+  float m_start_y; /**< vertical start position */
+  float m_offset_y; /**< vertical offset from the start position in px */
+  float m_speed_y; /**< vertical speed */
+  std::set<GameObject*> m_contacts; /**< objects that are currently pushing on the platform */
 
 private:
   PneumaticPlatform(const PneumaticPlatform&);
