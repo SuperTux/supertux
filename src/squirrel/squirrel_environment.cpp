@@ -19,17 +19,20 @@
 #include <algorithm>
 
 #include "squirrel/script_interface.hpp"
-#include "squirrel/squirrel_virtual_machine.hpp"
 #include "squirrel/squirrel_error.hpp"
+#include "squirrel/squirrel_scheduler.hpp"
 #include "squirrel/squirrel_util.hpp"
+#include "squirrel/squirrel_virtual_machine.hpp"
 #include "supertux/game_object.hpp"
+#include "supertux/globals.hpp"
 #include "util/log.hpp"
 
 SquirrelEnvironment::SquirrelEnvironment(HSQUIRRELVM vm, const std::string& name) :
   m_vm(vm),
   m_table(),
   m_name(name),
-  m_scripts()
+  m_scripts(),
+  m_scheduler(std::make_unique<SquirrelScheduler>(m_vm))
 {
   // garbage collector has to be invoked manually
   sq_collectgarbage(m_vm);
@@ -167,6 +170,18 @@ SquirrelEnvironment::run_script(std::istream& in, const std::string& sourcename)
   {
     log_warning << "Error running script: " << e.what() << std::endl;
   }
+}
+
+void
+SquirrelEnvironment::wait_for_seconds(HSQUIRRELVM vm, float seconds)
+{
+  m_scheduler->schedule_thread(vm, g_game_time + seconds);
+}
+
+void
+SquirrelEnvironment::update(float seconds)
+{
+  m_scheduler->update(seconds);
 }
 
 /* EOF */

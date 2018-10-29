@@ -302,6 +302,8 @@ Sector::update(float elapsed_time)
 {
   BIND_SECTOR(*this);
 
+  m_squirrel_environment->update(elapsed_time);
+
   m_player->check_bounds();
 
   if(m_ambient_light_fading)

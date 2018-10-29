@@ -65,9 +65,18 @@ bool is_christmas()
 
 void wait(HSQUIRRELVM vm, float seconds)
 {
-  auto squirrelvm = static_cast<SquirrelVirtualMachine*>(sq_getsharedforeignptr(vm));
-  //auto squirrelenv = static_cast<SquirrelEnvironment*>(sq_getforeignptr(vm));
-  squirrelvm->wait_for_seconds(vm, seconds);
+  if (auto squirrelenv = static_cast<SquirrelEnvironment*>(sq_getforeignptr(vm)))
+  {
+    squirrelenv->wait_for_seconds(vm, seconds);
+  }
+  else if (auto squirrelvm = static_cast<SquirrelVirtualMachine*>(sq_getsharedforeignptr(vm)))
+  {
+    squirrelvm->wait_for_seconds(vm, seconds);
+  }
+  else
+  {
+    log_warning << "wait(): no VM or environment available\n";
+  }
 }
 
 void wait_for_screenswitch(HSQUIRRELVM vm)
