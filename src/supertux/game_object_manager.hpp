@@ -59,7 +59,7 @@ public:
     return obj_ptr;
   }
 
-  void update(float delta);
+  void update(float elapsed_time);
   void draw(DrawingContext& context);
 
   const std::vector<std::unique_ptr<GameObject> >& get_objects() const;

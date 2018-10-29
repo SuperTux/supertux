@@ -105,11 +105,11 @@ InfoBlock::get_nearest_player() const
 }
 
 void
-InfoBlock::update(float delta)
+InfoBlock::update(float elapsed_time)
 {
-  Block::update(delta);
+  Block::update(elapsed_time);
 
-  if (delta == 0) return;
+  if (elapsed_time == 0) return;
 
   // hide message if player is too far away
   if (dest_pct > 0) {
@@ -125,8 +125,8 @@ InfoBlock::update(float delta)
 
   // handle soft fade-in and fade-out
   if (shown_pct != dest_pct) {
-    if (dest_pct > shown_pct) shown_pct = std::min(shown_pct + 2*delta, dest_pct);
-    if (dest_pct < shown_pct) shown_pct = std::max(shown_pct - 2*delta, dest_pct);
+    if (dest_pct > shown_pct) shown_pct = std::min(shown_pct + 2 * elapsed_time, dest_pct);
+    if (dest_pct < shown_pct) shown_pct = std::max(shown_pct - 2 * elapsed_time, dest_pct);
   }
 }
 

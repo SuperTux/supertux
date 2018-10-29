@@ -210,9 +210,9 @@ Background::after_editor_set()
 }
 
 void
-Background::update(float delta)
+Background::update(float elapsed_time)
 {
-  m_scroll_offset += m_scroll_speed * delta;
+  m_scroll_offset += m_scroll_speed * elapsed_time;
 }
 
 void

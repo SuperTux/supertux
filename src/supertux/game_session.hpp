@@ -48,14 +48,14 @@ public:
   GameSession(const std::string& levelfile, Savegame& savegame, Statistics* statistics = nullptr);
 
   virtual void draw(Compositor& compositor) override;
-  virtual void update(float frame_ratio) override;
+  virtual void update(float elapsed_time) override;
   virtual void setup() override;
   virtual void leave() override;
 
   /// ends the current level
   void finish(bool win = true);
-  void respawn(const std::string& sectorname, const std::string& spawnpointname, 
-  const bool invincibility = false, const int invincibilityperiod = 0);
+  void respawn(const std::string& sectorname, const std::string& spawnpointname,
+               const bool invincibility = false, const int invincibilityperiod = 0);
   void reset_level();
   void set_reset_point(const std::string& sectorname, const Vector& pos);
   std::string get_reset_point_sectorname() const

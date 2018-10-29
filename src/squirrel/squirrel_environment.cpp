@@ -179,7 +179,7 @@ SquirrelEnvironment::wait_for_seconds(HSQUIRRELVM vm, float seconds)
 }
 
 void
-SquirrelEnvironment::update(float seconds)
+SquirrelEnvironment::update(float elapsed_time)
 {
   m_scheduler->update(g_game_time);
 }

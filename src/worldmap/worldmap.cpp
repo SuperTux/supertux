@@ -318,12 +318,12 @@ WorldMap::clamp_camera_position(Vector& c) const
 }
 
 void
-WorldMap::update(float delta)
+WorldMap::update(float elapsed_time)
 {
   if (m_in_level) return;
   if (MenuManager::instance().is_active()) return;
 
-  GameObjectManager::update(delta);
+  GameObjectManager::update(elapsed_time);
 
   Vector requested_pos;
 

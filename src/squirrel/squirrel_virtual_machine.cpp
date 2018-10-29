@@ -138,7 +138,7 @@ SquirrelVirtualMachine::~SquirrelVirtualMachine()
 }
 
 void
-SquirrelVirtualMachine::update(float dt)
+SquirrelVirtualMachine::update(float elapsed_time)
 {
   update_debugger();
   m_scheduler->update(g_game_time);

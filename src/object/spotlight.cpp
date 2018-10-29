@@ -65,15 +65,15 @@ Spotlight::get_settings() {
 }
 
 void
-Spotlight::update(float delta)
+Spotlight::update(float elapsed_time)
 {
   if(counter_clockwise)
   {
-    angle -= delta * speed;
+    angle -= elapsed_time * speed;
   }
   else
   {
-    angle += delta * speed;
+    angle += elapsed_time * speed;
   }
 }
 

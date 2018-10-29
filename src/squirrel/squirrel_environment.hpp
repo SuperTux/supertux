@@ -70,7 +70,7 @@ public:
       destroyed). */
   void run_script(std::istream& in, const std::string& sourcename);
 
-  void update(float seconds);
+  void update(float elapsed_time);
   void wait_for_seconds(HSQUIRRELVM vm, float seconds);
 
 private:
