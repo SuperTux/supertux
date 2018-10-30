@@ -46,8 +46,6 @@ public:
   MovingSprite(const ReaderMapping& reader,
                int layer = LAYER_OBJECTS,
                CollisionGroup collision_group = COLGROUP_MOVING);
-  MovingSprite(const MovingSprite& moving_sprite);
-  //MovingSprite& operator=(const MovingSprite& moving_sprite);
 
   virtual void draw(DrawingContext& context) override;
   virtual void update(float dt_sec) override;
@@ -92,8 +90,8 @@ protected:
   int m_layer; /**< Sprite's z-position. Refer to video/drawing_context.hpp for sensible values. */
 
 private:
-  //MovingSprite(const MovingSprite&);
-  MovingSprite& operator=(const MovingSprite&);
+  MovingSprite(const MovingSprite&) = delete;
+  MovingSprite& operator=(const MovingSprite&) = delete;
 };
 
 #endif

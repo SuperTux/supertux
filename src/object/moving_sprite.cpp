@@ -95,29 +95,6 @@ MovingSprite::MovingSprite(const ReaderMapping& reader, int layer_, CollisionGro
   set_group(collision_group);
 }
 
-MovingSprite::MovingSprite(const MovingSprite& other) :
-  MovingObject(other),
-  m_sprite_name(),
-  m_default_sprite_name(),
-  m_sprite(other.m_sprite->clone()),
-  m_layer(other.m_layer)
-{
-}
-/*
-  MovingSprite&
-  MovingSprite::operator=(const MovingSprite& other)
-  {
-  if (this == &other)
-  return *this;
-
-  delete sprite;
-  sprite = new Sprite(*other.sprite);
-
-  layer = other.layer;
-
-  return *this;
-  }
-*/
 void
 MovingSprite::draw(DrawingContext& context)
 {

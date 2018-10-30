@@ -31,14 +31,6 @@ GameObject::GameObject() :
 {
 }
 
-GameObject::GameObject(const GameObject& rhs) :
-  m_uid(),
-  m_wants_to_die(rhs.m_wants_to_die),
-  m_remove_listeners(),
-  m_name(rhs.m_name)
-{
-}
-
 GameObject::GameObject(const ReaderMapping& reader) :
   GameObject()
 {

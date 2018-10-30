@@ -46,7 +46,6 @@ class GameObject
 
 public:
   GameObject();
-  GameObject(const GameObject& rhs);
   GameObject(const ReaderMapping& reader);
   virtual ~GameObject();
 
@@ -127,7 +126,8 @@ protected:
   std::string m_name;
 
 private:
-  GameObject& operator=(const GameObject&);
+  GameObject(const GameObject&) = delete;
+  GameObject& operator=(const GameObject&) = delete;
 };
 
 #endif
