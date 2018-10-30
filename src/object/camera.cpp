@@ -641,7 +641,8 @@ Camera::update_scroll_autoscroll(float dt_sec)
   if(player->is_dying())
     return;
 
-  m_translation = get_walker()->advance(dt_sec);
+  get_walker()->update(dt_sec);
+  m_translation = get_walker()->get_pos();
 
   keep_in_bounds(m_translation);
 }

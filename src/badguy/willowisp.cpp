@@ -85,8 +85,9 @@ void
 WillOWisp::active_update(float dt_sec)
 {
   if (Editor::is_active() && get_path() && get_path()->is_valid()) {
-      set_pos(get_walker()->advance(dt_sec));
-      return;
+    get_walker()->update(dt_sec);
+    set_pos(get_walker()->get_pos());
+    return;
   }
 
   auto player = get_nearest_player();
@@ -137,7 +138,8 @@ WillOWisp::active_update(float dt_sec)
     case STATE_PATHMOVING_TRACK:
       if (get_walker() == nullptr)
         return;
-      m_movement = get_walker()->advance(dt_sec) - get_pos();
+      get_walker()->update(dt_sec);
+      m_movement = get_walker()->get_pos() - get_pos();
       if (m_mystate == STATE_PATHMOVING_TRACK && dist.norm() <= m_track_range) {
         m_mystate = STATE_TRACKING;
       }

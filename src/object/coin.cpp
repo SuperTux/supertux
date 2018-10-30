@@ -75,7 +75,17 @@ Coin::update(float dt_sec)
 {
   // if we have a path to follow, follow it
   if (get_walker()) {
-    Vector v = m_from_tilemap ? m_offset + get_walker()->get_pos() : get_walker()->advance(dt_sec);
+    Vector v;
+    if (m_from_tilemap)
+    {
+      v = m_offset + get_walker()->get_pos();
+    }
+    else
+    {
+      get_walker()->update(dt_sec);
+      v = get_walker()->get_pos();
+    }
+
     if (get_path()->is_valid()) {
       if (Editor::is_active()) {
         set_pos(v);

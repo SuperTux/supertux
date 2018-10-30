@@ -296,7 +296,8 @@ TileMap::update(float dt_sec)
   m_movement = Vector(0,0);
   // if we have a path to follow, follow it
   if (get_walker()) {
-    Vector v = get_walker()->advance(dt_sec);
+    get_walker()->update(dt_sec);
+    Vector v = get_walker()->get_pos();
     if (get_path()->is_valid()) {
       m_movement = v - get_offset();
       set_offset(v);

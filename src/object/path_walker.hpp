@@ -32,10 +32,10 @@ public:
 
 public:
   PathWalker(UID path_uid, bool running = true);
-  virtual ~PathWalker();
+  ~PathWalker();
 
   /** advances the path walker on the path and returns its new position */
-  virtual Vector advance(float dt_sec);
+  void update(float dt_sec);
 
   /** current position of path walker */
   Vector get_pos() const;

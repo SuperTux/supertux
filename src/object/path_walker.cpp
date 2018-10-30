@@ -64,27 +64,19 @@ PathWalker::get_path() const
   }
 }
 
-Vector
-PathWalker::advance(float dt_sec)
+void
+PathWalker::update(float dt_sec)
 {
   Path* path = get_path();
-  if (!path) return {};
-  if (!path->is_valid()) return {};
+  if (!path) return;
+  if (!path->is_valid()) return;
+  if (Editor::is_active()) return;
+  if (!m_running) return;
 
-  if (Editor::is_active()) {
-    Vector pos__ = path->m_nodes.begin()->position;
-//    log_warning << "x" << pos__.x << " y" << pos__.y << std::endl;
-    return pos__;
-  }
-
-  if (!m_running) return path->m_nodes[m_current_node_nr].position;
-
-  assert(dt_sec >= 0);
-
-  dt_sec *= fabsf(m_walking_speed);
+  float delta = fabsf(m_walking_speed) * dt_sec;
 
   while(m_node_time + dt_sec * m_node_mult >= 1) {
-    dt_sec -= (1 - m_node_time) / m_node_mult;
+    delta -= (1 - m_node_time) / m_node_mult;
 
     if (m_walking_speed > 0) {
       advance_node();
@@ -101,9 +93,7 @@ PathWalker::advance(float dt_sec)
     }
   }
 
-  m_node_time += dt_sec * m_node_mult;
-
-  return get_pos();
+  m_node_time += delta * m_node_mult;
 }
 
 Vector

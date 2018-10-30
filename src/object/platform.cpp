@@ -123,7 +123,8 @@ Platform::update(float dt_sec)
     m_player_contact = false;
   }
 
-  Vector new_pos = get_walker()->advance(dt_sec);
+  get_walker()->update(dt_sec);
+  Vector new_pos = get_walker()->get_pos();
   if (Editor::is_active()) {
     set_pos(new_pos);
   } else {
