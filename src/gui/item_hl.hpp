@@ -37,8 +37,8 @@ public:
   virtual int get_width() const override;
 
 private:
-  ItemHorizontalLine(const ItemHorizontalLine&);
-  ItemHorizontalLine& operator=(const ItemHorizontalLine&);
+  ItemHorizontalLine(const ItemHorizontalLine&) = delete;
+  ItemHorizontalLine& operator=(const ItemHorizontalLine&) = delete;
 };
 
 #endif

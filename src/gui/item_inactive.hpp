@@ -35,8 +35,8 @@ public:
   virtual Color get_color() const override;
 
 private:
-  ItemInactive(const ItemInactive&);
-  ItemInactive& operator=(const ItemInactive&);
+  ItemInactive(const ItemInactive&) = delete;
+  ItemInactive& operator=(const ItemInactive&) = delete;
 };
 
 #endif

@@ -226,8 +226,8 @@ private:
   bool m_add_path;
 
 private:
-  TileMap(const TileMap&);
-  TileMap& operator=(const TileMap&);
+  TileMap(const TileMap&) = delete;
+  TileMap& operator=(const TileMap&) = delete;
 };
 
 #endif

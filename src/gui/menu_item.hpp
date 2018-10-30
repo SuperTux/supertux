@@ -65,8 +65,8 @@ public:
   std::string help;
 
 private:
-  MenuItem(const MenuItem&);
-  MenuItem& operator=(const MenuItem&);
+  MenuItem(const MenuItem&) = delete;
+  MenuItem& operator=(const MenuItem&) = delete;
 };
 
 #endif

@@ -67,8 +67,8 @@ private:
   SurfacePtr image;
 
 private:
-  InfoBoxLine(const InfoBoxLine&);
-  InfoBoxLine& operator=(const InfoBoxLine&);
+  InfoBoxLine(const InfoBoxLine&) = delete;
+  InfoBoxLine& operator=(const InfoBoxLine&) = delete;
 };
 
 #endif

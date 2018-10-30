@@ -30,8 +30,8 @@ public:
   int target_menu;
 
 private:
-  ItemGoTo(const ItemGoTo&);
-  ItemGoTo& operator=(const ItemGoTo&);
+  ItemGoTo(const ItemGoTo&) = delete;
+  ItemGoTo& operator=(const ItemGoTo&) = delete;
 };
 
 #endif

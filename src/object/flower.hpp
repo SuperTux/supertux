@@ -23,6 +23,8 @@
 
 class Flower final : public MovingObject
 {
+  friend class FlipLevelTransformer;
+
 public:
   Flower(BonusType type);
   virtual bool is_saveable() const override {
@@ -38,12 +40,11 @@ private:
   SpritePtr sprite;
   Flip flip;
 
-private:
-  Flower(const Flower&);
-  Flower& operator=(const Flower&);
   SpritePtr lightsprite;
 
-  friend class FlipLevelTransformer;
+private:
+  Flower(const Flower&) = delete;
+  Flower& operator=(const Flower&) = delete;
 };
 
 #endif

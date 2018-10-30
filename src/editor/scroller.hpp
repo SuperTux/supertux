@@ -41,8 +41,9 @@ class EditorScroller final
     void draw_arrow(DrawingContext&, const Vector& pos);
     bool can_scroll() const;
 
-    EditorScroller(const EditorScroller&);
-    EditorScroller& operator=(const EditorScroller&);
+  private:
+    EditorScroller(const EditorScroller&) = delete;
+    EditorScroller& operator=(const EditorScroller&) = delete;
 };
 
 #endif

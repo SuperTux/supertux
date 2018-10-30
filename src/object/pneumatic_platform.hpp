@@ -38,8 +38,8 @@ protected:
   std::set<GameObject*> m_contacts; /**< objects that are currently pushing on the platform */
 
 private:
-  PneumaticPlatformChild(const PneumaticPlatformChild&);
-  PneumaticPlatformChild& operator=(const PneumaticPlatformChild&);
+  PneumaticPlatformChild(const PneumaticPlatformChild&) = delete;
+  PneumaticPlatformChild& operator=(const PneumaticPlatformChild&) = delete;
 };
 
 /**
@@ -72,8 +72,8 @@ protected:
   std::vector<PneumaticPlatformChild*> m_children;
 
 private:
-  PneumaticPlatform(const PneumaticPlatform&);
-  PneumaticPlatform& operator=(const PneumaticPlatform&);
+  PneumaticPlatform(const PneumaticPlatform&) = delete;
+  PneumaticPlatform& operator=(const PneumaticPlatform&) = delete;
 };
 
 #endif

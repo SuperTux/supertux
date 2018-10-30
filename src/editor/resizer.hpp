@@ -46,8 +46,9 @@ class Resizer : public PointMarker
     Side vert;
     Side horz;
 
-    Resizer(const Resizer&);
-    Resizer& operator=(const Resizer&);
+  private:
+    Resizer(const Resizer&) = delete;
+    Resizer& operator=(const Resizer&) = delete;
 };
 
 #endif

@@ -41,8 +41,8 @@ public:
   }
 
 private:
-  ItemControlField(const ItemControlField&);
-  ItemControlField& operator=(const ItemControlField&);
+  ItemControlField(const ItemControlField&) = delete;
+  ItemControlField& operator=(const ItemControlField&) = delete;
 };
 
 #endif

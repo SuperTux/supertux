@@ -39,8 +39,8 @@ public:
   }
 
 private:
-  ItemBack(const ItemBack&);
-  ItemBack& operator=(const ItemBack&);
+  ItemBack(const ItemBack&) = delete;
+  ItemBack& operator=(const ItemBack&) = delete;
 };
 
 #endif

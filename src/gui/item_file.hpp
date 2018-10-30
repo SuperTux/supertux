@@ -32,8 +32,9 @@ private:
   std::string* filename;
   std::vector<std::string> extensions;
 
-  ItemFile(const ItemFile&);
-  ItemFile& operator=(const ItemFile&);
+private:
+  ItemFile(const ItemFile&) = delete;
+  ItemFile& operator=(const ItemFile&) = delete;
 };
 
 #endif

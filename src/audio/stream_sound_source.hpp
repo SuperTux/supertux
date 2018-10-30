@@ -63,8 +63,8 @@ private:
   bool looping;
 
 private:
-  StreamSoundSource(const StreamSoundSource&);
-  StreamSoundSource& operator=(const StreamSoundSource&);
+  StreamSoundSource(const StreamSoundSource&) = delete;
+  StreamSoundSource& operator=(const StreamSoundSource&) = delete;
 };
 
 #endif

@@ -64,8 +64,8 @@ protected:
   std::unique_ptr<SoundSource> sound_source; /**< SoundSource for ambient sound */
 
 private:
-  Dart(const Dart&);
-  Dart& operator=(const Dart&);
+  Dart(const Dart&) = delete;
+  Dart& operator=(const Dart&) = delete;
 };
 
 #endif

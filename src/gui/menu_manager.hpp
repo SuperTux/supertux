@@ -72,8 +72,8 @@ private:
   void transition(Menu* from, Menu* to);
 
 private:
-  MenuManager(const MenuManager&);
-  MenuManager& operator=(const MenuManager&);
+  MenuManager(const MenuManager&) = delete;
+  MenuManager& operator=(const MenuManager&) = delete;
 };
 
 #endif

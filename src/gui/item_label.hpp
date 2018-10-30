@@ -39,8 +39,8 @@ public:
   virtual Color get_color() const override;
 
 private:
-  ItemLabel(const ItemLabel&);
-  ItemLabel& operator=(const ItemLabel&);
+  ItemLabel(const ItemLabel&) = delete;
+  ItemLabel& operator=(const ItemLabel&) = delete;
 };
 
 #endif

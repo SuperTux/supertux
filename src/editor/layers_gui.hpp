@@ -70,8 +70,9 @@ class EditorLayersGui final
 
     std::unique_ptr<Tip> object_tip;
 
-    EditorLayersGui(const EditorLayersGui&);
-    EditorLayersGui& operator=(const EditorLayersGui&);
+  private:
+    EditorLayersGui(const EditorLayersGui&) = delete;
+    EditorLayersGui& operator=(const EditorLayersGui&) = delete;
 };
 
 #endif

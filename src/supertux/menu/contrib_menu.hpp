@@ -31,8 +31,8 @@ public:
   void menu_action(MenuItem& item) override;
 
 private:
-  ContribMenu(const ContribMenu&);
-  ContribMenu& operator=(const ContribMenu&);
+  ContribMenu(const ContribMenu&) = delete;
+  ContribMenu& operator=(const ContribMenu&) = delete;
 };
 
 #endif

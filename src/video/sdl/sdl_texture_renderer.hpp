@@ -60,8 +60,8 @@ private:
   TexturePtr m_texture;
 
 private:
-  SDLTextureRenderer(const SDLTextureRenderer&);
-  SDLTextureRenderer& operator=(const SDLTextureRenderer&);
+  SDLTextureRenderer(const SDLTextureRenderer&) = delete;
+  SDLTextureRenderer& operator=(const SDLTextureRenderer&) = delete;
 };
 
 #endif

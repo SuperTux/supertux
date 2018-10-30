@@ -35,8 +35,8 @@ public:
   void menu_action(MenuItem& item) override;
 
 private:
-  KeyboardMenu(const KeyboardMenu&);
-  KeyboardMenu& operator=(const KeyboardMenu&);
+  KeyboardMenu(const KeyboardMenu&) = delete;
+  KeyboardMenu& operator=(const KeyboardMenu&) = delete;
 };
 
 #endif

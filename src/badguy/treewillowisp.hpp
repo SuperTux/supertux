@@ -75,8 +75,8 @@ private:
   Vector suck_target;
 
 private:
-  TreeWillOWisp(const TreeWillOWisp&);
-  TreeWillOWisp& operator=(const TreeWillOWisp&);
+  TreeWillOWisp(const TreeWillOWisp&) = delete;
+  TreeWillOWisp& operator=(const TreeWillOWisp&) = delete;
 };
 
 #endif

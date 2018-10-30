@@ -80,8 +80,8 @@ private:
   float m_walking_speed;
 
 private:
-  PathWalker(const PathWalker&);
-  PathWalker& operator=(const PathWalker&);
+  PathWalker(const PathWalker&) = delete;
+  PathWalker& operator=(const PathWalker&) = delete;
 };
 
 #endif

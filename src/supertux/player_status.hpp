@@ -70,8 +70,8 @@ private:
   SurfacePtr coin_surface;
 
 private:
-  PlayerStatus(const PlayerStatus&);
-  PlayerStatus& operator=(const PlayerStatus&);
+  PlayerStatus(const PlayerStatus&) = delete;
+  PlayerStatus& operator=(const PlayerStatus&) = delete;
 };
 
 #endif

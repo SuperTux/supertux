@@ -194,8 +194,9 @@ class Editor final : public Screen,
     bool can_scroll_horz() const;
     bool can_scroll_vert() const;
 
-    Editor(const Editor&);
-    Editor& operator=(const Editor&);
+  private:
+    Editor(const Editor&) = delete;
+    Editor& operator=(const Editor&) = delete;
 };
 
 #endif

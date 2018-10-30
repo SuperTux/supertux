@@ -45,8 +45,8 @@ private:
   size_t m_id;
 
 private:
-  NodeMarker(const NodeMarker&);
-  NodeMarker& operator=(const NodeMarker&);
+  NodeMarker(const NodeMarker&) = delete;
+  NodeMarker& operator=(const NodeMarker&) = delete;
 };
 
 #endif

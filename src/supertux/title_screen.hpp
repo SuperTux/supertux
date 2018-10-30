@@ -52,8 +52,8 @@ private:
   std::string copyright_text;
 
 private:
-  TitleScreen(const TitleScreen&);
-  TitleScreen& operator=(const TitleScreen&);
+  TitleScreen(const TitleScreen&) = delete;
+  TitleScreen& operator=(const TitleScreen&) = delete;
 };
 
 #endif

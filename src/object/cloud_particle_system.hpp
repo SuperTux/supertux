@@ -59,8 +59,8 @@ private:
   SurfacePtr cloudimage;
 
 private:
-  CloudParticleSystem(const CloudParticleSystem&);
-  CloudParticleSystem& operator=(const CloudParticleSystem&);
+  CloudParticleSystem(const CloudParticleSystem&) = delete;
+  CloudParticleSystem& operator=(const CloudParticleSystem&) = delete;
 };
 
 #endif

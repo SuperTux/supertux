@@ -59,8 +59,6 @@ protected:
   virtual bool collision_squished(GameObject& object) override;
 
 private:
-  GoldBomb(const GoldBomb&);
-  GoldBomb& operator=(const GoldBomb&);
   enum Ticking_State {
     STATE_NORMAL,
     STATE_TICKING
@@ -71,6 +69,10 @@ private:
   MovingObject* grabber;
 
   std::unique_ptr<SoundSource> ticking;
+
+private:
+  GoldBomb(const GoldBomb&) = delete;
+  GoldBomb& operator=(const GoldBomb&) = delete;
 };
 
 #endif

@@ -34,8 +34,8 @@ class Wind final
 public:
   using GameObject::GameObject;
 private:
-  Wind(const Wind&);
-  Wind& operator=(const Wind&);
+  Wind(const Wind&) = delete;
+  Wind& operator=(const Wind&) = delete;
 #endif
 
 public:

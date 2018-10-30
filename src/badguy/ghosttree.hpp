@@ -73,8 +73,8 @@ private:
   void spawn_lantern();
 
 private:
-  GhostTree(const GhostTree&);
-  GhostTree& operator=(const GhostTree&);
+  GhostTree(const GhostTree&) = delete;
+  GhostTree& operator=(const GhostTree&) = delete;
 };
 
 #endif

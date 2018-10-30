@@ -45,8 +45,8 @@ private:
   size_t         normal_buffer_loop;
 
 private:
-  OggSoundFile(const OggSoundFile&);
-  OggSoundFile& operator=(const OggSoundFile&);
+  OggSoundFile(const OggSoundFile&) = delete;
+  OggSoundFile& operator=(const OggSoundFile&) = delete;
 };
 
 

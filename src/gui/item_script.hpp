@@ -30,8 +30,9 @@ public:
 private:
   std::string* script;
 
-  ItemScript(const ItemScript&);
-  ItemScript& operator=(const ItemScript&);
+private:
+  ItemScript(const ItemScript&) = delete;
+  ItemScript& operator=(const ItemScript&) = delete;
 };
 
 #endif

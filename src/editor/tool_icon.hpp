@@ -48,8 +48,9 @@ class ToolIcon final
     int mode;
     int surf_count;
 
-    ToolIcon(const ToolIcon&);
-    ToolIcon& operator=(const ToolIcon&);
+  private:
+    ToolIcon(const ToolIcon&) = delete;
+    ToolIcon& operator=(const ToolIcon&) = delete;
 };
 
 #endif

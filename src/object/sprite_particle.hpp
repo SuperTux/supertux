@@ -55,8 +55,8 @@ private:
   bool glow;
 
 private:
-  SpriteParticle(const SpriteParticle&);
-  SpriteParticle& operator=(const SpriteParticle&);
+  SpriteParticle(const SpriteParticle&) = delete;
+  SpriteParticle& operator=(const SpriteParticle&) = delete;
 };
 
 #endif

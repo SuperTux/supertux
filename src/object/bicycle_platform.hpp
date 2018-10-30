@@ -79,8 +79,8 @@ private:
   std::vector<BicyclePlatformChild*> m_children;
 
 private:
-  BicyclePlatform(const BicyclePlatform&);
-  BicyclePlatform& operator=(const BicyclePlatform&);
+  BicyclePlatform(const BicyclePlatform&) = delete;
+  BicyclePlatform& operator=(const BicyclePlatform&) = delete;
 };
 
 #endif

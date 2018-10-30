@@ -117,8 +117,8 @@ private:
   bool consoleCommand(const std::string& command, const std::vector<std::string>& arguments); /**< process internal command; return false if command was unknown, true otherwise */
 
 private:
-  Console(const Console&);
-  Console & operator=(const Console&);
+  Console(const Console&) = delete;
+  Console & operator=(const Console&) = delete;
 };
 
 class ConsoleStreamBuffer final : public std::stringbuf

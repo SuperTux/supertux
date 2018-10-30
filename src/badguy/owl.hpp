@@ -54,8 +54,8 @@ protected:
   Portable *carried_object;
 
 private:
-  Owl(const Owl&);
-  Owl& operator=(const Owl&);
+  Owl(const Owl&) = delete;
+  Owl& operator=(const Owl&) = delete;
 };
 
 #endif

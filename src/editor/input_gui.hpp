@@ -96,8 +96,9 @@ class EditorInputGui final
     void draw_tilegroup(DrawingContext&);
     void draw_objectgroup(DrawingContext&);
 
-    EditorInputGui(const EditorInputGui&);
-    EditorInputGui& operator=(const EditorInputGui&);
+  private:
+    EditorInputGui(const EditorInputGui&) = delete;
+    EditorInputGui& operator=(const EditorInputGui&) = delete;
 };
 
 #endif

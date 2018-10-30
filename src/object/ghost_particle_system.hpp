@@ -59,8 +59,8 @@ private:
   SurfacePtr ghosts[2];
 
 private:
-  GhostParticleSystem(const GhostParticleSystem&);
-  GhostParticleSystem& operator=(const GhostParticleSystem&);
+  GhostParticleSystem(const GhostParticleSystem&) = delete;
+  GhostParticleSystem& operator=(const GhostParticleSystem&) = delete;
 };
 
 #endif

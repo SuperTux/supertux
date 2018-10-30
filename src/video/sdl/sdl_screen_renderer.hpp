@@ -51,8 +51,8 @@ private:
   SDLPainter m_painter;
 
 private:
-  SDLScreenRenderer(const SDLScreenRenderer&);
-  SDLScreenRenderer& operator=(const SDLScreenRenderer&);
+  SDLScreenRenderer(const SDLScreenRenderer&) = delete;
+  SDLScreenRenderer& operator=(const SDLScreenRenderer&) = delete;
 };
 
 #endif

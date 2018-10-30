@@ -38,8 +38,9 @@ private:
 
   int levelset_type;
 
-  EditorLevelsetMenu(const EditorLevelsetMenu&);
-  EditorLevelsetMenu& operator=(const EditorLevelsetMenu&);
+private:
+  EditorLevelsetMenu(const EditorLevelsetMenu&) = delete;
+  EditorLevelsetMenu& operator=(const EditorLevelsetMenu&) = delete;
 };
 
 #endif

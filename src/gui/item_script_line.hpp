@@ -37,9 +37,8 @@ public:
   virtual void invalid_remove() override;
 
 private:
-
-  ItemScriptLine(const ItemScriptLine&);
-  ItemScriptLine& operator=(const ItemScriptLine&);
+  ItemScriptLine(const ItemScriptLine&) = delete;
+  ItemScriptLine& operator=(const ItemScriptLine&) = delete;
 };
 
 #endif

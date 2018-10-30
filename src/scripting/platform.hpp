@@ -34,8 +34,8 @@ class Platform final
 public:
   using GameObject::GameObject;
 private:
-  Platform(const Platform&);
-  Platform& operator=(const Platform&);
+  Platform(const Platform&) = delete;
+  Platform& operator=(const Platform&) = delete;
 #endif
 
 public:

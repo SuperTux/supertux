@@ -69,8 +69,8 @@ public:
   }
 
 private:
-  SDLTexture(const SDLTexture&);
-  SDLTexture& operator=(const SDLTexture&);
+  SDLTexture(const SDLTexture&) = delete;
+  SDLTexture& operator=(const SDLTexture&) = delete;
 };
 
 #endif

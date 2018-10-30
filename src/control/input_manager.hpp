@@ -68,8 +68,8 @@ public:
   std::unique_ptr<GameControllerManager> game_controller_manager;
 
 private:
-  InputManager(const InputManager&);
-  InputManager& operator=(const InputManager&);
+  InputManager(const InputManager&) = delete;
+  InputManager& operator=(const InputManager&) = delete;
 };
 
 #endif

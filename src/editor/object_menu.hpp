@@ -36,8 +36,9 @@ class ObjectMenu final : public Menu
       MNID_REMOVE
     };
 
-    ObjectMenu(const ObjectMenu&);
-    ObjectMenu& operator=(const ObjectMenu&);
+  private:
+    ObjectMenu(const ObjectMenu&) = delete;
+    ObjectMenu& operator=(const ObjectMenu&) = delete;
 };
 
 #endif

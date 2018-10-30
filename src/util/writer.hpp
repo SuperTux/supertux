@@ -56,8 +56,8 @@ private:
   std::vector<std::string> lists;
 
 private:
-  Writer(const Writer&);
-  Writer & operator=(const Writer&);
+  Writer(const Writer&) = delete;
+  Writer & operator=(const Writer&) = delete;
 };
 
 #endif

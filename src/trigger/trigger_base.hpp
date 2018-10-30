@@ -61,8 +61,8 @@ private:
   std::vector<Player*> m_losetouch_listeners;
 
 private:
-  TriggerBase(const TriggerBase&);
-  TriggerBase& operator=(const TriggerBase&);
+  TriggerBase(const TriggerBase&) = delete;
+  TriggerBase& operator=(const TriggerBase&) = delete;
 };
 
 #endif

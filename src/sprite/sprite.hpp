@@ -111,7 +111,7 @@ private:
 
 private:
   Sprite(const Sprite& other);
-  Sprite& operator=(const Sprite&);
+  Sprite& operator=(const Sprite&) = delete;
 };
 
 #endif

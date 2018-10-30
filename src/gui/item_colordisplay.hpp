@@ -40,8 +40,9 @@ private:
   Color old_color;
   Color* new_color;
 
-  ItemColorDisplay(const ItemColorDisplay&);
-  ItemColorDisplay& operator=(const ItemColorDisplay&);
+private:
+  ItemColorDisplay(const ItemColorDisplay&) = delete;
+  ItemColorDisplay& operator=(const ItemColorDisplay&) = delete;
 };
 
 #endif

@@ -64,8 +64,8 @@ private:
   void updateColor();
 
 private:
-  Lantern(const Lantern&);
-  Lantern& operator=(const Lantern&);
+  Lantern(const Lantern&) = delete;
+  Lantern& operator=(const Lantern&) = delete;
 };
 
 #endif

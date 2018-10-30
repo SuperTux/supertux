@@ -49,8 +49,8 @@ private:
   std::function<void(int)> m_callback;
 
 private:
-  ItemStringSelect(const ItemStringSelect&);
-  ItemStringSelect& operator=(const ItemStringSelect&);
+  ItemStringSelect(const ItemStringSelect&) = delete;
+  ItemStringSelect& operator=(const ItemStringSelect&) = delete;
 };
 
 #endif

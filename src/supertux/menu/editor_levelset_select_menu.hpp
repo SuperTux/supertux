@@ -31,8 +31,8 @@ public:
   void menu_action(MenuItem& item) override;
 
 private:
-  EditorLevelsetSelectMenu(const EditorLevelsetSelectMenu&);
-  EditorLevelsetSelectMenu& operator=(const EditorLevelsetSelectMenu&);
+  EditorLevelsetSelectMenu(const EditorLevelsetSelectMenu&) = delete;
+  EditorLevelsetSelectMenu& operator=(const EditorLevelsetSelectMenu&) = delete;
 };
 
 #endif

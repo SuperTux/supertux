@@ -48,8 +48,8 @@ private:
   bool m_fading;
 
 private:
-  TextScrollerScreen(const TextScrollerScreen&);
-  TextScrollerScreen& operator=(const TextScrollerScreen&);
+  TextScrollerScreen(const TextScrollerScreen&) = delete;
+  TextScrollerScreen& operator=(const TextScrollerScreen&) = delete;
 };
 
 #endif

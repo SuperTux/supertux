@@ -60,8 +60,8 @@ protected:
   float original_y;
 
 private:
-  Block(const Block&);
-  Block& operator=(const Block&);
+  Block(const Block&) = delete;
+  Block& operator=(const Block&) = delete;
 };
 
 #endif

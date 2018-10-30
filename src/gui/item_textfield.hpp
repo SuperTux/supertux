@@ -53,8 +53,8 @@ protected:
   int flickw;
 
 private:
-  ItemTextField(const ItemTextField&);
-  ItemTextField& operator=(const ItemTextField&);
+  ItemTextField(const ItemTextField&) = delete;
+  ItemTextField& operator=(const ItemTextField&) = delete;
 };
 
 #endif

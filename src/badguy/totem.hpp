@@ -55,8 +55,8 @@ private:
   Totem* carried_by; /**< Totem by which we are currently carried (or 0) */
 
 private:
-  Totem(const Totem&);
-  Totem& operator=(const Totem&);
+  Totem(const Totem&) = delete;
+  Totem& operator=(const Totem&) = delete;
 };
 
 #endif

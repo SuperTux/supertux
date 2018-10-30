@@ -35,8 +35,9 @@ public:
 private:
   std::string old_tileset;
 
-  EditorLevelMenu(const EditorLevelMenu&);
-  EditorLevelMenu& operator=(const EditorLevelMenu&);
+private:
+  EditorLevelMenu(const EditorLevelMenu&) = delete;
+  EditorLevelMenu& operator=(const EditorLevelMenu&) = delete;
 };
 
 #endif

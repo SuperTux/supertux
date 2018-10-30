@@ -25,8 +25,8 @@ public:
   ItemAction(const std::string& text_, int id = -1);
 
 private:
-  ItemAction(const ItemAction&);
-  ItemAction& operator=(const ItemAction&);
+  ItemAction(const ItemAction&) = delete;
+  ItemAction& operator=(const ItemAction&) = delete;
 };
 
 #endif

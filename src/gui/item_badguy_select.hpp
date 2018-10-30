@@ -30,8 +30,9 @@ public:
 private:
   std::vector<std::string>* badguys;
 
-  ItemBadguySelect(const ItemBadguySelect&);
-  ItemBadguySelect& operator=(const ItemBadguySelect&);
+private:
+  ItemBadguySelect(const ItemBadguySelect&) = delete;
+  ItemBadguySelect& operator=(const ItemBadguySelect&) = delete;
 };
 
 #endif

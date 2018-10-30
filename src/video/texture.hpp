@@ -47,8 +47,8 @@ public:
   virtual int get_image_height() const = 0;
 
 private:
-  Texture(const Texture&);
-  Texture& operator=(const Texture&);
+  Texture(const Texture&) = delete;
+  Texture& operator=(const Texture&) = delete;
 };
 
 #endif

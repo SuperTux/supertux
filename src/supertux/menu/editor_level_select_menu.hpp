@@ -40,8 +40,9 @@ private:
   void create_worldmap();
   void create_item();
 
-  EditorLevelSelectMenu(const EditorLevelSelectMenu&);
-  EditorLevelSelectMenu& operator=(const EditorLevelSelectMenu&);
+private:
+  EditorLevelSelectMenu(const EditorLevelSelectMenu&) = delete;
+  EditorLevelSelectMenu& operator=(const EditorLevelSelectMenu&) = delete;
 };
 
 #endif

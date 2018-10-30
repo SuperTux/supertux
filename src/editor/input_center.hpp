@@ -103,8 +103,9 @@ class EditorInputCenter final
     Rectf selection_draw_rect();
     void update_tile_selection();
 
-    EditorInputCenter(const EditorInputCenter&);
-    EditorInputCenter& operator=(const EditorInputCenter&);
+  private:
+    EditorInputCenter(const EditorInputCenter&) = delete;
+    EditorInputCenter& operator=(const EditorInputCenter&) = delete;
 };
 
 #endif

@@ -128,8 +128,8 @@ private:
   std::string current_music;
 
 private:
-  SoundManager(const SoundManager&);
-  SoundManager& operator=(const SoundManager&);
+  SoundManager(const SoundManager&) = delete;
+  SoundManager& operator=(const SoundManager&) = delete;
 };
 
 #endif

@@ -61,8 +61,8 @@ private:
   Vector last_self_pos; /**< position we last were at */
 
 private:
-  Zeekling(const Zeekling&);
-  Zeekling& operator=(const Zeekling&);
+  Zeekling(const Zeekling&) = delete;
+  Zeekling& operator=(const Zeekling&) = delete;
 };
 
 #endif

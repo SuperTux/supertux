@@ -85,8 +85,8 @@ private:
   Vector pos;
 
 private:
-  TextObject(const TextObject&);
-  TextObject& operator=(const TextObject&);
+  TextObject(const TextObject&) = delete;
+  TextObject& operator=(const TextObject&) = delete;
 };
 
 #endif

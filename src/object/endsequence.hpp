@@ -50,8 +50,8 @@ protected:
   std::unique_ptr<CodeController> end_sequence_controller;
 
 private:
-  EndSequence(const EndSequence&);
-  EndSequence& operator=(const EndSequence&);
+  EndSequence(const EndSequence&) = delete;
+  EndSequence& operator=(const EndSequence&) = delete;
 };
 
 #endif

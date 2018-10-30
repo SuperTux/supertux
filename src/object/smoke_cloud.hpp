@@ -39,8 +39,8 @@ private:
   Vector position;
 
 private:
-  SmokeCloud(const SmokeCloud&);
-  SmokeCloud& operator=(const SmokeCloud&);
+  SmokeCloud(const SmokeCloud&) = delete;
+  SmokeCloud& operator=(const SmokeCloud&) = delete;
 };
 
 #endif

@@ -36,8 +36,8 @@ private:
   PHYSFS_sint64 datastart;
 
 private:
-  WavSoundFile(const WavSoundFile&);
-  WavSoundFile& operator=(const WavSoundFile&);
+  WavSoundFile(const WavSoundFile&) = delete;
+  WavSoundFile& operator=(const WavSoundFile&) = delete;
 };
 
 #endif

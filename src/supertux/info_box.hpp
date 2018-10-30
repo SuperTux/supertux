@@ -47,8 +47,8 @@ private:
   SurfacePtr arrow_scrolldown;
 
 private:
-  InfoBox(const InfoBox&);
-  InfoBox& operator=(const InfoBox&);
+  InfoBox(const InfoBox&) = delete;
+  InfoBox& operator=(const InfoBox&) = delete;
 };
 
 #endif

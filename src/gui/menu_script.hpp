@@ -39,8 +39,9 @@ private:
 
   void push_string(const std::string& new_line);
 
-  ScriptMenu(const ScriptMenu&);
-  ScriptMenu& operator=(const ScriptMenu&);
+private:
+  ScriptMenu(const ScriptMenu&) = delete;
+  ScriptMenu& operator=(const ScriptMenu&) = delete;
 };
 
 #endif

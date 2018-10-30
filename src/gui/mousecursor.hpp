@@ -76,8 +76,8 @@ private:
   static MouseCursor* current_;
 
 private:
-  MouseCursor(const MouseCursor&);
-  MouseCursor& operator=(const MouseCursor&);
+  MouseCursor(const MouseCursor&) = delete;
+  MouseCursor& operator=(const MouseCursor&) = delete;
 };
 
 #endif

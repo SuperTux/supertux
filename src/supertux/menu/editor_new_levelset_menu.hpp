@@ -30,8 +30,9 @@ private:
   std::string levelset_name;
   std::string levelset_desc;
 
-  EditorNewLevelsetMenu(const EditorNewLevelsetMenu&);
-  EditorNewLevelsetMenu& operator=(const EditorNewLevelsetMenu&);
+private:
+  EditorNewLevelsetMenu(const EditorNewLevelsetMenu&) = delete;
+  EditorNewLevelsetMenu& operator=(const EditorNewLevelsetMenu&) = delete;
 };
 
 #endif

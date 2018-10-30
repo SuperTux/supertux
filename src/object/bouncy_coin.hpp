@@ -40,8 +40,8 @@ private:
   float emerge_distance;
 
 private:
-  BouncyCoin(const BouncyCoin&);
-  BouncyCoin& operator=(const BouncyCoin&);
+  BouncyCoin(const BouncyCoin&) = delete;
+  BouncyCoin& operator=(const BouncyCoin&) = delete;
 };
 
 #endif

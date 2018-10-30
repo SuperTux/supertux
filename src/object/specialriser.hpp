@@ -39,8 +39,8 @@ private:
   std::unique_ptr<MovingObject> child;
 
 private:
-  SpecialRiser(const SpecialRiser&);
-  SpecialRiser& operator=(const SpecialRiser&);
+  SpecialRiser(const SpecialRiser&) = delete;
+  SpecialRiser& operator=(const SpecialRiser&) = delete;
 };
 
 #endif

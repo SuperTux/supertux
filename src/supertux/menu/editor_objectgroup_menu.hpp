@@ -28,8 +28,8 @@ public:
   void menu_action(MenuItem& item) override;
 
 private:
-  EditorObjectgroupMenu(const EditorObjectgroupMenu&);
-  EditorObjectgroupMenu& operator=(const EditorObjectgroupMenu&);
+  EditorObjectgroupMenu(const EditorObjectgroupMenu&) = delete;
+  EditorObjectgroupMenu& operator=(const EditorObjectgroupMenu&) = delete;
 };
 
 #endif

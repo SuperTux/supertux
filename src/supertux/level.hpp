@@ -79,8 +79,8 @@ private:
   void load_old_format(const ReaderMapping& reader);
 
 private:
-  Level(const Level&);
-  Level& operator=(const Level&);
+  Level(const Level&) = delete;
+  Level& operator=(const Level&) = delete;
 };
 
 #endif

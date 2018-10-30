@@ -45,8 +45,8 @@ class PointMarker : public MovingObject
     virtual Vector get_offset() const;
 
   private:
-    PointMarker(const PointMarker&);
-    PointMarker& operator=(const PointMarker&);
+    PointMarker(const PointMarker&) = delete;
+    PointMarker& operator=(const PointMarker&) = delete;
 };
 
 #endif

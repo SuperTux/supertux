@@ -305,8 +305,8 @@ private:
   Dispenser* m_parent_dispenser;
 
 private:
-  BadGuy(const BadGuy&);
-  BadGuy& operator=(const BadGuy&);
+  BadGuy(const BadGuy&) = delete;
+  BadGuy& operator=(const BadGuy&) = delete;
 };
 
 #endif

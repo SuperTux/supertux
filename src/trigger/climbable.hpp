@@ -60,8 +60,8 @@ protected:
 private:
   Vector new_size;
 
-  Climbable(const Climbable&);
-  Climbable& operator=(const Climbable&);
+  Climbable(const Climbable&) = delete;
+  Climbable& operator=(const Climbable&) = delete;
 };
 
 #endif

@@ -243,8 +243,8 @@ public:
   DisplayEffect* m_effect;
 
 private:
-  Sector(const Sector&);
-  Sector& operator=(const Sector&);
+  Sector(const Sector&) = delete;
+  Sector& operator=(const Sector&) = delete;
 };
 
 #endif

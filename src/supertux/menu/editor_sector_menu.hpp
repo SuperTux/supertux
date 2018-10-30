@@ -43,8 +43,9 @@ private:
   Size new_size;
   Size offset;
 
-  EditorSectorMenu(const EditorSectorMenu&);
-  EditorSectorMenu& operator=(const EditorSectorMenu&);
+private:
+  EditorSectorMenu(const EditorSectorMenu&) = delete;
+  EditorSectorMenu& operator=(const EditorSectorMenu&) = delete;
 };
 
 #endif

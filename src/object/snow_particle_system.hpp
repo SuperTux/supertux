@@ -95,8 +95,8 @@ private:
   SurfacePtr snowimages[3];
 
 private:
-  SnowParticleSystem(const SnowParticleSystem&);
-  SnowParticleSystem& operator=(const SnowParticleSystem&);
+  SnowParticleSystem(const SnowParticleSystem&) = delete;
+  SnowParticleSystem& operator=(const SnowParticleSystem&) = delete;
 };
 
 #endif

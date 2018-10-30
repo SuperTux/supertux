@@ -92,8 +92,8 @@ public:
   }
 
 private:
-  SDLSurfacePtr(const SDLSurfacePtr&);
-  SDLSurfacePtr& operator=(const SDLSurfacePtr&);
+  SDLSurfacePtr(const SDLSurfacePtr&) = delete;
+  SDLSurfacePtr& operator=(const SDLSurfacePtr&) = delete;
 };
 
 #endif

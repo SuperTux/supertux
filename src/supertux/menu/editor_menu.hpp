@@ -21,12 +21,6 @@
 
 class EditorMenu final : public Menu
 {
-public:
-  EditorMenu();
-  ~EditorMenu();
-
-  void menu_action(MenuItem& item) override;
-
 private:
   enum MenuIDs {
     MNID_RETURNTOEDITOR,
@@ -37,8 +31,15 @@ private:
     MNID_QUITEDITOR
   };
 
-  EditorMenu(const EditorMenu&);
-  EditorMenu& operator=(const EditorMenu&);
+public:
+  EditorMenu();
+  ~EditorMenu();
+
+  void menu_action(MenuItem& item) override;
+
+private:
+  EditorMenu(const EditorMenu&) = delete;
+  EditorMenu& operator=(const EditorMenu&) = delete;
 };
 
 #endif

@@ -47,8 +47,8 @@ private:
                                            const boost::optional<Rect>& region = boost::none) const;
 
 private:
-  TileSetParser(const TileSetParser&);
-  TileSetParser& operator=(const TileSetParser&);
+  TileSetParser(const TileSetParser&) = delete;
+  TileSetParser& operator=(const TileSetParser&) = delete;
 };
 
 #endif

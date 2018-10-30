@@ -29,8 +29,9 @@ public:
 private:
   Color* color;
 
-  ColorMenu(const ColorMenu&);
-  ColorMenu& operator=(const ColorMenu&);
+private:
+  ColorMenu(const ColorMenu&) = delete;
+  ColorMenu& operator=(const ColorMenu&) = delete;
 };
 
 #endif

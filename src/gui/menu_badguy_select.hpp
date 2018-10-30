@@ -38,8 +38,9 @@ private:
   void refresh_menu();
   void add_badguy();
 
-  BadguySelectMenu(const BadguySelectMenu&);
-  BadguySelectMenu& operator=(const BadguySelectMenu&);
+private:
+  BadguySelectMenu(const BadguySelectMenu&) = delete;
+  BadguySelectMenu& operator=(const BadguySelectMenu&) = delete;
 };
 
 #endif

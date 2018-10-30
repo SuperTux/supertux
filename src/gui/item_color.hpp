@@ -36,8 +36,9 @@ public:
 private:
   Color* color;
 
-  ItemColor(const ItemColor&);
-  ItemColor& operator=(const ItemColor&);
+private:
+  ItemColor(const ItemColor&) = delete;
+  ItemColor& operator=(const ItemColor&) = delete;
 };
 
 #endif

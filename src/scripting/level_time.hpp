@@ -36,8 +36,8 @@ public:
   using GameObject::GameObject;
 
 private:
-  LevelTime(const LevelTime&);
-  LevelTime& operator=(const LevelTime&);
+  LevelTime(const LevelTime&) = delete;
+  LevelTime& operator=(const LevelTime&) = delete;
 #endif
 
 public:

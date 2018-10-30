@@ -58,8 +58,8 @@ private:
   std::unique_ptr<SoundSource> ticking;
 
 private:
-  Bomb(const Bomb&);
-  Bomb& operator=(const Bomb&);
+  Bomb(const Bomb&) = delete;
+  Bomb& operator=(const Bomb&) = delete;
 };
 
 #endif

@@ -55,8 +55,8 @@ private:
   bool addon_visible(const Addon& addon) const;
 
 private:
-  AddonMenu(const AddonMenu&);
-  AddonMenu& operator=(const AddonMenu&);
+  AddonMenu(const AddonMenu&) = delete;
+  AddonMenu& operator=(const AddonMenu&) = delete;
 };
 
 #endif

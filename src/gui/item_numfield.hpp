@@ -54,8 +54,9 @@ private:
 
   void add_char(char c);
 
-  ItemNumField(const ItemNumField&);
-  ItemNumField& operator=(const ItemNumField&);
+private:
+  ItemNumField(const ItemNumField&) = delete;
+  ItemNumField& operator=(const ItemNumField&) = delete;
 };
 
 #endif

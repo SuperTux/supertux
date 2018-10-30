@@ -41,8 +41,9 @@ class LayerIcon : public ObjectIcon
 
     SurfacePtr selection;
 
-    LayerIcon(const LayerIcon&);
-    LayerIcon& operator=(const LayerIcon&);
+  private:
+    LayerIcon(const LayerIcon&) = delete;
+    LayerIcon& operator=(const LayerIcon&) = delete;
 };
 
 #endif

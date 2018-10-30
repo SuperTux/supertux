@@ -36,8 +36,8 @@ public:
   using GameObject::GameObject;
 
 private:
-  Camera(const Camera&);
-  Camera& operator=(const Camera&);
+  Camera(const Camera&) = delete;
+  Camera& operator=(const Camera&) = delete;
 #endif
 
 public:

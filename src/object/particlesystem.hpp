@@ -84,8 +84,8 @@ protected:
     SurfacePtr texture;
 
   private:
-    Particle(const Particle&);
-    Particle& operator=(const Particle&);
+    Particle(const Particle&) = delete;
+    Particle& operator=(const Particle&) = delete;
   };
 
   float max_particle_size;

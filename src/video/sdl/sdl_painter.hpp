@@ -52,8 +52,8 @@ private:
   boost::optional<SDL_Rect> m_cliprect;
 
 private:
-  SDLPainter(const SDLPainter&);
-  SDLPainter& operator=(const SDLPainter&);
+  SDLPainter(const SDLPainter&) = delete;
+  SDLPainter& operator=(const SDLPainter&) = delete;
 };
 
 #endif

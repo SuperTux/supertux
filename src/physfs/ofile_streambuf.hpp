@@ -36,8 +36,8 @@ private:
   char buf[1024];
 
 private:
-  OFileStreambuf(const OFileStreambuf&);
-  OFileStreambuf& operator=(const OFileStreambuf&);
+  OFileStreambuf(const OFileStreambuf&) = delete;
+  OFileStreambuf& operator=(const OFileStreambuf&) = delete;
 };
 
 #endif

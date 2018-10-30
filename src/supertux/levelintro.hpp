@@ -58,8 +58,8 @@ private:
   const PlayerStatus& m_player_status; /**The player status passed from GameSession*/
 
 private:
-  LevelIntro(const LevelIntro&);
-  LevelIntro& operator=(const LevelIntro&);
+  LevelIntro(const LevelIntro&) = delete;
+  LevelIntro& operator=(const LevelIntro&) = delete;
 };
 
 #endif

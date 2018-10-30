@@ -189,8 +189,8 @@ private:
                                 const Rectf& tile_bbox) const;
 
 private:
-  Tile(const Tile&);
-  Tile& operator=(const Tile&);
+  Tile(const Tile&) = delete;
+  Tile& operator=(const Tile&) = delete;
 };
 
 #endif

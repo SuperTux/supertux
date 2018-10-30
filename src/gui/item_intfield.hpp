@@ -53,8 +53,9 @@ private:
 
   void add_char(char c);
 
-  ItemIntField(const ItemIntField&);
-  ItemIntField& operator=(const ItemIntField&);
+private:
+  ItemIntField(const ItemIntField&) = delete;
+  ItemIntField& operator=(const ItemIntField&) = delete;
 };
 
 #endif

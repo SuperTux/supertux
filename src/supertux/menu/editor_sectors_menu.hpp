@@ -31,8 +31,9 @@ private:
   void create_sector();
   void delete_sector();
 
-  EditorSectorsMenu(const EditorSectorsMenu&);
-  EditorSectorsMenu& operator=(const EditorSectorsMenu&);
+private:
+  EditorSectorsMenu(const EditorSectorsMenu&) = delete;
+  EditorSectorsMenu& operator=(const EditorSectorsMenu&) = delete;
 };
 
 #endif

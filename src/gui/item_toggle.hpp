@@ -44,8 +44,8 @@ private:
   std::function<void(bool)> m_set_func;
 
 private:
-  ItemToggle(const ItemToggle&);
-  ItemToggle& operator=(const ItemToggle&);
+  ItemToggle(const ItemToggle&) = delete;
+  ItemToggle& operator=(const ItemToggle&) = delete;
 };
 
 #endif

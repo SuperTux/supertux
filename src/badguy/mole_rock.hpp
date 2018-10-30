@@ -52,8 +52,8 @@ protected:
   const Vector initial_velocity; /**< velocity at time of creation */
 
 private:
-  MoleRock(const MoleRock&);
-  MoleRock& operator=(const MoleRock&);
+  MoleRock(const MoleRock&) = delete;
+  MoleRock& operator=(const MoleRock&) = delete;
 };
 
 #endif

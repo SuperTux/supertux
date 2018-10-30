@@ -37,8 +37,8 @@ public:
   void menu_action(MenuItem& item) override;
 
 private:
-  MainMenu(const MainMenu&);
-  MainMenu& operator=(const MainMenu&);
+  MainMenu(const MainMenu&) = delete;
+  MainMenu& operator=(const MainMenu&) = delete;
 };
 
 #endif

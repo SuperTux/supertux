@@ -117,8 +117,8 @@ private:
   Vector new_size;
 
 private:
-  AmbientSound(const AmbientSound&);
-  AmbientSound& operator=(const AmbientSound&);
+  AmbientSound(const AmbientSound&) = delete;
+  AmbientSound& operator=(const AmbientSound&) = delete;
 };
 
 #endif

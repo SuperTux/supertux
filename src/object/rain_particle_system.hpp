@@ -57,8 +57,8 @@ private:
   SurfacePtr rainimages[2];
 
 private:
-  RainParticleSystem(const RainParticleSystem&);
-  RainParticleSystem& operator=(const RainParticleSystem&);
+  RainParticleSystem(const RainParticleSystem&) = delete;
+  RainParticleSystem& operator=(const RainParticleSystem&) = delete;
 };
 
 #endif

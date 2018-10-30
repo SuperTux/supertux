@@ -59,8 +59,9 @@ private:
   void add_char(char c);
   void remove_char();
 
-  ItemColorChannel(const ItemColorChannel&);
-  ItemColorChannel& operator=(const ItemColorChannel&);
+private:
+  ItemColorChannel(const ItemColorChannel&) = delete;
+  ItemColorChannel& operator=(const ItemColorChannel&) = delete;
 };
 
 #endif

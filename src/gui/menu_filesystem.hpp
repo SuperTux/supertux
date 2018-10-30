@@ -37,8 +37,9 @@ private:
   void refresh_items();
   bool has_right_suffix(const std::string& file) const;
 
-  FileSystemMenu(const FileSystemMenu&);
-  FileSystemMenu& operator=(const FileSystemMenu&);
+private:
+  FileSystemMenu(const FileSystemMenu&) = delete;
+  FileSystemMenu& operator=(const FileSystemMenu&) = delete;
 };
 
 #endif

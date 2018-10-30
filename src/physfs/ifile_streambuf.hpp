@@ -41,8 +41,8 @@ private:
   char buf[1024];
 
 private:
-  IFileStreambuf(const IFileStreambuf&);
-  IFileStreambuf& operator=(const IFileStreambuf&);
+  IFileStreambuf(const IFileStreambuf&) = delete;
+  IFileStreambuf& operator=(const IFileStreambuf&) = delete;
 };
 
 #endif

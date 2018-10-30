@@ -64,8 +64,8 @@ private:
   bool m_rendering;
 
 private:
-  GLTextureRenderer(const GLTextureRenderer&);
-  GLTextureRenderer& operator=(const GLTextureRenderer&);
+  GLTextureRenderer(const GLTextureRenderer&) = delete;
+  GLTextureRenderer& operator=(const GLTextureRenderer&) = delete;
 };
 
 #endif

@@ -125,8 +125,8 @@ private:
   Canvas m_lightmap_canvas;
 
 private:
-  DrawingContext(const DrawingContext&);
-  DrawingContext& operator=(const DrawingContext&);
+  DrawingContext(const DrawingContext&) = delete;
+  DrawingContext& operator=(const DrawingContext&) = delete;
 };
 
 #endif

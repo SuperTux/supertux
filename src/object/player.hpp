@@ -352,8 +352,8 @@ public:
   Climbable* m_climbing; /**< Climbable object we are currently climbing, null if none */
 
 private:
-  Player(const Player&);
-  Player& operator=(const Player&);
+  Player(const Player&) = delete;
+  Player& operator=(const Player&) = delete;
 };
 
 #endif
