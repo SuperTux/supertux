@@ -42,7 +42,6 @@ private:
   OggVorbis_File vorbis_file;
   ogg_int64_t    loop_begin;
   ogg_int64_t    loop_at;
-  size_t         normal_buffer_loop;
 
 private:
   OggSoundFile(const OggSoundFile&) = delete;

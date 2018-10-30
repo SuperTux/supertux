@@ -25,8 +25,7 @@ OggSoundFile::OggSoundFile(PHYSFS_File* file_, double loop_begin_, double loop_a
   file(file_),
   vorbis_file(),
   loop_begin(),
-  loop_at(),
-  normal_buffer_loop()
+  loop_at()
 {
   ov_callbacks callbacks = { cb_read, cb_seek, cb_close, cb_tell };
   ov_open_callbacks(file, &vorbis_file, nullptr, 0, callbacks);

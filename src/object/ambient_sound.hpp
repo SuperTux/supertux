@@ -112,8 +112,6 @@ private:
   float targetvolume;  /// how loud we want to be
   float currentvolume; /// how loud we are
 
-  float * volume_ptr; /// this will be used by the volume adjustment effect.
-
   Vector new_size;
 
 private:

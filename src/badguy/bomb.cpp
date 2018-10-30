@@ -25,7 +25,6 @@
 
 Bomb::Bomb(const Vector& pos, Direction dir_, std::string custom_sprite /*= "images/creatures/mr_bomb/mr_bomb.sprite"*/ ) :
   BadGuy( pos, dir_, custom_sprite ),
-  state(STATE_TICKING),
   grabbed(false),
   grabber(nullptr),
   ticking(SoundManager::current()->create_sound_source("sounds/fizz.wav"))

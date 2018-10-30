@@ -47,11 +47,6 @@ public:
   virtual void play_looping_sounds() override;
 
 private:
-  enum State {
-    STATE_TICKING
-  };
-
-  State state;
   bool grabbed;
   MovingObject* grabber;
 
