@@ -20,48 +20,30 @@
 #include "object/portable.hpp"
 #include "supertux/sector.hpp"
 
-PneumaticPlatform::PneumaticPlatform(const ReaderMapping& reader) :
-  MovingSprite(reader, "images/objects/platforms/small.sprite", LAYER_OBJECTS, COLGROUP_STATIC),
-  m_master(nullptr),
-  m_slave(nullptr),
-  m_start_y(0),
-  m_offset_y(0),
-  m_speed_y(0),
+PneumaticPlatformChild::PneumaticPlatformChild(const ReaderMapping& mapping, bool left, PneumaticPlatform& parent) :
+  MovingSprite(mapping, "images/objects/platforms/small.sprite", LAYER_OBJECTS, COLGROUP_STATIC),
+  m_parent(parent),
+  m_left(left),
   m_contacts()
 {
-  m_start_y = get_pos().y;
+  if (!m_left) {
+    set_pos(get_pos() + Vector(get_bbox().get_width(), 0));
+  }
 }
 
-PneumaticPlatform::PneumaticPlatform(PneumaticPlatform* master_) :
-  MovingSprite(*master_),
-  m_master(master_),
-  m_slave(this),
-  m_start_y(master_->m_start_y),
-  m_offset_y(-master_->m_offset_y),
-  m_speed_y(0),
-  m_contacts()
+PneumaticPlatformChild::~PneumaticPlatformChild()
 {
-  set_pos(get_pos() + Vector(m_master->get_bbox().get_width(), 0));
-  m_master->m_master = m_master;
-  m_master->m_slave = this;
 }
 
-PneumaticPlatform::~PneumaticPlatform()
+void
+PneumaticPlatformChild::update(float dt_sec)
 {
-  if ((this == m_master) && (m_master)) {
-    m_slave->m_master = nullptr;
-    m_slave->m_slave = nullptr;
-  }
-  if ((m_master) && (this == m_slave)) {
-    m_master->m_master = nullptr;
-    m_master->m_slave = nullptr;
-  }
-  m_master = nullptr;
-  m_slave = nullptr;
+  const float offset_y = m_left ? m_parent.m_offset_y : -m_parent.m_offset_y;
+  m_movement = Vector(0, (m_parent.m_start_y + offset_y) - get_pos().y);
 }
 
 HitResponse
-PneumaticPlatform::collision(GameObject& other, const CollisionHit& )
+PneumaticPlatformChild::collision(GameObject& other, const CollisionHit& )
 {
   // somehow the hit parameter does not get filled in, so to determine (hit.top == true) we do this:
   auto mo = dynamic_cast<MovingObject*>(&other);
@@ -80,60 +62,67 @@ PneumaticPlatform::collision(GameObject& other, const CollisionHit& )
   return FORCE_MOVE;
 }
 
-void
-PneumaticPlatform::update(float dt_sec)
+PneumaticPlatform::PneumaticPlatform(const ReaderMapping& mapping) :
+  GameObject(mapping),
+  m_start_y(),
+  m_speed_y(0),
+  m_offset_y(0),
+  m_children()
 {
-  if (!m_slave) {
-    Sector::get().add<PneumaticPlatform>(this);
-    return;
-  }
-  if (!m_master) {
-    return;
-  }
-  if (this == m_slave) {
-    m_offset_y = -m_master->m_offset_y;
-    m_movement = Vector(0, (m_start_y + m_offset_y) - get_pos().y);
-  }
-  if (this == m_master) {
-    int contact_diff = static_cast<int>(m_contacts.size()) - static_cast<int>(m_slave->m_contacts.size());
-    m_contacts.clear();
-    m_slave->m_contacts.clear();
+  m_children.push_back(d_sector->add<PneumaticPlatformChild>(mapping, true, *this));
+  m_children.push_back(d_sector->add<PneumaticPlatformChild>(mapping, false, *this));
 
-    m_speed_y += (static_cast<float>(contact_diff) * dt_sec) * 12.8f;
-    m_speed_y -= (m_offset_y * dt_sec * 0.05f);
-    m_speed_y *= 1 - dt_sec;
-    m_offset_y += m_speed_y * dt_sec * Sector::get().get_gravity();
-    if (m_offset_y < -256) { m_offset_y = -256; m_speed_y = 0; }
-    if (m_offset_y > 256) { m_offset_y = 256; m_speed_y = -0; }
-    m_movement = Vector(0, (m_start_y + m_offset_y) - get_pos().y);
-  }
+  m_start_y = m_children[0]->get_pos().y;
+}
+
+PneumaticPlatform::~PneumaticPlatform()
+{
 }
 
 void
-PneumaticPlatform::move_to(const Vector& pos)
+PneumaticPlatform::draw(DrawingContext& context)
 {
-  Vector shift = pos - m_bbox.p1;
-  if (this == m_slave) {
-    m_master->set_pos(m_master->get_pos() + shift);
-  } else if (this == m_master) {
-    m_slave->set_pos(m_slave->get_pos() + shift);
+}
+
+void
+PneumaticPlatform::update(float dt_sec)
+{
+  const int contact_diff = static_cast<int>(m_children[0]->m_contacts.size()) - static_cast<int>(m_children[1]->m_contacts.size());
+  for(auto& child : m_children) {
+    child->m_contacts.clear();
   }
-  MovingObject::move_to(pos);
-  m_start_y += shift.y;
+
+  const float gravity = Sector::get().get_gravity();
+
+  m_speed_y += (static_cast<float>(contact_diff) * dt_sec) * 12.8f;
+  m_speed_y -= (m_offset_y * dt_sec * 0.05f);
+  m_speed_y *= 1 - dt_sec;
+
+  m_offset_y += m_speed_y * dt_sec * gravity;
+
+  if (m_offset_y < -256) {
+    m_offset_y = -256;
+    m_speed_y = 0;
+  }
+
+  if (m_offset_y > 256) {
+    m_offset_y = 256;
+    m_speed_y = -0;
+  }
 }
 
 void
 PneumaticPlatform::editor_delete()
 {
-  m_master->remove_me();
-  m_slave->remove_me();
+  for(auto& child : m_children) {
+    child->remove_me();
+  }
 }
 
 void
 PneumaticPlatform::after_editor_set()
 {
-  MovingSprite::after_editor_set();
-  m_slave->change_sprite(m_sprite_name);
+  GameObject::after_editor_set();
 }
 
 /* EOF */

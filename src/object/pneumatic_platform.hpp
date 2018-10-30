@@ -19,17 +19,41 @@
 
 #include "object/moving_sprite.hpp"
 
+class PneumaticPlatform;
+
+class PneumaticPlatformChild final : public MovingSprite
+{
+  friend class PneumaticPlatform;
+
+public:
+  PneumaticPlatformChild(const ReaderMapping& reader, bool left, PneumaticPlatform& parent);
+  virtual ~PneumaticPlatformChild();
+
+  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual void update(float dt_sec) override;
+
+protected:
+  PneumaticPlatform& m_parent;
+  bool m_left;
+  std::set<GameObject*> m_contacts; /**< objects that are currently pushing on the platform */
+
+private:
+  PneumaticPlatformChild(const PneumaticPlatformChild&);
+  PneumaticPlatformChild& operator=(const PneumaticPlatformChild&);
+};
+
 /**
  * Used to construct a pair of pneumatic platforms: If one is pushed down, the other one rises
  */
-class PneumaticPlatform final : public MovingSprite
+class PneumaticPlatform final : public GameObject
 {
+  friend class PneumaticPlatformChild;
+
 public:
-  PneumaticPlatform(const ReaderMapping& reader);
-  PneumaticPlatform(PneumaticPlatform* master);
+  PneumaticPlatform(const ReaderMapping& mapping);
   virtual ~PneumaticPlatform();
 
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual void draw(DrawingContext& context) override;
   virtual void update(float dt_sec) override;
   virtual std::string get_class() const override {
     return "pneumatic-platform";
@@ -38,21 +62,14 @@ public:
     return _("Pneumatic platform");
   }
 
-  virtual bool is_saveable() const override {
-    return this == m_master;
-  }
-
-  virtual void move_to(const Vector& pos) override;
-  virtual void editor_delete() override;
   virtual void after_editor_set() override;
+  virtual void editor_delete() override;
 
 protected:
-  PneumaticPlatform* m_master; /**< pointer to PneumaticPlatform that does movement calculation */
-  PneumaticPlatform* m_slave; /**< pointer to PneumaticPlatform that reacts to master platform's movement calculation */
   float m_start_y; /**< vertical start position */
-  float m_offset_y; /**< vertical offset from the start position in px */
   float m_speed_y; /**< vertical speed */
-  std::set<GameObject*> m_contacts; /**< objects that are currently pushing on the platform */
+  float m_offset_y; /**< vertical offset from the start position in px */
+  std::vector<PneumaticPlatformChild*> m_children;
 
 private:
   PneumaticPlatform(const PneumaticPlatform&);
