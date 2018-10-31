@@ -36,15 +36,15 @@ CollisionObject::collision_solid(const CollisionHit& hit)
 }
 
 bool
-CollisionObject::collides(GameObject& other, const CollisionHit& hit) const
+CollisionObject::collides(CollisionObject& other, const CollisionHit& hit) const
 {
-  return m_listener.collides(other, hit);
+  return m_listener.collides(dynamic_cast<GameObject&>(other.m_listener), hit);
 }
 
 HitResponse
-CollisionObject::collision(GameObject& other, const CollisionHit& hit)
+CollisionObject::collision(CollisionObject& other, const CollisionHit& hit)
 {
-  return m_listener.collision(other, hit);
+  return m_listener.collision(dynamic_cast<GameObject&>(other.m_listener), hit);
 }
 
 void

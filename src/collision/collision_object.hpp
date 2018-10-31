@@ -40,10 +40,10 @@ public:
   /** when 2 objects collided, we will first call the
       pre_collision_check functions of both objects that can decide on
       how to react to the collision. */
-  bool collides(GameObject& other, const CollisionHit& hit) const;
+  bool collides(CollisionObject& other, const CollisionHit& hit) const;
 
   /** this function is called when the object collided with any other object */
-  HitResponse collision(GameObject& other, const CollisionHit& hit);
+  HitResponse collision(CollisionObject& other, const CollisionHit& hit);
 
   /** called when tiles with special attributes have been touched */
   void collision_tile(uint32_t tile_attributes);
