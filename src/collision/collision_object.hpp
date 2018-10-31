@@ -1,5 +1,6 @@
 //  SuperTux
-//  Copyright (C) 2018 Ingo Ruhnke <grumbel@gmail.com>
+//  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//                2018 Ingo Ruhnke <grumbel@gmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -19,55 +20,12 @@
 
 #include <stdint.h>
 
+#include "collision/collision_group.hpp"
 #include "collision/collision_hit.hpp"
 #include "math/rectf.hpp"
 
 class GameObject;
 class MovingObject;
-
-enum CollisionGroup {
-  /** Objects in DISABLED group are not tested for collisions */
-  COLGROUP_DISABLED = 0,
-
-  /** Tested against:
-      - tiles + attributes
-      - static obstacles
-      - touchables
-      - other moving objects
-      and it counts as an obstacle during static collision phase.
-
-      Use for kinematic moving objects like platforms and rocks. */
-  COLGROUP_MOVING_STATIC,
-
-  /** Tested against:
-      - tiles + attributes
-      - static obstacles
-      - touchables
-      - other moving objects
-
-      Use for ordinary objects. */
-  COLGROUP_MOVING,
-
-  /** Tested against:
-      - tiles + attributes
-      - static obstacles
-
-      Use for interactive particles and decoration. */
-  COLGROUP_MOVING_ONLY_STATIC,
-
-  /** Tested against:
-      - moving objects
-      and it counts as an obstacle during static collision phase.
-
-      Use for static obstacles that Tux walks on. */
-  COLGROUP_STATIC,
-
-  /** Tested against:
-      - moving objects
-
-      Use for triggers like spikes/areas or collectibles like coins. */
-  COLGROUP_TOUCHABLE
-};
 
 class CollisionObject
 {
