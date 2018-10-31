@@ -195,7 +195,7 @@ BonusBlock::get_settings()
   result.options.push_back( ObjectOption(MN_INTFIELD, _("Count"), &m_hit_counter));
 
   ObjectOption coo(MN_STRINGSELECT, _("Content"), &m_contents);
-  coo.select.push_back(_("coin"));
+  coo.select.push_back(_("Coin"));
   coo.select.push_back(_("Growth (fire flower)"));
   coo.select.push_back(_("Growth (ice flower)"));
   coo.select.push_back(_("Growth (air flower)"));

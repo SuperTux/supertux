@@ -69,7 +69,7 @@ SecretAreaTrigger::get_settings() {
   result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &m_name));
   result.options.push_back( ObjectOption(MN_NUMFIELD, _("Width"), &new_size.x, "width"));
   result.options.push_back( ObjectOption(MN_NUMFIELD, _("Height"), &new_size.y, "height"));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Fade-tilemap"), &fade_tilemap,
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Fade tilemap"), &fade_tilemap,
                                          "fade-tilemap", (OPTION_VISIBLE)));
   result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Message"), &message, "message"));
   result.options.push_back( ObjectOption(MN_SCRIPT, _("Script"), &script,

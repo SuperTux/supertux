@@ -59,7 +59,7 @@ ScriptedObject::get_settings() {
   result.options.push_back( ObjectOption(MN_NUMFIELD, "width", &new_size.x, "width", false));
   result.options.push_back( ObjectOption(MN_NUMFIELD, "height", &new_size.y, "height", false));
   result.options.push_back( ObjectOption(MN_TOGGLE, _("Solid"), &solid, "solid"));
-  result.options.push_back( ObjectOption(MN_TOGGLE, _("Enabled physics"), &physic_enabled, "physic-enabled"));
+  result.options.push_back( ObjectOption(MN_TOGGLE, _("Physics enabled"), &physic_enabled, "physic-enabled"));
   result.options.push_back( ObjectOption(MN_TOGGLE, _("Visible"), &visible, "visible"));
   result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Hit script"),
         &hit_script, "hit-script"));

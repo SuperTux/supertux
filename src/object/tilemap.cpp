@@ -214,20 +214,20 @@ TileMap::get_settings() {
   m_new_offset_x = 0;
   m_new_offset_y = 0;
   ObjectSettings result = GameObject::get_settings();
-  result.options.push_back( ObjectOption(MN_TOGGLE, _("solid"), &m_real_solid));
-  result.options.push_back( ObjectOption(MN_INTFIELD, _("resize offset x"), &m_new_offset_x));
-  result.options.push_back( ObjectOption(MN_INTFIELD, _("resize offset y"), &m_new_offset_y));
-  result.options.push_back( ObjectOption(MN_INTFIELD, _("width"), &m_new_size_x));
-  result.options.push_back( ObjectOption(MN_INTFIELD, _("height"), &m_new_size_y));
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("alpha"), &m_alpha));
+  result.options.push_back( ObjectOption(MN_TOGGLE, _("Solid"), &m_real_solid));
+  result.options.push_back( ObjectOption(MN_INTFIELD, _("Resize offset x"), &m_new_offset_x));
+  result.options.push_back( ObjectOption(MN_INTFIELD, _("Resize offset y"), &m_new_offset_y));
+  result.options.push_back( ObjectOption(MN_INTFIELD, _("Width"), &m_new_size_x));
+  result.options.push_back( ObjectOption(MN_INTFIELD, _("Height"), &m_new_size_y));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Alpha"), &m_alpha));
   result.options.push_back( ObjectOption(MN_NUMFIELD, _("Speed x"), &m_speed_x));
   result.options.push_back( ObjectOption(MN_NUMFIELD, _("Speed y"), &m_speed_y));
-  result.options.push_back( ObjectOption(MN_COLOR, _("tint"), &m_tint));
+  result.options.push_back( ObjectOption(MN_COLOR, _("Tint"), &m_tint));
   result.options.push_back( ObjectOption(MN_INTFIELD, _("Z-pos"), &m_z_pos));
 
   ObjectOption draw_target_option(MN_STRINGSELECT, _("Draw target"), &m_draw_target);
-  draw_target_option.select.push_back(_("normal"));
-  draw_target_option.select.push_back(_("lightmap"));
+  draw_target_option.select.push_back(_("Normal"));
+  draw_target_option.select.push_back(_("Lightmap"));
   result.options.push_back(draw_target_option);
 
   m_add_path = get_walker() && get_path()->is_valid();

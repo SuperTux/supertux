@@ -25,7 +25,7 @@ ScriptMenu::ScriptMenu(std::string* script_) :
 {
   script_strings.clear();
 
-  add_label(_("Edit the script"));
+  add_label(_("Edit script"));
   add_hl();
 
   // Split the script to the lines.

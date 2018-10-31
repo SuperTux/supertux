@@ -40,7 +40,7 @@ public:
     return "powerup";
   }
   virtual std::string get_display_name() const override {
-    return _("Power up");
+    return _("Power-up");
   }
 
   virtual ObjectSettings get_settings() override;

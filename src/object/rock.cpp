@@ -171,10 +171,10 @@ Rock::get_settings()
 {
   auto result = MovingSprite::get_settings();
   result.options.push_back(
-    ObjectOption(MN_SCRIPT, _("On grab script"),
+    ObjectOption(MN_SCRIPT, _("On-grab script"),
                  &on_grab_script, "on-grab-script"));
   result.options.push_back(
-    ObjectOption(MN_SCRIPT, _("On ungrab script"),
+    ObjectOption(MN_SCRIPT, _("On-ungrab script"),
                  &on_ungrab_script, "on-ungrab-script"));
   return result;
 }

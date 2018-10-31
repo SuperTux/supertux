@@ -48,7 +48,7 @@ public:
 
   virtual void save(Writer& writer) override;
   virtual std::string get_display_name() const override {
-    return _("Tile map");
+    return _("Tilemap");
   }
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
