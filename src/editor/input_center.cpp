@@ -74,8 +74,8 @@ EditorInputCenter::update(float dt_sec) {
 void
 EditorInputCenter::delete_markers() {
   auto sector = Editor::current()->currentsector;
-  for (auto& moving_object : sector->get_moving_objects()) {
-    auto marker = dynamic_cast<PointMarker*>(moving_object);
+  for (auto& moving_object : sector->get_objects_by_type<MovingObject>()) {
+    auto marker = dynamic_cast<PointMarker*>(&moving_object);
     if (marker) {
       marker->remove_me();
     }
@@ -251,19 +251,19 @@ EditorInputCenter::fill() {
 
 void
 EditorInputCenter::hover_object() {
-  for (auto& moving_object : Editor::current()->currentsector->get_moving_objects()) {
-    auto pm = dynamic_cast<PointMarker*>(moving_object);
-    if (!moving_object->is_saveable() && !pm) {
+  for (auto& moving_object : Editor::current()->currentsector->get_objects_by_type<MovingObject>()) {
+    auto pm = dynamic_cast<PointMarker*>(&moving_object);
+    if (!moving_object.is_saveable() && !pm) {
       continue;
     }
-    Rectf bbox = moving_object->get_bbox();
+    Rectf bbox = moving_object.get_bbox();
     if (bbox.contains(sector_pos)) {
-      if (moving_object != hovered_object) {
-        if (moving_object->is_saveable()) {
-          auto new_tip = std::make_unique<Tip>(moving_object);
+      if (&moving_object != hovered_object) {
+        if (moving_object.is_saveable()) {
+          auto new_tip = std::make_unique<Tip>(&moving_object);
           object_tip = move(new_tip);
         }
-        hovered_object = moving_object;
+        hovered_object = &moving_object;
       }
       return;
     }
@@ -421,10 +421,10 @@ void
 EditorInputCenter::rubber_rect() {
   delete_markers();
   Rectf dr = drag_rect();
-  for (auto& moving_object : Editor::current()->currentsector->get_moving_objects()) {
-    Rectf bbox = moving_object->get_bbox();
+  for (auto& moving_object : Editor::current()->currentsector->get_objects_by_type<MovingObject>()) {
+    Rectf bbox = moving_object.get_bbox();
     if (dr.contains(bbox)) {
-      moving_object->editor_delete();
+      moving_object.editor_delete();
     }
   }
   last_node_marker = nullptr;
@@ -436,8 +436,8 @@ EditorInputCenter::update_node_iterators() {
   if (!edited_path->is_valid()) return;
 
   auto sector = Editor::current()->currentsector;
-  for (auto& moving_object : sector->get_moving_objects()) {
-    auto marker = dynamic_cast<NodeMarker*>(moving_object);
+  for (auto& moving_object : sector->get_objects_by_type<MovingObject>()) {
+    auto marker = dynamic_cast<NodeMarker*>(&moving_object);
     if (marker) {
       marker->update_iterator();
     }

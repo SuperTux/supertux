@@ -180,8 +180,6 @@ public:
     m_init_script = init_script;
   }
 
-  const std::vector<MovingObject*>& get_moving_objects() const;
-
   void run_script(const std::string& script, const std::string& sourcename);
 
 private:

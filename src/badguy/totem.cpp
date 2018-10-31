@@ -83,8 +83,8 @@ Totem::active_update(float dt_sec)
     }
 
     // jump a bit if we find a suitable totem
-    for (const auto& obj : Sector::get().get_moving_objects()) {
-      auto t = dynamic_cast<Totem*>(obj);
+    for (auto& obj : Sector::get().get_objects_by_type<MovingObject>()) {
+      auto t = dynamic_cast<Totem*>(&obj);
       if (!t) continue;
 
       // skip if we are not approaching each other

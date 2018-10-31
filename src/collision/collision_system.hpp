@@ -51,7 +51,6 @@ public:
   bool free_line_of_sight(const Vector& line_start, const Vector& line_end, const MovingObject* ignore_object) const;
   std::vector<MovingObject*> get_nearby_objects(const Vector& center, float max_distance) const;
 
-  const std::vector<MovingObject*>& get_moving_objects() const { return m_moving_objects; }
 
 private:
   /** Does collision detection of an object against all other static

@@ -742,12 +742,6 @@ Sector::save(Writer &writer)
   writer.end_list("sector");
 }
 
-const std::vector<MovingObject*>&
-Sector::get_moving_objects() const
-{
-  return m_collision_system->get_moving_objects();
-}
-
 void
 Sector::convert_tiles2gameobject()
 {
