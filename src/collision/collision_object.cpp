@@ -17,10 +17,11 @@
 
 #include "collision/collision_object.hpp"
 
+#include "collision/collision_listener.hpp"
 #include "supertux/moving_object.hpp"
 
-CollisionObject::CollisionObject(CollisionGroup group, MovingObject& parent) :
-  m_parent(parent),
+CollisionObject::CollisionObject(CollisionGroup group, CollisionListener& listener) :
+  m_listener(listener),
   m_bbox(),
   m_movement(),
   m_group(group),
@@ -31,25 +32,25 @@ CollisionObject::CollisionObject(CollisionGroup group, MovingObject& parent) :
 void
 CollisionObject::collision_solid(const CollisionHit& hit)
 {
-  m_parent.collision_solid(hit);
+  m_listener.collision_solid(hit);
 }
 
 bool
 CollisionObject::collides(GameObject& other, const CollisionHit& hit) const
 {
-  return m_parent.collides(other, hit);
+  return m_listener.collides(other, hit);
 }
 
 HitResponse
 CollisionObject::collision(GameObject& other, const CollisionHit& hit)
 {
-  return m_parent.collision(other, hit);
+  return m_listener.collision(other, hit);
 }
 
 void
 CollisionObject::collision_tile(uint32_t tile_attributes)
 {
-  m_parent.collision_tile(tile_attributes);
+  m_listener.collision_tile(tile_attributes);
 }
 
 /* EOF */

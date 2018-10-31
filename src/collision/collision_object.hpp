@@ -24,15 +24,15 @@
 #include "collision/collision_hit.hpp"
 #include "math/rectf.hpp"
 
+class CollisionListener;
 class GameObject;
-class MovingObject;
 
 class CollisionObject
 {
   friend class CollisionSystem;
 
 public:
-  CollisionObject(CollisionGroup group, MovingObject& parent);
+  CollisionObject(CollisionGroup group, CollisionListener& parent);
 
   /** this function is called when the object collided with something solid */
   void collision_solid(const CollisionHit& hit);
@@ -105,7 +105,7 @@ public:
   }
 
 private:
-  MovingObject& m_parent;
+  CollisionListener& m_listener;
 
 public:
   /** The bounding box of the object (as used for collision detection,
