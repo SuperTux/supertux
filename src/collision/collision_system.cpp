@@ -15,14 +15,14 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "supertux/collision_system.hpp"
+#include "collision/collision_system.hpp"
 
+#include "collision/collision.hpp"
 #include "editor/editor.hpp"
 #include "math/aatriangle.hpp"
 #include "math/rect.hpp"
-#include "object/tilemap.hpp"
 #include "object/player.hpp"
-#include "supertux/collision.hpp"
+#include "object/tilemap.hpp"
 #include "supertux/constants.hpp"
 #include "supertux/moving_object.hpp"
 #include "supertux/sector.hpp"

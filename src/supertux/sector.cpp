@@ -21,6 +21,8 @@
 
 #include "audio/sound_manager.hpp"
 #include "badguy/badguy.hpp"
+#include "collision/collision.hpp"
+#include "collision/collision_system.hpp"
 #include "editor/editor.hpp"
 #include "math/aatriangle.hpp"
 #include "math/rect.hpp"
@@ -39,8 +41,6 @@
 #include "physfs/ifile_stream.hpp"
 #include "scripting/sector.hpp"
 #include "squirrel/squirrel_environment.hpp"
-#include "supertux/collision.hpp"
-#include "supertux/collision_system.hpp"
 #include "supertux/constants.hpp"
 #include "supertux/debug.hpp"
 #include "supertux/game_object_factory.hpp"

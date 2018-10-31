@@ -17,9 +17,9 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_MOVING_OBJECT_HPP
 #define HEADER_SUPERTUX_SUPERTUX_MOVING_OBJECT_HPP
 
+#include "collision/collision_hit.hpp"
+#include "collision/collision_object.hpp"
 #include "math/rectf.hpp"
-#include "supertux/collision_hit.hpp"
-#include "supertux/collision_object.hpp"
 #include "supertux/game_object.hpp"
 
 class Sector;

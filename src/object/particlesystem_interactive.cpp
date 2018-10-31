@@ -16,9 +16,9 @@
 
 #include "object/particlesystem_interactive.hpp"
 
+#include "collision/collision.hpp"
 #include "math/aatriangle.hpp"
 #include "object/tilemap.hpp"
-#include "supertux/collision.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/tile.hpp"

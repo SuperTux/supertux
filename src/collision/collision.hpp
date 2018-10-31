@@ -17,9 +17,10 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_COLLISION_HPP
 #define HEADER_SUPERTUX_SUPERTUX_COLLISION_HPP
 
-#include "supertux/collision_hit.hpp"
 #include <limits>
-#include <algorithm> /* min/max */
+#include <algorithm>
+
+#include "collision/collision_hit.hpp"
 
 class Vector;
 class Rectf;

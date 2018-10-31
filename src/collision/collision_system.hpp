@@ -21,7 +21,7 @@
 #include <vector>
 #include <stdint.h>
 
-#include "supertux/collision.hpp"
+#include "collision/collision.hpp"
 
 class DrawingContext;
 class MovingObject;

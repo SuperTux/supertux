@@ -14,7 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "supertux/collision_object.hpp"
+#include "collision/collision_object.hpp"
 
 #include "supertux/moving_object.hpp"
 

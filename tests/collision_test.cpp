@@ -16,15 +16,15 @@
 
 #include <gtest/gtest.h>
 
-#include "supertux/collision.hpp"
+#include "collision/collision.hpp"
 #include "math/rectf.hpp"
 
 TEST(collisionTest, intersects_test)
-{   
+{
     Rectf r1(1.0,4.0,2.0,5.0);
     Rectf r2(6.0,8.0,10.0,9.0);
-    
-    ASSERT_EQ(false, collision::intersects(r1, r2));	
+
+    ASSERT_EQ(false, collision::intersects(r1, r2));
 
     Rectf r3(8.0,3.0,10.0,5.0);
     Rectf r4(2.0,7.0,4.0,9.0);
@@ -32,7 +32,7 @@ TEST(collisionTest, intersects_test)
     ASSERT_EQ(false, collision::intersects(r3, r4));
 
     Rectf r5(4.0,1.0,5.0,2.0);
-    Rectf r6(8.0,6.0,9.0,10.0);    
+    Rectf r6(8.0,6.0,9.0,10.0);
 
     ASSERT_EQ(false, collision::intersects(r5, r6));
 

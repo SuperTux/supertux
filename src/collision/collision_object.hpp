@@ -19,8 +19,8 @@
 
 #include <stdint.h>
 
+#include "collision/collision_hit.hpp"
 #include "math/rectf.hpp"
-#include "supertux/collision_hit.hpp"
 
 class GameObject;
 class MovingObject;
