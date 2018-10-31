@@ -18,7 +18,7 @@
 #include "collision/collision_object.hpp"
 
 #include "collision/collision_listener.hpp"
-#include "supertux/moving_object.hpp"
+#include "supertux/game_object.hpp"
 
 CollisionObject::CollisionObject(CollisionGroup group, CollisionListener& listener) :
   m_listener(listener),
@@ -51,6 +51,12 @@ void
 CollisionObject::collision_tile(uint32_t tile_attributes)
 {
   m_listener.collision_tile(tile_attributes);
+}
+
+bool
+CollisionObject::is_valid() const
+{
+  return m_listener.listener_is_valid();
 }
 
 /* EOF */

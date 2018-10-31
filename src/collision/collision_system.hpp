@@ -23,8 +23,8 @@
 
 #include "collision/collision.hpp"
 
+class CollisionObject;
 class DrawingContext;
-class MovingObject;
 class Rectf;
 class Sector;
 class Vector;
@@ -34,8 +34,8 @@ class CollisionSystem final
 public:
   CollisionSystem(Sector& sector);
 
-  void add(MovingObject* object);
-  void remove(MovingObject* object);
+  void add(CollisionObject* object);
+  void remove(CollisionObject* object);
 
   /** Draw collision shapes for debugging */
   void draw(DrawingContext& context);
@@ -46,11 +46,11 @@ public:
   void update();
 
   bool is_free_of_tiles(const Rectf& rect, const bool ignoreUnisolid = false) const;
-  bool is_free_of_statics(const Rectf& rect, const MovingObject* ignore_object, const bool ignoreUnisolid) const;
-  bool is_free_of_movingstatics(const Rectf& rect, const MovingObject* ignore_object) const;
-  bool free_line_of_sight(const Vector& line_start, const Vector& line_end, const MovingObject* ignore_object) const;
-  std::vector<MovingObject*> get_nearby_objects(const Vector& center, float max_distance) const;
+  bool is_free_of_statics(const Rectf& rect, const CollisionObject* ignore_object, const bool ignoreUnisolid) const;
+  bool is_free_of_movingstatics(const Rectf& rect, const CollisionObject* ignore_object) const;
+  bool free_line_of_sight(const Vector& line_start, const Vector& line_end, const CollisionObject* ignore_object) const;
 
+  std::vector<CollisionObject*> get_nearby_objects(const Vector& center, float max_distance) const;
 
 private:
   /** Does collision detection of an object against all other static
@@ -63,21 +63,21 @@ private:
       no collisions) */
   void collision_static(collision::Constraints* constraints,
                         const Vector& movement, const Rectf& dest,
-                        MovingObject& object);
+                        CollisionObject& object);
 
   void collision_tilemap(collision::Constraints* constraints,
                          const Vector& movement, const Rectf& dest,
-                         MovingObject& object) const;
+                         CollisionObject& object) const;
 
   uint32_t collision_tile_attributes(const Rectf& dest, const Vector& mov) const;
 
-  void collision_object(MovingObject* object1, MovingObject* object2) const;
+  void collision_object(CollisionObject* object1, CollisionObject* object2) const;
 
-  void collision_static_constrains(MovingObject& object);
+  void collision_static_constrains(CollisionObject& object);
 
 private:
   Sector& m_sector;
-  std::vector<MovingObject*>  m_moving_objects;
+  std::vector<CollisionObject*>  m_objects;
 
 private:
   CollisionSystem(const CollisionSystem&) = delete;

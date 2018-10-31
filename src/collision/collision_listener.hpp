@@ -38,6 +38,8 @@ public:
 
   /** called when tiles with special attributes have been touched */
   virtual void collision_tile(uint32_t /*tile_attributes*/) = 0;
+
+  virtual bool listener_is_valid() const = 0;
 };
 
 #endif

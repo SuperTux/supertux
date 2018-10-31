@@ -24,7 +24,6 @@
 #include "object/player.hpp"
 #include "object/tilemap.hpp"
 #include "supertux/constants.hpp"
-#include "supertux/moving_object.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/tile.hpp"
 #include "video/color.hpp"
@@ -41,29 +40,29 @@ const float DELTA = .002f;
 
 CollisionSystem::CollisionSystem(Sector& sector) :
   m_sector(sector),
-  m_moving_objects()
+  m_objects()
 {
 }
 
 void
-CollisionSystem::add(MovingObject* object)
+CollisionSystem::add(CollisionObject* object)
 {
-  m_moving_objects.push_back(object);
+  m_objects.push_back(object);
 }
 
 void
-CollisionSystem::remove(MovingObject* moving_object)
+CollisionSystem::remove(CollisionObject* object)
 {
-  m_moving_objects.erase(
-    std::find(m_moving_objects.begin(), m_moving_objects.end(),
-              moving_object));
+  m_objects.erase(
+    std::find(m_objects.begin(), m_objects.end(),
+              object));
 }
 
 void
 CollisionSystem::draw(DrawingContext& context)
 {
   Color color(1.0f, 0.0f, 0.0f, 0.75f);
-  for(auto& object : m_moving_objects) {
+  for(auto& object : m_objects) {
     const Rectf& rect = object->get_bbox();
 
     context.color().draw_filled_rect(rect, color, LAYER_FOREGROUND1 + 10);
@@ -74,12 +73,12 @@ CollisionSystem::draw(DrawingContext& context)
 /** r1 is supposed to be moving, r2 a solid object */
 void check_collisions(collision::Constraints* constraints,
                       const Vector& obj_movement, const Rectf& obj_rect, const Rectf& other_rect,
-                      GameObject* object = nullptr, MovingObject* other = nullptr, const Vector& other_movement = Vector(0,0))
+                      CollisionObject* object = nullptr, CollisionObject* other = nullptr, const Vector& other_movement = Vector(0,0))
 {
   if(!collision::intersects(obj_rect, other_rect))
     return;
 
-  auto moving_object = dynamic_cast<MovingObject*> (object);
+  auto moving_object = dynamic_cast<CollisionObject*> (object);
   CollisionHit dummy;
   if(other != nullptr && object != nullptr && !other->collides(*object, dummy))
     return;
@@ -147,7 +146,7 @@ void check_collisions(collision::Constraints* constraints,
 void
 CollisionSystem::collision_tilemap(collision::Constraints* constraints,
                                    const Vector& movement, const Rectf& dest,
-                                   MovingObject& object) const
+                                   CollisionObject& object) const
 {
   // calculate rectangle where the object will move
   float x1 = dest.get_left();
@@ -265,15 +264,15 @@ static void get_hit_normal(const Rectf& r1, const Rectf& r2, CollisionHit& hit,
 }
 
 void
-CollisionSystem::collision_object(MovingObject* object1, MovingObject* object2) const
+CollisionSystem::collision_object(CollisionObject* object1, CollisionObject* object2) const
 {
   using namespace collision;
 
-  const Rectf& r1 = object1->m_col.m_dest;
-  const Rectf& r2 = object2->m_col.m_dest;
+  const Rectf& r1 = object1->m_dest;
+  const Rectf& r2 = object2->m_dest;
 
   CollisionHit hit;
-  if(intersects(object1->m_col.m_dest, object2->m_col.m_dest)) {
+  if(intersects(object1->m_dest, object2->m_dest)) {
     Vector normal;
     get_hit_normal(r1, r2, hit, normal);
 
@@ -292,14 +291,14 @@ CollisionSystem::collision_object(MovingObject* object1, MovingObject* object2) 
     HitResponse response2 = object2->collision(*object1, hit);
     if(response1 == CONTINUE && response2 == CONTINUE) {
       normal *= (0.5f + DELTA);
-      object1->m_col.m_dest.move(-normal);
-      object2->m_col.m_dest.move(normal);
+      object1->m_dest.move(-normal);
+      object2->m_dest.move(normal);
     } else if (response1 == CONTINUE && response2 == FORCE_MOVE) {
       normal *= (1 + DELTA);
-      object1->m_col.m_dest.move(-normal);
+      object1->m_dest.move(-normal);
     } else if (response1 == FORCE_MOVE && response2 == CONTINUE) {
       normal *= (1 + DELTA);
-      object2->m_col.m_dest.move(normal);
+      object2->m_dest.move(normal);
     }
   }
 }
@@ -307,26 +306,26 @@ CollisionSystem::collision_object(MovingObject* object1, MovingObject* object2) 
 void
 CollisionSystem::collision_static(collision::Constraints* constraints,
                                   const Vector& movement, const Rectf& dest,
-                                  MovingObject& object)
+                                  CollisionObject& object)
 {
   collision_tilemap(constraints, movement, dest, object);
 
   // collision with other (static) objects
-  for(auto& moving_object : m_moving_objects) {
-    if(moving_object->m_col.get_group() != COLGROUP_STATIC
-       && moving_object->m_col.get_group() != COLGROUP_MOVING_STATIC)
+  for(auto& moving_object : m_objects) {
+    if(moving_object->get_group() != COLGROUP_STATIC
+       && moving_object->get_group() != COLGROUP_MOVING_STATIC)
       continue;
     if(!moving_object->is_valid())
       continue;
 
     if(moving_object != &object)
-      check_collisions(constraints, movement, dest, moving_object->m_col.m_bbox,
+      check_collisions(constraints, movement, dest, moving_object->m_bbox,
                        &object, moving_object);
   }
 }
 
 void
-CollisionSystem::collision_static_constrains(MovingObject& object)
+CollisionSystem::collision_static_constrains(CollisionObject& object)
 {
   using namespace collision;
   float infinity = (std::numeric_limits<float>::has_infinity ? std::numeric_limits<float>::infinity() : std::numeric_limits<float>::max());
@@ -334,7 +333,7 @@ CollisionSystem::collision_static_constrains(MovingObject& object)
   Constraints constraints;
   Vector movement = object.get_movement();
   Vector pressure = Vector(0,0);
-  Rectf& dest = object.m_col.m_dest;
+  Rectf& dest = object.m_dest;
 
   for(int i = 0; i < 2; ++i) {
     collision_static(&constraints, Vector(0, movement.y), dest, object);
@@ -450,24 +449,24 @@ CollisionSystem::update()
   using namespace collision;
 
   // calculate destination positions of the objects
-  for(const auto& moving_object : m_moving_objects) {
+  for(const auto& moving_object : m_objects) {
     Vector mov = moving_object->get_movement();
 
     // make sure movement is never faster than MAX_SPEED. Norm is pretty fat, so two addl. checks are done before.
     if (((mov.x > MAX_SPEED * M_SQRT1_2) || (mov.y > MAX_SPEED * M_SQRT1_2)) && (mov.norm() > MAX_SPEED)) {
-      moving_object->m_col.m_movement = mov.unit() * MAX_SPEED;
+      moving_object->m_movement = mov.unit() * MAX_SPEED;
       //log_debug << "Temporarily reduced object's speed of " << mov.norm() << " to " << moving_object->movement.norm() << "." << std::endl;
     }
 
-    moving_object->m_col.m_dest = moving_object->get_bbox();
-    moving_object->m_col.m_dest.move(moving_object->get_movement());
+    moving_object->m_dest = moving_object->get_bbox();
+    moving_object->m_dest.move(moving_object->get_movement());
   }
 
   // part1: COLGROUP_MOVING vs COLGROUP_STATIC and tilemap
-  for(const auto& moving_object : m_moving_objects) {
-    if((moving_object->m_col.get_group() != COLGROUP_MOVING
-        && moving_object->m_col.get_group() != COLGROUP_MOVING_STATIC
-        && moving_object->m_col.get_group() != COLGROUP_MOVING_ONLY_STATIC)
+  for(const auto& moving_object : m_objects) {
+    if((moving_object->get_group() != COLGROUP_MOVING
+        && moving_object->get_group() != COLGROUP_MOVING_STATIC
+        && moving_object->get_group() != COLGROUP_MOVING_ONLY_STATIC)
        || !moving_object->is_valid())
       continue;
 
@@ -475,35 +474,35 @@ CollisionSystem::update()
   }
 
   // part2: COLGROUP_MOVING vs tile attributes
-  for(const auto& moving_object : m_moving_objects) {
-    if((moving_object->m_col.get_group() != COLGROUP_MOVING
-        && moving_object->m_col.get_group() != COLGROUP_MOVING_STATIC
-        && moving_object->m_col.get_group() != COLGROUP_MOVING_ONLY_STATIC)
+  for(const auto& moving_object : m_objects) {
+    if((moving_object->get_group() != COLGROUP_MOVING
+        && moving_object->get_group() != COLGROUP_MOVING_STATIC
+        && moving_object->get_group() != COLGROUP_MOVING_ONLY_STATIC)
        || !moving_object->is_valid())
       continue;
 
-    uint32_t tile_attributes = collision_tile_attributes(moving_object->m_col.m_dest, moving_object->get_movement());
+    uint32_t tile_attributes = collision_tile_attributes(moving_object->m_dest, moving_object->get_movement());
     if(tile_attributes >= Tile::FIRST_INTERESTING_FLAG) {
       moving_object->collision_tile(tile_attributes);
     }
   }
 
   // part2.5: COLGROUP_MOVING vs COLGROUP_TOUCHABLE
-  for(const auto& moving_object : m_moving_objects) {
-    if((moving_object->m_col.get_group() != COLGROUP_MOVING
-        && moving_object->m_col.get_group() != COLGROUP_MOVING_STATIC)
+  for(const auto& moving_object : m_objects) {
+    if((moving_object->get_group() != COLGROUP_MOVING
+        && moving_object->get_group() != COLGROUP_MOVING_STATIC)
        || !moving_object->is_valid())
       continue;
 
-    for(auto& moving_object_2 : m_moving_objects) {
-      if(moving_object_2->m_col.get_group() != COLGROUP_TOUCHABLE
+    for(auto& moving_object_2 : m_objects) {
+      if(moving_object_2->get_group() != COLGROUP_TOUCHABLE
          || !moving_object_2->is_valid())
         continue;
 
-      if(intersects(moving_object->m_col.m_dest, moving_object_2->m_col.m_dest)) {
+      if(intersects(moving_object->m_dest, moving_object_2->m_dest)) {
         Vector normal;
         CollisionHit hit;
-        get_hit_normal(moving_object->m_col.m_dest, moving_object_2->m_col.m_dest,
+        get_hit_normal(moving_object->m_dest, moving_object_2->m_dest,
                        hit, normal);
         if(!moving_object->collides(*moving_object_2, hit))
           continue;
@@ -517,18 +516,18 @@ CollisionSystem::update()
   }
 
   // part3: COLGROUP_MOVING vs COLGROUP_MOVING
-  for(auto i = m_moving_objects.begin(); i != m_moving_objects.end(); ++i) {
+  for(auto i = m_objects.begin(); i != m_objects.end(); ++i) {
     auto moving_object = *i;
 
-    if((moving_object->m_col.get_group() != COLGROUP_MOVING
-        && moving_object->m_col.get_group() != COLGROUP_MOVING_STATIC)
+    if((moving_object->get_group() != COLGROUP_MOVING
+        && moving_object->get_group() != COLGROUP_MOVING_STATIC)
        || !moving_object->is_valid())
       continue;
 
-    for(auto i2 = i+1; i2 != m_moving_objects.end(); ++i2) {
+    for(auto i2 = i+1; i2 != m_objects.end(); ++i2) {
       auto moving_object_2 = *i2;
-      if((moving_object_2->m_col.get_group() != COLGROUP_MOVING
-          && moving_object_2->m_col.get_group() != COLGROUP_MOVING_STATIC)
+      if((moving_object_2->get_group() != COLGROUP_MOVING
+          && moving_object_2->get_group() != COLGROUP_MOVING_STATIC)
          || !moving_object_2->is_valid())
         continue;
 
@@ -537,9 +536,9 @@ CollisionSystem::update()
   }
 
   // apply object movement
-  for(const auto& moving_object : m_moving_objects) {
-    moving_object->m_col.m_bbox = moving_object->m_col.m_dest;
-    moving_object->m_col.m_movement = Vector(0, 0);
+  for(const auto& moving_object : m_objects) {
+    moving_object->m_bbox = moving_object->m_dest;
+    moving_object->m_movement = Vector(0, 0);
   }
 }
 
@@ -578,16 +577,16 @@ CollisionSystem::is_free_of_tiles(const Rectf& rect, const bool ignoreUnisolid) 
 }
 
 bool
-CollisionSystem::is_free_of_statics(const Rectf& rect, const MovingObject* ignore_object, const bool ignoreUnisolid) const
+CollisionSystem::is_free_of_statics(const Rectf& rect, const CollisionObject* ignore_object, const bool ignoreUnisolid) const
 {
   using namespace collision;
 
   if (!is_free_of_tiles(rect, ignoreUnisolid)) return false;
 
-  for(const auto& moving_object : m_moving_objects) {
+  for(const auto& moving_object : m_objects) {
     if (moving_object == ignore_object) continue;
     if (!moving_object->is_valid()) continue;
-    if (moving_object->m_col.get_group() == COLGROUP_STATIC) {
+    if (moving_object->get_group() == COLGROUP_STATIC) {
       if(intersects(rect, moving_object->get_bbox())) return false;
     }
   }
@@ -596,18 +595,18 @@ CollisionSystem::is_free_of_statics(const Rectf& rect, const MovingObject* ignor
 }
 
 bool
-CollisionSystem::is_free_of_movingstatics(const Rectf& rect, const MovingObject* ignore_object) const
+CollisionSystem::is_free_of_movingstatics(const Rectf& rect, const CollisionObject* ignore_object) const
 {
   using namespace collision;
 
   if (!is_free_of_tiles(rect)) return false;
 
-  for(const auto& moving_object : m_moving_objects) {
+  for(const auto& moving_object : m_objects) {
     if (moving_object == ignore_object) continue;
     if (!moving_object->is_valid()) continue;
-    if ((moving_object->m_col.get_group() == COLGROUP_MOVING)
-        || (moving_object->m_col.get_group() == COLGROUP_MOVING_STATIC)
-        || (moving_object->m_col.get_group() == COLGROUP_STATIC)) {
+    if ((moving_object->get_group() == COLGROUP_MOVING)
+        || (moving_object->get_group() == COLGROUP_MOVING_STATIC)
+        || (moving_object->get_group() == COLGROUP_STATIC)) {
       if(intersects(rect, moving_object->get_bbox())) return false;
     }
   }
@@ -616,7 +615,7 @@ CollisionSystem::is_free_of_movingstatics(const Rectf& rect, const MovingObject*
 }
 
 bool
-CollisionSystem::free_line_of_sight(const Vector& line_start, const Vector& line_end, const MovingObject* ignore_object) const
+CollisionSystem::free_line_of_sight(const Vector& line_start, const Vector& line_end, const CollisionObject* ignore_object) const
 {
   using namespace collision;
 
@@ -636,12 +635,12 @@ CollisionSystem::free_line_of_sight(const Vector& line_start, const Vector& line
   }
 
   // check if no object is in the way
-  for(const auto& moving_object : m_moving_objects) {
+  for(const auto& moving_object : m_objects) {
     if (moving_object == ignore_object) continue;
     if (!moving_object->is_valid()) continue;
-    if ((moving_object->m_col.get_group() == COLGROUP_MOVING)
-        || (moving_object->m_col.get_group() == COLGROUP_MOVING_STATIC)
-        || (moving_object->m_col.get_group() == COLGROUP_STATIC)) {
+    if ((moving_object->get_group() == COLGROUP_MOVING)
+        || (moving_object->get_group() == COLGROUP_MOVING_STATIC)
+        || (moving_object->get_group() == COLGROUP_STATIC)) {
       if(intersects_line(moving_object->get_bbox(), line_start, line_end)) return false;
     }
   }
@@ -649,19 +648,12 @@ CollisionSystem::free_line_of_sight(const Vector& line_start, const Vector& line
   return true;
 }
 
-std::vector<MovingObject*>
+std::vector<CollisionObject*>
 CollisionSystem::get_nearby_objects (const Vector& center, float max_distance) const
 {
-  std::vector<MovingObject*> ret;
-  std::vector<Player*> players = Sector::get().get_players();
+  std::vector<CollisionObject*> ret;
 
-  for(const auto& player_ : players) {
-    float distance = player_->get_bbox().distance(center);
-    if (distance <= max_distance)
-      ret.push_back(player_);
-  }
-
-  for (const auto& object_ : m_moving_objects) {
+  for (const auto& object_ : m_objects) {
     float distance = object_->get_bbox().distance(center);
     if (distance <= max_distance)
       ret.push_back(object_);

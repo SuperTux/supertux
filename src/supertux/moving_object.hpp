@@ -62,6 +62,8 @@ public:
     m_col.move_to(pos);
   }
 
+  virtual bool listener_is_valid() const override { return is_valid(); }
+
   const Vector& get_pos() const
   {
     return m_col.m_bbox.p1;
@@ -80,6 +82,14 @@ public:
   CollisionGroup get_group() const
   {
     return m_col.m_group;
+  }
+
+  CollisionObject* get_collision_object() {
+    return &m_col;
+  }
+
+  const CollisionObject* get_collision_object() const {
+    return &m_col;
   }
 
   /** This function saves the object.

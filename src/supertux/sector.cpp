@@ -357,7 +357,7 @@ Sector::before_object_add(GameObject& object)
   auto movingobject = dynamic_cast<MovingObject*>(&object);
   if (movingobject)
   {
-    m_collision_system->add(movingobject);
+    m_collision_system->add(movingobject->get_collision_object());
   }
 
   auto portable = dynamic_cast<Portable*>(&object);
@@ -413,7 +413,7 @@ Sector::before_object_remove(GameObject& object)
   }
   auto moving_object = dynamic_cast<MovingObject*>(&object);
   if (moving_object) {
-    m_collision_system->remove(moving_object);
+    m_collision_system->remove(moving_object->get_collision_object());
   }
 
   if(s_current == this)
@@ -447,19 +447,19 @@ Sector::is_free_of_tiles(const Rectf& rect, const bool ignoreUnisolid) const
 bool
 Sector::is_free_of_statics(const Rectf& rect, const MovingObject* ignore_object, const bool ignoreUnisolid) const
 {
-  return m_collision_system->is_free_of_statics(rect, ignore_object, ignoreUnisolid);
+  return m_collision_system->is_free_of_statics(rect, ignore_object->get_collision_object(), ignoreUnisolid);
 }
 
 bool
 Sector::is_free_of_movingstatics(const Rectf& rect, const MovingObject* ignore_object) const
 {
-  return m_collision_system->is_free_of_movingstatics(rect, ignore_object);
+  return m_collision_system->is_free_of_movingstatics(rect, ignore_object->get_collision_object());
 }
 
 bool
 Sector::free_line_of_sight(const Vector& line_start, const Vector& line_end, const MovingObject* ignore_object) const
 {
-  return m_collision_system->free_line_of_sight(line_start, line_end, ignore_object);
+  return m_collision_system->free_line_of_sight(line_start, line_end, ignore_object->get_collision_object());
 }
 
 bool
@@ -684,9 +684,17 @@ Sector::get_nearest_player (const Vector& pos) const
 } /* Player *get_nearest_player */
 
 std::vector<MovingObject*>
-Sector::get_nearby_objects (const Vector& center, float max_distance) const
+Sector::get_nearby_objects(const Vector& center, float max_distance) const
 {
-  return m_collision_system->get_nearby_objects(center, max_distance);
+  std::vector<MovingObject*> result;
+  for(auto& object : m_collision_system->get_nearby_objects(center, max_distance))
+  {
+    auto* moving_object = dynamic_cast<MovingObject*>(&object->get_listener());
+    if (moving_object) {
+      result.push_back(moving_object);
+    }
+  }
+  return result;
 }
 
 void

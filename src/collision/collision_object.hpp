@@ -104,6 +104,13 @@ public:
     return m_group;
   }
 
+  bool is_valid() const;
+
+  CollisionListener& get_listener()
+  {
+    return m_listener;
+  }
+
 private:
   CollisionListener& m_listener;
 
