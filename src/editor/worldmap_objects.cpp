@@ -32,25 +32,25 @@ namespace worldmap_editor {
 WorldmapObject::WorldmapObject (const ReaderMapping& lisp, const std::string& default_sprite) :
   MovingSprite(lisp, default_sprite)
 {
-  m_bbox.p1.x = 32 * m_bbox.p1.x;
-  m_bbox.p1.y = 32 * m_bbox.p1.y;
-  m_bbox.set_size(32, 32);
+  m_col.m_bbox.p1.x = 32 * m_col.m_bbox.p1.x;
+  m_col.m_bbox.p1.y = 32 * m_col.m_bbox.p1.y;
+  m_col.m_bbox.set_size(32, 32);
 }
 
 WorldmapObject::WorldmapObject (const ReaderMapping& lisp) :
   MovingSprite(lisp)
 {
-  m_bbox.p1.x = 32 * m_bbox.p1.x;
-  m_bbox.p1.y = 32 * m_bbox.p1.y;
-  m_bbox.set_size(32, 32);
+  m_col.m_bbox.p1.x = 32 * m_col.m_bbox.p1.x;
+  m_col.m_bbox.p1.y = 32 * m_col.m_bbox.p1.y;
+  m_col.m_bbox.set_size(32, 32);
 }
 
 WorldmapObject::WorldmapObject (const Vector& pos, const std::string& default_sprite) :
   MovingSprite(pos, default_sprite)
 {
-  m_bbox.p1.x = 32 * m_bbox.p1.x;
-  m_bbox.p1.y = 32 * m_bbox.p1.y;
-  m_bbox.set_size(32, 32);
+  m_col.m_bbox.p1.x = 32 * m_col.m_bbox.p1.x;
+  m_col.m_bbox.p1.y = 32 * m_col.m_bbox.p1.y;
+  m_col.m_bbox.set_size(32, 32);
 }
 
 void
@@ -63,8 +63,8 @@ WorldmapObject::move_to(const Vector& pos) {
 
 void
 WorldmapObject::save(Writer& writer) {
-  writer.write("x", int(m_bbox.p1.x / 32));
-  writer.write("y", int(m_bbox.p1.y / 32));
+  writer.write("x", int(m_col.m_bbox.p1.x / 32));
+  writer.write("y", int(m_col.m_bbox.p1.y / 32));
 }
 
 LevelDot::LevelDot (const ReaderMapping& lisp) :
@@ -90,7 +90,7 @@ LevelDot::LevelDot (const ReaderMapping& lisp) :
 void
 LevelDot::draw(DrawingContext& context)
 {
-  m_sprite->draw(context.color(), m_bbox.p1 + Vector(16, 16), m_layer);
+  m_sprite->draw(context.color(), m_col.m_bbox.p1 + Vector(16, 16), m_layer);
 }
 
 ObjectSettings
@@ -170,7 +170,7 @@ Teleporter::Teleporter (const ReaderMapping& lisp) :
 void
 Teleporter::draw(DrawingContext& context)
 {
-  m_sprite->draw(context.color(), m_bbox.p1 + Vector(16, 16), m_layer);
+  m_sprite->draw(context.color(), m_col.m_bbox.p1 + Vector(16, 16), m_layer);
 }
 
 void

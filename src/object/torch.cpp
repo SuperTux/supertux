@@ -32,14 +32,14 @@ Torch::Torch(const ReaderMapping& reader) :
   m_burning(true),
   sprite_name("images/objects/torch/torch1.sprite")
 {
-  reader.get("x", m_bbox.p1.x);
-  reader.get("y", m_bbox.p1.y);
+  reader.get("x", m_col.m_bbox.p1.x);
+  reader.get("y", m_col.m_bbox.p1.y);
 
   reader.get("sprite", sprite_name);
   reader.get("burning", m_burning, true);
 
   m_torch = SpriteManager::current()->create(sprite_name);
-  m_bbox.set_size(static_cast<float>(m_torch->get_width()),
+  m_col.m_bbox.set_size(static_cast<float>(m_torch->get_width()),
                 static_cast<float>(m_torch->get_height()));
   m_flame_glow->set_blend(Blend::ADD);
   m_flame_light->set_blend(Blend::ADD);

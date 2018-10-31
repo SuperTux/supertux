@@ -63,7 +63,7 @@ void
 NodeMarker::move_to(const Vector& pos)
 {
   MovingObject::move_to(pos);
-  m_node->position = m_bbox.get_middle();
+  m_node->position = m_col.m_bbox.get_middle();
 }
 
 void

@@ -106,7 +106,7 @@ GhostTree::active_update(float /*dt_sec*/)
       for(const auto& willo : willowisps) {
         if(willo->get_color() == col) {
           willo->start_sucking(
-            m_bbox.get_middle() + SUCK_TARGET_OFFSET
+            m_col.m_bbox.get_middle() + SUCK_TARGET_OFFSET
             + Vector(gameRandom.randf(-SUCK_TARGET_SPREAD, SUCK_TARGET_SPREAD),
                      gameRandom.randf(-SUCK_TARGET_SPREAD, SUCK_TARGET_SPREAD)));
         }
@@ -116,7 +116,7 @@ GhostTree::active_update(float /*dt_sec*/)
 
     if(willowisp_timer.check()) {
       if(willowisps.size() < WILLOWISP_COUNT) {
-        Vector pos = Vector(m_bbox.get_width() / 2, m_bbox.get_height() / 2 + willo_spawn_y + WILLOWISP_TOP_OFFSET);
+        Vector pos = Vector(m_col.m_bbox.get_width() / 2, m_col.m_bbox.get_height() / 2 + willo_spawn_y + WILLOWISP_TOP_OFFSET);
         auto willowisp = Sector::get().add<TreeWillOWisp>(this, pos, 200 + willo_radius, willo_speed);
         willowisps.push_back(willowisp);
 
@@ -154,7 +154,7 @@ GhostTree::active_update(float /*dt_sec*/)
       /* TODO indicate root with an animation */
       auto player = get_nearest_player();
       if (player) {
-        Sector::get().add<Root>(Vector(player->get_bbox().get_left(), m_bbox.get_bottom()+ROOT_TOP_OFFSET));
+        Sector::get().add<Root>(Vector(player->get_bbox().get_left(), m_col.m_bbox.get_bottom()+ROOT_TOP_OFFSET));
       }
     }
   } else if (mystate == STATE_SWALLOWING) {
@@ -162,7 +162,7 @@ GhostTree::active_update(float /*dt_sec*/)
       // suck in lantern
       assert (suck_lantern);
       Vector pos = suck_lantern->get_pos();
-      Vector delta = m_bbox.get_middle() + SUCK_TARGET_OFFSET - pos;
+      Vector delta = m_col.m_bbox.get_middle() + SUCK_TARGET_OFFSET - pos;
       Vector dir_ = delta.unit();
       if (delta.norm() < 1) {
         dir_ = delta;
@@ -258,7 +258,7 @@ GhostTree::collision(GameObject& other, const CollisionHit& )
 void
 GhostTree::spawn_lantern()
 {
-  Sector::get().add<Lantern>(m_bbox.get_middle() + SUCK_TARGET_OFFSET);
+  Sector::get().add<Lantern>(m_col.m_bbox.get_middle() + SUCK_TARGET_OFFSET);
 }
 
 /* EOF */

@@ -101,10 +101,10 @@ void
 Yeti::recalculate_pos()
 {
   if (m_dir == RIGHT) {
-    left_stand_x = m_bbox.p1.x;
+    left_stand_x = m_col.m_bbox.p1.x;
     right_stand_x = left_stand_x + RUN_DISTANCE;
   } else {
-    right_stand_x = m_bbox.p1.x;
+    right_stand_x = m_col.m_bbox.p1.x;
     left_stand_x = right_stand_x - RUN_DISTANCE;
   }
 
@@ -189,7 +189,7 @@ Yeti::active_update(float dt_sec)
       break;
   }
 
-  m_movement = m_physic.get_movement(dt_sec);
+  m_col.m_movement = m_physic.get_movement(dt_sec);
 }
 
 void

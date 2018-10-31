@@ -19,53 +19,10 @@
 
 #include "math/rectf.hpp"
 #include "supertux/collision_hit.hpp"
+#include "supertux/collision_object.hpp"
 #include "supertux/game_object.hpp"
 
 class Sector;
-
-enum CollisionGroup {
-  /** Objects in DISABLED group are not tested for collisions */
-  COLGROUP_DISABLED = 0,
-
-  /** Tested against:
-      - tiles + attributes
-      - static obstacles
-      - touchables
-      - other moving objects
-      and it counts as an obstacle during static collision phase.
-
-      Use for kinematic moving objects like platforms and rocks. */
-  COLGROUP_MOVING_STATIC,
-
-  /** Tested against:
-      - tiles + attributes
-      - static obstacles
-      - touchables
-      - other moving objects
-
-      Use for ordinary objects. */
-  COLGROUP_MOVING,
-
-  /** Tested against:
-      - tiles + attributes
-      - static obstacles
-
-      Use for interactive particles and decoration. */
-  COLGROUP_MOVING_ONLY_STATIC,
-
-  /** Tested against:
-      - moving objects
-      and it counts as an obstacle during static collision phase.
-
-      Use for static obstacles that Tux walks on. */
-  COLGROUP_STATIC,
-
-  /** Tested against:
-      - moving objects
-
-      Use for triggers like spikes/areas or collectibles like coins. */
-  COLGROUP_TOUCHABLE
-};
 
 /** Base class for all dynamic/moving game objects. This class
     contains things for handling the bounding boxes and collision
@@ -101,6 +58,36 @@ public:
   {
   }
 
+  virtual void set_pos(const Vector& pos)
+  {
+    m_col.set_pos(pos);
+  }
+
+  virtual void move_to(const Vector& pos)
+  {
+    m_col.move_to(pos);
+  }
+
+  const Vector& get_pos() const
+  {
+    return m_col.m_bbox.p1;
+  }
+
+  const Rectf& get_bbox() const
+  {
+    return m_col.m_bbox;
+  }
+
+  const Vector& get_movement() const
+  {
+    return m_col.m_movement;
+  }
+
+  CollisionGroup get_group() const
+  {
+    return m_col.m_group;
+  }
+
   /** This function saves the object.
    *  Editor will use that.
    */
@@ -109,89 +96,17 @@ public:
     return "moving-object";
   }
 
-  const Vector& get_pos() const
-  {
-    return m_bbox.p1;
-  }
-
   /** puts resizers at its edges, used in editor input center */
   void edit_bbox();
-
-  /** returns the bounding box of the Object */
-  const Rectf& get_bbox() const
-  {
-    return m_bbox;
-  }
-
-  const Vector& get_movement() const
-  {
-    return m_movement;
-  }
-
-  /** places the moving object at a specific position. Be careful when
-      using this function. There are no collision detection checks
-      performed here so bad things could happen. */
-  virtual void set_pos(const Vector& pos)
-  {
-    m_dest.move(pos-get_pos());
-    m_bbox.set_pos(pos);
-  }
-
-  /** moves entire object to a specific position, including all
-      points those the object has, exactly like the object has
-      spawned in that given pos instead.*/
-  virtual void move_to(const Vector& pos)
-  {
-    set_pos(pos);
-  }
-
-  /** sets the moving object's bbox to a specific width. Be careful
-      when using this function. There are no collision detection
-      checks performed here so bad things could happen. */
-  virtual void set_width(float w)
-  {
-    m_dest.set_width(w);
-    m_bbox.set_width(w);
-  }
-
-  /** sets the moving object's bbox to a specific size. Be careful
-      when using this function. There are no collision detection
-      checks performed here so bad things could happen. */
-  virtual void set_size(float w, float h)
-  {
-    m_dest.set_size(w, h);
-    m_bbox.set_size(w, h);
-  }
-
-  CollisionGroup get_group() const
-  {
-    return m_group;
-  }
 
 protected:
   void set_group(CollisionGroup group)
   {
-    m_group = group;
+    m_col.m_group = group;
   }
 
 protected:
-  /** The bounding box of the object (as used for collision detection,
-      this isn't necessarily the bounding box for graphics) */
-  Rectf m_bbox;
-
-  /** The movement that will happen till next frame */
-  Vector m_movement;
-
-  /** The collision group */
-  CollisionGroup m_group;
-
-private:
-  /** this is only here for internal collision detection use (don't touch this
-      from outside collision detection code)
-
-      This field holds the currently anticipated destination of the object
-      during collision detection */
-  Rectf m_dest;
+  CollisionObject m_col;
 };
 
 #endif

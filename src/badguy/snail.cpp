@@ -282,7 +282,7 @@ Snail::collision_squished(GameObject& object)
 void
 Snail::grab(MovingObject&, const Vector& pos, Direction dir_)
 {
-  m_movement = pos - get_pos();
+  m_col.m_movement = pos - get_pos();
   m_dir = dir_;
   set_action(dir_ == LEFT ? "flat-left" : "flat-right", /* loops = */ -1);
   be_grabbed();

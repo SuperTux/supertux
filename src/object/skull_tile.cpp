@@ -59,8 +59,8 @@ void
 SkullTile::update(float dt_sec)
 {
   if(falling) {
-    m_movement = physic.get_movement(dt_sec);
-    if(!Sector::get().inside(m_bbox)) {
+    m_col.m_movement = physic.get_movement(dt_sec);
+    if(!Sector::get().inside(m_col.m_bbox)) {
       remove_me();
       return;
     }

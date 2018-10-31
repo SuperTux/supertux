@@ -77,8 +77,8 @@ MagicBlock::MagicBlock(const ReaderMapping& lisp) :
     trigger_blue = color.blue;
   }
 
-  center = m_bbox.get_middle();
-  solid_box = Rectf(m_bbox.p1.x + SHIFT_DELTA, m_bbox.p1.y + SHIFT_DELTA, m_bbox.p2.x - SHIFT_DELTA, m_bbox.p2.y - SHIFT_DELTA);
+  center = m_col.m_bbox.get_middle();
+  solid_box = Rectf(m_col.m_bbox.p1.x + SHIFT_DELTA, m_col.m_bbox.p1.y + SHIFT_DELTA, m_col.m_bbox.p2.x - SHIFT_DELTA, m_col.m_bbox.p2.y - SHIFT_DELTA);
 }
 
 ObjectSettings
@@ -171,12 +171,13 @@ MagicBlock::update(float dt_sec)
 }
 
 void
-MagicBlock::draw(DrawingContext& context){
+MagicBlock::draw(DrawingContext& context)
+{
   // Ask for update about lightmap at center of this block
   context.light().get_pixel( center, &light );
 
   MovingSprite::draw(context);
-  context.color().draw_filled_rect( m_bbox, color, m_layer);
+  context.color().draw_filled_rect( m_col.m_bbox, color, m_layer);
 }
 
 bool

@@ -38,12 +38,12 @@ Climbable::Climbable(const ReaderMapping& reader) :
   message(),
   new_size()
 {
-  reader.get("x", m_bbox.p1.x);
-  reader.get("y", m_bbox.p1.y);
+  reader.get("x", m_col.m_bbox.p1.x);
+  reader.get("y", m_col.m_bbox.p1.y);
   float w = 32, h = 32;
   reader.get("width", w);
   reader.get("height", h);
-  m_bbox.set_size(w, h);
+  m_col.m_bbox.set_size(w, h);
   reader.get("message", message);
 }
 
@@ -53,7 +53,7 @@ Climbable::Climbable(const Rectf& area) :
   message(),
   new_size()
 {
-  m_bbox = area;
+  m_col.m_bbox = area;
 }
 
 Climbable::~Climbable()
@@ -66,8 +66,8 @@ Climbable::~Climbable()
 
 ObjectSettings
 Climbable::get_settings() {
-  new_size.x = m_bbox.get_width();
-  new_size.y = m_bbox.get_height();
+  new_size.x = m_col.m_bbox.get_width();
+  new_size.y = m_col.m_bbox.get_height();
   ObjectSettings result(_("Climbable"));
   result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &m_name));
   result.options.push_back( ObjectOption(MN_NUMFIELD, _("Width"), &new_size.x, "width"));
@@ -78,7 +78,7 @@ Climbable::get_settings() {
 
 void
 Climbable::after_editor_set() {
-  m_bbox.set_size(new_size.x, new_size.y);
+  m_col.m_bbox.set_size(new_size.x, new_size.y);
 }
 
 void
@@ -103,7 +103,7 @@ Climbable::draw(DrawingContext& context)
     context.pop_transform();
   }
   if (Editor::is_active()) {
-    context.color().draw_filled_rect(m_bbox, Color(1.0f, 1.0f, 0.0f, 0.6f),
+    context.color().draw_filled_rect(m_col.m_bbox, Color(1.0f, 1.0f, 0.0f, 0.6f),
                              0.0f, LAYER_OBJECTS);
   }
 }
@@ -120,10 +120,10 @@ Climbable::event(Player& player, EventType type)
       } else {
         if (type == EVENT_ACTIVATE) activate_try_timer.start(ACTIVATE_TRY_FOR);
         // the "-13" to y velocity prevents Tux from walking in place on the ground for horizonal adjustments
-        if (player.get_bbox().p1.x < m_bbox.p1.x - GRACE_DX) player.add_velocity(Vector(POSITION_FIX_AX,-13));
-        if (player.get_bbox().p2.x > m_bbox.p2.x + GRACE_DX) player.add_velocity(Vector(-POSITION_FIX_AX,-13));
-        if (player.get_bbox().p1.y < m_bbox.p1.y - GRACE_DY) player.add_velocity(Vector(0,POSITION_FIX_AY));
-        if (player.get_bbox().p2.y > m_bbox.p2.y + GRACE_DY) player.add_velocity(Vector(0,-POSITION_FIX_AY));
+        if (player.get_bbox().p1.x < m_col.m_bbox.p1.x - GRACE_DX) player.add_velocity(Vector(POSITION_FIX_AX,-13));
+        if (player.get_bbox().p2.x > m_col.m_bbox.p2.x + GRACE_DX) player.add_velocity(Vector(-POSITION_FIX_AX,-13));
+        if (player.get_bbox().p1.y < m_col.m_bbox.p1.y - GRACE_DY) player.add_velocity(Vector(0,POSITION_FIX_AY));
+        if (player.get_bbox().p2.y > m_col.m_bbox.p2.y + GRACE_DY) player.add_velocity(Vector(0,-POSITION_FIX_AY));
       }
     }
   }
@@ -136,10 +136,10 @@ Climbable::event(Player& player, EventType type)
 bool
 Climbable::may_climb(Player& player) const
 {
-  if (player.get_bbox().p1.x < m_bbox.p1.x - GRACE_DX) return false;
-  if (player.get_bbox().p2.x > m_bbox.p2.x + GRACE_DX) return false;
-  if (player.get_bbox().p1.y < m_bbox.p1.y - GRACE_DY) return false;
-  if (player.get_bbox().p2.y > m_bbox.p2.y + GRACE_DY) return false;
+  if (player.get_bbox().p1.x < m_col.m_bbox.p1.x - GRACE_DX) return false;
+  if (player.get_bbox().p2.x > m_col.m_bbox.p2.x + GRACE_DX) return false;
+  if (player.get_bbox().p1.y < m_col.m_bbox.p1.y - GRACE_DY) return false;
+  if (player.get_bbox().p2.y > m_col.m_bbox.p2.y + GRACE_DY) return false;
   return true;
 }
 

@@ -53,10 +53,10 @@ Igel::can_see(const MovingObject& o) const
 {
   Rectf ob = o.get_bbox();
 
-  bool inReach_left = ((ob.p2.x < m_bbox.p1.x) && (ob.p2.x >= m_bbox.p1.x-((m_dir == LEFT) ? RANGE_OF_VISION : 0)));
-  bool inReach_right = ((ob.p1.x > m_bbox.p2.x) && (ob.p1.x <= m_bbox.p2.x+((m_dir == RIGHT) ? RANGE_OF_VISION : 0)));
-  bool inReach_top = (ob.p2.y >= m_bbox.p1.y);
-  bool inReach_bottom = (ob.p1.y <= m_bbox.p2.y);
+  bool inReach_left = ((ob.p2.x < m_col.m_bbox.p1.x) && (ob.p2.x >= m_col.m_bbox.p1.x-((m_dir == LEFT) ? RANGE_OF_VISION : 0)));
+  bool inReach_right = ((ob.p1.x > m_col.m_bbox.p2.x) && (ob.p1.x <= m_col.m_bbox.p2.x+((m_dir == RIGHT) ? RANGE_OF_VISION : 0)));
+  bool inReach_top = (ob.p2.y >= m_col.m_bbox.p1.y);
+  bool inReach_bottom = (ob.p1.y <= m_col.m_bbox.p2.y);
 
   return ((inReach_left || inReach_right) && inReach_top && inReach_bottom);
 }

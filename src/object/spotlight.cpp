@@ -31,11 +31,11 @@ Spotlight::Spotlight(const ReaderMapping& lisp) :
   speed(50.0f),
   counter_clockwise()
 {
-  m_group = COLGROUP_DISABLED;
+  m_col.m_group = COLGROUP_DISABLED;
 
-  lisp.get("x", m_bbox.p1.x, 0.0f);
-  lisp.get("y", m_bbox.p1.y, 0.0f);
-  m_bbox.set_size(32, 32);
+  lisp.get("x", m_col.m_bbox.p1.x, 0.0f);
+  lisp.get("y", m_col.m_bbox.p1.y, 0.0f);
+  m_col.m_bbox.set_size(32, 32);
 
   lisp.get("angle", angle, 0.0f);
   lisp.get("speed", speed, 50.0f);
@@ -54,8 +54,8 @@ Spotlight::~Spotlight()
 ObjectSettings
 Spotlight::get_settings() {
   ObjectSettings result = MovingObject::get_settings();
-  result.options.push_back( ObjectOption(MN_NUMFIELD, "x-pos", &m_bbox.p1.x, "x", false));
-  result.options.push_back( ObjectOption(MN_NUMFIELD, "y-pos", &m_bbox.p1.y, "y", false));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, "x-pos", &m_col.m_bbox.p1.x, "x", false));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, "y-pos", &m_col.m_bbox.p1.y, "y", false));
   result.options.push_back( ObjectOption(MN_NUMFIELD, _("Angle"), &angle, "angle"));
   result.options.push_back( ObjectOption(MN_COLOR, _("Colour"), &color, "color"));
   result.options.push_back( ObjectOption(MN_NUMFIELD, _("Speed"), &speed, "speed"));
@@ -83,21 +83,21 @@ Spotlight::draw(DrawingContext& context)
   light->set_color(color);
   light->set_blend(Blend::ADD);
   light->set_angle(angle);
-  light->draw(context.light(), m_bbox.p1, 0);
+  light->draw(context.light(), m_col.m_bbox.p1, 0);
 
   //lightcone->set_angle(angle);
   //lightcone->draw(context.color(), position, 0);
 
   lights->set_angle(angle);
-  lights->draw(context.color(), m_bbox.p1, 0);
+  lights->draw(context.color(), m_col.m_bbox.p1, 0);
 
   base->set_angle(angle);
-  base->draw(context.color(), m_bbox.p1, 0);
+  base->draw(context.color(), m_col.m_bbox.p1, 0);
 
-  center->draw(context.color(), m_bbox.p1, 0);
+  center->draw(context.color(), m_col.m_bbox.p1, 0);
 
   lightcone->set_angle(angle);
-  lightcone->draw(context.color(), m_bbox.p1, LAYER_FOREGROUND1 + 10);
+  lightcone->draw(context.color(), m_col.m_bbox.p1, LAYER_FOREGROUND1 + 10);
 }
 
 HitResponse

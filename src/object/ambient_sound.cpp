@@ -40,14 +40,14 @@ AmbientSound::AmbientSound(const ReaderMapping& lisp) :
   currentvolume(0),
   new_size()
 {
-  m_group = COLGROUP_DISABLED;
+  m_col.m_group = COLGROUP_DISABLED;
 
   float w, h;
-  lisp.get("x", m_bbox.p1.x, 0.0f);
-  lisp.get("y", m_bbox.p1.y, 0.0f);
+  lisp.get("x", m_col.m_bbox.p1.x, 0.0f);
+  lisp.get("y", m_col.m_bbox.p1.y, 0.0f);
   lisp.get("width" , w, 32.0f);
   lisp.get("height", h, 32.0f);
-  m_bbox.set_size(w, h);
+  m_col.m_bbox.set_size(w, h);
 
   lisp.get("distance_factor",distance_factor, 0.0f);
   lisp.get("distance_bias"  ,distance_bias  , 0.0f);
@@ -88,10 +88,10 @@ AmbientSound::AmbientSound(const Vector& pos, float factor, float bias, float vo
   currentvolume(),
   new_size()
 {
-  m_group = COLGROUP_DISABLED;
+  m_col.m_group = COLGROUP_DISABLED;
 
-  m_bbox.set_pos(pos);
-  m_bbox.set_size(0, 0);
+  m_col.m_bbox.set_pos(pos);
+  m_col.m_bbox.set_size(0, 0);
 
   // set default silence_distance
 
@@ -111,8 +111,8 @@ AmbientSound::~AmbientSound()
 
 ObjectSettings
 AmbientSound::get_settings() {
-  new_size.x = m_bbox.get_width();
-  new_size.y = m_bbox.get_height();
+  new_size.x = m_col.m_bbox.get_width();
+  new_size.y = m_col.m_bbox.get_height();
   ObjectSettings result = MovingObject::get_settings();
 
   ObjectOption smp(MN_FILE, _("Sound"), &sample, "sample");
@@ -129,7 +129,7 @@ AmbientSound::get_settings() {
 
 void
 AmbientSound::after_editor_set() {
-  m_bbox.set_size(new_size.x, new_size.y);
+  m_col.m_bbox.set_size(new_size.x, new_size.y);
 }
 
 void
@@ -171,10 +171,10 @@ AmbientSound::update(float dt_sec)
     py=Sector::get().m_camera->get_center().y;
 
     // Relate to which point in the area
-    rx=px<m_bbox.p1.x?m_bbox.p1.x:
-      (px<m_bbox.p2.x?px:m_bbox.p2.x);
-    ry=py<m_bbox.p1.y?m_bbox.p1.y:
-      (py<m_bbox.p2.y?py:m_bbox.p2.y);
+    rx=px<m_col.m_bbox.p1.x?m_col.m_bbox.p1.x:
+      (px<m_col.m_bbox.p2.x?px:m_col.m_bbox.p2.x);
+    ry=py<m_col.m_bbox.p1.y?m_col.m_bbox.p1.y:
+      (py<m_col.m_bbox.p2.y?py:m_col.m_bbox.p2.y);
 
     // calculate square of distance
     float sqrdistance=(px-rx)*(px-rx)+(py-ry)*(py-ry);
@@ -228,19 +228,19 @@ AmbientSound::set_pos(const Vector& pos)
 void
 AmbientSound::set_pos(float x, float y)
 {
-  m_bbox.set_pos(Vector(x, y));
+  m_col.m_bbox.set_pos(Vector(x, y));
 }
 
 float
 AmbientSound::get_pos_x() const
 {
-  return m_bbox.p1.x;
+  return m_col.m_bbox.p1.x;
 }
 
 float
 AmbientSound::get_pos_y() const
 {
-  return m_bbox.p1.y;
+  return m_col.m_bbox.p1.y;
 }
 
 HitResponse
@@ -253,7 +253,7 @@ void
 AmbientSound::draw(DrawingContext& context)
 {
   if (Editor::is_active()) {
-    context.color().draw_filled_rect(m_bbox, Color(0.0f, 0.0f, 1.0f, 0.6f),
+    context.color().draw_filled_rect(m_col.m_bbox, Color(0.0f, 0.0f, 1.0f, 0.6f),
                              0.0f, LAYER_OBJECTS);
   }
 }

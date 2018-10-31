@@ -30,12 +30,12 @@ ScriptTrigger::ScriptTrigger(const ReaderMapping& reader) :
   oneshot(false),
   runcount(0)
 {
-  reader.get("x", m_bbox.p1.x);
-  reader.get("y", m_bbox.p1.y);
+  reader.get("x", m_col.m_bbox.p1.x);
+  reader.get("y", m_col.m_bbox.p1.y);
   float w = 32, h = 32;
   reader.get("width", w);
   reader.get("height", h);
-  m_bbox.set_size(w, h);
+  m_col.m_bbox.set_size(w, h);
   reader.get("script", script);
   reader.get("button", must_activate);
   reader.get("oneshot", oneshot);
@@ -57,14 +57,14 @@ ScriptTrigger::ScriptTrigger(const Vector& pos, const std::string& script_) :
   oneshot(false),
   runcount(0)
 {
-  m_bbox.set_pos(pos);
-  m_bbox.set_size(32, 32);
+  m_col.m_bbox.set_pos(pos);
+  m_col.m_bbox.set_size(32, 32);
 }
 
 ObjectSettings
 ScriptTrigger::get_settings() {
-  new_size.x = m_bbox.get_width();
-  new_size.y = m_bbox.get_height();
+  new_size.x = m_col.m_bbox.get_width();
+  new_size.y = m_col.m_bbox.get_height();
   ObjectSettings result(_("Script trigger"));
   result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &m_name));
   result.options.push_back( ObjectOption(MN_NUMFIELD, _("Width"), &new_size.x, "width"));
@@ -77,7 +77,7 @@ ScriptTrigger::get_settings() {
 
 void
 ScriptTrigger::after_editor_set() {
-  m_bbox.set_size(new_size.x, new_size.y);
+  m_col.m_bbox.set_size(new_size.x, new_size.y);
   if (must_activate) {
     triggerevent = EVENT_ACTIVATE;
   } else {
@@ -103,7 +103,7 @@ void
 ScriptTrigger::draw(DrawingContext& context)
 {
   if (Editor::is_active()) {
-    context.color().draw_filled_rect(m_bbox, Color(1.0f, 0.0f, 1.0f, 0.6f),
+    context.color().draw_filled_rect(m_col.m_bbox, Color(1.0f, 0.0f, 1.0f, 0.6f),
                              0.0f, LAYER_OBJECTS);
   }
 }

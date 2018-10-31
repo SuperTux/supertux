@@ -98,7 +98,7 @@ Dispenser::Dispenser(const ReaderMapping& reader) :
       break;
   }
 
-  m_bbox.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
+  m_col.m_bbox.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
   m_countMe = false;
 }
 
@@ -164,7 +164,7 @@ Dispenser::collision(GameObject& other, const CollisionHit& hit)
   auto player = dynamic_cast<Player*> (&other);
   if(player) {
     // hit from above?
-    if (player->get_bbox().p2.y < (m_bbox.p1.y + 16)) {
+    if (player->get_bbox().p2.y < (m_col.m_bbox.p1.y + 16)) {
       collision_squished(*player);
       return FORCE_MOVE;
     }
@@ -265,7 +265,7 @@ Dispenser::launch_badguy()
       Vector spawnpoint;
       switch (type) {
         case DT_DROPPER:
-          spawnpoint = get_anchor_pos (m_bbox, ANCHOR_BOTTOM);
+          spawnpoint = get_anchor_pos (m_col.m_bbox, ANCHOR_BOTTOM);
           spawnpoint.x -= 0.5f * object_bbox.get_width();
           break;
         case DT_ROCKETLAUNCHER:
@@ -274,10 +274,10 @@ Dispenser::launch_badguy()
           if (launchdir == LEFT)
             spawnpoint.x -= object_bbox.get_width() + 1;
           else
-            spawnpoint.x += m_bbox.get_width() + 1;
+            spawnpoint.x += m_col.m_bbox.get_width() + 1;
           break;
         case DT_POINT:
-          spawnpoint = m_bbox.p1;
+          spawnpoint = m_col.m_bbox.p1;
         default:
           break;
       }

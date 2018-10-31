@@ -75,7 +75,7 @@ WalkingBadguy::initialize()
   if(m_frozen)
     return;
   m_sprite->set_action(m_dir == LEFT ? walk_left_action : walk_right_action);
-  m_bbox.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
+  m_col.m_bbox.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
   m_physic.set_velocity_x(m_dir == LEFT ? -walk_speed : walk_speed);
   m_physic.set_acceleration_x (0.0);
 }

@@ -52,8 +52,8 @@ Bullet::Bullet(const Vector& pos, float xm, int dir, BonusType type_) :
     sprite = SpriteManager::current()->create("images/objects/bullets/firebullet.sprite");
   }
 
-  m_bbox.set_pos(pos);
-  m_bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
+  m_col.m_bbox.set_pos(pos);
+  m_col.m_bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
 }
 
 void
@@ -80,7 +80,7 @@ Bullet::update(float dt_sec)
     return;
   }
 
-  m_movement = physic.get_movement(dt_sec);
+  m_col.m_movement = physic.get_movement(dt_sec);
 }
 
 void
@@ -88,7 +88,7 @@ Bullet::draw(DrawingContext& context)
 {
   sprite->draw(context.color(), get_pos(), LAYER_OBJECTS);
   if(type == FIRE_BONUS){
-    lightsprite->draw(context.light(), m_bbox.get_middle(), 0);
+    lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
   }
 }
 

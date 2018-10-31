@@ -34,8 +34,8 @@ MovingSprite::MovingSprite(const Vector& pos, const std::string& sprite_name_,
   m_sprite(SpriteManager::current()->create(m_sprite_name)),
   m_layer(layer_)
 {
-  m_bbox.set_pos(pos);
-  m_bbox.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
+  m_col.m_bbox.set_pos(pos);
+  m_col.m_bbox.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
   set_group(collision_group);
 }
 
@@ -46,13 +46,13 @@ MovingSprite::MovingSprite(const ReaderMapping& reader, const Vector& pos, int l
   m_sprite(),
   m_layer(layer_)
 {
-  m_bbox.set_pos(pos);
+  m_col.m_bbox.set_pos(pos);
   if (!reader.get("sprite", m_sprite_name))
     throw std::runtime_error("no sprite name set");
 
   m_default_sprite_name = m_sprite_name;
   m_sprite = SpriteManager::current()->create(m_sprite_name);
-  m_bbox.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
+  m_col.m_bbox.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
   set_group(collision_group);
 }
 
@@ -63,8 +63,8 @@ MovingSprite::MovingSprite(const ReaderMapping& reader, const std::string& sprit
   m_sprite(),
   m_layer(layer_)
 {
-  reader.get("x", m_bbox.p1.x);
-  reader.get("y", m_bbox.p1.y);
+  reader.get("x", m_col.m_bbox.p1.x);
+  reader.get("y", m_col.m_bbox.p1.y);
   reader.get("sprite", m_sprite_name);
 
   //make the sprite go default when the sprite file is invalid
@@ -73,7 +73,7 @@ MovingSprite::MovingSprite(const ReaderMapping& reader, const std::string& sprit
   }
 
   m_sprite = SpriteManager::current()->create(m_sprite_name);
-  m_bbox.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
+  m_col.m_bbox.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
   set_group(collision_group);
 }
 
@@ -84,14 +84,14 @@ MovingSprite::MovingSprite(const ReaderMapping& reader, int layer_, CollisionGro
   m_sprite(),
   m_layer(layer_)
 {
-  reader.get("x", m_bbox.p1.x);
-  reader.get("y", m_bbox.p1.y);
+  reader.get("x", m_col.m_bbox.p1.x);
+  reader.get("y", m_col.m_bbox.p1.y);
   if (!reader.get("sprite", m_sprite_name))
     throw std::runtime_error("no sprite name set");
 
   m_default_sprite_name = m_sprite_name;
   m_sprite = SpriteManager::current()->create(m_sprite_name);
-  m_bbox.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
+  m_col.m_bbox.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
   set_group(collision_group);
 }
 
@@ -116,26 +116,26 @@ void
 MovingSprite::set_action(const std::string& action, int loops)
 {
   m_sprite->set_action(action, loops);
-  set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
+  m_col.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
 }
 
 void
 MovingSprite::set_action_centered(const std::string& action, int loops)
 {
-  Vector old_size = m_bbox.get_size().as_vector();
+  Vector old_size = m_col.m_bbox.get_size().as_vector();
   m_sprite->set_action(action, loops);
-  set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
-  set_pos(get_pos() - (m_bbox.get_size().as_vector() - old_size) / 2);
+  m_col.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
+  set_pos(get_pos() - (m_col.m_bbox.get_size().as_vector() - old_size) / 2);
 }
 
 void
 MovingSprite::set_action(const std::string& action, int loops, AnchorPoint anchorPoint)
 {
-  Rectf old_bbox = m_bbox;
+  Rectf old_bbox = m_col.m_bbox;
   m_sprite->set_action(action, loops);
   float w = m_sprite->get_current_hitbox_width();
   float h = m_sprite->get_current_hitbox_height();
-  set_size(w, h);
+  m_col.set_size(w, h);
   set_pos(get_anchor_pos(old_bbox, w, h, anchorPoint));
 }
 
@@ -173,7 +173,7 @@ void MovingSprite::after_editor_set()
 void MovingSprite::spawn_explosion_sprites(int count, const std::string& sprite_path)
 {
     for (int i = 0; i < count; i++) {
-      Vector ppos = m_bbox.get_middle();
+      Vector ppos = m_col.m_bbox.get_middle();
       float angle = graphicsRandom.randf(-math::PI_2, math::PI_2);
       float velocity = graphicsRandom.randf(350, 400);
       float vx = sinf(angle)*velocity;

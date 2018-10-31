@@ -53,8 +53,8 @@ ScriptedObject::ScriptedObject(const ReaderMapping& lisp) :
 }
 ObjectSettings
 ScriptedObject::get_settings() {
-  new_size.x = m_bbox.get_width();
-  new_size.y = m_bbox.get_height();
+  new_size.x = m_col.m_bbox.get_width();
+  new_size.y = m_col.m_bbox.get_height();
   ObjectSettings result = MovingSprite::get_settings();
   result.options.push_back( ObjectOption(MN_NUMFIELD, "width", &new_size.x, "width", false));
   result.options.push_back( ObjectOption(MN_NUMFIELD, "height", &new_size.y, "height", false));
@@ -70,7 +70,7 @@ ScriptedObject::get_settings() {
 void
 ScriptedObject::move(float x, float y)
 {
-  m_bbox.move(Vector(x, y));
+  m_col.m_bbox.move(Vector(x, y));
 }
 
 float
@@ -167,7 +167,7 @@ ScriptedObject::update(float dt_sec)
     physic.set_velocity(new_vel.x, new_vel.y);
     new_vel_set = false;
   }
-  m_movement = physic.get_movement(dt_sec);
+  m_col.m_movement = physic.get_movement(dt_sec);
 }
 
 void

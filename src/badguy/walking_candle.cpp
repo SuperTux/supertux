@@ -65,7 +65,7 @@ WalkingCandle::unfreeze() {
 HitResponse
 WalkingCandle::collision(GameObject& other, const CollisionHit& hit) {
   auto l = dynamic_cast<Lantern*>(&other);
-  if (l && !m_frozen) if (l->get_bbox().p2.y < m_bbox.p1.y) {
+  if (l && !m_frozen) if (l->get_bbox().p2.y < m_col.m_bbox.p1.y) {
     l->add_color(lightcolor);
     run_dead_script();
     remove_me();

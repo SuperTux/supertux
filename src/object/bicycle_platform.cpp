@@ -41,8 +41,8 @@ BicyclePlatformChild::update(float dt_sec)
   float angle = m_parent.m_angle + m_angle_offset;
   angle = math::positive_fmodf(angle, math::TAU);
 
-  Vector dest = m_parent.m_center + Vector(cosf(angle), sinf(angle)) * m_parent.m_radius - (m_bbox.get_size().as_vector() * 0.5);
-  m_movement = dest - get_pos();
+  Vector dest = m_parent.m_center + Vector(cosf(angle), sinf(angle)) * m_parent.m_radius - (m_col.m_bbox.get_size().as_vector() * 0.5);
+  m_col.m_movement = dest - get_pos();
 }
 
 HitResponse
@@ -53,7 +53,7 @@ BicyclePlatformChild::collision(GameObject& other, const CollisionHit& )
   // somehow the hit parameter does not get filled in, so to determine (hit.top == true) we do this:
   auto mo = dynamic_cast<MovingObject*>(&other);
   if (!mo) return FORCE_MOVE;
-  if ((mo->get_bbox().p2.y) > (m_bbox.p1.y + 2)) return FORCE_MOVE;
+  if ((mo->get_bbox().p2.y) > (m_col.m_bbox.p1.y + 2)) return FORCE_MOVE;
 
   auto pl = dynamic_cast<Player*>(mo);
   if (pl) {

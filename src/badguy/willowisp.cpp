@@ -92,7 +92,7 @@ WillOWisp::active_update(float dt_sec)
 
   auto player = get_nearest_player();
   if (!player) return;
-  Vector p1 = m_bbox.get_middle();
+  Vector p1 = m_col.m_bbox.get_middle();
   Vector p2 = player->get_bbox().get_middle();
   Vector dist = (p2 - p1);
 
@@ -111,7 +111,7 @@ WillOWisp::active_update(float dt_sec)
         vanish();
       } else if (dist.norm() >= 1) {
         Vector dir_ = dist.unit();
-        m_movement = dir_ * dt_sec * m_flyspeed;
+        m_col.m_movement = dir_ * dt_sec * m_flyspeed;
       } else {
         /* We somehow landed right on top of the player without colliding.
          * Sit tight and avoid a division by zero. */
@@ -127,7 +127,7 @@ WillOWisp::active_update(float dt_sec)
 
     case STATE_VANISHING: {
       Vector dir_ = dist.unit();
-      m_movement = dir_ * dt_sec * m_flyspeed;
+      m_col.m_movement = dir_ * dt_sec * m_flyspeed;
       if (m_sprite->animation_done()) {
         remove_me();
       }
@@ -139,7 +139,7 @@ WillOWisp::active_update(float dt_sec)
       if (get_walker() == nullptr)
         return;
       get_walker()->update(dt_sec);
-      m_movement = get_walker()->get_pos() - get_pos();
+      m_col.m_movement = get_walker()->get_pos() - get_pos();
       if (m_mystate == STATE_PATHMOVING_TRACK && dist.norm() <= m_track_range) {
         m_mystate = STATE_TRACKING;
       }
@@ -301,7 +301,7 @@ void WillOWisp::play_looping_sounds()
 void
 WillOWisp::move_to(const Vector& pos)
 {
-  Vector shift = pos - m_bbox.p1;
+  Vector shift = pos - m_col.m_bbox.p1;
   if (get_path()) {
     get_path()->move_by(shift);
   }

@@ -21,19 +21,13 @@
 #include "util/writer.hpp"
 
 MovingObject::MovingObject() :
-  m_bbox(),
-  m_movement(),
-  m_group(COLGROUP_MOVING),
-  m_dest()
+  m_col(COLGROUP_MOVING, *this)
 {
 }
 
 MovingObject::MovingObject(const ReaderMapping& reader) :
   GameObject(reader),
-  m_bbox(),
-  m_movement(),
-  m_group(COLGROUP_MOVING),
-  m_dest()
+  m_col(COLGROUP_MOVING, *this)
 {
 }
 
@@ -42,10 +36,11 @@ MovingObject::~MovingObject()
 }
 
 void
-MovingObject::save(Writer& writer) {
+MovingObject::save(Writer& writer)
+{
   GameObject::save(writer);
-  writer.write("x", m_bbox.p1.x);
-  writer.write("y", m_bbox.p1.y);
+  writer.write("x", m_col.m_bbox.p1.x);
+  writer.write("y", m_col.m_bbox.p1.y);
 }
 
 void
@@ -54,14 +49,14 @@ MovingObject::edit_bbox() {
     return;
   }
 
-  Sector::get().add<Resizer>(&m_bbox, Resizer::LEFT_UP, Resizer::LEFT_UP);
-  Sector::get().add<Resizer>(&m_bbox, Resizer::LEFT_UP, Resizer::NONE);
-  Sector::get().add<Resizer>(&m_bbox, Resizer::LEFT_UP, Resizer::RIGHT_DOWN);
-  Sector::get().add<Resizer>(&m_bbox, Resizer::NONE, Resizer::LEFT_UP);
-  Sector::get().add<Resizer>(&m_bbox, Resizer::NONE, Resizer::RIGHT_DOWN);
-  Sector::get().add<Resizer>(&m_bbox, Resizer::RIGHT_DOWN, Resizer::LEFT_UP);
-  Sector::get().add<Resizer>(&m_bbox, Resizer::RIGHT_DOWN, Resizer::NONE);
-  Sector::get().add<Resizer>(&m_bbox, Resizer::RIGHT_DOWN, Resizer::RIGHT_DOWN);
+  Sector::get().add<Resizer>(&m_col.m_bbox, Resizer::LEFT_UP, Resizer::LEFT_UP);
+  Sector::get().add<Resizer>(&m_col.m_bbox, Resizer::LEFT_UP, Resizer::NONE);
+  Sector::get().add<Resizer>(&m_col.m_bbox, Resizer::LEFT_UP, Resizer::RIGHT_DOWN);
+  Sector::get().add<Resizer>(&m_col.m_bbox, Resizer::NONE, Resizer::LEFT_UP);
+  Sector::get().add<Resizer>(&m_col.m_bbox, Resizer::NONE, Resizer::RIGHT_DOWN);
+  Sector::get().add<Resizer>(&m_col.m_bbox, Resizer::RIGHT_DOWN, Resizer::LEFT_UP);
+  Sector::get().add<Resizer>(&m_col.m_bbox, Resizer::RIGHT_DOWN, Resizer::NONE);
+  Sector::get().add<Resizer>(&m_col.m_bbox, Resizer::RIGHT_DOWN, Resizer::RIGHT_DOWN);
 }
 
 /* EOF */

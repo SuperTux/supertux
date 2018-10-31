@@ -103,7 +103,7 @@ MrBomb::kill_fall()
 {
   if(is_valid()) {
     remove_me();
-    Sector::get().add<Explosion>(m_bbox.get_middle());
+    Sector::get().add<Explosion>(m_col.m_bbox.get_middle());
   }
 
   run_dead_script();
@@ -119,7 +119,7 @@ void
 MrBomb::grab(MovingObject&, const Vector& pos, Direction dir_)
 {
   assert(m_frozen);
-  m_movement = pos - get_pos();
+  m_col.m_movement = pos - get_pos();
   m_dir = dir_;
   m_sprite->set_action(dir_ == LEFT ? "iced-left" : "iced-right");
   set_colgroup_active(COLGROUP_DISABLED);

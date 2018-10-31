@@ -139,18 +139,18 @@ void
 PowerUp::update(float dt_sec)
 {
   if (!no_physics)
-    m_movement = physic.get_movement(dt_sec);
+    m_col.m_movement = physic.get_movement(dt_sec);
   //Stars sparkle when close to Tux
   if (m_sprite_name == "images/powerups/star/star.sprite"){
-    Player* player = Sector::get().get_nearest_player(m_bbox);
+    Player* player = Sector::get().get_nearest_player(m_col.m_bbox);
     if (player) {
-      float disp_x = player->get_bbox().p1.x - m_bbox.p1.x;
-      float disp_y = player->get_bbox().p1.y - m_bbox.p1.y;
+      float disp_x = player->get_bbox().p1.x - m_col.m_bbox.p1.x;
+      float disp_y = player->get_bbox().p1.y - m_col.m_bbox.p1.y;
       if (disp_x*disp_x + disp_y*disp_y <= 256*256)
       {
         if (graphicsRandom.rand(0, 2) == 0) {
-          float px = graphicsRandom.randf(m_bbox.p1.x * 1.0f, m_bbox.p2.x * 1.0f);
-          float py = graphicsRandom.randf(m_bbox.p1.y * 1.0f, m_bbox.p2.y * 1.0f);
+          float px = graphicsRandom.randf(m_col.m_bbox.p1.x * 1.0f, m_col.m_bbox.p2.x * 1.0f);
+          float py = graphicsRandom.randf(m_col.m_bbox.p1.y * 1.0f, m_col.m_bbox.p2.y * 1.0f);
           Vector ppos = Vector(px, py);
           Vector pspeed = Vector(0, 0);
           Vector paccel = Vector(0, 0);
@@ -178,7 +178,7 @@ PowerUp::draw(DrawingContext& context)
     m_sprite->draw(context.color(), get_pos(), m_layer);
   }
 
-  lightsprite->draw(context.light(), m_bbox.get_middle(), 0);
+  lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
 }
 
 ObjectSettings

@@ -47,7 +47,7 @@ Block::Block(SpritePtr newsprite) :
   bounce_offset(0),
   original_y(-1)
 {
-  m_bbox.set_size(32, 32.1f);
+  m_col.m_bbox.set_size(32, 32.1f);
   set_group(COLGROUP_STATIC);
   SoundManager::current()->preload("sounds/upgrade.wav");
   SoundManager::current()->preload("sounds/brick.wav");
@@ -63,8 +63,8 @@ Block::Block(const ReaderMapping& lisp, const std::string& sprite_file) :
   bounce_offset(0),
   original_y(-1)
 {
-  lisp.get("x", m_bbox.p1.x);
-  lisp.get("y", m_bbox.p1.y);
+  lisp.get("x", m_col.m_bbox.p1.x);
+  lisp.get("y", m_col.m_bbox.p1.y);
 
   std::string sf;
   lisp.get("sprite", sf);
@@ -75,7 +75,7 @@ Block::Block(const ReaderMapping& lisp, const std::string& sprite_file) :
   sprite_name = sf;
   default_sprite_name = sprite_name;
 
-  m_bbox.set_size(32, 32.1f);
+  m_col.m_bbox.set_size(32, 32.1f);
   set_group(COLGROUP_STATIC);
   SoundManager::current()->preload("sounds/upgrade.wav");
   SoundManager::current()->preload("sounds/brick.wav");
@@ -86,7 +86,7 @@ Block::collision(GameObject& other, const CollisionHit& )
 {
   auto player = dynamic_cast<Player*> (&other);
   if(player) {
-    if(player->get_bbox().get_top() > m_bbox.get_bottom() - SHIFT_DELTA) {
+    if(player->get_bbox().get_top() > m_col.m_bbox.get_bottom() - SHIFT_DELTA) {
       hit(*player);
     }
   }
@@ -100,7 +100,7 @@ Block::collision(GameObject& other, const CollisionHit& )
   auto bomb = dynamic_cast<Bomb*> (&other);
   bool is_portable = ((portable != nullptr) && portable->is_portable());
   bool is_bomb = (bomb != nullptr); // bombs need to explode, although they are considered portable
-  bool hit_mo_from_below = ((moving_object == nullptr) || (moving_object->get_bbox().get_bottom() < (m_bbox.get_top() + SHIFT_DELTA)));
+  bool hit_mo_from_below = ((moving_object == nullptr) || (moving_object->get_bbox().get_bottom() < (m_col.m_bbox.get_top() + SHIFT_DELTA)));
   if(bouncing && (!is_portable || is_bomb) && hit_mo_from_below) {
 
     // Badguys get killed
@@ -135,17 +135,17 @@ Block::update(float dt_sec)
   float offset = original_y - get_pos().y;
   if(offset > BOUNCY_BRICK_MAX_OFFSET) {
     bounce_dir = BOUNCY_BRICK_SPEED;
-    m_movement = Vector(0, bounce_dir * dt_sec);
+    m_col.m_movement = Vector(0, bounce_dir * dt_sec);
     if(breaking){
       break_me();
     }
   } else if(offset < BOUNCY_BRICK_SPEED * dt_sec && bounce_dir > 0) {
-    m_movement = Vector(0, offset);
+    m_col.m_movement = Vector(0, offset);
     bounce_dir = 0;
     bouncing = false;
     sprite->set_angle(0);
   } else {
-    m_movement = Vector(0, bounce_dir * dt_sec);
+    m_col.m_movement = Vector(0, bounce_dir * dt_sec);
   }
 }
 
@@ -159,7 +159,7 @@ void
 Block::start_bounce(GameObject* hitter)
 {
   if(original_y == -1){
-    original_y = m_bbox.p1.y;
+    original_y = m_col.m_bbox.p1.y;
   }
   bouncing = true;
   bounce_dir = -BOUNCY_BRICK_SPEED;
@@ -168,7 +168,7 @@ Block::start_bounce(GameObject* hitter)
   MovingObject* hitter_mo = dynamic_cast<MovingObject*>(hitter);
   if (hitter_mo) {
     float center_of_hitter = hitter_mo->get_bbox().get_middle().x;
-    float offset = (m_bbox.get_middle().x - center_of_hitter)*2 / m_bbox.get_width();
+    float offset = (m_col.m_bbox.get_middle().x - center_of_hitter)*2 / m_col.m_bbox.get_width();
     sprite->set_angle(BUMP_ROTATION_ANGLE*offset);
   }
 }

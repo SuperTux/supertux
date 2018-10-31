@@ -187,7 +187,7 @@ Player::Player(PlayerStatus& player_status, const std::string& name_) :
   SoundManager::current()->preload("sounds/invincible_start.ogg");
   SoundManager::current()->preload("sounds/splash.wav");
   SoundManager::current()->preload("sounds/grow.wav");
-  set_size(TUX_WIDTH, is_big() ? BIG_TUX_HEIGHT : SMALL_TUX_HEIGHT);
+  m_col.set_size(TUX_WIDTH, is_big() ? BIG_TUX_HEIGHT : SMALL_TUX_HEIGHT);
 
   m_sprite->set_angle(0.0f);
   m_powersprite->set_angle(0.0f);
@@ -255,14 +255,14 @@ Player::do_scripting_controller(const std::string& control, bool pressed)
 bool
 Player::adjust_height(float new_height)
 {
-  Rectf bbox2 = m_bbox;
-  bbox2.move(Vector(0, m_bbox.get_height() - new_height));
+  Rectf bbox2 = m_col.m_bbox;
+  bbox2.move(Vector(0, m_col.m_bbox.get_height() - new_height));
   bbox2.set_height(new_height);
 
 
-  if(new_height > m_bbox.get_height()) {
+  if(new_height > m_col.m_bbox.get_height()) {
     Rectf additional_space = bbox2;
-    additional_space.set_height(new_height - m_bbox.get_height());
+    additional_space.set_height(new_height - m_col.m_bbox.get_height());
     if(!Sector::get().is_free_of_statics(additional_space, this, true))
       return false;
   }
@@ -270,7 +270,7 @@ Player::adjust_height(float new_height)
   // adjust bbox accordingly
   // note that we use members of moving_object for this, so we can run this during CD, too
   set_pos(bbox2.p1);
-  set_size(bbox2.get_width(), bbox2.get_height());
+  m_col.set_size(bbox2.get_width(), bbox2.get_height());
   return true;
 }
 
@@ -315,9 +315,9 @@ Player::update(float dt_sec)
   // extend/shrink tux collision rectangle so that we fall through/walk over 1
   // tile holes
   if(fabsf(m_physic.get_velocity_x()) > MAX_WALK_XM) {
-    set_width(RUNNING_TUX_WIDTH);
+    m_col.set_width(RUNNING_TUX_WIDTH);
   } else {
-    set_width(TUX_WIDTH);
+    m_col.set_width(TUX_WIDTH);
   }
 
   // on downward slopes, adjust vertical velocity so tux walks smoothly down
@@ -383,7 +383,7 @@ Player::update(float dt_sec)
   }
 
   // calculate movement for this frame
-  m_movement = m_physic.get_movement(dt_sec);
+  m_col.m_movement = m_physic.get_movement(dt_sec);
 
   if(m_grabbed_object != nullptr && !m_dying) {
     position_grabbed_object();
@@ -404,8 +404,8 @@ Player::update(float dt_sec)
   if (m_invincible_timer.started())
   {
     if (graphicsRandom.rand(0, 2) == 0) {
-      float px = graphicsRandom.randf(m_bbox.p1.x+0, m_bbox.p2.x-0);
-      float py = graphicsRandom.randf(m_bbox.p1.y+0, m_bbox.p2.y-0);
+      float px = graphicsRandom.randf(m_col.m_bbox.p1.x+0, m_col.m_bbox.p2.x-0);
+      float py = graphicsRandom.randf(m_col.m_bbox.p1.y+0, m_col.m_bbox.p2.y-0);
       Vector ppos = Vector(px, py);
       Vector pspeed = Vector(0, 0);
       Vector paccel = Vector(0, 0);
@@ -543,7 +543,7 @@ Player::handle_horizontal_input()
         SoundManager::current()->play("sounds/skid.wav");
         // dust some particles
         Sector::get().add<Particles>(
-            Vector(m_dir == LEFT ? m_bbox.p2.x : m_bbox.p1.x, m_bbox.p2.y),
+            Vector(m_dir == LEFT ? m_col.m_bbox.p2.x : m_col.m_bbox.p1.x, m_col.m_bbox.p2.y),
             m_dir == LEFT ? 50 : -70, m_dir == LEFT ? 70 : -50, 260, 280,
             Vector(0, 300), 3, Color(.4f, .4f, .4f), 3, .8f, LAYER_OBJECTS+1);
 
@@ -817,7 +817,7 @@ Player::handle_input()
       (m_player_status.bonus == ICE_BONUS &&
       active_bullets < m_player_status.max_ice_bullets))
     {
-      Vector pos = get_pos() + ((m_dir == LEFT)? Vector(0, m_bbox.get_height()/2) : Vector(32, m_bbox.get_height()/2));
+      Vector pos = get_pos() + ((m_dir == LEFT)? Vector(0, m_col.m_bbox.get_height()/2) : Vector(32, m_col.m_bbox.get_height()/2));
       Sector::get().add<Bullet>(pos, m_physic.get_velocity_x(), m_dir, m_player_status.bonus);
       SoundManager::current()->play("sounds/shoot.wav");
       m_shooting_timer.start(SHOOTING_TIME);
@@ -847,8 +847,8 @@ Player::handle_input()
     m_stone = false;
     for (int i = 0; i < 8; i++)
     {
-      Vector ppos = Vector(m_bbox.get_left() + 8.0f + 16.0f * static_cast<float>(i / 4),
-                           m_bbox.get_top() + 16.0f * static_cast<float>(i % 4));
+      Vector ppos = Vector(m_col.m_bbox.get_left() + 8.0f + 16.0f * static_cast<float>(i / 4),
+                           m_col.m_bbox.get_top() + 16.0f * static_cast<float>(i % 4));
       float grey = graphicsRandom.randf(.4f, .8f);
       Color pcolor = Color(grey, grey, grey);
       Sector::get().add<Particles>(ppos, -60, 240, 42, 81, Vector(0.0f, 500.0f),
@@ -873,13 +873,13 @@ Player::handle_input()
       // move the grabbed object a bit away from tux
       Rectf grabbed_bbox = moving_object->get_bbox();
       Rectf dest_;
-      dest_.p2.y = m_bbox.get_top() + m_bbox.get_height()*0.66666f;
+      dest_.p2.y = m_col.m_bbox.get_top() + m_col.m_bbox.get_height()*0.66666f;
       dest_.p1.y = dest_.p2.y - grabbed_bbox.get_height();
       if(m_dir == LEFT) {
-        dest_.p2.x = m_bbox.get_left() - 1;
+        dest_.p2.x = m_col.m_bbox.get_left() - 1;
         dest_.p1.x = dest_.p2.x - grabbed_bbox.get_width();
       } else {
-        dest_.p1.x = m_bbox.get_right() + 1;
+        dest_.p1.x = m_col.m_bbox.get_right() + 1;
         dest_.p2.x = dest_.p1.x + grabbed_bbox.get_width();
       }
       if(Sector::get().is_free_of_tiles(dest_, true) &&
@@ -911,8 +911,8 @@ Player::position_grabbed_object()
   auto object_bbox = moving_object->get_bbox();
 
   // Position where we will hold the lower-inner corner
-  Vector pos(m_bbox.get_left() + m_bbox.get_width()/2,
-      m_bbox.get_top() + m_bbox.get_height()*0.66666f);
+  Vector pos(m_col.m_bbox.get_left() + m_col.m_bbox.get_width()/2,
+      m_col.m_bbox.get_top() + m_col.m_bbox.get_height()*0.66666f);
 
   // Adjust to find the grabbed object's upper-left corner
   if (m_dir == LEFT)
@@ -930,9 +930,9 @@ Player::try_grab()
 
     Vector pos;
     if(m_dir == LEFT) {
-      pos = Vector(m_bbox.get_left() - 5, m_bbox.get_bottom() - 16);
+      pos = Vector(m_col.m_bbox.get_left() - 5, m_col.m_bbox.get_bottom() - 16);
     } else {
-      pos = Vector(m_bbox.get_right() + 5, m_bbox.get_bottom() - 16);
+      pos = Vector(m_col.m_bbox.get_right() + 5, m_col.m_bbox.get_bottom() - 16);
     }
 
     for(auto& portable : Sector::get().m_portables) {
@@ -1077,7 +1077,7 @@ Player::set_bonus(BonusType type, bool animate)
   }
 
   if ((type == NO_BONUS) || (type == GROWUP_BONUS)) {
-    Vector ppos = Vector((m_bbox.p1.x + m_bbox.p2.x) / 2, m_bbox.p1.y);
+    Vector ppos = Vector((m_col.m_bbox.p1.x + m_col.m_bbox.p2.x) / 2, m_col.m_bbox.p1.y);
     Vector pspeed = Vector(((m_dir == LEFT) ? 100.0f : -100.0f), -300.0f);
     Vector paccel = Vector(0, 1000);
     std::string action = (m_dir == LEFT) ? "left" : "right";
@@ -1160,10 +1160,10 @@ Player::draw(DrawingContext& context)
     return;
 
   // if Tux is above camera, draw little "air arrow" to show where he is x-wise
-  if (Sector::get().m_camera && (m_bbox.p2.y - 16 < Sector::get().m_camera->get_translation().y)) {
-    float px = m_bbox.p1.x + (m_bbox.p2.x - m_bbox.p1.x - static_cast<float>(m_airarrow.get()->get_width())) / 2.0f;
+  if (Sector::get().m_camera && (m_col.m_bbox.p2.y - 16 < Sector::get().m_camera->get_translation().y)) {
+    float px = m_col.m_bbox.p1.x + (m_col.m_bbox.p2.x - m_col.m_bbox.p1.x - static_cast<float>(m_airarrow.get()->get_width())) / 2.0f;
     float py = Sector::get().m_camera->get_translation().y;
-    py += std::min(((py - (m_bbox.p2.y + 16)) / 4), 16.0f);
+    py += std::min(((py - (m_col.m_bbox.p2.y + 16)) / 4), 16.0f);
     context.color().draw_surface(m_airarrow, Vector(px, py), LAYER_HUD - 1);
   }
 
@@ -1295,8 +1295,8 @@ Player::draw(DrawingContext& context)
 
     // give an indicator that stone form cannot be used for a while
     if (m_cooldown_timer.started() && graphicsRandom.rand(0, 4) == 0) {
-      float px = graphicsRandom.randf(m_bbox.p1.x, m_bbox.p2.x);
-      float py = m_bbox.p2.y+8;
+      float px = graphicsRandom.randf(m_col.m_bbox.p1.x, m_col.m_bbox.p2.x);
+      float py = m_col.m_bbox.p2.y+8;
       Vector ppos = Vector(px, py);
       Sector::get().add<SpriteParticle>(
         "images/objects/particles/sparkle.sprite", "dark",
@@ -1362,11 +1362,11 @@ Player::collision_solid(const CollisionHit& hit)
       m_physic.set_velocity_y(-300);
       m_on_ground_flag = false;
       Sector::get().add<Particles>(
-                                      m_bbox.p2,
+                                      m_col.m_bbox.p2,
                                       50, 70, 260, 280, Vector(0, 300), 3,
                                       Color(.4f, .4f, .4f), 3, .8f, LAYER_OBJECTS+1);
       Sector::get().add<Particles>(
-                                      Vector(m_bbox.p1.x, m_bbox.p2.y),
+                                      Vector(m_col.m_bbox.p1.x, m_col.m_bbox.p2.y),
                                       -70, -50, 260, 280, Vector(0, 300), 3,
                                       Color(.4f, .4f, .4f), 3, .8f, LAYER_OBJECTS+1);
       Sector::get().m_camera->shake(.1f, 0, 5);
@@ -1438,7 +1438,6 @@ Player::make_invincible()
   Sector::get().play_music(HERRING_MUSIC);
 }
 
-/* Kill Player! */
 void
 Player::kill(bool completely)
 {
@@ -1521,9 +1520,9 @@ Player::move(const Vector& vector)
 
   // Reset size to get correct hitbox if Tux was eg. ducked before moving
   if(is_big())
-    set_size(TUX_WIDTH, BIG_TUX_HEIGHT);
+    m_col.set_size(TUX_WIDTH, BIG_TUX_HEIGHT);
   else
-    set_size(TUX_WIDTH, SMALL_TUX_HEIGHT);
+    m_col.set_size(TUX_WIDTH, SMALL_TUX_HEIGHT);
   m_duck = false;
   stop_backflipping();
   m_last_ground_y = vector.y;
@@ -1542,10 +1541,10 @@ Player::check_bounds()
     set_pos(Vector(0, get_pos().y));
   }
 
-  if (m_bbox.get_right() > Sector::get().get_width()) {
+  if (m_col.m_bbox.get_right() > Sector::get().get_width()) {
     // Lock Tux to the size of the level, so that he doesn't fall off
     // the right side
-    set_pos(Vector(Sector::get().get_width() - m_bbox.get_width(), m_bbox.p1.y));
+    set_pos(Vector(Sector::get().get_width() - m_col.m_bbox.get_width(), m_col.m_bbox.p1.y));
   }
 
   /* fallen out of the level? */

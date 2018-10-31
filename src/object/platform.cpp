@@ -52,10 +52,10 @@ Platform::finish_construction()
   if (!get_path())
   {
     // If no path is given, make a one-node dummy path
-    init_path_pos(m_bbox.p1, false);
+    init_path_pos(m_col.m_bbox.p1, false);
   }
 
-  m_bbox.set_pos(get_path()->get_base());
+  m_col.m_bbox.set_pos(get_path()->get_base());
 }
 
 void
@@ -99,7 +99,7 @@ Platform::update(float dt_sec)
       // Player doesn't touch platform and Platform is not moving
 
       // Travel to node nearest to nearest player
-      auto player = Sector::get().get_nearest_player(m_bbox);
+      auto player = Sector::get().get_nearest_player(m_col.m_bbox);
       if (player) {
         int nearest_node_id = get_path()->get_nearest_node_no(player->get_bbox().p2);
         if (nearest_node_id != -1) {
@@ -128,8 +128,8 @@ Platform::update(float dt_sec)
   if (Editor::is_active()) {
     set_pos(new_pos);
   } else {
-    m_movement = new_pos - get_pos();
-    m_speed = m_movement / dt_sec;
+    m_col.m_movement = new_pos - get_pos();
+    m_speed = m_col.m_movement / dt_sec;
   }
 
 }
@@ -155,7 +155,7 @@ Platform::stop_moving()
 void
 Platform::move_to(const Vector& pos)
 {
-  Vector shift = pos - m_bbox.p1;
+  Vector shift = pos - m_col.m_bbox.p1;
   if (get_path()) {
     get_path()->move_by(shift);
   }

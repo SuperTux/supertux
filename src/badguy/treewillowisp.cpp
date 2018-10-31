@@ -122,13 +122,13 @@ TreeWillOWisp::active_update(float dt_sec)
       return;
     }
     Vector newpos = get_pos() + dir_ * dt_sec;
-    m_movement = newpos - get_pos();
+    m_col.m_movement = newpos - get_pos();
     return;
   }
 
   angle = fmodf(angle + dt_sec * speed, math::TAU);
   Vector newpos(m_start_position + Vector(sinf(angle) * radius, 0));
-  m_movement = newpos - get_pos();
+  m_col.m_movement = newpos - get_pos();
   float sizemod = cosf(angle) * 0.8f;
   /* TODO: modify sprite size */
 

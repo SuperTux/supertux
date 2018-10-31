@@ -39,7 +39,7 @@ void
 PneumaticPlatformChild::update(float dt_sec)
 {
   const float offset_y = m_left ? m_parent.m_offset_y : -m_parent.m_offset_y;
-  m_movement = Vector(0, (m_parent.m_start_y + offset_y) - get_pos().y);
+  m_col.m_movement = Vector(0, (m_parent.m_start_y + offset_y) - get_pos().y);
 }
 
 HitResponse
@@ -48,7 +48,7 @@ PneumaticPlatformChild::collision(GameObject& other, const CollisionHit& )
   // somehow the hit parameter does not get filled in, so to determine (hit.top == true) we do this:
   auto mo = dynamic_cast<MovingObject*>(&other);
   if (!mo) return FORCE_MOVE;
-  if ((mo->get_bbox().p2.y) > (m_bbox.p1.y + 2)) return FORCE_MOVE;
+  if ((mo->get_bbox().p2.y) > (m_col.m_bbox.p1.y + 2)) return FORCE_MOVE;
 
   auto pl = dynamic_cast<Player*>(mo);
   if (pl) {

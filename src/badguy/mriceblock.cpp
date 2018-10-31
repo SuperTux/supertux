@@ -242,7 +242,7 @@ MrIceBlock::set_state(IceState state_, bool up)
       m_physic.set_velocity_x(m_dir == LEFT ? -KICKSPEED : KICKSPEED);
       set_action(m_dir == LEFT ? "flat-left" : "flat-right", /* loops = */ -1);
       // we should slide above 1 block holes now...
-      m_bbox.set_size(34, 31.8f);
+      m_col.m_bbox.set_size(34, 31.8f);
       break;
     case ICESTATE_GRABBED:
       flat_timer.stop();
@@ -260,7 +260,7 @@ MrIceBlock::set_state(IceState state_, bool up)
 void
 MrIceBlock::grab(MovingObject&, const Vector& pos, Direction dir_)
 {
-  m_movement = pos - get_pos();
+  m_col.m_movement = pos - get_pos();
   m_dir = dir_;
   set_action(dir_ == LEFT ? "flat-left" : "flat-right", /* loops = */ -1);
   set_state(ICESTATE_GRABBED);

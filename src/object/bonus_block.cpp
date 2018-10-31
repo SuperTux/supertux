@@ -48,7 +48,7 @@ BonusBlock::BonusBlock(const Vector& pos, int data) :
   m_script(),
   m_lightsprite()
 {
-  m_bbox.set_pos(pos);
+  m_col.m_bbox.set_pos(pos);
   sprite->set_action("normal");
   m_contents = get_content_by_data(data);
   preload_contents(data);
@@ -234,14 +234,14 @@ BonusBlock::collision(GameObject& other, const CollisionHit& hit_)
     // hit contains no information for collisions with blocks.
     // Badguy's bottom has to be below the top of the block
     // SHIFT_DELTA is required to slide over one tile gaps.
-    if ( badguy->can_break() && ( badguy->get_bbox().get_bottom() > m_bbox.get_top() + SHIFT_DELTA ) ) {
+    if ( badguy->can_break() && ( badguy->get_bbox().get_bottom() > m_col.m_bbox.get_top() + SHIFT_DELTA ) ) {
       try_open(player);
     }
   }
   auto portable = dynamic_cast<Portable*> (&other);
   if (portable) {
     auto moving = dynamic_cast<MovingObject*> (&other);
-    if (moving->get_bbox().get_top() > m_bbox.get_bottom() - SHIFT_DELTA) {
+    if (moving->get_bbox().get_top() > m_col.m_bbox.get_bottom() - SHIFT_DELTA) {
       try_open(player);
     }
   }
@@ -262,7 +262,7 @@ BonusBlock::try_open(Player* player)
   if (player == nullptr)
     return;
 
-  Direction direction = (player->get_bbox().get_middle().x > m_bbox.get_middle().x) ? LEFT : RIGHT;
+  Direction direction = (player->get_bbox().get_middle().x > m_col.m_bbox.get_middle().x) ? LEFT : RIGHT;
 
   switch(m_contents) {
     case CONTENT_COIN:
@@ -376,9 +376,9 @@ BonusBlock::try_drop(Player *player)
 
   // First what's below the bonus block, if solid send it up anyway (excepting doll)
   Rectf dest_;
-  dest_.p1.x = m_bbox.get_left() + 1;
-  dest_.p1.y = m_bbox.get_bottom() + 1;
-  dest_.p2.x = m_bbox.get_right() - 1;
+  dest_.p1.x = m_col.m_bbox.get_left() + 1;
+  dest_.p1.y = m_col.m_bbox.get_bottom() + 1;
+  dest_.p2.x = m_col.m_bbox.get_right() - 1;
   dest_.p2.y = dest_.p1.y + 30;
 
   if (!Sector::get().is_free_of_statics(dest_, this, true) && !(m_contents == CONTENT_1UP))
@@ -393,7 +393,7 @@ BonusBlock::try_drop(Player *player)
   if (player == nullptr)
     return;
 
-  Direction direction = (player->get_bbox().get_middle().x > m_bbox.get_middle().x) ? LEFT : RIGHT;
+  Direction direction = (player->get_bbox().get_middle().x > m_col.m_bbox.get_middle().x) ? LEFT : RIGHT;
 
   bool countdown = false;
 
@@ -519,7 +519,7 @@ BonusBlock::draw(DrawingContext& context)
   Block::draw(context);
   // then Draw the light if on.
   if (sprite->get_action() == "on") {
-    Vector pos = get_pos() + (m_bbox.get_size().as_vector() - Vector(static_cast<float>(m_lightsprite->get_width()),
+    Vector pos = get_pos() + (m_col.m_bbox.get_size().as_vector() - Vector(static_cast<float>(m_lightsprite->get_width()),
                                                                    static_cast<float>(m_lightsprite->get_height()))) / 2.0f;
     context.light().draw_surface(m_lightsprite, pos, 10);
   }

@@ -90,7 +90,7 @@ Coin::update(float dt_sec)
       if (Editor::is_active()) {
         set_pos(v);
       } else {
-        m_movement = v - get_pos();
+        m_col.m_movement = v - get_pos();
       }
     }
   }
@@ -209,7 +209,7 @@ void
 HeavyCoin::update(float dt_sec)
 {
   // enable physics
-  m_movement = m_physic.get_movement(dt_sec);
+  m_col.m_movement = m_physic.get_movement(dt_sec);
 }
 
 void
@@ -242,7 +242,7 @@ HeavyCoin::collision_solid(const CollisionHit& hit)
 void
 Coin::move_to(const Vector& pos)
 {
-  Vector shift = pos - m_bbox.p1;
+  Vector shift = pos - m_col.m_bbox.p1;
   if (get_path()) {
     get_path()->move_by(shift);
   }
@@ -278,7 +278,7 @@ Coin::after_editor_set()
     }
   } else {
     if (m_add_path) {
-      init_path_pos(m_bbox.p1);
+      init_path_pos(m_col.m_bbox.p1);
     }
   }
 }

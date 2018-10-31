@@ -67,13 +67,13 @@ Fish::collision_tile(uint32_t tile_attributes)
   if ((tile_attributes & Tile::WATER) && (m_physic.get_velocity_y() >= 0)) {
 
     // initialize stop position if uninitialized
-    if (stop_y == 0) stop_y = get_pos().y + m_bbox.get_height();
+    if (stop_y == 0) stop_y = get_pos().y + m_col.m_bbox.get_height();
 
     // stop when we have reached the stop position
     if (get_pos().y >= stop_y) {
       if(!m_frozen)
         start_waiting();
-      m_movement = Vector(0, 0);
+      m_col.m_movement = Vector(0, 0);
     }
 
   }

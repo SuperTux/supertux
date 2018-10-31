@@ -59,10 +59,6 @@ public:
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit_) override;
 
-  const Vector get_pos() const
-  {
-    return m_bbox.p1;
-  }
   virtual std::string get_class() const override {
     return "ambient_sound";
   }

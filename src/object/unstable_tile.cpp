@@ -40,7 +40,7 @@ UnstableTile::collision(GameObject& other, const CollisionHit& )
   if(state == STATE_NORMAL) {
     Player* player = dynamic_cast<Player*> (&other);
     if(player != nullptr &&
-       player->get_bbox().get_bottom() < m_bbox.get_top() + SHIFT_DELTA) {
+       player->get_bbox().get_bottom() < m_col.m_bbox.get_top() + SHIFT_DELTA) {
       shake ();
     }
 
@@ -141,14 +141,14 @@ UnstableTile::update(float dt_sec)
 	slowfall_timer -= dt_sec;
       else /* Switch to normal falling procedure */
 	fall_down ();
-      m_movement = physic.get_movement (dt_sec);
+      m_col.m_movement = physic.get_movement (dt_sec);
       break;
 
     case STATE_FALL:
       if (m_sprite->animation_done())
         remove_me ();
       else
-        m_movement = physic.get_movement (dt_sec);
+        m_col.m_movement = physic.get_movement (dt_sec);
       break;
   }
 }

@@ -45,7 +45,7 @@ Kugelblitz::Kugelblitz(const ReaderMapping& reader) :
   direction(),
   lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light.sprite"))
 {
-  m_start_position.x = m_bbox.p1.x;
+  m_start_position.x = m_col.m_bbox.p1.x;
   m_sprite->set_action("falling");
   m_physic.enable_gravity(false);
   m_countMe = false;
@@ -80,7 +80,7 @@ Kugelblitz::collision_player(Player& player, const CollisionHit& )
   }
   // hit from above?
   if(player.get_movement().y - get_movement().y > 0 && player.get_bbox().p2.y <
-     (m_bbox.p1.y + m_bbox.p2.y) / 2) {
+     (m_col.m_bbox.p1.y + m_col.m_bbox.p2.y) / 2) {
     // if it's not is it possible to squish us, then this will hurt
     if(!collision_squished(player))
       player.kill(false);
@@ -153,7 +153,7 @@ void
 Kugelblitz::draw(DrawingContext& context)
 {
   m_sprite->draw(context.color(), get_pos(), m_layer);
-  lightsprite->draw(context.light(), m_bbox.get_middle(), 0);
+  lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
 }
 
 void
@@ -166,7 +166,7 @@ void
 Kugelblitz::explode()
 {
   if (!dying) {
-    SoundManager::current()->play("sounds/lightning.wav", m_bbox.p1);
+    SoundManager::current()->play("sounds/lightning.wav", m_col.m_bbox.p1);
     m_sprite->set_action("pop");
     lifetime.start(0.2f);
     dying = true;
@@ -183,7 +183,7 @@ Kugelblitz::try_activate()
 
   auto player_ = get_nearest_player();
   if (!player_) return;
-  Vector dist = player_->get_bbox().get_middle() - m_bbox.get_middle();
+  Vector dist = player_->get_bbox().get_middle() - m_col.m_bbox.get_middle();
   if ((fabsf(dist.x) <= X_OFFSCREEN_DISTANCE) && (fabsf(dist.y) <= Y_OFFSCREEN_DISTANCE)) {
     set_state(STATE_ACTIVE);
     if (!m_is_initialized) {
@@ -191,7 +191,7 @@ Kugelblitz::try_activate()
       // if starting direction was set to AUTO, this is our chance to re-orient the badguy
       if (m_start_dir == AUTO) {
         Player* player__ = get_nearest_player();
-        if (player__ && (player__->get_bbox().p1.x > m_bbox.p2.x)) {
+        if (player__ && (player__->get_bbox().p1.x > m_col.m_bbox.p2.x)) {
           m_dir = RIGHT;
         } else {
           m_dir = LEFT;
