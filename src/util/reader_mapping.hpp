@@ -54,8 +54,13 @@ public:
   bool get(const char* key, boost::optional<ReaderMapping>&) const;
   bool get(const char* key, boost::optional<ReaderCollection>&) const;
 
-  template<typename F, typename C>
-  bool get_custom(const char* key, C& value, F& func, const boost::optional<C>& default_value = boost::none) const
+  /** Read a custom data format, such an as enum. The data is stored
+      as string and converted to the custom type using the supplied
+      `from_string` convert function. Example:
+
+      mapping.get_custom("style", value, Style_from_string, Style::DEFAULT); */
+  template<typename C, typename F>
+  bool get_custom(const char* key, C& value, F from_string, boost::optional<decltype(C())> default_value = boost::none) const
   {
     std::string text;
     if (!get(key, text))
@@ -67,7 +72,7 @@ public:
     }
     else
     {
-      value = func(text);
+      value = from_string(text);
       return true;
     }
   }

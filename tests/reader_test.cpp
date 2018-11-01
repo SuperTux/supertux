@@ -29,6 +29,7 @@ TEST(ReaderTest, get)
     "   (mystring \"Hello World\")\n"
     "   (mystringtrans (_ \"Hello World\"))\n"
     "   (mymapping (a 1) (b 2))\n"
+    "   (mycustom \"1234\")\n"
     ")\n");
 
   auto doc = ReaderDocument::from_stream(in);
@@ -77,6 +78,22 @@ TEST(ReaderTest, get)
     int b;
     child_mapping->get("b", b);
     ASSERT_EQ(2, b);
+  }
+
+  {
+    auto from_string = [](const std::string& text){ return std::stoi(text); };
+
+    int value = 0;
+    mapping.get_custom("mycustom", value, from_string);
+    ASSERT_EQ(1234, value);
+
+    int value2 = 0;
+    mapping.get_custom("does-not-exist", value2, from_string);
+    ASSERT_EQ(0, value2);
+
+    int value3 = 0;
+    mapping.get_custom("does-not-exist", value3, from_string, 4321);
+    ASSERT_EQ(4321, value3);
   }
 
   {
