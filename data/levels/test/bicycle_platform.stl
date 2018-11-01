@@ -22,6 +22,7 @@
         (node (x 520) (y 640))
         (node (x 720) (y 840))
         )
+        (style "solid")
     (camera
       (mode "normal")
     )

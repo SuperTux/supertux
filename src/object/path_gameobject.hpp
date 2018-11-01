@@ -22,6 +22,12 @@
 class Path;
 class Vector;
 
+enum class PathStyle
+{
+  NONE,
+  SOLID
+};
+
 class PathGameObject : public GameObject
 {
 public:
@@ -38,6 +44,7 @@ public:
 
 private:
   std::unique_ptr<Path> m_path;
+  PathStyle m_style;
 
 private:
   PathGameObject(const PathGameObject&) = delete;

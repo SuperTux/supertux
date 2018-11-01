@@ -21,31 +21,49 @@
 #include "object/path.hpp"
 #include "supertux/debug.hpp"
 #include "util/log.hpp"
+#include "util/reader_mapping.hpp"
 #include "util/unique_name.hpp"
 #include "video/color.hpp"
 #include "video/drawing_context.hpp"
 
+PathStyle PathStyle_from_string(const std::string& text)
+{
+  if (text == "none") {
+    return PathStyle::NONE;
+  } else if (text == "solid") {
+    return PathStyle::SOLID;
+  } else {
+    log_warning << "unknown PathStyle: " << text << std::endl;
+    return PathStyle::NONE;
+  }
+}
+
 PathGameObject::PathGameObject() :
-  m_path(new Path)
+  m_path(new Path),
+  m_style(PathStyle::NONE)
 {
   m_name = make_unique_name("path", this);
 }
 
 PathGameObject::PathGameObject(const Vector& pos) :
-  m_path(new Path(pos))
+  m_path(new Path(pos)),
+  m_style(PathStyle::NONE)
 {
   m_name = make_unique_name("path", this);
 }
 
 PathGameObject::PathGameObject(const ReaderMapping& mapping) :
   GameObject(mapping),
-  m_path(new Path)
+  m_path(new Path),
+  m_style(PathStyle::NONE)
 {
   m_path->read(mapping);
   if (m_name.empty())
   {
     m_name = make_unique_name("path", this);
   }
+
+  mapping.get_custom("style", m_style, PathStyle_from_string);
 }
 
 void
@@ -57,18 +75,24 @@ PathGameObject::update(float dt_sec)
 void
 PathGameObject::draw(DrawingContext& context)
 {
-  if (g_debug.show_collision_rects)
+  const bool draw_graph = g_debug.show_collision_rects || m_style == PathStyle::SOLID;
+
+  if (draw_graph)
   {
+    const bool debug = g_debug.show_collision_rects;
+    const Color node_color = debug ? Color::BLUE : Color(0.75f, 0.75f, 0.75f);
+    const Color edge_color = debug ? Color::MAGENTA : Color::BLACK;
+
     boost::optional<Vector> previous_node;
     for(const auto& node : m_path->get_nodes())
     {
       if (previous_node)
       {
-        context.color().draw_line(*previous_node, node.position, Color::MAGENTA, LAYER_OBJECTS - 2);
+        context.color().draw_line(*previous_node, node.position, edge_color, LAYER_OBJECTS - 2);
       }
 
       context.color().draw_filled_rect(Rectf::from_center(node.position, Sizef(16.0f, 16.0f)),
-                                       Color::BLUE, LAYER_OBJECTS - 1);
+                                       node_color, LAYER_OBJECTS - 1);
 
       previous_node = node.position;
     }
