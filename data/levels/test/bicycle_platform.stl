@@ -12,7 +12,15 @@
     (bicycle-platform
       (x 320)
       (y 640)
+      (path-ref "bicyclepath")
     )
+    (path
+        (name "bicyclepath")
+        (mode "pingpong")
+        (node (x 320) (y 640))
+        (node (x 520) (y 640))
+        (node (x 720) (y 840))
+        )
     (camera
       (mode "normal")
     )

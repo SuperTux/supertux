@@ -24,6 +24,7 @@
 #include "object/portable.hpp"
 #include "supertux/debug.hpp"
 #include "supertux/sector.hpp"
+#include "util/log.hpp"
 #include "util/reader_mapping.hpp"
 
 BicyclePlatformChild::BicyclePlatformChild(const ReaderMapping& reader, float angle_offset, BicyclePlatform& parent) :
@@ -79,7 +80,8 @@ BicyclePlatform::BicyclePlatform(const ReaderMapping& reader) :
   m_angle(0),
   m_angular_speed(0.0f),
   m_momentum_change_rate(0.1f),
-  m_children()
+  m_children(),
+  m_walker()
 {
   reader.get("x", m_center.x);
   reader.get("y", m_center.y);
@@ -90,6 +92,18 @@ BicyclePlatform::BicyclePlatform(const ReaderMapping& reader) :
   for(int i = 0; i < n; ++i) {
     const float offset = static_cast<float>(i) * (math::TAU / static_cast<float>(n));
     m_children.push_back(d_sector->add<BicyclePlatformChild>(reader, offset, *this));
+  }
+
+  std::string path_ref;
+  if (reader.get("path-ref", path_ref))
+  {
+    d_sector->request_name_resolve(path_ref, [this](UID uid){
+        if (!uid) {
+          log_fatal << "no path-ref entry for BicyclePlatform" << std::endl;
+        } else {
+          m_walker.reset(new PathWalker(uid, true));
+        }
+      });
   }
 }
 
@@ -126,8 +140,15 @@ BicyclePlatform::update(float dt_sec)
   m_angular_speed = std::min(std::max(m_angular_speed, -128.0f * math::PI * dt_sec),
                              128.0f * math::PI * dt_sec);
 
-  // FIXME: allow travel along a path
-  m_center += Vector(m_angular_speed, 0) * dt_sec * 32;
+  if (m_walker)
+  {
+    m_walker->update(std::max(0.0f, dt_sec * m_angular_speed * 0.1f));
+    m_center = m_walker->get_pos();
+  }
+  else
+  {
+    m_center += Vector(m_angular_speed, 0) * dt_sec * 32;
+  }
 }
 
 void
