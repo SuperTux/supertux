@@ -12,6 +12,7 @@
     (bicycle-platform
       (x 320)
       (y 640)
+      (platforms 6)
       (path-ref "bicyclepath")
     )
     (path

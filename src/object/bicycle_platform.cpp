@@ -88,9 +88,12 @@ BicyclePlatform::BicyclePlatform(const ReaderMapping& reader) :
   reader.get("radius", m_radius, 128.0f);
   reader.get("momentum-change-rate", m_momentum_change_rate, 0.1f);
 
-  int n = 2;
-  for(int i = 0; i < n; ++i) {
-    const float offset = static_cast<float>(i) * (math::TAU / static_cast<float>(n));
+  int platforms = 2;
+  reader.get("platforms", platforms);
+  platforms = std::max(1, platforms);
+
+  for(int i = 0; i < platforms; ++i) {
+    const float offset = static_cast<float>(i) * (math::TAU / static_cast<float>(platforms));
     m_children.push_back(d_sector->add<BicyclePlatformChild>(reader, offset, *this));
   }
 
