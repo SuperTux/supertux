@@ -18,6 +18,7 @@ before_build:
 - cmd: |
     echo Installing dependencies...
     vcpkg integrate install
+    xcopy /i /f mk\vcpkg\ C:\tools\vcpkg\ports
     copy mk\cmake\x64-windows.cmake C:\tools\vcpkg\triplets\
     vcpkg install boost-date-time:x64-windows
     vcpkg install boost-filesystem:x64-windows
@@ -29,6 +30,7 @@ before_build:
     vcpkg install freetype:x64-windows
     vcpkg install glew:x64-windows
     vcpkg install libogg:x64-windows
+    vcpkg install libraqm:x64-windows
     vcpkg install libvorbis:x64-windows
     vcpkg install openal-soft:x64-windows
     vcpkg install sdl2:x64-windows
