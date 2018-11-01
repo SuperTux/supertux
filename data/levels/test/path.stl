@@ -27,10 +27,11 @@
     (path
       (name "path1")
       (style "none")
+      (path
       (mode "pingpong")
-      (node
-        (x 352)
-        (y 192)
+        (node
+          (x 352)
+          (y 192)
         )
         (node
           (x 352)
@@ -52,11 +53,12 @@
           (x 576)
           (y 96)
           )
-        )
+        ))
       (path
         (name "path2")
-        (mode "pingpong")
         (style "solid")
+        (path
+          (mode "pingpong")
         (node
           (x 192)
           (y 504)
@@ -77,7 +79,7 @@
           (y 504)
           (time 3)
           )
-        )
+        ))
 
 (tilemap
       (solid #f)

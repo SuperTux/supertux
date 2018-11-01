@@ -57,9 +57,13 @@ PathGameObject::PathGameObject(const ReaderMapping& mapping) :
   m_path(new Path),
   m_style(PathStyle::NONE)
 {
-  m_path->read(mapping);
-  if (m_name.empty())
+  boost::optional<ReaderMapping> path_mapping;
+  if (mapping.get("path", path_mapping))
   {
+    m_path->read(*path_mapping);
+  }
+
+  if (m_name.empty()) {
     m_name = make_unique_name("path", this);
   }
 
