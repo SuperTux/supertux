@@ -39,6 +39,7 @@ PathWalker::PathWalker(UID path_uid, bool running_) :
 {
   Path* path = get_path();
   if (!path) return;
+  if (!path->is_valid()) return;
 
   m_next_node_nr = path->m_nodes.size() > 1 ? 1 : 0;
   m_node_mult = 1 / path->m_nodes[0].time;

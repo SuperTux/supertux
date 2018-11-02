@@ -58,21 +58,28 @@ PathGameObject::PathGameObject(const Vector& pos) :
   m_name = make_unique_name("path", this);
 }
 
-PathGameObject::PathGameObject(const ReaderMapping& mapping) :
+PathGameObject::PathGameObject(const ReaderMapping& mapping, bool backward_compatibility_hack) :
   GameObject(mapping),
   m_path(new Path),
   m_style(PathStyle::NONE),
   m_edge_sprite(),
   m_node_sprite()
 {
-  boost::optional<ReaderMapping> path_mapping;
-  if (mapping.get("path", path_mapping))
+  if (backward_compatibility_hack)
   {
-    m_path->read(*path_mapping);
+    m_path->read(mapping);
   }
+  else
+  {
+    boost::optional<ReaderMapping> path_mapping;
+    if (mapping.get("path", path_mapping))
+    {
+      m_path->read(*path_mapping);
+    }
 
-  if (m_name.empty()) {
-    m_name = make_unique_name("path", this);
+    if (m_name.empty()) {
+      m_name = make_unique_name("path", this);
+    }
   }
 
   mapping.get_custom("style", m_style, PathStyle_from_string);

@@ -46,7 +46,7 @@ PathObject::init_path(const ReaderMapping& mapping, bool running_default)
   boost::optional<ReaderMapping> path_mapping;
   if (mapping.get("path", path_mapping))
   {
-    auto path_gameobject = d_sector->add<PathGameObject>(*path_mapping);
+    auto path_gameobject = d_sector->add<PathGameObject>(*path_mapping, true);
     m_path_uid = path_gameobject->get_uid();
     m_walker.reset(new PathWalker(m_path_uid, running));
   }
