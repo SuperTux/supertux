@@ -55,9 +55,6 @@ private:
     /** Hitbox height */
     float hitbox_h;
 
-    /** Drawing priority in queue */
-    int z_order;
-
     /** Frames per second */
     float fps;
 

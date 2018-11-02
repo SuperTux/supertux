@@ -146,7 +146,7 @@ Sprite::draw(Canvas& canvas, const Vector& pos, int layer,
                       m_angle,
                       m_color,
                       m_blend,
-                      layer + m_action->z_order);
+                      layer);
 
   context.pop_transform();
 }

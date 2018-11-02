@@ -34,7 +34,6 @@ SpriteData::Action::Action() :
   y_offset(0),
   hitbox_w(0),
   hitbox_h(0),
-  z_order(0),
   fps(10),
   loops(-1),
   has_custom_loops(false),
@@ -88,7 +87,6 @@ SpriteData::parse_action(const ReaderMapping& lisp)
         throw std::runtime_error("hitbox should specify 2/4 coordinates");
     }
   }
-  lisp.get("z-order", action->z_order);
   lisp.get("fps", action->fps);
   if(lisp.get("loops", action->loops))
   {
