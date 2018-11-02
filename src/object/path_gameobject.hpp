@@ -17,6 +17,7 @@
 #ifndef HEADER_SUPERTUX_OBJECT_PATH_GAMEOBJECT_HPP
 #define HEADER_SUPERTUX_OBJECT_PATH_GAMEOBJECT_HPP
 
+#include "sprite/sprite_ptr.hpp"
 #include "supertux/game_object.hpp"
 
 class Path;
@@ -34,6 +35,7 @@ public:
   PathGameObject();
   PathGameObject(const Vector& pos);
   PathGameObject(const ReaderMapping& mapping);
+  virtual ~PathGameObject();
 
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
@@ -45,6 +47,8 @@ public:
 private:
   std::unique_ptr<Path> m_path;
   PathStyle m_style;
+  SpritePtr m_edge_sprite;
+  SpritePtr m_node_sprite;
 
 private:
   PathGameObject(const PathGameObject&) = delete;
