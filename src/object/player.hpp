@@ -238,26 +238,37 @@ private:
 
 public:
   Direction m_dir;
+
+private:
   Direction m_old_dir;
 
+public:
   float m_last_ground_y;
   FallMode m_fall_mode;
 
+private:
   bool m_on_ground_flag;
   bool m_jumping;
   bool m_can_jump;
   Timer m_jump_button_timer; /**< started when player presses the jump button; runs until Tux jumps or JUMP_GRACE_TIME runs out */
   bool m_wants_buttjump;
-  bool m_does_buttjump;
 
+public:
+  bool m_does_buttjump;
   Timer m_invincible_timer;
+
+private:
   Timer m_skidding_timer;
   Timer m_safe_timer;
   Timer m_kick_timer;
   Timer m_shooting_timer;   // used to show the arm when Tux is shooting
   Timer m_ability_timer;  // maximum lengh of time that special abilities can last
   Timer m_cooldown_timer; // minimum time period between successive uses of a special ability
+
+public:
   Timer m_dying_timer;
+
+private:
   Timer m_second_growup_sound_timer;
   bool m_growing;
   Timer m_backflip_timer;

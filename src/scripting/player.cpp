@@ -185,14 +185,14 @@ float
 Player::get_velocity_x() const
 {
   SCRIPT_GUARD_DEFAULT;
-  return object.m_physic.get_velocity_x();
+  return object.get_physic().get_velocity_x();
 }
 
 float
 Player::get_velocity_y() const
 {
   SCRIPT_GUARD_DEFAULT;
-  return object.m_physic.get_velocity_y();
+  return object.get_physic().get_velocity_y();
 }
 
 bool

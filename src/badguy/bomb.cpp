@@ -144,12 +144,12 @@ Bomb::ungrab(MovingObject& object, Direction dir_)
     toss_velocity_y += -500;
 
   // toss to the side when moving sideways
-  if(player && player->m_physic.get_velocity_x()*(dir_ == LEFT ? -1 : 1) > 1) {
+  if(player && player->get_physic().get_velocity_x()*(dir_ == LEFT ? -1 : 1) > 1) {
     toss_velocity_x += (dir_ == LEFT) ? -200 : 200;
     toss_velocity_y = (toss_velocity_y < -200) ? toss_velocity_y : -200;
     // toss farther when running
-    if(player && player->m_physic.get_velocity_x()*(dir_ == LEFT ? -1 : 1) > 200)
-      toss_velocity_x += static_cast<int>(player->m_physic.get_velocity_x() - (190.0f * (dir_ == LEFT ? -1.0f : 1.0f)));
+    if(player && player->get_physic().get_velocity_x()*(dir_ == LEFT ? -1 : 1) > 200)
+      toss_velocity_x += static_cast<int>(player->get_physic().get_velocity_x() - (190.0f * (dir_ == LEFT ? -1.0f : 1.0f)));
   }
 
   m_physic.set_velocity(static_cast<float>(toss_velocity_x),
