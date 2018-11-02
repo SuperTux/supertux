@@ -48,8 +48,6 @@ namespace {
 /* Times: */
 const float TUX_SAFE_TIME = 1.8f;
 const float TUX_INVINCIBLE_TIME = 14.0f;
-const float GROWING_TIME = 0.35f;
-const int GROWING_FRAMES = 7;
 const float TUX_BACKFLIP_TIME = 2.1f; // minimum air time that backflip results in a loss of control
 
 const float BUTTJUMP_MIN_VELOCITY_Y = 400.0f;
