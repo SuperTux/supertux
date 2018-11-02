@@ -42,7 +42,7 @@ static const int GROWING_FRAMES = 7;
 static const float TUX_BACKFLIP_TIME = 2.1f; // minimum air time that backflip results in a loss of control
 
 class Player final : public MovingObject,
-               public ExposedObject<Player, scripting::Player>
+                     public ExposedObject<Player, scripting::Player>
 {
 public:
   enum FallMode { ON_GROUND, JUMPING, TRAMPOLINE_JUMP, FALLING };
@@ -58,17 +58,13 @@ public:
   virtual ~Player();
 
   void set_controller(Controller* controller);
-  /*
-   * Level solved. Don't kill Tux any more.
-   */
+  /** Level solved. Don't kill Tux any more. */
   void set_winning();
-  bool is_winning() const
-  {
+  bool is_winning() const {
     return m_winning;
   }
 
-  Controller* get_controller() const
-  {
+  Controller* get_controller() const {
     return m_controller;
   }
 
@@ -82,21 +78,17 @@ public:
   virtual void collision_tile(uint32_t tile_attributes) override;
 
   void make_invincible();
-  bool is_invincible() const
-  {
+  bool is_invincible() const {
     return m_invincible_timer.started();
   }
-  bool is_dying() const
-  {
+  bool is_dying() const {
     return m_dying;
   }
-  Direction peeking_direction_x() const
-  {
+  Direction peeking_direction_x() const {
     return m_peekingX;
   }
 
-  Direction peeking_direction_y() const
-  {
+  Direction peeking_direction_y() const {
     return m_peekingY;
   }
 
@@ -109,66 +101,49 @@ public:
   virtual void add_coins(int count);
   virtual int get_coins() const;
 
-  /**
-   * picks up a bonus, taking care not to pick up lesser bonus items than we already have
-   *
-   * @returns true if the bonus has been set (or was already good enough)
-   *          false if the bonus could not be set (for example no space for big tux)
-   */
+  /** picks up a bonus, taking care not to pick up lesser bonus items than we already have
+
+      @returns true if the bonus has been set (or was already good enough)
+               false if the bonus could not be set (for example no space for big tux) */
   bool add_bonus(BonusType type, bool animate = false);
-  /**
-   * like add_bonus, but can also downgrade the bonus items carried
-   */
+
+  /** like add_bonus, but can also downgrade the bonus items carried */
   bool set_bonus(BonusType type, bool animate = false);
 
-  PlayerStatus& get_status() const
-  {
+  PlayerStatus& get_status() const {
     return m_player_status;
   }
-  // set kick animation
+
+  /** set kick animation */
   void kick();
 
-  /**
-   * play cheer animation.
-   * This might need some space and behave in an unpredictable way. Best to use this at level end.
-   */
+  /** play cheer animation.
+      This might need some space and behave in an unpredictable way.
+      Best to use this at level end. */
   void do_cheer();
 
-  /**
-   * duck down if possible.
-   * this won't last long as long as input is enabled.
-   */
+  /** duck down if possible.
+      this won't last long as long as input is enabled. */
   void do_duck();
 
-  /**
-   * stand back up if possible.
-   */
+  /** stand back up if possible. */
   void do_standup();
 
-  /**
-   * do a backflip if possible.
-   */
+  /** do a backflip if possible. */
   void do_backflip();
 
-  /**
-   * jump in the air if possible
-   * sensible values for yspeed are negative - unless we want to jump into the ground of course
-   */
+  /** jump in the air if possible
+      sensible values for yspeed are negative - unless we want to jump
+      into the ground of course */
   void do_jump(float yspeed);
 
-  /**
-   * Adds velocity to the player (be careful when using this)
-   */
+  /** Adds velocity to the player (be careful when using this) */
   void add_velocity(const Vector& velocity);
 
-  /**
-   * Adds velocity to the player until given end speed is reached
-   */
+  /** Adds velocity to the player until given end speed is reached */
   void add_velocity(const Vector& velocity, const Vector& end_speed);
 
-  /**
-   * Returns the current velocity of the player
-   */
+  /** Returns the current velocity of the player */
   Vector get_velocity() const;
 
   void bounce(BadGuy& badguy);
@@ -192,57 +167,39 @@ public:
   {
     m_grabbed_object = nullptr;
   }
-  /**
-   * Checks whether the player has grabbed a certain object
-   * @param name Name of the object to check
-   */
+  /** Checks whether the player has grabbed a certain object
+      @param name Name of the object to check */
   bool has_grabbed(const std::string& object_name) const;
 
-  /**
-   * Switches ghost mode on/off.
-   * Lets Tux float around and through solid objects.
-   */
+  /** Switches ghost mode on/off.
+      Lets Tux float around and through solid objects. */
   void set_ghost_mode(bool enable);
 
-  /**
-   * Switches edit mode on/off.
-   * In edit mode, Tux will enter ghost_mode instead of dying.
-   */
+  /** Switches edit mode on/off.
+      In edit mode, Tux will enter ghost_mode instead of dying. */
   void set_edit_mode(bool enable);
 
-  /**
-   * Returns whether ghost mode is currently enabled
-   */
+  /** Returns whether ghost mode is currently enabled */
   bool get_ghost_mode() const { return m_ghost_mode; }
 
-  /**
-   * Changes height of bounding box.
-   * Returns true if successful, false otherwise
-   */
+  /** Changes height of bounding box.
+      Returns true if successful, false otherwise */
   bool adjust_height(float new_height);
 
-  /**
-   * Orders the current GameSession to start a sequence
-   * @param sequence_name Name of the sequence to start
-   * @param data Custom additional sequence data
-   */
+  /** Orders the current GameSession to start a sequence
+      @param sequence_name Name of the sequence to start
+      @param data Custom additional sequence data */
   void trigger_sequence(const std::string& sequence_name, const SequenceData* data = nullptr);
 
-  /**
-   * Orders the current GameSession to start a sequence
-   * @param sequence Sequence to start
-   * @param data Custom additional sequence data
-   */
+  /** Orders the current GameSession to start a sequence
+      @param sequence Sequence to start
+      @param data Custom additional sequence data */
   void trigger_sequence(Sequence seq, const SequenceData* data = nullptr);
 
-  /**
-   * Requests that the player start climbing the given Climbable
-   */
+  /** Requests that the player start climbing the given Climbable */
   void start_climbing(Climbable& climbable);
 
-  /**
-   * Requests that the player stop climbing the given Climbable
-   */
+  /** Requests that the player stop climbing the given Climbable */
   void stop_climbing(Climbable& climbable);
 
   Physic& get_physic() { return m_physic; }
@@ -269,9 +226,7 @@ private:
 
   BonusType string_to_bonus(const std::string& bonus) const;
 
-  /**
-   * slows Tux down a little, based on where he's standing
-   */
+  /** slows Tux down a little, based on where he's standing */
   void apply_friction();
 
 private:
