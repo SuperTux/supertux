@@ -33,13 +33,7 @@ class Climbable;
 class Controller;
 class CodeController;
 
-/* Times: */
-static const float TUX_SAFE_TIME = 1.8f;
-static const float TUX_INVINCIBLE_TIME = 14.0f;
-static const float TUX_INVINCIBLE_TIME_WARNING = 2.0f;
-static const float GROWING_TIME = 0.35f;
-static const int GROWING_FRAMES = 7;
-static const float TUX_BACKFLIP_TIME = 2.1f; // minimum air time that backflip results in a loss of control
+extern const float TUX_INVINCIBLE_TIME_WARNING;
 
 class Player final : public MovingObject,
                      public ExposedObject<Player, scripting::Player>

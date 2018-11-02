@@ -41,22 +41,32 @@
 
 //#define SWIMMING
 
+const float TUX_INVINCIBLE_TIME_WARNING = 2.0f;
+
 namespace {
-static const float BUTTJUMP_MIN_VELOCITY_Y = 400.0f;
-static const float SHOOTING_TIME = .150f;
-static const float GLIDE_TIME_PER_FLOWER = 0.5f;
-static const float STONE_TIME_PER_FLOWER = 2.0f;
+
+/* Times: */
+const float TUX_SAFE_TIME = 1.8f;
+const float TUX_INVINCIBLE_TIME = 14.0f;
+const float GROWING_TIME = 0.35f;
+const int GROWING_FRAMES = 7;
+const float TUX_BACKFLIP_TIME = 2.1f; // minimum air time that backflip results in a loss of control
+
+const float BUTTJUMP_MIN_VELOCITY_Y = 400.0f;
+const float SHOOTING_TIME = .150f;
+const float GLIDE_TIME_PER_FLOWER = 0.5f;
+const float STONE_TIME_PER_FLOWER = 2.0f;
 
 /** number of idle stages, including standing */
-static const unsigned int IDLE_STAGE_COUNT = 5;
+const unsigned int IDLE_STAGE_COUNT = 5;
 /**
  * how long to play each idle animation in milliseconds
  * '0' means the sprite action is played once before moving onto the next
  * animation
  */
-static const int IDLE_TIME[] = { 5000, 0, 2500, 0, 2500 };
+const int IDLE_TIME[] = { 5000, 0, 2500, 0, 2500 };
 /** idle stages */
-static const std::string IDLE_STAGES[] =
+const std::string IDLE_STAGES[] =
 { "stand",
   "idle",
   "stand",
@@ -65,54 +75,55 @@ static const std::string IDLE_STAGES[] =
 
 /** acceleration in horizontal direction when walking
  * (all accelerations are in  pixel/s^2) */
-static const float WALK_ACCELERATION_X = 300;
+const float WALK_ACCELERATION_X = 300;
 /** acceleration in horizontal direction when running */
-static const float RUN_ACCELERATION_X = 400;
+const float RUN_ACCELERATION_X = 400;
 /** acceleration when skidding */
-static const float SKID_XM = 200;
+const float SKID_XM = 200;
 /** time of skidding in seconds */
-static const float SKID_TIME = .3f;
+const float SKID_TIME = .3f;
 /** maximum walk velocity (pixel/s) */
-static const float MAX_WALK_XM = 230;
+const float MAX_WALK_XM = 230;
 /** maximum run velocity (pixel/s) */
-static const float MAX_RUN_XM = 320;
+const float MAX_RUN_XM = 320;
 /** bonus run velocity addition (pixel/s) */
-static const float BONUS_RUN_XM = 80;
+const float BONUS_RUN_XM = 80;
 /** maximum horizontal climb velocity */
-static const float MAX_CLIMB_XM = 96;
+const float MAX_CLIMB_XM = 96;
 /** maximum vertical climb velocity */
-static const float MAX_CLIMB_YM = 128;
+const float MAX_CLIMB_YM = 128;
 /** maximum vertical glide velocity */
-static const float MAX_GLIDE_YM = 128;
+const float MAX_GLIDE_YM = 128;
 /** instant velocity when tux starts to walk */
-static const float WALK_SPEED = 100;
+const float WALK_SPEED = 100;
 
 /** multiplied by WALK_ACCELERATION to give friction */
-static const float NORMAL_FRICTION_MULTIPLIER = 1.5f;
+const float NORMAL_FRICTION_MULTIPLIER = 1.5f;
 /** multiplied by WALK_ACCELERATION to give friction */
-static const float ICE_FRICTION_MULTIPLIER = 0.1f;
-static const float ICE_ACCELERATION_MULTIPLIER = 0.25f;
+const float ICE_FRICTION_MULTIPLIER = 0.1f;
+const float ICE_ACCELERATION_MULTIPLIER = 0.25f;
 
 /** time of the kick (kicking mriceblock) animation */
-static const float KICK_TIME = .3f;
+const float KICK_TIME = .3f;
 
 /** if Tux cannot unduck for this long, he will get hurt */
-static const float UNDUCK_HURT_TIME = 0.25f;
+const float UNDUCK_HURT_TIME = 0.25f;
 /** gravity is higher after the jump key is released before
     the apex of the jump is reached */
-static const float JUMP_EARLY_APEX_FACTOR = 3.0;
+const float JUMP_EARLY_APEX_FACTOR = 3.0;
 
-static const float JUMP_GRACE_TIME = 0.25f; /**< time before hitting the ground that the jump button may be pressed (and still trigger a jump) */
+const float JUMP_GRACE_TIME = 0.25f; /**< time before hitting the ground that the jump button may be pressed (and still trigger a jump) */
 
 /* Tux's collision rectangle */
-static const float TUX_WIDTH = 31.8f;
-static const float RUNNING_TUX_WIDTH = 34;
-static const float SMALL_TUX_HEIGHT = 30.8f;
-static const float BIG_TUX_HEIGHT = 62.8f;
-static const float DUCKED_TUX_HEIGHT = 31.8f;
+const float TUX_WIDTH = 31.8f;
+const float RUNNING_TUX_WIDTH = 34;
+const float SMALL_TUX_HEIGHT = 30.8f;
+const float BIG_TUX_HEIGHT = 62.8f;
+const float DUCKED_TUX_HEIGHT = 31.8f;
 
 bool no_water = true;
-}
+
+} // namespace
 
 Player::Player(PlayerStatus& player_status, const std::string& name_) :
   ExposedObject<Player, scripting::Player>(this),
