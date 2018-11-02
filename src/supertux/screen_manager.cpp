@@ -20,6 +20,7 @@
 #include "audio/sound_manager.hpp"
 #include "editor/editor.hpp"
 #include "gui/menu_manager.hpp"
+#include "object/player.hpp"
 #include "squirrel/squirrel_virtual_machine.hpp"
 #include "supertux/console.hpp"
 #include "supertux/constants.hpp"
@@ -31,6 +32,7 @@
 #include "supertux/resources.hpp"
 #include "supertux/screen_fade.hpp"
 #include "supertux/sector.hpp"
+#include "util/log.hpp"
 #include "video/compositor.hpp"
 #include "video/drawing_context.hpp"
 

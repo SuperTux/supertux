@@ -18,7 +18,10 @@
 #define HEADER_SUPERTUX_OBJECT_BONUS_BLOCK_HPP
 
 #include "object/block.hpp"
-#include "object/player.hpp"
+#include "supertux/direction.hpp"
+#include "supertux/player_status.hpp"
+
+class Player;
 
 class BonusBlock final : public Block
 {

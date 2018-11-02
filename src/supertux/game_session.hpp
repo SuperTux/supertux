@@ -22,8 +22,8 @@
 #include <squirrel.h>
 
 #include "math/vector.hpp"
-#include "object/player.hpp"
 #include "supertux/game_session_recorder.hpp"
+#include "supertux/player_status.hpp"
 #include "supertux/screen.hpp"
 #include "supertux/sequence.hpp"
 #include "util/currenton.hpp"

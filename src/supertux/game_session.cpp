@@ -24,6 +24,7 @@
 #include "object/endsequence_walkleft.hpp"
 #include "object/endsequence_walkright.hpp"
 #include "object/level_time.hpp"
+#include "object/player.hpp"
 #include "supertux/fadetoblack.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/level.hpp"

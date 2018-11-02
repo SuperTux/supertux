@@ -21,6 +21,7 @@
 
 #include "gui/menu_manager.hpp"
 #include "object/camera.hpp"
+#include "object/player.hpp"
 #include "supertux/fadetoblack.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/level.hpp"
