@@ -46,60 +46,48 @@ class Player final : public MovingObject,
 {
 public:
   enum FallMode { ON_GROUND, JUMPING, TRAMPOLINE_JUMP, FALLING };
-  //Tux can only go this fast. If set to 0 no special limit is used, only the default limits.
-  void set_speedlimit(float newlimit);
-  float get_speedlimit() const;
-  virtual bool is_saveable() const override {
-    return false;
-  }
 
 public:
   Player(PlayerStatus& player_status, const std::string& name);
   virtual ~Player();
-
-  void set_controller(Controller* controller);
-  /** Level solved. Don't kill Tux any more. */
-  void set_winning();
-  bool is_winning() const {
-    return m_winning;
-  }
-
-  Controller* get_controller() const {
-    return m_controller;
-  }
-
-  void use_scripting_controller(bool use_or_release);
-  void do_scripting_controller(const std::string& control, bool pressed);
 
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
   virtual void collision_solid(const CollisionHit& hit) override;
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
   virtual void collision_tile(uint32_t tile_attributes) override;
+  virtual bool is_saveable() const override { return false; }
+
+  void set_controller(Controller* controller);
+  /** Level solved. Don't kill Tux any more. */
+  void set_winning();
+  bool is_winning() const { return m_winning; }
+
+  // Tux can only go this fast. If set to 0 no special limit is used, only the default limits.
+  void set_speedlimit(float newlimit);
+  float get_speedlimit() const;
+
+  Controller* get_controller() const { return m_controller; }
+
+  void use_scripting_controller(bool use_or_release);
+  void do_scripting_controller(const std::string& control, bool pressed);
 
   void make_invincible();
-  bool is_invincible() const {
-    return m_invincible_timer.started();
-  }
-  bool is_dying() const {
-    return m_dying;
-  }
-  Direction peeking_direction_x() const {
-    return m_peekingX;
-  }
 
-  Direction peeking_direction_y() const {
-    return m_peekingY;
-  }
+  bool is_invincible() const { return m_invincible_timer.started(); }
+  bool is_dying() const { return m_dying; }
+
+  Direction peeking_direction_x() const { return m_peekingX; }
+  Direction peeking_direction_y() const { return m_peekingY; }
 
   void kill(bool completely);
   void check_bounds();
   void move(const Vector& vector);
 
-  virtual bool add_bonus(const std::string& bonus);
-  virtual bool set_bonus(const std::string& bonus);
-  virtual void add_coins(int count);
-  virtual int get_coins() const;
+  bool add_bonus(const std::string& bonus);
+  bool set_bonus(const std::string& bonus);
+  void add_coins(int count);
+  int get_coins() const;
 
   /** picks up a bonus, taking care not to pick up lesser bonus items than we already have
 
@@ -110,9 +98,7 @@ public:
   /** like add_bonus, but can also downgrade the bonus items carried */
   bool set_bonus(BonusType type, bool animate = false);
 
-  PlayerStatus& get_status() const {
-    return m_player_status;
-  }
+  PlayerStatus& get_status() const { return m_player_status; }
 
   /** set kick animation */
   void kick();
@@ -148,25 +134,18 @@ public:
 
   void bounce(BadGuy& badguy);
 
-  bool is_dead() const
-  { return m_dead; }
+  bool is_dead() const { return m_dead; }
   bool is_big() const;
-  bool is_stone() const
-  { return m_stone; }
+  bool is_stone() const { return m_stone; }
 
   void set_visible(bool visible);
   bool get_visible() const;
 
   bool on_ground() const;
 
-  Portable* get_grabbed_object() const
-  {
-    return m_grabbed_object;
-  }
-  void stop_grabbing()
-  {
-    m_grabbed_object = nullptr;
-  }
+  Portable* get_grabbed_object() const { return m_grabbed_object; }
+  void stop_grabbing() { m_grabbed_object = nullptr; }
+
   /** Checks whether the player has grabbed a certain object
       @param name Name of the object to check */
   bool has_grabbed(const std::string& object_name) const;
@@ -211,6 +190,9 @@ public:
   void set_dir(bool right);
   void stop_backflipping();
 
+  void position_grabbed_object();
+  void try_grab();
+
 private:
   void handle_input();
   void handle_input_ghost(); /**< input handling while in ghost mode */
@@ -237,8 +219,6 @@ private:
   PlayerStatus& m_player_status;
   bool m_duck;
   bool m_dead;
-
-private:
   bool m_dying;
   bool m_winning;
   bool m_backflipping;
@@ -293,8 +273,6 @@ public:
   SurfacePtr m_airarrow; /**< arrow indicating Tux' position when he's above the camera */
 
   Vector m_floor_normal;
-  void position_grabbed_object();
-  void try_grab();
 
   bool m_ghost_mode; /**< indicates if Tux should float around and through solid objects */
   bool m_edit_mode; /**< indicates if Tux should switch to ghost mode rather than dying */
