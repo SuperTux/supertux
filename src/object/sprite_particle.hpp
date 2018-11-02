@@ -18,7 +18,7 @@
 #ifndef HEADER_SUPERTUX_OBJECT_SPRITE_PARTICLE_HPP
 #define HEADER_SUPERTUX_OBJECT_SPRITE_PARTICLE_HPP
 
-#include "object/anchor_point.hpp"
+#include "math/anchor_point.hpp"
 #include "sprite/sprite_ptr.hpp"
 #include "supertux/game_object.hpp"
 #include "video/drawing_context.hpp"

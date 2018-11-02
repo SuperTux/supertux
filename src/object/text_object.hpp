@@ -17,9 +17,9 @@
 #ifndef HEADER_SUPERTUX_OBJECT_TEXT_OBJECT_HPP
 #define HEADER_SUPERTUX_OBJECT_TEXT_OBJECT_HPP
 
-#include "object/anchor_point.hpp"
-#include "squirrel/exposed_object.hpp"
+#include "math/anchor_point.hpp"
 #include "scripting/text.hpp"
+#include "squirrel/exposed_object.hpp"
 #include "supertux/game_object.hpp"
 #include "video/color.hpp"
 #include "video/font_ptr.hpp"

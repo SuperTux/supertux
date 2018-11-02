@@ -17,7 +17,7 @@
 #ifndef HEADER_SUPERTUX_OBJECT_MOVING_SPRITE_HPP
 #define HEADER_SUPERTUX_OBJECT_MOVING_SPRITE_HPP
 
-#include "object/anchor_point.hpp"
+#include "math/anchor_point.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_ptr.hpp"
 #include "supertux/moving_object.hpp"

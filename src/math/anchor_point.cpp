@@ -14,7 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "object/anchor_point.hpp"
+#include "math/anchor_point.hpp"
 
 #include <config.h>
 

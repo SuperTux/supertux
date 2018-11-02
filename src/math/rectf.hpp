@@ -20,9 +20,9 @@
 #include <assert.h>
 #include <iosfwd>
 
+#include "math/anchor_point.hpp"
 #include "math/sizef.hpp"
 #include "math/vector.hpp"
-#include "object/anchor_point.hpp"
 
 class Rect;
 
