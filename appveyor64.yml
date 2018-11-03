@@ -13,7 +13,7 @@ branches:
     - coverity_scan # No need for Windows builds on that branch
 
 cache: c:\tools\vcpkg\installed -> appveyor64.yml
-
+ 
 before_build:
 - cmd: |
     echo Installing dependencies...
