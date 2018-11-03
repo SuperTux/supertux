@@ -107,6 +107,19 @@ Tile::get_current_surface() const
   }
 }
 
+SurfacePtr
+Tile::get_current_editor_surface() const
+{
+  if(m_editor_images.size() > 1) {
+    size_t frame = size_t(g_game_time * m_fps) % m_editor_images.size();
+    return m_editor_images[frame];
+  } else if (m_editor_images.size() == 1) {
+    return m_editor_images[0];
+  } else {
+    return get_current_surface();
+  }
+}
+
 void
 Tile::correct_attributes()
 {

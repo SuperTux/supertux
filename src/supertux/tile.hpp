@@ -122,6 +122,8 @@ public:
 
   SurfacePtr get_current_surface() const;
 
+  SurfacePtr get_current_editor_surface() const;
+
   uint32_t get_attributes() const
   { return m_attributes; }
 
