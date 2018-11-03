@@ -60,7 +60,7 @@ public:
 
   virtual SDLSurfacePtr make_screenshot() override;
 
-  Size get_window_size() const;
+  virtual Size get_window_size() const override;
 
   GLContext& get_context() const { return *m_context; }
 

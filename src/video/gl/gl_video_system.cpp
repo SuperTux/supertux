@@ -260,6 +260,14 @@ GLVideoSystem::apply_video_mode()
   if (!g_config->use_fullscreen)
   {
     SDL_SetWindowFullscreen(m_window, 0);
+
+    Size window_size;
+    SDL_GetWindowSize(m_window, &window_size.width, &window_size.height);
+    if (g_config->window_size.width != window_size.width ||
+        g_config->window_size.height != window_size.height)
+    {
+      SDL_SetWindowSize(m_window, g_config->window_size.width, g_config->window_size.height);
+    }
   }
   else
   {

@@ -49,6 +49,7 @@ bool less_than_volume(const std::string& lhs, const std::string& rhs) {
 } // namespace
 
 enum OptionsMenuIDs {
+  MNID_WINDOW_RESOLUTION,
   MNID_FULLSCREEN,
   MNID_FULLSCREEN_RESOLUTION,
   MNID_MAGNIFICATION,
@@ -69,6 +70,7 @@ enum OptionsMenuIDs {
 OptionsMenu::OptionsMenu(bool complete) :
   next_magnification(0),
   next_aspect_ratio(0),
+  next_window_resolution(0),
   next_resolution(0),
   next_vsync(0),
   next_framerate(0),
@@ -76,6 +78,7 @@ OptionsMenu::OptionsMenu(bool complete) :
   next_music_volume(0),
   magnifications(),
   aspect_ratios(),
+  window_resolutions(),
   resolutions(),
   vsyncs(),
   framerates(),
@@ -152,6 +155,24 @@ OptionsMenu::OptionsMenu(bool complete) :
     {
       next_aspect_ratio = static_cast<int>(aspect_ratios.size());
       aspect_ratios.push_back(aspect_ratio);
+    }
+  }
+
+  {
+    window_resolutions = { _("auto"), "640x480", "854x480", "800x600",
+                           "1280x720", "1280x800", "1440x900", "1920x1080", "1920x1200", "2560x1440" };
+    next_window_resolution = 0;
+    Size window_size = VideoSystem::current()->get_window_size();
+    std::ostringstream out;
+    out << window_size.width << "x" << window_size.height;
+    std::string window_size_text = out.str();
+    for(size_t i = 0; i < window_resolutions.size(); ++i)
+    {
+      if (window_resolutions[i] == window_size_text)
+      {
+        next_window_resolution = static_cast<int>(i);
+        break;
+      }
     }
   }
 
@@ -339,7 +360,10 @@ OptionsMenu::OptionsMenu(bool complete) :
   add_toggle(MNID_FULLSCREEN,_("Fullscreen"), &g_config->use_fullscreen)
     .set_help(_("Fill the entire screen"));
 
-  MenuItem& fullscreen_res = add_string_select(MNID_FULLSCREEN_RESOLUTION, _("Resolution"), &next_resolution, resolutions);
+  MenuItem& window_res = add_string_select(MNID_WINDOW_RESOLUTION, _("Window Resolution"), &next_window_resolution, window_resolutions);
+  window_res.set_help(_("Resize the window to the given size"));
+
+  MenuItem& fullscreen_res = add_string_select(MNID_FULLSCREEN_RESOLUTION, _("Fullscreen Resolution"), &next_resolution, resolutions);
   fullscreen_res.set_help(_("Determine the resolution used in fullscreen mode (you must toggle fullscreen to complete the change)"));
 
   MenuItem& magnification = add_string_select(MNID_MAGNIFICATION, _("Magnification"), &next_magnification, magnifications);
@@ -440,6 +464,29 @@ OptionsMenu::menu_action(MenuItem& item)
       }
       VideoSystem::current()->apply_config();
       MenuManager::instance().on_window_resize();
+      break;
+
+    case MNID_WINDOW_RESOLUTION:
+      if (next_window_resolution == 0)
+      {
+        // do nothing
+      }
+      else
+      {
+        int width;
+        int height;
+        if(sscanf(window_resolutions[next_window_resolution].c_str(), "%dx%d",
+                  &width, &height) != 2)
+        {
+          log_fatal << "can't parse " << window_resolutions[next_window_resolution] << std::endl;
+        }
+        else
+        {
+          g_config->window_size = Size(width, height);
+          VideoSystem::current()->apply_config();
+          MenuManager::instance().on_window_resize();
+        }
+      }
       break;
 
     case MNID_FULLSCREEN_RESOLUTION:

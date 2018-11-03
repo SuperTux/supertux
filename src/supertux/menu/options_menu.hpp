@@ -22,28 +22,34 @@
 
 class OptionsMenu final : public Menu
 {
-  public:
-    OptionsMenu(bool complete);
-    virtual ~OptionsMenu();
+public:
+  OptionsMenu(bool complete);
+  virtual ~OptionsMenu();
 
-    void menu_action(MenuItem& item) override;
+  void menu_action(MenuItem& item) override;
 
-  private:
-    int next_magnification;
-    int next_aspect_ratio;
-    int next_resolution;
-    int next_vsync;
-    int next_framerate;
-    int next_sound_volume;
-    int next_music_volume;
+private:
+  int next_magnification;
+  int next_aspect_ratio;
+  int next_window_resolution;
+  int next_resolution;
+  int next_vsync;
+  int next_framerate;
+  int next_sound_volume;
+  int next_music_volume;
 
-    std::vector<std::string> magnifications;
-    std::vector<std::string> aspect_ratios;
-    std::vector<std::string> resolutions;
-    std::vector<std::string> vsyncs;
-    std::vector<std::string> framerates;
-    std::vector<std::string> sound_volumes;
-    std::vector<std::string> music_volumes;
+  std::vector<std::string> magnifications;
+  std::vector<std::string> aspect_ratios;
+  std::vector<std::string> window_resolutions;
+  std::vector<std::string> resolutions;
+  std::vector<std::string> vsyncs;
+  std::vector<std::string> framerates;
+  std::vector<std::string> sound_volumes;
+  std::vector<std::string> music_volumes;
+
+private:
+  OptionsMenu(const OptionsMenu&) = delete;
+  OptionsMenu& operator=(const OptionsMenu&) = delete;
 };
 
 #endif

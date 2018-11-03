@@ -44,6 +44,7 @@ public:
   virtual void apply_config() override;
   virtual void flip() override;
   virtual void on_resize(int w, int h) override;
+  virtual Size get_window_size() const override;
 
   virtual void set_vsync(int mode) override;
   virtual int get_vsync() const override;

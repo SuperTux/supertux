@@ -114,6 +114,14 @@ SDLVideoSystem::apply_video_mode()
   if (!g_config->use_fullscreen)
   {
     SDL_SetWindowFullscreen(m_sdl_window, 0);
+
+    Size window_size;
+    SDL_GetWindowSize(m_sdl_window, &window_size.width, &window_size.height);
+    if (g_config->window_size.width != window_size.width ||
+        g_config->window_size.height != window_size.height)
+    {
+      SDL_SetWindowSize(m_sdl_window, g_config->window_size.width, g_config->window_size.height);
+    }
   }
   else
   {
@@ -257,6 +265,14 @@ SDLVideoSystem::make_screenshot()
       return surface;
     }
   }
+}
+
+Size
+SDLVideoSystem::get_window_size() const
+{
+  Size size;
+  SDL_GetWindowSize(m_sdl_window, &size.width, &size.height);
+  return size;
 }
 
 /* EOF */
