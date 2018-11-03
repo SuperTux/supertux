@@ -6,11 +6,7 @@
  * This code is free software, available under zlib/libpng license.
  * http://www.libpng.org/pub/png/src/libpng-LICENSE.txt
  */
-#ifdef VCPKG_BUILD
-    #include <SDL2/SDL_video.h>
-#else
-    #include <SDL_video.h>
-#endif
+#include <SDL_video.h>
 
 #ifdef __cplusplus
 extern "C" { /* This helps CPP projects that include this header */

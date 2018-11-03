@@ -4,12 +4,7 @@
  * This code is free software, available under zlib/libpng license.
  * http://www.libpng.org/pub/png/src/libpng-LICENSE.txt
  */
-
-#ifdef VCPKG_BUILD
-    #include <SDL2/SDL.h>
-#else
-    #include <SDL.h>
-#endif
+#include <SDL.h>
 #include <png.h>
 
 #define SUCCESS 0

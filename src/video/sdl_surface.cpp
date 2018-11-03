@@ -19,11 +19,11 @@
 #include <sstream>
 #include <stdexcept>
 
+#include <SDL_image.h>
 #include <savepng.h>
 
 #include "physfs/physfs_sdl.hpp"
 #include "util/log.hpp"
-#include "video/sdl_image.hpp"
 
 SDLSurfacePtr
 SDLSurface::create_rgba(int width, int height)

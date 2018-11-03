@@ -16,6 +16,7 @@
 
 #include "audio/sound_manager.hpp"
 
+#include <SDL.h>
 #include <assert.h>
 #include <stdexcept>
 #include <sstream>
@@ -25,7 +26,6 @@
 #include "audio/sound_file.hpp"
 #include "audio/stream_sound_source.hpp"
 #include "util/log.hpp"
-#include "video/sdl.hpp"
 
 SoundManager::SoundManager() :
   device(alcOpenDevice(nullptr)),

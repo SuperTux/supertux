@@ -17,6 +17,7 @@
 #ifndef HEADER_SUPERTUX_GUI_DIALOG_HPP
 #define HEADER_SUPERTUX_GUI_DIALOG_HPP
 
+#include <SDL.h>
 #include <functional>
 #include <string>
 #include <vector>
@@ -24,7 +25,6 @@
 #include "gui/menu_manager.hpp"
 #include "math/sizef.hpp"
 #include "util/gettext.hpp"
-#include "video/sdl.hpp"
 
 class Controller;
 class DrawingContext;

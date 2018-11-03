@@ -17,10 +17,10 @@
 #ifndef HEADER_SUPERTUX_CONTROL_KEYBOARD_CONFIG_HPP
 #define HEADER_SUPERTUX_CONTROL_KEYBOARD_CONFIG_HPP
 
+#include <SDL.h>
 #include <map>
 
 #include "control/controller.hpp"
-#include "video/sdl.hpp"
 
 class ReaderMapping;
 class Writer;

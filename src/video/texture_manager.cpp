@@ -16,6 +16,7 @@
 
 #include "video/texture_manager.hpp"
 
+#include <SDL_image.h>
 #include <assert.h>
 #include <sstream>
 
@@ -23,7 +24,6 @@
 #include "physfs/physfs_sdl.hpp"
 #include "util/file_system.hpp"
 #include "util/log.hpp"
-#include "video/sdl_image.hpp"
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
 #include "video/color.hpp"

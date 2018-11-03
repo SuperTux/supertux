@@ -19,6 +19,7 @@
 #include <config.h>
 #include <version.h>
 
+#include <SDL_image.h>
 #include <SDL_ttf.h>
 #include <boost/filesystem.hpp>
 #include <boost/locale.hpp>
@@ -42,6 +43,7 @@ extern "C" {
 #include "editor/tool_icon.hpp"
 #include "gui/menu_manager.hpp"
 #include "math/random.hpp"
+#include "object/player.hpp"
 #include "physfs/physfs_file_system.hpp"
 #include "physfs/physfs_sdl.hpp"
 #include "sprite/sprite_data.hpp"
@@ -66,9 +68,8 @@ extern "C" {
 #include "supertux/world.hpp"
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
-#include "video/sdl_image.hpp"
-#include "video/sdl_surface_ptr.hpp"
 #include "video/sdl_surface.hpp"
+#include "video/sdl_surface_ptr.hpp"
 #include "video/ttf_surface_manager.hpp"
 #include "worldmap/worldmap.hpp"
 #include "worldmap/worldmap_screen.hpp"

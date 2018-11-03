@@ -17,11 +17,11 @@
 #ifndef HEADER_SUPERTUX_VIDEO_SDL_SDL_TEXTURE_RENDERER_HPP
 #define HEADER_SUPERTUX_VIDEO_SDL_SDL_TEXTURE_RENDERER_HPP
 
+#include <SDL.h>
 #include <boost/optional.hpp>
 
 #include "video/texture_ptr.hpp"
 #include "video/renderer.hpp"
-#include "video/sdl.hpp"
 #include "video/sdl/sdl_painter.hpp"
 
 class Color;
@@ -60,8 +60,8 @@ private:
   TexturePtr m_texture;
 
 private:
-  SDLTextureRenderer(const SDLTextureRenderer&);
-  SDLTextureRenderer& operator=(const SDLTextureRenderer&);
+  SDLTextureRenderer(const SDLTextureRenderer&) = delete;
+  SDLTextureRenderer& operator=(const SDLTextureRenderer&) = delete;
 };
 
 #endif

@@ -19,13 +19,13 @@
 
 #include "control/controller.hpp"
 
+#include <SDL.h>
 #include <map>
 #include <string>
 #include <vector>
 #include <memory>
 
 #include "util/currenton.hpp"
-#include "video/sdl.hpp"
 
 class GameControllerManager;
 class JoystickManager;
@@ -68,8 +68,8 @@ public:
   std::unique_ptr<GameControllerManager> game_controller_manager;
 
 private:
-  InputManager(const InputManager&);
-  InputManager& operator=(const InputManager&);
+  InputManager(const InputManager&) = delete;
+  InputManager& operator=(const InputManager&) = delete;
 };
 
 #endif

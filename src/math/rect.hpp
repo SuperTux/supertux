@@ -20,9 +20,9 @@
 #include <iosfwd>
 
 #include <algorithm>
+#include <SDL.h>
 
 #include "math/size.hpp"
-#include "video/sdl.hpp"
 
 class Rectf;
 

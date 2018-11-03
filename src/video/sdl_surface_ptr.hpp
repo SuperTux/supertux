@@ -17,7 +17,7 @@
 #ifndef HEADER_SUPERTUX_VIDEO_SDL_SURFACE_PTR_HPP
 #define HEADER_SUPERTUX_VIDEO_SDL_SURFACE_PTR_HPP
 
-#include "video/sdl.hpp"
+#include <SDL.h>
 
 /** Simple Wrapper class around SDL_Surface that provides execption
     safety */
@@ -92,8 +92,8 @@ public:
   }
 
 private:
-  SDLSurfacePtr(const SDLSurfacePtr&);
-  SDLSurfacePtr& operator=(const SDLSurfacePtr&);
+  SDLSurfacePtr(const SDLSurfacePtr&) = delete;
+  SDLSurfacePtr& operator=(const SDLSurfacePtr&) = delete;
 };
 
 #endif

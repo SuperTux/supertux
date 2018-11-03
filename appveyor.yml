@@ -11,7 +11,7 @@ environment:
 branches:
   except:
     - coverity_scan # No need for Windows builds on that branch
- 
+
 cache: c:\tools\vcpkg\installed -> appveyor.yml
 
 before_build:

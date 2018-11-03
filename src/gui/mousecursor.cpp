@@ -16,9 +16,10 @@
 
 #include "gui/mousecursor.hpp"
 
+#include <SDL.h>
+
 #include "video/drawing_context.hpp"
 #include "video/renderer.hpp"
-#include "video/sdl.hpp"
 #include "video/surface.hpp"
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"

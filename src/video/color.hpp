@@ -20,7 +20,7 @@
 #include <string>
 #include <vector>
 
-#include "video/sdl_image.hpp"
+#include <SDL_image.h>
 
 class Color final
 {

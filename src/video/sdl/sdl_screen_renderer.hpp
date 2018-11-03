@@ -17,11 +17,11 @@
 #ifndef HEADER_SUPERTUX_VIDEO_SDL_SDL_SCREEN_RENDERER_HPP
 #define HEADER_SUPERTUX_VIDEO_SDL_SDL_SCREEN_RENDERER_HPP
 
+#include <SDL.h>
 #include <boost/optional.hpp>
 
 #include "math/size.hpp"
 #include "video/renderer.hpp"
-#include "video/sdl.hpp"
 #include "video/sdl/sdl_painter.hpp"
 
 class SDLVideoSystem;
@@ -51,8 +51,8 @@ private:
   SDLPainter m_painter;
 
 private:
-  SDLScreenRenderer(const SDLScreenRenderer&);
-  SDLScreenRenderer& operator=(const SDLScreenRenderer&);
+  SDLScreenRenderer(const SDLScreenRenderer&) = delete;
+  SDLScreenRenderer& operator=(const SDLScreenRenderer&) = delete;
 };
 
 #endif
