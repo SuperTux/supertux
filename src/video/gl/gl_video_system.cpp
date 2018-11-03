@@ -47,15 +47,9 @@ GLVideoSystem::GLVideoSystem(bool use_opengl33core) :
   m_lightmap(),
   m_back_renderer(),
   m_context(),
-  m_window(),
   m_glcontext(),
-  m_desktop_size(),
   m_viewport()
 {
-  SDL_DisplayMode mode;
-  SDL_GetCurrentDisplayMode(0, &mode);
-  m_desktop_size = Size(mode.w, mode.h);
-
   create_window();
 
   m_texture_manager.reset(new TextureManager);
@@ -82,7 +76,6 @@ GLVideoSystem::GLVideoSystem(bool use_opengl33core) :
 GLVideoSystem::~GLVideoSystem()
 {
   SDL_GL_DeleteContext(m_glcontext);
-  SDL_DestroyWindow(m_window);
 }
 
 void
@@ -146,18 +139,18 @@ GLVideoSystem::create_window()
   }
 #endif
 
-  m_window = SDL_CreateWindow("SuperTux",
+  m_sdl_window = SDL_CreateWindow("SuperTux",
                               SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
                               size.width, size.height,
                               flags);
-  if (!m_window)
+  if (!m_sdl_window)
   {
     std::ostringstream msg;
     msg << "Couldn't set video mode " << size.width << "x" << size.height << ": " << SDL_GetError();
     throw std::runtime_error(msg.str());
   }
 
-  m_glcontext = SDL_GL_CreateContext(m_window);
+  m_glcontext = SDL_GL_CreateContext(m_sdl_window);
 
   if (g_config->try_vsync) {
     // we want vsync for smooth scrolling
@@ -254,69 +247,6 @@ GLVideoSystem::apply_config()
   }
 }
 
-void
-GLVideoSystem::apply_video_mode()
-{
-  if (!g_config->use_fullscreen)
-  {
-    SDL_SetWindowFullscreen(m_window, 0);
-
-    Size window_size;
-    SDL_GetWindowSize(m_window, &window_size.width, &window_size.height);
-    if (g_config->window_size.width != window_size.width ||
-        g_config->window_size.height != window_size.height)
-    {
-      SDL_SetWindowSize(m_window, g_config->window_size.width, g_config->window_size.height);
-    }
-  }
-  else
-  {
-    if (g_config->fullscreen_size.width == 0 &&
-        g_config->fullscreen_size.height == 0)
-    {
-      if (SDL_SetWindowFullscreen(m_window, SDL_WINDOW_FULLSCREEN_DESKTOP) != 0)
-      {
-        log_warning << "failed to switch to desktop fullscreen mode: "
-                    << SDL_GetError() << std::endl;
-      }
-      else
-      {
-        log_info << "switched to desktop fullscreen mode" << std::endl;
-      }
-    }
-    else
-    {
-      SDL_DisplayMode mode;
-      mode.format = SDL_PIXELFORMAT_RGB888;
-      mode.w = g_config->fullscreen_size.width;
-      mode.h = g_config->fullscreen_size.height;
-      mode.refresh_rate = g_config->fullscreen_refresh_rate;
-      mode.driverdata = nullptr;
-
-      if (SDL_SetWindowDisplayMode(m_window, &mode) != 0)
-      {
-        log_warning << "failed to set display mode: "
-                    << mode.w << "x" << mode.h << "@" << mode.refresh_rate << ": "
-                    << SDL_GetError() << std::endl;
-      }
-      else
-      {
-        if (SDL_SetWindowFullscreen(m_window, SDL_WINDOW_FULLSCREEN) != 0)
-        {
-          log_warning << "failed to switch to fullscreen mode: "
-                      << mode.w << "x" << mode.h << "@" << mode.refresh_rate << ": "
-                      << SDL_GetError() << std::endl;
-        }
-        else
-        {
-          log_info << "switched to fullscreen mode: "
-                   << mode.w << "x" << mode.h << "@" << mode.refresh_rate << std::endl;
-        }
-      }
-    }
-  }
-}
-
 Renderer&
 GLVideoSystem::get_renderer() const
 {
@@ -345,15 +275,7 @@ void
 GLVideoSystem::flip()
 {
   assert_gl();
-  SDL_GL_SwapWindow(m_window);
-}
-
-void
-GLVideoSystem::on_resize(int w, int h)
-{
-  g_config->window_size = Size(w, h);
-
-  apply_config();
+  SDL_GL_SwapWindow(m_sdl_window);
 }
 
 void
@@ -373,34 +295,6 @@ int
 GLVideoSystem::get_vsync() const
 {
   return SDL_GL_GetSwapInterval();
-}
-
-void
-GLVideoSystem::set_gamma(float gamma)
-{
-  Uint16 ramp[256];
-  SDL_CalculateGammaRamp(gamma, ramp);
-  SDL_SetWindowGammaRamp(m_window, ramp, ramp, ramp);
-}
-
-void
-GLVideoSystem::set_title(const std::string& title)
-{
-  SDL_SetWindowTitle(m_window, title.c_str());
-}
-
-void
-GLVideoSystem::set_icon(const SDL_Surface& icon)
-{
-  SDL_SetWindowIcon(m_window, const_cast<SDL_Surface*>(&icon));
-}
-
-Size
-GLVideoSystem::get_window_size() const
-{
-  Size size;
-  SDL_GetWindowSize(m_window, &size.width, &size.height);
-  return size;
 }
 
 SDLSurfacePtr

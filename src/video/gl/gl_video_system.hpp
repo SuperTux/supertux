@@ -21,7 +21,7 @@
 #include <SDL.h>
 
 #include "math/size.hpp"
-#include "video/video_system.hpp"
+#include "video/sdlbase_video_system.hpp"
 #include "video/viewport.hpp"
 
 class GLContext;
@@ -35,7 +35,7 @@ class Rect;
 class TextureManager;
 struct SDL_Surface;
 
-class GLVideoSystem final : public VideoSystem
+class GLVideoSystem final : public SDLBaseVideoSystem
 {
 public:
   GLVideoSystem(bool use_opengl33core);
@@ -50,23 +50,16 @@ public:
   virtual const Viewport& get_viewport() const override { return m_viewport; }
   virtual void apply_config() override;
   virtual void flip() override;
-  virtual void on_resize(int w, int h) override;
 
   virtual void set_vsync(int mode) override;
   virtual int get_vsync() const override;
-  virtual void set_gamma(float gamma) override;
-  virtual void set_title(const std::string& title) override;
-  virtual void set_icon(const SDL_Surface& icon) override;
 
   virtual SDLSurfacePtr make_screenshot() override;
-
-  virtual Size get_window_size() const override;
 
   GLContext& get_context() const { return *m_context; }
 
 private:
   void create_window();
-  void apply_video_mode();
 
 private:
   bool m_use_opengl33core;
@@ -76,9 +69,7 @@ private:
   std::unique_ptr<GLTextureRenderer> m_back_renderer;
   std::unique_ptr<GLContext> m_context;
 
-  SDL_Window* m_window;
   SDL_GLContext m_glcontext;
-  Size m_desktop_size;
   Viewport m_viewport;
 
 private:

@@ -21,14 +21,14 @@
 #include <SDL.h>
 
 #include "math/size.hpp"
-#include "video/video_system.hpp"
+#include "video/sdlbase_video_system.hpp"
 #include "video/viewport.hpp"
 
 class SDLScreenRenderer;
 class SDLTextureRenderer;
 class TextureManager;
 
-class SDLVideoSystem final : public VideoSystem
+class SDLVideoSystem final : public SDLBaseVideoSystem
 {
 public:
   SDLVideoSystem();
@@ -43,24 +43,14 @@ public:
   virtual const Viewport& get_viewport() const override { return m_viewport; }
   virtual void apply_config() override;
   virtual void flip() override;
-  virtual void on_resize(int w, int h) override;
-  virtual Size get_window_size() const override;
 
   virtual void set_vsync(int mode) override;
   virtual int get_vsync() const override;
-  virtual void set_gamma(float gamma) override;
-  virtual void set_title(const std::string& title) override;
-  virtual void set_icon(const SDL_Surface& icon) override;
 
   virtual SDLSurfacePtr make_screenshot() override;
 
 private:
-  void apply_video_mode();
-
-private:
-  SDL_Window* m_sdl_window;
   SDL_Renderer* m_sdl_renderer;
-  Size m_desktop_size;
   Viewport m_viewport;
   std::unique_ptr<SDLScreenRenderer> m_renderer;
   std::unique_ptr<SDLTextureRenderer> m_lightmap;
