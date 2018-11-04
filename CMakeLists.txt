@@ -527,9 +527,14 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
         "-Wconversion "
         "-Wlogical-op "
         "-Wstrict-null-sentinel "
-        "-Wint-in-bool-context "
         "-Wsuggest-override "
         )
+      if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 8)
+        string(CONCAT SUPERTUX2_EXTRA_WARNING_FLAGS
+          "${SUPERTUX2_EXTRA_WARNING_FLAGS} "
+          "-Wint-in-bool-context "
+          )
+      endif()
     else()
       string(CONCAT SUPERTUX2_EXTRA_WARNING_FLAGS
         "${SUPERTUX2_EXTRA_WARNING_FLAGS} "

@@ -143,7 +143,7 @@ GameObjectManager::update_game_objects()
   { // cleanup marked objects
     m_gameobjects.erase(
       std::remove_if(m_gameobjects.begin(), m_gameobjects.end(),
-                     [this](const auto& obj) {
+                     [this](const std::unique_ptr<GameObject>& obj) {
                        if (!obj->is_valid())
                        {
                          this_before_object_remove(*obj);
