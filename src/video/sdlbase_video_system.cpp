@@ -76,6 +76,43 @@ SDLBaseVideoSystem::on_resize(int w, int h)
 }
 
 void
+SDLBaseVideoSystem::create_sdl_window(Uint32 flags)
+{
+  flags |= SDL_WINDOW_RESIZABLE;
+
+  Size size;
+  if (g_config->use_fullscreen)
+  {
+    if (g_config->fullscreen_size == Size(0, 0))
+    {
+      flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
+      size = m_desktop_size;
+    }
+    else
+    {
+      flags |= SDL_WINDOW_FULLSCREEN;
+      size.width  = g_config->fullscreen_size.width;
+      size.height = g_config->fullscreen_size.height;
+    }
+  }
+  else
+  {
+    size = g_config->window_size;
+  }
+
+  m_sdl_window = SDL_CreateWindow("SuperTux",
+                                  SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+                                  size.width, size.height,
+                                  flags);
+  if (!m_sdl_window)
+  {
+    std::ostringstream msg;
+    msg << "Couldn't set video mode " << size.width << "x" << size.height << ": " << SDL_GetError();
+    throw std::runtime_error(msg.str());
+  }
+}
+
+void
 SDLBaseVideoSystem::apply_video_mode()
 {
   if (!g_config->use_fullscreen)

@@ -50,7 +50,7 @@ GLVideoSystem::GLVideoSystem(bool use_opengl33core) :
   m_glcontext(),
   m_viewport()
 {
-  create_window();
+  create_gl_window();
 
   m_texture_manager.reset(new TextureManager);
   m_renderer.reset(new GLScreenRenderer(*this));
@@ -79,29 +79,8 @@ GLVideoSystem::~GLVideoSystem()
 }
 
 void
-GLVideoSystem::create_window()
+GLVideoSystem::create_gl_window()
 {
-  int flags = SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE;
-  Size size;
-  if (g_config->use_fullscreen)
-  {
-    if (g_config->fullscreen_size == Size(0, 0))
-    {
-      flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
-      size = m_desktop_size;
-    }
-    else
-    {
-      flags |= SDL_WINDOW_FULLSCREEN;
-      size.width  = g_config->fullscreen_size.width;
-      size.height = g_config->fullscreen_size.height;
-    }
-  }
-  else
-  {
-    size = g_config->window_size;
-  }
-
   SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
   // FIXME: why are we requesting a 16bit context?
@@ -139,17 +118,13 @@ GLVideoSystem::create_window()
   }
 #endif
 
-  m_sdl_window = SDL_CreateWindow("SuperTux",
-                              SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-                              size.width, size.height,
-                              flags);
-  if (!m_sdl_window)
-  {
-    std::ostringstream msg;
-    msg << "Couldn't set video mode " << size.width << "x" << size.height << ": " << SDL_GetError();
-    throw std::runtime_error(msg.str());
-  }
+  create_sdl_window(SDL_WINDOW_OPENGL);
+  create_gl_context();
+}
 
+void
+GLVideoSystem::create_gl_context()
+{
   m_glcontext = SDL_GL_CreateContext(m_sdl_window);
 
   if (g_config->try_vsync) {

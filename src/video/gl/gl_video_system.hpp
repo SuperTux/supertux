@@ -59,7 +59,8 @@ public:
   GLContext& get_context() const { return *m_context; }
 
 private:
-  void create_window();
+  void create_gl_window();
+  void create_gl_context();
 
 private:
   bool m_use_opengl33core;

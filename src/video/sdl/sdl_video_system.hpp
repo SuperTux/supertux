@@ -50,6 +50,9 @@ public:
   virtual SDLSurfacePtr make_screenshot() override;
 
 private:
+  void create_window();
+
+private:
   SDL_Renderer* m_sdl_renderer;
   Viewport m_viewport;
   std::unique_ptr<SDLScreenRenderer> m_renderer;

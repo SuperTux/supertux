@@ -36,6 +36,7 @@ public:
   virtual void on_resize(int w, int h) override;
 
 protected:
+  void create_sdl_window(Uint32 flags);
   void apply_video_mode();
 
 protected:

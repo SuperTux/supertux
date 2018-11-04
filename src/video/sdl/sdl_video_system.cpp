@@ -34,39 +34,7 @@ SDLVideoSystem::SDLVideoSystem() :
   m_lightmap(),
   m_texture_manager()
 {
-  log_info << "Creating SDLVideoSystem" << std::endl;
-  int width  = g_config->window_size.width;
-  int height = g_config->window_size.height;
-
-  int flags = SDL_WINDOW_RESIZABLE;
-  if(g_config->use_fullscreen)
-  {
-    if (g_config->fullscreen_size == Size(0, 0))
-    {
-      flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
-      width = g_config->window_size.width;
-      height = g_config->window_size.height;
-    }
-    else
-    {
-      flags |= SDL_WINDOW_FULLSCREEN;
-      width  = g_config->fullscreen_size.width;
-      height = g_config->fullscreen_size.height;
-    }
-  }
-
-  SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "2");
-
-  int ret = SDL_CreateWindowAndRenderer(width, height, flags, &m_sdl_window, &m_sdl_renderer);
-  if(ret != 0)
-  {
-    std::stringstream msg;
-    msg << "Couldn't set video mode (" << width << "x" << height
-        << "): " << SDL_GetError();
-    throw std::runtime_error(msg.str());
-  }
-
-  g_config->window_size = Size(width, height);
+  create_window();
 
   m_renderer.reset(new SDLScreenRenderer(*this, m_sdl_renderer));
   m_texture_manager.reset(new TextureManager);
@@ -77,6 +45,24 @@ SDLVideoSystem::SDLVideoSystem() :
 SDLVideoSystem::~SDLVideoSystem()
 {
   SDL_DestroyRenderer(m_sdl_renderer);
+}
+
+void
+SDLVideoSystem::create_window()
+{
+  log_info << "Creating SDLVideoSystem" << std::endl;
+
+  SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "2");
+
+  create_sdl_window(0);
+
+  m_sdl_renderer = SDL_CreateRenderer(m_sdl_window, -1, 0);
+  if (!m_sdl_renderer)
+  {
+    std::stringstream msg;
+    msg << "Couldn't create SDL_Renderer: " << SDL_GetError();
+    throw std::runtime_error(msg.str());
+  }
 }
 
 void
