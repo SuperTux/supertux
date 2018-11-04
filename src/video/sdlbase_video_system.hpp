@@ -40,7 +40,7 @@ protected:
   void apply_video_mode();
 
 protected:
-  SDL_Window* m_sdl_window;
+  std::unique_ptr<SDL_Window, decltype(&SDL_DestroyWindow)> m_sdl_window;
   Size m_desktop_size;
 
 private:

@@ -21,7 +21,7 @@
 #include "util/log.hpp"
 
 SDLBaseVideoSystem::SDLBaseVideoSystem() :
-  m_sdl_window(),
+  m_sdl_window(nullptr, &SDL_DestroyWindow),
   m_desktop_size()
 {
   SDL_DisplayMode mode;
@@ -37,13 +37,12 @@ SDLBaseVideoSystem::SDLBaseVideoSystem() :
 
 SDLBaseVideoSystem::~SDLBaseVideoSystem()
 {
-  SDL_DestroyWindow(m_sdl_window);
 }
 
 void
 SDLBaseVideoSystem::set_title(const std::string& title)
 {
-  SDL_SetWindowTitle(m_sdl_window, title.c_str());
+  SDL_SetWindowTitle(m_sdl_window.get(), title.c_str());
 }
 
 void
@@ -51,20 +50,20 @@ SDLBaseVideoSystem::set_gamma(float gamma)
 {
   Uint16 ramp[256];
   SDL_CalculateGammaRamp(gamma, ramp);
-  SDL_SetWindowGammaRamp(m_sdl_window, ramp, ramp, ramp);
+  SDL_SetWindowGammaRamp(m_sdl_window.get(), ramp, ramp, ramp);
 }
 
 void
 SDLBaseVideoSystem::set_icon(const SDL_Surface& icon)
 {
-  SDL_SetWindowIcon(m_sdl_window, const_cast<SDL_Surface*>(&icon));
+  SDL_SetWindowIcon(m_sdl_window.get(), const_cast<SDL_Surface*>(&icon));
 }
 
 Size
 SDLBaseVideoSystem::get_window_size() const
 {
   Size size;
-  SDL_GetWindowSize(m_sdl_window, &size.width, &size.height);
+  SDL_GetWindowSize(m_sdl_window.get(), &size.width, &size.height);
   return size;
 }
 
@@ -100,10 +99,10 @@ SDLBaseVideoSystem::create_sdl_window(Uint32 flags)
     size = g_config->window_size;
   }
 
-  m_sdl_window = SDL_CreateWindow("SuperTux",
-                                  SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-                                  size.width, size.height,
-                                  flags);
+  m_sdl_window.reset(SDL_CreateWindow("SuperTux",
+                                      SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+                                      size.width, size.height,
+                                      flags));
   if (!m_sdl_window)
   {
     std::ostringstream msg;
@@ -117,14 +116,14 @@ SDLBaseVideoSystem::apply_video_mode()
 {
   if (!g_config->use_fullscreen)
   {
-    SDL_SetWindowFullscreen(m_sdl_window, 0);
+    SDL_SetWindowFullscreen(m_sdl_window.get(), 0);
 
     Size window_size;
-    SDL_GetWindowSize(m_sdl_window, &window_size.width, &window_size.height);
+    SDL_GetWindowSize(m_sdl_window.get(), &window_size.width, &window_size.height);
     if (g_config->window_size.width != window_size.width ||
         g_config->window_size.height != window_size.height)
     {
-      SDL_SetWindowSize(m_sdl_window, g_config->window_size.width, g_config->window_size.height);
+      SDL_SetWindowSize(m_sdl_window.get(), g_config->window_size.width, g_config->window_size.height);
     }
   }
   else
@@ -132,7 +131,7 @@ SDLBaseVideoSystem::apply_video_mode()
     if (g_config->fullscreen_size.width == 0 &&
         g_config->fullscreen_size.height == 0)
     {
-      if (SDL_SetWindowFullscreen(m_sdl_window, SDL_WINDOW_FULLSCREEN_DESKTOP) != 0)
+      if (SDL_SetWindowFullscreen(m_sdl_window.get(), SDL_WINDOW_FULLSCREEN_DESKTOP) != 0)
       {
         log_warning << "failed to switch to desktop fullscreen mode: "
                     << SDL_GetError() << std::endl;
@@ -151,7 +150,7 @@ SDLBaseVideoSystem::apply_video_mode()
       mode.refresh_rate = g_config->fullscreen_refresh_rate;
       mode.driverdata = nullptr;
 
-      if (SDL_SetWindowDisplayMode(m_sdl_window, &mode) != 0)
+      if (SDL_SetWindowDisplayMode(m_sdl_window.get(), &mode) != 0)
       {
         log_warning << "failed to set display mode: "
                     << mode.w << "x" << mode.h << "@" << mode.refresh_rate << ": "
@@ -159,7 +158,7 @@ SDLBaseVideoSystem::apply_video_mode()
       }
       else
       {
-        if (SDL_SetWindowFullscreen(m_sdl_window, SDL_WINDOW_FULLSCREEN) != 0)
+        if (SDL_SetWindowFullscreen(m_sdl_window.get(), SDL_WINDOW_FULLSCREEN) != 0)
         {
           log_warning << "failed to switch to fullscreen mode: "
                       << mode.w << "x" << mode.h << "@" << mode.refresh_rate << ": "

@@ -125,7 +125,7 @@ GLVideoSystem::create_gl_window()
 void
 GLVideoSystem::create_gl_context()
 {
-  m_glcontext = SDL_GL_CreateContext(m_sdl_window);
+  m_glcontext = SDL_GL_CreateContext(m_sdl_window.get());
 
   if (g_config->try_vsync) {
     // we want vsync for smooth scrolling
@@ -250,7 +250,7 @@ void
 GLVideoSystem::flip()
 {
   assert_gl();
-  SDL_GL_SwapWindow(m_sdl_window);
+  SDL_GL_SwapWindow(m_sdl_window.get());
 }
 
 void

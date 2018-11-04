@@ -28,7 +28,7 @@
 #include "video/texture_manager.hpp"
 
 SDLVideoSystem::SDLVideoSystem() :
-  m_sdl_renderer(),
+  m_sdl_renderer(nullptr, &SDL_DestroyRenderer),
   m_viewport(),
   m_renderer(),
   m_lightmap(),
@@ -36,7 +36,7 @@ SDLVideoSystem::SDLVideoSystem() :
 {
   create_window();
 
-  m_renderer.reset(new SDLScreenRenderer(*this, m_sdl_renderer));
+  m_renderer.reset(new SDLScreenRenderer(*this, m_sdl_renderer.get()));
   m_texture_manager.reset(new TextureManager);
 
   apply_config();
@@ -44,7 +44,6 @@ SDLVideoSystem::SDLVideoSystem() :
 
 SDLVideoSystem::~SDLVideoSystem()
 {
-  SDL_DestroyRenderer(m_sdl_renderer);
 }
 
 void
@@ -56,7 +55,7 @@ SDLVideoSystem::create_window()
 
   create_sdl_window(0);
 
-  m_sdl_renderer = SDL_CreateRenderer(m_sdl_window, -1, 0);
+  m_sdl_renderer.reset(SDL_CreateRenderer(m_sdl_window.get(), -1, 0));
   if (!m_sdl_renderer)
   {
     std::stringstream msg;
@@ -78,7 +77,7 @@ SDLVideoSystem::apply_config()
     m_viewport = Viewport::from_size(target_size, m_desktop_size);
   }
 
-  m_lightmap.reset(new SDLTextureRenderer(*this, m_sdl_renderer, m_viewport.get_screen_size(), 5));
+  m_lightmap.reset(new SDLTextureRenderer(*this, m_sdl_renderer.get(), m_viewport.get_screen_size(), 5));
 }
 
 Renderer&
