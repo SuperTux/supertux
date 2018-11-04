@@ -111,6 +111,10 @@ protected:
 
 protected:
   CollisionObject m_col;
+
+private:
+  MovingObject(const MovingObject&) = delete;
+  MovingObject& operator=(const MovingObject&) = delete;
 };
 
 #endif
