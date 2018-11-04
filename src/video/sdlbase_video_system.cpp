@@ -126,7 +126,9 @@ SDLBaseVideoSystem::apply_video_mode()
       SDL_SetWindowSize(m_sdl_window.get(), g_config->window_size.width, g_config->window_size.height);
     }
 
+#if SDL_VERSION_ATLEAST(2,0,5)
     SDL_SetWindowResizable(m_sdl_window.get(), static_cast<SDL_bool>(g_config->window_resizable));
+#endif
   }
   else
   {
