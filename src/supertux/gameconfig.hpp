@@ -46,6 +46,9 @@ public:
   /** the width/height of the window managers window */
   Size window_size;
 
+  /** Window is resizable */
+  bool window_resizable;
+
   /** the aspect ratio */
   Size aspect_size;
 
