@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: SuperTux v0.5.1-373-gcfada69b2\n"
+"Project-Id-Version: SuperTux v0.5.1-1466-g10c6d0df7\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2018-02-11 16:53+0100\n"
+"POT-Creation-Date: 2018-11-05 23:45+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -45,7 +45,7 @@ msgstr ""
 msgid "Find the Bigger Fish!"
 msgstr ""
 
-#: data/levels/world2/Find_Big_Fish.stl:449
+#: data/levels/world2/Find_Big_Fish.stl:446
 msgid "-A big fish... for you."
 msgstr ""
 
@@ -112,6 +112,15 @@ msgstr ""
 
 #: data/levels/world2/Tux_Builder.stl:3
 msgid "Tux the Builder"
+msgstr ""
+
+#: data/levels/world2/Tux_Builder.stl:53
+msgid ""
+"-Portable Rocks:\n"
+"\n"
+"#Tux can carry some rocks.\n"
+"#When you are next to one press the ACTION key and keep pressed while "
+"carrying the rock. Release the key to release the rock."
 msgstr ""
 
 #: data/levels/world2/Up_and_Down.stl:3
@@ -203,7 +212,7 @@ msgstr ""
 msgid "Roots, Woody Roots"
 msgstr ""
 
-#: data/levels/world2/roots_woody_roots.stl:200
+#: data/levels/world2/roots_woody_roots.stl:199
 msgid ""
 "-Hint:\n"
 "#If there seems to be\n"
@@ -233,17 +242,17 @@ msgstr ""
 msgid "Forest World"
 msgstr ""
 
-#: data/levels/world2/worldmap.stwm:484
+#: data/levels/world2/worldmap.stwm:147
 msgid "More Worlds will be added later..."
 msgstr ""
 
-#: data/levels/world2/worldmap.stwm:528 data/levels/world2/worldmap.stwm:546
-#: data/levels/world2/worldmap.stwm:556 data/levels/world2/worldmap.stwm:566
-#: data/levels/world2/worldmap.stwm:576 data/levels/world2/worldmap.stwm:586
-#: data/levels/world2/worldmap.stwm:596
+#: data/levels/world2/worldmap.stwm:155 data/levels/world2/worldmap.stwm:162
+#: data/levels/world2/worldmap.stwm:169 data/levels/world2/worldmap.stwm:176
+#: data/levels/world2/worldmap.stwm:183 data/levels/world2/worldmap.stwm:190
+#: data/levels/world2/worldmap.stwm:197
 msgid "There is currently no level"
 msgstr ""
 
-#: data/levels/world2/worldmap.stwm:615
+#: data/levels/world2/worldmap.stwm:204
 msgid "You Found a Secret Area!"
 msgstr ""

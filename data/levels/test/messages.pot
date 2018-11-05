@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: SuperTux v0.5.1-373-gcfada69b2\n"
+"Project-Id-Version: SuperTux v0.5.1-1466-g10c6d0df7\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2018-02-11 16:53+0100\n"
+"POT-Creation-Date: 2018-11-05 23:45+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -33,6 +33,13 @@ msgstr ""
 msgid "New Bonus Block Sprite Test"
 msgstr ""
 
+#: data/levels/test/bouncingsnowball.stl:3 data/levels/test/canon.stl:3
+#: data/levels/test/flyingsnowball.stl:3 data/levels/test/lightmap.stl:3
+#: data/levels/test/mrbomb.stl:3 data/levels/test/path.stl:3
+#: data/levels/test/textscroller.stl:3
+msgid "Unnamed"
+msgstr ""
+
 #: data/levels/test/burnnmelt.stl:3
 msgid "Burning and melting test"
 msgstr ""
@@ -45,7 +52,7 @@ msgstr ""
 msgid "Captain Snowball Test (Welcome to Antarctica)"
 msgstr ""
 
-#: data/levels/test/captainsnowball.stl:32
+#: data/levels/test/captainsnowball.stl:72
 msgid ""
 "-Bonus Blocks\n"
 "!images/objects/bonus_block/full-0.png\n"
@@ -55,7 +62,7 @@ msgid ""
 "#Hit them from below to get at their contents."
 msgstr ""
 
-#: data/levels/test/captainsnowball.stl:41
+#: data/levels/test/captainsnowball.stl:81
 msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg.png\n"
@@ -63,7 +70,7 @@ msgid ""
 "head."
 msgstr ""
 
-#: data/levels/test/captainsnowball.stl:48
+#: data/levels/test/captainsnowball.stl:88
 msgid ""
 "-Checkpoints\n"
 "!images/objects/resetpoints/bell-m.png\n"
@@ -71,7 +78,7 @@ msgid ""
 "can retry the level from here."
 msgstr ""
 
-#: data/levels/test/captainsnowball.stl:55
+#: data/levels/test/captainsnowball.stl:95
 msgid ""
 "-Running\n"
 "!images/tiles/signs/run.png\n"
@@ -79,21 +86,21 @@ msgid ""
 "over the blocks."
 msgstr ""
 
-#: data/levels/test/captainsnowball.stl:62
+#: data/levels/test/captainsnowball.stl:102
 msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#The fire flower gives Tux the ability to shoot fireballs."
 msgstr ""
 
-#: data/levels/test/captainsnowball.stl:69
+#: data/levels/test/captainsnowball.stl:109
 msgid ""
 "-Tux Doll\n"
 "!images/powerups/1up/1up.png\n"
 "#The Tux doll gives Tux 100 coins."
 msgstr ""
 
-#: data/levels/test/captainsnowball.stl:76
+#: data/levels/test/captainsnowball.stl:116
 msgid ""
 "-Secret Areas\n"
 "#Many levels contain secret areas behind what seems to be plain walls. Look "
@@ -112,16 +119,28 @@ msgstr ""
 msgid "Climbable message test"
 msgstr ""
 
-#: data/levels/test/climbablemessage.stl:14
+#: data/levels/test/climbablemessage.stl:13
 msgid "Up we go..."
 msgstr ""
 
-#: data/levels/test/climbablemessage.stl:21
+#: data/levels/test/climbablemessage.stl:20
 msgid "Let's go down..."
 msgstr ""
 
 #: data/levels/test/coincollectscripting.stl:3
 msgid "Coin collect scripting test"
+msgstr ""
+
+#: data/levels/test/coincollectscripting.stl:38
+msgid ""
+"#Upon collecting the coin, the sector ambient\n"
+"#light color should change to red."
+msgstr ""
+
+#: data/levels/test/coincollectscripting.stl:44
+msgid ""
+"#Upon collecting the heavy coin, the\n"
+"#ambient color should change to green!"
 msgstr ""
 
 #: data/levels/test/crystalcave.stl:3
@@ -144,7 +163,7 @@ msgstr ""
 msgid "Door Test"
 msgstr ""
 
-#: data/levels/test/forestkeep.stl:4
+#: data/levels/test/forestkeep.stl:3
 msgid "Forest Keep Test"
 msgstr ""
 
@@ -160,31 +179,31 @@ msgstr ""
 msgid "Gradient scripting test"
 msgstr ""
 
-#: data/levels/test/gradient_dir.stl:21
+#: data/levels/test/gradient_dir.stl:19
 msgid "-Set gradient direction to horizontal"
 msgstr ""
 
-#: data/levels/test/gradient_dir.stl:32
+#: data/levels/test/gradient_dir.stl:24
 msgid "-Set gradient direction to vertical"
 msgstr ""
 
-#: data/levels/test/gradient_dir.stl:43
+#: data/levels/test/gradient_dir.stl:29
 msgid "-Set gradient direction to horizontal sector"
 msgstr ""
 
-#: data/levels/test/gradient_dir.stl:54
+#: data/levels/test/gradient_dir.stl:34
 msgid "-Set gradient direction to vertical sector"
 msgstr ""
 
-#: data/levels/test/gradient_dir.stl:65
+#: data/levels/test/gradient_dir.stl:39
 msgid "-Swap gradient colors"
 msgstr ""
 
-#: data/levels/test/gradient_dir.stl:76
+#: data/levels/test/gradient_dir.stl:44
 msgid "-Set colors to orange - black"
 msgstr ""
 
-#: data/levels/test/gradient_dir.stl:88
+#: data/levels/test/gradient_dir.stl:49
 msgid "-Set colors to red - green"
 msgstr ""
 
@@ -204,7 +223,7 @@ msgstr ""
 msgid "Ice test"
 msgstr ""
 
-#: data/levels/test/intro2.stl:4
+#: data/levels/test/intro2.stl:3
 msgid "Picnic With Penny"
 msgstr ""
 
@@ -214,10 +233,6 @@ msgstr ""
 
 #: data/levels/test/light.stl:3
 msgid "Lightmap Test"
-msgstr ""
-
-#: data/levels/test/lightmap.stl:3
-msgid "Unnamed"
 msgstr ""
 
 #: data/levels/test/magicblocks.stl:3
@@ -244,31 +259,31 @@ msgstr ""
 msgid "Owl test"
 msgstr ""
 
-#: data/levels/test/particle_scripting.stl:4
+#: data/levels/test/particle_scripting.stl:3
 msgid "Particle scripting test"
 msgstr ""
 
-#: data/levels/test/particle_scripting.stl:79
+#: data/levels/test/particle_scripting.stl:21
 msgid "-Enable cloud particle system"
 msgstr ""
 
-#: data/levels/test/particle_scripting.stl:90
+#: data/levels/test/particle_scripting.stl:26
 msgid "-Enable ghost particle system"
 msgstr ""
 
-#: data/levels/test/particle_scripting.stl:101
+#: data/levels/test/particle_scripting.stl:31
 msgid "-Enable snow particle system"
 msgstr ""
 
-#: data/levels/test/particle_scripting.stl:112
+#: data/levels/test/particle_scripting.stl:36
 msgid "-Disable cloud particle system"
 msgstr ""
 
-#: data/levels/test/particle_scripting.stl:123
+#: data/levels/test/particle_scripting.stl:41
 msgid "-Disable ghost particle system"
 msgstr ""
 
-#: data/levels/test/particle_scripting.stl:134
+#: data/levels/test/particle_scripting.stl:46
 msgid "-Disable snow particle system"
 msgstr ""
 
@@ -278,6 +293,10 @@ msgstr ""
 
 #: data/levels/test/portable_scripting.stl:3
 msgid "Portable scripting test"
+msgstr ""
+
+#: data/levels/test/portable_scripting.stl:22
+msgid "#Carry object to designated area and check whether barrier gets lifted!"
 msgstr ""
 
 #: data/levels/test/rusty_trampoline.stl:3
@@ -312,12 +331,20 @@ msgstr ""
 msgid "Spike test"
 msgstr ""
 
-#: data/levels/test/stacking.stl:4
+#: data/levels/test/stacking.stl:3
 msgid "Enemy Stacking Test"
 msgstr ""
 
-#: data/levels/test/stacking.stl:60
-msgid "images/powerups/egg/egg.sprite"
+#: data/levels/test/textarraytestauto.stl:3
+msgid "TextArray test auto"
+msgstr ""
+
+#: data/levels/test/textarraytestmanual.stl:3
+msgid "TextArray test manual"
+msgstr ""
+
+#: data/levels/test/textarraytestscripted.stl:3
+msgid "TextArray test scripted"
 msgstr ""
 
 #: data/levels/test/tilemap_disco.stl:3
@@ -328,7 +355,7 @@ msgstr ""
 msgid "Tile Platform Test"
 msgstr ""
 
-#: data/levels/test/totem.stl:4
+#: data/levels/test/totem.stl:3
 msgid "Totem Test"
 msgstr ""
 

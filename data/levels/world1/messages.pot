@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: SuperTux v0.5.1-373-gcfada69b2\n"
+"Project-Id-Version: SuperTux v0.5.1-1466-g10c6d0df7\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2018-02-11 16:53+0100\n"
+"POT-Creation-Date: 2018-11-05 23:45+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,7 +21,7 @@ msgstr ""
 msgid "Welcome to Antarctica"
 msgstr ""
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:63
+#: data/levels/world1/01 - Welcome to Antarctica.stl:33
 msgid ""
 "-Bonus Blocks\n"
 "!images/objects/bonus_block/full-0.png\n"
@@ -31,7 +31,7 @@ msgid ""
 "#Hit them from below to get at their contents."
 msgstr ""
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:72
+#: data/levels/world1/01 - Welcome to Antarctica.stl:42
 msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg.png\n"
@@ -39,7 +39,7 @@ msgid ""
 "head."
 msgstr ""
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:79
+#: data/levels/world1/01 - Welcome to Antarctica.stl:49
 msgid ""
 "-Checkpoints\n"
 "!images/objects/resetpoints/bell-m.png\n"
@@ -48,7 +48,7 @@ msgid ""
 "coins (at least 25 coins)."
 msgstr ""
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:86
+#: data/levels/world1/01 - Welcome to Antarctica.stl:56
 msgid ""
 "-Running\n"
 "!images/tiles/signs/run.png\n"
@@ -56,21 +56,21 @@ msgid ""
 "over the blocks."
 msgstr ""
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:93
+#: data/levels/world1/01 - Welcome to Antarctica.stl:63
 msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#The fire flower gives Tux the ability to shoot fireballs."
 msgstr ""
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:100
+#: data/levels/world1/01 - Welcome to Antarctica.stl:70
 msgid ""
 "-Tux Doll\n"
 "!images/powerups/1up/1up.png\n"
 "#The Tux doll gives Tux 100 coins."
 msgstr ""
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:107
+#: data/levels/world1/01 - Welcome to Antarctica.stl:77
 msgid ""
 "-Secret Areas\n"
 "#Many levels contain secret areas behind what seems to be plain walls. Look "
@@ -185,7 +185,7 @@ msgstr ""
 msgid "A Fork in the Road"
 msgstr ""
 
-#: data/levels/world1/Fork_in_the_Road.stl:353
+#: data/levels/world1/Fork_in_the_Road.stl:355
 msgid ""
 "-Switches\n"
 "!images/objects/switch/left-0.png\n"
@@ -195,7 +195,7 @@ msgid ""
 "switches.  This one activates the lift to your right."
 msgstr ""
 
-#: data/levels/world1/Fork_in_the_Road.stl:362
+#: data/levels/world1/Fork_in_the_Road.stl:364
 msgid ""
 "-Trampolines\n"
 "!images/objects/trampoline/trampoline2-0.png\n"
@@ -203,7 +203,7 @@ msgid ""
 "bouncing on the trampoline to launch extra high."
 msgstr ""
 
-#: data/levels/world1/Fork_in_the_Road.stl:369
+#: data/levels/world1/Fork_in_the_Road.stl:371
 msgid ""
 "- Climbing\n"
 "# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key "
