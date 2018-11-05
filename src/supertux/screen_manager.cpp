@@ -228,12 +228,12 @@ ScreenManager::update_gamelogic(float dt_sec)
 void
 ScreenManager::process_events()
 {
-  InputManager::current()->update();
+  m_input_manager.update();
   SDL_Event event;
   auto session = GameSession::current();
   while (SDL_PollEvent(&event))
   {
-    InputManager::current()->process_event(event);
+    m_input_manager.process_event(event);
 
     m_menu_manager->event(event);
 
