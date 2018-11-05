@@ -6,27 +6,43 @@ platform: x64
 environment:
   DOWNLOAD_APIKEY:
     secure: SEKmgfhiwujukYrr2xjqp63FEwvDUcoQOy7pCuYSyu+CTbGRRIzTbUCwwu4EPJmE
+  APPVEYOR_SAVE_CACHE_ON_ERROR: true
 
 branches:
   except:
     - coverity_scan # No need for Windows builds on that branch
 
-install:
-- ps: |
-    Invoke-WebRequest https://download.supertux.org/builddep/dependencies-win64.zip -OutFile "$env:APPVEYOR_BUILD_FOLDER/dependencies.zip"
-    Add-Type -assembly "system.io.compression.filesystem"
-    [io.compression.zipfile]::ExtractToDirectory("$env:APPVEYOR_BUILD_FOLDER/dependencies.zip", "$env:APPVEYOR_BUILD_FOLDER/")
+cache: c:\tools\vcpkg\installed -> appveyor64.yml
 
 before_build:
 - cmd: |
+    echo Installing dependencies...
+    vcpkg integrate install
+    xcopy /s mk\vcpkg C:\tools\vcpkg\ports
+    copy mk\cmake\x64-windows.cmake C:\tools\vcpkg\triplets\
+    vcpkg install boost-date-time:x64-windows
+    vcpkg install boost-filesystem:x64-windows
+    vcpkg install boost-format:x64-windows
+    vcpkg install boost-locale:x64-windows
+    vcpkg install boost-optional:x64-windows
+    vcpkg install boost-system:x64-windows
+    vcpkg install curl:x64-windows
+    vcpkg install freetype:x64-windows
+    vcpkg install glew:x64-windows
+    vcpkg install libogg:x64-windows
+    vcpkg install libraqm:x64-windows
+    vcpkg install libvorbis:x64-windows
+    vcpkg install openal-soft:x64-windows
+    vcpkg install sdl2:x64-windows
+    vcpkg install sdl2-image:x64-windows
     git submodule update --init --recursive
     echo Running cmake ..
-    cmake -G "Visual Studio 14 2015 Win64" -DCMAKE_INSTALL_PREFIX=%P% -DHAVE_SDL=true -DPACKAGE_VCREDIST=true
+    cmake -G "Visual Studio 14 2015 Win64" -DVCPKG_BUILD=ON -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_INSTALL_PREFIX=%P% -DHAVE_SDL=true -DPACKAGE_VCREDIST=true
 
 build:
   project: ALL_BUILD.vcxproj
   parallel: true
-  verbosity: minimal
+  verbosity: detailed
 
 after_build:
 - cmd: '"C:\Program Files (x86)\CMake\bin\cpack.exe"'

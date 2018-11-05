@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_VIDEO_TTF_SURFACE_HPP
 
 #include <memory>
+#include <string>
 
 #include "math/vector.hpp"
 #include "video/surface_ptr.hpp"

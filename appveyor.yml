@@ -6,27 +6,44 @@ platform: x86
 environment:
   DOWNLOAD_APIKEY:
     secure: SEKmgfhiwujukYrr2xjqp63FEwvDUcoQOy7pCuYSyu+CTbGRRIzTbUCwwu4EPJmE
+  APPVEYOR_SAVE_CACHE_ON_ERROR: true
 
 branches:
   except:
     - coverity_scan # No need for Windows builds on that branch
 
-install:
-- ps: |
-    Invoke-WebRequest https://download.supertux.org/builddep/dependencies-win32.zip -OutFile "$env:APPVEYOR_BUILD_FOLDER/dependencies.zip"
-    Add-Type -assembly "system.io.compression.filesystem"
-    [io.compression.zipfile]::ExtractToDirectory("$env:APPVEYOR_BUILD_FOLDER/dependencies.zip", "$env:APPVEYOR_BUILD_FOLDER/")
+cache: c:\tools\vcpkg\installed -> appveyor.yml
 
 before_build:
 - cmd: |
+    echo Installing dependencies...
+    vcpkg integrate install
+    xcopy /s mk\vcpkg C:\tools\vcpkg\ports
+    copy mk\cmake\x86-windows.cmake C:\tools\vcpkg\triplets\
+    vcpkg install boost-date-time:x86-windows
+    vcpkg install boost-filesystem:x86-windows
+    vcpkg install boost-format:x86-windows
+    vcpkg install boost-locale:x86-windows
+    vcpkg install boost-optional:x86-windows
+    vcpkg install boost-system:x86-windows
+    vcpkg remove curl:x86-windows
+    vcpkg install curl:x86-windows
+    vcpkg install freetype:x86-windows
+    vcpkg install glew:x86-windows
+    vcpkg install libogg:x86-windows
+    vcpkg install libraqm:x86-windows
+    vcpkg install libvorbis:x86-windows
+    vcpkg install openal-soft:x86-windows
+    vcpkg install sdl2:x86-windows
+    vcpkg install sdl2-image:x86-windows
     git submodule update --init --recursive
     echo Running cmake ..
-    cmake -G "Visual Studio 14 2015" -DCMAKE_INSTALL_PREFIX=%P% -DHAVE_SDL=true -DPACKAGE_VCREDIST=true
+    cmake -G "Visual Studio 14 2015" -DVCPKG_BUILD=ON -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_INSTALL_PREFIX=%P% -DHAVE_SDL=true -DPACKAGE_VCREDIST=true
 
 build:
   project: ALL_BUILD.vcxproj
   parallel: true
-  verbosity: minimal
+  verbosity: detailed
 
 after_build:
 - cmd: '"C:\Program Files (x86)\CMake\bin\cpack.exe"'

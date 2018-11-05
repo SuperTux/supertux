@@ -72,19 +72,27 @@ elseif(CMAKE_BUILD_TYPE MATCHES Debug)
 endif()
 
 set(SUPERTUX_SYSTEM_NAME ${CMAKE_SYSTEM_NAME})
+set(VCPKG_BUILD OFF CACHE BOOL "Use dependencies installed via vcpkg (not dependency package)")
+set(VCPKG_APPLOCAL_DEPS ${VCPKG_BUILD} BOOL)
 ## These variables enable MSVC to find libraries located in "dependencies{32|64}"
 if(WIN32)
-  ## Store path of dependecy folder
-  set(DEPENDENCY_FOLDER "${PROJECT_SOURCE_DIR}/dependencies")
+  if(NOT VCPKG_BUILD)
+    ## Store path of dependecy folder
+    set(DEPENDENCY_FOLDER "${PROJECT_SOURCE_DIR}/dependencies")
+  endif()
 
   ## To test if the host (not the build) is x64:
   ## "$ENV{PROCESSOR_ARCHITEW6432}" STREQUAL "AMD64"
   if(${CMAKE_SIZEOF_VOID_P} EQUAL 8)
     set(WIN64 ON)
-    set(DEPENDENCY_FOLDER "${DEPENDENCY_FOLDER}64")
+    if(NOT VCPKG_BUILD)
+      set(DEPENDENCY_FOLDER "${DEPENDENCY_FOLDER}64")
+    endif()
   else(${CMAKE_SIZEOF_VOID_P} EQUAL 8)
     set(WIN64 OFF)
-    set(DEPENDENCY_FOLDER "${DEPENDENCY_FOLDER}32")
+    if(NOT VCPKG_BUILD)
+      set(DEPENDENCY_FOLDER "${DEPENDENCY_FOLDER}32")
+    endif()
   endif(${CMAKE_SIZEOF_VOID_P} EQUAL 8)
 
   if(WIN64)
@@ -93,9 +101,11 @@ if(WIN32)
     set(SUPERTUX_SYSTEM_NAME win32)
   endif(WIN64)
 
-  set(ENV{PATH} "$ENV{PATH};${DEPENDENCY_FOLDER}/include")
-  set(ENV{LIB} "${DEPENDENCY_FOLDER}/lib")
-  set(ENV{OPENALDIR} "${DEPENDENCY_FOLDER}")
+  if(NOT VCPKG_BUILD)
+    set(ENV{PATH} "$ENV{PATH};${DEPENDENCY_FOLDER}/include")
+    set(ENV{LIB} "${DEPENDENCY_FOLDER}/lib")
+    set(ENV{OPENALDIR} "${DEPENDENCY_FOLDER}")
+  endif()
 
   ## Enable multi-processor compilation (faster)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP")
@@ -105,7 +115,9 @@ if(WIN32)
   configure_file("${CMAKE_CURRENT_SOURCE_DIR}/mk/msvc/icon_rc.template" "${PROJECT_BINARY_DIR}/tmp/icon.rc")
 
   ## Find all used libraries
-  file(GLOB DLLS "${DEPENDENCY_FOLDER}/dll/*")
+  if(NOT VCPKG_BUILD)
+    file(GLOB DLLS "${DEPENDENCY_FOLDER}/dll/*")
+  endif()
 endif(WIN32)
 
 ## Add lots of dependencies to compiler switches
@@ -128,12 +140,25 @@ link_directories(${Boost_LIBRARY_DIRS})
 find_package(PNG REQUIRED)
 
 if(WIN32)
-  find_path(SDL2_INCLUDE_DIRS NAMES SDL.h PATHS "${DEPENDENCY_FOLDER}/include/SDL2")
-  find_path(SDL2IMAGE_INCLUDE_DIRS NAMES SDL_image.h PATHS "${DEPENDENCY_FOLDER}/include/SDL2_image")
-  find_library(SDL2_LIBRARIES NAMES SDL2 PATHS "${DEPENDENCY_FOLDER}/lib")
-  find_library(SDL2IMAGE_LIBRARIES NAMES SDL2_image PATHS "${DEPENDENCY_FOLDER}/lib")
-  find_library(SDL2MAIN_LIBRARIES NAMES SDL2main PATHS "${DEPENDENCY_FOLDER}/lib")
-  find_path(PHYSFS_INCLUDE_DIR NAMES physfs.h PATHS "${DEPENDENCY_FOLDER}/include/physfs")
+  if(VCPKG_BUILD)
+    find_package(SDL2 CONFIG REQUIRED)
+    find_path(SDL2_INCLUDE_DIRS SDL2/SDL.h)
+    find_path(SDL2IMAGE_INCLUDE_DIRS SDL2/SDL_image.h)
+    set(SDL2_INCLUDE_DIRS ${SDL2_INCLUDE_DIRS}/SDL2)
+    set(SDL2IMAGE_INCLUDE_DIRS ${SDL2IMAGE_INCLUDE_DIRS}/SDL2)
+    find_library(SDL2_LIBRARIES SDL2)
+    find_library(SDL2IMAGE_LIBRARIES SDL2_image)
+    find_library(SDL2MAIN_LIBRARIES SDL2main)
+    message(STATUS "SDL2_INCLUDE_DIR is ${SDL2_INCLUDE_DIRS}")
+  else(VCPKG_BUILD)
+    find_path(SDL2_INCLUDE_DIRS NAMES SDL.h PATHS "${DEPENDENCY_FOLDER}/include/SDL2")
+    find_path(SDL2IMAGE_INCLUDE_DIRS NAMES SDL_image.h PATHS "${DEPENDENCY_FOLDER}/include/SDL2_image")
+    find_library(SDL2_LIBRARIES NAMES SDL2 PATHS "${DEPENDENCY_FOLDER}/lib")
+    find_library(SDL2IMAGE_LIBRARIES NAMES SDL2_image PATHS "${DEPENDENCY_FOLDER}/lib")
+    find_library(SDL2MAIN_LIBRARIES NAMES SDL2main PATHS "${DEPENDENCY_FOLDER}/lib")
+    find_path(PHYSFS_INCLUDE_DIR NAMES physfs.h PATHS "${DEPENDENCY_FOLDER}/include/physfs")
+  endif(VCPKG_BUILD)
+
 else(WIN32)
   include(FindPkgConfig)
   pkg_search_module(SDL2 REQUIRED sdl2>=2.0.1)
@@ -179,7 +204,11 @@ if(ENABLE_OPENGL)
   endif()
 endif(ENABLE_OPENGL)
 
-find_package(OpenAL REQUIRED)
+if(VCPKG_BUILD)
+  find_package(OpenAL CONFIG REQUIRED)
+else()
+  find_package(OpenAL REQUIRED)
+endif()
 include_directories(SYSTEM ${OPENAL_INCLUDE_DIR})
 
 find_package(OggVorbis REQUIRED)
@@ -239,6 +268,20 @@ include_directories(BEFORE SYSTEM ${PHYSFS_INCLUDE_DIR})
 ## The curl headers are in the standard include path in dependencies
 ## so it's not required to add them here
 find_package(CURL REQUIRED)
+if(WIN32 AND VCPKG_BUILD)
+  list(LENGTH CURL_LIBRARY CURL_LIBRARY_LENGTH)
+  if (CURL_LIBRARY_LENGTH EQUAL 1)
+    set(CURL_LIBRARY_DEBUG_LIB   ${CURL_LIBRARY})
+      set(CURL_LIBRARY_RELEASE_LIB ${CURL_LIBRARY_DEBUG_LIB}/../../../lib/libcurl.lib)
+      get_filename_component(CURL_LIBRARY_RELEASE_LIB ${CURL_LIBRARY_RELEASE_LIB} REALPATH)
+      unset(CURL_LIBRARY CACHE)
+      unset(CURL_LIBRARY)
+      unset(CURL_LIBRARIES  CACHE)
+      unset(CURL_LIBRARIES)
+      set(CURL_LIBRARY "debug;${CURL_LIBRARY_DEBUG_LIB};optimized;${CURL_LIBRARY_RELEASE_LIB}")
+      set(CURL_LIBRARIES ${CURL_LIBRARY})
+  endif()
+endif()
 if(CURL_FOUND)
   include_directories(SYSTEM ${CURL_INCLUDE_DIR})
   set(HAVE_LIBCURL TRUE)
@@ -339,7 +382,7 @@ if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/external/squirrel/CMakeLists.txt)
   message(FATAL_ERROR "squirrel submodule is not checked out or ${CMAKE_CURRENT_SOURCE_DIR}/external/squirrel/CMakeLists.txt is missing")
 endif()
 
-set(SQUIRREL_PREFIX ${CMAKE_BINARY_DIR}/squirrel/)
+set(SQUIRREL_PREFIX ${CMAKE_BINARY_DIR}/squirrel/ex)
 ExternalProject_Add(squirrel
   SOURCE_DIR "${CMAKE_SOURCE_DIR}/external/squirrel/"
   CMAKE_ARGS
@@ -387,7 +430,10 @@ ExternalProject_Add(tinygettext
   -DCMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}
   -DBUILD_SHARED_LIBS=OFF
   -DHAVE_SDL=ON
+  -DVCPKG_BUILD=${VCPKG_BUILD}
   -DCMAKE_INSTALL_PREFIX=${TINYGETTEXT_PREFIX}
+  -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
+  -DSDL2_LIBRARIES=${SDL2_LIBRARIES}
   -DSDL2_INCLUDE_DIRS=${SDL2_INCLUDE_DIRS}
   -DLIB_SUFFIX=${LIB_SUFFIX})
 
@@ -407,8 +453,13 @@ endif()
 set(SDL_TTF_PREFIX ${CMAKE_BINARY_DIR}/SDL_ttf/)
 ExternalProject_Add(SDL_ttf
   SOURCE_DIR "${CMAKE_SOURCE_DIR}/external/SDL_ttf/"
-  CONFIGURE_COMMAND env CC=${CMAKE_C_COMPILER} ${CMAKE_SOURCE_DIR}/external/SDL_ttf/configure --prefix=${SDL_TTF_PREFIX} --enable-static --disable-shared ${WITH_RAQM} --with-freetype-prefix=${FREETYPE_DIR} --with-sdl-prefix=${SDL2_PREFIX}
-  BUILD_COMMAND ${MAKE})
+  CMAKE_ARGS
+  -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+  -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
+  -DCMAKE_C_FLAGS=${CMAKE_C_FLAGS}
+  -DCMAKE_INSTALL_PREFIX=${SDL_TTF_PREFIX}
+  -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
+  -DBUILD_SHARED_LIBS=OFF)
 add_library(SDL_ttf_lib STATIC IMPORTED)
 set_target_properties(SDL_ttf_lib PROPERTIES IMPORTED_LOCATION "${SDL_TTF_PREFIX}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}SDL2_ttf${CMAKE_STATIC_LIBRARY_SUFFIX}")
 link_directories(${SDL_TTF_PREFIX}/lib)
@@ -651,21 +702,16 @@ else()
   add_executable(supertux2 src/main.cpp)
 endif(WIN32)
 target_link_libraries(supertux2 supertux2_lib)
-set_target_properties(supertux2 PROPERTIES OUTPUT_NAME supertux2)
-set_target_properties(supertux2_lib PROPERTIES OUTPUT_NAME supertux2)
+set_target_properties(supertux2_lib PROPERTIES OUTPUT_NAME supertux2_lib)
 set_target_properties(supertux2_lib PROPERTIES COMPILE_FLAGS "${SUPERTUX2_EXTRA_WARNING_FLAGS}")
 
-if(WIN32)
+if(WIN32 AND NOT VCPKG_BUILD)
   ## Copy dlls on windows
   add_custom_command(TARGET supertux2_lib POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
     "${DEPENDENCY_FOLDER}/dll"
     $<TARGET_FILE_DIR:supertux2_lib>)
-  #  add_custom_command(TARGET supertux2 POST_BUILD
-  #    COMMAND ${CMAKE_COMMAND} -E copy
-  #     "${DEPENDENCY_FOLDER}/DigiCertHighAssuranceEVRootCA.pem"
-  #     $<TARGET_FILE_DIR:supertux2_lib>)
-endif(WIN32)
+endif(WIN32 AND NOT VCPKG_BUILD)
 
 ## Link supertux binary with squirrel and other libraries
 
@@ -673,11 +719,19 @@ add_dependencies(supertux2_lib tinygettext)
 add_dependencies(supertux2_lib squirrel)
 add_dependencies(supertux2_lib SDL_ttf)
 
+if(VCPKG_BUILD)
+  target_include_directories(supertux2_lib PUBLIC ${CURL_INCLUDE_DIRS})
+endif()
+
 target_include_directories(supertux2_lib SYSTEM PUBLIC ${SDL2_INCLUDE_DIRS})
 target_include_directories(supertux2_lib SYSTEM PUBLIC ${SDL2IMAGE_INCLUDE_DIRS})
 target_include_directories(supertux2_lib SYSTEM PUBLIC ${SDL_TTF_PREFIX}/include/SDL2)
-target_link_libraries(supertux2_lib PUBLIC ${SDL2_LIBRARIES})
-target_link_libraries(supertux2_lib PUBLIC ${SDL2IMAGE_LIBRARIES})
+if(VCPKG_BUILD)
+  target_link_libraries(supertux2_lib PRIVATE SDL2::SDL2main SDL2::SDL2 SDL2_image)
+else()
+  target_link_libraries(supertux2_lib PUBLIC ${SDL2_LIBRARIES})
+  target_link_libraries(supertux2_lib PUBLIC ${SDL2IMAGE_LIBRARIES})
+endif()
 target_link_libraries(supertux2_lib PUBLIC SDL_ttf_lib)
 target_link_libraries(supertux2_lib PUBLIC ${FREETYPE_LIBRARIES})
 if(RAQM_FOUND)
@@ -689,7 +743,11 @@ target_link_libraries(supertux2_lib PUBLIC sqstdlib_lib)
 target_link_libraries(supertux2_lib PUBLIC tinygettext_lib)
 target_link_libraries(supertux2_lib PUBLIC sexp)
 target_link_libraries(supertux2_lib PUBLIC savepng)
-target_link_libraries(supertux2_lib PUBLIC ${OPENAL_LIBRARY})
+if(VCPKG_BUILD)
+  target_link_libraries(supertux2_lib PUBLIC OpenAL::OpenAL)
+else()
+  target_link_libraries(supertux2_lib PUBLIC ${OPENAL_LIBRARY})
+endif()
 target_link_libraries(supertux2_lib PUBLIC ${OGGVORBIS_LIBRARIES})
 target_link_libraries(supertux2_lib PUBLIC ${Boost_LIBRARIES})
 if(USE_SYSTEM_PHYSFS)
@@ -709,11 +767,15 @@ if(HAVE_OPENGL)
   if(GLBINDING_FOUND)
     target_link_libraries(supertux2_lib PUBLIC ${GLBINDING_LIBRARIES})
   else()
-    target_link_libraries(supertux2_lib PUBLIC ${GLEW_LIBRARY})
+    target_link_libraries(supertux2_lib PUBLIC GLEW::GLEW)
   endif()
 endif(HAVE_OPENGL)
 if(HAVE_LIBCURL)
-  target_link_libraries(supertux2_lib PUBLIC ${CURL_LIBRARY})
+  if(VCPKG_BUILD)
+    target_link_libraries(supertux2_lib PUBLIC ${CURL_LIBRARIES})
+  else()
+    target_link_libraries(supertux2_lib PUBLIC ${CURL_LIBRARY})
+  endif()
 endif(HAVE_LIBCURL)
 
 if(BUILD_TESTS)
@@ -752,23 +814,19 @@ if(WIN32 AND NOT UNIX)
   set(INSTALL_SUBDIR_SHARE "data" CACHE STRING "Installation subdir for data")
   set(INSTALL_SUBDIR_DOC "doc" CACHE STRING "Installation subdir for docs")
 
-  install(FILES ${DLLS} DESTINATION ${INSTALL_SUBDIR_BIN})
+  if(VCPKG_BUILD)
+    install(DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/\${CMAKE_INSTALL_CONFIG_NAME}/" DESTINATION ${INSTALL_SUBDIR_BIN} FILES_MATCHING PATTERN "*.dll")
+  else()
+    install(FILES ${DLLS} DESTINATION ${INSTALL_SUBDIR_BIN})
+  endif()
 
   install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.png ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.ico DESTINATION ".")
 
   option(PACKAGE_VCREDIST "Package the VCREDIST libraries with the program" OFF)
 
   if(PACKAGE_VCREDIST)
+    set(CMAKE_INSTALL_UCRT_LIBRARIES true)
     include(InstallRequiredSystemLibraries)
-    install(FILES ${CMAKE_INSTALL_SYSTEM_RUNTIME_LIBS} DESTINATION ${INSTALL_SUBDIR_BIN})
-    include(FindWindowsSDK)
-    if(${CMAKE_VS_PLATFORM_NAME} STREQUAL "Win32")
-      set(UCRT_PATH "${WINDOWSSDK_PREFERRED_DIR}/Redist/ucrt/DLLs/x86")
-    else()
-      set(UCRT_PATH "${WINDOWSSDK_PREFERRED_DIR}/Redist/ucrt/DLLs/x64")
-    endif()
-    file(GLOB UCRT_DLLS "${UCRT_PATH}/*")
-    install(FILES ${UCRT_DLLS} DESTINATION ${INSTALL_SUBDIR_BIN})
   endif()
 
 else(WIN32 AND NOT UNIX)
