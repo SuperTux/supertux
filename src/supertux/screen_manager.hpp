@@ -26,6 +26,7 @@
 
 class Compositor;
 class DrawingContext;
+class InputManager;
 class MenuManager;
 class MenuStorage;
 class ScreenFade;
@@ -37,7 +38,7 @@ class VideoSystem;
 class ScreenManager final : public Currenton<ScreenManager>
 {
 public:
-  ScreenManager(VideoSystem& video_system);
+  ScreenManager(VideoSystem& video_system, InputManager& input_manager);
   ~ScreenManager();
 
   void run();
@@ -63,6 +64,7 @@ private:
 
 private:
   VideoSystem& m_video_system;
+  InputManager& m_input_manager;
   std::unique_ptr<MenuStorage> m_menu_storage;
   std::unique_ptr<MenuManager> m_menu_manager;
 

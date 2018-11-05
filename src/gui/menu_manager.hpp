@@ -20,6 +20,7 @@
 #include <memory>
 #include <vector>
 
+class Controller;
 class Dialog;
 class DrawingContext;
 class Menu;
@@ -46,7 +47,7 @@ public:
   ~MenuManager();
 
   void event(const SDL_Event& event);
-  void process_input();
+  void process_input(const Controller& controller);
   void refresh();
 
   void draw(DrawingContext& context);

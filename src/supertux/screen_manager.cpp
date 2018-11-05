@@ -41,8 +41,9 @@
 /** don't skip more than every 2nd frame */
 static const int MAX_FRAME_SKIP = 2;
 
-ScreenManager::ScreenManager(VideoSystem& video_system) :
+ScreenManager::ScreenManager(VideoSystem& video_system, InputManager& input_manager) :
   m_video_system(video_system),
+  m_input_manager(input_manager),
   m_menu_storage(new MenuStorage),
   m_menu_manager(new MenuManager),
   m_speed(1.0),
@@ -214,7 +215,7 @@ ScreenManager::update_gamelogic(float dt_sec)
     m_screen_stack.back()->update(dt_sec);
   }
 
-  m_menu_manager->process_input();
+  m_menu_manager->process_input(*m_input_manager.get_controller());
 
   if (m_screen_fade)
   {

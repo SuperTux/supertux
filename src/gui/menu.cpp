@@ -323,7 +323,7 @@ Menu::clear()
 }
 
 void
-Menu::process_input()
+Menu::process_input(const Controller& controller)
 {
   int menu_height = static_cast<int>(get_height());
   if (menu_height > SCREEN_HEIGHT)
@@ -333,71 +333,72 @@ Menu::process_input()
   }
 
   MenuAction menuaction = MENU_ACTION_NONE;
-  auto controller = InputManager::current()->get_controller();
+
   /** check main input controller... */
-  if(controller->pressed(Controller::UP)) {
+  if (controller.pressed(Controller::UP)) {
     menuaction = MENU_ACTION_UP;
     menu_repeat_time = g_real_time + MENU_REPEAT_INITIAL;
   }
-  if(controller->hold(Controller::UP) &&
+  if (controller.hold(Controller::UP) &&
      menu_repeat_time != 0 && g_real_time > menu_repeat_time) {
     menuaction = MENU_ACTION_UP;
     menu_repeat_time = g_real_time + MENU_REPEAT_RATE;
   }
 
-  if(controller->pressed(Controller::DOWN)) {
+  if (controller.pressed(Controller::DOWN)) {
     menuaction = MENU_ACTION_DOWN;
     menu_repeat_time = g_real_time + MENU_REPEAT_INITIAL;
   }
-  if(controller->hold(Controller::DOWN) &&
+  if (controller.hold(Controller::DOWN) &&
      menu_repeat_time != 0 && g_real_time > menu_repeat_time) {
     menuaction = MENU_ACTION_DOWN;
     menu_repeat_time = g_real_time + MENU_REPEAT_RATE;
   }
 
-  if(controller->pressed(Controller::LEFT)) {
+  if (controller.pressed(Controller::LEFT)) {
     menuaction = MENU_ACTION_LEFT;
     menu_repeat_time = g_real_time + MENU_REPEAT_INITIAL;
   }
-  if(controller->hold(Controller::LEFT) &&
+  if (controller.hold(Controller::LEFT) &&
      menu_repeat_time != 0 && g_real_time > menu_repeat_time) {
     menuaction = MENU_ACTION_LEFT;
     menu_repeat_time = g_real_time + MENU_REPEAT_RATE;
   }
 
-  if(controller->pressed(Controller::RIGHT)) {
+  if (controller.pressed(Controller::RIGHT)) {
     menuaction = MENU_ACTION_RIGHT;
     menu_repeat_time = g_real_time + MENU_REPEAT_INITIAL;
   }
-  if(controller->hold(Controller::RIGHT) &&
+  if (controller.hold(Controller::RIGHT) &&
      menu_repeat_time != 0 && g_real_time > menu_repeat_time) {
     menuaction = MENU_ACTION_RIGHT;
     menu_repeat_time = g_real_time + MENU_REPEAT_RATE;
   }
 
-  if(controller->pressed(Controller::ACTION)
-     || controller->pressed(Controller::MENU_SELECT)
-     || (!is_sensitive() && controller->pressed(Controller::MENU_SELECT_SPACE))) {
+  if (controller.pressed(Controller::ACTION) ||
+     controller.pressed(Controller::MENU_SELECT) ||
+     (!is_sensitive() && controller.pressed(Controller::MENU_SELECT_SPACE))) {
     menuaction = MENU_ACTION_HIT;
   }
-  if(controller->pressed(Controller::ESCAPE) ||
-     controller->pressed(Controller::CHEAT_MENU) ||
-     controller->pressed(Controller::DEBUG_MENU) ||
-     controller->pressed(Controller::MENU_BACK)) {
+
+  if (controller.pressed(Controller::ESCAPE) ||
+     controller.pressed(Controller::CHEAT_MENU) ||
+     controller.pressed(Controller::DEBUG_MENU) ||
+     controller.pressed(Controller::MENU_BACK)) {
     menuaction = MENU_ACTION_BACK;
   }
 
-  if(controller->pressed(Controller::REMOVE)) {
+  if (controller.pressed(Controller::REMOVE)) {
     menuaction = MENU_ACTION_REMOVE;
     menu_repeat_time = g_real_time + MENU_REPEAT_INITIAL;
   }
-  if(controller->hold(Controller::REMOVE) &&
+  if (controller.hold(Controller::REMOVE) &&
      menu_repeat_time != 0 && g_real_time > menu_repeat_time) {
     menuaction = MENU_ACTION_REMOVE;
     menu_repeat_time = g_real_time + MENU_REPEAT_RATE;
   }
 
-  if(items.size() == 0)
+  if (items.size() == 0)
     return;
 
   // The menu_action() call can pop() the menu from the stack and thus

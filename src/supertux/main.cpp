@@ -411,7 +411,7 @@ Main::launch_game(const CommandLineArguments& args)
   const auto default_savegame = std::make_unique<Savegame>(std::string());
 
   GameManager game_manager;
-  ScreenManager screen_manager(*video_system);
+  ScreenManager screen_manager(*video_system, input_manager);
 
   if(!g_config->start_level.empty()) {
     // we have a normal path specified at commandline, not a physfs path.

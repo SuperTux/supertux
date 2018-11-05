@@ -25,14 +25,15 @@
 #include "math/vector.hpp"
 #include "video/color.hpp"
 
+class Controller;
 class DrawingContext;
+class ItemAction;
 class ItemBack;
 class ItemBadguySelect;
 class ItemColor;
 class ItemColorChannel;
 class ItemColorDisplay;
 class ItemControlField;
-class ItemAction;
 class ItemFile;
 class ItemGoTo;
 class ItemHorizontalLine;
@@ -86,7 +87,7 @@ public:
    */
   virtual bool on_back_action() { return true; }
 
-  void process_input();
+  void process_input(const Controller& controller);
 
   /** Perform actions to bring the menu up to date with configuration changes */
   virtual void refresh() {}

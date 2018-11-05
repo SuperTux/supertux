@@ -162,15 +162,15 @@ MenuManager::refresh()
 }
 
 void
-MenuManager::process_input()
+MenuManager::process_input(const Controller& controller)
 {
   if (m_dialog && !m_dialog->is_passive())
   {
-    m_dialog->process_input(*InputManager::current()->get_controller());
+    m_dialog->process_input(controller);
   }
   else if (current_menu())
   {
-    current_menu()->process_input();
+    current_menu()->process_input(controller);
   }
 }
 
