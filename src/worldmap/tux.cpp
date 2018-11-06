@@ -225,14 +225,15 @@ Tux::tryContinueWalking(float dt_sec)
   auto teleporter = m_worldmap->at_teleporter(m_tile_pos);
 
   // stop if we reached a level, a WORLDMAP_STOP tile, a teleporter or a special tile without a passive_message
-  if ((m_worldmap->at_level())
-      || (m_worldmap->tile_data_at(m_tile_pos) & Tile::WORLDMAP_STOP)
-      || (special_tile && !special_tile->passive_message
-          && special_tile->script.empty())
-      || (teleporter) || m_ghost_mode) {
-    if(special_tile && !special_tile->map_message.empty()
-       && !special_tile->passive_message)
-      m_worldmap->m_passive_message_timer.start(0);
+  if ((m_worldmap->at_level()) ||
+      (m_worldmap->tile_data_at(m_tile_pos) & Tile::WORLDMAP_STOP) ||
+      (special_tile && !special_tile->passive_message && special_tile->script.empty()) ||
+      (teleporter) ||
+      m_ghost_mode)
+  {
+    if(special_tile && !special_tile->map_message.empty() && !special_tile->passive_message) {
+      m_worldmap->set_passive_message({}, 0.0f);
+    }
     stop();
     return;
   }
@@ -329,8 +330,7 @@ Tux::process_special_tile(SpecialTile* special_tile) {
   }
 
   if(special_tile->passive_message) {
-    m_worldmap->m_passive_message = special_tile->map_message;
-    m_worldmap->m_passive_message_timer.start(map_message_TIME);
+    m_worldmap->set_passive_message(special_tile->map_message, map_message_TIME);
   } else if(!special_tile->script.empty()) {
     try {
       m_worldmap->run_script(special_tile->script, "specialtile");

@@ -723,6 +723,13 @@ WorldMap::run_script(const std::string& script, const std::string& sourcename)
   m_squirrel_environment->run_script(script, sourcename);
 }
 
+void
+WorldMap::set_passive_message(const std::string& message, float time)
+{
+   m_passive_message = message;
+   m_passive_message_timer.start(time);
+}
+
 } // namespace worldmap
 
 /* EOF */

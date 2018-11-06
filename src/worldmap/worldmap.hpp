@@ -181,6 +181,8 @@ public:
 
   void run_script(const std::string& script, const std::string& sourcename);
 
+  void set_passive_message(const std::string& message, float time);
+
 protected:
   virtual bool before_object_add(GameObject& object) override;
   virtual void before_object_remove(GameObject& object) override;
@@ -209,12 +211,10 @@ private:
   std::string m_music;
   std::string m_init_script;
 
-public:
   /** Variables to deal with the passive map messages */
   Timer m_passive_message_timer;
   std::string m_passive_message;
 
-private:
   std::string m_map_filename;
   std::string m_levels_path;
 
