@@ -74,10 +74,10 @@ KeyboardManager::process_key_event(const SDL_KeyboardEvent& event)
   {
     auto control = key_mapping->second;
     bool value = (event.type == SDL_KEYDOWN);
-    m_parent->get_controller()->set_control(control, value);
+    m_parent->get_controller().set_control(control, value);
     if (m_keyboard_config.jump_with_up_kbd && control == Controller::UP)
     {
-      m_parent->get_controller()->set_control(Controller::JUMP, value);
+      m_parent->get_controller().set_control(Controller::JUMP, value);
     }
   }
 }
@@ -214,7 +214,7 @@ KeyboardManager::process_menu_key_event(const SDL_KeyboardEvent& event)
       break;
   }
 
-  m_parent->get_controller()->set_control(control, (event.type == SDL_KEYDOWN));
+  m_parent->get_controller().set_control(control, (event.type == SDL_KEYDOWN));
 }
 
 void

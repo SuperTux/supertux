@@ -37,10 +37,16 @@ InputManager::~InputManager()
 {
 }
 
-Controller*
+const Controller&
 InputManager::get_controller() const
 {
-  return controller.get();
+  return *controller;
+}
+
+Controller&
+InputManager::get_controller()
+{
+  return *controller;
 }
 
 void

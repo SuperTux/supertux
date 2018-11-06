@@ -126,7 +126,7 @@ bool no_water = true;
 Player::Player(PlayerStatus& player_status, const std::string& name_) :
   ExposedObject<Player, scripting::Player>(this),
   m_deactivated(false),
-  m_controller(InputManager::current()->get_controller()),
+  m_controller(&InputManager::current()->get_controller()),
   m_scripting_controller(new CodeController()),
   m_player_status(player_status),
   m_duck(false),
@@ -224,7 +224,7 @@ Player::set_speedlimit(float newlimit)
 }
 
 void
-Player::set_controller(Controller* controller_)
+Player::set_controller(const Controller* controller_)
 {
   m_controller = controller_;
 }
@@ -242,7 +242,7 @@ void
 Player::use_scripting_controller(bool use_or_release)
 {
   if ((use_or_release == true) && (m_controller != m_scripting_controller.get())) {
-    m_scripting_controller_old = get_controller();
+    m_scripting_controller_old = &get_controller();
     set_controller(m_scripting_controller.get());
   }
   if ((use_or_release == false) && (m_controller == m_scripting_controller.get())) {

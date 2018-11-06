@@ -68,7 +68,7 @@ public:
 private:
   WorldMap* m_worldmap;
   SpritePtr m_sprite;
-  Controller* m_controller;
+  Controller& m_controller;
 
   Direction m_input_direction;
   Direction m_direction;

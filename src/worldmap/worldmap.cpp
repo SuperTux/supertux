@@ -355,28 +355,28 @@ WorldMap::update(float dt_sec)
   }
 
   // handle input
-  auto controller = InputManager::current()->get_controller();
+  const Controller& controller = InputManager::current()->get_controller();
   bool enter_level = false;
-  if(controller->pressed(Controller::ACTION)
-     || controller->pressed(Controller::JUMP)
-     || controller->pressed(Controller::MENU_SELECT)) {
+  if(controller.pressed(Controller::ACTION)
+     || controller.pressed(Controller::JUMP)
+     || controller.pressed(Controller::MENU_SELECT)) {
     /* some people define UP and JUMP on the same key... */
-    if(!controller->pressed(Controller::UP))
+    if(!controller.pressed(Controller::UP))
       enter_level = true;
   }
-  if(controller->pressed(Controller::START) ||
-     controller->pressed(Controller::ESCAPE))
+  if(controller.pressed(Controller::START) ||
+     controller.pressed(Controller::ESCAPE))
   {
     on_escape_press();
   }
 
-  if(controller->pressed(Controller::CHEAT_MENU) &&
+  if(controller.pressed(Controller::CHEAT_MENU) &&
      g_config->developer_mode)
   {
     MenuManager::instance().set_menu(MenuStorage::WORLDMAP_CHEAT_MENU);
   }
 
-  if(controller->pressed(Controller::DEBUG_MENU) &&
+  if(controller.pressed(Controller::DEBUG_MENU) &&
      g_config->developer_mode)
   {
     MenuManager::instance().set_menu(MenuStorage::DEBUG_MENU);

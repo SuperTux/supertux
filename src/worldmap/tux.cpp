@@ -292,13 +292,13 @@ Tux::tryContinueWalking(float dt_sec)
 void
 Tux::updateInputDirection()
 {
-  if (m_controller->hold(Controller::UP))
+  if (m_controller.hold(Controller::UP))
     m_input_direction = D_NORTH;
-  else if (m_controller->hold(Controller::DOWN))
+  else if (m_controller.hold(Controller::DOWN))
     m_input_direction = D_SOUTH;
-  else if (m_controller->hold(Controller::LEFT))
+  else if (m_controller.hold(Controller::LEFT))
     m_input_direction = D_WEST;
-  else if (m_controller->hold(Controller::RIGHT))
+  else if (m_controller.hold(Controller::RIGHT))
     m_input_direction = D_EAST;
 }
 

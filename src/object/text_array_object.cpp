@@ -216,18 +216,12 @@ void TextArrayObject::reset_automation()
 
 void TextArrayObject::handle_input_requests()
 {
-  auto* inputManager = InputManager::current();
-  if (!inputManager)
-    return;
+  const Controller& controller = InputManager::current()->get_controller();
 
-  auto* inputController = inputManager->get_controller();
-  if (!inputController)
-    return;
-
-  if (inputController->pressed(Controller::MENU_SELECT)) {
+  if (controller.pressed(Controller::MENU_SELECT)) {
     m_isAuto = false;
     next_text();
-  } else if(inputController->pressed(Controller::REMOVE)) {
+  } else if (controller.pressed(Controller::REMOVE)) {
     m_isAuto = false;
     prev_text();
   }

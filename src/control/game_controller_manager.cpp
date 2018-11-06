@@ -46,7 +46,7 @@ GameControllerManager::process_button_event(const SDL_ControllerButtonEvent& ev)
   auto set_control = [this, &controller](Controller::Control control, Uint8 value)
   {
     m_button_state[control] = value;
-    controller->set_control(control, m_button_state[control] == SDL_PRESSED || m_stick_state[control] == SDL_PRESSED);
+    controller.set_control(control, m_button_state[control] == SDL_PRESSED || m_stick_state[control] == SDL_PRESSED);
   };
   switch(ev.button)
   {
@@ -120,11 +120,11 @@ GameControllerManager::process_axis_event(const SDL_ControllerAxisEvent& ev)
   // to OR the values together
 
   //log_info << "axis event: " << static_cast<int>(ev.axis) << " " << ev.value << std::endl;
-  auto controller = m_parent->get_controller();
+  Controller& controller = m_parent->get_controller();
   auto set_control = [this, &controller](Controller::Control control, bool value)
   {
     m_stick_state[control] = value;
-    controller->set_control(control, m_button_state[control] || m_stick_state[control]);
+    controller.set_control(control, m_button_state[control] || m_stick_state[control]);
   };
 
   auto axis2button = [this, &set_control](int value,

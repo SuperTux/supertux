@@ -52,7 +52,7 @@ public:
   virtual void collision_tile(uint32_t tile_attributes) override;
   virtual bool is_saveable() const override { return false; }
 
-  void set_controller(Controller* controller);
+  void set_controller(const Controller* controller);
   /** Level solved. Don't kill Tux any more. */
   void set_winning();
   bool is_winning() const { return m_winning; }
@@ -61,7 +61,7 @@ public:
   void set_speedlimit(float newlimit);
   float get_speedlimit() const;
 
-  Controller* get_controller() const { return m_controller; }
+  const Controller& get_controller() const { return *m_controller; }
 
   void use_scripting_controller(bool use_or_release);
   void do_scripting_controller(const std::string& control, bool pressed);
@@ -208,7 +208,7 @@ private:
 private:
   bool m_deactivated;
 
-  Controller* m_controller;
+  const Controller* m_controller;
   std::unique_ptr<CodeController> m_scripting_controller; /**< This controller is used when the Player is controlled via scripting */
   PlayerStatus& m_player_status;
   bool m_duck;
@@ -223,7 +223,7 @@ private:
   bool m_stone;
   bool m_swimming;
   float m_speedlimit;
-  Controller* m_scripting_controller_old; /**< Saves the old controller while the scripting_controller is used */
+  const Controller* m_scripting_controller_old; /**< Saves the old controller while the scripting_controller is used */
   bool m_jump_early_apex;
   bool m_on_ice;
   bool m_ice_this_frame;

@@ -208,7 +208,7 @@ ScreenManager::draw(Compositor& compositor)
 void
 ScreenManager::update_gamelogic(float dt_sec)
 {
-  const Controller& controller = *m_input_manager.get_controller();
+  const Controller& controller = m_input_manager.get_controller();
 
   SquirrelVirtualMachine::current()->update(g_game_time);
 

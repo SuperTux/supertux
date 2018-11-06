@@ -51,8 +51,8 @@ ItemScriptLine::get_width() const {
 void
 ItemScriptLine::process_action(const MenuAction& action) {
   ItemTextField::process_action(action);
-  auto controller = InputManager::current()->get_controller();
-  if (action == MENU_ACTION_HIT && controller->pressed(Controller::MENU_SELECT)) {
+  const Controller& controller = InputManager::current()->get_controller();
+  if (action == MENU_ACTION_HIT && controller.pressed(Controller::MENU_SELECT)) {
     auto menu = dynamic_cast<ScriptMenu*>(MenuManager::instance().current_menu());
     if (!menu) {
       return;
