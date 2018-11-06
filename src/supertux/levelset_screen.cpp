@@ -52,7 +52,7 @@ LevelsetScreen::draw(Compositor& compositor)
 }
 
 void
-LevelsetScreen::update(float dt_sec)
+LevelsetScreen::update(float dt_sec, const Controller& controller)
 {
 }
 

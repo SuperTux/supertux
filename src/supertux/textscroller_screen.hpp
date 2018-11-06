@@ -38,7 +38,7 @@ public:
 
   virtual void setup() override;
   virtual void draw(Compositor& compositor) override;
-  virtual void update(float dt_sec) override;
+  virtual void update(float dt_sec, const Controller& controller) override;
 
 private:
   float m_defaultspeed;

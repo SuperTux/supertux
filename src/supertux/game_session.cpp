@@ -290,7 +290,7 @@ GameSession::leave()
 }
 
 void
-GameSession::update(float dt_sec)
+GameSession::update(float dt_sec, const Controller& controller)
 {
   // Set active flag
   if(!m_active)
@@ -298,14 +298,14 @@ GameSession::update(float dt_sec)
     m_active = true;
   }
   // handle controller
-  auto controller = InputManager::current()->get_controller(); 
-  if(controller->pressed(Controller::ESCAPE) || 
-     controller->pressed(Controller::START))
+
+  if (controller.pressed(Controller::ESCAPE) ||
+      controller.pressed(Controller::START))
   {
     on_escape_press();
   }
 
-  if(controller->pressed(Controller::CHEAT_MENU) && g_config->developer_mode)
+  if (controller.pressed(Controller::CHEAT_MENU) && g_config->developer_mode)
   {
     if (!MenuManager::instance().is_active())
     {
@@ -314,7 +314,7 @@ GameSession::update(float dt_sec)
     }
   }
 
-  if(controller->pressed(Controller::DEBUG_MENU) && g_config->developer_mode)
+  if (controller.pressed(Controller::DEBUG_MENU) && g_config->developer_mode)
   {
     if (!MenuManager::instance().is_active())
     {

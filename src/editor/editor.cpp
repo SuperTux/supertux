@@ -104,7 +104,7 @@ void Editor::draw(Compositor& compositor)
   MouseCursor::current()->draw(context);
 }
 
-void Editor::update(float dt_sec)
+void Editor::update(float dt_sec, const Controller& controller)
 {
   // Pass all requests
   if (reload_request) {
@@ -151,7 +151,7 @@ void Editor::update(float dt_sec)
     layerselect.update(dt_sec);
     inputcenter.update(dt_sec);
     scroller.update(dt_sec);
-    update_keyboard();
+    update_keyboard(controller);
   }
 }
 
@@ -275,32 +275,30 @@ void Editor::esc_press() {
   MenuManager::instance().set_menu(MenuStorage::EDITOR_MENU);
 }
 
-void Editor::update_keyboard() {
+void Editor::update_keyboard(const Controller& controller) {
 
   if (!enabled){
     return;
   }
 
-  auto controller = InputManager::current()->get_controller();
-
-  if (controller->pressed(Controller::ESCAPE)) {
+  if (controller.pressed(Controller::ESCAPE)) {
     esc_press();
     return;
   }
 
-  if (controller->hold(Controller::LEFT)) {
+  if (controller.hold(Controller::LEFT)) {
     scroll_left();
   }
 
-  if (controller->hold(Controller::RIGHT)) {
+  if (controller.hold(Controller::RIGHT)) {
     scroll_right();
   }
 
-  if (controller->hold(Controller::UP)) {
+  if (controller.hold(Controller::UP)) {
     scroll_up();
   }
 
-  if (controller->hold(Controller::DOWN)) {
+  if (controller.hold(Controller::DOWN)) {
     scroll_down();
   }
 }

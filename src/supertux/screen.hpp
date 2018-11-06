@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_SUPERTUX_SCREEN_HPP
 
 class Compositor;
+class Controller;
 
 /**
  * Abstract base class for code the MainLoop runs exclusively and full-screen.
@@ -51,7 +52,7 @@ public:
    * gets called for once (per logical) frame. Screens should do their state
    * updates and logic here
    */
-  virtual void update(float dt_sec) = 0;
+  virtual void update(float dt_sec, const Controller& controller) = 0;
 };
 
 #endif

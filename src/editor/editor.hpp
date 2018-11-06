@@ -43,7 +43,7 @@ class Editor final : public Screen,
     Editor();
 
     virtual void draw(Compositor&) override;
-    virtual void update(float dt_sec) override;
+    virtual void update(float dt_sec, const Controller& controller) override;
 
     virtual void setup() override;
     virtual void leave() override;
@@ -189,7 +189,7 @@ class Editor final : public Screen,
     void load_layers();
     void quit_editor();
     void test_level();
-    void update_keyboard();
+    void update_keyboard(const Controller& controller);
 
     bool can_scroll_horz() const;
     bool can_scroll_vert() const;

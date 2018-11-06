@@ -48,7 +48,7 @@ public:
   GameSession(const std::string& levelfile, Savegame& savegame, Statistics* statistics = nullptr);
 
   virtual void draw(Compositor& compositor) override;
-  virtual void update(float dt_sec) override;
+  virtual void update(float dt_sec, const Controller& controller) override;
   virtual void setup() override;
   virtual void leave() override;
 

@@ -93,26 +93,25 @@ TextScrollerScreen::setup()
 }
 
 void
-TextScrollerScreen::update(float dt_sec)
+TextScrollerScreen::update(float dt_sec, const Controller& controller)
 {
-  Controller* controller = InputManager::current()->get_controller();
-  if (controller->hold(Controller::UP)) {
+  if (controller.hold(Controller::UP)) {
     m_text_scroller->set_speed(-m_defaultspeed * 5);
-  } else if (controller->hold(Controller::DOWN)) {
+  } else if (controller.hold(Controller::DOWN)) {
     m_text_scroller->set_speed(m_defaultspeed * 5);
   } else {
     m_text_scroller->set_speed(m_defaultspeed);
   }
 
-  if ((controller->pressed(Controller::JUMP) ||
-       controller->pressed(Controller::ACTION) ||
-       controller->pressed(Controller::MENU_SELECT)) &&
-      !(controller->pressed(Controller::UP))) { // prevent skipping if jump with up is enabled
+  if ((controller.pressed(Controller::JUMP) ||
+       controller.pressed(Controller::ACTION) ||
+       controller.pressed(Controller::MENU_SELECT)) &&
+      !(controller.pressed(Controller::UP))) { // prevent skipping if jump with up is enabled
     m_text_scroller->scroll(SCROLL);
   }
 
-  if (controller->pressed(Controller::START) ||
-      controller->pressed(Controller::ESCAPE)) {
+  if (controller.pressed(Controller::START) ||
+      controller.pressed(Controller::ESCAPE)) {
     ScreenManager::current()->pop_screen(std::make_unique<FadeToBlack>(FadeToBlack::FADEOUT, 0.5));
   }
 

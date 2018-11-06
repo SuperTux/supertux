@@ -208,14 +208,16 @@ ScreenManager::draw(Compositor& compositor)
 void
 ScreenManager::update_gamelogic(float dt_sec)
 {
+  const Controller& controller = *m_input_manager.get_controller();
+
   SquirrelVirtualMachine::current()->update(g_game_time);
 
   if (!m_screen_stack.empty())
   {
-    m_screen_stack.back()->update(dt_sec);
+    m_screen_stack.back()->update(dt_sec, controller);
   }
 
-  m_menu_manager->process_input(*m_input_manager.get_controller());
+  m_menu_manager->process_input(controller);
 
   if (m_screen_fade)
   {

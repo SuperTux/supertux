@@ -71,9 +71,8 @@ LevelIntro::setup()
 }
 
 void
-LevelIntro::update(float dt_sec)
+LevelIntro::update(float dt_sec, const Controller& controller)
 {
-  auto controller = InputManager::current()->get_controller();
   auto bonus_prefix = m_player_status.get_bonus_prefix();
   if(m_player_status.bonus == FIRE_BONUS && g_config->christmas_mode)
   {
@@ -81,11 +80,11 @@ LevelIntro::update(float dt_sec)
   }
 
   // Check if it's time to exit the screen
-  if(controller->pressed(Controller::JUMP)
-     || controller->pressed(Controller::ACTION)
-     || controller->pressed(Controller::MENU_SELECT)
-     || controller->pressed(Controller::START)
-     || controller->pressed(Controller::ESCAPE)) {
+  if(controller.pressed(Controller::JUMP) ||
+     controller.pressed(Controller::ACTION) ||
+     controller.pressed(Controller::MENU_SELECT) ||
+     controller.pressed(Controller::START) ||
+     controller.pressed(Controller::ESCAPE)) {
     ScreenManager::current()->pop_screen(std::make_unique<FadeToBlack>(FadeToBlack::FADEOUT, 0.1f));
   }
 

@@ -120,7 +120,7 @@ TitleScreen::draw(Compositor& compositor)
 }
 
 void
-TitleScreen::update(float dt_sec)
+TitleScreen::update(float dt_sec, const Controller& controller)
 {
   ScreenManager::current()->set_speed(0.6f);
   Sector* sector  = m_titlesession->get_current_sector();

@@ -469,7 +469,7 @@ Main::launch_game(const CommandLineArguments& args)
         auto editor = std::make_unique<Editor>();
         editor->set_level(*(g_config->edit_level));
         editor->setup();
-        editor->update(0);
+        editor->update(0, Controller());
         screen_manager.push_screen(std::move(editor));
         MenuManager::instance().clear_menu_stack();
         sound_manager.stop_music(0.5);
