@@ -42,7 +42,7 @@ void
 GameControllerManager::process_button_event(const SDL_ControllerButtonEvent& ev)
 {
   //log_info << "button event: " << static_cast<int>(ev.button) << " " << static_cast<int>(ev.state) << std::endl;
-  auto controller = m_parent->get_controller();
+  Controller& controller = m_parent->get_controller();
   auto set_control = [this, &controller](Controller::Control control, Uint8 value)
   {
     m_button_state[control] = value;

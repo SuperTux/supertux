@@ -69,6 +69,10 @@ protected:
   bool controls[CONTROLCOUNT];
   /** control status at last frame */
   bool oldControls[CONTROLCOUNT];
+
+private:
+  Controller(const Controller&) = delete;
+  Controller& operator=(const Controller&) = delete;
 };
 
 #endif
