@@ -45,15 +45,6 @@ class SpriteChange;
 class Teleporter;
 class Tux;
 
-// For one way tiles
-enum {
-  BOTH_WAYS,
-  NORTH_SOUTH_WAY,
-  SOUTH_NORTH_WAY,
-  EAST_WEST_WAY,
-  WEST_EAST_WAY
-};
-
 class WorldMap final : public GameObjectManager,
                        public Currenton<WorldMap>
 {
