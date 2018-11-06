@@ -355,7 +355,7 @@ TileMap::draw(DrawingContext& context)
       if (m_tiles[index] == 0) continue;
       const Tile& tile = m_tileset->get(m_tiles[index]);
 
-      const SurfacePtr& surface = m_editor_active ? tile.get_current_editor_surface() : tile.get_current_surface();
+      const SurfacePtr& surface = Editor::current() ? tile.get_current_editor_surface() : tile.get_current_surface();
 
       if (surface)
       {
