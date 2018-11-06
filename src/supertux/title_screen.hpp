@@ -27,9 +27,8 @@ class CodeController;
 class GameSession;
 class Savegame;
 
-/**
- * Screen that displays the SuperTux logo, lets players start a new game, etc.
- */
+/** Screen that displays the SuperTux logo, lets players start a new
+    game, etc. */
 class TitleScreen final : public Screen
 {
 public:
@@ -46,10 +45,10 @@ private:
   void make_tux_jump();
 
 private:
-  SurfacePtr frame;
-  std::unique_ptr<CodeController> controller;
-  std::unique_ptr<GameSession> titlesession;
-  std::string copyright_text;
+  SurfacePtr m_frame;
+  std::unique_ptr<CodeController> m_controller;
+  std::unique_ptr<GameSession> m_titlesession;
+  std::string m_copyright_text;
 
 private:
   TitleScreen(const TitleScreen&) = delete;
