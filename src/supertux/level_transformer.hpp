@@ -32,9 +32,9 @@ public:
   /** transform a complete Level, the standard implementation just calls
    * transformSector on each sector in the level.
    */
-  virtual void transform(Level* level);
+  virtual void transform(Level& level);
 
-  virtual void transform_sector(Sector* sector) = 0;
+  virtual void transform_sector(Sector& sector) = 0;
 };
 
 #endif

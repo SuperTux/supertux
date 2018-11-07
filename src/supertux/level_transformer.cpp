@@ -22,10 +22,10 @@ LevelTransformer::~LevelTransformer()
 }
 
 void
-LevelTransformer::transform(Level* level)
+LevelTransformer::transform(Level& level)
 {
-  for(size_t i = 0; i < level->get_sector_count(); ++i) {
-    transform_sector(level->get_sector(i));
+  for(size_t i = 0; i < level.get_sector_count(); ++i) {
+    transform_sector(*level.get_sector(i));
   }
 }
 

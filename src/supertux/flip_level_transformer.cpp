@@ -27,11 +27,11 @@
 #include "supertux/spawn_point.hpp"
 
 void
-FlipLevelTransformer::transform_sector(Sector* sector)
+FlipLevelTransformer::transform_sector(Sector& sector)
 {
-  float height = sector->get_height();
+  float height = sector.get_height();
 
-  for(auto& object : sector->get_objects()) {
+  for(auto& object : sector.get_objects()) {
     auto tilemap = dynamic_cast<TileMap*>(object.get());
     if(tilemap) {
       transform_tilemap(height, *tilemap);
@@ -64,12 +64,12 @@ FlipLevelTransformer::transform_sector(Sector* sector)
       transform_moving_object(height, *mobject);
     }
   }
-  for(auto& spawnpoint : sector->m_spawnpoints) {
+  for(auto& spawnpoint : sector.m_spawnpoints) {
     transform_spawnpoint(height, *spawnpoint);
   }
 
-  if(sector->m_camera != nullptr && sector->m_player != nullptr)
-    sector->m_camera->reset(sector->m_player->get_pos());
+  if(sector.m_camera != nullptr && sector.m_player != nullptr)
+    sector.m_camera->reset(sector.m_player->get_pos());
 }
 
 Flip

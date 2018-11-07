@@ -43,7 +43,7 @@ TitleScreen::TitleScreen(Savegame& savegame) :
       "redistribute it under certain conditions; see the license file for details.\n"
    ))
 {
-  auto player = m_titlesession->get_current_sector()->m_player;
+  auto player = m_titlesession->get_current_sector().m_player;
   player->set_controller(m_controller.get());
   player->set_speedlimit(230); //MAX_WALK_XM
 }
@@ -52,17 +52,17 @@ void
 TitleScreen::make_tux_jump()
 {
   static bool jumpWasReleased = true;
-  Sector* sector  = m_titlesession->get_current_sector();
-  Player* tux = sector->m_player;
+  Sector& sector  = m_titlesession->get_current_sector();
+  Player& tux = *sector.m_player;
 
   m_controller->update();
   m_controller->press(Controller::RIGHT);
 
   // Check if we should press the jump button
-  Rectf lookahead = tux->get_bbox();
+  Rectf lookahead = tux.get_bbox();
   lookahead.p2.x += 96;
-  bool pathBlocked = !sector->is_free_of_statics(lookahead);
-  if ((pathBlocked && jumpWasReleased) || !tux->on_ground()) {
+  bool pathBlocked = !sector.is_free_of_statics(lookahead);
+  if ((pathBlocked && jumpWasReleased) || !tux.on_ground()) {
     m_controller->press(Controller::JUMP);
     jumpWasReleased = false;
   } else {
@@ -70,9 +70,9 @@ TitleScreen::make_tux_jump()
   }
 
   // Wrap around at the end of the level back to the beginning
-  if(sector->get_width() - 320 < tux->get_pos().x) {
-    sector->activate("main");
-    sector->m_camera->reset(tux->get_pos());
+  if(sector.get_width() - 320 < tux.get_pos().x) {
+    sector.activate("main");
+    sector.m_camera->reset(tux.get_pos());
   }
 }
 
@@ -83,10 +83,10 @@ TitleScreen::~TitleScreen()
 void
 TitleScreen::setup()
 {
-  Sector* sector = m_titlesession->get_current_sector();
-  if(Sector::current() != sector) {
-    sector->play_music(LEVEL_MUSIC);
-    sector->activate(sector->m_player->get_pos());
+  Sector& sector = m_titlesession->get_current_sector();
+  if(Sector::current() != &sector) {
+    sector.play_music(LEVEL_MUSIC);
+    sector.activate(sector.m_player->get_pos());
   }
 
   MenuManager::instance().set_menu(MenuStorage::MAIN_MENU);
@@ -96,8 +96,8 @@ TitleScreen::setup()
 void
 TitleScreen::leave()
 {
-  Sector* sector = m_titlesession->get_current_sector();
-  sector->deactivate();
+  Sector& sector = m_titlesession->get_current_sector();
+  sector.deactivate();
   MenuManager::instance().clear_menu_stack();
 }
 
@@ -106,8 +106,8 @@ TitleScreen::draw(Compositor& compositor)
 {
   auto& context = compositor.make_context();
 
-  Sector* sector  = m_titlesession->get_current_sector();
-  sector->draw(context);
+  Sector& sector  = m_titlesession->get_current_sector();
+  sector.draw(context);
 
   context.color().draw_surface_scaled(m_frame,
                                       Rectf(0, 0, static_cast<float>(context.get_width()), static_cast<float>(context.get_height())),
@@ -123,8 +123,8 @@ void
 TitleScreen::update(float dt_sec, const Controller& controller)
 {
   ScreenManager::current()->set_speed(0.6f);
-  Sector* sector  = m_titlesession->get_current_sector();
-  sector->update(dt_sec);
+  Sector& sector  = m_titlesession->get_current_sector();
+  sector.update(dt_sec);
 
   make_tux_jump();
 

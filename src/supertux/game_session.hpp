@@ -64,11 +64,9 @@ public:
   Vector get_reset_point_pos() const
   { return m_reset_pos; }
 
-  Sector* get_current_sector() const
-  { return m_currentsector; }
-
-  Level* get_current_level() const
-  { return m_level.get(); }
+  Vector get_reset_point_pos() const { return m_reset_pos; }
+  Sector& get_current_sector() const { return *m_currentsector; }
+  Level& get_current_level() const { return *m_level; }
 
   void start_sequence(Sequence seq, const SequenceData* data = nullptr);
 
