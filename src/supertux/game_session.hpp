@@ -37,9 +37,7 @@ class Sector;
 class Statistics;
 class Savegame;
 
-/**
- * Screen that runs a Level, where Players run and jump through Sectors.
- */
+/** Screen that runs a Level, where Players run and jump through Sectors. */
 class GameSession final : public Screen,
                           public GameSessionRecorder,
                           public Currenton<GameSession>
@@ -52,17 +50,13 @@ public:
   virtual void setup() override;
   virtual void leave() override;
 
-  /// ends the current level
+  /** ends the current level */
   void finish(bool win = true);
   void respawn(const std::string& sectorname, const std::string& spawnpointname,
                const bool invincibility = false, const int invincibilityperiod = 0);
   void reset_level();
   void set_reset_point(const std::string& sectorname, const Vector& pos);
-  std::string get_reset_point_sectorname() const
-  { return m_reset_sector; }
-
-  Vector get_reset_point_pos() const
-  { return m_reset_pos; }
+  std::string get_reset_point_sectorname() const { return m_reset_sector; }
 
   Vector get_reset_point_pos() const { return m_reset_pos; }
   Sector& get_current_sector() const { return *m_currentsector; }
@@ -83,14 +77,10 @@ public:
   void abort_level();
   bool is_active() const;
 
-  /**
-   * Enters or leaves level editor mode
-   */
+  /** Enters or leaves level editor mode */
   void set_editmode(bool edit_mode = true);
 
-  /**
-   * Forces all Players to enter ghost mode
-   */
+  /** Forces all Players to enter ghost mode */
   void force_ghost_mode();
 
   Savegame& get_savegame() const { return m_savegame; }
