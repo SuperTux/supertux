@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_VIDEO_DRAWING_REQUEST_HPP
 
 #include <string>
+#include <memory>
 
 #include "math/rectf.hpp"
 #include "math/sizef.hpp"
@@ -163,7 +164,7 @@ struct GetPixelRequest : public DrawingRequest
     color_ptr() {}
 
   Vector pos;
-  Color* color_ptr;
+  std::shared_ptr<Color> color_ptr;
 
 private:
   GetPixelRequest(const GetPixelRequest&) = delete;

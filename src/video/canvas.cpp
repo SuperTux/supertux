@@ -348,8 +348,10 @@ Canvas::draw_triangle(const Vector& pos1, const Vector& pos2, const Vector& pos3
 }
 
 void
-Canvas::get_pixel(const Vector& position, Color* color_out)
+Canvas::get_pixel(const Vector& position, std::shared_ptr<Color> color_out)
 {
+  assert(color_out);
+
   Vector pos = apply_translate(position);
 
   // There is no light offscreen.

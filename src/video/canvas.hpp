@@ -20,6 +20,7 @@
 
 #include <string>
 #include <vector>
+#include <memory>
 #include <obstack.h>
 
 #include "math/rectf.hpp"
@@ -78,7 +79,7 @@ public:
   void draw_triangle(const Vector& pos1, const Vector& pos2, const Vector& pos3, const Color& color, int layer);
 
   /** on next update, set color to lightmap's color at position */
-  void get_pixel(const Vector& position, Color* color_out);
+  void get_pixel(const Vector& position, std::shared_ptr<Color> color_out);
 
   void clear();
   void render(Renderer& renderer, Filter filter);
