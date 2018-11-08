@@ -26,6 +26,8 @@
 
 #include "object/moving_sprite.hpp"
 
+#include <memory>
+
 class MagicBlock final: public MovingSprite
 {
 public:
@@ -46,17 +48,21 @@ public:
   virtual void after_editor_set() override;
 
 private:
-  bool is_solid;
-  float trigger_red;
-  float trigger_green;
-  float trigger_blue;
-  float solid_time;
-  float switch_delay; /**< seconds until switching solidity */
-  Rectf solid_box;
-  Color color;
-  Color light;
-  Vector center;
-  bool black;
+  bool m_is_solid;
+  float m_trigger_red;
+  float m_trigger_green;
+  float m_trigger_blue;
+  float m_solid_time;
+  float m_switch_delay; /**< seconds until switching solidity */
+  Rectf m_solid_box;
+  Color m_color;
+  std::shared_ptr<Color> m_light;
+  Vector m_center;
+  bool m_black;
+
+private:
+  MagicBlock(const MagicBlock&) = delete;
+  MagicBlock& operator=(const MagicBlock&) = delete;
 };
 
 #endif
