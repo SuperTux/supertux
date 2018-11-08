@@ -66,7 +66,7 @@ Tile::Tile(const std::vector<SurfacePtr>& images,
   m_editor_images(editor_images),
   m_attributes(attributes),
   m_data(data),
-  m_fps(fps_),
+  m_fps(fps),
   m_object_name(obj_name),
   m_object_data(obj_data),
   m_deprecated(deprecated)
