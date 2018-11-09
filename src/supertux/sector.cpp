@@ -73,7 +73,6 @@ Sector::Sector(Level& parent) :
   m_gravity(10.0),
   m_music(),
   m_spawnpoints(),
-  m_portables(),
   m_player(nullptr),
   m_camera(nullptr),
   m_effect(nullptr)
@@ -353,12 +352,6 @@ Sector::before_object_add(GameObject& object)
     m_collision_system->add(movingobject->get_collision_object());
   }
 
-  auto portable = dynamic_cast<Portable*>(&object);
-  if(portable)
-  {
-    m_portables.push_back(portable);
-  }
-
   auto camera_ = dynamic_cast<Camera*>(&object);
   if(camera_) {
     if(m_camera != nullptr) {
@@ -396,11 +389,6 @@ Sector::before_object_add(GameObject& object)
 void
 Sector::before_object_remove(GameObject& object)
 {
-  auto portable = dynamic_cast<Portable*>(&object);
-  if (portable) {
-    m_portables.erase(std::find(m_portables.begin(), m_portables.end(), portable));
-  }
-
   auto moving_object = dynamic_cast<MovingObject*>(&object);
   if (moving_object) {
     m_collision_system->remove(moving_object->get_collision_object());

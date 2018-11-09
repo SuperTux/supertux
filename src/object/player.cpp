@@ -944,23 +944,21 @@ Player::try_grab()
       pos = Vector(m_col.m_bbox.get_right() + 5, m_col.m_bbox.get_bottom() - 16);
     }
 
-    for(auto& portable : Sector::get().m_portables) {
-      if(!portable->is_portable())
-        continue;
+    for(auto& moving_object : Sector::get().get_objects_by_type<MovingObject>()) {
+      Portable* portable = dynamic_cast<Portable*>(&moving_object);
+      if (portable && portable->is_portable())
+      {
+        // make sure the Portable isn't currently non-solid
+        if(moving_object.get_group() == COLGROUP_DISABLED) continue;
 
-      // make sure the Portable is a MovingObject
-      auto moving_object = dynamic_cast<MovingObject*>(portable);
-      assert(moving_object);
-
-      // make sure the Portable isn't currently non-solid
-      if(moving_object->get_group() == COLGROUP_DISABLED) continue;
-
-      // check if we are within reach
-      if(moving_object->get_bbox().contains(pos)) {
-        if (m_climbing) stop_climbing(*m_climbing);
-        m_grabbed_object = portable;
-        position_grabbed_object();
-        break;
+        // check if we are within reach
+        if(moving_object.get_bbox().contains(pos)) {
+          if (m_climbing)
+            stop_climbing(*m_climbing);
+          m_grabbed_object = portable;
+          position_grabbed_object();
+          break;
+        }
       }
     }
   }

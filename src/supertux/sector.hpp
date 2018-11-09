@@ -30,7 +30,6 @@ namespace collision {
 class Constraints;
 }
 
-class Bullet;
 class Camera;
 class CollisionSystem;
 class DisplayEffect;
@@ -38,7 +37,6 @@ class DrawingContext;
 class Level;
 class MovingObject;
 class Player;
-class Portable;
 class ReaderMapping;
 class Rectf;
 class Size;
@@ -231,7 +229,6 @@ public:
   // some special objects, where we need direct access
   // (try to avoid accessing them directly)
   std::vector<std::unique_ptr<SpawnPoint> > m_spawnpoints;
-  std::vector<Portable*> m_portables;
   Player* m_player;
   Camera* m_camera;
   DisplayEffect* m_effect;
