@@ -209,11 +209,7 @@ private:
   std::string m_map_filename;
   std::string m_levels_path;
 
-  std::vector<SpecialTile*> m_special_tiles;
-  std::vector<LevelTile*> m_levels;
-  std::vector<SpriteChange*> m_sprite_changes;
   std::vector<std::unique_ptr<SpawnPoint> > m_spawn_points;
-  std::vector<Teleporter*> m_teleporters;
 
   Color m_ambient_light;
   std::string m_force_spawnpoint; /**< if set, spawnpoint will be forced to this value */

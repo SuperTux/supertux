@@ -76,11 +76,7 @@ WorldMap::WorldMap(const std::string& filename, Savegame& savegame, const std::s
   m_passive_message(),
   m_map_filename(),
   m_levels_path(),
-  m_special_tiles(),
-  m_levels(),
-  m_sprite_changes(),
   m_spawn_points(),
-  m_teleporters(),
   m_ambient_light( 1.0f, 1.0f, 1.0f, 1.0f ),
   m_force_spawnpoint(force_spawnpoint_),
   m_main_is_default(true),
@@ -476,9 +472,9 @@ WorldMap::available_directions_at(const Vector& p) const
 LevelTile*
 WorldMap::at_level() const
 {
-  for(const auto& level : m_levels) {
-    if (level->pos == m_tux->get_tile_pos())
-      return level;
+  for(auto& level : get_objects_by_type<LevelTile>()) {
+    if (level.pos == m_tux->get_tile_pos())
+      return &level;
   }
 
   return nullptr;
@@ -487,9 +483,9 @@ WorldMap::at_level() const
 SpecialTile*
 WorldMap::at_special_tile() const
 {
-  for(const auto& special_tile : m_special_tiles) {
-    if (special_tile->pos == m_tux->get_tile_pos())
-      return special_tile;
+  for(auto& special_tile : get_objects_by_type<SpecialTile>()) {
+    if (special_tile.pos == m_tux->get_tile_pos())
+      return &special_tile;
   }
 
   return nullptr;
@@ -498,9 +494,9 @@ WorldMap::at_special_tile() const
 SpriteChange*
 WorldMap::at_sprite_change(const Vector& pos) const
 {
-  for(const auto& sprite_change : m_sprite_changes) {
-    if(sprite_change->pos == pos)
-      return sprite_change;
+  for(auto& sprite_change : get_objects_by_type<SpriteChange>()) {
+    if (sprite_change.pos == pos)
+      return &sprite_change;
   }
 
   return nullptr;
@@ -509,8 +505,9 @@ WorldMap::at_sprite_change(const Vector& pos) const
 Teleporter*
 WorldMap::at_teleporter(const Vector& pos) const
 {
-  for(const auto& teleporter : m_teleporters) {
-    if(teleporter->pos == pos) return teleporter;
+  for(auto& teleporter : get_objects_by_type<Teleporter>()) {
+    if (teleporter.pos == pos)
+      return &teleporter;
   }
 
   return nullptr;
@@ -566,17 +563,17 @@ WorldMap::draw_status(DrawingContext& context)
   m_savegame.get_player_status().draw(context);
 
   if (!m_tux->is_moving()) {
-    for(const auto& level : m_levels) {
-      if (level->pos == m_tux->get_tile_pos()) {
-        context.color().draw_text(Resources::normal_font, level->title,
+    for(auto& level : get_objects_by_type<LevelTile>()) {
+      if (level.pos == m_tux->get_tile_pos()) {
+        context.color().draw_text(Resources::normal_font, level.title,
                                   Vector(static_cast<float>(context.get_width()) / 2.0f,
                                          static_cast<float>(context.get_height()) - Resources::normal_font->get_height() - 10),
-                                  ALIGN_CENTER, LAYER_HUD, level->title_color);
+                                  ALIGN_CENTER, LAYER_HUD, level.title_color);
 
         // if level is solved, draw level picture behind stats
         /*
-          if (level->solved) {
-          if (const Surface* picture = level->get_picture()) {
+          if (level.solved) {
+          if (const Surface* picture = level.get_picture()) {
           Vector pos = Vector(context.get_width() - picture->get_width(), context.get_height() - picture->get_height());
           context.push_transform();
           context.set_alpha(0.5);
@@ -585,16 +582,16 @@ WorldMap::draw_status(DrawingContext& context)
           }
           }
         */
-        level->statistics.draw_worldmap_info(context, level->target_time);
+        level.statistics.draw_worldmap_info(context, level.target_time);
         break;
       }
     }
 
-    for(const auto& special_tile : m_special_tiles) {
-      if (special_tile->pos == m_tux->get_tile_pos()) {
+    for(auto& special_tile : get_objects_by_type<SpecialTile>()) {
+      if (special_tile.pos == m_tux->get_tile_pos()) {
         /* Display an in-map message in the map, if any as been selected */
-        if(!special_tile->map_message.empty() && !special_tile->passive_message)
-          context.color().draw_text(Resources::normal_font, special_tile->map_message,
+        if(!special_tile.map_message.empty() && !special_tile.passive_message)
+          context.color().draw_text(Resources::normal_font, special_tile.map_message,
                                     Vector(static_cast<float>(context.get_width()) / 2.0f,
                                            static_cast<float>(context.get_height()) - static_cast<float>(Resources::normal_font->get_height()) - 60.0f),
                                     ALIGN_CENTER, LAYER_FOREGROUND1, WorldMap::message_color);
@@ -689,25 +686,25 @@ WorldMap::leave()
 void
 WorldMap::set_levels_solved(bool solved, bool perfect)
 {
-  for(auto& level : m_levels)
+  for(auto& level : get_objects_by_type<LevelTile>())
   {
-    level->set_solved(solved);
-    level->set_perfect(perfect);
+    level.set_solved(solved);
+    level.set_perfect(perfect);
   }
 }
 
 size_t
 WorldMap::level_count() const
 {
-  return m_levels.size();
+  return get_object_count<LevelTile>();
 }
 
 size_t
 WorldMap::solved_level_count() const
 {
   size_t count = 0;
-  for(const auto& level : m_levels) {
-    if(level->solved)
+  for(auto& level : get_objects_by_type<LevelTile>()) {
+    if(level.solved)
       count++;
   }
 

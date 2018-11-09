@@ -97,16 +97,12 @@ WorldMapParser::load_worldmap(const std::string& filename)
         } else if(iter.get_key() == "level") {
           auto& level = m_worldmap.add<LevelTile>(m_worldmap.m_levels_path, iter.as_mapping());
           load_level_information(level);
-          m_worldmap.m_levels.push_back(&level);
         } else if(iter.get_key() == "special-tile") {
-          auto& special_tile = m_worldmap.add<SpecialTile>(iter.as_mapping());
-          m_worldmap.m_special_tiles.push_back(&special_tile);
+          m_worldmap.add<SpecialTile>(iter.as_mapping());
       } else if(iter.get_key() == "sprite-change") {
-          auto& sprite_change = m_worldmap.add<SpriteChange>(iter.as_mapping());
-          m_worldmap.m_sprite_changes.push_back(&sprite_change);
-      } else if(iter.get_key() == "teleporter") {
-          auto& teleporter = m_worldmap.add<Teleporter>(iter.as_mapping());
-          m_worldmap.m_teleporters.push_back(&teleporter);
+          m_worldmap.add<SpriteChange>(iter.as_mapping());
+        } else if(iter.get_key() == "teleporter") {
+          m_worldmap.add<Teleporter>(iter.as_mapping());
         } else if(iter.get_key() == "decal") {
           m_worldmap.add<Decal>(iter.as_mapping());
         } else if(iter.get_key() == "ambient-light") {

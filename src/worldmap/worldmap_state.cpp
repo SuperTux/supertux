@@ -73,19 +73,19 @@ WorldMapState::load_state()
 
     // load levels
     get_table_entry(vm, "levels");
-    for(const auto& level : m_worldmap.m_levels) {
-      sq_pushstring(vm, level->get_name().c_str(), -1);
+    for(auto& level : m_worldmap.get_objects_by_type<LevelTile>()) {
+      sq_pushstring(vm, level.get_name().c_str(), -1);
       if (SQ_SUCCEEDED(sq_get(vm, -2))) {
-        if (!get_bool(vm, "solved", level->solved))
+        if (!get_bool(vm, "solved", level.solved))
         {
-          level->solved = false;
+          level.solved = false;
         }
-        if (!get_bool(vm, "perfect", level->perfect))
+        if (!get_bool(vm, "perfect", level.perfect))
         {
-          level->perfect = false;
+          level.perfect = false;
         }
-        level->update_sprite_action();
-        level->statistics.unserialize_from_squirrel(vm);
+        level.update_sprite_action();
+        level.statistics.unserialize_from_squirrel(vm);
         sq_pop(vm, 1);
       }
     }
@@ -137,30 +137,30 @@ WorldMapState::load_state()
       // case: This is not severe at all.
     }
 
-    if (m_worldmap.m_sprite_changes.size() > 0)
+    if (m_worldmap.get_object_count<SpriteChange>() > 0)
     {
       // load sprite change action:
       get_table_entry(vm, "sprite-changes");
-      for(const auto& sc : m_worldmap.m_sprite_changes)
+      for(auto& sc : m_worldmap.get_objects_by_type<SpriteChange>())
       {
-        auto key = std::to_string(int(sc->pos.x)) + "_" +
-                   std::to_string(int(sc->pos.y));
+        auto key = std::to_string(int(sc.pos.x)) + "_" +
+                   std::to_string(int(sc.pos.y));
         sq_pushstring(vm, key.c_str(), -1);
         if (SQ_SUCCEEDED(sq_get(vm, -2))) {
           bool show_stay_action = false;
           if (!get_bool(vm, "show-stay-action", show_stay_action))
           {
-            sc->clear_stay_action(/* propagate = */ false);
+            sc.clear_stay_action(/* propagate = */ false);
           }
           else
           {
             if (show_stay_action)
             {
-              sc->set_stay_action();
+              sc.set_stay_action();
             }
             else
             {
-              sc->clear_stay_action(/* propagate = */ false);
+              sc.clear_stay_action(/* propagate = */ false);
             }
           }
           sq_pop(vm, 1);
@@ -208,16 +208,16 @@ WorldMapState::save_state() const
     end_table(vm, "tux");
 
     // sprite change objects:
-    if (m_worldmap.m_sprite_changes.size() > 0)
+    if (m_worldmap.get_object_count<SpriteChange>() > 0)
     {
       begin_table(vm, "sprite-changes");
 
-      for(const auto& sc : m_worldmap.m_sprite_changes)
+      for(const auto& sc : m_worldmap.get_objects_by_type<SpriteChange>())
       {
-        auto key = std::to_string(int(sc->pos.x)) + "_" +
-                   std::to_string(int(sc->pos.y));
+        auto key = std::to_string(int(sc.pos.x)) + "_" +
+                   std::to_string(int(sc.pos.y));
         begin_table(vm, key.c_str());
-        store_bool(vm, "show-stay-action", sc->show_stay_action());
+        store_bool(vm, "show-stay-action", sc.show_stay_action());
         end_table(vm, key.c_str());
       }
       end_table(vm, "sprite-changes");
@@ -247,12 +247,12 @@ WorldMapState::save_state() const
     // levels...
     begin_table(vm, "levels");
 
-    for(const auto& level : m_worldmap.m_levels) {
-      begin_table(vm, level->get_name().c_str());
-      store_bool(vm, "solved", level->solved);
-      store_bool(vm, "perfect", level->perfect);
-      level->statistics.serialize_to_squirrel(vm);
-      end_table(vm, level->get_name().c_str());
+    for(const auto& level : m_worldmap.get_objects_by_type<LevelTile>()) {
+      begin_table(vm, level.get_name().c_str());
+      store_bool(vm, "solved", level.solved);
+      store_bool(vm, "perfect", level.perfect);
+      level.statistics.serialize_to_squirrel(vm);
+      end_table(vm, level.get_name().c_str());
     }
     end_table(vm, "levels");
 
