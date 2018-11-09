@@ -84,7 +84,7 @@ Statistics::calculate_max_caption_length()
 }
 
 void
-Statistics::serialize_to_squirrel(HSQUIRRELVM vm)
+Statistics::serialize_to_squirrel(HSQUIRRELVM vm) const
 {
   if (m_status != FINAL) return;
 

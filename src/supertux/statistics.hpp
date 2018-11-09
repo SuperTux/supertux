@@ -49,7 +49,7 @@ public:
   Statistics(); /**< Creates new statistics, call reset() before counting */
 
   /** serialize statistics object as squirrel table "statistics" */
-  void serialize_to_squirrel(HSQUIRRELVM vm);
+  void serialize_to_squirrel(HSQUIRRELVM vm) const;
 
   /** unserialize statistics object from squirrel table "statistics" */
   void unserialize_from_squirrel(HSQUIRRELVM vm);
