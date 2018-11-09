@@ -107,8 +107,6 @@ public:
   void resume_music();
   MusicType get_music_type() const;
 
-  int get_active_bullets() const { return static_cast<int>(m_bullets.size()); }
-
   /** Get total number of badguys */
   int get_total_badguys() const;
 
@@ -199,8 +197,6 @@ private:
   Level& m_level;
 
   std::string m_name;
-
-  std::vector<Bullet*> m_bullets;
 
   std::string m_init_script;
 

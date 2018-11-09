@@ -59,7 +59,6 @@ Sector* Sector::s_current = nullptr;
 Sector::Sector(Level& parent) :
   m_level(parent),
   m_name(),
-  m_bullets(),
   m_init_script(),
   m_currentmusic(LEVEL_MUSIC),
   m_ambient_light( 1.0f, 1.0f, 1.0f, 1.0f ),
@@ -348,12 +347,6 @@ Sector::update(float dt_sec)
 bool
 Sector::before_object_add(GameObject& object)
 {
-  auto bullet = dynamic_cast<Bullet*>(&object);
-  if (bullet)
-  {
-    m_bullets.push_back(bullet);
-  }
-
   auto movingobject = dynamic_cast<MovingObject*>(&object);
   if (movingobject)
   {
@@ -407,10 +400,7 @@ Sector::before_object_remove(GameObject& object)
   if (portable) {
     m_portables.erase(std::find(m_portables.begin(), m_portables.end(), portable));
   }
-  auto bullet = dynamic_cast<Bullet*>(&object);
-  if (bullet) {
-    m_bullets.erase(std::find(m_bullets.begin(), m_bullets.end(), bullet));
-  }
+
   auto moving_object = dynamic_cast<MovingObject*>(&object);
   if (moving_object) {
     m_collision_system->remove(moving_object->get_collision_object());

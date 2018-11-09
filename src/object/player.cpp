@@ -819,7 +819,7 @@ Player::handle_input()
   if (!m_stone) handle_vertical_input();
 
   /* Shoot! */
-  auto active_bullets = Sector::get().get_active_bullets();
+  auto active_bullets = Sector::get().get_object_count<Bullet>();
   if (m_controller->pressed(Controller::ACTION) && (m_player_status.bonus == FIRE_BONUS || m_player_status.bonus == ICE_BONUS)) {
     if((m_player_status.bonus == FIRE_BONUS &&
       active_bullets < m_player_status.max_fire_bullets) ||
