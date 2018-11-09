@@ -94,7 +94,7 @@ BicyclePlatform::BicyclePlatform(const ReaderMapping& reader) :
 
   for(int i = 0; i < platforms; ++i) {
     const float offset = static_cast<float>(i) * (math::TAU / static_cast<float>(platforms));
-    m_children.push_back(d_sector->add<BicyclePlatformChild>(reader, offset, *this));
+    m_children.push_back(&d_sector->add<BicyclePlatformChild>(reader, offset, *this));
   }
 
   std::string path_ref;

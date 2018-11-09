@@ -69,8 +69,8 @@ PneumaticPlatform::PneumaticPlatform(const ReaderMapping& mapping) :
   m_offset_y(0),
   m_children()
 {
-  m_children.push_back(d_sector->add<PneumaticPlatformChild>(mapping, true, *this));
-  m_children.push_back(d_sector->add<PneumaticPlatformChild>(mapping, false, *this));
+  m_children.push_back(&d_sector->add<PneumaticPlatformChild>(mapping, true, *this));
+  m_children.push_back(&d_sector->add<PneumaticPlatformChild>(mapping, false, *this));
 
   m_start_y = m_children[0]->get_pos().y;
 }

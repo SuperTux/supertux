@@ -514,7 +514,7 @@ GameSession::start_sequence(Sequence seq, const SequenceData* data)
   /* slow down the game for end-sequence */
   ScreenManager::current()->set_speed(0.5f);
 
-  m_end_sequence = static_cast<EndSequence*>(m_currentsector->add_object(std::move(end_sequence)));
+  m_end_sequence = static_cast<EndSequence*>(&m_currentsector->add_object(std::move(end_sequence)));
   m_end_sequence->start();
 
   SoundManager::current()->play_music("music/leveldone.ogg", false);

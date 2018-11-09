@@ -47,16 +47,16 @@ public:
   virtual ~GameObjectManager();
 
   /** Queue an object up to be added to the object list */
-  GameObject* add_object(std::unique_ptr<GameObject> object);
+  GameObject& add_object(std::unique_ptr<GameObject> object);
   void clear_objects();
 
   template<typename T, typename... Args>
-  T* add(Args&&... args)
+  T& add(Args&&... args)
   {
     auto obj = std::make_unique<T>(std::forward<Args>(args)...);
-    T* obj_ptr = obj.get();
+    T& obj_ref = *obj;
     add_object(std::move(obj));
-    return obj_ptr;
+    return obj_ref;
   }
 
   void update(float dt_sec);

@@ -118,8 +118,8 @@ Sector::finish_construction()
                                               dynamic_cast<Gradient*>(obj.get()));
                                      });
   if (!has_background) {
-    auto gradient = add<Gradient>();
-    gradient->set_gradient(Color(0.3f, 0.4f, 0.75f), Color(1.f, 1.f, 1.f));
+    auto& gradient = add<Gradient>();
+    gradient.set_gradient(Color(0.3f, 0.4f, 0.75f), Color(1.f, 1.f, 1.f));
   }
 
   if (get_solid_tilemaps().empty()) {

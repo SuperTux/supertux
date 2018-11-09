@@ -90,7 +90,7 @@ WorldMap::WorldMap(const std::string& filename, Savegame& savegame, const std::s
   m_pan_pos(),
   m_panning(false)
 {
-  m_tux = add<Tux>(this);
+  m_tux = &add<Tux>(this);
 
   SoundManager::current()->preload("sounds/warp.wav");
 

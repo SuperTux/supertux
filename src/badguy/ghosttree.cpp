@@ -117,8 +117,8 @@ GhostTree::active_update(float /*dt_sec*/)
     if(willowisp_timer.check()) {
       if(willowisps.size() < WILLOWISP_COUNT) {
         Vector pos = Vector(m_col.m_bbox.get_width() / 2, m_col.m_bbox.get_height() / 2 + willo_spawn_y + WILLOWISP_TOP_OFFSET);
-        auto willowisp = Sector::get().add<TreeWillOWisp>(this, pos, 200 + willo_radius, willo_speed);
-        willowisps.push_back(willowisp);
+        auto& willowisp = Sector::get().add<TreeWillOWisp>(this, pos, 200 + willo_radius, willo_speed);
+        willowisps.push_back(&willowisp);
 
         willo_spawn_y -= 40;
         if(willo_spawn_y < -160)
@@ -139,12 +139,12 @@ GhostTree::active_update(float /*dt_sec*/)
         } while(willo_color == treecolor);
 
         switch(willo_color) {
-          case 0: willowisp->set_color(Color(1, 0, 0)); break;
-          case 1: willowisp->set_color(Color(0, 1, 0)); break;
-          case 2: willowisp->set_color(Color(0, 0, 1)); break;
-          case 3: willowisp->set_color(Color(1, 1, 0)); break;
-          case 4: willowisp->set_color(Color(1, 0, 1)); break;
-          case 5: willowisp->set_color(Color(0, 1, 1)); break;
+          case 0: willowisp.set_color(Color(1, 0, 0)); break;
+          case 1: willowisp.set_color(Color(0, 1, 0)); break;
+          case 2: willowisp.set_color(Color(0, 0, 1)); break;
+          case 3: willowisp.set_color(Color(1, 1, 0)); break;
+          case 4: willowisp.set_color(Color(1, 0, 1)); break;
+          case 5: willowisp.set_color(Color(0, 1, 1)); break;
           default: assert(false);
         }
       }
@@ -198,7 +198,7 @@ GhostTree::is_color_deadly(Color color) const
 }
 
 void
-GhostTree::willowisp_died(TreeWillOWisp *willowisp)
+GhostTree::willowisp_died(TreeWillOWisp* willowisp)
 {
   if ((mystate == STATE_SUCKING) && (willowisp->was_sucked)) {
     mystate = STATE_IDLE;

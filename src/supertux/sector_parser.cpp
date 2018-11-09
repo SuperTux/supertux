@@ -190,11 +190,11 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
   bkgd_bottom.blue = static_cast<float> (b) / 255.0f;
 
   if(!backgroundimage.empty()) {
-    auto background = m_sector.add<Background>();
-    background->set_image(backgroundimage, bgspeed);
+    auto& background = m_sector.add<Background>();
+    background.set_image(backgroundimage, bgspeed);
   } else {
-    auto gradient = m_sector.add<Gradient>();
-    gradient->set_gradient(bkgd_top, bkgd_bottom);
+    auto& gradient = m_sector.add<Gradient>();
+    gradient.set_gradient(bkgd_top, bkgd_bottom);
   }
 
   std::string particlesystem;
@@ -226,36 +226,36 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
   std::vector<unsigned int> tiles;
   if(reader.get("interactive-tm", tiles)
      || reader.get("tilemap", tiles)) {
-    auto tileset = TileManager::current()->get_tileset(m_sector.get_level().get_tileset());
-    auto tilemap = m_sector.add<TileMap>(tileset);
-    tilemap->set(width, height, tiles, LAYER_TILES, true);
+    auto* tileset = TileManager::current()->get_tileset(m_sector.get_level().get_tileset());
+    auto& tilemap = m_sector.add<TileMap>(tileset);
+    tilemap.set(width, height, tiles, LAYER_TILES, true);
 
     // replace tile id 112 (old invisible tile) with 1311 (new invisible tile)
-    for(int x=0; x < tilemap->get_width(); ++x) {
-      for(int y=0; y < tilemap->get_height(); ++y) {
-        uint32_t id = tilemap->get_tile_id(x, y);
+    for(int x=0; x < tilemap.get_width(); ++x) {
+      for(int y=0; y < tilemap.get_height(); ++y) {
+        uint32_t id = tilemap.get_tile_id(x, y);
         if(id == 112)
-          tilemap->change(x, y, 1311);
+          tilemap.change(x, y, 1311);
       }
     }
 
-    if (height < 19) tilemap->resize(width, 19);
+    if (height < 19) tilemap.resize(width, 19);
   }
 
   if(reader.get("background-tm", tiles)) {
-    auto tileset = TileManager::current()->get_tileset(m_sector.get_level().get_tileset());
-    auto tilemap = m_sector.add<TileMap>(tileset);
-    tilemap->set(width, height, tiles, LAYER_BACKGROUNDTILES, false);
-    if (height < 19) tilemap->resize(width, 19);
+    auto* tileset = TileManager::current()->get_tileset(m_sector.get_level().get_tileset());
+    auto& tilemap = m_sector.add<TileMap>(tileset);
+    tilemap.set(width, height, tiles, LAYER_BACKGROUNDTILES, false);
+    if (height < 19) tilemap.resize(width, 19);
   }
 
   if(reader.get("foreground-tm", tiles)) {
-    auto tileset = TileManager::current()->get_tileset(m_sector.get_level().get_tileset());
-    auto tilemap = m_sector.add<TileMap>(tileset);
-    tilemap->set(width, height, tiles, LAYER_FOREGROUNDTILES, false);
+    auto* tileset = TileManager::current()->get_tileset(m_sector.get_level().get_tileset());
+    auto& tilemap = m_sector.add<TileMap>(tileset);
+    tilemap.set(width, height, tiles, LAYER_FOREGROUNDTILES, false);
 
     // fill additional space in foreground with tiles of ID 2035 (lightmap/black)
-    if (height < 19) tilemap->resize(width, 19, 2035);
+    if (height < 19) tilemap.resize(width, 19, 2035);
   }
 
   // read reset-points (now spawn-points)
@@ -308,29 +308,29 @@ SectorParser::create_sector()
   auto tileset = TileManager::current()->get_tileset(m_sector.get_level().get_tileset());
   bool worldmap = Editor::current() ? Editor::current()->get_worldmap_mode() : false;
   if (!worldmap) {
-    auto background = m_sector.add<Background>();
-    background->set_images(DEFAULT_BG_TOP, DEFAULT_BG_MIDDLE, DEFAULT_BG_BOTTOM);
-    background->set_speed(0.5);
+    auto& background = m_sector.add<Background>();
+    background.set_images(DEFAULT_BG_TOP, DEFAULT_BG_MIDDLE, DEFAULT_BG_BOTTOM);
+    background.set_speed(0.5);
 
-    auto bkgrd = m_sector.add<TileMap>(tileset);
-    bkgrd->resize(100, 35);
-    bkgrd->set_layer(-100);
-    bkgrd->set_solid(false);
+    auto& bkgrd = m_sector.add<TileMap>(tileset);
+    bkgrd.resize(100, 35);
+    bkgrd.set_layer(-100);
+    bkgrd.set_solid(false);
 
-    auto frgrd = m_sector.add<TileMap>(tileset);
-    frgrd->resize(100, 35);
-    frgrd->set_layer(100);
-    frgrd->set_solid(false);
+    auto& frgrd = m_sector.add<TileMap>(tileset);
+    frgrd.resize(100, 35);
+    frgrd.set_layer(100);
+    frgrd.set_solid(false);
   }
 
-  auto intact = m_sector.add<TileMap>(tileset);
+  auto& intact = m_sector.add<TileMap>(tileset);
   if (worldmap) {
-    intact->resize(100, 100, 9);
+    intact.resize(100, 100, 9);
   } else {
-    intact->resize(100, 35, 0);
+    intact.resize(100, 35, 0);
   }
-  intact->set_layer(0);
-  intact->set_solid(true);
+  intact.set_layer(0);
+  intact.set_solid(true);
 
   m_sector.m_spawnpoints.push_back(std::make_unique<SpawnPoint>("main", Vector(64, 480)));
   SpawnPoint* spawn_point = m_sector.m_spawnpoints.back().get();

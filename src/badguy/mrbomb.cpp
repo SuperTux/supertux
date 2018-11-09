@@ -74,13 +74,13 @@ MrBomb::collision_squished(GameObject& object)
     return true;
   }
   if(is_valid()) {
-    auto bomb = Sector::get().add<Bomb>(get_pos(), m_dir, m_sprite_name);
+    auto& bomb = Sector::get().add<Bomb>(get_pos(), m_dir, m_sprite_name);
 
     // Do not trigger dispenser because we need to wait for
     // the bomb instance to explode.
     if(get_parent_dispenser() != nullptr)
     {
-      bomb->set_parent_dispenser(get_parent_dispenser());
+      bomb.set_parent_dispenser(get_parent_dispenser());
       set_parent_dispenser(nullptr);
     }
 

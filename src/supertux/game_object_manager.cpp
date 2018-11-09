@@ -72,7 +72,7 @@ GameObjectManager::get_objects() const
   return m_gameobjects;
 }
 
-GameObject*
+GameObject&
 GameObjectManager::add_object(std::unique_ptr<GameObject> object)
 {
   assert(object);
@@ -90,7 +90,7 @@ GameObjectManager::add_object(std::unique_ptr<GameObject> object)
   }
 #endif
 
-  GameObject* tmp = object.get();
+  GameObject& tmp = *object;
   m_gameobjects_new.push_back(std::move(object));
   return tmp;
 }

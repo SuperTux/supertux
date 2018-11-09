@@ -46,8 +46,8 @@ PathObject::init_path(const ReaderMapping& mapping, bool running_default)
   boost::optional<ReaderMapping> path_mapping;
   if (mapping.get("path", path_mapping))
   {
-    auto path_gameobject = d_sector->add<PathGameObject>(*path_mapping, true);
-    m_path_uid = path_gameobject->get_uid();
+    auto& path_gameobject = d_sector->add<PathGameObject>(*path_mapping, true);
+    m_path_uid = path_gameobject.get_uid();
     m_walker.reset(new PathWalker(m_path_uid, running));
   }
   else if (mapping.get("path-ref", path_ref))
@@ -64,9 +64,9 @@ PathObject::init_path_pos(const Vector& pos, bool running)
 {
   if (!d_sector) return;
 
-  auto path_gameobject = d_sector->add<PathGameObject>(pos);
-  m_path_uid = path_gameobject->get_uid();
-  m_walker.reset(new PathWalker(path_gameobject->get_uid(), running));
+  auto& path_gameobject = d_sector->add<PathGameObject>(pos);
+  m_path_uid = path_gameobject.get_uid();
+  m_walker.reset(new PathWalker(path_gameobject.get_uid(), running));
 }
 
 void
@@ -74,8 +74,8 @@ PathObject::init_path_empty()
 {
   if (!d_sector) return;
 
-  auto path_gameobject = d_sector->add<PathGameObject>();
-  m_path_uid = path_gameobject->get_uid();
+  auto& path_gameobject = d_sector->add<PathGameObject>();
+  m_path_uid = path_gameobject.get_uid();
   m_walker.reset(new PathWalker(m_path_uid));
 }
 
