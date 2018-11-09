@@ -115,9 +115,9 @@ SectorParser::parse(const ReaderMapping& sector)
       iter.get(value);
       m_sector.set_music(value);
     } else if(iter.get_key() == "spawnpoint") {
-      auto sp = std::make_shared<SpawnPoint>(iter.as_mapping());
+      auto sp = std::make_unique<SpawnPoint>(iter.as_mapping());
       if (!sp->get_name().empty() && sp->get_pos().x >= 0 && sp->get_pos().y >= 0) {
-        m_sector.m_spawnpoints.push_back(sp);
+        m_sector.m_spawnpoints.push_back(std::move(sp));
       }
       if (Editor::is_active()) {
         auto object = parse_object("spawnpoint", iter.as_mapping());
@@ -210,8 +210,7 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
   reader.get("start_pos_x", startpos.x);
   reader.get("start_pos_y", startpos.y);
 
-  auto spawn = std::make_shared<SpawnPoint>("main", startpos);
-  m_sector.m_spawnpoints.push_back(spawn);
+  m_sector.m_spawnpoints.push_back(std::make_unique<SpawnPoint>("main", startpos));
 
   m_sector.set_music("chipdisko.ogg");
   // skip reading music filename. It's all .ogg now, anyway
@@ -268,8 +267,7 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
         Vector sp_pos;
         if(reader.get("x", sp_pos.x) && reader.get("y", sp_pos.y))
         {
-          auto sp = std::make_shared<SpawnPoint>("main", sp_pos);
-          m_sector.m_spawnpoints.push_back(sp);
+          m_sector.m_spawnpoints.push_back(std::make_unique<SpawnPoint>("main", sp_pos));
         }
       } else {
         log_warning << "Unknown token '" << iter.get_key() << "' in reset-points." << std::endl;
@@ -334,13 +332,13 @@ SectorParser::create_sector()
   intact->set_layer(0);
   intact->set_solid(true);
 
-  auto spawn_point = std::make_shared<SpawnPoint>("main", Vector(64, 480));
-  m_sector.m_spawnpoints.push_back(spawn_point);
+  m_sector.m_spawnpoints.push_back(std::make_unique<SpawnPoint>("main", Vector(64, 480)));
+  SpawnPoint* spawn_point = m_sector.m_spawnpoints.back().get();
 
   if (worldmap) {
     m_sector.add<worldmap_editor::WorldmapSpawnPoint>("main", Vector(4, 4));
   } else {
-    m_sector.add<SpawnPointMarker>(spawn_point.get());
+    m_sector.add<SpawnPointMarker>(spawn_point);
   }
 
   m_sector.add<Camera>(&m_sector, "Camera");

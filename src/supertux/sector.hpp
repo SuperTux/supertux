@@ -234,7 +234,7 @@ private:
 public:
   // some special objects, where we need direct access
   // (try to avoid accessing them directly)
-  std::vector<std::shared_ptr<SpawnPoint> > m_spawnpoints;
+  std::vector<std::unique_ptr<SpawnPoint> > m_spawnpoints;
   std::vector<Portable*> m_portables;
   Player* m_player;
   Camera* m_camera;

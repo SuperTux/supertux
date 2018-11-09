@@ -155,16 +155,16 @@ Sector::get_level() const
 void
 Sector::activate(const std::string& spawnpoint)
 {
-  std::shared_ptr<SpawnPoint> sp;
+  SpawnPoint* sp = nullptr;
   for(const auto& spawn_point : m_spawnpoints) {
     if(spawn_point->get_name() == spawnpoint) {
-      sp = spawn_point;
+      sp = spawn_point.get();
       break;
     }
   }
-  if(!sp) {
+  if (!sp) {
     log_warning << "Spawnpoint '" << spawnpoint << "' not found." << std::endl;
-    if(spawnpoint != "main") {
+    if (spawnpoint != "main") {
       activate("main");
     } else {
       activate(Vector(0, 0));
