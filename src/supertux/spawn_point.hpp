@@ -28,13 +28,22 @@ class SpawnPoint final
 {
 public:
   SpawnPoint();
-  SpawnPoint(const SpawnPoint& other);
+  SpawnPoint(const std::string& name, const Vector& pos);
   SpawnPoint(const ReaderMapping& lisp);
 
   void save(Writer& writer);
 
-  std::string name;
-  Vector pos;
+  std::string get_name() const { return m_name; }
+  Vector get_pos() const { return m_pos; }
+  void set_pos(const Vector& pos) { m_pos = pos; }
+
+private:
+  std::string m_name;
+  Vector m_pos;
+
+private:
+  SpawnPoint(const SpawnPoint&) = delete;
+  SpawnPoint& operator=(const SpawnPoint&) = delete;
 };
 
 #endif

@@ -124,9 +124,9 @@ FlipLevelTransformer::transform_badguy(float height, BadGuy& badguy)
 void
 FlipLevelTransformer::transform_spawnpoint(float height, SpawnPoint& spawn)
 {
-  Vector pos = spawn.pos;
+  Vector pos = spawn.get_pos();
   pos.y = height - pos.y;
-  spawn.pos = pos;
+  spawn.set_pos(pos);
 }
 
 void

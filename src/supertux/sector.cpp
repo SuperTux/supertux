@@ -157,7 +157,7 @@ Sector::activate(const std::string& spawnpoint)
 {
   std::shared_ptr<SpawnPoint> sp;
   for(const auto& spawn_point : m_spawnpoints) {
-    if(spawn_point->name == spawnpoint) {
+    if(spawn_point->get_name() == spawnpoint) {
       sp = spawn_point;
       break;
     }
@@ -170,7 +170,7 @@ Sector::activate(const std::string& spawnpoint)
       activate(Vector(0, 0));
     }
   } else {
-    activate(sp->pos);
+    activate(sp->get_pos());
   }
 }
 

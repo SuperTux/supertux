@@ -443,7 +443,7 @@ Main::launch_game(const CommandLineArguments& args)
       {
         std::string sectorname = args.sector.get_value_or("main");
         std::string default_spawnpoint = session->get_current_sector().m_spawnpoints.empty() ?
-          "" : session->get_current_sector().m_spawnpoints[0]->name;
+          "" : session->get_current_sector().m_spawnpoints[0]->get_name();
         std::string spawnpointname = args.spawnpoint.get_value_or(default_spawnpoint);
 
         session->respawn(sectorname, spawnpointname);

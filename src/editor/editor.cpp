@@ -551,7 +551,7 @@ Editor::check_save_prerequisites(bool& sector_valid, bool& spawnpoint_valid) con
       sector_valid = true;
       for(const auto& spawnpoint : sector->m_spawnpoints)
       {
-        if(spawnpoint->name == "main")
+        if(spawnpoint->get_name() == "main")
         {
           spawnpoint_valid = true;
         }

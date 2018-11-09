@@ -21,36 +21,39 @@
 #include "util/writer.hpp"
 
 SpawnPoint::SpawnPoint() :
-  name(),
-  pos()
+  m_name(),
+  m_pos()
 {}
 
-SpawnPoint::SpawnPoint(const SpawnPoint& other) :
-  name(other.name),
-  pos(other.pos)
-{}
-
-SpawnPoint::SpawnPoint(const ReaderMapping& slisp) :
-  name(),
-  pos(-1, -1)
+SpawnPoint::SpawnPoint(const std::string& name, const Vector& pos) :
+  m_name(name),
+  m_pos(pos)
 {
-  slisp.get("name", name);
-  slisp.get("x", pos.x);
-  slisp.get("y", pos.y);
+}
 
-  if(name.empty())
+SpawnPoint::SpawnPoint(const ReaderMapping& mapping) :
+  m_name(),
+  m_pos(-1, -1)
+{
+  mapping.get("name", m_name);
+  mapping.get("x", m_pos.x);
+  mapping.get("y", m_pos.y);
+
+  if (m_name.empty())
     log_warning << "No name specified for spawnpoint. Ignoring." << std::endl;
-  if(pos.x < 0 || pos.y < 0)
+
+  if (m_pos.x < 0 || m_pos.y < 0)
     log_warning << "Invalid coordinates specified for spawnpoint. Ignoring." << std::endl;
 }
 
 void
-SpawnPoint::save(Writer& writer){
+SpawnPoint::save(Writer& writer)
+{
   writer.start_list("spawnpoint");
 
-  writer.write("x",pos.x);
-  writer.write("y",pos.y);
-  writer.write("name",name,false);
+  writer.write("x", m_pos.x);
+  writer.write("y", m_pos.y);
+  writer.write("name", m_name, false);
 
   writer.end_list("spawnpoint");
 }

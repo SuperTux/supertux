@@ -116,7 +116,7 @@ SectorParser::parse(const ReaderMapping& sector)
       m_sector.set_music(value);
     } else if(iter.get_key() == "spawnpoint") {
       auto sp = std::make_shared<SpawnPoint>(iter.as_mapping());
-      if (!sp->name.empty() && sp->pos.x >= 0 && sp->pos.y >= 0) {
+      if (!sp->get_name().empty() && sp->get_pos().x >= 0 && sp->get_pos().y >= 0) {
         m_sector.m_spawnpoints.push_back(sp);
       }
       if (Editor::is_active()) {
@@ -210,9 +210,7 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
   reader.get("start_pos_x", startpos.x);
   reader.get("start_pos_y", startpos.y);
 
-  auto spawn = std::make_shared<SpawnPoint>();
-  spawn->pos = startpos;
-  spawn->name = "main";
+  auto spawn = std::make_shared<SpawnPoint>("main", startpos);
   m_sector.m_spawnpoints.push_back(spawn);
 
   m_sector.set_music("chipdisko.ogg");
@@ -270,9 +268,7 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
         Vector sp_pos;
         if(reader.get("x", sp_pos.x) && reader.get("y", sp_pos.y))
         {
-          auto sp = std::make_shared<SpawnPoint>();
-          sp->name = "main";
-          sp->pos = sp_pos;
+          auto sp = std::make_shared<SpawnPoint>("main", sp_pos);
           m_sector.m_spawnpoints.push_back(sp);
         }
       } else {
@@ -338,9 +334,7 @@ SectorParser::create_sector()
   intact->set_layer(0);
   intact->set_solid(true);
 
-  auto spawn_point = std::make_shared<SpawnPoint>();
-  spawn_point->name = "main";
-  spawn_point->pos = Vector(64, 480);
+  auto spawn_point = std::make_shared<SpawnPoint>("main", Vector(64, 480));
   m_sector.m_spawnpoints.push_back(spawn_point);
 
   if (worldmap) {

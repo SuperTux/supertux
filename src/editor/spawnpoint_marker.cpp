@@ -21,29 +21,33 @@
 #include "video/drawing_context.hpp"
 #include "video/surface.hpp"
 
-SpawnPointMarker::SpawnPointMarker (const ReaderMapping& lisp) :
+SpawnPointMarker::SpawnPointMarker(const ReaderMapping& mapping) :
   surface(Surface::from_file("images/engine/editor/spawnpoint.png"))
 {
-  lisp.get("name", m_name, "");
-  lisp.get("x", m_col.m_bbox.p1.x, 0.0f);
-  lisp.get("y", m_col.m_bbox.p1.y, 0.0f);
+  mapping.get("name", m_name, "");
+  mapping.get("x", m_col.m_bbox.p1.x, 0.0f);
+  mapping.get("y", m_col.m_bbox.p1.y, 0.0f);
 
   setup();
 }
 
-SpawnPointMarker::SpawnPointMarker (const SpawnPoint* sp) :
+SpawnPointMarker::SpawnPointMarker(const SpawnPoint* sp) :
   surface(Surface::from_file("images/engine/editor/spawnpoint.png"))
 {
-  m_name = sp->name;
-  m_col.m_bbox.p1 = sp->pos;
+  m_name = sp->get_name();
+  m_col.m_bbox.p1 = sp->get_pos();
   setup();
 }
 
-void SpawnPointMarker::setup() {
+void
+SpawnPointMarker::setup()
+{
   m_col.m_bbox.set_size(32, 32);
 }
 
-void SpawnPointMarker::draw(DrawingContext& context) {
+void
+SpawnPointMarker::draw(DrawingContext& context)
+{
   context.color().draw_surface(surface, m_col.m_bbox.p1, LAYER_FOREGROUND1);
 }
 
