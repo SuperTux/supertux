@@ -48,7 +48,6 @@ Platform::Platform(const ReaderMapping& reader, const std::string& default_sprit
 void
 Platform::finish_construction()
 {
-  log_fatal << "finish_construction: " << get_path() << std::endl;
   if (!get_path())
   {
     // If no path is given, make a one-node dummy path
