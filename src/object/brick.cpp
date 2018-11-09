@@ -102,7 +102,7 @@ Brick::try_break(Player* player)
     return;
 
   SoundManager::current()->play("sounds/brick.wav");
-  auto& player_one = *(Sector::get().m_player);
+  Player& player_one = Sector::get().get_player();
   if(coin_counter > 0 ){
     Sector::get().add<BouncyCoin>(get_pos(), true);
     coin_counter--;

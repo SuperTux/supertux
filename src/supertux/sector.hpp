@@ -56,8 +56,9 @@ enum MusicType {
 class Sector final : public GameObjectManager
 {
 public:
-  friend class EditorSectorMenu;
   friend class CollisionSystem;
+  friend class EditorSectorMenu;
+  friend class SectorParser;
 
 private:
   static Sector* s_current;
@@ -178,6 +179,11 @@ public:
 
   void run_script(const std::string& script, const std::string& sourcename);
 
+  const std::vector<std::unique_ptr<SpawnPoint> >& get_spawnpoints() const { return m_spawnpoints; }
+  Camera& get_camera() { return *m_camera; }
+  Player& get_player() { return *m_player; }
+  DisplayEffect& get_effect() { return *m_effect; }
+
 private:
   uint32_t collision_tile_attributes(const Rectf& dest, const Vector& mov) const;
 
@@ -225,9 +231,6 @@ private:
   float m_gravity;
   std::string m_music;
 
-public:
-  // some special objects, where we need direct access
-  // (try to avoid accessing them directly)
   std::vector<std::unique_ptr<SpawnPoint> > m_spawnpoints;
   Player* m_player;
   Camera* m_camera;

@@ -79,7 +79,7 @@ SpriteParticle::update(float dt_sec)
   velocity.y += acceleration.y * dt_sec;
 
   // die when too far offscreen
-  Vector camera = Sector::get().m_camera->get_translation();
+  Vector camera = Sector::get().get_camera().get_translation();
   if ((position.x < camera.x - 128.0f) || (position.x > static_cast<float>(SCREEN_WIDTH) + camera.x + 128.0f) ||
       (position.y < camera.y - 128.0f) || (position.y > static_cast<float>(SCREEN_HEIGHT) + camera.y + 128.0f)) {
     remove_me();

@@ -258,7 +258,7 @@ BonusBlock::try_open(Player* player)
   }
 
   if (player == nullptr)
-    player = Sector::get().m_player;
+    player = &Sector::get().get_player();
 
   if (player == nullptr)
     return;
@@ -389,7 +389,7 @@ BonusBlock::try_drop(Player *player)
   }
 
   if (player == nullptr)
-    player = Sector::get().m_player;
+    player = &Sector::get().get_player();
 
   if (player == nullptr)
     return;

@@ -64,12 +64,11 @@ FlipLevelTransformer::transform_sector(Sector& sector)
       transform_moving_object(height, *mobject);
     }
   }
-  for(auto& spawnpoint : sector.m_spawnpoints) {
+  for(auto& spawnpoint : sector.get_spawnpoints()) {
     transform_spawnpoint(height, *spawnpoint);
   }
 
-  if(sector.m_camera != nullptr && sector.m_player != nullptr)
-    sector.m_camera->reset(sector.m_player->get_pos());
+  sector.get_camera().reset(sector.get_player().get_pos());
 }
 
 Flip

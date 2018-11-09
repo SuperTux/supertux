@@ -215,55 +215,56 @@ bool Editor::can_scroll_horz() const {
   return levelloaded && (currentsector->get_width() + 128 > static_cast<float>(SCREEN_WIDTH));
 }
 
-void Editor::scroll_left(float speed) {
-  auto camera = currentsector->m_camera;
+void Editor::scroll_left(float speed)
+{
+  Camera& camera = currentsector->get_camera();
   if (can_scroll_horz()) {
-    if (camera->get_translation().x >= speed*32) {
-      camera->move(static_cast<int>(-32 * speed), 0);
+    if (camera.get_translation().x >= speed*32) {
+      camera.move(static_cast<int>(-32 * speed), 0);
     } else {
       //When is the camera less than one tile after the left limit, it puts the camera to the limit.
-      camera->move(static_cast<int>(-camera->get_translation().x), 0);
+      camera.move(static_cast<int>(-camera.get_translation().x), 0);
     }
     inputcenter.update_pos();
   }
 }
 
 void Editor::scroll_right(float speed) {
-  auto camera = currentsector->m_camera;
+  Camera& camera = currentsector->get_camera();
   if (can_scroll_horz()) {
-    if (camera->get_translation().x <= currentsector->get_width() - static_cast<float>(SCREEN_WIDTH) + 128.0f - 32.0f * speed) {
-      camera->move(static_cast<int>(32 * speed), 0);
+    if (camera.get_translation().x <= currentsector->get_width() - static_cast<float>(SCREEN_WIDTH) + 128.0f - 32.0f * speed) {
+      camera.move(static_cast<int>(32 * speed), 0);
     } else {
       //When is the camera less than one tile after the right limit, it puts the camera to the limit.
       // The limit is shifted 128 pixels to the right due to the input gui.
-      camera->move(static_cast<int>(currentsector->get_width() - camera->get_translation().x - static_cast<float>(SCREEN_WIDTH) + 128.0f), 0);
+      camera.move(static_cast<int>(currentsector->get_width() - camera.get_translation().x - static_cast<float>(SCREEN_WIDTH) + 128.0f), 0);
     }
     inputcenter.update_pos();
   }
 }
 
 void Editor::scroll_up(float speed) {
-  auto camera = currentsector->m_camera;
+  Camera& camera = currentsector->get_camera();
   if (can_scroll_vert()) {
-    if (camera->get_translation().y >= speed*32) {
-      camera->move(0, static_cast<int>(-32 * speed));
+    if (camera.get_translation().y >= speed*32) {
+      camera.move(0, static_cast<int>(-32 * speed));
     } else {
       //When is the camera less than one tile after the top limit, it puts the camera to the limit.
-      camera->move(0, static_cast<int>(-camera->get_translation().y));
+      camera.move(0, static_cast<int>(-camera.get_translation().y));
     }
     inputcenter.update_pos();
   }
 }
 
 void Editor::scroll_down(float speed) {
-  auto camera = currentsector->m_camera;
+  Camera& camera = currentsector->get_camera();
   if (can_scroll_vert()) {
-    if (camera->get_translation().y <= currentsector->get_height() - static_cast<float>(SCREEN_HEIGHT) - 32.0f * speed) {
-      camera->move(0, static_cast<int>(32 * speed));
+    if (camera.get_translation().y <= currentsector->get_height() - static_cast<float>(SCREEN_HEIGHT) - 32.0f * speed) {
+      camera.move(0, static_cast<int>(32 * speed));
     } else {
       //When is the camera less than one tile after the bottom limit, it puts the camera to the limit.
       // The limit is shifted 32 pixels to the bottom due to the layer toolbar.
-      camera->move(0, static_cast<int>(currentsector->get_height() - camera->get_translation().y - static_cast<float>(SCREEN_HEIGHT) + 32.0f));
+      camera.move(0, static_cast<int>(currentsector->get_height() - camera.get_translation().y - static_cast<float>(SCREEN_HEIGHT) + 32.0f));
     }
     inputcenter.update_pos();
   }
@@ -363,7 +364,7 @@ void Editor::reload_level() {
   tileset = TileManager::current()->get_tileset(level->get_tileset());
   load_sector("main");
   currentsector->activate("main");
-  currentsector->m_camera->set_mode(Camera::MANUAL);
+  currentsector->get_camera().set_mode(Camera::MANUAL);
   layerselect.refresh_sector_text();
   tileselect.update_mouse_icon();
 }
@@ -438,7 +439,7 @@ Editor::setup() {
     leveltested = false;
     Tile::draw_editor_images = true;
     level->reactivate();
-    currentsector->activate(currentsector->m_player->get_pos());
+    currentsector->activate(currentsector->get_player().get_pos());
     MenuManager::instance().clear_menu_stack();
     SoundManager::current()->stop_music();
     deactivate_request = false;
@@ -549,7 +550,7 @@ Editor::check_save_prerequisites(bool& sector_valid, bool& spawnpoint_valid) con
     if(sector->get_name() == "main")
     {
       sector_valid = true;
-      for(const auto& spawnpoint : sector->m_spawnpoints)
+      for(const auto& spawnpoint : sector->get_spawnpoints())
       {
         if(spawnpoint->get_name() == "main")
         {

@@ -78,7 +78,7 @@ GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Stat
 void
 GameSession::reset_level()
 {
-  m_currentsector->m_player->set_bonus(m_bonus_at_start);
+  m_currentsector->get_player().set_bonus(m_bonus_at_start);
   PlayerStatus& currentStatus = m_savegame.get_player_status();
   currentStatus.coins = m_coins_at_start;
   currentStatus.max_fire_bullets = m_max_fire_bullets_at_start;
@@ -153,13 +153,13 @@ GameSession::restart_level(bool after_death)
 void
 GameSession::on_escape_press()
 {
-  if(m_currentsector->m_player->is_dying() || m_end_sequence)
+  if(m_currentsector->get_player().is_dying() || m_end_sequence)
   {
     // Let the timers run out, we fast-forward them to force past a sequence
     if (m_end_sequence)
       m_end_sequence->stop();
 
-    m_currentsector->m_player->m_dying_timer.start(FLT_EPSILON);
+    m_currentsector->get_player().m_dying_timer.start(FLT_EPSILON);
     return;   // don't let the player open the menu, when he is dying
   }
 
@@ -189,7 +189,7 @@ GameSession::abort_level()
 {
   MenuManager::instance().clear_menu_stack();
   ScreenManager::current()->pop_screen();
-  m_currentsector->m_player->set_bonus(m_bonus_at_start);
+  m_currentsector->get_player().set_bonus(m_bonus_at_start);
   PlayerStatus& currentStatus = m_savegame.get_player_status();
   currentStatus.coins = m_coins_at_start;
   currentStatus.max_fire_bullets = m_max_fire_bullets_at_start;
@@ -232,12 +232,12 @@ GameSession::force_ghost_mode()
 void
 GameSession::check_end_conditions()
 {
-  auto tux = m_currentsector->m_player;
+  Player& tux = m_currentsector->get_player();
 
   /* End of level? */
   if(m_end_sequence && m_end_sequence->is_done()) {
     finish(true);
-  } else if (!m_end_sequence && tux->is_dead()) {
+  } else if (!m_end_sequence && tux.is_dead()) {
     restart_level(true);
   }
 }
@@ -270,7 +270,7 @@ GameSession::setup()
     return;
 
   if(m_currentsector != Sector::current()) {
-    m_currentsector->activate(m_currentsector->m_player->get_pos());
+    m_currentsector->activate(m_currentsector->get_player().get_pos());
   }
   m_currentsector->play_music(LEVEL_MUSIC);
 
@@ -384,14 +384,14 @@ GameSession::update(float dt_sec, const Controller& controller)
     return;
 
   // update sounds
-  if (m_currentsector->m_camera) SoundManager::current()->set_listener_position(m_currentsector->m_camera->get_center());
+  SoundManager::current()->set_listener_position(m_currentsector->get_camera().get_center());
 
   /* Handle music: */
   if (m_end_sequence)
     return;
 
-  if(m_currentsector->m_player->m_invincible_timer.started()) {
-    if(m_currentsector->m_player->m_invincible_timer.get_timeleft() <=
+  if(m_currentsector->get_player().m_invincible_timer.started()) {
+    if(m_currentsector->get_player().m_invincible_timer.get_timeleft() <=
        TUX_INVINCIBLE_TIME_WARNING) {
       m_currentsector->play_music(HERRING_WARNING_MUSIC);
     } else {
@@ -518,7 +518,7 @@ GameSession::start_sequence(Sequence seq, const SequenceData* data)
   m_end_sequence->start();
 
   SoundManager::current()->play_music("music/leveldone.ogg", false);
-  m_currentsector->m_player->set_winning();
+  m_currentsector->get_player().set_winning();
 
   // Stop all clocks.
   for(const auto& obj : m_currentsector->get_objects())

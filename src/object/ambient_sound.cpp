@@ -167,8 +167,8 @@ AmbientSound::update(float dt_sec)
     float rx,ry;
 
     // Camera position
-    px=Sector::get().m_camera->get_center().x;
-    py=Sector::get().m_camera->get_center().y;
+    px=Sector::get().get_camera().get_center().x;
+    py=Sector::get().get_camera().get_center().y;
 
     // Relate to which point in the area
     rx=px<m_col.m_bbox.p1.x?m_col.m_bbox.p1.x:

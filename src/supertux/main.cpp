@@ -442,8 +442,8 @@ Main::launch_game(const CommandLineArguments& args)
       if (args.sector || args.spawnpoint)
       {
         std::string sectorname = args.sector.get_value_or("main");
-        std::string default_spawnpoint = session->get_current_sector().m_spawnpoints.empty() ?
-          "" : session->get_current_sector().m_spawnpoints[0]->get_name();
+        std::string default_spawnpoint = session->get_current_sector().get_spawnpoints().empty() ?
+          "" : session->get_current_sector().get_spawnpoints()[0]->get_name();
         std::string spawnpointname = args.spawnpoint.get_value_or(default_spawnpoint);
 
         session->respawn(sectorname, spawnpointname);
@@ -451,7 +451,7 @@ Main::launch_game(const CommandLineArguments& args)
 
       if (g_config->tux_spawn_pos)
       {
-        session->get_current_sector().m_player->set_pos(*g_config->tux_spawn_pos);
+        session->get_current_sector().get_player().set_pos(*g_config->tux_spawn_pos);
       }
 
       if(!g_config->start_demo.empty())

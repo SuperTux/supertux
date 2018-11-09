@@ -68,9 +68,9 @@ Bullet::update(float dt_sec)
     lightsprite->set_color(Color(0.3f, 0.1f, 0.0f));
   // remove bullet when it's offscreen
   float scroll_x =
-    Sector::get().m_camera->get_translation().x;
+    Sector::get().get_camera().get_translation().x;
   float scroll_y =
-    Sector::get().m_camera->get_translation().y;
+    Sector::get().get_camera().get_translation().y;
   if (get_pos().x < scroll_x ||
       get_pos().x > scroll_x + static_cast<float>(SCREEN_WIDTH) ||
       //     get_pos().y < scroll_y ||

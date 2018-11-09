@@ -164,7 +164,7 @@ Coin::collect()
   soundSource->play();
   SoundManager::current()->manage_source(std::move(soundSource));
 
-  Sector::get().m_player->get_status().add_coins(1, false);
+  Sector::get().get_player().get_status().add_coins(1, false);
   Sector::get().add<BouncyCoin>(get_pos(), false, get_sprite_name());
   Sector::get().get_level().m_stats.m_coins++;
   remove_me();

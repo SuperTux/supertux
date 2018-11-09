@@ -222,11 +222,6 @@ bool validate_sector_player()
     return false;
   }
 
-  if (::Sector::get().m_player == nullptr)
-  {
-    log_info << "No player." << std::endl;
-    return false;
-  }
   return true;
 }
 
@@ -243,30 +238,30 @@ void play_sound(const std::string& filename)
 void grease()
 {
   if (!validate_sector_player()) return;
-  auto tux = ::Sector::get().m_player; // scripting::Player != ::Player
-  tux->get_physic().set_velocity_x(tux->get_physic().get_velocity_x()*3);
+  ::Player& tux = ::Sector::get().get_player(); // scripting::Player != ::Player
+  tux.get_physic().set_velocity_x(tux.get_physic().get_velocity_x()*3);
 }
 
 void invincible()
 {
   if (!validate_sector_player()) return;
-  auto tux = ::Sector::get().m_player;
-  tux->m_invincible_timer.start(10000);
+  ::Player& tux = ::Sector::get().get_player();
+  tux.m_invincible_timer.start(10000);
 }
 
 void ghost()
 {
   if (!validate_sector_player()) return;
-  auto tux = ::Sector::get().m_player;
-  tux->set_ghost_mode(true);
+  ::Player& tux = ::Sector::get().get_player();
+  tux.set_ghost_mode(true);
 }
 
 void mortal()
 {
   if (!validate_sector_player()) return;
-  auto tux = ::Sector::get().m_player;
-  tux->m_invincible_timer.stop();
-  tux->set_ghost_mode(false);
+  ::Player& tux = ::Sector::get().get_player();
+  tux.m_invincible_timer.stop();
+  tux.set_ghost_mode(false);
 }
 
 void restart()
@@ -283,34 +278,34 @@ void restart()
 void whereami()
 {
   if (!validate_sector_player()) return;
-  auto tux = ::Sector::get().m_player;
-  log_info << "You are at x " << (static_cast<int>(tux->get_pos().x)) << ", y " << (static_cast<int>(tux->get_pos().y)) << std::endl;
+  ::Player& tux = ::Sector::get().get_player();
+  log_info << "You are at x " << (static_cast<int>(tux.get_pos().x)) << ", y " << (static_cast<int>(tux.get_pos().y)) << std::endl;
 }
 
 void gotoend()
 {
   if (!validate_sector_player()) return;
-  auto tux = ::Sector::get().m_player;
-  tux->move(Vector(
+  ::Player& tux = ::Sector::get().get_player();
+  tux.move(Vector(
               (::Sector::get().get_width()) - (static_cast<float>(SCREEN_WIDTH) * 2.0f), 0));
-  ::Sector::get().m_camera->reset(
-    Vector(tux->get_pos().x, tux->get_pos().y));
+  ::Sector::get().get_camera().reset(
+    Vector(tux.get_pos().x, tux.get_pos().y));
 }
 
 void warp(float offset_x, float offset_y)
 {
   if (!validate_sector_player()) return;
-  auto tux = ::Sector::get().m_player;
-  tux->move(Vector(
-              tux->get_pos().x + (offset_x*32), tux->get_pos().y - (offset_y*32)));
-  ::Sector::get().m_camera->reset(
-    Vector(tux->get_pos().x, tux->get_pos().y));
+  ::Player& tux = ::Sector::get().get_player();
+  tux.move(Vector(
+              tux.get_pos().x + (offset_x*32), tux.get_pos().y - (offset_y*32)));
+  ::Sector::get().get_camera().reset(
+    Vector(tux.get_pos().x, tux.get_pos().y));
 }
 
 void camera()
 {
   if (!validate_sector_player()) return;
-  auto& cam_pos = ::Sector::get().m_camera->get_translation();
+  auto& cam_pos = ::Sector::get().get_camera().get_translation();
   log_info << "Camera is at " << cam_pos.x << "," << cam_pos.y << std::endl;
 }
 

@@ -155,7 +155,7 @@ Sector::activate(const std::string& spawnpoint)
 {
   SpawnPoint* sp = nullptr;
   for(const auto& spawn_point : m_spawnpoints) {
-    if(spawn_point->get_name() == spawnpoint) {
+    if (spawn_point->get_name() == spawnpoint) {
       sp = spawn_point.get();
       break;
     }
@@ -177,8 +177,8 @@ Sector::activate(const Vector& player_pos)
 {
   BIND_SECTOR(*this);
 
-  if(s_current != this) {
-    if(s_current != nullptr)
+  if (s_current != this) {
+    if (s_current != nullptr)
       s_current->deactivate();
     s_current = this;
 
@@ -203,7 +203,7 @@ Sector::activate(const Vector& player_pos)
     }
 
     // spawning tux in the ground would kill him
-    if(!is_free_of_tiles(player.get_bbox())) {
+    if (!is_free_of_tiles(player.get_bbox())) {
       std::string current_level = "[" + Sector::get().get_level().m_filename + "] ";
       log_warning << current_level << "Tried spawning Tux in solid matter. Compensating." << std::endl;
       Vector npos = player.get_bbox().p1;
@@ -224,7 +224,7 @@ Sector::activate(const Vector& player_pos)
   //Run default.nut just before init script
   //Check to see if it's in a levelset (info file)
   std::string basedir = FileSystem::dirname(get_level().m_filename);
-  if(PHYSFS_exists((basedir + "/info").c_str())) {
+  if (PHYSFS_exists((basedir + "/info").c_str())) {
     try {
       IFileStream in(basedir + "/default.nut");
       m_squirrel_environment->run_script(in, "default.nut");
@@ -234,7 +234,7 @@ Sector::activate(const Vector& player_pos)
   }
 
   // Run init script
-  if(!m_init_script.empty() && !Editor::is_active()) {
+  if (!m_init_script.empty() && !Editor::is_active()) {
     run_script(m_init_script, "init-script");
   }
 }
@@ -244,7 +244,7 @@ Sector::deactivate()
 {
   BIND_SECTOR(*this);
 
-  if(s_current != this)
+  if (s_current != this)
     return;
 
   m_squirrel_environment->unexpose_self();
@@ -273,9 +273,9 @@ Sector::calculate_foremost_layer() const
   int layer = LAYER_BACKGROUND0;
   for(auto& tm : get_objects_by_type<TileMap>())
   {
-    if(tm.get_layer() > layer)
+    if (tm.get_layer() > layer)
     {
-      if( (tm.get_alpha() < 1.0) )
+      if ( (tm.get_alpha() < 1.0) )
       {
         layer = tm.get_layer() - 1;
       }
@@ -304,7 +304,7 @@ Sector::update(float dt_sec)
 
   m_player->check_bounds();
 
-  if(m_ambient_light_fading)
+  if (m_ambient_light_fading)
   {
     m_ambient_light_fade_accum += dt_sec;
     float percent_done = m_ambient_light_fade_accum / m_ambient_light_fade_duration * 1.0f;
@@ -312,23 +312,23 @@ Sector::update(float dt_sec)
     float g = (1.0f - percent_done) * m_source_ambient_light.green + percent_done * m_target_ambient_light.green;
     float b = (1.0f - percent_done) * m_source_ambient_light.blue + percent_done * m_target_ambient_light.blue;
 
-    if(r > 1.0)
+    if (r > 1.0)
       r = 1.0;
-    if(g > 1.0)
+    if (g > 1.0)
       g = 1.0;
-    if(b > 1.0)
+    if (b > 1.0)
       b = 1.0;
 
-    if(r < 0)
+    if (r < 0)
       r = 0;
-    if(g < 0)
+    if (g < 0)
       g = 0;
-    if(b < 0)
+    if (b < 0)
       b = 0;
 
     m_ambient_light = Color(r, g, b);
 
-    if(m_ambient_light_fade_accum >= m_ambient_light_fade_duration)
+    if (m_ambient_light_fade_accum >= m_ambient_light_fade_duration)
     {
       m_ambient_light = m_target_ambient_light;
       m_ambient_light_fading = false;
@@ -352,34 +352,34 @@ Sector::before_object_add(GameObject& object)
     m_collision_system->add(movingobject->get_collision_object());
   }
 
-  auto camera_ = dynamic_cast<Camera*>(&object);
-  if(camera_) {
-    if(m_camera != nullptr) {
+  auto camera = dynamic_cast<Camera*>(&object);
+  if (camera) {
+    if (m_camera != nullptr) {
       log_warning << "Multiple cameras added. Ignoring" << std::endl;
       return false;
     }
-    m_camera = camera_;
+    m_camera = camera;
   }
 
-  auto player_ = dynamic_cast<Player*>(&object);
-  if(player_) {
-    if(m_player != nullptr) {
+  auto player = dynamic_cast<Player*>(&object);
+  if (player) {
+    if (m_player != nullptr) {
       log_warning << "Multiple players added. Ignoring" << std::endl;
       return false;
     }
-    m_player = player_;
+    m_player = player;
   }
 
   auto effect_ = dynamic_cast<DisplayEffect*>(&object);
-  if(effect_) {
-    if(m_effect != nullptr) {
+  if (effect_) {
+    if (m_effect != nullptr) {
       log_warning << "Multiple DisplayEffects added. Ignoring" << std::endl;
       return false;
     }
     m_effect = effect_;
   }
 
-  if(s_current == this) {
+  if (s_current == this) {
     m_squirrel_environment->try_expose(object);
   }
 
@@ -394,7 +394,7 @@ Sector::before_object_remove(GameObject& object)
     m_collision_system->remove(moving_object->get_collision_object());
   }
 
-  if(s_current == this)
+  if (s_current == this)
     m_squirrel_environment->try_unexpose(object);
 }
 
@@ -478,7 +478,7 @@ Sector::play_music(MusicType type)
 void
 Sector::resume_music()
 {
-  if(SoundManager::current()->get_current_music() == m_music)
+  if (SoundManager::current()->get_current_music() == m_music)
   {
     SoundManager::current()->resume_music(3.2f);
   }
@@ -578,7 +578,7 @@ Sector::set_ambient_light(const Color& ambient_light)
 void
 Sector::fade_to_ambient_light(float red, float green, float blue, float seconds)
 {
-  if(seconds == 0)
+  if (seconds == 0)
   {
     m_ambient_light = Color(red, green, blue);
     return;

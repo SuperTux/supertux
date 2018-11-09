@@ -1167,9 +1167,9 @@ Player::draw(DrawingContext& context)
     return;
 
   // if Tux is above camera, draw little "air arrow" to show where he is x-wise
-  if (Sector::get().m_camera && (m_col.m_bbox.p2.y - 16 < Sector::get().m_camera->get_translation().y)) {
+  if (m_col.m_bbox.p2.y - 16 < Sector::get().get_camera().get_translation().y) {
     float px = m_col.m_bbox.p1.x + (m_col.m_bbox.p2.x - m_col.m_bbox.p1.x - static_cast<float>(m_airarrow.get()->get_width())) / 2.0f;
-    float py = Sector::get().m_camera->get_translation().y;
+    float py = Sector::get().get_camera().get_translation().y;
     py += std::min(((py - (m_col.m_bbox.p2.y + 16)) / 4), 16.0f);
     context.color().draw_surface(m_airarrow, Vector(px, py), LAYER_HUD - 1);
   }
@@ -1376,7 +1376,7 @@ Player::collision_solid(const CollisionHit& hit)
                                       Vector(m_col.m_bbox.p1.x, m_col.m_bbox.p2.y),
                                       -70, -50, 260, 280, Vector(0, 300), 3,
                                       Color(.4f, .4f, .4f), 3, .8f, LAYER_OBJECTS+1);
-      Sector::get().m_camera->shake(.1f, 0, 5);
+      Sector::get().get_camera().shake(.1f, 0, 5);
     }
 
   } else if(hit.top) {
@@ -1515,7 +1515,7 @@ Player::kill(bool completely)
     set_group(COLGROUP_DISABLED);
 
     // TODO: need nice way to handle players dying in co-op mode
-    Sector::get().m_effect->fade_out(3.0);
+    Sector::get().get_effect().fade_out(3.0);
     SoundManager::current()->pause_music(3.0);
   }
 }

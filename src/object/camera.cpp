@@ -335,10 +335,10 @@ void
 Camera::update_scroll_normal(float dt_sec)
 {
   const auto& config_ = *(m_config);
-  auto player = m_sector->m_player;
+  Player& player = m_sector->get_player();
   // TODO: co-op mode needs a good camera
-  Vector player_pos(player->get_bbox().get_middle().x,
-                                    player->get_bbox().get_bottom());
+  Vector player_pos(player.get_bbox().get_middle().x,
+                                    player.get_bbox().get_bottom());
   static Vector last_player_pos = player_pos;
   Vector player_delta = player_pos - last_player_pos;
   last_player_pos = player_pos;
@@ -350,7 +350,7 @@ Camera::update_scroll_normal(float dt_sec)
   /****** Vertical Scrolling part ******/
   int ymode = config_.ymode;
 
-  if(player->is_dying() || m_sector->get_height() == 19*32) {
+  if(player.is_dying() || m_sector->get_height() == 19*32) {
     ymode = 0;
   }
   if(ymode == 1) {
@@ -362,10 +362,10 @@ Camera::update_scroll_normal(float dt_sec)
     // position where he last touched the ground. (this probably needs
     // exceptions for trampolines and similar things in the future)
     float target_y;
-    if(player->m_fall_mode == Player::JUMPING)
-      target_y = player->m_last_ground_y + player->get_bbox().get_height();
+    if(player.m_fall_mode == Player::JUMPING)
+      target_y = player.m_last_ground_y + player.get_bbox().get_height();
     else
-      target_y = player->get_bbox().p2.y;
+      target_y = player.get_bbox().p2.y;
     target_y -= static_cast<float>(static_cast<float>(m_screen_size.height)) * config_.target_y;
 
     // delta_y is the distance we'd have to travel to directly reach target_y
@@ -374,8 +374,8 @@ Camera::update_scroll_normal(float dt_sec)
     float speed_y = delta_y / dt_sec;
 
     // limit the camera speed when jumping upwards
-    if(player->m_fall_mode != Player::FALLING
-       && player->m_fall_mode != Player::TRAMPOLINE_JUMP) {
+    if(player.m_fall_mode != Player::FALLING
+       && player.m_fall_mode != Player::TRAMPOLINE_JUMP) {
       speed_y = math::clamp(speed_y, -config_.max_speed_y, config_.max_speed_y);
     }
 
@@ -433,9 +433,9 @@ Camera::update_scroll_normal(float dt_sec)
     float peek_to = 0;
     float translation_compensation = player_pos.y - m_translation.y;
 
-    if(player->peeking_direction_y() == ::UP) {
+    if(player.peeking_direction_y() == ::UP) {
       peek_to = bottom_edge - translation_compensation;
-    } else if(player->peeking_direction_y() == ::DOWN) {
+    } else if(player.peeking_direction_y() == ::DOWN) {
       peek_to = top_edge - translation_compensation;
     }
 
@@ -461,7 +461,7 @@ Camera::update_scroll_normal(float dt_sec)
   /****** Horizontal scrolling part *******/
   int xmode = config_.xmode;
 
-  if(player->is_dying())
+  if(player.is_dying())
     xmode = 0;
 
   if(xmode == 1) {
@@ -479,7 +479,7 @@ Camera::update_scroll_normal(float dt_sec)
     LookaheadMode walkDirection;
     if (player_delta.x < -CAMERA_EPSILON) walkDirection = LOOKAHEAD_LEFT;
     else if (player_delta.x > CAMERA_EPSILON) walkDirection = LOOKAHEAD_RIGHT;
-    else if (player->m_dir == ::LEFT) walkDirection = LOOKAHEAD_LEFT;
+    else if (player.m_dir == ::LEFT) walkDirection = LOOKAHEAD_LEFT;
     else walkDirection = LOOKAHEAD_RIGHT;
 
     float LEFTEND, RIGHTEND;
@@ -604,9 +604,9 @@ Camera::update_scroll_normal(float dt_sec)
     float peek_to = 0;
     float translation_compensation = player_pos.x - m_translation.x;
 
-    if(player->peeking_direction_x() == ::LEFT) {
+    if(player.peeking_direction_x() == ::LEFT) {
       peek_to = right_edge - translation_compensation;
-    } else if(player->peeking_direction_x() == ::RIGHT) {
+    } else if(player.peeking_direction_x() == ::RIGHT) {
       peek_to = left_edge - translation_compensation;
     }
 
@@ -637,8 +637,8 @@ Camera::update_scroll_normal(float dt_sec)
 void
 Camera::update_scroll_autoscroll(float dt_sec)
 {
-  auto player = m_sector->m_player;
-  if(player->is_dying())
+  Player& player = m_sector->get_player();
+  if(player.is_dying())
     return;
 
   get_walker()->update(dt_sec);

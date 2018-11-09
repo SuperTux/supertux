@@ -60,14 +60,14 @@ LevelTime::update(float dt_sec)
   int prev_time = static_cast<int>(floorf(time_left*5));
   time_left -= dt_sec;
   if(time_left <= 0) {
-    if(time_left <= -5 || !Sector::get().m_player->get_coins())
+    if(time_left <= -5 || !Sector::get().get_player().get_coins())
     {
-      Sector::get().m_player->kill(true);
+      Sector::get().get_player().kill(true);
       stop();
     }
     if(prev_time != static_cast<int>(floorf(time_left*5)))
     {
-      Sector::get().m_player->add_coins(-1);
+      Sector::get().get_player().add_coins(-1);
     }
   }
 }
