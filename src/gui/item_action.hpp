@@ -22,7 +22,12 @@
 class ItemAction final : public MenuItem
 {
 public:
-  ItemAction(const std::string& text_, int id = -1);
+  ItemAction(const std::string& text_, int id = -1, std::function<void()> callback = {});
+
+  virtual void process_action(const MenuAction& action) override;
+
+private:
+  std::function<void()> m_callback;
 
 private:
   ItemAction(const ItemAction&) = delete;

@@ -16,9 +16,20 @@
 
 #include "gui/item_action.hpp"
 
-ItemAction::ItemAction(const std::string& text_, int _id) :
-  MenuItem(text_, _id)
+ItemAction::ItemAction(const std::string& text_, int _id, std::function<void()> callback) :
+  MenuItem(text_, _id),
+  m_callback(callback)
 {
+}
+
+void
+ItemAction::process_action(const MenuAction& action)
+{
+  if (action == MENU_ACTION_HIT) {
+    if (m_callback) {
+      m_callback();
+    }
+  }
 }
 
 /* EOF */

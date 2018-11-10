@@ -218,6 +218,15 @@ Menu::add_entry(int id, const std::string& text)
   return *item_ptr;
 }
 
+ItemAction&
+Menu::add_entry(const std::string& text, std::function<void()> callback)
+{
+  auto item = std::make_unique<ItemAction>(text, -1, callback);
+  auto item_ptr = item.get();
+  add_item(std::move(item));
+  return *item_ptr;
+}
+
 ItemInactive&
 Menu::add_inactive(const std::string& text)
 {

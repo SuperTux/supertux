@@ -57,6 +57,7 @@ public:
   ItemHorizontalLine& add_hl();
   ItemLabel& add_label(const std::string& text);
   ItemAction& add_entry(int id, const std::string& text);
+  ItemAction& add_entry(const std::string& text, std::function<void()> callback);
   ItemToggle& add_toggle(int id, const std::string& text, bool* toggled);
   ItemToggle& add_toggle(int id, const std::string& text,
                          std::function<bool()> get_func,
