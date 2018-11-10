@@ -22,10 +22,13 @@
 #include "supertux/savegame.hpp"
 #include "util/log.hpp"
 #include "worldmap/level_tile.hpp"
+#include "worldmap/tux.hpp"
 #include "worldmap/worldmap.hpp"
 
 WorldmapCheatMenu::WorldmapCheatMenu()
 {
+  auto worldmap = worldmap::WorldMap::current();
+
   add_label(_("Cheats"));
   add_hl();
   add_entry(MNID_GROW, _("Bonus: Grow"));
@@ -34,6 +37,9 @@ WorldmapCheatMenu::WorldmapCheatMenu()
   add_entry(MNID_AIR, _("Bonus: Air"));
   add_entry(MNID_EARTH, _("Bonus: Earth"));
   add_entry(MNID_SHRINK, _("Bonus: None"));
+  add_hl();
+  add_entry(MNID_GHOST, (worldmap != nullptr && worldmap->get_tux().get_ghost_mode() ?
+                         _("Leave Ghost Mode") : _("Activate Ghost Mode")));
   add_hl();
   add_entry(MNID_FINISH_LEVEL, _("Finish Level"));
   add_entry(MNID_RESET_LEVEL, _("Reset Level"));
@@ -84,6 +90,10 @@ WorldmapCheatMenu::menu_action(MenuItem& item)
 
       case MNID_SHRINK:
         status.bonus = NO_BONUS;
+        break;
+
+      case MNID_GHOST:
+        worldmap->get_tux().set_ghost_mode(!worldmap->get_tux().get_ghost_mode());
         break;
 
       case MNID_FINISH_LEVEL:

@@ -22,7 +22,6 @@
 class WorldmapCheatMenu final : public Menu
 {
 private:
-private:
   enum MenuIDs {
     MNID_GROW,
     MNID_FIRE,
@@ -30,6 +29,7 @@ private:
     MNID_AIR,
     MNID_EARTH,
     MNID_SHRINK,
+    MNID_GHOST,
     MNID_FINISH_LEVEL,
     MNID_RESET_LEVEL,
     MNID_FINISH_WORLDMAP,
