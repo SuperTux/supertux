@@ -90,7 +90,7 @@ public:
   void finished_level(Level* level);
 
   /** returns current Tux incarnation */
-  Tux* get_tux() const { return m_tux; }
+  Tux& get_tux() const { return *m_tux; }
 
   Savegame& get_savegame() const { return m_savegame; }
 
