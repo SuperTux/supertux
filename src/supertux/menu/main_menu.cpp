@@ -93,10 +93,12 @@ MainMenu::menu_action(MenuItem& item)
 
     case MNID_DONATE:
     {
-    #if defined(_WIN32)
+    #if defined(_WIN32) || defined (_WIN64)
       ShellExecute(NULL, "open", "https://www.supertux.org/donate.html", NULL, NULL, SW_SHOWNORMAL);
-    #else
+    #elif defined(__APPLE__)
       system("open https://www.supertux.org/donate.html");
+    #else
+      system("xdg-open https://www.supertux.org/donate.html");
     #endif
     }
     break;
