@@ -29,6 +29,13 @@
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
+#if defined(_WIN32)
+  #include <windows.h>
+  #include <shellapi.h>
+#else
+  #include <cstdlib>
+#endif
+
 MainMenu::MainMenu()
 {
   set_center_pos(static_cast<float>(SCREEN_WIDTH) / 2.0f,
@@ -39,6 +46,7 @@ MainMenu::MainMenu()
   add_submenu(_("Options"), MenuStorage::OPTIONS_MENU);
   add_entry(MNID_LEVELEDITOR, _("Level Editor"));
   add_entry(MNID_CREDITS, _("Credits"));
+  add_entry(MNID_DONATE, _("Donate"));
   add_entry(MNID_QUITMAINMENU, _("Quit"));
 }
 
@@ -82,6 +90,16 @@ MainMenu::menu_action(MenuItem& item)
         //Editor::current()->setup();
       }
       break;
+
+    case MNID_DONATE:
+    {
+    #if defined(_WIN32)
+      ShellExecute(NULL, "open", "https://www.supertux.org/donate.html", NULL, NULL, SW_SHOWNORMAL);
+    #else
+      system("open https://www.supertux.org/donate.html");
+    #endif
+    }
+    break;
 
     case MNID_QUITMAINMENU:
       MenuManager::instance().clear_menu_stack();
