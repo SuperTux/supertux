@@ -44,12 +44,7 @@ public:
    * @param: name_  name of GameObject.
    */
   TextArrayObject(const std::string& name_ = std::string());
-
-  TextArrayObject(const ReaderMapping& reader) :
-    GameObject(reader),
-    ExposedObject<TextArrayObject, scripting::TextArray>(this)
-  {
-  }
+  TextArrayObject(const ReaderMapping& reader);
 
   /**
    * TextArrayObject destructor (default)

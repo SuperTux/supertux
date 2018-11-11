@@ -18,18 +18,33 @@
 #include "control/input_manager.hpp"
 
 TextArrayObject::TextArrayObject(const std::string& name_) :
-                                  ExposedObject<TextArrayObject, scripting::TextArray>(this),
-                                  m_isDone(false),
-                                  m_isAuto(false),
-                                  m_keepVisible(false),
-                                  m_fadeTransition(true),
-                                  m_fadetime(1.0),
-                                  m_texts(),
-                                  m_curTextIndex(0),
-                                  m_lastTextIndex(0),
-                                  m_waiting()
+  ExposedObject<TextArrayObject, scripting::TextArray>(this),
+  m_isDone(false),
+  m_isAuto(false),
+  m_keepVisible(false),
+  m_fadeTransition(true),
+  m_fadetime(1.0),
+  m_texts(),
+  m_curTextIndex(0),
+  m_lastTextIndex(0),
+  m_waiting()
 {
   m_name = name_;
+}
+
+TextArrayObject::TextArrayObject(const ReaderMapping& reader) :
+  GameObject(reader),
+  ExposedObject<TextArrayObject, scripting::TextArray>(this),
+  m_isDone(false),
+  m_isAuto(false),
+  m_keepVisible(false),
+  m_fadeTransition(true),
+  m_fadetime(1.0),
+  m_texts(),
+  m_curTextIndex(0),
+  m_lastTextIndex(0),
+  m_waiting()
+{
 }
 
 void TextArrayObject::clear()
