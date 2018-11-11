@@ -230,10 +230,10 @@ TileMap::get_settings() {
   draw_target_option.select.push_back(_("Lightmap"));
   result.options.push_back(draw_target_option);
 
-  m_add_path = get_walker() && get_path()->is_valid();
+  m_add_path = get_walker() && get_path() && get_path()->is_valid();
   result.options.push_back( ObjectOption(MN_TOGGLE, _("Following path"), &m_add_path));
 
-  if (get_walker() && get_path()->is_valid()) {
+  if (get_walker() && get_path() && get_path()->is_valid()) {
     result.options.push_back( Path::get_mode_option(&get_path()->m_mode) );
     result.options.push_back(ObjectOption(MN_TOGGLE, _("Running"), &m_running, "running"));
   }
@@ -253,7 +253,7 @@ TileMap::after_editor_set()
     resize(m_new_size_x, m_new_size_y, 0, m_new_offset_x, m_new_offset_y);
   }
 
-  if (get_walker() && get_path()->is_valid()) {
+  if (get_walker() && get_path() && get_path()->is_valid()) {
     if (!m_add_path) {
       get_path()->m_nodes.clear();
     }
@@ -298,7 +298,7 @@ TileMap::update(float dt_sec)
   if (get_walker()) {
     get_walker()->update(dt_sec);
     Vector v = get_walker()->get_pos();
-    if (get_path()->is_valid()) {
+    if (get_path() && get_path()->is_valid()) {
       m_movement = v - get_offset();
       set_offset(v);
     } else {
