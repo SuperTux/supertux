@@ -44,6 +44,14 @@ public:
 
   virtual void save(Writer& writer) override;
 
+  virtual std::string get_class() const override {
+    return "path";
+  }
+
+  virtual std::string get_display_name() const override {
+    return _("Path");
+  }
+
 private:
   std::unique_ptr<Path> m_path;
   PathStyle m_style;
