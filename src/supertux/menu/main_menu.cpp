@@ -26,6 +26,7 @@
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/screen_manager.hpp"
 #include "supertux/textscroller_screen.hpp"
+#include "util/log.hpp"
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
@@ -95,10 +96,22 @@ MainMenu::menu_action(MenuItem& item)
     {
     #if defined(_WIN32) || defined (_WIN64)
       ShellExecute(NULL, "open", "https://www.supertux.org/donate.html", NULL, NULL, SW_SHOWNORMAL);
-    #elif defined(__APPLE__)
-      system("open https://www.supertux.org/donate.html");
     #else
-      system("xdg-open https://www.supertux.org/donate.html");
+      #if defined(__APPLE__)
+      const char* cmd = "open https://www.supertux.org/donate.html";
+      #else
+      const char* cmd = "xdg-open https://www.supertux.org/donate.html";
+      #endif
+
+      int ret = system(cmd);
+      if (ret < 0)
+      {
+        log_fatal << "failed to spawn: " << cmd << std::endl;
+      }
+      else if (ret > 0)
+      {
+        log_fatal << "error " << ret << " while executing: " << cmd << std::endl;
+      }
     #endif
     }
     break;
