@@ -19,41 +19,39 @@
 
 #include "supertux/globals.hpp"
 
-/**
- * Simple timer designed to be used in the update functions of objects
- */
+/** Simple timer designed to be used in the update functions of
+    objects */
 class Timer final
 {
 public:
   Timer();
 
-  /** start the timer with the given period (in seconds).
-   * If cyclic=true then the timer will be reset after each period.
-   * Set period to zero if you want to disable the timer.
-   */
+  /** start the timer with the given period (in seconds). If
+      cyclic=true then the timer will be reset after each period. Set
+      period to zero if you want to disable the timer. */
   void start(float period, bool cyclic = false);
+
   /** returns true if a period (or more) passed since start call or last
-   * successful check
-   */
+      successful check */
   bool check();
+
   /** stop the timer */
-  void stop()
-  { start(0); }
+  void stop() { start(0); }
 
   /** returns the period of the timer or 0 if it isn't started */
-  float get_period() const
-  { return period; }
-  float get_timeleft() const
-  { return period - (g_game_time - cycle_start); }
-  float get_timegone() const
-  { return g_game_time - cycle_start; }
-  bool started() const
-  { return period != 0 && get_timeleft() > 0; }
+  float get_period() const { return m_period; }
+  float get_timeleft() const{ return m_period - (g_game_time - m_cycle_start); }
+  float get_timegone() const { return g_game_time - m_cycle_start; }
+  bool started() const { return m_period != 0 && get_timeleft() > 0; }
 
 private:
-  float period;
-  float cycle_start;
-  bool cyclic;
+  float m_period;
+  float m_cycle_start;
+  bool m_cyclic;
+
+private:
+  Timer(const Timer&) = delete;
+  Timer& operator=(const Timer&) = delete;
 };
 
 #endif

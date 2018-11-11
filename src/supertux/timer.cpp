@@ -19,31 +19,31 @@
 #include "supertux/timer.hpp"
 
 Timer::Timer() :
-  period(0),
-cycle_start(0),
-  cyclic(false)
+  m_period(0),
+  m_cycle_start(0),
+  m_cyclic(false)
 {
 }
 
 void
-Timer::start(float period_, bool cyclic_)
+Timer::start(float period, bool cyclic)
 {
-  period = period_;
-  cyclic = cyclic_;
-  cycle_start = g_game_time;
+  m_period = period;
+  m_cyclic = cyclic;
+  m_cycle_start = g_game_time;
 }
 
 bool
 Timer::check()
 {
-  if(period == 0)
+  if (m_period == 0)
     return false;
 
-  if(g_game_time - cycle_start >= period) {
-    if(cyclic) {
-      cycle_start = g_game_time - fmodf(g_game_time - cycle_start, period);
+  if (g_game_time - m_cycle_start >= m_period) {
+    if(m_cyclic) {
+      m_cycle_start = g_game_time - fmodf(g_game_time - m_cycle_start, m_period);
     } else {
-      period = 0;
+      m_period = 0;
     }
     return true;
   }
