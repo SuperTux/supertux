@@ -45,6 +45,12 @@ public:
    */
   TextArrayObject(const std::string& name_ = std::string());
 
+  TextArrayObject(const ReaderMapping& reader) :
+    GameObject(reader),
+    ExposedObject<TextArrayObject, scripting::TextArray>(this)
+  {
+  }
+
   /**
    * TextArrayObject destructor (default)
    */
@@ -56,6 +62,13 @@ public:
    * Empties the text array.
    */
   void clear();
+
+  virtual std::string get_class() const override {
+    return "text-array";
+  }
+  virtual std::string get_display_name() const override {
+    return _("Text array");
+  }
 
   /**
    * Adds a text with duration.
