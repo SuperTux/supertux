@@ -693,6 +693,8 @@ void Sector::play_looping_sounds()
 void
 Sector::save(Writer &writer)
 {
+  BIND_SECTOR(*this);
+
   writer.start_list("sector", false);
 
   writer.write("name", m_name, false);
