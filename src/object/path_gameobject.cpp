@@ -76,10 +76,6 @@ PathGameObject::PathGameObject(const ReaderMapping& mapping, bool backward_compa
     {
       m_path->read(*path_mapping);
     }
-
-    if (m_name.empty()) {
-      m_name = make_unique_name("path", this);
-    }
   }
 
   mapping.get_custom("style", m_style, PathStyle_from_string);
@@ -88,6 +84,10 @@ PathGameObject::PathGameObject(const ReaderMapping& mapping, bool backward_compa
   {
     m_edge_sprite = SpriteManager::current()->create("images/objects/path/edge.sprite");
     m_node_sprite = SpriteManager::current()->create("images/objects/path/node.sprite");
+  }
+
+  if (m_name.empty()) {
+    m_name = make_unique_name("path", this);
   }
 }
 
