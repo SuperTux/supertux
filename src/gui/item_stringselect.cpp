@@ -22,8 +22,8 @@
 #include "video/drawing_context.hpp"
 #include "video/surface.hpp"
 
-ItemStringSelect::ItemStringSelect(const std::string& text_, const std::vector<std::string>& list_, int* selected_, int _id) :
-  MenuItem(text_, _id),
+ItemStringSelect::ItemStringSelect(const std::string& text, const std::vector<std::string>& list_, int* selected_, int id) :
+  MenuItem(text, id),
   list(list_),
   selected(selected_),
   m_callback()

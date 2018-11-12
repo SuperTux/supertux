@@ -22,7 +22,7 @@
 class ItemBadguySelect final : public MenuItem
 {
 public:
-  ItemBadguySelect(const std::string& text_, std::vector<std::string>* badguys_, int id = -1);
+  ItemBadguySelect(const std::string& text, std::vector<std::string>* badguys_, int id = -1);
 
   /** Processes the menu action. */
   virtual void process_action(const MenuAction& action) override;

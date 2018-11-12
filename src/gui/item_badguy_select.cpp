@@ -20,8 +20,8 @@
 #include "gui/menu_badguy_select.hpp"
 #include "gui/menu_manager.hpp"
 
-ItemBadguySelect::ItemBadguySelect(const std::string& text_, std::vector<std::string>* badguys_, int _id) :
-  MenuItem(text_, _id),
+ItemBadguySelect::ItemBadguySelect(const std::string& text, std::vector<std::string>* badguys_, int id) :
+  MenuItem(text, id),
   badguys(badguys_)
 {
 }

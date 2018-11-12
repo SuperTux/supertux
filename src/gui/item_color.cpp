@@ -21,8 +21,8 @@
 #include "gui/menu_manager.hpp"
 #include "video/color.hpp"
 
-ItemColor::ItemColor(const std::string& text_, Color* color_, int _id) :
-  MenuItem(text_, _id),
+ItemColor::ItemColor(const std::string& text, Color* color_, int id) :
+  MenuItem(text, id),
   color(color_)
 {
 }

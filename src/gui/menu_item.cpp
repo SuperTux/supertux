@@ -23,9 +23,9 @@
 
 //static const float FLICK_CURSOR_TIME = 0.5f;
 
-MenuItem::MenuItem(const std::string& text_, int _id) :
-  m_id(_id),
-  m_text(text_),
+MenuItem::MenuItem(const std::string& text, int id) :
+  m_id(id),
+  m_text(text),
   m_help()
 {
 }

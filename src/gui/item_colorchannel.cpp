@@ -19,8 +19,8 @@
 #include "supertux/resources.hpp"
 #include "video/drawing_context.hpp"
 
-ItemColorChannel::ItemColorChannel(float* input_, Color channel_, int id_) :
-  MenuItem(std::to_string(*input_), id_),
+ItemColorChannel::ItemColorChannel(float* input_, Color channel_, int id) :
+  MenuItem(std::to_string(*input_), id),
   number(input_),
   flickw(static_cast<int>(Resources::normal_font->get_text_width("_"))),
   has_comma(true),

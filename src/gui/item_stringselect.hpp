@@ -24,7 +24,7 @@
 class ItemStringSelect final : public MenuItem
 {
 public:
-  ItemStringSelect(const std::string& text_, const std::vector<std::string>& list_, int* selected_, int _id = -1);
+  ItemStringSelect(const std::string& text, const std::vector<std::string>& list_, int* selected_, int id = -1);
 
   /** Draws the menu item. */
   virtual void draw(DrawingContext&, const Vector& pos, int menu_width, bool active) override;

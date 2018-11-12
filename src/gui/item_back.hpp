@@ -22,7 +22,7 @@
 class ItemBack final : public MenuItem
 {
 public:
-  ItemBack(const std::string& text_, int id = -1);
+  ItemBack(const std::string& text, int id = -1);
 
   /** Draws the menu item. */
   virtual void draw(DrawingContext&, const Vector& pos, int menu_width, bool active) override;

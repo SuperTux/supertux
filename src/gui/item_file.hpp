@@ -22,8 +22,8 @@
 class ItemFile final : public MenuItem
 {
 public:
-  ItemFile(const std::string& text_, std::string* filename_,
-           const std::vector<std::string>& extensions_, int _id = -1);
+  ItemFile(const std::string& text, std::string* filename_,
+           const std::vector<std::string>& extensions_, int id = -1);
 
   /** Processes the menu action. */
   virtual void process_action(const MenuAction& action) override;

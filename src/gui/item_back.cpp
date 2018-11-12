@@ -22,8 +22,8 @@
 #include "video/drawing_context.hpp"
 #include "video/surface.hpp"
 
-ItemBack::ItemBack(const std::string& text_, int _id) :
-  MenuItem(text_, _id)
+ItemBack::ItemBack(const std::string& text, int id) :
+  MenuItem(text, id)
 {
 }
 

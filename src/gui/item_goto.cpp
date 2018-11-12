@@ -20,8 +20,8 @@
 
 #include "gui/menu_manager.hpp"
 
-ItemGoTo::ItemGoTo(const std::string& text_, int target_menu_, int _id) :
-  MenuItem(text_, _id),
+ItemGoTo::ItemGoTo(const std::string& text, int target_menu_, int id) :
+  MenuItem(text, id),
   target_menu(target_menu_)
 {
 }

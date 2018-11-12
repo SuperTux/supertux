@@ -20,8 +20,8 @@
 #include "supertux/resources.hpp"
 #include "video/drawing_context.hpp"
 
-ItemControlField::ItemControlField(const std::string& text_, const std::string& input_, int _id) :
-  MenuItem(text_, _id),
+ItemControlField::ItemControlField(const std::string& text, const std::string& input_, int id) :
+  MenuItem(text, id),
   input(input_)
 {
 }

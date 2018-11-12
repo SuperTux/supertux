@@ -20,8 +20,8 @@
 #include "gui/menu_manager.hpp"
 #include "gui/menu_script.hpp"
 
-ItemScript::ItemScript(const std::string& text_, std::string* script_, int _id) :
-  MenuItem(text_, _id),
+ItemScript::ItemScript(const std::string& text, std::string* script_, int id) :
+  MenuItem(text, id),
   script(script_)
 {
 }

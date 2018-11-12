@@ -20,9 +20,9 @@
 #include "gui/menu_filesystem.hpp"
 #include "gui/menu_manager.hpp"
 
-ItemFile::ItemFile(const std::string& text_, std::string* filename_,
-                     const std::vector<std::string>& extensions_, int _id) :
-  MenuItem(text_, _id),
+ItemFile::ItemFile(const std::string& text, std::string* filename_,
+                   const std::vector<std::string>& extensions_, int id) :
+  MenuItem(text, id),
   filename(filename_),
   extensions(extensions_)
 {
