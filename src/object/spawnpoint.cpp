@@ -14,7 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "editor/spawnpoint_marker.hpp"
+#include "object/spawnpoint.hpp"
 
 #include "editor/editor.hpp"
 #include "supertux/debug.hpp"
@@ -51,7 +51,7 @@ SpawnPointMarker::SpawnPointMarker(const ReaderMapping& mapping) :
 void
 SpawnPointMarker::draw(DrawingContext& context)
 {
-  if (Editor::current() && g_debug.show_collision_rects)
+  if (Editor::current() || g_debug.show_collision_rects)
   {
     context.color().draw_surface(m_surface, m_col.m_bbox.p1, LAYER_FOREGROUND1);
   }
