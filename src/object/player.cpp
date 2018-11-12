@@ -300,6 +300,8 @@ Player::trigger_sequence(Sequence seq, const SequenceData* data)
 void
 Player::update(float dt_sec)
 {
+  check_bounds();
+
   if( no_water ){
     m_swimming = false;
   }

@@ -75,7 +75,6 @@ public:
   Direction peeking_direction_y() const { return m_peekingY; }
 
   void kill(bool completely);
-  void check_bounds();
   void move(const Vector& vector);
 
   bool add_bonus(const std::string& bonus);
@@ -204,6 +203,8 @@ private:
 
   /** slows Tux down a little, based on where he's standing */
   void apply_friction();
+
+  void check_bounds();
 
 private:
   bool m_deactivated;

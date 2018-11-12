@@ -302,8 +302,6 @@ Sector::update(float dt_sec)
 
   m_squirrel_environment->update(dt_sec);
 
-  m_player->check_bounds();
-
   if (m_ambient_light_fading)
   {
     m_ambient_light_fade_accum += dt_sec;
