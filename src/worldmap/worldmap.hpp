@@ -211,7 +211,6 @@ private:
 
   std::vector<std::unique_ptr<SpawnPoint> > m_spawn_points;
 
-  Color m_ambient_light;
   std::string m_force_spawnpoint; /**< if set, spawnpoint will be forced to this value */
   bool m_main_is_default;
   std::string m_initial_fade_tilemap;

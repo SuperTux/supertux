@@ -77,7 +77,6 @@ WorldMap::WorldMap(const std::string& filename, Savegame& savegame, const std::s
   m_map_filename(),
   m_levels_path(),
   m_spawn_points(),
-  m_ambient_light( 1.0f, 1.0f, 1.0f, 1.0f ),
   m_force_spawnpoint(force_spawnpoint_),
   m_main_is_default(true),
   m_initial_fade_tilemap(),
@@ -524,7 +523,6 @@ WorldMap::draw(DrawingContext& context)
                                      Color(0.0f, 0.0f, 0.0f, 1.0f), LAYER_BACKGROUND0);
   }
 
-  context.set_ambient_color( m_ambient_light );
   context.push_transform();
   context.set_translation(m_camera_offset);
 

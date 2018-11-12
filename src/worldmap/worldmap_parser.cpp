@@ -18,6 +18,7 @@
 
 #include <physfs.h>
 
+#include "object/ambient_light.hpp"
 #include "object/background.hpp"
 #include "object/decal.hpp"
 #include "object/tilemap.hpp"
@@ -99,19 +100,28 @@ WorldMapParser::load_worldmap(const std::string& filename)
           load_level_information(level);
         } else if(iter.get_key() == "special-tile") {
           m_worldmap.add<SpecialTile>(iter.as_mapping());
-      } else if(iter.get_key() == "sprite-change") {
+        } else if(iter.get_key() == "sprite-change") {
           m_worldmap.add<SpriteChange>(iter.as_mapping());
         } else if(iter.get_key() == "teleporter") {
           m_worldmap.add<Teleporter>(iter.as_mapping());
         } else if(iter.get_key() == "decal") {
           m_worldmap.add<Decal>(iter.as_mapping());
         } else if(iter.get_key() == "ambient-light") {
-          std::vector<float> vColor;
-          bool hasColor = sector->get( "ambient-light", vColor );
-          if(vColor.size() < 3 || !hasColor) {
-            log_warning << "(ambient-light) requires a color as argument" << std::endl;
+          const auto& sx = iter.get_sexp();
+          if (sx.is_array() && sx.as_array().size() >= 3 &&
+              sx.as_array()[1].is_real() && sx.as_array()[2].is_real() && sx.as_array()[3].is_real())
+          {
+            // for backward compatibilty
+            std::vector<float> vColor;
+            bool hasColor = sector->get("ambient-light", vColor);
+            if(vColor.size() < 3 || !hasColor) {
+              log_warning << "(ambient-light) requires a color as argument" << std::endl;
+            } else {
+              m_worldmap.add<AmbientLight>(Color(vColor));
+            }
           } else {
-            m_worldmap.m_ambient_light = Color( vColor );
+            // modern format
+            m_worldmap.add<AmbientLight>(iter.as_mapping());
           }
         } else if(iter.get_key() == "name") {
           // skip
