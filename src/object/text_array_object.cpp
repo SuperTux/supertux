@@ -17,7 +17,7 @@
 #include "object/text_array_object.hpp"
 #include "control/input_manager.hpp"
 
-TextArrayObject::TextArrayObject(const std::string& name_) :
+TextArrayObject::TextArrayObject(const std::string& name) :
   ExposedObject<TextArrayObject, scripting::TextArray>(this),
   m_isDone(false),
   m_isAuto(false),
@@ -29,7 +29,7 @@ TextArrayObject::TextArrayObject(const std::string& name_) :
   m_lastTextIndex(0),
   m_waiting()
 {
-  m_name = name_;
+  m_name = name;
 }
 
 TextArrayObject::TextArrayObject(const ReaderMapping& reader) :
@@ -49,19 +49,19 @@ TextArrayObject::TextArrayObject(const ReaderMapping& reader) :
 
 void TextArrayObject::clear()
 {
-  this->m_texts.clear();
-  this->reset_automation();
+  m_texts.clear();
+  reset_automation();
 }
 
-void TextArrayObject::add_text(const std::string& text_, float duration_)
+void TextArrayObject::add_text(const std::string& text, float duration)
 {
   auto pText = std::make_unique<TextArrayItem>();
   assert(pText);
 
-  pText->duration = duration_;
-  pText->text_object.set_text(text_);
+  pText->duration = duration;
+  pText->text_object.set_text(text);
 
-  this->m_texts.push_back(std::move(pText));
+  m_texts.push_back(std::move(pText));
 }
 
 void TextArrayObject::set_text_index(ta_index index)
@@ -72,7 +72,7 @@ void TextArrayObject::set_text_index(ta_index index)
 
 void TextArrayObject::set_fade_time(float fadetime)
 {
-  this->m_fadetime = fadetime;
+  m_fadetime = fadetime;
 }
 
 void TextArrayObject::next_text()
@@ -87,8 +87,8 @@ void TextArrayObject::next_text()
 
   m_lastTextIndex = m_curTextIndex++;
 
-  this->override_properties();
-  this->reset_automation();
+  override_properties();
+  reset_automation();
 }
 
 void TextArrayObject::prev_text()
@@ -101,8 +101,8 @@ void TextArrayObject::prev_text()
 
   m_lastTextIndex = m_curTextIndex--;
 
-  this->override_properties();
-  this->reset_automation();
+  override_properties();
+  reset_automation();
 }
 
 void TextArrayObject::set_keep_visible(bool keep_visible)
@@ -122,28 +122,28 @@ TextArrayItem* TextArrayObject::get_text_item(ta_index index)
   if (vecSize == 0 || index >= vecSize)
     return nullptr;
 
-  return this->m_texts.at(index).get();
+  return m_texts.at(index).get();
 }
 
 TextArrayItem* TextArrayObject::get_current_text_item()
 {
-  return this->get_text_item(m_curTextIndex);
+  return get_text_item(m_curTextIndex);
 }
 
 TextArrayItem* TextArrayObject::get_last_text_item()
 {
-  return this->get_text_item(m_lastTextIndex);
+  return get_text_item(m_lastTextIndex);
 }
 
 void TextArrayObject::set_done(bool done)
 {
-  this->m_isDone = done;
+  m_isDone = done;
 }
 
 void TextArrayObject::set_auto(bool is_auto)
 {
   m_isAuto = is_auto;
-  this->reset_automation();
+  reset_automation();
 }
 
 void TextArrayObject::update(float dt_sec)
@@ -156,7 +156,7 @@ void TextArrayObject::update(float dt_sec)
     return;
 
   // detect change request
-  this->handle_input_requests();
+  handle_input_requests();
 
   // check if if should update auto narration
   if (m_isAuto && m_waiting.check()) {
@@ -164,14 +164,14 @@ void TextArrayObject::update(float dt_sec)
   }
 
   // update current
-  auto* curTextItem = this->get_current_text_item();
+  auto* curTextItem = get_current_text_item();
   if (curTextItem)
     curTextItem->text_object.update(dt_sec);
 
   // update last (if transition is enabled)
 
-  if (this->should_fade()) {
-    auto* lastTextItem = this->get_last_text_item();
+  if (should_fade()) {
+    auto* lastTextItem = get_last_text_item();
     if (lastTextItem)
       lastTextItem->text_object.update(dt_sec);
   }
@@ -182,13 +182,13 @@ void TextArrayObject::draw(DrawingContext& context)
   if (m_isDone)
     return;
 
-  auto* curTextItem = this->get_current_text_item();
+  auto* curTextItem = get_current_text_item();
   if (!curTextItem)
     return;
 
   // draw last if transition enabled
-  if (this->should_fade()) {
-    auto* lastTextItem = this->get_last_text_item();
+  if (should_fade()) {
+    auto* lastTextItem = get_last_text_item();
     if (lastTextItem)
       lastTextItem->text_object.draw(context);
   }
@@ -199,16 +199,16 @@ void TextArrayObject::draw(DrawingContext& context)
 
 void TextArrayObject::override_properties()
 {
-  if (!(this->should_fade() || m_keepVisible))
+  if (!(should_fade() || m_keepVisible))
     return;
 
-  auto* curTextItem = this->get_current_text_item();
+  auto* curTextItem = get_current_text_item();
   if (!curTextItem)
     return;
 
   // apply overrides
-  if (this->should_fade()) { // make fade transition
-    auto* lastTextItem = this->get_last_text_item();
+  if (should_fade()) { // make fade transition
+    auto* lastTextItem = get_last_text_item();
     if (lastTextItem) {
       lastTextItem->text_object.fade_out(m_fadetime);
       curTextItem->text_object.fade_in(m_fadetime);
@@ -223,7 +223,7 @@ void TextArrayObject::reset_automation()
   m_waiting.stop();
 
   if (m_isAuto) {
-    auto* text = this->get_current_text_item();
+    auto* text = get_current_text_item();
     if (text)
       m_waiting.start(text->duration);
   }

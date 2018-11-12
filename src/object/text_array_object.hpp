@@ -30,20 +30,17 @@
 
 typedef size_t ta_index;
 
-/**
- * A text array object intended for narration
- */
+/** A text array object intended for narration */
 class TextArrayObject final : public GameObject,
-                        public ExposedObject<TextArrayObject, scripting::TextArray>
+                              public ExposedObject<TextArrayObject, scripting::TextArray>
 {
 public:
-
   /**
    * TextArrayObject constructor
    *
    * @param: name_  name of GameObject.
    */
-  TextArrayObject(const std::string& name_ = std::string());
+  TextArrayObject(const std::string& name = std::string());
   TextArrayObject(const ReaderMapping& reader);
 
   /**
@@ -68,17 +65,17 @@ public:
   /**
    * Adds a text with duration.
    *
-   * @param: text_      the text itself (can be multiline & formatted).
-   * @param: duration_  (optional) the text display time in seconds, defaults to 3.
+   * @param: text      the text itself (can be multiline & formatted).
+   * @param: duration  (optional) the text display time in seconds, defaults to 3.
    */
-  void add_text(const std::string& text_, float duration_  = 3.0f);
+  void add_text(const std::string& text, float duration = 3.0f);
 
   /**
    * Sets the current text index.
    *
-   * @param: index_ the index to set to.
+   * @param: index the index to set to.
    */
-  void set_text_index(ta_index index_);
+  void set_text_index(ta_index index);
 
   /**
    * Sets the keep visible flag.
