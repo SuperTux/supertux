@@ -34,8 +34,6 @@ public:
   void set_text(const std::string& text) { m_text = text; }
   const std::string& get_text() const { return m_text; }
 
-  virtual void change_text (const std::string& text);
-
   /** Draws the menu item. */
   virtual void draw(DrawingContext&, const Vector& pos, int menu_width, bool active);
 

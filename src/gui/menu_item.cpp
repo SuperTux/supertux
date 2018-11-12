@@ -35,12 +35,6 @@ MenuItem::~MenuItem() {
 }
 
 void
-MenuItem::change_text(const std::string& text_)
-{
-  m_text = text_;
-}
-
-void
 MenuItem::set_help(const std::string& help_text)
 {
   std::string overflow;
