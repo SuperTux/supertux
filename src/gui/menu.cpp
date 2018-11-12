@@ -533,10 +533,10 @@ Menu::on_window_resize()
 void
 Menu::draw(DrawingContext& context)
 {
-  if (!items[active_item]->m_help.empty())
+  if (!items[active_item]->get_help().empty())
   {
-    int text_width  = static_cast<int>(Resources::normal_font->get_text_width(items[active_item]->m_help));
-    int text_height = static_cast<int>(Resources::normal_font->get_text_height(items[active_item]->m_help));
+    int text_width  = static_cast<int>(Resources::normal_font->get_text_width(items[active_item]->get_help()));
+    int text_height = static_cast<int>(Resources::normal_font->get_text_height(items[active_item]->get_help()));
 
     Rectf text_rect(pos.x - static_cast<float>(text_width) / 2.0f - 8.0f,
                     static_cast<float>(SCREEN_HEIGHT) - 48.0f - static_cast<float>(text_height) / 2.0f - 4.0f,
@@ -554,7 +554,7 @@ Menu::draw(DrawingContext& context)
                                        16.0f,
                                        LAYER_GUI-10);
 
-    context.color().draw_text(Resources::normal_font, items[active_item]->m_help,
+    context.color().draw_text(Resources::normal_font, items[active_item]->get_help(),
                               Vector(pos.x, static_cast<float>(SCREEN_HEIGHT) - 48.0f - static_cast<float>(text_height) / 2.0f),
                               ALIGN_CENTER, LAYER_GUI);
   }

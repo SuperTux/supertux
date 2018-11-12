@@ -26,7 +26,9 @@ public:
   MenuItem(const std::string& text, int id = -1);
   virtual ~MenuItem();
 
-  virtual void set_help(const std::string& help_text);
+  void set_help(const std::string& help_text);
+  std::string get_help() const { return m_help; }
+
   virtual void change_text (const std::string& text);
 
   /** Draws the menu item. */
@@ -63,6 +65,8 @@ public:
 public:
   int m_id; //item ID
   std::string m_text;
+
+private:
   std::string m_help;
 
 private:
