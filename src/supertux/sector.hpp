@@ -161,9 +161,9 @@ public:
 
   void run_script(const std::string& script, const std::string& sourcename);
 
-  Camera& get_camera() { return *m_camera; }
-  Player& get_player() { return *m_player; }
-  DisplayEffect& get_effect() { return *m_effect; }
+  Camera& get_camera() const;
+  Player& get_player() const;
+  DisplayEffect& get_effect() const;
 
 private:
   uint32_t collision_tile_attributes(const Rectf& dest, const Vector& mov) const;
@@ -194,10 +194,6 @@ private:
 
   float m_gravity;
   std::string m_music;
-
-  Player* m_player;
-  Camera* m_camera;
-  DisplayEffect* m_effect;
 
 private:
   Sector(const Sector&) = delete;

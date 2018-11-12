@@ -65,10 +65,7 @@ Sector::Sector(Level& parent) :
   m_squirrel_environment(new SquirrelEnvironment(SquirrelVirtualMachine::current()->get_vm(), "sector")),
   m_collision_system(new CollisionSystem(*this)),
   m_gravity(10.0),
-  m_music(),
-  m_player(nullptr),
-  m_camera(nullptr),
-  m_effect(nullptr)
+  m_music()
 {
   PlayerStatus& player_status = Editor::is_active() ?
     Editor::current()->m_savegame->get_player_status() :
@@ -119,7 +116,7 @@ Sector::finish_construction()
     log_warning << "sector '" << get_name() << "' does not contain a solid tile layer." << std::endl;
   }
 
-  if (!m_camera) {
+  if (!get_object_by_type<Camera>()) {
     log_warning << "sector '" << get_name() << "' does not contain a camera." << std::endl;
     add<Camera>(this, "Camera");
   }
@@ -206,12 +203,15 @@ Sector::activate(const Vector& player_pos)
     }
   }
 
-  //FIXME: This is a really dirty workaround for this strange camera jump
-  m_player->move(m_player->get_pos()+Vector(-32, 0));
-  m_camera->reset(m_player->get_pos());
-  m_camera->update(1);
-  m_player->move(m_player->get_pos()+(Vector(32, 0)));
-  m_camera->update(1);
+  { //FIXME: This is a really dirty workaround for this strange camera jump
+    Player& player = get_player();
+    Camera& camera = get_camera();
+    player.move(player.get_pos()+Vector(-32, 0));
+    camera.reset(player.get_pos());
+    camera.update(1);
+    player.move(player.get_pos()+(Vector(32, 0)));
+    camera.update(1);
+  }
 
   update_game_objects();
 
@@ -255,10 +255,11 @@ Sector::deactivate()
 Rectf
 Sector::get_active_region() const
 {
+  Camera& camera = get_camera();
   return Rectf(
-    m_camera->get_translation() - Vector(1600, 1200),
-    m_camera->get_translation() + Vector(1600, 1200) + Vector(static_cast<float>(SCREEN_WIDTH),
-                                                            static_cast<float>(SCREEN_HEIGHT)));
+    camera.get_translation() - Vector(1600, 1200),
+    camera.get_translation() + Vector(1600, 1200) + Vector(static_cast<float>(SCREEN_WIDTH),
+                                                           static_cast<float>(SCREEN_HEIGHT)));
 }
 
 int
@@ -322,21 +323,6 @@ Sector::before_object_add(GameObject& object)
     m_collision_system->add(movingobject->get_collision_object());
   }
 
-  auto camera = dynamic_cast<Camera*>(&object);
-  if (camera) {
-    m_camera = camera;
-  }
-
-  auto player = dynamic_cast<Player*>(&object);
-  if (player) {
-    m_player = player;
-  }
-
-  auto effect_ = dynamic_cast<DisplayEffect*>(&object);
-  if (effect_) {
-    m_effect = effect_;
-  }
-
   if (s_current == this) {
     m_squirrel_environment->try_expose(object);
   }
@@ -361,8 +347,10 @@ Sector::draw(DrawingContext& context)
 {
   BIND_SECTOR(*this);
 
+  Camera& camera = get_camera();
+
   context.push_transform();
-  context.set_translation(m_camera->get_translation());
+  context.set_translation(camera.get_translation());
 
   GameObjectManager::draw(context);
 
@@ -707,6 +695,24 @@ void
 Sector::run_script(const std::string& script, const std::string& sourcename)
 {
   m_squirrel_environment->run_script(script, sourcename);
+}
+
+Camera&
+Sector::get_camera() const
+{
+  return *get_object_by_type<Camera>();
+}
+
+Player&
+Sector::get_player() const
+{
+  return *get_object_by_type<Player>();
+}
+
+DisplayEffect&
+Sector::get_effect() const
+{
+  return *get_object_by_type<DisplayEffect>();
 }
 
 /* EOF */
