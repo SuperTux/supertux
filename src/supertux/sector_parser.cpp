@@ -33,7 +33,6 @@
 #include "supertux/level.hpp"
 #include "supertux/game_object_factory.hpp"
 #include "supertux/sector.hpp"
-#include "supertux/spawn_point.hpp"
 #include "supertux/tile.hpp"
 #include "supertux/tile_manager.hpp"
 #include "util/reader_collection.hpp"
@@ -114,17 +113,6 @@ SectorParser::parse(const ReaderMapping& sector)
       std::string value;
       iter.get(value);
       m_sector.set_music(value);
-    } else if(iter.get_key() == "spawnpoint") {
-      auto sp = std::make_unique<SpawnPoint>(iter.as_mapping());
-      if (!sp->get_name().empty() && sp->get_pos().x >= 0 && sp->get_pos().y >= 0) {
-        m_sector.m_spawnpoints.push_back(std::move(sp));
-      }
-      if (Editor::is_active()) {
-        auto object = parse_object("spawnpoint", iter.as_mapping());
-        if(object) {
-          m_sector.add_object(std::move(object));
-        }
-      }
     } else if(iter.get_key() == "init-script") {
       std::string value;
       iter.get(value);
@@ -210,7 +198,7 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
   reader.get("start_pos_x", startpos.x);
   reader.get("start_pos_y", startpos.y);
 
-  m_sector.m_spawnpoints.push_back(std::make_unique<SpawnPoint>("main", startpos));
+  m_sector.add<SpawnPointMarker>("main", startpos);
 
   m_sector.set_music("chipdisko.ogg");
   // skip reading music filename. It's all .ogg now, anyway
@@ -267,7 +255,7 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
         Vector sp_pos;
         if(reader.get("x", sp_pos.x) && reader.get("y", sp_pos.y))
         {
-          m_sector.m_spawnpoints.push_back(std::make_unique<SpawnPoint>("main", sp_pos));
+          m_sector.add<SpawnPointMarker>("main", sp_pos);
         }
       } else {
         log_warning << "Unknown token '" << iter.get_key() << "' in reset-points." << std::endl;
@@ -332,13 +320,10 @@ SectorParser::create_sector()
   intact.set_layer(0);
   intact.set_solid(true);
 
-  m_sector.m_spawnpoints.push_back(std::make_unique<SpawnPoint>("main", Vector(64, 480)));
-  SpawnPoint* spawn_point = m_sector.m_spawnpoints.back().get();
-
   if (worldmap) {
     m_sector.add<worldmap_editor::WorldmapSpawnPoint>("main", Vector(4, 4));
   } else {
-    m_sector.add<SpawnPointMarker>(spawn_point);
+    m_sector.add<SpawnPointMarker>("main", Vector(64, 480));
   }
 
   m_sector.add<Camera>(&m_sector, "Camera");

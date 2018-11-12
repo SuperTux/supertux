@@ -56,6 +56,14 @@ public:
     return tmp;
   }
 
+  T* operator->() {
+    return m_object;
+  }
+
+  const T* operator->() const {
+    return m_object;
+  }
+
   T& operator*() const {
     return *m_object;
   }

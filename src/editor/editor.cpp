@@ -18,17 +18,16 @@
 
 #include <limits>
 
-//#include "addon/addon_manager.hpp"
 #include "audio/sound_manager.hpp"
 #include "control/input_manager.hpp"
 #include "editor/layer_icon.hpp"
 #include "editor/object_input.hpp"
+#include "editor/spawnpoint_marker.hpp"
 #include "editor/tile_selection.hpp"
 #include "editor/tip.hpp"
 #include "editor/tool_icon.hpp"
-//#include "gui/dialog.hpp"
-#include "gui/mousecursor.hpp"
 #include "gui/menu_manager.hpp"
+#include "gui/mousecursor.hpp"
 #include "gui/mousecursor.hpp"
 #include "object/camera.hpp"
 #include "object/player.hpp"
@@ -42,7 +41,6 @@
 #include "supertux/screen_fade.hpp"
 #include "supertux/screen_manager.hpp"
 #include "supertux/sector.hpp"
-#include "supertux/spawn_point.hpp"
 #include "supertux/tile.hpp"
 #include "supertux/tile_manager.hpp"
 #include "supertux/world.hpp"
@@ -550,9 +548,9 @@ Editor::check_save_prerequisites(bool& sector_valid, bool& spawnpoint_valid) con
     if(sector->get_name() == "main")
     {
       sector_valid = true;
-      for(const auto& spawnpoint : sector->get_spawnpoints())
+      for(const auto& spawnpoint : sector->get_objects_by_type<SpawnPointMarker>())
       {
-        if(spawnpoint->get_name() == "main")
+        if(spawnpoint.get_name() == "main")
         {
           spawnpoint_valid = true;
         }

@@ -38,6 +38,7 @@ extern "C" {
 #include "editor/editor.hpp"
 #include "editor/layer_icon.hpp"
 #include "editor/object_input.hpp"
+#include "editor/spawnpoint_marker.hpp"
 #include "editor/tile_selection.hpp"
 #include "editor/tip.hpp"
 #include "editor/tool_icon.hpp"
@@ -61,7 +62,6 @@ extern "C" {
 #include "supertux/screen_fade.hpp"
 #include "supertux/screen_manager.hpp"
 #include "supertux/sector.hpp"
-#include "supertux/spawn_point.hpp"
 #include "supertux/tile.hpp"
 #include "supertux/tile_manager.hpp"
 #include "supertux/title_screen.hpp"
@@ -442,8 +442,10 @@ Main::launch_game(const CommandLineArguments& args)
       if (args.sector || args.spawnpoint)
       {
         std::string sectorname = args.sector.get_value_or("main");
-        std::string default_spawnpoint = session->get_current_sector().get_spawnpoints().empty() ?
-          "" : session->get_current_sector().get_spawnpoints()[0]->get_name();
+
+        const auto& spawnpoints = session->get_current_sector().get_objects_by_type<SpawnPointMarker>();
+        std::string default_spawnpoint = (spawnpoints.begin() != spawnpoints.end()) ?
+          "" : spawnpoints.begin()->get_name();
         std::string spawnpointname = args.spawnpoint.get_value_or(default_spawnpoint);
 
         session->respawn(sectorname, spawnpointname);

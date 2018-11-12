@@ -16,39 +16,45 @@
 
 #include "editor/spawnpoint_marker.hpp"
 
-#include "supertux/spawn_point.hpp"
+#include "editor/editor.hpp"
+#include "supertux/debug.hpp"
 #include "util/reader_mapping.hpp"
 #include "video/drawing_context.hpp"
 #include "video/surface.hpp"
 
+SpawnPointMarker::SpawnPointMarker(const std::string& name, const Vector& pos) :
+  m_surface(Surface::from_file("images/engine/editor/spawnpoint.png"))
+{
+  m_name = name;
+  m_col.m_bbox.p1 = pos;
+  m_col.m_bbox.set_size(32, 32);
+
+  if (!Editor::current()) {
+    set_group(COLGROUP_DISABLED);
+  }
+}
+
 SpawnPointMarker::SpawnPointMarker(const ReaderMapping& mapping) :
-  surface(Surface::from_file("images/engine/editor/spawnpoint.png"))
+  m_surface(Surface::from_file("images/engine/editor/spawnpoint.png"))
 {
   mapping.get("name", m_name, "");
   mapping.get("x", m_col.m_bbox.p1.x, 0.0f);
   mapping.get("y", m_col.m_bbox.p1.y, 0.0f);
 
-  setup();
-}
-
-SpawnPointMarker::SpawnPointMarker(const SpawnPoint* sp) :
-  surface(Surface::from_file("images/engine/editor/spawnpoint.png"))
-{
-  m_name = sp->get_name();
-  m_col.m_bbox.p1 = sp->get_pos();
-  setup();
-}
-
-void
-SpawnPointMarker::setup()
-{
   m_col.m_bbox.set_size(32, 32);
+
+  if (!Editor::current()) {
+    set_group(COLGROUP_DISABLED);
+  }
 }
 
 void
 SpawnPointMarker::draw(DrawingContext& context)
 {
-  context.color().draw_surface(surface, m_col.m_bbox.p1, LAYER_FOREGROUND1);
+  if (Editor::current() && g_debug.show_collision_rects)
+  {
+    context.color().draw_surface(m_surface, m_col.m_bbox.p1, LAYER_FOREGROUND1);
+  }
 }
 
 /* EOF */

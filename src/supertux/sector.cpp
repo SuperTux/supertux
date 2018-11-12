@@ -24,6 +24,7 @@
 #include "collision/collision.hpp"
 #include "collision/collision_system.hpp"
 #include "editor/editor.hpp"
+#include "editor/spawnpoint_marker.hpp"
 #include "math/aatriangle.hpp"
 #include "math/rect.hpp"
 #include "object/background.hpp"
@@ -47,7 +48,6 @@
 #include "supertux/game_session.hpp"
 #include "supertux/level.hpp"
 #include "supertux/savegame.hpp"
-#include "supertux/spawn_point.hpp"
 #include "supertux/tile.hpp"
 #include "util/file_system.hpp"
 #include "util/writer.hpp"
@@ -72,7 +72,6 @@ Sector::Sector(Level& parent) :
   m_collision_system(new CollisionSystem(*this)),
   m_gravity(10.0),
   m_music(),
-  m_spawnpoints(),
   m_player(nullptr),
   m_camera(nullptr),
   m_effect(nullptr)
@@ -153,13 +152,14 @@ Sector::get_level() const
 void
 Sector::activate(const std::string& spawnpoint)
 {
-  SpawnPoint* sp = nullptr;
-  for(const auto& spawn_point : m_spawnpoints) {
-    if (spawn_point->get_name() == spawnpoint) {
-      sp = spawn_point.get();
+  SpawnPointMarker* sp = nullptr;
+  for(auto& spawn_point : get_objects_by_type<SpawnPointMarker>()) {
+    if (spawn_point.get_name() == spawnpoint) {
+      sp = &spawn_point;
       break;
     }
   }
+
   if (!sp) {
     log_warning << "Spawnpoint '" << spawnpoint << "' not found." << std::endl;
     if (spawnpoint != "main") {

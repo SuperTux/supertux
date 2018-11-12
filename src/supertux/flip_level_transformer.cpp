@@ -24,7 +24,6 @@
 #include "object/player.hpp"
 #include "object/tilemap.hpp"
 #include "supertux/sector.hpp"
-#include "supertux/spawn_point.hpp"
 
 void
 FlipLevelTransformer::transform_sector(Sector& sector)
@@ -63,9 +62,6 @@ FlipLevelTransformer::transform_sector(Sector& sector)
     if(mobject) {
       transform_moving_object(height, *mobject);
     }
-  }
-  for(auto& spawnpoint : sector.get_spawnpoints()) {
-    transform_spawnpoint(height, *spawnpoint);
   }
 
   sector.get_camera().reset(sector.get_player().get_pos());
@@ -118,14 +114,6 @@ FlipLevelTransformer::transform_badguy(float height, BadGuy& badguy)
   Vector pos = badguy.get_start_position();
   pos.y = height - pos.y;
   badguy.set_start_position(pos);
-}
-
-void
-FlipLevelTransformer::transform_spawnpoint(float height, SpawnPoint& spawn)
-{
-  Vector pos = spawn.get_pos();
-  pos.y = height - pos.y;
-  spawn.set_pos(pos);
 }
 
 void

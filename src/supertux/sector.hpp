@@ -179,7 +179,6 @@ public:
 
   void run_script(const std::string& script, const std::string& sourcename);
 
-  const std::vector<std::unique_ptr<SpawnPoint> >& get_spawnpoints() const { return m_spawnpoints; }
   Camera& get_camera() { return *m_camera; }
   Player& get_player() { return *m_player; }
   DisplayEffect& get_effect() { return *m_effect; }
@@ -231,7 +230,6 @@ private:
   float m_gravity;
   std::string m_music;
 
-  std::vector<std::unique_ptr<SpawnPoint> > m_spawnpoints;
   Player* m_player;
   Camera* m_camera;
   DisplayEffect* m_effect;

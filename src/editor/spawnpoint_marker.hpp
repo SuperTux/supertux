@@ -22,40 +22,41 @@
 #include "video/surface_ptr.hpp"
 
 class ReaderMapping;
-class SpawnPoint;
 class DrawingContext;
 
 class SpawnPointMarker final : public MovingObject
 {
-  public:
-    SpawnPointMarker(const ReaderMapping& lisp);
-    SpawnPointMarker(const SpawnPoint* sp);
+public:
+  SpawnPointMarker(const std::string& name, const Vector& pos);
+  SpawnPointMarker(const ReaderMapping& lisp);
 
-    virtual void update(float dt_sec) override {
-      //No updates needed
-    }
+  virtual void update(float dt_sec) override {
+    // No updates needed
+  }
 
-    virtual void draw(DrawingContext& context) override;
+  virtual void draw(DrawingContext& context) override;
 
-    virtual void collision_solid(const CollisionHit& hit) override {
-      //This function wouldn't be called anyway.
-    }
+  virtual void collision_solid(const CollisionHit& hit) override {
+    // This function wouldn't be called anyway.
+  }
 
-    virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override {
-      return FORCE_MOVE;
-    }
+  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override {
+    return FORCE_MOVE;
+  }
 
-    virtual std::string get_class() const override {
-      return "spawnpoint";
-    }
-    virtual std::string get_display_name() const override {
-      return _("Spawn point");
-    }
+  virtual std::string get_class() const override {
+    return "spawnpoint";
+  }
+  virtual std::string get_display_name() const override {
+    return _("Spawn point");
+  }
 
-  private:
-    SurfacePtr surface;
+private:
+  SurfacePtr m_surface;
 
-    void setup();
+private:
+  SpawnPointMarker(const SpawnPointMarker&) = delete;
+  SpawnPointMarker& operator=(const SpawnPointMarker&) = delete;
 };
 
 #endif
