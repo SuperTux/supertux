@@ -52,6 +52,10 @@ public:
     return _("Path");
   }
 
+  virtual const std::string get_icon_path() const override {
+    return "images/engine/editor/path.png";
+  }
+
 private:
   std::unique_ptr<Path> m_path;
   PathStyle m_style;

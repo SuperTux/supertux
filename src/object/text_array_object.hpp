@@ -62,6 +62,10 @@ public:
     return _("Text array");
   }
 
+  virtual const std::string get_icon_path() const override {
+    return "images/engine/editor/textarray.png";
+  }
+
   /**
    * Adds a text with duration.
    *
