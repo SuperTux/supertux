@@ -27,66 +27,40 @@
 
 namespace scripting {
 
-/**
- * Display the value of the argument. This is useful for inspecting tables.
- */
+/** Display the value of the argument. This is useful for inspecting tables. */
 SQInteger display(HSQUIRRELVM vm) __custom("t.");
 
-/**
- * Displays contents of the current stack
- */
+/** Displays contents of the current stack */
 void print_stacktrace(HSQUIRRELVM vm);
 
-/**
- * returns the currently running thread
- */
+/** returns the currently running thread */
 SQInteger get_current_thread(HSQUIRRELVM vm) __custom("t");
 
-/**
- * Should use christmas mode
- */
+/** Should use christmas mode */
 bool is_christmas();
 
-/**
- * Display a text file and scrolls it over the screen (on next screenswitch)
- */
+/** Display a text file and scrolls it over the screen (on next screenswitch) */
 void display_text_file(const std::string& filename);
 
-/**
- * Load and display a worldmap (on next screenswitch)
- */
+/** Load and display a worldmap (on next screenswitch) */
 void load_worldmap(const std::string& filename);
 
-/**
- * Switch to a different worldmap after unloading current one, after exit_screen() is called
- */
+/** Switch to a different worldmap after unloading current one, after exit_screen() is called */
 void set_next_worldmap(const std::string& dirname, const std::string& spawnpoint);
 
-/**
- * Load and display a level (on next screenswitch)
- */
+/** Load and display a level (on next screenswitch) */
 void load_level(const std::string& filename);
 
-/**
- * Suspend the script execution for the specified number of seconds
- */
+/** Suspend the script execution for the specified number of seconds */
 void wait(HSQUIRRELVM vm, float seconds) __suspend;
 
-/**
- * Suspend the script execution until the current screen has been changed
- */
+/** Suspend the script execution until the current screen has been changed */
 void wait_for_screenswitch(HSQUIRRELVM vm) __suspend;
 
-/**
- * Exits the currently running screen (force exit from worldmap or scrolling
- * text for example)
- */
+/** Exits the currently running screen (force exit from worldmap or scrolling text for example) */
 void exit_screen();
 
-/**
- * Translate a text into the users language (by looking it up in the .po
- * files)
- */
+/** Translate a text into the users language (by looking it up in the .po files) */
 std::string translate(const std::string& text);
 std::string _(const std::string& text);
 
@@ -94,130 +68,79 @@ std::string translate_plural(const std::string& text, const std::string&
     text_plural, int num);
 std::string __(const std::string& text, const std::string& text_plural, int num);
 
-/**
- * Load a script file and executes it. This is typically used to import
- * functions from external files.
- */
+/** Load a script file and executes it. This is typically used to import functions from external files. */
 void import(HSQUIRRELVM v, const std::string& filename);
 
-/**
- * Save world state to scripting table
- */
+/** Save world state to scripting table */
 void save_state();
 
-/**
- * Load world state from scripting table
- */
+/** Load world state from scripting table */
 void load_state();
 
-/**
- * enable/disable drawing of collision rectangles
- */
+/** enable/disable drawing of collision rectangles */
 void debug_collrects(bool enable);
 
-/**
- * enable/disable drawing of fps
- */
+/** enable/disable drawing of fps */
 void debug_show_fps(bool enable);
 
-/**
- * enable/disable drawing of non-solid layers
- */
+/** enable/disable drawing of non-solid layers */
 void debug_draw_solids_only(bool enable);
 
-/**
- * enable/disable drawing of editor images
- */
+/** enable/disable drawing of editor images */
 void debug_draw_editor_images(bool enable);
 
-/**
- * enable/disable worldmap ghost mode
- */
+/** enable/disable worldmap ghost mode */
 void debug_worldmap_ghost(bool enable);
 
-/**
- * Changes music to musicfile
- */
+/** Changes music to musicfile */
 void play_music(const std::string& musicfile);
 
-/**
- * Plays a soundfile
- */
+/** Plays a soundfile */
 void play_sound(const std::string& soundfile);
 
-/**
- *  Set the game_speed
- */
+/**  Set the game_speed */
 void set_game_speed(float speed);
 
-/**
- * speeds Tux up
- */
+/** speeds Tux up */
 void grease();
 
-/**
- * makes Tux invincible for 10000 units of time
- */
+/** makes Tux invincible for 10000 units of time */
 void invincible();
 
-/**
- * makes Tux a ghost, i.e. lets him float around and through solid objects
- */
+/** makes Tux a ghost, i.e. lets him float around and through solid objects */
 void ghost();
 
-/**
- * recall Tux's invincibility and ghost status
- */
+/** recall Tux's invincibility and ghost status */
 void mortal();
 
-/**
- * reinitialise and respawn Tux at the beginning of the current level
- */
+/** reinitialise and respawn Tux at the beginning of the current level */
 void restart();
 
-/**
- * print Tux's current coordinates in a level
- */
+/** print Tux's current coordinates in a level */
 void whereami();
 
-/**
- * move Tux near the end of the level
- */
+/** move Tux near the end of the level */
 void gotoend();
 
-/**
- * move Tux to the X and Y blocks relative to his position
- */
+/** move Tux to the X and Y blocks relative to his position */
 void warp(float offset_x, float offset_y);
 
-/**
- * show the camera's coordinates
- */
+/** show the camera's coordinates */
 void camera();
 
-/**
- * adjust gamma
- */
+/** adjust gamma */
 void set_gamma(float gamma);
 
-/**
- * exit the game
- */
+/** exit the game */
 void quit();
 
-/**
- * Returns a random integer
- */
+/** Returns a random integer */
 int rand();
 
-/**
- * Record a demo to the given file.
- */
+/** Record a demo to the given file. */
 void record_demo(const std::string& filename);
 
-/**
- * Play back a demo from the given file.
- */
+/** Play back a demo from the given file. */
 void play_demo(const std::string& filename);
 
 } // namespace scripting
