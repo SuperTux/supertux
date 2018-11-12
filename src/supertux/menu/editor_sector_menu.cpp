@@ -33,7 +33,6 @@ EditorSectorMenu::EditorSectorMenu() :
   add_hl();
   add_textfield(_("Name"), &sector->m_name);
   add_script(_("Initialization script"), &sector->m_init_script);
-  add_color(_("Ambient light"), &sector->m_ambient_light);
   add_numfield(_("Gravity"), &sector->m_gravity);
 
   std::vector<std::string> music_formats;

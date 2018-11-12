@@ -148,12 +148,6 @@ public:
   /** globally changes solid tilemaps' tile ids */
   void change_solid_tiles(uint32_t old_tile_id, uint32_t new_tile_id);
 
-  void set_ambient_light(const Color& ambient_light) { m_ambient_light = ambient_light; }
-  Color get_ambient_light() const { return m_ambient_light; }
-
-  /** Fades to the target ambient light */
-  void fade_to_ambient_light(float red, float green, float blue, float seconds);
-
   /** set gravity throughout sector */
   void set_gravity(float gravity);
   float get_gravity() const;
@@ -192,23 +186,6 @@ private:
   std::string m_init_script;
 
   MusicType m_currentmusic;
-
-  Color m_ambient_light;
-
-  /** Specifies whether we're fading the ambient light*/
-  bool m_ambient_light_fading;
-
-  /** Source color for fading */
-  Color m_source_ambient_light;
-
-  /** Target color for fading */
-  Color m_target_ambient_light;
-
-  /** Ambient light fade duration */
-  float m_ambient_light_fade_duration;
-
-  /** Accumulated time for fading */
-  float m_ambient_light_fade_accum;
 
   int m_foremost_layer;
 

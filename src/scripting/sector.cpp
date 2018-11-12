@@ -16,6 +16,7 @@
 
 #include "scripting/sector.hpp"
 
+#include "object/ambient_light.hpp"
 #include "supertux/sector.hpp"
 #include "video/color.hpp"
 
@@ -29,31 +30,47 @@ Sector::Sector(::Sector* parent) :
 void
 Sector::fade_to_ambient_light(float red, float green, float blue, float fadetime)
 {
-  m_parent->fade_to_ambient_light(red, green, blue, fadetime);
+  if (auto* ambient_light = m_parent->get_object_by_type<AmbientLight>()) {
+    ambient_light->fade_to_ambient_light(red, green, blue, fadetime);
+  }
 }
 
 void
 Sector::set_ambient_light(float red, float green, float blue)
 {
-  m_parent->set_ambient_light(Color(red, green, blue));
+  if (auto* ambient_light = m_parent->get_object_by_type<AmbientLight>()) {
+    ambient_light->set_ambient_light(Color(red, green, blue));
+  }
 }
 
 float
 Sector::get_ambient_red() const
 {
-  return m_parent->get_ambient_light().red;
+  if (auto* ambient_light = m_parent->get_object_by_type<AmbientLight>()) {
+    return ambient_light->get_ambient_light().red;
+  } else {
+    return 1.0f;
+  }
 }
 
 float
 Sector::get_ambient_green() const
 {
-  return m_parent->get_ambient_light().green;
+  if (auto* ambient_light = m_parent->get_object_by_type<AmbientLight>()) {
+    return ambient_light->get_ambient_light().green;
+  } else {
+    return 1.0f;
+  }
 }
 
 float
 Sector::get_ambient_blue() const
 {
-  return m_parent->get_ambient_light().blue;
+  if (auto* ambient_light = m_parent->get_object_by_type<AmbientLight>()) {
+    return ambient_light->get_ambient_light().blue;
+  } else {
+    return 1.0f;
+  }
 }
 
 void

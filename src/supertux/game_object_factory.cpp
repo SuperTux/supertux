@@ -67,6 +67,7 @@
 #include "badguy/zeekling.hpp"
 #include "editor/worldmap_objects.hpp"
 #include "math/vector.hpp"
+#include "object/ambient_light.hpp"
 #include "object/ambient_sound.hpp"
 #include "object/background.hpp"
 #include "object/bicycle_platform.hpp"
@@ -191,6 +192,7 @@ GameObjectFactory::init_factories()
   add_factory<Zeekling>("zeekling");
 
   // other objects
+  add_factory<AmbientLight>("ambient-light");
   add_factory<AmbientSound>("ambient_sound");
   add_factory<Background>("background");
   add_factory<PathGameObject>("path");

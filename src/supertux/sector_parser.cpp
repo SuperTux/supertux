@@ -18,10 +18,12 @@
 
 #include <iostream>
 #include <physfs.h>
+#include <sexp/value.hpp>
 
 #include "badguy/jumpy.hpp"
 #include "editor/editor.hpp"
 #include "editor/worldmap_objects.hpp"
+#include "object/ambient_light.hpp"
 #include "object/background.hpp"
 #include "object/camera.hpp"
 #include "object/cloud_particle_system.hpp"
@@ -118,12 +120,21 @@ SectorParser::parse(const ReaderMapping& sector)
       iter.get(value);
       m_sector.set_init_script(value);
     } else if(iter.get_key() == "ambient-light") {
-      std::vector<float> vColor;
-      bool hasColor = sector.get( "ambient-light", vColor );
-      if(vColor.size() < 3 || !hasColor) {
-        log_warning << "(ambient-light) requires a color as argument" << std::endl;
+      const auto& sx = iter.get_sexp();
+      if (sx.is_array() && sx.as_array().size() >= 3 &&
+          sx.as_array()[1].is_real() && sx.as_array()[2].is_real() && sx.as_array()[3].is_real())
+      {
+        // for backward compatibilty
+        std::vector<float> vColor;
+        bool hasColor = sector.get("ambient-light", vColor);
+        if(vColor.size() < 3 || !hasColor) {
+          log_warning << "(ambient-light) requires a color as argument" << std::endl;
+        } else {
+          m_sector.add<AmbientLight>(Color(vColor));
+        }
       } else {
-        m_sector.set_ambient_light(Color(vColor));
+        // modern format
+        m_sector.add<AmbientLight>(iter.as_mapping());
       }
     } else {
       auto object = parse_object(iter.get_key(), iter.as_mapping());

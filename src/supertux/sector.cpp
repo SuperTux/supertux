@@ -61,12 +61,6 @@ Sector::Sector(Level& parent) :
   m_name(),
   m_init_script(),
   m_currentmusic(LEVEL_MUSIC),
-  m_ambient_light( 1.0f, 1.0f, 1.0f, 1.0f ),
-  m_ambient_light_fading(false),
-  m_source_ambient_light(1.0f, 1.0f, 1.0f, 1.0f),
-  m_target_ambient_light(1.0f, 1.0f, 1.0f, 1.0f),
-  m_ambient_light_fade_duration(0.0f),
-  m_ambient_light_fade_accum(0.0f),
   m_foremost_layer(),
   m_squirrel_environment(new SquirrelEnvironment(SquirrelVirtualMachine::current()->get_vm(), "sector")),
   m_collision_system(new CollisionSystem(*this)),
@@ -302,38 +296,6 @@ Sector::update(float dt_sec)
 
   m_squirrel_environment->update(dt_sec);
 
-  if (m_ambient_light_fading)
-  {
-    m_ambient_light_fade_accum += dt_sec;
-    float percent_done = m_ambient_light_fade_accum / m_ambient_light_fade_duration * 1.0f;
-    float r = (1.0f - percent_done) * m_source_ambient_light.red + percent_done * m_target_ambient_light.red;
-    float g = (1.0f - percent_done) * m_source_ambient_light.green + percent_done * m_target_ambient_light.green;
-    float b = (1.0f - percent_done) * m_source_ambient_light.blue + percent_done * m_target_ambient_light.blue;
-
-    if (r > 1.0)
-      r = 1.0;
-    if (g > 1.0)
-      g = 1.0;
-    if (b > 1.0)
-      b = 1.0;
-
-    if (r < 0)
-      r = 0;
-    if (g < 0)
-      g = 0;
-    if (b < 0)
-      b = 0;
-
-    m_ambient_light = Color(r, g, b);
-
-    if (m_ambient_light_fade_accum >= m_ambient_light_fade_duration)
-    {
-      m_ambient_light = m_target_ambient_light;
-      m_ambient_light_fading = false;
-      m_ambient_light_fade_accum = 0;
-    }
-  }
-
   GameObjectManager::update(dt_sec);
 
   /* Handle all possible collisions. */
@@ -401,7 +363,6 @@ Sector::draw(DrawingContext& context)
 {
   BIND_SECTOR(*this);
 
-  context.set_ambient_color( m_ambient_light );
   context.push_transform();
   context.set_translation(m_camera->get_translation());
 
@@ -567,22 +528,6 @@ Sector::change_solid_tiles(uint32_t old_tile_id, uint32_t new_tile_id)
 }
 
 void
-Sector::fade_to_ambient_light(float red, float green, float blue, float seconds)
-{
-  if (seconds == 0)
-  {
-    m_ambient_light = Color(red, green, blue);
-    return;
-  }
-
-  m_ambient_light_fading = true;
-  m_ambient_light_fade_accum = 0;
-  m_ambient_light_fade_duration = seconds;
-  m_source_ambient_light = m_ambient_light;
-  m_target_ambient_light = Color(red, green, blue);
-}
-
-void
 Sector::set_gravity(float gravity)
 {
   if (gravity != 10.0)
@@ -670,7 +615,6 @@ Sector::save(Writer &writer)
   writer.start_list("sector", false);
 
   writer.write("name", m_name, false);
-  writer.write("ambient-light", m_ambient_light.toVector());
 
   if (m_init_script.size()) {
     writer.write("init-script", m_init_script,false);
