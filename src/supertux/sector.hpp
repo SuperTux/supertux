@@ -152,16 +152,8 @@ public:
   /** globally changes solid tilemaps' tile ids */
   void change_solid_tiles(uint32_t old_tile_id, uint32_t new_tile_id);
 
-  /** get/set color of ambient light */
-  void set_ambient_light(const Color& ambient_light);
-  float get_ambient_red() const;
-  float get_ambient_green() const;
-  float get_ambient_blue() const;
-
-  /** Return the sector's current ambient light */
-  Color get_ambient_light() const {
-    return m_ambient_light;
-  }
+  void set_ambient_light(const Color& ambient_light) { m_ambient_light = ambient_light; }
+  Color get_ambient_light() const { return m_ambient_light; }
 
   /** Fades to the target ambient light */
   void fade_to_ambient_light(float red, float green, float blue, float seconds);

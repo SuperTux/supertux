@@ -570,12 +570,6 @@ Sector::change_solid_tiles(uint32_t old_tile_id, uint32_t new_tile_id)
 }
 
 void
-Sector::set_ambient_light(const Color& ambient_light)
-{
-  m_ambient_light = ambient_light;
-}
-
-void
 Sector::fade_to_ambient_light(float red, float green, float blue, float seconds)
 {
   if (seconds == 0)
@@ -589,24 +583,6 @@ Sector::fade_to_ambient_light(float red, float green, float blue, float seconds)
   m_ambient_light_fade_duration = seconds;
   m_source_ambient_light = m_ambient_light;
   m_target_ambient_light = Color(red, green, blue);
-}
-
-float
-Sector::get_ambient_red() const
-{
-  return m_ambient_light.red;
-}
-
-float
-Sector::get_ambient_green() const
-{
-  return m_ambient_light.green;
-}
-
-float
-Sector::get_ambient_blue() const
-{
-  return m_ambient_light.blue;
 }
 
 void

@@ -41,19 +41,19 @@ Sector::set_ambient_light(float red, float green, float blue)
 float
 Sector::get_ambient_red() const
 {
-  return m_parent->get_ambient_red();
+  return m_parent->get_ambient_light().red;
 }
 
 float
 Sector::get_ambient_green() const
 {
-  return m_parent->get_ambient_green();
+  return m_parent->get_ambient_light().green;
 }
 
 float
 Sector::get_ambient_blue() const
 {
-  return m_parent->get_ambient_blue();
+  return m_parent->get_ambient_light().blue;
 }
 
 void
