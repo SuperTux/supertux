@@ -19,6 +19,7 @@
 #define HEADER_SUPERTUX_SUPERTUX_GAME_OBJECT_MANAGER_HPP
 
 #include <functional>
+#include <typeindex>
 #include <unordered_map>
 #include <vector>
 
@@ -86,6 +87,19 @@ public:
   GameObjectRange<T> get_objects_by_type() const
   {
     return GameObjectRange<T>(*this);
+  }
+
+  const std::vector<GameObject*>&
+  get_objects_by_type_index(std::type_index type_idx) const
+  {
+    auto it = m_objects_by_type_index.find(type_idx);
+    if (it == m_objects_by_type_index.end()) {
+      // use a dummy return value to avoid making this method non-const
+      static std::vector<GameObject*> dummy;
+      return dummy;
+    } else {
+      return it->second;
+    }
   }
 
   template<class T>
@@ -185,6 +199,7 @@ private:
 
   std::unordered_map<std::string, GameObject*> m_objects_by_name;
   std::unordered_map<UID, GameObject*> m_objects_by_uid;
+  std::unordered_map<std::type_index, std::vector<GameObject*> > m_objects_by_type_index;
 
   std::vector<NameResolveRequest> m_name_resolve_requests;
 

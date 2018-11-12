@@ -31,6 +31,7 @@ GameObjectManager::GameObjectManager() :
   m_solid_tilemaps(),
   m_objects_by_name(),
   m_objects_by_uid(),
+  m_objects_by_type_index(),
   m_name_resolve_requests()
 {
 }
@@ -45,6 +46,7 @@ GameObjectManager::~GameObjectManager()
 void
 GameObjectManager::request_name_resolve(const std::string& name, std::function<void (UID)> callback)
 {
+  assert(m_gameobjects_new.empty());
   m_name_resolve_requests.push_back({name, callback});
 }
 
@@ -195,6 +197,10 @@ GameObjectManager::this_before_object_add(GameObject& object)
 
     m_objects_by_uid[object.get_uid()] = &object;
   }
+
+  { // by_type_index
+    m_objects_by_type_index[std::type_index(typeid(object))].push_back(&object);
+  }
 }
 
 void
@@ -210,6 +216,13 @@ GameObjectManager::this_before_object_remove(GameObject& object)
 
   { // by_id
     m_objects_by_uid.erase(object.get_uid());
+  }
+
+  { // by_type_index
+    auto& vec = m_objects_by_type_index[std::type_index(typeid(object))];
+    auto it = std::find(vec.begin(), vec.end(), &object);
+    assert(it != vec.end());
+    vec.erase(it);
   }
 }
 
