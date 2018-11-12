@@ -30,17 +30,19 @@ public:
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
 
-  void set_ambient_light(const Color& ambient_light);
-  Color get_ambient_light() const;
-
-  /** Fades to the target ambient light */
-  void fade_to_ambient_light(float red, float green, float blue, float seconds);
+  virtual bool is_singleton() const override { return true; }
 
   virtual std::string get_class() const override { return "ambient-light"; }
   virtual std::string get_display_name() const override { return _("Ambient light"); }
 
   virtual void save(Writer& writer) override;
   virtual ObjectSettings get_settings() override;
+
+  void set_ambient_light(const Color& ambient_light);
+  Color get_ambient_light() const;
+
+  /** Fades to the target ambient light */
+  void fade_to_ambient_light(float red, float green, float blue, float seconds);
 
 private:
   Color m_ambient_light;

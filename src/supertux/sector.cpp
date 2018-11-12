@@ -306,6 +306,16 @@ Sector::update(float dt_sec)
 bool
 Sector::before_object_add(GameObject& object)
 {
+  if (object.is_singleton())
+  {
+    const auto& objects = get_objects_by_type_index(std::type_index(typeid(object)));
+    if (!objects.empty())
+    {
+      log_warning << "Can't insert multiple GameObject of type '" << typeid(object).name() << "', ignoring" << std::endl;
+      return false;
+    }
+  }
+
   auto movingobject = dynamic_cast<MovingObject*>(&object);
   if (movingobject)
   {
@@ -314,28 +324,16 @@ Sector::before_object_add(GameObject& object)
 
   auto camera = dynamic_cast<Camera*>(&object);
   if (camera) {
-    if (m_camera != nullptr) {
-      log_warning << "Multiple cameras added. Ignoring" << std::endl;
-      return false;
-    }
     m_camera = camera;
   }
 
   auto player = dynamic_cast<Player*>(&object);
   if (player) {
-    if (m_player != nullptr) {
-      log_warning << "Multiple players added. Ignoring" << std::endl;
-      return false;
-    }
     m_player = player;
   }
 
   auto effect_ = dynamic_cast<DisplayEffect*>(&object);
   if (effect_) {
-    if (m_effect != nullptr) {
-      log_warning << "Multiple DisplayEffects added. Ignoring" << std::endl;
-      return false;
-    }
     m_effect = effect_;
   }
 

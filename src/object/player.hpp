@@ -51,6 +51,7 @@ public:
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
   virtual void collision_tile(uint32_t tile_attributes) override;
   virtual bool is_saveable() const override { return false; }
+  virtual bool is_singleton() const override { return true; }
 
   void set_controller(const Controller* controller);
   /** Level solved. Don't kill Tux any more. */

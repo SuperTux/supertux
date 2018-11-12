@@ -73,6 +73,10 @@ public:
   virtual std::string get_display_name() const { return _("Unknown object"); }
   virtual bool is_saveable() const { return true; }
 
+  /** If true only a single object of this type is allowed in a
+      given GameObjectManager */
+  virtual bool is_singleton() const { return false; }
+
   /** Does this object have variable size
       (secret area trigger, wind, etc.) */
   virtual bool has_variable_size() const { return false; }
