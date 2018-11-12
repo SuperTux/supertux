@@ -443,14 +443,13 @@ Sector::free_line_of_sight(const Vector& line_start, const Vector& line_end, con
 bool
 Sector::can_see_player(const Vector& eye) const
 {
-  const std::vector<Player*> players = get_players();
-  for (const auto& pl : players) {
+  for (const auto& player : get_objects_by_type<Player>()) {
     // test for free line of sight to any of all four corners and the middle of the player's bounding box
-    if (free_line_of_sight(eye, pl->get_bbox().p1, pl)) return true;
-    if (free_line_of_sight(eye, Vector(pl->get_bbox().p2.x, pl->get_bbox().p1.y), pl)) return true;
-    if (free_line_of_sight(eye, pl->get_bbox().p2, pl)) return true;
-    if (free_line_of_sight(eye, Vector(pl->get_bbox().p1.x, pl->get_bbox().p2.y), pl)) return true;
-    if (free_line_of_sight(eye, pl->get_bbox().get_middle(), pl)) return true;
+    if (free_line_of_sight(eye, player.get_bbox().p1, &player)) return true;
+    if (free_line_of_sight(eye, Vector(player.get_bbox().p2.x, player.get_bbox().p1.y), &player)) return true;
+    if (free_line_of_sight(eye, player.get_bbox().p2, &player)) return true;
+    if (free_line_of_sight(eye, Vector(player.get_bbox().p1.x, player.get_bbox().p2.y), &player)) return true;
+    if (free_line_of_sight(eye, player.get_bbox().get_middle(), &player)) return true;
   }
   return false;
 }
@@ -620,17 +619,16 @@ Sector::get_nearest_player (const Vector& pos) const
   Player *nearest_player = nullptr;
   float nearest_dist = std::numeric_limits<float>::max();
 
-  std::vector<Player*> players = get_players();
-  for (auto& this_player : players)
+  for (auto& player : get_objects_by_type<Player>())
   {
-    if (this_player->is_dying() || this_player->is_dead())
+    if (player.is_dying() || player.is_dead())
       continue;
 
-    float this_dist = this_player->get_bbox ().distance(pos);
+    float dist = player.get_bbox ().distance(pos);
 
-    if (this_dist < nearest_dist) {
-      nearest_player = this_player;
-      nearest_dist = this_dist;
+    if (dist < nearest_dist) {
+      nearest_player = &player;
+      nearest_dist = dist;
     }
   }
 

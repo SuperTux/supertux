@@ -209,7 +209,7 @@ GameSession::set_editmode(bool edit_mode_)
   if (m_edit_mode == edit_mode_) return;
   m_edit_mode = edit_mode_;
 
-  m_currentsector->get_players()[0]->set_edit_mode(edit_mode_);
+  m_currentsector->get_player().set_edit_mode(edit_mode_);
 
   if (edit_mode_) {
 
@@ -226,7 +226,7 @@ GameSession::set_editmode(bool edit_mode_)
 void
 GameSession::force_ghost_mode()
 {
-  m_currentsector->get_players()[0]->set_ghost_mode(true);
+  m_currentsector->get_player().set_ghost_mode(true);
 }
 
 void
@@ -355,12 +355,12 @@ GameSession::update(float dt_sec, const Controller& controller)
     }
     //Keep persistent across sectors
     if(m_edit_mode)
-      m_currentsector->get_players()[0]->set_edit_mode(m_edit_mode);
+      m_currentsector->get_player().set_edit_mode(m_edit_mode);
     m_newsector = "";
     m_newspawnpoint = "";
     // retain invincibility if the player has it
     if(m_pastinvincibility) {
-      m_currentsector->get_players()[0]->m_invincible_timer.start(static_cast<float>(m_newinvincibilityperiod));
+      m_currentsector->get_player().m_invincible_timer.start(static_cast<float>(m_newinvincibilityperiod));
     }
   }
 
@@ -484,7 +484,7 @@ GameSession::start_sequence(Sequence seq, const SequenceData* data)
 
   std::unique_ptr<EndSequence> end_sequence;
   if (seq == SEQ_ENDSEQUENCE) {
-    if (m_currentsector->get_players()[0]->get_physic().get_velocity_x() < 0) {
+    if (m_currentsector->get_player().get_physic().get_velocity_x() < 0) {
       end_sequence = std::make_unique<EndSequenceWalkLeft>();
     } else {
       end_sequence = std::make_unique<EndSequenceWalkRight>();

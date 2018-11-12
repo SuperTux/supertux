@@ -128,10 +128,6 @@ public:
   bool free_line_of_sight(const Vector& line_start, const Vector& line_end, const MovingObject* ignore_object = nullptr) const;
   bool can_see_player(const Vector& eye) const;
 
-  /** returns a list of players currently in the sector */
-  std::vector<Player*> get_players() const {
-    return std::vector<Player*>(1, m_player);
-  }
   Player* get_nearest_player (const Vector& pos) const;
   Player* get_nearest_player (const Rectf& pos) const {
     return (get_nearest_player (get_anchor_pos (pos, ANCHOR_MIDDLE)));

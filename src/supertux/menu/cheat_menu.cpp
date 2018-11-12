@@ -25,8 +25,7 @@
 
 CheatMenu::CheatMenu()
 {
-  std::vector<Player*> players = Sector::get().get_players();
-  auto player = players.empty() ? nullptr : players[0];
+  auto& player = Sector::get().get_player();
 
   add_label(_("Cheats"));
   add_hl();
@@ -39,8 +38,8 @@ CheatMenu::CheatMenu()
   add_entry(MNID_SHRINK, _("Shrink Tux"));
   add_entry(MNID_KILL, _("Kill Tux"));
   add_entry(MNID_FINISH, _("Finish Level"));
-  add_entry(MNID_GHOST, (player != nullptr && player->get_ghost_mode()) ?
-                        _("Leave Ghost Mode") : _("Activate Ghost Mode"));
+  add_entry(MNID_GHOST, player.get_ghost_mode() ?
+            _("Leave Ghost Mode") : _("Activate Ghost Mode"));
   add_hl();
   add_back(_("Back"));
 }
@@ -48,93 +47,67 @@ CheatMenu::CheatMenu()
 void
 CheatMenu::menu_action(MenuItem& item)
 {
-  if (Sector::current())
+  if (!Sector::current()) return;
+
+  auto& player = Sector::get().get_player();
+
+  switch(item.id)
   {
-    std::vector<Player*> players = Sector::get().get_players();
-    auto player = players.empty() ? nullptr : players[0];
+    case MNID_GROW:
+      player.set_bonus(GROWUP_BONUS);
+      break;
 
-    switch(item.id)
-    {
-      case MNID_GROW:
-        if (player)
+    case MNID_FIRE:
+      player.set_bonus(FIRE_BONUS);
+      break;
+
+    case MNID_ICE:
+      player.set_bonus(ICE_BONUS);
+      break;
+
+    case MNID_AIR:
+      player.set_bonus(AIR_BONUS);
+      break;
+
+    case MNID_EARTH:
+      player.set_bonus(EARTH_BONUS);
+      break;
+
+    case MNID_STAR:
+      player.make_invincible();
+      break;
+
+    case MNID_SHRINK:
+      player.kill(false);
+      break;
+
+    case MNID_KILL:
+      player.kill(true);
+      break;
+
+    case MNID_FINISH:
+      if (GameSession::current())
+      {
+        GameSession::current()->finish(true);
+      }
+      break;
+
+    case MNID_GHOST:
+      if (GameSession::current())
+      {
+        if(player.get_ghost_mode())
         {
-          player->set_bonus(GROWUP_BONUS);
+          scripting::mortal();
         }
-        break;
-
-      case MNID_FIRE:
-        if (player)
+        else
         {
-          player->set_bonus(FIRE_BONUS);
+          scripting::ghost();
         }
-        break;
+      }
+      break;
 
-      case MNID_ICE:
-        if (player)
-        {
-          player->set_bonus(ICE_BONUS);
-        }
-        break;
-
-      case MNID_AIR:
-        if (player)
-        {
-          player->set_bonus(AIR_BONUS);
-        }
-        break;
-
-      case MNID_EARTH:
-        if (player)
-        {
-          player->set_bonus(EARTH_BONUS);
-        }
-        break;
-
-      case MNID_STAR:
-        if (player)
-        {
-          player->make_invincible();
-        }
-        break;
-
-      case MNID_SHRINK:
-        if (player)
-        {
-          player->kill(false);
-        }
-        break;
-
-      case MNID_KILL:
-        if (player)
-        {
-          player->kill(true);
-        }
-        break;
-
-      case MNID_FINISH:
-        if (GameSession::current())
-        {
-          GameSession::current()->finish(true);
-        }
-        break;
-
-      case MNID_GHOST:
-        if (GameSession::current() && player)
-        {
-          if(player->get_ghost_mode())
-          {
-            scripting::mortal();
-          }
-          else
-          {
-            scripting::ghost();
-          }
-        }
-        break;
-
-      default:
-        break;
-    }
+    default:
+      break;
   }
 
   MenuManager::instance().clear_menu_stack();

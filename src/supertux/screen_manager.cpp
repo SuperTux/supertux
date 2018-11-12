@@ -144,7 +144,7 @@ ScreenManager::draw_player_pos(DrawingContext& context)
   if (auto session = GameSession::current())
   {
     Sector& sector = session->get_current_sector();
-    auto pos = sector.get_players()[0]->get_pos();
+    auto pos = sector.get_player().get_pos();
     auto pos_text = "X:" + std::to_string(int(pos.x)) + " Y:" + std::to_string(int(pos.y));
 
     context.color().draw_text(
