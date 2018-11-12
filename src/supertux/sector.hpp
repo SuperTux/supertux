@@ -106,9 +106,6 @@ public:
   void resume_music();
   MusicType get_music_type() const;
 
-  /** Get total number of badguys */
-  int get_total_badguys() const;
-
   /** Checks if the specified rectangle is free of (solid) tiles.
       Note that this does not include static objects, e.g. bonus blocks. */
   bool is_free_of_tiles(const Rectf& rect, const bool ignoreUnisolid = false) const;

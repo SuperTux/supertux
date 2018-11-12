@@ -197,7 +197,7 @@ Level::get_total_badguys() const
 {
   int total_badguys = 0;
   for(auto const& sector : m_sectors) {
-    total_badguys += sector->get_total_badguys();
+    total_badguys += sector->get_object_count<BadGuy>();
   }
   return total_badguys;
 }

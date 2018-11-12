@@ -439,19 +439,6 @@ Sector::get_music_type() const
   return m_currentmusic;
 }
 
-int
-Sector::get_total_badguys() const
-{
-  int total_badguys = 0;
-  for(auto& badguy : get_objects_by_type<BadGuy>()) {
-    if (badguy.m_countMe) {
-      total_badguys++;
-    }
-  }
-
-  return total_badguys;
-}
-
 bool
 Sector::inside(const Rectf& rect) const
 {
