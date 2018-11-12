@@ -89,8 +89,26 @@ EditorMenu::menu_action(MenuItem& item)
 
     case MNID_SAVELEVEL:
     {
-      MenuManager::instance().clear_menu_stack();
-      editor->save_request = true;
+      bool is_sector_valid = false;
+      bool is_spawnpoint_valid = false;
+
+      editor->check_save_prerequisites(is_sector_valid, is_spawnpoint_valid);
+      if(is_sector_valid && is_spawnpoint_valid)
+      {
+        MenuManager::instance().clear_menu_stack();
+        editor->save_request = true;
+      }
+      else
+      {
+        if(!is_sector_valid)
+        {
+          Dialog::show_message(_("Couldn't find a \"main\" sector. Please change the name of the sector where you'd like Tux to start to \"main\""));
+        }
+        else if(!is_spawnpoint_valid)
+        {
+          Dialog::show_message(_("Couldn't find a \"main\" spawnpoint. Please change the name of the spawnpoint where you'd like Tux to start to \"main\""));
+        }
+      }
     }
       break;
 
