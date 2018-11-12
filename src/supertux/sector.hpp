@@ -58,7 +58,6 @@ class Sector final : public GameObjectManager
 public:
   friend class CollisionSystem;
   friend class EditorSectorMenu;
-  friend class SectorParser;
 
 private:
   static Sector* s_current;
