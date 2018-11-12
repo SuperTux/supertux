@@ -29,7 +29,10 @@ public:
   int get_id() const { return m_id; }
 
   void set_help(const std::string& help_text);
-  std::string get_help() const { return m_help; }
+  const std::string& get_help() const { return m_help; }
+
+  void set_text(const std::string& text) { m_text = text; }
+  const std::string& get_text() const { return m_text; }
 
   virtual void change_text (const std::string& text);
 
@@ -53,24 +56,20 @@ public:
 
   virtual Color get_color() const;
 
-  /** Returns true when the memu manager shouldn't do anything else. */
+  /** Returns true when the MenuManager shouldn't do anything else. */
   virtual bool no_other_action() const {
     return false;
   }
 
   /** Returns true when the width must be recalculated when an action is
-   *  processed */
+      processed */
   virtual bool changes_width() const {
     return false;
   }
 
 private:
-  int m_id; //item ID
-
-public:
+  int m_id;
   std::string m_text;
-
-private:
   std::string m_help;
 
 private:

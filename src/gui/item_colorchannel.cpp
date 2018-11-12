@@ -27,17 +27,19 @@ ItemColorChannel::ItemColorChannel(float* input_, Color channel_, int id_) :
   channel(channel_)
 {
   // removing all redundant zeros at the end
-  for (auto i = m_text.end() - 1; i != m_text.begin(); --i) {
+  std::string text = get_text();
+  for (auto i = text.end() - 1; i != text.begin(); --i) {
     char c = *i;
     if (c == '.') {
-      m_text.resize(m_text.length() - 1);
+      text.resize(text.length() - 1);
       has_comma = false;
     }
     if (c != '0') {
       break;
     }
-    m_text.resize(m_text.length() - 1);
+    text.resize(text.length() - 1);
   }
+  set_text(text);
 }
 
 void
@@ -50,7 +52,7 @@ ItemColorChannel::draw(DrawingContext& context, const Vector& pos, int menu_widt
 
 int
 ItemColorChannel::get_width() const {
-  return static_cast<int>(Resources::normal_font->get_text_width(m_text) + 16 + static_cast<float>(flickw));
+  return static_cast<int>(Resources::normal_font->get_text_width(get_text()) + 16 + static_cast<float>(flickw));
 }
 
 void
@@ -64,12 +66,14 @@ ItemColorChannel::event(const SDL_Event& ev) {
 }
 
 void
-ItemColorChannel::add_char(char c) {
+ItemColorChannel::add_char(char c)
+{
+  std::string text = get_text();
   if (!has_comma && (c == '.' || c == ',')) {
-    if (!m_text.length()) {
-      m_text = "0.";
+    if (!text.length()) {
+      text = "0.";
     } else {
-      m_text.push_back('.');
+      text.push_back('.');
     }
     has_comma = true;
   }
@@ -78,37 +82,42 @@ ItemColorChannel::add_char(char c) {
     return;
   }
 
-  m_text.push_back(c);
-  *number = std::stof(m_text);
+  text.push_back(c);
+  *number = std::stof(text);
 
   if (*number < 0 || *number > 1) {
     remove_char();
   }
+  set_text(text);
 }
 
 void
-ItemColorChannel::remove_char() {
+ItemColorChannel::remove_char()
+{
+  std::string text = get_text();
   unsigned char last_char;
   do {
-    last_char = *(--m_text.end());
-    m_text.resize(m_text.length() - 1);
-    if (m_text.length() == 0) {
+    last_char = *(--text.end());
+    text.resize(text.length() - 1);
+    if (text.length() == 0) {
       break;
     }
     if (last_char == '.') {
       has_comma = false;
     }
   } while ( (last_char & 128) && !(last_char & 64) );
-  if (m_text.length() && m_text != "-") {
-    *number = std::stof(m_text);
+  if (text.length() && text != "-") {
+    *number = std::stof(text);
   } else {
     *number = 0;
   }
+  set_text(text);
 }
 
 void
-ItemColorChannel::process_action(const MenuAction& action) {
-  if (action == MENU_ACTION_REMOVE && m_text.length()) {
+ItemColorChannel::process_action(const MenuAction& action)
+{
+  if (action == MENU_ACTION_REMOVE && get_text().length()) {
     remove_char();
   }
 }

@@ -41,7 +41,7 @@ ItemToggle::ItemToggle(const std::string& text_,
 void
 ItemToggle::draw(DrawingContext& context, const Vector& pos, int menu_width, bool active)
 {
-  context.color().draw_text(Resources::normal_font, m_text,
+  context.color().draw_text(Resources::normal_font, get_text(),
                             Vector(pos.x + 16, pos.y - (Resources::normal_font->get_height()/2)),
                             ALIGN_LEFT, LAYER_GUI, active ? ColorScheme::Menu::active_color : get_color());
 
@@ -61,7 +61,7 @@ ItemToggle::draw(DrawingContext& context, const Vector& pos, int menu_width, boo
 int
 ItemToggle::get_width() const
 {
-  return static_cast<int>(Resources::normal_font->get_text_width(m_text)) + 16 + Resources::checkbox->get_width();
+  return static_cast<int>(Resources::normal_font->get_text_width(get_text())) + 16 + Resources::checkbox->get_width();
 }
 
 void

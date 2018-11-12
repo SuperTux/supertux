@@ -29,8 +29,8 @@ ItemBack::ItemBack(const std::string& text_, int _id) :
 
 void
 ItemBack::draw(DrawingContext& context, const Vector& pos, int menu_width, bool active) {
-  float text_width = Resources::normal_font->get_text_width(m_text);
-  context.color().draw_text(Resources::normal_font, m_text,
+  float text_width = Resources::normal_font->get_text_width(get_text());
+  context.color().draw_text(Resources::normal_font, get_text(),
                             Vector( pos.x + static_cast<float>(menu_width) / 2.0f,
                                     pos.y - static_cast<float>(int(Resources::normal_font->get_height()/2))),
                             ALIGN_CENTER, LAYER_GUI, active ? ColorScheme::Menu::active_color : get_color());
@@ -42,7 +42,7 @@ ItemBack::draw(DrawingContext& context, const Vector& pos, int menu_width, bool 
 
 int
 ItemBack::get_width() const {
-  return static_cast<int>(Resources::normal_font->get_text_width(m_text)) + 32 + Resources::back->get_width();
+  return static_cast<int>(Resources::normal_font->get_text_width(get_text())) + 32 + Resources::back->get_width();
 }
 
 void

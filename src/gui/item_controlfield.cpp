@@ -33,7 +33,7 @@ ItemControlField::draw(DrawingContext& context, const Vector& pos, int menu_widt
                             Vector(pos.x + static_cast<float>(menu_width) - 16.0f,
                                    pos.y - static_cast<float>(int(Resources::normal_font->get_height()/2))),
                             ALIGN_RIGHT, LAYER_GUI, ColorScheme::Menu::field_color);
-  context.color().draw_text(Resources::normal_font, m_text,
+  context.color().draw_text(Resources::normal_font, get_text(),
                               Vector(pos.x + 16.0f,
                                      pos.y - static_cast<float>(int(Resources::normal_font->get_height()/2))),
                               ALIGN_LEFT, LAYER_GUI, active ? ColorScheme::Menu::active_color : get_color());
@@ -41,7 +41,7 @@ ItemControlField::draw(DrawingContext& context, const Vector& pos, int menu_widt
 
 int
 ItemControlField::get_width() const {
-  return static_cast<int>(Resources::normal_font->get_text_width(m_text) + Resources::normal_font->get_text_width(input) + 16.0f);
+  return static_cast<int>(Resources::normal_font->get_text_width(get_text()) + Resources::normal_font->get_text_width(input) + 16.0f);
 }
 
 /* EOF */
