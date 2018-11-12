@@ -112,4 +112,10 @@ ReaderIterator::as_mapping() const
   return ReaderMapping(m_doc, m_arr[m_idx]);
 }
 
+const sexp::Value&
+ReaderIterator::get_sexp() const
+{
+  return m_arr[m_idx];
+}
+
 /* EOF */
