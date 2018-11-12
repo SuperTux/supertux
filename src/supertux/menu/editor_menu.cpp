@@ -102,11 +102,11 @@ EditorMenu::menu_action(MenuItem& item)
       {
         if(!is_sector_valid)
         {
-          Dialog::show_message(_("Couldn't find a \"main\" sector. Please change the name of the sector where you'd like Tux to start to \"main\""));
+          Dialog::show_message(_("Couldn't find a \"main\" sector.\nPlease change the name of the sector where\nyou'd like the player to start to \"main\""));
         }
         else if(!is_spawnpoint_valid)
         {
-          Dialog::show_message(_("Couldn't find a \"main\" spawnpoint. Please change the name of the spawnpoint where you'd like Tux to start to \"main\""));
+          Dialog::show_message(_("Couldn't find a \"main\" spawnpoint.\n Please change the name of the spawnpoint where\nyou'd like the player to start to \"main\""));
         }
       }
     }
