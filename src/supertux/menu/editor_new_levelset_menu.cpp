@@ -43,7 +43,7 @@ EditorNewLevelsetMenu::EditorNewLevelsetMenu() :
 void
 EditorNewLevelsetMenu::menu_action(MenuItem& item)
 {
-  if (item.m_id <= 0)
+  if (item.get_id() <= 0)
     return;
 
   if(levelset_name.empty())

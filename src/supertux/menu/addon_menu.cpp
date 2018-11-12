@@ -213,24 +213,24 @@ AddonMenu::rebuild_menu()
 void
 AddonMenu::menu_action(MenuItem& item)
 {
-  if (item.m_id == MNID_CHECK_ONLINE) // check if "Check Online" was chosen
+  if (item.get_id() == MNID_CHECK_ONLINE) // check if "Check Online" was chosen
   {
     check_online();
   }
-  else if (MNID_ADDON_LIST_START <= item.m_id)
+  else if (MNID_ADDON_LIST_START <= item.get_id())
   {
-    if (IS_INSTALLED_MENU_ID(item.m_id))
+    if (IS_INSTALLED_MENU_ID(item.get_id()))
     {
-      int idx = UNPACK_INSTALLED_MENU_ID(item.m_id);
+      int idx = UNPACK_INSTALLED_MENU_ID(item.get_id());
       if (0 <= idx && idx < static_cast<int>(m_installed_addons.size()))
       {
         const Addon& addon = m_addon_manager.get_installed_addon(m_installed_addons[idx]);
         toggle_addon(addon);
       }
     }
-    else if (IS_REPOSITORY_MENU_ID(item.m_id))
+    else if (IS_REPOSITORY_MENU_ID(item.get_id()))
     {
-      int idx = UNPACK_REPOSITORY_MENU_ID(item.m_id);
+      int idx = UNPACK_REPOSITORY_MENU_ID(item.get_id());
       if (0 <= idx && idx < static_cast<int>(m_repository_addons.size()))
       {
         const Addon& addon = m_addon_manager.get_repository_addon(m_repository_addons[idx]);
@@ -240,7 +240,7 @@ AddonMenu::menu_action(MenuItem& item)
   }
   else
   {
-    log_warning << "Unknown menu item clicked: " << item.m_id << std::endl;
+    log_warning << "Unknown menu item clicked: " << item.get_id() << std::endl;
   }
 }
 

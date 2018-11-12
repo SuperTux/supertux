@@ -57,7 +57,7 @@ LanguageMenu::LanguageMenu()
 void
 LanguageMenu::menu_action(MenuItem& item)
 {
-  if (item.m_id == MNID_LANGUAGE_AUTO_DETECT) // auto detect
+  if (item.get_id() == MNID_LANGUAGE_AUTO_DETECT) // auto detect
   {
     FL_Locale *locale;
     FL_FindLocale(&locale);
@@ -69,7 +69,7 @@ LanguageMenu::menu_action(MenuItem& item)
     g_config->save();
     MenuManager::instance().clear_menu_stack();
   }
-  else if (item.m_id == MNID_LANGUAGE_ENGLISH) // english
+  else if (item.get_id() == MNID_LANGUAGE_ENGLISH) // english
   {
     g_config->locale = "en";
     g_dictionary_manager->set_language(tinygettext::Language::from_name(g_config->locale));
@@ -83,7 +83,7 @@ LanguageMenu::menu_action(MenuItem& item)
 
     for (auto& lang : languages)
     {
-      if (item.m_id == mnid++)
+      if (item.get_id() == mnid++)
       {
         g_config->locale = lang.str();
         g_dictionary_manager->set_language(lang);

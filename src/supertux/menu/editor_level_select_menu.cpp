@@ -134,13 +134,13 @@ EditorLevelSelectMenu::menu_action(MenuItem& item)
 {
   auto editor = Editor::current();
   World* world = editor->get_world();
-  if (item.m_id >= 0)
+  if (item.get_id() >= 0)
   {
-    editor->set_level(m_levelset->get_level_filename(item.m_id));
+    editor->set_level(m_levelset->get_level_filename(item.get_id()));
     editor->set_worldmap_mode(false);
     MenuManager::instance().clear_menu_stack();
   } else {
-    switch (item.m_id) {
+    switch (item.get_id()) {
       case -1:
         create_level();
         break;

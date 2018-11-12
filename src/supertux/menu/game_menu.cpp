@@ -53,7 +53,7 @@ GameMenu::GameMenu() :
 void
 GameMenu::menu_action(MenuItem& item)
 {
-  switch (item.m_id)
+  switch (item.get_id())
   {
     case MNID_CONTINUE:
       MenuManager::instance().clear_menu_stack();

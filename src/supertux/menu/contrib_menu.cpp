@@ -176,7 +176,7 @@ ContribMenu::ContribMenu() :
 void
 ContribMenu::menu_action(MenuItem& item)
 {
-  int index = item.m_id;
+  int index = item.get_id();
   if (index != -1)
   {
     // reload the World so that we have something that we can safely

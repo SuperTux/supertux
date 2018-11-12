@@ -570,7 +570,7 @@ Menu::get_item_by_id(int id)
 {
   for (const auto& item : items)
   {
-    if (item->m_id == id)
+    if (item->get_id() == id)
     {
       return *item;
     }
@@ -584,7 +584,7 @@ Menu::get_item_by_id(int id) const
 {
   for (const auto& item : items)
   {
-    if (item->m_id == id)
+    if (item->get_id() == id)
     {
       return *item;
     }
@@ -595,7 +595,7 @@ Menu::get_item_by_id(int id) const
 
 int Menu::get_active_item_id() const
 {
-  return items[active_item]->m_id;
+  return items[active_item]->get_id();
 }
 
 void
@@ -666,7 +666,7 @@ void
 Menu::set_active_item(int id)
 {
   for(size_t i = 0; i < items.size(); ++i) {
-    if(items[i]->m_id == id) {
+    if(items[i]->get_id() == id) {
       active_item = static_cast<int>(i);
       break;
     }

@@ -61,7 +61,7 @@ MainMenu::on_window_resize()
 void
 MainMenu::menu_action(MenuItem& item)
 {
-  switch (item.m_id)
+  switch (item.get_id())
   {
 
     case MNID_STARTGAME:

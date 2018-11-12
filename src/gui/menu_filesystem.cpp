@@ -127,8 +127,8 @@ FileSystemMenu::has_right_suffix(const std::string& file) const
 void
 FileSystemMenu::menu_action(MenuItem& item)
 {
-  if (item.m_id >= 0) {
-    size_t id = item.m_id;
+  if (item.get_id() >= 0) {
+    size_t id = item.get_id();
     if (id < directories.size()) {
       directory = FileSystem::join(directory, directories[id]);
       refresh_items();

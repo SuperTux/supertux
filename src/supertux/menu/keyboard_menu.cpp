@@ -94,13 +94,13 @@ KeyboardMenu::get_key_name(SDL_Keycode key) const
 void
 KeyboardMenu::menu_action(MenuItem& item)
 {
-  if(item.m_id >= 0 && item.m_id < Controller::CONTROLCOUNT){
+  if(item.get_id() >= 0 && item.get_id() < Controller::CONTROLCOUNT){
     ItemControlField* itemcf = dynamic_cast<ItemControlField*>(&item);
     if (!itemcf) {
       return;
     }
     itemcf->change_input(_("Press Key"));
-    m_input_manager.keyboard_manager->bind_next_event_to(static_cast<Controller::Control>(item.m_id));
+    m_input_manager.keyboard_manager->bind_next_event_to(static_cast<Controller::Control>(item.get_id()));
   }
 }
 
