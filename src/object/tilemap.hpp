@@ -46,6 +46,8 @@ public:
   TileMap(const TileSet *tileset, const ReaderMapping& reader);
   virtual ~TileMap();
 
+  virtual void finish_construction() override;
+
   virtual void save(Writer& writer) override;
   virtual std::string get_display_name() const override {
     return _("Tilemap");

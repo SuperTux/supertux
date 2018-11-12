@@ -34,6 +34,7 @@ friend class HeavyCoin;
 public:
   Coin(const Vector& pos);
   Coin(const ReaderMapping& reader);
+  virtual void finish_construction() override;
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
 

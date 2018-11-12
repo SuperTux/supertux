@@ -58,12 +58,6 @@ WillOWisp::WillOWisp(const ReaderMapping& reader) :
 
   init_path(reader, running);
 
-  if (get_path())
-  {
-    if (running)
-      m_mystate = STATE_PATHMOVING_TRACK;
-  }
-
   m_countMe = false;
   SoundManager::current()->preload(SOUNDFILE);
   SoundManager::current()->preload("sounds/warp.wav");
@@ -72,6 +66,14 @@ WillOWisp::WillOWisp(const ReaderMapping& reader) :
   m_glowing = true;
 
   m_sprite->set_action("idle");
+}
+
+void
+WillOWisp::finish_construction()
+{
+  if (get_walker() && get_walker()->is_moving()) {
+    m_mystate = STATE_PATHMOVING_TRACK;
+  }
 }
 
 void

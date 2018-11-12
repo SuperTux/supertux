@@ -50,15 +50,19 @@ Coin::Coin(const ReaderMapping& reader) :
 {
   init_path(reader, true);
 
+  reader.get("collect-script", m_collect_script, "");
+
+  SoundManager::current()->preload("sounds/coin.wav");
+}
+
+void
+Coin::finish_construction()
+{
   if (get_path())
   {
     Vector v = get_path()->get_base();
     set_pos(v);
   }
-
-  reader.get("collect-script", m_collect_script, "");
-
-  SoundManager::current()->preload("sounds/coin.wav");
 }
 
 void

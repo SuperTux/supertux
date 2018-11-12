@@ -109,12 +109,6 @@ TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
 
   init_path(reader, false);
 
-  if (get_path())
-  {
-    Vector v = get_path()->get_base();
-    set_offset(v);
-  }
-
   std::string draw_target_s = "normal";
   reader.get("draw-target", draw_target_s);
   if (draw_target_s == "normal") m_draw_target = DrawingTarget::COLORMAP;
@@ -167,6 +161,16 @@ TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
   if(empty)
   {
     log_info << "Tilemap '" << m_name << "', z-pos '" << m_z_pos << "' is empty." << std::endl;
+  }
+}
+
+void
+TileMap::finish_construction()
+{
+  if (get_path())
+  {
+    Vector v = get_path()->get_base();
+    set_offset(v);
   }
 }
 

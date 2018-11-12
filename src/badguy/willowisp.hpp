@@ -30,6 +30,8 @@ class WillOWisp final : public BadGuy,
 {
 public:
   WillOWisp(const ReaderMapping& reader);
+  virtual void finish_construction() override;
+
   virtual void save(Writer& writer) override;
 
   virtual void activate() override;
