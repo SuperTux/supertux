@@ -23,7 +23,7 @@
 class MenuItem
 {
 public:
-  MenuItem(const std::string& text_, int id = -1);
+  MenuItem(const std::string& text, int id = -1);
   virtual ~MenuItem();
 
   virtual void set_help(const std::string& help_text);
@@ -60,9 +60,10 @@ public:
     return false;
   }
 
-  int id; //item ID
-  std::string text;
-  std::string help;
+public:
+  int m_id; //item ID
+  std::string m_text;
+  std::string m_help;
 
 private:
   MenuItem(const MenuItem&) = delete;

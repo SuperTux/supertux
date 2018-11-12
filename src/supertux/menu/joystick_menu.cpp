@@ -118,23 +118,23 @@ JoystickMenu::get_button_name(int button) const
 void
 JoystickMenu::menu_action(MenuItem& item)
 {
-  if (0 <= item.id && item.id < Controller::CONTROLCOUNT)
+  if (0 <= item.m_id && item.m_id < Controller::CONTROLCOUNT)
   {
     ItemControlField* micf = dynamic_cast<ItemControlField*>(&item);
     if (!micf) {
       return;
     }
     micf->change_input(_("Press Button"));
-    m_input_manager.joystick_manager->bind_next_event_to(static_cast<Controller::Control>(item.id));
+    m_input_manager.joystick_manager->bind_next_event_to(static_cast<Controller::Control>(item.m_id));
   }
-  else if (item.id == MNID_AUTO_JOYSTICK_CFG)
+  else if (item.m_id == MNID_AUTO_JOYSTICK_CFG)
   {
     //m_input_manager.use_game_controller(!item.toggled);
     m_input_manager.use_game_controller(!m_auto_joystick_cfg);
     m_input_manager.reset();
     recreate_menu();
   }
-  else if(item.id == MNID_SCAN_JOYSTICKS)
+  else if(item.m_id == MNID_SCAN_JOYSTICKS)
   {
     m_input_manager.reset();
     recreate_menu();

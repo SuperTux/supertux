@@ -439,7 +439,7 @@ OptionsMenu::~OptionsMenu()
 void
 OptionsMenu::menu_action(MenuItem& item)
 {
-  switch (item.id) {
+  switch (item.m_id) {
     case MNID_ASPECTRATIO:
       {
         if (aspect_ratios[next_aspect_ratio] == _("auto"))

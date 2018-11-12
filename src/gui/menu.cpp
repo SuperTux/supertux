@@ -533,10 +533,10 @@ Menu::on_window_resize()
 void
 Menu::draw(DrawingContext& context)
 {
-  if (!items[active_item]->help.empty())
+  if (!items[active_item]->m_help.empty())
   {
-    int text_width  = static_cast<int>(Resources::normal_font->get_text_width(items[active_item]->help));
-    int text_height = static_cast<int>(Resources::normal_font->get_text_height(items[active_item]->help));
+    int text_width  = static_cast<int>(Resources::normal_font->get_text_width(items[active_item]->m_help));
+    int text_height = static_cast<int>(Resources::normal_font->get_text_height(items[active_item]->m_help));
 
     Rectf text_rect(pos.x - static_cast<float>(text_width) / 2.0f - 8.0f,
                     static_cast<float>(SCREEN_HEIGHT) - 48.0f - static_cast<float>(text_height) / 2.0f - 4.0f,
@@ -554,7 +554,7 @@ Menu::draw(DrawingContext& context)
                                        16.0f,
                                        LAYER_GUI-10);
 
-    context.color().draw_text(Resources::normal_font, items[active_item]->help,
+    context.color().draw_text(Resources::normal_font, items[active_item]->m_help,
                               Vector(pos.x, static_cast<float>(SCREEN_HEIGHT) - 48.0f - static_cast<float>(text_height) / 2.0f),
                               ALIGN_CENTER, LAYER_GUI);
   }
@@ -570,7 +570,7 @@ Menu::get_item_by_id(int id)
 {
   for (const auto& item : items)
   {
-    if (item->id == id)
+    if (item->m_id == id)
     {
       return *item;
     }
@@ -584,7 +584,7 @@ Menu::get_item_by_id(int id) const
 {
   for (const auto& item : items)
   {
-    if (item->id == id)
+    if (item->m_id == id)
     {
       return *item;
     }
@@ -595,7 +595,7 @@ Menu::get_item_by_id(int id) const
 
 int Menu::get_active_item_id() const
 {
-  return items[active_item]->id;
+  return items[active_item]->m_id;
 }
 
 void
@@ -666,7 +666,7 @@ void
 Menu::set_active_item(int id)
 {
   for(size_t i = 0; i < items.size(); ++i) {
-    if(items[i]->id == id) {
+    if(items[i]->m_id == id) {
       active_item = static_cast<int>(i);
       break;
     }

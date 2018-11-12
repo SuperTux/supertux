@@ -24,9 +24,9 @@
 //static const float FLICK_CURSOR_TIME = 0.5f;
 
 MenuItem::MenuItem(const std::string& text_, int _id) :
-  id(_id),
-  text(text_),
-  help()
+  m_id(_id),
+  m_text(text_),
+  m_help()
 {
 }
 
@@ -37,25 +37,25 @@ MenuItem::~MenuItem() {
 void
 MenuItem::change_text(const std::string& text_)
 {
-  text = text_;
+  m_text = text_;
 }
 
 void
 MenuItem::set_help(const std::string& help_text)
 {
   std::string overflow;
-  help = Resources::normal_font->wrap_to_width(help_text, 600, &overflow);
+  m_help = Resources::normal_font->wrap_to_width(help_text, 600, &overflow);
   while (!overflow.empty())
   {
-    help += "\n";
-    help += Resources::normal_font->wrap_to_width(overflow, 600, &overflow);
+    m_help += "\n";
+    m_help += Resources::normal_font->wrap_to_width(overflow, 600, &overflow);
   }
 }
 
 void
 MenuItem::draw(DrawingContext& context, const Vector& pos, int menu_width, bool active)
 {
-  context.color().draw_text(Resources::normal_font, text,
+  context.color().draw_text(Resources::normal_font, m_text,
                             Vector( pos.x + static_cast<float>(menu_width) / 2.0f,
                                     pos.y - static_cast<float>(Resources::normal_font->get_height()) / 2.0f ),
                             ALIGN_CENTER, LAYER_GUI, active ? ColorScheme::Menu::active_color : get_color());
@@ -68,7 +68,7 @@ MenuItem::get_color() const {
 
 int
 MenuItem::get_width() const {
-  return static_cast<int>(Resources::normal_font->get_text_width(text)) + 16;
+  return static_cast<int>(Resources::normal_font->get_text_width(m_text)) + 16;
 }
 
 /* EOF */

@@ -93,7 +93,7 @@ ObjectMenu::~ObjectMenu()
 void
 ObjectMenu::menu_action(MenuItem& item)
 {
-  switch (item.id) {
+  switch (item.m_id) {
     case MNID_REMOVE:
       Editor::current()->delete_markers();
       Editor::current()->reactivate_request = true;

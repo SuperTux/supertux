@@ -64,7 +64,7 @@ WorldmapCheatMenu::menu_action(MenuItem& item)
   {
     PlayerStatus& status = worldmap->get_savegame().get_player_status();
 
-    switch(item.id)
+    switch(item.m_id)
     {
       case MNID_GROW:
         status.bonus = GROWUP_BONUS;

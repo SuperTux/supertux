@@ -38,7 +38,7 @@ public:
   float* number;
 
   void change_input(const std::string& input_) {
-    text = input_;
+    m_text = input_;
   }
 
   /** Processes the given event. */
