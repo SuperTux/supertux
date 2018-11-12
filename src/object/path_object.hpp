@@ -40,6 +40,7 @@ public:
   /** Returns this object's path */
   Path* get_path();
   std::string get_path_ref() const;
+  UID get_path_uid() const { return m_path_uid; }
 
   /** Returns this object's path walker */
   PathWalker* get_walker() const {
