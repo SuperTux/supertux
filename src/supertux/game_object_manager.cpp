@@ -46,13 +46,14 @@ GameObjectManager::~GameObjectManager()
 void
 GameObjectManager::request_name_resolve(const std::string& name, std::function<void (UID)> callback)
 {
-  assert(m_gameobjects_new.empty());
   m_name_resolve_requests.push_back({name, callback});
 }
 
 void
 GameObjectManager::process_resolve_requests()
 {
+  assert(m_gameobjects_new.empty());
+
   for(const auto& request : m_name_resolve_requests)
   {
     GameObject* object = get_object_by_name<GameObject>(request.name);
