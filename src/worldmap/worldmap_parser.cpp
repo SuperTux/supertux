@@ -83,7 +83,7 @@ WorldMapParser::load_worldmap(const std::string& filename)
       throw std::runtime_error("No sector specified in worldmap file.");
     } else {
       auto iter = sector->get_iter();
-      while(iter.next()) {
+      while (iter.next()) {
         if (iter.get_key() == "tilemap") {
           m_worldmap.add<TileMap>(m_worldmap.m_tileset, iter.as_mapping());
         } else if(iter.get_key() == "background") {

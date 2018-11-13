@@ -69,7 +69,7 @@ std::string squirrel2string(HSQUIRRELVM v, SQInteger i)
       bool first = true;
       os << "{";
       sq_pushnull(v);  //null iterator
-      while(SQ_SUCCEEDED(sq_next(v,i-1)))
+      while (SQ_SUCCEEDED(sq_next(v,i-1)))
       {
         if (!first) {
           os << ", ";
@@ -90,7 +90,7 @@ std::string squirrel2string(HSQUIRRELVM v, SQInteger i)
       bool first = true;
       os << "[";
       sq_pushnull(v);  //null iterator
-      while(SQ_SUCCEEDED(sq_next(v,i-1)))
+      while (SQ_SUCCEEDED(sq_next(v,i-1)))
       {
         if (!first) {
           os << ", ";
@@ -471,7 +471,7 @@ std::vector<std::string> get_table_keys(HSQUIRRELVM vm)
   std::vector<std::string> keys;
 
   sq_pushnull(vm);
-  while(SQ_SUCCEEDED(sq_next(vm, -2)))
+  while (SQ_SUCCEEDED(sq_next(vm, -2)))
   {
     //here -1 is the value and -2 is the key
     const char* result;

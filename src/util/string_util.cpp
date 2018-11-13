@@ -31,7 +31,7 @@ StringUtil::numeric_less(const std::string& lhs, const std::string& rhs)
   std::string::size_type i = 0;
   std::string::size_type min_len = std::min(lhs.size(), rhs.size());
 
-  while(i < min_len)
+  while (i < min_len)
   {
     if (isdigit(lhs[i]) && isdigit(rhs[i]))
     {
@@ -40,8 +40,8 @@ StringUtil::numeric_less(const std::string& lhs, const std::string& rhs)
       std::string::size_type ri = i+1;
 
       // find the end of the number in both strings
-      while(li < lhs.size() && isdigit(lhs[li])) { li += 1; }
-      while(ri < rhs.size() && isdigit(rhs[ri])) { ri += 1; }
+      while (li < lhs.size() && isdigit(lhs[li])) { li += 1; }
+      while (ri < rhs.size() && isdigit(rhs[ri])) { ri += 1; }
 
       if (li == ri)
       {

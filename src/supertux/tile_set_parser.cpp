@@ -50,7 +50,7 @@ TileSetParser::parse()
   }
 
   auto iter = root.get_mapping().get_iter();
-  while(iter.next())
+  while (iter.next())
   {
     if (iter.get_key() == "tile")
     {
@@ -325,7 +325,7 @@ std::vector<SurfacePtr>
   // (images "foo.png" "foo.bar" ...)
   // (images (region "foo.png" 0 0 32 32))
   auto iter = images_lisp.get_iter();
-  while(iter.next())
+  while (iter.next())
   {
     if (iter.is_string())
     {

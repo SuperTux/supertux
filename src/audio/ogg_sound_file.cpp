@@ -60,7 +60,7 @@ OggSoundFile::read(void* _buffer, size_t buffer_size)
   int    section        = 0;
   size_t totalBytesRead = 0;
 
-  while(buffer_size>0) {
+  while (buffer_size>0) {
 #ifdef WORDS_BIGENDIAN
     int bigendian = 1;
 #else

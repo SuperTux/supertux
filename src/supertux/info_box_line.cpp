@@ -109,7 +109,7 @@ InfoBoxLine::split(const std::string& text, float width)
   std::string::size_type i = 0;
   std::string::size_type l;
   char format_char = '#';
-  while(i < text.size()) {
+  while (i < text.size()) {
     // take care of empty lines - represent them as blank lines of normal text
     if (text[i] == '\n') {
       lines.emplace_back(new InfoBoxLine('\t', ""));

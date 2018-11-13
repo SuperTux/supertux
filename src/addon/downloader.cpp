@@ -300,7 +300,7 @@ Downloader::update()
   // read data from the network
   CURLMcode ret;
   int running_handles;
-  while((ret = curl_multi_perform(m_multi_handle, &running_handles)) == CURLM_CALL_MULTI_PERFORM)
+  while ((ret = curl_multi_perform(m_multi_handle, &running_handles)) == CURLM_CALL_MULTI_PERFORM)
   {
     log_debug << "updating" << std::endl;
   }

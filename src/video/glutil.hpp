@@ -98,7 +98,7 @@ inline bool is_power_of_2(int v)
 inline int next_power_of_two(int val)
 {
   int result = 1;
-  while(result < val)
+  while (result < val)
     result *= 2;
   return result;
 }

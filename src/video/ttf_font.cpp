@@ -57,7 +57,7 @@ TTFFont::get_text_width(const std::string& text) const
   float max_width = 0.0f;
 
   LineIterator iter(text);
-  while(iter.next())
+  while (iter.next())
   {
     const std::string& line = iter.get();
 
@@ -114,7 +114,7 @@ TTFFont::draw_text(Canvas& canvas, const std::string& text,
   float last_y = pos.y - (static_cast<float>(m_font_size) - get_height()) / 2.0f;
 
   LineIterator iter(text);
-  while(iter.next())
+  while (iter.next())
   {
     const std::string& line = iter.get();
 

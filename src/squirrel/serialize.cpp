@@ -94,7 +94,7 @@ void save_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, Writer& writer)
 
   //iterator table
   sq_pushnull(vm);
-  while(SQ_SUCCEEDED(sq_next(vm, table_idx))) {
+  while (SQ_SUCCEEDED(sq_next(vm, table_idx))) {
     if (sq_gettype(vm, -2) != OT_STRING) {
       std::cerr << "Table contains non-string key\n";
       continue;

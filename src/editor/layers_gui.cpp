@@ -103,7 +103,7 @@ EditorLayersGui::draw(DrawingContext& context) {
 void
 EditorLayersGui::update(float dt_sec) {
   auto it = layers.begin();
-  while(it != layers.end())
+  while (it != layers.end())
   {
     auto layer_icon = (*it).get();
     if (!layer_icon->is_valid())

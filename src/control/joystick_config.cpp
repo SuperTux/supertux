@@ -164,7 +164,7 @@ JoystickConfig::read(const ReaderMapping& joystick_lisp)
   joystick_lisp.get("use-game-controller", use_game_controller);
 
   auto iter = joystick_lisp.get_iter();
-  while(iter.next())
+  while (iter.next())
   {
     if (iter.get_key() == "map")
     {

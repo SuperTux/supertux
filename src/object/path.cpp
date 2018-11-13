@@ -80,7 +80,7 @@ Path::read(const ReaderMapping& reader)
   auto iter = reader.get_iter();
 
   m_mode = WalkMode::CIRCULAR;
-  while(iter.next()) {
+  while (iter.next()) {
     if (iter.get_key() == "mode") {
       std::string mode_string;
       iter.get(mode_string);

@@ -97,7 +97,7 @@ private:
         m_object = dynamic_cast<T*>(m_it->get());
       }
     }
-    while(!m_object);
+    while (!m_object);
   }
 
 private:

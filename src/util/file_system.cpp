@@ -87,14 +87,14 @@ std::string normalize(const std::string& filename)
 
   const char* p = filename.c_str();
 
-  while(true) {
-    while(*p == '/' || *p == '\\') {
+  while (true) {
+    while (*p == '/' || *p == '\\') {
       p++;
       continue;
     }
 
     const char* pstart = p;
-    while(*p != '/' && *p != '\\' && *p != 0) {
+    while (*p != '/' && *p != '\\' && *p != 0) {
       ++p;
     }
 

@@ -38,7 +38,7 @@ ObjectGroup::ObjectGroup(const ReaderMapping& reader) :
   reader.get("worldmap", for_worldmap);
 
   auto iter = reader.get_iter();
-  while(iter.next()) {
+  while (iter.next()) {
     const std::string& token = iter.get_key();
     if (token == "object") {
       icons.push_back( ObjectIcon( iter.as_mapping() ) );

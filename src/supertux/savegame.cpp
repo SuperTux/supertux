@@ -39,7 +39,7 @@ std::vector<LevelState> get_level_states(HSQUIRRELVM vm)
   std::vector<LevelState> results;
 
   sq_pushnull(vm);
-  while(SQ_SUCCEEDED(sq_next(vm, -2)))
+  while (SQ_SUCCEEDED(sq_next(vm, -2)))
   {
     //here -1 is the value and -2 is the key
     const char* result;

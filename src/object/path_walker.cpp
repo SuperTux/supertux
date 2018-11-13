@@ -76,7 +76,7 @@ PathWalker::update(float dt_sec)
 
   float delta = fabsf(m_walking_speed) * dt_sec;
 
-  while(m_node_time + dt_sec * m_node_mult >= 1) {
+  while (m_node_time + dt_sec * m_node_mult >= 1) {
     delta -= (1 - m_node_time) / m_node_mult;
 
     if (m_walking_speed > 0) {

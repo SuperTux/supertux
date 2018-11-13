@@ -107,12 +107,12 @@ Sprite::update()
 
   m_frame += frame_inc;
 
-  while(m_frame >= 1.0f) {
+  while (m_frame >= 1.0f) {
     m_frame -= 1.0f;
     m_frameidx++;
   }
 
-  while(m_frameidx >= get_frames()) {
+  while (m_frameidx >= get_frames()) {
     m_frameidx -= get_frames();
     m_animation_loops--;
     if (animation_done()) {

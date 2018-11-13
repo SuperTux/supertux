@@ -41,7 +41,7 @@ ObjectInput::ObjectInput() :
   }*/ // Bombenfest und Idioten sicher :DDDDD
 
   auto iter = reader.get_iter();
-  while(iter.next()) {
+  while (iter.next()) {
     const std::string& token = iter.get_key();
     if (token == "objectgroup") {
       groups.push_back( ObjectGroup( iter.as_mapping() ) );

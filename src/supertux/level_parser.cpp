@@ -113,7 +113,7 @@ LevelParser::load(const std::string& filepath)
       level.get("target-time", m_level.m_target_time);
 
       auto iter = level.get_iter();
-      while(iter.next()) {
+      while (iter.next()) {
         if (iter.get_key() == "sector") {
           auto sector = SectorParser::from_reader(m_level, iter.as_mapping());
           m_level.add_sector(std::move(sector));

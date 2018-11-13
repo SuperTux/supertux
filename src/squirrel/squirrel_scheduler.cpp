@@ -31,7 +31,7 @@ SquirrelScheduler::SquirrelScheduler(HSQUIRRELVM vm) :
 void
 SquirrelScheduler::update(float time)
 {
-  while(!schedule.empty() && schedule.front().wakeup_time < time) {
+  while (!schedule.empty() && schedule.front().wakeup_time < time) {
     HSQOBJECT thread_ref = schedule.front().thread_ref;
 
     sq_pushobject(m_vm, thread_ref);

@@ -80,7 +80,7 @@ TTFSurfaceManager::cache_cleanup_step()
     m_cache_iter = m_cache.begin();
   }
 
-  while(g_game_time - m_cache_iter->second.last_access > 10.0f)
+  while (g_game_time - m_cache_iter->second.last_access > 10.0f)
   {
     m_cache_iter = m_cache.erase(m_cache_iter);
     if (m_cache_iter == m_cache.end())

@@ -28,7 +28,7 @@ GLShader::from_file(GLenum type, const std::string& filename)
   std::vector<std::string> sources;
 
   std::string line;
-  while(std::getline(in, line))
+  while (std::getline(in, line))
   {
     sources.push_back(line + "\n");
   }

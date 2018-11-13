@@ -60,7 +60,7 @@ KeyboardConfig::read(const ReaderMapping& keymap_lisp)
     keymap_lisp.get("jump-with-up", jump_with_up_kbd);
 
     auto iter = keymap_lisp.get_iter();
-    while(iter.next())
+    while (iter.next())
     {
       if (iter.get_key() == "map")
       {

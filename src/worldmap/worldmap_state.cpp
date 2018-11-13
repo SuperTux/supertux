@@ -96,7 +96,7 @@ WorldMapState::load_state()
     try {
       get_table_entry(vm, "tilemaps");
       sq_pushnull(vm); // Null-iterator
-      while(SQ_SUCCEEDED(sq_next(vm, -2)))
+      while (SQ_SUCCEEDED(sq_next(vm, -2)))
       {
         const char* key; // Name of specific tilemap table
         if (SQ_SUCCEEDED(sq_getstring(vm, -2, &key)))
@@ -105,7 +105,7 @@ WorldMapState::load_state()
           if (tilemap != nullptr)
           {
             sq_pushnull(vm); // null iterator (inner);
-            while(SQ_SUCCEEDED(sq_next(vm, -2)))
+            while (SQ_SUCCEEDED(sq_next(vm, -2)))
             {
               const char* property_key;
               if (SQ_SUCCEEDED(sq_getstring(vm, -2, &property_key)))

@@ -367,7 +367,7 @@ Console::autocomplete()
 
   // append all keys of the current root table to list
   sq_pushroottable(m_vm); // push root table
-  while(true) {
+  while (true) {
     // check all keys (and their children) for matches
     sq_insert_commands(cmds, m_vm, "", prefix);
 

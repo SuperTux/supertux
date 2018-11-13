@@ -102,7 +102,7 @@ void
 SectorParser::parse(const ReaderMapping& sector)
 {
   auto iter = sector.get_iter();
-  while(iter.next()) {
+  while (iter.next()) {
     if (iter.get_key() == "name") {
       std::string value;
       iter.get(value);
@@ -261,7 +261,7 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
   boost::optional<ReaderMapping> resetpoints;
   if (reader.get("reset-points", resetpoints)) {
     auto iter = resetpoints->get_iter();
-    while(iter.next()) {
+    while (iter.next()) {
       if (iter.get_key() == "point") {
         Vector sp_pos;
         if (reader.get("x", sp_pos.x) && reader.get("y", sp_pos.y))

@@ -46,7 +46,7 @@ SpriteData::SpriteData(const ReaderMapping& lisp) :
   name()
 {
   auto iter = lisp.get_iter();
-  while(iter.next()) {
+  while (iter.next()) {
     if (iter.get_key() == "name") {
       iter.get(name);
     } else if(iter.get_key() == "action") {
