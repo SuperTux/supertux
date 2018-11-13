@@ -42,6 +42,10 @@ private:
   float m_fade_time;
   Color m_color;
   float m_accum_time;
+
+private:
+  FadeToBlack(const FadeToBlack&) = delete;
+  FadeToBlack& operator=(const FadeToBlack&) = delete;
 };
 
 #endif

@@ -20,9 +20,7 @@
 #include "math/vector.hpp"
 #include "supertux/screen_fade.hpp"
 
-/**
- * Shrinks a rectangle screen towards a specific position
- */
+/** Shrinks a rectangle screen towards a specific position */
 class ShrinkFade final : public ScreenFade
 {
 public:
@@ -34,10 +32,14 @@ public:
   virtual bool done() const override;
 
 private:
-  Vector dest;
-  float fade_time;
-  float accum_time;
-  float initial_size;
+  Vector m_dest;
+  float m_fade_time;
+  float m_accum_time;
+  float m_initial_size;
+
+private:
+  ShrinkFade(const ShrinkFade&) = delete;
+  ShrinkFade& operator=(const ShrinkFade&) = delete;
 };
 
 #endif
