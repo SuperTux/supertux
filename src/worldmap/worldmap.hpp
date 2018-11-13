@@ -29,11 +29,12 @@
 #include "worldmap/direction.hpp"
 #include "worldmap/spawn_point.hpp"
 
+class Controller;
 class Level;
 class PlayerStatus;
 class Savegame;
-class SquirrelEnvironment;
 class Sprite;
+class SquirrelEnvironment;
 class TileMap;
 class TileSet;
 
@@ -65,6 +66,8 @@ public:
 
   void draw(DrawingContext& context);
   void update(float dt_sec);
+
+  void process_input(const Controller& controller);
 
   Vector get_next_tile(const Vector& pos, const Direction& direction) const;
 
@@ -167,6 +170,8 @@ private:
 
 private:
   std::unique_ptr<SquirrelEnvironment> m_squirrel_environment;
+
+  bool m_enter_level;
 
   Tux* m_tux;
 

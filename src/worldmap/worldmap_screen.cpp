@@ -16,6 +16,7 @@
 
 #include "worldmap/worldmap_screen.hpp"
 
+#include "control/controller.hpp"
 #include "video/compositor.hpp"
 #include "worldmap/worldmap.hpp"
 
@@ -52,6 +53,7 @@ WorldMapScreen::draw(Compositor& compositor)
 void
 WorldMapScreen::update(float dt_sec, const Controller& controller)
 {
+  m_worldmap->process_input(controller);
   m_worldmap->update(dt_sec);
 }
 

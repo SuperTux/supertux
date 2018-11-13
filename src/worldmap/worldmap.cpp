@@ -65,6 +65,7 @@ namespace worldmap {
 
 WorldMap::WorldMap(const std::string& filename, Savegame& savegame, const std::string& force_spawnpoint_) :
   m_squirrel_environment(new SquirrelEnvironment(SquirrelVirtualMachine::current()->get_vm(), "worldmap")),
+  m_enter_level(false),
   m_tux(),
   m_savegame(savegame),
   m_tileset(nullptr),
@@ -285,7 +286,8 @@ WorldMap::finished_level(Level* gamelevel)
 }
 
 Vector
-WorldMap::get_camera_pos_for_tux() const {
+WorldMap::get_camera_pos_for_tux() const
+{
   Vector camera_offset_;
   Vector tux_pos = m_tux->get_pos();
   camera_offset_.x = tux_pos.x - static_cast<float>(SCREEN_WIDTH) / 2.0f;
@@ -310,6 +312,40 @@ WorldMap::clamp_camera_position(Vector& c) const
     c.x = (get_width() - static_cast<float>(SCREEN_WIDTH)) / 2.0f;
   if (get_height() < static_cast<float>(SCREEN_HEIGHT))
     c.y = (get_height() - static_cast<float>(SCREEN_HEIGHT)) / 2.0f;
+}
+
+void
+WorldMap::process_input(const Controller& controller)
+{
+  m_enter_level = false;
+
+  if (controller.pressed(Controller::ACTION) ||
+      controller.pressed(Controller::JUMP) ||
+      controller.pressed(Controller::MENU_SELECT))
+  {
+    // some people define UP and JUMP on the same key...
+    if (!controller.pressed(Controller::UP)) {
+      m_enter_level = true;
+    }
+  }
+
+  if (controller.pressed(Controller::START) ||
+      controller.pressed(Controller::ESCAPE))
+  {
+    on_escape_press();
+  }
+
+  if (controller.pressed(Controller::CHEAT_MENU) &&
+      g_config->developer_mode)
+  {
+    MenuManager::instance().set_menu(MenuStorage::WORLDMAP_CHEAT_MENU);
+  }
+
+  if (controller.pressed(Controller::DEBUG_MENU) &&
+      g_config->developer_mode)
+  {
+    MenuManager::instance().set_menu(MenuStorage::DEBUG_MENU);
+  }
 }
 
 void
@@ -351,42 +387,11 @@ WorldMap::update(float dt_sec)
     }
   }
 
-  bool enter_level = false;
-
-  {
-    // handle input
-    const Controller& controller = InputManager::current()->get_controller();
-    if (controller.pressed(Controller::ACTION)
-       || controller.pressed(Controller::JUMP)
-       || controller.pressed(Controller::MENU_SELECT)) {
-      /* some people define UP and JUMP on the same key... */
-      if (!controller.pressed(Controller::UP))
-        enter_level = true;
-    }
-    if (controller.pressed(Controller::START) ||
-       controller.pressed(Controller::ESCAPE))
-    {
-      on_escape_press();
-    }
-
-    if (controller.pressed(Controller::CHEAT_MENU) &&
-       g_config->developer_mode)
-    {
-      MenuManager::instance().set_menu(MenuStorage::WORLDMAP_CHEAT_MENU);
-    }
-
-    if (controller.pressed(Controller::DEBUG_MENU) &&
-       g_config->developer_mode)
-    {
-      MenuManager::instance().set_menu(MenuStorage::DEBUG_MENU);
-    }
-  }
-
   {
     // check for teleporters
     auto teleporter = at_teleporter(m_tux->get_tile_pos());
-    if (teleporter && (teleporter->automatic || (enter_level && (!m_tux->is_moving())))) {
-      enter_level = false;
+    if (teleporter && (teleporter->automatic || (m_enter_level && (!m_tux->is_moving())))) {
+      m_enter_level = false;
       if (!teleporter->worldmap.empty()) {
         change(teleporter->worldmap, teleporter->spawnpoint);
       } else {
@@ -402,14 +407,14 @@ WorldMap::update(float dt_sec)
     // check for auto-play levels
     auto level = at_level();
     if (level && (level->auto_play) && (!level->solved) && (!m_tux->is_moving())) {
-      enter_level = true;
+      m_enter_level = true;
       // automatically mark these levels as solved in case player aborts
       level->solved = true;
     }
   }
 
   {
-    if (enter_level && !m_tux->is_moving())
+    if (m_enter_level && !m_tux->is_moving())
     {
       /* Check level action */
       auto level_ = at_level();
