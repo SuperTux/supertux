@@ -135,7 +135,7 @@ ObjectSettings
 AmbientLight::get_settings()
 {
   ObjectSettings result = GameObject::get_settings();
-  result.options.push_back(ObjectOption(MN_COLOR, _("Color"), &m_ambient_light));
+  result.add(MN_COLOR, _("Color"), &m_ambient_light);
   return result;
 }
 

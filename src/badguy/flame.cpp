@@ -51,12 +51,11 @@ Flame::Flame(const ReaderMapping& reader) :
 }
 
 ObjectSettings
-Flame::get_settings() {
+Flame::get_settings()
+{
   ObjectSettings result = BadGuy::get_settings();
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Radius"), &radius,
-                                         "radius"));
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Speed"), &speed,
-                                         "speed"));
+  result.add(MN_NUMFIELD, _("Radius"), &radius, "radius");
+  result.add(MN_NUMFIELD, _("Speed"), &speed, "speed");
   return result;
 }
 

@@ -173,8 +173,8 @@ ObjectSettings
 BicyclePlatform::get_settings()
 {
   auto result = GameObject::get_settings();
-  result.options.push_back(ObjectOption(MN_NUMFIELD, _("Radius"), &m_radius, "radius"));
-  result.options.push_back(ObjectOption(MN_NUMFIELD, _("Momentum change rate"), &m_momentum_change_rate, "momentum-change-rate"));
+  result.add(MN_NUMFIELD, _("Radius"), &m_radius, "radius");
+  result.add(MN_NUMFIELD, _("Momentum change rate"), &m_momentum_change_rate, "momentum-change-rate");
   return result;
 }
 

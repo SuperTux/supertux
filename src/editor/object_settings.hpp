@@ -23,13 +23,28 @@
 
 class ObjectSettings final
 {
-  public:
-    ObjectSettings(const std::string& name_);
+public:
+  ObjectSettings(const std::string& name);
 
-    std::string name;
-    std::vector<ObjectOption> options;
+  const std::string& get_name() const { return m_name; }
 
-    void copy_from(ObjectSettings* other);
+  void copy_from(const ObjectSettings& other);
+
+  void add_option(const ObjectOption& option);
+
+  template <typename ...Args>
+  void add(Args && ...args) {
+    add_option(ObjectOption(std::forward<Args>(args)...));
+  }
+
+  const std::vector<ObjectOption>& get_options() const { return m_options; }
+
+  /** Avoid using this one */
+  std::vector<ObjectOption>& get_options_writable() { return m_options; }
+
+private:
+  std::string m_name;
+  std::vector<ObjectOption> m_options;
 };
 
 #endif

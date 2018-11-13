@@ -94,21 +94,22 @@ LevelDot::draw(DrawingContext& context)
 }
 
 ObjectSettings
-LevelDot::get_settings() {
+LevelDot::get_settings()
+{
   ObjectSettings result(_("Level"));
 
   ObjectOption lvl(MN_FILE, _("Level"), &level);
   lvl.select.push_back(".stl");
-  result.options.push_back(lvl);
+  result.add(lvl);
 
-  result.options.push_back( ObjectOption(MN_SCRIPT, _("Outro script"), &extro_script));
-  result.options.push_back( ObjectOption(MN_TOGGLE, _("Auto play"), &auto_play));
+  result.add(MN_SCRIPT, _("Outro script"), &extro_script);
+  result.add(MN_TOGGLE, _("Auto play"), &auto_play);
 
   ObjectOption spr(MN_FILE, _("Sprite"), &m_sprite_name);
   spr.select.push_back(".sprite");
-  result.options.push_back(spr);
+  result.add(spr);
 
-  result.options.push_back( ObjectOption(MN_COLOR, _("Title colour"), &title_color));
+  result.add(MN_COLOR, _("Title colour"), &title_color);
 
   return result;
 }
@@ -187,20 +188,21 @@ Teleporter::save(Writer& writer) {
 }
 
 ObjectSettings
-Teleporter::get_settings() {
+Teleporter::get_settings()
+{
   ObjectSettings result(_("Teleporter"));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Spawnpoint"), &spawnpoint));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Message"), &message));
-  result.options.push_back( ObjectOption(MN_TOGGLE, _("Automatic"), &automatic));
+  result.add(MN_TEXTFIELD, _("Spawnpoint"), &spawnpoint);
+  result.add(MN_TEXTFIELD, _("Message"), &message);
+  result.add(MN_TOGGLE, _("Automatic"), &automatic);
 
-  result.options.push_back( ObjectOption(MN_TOGGLE, _("Change worldmap"), &change_worldmap));
+  result.add(MN_TOGGLE, _("Change worldmap"), &change_worldmap);
   ObjectOption wm(MN_FILE, _("Target worldmap"), &worldmap);
   wm.select.push_back(".stwm");
-  result.options.push_back(wm);
+  result.add(wm);
 
   ObjectOption spr(MN_FILE, _("Sprite"), &m_sprite_name);
   spr.select.push_back(".sprite");
-  result.options.push_back(spr);
+  result.add(spr);
 
   return result;
 }
@@ -234,8 +236,8 @@ WorldmapSpawnPoint::save(Writer& writer) {
 ObjectSettings
 WorldmapSpawnPoint::get_settings() {
   ObjectSettings result(_("Spawn point"));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &m_name));
-  result.options.push_back( worldmap::dir_option(&dir));
+  result.add(MN_TEXTFIELD, _("Name"), &m_name);
+  result.add( worldmap::dir_option(&dir));
   return result;
 }
 
@@ -273,12 +275,12 @@ SpriteChange::get_settings() {
 
   ObjectOption spr(MN_FILE, _("Sprite"), &target_sprite);
   spr.select.push_back(".sprite");
-  result.options.push_back(spr);
+  result.add(spr);
 
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Stay action"), &stay_action));
-  result.options.push_back( ObjectOption(MN_TOGGLE, _("Initial stay action"), &initial_stay_action));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Stay group"), &stay_group));
-  result.options.push_back( ObjectOption(MN_TOGGLE, _("Change on touch"), &change_on_touch));
+  result.add(MN_TEXTFIELD, _("Stay action"), &stay_action);
+  result.add(MN_TOGGLE, _("Initial stay action"), &initial_stay_action);
+  result.add(MN_TEXTFIELD, _("Stay group"), &stay_group);
+  result.add(MN_TOGGLE, _("Change on touch"), &change_on_touch);
 
   return result;
 }
@@ -320,17 +322,18 @@ SpecialTile::save(Writer& writer) {
 }
 
 ObjectSettings
-SpecialTile::get_settings() {
+SpecialTile::get_settings()
+{
   ObjectSettings result(_("Special tile"));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Message"), &map_message));
-  result.options.push_back( ObjectOption(MN_TOGGLE, _("Show message"), &passive_message));
-  result.options.push_back( ObjectOption(MN_SCRIPT, _("Script"), &script));
-  result.options.push_back( ObjectOption(MN_TOGGLE, _("Invisible"), &invisible_tile));
-  result.options.push_back( worldmap::dir_option(&apply_to_direction));
+  result.add(MN_TEXTFIELD, _("Message"), &map_message);
+  result.add(MN_TOGGLE, _("Show message"), &passive_message);
+  result.add(MN_SCRIPT, _("Script"), &script);
+  result.add(MN_TOGGLE, _("Invisible"), &invisible_tile);
+  result.add(worldmap::dir_option(&apply_to_direction));
 
   ObjectOption spr(MN_FILE, _("Sprite"), &m_sprite_name);
   spr.select.push_back(".sprite");
-  result.options.push_back(spr);
+  result.add(spr);
 
   return result;
 }

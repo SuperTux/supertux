@@ -55,18 +55,12 @@ Wind::get_settings() {
   new_size.x = m_col.m_bbox.get_width();
   new_size.y = m_col.m_bbox.get_height();
   ObjectSettings result = MovingObject::get_settings();
-  result.options.push_back( ObjectOption(MN_NUMFIELD, "width", &new_size.x,
-                                         "width", false));
-  result.options.push_back( ObjectOption(MN_NUMFIELD, "height", &new_size.y,
-                                         "height", false));
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Speed X"), &speed.x,
-                                         "speed-x"));
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Speed Y"), &speed.y,
-                                         "speed-y"));
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Acceleration"), &acceleration,
-                                         "acceleration"));
-  result.options.push_back( ObjectOption(MN_TOGGLE, _("Blowing"), &blowing,
-                                         "blowing"));
+  result.add(MN_NUMFIELD, "width", &new_size.x, "width", false);
+  result.add(MN_NUMFIELD, "height", &new_size.y, "height", false);
+  result.add(MN_NUMFIELD, _("Speed X"), &speed.x, "speed-x");
+  result.add(MN_NUMFIELD, _("Speed Y"), &speed.y, "speed-y");
+  result.add(MN_NUMFIELD, _("Acceleration"), &acceleration, "acceleration");
+  result.add(MN_TOGGLE, _("Blowing"), &blowing, "blowing");
 
   return result;
 }

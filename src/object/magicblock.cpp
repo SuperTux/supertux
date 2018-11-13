@@ -87,8 +87,7 @@ ObjectSettings
 MagicBlock::get_settings()
 {
   ObjectSettings result = MovingSprite::get_settings();
-  result.options.push_back( ObjectOption(MN_COLOR, _("Colour"), &m_color, "color"));
-
+  result.add(MN_COLOR, _("Colour"), &m_color, "color");
   return result;
 }
 

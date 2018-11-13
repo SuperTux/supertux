@@ -182,13 +182,11 @@ PowerUp::draw(DrawingContext& context)
 }
 
 ObjectSettings
-PowerUp::get_settings() {
+PowerUp::get_settings()
+{
   ObjectSettings result = MovingSprite::get_settings();
-  result.options.push_back( ObjectOption(MN_SCRIPT, _("Script"), &script,
-                                         "script"));
-  result.options.push_back( ObjectOption(MN_TOGGLE, _("Disable gravity"), &no_physics,
-                                         "disable-physics"));
-
+  result.add(MN_SCRIPT, _("Script"), &script, "script");
+  result.add(MN_TOGGLE, _("Disable gravity"), &no_physics, "disable-physics");
   return result;
 }
 

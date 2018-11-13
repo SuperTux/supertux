@@ -31,8 +31,7 @@ Crystallo::Crystallo(const ReaderMapping& reader) :
 ObjectSettings
 Crystallo::get_settings() {
   ObjectSettings result = WalkingBadguy::get_settings();
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Radius"), &radius,
-                                         "radius"));
+  result.add(MN_NUMFIELD, _("Radius"), &radius, "radius");
   return result;
 }
 

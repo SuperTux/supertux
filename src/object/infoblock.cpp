@@ -50,10 +50,10 @@ InfoBlock::~InfoBlock()
 }
 
 ObjectSettings
-InfoBlock::get_settings() {
+InfoBlock::get_settings()
+{
   ObjectSettings result = Block::get_settings();
-  result.options.push_back( ObjectOption(MN_SCRIPT, _("Message"), &message,
-                                         "message"));
+  result.add(MN_SCRIPT, _("Message"), &message, "message");
 
   return result;
 }

@@ -52,17 +52,17 @@ ScriptedObject::ScriptedObject(const ReaderMapping& lisp) :
   }
 }
 ObjectSettings
-ScriptedObject::get_settings() {
+ScriptedObject::get_settings()
+{
   new_size.x = m_col.m_bbox.get_width();
   new_size.y = m_col.m_bbox.get_height();
   ObjectSettings result = MovingSprite::get_settings();
-  result.options.push_back( ObjectOption(MN_NUMFIELD, "width", &new_size.x, "width", false));
-  result.options.push_back( ObjectOption(MN_NUMFIELD, "height", &new_size.y, "height", false));
-  result.options.push_back( ObjectOption(MN_TOGGLE, _("Solid"), &solid, "solid"));
-  result.options.push_back( ObjectOption(MN_TOGGLE, _("Physics enabled"), &physic_enabled, "physic-enabled"));
-  result.options.push_back( ObjectOption(MN_TOGGLE, _("Visible"), &visible, "visible"));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Hit script"),
-        &hit_script, "hit-script"));
+  result.add(MN_NUMFIELD, "width", &new_size.x, "width", false);
+  result.add(MN_NUMFIELD, "height", &new_size.y, "height", false);
+  result.add(MN_TOGGLE, _("Solid"), &solid, "solid");
+  result.add(MN_TOGGLE, _("Physics enabled"), &physic_enabled, "physic-enabled");
+  result.add(MN_TOGGLE, _("Visible"), &visible, "visible");
+  result.add(MN_TEXTFIELD, _("Hit script"), &hit_script, "hit-script");
 
   return result;
 }

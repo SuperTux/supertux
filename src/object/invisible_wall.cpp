@@ -41,8 +41,8 @@ InvisibleWall::get_settings() {
   height = m_col.m_bbox.get_height();
 
   ObjectSettings result = MovingObject::get_settings();
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Width"), &width, "width"));
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Height"), &height, "height"));
+  result.add(MN_NUMFIELD, _("Width"), &width, "width");
+  result.add(MN_NUMFIELD, _("Height"), &height, "height");
 
   return result;
 }

@@ -65,27 +65,27 @@ SequenceTrigger::save(Writer& writer) {
 }
 
 ObjectSettings
-SequenceTrigger::get_settings() {
+SequenceTrigger::get_settings()
+{
   new_size.x = m_col.m_bbox.get_width();
   new_size.y = m_col.m_bbox.get_height();
   ObjectSettings result(_("Sequence trigger"));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &m_name));
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Width"), &new_size.x, "width"));
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Height"), &new_size.y, "height"));
+  result.add(MN_TEXTFIELD, _("Name"), &m_name);
+  result.add(MN_NUMFIELD, _("Width"), &new_size.x, "width");
+  result.add(MN_NUMFIELD, _("Height"), &new_size.y, "height");
 
   ObjectOption seq(MN_STRINGSELECT, _("Sequence"), &sequence);
   seq.select.push_back(_("end sequence"));
   seq.select.push_back(_("stop Tux"));
   seq.select.push_back(_("fireworks"));
 
-  result.options.push_back( seq );
-
-  result.options.push_back(ObjectOption(MN_TEXTFIELD, _("New worldmap spawnpoint"), &new_spawnpoint, "new_spawnpoint"));
-  result.options.push_back(ObjectOption(MN_TEXTFIELD, _("Worldmap fade tilemap"), &fade_tilemap, "fade_tilemap"));
+  result.add( seq );
+  result.add(MN_TEXTFIELD, _("New worldmap spawnpoint"), &new_spawnpoint, "new_spawnpoint");
+  result.add(MN_TEXTFIELD, _("Worldmap fade tilemap"), &fade_tilemap, "fade_tilemap");
   ObjectOption fade_toggle(MN_STRINGSELECT, _("Fade"), &fade, "fade");
   fade_toggle.select.push_back(_("Fade in"));
   fade_toggle.select.push_back(_("Fade out"));
-  result.options.push_back(fade_toggle);
+  result.add(fade_toggle);
   return result;
 }
 

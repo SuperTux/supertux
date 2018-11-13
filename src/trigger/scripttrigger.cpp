@@ -62,16 +62,17 @@ ScriptTrigger::ScriptTrigger(const Vector& pos, const std::string& script_) :
 }
 
 ObjectSettings
-ScriptTrigger::get_settings() {
+ScriptTrigger::get_settings()
+{
   new_size.x = m_col.m_bbox.get_width();
   new_size.y = m_col.m_bbox.get_height();
   ObjectSettings result(_("Script trigger"));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &m_name));
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Width"), &new_size.x, "width"));
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Height"), &new_size.y, "height"));
-  result.options.push_back( ObjectOption(MN_SCRIPT, _("Script"), &script, "script"));
-  result.options.push_back( ObjectOption(MN_TOGGLE, _("Button"), &must_activate, "button"));
-  result.options.push_back( ObjectOption(MN_TOGGLE, _("Oneshot"), &oneshot, "oneshot"));
+  result.add(MN_TEXTFIELD, _("Name"), &m_name);
+  result.add(MN_NUMFIELD, _("Width"), &new_size.x, "width");
+  result.add(MN_NUMFIELD, _("Height"), &new_size.y, "height");
+  result.add(MN_SCRIPT, _("Script"), &script, "script");
+  result.add(MN_TOGGLE, _("Button"), &must_activate, "button");
+  result.add(MN_TOGGLE, _("Oneshot"), &oneshot, "oneshot");
   return result;
 }
 

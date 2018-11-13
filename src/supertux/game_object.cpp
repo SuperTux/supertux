@@ -67,7 +67,7 @@ GameObject::save(Writer& writer)
     writer.write("name", m_name, false);
   }
   auto settings = get_settings();
-  for(auto& option : settings.options)
+  for(const auto& option : settings.get_options())
   {
     if(option.is_savable()) {
       switch(option.type) {
@@ -108,7 +108,7 @@ ObjectSettings
 GameObject::get_settings()
 {
   ObjectSettings result(get_display_name());
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &m_name));
+  result.add(MN_TEXTFIELD, _("Name"), &m_name);
   return result;
 }
 

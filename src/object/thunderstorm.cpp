@@ -60,12 +60,9 @@ Thunderstorm::Thunderstorm(const ReaderMapping& reader) :
 ObjectSettings
 Thunderstorm::get_settings() {
   ObjectSettings result = GameObject::get_settings();
-  result.options.push_back( ObjectOption(MN_TOGGLE, _("Running"), &running,
-                                         "running"));
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Interval"), &interval,
-                                         "interval"));
-
-  result.options.push_back( ObjectOption(MN_REMOVE, "", nullptr));
+  result.add(MN_TOGGLE, _("Running"), &running, "running");
+  result.add(MN_NUMFIELD, _("Interval"), &interval, "interval");
+  result.add(MN_REMOVE, "", nullptr);
   return result;
 }
 

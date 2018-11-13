@@ -43,7 +43,7 @@ ObjectSettings
 Ghostflame::get_settings()
 {
   ObjectSettings result = Flame::get_settings();
-  for(auto& option : result.options)
+  for(auto& option : result.get_options_writable())
   {
     if (option.key == "sprite")
     {

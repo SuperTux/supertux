@@ -56,10 +56,11 @@ Ispy::save(Writer& writer) {
 }
 
 ObjectSettings
-Ispy::get_settings() {
+Ispy::get_settings()
+{
   ObjectSettings result = MovingSprite::get_settings();
-  result.options.push_back( ObjectOption(MN_SCRIPT, _("Script"), &script, "script"));
-  result.options.push_back( dir_option(&dir) );
+  result.add(MN_SCRIPT, _("Script"), &script, "script");
+  result.add( dir_option(&dir) );
 
   return result;
 }

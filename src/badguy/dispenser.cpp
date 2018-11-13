@@ -389,16 +389,13 @@ ObjectSettings
 Dispenser::get_settings()
 {
   ObjectSettings result = BadGuy::get_settings();
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Interval (seconds)"), &cycle,
-                                         "cycle"));
-  result.options.push_back( ObjectOption(MN_TOGGLE, _("Random"), &random,
-                                         "random"));
-  result.options.push_back( ObjectOption(MN_BADGUYSELECT, _("Enemies"), &badguys,
-                                         "badguy"));
-  result.options.push_back(ObjectOption(MN_TOGGLE, _("Limit dispensed badguys"), &limit_dispensed_badguys,
-                                        "limit-dispensed-badguys"));
-  result.options.push_back(ObjectOption(MN_NUMFIELD, _("Max concurrent badguys"), &max_concurrent_badguys,
-                                         "max-concurrent-badguys"));
+  result.add(MN_NUMFIELD, _("Interval (seconds)"), &cycle, "cycle");
+  result.add(MN_TOGGLE, _("Random"), &random, "random");
+  result.add(MN_BADGUYSELECT, _("Enemies"), &badguys, "badguy");
+  result.add(MN_TOGGLE, _("Limit dispensed badguys"), &limit_dispensed_badguys,
+             "limit-dispensed-badguys");
+result.add(MN_NUMFIELD, _("Max concurrent badguys"), &max_concurrent_badguys,
+           "max-concurrent-badguys");
 
   ObjectOption seq(MN_STRINGSELECT, _("Type"), &type);
   seq.select.push_back(_("dropper"));
@@ -406,10 +403,10 @@ Dispenser::get_settings()
   seq.select.push_back(_("cannon"));
   seq.select.push_back(_("invisible"));
 
-  result.options.push_back( seq );
+  result.add(seq);
 
   type_str = get_type_string();
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, "type", &type_str, "type", false));
+  result.add(MN_TEXTFIELD, "type", &type_str, "type", false);
   return result;
 }
 

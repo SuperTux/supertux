@@ -32,9 +32,9 @@ Tip::Tip(GameObject* object) :
   }
 
   auto os = object->get_settings();
-  header = os.name;
+  header = os.get_name();
 
-  for(const auto& oo : os.options) {
+  for(const auto& oo : os.get_options()) {
     if (oo.type != MN_REMOVE && (oo.flags & OPTION_VISIBLE)) {
       auto value = oo.to_string();
       if(value.empty()) {

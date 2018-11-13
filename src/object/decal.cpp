@@ -39,10 +39,10 @@ Decal::get_settings() {
   ObjectOption spr(MN_FILE, _("Sprite"), &m_sprite_name, "sprite");
   spr.select.push_back(".png");
   spr.select.push_back(".sprite");
-  result.options.push_back(spr);
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Action"), &default_action, "action"));
-  result.options.push_back( ObjectOption(MN_TOGGLE, _("Solid"), &solid, "solid"));
-  result.options.push_back( ObjectOption(MN_INTFIELD, _("Z-pos"), &m_layer, "z-pos"));
+  result.add(spr);
+  result.add(MN_TEXTFIELD, _("Action"), &default_action, "action");
+  result.add(MN_TOGGLE, _("Solid"), &solid, "solid");
+  result.add(MN_INTFIELD, _("Z-pos"), &m_layer, "z-pos");
 
   return result;
 }

@@ -118,12 +118,12 @@ AmbientSound::get_settings() {
   ObjectOption smp(MN_FILE, _("Sound"), &sample, "sample");
   smp.select.push_back(".wav");
   smp.select.push_back(".ogg");
-  result.options.push_back(smp);
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Width"), &new_size.x, "width"));
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Height"), &new_size.y, "height"));
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Distance factor"), &distance_factor, "distance_factor"));
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Distance bias"), &distance_bias, "distance_bias"));
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Volume"), &maximumvolume, "volume"));
+  result.add(smp);
+  result.add(MN_NUMFIELD, _("Width"), &new_size.x, "width");
+  result.add(MN_NUMFIELD, _("Height"), &new_size.y, "height");
+  result.add(MN_NUMFIELD, _("Distance factor"), &distance_factor, "distance_factor");
+  result.add(MN_NUMFIELD, _("Distance bias"), &distance_bias, "distance_bias");
+  result.add(MN_NUMFIELD, _("Volume"), &maximumvolume, "volume");
   return result;
 }
 

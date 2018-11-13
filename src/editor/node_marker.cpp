@@ -77,7 +77,7 @@ ObjectSettings
 NodeMarker::get_settings()
 {
   ObjectSettings result(_("Path Node"));
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Time"), &(m_node->time)));
+  result.add(MN_NUMFIELD, _("Time"), &(m_node->time));
   return result;
 }
 

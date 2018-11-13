@@ -57,8 +57,8 @@ public:
 
   virtual ObjectSettings get_settings() override {
     ObjectSettings result = MovingSprite::get_settings();
-    result.options.push_back( dir_option(&m_dir) );
-    result.options.push_back( ObjectOption(MN_SCRIPT, _("Death script"), &m_dead_script));
+    result.add(dir_option(&m_dir));
+    result.add(MN_SCRIPT, _("Death script"), &m_dead_script);
     return result;
   }
 

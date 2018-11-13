@@ -192,8 +192,8 @@ ObjectSettings
 BonusBlock::get_settings()
 {
   ObjectSettings result = Block::get_settings();
-  result.options.push_back( ObjectOption(MN_SCRIPT, _("Script"), &m_script));
-  result.options.push_back( ObjectOption(MN_INTFIELD, _("Count"), &m_hit_counter));
+  result.add(MN_SCRIPT, _("Script"), &m_script);
+  result.add(MN_INTFIELD, _("Count"), &m_hit_counter);
 
   ObjectOption coo(MN_STRINGSELECT, _("Content"), &m_contents);
   coo.select.push_back(_("Coin"));
@@ -209,7 +209,7 @@ BonusBlock::get_settings()
   coo.select.push_back(_("Trampoline"));
   coo.select.push_back(_("Coin rain"));
   coo.select.push_back(_("Coin explosion"));
-  result.options.push_back(coo);
+  result.add(coo);
 
   return result;
 }

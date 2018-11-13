@@ -75,9 +75,10 @@ WalkingCandle::collision(GameObject& other, const CollisionHit& hit) {
 }
 
 ObjectSettings
-WalkingCandle::get_settings() {
+WalkingCandle::get_settings()
+{
   ObjectSettings result = BadGuy::get_settings();
-  result.options.push_back( ObjectOption(MN_COLOR, _("Colour"), &lightcolor, "color"));
+  result.add(MN_COLOR, _("Colour"), &lightcolor, "color");
   return result;
 }
 

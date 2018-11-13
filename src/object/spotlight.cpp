@@ -52,15 +52,15 @@ Spotlight::~Spotlight()
 }
 
 ObjectSettings
-Spotlight::get_settings() {
+Spotlight::get_settings()
+{
   ObjectSettings result = MovingObject::get_settings();
-  result.options.push_back( ObjectOption(MN_NUMFIELD, "x-pos", &m_col.m_bbox.p1.x, "x", false));
-  result.options.push_back( ObjectOption(MN_NUMFIELD, "y-pos", &m_col.m_bbox.p1.y, "y", false));
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Angle"), &angle, "angle"));
-  result.options.push_back( ObjectOption(MN_COLOR, _("Colour"), &color, "color"));
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Speed"), &speed, "speed"));
-  result.options.push_back (ObjectOption(MN_TOGGLE, _("Counter-clockwise"), &counter_clockwise, "counter-clockwise"));
-
+  result.add(MN_NUMFIELD, "x-pos", &m_col.m_bbox.p1.x, "x", false);
+  result.add(MN_NUMFIELD, "y-pos", &m_col.m_bbox.p1.y, "y", false);
+  result.add(MN_NUMFIELD, _("Angle"), &angle, "angle");
+  result.add(MN_COLOR, _("Colour"), &color, "color");
+  result.add(MN_NUMFIELD, _("Speed"), &speed, "speed");
+  result.add(MN_TOGGLE, _("Counter-clockwise"), &counter_clockwise, "counter-clockwise");
   return result;
 }
 

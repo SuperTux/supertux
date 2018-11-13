@@ -273,16 +273,17 @@ WillOWisp::set_state(const std::string& new_state)
 }
 
 ObjectSettings
-WillOWisp::get_settings() {
+WillOWisp::get_settings()
+{
   ObjectSettings result(_("Will 'o' wisp"));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &m_name));
-  result.options.push_back( dir_option(&m_dir) );
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Sector"), &m_target_sector, "sector"));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Spawnpoint"), &m_target_spawnpoint, "spawnpoint"));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Hit script"), &m_hit_script, "hit-script"));
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Track range"), &m_track_range, "track-range"));
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Vanish range"), &m_vanish_range, "vanish-range"));
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Fly speed"), &m_flyspeed, "flyspeed"));
+  result.add(MN_TEXTFIELD, _("Name"), &m_name);
+  result.add(dir_option(&m_dir));
+  result.add(MN_TEXTFIELD, _("Sector"), &m_target_sector, "sector");
+  result.add(MN_TEXTFIELD, _("Spawnpoint"), &m_target_spawnpoint, "spawnpoint");
+  result.add(MN_TEXTFIELD, _("Hit script"), &m_hit_script, "hit-script");
+  result.add(MN_NUMFIELD, _("Track range"), &m_track_range, "track-range");
+  result.add(MN_NUMFIELD, _("Vanish range"), &m_vanish_range, "vanish-range");
+  result.add(MN_NUMFIELD, _("Fly speed"), &m_flyspeed, "flyspeed");
   return result;
 }
 

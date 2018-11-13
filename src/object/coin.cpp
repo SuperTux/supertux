@@ -259,14 +259,13 @@ Coin::get_settings()
   ObjectSettings result = MovingSprite::get_settings();
 
   m_add_path = get_walker() && get_path()->is_valid();
-  result.options.push_back( ObjectOption(MN_TOGGLE, _("Following path"), &m_add_path));
+  result.add(MN_TOGGLE, _("Following path"), &m_add_path);
 
   if (get_walker() && get_path()->is_valid()) {
-    result.options.push_back( Path::get_mode_option(&get_path()->m_mode) );
+    result.add(Path::get_mode_option(&get_path()->m_mode));
   }
 
-  result.options.push_back( ObjectOption(MN_SCRIPT, _("Collect script"),
-                                         &m_collect_script, "collect-script"));
+  result.add(MN_SCRIPT, _("Collect script"), &m_collect_script, "collect-script");
 
   return result;
 }
@@ -291,8 +290,7 @@ ObjectSettings
 HeavyCoin::get_settings()
 {
   auto result = MovingSprite::get_settings();
-  result.options.push_back( ObjectOption(MN_SCRIPT, _("Collect script"),
-                                         &m_collect_script, "collect-script"));
+  result.add(MN_SCRIPT, _("Collect script"), &m_collect_script, "collect-script");
   return result;
 }
 

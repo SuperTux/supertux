@@ -205,9 +205,7 @@ ObjectSettings
 WeakBlock::get_settings()
 {
   ObjectSettings result = MovingSprite::get_settings();
-  result.options.push_back( ObjectOption(MN_TOGGLE, _("Linked"), &linked,
-                                         "linked"));
-
+  result.add(MN_TOGGLE, _("Linked"), &linked, "linked");
   return result;
 }
 

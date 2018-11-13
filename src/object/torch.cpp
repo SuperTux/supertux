@@ -87,8 +87,8 @@ ObjectSettings Torch::get_settings()
   ObjectOption spr(MN_FILE, _("Sprite"), &sprite_name, "sprite");
   spr.select.push_back(".sprite");
 
-  result.options.push_back(burning);
-  result.options.push_back(spr);
+  result.add(burning);
+  result.add(spr);
   return result;
 }
 

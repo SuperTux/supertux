@@ -62,18 +62,17 @@ SecretAreaTrigger::SecretAreaTrigger(const Rectf& area, std::string fade_tilemap
 }
 
 ObjectSettings
-SecretAreaTrigger::get_settings() {
+SecretAreaTrigger::get_settings()
+{
   new_size.x = m_col.m_bbox.get_width();
   new_size.y = m_col.m_bbox.get_height();
   ObjectSettings result(_("Secret area"));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &m_name));
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Width"), &new_size.x, "width"));
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Height"), &new_size.y, "height"));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Fade tilemap"), &fade_tilemap,
-                                         "fade-tilemap", (OPTION_VISIBLE)));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Message"), &message, "message"));
-  result.options.push_back( ObjectOption(MN_SCRIPT, _("Script"), &script,
-                                         "script", (OPTION_VISIBLE)));
+  result.add(MN_TEXTFIELD, _("Name"), &m_name);
+  result.add(MN_NUMFIELD, _("Width"), &new_size.x, "width");
+  result.add(MN_NUMFIELD, _("Height"), &new_size.y, "height");
+  result.add(MN_TEXTFIELD, _("Fade tilemap"), &fade_tilemap, "fade-tilemap", (OPTION_VISIBLE));
+  result.add(MN_TEXTFIELD, _("Message"), &message, "message");
+  result.add(MN_SCRIPT, _("Script"), &script, "script", (OPTION_VISIBLE));
   return result;
 }
 

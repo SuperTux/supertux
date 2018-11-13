@@ -20,16 +20,18 @@
 
 #include "video/color.hpp"
 
-ObjectSettings::ObjectSettings(const std::string& name_) :
-  name(name_),
-  options()
+ObjectSettings::ObjectSettings(const std::string& name) :
+  m_name(name),
+  m_options()
 {
 }
 
-void ObjectSettings::copy_from(ObjectSettings* other) {
-  auto it1 = options.begin();
-  auto it2 = other->options.begin();
-  while (it1 != options.end() && it2 != other->options.end()) {
+void
+ObjectSettings::copy_from(const ObjectSettings& other)
+{
+  auto it1 = m_options.begin();
+  auto it2 = other.m_options.begin();
+  while (it1 != m_options.end() && it2 != other.m_options.end()) {
     auto oo1 = &*it1;
     auto oo2 = &*it2;
 
@@ -69,6 +71,12 @@ void ObjectSettings::copy_from(ObjectSettings* other) {
     it1++;
     it2++;
   }
+}
+
+void
+ObjectSettings::add_option(const ObjectOption& option)
+{
+  m_options.push_back(option);
 }
 
 /* EOF */

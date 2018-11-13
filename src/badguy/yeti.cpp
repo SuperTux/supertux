@@ -360,15 +360,17 @@ Yeti::is_flammable() const
 }
 
 ObjectSettings
-Yeti::get_settings() {
+Yeti::get_settings()
+{
   ObjectSettings result = BadGuy::get_settings();
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, "hud-icon", &hud_icon, "hud-icon", false));
-  result.options.push_back( ObjectOption(MN_TOGGLE,    _("Fixed position"), &fixed_pos, "fixed-pos"));
-  result.options.push_back( ObjectOption(MN_INTFIELD,  _("Lives"),          &hit_points, "lives"));
+  result.add(MN_TEXTFIELD, "hud-icon", &hud_icon, "hud-icon", false);
+  result.add(MN_TOGGLE,    _("Fixed position"), &fixed_pos, "fixed-pos");
+  result.add(MN_INTFIELD,  _("Lives"),          &hit_points, "lives");
   return result;
 }
 
-void Yeti::add_snow_explosions()
+void
+Yeti::add_snow_explosions()
 {
   for (int i = 0; i < SNOW_EXPLOSIONS_COUNT; i++) {
     Vector pos = get_pos(), velocity;

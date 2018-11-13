@@ -131,22 +131,22 @@ Gradient::get_settings()
   ObjectSettings result = GameObject::get_settings();
 
   if (m_gradient_direction == HORIZONTAL || m_gradient_direction == HORIZONTAL_SECTOR) {
-    result.options.push_back( ObjectOption(MN_COLOR, _("Left Colour"), &m_gradient_top));
-    result.options.push_back( ObjectOption(MN_COLOR, _("Right Colour"), &m_gradient_bottom));
+    result.add(MN_COLOR, _("Left Colour"), &m_gradient_top);
+    result.add(MN_COLOR, _("Right Colour"), &m_gradient_bottom);
   } else {
-    result.options.push_back( ObjectOption(MN_COLOR, _("Top Colour"), &m_gradient_top));
-    result.options.push_back( ObjectOption(MN_COLOR, _("Bottom Colour"), &m_gradient_bottom));
+    result.add(MN_COLOR, _("Top Colour"), &m_gradient_top);
+    result.add(MN_COLOR, _("Bottom Colour"), &m_gradient_bottom);
   }
 
-  result.options.push_back( ObjectOption(MN_INTFIELD, _("Z-pos"), &m_layer));
+  result.add(MN_INTFIELD, _("Z-pos"), &m_layer);
   ObjectOption doo(MN_STRINGSELECT, _("Direction"), &m_gradient_direction);
   doo.select.push_back(_("Vertical"));
   doo.select.push_back(_("Horizontal"));
   doo.select.push_back(_("Vertical (whole sector)"));
   doo.select.push_back(_("Horizontal (whole sector)"));
-  result.options.push_back(doo);
+  result.add(doo);
 
-  result.options.push_back( ObjectOption(MN_REMOVE, "", nullptr));
+  result.add(MN_REMOVE, "", nullptr);
   return result;
 }
 

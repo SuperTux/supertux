@@ -38,12 +38,11 @@ ParticleSystem::ParticleSystem(float max_particle_size_) :
 }
 
 ObjectSettings
-ParticleSystem::get_settings() {
+ParticleSystem::get_settings()
+{
   ObjectSettings result = GameObject::get_settings();
-  result.options.push_back( ObjectOption(MN_INTFIELD, _("Z-pos"), &z_pos,
-                                         "z-pos"));
-
-  result.options.push_back( ObjectOption(MN_REMOVE, "", nullptr));
+  result.add(MN_INTFIELD, _("Z-pos"), &z_pos,"z-pos");
+  result.add(MN_REMOVE, "", nullptr);
   return result;
 }
 

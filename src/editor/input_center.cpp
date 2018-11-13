@@ -367,7 +367,7 @@ EditorInputCenter::clone_object() {
 
     dragged_object = dynamic_cast<MovingObject*>(game_object.get());
     ObjectSettings settings = hovered_object->get_settings();
-    dragged_object->get_settings().copy_from(&settings);
+    dragged_object->get_settings().copy_from(settings);
     dragged_object->after_editor_set();
     return;
   }
