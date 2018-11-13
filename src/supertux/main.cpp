@@ -291,7 +291,7 @@ public:
     log_info << "PhysfsWriteDir: " << (writedir ? writedir : "(null)") << std::endl;
     log_info << "PhysfsSearchPath:" << std::endl;
     char** searchpath = PHYSFS_getSearchPath();
-    for(char** i = searchpath; *i != nullptr; ++i)
+    for (char** i = searchpath; *i != nullptr; ++i)
     {
       log_info << "  " << *i << std::endl;
     }

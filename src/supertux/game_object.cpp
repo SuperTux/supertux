@@ -39,7 +39,7 @@ GameObject::GameObject(const ReaderMapping& reader) :
 
 GameObject::~GameObject()
 {
-  for(const auto& entry : m_remove_listeners) {
+  for (const auto& entry : m_remove_listeners) {
     entry->object_removed(this);
   }
   m_remove_listeners.clear();
@@ -67,7 +67,7 @@ GameObject::save(Writer& writer)
     writer.write("name", m_name, false);
   }
   auto settings = get_settings();
-  for(const auto& option : settings.get_options())
+  for (const auto& option : settings.get_options())
   {
     if (option.is_savable()) {
       switch (option.type) {

@@ -92,7 +92,7 @@ EditorLayersGui::draw(DrawingContext& context) {
                             ALIGN_LEFT, LAYER_GUI, ColorScheme::Menu::default_color);
 
   int pos = 0;
-  for(const auto& layer_icon : layers) {
+  for (const auto& layer_icon : layers) {
     if (layer_icon->is_valid()) {
       layer_icon->draw(context, get_layer_coords(pos));
     }
@@ -228,7 +228,7 @@ EditorLayersGui::add_layer(GameObject* layer) {
   int z_pos = icon->get_zpos();
 
   // The icon is inserted to the correct position.
-  for(auto i = layers.begin(); i != layers.end(); ++i) {
+  for (auto i = layers.begin(); i != layers.end(); ++i) {
     const auto& li = i->get();
     if (li->get_zpos() < z_pos) {
       layers.insert(i, move(icon));

@@ -146,7 +146,7 @@ Config::load()
   boost::optional<ReaderCollection> config_addons_lisp;
   if (config_lisp.get("addons", config_addons_lisp))
   {
-    for(auto const& addon_node : config_addons_lisp->get_objects())
+    for (auto const& addon_node : config_addons_lisp->get_objects())
     {
       if (addon_node.get_name() == "addon")
       {
@@ -229,7 +229,7 @@ Config::save()
   writer.end_list("control");
 
   writer.start_list("addons");
-  for(const auto& addon : addons)
+  for (const auto& addon : addons)
   {
     writer.start_list("addon");
     writer.write("id", addon.id);

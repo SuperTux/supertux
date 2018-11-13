@@ -50,7 +50,7 @@ GLPainter::draw_texture(const TextureRequest& request)
 
   std::vector<float> vertices;
   std::vector<float> uvs;
-  for(size_t i = 0; i < request.srcrects.size(); ++i)
+  for (size_t i = 0; i < request.srcrects.size(); ++i)
   {
     const float left = request.dstrects[i].p1.x;
     const float top = request.dstrects[i].p1.y;
@@ -228,7 +228,7 @@ GLPainter::draw_filled_rect(const FillRectRequest& request)
     size_t p = 0;
     std::vector<float> vertices((n+1) * 4 * 2);
 
-    for(int i = 0; i <= n; ++i)
+    for (int i = 0; i <= n; ++i)
     {
       float x = sinf(static_cast<float>(i) * math::PI_2 / static_cast<float>(n)) * radius;
       float y = cosf(static_cast<float>(i) * math::PI_2 / static_cast<float>(n)) * radius;
@@ -240,7 +240,7 @@ GLPainter::draw_filled_rect(const FillRectRequest& request)
       vertices[p++] = irect.get_top()   - y;
     }
 
-    for(int i = 0; i <= n; ++i)
+    for (int i = 0; i <= n; ++i)
     {
       float x = cosf(static_cast<float>(i) * math::PI_2 / static_cast<float>(n)) * radius;
       float y = sinf(static_cast<float>(i) * math::PI_2 / static_cast<float>(n)) * radius;
@@ -318,7 +318,7 @@ GLPainter::draw_inverse_ellipse(const InverseEllipseRequest& request)
   vertices[p++] = 0;            vertices[p++] = screen_height;
   vertices[p++] = x-w;          vertices[p++] = y;
 
-  for(int i = 0; i < slices; ++i)
+  for (int i = 0; i < slices; ++i)
   {
     float ex1 = sinf(math::PI_2 / static_cast<float>(slices) * static_cast<float>(i)) * w;
     float ey1 = cosf(math::PI_2 / static_cast<float>(slices) * static_cast<float>(i)) * h;

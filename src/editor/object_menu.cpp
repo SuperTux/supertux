@@ -28,7 +28,7 @@ ObjectMenu::ObjectMenu(GameObject *go) :
   ObjectSettings os = object->get_settings();
   add_label(os.get_name());
   add_hl();
-  for(const auto& oo : os.get_options()) {
+  for (const auto& oo : os.get_options()) {
     if (!(oo.flags & OPTION_VISIBLE)) {
       continue;
     }

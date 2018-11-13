@@ -453,7 +453,7 @@ WorldMap::tile_data_at(const Vector& p) const
 {
   int dirs = 0;
 
-  for(const auto& tilemap : get_solid_tilemaps()) {
+  for (const auto& tilemap : get_solid_tilemaps()) {
     const Tile& tile = tilemap->get_tile(static_cast<int>(p.x), static_cast<int>(p.y));
     int dirdata = tile.get_data();
     dirs |= dirdata;
@@ -471,7 +471,7 @@ WorldMap::available_directions_at(const Vector& p) const
 LevelTile*
 WorldMap::at_level() const
 {
-  for(auto& level : get_objects_by_type<LevelTile>()) {
+  for (auto& level : get_objects_by_type<LevelTile>()) {
     if (level.pos == m_tux->get_tile_pos())
       return &level;
   }
@@ -482,7 +482,7 @@ WorldMap::at_level() const
 SpecialTile*
 WorldMap::at_special_tile() const
 {
-  for(auto& special_tile : get_objects_by_type<SpecialTile>()) {
+  for (auto& special_tile : get_objects_by_type<SpecialTile>()) {
     if (special_tile.pos == m_tux->get_tile_pos())
       return &special_tile;
   }
@@ -493,7 +493,7 @@ WorldMap::at_special_tile() const
 SpriteChange*
 WorldMap::at_sprite_change(const Vector& pos) const
 {
-  for(auto& sprite_change : get_objects_by_type<SpriteChange>()) {
+  for (auto& sprite_change : get_objects_by_type<SpriteChange>()) {
     if (sprite_change.pos == pos)
       return &sprite_change;
   }
@@ -504,7 +504,7 @@ WorldMap::at_sprite_change(const Vector& pos) const
 Teleporter*
 WorldMap::at_teleporter(const Vector& pos) const
 {
-  for(auto& teleporter : get_objects_by_type<Teleporter>()) {
+  for (auto& teleporter : get_objects_by_type<Teleporter>()) {
     if (teleporter.pos == pos)
       return &teleporter;
   }
@@ -561,7 +561,7 @@ WorldMap::draw_status(DrawingContext& context)
   m_savegame.get_player_status().draw(context);
 
   if (!m_tux->is_moving()) {
-    for(auto& level : get_objects_by_type<LevelTile>()) {
+    for (auto& level : get_objects_by_type<LevelTile>()) {
       if (level.pos == m_tux->get_tile_pos()) {
         context.color().draw_text(Resources::normal_font, level.title,
                                   Vector(static_cast<float>(context.get_width()) / 2.0f,
@@ -585,7 +585,7 @@ WorldMap::draw_status(DrawingContext& context)
       }
     }
 
-    for(auto& special_tile : get_objects_by_type<SpecialTile>()) {
+    for (auto& special_tile : get_objects_by_type<SpecialTile>()) {
       if (special_tile.pos == m_tux->get_tile_pos()) {
         /* Display an in-map message in the map, if any as been selected */
         if (!special_tile.map_message.empty() && !special_tile.passive_message)
@@ -684,7 +684,7 @@ WorldMap::leave()
 void
 WorldMap::set_levels_solved(bool solved, bool perfect)
 {
-  for(auto& level : get_objects_by_type<LevelTile>())
+  for (auto& level : get_objects_by_type<LevelTile>())
   {
     level.set_solved(solved);
     level.set_perfect(perfect);
@@ -701,7 +701,7 @@ size_t
 WorldMap::solved_level_count() const
 {
   size_t count = 0;
-  for(auto& level : get_objects_by_type<LevelTile>()) {
+  for (auto& level : get_objects_by_type<LevelTile>()) {
     if (level.solved)
       count++;
   }

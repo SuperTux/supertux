@@ -83,7 +83,7 @@ TextureManager::TextureManager() :
 
 TextureManager::~TextureManager()
 {
-  for(const auto& texture : m_image_textures)
+  for (const auto& texture : m_image_textures)
   {
     if (!texture.second.expired())
     {

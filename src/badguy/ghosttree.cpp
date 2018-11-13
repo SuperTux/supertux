@@ -64,7 +64,7 @@ GhostTree::die()
   m_sprite->set_action("dying", 1);
   glow_sprite->set_action("dying", 1);
 
-  for(const auto& willo : willowisps) {
+  for (const auto& willo : willowisps) {
     willo->vanish();
   }
   run_dead_script();
@@ -103,7 +103,7 @@ GhostTree::active_update(float /*dt_sec*/)
     if (suck_timer.check()) {
       Color col = glow_sprite->get_color();
       SoundManager::current()->play("sounds/tree_suck.ogg", get_pos());
-      for(const auto& willo : willowisps) {
+      for (const auto& willo : willowisps) {
         if (willo->get_color() == col) {
           willo->start_sucking(
             m_col.m_bbox.get_middle() + SUCK_TARGET_OFFSET

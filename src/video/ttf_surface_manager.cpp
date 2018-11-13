@@ -96,7 +96,7 @@ void
 TTFSurfaceManager::print_debug_info(std::ostream& out)
 {
   int cache_bytes = 0;
-  for(const auto& entry : m_cache)
+  for (const auto& entry : m_cache)
   {
     cache_bytes += entry.second.ttf_surface->get_width() * entry.second.ttf_surface->get_height() * 4;
   }

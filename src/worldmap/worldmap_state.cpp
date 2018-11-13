@@ -73,7 +73,7 @@ WorldMapState::load_state()
 
     // load levels
     get_table_entry(vm, "levels");
-    for(auto& level : m_worldmap.get_objects_by_type<LevelTile>()) {
+    for (auto& level : m_worldmap.get_objects_by_type<LevelTile>()) {
       sq_pushstring(vm, level.get_name().c_str(), -1);
       if (SQ_SUCCEEDED(sq_get(vm, -2))) {
         if (!get_bool(vm, "solved", level.solved))
@@ -141,7 +141,7 @@ WorldMapState::load_state()
     {
       // load sprite change action:
       get_table_entry(vm, "sprite-changes");
-      for(auto& sc : m_worldmap.get_objects_by_type<SpriteChange>())
+      for (auto& sc : m_worldmap.get_objects_by_type<SpriteChange>())
       {
         auto key = std::to_string(int(sc.pos.x)) + "_" +
                    std::to_string(int(sc.pos.y));
@@ -212,7 +212,7 @@ WorldMapState::save_state() const
     {
       begin_table(vm, "sprite-changes");
 
-      for(const auto& sc : m_worldmap.get_objects_by_type<SpriteChange>())
+      for (const auto& sc : m_worldmap.get_objects_by_type<SpriteChange>())
       {
         auto key = std::to_string(int(sc.pos.x)) + "_" +
                    std::to_string(int(sc.pos.y));
@@ -226,7 +226,7 @@ WorldMapState::save_state() const
     // tilemap visibility
     sq_pushstring(vm, "tilemaps", -1);
     sq_newtable(vm);
-    for(auto& tilemap : m_worldmap.get_objects_by_type<::TileMap>())
+    for (auto& tilemap : m_worldmap.get_objects_by_type<::TileMap>())
     {
       if (!tilemap.get_name().empty())
       {
@@ -247,7 +247,7 @@ WorldMapState::save_state() const
     // levels...
     begin_table(vm, "levels");
 
-    for(const auto& level : m_worldmap.get_objects_by_type<LevelTile>()) {
+    for (const auto& level : m_worldmap.get_objects_by_type<LevelTile>()) {
       begin_table(vm, level.get_name().c_str());
       store_bool(vm, "solved", level.solved);
       store_bool(vm, "perfect", level.perfect);

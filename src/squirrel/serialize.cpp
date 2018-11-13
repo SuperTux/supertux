@@ -31,7 +31,7 @@ void load_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, const ReaderMappin
     table_idx -= 2;
 
   auto const& arr = lisp.get_sexp().as_array();
-  for(size_t i = 1; i < arr.size(); ++i)
+  for (size_t i = 1; i < arr.size(); ++i)
   {
     auto const& pair = arr[i].as_array();
 

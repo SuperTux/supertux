@@ -42,7 +42,7 @@ EditorLevelsetSelectMenu::EditorLevelsetSelectMenu() :
   std::unique_ptr<char*, decltype(&PHYSFS_freeList)>
     files(PHYSFS_enumerateFiles("levels"),
           PHYSFS_freeList);
-  for(const char* const* filename = files.get(); *filename != nullptr; ++filename)
+  for (const char* const* filename = files.get(); *filename != nullptr; ++filename)
   {
     std::string filepath = FileSystem::join("levels", *filename);
     if (PhysFSFileSystem::is_directory(filepath))

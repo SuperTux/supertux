@@ -140,7 +140,7 @@ Writer::write(const std::string& name,
 {
   indent();
   *out << '(' << name;
-  for(const auto& i : value)
+  for (const auto& i : value)
     *out << " " << i;
   *out << ")\n";
 }
@@ -151,7 +151,7 @@ Writer::write(const std::string& name,
 {
   indent();
   *out << '(' << name;
-  for(const auto& i : value)
+  for (const auto& i : value)
     *out << " " << i;
   *out << ")\n";
 }
@@ -162,7 +162,7 @@ Writer::write(const std::string& name,
 {
   indent();
   *out << '(' << name;
-  for(const auto& i : value)
+  for (const auto& i : value)
     *out << " " << i;
   *out << ")\n";
 }
@@ -173,7 +173,7 @@ Writer::write(const std::string& name,
 {
   indent();
   *out << '(' << name;
-  for(const auto& i : value) {
+  for (const auto& i : value) {
     *out << " ";
     write_escaped_string(i);
   }
@@ -184,7 +184,7 @@ void
 Writer::write_escaped_string(const std::string& str)
 {
   *out << '"';
-  for(const char* c = str.c_str(); *c != 0; ++c) {
+  for (const char* c = str.c_str(); *c != 0; ++c) {
     if (*c == '\"')
       *out << "\\\"";
     else if(*c == '\\')
@@ -198,7 +198,7 @@ Writer::write_escaped_string(const std::string& str)
 void
 Writer::indent()
 {
-  for(int i = 0; i<indent_depth; ++i)
+  for (int i = 0; i<indent_depth; ++i)
     *out << ' ';
 }
 

@@ -150,7 +150,7 @@ TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
   bool empty = true;
 
   // make sure all tiles used on the tilemap are loaded and tilemap isn't empty
-  for(const auto& tile : m_tiles) {
+  for (const auto& tile : m_tiles) {
     if (tile != 0) {
       empty = false;
     }
@@ -350,8 +350,8 @@ TileMap::draw(DrawingContext& context)
                      std::tuple<std::vector<Rectf>,
                                 std::vector<Rectf>>> batches;
 
-  for(pos.x = start.x, tx = t_draw_rect.left; tx < t_draw_rect.right; pos.x += 32, ++tx) {
-    for(pos.y = start.y, ty = t_draw_rect.top; ty < t_draw_rect.bottom; pos.y += 32, ++ty) {
+  for (pos.x = start.x, tx = t_draw_rect.left; tx < t_draw_rect.right; pos.x += 32, ++tx) {
+    for (pos.y = start.y, ty = t_draw_rect.top; ty < t_draw_rect.bottom; pos.y += 32, ++ty) {
       int index = ty*m_width + tx;
       assert (index >= 0);
       assert (index < (m_width * m_height));
@@ -373,7 +373,7 @@ TileMap::draw(DrawingContext& context)
 
   Canvas& canvas = context.get_canvas(m_draw_target);
 
-  for(const auto& it : batches)
+  for (const auto& it : batches)
   {
     const SurfacePtr& surface = it.first;
     if (!surface) continue;
@@ -429,7 +429,7 @@ TileMap::set(int newwidth, int newheight, const std::vector<unsigned int>&newt,
   update_effective_solid ();
 
   // make sure all tiles are loaded
-  for(const auto& tile : m_tiles)
+  for (const auto& tile : m_tiles)
     m_tileset->get(tile);
 }
 
@@ -439,8 +439,8 @@ TileMap::resize(int new_width, int new_height, int fill_id,
 {
   if (new_width < m_width) {
     // remap tiles for new width
-    for(int y = 0; y < m_height && y < new_height; ++y) {
-      for(int x = 0; x < new_width; ++x) {
+    for (int y = 0; y < m_height && y < new_height; ++y) {
+      for (int x = 0; x < new_width; ++x) {
         m_tiles[y * new_width + x] = m_tiles[y * m_width + x];
       }
     }
@@ -450,8 +450,8 @@ TileMap::resize(int new_width, int new_height, int fill_id,
 
   if (new_width > m_width) {
     // remap tiles
-    for(int y = std::min(m_height, new_height)-1; y >= 0; --y) {
-      for(int x = new_width-1; x >= 0; --x) {
+    for (int y = std::min(m_height, new_height)-1; y >= 0; --y) {
+      for (int x = new_width-1; x >= 0; --x) {
         if (x >= m_width) {
           m_tiles[y * new_width + x] = fill_id;
           continue;
@@ -467,9 +467,9 @@ TileMap::resize(int new_width, int new_height, int fill_id,
 
   //Apply offset
   if (xoffset || yoffset) {
-    for(int y = 0; y < m_height; y++) {
+    for (int y = 0; y < m_height; y++) {
       int Y = (yoffset < 0) ? y : (m_height - y - 1);
-      for(int x = 0; x < m_width; x++) {
+      for (int x = 0; x < m_width; x++) {
         int X = (xoffset < 0) ? x : (m_width - x - 1);
         if (Y - yoffset < 0 || Y - yoffset >= m_height ||
             X - xoffset < 0 || X - xoffset >= m_width) {

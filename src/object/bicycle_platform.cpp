@@ -92,7 +92,7 @@ BicyclePlatform::BicyclePlatform(const ReaderMapping& reader) :
   reader.get("platforms", platforms);
   platforms = std::max(1, platforms);
 
-  for(int i = 0; i < platforms; ++i) {
+  for (int i = 0; i < platforms; ++i) {
     const float offset = static_cast<float>(i) * (math::TAU / static_cast<float>(platforms));
     m_children.push_back(&d_sector->add<BicyclePlatformChild>(reader, offset, *this));
   }
@@ -126,7 +126,7 @@ void
 BicyclePlatform::update(float dt_sec)
 {
   float total_angular_momentum = 0.0f;
-  for(auto& child : m_children)
+  for (auto& child : m_children)
   {
     const float child_angle = m_angle + child->m_angle_offset;
     const float angular_momentum = cosf(child_angle) * child->m_momentum;
@@ -157,7 +157,7 @@ BicyclePlatform::update(float dt_sec)
 void
 BicyclePlatform::editor_delete()
 {
-  for(auto& child : m_children)
+  for (auto& child : m_children)
   {
     child->remove_me();
   }

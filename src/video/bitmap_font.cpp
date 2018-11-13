@@ -39,7 +39,7 @@ bool vline_empty(const SDLSurfacePtr& surface, int x, int start_y, int end_y, Ui
 {
   Uint8* pixels = static_cast<Uint8*>(surface->pixels);
 
-  for(int y = start_y; y < end_y; ++y)
+  for (int y = start_y; y < end_y; ++y)
   {
     const Uint8& p = pixels[surface->pitch*y + x*surface->format->BytesPerPixel + 3];
     if (p > threshold)
@@ -64,7 +64,7 @@ BitmapFont::BitmapFont(GlyphWidth glyph_width_,
   rtl(false),
   glyphs(65536)
 {
-  for(unsigned int i=0; i<65536;i++) glyphs[i].surface_idx = -1;
+  for (unsigned int i=0; i<65536;i++) glyphs[i].surface_idx = -1;
 
   const std::string fontdir = FileSystem::dirname(filename);
   const std::string fontname = FileSystem::basename(filename);
@@ -191,8 +191,8 @@ BitmapFont::loadFontSurface(const std::string& glyphimage,
     SDL_LockSurface(surface.get());
   }
 
-  for(unsigned int i = 0; i < chars.size(); ++i) {
-    for(UTF8Iterator chr(chars[i]); !chr.done(); ++chr) {
+  for (unsigned int i = 0; i < chars.size(); ++i) {
+    for (UTF8Iterator chr(chars[i]); !chr.done(); ++chr) {
       int y = row * (char_height + 2*border) + border;
       int x = col * (char_width + 2*border) + border;
       if ( ++col == wrap ) { col=0; row++; }
@@ -266,7 +266,7 @@ BitmapFont::get_text_width(const std::string& text) const
   float curr_width = 0;
   float last_width = 0;
 
-  for(UTF8Iterator it(text); !it.done(); ++it)
+  for (UTF8Iterator it(text); !it.done(); ++it)
   {
     if (*it == '\n')
     {
@@ -290,7 +290,7 @@ BitmapFont::get_text_height(const std::string& text) const
 {
   std::string::size_type text_height = char_height;
 
-  for(std::string::const_iterator it = text.begin(); it != text.end(); ++it)
+  for (std::string::const_iterator it = text.begin(); it != text.end(); ++it)
   { // since UTF8 multibyte characters are decoded with values
     // outside the ASCII range there is no risk of overlapping and
     // thus we don't need to decode the utf-8 string
@@ -342,7 +342,7 @@ BitmapFont::draw_text(Canvas& canvas, const std::string& text,
   float y = pos_.y;
 
   std::string::size_type last = 0;
-  for(std::string::size_type i = 0;; ++i)
+  for (std::string::size_type i = 0;; ++i)
   {
     if (text[i] == '\n' || i == text.size())
     {
@@ -387,7 +387,7 @@ BitmapFont::draw_chars(Canvas& canvas, bool notshadow, const std::string& text, 
 {
   Vector p = pos;
 
-  for(UTF8Iterator it(text); !it.done(); ++it)
+  for (UTF8Iterator it(text); !it.done(); ++it)
   {
     if (*it == '\n')
     {

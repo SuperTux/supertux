@@ -64,7 +64,7 @@ Compositor::render()
     lightmap.start_draw();
     Painter& painter = lightmap.get_painter();
 
-    for(auto& ctx : m_drawing_contexts)
+    for (auto& ctx : m_drawing_contexts)
     {
       if (!ctx->is_overlay())
       {
@@ -86,7 +86,7 @@ Compositor::render()
 
     Painter& painter = back_renderer->get_painter();
 
-    for(auto& ctx : m_drawing_contexts)
+    for (auto& ctx : m_drawing_contexts)
     {
       painter.set_clip_rect(ctx->get_viewport());
       ctx->color().render(*back_renderer, Canvas::BELOW_LIGHTMAP);
@@ -103,7 +103,7 @@ Compositor::render()
     renderer.start_draw();
     Painter& painter = renderer.get_painter();
 
-    for(auto& ctx : m_drawing_contexts)
+    for (auto& ctx : m_drawing_contexts)
     {
       painter.set_clip_rect(ctx->get_viewport());
       ctx->color().render(renderer, Canvas::BELOW_LIGHTMAP);
@@ -136,7 +136,7 @@ Compositor::render()
     }
 
     // Render overlay elements
-    for(auto& ctx : m_drawing_contexts)
+    for (auto& ctx : m_drawing_contexts)
     {
       painter.set_clip_rect(ctx->get_viewport());
       ctx->color().render(renderer, Canvas::ABOVE_LIGHTMAP);
@@ -147,7 +147,7 @@ Compositor::render()
   }
 
   // cleanup
-  for(auto& ctx : m_drawing_contexts)
+  for (auto& ctx : m_drawing_contexts)
   {
     ctx->clear();
   }

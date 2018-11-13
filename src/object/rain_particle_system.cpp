@@ -50,7 +50,7 @@ void RainParticleSystem::init()
 
   // create some random raindrops
   size_t raindropcount = size_t(virtual_width/6.0);
-  for(size_t i=0; i<raindropcount; ++i) {
+  for (size_t i=0; i<raindropcount; ++i) {
     auto particle = std::make_unique<RainParticle>();
     particle->pos.x = static_cast<float>(graphicsRandom.rand(int(virtual_width)));
     particle->pos.y = static_cast<float>(graphicsRandom.rand(int(virtual_height)));
@@ -69,7 +69,7 @@ void RainParticleSystem::update(float dt_sec)
   if (!enabled)
     return;
 
-  for(auto& it : particles) {
+  for (auto& it : particles) {
     auto particle = dynamic_cast<RainParticle*>(it.get());
     assert(particle);
 

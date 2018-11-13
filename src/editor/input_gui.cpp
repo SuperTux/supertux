@@ -102,7 +102,7 @@ void
 EditorInputGui::draw_tilegroup(DrawingContext& context) {
   if (input_type == IP_TILE) {
     int pos = -1;
-    for(auto& tile_ID : active_tilegroup->tiles) {
+    for (auto& tile_ID : active_tilegroup->tiles) {
       pos++;
       if (pos < starting_tile) {
         continue;
@@ -129,7 +129,7 @@ void
 EditorInputGui::draw_objectgroup(DrawingContext& context) {
   if (input_type == IP_OBJECT) {
     int pos = -1;
-    for(auto& icon : object_input->groups[active_objectgroup].icons) {
+    for (auto& icon : object_input->groups[active_objectgroup].icons) {
       pos++;
       if (pos < starting_tile) {
         continue;

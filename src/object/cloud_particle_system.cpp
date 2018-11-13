@@ -43,7 +43,7 @@ void CloudParticleSystem::init()
   virtual_width = 2000.0;
 
   // create some random clouds
-  for(size_t i=0; i<15; ++i) {
+  for (size_t i=0; i<15; ++i) {
     auto particle = std::make_unique<CloudParticle>();
     particle->pos.x = graphicsRandom.randf(virtual_width);
     particle->pos.y = graphicsRandom.randf(virtual_height);
@@ -59,7 +59,7 @@ void CloudParticleSystem::update(float dt_sec)
   if (!enabled)
     return;
 
-  for(auto& particle : particles) {
+  for (auto& particle : particles) {
     auto cloudParticle = dynamic_cast<CloudParticle*>(particle.get());
     if (!cloudParticle)
       continue;

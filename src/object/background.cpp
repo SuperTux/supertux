@@ -284,7 +284,7 @@ Background::draw_image(DrawingContext& context, const Vector& pos__)
     switch (m_alignment)
     {
       case LEFT_ALIGNMENT:
-        for(int y = start_y; y < end_y; ++y)
+        for (int y = start_y; y < end_y; ++y)
         {
           Vector p(pos_.x - parallax_image_size.width / 2.0f,
                    pos_.y + static_cast<float>(y) * img_h - img_h_2);
@@ -293,7 +293,7 @@ Background::draw_image(DrawingContext& context, const Vector& pos__)
         break;
 
       case RIGHT_ALIGNMENT:
-        for(int y = start_y; y < end_y; ++y)
+        for (int y = start_y; y < end_y; ++y)
         {
           Vector p(pos_.x + parallax_image_size.width / 2.0f - img_w,
                    pos_.y + static_cast<float>(y) * img_h - img_h_2);
@@ -302,7 +302,7 @@ Background::draw_image(DrawingContext& context, const Vector& pos__)
         break;
 
       case TOP_ALIGNMENT:
-        for(int x = start_x; x < end_x; ++x)
+        for (int x = start_x; x < end_x; ++x)
         {
           Vector p(pos_.x + static_cast<float>(x) * img_w - img_w_2,
                    pos_.y - parallax_image_size.height / 2.0f);
@@ -311,7 +311,7 @@ Background::draw_image(DrawingContext& context, const Vector& pos__)
         break;
 
       case BOTTOM_ALIGNMENT:
-        for(int x = start_x; x < end_x; ++x)
+        for (int x = start_x; x < end_x; ++x)
         {
           Vector p(pos_.x + static_cast<float>(x) * img_w - img_w_2,
                    pos_.y - img_h + parallax_image_size.height / 2.0f);
@@ -320,8 +320,8 @@ Background::draw_image(DrawingContext& context, const Vector& pos__)
         break;
 
       case NO_ALIGNMENT:
-        for(int y = start_y; y < end_y; ++y)
-          for(int x = start_x; x < end_x; ++x)
+        for (int y = start_y; y < end_y; ++y)
+          for (int x = start_x; x < end_x; ++x)
           {
             Vector p(pos_.x + static_cast<float>(x) * img_w - img_w_2,
                      pos_.y + static_cast<float>(y) * img_h - img_h_2);

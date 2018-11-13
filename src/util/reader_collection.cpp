@@ -33,7 +33,7 @@ ReaderCollection::get_objects() const
 
   std::vector<ReaderObject> result;
   auto const& arr = m_sx.as_array();
-  for(size_t i = 1; i < arr.size(); ++i)
+  for (size_t i = 1; i < arr.size(); ++i)
   {
     result.push_back(ReaderObject(m_doc, arr[i]));
   }

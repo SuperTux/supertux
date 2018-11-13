@@ -116,7 +116,7 @@ SecretAreaTrigger::event(Player& , EventType type)
 
       if (!fade_tilemap.empty()) {
         // fade away tilemaps
-        for(auto& tm : Sector::get().get_objects_by_type<TileMap>()) {
+        for (auto& tm : Sector::get().get_objects_by_type<TileMap>()) {
           if (tm.get_name() == fade_tilemap) {
             tm.fade(0.0, 1.0);
           }

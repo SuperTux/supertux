@@ -131,7 +131,7 @@ IceCrusher::collision_solid(const CollisionHit& hit)
           Sector::get().get_camera().shake (/* frequency = */ .125f, /* x = */ 0.0, /* y = */ 16.0);
           SoundManager::current()->play("sounds/brick.wav");
           // throw some particles, bigger and more for large icecrusher
-          for(int j = 0; j < 9; j++)
+          for (int j = 0; j < 9; j++)
           {
             Sector::get().add<Particles>(
               Vector(m_col.m_bbox.p2.x - static_cast<float>(j) * 8.0f - 4.0f, m_col.m_bbox.p2.y),
@@ -156,7 +156,7 @@ IceCrusher::collision_solid(const CollisionHit& hit)
             SoundManager::current()->play("sounds/brick.wav");
           }
           // throw some particles
-          for(int j = 0; j < 5; j++)
+          for (int j = 0; j < 5; j++)
           {
             Sector::get().add<Particles>(
               Vector(m_col.m_bbox.p2.x - static_cast<float>(j) * 8.0f - 4.0f,

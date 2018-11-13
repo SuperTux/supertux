@@ -205,7 +205,7 @@ Downloader::Downloader() :
 
 Downloader::~Downloader()
 {
-  for(auto& transfer : m_transfers)
+  for (auto& transfer : m_transfers)
   {
     curl_multi_remove_handle(m_multi_handle, transfer->get_curl_handle());
   }
@@ -280,7 +280,7 @@ Downloader::abort(TransferId id)
     curl_multi_remove_handle(m_multi_handle, (*it)->get_curl_handle());
     m_transfers.erase(it);
 
-    for(auto& callback : status->callbacks)
+    for (auto& callback : status->callbacks)
     {
       try
       {
@@ -330,7 +330,7 @@ Downloader::update()
           if (resultfromcurl == CURLE_OK)
           {
             bool success = true;
-            for(auto& callback : status->callbacks)
+            for (auto& callback : status->callbacks)
             {
               try
               {
@@ -347,7 +347,7 @@ Downloader::update()
           else
           {
             log_warning << "Error: " << curl_easy_strerror(resultfromcurl) << std::endl;
-            for(auto& callback : status->callbacks)
+            for (auto& callback : status->callbacks)
             {
               try
               {

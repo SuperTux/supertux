@@ -42,7 +42,7 @@ InfoBlock::InfoBlock(const ReaderMapping& lisp) :
 
   // Split text string lines into a vector
   lines = InfoBoxLine::split(message, 400);
-  for(const auto& line : lines) lines_height += line->get_height();
+  for (const auto& line : lines) lines_height += line->get_height();
 }
 
 InfoBlock::~InfoBlock()
@@ -164,7 +164,7 @@ InfoBlock::draw(DrawingContext& context)
   context.color().draw_filled_rect(Vector(x1-border, y1-border), Vector(width+2*border, height+2*border-4), Color(0.6f, 0.7f, 0.8f, 0.5f), LAYER_GUI-50);
 
   float y = y1;
-  for(size_t i = 0; i < lines.size(); ++i) {
+  for (size_t i = 0; i < lines.size(); ++i) {
     if (y >= y1 + height) {
       //log_warning << "Too many lines of text in InfoBlock" << std::endl;
       //dest_pct = 0;

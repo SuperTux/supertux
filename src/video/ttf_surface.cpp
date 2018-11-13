@@ -57,7 +57,7 @@ TTFSurface::create(const TTFFont& font, const std::string& text)
     };
 
     int shadow_size = std::min(2, font.get_shadow_size());
-    for(const auto& p : positions[shadow_size])
+    for (const auto& p : positions[shadow_size])
     {
       SDL_Rect dstrect{std::get<0>(p) + 2, std::get<1>(p) + 2, text_surface->w, text_surface->h};
       SDL_BlitSurface(text_surface.get(), nullptr,
@@ -77,7 +77,7 @@ TTFSurface::create(const TTFFont& font, const std::string& text)
     };
 
     int border = std::min(2, font.get_border());
-    for(const auto& p : positions[border])
+    for (const auto& p : positions[border])
     {
       SDL_Rect dstrect{std::get<0>(p), std::get<1>(p), text_surface->w, text_surface->h};
       SDL_BlitSurface(text_surface.get(), nullptr,

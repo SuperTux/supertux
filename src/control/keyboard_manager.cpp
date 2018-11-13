@@ -86,7 +86,7 @@ void
 KeyboardManager::process_text_input_event(const SDL_TextInputEvent& event)
 {
   if (!m_lock_text_input && Console::current()->hasFocus()) {
-    for(int i = 0; event.text[i] != '\0'; ++i)
+    for (int i = 0; event.text[i] != '\0'; ++i)
     {
       Console::current()->input(event.text[i]);
     }

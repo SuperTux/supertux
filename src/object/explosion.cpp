@@ -75,7 +75,7 @@ Explosion::explode()
     Vector center = m_col.m_bbox.get_middle ();
     auto near_objects = Sector::get().get_nearby_objects (center, 10.0 * 32.0);
 
-    for(auto& obj: near_objects) {
+    for (auto& obj: near_objects) {
       Vector obj_vector = obj->get_bbox ().get_middle ();
       Vector direction = obj_vector - center;
       float distance = direction.norm ();

@@ -65,7 +65,7 @@ StreamSoundSource::set_sound_file(std::unique_ptr<SoundFile> newfile)
 
   ALint queued;
   alGetSourcei(source, AL_BUFFERS_QUEUED, &queued);
-  for(size_t i = 0; i < STREAMFRAGMENTS - queued; ++i) {
+  for (size_t i = 0; i < STREAMFRAGMENTS - queued; ++i) {
     if (fillBufferAndQueue(buffers[i]) == false)
       break;
   }
@@ -76,7 +76,7 @@ StreamSoundSource::update()
 {
   ALint processed = 0;
   alGetSourcei(source, AL_BUFFERS_PROCESSED, &processed);
-  for(ALint i = 0; i < processed; ++i) {
+  for (ALint i = 0; i < processed; ++i) {
     ALuint buffer;
     alSourceUnqueueBuffers(source, 1, &buffer);
     try

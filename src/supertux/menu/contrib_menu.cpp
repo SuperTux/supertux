@@ -41,7 +41,7 @@ ContribMenu::ContribMenu() :
   std::unique_ptr<char*, decltype(&PHYSFS_freeList)>
     files(PHYSFS_enumerateFiles("levels"),
           PHYSFS_freeList);
-  for(const char* const* filename = files.get(); *filename != nullptr; ++filename)
+  for (const char* const* filename = files.get(); *filename != nullptr; ++filename)
   {
     std::string filepath = FileSystem::join("levels", *filename);
     if (PhysFSFileSystem::is_directory(filepath))
@@ -53,7 +53,7 @@ ContribMenu::ContribMenu() :
   std::unique_ptr<char*, decltype(&PHYSFS_freeList)>
     addons(PHYSFS_enumerateFiles("custom"),
           PHYSFS_freeList);
-  for(const char* const* addondir = addons.get(); *addondir != nullptr; ++addondir)
+  for (const char* const* addondir = addons.get(); *addondir != nullptr; ++addondir)
   {
     std::string addonpath = FileSystem::join("custom", *addondir);
     if (PhysFSFileSystem::is_directory(addonpath))
@@ -64,7 +64,7 @@ ContribMenu::ContribMenu() :
         std::unique_ptr<char*, decltype(&PHYSFS_freeList)>
           addonfiles(PHYSFS_enumerateFiles(addonlevelpath.c_str()),
                 PHYSFS_freeList);
-        for(const char* const* filename = addonfiles.get(); *filename != nullptr; ++filename)
+        for (const char* const* filename = addonfiles.get(); *filename != nullptr; ++filename)
         {
           std::string filepath = FileSystem::join(addonlevelpath.c_str(), *filename);
           if (PhysFSFileSystem::is_directory(filepath))
@@ -101,7 +101,7 @@ ContribMenu::ContribMenu() :
           int solved_count = 0;
 
           const auto& state = savegame.get_levelset_state(world->get_basedir());
-          for(const auto& level_state : state.level_states)
+          for (const auto& level_state : state.level_states)
           {
             if (level_state.filename.empty())
               continue;
@@ -132,7 +132,7 @@ ContribMenu::ContribMenu() :
           int solved_count = 0;
 
           const auto& state = savegame.get_worldmap_state(world->get_worldmap_filename());
-          for(const auto& level_state : state.level_states)
+          for (const auto& level_state : state.level_states)
           {
             if (level_state.filename.empty())
               continue;

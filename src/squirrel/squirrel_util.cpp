@@ -145,7 +145,7 @@ void print_squirrel_stack(HSQUIRRELVM v)
 {
   printf("--------------------------------------------------------------\n");
   SQInteger count = sq_gettop(v);
-  for(int i = 1; i <= count; ++i) {
+  for (int i = 1; i <= count; ++i) {
     printf("%d: ",i);
     switch (sq_gettype(v, i))
     {

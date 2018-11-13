@@ -127,7 +127,7 @@ Sector::finish_construction()
 
   process_resolve_requests();
 
-  for(auto& object : get_objects()) {
+  for (auto& object : get_objects()) {
     object->finish_construction();
   }
 
@@ -144,7 +144,7 @@ void
 Sector::activate(const std::string& spawnpoint)
 {
   SpawnPointMarker* sp = nullptr;
-  for(auto& spawn_point : get_objects_by_type<SpawnPointMarker>()) {
+  for (auto& spawn_point : get_objects_by_type<SpawnPointMarker>()) {
     if (spawn_point.get_name() == spawnpoint) {
       sp = &spawn_point;
       break;
@@ -175,7 +175,7 @@ Sector::activate(const Vector& player_pos)
 
     m_squirrel_environment->expose_self();
 
-    for(auto& object : get_objects()) {
+    for (auto& object : get_objects()) {
       m_squirrel_environment->try_expose(*object);
     }
   }
@@ -185,7 +185,7 @@ Sector::activate(const Vector& player_pos)
 
   // two-player hack: move other players to main player's position
   // Maybe specify 2 spawnpoints in the level?
-  for(auto& player : get_objects_by_type<Player>()) {
+  for (auto& player : get_objects_by_type<Player>()) {
     // spawn smalltux below spawnpoint
     if (!player.is_big()) {
       player.move(player_pos + Vector(0,32));
@@ -243,7 +243,7 @@ Sector::deactivate()
 
   m_squirrel_environment->unexpose_self();
 
-  for(const auto& object: get_objects()) {
+  for (const auto& object: get_objects()) {
     m_squirrel_environment->try_unexpose(*object);
   }
 
@@ -266,7 +266,7 @@ int
 Sector::calculate_foremost_layer() const
 {
   int layer = LAYER_BACKGROUND0;
-  for(auto& tm : get_objects_by_type<TileMap>())
+  for (auto& tm : get_objects_by_type<TileMap>())
   {
     if (tm.get_layer() > layer)
     {
@@ -442,7 +442,7 @@ Sector::get_music_type() const
 bool
 Sector::inside(const Rectf& rect) const
 {
-  for(const auto& solids : get_solid_tilemaps()) {
+  for (const auto& solids : get_solid_tilemaps()) {
     Rectf bbox = solids->get_bbox();
     bbox.p1.y = -INFINITY; // pretend the tilemap extends infinitely far upwards
 
@@ -458,7 +458,7 @@ Sector::get_editor_size() const
   // Find the solid tilemap with the greatest surface
   size_t max_surface = 0;
   Size size;
-  for(const auto& solids: get_solid_tilemaps()) {
+  for (const auto& solids: get_solid_tilemaps()) {
     size_t surface = solids->get_width() * solids->get_height();
     if (surface > max_surface) {
       max_surface = surface;
@@ -475,7 +475,7 @@ Sector::resize_sector(const Size& old_size, const Size& new_size, const Size& re
   bool is_offset = resize_offset.width || resize_offset.height;
   Vector obj_shift = Vector(static_cast<float>(resize_offset.width) * 32.0f,
                             static_cast<float>(resize_offset.height) * 32.0f);
-  for(const auto& object : get_objects()) {
+  for (const auto& object : get_objects()) {
     auto tilemap = dynamic_cast<TileMap*>(object.get());
     if (tilemap) {
       if (tilemap->get_size() == old_size) {
@@ -495,7 +495,7 @@ Sector::resize_sector(const Size& old_size, const Size& new_size, const Size& re
 void
 Sector::change_solid_tiles(uint32_t old_tile_id, uint32_t new_tile_id)
 {
-  for(auto& solids: get_solid_tilemaps()) {
+  for (auto& solids: get_solid_tilemaps()) {
     solids->change_all(old_tile_id, new_tile_id);
   }
 }
@@ -555,7 +555,7 @@ std::vector<MovingObject*>
 Sector::get_nearby_objects(const Vector& center, float max_distance) const
 {
   std::vector<MovingObject*> result;
-  for(auto& object : m_collision_system->get_nearby_objects(center, max_distance))
+  for (auto& object : m_collision_system->get_nearby_objects(center, max_distance))
   {
     auto* moving_object = dynamic_cast<MovingObject*>(&object->get_listener());
     if (moving_object) {
@@ -568,14 +568,14 @@ Sector::get_nearby_objects(const Vector& center, float max_distance) const
 void
 Sector::stop_looping_sounds()
 {
-  for(auto& object : get_objects()) {
+  for (auto& object : get_objects()) {
     object->stop_looping_sounds();
   }
 }
 
 void Sector::play_looping_sounds()
 {
-  for(const auto& object : get_objects()) {
+  for (const auto& object : get_objects()) {
     object->play_looping_sounds();
   }
 }
@@ -608,7 +608,7 @@ Sector::save(Writer &writer)
   // Do not save spawnpoints since we have spawnpoint markers.
 
   // saving oběcts (not really)
-  for(auto& obj : get_objects()) {
+  for (auto& obj : get_objects()) {
     if (obj->is_saveable()) {
       writer.start_list(obj->get_class());
       obj->save(writer);
@@ -623,11 +623,11 @@ void
 Sector::convert_tiles2gameobject()
 {
   // add lights for special tiles
-  for(auto& tm : get_objects_by_type<TileMap>())
+  for (auto& tm : get_objects_by_type<TileMap>())
   {
-    for(int x=0; x < tm.get_width(); ++x)
+    for (int x=0; x < tm.get_width(); ++x)
     {
-      for(int y=0; y < tm.get_height(); ++y)
+      for (int y=0; y < tm.get_height(); ++y)
       {
         const Tile& tile = tm.get_tile(x, y);
 

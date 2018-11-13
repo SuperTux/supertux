@@ -230,8 +230,8 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
     tilemap.set(width, height, tiles, LAYER_TILES, true);
 
     // replace tile id 112 (old invisible tile) with 1311 (new invisible tile)
-    for(int x=0; x < tilemap.get_width(); ++x) {
-      for(int y=0; y < tilemap.get_height(); ++y) {
+    for (int x=0; x < tilemap.get_width(); ++x) {
+      for (int y=0; y < tilemap.get_height(); ++y) {
         uint32_t id = tilemap.get_tile_id(x, y);
         if (id == 112)
           tilemap.change(x, y, 1311);
@@ -277,7 +277,7 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
   // read objects
   boost::optional<ReaderCollection> objects;
   if (reader.get("objects", objects)) {
-    for(auto const& obj : objects->get_objects())
+    for (auto const& obj : objects->get_objects())
     {
       auto object = parse_object(obj.get_name(), obj.get_mapping());
       if (object) {

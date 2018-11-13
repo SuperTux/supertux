@@ -46,7 +46,7 @@ Particles::Particles(const Vector& epicenter, int min_angle, int max_angle,
   }
 
   // create particles
-  for(int p = 0; p < number; p++)
+  for (int p = 0; p < number; p++)
   {
     auto particle = std::make_unique<Particle>();
     particle->pos = epicenter;
@@ -84,7 +84,7 @@ Particles::Particles(const Vector& epicenter, int min_angle, int max_angle,
   }
 
   // create particles
-  for(int p = 0; p < number; p++)
+  for (int p = 0; p < number; p++)
   {
     auto particle = std::make_unique<Particle>();
     particle->pos = epicenter;
@@ -108,7 +108,7 @@ Particles::update(float dt_sec)
   Vector camera = Sector::get().get_camera().get_translation();
 
   // update particles
-  for(auto i = particles.begin(); i != particles.end(); ) {
+  for (auto i = particles.begin(); i != particles.end(); ) {
     (*i)->pos.x += (*i)->vel.x * dt_sec;
     (*i)->pos.y += (*i)->vel.y * dt_sec;
 
@@ -131,7 +131,7 @@ void
 Particles::draw(DrawingContext& context)
 {
   // draw particles
-  for(auto& particle : particles) {
+  for (auto& particle : particles) {
     context.color().draw_filled_rect(particle->pos, Vector(size,size), color, drawing_layer);
   }
 }

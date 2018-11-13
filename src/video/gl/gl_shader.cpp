@@ -84,7 +84,7 @@ GLShader::source(std::vector<std::string> const& sources)
 {
   std::vector<GLint> length_lst(sources.size());
   std::vector<const char*> source_lst(sources.size());
-  for(size_t i = 0; i < sources.size(); ++i)
+  for (size_t i = 0; i < sources.size(); ++i)
   {
     source_lst[i] = sources[i].c_str();
     length_lst[i] = static_cast<GLint>(sources[i].size());

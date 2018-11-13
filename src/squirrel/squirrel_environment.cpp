@@ -53,7 +53,7 @@ SquirrelEnvironment::SquirrelEnvironment(HSQUIRRELVM vm, const std::string& name
 
 SquirrelEnvironment::~SquirrelEnvironment()
 {
-  for(auto& script: m_scripts)
+  for (auto& script: m_scripts)
   {
     sq_release(m_vm, &script);
   }

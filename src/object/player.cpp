@@ -254,7 +254,7 @@ Player::use_scripting_controller(bool use_or_release)
 void
 Player::do_scripting_controller(const std::string& control, bool pressed)
 {
-  for(int i = 0; Controller::controlNames[i] != nullptr; ++i) {
+  for (int i = 0; Controller::controlNames[i] != nullptr; ++i) {
     if (control == std::string(Controller::controlNames[i])) {
       m_scripting_controller->press(Controller::Control(i), pressed);
     }
@@ -946,7 +946,7 @@ Player::try_grab()
       pos = Vector(m_col.m_bbox.get_right() + 5, m_col.m_bbox.get_bottom() - 16);
     }
 
-    for(auto& moving_object : Sector::get().get_objects_by_type<MovingObject>()) {
+    for (auto& moving_object : Sector::get().get_objects_by_type<MovingObject>()) {
       Portable* portable = dynamic_cast<Portable*>(&moving_object);
       if (portable && portable->is_portable())
       {

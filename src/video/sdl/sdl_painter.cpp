@@ -130,7 +130,7 @@ void render_texture(SDL_Renderer* renderer,
 
     render_texture(renderer, texture, imgrect, inside, relative_map(inside, srcrect, dstrect));
 
-    for(const Rect& rect : rest)
+    for (const Rect& rect : rest)
     {
       const Rect new_srcrect(math::positive_mod(rect.left, imgrect.get_width()),
                              math::positive_mod(rect.top, imgrect.get_height()),
@@ -214,7 +214,7 @@ SDLPainter::draw_texture(const TextureRequest& request)
 
   assert(request.srcrects.size() == request.dstrects.size());
 
-  for(size_t i = 0; i < request.srcrects.size(); ++i)
+  for (size_t i = 0; i < request.srcrects.size(); ++i)
   {
     SDL_Rect src_rect;
     src_rect.x = static_cast<int>(request.srcrects[i].p1.x);
@@ -267,7 +267,7 @@ SDLPainter::draw_gradient(const GradientRequest& request)
                                     std::max(fabsf(top.blue - bottom.blue),
                                              fabsf(top.alpha - bottom.alpha))) * 255);
   n = std::max(n, 1);
-  for(int i = 0; i < n; ++i)
+  for (int i = 0; i < n; ++i)
   {
     SDL_Rect rect;
     if (direction == VERTICAL || direction == VERTICAL_SECTOR)
@@ -334,7 +334,7 @@ SDLPainter::draw_filled_rect(const FillRectRequest& request)
     // rounded top and bottom parts
     std::vector<SDL_Rect> rects;
     rects.reserve(2*slices + 1);
-    for(int i = 0; i < slices; ++i)
+    for (int i = 0; i < slices; ++i)
     {
       float p = (static_cast<float>(i) + 0.5f) / static_cast<float>(slices);
       int xoff = radius - static_cast<int>(sqrtf(1.0f - p * p) * static_cast<float>(radius));
@@ -398,7 +398,7 @@ SDLPainter::draw_inverse_ellipse(const InverseEllipseRequest& request)
   const int max_slices = 256;
   SDL_Rect rects[2*max_slices+2];
   int slices = std::min(static_cast<int>(request.size.y), max_slices);
-  for(int i = 0; i < slices; ++i)
+  for (int i = 0; i < slices; ++i)
   {
     float p = ((static_cast<float>(i) + 0.5f) / static_cast<float>(slices)) * 2.0f - 1.0f;
     int xoff = static_cast<int>(sqrtf(1.0f - p*p) * w / 2);
@@ -497,7 +497,7 @@ draw_span_between_edges(SDL_Renderer* renderer, const Rectf& e1, const Rectf& e2
   float factor2 = 0.0f;
   float factorStep2 = 1.0f / e2ydiff;
 
-  for(int y = static_cast<int>(e2.p1.y); y < static_cast<int>(e2.p2.y); y++) {
+  for (int y = static_cast<int>(e2.p1.y); y < static_cast<int>(e2.p2.y); y++) {
     SDL_RenderDrawLine(renderer,
                        static_cast<int>(e1.p1.x + e1xdiff * factor1), y,
                        static_cast<int>(e2.p1.x + e2xdiff * factor2), y);
@@ -532,7 +532,7 @@ SDLPainter::draw_triangle(const TriangleRequest& request)
   int longEdge = 0;
 
   // find edge with the greatest length in the y axis
-  for(int i = 0; i < 3; i++) {
+  for (int i = 0; i < 3; i++) {
     int length = static_cast<int>(edges[i].p2.y - edges[i].p1.y);
     if (length > maxLength) {
       maxLength = length;

@@ -502,7 +502,7 @@ Menu::calculate_width()
   /* The width of the menu has to be more than the width of the text
      with the most characters */
   float max_width = 0;
-  for(unsigned int i = 0; i < items.size(); ++i)
+  for (unsigned int i = 0; i < items.size(); ++i)
   {
     float w = static_cast<float>(items[i]->get_width());
     if (w > max_width)
@@ -559,7 +559,7 @@ Menu::draw(DrawingContext& context)
                               ALIGN_CENTER, LAYER_GUI);
   }
 
-  for(unsigned int i = 0; i < items.size(); ++i)
+  for (unsigned int i = 0; i < items.size(); ++i)
   {
     draw_item(context, i);
   }
@@ -665,7 +665,7 @@ Menu::event(const SDL_Event& ev)
 void
 Menu::set_active_item(int id)
 {
-  for(size_t i = 0; i < items.size(); ++i) {
+  for (size_t i = 0; i < items.size(); ++i) {
     if (items[i]->get_id() == id) {
       active_item = static_cast<int>(i);
       break;

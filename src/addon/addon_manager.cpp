@@ -144,7 +144,7 @@ AddonManager::AddonManager(const std::string& addon_directory,
   add_installed_addons();
 
   // FIXME: We should also restore the order here
-  for(auto& addon : m_addon_config)
+  for (auto& addon : m_addon_config)
   {
     if (addon.enabled)
     {
@@ -186,7 +186,7 @@ AddonManager::~AddonManager()
 {
   // sync enabled/disabled addons into the config for saving
   m_addon_config.clear();
-  for(const auto& addon : m_installed_addons)
+  for (const auto& addon : m_installed_addons)
   {
     m_addon_config.push_back({addon->get_id(), addon->is_enabled()});
   }
@@ -560,7 +560,7 @@ AddonManager::scan_for_archives() const
   std::unique_ptr<char*, decltype(&PHYSFS_freeList)>
     rc(PHYSFS_enumerateFiles(m_addon_directory.c_str()),
        PHYSFS_freeList);
-  for(char** i = rc.get(); *i != nullptr; ++i)
+  for (char** i = rc.get(); *i != nullptr; ++i)
   {
     if (StringUtil::has_suffix(*i, ".zip"))
     {
@@ -581,7 +581,7 @@ AddonManager::scan_for_info(const std::string& archive_os_path) const
   std::unique_ptr<char*, decltype(&PHYSFS_freeList)>
     rc2(PHYSFS_enumerateFiles("/"),
         PHYSFS_freeList);
-  for(char** j = rc2.get(); *j != nullptr; ++j)
+  for (char** j = rc2.get(); *j != nullptr; ++j)
   {
     if (StringUtil::has_suffix(*j, ".nfo"))
     {
@@ -650,7 +650,7 @@ AddonManager::add_installed_addons()
 {
   auto archives = scan_for_archives();
 
-  for(const auto& archive : archives)
+  for (const auto& archive : archives)
   {
     MD5 md5 = md5_from_file(archive);
     add_installed_archive(archive, md5.hex_digest());
@@ -674,7 +674,7 @@ AddonManager::parse_addon_infos(const std::string& filename) const
     else
     {
       auto addon_collection = root.get_collection();
-      for(auto const& addon_node : addon_collection.get_objects())
+      for (auto const& addon_node : addon_collection.get_objects())
       {
         if (addon_node.get_name() != "supertux-addoninfo")
         {

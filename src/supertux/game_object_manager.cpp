@@ -54,7 +54,7 @@ GameObjectManager::process_resolve_requests()
 {
   assert(m_gameobjects_new.empty());
 
-  for(const auto& request : m_name_resolve_requests)
+  for (const auto& request : m_name_resolve_requests)
   {
     GameObject* object = get_object_by_name<GameObject>(request.name);
     if (!object)
@@ -86,10 +86,10 @@ GameObjectManager::add_object(std::unique_ptr<GameObject> object)
 
   // make sure the object isn't already in the list
 #ifndef NDEBUG
-  for(const auto& game_object : m_gameobjects) {
+  for (const auto& game_object : m_gameobjects) {
     assert(game_object != object);
   }
-  for(const auto& gameobject : m_gameobjects_new) {
+  for (const auto& gameobject : m_gameobjects_new) {
     assert(gameobject != object);
   }
 #endif
@@ -104,7 +104,7 @@ GameObjectManager::clear_objects()
 {
   flush_game_objects();
 
-  for(const auto& obj: m_gameobjects) {
+  for (const auto& obj: m_gameobjects) {
     before_object_remove(*obj);
   }
   m_gameobjects.clear();
@@ -113,7 +113,7 @@ GameObjectManager::clear_objects()
 void
 GameObjectManager::update(float dt_sec)
 {
-  for(const auto& object : m_gameobjects)
+  for (const auto& object : m_gameobjects)
   {
     if (!object->is_valid())
       continue;
@@ -125,7 +125,7 @@ GameObjectManager::update(float dt_sec)
 void
 GameObjectManager::draw(DrawingContext& context)
 {
-  for(const auto& object : m_gameobjects)
+  for (const auto& object : m_gameobjects)
   {
     if (!object->is_valid())
       continue;
@@ -161,7 +161,7 @@ GameObjectManager::flush_game_objects()
   }
 
   { // add newly created objects
-    for(auto& object : m_gameobjects_new)
+    for (auto& object : m_gameobjects_new)
     {
       if (before_object_add(*object))
       {
@@ -174,7 +174,7 @@ GameObjectManager::flush_game_objects()
 
   { // update solid_tilemaps list
     m_solid_tilemaps.clear();
-    for(const auto& obj : m_gameobjects)
+    for (const auto& obj : m_gameobjects)
     {
       const auto& tm = dynamic_cast<TileMap*>(obj.get());
       if (!tm) continue;
@@ -231,7 +231,7 @@ float
 GameObjectManager::get_width() const
 {
   float width = 0;
-  for(auto& solids: get_solid_tilemaps()) {
+  for (auto& solids: get_solid_tilemaps()) {
     width = std::max(width, solids->get_bbox().get_right());
   }
 
@@ -242,7 +242,7 @@ float
 GameObjectManager::get_height() const
 {
   float height = 0;
-  for(const auto& solids: get_solid_tilemaps()) {
+  for (const auto& solids: get_solid_tilemaps()) {
     height = std::max(height, solids->get_bbox().get_bottom());
   }
 
@@ -253,7 +253,7 @@ float
 GameObjectManager::get_tiles_width() const
 {
   float width = 0;
-  for(const auto& solids : get_solid_tilemaps()) {
+  for (const auto& solids : get_solid_tilemaps()) {
     if (static_cast<float>(solids->get_width()) > width)
       width = static_cast<float>(solids->get_width());
   }
@@ -264,7 +264,7 @@ float
 GameObjectManager::get_tiles_height() const
 {
   float height = 0;
-  for(const auto& solids : get_solid_tilemaps()) {
+  for (const auto& solids : get_solid_tilemaps()) {
     if (static_cast<float>(solids->get_height()) > height)
       height = static_cast<float>(solids->get_height());
   }

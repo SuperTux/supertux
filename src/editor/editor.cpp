@@ -306,7 +306,7 @@ void Editor::load_layers() {
   layerselect.selected_tilemap = nullptr;
   layerselect.layers.clear();
   bool tsel = false;
-  for(auto& i : currentsector->get_objects()) {
+  for (auto& i : currentsector->get_objects()) {
     auto go = i.get();
     auto mo = dynamic_cast<MovingObject*>(go);
     if ( !mo && go->is_saveable() ) {
@@ -514,8 +514,8 @@ void
 Editor::change_tileset() {
   tileset = TileManager::current()->get_tileset(level->get_tileset());
   tileselect.input_type = EditorInputGui::IP_NONE;
-  for(const auto& sector : level->m_sectors) {
-    for(auto& tilemap : sector->get_objects_by_type<TileMap>()) {
+  for (const auto& sector : level->m_sectors) {
+    for (auto& tilemap : sector->get_objects_by_type<TileMap>()) {
       tilemap.set_tileset(tileset);
     }
   }
@@ -543,12 +543,12 @@ Editor::check_save_prerequisites(bool& sector_valid, bool& spawnpoint_valid) con
     spawnpoint_valid = true;
     return;
   }
-  for(const auto& sector : level->m_sectors)
+  for (const auto& sector : level->m_sectors)
   {
     if (sector->get_name() == "main")
     {
       sector_valid = true;
-      for(const auto& spawnpoint : sector->get_objects_by_type<SpawnPointMarker>())
+      for (const auto& spawnpoint : sector->get_objects_by_type<SpawnPointMarker>())
       {
         if (spawnpoint.get_name() == "main")
         {

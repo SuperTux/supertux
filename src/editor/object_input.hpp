@@ -25,7 +25,7 @@ private:
   int get_num_groups(bool for_worldmap) const
   {
     int num_groups = 0;
-    for(const auto& group : groups)
+    for (const auto& group : groups)
     {
       if (group.for_worldmap == for_worldmap)
       {
@@ -50,7 +50,7 @@ private:
     int get_first_worldmap_group_index() const
     {
       int worldmap_group_index = 0;
-      for(const auto& group : groups)
+      for (const auto& group : groups)
       {
         if (group.for_worldmap)
         {

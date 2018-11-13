@@ -48,7 +48,7 @@ void ParticleSystem_Interactive::draw(DrawingContext& context)
 
   context.push_transform();
 
-  for(auto& particle : particles) {
+  for (auto& particle : particles) {
     context.color().draw_surface(particle->texture, particle->pos, z_pos);
   }
 
@@ -89,10 +89,10 @@ ParticleSystem_Interactive::collision(Particle* object, const Vector& movement)
   dest.move(movement);
   Constraints constraints;
 
-  for(const auto& solids : Sector::get().get_solid_tilemaps()) {
+  for (const auto& solids : Sector::get().get_solid_tilemaps()) {
     // FIXME Handle a nonzero tilemap offset
-    for(int x = starttilex; x*32 < max_x; ++x) {
-      for(int y = starttiley; y*32 < max_y; ++y) {
+    for (int x = starttilex; x*32 < max_x; ++x) {
+      for (int y = starttiley; y*32 < max_y; ++y) {
         const Tile& tile = solids->get_tile(x, y);
 
         // skip non-solid tiles, except water

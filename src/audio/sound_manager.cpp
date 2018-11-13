@@ -72,7 +72,7 @@ SoundManager::~SoundManager()
   music_source.reset();
   sources.clear();
 
-  for(const auto& buffer : buffers) {
+  for (const auto& buffer : buffers) {
     alDeleteBuffers(1, &buffer.second);
   }
 
@@ -342,7 +342,7 @@ SoundManager::pause_music(float fadetime)
 void
 SoundManager::pause_sounds()
 {
-  for(auto& source : sources) {
+  for (auto& source : sources) {
     if (source->playing()) {
       source->pause();
     }
@@ -352,7 +352,7 @@ SoundManager::pause_sounds()
 void
 SoundManager::resume_sounds()
 {
-  for(auto& source : sources) {
+  for (auto& source : sources) {
     if (source->paused()) {
       source->resume();
     }
@@ -362,7 +362,7 @@ SoundManager::resume_sounds()
 void
 SoundManager::stop_sounds()
 {
-  for(auto& source : sources) {
+  for (auto& source : sources) {
     source->stop();
   }
 }
@@ -371,7 +371,7 @@ void
 SoundManager::set_sound_volume(int volume)
 {
   sound_volume = volume;
-  for(auto& source : sources) {
+  for (auto& source : sources) {
     source->set_volume(static_cast<float>(volume) / 100.0f);
   }
 }
@@ -428,7 +428,7 @@ SoundManager::update()
   lasttime = now;
 
   // update and check for finished sound sources
-  for(SoundSources::iterator i = sources.begin(); i != sources.end(); ) {
+  for (SoundSources::iterator i = sources.begin(); i != sources.end(); ) {
     auto& source = *i;
 
     source->update();

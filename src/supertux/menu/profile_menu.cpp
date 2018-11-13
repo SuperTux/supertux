@@ -29,7 +29,7 @@ ProfileMenu::ProfileMenu()
 {
   add_label(_("Select Profile"));
   add_hl();
-  for(int i = 1; i <= 5; ++i)
+  for (int i = 1; i <= 5; ++i)
   {
     std::ostringstream out;
     if (i == g_config->profile)

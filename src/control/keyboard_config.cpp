@@ -71,7 +71,7 @@ KeyboardConfig::read(const ReaderMapping& keymap_lisp)
         map.get("control", control);
 
         int i = 0;
-        for(i = 0; Controller::controlNames[i] != nullptr; ++i)
+        for (i = 0; Controller::controlNames[i] != nullptr; ++i)
         {
           if (control == Controller::controlNames[i])
             break;
@@ -92,7 +92,7 @@ void
 KeyboardConfig::bind_key(SDL_Keycode key, Controller::Control control)
 {
   // remove all previous mappings for that control and for that key
-  for(KeyMap::iterator i = keymap.begin();
+  for (KeyMap::iterator i = keymap.begin();
       i != keymap.end();
       /* no ++i */)
   {
@@ -119,7 +119,7 @@ KeyboardConfig::bind_key(SDL_Keycode key, Controller::Control control)
 SDL_Keycode
 KeyboardConfig::reversemap_key(Controller::Control c) const
 {
-  for(const auto& i : keymap)
+  for (const auto& i : keymap)
   {
     if (i.second == c)
     {
@@ -140,7 +140,7 @@ KeyboardConfig::write(Writer& writer)
 
   writer.write("jump-with-up", jump_with_up_kbd);
 
-  for(const auto& i : keymap)
+  for (const auto& i : keymap)
   {
     writer.start_list("map");
     writer.write("key", static_cast<int>(i.first));

@@ -69,7 +69,7 @@ FileSystemMenu::refresh_items()
   char** dir_files = PHYSFS_enumerateFiles(directory.c_str());
   if (dir_files)
   {
-    for(const char* const* file = dir_files; *file != nullptr; ++file)
+    for (const char* const* file = dir_files; *file != nullptr; ++file)
     {
       std::string filepath = FileSystem::join(directory, *file);
       if (PhysFSFileSystem::is_directory(filepath))
@@ -91,13 +91,13 @@ FileSystemMenu::refresh_items()
     PHYSFS_freeList(dir_files);
   }
 
-  for(const auto& item : directories)
+  for (const auto& item : directories)
   {
     add_entry(item_id, "[" + std::string(item) + "]");
     item_id++;
   }
 
-  for(const auto& item : files)
+  for (const auto& item : files)
   {
     add_entry(item_id, item);
     item_id++;

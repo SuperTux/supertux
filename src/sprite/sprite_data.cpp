@@ -104,7 +104,7 @@ SpriteData::parse_action(const ReaderMapping& lisp)
     } else {
       float max_w = 0;
       float max_h = 0;
-      for(const auto& surf : act_tmp->surfaces) {
+      for (const auto& surf : act_tmp->surfaces) {
         auto surface = surf->clone(HORIZONTAL_FLIP);
         max_w = std::max(max_w, static_cast<float>(surface->get_width()));
         max_h = std::max(max_h, static_cast<float>(surface->get_height()));
@@ -120,7 +120,7 @@ SpriteData::parse_action(const ReaderMapping& lisp)
     {
       float max_w = 0;
       float max_h = 0;
-      for(const auto& image : images) {
+      for (const auto& image : images) {
         auto surface = Surface::from_file(FileSystem::join(lisp.get_doc().get_directory(), image));
         max_w = std::max(max_w, static_cast<float>(surface->get_width()));
         max_h = std::max(max_h, static_cast<float>(surface->get_height()));
@@ -131,7 +131,7 @@ SpriteData::parse_action(const ReaderMapping& lisp)
     }
     else if (lisp.get("surfaces", surfaces_collection))
     {
-      for(const auto& i : surfaces_collection->get_objects())
+      for (const auto& i : surfaces_collection->get_objects())
       {
         if (i.get_name() == "surface")
         {

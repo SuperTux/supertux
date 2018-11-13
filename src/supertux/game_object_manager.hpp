@@ -121,7 +121,7 @@ public:
     {
       // FIXME: Is this a good idea? Should gameobjects be made
       // accessible even when not fully inserted into the manager?
-      for(auto&& itnew : m_gameobjects_new)
+      for (auto&& itnew : m_gameobjects_new)
       {
         if (itnew->get_uid() == uid)
           return static_cast<T*>(itnew.get());
@@ -168,7 +168,7 @@ public:
   int get_object_count() const
   {
     int total = 0;
-    for(const auto& obj : m_gameobjects) {
+    for (const auto& obj : m_gameobjects) {
       if (dynamic_cast<T*>(obj.get()))
       {
         total += 1;

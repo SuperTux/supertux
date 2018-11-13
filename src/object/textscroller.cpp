@@ -115,7 +115,7 @@ TextScroller::parse_root(const ReaderObject& root)
 void
 TextScroller::parse_content(const ReaderCollection& collection)
 {
-  for(const auto& item : collection.get_objects())
+  for (const auto& item : collection.get_objects())
   {
     if (item.get_name() == "image")
     {

@@ -251,7 +251,7 @@ TileSetParser::parse_tiles(const ReaderMapping& reader)
         surfaces = parse_imagespecs(*surfaces_mapping);
       }
 
-      for(size_t i = 0; i < ids.size(); ++i)
+      for (size_t i = 0; i < ids.size(); ++i)
       {
         if (ids[i] != 0)
         {
@@ -261,12 +261,12 @@ TileSetParser::parse_tiles(const ReaderMapping& reader)
           std::vector<SurfacePtr> regions;
           std::vector<SurfacePtr> editor_regions;
 
-          for(const auto& surface : surfaces)
+          for (const auto& surface : surfaces)
           {
             regions.push_back(surface->region(Rect(x, y, Size(32, 32))));
           }
 
-          for(const auto& surface : editor_surfaces)
+          for (const auto& surface : editor_surfaces)
           {
             editor_regions.push_back(surface->region(Rect(x, y, Size(32, 32))));
           }
@@ -283,7 +283,7 @@ TileSetParser::parse_tiles(const ReaderMapping& reader)
     }
     else // (!shared_surface)
     {
-      for(size_t i = 0; i < ids.size(); ++i)
+      for (size_t i = 0; i < ids.size(); ++i)
       {
         if (ids[i] != 0)
         {

@@ -47,7 +47,7 @@ StringUtil::numeric_less(const std::string& lhs, const std::string& rhs)
       {
         // end is at the same point in both strings, so do a detaile
         // comparism of the numbers
-        for(std::string::size_type j = i; j < li; ++j)
+        for (std::string::size_type j = i; j < li; ++j)
         {
           if (lhs[j] != rhs[j])
           {

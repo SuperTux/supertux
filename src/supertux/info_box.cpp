@@ -57,7 +57,7 @@ InfoBox::draw(DrawingContext& context)
 
   float y = y1;
   bool linesLeft = false;
-  for(size_t i = firstline; i < lines.size(); ++i) {
+  for (size_t i = firstline; i < lines.size(); ++i) {
     if (y >= y1 + height) {
       linesLeft = true;
       break;

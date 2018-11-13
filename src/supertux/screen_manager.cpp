@@ -330,7 +330,7 @@ ScreenManager::handle_screen_switch()
       auto actions = std::move(m_actions);
       bool quit_action_triggered = false;
 
-      for(auto& action : actions)
+      for (auto& action : actions)
       {
         switch (action.type)
         {

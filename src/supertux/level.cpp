@@ -95,7 +95,7 @@ Level::save(const std::string& filepath, bool retry)
       writer.write("target-time", m_target_time);
     }
 
-    for(auto& sector : m_sectors) {
+    for (auto& sector : m_sectors) {
       sector->save(writer);
     }
 
@@ -138,7 +138,7 @@ Level::add_sector(std::unique_ptr<Sector> sector)
 Sector*
 Level::get_sector(const std::string& name_) const
 {
-  for(auto const& sector : m_sectors) {
+  for (auto const& sector : m_sectors) {
     if (sector->get_name() == name_) {
       return sector.get();
     }
@@ -162,8 +162,8 @@ int
 Level::get_total_coins() const
 {
   int total_coins = 0;
-  for(auto const& sector : m_sectors) {
-    for(const auto& o: sector->get_objects()) {
+  for (auto const& sector : m_sectors) {
+    for (const auto& o: sector->get_objects()) {
       auto coin = dynamic_cast<Coin*>(o.get());
       if (coin)
       {
@@ -196,7 +196,7 @@ int
 Level::get_total_badguys() const
 {
   int total_badguys = 0;
-  for(auto const& sector : m_sectors) {
+  for (auto const& sector : m_sectors) {
     total_badguys += sector->get_object_count<BadGuy>();
   }
   return total_badguys;
@@ -206,7 +206,7 @@ int
 Level::get_total_secrets() const
 {
   int total_secrets = 0;
-  for(auto const& sector : m_sectors) {
+  for (auto const& sector : m_sectors) {
     total_secrets += sector->get_object_count<SecretAreaTrigger>();
   }
   return total_secrets;

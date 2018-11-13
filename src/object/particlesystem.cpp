@@ -68,7 +68,7 @@ void ParticleSystem::draw(DrawingContext& context)
   context.push_transform();
   context.set_translation(Vector(max_particle_size,max_particle_size));
 
-  for(const auto& particle : particles) {
+  for (const auto& particle : particles) {
     // remap x,y coordinates onto screencoordinates
     Vector pos;
 

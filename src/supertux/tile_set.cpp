@@ -92,12 +92,12 @@ TileSet::add_unassigned_tilegroup()
   unassigned_group.name = _("Others");
   unassigned_group.developers_group = true;
 
-  for(auto tile = 0; tile < static_cast<int>(m_tiles.size()); tile++)
+  for (auto tile = 0; tile < static_cast<int>(m_tiles.size()); tile++)
   {
     bool found = false;
-    for(const auto& group : m_tilegroups)
+    for (const auto& group : m_tilegroups)
     {
-      for(const auto& tile_in_group : group.tiles)
+      for (const auto& tile_in_group : group.tiles)
       {
         if (tile_in_group == tile)
         {
@@ -134,7 +134,7 @@ TileSet::print_debug_info(const std::string& filename)
   { // enable this if you want to see a list of free tiles
     log_info << "Last Tile ID is " << m_tiles.size()-1 << std::endl;
     int last = -1;
-    for(int i = 0; i < int(m_tiles.size()); ++i)
+    for (int i = 0; i < int(m_tiles.size()); ++i)
     {
       if (m_tiles[i] == nullptr && last == -1)
       {

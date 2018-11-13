@@ -89,7 +89,7 @@ Dialog::get_button_at(const Vector& mouse_pos) const
                 Sizef(m_text_size.width,
                       m_text_size.height + 44));
 
-  for(int i = 0; i < static_cast<int>(m_buttons.size()); ++i)
+  for (int i = 0; i < static_cast<int>(m_buttons.size()); ++i)
   {
     float segment_width = bg_rect.get_width() / static_cast<float>(m_buttons.size());
     float button_width = segment_width;
@@ -221,7 +221,7 @@ Dialog::draw(DrawingContext& context)
                                      Color(1.0f, 1.0f, 1.0f, 1.0f), LAYER_GUI);
 
   // draw buttons
-  for(int i = 0; i < static_cast<int>(m_buttons.size()); ++i)
+  for (int i = 0; i < static_cast<int>(m_buttons.size()); ++i)
   {
     float segment_width = bg_rect.get_width() / static_cast<float>(m_buttons.size());
     float button_width = segment_width;

@@ -43,7 +43,7 @@ SDLScreenRenderer::SDLScreenRenderer(SDLVideoSystem& video_system, SDL_Renderer*
     if (info.flags & SDL_RENDERER_PRESENTVSYNC) { log_info << "  SDL_RENDERER_PRESENTVSYNC" << std::endl; }
     if (info.flags & SDL_RENDERER_TARGETTEXTURE) { log_info << "  SDL_RENDERER_TARGETTEXTURE" << std::endl; }
     log_info << "Texture Formats: " << std::endl;
-    for(size_t i = 0; i < info.num_texture_formats; ++i)
+    for (size_t i = 0; i < info.num_texture_formats; ++i)
     {
       log_info << "  " << SDL_GetPixelFormatName(info.texture_formats[i]) << std::endl;
     }

@@ -95,7 +95,7 @@ TTFFont::get_text_height(const std::string& text) const
   // since UTF8 multibyte characters are decoded with values
   // outside the ASCII range there is no risk of overlapping and
   // thus we don't need to decode the utf-8 string
-  for(auto c : text)
+  for (auto c : text)
   {
     if (c == '\n')
     {

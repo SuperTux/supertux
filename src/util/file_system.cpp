@@ -122,7 +122,7 @@ std::string normalize(const std::string& filename)
 
   // construct path
   std::ostringstream result;
-  for(std::vector<std::string>::iterator i = path_stack.begin();
+  for (std::vector<std::string>::iterator i = path_stack.begin();
       i != path_stack.end(); ++i) {
     result << '/' << *i;
   }

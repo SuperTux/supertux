@@ -32,7 +32,7 @@ GameControllerManager::GameControllerManager(InputManager* parent) :
 
 GameControllerManager::~GameControllerManager()
 {
-  for(const auto& con : m_game_controllers)
+  for (const auto& con : m_game_controllers)
   {
     SDL_GameControllerClose(con);
   }
@@ -201,7 +201,7 @@ GameControllerManager::on_controller_added(int joystick_index)
 void
 GameControllerManager::on_controller_removed(int instance_id)
 {
-  for(auto& controller : m_game_controllers)
+  for (auto& controller : m_game_controllers)
   {
     auto joy = SDL_GameControllerGetJoystick(controller);
     SDL_JoystickID id = SDL_JoystickInstanceID(joy);

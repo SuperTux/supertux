@@ -805,7 +805,7 @@ EditorInputCenter::draw_path(DrawingContext& context) {
   if (!marked_object->is_valid()) return;
   if (!edited_path->is_valid()) return;
 
-  for(auto i = edited_path->m_nodes.begin(); i != edited_path->m_nodes.end(); ++i) {
+  for (auto i = edited_path->m_nodes.begin(); i != edited_path->m_nodes.end(); ++i) {
     auto j = i+1;
     Path::Node* node1 = &(*i);
     Path::Node* node2;

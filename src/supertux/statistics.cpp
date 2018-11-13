@@ -70,7 +70,7 @@ Statistics::calculate_max_caption_length()
 
   m_max_width = 256;
 
-  for(const auto& caption : captions)
+  for (const auto& caption : captions)
   {
     auto font = Resources::small_font;
     // Add padding the size of lengthiest string:

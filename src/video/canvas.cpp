@@ -42,7 +42,7 @@ Canvas::~Canvas()
 void
 Canvas::clear()
 {
-  for(auto& request : m_requests)
+  for (auto& request : m_requests)
   {
     request->~DrawingRequest();
   }
@@ -62,7 +62,7 @@ Canvas::render(Renderer& renderer, Filter filter)
 
   Painter& painter = renderer.get_painter();
 
-  for(const auto& i : m_requests) {
+  for (const auto& i : m_requests) {
     const DrawingRequest& request = *i;
 
     if (filter == BELOW_LIGHTMAP && request.layer >= LAYER_LIGHTMAP)
@@ -192,7 +192,7 @@ Canvas::draw_surface_batch(SurfacePtr surface,
 
   request->srcrects = srcrects;
   request->dstrects = dstrects;
-  for(auto& dstrect : request->dstrects)
+  for (auto& dstrect : request->dstrects)
   {
     dstrect = Rectf(apply_translate(dstrect.p1), dstrect.get_size());
   }

@@ -47,7 +47,7 @@ ReaderMapping::get_iter() const
 const sexp::Value*
 ReaderMapping::get_item(const char* key) const
 {
-  for(size_t i = 1; i < m_arr.size(); ++i)
+  for (size_t i = 1; i < m_arr.size(); ++i)
   {
     auto const& pair = m_arr[i];
 
@@ -150,7 +150,7 @@ ReaderMapping::get(const char* key, std::string& value, const boost::optional<co
   } else {                                                              \
     assert_is_array(m_doc, *sx);                                        \
     auto const& item = sx->as_array();                                  \
-    for(size_t i = 1; i < item.size(); ++i)                             \
+    for (size_t i = 1; i < item.size(); ++i)                             \
     {                                                                   \
       assert_##checker(m_doc, item[i]);                                 \
       value.emplace_back(item[i].getter());                             \

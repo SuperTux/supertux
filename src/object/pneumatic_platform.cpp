@@ -88,7 +88,7 @@ void
 PneumaticPlatform::update(float dt_sec)
 {
   const int contact_diff = static_cast<int>(m_children[0]->m_contacts.size()) - static_cast<int>(m_children[1]->m_contacts.size());
-  for(auto& child : m_children) {
+  for (auto& child : m_children) {
     child->m_contacts.clear();
   }
 
@@ -114,7 +114,7 @@ PneumaticPlatform::update(float dt_sec)
 void
 PneumaticPlatform::editor_delete()
 {
-  for(auto& child : m_children) {
+  for (auto& child : m_children) {
     child->remove_me();
   }
 }

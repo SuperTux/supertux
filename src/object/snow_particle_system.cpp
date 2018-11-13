@@ -71,7 +71,7 @@ void SnowParticleSystem::init()
 
   // create some random snowflakes
   int snowflakecount = static_cast<int>(virtual_width / 10.0f);
-  for(int i = 0; i < snowflakecount; ++i) {
+  for (int i = 0; i < snowflakecount; ++i) {
     auto particle = std::make_unique<SnowParticle>();
     int snowsize = graphicsRandom.rand(3);
 
@@ -137,7 +137,7 @@ void SnowParticleSystem::update(float dt_sec)
 
   float sq_g = sqrtf(Sector::get().get_gravity());
 
-  for(auto& part : particles) {
+  for (auto& part : particles) {
     auto particle = dynamic_cast<SnowParticle*>(part.get());
     if (!particle)
       continue;

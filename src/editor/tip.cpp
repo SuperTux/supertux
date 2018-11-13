@@ -34,7 +34,7 @@ Tip::Tip(GameObject* object) :
   auto os = object->get_settings();
   header = os.get_name();
 
-  for(const auto& oo : os.get_options()) {
+  for (const auto& oo : os.get_options()) {
     if (oo.type != MN_REMOVE && (oo.flags & OPTION_VISIBLE)) {
       auto value = oo.to_string();
       if (value.empty()) {
@@ -52,7 +52,7 @@ Tip::draw(DrawingContext& context, const Vector& pos) {
   context.color().draw_text(Resources::normal_font, header, position,
                               ALIGN_LEFT, LAYER_GUI-11, ColorScheme::Menu::label_color);
 
-  for(const auto& str : strings) {
+  for (const auto& str : strings) {
     position.y += 22;
     context.color().draw_text(Resources::normal_font, str, position,
                                 ALIGN_LEFT, LAYER_GUI-11, ColorScheme::Menu::default_color);

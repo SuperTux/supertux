@@ -107,7 +107,7 @@ PathGameObject::draw(DrawingContext& context)
   if (m_style == PathStyle::SOLID)
   {
     boost::optional<Vector> previous_node;
-    for(const auto& node : m_path->get_nodes())
+    for (const auto& node : m_path->get_nodes())
     {
       if (previous_node)
       {
@@ -122,7 +122,7 @@ PathGameObject::draw(DrawingContext& context)
         // whole edge
         dot_distance = length / floorf(length / dot_distance);
 
-        for(float i = dot_distance; i < length; i += dot_distance)
+        for (float i = dot_distance; i < length; i += dot_distance)
         {
           Vector dot_pos = p1 + unit * i;
           m_edge_sprite->draw(context.color(), Vector(dot_pos), LAYER_OBJECTS - 1);
@@ -141,7 +141,7 @@ PathGameObject::draw(DrawingContext& context)
     const Color edge_color = Color::MAGENTA;
 
     boost::optional<Vector> previous_node;
-    for(const auto& node : m_path->get_nodes())
+    for (const auto& node : m_path->get_nodes())
     {
       if (previous_node)
       {

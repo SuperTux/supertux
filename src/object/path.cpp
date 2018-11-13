@@ -118,7 +118,7 @@ Path::save(Writer& writer)
   writer.start_list("path");
   writer.write("mode", walk_mode_to_string(m_mode), false);
 
-  for(auto& nod : m_nodes) {
+  for (auto& nod : m_nodes) {
     writer.start_list("node");
     writer.write("x", nod.position.x);
     writer.write("y", nod.position.y);
@@ -174,7 +174,7 @@ Path::get_farthest_node_no(const Vector& reference_point) const
 void
 Path::move_by(const Vector& shift)
 {
-  for(auto& nod : m_nodes) {
+  for (auto& nod : m_nodes) {
     nod.position += shift;
   }
 }
@@ -183,7 +183,7 @@ void
 Path::edit_path()
 {
   int id = 0;
-  for(auto i = m_nodes.begin(); i != m_nodes.end(); ++i) {
+  for (auto i = m_nodes.begin(); i != m_nodes.end(); ++i) {
     Sector::get().add<NodeMarker>(this, i, id);
     id++;
   }

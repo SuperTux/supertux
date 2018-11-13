@@ -39,7 +39,7 @@ JoystickManager::JoystickManager(InputManager* parent_,
 
 JoystickManager::~JoystickManager()
 {
-  for(auto& joy : joysticks)
+  for (auto& joy : joysticks)
   {
     SDL_JoystickClose(joy);
   }
@@ -77,7 +77,7 @@ void
 JoystickManager::on_joystick_removed(int instance_id)
 {
   log_debug << "on_joystick_removed: " << static_cast<int>(instance_id) << std::endl;
-  for(auto& joy : joysticks)
+  for (auto& joy : joysticks)
   {
     SDL_JoystickID id = SDL_JoystickInstanceID(joy);
     if (id == instance_id)
