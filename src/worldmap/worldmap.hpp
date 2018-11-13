@@ -40,6 +40,7 @@ class TileSet;
 
 namespace worldmap {
 
+class Camera;
 class LevelTile;
 class SpecialTile;
 class SpriteChange;
@@ -149,11 +150,11 @@ public:
     m_main_is_default = false;
   }
 
-  bool is_panning() const { return m_panning; }
-
   void run_script(const std::string& script, const std::string& sourcename);
 
   void set_passive_message(const std::string& message, float time);
+
+  Camera& get_camera() const { return *m_camera; }
 
 protected:
   virtual bool before_object_add(GameObject& object) override;
@@ -165,11 +166,9 @@ private:
   void load(const std::string& filename);
   void on_escape_press();
 
-  Vector get_camera_pos_for_tux() const;
-  void clamp_camera_position(Vector& c) const;
-
 private:
   std::unique_ptr<SquirrelEnvironment> m_squirrel_environment;
+  std::unique_ptr<Camera> m_camera;
 
   bool m_enter_level;
 
@@ -178,8 +177,6 @@ private:
   Savegame& m_savegame;
 
   TileSet* m_tileset;
-
-  Vector m_camera_offset;
 
   std::string m_name;
   std::string m_music;
@@ -200,10 +197,6 @@ private:
   int m_fade_direction;
 
   bool m_in_level;
-
-  /* variables to track panning to a spawn point */
-  Vector m_pan_pos;
-  bool m_panning;
 
 private:
   WorldMap(const WorldMap&) = delete;

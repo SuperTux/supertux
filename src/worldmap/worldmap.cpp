@@ -49,6 +49,7 @@
 #include "video/video_system.hpp"
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
+#include "worldmap/camera.hpp"
 #include "worldmap/level_tile.hpp"
 #include "worldmap/spawn_point.hpp"
 #include "worldmap/special_tile.hpp"
@@ -59,17 +60,15 @@
 #include "worldmap/worldmap_screen.hpp"
 #include "worldmap/worldmap_state.hpp"
 
-static const float CAMERA_PAN_SPEED = 5.0;
-
 namespace worldmap {
 
 WorldMap::WorldMap(const std::string& filename, Savegame& savegame, const std::string& force_spawnpoint_) :
   m_squirrel_environment(new SquirrelEnvironment(SquirrelVirtualMachine::current()->get_vm(), "worldmap")),
+  m_camera(new Camera),
   m_enter_level(false),
   m_tux(),
   m_savegame(savegame),
   m_tileset(nullptr),
-  m_camera_offset(),
   m_name("<no title>"),
   m_music("music/salcon.ogg"),
   m_init_script(),
@@ -82,9 +81,7 @@ WorldMap::WorldMap(const std::string& filename, Savegame& savegame, const std::s
   m_main_is_default(true),
   m_initial_fade_tilemap(),
   m_fade_direction(),
-  m_in_level(false),
-  m_pan_pos(),
-  m_panning(false)
+  m_in_level(false)
 {
   m_tux = &add<Tux>(this);
 
@@ -123,9 +120,7 @@ WorldMap::move_to_spawnpoint(const std::string& spawnpoint, bool pan, bool main_
     m_tux->set_tile_pos(p);
     m_tux->set_direction(sp->auto_dir);
     if (pan) {
-      m_panning = true;
-      m_pan_pos = get_camera_pos_for_tux();
-      clamp_camera_position(m_pan_pos);
+      m_camera->pan();
     }
     return;
   }
@@ -285,35 +280,6 @@ WorldMap::finished_level(Level* gamelevel)
   }
 }
 
-Vector
-WorldMap::get_camera_pos_for_tux() const
-{
-  Vector camera_offset_;
-  Vector tux_pos = m_tux->get_pos();
-  camera_offset_.x = tux_pos.x - static_cast<float>(SCREEN_WIDTH) / 2.0f;
-  camera_offset_.y = tux_pos.y - static_cast<float>(SCREEN_HEIGHT) / 2.0f;
-  return camera_offset_;
-}
-
-void
-WorldMap::clamp_camera_position(Vector& c) const
-{
-  if (c.x < 0)
-    c.x = 0;
-  if (c.y < 0)
-    c.y = 0;
-
-  if (c.x > get_width() - static_cast<float>(SCREEN_WIDTH))
-    c.x = get_width() - static_cast<float>(SCREEN_WIDTH);
-  if (c.y > get_height() - static_cast<float>(SCREEN_HEIGHT))
-    c.y = get_height() - static_cast<float>(SCREEN_HEIGHT);
-
-  if (get_width() < static_cast<float>(SCREEN_WIDTH))
-    c.x = (get_width() - static_cast<float>(SCREEN_WIDTH)) / 2.0f;
-  if (get_height() < static_cast<float>(SCREEN_HEIGHT))
-    c.y = (get_height() - static_cast<float>(SCREEN_HEIGHT)) / 2.0f;
-}
-
 void
 WorldMap::process_input(const Controller& controller)
 {
@@ -356,36 +322,7 @@ WorldMap::update(float dt_sec)
 
   GameObjectManager::update(dt_sec);
 
-  { // camera handling
-    Vector requested_pos;
-
-    // position "camera"
-    if (!m_panning) {
-      m_camera_offset = get_camera_pos_for_tux();
-    } else {
-      Vector delta__ = m_pan_pos - m_camera_offset;
-      float mag = delta__.norm();
-      if (mag > CAMERA_PAN_SPEED) {
-        delta__ *= CAMERA_PAN_SPEED/mag;
-      }
-      m_camera_offset += delta__;
-      if (m_camera_offset == m_pan_pos) {
-        m_panning = false;
-      }
-    }
-
-    requested_pos = m_camera_offset;
-    clamp_camera_position(m_camera_offset);
-
-    if (m_panning) {
-      if (requested_pos.x != m_camera_offset.x) {
-        m_pan_pos.x = m_camera_offset.x;
-      }
-      if (requested_pos.y != m_camera_offset.y) {
-        m_pan_pos.y = m_camera_offset.y;
-      }
-    }
-  }
+  m_camera->update(dt_sec);
 
   {
     // check for teleporters
@@ -432,8 +369,8 @@ WorldMap::update(float dt_sec)
 
       if (level_->pos == m_tux->get_tile_pos()) {
         try {
-          Vector shrinkpos = Vector(level_->pos.x*32 + 16 - m_camera_offset.x,
-                                    level_->pos.y*32 +  8 - m_camera_offset.y);
+          Vector shrinkpos = Vector(level_->pos.x*32 + 16 - m_camera->get_offset().x,
+                                    level_->pos.y*32 +  8 - m_camera->get_offset().y);
           std::string levelfile = m_levels_path + level_->get_name();
 
           // update state and savegame
@@ -529,7 +466,7 @@ WorldMap::draw(DrawingContext& context)
   }
 
   context.push_transform();
-  context.set_translation(m_camera_offset);
+  context.set_translation(m_camera->get_offset());
 
   GameObjectManager::draw(context);
 

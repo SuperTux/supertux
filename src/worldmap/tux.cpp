@@ -26,6 +26,7 @@
 #include "supertux/savegame.hpp"
 #include "supertux/tile.hpp"
 #include "util/log.hpp"
+#include "worldmap/camera.hpp"
 #include "worldmap/level_tile.hpp"
 #include "worldmap/special_tile.hpp"
 #include "worldmap/sprite_change.hpp"
@@ -52,7 +53,7 @@ Tux::Tux(WorldMap* worldmap) :
 void
 Tux::draw(DrawingContext& context)
 {
-  if (m_worldmap->is_panning()) return;
+  if (m_worldmap->get_camera().is_panning()) return;
 
   std::string action = get_action_prefix_for_bonus(m_worldmap->get_savegame().get_player_status().bonus);
   if (!action.empty())
@@ -306,7 +307,7 @@ Tux::updateInputDirection()
 void
 Tux::update(float dt_sec)
 {
-  if (m_worldmap->is_panning()) return;
+  if (m_worldmap->get_camera().is_panning()) return;
 
   updateInputDirection();
   if (m_moving)
