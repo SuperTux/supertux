@@ -66,7 +66,7 @@ public:
   const std::vector<std::unique_ptr<GameObject> >& get_objects() const;
 
   /** Commit the queued up additions and deletions to the object list */
-  void update_game_objects();
+  void flush_game_objects();
 
   float get_width() const;
   float get_height() const;
@@ -191,7 +191,7 @@ private:
 
   std::vector<std::unique_ptr<GameObject>> m_gameobjects;
 
-  /** container for newly created objects, they'll be added in update_game_objects() */
+  /** container for newly created objects, they'll be added in flush_game_objects() */
   std::vector<std::unique_ptr<GameObject>> m_gameobjects_new;
 
   /** Fast access to solid tilemaps */

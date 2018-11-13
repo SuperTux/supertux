@@ -96,7 +96,7 @@ Sector::~Sector()
 void
 Sector::finish_construction()
 {
-  update_game_objects();
+  flush_game_objects();
 
   if (!Editor::is_active()) {
     convert_tiles2gameobject();
@@ -121,7 +121,7 @@ Sector::finish_construction()
     add<Camera>(this, "Camera");
   }
 
-  update_game_objects();
+  flush_game_objects();
 
   m_foremost_layer = calculate_foremost_layer();
 
@@ -131,7 +131,7 @@ Sector::finish_construction()
     object->finish_construction();
   }
 
-  update_game_objects();
+  flush_game_objects();
 }
 
 Level&
@@ -213,7 +213,7 @@ Sector::activate(const Vector& player_pos)
     camera.update(1);
   }
 
-  update_game_objects();
+  flush_game_objects();
 
   //Run default.nut just before init script
   //Check to see if it's in a levelset (info file)
@@ -301,7 +301,7 @@ Sector::update(float dt_sec)
 
   /* Handle all possible collisions. */
   m_collision_system->update();
-  update_game_objects();
+  flush_game_objects();
 }
 
 bool

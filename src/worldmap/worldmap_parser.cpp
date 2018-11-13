@@ -131,7 +131,7 @@ WorldMapParser::load_worldmap(const std::string& filename)
       }
     }
 
-    m_worldmap.update_game_objects();
+    m_worldmap.flush_game_objects();
 
     if (m_worldmap.get_solid_tilemaps().empty())
       throw std::runtime_error("No solid tilemap specified");

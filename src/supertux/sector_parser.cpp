@@ -292,7 +292,7 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
   auto camera_ = std::make_unique<Camera>(&m_sector, "Camera");
   m_sector.add_object(std::move(camera_));
 
-  m_sector.update_game_objects();
+  m_sector.flush_game_objects();
 
   if (m_sector.get_solid_tilemaps().empty()) {
     log_warning << "sector '" << m_sector.get_name() << "' does not contain a solid tile layer." << std::endl;
@@ -338,6 +338,8 @@ SectorParser::create_sector()
   }
 
   m_sector.add<Camera>(&m_sector, "Camera");
+
+  m_sector.flush_game_objects();
 
   m_sector.finish_construction();
 }

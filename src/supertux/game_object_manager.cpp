@@ -102,7 +102,7 @@ GameObjectManager::add_object(std::unique_ptr<GameObject> object)
 void
 GameObjectManager::clear_objects()
 {
-  update_game_objects();
+  flush_game_objects();
 
   for(const auto& obj: m_gameobjects) {
     before_object_remove(*obj);
@@ -142,7 +142,7 @@ GameObjectManager::draw(DrawingContext& context)
 }
 
 void
-GameObjectManager::update_game_objects()
+GameObjectManager::flush_game_objects()
 {
   { // cleanup marked objects
     m_gameobjects.erase(
