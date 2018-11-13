@@ -48,7 +48,7 @@ GameControllerManager::process_button_event(const SDL_ControllerButtonEvent& ev)
     m_button_state[control] = value;
     controller.set_control(control, m_button_state[control] == SDL_PRESSED || m_stick_state[control] == SDL_PRESSED);
   };
-  switch(ev.button)
+  switch (ev.button)
   {
     case SDL_CONTROLLER_BUTTON_A:
       set_control(Controller::JUMP, ev.state);
@@ -147,7 +147,7 @@ GameControllerManager::process_axis_event(const SDL_ControllerAxisEvent& ev)
       }
     };
 
-  switch(ev.axis)
+  switch (ev.axis)
   {
     case SDL_CONTROLLER_AXIS_LEFTX:
       axis2button(ev.value, Controller::LEFT, Controller::RIGHT);

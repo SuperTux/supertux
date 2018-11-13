@@ -32,7 +32,7 @@
 std::string squirrel2string(HSQUIRRELVM v, SQInteger i)
 {
   std::ostringstream os;
-  switch(sq_gettype(v, i))
+  switch (sq_gettype(v, i))
   {
     case OT_NULL:
       os << "<null>";
@@ -147,7 +147,7 @@ void print_squirrel_stack(HSQUIRRELVM v)
   SQInteger count = sq_gettop(v);
   for(int i = 1; i <= count; ++i) {
     printf("%d: ",i);
-    switch(sq_gettype(v, i))
+    switch (sq_gettype(v, i))
     {
       case OT_NULL:
         printf("null");

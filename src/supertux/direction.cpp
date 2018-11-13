@@ -38,7 +38,7 @@ dir_option(Direction *dir) {
 }
 
 std::string dir_to_string(const Direction& dir) {
-  switch(dir)
+  switch (dir)
   {
     case LEFT:
       return "left";

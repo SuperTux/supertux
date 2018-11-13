@@ -421,7 +421,7 @@ Menu::process_action(const MenuAction& menuaction)
 {
   int last_active_item = active_item;
 
-  switch(menuaction) {
+  switch (menuaction) {
     case MENU_ACTION_UP:
       do {
         if (active_item > 0)
@@ -602,7 +602,7 @@ void
 Menu::event(const SDL_Event& ev)
 {
   items[active_item]->event(ev);
-  switch(ev.type) {
+  switch (ev.type) {
     case SDL_KEYDOWN:
     case SDL_TEXTINPUT:
       if (((ev.type == SDL_KEYDOWN && ev.key.keysym.sym == SDLK_BACKSPACE) ||

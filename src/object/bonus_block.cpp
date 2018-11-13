@@ -144,7 +144,7 @@ BonusBlock::BonusBlock(const ReaderMapping& mapping) :
 BonusBlock::Contents
 BonusBlock::get_content_by_data(int d) const
 {
-  switch(d) {
+  switch (d) {
     case 1: return CONTENT_COIN;
     case 2: return CONTENT_FIREGROW;
     case 3: return CONTENT_STAR;
@@ -265,7 +265,7 @@ BonusBlock::try_open(Player* player)
 
   Direction direction = (player->get_bbox().get_middle().x > m_col.m_bbox.get_middle().x) ? LEFT : RIGHT;
 
-  switch(m_contents) {
+  switch (m_contents) {
     case CONTENT_COIN:
     {
       Sector::get().add<BouncyCoin>(get_pos(), true);
@@ -398,7 +398,7 @@ BonusBlock::try_drop(Player *player)
 
   bool countdown = false;
 
-  switch(m_contents) {
+  switch (m_contents) {
     case CONTENT_COIN:
     {
       try_open(player);
@@ -563,7 +563,7 @@ BonusBlock::get_content_from_string(const std::string& contentstring) const
 std::string
 BonusBlock::contents_to_string(const BonusBlock::Contents& content) const
 {
-  switch(m_contents)
+  switch (m_contents)
   {
     case CONTENT_COIN:
       return "coin";
@@ -598,7 +598,7 @@ BonusBlock::contents_to_string(const BonusBlock::Contents& content) const
 void
 BonusBlock::preload_contents(int d)
 {
-  switch(d)
+  switch (d)
   {
     case 6: // Light
       SoundManager::current()->preload("sounds/switch.ogg");

@@ -98,7 +98,7 @@ WillOWisp::active_update(float dt_sec)
   Vector p2 = player->get_bbox().get_middle();
   Vector dist = (p2 - p1);
 
-  switch(m_mystate) {
+  switch (m_mystate) {
     case STATE_STOPPED:
       break;
 

@@ -24,7 +24,7 @@ namespace worldmap {
 
 Direction reverse_dir(Direction direction)
 {
-  switch(direction)
+  switch (direction)
   {
     case D_WEST:
       return D_EAST;
@@ -43,7 +43,7 @@ Direction reverse_dir(Direction direction)
 std::string
 direction_to_string(Direction direction)
 {
-  switch(direction)
+  switch (direction)
   {
     case D_WEST:
       return "west";

@@ -55,7 +55,7 @@ void load_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, const ReaderMappin
     sq_pushstring(vm, key.c_str(), key.size());
 
     // push the value
-    switch(value.get_type()) {
+    switch (value.get_type()) {
       case sexp::Value::TYPE_ARRAY:
         sq_newtable(vm);
         load_squirrel_table(vm, sq_gettop(vm), ReaderMapping(lisp.get_doc(), arr[i]));
@@ -102,7 +102,7 @@ void save_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, Writer& writer)
     const SQChar* key;
     sq_getstring(vm, -2, &key);
 
-    switch(sq_gettype(vm, -1)) {
+    switch (sq_gettype(vm, -1)) {
       case OT_INTEGER: {
         SQInteger val;
         sq_getinteger(vm, -1, &val);

@@ -310,7 +310,7 @@ Downloader::update()
   CURLMsg* msg;
   while ((msg = curl_multi_info_read(m_multi_handle, &msgs_in_queue)))
   {
-    switch(msg->msg)
+    switch (msg->msg)
     {
       case CURLMSG_DONE:
         {

@@ -189,7 +189,7 @@ Snail::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
   if (m_frozen)
     return WalkingBadguy::collision_badguy(badguy, hit);
 
-  switch(state) {
+  switch (state) {
     case STATE_NORMAL:
       return WalkingBadguy::collision_badguy(badguy, hit);
     case STATE_FLAT:
@@ -239,7 +239,7 @@ Snail::collision_squished(GameObject& object)
     return true;
   }
 
-  switch(state) {
+  switch (state) {
 
     case STATE_KICKED:
     case STATE_NORMAL:

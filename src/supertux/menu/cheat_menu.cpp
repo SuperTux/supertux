@@ -51,7 +51,7 @@ CheatMenu::menu_action(MenuItem& item)
 
   auto& player = Sector::get().get_player();
 
-  switch(item.get_id())
+  switch (item.get_id())
   {
     case MNID_GROW:
       player.set_bonus(GROWUP_BONUS);

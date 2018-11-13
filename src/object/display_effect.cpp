@@ -43,7 +43,7 @@ DisplayEffect::~DisplayEffect()
 void
 DisplayEffect::update(float dt_sec)
 {
-  switch(screen_fade) {
+  switch (screen_fade) {
     case NO_FADE:
       break;
     case FADE_IN:
@@ -63,7 +63,7 @@ DisplayEffect::update(float dt_sec)
       assert(false);
   }
 
-  switch(border_fade) {
+  switch (border_fade) {
     case NO_FADE:
       break;
     case FADE_IN:
@@ -98,7 +98,7 @@ DisplayEffect::draw(DrawingContext& context)
     if (black) {
       alpha = 1.0f;
     } else {
-      switch(screen_fade) {
+      switch (screen_fade) {
         case FADE_IN:
           alpha = screen_fading / screen_fadetime;
           break;

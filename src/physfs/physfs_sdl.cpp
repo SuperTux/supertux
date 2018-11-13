@@ -36,7 +36,7 @@ Sint64 funcSeek(struct SDL_RWops* context, Sint64 offset, int whence)
 {
   PHYSFS_file* file = static_cast<PHYSFS_file*>(context->hidden.unknown.data1);
   int res;
-  switch(whence) {
+  switch (whence) {
     case SEEK_SET:
       res = PHYSFS_seek(file, offset);
       break;

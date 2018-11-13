@@ -483,7 +483,7 @@ EditorInputGui::get_tool_pos(const Vector& coords) const {
 Rectf
 EditorInputGui::get_item_rect(const HoveredItem& item) const
 {
-  switch(item)
+  switch (item)
   {
     case HI_TILEGROUP: return Rectf(Vector(static_cast<float>(Xpos), 0.0f), Vector(static_cast<float>(SCREEN_WIDTH), 22.0f));
     case HI_OBJECTS:   return Rectf(Vector(static_cast<float>(Xpos), 22.0f), Vector(static_cast<float>(SCREEN_WIDTH), 44.0f));

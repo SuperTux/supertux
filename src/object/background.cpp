@@ -281,7 +281,7 @@ Background::draw_image(DrawingContext& context, const Vector& pos__)
   }
   else
   {
-    switch(m_alignment)
+    switch (m_alignment)
     {
       case LEFT_ALIGNMENT:
         for(int y = start_y; y < end_y; ++y)

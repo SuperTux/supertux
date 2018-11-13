@@ -116,7 +116,7 @@ void SnowParticleSystem::update(float dt_sec)
   }
 
   // Update velocities
-  switch(state) {
+  switch (state) {
     case ATTACKING:
       gust_current_velocity += gust_onset * dt_sec;
       break;

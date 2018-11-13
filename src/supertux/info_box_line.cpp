@@ -28,7 +28,7 @@ static const float ITEMS_SPACE = 4;
 namespace {
 
 FontPtr get_font_by_format_char(char format_char) {
-  switch(format_char)
+  switch (format_char)
   {
     case ' ':
       return Resources::small_font;
@@ -46,7 +46,7 @@ FontPtr get_font_by_format_char(char format_char) {
 }
 
 Color get_color_by_format_char(char format_char) {
-  switch(format_char)
+  switch (format_char)
   {
     case ' ':
       return ColorScheme::Text::small_color;
@@ -65,7 +65,7 @@ Color get_color_by_format_char(char format_char) {
 }
 
 InfoBoxLine::LineType get_linetype_by_format_char(char format_char) {
-  switch(format_char)
+  switch (format_char)
   {
     case ' ':
       return InfoBoxLine::SMALL;

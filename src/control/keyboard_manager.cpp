@@ -176,7 +176,7 @@ KeyboardManager::process_menu_key_event(const SDL_KeyboardEvent& event)
   /* we use default keys when the menu is open (to avoid problems when
    * redefining keys to invalid settings
    */
-  switch(event.keysym.sym) {
+  switch (event.keysym.sym) {
     case SDLK_UP:
       control = Controller::UP;
       break;

@@ -70,7 +70,7 @@ InputManager::reset()
 void
 InputManager::process_event(const SDL_Event& event)
 {
-  switch(event.type) {
+  switch (event.type) {
     case SDL_TEXTINPUT:
       keyboard_manager->process_text_input_event(event.text);
       break;

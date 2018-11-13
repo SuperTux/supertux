@@ -72,7 +72,7 @@ SpriteData::parse_action(const ReaderMapping& lisp)
 
   std::vector<float> hitbox;
   if (lisp.get("hitbox", hitbox)) {
-    switch(hitbox.size()) {
+    switch (hitbox.size()) {
       case 4:
         action->hitbox_h = hitbox[3];
         action->hitbox_w = hitbox[2];

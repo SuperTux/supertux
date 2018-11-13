@@ -57,7 +57,7 @@ bool rectangle_aatriangle(Constraints* constraints, const Rectf& rect,
   float c = 0.0;
   Vector p1;
   Rectf area;
-  switch(triangle.dir & AATriangle::DEFORM_MASK) {
+  switch (triangle.dir & AATriangle::DEFORM_MASK) {
     case 0:
       area.p1 = triangle.bbox.p1;
       area.p2 = triangle.bbox.p2;
@@ -82,7 +82,7 @@ bool rectangle_aatriangle(Constraints* constraints, const Rectf& rect,
       assert(false);
   }
 
-  switch(triangle.dir & AATriangle::DIRECTION_MASK) {
+  switch (triangle.dir & AATriangle::DIRECTION_MASK) {
     case AATriangle::SOUTHWEST:
       p1 = Vector(rect.p1.x, rect.p2.y);
       makePlane(area.p1, area.p2, normal, c);

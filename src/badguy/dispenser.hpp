@@ -43,7 +43,7 @@ public:
     return _("Dispenser");
   }
   virtual std::string get_type_string() const {
-    switch(type) {
+    switch (type) {
     case DT_DROPPER:
       return "dropper";
     case DT_ROCKETLAUNCHER:

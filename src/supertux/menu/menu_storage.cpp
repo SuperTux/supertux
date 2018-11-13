@@ -67,7 +67,7 @@ MenuStorage::~MenuStorage()
 std::unique_ptr<Menu>
 MenuStorage::create(MenuId menu_id)
 {
-  switch(menu_id)
+  switch (menu_id)
   {
     case MAIN_MENU:
       return std::make_unique<MainMenu>();

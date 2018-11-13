@@ -112,7 +112,7 @@ Dialog::event(const SDL_Event& ev)
   if (m_passive) // Passive dialogs don't accept events
     return;
 
-  switch(ev.type) {
+  switch (ev.type) {
     case SDL_MOUSEBUTTONDOWN:
     if (ev.button.button == SDL_BUTTON_LEFT)
     {

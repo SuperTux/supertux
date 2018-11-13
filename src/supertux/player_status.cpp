@@ -83,7 +83,7 @@ PlayerStatus::add_coins(int count, bool play_sound)
 void
 PlayerStatus::write(Writer& writer)
 {
-  switch(bonus) {
+  switch (bonus) {
     case NO_BONUS:
       writer.write("bonus", "none");
       break;

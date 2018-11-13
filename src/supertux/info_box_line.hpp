@@ -45,7 +45,7 @@ public:
 
   static bool is_valid_format_char(char format_char)
   {
-    switch(format_char)
+    switch (format_char)
     {
       case ' ':
       case '-':

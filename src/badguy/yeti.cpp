@@ -144,7 +144,7 @@ Yeti::draw_hit_points(DrawingContext& context)
 void
 Yeti::active_update(float dt_sec)
 {
-  switch(state) {
+  switch (state) {
     case JUMP_DOWN:
       m_physic.set_velocity_x((m_dir==RIGHT)?+JUMP_DOWN_VX:-JUMP_DOWN_VX);
       break;

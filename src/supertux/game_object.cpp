@@ -70,7 +70,7 @@ GameObject::save(Writer& writer)
   for(const auto& option : settings.get_options())
   {
     if (option.is_savable()) {
-      switch(option.type) {
+      switch (option.type) {
         case MN_SCRIPT:
         case MN_TEXTFIELD:
         case MN_FILE:

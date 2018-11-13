@@ -88,7 +88,7 @@ GhostTree::active_update(float /*dt_sec*/)
       treecolor = (treecolor + 1) % 3;
 
       Color col;
-      switch(treecolor) {
+      switch (treecolor) {
         case 0: col = Color(1, 0, 0); break;
         case 1: col = Color(0, 1, 0); break;
         case 2: col = Color(0, 0, 1); break;
@@ -138,7 +138,7 @@ GhostTree::active_update(float /*dt_sec*/)
           willo_color = (willo_color + 1) % 3;
         } while(willo_color == treecolor);
 
-        switch(willo_color) {
+        switch (willo_color) {
           case 0: willowisp.set_color(Color(1, 0, 0)); break;
           case 1: willowisp.set_color(Color(0, 1, 0)); break;
           case 2: willowisp.set_color(Color(0, 0, 1)); break;

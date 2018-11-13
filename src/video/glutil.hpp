@@ -33,7 +33,7 @@ inline void check_gl_error(const char* filename, int line)
   if (error != GL_NO_ERROR) {
     std::ostringstream msg;
     msg << filename << ":" << line << ": " << "glGetError: ";
-    switch(error) {
+    switch (error) {
       case GL_INVALID_ENUM:
         msg << "INVALID_ENUM: An unacceptable value is specified for an "
           "enumerated argument.";

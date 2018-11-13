@@ -109,7 +109,7 @@ Explosion::explode()
 void
 Explosion::update(float )
 {
-  switch(state) {
+  switch (state) {
     case STATE_WAITING:
       explode();
       break;

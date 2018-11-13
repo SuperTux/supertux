@@ -35,7 +35,7 @@
 std::unique_ptr<VideoSystem>
 VideoSystem::create(VideoSystem::Enum video_system)
 {
-  switch(video_system)
+  switch (video_system)
   {
     case VIDEO_AUTO:
 #ifdef HAVE_OPENGL
@@ -119,7 +119,7 @@ VideoSystem::get_video_system(const std::string &video)
 std::string
 VideoSystem::get_video_string(VideoSystem::Enum video)
 {
-  switch(video)
+  switch (video)
   {
     case VIDEO_AUTO:
       return "auto";

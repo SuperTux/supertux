@@ -79,7 +79,7 @@ IFileStreambuf::seekoff(off_type off, std::ios_base::seekdir dir,
   off_type pos = off;
   PHYSFS_sint64 ptell = PHYSFS_tell(file);
 
-  switch(dir) {
+  switch (dir) {
     case std::ios_base::beg:
       break;
     case std::ios_base::cur:

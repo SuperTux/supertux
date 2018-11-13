@@ -51,7 +51,7 @@ public:
   Canvas& color() { return m_colormap_canvas; }
   Canvas& light() { assert(!m_overlay); return m_lightmap_canvas; }
   Canvas& get_canvas(DrawingTarget target) {
-    switch(target)
+    switch (target)
     {
       case DrawingTarget::LIGHTMAP:
         return light();

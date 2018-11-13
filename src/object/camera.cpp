@@ -276,7 +276,7 @@ Camera::draw(DrawingContext& context)
 void
 Camera::update(float dt_sec)
 {
-  switch(m_mode) {
+  switch (m_mode) {
     case NORMAL:
       update_scroll_normal(dt_sec);
       break;

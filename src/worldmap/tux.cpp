@@ -92,7 +92,7 @@ Tux::get_pos() const
   float x = m_tile_pos.x * 32;
   float y = m_tile_pos.y * 32;
 
-  switch(m_direction)
+  switch (m_direction)
   {
     case D_WEST:
       x -= m_offset - 32;

@@ -55,7 +55,7 @@ KeyboardMenu::KeyboardMenu(InputManager& input_manager) :
 std::string
 KeyboardMenu::get_key_name(SDL_Keycode key) const
 {
-  switch(key) {
+  switch (key) {
     case SDLK_UNKNOWN:
       return _("None");
     case SDLK_UP:

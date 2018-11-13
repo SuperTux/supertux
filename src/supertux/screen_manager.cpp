@@ -241,14 +241,14 @@ ScreenManager::process_events()
       Editor::current()->event(event);
     }
 
-    switch(event.type)
+    switch (event.type)
     {
       case SDL_QUIT:
         quit();
         break;
 
       case SDL_WINDOWEVENT:
-        switch(event.window.event)
+        switch (event.window.event)
         {
           case SDL_WINDOWEVENT_RESIZED:
             m_video_system.on_resize(event.window.data1, event.window.data2);

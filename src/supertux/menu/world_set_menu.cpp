@@ -35,7 +35,7 @@ WorldSetMenu::WorldSetMenu()
 
 void WorldSetMenu::menu_action(MenuItem& item)
 {
-  switch(item.get_id())
+  switch (item.get_id())
   {
     case WORLDSET_STORY:
     {

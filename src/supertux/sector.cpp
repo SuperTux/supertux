@@ -403,7 +403,7 @@ void
 Sector::play_music(MusicType type)
 {
   m_currentmusic = type;
-  switch(m_currentmusic) {
+  switch (m_currentmusic) {
     case LEVEL_MUSIC:
       SoundManager::current()->play_music(m_music);
       break;

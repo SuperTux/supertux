@@ -160,7 +160,7 @@ Vector
 WorldMap::get_next_tile(const Vector& pos, const Direction& direction) const
 {
   auto position = pos;
-  switch(direction) {
+  switch (direction) {
     case D_WEST:
       position.x -= 1;
       break;
@@ -193,7 +193,7 @@ WorldMap::path_ok(const Direction& direction, const Vector& old_pos, Vector* new
   { // Check if the tile allows us to go to new_pos
     int old_tile_data = tile_data_at(old_pos);
     int new_tile_data = tile_data_at(*new_pos);
-    switch(direction)
+    switch (direction)
     {
       case D_WEST:
         return (old_tile_data & Tile::WORLDMAP_WEST

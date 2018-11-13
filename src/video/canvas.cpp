@@ -70,7 +70,7 @@ Canvas::render(Renderer& renderer, Filter filter)
     else if (filter == ABOVE_LIGHTMAP && request.layer <= LAYER_LIGHTMAP)
       continue;
 
-    switch(request.type) {
+    switch (request.type) {
       case TEXTURE:
         painter.draw_texture(static_cast<const TextureRequest&>(request));
         break;

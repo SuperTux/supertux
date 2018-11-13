@@ -69,7 +69,7 @@ void
 IceCrusher::set_state(IceCrusherState state_, bool force)
 {
   if ((state == state_) && (!force)) return;
-  switch(state_) {
+  switch (state_) {
     case IDLE:
       set_group(COLGROUP_STATIC);
       physic.enable_gravity (false);
@@ -120,7 +120,7 @@ IceCrusher::collision(GameObject& other, const CollisionHit& hit)
 void
 IceCrusher::collision_solid(const CollisionHit& hit)
 {
-  switch(state) {
+  switch (state) {
     case RECOVERING:
     case IDLE:
       break;
@@ -193,7 +193,7 @@ IceCrusher::update(float dt_sec)
     cooldown_timer = 0.0;
   }
 
-  switch(state) {
+  switch (state) {
     case IDLE:
       m_col.m_movement = Vector (0, 0);
       if (found_victim())

@@ -87,7 +87,7 @@ MrIceBlock::collision_solid(const CollisionHit& hit)
   }
 
   // hit left or right
-  switch(ice_state) {
+  switch (ice_state) {
     case ICESTATE_NORMAL:
       WalkingBadguy::collision_solid(hit);
       break;
@@ -144,7 +144,7 @@ MrIceBlock::collision_player(Player& player, const CollisionHit& hit)
 HitResponse
 MrIceBlock::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
 {
-  switch(ice_state) {
+  switch (ice_state) {
     case ICESTATE_NORMAL:
       return WalkingBadguy::collision_badguy(badguy, hit);
     case ICESTATE_FLAT:
@@ -170,7 +170,7 @@ MrIceBlock::collision_squished(GameObject& object)
     return true;
   }
 
-  switch(ice_state) {
+  switch (ice_state) {
     case ICESTATE_KICKED:
     {
       auto badguy = dynamic_cast<BadGuy*>(&object);
@@ -220,7 +220,7 @@ MrIceBlock::set_state(IceState state_, bool up)
   if (ice_state == state_)
     return;
 
-  switch(state_) {
+  switch (state_) {
     case ICESTATE_NORMAL:
       set_action(m_dir == LEFT ? "left" : "right", /* loops = */ -1);
       WalkingBadguy::initialize();

@@ -164,7 +164,7 @@ BadGuy::update(float dt_sec)
     set_state(STATE_INACTIVE);
   }
 
-  switch(m_state) {
+  switch (m_state) {
     case STATE_ACTIVE:
       m_is_active_flag = true;
       if (Editor::is_active()) {
@@ -545,7 +545,7 @@ BadGuy::set_state(State state_)
 
   State laststate = m_state;
   m_state = state_;
-  switch(state_) {
+  switch (state_) {
     case STATE_BURNING:
       m_state_timer.start(BURN_TIME);
       break;

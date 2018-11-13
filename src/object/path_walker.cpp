@@ -162,7 +162,7 @@ PathWalker::advance_node()
     return;
   }
 
-  switch(path->m_mode) {
+  switch (path->m_mode) {
     case WalkMode::ONE_SHOT:
       m_next_node_nr = path->m_nodes.size() - 1;
       m_walking_speed = 0;
@@ -201,7 +201,7 @@ PathWalker::goback_node()
     return;
   }
 
-  switch(path->m_mode) {
+  switch (path->m_mode) {
     case WalkMode::PING_PONG:
       m_walking_speed = -m_walking_speed;
       m_next_node_nr = path->m_nodes.size() > 1 ? 1 : 0;
