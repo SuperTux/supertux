@@ -29,40 +29,42 @@
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 
-Brick::Brick(const Vector& pos, int data, const std::string& spriteName)
-  : Block(SpriteManager::current()->create(spriteName)), breakable(false),
-    coin_counter(0)
+Brick::Brick(const Vector& pos, int data, const std::string& spriteName) :
+  Block(SpriteManager::current()->create(spriteName)),
+  m_breakable(false),
+  m_coin_counter(0)
 {
   m_col.m_bbox.set_pos(pos);
-  if(data == 1)
-    coin_counter = 5;
-  else
-    breakable = true;
+  if (data == 1) {
+    m_coin_counter = 5;
+  } else {
+    m_breakable = true;
+  }
 }
 
 Brick::Brick(const ReaderMapping& lisp) :
   Block(lisp, "images/objects/bonus_block/brick.sprite"),
-  breakable(),
-  coin_counter(0)
+  m_breakable(),
+  m_coin_counter(0)
 {
-  lisp.get("breakable", breakable, true);
-  if (!breakable) {
-    coin_counter = 5;
+  lisp.get("breakable", m_breakable, true);
+  if (!m_breakable) {
+    m_coin_counter = 5;
   }
 }
 
 void
 Brick::hit(Player& player)
 {
-  if(sprite->get_action() == "empty")
+  if (sprite->get_action() == "empty")
     return;
 
   try_break(&player);
 }
 
 HitResponse
-Brick::collision(GameObject& other, const CollisionHit& hit_){
-
+Brick::collision(GameObject& other, const CollisionHit& hit_)
+{
   auto player = dynamic_cast<Player*> (&other);
   if (player) {
     if (player->m_does_buttjump) try_break(player);
@@ -70,27 +72,27 @@ Brick::collision(GameObject& other, const CollisionHit& hit_){
   }
 
   auto badguy = dynamic_cast<BadGuy*> (&other);
-  if(badguy) {
+  if (badguy) {
     // hit contains no information for collisions with blocks.
     // Badguy's bottom has to be below the top of the brick
     // SHIFT_DELTA is required to slide over one tile gaps.
-    if( badguy->can_break() && ( badguy->get_bbox().get_bottom() > m_col.m_bbox.get_top() + SHIFT_DELTA ) ){
+    if ( badguy->can_break() && ( badguy->get_bbox().get_bottom() > m_col.m_bbox.get_top() + SHIFT_DELTA ) ) {
       try_break(player);
     }
   }
   auto portable = dynamic_cast<Portable*> (&other);
-  if(portable) {
+  if (portable) {
     auto moving = dynamic_cast<MovingObject*> (&other);
-    if(moving->get_bbox().get_top() > m_col.m_bbox.get_bottom() - SHIFT_DELTA) {
+    if (moving->get_bbox().get_top() > m_col.m_bbox.get_bottom() - SHIFT_DELTA) {
       try_break(player);
     }
   }
   auto explosion = dynamic_cast<Explosion*> (&other);
-  if(explosion && explosion->hurts()) {
+  if (explosion && explosion->hurts()) {
     try_break(player);
   }
   auto icecrusher = dynamic_cast<IceCrusher*> (&other);
-  if(icecrusher && coin_counter == 0)
+  if (icecrusher && m_coin_counter == 0)
     try_break(player);
   return Block::collision(other, hit_);
 }
@@ -98,21 +100,21 @@ Brick::collision(GameObject& other, const CollisionHit& hit_){
 void
 Brick::try_break(Player* player)
 {
-  if(sprite->get_action() == "empty")
+  if (sprite->get_action() == "empty")
     return;
 
   SoundManager::current()->play("sounds/brick.wav");
   Player& player_one = Sector::get().get_player();
-  if(coin_counter > 0 ){
+  if (m_coin_counter > 0 ) {
     Sector::get().add<BouncyCoin>(get_pos(), true);
-    coin_counter--;
+    m_coin_counter--;
     player_one.get_status().add_coins(1);
-    if(coin_counter == 0)
+    if (m_coin_counter == 0)
       sprite->set_action("empty");
     start_bounce(player);
-  } else if(breakable) {
-    if(player){
-      if(player->is_big()){
+  } else if (m_breakable) {
+    if (player) {
+      if (player->is_big()) {
         start_break(player);
         return;
       } else {
@@ -125,14 +127,11 @@ Brick::try_break(Player* player)
 }
 
 ObjectSettings
-Brick::get_settings() {
+Brick::get_settings()
+{
   ObjectSettings result = Block::get_settings();
-
-  result.add(MN_TOGGLE, _("Breakable"), &breakable, "breakable");
-
+  result.add(MN_TOGGLE, _("Breakable"), &m_breakable, "breakable");
   return result;
 }
-
-//IMPLEMENT_FACTORY(Brick, "brick");
 
 /* EOF */

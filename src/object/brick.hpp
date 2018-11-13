@@ -25,22 +25,23 @@ public:
   Brick(const Vector& pos, int data, const std::string& spriteName);
   Brick(const ReaderMapping& lisp);
 
-  void try_break(Player* player);
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
   virtual ObjectSettings get_settings() override;
-  virtual std::string get_class() const override {
-    return "brick";
-  }
-  virtual std::string get_display_name() const override {
-    return _("Brick");
-  }
+  virtual std::string get_class() const override { return "brick"; }
+  virtual std::string get_display_name() const override { return _("Brick"); }
+
+  void try_break(Player* player);
 
 protected:
   virtual void hit(Player& player) override;
 
 private:
-  bool breakable;
-  int coin_counter;
+  bool m_breakable;
+  int m_coin_counter;
+
+private:
+  Brick(const Brick&) = delete;
+  Brick& operator=(const Brick&) = delete;
 };
 
 #endif
