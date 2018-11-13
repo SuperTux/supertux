@@ -49,7 +49,7 @@ SpriteData::SpriteData(const ReaderMapping& lisp) :
   while (iter.next()) {
     if (iter.get_key() == "name") {
       iter.get(name);
-    } else if(iter.get_key() == "action") {
+    } else if (iter.get_key() == "action") {
       parse_action(iter.as_mapping());
     } else {
       log_warning << "Unknown sprite field: " << iter.get_key() << std::endl;

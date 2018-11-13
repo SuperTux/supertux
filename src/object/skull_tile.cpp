@@ -64,12 +64,12 @@ SkullTile::update(float dt_sec)
       remove_me();
       return;
     }
-  } else if(hit) {
+  } else if (hit) {
     if (timer.check()) {
       falling = true;
       physic.enable_gravity(true);
       timer.stop();
-    } else if(!timer.started()) {
+    } else if (!timer.started()) {
       timer.start(FALLTIME);
     }
   } else {

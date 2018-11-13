@@ -54,21 +54,21 @@ AnchorPoint string_to_anchor_point(const std::string& str)
 {
   if (str == "topleft")
     return ANCHOR_TOP_LEFT;
-  else if(str == "top")
+  else if (str == "top")
     return ANCHOR_TOP;
-  else if(str == "topright")
+  else if (str == "topright")
     return ANCHOR_TOP_RIGHT;
-  else if(str == "left")
+  else if (str == "left")
     return ANCHOR_LEFT;
-  else if(str == "middle")
+  else if (str == "middle")
     return ANCHOR_MIDDLE;
-  else if(str == "right")
+  else if (str == "right")
     return ANCHOR_RIGHT;
-  else if(str == "bottomleft")
+  else if (str == "bottomleft")
     return ANCHOR_BOTTOM_LEFT;
-  else if(str == "bottom")
+  else if (str == "bottom")
     return ANCHOR_BOTTOM;
-  else if(str == "bottomright")
+  else if (str == "bottomright")
     return ANCHOR_BOTTOM_RIGHT;
 
   std::ostringstream msg;

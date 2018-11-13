@@ -44,7 +44,7 @@ FloatingImage::update(float dt_sec)
       fading = 0;
       visible = true;
     }
-  } else if(fading < 0) {
+  } else if (fading < 0) {
     fading += dt_sec;
     if (fading >= 0) {
       fading = 0;
@@ -87,9 +87,9 @@ FloatingImage::draw(DrawingContext& context)
 
   if (fading > 0) {
     context.set_alpha((fadetime-fading) / fadetime);
-  } else if(fading < 0) {
+  } else if (fading < 0) {
     context.set_alpha(-fading / fadetime);
-  } else if(!visible) {
+  } else if (!visible) {
     context.pop_transform();
     return;
   }

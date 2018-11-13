@@ -81,11 +81,11 @@ EditorLevelMenu::on_back_action()
   {
     Dialog::show_message(_("Please enter a name for this level."));
   }
-  else if(level->m_author.empty())
+  else if (level->m_author.empty())
   {
     Dialog::show_message(_("Please enter a level author for this level."));
   }
-  else if(level->m_license.empty())
+  else if (level->m_license.empty())
   {
     Dialog::show_message(_("Please enter a license for this level."));
   }

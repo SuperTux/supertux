@@ -27,11 +27,11 @@ Gradient::set_direction(const std::string& direction)
 
   if (direction == "horizontal")
     object.set_direction(GradientDirection::HORIZONTAL);
-  else if(direction == "vertical")
+  else if (direction == "vertical")
     object.set_direction(GradientDirection::VERTICAL);
-  else if(direction == "horizontal_sector")
+  else if (direction == "horizontal_sector")
     object.set_direction(GradientDirection::HORIZONTAL_SECTOR);
-  else if(direction == "vertical_sector")
+  else if (direction == "vertical_sector")
     object.set_direction(GradientDirection::VERTICAL_SECTOR);
   else
     log_info << "Invalid direction for gradient \"" << direction << "\"";

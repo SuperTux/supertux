@@ -332,11 +332,11 @@ std::vector<SurfacePtr>
       std::string file = iter.as_string_item();
       surfaces.push_back(Surface::from_file(FileSystem::join(m_tiles_path, file), surface_region));
     }
-    else if(iter.is_pair() && iter.get_key() == "surface")
+    else if (iter.is_pair() && iter.get_key() == "surface")
     {
       surfaces.push_back(Surface::from_reader(iter.as_mapping(), surface_region));
     }
-    else if(iter.is_pair() && iter.get_key() == "region")
+    else if (iter.is_pair() && iter.get_key() == "region")
     {
       auto const& sx = iter.as_mapping().get_sexp();
       auto const& arr = sx.as_array();

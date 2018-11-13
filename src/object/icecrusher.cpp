@@ -290,7 +290,7 @@ IceCrusher::eye_position(bool right) const
                     displacement_y / displacement_mag * static_cast<float>(weight_y) - static_cast<float>(weight_y));
     }
   }
-  else if(state == RECOVERING)
+  else if (state == RECOVERING)
   {
     // Eyes spin while icecrusher is recovering, giving a dazed impression
     return Vector(sinf((right ? 1 : -1) * // X motion of each eye is opposite of the other

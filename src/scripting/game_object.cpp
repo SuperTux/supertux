@@ -27,7 +27,7 @@ GameObjectManager& get_game_object_manager()
 
   if (::Sector::current() != nullptr) {
     return ::Sector::get();
-  } else if(WorldMap::current() != nullptr) {
+  } else if (WorldMap::current() != nullptr) {
     return *WorldMap::current();
   } else {
     throw std::runtime_error("Neither sector nor worldmap active");

@@ -187,7 +187,7 @@ Writer::write_escaped_string(const std::string& str)
   for (const char* c = str.c_str(); *c != 0; ++c) {
     if (*c == '\"')
       *out << "\\\"";
-    else if(*c == '\\')
+    else if (*c == '\\')
       *out << "\\\\";
     else
       *out << *c;

@@ -126,15 +126,15 @@ PlayerStatus::read(const ReaderMapping& lisp)
   if (lisp.get("bonus", bonusname)) {
     if (bonusname == "none") {
       bonus = NO_BONUS;
-    } else if(bonusname == "growup") {
+    } else if (bonusname == "growup") {
       bonus = GROWUP_BONUS;
-    } else if(bonusname == "fireflower") {
+    } else if (bonusname == "fireflower") {
       bonus = FIRE_BONUS;
-    } else if(bonusname == "iceflower") {
+    } else if (bonusname == "iceflower") {
       bonus = ICE_BONUS;
-    } else if(bonusname == "airflower") {
+    } else if (bonusname == "airflower") {
       bonus = AIR_BONUS;
-    } else if(bonusname == "earthflower") {
+    } else if (bonusname == "earthflower") {
       bonus = EARTH_BONUS;
     } else {
       log_warning << "Unknown bonus '" << bonusname << "' in savefile" << std::endl;

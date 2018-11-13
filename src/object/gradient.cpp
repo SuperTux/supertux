@@ -55,11 +55,11 @@ Gradient::Gradient(const ReaderMapping& reader) :
     {
       m_gradient_direction = HORIZONTAL;
     }
-    else if(direction == "horizontal_sector")
+    else if (direction == "horizontal_sector")
     {
       m_gradient_direction = HORIZONTAL_SECTOR;
     }
-    else if(direction == "vertical_sector")
+    else if (direction == "vertical_sector")
     {
       m_gradient_direction = VERTICAL_SECTOR;
     }

@@ -109,7 +109,7 @@ StreamSoundSource::update()
     } else {
       set_gain(time / fade_time);
     }
-  } else if(fade_state == FadingOff || fade_state == FadingPause) {
+  } else if (fade_state == FadingOff || fade_state == FadingPause) {
     float time = g_real_time - fade_start_time;
     if (time >= fade_time) {
       if (fade_state == FadingOff)

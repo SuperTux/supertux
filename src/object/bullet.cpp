@@ -43,7 +43,7 @@ Bullet::Bullet(const Vector& pos, float xm, int dir, BonusType type_) :
     sprite = SpriteManager::current()->create("images/objects/bullets/firebullet.sprite");
     lightsprite->set_blend(Blend::ADD);
     lightsprite->set_color(Color(0.3f, 0.1f, 0.0f));
- } else if(type == ICE_BONUS) {
+ } else if (type == ICE_BONUS) {
     life_count = 10;
     sprite = SpriteManager::current()->create("images/objects/bullets/icebullet.sprite");
   } else {
@@ -98,7 +98,7 @@ Bullet::collision_solid(const CollisionHit& hit)
   if (hit.top || hit.bottom) {
     physic.set_velocity_y(-physic.get_velocity_y());
     life_count--;
-  } else if(hit.left || hit.right) {
+  } else if (hit.left || hit.right) {
     if (type == ICE_BONUS) {
       physic.set_velocity_x(-physic.get_velocity_x());
       life_count--;

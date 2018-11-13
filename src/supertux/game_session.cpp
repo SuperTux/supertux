@@ -397,7 +397,7 @@ GameSession::update(float dt_sec, const Controller& controller)
     } else {
       m_currentsector->play_music(HERRING_MUSIC);
     }
-  } else if(m_currentsector->get_music_type() != LEVEL_MUSIC) {
+  } else if (m_currentsector->get_music_type() != LEVEL_MUSIC) {
     m_currentsector->play_music(LEVEL_MUSIC);
   }
   if (reset_button) {

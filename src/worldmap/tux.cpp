@@ -331,7 +331,7 @@ Tux::process_special_tile(SpecialTile* special_tile) {
 
   if (special_tile->passive_message) {
     m_worldmap->set_passive_message(special_tile->map_message, map_message_TIME);
-  } else if(!special_tile->script.empty()) {
+  } else if (!special_tile->script.empty()) {
     try {
       m_worldmap->run_script(special_tile->script, "specialtile");
     } catch(std::exception& e) {

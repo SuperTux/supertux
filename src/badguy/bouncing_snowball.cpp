@@ -58,7 +58,7 @@ BouncingSnowball::collision_solid(const CollisionHit& hit)
     } else {
       m_physic.set_velocity_y(0);
     }
-  } else if(hit.top) {
+  } else if (hit.top) {
     m_physic.set_velocity_y(0);
   }
 

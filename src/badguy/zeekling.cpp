@@ -113,7 +113,7 @@ Zeekling::collision_solid(const CollisionHit& hit)
 
   if (hit.top || hit.bottom) {
     onBumpVertical();
-  } else if(hit.left || hit.right) {
+  } else if (hit.left || hit.right) {
     onBumpHorizontal();
   }
 }

@@ -362,7 +362,7 @@ Player::update(float dt_sec)
   } else {
     if (get_pos().y > m_last_ground_y)
       m_fall_mode = FALLING;
-    else if(m_fall_mode == ON_GROUND)
+    else if (m_fall_mode == ON_GROUND)
       m_fall_mode = JUMPING;
   }
 
@@ -479,7 +479,7 @@ Player::apply_friction()
     float friction = WALK_ACCELERATION_X * (m_on_ice ? ICE_FRICTION_MULTIPLIER : NORMAL_FRICTION_MULTIPLIER);
     if (m_physic.get_velocity_x() < 0) {
       m_physic.set_acceleration_x(friction);
-    } else if(m_physic.get_velocity_x() > 0) {
+    } else if (m_physic.get_velocity_x() > 0) {
       m_physic.set_acceleration_x(-friction);
     } // no friction for physic.get_velocity_x() == 0
   }
@@ -499,7 +499,7 @@ Player::handle_horizontal_input()
       m_old_dir = m_dir;
       m_dir = LEFT;
       dirsign = -1;
-    } else if(!m_controller->hold(Controller::LEFT)
+    } else if (!m_controller->hold(Controller::LEFT)
               && m_controller->hold(Controller::RIGHT)) {
       m_old_dir = m_dir;
       m_dir = RIGHT;
@@ -514,7 +514,7 @@ Player::handle_horizontal_input()
     if (vx >= MAX_WALK_XM && dirsign > 0) {
       vx = MAX_WALK_XM;
       ax = 0;
-    } else if(vx <= -MAX_WALK_XM && dirsign < 0) {
+    } else if (vx <= -MAX_WALK_XM && dirsign < 0) {
       vx = -MAX_WALK_XM;
       ax = 0;
     }
@@ -528,7 +528,7 @@ Player::handle_horizontal_input()
     if (vx >= MAX_RUN_XM + BONUS_RUN_XM *((m_player_status.bonus == AIR_BONUS) ? 1 : 0) && dirsign > 0) {
       vx = MAX_RUN_XM + BONUS_RUN_XM *((m_player_status.bonus == AIR_BONUS) ? 1 : 0);
       ax = 0;
-    } else if(vx <= -MAX_RUN_XM - BONUS_RUN_XM *((m_player_status.bonus == AIR_BONUS) ? 1 : 0) && dirsign < 0) {
+    } else if (vx <= -MAX_RUN_XM - BONUS_RUN_XM *((m_player_status.bonus == AIR_BONUS) ? 1 : 0) && dirsign < 0) {
       vx = -MAX_RUN_XM - BONUS_RUN_XM *((m_player_status.bonus == AIR_BONUS) ? 1 : 0);
       ax = 0;
     }
@@ -738,7 +738,7 @@ Player::handle_vertical_input()
 
 
   // Let go of jump key
-  else if(!m_controller->hold(Controller::JUMP)) {
+  else if (!m_controller->hold(Controller::JUMP)) {
     if (!m_backflipping && m_jumping && m_physic.get_velocity_y() < 0) {
       m_jumping = false;
       early_jump_apex();
@@ -805,7 +805,7 @@ Player::handle_input()
   if (!m_backflipping && !m_jumping && on_ground()) {
     if ( m_controller->pressed( Controller::PEEK_UP ) ) {
       m_peekingY = UP;
-    } else if( m_controller->pressed( Controller::PEEK_DOWN ) ) {
+    } else if ( m_controller->pressed( Controller::PEEK_DOWN ) ) {
       m_peekingY = DOWN;
     }
   }
@@ -1010,15 +1010,15 @@ Player::string_to_bonus(const std::string& bonus) const {
 
   if (bonus == "grow") {
     type = GROWUP_BONUS;
-  } else if(bonus == "fireflower") {
+  } else if (bonus == "fireflower") {
     type = FIRE_BONUS;
-  } else if(bonus == "iceflower") {
+  } else if (bonus == "iceflower") {
     type = ICE_BONUS;
-  } else if(bonus == "airflower") {
+  } else if (bonus == "airflower") {
     type = AIR_BONUS;
-  } else if(bonus == "earthflower") {
+  } else if (bonus == "earthflower") {
     type = EARTH_BONUS;
-  } else if(bonus == "none") {
+  } else if (bonus == "none") {
     type = NO_BONUS;
   } else {
     std::ostringstream msg;
@@ -1320,7 +1320,7 @@ Player::draw(DrawingContext& context)
 
     if (m_player_status.bonus == AIR_BONUS)
       m_powersprite->draw(context.color(), get_pos(), LAYER_OBJECTS + 1);
-    else if(m_player_status.bonus == FIRE_BONUS && g_config->christmas_mode) {
+    else if (m_player_status.bonus == FIRE_BONUS && g_config->christmas_mode) {
       m_powersprite->draw(context.color(), get_pos(), LAYER_OBJECTS + 1);
     }
   }
@@ -1381,7 +1381,7 @@ Player::collision_solid(const CollisionHit& hit)
       Sector::get().get_camera().shake(.1f, 0, 5);
     }
 
-  } else if(hit.top) {
+  } else if (hit.top) {
     if (m_physic.get_velocity_y() < 0)
       m_physic.set_velocity_y(.2f);
   }
@@ -1394,7 +1394,7 @@ Player::collision_solid(const CollisionHit& hit)
   if (hit.crush) {
     if (hit.left || hit.right) {
       kill(true);
-    } else if(hit.top || hit.bottom) {
+    } else if (hit.top || hit.bottom) {
       kill(false);
     }
   }
@@ -1475,7 +1475,7 @@ Player::kill(bool completely)
       || m_player_status.bonus == EARTH_BONUS) {
       m_safe_timer.start(TUX_SAFE_TIME);
       set_bonus(GROWUP_BONUS, true);
-    } else if(m_player_status.bonus == GROWUP_BONUS) {
+    } else if (m_player_status.bonus == GROWUP_BONUS) {
       m_safe_timer.start(TUX_SAFE_TIME /* + GROWING_TIME */);
       m_duck = false;
       stop_backflipping();

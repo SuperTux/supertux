@@ -53,7 +53,7 @@ CoinRain::update(float dt_sec)
     counter++;
     timer.start(DROP_TIME);
   } // finally the remainder of the coins drop in a determined but appears to be a random order
-  else if(timer.check()){
+  else if (timer.check()){
     if (counter<10){
       drop += 7;
       if (drop >= 10) drop -=10;

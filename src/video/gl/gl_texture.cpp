@@ -98,7 +98,7 @@ GLTexture::GLTexture(const SDL_Surface& image, const Sampler& sampler) :
     GLenum sdl_format;
     if (convert->format->BytesPerPixel == 3)
       sdl_format = GL_RGB;
-    else if(convert->format->BytesPerPixel == 4)
+    else if (convert->format->BytesPerPixel == 4)
       sdl_format = GL_RGBA;
     else {
       sdl_format = GL_RGBA;

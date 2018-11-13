@@ -134,7 +134,7 @@ JoystickMenu::menu_action(MenuItem& item)
     m_input_manager.reset();
     recreate_menu();
   }
-  else if(item.get_id() == MNID_SCAN_JOYSTICKS)
+  else if (item.get_id() == MNID_SCAN_JOYSTICKS)
   {
     m_input_manager.reset();
     recreate_menu();

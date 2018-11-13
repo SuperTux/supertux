@@ -489,7 +489,7 @@ EditorInputCenter::put_object() {
   if (!mo) {
     editor->add_layer(game_object.get());
   }
-  else if(!snap_to_grid) {
+  else if (!snap_to_grid) {
     auto bbox = mo->get_bbox();
     mo->move_to(mo->get_pos() - Vector(bbox.get_width() / 2, bbox.get_height() / 2));
   }

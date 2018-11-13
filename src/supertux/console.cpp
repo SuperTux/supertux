@@ -505,7 +505,7 @@ Console::update(float dt_sec)
     m_stayOpen -= dt_sec;
     if (m_stayOpen < 0)
       m_stayOpen = 0;
-  } else if(!m_focused && m_height > 0) {
+  } else if (!m_focused && m_height > 0) {
     m_alpha -= dt_sec * FADE_SPEED;
     if (m_alpha < 0) {
       m_alpha = 0;

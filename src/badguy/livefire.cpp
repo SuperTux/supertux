@@ -82,7 +82,7 @@ LiveFire::active_update(float dt_sec) {
       }
     }
   }
-  else if(state == STATE_WAKING) {
+  else if (state == STATE_WAKING) {
     if (m_sprite->animation_done()) {
       // start walking
       state = STATE_WALKING;

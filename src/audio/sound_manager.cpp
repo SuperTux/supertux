@@ -291,7 +291,7 @@ SoundManager::play_music(const std::string& filename, bool fade)
     {
       music_source->resume();
     }
-    else if(!music_source->playing())
+    else if (!music_source->playing())
     {
       music_source->play();
     }
@@ -464,15 +464,15 @@ SoundManager::get_sample_format(const SoundFile& file)
   if (file.channels == 2) {
     if (file.bits_per_sample == 16) {
       return AL_FORMAT_STEREO16;
-    } else if(file.bits_per_sample == 8) {
+    } else if (file.bits_per_sample == 8) {
       return AL_FORMAT_STEREO8;
     } else {
       throw std::runtime_error("Only 16 and 8 bit samples supported");
     }
-  } else if(file.channels == 1) {
+  } else if (file.channels == 1) {
     if (file.bits_per_sample == 16) {
       return AL_FORMAT_MONO16;
-    } else if(file.bits_per_sample == 8) {
+    } else if (file.bits_per_sample == 8) {
       return AL_FORMAT_MONO8;
     } else {
       throw std::runtime_error("Only 16 and 8 bit samples supported");

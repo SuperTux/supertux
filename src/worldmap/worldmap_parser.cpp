@@ -86,27 +86,27 @@ WorldMapParser::load_worldmap(const std::string& filename)
       while (iter.next()) {
         if (iter.get_key() == "tilemap") {
           m_worldmap.add<TileMap>(m_worldmap.m_tileset, iter.as_mapping());
-        } else if(iter.get_key() == "background") {
+        } else if (iter.get_key() == "background") {
           m_worldmap.add<Background>(iter.as_mapping());
-        } else if(iter.get_key() == "music") {
+        } else if (iter.get_key() == "music") {
           iter.get(m_worldmap.m_music);
-        } else if(iter.get_key() == "init-script") {
+        } else if (iter.get_key() == "init-script") {
           iter.get(m_worldmap.m_init_script);
-        } else if(iter.get_key() == "worldmap-spawnpoint") {
+        } else if (iter.get_key() == "worldmap-spawnpoint") {
           auto sp = std::make_unique<SpawnPoint>(iter.as_mapping());
           m_worldmap.m_spawn_points.push_back(std::move(sp));
-        } else if(iter.get_key() == "level") {
+        } else if (iter.get_key() == "level") {
           auto& level = m_worldmap.add<LevelTile>(m_worldmap.m_levels_path, iter.as_mapping());
           load_level_information(level);
-        } else if(iter.get_key() == "special-tile") {
+        } else if (iter.get_key() == "special-tile") {
           m_worldmap.add<SpecialTile>(iter.as_mapping());
-        } else if(iter.get_key() == "sprite-change") {
+        } else if (iter.get_key() == "sprite-change") {
           m_worldmap.add<SpriteChange>(iter.as_mapping());
-        } else if(iter.get_key() == "teleporter") {
+        } else if (iter.get_key() == "teleporter") {
           m_worldmap.add<Teleporter>(iter.as_mapping());
-        } else if(iter.get_key() == "decal") {
+        } else if (iter.get_key() == "decal") {
           m_worldmap.add<Decal>(iter.as_mapping());
-        } else if(iter.get_key() == "ambient-light") {
+        } else if (iter.get_key() == "ambient-light") {
           const auto& sx = iter.get_sexp();
           if (sx.is_array() && sx.as_array().size() >= 3 &&
               sx.as_array()[1].is_real() && sx.as_array()[2].is_real() && sx.as_array()[3].is_real())
@@ -123,7 +123,7 @@ WorldMapParser::load_worldmap(const std::string& filename)
             // modern format
             m_worldmap.add<AmbientLight>(iter.as_mapping());
           }
-        } else if(iter.get_key() == "name") {
+        } else if (iter.get_key() == "name") {
           // skip
         } else {
           log_warning << "Unknown token '" << iter.get_key() << "' in worldmap" << std::endl;

@@ -353,7 +353,7 @@ BitmapFont::draw_text(Canvas& canvas, const std::string& text,
 
       if (alignment == ALIGN_CENTER)
         pos.x -= get_text_width(temp) / 2;
-      else if(alignment == ALIGN_RIGHT)
+      else if (alignment == ALIGN_RIGHT)
         pos.x -= get_text_width(temp);
 
       // Cast font position to integer to get a clean drawing result and
@@ -394,7 +394,7 @@ BitmapFont::draw_chars(Canvas& canvas, bool notshadow, const std::string& text, 
       p.x = pos.x;
       p.y += static_cast<float>(char_height) + 2.0f;
     }
-    else if(*it == ' ')
+    else if (*it == ' ')
     {
       p.x += glyphs[0x20].advance;
     }

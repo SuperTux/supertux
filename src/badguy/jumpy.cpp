@@ -61,7 +61,7 @@ Jumpy::hit(const CollisionHit& chit)
     // TODO create a nice sound for this...
     //SoundManager::current()->play("sounds/skid.wav");
     update_on_ground_flag(chit);
-  } else if(chit.top) {
+  } else if (chit.top) {
     m_physic.set_velocity_y(0);
   }
 

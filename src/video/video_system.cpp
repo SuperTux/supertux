@@ -93,16 +93,16 @@ VideoSystem::get_video_system(const std::string &video)
     return VIDEO_AUTO;
   }
 #ifdef HAVE_OPENGL
-  else if(video == "opengl" || video == "opengl33" || video == "opengl33core")
+  else if (video == "opengl" || video == "opengl33" || video == "opengl33core")
   {
     return VIDEO_OPENGL33CORE;
   }
-  else if(video == "opengl20")
+  else if (video == "opengl20")
   {
     return VIDEO_OPENGL20;
   }
 #endif
-  else if(video == "sdl")
+  else if (video == "sdl")
   {
     return VIDEO_SDL;
   }

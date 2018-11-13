@@ -139,7 +139,7 @@ Block::update(float dt_sec)
     if (breaking){
       break_me();
     }
-  } else if(offset < BOUNCY_BRICK_SPEED * dt_sec && bounce_dir > 0) {
+  } else if (offset < BOUNCY_BRICK_SPEED * dt_sec && bounce_dir > 0) {
     m_col.m_movement = Vector(0, offset);
     bounce_dir = 0;
     bouncing = false;

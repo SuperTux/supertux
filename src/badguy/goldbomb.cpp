@@ -195,7 +195,7 @@ GoldBomb::grab(MovingObject& object, const Vector& pos, Direction dir_)
     grabbed = true;
     grabber = &object;
   }
-  else if(m_frozen){
+  else if (m_frozen){
     m_col.m_movement = pos - get_pos();
     m_dir = dir_;
     m_sprite->set_action(dir_ == LEFT ? "iced-left" : "iced-right");

@@ -61,11 +61,11 @@ std::string dir_to_prefixed(const Direction& dir, const std::string& prefix) {
 Direction string_to_dir(const std::string& dir_str) {
   if (dir_str == "left")
     return LEFT;
-  else if(dir_str == "right")
+  else if (dir_str == "right")
     return RIGHT;
-  else if(dir_str == "up")
+  else if (dir_str == "up")
     return UP;
-  else if(dir_str == "down")
+  else if (dir_str == "down")
     return DOWN;
   else
     return AUTO;

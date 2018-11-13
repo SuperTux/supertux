@@ -130,7 +130,7 @@ MrIceBlock::collision_player(Player& player, const CollisionHit& hit)
       player.kick();
       set_state(ICESTATE_KICKED);
       return FORCE_MOVE;
-    } else if(hit.right) {
+    } else if (hit.right) {
       m_dir = LEFT;
       player.kick();
       set_state(ICESTATE_KICKED);

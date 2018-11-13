@@ -440,13 +440,13 @@ BadGuy::collision_bullet(Bullet& bullet, const CollisionHit& hit)
       return FORCE_MOVE;
     }
   }
-  else if(bullet.get_type() == FIRE_BONUS && is_flammable()) {
+  else if (bullet.get_type() == FIRE_BONUS && is_flammable()) {
     // fire bullets ignite flammable badguys
     ignite();
     bullet.remove_me();
     return ABORT_MOVE;
   }
-  else if(bullet.get_type() == ICE_BONUS && is_freezable()) {
+  else if (bullet.get_type() == ICE_BONUS && is_freezable()) {
     // ice bullets freeze freezable badguys
     freeze();
     bullet.remove_me();

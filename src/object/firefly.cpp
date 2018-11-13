@@ -63,7 +63,7 @@ Firefly::Firefly(const ReaderMapping& lisp) :
     if ( m_sprite_name.find("vbell", 0) != std::string::npos ) {
       SoundManager::current()->preload("sounds/savebell_low.wav");
     }
-    else if( m_sprite_name.find("torch", 0) != std::string::npos ) {
+    else if ( m_sprite_name.find("torch", 0) != std::string::npos ) {
       SoundManager::current()->preload("sounds/fire.ogg");
     }
     else {
@@ -125,7 +125,7 @@ Firefly::collision(GameObject& other, const CollisionHit& )
     if ( m_sprite_name.find("vbell", 0) != std::string::npos ) {
       SoundManager::current()->play("sounds/savebell_low.wav");
     }
-    else if( m_sprite_name.find("torch", 0) != std::string::npos) {
+    else if ( m_sprite_name.find("torch", 0) != std::string::npos) {
       SoundManager::current()->play("sounds/fire.ogg");
     }
     else {

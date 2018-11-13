@@ -116,7 +116,7 @@ SoundFile::get_file_format(PHYSFS_File* file, const std::string& filename)
 
     if (strncmp(magic, "RIFF", 4) == 0)
       return FileFormat::FORMAT_WAV;
-    else if(strncmp(magic, "OggS", 4) == 0)
+    else if (strncmp(magic, "OggS", 4) == 0)
       return FileFormat::FORMAT_OGG;
     else
       throw SoundError("Unknown file format");

@@ -201,7 +201,7 @@ Owl::collision_solid(const CollisionHit& hit)
   }
   if (hit.top || hit.bottom) {
     m_physic.set_velocity_y(0);
-  } else if(hit.left || hit.right) {
+  } else if (hit.left || hit.right) {
     if (m_dir == LEFT) {
       set_action ("right", /* loops = */ -1);
       m_dir = RIGHT;

@@ -467,7 +467,7 @@ OptionsMenu::menu_action(MenuItem& item)
       {
         g_config->magnification = 0.0f; // Magic value
       }
-      else if(sscanf(magnifications[next_magnification].c_str(), "%f", &g_config->magnification) == 1)
+      else if (sscanf(magnifications[next_magnification].c_str(), "%f", &g_config->magnification) == 1)
       {
         g_config->magnification /= 100.0f;
       }
@@ -510,7 +510,7 @@ OptionsMenu::menu_action(MenuItem& item)
           g_config->fullscreen_size.height = 0;
           g_config->fullscreen_refresh_rate = 0;
         }
-        else if(sscanf(resolutions[next_resolution].c_str(), "%dx%d@%d",
+        else if (sscanf(resolutions[next_resolution].c_str(), "%dx%d@%d",
                   &width, &height, &refresh_rate) == 3)
         {
           // do nothing, changes are only applied when toggling fullscreen mode
@@ -518,7 +518,7 @@ OptionsMenu::menu_action(MenuItem& item)
           g_config->fullscreen_size.height = height;
           g_config->fullscreen_refresh_rate = refresh_rate;
         }
-        else if(sscanf(resolutions[next_resolution].c_str(), "%dx%d",
+        else if (sscanf(resolutions[next_resolution].c_str(), "%dx%d",
                        &width, &height) == 2)
         {
             g_config->fullscreen_size.width = width;

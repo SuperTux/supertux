@@ -86,7 +86,7 @@ SectorParser::parse_object(const std::string& name_, const ReaderMapping& reader
     auto camera_ = std::make_unique<Camera>(&m_sector, "Camera");
     camera_->parse(reader);
     return camera_;
-  } else if(name_ == "money") { // for compatibility with old maps
+  } else if (name_ == "money") { // for compatibility with old maps
     return std::make_unique<Jumpy>(reader);
   } else {
     try {
@@ -107,19 +107,19 @@ SectorParser::parse(const ReaderMapping& sector)
       std::string value;
       iter.get(value);
       m_sector.set_name(value);
-    } else if(iter.get_key() == "gravity") {
+    } else if (iter.get_key() == "gravity") {
       float value;
       iter.get(value);
       m_sector.set_gravity(value);
-    } else if(iter.get_key() == "music") {
+    } else if (iter.get_key() == "music") {
       std::string value;
       iter.get(value);
       m_sector.set_music(value);
-    } else if(iter.get_key() == "init-script") {
+    } else if (iter.get_key() == "init-script") {
       std::string value;
       iter.get(value);
       m_sector.set_init_script(value);
-    } else if(iter.get_key() == "ambient-light") {
+    } else if (iter.get_key() == "ambient-light") {
       const auto& sx = iter.get_sexp();
       if (sx.is_array() && sx.as_array().size() >= 3 &&
           sx.as_array()[1].is_real() && sx.as_array()[2].is_real() && sx.as_array()[3].is_real())
@@ -200,9 +200,9 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
   reader.get("particle_system", particlesystem);
   if (particlesystem == "clouds")
     m_sector.add<CloudParticleSystem>();
-  else if(particlesystem == "snow")
+  else if (particlesystem == "snow")
     m_sector.add<SnowParticleSystem>();
-  else if(particlesystem == "rain")
+  else if (particlesystem == "rain")
     m_sector.add<RainParticleSystem>();
 
   Vector startpos(100, 170);

@@ -211,7 +211,7 @@ Camera::parse(const ReaderMapping& reader)
   reader.get("mode", modename);
   if (modename == "normal") {
     m_mode = NORMAL;
-  } else if(modename == "autoscroll") {
+  } else if (modename == "autoscroll") {
     m_mode = AUTOSCROLL;
 
     boost::optional<ReaderMapping> path_mapping;
@@ -221,7 +221,7 @@ Camera::parse(const ReaderMapping& reader)
     } else {
       init_path_empty();
     }
-  } else if(modename == "manual") {
+  } else if (modename == "manual") {
     m_mode = MANUAL;
   } else {
     m_mode = NORMAL;
@@ -435,7 +435,7 @@ Camera::update_scroll_normal(float dt_sec)
 
     if (player.peeking_direction_y() == ::UP) {
       peek_to = bottom_edge - translation_compensation;
-    } else if(player.peeking_direction_y() == ::DOWN) {
+    } else if (player.peeking_direction_y() == ::DOWN) {
       peek_to = top_edge - translation_compensation;
     }
 
@@ -496,28 +496,28 @@ Camera::update_scroll_normal(float dt_sec)
        * "sensitive" area */
       if (player_pos.x < m_cached_translation.x + LEFTEND) {
         m_lookahead_mode = LOOKAHEAD_LEFT;
-      } else if(player_pos.x > m_cached_translation.x + RIGHTEND) {
+      } else if (player_pos.x > m_cached_translation.x + RIGHTEND) {
         m_lookahead_mode = LOOKAHEAD_RIGHT;
       }
       /* at the ends of a level it's obvious which way we will go */
       if (player_pos.x < m_screen_size.width*0.5) {
         m_lookahead_mode = LOOKAHEAD_RIGHT;
-      } else if(player_pos.x >= m_sector->get_width() - m_screen_size.width*0.5) {
+      } else if (player_pos.x >= m_sector->get_width() - m_screen_size.width*0.5) {
         m_lookahead_mode = LOOKAHEAD_LEFT;
       }
 
       m_changetime = -1;
-    } else if(m_lookahead_mode != walkDirection) {
+    } else if (m_lookahead_mode != walkDirection) {
       /* player changed direction while camera was scrolling...
        * he has to do this for a certain time to add robustness against
        * sudden changes */
       if (m_changetime < 0) {
         m_changetime = g_game_time;
-      } else if(g_game_time - m_changetime > config_.dirchange_time) {
+      } else if (g_game_time - m_changetime > config_.dirchange_time) {
         if (m_lookahead_mode == LOOKAHEAD_LEFT &&
            player_pos.x > m_cached_translation.x + RIGHTEND) {
           m_lookahead_mode = LOOKAHEAD_RIGHT;
-        } else if(m_lookahead_mode == LOOKAHEAD_RIGHT &&
+        } else if (m_lookahead_mode == LOOKAHEAD_RIGHT &&
                   player_pos.x < m_cached_translation.x + LEFTEND) {
           m_lookahead_mode = LOOKAHEAD_LEFT;
         } else {
@@ -535,7 +535,7 @@ Camera::update_scroll_normal(float dt_sec)
     float target_x;
     if (m_lookahead_mode == LOOKAHEAD_LEFT)
       target_x = player_pos.x - RIGHTEND;
-    else if(m_lookahead_mode == LOOKAHEAD_RIGHT)
+    else if (m_lookahead_mode == LOOKAHEAD_RIGHT)
       target_x = player_pos.x - LEFTEND;
     else
       target_x = m_cached_translation.x;
@@ -606,7 +606,7 @@ Camera::update_scroll_normal(float dt_sec)
 
     if (player.peeking_direction_x() == ::LEFT) {
       peek_to = right_edge - translation_compensation;
-    } else if(player.peeking_direction_x() == ::RIGHT) {
+    } else if (player.peeking_direction_x() == ::RIGHT) {
       peek_to = left_edge - translation_compensation;
     }
 
