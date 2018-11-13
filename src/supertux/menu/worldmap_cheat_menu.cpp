@@ -28,6 +28,7 @@
 WorldmapCheatMenu::WorldmapCheatMenu()
 {
   auto worldmap = worldmap::WorldMap::current();
+  auto tux = worldmap->get_object_by_type<worldmap::Tux>();
 
   add_label(_("Cheats"));
   add_hl();
@@ -38,7 +39,7 @@ WorldmapCheatMenu::WorldmapCheatMenu()
   add_entry(MNID_EARTH, _("Bonus: Earth"));
   add_entry(MNID_SHRINK, _("Bonus: None"));
   add_hl();
-  add_entry(MNID_GHOST, (worldmap != nullptr && worldmap->get_tux().get_ghost_mode() ?
+  add_entry(MNID_GHOST, (tux->get_ghost_mode() ?
                          _("Leave Ghost Mode") : _("Activate Ghost Mode")));
   add_hl();
   add_entry(MNID_FINISH_LEVEL, _("Finish Level"));
@@ -56,80 +57,77 @@ void
 WorldmapCheatMenu::menu_action(MenuItem& item)
 {
   auto worldmap = worldmap::WorldMap::current();
-  if (!worldmap)
+  auto tux = worldmap->get_object_by_type<worldmap::Tux>();
+  assert(worldmap);
+  assert(tux);
+
+  PlayerStatus& status = worldmap->get_savegame().get_player_status();
+
+  switch (item.get_id())
   {
-    log_warning << "couldn't access WorldMap::current()" << std::endl;
-  }
-  else
-  {
-    PlayerStatus& status = worldmap->get_savegame().get_player_status();
+    case MNID_GROW:
+      status.bonus = GROWUP_BONUS;
+      break;
 
-    switch (item.get_id())
-    {
-      case MNID_GROW:
-        status.bonus = GROWUP_BONUS;
-        break;
+    case MNID_FIRE:
+      status.bonus = FIRE_BONUS;
+      status.max_fire_bullets++;
+      break;
 
-      case MNID_FIRE:
-        status.bonus = FIRE_BONUS;
-        status.max_fire_bullets++;
-        break;
+    case MNID_ICE:
+      status.bonus = ICE_BONUS;
+      status.max_ice_bullets++;
+      break;
 
-      case MNID_ICE:
-        status.bonus = ICE_BONUS;
-        status.max_ice_bullets++;
-        break;
+    case MNID_AIR:
+      status.bonus = AIR_BONUS;
+      break;
 
-      case MNID_AIR:
-        status.bonus = AIR_BONUS;
-        break;
+    case MNID_EARTH:
+      status.bonus = EARTH_BONUS;
+      break;
 
-      case MNID_EARTH:
-        status.bonus = EARTH_BONUS;
-        break;
+    case MNID_SHRINK:
+      status.bonus = NO_BONUS;
+      break;
 
-      case MNID_SHRINK:
-        status.bonus = NO_BONUS;
-        break;
+    case MNID_GHOST:
+      tux->set_ghost_mode(!tux->get_ghost_mode());
+      break;
 
-      case MNID_GHOST:
-        worldmap->get_tux().set_ghost_mode(!worldmap->get_tux().get_ghost_mode());
-        break;
-
-      case MNID_FINISH_LEVEL:
+    case MNID_FINISH_LEVEL:
+      {
+        auto level_tile = worldmap->at_level();
+        if (level_tile)
         {
-          auto level_tile = worldmap->at_level();
-          if (level_tile)
-          {
-            level_tile->set_solved(true);
-            level_tile->set_perfect(false);
-          }
+          level_tile->set_solved(true);
+          level_tile->set_perfect(false);
         }
-        break;
+      }
+      break;
 
-      case MNID_RESET_LEVEL:
+    case MNID_RESET_LEVEL:
+      {
+        auto level_tile = worldmap->at_level();
+        if (level_tile)
         {
-          auto level_tile = worldmap->at_level();
-          if (level_tile)
-          {
-            level_tile->set_solved(false);
-            level_tile->set_perfect(false);
-          }
+          level_tile->set_solved(false);
+          level_tile->set_perfect(false);
         }
-        break;
+      }
+      break;
 
-      case MNID_FINISH_WORLDMAP:
-        worldmap->set_levels_solved(true, false);
-        break;
+    case MNID_FINISH_WORLDMAP:
+      worldmap->set_levels_solved(true, false);
+      break;
 
-      case MNID_RESET_WORLDMAP:
-        worldmap->set_levels_solved(false, false);
-        break;
+    case MNID_RESET_WORLDMAP:
+      worldmap->set_levels_solved(false, false);
+      break;
 
-      case MNID_MOVE_TO_MAIN:
-        worldmap->move_to_spawnpoint("main");
-        break;
-    }
+    case MNID_MOVE_TO_MAIN:
+      worldmap->move_to_spawnpoint("main");
+      break;
   }
 
   MenuManager::instance().clear_menu_stack();
