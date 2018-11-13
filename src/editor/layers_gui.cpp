@@ -77,7 +77,7 @@ EditorLayersGui::draw(DrawingContext& context) {
       draw_rect = false;
       break;
   }
-  if(draw_rect)
+  if (draw_rect)
   {
     context.color().draw_filled_rect(target_rect, Color(0.9f, 0.9f, 1.0f, 0.6f), 0.0f,
                                        LAYER_GUI-5);
@@ -106,7 +106,7 @@ EditorLayersGui::update(float dt_sec) {
   while(it != layers.end())
   {
     auto layer_icon = (*it).get();
-    if(!layer_icon->is_valid())
+    if (!layer_icon->is_valid())
       it = layers.erase(it);
     else
       ++it;

@@ -143,7 +143,7 @@ OptionsMenu::OptionsMenu(bool complete) :
     int cnt_ = 0;
     for(const auto& ratio : aspect_ratios)
     {
-      if(ratio == aspect_ratio)
+      if (ratio == aspect_ratio)
       {
         aspect_ratio.clear();
         next_aspect_ratio = cnt_;
@@ -197,9 +197,9 @@ OptionsMenu::OptionsMenu(bool complete) :
     {
       std::ostringstream out;
       out << mode.w << "x" << mode.h;
-      if(mode.refresh_rate)
+      if (mode.refresh_rate)
         out << "@" << mode.refresh_rate;
-      if(last_display_mode == out.str())
+      if (last_display_mode == out.str())
         continue;
       last_display_mode = out.str();
       resolutions.insert(resolutions.begin(), out.str());
@@ -292,7 +292,7 @@ OptionsMenu::OptionsMenu(bool complete) :
   sound_vol_stream << g_config->sound_volume << "%";
   std::string sound_vol_string = sound_vol_stream.str();
 
-  if(std::find(sound_volumes.begin(),
+  if (std::find(sound_volumes.begin(),
                sound_volumes.end(), sound_vol_string) == sound_volumes.end())
   {
     sound_volumes.push_back(sound_vol_string);
@@ -306,7 +306,7 @@ OptionsMenu::OptionsMenu(bool complete) :
   int cnt_ = 0;
   for(const auto& volume : sound_volumes)
   {
-    if(volume == sound_volume)
+    if (volume == sound_volume)
     {
       sound_volume.clear();
       next_sound_volume = cnt_;
@@ -325,7 +325,7 @@ OptionsMenu::OptionsMenu(bool complete) :
   music_vol_stream << g_config->music_volume << "%";
   std::string music_vol_string = music_vol_stream.str();
 
-  if(std::find(music_volumes.begin(),
+  if (std::find(music_volumes.begin(),
                music_volumes.end(), music_vol_string) == music_volumes.end())
   {
     music_volumes.push_back(music_vol_string);
@@ -340,7 +340,7 @@ OptionsMenu::OptionsMenu(bool complete) :
   cnt_ = 0;
   for(const auto& volume : music_volumes)
   {
-    if(volume == music_volume)
+    if (volume == music_volume)
     {
       music_volume.clear();
       next_music_volume = cnt_;

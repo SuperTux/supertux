@@ -53,7 +53,7 @@ void EditorLevelSelectMenu::initialize() {
   add_label(world->get_title());
   add_hl();
 
-  if(num_levels == 0)
+  if (num_levels == 0)
   {
     add_inactive(_("Empty levelset"));
   }
@@ -86,7 +86,7 @@ void EditorLevelSelectMenu::initialize() {
 EditorLevelSelectMenu::~EditorLevelSelectMenu()
 {
   auto editor = Editor::current();
-  if(editor == nullptr) {
+  if (editor == nullptr) {
     return;
   }
   editor->reactivate_request = true;
@@ -119,7 +119,7 @@ EditorLevelSelectMenu::create_item()
   editor->set_level(new_item->m_filename);
   MenuManager::instance().clear_menu_stack();
 
-  if(editor->get_worldmap_mode())
+  if (editor->get_worldmap_mode())
   {
     Dialog::show_message(_("Share this worldmap under license CC-BY-SA 4.0 International (advised).\nIt allows modifications and redistribution by third-parties.\nIf you don't agree with this license, change it in worldmap properties.\nDISCLAIMER: The SuperTux authors take no responsibility for your choice of license."));
   }

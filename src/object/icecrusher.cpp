@@ -51,7 +51,7 @@ IceCrusher::IceCrusher(const ReaderMapping& reader) :
 {
   // TODO: icecrusher hitting deserves its own sounds-
   // one for hitting the ground, one for hitting Tux
-  if( m_sprite_name.find("rock_crusher") != std::string::npos ||
+  if ( m_sprite_name.find("rock_crusher") != std::string::npos ||
       m_sprite_name.find("moss_crusher") != std::string::npos )
   {
     SoundManager::current()->preload("sounds/thud.ogg");
@@ -104,7 +104,7 @@ IceCrusher::collision(GameObject& other, const CollisionHit& hit)
     SoundManager::current()->play("sounds/brick.wav");
     if (state == CRUSHING)
       set_state(RECOVERING);
-    if(player->is_invincible()) {
+    if (player->is_invincible()) {
       return ABORT_MOVE;
     }
     player->kill(false);
@@ -146,7 +146,7 @@ IceCrusher::collision_solid(const CollisionHit& hit)
         else {
           cooldown_timer = PAUSE_TIME_NORMAL;
           Sector::get().get_camera().shake (/* frequency = */ .1f, /* x = */ 0.0, /* y = */ 8.0);
-          if( m_sprite_name.find("rock_crusher") != std::string::npos ||
+          if ( m_sprite_name.find("rock_crusher") != std::string::npos ||
               m_sprite_name.find("moss_crusher") != std::string::npos )
           {
             SoundManager::current()->play("sounds/thud.ogg");
@@ -231,7 +231,7 @@ void
 IceCrusher::draw(DrawingContext& context)
 {
   m_sprite->draw(context.color(), get_pos(), m_layer+2);
-  if(!(state == CRUSHING) && m_sprite->has_action("whites"))
+  if (!(state == CRUSHING) && m_sprite->has_action("whites"))
   {
     // draw icecrusher's eyes slightly behind
     lefteye->draw(context.color(), get_pos()+eye_position(false), m_layer+1);
@@ -267,10 +267,10 @@ IceCrusher::found_victim() const
 Vector
 IceCrusher::eye_position(bool right) const
 {
-  if(state == IDLE)
+  if (state == IDLE)
   {
     auto player = Sector::get().get_nearest_player (m_col.m_bbox);
-    if(player)
+    if (player)
     {
       // Icecrusher focuses on approximate position of player's head
       const float player_focus_x = (player->get_bbox().p2.x + player->get_bbox().p1.x) * 0.5f;

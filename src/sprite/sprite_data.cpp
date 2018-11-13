@@ -47,7 +47,7 @@ SpriteData::SpriteData(const ReaderMapping& lisp) :
 {
   auto iter = lisp.get_iter();
   while(iter.next()) {
-    if(iter.get_key() == "name") {
+    if (iter.get_key() == "name") {
       iter.get(name);
     } else if(iter.get_key() == "action") {
       parse_action(iter.as_mapping());
@@ -55,7 +55,7 @@ SpriteData::SpriteData(const ReaderMapping& lisp) :
       log_warning << "Unknown sprite field: " << iter.get_key() << std::endl;
     }
   }
-  if(actions.empty())
+  if (actions.empty())
     throw std::runtime_error("Error: Sprite without actions.");
 }
 
@@ -64,8 +64,8 @@ SpriteData::parse_action(const ReaderMapping& lisp)
 {
   auto action = std::make_unique<Action>();
 
-  if(!lisp.get("name", action->name)) {
-    if(!actions.empty())
+  if (!lisp.get("name", action->name)) {
+    if (!actions.empty())
       throw std::runtime_error(
         "If there are more than one action, they need names!");
   }
@@ -88,7 +88,7 @@ SpriteData::parse_action(const ReaderMapping& lisp)
     }
   }
   lisp.get("fps", action->fps);
-  if(lisp.get("loops", action->loops))
+  if (lisp.get("loops", action->loops))
   {
     action->has_custom_loops = true;
   }
@@ -96,7 +96,7 @@ SpriteData::parse_action(const ReaderMapping& lisp)
   std::string mirror_action;
   if (lisp.get("mirror-action", mirror_action)) {
     const auto act_tmp = get_action(mirror_action);
-    if(act_tmp == nullptr) {
+    if (act_tmp == nullptr) {
       std::ostringstream msg;
       msg << "Could not mirror action. Action not found: \"" << mirror_action << "\"\n"
           << "Mirror actions must be defined after the real one!";
@@ -171,7 +171,7 @@ const SpriteData::Action*
 SpriteData::get_action(const std::string& act) const
 {
   Actions::const_iterator i = actions.find(act);
-  if(i == actions.end()) {
+  if (i == actions.end()) {
     return nullptr;
   }
   return i->second.get();

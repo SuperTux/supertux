@@ -434,7 +434,7 @@ Menu::process_action(const MenuAction& menuaction)
 
     case MENU_ACTION_DOWN:
       do {
-        if(active_item < int(items.size())-1 )
+        if (active_item < int(items.size())-1 )
           ++active_item;
         else
           active_item = 0;
@@ -443,7 +443,7 @@ Menu::process_action(const MenuAction& menuaction)
       break;
 
     case MENU_ACTION_BACK:
-      if(on_back_action()) {
+      if (on_back_action()) {
         MenuManager::instance().pop_menu();
       }
       return;
@@ -459,10 +459,10 @@ Menu::process_action(const MenuAction& menuaction)
   }
 
   items[active_item]->process_action(menuaction);
-  if(items[active_item]->changes_width()) {
+  if (items[active_item]->changes_width()) {
     calculate_width();
   }
-  if(menuaction == MENU_ACTION_HIT) {
+  if (menuaction == MENU_ACTION_HIT) {
     menu_action(*items[active_item]);
   }
 }
@@ -480,7 +480,7 @@ Menu::draw_item(DrawingContext& context, int index)
 
   pitem->draw(context, Vector(x_pos, y_pos), static_cast<int>(menu_width_), active_item == index);
 
-  if(active_item == index)
+  if (active_item == index)
   {
     float blink = (sinf(g_real_time * math::PI * 1.0f)/2.0f + 0.5f) * 0.5f + 0.25f;
     context.color().draw_filled_rect(Rectf(Vector(pos.x - menu_width_/2 + 10 - 2, y_pos - 12 - 2),
@@ -505,7 +505,7 @@ Menu::calculate_width()
   for(unsigned int i = 0; i < items.size(); ++i)
   {
     float w = static_cast<float>(items[i]->get_width());
-    if(w > max_width)
+    if (w > max_width)
       max_width = w;
   }
   menu_width = max_width;
@@ -605,7 +605,7 @@ Menu::event(const SDL_Event& ev)
   switch(ev.type) {
     case SDL_KEYDOWN:
     case SDL_TEXTINPUT:
-      if(((ev.type == SDL_KEYDOWN && ev.key.keysym.sym == SDLK_BACKSPACE) ||
+      if (((ev.type == SDL_KEYDOWN && ev.key.keysym.sym == SDLK_BACKSPACE) ||
          ev.type == SDL_TEXTINPUT) && items[active_item]->changes_width())
       {
         // Changed item value? Let's recalculate width:
@@ -614,7 +614,7 @@ Menu::event(const SDL_Event& ev)
     break;
 
     case SDL_MOUSEBUTTONDOWN:
-    if(ev.button.button == SDL_BUTTON_LEFT)
+    if (ev.button.button == SDL_BUTTON_LEFT)
     {
       Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(ev.motion.x, ev.motion.y);
 
@@ -634,7 +634,7 @@ Menu::event(const SDL_Event& ev)
       float x = mouse_pos.x;
       float y = mouse_pos.y;
 
-      if(x > pos.x - get_width()/2 &&
+      if (x > pos.x - get_width()/2 &&
          x < pos.x + get_width()/2 &&
          y > pos.y - get_height()/2 &&
          y < pos.y + get_height()/2)
@@ -646,12 +646,12 @@ Menu::event(const SDL_Event& ev)
         if (!items[new_active_item]->skippable())
           active_item = new_active_item;
 
-        if(MouseCursor::current())
+        if (MouseCursor::current())
           MouseCursor::current()->set_state(MC_LINK);
       }
       else
       {
-        if(MouseCursor::current())
+        if (MouseCursor::current())
           MouseCursor::current()->set_state(MC_NORMAL);
       }
     }
@@ -666,7 +666,7 @@ void
 Menu::set_active_item(int id)
 {
   for(size_t i = 0; i < items.size(); ++i) {
-    if(items[i]->get_id() == id) {
+    if (items[i]->get_id() == id) {
       active_item = static_cast<int>(i);
       break;
     }

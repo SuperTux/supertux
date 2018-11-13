@@ -29,7 +29,7 @@
 static inline uint32_t read32LE(PHYSFS_file* file)
 {
   uint32_t result;
-  if(PHYSFS_readULE32(file, &result) == 0)
+  if (PHYSFS_readULE32(file, &result) == 0)
     throw SoundError("file too short");
 
   return result;
@@ -38,7 +38,7 @@ static inline uint32_t read32LE(PHYSFS_file* file)
 static inline uint16_t read16LE(PHYSFS_file* file)
 {
   uint16_t result;
-  if(PHYSFS_readULE16(file, &result) == 0)
+  if (PHYSFS_readULE16(file, &result) == 0)
     throw SoundError("file too short");
 
   return result;
@@ -50,9 +50,9 @@ WavSoundFile::WavSoundFile(PHYSFS_file* file_) :
 {
   assert(file);
   char magic[4];
-  if(PHYSFS_readBytes(file, magic, sizeof(magic)) < static_cast<std::make_signed<size_t>::type>(sizeof(magic)))
+  if (PHYSFS_readBytes(file, magic, sizeof(magic)) < static_cast<std::make_signed<size_t>::type>(sizeof(magic)))
     throw SoundError("Couldn't read file magic (not a wave file)");
-  if(strncmp(magic, "RIFF", 4) != 0) {
+  if (strncmp(magic, "RIFF", 4) != 0) {
     log_debug << "MAGIC: " << magic << std::endl;
     throw SoundError("file is not a RIFF wav file");
   }
@@ -60,9 +60,9 @@ WavSoundFile::WavSoundFile(PHYSFS_file* file_) :
   uint32_t wavelen = read32LE(file);
   (void) wavelen;
 
-  if(PHYSFS_readBytes(file, magic, sizeof(magic)) < static_cast<std::make_signed<size_t>::type>(sizeof(magic)))
+  if (PHYSFS_readBytes(file, magic, sizeof(magic)) < static_cast<std::make_signed<size_t>::type>(sizeof(magic)))
     throw SoundError("Couldn't read chunk header (not a wav file?)");
-  if(strncmp(magic, "WAVE", 4) != 0)
+  if (strncmp(magic, "WAVE", 4) != 0)
     throw SoundError("file is not a valid RIFF/WAVE file");
 
   char chunkmagic[4];
@@ -70,29 +70,29 @@ WavSoundFile::WavSoundFile(PHYSFS_file* file_) :
 
   // search audio data format chunk
   do {
-    if(PHYSFS_readBytes(file, chunkmagic, sizeof(chunkmagic)) < static_cast<std::make_signed<size_t>::type>(sizeof(chunkmagic)))
+    if (PHYSFS_readBytes(file, chunkmagic, sizeof(chunkmagic)) < static_cast<std::make_signed<size_t>::type>(sizeof(chunkmagic)))
       throw SoundError("EOF while searching format chunk");
     chunklen = read32LE(file);
 
-    if(strncmp(chunkmagic, "fmt ", 4) == 0)
+    if (strncmp(chunkmagic, "fmt ", 4) == 0)
       break;
 
-    if(strncmp(chunkmagic, "fact", 4) == 0
+    if (strncmp(chunkmagic, "fact", 4) == 0
        || strncmp(chunkmagic, "LIST", 4) == 0) {
       // skip chunk
-      if(PHYSFS_seek(file, PHYSFS_tell(file) + chunklen) == 0)
+      if (PHYSFS_seek(file, PHYSFS_tell(file) + chunklen) == 0)
         throw SoundError("EOF while searching fmt chunk");
     } else {
       throw SoundError("complex WAVE files not supported");
     }
   } while(true);
 
-  if(chunklen < 16)
+  if (chunklen < 16)
     throw SoundError("Format chunk too short");
 
   // parse format
   uint16_t encoding = read16LE(file);
-  if(encoding != 1)
+  if (encoding != 1)
     throw SoundError("only PCM encoding supported");
   channels = read16LE(file);
   rate = read32LE(file);
@@ -102,22 +102,22 @@ WavSoundFile::WavSoundFile(PHYSFS_file* file_) :
   (void) blockalign;
   bits_per_sample = read16LE(file);
 
-  if(chunklen > 16) {
-    if(PHYSFS_seek(file, PHYSFS_tell(file) + (chunklen-16)) == 0)
+  if (chunklen > 16) {
+    if (PHYSFS_seek(file, PHYSFS_tell(file) + (chunklen-16)) == 0)
       throw SoundError("EOF while reading rest of format chunk");
   }
 
   // set file offset to DATA chunk data
   do {
-    if(PHYSFS_readBytes(file, chunkmagic, sizeof(chunkmagic)) < static_cast<std::make_signed<size_t>::type>(sizeof(chunkmagic)))
+    if (PHYSFS_readBytes(file, chunkmagic, sizeof(chunkmagic)) < static_cast<std::make_signed<size_t>::type>(sizeof(chunkmagic)))
       throw SoundError("EOF while searching data chunk");
     chunklen = read32LE(file);
 
-    if(strncmp(chunkmagic, "data", 4) == 0)
+    if (strncmp(chunkmagic, "data", 4) == 0)
       break;
 
     // skip chunk
-    if(PHYSFS_seek(file, PHYSFS_tell(file) + chunklen) == 0)
+    if (PHYSFS_seek(file, PHYSFS_tell(file) + chunklen) == 0)
       throw SoundError("EOF while searching fmt chunk");
   } while(true);
 
@@ -133,7 +133,7 @@ WavSoundFile::~WavSoundFile()
 void
 WavSoundFile::reset()
 {
-  if(PHYSFS_seek(file, datastart) == 0)
+  if (PHYSFS_seek(file, datastart) == 0)
     throw SoundError("Couldn't seek to data start");
 }
 
@@ -142,11 +142,11 @@ WavSoundFile::read(void* buffer, size_t buffer_size)
 {
   PHYSFS_sint64 end = datastart + size;
   PHYSFS_sint64 cur = PHYSFS_tell(file);
-  if(cur >= end)
+  if (cur >= end)
     return 0;
 
   size_t readsize = std::min(static_cast<size_t> (end - cur), buffer_size);
-  if(PHYSFS_readBytes(file, buffer, readsize) != static_cast<std::make_signed<size_t>::type>(readsize))
+  if (PHYSFS_readBytes(file, buffer, readsize) != static_cast<std::make_signed<size_t>::type>(readsize))
     throw SoundError("read error while reading samples");
 
 #ifdef WORDS_BIGENDIAN

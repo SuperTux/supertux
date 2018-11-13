@@ -50,7 +50,7 @@ Ispy::Ispy(const ReaderMapping& reader) :
 void
 Ispy::save(Writer& writer) {
   MovingSprite::save(writer);
-  if(dir != AUTO) {
+  if (dir != AUTO) {
     writer.write("direction", dir_to_string(dir), false);
   }
 }

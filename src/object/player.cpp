@@ -232,7 +232,7 @@ Player::set_controller(const Controller* controller_)
 void
 Player::set_winning()
 {
-  if( ! is_winning() ){
+  if ( ! is_winning() ){
     m_winning = true;
     m_invincible_timer.start(10000.0f);
   }
@@ -255,7 +255,7 @@ void
 Player::do_scripting_controller(const std::string& control, bool pressed)
 {
   for(int i = 0; Controller::controlNames[i] != nullptr; ++i) {
-    if(control == std::string(Controller::controlNames[i])) {
+    if (control == std::string(Controller::controlNames[i])) {
       m_scripting_controller->press(Controller::Control(i), pressed);
     }
   }
@@ -269,10 +269,10 @@ Player::adjust_height(float new_height)
   bbox2.set_height(new_height);
 
 
-  if(new_height > m_col.m_bbox.get_height()) {
+  if (new_height > m_col.m_bbox.get_height()) {
     Rectf additional_space = bbox2;
     additional_space.set_height(new_height - m_col.m_bbox.get_height());
-    if(!Sector::get().is_free_of_statics(additional_space, this, true))
+    if (!Sector::get().is_free_of_statics(additional_space, this, true))
       return false;
   }
 
@@ -302,19 +302,19 @@ Player::update(float dt_sec)
 {
   check_bounds();
 
-  if( no_water ){
+  if ( no_water ){
     m_swimming = false;
   }
   no_water = true;
 
-  if(m_dying && m_dying_timer.check()) {
+  if (m_dying && m_dying_timer.check()) {
     Sector::get().stop_looping_sounds();
     set_bonus(NO_BONUS, true);
     m_dead = true;
     return;
   }
 
-  if(!m_dying && !m_deactivated)
+  if (!m_dying && !m_deactivated)
     handle_input();
 
   /*
@@ -325,7 +325,7 @@ Player::update(float dt_sec)
 
   // extend/shrink tux collision rectangle so that we fall through/walk over 1
   // tile holes
-  if(fabsf(m_physic.get_velocity_x()) > MAX_WALK_XM) {
+  if (fabsf(m_physic.get_velocity_x()) > MAX_WALK_XM) {
     m_col.set_width(RUNNING_TUX_WIDTH);
   } else {
     m_col.set_width(TUX_WIDTH);
@@ -333,7 +333,7 @@ Player::update(float dt_sec)
 
   // on downward slopes, adjust vertical velocity so tux walks smoothly down
   if (on_ground() && !m_dying) {
-    if(m_floor_normal.y != 0) {
+    if (m_floor_normal.y != 0) {
       if ((m_floor_normal.x * m_physic.get_velocity_x()) >= 0) {
         m_physic.set_velocity_y(250);
       }
@@ -356,18 +356,18 @@ Player::update(float dt_sec)
   }
 
   // set fall mode...
-  if(on_ground()) {
+  if (on_ground()) {
     m_fall_mode = ON_GROUND;
     m_last_ground_y = get_pos().y;
   } else {
-    if(get_pos().y > m_last_ground_y)
+    if (get_pos().y > m_last_ground_y)
       m_fall_mode = FALLING;
     else if(m_fall_mode == ON_GROUND)
       m_fall_mode = JUMPING;
   }
 
   // check if we landed
-  if(on_ground()) {
+  if (on_ground()) {
     m_jumping = false;
     if (m_backflipping && (m_backflip_timer.get_timegone() > 0.15f)) {
       m_backflipping = false;
@@ -386,7 +386,7 @@ Player::update(float dt_sec)
     if (m_player_status.bonus == AIR_BONUS)
       m_ability_time = static_cast<float>(m_player_status.max_air_time) * GLIDE_TIME_PER_FLOWER;
 
-    if(m_second_growup_sound_timer.check())
+    if (m_second_growup_sound_timer.check())
     {
       SoundManager::current()->play("sounds/grow.wav");
       m_second_growup_sound_timer.stop();
@@ -396,16 +396,16 @@ Player::update(float dt_sec)
   // calculate movement for this frame
   m_col.m_movement = m_physic.get_movement(dt_sec);
 
-  if(m_grabbed_object != nullptr && !m_dying) {
+  if (m_grabbed_object != nullptr && !m_dying) {
     position_grabbed_object();
   }
 
-  if(m_grabbed_object != nullptr && m_dying){
+  if (m_grabbed_object != nullptr && m_dying){
     m_grabbed_object->ungrab(*this, m_dir);
     m_grabbed_object = nullptr;
   }
 
-  if(!m_ice_this_frame && on_ground())
+  if (!m_ice_this_frame && on_ground())
     m_on_ice = false;
 
   m_on_ground_flag = false;
@@ -437,8 +437,8 @@ Player::update(float dt_sec)
   }
 
   // when climbing animate only while moving
-  if(m_climbing){
-    if((m_physic.get_velocity_x()==0)&&(m_physic.get_velocity_y()==0))
+  if (m_climbing){
+    if ((m_physic.get_velocity_x()==0)&&(m_physic.get_velocity_y()==0))
       m_sprite->stop_animation();
     else
       m_sprite->set_animation_loops(-1);
@@ -463,7 +463,7 @@ Player::on_ground() const
 bool
 Player::is_big() const
 {
-  if(m_player_status.bonus == NO_BONUS)
+  if (m_player_status.bonus == NO_BONUS)
     return false;
 
   return true;
@@ -477,7 +477,7 @@ Player::apply_friction()
     m_physic.set_acceleration_x(0);
   } else {
     float friction = WALK_ACCELERATION_X * (m_on_ice ? ICE_FRICTION_MULTIPLIER : NORMAL_FRICTION_MULTIPLIER);
-    if(m_physic.get_velocity_x() < 0) {
+    if (m_physic.get_velocity_x() < 0) {
       m_physic.set_acceleration_x(friction);
     } else if(m_physic.get_velocity_x() > 0) {
       m_physic.set_acceleration_x(-friction);
@@ -494,8 +494,8 @@ Player::handle_horizontal_input()
   float ay = m_physic.get_acceleration_y();
 
   float dirsign = 0;
-  if(!m_duck || m_physic.get_velocity_y() != 0) {
-    if(m_controller->hold(Controller::LEFT) && !m_controller->hold(Controller::RIGHT)) {
+  if (!m_duck || m_physic.get_velocity_y() != 0) {
+    if (m_controller->hold(Controller::LEFT) && !m_controller->hold(Controller::RIGHT)) {
       m_old_dir = m_dir;
       m_dir = LEFT;
       dirsign = -1;
@@ -511,7 +511,7 @@ Player::handle_horizontal_input()
   if ( m_grabbed_object && m_grabbed_object->is_hampering() ) {
     ax = dirsign * WALK_ACCELERATION_X;
     // limit speed
-    if(vx >= MAX_WALK_XM && dirsign > 0) {
+    if (vx >= MAX_WALK_XM && dirsign > 0) {
       vx = MAX_WALK_XM;
       ax = 0;
     } else if(vx <= -MAX_WALK_XM && dirsign < 0) {
@@ -519,13 +519,13 @@ Player::handle_horizontal_input()
       ax = 0;
     }
   } else {
-    if( vx * dirsign < MAX_WALK_XM ) {
+    if ( vx * dirsign < MAX_WALK_XM ) {
       ax = dirsign * WALK_ACCELERATION_X;
     } else {
       ax = dirsign * RUN_ACCELERATION_X;
     }
     // limit speed
-    if(vx >= MAX_RUN_XM + BONUS_RUN_XM *((m_player_status.bonus == AIR_BONUS) ? 1 : 0) && dirsign > 0) {
+    if (vx >= MAX_RUN_XM + BONUS_RUN_XM *((m_player_status.bonus == AIR_BONUS) ? 1 : 0) && dirsign > 0) {
       vx = MAX_RUN_XM + BONUS_RUN_XM *((m_player_status.bonus == AIR_BONUS) ? 1 : 0);
       ax = 0;
     } else if(vx <= -MAX_RUN_XM - BONUS_RUN_XM *((m_player_status.bonus == AIR_BONUS) ? 1 : 0) && dirsign < 0) {
@@ -535,21 +535,21 @@ Player::handle_horizontal_input()
   }
 
   // we can reach WALK_SPEED without any acceleration
-  if(dirsign != 0 && fabsf(vx) < WALK_SPEED) {
+  if (dirsign != 0 && fabsf(vx) < WALK_SPEED) {
     vx = dirsign * WALK_SPEED;
   }
 
   //Check speedlimit.
-  if( m_speedlimit > 0 &&  vx * dirsign >= m_speedlimit ) {
+  if ( m_speedlimit > 0 &&  vx * dirsign >= m_speedlimit ) {
     vx = dirsign * m_speedlimit;
     ax = 0;
   }
 
   // changing directions?
   if ((vx < 0 && dirsign >0) || (vx>0 && dirsign<0)) {
-    if(on_ground()) {
+    if (on_ground()) {
       // let's skid!
-      if(fabsf(vx)>SKID_XM && !m_skidding_timer.started()) {
+      if (fabsf(vx)>SKID_XM && !m_skidding_timer.started()) {
         m_skidding_timer.start(SKID_TIME);
         SoundManager::current()->play("sounds/skid.wav");
         // dust some particles
@@ -569,7 +569,7 @@ Player::handle_horizontal_input()
     }
   }
 
-  if(m_on_ice) {
+  if (m_on_ice) {
     ax *= ICE_ACCELERATION_MULTIPLIER;
   }
 
@@ -577,7 +577,7 @@ Player::handle_horizontal_input()
   m_physic.set_acceleration(ax, ay);
 
   // we get slower when not pressing any keys
-  if(dirsign == 0) {
+  if (dirsign == 0) {
     apply_friction();
   }
 
@@ -697,8 +697,8 @@ void
 Player::handle_vertical_input()
 {
   // Press jump key
-  if(m_controller->pressed(Controller::JUMP)) m_jump_button_timer.start(JUMP_GRACE_TIME);
-  if(m_controller->hold(Controller::JUMP) && m_jump_button_timer.started() && m_can_jump) {
+  if (m_controller->pressed(Controller::JUMP)) m_jump_button_timer.start(JUMP_GRACE_TIME);
+  if (m_controller->hold(Controller::JUMP) && m_jump_button_timer.started() && m_can_jump) {
     m_jump_button_timer.stop();
     if (m_duck) {
       // when running, only jump a little bit; else do a backflip
@@ -715,7 +715,7 @@ Player::handle_vertical_input()
     } else {
       // airflower allows for higher jumps-
       // jump a bit higher if we are running; else do a normal jump
-      if(m_player_status.bonus == AIR_BONUS)
+      if (m_player_status.bonus == AIR_BONUS)
         do_jump((fabsf(m_physic.get_velocity_x()) > MAX_WALK_XM) ? -620.0f : -580.0f);
       else
         do_jump((fabsf(m_physic.get_velocity_x()) > MAX_WALK_XM) ? -580.0f : -520.0f);
@@ -749,7 +749,7 @@ Player::handle_vertical_input()
     }
   }
 
-  if(m_jump_early_apex && m_physic.get_velocity_y() >= 0) {
+  if (m_jump_early_apex && m_physic.get_velocity_y() >= 0) {
     do_jump_apex();
   }
 
@@ -761,7 +761,7 @@ Player::handle_vertical_input()
   }
 
   /* When Down is not held anymore, disable butt jump */
-  if(!m_controller->hold(Controller::DOWN)) {
+  if (!m_controller->hold(Controller::DOWN)) {
     m_wants_buttjump = false;
     m_does_buttjump = false;
   }
@@ -790,20 +790,20 @@ Player::handle_input()
   }
 
   /* Peeking */
-  if( m_controller->released( Controller::PEEK_LEFT ) || m_controller->released( Controller::PEEK_RIGHT ) ) {
+  if ( m_controller->released( Controller::PEEK_LEFT ) || m_controller->released( Controller::PEEK_RIGHT ) ) {
     m_peekingX = AUTO;
   }
-  if( m_controller->released( Controller::PEEK_UP ) || m_controller->released( Controller::PEEK_DOWN ) ) {
+  if ( m_controller->released( Controller::PEEK_UP ) || m_controller->released( Controller::PEEK_DOWN ) ) {
     m_peekingY = AUTO;
   }
-  if( m_controller->pressed( Controller::PEEK_LEFT ) ) {
+  if ( m_controller->pressed( Controller::PEEK_LEFT ) ) {
     m_peekingX = LEFT;
   }
-  if( m_controller->pressed( Controller::PEEK_RIGHT ) ) {
+  if ( m_controller->pressed( Controller::PEEK_RIGHT ) ) {
     m_peekingX = RIGHT;
   }
-  if(!m_backflipping && !m_jumping && on_ground()) {
-    if( m_controller->pressed( Controller::PEEK_UP ) ) {
+  if (!m_backflipping && !m_jumping && on_ground()) {
+    if ( m_controller->pressed( Controller::PEEK_UP ) ) {
       m_peekingY = UP;
     } else if( m_controller->pressed( Controller::PEEK_DOWN ) ) {
       m_peekingY = DOWN;
@@ -823,7 +823,7 @@ Player::handle_input()
   /* Shoot! */
   auto active_bullets = Sector::get().get_object_count<Bullet>();
   if (m_controller->pressed(Controller::ACTION) && (m_player_status.bonus == FIRE_BONUS || m_player_status.bonus == ICE_BONUS)) {
-    if((m_player_status.bonus == FIRE_BONUS &&
+    if ((m_player_status.bonus == FIRE_BONUS &&
       active_bullets < m_player_status.max_fire_bullets) ||
       (m_player_status.bonus == ICE_BONUS &&
       active_bullets < m_player_status.max_ice_bullets))
@@ -878,25 +878,25 @@ Player::handle_input()
   /* grabbing */
   try_grab();
 
-  if(!m_controller->hold(Controller::ACTION) && m_grabbed_object) {
+  if (!m_controller->hold(Controller::ACTION) && m_grabbed_object) {
     auto moving_object = dynamic_cast<MovingObject*> (m_grabbed_object);
-    if(moving_object) {
+    if (moving_object) {
       // move the grabbed object a bit away from tux
       Rectf grabbed_bbox = moving_object->get_bbox();
       Rectf dest_;
       dest_.p2.y = m_col.m_bbox.get_top() + m_col.m_bbox.get_height()*0.66666f;
       dest_.p1.y = dest_.p2.y - grabbed_bbox.get_height();
-      if(m_dir == LEFT) {
+      if (m_dir == LEFT) {
         dest_.p2.x = m_col.m_bbox.get_left() - 1;
         dest_.p1.x = dest_.p2.x - grabbed_bbox.get_width();
       } else {
         dest_.p1.x = m_col.m_bbox.get_right() + 1;
         dest_.p2.x = dest_.p1.x + grabbed_bbox.get_width();
       }
-      if(Sector::get().is_free_of_tiles(dest_, true) &&
+      if (Sector::get().is_free_of_tiles(dest_, true) &&
          Sector::get().is_free_of_statics(dest_, moving_object, true)) {
         moving_object->set_pos(dest_.p1);
-        if(m_controller->hold(Controller::UP)) {
+        if (m_controller->hold(Controller::UP)) {
           m_grabbed_object->ungrab(*this, UP);
         } else {
           m_grabbed_object->ungrab(*this, m_dir);
@@ -909,7 +909,7 @@ Player::handle_input()
   }
 
   /* stop backflipping at will */
-  if( m_backflipping && ( !m_controller->hold(Controller::JUMP) && !m_backflip_timer.started()) ){
+  if ( m_backflipping && ( !m_controller->hold(Controller::JUMP) && !m_backflip_timer.started()) ){
     stop_backflipping();
   }
 }
@@ -936,11 +936,11 @@ Player::position_grabbed_object()
 void
 Player::try_grab()
 {
-  if(m_controller->hold(Controller::ACTION) && !m_grabbed_object
+  if (m_controller->hold(Controller::ACTION) && !m_grabbed_object
      && !m_duck) {
 
     Vector pos;
-    if(m_dir == LEFT) {
+    if (m_dir == LEFT) {
       pos = Vector(m_col.m_bbox.get_left() - 5, m_col.m_bbox.get_bottom() - 16);
     } else {
       pos = Vector(m_col.m_bbox.get_right() + 5, m_col.m_bbox.get_bottom() - 16);
@@ -951,10 +951,10 @@ Player::try_grab()
       if (portable && portable->is_portable())
       {
         // make sure the Portable isn't currently non-solid
-        if(moving_object.get_group() == COLGROUP_DISABLED) continue;
+        if (moving_object.get_group() == COLGROUP_DISABLED) continue;
 
         // check if we are within reach
-        if(moving_object.get_bbox().contains(pos)) {
+        if (moving_object.get_bbox().contains(pos)) {
           if (m_climbing)
             stop_climbing(*m_climbing);
           m_grabbed_object = portable;
@@ -1008,7 +1008,7 @@ BonusType
 Player::string_to_bonus(const std::string& bonus) const {
   BonusType type = NO_BONUS;
 
-  if(bonus == "grow") {
+  if (bonus == "grow") {
     type = GROWUP_BONUS;
   } else if(bonus == "fireflower") {
     type = FIRE_BONUS;
@@ -1061,16 +1061,16 @@ Player::add_bonus(BonusType type, bool animate)
 bool
 Player::set_bonus(BonusType type, bool animate)
 {
-  if(m_dying) {
+  if (m_dying) {
     return false;
   }
 
-  if((m_player_status.bonus == NO_BONUS) && (type != NO_BONUS)) {
+  if ((m_player_status.bonus == NO_BONUS) && (type != NO_BONUS)) {
     if (!adjust_height(BIG_TUX_HEIGHT)) {
       log_debug << "Can't adjust Tux height" << std::endl;
       return false;
     }
-    if(animate) {
+    if (animate) {
       m_growing = true;
       m_sprite->set_action((m_dir == LEFT)?"grow-left":"grow-right", 1);
     }
@@ -1113,11 +1113,11 @@ Player::set_bonus(BonusType type, bool animate)
       // visually lose hard-hat
       particle_name = "earthtux-hardhat";
     }
-    if(!particle_name.empty() && animate) {
+    if (!particle_name.empty() && animate) {
       Sector::get().add<SpriteParticle>("images/objects/particles/" + particle_name + ".sprite",
                                              action, ppos, ANCHOR_TOP, pspeed, paccel, LAYER_OBJECTS - 1);
     }
-    if(m_climbing) stop_climbing(*m_climbing);
+    if (m_climbing) stop_climbing(*m_climbing);
 
     m_player_status.max_fire_bullets = 0;
     m_player_status.max_ice_bullets = 0;
@@ -1129,7 +1129,7 @@ Player::set_bonus(BonusType type, bool animate)
   if (type == AIR_BONUS) m_player_status.max_air_time++;
   if (type == EARTH_BONUS) m_player_status.max_earth_time++;
 
-  if(!m_second_growup_sound_timer.started() &&
+  if (!m_second_growup_sound_timer.started() &&
      type > GROWUP_BONUS && type != m_player_status.bonus)
   {
     m_second_growup_sound_timer.start(0.5);
@@ -1165,7 +1165,7 @@ Player::draw(DrawingContext& context)
     return;
   }
 
-  if(!m_visible)
+  if (!m_visible)
     return;
 
   // if Tux is above camera, draw little "air arrow" to show where he is x-wise
@@ -1182,7 +1182,7 @@ Player::draw(DrawingContext& context)
   if (m_player_status.bonus == GROWUP_BONUS)
     sa_prefix = "big";
   else if (m_player_status.bonus == FIRE_BONUS)
-    if(g_config->christmas_mode)
+    if (g_config->christmas_mode)
       sa_prefix = "santa";
     else
       sa_prefix = "fire";
@@ -1195,13 +1195,13 @@ Player::draw(DrawingContext& context)
   else
     sa_prefix = "small";
 
-  if(m_dir == LEFT)
+  if (m_dir == LEFT)
     sa_postfix = "-left";
   else
     sa_postfix = "-right";
 
   /* Set Tux sprite action */
-  if(m_dying) {
+  if (m_dying) {
     m_sprite->set_action("gameover");
   }
   else if (m_growing) {
@@ -1232,7 +1232,7 @@ Player::draw(DrawingContext& context)
     m_sprite->set_action(sa_prefix+"-buttjump"+sa_postfix, 1);
   }
   else if (!on_ground() || m_fall_mode != ON_GROUND) {
-    if(m_physic.get_velocity_x() != 0 || m_fall_mode != ON_GROUND) {
+    if (m_physic.get_velocity_x() != 0 || m_fall_mode != ON_GROUND) {
         m_sprite->set_action(sa_prefix+"-jump"+sa_postfix);
     }
   }
@@ -1262,7 +1262,7 @@ Player::draw(DrawingContext& context)
       }
     }
     else {
-      if(fabsf(m_physic.get_velocity_x()) > MAX_WALK_XM && !is_big()) {
+      if (fabsf(m_physic.get_velocity_x()) > MAX_WALK_XM && !is_big()) {
         m_sprite->set_action(sa_prefix+"-run"+sa_postfix);
       } else {
         m_sprite->set_action(sa_prefix+"-walk"+sa_postfix);
@@ -1313,7 +1313,7 @@ Player::draw(DrawingContext& context)
     }
   }
   else {
-    if(m_dying)
+    if (m_dying)
       m_sprite->draw(context.color(), get_pos(), Sector::get().get_foremost_layer());
     else
       m_sprite->draw(context.color(), get_pos(), LAYER_OBJECTS + 1);
@@ -1330,18 +1330,18 @@ Player::draw(DrawingContext& context)
 void
 Player::collision_tile(uint32_t tile_attributes)
 {
-  if(tile_attributes & Tile::HURTS)
+  if (tile_attributes & Tile::HURTS)
     kill(false);
 
 #ifdef SWIMMING
-  if( swimming ){
-    if( tile_attributes & Tile::WATER ){
+  if ( swimming ){
+    if ( tile_attributes & Tile::WATER ){
       no_water = false;
     } else {
       swimming = false;
     }
   } else {
-    if( tile_attributes & Tile::WATER ){
+    if ( tile_attributes & Tile::WATER ){
       swimming = true;
       no_water = false;
       SoundManager::current()->play( "sounds/splash.wav" );
@@ -1349,7 +1349,7 @@ Player::collision_tile(uint32_t tile_attributes)
   }
 #endif
 
-  if(tile_attributes & Tile::ICE) {
+  if (tile_attributes & Tile::ICE) {
     m_ice_this_frame = true;
     m_on_ice = true;
   }
@@ -1358,8 +1358,8 @@ Player::collision_tile(uint32_t tile_attributes)
 void
 Player::collision_solid(const CollisionHit& hit)
 {
-  if(hit.bottom) {
-    if(m_physic.get_velocity_y() > 0)
+  if (hit.bottom) {
+    if (m_physic.get_velocity_y() > 0)
       m_physic.set_velocity_y(0);
 
     m_on_ground_flag = true;
@@ -1382,17 +1382,17 @@ Player::collision_solid(const CollisionHit& hit)
     }
 
   } else if(hit.top) {
-    if(m_physic.get_velocity_y() < 0)
+    if (m_physic.get_velocity_y() < 0)
       m_physic.set_velocity_y(.2f);
   }
 
-  if((hit.left || hit.right) && hit.slope_normal.x == 0) {
+  if ((hit.left || hit.right) && hit.slope_normal.x == 0) {
     m_physic.set_velocity_x(0);
   }
 
   // crushed?
-  if(hit.crush) {
-    if(hit.left || hit.right) {
+  if (hit.crush) {
+    if (hit.left || hit.right) {
       kill(true);
     } else if(hit.top || hit.bottom) {
       kill(false);
@@ -1404,24 +1404,24 @@ HitResponse
 Player::collision(GameObject& other, const CollisionHit& hit)
 {
   auto bullet = dynamic_cast<Bullet*> (&other);
-  if(bullet) {
+  if (bullet) {
     return FORCE_MOVE;
   }
 
   auto player = dynamic_cast<Player*> (&other);
-  if(player) {
+  if (player) {
     return ABORT_MOVE;
   }
 
-  if(hit.left || hit.right) {
+  if (hit.left || hit.right) {
     try_grab(); //grab objects right now, in update it will be too late
   }
   assert(dynamic_cast<MovingObject*> (&other) != nullptr);
   auto moving_object = static_cast<MovingObject*> (&other);
-  if(moving_object->get_group() == COLGROUP_TOUCHABLE) {
+  if (moving_object->get_group() == COLGROUP_TOUCHABLE) {
     auto trigger = dynamic_cast<TriggerBase*> (&other);
-    if(trigger && !m_deactivated) {
-      if(m_controller->pressed(Controller::UP))
+    if (trigger && !m_deactivated) {
+      if (m_controller->pressed(Controller::UP))
         trigger->event(*this, TriggerBase::EVENT_ACTIVATE);
     }
 
@@ -1429,10 +1429,10 @@ Player::collision(GameObject& other, const CollisionHit& hit)
   }
 
   auto badguy = dynamic_cast<BadGuy*> (&other);
-  if(badguy != nullptr) {
-    if(m_safe_timer.started() || m_invincible_timer.started())
+  if (badguy != nullptr) {
+    if (m_safe_timer.started() || m_invincible_timer.started())
       return FORCE_MOVE;
-    if(m_stone)
+    if (m_stone)
       return ABORT_MOVE;
   }
 
@@ -1450,10 +1450,10 @@ Player::make_invincible()
 void
 Player::kill(bool completely)
 {
-  if(m_dying || m_deactivated || is_winning() )
+  if (m_dying || m_deactivated || is_winning() )
     return;
 
-  if(!completely && (m_safe_timer.started() || m_invincible_timer.started() || m_stone))
+  if (!completely && (m_safe_timer.started() || m_invincible_timer.started() || m_stone))
     return;
 
   m_growing = false;
@@ -1466,10 +1466,10 @@ Player::kill(bool completely)
   m_powersprite->set_angle(0.0f);
   m_lightsprite->set_angle(0.0f);
 
-  if(!completely && is_big()) {
+  if (!completely && is_big()) {
     SoundManager::current()->play("sounds/hurt.wav");
 
-    if(m_player_status.bonus == FIRE_BONUS
+    if (m_player_status.bonus == FIRE_BONUS
       || m_player_status.bonus == ICE_BONUS
       || m_player_status.bonus == AIR_BONUS
       || m_player_status.bonus == EARTH_BONUS) {
@@ -1528,7 +1528,7 @@ Player::move(const Vector& vector)
   set_pos(vector);
 
   // Reset size to get correct hitbox if Tux was eg. ducked before moving
-  if(is_big())
+  if (is_big())
     m_col.set_size(TUX_WIDTH, BIG_TUX_HEIGHT);
   else
     m_col.set_size(TUX_WIDTH, SMALL_TUX_HEIGHT);
@@ -1591,7 +1591,7 @@ Player::get_velocity() const
 void
 Player::bounce(BadGuy& )
 {
-  if(!(m_player_status.bonus == AIR_BONUS))
+  if (!(m_player_status.bonus == AIR_BONUS))
     m_physic.set_velocity_y(m_controller->hold(Controller::JUMP) ? -520 : -300);
   else {
     m_physic.set_velocity_y(m_controller->hold(Controller::JUMP) ? -580 : -340);
@@ -1755,11 +1755,11 @@ Player::stop_backflipping()
 bool
 Player::has_grabbed(const std::string& object_name) const
 {
-  if(object_name.empty())
+  if (object_name.empty())
   {
     return false;
   }
-  if(auto object = dynamic_cast<GameObject*>(m_grabbed_object))
+  if (auto object = dynamic_cast<GameObject*>(m_grabbed_object))
   {
     return object->get_name() == object_name;
   }

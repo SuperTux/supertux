@@ -39,7 +39,7 @@ ScriptTrigger::ScriptTrigger(const ReaderMapping& reader) :
   reader.get("script", script);
   reader.get("button", must_activate);
   reader.get("oneshot", oneshot);
-  if(script.empty()) {
+  if (script.empty()) {
     log_warning << "No script set in script trigger" << std::endl;
   }
 
@@ -89,7 +89,7 @@ ScriptTrigger::after_editor_set() {
 void
 ScriptTrigger::event(Player& , EventType type)
 {
-  if(type != triggerevent)
+  if (type != triggerevent)
     return;
 
   if (oneshot && runcount >= 1) {

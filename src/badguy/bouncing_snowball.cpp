@@ -46,13 +46,13 @@ BouncingSnowball::collision_squished(GameObject& object)
 void
 BouncingSnowball::collision_solid(const CollisionHit& hit)
 {
-  if(m_sprite->get_action() == "squished")
+  if (m_sprite->get_action() == "squished")
   {
     return;
   }
 
-  if(hit.bottom) {
-    if(get_state() == STATE_ACTIVE) {
+  if (hit.bottom) {
+    if (get_state() == STATE_ACTIVE) {
       float bounce_speed = -m_physic.get_velocity_y()*0.8f;
       m_physic.set_velocity_y(std::min(JUMPSPEED, bounce_speed));
     } else {
@@ -64,7 +64,7 @@ BouncingSnowball::collision_solid(const CollisionHit& hit)
 
   // left or right collision
   // The direction must correspond, else we got fake bounces on slopes.
-  if((hit.left && m_dir == LEFT) || (hit.right && m_dir == RIGHT)) {
+  if ((hit.left && m_dir == LEFT) || (hit.right && m_dir == RIGHT)) {
     m_dir = m_dir == LEFT ? RIGHT : LEFT;
     m_sprite->set_action(m_dir == LEFT ? "left" : "right");
     m_physic.set_velocity_x(-m_physic.get_velocity_x());

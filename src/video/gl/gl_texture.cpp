@@ -96,7 +96,7 @@ GLTexture::GLTexture(const SDL_Surface& image, const Sampler& sampler) :
 
   try {
     GLenum sdl_format;
-    if(convert->format->BytesPerPixel == 3)
+    if (convert->format->BytesPerPixel == 3)
       sdl_format = GL_RGB;
     else if(convert->format->BytesPerPixel == 4)
       sdl_format = GL_RGBA;
@@ -115,7 +115,7 @@ GLTexture::GLTexture(const SDL_Surface& image, const Sampler& sampler) :
     assert(convert->pitch == static_cast<int>(m_texture_width * convert->format->BytesPerPixel));
 #endif
 
-    if(SDL_MUSTLOCK(convert))
+    if (SDL_MUSTLOCK(convert))
     {
       SDL_LockSurface(convert.get());
     }
@@ -125,12 +125,12 @@ GLTexture::GLTexture(const SDL_Surface& image, const Sampler& sampler) :
                  GL_UNSIGNED_BYTE, convert->pixels);
 
     // no not use mipmaps
-    if(false)
+    if (false)
     {
       glGenerateMipmap(GL_TEXTURE_2D);
     }
 
-    if(SDL_MUSTLOCK(convert.get()))
+    if (SDL_MUSTLOCK(convert.get()))
     {
       SDL_UnlockSurface(convert.get());
     }

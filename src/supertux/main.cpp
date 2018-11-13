@@ -309,14 +309,14 @@ class SDLSubsystem final
 public:
   SDLSubsystem()
   {
-    if(SDL_Init(SDL_INIT_TIMER | SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER) < 0)
+    if (SDL_Init(SDL_INIT_TIMER | SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER) < 0)
     {
       std::stringstream msg;
       msg << "Couldn't initialize SDL: " << SDL_GetError();
       throw std::runtime_error(msg.str());
     }
 
-    if(TTF_Init() < 0)
+    if (TTF_Init() < 0)
     {
       std::stringstream msg;
       msg << "Couldn't initialize SDL TTF: " << SDL_GetError();
@@ -360,7 +360,7 @@ static inline void timelog(const char* component)
 {
   Uint32 current_ticks = SDL_GetTicks();
 
-  if(last_timelog_component != nullptr) {
+  if (last_timelog_component != nullptr) {
     log_info << "Component '" << last_timelog_component <<  "' finished after " << (current_ticks - last_timelog_ticks) / 1000.0 << " seconds" << std::endl;
   }
 
@@ -413,20 +413,20 @@ Main::launch_game(const CommandLineArguments& args)
   GameManager game_manager;
   ScreenManager screen_manager(*video_system, input_manager);
 
-  if(!g_config->start_level.empty()) {
+  if (!g_config->start_level.empty()) {
     // we have a normal path specified at commandline, not a physfs path.
     // So we simply mount that path here...
     std::string dir = FileSystem::dirname(g_config->start_level);
     std::string filename = FileSystem::basename(g_config->start_level);
     std::string fileProtocol = "file://";
     std::string::size_type position = dir.find(fileProtocol);
-    if(position != std::string::npos) {
+    if (position != std::string::npos) {
       dir = dir.replace(position, fileProtocol.length(), "");
     }
     log_debug << "Adding dir: " << dir << std::endl;
     PHYSFS_mount(dir.c_str(), nullptr, true);
 
-    if(g_config->start_level.size() > 4 &&
+    if (g_config->start_level.size() > 4 &&
        g_config->start_level.compare(g_config->start_level.size() - 5, 5, ".stwm") == 0)
     {
       screen_manager.push_screen(std::make_unique<worldmap::WorldMapScreen>(
@@ -456,10 +456,10 @@ Main::launch_game(const CommandLineArguments& args)
         session->get_current_sector().get_player().set_pos(*g_config->tux_spawn_pos);
       }
 
-      if(!g_config->start_demo.empty())
+      if (!g_config->start_demo.empty())
         session->play_demo(g_config->start_demo);
 
-      if(!g_config->record_demo.empty())
+      if (!g_config->record_demo.empty())
         session->record_demo(g_config->record_demo);
       screen_manager.push_screen(std::move(session));
     }

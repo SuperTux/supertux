@@ -36,7 +36,7 @@ ReaderDocument::from_file(const std::string& filename)
   log_debug << "ReaderDocument::parse: " << filename << std::endl;
 
   IFileStream in(filename);
-  if(!in.good()) {
+  if (!in.good()) {
     std::stringstream msg;
     msg << "Parser problem: Couldn't open file '" << filename << "'.";
     throw std::runtime_error(msg.str());

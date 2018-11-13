@@ -51,7 +51,7 @@ Haywire::Haywire(const ReaderMapping& reader) :
   SoundManager::current()->preload("sounds/explosion.wav");
 
   //Check if we need another sprite
-  if( !reader.get( "sprite", m_sprite_name ) ){
+  if ( !reader.get( "sprite", m_sprite_name ) ){
     return;
   }
   if (m_sprite_name.empty()) {
@@ -78,7 +78,7 @@ Haywire::collision_squished(GameObject& object)
     return true;
   }
 
-  if(WalkingBadguy::is_frozen()) {
+  if (WalkingBadguy::is_frozen()) {
     WalkingBadguy::unfreeze();
   }
 
@@ -143,11 +143,11 @@ Haywire::active_update(float dt_sec)
 void
 Haywire::kill_fall()
 {
-  if(is_exploding) {
+  if (is_exploding) {
     ticking->stop();
     grunting->stop();
   }
-  if(is_valid()) {
+  if (is_valid()) {
     remove_me();
     Sector::get().add<Explosion>(m_col.m_bbox.get_middle());
   }

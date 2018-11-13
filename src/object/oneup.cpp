@@ -24,14 +24,14 @@ OneUp::OneUp(const Vector& pos, Direction direction) :
   physic()
 {
   physic.set_velocity( (direction == LEFT) ? -100.0 : 100.0, -400.0);
-  if(direction == DOWN) // this causes the doll to drop when opened with a butt-jump
+  if (direction == DOWN) // this causes the doll to drop when opened with a butt-jump
     physic.set_velocity(0, -100);
 }
 
 void
 OneUp::update(float dt_sec)
 {
-  if(!Sector::get().inside(m_col.m_bbox))
+  if (!Sector::get().inside(m_col.m_bbox))
     remove_me();
 
   m_col.m_movement = physic.get_movement(dt_sec);
@@ -41,7 +41,7 @@ HitResponse
 OneUp::collision(GameObject& other, const CollisionHit& )
 {
   auto player = dynamic_cast<Player*> (&other);
-  if(player) {
+  if (player) {
     player->get_status().add_coins(100);
 #if 0
     // FIXME: do we want this? q.v. src/level.cpp

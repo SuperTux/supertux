@@ -123,9 +123,9 @@ public:
   }
   bool contains(const Rectf& other) const
   {
-    if(p1.x >= other.p2.x || other.p1.x >= p2.x)
+    if (p1.x >= other.p2.x || other.p1.x >= p2.x)
       return false;
-    if(p1.y >= other.p2.y || other.p1.y >= p2.y)
+    if (p1.y >= other.p2.y || other.p1.y >= p2.y)
       return false;
 
     return true;

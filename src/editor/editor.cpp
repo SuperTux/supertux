@@ -157,16 +157,16 @@ void Editor::test_level() {
   Tile::draw_editor_images = false;
   Compositor::s_render_lighting = true;
   auto backup_filename = levelfile + "~";
-  if(world != nullptr)
+  if (world != nullptr)
   {
     auto basedir = world->get_basedir();
-    if(basedir == "./")
+    if (basedir == "./")
     {
       basedir = PHYSFS_getRealDir(levelfile.c_str());
     }
     test_levelfile = FileSystem::join(basedir, backup_filename);
     level->save(test_levelfile);
-    if(!worldmap_mode)
+    if (!worldmap_mode)
     {
       GameManager::current()->start_level(world.get(), backup_filename);
     }
@@ -181,7 +181,7 @@ void Editor::test_level() {
     test_levelfile = FileSystem::join(directory, backup_filename);
     level->save(test_levelfile);
     std::unique_ptr<World> test_world = World::load(directory);
-    if(!worldmap_mode)
+    if (!worldmap_mode)
     {
       GameManager::current()->start_level(std::move(test_world), backup_filename);
     }
@@ -332,7 +332,7 @@ void Editor::load_layers() {
 
 void Editor::load_sector(const std::string& name) {
   currentsector = level->get_sector(name);
-  if(!currentsector) {
+  if (!currentsector) {
     size_t i = 0;
     currentsector = level->get_sector(i);
   }
@@ -423,10 +423,10 @@ Editor::setup() {
 
   // Reactivate the editor after level test
   if (leveltested) {
-    if(!test_levelfile.empty())
+    if (!test_levelfile.empty())
     {
       // Try to remove the test level using the PhysFS file system
-      if(PhysFSFileSystem::remove(test_levelfile) != 0)
+      if (PhysFSFileSystem::remove(test_levelfile) != 0)
       {
         // This file is not inside any PhysFS mounts,
         // try to remove this using normal file system
@@ -537,7 +537,7 @@ Editor::get_objectgroups() const {
 void
 Editor::check_save_prerequisites(bool& sector_valid, bool& spawnpoint_valid) const
 {
-  if(worldmap_mode)
+  if (worldmap_mode)
   {
     sector_valid = true;
     spawnpoint_valid = true;
@@ -545,12 +545,12 @@ Editor::check_save_prerequisites(bool& sector_valid, bool& spawnpoint_valid) con
   }
   for(const auto& sector : level->m_sectors)
   {
-    if(sector->get_name() == "main")
+    if (sector->get_name() == "main")
     {
       sector_valid = true;
       for(const auto& spawnpoint : sector->get_objects_by_type<SpawnPointMarker>())
       {
-        if(spawnpoint.get_name() == "main")
+        if (spawnpoint.get_name() == "main")
         {
           spawnpoint_valid = true;
         }

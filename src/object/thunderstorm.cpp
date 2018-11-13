@@ -43,7 +43,7 @@ Thunderstorm::Thunderstorm(const ReaderMapping& reader) :
   reader.get("name", m_name);
   reader.get("running", running);
   reader.get("interval", interval);
-  if(interval <= 0) {
+  if (interval <= 0) {
     log_warning << "Running a thunderstorm with non-positive time interval is a bad idea" << std::endl;
   }
   layer = reader_get_layer (reader, /* default = */ LAYER_BACKGROUNDTILES-1);

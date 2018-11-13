@@ -44,7 +44,7 @@ ContribMenu::ContribMenu() :
   for(const char* const* filename = files.get(); *filename != nullptr; ++filename)
   {
     std::string filepath = FileSystem::join("levels", *filename);
-    if(PhysFSFileSystem::is_directory(filepath))
+    if (PhysFSFileSystem::is_directory(filepath))
     {
       level_worlds.push_back(filepath);
     }
@@ -56,10 +56,10 @@ ContribMenu::ContribMenu() :
   for(const char* const* addondir = addons.get(); *addondir != nullptr; ++addondir)
   {
     std::string addonpath = FileSystem::join("custom", *addondir);
-    if(PhysFSFileSystem::is_directory(addonpath))
+    if (PhysFSFileSystem::is_directory(addonpath))
     {
       std::string addonlevelpath = FileSystem::join(addonpath.c_str(), "levels");
-      if(PhysFSFileSystem::is_directory(addonlevelpath))
+      if (PhysFSFileSystem::is_directory(addonlevelpath))
       {
         std::unique_ptr<char*, decltype(&PHYSFS_freeList)>
           addonfiles(PHYSFS_enumerateFiles(addonlevelpath.c_str()),
@@ -67,7 +67,7 @@ ContribMenu::ContribMenu() :
         for(const char* const* filename = addonfiles.get(); *filename != nullptr; ++filename)
         {
           std::string filepath = FileSystem::join(addonlevelpath.c_str(), *filename);
-          if(PhysFSFileSystem::is_directory(filepath))
+          if (PhysFSFileSystem::is_directory(filepath))
           {
             level_worlds.push_back(filepath);
           }
@@ -103,7 +103,7 @@ ContribMenu::ContribMenu() :
           const auto& state = savegame.get_levelset_state(world->get_basedir());
           for(const auto& level_state : state.level_states)
           {
-            if(level_state.filename.empty())
+            if (level_state.filename.empty())
               continue;
 
             if (level_state.solved)
@@ -134,7 +134,7 @@ ContribMenu::ContribMenu() :
           const auto& state = savegame.get_worldmap_state(world->get_worldmap_filename());
           for(const auto& level_state : state.level_states)
           {
-            if(level_state.filename.empty())
+            if (level_state.filename.empty())
               continue;
 
             if (level_state.solved)

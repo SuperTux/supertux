@@ -85,7 +85,7 @@ Door::update(float )
       break;
     case OPENING:
       // if door has finished opening, start timer and keep door open
-      if(sprite->animation_done()) {
+      if (sprite->animation_done()) {
         state = OPEN;
         sprite->set_action("open");
         stay_open_timer.start(1.0);
@@ -100,7 +100,7 @@ Door::update(float )
       break;
     case CLOSING:
       // if door has finished closing, keep it shut
-      if(sprite->animation_done()) {
+      if (sprite->animation_done()) {
         state = CLOSED;
         sprite->set_action("closed");
       }
@@ -154,11 +154,11 @@ Door::collision(GameObject& other, const CollisionHit& hit_)
         int invincibilityperiod = static_cast<int>(player->m_invincible_timer.get_timeleft());
         state = CLOSING;
         sprite->set_action("closing", 1);
-        if(!script.empty()) {
+        if (!script.empty()) {
           Sector::get().run_script(script, "Door");
         }
 
-        if(!target_sector.empty()) {
+        if (!target_sector.empty()) {
           GameSession::current()->respawn(target_sector, target_spawnpoint,
                                           invincible, invincibilityperiod);
           ScreenManager::current()->set_screen_fade(std::make_unique<FadeToBlack>(FadeToBlack::FADEIN, 1));

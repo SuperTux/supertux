@@ -27,7 +27,7 @@ Background::set_image(const std::string& image)
 {
   SCRIPT_GUARD_VOID;
 
-  if(image.empty())
+  if (image.empty())
   {
     log_info << "No filename / path for background image specified" << std::endl;
     return;
@@ -36,7 +36,7 @@ Background::set_image(const std::string& image)
   const std::string& default_dir = "images/background/";
   bool path_valid = true;
 
-  if(!PHYSFS_exists(image.c_str()))
+  if (!PHYSFS_exists(image.c_str()))
     path_valid = false;
 
   object.set_image(path_valid ? image : default_dir + image);
@@ -48,7 +48,7 @@ Background::set_images(const std::string& top_image, const std::string& middle_i
 {
   SCRIPT_GUARD_VOID;
 
-  if(top_image.empty() || middle_image.empty() || bottom_image.empty())
+  if (top_image.empty() || middle_image.empty() || bottom_image.empty())
   {
     log_info << "No filename / path for background image specified" << std::endl;
     return;
@@ -57,13 +57,13 @@ Background::set_images(const std::string& top_image, const std::string& middle_i
   const std::string& default_dir = "images/background/";
   bool top_image_valid = true, middle_image_valid = true, bottom_image_valid = true;
 
-  if(!PHYSFS_exists(top_image.c_str()))
+  if (!PHYSFS_exists(top_image.c_str()))
     top_image_valid = false;
 
-  if(!PHYSFS_exists(middle_image.c_str()))
+  if (!PHYSFS_exists(middle_image.c_str()))
     middle_image_valid = false;
 
-  if(!PHYSFS_exists(bottom_image.c_str()))
+  if (!PHYSFS_exists(bottom_image.c_str()))
     bottom_image_valid = false;
 
   object.set_images(top_image_valid ? top_image : default_dir + top_image,

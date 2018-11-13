@@ -66,7 +66,7 @@ StreamSoundSource::set_sound_file(std::unique_ptr<SoundFile> newfile)
   ALint queued;
   alGetSourcei(source, AL_BUFFERS_QUEUED, &queued);
   for(size_t i = 0; i < STREAMFRAGMENTS - queued; ++i) {
-    if(fillBufferAndQueue(buffers[i]) == false)
+    if (fillBufferAndQueue(buffers[i]) == false)
       break;
   }
 }
@@ -88,12 +88,12 @@ StreamSoundSource::update()
       log_warning << e.what() << std::endl;
     }
 
-    if(fillBufferAndQueue(buffer) == false)
+    if (fillBufferAndQueue(buffer) == false)
       break;
   }
 
-  if(!playing()) {
-    if(processed == 0 || !looping)
+  if (!playing()) {
+    if (processed == 0 || !looping)
       return;
 
     // we might have to restart the source if we had a buffer underrun
@@ -101,9 +101,9 @@ StreamSoundSource::update()
     play();
   }
 
-  if(fade_state == FadingOn || fade_state == FadingResume) {
+  if (fade_state == FadingOn || fade_state == FadingResume) {
     float time = g_real_time - fade_start_time;
-    if(time >= fade_time) {
+    if (time >= fade_time) {
       set_gain(1.0);
       fade_state = NoFading;
     } else {
@@ -111,8 +111,8 @@ StreamSoundSource::update()
     }
   } else if(fade_state == FadingOff || fade_state == FadingPause) {
     float time = g_real_time - fade_start_time;
-    if(time >= fade_time) {
-      if(fade_state == FadingOff)
+    if (time >= fade_time) {
+      if (fade_state == FadingOff)
         stop();
       else
         pause();
@@ -141,15 +141,15 @@ StreamSoundSource::fillBufferAndQueue(ALuint buffer)
     bytesread += file->read(bufferdata.get() + bytesread,
                             STREAMFRAGMENTSIZE - bytesread);
     // end of sound file
-    if(bytesread < STREAMFRAGMENTSIZE) {
-      if(looping)
+    if (bytesread < STREAMFRAGMENTSIZE) {
+      if (looping)
         file->reset();
       else
         break;
     }
   } while(bytesread < STREAMFRAGMENTSIZE);
 
-  if(bytesread > 0) {
+  if (bytesread > 0) {
     ALenum format = SoundManager::get_sample_format(*file);
     try
     {

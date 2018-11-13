@@ -43,7 +43,7 @@ Plant::initialize()
 void
 Plant::collision_solid(const CollisionHit& hit)
 {
-  if(hit.top || hit.bottom) {
+  if (hit.top || hit.bottom) {
     m_physic.set_velocity_y(0);
   } else if(hit.left || hit.right) {
     m_dir = m_dir == LEFT ? RIGHT : LEFT;
@@ -55,9 +55,9 @@ Plant::collision_solid(const CollisionHit& hit)
 HitResponse
 Plant::collision_badguy(BadGuy& , const CollisionHit& hit)
 {
-  if(state != PLANT_WALKING) return CONTINUE;
+  if (state != PLANT_WALKING) return CONTINUE;
 
-  if(hit.left || hit.right) {
+  if (hit.left || hit.right) {
     m_dir = m_dir == LEFT ? RIGHT : LEFT;
     m_sprite->set_action(m_dir == LEFT ? "left" : "right");
     m_physic.set_velocity_x(-m_physic.get_velocity_x());
@@ -70,7 +70,7 @@ void
 Plant::active_update(float dt_sec) {
   BadGuy::active_update(dt_sec);
 
-  if(state == PLANT_SLEEPING) {
+  if (state == PLANT_SLEEPING) {
 
     auto player = get_nearest_player();
     if (player) {
@@ -84,14 +84,14 @@ Plant::active_update(float dt_sec) {
       if (inReach_left && inReach_right && inReach_top && inReach_bottom) {
         // wake up
         m_sprite->set_action(m_dir == LEFT ? "waking-left" : "waking-right");
-        if(!timer.started()) timer.start(WAKE_TIME);
+        if (!timer.started()) timer.start(WAKE_TIME);
         state = PLANT_WAKING;
       }
     }
   }
 
-  if(state == PLANT_WAKING) {
-    if(timer.check()) {
+  if (state == PLANT_WAKING) {
+    if (timer.check()) {
       // start walking
       m_sprite->set_action(m_dir == LEFT ? "left" : "right");
       m_physic.set_velocity_x(m_dir == LEFT ? -PLANT_SPEED : PLANT_SPEED);

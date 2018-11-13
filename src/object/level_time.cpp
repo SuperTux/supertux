@@ -37,7 +37,7 @@ LevelTime::LevelTime(const ReaderMapping& reader) :
   time_left()
 {
   reader.get("time", time_left, 0.0f);
-  if(time_left <= 0 && !Editor::is_active()) {
+  if (time_left <= 0 && !Editor::is_active()) {
     log_warning << "No or invalid leveltime specified." << std::endl;
     remove_me();
   }
@@ -58,13 +58,13 @@ LevelTime::update(float dt_sec)
 
   int prev_time = static_cast<int>(floorf(time_left*5));
   time_left -= dt_sec;
-  if(time_left <= 0) {
-    if(time_left <= -5 || !Sector::get().get_player().get_coins())
+  if (time_left <= 0) {
+    if (time_left <= -5 || !Sector::get().get_player().get_coins())
     {
       Sector::get().get_player().kill(true);
       stop();
     }
-    if(prev_time != static_cast<int>(floorf(time_left*5)))
+    if (prev_time != static_cast<int>(floorf(time_left*5)))
     {
       Sector::get().get_player().add_coins(-1);
     }

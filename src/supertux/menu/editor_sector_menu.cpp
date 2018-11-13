@@ -54,14 +54,14 @@ EditorSectorMenu::EditorSectorMenu() :
 EditorSectorMenu::~EditorSectorMenu()
 {
   auto editor = Editor::current();
-  if(editor == nullptr) {
+  if (editor == nullptr) {
     return;
   }
   // Makes sure that the name of the sector isn't already used.
   auto level = editor->get_level();
   bool is_sector = false;
   for(auto const& sector_ : level->m_sectors) {
-    if(sector_->get_name() == sector->get_name()) {
+    if (sector_->get_name() == sector->get_name()) {
       if (is_sector) {
         // Puts the name that was there before when the name is already used.
         sector->set_name(original_name);

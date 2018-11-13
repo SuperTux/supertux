@@ -268,7 +268,7 @@ GameObjectFactory::create(const std::string& name, const Vector& pos, const Dire
   lisptext << "(" << name << "\n"
            << " (x " << pos.x << ")"
            << " (y " << pos.y << ")" << data;
-  if(dir != AUTO) {
+  if (dir != AUTO) {
     lisptext << " (direction \"" << dir << "\"))";
   } else {
     lisptext << ")";

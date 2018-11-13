@@ -42,7 +42,7 @@ Spotlight::Spotlight(const ReaderMapping& lisp) :
   lisp.get("counter-clockwise", counter_clockwise, false);
 
   std::vector<float> vColor;
-  if( lisp.get( "color", vColor ) ){
+  if ( lisp.get( "color", vColor ) ){
     color = Color( vColor );
   }
 }
@@ -67,7 +67,7 @@ Spotlight::get_settings()
 void
 Spotlight::update(float dt_sec)
 {
-  if(counter_clockwise)
+  if (counter_clockwise)
   {
     angle -= dt_sec * speed;
   }

@@ -37,7 +37,7 @@ HitResponse
 SkullTile::collision(GameObject& other, const CollisionHit& )
 {
   auto player = dynamic_cast<Player*> (&other);
-  if(player)
+  if (player)
     hit = true;
 
   return FORCE_MOVE;
@@ -48,7 +48,7 @@ SkullTile::draw(DrawingContext& context)
 {
   Vector pos = get_pos();
   // shaking
-  if(timer.get_timegone() > CRACKTIME) {
+  if (timer.get_timegone() > CRACKTIME) {
     pos.x += static_cast<float>(graphicsRandom.rand(-3, 3));
   }
 
@@ -58,14 +58,14 @@ SkullTile::draw(DrawingContext& context)
 void
 SkullTile::update(float dt_sec)
 {
-  if(falling) {
+  if (falling) {
     m_col.m_movement = physic.get_movement(dt_sec);
-    if(!Sector::get().inside(m_col.m_bbox)) {
+    if (!Sector::get().inside(m_col.m_bbox)) {
       remove_me();
       return;
     }
   } else if(hit) {
-    if(timer.check()) {
+    if (timer.check()) {
       falling = true;
       physic.enable_gravity(true);
       timer.stop();

@@ -35,7 +35,7 @@ std::unique_ptr<SoundFile> load_music_file(const std::string& filename)
 {
   auto doc = ReaderDocument::from_file(filename);
   auto root = doc.get_root();
-  if(root.get_name() != "supertux-music")
+  if (root.get_name() != "supertux-music")
   {
     throw SoundError("file is not a supertux-music file.");
   }
@@ -51,7 +51,7 @@ std::unique_ptr<SoundFile> load_music_file(const std::string& filename)
     music.get("loop-begin", loop_begin);
     music.get("loop-at", loop_at);
 
-    if(loop_begin < 0) {
+    if (loop_begin < 0) {
       throw SoundError("can't loop from negative value");
     }
 
@@ -59,13 +59,13 @@ std::unique_ptr<SoundFile> load_music_file(const std::string& filename)
     raw_music_file = FileSystem::normalize(basedir + raw_music_file);
 
     auto file = PHYSFS_openRead(raw_music_file.c_str());
-    if(!file) {
+    if (!file) {
       std::stringstream msg;
       msg << "Couldn't open '" << raw_music_file << "': " << PHYSFS_getLastErrorCode();
       throw SoundError(msg.str());
     }
     auto format = SoundFile::get_file_format(file, raw_music_file);
-    if(format == SoundFile::FORMAT_WAV)
+    if (format == SoundFile::FORMAT_WAV)
     {
       return std::make_unique<WavSoundFile>(file);
     }
@@ -78,20 +78,20 @@ std::unique_ptr<SoundFile> load_music_file(const std::string& filename)
 
 std::unique_ptr<SoundFile> load_sound_file(const std::string& filename)
 {
-  if(filename.length() > 6
+  if (filename.length() > 6
      && filename.compare(filename.length() - 6, 6, ".music") == 0) {
     return load_music_file(filename);
   }
 
   auto file = PHYSFS_openRead(filename.c_str());
-  if(!file) {
+  if (!file) {
     std::stringstream msg;
     msg << "Couldn't open '" << filename << "': " << PHYSFS_getLastErrorCode() << ", using dummy sound file.";
     throw SoundError(msg.str());
   }
 
   auto format = SoundFile::get_file_format(file, filename);
-  if(format == SoundFile::FORMAT_WAV)
+  if (format == SoundFile::FORMAT_WAV)
   {
     return std::make_unique<WavSoundFile>(file);
   }
@@ -106,7 +106,7 @@ SoundFile::get_file_format(PHYSFS_File* file, const std::string& filename)
 {
   try {
     char magic[4];
-    if(PHYSFS_readBytes(file, magic, sizeof(magic)) < static_cast<std::make_signed<size_t>::type>(sizeof(magic)))
+    if (PHYSFS_readBytes(file, magic, sizeof(magic)) < static_cast<std::make_signed<size_t>::type>(sizeof(magic)))
       throw SoundError("Couldn't read magic, file too short");
     if (PHYSFS_seek(file, 0) == 0) {
       std::stringstream msg;
@@ -114,7 +114,7 @@ SoundFile::get_file_format(PHYSFS_File* file, const std::string& filename)
       throw SoundError(msg.str());
     }
 
-    if(strncmp(magic, "RIFF", 4) == 0)
+    if (strncmp(magic, "RIFF", 4) == 0)
       return FileFormat::FORMAT_WAV;
     else if(strncmp(magic, "OggS", 4) == 0)
       return FileFormat::FORMAT_OGG;

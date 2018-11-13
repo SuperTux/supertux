@@ -58,7 +58,7 @@ InfoBox::draw(DrawingContext& context)
   float y = y1;
   bool linesLeft = false;
   for(size_t i = firstline; i < lines.size(); ++i) {
-    if(y >= y1 + height) {
+    if (y >= y1 + height) {
       linesLeft = true;
       break;
     }
@@ -85,14 +85,14 @@ InfoBox::draw(DrawingContext& context)
 void
 InfoBox::scrollup()
 {
-  if(firstline > 0)
+  if (firstline > 0)
     firstline--;
 }
 
 void
 InfoBox::scrolldown()
 {
-  if(firstline < lines.size()-1)
+  if (firstline < lines.size()-1)
     firstline++;
 }
 

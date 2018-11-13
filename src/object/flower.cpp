@@ -30,7 +30,7 @@ Flower::Flower(BonusType _type) :
   m_col.m_bbox.set_size(32, 32);
   lightsprite->set_blend(Blend::ADD);
 
-  if(type == FIRE_BONUS) {
+  if (type == FIRE_BONUS) {
     sprite = SpriteManager::current()->create("images/powerups/fireflower/fireflower.sprite");
     SoundManager::current()->preload("sounds/fire-flower.wav");
     lightsprite->set_color(Color(0.3f, 0.0f, 0.0f));
@@ -72,10 +72,10 @@ HitResponse
 Flower::collision(GameObject& other, const CollisionHit& )
 {
   Player* player = dynamic_cast<Player*>(&other);
-  if(!player)
+  if (!player)
     return ABORT_MOVE;
 
-  if(!player->add_bonus(type, true))
+  if (!player->add_bonus(type, true))
     return FORCE_MOVE;
 
   SoundManager::current()->play("sounds/fire-flower.wav");

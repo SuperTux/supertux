@@ -157,7 +157,7 @@ ObjectSettings MovingSprite::get_settings()
 void MovingSprite::save(Writer& writer)
 {
   MovingObject::save(writer);
-  if(m_sprite_name != get_default_sprite_name())
+  if (m_sprite_name != get_default_sprite_name())
   {
     writer.write("sprite", m_sprite_name);
   }

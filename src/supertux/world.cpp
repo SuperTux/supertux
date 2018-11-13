@@ -103,7 +103,7 @@ World::load_(const std::string& directory)
 
   std::string filename = m_basedir + "/info";
 
-  if(!PHYSFS_exists(filename.c_str()) ||
+  if (!PHYSFS_exists(filename.c_str()) ||
      PhysFSFileSystem::is_directory(filename))
   {
     set_default_values();
@@ -115,7 +115,7 @@ World::load_(const std::string& directory)
     auto doc = ReaderDocument::from_file(filename);
     auto root = doc.get_root();
 
-    if(root.get_name() != "supertux-world" &&
+    if (root.get_name() != "supertux-world" &&
        root.get_name() != "supertux-level-subset")
     {
       throw std::runtime_error("File is not a world or levelsubset file");
@@ -169,9 +169,9 @@ World::save(bool retry)
 
     { // make sure the levelset directory exists
       std::string dirname = FileSystem::dirname(filepath);
-      if(!PHYSFS_exists(dirname.c_str()))
+      if (!PHYSFS_exists(dirname.c_str()))
       {
-        if(!PHYSFS_mkdir(dirname.c_str()))
+        if (!PHYSFS_mkdir(dirname.c_str()))
         {
           std::ostringstream msg;
           msg << "Couldn't create directory for levelset '"
@@ -180,7 +180,7 @@ World::save(bool retry)
         }
       }
 
-      if(!PhysFSFileSystem::is_directory(dirname))
+      if (!PhysFSFileSystem::is_directory(dirname))
       {
         std::ostringstream msg;
         msg << "Levelset path '" << dirname << "' is not a directory";
@@ -207,7 +207,7 @@ World::save(bool retry)
       log_warning << "Failed to save the levelset info, retrying..." << std::endl;
       { // create the levelset directory again
         std::string dirname = FileSystem::dirname(filepath);
-        if(!PHYSFS_mkdir(dirname.c_str()))
+        if (!PHYSFS_mkdir(dirname.c_str()))
         {
           std::ostringstream msg;
           msg << "Couldn't create directory for levelset '"

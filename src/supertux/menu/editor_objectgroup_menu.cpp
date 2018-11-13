@@ -44,7 +44,7 @@ EditorObjectgroupMenu::EditorObjectgroupMenu()
 EditorObjectgroupMenu::~EditorObjectgroupMenu()
 {
   auto editor = Editor::current();
-  if(editor == nullptr) {
+  if (editor == nullptr) {
     return;
   }
   editor->reactivate_request = true;

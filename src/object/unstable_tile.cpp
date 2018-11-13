@@ -37,9 +37,9 @@ UnstableTile::UnstableTile(const ReaderMapping& lisp) :
 HitResponse
 UnstableTile::collision(GameObject& other, const CollisionHit& )
 {
-  if(state == STATE_NORMAL) {
+  if (state == STATE_NORMAL) {
     Player* player = dynamic_cast<Player*> (&other);
-    if(player != nullptr &&
+    if (player != nullptr &&
        player->get_bbox().get_bottom() < m_col.m_bbox.get_top() + SHIFT_DELTA) {
       shake ();
     }

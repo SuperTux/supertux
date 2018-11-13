@@ -59,7 +59,7 @@ Owl::initialize()
   // If we add the carried object to the sector while we're editing 
   // a level with the editor, it gets written to the level file,
   // resulting in two carried objects. Returning early is much better.
-  if(Editor::is_active())
+  if (Editor::is_active())
   {
     return;
   }
@@ -106,7 +106,7 @@ Owl::active_update (float dt_sec)
 {
   BadGuy::active_update (dt_sec);
 
-  if(m_frozen)
+  if (m_frozen)
     return;
 
   if (carried_object != nullptr) {
@@ -194,12 +194,12 @@ Owl::is_freezable() const
 void
 Owl::collision_solid(const CollisionHit& hit)
 {
-  if(m_frozen)
+  if (m_frozen)
   {
     BadGuy::collision_solid(hit);
     return;
   }
-  if(hit.top || hit.bottom) {
+  if (hit.top || hit.bottom) {
     m_physic.set_velocity_y(0);
   } else if(hit.left || hit.right) {
     if (m_dir == LEFT) {

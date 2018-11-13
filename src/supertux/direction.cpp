@@ -59,7 +59,7 @@ std::string dir_to_prefixed(const Direction& dir, const std::string& prefix) {
 }
 
 Direction string_to_dir(const std::string& dir_str) {
-  if(dir_str == "left")
+  if (dir_str == "left")
     return LEFT;
   else if(dir_str == "right")
     return RIGHT;

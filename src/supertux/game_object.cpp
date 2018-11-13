@@ -63,20 +63,20 @@ GameObject::del_remove_listener(ObjectRemoveListener* listener)
 void
 GameObject::save(Writer& writer)
 {
-  if(m_name != "") {
+  if (m_name != "") {
     writer.write("name", m_name, false);
   }
   auto settings = get_settings();
   for(const auto& option : settings.get_options())
   {
-    if(option.is_savable()) {
+    if (option.is_savable()) {
       switch(option.type) {
         case MN_SCRIPT:
         case MN_TEXTFIELD:
         case MN_FILE:
         {
           auto value = *(reinterpret_cast<std::string*>(option.option));
-          if(!(option.flags & OPTION_ALLOW_EMPTY) && value.empty())
+          if (!(option.flags & OPTION_ALLOW_EMPTY) && value.empty())
             continue;
           writer.write(option.key, value);
         }

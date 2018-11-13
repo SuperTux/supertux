@@ -70,7 +70,7 @@ SquirrelVirtualMachine::SquirrelVirtualMachine(bool enable_debugger) :
   m_scheduler()
 {
   m_vm = sq_open(64);
-  if(m_vm == nullptr)
+  if (m_vm == nullptr)
     throw std::runtime_error("Couldn't initialize squirrel vm");
 
   sq_setsharedforeignptr(m_vm, this);
@@ -78,27 +78,27 @@ SquirrelVirtualMachine::SquirrelVirtualMachine(bool enable_debugger) :
   m_screenswitch_queue = std::make_unique<SquirrelThreadQueue>(m_vm);
   m_scheduler = std::make_unique<SquirrelScheduler>(m_vm);
 
-  if(enable_debugger) {
+  if (enable_debugger) {
 #ifdef ENABLE_SQDBG
     sq_enabledebuginfo(m_vm, SQTrue);
     debugger = sq_rdbg_init(m_vm, 1234, SQFalse);
-    if(debugger == nullptr)
+    if (debugger == nullptr)
       throw SquirrelError(m_vm, "Couldn't initialize squirrel debugger");
 
     sq_enabledebuginfo(m_vm, SQTrue);
     log_info << "Waiting for debug client..." << std::endl;
-    if(SQ_FAILED(sq_rdbg_waitforconnections(debugger)))
+    if (SQ_FAILED(sq_rdbg_waitforconnections(debugger)))
       throw SquirrelError(m_vm, "Waiting for debug clients failed");
     log_info << "debug client connected." << std::endl;
 #endif
   }
 
   sq_pushroottable(m_vm);
-  if(SQ_FAILED(sqstd_register_bloblib(m_vm)))
+  if (SQ_FAILED(sqstd_register_bloblib(m_vm)))
     throw SquirrelError(m_vm, "Couldn't register blob lib");
-  if(SQ_FAILED(sqstd_register_mathlib(m_vm)))
+  if (SQ_FAILED(sqstd_register_mathlib(m_vm)))
     throw SquirrelError(m_vm, "Couldn't register math lib");
-  if(SQ_FAILED(sqstd_register_stringlib(m_vm)))
+  if (SQ_FAILED(sqstd_register_stringlib(m_vm)))
     throw SquirrelError(m_vm, "Couldn't register string lib");
 
   // remove rand and srand calls from sqstdmath, we'll provide our own
@@ -128,7 +128,7 @@ SquirrelVirtualMachine::SquirrelVirtualMachine(bool enable_debugger) :
 SquirrelVirtualMachine::~SquirrelVirtualMachine()
 {
 #ifdef ENABLE_SQDBG
-  if(debugger != nullptr) {
+  if (debugger != nullptr) {
     sq_rdbg_shutdown(debugger);
     debugger = nullptr;
   }
@@ -148,7 +148,7 @@ void
 SquirrelVirtualMachine::update_debugger()
 {
 #ifdef ENABLE_SQDBG
-  if(debugger != nullptr)
+  if (debugger != nullptr)
     sq_rdbg_update(debugger);
 #endif
 }

@@ -33,7 +33,7 @@ InfoBlock::InfoBlock(const ReaderMapping& lisp) :
   lines(),
   lines_height(0)
 {
-  if(!lisp.get("message", message) && !(Editor::is_active())) {
+  if (!lisp.get("message", message) && !(Editor::is_active())) {
     log_warning << "No message in InfoBlock" << std::endl;
   }
   //stopped = false;
@@ -150,12 +150,12 @@ InfoBlock::draw(DrawingContext& context)
   float x2 = (m_col.m_bbox.p1.x + m_col.m_bbox.p2.x)/2 + width/2;
   float y1 = original_y - height;
 
-  if(x1 < 0) {
+  if (x1 < 0) {
     x1 = 0;
     x2 = width;
   }
 
-  if(x2 > Sector::get().get_width()) {
+  if (x2 > Sector::get().get_width()) {
     x2 = Sector::get().get_width();
     x1 = x2 - width;
   }
@@ -165,7 +165,7 @@ InfoBlock::draw(DrawingContext& context)
 
   float y = y1;
   for(size_t i = 0; i < lines.size(); ++i) {
-    if(y >= y1 + height) {
+    if (y >= y1 + height) {
       //log_warning << "Too many lines of text in InfoBlock" << std::endl;
       //dest_pct = 0;
       //shown_pct = 0;

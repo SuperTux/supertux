@@ -43,7 +43,7 @@ std::vector<LevelState> get_level_states(HSQUIRRELVM vm)
   {
     //here -1 is the value and -2 is the key
     const char* result;
-    if(SQ_FAILED(sq_getstring(vm, -2, &result)))
+    if (SQ_FAILED(sq_getstring(vm, -2, &result)))
     {
       std::ostringstream msg;
       msg << "Couldn't get string value";
@@ -124,13 +124,13 @@ Savegame::load()
 
   clear_state_table();
 
-  if(!PHYSFS_exists(m_filename.c_str()))
+  if (!PHYSFS_exists(m_filename.c_str()))
   {
     log_info << m_filename << " doesn't exist, not loading state" << std::endl;
   }
   else
   {
-    if(PhysFSFileSystem::is_directory(m_filename))
+    if (PhysFSFileSystem::is_directory(m_filename))
     {
       log_info << m_filename << " is a directory, not loading state" << std::endl;
       return;
@@ -144,7 +144,7 @@ Savegame::load()
       auto doc = ReaderDocument::from_file(m_filename);
       auto root = doc.get_root();
 
-      if(root.get_name() != "supertux-savegame")
+      if (root.get_name() != "supertux-savegame")
       {
         throw std::runtime_error("file is not a supertux-savegame file");
       }
@@ -154,14 +154,14 @@ Savegame::load()
 
         int version = 1;
         mapping.get("version", version);
-        if(version != 1)
+        if (version != 1)
         {
           throw std::runtime_error("incompatible savegame version");
         }
         else
         {
           boost::optional<ReaderMapping> tux;
-          if(!mapping.get("tux", tux))
+          if (!mapping.get("tux", tux))
           {
             throw std::runtime_error("No tux section in savegame");
           }
@@ -170,7 +170,7 @@ Savegame::load()
           }
 
           boost::optional<ReaderMapping> state;
-          if(!mapping.get("state", state))
+          if (!mapping.get("state", state))
           {
             throw std::runtime_error("No state section in savegame");
           }
@@ -218,9 +218,9 @@ Savegame::save()
 
   { // make sure the savegame directory exists
     std::string dirname = FileSystem::dirname(m_filename);
-    if(!PHYSFS_exists(dirname.c_str()))
+    if (!PHYSFS_exists(dirname.c_str()))
     {
-      if(!PHYSFS_mkdir(dirname.c_str()))
+      if (!PHYSFS_mkdir(dirname.c_str()))
       {
         std::ostringstream msg;
         msg << "Couldn't create directory for savegames '"
@@ -229,7 +229,7 @@ Savegame::save()
       }
     }
 
-    if(!PhysFSFileSystem::is_directory(dirname))
+    if (!PhysFSFileSystem::is_directory(dirname))
     {
       std::ostringstream msg;
       msg << "Savegame path '" << dirname << "' is not a directory";
@@ -245,7 +245,7 @@ Savegame::save()
   writer.write("version", 1);
 
   using namespace worldmap;
-  if(WorldMap::current() != nullptr)
+  if (WorldMap::current() != nullptr)
   {
     std::ostringstream title;
     title << WorldMap::current()->get_title();

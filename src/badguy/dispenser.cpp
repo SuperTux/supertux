@@ -56,9 +56,9 @@ Dispenser::Dispenser(const ReaderMapping& reader) :
   }
   catch(std::exception&)
   {
-    if(!Editor::is_active())
+    if (!Editor::is_active())
     {
-      if(type_s.empty()) {
+      if (type_s.empty()) {
         log_warning << "No dispenser type set, setting to dropper." << std::endl;
       }
       else {
@@ -112,12 +112,12 @@ Dispenser::draw(DrawingContext& context) {
 void
 Dispenser::activate()
 {
-  if( broken ){
+  if ( broken ){
     return;
   }
-  if( autotarget && !swivel ){ // auto cannon sprite might be wrong
+  if ( autotarget && !swivel ){ // auto cannon sprite might be wrong
     auto player = get_nearest_player();
-    if( player ){
+    if ( player ){
       m_dir = (player->get_pos().x > get_pos().x) ? RIGHT : LEFT;
       m_sprite->set_action(m_dir == LEFT ? "working-left" : "working-right");
     }
@@ -162,20 +162,20 @@ HitResponse
 Dispenser::collision(GameObject& other, const CollisionHit& hit)
 {
   auto player = dynamic_cast<Player*> (&other);
-  if(player) {
+  if (player) {
     // hit from above?
     if (player->get_bbox().p2.y < (m_col.m_bbox.p1.y + 16)) {
       collision_squished(*player);
       return FORCE_MOVE;
     }
-    if(m_frozen && type != DT_CANNON){
+    if (m_frozen && type != DT_CANNON){
       unfreeze();
     }
     return FORCE_MOVE;
   }
 
   auto bullet = dynamic_cast<Bullet*> (&other);
-  if(bullet){
+  if (bullet){
     return collision_bullet(*bullet, hit);
   }
 
@@ -187,16 +187,16 @@ Dispenser::active_update(float )
 {
   if (dispense_timer.check()) {
     // auto always shoots in Tux's direction
-    if( autotarget ){
-      if( m_sprite->animation_done()) {
+    if ( autotarget ){
+      if ( m_sprite->animation_done()) {
         m_sprite->set_action(m_dir == LEFT ? "working-left" : "working-right");
         swivel = false;
       }
 
       auto player = get_nearest_player();
-      if( player && !swivel ){
+      if ( player && !swivel ){
         Direction targetdir = (player->get_pos().x > get_pos().x) ? RIGHT : LEFT;
-        if( m_dir != targetdir ){ // no target: swivel cannon
+        if ( m_dir != targetdir ){ // no target: swivel cannon
           swivel = true;
           m_dir = targetdir;
           m_sprite->set_action(m_dir == LEFT ? "swivel-left" : "swivel-right", 1);
@@ -222,9 +222,9 @@ Dispenser::launch_badguy()
   //FIXME: Does is_offscreen() work right here?
   if (!is_offscreen() && !Editor::is_active()) {
     Direction launchdir = m_dir;
-    if( !autotarget && m_start_dir == AUTO ){
+    if ( !autotarget && m_start_dir == AUTO ){
       Player* player = get_nearest_player();
-      if( player ){
+      if ( player ){
         launchdir = (player->get_pos().x > get_pos().x) ? RIGHT : LEFT;
       }
     }
@@ -243,11 +243,11 @@ Dispenser::launch_badguy()
 
     std::string badguy = badguys[next_badguy];
 
-    if(badguy == "random") {
+    if (badguy == "random") {
       log_warning << "random is outdated; use a list of badguys to select from." << std::endl;
       return;
     }
-    if(badguy == "goldbomb") {
+    if (badguy == "goldbomb") {
       log_warning << "goldbomb is not allowed to be dispensed" << std::endl;
       return;
     }
@@ -289,7 +289,7 @@ Dispenser::launch_badguy()
       bad_guy.m_countMe = false;
 
       /* Set reference to dispenser in badguy itself */
-      if(limit_dispensed_badguys)
+      if (limit_dispensed_badguys)
       {
         bad_guy.set_parent_dispenser(this);
         current_badguys++;
@@ -313,19 +313,19 @@ Dispenser::freeze()
   set_group(COLGROUP_MOVING_STATIC);
   m_frozen = true;
 
-    if(type == DT_ROCKETLAUNCHER && m_sprite->has_action("iced-left"))
+    if (type == DT_ROCKETLAUNCHER && m_sprite->has_action("iced-left"))
     // Only swivel dispensers can use their left/right iced actions.
     m_sprite->set_action(m_dir == LEFT ? "iced-left" : "iced-right", 1);
     // when the sprite doesn't have separate actions for left and right or isn't a rocketlauncher,
     // it tries to use an universal one.
   else
   {
-    if(type == DT_CANNON && m_sprite->has_action("iced"))
+    if (type == DT_CANNON && m_sprite->has_action("iced"))
       m_sprite->set_action("iced", 1);
       // When is the dispenser a cannon, it uses the "iced" action.
     else
     {
-      if(m_sprite->has_action("dropper-iced"))
+      if (m_sprite->has_action("dropper-iced"))
         m_sprite->set_action("dropper-iced", 1);
         // When is the dispenser a dropper, it uses the "dropper-iced".
       else

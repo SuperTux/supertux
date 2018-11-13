@@ -94,20 +94,20 @@ SkullyHop::collision_solid(const CollisionHit& hit)
   }
 
   // ignore collisions while standing still
-  if(state != JUMPING)
+  if (state != JUMPING)
     return;
 
   // check if we hit the floor while falling
-  if(hit.bottom && m_physic.get_velocity_y() > 0 ) {
+  if (hit.bottom && m_physic.get_velocity_y() > 0 ) {
     set_state(STANDING);
   }
   // check if we hit the roof while climbing
-  if(hit.top) {
+  if (hit.top) {
     m_physic.set_velocity_y(0);
   }
 
   // check if we hit left or right while moving in either direction
-  if(hit.left || hit.right) {
+  if (hit.left || hit.right) {
     m_dir = m_dir == LEFT ? RIGHT : LEFT;
     m_sprite->set_action(m_dir == LEFT ? "jumping-left" : "jumping-right");
     m_physic.set_velocity_x(-0.25f*m_physic.get_velocity_x());

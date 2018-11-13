@@ -132,10 +132,10 @@ Stumpy::collision_solid(const CollisionHit& hit)
 
   switch (mystate) {
     case STATE_INVINCIBLE:
-      if(hit.top || hit.bottom) {
+      if (hit.top || hit.bottom) {
         m_physic.set_velocity_y(0);
       }
-      if(hit.left || hit.right) {
+      if (hit.left || hit.right) {
         m_physic.set_velocity_x(0);
       }
       break;
@@ -150,10 +150,10 @@ Stumpy::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
 {
   switch (mystate) {
     case STATE_INVINCIBLE:
-      if(hit.top || hit.bottom) {
+      if (hit.top || hit.bottom) {
         m_physic.set_velocity_y(0);
       }
-      if(hit.left || hit.right) {
+      if (hit.left || hit.right) {
         m_physic.set_velocity_x(0);
       }
       return CONTINUE;

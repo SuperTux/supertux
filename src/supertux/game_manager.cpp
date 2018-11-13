@@ -61,7 +61,7 @@ GameManager::run_worldmap(World* world, const std::string& worldmap_filename, co
     auto filename = m_savegame->get_player_status().last_worldmap;
     // If we specified a worldmap filename manually,
     // this overrides the default choice of "last worldmap"
-    if(!worldmap_filename.empty())
+    if (!worldmap_filename.empty())
     {
       filename = worldmap_filename;
     }
@@ -69,7 +69,7 @@ GameManager::run_worldmap(World* world, const std::string& worldmap_filename, co
     // No "last worldmap" found and no worldmap_filename
     // specified. Let's go ahead and use the worldmap
     // filename specified in the world.
-    if(filename.empty())
+    if (filename.empty())
     {
       filename = world->get_worldmap_filename();
     }
@@ -119,7 +119,7 @@ GameManager::get_level_name(const std::string& filename) const
     auto doc = ReaderDocument::from_file(filename);
     auto root = doc.get_root();
 
-    if(root.get_name() != "supertux-level") {
+    if (root.get_name() != "supertux-level") {
       return "";
     } else {
       auto mapping = root.get_mapping();

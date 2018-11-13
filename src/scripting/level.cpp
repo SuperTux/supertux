@@ -21,7 +21,7 @@ namespace scripting {
 void
 Level_finish(bool win)
 {
-  if(GameSession::current() == nullptr)
+  if (GameSession::current() == nullptr)
     return;
 
   GameSession::current()->finish(win);
@@ -30,7 +30,7 @@ Level_finish(bool win)
 void
 Level_spawn(const std::string& sector, const std::string& spawnpoint)
 {
-  if(GameSession::current() == nullptr)
+  if (GameSession::current() == nullptr)
     return;
 
   GameSession::current()->respawn(sector, spawnpoint);
@@ -46,7 +46,7 @@ Level_flip_vertically()
 void
 Level_toggle_pause()
 {
-  if(GameSession::current() == nullptr)
+  if (GameSession::current() == nullptr)
     return;
   GameSession::current()->toggle_pause();
 }
@@ -54,7 +54,7 @@ Level_toggle_pause()
 void
 Level_edit(bool edit_mode)
 {
-  if(GameSession::current() == nullptr) return;
+  if (GameSession::current() == nullptr) return;
   GameSession::current()->set_editmode(edit_mode);
 }
 

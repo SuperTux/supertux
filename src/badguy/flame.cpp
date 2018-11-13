@@ -76,7 +76,7 @@ Flame::active_update(float dt_sec)
 void
 Flame::activate()
 {
-  if(Editor::is_active())
+  if (Editor::is_active())
     return;
   sound_source = SoundManager::current()->create_sound_source(FLAME_SOUND);
   sound_source->set_position(get_pos());

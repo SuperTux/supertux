@@ -117,11 +117,11 @@ void
 WorldMap::move_to_spawnpoint(const std::string& spawnpoint, bool pan, bool main_as_default)
 {
   auto sp = get_spawnpoint_by_name(spawnpoint);
-  if(sp != nullptr) {
+  if (sp != nullptr) {
     Vector p = sp->pos;
     m_tux->set_tile_pos(p);
     m_tux->set_direction(sp->auto_dir);
-    if(pan) {
+    if (pan) {
       m_panning = true;
       m_pan_pos = get_camera_pos_for_tux();
       clamp_camera_position(m_pan_pos);
@@ -148,7 +148,7 @@ void
 WorldMap::on_escape_press()
 {
   // Show or hide the menu
-  if(!MenuManager::instance().is_active()) {
+  if (!MenuManager::instance().is_active()) {
     MenuManager::instance().set_menu(MenuStorage::WORLDMAP_MENU);
     m_tux->set_direction(D_NONE);  // stop tux movement when menu is called
   } else {
@@ -225,7 +225,7 @@ WorldMap::finished_level(Level* gamelevel)
   // TODO use Level* parameter here?
   auto level = at_level();
 
-  if(level == nullptr) {
+  if (level == nullptr) {
     return;
   }
 
@@ -236,9 +236,9 @@ WorldMap::finished_level(Level* gamelevel)
   // deal with statistics
   level->statistics.update(gamelevel->m_stats);
 
-  if(level->statistics.completed(level->statistics, level->target_time)) {
+  if (level->statistics.completed(level->statistics, level->target_time)) {
     level->perfect = true;
-    if(level->sprite->has_action("perfect"))
+    if (level->sprite->has_action("perfect"))
       level->sprite->set_action("perfect");
   }
 
@@ -324,16 +324,16 @@ WorldMap::update(float dt_sec)
     Vector requested_pos;
 
     // position "camera"
-    if(!m_panning) {
+    if (!m_panning) {
       m_camera_offset = get_camera_pos_for_tux();
     } else {
       Vector delta__ = m_pan_pos - m_camera_offset;
       float mag = delta__.norm();
-      if(mag > CAMERA_PAN_SPEED) {
+      if (mag > CAMERA_PAN_SPEED) {
         delta__ *= CAMERA_PAN_SPEED/mag;
       }
       m_camera_offset += delta__;
-      if(m_camera_offset == m_pan_pos) {
+      if (m_camera_offset == m_pan_pos) {
         m_panning = false;
       }
     }
@@ -341,11 +341,11 @@ WorldMap::update(float dt_sec)
     requested_pos = m_camera_offset;
     clamp_camera_position(m_camera_offset);
 
-    if(m_panning) {
-      if(requested_pos.x != m_camera_offset.x) {
+    if (m_panning) {
+      if (requested_pos.x != m_camera_offset.x) {
         m_pan_pos.x = m_camera_offset.x;
       }
-      if(requested_pos.y != m_camera_offset.y) {
+      if (requested_pos.y != m_camera_offset.y) {
         m_pan_pos.y = m_camera_offset.y;
       }
     }
@@ -356,26 +356,26 @@ WorldMap::update(float dt_sec)
   {
     // handle input
     const Controller& controller = InputManager::current()->get_controller();
-    if(controller.pressed(Controller::ACTION)
+    if (controller.pressed(Controller::ACTION)
        || controller.pressed(Controller::JUMP)
        || controller.pressed(Controller::MENU_SELECT)) {
       /* some people define UP and JUMP on the same key... */
-      if(!controller.pressed(Controller::UP))
+      if (!controller.pressed(Controller::UP))
         enter_level = true;
     }
-    if(controller.pressed(Controller::START) ||
+    if (controller.pressed(Controller::START) ||
        controller.pressed(Controller::ESCAPE))
     {
       on_escape_press();
     }
 
-    if(controller.pressed(Controller::CHEAT_MENU) &&
+    if (controller.pressed(Controller::CHEAT_MENU) &&
        g_config->developer_mode)
     {
       MenuManager::instance().set_menu(MenuStorage::WORLDMAP_CHEAT_MENU);
     }
 
-    if(controller.pressed(Controller::DEBUG_MENU) &&
+    if (controller.pressed(Controller::DEBUG_MENU) &&
        g_config->developer_mode)
     {
       MenuManager::instance().set_menu(MenuStorage::DEBUG_MENU);
@@ -416,7 +416,7 @@ WorldMap::update(float dt_sec)
       if (!level_) {
         //Respawn if player on a tile with no level and nowhere to go.
         int tile_data = tile_data_at(m_tux->get_tile_pos());
-        if(!( tile_data & ( Tile::WORLDMAP_NORTH |  Tile::WORLDMAP_SOUTH | Tile::WORLDMAP_WEST | Tile::WORLDMAP_EAST ))){
+        if (!( tile_data & ( Tile::WORLDMAP_NORTH |  Tile::WORLDMAP_SOUTH | Tile::WORLDMAP_WEST | Tile::WORLDMAP_EAST ))){
           log_warning << "Player at illegal position " << m_tux->get_tile_pos().x << ", " << m_tux->get_tile_pos().y << " respawning." << std::endl;
           move_to_spawnpoint("main");
           return;
@@ -588,7 +588,7 @@ WorldMap::draw_status(DrawingContext& context)
     for(auto& special_tile : get_objects_by_type<SpecialTile>()) {
       if (special_tile.pos == m_tux->get_tile_pos()) {
         /* Display an in-map message in the map, if any as been selected */
-        if(!special_tile.map_message.empty() && !special_tile.passive_message)
+        if (!special_tile.map_message.empty() && !special_tile.passive_message)
           context.color().draw_text(Resources::normal_font, special_tile.map_message,
                                     Vector(static_cast<float>(context.get_width()) / 2.0f,
                                            static_cast<float>(context.get_height()) - static_cast<float>(Resources::normal_font->get_height()) - 60.0f),
@@ -607,7 +607,7 @@ WorldMap::draw_status(DrawingContext& context)
   }
 
   /* Display a passive message in the map, if needed */
-  if(m_passive_message_timer.started())
+  if (m_passive_message_timer.started())
     context.color().draw_text(Resources::normal_font, m_passive_message,
                               Vector(static_cast<float>(context.get_width()) / 2.0f,
                                      static_cast<float>(context.get_height()) - Resources::normal_font->get_height() - 60.0f),
@@ -636,9 +636,9 @@ WorldMap::setup()
   if (!m_initial_fade_tilemap.empty())
   {
     auto tilemap = get_object_by_name<TileMap>(m_initial_fade_tilemap);
-    if(tilemap != nullptr)
+    if (tilemap != nullptr)
     {
-      if(m_fade_direction == 0)
+      if (m_fade_direction == 0)
       {
         tilemap->fade(1.0, 1);
       }
@@ -663,7 +663,7 @@ WorldMap::setup()
     // doesn't exist or erroneous; do nothing
   }
 
-  if(!m_init_script.empty()) {
+  if (!m_init_script.empty()) {
     m_squirrel_environment->run_script(m_init_script, "WorldMap::init");
   }
   m_tux->process_special_tile( at_special_tile() );
@@ -702,7 +702,7 @@ WorldMap::solved_level_count() const
 {
   size_t count = 0;
   for(auto& level : get_objects_by_type<LevelTile>()) {
-    if(level.solved)
+    if (level.solved)
       count++;
   }
 

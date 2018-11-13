@@ -76,10 +76,10 @@ PowerUp::initialize()
 void
 PowerUp::collision_solid(const CollisionHit& hit)
 {
-  if(hit.bottom) {
+  if (hit.bottom) {
     physic.set_velocity_y(0);
   }
-  if(hit.right || hit.left) {
+  if (hit.right || hit.left) {
     physic.set_velocity_x(-physic.get_velocity_x());
   }
 }
@@ -88,7 +88,7 @@ HitResponse
 PowerUp::collision(GameObject& other, const CollisionHit&)
 {
   Player* player = dynamic_cast<Player*>(&other);
-  if(player == nullptr)
+  if (player == nullptr)
     return FORCE_MOVE;
 
   if (m_sprite_name == "images/powerups/potions/blue-potion.sprite" ||
@@ -104,23 +104,23 @@ PowerUp::collision(GameObject& other, const CollisionHit&)
 
   // some defaults if no script has been set
   if (m_sprite_name == "images/powerups/egg/egg.sprite") {
-    if(!player->add_bonus(GROWUP_BONUS, true))
+    if (!player->add_bonus(GROWUP_BONUS, true))
       return FORCE_MOVE;
     SoundManager::current()->play("sounds/grow.ogg");
   } else if (m_sprite_name == "images/powerups/fireflower/fireflower.sprite") {
-    if(!player->add_bonus(FIRE_BONUS, true))
+    if (!player->add_bonus(FIRE_BONUS, true))
       return FORCE_MOVE;
     SoundManager::current()->play("sounds/fire-flower.wav");
   } else if (m_sprite_name == "images/powerups/iceflower/iceflower.sprite") {
-    if(!player->add_bonus(ICE_BONUS, true))
+    if (!player->add_bonus(ICE_BONUS, true))
       return FORCE_MOVE;
     SoundManager::current()->play("sounds/fire-flower.wav");
   } else if (m_sprite_name == "images/powerups/airflower/airflower.sprite") {
-    if(!player->add_bonus(AIR_BONUS, true))
+    if (!player->add_bonus(AIR_BONUS, true))
       return FORCE_MOVE;
     SoundManager::current()->play("sounds/fire-flower.wav");
   } else if (m_sprite_name == "images/powerups/earthflower/earthflower.sprite") {
-    if(!player->add_bonus(EARTH_BONUS, true))
+    if (!player->add_bonus(EARTH_BONUS, true))
       return FORCE_MOVE;
     SoundManager::current()->play("sounds/fire-flower.wav");
   } else if (m_sprite_name == "images/powerups/star/star.sprite") {

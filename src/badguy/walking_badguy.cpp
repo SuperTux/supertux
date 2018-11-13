@@ -72,7 +72,7 @@ WalkingBadguy::WalkingBadguy(const ReaderMapping& reader,
 void
 WalkingBadguy::initialize()
 {
-  if(m_frozen)
+  if (m_frozen)
     return;
   m_sprite->set_action(m_dir == LEFT ? walk_left_action : walk_right_action);
   m_col.m_bbox.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
@@ -179,7 +179,7 @@ WalkingBadguy::collision_solid(const CollisionHit& hit)
 HitResponse
 WalkingBadguy::collision_badguy(BadGuy& , const CollisionHit& hit)
 {
-  if(hit.top) {
+  if (hit.top) {
     return FORCE_MOVE;
   }
 
@@ -193,7 +193,7 @@ WalkingBadguy::collision_badguy(BadGuy& , const CollisionHit& hit)
 void
 WalkingBadguy::turn_around()
 {
-  if(m_frozen)
+  if (m_frozen)
     return;
   m_dir = m_dir == LEFT ? RIGHT : LEFT;
   if (get_state() == STATE_INIT || get_state() == STATE_INACTIVE || get_state() == STATE_ACTIVE) {

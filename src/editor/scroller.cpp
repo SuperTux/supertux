@@ -104,7 +104,7 @@ EditorScroller::event(SDL_Event& ev) {
   switch (ev.type) {
     case SDL_MOUSEBUTTONDOWN:
     {
-      if(ev.button.button == SDL_BUTTON_LEFT) {
+      if (ev.button.button == SDL_BUTTON_LEFT) {
         if (!rendered) return false;
 
         if (mouse_pos.x < SIZE && mouse_pos.y < SIZE) {

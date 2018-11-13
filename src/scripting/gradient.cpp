@@ -25,7 +25,7 @@ Gradient::set_direction(const std::string& direction)
 {
   SCRIPT_GUARD_VOID;
 
-  if(direction == "horizontal")
+  if (direction == "horizontal")
     object.set_direction(GradientDirection::HORIZONTAL);
   else if(direction == "vertical")
     object.set_direction(GradientDirection::VERTICAL);
@@ -44,13 +44,13 @@ Gradient::get_direction() const
 
   auto direction = object.get_direction();
 
-  if(direction == GradientDirection::HORIZONTAL)
+  if (direction == GradientDirection::HORIZONTAL)
     return "horizontal";
-  if(direction == GradientDirection::VERTICAL)
+  if (direction == GradientDirection::VERTICAL)
     return "vertical";
-  if(direction == GradientDirection::HORIZONTAL_SECTOR)
+  if (direction == GradientDirection::HORIZONTAL_SECTOR)
     return "horizontal_sector";
-  if(direction == GradientDirection::VERTICAL_SECTOR)
+  if (direction == GradientDirection::VERTICAL_SECTOR)
     return "vertical_sector";
 
   return nullptr;

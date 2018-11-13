@@ -94,7 +94,7 @@ KeyboardMenu::get_key_name(SDL_Keycode key) const
 void
 KeyboardMenu::menu_action(MenuItem& item)
 {
-  if(item.get_id() >= 0 && item.get_id() < Controller::CONTROLCOUNT){
+  if (item.get_id() >= 0 && item.get_id() < Controller::CONTROLCOUNT){
     ItemControlField* itemcf = dynamic_cast<ItemControlField*>(&item);
     if (!itemcf) {
       return;

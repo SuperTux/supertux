@@ -116,7 +116,7 @@ void
 Yeti::draw(DrawingContext& context)
 {
   // we blink when we are safe
-  if(safe_timer.started() && size_t(g_game_time * 40) % 2)
+  if (safe_timer.started() && size_t(g_game_time * 40) % 2)
     return;
 
   draw_hit_points(context);
@@ -157,7 +157,7 @@ Yeti::active_update(float dt_sec)
       if (((m_dir == RIGHT) && (get_pos().x >= right_stand_x)) || ((m_dir == LEFT) && (get_pos().x <= left_stand_x))) be_angry();
       break;
     case BE_ANGRY:
-      if(state_timer.check() && on_ground()) {
+      if (state_timer.check() && on_ground()) {
         m_physic.set_velocity_y(STOMP_VY);
         m_sprite->set_action((m_dir==RIGHT)?"stomp-right":"stomp-left");
         SoundManager::current()->play("sounds/yeti_gna.wav");
@@ -252,13 +252,13 @@ Yeti::kill_squished(GameObject& object)
 
 void Yeti::take_hit(Player& )
 {
-  if(safe_timer.started())
+  if (safe_timer.started())
     return;
 
   SoundManager::current()->play("sounds/yeti_roar.wav");
   hit_points--;
 
-  if(hit_points <= 0) {
+  if (hit_points <= 0) {
     // We're dead
     m_physic.set_velocity_x(((m_dir==RIGHT)?+RUN_VX:-RUN_VX)/5);
     m_physic.set_velocity_y(0);
@@ -293,17 +293,17 @@ Yeti::drop_stalactite()
 
   for (auto& stalactite : Sector::get().get_objects_by_type<YetiStalactite>())
   {
-    if(stalactite.is_hanging()) {
+    if (stalactite.is_hanging()) {
       if (hit_points >= 3) {
         // drop stalactites within 3 of player, going out with each jump
         float distancex = fabsf(stalactite.get_bbox().get_middle().x - player->get_bbox().get_middle().x);
-        if(distancex < static_cast<float>(stomp_count) * 32.0f) {
+        if (distancex < static_cast<float>(stomp_count) * 32.0f) {
           stalactite.start_shaking();
         }
       }
       else { /* if (hitpoints < 3) */
         // drop every 3rd pair of stalactites
-        if((((static_cast<int>(stalactite.get_pos().x) + 16) / 64) % 3) == (stomp_count % 3)) {
+        if ((((static_cast<int>(stalactite.get_pos().x) + 16) / 64) % 3) == (stomp_count % 3)) {
           stalactite.start_shaking();
         }
       }
@@ -315,7 +315,7 @@ void
 Yeti::collision_solid(const CollisionHit& hit)
 {
   update_on_ground_flag(hit);
-  if(hit.top || hit.bottom) {
+  if (hit.top || hit.bottom) {
     // hit floor or roof
     m_physic.set_velocity_y(0);
     switch (state) {
@@ -328,13 +328,13 @@ Yeti::collision_solid(const CollisionHit& hit)
         break;
       case BE_ANGRY:
         // we just landed
-        if(!state_timer.started()) {
+        if (!state_timer.started()) {
           m_sprite->set_action((m_dir==RIGHT)?"stand-right":"stand-left");
           stomp_count++;
           drop_stalactite();
 
           // go to other side after 3 jumps
-          if(stomp_count == 3) {
+          if (stomp_count == 3) {
             jump_down();
           } else {
             // jump again

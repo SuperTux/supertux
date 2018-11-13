@@ -73,7 +73,7 @@ BitmapFont::BitmapFont(GlyphWidth glyph_width_,
   char **rc = PHYSFS_enumerateFiles(fontdir.c_str());
   for (char **i = rc; *i != nullptr; i++) {
     std::string filename_(*i);
-    if( filename_.rfind(fontname) != std::string::npos ) {
+    if ( filename_.rfind(fontname) != std::string::npos ) {
       try {
         loadFontFile(fontdir + filename_);
       }
@@ -103,11 +103,11 @@ BitmapFont::loadFontFile(const std::string &filename)
 
   int def_char_width=0;
 
-  if( !config_l.get("glyph-width",def_char_width) ) {
+  if ( !config_l.get("glyph-width",def_char_width) ) {
     log_warning << "Font:"<< filename << ": misses default glyph-width" << std::endl;
   }
 
-  if( !config_l.get("glyph-height",char_height) ) {
+  if ( !config_l.get("glyph-height",char_height) ) {
     std::ostringstream msg;
     msg << "Font:" << filename << ": misses glyph-height";
     throw std::runtime_error(msg.str());
@@ -119,7 +119,7 @@ BitmapFont::loadFontFile(const std::string &filename)
   auto iter = config_l.get_iter();
   while(iter.next()) {
     const std::string& token = iter.get_key();
-    if( token == "surface" ) {
+    if ( token == "surface" ) {
       auto glyphs_val = iter.as_mapping();
       int local_char_width;
       bool monospaced;
@@ -127,33 +127,33 @@ BitmapFont::loadFontFile(const std::string &filename)
       std::string glyph_image;
       std::string shadow_image;
       std::vector<std::string> chars;
-      if( ! glyphs_val.get("glyph-width", local_char_width) ) {
+      if ( ! glyphs_val.get("glyph-width", local_char_width) ) {
         local_char_width = def_char_width;
       }
-      if( ! glyphs_val.get("monospace", monospaced ) ) {
+      if ( ! glyphs_val.get("monospace", monospaced ) ) {
         local_glyph_width = glyph_width;
       }
       else {
-        if( monospaced ) local_glyph_width = FIXED;
+        if ( monospaced ) local_glyph_width = FIXED;
         else local_glyph_width = VARIABLE;
       }
-      if( ! glyphs_val.get("glyphs", glyph_image) ) {
+      if ( ! glyphs_val.get("glyphs", glyph_image) ) {
         std::ostringstream msg;
         msg << "Font:" << filename << ": missing glyphs image";
         throw std::runtime_error(msg.str());
       }
-      if( ! glyphs_val.get("shadows", shadow_image) ) {
+      if ( ! glyphs_val.get("shadows", shadow_image) ) {
         std::ostringstream msg;
         msg << "Font:" << filename << ": missing shadows image";
         throw std::runtime_error(msg.str());
       }
-      if( ! glyphs_val.get("chars", chars) || chars.size() == 0) {
+      if ( ! glyphs_val.get("chars", chars) || chars.size() == 0) {
         std::ostringstream msg;
         msg << "Font:" << filename << ": missing chars definition";
         throw std::runtime_error(msg.str());
       }
 
-      if( local_char_width==0 ) {
+      if ( local_char_width==0 ) {
         std::ostringstream msg;
         msg << "Font:" << filename << ": misses glyph-width for some surface";
         throw std::runtime_error(msg.str());
@@ -185,7 +185,7 @@ BitmapFont::loadFontSurface(const std::string& glyphimage,
 
   SDLSurfacePtr surface;
 
-  if( glyph_width_ == VARIABLE )
+  if ( glyph_width_ == VARIABLE )
   {
     surface = SDLSurface::from_file("images/engine/fonts/" + glyphimage);
     SDL_LockSurface(surface.get());
@@ -195,13 +195,13 @@ BitmapFont::loadFontSurface(const std::string& glyphimage,
     for(UTF8Iterator chr(chars[i]); !chr.done(); ++chr) {
       int y = row * (char_height + 2*border) + border;
       int x = col * (char_width + 2*border) + border;
-      if( ++col == wrap ) { col=0; row++; }
-      if( *chr == 0x0020 && glyphs[0x20].surface_idx != -1) continue;
+      if ( ++col == wrap ) { col=0; row++; }
+      if ( *chr == 0x0020 && glyphs[0x20].surface_idx != -1) continue;
 
       Glyph glyph;
       glyph.surface_idx   = surface_idx;
 
-      if( glyph_width_ == FIXED || (*chr <= 255 && isdigit(*chr)) )
+      if ( glyph_width_ == FIXED || (*chr <= 255 && isdigit(*chr)) )
       {
         glyph.rect    = Rectf(static_cast<float>(x),
                               static_cast<float>(y),
@@ -244,7 +244,7 @@ BitmapFont::loadFontSurface(const std::string& glyphimage,
 
       glyphs[*chr] = glyph;
     }
-    if( col>0 && col <= wrap ) {
+    if ( col>0 && col <= wrap ) {
       col = 0;
       row++;
     }
@@ -275,7 +275,7 @@ BitmapFont::get_text_width(const std::string& text) const
     }
     else
     {
-      if( glyphs.at(*it).surface_idx != -1 )
+      if ( glyphs.at(*it).surface_idx != -1 )
         curr_width += glyphs[*it].advance;
       else
         curr_width += glyphs[0x20].advance;
@@ -351,7 +351,7 @@ BitmapFont::draw_text(Canvas& canvas, const std::string& text,
       // calculate X positions based on the alignment type
       Vector pos = Vector(x, y);
 
-      if(alignment == ALIGN_CENTER)
+      if (alignment == ALIGN_CENTER)
         pos.x -= get_text_width(temp) / 2;
       else if(alignment == ALIGN_RIGHT)
         pos.x -= get_text_width(temp);
@@ -374,7 +374,7 @@ BitmapFont::draw_text(Canvas& canvas, const std::string& text,
 void
 BitmapFont::draw_text(Canvas& canvas, const std::string& text, const Vector& pos, int layer, Color color) const
 {
-  if(shadowsize > 0)
+  if (shadowsize > 0)
     draw_chars(canvas, false, rtl ? std::string(text.rbegin(), text.rend()) : text,
                pos + Vector(static_cast<float>(shadowsize), static_cast<float>(shadowsize)), layer,
                Color(1,1,1));
@@ -389,7 +389,7 @@ BitmapFont::draw_chars(Canvas& canvas, bool notshadow, const std::string& text, 
 
   for(UTF8Iterator it(text); !it.done(); ++it)
   {
-    if(*it == '\n')
+    if (*it == '\n')
     {
       p.x = pos.x;
       p.y += static_cast<float>(char_height) + 2.0f;
@@ -401,7 +401,7 @@ BitmapFont::draw_chars(Canvas& canvas, bool notshadow, const std::string& text, 
     else
     {
       Glyph glyph;
-      if( glyphs.at(*it).surface_idx != -1 )
+      if ( glyphs.at(*it).surface_idx != -1 )
         glyph = glyphs[*it];
       else
         glyph = glyphs[0x20];

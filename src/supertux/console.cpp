@@ -138,7 +138,7 @@ Console::on_buffer_change(int line_count)
   // increase console height if necessary
   if (m_stayOpen > 0 && m_height < 64)
   {
-    if(m_height < 4)
+    if (m_height < 4)
     {
       m_height = 4;
     }
@@ -152,15 +152,15 @@ Console::on_buffer_change(int line_count)
 void
 Console::ready_vm()
 {
-  if(m_vm == nullptr) {
+  if (m_vm == nullptr) {
     m_vm = SquirrelVirtualMachine::current()->get_vm();
     HSQUIRRELVM new_vm = sq_newthread(m_vm, 16);
-    if(new_vm == nullptr)
+    if (new_vm == nullptr)
       throw SquirrelError(m_vm, "Couldn't create new VM thread for console");
 
     // store reference to thread
     sq_resetobject(&m_vm_object);
-    if(SQ_FAILED(sq_getstackobj(m_vm, -1, &m_vm_object)))
+    if (SQ_FAILED(sq_getstackobj(m_vm, -1, &m_vm_object)))
       throw SquirrelError(m_vm, "Couldn't get vm object for console");
     sq_addref(m_vm, &m_vm_object);
     sq_pop(m_vm, 1);
@@ -168,7 +168,7 @@ Console::ready_vm()
     // create new roottable for thread
     sq_newtable(new_vm);
     sq_pushroottable(new_vm);
-    if(SQ_FAILED(sq_setdelegate(new_vm, -2)))
+    if (SQ_FAILED(sq_setdelegate(new_vm, -2)))
       throw SquirrelError(new_vm, "Couldn't set console_table delegate");
 
     sq_setroottable(new_vm);
@@ -192,21 +192,21 @@ Console::execute_script(const std::string& command)
 
   SQInteger oldtop = sq_gettop(m_vm);
   try {
-    if(SQ_FAILED(sq_compilebuffer(m_vm, command.c_str(), command.length(),
+    if (SQ_FAILED(sq_compilebuffer(m_vm, command.c_str(), command.length(),
                                   "", SQTrue)))
       throw SquirrelError(m_vm, "Couldn't compile command");
 
     sq_pushroottable(m_vm);
-    if(SQ_FAILED(sq_call(m_vm, 1, SQTrue, SQTrue)))
+    if (SQ_FAILED(sq_call(m_vm, 1, SQTrue, SQTrue)))
       throw SquirrelError(m_vm, "Problem while executing command");
 
-    if(sq_gettype(m_vm, -1) != OT_NULL)
+    if (sq_gettype(m_vm, -1) != OT_NULL)
       m_buffer.addLines(squirrel2string(m_vm, -1));
   } catch(std::exception& e) {
     m_buffer.addLines(e.what());
   }
   SQInteger newtop = sq_gettop(m_vm);
-  if(newtop < oldtop) {
+  if (newtop < oldtop) {
     log_fatal << "Script destroyed squirrel stack..." << std::endl;
   } else {
     sq_settop(m_vm, oldtop);
@@ -373,7 +373,7 @@ Console::autocomplete()
 
     // cycle through parent(delegate) table
     SQInteger oldtop = sq_gettop(m_vm);
-    if(SQ_FAILED(sq_getdelegate(m_vm, -1)) || oldtop == sq_gettop(m_vm)) {
+    if (SQ_FAILED(sq_getdelegate(m_vm, -1)) || oldtop == sq_gettop(m_vm)) {
       break;
     }
     sq_remove(m_vm, -2); // remove old table
@@ -462,7 +462,7 @@ Console::hasFocus() const
 void
 Console::show()
 {
-  if(!g_config->developer_mode)
+  if (!g_config->developer_mode)
     return;
 
   m_focused = true;
@@ -473,7 +473,7 @@ Console::show()
 void
 Console::open()
 {
-  if(m_stayOpen < 2)
+  if (m_stayOpen < 2)
     m_stayOpen += 1.5f;
 }
 
@@ -501,13 +501,13 @@ Console::toggle()
 void
 Console::update(float dt_sec)
 {
-  if(m_stayOpen > 0) {
+  if (m_stayOpen > 0) {
     m_stayOpen -= dt_sec;
-    if(m_stayOpen < 0)
+    if (m_stayOpen < 0)
       m_stayOpen = 0;
   } else if(!m_focused && m_height > 0) {
     m_alpha -= dt_sec * FADE_SPEED;
-    if(m_alpha < 0) {
+    if (m_alpha < 0) {
       m_alpha = 0;
       m_height = 0;
     }

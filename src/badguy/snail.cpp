@@ -94,10 +94,10 @@ Snail::can_break() const {
 void
 Snail::active_update(float dt_sec)
 {
-  if(state == STATE_GRABBED)
+  if (state == STATE_GRABBED)
     return;
   
-  if(m_frozen)
+  if (m_frozen)
   {
     BadGuy::active_update(dt_sec);
     return;
@@ -147,7 +147,7 @@ Snail::is_freezable() const
 void
 Snail::collision_solid(const CollisionHit& hit)
 {
-  if(m_frozen)
+  if (m_frozen)
   {
     WalkingBadguy::collision_solid(hit);
     return;
@@ -158,10 +158,10 @@ Snail::collision_solid(const CollisionHit& hit)
       WalkingBadguy::collision_solid(hit);
       return;
     case STATE_KICKED:
-      if(hit.left || hit.right) {
+      if (hit.left || hit.right) {
         SoundManager::current()->play("sounds/iceblock_bump.wav", get_pos());
 
-        if( ( m_dir == LEFT && hit.left ) || ( m_dir == RIGHT && hit.right) ){
+        if ( ( m_dir == LEFT && hit.left ) || ( m_dir == RIGHT && hit.right) ){
           m_dir = (m_dir == LEFT) ? RIGHT : LEFT;
           m_sprite->set_action(m_dir == LEFT ? "flat-left" : "flat-right");
 
@@ -171,7 +171,7 @@ Snail::collision_solid(const CollisionHit& hit)
       /* fall-through */
     case STATE_FLAT:
     case STATE_KICKED_DELAY:
-      if(hit.top || hit.bottom) {
+      if (hit.top || hit.bottom) {
         m_physic.set_velocity_y(0);
       }
       break;
@@ -186,7 +186,7 @@ Snail::collision_solid(const CollisionHit& hit)
 HitResponse
 Snail::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
 {
-  if(m_frozen)
+  if (m_frozen)
     return WalkingBadguy::collision_badguy(badguy, hit);
 
   switch(state) {
@@ -208,12 +208,12 @@ Snail::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
 HitResponse
 Snail::collision_player(Player& player, const CollisionHit& hit)
 {
-  if(m_frozen)
+  if (m_frozen)
     return WalkingBadguy::collision_player(player, hit);
 
   // handle kicks from left or right side
-  if(state == STATE_FLAT && (hit.left || hit.right)) {
-    if(hit.left) {
+  if (state == STATE_FLAT && (hit.left || hit.right)) {
+    if (hit.left) {
       m_dir = RIGHT;
     } else if(hit.right) {
       m_dir = LEFT;
@@ -229,11 +229,11 @@ Snail::collision_player(Player& player, const CollisionHit& hit)
 bool
 Snail::collision_squished(GameObject& object)
 {
-  if(m_frozen)
+  if (m_frozen)
     return WalkingBadguy::collision_squished(object);
 
   Player* player = dynamic_cast<Player*>(&object);
-  if(player && (player->m_does_buttjump || player->is_invincible())) {
+  if (player && (player->m_does_buttjump || player->is_invincible())) {
     kill_fall();
     player->bounce(*this);
     return true;
@@ -245,7 +245,7 @@ Snail::collision_squished(GameObject& object)
     case STATE_NORMAL:
 
       // Can't stomp in midair
-      if(!on_ground())
+      if (!on_ground())
         break;
 
       squishcount++;
@@ -292,7 +292,7 @@ Snail::grab(MovingObject&, const Vector& pos, Direction dir_)
 void
 Snail::ungrab(MovingObject& , Direction dir_)
 {
-  if(dir_ == UP) {
+  if (dir_ == UP) {
     be_flat();
   } else {
     m_dir = dir_;

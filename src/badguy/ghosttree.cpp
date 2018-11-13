@@ -82,7 +82,7 @@ void
 GhostTree::active_update(float /*dt_sec*/)
 {
   if (mystate == STATE_IDLE) {
-    if(colorchange_timer.check()) {
+    if (colorchange_timer.check()) {
       SoundManager::current()->play("sounds/tree_howling.ogg", get_pos());
       suck_timer.start(3);
       treecolor = (treecolor + 1) % 3;
@@ -100,11 +100,11 @@ GhostTree::active_update(float /*dt_sec*/)
       glow_sprite->set_color(col);
     }
 
-    if(suck_timer.check()) {
+    if (suck_timer.check()) {
       Color col = glow_sprite->get_color();
       SoundManager::current()->play("sounds/tree_suck.ogg", get_pos());
       for(const auto& willo : willowisps) {
-        if(willo->get_color() == col) {
+        if (willo->get_color() == col) {
           willo->start_sucking(
             m_col.m_bbox.get_middle() + SUCK_TARGET_OFFSET
             + Vector(gameRandom.randf(-SUCK_TARGET_SPREAD, SUCK_TARGET_SPREAD),
@@ -114,21 +114,21 @@ GhostTree::active_update(float /*dt_sec*/)
       mystate = STATE_SUCKING;
     }
 
-    if(willowisp_timer.check()) {
-      if(willowisps.size() < WILLOWISP_COUNT) {
+    if (willowisp_timer.check()) {
+      if (willowisps.size() < WILLOWISP_COUNT) {
         Vector pos = Vector(m_col.m_bbox.get_width() / 2, m_col.m_bbox.get_height() / 2 + willo_spawn_y + WILLOWISP_TOP_OFFSET);
         auto& willowisp = Sector::get().add<TreeWillOWisp>(this, pos, 200 + willo_radius, willo_speed);
         willowisps.push_back(&willowisp);
 
         willo_spawn_y -= 40;
-        if(willo_spawn_y < -160)
+        if (willo_spawn_y < -160)
           willo_spawn_y = 0;
 
         willo_radius += 20;
-        if(willo_radius > 120)
+        if (willo_radius > 120)
           willo_radius = 0;
 
-        if(willo_speed == 1.8f) {
+        if (willo_speed == 1.8f) {
           willo_speed = 1.5f;
         } else {
           willo_speed = 1.8f;
@@ -150,7 +150,7 @@ GhostTree::active_update(float /*dt_sec*/)
       }
     }
 
-    if(root_timer.check()) {
+    if (root_timer.check()) {
       /* TODO indicate root with an animation */
       auto player = get_nearest_player();
       if (player) {
@@ -237,7 +237,7 @@ GhostTree::collides(GameObject& other, const CollisionHit& ) const
 HitResponse
 GhostTree::collision(GameObject& other, const CollisionHit& )
 {
-  if(mystate != STATE_SUCKING) return ABORT_MOVE;
+  if (mystate != STATE_SUCKING) return ABORT_MOVE;
 
   auto player = dynamic_cast<Player*>(&other);
   if (player) {

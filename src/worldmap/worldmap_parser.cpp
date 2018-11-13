@@ -58,7 +58,7 @@ WorldMapParser::load_worldmap(const std::string& filename)
     auto doc = ReaderDocument::from_file(m_worldmap.m_map_filename);
     auto root = doc.get_root();
 
-    if(root.get_name() != "supertux-level")
+    if (root.get_name() != "supertux-level")
       throw std::runtime_error("file isn't a supertux-level file.");
 
     auto level_ = root.get_mapping();
@@ -66,25 +66,25 @@ WorldMapParser::load_worldmap(const std::string& filename)
     level_.get("name", m_worldmap.m_name);
 
     std::string tileset_name;
-    if(level_.get("tileset", tileset_name)) {
-      if(m_worldmap.m_tileset != nullptr) {
+    if (level_.get("tileset", tileset_name)) {
+      if (m_worldmap.m_tileset != nullptr) {
         log_warning << "multiple tilesets specified in level_" << std::endl;
       } else {
         m_worldmap.m_tileset = TileManager::current()->get_tileset(tileset_name);
       }
     }
     /* load default tileset */
-    if(m_worldmap.m_tileset == nullptr) {
+    if (m_worldmap.m_tileset == nullptr) {
       m_worldmap.m_tileset = TileManager::current()->get_tileset("images/worldmap.strf");
     }
 
     boost::optional<ReaderMapping> sector;
-    if(!level_.get("sector", sector)) {
+    if (!level_.get("sector", sector)) {
       throw std::runtime_error("No sector specified in worldmap file.");
     } else {
       auto iter = sector->get_iter();
       while(iter.next()) {
-        if(iter.get_key() == "tilemap") {
+        if (iter.get_key() == "tilemap") {
           m_worldmap.add<TileMap>(m_worldmap.m_tileset, iter.as_mapping());
         } else if(iter.get_key() == "background") {
           m_worldmap.add<Background>(iter.as_mapping());
@@ -114,7 +114,7 @@ WorldMapParser::load_worldmap(const std::string& filename)
             // for backward compatibilty
             std::vector<float> vColor;
             bool hasColor = sector->get("ambient-light", vColor);
-            if(vColor.size() < 3 || !hasColor) {
+            if (vColor.size() < 3 || !hasColor) {
               log_warning << "(ambient-light) requires a color as argument" << std::endl;
             } else {
               m_worldmap.add<AmbientLight>(Color(vColor));
@@ -173,7 +173,7 @@ WorldMapParser::load_level_information(LevelTile& level)
     register_translation_directory(filename);
     auto doc = ReaderDocument::from_file(filename);
     auto root = doc.get_root();
-    if(root.get_name() != "supertux-level") {
+    if (root.get_name() != "supertux-level") {
       return;
     } else {
       auto level_lisp = root.get_mapping();

@@ -51,7 +51,7 @@ TTFFont::~TTFFont()
 float
 TTFFont::get_text_width(const std::string& text) const
 {
-  if(text.empty())
+  if (text.empty())
     return 0.0f;
 
   float max_width = 0.0f;
@@ -88,7 +88,7 @@ TTFFont::get_text_width(const std::string& text) const
 float
 TTFFont::get_text_height(const std::string& text) const
 {
-  if(text.empty())
+  if (text.empty())
     return 0.0f;
 
   float total_height = get_height();

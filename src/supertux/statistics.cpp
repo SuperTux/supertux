@@ -76,7 +76,7 @@ Statistics::calculate_max_caption_length()
     // Add padding the size of lengthiest string:
     auto width = font->get_text_width(caption) +
                  font->get_text_width("XX:XX:XX");
-    if(width >= static_cast<float>(m_max_width))
+    if (width >= static_cast<float>(m_max_width))
     {
       m_max_width = static_cast<int>(width);
     }
@@ -165,7 +165,7 @@ Statistics::draw_worldmap_info(DrawingContext& context, float target_time)
         stat_buf = time_to_string(m_time);
         break;
       case 4:
-        if(target_time != 0.0f) { // display target time only if defined for level
+        if (target_time != 0.0f) { // display target time only if defined for level
           caption_buf = CAPTION_TARGET_TIME;
           stat_buf = time_to_string(target_time);
         } else {

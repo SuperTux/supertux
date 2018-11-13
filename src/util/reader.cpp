@@ -54,7 +54,7 @@ namespace {
 std::string dirname(const std::string& filename)
 {
   std::string::size_type p = filename.find_last_of('/');
-  if(p == std::string::npos) {
+  if (p == std::string::npos) {
     return {};
   } else {
     return filename.substr(0, p);

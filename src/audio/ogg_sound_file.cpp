@@ -41,7 +41,7 @@ OggSoundFile::OggSoundFile(PHYSFS_File* file_, double loop_begin_, double loop_a
   double sample_loop   = loop_at_ * rate;
 
   loop_begin     = static_cast<ogg_int64_t>(samples_begin);
-  if(loop_begin_ < 0) {
+  if (loop_begin_ < 0) {
     loop_at = static_cast<ogg_int64_t>(-1);
   } else {
     loop_at = static_cast<ogg_int64_t>(sample_loop);
@@ -68,15 +68,15 @@ OggSoundFile::read(void* _buffer, size_t buffer_size)
 #endif
 
     size_t bytes_to_read    = buffer_size;
-    if(loop_at > 0) {
+    if (loop_at > 0) {
       size_t      bytes_per_sample       = 2;
       ogg_int64_t time                   = ov_pcm_tell(&vorbis_file);
       ogg_int64_t samples_left_till_loop = loop_at - time;
       ogg_int64_t bytes_left_till_loop = samples_left_till_loop * bytes_per_sample;
-      if(bytes_left_till_loop <= 4)
+      if (bytes_left_till_loop <= 4)
         break;
 
-      if(bytes_left_till_loop < static_cast<ogg_int64_t>(bytes_to_read)) {
+      if (bytes_left_till_loop < static_cast<ogg_int64_t>(bytes_to_read)) {
         bytes_to_read    = static_cast<size_t>(bytes_left_till_loop);
       }
     }
@@ -84,7 +84,7 @@ OggSoundFile::read(void* _buffer, size_t buffer_size)
     long bytesRead
       = ov_read(&vorbis_file, buffer, static_cast<int>(bytes_to_read), bigendian,
                 2, 1, &section);
-    if(bytesRead == 0) {
+    if (bytesRead == 0) {
       break;
     }
     buffer_size    -= bytesRead;
@@ -108,7 +108,7 @@ OggSoundFile::cb_read(void* ptr, size_t size, size_t nmemb, void* source)
 
   PHYSFS_sint64 res
     = PHYSFS_readBytes(file, ptr, static_cast<PHYSFS_uint32> (size) * static_cast<PHYSFS_uint32> (nmemb));
-  if(res <= 0)
+  if (res <= 0)
     return 0;
 
   return static_cast<size_t> (res) / size;
@@ -121,15 +121,15 @@ OggSoundFile::cb_seek(void* source, ogg_int64_t offset, int whence)
 
   switch(whence) {
     case SEEK_SET:
-      if(PHYSFS_seek(file, static_cast<PHYSFS_uint64> (offset)) == 0)
+      if (PHYSFS_seek(file, static_cast<PHYSFS_uint64> (offset)) == 0)
         return -1;
       break;
     case SEEK_CUR:
-      if(PHYSFS_seek(file, PHYSFS_tell(file) + offset) == 0)
+      if (PHYSFS_seek(file, PHYSFS_tell(file) + offset) == 0)
         return -1;
       break;
     case SEEK_END:
-      if(PHYSFS_seek(file, PHYSFS_fileLength(file) + offset) == 0)
+      if (PHYSFS_seek(file, PHYSFS_fileLength(file) + offset) == 0)
         return -1;
       break;
     default:

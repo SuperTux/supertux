@@ -130,7 +130,7 @@ TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
 
   reader.get("width", m_width);
   reader.get("height", m_height);
-  if(m_width < 0 || m_height < 0) {
+  if (m_width < 0 || m_height < 0) {
     //throw std::runtime_error("Invalid/No width/height specified in tilemap.");
     m_width = 0;
     m_height = 0;
@@ -139,10 +139,10 @@ TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
            static_cast<int>(Sector::get().get_height() / 32.0f));
     m_editor_active = false;
   } else {
-    if(!reader.get("tiles", m_tiles))
+    if (!reader.get("tiles", m_tiles))
       throw std::runtime_error("No tiles in tilemap.");
 
-    if(int(m_tiles.size()) != m_width * m_height) {
+    if (int(m_tiles.size()) != m_width * m_height) {
       throw std::runtime_error("wrong number of tiles in tilemap.");
     }
   }
@@ -151,14 +151,14 @@ TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
 
   // make sure all tiles used on the tilemap are loaded and tilemap isn't empty
   for(const auto& tile : m_tiles) {
-    if(tile != 0) {
+    if (tile != 0) {
       empty = false;
     }
 
     m_tileset->get(tile);
   }
 
-  if(empty)
+  if (empty)
   {
     log_info << "Tilemap '" << m_name << "', z-pos '" << m_z_pos << "' is empty." << std::endl;
   }
@@ -196,12 +196,12 @@ TileMap::save(Writer& writer) {
   writer.write("width", m_width);
   writer.write("height", m_height);
   writer.write("speed", m_speed_x);
-  if(m_speed_y != m_speed_x) {
+  if (m_speed_y != m_speed_x) {
     writer.write("speed-y", m_speed_y);
   }
   writer.write("solid", m_real_solid);
   writer.write("z-pos", m_z_pos);
-  if(m_alpha != 1) {
+  if (m_alpha != 1) {
     writer.write("alpha", m_alpha);
   }
   writer.write("tint", m_tint.toVector());
@@ -322,7 +322,7 @@ TileMap::draw(DrawingContext& context)
   if (m_flip != NO_FLIP) context.set_flip(m_flip);
 
   if (m_editor_active) {
-    if(m_current_alpha != 1.0) {
+    if (m_current_alpha != 1.0) {
       context.set_alpha(m_current_alpha);
     }
   } else {
@@ -412,7 +412,7 @@ void
 TileMap::set(int newwidth, int newheight, const std::vector<unsigned int>&newt,
              int new_z_pos, bool newsolid)
 {
-  if(int(newt.size()) != newwidth * newheight)
+  if (int(newt.size()) != newwidth * newheight)
     throw std::runtime_error("Wrong tilecount count.");
 
   m_width  = newwidth;
@@ -437,7 +437,7 @@ void
 TileMap::resize(int new_width, int new_height, int fill_id,
                 int xoffset, int yoffset)
 {
-  if(new_width < m_width) {
+  if (new_width < m_width) {
     // remap tiles for new width
     for(int y = 0; y < m_height && y < new_height; ++y) {
       for(int x = 0; x < new_width; ++x) {
@@ -448,11 +448,11 @@ TileMap::resize(int new_width, int new_height, int fill_id,
 
   m_tiles.resize(new_width * new_height, fill_id);
 
-  if(new_width > m_width) {
+  if (new_width > m_width) {
     // remap tiles
     for(int y = std::min(m_height, new_height)-1; y >= 0; --y) {
       for(int x = new_width-1; x >= 0; --x) {
-        if(x >= m_width) {
+        if (x >= m_width) {
           m_tiles[y * new_width + x] = fill_id;
           continue;
         }
@@ -509,7 +509,7 @@ TileMap::set_solid(bool solid)
 uint32_t
 TileMap::get_tile_id(int x, int y) const
 {
-  if(x < 0 || x >= m_width || y < 0 || y >= m_height) {
+  if (x < 0 || x >= m_width || y < 0 || y >= m_height) {
     //log_warning << "tile outside tilemap requested" << std::endl;
     return 0;
   }

@@ -105,13 +105,13 @@ Zeekling::onBumpVertical()
 void
 Zeekling::collision_solid(const CollisionHit& hit)
 {
-  if(m_sprite->get_action() == "squished-left" ||
+  if (m_sprite->get_action() == "squished-left" ||
      m_sprite->get_action() == "squished-right")
   {
     return;
   }
 
-  if(hit.top || hit.bottom) {
+  if (hit.top || hit.bottom) {
     onBumpVertical();
   } else if(hit.left || hit.right) {
     onBumpHorizontal();

@@ -78,7 +78,7 @@ Star::draw(DrawingContext& context)
 void
 Star::collision_solid(const CollisionHit& hit)
 {
-  if(hit.bottom) {
+  if (hit.bottom) {
     physic.set_velocity_y(JUMPSTAR_SPEED);
   } else if(hit.top) {
     physic.set_velocity_y(0);
@@ -91,7 +91,7 @@ HitResponse
 Star::collision(GameObject& other, const CollisionHit& )
 {
   auto player = dynamic_cast<Player*> (&other);
-  if(player) {
+  if (player) {
     player->make_invincible();
     remove_me();
     return ABORT_MOVE;

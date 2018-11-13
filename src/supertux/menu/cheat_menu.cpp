@@ -95,7 +95,7 @@ CheatMenu::menu_action(MenuItem& item)
     case MNID_GHOST:
       if (GameSession::current())
       {
-        if(player.get_ghost_mode())
+        if (player.get_ghost_mode())
         {
           scripting::mortal();
         }

@@ -36,50 +36,50 @@ SpecialTile::SpecialTile(const ReaderMapping& lisp) :
   apply_action_south(true),
   apply_action_west(true)
 {
-  if(!lisp.get("x", pos.x)) {
+  if (!lisp.get("x", pos.x)) {
     log_warning << "X coordinate of special tile not set, defaulting to 0" << std::endl;
   }
-  if(!lisp.get("y", pos.y)) {
+  if (!lisp.get("y", pos.y)) {
     log_warning << "Y coordinate of special tile not set, defaulting to 0" << std::endl;
   }
-  if(!lisp.get("invisible-tile", invisible)) {
+  if (!lisp.get("invisible-tile", invisible)) {
     // Ignore attribute if it's not specified. Tile is visible.
   }
 
-  if(!invisible) {
+  if (!invisible) {
     std::string spritefile = "";
-    if(!lisp.get("sprite", spritefile)) {
+    if (!lisp.get("sprite", spritefile)) {
       log_warning << "No sprite specified for visible special tile." << std::endl;
     }
     sprite = SpriteManager::current()->create(spritefile);
   }
 
-  if(!lisp.get("map-message", map_message)) {
+  if (!lisp.get("map-message", map_message)) {
     // Ignore attribute if it's not specified. No map message set.
   }
-  if(!lisp.get("passive-message", passive_message)) {
+  if (!lisp.get("passive-message", passive_message)) {
     // Ignore attribute if it's not specified. No passive message set.
   }
-  if(!lisp.get("script", script)) {
+  if (!lisp.get("script", script)) {
     // Ignore attribute if it's not specified. No script set.
   }
 
   std::string apply_direction;
-  if(!lisp.get("apply-to-direction", apply_direction)) {
+  if (!lisp.get("apply-to-direction", apply_direction)) {
     // Ignore attribute if it's not specified. Applies to all directions.
   }
-  if(!apply_direction.empty()) {
+  if (!apply_direction.empty()) {
     apply_action_north = false;
     apply_action_south = false;
     apply_action_east = false;
     apply_action_west = false;
-    if(apply_direction.find("north") != std::string::npos)
+    if (apply_direction.find("north") != std::string::npos)
       apply_action_north = true;
-    if(apply_direction.find("south") != std::string::npos)
+    if (apply_direction.find("south") != std::string::npos)
       apply_action_south = true;
-    if(apply_direction.find("east") != std::string::npos)
+    if (apply_direction.find("east") != std::string::npos)
       apply_action_east = true;
-    if(apply_direction.find("west") != std::string::npos)
+    if (apply_direction.find("west") != std::string::npos)
       apply_action_west = true;
   }
 }
@@ -91,7 +91,7 @@ SpecialTile::~SpecialTile()
 void
 SpecialTile::draw(DrawingContext& context)
 {
-  if(invisible)
+  if (invisible)
     return;
 
   sprite->draw(context.color(), pos*32 + Vector(16, 16), LAYER_OBJECTS - 1);

@@ -41,10 +41,10 @@ Writer::Writer(std::ostream* newout) :
 
 Writer::~Writer()
 {
-  if(lists.size() > 0) {
+  if (lists.size() > 0) {
     log_warning << m_filename << ": Not all sections closed in lispwriter" << std::endl;
   }
-  if(out_owned)
+  if (out_owned)
     delete out;
 }
 
@@ -59,7 +59,7 @@ Writer::start_list(const std::string& listname, bool string)
 {
   indent();
   *out << '(';
-  if(string)
+  if (string)
     write_escaped_string(listname);
   else
     *out << listname;
@@ -72,11 +72,11 @@ Writer::start_list(const std::string& listname, bool string)
 void
 Writer::end_list(const std::string& listname)
 {
-  if(lists.size() == 0) {
+  if (lists.size() == 0) {
     log_warning << m_filename << ": Trying to close list '" << listname << "', which is not open" << std::endl;
     return;
   }
-  if(lists.back() != listname) {
+  if (lists.back() != listname) {
     log_warning << m_filename << ": trying to close list '" << listname << "' while list '" << lists.back() << "' is open" << std::endl;
     return;
   }
@@ -116,7 +116,7 @@ Writer::write(const std::string& name, const std::string& value,
 {
   indent();
   *out << '(' << name;
-  if(translatable) {
+  if (translatable) {
     *out << " (_ ";
     write_escaped_string(value);
     *out << "))\n";
@@ -185,7 +185,7 @@ Writer::write_escaped_string(const std::string& str)
 {
   *out << '"';
   for(const char* c = str.c_str(); *c != 0; ++c) {
-    if(*c == '\"')
+    if (*c == '\"')
       *out << "\\\"";
     else if(*c == '\\')
       *out << "\\\\";

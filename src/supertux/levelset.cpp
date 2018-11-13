@@ -58,13 +58,13 @@ Levelset::walk_directory(const std::string& directory, bool recursively)
   for(const char* const* filename = files; *filename != nullptr; ++filename)
   {
     auto filepath = FileSystem::join(directory.c_str(), *filename);
-    if(PhysFSFileSystem::is_directory(filepath) && recursively)
+    if (PhysFSFileSystem::is_directory(filepath) && recursively)
     {
       walk_directory(filepath, true);
     }
-    if(StringUtil::has_suffix(*filename, ".stl"))
+    if (StringUtil::has_suffix(*filename, ".stl"))
     {
-      if(is_basedir)
+      if (is_basedir)
       {
         m_levels.push_back(*filename);
       }

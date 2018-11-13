@@ -168,7 +168,7 @@ GLPainter::draw_gradient(const GradientRequest& request)
   };
   context.set_positions(vertices, sizeof(vertices));
 
-  if(direction == VERTICAL || direction == VERTICAL_SECTOR)
+  if (direction == VERTICAL || direction == VERTICAL_SECTOR)
   {
     float colors[] = {
       top.red, top.green, top.blue, top.alpha,

@@ -93,14 +93,14 @@ LevelParser::load(const std::string& filepath)
     auto doc = ReaderDocument::from_file(filepath);
     auto root = doc.get_root();
 
-    if(root.get_name() != "supertux-level")
+    if (root.get_name() != "supertux-level")
       throw std::runtime_error("file is not a supertux-level file.");
 
     auto level = root.get_mapping();
 
     int version = 1;
     level.get("version", version);
-    if(version == 1) {
+    if (version == 1) {
       log_info << "[" <<  filepath << "] level uses old format: version 1" << std::endl;
       load_old_format(level);
     } else if (version == 2) {

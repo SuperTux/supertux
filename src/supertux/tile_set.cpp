@@ -75,7 +75,7 @@ TileSet::get(const uint32_t id) const
   } else {
     assert(id < m_tiles.size());
     Tile* tile = m_tiles[id].get();
-    if(tile) {
+    if (tile) {
       return *tile;
     } else {
 //      log_warning << "Invalid tile: " << id << std::endl;
@@ -99,7 +99,7 @@ TileSet::add_unassigned_tilegroup()
     {
       for(const auto& tile_in_group : group.tiles)
       {
-        if(tile_in_group == tile)
+        if (tile_in_group == tile)
         {
           found = true;
         }
@@ -109,7 +109,7 @@ TileSet::add_unassigned_tilegroup()
     // Weed out all the tiles that have an ID
     // but no image (mostly tiles that act as
     // spacing between other tiles).
-    if(found == false && m_tiles[tile].get())
+    if (found == false && m_tiles[tile].get())
     {
       unassigned_group.tiles.push_back(tile);
     }

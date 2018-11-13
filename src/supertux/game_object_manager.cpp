@@ -115,7 +115,7 @@ GameObjectManager::update(float dt_sec)
 {
   for(const auto& object : m_gameobjects)
   {
-    if(!object->is_valid())
+    if (!object->is_valid())
       continue;
 
     object->update(dt_sec);
@@ -127,7 +127,7 @@ GameObjectManager::draw(DrawingContext& context)
 {
   for(const auto& object : m_gameobjects)
   {
-    if(!object->is_valid())
+    if (!object->is_valid())
       continue;
 
     if (s_draw_solids_only)

@@ -37,7 +37,7 @@ MrBomb::MrBomb(const ReaderMapping& reader) :
   SoundManager::current()->preload("sounds/explosion.wav");
 
   //Check if we need another sprite
-  if( !reader.get( "sprite", m_sprite_name ) ){
+  if ( !reader.get( "sprite", m_sprite_name ) ){
     return;
   }
   if (m_sprite_name.empty()) {
@@ -51,7 +51,7 @@ MrBomb::MrBomb(const ReaderMapping& reader) :
 HitResponse
 MrBomb::collision(GameObject& object, const CollisionHit& hit)
 {
-  if(grabbed)
+  if (grabbed)
     return FORCE_MOVE;
   return WalkingBadguy::collision(object, hit);
 }
@@ -59,7 +59,7 @@ MrBomb::collision(GameObject& object, const CollisionHit& hit)
 HitResponse
 MrBomb::collision_player(Player& player, const CollisionHit& hit)
 {
-  if(grabbed)
+  if (grabbed)
     return FORCE_MOVE;
   return WalkingBadguy::collision_player(player, hit);
 }
@@ -68,17 +68,17 @@ bool
 MrBomb::collision_squished(GameObject& object)
 {
   auto player = dynamic_cast<Player*>(&object);
-  if(player && player->is_invincible()) {
+  if (player && player->is_invincible()) {
     player->bounce(*this);
     kill_fall();
     return true;
   }
-  if(is_valid()) {
+  if (is_valid()) {
     auto& bomb = Sector::get().add<Bomb>(get_pos(), m_dir, m_sprite_name);
 
     // Do not trigger dispenser because we need to wait for
     // the bomb instance to explode.
-    if(get_parent_dispenser() != nullptr)
+    if (get_parent_dispenser() != nullptr)
     {
       bomb.set_parent_dispenser(get_parent_dispenser());
       set_parent_dispenser(nullptr);
@@ -93,7 +93,7 @@ MrBomb::collision_squished(GameObject& object)
 void
 MrBomb::active_update(float dt_sec)
 {
-  if(grabbed)
+  if (grabbed)
     return;
   WalkingBadguy::active_update(dt_sec);
 }
@@ -101,7 +101,7 @@ MrBomb::active_update(float dt_sec)
 void
 MrBomb::kill_fall()
 {
-  if(is_valid()) {
+  if (is_valid()) {
     remove_me();
     Sector::get().add<Explosion>(m_col.m_bbox.get_middle());
   }

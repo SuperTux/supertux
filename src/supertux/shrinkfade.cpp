@@ -33,7 +33,7 @@ void
 ShrinkFade::update(float dt_sec)
 {
   accum_time += dt_sec;
-  if(accum_time > fade_time)
+  if (accum_time > fade_time)
     accum_time = fade_time;
 }
 

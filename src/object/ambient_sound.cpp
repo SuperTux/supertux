@@ -145,7 +145,7 @@ AmbientSound::start_playing()
 
   try {
     sound_source = SoundManager::current()->create_sound_source(sample);
-    if(!sound_source)
+    if (!sound_source)
       throw std::runtime_error("file not found");
 
     sound_source->set_gain(0);

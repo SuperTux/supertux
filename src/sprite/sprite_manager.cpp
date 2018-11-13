@@ -33,10 +33,10 @@ SpriteManager::create(const std::string& name)
 {
   Sprites::iterator i = sprites.find(name);
   SpriteData* data;
-  if(i == sprites.end()) {
+  if (i == sprites.end()) {
     // try loading the spritefile
     data = load(name);
-    if(data == nullptr) {
+    if (data == nullptr) {
       std::stringstream msg;
       msg << "Sprite '" << name << "' not found.";
       throw std::runtime_error(msg.str());
@@ -53,7 +53,7 @@ SpriteManager::load(const std::string& filename)
 {
   ReaderDocument doc = [filename](){
     try {
-      if(filename.size() >= 7 && filename.compare(filename.size() - 7, 7, ".sprite") == 0) {
+      if (filename.size() >= 7 && filename.compare(filename.size() - 7, 7, ".sprite") == 0) {
         // Sprite file
         return ReaderDocument::from_file(filename);
       } else {
@@ -74,7 +74,7 @@ SpriteManager::load(const std::string& filename)
 
   auto root = doc.get_root();
 
-  if(root.get_name() != "supertux-sprite") {
+  if (root.get_name() != "supertux-sprite") {
     std::ostringstream msg;
     msg << "'" << filename << "' is not a supertux-sprite file";
     throw std::runtime_error(msg.str());

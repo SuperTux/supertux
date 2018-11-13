@@ -25,7 +25,7 @@ SquirrelError::SquirrelError(HSQUIRRELVM v, const std::string& message_) throw()
   msg << "Squirrel error: " << message_ << " (";
   const char* lasterr;
   sq_getlasterror(v);
-  if(sq_gettype(v, -1) != OT_STRING)
+  if (sq_gettype(v, -1) != OT_STRING)
   {
     lasterr = "no error info";
   }

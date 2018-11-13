@@ -97,12 +97,12 @@ Toad::collision_solid(const CollisionHit& hit)
   }
 
   // ignore collisions while standing still
-  if(state == IDLE) {
+  if (state == IDLE) {
     return;
   }
 
   // check if we hit left or right while moving in either direction
-  if(((m_physic.get_velocity_x() < 0) && hit.left) || ((m_physic.get_velocity_x() > 0) && hit.right)) {
+  if (((m_physic.get_velocity_x() < 0) && hit.left) || ((m_physic.get_velocity_x() > 0) && hit.right)) {
     /*
       dir = dir == LEFT ? RIGHT : LEFT;
       if (state == JUMPING) {

@@ -64,7 +64,7 @@ ScreenManager::push_screen(std::unique_ptr<Screen> screen, std::unique_ptr<Scree
 {
   log_debug << "ScreenManager::push_screen(): " << screen.get() << std::endl;
   assert(screen);
-  if(g_config->transitions_enabled)
+  if (g_config->transitions_enabled)
   {
     m_screen_fade = std::move(screen_fade);
   }
@@ -75,7 +75,7 @@ void
 ScreenManager::pop_screen(std::unique_ptr<ScreenFade> screen_fade)
 {
   log_debug << "ScreenManager::pop_screen(): stack_size: " << m_screen_stack.size() << std::endl;
-  if(g_config->transitions_enabled)
+  if (g_config->transitions_enabled)
   {
     m_screen_fade = std::move(screen_fade);
   }
@@ -85,7 +85,7 @@ ScreenManager::pop_screen(std::unique_ptr<ScreenFade> screen_fade)
 void
 ScreenManager::set_screen_fade(std::unique_ptr<ScreenFade> screen_fade)
 {
-  if(g_config->transitions_enabled)
+  if (g_config->transitions_enabled)
   {
     m_screen_fade = std::move(screen_fade);
   }
@@ -94,7 +94,7 @@ ScreenManager::set_screen_fade(std::unique_ptr<ScreenFade> screen_fade)
 void
 ScreenManager::quit(std::unique_ptr<ScreenFade> screen_fade)
 {
-  if(g_config->transitions_enabled)
+  if (g_config->transitions_enabled)
   {
     m_screen_fade = std::move(screen_fade);
   }
@@ -261,7 +261,7 @@ ScreenManager::process_events()
           case SDL_WINDOWEVENT_FOCUS_LOST:
             if (g_config->pause_on_focusloss)
             {
-              if(session != nullptr && session->is_active())
+              if (session != nullptr && session->is_active())
               {
                 session->toggle_pause();
               }

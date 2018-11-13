@@ -112,7 +112,7 @@ Canvas::draw_surface(SurfacePtr surface,
   const auto& cliprect = m_context.get_cliprect();
 
   // discard clipped surface
-  if(position.x > cliprect.get_right() ||
+  if (position.x > cliprect.get_right() ||
      position.y > cliprect.get_bottom() ||
      position.x + static_cast<float>(surface->get_width()) < cliprect.get_left() ||
      position.y + static_cast<float>(surface->get_height()) < cliprect.get_top())

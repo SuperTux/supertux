@@ -54,7 +54,7 @@ TriggerBase::update(float )
 void
 TriggerBase::draw(DrawingContext& context)
 {
-  if(!m_sprite.get())
+  if (!m_sprite.get())
     return;
 
   m_sprite->draw(context.color(), get_pos(), LAYER_TILES+1);
@@ -64,9 +64,9 @@ HitResponse
 TriggerBase::collision(GameObject& other, const CollisionHit& )
 {
   auto player = dynamic_cast<Player*> (&other);
-  if(player) {
+  if (player) {
     m_hit = true;
-    if(!m_lasthit) {
+    if (!m_lasthit) {
       m_losetouch_listeners.push_back(player);
       player->add_remove_listener(this);
       event(*player, EVENT_TOUCH);

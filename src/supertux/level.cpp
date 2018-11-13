@@ -58,9 +58,9 @@ Level::save(const std::string& filepath, bool retry)
 
     { // make sure the level directory exists
       std::string dirname = FileSystem::dirname(filepath);
-      if(!PHYSFS_exists(dirname.c_str()))
+      if (!PHYSFS_exists(dirname.c_str()))
       {
-        if(!PHYSFS_mkdir(dirname.c_str()))
+        if (!PHYSFS_mkdir(dirname.c_str()))
         {
           std::ostringstream msg;
           msg << "Couldn't create directory for level '"
@@ -69,7 +69,7 @@ Level::save(const std::string& filepath, bool retry)
         }
       }
 
-      if(!PhysFSFileSystem::is_directory(dirname))
+      if (!PhysFSFileSystem::is_directory(dirname))
       {
         std::ostringstream msg;
         msg << "Level path '" << dirname << "' is not a directory";
@@ -111,7 +111,7 @@ Level::save(const std::string& filepath, bool retry)
       log_warning << "Failed to save the level, retrying..." << std::endl;
       { // create the level directory again
         std::string dirname = FileSystem::dirname(filepath);
-        if(!PHYSFS_mkdir(dirname.c_str()))
+        if (!PHYSFS_mkdir(dirname.c_str()))
         {
           std::ostringstream msg;
           msg << "Couldn't create directory for level '"
@@ -139,7 +139,7 @@ Sector*
 Level::get_sector(const std::string& name_) const
 {
   for(auto const& sector : m_sectors) {
-    if(sector->get_name() == name_) {
+    if (sector->get_name() == name_) {
       return sector.get();
     }
   }
@@ -165,13 +165,13 @@ Level::get_total_coins() const
   for(auto const& sector : m_sectors) {
     for(const auto& o: sector->get_objects()) {
       auto coin = dynamic_cast<Coin*>(o.get());
-      if(coin)
+      if (coin)
       {
         total_coins++;
         continue;
       }
       auto block = dynamic_cast<BonusBlock*>(o.get());
-      if(block)
+      if (block)
       {
         if (block->get_contents() == BonusBlock::CONTENT_COIN)
         {
@@ -185,7 +185,7 @@ Level::get_total_coins() const
         }
       }
       auto goldbomb = dynamic_cast<GoldBomb*>(o.get());
-      if(goldbomb)
+      if (goldbomb)
         total_coins += 10;
     }
   }

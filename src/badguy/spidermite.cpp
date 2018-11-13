@@ -50,7 +50,7 @@ SpiderMite::collision_squished(GameObject& object)
 void
 SpiderMite::collision_solid(const CollisionHit& hit)
 {
-  if(hit.top || hit.bottom) { // hit floor or roof?
+  if (hit.top || hit.bottom) { // hit floor or roof?
     m_physic.set_velocity_y(0);
   }
 }
@@ -58,13 +58,13 @@ SpiderMite::collision_solid(const CollisionHit& hit)
 void
 SpiderMite::active_update(float dt_sec)
 {
-  if(m_frozen)
+  if (m_frozen)
   {
     BadGuy::active_update(dt_sec);
     return;
   }
-  if(timer.check()) {
-    if(mode == FLY_UP) {
+  if (timer.check()) {
+    if (mode == FLY_UP) {
       mode = FLY_DOWN;
       m_physic.set_velocity_y(-MOVE_SPEED);
     } else if(mode == FLY_DOWN) {

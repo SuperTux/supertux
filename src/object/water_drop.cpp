@@ -45,7 +45,7 @@ WaterDrop::update(float dt_sec)
 void
 WaterDrop::collision_solid(const CollisionHit& hit)
 {
-  if(hit.bottom && wd_state == WDS_FALLING) {
+  if (hit.bottom && wd_state == WDS_FALLING) {
     wd_state = WDS_SPLASH;
     physic.enable_gravity(false);
     SoundManager::current()->play("sounds/splash.ogg", get_pos());

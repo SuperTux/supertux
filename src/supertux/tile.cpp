@@ -76,8 +76,8 @@ Tile::Tile(const std::vector<SurfacePtr>& images,
 void
 Tile::draw(Canvas& canvas, const Vector& pos, int z_pos, Color color) const
 {
-  if(draw_editor_images) {
-    if(m_editor_images.size() > 1) {
+  if (draw_editor_images) {
+    if (m_editor_images.size() > 1) {
       size_t frame = size_t(g_game_time * m_fps) % m_editor_images.size();
       canvas.draw_surface(m_editor_images[frame], pos, 0, color, Blend(), z_pos);
       return;
@@ -87,7 +87,7 @@ Tile::draw(Canvas& canvas, const Vector& pos, int z_pos, Color color) const
     }
   }
 
-  if(m_images.size() > 1) {
+  if (m_images.size() > 1) {
     size_t frame = size_t(g_game_time * m_fps) % m_images.size();
     canvas.draw_surface(m_images[frame], pos, 0, color, Blend(), z_pos);
   } else if (m_images.size() == 1) {
@@ -98,7 +98,7 @@ Tile::draw(Canvas& canvas, const Vector& pos, int z_pos, Color color) const
 SurfacePtr
 Tile::get_current_surface() const
 {
-  if(m_images.size() > 1) {
+  if (m_images.size() > 1) {
     size_t frame = size_t(g_game_time * m_fps) % m_images.size();
     return m_images[frame];
   } else if (m_images.size() == 1) {
@@ -111,7 +111,7 @@ Tile::get_current_surface() const
 SurfacePtr
 Tile::get_current_editor_surface() const
 {
-  if(m_editor_images.size() > 1) {
+  if (m_editor_images.size() > 1) {
     size_t frame = size_t(g_game_time * m_fps) % m_editor_images.size();
     return m_editor_images[frame];
   } else if (m_editor_images.size() == 1) {

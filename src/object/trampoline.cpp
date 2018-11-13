@@ -40,8 +40,8 @@ Trampoline::Trampoline(const ReaderMapping& lisp) :
   SoundManager::current()->preload(TRAMPOLINE_SOUND);
 
   //Check if this trampoline is not portable
-  if(lisp.get("portable", portable)) {
-    if(!portable) {
+  if (lisp.get("portable", portable)) {
+    if (!portable) {
       //we need another sprite
       m_sprite_name = "images/objects/trampoline/trampoline_fix.sprite";
       m_sprite = SpriteManager::current()->create(m_sprite_name);
@@ -55,7 +55,7 @@ Trampoline::Trampoline(const Vector& pos, bool port) :
   portable(port)
 {
   SoundManager::current()->preload(TRAMPOLINE_SOUND);
-  if(!port) {
+  if (!port) {
     m_sprite_name = "images/objects/trampoline/trampoline_fix.sprite";
     m_sprite = SpriteManager::current()->create(m_sprite_name);
     m_sprite->set_action("normal");
@@ -65,7 +65,7 @@ Trampoline::Trampoline(const Vector& pos, bool port) :
 void
 Trampoline::update(float dt_sec)
 {
-  if(m_sprite->animation_done()) {
+  if (m_sprite->animation_done()) {
     m_sprite->set_action("normal");
   }
 
@@ -80,13 +80,13 @@ Trampoline::collision(GameObject& other, const CollisionHit& hit)
     return ABORT_MOVE;
   }
   //Tramponine has to be on ground to work.
-  if(on_ground) {
+  if (on_ground) {
     auto player = dynamic_cast<Player*> (&other);
     //Trampoline works for player
-    if(player) {
+    if (player) {
       float vy = player->get_physic().get_velocity_y();
       //player is falling down on trampoline
-      if(hit.top && vy >= 0) {
+      if (hit.top && vy >= 0) {
         if (!(player->get_status().bonus == AIR_BONUS))
           vy = player->get_controller().hold(Controller::JUMP) ? VY_MIN : VY_INITIAL;
         else
@@ -99,10 +99,10 @@ Trampoline::collision(GameObject& other, const CollisionHit& hit)
     }
     auto walking_badguy = dynamic_cast<WalkingBadguy*> (&other);
     //Trampoline also works for WalkingBadguy
-    if(walking_badguy) {
+    if (walking_badguy) {
       float vy = walking_badguy->get_velocity_y();
       //walking_badguy is falling down on trampoline
-      if(hit.top && vy >= 0) {
+      if (hit.top && vy >= 0) {
         vy = VY_INITIAL;
         walking_badguy->set_velocity_y(vy);
         SoundManager::current()->play(TRAMPOLINE_SOUND);

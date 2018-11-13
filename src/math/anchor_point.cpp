@@ -52,7 +52,7 @@ std::string anchor_point_to_string(AnchorPoint point)
 
 AnchorPoint string_to_anchor_point(const std::string& str)
 {
-  if(str == "topleft")
+  if (str == "topleft")
     return ANCHOR_TOP_LEFT;
   else if(str == "top")
     return ANCHOR_TOP;

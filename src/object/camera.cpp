@@ -90,7 +90,7 @@ public:
   {
     auto doc = ReaderDocument::from_file(filename);
     auto root = doc.get_root();
-    if(root.get_name() == "camera-config")
+    if (root.get_name() == "camera-config")
     {
       throw std::runtime_error("file is not a camera config file.");
     }
@@ -209,13 +209,13 @@ Camera::parse(const ReaderMapping& reader)
   std::string modename;
 
   reader.get("mode", modename);
-  if(modename == "normal") {
+  if (modename == "normal") {
     m_mode = NORMAL;
   } else if(modename == "autoscroll") {
     m_mode = AUTOSCROLL;
 
     boost::optional<ReaderMapping> path_mapping;
-    if(!reader.get("path", path_mapping)) {
+    if (!reader.get("path", path_mapping)) {
       log_warning << "No path specified in autoscroll camera." << std::endl;
       m_mode = NORMAL;
     } else {
@@ -295,7 +295,7 @@ Camera::update(float dt_sec)
 void
 Camera::reload_config()
 {
-  if(PHYSFS_exists("camera.cfg")) {
+  if (PHYSFS_exists("camera.cfg")) {
     try {
       m_config->load("camera.cfg");
       log_info << "Loaded camera.cfg." << std::endl;
@@ -325,7 +325,7 @@ Camera::keep_in_bounds(Vector& translation_)
 void
 Camera::shake()
 {
-  if(m_shaketimer.started()) {
+  if (m_shaketimer.started()) {
     m_translation.x -= sinf(m_shaketimer.get_timegone() * m_shakespeed) * m_shakedepth_x;
     m_translation.y -= sinf(m_shaketimer.get_timegone() * m_shakespeed) * m_shakedepth_y;
   }
@@ -344,25 +344,25 @@ Camera::update_scroll_normal(float dt_sec)
   last_player_pos = player_pos;
 
   // check that we don't have division by zero later
-  if(dt_sec < CAMERA_EPSILON)
+  if (dt_sec < CAMERA_EPSILON)
     return;
 
   /****** Vertical Scrolling part ******/
   int ymode = config_.ymode;
 
-  if(player.is_dying() || m_sector->get_height() == 19*32) {
+  if (player.is_dying() || m_sector->get_height() == 19*32) {
     ymode = 0;
   }
-  if(ymode == 1) {
+  if (ymode == 1) {
     m_cached_translation.y = player_pos.y - static_cast<float>(m_screen_size.height) * config_.target_y;
   }
-  if(ymode == 2) {
+  if (ymode == 2) {
     // target_y is the high we target our scrolling at. This is not always the
     // high of the player, but if he is jumping upwards we should use the
     // position where he last touched the ground. (this probably needs
     // exceptions for trampolines and similar things in the future)
     float target_y;
-    if(player.m_fall_mode == Player::JUMPING)
+    if (player.m_fall_mode == Player::JUMPING)
       target_y = player.m_last_ground_y + player.get_bbox().get_height();
     else
       target_y = player.get_bbox().p2.y;
@@ -374,7 +374,7 @@ Camera::update_scroll_normal(float dt_sec)
     float speed_y = delta_y / dt_sec;
 
     // limit the camera speed when jumping upwards
-    if(player.m_fall_mode != Player::FALLING
+    if (player.m_fall_mode != Player::FALLING
        && player.m_fall_mode != Player::TRAMPOLINE_JUMP) {
       speed_y = math::clamp(speed_y, -config_.max_speed_y, config_.max_speed_y);
     }
@@ -382,13 +382,13 @@ Camera::update_scroll_normal(float dt_sec)
     // scroll with calculated speed
     m_cached_translation.y -= speed_y * dt_sec;
   }
-  if(ymode == 3) {
+  if (ymode == 3) {
     float halfsize = config_.kirby_rectsize_y * 0.5f;
     m_cached_translation.y = math::clamp(m_cached_translation.y,
                                  player_pos.y - static_cast<float>(m_screen_size.height) * (0.5f + halfsize),
                                  player_pos.y - static_cast<float>(m_screen_size.height) * (0.5f - halfsize));
   }
-  if(ymode == 4) {
+  if (ymode == 4) {
     float upperend = static_cast<float>(m_screen_size.height) * config_.edge_x;
     float lowerend = static_cast<float>(m_screen_size.height) * (1 - config_.edge_x);
 
@@ -396,13 +396,13 @@ Camera::update_scroll_normal(float dt_sec)
       // walking left
       m_lookahead_pos.y -= player_delta.y * config_.dynamic_speed_sm;
 
-      if(m_lookahead_pos.y > lowerend) {
+      if (m_lookahead_pos.y > lowerend) {
         m_lookahead_pos.y = lowerend;
       }
     } else if (player_delta.y > CAMERA_EPSILON) {
       // walking right
       m_lookahead_pos.y -= player_delta.y * config_.dynamic_speed_sm;
-      if(m_lookahead_pos.y < upperend) {
+      if (m_lookahead_pos.y < upperend) {
         m_lookahead_pos.y = upperend;
       }
     }
@@ -420,9 +420,9 @@ Camera::update_scroll_normal(float dt_sec)
 
   m_translation.y = m_cached_translation.y;
 
-  if(ymode != 0) {
+  if (ymode != 0) {
     float top_edge, bottom_edge;
-    if(config_.clamp_y <= 0) {
+    if (config_.clamp_y <= 0) {
       top_edge = 0;
       bottom_edge = static_cast<float>(m_screen_size.height);
     } else {
@@ -433,14 +433,14 @@ Camera::update_scroll_normal(float dt_sec)
     float peek_to = 0;
     float translation_compensation = player_pos.y - m_translation.y;
 
-    if(player.peeking_direction_y() == ::UP) {
+    if (player.peeking_direction_y() == ::UP) {
       peek_to = bottom_edge - translation_compensation;
     } else if(player.peeking_direction_y() == ::DOWN) {
       peek_to = top_edge - translation_compensation;
     }
 
     float peek_move = (peek_to - m_peek_pos.y) * PEEK_ARRIVE_RATIO;
-    if(fabsf(peek_move) < 1.0) {
+    if (fabsf(peek_move) < 1.0) {
       peek_move = 0.0;
     }
 
@@ -448,7 +448,7 @@ Camera::update_scroll_normal(float dt_sec)
 
     m_translation.y -= m_peek_pos.y;
 
-    if(config_.clamp_y > 0) {
+    if (config_.clamp_y > 0) {
       m_translation.y = math::clamp(m_translation.y,
                             player_pos.y - static_cast<float>(m_screen_size.height) * (1.0f - config_.clamp_y),
                             player_pos.y - static_cast<float>(m_screen_size.height) * config_.clamp_y);
@@ -461,13 +461,13 @@ Camera::update_scroll_normal(float dt_sec)
   /****** Horizontal scrolling part *******/
   int xmode = config_.xmode;
 
-  if(player.is_dying())
+  if (player.is_dying())
     xmode = 0;
 
-  if(xmode == 1) {
+  if (xmode == 1) {
     m_cached_translation.x = player_pos.x - static_cast<float>(m_screen_size.width) * config_.target_x;
   }
-  if(xmode == 2) {
+  if (xmode == 2) {
     // our camera is either in leftscrolling, rightscrolling or
     // nonscrollingmode.
     //
@@ -483,7 +483,7 @@ Camera::update_scroll_normal(float dt_sec)
     else walkDirection = LOOKAHEAD_RIGHT;
 
     float LEFTEND, RIGHTEND;
-    if(config_.sensitive_x > 0) {
+    if (config_.sensitive_x > 0) {
       LEFTEND = static_cast<float>(m_screen_size.width) * config_.sensitive_x;
       RIGHTEND = static_cast<float>(m_screen_size.width) * (1-config_.sensitive_x);
     } else {
@@ -491,16 +491,16 @@ Camera::update_scroll_normal(float dt_sec)
       RIGHTEND = 0.0f;
     }
 
-    if(m_lookahead_mode == LOOKAHEAD_NONE) {
+    if (m_lookahead_mode == LOOKAHEAD_NONE) {
       /* if we're undecided then look if we crossed the left or right
        * "sensitive" area */
-      if(player_pos.x < m_cached_translation.x + LEFTEND) {
+      if (player_pos.x < m_cached_translation.x + LEFTEND) {
         m_lookahead_mode = LOOKAHEAD_LEFT;
       } else if(player_pos.x > m_cached_translation.x + RIGHTEND) {
         m_lookahead_mode = LOOKAHEAD_RIGHT;
       }
       /* at the ends of a level it's obvious which way we will go */
-      if(player_pos.x < m_screen_size.width*0.5) {
+      if (player_pos.x < m_screen_size.width*0.5) {
         m_lookahead_mode = LOOKAHEAD_RIGHT;
       } else if(player_pos.x >= m_sector->get_width() - m_screen_size.width*0.5) {
         m_lookahead_mode = LOOKAHEAD_LEFT;
@@ -511,10 +511,10 @@ Camera::update_scroll_normal(float dt_sec)
       /* player changed direction while camera was scrolling...
        * he has to do this for a certain time to add robustness against
        * sudden changes */
-      if(m_changetime < 0) {
+      if (m_changetime < 0) {
         m_changetime = g_game_time;
       } else if(g_game_time - m_changetime > config_.dirchange_time) {
-        if(m_lookahead_mode == LOOKAHEAD_LEFT &&
+        if (m_lookahead_mode == LOOKAHEAD_LEFT &&
            player_pos.x > m_cached_translation.x + RIGHTEND) {
           m_lookahead_mode = LOOKAHEAD_RIGHT;
         } else if(m_lookahead_mode == LOOKAHEAD_RIGHT &&
@@ -533,7 +533,7 @@ Camera::update_scroll_normal(float dt_sec)
 
     // calculate our scroll target depending on scroll mode
     float target_x;
-    if(m_lookahead_mode == LOOKAHEAD_LEFT)
+    if (m_lookahead_mode == LOOKAHEAD_LEFT)
       target_x = player_pos.x - RIGHTEND;
     else if(m_lookahead_mode == LOOKAHEAD_RIGHT)
       target_x = player_pos.x - LEFTEND;
@@ -553,27 +553,27 @@ Camera::update_scroll_normal(float dt_sec)
     // apply scrolling
     m_cached_translation.x -= speed_x * dt_sec;
   }
-  if(xmode == 3) {
+  if (xmode == 3) {
     float halfsize = config_.kirby_rectsize_x * 0.5f;
     m_cached_translation.x = math::clamp(m_cached_translation.x,
                                  player_pos.x - static_cast<float>(m_screen_size.width) * (0.5f + halfsize),
                                  player_pos.x - static_cast<float>(m_screen_size.width) * (0.5f - halfsize));
   }
-  if(xmode == 4) {
+  if (xmode == 4) {
     float LEFTEND = static_cast<float>(m_screen_size.width) * config_.edge_x;
     float RIGHTEND = static_cast<float>(m_screen_size.width) * (1 - config_.edge_x);
 
     if (player_delta.x < -CAMERA_EPSILON) {
       // walking left
       m_lookahead_pos.x -= player_delta.x * config_.dynamic_speed_sm;
-      if(m_lookahead_pos.x > RIGHTEND) {
+      if (m_lookahead_pos.x > RIGHTEND) {
         m_lookahead_pos.x = RIGHTEND;
       }
 
     } else if (player_delta.x > CAMERA_EPSILON) {
       // walking right
       m_lookahead_pos.x -= player_delta.x * config_.dynamic_speed_sm;
-      if(m_lookahead_pos.x < LEFTEND) {
+      if (m_lookahead_pos.x < LEFTEND) {
         m_lookahead_pos.x = LEFTEND;
       }
     }
@@ -591,9 +591,9 @@ Camera::update_scroll_normal(float dt_sec)
 
   m_translation.x = m_cached_translation.x;
 
-  if(xmode != 0) {
+  if (xmode != 0) {
     float left_edge, right_edge;
-    if(config_.clamp_x <= 0) {
+    if (config_.clamp_x <= 0) {
       left_edge = 0;
       right_edge = static_cast<float>(m_screen_size.width);
     } else {
@@ -604,14 +604,14 @@ Camera::update_scroll_normal(float dt_sec)
     float peek_to = 0;
     float translation_compensation = player_pos.x - m_translation.x;
 
-    if(player.peeking_direction_x() == ::LEFT) {
+    if (player.peeking_direction_x() == ::LEFT) {
       peek_to = right_edge - translation_compensation;
     } else if(player.peeking_direction_x() == ::RIGHT) {
       peek_to = left_edge - translation_compensation;
     }
 
     float peek_move = (peek_to - m_peek_pos.x) * PEEK_ARRIVE_RATIO;
-    if(fabsf(peek_move) < 1.0) {
+    if (fabsf(peek_move) < 1.0) {
       peek_move = 0.0;
     }
 
@@ -619,7 +619,7 @@ Camera::update_scroll_normal(float dt_sec)
 
     m_translation.x -= m_peek_pos.x;
 
-    if(config_.clamp_x > 0) {
+    if (config_.clamp_x > 0) {
       m_translation.x = math::clamp(m_translation.x,
                             player_pos.x - static_cast<float>(m_screen_size.width) * (1-config_.clamp_x),
                             player_pos.x - static_cast<float>(m_screen_size.width) * config_.clamp_x);
@@ -638,7 +638,7 @@ void
 Camera::update_scroll_autoscroll(float dt_sec)
 {
   Player& player = m_sector->get_player();
-  if(player.is_dying())
+  if (player.is_dying())
     return;
 
   get_walker()->update(dt_sec);
@@ -651,7 +651,7 @@ void
 Camera::update_scroll_to(float dt_sec)
 {
   m_scroll_to_pos += dt_sec * m_scrollspeed;
-  if(m_scroll_to_pos >= 1.0) {
+  if (m_scroll_to_pos >= 1.0) {
     m_mode = MANUAL;
     m_translation = m_scroll_goal;
     return;

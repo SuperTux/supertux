@@ -43,10 +43,10 @@ Stalactite::Stalactite(const ReaderMapping& lisp) :
 void
 Stalactite::active_update(float dt_sec)
 {
-  if(state == STALACTITE_HANGING) {
+  if (state == STALACTITE_HANGING) {
     auto player = get_nearest_player();
     if (player && !player->get_ghost_mode()) {
-      if(player->get_bbox().p2.x > m_col.m_bbox.p1.x - SHAKE_RANGE_X
+      if (player->get_bbox().p2.x > m_col.m_bbox.p1.x - SHAKE_RANGE_X
          && player->get_bbox().p1.x < m_col.m_bbox.p2.x + SHAKE_RANGE_X
          && player->get_bbox().p2.y > m_col.m_bbox.p1.y
          && player->get_bbox().p1.y < m_col.m_bbox.p2.y + SHAKE_RANGE_Y
@@ -58,7 +58,7 @@ Stalactite::active_update(float dt_sec)
     }
   } else if(state == STALACTITE_SHAKING) {
     shake_delta = Vector(static_cast<float>(graphicsRandom.rand(-3, 3)), 0.0f);
-    if(timer.check()) {
+    if (timer.check()) {
       state = STALACTITE_FALLING;
       m_physic.enable_gravity(true);
       set_colgroup_active(COLGROUP_MOVING);
@@ -85,10 +85,10 @@ Stalactite::squish()
 void
 Stalactite::collision_solid(const CollisionHit& hit)
 {
-  if(state == STALACTITE_FALLING) {
+  if (state == STALACTITE_FALLING) {
     if (hit.bottom) squish();
   }
-  if(state == STALACTITE_SQUISHED) {
+  if (state == STALACTITE_SQUISHED) {
     m_physic.set_velocity_y(0);
   }
 }
@@ -96,7 +96,7 @@ Stalactite::collision_solid(const CollisionHit& hit)
 HitResponse
 Stalactite::collision_player(Player& player, const CollisionHit& )
 {
-  if(state != STALACTITE_SQUISHED) {
+  if (state != STALACTITE_SQUISHED) {
     player.kill(false);
   }
 
@@ -125,11 +125,11 @@ Stalactite::collision_badguy(BadGuy& other, const CollisionHit& hit)
 HitResponse
 Stalactite::collision_bullet(Bullet& bullet, const CollisionHit& )
 {
-  if(state == STALACTITE_HANGING) {
+  if (state == STALACTITE_HANGING) {
     timer.start(SHAKE_TIME);
     state = STALACTITE_SHAKING;
     bullet.remove_me();
-    if(bullet.get_type() == FIRE_BONUS)
+    if (bullet.get_type() == FIRE_BONUS)
       SoundManager::current()->play("sounds/sizzle.ogg", get_pos());
     SoundManager::current()->play("sounds/cracking.wav", get_pos());
   }
@@ -145,10 +145,10 @@ Stalactite::kill_fall()
 void
 Stalactite::draw(DrawingContext& context)
 {
-  if(get_state() == STATE_INIT || get_state() == STATE_INACTIVE)
+  if (get_state() == STATE_INIT || get_state() == STATE_INACTIVE)
     return;
 
-  if(state == STALACTITE_SQUISHED) {
+  if (state == STALACTITE_SQUISHED) {
     m_sprite->draw(context.color(), get_pos(), LAYER_OBJECTS);
   } else if(state == STALACTITE_SHAKING) {
     m_sprite->draw(context.color(), get_pos() + shake_delta, m_layer);
@@ -160,7 +160,7 @@ Stalactite::draw(DrawingContext& context)
 void
 Stalactite::deactivate()
 {
-  if(state != STALACTITE_HANGING)
+  if (state != STALACTITE_HANGING)
     remove_me();
 }
 

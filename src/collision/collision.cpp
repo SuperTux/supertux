@@ -25,9 +25,9 @@ namespace collision {
 
 bool intersects(const Rectf& r1, const Rectf& r2)
 {
-  if(r1.p2.x < r2.p1.x || r1.p1.x > r2.p2.x)
+  if (r1.p2.x < r2.p1.x || r1.p1.x > r2.p2.x)
     return false;
-  if(r1.p2.y < r2.p1.y || r1.p1.y > r2.p2.y)
+  if (r1.p2.y < r2.p1.y || r1.p1.y > r2.p2.y)
     return false;
 
   return true;
@@ -50,7 +50,7 @@ inline void makePlane(const Vector& p1, const Vector& p2, Vector& n, float& c)
 bool rectangle_aatriangle(Constraints* constraints, const Rectf& rect,
                           const AATriangle& triangle, const Vector& addl_ground_movement)
 {
-  if(!intersects(rect, triangle.bbox))
+  if (!intersects(rect, triangle.bbox))
     return false;
 
   Vector normal;
@@ -107,7 +107,7 @@ bool rectangle_aatriangle(Constraints* constraints, const Rectf& rect,
 
   float n_p1 = -(normal * p1);
   float depth = n_p1 - c;
-  if(depth < 0)
+  if (depth < 0)
     return false;
 
 #if 0
@@ -118,11 +118,11 @@ bool rectangle_aatriangle(Constraints* constraints, const Rectf& rect,
   Vector outvec = normal * (depth + 0.2f);
 
   const float RDELTA = 3;
-  if(p1.x < area.p1.x - RDELTA || p1.x > area.p2.x + RDELTA
+  if (p1.x < area.p1.x - RDELTA || p1.x > area.p2.x + RDELTA
      || p1.y < area.p1.y - RDELTA || p1.y > area.p2.y + RDELTA) {
     set_rectangle_rectangle_constraints(constraints, rect, area);
   } else {
-    if(outvec.x < 0) {
+    if (outvec.x < 0) {
       constraints->constrain_right(rect.get_right() + outvec.x, addl_ground_movement.x);
       constraints->hit.right = true;
     } else {
@@ -130,7 +130,7 @@ bool rectangle_aatriangle(Constraints* constraints, const Rectf& rect,
       constraints->hit.left = true;
     }
 
-    if(outvec.y < 0) {
+    if (outvec.y < 0) {
       constraints->constrain_bottom(rect.get_bottom() + outvec.y, addl_ground_movement.y);
       constraints->hit.bottom = true;
       constraints->ground_movement += addl_ground_movement;
@@ -154,8 +154,8 @@ void set_rectangle_rectangle_constraints(Constraints* constraints,
 
   float vert_penetration = std::min(itop, ibottom);
   float horiz_penetration = std::min(ileft, iright);
-  if(vert_penetration < horiz_penetration) {
-    if(itop < ibottom) {
+  if (vert_penetration < horiz_penetration) {
+    if (itop < ibottom) {
       constraints->constrain_bottom(r2.get_top(), addl_ground_movement.y);
       constraints->hit.bottom = true;
       constraints->ground_movement += addl_ground_movement;
@@ -164,7 +164,7 @@ void set_rectangle_rectangle_constraints(Constraints* constraints,
       constraints->hit.top = true;
     }
   } else {
-    if(ileft < iright) {
+    if (ileft < iright) {
       constraints->constrain_right(r2.get_left(), addl_ground_movement.x);
       constraints->hit.right = true;
     } else {

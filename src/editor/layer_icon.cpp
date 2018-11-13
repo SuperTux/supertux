@@ -59,7 +59,7 @@ LayerIcon::draw(DrawingContext& context, const Vector& pos) {
 
 int
 LayerIcon::get_zpos() const {
-  if(!is_valid()) {
+  if (!is_valid()) {
     return std::numeric_limits<int>::min();
   }
 

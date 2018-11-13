@@ -59,7 +59,7 @@ ParticleSystem::~ParticleSystem()
 
 void ParticleSystem::draw(DrawingContext& context)
 {
-  if(!enabled)
+  if (!enabled)
     return;
 
   float scrollx = context.get_translation().x;
@@ -73,10 +73,10 @@ void ParticleSystem::draw(DrawingContext& context)
     Vector pos;
 
     pos.x = fmodf(particle->pos.x - scrollx, virtual_width);
-    if(pos.x < 0) pos.x += virtual_width;
+    if (pos.x < 0) pos.x += virtual_width;
 
     pos.y = fmodf(particle->pos.y - scrolly, virtual_height);
-    if(pos.y < 0) pos.y += virtual_height;
+    if (pos.y < 0) pos.y += virtual_height;
 
     //if(pos.x > virtual_width) pos.x -= virtual_width;
     //if(pos.y > virtual_height) pos.y -= virtual_height;

@@ -97,7 +97,7 @@ void SnowParticleSystem::init()
 
 void SnowParticleSystem::update(float dt_sec)
 {
-  if(!enabled)
+  if (!enabled)
     return;
 
   // Simple ADSR wind gusts
@@ -106,7 +106,7 @@ void SnowParticleSystem::update(float dt_sec)
     // Change state
     state = static_cast<State>((state + 1) % MAX_STATE);
 
-    if(state == RESTING) {
+    if (state == RESTING) {
       // stop wind
       gust_current_velocity = 0;
       // new wind strength
@@ -139,7 +139,7 @@ void SnowParticleSystem::update(float dt_sec)
 
   for(auto& part : particles) {
     auto particle = dynamic_cast<SnowParticle*>(part.get());
-    if(!particle)
+    if (!particle)
       continue;
 
     float anchor_delta;

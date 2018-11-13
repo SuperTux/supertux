@@ -31,7 +31,7 @@ void
 FadeToBlack::update(float dt_sec)
 {
   m_accum_time += dt_sec;
-  if(m_accum_time > m_fade_time)
+  if (m_accum_time > m_fade_time)
     m_accum_time = m_fade_time;
 }
 

@@ -29,14 +29,14 @@ ObjectInput::ObjectInput() :
   auto doc = ReaderDocument::from_file("images/engine/editor/objects.stoi");
   auto root = doc.get_root();
 
-  if(root.get_name() != "supertux-objectinfo") {
+  if (root.get_name() != "supertux-objectinfo") {
     throw std::runtime_error("file images/engine/editor/objects.stoi is not a supertux-objectinfo file.");
   } // Bombenfest und Idioten sicher :DDDDD
 
   auto reader = root.get_mapping();
 
   /*const lisp::Lisp* info = root->get_lisp("supertux-objectinfo");
-  if(!info) {
+  if (!info) {
     throw std::runtime_error("file images/engine/editor/objects.stoi is not a supertux-objectinfo file.");
   }*/ // Bombenfest und Idioten sicher :DDDDD
 

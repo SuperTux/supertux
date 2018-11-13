@@ -97,7 +97,7 @@ SequenceTrigger::after_editor_set() {
 void
 SequenceTrigger::event(Player& player, EventType type)
 {
-  if(type == triggerevent) {
+  if (type == triggerevent) {
     auto data = SequenceData(new_spawnpoint, fade_tilemap, fade);
     player.trigger_sequence(sequence, &data);
   }

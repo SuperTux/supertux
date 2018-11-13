@@ -68,11 +68,11 @@ PlayerStatus::add_coins(int count, bool play_sound)
 {
   coins = std::min(coins + count, MAX_COINS);
 
-  if(!play_sound)
+  if (!play_sound)
     return;
 
   static float sound_played_time = 0;
-  if(count >= 100)
+  if (count >= 100)
     SoundManager::current()->play("sounds/lifeup.wav");
   else if (g_real_time > sound_played_time + 0.010) {
     SoundManager::current()->play("sounds/coin.wav");
@@ -123,8 +123,8 @@ PlayerStatus::read(const ReaderMapping& lisp)
   reset();
 
   std::string bonusname;
-  if(lisp.get("bonus", bonusname)) {
-    if(bonusname == "none") {
+  if (lisp.get("bonus", bonusname)) {
+    if (bonusname == "none") {
       bonus = NO_BONUS;
     } else if(bonusname == "growup") {
       bonus = GROWUP_BONUS;

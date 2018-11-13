@@ -55,7 +55,7 @@ Tux::draw(DrawingContext& context)
   if (m_worldmap->is_panning()) return;
 
   std::string action = get_action_prefix_for_bonus(m_worldmap->get_savegame().get_player_status().bonus);
-  if(!action.empty())
+  if (!action.empty())
   {
     m_sprite->set_action(m_moving ? action + "-walking" : action + "-stop");
   }
@@ -70,17 +70,17 @@ Tux::draw(DrawingContext& context)
 std::string
 Tux::get_action_prefix_for_bonus(const BonusType& bonus) const
 {
-  if(bonus == GROWUP_BONUS)
+  if (bonus == GROWUP_BONUS)
     return "large";
-  if(bonus == FIRE_BONUS)
+  if (bonus == FIRE_BONUS)
     return "fire";
-  if(bonus == ICE_BONUS)
+  if (bonus == ICE_BONUS)
     return "ice";
-  if(bonus == AIR_BONUS)
+  if (bonus == AIR_BONUS)
     return "air";
-  if(bonus == EARTH_BONUS)
+  if (bonus == EARTH_BONUS)
     return "earth";
-  if(bonus == NO_BONUS)
+  if (bonus == NO_BONUS)
     return "small";
 
   return "";
@@ -181,7 +181,7 @@ void
 Tux::ChangeSprite(SpriteChange* sprite_change)
 {
   //SpriteChange* sprite_change = m_worldmap->at_sprite_change(tile_pos);
-  if(sprite_change != nullptr) {
+  if (sprite_change != nullptr) {
     m_sprite = sprite_change->sprite->clone();
     sprite_change->clear_stay_action();
     m_worldmap->get_savegame().get_player_status().worldmap_sprite = sprite_change->sprite_name;
@@ -208,11 +208,11 @@ Tux::tryContinueWalking(float dt_sec)
 
   // if this is a special_tile with passive_message, display it
   auto special_tile = m_worldmap->at_special_tile();
-  if(special_tile)
+  if (special_tile)
   {
     // direction and the apply_action_ are opposites, since they "see"
     // directions in a different way
-    if((m_direction == D_NORTH && special_tile->apply_action_south) ||
+    if ((m_direction == D_NORTH && special_tile->apply_action_south) ||
        (m_direction == D_SOUTH && special_tile->apply_action_north) ||
        (m_direction == D_WEST && special_tile->apply_action_east) ||
        (m_direction == D_EAST && special_tile->apply_action_west))
@@ -231,7 +231,7 @@ Tux::tryContinueWalking(float dt_sec)
       (teleporter) ||
       m_ghost_mode)
   {
-    if(special_tile && !special_tile->map_message.empty() && !special_tile->passive_message) {
+    if (special_tile && !special_tile->map_message.empty() && !special_tile->passive_message) {
       m_worldmap->set_passive_message({}, 0.0f);
     }
     stop();
@@ -267,7 +267,7 @@ Tux::tryContinueWalking(float dt_sec)
   }
 
   // Walk automatically to the next tile
-  if(m_direction == D_NONE)
+  if (m_direction == D_NONE)
     return;
 
   Vector next_tile;
@@ -278,11 +278,11 @@ Tux::tryContinueWalking(float dt_sec)
   }
 
   auto next_sprite = m_worldmap->at_sprite_change(next_tile);
-  if(next_sprite != nullptr && next_sprite->change_on_touch) {
+  if (next_sprite != nullptr && next_sprite->change_on_touch) {
     ChangeSprite(next_sprite);
   }
   //SpriteChange* last_sprite = m_worldmap->at_sprite_change(tile_pos);
-  if(sprite_change != nullptr && next_sprite != nullptr) {
+  if (sprite_change != nullptr && next_sprite != nullptr) {
     log_debug << "Old: " << m_tile_pos << " New: " << next_tile << std::endl;
     sprite_change->set_stay_action();
   }
@@ -329,7 +329,7 @@ Tux::process_special_tile(SpecialTile* special_tile) {
     return;
   }
 
-  if(special_tile->passive_message) {
+  if (special_tile->passive_message) {
     m_worldmap->set_passive_message(special_tile->map_message, map_message_TIME);
   } else if(!special_tile->script.empty()) {
     try {

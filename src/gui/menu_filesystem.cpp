@@ -72,7 +72,7 @@ FileSystemMenu::refresh_items()
     for(const char* const* file = dir_files; *file != nullptr; ++file)
     {
       std::string filepath = FileSystem::join(directory, *file);
-      if(PhysFSFileSystem::is_directory(filepath))
+      if (PhysFSFileSystem::is_directory(filepath))
       {
         directories.push_back(*file);
       }
@@ -82,7 +82,7 @@ FileSystemMenu::refresh_items()
           continue;
         }
 
-        if(has_right_suffix(*file))
+        if (has_right_suffix(*file))
         {
           files.push_back(*file);
         }
@@ -116,7 +116,7 @@ bool
 FileSystemMenu::has_right_suffix(const std::string& file) const
 {
   for (const auto& extension : extensions) {
-    if(StringUtil::has_suffix(file, extension))
+    if (StringUtil::has_suffix(file, extension))
     {
       return true;
     }

@@ -45,7 +45,7 @@ Camera::set_mode(const std::string& mode)
 {
   SCRIPT_GUARD_VOID;
 
-  if(mode == "normal") {
+  if (mode == "normal") {
     object.set_mode(::Camera::NORMAL);
   } else if(mode == "manual") {
     object.set_mode(::Camera::MANUAL);

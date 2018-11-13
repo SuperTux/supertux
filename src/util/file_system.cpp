@@ -53,9 +53,9 @@ void mkdir(const std::string& directory)
 std::string dirname(const std::string& filename)
 {
   std::string::size_type p = filename.find_last_of('/');
-  if(p == std::string::npos)
+  if (p == std::string::npos)
     p = filename.find_last_of('\\');
-  if(p == std::string::npos)
+  if (p == std::string::npos)
     return "./";
 
   return filename.substr(0, p+1);
@@ -64,9 +64,9 @@ std::string dirname(const std::string& filename)
 std::string basename(const std::string& filename)
 {
   std::string::size_type p = filename.find_last_of('/');
-  if(p == std::string::npos)
+  if (p == std::string::npos)
     p = filename.find_last_of('\\');
-  if(p == std::string::npos)
+  if (p == std::string::npos)
     return filename;
 
   return filename.substr(p+1, filename.size()-p-1);
@@ -75,7 +75,7 @@ std::string basename(const std::string& filename)
 std::string strip_extension(const std::string& filename)
 {
   std::string::size_type p = filename.find_last_of('.');
-  if(p == std::string::npos)
+  if (p == std::string::npos)
     return filename;
 
   return filename.substr(0, p);
@@ -99,15 +99,15 @@ std::string normalize(const std::string& filename)
     }
 
     size_t len = p - pstart;
-    if(len == 0)
+    if (len == 0)
       break;
 
     std::string pathelem(pstart, p-pstart);
-    if(pathelem == ".")
+    if (pathelem == ".")
       continue;
 
-    if(pathelem == "..") {
-      if(path_stack.empty()) {
+    if (pathelem == "..") {
+      if (path_stack.empty()) {
 
         log_warning << "Invalid '..' in path '" << filename << "'" << std::endl;
         // push it into the result path so that the user sees his error...
@@ -126,7 +126,7 @@ std::string normalize(const std::string& filename)
       i != path_stack.end(); ++i) {
     result << '/' << *i;
   }
-  if(path_stack.empty())
+  if (path_stack.empty())
     result << '/';
 
   return result.str();

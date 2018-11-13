@@ -64,7 +64,7 @@ Config::load()
 {
   auto doc = ReaderDocument::from_file("config");
   auto root = doc.get_root();
-  if(root.get_name() != "supertux-config")
+  if (root.get_name() != "supertux-config")
   {
     throw std::runtime_error("File is not a supertux-config file");
   }
@@ -77,8 +77,8 @@ Config::load()
   config_lisp.get("confirmation_dialog", confirmation_dialog);
   config_lisp.get("pause_on_focusloss", pause_on_focusloss);
 
-  if(is_christmas()) {
-    if(!config_lisp.get("christmas", christmas_mode))
+  if (is_christmas()) {
+    if (!config_lisp.get("christmas", christmas_mode))
     {
       christmas_mode = true;
     }
@@ -89,7 +89,7 @@ Config::load()
   config_lisp.get("repository_url", repository_url);
 
   boost::optional<ReaderMapping> config_video_lisp;
-  if(config_lisp.get("video", config_video_lisp))
+  if (config_lisp.get("video", config_video_lisp))
   {
     config_video_lisp->get("fullscreen", use_fullscreen);
     std::string video_string;
@@ -99,7 +99,7 @@ Config::load()
 
     config_video_lisp->get("fullscreen_width",  fullscreen_size.width);
     config_video_lisp->get("fullscreen_height", fullscreen_size.height);
-    if(fullscreen_size.width < 0 || fullscreen_size.height < 0)
+    if (fullscreen_size.width < 0 || fullscreen_size.height < 0)
     {
       // Somehow, an invalid size got entered into the config file,
       // let's use the "auto" setting instead.
@@ -119,7 +119,7 @@ Config::load()
   }
 
   boost::optional<ReaderMapping> config_audio_lisp;
-  if(config_lisp.get("audio", config_audio_lisp))
+  if (config_lisp.get("audio", config_audio_lisp))
   {
     config_audio_lisp->get("sound_enabled", sound_enabled);
     config_audio_lisp->get("music_enabled", music_enabled);
@@ -181,7 +181,7 @@ Config::save()
   writer.write("developer", developer_mode);
   writer.write("confirmation_dialog", confirmation_dialog);
   writer.write("pause_on_focusloss", pause_on_focusloss);
-  if(is_christmas()) {
+  if (is_christmas()) {
     writer.write("christmas", christmas_mode);
   }
   writer.write("transitions_enabled", transitions_enabled);

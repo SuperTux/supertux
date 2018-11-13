@@ -38,13 +38,13 @@ SquirrelScheduler::update(float time)
     sq_getweakrefval(m_vm, -1);
 
     HSQUIRRELVM scheduled_vm;
-    if(sq_gettype(m_vm, -1) == OT_THREAD &&
+    if (sq_gettype(m_vm, -1) == OT_THREAD &&
        SQ_SUCCEEDED(sq_getthread(m_vm, -1, &scheduled_vm))) {
-      if(SQ_FAILED(sq_wakeupvm(scheduled_vm, SQFalse, SQFalse, SQTrue, SQFalse))) {
+      if (SQ_FAILED(sq_wakeupvm(scheduled_vm, SQFalse, SQFalse, SQTrue, SQFalse))) {
         std::ostringstream msg;
         msg << "Error waking VM: ";
         sq_getlasterror(scheduled_vm);
-        if(sq_gettype(scheduled_vm, -1) != OT_STRING) {
+        if (sq_gettype(scheduled_vm, -1) != OT_STRING) {
           msg << "(no info)";
         } else {
           const char* lasterr;
@@ -72,7 +72,7 @@ SquirrelScheduler::schedule_thread(HSQUIRRELVM scheduled_vm, float time)
   sq_weakref(m_vm, -1);
 
   ScheduleEntry entry;
-  if(SQ_FAILED(sq_getstackobj(m_vm, -1, & entry.thread_ref))) {
+  if (SQ_FAILED(sq_getstackobj(m_vm, -1, & entry.thread_ref))) {
     sq_pop(m_vm, 2);
     throw SquirrelError(m_vm, "Couldn't get thread weakref from vm");
   }

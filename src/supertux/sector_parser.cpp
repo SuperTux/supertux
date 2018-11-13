@@ -82,7 +82,7 @@ SectorParser::SectorParser(Sector& sector) :
 std::unique_ptr<GameObject>
 SectorParser::parse_object(const std::string& name_, const ReaderMapping& reader)
 {
-  if(name_ == "camera") {
+  if (name_ == "camera") {
     auto camera_ = std::make_unique<Camera>(&m_sector, "Camera");
     camera_->parse(reader);
     return camera_;
@@ -103,7 +103,7 @@ SectorParser::parse(const ReaderMapping& sector)
 {
   auto iter = sector.get_iter();
   while(iter.next()) {
-    if(iter.get_key() == "name") {
+    if (iter.get_key() == "name") {
       std::string value;
       iter.get(value);
       m_sector.set_name(value);
@@ -127,7 +127,7 @@ SectorParser::parse(const ReaderMapping& sector)
         // for backward compatibilty
         std::vector<float> vColor;
         bool hasColor = sector.get("ambient-light", vColor);
-        if(vColor.size() < 3 || !hasColor) {
+        if (vColor.size() < 3 || !hasColor) {
           log_warning << "(ambient-light) requires a color as argument" << std::endl;
         } else {
           m_sector.add<AmbientLight>(Color(vColor));
@@ -138,7 +138,7 @@ SectorParser::parse(const ReaderMapping& sector)
       }
     } else {
       auto object = parse_object(iter.get_key(), iter.as_mapping());
-      if(object) {
+      if (object) {
         m_sector.add_object(std::move(object));
       }
     }
@@ -188,7 +188,7 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
   bkgd_bottom.green = static_cast<float> (g) / 255.0f;
   bkgd_bottom.blue = static_cast<float> (b) / 255.0f;
 
-  if(!backgroundimage.empty()) {
+  if (!backgroundimage.empty()) {
     auto& background = m_sector.add<Background>();
     background.set_image(backgroundimage, bgspeed);
   } else {
@@ -198,7 +198,7 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
 
   std::string particlesystem;
   reader.get("particle_system", particlesystem);
-  if(particlesystem == "clouds")
+  if (particlesystem == "clouds")
     m_sector.add<CloudParticleSystem>();
   else if(particlesystem == "snow")
     m_sector.add<SnowParticleSystem>();
@@ -223,7 +223,7 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
   reader.get("height", height);
 
   std::vector<unsigned int> tiles;
-  if(reader.get("interactive-tm", tiles)
+  if (reader.get("interactive-tm", tiles)
      || reader.get("tilemap", tiles)) {
     auto* tileset = TileManager::current()->get_tileset(m_sector.get_level().get_tileset());
     auto& tilemap = m_sector.add<TileMap>(tileset);
@@ -233,7 +233,7 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
     for(int x=0; x < tilemap.get_width(); ++x) {
       for(int y=0; y < tilemap.get_height(); ++y) {
         uint32_t id = tilemap.get_tile_id(x, y);
-        if(id == 112)
+        if (id == 112)
           tilemap.change(x, y, 1311);
       }
     }
@@ -241,14 +241,14 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
     if (height < 19) tilemap.resize(width, 19);
   }
 
-  if(reader.get("background-tm", tiles)) {
+  if (reader.get("background-tm", tiles)) {
     auto* tileset = TileManager::current()->get_tileset(m_sector.get_level().get_tileset());
     auto& tilemap = m_sector.add<TileMap>(tileset);
     tilemap.set(width, height, tiles, LAYER_BACKGROUNDTILES, false);
     if (height < 19) tilemap.resize(width, 19);
   }
 
-  if(reader.get("foreground-tm", tiles)) {
+  if (reader.get("foreground-tm", tiles)) {
     auto* tileset = TileManager::current()->get_tileset(m_sector.get_level().get_tileset());
     auto& tilemap = m_sector.add<TileMap>(tileset);
     tilemap.set(width, height, tiles, LAYER_FOREGROUNDTILES, false);
@@ -259,12 +259,12 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
 
   // read reset-points (now spawn-points)
   boost::optional<ReaderMapping> resetpoints;
-  if(reader.get("reset-points", resetpoints)) {
+  if (reader.get("reset-points", resetpoints)) {
     auto iter = resetpoints->get_iter();
     while(iter.next()) {
-      if(iter.get_key() == "point") {
+      if (iter.get_key() == "point") {
         Vector sp_pos;
-        if(reader.get("x", sp_pos.x) && reader.get("y", sp_pos.y))
+        if (reader.get("x", sp_pos.x) && reader.get("y", sp_pos.y))
         {
           m_sector.add<SpawnPointMarker>("main", sp_pos);
         }
@@ -276,11 +276,11 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
 
   // read objects
   boost::optional<ReaderCollection> objects;
-  if(reader.get("objects", objects)) {
+  if (reader.get("objects", objects)) {
     for(auto const& obj : objects->get_objects())
     {
       auto object = parse_object(obj.get_name(), obj.get_mapping());
-      if(object) {
+      if (object) {
         m_sector.add_object(std::move(object));
       } else {
         log_warning << "Unknown object '" << obj.get_name() << "' in level." << std::endl;

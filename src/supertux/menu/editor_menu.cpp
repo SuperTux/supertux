@@ -71,7 +71,7 @@ EditorMenu::EditorMenu()
 EditorMenu::~EditorMenu()
 {
   auto editor = Editor::current();
-  if(editor == nullptr) {
+  if (editor == nullptr) {
     return;
   }
   editor->reactivate_request = true;
@@ -93,14 +93,14 @@ EditorMenu::menu_action(MenuItem& item)
       bool is_spawnpoint_valid = false;
 
       editor->check_save_prerequisites(is_sector_valid, is_spawnpoint_valid);
-      if(is_sector_valid && is_spawnpoint_valid)
+      if (is_sector_valid && is_spawnpoint_valid)
       {
         MenuManager::instance().clear_menu_stack();
         editor->save_request = true;
       }
       else
       {
-        if(!is_sector_valid)
+        if (!is_sector_valid)
         {
           Dialog::show_message(_("Couldn't find a \"main\" sector.\nPlease change the name of the sector where\nyou'd like the player to start to \"main\""));
         }

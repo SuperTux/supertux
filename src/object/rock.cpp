@@ -67,8 +67,8 @@ Rock::Rock(const ReaderMapping& reader, const std::string& spritename) :
   on_grab_script(),
   on_ungrab_script()
 {
-  if(!reader.get("on-grab-script", on_grab_script)) on_grab_script = "";
-  if(!reader.get("on-ungrab-script", on_ungrab_script)) on_ungrab_script = "";
+  if (!reader.get("on-grab-script", on_grab_script)) on_grab_script = "";
+  if (!reader.get("on-ungrab-script", on_ungrab_script)) on_ungrab_script = "";
   SoundManager::current()->preload(ROCK_SOUND);
   set_group(COLGROUP_MOVING_STATIC);
 }
@@ -76,7 +76,7 @@ Rock::Rock(const ReaderMapping& reader, const std::string& spritename) :
 void
 Rock::update(float dt_sec)
 {
-  if( grabbed )
+  if ( grabbed )
     return;
 
   if (on_ground) physic.set_velocity_x(0);
@@ -87,17 +87,17 @@ Rock::update(float dt_sec)
 void
 Rock::collision_solid(const CollisionHit& hit)
 {
-  if(grabbed) {
+  if (grabbed) {
     return;
   }
-  if(hit.top || hit.bottom)
+  if (hit.top || hit.bottom)
     physic.set_velocity_y(0);
-  if(hit.left || hit.right)
+  if (hit.left || hit.right)
     physic.set_velocity_x(0);
-  if(hit.crush)
+  if (hit.crush)
     physic.set_velocity(0, 0);
 
-  if(hit.bottom  && !on_ground && !grabbed) {
+  if (hit.bottom  && !on_ground && !grabbed) {
     SoundManager::current()->play(ROCK_SOUND, get_pos());
     on_ground = true;
   }
@@ -116,13 +116,13 @@ Rock::collision(GameObject& other, const CollisionHit& hit)
     return ABORT_MOVE;
   }
 
-  if(grabbed) {
+  if (grabbed) {
     return ABORT_MOVE;
   }
-  if(!on_ground) {
-    if(hit.bottom && physic.get_velocity_y() > 200) {
+  if (!on_ground) {
+    if (hit.bottom && physic.get_velocity_y() > 200) {
       auto moving_object = dynamic_cast<MovingObject*> (&other);
-      if(moving_object) {
+      if (moving_object) {
         //Getting a rock on the head hurts. A lot.
         moving_object->collision_tile(Tile::HURTS);
       }
@@ -142,7 +142,7 @@ Rock::grab(MovingObject& , const Vector& pos, Direction)
   on_ground = false;
   grabbed = true;
 
-  if(!on_grab_script.empty()) {
+  if (!on_grab_script.empty()) {
     Sector::get().run_script(on_grab_script, "Rock::on_grab");
   }
 }
@@ -152,7 +152,7 @@ Rock::ungrab(MovingObject& , Direction dir)
 {
   set_group(COLGROUP_MOVING_STATIC);
   on_ground = false;
-  if(dir == UP) {
+  if (dir == UP) {
     physic.set_velocity(0, -500);
   } else if (last_movement.norm() > 1) {
     physic.set_velocity((dir == RIGHT) ? 200 : -200, -200);
@@ -161,7 +161,7 @@ Rock::ungrab(MovingObject& , Direction dir)
   }
   grabbed = false;
 
-  if(!on_ungrab_script.empty()) {
+  if (!on_ungrab_script.empty()) {
     Sector::get().run_script(on_ungrab_script, "Rock::on_ungrab");
   }
 }

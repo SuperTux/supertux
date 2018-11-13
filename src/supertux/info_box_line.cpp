@@ -118,7 +118,7 @@ InfoBoxLine::split(const std::string& text, float width)
     }
 
     // extract the format_char
-    if(is_valid_format_char(text[i]))
+    if (is_valid_format_char(text[i]))
     {
       format_char = text[i];
       i++;

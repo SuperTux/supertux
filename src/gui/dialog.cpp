@@ -109,12 +109,12 @@ Dialog::get_button_at(const Vector& mouse_pos) const
 void
 Dialog::event(const SDL_Event& ev)
 {
-  if(m_passive) // Passive dialogs don't accept events
+  if (m_passive) // Passive dialogs don't accept events
     return;
 
   switch(ev.type) {
     case SDL_MOUSEBUTTONDOWN:
-    if(ev.button.button == SDL_BUTTON_LEFT)
+    if (ev.button.button == SDL_BUTTON_LEFT)
     {
       Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(ev.motion.x, ev.motion.y);
       int new_button = get_button_at(mouse_pos);
@@ -133,12 +133,12 @@ Dialog::event(const SDL_Event& ev)
       if (new_button != -1)
       {
         m_selected_button = new_button;
-        if(MouseCursor::current())
+        if (MouseCursor::current())
           MouseCursor::current()->set_state(MC_LINK);
       }
       else
       {
-        if(MouseCursor::current())
+        if (MouseCursor::current())
           MouseCursor::current()->set_state(MC_NORMAL);
       }
     }
@@ -152,7 +152,7 @@ Dialog::event(const SDL_Event& ev)
 void
 Dialog::process_input(const Controller& controller)
 {
-  if(m_passive) // Passive dialogs don't accept events
+  if (m_passive) // Passive dialogs don't accept events
     return;
 
   if (controller.pressed(Controller::LEFT))
@@ -209,7 +209,7 @@ Dialog::draw(DrawingContext& context)
                               Vector(bg_rect.p1.x + bg_rect.get_width()/2.0f,
                                      bg_rect.p1.y),
                               ALIGN_CENTER, LAYER_GUI);
-  if(m_passive)
+  if (m_passive)
     return;
 
   // draw HL line

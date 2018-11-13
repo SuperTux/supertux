@@ -31,7 +31,7 @@ ShortFuse::ShortFuse(const ReaderMapping& reader) :
   max_drop_height = -1;
 
   //Check if we need another sprite
-  if( !reader.get( "sprite", m_sprite_name ) ){
+  if ( !reader.get( "sprite", m_sprite_name ) ){
     return;
   }
   if (m_sprite_name.empty()) {
@@ -63,7 +63,7 @@ ShortFuse::collision_squished(GameObject& obj)
     return true;
 
   auto player = dynamic_cast<Player*>(&obj);
-  if(player)
+  if (player)
     player->bounce(*this);
 
   explode ();

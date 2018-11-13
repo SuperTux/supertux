@@ -41,7 +41,7 @@ TextObject::~TextObject()
 void
 TextObject::set_font(const std::string& name_)
 {
-  if(name_ == "normal") {
+  if (name_ == "normal") {
     font = Resources::normal_font;
   } else if(name_ == "big") {
     font = Resources::big_font;
@@ -91,7 +91,7 @@ TextObject::draw(DrawingContext& context)
 {
   context.push_transform();
   context.set_translation(Vector(0, 0));
-  if(fading > 0) {
+  if (fading > 0) {
     context.set_alpha((fadetime-fading) / fadetime);
   } else if(fading < 0) {
     context.set_alpha(-fading / fadetime);
@@ -119,15 +119,15 @@ TextObject::draw(DrawingContext& context)
 void
 TextObject::update(float dt_sec)
 {
-  if(fading > 0) {
+  if (fading > 0) {
     fading -= dt_sec;
-    if(fading <= 0) {
+    if (fading <= 0) {
       fading = 0;
       visible = true;
     }
   } else if(fading < 0) {
     fading += dt_sec;
-    if(fading >= 0) {
+    if (fading >= 0) {
       fading = 0;
       visible = false;
     }

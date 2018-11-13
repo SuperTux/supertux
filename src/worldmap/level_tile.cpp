@@ -56,7 +56,7 @@ LevelTile::LevelTile(const std::string& basedir_, const ReaderMapping& lisp) :
     title_color = Color(vColor);
   }
 
-  if(basedir == "./")
+  if (basedir == "./")
     basedir = "";
 
   if (!PHYSFS_exists((basedir + m_name).c_str()))
@@ -85,7 +85,7 @@ LevelTile::update(float )
 void
 LevelTile::update_sprite_action()
 {
-  if(!solved)
+  if (!solved)
     sprite->set_action("default");
   else
     sprite->set_action((sprite->has_action("perfect") && perfect) ? "perfect" : "solved");

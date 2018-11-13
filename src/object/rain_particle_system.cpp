@@ -66,7 +66,7 @@ void RainParticleSystem::init()
 
 void RainParticleSystem::update(float dt_sec)
 {
-  if(!enabled)
+  if (!enabled)
     return;
 
   for(auto& it : particles) {

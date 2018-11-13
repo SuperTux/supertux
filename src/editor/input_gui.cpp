@@ -75,7 +75,7 @@ EditorInputGui::draw(DrawingContext& context) {
                                        0.0f, LAYER_GUI+1);
   }
 
-  if(hovered_item != HI_NONE)
+  if (hovered_item != HI_NONE)
   {
     context.color().draw_filled_rect(get_item_rect(hovered_item),
                                        Color(0.9f, 0.9f, 1.0f, 0.6f),
@@ -146,7 +146,7 @@ EditorInputGui::update(float dt_sec) {
     {
         if (starting_tile > 0) 
         {
-          if(using_scroll_wheel)
+          if (using_scroll_wheel)
           {
             starting_tile -= 4 * wheel_scroll_amount;
             if (starting_tile < 0)
@@ -167,14 +167,14 @@ EditorInputGui::update(float dt_sec) {
       if (input_type == IP_OBJECT){
         size = static_cast<int>(object_input->groups[active_objectgroup].icons.size());
       } else {
-        if(active_tilegroup == nullptr)
+        if (active_tilegroup == nullptr)
         {
           return;
         }
         size = static_cast<int>(active_tilegroup->tiles.size());
       }
       if (starting_tile < size-5) {
-        if(using_scroll_wheel)
+        if (using_scroll_wheel)
         {
           starting_tile -= 4 * wheel_scroll_amount;
           if (starting_tile > size - 4)
@@ -241,12 +241,12 @@ EditorInputGui::event(SDL_Event& ev) {
   switch (ev.type) {
     case SDL_MOUSEBUTTONDOWN:
     {
-      if(ev.button.button == SDL_BUTTON_LEFT || ev.button.button == SDL_BUTTON_RIGHT) {
+      if (ev.button.button == SDL_BUTTON_LEFT || ev.button.button == SDL_BUTTON_RIGHT) {
         switch (hovered_item) {
           case HI_TILEGROUP:
           {
             auto editor = Editor::current();
-            if(editor->get_tileset()->get_tilegroups().size() > 1)
+            if (editor->get_tileset()->get_tilegroups().size() > 1)
             {
               Editor::current()->disable_keyboard();
               MenuManager::instance().push_menu(MenuStorage::EDITOR_TILEGROUP_MENU);
@@ -263,7 +263,7 @@ EditorInputGui::event(SDL_Event& ev) {
           case HI_OBJECTS:
           {
             auto editor = Editor::current();
-            if( (editor->get_worldmap_mode() && object_input->get_num_worldmap_groups() > 1) ||
+            if ( (editor->get_worldmap_mode() && object_input->get_num_worldmap_groups() > 1) ||
                 (!editor->get_worldmap_mode() && object_input->get_num_level_groups() > 1) )
             {
               Editor::current()->disable_keyboard();
@@ -271,7 +271,7 @@ EditorInputGui::event(SDL_Event& ev) {
             }
             else
             {
-              if(editor->get_worldmap_mode())
+              if (editor->get_worldmap_mode())
               {
                 active_objectgroup = object_input->get_first_worldmap_group_index();
               }

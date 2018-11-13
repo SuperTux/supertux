@@ -102,7 +102,7 @@ static std::vector<AddonId> get_addons(const AddonManager::AddonList& list)
 static PHYSFS_EnumerateCallbackResult add_to_dictionary_path(void *data, const char *origdir, const char *fname)
 {
     std::string full_path = FileSystem::join(origdir, fname);
-    if(PhysFSFileSystem::is_directory(full_path))
+    if (PhysFSFileSystem::is_directory(full_path))
     {
         log_debug << "Adding \"" << full_path << "\" to dictionary search path" << std::endl;
         // We want translations from addons to have precedence
@@ -114,7 +114,7 @@ static PHYSFS_EnumerateCallbackResult add_to_dictionary_path(void *data, const c
 static PHYSFS_EnumerateCallbackResult remove_from_dictionary_path(void *data, const char *origdir, const char *fname)
 {
     std::string full_path = FileSystem::join(origdir, fname);
-    if(PhysFSFileSystem::is_directory(full_path))
+    if (PhysFSFileSystem::is_directory(full_path))
     {
         g_dictionary_manager->remove_directory(full_path);
     }
@@ -133,7 +133,7 @@ AddonManager::AddonManager(const std::string& addon_directory,
   m_has_been_updated(false),
   m_transfer_status()
 {
-  if(!PHYSFS_mkdir(m_addon_directory.c_str()))
+  if (!PHYSFS_mkdir(m_addon_directory.c_str()))
   {
     std::ostringstream msg;
     msg << "Couldn't create directory for addons '"
@@ -159,7 +159,7 @@ AddonManager::AddonManager(const std::string& addon_directory,
     }
   }
 
-  if(PHYSFS_exists(ADDON_INFO_PATH))
+  if (PHYSFS_exists(ADDON_INFO_PATH))
   {
     try
     {
@@ -443,7 +443,7 @@ AddonManager::enable_addon(const AddonId& addon_id)
     }
     else
     {
-      if(addon.get_type() == Addon::LANGUAGEPACK)
+      if (addon.get_type() == Addon::LANGUAGEPACK)
       {
         PHYSFS_enumerate(addon.get_id().c_str(), add_to_dictionary_path, nullptr);
       }
@@ -471,7 +471,7 @@ AddonManager::disable_addon(const AddonId& addon_id)
     }
     else
     {
-      if(addon.get_type() == Addon::LANGUAGEPACK)
+      if (addon.get_type() == Addon::LANGUAGEPACK)
       {
         PHYSFS_enumerate(addon.get_id().c_str(), remove_from_dictionary_path, nullptr);
       }
@@ -667,7 +667,7 @@ AddonManager::parse_addon_infos(const std::string& filename) const
     register_translation_directory(filename);
     auto doc = ReaderDocument::from_file(filename);
     auto root = doc.get_root();
-    if(root.get_name() != "supertux-addons")
+    if (root.get_name() != "supertux-addons")
     {
       throw std::runtime_error("Downloaded file is not an Add-on list");
     }
@@ -676,7 +676,7 @@ AddonManager::parse_addon_infos(const std::string& filename) const
       auto addon_collection = root.get_collection();
       for(auto const& addon_node : addon_collection.get_objects())
       {
-        if(addon_node.get_name() != "supertux-addoninfo")
+        if (addon_node.get_name() != "supertux-addoninfo")
         {
           log_warning << "Unknown token '" << addon_node.get_name() << "' in Add-on list" << std::endl;
         }
@@ -717,7 +717,7 @@ void
 AddonManager::check_for_langpack_updates()
 {
   const std::string& language = g_dictionary_manager->get_language().get_language();
-  if(language == "en")
+  if (language == "en")
     return;
 
   try

@@ -50,7 +50,7 @@ Jumpy::collision_badguy(BadGuy& , const CollisionHit& chit)
 HitResponse
 Jumpy::hit(const CollisionHit& chit)
 {
-  if(chit.bottom) {
+  if (chit.bottom) {
     if (!groundhit_pos_set)
     {
       pos_groundhit = get_pos();
@@ -73,7 +73,7 @@ Jumpy::active_update(float dt_sec)
 {
   BadGuy::active_update(dt_sec);
 
-  if(m_frozen)
+  if (m_frozen)
     return;
 
   auto player = get_nearest_player();

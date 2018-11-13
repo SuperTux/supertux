@@ -92,7 +92,7 @@ OpenALSoundSource::pause()
 void
 OpenALSoundSource::resume()
 {
-  if( !paused() )
+  if ( !paused() )
   {
     return;
   }

@@ -114,7 +114,7 @@ Explosion::update(float )
       explode();
       break;
     case STATE_EXPLODING:
-      if(m_sprite->animation_done()) {
+      if (m_sprite->animation_done()) {
         remove_me();
       }
       break;
@@ -135,12 +135,12 @@ Explosion::collision(GameObject& other, const CollisionHit& )
     return ABORT_MOVE;
 
   auto player = dynamic_cast<Player*>(&other);
-  if(player != nullptr) {
+  if (player != nullptr) {
     player->kill(false);
   }
 
   auto badguy = dynamic_cast<BadGuy*>(&other);
-  if(badguy != nullptr) {
+  if (badguy != nullptr) {
     badguy->kill_fall();
   }
 

@@ -32,34 +32,34 @@ FlipLevelTransformer::transform_sector(Sector& sector)
 
   for(auto& object : sector.get_objects()) {
     auto tilemap = dynamic_cast<TileMap*>(object.get());
-    if(tilemap) {
+    if (tilemap) {
       transform_tilemap(height, *tilemap);
     }
     auto player = dynamic_cast<Player*>(object.get());
-    if(player) {
+    if (player) {
       Vector pos = player->get_pos();
       pos.y = height - pos.y - player->get_bbox().get_height();
       player->move(pos);
       continue;
     }
     auto badguy = dynamic_cast<BadGuy*>(object.get());
-    if(badguy) {
+    if (badguy) {
       transform_badguy(height, *badguy);
     }
     auto flower = dynamic_cast<Flower*>(object.get());
-    if(flower) {
+    if (flower) {
       transform_flower(*flower);
     }
     auto platform = dynamic_cast<Platform*>(object.get());
-    if(platform) {
+    if (platform) {
       transform_platform(height, *platform);
     }
     auto block = dynamic_cast<Block*>(object.get());
-    if(block) {
+    if (block) {
       transform_block(height, *block);
     }
     auto mobject = dynamic_cast<MovingObject*>(object.get());
-    if(mobject) {
+    if (mobject) {
       transform_moving_object(height, *mobject);
     }
   }

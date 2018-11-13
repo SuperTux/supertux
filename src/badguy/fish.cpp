@@ -45,7 +45,7 @@ Fish::collision_badguy(BadGuy& , const CollisionHit& chit)
 void
 Fish::draw(DrawingContext& context)
 {
-  if(waiting.started())
+  if (waiting.started())
     return;
 
   BadGuy::draw(context);
@@ -54,7 +54,7 @@ Fish::draw(DrawingContext& context)
 HitResponse
 Fish::hit(const CollisionHit& hit_)
 {
-  if(hit_.top) {
+  if (hit_.top) {
     m_physic.set_velocity_y(0);
   }
 
@@ -71,7 +71,7 @@ Fish::collision_tile(uint32_t tile_attributes)
 
     // stop when we have reached the stop position
     if (get_pos().y >= stop_y) {
-      if(!m_frozen)
+      if (!m_frozen)
         start_waiting();
       m_col.m_movement = Vector(0, 0);
     }
@@ -88,12 +88,12 @@ Fish::active_update(float dt_sec)
   BadGuy::active_update(dt_sec);
 
   // waited long enough?
-  if(waiting.check()) {
+  if (waiting.check()) {
     jump();
   }
 
   // set sprite
-  if(!m_frozen)
+  if (!m_frozen)
     m_sprite->set_action(m_physic.get_velocity_y() < 0 ? "normal" : "down");
 
   // we can't afford flying out of the tilemap, 'cause the engine would remove us.

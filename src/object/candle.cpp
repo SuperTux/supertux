@@ -35,7 +35,7 @@ Candle::Candle(const ReaderMapping& lisp)
   lisp.get("burning", burning, true);
   lisp.get("flicker", flicker, true);
   std::vector<float> vColor;
-  if(!lisp.get("color", vColor)) vColor = {1.0f, 1.0f, 1.0f};
+  if (!lisp.get("color", vColor)) vColor = {1.0f, 1.0f, 1.0f};
 
   //change the light color if defined
   if (vColor.size() >= 3) {

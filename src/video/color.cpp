@@ -61,7 +61,7 @@ Color::Color(const std::vector<float>& vals) :
   red   = vals[0];
   green = vals[1];
   blue  = vals[2];
-  if(vals.size() > 3)
+  if (vals.size() > 3)
     alpha = vals[3];
   else
     alpha = 1.0;

@@ -43,7 +43,7 @@ LevelIntro::LevelIntro(const Level& level, const Statistics* best_level_statisti
   m_player_status(player_status)
 {
   //Show appropriate tux animation for player status.
-  if(m_player_status.bonus == FIRE_BONUS && g_config->christmas_mode)
+  if (m_player_status.bonus == FIRE_BONUS && g_config->christmas_mode)
   {
     m_player_sprite->set_action("big-walk-right");
     m_power_sprite->set_action("santa-walk-right");
@@ -74,13 +74,13 @@ void
 LevelIntro::update(float dt_sec, const Controller& controller)
 {
   auto bonus_prefix = m_player_status.get_bonus_prefix();
-  if(m_player_status.bonus == FIRE_BONUS && g_config->christmas_mode)
+  if (m_player_status.bonus == FIRE_BONUS && g_config->christmas_mode)
   {
     bonus_prefix = "big";
   }
 
   // Check if it's time to exit the screen
-  if(controller.pressed(Controller::JUMP) ||
+  if (controller.pressed(Controller::JUMP) ||
      controller.pressed(Controller::ACTION) ||
      controller.pressed(Controller::MENU_SELECT) ||
      controller.pressed(Controller::START) ||

@@ -46,7 +46,7 @@ EditorNewLevelsetMenu::menu_action(MenuItem& item)
   if (item.get_id() <= 0)
     return;
 
-  if(levelset_name.empty())
+  if (levelset_name.empty())
   {
     Dialog::show_message(_("Please enter a name for this level subset."));
     return;

@@ -85,8 +85,8 @@ HitResponse
 Block::collision(GameObject& other, const CollisionHit& )
 {
   auto player = dynamic_cast<Player*> (&other);
-  if(player) {
-    if(player->get_bbox().get_top() > m_col.m_bbox.get_bottom() - SHIFT_DELTA) {
+  if (player) {
+    if (player->get_bbox().get_top() > m_col.m_bbox.get_bottom() - SHIFT_DELTA) {
       hit(*player);
     }
   }
@@ -101,23 +101,23 @@ Block::collision(GameObject& other, const CollisionHit& )
   bool is_portable = ((portable != nullptr) && portable->is_portable());
   bool is_bomb = (bomb != nullptr); // bombs need to explode, although they are considered portable
   bool hit_mo_from_below = ((moving_object == nullptr) || (moving_object->get_bbox().get_bottom() < (m_col.m_bbox.get_top() + SHIFT_DELTA)));
-  if(bouncing && (!is_portable || is_bomb) && hit_mo_from_below) {
+  if (bouncing && (!is_portable || is_bomb) && hit_mo_from_below) {
 
     // Badguys get killed
     auto badguy = dynamic_cast<BadGuy*> (&other);
-    if(badguy) {
+    if (badguy) {
       badguy->kill_fall();
     }
 
     // Coins get collected
     auto coin = dynamic_cast<Coin*> (&other);
-    if(coin) {
+    if (coin) {
       coin->collect();
     }
 
     //Eggs get jumped
     auto growup = dynamic_cast<GrowUp*> (&other);
-    if(growup) {
+    if (growup) {
       growup->do_jump();
     }
 
@@ -129,14 +129,14 @@ Block::collision(GameObject& other, const CollisionHit& )
 void
 Block::update(float dt_sec)
 {
-  if(!bouncing)
+  if (!bouncing)
     return;
 
   float offset = original_y - get_pos().y;
-  if(offset > BOUNCY_BRICK_MAX_OFFSET) {
+  if (offset > BOUNCY_BRICK_MAX_OFFSET) {
     bounce_dir = BOUNCY_BRICK_SPEED;
     m_col.m_movement = Vector(0, bounce_dir * dt_sec);
-    if(breaking){
+    if (breaking){
       break_me();
     }
   } else if(offset < BOUNCY_BRICK_SPEED * dt_sec && bounce_dir > 0) {
@@ -158,7 +158,7 @@ Block::draw(DrawingContext& context)
 void
 Block::start_bounce(GameObject* hitter)
 {
-  if(original_y == -1){
+  if (original_y == -1){
     original_y = m_col.m_bbox.p1.y;
   }
   bouncing = true;
@@ -216,7 +216,7 @@ void Block::after_editor_set()
 void Block::save(Writer& writer)
 {
   MovingObject::save(writer);
-  if(sprite_name != get_default_sprite_name())
+  if (sprite_name != get_default_sprite_name())
   {
     writer.write("sprite", sprite_name);
   }

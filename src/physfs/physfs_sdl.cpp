@@ -51,7 +51,7 @@ Sint64 funcSeek(struct SDL_RWops* context, Sint64 offset, int whence)
       assert(false);
       break;
   }
-  if(res == 0) {
+  if (res == 0) {
     log_warning << "Error seeking in file: " << PHYSFS_getLastErrorCode() << std::endl;
     return -1;
   }
@@ -96,12 +96,12 @@ SDL_RWops* get_physfs_SDLRWops(const std::string& filename)
 {
   // check this as PHYSFS seems to be buggy and still returns a
   // valid pointer in this case
-  if(filename.empty()) {
+  if (filename.empty()) {
     throw std::runtime_error("Couldn't open file: empty filename");
   }
 
   PHYSFS_file* file = static_cast<PHYSFS_file*>(PHYSFS_openRead(filename.c_str()));
-  if(!file) {
+  if (!file) {
     std::stringstream msg;
     msg << "Couldn't open '" << filename << "': "
         << PHYSFS_getLastErrorCode();

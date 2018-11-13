@@ -38,7 +38,7 @@ Firefly::Firefly(const ReaderMapping& lisp) :
    activated(false),
    initial_position(get_pos())
 {
-  if( !lisp.get( "sprite", m_sprite_name ) ){
+  if ( !lisp.get( "sprite", m_sprite_name ) ){
     reactivate();
     return;
   }
@@ -60,7 +60,7 @@ Firefly::Firefly(const ReaderMapping& lisp) :
   reactivate();
 
   //Load sound
-    if( m_sprite_name.find("vbell", 0) != std::string::npos ) {
+    if ( m_sprite_name.find("vbell", 0) != std::string::npos ) {
       SoundManager::current()->preload("sounds/savebell_low.wav");
     }
     else if( m_sprite_name.find("torch", 0) != std::string::npos ) {
@@ -88,7 +88,7 @@ Firefly::reactivate()
   if (!GameSession::current()) {
     return;
   }
-  if(!GameSession::current()->get_reset_point_sectorname().empty() &&
+  if (!GameSession::current()->get_reset_point_sectorname().empty() &&
      GameSession::current()->get_reset_point_pos() == initial_position) {
     // TODO: && GameSession::current()->get_reset_point_sectorname() ==  <sector this firefly is in>
     // GameSession::current()->get_current_sector()->get_name() is not yet initialized.
@@ -103,11 +103,11 @@ HitResponse
 Firefly::collision(GameObject& other, const CollisionHit& )
 {
   // If the bell is already activated, don't ring it again!
-  if(activated || m_sprite->get_action() == "ringing")
+  if (activated || m_sprite->get_action() == "ringing")
     return ABORT_MOVE;
 
   auto player = dynamic_cast<Player*> (&other);
-  if(player) {
+  if (player) {
     activated = true;
     // spawn some particles
     // TODO: provide convenience function in MovingSprite or MovingObject?
@@ -122,7 +122,7 @@ Firefly::collision(GameObject& other, const CollisionHit& )
       Sector::get().add<SpriteParticle>("images/objects/particles/reset.sprite", "default", ppos, ANCHOR_MIDDLE, pspeed, paccel, LAYER_OBJECTS-1);
     }
 
-    if( m_sprite_name.find("vbell", 0) != std::string::npos ) {
+    if ( m_sprite_name.find("vbell", 0) != std::string::npos ) {
       SoundManager::current()->play("sounds/savebell_low.wav");
     }
     else if( m_sprite_name.find("torch", 0) != std::string::npos) {

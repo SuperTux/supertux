@@ -347,10 +347,10 @@ Background::draw_image(DrawingContext& context, const Vector& pos__)
 void
 Background::draw(DrawingContext& context)
 {
-  if(Editor::is_active() && !EditorInputCenter::render_background)
+  if (Editor::is_active() && !EditorInputCenter::render_background)
     return;
 
-  if(m_image.get() == nullptr)
+  if (m_image.get() == nullptr)
     return;
 
   Sizef level_size(Sector::get().get_width(),

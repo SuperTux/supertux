@@ -300,7 +300,7 @@ EditorInputCenter::mark_object() {
   }
 
   auto path_obj = dynamic_cast<PathObject*>(dragged_object);
-  if(path_obj && path_obj->get_path())
+  if (path_obj && path_obj->get_path())
   {
     edit_path(path_obj->get_path(), dragged_object);
   }
@@ -472,7 +472,7 @@ EditorInputCenter::put_object() {
   std::unique_ptr<GameObject> game_object;
   try {
     auto target_pos = sector_pos;
-    if(snap_to_grid)
+    if (snap_to_grid)
     {
       auto& snap_grid_size = snap_grid_sizes[selected_snap_grid_size];
       target_pos = (sector_pos / static_cast<float>(snap_grid_size)).to_int_vec() * static_cast<float>(snap_grid_size);
@@ -687,7 +687,7 @@ EditorInputCenter::event(SDL_Event& ev) {
     case SDL_KEYUP:
     {
       auto key = ev.key.keysym.sym;
-      if(key == SDLK_LSHIFT || key == SDLK_RSHIFT)
+      if (key == SDLK_LSHIFT || key == SDLK_RSHIFT)
       {
         snap_to_grid = !snap_to_grid;
       }
@@ -875,7 +875,7 @@ EditorInputCenter::draw(DrawingContext& context) {
 Vector
 EditorInputCenter::tp_to_sp(const Vector& tp, int tile_size) {
   auto tilemap = dynamic_cast<TileMap*>(Editor::current()->get_selected_tilemap());
-  if(!tilemap)
+  if (!tilemap)
   {
     return Vector(0, 0);
   }
@@ -887,7 +887,7 @@ EditorInputCenter::tp_to_sp(const Vector& tp, int tile_size) {
 Vector
 EditorInputCenter::sp_to_tp(const Vector& sp, int tile_size) {
   auto tilemap = dynamic_cast<TileMap*>(Editor::current()->get_selected_tilemap());
-  if(!tilemap)
+  if (!tilemap)
   {
     return Vector(0, 0);
   }

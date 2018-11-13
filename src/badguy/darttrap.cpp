@@ -70,7 +70,7 @@ DartTrap::collision_player(Player& , const CollisionHit& )
 void
 DartTrap::active_update(float )
 {
-  if(!enabled) {
+  if (!enabled) {
     return;
   }
   switch (state) {

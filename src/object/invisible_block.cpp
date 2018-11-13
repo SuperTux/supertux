@@ -42,14 +42,14 @@ InvisibleBlock::InvisibleBlock(const ReaderMapping& lisp) :
 void
 InvisibleBlock::draw(DrawingContext& context)
 {
-  if(visible || Editor::is_active())
+  if (visible || Editor::is_active())
     sprite->draw(context.color(), get_pos(), LAYER_OBJECTS);
 }
 
 bool
 InvisibleBlock::collides(GameObject& other, const CollisionHit& ) const
 {
-  if(visible)
+  if (visible)
     return true;
 
   // if we're not visible, only register a collision if this will make us visible
@@ -74,7 +74,7 @@ InvisibleBlock::hit(Player& player)
 {
   SoundManager::current()->play("sounds/brick.wav");
 
-  if(visible)
+  if (visible)
     return;
 
   sprite->set_action("empty");

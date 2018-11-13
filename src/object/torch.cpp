@@ -73,7 +73,7 @@ HitResponse
 Torch::collision(GameObject& other, const CollisionHit& )
 {
   auto player = dynamic_cast<Player*>(&other);
-  if(player != nullptr && !m_burning)
+  if (player != nullptr && !m_burning)
   {
     m_burning = true;
   }

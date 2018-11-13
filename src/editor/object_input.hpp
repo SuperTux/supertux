@@ -27,7 +27,7 @@ private:
     int num_groups = 0;
     for(const auto& group : groups)
     {
-      if(group.for_worldmap == for_worldmap)
+      if (group.for_worldmap == for_worldmap)
       {
         num_groups++;
       }
@@ -52,7 +52,7 @@ private:
       int worldmap_group_index = 0;
       for(const auto& group : groups)
       {
-        if(group.for_worldmap)
+        if (group.for_worldmap)
         {
           return worldmap_group_index;
         }

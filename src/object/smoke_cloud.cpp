@@ -32,7 +32,7 @@ SmokeCloud::update(float dt_sec)
 {
   position.y -= 120 * dt_sec;
 
-  if(timer.check())
+  if (timer.check())
     remove_me();
 }
 

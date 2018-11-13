@@ -61,7 +61,7 @@ FlyingSnowBall::collision_squished(GameObject& object)
 void
 FlyingSnowBall::collision_solid(const CollisionHit& hit)
 {
-  if(hit.top || hit.bottom) {
+  if (hit.top || hit.bottom) {
     m_physic.set_velocity_y(0);
   }
 }

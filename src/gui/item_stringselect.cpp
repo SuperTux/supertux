@@ -64,7 +64,7 @@ void
 ItemStringSelect::process_action(const MenuAction& action) {
   switch (action) {
     case MENU_ACTION_LEFT:
-      if( (*selected) > 0) {
+      if ( (*selected) > 0) {
         (*selected)--;
       } else {
         (*selected) = static_cast<int>(list.size()) - 1;
@@ -76,7 +76,7 @@ ItemStringSelect::process_action(const MenuAction& action) {
       break;
     case MENU_ACTION_RIGHT:
     case MENU_ACTION_HIT:
-      if( (*selected)+1 < int(list.size())) {
+      if ( (*selected)+1 < int(list.size())) {
         (*selected)++;
       } else {
         (*selected) = 0;

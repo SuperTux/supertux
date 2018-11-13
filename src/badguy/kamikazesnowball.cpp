@@ -56,10 +56,10 @@ KamikazeSnowball::collision_squished(GameObject& object)
 void
 KamikazeSnowball::collision_solid(const CollisionHit& hit)
 {
-  if(hit.top || hit.bottom) {
+  if (hit.top || hit.bottom) {
     m_physic.set_velocity_y(0);
   }
-  if(hit.left || hit.right) {
+  if (hit.left || hit.right) {
     kill_collision();
   }
 }
@@ -82,7 +82,7 @@ KamikazeSnowball::collision_player(Player& player, const CollisionHit& hit)
 {
   //Hack to tell if we should die
   HitResponse response = BadGuy::collision_player(player, hit);
-  if(response == FORCE_MOVE) {
+  if (response == FORCE_MOVE) {
     kill_collision();
   }
 

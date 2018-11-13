@@ -49,11 +49,11 @@ void expose_object(HSQUIRRELVM vm, SQInteger table_idx,
   sq_pushstring(vm, name.c_str(), -1);
   scripting::create_squirrel_instance(vm, object.release(), true);
 
-  if(table_idx < 0)
+  if (table_idx < 0)
     table_idx -= 2;
 
   // register instance in root table
-  if(SQ_FAILED(sq_createslot(vm, table_idx))) {
+  if (SQ_FAILED(sq_createslot(vm, table_idx))) {
     std::ostringstream msg;
     msg << "Couldn't register object '" << name << "' in squirrel table";
     throw SquirrelError(vm, msg.str());
@@ -66,10 +66,10 @@ static inline void unexpose_object(HSQUIRRELVM vm, SQInteger table_idx,
   assert(name.length() < std::numeric_limits<SQInteger>::max());
   sq_pushstring(vm, name.c_str(), static_cast<SQInteger>(name.length()));
 
-  if(table_idx < 0)
+  if (table_idx < 0)
     table_idx -= 1;
 
-  if(SQ_FAILED(sq_deleteslot(vm, table_idx, SQFalse))) {
+  if (SQ_FAILED(sq_deleteslot(vm, table_idx, SQFalse))) {
     std::ostringstream msg;
     msg << "Couldn't unregister object '" << name << "' in squirrel root table";
     throw SquirrelError(vm, msg.str());

@@ -52,7 +52,7 @@ std::ostream& log_info_f(const char* file, int line)
 
 std::ostream& log_warning_f(const char* file, int line)
 {
-  if(g_config && g_config->developer_mode &&
+  if (g_config && g_config->developer_mode &&
      Console::current() && !Console::current()->hasFocus()) {
     Console::current()->open();
   }
@@ -61,7 +61,7 @@ std::ostream& log_warning_f(const char* file, int line)
 
 std::ostream& log_fatal_f(const char* file, int line)
 {
-  if(g_config && g_config->developer_mode &&
+  if (g_config && g_config->developer_mode &&
      Console::current() && !Console::current()->hasFocus()) {
     Console::current()->open();
   }

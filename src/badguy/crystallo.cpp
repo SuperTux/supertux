@@ -38,13 +38,13 @@ Crystallo::get_settings() {
 void
 Crystallo::active_update(float dt_sec)
 {
-  if(get_pos().x > (m_start_position.x + radius)){
-    if(m_dir != LEFT){
+  if (get_pos().x > (m_start_position.x + radius)){
+    if (m_dir != LEFT){
       turn_around();
     }
   }
-  if( get_pos().x < (m_start_position.x - radius)){
-    if(m_dir != RIGHT){
+  if ( get_pos().x < (m_start_position.x - radius)){
+    if (m_dir != RIGHT){
       turn_around();
     }
   }

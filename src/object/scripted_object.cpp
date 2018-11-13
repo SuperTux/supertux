@@ -35,7 +35,7 @@ ScriptedObject::ScriptedObject(const ReaderMapping& lisp) :
   new_vel(),
   new_size()
 {
-  if(m_name.empty()) {
+  if (m_name.empty()) {
     m_name = "unnamed" + std::to_string(graphicsRandom.rand());
     log_warning << "Scripted object must have a name specified, setting to: " << m_name << std::endl;
   }
@@ -45,7 +45,7 @@ ScriptedObject::ScriptedObject(const ReaderMapping& lisp) :
   lisp.get("visible", visible, true);
   lisp.get("hit-script", hit_script, "");
   m_layer = reader_get_layer (lisp, /* default = */ LAYER_OBJECTS);
-  if( solid ){
+  if ( solid ){
     set_group( COLGROUP_MOVING_STATIC );
   } else {
     set_group( COLGROUP_DISABLED );
@@ -120,7 +120,7 @@ void
 ScriptedObject::set_solid(bool solid_)
 {
   solid = solid_;
-  if( solid ){
+  if ( solid ){
     set_group( COLGROUP_MOVING_STATIC );
   } else {
     set_group( COLGROUP_DISABLED );
@@ -160,10 +160,10 @@ ScriptedObject::get_action() const
 void
 ScriptedObject::update(float dt_sec)
 {
-  if(!physic_enabled)
+  if (!physic_enabled)
     return;
 
-  if(new_vel_set) {
+  if (new_vel_set) {
     physic.set_velocity(new_vel.x, new_vel.y);
     new_vel_set = false;
   }
@@ -173,7 +173,7 @@ ScriptedObject::update(float dt_sec)
 void
 ScriptedObject::draw(DrawingContext& context)
 {
-  if(!visible)
+  if (!visible)
     return;
 
   m_sprite->draw(context.color(), get_pos(), m_layer);
@@ -182,17 +182,17 @@ ScriptedObject::draw(DrawingContext& context)
 void
 ScriptedObject::collision_solid(const CollisionHit& hit)
 {
-  if(!physic_enabled)
+  if (!physic_enabled)
     return;
 
-  if(hit.bottom) {
-    if(physic.get_velocity_y() > 0)
+  if (hit.bottom) {
+    if (physic.get_velocity_y() > 0)
       physic.set_velocity_y(0);
   } else if(hit.top) {
     physic.set_velocity_y(.1f);
   }
 
-  if(hit.left || hit.right) {
+  if (hit.left || hit.right) {
     physic.set_velocity_x(0);
   }
 }

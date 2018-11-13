@@ -45,7 +45,7 @@ EditorLevelsetSelectMenu::EditorLevelsetSelectMenu() :
   for(const char* const* filename = files.get(); *filename != nullptr; ++filename)
   {
     std::string filepath = FileSystem::join("levels", *filename);
-    if(PhysFSFileSystem::is_directory(filepath))
+    if (PhysFSFileSystem::is_directory(filepath))
     {
       level_worlds.push_back(filepath);
     }
@@ -60,17 +60,17 @@ EditorLevelsetSelectMenu::EditorLevelsetSelectMenu() :
     try
     {
       std::unique_ptr<World> world = World::load(level_world);
-      if(world->hide_from_contribs())
+      if (world->hide_from_contribs())
       {
         continue;
       }
-      if(!world->is_levelset() && !world->is_worldmap())
+      if (!world->is_levelset() && !world->is_worldmap())
       {
         log_warning << level_world << ": unknown World type" << std::endl;
         continue;
       }
       auto title = world->get_title();
-      if(title.empty())
+      if (title.empty())
       {
         continue;
       }
@@ -99,7 +99,7 @@ EditorLevelsetSelectMenu::EditorLevelsetSelectMenu() :
 EditorLevelsetSelectMenu::~EditorLevelsetSelectMenu()
 {
   auto editor = Editor::current();
-  if(editor == nullptr) {
+  if (editor == nullptr) {
     return;
   }
   if (!editor->is_level_loaded() && !editor->reload_request) {

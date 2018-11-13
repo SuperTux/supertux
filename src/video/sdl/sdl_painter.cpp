@@ -270,7 +270,7 @@ SDLPainter::draw_gradient(const GradientRequest& request)
   for(int i = 0; i < n; ++i)
   {
     SDL_Rect rect;
-    if(direction == VERTICAL || direction == VERTICAL_SECTOR)
+    if (direction == VERTICAL || direction == VERTICAL_SECTOR)
     {
       rect.x = static_cast<int>(region.p1.x);
       rect.y = static_cast<int>(region.p2.y * static_cast<float>(i) / static_cast<float>(n));
@@ -288,7 +288,7 @@ SDLPainter::draw_gradient(const GradientRequest& request)
     float p = static_cast<float>(i+1) / static_cast<float>(n);
     Uint8 r, g, b, a;
 
-    if( direction == HORIZONTAL_SECTOR || direction == VERTICAL_SECTOR)
+    if ( direction == HORIZONTAL_SECTOR || direction == VERTICAL_SECTOR)
     {
         float begin_percentage = region.p1.x * -1 / region.p2.x;
         r = static_cast<Uint8>(((1.0f - begin_percentage - p) * top.red + (p + begin_percentage) * bottom.red)  * 255);
@@ -375,7 +375,7 @@ SDLPainter::draw_filled_rect(const FillRectRequest& request)
   }
   else
   {
-    if((rect.w != 0) && (rect.h != 0))
+    if ((rect.w != 0) && (rect.h != 0))
     {
       SDL_SetRenderDrawBlendMode(m_sdl_renderer, SDL_BLENDMODE_BLEND);
       SDL_SetRenderDrawColor(m_sdl_renderer, r, g, b, a);
@@ -463,7 +463,7 @@ namespace {
 Rectf
 make_edge(int x1, int y1, int x2, int y2)
 {
-  if(y1 < y2)
+  if (y1 < y2)
   {
     return Rectf(Vector(static_cast<float>(x1), static_cast<float>(y1)),
                  Vector(static_cast<float>(x2), static_cast<float>(y2)));
@@ -481,13 +481,13 @@ draw_span_between_edges(SDL_Renderer* renderer, const Rectf& e1, const Rectf& e2
   // calculate difference between the y coordinates
   // of the first edge and return if 0
   float e1ydiff = static_cast<float>(e1.p2.y - e1.p1.y);
-  if(e1ydiff == 0.0f)
+  if (e1ydiff == 0.0f)
     return;
 
   // calculate difference between the y coordinates
   // of the second edge and return if 0
   float e2ydiff = static_cast<float>(e2.p2.y - e2.p1.y);
-  if(e2ydiff == 0.0f)
+  if (e2ydiff == 0.0f)
     return;
 
   float e1xdiff = e1.p2.x - e1.p1.x;
@@ -534,7 +534,7 @@ SDLPainter::draw_triangle(const TriangleRequest& request)
   // find edge with the greatest length in the y axis
   for(int i = 0; i < 3; i++) {
     int length = static_cast<int>(edges[i].p2.y - edges[i].p1.y);
-    if(length > maxLength) {
+    if (length > maxLength) {
       maxLength = length;
       longEdge = i;
     }

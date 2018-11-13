@@ -72,7 +72,7 @@ GameMenu::menu_action(MenuItem& item)
       break;
 
     case MNID_ABORTLEVEL:
-      if(g_config->confirmation_dialog)
+      if (g_config->confirmation_dialog)
       {
         Dialog::show_confirmation(CONFIRMATION_PROMPT, abort_callback);
       }

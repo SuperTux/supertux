@@ -85,7 +85,7 @@ DownloadDialog::on_abort()
 void
 DownloadDialog::on_download_complete()
 {
-  if(m_auto_close)
+  if (m_auto_close)
   {
     MenuManager::instance().set_dialog({});
     return;

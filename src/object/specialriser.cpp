@@ -30,7 +30,7 @@ void
 SpecialRiser::update(float dt_sec)
 {
   offset += 50 * dt_sec;
-  if(offset > 32) {
+  if (offset > 32) {
     Sector::get().add_object(std::move(child));
     remove_me();
   }

@@ -34,7 +34,7 @@ SquirrelThreadQueue::add(HSQUIRRELVM vm)
   sq_weakref(m_vm, -1);
 
   HSQOBJECT object;
-  if(SQ_FAILED(sq_getstackobj(m_vm, -1, &object))) {
+  if (SQ_FAILED(sq_getstackobj(m_vm, -1, &object))) {
     sq_pop(m_vm, 2);
     throw SquirrelError(m_vm, "Couldn't get thread weakref from vm");
   }
@@ -56,10 +56,10 @@ SquirrelThreadQueue::wakeup()
     sq_getweakrefval(m_vm, -1);
 
     HSQUIRRELVM scheduled_vm;
-    if(sq_gettype(m_vm, -1) == OT_THREAD &&
+    if (sq_gettype(m_vm, -1) == OT_THREAD &&
        SQ_SUCCEEDED(sq_getthread(m_vm, -1, &scheduled_vm)))
     {
-      if(SQ_FAILED(sq_wakeupvm(scheduled_vm, SQFalse, SQFalse, SQTrue, SQFalse))) {
+      if (SQ_FAILED(sq_wakeupvm(scheduled_vm, SQFalse, SQFalse, SQTrue, SQFalse))) {
         log_warning << "Couldn't wakeup scheduled squirrel VM" << std::endl;
       }
     }

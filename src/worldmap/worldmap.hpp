@@ -102,7 +102,7 @@ public:
   SpawnPoint* get_spawnpoint_by_name(const std::string& spawnpoint_name) const
   {
     for(const auto& sp : m_spawn_points) {
-      if(sp->name == spawnpoint_name) {
+      if (sp->name == spawnpoint_name) {
         return sp.get();
       }
     }

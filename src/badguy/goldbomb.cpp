@@ -41,7 +41,7 @@ GoldBomb::GoldBomb(const ReaderMapping& reader) :
   SoundManager::current()->preload("sounds/explosion.wav");
 
   //Check if we need another sprite
-  if( !reader.get( "sprite", m_sprite_name ) ){
+  if ( !reader.get( "sprite", m_sprite_name ) ){
     return;
   }
   if (m_sprite_name.empty()) {
@@ -55,8 +55,8 @@ GoldBomb::GoldBomb(const ReaderMapping& reader) :
 void
 GoldBomb::collision_solid(const CollisionHit& hit)
 {
-  if(tstate == STATE_TICKING) {
-    if(hit.bottom) {
+  if (tstate == STATE_TICKING) {
+    if (hit.bottom) {
       m_physic.set_velocity_y(0);
       m_physic.set_velocity_x(0);
     }else if (hit.left || hit.right)
@@ -72,7 +72,7 @@ GoldBomb::collision_solid(const CollisionHit& hit)
 HitResponse
 GoldBomb::collision(GameObject& object, const CollisionHit& hit)
 {
-  if(tstate == STATE_TICKING) {
+  if (tstate == STATE_TICKING) {
     if ( dynamic_cast<Player*>(&object) ) {
       return ABORT_MOVE;
     }
@@ -80,7 +80,7 @@ GoldBomb::collision(GameObject& object, const CollisionHit& hit)
       return ABORT_MOVE;
     }
   }
-  if(grabbed)
+  if (grabbed)
     return FORCE_MOVE;
   return WalkingBadguy::collision(object, hit);
 }
@@ -88,9 +88,9 @@ GoldBomb::collision(GameObject& object, const CollisionHit& hit)
 HitResponse
 GoldBomb::collision_player(Player& player, const CollisionHit& hit)
 {
-  if(tstate == STATE_TICKING)
+  if (tstate == STATE_TICKING)
     return FORCE_MOVE;
-  if(grabbed)
+  if (grabbed)
     return FORCE_MOVE;
   return WalkingBadguy::collision_player(player, hit);
 }
@@ -98,7 +98,7 @@ GoldBomb::collision_player(Player& player, const CollisionHit& hit)
 HitResponse
 GoldBomb::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
 {
-  if(tstate == STATE_TICKING)
+  if (tstate == STATE_TICKING)
     return FORCE_MOVE;
   return WalkingBadguy::collision_badguy(badguy, hit);
 }
@@ -107,12 +107,12 @@ bool
 GoldBomb::collision_squished(GameObject& object)
 {
   Player* player = dynamic_cast<Player*>(&object);
-  if(player && player->is_invincible()) {
+  if (player && player->is_invincible()) {
     player->bounce(*this);
     kill_fall();
     return true;
   }
-  if(is_valid() && tstate == STATE_NORMAL) {
+  if (is_valid() && tstate == STATE_NORMAL) {
     tstate = STATE_TICKING;
     m_frozen = false;
     set_action(m_dir == LEFT ? "ticking-left" : "ticking-right", 1);
@@ -134,10 +134,10 @@ GoldBomb::collision_squished(GameObject& object)
 void
 GoldBomb::active_update(float dt_sec)
 {
-  if(tstate == STATE_TICKING) {
+  if (tstate == STATE_TICKING) {
     if (on_ground()) m_physic.set_velocity_x(0);
     ticking->set_position(get_pos());
-    if(m_sprite->animation_done()) {
+    if (m_sprite->animation_done()) {
       kill_fall();
     }
     else if (!grabbed) {
@@ -145,7 +145,7 @@ GoldBomb::active_update(float dt_sec)
     }
     return;
   }
-  if(grabbed)
+  if (grabbed)
     return;
   WalkingBadguy::active_update(dt_sec);
 }
@@ -153,7 +153,7 @@ GoldBomb::active_update(float dt_sec)
 void
 GoldBomb::kill_fall()
 {
-  if(tstate == STATE_TICKING)
+  if (tstate == STATE_TICKING)
     ticking->stop();
 
   // Make the player let go before we explode, otherwise the player is holding
@@ -166,7 +166,7 @@ GoldBomb::kill_fall()
       player->stop_grabbing();
   }
 
-  if(is_valid()) {
+  if (is_valid()) {
     remove_me();
     Sector::get().add<Explosion>(m_col.m_bbox.get_middle());
     Sector::get().add<CoinExplode>(get_pos() + Vector (0, -40));
@@ -184,7 +184,7 @@ GoldBomb::ignite()
 void
 GoldBomb::grab(MovingObject& object, const Vector& pos, Direction dir_)
 {
-  if(tstate == STATE_TICKING){
+  if (tstate == STATE_TICKING){
     m_col.m_movement = pos - get_pos();
     m_dir = dir_;
 
@@ -212,15 +212,15 @@ GoldBomb::ungrab(MovingObject& object, Direction dir_)
   auto player = dynamic_cast<Player*> (&object);
 
   // toss upwards
-  if(dir_ == UP)
+  if (dir_ == UP)
     toss_velocity_y += -500;
 
   // toss to the side when moving sideways
-  if(player && player->get_physic().get_velocity_x()*(dir_ == LEFT ? -1 : 1) > 1) {
+  if (player && player->get_physic().get_velocity_x()*(dir_ == LEFT ? -1 : 1) > 1) {
     toss_velocity_x += (dir_ == LEFT) ? -200 : 200;
     toss_velocity_y = (toss_velocity_y < -200) ? toss_velocity_y : -200;
     // toss farther when running
-    if(player && player->get_physic().get_velocity_x()*(dir_ == LEFT ? -1 : 1) > 200)
+    if (player && player->get_physic().get_velocity_x()*(dir_ == LEFT ? -1 : 1) > 200)
       toss_velocity_x += static_cast<int>(player->get_physic().get_velocity_x() - (190*(dir_ == LEFT ? -1 : 1)));
   }
   log_warning << toss_velocity_x << toss_velocity_y << std::endl;////
@@ -235,7 +235,7 @@ GoldBomb::ungrab(MovingObject& object, Direction dir_)
 void
 GoldBomb::freeze()
 {
-  if(tstate == STATE_NORMAL) {
+  if (tstate == STATE_NORMAL) {
     WalkingBadguy::freeze();
   }
 }

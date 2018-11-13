@@ -38,15 +38,15 @@ FloatingImage::~FloatingImage()
 void
 FloatingImage::update(float dt_sec)
 {
-  if(fading > 0) {
+  if (fading > 0) {
     fading -= dt_sec;
-    if(fading <= 0) {
+    if (fading <= 0) {
       fading = 0;
       visible = true;
     }
   } else if(fading < 0) {
     fading += dt_sec;
-    if(fading >= 0) {
+    if (fading >= 0) {
       fading = 0;
       visible = false;
     }
@@ -85,7 +85,7 @@ FloatingImage::draw(DrawingContext& context)
   context.push_transform();
   context.set_translation(Vector(0, 0));
 
-  if(fading > 0) {
+  if (fading > 0) {
     context.set_alpha((fadetime-fading) / fadetime);
   } else if(fading < 0) {
     context.set_alpha(-fading / fadetime);

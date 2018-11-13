@@ -38,8 +38,8 @@ WeakBlock::WeakBlock(const ReaderMapping& lisp)
 {
   m_sprite->set_action("normal");
   //Check if this weakblock destroys adjacent weakblocks
-  if(lisp.get("linked", linked)){
-    if(! linked){
+  if (lisp.get("linked", linked)){
+    if (! linked){
       m_sprite_name = "images/objects/weak_block/meltbox.sprite";
       m_sprite = SpriteManager::current()->create(m_sprite_name);
       m_sprite->set_action("normal");
@@ -62,7 +62,7 @@ WeakBlock::collision_bullet(Bullet& bullet, const CollisionHit& hit)
 
     case STATE_NORMAL:
       //Ensure only fire destroys weakblock
-      if(bullet.get_type() == FIRE_BONUS) {
+      if (bullet.get_type() == FIRE_BONUS) {
         startBurning();
         bullet.remove_me();
       }
@@ -100,10 +100,10 @@ WeakBlock::collision(GameObject& other, const CollisionHit& hit)
         break;
 
       case STATE_BURNING:
-        if(m_sprite_name != "images/objects/weak_block/strawbox.sprite")
+        if (m_sprite_name != "images/objects/weak_block/strawbox.sprite")
           break;
 
-        if(auto badguy = dynamic_cast<BadGuy*> (&other)) {
+        if (auto badguy = dynamic_cast<BadGuy*> (&other)) {
           badguy->ignite();
         }
         break;
@@ -129,7 +129,7 @@ WeakBlock::update(float )
       case STATE_BURNING:
         // cause burn light to flicker randomly
         if (linked) {
-          if(gameRandom.rand(10) >= 7) {
+          if (gameRandom.rand(10) >= 7) {
             lightsprite->set_color(Color(0.2f + gameRandom.randf(20.0f) / 100.0f,
                                          0.1f + gameRandom.randf(20.0f)/100.0f,
                                          0.1f));
@@ -187,7 +187,7 @@ void
 WeakBlock::spreadHit()
 {
   //Destroy adjacent weakblocks if applicable
-  if(linked) {
+  if (linked) {
     for(auto& wb : Sector::get().get_objects_by_type<WeakBlock>()) {
       if (&wb != this && wb.state == STATE_NORMAL)
       {

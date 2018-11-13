@@ -45,7 +45,7 @@ TileSetParser::parse()
   auto doc = ReaderDocument::from_file(m_filename);
   auto root = doc.get_root();
 
-  if(root.get_name() != "supertux-tiles") {
+  if (root.get_name() != "supertux-tiles") {
     throw std::runtime_error("file is not a supertux tiles file.");
   }
 
@@ -76,7 +76,7 @@ TileSetParser::parse()
       log_warning << "Unknown symbol '" << iter.get_key() << "' in tileset file" << std::endl;
     }
   }
-  if(g_config->developer_mode)
+  if (g_config->developer_mode)
   {
     m_tileset.add_unassigned_tilegroup();
   }
@@ -94,38 +94,38 @@ TileSetParser::parse_tile(const ReaderMapping& reader)
   uint32_t attributes = 0;
 
   bool value = false;
-  if(reader.get("solid", value) && value)
+  if (reader.get("solid", value) && value)
     attributes |= Tile::SOLID;
-  if(reader.get("unisolid", value) && value)
+  if (reader.get("unisolid", value) && value)
     attributes |= Tile::UNISOLID | Tile::SOLID;
-  if(reader.get("brick", value) && value)
+  if (reader.get("brick", value) && value)
     attributes |= Tile::BRICK;
-  if(reader.get("ice", value) && value)
+  if (reader.get("ice", value) && value)
     attributes |= Tile::ICE;
-  if(reader.get("water", value) && value)
+  if (reader.get("water", value) && value)
     attributes |= Tile::WATER;
-  if(reader.get("hurts", value) && value)
+  if (reader.get("hurts", value) && value)
     attributes |= Tile::HURTS;
-  if(reader.get("fire", value) && value)
+  if (reader.get("fire", value) && value)
     attributes |= Tile::FIRE;
-  if(reader.get("fullbox", value) && value)
+  if (reader.get("fullbox", value) && value)
     attributes |= Tile::FULLBOX;
-  if(reader.get("coin", value) && value)
+  if (reader.get("coin", value) && value)
     attributes |= Tile::COIN;
-  if(reader.get("goal", value) && value)
+  if (reader.get("goal", value) && value)
     attributes |= Tile::GOAL;
 
   uint32_t data = 0;
 
-  if(reader.get("north", value) && value)
+  if (reader.get("north", value) && value)
     data |= Tile::WORLDMAP_NORTH;
-  if(reader.get("south", value) && value)
+  if (reader.get("south", value) && value)
     data |= Tile::WORLDMAP_SOUTH;
-  if(reader.get("west", value) && value)
+  if (reader.get("west", value) && value)
     data |= Tile::WORLDMAP_WEST;
-  if(reader.get("east", value) && value)
+  if (reader.get("east", value) && value)
     data |= Tile::WORLDMAP_EAST;
-  if(reader.get("stop", value) && value)
+  if (reader.get("stop", value) && value)
     data |= Tile::WORLDMAP_STOP;
 
   reader.get("data", data);
@@ -137,20 +137,20 @@ TileSetParser::parse_tile(const ReaderMapping& reader)
   reader.get("object-name", object_name);
   reader.get("object-data", object_data);
 
-  if(reader.get("slope-type", data))
+  if (reader.get("slope-type", data))
   {
     attributes |= Tile::SOLID | Tile::SLOPE;
   }
 
   std::vector<SurfacePtr> editor_surfaces;
   boost::optional<ReaderMapping> editor_images_mapping;
-  if(reader.get("editor-images", editor_images_mapping)) {
+  if (reader.get("editor-images", editor_images_mapping)) {
     editor_surfaces = parse_imagespecs(*editor_images_mapping);
   }
 
   std::vector<SurfacePtr> surfaces;
   boost::optional<ReaderMapping> images_mapping;
-  if(reader.get("images", images_mapping)) {
+  if (reader.get("images", images_mapping)) {
     surfaces = parse_imagespecs(*images_mapping);
   }
 
@@ -240,13 +240,13 @@ TileSetParser::parse_tiles(const ReaderMapping& reader)
     {
       std::vector<SurfacePtr> editor_surfaces;
       boost::optional<ReaderMapping> editor_surfaces_mapping;
-      if(reader.get("editor-images", editor_surfaces_mapping)) {
+      if (reader.get("editor-images", editor_surfaces_mapping)) {
         editor_surfaces = parse_imagespecs(*editor_surfaces_mapping);
       }
 
       std::vector<SurfacePtr> surfaces;
       boost::optional<ReaderMapping> surfaces_mapping;
-      if(reader.get("image", surfaces_mapping) ||
+      if (reader.get("image", surfaces_mapping) ||
          reader.get("images", surfaces_mapping)) {
         surfaces = parse_imagespecs(*surfaces_mapping);
       }
@@ -292,14 +292,14 @@ TileSetParser::parse_tiles(const ReaderMapping& reader)
 
           std::vector<SurfacePtr> surfaces;
           boost::optional<ReaderMapping> surfaces_mapping;
-          if(reader.get("image", surfaces_mapping) ||
+          if (reader.get("image", surfaces_mapping) ||
              reader.get("images", surfaces_mapping)) {
             surfaces = parse_imagespecs(*surfaces_mapping, Rect(x, y, Size(32, 32)));
           }
 
           std::vector<SurfacePtr> editor_surfaces;
           boost::optional<ReaderMapping> editor_surfaces_mapping;
-          if(reader.get("editor-images", editor_surfaces_mapping)) {
+          if (reader.get("editor-images", editor_surfaces_mapping)) {
             editor_surfaces = parse_imagespecs(*editor_surfaces_mapping, Rect(x, y, Size(32, 32)));
           }
 
@@ -327,7 +327,7 @@ std::vector<SurfacePtr>
   auto iter = images_lisp.get_iter();
   while(iter.next())
   {
-    if(iter.is_string())
+    if (iter.is_string())
     {
       std::string file = iter.as_string_item();
       surfaces.push_back(Surface::from_file(FileSystem::join(m_tiles_path, file), surface_region));

@@ -44,7 +44,7 @@ SecretAreaTrigger::SecretAreaTrigger(const ReaderMapping& reader) :
   m_col.m_bbox.set_size(w, h);
   reader.get("fade-tilemap", fade_tilemap);
   reader.get("message", message);
-  if(message.empty() && !Editor::is_active()) {
+  if (message.empty() && !Editor::is_active()) {
     message = _("You found a secret area!");
   }
   reader.get("script", script);
@@ -108,7 +108,7 @@ SecretAreaTrigger::draw(DrawingContext& context)
 void
 SecretAreaTrigger::event(Player& , EventType type)
 {
-  if(type == EVENT_TOUCH) {
+  if (type == EVENT_TOUCH) {
     if (!message_displayed) {
       message_timer.start(MESSAGE_TIME);
       message_displayed = true;
@@ -123,7 +123,7 @@ SecretAreaTrigger::event(Player& , EventType type)
         }
       }
 
-      if(!script.empty()) {
+      if (!script.empty()) {
         Sector::get().run_script(script, "SecretAreaScript");
       }
     }

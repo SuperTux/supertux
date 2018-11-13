@@ -45,7 +45,7 @@ RustyTrampoline::RustyTrampoline(const ReaderMapping& lisp) :
 void
 RustyTrampoline::update(float dt_sec)
 {
-  if(m_sprite->animation_done()) {
+  if (m_sprite->animation_done()) {
     if (counter < 1) {
       remove_me();
     } else {
@@ -61,14 +61,14 @@ HitResponse
 RustyTrampoline::collision(GameObject& other, const CollisionHit& hit)
 {
   //Trampoline has to be on ground to work.
-  if(on_ground) {
+  if (on_ground) {
     auto player = dynamic_cast<Player*> (&other);
     //Trampoline works for player
-    if(player) {
+    if (player) {
       float vy = player->get_physic().get_velocity_y();
       //player is falling down on trampoline
-      if(hit.top && vy >= 0) {
-        if(player->get_controller().hold(Controller::JUMP)) {
+      if (hit.top && vy >= 0) {
+        if (player->get_controller().hold(Controller::JUMP)) {
           vy = VY_TRIGGER;
         } else {
           vy = VY_BOUNCE;
@@ -87,10 +87,10 @@ RustyTrampoline::collision(GameObject& other, const CollisionHit& hit)
     }
     auto walking_badguy = dynamic_cast<WalkingBadguy*> (&other);
     //Trampoline also works for WalkingBadguy
-    if(walking_badguy) {
+    if (walking_badguy) {
       float vy = walking_badguy->get_velocity_y();
       //walking_badguy is falling down on trampoline
-      if(hit.top && vy >= 0) {
+      if (hit.top && vy >= 0) {
         vy = VY_BOUNCE;
         walking_badguy->set_velocity_y(vy);
         SoundManager::current()->play(BOUNCE_SOUND);

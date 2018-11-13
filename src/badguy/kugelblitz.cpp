@@ -74,15 +74,15 @@ Kugelblitz::collision_solid(const CollisionHit& chit)
 HitResponse
 Kugelblitz::collision_player(Player& player, const CollisionHit& )
 {
-  if(player.is_invincible()) {
+  if (player.is_invincible()) {
     explode();
     return ABORT_MOVE;
   }
   // hit from above?
-  if(player.get_movement().y - get_movement().y > 0 && player.get_bbox().p2.y <
+  if (player.get_movement().y - get_movement().y > 0 && player.get_bbox().p2.y <
      (m_col.m_bbox.p1.y + m_col.m_bbox.p2.y) / 2) {
     // if it's not is it possible to squish us, then this will hurt
-    if(!collision_squished(player))
+    if (!collision_squished(player))
       player.kill(false);
     explode();
     return FORCE_MOVE;
@@ -105,7 +105,7 @@ HitResponse
 Kugelblitz::hit(const CollisionHit& hit_)
 {
   // hit floor?
-  if(hit_.bottom) {
+  if (hit_.bottom) {
     if (!groundhit_pos_set)
     {
       pos_groundhit = get_pos();

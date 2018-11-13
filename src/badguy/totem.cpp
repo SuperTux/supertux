@@ -188,11 +188,11 @@ Totem::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
   }
 
   // If we are hit from the direction we are facing: turn around
-  if(hit.left && (m_dir == LEFT)) {
+  if (hit.left && (m_dir == LEFT)) {
     m_dir = RIGHT;
     initialize();
   }
-  if(hit.right && (m_dir == RIGHT)) {
+  if (hit.right && (m_dir == RIGHT)) {
     m_dir = LEFT;
     initialize();
   }

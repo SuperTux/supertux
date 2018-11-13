@@ -88,7 +88,7 @@ VideoSystem::create(VideoSystem::Enum video_system)
 VideoSystem::Enum
 VideoSystem::get_video_system(const std::string &video)
 {
-  if(video == "auto")
+  if (video == "auto")
   {
     return VIDEO_AUTO;
   }

@@ -43,7 +43,7 @@ ParticleSystem_Interactive::~ParticleSystem_Interactive()
 
 void ParticleSystem_Interactive::draw(DrawingContext& context)
 {
-  if(!enabled)
+  if (!enabled)
     return;
 
   context.push_transform();
@@ -96,20 +96,20 @@ ParticleSystem_Interactive::collision(Particle* object, const Vector& movement)
         const Tile& tile = solids->get_tile(x, y);
 
         // skip non-solid tiles, except water
-        if(! (tile.get_attributes() & (Tile::WATER | Tile::SOLID)))
+        if (! (tile.get_attributes() & (Tile::WATER | Tile::SOLID)))
           continue;
 
         Rectf rect = solids->get_tile_bbox(x, y);
-        if(tile.is_slope ()) { // slope tile
+        if (tile.is_slope ()) { // slope tile
           AATriangle triangle = AATriangle(rect, tile.get_data());
 
-          if(rectangle_aatriangle(&constraints, dest, triangle)) {
-            if(tile.get_attributes() & Tile::WATER)
+          if (rectangle_aatriangle(&constraints, dest, triangle)) {
+            if (tile.get_attributes() & Tile::WATER)
               water = true;
           }
         } else { // normal rectangular tile
-          if(intersects(dest, rect)) {
-            if(tile.get_attributes() & Tile::WATER)
+          if (intersects(dest, rect)) {
+            if (tile.get_attributes() & Tile::WATER)
               water = true;
             set_rectangle_rectangle_constraints(&constraints, dest, rect);
           }
@@ -121,7 +121,7 @@ ParticleSystem_Interactive::collision(Particle* object, const Vector& movement)
   // TODO don't use magic numbers here...
 
   // did we collide at all?
-  if(!constraints.has_constraints())
+  if (!constraints.has_constraints())
     return -1;
 
   const CollisionHit& hit = constraints.hit;

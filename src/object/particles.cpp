@@ -38,7 +38,7 @@ Particles::Particles(const Vector& epicenter, int min_angle, int max_angle,
   drawing_layer(drawing_layer_),
   particles()
 {
-  if(life_time == 0) {
+  if (life_time == 0) {
     live_forever = true;
   } else {
     live_forever = false;
@@ -76,7 +76,7 @@ Particles::Particles(const Vector& epicenter, int min_angle, int max_angle,
   drawing_layer(drawing_layer_),
   particles()
 {
-  if(life_time == 0) {
+  if (life_time == 0) {
     live_forever = true;
   } else {
     live_forever = false;
@@ -115,7 +115,7 @@ Particles::update(float dt_sec)
     (*i)->vel.x += accel.x * dt_sec;
     (*i)->vel.y += accel.y * dt_sec;
 
-    if((*i)->pos.x < camera.x || (*i)->pos.x > static_cast<float>(SCREEN_WIDTH) + camera.x ||
+    if ((*i)->pos.x < camera.x || (*i)->pos.x > static_cast<float>(SCREEN_WIDTH) + camera.x ||
        (*i)->pos.y < camera.y || (*i)->pos.y > static_cast<float>(SCREEN_HEIGHT) + camera.y) {
       i = particles.erase(i);
     } else {
@@ -123,7 +123,7 @@ Particles::update(float dt_sec)
     }
   }
 
-  if((timer.check() && !live_forever) || particles.size() == 0)
+  if ((timer.check() && !live_forever) || particles.size() == 0)
     remove_me();
 }
 

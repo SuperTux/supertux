@@ -30,7 +30,7 @@ HurtingPlatform::collision(GameObject& other, const CollisionHit& )
 {
   auto player = dynamic_cast<Player*>(&other);
   if (player) {
-    if(player->is_invincible()) {
+    if (player->is_invincible()) {
       return ABORT_MOVE;
     }
     player->kill(false);

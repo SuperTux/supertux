@@ -46,7 +46,7 @@ GameSessionRecorder::~GameSessionRecorder()
 void
 GameSessionRecorder::start_recording()
 {
-  if(!capture_file.empty()) {
+  if (!capture_file.empty()) {
     int newSeed = 0;               // next run uses a new seed
     while (newSeed == 0)            // which is the next non-zero random num.
       newSeed = gameRandom.rand();
@@ -63,7 +63,7 @@ GameSessionRecorder::record_demo(const std::string& filename)
   delete capture_demo_stream;
 
   capture_demo_stream = new std::ofstream(filename.c_str());
-  if(!capture_demo_stream->good()) {
+  if (!capture_demo_stream->good()) {
     std::stringstream msg;
     msg << "Couldn't open demo file '" << filename << "' for writing.";
     throw std::runtime_error(msg.str());
@@ -80,7 +80,7 @@ int
 GameSessionRecorder::get_demo_random_seed(const std::string& filename) const
 {
   std::istream* test_stream = new std::ifstream(filename.c_str());
-  if(test_stream->good()) {
+  if (test_stream->good()) {
     char buf[30];                     // recall the seed from the demo file
     int seed;
     for (int i=0; i<30 && (i==0 || buf[i-1]); i++)
@@ -107,7 +107,7 @@ GameSessionRecorder::play_demo(const std::string& filename)
   delete demo_controller;
 
   playback_demo_stream = new std::ifstream(filename.c_str());
-  if(!playback_demo_stream->good()) {
+  if (!playback_demo_stream->good()) {
     std::stringstream msg;
     msg << "Couldn't open demo file '" << filename << "' for reading.";
     throw std::runtime_error(msg.str());
@@ -129,7 +129,7 @@ GameSessionRecorder::play_demo(const std::string& filename)
 void
 GameSessionRecorder::reset_demo_controller()
 {
-  if(demo_controller == nullptr)
+  if (demo_controller == nullptr)
   {
     demo_controller = new CodeController();
   }
@@ -142,7 +142,7 @@ void
 GameSessionRecorder::process_events()
 {
   // playback a demo?
-  if(playback_demo_stream != nullptr) {
+  if (playback_demo_stream != nullptr) {
     demo_controller->update();
     char left, right, up, down, jump, action;
     playback_demo_stream->get(left);
@@ -160,7 +160,7 @@ GameSessionRecorder::process_events()
   }
 
   // save input for demo?
-  if(capture_demo_stream != nullptr) {
+  if (capture_demo_stream != nullptr) {
     Controller& controller = InputManager::current()->get_controller();
     capture_demo_stream ->put(controller.hold(Controller::LEFT));
     capture_demo_stream ->put(controller.hold(Controller::RIGHT));

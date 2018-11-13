@@ -109,7 +109,7 @@ GameSession::restart_level(bool after_death)
   m_currentsector = nullptr;
 
   const std::string base_dir = FileSystem::dirname(m_levelfile);
-  if(base_dir == "./") {
+  if (base_dir == "./") {
     m_levelfile = FileSystem::basename(m_levelfile);
   }
 
@@ -117,9 +117,9 @@ GameSession::restart_level(bool after_death)
     m_old_level = std::move(m_level);
     m_level = LevelParser::from_file(m_levelfile);
 
-    if(!m_reset_sector.empty()) {
+    if (!m_reset_sector.empty()) {
       m_currentsector = m_level->get_sector(m_reset_sector);
-      if(!m_currentsector) {
+      if (!m_currentsector) {
         std::stringstream msg;
         msg << "Couldn't find sector '" << m_reset_sector << "' for resetting tux.";
         throw std::runtime_error(msg.str());
@@ -127,7 +127,7 @@ GameSession::restart_level(bool after_death)
       m_currentsector->activate(m_reset_pos);
     } else {
       m_currentsector = m_level->get_sector("main");
-      if(!m_currentsector)
+      if (!m_currentsector)
         throw std::runtime_error("Couldn't find main sector");
       m_play_time = 0;
       m_currentsector->activate("main");
@@ -137,7 +137,7 @@ GameSession::restart_level(bool after_death)
     ScreenManager::current()->pop_screen();
     return (-1);
   }
-  if(after_death == true) {
+  if (after_death == true) {
     m_currentsector->resume_music();
   }
   else {
@@ -153,7 +153,7 @@ GameSession::restart_level(bool after_death)
 void
 GameSession::on_escape_press()
 {
-  if(m_currentsector->get_player().is_dying() || m_end_sequence)
+  if (m_currentsector->get_player().is_dying() || m_end_sequence)
   {
     // Let the timers run out, we fast-forward them to force past a sequence
     if (m_end_sequence)
@@ -235,7 +235,7 @@ GameSession::check_end_conditions()
   Player& tux = m_currentsector->get_player();
 
   /* End of level? */
-  if(m_end_sequence && m_end_sequence->is_done()) {
+  if (m_end_sequence && m_end_sequence->is_done()) {
     finish(true);
   } else if (!m_end_sequence && tux.is_dead()) {
     restart_level(true);
@@ -250,7 +250,7 @@ GameSession::draw(Compositor& compositor)
   m_currentsector->draw(context);
   drawstatus(context);
 
-  if(m_game_pause)
+  if (m_game_pause)
     draw_pause(context);
 }
 
@@ -269,7 +269,7 @@ GameSession::setup()
   if (m_currentsector == nullptr)
     return;
 
-  if(m_currentsector != Sector::current()) {
+  if (m_currentsector != Sector::current()) {
     m_currentsector->activate(m_currentsector->get_player().get_pos());
   }
   m_currentsector->play_music(LEVEL_MUSIC);
@@ -293,7 +293,7 @@ void
 GameSession::update(float dt_sec, const Controller& controller)
 {
   // Set active flag
-  if(!m_active)
+  if (!m_active)
   {
     m_active = true;
   }
@@ -337,9 +337,9 @@ GameSession::update(float dt_sec, const Controller& controller)
   check_end_conditions();
 
   // respawning in new sector?
-  if(!m_newsector.empty() && !m_newspawnpoint.empty()) {
+  if (!m_newsector.empty() && !m_newspawnpoint.empty()) {
     auto sector = m_level->get_sector(m_newsector);
-    if(sector == nullptr) {
+    if (sector == nullptr) {
       log_warning << "Sector '" << m_newsector << "' not found" << std::endl;
       sector = m_level->get_sector("main");
     }
@@ -349,23 +349,23 @@ GameSession::update(float dt_sec, const Controller& controller)
     m_currentsector = sector;
     m_currentsector->play_looping_sounds();
 
-    if(is_playing_demo())
+    if (is_playing_demo())
     {
       reset_demo_controller();
     }
     //Keep persistent across sectors
-    if(m_edit_mode)
+    if (m_edit_mode)
       m_currentsector->get_player().set_edit_mode(m_edit_mode);
     m_newsector = "";
     m_newspawnpoint = "";
     // retain invincibility if the player has it
-    if(m_pastinvincibility) {
+    if (m_pastinvincibility) {
       m_currentsector->get_player().m_invincible_timer.start(static_cast<float>(m_newinvincibilityperiod));
     }
   }
 
   // Update the world state and all objects in the world
-  if(!m_game_pause) {
+  if (!m_game_pause) {
     // Update the world
     if (!m_end_sequence) {
       m_play_time += dt_sec; //TODO: make sure we don't count cutscene time
@@ -380,7 +380,7 @@ GameSession::update(float dt_sec, const Controller& controller)
     }
   }
 
-  if(m_currentsector == nullptr)
+  if (m_currentsector == nullptr)
     return;
 
   // update sounds
@@ -390,8 +390,8 @@ GameSession::update(float dt_sec, const Controller& controller)
   if (m_end_sequence)
     return;
 
-  if(m_currentsector->get_player().m_invincible_timer.started()) {
-    if(m_currentsector->get_player().m_invincible_timer.get_timeleft() <=
+  if (m_currentsector->get_player().m_invincible_timer.started()) {
+    if (m_currentsector->get_player().m_invincible_timer.get_timeleft() <=
        TUX_INVINCIBLE_TIME_WARNING) {
       m_currentsector->play_music(HERRING_WARNING_MUSIC);
     } else {
@@ -410,7 +410,7 @@ GameSession::update(float dt_sec, const Controller& controller)
 void
 GameSession::finish(bool win)
 {
-  if(m_end_seq_started)
+  if (m_end_seq_started)
     return;
   m_end_seq_started = true;
 
@@ -421,8 +421,8 @@ GameSession::finish(bool win)
     return;
   }
 
-  if(win) {
-    if(WorldMap::current())
+  if (win) {
+    if (WorldMap::current())
     {
       WorldMap::current()->finished_level(m_level.get());
     }
@@ -496,15 +496,15 @@ GameSession::start_sequence(Sequence seq, const SequenceData* data)
     return;
   }
 
-  if(const auto& worldmap = worldmap::WorldMap::current())
+  if (const auto& worldmap = worldmap::WorldMap::current())
   {
-    if(data != nullptr)
+    if (data != nullptr)
     {
-      if(!data->fade_tilemap.empty())
+      if (!data->fade_tilemap.empty())
       {
         worldmap->set_initial_fade_tilemap(data->fade_tilemap, data->fade_type);
       }
-      if(!data->spawnpoint.empty())
+      if (!data->spawnpoint.empty())
       {
         worldmap->set_initial_spawnpoint(data->spawnpoint);
       }
@@ -524,7 +524,7 @@ GameSession::start_sequence(Sequence seq, const SequenceData* data)
   for(const auto& obj : m_currentsector->get_objects())
   {
     auto lt = dynamic_cast<LevelTime*>(obj.get());
-    if(lt)
+    if (lt)
       lt->stop();
   }
 }

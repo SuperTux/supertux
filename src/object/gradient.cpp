@@ -49,9 +49,9 @@ Gradient::Gradient(const ReaderMapping& reader) :
   m_layer = reader_get_layer (reader, /* default = */ LAYER_BACKGROUND0);
   std::vector<float> bkgd_top_color, bkgd_bottom_color;
   std::string direction;
-  if(reader.get("direction", direction))
+  if (reader.get("direction", direction))
   {
-    if(direction == "horizontal")
+    if (direction == "horizontal")
     {
       m_gradient_direction = HORIZONTAL;
     }
@@ -72,9 +72,9 @@ Gradient::Gradient(const ReaderMapping& reader) :
   {
     m_gradient_direction = VERTICAL;
   }
-  if(m_gradient_direction == HORIZONTAL || m_gradient_direction == HORIZONTAL_SECTOR)
+  if (m_gradient_direction == HORIZONTAL || m_gradient_direction == HORIZONTAL_SECTOR)
   {
-    if(!reader.get("left_color", bkgd_top_color) ||
+    if (!reader.get("left_color", bkgd_top_color) ||
        !reader.get("right_color", bkgd_bottom_color))
     {
       log_warning <<
@@ -116,7 +116,7 @@ Gradient::save(Writer& writer)
     case HORIZONTAL_SECTOR: writer.write("direction", "horizontal_sector", false); break;
     case VERTICAL: break;
   }
-  if(m_gradient_direction == HORIZONTAL || m_gradient_direction == HORIZONTAL_SECTOR) {
+  if (m_gradient_direction == HORIZONTAL || m_gradient_direction == HORIZONTAL_SECTOR) {
     writer.write("left_color" , m_gradient_top.toVector());
     writer.write("right_color", m_gradient_bottom.toVector());
   } else {
@@ -191,11 +191,11 @@ Gradient::set_direction(const GradientDirection& direction)
 void
 Gradient::draw(DrawingContext& context)
 {
-  if(Editor::is_active() && !EditorInputCenter::render_background)
+  if (Editor::is_active() && !EditorInputCenter::render_background)
     return;
 
   Rectf gradient_region;
-  if(m_gradient_direction != HORIZONTAL && m_gradient_direction != VERTICAL)
+  if (m_gradient_direction != HORIZONTAL && m_gradient_direction != VERTICAL)
   {
       auto camera_translation = Sector::get().get_camera().get_translation();
       auto sector_width = Sector::get().get_width();

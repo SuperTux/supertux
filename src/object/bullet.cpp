@@ -39,7 +39,7 @@ Bullet::Bullet(const Vector& pos, float xm, int dir, BonusType type_) :
   float speed = dir == RIGHT ? BULLET_XM : -BULLET_XM;
   physic.set_velocity_x(speed + xm);
 
-  if(type == FIRE_BONUS) {
+  if (type == FIRE_BONUS) {
     sprite = SpriteManager::current()->create("images/objects/bullets/firebullet.sprite");
     lightsprite->set_blend(Blend::ADD);
     lightsprite->set_color(Color(0.3f, 0.1f, 0.0f));
@@ -87,7 +87,7 @@ void
 Bullet::draw(DrawingContext& context)
 {
   sprite->draw(context.color(), get_pos(), LAYER_OBJECTS);
-  if(type == FIRE_BONUS){
+  if (type == FIRE_BONUS){
     lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
   }
 }
@@ -95,11 +95,11 @@ Bullet::draw(DrawingContext& context)
 void
 Bullet::collision_solid(const CollisionHit& hit)
 {
-  if(hit.top || hit.bottom) {
+  if (hit.top || hit.bottom) {
     physic.set_velocity_y(-physic.get_velocity_y());
     life_count--;
   } else if(hit.left || hit.right) {
-    if(type == ICE_BONUS) {
+    if (type == ICE_BONUS) {
       physic.set_velocity_x(-physic.get_velocity_x());
       life_count--;
     } else

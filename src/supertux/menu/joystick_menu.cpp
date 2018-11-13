@@ -103,7 +103,7 @@ JoystickMenu::recreate_menu()
 std::string
 JoystickMenu::get_button_name(int button) const
 {
-  if(button < 0)
+  if (button < 0)
   {
     return _("None");
   }

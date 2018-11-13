@@ -37,7 +37,7 @@ SSpiky::initialize()
 void
 SSpiky::collision_solid(const CollisionHit& hit)
 {
-  if(state != SSPIKY_WALKING) {
+  if (state != SSPIKY_WALKING) {
     BadGuy::collision_solid(hit);
     return;
   }
@@ -47,7 +47,7 @@ SSpiky::collision_solid(const CollisionHit& hit)
 HitResponse
 SSpiky::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
 {
-  if(state != SSPIKY_WALKING) {
+  if (state != SSPIKY_WALKING) {
     return BadGuy::collision_badguy(badguy, hit);
   }
   return WalkingBadguy::collision_badguy(badguy, hit);
@@ -56,12 +56,12 @@ SSpiky::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
 void
 SSpiky::active_update(float dt_sec) {
 
-  if(state == SSPIKY_WALKING) {
+  if (state == SSPIKY_WALKING) {
     WalkingBadguy::active_update(dt_sec);
     return;
   }
 
-  if(state == SSPIKY_SLEEPING) {
+  if (state == SSPIKY_SLEEPING) {
 
     Player* player = get_nearest_player();
     if (player) {
@@ -82,8 +82,8 @@ SSpiky::active_update(float dt_sec) {
     BadGuy::active_update(dt_sec);
   }
 
-  if(state == SSPIKY_WAKING) {
-    if(m_sprite->animation_done()) {
+  if (state == SSPIKY_WAKING) {
+    if (m_sprite->animation_done()) {
       // start walking
       state = SSPIKY_WALKING;
       WalkingBadguy::initialize();

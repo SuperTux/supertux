@@ -33,7 +33,7 @@ Sprite::Sprite(SpriteData& newdata) :
   m_blend(),
   m_action(m_data.get_action("normal"))
 {
-  if(!m_action)
+  if (!m_action)
     m_action = m_data.actions.begin()->second.get();
   m_last_ticks = g_game_time;
 }
@@ -60,11 +60,11 @@ Sprite::clone() const
 void
 Sprite::set_action(const std::string& name, int loops)
 {
-  if(m_action && m_action->name == name)
+  if (m_action && m_action->name == name)
     return;
 
   const SpriteData::Action* newaction = m_data.get_action(name);
-  if(!newaction) {
+  if (!newaction) {
     log_debug << "Action '" << name << "' not found." << std::endl;
     return;
   }
@@ -80,11 +80,11 @@ Sprite::set_action(const std::string& name, int loops)
 void
 Sprite::set_action_continued(const std::string& name)
 {
-  if(m_action && m_action->name == name)
+  if (m_action && m_action->name == name)
     return;
 
   const SpriteData::Action* newaction = m_data.get_action(name);
-  if(!newaction) {
+  if (!newaction) {
     log_debug << "Action '" << name << "' not found." << std::endl;
     return;
   }
@@ -115,12 +115,12 @@ Sprite::update()
   while(m_frameidx >= get_frames()) {
     m_frameidx -= get_frames();
     m_animation_loops--;
-    if(animation_done()) {
+    if (animation_done()) {
       break;
     }
   }
 
-  if(animation_done()) {
+  if (animation_done()) {
     m_frame = 0;
     m_frameidx = get_frames() - 1;
   }

@@ -70,7 +70,7 @@ TitleScreen::make_tux_jump()
   }
 
   // Wrap around at the end of the level back to the beginning
-  if(sector.get_width() - 320 < tux.get_pos().x) {
+  if (sector.get_width() - 320 < tux.get_pos().x) {
     sector.activate("main");
     sector.get_camera().reset(tux.get_pos());
   }
@@ -84,7 +84,7 @@ void
 TitleScreen::setup()
 {
   Sector& sector = m_titlesession->get_current_sector();
-  if(Sector::current() != &sector) {
+  if (Sector::current() != &sector) {
     sector.play_music(LEVEL_MUSIC);
     sector.activate(sector.get_player().get_pos());
   }
@@ -130,7 +130,7 @@ TitleScreen::update(float dt_sec, const Controller& controller)
 
   // reopen menu if user closed it (so that the app doesn't close when user
   // accidently hit ESC)
-  if(!MenuManager::instance().is_active() && !ScreenManager::current()->has_pending_fadeout())
+  if (!MenuManager::instance().is_active() && !ScreenManager::current()->has_pending_fadeout())
   {
     MenuManager::instance().set_menu(MenuStorage::MAIN_MENU);
   }

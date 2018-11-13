@@ -29,7 +29,7 @@ ObjectMenu::ObjectMenu(GameObject *go) :
   add_label(os.get_name());
   add_hl();
   for(const auto& oo : os.get_options()) {
-    if(!(oo.flags & OPTION_VISIBLE)) {
+    if (!(oo.flags & OPTION_VISIBLE)) {
       continue;
     }
 
@@ -81,7 +81,7 @@ ObjectMenu::~ObjectMenu()
   object->after_editor_set();
 
   auto editor = Editor::current();
-  if(editor == nullptr) {
+  if (editor == nullptr) {
     return;
   }
   editor->reactivate_request = true;

@@ -85,7 +85,7 @@ TextureManager::~TextureManager()
 {
   for(const auto& texture : m_image_textures)
   {
-    if(!texture.second.expired())
+    if (!texture.second.expired())
     {
       log_warning << "Texture '" << std::get<0>(texture.first) << "' not freed" << std::endl;
     }
@@ -188,10 +188,10 @@ TextureManager::get(const std::string& _filename)
   auto i = m_image_textures.find(key);
 
   TexturePtr texture;
-  if(i != m_image_textures.end())
+  if (i != m_image_textures.end())
     texture = i->second.lock();
 
-  if(!texture) {
+  if (!texture) {
     texture = create_image_texture(filename, Sampler());
     texture->m_cache_key = key;
     m_image_textures[key] = texture;
@@ -219,7 +219,7 @@ TextureManager::get(const std::string& _filename,
   auto i = m_image_textures.find(key);
 
   TexturePtr texture;
-  if(i != m_image_textures.end())
+  if (i != m_image_textures.end())
     texture = i->second.lock();
 
   if (!texture) {

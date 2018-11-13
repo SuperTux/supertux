@@ -47,7 +47,7 @@ EditorLevelMenu::EditorLevelMenu() :
 EditorLevelMenu::~EditorLevelMenu()
 {
   auto editor = Editor::current();
-  if(editor == nullptr) {
+  if (editor == nullptr) {
     return;
   }
   if (editor->get_level()->m_tileset != old_tileset) {
@@ -72,12 +72,12 @@ bool
 EditorLevelMenu::on_back_action()
 {
   auto level = Editor::current()->get_level();
-  if(!level->m_name.empty() && !level->m_author.empty() && !level->m_license.empty())
+  if (!level->m_name.empty() && !level->m_author.empty() && !level->m_license.empty())
   {
     return true;
   }
 
-  if(level->m_name.empty())
+  if (level->m_name.empty())
   {
     Dialog::show_message(_("Please enter a name for this level."));
   }

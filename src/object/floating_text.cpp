@@ -50,7 +50,7 @@ FloatingText::update(float dt_sec)
 {
   position.y -= 1.4f * dt_sec;
 
-  if(timer.check())
+  if (timer.check())
     remove_me();
 }
 
@@ -61,7 +61,7 @@ FloatingText::draw(DrawingContext& context)
 {
   // make an alpha animation when disappearing
   float alpha;
-  if(timer.get_timeleft() < FADING_TIME)
+  if (timer.get_timeleft() < FADING_TIME)
     alpha = timer.get_timeleft() * 255.0f / FADING_TIME;
   else
     alpha = 255.0f;

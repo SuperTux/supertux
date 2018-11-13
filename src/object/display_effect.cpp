@@ -48,13 +48,13 @@ DisplayEffect::update(float dt_sec)
       break;
     case FADE_IN:
       screen_fading -= dt_sec;
-      if(screen_fading < 0) {
+      if (screen_fading < 0) {
         screen_fade = NO_FADE;
       }
       break;
     case FADE_OUT:
       screen_fading -= dt_sec;
-      if(screen_fading < 0) {
+      if (screen_fading < 0) {
         screen_fade = NO_FADE;
         black = true;
       }
@@ -68,7 +68,7 @@ DisplayEffect::update(float dt_sec)
       break;
     case FADE_IN:
       border_fading -= dt_sec;
-      if(border_fading < 0) {
+      if (border_fading < 0) {
         border_fade = NO_FADE;
       }
       border_size = (border_fadetime - border_fading)
@@ -76,7 +76,7 @@ DisplayEffect::update(float dt_sec)
       break;
     case FADE_OUT:
       border_fading -= dt_sec;
-      if(border_fading < 0) {
+      if (border_fading < 0) {
         borders = false;
         border_fade = NO_FADE;
       }
@@ -93,9 +93,9 @@ DisplayEffect::draw(DrawingContext& context)
   context.push_transform();
   context.set_translation(Vector(0, 0));
 
-  if(black || screen_fade != NO_FADE) {
+  if (black || screen_fade != NO_FADE) {
     float alpha;
-    if(black) {
+    if (black) {
       alpha = 1.0f;
     } else {
       switch(screen_fade) {
@@ -162,7 +162,7 @@ DisplayEffect::is_black() const
 void
 DisplayEffect::sixteen_to_nine(float fadetime)
 {
-  if(fadetime == 0) {
+  if (fadetime == 0) {
     borders = true;
     border_size = BORDER_SIZE;
   } else {
@@ -177,7 +177,7 @@ DisplayEffect::sixteen_to_nine(float fadetime)
 void
 DisplayEffect::four_to_three(float fadetime)
 {
-  if(fadetime == 0) {
+  if (fadetime == 0) {
     borders = false;
   } else {
     border_size = BORDER_SIZE;

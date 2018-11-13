@@ -63,7 +63,7 @@ std::string generate_menu_item_text(const Addon& addon)
   std::string text;
   std::string type = addon_type_to_translated_string(addon.get_type());
 
-  if(!addon.get_author().empty())
+  if (!addon.get_author().empty())
   {
     text = str(boost::format(_("%s \"%s\" by \"%s\""))
                % type % addon.get_title() % addon.get_author());
@@ -88,10 +88,10 @@ AddonMenu::AddonMenu(bool auto_install_langpack) :
   m_auto_install_langpack(auto_install_langpack)
 {
   refresh();
-  if(auto_install_langpack)
+  if (auto_install_langpack)
   {
     const std::string& language = g_dictionary_manager->get_language().get_language();
-    if(language == "en")
+    if (language == "en")
       return;
     check_online();
   }
@@ -137,7 +137,7 @@ AddonMenu::rebuild_menu()
     {
       const Addon& addon = m_addon_manager.get_installed_addon(addon_id);
       m_addons_enabled[idx] = addon.is_enabled();
-      if(addon_visible(addon))
+      if (addon_visible(addon))
       {
         std::string text = generate_menu_item_text(addon);
         add_toggle(MAKE_INSTALLED_MENU_ID(idx), text, &m_addons_enabled[idx]);
@@ -170,7 +170,7 @@ AddonMenu::rebuild_menu()
                     << installed_addon.get_md5() << "' vs '" << addon.get_md5() << "'  '"
                     << installed_addon.get_version() << "' vs '" << addon.get_version() << "'"
                     << std::endl;
-          if(addon_visible(addon))
+          if (addon_visible(addon))
           {
             std::string text = generate_menu_item_text(addon);
             add_entry(MAKE_REPOSITORY_MENU_ID(idx), str(boost::format( _("Install %s *NEW*") ) % text));
@@ -181,7 +181,7 @@ AddonMenu::rebuild_menu()
       catch(const std::exception&)
       {
         // addon is not installed
-        if(addon_visible(addon))
+        if (addon_visible(addon))
         {
           std::string text = generate_menu_item_text(addon);
           add_entry(MAKE_REPOSITORY_MENU_ID(idx), str(boost::format( _("Install %s") ) % text));
@@ -260,7 +260,7 @@ AddonMenu::check_online()
     {
       if (success)
       {
-        if(m_auto_install_langpack)
+        if (m_auto_install_langpack)
         {
           const std::string& langpack_id = "language-pack";
           install_addon(m_addon_manager.get_repository_addon(langpack_id));
@@ -272,7 +272,7 @@ AddonMenu::check_online()
       }
       else
       {
-        if(m_auto_install_langpack)
+        if (m_auto_install_langpack)
         {
           MenuManager::instance().set_dialog({});
           MenuManager::instance().clear_menu_stack();
@@ -303,7 +303,7 @@ AddonMenu::install_addon(const Addon& addon)
       try
       {
         m_addon_manager.enable_addon(addon_id);
-        if(m_auto_install_langpack)
+        if (m_auto_install_langpack)
         {
           MenuManager::instance().set_dialog({});
           MenuManager::instance().clear_menu_stack();
@@ -318,7 +318,7 @@ AddonMenu::install_addon(const Addon& addon)
     }
     else
     {
-      if(m_auto_install_langpack)
+      if (m_auto_install_langpack)
       {
         MenuManager::instance().set_dialog({});
         MenuManager::instance().clear_menu_stack();
@@ -331,7 +331,7 @@ AddonMenu::install_addon(const Addon& addon)
 void
 AddonMenu::toggle_addon(const Addon& addon)
 {
-  if(addon.is_enabled())
+  if (addon.is_enabled())
   {
     m_addon_manager.disable_addon(addon.get_id());
   }
@@ -339,7 +339,7 @@ AddonMenu::toggle_addon(const Addon& addon)
   {
     m_addon_manager.enable_addon(addon.get_id());
   }
-  if(addon.get_type() == Addon::LANGUAGEPACK)
+  if (addon.get_type() == Addon::LANGUAGEPACK)
   {
     auto dialog = std::make_unique<Dialog>();
     dialog->set_text(_("Please restart SuperTux\nfor these changes to take effect."));

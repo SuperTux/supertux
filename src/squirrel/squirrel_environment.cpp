@@ -39,7 +39,7 @@ SquirrelEnvironment::SquirrelEnvironment(HSQUIRRELVM vm, const std::string& name
 
   sq_newtable(m_vm);
   sq_pushroottable(m_vm);
-  if(SQ_FAILED(sq_setdelegate(m_vm, -2)))
+  if (SQ_FAILED(sq_setdelegate(m_vm, -2)))
     throw SquirrelError(m_vm, "Couldn't set table delegate");
 
   sq_resetobject(&m_table);
@@ -136,7 +136,7 @@ SquirrelEnvironment::garbage_collect()
                    [this](HSQOBJECT& object){
                      HSQUIRRELVM vm = object_to_vm(object);
 
-                     if(sq_getvmstate(vm) != SQ_VMSTATE_SUSPENDED) {
+                     if (sq_getvmstate(vm) != SQ_VMSTATE_SUSPENDED) {
                        sq_release(m_vm, &object);
                        return true;
                      } else {

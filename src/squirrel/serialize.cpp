@@ -27,7 +27,7 @@
 
 void load_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, const ReaderMapping& lisp)
 {
-  if(table_idx < 0)
+  if (table_idx < 0)
     table_idx -= 2;
 
   auto const& arr = lisp.get_sexp().as_array();
@@ -36,7 +36,7 @@ void load_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, const ReaderMappin
     auto const& pair = arr[i].as_array();
 
     // Ignore key value pairs with invalid length
-    if(pair.size() < 2)
+    if (pair.size() < 2)
     {
       log_debug << "Found key/value pair with invalid length. Ignoring." << std::endl;
       continue;
@@ -46,7 +46,7 @@ void load_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, const ReaderMappin
     auto const& value = pair[1];
 
     // ignore empty / null values
-    if(value.is_nil())
+    if (value.is_nil())
     {
       log_debug << "Found null value for key " << key << ". Ignoring." << std::endl;
       continue;
@@ -81,7 +81,7 @@ void load_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, const ReaderMappin
         break;
     }
 
-    if(SQ_FAILED(sq_createslot(vm, table_idx)))
+    if (SQ_FAILED(sq_createslot(vm, table_idx)))
       throw SquirrelError(vm, "Couldn't create new index");
   }
 }
@@ -89,13 +89,13 @@ void load_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, const ReaderMappin
 void save_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, Writer& writer)
 {
   // offset because of sq_pushnull
-  if(table_idx < 0)
+  if (table_idx < 0)
     table_idx -= 1;
 
   //iterator table
   sq_pushnull(vm);
   while(SQ_SUCCEEDED(sq_next(vm, table_idx))) {
-    if(sq_gettype(vm, -2) != OT_STRING) {
+    if (sq_gettype(vm, -2) != OT_STRING) {
       std::cerr << "Table contains non-string key\n";
       continue;
     }
@@ -117,7 +117,7 @@ void save_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, Writer& writer)
       }
       case OT_BOOL: {
         SQBool val;
-        if(SQ_SUCCEEDED(sq_getbool(vm, -1, &val)))
+        if (SQ_SUCCEEDED(sq_getbool(vm, -1, &val)))
           writer.write(key, val == SQTrue);
         break;
       }

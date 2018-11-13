@@ -57,7 +57,7 @@ SpriteChange::~SpriteChange()
 void
 SpriteChange::draw(DrawingContext& context)
 {
-  if(in_stay_action && !stay_action.empty()) {
+  if (in_stay_action && !stay_action.empty()) {
     sprite->set_action(stay_action);
     sprite->draw(context.color(), pos * 32, LAYER_OBJECTS-1);
   }

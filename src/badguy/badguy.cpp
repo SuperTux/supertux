@@ -122,11 +122,11 @@ BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name_, int
 void
 BadGuy::draw(DrawingContext& context)
 {
-  if(!m_sprite.get())
+  if (!m_sprite.get())
     return;
-  if(m_state == STATE_INIT || m_state == STATE_INACTIVE)
+  if (m_state == STATE_INIT || m_state == STATE_INACTIVE)
     return;
-  if(m_state == STATE_FALLING) {
+  if (m_state == STATE_FALLING) {
     context.push_transform();
     context.set_flip(context.get_flip() ^ VERTICAL_FLIP);
     m_sprite->draw(context.color(), get_pos(), m_layer);
@@ -143,7 +143,7 @@ BadGuy::draw(DrawingContext& context)
 void
 BadGuy::update(float dt_sec)
 {
-  if(!Sector::get().inside(m_col.m_bbox)) {
+  if (!Sector::get().inside(m_col.m_bbox)) {
     run_dead_script();
     m_is_active_flag = false;
     remove_me();
@@ -188,7 +188,7 @@ BadGuy::update(float dt_sec)
     case STATE_GEAR:
     case STATE_SQUISHED:
       m_is_active_flag = false;
-      if(m_state_timer.check()) {
+      if (m_state_timer.check()) {
         remove_me();
         break;
       }
@@ -239,7 +239,7 @@ void
 BadGuy::save(Writer& writer) {
   MovingSprite::save(writer);
   writer.write("direction", dir_to_string(m_dir), false);
-  if(!m_dead_script.empty()) {
+  if (!m_dead_script.empty()) {
     writer.write("dead-script", m_dead_script, false);
   }
 }
@@ -247,11 +247,11 @@ BadGuy::save(Writer& writer) {
 Direction
 BadGuy::str2dir(const std::string& dir_str) const
 {
-  if( dir_str == "auto" )
+  if ( dir_str == "auto" )
     return AUTO;
-  if( dir_str == "left" )
+  if ( dir_str == "left" )
     return LEFT;
-  if( dir_str == "right" )
+  if ( dir_str == "right" )
     return RIGHT;
 
   //default to "auto"
@@ -278,7 +278,7 @@ void
 BadGuy::active_update(float dt_sec)
 {
   m_col.m_movement = m_physic.get_movement(dt_sec);
-  if(m_frozen)
+  if (m_frozen)
     m_sprite->stop_animation();
 }
 
@@ -293,17 +293,17 @@ BadGuy::collision_tile(uint32_t tile_attributes)
   // Don't kill badguys that have already been killed
   if (!is_active()) return;
 
-  if(tile_attributes & Tile::WATER && !is_in_water())
+  if (tile_attributes & Tile::WATER && !is_in_water())
   {
     m_in_water = true;
     SoundManager::current()->play("sounds/splash.ogg", get_pos());
   }
-  if(!(tile_attributes & Tile::WATER) && is_in_water())
+  if (!(tile_attributes & Tile::WATER) && is_in_water())
   {
     m_in_water = false;
   }
 
-  if(tile_attributes & Tile::HURTS && is_hurtable()) {    
+  if (tile_attributes & Tile::HURTS && is_hurtable()) {    
     if (tile_attributes & Tile::FIRE) {
       if (is_flammable()) ignite();
     }
@@ -322,13 +322,13 @@ BadGuy::collision(GameObject& other, const CollisionHit& hit)
   if (!is_active()) return ABORT_MOVE;
 
   auto badguy = dynamic_cast<BadGuy*> (&other);
-  if(badguy && badguy->is_active() && badguy->m_col.get_group() == COLGROUP_MOVING) {
+  if (badguy && badguy->is_active() && badguy->m_col.get_group() == COLGROUP_MOVING) {
 
     /* Badguys don't let badguys squish other badguys. It's bad. */
 #if 0
     // hit from above?
     if (badguy->get_bbox().p2.y < (bbox.p1.y + 16)) {
-      if(collision_squished(*badguy)) {
+      if (collision_squished(*badguy)) {
         return ABORT_MOVE;
       }
     }
@@ -338,20 +338,20 @@ BadGuy::collision(GameObject& other, const CollisionHit& hit)
   }
 
   auto player = dynamic_cast<Player*> (&other);
-  if(player) {
+  if (player) {
 
     // hit from above?
     if (player->get_bbox().p2.y < (m_col.m_bbox.p1.y + 16)) {
-      if(player->is_stone()) {
+      if (player->is_stone()) {
         kill_fall();
         return FORCE_MOVE;
       }
-      if(collision_squished(*player)) {
+      if (collision_squished(*player)) {
         return FORCE_MOVE;
       }
     }
 
-    if(player->is_stone()) {
+    if (player->is_stone()) {
       collision_solid(hit);
       return FORCE_MOVE;
     }
@@ -360,7 +360,7 @@ BadGuy::collision(GameObject& other, const CollisionHit& hit)
   }
 
   auto bullet = dynamic_cast<Bullet*> (&other);
-  if(bullet)
+  if (bullet)
     return collision_bullet(*bullet, hit);
 
   return FORCE_MOVE;
@@ -377,13 +377,13 @@ BadGuy::collision_solid(const CollisionHit& hit)
 HitResponse
 BadGuy::collision_player(Player& player, const CollisionHit& )
 {
-  if(player.is_invincible()) {
+  if (player.is_invincible()) {
     kill_fall();
     return ABORT_MOVE;
   }
 
   //TODO: unfreeze timer
-  if(m_frozen)
+  if (m_frozen)
     //unfreeze();
     return FORCE_MOVE;
 
@@ -401,10 +401,10 @@ bool
 BadGuy::collision_squished(GameObject& object)
 {
   // frozen badguys can be killed with butt-jump
-  if(m_frozen)
+  if (m_frozen)
   {
     auto player = dynamic_cast<Player*>(&object);
-    if(player && (player->m_does_buttjump)) {
+    if (player && (player->m_does_buttjump)) {
       player->bounce(*this);
       kill_fall();
       return true;
@@ -417,7 +417,7 @@ HitResponse
 BadGuy::collision_bullet(Bullet& bullet, const CollisionHit& hit)
 {
   if (is_frozen()) {
-    if(bullet.get_type() == FIRE_BONUS) {
+    if (bullet.get_type() == FIRE_BONUS) {
       // fire bullet thaws frozen badguys
       unfreeze();
       bullet.remove_me();
@@ -429,7 +429,7 @@ BadGuy::collision_bullet(Bullet& bullet, const CollisionHit& hit)
     }
   }
   else if (is_ignited()) {
-    if(bullet.get_type() == ICE_BONUS) {
+    if (bullet.get_type() == ICE_BONUS) {
       // ice bullets extinguish ignited badguys
       extinguish();
       bullet.remove_me();
@@ -526,13 +526,13 @@ BadGuy::run_dead_script()
 
   m_countMe = false;
 
-  if(m_parent_dispenser != nullptr)
+  if (m_parent_dispenser != nullptr)
   {
     m_parent_dispenser->notify_dead();
   }
 
   // start dead-script
-  if(!m_dead_script.empty()) {
+  if (!m_dead_script.empty()) {
     Sector::get().run_script(m_dead_script, "dead-script");
   }
 }
@@ -540,7 +540,7 @@ BadGuy::run_dead_script()
 void
 BadGuy::set_state(State state_)
 {
-  if(m_state == state_)
+  if (m_state == state_)
     return;
 
   State laststate = m_state;
@@ -561,7 +561,7 @@ BadGuy::set_state(State state_)
       break;
     case STATE_INACTIVE:
       // was the badguy dead anyway?
-      if(laststate == STATE_SQUISHED || laststate == STATE_FALLING) {
+      if (laststate == STATE_SQUISHED || laststate == STATE_FALLING) {
         remove_me();
       }
       set_group(COLGROUP_DISABLED);
@@ -585,7 +585,7 @@ BadGuy::is_offscreen() const
   auto player = get_nearest_player();
   if (!player)
     return false;
-  if(!Editor::is_active()) {
+  if (!Editor::is_active()) {
     dist = player->get_bbox().get_middle() - m_col.m_bbox.get_middle();
   }
   // In SuperTux 0.1.x, Badguys were activated when Tux<->Badguy center distance was approx. <= ~668px
@@ -683,12 +683,12 @@ BadGuy::freeze()
   set_group(COLGROUP_MOVING_STATIC);
   m_frozen = true;
 
-  if(m_sprite->has_action("iced-left"))
+  if (m_sprite->has_action("iced-left"))
     m_sprite->set_action(m_dir == LEFT ? "iced-left" : "iced-right", 1);
   // when the sprite doesn't have separate actions for left and right, it tries to use an universal one.
   else
   {
-    if(m_sprite->has_action("iced"))
+    if (m_sprite->has_action("iced"))
       m_sprite->set_action("iced", 1);
       // when no iced action exists, default to shading badguy blue
     else
@@ -706,7 +706,7 @@ BadGuy::unfreeze()
   m_frozen = false;
 
   // restore original color if needed
-  if((!m_sprite->has_action("iced-left")) && (!m_sprite->has_action("iced")) )
+  if ((!m_sprite->has_action("iced-left")) && (!m_sprite->has_action("iced")) )
   {
     m_sprite->set_color(Color(1.f, 1.f, 1.f));
     m_sprite->set_animation_loops();

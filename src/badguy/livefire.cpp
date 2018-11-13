@@ -36,7 +36,7 @@ LiveFire::LiveFire(const ReaderMapping& reader) :
 void
 LiveFire::collision_solid(const CollisionHit& hit)
 {
-  if(state != STATE_WALKING) {
+  if (state != STATE_WALKING) {
     BadGuy::collision_solid(hit);
     return;
   }
@@ -46,7 +46,7 @@ LiveFire::collision_solid(const CollisionHit& hit)
 HitResponse
 LiveFire::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
 {
-  if(state != STATE_WALKING) {
+  if (state != STATE_WALKING) {
     return BadGuy::collision_badguy(badguy, hit);
   }
   return WalkingBadguy::collision_badguy(badguy, hit);
@@ -56,15 +56,15 @@ void
 LiveFire::active_update(float dt_sec) {
 
   // Remove when extinguish animation is done
-  if((m_sprite->get_action() == "extinguish-left" || m_sprite->get_action() == "extinguish-right" )
+  if ((m_sprite->get_action() == "extinguish-left" || m_sprite->get_action() == "extinguish-right" )
     && m_sprite->animation_done()) remove_me();
 
-  if(state == STATE_WALKING) {
+  if (state == STATE_WALKING) {
     WalkingBadguy::active_update(dt_sec);
     return;
   }
 
-  if(state == STATE_SLEEPING && m_col.get_group() == COLGROUP_MOVING) {
+  if (state == STATE_SLEEPING && m_col.get_group() == COLGROUP_MOVING) {
 
     auto player = get_nearest_player();
     if (player) {
@@ -83,7 +83,7 @@ LiveFire::active_update(float dt_sec) {
     }
   }
   else if(state == STATE_WAKING) {
-    if(m_sprite->animation_done()) {
+    if (m_sprite->animation_done()) {
       // start walking
       state = STATE_WALKING;
       WalkingBadguy::initialize();

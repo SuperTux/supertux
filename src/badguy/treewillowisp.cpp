@@ -108,7 +108,7 @@ TreeWillOWisp::active_update(float dt_sec)
 {
   // remove TreeWillOWisp if it has completely vanished
   if (mystate == STATE_VANISHING) {
-    if(m_sprite->animation_done()) {
+    if (m_sprite->animation_done()) {
       remove_me();
       tree->willowisp_died(this);
     }
@@ -117,7 +117,7 @@ TreeWillOWisp::active_update(float dt_sec)
 
   if (mystate == STATE_SUCKED) {
     Vector dir_ = suck_target - get_pos();
-    if(dir_.norm() < 5) {
+    if (dir_.norm() < 5) {
       vanish();
       return;
     }
@@ -134,7 +134,7 @@ TreeWillOWisp::active_update(float dt_sec)
 
   sound_source->set_position(get_pos());
 
-  if(sizemod < 0) {
+  if (sizemod < 0) {
     m_layer = LAYER_OBJECTS + 5;
   } else {
     m_layer = LAYER_OBJECTS - 20;

@@ -78,7 +78,7 @@ Switch::update(float )
     case OFF:
       break;
     case TURN_ON:
-      if(sprite->animation_done()) {
+      if (sprite->animation_done()) {
         std::ostringstream location;
         location << "switch" << m_col.m_bbox.p1;
         Sector::get().run_script(script, location.str());
@@ -88,13 +88,13 @@ Switch::update(float )
       }
       break;
     case ON:
-      if(sprite->animation_done() && !bistable) {
+      if (sprite->animation_done() && !bistable) {
         sprite->set_action("turnoff", 1);
         state = TURN_OFF;
       }
       break;
     case TURN_OFF:
-      if(sprite->animation_done()) {
+      if (sprite->animation_done()) {
         if (bistable) {
           std::ostringstream location;
           location << "switch" << m_col.m_bbox.p1;
@@ -117,7 +117,7 @@ Switch::draw(DrawingContext& context)
 void
 Switch::event(Player& , EventType type)
 {
-  if(type != EVENT_ACTIVATE) return;
+  if (type != EVENT_ACTIVATE) return;
 
   switch (state) {
     case OFF:

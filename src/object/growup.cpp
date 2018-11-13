@@ -49,7 +49,7 @@ GrowUp::update(float dt_sec)
 void
 GrowUp::draw(DrawingContext& context)
 {
-  if(physic.get_velocity_x() != 0) {
+  if (physic.get_velocity_x() != 0) {
     m_sprite->set_angle(get_pos().x * 360.0f / (32.0f * math::PI));
   }
   MovingSprite::draw(context);
@@ -60,11 +60,11 @@ GrowUp::draw(DrawingContext& context)
 void
 GrowUp::collision_solid(const CollisionHit& hit)
 {
-  if(hit.top)
+  if (hit.top)
     physic.set_velocity_y(0);
-  if(hit.bottom && physic.get_velocity_y() > 0)
+  if (hit.bottom && physic.get_velocity_y() > 0)
     physic.set_velocity_y(0);
-  if(hit.left || hit.right) {
+  if (hit.left || hit.right) {
     physic.set_velocity_x(-physic.get_velocity_x());
   }
 }
@@ -73,8 +73,8 @@ HitResponse
 GrowUp::collision(GameObject& other, const CollisionHit& hit )
 {
   auto player = dynamic_cast<Player*>(&other);
-  if(player != nullptr) {
-    if(!player->add_bonus(GROWUP_BONUS, true)) {
+  if (player != nullptr) {
+    if (!player->add_bonus(GROWUP_BONUS, true)) {
       // Tux can't grow right now.
       collision_solid( hit );
       return ABORT_MOVE;
