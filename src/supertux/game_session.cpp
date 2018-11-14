@@ -24,6 +24,7 @@
 #include "object/endsequence_walkleft.hpp"
 #include "object/endsequence_walkright.hpp"
 #include "object/level_time.hpp"
+#include "object/music_object.hpp"
 #include "object/player.hpp"
 #include "supertux/fadetoblack.hpp"
 #include "supertux/gameconfig.hpp"
@@ -138,11 +139,11 @@ GameSession::restart_level(bool after_death)
     return (-1);
   }
   if (after_death == true) {
-    m_currentsector->resume_music();
+    m_currentsector->get_object_by_type<MusicObject>()->resume_music();
   }
   else {
     SoundManager::current()->stop_music();
-    m_currentsector->play_music(LEVEL_MUSIC);
+    m_currentsector->get_object_by_type<MusicObject>()->play_music(LEVEL_MUSIC);
   }
 
   start_recording();
@@ -272,7 +273,7 @@ GameSession::setup()
   if (m_currentsector != Sector::current()) {
     m_currentsector->activate(m_currentsector->get_player().get_pos());
   }
-  m_currentsector->play_music(LEVEL_MUSIC);
+  m_currentsector->get_object_by_type<MusicObject>()->play_music(LEVEL_MUSIC);
 
   int total_stats_to_be_collected = m_level->m_stats.m_total_coins + m_level->m_stats.m_total_badguys + m_level->m_stats.m_total_secrets;
   if ((!m_levelintro_shown) && (total_stats_to_be_collected > 0)) {
@@ -345,7 +346,7 @@ GameSession::update(float dt_sec, const Controller& controller)
     }
     m_currentsector->stop_looping_sounds();
     sector->activate(m_newspawnpoint);
-    sector->play_music(LEVEL_MUSIC);
+    sector->get_object_by_type<MusicObject>()->play_music(LEVEL_MUSIC);
     m_currentsector = sector;
     m_currentsector->play_looping_sounds();
 
@@ -393,12 +394,12 @@ GameSession::update(float dt_sec, const Controller& controller)
   if (m_currentsector->get_player().m_invincible_timer.started()) {
     if (m_currentsector->get_player().m_invincible_timer.get_timeleft() <=
        TUX_INVINCIBLE_TIME_WARNING) {
-      m_currentsector->play_music(HERRING_WARNING_MUSIC);
+      m_currentsector->get_object_by_type<MusicObject>()->play_music(HERRING_WARNING_MUSIC);
     } else {
-      m_currentsector->play_music(HERRING_MUSIC);
+      m_currentsector->get_object_by_type<MusicObject>()->play_music(HERRING_MUSIC);
     }
-  } else if (m_currentsector->get_music_type() != LEVEL_MUSIC) {
-    m_currentsector->play_music(LEVEL_MUSIC);
+  } else if (m_currentsector->get_object_by_type<MusicObject>()->get_music_type() != LEVEL_MUSIC) {
+    m_currentsector->get_object_by_type<MusicObject>()->play_music(LEVEL_MUSIC);
   }
   if (reset_button) {
     reset_button = false;

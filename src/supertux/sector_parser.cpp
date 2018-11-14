@@ -28,6 +28,7 @@
 #include "object/camera.hpp"
 #include "object/cloud_particle_system.hpp"
 #include "object/gradient.hpp"
+#include "object/music_object.hpp"
 #include "object/rain_particle_system.hpp"
 #include "object/snow_particle_system.hpp"
 #include "object/spawnpoint.hpp"
@@ -112,9 +113,14 @@ SectorParser::parse(const ReaderMapping& sector)
       iter.get(value);
       m_sector.set_gravity(value);
     } else if (iter.get_key() == "music") {
-      std::string value;
-      iter.get(value);
-      m_sector.set_music(value);
+      const auto& sx = iter.get_sexp();
+      if (sx.is_array() && sx.as_array().size() == 2 && sx.as_array()[1].is_string()) {
+        std::string value;
+        iter.get(value);
+        m_sector.add<MusicObject>().set_music(value);
+      } else {
+        m_sector.add<MusicObject>(iter.as_mapping());
+      }
     } else if (iter.get_key() == "init-script") {
       std::string value;
       iter.get(value);
@@ -211,12 +217,12 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
 
   m_sector.add<SpawnPointMarker>("main", startpos);
 
-  m_sector.set_music("chipdisko.ogg");
+  m_sector.add<MusicObject>().set_music("music/chipdisko.ogg");
   // skip reading music filename. It's all .ogg now, anyway
   /*
     reader.get("music", music);
+    m_sector.set_music("music/" + m_sector.get_music());
   */
-  m_sector.set_music("music/" + m_sector.get_music());
 
   int width = 30, height = 15;
   reader.get("width", width);
@@ -338,6 +344,7 @@ SectorParser::create_sector()
   }
 
   m_sector.add<Camera>(&m_sector, "Camera");
+  m_sector.add<MusicObject>();
 
   m_sector.flush_game_objects();
 

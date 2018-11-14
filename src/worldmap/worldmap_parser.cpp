@@ -89,7 +89,12 @@ WorldMapParser::load_worldmap(const std::string& filename)
         } else if (iter.get_key() == "background") {
           m_worldmap.add<Background>(iter.as_mapping());
         } else if (iter.get_key() == "music") {
-          iter.get(m_worldmap.m_music);
+          const auto& sx = iter.get_sexp();
+          if (sx.is_array() && sx.as_array().size() == 2 && sx.as_array()[1].is_string()) {
+            iter.get(m_worldmap.m_music);
+          } else {
+            iter.as_mapping().get("music", m_worldmap.m_music);
+          }
         } else if (iter.get_key() == "init-script") {
           iter.get(m_worldmap.m_init_script);
         } else if (iter.get_key() == "worldmap-spawnpoint") {

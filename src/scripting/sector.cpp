@@ -17,6 +17,7 @@
 #include "scripting/sector.hpp"
 
 #include "object/ambient_light.hpp"
+#include "object/music_object.hpp"
 #include "supertux/sector.hpp"
 #include "video/color.hpp"
 
@@ -80,9 +81,11 @@ Sector::set_gravity(float gravity)
 }
 
 void
-Sector::set_music(const std::string& music)
+Sector::set_music(const std::string& filename)
 {
-  m_parent->set_music(music);
+  if (auto* music = m_parent->get_object_by_type<MusicObject>()) {
+    music->set_music(filename);
+  }
 }
 
 } // namespace scripting

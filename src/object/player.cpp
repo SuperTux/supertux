@@ -27,6 +27,7 @@
 #include "object/camera.hpp"
 #include "object/display_effect.hpp"
 #include "object/falling_coin.hpp"
+#include "object/music_object.hpp"
 #include "object/particles.hpp"
 #include "object/portable.hpp"
 #include "object/sprite_particle.hpp"
@@ -1444,7 +1445,7 @@ Player::make_invincible()
 {
   SoundManager::current()->play("sounds/invincible_start.ogg");
   m_invincible_timer.start(TUX_INVINCIBLE_TIME);
-  Sector::get().play_music(HERRING_MUSIC);
+  Sector::get().get_object_by_type<MusicObject>()->play_music(HERRING_MUSIC);
 }
 
 void

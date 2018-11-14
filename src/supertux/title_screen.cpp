@@ -21,6 +21,7 @@
 
 #include "gui/menu_manager.hpp"
 #include "object/camera.hpp"
+#include "object/music_object.hpp"
 #include "object/player.hpp"
 #include "supertux/fadetoblack.hpp"
 #include "supertux/game_session.hpp"
@@ -85,7 +86,9 @@ TitleScreen::setup()
 {
   Sector& sector = m_titlesession->get_current_sector();
   if (Sector::current() != &sector) {
-    sector.play_music(LEVEL_MUSIC);
+    if (auto* music = sector.get_object_by_type<MusicObject>()) {
+      music->play_music(LEVEL_MUSIC);
+    }
     sector.activate(sector.get_player().get_pos());
   }
 

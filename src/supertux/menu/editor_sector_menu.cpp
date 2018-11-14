@@ -35,11 +35,6 @@ EditorSectorMenu::EditorSectorMenu() :
   add_script(_("Initialization script"), &sector->m_init_script);
   add_numfield(_("Gravity"), &sector->m_gravity);
 
-  std::vector<std::string> music_formats;
-  music_formats.push_back(".ogg");
-  music_formats.push_back(".music");
-  add_file(_("Music"), &sector->m_music, music_formats);
-
   add_hl();
   add_intfield(_("Width"), &(new_size.width));
   add_intfield(_("Height"), &(new_size.height));

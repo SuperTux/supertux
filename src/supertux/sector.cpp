@@ -60,12 +60,10 @@ Sector::Sector(Level& parent) :
   m_level(parent),
   m_name(),
   m_init_script(),
-  m_currentmusic(LEVEL_MUSIC),
   m_foremost_layer(),
   m_squirrel_environment(new SquirrelEnvironment(SquirrelVirtualMachine::current()->get_vm(), "sector")),
   m_collision_system(new CollisionSystem(*this)),
-  m_gravity(10.0),
-  m_music()
+  m_gravity(10.0)
 {
   PlayerStatus& player_status = Editor::is_active() ?
     Editor::current()->m_savegame->get_player_status() :
@@ -399,46 +397,6 @@ Sector::can_see_player(const Vector& eye) const
   return false;
 }
 
-void
-Sector::play_music(MusicType type)
-{
-  m_currentmusic = type;
-  switch (m_currentmusic) {
-    case LEVEL_MUSIC:
-      SoundManager::current()->play_music(m_music);
-      break;
-    case HERRING_MUSIC:
-      SoundManager::current()->play_music("music/invincible.ogg");
-      break;
-    case HERRING_WARNING_MUSIC:
-      SoundManager::current()->stop_music(TUX_INVINCIBLE_TIME_WARNING);
-      break;
-    default:
-      SoundManager::current()->play_music("");
-      break;
-  }
-}
-
-void
-Sector::resume_music()
-{
-  if (SoundManager::current()->get_current_music() == m_music)
-  {
-    SoundManager::current()->resume_music(3.2f);
-  }
-  else
-  {
-    SoundManager::current()->stop_music();
-    SoundManager::current()->play_music(m_music, true);
-  }
-}
-
-MusicType
-Sector::get_music_type() const
-{
-  return m_currentmusic;
-}
-
 bool
 Sector::inside(const Rectf& rect) const
 {
@@ -517,18 +475,6 @@ Sector::get_gravity() const
   return m_gravity;
 }
 
-void
-Sector::set_music(const std::string& music)
-{
-  m_music = music;
-}
-
-std::string
-Sector::get_music() const
-{
-  return m_music;
-}
-
 Player*
 Sector::get_nearest_player (const Vector& pos) const
 {
@@ -591,9 +537,6 @@ Sector::save(Writer &writer)
 
   if (m_init_script.size()) {
     writer.write("init-script", m_init_script,false);
-  }
-  if (m_music.size()) {
-    writer.write("music", m_music, false);
   }
 
   if (!Editor::is_active() || !Editor::current()->get_worldmap_mode()) {

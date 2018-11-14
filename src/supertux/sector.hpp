@@ -45,12 +45,6 @@ class TileMap;
 class Vector;
 class Writer;
 
-enum MusicType {
-  LEVEL_MUSIC,
-  HERRING_MUSIC,
-  HERRING_WARNING_MUSIC
-};
-
 /** Represents one of (potentially) multiple, separate parts of a Level.
     Sectors contain GameObjects, e.g. Badguys and Players. */
 class Sector final : public GameObjectManager
@@ -101,10 +95,6 @@ public:
       (a rectangle that is on top of the sector is considered inside) */
   bool inside(const Rectf& rectangle) const;
 
-  void play_music(MusicType musictype);
-  void resume_music();
-  MusicType get_music_type() const;
-
   /** Checks if the specified rectangle is free of (solid) tiles.
       Note that this does not include static objects, e.g. bonus blocks. */
   bool is_free_of_tiles(const Rectf& rect, const bool ignoreUnisolid = false) const;
@@ -148,9 +138,6 @@ public:
   void set_gravity(float gravity);
   float get_gravity() const;
 
-  void set_music(const std::string& music);
-  std::string get_music() const;
-
   void set_init_script(const std::string& init_script) {
     m_init_script = init_script;
   }
@@ -181,15 +168,12 @@ private:
 
   std::string m_init_script;
 
-  MusicType m_currentmusic;
-
   int m_foremost_layer;
 
   std::unique_ptr<SquirrelEnvironment> m_squirrel_environment;
   std::unique_ptr<CollisionSystem> m_collision_system;
 
   float m_gravity;
-  std::string m_music;
 
 private:
   Sector(const Sector&) = delete;
