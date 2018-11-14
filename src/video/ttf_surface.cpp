@@ -47,6 +47,7 @@ TTFSurface::create(const TTFFont& font, const std::string& text)
   { // shadow
     SDL_SetSurfaceAlphaMod(text_surface.get(), 192);
     SDL_SetSurfaceColorMod(text_surface.get(), 0, 0, 0);
+    SDL_SetSurfaceBlendMode(text_surface.get(), SDL_BLENDMODE_BLEND);
 
     const std::initializer_list<std::tuple<int, int> > positions[] = {
       {},
@@ -68,6 +69,7 @@ TTFSurface::create(const TTFFont& font, const std::string& text)
   { // outline
     SDL_SetSurfaceAlphaMod(text_surface.get(), 255);
     SDL_SetSurfaceColorMod(text_surface.get(), 0, 0, 0);
+    SDL_SetSurfaceBlendMode(text_surface.get(), SDL_BLENDMODE_BLEND);
 
     const std::initializer_list<std::tuple<int, int> > positions[] = {
       {},
@@ -88,6 +90,7 @@ TTFSurface::create(const TTFFont& font, const std::string& text)
   { // white core
     SDL_SetSurfaceAlphaMod(text_surface.get(), 255);
     SDL_SetSurfaceColorMod(text_surface.get(), 255, 255, 255);
+    SDL_SetSurfaceBlendMode(text_surface.get(), SDL_BLENDMODE_BLEND);
 
     SDL_Rect dstrect{0, 0, text_surface->w, text_surface->h};
 
