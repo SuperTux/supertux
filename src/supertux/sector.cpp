@@ -119,6 +119,10 @@ Sector::finish_construction()
     add<Camera>(this, "Camera");
   }
 
+  if (!get_object_by_type<MusicObject>()) {
+    add<MusicObject>();
+  }
+
   flush_game_objects();
 
   m_foremost_layer = calculate_foremost_layer();
