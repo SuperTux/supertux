@@ -1,6 +1,28 @@
 SuperTux Release and Development Notes
 ======================================
 
+SuperTux 0.6.0-alpha.1 (2018-11-16)
+---------------------------
+
+The SuperTux team is excited to announce the availability of the first alpha for the upcoming stable release 0.6.0 after almost two years of development.
+
+Changes:
+
+* Complete revamp of our rendering engine, the game should be much faster than it was previously
+* We now support OpenGL 3.3 Core as well as OpenGL ES 2.0, thus allowing SuperTux to be run on the Raspberry Pi, and potentially WebGL.
+* A few graphics have been updated, and effects have been added
+    * The save bell was reworked (Thanks to Raghavendra "raghukamath" Kamath!)
+    * Improved big Tux graphics (Thanks to Alzter)
+    * Various effects and shaders (Thanks to Grumbel)
+* Support for right-to-left languages through vector fonts. This will also fix a few non-ASCII characters, which often caused problems before in translations
+* Forest worldmap redesigned with new levels and other redesigned levels (Thank you, RustyBox and Serano)
+* A lot of other under-the-hood changes and bugfixes
+* Official Linux binaries
+
+**Note:** If you've previously used torches in your levels and their positioning is off, please re-position them. We had to re-align their bounding boxes in order to fix bugs with their flame.
+
+This section will be updated with more alphas, betas, RCs or a stable version being released.
+
 SuperTux 0.5.1 (2016-11-05)
 ---------------------------
 
