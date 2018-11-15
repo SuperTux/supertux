@@ -1445,7 +1445,7 @@ Player::make_invincible()
 {
   SoundManager::current()->play("sounds/invincible_start.ogg");
   m_invincible_timer.start(TUX_INVINCIBLE_TIME);
-  Sector::get().get_object_by_type<MusicObject>()->play_music(HERRING_MUSIC);
+  Sector::get().get_singleton_by_type<MusicObject>().play_music(HERRING_MUSIC);
 }
 
 void

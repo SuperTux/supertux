@@ -28,7 +28,7 @@
 WorldmapCheatMenu::WorldmapCheatMenu()
 {
   auto worldmap = worldmap::WorldMap::current();
-  auto tux = worldmap->get_object_by_type<worldmap::Tux>();
+  auto& tux = worldmap->get_singleton_by_type<worldmap::Tux>();
 
   add_label(_("Cheats"));
   add_hl();
@@ -39,7 +39,7 @@ WorldmapCheatMenu::WorldmapCheatMenu()
   add_entry(MNID_EARTH, _("Bonus: Earth"));
   add_entry(MNID_SHRINK, _("Bonus: None"));
   add_hl();
-  add_entry(MNID_GHOST, (tux->get_ghost_mode() ?
+  add_entry(MNID_GHOST, (tux.get_ghost_mode() ?
                          _("Leave Ghost Mode") : _("Activate Ghost Mode")));
   add_hl();
   add_entry(MNID_FINISH_LEVEL, _("Finish Level"));
@@ -57,9 +57,8 @@ void
 WorldmapCheatMenu::menu_action(MenuItem& item)
 {
   auto worldmap = worldmap::WorldMap::current();
-  auto tux = worldmap->get_object_by_type<worldmap::Tux>();
+  auto& tux = worldmap->get_singleton_by_type<worldmap::Tux>();
   assert(worldmap);
-  assert(tux);
 
   PlayerStatus& status = worldmap->get_savegame().get_player_status();
 
@@ -92,7 +91,7 @@ WorldmapCheatMenu::menu_action(MenuItem& item)
       break;
 
     case MNID_GHOST:
-      tux->set_ghost_mode(!tux->get_ghost_mode());
+      tux.set_ghost_mode(!tux.get_ghost_mode());
       break;
 
     case MNID_FINISH_LEVEL:

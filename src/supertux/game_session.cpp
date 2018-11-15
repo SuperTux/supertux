@@ -138,12 +138,13 @@ GameSession::restart_level(bool after_death)
     ScreenManager::current()->pop_screen();
     return (-1);
   }
+
+  auto& music_object = m_currentsector->get_singleton_by_type<MusicObject>();
   if (after_death == true) {
-    m_currentsector->get_object_by_type<MusicObject>()->resume_music();
-  }
-  else {
+    music_object.resume_music();
+  } else {
     SoundManager::current()->stop_music();
-    m_currentsector->get_object_by_type<MusicObject>()->play_music(LEVEL_MUSIC);
+    music_object.play_music(LEVEL_MUSIC);
   }
 
   start_recording();
@@ -273,7 +274,7 @@ GameSession::setup()
   if (m_currentsector != Sector::current()) {
     m_currentsector->activate(m_currentsector->get_player().get_pos());
   }
-  m_currentsector->get_object_by_type<MusicObject>()->play_music(LEVEL_MUSIC);
+  m_currentsector->get_singleton_by_type<MusicObject>().play_music(LEVEL_MUSIC);
 
   int total_stats_to_be_collected = m_level->m_stats.m_total_coins + m_level->m_stats.m_total_badguys + m_level->m_stats.m_total_secrets;
   if ((!m_levelintro_shown) && (total_stats_to_be_collected > 0)) {
@@ -346,7 +347,7 @@ GameSession::update(float dt_sec, const Controller& controller)
     }
     m_currentsector->stop_looping_sounds();
     sector->activate(m_newspawnpoint);
-    sector->get_object_by_type<MusicObject>()->play_music(LEVEL_MUSIC);
+    sector->get_singleton_by_type<MusicObject>().play_music(LEVEL_MUSIC);
     m_currentsector = sector;
     m_currentsector->play_looping_sounds();
 
@@ -394,12 +395,12 @@ GameSession::update(float dt_sec, const Controller& controller)
   if (m_currentsector->get_player().m_invincible_timer.started()) {
     if (m_currentsector->get_player().m_invincible_timer.get_timeleft() <=
        TUX_INVINCIBLE_TIME_WARNING) {
-      m_currentsector->get_object_by_type<MusicObject>()->play_music(HERRING_WARNING_MUSIC);
+      m_currentsector->get_singleton_by_type<MusicObject>().play_music(HERRING_WARNING_MUSIC);
     } else {
-      m_currentsector->get_object_by_type<MusicObject>()->play_music(HERRING_MUSIC);
+      m_currentsector->get_singleton_by_type<MusicObject>().play_music(HERRING_MUSIC);
     }
-  } else if (m_currentsector->get_object_by_type<MusicObject>()->get_music_type() != LEVEL_MUSIC) {
-    m_currentsector->get_object_by_type<MusicObject>()->play_music(LEVEL_MUSIC);
+  } else if (m_currentsector->get_singleton_by_type<MusicObject>().get_music_type() != LEVEL_MUSIC) {
+    m_currentsector->get_singleton_by_type<MusicObject>().play_music(LEVEL_MUSIC);
   }
   if (reset_button) {
     reset_button = false;

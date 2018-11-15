@@ -181,9 +181,8 @@ void debug_worldmap_ghost(bool enable)
   if (worldmap == nullptr)
     throw std::runtime_error("Can't change ghost mode without active WorldMap");
 
-  auto tux = worldmap->get_object_by_type<worldmap::Tux>();
-
-  tux->set_ghost_mode(enable);
+  auto& tux = worldmap->get_singleton_by_type<worldmap::Tux>();
+  tux.set_ghost_mode(enable);
 }
 
 void save_state()

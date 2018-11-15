@@ -86,9 +86,8 @@ TitleScreen::setup()
 {
   Sector& sector = m_titlesession->get_current_sector();
   if (Sector::current() != &sector) {
-    if (auto* music = sector.get_object_by_type<MusicObject>()) {
-      music->play_music(LEVEL_MUSIC);
-    }
+    auto& music = sector.get_singleton_by_type<MusicObject>();
+    music.play_music(LEVEL_MUSIC);
     sector.activate(sector.get_player().get_pos());
   }
 

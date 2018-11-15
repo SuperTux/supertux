@@ -82,7 +82,7 @@ Vector
 Camera::get_camera_pos_for_tux() const
 {
   auto& worldmap = *WorldMap::current();
-  auto& tux = *worldmap.get_object_by_type<Tux>();
+  auto& tux = worldmap.get_singleton_by_type<Tux>();
 
   Vector camera_offset_;
   Vector tux_pos = tux.get_pos();

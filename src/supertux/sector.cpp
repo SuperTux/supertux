@@ -635,19 +635,19 @@ Sector::run_script(const std::string& script, const std::string& sourcename)
 Camera&
 Sector::get_camera() const
 {
-  return *get_object_by_type<Camera>();
+  return get_singleton_by_type<Camera>();
 }
 
 Player&
 Sector::get_player() const
 {
-  return *get_object_by_type<Player>();
+  return get_singleton_by_type<Player>();
 }
 
 DisplayEffect&
 Sector::get_effect() const
 {
-  return *get_object_by_type<DisplayEffect>();
+  return get_singleton_by_type<DisplayEffect>();
 }
 
 /* EOF */

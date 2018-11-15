@@ -103,14 +103,12 @@ public:
   }
 
   template<class T>
-  T* get_object_by_type() const
+  T& get_singleton_by_type() const
   {
     const auto& range = get_objects_by_type<T>();
-    if (range.begin() == range.end()) {
-      return nullptr;
-    } else {
-      return &*range.begin();
-    }
+    assert(range.begin() != range.end());
+    assert(range.begin()->is_singleton());
+    return *range.begin();
   }
 
   template<class T>
@@ -181,6 +179,17 @@ public:
 
 protected:
   void process_resolve_requests();
+
+  template<class T>
+  T* get_object_by_type() const
+  {
+    const auto& range = get_objects_by_type<T>();
+    if (range.begin() == range.end()) {
+      return nullptr;
+    } else {
+      return &*range.begin();
+    }
+  }
 
 private:
   void this_before_object_add(GameObject& object);

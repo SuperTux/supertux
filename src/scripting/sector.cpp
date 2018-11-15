@@ -31,47 +31,36 @@ Sector::Sector(::Sector* parent) :
 void
 Sector::fade_to_ambient_light(float red, float green, float blue, float fadetime)
 {
-  if (auto* ambient_light = m_parent->get_object_by_type<AmbientLight>()) {
-    ambient_light->fade_to_ambient_light(red, green, blue, fadetime);
-  }
+  auto& ambient_light = m_parent->get_singleton_by_type<AmbientLight>();
+  ambient_light.fade_to_ambient_light(red, green, blue, fadetime);
 }
 
 void
 Sector::set_ambient_light(float red, float green, float blue)
 {
-  if (auto* ambient_light = m_parent->get_object_by_type<AmbientLight>()) {
-    ambient_light->set_ambient_light(Color(red, green, blue));
-  }
+  auto& ambient_light = m_parent->get_singleton_by_type<AmbientLight>();
+  ambient_light.set_ambient_light(Color(red, green, blue));
 }
 
 float
 Sector::get_ambient_red() const
 {
-  if (auto* ambient_light = m_parent->get_object_by_type<AmbientLight>()) {
-    return ambient_light->get_ambient_light().red;
-  } else {
-    return 1.0f;
-  }
+  auto& ambient_light = m_parent->get_singleton_by_type<AmbientLight>();
+  return ambient_light.get_ambient_light().red;
 }
 
 float
 Sector::get_ambient_green() const
 {
-  if (auto* ambient_light = m_parent->get_object_by_type<AmbientLight>()) {
-    return ambient_light->get_ambient_light().green;
-  } else {
-    return 1.0f;
-  }
+  auto& ambient_light = m_parent->get_singleton_by_type<AmbientLight>();
+  return ambient_light.get_ambient_light().green;
 }
 
 float
 Sector::get_ambient_blue() const
 {
-  if (auto* ambient_light = m_parent->get_object_by_type<AmbientLight>()) {
-    return ambient_light->get_ambient_light().blue;
-  } else {
-    return 1.0f;
-  }
+  auto& ambient_light = m_parent->get_singleton_by_type<AmbientLight>();
+  return ambient_light.get_ambient_light().blue;
 }
 
 void
@@ -83,9 +72,8 @@ Sector::set_gravity(float gravity)
 void
 Sector::set_music(const std::string& filename)
 {
-  if (auto* music = m_parent->get_object_by_type<MusicObject>()) {
-    music->set_music(filename);
-  }
+  auto& music = m_parent->get_singleton_by_type<MusicObject>();
+  music.set_music(filename);
 }
 
 } // namespace scripting
