@@ -167,7 +167,8 @@ Camera::after_editor_set()
   }
 }
 
-Camera::Camera(Sector* newsector, const std::string& name_) :
+Camera::Camera(Sector* newsector, const std::string& name) :
+  GameObject(name),
   ExposedObject<Camera, scripting::Camera>(this),
   m_mode(NORMAL),
   m_defaultmode(NORMAL),
@@ -189,7 +190,6 @@ Camera::Camera(Sector* newsector, const std::string& name_) :
   m_scrollspeed(),
   m_config(std::make_unique<CameraConfig>())
 {
-  m_name = name_;
   reload_config();
 }
 

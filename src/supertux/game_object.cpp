@@ -26,7 +26,16 @@
 GameObject::GameObject() :
   m_name(),
   m_uid(),
-  m_wants_to_die(false),
+  m_scheduled_for_removal(false),
+  m_components(),
+  m_remove_listeners()
+{
+}
+
+GameObject::GameObject(const std::string& name) :
+  m_name(name),
+  m_uid(),
+  m_scheduled_for_removal(false),
   m_components(),
   m_remove_listeners()
 {

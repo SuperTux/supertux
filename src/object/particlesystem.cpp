@@ -46,7 +46,8 @@ ParticleSystem::get_settings()
   return result;
 }
 
-void ParticleSystem::parse(const ReaderMapping& reader)
+void
+ParticleSystem::parse(const ReaderMapping& reader)
 {
   reader.get("name", m_name, "");
   reader.get("enabled", enabled, true);

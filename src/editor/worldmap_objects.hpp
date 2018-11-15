@@ -39,9 +39,6 @@ class WorldmapObject : public MovingSprite
     }
 
     virtual void move_to(const Vector& pos) override;
-
-    //virtual ObjectSettings get_settings();
-    virtual void save(Writer& writer) override;
 };
 
 class LevelDot final : public WorldmapObject

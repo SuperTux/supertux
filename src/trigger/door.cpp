@@ -66,8 +66,7 @@ Door::Door(int x, int y, const std::string& sector, const std::string& spawnpoin
 ObjectSettings
 Door::get_settings()
 {
-  ObjectSettings result(_("Door"));
-  result.add(MN_TEXTFIELD, _("Name"), &m_name);
+  ObjectSettings result = TriggerBase::get_settings();
   result.add(MN_TEXTFIELD, _("Sector"), &target_sector, "sector");
   result.add(MN_TEXTFIELD, _("Spawn point"), &target_spawnpoint, "spawnpoint");
   return result;

@@ -38,7 +38,7 @@ Platform::Platform(const ReaderMapping& reader, const std::string& default_sprit
 {
   bool running = false;
   reader.get("running", running);
-  if ((m_name.empty()) && (!running)) {
+  if ((get_name().empty()) && (!running)) {
     m_automatic = true;
   }
 

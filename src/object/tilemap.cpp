@@ -160,7 +160,7 @@ TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
 
   if (empty)
   {
-    log_info << "Tilemap '" << m_name << "', z-pos '" << m_z_pos << "' is empty." << std::endl;
+    log_info << "Tilemap '" << get_name() << "', z-pos '" << m_z_pos << "' is empty." << std::endl;
   }
 }
 

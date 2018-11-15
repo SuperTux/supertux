@@ -20,7 +20,8 @@
 #include "supertux/resources.hpp"
 #include "video/drawing_context.hpp"
 
-TextObject::TextObject(const std::string& name_) :
+TextObject::TextObject(const std::string& name) :
+  GameObject(name),
   ExposedObject<TextObject, scripting::Text>(this),
   font(Resources::normal_font),
   text(),
@@ -31,7 +32,6 @@ TextObject::TextObject(const std::string& name_) :
   anchor(ANCHOR_MIDDLE),
   pos(0, 0)
 {
-  m_name = name_;
 }
 
 TextObject::~TextObject()

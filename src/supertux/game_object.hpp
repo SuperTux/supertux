@@ -49,6 +49,7 @@ class GameObject
 
 public:
   GameObject();
+  GameObject(const std::string& name);
   GameObject(const ReaderMapping& reader);
   virtual ~GameObject();
 
@@ -88,10 +89,10 @@ public:
   virtual void after_editor_set() {}
 
   /** returns true if the object is not scheduled to be removed yet */
-  bool is_valid() const { return !m_wants_to_die; }
+  bool is_valid() const { return !m_scheduled_for_removal; }
 
   /** schedules this object to be removed at the end of the frame */
-  void remove_me() { m_wants_to_die = true; }
+  void remove_me() { m_scheduled_for_removal = true; }
 
   /** used by the editor to delete the object */
   virtual void editor_delete() { remove_me(); }
@@ -104,6 +105,7 @@ public:
       the object gets removed/destroyed */
   void del_remove_listener(ObjectRemoveListener* listener);
 
+  void set_name(const std::string& name) { m_name = name; }
   const std::string& get_name() const { return m_name; }
 
   virtual const std::string get_icon_path() const {
@@ -149,10 +151,12 @@ protected:
   std::string m_name;
 
 private:
+  /** A unique id for the object to safely refer to it. This will be
+      set by the GameObjectManager. */
   UID m_uid;
 
   /** this flag indicates if the object should be removed at the end of the frame */
-  bool m_wants_to_die;
+  bool m_scheduled_for_removal;
 
   std::vector<std::unique_ptr<GameObjectComponent> > m_components;
 

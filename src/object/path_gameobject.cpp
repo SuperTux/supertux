@@ -87,7 +87,7 @@ PathGameObject::PathGameObject(const ReaderMapping& mapping, bool backward_compa
   }
 
   if (m_name.empty()) {
-    m_name = make_unique_name("path", this);
+    set_name(make_unique_name("path", this));
   }
 }
 

@@ -66,10 +66,11 @@ Candle::after_editor_set() {
 }
 
 ObjectSettings
-Candle::get_settings() {
+Candle::get_settings()
+{
   ObjectSettings result = MovingSprite::get_settings();
   result.add(MN_TOGGLE, _("Burning"), &burning, "burning");
-  result.add(MN_TOGGLE, _("Flicker"), &m_name, "flicker");
+  result.add(MN_TOGGLE, _("Flicker"), &flicker, "flicker");
   result.add(MN_COLOR, _("Colour"), &lightcolor, "color");
   return result;
 }

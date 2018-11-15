@@ -25,10 +25,12 @@
 #include "video/drawing_context.hpp"
 
 namespace {
+
 const float LIGHTNING_DELAY = 2.0f;
 const float FLASH_DISPLAY_TIME = 0.1f;
 const float ELECTRIFY_TIME = 0.5f;
-}
+
+} // namespace
 
 Thunderstorm::Thunderstorm(const ReaderMapping& reader) :
   GameObject(reader),
@@ -40,7 +42,6 @@ Thunderstorm::Thunderstorm(const ReaderMapping& reader) :
   time_to_lightning(),
   flash_display_timer()
 {
-  reader.get("name", m_name);
   reader.get("running", running);
   reader.get("interval", interval);
   if (interval <= 0) {

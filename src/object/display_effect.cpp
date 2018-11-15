@@ -21,7 +21,8 @@
 
 static const float BORDER_SIZE = 75;
 
-DisplayEffect::DisplayEffect(const std::string& name_) :
+DisplayEffect::DisplayEffect(const std::string& name) :
+  GameObject(name),
   ExposedObject<DisplayEffect, scripting::DisplayEffect>(this),
   screen_fade(NO_FADE),
   screen_fadetime(0),
@@ -33,7 +34,6 @@ DisplayEffect::DisplayEffect(const std::string& name_) :
   black(false),
   borders(false)
 {
-  m_name = name_;
 }
 
 DisplayEffect::~DisplayEffect()

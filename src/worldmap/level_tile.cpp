@@ -61,7 +61,7 @@ LevelTile::LevelTile(const std::string& basedir_, const ReaderMapping& lisp) :
 
   if (!PHYSFS_exists((basedir + m_name).c_str()))
   {
-    log_warning << "level file '" << m_name
+    log_warning << "level file '" << get_name()
                 << "' does not exist and will not be added to the worldmap" << std::endl;
     return;
   }

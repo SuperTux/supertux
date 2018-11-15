@@ -275,8 +275,7 @@ WillOWisp::set_state(const std::string& new_state)
 ObjectSettings
 WillOWisp::get_settings()
 {
-  ObjectSettings result(_("Will 'o' wisp"));
-  result.add(MN_TEXTFIELD, _("Name"), &m_name);
+  ObjectSettings result = GameObject::get_settings();
   result.add(dir_option(&m_dir));
   result.add(MN_TEXTFIELD, _("Sector"), &m_target_sector, "sector");
   result.add(MN_TEXTFIELD, _("Spawnpoint"), &m_target_spawnpoint, "spawnpoint");
