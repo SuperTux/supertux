@@ -17,6 +17,14 @@
 #include "editor/editor.hpp"
 
 #include <limits>
+#include <physfs.h>
+
+#if defined(_WIN32)
+  #include <windows.h>
+  #include <shellapi.h>
+#else
+  #include <cstdlib>
+#endif
 
 #include "audio/sound_manager.hpp"
 #include "control/input_manager.hpp"
@@ -123,8 +131,7 @@ void Editor::update(float dt_sec, const Controller& controller)
   }
 
   if (save_request) {
-    level->save(world ? FileSystem::join(world->get_basedir(), levelfile) :
-                levelfile);
+    save_level();
     enabled = true;
     save_request = false;
   }
@@ -153,44 +160,75 @@ void Editor::update(float dt_sec, const Controller& controller)
   }
 }
 
-void Editor::test_level() {
-  Tile::draw_editor_images = false;
-  Compositor::s_render_lighting = true;
-  auto backup_filename = levelfile + "~";
-  if (world != nullptr)
+void Editor::save_level()
+{
+  level->save(world ? FileSystem::join(world->get_basedir(), levelfile) :
+              levelfile);
+}
+
+std::string Editor::get_level_directory() const
+{
+  std::string basedir;
+  if(world != nullptr)
   {
-    auto basedir = world->get_basedir();
+    basedir = world->get_basedir();
     if (basedir == "./")
     {
       basedir = PHYSFS_getRealDir(levelfile.c_str());
     }
-    test_levelfile = FileSystem::join(basedir, backup_filename);
-    level->save(test_levelfile);
-    if (!worldmap_mode)
-    {
-      GameManager::current()->start_level(world.get(), backup_filename);
-    }
-    else
-    {
-      GameManager::current()->start_worldmap(world.get(), "", test_levelfile);
-    }
+  }
+  else 
+  {
+    basedir = FileSystem::dirname(levelfile);
+  }
+  return std::string(basedir);
+}
+
+void Editor::test_level() {
+  Tile::draw_editor_images = false;
+  Compositor::s_render_lighting = true;
+  auto backup_filename = levelfile + "~";
+  auto directory = get_level_directory();
+  auto current_world = (world != nullptr) ? world.get() : World::load(directory).get();
+
+  test_levelfile = FileSystem::join(directory, backup_filename);
+  level->save(test_levelfile);
+  if (!worldmap_mode)
+  {
+    GameManager::current()->start_level(current_world, backup_filename);
   }
   else
   {
-    auto directory = FileSystem::dirname(levelfile);
-    test_levelfile = FileSystem::join(directory, backup_filename);
-    level->save(test_levelfile);
-    std::unique_ptr<World> test_world = World::load(directory);
-    if (!worldmap_mode)
-    {
-      GameManager::current()->start_level(std::move(test_world), backup_filename);
-    }
-    else
-    {
-      GameManager::current()->start_worldmap(std::move(test_world), "", test_levelfile);
-    }
+    GameManager::current()->start_worldmap(current_world, "", test_levelfile);
   }
+
   leveltested = true;
+}
+
+void Editor::open_level_directory()
+{
+  level->save(FileSystem::join(get_level_directory(), levelfile));
+  auto path = FileSystem::join(PHYSFS_getWriteDir(), get_level_directory());
+
+  #if defined(_WIN32) || defined (_WIN64)
+    ShellExecute(NULL, "open", path, NULL, NULL, SW_SHOWNORMAL);
+  #else
+    #if defined(__APPLE__)
+    const char* cmd = std::string("open \"" + path + "\"").c_str();
+    #else
+    const char* cmd = std::string("xdg-open \"" + path + "\"").c_str();
+    #endif
+
+    int ret = system(cmd);
+    if (ret < 0)
+    {
+      log_fatal << "failed to spawn: " << cmd << std::endl;
+    }
+    else if (ret > 0)
+    {
+      log_fatal << "error " << ret << " while executing: " << cmd << std::endl;
+    }
+  #endif
 }
 
 void Editor::set_world(std::unique_ptr<World> w) {

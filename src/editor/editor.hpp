@@ -24,7 +24,10 @@
 #include "editor/layers_gui.hpp"
 #include "editor/scroller.hpp"
 #include "supertux/screen.hpp"
+#include "supertux/world.hpp"
 #include "util/currenton.hpp"
+#include "util/file_system.hpp"
+#include "util/log.hpp"
 #include "video/surface_ptr.hpp"
 
 class GameObject;
@@ -113,6 +116,10 @@ class Editor final : public Screen,
       Editor::current()->reload_request = true;
     }
 
+    std::string get_level_directory() const;
+
+    void open_level_directory();
+
     void set_worldmap_mode(bool new_mode) {
       worldmap_mode = new_mode;
     }
@@ -188,6 +195,7 @@ class Editor final : public Screen,
     void reload_level();
     void load_layers();
     void quit_editor();
+    void save_level();
     void test_level();
     void update_keyboard(const Controller& controller);
 

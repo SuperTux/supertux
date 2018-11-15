@@ -47,6 +47,8 @@ EditorMenu::EditorMenu()
     add_entry(MNID_TESTLEVEL, _("Test the worldmap"));
   }
 
+  add_entry(MNID_OPEN_DIR, _("Open output directory"));
+
   if (is_world) {
     add_entry(MNID_LEVELSEL, _("Edit another level"));
   }
@@ -110,6 +112,10 @@ EditorMenu::menu_action(MenuItem& item)
         }
       }
     }
+      break;
+
+    case MNID_OPEN_DIR:
+      Editor::current()->open_level_directory();
       break;
 
     case MNID_TESTLEVEL:
