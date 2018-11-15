@@ -34,6 +34,7 @@ public:
 
   virtual std::string get_class() const override { return "ambient-light"; }
   virtual std::string get_display_name() const override { return _("Ambient light"); }
+  virtual const std::string get_icon_path() const override { return "images/engine/editor/ambient_light.png"; }
 
   virtual void save(Writer& writer) override;
   virtual ObjectSettings get_settings() override;
