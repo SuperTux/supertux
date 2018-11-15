@@ -31,6 +31,7 @@
 #include "object/camera.hpp"
 #include "object/display_effect.hpp"
 #include "object/gradient.hpp"
+#include "object/music_object.hpp"
 #include "object/player.hpp"
 #include "object/portable.hpp"
 #include "object/pulsing_light.hpp"
