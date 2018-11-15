@@ -40,7 +40,6 @@ public:
   virtual std::string get_class() const override { return "music"; }
   virtual std::string get_display_name() const override { return _("music"); }
 
-  virtual void save(Writer& writer) override;
   virtual ObjectSettings get_settings() override;
 
   void play_music(MusicType musictype);

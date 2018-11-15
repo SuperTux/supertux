@@ -101,22 +101,14 @@ MusicObject::get_music() const
   return m_music;
 }
 
-void
-MusicObject::save(Writer& writer)
-{
-  writer.write("file", m_music);
-}
-
 ObjectSettings
 MusicObject::get_settings()
 {
   auto settings = GameObject::get_settings();
-  /*
-  std::vector<std::string> music_formats;
-  music_formats.push_back(".ogg");
-  music_formats.push_back(".music");
-  add_file(_("Music"), &sector->m_music, music_formats);
-  */
+  auto file_option = ObjectOption(MN_FILE, _("File"), &m_music, "file", OPTION_VISIBLE);
+  file_option.add_select(".ogg");
+  file_option.add_select(".music");
+  settings.add(file_option);
   return settings;
 }
 
