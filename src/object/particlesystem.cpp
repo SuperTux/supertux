@@ -26,7 +26,22 @@
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
+ParticleSystem::ParticleSystem(const ReaderMapping& reader, float max_particle_size_) :
+  GameObject(reader),
+  ExposedObject<ParticleSystem, scripting::ParticleSystem>(this),
+  max_particle_size(max_particle_size_),
+  z_pos(LAYER_BACKGROUND1),
+  particles(),
+  virtual_width(static_cast<float>(SCREEN_WIDTH) + max_particle_size * 2.0f),
+  virtual_height(static_cast<float>(SCREEN_HEIGHT) + max_particle_size * 2.0f),
+  enabled(true)
+{
+  reader.get("enabled", enabled, true);
+  z_pos = reader_get_layer(reader, /* default = */ LAYER_BACKGROUND1);
+}
+
 ParticleSystem::ParticleSystem(float max_particle_size_) :
+  GameObject(),
   ExposedObject<ParticleSystem, scripting::ParticleSystem>(this),
   max_particle_size(max_particle_size_),
   z_pos(LAYER_BACKGROUND1),
@@ -44,14 +59,6 @@ ParticleSystem::get_settings()
   result.add(MN_INTFIELD, _("Z-pos"), &z_pos,"z-pos");
   result.add(MN_REMOVE, "", nullptr);
   return result;
-}
-
-void
-ParticleSystem::parse(const ReaderMapping& reader)
-{
-  reader.get("name", m_name, "");
-  reader.get("enabled", enabled, true);
-  z_pos = reader_get_layer (reader, /* default = */ LAYER_BACKGROUND1);
 }
 
 ParticleSystem::~ParticleSystem()

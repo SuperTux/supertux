@@ -32,17 +32,18 @@ GhostParticleSystem::GhostParticleSystem()
   init();
 }
 
-GhostParticleSystem::GhostParticleSystem(const ReaderMapping& reader)
+GhostParticleSystem::GhostParticleSystem(const ReaderMapping& reader) :
+  ParticleSystem(reader)
 {
   init();
-  parse(reader);
 }
 
 GhostParticleSystem::~GhostParticleSystem()
 {
 }
 
-void GhostParticleSystem::init()
+void
+GhostParticleSystem::init()
 {
   ghosts[0] = Surface::from_file("images/objects/particles/ghost0.png");
   ghosts[1] = Surface::from_file("images/objects/particles/ghost1.png");
@@ -63,7 +64,8 @@ void GhostParticleSystem::init()
   }
 }
 
-void GhostParticleSystem::update(float dt_sec)
+void
+GhostParticleSystem::update(float dt_sec)
 {
   if (!enabled)
     return;

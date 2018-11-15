@@ -27,11 +27,10 @@ CloudParticleSystem::CloudParticleSystem() :
 }
 
 CloudParticleSystem::CloudParticleSystem(const ReaderMapping& reader) :
-  ParticleSystem(128),
+  ParticleSystem(reader, 128),
   cloudimage(Surface::from_file("images/objects/particles/cloud.png"))
 {
   init();
-  parse(reader);
 }
 
 CloudParticleSystem::~CloudParticleSystem()

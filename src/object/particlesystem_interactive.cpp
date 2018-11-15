@@ -37,6 +37,14 @@ ParticleSystem_Interactive::ParticleSystem_Interactive() :
   z_pos = 0;
 }
 
+ParticleSystem_Interactive::ParticleSystem_Interactive(const ReaderMapping& mapping) :
+  ParticleSystem(mapping)
+{
+  virtual_width = static_cast<float>(SCREEN_WIDTH);
+  virtual_height = static_cast<float>(SCREEN_HEIGHT);
+  z_pos = 0;
+}
+
 ParticleSystem_Interactive::~ParticleSystem_Interactive()
 {
 }

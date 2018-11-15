@@ -46,13 +46,13 @@ SnowParticleSystem::SnowParticleSystem() :
 }
 
 SnowParticleSystem::SnowParticleSystem(const ReaderMapping& reader) :
+  ParticleSystem(reader),
   state(RELEASING),
   timer(),
   gust_onset(0),
   gust_current_velocity(0)
 {
   init();
-  parse(reader);
 }
 
 SnowParticleSystem::~SnowParticleSystem()

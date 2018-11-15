@@ -46,18 +46,13 @@ class ParticleSystem : public GameObject,
                        public ExposedObject<ParticleSystem, scripting::ParticleSystem>
 {
 public:
+  ParticleSystem(const ReaderMapping& reader, float max_particle_size = 60);
   ParticleSystem(float max_particle_size = 60);
   virtual ~ParticleSystem();
-  virtual std::string get_class() const override {
-    return "particle-system";
-  }
-  virtual std::string get_display_name() const override
-  {
-    return _("Particle system");
-  }
+  virtual std::string get_class() const override { return "particle-system"; }
+  virtual std::string get_display_name() const override { return _("Particle system"); }
   virtual ObjectSettings get_settings() override;
 
-  virtual void parse(const ReaderMapping& reader);
   virtual void draw(DrawingContext& context) override;
   void set_enabled(bool enabled_);
   bool get_enabled() const;

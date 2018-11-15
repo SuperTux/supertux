@@ -30,14 +30,8 @@ public:
   void init();
   virtual void update(float dt_sec) override;
 
-  std::string type() const
-  { return "RainParticleSystem"; }
-  virtual std::string get_class() const override {
-    return "particles-rain";
-  }
-  virtual std::string get_display_name() const override {
-    return _("Rain particles");
-  }
+  virtual std::string get_class() const override { return "particles-rain"; }
+  virtual std::string get_display_name() const override { return _("Rain particles"); }
 
   virtual const std::string get_icon_path() const override {
     return "images/engine/editor/rain.png";

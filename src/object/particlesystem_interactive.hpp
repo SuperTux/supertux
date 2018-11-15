@@ -36,6 +36,7 @@ class ParticleSystem_Interactive : public ParticleSystem
 {
 public:
   ParticleSystem_Interactive();
+  ParticleSystem_Interactive(const ReaderMapping& mapping);
   virtual ~ParticleSystem_Interactive();
 
   virtual void draw(DrawingContext& context) override;

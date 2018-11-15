@@ -31,10 +31,10 @@ RainParticleSystem::RainParticleSystem()
   init();
 }
 
-RainParticleSystem::RainParticleSystem(const ReaderMapping& reader)
+RainParticleSystem::RainParticleSystem(const ReaderMapping& reader) :
+  ParticleSystem_Interactive(reader)
 {
   init();
-  parse(reader);
 }
 
 RainParticleSystem::~RainParticleSystem()
