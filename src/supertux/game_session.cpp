@@ -138,20 +138,12 @@ GameSession::restart_level(bool after_death)
     ScreenManager::current()->pop_screen();
     return (-1);
   }
-
-  auto* music_object = m_currentsector->get_object_by_type<MusicObject>();
   if (after_death == true) {
-    if(music_object != NULL)
-    {
-      music_object->resume_music();
-    }
+    m_currentsector->get_object_by_type<MusicObject>()->resume_music();
   }
   else {
     SoundManager::current()->stop_music();
-    if(music_object != NULL)
-    {
-      music_object->play_music(LEVEL_MUSIC);
-    }
+    m_currentsector->get_object_by_type<MusicObject>()->play_music(LEVEL_MUSIC);
   }
 
   start_recording();
