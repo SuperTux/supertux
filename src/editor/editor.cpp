@@ -211,7 +211,7 @@ void Editor::open_level_directory()
   auto path = FileSystem::join(PHYSFS_getWriteDir(), get_level_directory());
 
   #if defined(_WIN32) || defined (_WIN64)
-    ShellExecute(NULL, "open", path, NULL, NULL, SW_SHOWNORMAL);
+    ShellExecute(NULL, "open", path.c_str(), NULL, NULL, SW_SHOWNORMAL);
   #else
     #if defined(__APPLE__)
     const char* cmd = std::string("open \"" + path + "\"").c_str();
