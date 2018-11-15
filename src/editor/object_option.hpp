@@ -30,43 +30,25 @@ enum ObjectOptionFlags {
 
 class ObjectOption final
 {
-  public:
-    ObjectOption(MenuItemKind ip_type, const std::string& text_, void* ip,
-                 const std::string& key_ = std::string(), int flags_ = (OPTION_ALLOW_EMPTY | OPTION_VISIBLE));
+public:
+  ObjectOption(MenuItemKind ip_type, const std::string& text, void* ip,
+               const std::string& key = std::string(), int flags = (OPTION_ALLOW_EMPTY | OPTION_VISIBLE));
+  ObjectOption(const ObjectOption& other) = default;
+  ObjectOption& operator=(const ObjectOption& other) = default;
 
-    MenuItemKind type;
-    std::string text;
-    void* option;
-    std::string key;
-    int flags;
+  bool is_savable() const { return !m_key.empty(); }
 
-    bool is_savable() const {
-      return !key.empty();
-    }
+  const std::string to_string() const;
 
-    std::vector<std::string> select;
+  void add_select(const std::string& text);
 
-    ObjectOption(const ObjectOption& blb) :
-      type(blb.type),
-      text(blb.text),
-      option(blb.option),
-      key(blb.key),
-      flags(blb.flags),
-      select(blb.select)
-    { /* blb-ost */ }
-
-    ObjectOption& operator=(const ObjectOption& blb)
-    {
-      type = blb.type;
-      text = blb.text;
-      option = blb.option;
-      select = blb.select;
-      key = blb.key;
-      flags = blb.flags;
-      return *this;
-    }
-
-    const std::string to_string() const;
+public:
+  MenuItemKind m_type;
+  std::string m_text;
+  void* m_option;
+  std::string m_key;
+  int m_flags;
+  std::vector<std::string> m_select;
 };
 
 #endif

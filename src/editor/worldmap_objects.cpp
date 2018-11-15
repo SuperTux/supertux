@@ -99,14 +99,14 @@ LevelDot::get_settings()
   ObjectSettings result(_("Level"));
 
   ObjectOption lvl(MN_FILE, _("Level"), &level);
-  lvl.select.push_back(".stl");
+  lvl.m_select.push_back(".stl");
   result.add(lvl);
 
   result.add(MN_SCRIPT, _("Outro script"), &extro_script);
   result.add(MN_TOGGLE, _("Auto play"), &auto_play);
 
   ObjectOption spr(MN_FILE, _("Sprite"), &m_sprite_name);
-  spr.select.push_back(".sprite");
+  spr.m_select.push_back(".sprite");
   result.add(spr);
 
   result.add(MN_COLOR, _("Title colour"), &title_color);
@@ -197,11 +197,11 @@ Teleporter::get_settings()
 
   result.add(MN_TOGGLE, _("Change worldmap"), &change_worldmap);
   ObjectOption wm(MN_FILE, _("Target worldmap"), &worldmap);
-  wm.select.push_back(".stwm");
+  wm.m_select.push_back(".stwm");
   result.add(wm);
 
   ObjectOption spr(MN_FILE, _("Sprite"), &m_sprite_name);
-  spr.select.push_back(".sprite");
+  spr.m_select.push_back(".sprite");
   result.add(spr);
 
   return result;
@@ -274,7 +274,7 @@ SpriteChange::get_settings() {
   ObjectSettings result(_("Sprite change"));
 
   ObjectOption spr(MN_FILE, _("Sprite"), &target_sprite);
-  spr.select.push_back(".sprite");
+  spr.m_select.push_back(".sprite");
   result.add(spr);
 
   result.add(MN_TEXTFIELD, _("Stay action"), &stay_action);
@@ -332,7 +332,7 @@ SpecialTile::get_settings()
   result.add(worldmap::dir_option(&apply_to_direction));
 
   ObjectOption spr(MN_FILE, _("Sprite"), &m_sprite_name);
-  spr.select.push_back(".sprite");
+  spr.m_select.push_back(".sprite");
   result.add(spr);
 
   return result;

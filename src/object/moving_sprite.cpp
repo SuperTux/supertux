@@ -149,7 +149,7 @@ ObjectSettings MovingSprite::get_settings()
 {
   ObjectSettings result = MovingObject::get_settings();
   ObjectOption spr(MN_FILE, _("Sprite"), &m_sprite_name);
-  spr.select.push_back(".sprite");
+  spr.m_select.push_back(".sprite");
   result.add(spr);
   return result;
 }

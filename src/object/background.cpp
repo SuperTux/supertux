@@ -168,11 +168,11 @@ Background::get_settings()
   ObjectSettings result = GameObject::get_settings();
   result.add(MN_INTFIELD, _("Z-pos"), &m_layer, "z-pos");
   ObjectOption align(MN_STRINGSELECT, _("Alignment"), &m_alignment);
-  align.select.push_back(_("none"));
-  align.select.push_back(_("left"));
-  align.select.push_back(_("right"));
-  align.select.push_back(_("top"));
-  align.select.push_back(_("bottom"));
+  align.m_select.push_back(_("none"));
+  align.m_select.push_back(_("left"));
+  align.m_select.push_back(_("right"));
+  align.m_select.push_back(_("top"));
+  align.m_select.push_back(_("bottom"));
   result.add(align);
   result.add(MN_NUMFIELD, _("Scroll offset x"), &m_scroll_offset.x, "scroll-offset-x");
   result.add(MN_NUMFIELD, _("Scroll offset y"), &m_scroll_offset.y, "scroll-offset-y");
@@ -182,15 +182,15 @@ Background::get_settings()
   result.add(MN_NUMFIELD, _("Speed y"), &m_speed_y);
 
   ObjectOption img(MN_FILE, _("Top image"), &m_imagefile_top, "image-top", (OPTION_VISIBLE));
-  img.select.push_back(".png");
-  img.select.push_back(".jpg");
-  img.select.push_back(".gif");
-  img.select.push_back(".bmp");
+  img.m_select.push_back(".png");
+  img.m_select.push_back(".jpg");
+  img.m_select.push_back(".gif");
+  img.m_select.push_back(".bmp");
   result.add(img);
   ObjectOption img2(MN_FILE, _("Image"), &m_imagefile, "image");
-  img2.select = img.select;
+  img2.m_select = img.m_select;
   ObjectOption img3(MN_FILE, _("Bottom image"), &m_imagefile_bottom, "image-bottom", (OPTION_VISIBLE));
-  img3.select = img.select;
+  img3.m_select = img.m_select;
   result.add(img2);
   result.add(img3);
 

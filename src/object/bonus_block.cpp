@@ -196,19 +196,19 @@ BonusBlock::get_settings()
   result.add(MN_INTFIELD, _("Count"), &m_hit_counter);
 
   ObjectOption coo(MN_STRINGSELECT, _("Content"), &m_contents);
-  coo.select.push_back(_("Coin"));
-  coo.select.push_back(_("Growth (fire flower)"));
-  coo.select.push_back(_("Growth (ice flower)"));
-  coo.select.push_back(_("Growth (air flower)"));
-  coo.select.push_back(_("Growth (earth flower)"));
-  coo.select.push_back(_("Star"));
-  coo.select.push_back(_("Tux doll"));
-  coo.select.push_back(_("Custom"));
-  coo.select.push_back(_("Script"));
-  coo.select.push_back(_("Light"));
-  coo.select.push_back(_("Trampoline"));
-  coo.select.push_back(_("Coin rain"));
-  coo.select.push_back(_("Coin explosion"));
+  coo.m_select.push_back(_("Coin"));
+  coo.m_select.push_back(_("Growth (fire flower)"));
+  coo.m_select.push_back(_("Growth (ice flower)"));
+  coo.m_select.push_back(_("Growth (air flower)"));
+  coo.m_select.push_back(_("Growth (earth flower)"));
+  coo.m_select.push_back(_("Star"));
+  coo.m_select.push_back(_("Tux doll"));
+  coo.m_select.push_back(_("Custom"));
+  coo.m_select.push_back(_("Script"));
+  coo.m_select.push_back(_("Light"));
+  coo.m_select.push_back(_("Trampoline"));
+  coo.m_select.push_back(_("Coin rain"));
+  coo.m_select.push_back(_("Coin explosion"));
   result.add(coo);
 
   return result;

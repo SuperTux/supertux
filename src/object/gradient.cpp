@@ -140,10 +140,10 @@ Gradient::get_settings()
 
   result.add(MN_INTFIELD, _("Z-pos"), &m_layer);
   ObjectOption doo(MN_STRINGSELECT, _("Direction"), &m_gradient_direction);
-  doo.select.push_back(_("Vertical"));
-  doo.select.push_back(_("Horizontal"));
-  doo.select.push_back(_("Vertical (whole sector)"));
-  doo.select.push_back(_("Horizontal (whole sector)"));
+  doo.m_select.push_back(_("Vertical"));
+  doo.m_select.push_back(_("Horizontal"));
+  doo.m_select.push_back(_("Vertical (whole sector)"));
+  doo.m_select.push_back(_("Horizontal (whole sector)"));
   result.add(doo);
 
   result.add(MN_REMOVE, "", nullptr);

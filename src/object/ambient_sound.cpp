@@ -116,8 +116,8 @@ AmbientSound::get_settings() {
   ObjectSettings result = MovingObject::get_settings();
 
   ObjectOption smp(MN_FILE, _("Sound"), &sample, "sample");
-  smp.select.push_back(".wav");
-  smp.select.push_back(".ogg");
+  smp.m_select.push_back(".wav");
+  smp.m_select.push_back(".ogg");
   result.add(smp);
   result.add(MN_NUMFIELD, _("Width"), &new_size.x, "width");
   result.add(MN_NUMFIELD, _("Height"), &new_size.y, "height");

@@ -85,7 +85,7 @@ ObjectSettings Torch::get_settings()
   ObjectSettings result = MovingObject::get_settings();
   ObjectOption burning(MN_TOGGLE, _("Burning"), &m_burning, "burning");
   ObjectOption spr(MN_FILE, _("Sprite"), &sprite_name, "sprite");
-  spr.select.push_back(".sprite");
+  spr.m_select.push_back(".sprite");
 
   result.add(burning);
   result.add(spr);

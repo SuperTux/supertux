@@ -78,13 +78,14 @@ string_to_direction(const std::string& directory)
 }
 
 ObjectOption
-dir_option(Direction *dir) {
+dir_option(Direction *dir)
+{
   ObjectOption result(MN_STRINGSELECT, _("Direction"), dir);
-  result.select.push_back(_("None"));
-  result.select.push_back(_("West"));
-  result.select.push_back(_("East"));
-  result.select.push_back(_("North"));
-  result.select.push_back(_("South"));
+  result.m_select.push_back(_("None"));
+  result.m_select.push_back(_("West"));
+  result.m_select.push_back(_("East"));
+  result.m_select.push_back(_("North"));
+  result.m_select.push_back(_("South"));
   return result;
 }
 

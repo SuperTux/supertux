@@ -398,10 +398,10 @@ result.add(MN_NUMFIELD, _("Max concurrent badguys"), &max_concurrent_badguys,
            "max-concurrent-badguys");
 
   ObjectOption seq(MN_STRINGSELECT, _("Type"), &type);
-  seq.select.push_back(_("dropper"));
-  seq.select.push_back(_("rocket launcher"));
-  seq.select.push_back(_("cannon"));
-  seq.select.push_back(_("invisible"));
+  seq.add_select(_("dropper"));
+  seq.add_select(_("rocket launcher"));
+  seq.add_select(_("cannon"));
+  seq.add_select(_("invisible"));
 
   result.add(seq);
 

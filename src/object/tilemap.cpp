@@ -230,8 +230,8 @@ TileMap::get_settings() {
   result.add(MN_INTFIELD, _("Z-pos"), &m_z_pos);
 
   ObjectOption draw_target_option(MN_STRINGSELECT, _("Draw target"), &m_draw_target);
-  draw_target_option.select.push_back(_("Normal"));
-  draw_target_option.select.push_back(_("Lightmap"));
+  draw_target_option.m_select.push_back(_("Normal"));
+  draw_target_option.m_select.push_back(_("Lightmap"));
   result.add(draw_target_option);
 
   m_add_path = get_walker() && get_path() && get_path()->is_valid();

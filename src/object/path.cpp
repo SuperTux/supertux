@@ -198,10 +198,10 @@ ObjectOption
 Path::get_mode_option(WalkMode* mode_)
 {
   ObjectOption result(MN_STRINGSELECT, _("Path Mode"), mode_);
-  result.select.push_back(_("One shot"));
-  result.select.push_back(_("Ping-pong"));
-  result.select.push_back(_("Circular"));
-  result.select.push_back(_("Unordered"));
+  result.m_select.push_back(_("One shot"));
+  result.m_select.push_back(_("Ping-pong"));
+  result.m_select.push_back(_("Circular"));
+  result.m_select.push_back(_("Unordered"));
   return result;
 }
 

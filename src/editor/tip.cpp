@@ -35,12 +35,12 @@ Tip::Tip(GameObject* object) :
   header = os.get_name();
 
   for (const auto& oo : os.get_options()) {
-    if (oo.type != MN_REMOVE && (oo.flags & OPTION_VISIBLE)) {
+    if (oo.m_type != MN_REMOVE && (oo.m_flags & OPTION_VISIBLE)) {
       auto value = oo.to_string();
       if (value.empty()) {
         continue;
       }
-      strings.push_back(oo.text + ": " + value);
+      strings.push_back(oo.m_text + ": " + value);
     }
   }
 }

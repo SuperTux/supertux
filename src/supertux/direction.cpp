@@ -29,11 +29,11 @@ std::ostream& operator<<(std::ostream& o, const Direction& dir)
 ObjectOption
 dir_option(Direction *dir) {
   ObjectOption result(MN_STRINGSELECT, _("Direction"), dir);
-  result.select.push_back(_("auto"));
-  result.select.push_back(_("left"));
-  result.select.push_back(_("right"));
-  result.select.push_back(_("up"));
-  result.select.push_back(_("down"));
+  result.m_select.push_back(_("auto"));
+  result.m_select.push_back(_("left"));
+  result.m_select.push_back(_("right"));
+  result.m_select.push_back(_("up"));
+  result.m_select.push_back(_("down"));
   return result;
 }
 

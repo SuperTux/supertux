@@ -75,16 +75,16 @@ SequenceTrigger::get_settings()
   result.add(MN_NUMFIELD, _("Height"), &new_size.y, "height");
 
   ObjectOption seq(MN_STRINGSELECT, _("Sequence"), &sequence);
-  seq.select.push_back(_("end sequence"));
-  seq.select.push_back(_("stop Tux"));
-  seq.select.push_back(_("fireworks"));
+  seq.m_select.push_back(_("end sequence"));
+  seq.m_select.push_back(_("stop Tux"));
+  seq.m_select.push_back(_("fireworks"));
 
   result.add( seq );
   result.add(MN_TEXTFIELD, _("New worldmap spawnpoint"), &new_spawnpoint, "new_spawnpoint");
   result.add(MN_TEXTFIELD, _("Worldmap fade tilemap"), &fade_tilemap, "fade_tilemap");
   ObjectOption fade_toggle(MN_STRINGSELECT, _("Fade"), &fade, "fade");
-  fade_toggle.select.push_back(_("Fade in"));
-  fade_toggle.select.push_back(_("Fade out"));
+  fade_toggle.m_select.push_back(_("Fade in"));
+  fade_toggle.m_select.push_back(_("Fade out"));
   result.add(fade_toggle);
   return result;
 }

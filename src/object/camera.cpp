@@ -142,8 +142,8 @@ Camera::get_settings()
   ObjectSettings result = GameObject::get_settings();
 
   ObjectOption moo(MN_STRINGSELECT, _("Mode"), &m_defaultmode);
-  moo.select.push_back(_("normal"));
-  moo.select.push_back(_("manual"));
+  moo.m_select.push_back(_("normal"));
+  moo.m_select.push_back(_("manual"));
   result.add(moo);
 
   if (get_walker() && get_path()->is_valid()) {

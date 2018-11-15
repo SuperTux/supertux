@@ -22,50 +22,67 @@
 #include "util/gettext.hpp"
 #include "video/color.hpp"
 
-ObjectOption::ObjectOption(MenuItemKind ip_type, const std::string& text_, void* ip,
-                           const std::string& key_, int flags_) :
-  type(ip_type),
-  text(text_),
-  option(ip),
-  key(key_),
-  flags(flags_),
-  select()
+ObjectOption::ObjectOption(MenuItemKind ip_type, const std::string& text, void* ip,
+                           const std::string& key, int flags) :
+  m_type(ip_type),
+  m_text(text),
+  m_option(ip),
+  m_key(key),
+  m_flags(flags),
+  m_select()
 {
 }
 
 const std::string
-ObjectOption::to_string() const {
-  switch (type) {
+ObjectOption::to_string() const
+{
+  switch (m_type)
+  {
     case MN_TEXTFIELD:
-      return *(static_cast<std::string*>(option));
+      return *(static_cast<std::string*>(m_option));
+
     case MN_NUMFIELD:
-      return std::to_string(*(static_cast<float*>(option)));
+      return std::to_string(*(static_cast<float*>(m_option)));
+
     case MN_INTFIELD:
-      return std::to_string(*(static_cast<int*>(option)));
+      return std::to_string(*(static_cast<int*>(m_option)));
+
     case MN_TOGGLE:
-      return (*(static_cast<bool*>(option))) ? _("true") : _("false");
+      return (*(static_cast<bool*>(m_option))) ? _("true") : _("false");
+
     case MN_STRINGSELECT: {
-      auto selected_id = static_cast<int*>(option);
-      if ( *selected_id >= int(select.size()) || *selected_id < 0 ) {
+      auto selected_id = static_cast<int*>(m_option);
+      if ( *selected_id >= int(m_select.size()) || *selected_id < 0 ) {
         return _("invalid"); //Test whether the selected ID is valid
       } else {
-        return select[*selected_id];
+        return m_select[*selected_id];
       }
     }
+
     case MN_BADGUYSELECT:
-      return std::to_string((static_cast<std::vector<std::string>*>(option))->size());
+      return std::to_string((static_cast<std::vector<std::string>*>(m_option))->size());
+
     case MN_COLOR:
-      return (static_cast<Color*>(option))->to_string();
+      return (static_cast<Color*>(m_option))->to_string();
+
     case MN_SCRIPT:
-      if ((static_cast<std::string*>(option))->length()) {
+      if ((static_cast<std::string*>(m_option))->length()) {
         return "...";
       }
       return "";
+
     case MN_FILE:
-      return *(static_cast<std::string*>(option));
+      return *(static_cast<std::string*>(m_option));
+
     default:
       return _("Unknown");
   }
+}
+
+void
+ObjectOption::add_select(const std::string& text)
+{
+  m_select.push_back(text);
 }
 
 /* EOF */

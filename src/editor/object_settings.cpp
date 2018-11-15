@@ -35,34 +35,41 @@ ObjectSettings::copy_from(const ObjectSettings& other)
     auto oo1 = &*it1;
     auto oo2 = &*it2;
 
-    switch (oo1->type) {
+    switch (oo1->m_type)
+    {
       case MN_TEXTFIELD:
       case MN_SCRIPT:
       case MN_FILE:
-        assert(oo1->type == oo2->type);
-        *(static_cast<std::string*>(oo1->option)) = *(static_cast<std::string*>(oo2->option));
+        assert(oo1->m_type == oo2->m_type);
+        *(static_cast<std::string*>(oo1->m_option)) = *(static_cast<std::string*>(oo2->m_option));
         break;
+
       case MN_NUMFIELD:
-        assert(oo1->type == oo2->type);
-        *(static_cast<float*>(oo1->option)) = *(static_cast<float*>(oo2->option));
+        assert(oo1->m_type == oo2->m_type);
+        *(static_cast<float*>(oo1->m_option)) = *(static_cast<float*>(oo2->m_option));
         break;
+
       case MN_INTFIELD:
       case MN_STRINGSELECT:
-        assert(oo1->type == oo2->type);
-        *(static_cast<int*>(oo1->option)) = *(static_cast<int*>(oo2->option));
+        assert(oo1->m_type == oo2->m_type);
+        *(static_cast<int*>(oo1->m_option)) = *(static_cast<int*>(oo2->m_option));
         break;
+
       case MN_TOGGLE:
-        assert(oo1->type == oo2->type);
-        *(static_cast<bool*>(oo1->option)) = *(static_cast<bool*>(oo2->option));
+        assert(oo1->m_type == oo2->m_type);
+        *(static_cast<bool*>(oo1->m_option)) = *(static_cast<bool*>(oo2->m_option));
         break;
+
       case MN_BADGUYSELECT:
-        assert(oo1->type == oo2->type);
-        *(static_cast<std::vector<std::string>*>(oo1->option)) = *(static_cast<std::vector<std::string>*>(oo2->option));
+        assert(oo1->m_type == oo2->m_type);
+        *(static_cast<std::vector<std::string>*>(oo1->m_option)) = *(static_cast<std::vector<std::string>*>(oo2->m_option));
         break;
+
       case MN_COLOR:
-        assert(oo1->type == oo2->type);
-        *(static_cast<Color*>(oo1->option)) = *(static_cast<Color*>(oo2->option));
+        assert(oo1->m_type == oo2->m_type);
+        *(static_cast<Color*>(oo1->m_option)) = *(static_cast<Color*>(oo2->m_option));
         break;
+
       default:
         //Do not assert here!
         break;

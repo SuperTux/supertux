@@ -37,8 +37,8 @@ ObjectSettings
 Decal::get_settings() {
   ObjectSettings result = MovingObject::get_settings();
   ObjectOption spr(MN_FILE, _("Sprite"), &m_sprite_name, "sprite");
-  spr.select.push_back(".png");
-  spr.select.push_back(".sprite");
+  spr.m_select.push_back(".png");
+  spr.m_select.push_back(".sprite");
   result.add(spr);
   result.add(MN_TEXTFIELD, _("Action"), &default_action, "action");
   result.add(MN_TOGGLE, _("Solid"), &solid, "solid");
