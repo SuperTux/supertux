@@ -17,13 +17,16 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_GAME_OBJECT_HPP
 #define HEADER_SUPERTUX_SUPERTUX_GAME_OBJECT_HPP
 
+#include <algorithm>
 #include <string>
 
 #include "editor/object_settings.hpp"
+#include "supertux/game_object_component.hpp"
 #include "util/gettext.hpp"
 #include "util/uid.hpp"
 
 class DrawingContext;
+class GameObjectComponent;
 class ObjectRemoveListener;
 class ReaderMapping;
 class Writer;
@@ -113,8 +116,37 @@ public:
   /** continues all looping sounds */
   virtual void play_looping_sounds() {}
 
+  template<typename T>
+  T* get_component() {
+    for(auto& component : m_components) {
+      if (T* result = dynamic_cast<T*>(component.get())) {
+        return result;
+      }
+    }
+    return nullptr;
+  }
+
+  void add_component(std::unique_ptr<GameObjectComponent> component) {
+    m_components.emplace_back(std::move(component));
+  }
+
+  void remove_component(GameObjectComponent* component) {
+    auto it = std::find_if(m_components.begin(), m_components.end(),
+                           [component](const std::unique_ptr<GameObjectComponent>& lhs){
+                             return lhs.get() == component;
+                           });
+    if (it != m_components.end()) {
+      m_components.erase(it);
+    }
+  }
+
 private:
   void set_uid(const UID& uid) { m_uid = uid; }
+
+protected:
+  /** a name for the gameobject, this is mostly a hint for scripts and
+      for debugging, don't rely on names being set or being unique */
+  std::string m_name;
 
 private:
   UID m_uid;
@@ -122,12 +154,9 @@ private:
   /** this flag indicates if the object should be removed at the end of the frame */
   bool m_wants_to_die;
 
-  std::vector<ObjectRemoveListener*> m_remove_listeners;
+  std::vector<std::unique_ptr<GameObjectComponent> > m_components;
 
-protected:
-  /** a name for the gameobject, this is mostly a hint for scripts and
-      for debugging, don't rely on names being set or being unique */
-  std::string m_name;
+  std::vector<ObjectRemoveListener*> m_remove_listeners;
 
 private:
   GameObject(const GameObject&) = delete;

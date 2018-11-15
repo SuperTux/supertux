@@ -24,10 +24,11 @@
 #include "video/color.hpp"
 
 GameObject::GameObject() :
+  m_name(),
   m_uid(),
   m_wants_to_die(false),
-  m_remove_listeners(),
-  m_name()
+  m_components(),
+  m_remove_listeners()
 {
 }
 
