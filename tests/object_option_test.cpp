@@ -53,9 +53,9 @@ TEST(ObjectOption, to_string)
     FooBar fb1 = FOO;
     FooBar fb2 = BAR;
     ObjectOption stringselect1(MN_STRINGSELECT, "test", &fb1);
-    stringselect1.select = select;
+    stringselect1.m_select = select;
     ObjectOption stringselect2(MN_STRINGSELECT, "test", &fb2);
-    stringselect2.select = select;
+    stringselect2.m_select = select;
     ASSERT_EQ("foo", stringselect1.to_string());
     ASSERT_EQ("bar", stringselect2.to_string());
   }
