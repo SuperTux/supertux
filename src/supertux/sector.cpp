@@ -495,7 +495,7 @@ Sector::get_nearest_player (const Vector& pos) const
   }
 
   return nearest_player;
-} /* Player *get_nearest_player */
+}
 
 std::vector<MovingObject*>
 Sector::get_nearby_objects(const Vector& center, float max_distance) const

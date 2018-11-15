@@ -102,8 +102,8 @@ Explosion::explode()
       if (badguy && badguy->is_active()) {
         badguy->add_velocity (add_speed);
       }
-    } /* for (i = 0 ... near_objects) */
-  } /* if (push) */
+    }
+  }
 }
 
 void

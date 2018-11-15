@@ -181,7 +181,7 @@ CollisionSystem::collision_tilemap(collision::Constraints* constraints,
 
           if (!tile.is_solid (tile_bbox, object.get_bbox(), relative_movement))
             continue;
-        } /* if (tile.is_unisolid ()) */
+        }
 
         if (tile.is_slope ()) { // slope tile
           AATriangle triangle;

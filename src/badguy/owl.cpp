@@ -213,10 +213,11 @@ Owl::collision_solid(const CollisionHit& hit)
       m_physic.set_velocity_x (-FLYING_SPEED);
     }
   }
-} /* void Owl::collision_solid */
+}
 
 void
-Owl::ignite() {
+Owl::ignite()
+{
   if (carried_object != nullptr) {
     carried_object->ungrab (*this, m_dir);
     carried_object = nullptr;
