@@ -42,10 +42,7 @@ SpawnPointMarker::SpawnPointMarker(const ReaderMapping& mapping) :
   mapping.get("y", m_col.m_bbox.p1.y, 0.0f);
 
   m_col.m_bbox.set_size(32, 32);
-
-  if (!Editor::current()) {
-    set_group(COLGROUP_DISABLED);
-  }
+  set_group(COLGROUP_DISABLED);
 }
 
 void
