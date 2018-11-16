@@ -17,6 +17,7 @@
 #include "trigger/scripttrigger.hpp"
 
 #include "editor/editor.hpp"
+#include "supertux/debug.hpp"
 #include "supertux/sector.hpp"
 #include "util/log.hpp"
 #include "util/reader_mapping.hpp"
@@ -103,9 +104,9 @@ ScriptTrigger::event(Player& , EventType type)
 void
 ScriptTrigger::draw(DrawingContext& context)
 {
-  if (Editor::is_active()) {
+  if (Editor::is_active() || g_debug.show_collision_rects) {
     context.color().draw_filled_rect(m_col.m_bbox, Color(1.0f, 0.0f, 1.0f, 0.6f),
-                             0.0f, LAYER_OBJECTS);
+                             0.0f, LAYER_GUI);
   }
 }
 

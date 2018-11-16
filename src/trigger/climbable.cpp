@@ -18,6 +18,7 @@
 
 #include "editor/editor.hpp"
 #include "object/player.hpp"
+#include "supertux/debug.hpp"
 #include "supertux/resources.hpp"
 #include "util/reader_mapping.hpp"
 #include "video/drawing_context.hpp"
@@ -103,7 +104,7 @@ Climbable::draw(DrawingContext& context)
     context.color().draw_center_text(Resources::normal_font, _(message), pos, LAYER_HUD, Climbable::text_color);
     context.pop_transform();
   }
-  if (Editor::is_active()) {
+  if (Editor::is_active() || g_debug.show_collision_rects) {
     context.color().draw_filled_rect(m_col.m_bbox, Color(1.0f, 1.0f, 0.0f, 0.6f),
                              0.0f, LAYER_OBJECTS);
   }

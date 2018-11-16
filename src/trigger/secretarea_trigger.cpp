@@ -18,6 +18,7 @@
 
 #include "editor/editor.hpp"
 #include "object/tilemap.hpp"
+#include "supertux/debug.hpp"
 #include "supertux/level.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/sector.hpp"
@@ -97,7 +98,7 @@ SecretAreaTrigger::draw(DrawingContext& context)
     context.color().draw_center_text(Resources::normal_font, message, pos, LAYER_HUD, SecretAreaTrigger::text_color);
     context.pop_transform();
   }
-  if (Editor::is_active()) {
+  if (Editor::is_active() || g_debug.show_collision_rects) {
     context.color().draw_filled_rect(m_col.m_bbox, Color(0.0f, 1.0f, 0.0f, 0.6f),
                              0.0f, LAYER_OBJECTS);
   } else if (message_timer.check()) {
