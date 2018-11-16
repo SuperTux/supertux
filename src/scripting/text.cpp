@@ -73,28 +73,28 @@ float
 Text::get_pos_x() const
 {
   SCRIPT_GUARD_DEFAULT;
-  return object.get_pos_x();
+  return object.get_pos().x;
 }
 
 float
 Text::get_pos_y() const
 {
   SCRIPT_GUARD_DEFAULT;
-  return object.get_pos_y();
+  return object.get_pos().y;
 }
 
 void
 Text::set_anchor_point(int anchor)
 {
   SCRIPT_GUARD_VOID;
-  object.set_anchor_point(anchor);
+  object.set_anchor_point(static_cast<AnchorPoint>(anchor));
 }
 
 int
 Text::get_anchor_point() const
 {
   SCRIPT_GUARD_DEFAULT;
-  return object.get_anchor_point();
+  return static_cast<int>(object.get_anchor_point());
 }
 
 } // namespace scripting

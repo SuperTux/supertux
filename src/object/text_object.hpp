@@ -26,15 +26,18 @@
 
 /** A text object intended for scripts that want to tell a story */
 class TextObject final : public GameObject,
-                   public ExposedObject<TextObject, scripting::Text>
+                         public ExposedObject<TextObject, scripting::Text>
 {
   static Color default_color;
+
 public:
   TextObject(const std::string& name = std::string());
   virtual ~TextObject();
-  virtual bool is_saveable() const override {
-    return false;
-  }
+
+  virtual void draw(DrawingContext& context) override;
+  virtual void update(float dt_sec) override;
+  virtual bool is_singleton() const override { return true; }
+  virtual bool is_saveable() const override { return false; }
 
   void set_text(const std::string& text);
   void set_font(const std::string& name);
@@ -44,45 +47,21 @@ public:
   void set_centered(bool centered);
   bool is_visible();
 
-  void set_anchor_point(AnchorPoint anchor_) {
-    anchor = anchor_;
-  }
-  AnchorPoint get_anchor_point() const {
-    return anchor;
-  }
+  void set_anchor_point(AnchorPoint anchor) { m_anchor = anchor; }
+  AnchorPoint get_anchor_point() const { return m_anchor; }
 
-  void set_pos(const Vector& pos_) {
-    pos = pos_;
-  }
-  const Vector& get_pos() const {
-    return pos;
-  }
-  float get_pos_x() const {
-    return pos.x;
-  }
-  float get_pos_y() const {
-    return pos.y;
-  }
-
-  void set_anchor_point(int anchor_) {
-    set_anchor_point(static_cast<AnchorPoint>(anchor_));
-  }
-  int get_anchor_point() {
-    return static_cast<int>(anchor);
-  }
-
-  virtual void draw(DrawingContext& context) override;
-  virtual void update(float dt_sec) override;
+  void set_pos(const Vector& pos) { m_pos = pos; }
+  const Vector& get_pos() const { return m_pos; }
 
 private:
-  FontPtr font;
-  std::string text;
-  float fading;
-  float fadetime;
-  bool visible;
-  bool centered;
-  AnchorPoint anchor;
-  Vector pos;
+  FontPtr m_font;
+  std::string m_text;
+  float m_fading;
+  float m_fadetime;
+  bool m_visible;
+  bool m_centered;
+  AnchorPoint m_anchor;
+  Vector m_pos;
 
 private:
   TextObject(const TextObject&) = delete;

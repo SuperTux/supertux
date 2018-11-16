@@ -104,117 +104,118 @@ void
 TextArray::set_text(const std::string& text)
 {
   SCRIPT_GUARD_VOID;
-  auto* textItem = object.get_current_text_item();
 
-  if (textItem != nullptr)
+  if (auto* textItem = object.get_current_text_item()) {
     textItem->text_object.set_text(text);
+  }
 }
 
 void
 TextArray::set_font(const std::string& fontname)
 {
   SCRIPT_GUARD_VOID;
-  auto* textItem = object.get_current_text_item();
 
-  if (textItem != nullptr)
+  if (auto* textItem = object.get_current_text_item()) {
     textItem->text_object.set_font(fontname);
+  }
 }
 
 void
 TextArray::fade_in(float fadetime)
 {
   SCRIPT_GUARD_VOID;
-  auto* textItem = object.get_current_text_item();
 
-  if (textItem != nullptr)
+  if (auto* textItem = object.get_current_text_item()) {
     textItem->text_object.fade_in(fadetime);
+  }
 }
 
 void
 TextArray::fade_out(float fadetime)
 {
   SCRIPT_GUARD_VOID;
-  auto* textItem = object.get_current_text_item();
 
-  if (textItem != nullptr)
+  if (auto* textItem = object.get_current_text_item()) {
     textItem->text_object.fade_out(fadetime);
+  }
 }
 
 void
 TextArray::set_visible(bool visible)
 {
   SCRIPT_GUARD_VOID;
-  auto* textItem = object.get_current_text_item();
 
-  if (textItem != nullptr)
+  if (auto* textItem = object.get_current_text_item()) {
     textItem->text_object.set_visible(visible);
+  }
 }
 
 void
 TextArray::set_centered(bool centered)
 {
   SCRIPT_GUARD_VOID;
-  auto* textItem = object.get_current_text_item();
 
-  if (textItem != nullptr)
+  if (auto* textItem = object.get_current_text_item()) {
     textItem->text_object.set_centered(centered);
+  }
 }
 
 void
 TextArray::set_pos(float x, float y)
 {
   SCRIPT_GUARD_VOID;
-  auto* textItem = object.get_current_text_item();
 
-  if (textItem != nullptr)
+  if (auto* textItem = object.get_current_text_item()) {
     textItem->text_object.set_pos(Vector(x, y));
+  }
 }
 
 float
 TextArray::get_pos_x() const
 {
   SCRIPT_GUARD_DEFAULT;
-  auto* textItem = object.get_current_text_item();
 
-  if (textItem != nullptr)
-    return textItem->text_object.get_pos_x();
-
-  log_warning << "TextArray position is not set. Assuming (0,0)" << std::endl;
-  return 0;
+  if (auto* textItem = object.get_current_text_item()) {
+    return textItem->text_object.get_pos().x;
+  } else {
+    log_warning << "TextArray position is not set. Assuming (0,0)" << std::endl;
+    return 0;
+  }
 }
 
 float
 TextArray::get_pos_y() const
 {
   SCRIPT_GUARD_DEFAULT;
-  auto* textItem = object.get_current_text_item();
 
-  if (textItem != nullptr)
-    return textItem->text_object.get_pos_y();
-
-  log_warning << "TextArray position is not set. Assuming (0,0)" << std::endl;
-  return 0;
+  if (auto* textItem = object.get_current_text_item()) {
+    return textItem->text_object.get_pos().y;
+  } else {
+    log_warning << "TextArray position is not set. Assuming (0,0)" << std::endl;
+    return 0;
+  }
 }
 
 void
 TextArray::set_anchor_point(int anchor)
 {
   SCRIPT_GUARD_VOID;
-  auto* textItem = object.get_current_text_item();
 
-  if (textItem != nullptr)
-    textItem->text_object.set_anchor_point(anchor);
+  if (auto* textItem = object.get_current_text_item()) {
+    textItem->text_object.set_anchor_point(static_cast<AnchorPoint>(anchor));
+  }
 }
 
 int
 TextArray::get_anchor_point() const
 {
   SCRIPT_GUARD_DEFAULT;
-  auto* textItem = object.get_current_text_item();
 
-  if (textItem != nullptr)
+  if (auto* textItem = object.get_current_text_item()) {
     return textItem->text_object.get_anchor_point();
-  return -1;
+  } else {
+    return -1;
+  }
 }
 
 } // namespace scripting

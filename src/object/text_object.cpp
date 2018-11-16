@@ -23,14 +23,14 @@
 TextObject::TextObject(const std::string& name) :
   GameObject(name),
   ExposedObject<TextObject, scripting::Text>(this),
-  font(Resources::normal_font),
-  text(),
-  fading(0),
-  fadetime(0),
-  visible(false),
-  centered(false),
-  anchor(ANCHOR_MIDDLE),
-  pos(0, 0)
+  m_font(Resources::normal_font),
+  m_text(),
+  m_fading(0),
+  m_fadetime(0),
+  m_visible(false),
+  m_centered(false),
+  m_anchor(ANCHOR_MIDDLE),
+  m_pos(0, 0)
 {
 }
 
@@ -42,48 +42,48 @@ void
 TextObject::set_font(const std::string& name_)
 {
   if (name_ == "normal") {
-    font = Resources::normal_font;
+    m_font = Resources::normal_font;
   } else if (name_ == "big") {
-    font = Resources::big_font;
+    m_font = Resources::big_font;
   } else if (name_ == "small") {
-    font = Resources::small_font;
+    m_font = Resources::small_font;
   } else {
     log_warning << "Unknown font '" << name_ << "'." << std::endl;
-    font = Resources::normal_font;
+    m_font = Resources::normal_font;
   }
 }
 
 void
 TextObject::set_text(const std::string& text_)
 {
-  text = text_;
+  m_text = text_;
 }
 
 void
 TextObject::fade_in(float fadetime_)
 {
-  fadetime = fadetime_;
-  fading = fadetime_;
+  m_fadetime = fadetime_;
+  m_fading = fadetime_;
 }
 
 void
 TextObject::fade_out(float fadetime_)
 {
-  fadetime = fadetime_;
-  fading = -fadetime_;
+  m_fadetime = fadetime_;
+  m_fading = -fadetime_;
 }
 
 void
 TextObject::set_visible(bool visible_)
 {
-  visible = visible_;
-  fading = 0;
+  m_visible = visible_;
+  m_fading = 0;
 }
 
 void
 TextObject::set_centered(bool centered_)
 {
-  centered = centered_;
+  m_centered = centered_;
 }
 
 void
@@ -91,26 +91,26 @@ TextObject::draw(DrawingContext& context)
 {
   context.push_transform();
   context.set_translation(Vector(0, 0));
-  if (fading > 0) {
-    context.set_alpha((fadetime-fading) / fadetime);
-  } else if (fading < 0) {
-    context.set_alpha(-fading / fadetime);
-  } else if (!visible) {
+  if (m_fading > 0) {
+    context.set_alpha((m_fadetime - m_fading) / m_fadetime);
+  } else if (m_fading < 0) {
+    context.set_alpha(-m_fading / m_fadetime);
+  } else if (!m_visible) {
     context.pop_transform();
     return;
   }
 
   float width  = 500;
   float height = 70;
-  Vector spos = pos + get_anchor_pos(Rectf(0, 0, static_cast<float>(context.get_width()), static_cast<float>(context.get_height())),
-                                     width, height, anchor);
+  Vector spos = m_pos + get_anchor_pos(Rectf(0, 0, static_cast<float>(context.get_width()), static_cast<float>(context.get_height())),
+                                       width, height, m_anchor);
 
   context.color().draw_filled_rect(spos, Vector(width, height),
                                    Color(0.6f, 0.7f, 0.8f, 0.5f), LAYER_GUI-50);
-  if (centered) {
-    context.color().draw_center_text(font, text, spos, LAYER_GUI-40, TextObject::default_color);
+  if (m_centered) {
+    context.color().draw_center_text(m_font, m_text, spos, LAYER_GUI-40, TextObject::default_color);
   } else {
-    context.color().draw_text(font, text, spos + Vector(10, 10), ALIGN_LEFT, LAYER_GUI-40, TextObject::default_color);
+    context.color().draw_text(m_font, m_text, spos + Vector(10, 10), ALIGN_LEFT, LAYER_GUI-40, TextObject::default_color);
   }
 
   context.pop_transform();
@@ -119,17 +119,17 @@ TextObject::draw(DrawingContext& context)
 void
 TextObject::update(float dt_sec)
 {
-  if (fading > 0) {
-    fading -= dt_sec;
-    if (fading <= 0) {
-      fading = 0;
-      visible = true;
+  if (m_fading > 0) {
+    m_fading -= dt_sec;
+    if (m_fading <= 0) {
+      m_fading = 0;
+      m_visible = true;
     }
-  } else if (fading < 0) {
-    fading += dt_sec;
-    if (fading >= 0) {
-      fading = 0;
-      visible = false;
+  } else if (m_fading < 0) {
+    m_fading += dt_sec;
+    if (m_fading >= 0) {
+      m_fading = 0;
+      m_visible = false;
     }
   }
 }
