@@ -188,6 +188,7 @@ public:
   virtual void update(float dt_sec) override;
 
   /////////// internals  ///////////
+  virtual bool is_saveable() const override { return false; }
 
 private:
   /**
