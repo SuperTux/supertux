@@ -31,51 +31,56 @@ class Vector;
 
 class EditorLayersGui final
 {
-  public:
-    EditorLayersGui(Editor& editor);
+public:
+  static bool less_z_pos(const std::unique_ptr<LayerIcon>& lhs, const std::unique_ptr<LayerIcon>& rhs);
 
-    void draw(DrawingContext&);
-    void update(float dt_sec);
-    bool event(SDL_Event& ev);
-    void setup();
-    void resize();
+public:
+  enum HoveredItem {
+    HI_NONE, HI_SPAWNPOINTS, HI_SECTOR, HI_LAYERS
+  };
 
-    void refresh_sector_text();
-    void sort_layers();
+public:
+  EditorLayersGui(Editor& editor);
 
-    Editor& m_editor;
+  void draw(DrawingContext&);
+  void update(float dt_sec);
+  bool event(SDL_Event& ev);
+  void setup();
+  void resize();
 
-    std::vector<std::unique_ptr<LayerIcon>> layers;
-    void add_layer(GameObject* layer);
+  void refresh_sector_text();
+  void sort_layers();
 
-    GameObject *selected_tilemap;
+  void add_layer(GameObject* layer);
 
-  private:
-    int Ypos;
-    const int Xpos = 32;
-    int Width;
+private:
+  Vector get_layer_coords(const int pos) const;
+  int get_layer_pos(const Vector& coords) const;
+  void update_tip();
 
-    std::string sector_text;
-    int sector_text_width;
+private:
+  Editor& m_editor;
 
-    Vector get_layer_coords(const int pos) const;
-    int get_layer_pos(const Vector& coords) const;
-    void update_tip();
+public:
+  std::vector<std::unique_ptr<LayerIcon>> layers;
+  GameObject* selected_tilemap;
 
-    static bool less_z_pos(const std::unique_ptr<LayerIcon>& lhs, const std::unique_ptr<LayerIcon>& rhs);
+private:
+  int Ypos;
+  const int Xpos = 32;
+  int Width;
 
-    typedef enum {
-      HI_NONE, HI_SPAWNPOINTS, HI_SECTOR, HI_LAYERS
-    }HoveredItem;
+  std::string sector_text;
+  int sector_text_width;
 
-    HoveredItem hovered_item;
-    unsigned int hovered_layer;
+  HoveredItem hovered_item;
+  unsigned int hovered_layer;
 
-    std::unique_ptr<Tip> object_tip;
+  std::unique_ptr<Tip> object_tip;
 
-  private:
-    EditorLayersGui(const EditorLayersGui&) = delete;
-    EditorLayersGui& operator=(const EditorLayersGui&) = delete;
+private:
+  EditorLayersGui(const EditorLayersGui&) = delete;
+  EditorLayersGui& operator=(const EditorLayersGui&) = delete;
 };
 
 #endif
