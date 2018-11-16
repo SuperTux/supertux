@@ -41,8 +41,12 @@ public:
 
   void update_sprite_action();
 
-public:
+  Vector get_pos() const { return m_pos; }
+
+private:
   Vector m_pos;
+
+public:
   std::string m_title;
   bool m_solved;
   bool m_perfect;

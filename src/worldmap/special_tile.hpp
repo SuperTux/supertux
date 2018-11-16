@@ -37,9 +37,12 @@ public:
   virtual void draw(DrawingContext& context) override;
   virtual void update(float dt_sec) override;
 
-public:
+  Vector get_pos() const { return m_pos; }
+
+private:
   Vector m_pos;
 
+public:
   /** Sprite to render instead of guessing what image to draw */
   SpritePtr m_sprite;
 

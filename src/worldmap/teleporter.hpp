@@ -35,10 +35,13 @@ public:
   virtual void draw(DrawingContext& context) override;
   virtual void update(float dt_sec) override;
 
-public:
+  Vector get_pos() const { return m_pos; }
+
+private:
   /** Position (in tiles, not pixels) */
   Vector m_pos;
 
+public:
   /** Sprite to render, or 0 for no sprite */
   SpritePtr m_sprite;
 

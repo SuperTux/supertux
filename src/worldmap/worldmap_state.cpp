@@ -143,8 +143,8 @@ WorldMapState::load_state()
       get_table_entry(vm, "sprite-changes");
       for (auto& sc : m_worldmap.get_objects_by_type<SpriteChange>())
       {
-        auto key = std::to_string(int(sc.m_pos.x)) + "_" +
-                   std::to_string(int(sc.m_pos.y));
+        auto key = std::to_string(int(sc.get_pos().x)) + "_" +
+                   std::to_string(int(sc.get_pos().y));
         sq_pushstring(vm, key.c_str(), -1);
         if (SQ_SUCCEEDED(sq_get(vm, -2))) {
           bool show_stay_action = false;
@@ -214,8 +214,8 @@ WorldMapState::save_state() const
 
       for (const auto& sc : m_worldmap.get_objects_by_type<SpriteChange>())
       {
-        auto key = std::to_string(int(sc.m_pos.x)) + "_" +
-                   std::to_string(int(sc.m_pos.y));
+        auto key = std::to_string(int(sc.get_pos().x)) + "_" +
+                   std::to_string(int(sc.get_pos().y));
         begin_table(vm, key.c_str());
         store_bool(vm, "show-stay-action", sc.show_stay_action());
         end_table(vm, key.c_str());

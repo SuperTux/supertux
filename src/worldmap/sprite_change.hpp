@@ -57,9 +57,12 @@ public:
    */
    bool show_stay_action() const;
 
-public:
+  Vector get_pos() const { return m_pos; }
+
+private:
   Vector m_pos;
 
+public:
   /** should tuxs sprite change when the tile has been completely entered,
       or already when the tile was just touched */
   bool m_change_on_touch;
@@ -68,6 +71,7 @@ public:
   SpritePtr m_sprite;
   std::string m_sprite_name;
 
+private:
   /** stay action can be used for objects like boats or cars, if it is
       != "" then this sprite will be displayed when tux left the tile
       towards another SpriteChange object. */

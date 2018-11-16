@@ -367,10 +367,10 @@ WorldMap::update(float dt_sec)
         return;
       }
 
-      if (level_->m_pos == m_tux->get_tile_pos()) {
+      if (level_->get_pos() == m_tux->get_tile_pos()) {
         try {
-          Vector shrinkpos = Vector(level_->m_pos.x*32 + 16 - m_camera->get_offset().x,
-                                    level_->m_pos.y*32 +  8 - m_camera->get_offset().y);
+          Vector shrinkpos = Vector(level_->get_pos().x * 32 + 16 - m_camera->get_offset().x,
+                                    level_->get_pos().y * 32 +  8 - m_camera->get_offset().y);
           std::string levelfile = m_levels_path + level_->get_name();
 
           // update state and savegame
@@ -414,7 +414,7 @@ LevelTile*
 WorldMap::at_level() const
 {
   for (auto& level : get_objects_by_type<LevelTile>()) {
-    if (level.m_pos == m_tux->get_tile_pos())
+    if (level.get_pos() == m_tux->get_tile_pos())
       return &level;
   }
 
@@ -425,7 +425,7 @@ SpecialTile*
 WorldMap::at_special_tile() const
 {
   for (auto& special_tile : get_objects_by_type<SpecialTile>()) {
-    if (special_tile.m_pos == m_tux->get_tile_pos())
+    if (special_tile.get_pos() == m_tux->get_tile_pos())
       return &special_tile;
   }
 
@@ -436,7 +436,7 @@ SpriteChange*
 WorldMap::at_sprite_change(const Vector& pos) const
 {
   for (auto& sprite_change : get_objects_by_type<SpriteChange>()) {
-    if (sprite_change.m_pos == pos)
+    if (sprite_change.get_pos() == pos)
       return &sprite_change;
   }
 
@@ -447,7 +447,7 @@ Teleporter*
 WorldMap::at_teleporter(const Vector& pos) const
 {
   for (auto& teleporter : get_objects_by_type<Teleporter>()) {
-    if (teleporter.m_pos == pos)
+    if (teleporter.get_pos() == pos)
       return &teleporter;
   }
 
@@ -504,7 +504,7 @@ WorldMap::draw_status(DrawingContext& context)
 
   if (!m_tux->is_moving()) {
     for (auto& level : get_objects_by_type<LevelTile>()) {
-      if (level.m_pos == m_tux->get_tile_pos()) {
+      if (level.get_pos() == m_tux->get_tile_pos()) {
         context.color().draw_text(Resources::normal_font, level.m_title,
                                   Vector(static_cast<float>(context.get_width()) / 2.0f,
                                          static_cast<float>(context.get_height()) - Resources::normal_font->get_height() - 10),
@@ -528,7 +528,7 @@ WorldMap::draw_status(DrawingContext& context)
     }
 
     for (auto& special_tile : get_objects_by_type<SpecialTile>()) {
-      if (special_tile.m_pos == m_tux->get_tile_pos()) {
+      if (special_tile.get_pos() == m_tux->get_tile_pos()) {
         /* Display an in-map message in the map, if any as been selected */
         if (!special_tile.m_map_message.empty() && !special_tile.m_passive_message)
           context.color().draw_text(Resources::normal_font, special_tile.m_map_message,
