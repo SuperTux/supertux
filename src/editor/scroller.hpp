@@ -19,13 +19,14 @@
 
 #include "math/vector.hpp"
 
+class Editor;
 class DrawingContext;
 union SDL_Event;
 
 class EditorScroller final
 {
   public:
-    EditorScroller();
+    EditorScroller(Editor& editor);
 
     void draw(DrawingContext&);
     void update(float dt_sec);
@@ -34,6 +35,7 @@ class EditorScroller final
     static bool rendered;
 
   private:
+    Editor& m_editor;
     bool scrolling;
     Vector scrolling_vec;
     Vector mouse_pos;

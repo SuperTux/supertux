@@ -22,16 +22,17 @@
 #include "control/input_manager.hpp"
 #include "supertux/screen.hpp"
 
-class LayerIcon;
-class GameObject;
-class Vector;
-class Tip;
 class DrawingContext;
+class Editor;
+class GameObject;
+class LayerIcon;
+class Tip;
+class Vector;
 
 class EditorLayersGui final
 {
   public:
-    EditorLayersGui();
+    EditorLayersGui(Editor& editor);
 
     void draw(DrawingContext&);
     void update(float dt_sec);
@@ -41,6 +42,8 @@ class EditorLayersGui final
 
     void refresh_sector_text();
     void sort_layers();
+
+    Editor& m_editor;
 
     std::vector<std::unique_ptr<LayerIcon>> layers;
     void add_layer(GameObject* layer);

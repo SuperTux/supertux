@@ -24,16 +24,16 @@
 #include "supertux/screen.hpp"
 #include "supertux/tile_set.hpp"
 
-class SDL_event;
+class Editor;
 class ObjectInput;
+class Rectf;
 class TileSelection;
 class ToolIcon;
-class Rectf;
 
 class EditorInputGui final
 {
   public:
-    EditorInputGui();
+    EditorInputGui(Editor& editor);
 
     void draw(DrawingContext&);
     void update(float dt_sec);
@@ -43,6 +43,7 @@ class EditorInputGui final
     void reset_pos();
     void update_mouse_icon();
 
+    Editor& m_editor;
     std::unique_ptr<TileSelection> tiles;
     std::string object;
 

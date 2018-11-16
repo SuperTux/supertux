@@ -22,7 +22,8 @@
 #include "supertux/moving_object.hpp"
 #include "supertux/game_object.hpp"
 
-ObjectMenu::ObjectMenu(GameObject *go) :
+ObjectMenu::ObjectMenu(Editor& editor, GameObject *go) :
+  m_editor(editor),
   object(go)
 {
   ObjectSettings os = object->get_settings();
@@ -88,13 +89,9 @@ ObjectMenu::~ObjectMenu()
 {
   object->after_editor_set();
 
-  auto editor = Editor::current();
-  if (editor == nullptr) {
-    return;
-  }
-  editor->reactivate_request = true;
+  m_editor.reactivate_request = true;
   if (! dynamic_cast<MovingObject*>(object)) {
-    editor->sort_layers();
+    m_editor.sort_layers();
   }
 }
 
@@ -103,8 +100,8 @@ ObjectMenu::menu_action(MenuItem& item)
 {
   switch (item.get_id()) {
     case MNID_REMOVE:
-      Editor::current()->delete_markers();
-      Editor::current()->reactivate_request = true;
+      m_editor.delete_markers();
+      m_editor.reactivate_request = true;
       MenuManager::instance().pop_menu();
       object->remove_me();
       break;

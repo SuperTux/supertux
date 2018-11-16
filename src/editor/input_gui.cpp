@@ -35,7 +35,8 @@
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
-EditorInputGui::EditorInputGui() :
+EditorInputGui::EditorInputGui(Editor& editor) :
+  m_editor(editor),
   tiles(new TileSelection()),
   object(),
   input_type(IP_NONE),
@@ -108,7 +109,7 @@ EditorInputGui::draw_tilegroup(DrawingContext& context) {
         continue;
       }
       auto position = get_tile_coords(pos - starting_tile);
-      draw_tile(context.color(), *Editor::current()->get_tileset(), tile_ID, position, LAYER_GUI - 9);
+      draw_tile(context.color(), *m_editor.get_tileset(), tile_ID, position, LAYER_GUI - 9);
 
       if (g_config->developer_mode && active_tilegroup->developers_group)
       {
@@ -119,7 +120,7 @@ EditorInputGui::draw_tilegroup(DrawingContext& context) {
       /*if (tile_ID == 0) {
         continue;
       }
-      const Tile* tg_tile = Editor::current()->get_tileset()->get(tile_ID);
+      const Tile* tg_tile = m_editor.get_tileset()->get(tile_ID);
       tg_tile->draw(context.color(), get_tile_coords(pos - starting_tile), LAYER_GUI-9);*/
     }
   }
@@ -245,15 +246,14 @@ EditorInputGui::event(SDL_Event& ev) {
         switch (hovered_item) {
           case HI_TILEGROUP:
           {
-            auto editor = Editor::current();
-            if (editor->get_tileset()->get_tilegroups().size() > 1)
+            if (m_editor.get_tileset()->get_tilegroups().size() > 1)
             {
-              Editor::current()->disable_keyboard();
+              m_editor.disable_keyboard();
               MenuManager::instance().push_menu(MenuStorage::EDITOR_TILEGROUP_MENU);
             }
             else
             {
-              active_tilegroup.reset(new Tilegroup(editor->get_tileset()->get_tilegroups()[0]));
+              active_tilegroup.reset(new Tilegroup(m_editor.get_tileset()->get_tilegroups()[0]));
               input_type = EditorInputGui::IP_TILE;
               reset_pos();
               update_mouse_icon();
@@ -262,16 +262,15 @@ EditorInputGui::event(SDL_Event& ev) {
             break;
           case HI_OBJECTS:
           {
-            auto editor = Editor::current();
-            if ( (editor->get_worldmap_mode() && object_input->get_num_worldmap_groups() > 1) ||
-                (!editor->get_worldmap_mode() && object_input->get_num_level_groups() > 1) )
+            if ( (m_editor.get_worldmap_mode() && object_input->get_num_worldmap_groups() > 1) ||
+                (!m_editor.get_worldmap_mode() && object_input->get_num_level_groups() > 1) )
             {
-              Editor::current()->disable_keyboard();
+              m_editor.disable_keyboard();
               MenuManager::instance().push_menu(MenuStorage::EDITOR_OBJECTGROUP_MENU);
             }
             else
             {
-              if (editor->get_worldmap_mode())
+              if (m_editor.get_worldmap_mode())
               {
                 active_objectgroup = object_input->get_first_worldmap_group_index();
               }
@@ -327,7 +326,7 @@ EditorInputGui::event(SDL_Event& ev) {
                 update_mouse_icon();
                 break;
               case 3:
-                Editor::current()->esc_press();
+                m_editor.esc_press();
                 break;
               default:
                 break;

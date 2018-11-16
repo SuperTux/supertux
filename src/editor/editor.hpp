@@ -76,8 +76,8 @@ public:
   std::string get_levelfile() const { return levelfile; }
 
   void set_level(const std::string& levelfile_) {
-    Editor::current()->levelfile = levelfile_;
-    Editor::current()->reload_request = true;
+    levelfile = levelfile_;
+    reload_request = true;
   }
 
   std::string get_level_directory() const;

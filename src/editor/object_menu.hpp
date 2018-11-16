@@ -19,16 +19,18 @@
 
 #include "gui/menu.hpp"
 
+class Editor;
 class GameObject;
 
 class ObjectMenu final : public Menu
 {
   public:
-    ObjectMenu(GameObject *go);
+    ObjectMenu(Editor& editor, GameObject *go);
     ~ObjectMenu();
 
     void menu_action(MenuItem& item) override;
 
+    Editor& m_editor;
     GameObject *object;
 
   private:

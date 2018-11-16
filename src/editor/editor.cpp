@@ -60,6 +60,13 @@
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
+bool
+Editor::is_active()
+{
+  auto self = Editor::current();
+  return self && self->levelloaded && !self->leveltested;
+}
+
 Editor::Editor() :
   level(),
   world(),
@@ -78,10 +85,10 @@ Editor::Editor() :
   levelloaded(false),
   leveltested(false),
   tileset(nullptr),
-  inputcenter(),
-  tileselect(),
-  layerselect(),
-  scroller(),
+  inputcenter(*this),
+  tileselect(*this),
+  layerselect(*this),
+  scroller(*this),
   enabled(false),
   bgr_surface(Surface::from_file("images/background/forest1.jpg"))
 {
@@ -553,13 +560,6 @@ Editor::event(SDL_Event& ev)
     }
     inputcenter.event(ev);
   }
-}
-
-bool
-Editor::is_active()
-{
-  auto self = Editor::current();
-  return self && self->levelloaded && !self->leveltested;
 }
 
 void

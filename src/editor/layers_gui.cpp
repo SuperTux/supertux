@@ -33,7 +33,8 @@
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
-EditorLayersGui::EditorLayersGui() :
+EditorLayersGui::EditorLayersGui(Editor& editor) :
+  m_editor(editor),
   layers(),
   selected_tilemap(),
   Ypos(448),
@@ -83,7 +84,7 @@ EditorLayersGui::draw(DrawingContext& context) {
                                        LAYER_GUI-5);
   }
 
-  if (!Editor::current()->is_level_loaded()) {
+  if (!m_editor.is_level_loaded()) {
     return;
   }
 
@@ -114,15 +115,15 @@ EditorLayersGui::update(float dt_sec) {
 }
 
 bool
-EditorLayersGui::event(SDL_Event& ev) {
-  auto editor = Editor::current();
+EditorLayersGui::event(SDL_Event& ev)
+{
   switch (ev.type) {
     case SDL_MOUSEBUTTONDOWN:
     {
       if (ev.button.button == SDL_BUTTON_LEFT) {
         switch (hovered_item) {
           case HI_SECTOR:
-            editor->disable_keyboard();
+            m_editor.disable_keyboard();
             MenuManager::instance().set_menu(MenuStorage::EDITOR_SECTORS_MENU);
             break;
           case HI_LAYERS:
@@ -135,12 +136,12 @@ EditorLayersGui::event(SDL_Event& ev) {
               }
               selected_tilemap = layers[hovered_layer]->layer;
               (static_cast<TileMap*>(selected_tilemap))->m_editor_active = true;
-              editor->edit_path((static_cast<TileMap*>(selected_tilemap))->get_path(),
+              m_editor.edit_path((static_cast<TileMap*>(selected_tilemap))->get_path(),
                                                        selected_tilemap);
             } else {
               auto cam = dynamic_cast<Camera*>(layers[hovered_layer]->layer);
               if (cam) {
-                editor->edit_path(cam->get_path(), cam);
+                m_editor.edit_path(cam->get_path(), cam);
               }
             }
             break;
@@ -150,8 +151,8 @@ EditorLayersGui::event(SDL_Event& ev) {
         }
       } else if (ev.button.button == SDL_BUTTON_RIGHT) {
         if (hovered_item == HI_LAYERS && hovered_layer < layers.size()) {
-          auto om = std::make_unique<ObjectMenu>(layers[hovered_layer]->layer);
-          editor->deactivate_request = true;
+          auto om = std::make_unique<ObjectMenu>(m_editor, layers[hovered_layer]->layer);
+          m_editor.deactivate_request = true;
           MenuManager::instance().push_menu(move(om));
         } else {
           return false;
@@ -213,7 +214,7 @@ EditorLayersGui::setup() {
 
 void
 EditorLayersGui::refresh_sector_text() {
-  sector_text = _("Sector") + ": " + Editor::current()->currentsector->get_name();
+  sector_text = _("Sector") + ": " + m_editor.currentsector->get_name();
   sector_text_width  = int(Resources::normal_font->get_text_width(sector_text)) + 6;
 }
 

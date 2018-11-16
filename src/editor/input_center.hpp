@@ -22,6 +22,7 @@
 
 class Color;
 class DrawingContext;
+class Editor;
 class GameObject;
 class MovingObject;
 class NodeMarker;
@@ -38,7 +39,7 @@ public:
   static int selected_snap_grid_size;
 
 public:
-  EditorInputCenter();
+  EditorInputCenter(Editor& editor);
 
   void event(SDL_Event& ev);
   void draw(DrawingContext&);
@@ -88,6 +89,7 @@ private:
   void update_tile_selection();
 
 private:
+  Editor& m_editor;
   Vector hovered_tile;
   Vector sector_pos;
   Vector mouse_pos;

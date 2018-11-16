@@ -35,7 +35,8 @@ const float SIZE = 96;
 
 bool EditorScroller::rendered = true;
 
-EditorScroller::EditorScroller() :
+EditorScroller::EditorScroller(Editor& editor) :
+  m_editor(editor),
   scrolling(),
   scrolling_vec(0, 0),
   mouse_pos(0, 0)
@@ -86,17 +87,16 @@ EditorScroller::update(float dt_sec) {
 
   float horiz_scroll = scrolling_vec.x * dt_sec;
   float vert_scroll = scrolling_vec.y * dt_sec;
-  auto editor = Editor::current();
 
   if (horiz_scroll < 0)
-    editor->scroll_left(-horiz_scroll);
+    m_editor.scroll_left(-horiz_scroll);
   else if (horiz_scroll > 0)
-    editor->scroll_right(horiz_scroll);
+    m_editor.scroll_right(horiz_scroll);
 
   if (vert_scroll < 0)
-    editor->scroll_up(-vert_scroll);
+    m_editor.scroll_up(-vert_scroll);
   else if (vert_scroll > 0)
-    editor->scroll_down(vert_scroll);
+    m_editor.scroll_down(vert_scroll);
 }
 
 bool
