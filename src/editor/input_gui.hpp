@@ -32,74 +32,79 @@ class ToolIcon;
 
 class EditorInputGui final
 {
-  public:
-    EditorInputGui(Editor& editor);
+public:
+  enum HoveredItem {
+    HI_NONE, HI_TILEGROUP, HI_OBJECTS, HI_TILE, HI_TOOL
+  };
 
-    void draw(DrawingContext&);
-    void update(float dt_sec);
-    bool event(SDL_Event& ev);
-    void setup();
-    void resize();
-    void reset_pos();
-    void update_mouse_icon();
+  enum TileScrolling {
+    TS_NONE, TS_UP, TS_DOWN
+  };
 
-    Editor& m_editor;
-    std::unique_ptr<TileSelection> tiles;
-    std::string object;
+  enum InputType {
+    IP_NONE, IP_TILE, IP_OBJECT
+  };
 
-    typedef enum {
-      IP_NONE, IP_TILE, IP_OBJECT
-    } InputType;
-    InputType input_type;
+public:
+  EditorInputGui(Editor& editor);
 
-    std::unique_ptr<Tilegroup> active_tilegroup;
-    int active_objectgroup;
-    std::unique_ptr<ObjectInput> object_input;
+  void draw(DrawingContext&);
+  void update(float dt_sec);
+  bool event(SDL_Event& ev);
+  void setup();
+  void resize();
+  void reset_pos();
+  void update_mouse_icon();
 
-    std::unique_ptr<ToolIcon> rubber;
-    std::unique_ptr<ToolIcon> select_mode;
-    std::unique_ptr<ToolIcon> move_mode;
-    std::unique_ptr<ToolIcon> settings_mode;
+private:
+  Vector get_tile_coords(const int pos) const;
+  int get_tile_pos(const Vector& coords) const;
+  Vector get_tool_coords(const int pos) const;
+  int get_tool_pos(const Vector& coords) const;
 
-  private:
+  Rectf get_item_rect(const HoveredItem& item) const;
 
-    typedef enum {
-      HI_NONE, HI_TILEGROUP, HI_OBJECTS, HI_TILE, HI_TOOL
-    } HoveredItem;
+  void update_selection();
+  Rectf normalize_selection() const;
+  Rectf selection_draw_rect() const;
 
-    typedef enum {
-      TS_NONE, TS_UP, TS_DOWN
-    } TileScrolling;
+  void draw_tilegroup(DrawingContext&);
+  void draw_objectgroup(DrawingContext&);
 
-    HoveredItem hovered_item;
-    int hovered_tile;
-    TileScrolling tile_scrolling;
-    bool using_scroll_wheel;
-    int wheel_scroll_amount;
-    int starting_tile;
-    bool dragging;
-    Vector drag_start;
+private:
+  Editor& m_editor;
 
-    int Xpos;
-    const int Ypos = 60;
+public:
+  std::unique_ptr<TileSelection> tiles;
+  std::string object;
+  InputType input_type;
 
-    Vector get_tile_coords(const int pos) const;
-    int get_tile_pos(const Vector& coords) const;
-    Vector get_tool_coords(const int pos) const;
-    int get_tool_pos(const Vector& coords) const;
+  std::unique_ptr<Tilegroup> active_tilegroup;
+  int active_objectgroup;
+  std::unique_ptr<ObjectInput> object_input;
 
-    Rectf get_item_rect(const HoveredItem& item) const;
+public:
+  std::unique_ptr<ToolIcon> rubber;
+  std::unique_ptr<ToolIcon> select_mode;
+  std::unique_ptr<ToolIcon> move_mode;
+  std::unique_ptr<ToolIcon> settings_mode;
 
-    void update_selection();
-    Rectf normalize_selection() const;
-    Rectf selection_draw_rect() const;
+private:
+  HoveredItem hovered_item;
+  int hovered_tile;
+  TileScrolling tile_scrolling;
+  bool using_scroll_wheel;
+  int wheel_scroll_amount;
+  int starting_tile;
+  bool dragging;
+  Vector drag_start;
 
-    void draw_tilegroup(DrawingContext&);
-    void draw_objectgroup(DrawingContext&);
+  int Xpos;
+  const int Ypos = 60;
 
-  private:
-    EditorInputGui(const EditorInputGui&) = delete;
-    EditorInputGui& operator=(const EditorInputGui&) = delete;
+private:
+  EditorInputGui(const EditorInputGui&) = delete;
+  EditorInputGui& operator=(const EditorInputGui&) = delete;
 };
 
 #endif
