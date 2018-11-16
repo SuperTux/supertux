@@ -1,6 +1,8 @@
 # Build Files
 build/
 build.*/
+**/CMakeFiles/
+**/CMakeCache.txt
 supertux2
 # Windows build files
 Debug/
