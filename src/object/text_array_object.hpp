@@ -35,203 +35,122 @@ class TextArrayObject final : public GameObject,
                               public ExposedObject<TextArrayObject, scripting::TextArray>
 {
 public:
-  /**
-   * TextArrayObject constructor
-   *
-   * @param: name_  name of GameObject.
-   */
   TextArrayObject(const std::string& name = std::string());
   TextArrayObject(const ReaderMapping& reader);
 
-  /**
-   * TextArrayObject destructor (default)
-   */
   ~TextArrayObject() = default;
 
-  /////////// TextArray api related ///////////
+  virtual void draw(DrawingContext& context) override;
+  virtual void update(float dt_sec) override;
 
-  /**
-   * Empties the text array.
-   */
-  void clear();
+  virtual bool is_singleton() const override { return true; }
+  virtual bool is_saveable() const override { return false; }
 
-  virtual std::string get_class() const override {
-    return "text-array";
-  }
-  virtual std::string get_display_name() const override {
-    return _("Text array");
-  }
+  virtual std::string get_class() const override { return "text-array"; }
+  virtual std::string get_display_name() const override { return _("Text array"); }
 
   virtual const std::string get_icon_path() const override {
     return "images/engine/editor/textarray.png";
   }
 
-  /**
-   * Adds a text with duration.
-   *
-   * @param: text      the text itself (can be multiline & formatted).
-   * @param: duration  (optional) the text display time in seconds, defaults to 3.
-   */
+  /////////// TextArray api related ///////////
+
+  /** Empties the text array. */
+  void clear();
+
+  /** Adds a text with duration.
+      @param: text      the text itself (can be multiline & formatted).
+      @param: duration  (optional) the text display time in seconds, defaults to 3. */
   void add_text(const std::string& text, float duration = 3.0f);
 
-  /**
-   * Sets the current text index.
-   *
-   * @param: index the index to set to.
-   */
+  /** Sets the current text index.
+      @param: index the index to set to. */
   void set_text_index(ta_index index);
 
-  /**
-   * Sets the keep visible flag.
-   * This flag overrides all texts to be visible.
-   *
-   * @note: fade_transition overrides this
-   *
-   * @param: keep_visible  true to enable keep_visible; false to disable the flag.
-   */
+  /** Sets the keep visible flag.
+      This flag overrides all texts to be visible.
+      @note: fade_transition overrides this
+      @param: keep_visible  true to enable keep_visible; false to disable the flag. */
   void set_keep_visible(bool keep_visible);
 
-  /**
-   * Sets the fade transition flag.
-   * This flag overrides all texts to be visible and fading.
-   *
-   * @note: overrides keep_visible flag
-   */
+  /** Sets the fade transition flag.
+      This flag overrides all texts to be visible and fading.
+      @note: overrides keep_visible flag */
   void set_fade_transition(bool fade_transition);
 
-  /**
-   * Sets fadetime for fade_transition.
-   *
-   * @param: fadetime  the fade time.
-   *
-   * @note: does NOT override the TextArray::fade_in() method.
-   */
+  /** Sets fadetime for fade_transition.
+      @param: fadetime  the fade time.
+      @note: does NOT override the TextArray::fade_in() method. */
   void set_fade_time(float fadetime);
 
-  /**
-   * Sets the done flag as on. This disables the text array.
-   *
-   * @note: the text array is not cleared.
-   *
-   * @param: done  true for on; false for off.
-   */
+  /** Sets the done flag as on. This disables the text array.
+      @note: the text array is not cleared.
+      @param: done  true for on; false for off. */
   void set_done(bool done);
 
-  /**
-   * Sets the auto flag on & starts the auto narration.
-   *
-   * @note: this starts the auto narration immediately!
-   *        this is disabled once the user inputs a skip!
-   */
+  /** Sets the auto flag on & starts the auto narration.
+      @note: this starts the auto narration immediately!
+      this is disabled once the user inputs a skip! */
   void set_auto(bool is_auto);
 
-  /**
-   * Sets the current text to the next one.
-   *
-   * @note: if the text is the last on the array,
-   *        the done flag is set, and the text array is disabled.
-   */
+  /** Sets the current text to the next one.
+      @note: if the text is the last on the array,
+      the done flag is set, and the text array is disabled. */
   void next_text();
 
-  /**
-   * Sets the current text to the previous.
-   *
-   * @note: if the current text is the first on the array,
-   *        it stays that way.
-   */
+  /** Sets the current text to the previous.
+      @note: if the current text is the first on the array,
+      it stays that way. */
   void prev_text();
 
   /////////// TextArrayObject access ///////////
 
-  /**
-   * Gets the text item at a certain index.
-   *
-   * @param: index  the index of the text item to get.
-   *
-   * @return: pointer to the text array item; or nullptr if fails.
-   */
+  /** Gets the text item at a certain index.
+      @param: index  the index of the text item to get.
+      @return: pointer to the text array item; or nullptr if fails. */
   TextArrayItem* get_text_item(ta_index index);
 
-  /**
-   * Gets the current text item.
-   *
-   * @return: pointer the current text array item; or nullptr if fails.
-   */
+  /** Gets the current text item.
+      @return: pointer the current text array item; or nullptr if fails. */
   TextArrayItem* get_current_text_item();
 
-  /**
-   * Gets the last text item.
-   *
-   * @return: pointer to the last text item; or nullptr if fails.
-   */
+  /** Gets the last text item.
+      @return: pointer to the last text item; or nullptr if fails. */
   TextArrayItem* get_last_text_item();
 
-  /////////// GameObject api related ///////////
-
-  /**
-   * Overrides draw for GameObject.
-   * Draws current text / transitions between last and current.
-   *
-   * @see: GameObject, TextObject
-   *
-   * @param: context  the drawing context.
-   */
-  virtual void draw(DrawingContext& context) override;
-
-  /**
-   * Updates the text array.
-   *
-   * @see: GameObject, TextObject
-   *
-   * @param: dt_sec  the elapsed time.
-   */
-  virtual void update(float dt_sec) override;
-
-  /////////// internals  ///////////
-  virtual bool is_saveable() const override { return false; }
-
 private:
-  /**
-   * Overrides the properties of the text objects, according to the flags.
-   */
+  /** Overrides the properties of the text objects, according to the flags. */
   void override_properties();
 
-  /**
-   * Resets the auto narration state and updates it if necessary.
-   */
+  /** Resets the auto narration state and updates it if necessary. */
   void reset_automation();
 
-  /**
-   * Handles user input requests (skipping, rewinding)
-   *
-   * @note: might change to manual mode (disables auto flag)
-   */
+  /** Handles user input requests (skipping, rewinding)
+      @note: might change to manual mode (disables auto flag) */
   void handle_input_requests();
 
-  /**
-   * Should fade transition logic apply
-   *
-   * @return: true if fadeTransition flag is on & the transition is valid;
-   *          false otherwise.
-   */
+  /** Should fade transition logic apply
+      @return: true if fadeTransition flag is on & the transition is valid;
+      false otherwise. */
   bool should_fade();
 
 private:
-  /** flags */
   bool m_isDone;
   bool m_isAuto;
   bool m_keepVisible;
   bool m_fadeTransition;
 
-  /** fade transition related */
   float m_fadetime;
 
-  /** text items related */
   std::vector<std::unique_ptr<TextArrayItem> > m_texts;
-  ta_index m_curTextIndex, m_lastTextIndex;
+  ta_index m_curTextIndex;
+  ta_index m_lastTextIndex;
 
-  /** timer for auto narration */
   Timer m_waiting;
+
+private:
+  TextArrayObject(const TextArrayObject&) = delete;
+  TextArrayObject& operator=(const TextArrayObject&) = delete;
 };
 
 #endif

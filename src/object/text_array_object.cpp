@@ -47,13 +47,15 @@ TextArrayObject::TextArrayObject(const ReaderMapping& reader) :
 {
 }
 
-void TextArrayObject::clear()
+void
+TextArrayObject::clear()
 {
   m_texts.clear();
   reset_automation();
 }
 
-void TextArrayObject::add_text(const std::string& text, float duration)
+void
+TextArrayObject::add_text(const std::string& text, float duration)
 {
   auto pText = std::make_unique<TextArrayItem>();
   assert(pText);
@@ -70,12 +72,14 @@ void TextArrayObject::set_text_index(ta_index index)
     m_curTextIndex = index;
 }
 
-void TextArrayObject::set_fade_time(float fadetime)
+void
+TextArrayObject::set_fade_time(float fadetime)
 {
   m_fadetime = fadetime;
 }
 
-void TextArrayObject::next_text()
+void
+TextArrayObject::next_text()
 {
   if (m_isDone)
     return;
@@ -91,7 +95,8 @@ void TextArrayObject::next_text()
   reset_automation();
 }
 
-void TextArrayObject::prev_text()
+void
+TextArrayObject::prev_text()
 {
   if (m_isDone)
     return;
@@ -105,17 +110,20 @@ void TextArrayObject::prev_text()
   reset_automation();
 }
 
-void TextArrayObject::set_keep_visible(bool keep_visible)
+void
+TextArrayObject::set_keep_visible(bool keep_visible)
 {
   m_keepVisible = keep_visible;
 }
 
-void TextArrayObject::set_fade_transition(bool fade_transition)
+void
+TextArrayObject::set_fade_transition(bool fade_transition)
 {
   m_fadeTransition = fade_transition;
 }
 
-TextArrayItem* TextArrayObject::get_text_item(ta_index index)
+TextArrayItem*
+TextArrayObject::get_text_item(ta_index index)
 {
   auto vecSize = m_texts.size();
 
@@ -125,28 +133,33 @@ TextArrayItem* TextArrayObject::get_text_item(ta_index index)
   return m_texts.at(index).get();
 }
 
-TextArrayItem* TextArrayObject::get_current_text_item()
+TextArrayItem*
+TextArrayObject::get_current_text_item()
 {
   return get_text_item(m_curTextIndex);
 }
 
-TextArrayItem* TextArrayObject::get_last_text_item()
+TextArrayItem*
+TextArrayObject::get_last_text_item()
 {
   return get_text_item(m_lastTextIndex);
 }
 
-void TextArrayObject::set_done(bool done)
+void
+TextArrayObject::set_done(bool done)
 {
   m_isDone = done;
 }
 
-void TextArrayObject::set_auto(bool is_auto)
+void
+TextArrayObject::set_auto(bool is_auto)
 {
   m_isAuto = is_auto;
   reset_automation();
 }
 
-void TextArrayObject::update(float dt_sec)
+void
+TextArrayObject::update(float dt_sec)
 {
   if (m_isDone)
     return;
@@ -177,7 +190,8 @@ void TextArrayObject::update(float dt_sec)
   }
 }
 
-void TextArrayObject::draw(DrawingContext& context)
+void
+TextArrayObject::draw(DrawingContext& context)
 {
   if (m_isDone)
     return;
@@ -197,7 +211,8 @@ void TextArrayObject::draw(DrawingContext& context)
   curTextItem->text_object.draw(context);
 }
 
-void TextArrayObject::override_properties()
+void
+TextArrayObject::override_properties()
 {
   if (!(should_fade() || m_keepVisible))
     return;
@@ -218,7 +233,8 @@ void TextArrayObject::override_properties()
   }
 }
 
-void TextArrayObject::reset_automation()
+void
+TextArrayObject::reset_automation()
 {
   m_waiting.stop();
 
@@ -229,7 +245,8 @@ void TextArrayObject::reset_automation()
   }
 }
 
-void TextArrayObject::handle_input_requests()
+void
+TextArrayObject::handle_input_requests()
 {
   const Controller& controller = InputManager::current()->get_controller();
 
@@ -243,7 +260,8 @@ void TextArrayObject::handle_input_requests()
 
 }
 
-bool TextArrayObject::should_fade()
+bool
+TextArrayObject::should_fade()
 {
   return m_fadeTransition && (m_curTextIndex != m_lastTextIndex);
 }
