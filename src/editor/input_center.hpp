@@ -31,81 +31,81 @@ class Tip;
 
 class EditorInputCenter final
 {
-  public:
-    EditorInputCenter();
+public:
+  static bool render_background;
+  static bool render_grid;
+  static bool snap_to_grid;
+  static int selected_snap_grid_size;
 
-    void event(SDL_Event& ev);
-    void draw(DrawingContext&);
-    void update(float dt_sec);
+public:
+  EditorInputCenter();
 
-    void update_pos();
-    void delete_markers();
-    void update_node_iterators();
+  void event(SDL_Event& ev);
+  void draw(DrawingContext&);
+  void update(float dt_sec);
 
-    void edit_path(Path* path, GameObject* new_marked_object = nullptr);
+  void update_pos();
+  void delete_markers();
+  void update_node_iterators();
 
-    static bool render_background;
-    static bool render_grid;
-    static bool snap_to_grid;
-    static int selected_snap_grid_size;
+  void edit_path(Path* path, GameObject* new_marked_object = nullptr);
 
-    const int snap_grid_sizes[4] = {4, 8, 16, 32};
+private:
+  void input_tile(const Vector& pos, uint32_t tile);
+  void put_tile();
+  void draw_rectangle();
+  void fill();
+  void put_object();
 
-  private:
-    Vector hovered_tile;
-    Vector sector_pos;
-    Vector mouse_pos;
+  void rubber_object();
+  void rubber_rect();
 
-    bool dragging;
-    bool dragging_right;
-    Vector drag_start;
-    MovingObject* dragged_object;
-    MovingObject* hovered_object;
-    GameObject* marked_object;
-    Path* edited_path;
-    NodeMarker* last_node_marker;
-    std::unique_ptr<Tip> object_tip;
-    Vector obj_mouse_desync;
+  void grab_object();
+  void move_object();
+  void clone_object();
+  void hover_object();
+  void set_object();
+  void mark_object();
+  void add_path_node();
 
-    void input_tile(const Vector& pos, uint32_t tile);
-    void put_tile();
-    void draw_rectangle();
-    void fill();
-    void put_object();
+  void draw_tile_tip(DrawingContext&);
+  void draw_tile_grid(DrawingContext&, const Color& line_color, int tile_size = 32);
+  void draw_tilemap_border(DrawingContext&);
+  void draw_path(DrawingContext&);
 
-    void rubber_object();
-    void rubber_rect();
+  void process_left_click();
+  void process_right_click();
 
-    void grab_object();
-    void move_object();
-    void clone_object();
-    void hover_object();
-    void set_object();
-    void mark_object();
-    void add_path_node();
+  // sp is sector pos, tp is pos on tilemap.
+  Vector tp_to_sp(const Vector& tp, int tile_size = 32);
+  Vector sp_to_tp(const Vector& sp, int tile_size = 32);
+  Vector tile_screen_pos(const Vector& tp, int tile_size = 32);
 
-    void draw_tile_tip(DrawingContext&);
-    void draw_tile_grid(DrawingContext&, const Color& line_color, int tile_size = 32);
-    void draw_tilemap_border(DrawingContext&);
-    void draw_path(DrawingContext&);
+  // in sector position
+  Rectf drag_rect();
+  Rectf tile_drag_rect();
+  Rectf selection_draw_rect();
+  void update_tile_selection();
 
-    void process_left_click();
-    void process_right_click();
+private:
+  Vector hovered_tile;
+  Vector sector_pos;
+  Vector mouse_pos;
 
-    // sp is sector pos, tp is pos on tilemap.
-    Vector tp_to_sp(const Vector& tp, int tile_size = 32);
-    Vector sp_to_tp(const Vector& sp, int tile_size = 32);
-    Vector tile_screen_pos(const Vector& tp, int tile_size = 32);
+  bool dragging;
+  bool dragging_right;
+  Vector drag_start;
+  MovingObject* dragged_object;
+  MovingObject* hovered_object;
+  GameObject* marked_object;
+  Path* edited_path;
+  NodeMarker* last_node_marker;
+  std::unique_ptr<Tip> object_tip;
+  Vector obj_mouse_desync;
 
-    // in sector position
-    Rectf drag_rect();
-    Rectf tile_drag_rect();
-    Rectf selection_draw_rect();
-    void update_tile_selection();
-
-  private:
-    EditorInputCenter(const EditorInputCenter&) = delete;
-    EditorInputCenter& operator=(const EditorInputCenter&) = delete;
+private:
+  EditorInputCenter(const EditorInputCenter&) = delete;
+  EditorInputCenter& operator=(const EditorInputCenter&) = delete;
 };
 
 #endif

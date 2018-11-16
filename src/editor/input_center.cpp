@@ -33,6 +33,12 @@
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
+namespace {
+
+  const int snap_grid_sizes[4] = {4, 8, 16, 32};
+
+} // namespace
+
 bool EditorInputCenter::render_background = true;
 bool EditorInputCenter::render_grid = true;
 bool EditorInputCenter::snap_to_grid = false;
