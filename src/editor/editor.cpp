@@ -111,7 +111,8 @@ Editor::draw(Compositor& compositor)
   MouseCursor::current()->draw(context);
 }
 
-void Editor::update(float dt_sec, const Controller& controller)
+void
+Editor::update(float dt_sec, const Controller& controller)
 {
   // Pass all requests
   if (reload_request) {
@@ -408,7 +409,9 @@ Editor::load_sector(const std::string& name)
   load_layers();
 }
 
-void Editor::load_sector(size_t id) {
+void
+Editor::load_sector(size_t id)
+{
   currentsector = level->get_sector(id);
   currentsector->activate("main");
   load_layers();
