@@ -36,13 +36,13 @@ Platform::Platform(const ReaderMapping& reader, const std::string& default_sprit
   m_player_contact(false),
   m_last_player_contact(false)
 {
-  bool running = false;
+  bool running = true;
   reader.get("running", running);
   if ((get_name().empty()) && (!running)) {
     m_automatic = true;
   }
 
-  init_path(reader, false);
+  init_path(reader, true);
 }
 
 void
