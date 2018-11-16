@@ -87,7 +87,8 @@ Editor::Editor() :
 {
 }
 
-void Editor::draw(Compositor& compositor)
+void
+Editor::draw(Compositor& compositor)
 {
   auto& context = compositor.make_context();
 
@@ -160,13 +161,15 @@ void Editor::update(float dt_sec, const Controller& controller)
   }
 }
 
-void Editor::save_level()
+void
+Editor::save_level()
 {
   level->save(world ? FileSystem::join(world->get_basedir(), levelfile) :
               levelfile);
 }
 
-std::string Editor::get_level_directory() const
+std::string
+Editor::get_level_directory() const
 {
   std::string basedir;
   if(world != nullptr)
@@ -177,14 +180,16 @@ std::string Editor::get_level_directory() const
       basedir = PHYSFS_getRealDir(levelfile.c_str());
     }
   }
-  else 
+  else
   {
     basedir = FileSystem::dirname(levelfile);
   }
   return std::string(basedir);
 }
 
-void Editor::test_level() {
+void
+Editor::test_level()
+{
   Tile::draw_editor_images = false;
   Compositor::s_render_lighting = true;
   auto backup_filename = levelfile + "~";
@@ -205,7 +210,8 @@ void Editor::test_level() {
   leveltested = true;
 }
 
-void Editor::open_level_directory()
+void
+Editor::open_level_directory()
 {
   level->save(FileSystem::join(get_level_directory(), levelfile));
   auto path = FileSystem::join(PHYSFS_getWriteDir(), get_level_directory());
@@ -231,27 +237,38 @@ void Editor::open_level_directory()
   #endif
 }
 
-void Editor::set_world(std::unique_ptr<World> w) {
+void
+Editor::set_world(std::unique_ptr<World> w)
+{
   world = std::move(w);
 }
 
-int Editor::get_tileselect_select_mode() const {
+int
+Editor::get_tileselect_select_mode() const
+{
   return tileselect.select_mode->get_mode();
 }
 
-int Editor::get_tileselect_move_mode() const {
+int
+Editor::get_tileselect_move_mode() const
+{
   return tileselect.move_mode->get_mode();
 }
 
-bool Editor::can_scroll_vert() const {
+bool
+Editor::can_scroll_vert() const
+{
   return levelloaded && (currentsector->get_height() + 32 > static_cast<float>(SCREEN_HEIGHT));
 }
 
-bool Editor::can_scroll_horz() const {
+bool
+Editor::can_scroll_horz() const
+{
   return levelloaded && (currentsector->get_width() + 128 > static_cast<float>(SCREEN_WIDTH));
 }
 
-void Editor::scroll_left(float speed)
+void
+Editor::scroll_left(float speed)
 {
   Camera& camera = currentsector->get_camera();
   if (can_scroll_horz()) {
@@ -265,7 +282,9 @@ void Editor::scroll_left(float speed)
   }
 }
 
-void Editor::scroll_right(float speed) {
+void
+Editor::scroll_right(float speed)
+{
   Camera& camera = currentsector->get_camera();
   if (can_scroll_horz()) {
     if (camera.get_translation().x <= currentsector->get_width() - static_cast<float>(SCREEN_WIDTH) + 128.0f - 32.0f * speed) {
@@ -279,7 +298,9 @@ void Editor::scroll_right(float speed) {
   }
 }
 
-void Editor::scroll_up(float speed) {
+void
+Editor::scroll_up(float speed)
+{
   Camera& camera = currentsector->get_camera();
   if (can_scroll_vert()) {
     if (camera.get_translation().y >= speed*32) {
@@ -292,7 +313,9 @@ void Editor::scroll_up(float speed) {
   }
 }
 
-void Editor::scroll_down(float speed) {
+void
+Editor::scroll_down(float speed)
+{
   Camera& camera = currentsector->get_camera();
   if (can_scroll_vert()) {
     if (camera.get_translation().y <= currentsector->get_height() - static_cast<float>(SCREEN_HEIGHT) - 32.0f * speed) {
@@ -306,14 +329,17 @@ void Editor::scroll_down(float speed) {
   }
 }
 
-void Editor::esc_press() {
+void
+Editor::esc_press()
+{
   enabled = false;
   inputcenter.delete_markers();
   MenuManager::instance().set_menu(MenuStorage::EDITOR_MENU);
 }
 
-void Editor::update_keyboard(const Controller& controller) {
-
+void
+Editor::update_keyboard(const Controller& controller)
+{
   if (!enabled){
     return;
   }
@@ -340,7 +366,9 @@ void Editor::update_keyboard(const Controller& controller) {
   }
 }
 
-void Editor::load_layers() {
+void
+Editor::load_layers()
+{
   layerselect.selected_tilemap = nullptr;
   layerselect.layers.clear();
   bool tsel = false;
@@ -368,7 +396,9 @@ void Editor::load_layers() {
   layerselect.refresh_sector_text();
 }
 
-void Editor::load_sector(const std::string& name) {
+void
+Editor::load_sector(const std::string& name)
+{
   currentsector = level->get_sector(name);
   if (!currentsector) {
     size_t i = 0;
@@ -384,7 +414,9 @@ void Editor::load_sector(size_t id) {
   load_layers();
 }
 
-void Editor::reload_level() {
+void
+Editor::reload_level()
+{
   reload_request = false;
   enabled = true;
   tileselect.input_type = EditorInputGui::IP_NONE;
@@ -405,7 +437,9 @@ void Editor::reload_level() {
   tileselect.update_mouse_icon();
 }
 
-void Editor::quit_editor() {
+void
+Editor::quit_editor()
+{
   //Quit level editor
   world = nullptr;
   levelfile = "";
@@ -416,14 +450,16 @@ void Editor::quit_editor() {
   ScreenManager::current()->pop_screen();
 }
 
-void Editor::leave()
+void
+Editor::leave()
 {
   MouseCursor::current()->set_icon(nullptr);
   Compositor::s_render_lighting = true;
 }
 
 void
-Editor::setup() {
+Editor::setup()
+{
   Tile::draw_editor_images = true;
   Sector::s_draw_solids_only = false;
   if (!levelloaded) {
@@ -485,7 +521,8 @@ Editor::setup() {
 }
 
 void
-Editor::resize() {
+Editor::resize()
+{
   // Calls on window resize.
   tileselect.resize();
   layerselect.resize();
@@ -493,7 +530,8 @@ Editor::resize() {
 }
 
 void
-Editor::event(SDL_Event& ev) {
+Editor::event(SDL_Event& ev)
+{
   if (enabled) {
     if (ev.type == SDL_KEYDOWN && ev.key.keysym.sym == SDLK_F6) {
       Compositor::s_render_lighting = !Compositor::s_render_lighting;
@@ -515,28 +553,33 @@ Editor::event(SDL_Event& ev) {
 }
 
 bool
-Editor::is_active() {
+Editor::is_active()
+{
   auto self = Editor::current();
   return self && self->levelloaded && !self->leveltested;
 }
 
 void
-Editor::update_node_iterators() {
+Editor::update_node_iterators()
+{
   inputcenter.update_node_iterators();
 }
 
 void
-Editor::delete_markers() {
+Editor::delete_markers()
+{
   inputcenter.delete_markers();
 }
 
 void
-Editor::sort_layers() {
+Editor::sort_layers()
+{
   layerselect.sort_layers();
 }
 
 void
-Editor::select_tilegroup(int id) {
+Editor::select_tilegroup(int id)
+{
   tileselect.active_tilegroup.reset(new Tilegroup(tileset->get_tilegroups()[id]));
   tileselect.input_type = EditorInputGui::IP_TILE;
   tileselect.reset_pos();
@@ -544,12 +587,14 @@ Editor::select_tilegroup(int id) {
 }
 
 const std::vector<Tilegroup>&
-Editor::get_tilegroups() const {
-	return tileset->get_tilegroups();
+Editor::get_tilegroups() const
+{
+  return tileset->get_tilegroups();
 }
 
 void
-Editor::change_tileset() {
+Editor::change_tileset()
+{
   tileset = TileManager::current()->get_tileset(level->get_tileset());
   tileselect.input_type = EditorInputGui::IP_NONE;
   for (const auto& sector : level->m_sectors) {
@@ -560,16 +605,18 @@ Editor::change_tileset() {
 }
 
 void
-Editor::select_objectgroup(int id) {
-    tileselect.active_objectgroup = id;
-    tileselect.input_type = EditorInputGui::IP_OBJECT;
-    tileselect.reset_pos();
-    tileselect.update_mouse_icon();
+Editor::select_objectgroup(int id)
+{
+  tileselect.active_objectgroup = id;
+  tileselect.input_type = EditorInputGui::IP_OBJECT;
+  tileselect.reset_pos();
+  tileselect.update_mouse_icon();
 }
 
 const std::vector<ObjectGroup>&
-Editor::get_objectgroups() const {
-	return tileselect.object_input->groups;
+Editor::get_objectgroups() const
+{
+  return tileselect.object_input->groups;
 }
 
 void
