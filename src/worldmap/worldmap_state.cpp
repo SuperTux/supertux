@@ -76,16 +76,16 @@ WorldMapState::load_state()
     for (auto& level : m_worldmap.get_objects_by_type<LevelTile>()) {
       sq_pushstring(vm, level.get_name().c_str(), -1);
       if (SQ_SUCCEEDED(sq_get(vm, -2))) {
-        if (!get_bool(vm, "solved", level.solved))
+        if (!get_bool(vm, "solved", level.m_solved))
         {
-          level.solved = false;
+          level.m_solved = false;
         }
-        if (!get_bool(vm, "perfect", level.perfect))
+        if (!get_bool(vm, "perfect", level.m_perfect))
         {
-          level.perfect = false;
+          level.m_perfect = false;
         }
         level.update_sprite_action();
-        level.statistics.unserialize_from_squirrel(vm);
+        level.m_statistics.unserialize_from_squirrel(vm);
         sq_pop(vm, 1);
       }
     }
@@ -143,8 +143,8 @@ WorldMapState::load_state()
       get_table_entry(vm, "sprite-changes");
       for (auto& sc : m_worldmap.get_objects_by_type<SpriteChange>())
       {
-        auto key = std::to_string(int(sc.pos.x)) + "_" +
-                   std::to_string(int(sc.pos.y));
+        auto key = std::to_string(int(sc.m_pos.x)) + "_" +
+                   std::to_string(int(sc.m_pos.y));
         sq_pushstring(vm, key.c_str(), -1);
         if (SQ_SUCCEEDED(sq_get(vm, -2))) {
           bool show_stay_action = false;
@@ -214,8 +214,8 @@ WorldMapState::save_state() const
 
       for (const auto& sc : m_worldmap.get_objects_by_type<SpriteChange>())
       {
-        auto key = std::to_string(int(sc.pos.x)) + "_" +
-                   std::to_string(int(sc.pos.y));
+        auto key = std::to_string(int(sc.m_pos.x)) + "_" +
+                   std::to_string(int(sc.m_pos.y));
         begin_table(vm, key.c_str());
         store_bool(vm, "show-stay-action", sc.show_stay_action());
         end_table(vm, key.c_str());
@@ -249,9 +249,9 @@ WorldMapState::save_state() const
 
     for (const auto& level : m_worldmap.get_objects_by_type<LevelTile>()) {
       begin_table(vm, level.get_name().c_str());
-      store_bool(vm, "solved", level.solved);
-      store_bool(vm, "perfect", level.perfect);
-      level.statistics.serialize_to_squirrel(vm);
+      store_bool(vm, "solved", level.m_solved);
+      store_bool(vm, "perfect", level.m_perfect);
+      level.m_statistics.serialize_to_squirrel(vm);
       end_table(vm, level.get_name().c_str());
     }
     end_table(vm, "levels");

@@ -22,29 +22,30 @@
 
 namespace worldmap {
 
-SpawnPoint::SpawnPoint(const ReaderMapping& slisp) :
-  name(),
-  pos(),
-  auto_dir(D_NONE)
+SpawnPoint::SpawnPoint(const ReaderMapping& mapping) :
+  m_name(),
+  m_pos(),
+  m_auto_dir(D_NONE)
 {
-  pos.x = -1;
-  pos.y = -1;
+  m_pos.x = -1;
+  m_pos.y = -1;
 
-  slisp.get("name", name);
-  slisp.get("x", pos.x);
-  slisp.get("y", pos.y);
+  mapping.get("name", m_name);
+  mapping.get("x", m_pos.x);
+  mapping.get("y", m_pos.y);
 
   std::string auto_dir_str;
-  if (slisp.get("auto-dir", auto_dir_str)) {
-    auto_dir = string_to_direction(auto_dir_str);
+  if (mapping.get("auto-dir", auto_dir_str)) {
+    m_auto_dir = string_to_direction(auto_dir_str);
   }
 
-  if (name.empty())
+  if (m_name.empty())
     throw std::runtime_error("No name specified for spawnpoint");
-  if (pos.x < 0 || pos.y < 0)
+
+  if (m_pos.x < 0 || m_pos.y < 0)
     throw std::runtime_error("Invalid coordinates for spawnpoint");
 }
 
-}
+} // namespace worldmap
 
 /* EOF */

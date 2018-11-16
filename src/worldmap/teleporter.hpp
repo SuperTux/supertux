@@ -30,29 +30,29 @@ namespace worldmap {
 class Teleporter final : public GameObject
 {
 public:
-  Teleporter(const ReaderMapping& lisp);
+  Teleporter(const ReaderMapping& mapping);
 
   virtual void draw(DrawingContext& context) override;
   virtual void update(float dt_sec) override;
 
 public:
   /** Position (in tiles, not pixels) */
-  Vector pos;
+  Vector m_pos;
 
   /** Sprite to render, or 0 for no sprite */
-  SpritePtr sprite;
+  SpritePtr m_sprite;
 
   /** Worldmap filename (relative to data root) to teleport to. Leave empty to use current word */
-  std::string worldmap;
+  std::string m_worldmap;
 
   /** Spawnpoint to teleport to. Leave empty to use "main" or last one */
-  std::string spawnpoint;
+  std::string m_spawnpoint;
 
   /** true if this teleporter does not need to be activated, but teleports Tux as soon as it's touched */
-  bool automatic;
+  bool m_automatic;
 
   /** optional map message to display */
-  std::string message;
+  std::string m_message;
 
 private:
   Teleporter(const Teleporter&) = delete;

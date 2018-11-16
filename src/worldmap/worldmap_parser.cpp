@@ -155,8 +155,8 @@ void
 WorldMapParser::load_level_information(LevelTile& level)
 {
   /** get special_tile's title */
-  level.title = _("<no title>");
-  level.target_time = 0.0f;
+  level.m_title = _("<no title>");
+  level.m_target_time = 0.0f;
 
   try {
     std::string filename = m_worldmap.m_levels_path + level.get_name();
@@ -181,9 +181,9 @@ WorldMapParser::load_level_information(LevelTile& level)
     if (root.get_name() != "supertux-level") {
       return;
     } else {
-      auto level_lisp = root.get_mapping();
-      level_lisp.get("name", level.title);
-      level_lisp.get("target-time", level.target_time);
+      auto level_mapping = root.get_mapping();
+      level_mapping.get("name", level.m_title);
+      level_mapping.get("target-time", level.m_target_time);
     }
   } catch(std::exception& e) {
     log_warning << "Problem when reading level information: " << e.what() << std::endl;

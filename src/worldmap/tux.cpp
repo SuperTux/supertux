@@ -153,7 +153,7 @@ Tux::tryStartWalking()
 
   // We got a new direction, so lets start walking when possible
   Vector next_tile;
-  if ((!level || level->solved || level->perfect
+  if ((!level || level->m_solved || level->m_perfect
       || (Editor::current() && Editor::current()->is_testing_level()))
       && m_worldmap->path_ok(m_input_direction, m_tile_pos, &next_tile)) {
     m_tile_pos = next_tile;
@@ -183,9 +183,9 @@ Tux::ChangeSprite(SpriteChange* sprite_change)
 {
   //SpriteChange* sprite_change = m_worldmap->at_sprite_change(tile_pos);
   if (sprite_change != nullptr) {
-    m_sprite = sprite_change->sprite->clone();
+    m_sprite = sprite_change->m_sprite->clone();
     sprite_change->clear_stay_action();
-    m_worldmap->get_savegame().get_player_status().worldmap_sprite = sprite_change->sprite_name;
+    m_worldmap->get_savegame().get_player_status().worldmap_sprite = sprite_change->m_sprite_name;
   }
 }
 
@@ -213,10 +213,10 @@ Tux::tryContinueWalking(float dt_sec)
   {
     // direction and the apply_action_ are opposites, since they "see"
     // directions in a different way
-    if ((m_direction == D_NORTH && special_tile->apply_action_south) ||
-       (m_direction == D_SOUTH && special_tile->apply_action_north) ||
-       (m_direction == D_WEST && special_tile->apply_action_east) ||
-       (m_direction == D_EAST && special_tile->apply_action_west))
+    if ((m_direction == D_NORTH && special_tile->m_apply_action_south) ||
+       (m_direction == D_SOUTH && special_tile->m_apply_action_north) ||
+       (m_direction == D_WEST && special_tile->m_apply_action_east) ||
+       (m_direction == D_EAST && special_tile->m_apply_action_west))
     {
       process_special_tile(special_tile);
     }
@@ -228,11 +228,11 @@ Tux::tryContinueWalking(float dt_sec)
   // stop if we reached a level, a WORLDMAP_STOP tile, a teleporter or a special tile without a passive_message
   if ((m_worldmap->at_level()) ||
       (m_worldmap->tile_data_at(m_tile_pos) & Tile::WORLDMAP_STOP) ||
-      (special_tile && !special_tile->passive_message && special_tile->script.empty()) ||
+      (special_tile && !special_tile->m_passive_message && special_tile->m_script.empty()) ||
       (teleporter) ||
       m_ghost_mode)
   {
-    if (special_tile && !special_tile->map_message.empty() && !special_tile->passive_message) {
+    if (special_tile && !special_tile->m_map_message.empty() && !special_tile->m_passive_message) {
       m_worldmap->set_passive_message({}, 0.0f);
     }
     stop();
@@ -279,7 +279,7 @@ Tux::tryContinueWalking(float dt_sec)
   }
 
   auto next_sprite = m_worldmap->at_sprite_change(next_tile);
-  if (next_sprite != nullptr && next_sprite->change_on_touch) {
+  if (next_sprite != nullptr && next_sprite->m_change_on_touch) {
     ChangeSprite(next_sprite);
   }
   //SpriteChange* last_sprite = m_worldmap->at_sprite_change(tile_pos);
@@ -330,11 +330,11 @@ Tux::process_special_tile(SpecialTile* special_tile) {
     return;
   }
 
-  if (special_tile->passive_message) {
-    m_worldmap->set_passive_message(special_tile->map_message, map_message_TIME);
-  } else if (!special_tile->script.empty()) {
+  if (special_tile->m_passive_message) {
+    m_worldmap->set_passive_message(special_tile->m_map_message, map_message_TIME);
+  } else if (!special_tile->m_script.empty()) {
     try {
-      m_worldmap->run_script(special_tile->script, "specialtile");
+      m_worldmap->run_script(special_tile->m_script, "specialtile");
     } catch(std::exception& e) {
       log_warning << "Couldn't execute special tile script: " << e.what()
                   << std::endl;

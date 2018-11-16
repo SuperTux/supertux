@@ -31,33 +31,33 @@ namespace worldmap {
 class SpecialTile final : public GameObject
 {
 public:
-  SpecialTile(const ReaderMapping& lisp);
+  SpecialTile(const ReaderMapping& mapping);
   virtual ~SpecialTile();
 
   virtual void draw(DrawingContext& context) override;
   virtual void update(float dt_sec) override;
 
 public:
-  Vector pos;
+  Vector m_pos;
 
   /** Sprite to render instead of guessing what image to draw */
-  SpritePtr sprite;
+  SpritePtr m_sprite;
 
   /** Message to show in the Map */
-  std::string map_message;
-  bool passive_message;
+  std::string m_map_message;
+  bool m_passive_message;
 
   /** Script to execute when tile is touched */
-  std::string script;
+  std::string m_script;
 
   /** Hide special tile */
-  bool invisible;
+  bool m_invisible;
 
   /** Only applies actions (ie. passive messages) when going to that direction */
-  bool apply_action_north;
-  bool apply_action_east;
-  bool apply_action_south;
-  bool apply_action_west;
+  bool m_apply_action_north;
+  bool m_apply_action_east;
+  bool m_apply_action_south;
+  bool m_apply_action_west;
 
 private:
   SpecialTile(const SpecialTile&) = delete;

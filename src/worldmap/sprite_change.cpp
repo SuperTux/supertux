@@ -25,26 +25,26 @@ namespace worldmap {
 
 std::list<SpriteChange*> SpriteChange::s_all_sprite_changes;
 
-SpriteChange::SpriteChange(const ReaderMapping& lisp) :
-  pos(),
-  change_on_touch(false),
-  sprite(),
-  sprite_name(),
-  stay_action(),
-  stay_group(),
-  in_stay_action(false)
+SpriteChange::SpriteChange(const ReaderMapping& mapping) :
+  m_pos(),
+  m_change_on_touch(false),
+  m_sprite(),
+  m_sprite_name(),
+  m_stay_action(),
+  m_stay_group(),
+  m_in_stay_action(false)
 {
-  lisp.get("x", pos.x);
-  lisp.get("y", pos.y);
-  lisp.get("change-on-touch", change_on_touch);
+  mapping.get("x", m_pos.x);
+  mapping.get("y", m_pos.y);
+  mapping.get("change-on-touch", m_change_on_touch);
 
-  if (!lisp.get("sprite", sprite_name)) sprite_name = "";
-  sprite = SpriteManager::current()->create(sprite_name);
+  if (!mapping.get("sprite", m_sprite_name)) m_sprite_name = "";
+  m_sprite = SpriteManager::current()->create(m_sprite_name);
 
-  lisp.get("stay-action", stay_action);
-  lisp.get("initial-stay-action", in_stay_action);
+  mapping.get("stay-action", m_stay_action);
+  mapping.get("initial-stay-action", m_in_stay_action);
 
-  lisp.get("stay-group", stay_group);
+  mapping.get("stay-group", m_stay_group);
 
   s_all_sprite_changes.push_back(this);
 }
@@ -57,9 +57,9 @@ SpriteChange::~SpriteChange()
 void
 SpriteChange::draw(DrawingContext& context)
 {
-  if (in_stay_action && !stay_action.empty()) {
-    sprite->set_action(stay_action);
-    sprite->draw(context.color(), pos * 32, LAYER_OBJECTS-1);
+  if (m_in_stay_action && !m_stay_action.empty()) {
+    m_sprite->set_action(m_stay_action);
+    m_sprite->draw(context.color(), m_pos * 32, LAYER_OBJECTS-1);
   }
 }
 
@@ -71,25 +71,25 @@ SpriteChange::update(float )
 bool
 SpriteChange::show_stay_action() const
 {
-  return in_stay_action;
+  return m_in_stay_action;
 }
 
 void
 SpriteChange::set_stay_action()
 {
-  in_stay_action = true;
+  m_in_stay_action = true;
 }
 
 void
 SpriteChange::clear_stay_action(bool propagate)
 {
-  in_stay_action = false;
+  m_in_stay_action = false;
 
   // if we are in a stay_group, also clear all stay actions in this group
-  if (!stay_group.empty() && propagate) {
+  if (!m_stay_group.empty() && propagate) {
     for (auto& sc : s_all_sprite_changes) {
-      if (sc->stay_group != stay_group) continue;
-      sc->in_stay_action = false;
+      if (sc->m_stay_group != m_stay_group) continue;
+      sc->m_in_stay_action = false;
     }
   }
 }

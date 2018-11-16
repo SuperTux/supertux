@@ -29,11 +29,12 @@ namespace worldmap {
 class SpawnPoint final
 {
 public:
-  SpawnPoint(const ReaderMapping& lisp);
+  SpawnPoint(const ReaderMapping& mapping);
 
-  std::string name;
-  Vector pos;
-  Direction auto_dir; /**< automatically start walking in this direction */
+public:
+  std::string m_name;
+  Vector m_pos;
+  Direction m_auto_dir; /**< automatically start walking in this direction */
 
 private:
   SpawnPoint(const SpawnPoint&) = delete;

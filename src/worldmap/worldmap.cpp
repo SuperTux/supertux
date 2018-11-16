@@ -116,9 +116,9 @@ WorldMap::move_to_spawnpoint(const std::string& spawnpoint, bool pan, bool main_
 {
   auto sp = get_spawnpoint_by_name(spawnpoint);
   if (sp != nullptr) {
-    Vector p = sp->pos;
+    Vector p = sp->m_pos;
     m_tux->set_tile_pos(p);
-    m_tux->set_direction(sp->auto_dir);
+    m_tux->set_direction(sp->m_auto_dir);
     if (pan) {
       m_camera->pan();
     }
@@ -225,22 +225,22 @@ WorldMap::finished_level(Level* gamelevel)
     return;
   }
 
-  bool old_level_state = level->solved;
-  level->solved = true;
-  level->sprite->set_action("solved");
+  bool old_level_state = level->m_solved;
+  level->m_solved = true;
+  level->m_sprite->set_action("solved");
 
   // deal with statistics
-  level->statistics.update(gamelevel->m_stats);
+  level->m_statistics.update(gamelevel->m_stats);
 
-  if (level->statistics.completed(level->statistics, level->target_time)) {
-    level->perfect = true;
-    if (level->sprite->has_action("perfect"))
-      level->sprite->set_action("perfect");
+  if (level->m_statistics.completed(level->m_statistics, level->m_target_time)) {
+    level->m_perfect = true;
+    if (level->m_sprite->has_action("perfect"))
+      level->m_sprite->set_action("perfect");
   }
 
   save_state();
 
-  if (old_level_state != level->solved) {
+  if (old_level_state != level->m_solved) {
     // Try to detect the next direction to which we should walk
     // FIXME: Mostly a hack
     Direction dir = D_NONE;
@@ -271,9 +271,9 @@ WorldMap::finished_level(Level* gamelevel)
     }
   }
 
-  if (!level->extro_script.empty()) {
+  if (!level->m_extro_script.empty()) {
     try {
-      run_script(level->extro_script, "worldmap:extro_script");
+      run_script(level->m_extro_script, "worldmap:extro_script");
     } catch(std::exception& e) {
       log_warning << "Couldn't run level-extro-script: " << e.what() << std::endl;
     }
@@ -327,15 +327,15 @@ WorldMap::update(float dt_sec)
   {
     // check for teleporters
     auto teleporter = at_teleporter(m_tux->get_tile_pos());
-    if (teleporter && (teleporter->automatic || (m_enter_level && (!m_tux->is_moving())))) {
+    if (teleporter && (teleporter->m_automatic || (m_enter_level && (!m_tux->is_moving())))) {
       m_enter_level = false;
-      if (!teleporter->worldmap.empty()) {
-        change(teleporter->worldmap, teleporter->spawnpoint);
+      if (!teleporter->m_worldmap.empty()) {
+        change(teleporter->m_worldmap, teleporter->m_spawnpoint);
       } else {
         // TODO: an animation, camera scrolling or a fading would be a nice touch
         SoundManager::current()->play("sounds/warp.wav");
         m_tux->m_back_direction = D_NONE;
-        move_to_spawnpoint(teleporter->spawnpoint, true);
+        move_to_spawnpoint(teleporter->m_spawnpoint, true);
       }
     }
   }
@@ -343,10 +343,10 @@ WorldMap::update(float dt_sec)
   {
     // check for auto-play levels
     auto level = at_level();
-    if (level && (level->auto_play) && (!level->solved) && (!m_tux->is_moving())) {
+    if (level && (level->m_auto_play) && (!level->m_solved) && (!m_tux->is_moving())) {
       m_enter_level = true;
       // automatically mark these levels as solved in case player aborts
-      level->solved = true;
+      level->m_solved = true;
     }
   }
 
@@ -367,15 +367,15 @@ WorldMap::update(float dt_sec)
         return;
       }
 
-      if (level_->pos == m_tux->get_tile_pos()) {
+      if (level_->m_pos == m_tux->get_tile_pos()) {
         try {
-          Vector shrinkpos = Vector(level_->pos.x*32 + 16 - m_camera->get_offset().x,
-                                    level_->pos.y*32 +  8 - m_camera->get_offset().y);
+          Vector shrinkpos = Vector(level_->m_pos.x*32 + 16 - m_camera->get_offset().x,
+                                    level_->m_pos.y*32 +  8 - m_camera->get_offset().y);
           std::string levelfile = m_levels_path + level_->get_name();
 
           // update state and savegame
           save_state();
-          ScreenManager::current()->push_screen(std::make_unique<GameSession>(levelfile, m_savegame, &level_->statistics),
+          ScreenManager::current()->push_screen(std::make_unique<GameSession>(levelfile, m_savegame, &level_->m_statistics),
                                                 std::make_unique<ShrinkFade>(shrinkpos, 1.0f));
           m_in_level = true;
         } catch(std::exception& e) {
@@ -414,7 +414,7 @@ LevelTile*
 WorldMap::at_level() const
 {
   for (auto& level : get_objects_by_type<LevelTile>()) {
-    if (level.pos == m_tux->get_tile_pos())
+    if (level.m_pos == m_tux->get_tile_pos())
       return &level;
   }
 
@@ -425,7 +425,7 @@ SpecialTile*
 WorldMap::at_special_tile() const
 {
   for (auto& special_tile : get_objects_by_type<SpecialTile>()) {
-    if (special_tile.pos == m_tux->get_tile_pos())
+    if (special_tile.m_pos == m_tux->get_tile_pos())
       return &special_tile;
   }
 
@@ -436,7 +436,7 @@ SpriteChange*
 WorldMap::at_sprite_change(const Vector& pos) const
 {
   for (auto& sprite_change : get_objects_by_type<SpriteChange>()) {
-    if (sprite_change.pos == pos)
+    if (sprite_change.m_pos == pos)
       return &sprite_change;
   }
 
@@ -447,7 +447,7 @@ Teleporter*
 WorldMap::at_teleporter(const Vector& pos) const
 {
   for (auto& teleporter : get_objects_by_type<Teleporter>()) {
-    if (teleporter.pos == pos)
+    if (teleporter.m_pos == pos)
       return &teleporter;
   }
 
@@ -504,11 +504,11 @@ WorldMap::draw_status(DrawingContext& context)
 
   if (!m_tux->is_moving()) {
     for (auto& level : get_objects_by_type<LevelTile>()) {
-      if (level.pos == m_tux->get_tile_pos()) {
-        context.color().draw_text(Resources::normal_font, level.title,
+      if (level.m_pos == m_tux->get_tile_pos()) {
+        context.color().draw_text(Resources::normal_font, level.m_title,
                                   Vector(static_cast<float>(context.get_width()) / 2.0f,
                                          static_cast<float>(context.get_height()) - Resources::normal_font->get_height() - 10),
-                                  ALIGN_CENTER, LAYER_HUD, level.title_color);
+                                  ALIGN_CENTER, LAYER_HUD, level.m_title_color);
 
         // if level is solved, draw level picture behind stats
         /*
@@ -522,16 +522,16 @@ WorldMap::draw_status(DrawingContext& context)
           }
           }
         */
-        level.statistics.draw_worldmap_info(context, level.target_time);
+        level.m_statistics.draw_worldmap_info(context, level.m_target_time);
         break;
       }
     }
 
     for (auto& special_tile : get_objects_by_type<SpecialTile>()) {
-      if (special_tile.pos == m_tux->get_tile_pos()) {
+      if (special_tile.m_pos == m_tux->get_tile_pos()) {
         /* Display an in-map message in the map, if any as been selected */
-        if (!special_tile.map_message.empty() && !special_tile.passive_message)
-          context.color().draw_text(Resources::normal_font, special_tile.map_message,
+        if (!special_tile.m_map_message.empty() && !special_tile.m_passive_message)
+          context.color().draw_text(Resources::normal_font, special_tile.m_map_message,
                                     Vector(static_cast<float>(context.get_width()) / 2.0f,
                                            static_cast<float>(context.get_height()) - static_cast<float>(Resources::normal_font->get_height()) - 60.0f),
                                     ALIGN_CENTER, LAYER_FOREGROUND1, WorldMap::message_color);
@@ -541,10 +541,10 @@ WorldMap::draw_status(DrawingContext& context)
 
     // display teleporter messages
     auto teleporter = at_teleporter(m_tux->get_tile_pos());
-    if (teleporter && (!teleporter->message.empty())) {
+    if (teleporter && (!teleporter->m_message.empty())) {
       Vector pos = Vector(static_cast<float>(context.get_width()) / 2.0f,
                           static_cast<float>(context.get_height()) - Resources::normal_font->get_height() - 30.0f);
-      context.color().draw_text(Resources::normal_font, teleporter->message, pos, ALIGN_CENTER, LAYER_FOREGROUND1, WorldMap::teleporter_message_color);
+      context.color().draw_text(Resources::normal_font, teleporter->m_message, pos, ALIGN_CENTER, LAYER_FOREGROUND1, WorldMap::teleporter_message_color);
     }
   }
 
@@ -644,7 +644,7 @@ WorldMap::solved_level_count() const
 {
   size_t count = 0;
   for (auto& level : get_objects_by_type<LevelTile>()) {
-    if (level.solved)
+    if (level.m_solved)
       count++;
   }
 

@@ -24,63 +24,63 @@
 
 namespace worldmap {
 
-SpecialTile::SpecialTile(const ReaderMapping& lisp) :
-  pos(),
-  sprite(),
-  map_message(),
-  passive_message(false),
-  script(),
-  invisible(false),
-  apply_action_north(true),
-  apply_action_east(true),
-  apply_action_south(true),
-  apply_action_west(true)
+SpecialTile::SpecialTile(const ReaderMapping& mapping) :
+  m_pos(),
+  m_sprite(),
+  m_map_message(),
+  m_passive_message(false),
+  m_script(),
+  m_invisible(false),
+  m_apply_action_north(true),
+  m_apply_action_east(true),
+  m_apply_action_south(true),
+  m_apply_action_west(true)
 {
-  if (!lisp.get("x", pos.x)) {
+  if (!mapping.get("x", m_pos.x)) {
     log_warning << "X coordinate of special tile not set, defaulting to 0" << std::endl;
   }
-  if (!lisp.get("y", pos.y)) {
+  if (!mapping.get("y", m_pos.y)) {
     log_warning << "Y coordinate of special tile not set, defaulting to 0" << std::endl;
   }
-  if (!lisp.get("invisible-tile", invisible)) {
+  if (!mapping.get("invisible-tile", m_invisible)) {
     // Ignore attribute if it's not specified. Tile is visible.
   }
 
-  if (!invisible) {
+  if (!m_invisible) {
     std::string spritefile = "";
-    if (!lisp.get("sprite", spritefile)) {
+    if (!mapping.get("sprite", spritefile)) {
       log_warning << "No sprite specified for visible special tile." << std::endl;
     }
-    sprite = SpriteManager::current()->create(spritefile);
+    m_sprite = SpriteManager::current()->create(spritefile);
   }
 
-  if (!lisp.get("map-message", map_message)) {
+  if (!mapping.get("map-message", m_map_message)) {
     // Ignore attribute if it's not specified. No map message set.
   }
-  if (!lisp.get("passive-message", passive_message)) {
+  if (!mapping.get("passive-message", m_passive_message)) {
     // Ignore attribute if it's not specified. No passive message set.
   }
-  if (!lisp.get("script", script)) {
+  if (!mapping.get("script", m_script)) {
     // Ignore attribute if it's not specified. No script set.
   }
 
   std::string apply_direction;
-  if (!lisp.get("apply-to-direction", apply_direction)) {
+  if (!mapping.get("apply-to-direction", apply_direction)) {
     // Ignore attribute if it's not specified. Applies to all directions.
   }
   if (!apply_direction.empty()) {
-    apply_action_north = false;
-    apply_action_south = false;
-    apply_action_east = false;
-    apply_action_west = false;
+    m_apply_action_north = false;
+    m_apply_action_south = false;
+    m_apply_action_east = false;
+    m_apply_action_west = false;
     if (apply_direction.find("north") != std::string::npos)
-      apply_action_north = true;
+      m_apply_action_north = true;
     if (apply_direction.find("south") != std::string::npos)
-      apply_action_south = true;
+      m_apply_action_south = true;
     if (apply_direction.find("east") != std::string::npos)
-      apply_action_east = true;
+      m_apply_action_east = true;
     if (apply_direction.find("west") != std::string::npos)
-      apply_action_west = true;
+      m_apply_action_west = true;
   }
 }
 
@@ -91,10 +91,10 @@ SpecialTile::~SpecialTile()
 void
 SpecialTile::draw(DrawingContext& context)
 {
-  if (invisible)
+  if (m_invisible)
     return;
 
-  sprite->draw(context.color(), pos*32 + Vector(16, 16), LAYER_OBJECTS - 1);
+  m_sprite->draw(context.color(), m_pos*32 + Vector(16, 16), LAYER_OBJECTS - 1);
 }
 
 void

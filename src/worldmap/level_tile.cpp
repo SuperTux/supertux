@@ -27,39 +27,40 @@
 
 namespace worldmap {
 
-LevelTile::LevelTile(const std::string& basedir_, const ReaderMapping& lisp) :
-  pos(),
-  title(),
-  solved(false),
-  perfect(false),
-  auto_play(false),
-  sprite(),
-  statistics(),
-  target_time(),
-  extro_script(),
-  title_color(WorldMap::level_title_color),
-  basedir(basedir_)
+LevelTile::LevelTile(const std::string& basedir_, const ReaderMapping& mapping) :
+  m_pos(),
+  m_title(),
+  m_solved(false),
+  m_perfect(false),
+  m_auto_play(false),
+  m_sprite(),
+  m_statistics(),
+  m_target_time(),
+  m_extro_script(),
+  m_title_color(WorldMap::level_title_color),
+  m_basedir(basedir_)
 {
-  lisp.get("name", m_name);
-  lisp.get("x", pos.x);
-  lisp.get("y", pos.y);
-  lisp.get("auto-play", auto_play);
+  mapping.get("name", m_name);
+  mapping.get("x", m_pos.x);
+  mapping.get("y", m_pos.y);
+  mapping.get("auto-play", m_auto_play);
 
   std::string spritefile = "images/worldmap/common/leveldot.sprite";
-  lisp.get("sprite", spritefile);
-  sprite = SpriteManager::current()->create(spritefile);
+  mapping.get("sprite", spritefile);
+  m_sprite = SpriteManager::current()->create(spritefile);
 
-  lisp.get("extro-script", extro_script);
+  mapping.get("extro-script", m_extro_script);
 
   std::vector<float> vColor;
-  if (lisp.get("color", vColor)) {
-    title_color = Color(vColor);
+  if (mapping.get("color", vColor)) {
+    m_title_color = Color(vColor);
   }
 
-  if (basedir == "./")
-    basedir = "";
+  if (m_basedir == "./") {
+    m_basedir = "";
+  }
 
-  if (!PHYSFS_exists((basedir + m_name).c_str()))
+  if (!PHYSFS_exists((m_basedir + m_name).c_str()))
   {
     log_warning << "level file '" << get_name()
                 << "' does not exist and will not be added to the worldmap" << std::endl;
@@ -74,7 +75,7 @@ LevelTile::~LevelTile()
 void
 LevelTile::draw(DrawingContext& context)
 {
-  sprite->draw(context.color(), pos*32 + Vector(16, 16), LAYER_OBJECTS - 1);
+  m_sprite->draw(context.color(), m_pos * 32 + Vector(16, 16), LAYER_OBJECTS - 1);
 }
 
 void
@@ -85,23 +86,24 @@ LevelTile::update(float )
 void
 LevelTile::update_sprite_action()
 {
-  if (!solved)
-    sprite->set_action("default");
-  else
-    sprite->set_action((sprite->has_action("perfect") && perfect) ? "perfect" : "solved");
+  if (!m_solved) {
+    m_sprite->set_action("default");
+  } else {
+    m_sprite->set_action((m_sprite->has_action("perfect") && m_perfect) ? "perfect" : "solved");
+  }
 }
 
 void
 LevelTile::set_solved(bool v)
 {
-  solved = v;
+  m_solved = v;
   update_sprite_action();
 }
 
 void
 LevelTile::set_perfect(bool v)
 {
-  perfect = v;
+  m_perfect = v;
   update_sprite_action();
 }
 

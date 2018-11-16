@@ -30,7 +30,7 @@ namespace worldmap {
 class LevelTile final : public GameObject
 {
 public:
-  LevelTile(const std::string& basedir, const ReaderMapping& lisp);
+  LevelTile(const std::string& basedir, const ReaderMapping& mapping);
   virtual ~LevelTile();
 
   virtual void draw(DrawingContext& context) override;
@@ -42,26 +42,26 @@ public:
   void update_sprite_action();
 
 public:
-  Vector pos;
-  std::string title;
-  bool solved;
-  bool perfect;
-  bool auto_play; /**< true if Tux should automatically enter this level if it's unfinished */
+  Vector m_pos;
+  std::string m_title;
+  bool m_solved;
+  bool m_perfect;
+  bool m_auto_play; /**< true if Tux should automatically enter this level if it's unfinished */
 
-  SpritePtr sprite;
+  SpritePtr m_sprite;
 
   /** Statistics for level tiles */
-  Statistics statistics;
-  float target_time;
+  Statistics m_statistics;
+  float m_target_time;
 
   /** Script that is run when the level is successfully finished */
-  std::string extro_script;
+  std::string m_extro_script;
 
   /** The colour of the level title */
-  Color title_color;
+  Color m_title_color;
 
 private:
-  std::string basedir;
+  std::string m_basedir;
 
 private:
   LevelTile(const LevelTile&) = delete;
