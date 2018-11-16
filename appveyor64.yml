@@ -84,7 +84,7 @@ deploy:
 - provider: GitHub
   description: 'SuperTux release'
   auth_token:
-    secure: 1sgroG7ycKHC6R2y/V7DECd/SHxXK4CNSDU7zZOnAlyBiVKT9ykvRKWt2DGcEZDq
+    secure: dsfeuV2aC3dINer3z3PdXnQF6AosFVRTp71hdsaGI+LbcTXfmkH0nmVfqH0Dznyv
   artifact: setup
   draft: true
   on:

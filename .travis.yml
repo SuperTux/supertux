@@ -98,7 +98,7 @@ deploy:
       condition: $RELEASE = ON
   - provider: releases
     api_key:
-      secure: oOoWGIvtMne9b413EGv3GSaV8PE/X1P3e85hIdTvRdxs5VTWHi9eeWpEknru8N8hQ+iIkvD2QpUvwL6Qgf7myP3OwXWEf7o6+Qxjfl49oJaROTeVUR7uzOYTmYYTCZG0b3jQKYu5JkVqJzwTNmT0GturHkW5pzsAy/rHUDuLfkI=
+      secure: DF4cqURrLmxI+NNsOgPDsMHe9IHld0qMpxG4HZw2P2oJKJ9/QHMhBiq3Bi1x5lGMuWnJ02vq8s2mIm056qXOSxBJh6fCJO8Q+tUuUHIWm4tO9Jogy/10sDBLnKUq6sNjsM8BrRoeMWApfSVPqu9D/9k5mI3Zv1pVR+ip4ECQVBE=
     file: "SuperTux*"
     file_glob: true
     skip_cleanup: true
