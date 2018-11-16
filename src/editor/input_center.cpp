@@ -56,7 +56,8 @@ EditorInputCenter::EditorInputCenter() :
 }
 
 void
-EditorInputCenter::update(float dt_sec) {
+EditorInputCenter::update(float dt_sec)
+{
   if (hovered_object && !hovered_object->is_valid()) {
     hovered_object = nullptr;
     object_tip = nullptr;
@@ -72,7 +73,8 @@ EditorInputCenter::update(float dt_sec) {
 }
 
 void
-EditorInputCenter::delete_markers() {
+EditorInputCenter::delete_markers()
+{
   auto sector = Editor::current()->currentsector;
   for (auto& moving_object : sector->get_objects_by_type<MovingObject>()) {
     auto marker = dynamic_cast<PointMarker*>(&moving_object);
@@ -86,7 +88,8 @@ EditorInputCenter::delete_markers() {
 }
 
 Rectf
-EditorInputCenter::drag_rect() {
+EditorInputCenter::drag_rect()
+{
   int start_x, start_y, end_x, end_y;
 
   if (drag_start.x < sector_pos.x) {
@@ -112,7 +115,8 @@ EditorInputCenter::drag_rect() {
 }
 
 void
-EditorInputCenter::input_tile(const Vector& pos, uint32_t tile) {
+EditorInputCenter::input_tile(const Vector& pos, uint32_t tile)
+{
   auto tilemap = dynamic_cast<TileMap*>(Editor::current()->get_selected_tilemap());
   if ( !tilemap ) {
     return;
@@ -129,7 +133,8 @@ EditorInputCenter::input_tile(const Vector& pos, uint32_t tile) {
 }
 
 void
-EditorInputCenter::put_tile() {
+EditorInputCenter::put_tile()
+{
   auto tiles = Editor::current()->get_tiles();
   Vector add_tile;
   for (add_tile.x = static_cast<float>(tiles->width) - 1.0f; add_tile.x >= 0.0f; add_tile.x--) {
@@ -141,8 +146,8 @@ EditorInputCenter::put_tile() {
 }
 
 void
-EditorInputCenter::draw_rectangle() {
-
+EditorInputCenter::draw_rectangle()
+{
   Rectf dr = drag_rect();
   dr.p1 = sp_to_tp(dr.p1);
   dr.p2 = sp_to_tp(dr.p2);
@@ -159,8 +164,8 @@ EditorInputCenter::draw_rectangle() {
 }
 
 void
-EditorInputCenter::fill() {
-
+EditorInputCenter::fill()
+{
   auto editor = Editor::current();
   auto tiles = editor->get_tiles();
   auto tilemap = dynamic_cast<TileMap*>(editor->get_selected_tilemap());
@@ -250,7 +255,8 @@ EditorInputCenter::fill() {
 }
 
 void
-EditorInputCenter::hover_object() {
+EditorInputCenter::hover_object()
+{
   for (auto& moving_object : Editor::current()->currentsector->get_objects_by_type<MovingObject>()) {
     auto pm = dynamic_cast<PointMarker*>(&moving_object);
     if (!moving_object.is_saveable() && !pm) {
@@ -289,7 +295,8 @@ EditorInputCenter::edit_path(Path* path, GameObject* new_marked_object) {
 }
 
 void
-EditorInputCenter::mark_object() {
+EditorInputCenter::mark_object()
+{
   delete_markers();
   if (!dragged_object || !dragged_object->is_valid()) return;
 
@@ -307,7 +314,8 @@ EditorInputCenter::mark_object() {
 }
 
 void
-EditorInputCenter::grab_object() {
+EditorInputCenter::grab_object()
+{
   if (hovered_object) {
     if (!hovered_object->is_valid()) {
       hovered_object = nullptr;
@@ -334,7 +342,8 @@ EditorInputCenter::grab_object() {
 }
 
 void
-EditorInputCenter::clone_object() {
+EditorInputCenter::clone_object()
+{
   auto editor = Editor::current();
   if (hovered_object && hovered_object->is_saveable()) {
     if (!hovered_object->is_valid()) {
@@ -369,7 +378,8 @@ EditorInputCenter::clone_object() {
 }
 
 void
-EditorInputCenter::set_object() {
+EditorInputCenter::set_object()
+{
   if (hovered_object && hovered_object->is_valid() && hovered_object->is_saveable()) {
     auto om = std::make_unique<ObjectMenu>(hovered_object);
     Editor::current()->deactivate_request = true;
@@ -379,7 +389,8 @@ EditorInputCenter::set_object() {
 }
 
 void
-EditorInputCenter::move_object() {
+EditorInputCenter::move_object()
+{
   if (dragged_object) {
     if (!dragged_object->is_valid()) {
       dragged_object = nullptr;
@@ -400,7 +411,8 @@ EditorInputCenter::move_object() {
 }
 
 void
-EditorInputCenter::rubber_object() {
+EditorInputCenter::rubber_object()
+{
   if (!edited_path) {
     delete_markers();
   }
@@ -411,7 +423,8 @@ EditorInputCenter::rubber_object() {
 }
 
 void
-EditorInputCenter::rubber_rect() {
+EditorInputCenter::rubber_rect()
+{
   delete_markers();
   Rectf dr = drag_rect();
   for (auto& moving_object : Editor::current()->currentsector->get_objects_by_type<MovingObject>()) {
@@ -424,7 +437,8 @@ EditorInputCenter::rubber_rect() {
 }
 
 void
-EditorInputCenter::update_node_iterators() {
+EditorInputCenter::update_node_iterators()
+{
   if (!edited_path) return;
   if (!edited_path->is_valid()) return;
 
@@ -438,7 +452,8 @@ EditorInputCenter::update_node_iterators() {
 }
 
 void
-EditorInputCenter::add_path_node() {
+EditorInputCenter::add_path_node()
+{
   Path::Node new_node;
   new_node.position = sector_pos;
   new_node.time = 1;
@@ -451,7 +466,8 @@ EditorInputCenter::add_path_node() {
 }
 
 void
-EditorInputCenter::put_object() {
+EditorInputCenter::put_object()
+{
   auto editor = Editor::current();
   const std::string& obj = editor->get_tileselect_object();
   if (obj[0] == '#') {
@@ -501,7 +517,8 @@ EditorInputCenter::put_object() {
 }
 
 void
-EditorInputCenter::process_left_click() {
+EditorInputCenter::process_left_click()
+{
   dragging = true;
   dragging_right = false;
   drag_start = sector_pos;
@@ -546,7 +563,8 @@ EditorInputCenter::process_left_click() {
 }
 
 void
-EditorInputCenter::process_right_click() {
+EditorInputCenter::process_right_click()
+{
   switch (Editor::current()->get_tileselect_input_type()) {
     case EditorInputGui::IP_TILE: {
       dragging = true;
@@ -564,7 +582,8 @@ EditorInputCenter::process_right_click() {
 }
 
 Rectf
-EditorInputCenter::tile_drag_rect() {
+EditorInputCenter::tile_drag_rect()
+{
   Rectf result = drag_rect();
 
   // Increase drag rectangle size to the
@@ -579,7 +598,8 @@ EditorInputCenter::tile_drag_rect() {
 }
 
 Rectf
-EditorInputCenter::selection_draw_rect() {
+EditorInputCenter::selection_draw_rect()
+{
   Rectf select = tile_drag_rect();
   select.p1 = tile_screen_pos(select.p1);
   select.p2 = tile_screen_pos(select.p2);
@@ -587,7 +607,8 @@ EditorInputCenter::selection_draw_rect() {
 }
 
 void
-EditorInputCenter::update_tile_selection() {
+EditorInputCenter::update_tile_selection()
+{
   Rectf select = tile_drag_rect();
   auto tiles = Editor::current()->get_tiles();
   auto tilemap = dynamic_cast<TileMap*>(Editor::current()->get_selected_tilemap());
@@ -613,7 +634,8 @@ EditorInputCenter::update_tile_selection() {
 }
 
 void
-EditorInputCenter::event(SDL_Event& ev) {
+EditorInputCenter::event(SDL_Event& ev)
+{
   switch (ev.type) {
     case SDL_MOUSEBUTTONDOWN:
     switch (ev.button.button) {
@@ -692,7 +714,8 @@ EditorInputCenter::event(SDL_Event& ev) {
 }
 
 void
-EditorInputCenter::update_pos() {
+EditorInputCenter::update_pos()
+{
   sector_pos = mouse_pos + Editor::current()->currentsector->get_camera().get_translation();
   hovered_tile = sp_to_tp(sector_pos);
   // update tip
@@ -700,7 +723,8 @@ EditorInputCenter::update_pos() {
 }
 
 void
-EditorInputCenter::draw_tile_tip(DrawingContext& context) {
+EditorInputCenter::draw_tile_tip(DrawingContext& context)
+{
   auto editor = Editor::current();
   if ( editor->get_tileselect_input_type() == EditorInputGui::IP_TILE ) {
 
@@ -738,7 +762,8 @@ EditorInputCenter::draw_tile_tip(DrawingContext& context) {
 }
 
 void
-EditorInputCenter::draw_tile_grid(DrawingContext& context, const Color& line_color, int tile_size) {
+EditorInputCenter::draw_tile_grid(DrawingContext& context, const Color& line_color, int tile_size)
+{
   auto editor = Editor::current();
   if ( !editor->get_selected_tilemap() ) {
     return;
@@ -775,7 +800,8 @@ EditorInputCenter::draw_tile_grid(DrawingContext& context, const Color& line_col
 }
 
 void
-EditorInputCenter::draw_tilemap_border(DrawingContext& context) {
+EditorInputCenter::draw_tilemap_border(DrawingContext& context)
+{
   auto editor = Editor::current();
   if ( !editor->get_selected_tilemap() ) return;
 
@@ -792,7 +818,8 @@ EditorInputCenter::draw_tilemap_border(DrawingContext& context) {
 }
 
 void
-EditorInputCenter::draw_path(DrawingContext& context) {
+EditorInputCenter::draw_path(DrawingContext& context)
+{
   if (!edited_path) return;
   if (!marked_object) return;
   if (!marked_object->is_valid()) return;
@@ -820,7 +847,8 @@ EditorInputCenter::draw_path(DrawingContext& context) {
 }
 
 void
-EditorInputCenter::draw(DrawingContext& context) {
+EditorInputCenter::draw(DrawingContext& context)
+{
   auto editor = Editor::current();
   draw_tile_tip(context);
   draw_path(context);
@@ -866,7 +894,8 @@ EditorInputCenter::draw(DrawingContext& context) {
 }
 
 Vector
-EditorInputCenter::tp_to_sp(const Vector& tp, int tile_size) {
+EditorInputCenter::tp_to_sp(const Vector& tp, int tile_size)
+{
   auto tilemap = dynamic_cast<TileMap*>(Editor::current()->get_selected_tilemap());
   if (!tilemap)
   {
@@ -878,7 +907,8 @@ EditorInputCenter::tp_to_sp(const Vector& tp, int tile_size) {
 }
 
 Vector
-EditorInputCenter::sp_to_tp(const Vector& sp, int tile_size) {
+EditorInputCenter::sp_to_tp(const Vector& sp, int tile_size)
+{
   auto tilemap = dynamic_cast<TileMap*>(Editor::current()->get_selected_tilemap());
   if (!tilemap)
   {
@@ -890,7 +920,8 @@ EditorInputCenter::sp_to_tp(const Vector& sp, int tile_size) {
 }
 
 Vector
-EditorInputCenter::tile_screen_pos(const Vector& tp, int tile_size) {
+EditorInputCenter::tile_screen_pos(const Vector& tp, int tile_size)
+{
   Vector sp = tp_to_sp(tp, tile_size);
   return sp - Editor::current()->currentsector->get_camera().get_translation();
 }
