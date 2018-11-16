@@ -42,12 +42,12 @@ Brick::Brick(const Vector& pos, int data, const std::string& spriteName) :
   }
 }
 
-Brick::Brick(const ReaderMapping& lisp) :
-  Block(lisp, "images/objects/bonus_block/brick.sprite"),
+Brick::Brick(const ReaderMapping& mapping) :
+  Block(mapping, "images/objects/bonus_block/brick.sprite"),
   m_breakable(),
   m_coin_counter(0)
 {
-  lisp.get("breakable", m_breakable, true);
+  mapping.get("breakable", m_breakable, true);
   if (!m_breakable) {
     m_coin_counter = 5;
   }

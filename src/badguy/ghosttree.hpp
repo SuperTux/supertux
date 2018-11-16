@@ -25,7 +25,7 @@ class Lantern;
 class GhostTree final : public BadGuy
 {
 public:
-  GhostTree(const ReaderMapping& lisp);
+  GhostTree(const ReaderMapping& mapping);
 
   virtual bool is_flammable() const override { return false; }
   virtual bool is_freezable() const override { return false; }

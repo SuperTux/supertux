@@ -25,7 +25,7 @@
 class SkullTile final : public MovingSprite
 {
 public:
-  SkullTile(const ReaderMapping& lisp);
+  SkullTile(const ReaderMapping& mapping);
   virtual std::string get_class() const override {
     return "skulltile";
   }

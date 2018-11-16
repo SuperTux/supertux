@@ -26,7 +26,7 @@ class ScriptedObject final : public MovingSprite,
                        public ExposedObject<ScriptedObject, scripting::ScriptedObject>
 {
 public:
-  ScriptedObject(const ReaderMapping& lisp);
+  ScriptedObject(const ReaderMapping& mapping);
 
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;

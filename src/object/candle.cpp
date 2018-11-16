@@ -23,8 +23,8 @@
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 
-Candle::Candle(const ReaderMapping& lisp)
-  : MovingSprite(lisp, "images/objects/candle/candle.sprite", LAYER_BACKGROUNDTILES+1, COLGROUP_DISABLED),
+Candle::Candle(const ReaderMapping& mapping)
+  : MovingSprite(mapping, "images/objects/candle/candle.sprite", LAYER_BACKGROUNDTILES+1, COLGROUP_DISABLED),
     ExposedObject<Candle, scripting::Candle>(this),
     burning(true),
     flicker(true),
@@ -32,10 +32,10 @@ Candle::Candle(const ReaderMapping& lisp)
     candle_light_1(SpriteManager::current()->create("images/objects/candle/candle-light-1.sprite")),
     candle_light_2(SpriteManager::current()->create("images/objects/candle/candle-light-2.sprite"))
 {
-  lisp.get("burning", burning, true);
-  lisp.get("flicker", flicker, true);
+  mapping.get("burning", burning, true);
+  mapping.get("flicker", flicker, true);
   std::vector<float> vColor;
-  if (!lisp.get("color", vColor)) vColor = {1.0f, 1.0f, 1.0f};
+  if (!mapping.get("color", vColor)) vColor = {1.0f, 1.0f, 1.0f};
 
   //change the light color if defined
   if (vColor.size() >= 3) {

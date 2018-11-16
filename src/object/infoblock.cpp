@@ -25,15 +25,15 @@
 #include "util/reader_mapping.hpp"
 #include "video/drawing_context.hpp"
 
-InfoBlock::InfoBlock(const ReaderMapping& lisp) :
-  Block(lisp, "images/objects/bonus_block/infoblock.sprite"),
+InfoBlock::InfoBlock(const ReaderMapping& mapping) :
+  Block(mapping, "images/objects/bonus_block/infoblock.sprite"),
   message(),
   shown_pct(0),
   dest_pct(0),
   lines(),
   lines_height(0)
 {
-  if (!lisp.get("message", message) && !(Editor::is_active())) {
+  if (!mapping.get("message", message) && !(Editor::is_active())) {
     log_warning << "No message in InfoBlock" << std::endl;
   }
   //stopped = false;

@@ -28,7 +28,7 @@ class Block : public MovingObject
 {
 public:
   Block(SpritePtr sprite);
-  Block(const ReaderMapping& lisp, const std::string& sprite_file);
+  Block(const ReaderMapping& mapping, const std::string& sprite_file);
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
   virtual void update(float dt_sec) override;

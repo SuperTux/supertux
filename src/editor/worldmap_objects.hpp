@@ -26,8 +26,8 @@ namespace worldmap_editor {
 class WorldmapObject : public MovingSprite
 {
   public:
-    WorldmapObject(const ReaderMapping& lisp, const std::string& default_sprite);
-    WorldmapObject(const ReaderMapping& lisp);
+    WorldmapObject(const ReaderMapping& mapping, const std::string& default_sprite);
+    WorldmapObject(const ReaderMapping& mapping);
     WorldmapObject(const Vector& pos, const std::string& default_sprite);
 
     HitResponse collision(GameObject& other, const CollisionHit& hit) override {
@@ -44,7 +44,7 @@ class WorldmapObject : public MovingSprite
 class LevelDot final : public WorldmapObject
 {
   public:
-    LevelDot(const ReaderMapping& lisp);
+    LevelDot(const ReaderMapping& mapping);
 
     virtual std::string get_class() const override {
       return "level";
@@ -66,11 +66,9 @@ class LevelDot final : public WorldmapObject
 class Teleporter final : public WorldmapObject
 {
   public:
-    Teleporter(const ReaderMapping& lisp);
+    Teleporter(const ReaderMapping& mapping);
 
-    virtual std::string get_class() const override {
-      return "teleporter";
-    }
+    virtual std::string get_class() const override { return "teleporter"; }
 
     virtual void draw(DrawingContext& context) override;
 
@@ -88,7 +86,7 @@ class Teleporter final : public WorldmapObject
 class WorldmapSpawnPoint final : public WorldmapObject
 {
 public:
-  WorldmapSpawnPoint(const ReaderMapping& lisp);
+  WorldmapSpawnPoint(const ReaderMapping& mapping);
   WorldmapSpawnPoint(const std::string& name_, const Vector& pos);
 
   virtual std::string get_class() const override { return "worldmap-spawnpoint"; }
@@ -104,11 +102,9 @@ private:
 class SpriteChange final : public WorldmapObject
 {
   public:
-    SpriteChange(const ReaderMapping& lisp);
+    SpriteChange(const ReaderMapping& mapping);
 
-    virtual std::string get_class() const override {
-      return "sprite-change";
-    }
+    virtual std::string get_class() const override { return "sprite-change"; }
 
     virtual ObjectSettings get_settings() override;
     virtual void save(Writer& writer) override;
@@ -124,11 +120,9 @@ class SpriteChange final : public WorldmapObject
 class SpecialTile final : public WorldmapObject
 {
   public:
-    SpecialTile(const ReaderMapping& lisp);
+    SpecialTile(const ReaderMapping& mapping);
 
-    virtual std::string get_class() const override {
-      return "special-tile";
-    }
+    virtual std::string get_class() const override { return "special-tile"; }
 
     virtual ObjectSettings get_settings() override;
     virtual void save(Writer& writer) override;

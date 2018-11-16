@@ -23,8 +23,8 @@
 #include "util/reader.hpp"
 #include "util/reader_mapping.hpp"
 
-ScriptedObject::ScriptedObject(const ReaderMapping& lisp) :
-  MovingSprite(lisp, "images/objects/bonus_block/brick.sprite", LAYER_OBJECTS, COLGROUP_MOVING_STATIC),
+ScriptedObject::ScriptedObject(const ReaderMapping& mapping) :
+  MovingSprite(mapping, "images/objects/bonus_block/brick.sprite", LAYER_OBJECTS, COLGROUP_MOVING_STATIC),
   ExposedObject<ScriptedObject, scripting::ScriptedObject>(this),
   physic(),
   solid(),
@@ -40,11 +40,11 @@ ScriptedObject::ScriptedObject(const ReaderMapping& lisp) :
     log_warning << "Scripted object must have a name specified, setting to: " << m_name << std::endl;
   }
 
-  lisp.get("solid", solid, true);
-  lisp.get("physic-enabled", physic_enabled, true);
-  lisp.get("visible", visible, true);
-  lisp.get("hit-script", hit_script, "");
-  m_layer = reader_get_layer (lisp, /* default = */ LAYER_OBJECTS);
+  mapping.get("solid", solid, true);
+  mapping.get("physic-enabled", physic_enabled, true);
+  mapping.get("visible", visible, true);
+  mapping.get("hit-script", hit_script, "");
+  m_layer = reader_get_layer(mapping, /* default = */ LAYER_OBJECTS);
   if ( solid ){
     set_group( COLGROUP_MOVING_STATIC );
   } else {

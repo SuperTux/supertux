@@ -22,7 +22,7 @@
 class YetiStalactite final : public Stalactite
 {
 public:
-  YetiStalactite(const ReaderMapping& lisp);
+  YetiStalactite(const ReaderMapping& mapping);
 
   virtual void active_update(float dt_sec) override;
   void start_shaking();

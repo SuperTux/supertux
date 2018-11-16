@@ -48,18 +48,18 @@ KeyboardConfig::KeyboardConfig() :
 }
 
 void
-KeyboardConfig::read(const ReaderMapping& keymap_lisp)
+KeyboardConfig::read(const ReaderMapping& keymap_mapping)
 {
   // keycode values changed between SDL1 and SDL2, so we skip old SDL1
   // based values and use the defaults instead on the first read of
   // the config file
   bool config_is_sdl2 = false;
-  keymap_lisp.get("sdl2", config_is_sdl2);
+  keymap_mapping.get("sdl2", config_is_sdl2);
   if (config_is_sdl2)
   {
-    keymap_lisp.get("jump-with-up", jump_with_up_kbd);
+    keymap_mapping.get("jump-with-up", jump_with_up_kbd);
 
-    auto iter = keymap_lisp.get_iter();
+    auto iter = keymap_mapping.get_iter();
     while (iter.next())
     {
       if (iter.get_key() == "map")

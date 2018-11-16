@@ -26,15 +26,15 @@
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 
-PowerUp::PowerUp(const ReaderMapping& lisp) :
-  MovingSprite(lisp, "images/powerups/egg/egg.sprite", LAYER_OBJECTS, COLGROUP_MOVING),
+PowerUp::PowerUp(const ReaderMapping& mapping) :
+  MovingSprite(mapping, "images/powerups/egg/egg.sprite", LAYER_OBJECTS, COLGROUP_MOVING),
   physic(),
   script(),
   no_physics(),
   lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
 {
-  lisp.get("script", script, "");
-  lisp.get("disable-physics", no_physics, false);
+  mapping.get("script", script, "");
+  mapping.get("disable-physics", no_physics, false);
   initialize();
 }
 

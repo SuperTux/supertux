@@ -23,8 +23,8 @@
 #include "sprite/sprite.hpp"
 #include "supertux/constants.hpp"
 
-UnstableTile::UnstableTile(const ReaderMapping& lisp) :
-  MovingSprite(lisp, "images/objects/unstable_tile/snow.sprite", LAYER_TILES, COLGROUP_STATIC),
+UnstableTile::UnstableTile(const ReaderMapping& mapping) :
+  MovingSprite(mapping, "images/objects/unstable_tile/snow.sprite", LAYER_TILES, COLGROUP_STATIC),
   physic(),
   state(STATE_NORMAL),
   slowfall_timer()

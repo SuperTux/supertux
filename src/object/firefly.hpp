@@ -27,7 +27,7 @@
 class Firefly final : public MovingSprite
 {
 public:
-  Firefly(const ReaderMapping& lisp);
+  Firefly(const ReaderMapping& mapping);
 
   virtual void draw(DrawingContext& context) override;
 

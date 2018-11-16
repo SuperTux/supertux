@@ -28,7 +28,7 @@ class Candle final : public MovingSprite,
                public ExposedObject<Candle, scripting::Candle>
 {
 public:
-  Candle(const ReaderMapping& lisp);
+  Candle(const ReaderMapping& mapping);
   virtual void draw(DrawingContext& context) override;
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;

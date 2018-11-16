@@ -28,7 +28,7 @@
 class UnstableTile final : public MovingSprite
 {
 public:
-  UnstableTile(const ReaderMapping& lisp);
+  UnstableTile(const ReaderMapping& mapping);
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
   virtual void update(float dt_sec) override;

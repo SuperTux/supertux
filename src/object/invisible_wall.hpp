@@ -25,7 +25,7 @@ class ReaderMapping;
 class InvisibleWall final : public MovingObject
 {
 public:
-  InvisibleWall(const ReaderMapping& lisp);
+  InvisibleWall(const ReaderMapping& mapping);
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
   virtual void draw(DrawingContext& context) override;

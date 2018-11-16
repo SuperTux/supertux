@@ -53,7 +53,7 @@ class AmbientSound final : public MovingObject,
                      public ExposedObject<AmbientSound, scripting::AmbientSound>
 {
 public:
-  AmbientSound(const ReaderMapping& lisp);
+  AmbientSound(const ReaderMapping& mapping);
   AmbientSound(const Vector& pos, float factor, float bias, float vol, const std::string& file);
   ~AmbientSound();
 

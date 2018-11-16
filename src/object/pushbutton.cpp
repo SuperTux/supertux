@@ -27,8 +27,8 @@ const std::string BUTTON_SOUND = "sounds/switch.ogg";
 //14 -> 8
 }
 
-PushButton::PushButton(const ReaderMapping& lisp) :
-  MovingSprite(lisp, "images/objects/pushbutton/pushbutton.sprite", LAYER_BACKGROUNDTILES+1, COLGROUP_MOVING),
+PushButton::PushButton(const ReaderMapping& mapping) :
+  MovingSprite(mapping, "images/objects/pushbutton/pushbutton.sprite", LAYER_BACKGROUNDTILES+1, COLGROUP_MOVING),
   script(),
   state(OFF)
 {
@@ -36,7 +36,7 @@ PushButton::PushButton(const ReaderMapping& lisp) :
   set_action("off", -1);
   m_col.m_bbox.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
 
-  if (!lisp.get("script", script)) {
+  if (!mapping.get("script", script)) {
     log_warning << "No script set for pushbutton." << std::endl;
   }
 }

@@ -26,8 +26,8 @@
 #include "util/reader_mapping.hpp"
 #include "video/drawing_context.hpp"
 
-AmbientSound::AmbientSound(const ReaderMapping& lisp) :
-  MovingObject(lisp),
+AmbientSound::AmbientSound(const ReaderMapping& mapping) :
+  MovingObject(mapping),
   ExposedObject<AmbientSound, scripting::AmbientSound>(this),
   sample(),
   sound_source(),
@@ -43,16 +43,16 @@ AmbientSound::AmbientSound(const ReaderMapping& lisp) :
   m_col.m_group = COLGROUP_DISABLED;
 
   float w, h;
-  lisp.get("x", m_col.m_bbox.p1.x, 0.0f);
-  lisp.get("y", m_col.m_bbox.p1.y, 0.0f);
-  lisp.get("width" , w, 32.0f);
-  lisp.get("height", h, 32.0f);
+  mapping.get("x", m_col.m_bbox.p1.x, 0.0f);
+  mapping.get("y", m_col.m_bbox.p1.y, 0.0f);
+  mapping.get("width" , w, 32.0f);
+  mapping.get("height", h, 32.0f);
   m_col.m_bbox.set_size(w, h);
 
-  lisp.get("distance_factor",distance_factor, 0.0f);
-  lisp.get("distance_bias"  ,distance_bias  , 0.0f);
-  lisp.get("sample"         ,sample         , "");
-  lisp.get("volume"         ,maximumvolume  , 1.0f);
+  mapping.get("distance_factor",distance_factor, 0.0f);
+  mapping.get("distance_bias"  ,distance_bias  , 0.0f);
+  mapping.get("sample"         ,sample         , "");
+  mapping.get("volume"         ,maximumvolume  , 1.0f);
 
   // square all distances (saves us a sqrt later)
 
@@ -68,7 +68,7 @@ AmbientSound::AmbientSound(const ReaderMapping& lisp) :
   else
     silence_distance = 1/distance_factor;
 
-  lisp.get("silence_distance",silence_distance);
+  mapping.get("silence_distance",silence_distance);
 
   sound_source.reset(); // not playing at the beginning
   SoundManager::current()->preload(sample);

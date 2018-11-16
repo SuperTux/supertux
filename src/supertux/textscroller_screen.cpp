@@ -62,14 +62,14 @@ TextScrollerScreen::TextScrollerScreen(const std::string& filename) :
     if (root.get_name() != "supertux-text") {
       throw std::runtime_error("File isn't a supertux-text file");
     } else {
-      auto text_lisp = root.get_mapping();
+      auto text_mapping = root.get_mapping();
 
-      if (!text_lisp.get("background", background_file)) {
+      if (!text_mapping.get("background", background_file)) {
         throw std::runtime_error("File doesn't contain a background file");
       }
 
-      text_lisp.get("speed", m_defaultspeed);
-      text_lisp.get("music", m_music);
+      text_mapping.get("speed", m_defaultspeed);
+      text_mapping.get("music", m_music);
     }
   } catch (std::exception& e) {
     std::ostringstream msg;

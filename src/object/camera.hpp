@@ -58,7 +58,7 @@ public:
   /** \addtogroup CameraAPI
    *  @{ */
 
-  /** parse camera mode from lisp file */
+  /** parse camera mode from file */
   void parse(const ReaderMapping& reader);
 
   /** reset camera position */

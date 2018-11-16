@@ -23,7 +23,7 @@
 class Yeti final : public BadGuy
 {
 public:
-  Yeti(const ReaderMapping& lisp);
+  Yeti(const ReaderMapping& mapping);
 
   virtual void draw(DrawingContext& context) override;
   virtual void initialize() override;

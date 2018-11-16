@@ -26,7 +26,7 @@ class InfoBoxLine;
 class InfoBlock final : public Block
 {
 public:
-  InfoBlock(const ReaderMapping& lisp);
+  InfoBlock(const ReaderMapping& mapping);
   virtual ~InfoBlock();
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;

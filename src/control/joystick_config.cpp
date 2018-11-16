@@ -157,13 +157,13 @@ JoystickConfig::bind_joybutton(JoyId joy_id, int button, Controller::Control con
 }
 
 void
-JoystickConfig::read(const ReaderMapping& joystick_lisp)
+JoystickConfig::read(const ReaderMapping& joystick_mapping)
 {
-  joystick_lisp.get("dead-zone", dead_zone);
-  joystick_lisp.get("jump-with-up", jump_with_up_joy);
-  joystick_lisp.get("use-game-controller", use_game_controller);
+  joystick_mapping.get("dead-zone", dead_zone);
+  joystick_mapping.get("jump-with-up", jump_with_up_joy);
+  joystick_mapping.get("use-game-controller", use_game_controller);
 
-  auto iter = joystick_lisp.get_iter();
+  auto iter = joystick_mapping.get_iter();
   while (iter.next())
   {
     if (iter.get_key() == "map")

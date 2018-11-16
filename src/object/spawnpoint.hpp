@@ -28,7 +28,7 @@ class SpawnPointMarker final : public MovingObject
 {
 public:
   SpawnPointMarker(const std::string& name, const Vector& pos);
-  SpawnPointMarker(const ReaderMapping& lisp);
+  SpawnPointMarker(const ReaderMapping& mapping);
 
   virtual void update(float dt_sec) override {
     // No updates needed

@@ -70,7 +70,7 @@ private:
 
   typedef std::map <std::string, std::unique_ptr<Action> > Actions;
 
-  void parse_action(const ReaderMapping& lispreader);
+  void parse_action(const ReaderMapping& mapping);
   /** Get an action */
   const Action* get_action(const std::string& act) const;
 

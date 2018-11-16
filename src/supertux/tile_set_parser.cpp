@@ -317,14 +317,14 @@ TileSetParser::parse_tiles(const ReaderMapping& reader)
 }
 
 std::vector<SurfacePtr>
-  TileSetParser::parse_imagespecs(const ReaderMapping& images_lisp,
+  TileSetParser::parse_imagespecs(const ReaderMapping& images_mapping,
                                   const boost::optional<Rect>& surface_region) const
 {
   std::vector<SurfacePtr> surfaces;
 
   // (images "foo.png" "foo.bar" ...)
   // (images (region "foo.png" 0 0 32 32))
-  auto iter = images_lisp.get_iter();
+  auto iter = images_mapping.get_iter();
   while (iter.next())
   {
     if (iter.is_string())

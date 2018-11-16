@@ -23,7 +23,7 @@ ObjectInput::ObjectInput() :
 {
   groups.clear();
 
-  //lisp::Parser parser;
+  //mapping::Parser parser;
   //const lisp::Lisp* root = parser.parse("images/engine/editor/objects.stoi");
 
   auto doc = ReaderDocument::from_file("images/engine/editor/objects.stoi");

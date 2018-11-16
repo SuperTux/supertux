@@ -32,14 +32,14 @@ const float VY_TRIGGER = -900; //negative, upwards
 const float VY_BOUNCE = -500;
 }
 
-RustyTrampoline::RustyTrampoline(const ReaderMapping& lisp) :
-  Rock(lisp, "images/objects/rusty-trampoline/rusty-trampoline.sprite"),
+RustyTrampoline::RustyTrampoline(const ReaderMapping& mapping) :
+  Rock(mapping, "images/objects/rusty-trampoline/rusty-trampoline.sprite"),
   portable(true), counter(3)
 {
   SoundManager::current()->preload(BOUNCE_SOUND);
 
-  lisp.get("counter", counter);
-  lisp.get("portable", portable); //do we really need this?
+  mapping.get("counter", counter);
+  mapping.get("portable", portable); //do we really need this?
 }
 
 void

@@ -118,12 +118,12 @@ PlayerStatus::write(Writer& writer)
 }
 
 void
-PlayerStatus::read(const ReaderMapping& lisp)
+PlayerStatus::read(const ReaderMapping& mapping)
 {
   reset();
 
   std::string bonusname;
-  if (lisp.get("bonus", bonusname)) {
+  if (mapping.get("bonus", bonusname)) {
     if (bonusname == "none") {
       bonus = NO_BONUS;
     } else if (bonusname == "growup") {
@@ -141,15 +141,15 @@ PlayerStatus::read(const ReaderMapping& lisp)
       bonus = NO_BONUS;
     }
   }
-  lisp.get("fireflowers", max_fire_bullets);
-  lisp.get("iceflowers", max_ice_bullets);
-  lisp.get("airflowers", max_air_time);
-  lisp.get("earthflowers", max_earth_time);
+  mapping.get("fireflowers", max_fire_bullets);
+  mapping.get("iceflowers", max_ice_bullets);
+  mapping.get("airflowers", max_air_time);
+  mapping.get("earthflowers", max_earth_time);
 
-  lisp.get("coins", coins);
+  mapping.get("coins", coins);
 
-  lisp.get("worldmap-sprite", worldmap_sprite);
-  lisp.get("last-worldmap", last_worldmap);
+  mapping.get("worldmap-sprite", worldmap_sprite);
+  mapping.get("last-worldmap", last_worldmap);
 }
 
 void

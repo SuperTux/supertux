@@ -26,7 +26,7 @@
 class Ispy final : public MovingSprite
 {
 public:
-  Ispy(const ReaderMapping& lisp);
+  Ispy(const ReaderMapping& mapping);
   virtual void save(Writer& writer) override;
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;

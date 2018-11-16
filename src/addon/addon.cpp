@@ -54,13 +54,13 @@ Addon::Type addon_type_from_string(const std::string& type)
 } // namespace
 
 std::unique_ptr<Addon>
-Addon::parse(const ReaderMapping& lisp)
+Addon::parse(const ReaderMapping& mapping)
 {
   std::unique_ptr<Addon> addon(new Addon);
 
   try
   {
-    if (!lisp.get("id", addon->m_id))
+    if (!mapping.get("id", addon->m_id))
     {
       throw std::runtime_error("(id ...) field missing from addon description");
     }
@@ -75,18 +75,18 @@ Addon::parse(const ReaderMapping& lisp)
       throw std::runtime_error("addon id contains illegal characters: " + addon->m_id);
     }
 
-    lisp.get("version", addon->m_version);
+    mapping.get("version", addon->m_version);
 
     std::string type;
-    lisp.get("type", type);
+    mapping.get("type", type);
     addon->m_type = addon_type_from_string(type);
 
-    lisp.get("title", addon->m_title);
-    lisp.get("author", addon->m_author);
-    lisp.get("license", addon->m_license);
-    lisp.get("url", addon->m_url);
-    lisp.get("md5", addon->m_md5);
-    lisp.get("format", addon->m_format);
+    mapping.get("title", addon->m_title);
+    mapping.get("author", addon->m_author);
+    mapping.get("license", addon->m_license);
+    mapping.get("url", addon->m_url);
+    mapping.get("md5", addon->m_md5);
+    mapping.get("format", addon->m_format);
 
     return addon;
   }

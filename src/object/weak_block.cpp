@@ -31,14 +31,14 @@
 #include "util/log.hpp"
 #include "util/reader_mapping.hpp"
 
-WeakBlock::WeakBlock(const ReaderMapping& lisp)
-: MovingSprite(lisp, "images/objects/weak_block/strawbox.sprite", LAYER_TILES, COLGROUP_STATIC), state(STATE_NORMAL),
+WeakBlock::WeakBlock(const ReaderMapping& mapping)
+: MovingSprite(mapping, "images/objects/weak_block/strawbox.sprite", LAYER_TILES, COLGROUP_STATIC), state(STATE_NORMAL),
   linked(true),
   lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
 {
   m_sprite->set_action("normal");
   //Check if this weakblock destroys adjacent weakblocks
-  if (lisp.get("linked", linked)){
+  if (mapping.get("linked", linked)){
     if (! linked){
       m_sprite_name = "images/objects/weak_block/meltbox.sprite";
       m_sprite = SpriteManager::current()->create(m_sprite_name);

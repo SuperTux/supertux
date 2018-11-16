@@ -29,16 +29,16 @@
 
 namespace worldmap_editor {
 
-WorldmapObject::WorldmapObject (const ReaderMapping& lisp, const std::string& default_sprite) :
-  MovingSprite(lisp, default_sprite)
+WorldmapObject::WorldmapObject (const ReaderMapping& mapping, const std::string& default_sprite) :
+  MovingSprite(mapping, default_sprite)
 {
   m_col.m_bbox.p1.x = 32 * m_col.m_bbox.p1.x;
   m_col.m_bbox.p1.y = 32 * m_col.m_bbox.p1.y;
   m_col.m_bbox.set_size(32, 32);
 }
 
-WorldmapObject::WorldmapObject (const ReaderMapping& lisp) :
-  MovingSprite(lisp)
+WorldmapObject::WorldmapObject (const ReaderMapping& mapping) :
+  MovingSprite(mapping)
 {
   m_col.m_bbox.p1.x = 32 * m_col.m_bbox.p1.x;
   m_col.m_bbox.p1.y = 32 * m_col.m_bbox.p1.y;
@@ -61,18 +61,18 @@ WorldmapObject::move_to(const Vector& pos) {
   set_pos(new_pos);
 }
 
-LevelDot::LevelDot(const ReaderMapping& lisp) :
-  WorldmapObject(lisp, "images/worldmap/common/leveldot.sprite"),
+LevelDot::LevelDot(const ReaderMapping& mapping) :
+  WorldmapObject(mapping, "images/worldmap/common/leveldot.sprite"),
   level(),
   extro_script(),
   auto_play(false),
   title_color(1, 1, 1)
 {
-  lisp.get("extro-script", extro_script);
-  lisp.get("auto-play", auto_play);
+  mapping.get("extro-script", extro_script);
+  mapping.get("auto-play", auto_play);
 
   std::vector<float> vColor;
-  if (lisp.get("color", vColor)) {
+  if (mapping.get("color", vColor)) {
     title_color = Color(vColor);
   }
 
@@ -145,19 +145,19 @@ LevelDot::after_editor_set()
   }
 }
 
-Teleporter::Teleporter (const ReaderMapping& lisp) :
-  WorldmapObject(lisp, "images/worldmap/common/teleporterdot.sprite"),
+Teleporter::Teleporter (const ReaderMapping& mapping) :
+  WorldmapObject(mapping, "images/worldmap/common/teleporterdot.sprite"),
   worldmap(),
   spawnpoint(),
   message(),
   automatic(),
   change_worldmap()
 {
-  lisp.get("worldmap", worldmap);
-  lisp.get("spawnpoint", spawnpoint);
-  lisp.get("message", message);
+  mapping.get("worldmap", worldmap);
+  mapping.get("spawnpoint", spawnpoint);
+  mapping.get("message", message);
 
-  lisp.get("automatic", automatic);
+  mapping.get("automatic", automatic);
 
   change_worldmap = worldmap.size() > 0;
 }
@@ -201,14 +201,14 @@ Teleporter::get_settings()
   return result;
 }
 
-WorldmapSpawnPoint::WorldmapSpawnPoint (const ReaderMapping& lisp) :
-  WorldmapObject(lisp, "images/worldmap/common/tux.png"),
+WorldmapSpawnPoint::WorldmapSpawnPoint (const ReaderMapping& mapping) :
+  WorldmapObject(mapping, "images/worldmap/common/tux.png"),
   dir(worldmap::D_NONE)
 {
-  lisp.get("name", m_name);
+  mapping.get("name", m_name);
 
   std::string auto_dir_str;
-  if (lisp.get("auto-dir", auto_dir_str)) {
+  if (mapping.get("auto-dir", auto_dir_str)) {
     dir = worldmap::string_to_direction(auto_dir_str);
   }
 }
@@ -235,8 +235,8 @@ WorldmapSpawnPoint::get_settings()
   return result;
 }
 
-SpriteChange::SpriteChange (const ReaderMapping& lisp) :
-  WorldmapObject(lisp, "images/engine/editor/spritechange.png"),
+SpriteChange::SpriteChange (const ReaderMapping& mapping) :
+  WorldmapObject(mapping, "images/engine/editor/spritechange.png"),
   target_sprite(m_sprite_name),
   stay_action(),
   initial_stay_action(false),
@@ -246,11 +246,11 @@ SpriteChange::SpriteChange (const ReaderMapping& lisp) :
   // To make obvious where the sprite change is, let's use an universal 32×32 sprite
   m_sprite = SpriteManager::current()->create("images/engine/editor/spritechange.png");
 
-  lisp.get("stay-action", stay_action);
-  lisp.get("initial-stay-action", initial_stay_action);
-  lisp.get("stay-group", stay_group);
+  mapping.get("stay-action", stay_action);
+  mapping.get("initial-stay-action", initial_stay_action);
+  mapping.get("stay-group", stay_group);
 
-  lisp.get("change-on-touch", change_on_touch);
+  mapping.get("change-on-touch", change_on_touch);
 }
 
 void
@@ -280,22 +280,22 @@ SpriteChange::get_settings()
   return result;
 }
 
-SpecialTile::SpecialTile (const ReaderMapping& lisp) :
-  WorldmapObject(lisp, "images/worldmap/common/messagedot.png"),
+SpecialTile::SpecialTile (const ReaderMapping& mapping) :
+  WorldmapObject(mapping, "images/worldmap/common/messagedot.png"),
   map_message(),
   script(),
   passive_message(false),
   invisible_tile(true),
   apply_to_direction(worldmap::D_NONE)
 {
-  lisp.get("map-message", map_message);
-  lisp.get("script", script);
+  mapping.get("map-message", map_message);
+  mapping.get("script", script);
 
-  lisp.get("passive-message", passive_message);
-  lisp.get("invisible-tile", invisible_tile);
+  mapping.get("passive-message", passive_message);
+  mapping.get("invisible-tile", invisible_tile);
 
   std::string dir_str;
-  if (lisp.get("apply-to-direction", dir_str)) {
+  if (mapping.get("apply-to-direction", dir_str)) {
     apply_to_direction = worldmap::string_to_direction(dir_str);
   }
 }

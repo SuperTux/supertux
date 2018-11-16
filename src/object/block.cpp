@@ -53,7 +53,7 @@ Block::Block(SpritePtr newsprite) :
   SoundManager::current()->preload("sounds/brick.wav");
 }
 
-Block::Block(const ReaderMapping& lisp, const std::string& sprite_file) :
+Block::Block(const ReaderMapping& mapping, const std::string& sprite_file) :
   sprite(),
   sprite_name(),
   default_sprite_name(),
@@ -63,11 +63,11 @@ Block::Block(const ReaderMapping& lisp, const std::string& sprite_file) :
   bounce_offset(0),
   original_y(-1)
 {
-  lisp.get("x", m_col.m_bbox.p1.x);
-  lisp.get("y", m_col.m_bbox.p1.y);
+  mapping.get("x", m_col.m_bbox.p1.x);
+  mapping.get("y", m_col.m_bbox.p1.y);
 
   std::string sf;
-  lisp.get("sprite", sf);
+  mapping.get("sprite", sf);
   if (sf.empty() || !PHYSFS_exists(sf.c_str())) {
     sf = sprite_file;
   }

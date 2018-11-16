@@ -29,7 +29,7 @@ class Bullet;
 class WeakBlock final : public MovingSprite
 {
 public:
-  WeakBlock(const ReaderMapping& lisp);
+  WeakBlock(const ReaderMapping& mapping);
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
   virtual void update(float dt_sec) override;

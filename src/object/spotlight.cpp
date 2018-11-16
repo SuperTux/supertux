@@ -20,7 +20,7 @@
 #include "sprite/sprite_manager.hpp"
 #include "util/reader_mapping.hpp"
 
-Spotlight::Spotlight(const ReaderMapping& lisp) :
+Spotlight::Spotlight(const ReaderMapping& mapping) :
   angle(),
   center(SpriteManager::current()->create("images/objects/spotlight/spotlight_center.sprite")),
   base(SpriteManager::current()->create("images/objects/spotlight/spotlight_base.sprite")),
@@ -33,16 +33,16 @@ Spotlight::Spotlight(const ReaderMapping& lisp) :
 {
   m_col.m_group = COLGROUP_DISABLED;
 
-  lisp.get("x", m_col.m_bbox.p1.x, 0.0f);
-  lisp.get("y", m_col.m_bbox.p1.y, 0.0f);
+  mapping.get("x", m_col.m_bbox.p1.x, 0.0f);
+  mapping.get("y", m_col.m_bbox.p1.y, 0.0f);
   m_col.m_bbox.set_size(32, 32);
 
-  lisp.get("angle", angle, 0.0f);
-  lisp.get("speed", speed, 50.0f);
-  lisp.get("counter-clockwise", counter_clockwise, false);
+  mapping.get("angle", angle, 0.0f);
+  mapping.get("speed", speed, 50.0f);
+  mapping.get("counter-clockwise", counter_clockwise, false);
 
   std::vector<float> vColor;
-  if ( lisp.get( "color", vColor ) ){
+  if ( mapping.get( "color", vColor ) ){
     color = Color( vColor );
   }
 }

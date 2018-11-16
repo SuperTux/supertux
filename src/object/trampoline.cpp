@@ -33,14 +33,14 @@ const float VY_MIN = -900; //negative, upwards
 const float VY_INITIAL = -500;
 }
 
-Trampoline::Trampoline(const ReaderMapping& lisp) :
-  Rock(lisp, "images/objects/trampoline/trampoline.sprite"),
+Trampoline::Trampoline(const ReaderMapping& mapping) :
+  Rock(mapping, "images/objects/trampoline/trampoline.sprite"),
   portable(true)
 {
   SoundManager::current()->preload(TRAMPOLINE_SOUND);
 
   //Check if this trampoline is not portable
-  if (lisp.get("portable", portable)) {
+  if (mapping.get("portable", portable)) {
     if (!portable) {
       //we need another sprite
       m_sprite_name = "images/objects/trampoline/trampoline_fix.sprite";

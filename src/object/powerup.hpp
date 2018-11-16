@@ -29,7 +29,7 @@ private:
   virtual void initialize();
 
 public:
-  PowerUp(const ReaderMapping& lisp);
+  PowerUp(const ReaderMapping& mapping);
   PowerUp(const Vector& pos, const std::string& sprite_name);
 
   virtual void update(float dt_sec) override;

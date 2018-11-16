@@ -41,11 +41,11 @@ SpriteData::Action::Action() :
 {
 }
 
-SpriteData::SpriteData(const ReaderMapping& lisp) :
+SpriteData::SpriteData(const ReaderMapping& mapping) :
   actions(),
   name()
 {
-  auto iter = lisp.get_iter();
+  auto iter = mapping.get_iter();
   while (iter.next()) {
     if (iter.get_key() == "name") {
       iter.get(name);
@@ -60,18 +60,18 @@ SpriteData::SpriteData(const ReaderMapping& lisp) :
 }
 
 void
-SpriteData::parse_action(const ReaderMapping& lisp)
+SpriteData::parse_action(const ReaderMapping& mapping)
 {
   auto action = std::make_unique<Action>();
 
-  if (!lisp.get("name", action->name)) {
+  if (!mapping.get("name", action->name)) {
     if (!actions.empty())
       throw std::runtime_error(
         "If there are more than one action, they need names!");
   }
 
   std::vector<float> hitbox;
-  if (lisp.get("hitbox", hitbox)) {
+  if (mapping.get("hitbox", hitbox)) {
     switch (hitbox.size()) {
       case 4:
         action->hitbox_h = hitbox[3];
@@ -87,14 +87,14 @@ SpriteData::parse_action(const ReaderMapping& lisp)
         throw std::runtime_error("hitbox should specify 2/4 coordinates");
     }
   }
-  lisp.get("fps", action->fps);
-  if (lisp.get("loops", action->loops))
+  mapping.get("fps", action->fps);
+  if (mapping.get("loops", action->loops))
   {
     action->has_custom_loops = true;
   }
 
   std::string mirror_action;
-  if (lisp.get("mirror-action", mirror_action)) {
+  if (mapping.get("mirror-action", mirror_action)) {
     const auto act_tmp = get_action(mirror_action);
     if (act_tmp == nullptr) {
       std::ostringstream msg;
@@ -116,12 +116,12 @@ SpriteData::parse_action(const ReaderMapping& lisp)
   } else { // Load images
     boost::optional<ReaderCollection> surfaces_collection;
     std::vector<std::string> images;
-    if (lisp.get("images", images))
+    if (mapping.get("images", images))
     {
       float max_w = 0;
       float max_h = 0;
       for (const auto& image : images) {
-        auto surface = Surface::from_file(FileSystem::join(lisp.get_doc().get_directory(), image));
+        auto surface = Surface::from_file(FileSystem::join(mapping.get_doc().get_directory(), image));
         max_w = std::max(max_w, static_cast<float>(surface->get_width()));
         max_h = std::max(max_h, static_cast<float>(surface->get_height()));
         action->surfaces.push_back(surface);
@@ -129,7 +129,7 @@ SpriteData::parse_action(const ReaderMapping& lisp)
       if (action->hitbox_w < 1) action->hitbox_w = max_w - action->x_offset;
       if (action->hitbox_h < 1) action->hitbox_h = max_h - action->y_offset;
     }
-    else if (lisp.get("surfaces", surfaces_collection))
+    else if (mapping.get("surfaces", surfaces_collection))
     {
       for (const auto& i : surfaces_collection->get_objects())
       {

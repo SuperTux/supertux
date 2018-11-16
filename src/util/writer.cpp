@@ -42,7 +42,7 @@ Writer::Writer(std::ostream* newout) :
 Writer::~Writer()
 {
   if (lists.size() > 0) {
-    log_warning << m_filename << ": Not all sections closed in lispwriter" << std::endl;
+    log_warning << m_filename << ": Not all sections closed in Writer" << std::endl;
   }
   if (out_owned)
     delete out;

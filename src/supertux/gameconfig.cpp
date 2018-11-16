@@ -69,84 +69,84 @@ Config::load()
     throw std::runtime_error("File is not a supertux-config file");
   }
 
-  auto config_lisp = root.get_mapping();
-  config_lisp.get("profile", profile);
-  config_lisp.get("show_fps", show_fps);
-  config_lisp.get("show_player_pos", show_player_pos);
-  config_lisp.get("developer", developer_mode);
-  config_lisp.get("confirmation_dialog", confirmation_dialog);
-  config_lisp.get("pause_on_focusloss", pause_on_focusloss);
+  auto config_mapping = root.get_mapping();
+  config_mapping.get("profile", profile);
+  config_mapping.get("show_fps", show_fps);
+  config_mapping.get("show_player_pos", show_player_pos);
+  config_mapping.get("developer", developer_mode);
+  config_mapping.get("confirmation_dialog", confirmation_dialog);
+  config_mapping.get("pause_on_focusloss", pause_on_focusloss);
 
   if (is_christmas()) {
-    if (!config_lisp.get("christmas", christmas_mode))
+    if (!config_mapping.get("christmas", christmas_mode))
     {
       christmas_mode = true;
     }
   }
-  config_lisp.get("transitions_enabled", transitions_enabled);
-  config_lisp.get("locale", locale);
-  config_lisp.get("random_seed", random_seed);
-  config_lisp.get("repository_url", repository_url);
+  config_mapping.get("transitions_enabled", transitions_enabled);
+  config_mapping.get("locale", locale);
+  config_mapping.get("random_seed", random_seed);
+  config_mapping.get("repository_url", repository_url);
 
-  boost::optional<ReaderMapping> config_video_lisp;
-  if (config_lisp.get("video", config_video_lisp))
+  boost::optional<ReaderMapping> config_video_mapping;
+  if (config_mapping.get("video", config_video_mapping))
   {
-    config_video_lisp->get("fullscreen", use_fullscreen);
+    config_video_mapping->get("fullscreen", use_fullscreen);
     std::string video_string;
-    config_video_lisp->get("video", video_string);
+    config_video_mapping->get("video", video_string);
     video = VideoSystem::get_video_system(video_string);
-    config_video_lisp->get("vsync", try_vsync);
+    config_video_mapping->get("vsync", try_vsync);
 
-    config_video_lisp->get("fullscreen_width",  fullscreen_size.width);
-    config_video_lisp->get("fullscreen_height", fullscreen_size.height);
+    config_video_mapping->get("fullscreen_width",  fullscreen_size.width);
+    config_video_mapping->get("fullscreen_height", fullscreen_size.height);
     if (fullscreen_size.width < 0 || fullscreen_size.height < 0)
     {
       // Somehow, an invalid size got entered into the config file,
       // let's use the "auto" setting instead.
       fullscreen_size = Size(0, 0);
     }
-    config_video_lisp->get("fullscreen_refresh_rate", fullscreen_refresh_rate);
+    config_video_mapping->get("fullscreen_refresh_rate", fullscreen_refresh_rate);
 
-    config_video_lisp->get("window_width",  window_size.width);
-    config_video_lisp->get("window_height", window_size.height);
+    config_video_mapping->get("window_width",  window_size.width);
+    config_video_mapping->get("window_height", window_size.height);
 
-    config_video_lisp->get("window_resizable", window_resizable);
+    config_video_mapping->get("window_resizable", window_resizable);
 
-    config_video_lisp->get("aspect_width",  aspect_size.width);
-    config_video_lisp->get("aspect_height", aspect_size.height);
+    config_video_mapping->get("aspect_width",  aspect_size.width);
+    config_video_mapping->get("aspect_height", aspect_size.height);
 
-    config_video_lisp->get("magnification", magnification);
+    config_video_mapping->get("magnification", magnification);
   }
 
-  boost::optional<ReaderMapping> config_audio_lisp;
-  if (config_lisp.get("audio", config_audio_lisp))
+  boost::optional<ReaderMapping> config_audio_mapping;
+  if (config_mapping.get("audio", config_audio_mapping))
   {
-    config_audio_lisp->get("sound_enabled", sound_enabled);
-    config_audio_lisp->get("music_enabled", music_enabled);
-    config_audio_lisp->get("sound_volume", sound_volume);
-    config_audio_lisp->get("music_volume", music_volume);
+    config_audio_mapping->get("sound_enabled", sound_enabled);
+    config_audio_mapping->get("music_enabled", music_enabled);
+    config_audio_mapping->get("sound_volume", sound_volume);
+    config_audio_mapping->get("music_volume", music_volume);
   }
 
-  boost::optional<ReaderMapping> config_control_lisp;
-  if (config_lisp.get("control", config_control_lisp))
+  boost::optional<ReaderMapping> config_control_mapping;
+  if (config_mapping.get("control", config_control_mapping))
   {
-    boost::optional<ReaderMapping> keymap_lisp;
-    if (config_control_lisp->get("keymap", keymap_lisp))
+    boost::optional<ReaderMapping> keymap_mapping;
+    if (config_control_mapping->get("keymap", keymap_mapping))
     {
-      keyboard_config.read(*keymap_lisp);
+      keyboard_config.read(*keymap_mapping);
     }
 
-    boost::optional<ReaderMapping> joystick_lisp;
-    if (config_control_lisp->get("joystick", joystick_lisp))
+    boost::optional<ReaderMapping> joystick_mapping;
+    if (config_control_mapping->get("joystick", joystick_mapping))
     {
-      joystick_config.read(*joystick_lisp);
+      joystick_config.read(*joystick_mapping);
     }
   }
 
-  boost::optional<ReaderCollection> config_addons_lisp;
-  if (config_lisp.get("addons", config_addons_lisp))
+  boost::optional<ReaderCollection> config_addons_mapping;
+  if (config_mapping.get("addons", config_addons_mapping))
   {
-    for (auto const& addon_node : config_addons_lisp->get_objects())
+    for (auto const& addon_node : config_addons_mapping->get_objects())
     {
       if (addon_node.get_name() == "addon")
       {

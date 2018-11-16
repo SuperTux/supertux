@@ -25,12 +25,12 @@
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
 
-void load_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, const ReaderMapping& lisp)
+void load_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, const ReaderMapping& mapping)
 {
   if (table_idx < 0)
     table_idx -= 2;
 
-  auto const& arr = lisp.get_sexp().as_array();
+  auto const& arr = mapping.get_sexp().as_array();
   for (size_t i = 1; i < arr.size(); ++i)
   {
     auto const& pair = arr[i].as_array();
@@ -58,7 +58,7 @@ void load_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, const ReaderMappin
     switch (value.get_type()) {
       case sexp::Value::TYPE_ARRAY:
         sq_newtable(vm);
-        load_squirrel_table(vm, sq_gettop(vm), ReaderMapping(lisp.get_doc(), arr[i]));
+        load_squirrel_table(vm, sq_gettop(vm), ReaderMapping(mapping.get_doc(), arr[i]));
         break;
       case sexp::Value::TYPE_INTEGER:
         sq_pushinteger(vm, value.as_int());
@@ -73,7 +73,7 @@ void load_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, const ReaderMappin
         sq_pushbool(vm, value.as_bool() ? SQTrue : SQFalse);
         break;
       case sexp::Value::TYPE_SYMBOL:
-        log_fatal << "Unexpected symbol in lisp file: " << value.as_string() << std::endl;
+        log_fatal << "Unexpected symbol in file: " << value.as_string() << std::endl;
         sq_pushnull(vm);
         break;
       default:

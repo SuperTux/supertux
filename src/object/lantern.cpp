@@ -30,7 +30,6 @@ Lantern::Lantern(const ReaderMapping& reader) :
   lightcolor(1.0f, 1.0f, 1.0f),
   lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light.sprite"))
 {
-  //get color from lisp
   std::vector<float> vColor;
   if (reader.get("color", vColor)) {
     lightcolor = Color(vColor);

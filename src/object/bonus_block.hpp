@@ -44,7 +44,7 @@ public:
 
 public:
   BonusBlock(const Vector& pos, int data);
-  BonusBlock(const ReaderMapping& lisp);
+  BonusBlock(const ReaderMapping& mapping);
   virtual ~BonusBlock();
 
   virtual void hit(Player& player) override;

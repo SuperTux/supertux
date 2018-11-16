@@ -32,8 +32,8 @@ InvisibleBlock::InvisibleBlock(const Vector& pos) :
   sprite->set_action("default-editor");
 }
 
-InvisibleBlock::InvisibleBlock(const ReaderMapping& lisp) :
-   Block(lisp, "images/objects/bonus_block/invisibleblock.sprite"),
+InvisibleBlock::InvisibleBlock(const ReaderMapping& mapping) :
+   Block(mapping, "images/objects/bonus_block/invisibleblock.sprite"),
    visible(false)
 {
   SoundManager::current()->preload("sounds/brick.wav");
