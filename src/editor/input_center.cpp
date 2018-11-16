@@ -348,24 +348,17 @@ EditorInputCenter::clone_object() {
     }
     obj_mouse_desync = sector_pos - hovered_object->get_pos();
 
-    std::unique_ptr<GameObject> game_object;
+    std::unique_ptr<GameObject> game_object_uptr;
     try {
-      game_object = GameObjectFactory::instance().create(hovered_object->get_class(), hovered_object->get_pos());
+      game_object_uptr = GameObjectFactory::instance().create(hovered_object->get_class(), hovered_object->get_pos());
     } catch(const std::exception& e) {
       log_warning << "Error creating object " << hovered_object->get_class() << ": " << e.what() << std::endl;
       return;
     }
-    if (!game_object)
-      throw std::runtime_error("Cloning object failed.");
 
-    try {
-      editor->currentsector->add_object(std::move(game_object));
-    } catch(const std::exception& e) {
-      log_warning << "Error adding object " << editor->get_tileselect_object() << ": " << e.what() << std::endl;
-      return;
-    }
+    GameObject& game_object = editor->currentsector->add_object(std::move(game_object_uptr));
 
-    dragged_object = dynamic_cast<MovingObject*>(game_object.get());
+    dragged_object = dynamic_cast<MovingObject*>(&game_object);
     ObjectSettings settings = hovered_object->get_settings();
     dragged_object->get_settings().copy_from(settings);
     dragged_object->after_editor_set();
