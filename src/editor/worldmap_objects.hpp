@@ -87,19 +87,18 @@ class Teleporter final : public WorldmapObject
 
 class WorldmapSpawnPoint final : public WorldmapObject
 {
-  public:
-    WorldmapSpawnPoint(const ReaderMapping& lisp);
-    WorldmapSpawnPoint(const std::string& name_, const Vector& pos);
+public:
+  WorldmapSpawnPoint(const ReaderMapping& lisp);
+  WorldmapSpawnPoint(const std::string& name_, const Vector& pos);
 
-    virtual std::string get_class() const override {
-      return "worldmap-spawnpoint";
-    }
+  virtual std::string get_class() const override { return "worldmap-spawnpoint"; }
+  virtual std::string get_display_name() const override { return _("Spawn point"); }
 
-    virtual ObjectSettings get_settings() override;
-    virtual void save(Writer& writer) override;
+  virtual ObjectSettings get_settings() override;
+  virtual void save(Writer& writer) override;
 
-  private:
-    worldmap::Direction dir;
+private:
+  worldmap::Direction dir;
 };
 
 class SpriteChange final : public WorldmapObject
