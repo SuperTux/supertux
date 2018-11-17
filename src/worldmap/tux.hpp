@@ -39,6 +39,7 @@ public:
   void setup(); /**< called prior to first update */
   virtual void draw(DrawingContext& context) override;
   virtual void update(float dt_sec) override;
+  virtual bool is_singleton() const override { return true; }
 
   void set_direction(Direction dir);
 
