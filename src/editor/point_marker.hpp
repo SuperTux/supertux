@@ -41,8 +41,8 @@ public:
     return FORCE_MOVE;
   }
 
-  virtual Vector get_point_vector() const;
-  virtual Vector get_offset() const;
+  virtual Vector get_point_vector() const = 0;
+  virtual Vector get_offset() const = 0;
 
 private:
   PointMarker(const PointMarker&) = delete;

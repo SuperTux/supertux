@@ -35,7 +35,9 @@ PointMarker::PointMarker ()
   m_col.m_bbox.p2 = Vector(16, 16);
 }
 
-void PointMarker::draw(DrawingContext& context) {
+void
+PointMarker::draw(DrawingContext& context)
+{
   Vector dir = get_point_vector();
   if (dir.x == 0 && dir.y == 0) {
     context.color().draw_filled_rect(m_col.m_bbox, Color(1, 1, 1, 0.5), 7.5, LAYER_GUI-20);
@@ -47,14 +49,6 @@ void PointMarker::draw(DrawingContext& context) {
     context.color().draw_triangle(pos + dir * 1.5, pos - dir + dir2, pos - dir - dir2,
                                     Color(1, 1, 1, 0.5), LAYER_GUI-20);
   }
-}
-
-Vector PointMarker::get_point_vector() const {
-  return Vector(0, 0);
-}
-
-Vector PointMarker::get_offset() const {
-  return Vector(0, 0);
 }
 
 /* EOF */
