@@ -23,8 +23,8 @@
 #include "video/drawing_context.hpp"
 
 Tip::Tip(GameObject* object) :
-  strings(),
-  header()
+  m_strings(),
+  m_header()
 {
   if (!object) {
     log_warning << "Editor/Tip: Given object doesn't exist." << std::endl;
@@ -32,7 +32,7 @@ Tip::Tip(GameObject* object) :
   }
 
   auto os = object->get_settings();
-  header = os.get_name();
+  m_header = os.get_name();
 
   for (const auto& oo : os.get_options()) {
     if (oo.m_type != MN_REMOVE && (oo.m_flags & OPTION_VISIBLE)) {
@@ -40,19 +40,20 @@ Tip::Tip(GameObject* object) :
       if (value.empty()) {
         continue;
       }
-      strings.push_back(oo.m_text + ": " + value);
+      m_strings.push_back(oo.m_text + ": " + value);
     }
   }
 }
 
 void
-Tip::draw(DrawingContext& context, const Vector& pos) {
+Tip::draw(DrawingContext& context, const Vector& pos)
+{
   auto position = pos;
   position.y += 35;
-  context.color().draw_text(Resources::normal_font, header, position,
+  context.color().draw_text(Resources::normal_font, m_header, position,
                               ALIGN_LEFT, LAYER_GUI-11, ColorScheme::Menu::label_color);
 
-  for (const auto& str : strings) {
+  for (const auto& str : m_strings) {
     position.y += 22;
     context.color().draw_text(Resources::normal_font, str, position,
                                 ALIGN_LEFT, LAYER_GUI-11, ColorScheme::Menu::default_color);
@@ -60,8 +61,9 @@ Tip::draw(DrawingContext& context, const Vector& pos) {
 }
 
 void
-Tip::draw_up(DrawingContext& context, const Vector& pos) {
-  auto position = Vector(pos.x, pos.y - (static_cast<float>(strings.size()) + 1.0f) * 22.0f - 35.0f);
+Tip::draw_up(DrawingContext& context, const Vector& pos)
+{
+  auto position = Vector(pos.x, pos.y - (static_cast<float>(m_strings.size()) + 1.0f) * 22.0f - 35.0f);
   draw(context, position);
 }
 

@@ -26,15 +26,19 @@ class Vector;
 
 class Tip final
 {
-  public:
-    Tip(GameObject* object);
+public:
+  Tip(GameObject* object);
 
-    void draw(DrawingContext& context, const Vector& pos);
-    void draw_up(DrawingContext& context, const Vector& pos);
+  void draw(DrawingContext& context, const Vector& pos);
+  void draw_up(DrawingContext& context, const Vector& pos);
 
-  private:
-    std::vector<std::string> strings;
-    std::string header;
+private:
+  std::vector<std::string> m_strings;
+  std::string m_header;
+
+private:
+  Tip(const Tip&) = delete;
+  Tip& operator=(const Tip&) = delete;
 };
 
 #endif
