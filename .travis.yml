@@ -99,7 +99,7 @@ deploy:
     bucket: supertux-ci-downloads
     region: us-west-2
     local_dir: s3-upload
-    upload-dir: ${TRAVIS_COMMIT}/travis/${TRAVIS_OS_NAME}/${TRAVIS_JOB_ID}/
+    upload-dir: ${TRAVIS_COMMIT}/travis/${TRAVIS_OS_NAME}/${TRAVIS_JOB_ID}
     skip_cleanup: true
     on:
       all_branches: true
@@ -113,6 +113,9 @@ deploy:
     on:
       tags: true
       condition: $RELEASE = ON
+
+after_deploy:
+  - ../.travis/deploy.sh
 
 addons:
   apt:
