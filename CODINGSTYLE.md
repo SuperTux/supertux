@@ -53,13 +53,22 @@ variables with `s_`.
 
 ## Classes
 
+Mark all classes as `final` unless they are specifically designed
+with polymorphism in mind.
+
+Mark all functions that override a virtual function in a base class with `override`.
+
+Write simple getters/setters inside a header file on a single line.
+
 Properly separate data members and member functions. Do not mix them in the same
-`public`/`private`/`protected` section.
+`public`/`protected`/`private` section.
+
+List virtual functions before non-virtual functions.
 
 The order of declarations in a class shall be as follows:
 
 ```c++
-class Foo
+class Foo final
 {
 public:
 protected:
@@ -80,12 +89,13 @@ private:
 public:
 protected:
 private:
-   // member functions
+   // virtual member functions
+   // non-virtual member functions
 
 public:
 protected:
 private:
-   // member variables
+   // member variables with an m_ prefix
 
 private:
   // non-copyable footer
@@ -141,10 +151,17 @@ This requires, among other things:
 
 ## Comments
 
+Avoid comments unless they explain something important and
+non-obvious. Document *why* the code does something, not *what* it
+does.
+
+Prefer to use good function and variable names to create
+self-documenting code.
+
 Use the `//` syntax for regular comments, even multiline, don't use `/* */`.
 
-For Doxygen (code documentation), use the `/** */` syntax, don't use `/**<` and
-other styles of comments.
+For Doxygen (code documentation), use the `/** */` syntax, don't use
+`/**<` and other styles of comments.
 
 For translator information, use the `// l10n:` syntax.
 
@@ -169,10 +186,6 @@ or:
 /** Also ok when it's a Doxygen comment */
 ```
 
-Avoid comments unless they explain something important and
-non-obvious. Prefer to use good function and variable names to create
-self-documenting code.
-
 ## Spaces
 
 Use a space after `if`/`while`/`switch`/`for`:
@@ -190,6 +203,45 @@ But don't use a space after a function name:
 `myfunc ()` // don't do this
 
 `myfunc()` // do this
+
+## Line breaks
+
+Write simple getters/setters inside a header file on a single line:
+
+```c++
+Vector get_pos() const { retun m_pos; }
+```
+
+Declare functions like:
+
+```c++
+ReturnType
+ClassName::function_name()
+{
+...
+}
+```
+
+We don't have any hard rules on linebreaks before `{` inside
+functions, but generally prefer the no-linebreak version when doing
+simple one-liners and the other one when doing more complex stuff:
+
+```c++
+if (foo) {
+  one_line_function_call()
+}
+```
+
+```c++
+if (foo)
+{
+  long();
+  complex();
+  series();
+  of();
+  calls();
+}
+```
 
 ## Other Information
 
