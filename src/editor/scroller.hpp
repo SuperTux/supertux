@@ -25,27 +25,29 @@ union SDL_Event;
 
 class EditorScroller final
 {
-  public:
-    EditorScroller(Editor& editor);
+public:
+  static bool rendered;
 
-    void draw(DrawingContext&);
-    void update(float dt_sec);
-    bool event(SDL_Event& ev);
+public:
+  EditorScroller(Editor& editor);
 
-    static bool rendered;
+  void draw(DrawingContext&);
+  void update(float dt_sec);
+  bool event(SDL_Event& ev);
 
-  private:
-    Editor& m_editor;
-    bool scrolling;
-    Vector scrolling_vec;
-    Vector mouse_pos;
+public:
+  void draw_arrow(DrawingContext&, const Vector& pos);
+  bool can_scroll() const;
 
-    void draw_arrow(DrawingContext&, const Vector& pos);
-    bool can_scroll() const;
+private:
+  Editor& m_editor;
+  bool m_scrolling;
+  Vector m_scrolling_vec;
+  Vector m_mouse_pos;
 
-  private:
-    EditorScroller(const EditorScroller&) = delete;
-    EditorScroller& operator=(const EditorScroller&) = delete;
+private:
+  EditorScroller(const EditorScroller&) = delete;
+  EditorScroller& operator=(const EditorScroller&) = delete;
 };
 
 #endif
