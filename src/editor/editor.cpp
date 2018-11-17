@@ -547,6 +547,8 @@ Editor::event(SDL_Event& ev)
       Compositor::s_render_lighting = !Compositor::s_render_lighting;
     }
 
+    BIND_SECTOR(*currentsector);
+
     if ( tileselect.event(ev) ) {
       return;
     }
