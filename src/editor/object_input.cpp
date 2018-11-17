@@ -19,9 +19,9 @@
 #include "util/reader_document.hpp"
 
 ObjectInput::ObjectInput() :
-  groups()
+  m_groups()
 {
-  groups.clear();
+  m_groups.clear();
 
   //mapping::Parser parser;
   //const lisp::Lisp* root = parser.parse("images/engine/editor/objects.stoi");
@@ -44,7 +44,7 @@ ObjectInput::ObjectInput() :
   while (iter.next()) {
     const std::string& token = iter.get_key();
     if (token == "objectgroup") {
-      groups.push_back( ObjectGroup( iter.as_mapping() ) );
+      m_groups.push_back( ObjectGroup( iter.as_mapping() ) );
     }
   }
 

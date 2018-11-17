@@ -619,7 +619,7 @@ Editor::select_objectgroup(int id)
 const std::vector<ObjectGroup>&
 Editor::get_objectgroups() const
 {
-  return tileselect.m_object_input->groups;
+  return tileselect.m_object_input->m_groups;
 }
 
 void

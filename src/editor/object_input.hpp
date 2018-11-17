@@ -21,11 +21,31 @@
 
 class ObjectInput final
 {
+public:
+  ObjectInput();
+
+  int get_num_worldmap_groups() const { return get_num_groups(true); }
+  int get_num_level_groups() const { return get_num_groups(false); }
+
+  int get_first_worldmap_group_index() const
+  {
+    int worldmap_group_index = 0;
+    for (const auto& group : m_groups)
+    {
+      if (group.m_for_worldmap)
+      {
+        return worldmap_group_index;
+      }
+      worldmap_group_index++;
+    }
+    return -1;
+  }
+
 private:
   int get_num_groups(bool for_worldmap) const
   {
     int num_groups = 0;
-    for (const auto& group : groups)
+    for (const auto& group : m_groups)
     {
       if (group.m_for_worldmap == for_worldmap)
       {
@@ -35,31 +55,12 @@ private:
     return num_groups;
   }
 
-  public:
-    ObjectInput();
+public:
+  std::vector<ObjectGroup> m_groups;
 
-    std::vector<ObjectGroup> groups;
-    int get_num_worldmap_groups() const
-    {
-      return get_num_groups(true);
-    }
-    int get_num_level_groups() const
-    {
-      return get_num_groups(false);
-    }
-    int get_first_worldmap_group_index() const
-    {
-      int worldmap_group_index = 0;
-      for (const auto& group : groups)
-      {
-        if (group.m_for_worldmap)
-        {
-          return worldmap_group_index;
-        }
-        worldmap_group_index++;
-      }
-      return -1;
-    }
+private:
+  ObjectInput(const ObjectInput&) = delete;
+  ObjectInput& operator=(const ObjectInput&) = delete;
 };
 
 #endif
