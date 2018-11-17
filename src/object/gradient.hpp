@@ -33,42 +33,29 @@ public:
   Gradient(const ReaderMapping& reader);
   virtual ~Gradient();
 
+  virtual void update(float dt_sec) override;
+  virtual void draw(DrawingContext& context) override;
+
   virtual bool is_saveable() const override;
   virtual void save(Writer& writer) override;
 
-  void set_gradient(Color top, Color bottom);
-
-  Color get_gradient_top() const
-  { return m_gradient_top; }
-
-  Color get_gradient_bottom() const
-  { return m_gradient_bottom; }
-
-  GradientDirection get_direction() const
-  { return m_gradient_direction; }
-
-  void set_direction(const GradientDirection& direction);
-
-  virtual void update(float dt_sec) override;
-
-  virtual void draw(DrawingContext& context) override;
-
-  virtual std::string get_class() const override {
-    return "gradient";
-  }
-
-  virtual std::string get_display_name() const override {
-    return _("Gradient");
-  }
-
-  int get_layer() const
-  { return m_layer; }
-
-  virtual ObjectSettings get_settings() override;
+  virtual std::string get_class() const override { return "gradient"; }
+  virtual std::string get_display_name() const override { return _("Gradient"); }
 
   virtual const std::string get_icon_path() const override {
     return "images/engine/editor/gradient.png";
   }
+
+  virtual ObjectSettings get_settings() override;
+
+  void set_gradient(Color top, Color bottom);
+  Color get_gradient_top() const { return m_gradient_top; }
+  Color get_gradient_bottom() const { return m_gradient_bottom; }
+
+  GradientDirection get_direction() const { return m_gradient_direction; }
+  void set_direction(const GradientDirection& direction);
+
+  int get_layer() const { return m_layer; }
 
 private:
   int m_layer;
@@ -77,6 +64,10 @@ private:
   GradientDirection m_gradient_direction;
   Blend m_blend;
   DrawingTarget m_target;
+
+private:
+  Gradient(const Gradient&) = delete;
+  Gradient& operator=(const Gradient&) = delete;
 };
 
 #endif
