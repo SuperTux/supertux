@@ -28,19 +28,20 @@
 class ReaderMapping;
 
 /**
- * This is the base class for particle systems. It is responsible for storing a
- * set of particles with each having an x- and y-coordinate the number of the
- * layer where it should be drawn and a texture.
- * The coordinate system used here is a virtual one. It would be a bad idea to
- * populate whole levels with particles. So we're using a virtual rectangle
- * here that is tiled onto the level when drawing. This rect.has the size
- * (virtual_width, virtual_height). We're using modulo on the particle
- * coordinates, so when a particle leaves left, it'll reenter at the right
- * side.
- *
- * Classes that implement a particle system should subclass from this class,
- * initialize particles in the constructor and move them in the simulate
- * function.
+  This is the base class for particle systems. It is responsible for
+  storing a set of particles with each having an x- and y-coordinate
+  the number of the layer where it should be drawn and a texture.
+
+  The coordinate system used here is a virtual one. It would be a bad
+  idea to populate whole levels with particles. So we're using a
+  virtual rectangle here that is tiled onto the level when drawing.
+  This rect.has the size (virtual_width, virtual_height). We're using
+  modulo on the particle coordinates, so when a particle leaves left,
+  it'll reenter at the right side.
+
+  Classes that implement a particle system should subclass from this
+  class, initialize particles in the constructor and move them in the
+  simulate function.
  */
 class ParticleSystem : public GameObject,
                        public ExposedObject<ParticleSystem, scripting::ParticleSystem>
@@ -49,16 +50,17 @@ public:
   ParticleSystem(const ReaderMapping& reader, float max_particle_size = 60);
   ParticleSystem(float max_particle_size = 60);
   virtual ~ParticleSystem();
+
+  virtual void draw(DrawingContext& context) override;
+
   virtual std::string get_class() const override { return "particle-system"; }
   virtual std::string get_display_name() const override { return _("Particle system"); }
   virtual ObjectSettings get_settings() override;
 
-  virtual void draw(DrawingContext& context) override;
   void set_enabled(bool enabled_);
   bool get_enabled() const;
 
-  int get_layer() const
-  { return z_pos; }
+  int get_layer() const { return z_pos; }
 
 protected:
   class Particle
@@ -83,12 +85,17 @@ protected:
     Particle& operator=(const Particle&) = delete;
   };
 
+protected:
   float max_particle_size;
   int z_pos;
   std::vector<std::unique_ptr<Particle> > particles;
   float virtual_width;
   float virtual_height;
   bool enabled;
+
+private:
+  ParticleSystem(const ParticleSystem&) = delete;
+  ParticleSystem& operator=(const ParticleSystem&) = delete;
 };
 
 #endif
