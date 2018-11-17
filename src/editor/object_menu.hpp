@@ -24,23 +24,24 @@ class GameObject;
 
 class ObjectMenu final : public Menu
 {
-  public:
-    ObjectMenu(Editor& editor, GameObject *go);
-    ~ObjectMenu();
+public:
+  enum MenuIDs {
+    MNID_REMOVE
+  };
 
-    void menu_action(MenuItem& item) override;
+public:
+  ObjectMenu(Editor& editor, GameObject* go);
+  ~ObjectMenu();
 
-    Editor& m_editor;
-    GameObject *object;
+  void menu_action(MenuItem& item) override;
 
-  private:
-    enum MenuIDs {
-      MNID_REMOVE
-    };
+private:
+  Editor& m_editor;
+  GameObject* m_object;
 
-  private:
-    ObjectMenu(const ObjectMenu&) = delete;
-    ObjectMenu& operator=(const ObjectMenu&) = delete;
+private:
+  ObjectMenu(const ObjectMenu&) = delete;
+  ObjectMenu& operator=(const ObjectMenu&) = delete;
 };
 
 #endif

@@ -22,11 +22,11 @@
 #include "supertux/moving_object.hpp"
 #include "supertux/game_object.hpp"
 
-ObjectMenu::ObjectMenu(Editor& editor, GameObject *go) :
+ObjectMenu::ObjectMenu(Editor& editor, GameObject* go) :
   m_editor(editor),
-  object(go)
+  m_object(go)
 {
-  ObjectSettings os = object->get_settings();
+  ObjectSettings os = m_object->get_settings();
   add_label(os.get_name());
   add_hl();
   for (const auto& oo : os.get_options()) {
@@ -87,10 +87,10 @@ ObjectMenu::ObjectMenu(Editor& editor, GameObject *go) :
 
 ObjectMenu::~ObjectMenu()
 {
-  object->after_editor_set();
+  m_object->after_editor_set();
 
   m_editor.reactivate_request = true;
-  if (! dynamic_cast<MovingObject*>(object)) {
+  if (!dynamic_cast<MovingObject*>(m_object)) {
     m_editor.sort_layers();
   }
 }
@@ -103,7 +103,7 @@ ObjectMenu::menu_action(MenuItem& item)
       m_editor.delete_markers();
       m_editor.reactivate_request = true;
       MenuManager::instance().pop_menu();
-      object->remove_me();
+      m_object->remove_me();
       break;
     default:
       break;
