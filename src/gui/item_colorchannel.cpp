@@ -69,12 +69,14 @@ void
 ItemColorChannel::add_char(char c)
 {
   std::string text = get_text();
+  std::string prev_text = text;
   if (!has_comma && (c == '.' || c == ',')) {
     if (!text.length()) {
       text = "0.";
     } else {
       text.push_back('.');
     }
+    set_text(text);
     has_comma = true;
   }
 
