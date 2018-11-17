@@ -22,47 +22,50 @@
 #include "video/drawing_context.hpp"
 
 ObjectIcon::ObjectIcon(const std::string& name, const std::string& icon) :
-  object_name(name),
-  surface(Surface::from_file(icon)),
-  offset()
+  m_object_name(name),
+  m_surface(Surface::from_file(icon)),
+  m_offset()
 {
   calculate_offset();
 }
 
 ObjectIcon::ObjectIcon(const ReaderMapping& reader) :
-  object_name(),
-  surface(),
-  offset()
+  m_object_name(),
+  m_surface(),
+  m_offset()
 {
   std::string icon = "images/engine/icons/supertux.png";
-  reader.get("class", object_name);
+  reader.get("class", m_object_name);
   reader.get("icon", icon);
-  surface = Surface::from_file(icon);
+  m_surface = Surface::from_file(icon);
   calculate_offset();
 }
 
-ObjectIcon::~ObjectIcon() {
+ObjectIcon::~ObjectIcon()
+{
 
 }
 
 void
-ObjectIcon::calculate_offset() {
-  float w = static_cast<float>(surface->get_width());
-  float h = static_cast<float>(surface->get_height());
+ObjectIcon::calculate_offset()
+{
+  float w = static_cast<float>(m_surface->get_width());
+  float h = static_cast<float>(m_surface->get_height());
 
   if (w > h) {
-    offset.x = 0;
-    offset.y = 32/w * (w - h) / 2;
+    m_offset.x = 0;
+    m_offset.y = 32/w * (w - h) / 2;
   } else {
-    offset.y = 0;
-    offset.x = 32/h * (h - w) / 2;
+    m_offset.y = 0;
+    m_offset.x = 32/h * (h - w) / 2;
   }
 }
 
 void
-ObjectIcon::draw(DrawingContext& context, const Vector& pos) {
-  context.color().draw_surface_scaled(surface,
-                                      Rectf(pos + offset, pos + Vector(32,32) - offset), LAYER_GUI - 9);
+ObjectIcon::draw(DrawingContext& context, const Vector& pos)
+{
+  context.color().draw_surface_scaled(m_surface,
+                                      Rectf(pos + m_offset, pos + Vector(32,32) - m_offset), LAYER_GUI - 9);
 }
 
 /* EOF */

@@ -309,7 +309,7 @@ EditorInputGui::event(SDL_Event& ev)
               case IP_OBJECT: {
                 int size = static_cast<int>(m_object_input->groups[m_active_objectgroup].m_icons.size());
                 if (m_hovered_tile < size && m_hovered_tile >= 0) {
-                  m_object = m_object_input->groups[m_active_objectgroup].m_icons[m_hovered_tile + m_starting_tile].object_name;
+                  m_object = m_object_input->groups[m_active_objectgroup].m_icons[m_hovered_tile + m_starting_tile].m_object_name;
                 }
                 update_mouse_icon();
               } break;

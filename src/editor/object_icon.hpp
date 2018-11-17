@@ -27,20 +27,22 @@ class ReaderMapping;
 
 class ObjectIcon
 {
-  public:
-    ObjectIcon(const std::string& name, const std::string& icon);
-    ObjectIcon(const ReaderMapping& reader);
-    virtual ~ObjectIcon();
+public:
+  ObjectIcon(const std::string& name, const std::string& icon);
+  ObjectIcon(const ReaderMapping& reader);
+  virtual ~ObjectIcon();
 
-    std::string object_name;
-    SurfacePtr surface;
+  virtual void draw(DrawingContext& context, const Vector& pos);
 
-    virtual void draw(DrawingContext& context, const Vector& pos);
+private:
+  void calculate_offset();
 
-  private:
-    Vector offset;
+public:
+  std::string m_object_name;
+  SurfacePtr m_surface;
 
-    void calculate_offset();
+private:
+  Vector m_offset;
 };
 
 #endif
