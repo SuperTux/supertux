@@ -18,77 +18,85 @@
 
 #include "editor/resizer.hpp"
 
-Resizer::Resizer(Rectf* rect_, Side vert_, Side horz_) :
-  rect(rect_),
-  vert(vert_),
-  horz(horz_)
+Resizer::Resizer(Rectf* rect, Side vert, Side horz) :
+  m_rect(rect),
+  m_vert(vert),
+  m_horz(horz)
 {
   refresh_pos();
 }
 
-void Resizer::update(float dt_sec) {
+void
+Resizer::update(float dt_sec)
+{
   refresh_pos();
 }
 
-void Resizer::refresh_pos() {
+void
+Resizer::refresh_pos()
+{
   Vector new_pos;
-  switch (vert) {
+  switch (m_vert) {
     case NONE:
-      new_pos.y = (rect->p1.y + rect->p2.y)/2 - 8;
+      new_pos.y = (m_rect->p1.y + m_rect->p2.y)/2 - 8;
       break;
     case LEFT_UP:
-      new_pos.y = rect->p1.y - 16;
+      new_pos.y = m_rect->p1.y - 16;
       break;
     case RIGHT_DOWN:
-      new_pos.y = rect->p2.y;
+      new_pos.y = m_rect->p2.y;
       break;
   }
 
-  switch (horz) {
+  switch (m_horz) {
     case NONE:
-      new_pos.x = (rect->p1.x + rect->p2.x)/2 - 8;
+      new_pos.x = (m_rect->p1.x + m_rect->p2.x)/2 - 8;
       break;
     case LEFT_UP:
-      new_pos.x = rect->p1.x - 16;
+      new_pos.x = m_rect->p1.x - 16;
       break;
     case RIGHT_DOWN:
-      new_pos.x = rect->p2.x;
+      new_pos.x = m_rect->p2.x;
       break;
   }
 
   set_pos(new_pos);
 }
 
-void Resizer::move_to(const Vector& pos) {
-  switch (vert) {
+void
+Resizer::move_to(const Vector& pos)
+{
+  switch (m_vert) {
     case NONE:
       break;
     case LEFT_UP:
-      rect->p1.y = std::min(pos.y + 16, rect->p2.y - 2);
+      m_rect->p1.y = std::min(pos.y + 16, m_rect->p2.y - 2);
       break;
     case RIGHT_DOWN:
-      rect->p2.y = std::max(pos.y, rect->p1.y + 2);
+      m_rect->p2.y = std::max(pos.y, m_rect->p1.y + 2);
       break;
   }
 
-  switch (horz) {
+  switch (m_horz) {
     case NONE:
       break;
     case LEFT_UP:
-      rect->p1.x = std::min(pos.x + 16, rect->p2.x - 2);
+      m_rect->p1.x = std::min(pos.x + 16, m_rect->p2.x - 2);
       break;
     case RIGHT_DOWN:
-      rect->p2.x = std::max(pos.x, rect->p1.x + 2);
+      m_rect->p2.x = std::max(pos.x, m_rect->p1.x + 2);
       break;
   }
 
   refresh_pos();
 }
 
-Vector Resizer::get_point_vector() const {
+Vector
+Resizer::get_point_vector() const
+{
   Vector result;
 
-  switch (vert) {
+  switch (m_vert) {
     case NONE:
       result.y = 0;
       break;
@@ -100,7 +108,7 @@ Vector Resizer::get_point_vector() const {
       break;
   }
 
-  switch (horz) {
+  switch (m_horz) {
     case NONE:
       result.x = 0;
       break;
@@ -115,8 +123,10 @@ Vector Resizer::get_point_vector() const {
   return result;
 }
 
-Vector Resizer::get_offset() const {
-  return Vector((horz == LEFT_UP) ? 16 : 0, (vert == LEFT_UP) ? 16 : 0);
+Vector
+Resizer::get_offset() const
+{
+  return Vector((m_horz == LEFT_UP) ? 16 : 0, (m_vert == LEFT_UP) ? 16 : 0);
 }
 
 /* EOF */

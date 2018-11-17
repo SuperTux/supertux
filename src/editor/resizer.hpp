@@ -21,34 +21,33 @@
 
 class Resizer : public PointMarker
 {
-  public:
-    enum Side{
-      NONE,
-      LEFT_UP,
-      RIGHT_DOWN
-    };
+public:
+  enum Side {
+    NONE,
+    LEFT_UP,
+    RIGHT_DOWN
+  };
 
-    Resizer(Rectf* rect_, Side vert_, Side horz_);
+public:
+  Resizer(Rectf* rect, Side vert, Side horz);
 
-    virtual void update(float dt_sec) override;
-    virtual void move_to(const Vector& pos) override;
-    virtual Vector get_point_vector() const override;
-    virtual Vector get_offset() const override;
+  virtual void update(float dt_sec) override;
+  virtual void move_to(const Vector& pos) override;
+  virtual Vector get_point_vector() const override;
+  virtual Vector get_offset() const override;
 
-    virtual bool is_saveable() const override {
-      return false;
-    }
+  virtual bool is_saveable() const override { return false; }
 
-    void refresh_pos();
+  void refresh_pos();
 
-  private:
-    Rectf* rect;
-    Side vert;
-    Side horz;
+private:
+  Rectf* m_rect;
+  Side m_vert;
+  Side m_horz;
 
-  private:
-    Resizer(const Resizer&) = delete;
-    Resizer& operator=(const Resizer&) = delete;
+private:
+  Resizer(const Resizer&) = delete;
+  Resizer& operator=(const Resizer&) = delete;
 };
 
 #endif
