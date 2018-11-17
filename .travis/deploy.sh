@@ -3,7 +3,7 @@
 shopt -s nullglob
 
 for file in s3-upload/SuperTux*; do
-    file=$(basename($file))
+    file=$(basename $file)
     echo "Uploading $file";
     url="https://supertux-ci-downloads.s3-us-west-2.amazonaws.com/${TRAVIS_COMMIT}/travis/${TRAVIS_OS_NAME}/${TRAVIS_JOB_ID}/$file"
     size=$(($(wc -c < "$file")))
