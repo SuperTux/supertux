@@ -33,7 +33,7 @@ ObjectOption::ObjectOption(MenuItemKind ip_type, const std::string& text, void* 
 {
 }
 
-const std::string
+std::string
 ObjectOption::to_string() const
 {
   switch (m_type)

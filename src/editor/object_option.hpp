@@ -38,7 +38,7 @@ public:
 
   bool is_savable() const { return !m_key.empty(); }
 
-  const std::string to_string() const;
+  std::string to_string() const;
 
   void add_select(const std::string& text);
 
