@@ -144,8 +144,8 @@ EditorInputCenter::put_tile()
 {
   auto tiles = m_editor.get_tiles();
   Vector add_tile;
-  for (add_tile.x = static_cast<float>(tiles->width) - 1.0f; add_tile.x >= 0.0f; add_tile.x--) {
-    for (add_tile.y = static_cast<float>(tiles->height) - 1.0f; add_tile.y >= 0; add_tile.y--) {
+  for (add_tile.x = static_cast<float>(tiles->m_width) - 1.0f; add_tile.x >= 0.0f; add_tile.x--) {
+    for (add_tile.y = static_cast<float>(tiles->m_height) - 1.0f; add_tile.y >= 0; add_tile.y--) {
       input_tile(m_hovered_tile + add_tile, tiles->pos(static_cast<int>(add_tile.x),
                                                      static_cast<int>(add_tile.y)));
     }
@@ -623,18 +623,18 @@ EditorInputCenter::update_tile_selection()
     return;
   }
 
-  tiles->tiles.clear();
-  tiles->width = static_cast<int>(select.get_width());
-  tiles->height = static_cast<int>(select.get_height());
+  tiles->m_tiles.clear();
+  tiles->m_width = static_cast<int>(select.get_width());
+  tiles->m_height = static_cast<int>(select.get_height());
 
   int w = static_cast<int>(tilemap->get_width());
   int h = static_cast<int>(tilemap->get_height());
   for (int y = static_cast<int>(select.p1.y); y < static_cast<int>(select.p2.y); y++) {
     for (int x = static_cast<int>(select.p1.x); x < static_cast<int>(select.p2.x); x++) {
       if ( x < 0 || y < 0 || x >= w || y >= h) {
-        tiles->tiles.push_back(0);
+        tiles->m_tiles.push_back(0);
       } else {
-        tiles->tiles.push_back(tilemap->get_tile_id(x, y));
+        tiles->m_tiles.push_back(tilemap->get_tile_id(x, y));
       }
     }
   }
@@ -742,8 +742,8 @@ EditorInputCenter::draw_tile_tip(DrawingContext& context)
     Vector drawn_tile = m_hovered_tile;
     auto tiles = m_editor.get_tiles();
 
-    for (drawn_tile.x = static_cast<float>(tiles->width) - 1.0f; drawn_tile.x >= 0.0f; drawn_tile.x--) {
-      for (drawn_tile.y = static_cast<float>(tiles->height) - 1.0f; drawn_tile.y >= 0.0f; drawn_tile.y--) {
+    for (drawn_tile.x = static_cast<float>(tiles->m_width) - 1.0f; drawn_tile.x >= 0.0f; drawn_tile.x--) {
+      for (drawn_tile.y = static_cast<float>(tiles->m_height) - 1.0f; drawn_tile.y >= 0.0f; drawn_tile.y--) {
         Vector on_tile = m_hovered_tile + drawn_tile;
 
         if (m_editor.get_tiles()->empty() ||

@@ -17,38 +17,45 @@
 #include "editor/tile_selection.hpp"
 
 TileSelection::TileSelection() :
-  tiles{1},
-  width(1),
-  height(1)
+  m_tiles(1),
+  m_width(1),
+  m_height(1)
 {
 }
 
-uint32_t TileSelection::pos(int x, int y) const {
-  x = x % width;
-  y = y % height;
+uint32_t
+TileSelection::pos(int x, int y) const
+{
+  x = x % m_width;
+  y = y % m_height;
   if (x < 0) {
-    x += width;
+    x += m_width;
   }
   if (y < 0) {
-    y += height;
+    y += m_height;
   }
 
-  return tiles[x + y * width];
+  return m_tiles[x + y * m_width];
 }
 
-void TileSelection::set_tile(uint32_t tile) {
-  tiles.clear();
-  width = 1;
-  height = 1;
-  tiles.push_back(tile);
+void
+TileSelection::set_tile(uint32_t tile)
+{
+  m_tiles.clear();
+  m_width = 1;
+  m_height = 1;
+  m_tiles.push_back(tile);
 }
 
-bool TileSelection::empty() const {
-  for (const auto& tile : tiles) {
+bool
+TileSelection::empty() const
+{
+  for (const auto& tile : m_tiles) {
     if (tile != 0) {
       return false;
     }
   }
   return true;
 }
+
 /* EOF */

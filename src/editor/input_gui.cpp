@@ -227,18 +227,18 @@ void
 EditorInputGui::update_selection()
 {
   Rectf select = normalize_selection();
-  m_tiles->tiles.clear();
-  m_tiles->width = static_cast<int>(select.get_width() + 1);
-  m_tiles->height = static_cast<int>(select.get_height() + 1);
+  m_tiles->m_tiles.clear();
+  m_tiles->m_width = static_cast<int>(select.get_width() + 1);
+  m_tiles->m_height = static_cast<int>(select.get_height() + 1);
 
   int size = static_cast<int>(m_active_tilegroup->tiles.size());
   for (int y = static_cast<int>(select.p1.y); y <= static_cast<int>(select.p2.y); y++) {
     for (int x = static_cast<int>(select.p1.x); x <= static_cast<int>(select.p2.x); x++) {
       int tile_pos = y*4 + x + m_starting_tile;
       if (tile_pos < size && tile_pos >= 0) {
-        m_tiles->tiles.push_back(m_active_tilegroup->tiles[tile_pos]);
+        m_tiles->m_tiles.push_back(m_active_tilegroup->tiles[tile_pos]);
       } else {
-        m_tiles->tiles.push_back(0);
+        m_tiles->m_tiles.push_back(0);
       }
     }
   }
