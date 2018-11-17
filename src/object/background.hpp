@@ -28,45 +28,38 @@
 class ReaderMapping;
 
 class Background final : public GameObject,
-                   public ExposedObject<Background, scripting::Background>
+                         public ExposedObject<Background, scripting::Background>
 {
 public:
   Background();
   Background(const ReaderMapping& reader);
   virtual ~Background();
+
   virtual void save(Writer& writer) override;
+
+  virtual void update(float dt_sec) override;
+  virtual void draw(DrawingContext& context) override;
+
+  virtual std::string get_class() const override { return "background"; }
+  virtual std::string get_display_name() const override { return _("Background"); }
+
+  virtual const std::string get_icon_path() const override {
+    return "images/engine/editor/background.png";
+  }
+
+  virtual ObjectSettings get_settings() override;
+  virtual void after_editor_set() override;
 
   void set_image(const std::string& name);
   void set_image(const std::string& name, float bkgd_speed);
   void set_images(const std::string& name_top_, const std::string& name_middle_, const std::string& name_bottom_);
   void set_speed(float bgd_speed);
 
-  std::string get_image() const
-  { return m_imagefile; }
-  float get_speed() const
-  { return m_speed; }
-
-  virtual void update(float dt_sec) override;
-
-  virtual void draw(DrawingContext& context) override;
   void draw_image(DrawingContext& context, const Vector& pos);
 
-  virtual std::string get_class() const override {
-    return "background";
-  }
-
-  int get_layer() const
-  { return m_layer; }
-
-  virtual std::string get_display_name() const override {
-    return _("Background");
-  }
-  virtual ObjectSettings get_settings() override;
-  virtual void after_editor_set() override;
-
-  virtual const std::string get_icon_path() const override {
-    return "images/engine/editor/background.png";
-  }
+  std::string get_image() const { return m_imagefile; }
+  float get_speed() const { return m_speed; }
+  int get_layer() const { return m_layer; }
 
 private:
   enum Alignment {
@@ -106,6 +99,10 @@ private:
 
   Blend m_blend;
   DrawingTarget m_target;
+
+private:
+  Background(const Background&) = delete;
+  Background& operator=(const Background&) = delete;
 };
 
 #endif
