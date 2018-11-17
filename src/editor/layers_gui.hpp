@@ -32,9 +32,6 @@ class Vector;
 class EditorLayersGui final
 {
 public:
-  static bool less_z_pos(const std::unique_ptr<LayerIcon>& lhs, const std::unique_ptr<LayerIcon>& rhs);
-
-public:
   enum HoveredItem {
     HI_NONE, HI_SPAWNPOINTS, HI_SECTOR, HI_LAYERS
   };
@@ -62,7 +59,7 @@ private:
   Editor& m_editor;
 
 public:
-  std::vector<std::unique_ptr<LayerIcon>> m_layers;
+  std::vector<std::unique_ptr<LayerIcon>> m_layer_icons;
   GameObject* m_selected_tilemap;
 
 private:

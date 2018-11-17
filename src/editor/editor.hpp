@@ -121,9 +121,7 @@ public:
     inputcenter.edit_path(path, new_marked_object);
   }
 
-  void add_layer(GameObject* layer) {
-    layerselect.add_layer(layer);
-  }
+  void add_layer(GameObject* layer) { layerselect.add_layer(layer); }
 
   GameObject* get_selected_tilemap() const { return layerselect.m_selected_tilemap; }
 

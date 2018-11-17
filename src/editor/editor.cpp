@@ -378,7 +378,8 @@ void
 Editor::load_layers()
 {
   layerselect.m_selected_tilemap = nullptr;
-  layerselect.m_layers.clear();
+  layerselect.m_layer_icons.clear();
+
   bool tsel = false;
   for (auto& i : currentsector->get_objects()) {
     auto go = i.get();
@@ -396,7 +397,6 @@ Editor::load_layers()
           tsel = true;
         }
       }
-
     }
   }
 

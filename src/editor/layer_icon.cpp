@@ -92,4 +92,5 @@ LayerIcon::is_valid() const
 {
   return m_layer && m_layer->is_valid();
 }
+
 /* EOF */

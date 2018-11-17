@@ -35,7 +35,7 @@
 
 EditorLayersGui::EditorLayersGui(Editor& editor) :
   m_editor(editor),
-  m_layers(),
+  m_layer_icons(),
   m_selected_tilemap(),
   m_Ypos(448),
   m_Width(512),
@@ -56,29 +56,39 @@ EditorLayersGui::draw(DrawingContext& context)
     m_object_tip->draw_up(context, position);
   }
 
-  context.color().draw_filled_rect(Rectf(Vector(0, static_cast<float>(m_Ypos)), Vector(static_cast<float>(m_Width), static_cast<float>(SCREEN_HEIGHT))),
+  context.color().draw_filled_rect(Rectf(Vector(0, static_cast<float>(m_Ypos)),
+                                         Vector(static_cast<float>(m_Width), static_cast<float>(SCREEN_HEIGHT))),
                                      Color(0.9f, 0.9f, 1.0f, 0.6f),
                                      0.0f,
                                      LAYER_GUI-10);
 
   Rectf target_rect = Rectf(0, 0, 0, 0);
   bool draw_rect = true;
-  switch (m_hovered_item) {
+
+  switch (m_hovered_item)
+  {
     case HI_SPAWNPOINTS:
-      target_rect = Rectf(Vector(0, static_cast<float>(m_Ypos)), Vector(static_cast<float>(m_Xpos), static_cast<float>(SCREEN_HEIGHT)));
+      target_rect = Rectf(Vector(0, static_cast<float>(m_Ypos)),
+                          Vector(static_cast<float>(m_Xpos), static_cast<float>(SCREEN_HEIGHT)));
       break;
+
     case HI_SECTOR:
       target_rect = Rectf(Vector(static_cast<float>(m_Xpos), static_cast<float>(m_Ypos)),
                           Vector(static_cast<float>(m_sector_text_width + m_Xpos), static_cast<float>(SCREEN_HEIGHT)));
       break;
-    case HI_LAYERS: {
-      Vector coords = get_layer_coords(m_hovered_layer);
-      target_rect = Rectf(coords, coords + Vector(32, 32));
-    } break;
+
+    case HI_LAYERS:
+      {
+        Vector coords = get_layer_coords(m_hovered_layer);
+        target_rect = Rectf(coords, coords + Vector(32, 32));
+      }
+      break;
+
     default:
       draw_rect = false;
       break;
   }
+
   if (draw_rect)
   {
     context.color().draw_filled_rect(target_rect, Color(0.9f, 0.9f, 1.0f, 0.6f), 0.0f,
@@ -94,7 +104,7 @@ EditorLayersGui::draw(DrawingContext& context)
                             ALIGN_LEFT, LAYER_GUI, ColorScheme::Menu::default_color);
 
   int pos = 0;
-  for (const auto& layer_icon : m_layers) {
+  for (const auto& layer_icon : m_layer_icons) {
     if (layer_icon->is_valid()) {
       layer_icon->draw(context, get_layer_coords(pos));
     }
@@ -105,12 +115,12 @@ EditorLayersGui::draw(DrawingContext& context)
 void
 EditorLayersGui::update(float dt_sec)
 {
-  auto it = m_layers.begin();
-  while (it != m_layers.end())
+  auto it = m_layer_icons.begin();
+  while (it != m_layer_icons.end())
   {
     auto layer_icon = (*it).get();
     if (!layer_icon->is_valid())
-      it = m_layers.erase(it);
+      it = m_layer_icons.erase(it);
     else
       ++it;
   }
@@ -119,48 +129,53 @@ EditorLayersGui::update(float dt_sec)
 bool
 EditorLayersGui::event(SDL_Event& ev)
 {
-  switch (ev.type) {
+  switch (ev.type)
+  {
     case SDL_MOUSEBUTTONDOWN:
     {
       if (ev.button.button == SDL_BUTTON_LEFT) {
-        switch (m_hovered_item) {
+        switch (m_hovered_item)
+        {
           case HI_SECTOR:
             m_editor.disable_keyboard();
             MenuManager::instance().set_menu(MenuStorage::EDITOR_SECTORS_MENU);
             break;
+
           case HI_LAYERS:
-            if (m_hovered_layer >= m_layers.size()) {
+            if (m_hovered_layer >= m_layer_icons.size()) {
               break;
             }
-            if ( m_layers[m_hovered_layer]->m_is_tilemap ) {
+            if ( m_layer_icons[m_hovered_layer]->m_is_tilemap ) {
               if (m_selected_tilemap) {
                 (static_cast<TileMap*>(m_selected_tilemap))->m_editor_active = false;
               }
-              m_selected_tilemap = m_layers[m_hovered_layer]->m_layer;
+              m_selected_tilemap = m_layer_icons[m_hovered_layer]->m_layer;
               (static_cast<TileMap*>(m_selected_tilemap))->m_editor_active = true;
               m_editor.edit_path((static_cast<TileMap*>(m_selected_tilemap))->get_path(),
                                  m_selected_tilemap);
             } else {
-              auto cam = dynamic_cast<Camera*>(m_layers[m_hovered_layer]->m_layer);
+              auto cam = dynamic_cast<Camera*>(m_layer_icons[m_hovered_layer]->m_layer);
               if (cam) {
                 m_editor.edit_path(cam->get_path(), cam);
               }
             }
             break;
+
           default:
             return false;
             break;
         }
       } else if (ev.button.button == SDL_BUTTON_RIGHT) {
-        if (m_hovered_item == HI_LAYERS && m_hovered_layer < m_layers.size()) {
-          auto om = std::make_unique<ObjectMenu>(m_editor, m_layers[m_hovered_layer]->m_layer);
+        if (m_hovered_item == HI_LAYERS && m_hovered_layer < m_layer_icons.size()) {
+          auto om = std::make_unique<ObjectMenu>(m_editor, m_layer_icons[m_hovered_layer]->m_layer);
           m_editor.deactivate_request = true;
           MenuManager::instance().push_menu(std::move(om));
         } else {
           return false;
         }
       }
-    } break;
+    }
+    break;
 
     case SDL_MOUSEMOTION:
     {
@@ -197,9 +212,11 @@ EditorLayersGui::event(SDL_Event& ev)
         resize();
       }
       return false;
+
     default:
       return false;
   }
+
   return true;
 }
 
@@ -226,7 +243,10 @@ EditorLayersGui::refresh_sector_text()
 void
 EditorLayersGui::sort_layers()
 {
-  std::sort(m_layers.begin(), m_layers.end(), less_z_pos);
+  std::sort(m_layer_icons.begin(), m_layer_icons.end(),
+            [](const std::unique_ptr<LayerIcon>& lhs, const std::unique_ptr<LayerIcon>& rhs) {
+              return lhs->get_zpos() < rhs->get_zpos();
+            });
 }
 
 void
@@ -236,24 +256,25 @@ EditorLayersGui::add_layer(GameObject* layer)
   int z_pos = icon->get_zpos();
 
   // The icon is inserted to the correct position.
-  for (auto i = m_layers.begin(); i != m_layers.end(); ++i) {
+  for (auto i = m_layer_icons.begin(); i != m_layer_icons.end(); ++i) {
     const auto& li = i->get();
     if (li->get_zpos() < z_pos) {
-      m_layers.insert(i, move(icon));
+      m_layer_icons.insert(i, move(icon));
       return;
     }
   }
-  m_layers.push_back(move(icon));
+
+  m_layer_icons.push_back(move(icon));
 }
 
 void
 EditorLayersGui::update_tip()
 {
-  if ( m_hovered_layer >= m_layers.size() ) {
+  if ( m_hovered_layer >= m_layer_icons.size() ) {
     m_object_tip = nullptr;
     return;
   }
-  m_object_tip = std::make_unique<Tip>(m_layers[m_hovered_layer]->m_layer);
+  m_object_tip = std::make_unique<Tip>(m_layer_icons[m_hovered_layer]->m_layer);
 }
 
 Vector
@@ -267,12 +288,6 @@ int
 EditorLayersGui::get_layer_pos(const Vector& coords) const
 {
   return static_cast<int>((coords.x - static_cast<float>(m_Xpos) - static_cast<float>(m_sector_text_width)) / 35.0f);
-}
-
-bool
-EditorLayersGui::less_z_pos(const std::unique_ptr<LayerIcon>& lhs, const std::unique_ptr<LayerIcon>& rhs)
-{
-  return lhs->get_zpos() < rhs->get_zpos();
 }
 
 /* EOF */
