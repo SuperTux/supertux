@@ -62,21 +62,21 @@ private:
   Editor& m_editor;
 
 public:
-  std::vector<std::unique_ptr<LayerIcon>> layers;
-  GameObject* selected_tilemap;
+  std::vector<std::unique_ptr<LayerIcon>> m_layers;
+  GameObject* m_selected_tilemap;
 
 private:
-  int Ypos;
-  const int Xpos = 32;
-  int Width;
+  int m_Ypos;
+  const int m_Xpos = 32;
+  int m_Width;
 
-  std::string sector_text;
-  int sector_text_width;
+  std::string m_sector_text;
+  int m_sector_text_width;
 
-  HoveredItem hovered_item;
-  unsigned int hovered_layer;
+  HoveredItem m_hovered_item;
+  unsigned int m_hovered_layer;
 
-  std::unique_ptr<Tip> object_tip;
+  std::unique_ptr<Tip> m_object_tip;
 
 private:
   EditorLayersGui(const EditorLayersGui&) = delete;

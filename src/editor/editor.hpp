@@ -65,10 +65,10 @@ public:
   World* get_world() const { return world.get(); }
 
   TileSet* get_tileset() const { return tileset; }
-  TileSelection* get_tiles() const { return tileselect.tiles.get(); }
-  const std::string& get_tileselect_object() const { return tileselect.object; }
+  TileSelection* get_tiles() const { return tileselect.m_tiles.get(); }
+  const std::string& get_tileselect_object() const { return tileselect.m_object; }
 
-  EditorInputGui::InputType get_tileselect_input_type() const { return tileselect.input_type; }
+  EditorInputGui::InputType get_tileselect_input_type() const { return tileselect.m_input_type; }
 
   int get_tileselect_select_mode() const;
   int get_tileselect_move_mode() const;
@@ -125,7 +125,7 @@ public:
     layerselect.add_layer(layer);
   }
 
-  GameObject* get_selected_tilemap() const { return layerselect.selected_tilemap; }
+  GameObject* get_selected_tilemap() const { return layerselect.m_selected_tilemap; }
 
 private:
   void reload_level();

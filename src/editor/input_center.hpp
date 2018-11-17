@@ -90,20 +90,20 @@ private:
 
 private:
   Editor& m_editor;
-  Vector hovered_tile;
-  Vector sector_pos;
-  Vector mouse_pos;
+  Vector m_hovered_tile;
+  Vector m_sector_pos;
+  Vector m_mouse_pos;
 
-  bool dragging;
-  bool dragging_right;
-  Vector drag_start;
-  MovingObject* dragged_object;
-  MovingObject* hovered_object;
-  GameObject* marked_object;
-  Path* edited_path;
-  NodeMarker* last_node_marker;
-  std::unique_ptr<Tip> object_tip;
-  Vector obj_mouse_desync;
+  bool m_dragging;
+  bool m_dragging_right;
+  Vector m_drag_start;
+  MovingObject* m_dragged_object;
+  MovingObject* m_hovered_object;
+  GameObject* m_marked_object;
+  Path* m_edited_path;
+  NodeMarker* m_last_node_marker;
+  std::unique_ptr<Tip> m_object_tip;
+  Vector m_obj_mouse_desync;
 
 private:
   EditorInputCenter(const EditorInputCenter&) = delete;

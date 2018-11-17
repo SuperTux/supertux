@@ -75,32 +75,32 @@ private:
   Editor& m_editor;
 
 public:
-  std::unique_ptr<TileSelection> tiles;
-  std::string object;
-  InputType input_type;
+  std::unique_ptr<TileSelection> m_tiles;
+  std::string m_object;
+  InputType m_input_type;
 
-  std::unique_ptr<Tilegroup> active_tilegroup;
-  int active_objectgroup;
-  std::unique_ptr<ObjectInput> object_input;
+  std::unique_ptr<Tilegroup> m_active_tilegroup;
+  int m_active_objectgroup;
+  std::unique_ptr<ObjectInput> m_object_input;
 
 public:
-  std::unique_ptr<ToolIcon> rubber;
-  std::unique_ptr<ToolIcon> select_mode;
-  std::unique_ptr<ToolIcon> move_mode;
-  std::unique_ptr<ToolIcon> settings_mode;
+  std::unique_ptr<ToolIcon> m_rubber;
+  std::unique_ptr<ToolIcon> m_select_mode;
+  std::unique_ptr<ToolIcon> m_move_mode;
+  std::unique_ptr<ToolIcon> m_settings_mode;
 
 private:
-  HoveredItem hovered_item;
-  int hovered_tile;
-  TileScrolling tile_scrolling;
-  bool using_scroll_wheel;
-  int wheel_scroll_amount;
-  int starting_tile;
-  bool dragging;
-  Vector drag_start;
+  HoveredItem m_hovered_item;
+  int m_hovered_tile;
+  TileScrolling m_tile_scrolling;
+  bool m_using_scroll_wheel;
+  int m_wheel_scroll_amount;
+  int m_starting_tile;
+  bool m_dragging;
+  Vector m_drag_start;
 
-  int Xpos;
-  const int Ypos = 60;
+  int m_Xpos;
+  const int m_Ypos = 60;
 
 private:
   EditorInputGui(const EditorInputGui&) = delete;
