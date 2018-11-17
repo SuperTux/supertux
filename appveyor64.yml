@@ -52,33 +52,6 @@ build:
 
 after_build:
 - cmd: '"C:\Program Files (x86)\CMake\bin\cpack.exe"'
-- ps: |
-    Write-Output Get-FileHash SuperTux-*
-    
-    function transfer ($filename)
-    {
-        $file = Get-Item $filename;
-        invoke-webrequest -method put -infile $file.FullName https://transfer.sh/$($file.Name)
-    }
-    
-    if(-not $Env:APPVEYOR_PULL_REQUEST_NUMBER) {
-      foreach ($path in get-ChildItem SuperTux-*) {
-      
-        $response = transfer($path)
-        $url = $response.Content
-        $file = Get-Item $path;
-        $shasum = Get-FileHash $file -Algorithm SHA256
-      
-        $postParams = @{
-          apikey=$Env:DOWNLOAD_APIKEY;
-          size=$file.length;
-          url=$url;
-          branch=$Env:APPVEYOR_REPO_BRANCH;
-          shasum = $shasum.Hash
-        }
-        Invoke-WebRequest -Uri https://download.supertux.org/submit.php -Method POST -Body $postParams
-      }
-    }
 
 test: off
 
@@ -95,3 +68,32 @@ deploy:
   draft: true
   on:
     appveyor_repo_tag: true        # deploy on tag push only
+- provider: S3
+  access_key_id:
+    secure: +cR4ZicEZHr0OiXAsitUhBL7PsqPzHQZb9q+IKK5P2o=
+  secret_access_key:
+    secure: Y3+rqowdiTkG3OgTUD1fb4mJzjb7jUKqCs3CKJuOy6WCHovLmw8ocemOsMyQ3WrR
+  bucket: supertux-ci-downloads
+  region: us-west-2
+  artifact: setup
+  folder: $(APPVEYOR_REPO_COMMIT)/appveyor/$(PLATFORM)/$(APPVEYOR_JOB_ID)/
+
+after_deploy:
+- ps: |
+    Write-Output Get-FileHash SuperTux-*
+    
+    foreach ($path in get-ChildItem SuperTux-*) {
+
+      $file = Get-Item $path;
+      $url = "https://supertux-ci-downloads.s3-us-west-2.amazonaws.com/$($Env:APPVEYOR_REPO_COMMIT)/appveyor/$($Env:PLATFORM)/$($Env:APPVEYOR_JOB_ID)/$($file.Name)"
+      $shasum = Get-FileHash $file -Algorithm SHA256
+    
+      $postParams = @{
+        apikey=$Env:DOWNLOAD_APIKEY;
+        size=$file.length;
+        url=$url;
+        branch=$Env:APPVEYOR_REPO_BRANCH;
+        shasum = $shasum.Hash
+      }
+      Invoke-WebRequest -Uri https://download.supertux.org/submit.php -Method POST -Body $postParams
+    }

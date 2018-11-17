@@ -16,11 +16,14 @@ fi
 
 declare -A urls
 
-for file in SuperTux*; do
-    echo "Uploading $file";
-    url=$(curl --upload-file "$file" "https://transfer.sh/$file")
-    urls[$file]=$url
-    echo $url
-done
+mkdir s3-upload
+mv SuperTux* s3-upload/
 
-declare -p urls > ~/urls.dat
+if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then
+    for file in s3-upload/SuperTux*; do
+        echo "Uploading $file";
+        url=$(curl --upload-file "$file" "https://transfer.sh/$file")
+        urls[$file]=$url
+        echo $url
+    done
+fi

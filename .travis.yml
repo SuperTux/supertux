@@ -90,8 +90,16 @@ after_success:
   - ../.travis/package.sh
 
 deploy:
-  - provider: script
-    script: ../.travis/deploy.sh
+  - provider: s3
+    # script: ../.travis/deploy.sh
+    access_key_id:
+      secure: "YV+ri7L3ewSkbj0OUDCw3f4QA45YJ2NQg4Hy43traiebBcZ9up1w20uwy9jNCltivVWw/o6I3LT1KkBkblaAtD2jUemFfOfiB9gy8KRintjaR4OSCtr5bSiB0JbDNZwOONn5UHNTi/JbEX83jZxmn/V0p0RJZPmKShpS4sxYHH8="
+    secret_access_key:
+      secure: "SInYqjQuB0NAchIyqlaS1WjRdvYEpVhRNhPVO2y5H0fHcK+LDHdpkvtuieclD3ayUg/96qOOzKj0Sr7RqSFN4TCrTOmJYIK6JPtYqonor8AZcDucqOnw31v/HOIZ+Y15mvuWJfXY8sWmBXZiXc5l1a+J1A0NSgfdikKyjdULC58="
+    bucket: supertux-ci-downloads
+    region: us-west-2
+    local_dir: s3-upload
+    upload-dir: ${TRAVIS_COMMIT}/travis/${TRAVIS_OS_NAME}/${TRAVIS_JOB_ID}/
     skip_cleanup: true
     on:
       all_branches: true
