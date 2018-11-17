@@ -22,16 +22,20 @@
 class Vector;
 
 /**
- * This is an alternative class for particle systems. It is responsible for storing a
- * set of particles with each having an x- and y-coordinate the number of the
- * layer where it should be drawn and a texture.
- * This version of the particle system class doesn't use virtual screen coordinates,
- * but Interactive ones. Particle systems which need Interactive levels coordinates, such
- * as rain, should be implemented here.
- * Classes that implement a particle system should subclass from this class,
- * initialize particles in the constructor and move them in the simulate
- * function.
- */
+   This is an alternative class for particle systems. It is
+   responsible for storing a set of particles with each having an x-
+   and y-coordinate the number of the layer where it should be drawn
+   and a texture.
+
+   This version of the particle system class doesn't use virtual
+   screen coordinates, but Interactive ones. Particle systems which
+   need Interactive levels coordinates, such as rain, should be
+   implemented here.
+
+   Classes that implement a particle system should subclass from this
+   class, initialize particles in the constructor and move them in the
+   simulate function.
+*/
 class ParticleSystem_Interactive : public ParticleSystem
 {
 public:
@@ -40,14 +44,16 @@ public:
   virtual ~ParticleSystem_Interactive();
 
   virtual void draw(DrawingContext& context) override;
-  virtual std::string get_display_name() const override
-  {
+  virtual std::string get_display_name() const override {
     return _("Interactive particle system");
   }
 
 protected:
   int collision(Particle* particle, const Vector& movement);
 
+private:
+  ParticleSystem_Interactive(const ParticleSystem_Interactive&) = delete;
+  ParticleSystem_Interactive& operator=(const ParticleSystem_Interactive&) = delete;
 };
 
 #endif

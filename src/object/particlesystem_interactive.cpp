@@ -49,7 +49,8 @@ ParticleSystem_Interactive::~ParticleSystem_Interactive()
 {
 }
 
-void ParticleSystem_Interactive::draw(DrawingContext& context)
+void
+ParticleSystem_Interactive::draw(DrawingContext& context)
 {
   if (!enabled)
     return;
@@ -145,6 +146,5 @@ ParticleSystem_Interactive::collision(Particle* object, const Vector& movement)
 
   return 0;
 }
-
 
 /* EOF */
