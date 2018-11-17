@@ -31,8 +31,8 @@ EditorObjectgroupMenu::EditorObjectgroupMenu()
 
   int id = 0;
   for (auto& og : Editor::current()->get_objectgroups()) {
-    if (worldmap == og.for_worldmap) {
-      add_entry(id, og.name);
+    if (worldmap == og.m_for_worldmap) {
+      add_entry(id, og.m_name);
     }
     id++;
   }

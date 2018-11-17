@@ -26,15 +26,16 @@ class ReaderMapping;
 
 class ObjectGroup final
 {
-  public:
-    ObjectGroup();
-    ObjectGroup(const ReaderMapping& reader);
+public:
+  ObjectGroup();
+  ObjectGroup(const ReaderMapping& reader);
 
-    std::string name;
-    std::vector<ObjectIcon> icons;
-    bool for_worldmap;
+  void add_icon(const std::string& object, const std::string& icon_path);
 
-    void add_icon(const std::string& object, const std::string& icon_path);
+public:
+  std::string m_name;
+  std::vector<ObjectIcon> m_icons;
+  bool m_for_worldmap;
 };
 
 #endif

@@ -19,29 +19,29 @@
 #include "util/reader_mapping.hpp"
 
 ObjectGroup::ObjectGroup() :
-  name(),
-  icons(),
-  for_worldmap(false)
+  m_name(),
+  m_icons(),
+  m_for_worldmap(false)
 {
-  icons.clear();
+  m_icons.clear();
 }
 
 ObjectGroup::ObjectGroup(const ReaderMapping& reader) :
-  name(),
-  icons(),
-  for_worldmap(false)
+  m_name(),
+  m_icons(),
+  m_for_worldmap(false)
 {
-  icons.clear();
+  m_icons.clear();
   add_icon("#move", "images/engine/editor/arrow.png");
 
-  reader.get("name", name);
-  reader.get("worldmap", for_worldmap);
+  reader.get("name", m_name);
+  reader.get("worldmap", m_for_worldmap);
 
   auto iter = reader.get_iter();
   while (iter.next()) {
     const std::string& token = iter.get_key();
     if (token == "object") {
-      icons.push_back( ObjectIcon( iter.as_mapping() ) );
+      m_icons.push_back( ObjectIcon( iter.as_mapping() ) );
     }
   }
 }
@@ -49,7 +49,7 @@ ObjectGroup::ObjectGroup(const ReaderMapping& reader) :
 void
 ObjectGroup::add_icon(const std::string& object, const std::string& icon_path) {
   ObjectIcon new_icon(object, icon_path);
-  icons.push_back(new_icon);
+  m_icons.push_back(new_icon);
 }
 
 /* EOF */
