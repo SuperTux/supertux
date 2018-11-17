@@ -36,10 +36,11 @@ class Tux final : public GameObject
 public:
   Tux(WorldMap* worldmap);
 
-  void setup(); /**< called prior to first update */
   virtual void draw(DrawingContext& context) override;
   virtual void update(float dt_sec) override;
   virtual bool is_singleton() const override { return true; }
+
+  void setup(); /**< called prior to first update */
 
   void set_direction(Direction dir);
 
@@ -56,12 +57,12 @@ public:
 private:
   void stop();
   std::string get_action_prefix_for_bonus(const BonusType& bonus) const;
-  bool canWalk(int tile_data, Direction dir) const; /**< check if we can leave a tile (with given "tile_data") in direction "dir" */
-  void updateInputDirection(); /**< if controller was pressed, update input_direction */
-  void tryStartWalking(); /**< try starting to walk in input_direction */
-  void tryContinueWalking(float dt_sec); /**< try to continue walking in current direction */
+  bool can_walk(int tile_data, Direction dir) const; /**< check if we can leave a tile (with given "tile_data") in direction "dir" */
+  void update_input_direction(); /**< if controller was pressed, update input_direction */
+  void try_start_walking(); /**< try starting to walk in input_direction */
+  void try_continue_walking(float dt_sec); /**< try to continue walking in current direction */
 
-  void ChangeSprite(SpriteChange* sc); /**< Uses the given sprite change */
+  void change_sprite(SpriteChange* sc); /**< Uses the given sprite change */
 
 public:
   Direction m_back_direction;
