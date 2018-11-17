@@ -25,62 +25,74 @@ namespace worldmap_editor {
 
 class WorldmapObject : public MovingSprite
 {
-  public:
-    WorldmapObject(const ReaderMapping& mapping, const std::string& default_sprite);
-    WorldmapObject(const ReaderMapping& mapping);
-    WorldmapObject(const Vector& pos, const std::string& default_sprite);
+public:
+  WorldmapObject(const ReaderMapping& mapping, const std::string& default_sprite);
+  WorldmapObject(const ReaderMapping& mapping);
+  WorldmapObject(const Vector& pos, const std::string& default_sprite);
 
-    HitResponse collision(GameObject& other, const CollisionHit& hit) override {
-      return FORCE_MOVE;
-    }
+  HitResponse collision(GameObject& other, const CollisionHit& hit) override {
+    return FORCE_MOVE;
+  }
 
-    virtual std::string get_class() const override {
-      return "worldmap-object";
-    }
+  virtual std::string get_class() const override {
+    return "worldmap-object";
+  }
 
-    virtual void move_to(const Vector& pos) override;
+  virtual void move_to(const Vector& pos) override;
+
+private:
+  WorldmapObject(const WorldmapObject&) = delete;
+  WorldmapObject& operator=(const WorldmapObject&) = delete;
 };
 
 class LevelDot final : public WorldmapObject
 {
-  public:
-    LevelDot(const ReaderMapping& mapping);
+public:
+  LevelDot(const ReaderMapping& mapping);
 
-    virtual std::string get_class() const override {
-      return "level";
-    }
+  virtual std::string get_class() const override {
+    return "level";
+  }
 
-    virtual void draw(DrawingContext& context) override;
+  virtual void draw(DrawingContext& context) override;
 
-    virtual ObjectSettings get_settings() override;
-    virtual void save(Writer& writer) override;
-    virtual void after_editor_set() override;
+  virtual ObjectSettings get_settings() override;
+  virtual void save(Writer& writer) override;
+  virtual void after_editor_set() override;
 
-  private:
-    std::string level;
-    std::string extro_script;
-    bool auto_play;
-    Color title_color;
+private:
+  std::string m_level;
+  std::string m_extro_script;
+  bool m_auto_play;
+  Color m_title_color;
+
+private:
+  LevelDot(const LevelDot&) = delete;
+  LevelDot& operator=(const LevelDot&) = delete;
 };
 
 class Teleporter final : public WorldmapObject
 {
-  public:
-    Teleporter(const ReaderMapping& mapping);
+public:
+  Teleporter(const ReaderMapping& mapping);
 
-    virtual std::string get_class() const override { return "teleporter"; }
+  virtual std::string get_class() const override { return "teleporter"; }
 
-    virtual void draw(DrawingContext& context) override;
+  virtual void draw(DrawingContext& context) override;
 
-    virtual ObjectSettings get_settings() override;
-    virtual void save(Writer& writer) override;
+  virtual ObjectSettings get_settings() override;
+  virtual void save(Writer& writer) override;
 
-  private:
-    std::string worldmap;
-    std::string spawnpoint;
-    std::string message;
-    bool automatic;
-    bool change_worldmap;
+private:
+  std::string m_worldmap;
+  std::string m_spawnpoint;
+  std::string m_message;
+  bool m_automatic;
+  bool m_change_worldmap;
+
+private:
+  Teleporter(const Teleporter&) = delete;
+  Teleporter& operator=(const Teleporter&) = delete;
 };
 
 class WorldmapSpawnPoint final : public WorldmapObject
@@ -96,43 +108,55 @@ public:
   virtual void save(Writer& writer) override;
 
 private:
-  worldmap::Direction dir;
+  worldmap::Direction m_dir;
+
+private:
+  WorldmapSpawnPoint(const WorldmapSpawnPoint&) = delete;
+  WorldmapSpawnPoint& operator=(const WorldmapSpawnPoint&) = delete;
 };
 
 class SpriteChange final : public WorldmapObject
 {
-  public:
-    SpriteChange(const ReaderMapping& mapping);
+public:
+  SpriteChange(const ReaderMapping& mapping);
 
-    virtual std::string get_class() const override { return "sprite-change"; }
+  virtual std::string get_class() const override { return "sprite-change"; }
 
-    virtual ObjectSettings get_settings() override;
-    virtual void save(Writer& writer) override;
+  virtual ObjectSettings get_settings() override;
+  virtual void save(Writer& writer) override;
 
-  private:
-    std::string target_sprite;
-    std::string stay_action;
-    bool initial_stay_action;
-    std::string stay_group;
-    bool change_on_touch;
+private:
+  std::string m_target_sprite;
+  std::string m_stay_action;
+  bool m_initial_stay_action;
+  std::string m_stay_group;
+  bool m_change_on_touch;
+
+private:
+  SpriteChange(const SpriteChange&) = delete;
+  SpriteChange& operator=(const SpriteChange&) = delete;
 };
 
 class SpecialTile final : public WorldmapObject
 {
-  public:
-    SpecialTile(const ReaderMapping& mapping);
+public:
+  SpecialTile(const ReaderMapping& mapping);
 
-    virtual std::string get_class() const override { return "special-tile"; }
+  virtual std::string get_class() const override { return "special-tile"; }
 
-    virtual ObjectSettings get_settings() override;
-    virtual void save(Writer& writer) override;
+  virtual ObjectSettings get_settings() override;
+  virtual void save(Writer& writer) override;
 
-  private:
-    std::string map_message;
-    std::string script;
-    bool passive_message;
-    bool invisible_tile;
-    worldmap::Direction apply_to_direction;
+private:
+  std::string m_map_message;
+  std::string m_script;
+  bool m_passive_message;
+  bool m_invisible_tile;
+  worldmap::Direction m_apply_to_direction;
+
+private:
+  SpecialTile(const SpecialTile&) = delete;
+  SpecialTile& operator=(const SpecialTile&) = delete;
 };
 
 } // namespace worldmap_editor

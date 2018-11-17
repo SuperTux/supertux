@@ -23,30 +23,30 @@ class DrawingContext;
 
 class PointMarker : public MovingObject
 {
-  public:
-    PointMarker(const Vector& pos);
-    PointMarker();
+public:
+  PointMarker(const Vector& pos);
+  PointMarker();
 
-    virtual void update(float dt_sec) override {
-      //No updates needed
-    }
+  virtual void update(float dt_sec) override {
+    //No updates needed
+  }
 
-    virtual void draw(DrawingContext& context) override;
+  virtual void draw(DrawingContext& context) override;
 
-    void collision_solid(const CollisionHit& hit) override {
-      //This function wouldn't be called anyway.
-    }
+  void collision_solid(const CollisionHit& hit) override {
+    //This function wouldn't be called anyway.
+  }
 
-    HitResponse collision(GameObject& other, const CollisionHit& hit) override {
-      return FORCE_MOVE;
-    }
+  HitResponse collision(GameObject& other, const CollisionHit& hit) override {
+    return FORCE_MOVE;
+  }
 
-    virtual Vector get_point_vector() const;
-    virtual Vector get_offset() const;
+  virtual Vector get_point_vector() const;
+  virtual Vector get_offset() const;
 
-  private:
-    PointMarker(const PointMarker&) = delete;
-    PointMarker& operator=(const PointMarker&) = delete;
+private:
+  PointMarker(const PointMarker&) = delete;
+  PointMarker& operator=(const PointMarker&) = delete;
 };
 
 #endif
