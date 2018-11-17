@@ -31,7 +31,6 @@ class Platform : public MovingSprite,
 public:
   Platform(const ReaderMapping& reader);
   Platform(const ReaderMapping& reader, const std::string& default_sprite);
-  Platform(const Platform& platform);
 
   virtual void finish_construction() override;
 
@@ -41,10 +40,12 @@ public:
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
   virtual void update(float dt_sec) override;
 
-  const Vector& get_speed() const
-  {
-    return m_speed;
-  }
+  virtual void move_to(const Vector& pos) override;
+
+  virtual std::string get_class() const override { return "platform"; }
+  virtual std::string get_display_name() const override { return _("Platform"); }
+
+  const Vector& get_speed() const { return m_speed; }
 
   /**
    * @name Scriptable Methods
@@ -64,15 +65,6 @@ public:
    * @}
    */
 
-  virtual void move_to(const Vector& pos) override;
-
-  virtual std::string get_class() const override {
-    return "platform";
-  }
-  virtual std::string get_display_name() const override {
-    return _("Platform");
-  }
-
 private:
   Vector m_speed;
 
@@ -87,6 +79,10 @@ private:
   /** true if a Player touched the Platform during the round before
       the last round of collision detections */
   bool m_last_player_contact;
+
+private:
+  Platform(const Platform&) = delete;
+  Platform& operator=(const Platform&) = delete;
 };
 
 #endif
