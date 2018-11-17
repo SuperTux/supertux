@@ -420,10 +420,10 @@ void
 EditorInputGui::resize()
 {
   m_Xpos = SCREEN_WIDTH - 128;
-  m_rubber->pos        = Vector(static_cast<float>(m_Xpos)        , 44.0f);
-  m_select_mode->pos   = Vector(static_cast<float>(m_Xpos) + 32.0f, 44.0f);
-  m_move_mode->pos     = Vector(static_cast<float>(m_Xpos) + 64.0f, 44.0f);
-  m_settings_mode->pos = Vector(static_cast<float>(m_Xpos) + 96.0f, 44.0f);
+  m_rubber->m_pos        = Vector(static_cast<float>(m_Xpos)        , 44.0f);
+  m_select_mode->m_pos   = Vector(static_cast<float>(m_Xpos) + 32.0f, 44.0f);
+  m_move_mode->m_pos     = Vector(static_cast<float>(m_Xpos) + 64.0f, 44.0f);
+  m_settings_mode->m_pos = Vector(static_cast<float>(m_Xpos) + 96.0f, 44.0f);
 }
 
 void
