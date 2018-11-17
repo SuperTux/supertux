@@ -24,26 +24,25 @@ class Vector;
 
 class LayerIcon : public ObjectIcon
 {
-  public:
-    LayerIcon(GameObject *layer_);
-    virtual ~LayerIcon() {}
+public:
+  LayerIcon(GameObject* layer);
+  virtual ~LayerIcon() {}
 
-    GameObject *layer;
+  virtual void draw(DrawingContext& context, const Vector& pos) override;
 
-    virtual void draw(DrawingContext& context, const Vector& pos) override;
+  int get_zpos() const;
+  bool is_valid() const;
 
-    int get_zpos() const;
-    bool is_valid() const;
+public:
+  GameObject* m_layer;
+  bool m_is_tilemap;
 
-    bool is_tilemap;
+private:
+  SurfacePtr m_selection;
 
-  private:
-
-    SurfacePtr selection;
-
-  private:
-    LayerIcon(const LayerIcon&) = delete;
-    LayerIcon& operator=(const LayerIcon&) = delete;
+private:
+  LayerIcon(const LayerIcon&) = delete;
+  LayerIcon& operator=(const LayerIcon&) = delete;
 };
 
 #endif

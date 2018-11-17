@@ -132,16 +132,16 @@ EditorLayersGui::event(SDL_Event& ev)
             if (m_hovered_layer >= m_layers.size()) {
               break;
             }
-            if ( m_layers[m_hovered_layer]->is_tilemap ) {
+            if ( m_layers[m_hovered_layer]->m_is_tilemap ) {
               if (m_selected_tilemap) {
                 (static_cast<TileMap*>(m_selected_tilemap))->m_editor_active = false;
               }
-              m_selected_tilemap = m_layers[m_hovered_layer]->layer;
+              m_selected_tilemap = m_layers[m_hovered_layer]->m_layer;
               (static_cast<TileMap*>(m_selected_tilemap))->m_editor_active = true;
               m_editor.edit_path((static_cast<TileMap*>(m_selected_tilemap))->get_path(),
                                  m_selected_tilemap);
             } else {
-              auto cam = dynamic_cast<Camera*>(m_layers[m_hovered_layer]->layer);
+              auto cam = dynamic_cast<Camera*>(m_layers[m_hovered_layer]->m_layer);
               if (cam) {
                 m_editor.edit_path(cam->get_path(), cam);
               }
@@ -153,7 +153,7 @@ EditorLayersGui::event(SDL_Event& ev)
         }
       } else if (ev.button.button == SDL_BUTTON_RIGHT) {
         if (m_hovered_item == HI_LAYERS && m_hovered_layer < m_layers.size()) {
-          auto om = std::make_unique<ObjectMenu>(m_editor, m_layers[m_hovered_layer]->layer);
+          auto om = std::make_unique<ObjectMenu>(m_editor, m_layers[m_hovered_layer]->m_layer);
           m_editor.deactivate_request = true;
           MenuManager::instance().push_menu(std::move(om));
         } else {
@@ -253,7 +253,7 @@ EditorLayersGui::update_tip()
     m_object_tip = nullptr;
     return;
   }
-  m_object_tip = std::make_unique<Tip>(m_layers[m_hovered_layer]->layer);
+  m_object_tip = std::make_unique<Tip>(m_layers[m_hovered_layer]->m_layer);
 }
 
 Vector

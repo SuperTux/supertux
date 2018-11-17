@@ -28,21 +28,21 @@
 #include "supertux/resources.hpp"
 #include "video/surface.hpp"
 
-LayerIcon::LayerIcon(GameObject *layer_) :
-  ObjectIcon("", layer_->get_icon_path()),
-  layer(layer_),
-  is_tilemap(false),
-  selection()
+LayerIcon::LayerIcon(GameObject* layer) :
+  ObjectIcon("", layer->get_icon_path()),
+  m_layer(layer),
+  m_is_tilemap(false),
+  m_selection()
 {
-  auto tm = dynamic_cast<TileMap*>(layer_);
-  if (tm) {
-    is_tilemap = true;
-    selection = Surface::from_file("images/engine/editor/selection.png");
+  if (dynamic_cast<TileMap*>(layer)) {
+    m_is_tilemap = true;
+    m_selection = Surface::from_file("images/engine/editor/selection.png");
   }
 }
 
 void
-LayerIcon::draw(DrawingContext& context, const Vector& pos) {
+LayerIcon::draw(DrawingContext& context, const Vector& pos)
+{
   if (!is_valid()) return;
 
   ObjectIcon::draw(context, pos);
@@ -51,39 +51,36 @@ LayerIcon::draw(DrawingContext& context, const Vector& pos) {
     context.color().draw_text(Resources::small_font, std::to_string(l),
                                 pos + Vector(16,16),
                                 ALIGN_CENTER, LAYER_GUI, ColorScheme::Menu::default_color);
-    if (is_tilemap) if ((static_cast<TileMap*>(layer))->m_editor_active) {
-        context.color().draw_surface(selection, pos, LAYER_GUI - 1);
+    if (m_is_tilemap) if ((static_cast<TileMap*>(m_layer))->m_editor_active) {
+        context.color().draw_surface(m_selection, pos, LAYER_GUI - 1);
     }
   }
 }
 
 int
-LayerIcon::get_zpos() const {
+LayerIcon::get_zpos() const
+{
   if (!is_valid()) {
     return std::numeric_limits<int>::min();
   }
 
-  if (is_tilemap) { //When the layer is a tilemap, the class is obvious.
-    return (static_cast<TileMap*>(layer))->get_layer();
+  if (m_is_tilemap) { //When the layer is a tilemap, the class is obvious.
+    return (static_cast<TileMap*>(m_layer))->get_layer();
   }
 
-  auto bkgrd = dynamic_cast<Background*>(layer);
-  if (bkgrd) {
+  if (auto* bkgrd = dynamic_cast<Background*>(m_layer)) {
     return bkgrd->get_layer();
   }
 
-  auto grd = dynamic_cast<Gradient*>(layer);
-  if (grd) {
+  if (auto* grd = dynamic_cast<Gradient*>(m_layer)) {
     return grd->get_layer();
   }
 
-  auto ps = dynamic_cast<ParticleSystem*>(layer);
-  if (ps) {
+  if (auto* ps = dynamic_cast<ParticleSystem*>(m_layer)) {
     return ps->get_layer();
   }
 
-  auto psi = dynamic_cast<ParticleSystem_Interactive*>(layer);
-  if (psi) {
+  if (auto* psi = dynamic_cast<ParticleSystem_Interactive*>(m_layer)) {
     return psi->get_layer();
   }
 
@@ -91,7 +88,8 @@ LayerIcon::get_zpos() const {
 }
 
 bool
-LayerIcon::is_valid() const {
-  return layer && layer->is_valid();
+LayerIcon::is_valid() const
+{
+  return m_layer && m_layer->is_valid();
 }
 /* EOF */
