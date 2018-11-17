@@ -29,7 +29,6 @@ public:
   SnowParticleSystem(const ReaderMapping& reader);
   virtual ~SnowParticleSystem();
 
-  void init();
   virtual void update(float dt_sec) override;
 
   virtual std::string get_class() const override { return "particles-snow"; }
@@ -38,6 +37,8 @@ public:
   virtual const std::string get_icon_path() const override {
     return "images/engine/editor/snow.png";
   }
+
+  void init();
 
 private:
   class SnowParticle : public Particle
@@ -75,16 +76,18 @@ private:
     RESTING,
     MAX_STATE
   };
-  State state;
 
+private:
+  State state;
 
   // Gust state delay timer
   Timer timer;
 
   // Peak magnitude of gust is gust_onset * randf(5)
-  float gust_onset,
+  float gust_onset;
+
   // Current blowing velocity of gust
-        gust_current_velocity;
+  float gust_current_velocity;
 
   SurfacePtr snowimages[3];
 
