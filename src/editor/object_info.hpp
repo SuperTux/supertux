@@ -14,15 +14,15 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_EDITOR_OBJECT_INPUT_HPP
-#define HEADER_SUPERTUX_EDITOR_OBJECT_INPUT_HPP
+#ifndef HEADER_SUPERTUX_EDITOR_OBJECT_INFO_HPP
+#define HEADER_SUPERTUX_EDITOR_OBJECT_INFO_HPP
 
 #include "editor/object_group.hpp"
 
-class ObjectInput final
+class ObjectInfo final
 {
 public:
-  ObjectInput();
+  ObjectInfo();
 
   int get_num_worldmap_groups() const { return get_num_groups(true); }
   int get_num_level_groups() const { return get_num_groups(false); }
@@ -59,8 +59,8 @@ public:
   std::vector<ObjectGroup> m_groups;
 
 private:
-  ObjectInput(const ObjectInput&) = delete;
-  ObjectInput& operator=(const ObjectInput&) = delete;
+  ObjectInfo(const ObjectInfo&) = delete;
+  ObjectInfo& operator=(const ObjectInfo&) = delete;
 };
 
 #endif

@@ -37,7 +37,7 @@ extern "C" {
 #include "audio/sound_manager.hpp"
 #include "editor/editor.hpp"
 #include "editor/layer_icon.hpp"
-#include "editor/object_input.hpp"
+#include "editor/object_info.hpp"
 #include "editor/tile_selection.hpp"
 #include "editor/tip.hpp"
 #include "editor/tool_icon.hpp"

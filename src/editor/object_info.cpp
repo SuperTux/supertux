@@ -14,18 +14,13 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "editor/object_input.hpp"
+#include "editor/object_info.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/reader_document.hpp"
 
-ObjectInput::ObjectInput() :
+ObjectInfo::ObjectInfo() :
   m_groups()
 {
-  m_groups.clear();
-
-  //mapping::Parser parser;
-  //const lisp::Lisp* root = parser.parse("images/engine/editor/objects.stoi");
-
   auto doc = ReaderDocument::from_file("images/engine/editor/objects.stoi");
   auto root = doc.get_root();
 

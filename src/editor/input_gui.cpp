@@ -17,7 +17,7 @@
 #include "editor/input_gui.hpp"
 
 #include "editor/editor.hpp"
-#include "editor/object_input.hpp"
+#include "editor/object_info.hpp"
 #include "editor/tile_selection.hpp"
 #include "editor/tool_icon.hpp"
 #include "editor/util.hpp"
@@ -42,7 +42,7 @@ EditorInputGui::EditorInputGui(Editor& editor) :
   m_input_type(IP_NONE),
   m_active_tilegroup(),
   m_active_objectgroup(-1),
-  m_object_input(new ObjectInput()),
+  m_object_info(new ObjectInfo()),
   m_rubber(new ToolIcon("images/engine/editor/rubber.png")),
   m_select_mode(new ToolIcon("images/engine/editor/select-mode0.png")),
   m_move_mode(new ToolIcon("images/engine/editor/move-mode0.png")),
@@ -133,7 +133,7 @@ EditorInputGui::draw_objectgroup(DrawingContext& context)
 {
   if (m_input_type == IP_OBJECT) {
     int pos = -1;
-    for (auto& icon : m_object_input->m_groups[m_active_objectgroup].m_icons) {
+    for (auto& icon : m_object_info->m_groups[m_active_objectgroup].m_icons) {
       pos++;
       if (pos < m_starting_tile) {
         continue;
@@ -170,7 +170,7 @@ EditorInputGui::update(float dt_sec)
     case TS_DOWN: {
       int size;
       if (m_input_type == IP_OBJECT) {
-        size = static_cast<int>(m_object_input->m_groups[m_active_objectgroup].m_icons.size());
+        size = static_cast<int>(m_object_info->m_groups[m_active_objectgroup].m_icons.size());
       } else {
         if (m_active_tilegroup == nullptr)
         {
@@ -274,8 +274,8 @@ EditorInputGui::on_mouse_button_down(const SDL_MouseButtonEvent& button)
         break;
 
       case HI_OBJECTS:
-        if ((m_editor.get_worldmap_mode() && m_object_input->get_num_worldmap_groups() > 1) ||
-            (!m_editor.get_worldmap_mode() && m_object_input->get_num_level_groups() > 1))
+        if ((m_editor.get_worldmap_mode() && m_object_info->get_num_worldmap_groups() > 1) ||
+            (!m_editor.get_worldmap_mode() && m_object_info->get_num_level_groups() > 1))
         {
           m_editor.disable_keyboard();
           MenuManager::instance().push_menu(MenuStorage::EDITOR_OBJECTGROUP_MENU);
@@ -284,7 +284,7 @@ EditorInputGui::on_mouse_button_down(const SDL_MouseButtonEvent& button)
         {
           if (m_editor.get_worldmap_mode())
           {
-            m_active_objectgroup = m_object_input->get_first_worldmap_group_index();
+            m_active_objectgroup = m_object_info->get_first_worldmap_group_index();
           }
           else
           {
@@ -316,9 +316,9 @@ EditorInputGui::on_mouse_button_down(const SDL_MouseButtonEvent& button)
 
           case IP_OBJECT:
             {
-              int size = static_cast<int>(m_object_input->m_groups[m_active_objectgroup].m_icons.size());
+              int size = static_cast<int>(m_object_info->m_groups[m_active_objectgroup].m_icons.size());
               if (m_hovered_tile < size && m_hovered_tile >= 0) {
-                m_object = m_object_input->m_groups[m_active_objectgroup].m_icons[m_hovered_tile + m_starting_tile].m_object_name;
+                m_object = m_object_info->m_groups[m_active_objectgroup].m_icons[m_hovered_tile + m_starting_tile].m_object_name;
               }
               update_mouse_icon();
             }

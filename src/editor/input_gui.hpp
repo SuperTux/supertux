@@ -26,7 +26,7 @@
 #include "supertux/tile_set.hpp"
 
 class Editor;
-class ObjectInput;
+class ObjectInfo;
 class Rectf;
 class TileSelection;
 class ToolIcon;
@@ -88,7 +88,7 @@ public:
 
   std::unique_ptr<Tilegroup> m_active_tilegroup;
   int m_active_objectgroup;
-  std::unique_ptr<ObjectInput> m_object_input;
+  std::unique_ptr<ObjectInfo> m_object_info;
 
 public:
   std::unique_ptr<ToolIcon> m_rubber;

@@ -29,7 +29,7 @@
 #include "audio/sound_manager.hpp"
 #include "control/input_manager.hpp"
 #include "editor/layer_icon.hpp"
-#include "editor/object_input.hpp"
+#include "editor/object_info.hpp"
 #include "editor/tile_selection.hpp"
 #include "editor/tip.hpp"
 #include "editor/tool_icon.hpp"
@@ -621,7 +621,7 @@ Editor::select_objectgroup(int id)
 const std::vector<ObjectGroup>&
 Editor::get_objectgroups() const
 {
-  return m_tileselect.m_object_input->m_groups;
+  return m_tileselect.m_object_info->m_groups;
 }
 
 void
