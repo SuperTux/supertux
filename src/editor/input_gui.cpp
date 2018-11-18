@@ -133,7 +133,7 @@ EditorInputGui::draw_objectgroup(DrawingContext& context)
 {
   if (m_input_type == IP_OBJECT) {
     int pos = -1;
-    for (auto& icon : m_object_info->m_groups[m_active_objectgroup].m_icons) {
+    for (auto& icon : m_object_info->m_groups[m_active_objectgroup].get_icons()) {
       pos++;
       if (pos < m_starting_tile) {
         continue;
@@ -170,7 +170,7 @@ EditorInputGui::update(float dt_sec)
     case TS_DOWN: {
       int size;
       if (m_input_type == IP_OBJECT) {
-        size = static_cast<int>(m_object_info->m_groups[m_active_objectgroup].m_icons.size());
+        size = static_cast<int>(m_object_info->m_groups[m_active_objectgroup].get_icons().size());
       } else {
         if (m_active_tilegroup == nullptr)
         {
@@ -316,9 +316,9 @@ EditorInputGui::on_mouse_button_down(const SDL_MouseButtonEvent& button)
 
           case IP_OBJECT:
             {
-              int size = static_cast<int>(m_object_info->m_groups[m_active_objectgroup].m_icons.size());
+              int size = static_cast<int>(m_object_info->m_groups[m_active_objectgroup].get_icons().size());
               if (m_hovered_tile < size && m_hovered_tile >= 0) {
-                m_object = m_object_info->m_groups[m_active_objectgroup].m_icons[m_hovered_tile + m_starting_tile].get_object_class();
+                m_object = m_object_info->m_groups[m_active_objectgroup].get_icons()[m_hovered_tile + m_starting_tile].get_object_class();
               }
               update_mouse_icon();
             }
