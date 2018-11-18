@@ -104,56 +104,52 @@ EditorScroller::update(float dt_sec)
 }
 
 bool
-EditorScroller::event(const SDL_Event& ev)
+EditorScroller::on_mouse_button_up(const SDL_MouseButtonEvent& button)
 {
-  switch (ev.type) {
-    case SDL_MOUSEBUTTONDOWN:
-    {
-      if (ev.button.button == SDL_BUTTON_LEFT) {
-        if (!rendered) return false;
+  m_scrolling = false;
+  return false;
+}
 
-        if (m_mouse_pos.x < SIZE && m_mouse_pos.y < SIZE) {
-          m_scrolling = true;
-        } else {
-          return false;
-        }
-      } else {
-        return false;
-      }
-    } break;
+bool
+EditorScroller::on_mouse_button_down(const SDL_MouseButtonEvent& button)
+{
+  if (button.button == SDL_BUTTON_LEFT) {
+    if (!rendered) return false;
 
-    case SDL_MOUSEBUTTONUP:
-      m_scrolling = false;
+    if (m_mouse_pos.x < SIZE && m_mouse_pos.y < SIZE) {
+      m_scrolling = true;
+    } else {
       return false;
-      break;
-
-    case SDL_MOUSEMOTION:
-    {
-      if (!rendered) return false;
-
-      m_mouse_pos = VideoSystem::current()->get_viewport().to_logical(ev.motion.x, ev.motion.y);
-      if (m_mouse_pos.x < SIZE && m_mouse_pos.y < SIZE) {
-        m_scrolling_vec = m_mouse_pos - Vector(MIDDLE, MIDDLE);
-        if (m_scrolling_vec.x != 0 || m_scrolling_vec.y != 0) {
-          float norm = m_scrolling_vec.norm();
-          m_scrolling_vec *= powf(static_cast<float>(M_E), norm / 16.0f - 1.0f);
-        }
-      }
-      return false;
-    } break;
-
-    case SDL_KEYDOWN:
-      if (ev.key.keysym.sym == SDLK_F9) {
-        rendered = !rendered;
-      }
-      return false;
-      break;
-
-    default:
-      return false;
-      break;
+    }
+  } else {
+    return false;
   }
   return true;
+}
+
+bool
+EditorScroller::on_mouse_motion(const SDL_MouseMotionEvent& motion)
+{
+  if (!rendered) return false;
+
+  m_mouse_pos = VideoSystem::current()->get_viewport().to_logical(motion.x, motion.y);
+  if (m_mouse_pos.x < SIZE && m_mouse_pos.y < SIZE) {
+    m_scrolling_vec = m_mouse_pos - Vector(MIDDLE, MIDDLE);
+    if (m_scrolling_vec.x != 0 || m_scrolling_vec.y != 0) {
+      float norm = m_scrolling_vec.norm();
+      m_scrolling_vec *= powf(static_cast<float>(M_E), norm / 16.0f - 1.0f);
+    }
+  }
+  return false;
+}
+
+bool
+EditorScroller::on_key_down(const SDL_KeyboardEvent& key)
+{
+  if (key.keysym.sym == SDLK_F9) {
+    rendered = !rendered;
+  }
+  return false;
 }
 
 /* EOF */

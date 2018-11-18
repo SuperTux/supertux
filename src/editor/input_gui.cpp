@@ -245,175 +245,184 @@ EditorInputGui::update_selection()
 }
 
 bool
-EditorInputGui::event(const SDL_Event& ev)
+EditorInputGui::on_mouse_button_up(const SDL_MouseButtonEvent& button)
 {
-  switch (ev.type) {
-    case SDL_MOUSEBUTTONDOWN:
-    {
-      if (ev.button.button == SDL_BUTTON_LEFT || ev.button.button == SDL_BUTTON_RIGHT) {
-        switch (m_hovered_item) {
-          case HI_TILEGROUP:
-          {
-            if (m_editor.get_tileset()->get_tilegroups().size() > 1)
-            {
-              m_editor.disable_keyboard();
-              MenuManager::instance().push_menu(MenuStorage::EDITOR_TILEGROUP_MENU);
-            }
-            else
-            {
-              m_active_tilegroup.reset(new Tilegroup(m_editor.get_tileset()->get_tilegroups()[0]));
-              m_input_type = EditorInputGui::IP_TILE;
-              reset_pos();
-              update_mouse_icon();
-            }
-          }
-            break;
-          case HI_OBJECTS:
-          {
-            if ( (m_editor.get_worldmap_mode() && m_object_input->get_num_worldmap_groups() > 1) ||
-                (!m_editor.get_worldmap_mode() && m_object_input->get_num_level_groups() > 1) )
-            {
-              m_editor.disable_keyboard();
-              MenuManager::instance().push_menu(MenuStorage::EDITOR_OBJECTGROUP_MENU);
-            }
-            else
-            {
-              if (m_editor.get_worldmap_mode())
-              {
-                m_active_objectgroup = m_object_input->get_first_worldmap_group_index();
-              }
-              else
-              {
-                m_active_objectgroup = 0;
-              }
-              m_input_type = EditorInputGui::IP_OBJECT;
-              reset_pos();
-              update_mouse_icon();
-            }
-          }
-            break;
-          case HI_TILE:
-            switch (m_input_type) {
-              case IP_TILE: {
-                m_dragging = true;
-                m_drag_start = Vector(static_cast<float>(m_hovered_tile % 4),
-                                    static_cast<float>(m_hovered_tile / 4));
-                int size = static_cast<int>(m_active_tilegroup->tiles.size());
-                int tile_pos = m_hovered_tile + m_starting_tile;
-                if (tile_pos < size && tile_pos >= 0) {
-                  m_tiles->set_tile(m_active_tilegroup->tiles[tile_pos]);
-                } else {
-                  m_tiles->set_tile(0);
-                }
-              } break;
-              case IP_OBJECT: {
-                int size = static_cast<int>(m_object_input->m_groups[m_active_objectgroup].m_icons.size());
-                if (m_hovered_tile < size && m_hovered_tile >= 0) {
-                  m_object = m_object_input->m_groups[m_active_objectgroup].m_icons[m_hovered_tile + m_starting_tile].m_object_name;
-                }
-                update_mouse_icon();
-              } break;
-              default:
-                break;
-            }
-            return true;
-            break;
-          case HI_TOOL:
-            switch (m_hovered_tile) {
-              case 0:
-                m_tiles->set_tile(0);
-                m_object = "";
-                update_mouse_icon();
-                break;
-              case 1:
-                m_select_mode->next_mode();
-                update_mouse_icon();
-                break;
-              case 2:
-                m_move_mode->next_mode();
-                update_mouse_icon();
-                break;
-              case 3:
-                m_editor.esc_press();
-                break;
-              default:
-                break;
-            }
-            return true;
-            break;
-          default:
-            return false;
-            break;
-        }
-      }
-    } break;
+  m_dragging = false;
+  return false;
+}
 
-    case SDL_MOUSEBUTTONUP:
-      m_dragging = false;
-      return false;
-
-    case SDL_MOUSEMOTION:
+bool
+EditorInputGui::on_mouse_button_down(const SDL_MouseButtonEvent& button)
+{
+  if (button.button == SDL_BUTTON_LEFT || button.button == SDL_BUTTON_RIGHT)
+  {
+    switch (m_hovered_item)
     {
-      Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(ev.motion.x, ev.motion.y);
-      float x = mouse_pos.x - static_cast<float>(m_Xpos);
-      float y = mouse_pos.y - static_cast<float>(m_Ypos);
-      if (x < 0) {
-        m_hovered_item = HI_NONE;
-        m_tile_scrolling = TS_NONE;
-        return false;
-      }
-      if (y < 0) {
-        if (y < -38) {
-          m_hovered_item = HI_TILEGROUP;
-        } else if (y < -16) {
-          m_hovered_item = HI_OBJECTS;
-        } else {
-          m_hovered_item = HI_TOOL;
-          m_hovered_tile = get_tool_pos(mouse_pos);
+      case HI_TILEGROUP:
+        if (m_editor.get_tileset()->get_tilegroups().size() > 1)
+        {
+          m_editor.disable_keyboard();
+          MenuManager::instance().push_menu(MenuStorage::EDITOR_TILEGROUP_MENU);
         }
-        m_tile_scrolling = TS_NONE;
+        else
+        {
+          m_active_tilegroup.reset(new Tilegroup(m_editor.get_tileset()->get_tilegroups()[0]));
+          m_input_type = EditorInputGui::IP_TILE;
+          reset_pos();
+          update_mouse_icon();
+        }
         break;
-      } else {
-        m_hovered_item = HI_TILE;
-        m_hovered_tile = get_tile_pos(mouse_pos);
-        if (m_dragging && m_input_type == IP_TILE) {
-          update_selection();
-        }
-      }
-      if (y < 16) {
-        m_tile_scrolling = TS_UP;
-        m_using_scroll_wheel = false;
-      }else if (y > static_cast<float>(SCREEN_HEIGHT - 16 - m_Ypos)) {
-        m_tile_scrolling = TS_DOWN;
-        m_using_scroll_wheel = false;
-      } else {
-        m_tile_scrolling = TS_NONE;
-      }
-    }
-    break;
 
-    case SDL_WINDOWEVENT:
-      if (ev.window.event == SDL_WINDOWEVENT_RESIZED) {
-        resize();
-      }
-      return false;
-    case SDL_MOUSEWHEEL:
-      if (m_hovered_item != HI_NONE)
-      {
-        if (ev.wheel.y > 0) {
-          m_tile_scrolling = TS_UP;
+      case HI_OBJECTS:
+        if ((m_editor.get_worldmap_mode() && m_object_input->get_num_worldmap_groups() > 1) ||
+            (!m_editor.get_worldmap_mode() && m_object_input->get_num_level_groups() > 1))
+        {
+          m_editor.disable_keyboard();
+          MenuManager::instance().push_menu(MenuStorage::EDITOR_OBJECTGROUP_MENU);
         }
-        else {
-          m_tile_scrolling = TS_DOWN;
+        else
+        {
+          if (m_editor.get_worldmap_mode())
+          {
+            m_active_objectgroup = m_object_input->get_first_worldmap_group_index();
+          }
+          else
+          {
+            m_active_objectgroup = 0;
+          }
+          m_input_type = EditorInputGui::IP_OBJECT;
+          reset_pos();
+          update_mouse_icon();
         }
-        m_using_scroll_wheel = true;
-        m_wheel_scroll_amount = ev.wheel.y;
-      }
-      return false;
-    default:
-      return false;
+        break;
+
+      case HI_TILE:
+        switch (m_input_type)
+        {
+          case IP_TILE:
+            {
+              m_dragging = true;
+              m_drag_start = Vector(static_cast<float>(m_hovered_tile % 4),
+                                    static_cast<float>(m_hovered_tile / 4));
+              int size = static_cast<int>(m_active_tilegroup->tiles.size());
+              int tile_pos = m_hovered_tile + m_starting_tile;
+              if (tile_pos < size && tile_pos >= 0) {
+                m_tiles->set_tile(m_active_tilegroup->tiles[tile_pos]);
+              } else {
+                m_tiles->set_tile(0);
+              }
+            }
+            break;
+
+          case IP_OBJECT:
+            {
+              int size = static_cast<int>(m_object_input->m_groups[m_active_objectgroup].m_icons.size());
+              if (m_hovered_tile < size && m_hovered_tile >= 0) {
+                m_object = m_object_input->m_groups[m_active_objectgroup].m_icons[m_hovered_tile + m_starting_tile].m_object_name;
+              }
+              update_mouse_icon();
+            }
+            break;
+
+          default:
+            break;
+        }
+        return true;
+
+      case HI_TOOL:
+        switch (m_hovered_tile)
+        {
+          case 0:
+            m_tiles->set_tile(0);
+            m_object = "";
+            update_mouse_icon();
+            break;
+
+          case 1:
+            m_select_mode->next_mode();
+            update_mouse_icon();
+            break;
+
+          case 2:
+            m_move_mode->next_mode();
+            update_mouse_icon();
+            break;
+
+          case 3:
+            m_editor.esc_press();
+            break;
+
+          default:
+            break;
+        }
+        return true;
+
+      default:
+        return false;
+    }
   }
-  return true;
+  return false;
+}
+
+bool
+EditorInputGui::on_mouse_motion(const SDL_MouseMotionEvent& motion)
+{
+  Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(motion.x, motion.y);
+  float x = mouse_pos.x - static_cast<float>(m_Xpos);
+  float y = mouse_pos.y - static_cast<float>(m_Ypos);
+
+  if (x < 0) {
+    m_hovered_item = HI_NONE;
+    m_tile_scrolling = TS_NONE;
+    return false;
+  }
+
+  if (y < 0) {
+    if (y < -38) {
+      m_hovered_item = HI_TILEGROUP;
+    } else if (y < -16) {
+      m_hovered_item = HI_OBJECTS;
+    } else {
+      m_hovered_item = HI_TOOL;
+      m_hovered_tile = get_tool_pos(mouse_pos);
+    }
+    m_tile_scrolling = TS_NONE;
+    return false;
+  } else {
+    m_hovered_item = HI_TILE;
+    m_hovered_tile = get_tile_pos(mouse_pos);
+    if (m_dragging && m_input_type == IP_TILE) {
+      update_selection();
+    }
+  }
+
+  if (y < 16) {
+    m_tile_scrolling = TS_UP;
+    m_using_scroll_wheel = false;
+  } else if (y > static_cast<float>(SCREEN_HEIGHT - 16 - m_Ypos)) {
+    m_tile_scrolling = TS_DOWN;
+    m_using_scroll_wheel = false;
+  } else {
+    m_tile_scrolling = TS_NONE;
+  }
+  return false;
+}
+
+bool
+EditorInputGui::on_mouse_wheel(const SDL_MouseWheelEvent& wheel)
+{
+  if (m_hovered_item != HI_NONE)
+  {
+    if (wheel.y > 0) {
+      m_tile_scrolling = TS_UP;
+    }
+    else {
+      m_tile_scrolling = TS_DOWN;
+    }
+    m_using_scroll_wheel = true;
+    m_wheel_scroll_amount = wheel.y;
+  }
+  return false;
 }
 
 void

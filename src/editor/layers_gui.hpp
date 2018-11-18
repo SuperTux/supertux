@@ -42,7 +42,11 @@ public:
 
   virtual void draw(DrawingContext& context) override;
   virtual void update(float dt_sec) override;
-  virtual bool event(const SDL_Event& ev) override;
+
+  virtual bool on_mouse_button_up(const SDL_MouseButtonEvent& button) override;
+  virtual bool on_mouse_button_down(const SDL_MouseButtonEvent& button) override;
+  virtual bool on_mouse_motion(const SDL_MouseMotionEvent& motion) override;
+
   virtual void setup() override;
   virtual void resize() override;
 

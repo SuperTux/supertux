@@ -38,6 +38,7 @@ public:
   virtual bool on_mouse_button_up(const SDL_MouseButtonEvent& button) { return false; }
   virtual bool on_mouse_button_down(const SDL_MouseButtonEvent& button) { return false; }
   virtual bool on_mouse_motion(const SDL_MouseMotionEvent& motion) { return false; }
+  virtual bool on_mouse_wheel(const SDL_MouseWheelEvent& wheel) { return false; }
   virtual bool on_key_up(const SDL_KeyboardEvent& key) { return false; }
   virtual bool on_key_down(const SDL_KeyboardEvent& key) { return false; }
 

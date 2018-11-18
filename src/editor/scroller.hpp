@@ -34,7 +34,11 @@ public:
 
   virtual void draw(DrawingContext& context) override;
   virtual void update(float dt_sec) override;
-  virtual bool event(const SDL_Event& ev) override;
+
+  virtual bool on_mouse_button_up(const SDL_MouseButtonEvent& button) override;
+  virtual bool on_mouse_button_down(const SDL_MouseButtonEvent& button) override;
+  virtual bool on_mouse_motion(const SDL_MouseMotionEvent& motion) override;
+  virtual bool on_key_down(const SDL_KeyboardEvent& key) override;
 
 public:
   void draw_arrow(DrawingContext&, const Vector& pos);

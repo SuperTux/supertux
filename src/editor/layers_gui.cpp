@@ -127,94 +127,89 @@ EditorLayersGui::update(float dt_sec)
 }
 
 bool
-EditorLayersGui::event(const SDL_Event& ev)
+EditorLayersGui::on_mouse_button_up(const SDL_MouseButtonEvent& button)
 {
-  switch (ev.type)
+  return false;
+}
+
+bool
+EditorLayersGui::on_mouse_button_down(const SDL_MouseButtonEvent& button)
+{
+  if (button.button == SDL_BUTTON_LEFT)
   {
-    case SDL_MOUSEBUTTONDOWN:
+    switch (m_hovered_item)
     {
-      if (ev.button.button == SDL_BUTTON_LEFT) {
-        switch (m_hovered_item)
-        {
-          case HI_SECTOR:
-            m_editor.disable_keyboard();
-            MenuManager::instance().set_menu(MenuStorage::EDITOR_SECTORS_MENU);
-            break;
-
-          case HI_LAYERS:
-            if (m_hovered_layer >= m_layer_icons.size()) {
-              break;
-            }
-            if ( m_layer_icons[m_hovered_layer]->m_is_tilemap ) {
-              if (m_selected_tilemap) {
-                (static_cast<TileMap*>(m_selected_tilemap))->m_editor_active = false;
-              }
-              m_selected_tilemap = m_layer_icons[m_hovered_layer]->m_layer;
-              (static_cast<TileMap*>(m_selected_tilemap))->m_editor_active = true;
-              m_editor.edit_path((static_cast<TileMap*>(m_selected_tilemap))->get_path(),
-                                 m_selected_tilemap);
-            } else {
-              auto cam = dynamic_cast<Camera*>(m_layer_icons[m_hovered_layer]->m_layer);
-              if (cam) {
-                m_editor.edit_path(cam->get_path(), cam);
-              }
-            }
-            break;
-
-          default:
-            return false;
-            break;
-        }
-      } else if (ev.button.button == SDL_BUTTON_RIGHT) {
-        if (m_hovered_item == HI_LAYERS && m_hovered_layer < m_layer_icons.size()) {
-          auto om = std::make_unique<ObjectMenu>(m_editor, m_layer_icons[m_hovered_layer]->m_layer);
-          m_editor.deactivate_request = true;
-          MenuManager::instance().push_menu(std::move(om));
-        } else {
-          return false;
-        }
-      }
-    }
-    break;
-
-    case SDL_MOUSEMOTION:
-    {
-      Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(ev.motion.x, ev.motion.y);
-      float x = mouse_pos.x - static_cast<float>(m_Xpos);
-      float y = mouse_pos.y - static_cast<float>(m_Ypos);
-      if (y < 0 || x > static_cast<float>(m_Width)) {
-        m_hovered_item = HI_NONE;
-        m_object_tip = nullptr;
-        return false;
-      }
-      if (x < 0) {
-        m_hovered_item = HI_SPAWNPOINTS;
-        m_object_tip = nullptr;
+      case HI_SECTOR:
+        m_editor.disable_keyboard();
+        MenuManager::instance().set_menu(MenuStorage::EDITOR_SECTORS_MENU);
         break;
-      } else {
-        if (x <= static_cast<float>(m_sector_text_width)) {
-          m_hovered_item = HI_SECTOR;
-          m_object_tip = nullptr;
-        } else {
-          unsigned int new_hovered_layer = get_layer_pos(mouse_pos);
-          if (m_hovered_layer != new_hovered_layer || m_hovered_item != HI_LAYERS) {
-            m_hovered_layer = new_hovered_layer;
-            update_tip();
-          }
-          m_hovered_item = HI_LAYERS;
+
+      case HI_LAYERS:
+        if (m_hovered_layer >= m_layer_icons.size()) {
+          break;
         }
-      }
+        if ( m_layer_icons[m_hovered_layer]->m_is_tilemap ) {
+          if (m_selected_tilemap) {
+            (static_cast<TileMap*>(m_selected_tilemap))->m_editor_active = false;
+          }
+          m_selected_tilemap = m_layer_icons[m_hovered_layer]->m_layer;
+          (static_cast<TileMap*>(m_selected_tilemap))->m_editor_active = true;
+          m_editor.edit_path((static_cast<TileMap*>(m_selected_tilemap))->get_path(),
+                             m_selected_tilemap);
+        } else {
+          auto cam = dynamic_cast<Camera*>(m_layer_icons[m_hovered_layer]->m_layer);
+          if (cam) {
+            m_editor.edit_path(cam->get_path(), cam);
+          }
+        }
+        break;
+
+      default:
+        return false;
+        break;
     }
-    break;
+  }
+  else if (button.button == SDL_BUTTON_RIGHT)
+  {
+    if (m_hovered_item == HI_LAYERS && m_hovered_layer < m_layer_icons.size()) {
+      auto om = std::make_unique<ObjectMenu>(m_editor, m_layer_icons[m_hovered_layer]->m_layer);
+      m_editor.deactivate_request = true;
+      MenuManager::instance().push_menu(std::move(om));
+    } else {
+      return false;
+    }
+  }
 
-    case SDL_WINDOWEVENT:
-      if (ev.window.event == SDL_WINDOWEVENT_RESIZED) {
-        resize();
+  return false;
+}
+
+bool
+EditorLayersGui::on_mouse_motion(const SDL_MouseMotionEvent& motion)
+{
+  Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(motion.x, motion.y);
+  float x = mouse_pos.x - static_cast<float>(m_Xpos);
+  float y = mouse_pos.y - static_cast<float>(m_Ypos);
+  if (y < 0 || x > static_cast<float>(m_Width)) {
+    m_hovered_item = HI_NONE;
+    m_object_tip = nullptr;
+    return false;
+  }
+  if (x < 0) {
+    m_hovered_item = HI_SPAWNPOINTS;
+    m_object_tip = nullptr;
+    return true;
+  } else {
+    if (x <= static_cast<float>(m_sector_text_width)) {
+      m_hovered_item = HI_SECTOR;
+      m_object_tip = nullptr;
+    } else {
+      unsigned int new_hovered_layer = get_layer_pos(mouse_pos);
+      if (m_hovered_layer != new_hovered_layer || m_hovered_item != HI_LAYERS) {
+        m_hovered_layer = new_hovered_layer;
+        update_tip();
       }
-      return false;
-
-    default:
-      return false;
+      m_hovered_item = HI_LAYERS;
+    }
   }
 
   return true;
