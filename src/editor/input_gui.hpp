@@ -20,6 +20,7 @@
 #include <stdexcept>
 
 #include "control/input_manager.hpp"
+#include "editor/widget.hpp"
 #include "math/vector.hpp"
 #include "supertux/screen.hpp"
 #include "supertux/tile_set.hpp"
@@ -30,7 +31,7 @@ class Rectf;
 class TileSelection;
 class ToolIcon;
 
-class EditorInputGui final
+class EditorInputGui final : public Widget
 {
 public:
   enum HoveredItem {
@@ -48,11 +49,12 @@ public:
 public:
   EditorInputGui(Editor& editor);
 
-  void draw(DrawingContext&);
-  void update(float dt_sec);
-  bool event(const SDL_Event& ev);
-  void setup();
-  void resize();
+  virtual void draw(DrawingContext& context) override;
+  virtual void update(float dt_sec) override;
+  virtual bool event(const SDL_Event& ev) override;
+  virtual void setup() override;
+  virtual void resize() override;
+
   void reset_pos();
   void update_mouse_icon();
 

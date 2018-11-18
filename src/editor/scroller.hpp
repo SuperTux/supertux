@@ -17,13 +17,14 @@
 #ifndef HEADER_SUPERTUX_EDITOR_SCROLLER_HPP
 #define HEADER_SUPERTUX_EDITOR_SCROLLER_HPP
 
+#include "editor/widget.hpp"
 #include "math/vector.hpp"
 
 class Editor;
 class DrawingContext;
 union SDL_Event;
 
-class EditorScroller final
+class EditorScroller final : public Widget
 {
 public:
   static bool rendered;
@@ -31,9 +32,9 @@ public:
 public:
   EditorScroller(Editor& editor);
 
-  void draw(DrawingContext&);
-  void update(float dt_sec);
-  bool event(const SDL_Event& ev);
+  virtual void draw(DrawingContext& context) override;
+  virtual void update(float dt_sec) override;
+  virtual bool event(const SDL_Event& ev) override;
 
 public:
   void draw_arrow(DrawingContext&, const Vector& pos);

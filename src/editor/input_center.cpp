@@ -62,6 +62,10 @@ EditorInputCenter::EditorInputCenter(Editor& editor) :
 {
 }
 
+EditorInputCenter::~EditorInputCenter()
+{
+}
+
 void
 EditorInputCenter::update(float dt_sec)
 {
@@ -655,62 +659,37 @@ EditorInputCenter::update_tile_selection()
   }
 }
 
-void
-EditorInputCenter::event(const SDL_Event& ev)
-{
-  switch (ev.type)
-  {
-    case SDL_MOUSEBUTTONDOWN:
-      on_mouse_button_down(ev.button);
-      break;
-
-    case SDL_MOUSEBUTTONUP:
-      on_mouse_button_up(ev.button);
-      break;
-
-    case SDL_MOUSEMOTION:
-      on_mouse_motion(ev.motion);
-      break;
-
-    case SDL_KEYDOWN:
-      on_key_down(ev.key);
-      break;
-
-    case SDL_KEYUP:
-      on_key_up(ev.key);
-      break;
-
-    default:
-      break;
-  }
-}
-
-void
+bool
 EditorInputCenter::on_mouse_button_up(const SDL_MouseButtonEvent& button)
 {
   m_dragging = false;
+  return true;
 }
 
-void
+bool
 EditorInputCenter::on_mouse_button_down(const SDL_MouseButtonEvent& button)
 {
   switch (button.button)
   {
     case SDL_BUTTON_LEFT:
       process_left_click();
-      break;
+      return true;
 
     case SDL_BUTTON_RIGHT:
       process_right_click();
-      break;
+      return true;
+
+    default:
+      return false;
   }
 }
 
-void
+bool
 EditorInputCenter::on_mouse_motion(const SDL_MouseMotionEvent& motion)
 {
   m_mouse_pos = VideoSystem::current()->get_viewport().to_logical(motion.x, motion.y);
   update_pos();
+
   if (m_dragging)
   {
     switch (m_editor.get_tileselect_input_type())
@@ -745,10 +724,15 @@ EditorInputCenter::on_mouse_motion(const SDL_MouseMotionEvent& motion)
       default:
         break;
     }
+    return true;
+  }
+  else
+  {
+    return false;
   }
 }
 
-void
+bool
 EditorInputCenter::on_key_up(const SDL_KeyboardEvent& key)
 {
   auto sym = key.keysym.sym;
@@ -756,9 +740,10 @@ EditorInputCenter::on_key_up(const SDL_KeyboardEvent& key)
   {
     snap_to_grid = !snap_to_grid;
   }
+  return true;
 }
 
-void
+bool
 EditorInputCenter::on_key_down(const SDL_KeyboardEvent& key)
 {
   auto sym = key.keysym.sym;
@@ -768,6 +753,7 @@ EditorInputCenter::on_key_down(const SDL_KeyboardEvent& key)
   if (sym == SDLK_F7 || sym == SDLK_LSHIFT || sym == SDLK_RSHIFT) {
     snap_to_grid = !snap_to_grid;
   }
+  return true;
 }
 
 void

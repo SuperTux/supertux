@@ -20,6 +20,7 @@
 #include <SDL.h>
 
 #include "control/input_manager.hpp"
+#include "editor/widget.hpp"
 #include "math/vector.hpp"
 
 class Color;
@@ -32,7 +33,7 @@ class Path;
 class Rectf;
 class Tip;
 
-class EditorInputCenter final
+class EditorInputCenter final : public Widget
 {
 public:
   static bool render_background;
@@ -42,10 +43,16 @@ public:
 
 public:
   EditorInputCenter(Editor& editor);
+  virtual ~EditorInputCenter();
 
-  void event(const SDL_Event& ev);
-  void draw(DrawingContext&);
-  void update(float dt_sec);
+  virtual void draw(DrawingContext&) override;
+  virtual void update(float dt_sec) override;
+
+  virtual bool on_mouse_button_up(const SDL_MouseButtonEvent& button) override;
+  virtual bool on_mouse_button_down(const SDL_MouseButtonEvent& button) override;
+  virtual bool on_mouse_motion(const SDL_MouseMotionEvent& motion) override;
+  virtual bool on_key_up(const SDL_KeyboardEvent& key) override;
+  virtual bool on_key_down(const SDL_KeyboardEvent& key) override;
 
   void update_pos();
   void delete_markers();
@@ -89,12 +96,6 @@ private:
   Rectf tile_drag_rect();
   Rectf selection_draw_rect();
   void update_tile_selection();
-
-  void on_mouse_button_up(const SDL_MouseButtonEvent& button);
-  void on_mouse_button_down(const SDL_MouseButtonEvent& button);
-  void on_mouse_motion(const SDL_MouseMotionEvent& motion);
-  void on_key_up(const SDL_KeyboardEvent& key);
-  void on_key_down(const SDL_KeyboardEvent& key);
 
 private:
   Editor& m_editor;

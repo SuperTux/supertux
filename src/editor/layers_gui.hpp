@@ -20,6 +20,7 @@
 #include <stdexcept>
 
 #include "control/input_manager.hpp"
+#include "editor/widget.hpp"
 #include "supertux/screen.hpp"
 
 class DrawingContext;
@@ -29,7 +30,7 @@ class LayerIcon;
 class Tip;
 class Vector;
 
-class EditorLayersGui final
+class EditorLayersGui final : public Widget
 {
 public:
   enum HoveredItem {
@@ -39,11 +40,11 @@ public:
 public:
   EditorLayersGui(Editor& editor);
 
-  void draw(DrawingContext&);
-  void update(float dt_sec);
-  bool event(const SDL_Event& ev);
-  void setup();
-  void resize();
+  virtual void draw(DrawingContext& context) override;
+  virtual void update(float dt_sec) override;
+  virtual bool event(const SDL_Event& ev) override;
+  virtual void setup() override;
+  virtual void resize() override;
 
   void refresh_sector_text();
   void sort_layers();
