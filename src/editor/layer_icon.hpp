@@ -33,11 +33,12 @@ public:
   int get_zpos() const;
   bool is_valid() const;
 
-public:
-  GameObject* m_layer;
-  bool m_is_tilemap;
+  GameObject* get_layer() const { return m_layer; }
+  bool is_tilemap() const { return m_is_tilemap; }
 
 private:
+  GameObject* m_layer;
+  bool m_is_tilemap;
   SurfacePtr m_selection;
 
 private:
