@@ -14,8 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_EDITOR_LAYERS_GUI_HPP
-#define HEADER_SUPERTUX_EDITOR_LAYERS_GUI_HPP
+#ifndef HEADER_SUPERTUX_EDITOR_LAYERS_WIDGET_HPP
+#define HEADER_SUPERTUX_EDITOR_LAYERS_WIDGET_HPP
 
 #include <stdexcept>
 
@@ -30,7 +30,9 @@ class LayerIcon;
 class Tip;
 class Vector;
 
-class EditorLayersGui final : public Widget
+/** A widget at the bottom of the screen for switching between tilemap
+    layers and other non-movable GameObjects */
+class EditorLayersWidget final : public Widget
 {
 public:
   enum HoveredItem {
@@ -38,7 +40,7 @@ public:
   };
 
 public:
-  EditorLayersGui(Editor& editor);
+  EditorLayersWidget(Editor& editor);
 
   virtual void draw(DrawingContext& context) override;
   virtual void update(float dt_sec) override;
@@ -81,8 +83,8 @@ private:
   std::unique_ptr<Tip> m_object_tip;
 
 private:
-  EditorLayersGui(const EditorLayersGui&) = delete;
-  EditorLayersGui& operator=(const EditorLayersGui&) = delete;
+  EditorLayersWidget(const EditorLayersWidget&) = delete;
+  EditorLayersWidget& operator=(const EditorLayersWidget&) = delete;
 };
 
 #endif

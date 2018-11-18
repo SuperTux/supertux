@@ -14,7 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "editor/layers_gui.hpp"
+#include "editor/layers_widget.hpp"
 
 #include "editor/editor.hpp"
 #include "editor/layer_icon.hpp"
@@ -34,7 +34,7 @@
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
-EditorLayersGui::EditorLayersGui(Editor& editor) :
+EditorLayersWidget::EditorLayersWidget(Editor& editor) :
   m_editor(editor),
   m_layer_icons(),
   m_selected_tilemap(),
@@ -49,7 +49,7 @@ EditorLayersGui::EditorLayersGui(Editor& editor) :
 }
 
 void
-EditorLayersGui::draw(DrawingContext& context)
+EditorLayersWidget::draw(DrawingContext& context)
 {
 
   if (m_object_tip) {
@@ -114,7 +114,7 @@ EditorLayersGui::draw(DrawingContext& context)
 }
 
 void
-EditorLayersGui::update(float dt_sec)
+EditorLayersWidget::update(float dt_sec)
 {
   auto it = m_layer_icons.begin();
   while (it != m_layer_icons.end())
@@ -128,13 +128,13 @@ EditorLayersGui::update(float dt_sec)
 }
 
 bool
-EditorLayersGui::on_mouse_button_up(const SDL_MouseButtonEvent& button)
+EditorLayersWidget::on_mouse_button_up(const SDL_MouseButtonEvent& button)
 {
   return false;
 }
 
 bool
-EditorLayersGui::on_mouse_button_down(const SDL_MouseButtonEvent& button)
+EditorLayersWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
 {
   if (button.button == SDL_BUTTON_LEFT)
   {
@@ -185,7 +185,7 @@ EditorLayersGui::on_mouse_button_down(const SDL_MouseButtonEvent& button)
 }
 
 bool
-EditorLayersGui::on_mouse_motion(const SDL_MouseMotionEvent& motion)
+EditorLayersWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
 {
   Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(motion.x, motion.y);
   float x = mouse_pos.x - static_cast<float>(m_Xpos);
@@ -217,20 +217,20 @@ EditorLayersGui::on_mouse_motion(const SDL_MouseMotionEvent& motion)
 }
 
 void
-EditorLayersGui::resize()
+EditorLayersWidget::resize()
 {
   m_Ypos = SCREEN_HEIGHT - 32;
   m_Width = SCREEN_WIDTH - 128;
 }
 
 void
-EditorLayersGui::setup()
+EditorLayersWidget::setup()
 {
   resize();
 }
 
 void
-EditorLayersGui::refresh()
+EditorLayersWidget::refresh()
 {
   m_selected_tilemap = nullptr;
   m_layer_icons.clear();
@@ -261,14 +261,14 @@ EditorLayersGui::refresh()
 }
 
 void
-EditorLayersGui::refresh_sector_text()
+EditorLayersWidget::refresh_sector_text()
 {
   m_sector_text = _("Sector") + ": " + m_editor.get_sector()->get_name();
   m_sector_text_width  = int(Resources::normal_font->get_text_width(m_sector_text)) + 6;
 }
 
 void
-EditorLayersGui::sort_layers()
+EditorLayersWidget::sort_layers()
 {
   std::sort(m_layer_icons.begin(), m_layer_icons.end(),
             [](const std::unique_ptr<LayerIcon>& lhs, const std::unique_ptr<LayerIcon>& rhs) {
@@ -277,7 +277,7 @@ EditorLayersGui::sort_layers()
 }
 
 void
-EditorLayersGui::add_layer(GameObject* layer)
+EditorLayersWidget::add_layer(GameObject* layer)
 {
   auto icon = std::make_unique<LayerIcon>(layer);
   int z_pos = icon->get_zpos();
@@ -295,7 +295,7 @@ EditorLayersGui::add_layer(GameObject* layer)
 }
 
 void
-EditorLayersGui::update_tip()
+EditorLayersWidget::update_tip()
 {
   if ( m_hovered_layer >= m_layer_icons.size() ) {
     m_object_tip = nullptr;
@@ -305,14 +305,14 @@ EditorLayersGui::update_tip()
 }
 
 Vector
-EditorLayersGui::get_layer_coords(const int pos) const
+EditorLayersWidget::get_layer_coords(const int pos) const
 {
   return Vector(static_cast<float>(pos * 35 + m_Xpos + m_sector_text_width),
                 static_cast<float>(m_Ypos));
 }
 
 int
-EditorLayersGui::get_layer_pos(const Vector& coords) const
+EditorLayersWidget::get_layer_pos(const Vector& coords) const
 {
   return static_cast<int>((coords.x - static_cast<float>(m_Xpos) - static_cast<float>(m_sector_text_width)) / 35.0f);
 }

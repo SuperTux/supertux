@@ -21,7 +21,7 @@
 
 #include "editor/input_center.hpp"
 #include "editor/input_gui.hpp"
-#include "editor/layers_gui.hpp"
+#include "editor/layers_widget.hpp"
 #include "editor/scroller.hpp"
 #include "supertux/screen.hpp"
 #include "supertux/world.hpp"
@@ -166,7 +166,7 @@ private:
 
   EditorInputCenter m_inputcenter;
   EditorInputGui m_tileselect;
-  EditorLayersGui m_layerselect;
+  EditorLayersWidget m_layerselect;
   EditorScroller m_scroller;
 
   bool m_enabled;
