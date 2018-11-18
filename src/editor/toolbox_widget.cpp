@@ -14,7 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "editor/input_gui.hpp"
+#include "editor/toolbox_widget.hpp"
 
 #include "editor/editor.hpp"
 #include "editor/object_info.hpp"
@@ -35,7 +35,7 @@
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
-EditorInputGui::EditorInputGui(Editor& editor) :
+EditorToolboxWidget::EditorToolboxWidget(Editor& editor) :
   m_editor(editor),
   m_tiles(new TileSelection()),
   m_object(),
@@ -64,7 +64,7 @@ EditorInputGui::EditorInputGui(Editor& editor) :
 }
 
 void
-EditorInputGui::draw(DrawingContext& context)
+EditorToolboxWidget::draw(DrawingContext& context)
 {
   //SCREEN_WIDTH SCREEN_HEIGHT
   context.color().draw_filled_rect(Rectf(Vector(static_cast<float>(m_Xpos), 0),
@@ -101,7 +101,7 @@ EditorInputGui::draw(DrawingContext& context)
 }
 
 void
-EditorInputGui::draw_tilegroup(DrawingContext& context)
+EditorToolboxWidget::draw_tilegroup(DrawingContext& context)
 {
   if (m_input_type == IP_TILE) {
     int pos = -1;
@@ -129,7 +129,7 @@ EditorInputGui::draw_tilegroup(DrawingContext& context)
 }
 
 void
-EditorInputGui::draw_objectgroup(DrawingContext& context)
+EditorToolboxWidget::draw_objectgroup(DrawingContext& context)
 {
   if (m_input_type == IP_OBJECT) {
     int pos = -1;
@@ -144,7 +144,7 @@ EditorInputGui::draw_objectgroup(DrawingContext& context)
 }
 
 void
-EditorInputGui::update(float dt_sec)
+EditorToolboxWidget::update(float dt_sec)
 {
   switch (m_tile_scrolling) {
     case TS_UP:
@@ -199,7 +199,7 @@ EditorInputGui::update(float dt_sec)
 }
 
 Rectf
-EditorInputGui::normalize_selection() const
+EditorToolboxWidget::normalize_selection() const
 {
   Vector drag_start_ = m_drag_start;
   Vector drag_end = Vector(static_cast<float>(m_hovered_tile % 4),
@@ -214,7 +214,7 @@ EditorInputGui::normalize_selection() const
 }
 
 Rectf
-EditorInputGui::selection_draw_rect() const
+EditorToolboxWidget::selection_draw_rect() const
 {
   Rectf select = normalize_selection();
   select.p2 += Vector(1, 1);
@@ -224,7 +224,7 @@ EditorInputGui::selection_draw_rect() const
 }
 
 void
-EditorInputGui::update_selection()
+EditorToolboxWidget::update_selection()
 {
   Rectf select = normalize_selection();
   m_tiles->m_tiles.clear();
@@ -245,14 +245,14 @@ EditorInputGui::update_selection()
 }
 
 bool
-EditorInputGui::on_mouse_button_up(const SDL_MouseButtonEvent& button)
+EditorToolboxWidget::on_mouse_button_up(const SDL_MouseButtonEvent& button)
 {
   m_dragging = false;
   return false;
 }
 
 bool
-EditorInputGui::on_mouse_button_down(const SDL_MouseButtonEvent& button)
+EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
 {
   if (button.button == SDL_BUTTON_LEFT || button.button == SDL_BUTTON_RIGHT)
   {
@@ -267,7 +267,7 @@ EditorInputGui::on_mouse_button_down(const SDL_MouseButtonEvent& button)
         else
         {
           m_active_tilegroup.reset(new Tilegroup(m_editor.get_tileset()->get_tilegroups()[0]));
-          m_input_type = EditorInputGui::IP_TILE;
+          m_input_type = EditorToolboxWidget::IP_TILE;
           m_starting_tile = 0;
           update_mouse_icon();
         }
@@ -290,7 +290,7 @@ EditorInputGui::on_mouse_button_down(const SDL_MouseButtonEvent& button)
           {
             m_active_objectgroup = 0;
           }
-          m_input_type = EditorInputGui::IP_OBJECT;
+          m_input_type = EditorToolboxWidget::IP_OBJECT;
           m_starting_tile = 0;
           update_mouse_icon();
         }
@@ -365,7 +365,7 @@ EditorInputGui::on_mouse_button_down(const SDL_MouseButtonEvent& button)
 }
 
 bool
-EditorInputGui::on_mouse_motion(const SDL_MouseMotionEvent& motion)
+EditorToolboxWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
 {
   Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(motion.x, motion.y);
   float x = mouse_pos.x - static_cast<float>(m_Xpos);
@@ -409,7 +409,7 @@ EditorInputGui::on_mouse_motion(const SDL_MouseMotionEvent& motion)
 }
 
 bool
-EditorInputGui::on_mouse_wheel(const SDL_MouseWheelEvent& wheel)
+EditorToolboxWidget::on_mouse_wheel(const SDL_MouseWheelEvent& wheel)
 {
   if (m_hovered_item != HI_NONE)
   {
@@ -426,7 +426,7 @@ EditorInputGui::on_mouse_wheel(const SDL_MouseWheelEvent& wheel)
 }
 
 void
-EditorInputGui::resize()
+EditorToolboxWidget::resize()
 {
   m_Xpos = SCREEN_WIDTH - 128;
   m_rubber->m_pos        = Vector(static_cast<float>(m_Xpos)        , 44.0f);
@@ -436,14 +436,14 @@ EditorInputGui::resize()
 }
 
 void
-EditorInputGui::setup()
+EditorToolboxWidget::setup()
 {
   resize();
   m_tiles->set_tile(0);
 }
 
 void
-EditorInputGui::update_mouse_icon()
+EditorToolboxWidget::update_mouse_icon()
 {
   switch (m_input_type) {
     case IP_NONE:
@@ -465,7 +465,7 @@ EditorInputGui::update_mouse_icon()
 }
 
 Vector
-EditorInputGui::get_tile_coords(const int pos) const
+EditorToolboxWidget::get_tile_coords(const int pos) const
 {
   int x = pos%4;
   int y = pos/4;
@@ -474,7 +474,7 @@ EditorInputGui::get_tile_coords(const int pos) const
 }
 
 int
-EditorInputGui::get_tile_pos(const Vector& coords) const
+EditorToolboxWidget::get_tile_pos(const Vector& coords) const
 {
   int x = static_cast<int>((coords.x - static_cast<float>(m_Xpos)) / 32.0f);
   int y = static_cast<int>((coords.y - static_cast<float>(m_Ypos)) / 32.0f);
@@ -482,7 +482,7 @@ EditorInputGui::get_tile_pos(const Vector& coords) const
 }
 
 Vector
-EditorInputGui::get_tool_coords(const int pos) const
+EditorToolboxWidget::get_tool_coords(const int pos) const
 {
   int x = pos%4;
   int y = pos/4;
@@ -491,7 +491,7 @@ EditorInputGui::get_tool_coords(const int pos) const
 }
 
 int
-EditorInputGui::get_tool_pos(const Vector& coords) const
+EditorToolboxWidget::get_tool_pos(const Vector& coords) const
 {
   int x = static_cast<int>((coords.x - static_cast<float>(m_Xpos)) / 32.0f);
   int y = static_cast<int>((coords.y - 44.0f) / 16.0f);
@@ -499,7 +499,7 @@ EditorInputGui::get_tool_pos(const Vector& coords) const
 }
 
 Rectf
-EditorInputGui::get_item_rect(const HoveredItem& item) const
+EditorToolboxWidget::get_item_rect(const HoveredItem& item) const
 {
   switch (item)
   {
@@ -522,31 +522,31 @@ EditorInputGui::get_item_rect(const HoveredItem& item) const
 }
 
 int
-EditorInputGui::get_tileselect_select_mode() const
+EditorToolboxWidget::get_tileselect_select_mode() const
 {
   return m_select_mode->get_mode();
 }
 
 int
-EditorInputGui::get_tileselect_move_mode() const
+EditorToolboxWidget::get_tileselect_move_mode() const
 {
   return m_move_mode->get_mode();
 }
 
 void
-EditorInputGui::select_tilegroup(int id)
+EditorToolboxWidget::select_tilegroup(int id)
 {
   m_active_tilegroup.reset(new Tilegroup(m_editor.get_tileset()->get_tilegroups()[id]));
-  m_input_type = EditorInputGui::IP_TILE;
+  m_input_type = EditorToolboxWidget::IP_TILE;
   m_starting_tile = 0;
   update_mouse_icon();
 }
 
 void
-EditorInputGui::select_objectgroup(int id)
+EditorToolboxWidget::select_objectgroup(int id)
 {
   m_active_objectgroup = id;
-  m_input_type = EditorInputGui::IP_OBJECT;
+  m_input_type = EditorToolboxWidget::IP_OBJECT;
   m_starting_tile = 0;
   update_mouse_icon();
 }

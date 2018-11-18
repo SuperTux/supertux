@@ -14,8 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_EDITOR_INPUT_GUI_HPP
-#define HEADER_SUPERTUX_EDITOR_INPUT_GUI_HPP
+#ifndef HEADER_SUPERTUX_EDITOR_TOOLBOX_WIDGET_HPP
+#define HEADER_SUPERTUX_EDITOR_TOOLBOX_WIDGET_HPP
 
 #include <stdexcept>
 
@@ -31,7 +31,10 @@ class Rectf;
 class TileSelection;
 class ToolIcon;
 
-class EditorInputGui final : public Widget
+/** The toolbox is on the right side of the screen and allows
+    selection of the current tool and contains the object or tile
+    palette */
+class EditorToolboxWidget final : public Widget
 {
 public:
   enum HoveredItem {
@@ -47,7 +50,7 @@ public:
   };
 
 public:
-  EditorInputGui(Editor& editor);
+  EditorToolboxWidget(Editor& editor);
 
   virtual void draw(DrawingContext& context) override;
   virtual void update(float dt_sec) override;
@@ -120,8 +123,8 @@ private:
   const int m_Ypos = 60;
 
 private:
-  EditorInputGui(const EditorInputGui&) = delete;
-  EditorInputGui& operator=(const EditorInputGui&) = delete;
+  EditorToolboxWidget(const EditorToolboxWidget&) = delete;
+  EditorToolboxWidget& operator=(const EditorToolboxWidget&) = delete;
 };
 
 #endif

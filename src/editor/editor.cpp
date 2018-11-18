@@ -399,7 +399,7 @@ Editor::reload_level()
 {
   m_reload_request = false;
   m_enabled = true;
-  m_tileselect.set_input_type(EditorInputGui::IP_NONE);
+  m_tileselect.set_input_type(EditorToolboxWidget::IP_NONE);
   // Re/load level
   m_level = nullptr;
   m_levelloaded = true;
@@ -568,7 +568,7 @@ void
 Editor::change_tileset()
 {
   m_tileset = TileManager::current()->get_tileset(m_level->get_tileset());
-  m_tileselect.set_input_type(EditorInputGui::IP_NONE);
+  m_tileselect.set_input_type(EditorToolboxWidget::IP_NONE);
   for (const auto& sector : m_level->m_sectors) {
     for (auto& tilemap : sector->get_objects_by_type<TileMap>()) {
       tilemap.set_tileset(m_tileset);

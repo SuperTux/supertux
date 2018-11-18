@@ -20,7 +20,7 @@
 #include <string>
 
 #include "editor/input_center.hpp"
-#include "editor/input_gui.hpp"
+#include "editor/toolbox_widget.hpp"
 #include "editor/layers_widget.hpp"
 #include "editor/scroller.hpp"
 #include "supertux/screen.hpp"
@@ -68,7 +68,7 @@ public:
   TileSelection* get_tiles() const { return m_tileselect.get_tiles(); }
   std::string get_tileselect_object() const { return m_tileselect.get_object(); }
 
-  EditorInputGui::InputType get_tileselect_input_type() const { return m_tileselect.get_input_type(); }
+  EditorToolboxWidget::InputType get_tileselect_input_type() const { return m_tileselect.get_input_type(); }
 
   int get_tileselect_select_mode() const;
   int get_tileselect_move_mode() const;
@@ -165,7 +165,7 @@ private:
   TileSet* m_tileset;
 
   EditorInputCenter m_inputcenter;
-  EditorInputGui m_tileselect;
+  EditorToolboxWidget m_tileselect;
   EditorLayersWidget m_layerselect;
   EditorScroller m_scroller;
 

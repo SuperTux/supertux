@@ -536,7 +536,7 @@ EditorInputCenter::process_left_click()
 
   switch (m_editor.get_tileselect_input_type())
   {
-    case EditorInputGui::IP_TILE:
+    case EditorToolboxWidget::IP_TILE:
       switch (m_editor.get_tileselect_select_mode())
       {
         case 0:
@@ -556,7 +556,7 @@ EditorInputCenter::process_left_click()
       }
       break;
 
-    case EditorInputGui::IP_OBJECT:
+    case EditorToolboxWidget::IP_OBJECT:
       switch (m_editor.get_tileselect_move_mode())
       {
         case 0:
@@ -590,15 +590,15 @@ EditorInputCenter::process_right_click()
 {
   switch (m_editor.get_tileselect_input_type())
   {
-    case EditorInputGui::IP_TILE:
+    case EditorToolboxWidget::IP_TILE:
       m_dragging = true;
       m_dragging_right = true;
       m_drag_start = m_sector_pos;
       update_tile_selection();
       break;
 
-    case EditorInputGui::IP_NONE:
-    case EditorInputGui::IP_OBJECT:
+    case EditorToolboxWidget::IP_NONE:
+    case EditorToolboxWidget::IP_OBJECT:
       set_object();
       break;
 
@@ -694,7 +694,7 @@ EditorInputCenter::on_mouse_motion(const SDL_MouseMotionEvent& motion)
   {
     switch (m_editor.get_tileselect_input_type())
     {
-      case EditorInputGui::IP_TILE:
+      case EditorToolboxWidget::IP_TILE:
         if (m_dragging_right) {
           update_tile_selection();
         } else {
@@ -711,7 +711,7 @@ EditorInputCenter::on_mouse_motion(const SDL_MouseMotionEvent& motion)
         }
         break;
 
-      case EditorInputGui::IP_OBJECT:
+      case EditorToolboxWidget::IP_OBJECT:
         if (m_editor.get_tileselect_object().empty()) {
           if (m_editor.get_tileselect_select_mode() == 1) {
             rubber_rect();
@@ -768,7 +768,7 @@ EditorInputCenter::update_pos()
 void
 EditorInputCenter::draw_tile_tip(DrawingContext& context)
 {
-  if ( m_editor.get_tileselect_input_type() == EditorInputGui::IP_TILE ) {
+  if ( m_editor.get_tileselect_input_type() == EditorToolboxWidget::IP_TILE ) {
 
     auto tilemap = dynamic_cast<TileMap*>(m_editor.get_selected_tilemap());
     if (!tilemap) {
