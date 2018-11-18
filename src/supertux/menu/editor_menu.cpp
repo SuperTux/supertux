@@ -61,7 +61,7 @@ EditorMenu::EditorMenu()
   add_toggle(-1, _("Snap objects to grid (F7)"), &EditorInputCenter::snap_to_grid);
   add_toggle(-1, _("Show grid (F8)"), &EditorInputCenter::render_grid);
   add_toggle(-1, _("Render background"), &EditorInputCenter::render_background);
-  add_toggle(-1, _("Show scroller (F9)"), &EditorScroller::rendered);
+  add_toggle(-1, _("Show scroller (F9)"), &EditorScrollerWidget::rendered);
 
   add_submenu(worldmap ? _("Worldmap properties") : _("Level properties"),
               MenuStorage::EDITOR_LEVEL_MENU);

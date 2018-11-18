@@ -14,7 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "editor/scroller.hpp"
+#include "editor/scroller_widget.hpp"
 
 #include <math.h>
 
@@ -33,9 +33,9 @@ const float SIZE = 96;
 
 }
 
-bool EditorScroller::rendered = true;
+bool EditorScrollerWidget::rendered = true;
 
-EditorScroller::EditorScroller(Editor& editor) :
+EditorScrollerWidget::EditorScrollerWidget(Editor& editor) :
   m_editor(editor),
   m_scrolling(),
   m_scrolling_vec(0, 0),
@@ -44,13 +44,13 @@ EditorScroller::EditorScroller(Editor& editor) :
 }
 
 bool
-EditorScroller::can_scroll() const
+EditorScrollerWidget::can_scroll() const
 {
   return m_scrolling && m_mouse_pos.x < SIZE && m_mouse_pos.y < SIZE;
 }
 
 void
-EditorScroller::draw(DrawingContext& context)
+EditorScrollerWidget::draw(DrawingContext& context)
 {
   if (!rendered) return;
 
@@ -71,7 +71,7 @@ EditorScroller::draw(DrawingContext& context)
 }
 
 void
-EditorScroller::draw_arrow(DrawingContext& context, const Vector& pos)
+EditorScrollerWidget::draw_arrow(DrawingContext& context, const Vector& pos)
 {
   Vector dir = pos - Vector(MIDDLE, MIDDLE);
   if (dir.x != 0 || dir.y != 0) {
@@ -84,7 +84,7 @@ EditorScroller::draw_arrow(DrawingContext& context, const Vector& pos)
 }
 
 void
-EditorScroller::update(float dt_sec)
+EditorScrollerWidget::update(float dt_sec)
 {
   if (!rendered) return;
   if (!can_scroll()) return;
@@ -104,14 +104,14 @@ EditorScroller::update(float dt_sec)
 }
 
 bool
-EditorScroller::on_mouse_button_up(const SDL_MouseButtonEvent& button)
+EditorScrollerWidget::on_mouse_button_up(const SDL_MouseButtonEvent& button)
 {
   m_scrolling = false;
   return false;
 }
 
 bool
-EditorScroller::on_mouse_button_down(const SDL_MouseButtonEvent& button)
+EditorScrollerWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
 {
   if (button.button == SDL_BUTTON_LEFT) {
     if (!rendered) return false;
@@ -128,7 +128,7 @@ EditorScroller::on_mouse_button_down(const SDL_MouseButtonEvent& button)
 }
 
 bool
-EditorScroller::on_mouse_motion(const SDL_MouseMotionEvent& motion)
+EditorScrollerWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
 {
   if (!rendered) return false;
 
@@ -144,7 +144,7 @@ EditorScroller::on_mouse_motion(const SDL_MouseMotionEvent& motion)
 }
 
 bool
-EditorScroller::on_key_down(const SDL_KeyboardEvent& key)
+EditorScrollerWidget::on_key_down(const SDL_KeyboardEvent& key)
 {
   if (key.keysym.sym == SDLK_F9) {
     rendered = !rendered;

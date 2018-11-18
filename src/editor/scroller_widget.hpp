@@ -14,8 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_EDITOR_SCROLLER_HPP
-#define HEADER_SUPERTUX_EDITOR_SCROLLER_HPP
+#ifndef HEADER_SUPERTUX_EDITOR_SCROLLER_WIDGET_HPP
+#define HEADER_SUPERTUX_EDITOR_SCROLLER_WIDGET_HPP
 
 #include "editor/widget.hpp"
 #include "math/vector.hpp"
@@ -24,13 +24,15 @@ class Editor;
 class DrawingContext;
 union SDL_Event;
 
-class EditorScroller final : public Widget
+/** A little virtual joystick that can be used to scroll around the
+    level with the mouse. */
+class EditorScrollerWidget final : public Widget
 {
 public:
   static bool rendered;
 
 public:
-  EditorScroller(Editor& editor);
+  EditorScrollerWidget(Editor& editor);
 
   virtual void draw(DrawingContext& context) override;
   virtual void update(float dt_sec) override;
@@ -51,8 +53,8 @@ private:
   Vector m_mouse_pos;
 
 private:
-  EditorScroller(const EditorScroller&) = delete;
-  EditorScroller& operator=(const EditorScroller&) = delete;
+  EditorScrollerWidget(const EditorScrollerWidget&) = delete;
+  EditorScrollerWidget& operator=(const EditorScrollerWidget&) = delete;
 };
 
 #endif
