@@ -29,7 +29,7 @@ SpawnPointMarker::SpawnPointMarker(const std::string& name, const Vector& pos) :
   m_col.m_bbox.p1 = pos;
   m_col.m_bbox.set_size(32, 32);
 
-  if (!Editor::current()) {
+  if (!Editor::is_active()) {
     set_group(COLGROUP_DISABLED);
   }
 }
