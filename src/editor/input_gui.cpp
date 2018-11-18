@@ -318,7 +318,7 @@ EditorInputGui::on_mouse_button_down(const SDL_MouseButtonEvent& button)
             {
               int size = static_cast<int>(m_object_info->m_groups[m_active_objectgroup].m_icons.size());
               if (m_hovered_tile < size && m_hovered_tile >= 0) {
-                m_object = m_object_info->m_groups[m_active_objectgroup].m_icons[m_hovered_tile + m_starting_tile].m_object_name;
+                m_object = m_object_info->m_groups[m_active_objectgroup].m_icons[m_hovered_tile + m_starting_tile].get_object_class();
               }
               update_mouse_icon();
             }

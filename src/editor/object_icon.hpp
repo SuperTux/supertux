@@ -34,14 +34,14 @@ public:
 
   virtual void draw(DrawingContext& context, const Vector& pos);
 
+  std::string get_object_class() const { return m_object_class; }
+
 private:
   void calculate_offset();
 
-public:
-  std::string m_object_name;
-  SurfacePtr m_surface;
-
 private:
+  std::string m_object_class;
+  SurfacePtr m_surface;
   Vector m_offset;
 };
 
