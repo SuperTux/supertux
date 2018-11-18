@@ -123,13 +123,12 @@ public:
 
   void add_layer(GameObject* layer) { m_layerselect.add_layer(layer); }
 
-  GameObject* get_selected_tilemap() const { return m_layerselect.m_selected_tilemap; }
+  GameObject* get_selected_tilemap() const { return m_layerselect.get_selected_tilemap(); }
 
   Sector* get_sector() { return m_sector; }
 
 private:
   void reload_level();
-  void load_layers();
   void quit_editor();
   void save_level();
   void test_level();

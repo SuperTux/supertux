@@ -375,36 +375,6 @@ Editor::update_keyboard(const Controller& controller)
 }
 
 void
-Editor::load_layers()
-{
-  m_layerselect.m_selected_tilemap = nullptr;
-  m_layerselect.m_layer_icons.clear();
-
-  bool tsel = false;
-  for (auto& i : m_sector->get_objects()) {
-    auto go = i.get();
-    auto mo = dynamic_cast<MovingObject*>(go);
-    if ( !mo && go->is_saveable() ) {
-      m_layerselect.add_layer(go);
-
-      auto tm = dynamic_cast<TileMap*>(go);
-      if (tm) {
-        if ( !tm->is_solid() || tsel ) {
-          tm->m_editor_active = false;
-        } else {
-          m_layerselect.m_selected_tilemap = tm;
-          tm->m_editor_active = true;
-          tsel = true;
-        }
-      }
-    }
-  }
-
-  m_layerselect.sort_layers();
-  m_layerselect.refresh_sector_text();
-}
-
-void
 Editor::load_sector(const std::string& name)
 {
   m_sector = m_level->get_sector(name);
@@ -413,7 +383,7 @@ Editor::load_sector(const std::string& name)
     m_sector = m_level->get_sector(i);
   }
   m_sector->activate("main");
-  load_layers();
+  m_layerselect.refresh();
 }
 
 void
@@ -421,7 +391,7 @@ Editor::load_sector(size_t id)
 {
   m_sector = m_level->get_sector(id);
   m_sector->activate("main");
-  load_layers();
+  m_layerselect.refresh();
 }
 
 void

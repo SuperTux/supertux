@@ -26,6 +26,7 @@
 #include "object/tilemap.hpp"
 #include "supertux/colorscheme.hpp"
 #include "supertux/menu/menu_storage.hpp"
+#include "supertux/moving_object.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/sector.hpp"
 #include "video/drawing_context.hpp"
@@ -226,6 +227,37 @@ void
 EditorLayersGui::setup()
 {
   resize();
+}
+
+void
+EditorLayersGui::refresh()
+{
+  m_selected_tilemap = nullptr;
+  m_layer_icons.clear();
+
+  bool tsel = false;
+  for (auto& i : m_editor.get_sector()->get_objects())
+  {
+    auto go = i.get();
+    auto mo = dynamic_cast<MovingObject*>(go);
+    if ( !mo && go->is_saveable() ) {
+      add_layer(go);
+
+      auto tm = dynamic_cast<TileMap*>(go);
+      if (tm) {
+        if ( !tm->is_solid() || tsel ) {
+          tm->m_editor_active = false;
+        } else {
+          m_selected_tilemap = tm;
+          tm->m_editor_active = true;
+          tsel = true;
+        }
+      }
+    }
+  }
+
+  sort_layers();
+  refresh_sector_text();
 }
 
 void

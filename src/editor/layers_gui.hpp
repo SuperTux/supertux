@@ -50,10 +50,13 @@ public:
   virtual void setup() override;
   virtual void resize() override;
 
+  void refresh();
+
   void refresh_sector_text();
   void sort_layers();
-
   void add_layer(GameObject* layer);
+
+  GameObject* get_selected_tilemap() const { return m_selected_tilemap; }
 
 private:
   Vector get_layer_coords(const int pos) const;
@@ -62,12 +65,9 @@ private:
 
 private:
   Editor& m_editor;
-
-public:
   std::vector<std::unique_ptr<LayerIcon>> m_layer_icons;
   GameObject* m_selected_tilemap;
 
-private:
   int m_Ypos;
   const int m_Xpos = 32;
   int m_Width;
