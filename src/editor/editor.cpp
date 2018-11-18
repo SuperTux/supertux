@@ -85,10 +85,10 @@ Editor::Editor() :
   m_levelloaded(false),
   m_leveltested(false),
   m_tileset(nullptr),
-  m_inputcenter(*this),
-  m_tileselect(*this),
-  m_layerselect(*this),
-  m_scroller(*this),
+  m_overlay_widget(*this),
+  m_toolbox_widget(*this),
+  m_layers_widget(*this),
+  m_scroller_widget(*this),
   m_enabled(false),
   m_bgr_surface(Surface::from_file("images/background/forest1.jpg"))
 {
@@ -111,10 +111,10 @@ Editor::draw(Compositor& compositor)
                                                                    static_cast<float>(context.get_height()))),
                                         -100);
   }
-  m_inputcenter.draw(context);
-  m_tileselect.draw(context);
-  m_layerselect.draw(context);
-  m_scroller.draw(context);
+  m_overlay_widget.draw(context);
+  m_toolbox_widget.draw(context);
+  m_layers_widget.draw(context);
+  m_scroller_widget.draw(context);
   MouseCursor::current()->draw(context);
 }
 
@@ -161,10 +161,10 @@ Editor::update(float dt_sec, const Controller& controller)
   // update other stuff
   if (is_active()) {
     m_sector->update(0);
-    m_tileselect.update(dt_sec);
-    m_layerselect.update(dt_sec);
-    m_inputcenter.update(dt_sec);
-    m_scroller.update(dt_sec);
+    m_toolbox_widget.update(dt_sec);
+    m_layers_widget.update(dt_sec);
+    m_overlay_widget.update(dt_sec);
+    m_scroller_widget.update(dt_sec);
     update_keyboard(controller);
   }
 }
@@ -254,13 +254,13 @@ Editor::set_world(std::unique_ptr<World> w)
 int
 Editor::get_tileselect_select_mode() const
 {
-  return m_tileselect.get_tileselect_select_mode();
+  return m_toolbox_widget.get_tileselect_select_mode();
 }
 
 int
 Editor::get_tileselect_move_mode() const
 {
-  return m_tileselect.get_tileselect_move_mode();
+  return m_toolbox_widget.get_tileselect_move_mode();
 }
 
 bool
@@ -286,7 +286,7 @@ Editor::scroll_left(float speed)
       //When is the camera less than one tile after the left limit, it puts the camera to the limit.
       camera.move(static_cast<int>(-camera.get_translation().x), 0);
     }
-    m_inputcenter.update_pos();
+    m_overlay_widget.update_pos();
   }
 }
 
@@ -302,7 +302,7 @@ Editor::scroll_right(float speed)
       // The limit is shifted 128 pixels to the right due to the input gui.
       camera.move(static_cast<int>(m_sector->get_width() - camera.get_translation().x - static_cast<float>(SCREEN_WIDTH) + 128.0f), 0);
     }
-    m_inputcenter.update_pos();
+    m_overlay_widget.update_pos();
   }
 }
 
@@ -317,7 +317,7 @@ Editor::scroll_up(float speed)
       //When is the camera less than one tile after the top limit, it puts the camera to the limit.
       camera.move(0, static_cast<int>(-camera.get_translation().y));
     }
-    m_inputcenter.update_pos();
+    m_overlay_widget.update_pos();
   }
 }
 
@@ -333,7 +333,7 @@ Editor::scroll_down(float speed)
       // The limit is shifted 32 pixels to the bottom due to the layer toolbar.
       camera.move(0, static_cast<int>(m_sector->get_height() - camera.get_translation().y - static_cast<float>(SCREEN_HEIGHT) + 32.0f));
     }
-    m_inputcenter.update_pos();
+    m_overlay_widget.update_pos();
   }
 }
 
@@ -341,7 +341,7 @@ void
 Editor::esc_press()
 {
   m_enabled = false;
-  m_inputcenter.delete_markers();
+  m_overlay_widget.delete_markers();
   MenuManager::instance().set_menu(MenuStorage::EDITOR_MENU);
 }
 
@@ -383,7 +383,7 @@ Editor::load_sector(const std::string& name)
     m_sector = m_level->get_sector(i);
   }
   m_sector->activate("main");
-  m_layerselect.refresh();
+  m_layers_widget.refresh();
 }
 
 void
@@ -391,7 +391,7 @@ Editor::load_sector(size_t id)
 {
   m_sector = m_level->get_sector(id);
   m_sector->activate("main");
-  m_layerselect.refresh();
+  m_layers_widget.refresh();
 }
 
 void
@@ -399,7 +399,7 @@ Editor::reload_level()
 {
   m_reload_request = false;
   m_enabled = true;
-  m_tileselect.set_input_type(EditorToolboxWidget::IP_NONE);
+  m_toolbox_widget.set_input_type(EditorToolboxWidget::IP_NONE);
   // Re/load level
   m_level = nullptr;
   m_levelloaded = true;
@@ -413,8 +413,8 @@ Editor::reload_level()
   load_sector("main");
   m_sector->activate("main");
   m_sector->get_camera().set_mode(Camera::MANUAL);
-  m_layerselect.refresh_sector_text();
-  m_tileselect.update_mouse_icon();
+  m_layers_widget.refresh_sector_text();
+  m_toolbox_widget.update_mouse_icon();
 }
 
 void
@@ -470,8 +470,8 @@ Editor::setup()
       MenuManager::instance().push_menu(MenuStorage::EDITOR_LEVELSET_SELECT_MENU);
     }
   }
-  m_tileselect.setup();
-  m_layerselect.setup();
+  m_toolbox_widget.setup();
+  m_layers_widget.setup();
   m_savegame.reset(new Savegame("levels/misc"));
   m_savegame->load();
 
@@ -496,7 +496,7 @@ Editor::setup()
     SoundManager::current()->stop_music();
     m_deactivate_request = false;
     m_enabled = true;
-    m_tileselect.update_mouse_icon();
+    m_toolbox_widget.update_mouse_icon();
   }
 }
 
@@ -504,9 +504,9 @@ void
 Editor::resize()
 {
   // Calls on window resize.
-  m_tileselect.resize();
-  m_layerselect.resize();
-  m_inputcenter.update_pos();
+  m_toolbox_widget.resize();
+  m_layers_widget.resize();
+  m_overlay_widget.update_pos();
 }
 
 void
@@ -519,43 +519,43 @@ Editor::event(const SDL_Event& ev)
 
     BIND_SECTOR(*m_sector);
 
-    if ( m_tileselect.event(ev) ) {
+    if ( m_toolbox_widget.event(ev) ) {
       return;
     }
 
-    if ( m_layerselect.event(ev) ) {
+    if ( m_layers_widget.event(ev) ) {
       return;
     }
 
-    if ( m_scroller.event(ev) ) {
+    if ( m_scroller_widget.event(ev) ) {
       return;
     }
-    m_inputcenter.event(ev);
+    m_overlay_widget.event(ev);
   }
 }
 
 void
 Editor::update_node_iterators()
 {
-  m_inputcenter.update_node_iterators();
+  m_overlay_widget.update_node_iterators();
 }
 
 void
 Editor::delete_markers()
 {
-  m_inputcenter.delete_markers();
+  m_overlay_widget.delete_markers();
 }
 
 void
 Editor::sort_layers()
 {
-  m_layerselect.sort_layers();
+  m_layers_widget.sort_layers();
 }
 
 void
 Editor::select_tilegroup(int id)
 {
-  m_tileselect.select_tilegroup(id);
+  m_toolbox_widget.select_tilegroup(id);
 }
 
 const std::vector<Tilegroup>&
@@ -568,7 +568,7 @@ void
 Editor::change_tileset()
 {
   m_tileset = TileManager::current()->get_tileset(m_level->get_tileset());
-  m_tileselect.set_input_type(EditorToolboxWidget::IP_NONE);
+  m_toolbox_widget.set_input_type(EditorToolboxWidget::IP_NONE);
   for (const auto& sector : m_level->m_sectors) {
     for (auto& tilemap : sector->get_objects_by_type<TileMap>()) {
       tilemap.set_tileset(m_tileset);
@@ -579,13 +579,13 @@ Editor::change_tileset()
 void
 Editor::select_objectgroup(int id)
 {
-  m_tileselect.select_objectgroup(id);
+  m_toolbox_widget.select_objectgroup(id);
 }
 
 const std::vector<ObjectGroup>&
 Editor::get_objectgroups() const
 {
-  return m_tileselect.get_object_info().m_groups;
+  return m_toolbox_widget.get_object_info().m_groups;
 }
 
 void

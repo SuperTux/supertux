@@ -65,10 +65,10 @@ public:
   World* get_world() const { return m_world.get(); }
 
   TileSet* get_tileset() const { return m_tileset; }
-  TileSelection* get_tiles() const { return m_tileselect.get_tiles(); }
-  std::string get_tileselect_object() const { return m_tileselect.get_object(); }
+  TileSelection* get_tiles() const { return m_toolbox_widget.get_tiles(); }
+  std::string get_tileselect_object() const { return m_toolbox_widget.get_object(); }
 
-  EditorToolboxWidget::InputType get_tileselect_input_type() const { return m_tileselect.get_input_type(); }
+  EditorToolboxWidget::InputType get_tileselect_input_type() const { return m_toolbox_widget.get_input_type(); }
 
   int get_tileselect_select_mode() const;
   int get_tileselect_move_mode() const;
@@ -118,12 +118,12 @@ public:
   bool is_level_loaded() const { return m_levelloaded; }
 
   void edit_path(Path* path, GameObject* new_marked_object) {
-    m_inputcenter.edit_path(path, new_marked_object);
+    m_overlay_widget.edit_path(path, new_marked_object);
   }
 
-  void add_layer(GameObject* layer) { m_layerselect.add_layer(layer); }
+  void add_layer(GameObject* layer) { m_layers_widget.add_layer(layer); }
 
-  GameObject* get_selected_tilemap() const { return m_layerselect.get_selected_tilemap(); }
+  GameObject* get_selected_tilemap() const { return m_layers_widget.get_selected_tilemap(); }
 
   Sector* get_sector() { return m_sector; }
 
@@ -164,10 +164,10 @@ private:
 
   TileSet* m_tileset;
 
-  EditorOverlayWidget m_inputcenter;
-  EditorToolboxWidget m_tileselect;
-  EditorLayersWidget m_layerselect;
-  EditorScrollerWidget m_scroller;
+  EditorOverlayWidget m_overlay_widget;
+  EditorToolboxWidget m_toolbox_widget;
+  EditorLayersWidget m_layers_widget;
+  EditorScrollerWidget m_scroller_widget;
 
   bool m_enabled;
   SurfacePtr m_bgr_surface;
