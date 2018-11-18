@@ -32,6 +32,7 @@ public:
   virtual std::string get_class() const override {
     return "door";
   }
+  virtual std::string get_display_name() const override { return _("Door"); }
 
   virtual ObjectSettings get_settings() override;
 
