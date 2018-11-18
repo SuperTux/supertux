@@ -17,6 +17,8 @@
 #ifndef HEADER_SUPERTUX_EDITOR_INPUT_CENTER_HPP
 #define HEADER_SUPERTUX_EDITOR_INPUT_CENTER_HPP
 
+#include <SDL.h>
+
 #include "control/input_manager.hpp"
 #include "math/vector.hpp"
 
@@ -87,6 +89,12 @@ private:
   Rectf tile_drag_rect();
   Rectf selection_draw_rect();
   void update_tile_selection();
+
+  void on_mouse_button_up(const SDL_MouseButtonEvent& button);
+  void on_mouse_button_down(const SDL_MouseButtonEvent& button);
+  void on_mouse_motion(const SDL_MouseMotionEvent& motion);
+  void on_key_up(const SDL_KeyboardEvent& key);
+  void on_key_down(const SDL_KeyboardEvent& key);
 
 private:
   Editor& m_editor;

@@ -529,33 +529,44 @@ EditorInputCenter::process_left_click()
   m_dragging = true;
   m_dragging_right = false;
   m_drag_start = m_sector_pos;
-  switch (m_editor.get_tileselect_input_type()) {
-    case EditorInputGui::IP_TILE: {
-      switch (m_editor.get_tileselect_select_mode()) {
+
+  switch (m_editor.get_tileselect_input_type())
+  {
+    case EditorInputGui::IP_TILE:
+      switch (m_editor.get_tileselect_select_mode())
+      {
         case 0:
           put_tile();
           break;
+
         case 1:
           draw_rectangle();
           break;
+
         case 2:
           fill();
           break;
+
         default:
           break;
       }
-    } break;
+      break;
+
     case EditorInputGui::IP_OBJECT:
-      switch (m_editor.get_tileselect_move_mode()) {
+      switch (m_editor.get_tileselect_move_mode())
+      {
         case 0:
           grab_object();
           break;
+
         case 1:
           clone_object();
           break;
+
         default:
           break;
       }
+
       if (!m_editor.get_tileselect_object().empty()) {
         if (!m_dragged_object) {
           put_object();
@@ -563,26 +574,30 @@ EditorInputCenter::process_left_click()
       } else {
         rubber_object();
       }
-    break;
-  default:
-    break;
+      break;
+
+    default:
+      break;
   }
 }
 
 void
 EditorInputCenter::process_right_click()
 {
-  switch (m_editor.get_tileselect_input_type()) {
-    case EditorInputGui::IP_TILE: {
+  switch (m_editor.get_tileselect_input_type())
+  {
+    case EditorInputGui::IP_TILE:
       m_dragging = true;
       m_dragging_right = true;
       m_drag_start = m_sector_pos;
       update_tile_selection();
-    } break;
+      break;
+
     case EditorInputGui::IP_NONE:
     case EditorInputGui::IP_OBJECT:
       set_object();
       break;
+
     default:
       break;
   }
@@ -641,82 +656,117 @@ EditorInputCenter::update_tile_selection()
 }
 
 void
-EditorInputCenter::event(SDL_Event& ev)
+EditorInputCenter::event(const SDL_Event& ev)
 {
-  switch (ev.type) {
+  switch (ev.type)
+  {
     case SDL_MOUSEBUTTONDOWN:
-    switch (ev.button.button) {
-      case SDL_BUTTON_LEFT: {
-        process_left_click();
-      } break;
-      case SDL_BUTTON_RIGHT: {
-        process_right_click();
-      } break;
-    } break;
+      on_mouse_button_down(ev.button);
+      break;
 
     case SDL_MOUSEBUTTONUP:
-      m_dragging = false;
+      on_mouse_button_up(ev.button);
       break;
 
     case SDL_MOUSEMOTION:
-    {
-      m_mouse_pos = VideoSystem::current()->get_viewport().to_logical(ev.motion.x, ev.motion.y);
-      update_pos();
-      if (m_dragging) {
-        switch (m_editor.get_tileselect_input_type()) {
-          case EditorInputGui::IP_TILE:
-            if (m_dragging_right) {
-              update_tile_selection();
-            } else {
-              switch (m_editor.get_tileselect_select_mode()) {
-                case 0:
-                  put_tile();
-                  break;
-                case 1:
-                  draw_rectangle();
-                  break;
-                default:
-                  break;
-              }
-            }
-            break;
-          case EditorInputGui::IP_OBJECT:
-            if (m_editor.get_tileselect_object().empty()) {
-              if (m_editor.get_tileselect_select_mode() == 1) {
-                rubber_rect();
-              }
-            } else {
-              move_object();
-            }
-            break;
-          default:
-            break;
-        }
-      }
-    } break;
+      on_mouse_motion(ev.motion);
+      break;
+
     case SDL_KEYDOWN:
-    {
-      auto key = ev.key.keysym.sym;
-      if (key == SDLK_F8) {
-        render_grid = !render_grid;
-      }
-      if (key == SDLK_F7 || key == SDLK_LSHIFT || key == SDLK_RSHIFT) {
-        snap_to_grid = !snap_to_grid;
-      }
-    }
-    break;
+      on_key_down(ev.key);
+      break;
 
     case SDL_KEYUP:
-    {
-      auto key = ev.key.keysym.sym;
-      if (key == SDLK_LSHIFT || key == SDLK_RSHIFT)
-      {
-        snap_to_grid = !snap_to_grid;
-      }
-    }
-    break;
+      on_key_up(ev.key);
+      break;
+
     default:
       break;
+  }
+}
+
+void
+EditorInputCenter::on_mouse_button_up(const SDL_MouseButtonEvent& button)
+{
+  m_dragging = false;
+}
+
+void
+EditorInputCenter::on_mouse_button_down(const SDL_MouseButtonEvent& button)
+{
+  switch (button.button)
+  {
+    case SDL_BUTTON_LEFT:
+      process_left_click();
+      break;
+
+    case SDL_BUTTON_RIGHT:
+      process_right_click();
+      break;
+  }
+}
+
+void
+EditorInputCenter::on_mouse_motion(const SDL_MouseMotionEvent& motion)
+{
+  m_mouse_pos = VideoSystem::current()->get_viewport().to_logical(motion.x, motion.y);
+  update_pos();
+  if (m_dragging)
+  {
+    switch (m_editor.get_tileselect_input_type())
+    {
+      case EditorInputGui::IP_TILE:
+        if (m_dragging_right) {
+          update_tile_selection();
+        } else {
+          switch (m_editor.get_tileselect_select_mode()) {
+            case 0:
+              put_tile();
+              break;
+            case 1:
+              draw_rectangle();
+              break;
+            default:
+              break;
+          }
+        }
+        break;
+
+      case EditorInputGui::IP_OBJECT:
+        if (m_editor.get_tileselect_object().empty()) {
+          if (m_editor.get_tileselect_select_mode() == 1) {
+            rubber_rect();
+          }
+        } else {
+          move_object();
+        }
+        break;
+
+      default:
+        break;
+    }
+  }
+}
+
+void
+EditorInputCenter::on_key_up(const SDL_KeyboardEvent& key)
+{
+  auto sym = key.keysym.sym;
+  if (sym == SDLK_LSHIFT || sym == SDLK_RSHIFT)
+  {
+    snap_to_grid = !snap_to_grid;
+  }
+}
+
+void
+EditorInputCenter::on_key_down(const SDL_KeyboardEvent& key)
+{
+  auto sym = key.keysym.sym;
+  if (sym == SDLK_F8) {
+    render_grid = !render_grid;
+  }
+  if (sym == SDLK_F7 || sym == SDLK_LSHIFT || sym == SDLK_RSHIFT) {
+    snap_to_grid = !snap_to_grid;
   }
 }
 
