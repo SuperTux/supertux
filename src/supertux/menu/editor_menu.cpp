@@ -76,7 +76,7 @@ EditorMenu::~EditorMenu()
   if (editor == nullptr) {
     return;
   }
-  editor->reactivate_request = true;
+  editor->m_reactivate_request = true;
 }
 
 void
@@ -98,7 +98,7 @@ EditorMenu::menu_action(MenuItem& item)
       if (is_sector_valid && is_spawnpoint_valid)
       {
         MenuManager::instance().clear_menu_stack();
-        editor->save_request = true;
+        editor->m_save_request = true;
       }
       else
       {
@@ -120,7 +120,7 @@ EditorMenu::menu_action(MenuItem& item)
 
     case MNID_TESTLEVEL:
       MenuManager::instance().clear_menu_stack();
-      Editor::current()->test_request = true;
+      Editor::current()->m_test_request = true;
       break;
 
     case MNID_LEVELSEL:
@@ -133,7 +133,7 @@ EditorMenu::menu_action(MenuItem& item)
 
     case MNID_QUITEDITOR:
       MenuManager::instance().clear_menu_stack();
-      Editor::current()->quit_request = true;
+      Editor::current()->m_quit_request = true;
       break;
 
     default:

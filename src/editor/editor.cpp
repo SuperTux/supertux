@@ -64,33 +64,33 @@ bool
 Editor::is_active()
 {
   auto self = Editor::current();
-  return self && self->levelloaded && !self->leveltested;
+  return self && self->m_levelloaded && !self->m_leveltested;
 }
 
 Editor::Editor() :
-  level(),
-  world(),
-  levelfile(),
-  test_levelfile(),
-  worldmap_mode(false),
-  quit_request(false),
-  newlevel_request(false),
-  reload_request(false),
-  reactivate_request(false),
-  deactivate_request(false),
-  save_request(false),
-  test_request(false),
+  m_level(),
+  m_world(),
+  m_levelfile(),
+  m_test_levelfile(),
+  m_worldmap_mode(false),
+  m_quit_request(false),
+  m_newlevel_request(false),
+  m_reload_request(false),
+  m_reactivate_request(false),
+  m_deactivate_request(false),
+  m_save_request(false),
+  m_test_request(false),
   m_savegame(),
   m_sector(),
-  levelloaded(false),
-  leveltested(false),
-  tileset(nullptr),
-  inputcenter(*this),
-  tileselect(*this),
-  layerselect(*this),
-  scroller(*this),
-  enabled(false),
-  bgr_surface(Surface::from_file("images/background/forest1.jpg"))
+  m_levelloaded(false),
+  m_leveltested(false),
+  m_tileset(nullptr),
+  m_inputcenter(*this),
+  m_tileselect(*this),
+  m_layerselect(*this),
+  m_scroller(*this),
+  m_enabled(false),
+  m_bgr_surface(Surface::from_file("images/background/forest1.jpg"))
 {
 }
 
@@ -99,22 +99,22 @@ Editor::draw(Compositor& compositor)
 {
   auto& context = compositor.make_context();
 
-  if (levelloaded) {
+  if (m_levelloaded) {
     m_sector->draw(context);
     context.color().draw_filled_rect(Rectf(Vector(0, 0), Vector(static_cast<float>(context.get_width()),
                                                                 static_cast<float>(context.get_height()))),
                                      Color(0.0f, 0.0f, 0.0f),
                                      0.0f, std::numeric_limits<int>::min());
   } else {
-    context.color().draw_surface_scaled(bgr_surface,
+    context.color().draw_surface_scaled(m_bgr_surface,
                                         Rectf(Vector(0, 0), Vector(static_cast<float>(context.get_width()),
                                                                    static_cast<float>(context.get_height()))),
                                         -100);
   }
-  inputcenter.draw(context);
-  tileselect.draw(context);
-  layerselect.draw(context);
-  scroller.draw(context);
+  m_inputcenter.draw(context);
+  m_tileselect.draw(context);
+  m_layerselect.draw(context);
+  m_scroller.draw(context);
   MouseCursor::current()->draw(context);
 }
 
@@ -122,49 +122,49 @@ void
 Editor::update(float dt_sec, const Controller& controller)
 {
   // Pass all requests
-  if (reload_request) {
+  if (m_reload_request) {
     reload_level();
   }
 
-  if (quit_request) {
+  if (m_quit_request) {
     quit_editor();
   }
 
-  if (newlevel_request) {
+  if (m_newlevel_request) {
     //Create new level
   }
 
-  if (reactivate_request) {
-    enabled = true;
-    reactivate_request = false;
+  if (m_reactivate_request) {
+    m_enabled = true;
+    m_reactivate_request = false;
   }
 
-  if (save_request) {
+  if (m_save_request) {
     save_level();
-    enabled = true;
-    save_request = false;
+    m_enabled = true;
+    m_save_request = false;
   }
 
-  if (test_request) {
-    test_request = false;
+  if (m_test_request) {
+    m_test_request = false;
     MouseCursor::current()->set_icon(nullptr);
     test_level();
     return;
   }
 
-  if (deactivate_request) {
-    enabled = false;
-    deactivate_request = false;
+  if (m_deactivate_request) {
+    m_enabled = false;
+    m_deactivate_request = false;
     return;
   }
 
   // update other stuff
   if (is_active()) {
     m_sector->update(0);
-    tileselect.update(dt_sec);
-    layerselect.update(dt_sec);
-    inputcenter.update(dt_sec);
-    scroller.update(dt_sec);
+    m_tileselect.update(dt_sec);
+    m_layerselect.update(dt_sec);
+    m_inputcenter.update(dt_sec);
+    m_scroller.update(dt_sec);
     update_keyboard(controller);
   }
 }
@@ -172,25 +172,25 @@ Editor::update(float dt_sec, const Controller& controller)
 void
 Editor::save_level()
 {
-  level->save(world ? FileSystem::join(world->get_basedir(), levelfile) :
-              levelfile);
+  m_level->save(m_world ? FileSystem::join(m_world->get_basedir(), m_levelfile) :
+              m_levelfile);
 }
 
 std::string
 Editor::get_level_directory() const
 {
   std::string basedir;
-  if(world != nullptr)
+  if (m_world != nullptr)
   {
-    basedir = world->get_basedir();
+    basedir = m_world->get_basedir();
     if (basedir == "./")
     {
-      basedir = PHYSFS_getRealDir(levelfile.c_str());
+      basedir = PHYSFS_getRealDir(m_levelfile.c_str());
     }
   }
   else
   {
-    basedir = FileSystem::dirname(levelfile);
+    basedir = FileSystem::dirname(m_levelfile);
   }
   return std::string(basedir);
 }
@@ -200,28 +200,28 @@ Editor::test_level()
 {
   Tile::draw_editor_images = false;
   Compositor::s_render_lighting = true;
-  auto backup_filename = levelfile + "~";
+  auto backup_filename = m_levelfile + "~";
   auto directory = get_level_directory();
-  auto current_world = (world != nullptr) ? world.get() : World::load(directory).get();
+  auto current_world = (m_world != nullptr) ? m_world.get() : World::load(directory).get();
 
-  test_levelfile = FileSystem::join(directory, backup_filename);
-  level->save(test_levelfile);
-  if (!worldmap_mode)
+  m_test_levelfile = FileSystem::join(directory, backup_filename);
+  m_level->save(m_test_levelfile);
+  if (!m_worldmap_mode)
   {
     GameManager::current()->start_level(current_world, backup_filename);
   }
   else
   {
-    GameManager::current()->start_worldmap(current_world, "", test_levelfile);
+    GameManager::current()->start_worldmap(current_world, "", m_test_levelfile);
   }
 
-  leveltested = true;
+  m_leveltested = true;
 }
 
 void
 Editor::open_level_directory()
 {
-  level->save(FileSystem::join(get_level_directory(), levelfile));
+  m_level->save(FileSystem::join(get_level_directory(), m_levelfile));
   auto path = FileSystem::join(PHYSFS_getWriteDir(), get_level_directory());
 
   #if defined(_WIN32) || defined (_WIN64)
@@ -248,31 +248,31 @@ Editor::open_level_directory()
 void
 Editor::set_world(std::unique_ptr<World> w)
 {
-  world = std::move(w);
+  m_world = std::move(w);
 }
 
 int
 Editor::get_tileselect_select_mode() const
 {
-  return tileselect.m_select_mode->get_mode();
+  return m_tileselect.m_select_mode->get_mode();
 }
 
 int
 Editor::get_tileselect_move_mode() const
 {
-  return tileselect.m_move_mode->get_mode();
+  return m_tileselect.m_move_mode->get_mode();
 }
 
 bool
 Editor::can_scroll_vert() const
 {
-  return levelloaded && (m_sector->get_height() + 32 > static_cast<float>(SCREEN_HEIGHT));
+  return m_levelloaded && (m_sector->get_height() + 32 > static_cast<float>(SCREEN_HEIGHT));
 }
 
 bool
 Editor::can_scroll_horz() const
 {
-  return levelloaded && (m_sector->get_width() + 128 > static_cast<float>(SCREEN_WIDTH));
+  return m_levelloaded && (m_sector->get_width() + 128 > static_cast<float>(SCREEN_WIDTH));
 }
 
 void
@@ -286,7 +286,7 @@ Editor::scroll_left(float speed)
       //When is the camera less than one tile after the left limit, it puts the camera to the limit.
       camera.move(static_cast<int>(-camera.get_translation().x), 0);
     }
-    inputcenter.update_pos();
+    m_inputcenter.update_pos();
   }
 }
 
@@ -302,7 +302,7 @@ Editor::scroll_right(float speed)
       // The limit is shifted 128 pixels to the right due to the input gui.
       camera.move(static_cast<int>(m_sector->get_width() - camera.get_translation().x - static_cast<float>(SCREEN_WIDTH) + 128.0f), 0);
     }
-    inputcenter.update_pos();
+    m_inputcenter.update_pos();
   }
 }
 
@@ -317,7 +317,7 @@ Editor::scroll_up(float speed)
       //When is the camera less than one tile after the top limit, it puts the camera to the limit.
       camera.move(0, static_cast<int>(-camera.get_translation().y));
     }
-    inputcenter.update_pos();
+    m_inputcenter.update_pos();
   }
 }
 
@@ -333,22 +333,22 @@ Editor::scroll_down(float speed)
       // The limit is shifted 32 pixels to the bottom due to the layer toolbar.
       camera.move(0, static_cast<int>(m_sector->get_height() - camera.get_translation().y - static_cast<float>(SCREEN_HEIGHT) + 32.0f));
     }
-    inputcenter.update_pos();
+    m_inputcenter.update_pos();
   }
 }
 
 void
 Editor::esc_press()
 {
-  enabled = false;
-  inputcenter.delete_markers();
+  m_enabled = false;
+  m_inputcenter.delete_markers();
   MenuManager::instance().set_menu(MenuStorage::EDITOR_MENU);
 }
 
 void
 Editor::update_keyboard(const Controller& controller)
 {
-  if (!enabled){
+  if (!m_enabled){
     return;
   }
 
@@ -377,22 +377,22 @@ Editor::update_keyboard(const Controller& controller)
 void
 Editor::load_layers()
 {
-  layerselect.m_selected_tilemap = nullptr;
-  layerselect.m_layer_icons.clear();
+  m_layerselect.m_selected_tilemap = nullptr;
+  m_layerselect.m_layer_icons.clear();
 
   bool tsel = false;
   for (auto& i : m_sector->get_objects()) {
     auto go = i.get();
     auto mo = dynamic_cast<MovingObject*>(go);
     if ( !mo && go->is_saveable() ) {
-      layerselect.add_layer(go);
+      m_layerselect.add_layer(go);
 
       auto tm = dynamic_cast<TileMap*>(go);
       if (tm) {
         if ( !tm->is_solid() || tsel ) {
           tm->m_editor_active = false;
         } else {
-          layerselect.m_selected_tilemap = tm;
+          m_layerselect.m_selected_tilemap = tm;
           tm->m_editor_active = true;
           tsel = true;
         }
@@ -400,17 +400,17 @@ Editor::load_layers()
     }
   }
 
-  layerselect.sort_layers();
-  layerselect.refresh_sector_text();
+  m_layerselect.sort_layers();
+  m_layerselect.refresh_sector_text();
 }
 
 void
 Editor::load_sector(const std::string& name)
 {
-  m_sector = level->get_sector(name);
+  m_sector = m_level->get_sector(name);
   if (!m_sector) {
     size_t i = 0;
-    m_sector = level->get_sector(i);
+    m_sector = m_level->get_sector(i);
   }
   m_sector->activate("main");
   load_layers();
@@ -419,7 +419,7 @@ Editor::load_sector(const std::string& name)
 void
 Editor::load_sector(size_t id)
 {
-  m_sector = level->get_sector(id);
+  m_sector = m_level->get_sector(id);
   m_sector->activate("main");
   load_layers();
 }
@@ -427,35 +427,35 @@ Editor::load_sector(size_t id)
 void
 Editor::reload_level()
 {
-  reload_request = false;
-  enabled = true;
-  tileselect.m_input_type = EditorInputGui::IP_NONE;
+  m_reload_request = false;
+  m_enabled = true;
+  m_tileselect.m_input_type = EditorInputGui::IP_NONE;
   // Re/load level
-  level = nullptr;
-  levelloaded = true;
+  m_level = nullptr;
+  m_levelloaded = true;
 
   ReaderMapping::s_translations_enabled = false;
-  level = LevelParser::from_file(world ? FileSystem::join(world->get_basedir(),
-                                                          levelfile) : levelfile);
+  m_level = LevelParser::from_file(m_world ? FileSystem::join(m_world->get_basedir(),
+                                                          m_levelfile) : m_levelfile);
   ReaderMapping::s_translations_enabled = true;
 
-  tileset = TileManager::current()->get_tileset(level->get_tileset());
+  m_tileset = TileManager::current()->get_tileset(m_level->get_tileset());
   load_sector("main");
   m_sector->activate("main");
   m_sector->get_camera().set_mode(Camera::MANUAL);
-  layerselect.refresh_sector_text();
-  tileselect.update_mouse_icon();
+  m_layerselect.refresh_sector_text();
+  m_tileselect.update_mouse_icon();
 }
 
 void
 Editor::quit_editor()
 {
   //Quit level editor
-  world = nullptr;
-  levelfile = "";
-  levelloaded = false;
-  quit_request = false;
-  enabled = false;
+  m_world = nullptr;
+  m_levelfile = "";
+  m_levelloaded = false;
+  m_quit_request = false;
+  m_enabled = false;
   Tile::draw_editor_images = false;
   ScreenManager::current()->pop_screen();
 }
@@ -472,7 +472,7 @@ Editor::setup()
 {
   Tile::draw_editor_images = true;
   Sector::s_draw_solids_only = false;
-  if (!levelloaded) {
+  if (!m_levelloaded) {
 
 #if 0
     if (AddonManager::current()->is_old_addon_enabled()) {
@@ -500,33 +500,33 @@ Editor::setup()
       MenuManager::instance().push_menu(MenuStorage::EDITOR_LEVELSET_SELECT_MENU);
     }
   }
-  tileselect.setup();
-  layerselect.setup();
+  m_tileselect.setup();
+  m_layerselect.setup();
   m_savegame.reset(new Savegame("levels/misc"));
   m_savegame->load();
 
   // Reactivate the editor after level test
-  if (leveltested) {
-    if (!test_levelfile.empty())
+  if (m_leveltested) {
+    if (!m_test_levelfile.empty())
     {
       // Try to remove the test level using the PhysFS file system
-      if (PhysFSFileSystem::remove(test_levelfile) != 0)
+      if (PhysFSFileSystem::remove(m_test_levelfile) != 0)
       {
         // This file is not inside any PhysFS mounts,
         // try to remove this using normal file system
         // methods.
-        FileSystem::remove(test_levelfile);
+        FileSystem::remove(m_test_levelfile);
       }
     }
-    leveltested = false;
+    m_leveltested = false;
     Tile::draw_editor_images = true;
-    level->reactivate();
+    m_level->reactivate();
     m_sector->activate(m_sector->get_player().get_pos());
     MenuManager::instance().clear_menu_stack();
     SoundManager::current()->stop_music();
-    deactivate_request = false;
-    enabled = true;
-    tileselect.update_mouse_icon();
+    m_deactivate_request = false;
+    m_enabled = true;
+    m_tileselect.update_mouse_icon();
   }
 }
 
@@ -534,77 +534,77 @@ void
 Editor::resize()
 {
   // Calls on window resize.
-  tileselect.resize();
-  layerselect.resize();
-  inputcenter.update_pos();
+  m_tileselect.resize();
+  m_layerselect.resize();
+  m_inputcenter.update_pos();
 }
 
 void
 Editor::event(const SDL_Event& ev)
 {
-  if (enabled) {
+  if (m_enabled) {
     if (ev.type == SDL_KEYDOWN && ev.key.keysym.sym == SDLK_F6) {
       Compositor::s_render_lighting = !Compositor::s_render_lighting;
     }
 
     BIND_SECTOR(*m_sector);
 
-    if ( tileselect.event(ev) ) {
+    if ( m_tileselect.event(ev) ) {
       return;
     }
 
-    if ( layerselect.event(ev) ) {
+    if ( m_layerselect.event(ev) ) {
       return;
     }
 
-    if ( scroller.event(ev) ) {
+    if ( m_scroller.event(ev) ) {
       return;
     }
-    inputcenter.event(ev);
+    m_inputcenter.event(ev);
   }
 }
 
 void
 Editor::update_node_iterators()
 {
-  inputcenter.update_node_iterators();
+  m_inputcenter.update_node_iterators();
 }
 
 void
 Editor::delete_markers()
 {
-  inputcenter.delete_markers();
+  m_inputcenter.delete_markers();
 }
 
 void
 Editor::sort_layers()
 {
-  layerselect.sort_layers();
+  m_layerselect.sort_layers();
 }
 
 void
 Editor::select_tilegroup(int id)
 {
-  tileselect.m_active_tilegroup.reset(new Tilegroup(tileset->get_tilegroups()[id]));
-  tileselect.m_input_type = EditorInputGui::IP_TILE;
-  tileselect.reset_pos();
-  tileselect.update_mouse_icon();
+  m_tileselect.m_active_tilegroup.reset(new Tilegroup(m_tileset->get_tilegroups()[id]));
+  m_tileselect.m_input_type = EditorInputGui::IP_TILE;
+  m_tileselect.reset_pos();
+  m_tileselect.update_mouse_icon();
 }
 
 const std::vector<Tilegroup>&
 Editor::get_tilegroups() const
 {
-  return tileset->get_tilegroups();
+  return m_tileset->get_tilegroups();
 }
 
 void
 Editor::change_tileset()
 {
-  tileset = TileManager::current()->get_tileset(level->get_tileset());
-  tileselect.m_input_type = EditorInputGui::IP_NONE;
-  for (const auto& sector : level->m_sectors) {
+  m_tileset = TileManager::current()->get_tileset(m_level->get_tileset());
+  m_tileselect.m_input_type = EditorInputGui::IP_NONE;
+  for (const auto& sector : m_level->m_sectors) {
     for (auto& tilemap : sector->get_objects_by_type<TileMap>()) {
-      tilemap.set_tileset(tileset);
+      tilemap.set_tileset(m_tileset);
     }
   }
 }
@@ -612,28 +612,28 @@ Editor::change_tileset()
 void
 Editor::select_objectgroup(int id)
 {
-  tileselect.m_active_objectgroup = id;
-  tileselect.m_input_type = EditorInputGui::IP_OBJECT;
-  tileselect.reset_pos();
-  tileselect.update_mouse_icon();
+  m_tileselect.m_active_objectgroup = id;
+  m_tileselect.m_input_type = EditorInputGui::IP_OBJECT;
+  m_tileselect.reset_pos();
+  m_tileselect.update_mouse_icon();
 }
 
 const std::vector<ObjectGroup>&
 Editor::get_objectgroups() const
 {
-  return tileselect.m_object_input->m_groups;
+  return m_tileselect.m_object_input->m_groups;
 }
 
 void
 Editor::check_save_prerequisites(bool& sector_valid, bool& spawnpoint_valid) const
 {
-  if (worldmap_mode)
+  if (m_worldmap_mode)
   {
     sector_valid = true;
     spawnpoint_valid = true;
     return;
   }
-  for (const auto& sector : level->m_sectors)
+  for (const auto& sector : m_level->m_sectors)
   {
     if (sector->get_name() == "main")
     {

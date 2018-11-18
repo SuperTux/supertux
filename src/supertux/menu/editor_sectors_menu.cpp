@@ -50,7 +50,7 @@ EditorSectorsMenu::~EditorSectorsMenu()
   if (editor == nullptr) {
     return;
   }
-  editor->reactivate_request = true;
+  editor->m_reactivate_request = true;
 }
 
 void
@@ -77,7 +77,7 @@ EditorSectorsMenu::create_sector()
   level->add_sector(move(new_sector));
   Editor::current()->load_sector(level->get_sector_count() - 1);
   MenuManager::instance().clear_menu_stack();
-  Editor::current()->reactivate_request = true;
+  Editor::current()->m_reactivate_request = true;
 }
 
 void
@@ -106,7 +106,7 @@ EditorSectorsMenu::delete_sector()
           }
         }
         Editor::current()->load_sector(0);
-        Editor::current()->reactivate_request = true;
+        Editor::current()->m_reactivate_request = true;
       });
   }
   MenuManager::instance().set_dialog(std::move(dialog));

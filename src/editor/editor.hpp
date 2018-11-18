@@ -57,37 +57,37 @@ public:
   void event(const SDL_Event& ev);
   void resize();
 
-  void disable_keyboard() { enabled = false; }
+  void disable_keyboard() { m_enabled = false; }
 
-  Level* get_level() const { return level.get(); }
+  Level* get_level() const { return m_level.get(); }
 
   void set_world(std::unique_ptr<World> w);
-  World* get_world() const { return world.get(); }
+  World* get_world() const { return m_world.get(); }
 
-  TileSet* get_tileset() const { return tileset; }
-  TileSelection* get_tiles() const { return tileselect.m_tiles.get(); }
-  const std::string& get_tileselect_object() const { return tileselect.m_object; }
+  TileSet* get_tileset() const { return m_tileset; }
+  TileSelection* get_tiles() const { return m_tileselect.m_tiles.get(); }
+  const std::string& get_tileselect_object() const { return m_tileselect.m_object; }
 
-  EditorInputGui::InputType get_tileselect_input_type() const { return tileselect.m_input_type; }
+  EditorInputGui::InputType get_tileselect_input_type() const { return m_tileselect.m_input_type; }
 
   int get_tileselect_select_mode() const;
   int get_tileselect_move_mode() const;
 
-  std::string get_levelfile() const { return levelfile; }
+  std::string get_levelfile() const { return m_levelfile; }
 
   void set_level(const std::string& levelfile_) {
-    levelfile = levelfile_;
-    reload_request = true;
+    m_levelfile = levelfile_;
+    m_reload_request = true;
   }
 
   std::string get_level_directory() const;
 
   void open_level_directory();
 
-  void set_worldmap_mode(bool new_mode) { worldmap_mode = new_mode; }
-  bool get_worldmap_mode() const { return worldmap_mode; }
+  void set_worldmap_mode(bool new_mode) { m_worldmap_mode = new_mode; }
+  bool get_worldmap_mode() const { return m_worldmap_mode; }
 
-  bool is_testing_level() const { return leveltested; }
+  bool is_testing_level() const { return m_leveltested; }
 
   /** Checks whether the level can be saved and does not contain
       obvious issues (currently: check if main sector and a spawn point
@@ -115,15 +115,15 @@ public:
   void scroll_left(float speed = 1.0f);
   void scroll_right(float speed = 1.0f);
 
-  bool is_level_loaded() const { return levelloaded; }
+  bool is_level_loaded() const { return m_levelloaded; }
 
   void edit_path(Path* path, GameObject* new_marked_object) {
-    inputcenter.edit_path(path, new_marked_object);
+    m_inputcenter.edit_path(path, new_marked_object);
   }
 
-  void add_layer(GameObject* layer) { layerselect.add_layer(layer); }
+  void add_layer(GameObject* layer) { m_layerselect.add_layer(layer); }
 
-  GameObject* get_selected_tilemap() const { return layerselect.m_selected_tilemap; }
+  GameObject* get_selected_tilemap() const { return m_layerselect.m_selected_tilemap; }
 
   Sector* get_sector() { return m_sector; }
 
@@ -139,39 +139,39 @@ private:
   bool can_scroll_vert() const;
 
 protected:
-  std::unique_ptr<Level> level;
-  std::unique_ptr<World> world;
+  std::unique_ptr<Level> m_level;
+  std::unique_ptr<World> m_world;
 
-  std::string levelfile;
-  std::string test_levelfile;
-  bool worldmap_mode;
+  std::string m_levelfile;
+  std::string m_test_levelfile;
+  bool m_worldmap_mode;
 
 public:
-  bool quit_request;
-  bool newlevel_request;
-  bool reload_request;
-  bool reactivate_request;
-  bool deactivate_request;
-  bool save_request;
-  bool test_request;
+  bool m_quit_request;
+  bool m_newlevel_request;
+  bool m_reload_request;
+  bool m_reactivate_request;
+  bool m_deactivate_request;
+  bool m_save_request;
+  bool m_test_request;
 
   std::unique_ptr<Savegame> m_savegame;
 
 private:
   Sector* m_sector;
 
-  bool levelloaded;
-  bool leveltested;
+  bool m_levelloaded;
+  bool m_leveltested;
 
-  TileSet* tileset;
+  TileSet* m_tileset;
 
-  EditorInputCenter inputcenter;
-  EditorInputGui tileselect;
-  EditorLayersGui layerselect;
-  EditorScroller scroller;
+  EditorInputCenter m_inputcenter;
+  EditorInputGui m_tileselect;
+  EditorLayersGui m_layerselect;
+  EditorScroller m_scroller;
 
-  bool enabled;
-  SurfacePtr bgr_surface;
+  bool m_enabled;
+  SurfacePtr m_bgr_surface;
 
 private:
   Editor(const Editor&) = delete;

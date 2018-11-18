@@ -89,7 +89,7 @@ ObjectMenu::~ObjectMenu()
 {
   m_object->after_editor_set();
 
-  m_editor.reactivate_request = true;
+  m_editor.m_reactivate_request = true;
   if (!dynamic_cast<MovingObject*>(m_object)) {
     m_editor.sort_layers();
   }
@@ -101,7 +101,7 @@ ObjectMenu::menu_action(MenuItem& item)
   switch (item.get_id()) {
     case MNID_REMOVE:
       m_editor.delete_markers();
-      m_editor.reactivate_request = true;
+      m_editor.m_reactivate_request = true;
       MenuManager::instance().pop_menu();
       m_object->remove_me();
       break;

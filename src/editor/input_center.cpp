@@ -394,7 +394,7 @@ EditorInputCenter::set_object()
       m_hovered_object->is_saveable())
   {
     auto om = std::make_unique<ObjectMenu>(m_editor, m_hovered_object);
-    m_editor.deactivate_request = true;
+    m_editor.m_deactivate_request = true;
     MenuManager::instance().push_menu(std::move(om));
     return;
   }

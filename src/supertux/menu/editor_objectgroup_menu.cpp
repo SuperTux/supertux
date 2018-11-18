@@ -47,7 +47,7 @@ EditorObjectgroupMenu::~EditorObjectgroupMenu()
   if (editor == nullptr) {
     return;
   }
-  editor->reactivate_request = true;
+  editor->m_reactivate_request = true;
 }
 
 void

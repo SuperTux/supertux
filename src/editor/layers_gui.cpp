@@ -173,7 +173,7 @@ EditorLayersGui::on_mouse_button_down(const SDL_MouseButtonEvent& button)
   {
     if (m_hovered_item == HI_LAYERS && m_hovered_layer < m_layer_icons.size()) {
       auto om = std::make_unique<ObjectMenu>(m_editor, m_layer_icons[m_hovered_layer]->m_layer);
-      m_editor.deactivate_request = true;
+      m_editor.m_deactivate_request = true;
       MenuManager::instance().push_menu(std::move(om));
     } else {
       return false;
