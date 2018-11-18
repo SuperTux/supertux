@@ -60,8 +60,20 @@ public:
   virtual void setup() override;
   virtual void resize() override;
 
-  void reset_pos();
   void update_mouse_icon();
+
+  int get_tileselect_select_mode() const;
+  int get_tileselect_move_mode() const;
+
+  void select_tilegroup(int id);
+  void select_objectgroup(int id);
+
+  const ObjectInfo& get_object_info() const { return *m_object_info; }
+  InputType get_input_type() const { return m_input_type; }
+  void set_input_type(InputType input_type) { m_input_type = input_type; }
+
+  std::string get_object() const { return m_object; }
+  TileSelection* get_tiles() const { return m_tiles.get(); }
 
 private:
   Vector get_tile_coords(const int pos) const;
@@ -81,8 +93,8 @@ private:
 private:
   Editor& m_editor;
 
-public:
   std::unique_ptr<TileSelection> m_tiles;
+
   std::string m_object;
   InputType m_input_type;
 
@@ -90,13 +102,11 @@ public:
   int m_active_objectgroup;
   std::unique_ptr<ObjectInfo> m_object_info;
 
-public:
   std::unique_ptr<ToolIcon> m_rubber;
   std::unique_ptr<ToolIcon> m_select_mode;
   std::unique_ptr<ToolIcon> m_move_mode;
   std::unique_ptr<ToolIcon> m_settings_mode;
 
-private:
   HoveredItem m_hovered_item;
   int m_hovered_tile;
   TileScrolling m_tile_scrolling;

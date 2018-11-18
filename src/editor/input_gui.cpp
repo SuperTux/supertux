@@ -268,7 +268,7 @@ EditorInputGui::on_mouse_button_down(const SDL_MouseButtonEvent& button)
         {
           m_active_tilegroup.reset(new Tilegroup(m_editor.get_tileset()->get_tilegroups()[0]));
           m_input_type = EditorInputGui::IP_TILE;
-          reset_pos();
+          m_starting_tile = 0;
           update_mouse_icon();
         }
         break;
@@ -291,7 +291,7 @@ EditorInputGui::on_mouse_button_down(const SDL_MouseButtonEvent& button)
             m_active_objectgroup = 0;
           }
           m_input_type = EditorInputGui::IP_OBJECT;
-          reset_pos();
+          m_starting_tile = 0;
           update_mouse_icon();
         }
         break;
@@ -443,12 +443,6 @@ EditorInputGui::setup()
 }
 
 void
-EditorInputGui::reset_pos()
-{
-  m_starting_tile = 0;
-}
-
-void
 EditorInputGui::update_mouse_icon()
 {
   switch (m_input_type) {
@@ -525,6 +519,36 @@ EditorInputGui::get_item_rect(const HoveredItem& item) const
     default:
       return Rectf();
   }
+}
+
+int
+EditorInputGui::get_tileselect_select_mode() const
+{
+  return m_select_mode->get_mode();
+}
+
+int
+EditorInputGui::get_tileselect_move_mode() const
+{
+  return m_move_mode->get_mode();
+}
+
+void
+EditorInputGui::select_tilegroup(int id)
+{
+  m_active_tilegroup.reset(new Tilegroup(m_editor.get_tileset()->get_tilegroups()[id]));
+  m_input_type = EditorInputGui::IP_TILE;
+  m_starting_tile = 0;
+  update_mouse_icon();
+}
+
+void
+EditorInputGui::select_objectgroup(int id)
+{
+  m_active_objectgroup = id;
+  m_input_type = EditorInputGui::IP_OBJECT;
+  m_starting_tile = 0;
+  update_mouse_icon();
 }
 
 /* EOF */

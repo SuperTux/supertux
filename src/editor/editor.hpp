@@ -65,10 +65,10 @@ public:
   World* get_world() const { return m_world.get(); }
 
   TileSet* get_tileset() const { return m_tileset; }
-  TileSelection* get_tiles() const { return m_tileselect.m_tiles.get(); }
-  const std::string& get_tileselect_object() const { return m_tileselect.m_object; }
+  TileSelection* get_tiles() const { return m_tileselect.get_tiles(); }
+  std::string get_tileselect_object() const { return m_tileselect.get_object(); }
 
-  EditorInputGui::InputType get_tileselect_input_type() const { return m_tileselect.m_input_type; }
+  EditorInputGui::InputType get_tileselect_input_type() const { return m_tileselect.get_input_type(); }
 
   int get_tileselect_select_mode() const;
   int get_tileselect_move_mode() const;

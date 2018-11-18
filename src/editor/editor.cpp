@@ -254,13 +254,13 @@ Editor::set_world(std::unique_ptr<World> w)
 int
 Editor::get_tileselect_select_mode() const
 {
-  return m_tileselect.m_select_mode->get_mode();
+  return m_tileselect.get_tileselect_select_mode();
 }
 
 int
 Editor::get_tileselect_move_mode() const
 {
-  return m_tileselect.m_move_mode->get_mode();
+  return m_tileselect.get_tileselect_move_mode();
 }
 
 bool
@@ -399,7 +399,7 @@ Editor::reload_level()
 {
   m_reload_request = false;
   m_enabled = true;
-  m_tileselect.m_input_type = EditorInputGui::IP_NONE;
+  m_tileselect.set_input_type(EditorInputGui::IP_NONE);
   // Re/load level
   m_level = nullptr;
   m_levelloaded = true;
@@ -555,10 +555,7 @@ Editor::sort_layers()
 void
 Editor::select_tilegroup(int id)
 {
-  m_tileselect.m_active_tilegroup.reset(new Tilegroup(m_tileset->get_tilegroups()[id]));
-  m_tileselect.m_input_type = EditorInputGui::IP_TILE;
-  m_tileselect.reset_pos();
-  m_tileselect.update_mouse_icon();
+  m_tileselect.select_tilegroup(id);
 }
 
 const std::vector<Tilegroup>&
@@ -571,7 +568,7 @@ void
 Editor::change_tileset()
 {
   m_tileset = TileManager::current()->get_tileset(m_level->get_tileset());
-  m_tileselect.m_input_type = EditorInputGui::IP_NONE;
+  m_tileselect.set_input_type(EditorInputGui::IP_NONE);
   for (const auto& sector : m_level->m_sectors) {
     for (auto& tilemap : sector->get_objects_by_type<TileMap>()) {
       tilemap.set_tileset(m_tileset);
@@ -582,16 +579,13 @@ Editor::change_tileset()
 void
 Editor::select_objectgroup(int id)
 {
-  m_tileselect.m_active_objectgroup = id;
-  m_tileselect.m_input_type = EditorInputGui::IP_OBJECT;
-  m_tileselect.reset_pos();
-  m_tileselect.update_mouse_icon();
+  m_tileselect.select_objectgroup(id);
 }
 
 const std::vector<ObjectGroup>&
 Editor::get_objectgroups() const
 {
-  return m_tileselect.m_object_info->m_groups;
+  return m_tileselect.get_object_info().m_groups;
 }
 
 void
