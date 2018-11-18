@@ -55,12 +55,12 @@ EditorMenu::EditorMenu()
 
   add_entry(MNID_LEVELSETSEL, _("Choose another level subset"));
 
-  add_string_select(-1, _("Grid size"), &EditorInputCenter::selected_snap_grid_size, snap_grid_sizes);
+  add_string_select(-1, _("Grid size"), &EditorOverlayWidget::selected_snap_grid_size, snap_grid_sizes);
 
   add_toggle(-1, _("Render lighting (F6)"), &Compositor::s_render_lighting);
-  add_toggle(-1, _("Snap objects to grid (F7)"), &EditorInputCenter::snap_to_grid);
-  add_toggle(-1, _("Show grid (F8)"), &EditorInputCenter::render_grid);
-  add_toggle(-1, _("Render background"), &EditorInputCenter::render_background);
+  add_toggle(-1, _("Snap objects to grid (F7)"), &EditorOverlayWidget::snap_to_grid);
+  add_toggle(-1, _("Show grid (F8)"), &EditorOverlayWidget::render_grid);
+  add_toggle(-1, _("Render background"), &EditorOverlayWidget::render_background);
   add_toggle(-1, _("Show scroller (F9)"), &EditorScrollerWidget::rendered);
 
   add_submenu(worldmap ? _("Worldmap properties") : _("Level properties"),

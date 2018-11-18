@@ -191,7 +191,7 @@ Gradient::set_direction(const GradientDirection& direction)
 void
 Gradient::draw(DrawingContext& context)
 {
-  if (Editor::is_active() && !EditorInputCenter::render_background)
+  if (Editor::is_active() && !EditorOverlayWidget::render_background)
     return;
 
   Rectf gradient_region;

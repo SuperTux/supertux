@@ -14,8 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_EDITOR_INPUT_CENTER_HPP
-#define HEADER_SUPERTUX_EDITOR_INPUT_CENTER_HPP
+#ifndef HEADER_SUPERTUX_EDITOR_OVERLAY_WIDGET_HPP
+#define HEADER_SUPERTUX_EDITOR_OVERLAY_WIDGET_HPP
 
 #include <SDL.h>
 
@@ -33,7 +33,9 @@ class Path;
 class Rectf;
 class Tip;
 
-class EditorInputCenter final : public Widget
+/** A widget that is drawn on top of the current sector and handles
+    mouse input and tool drawing. */
+class EditorOverlayWidget final : public Widget
 {
 public:
   static bool render_background;
@@ -42,8 +44,8 @@ public:
   static int selected_snap_grid_size;
 
 public:
-  EditorInputCenter(Editor& editor);
-  virtual ~EditorInputCenter();
+  EditorOverlayWidget(Editor& editor);
+  virtual ~EditorOverlayWidget();
 
   virtual void draw(DrawingContext&) override;
   virtual void update(float dt_sec) override;
@@ -115,8 +117,8 @@ private:
   Vector m_obj_mouse_desync;
 
 private:
-  EditorInputCenter(const EditorInputCenter&) = delete;
-  EditorInputCenter& operator=(const EditorInputCenter&) = delete;
+  EditorOverlayWidget(const EditorOverlayWidget&) = delete;
+  EditorOverlayWidget& operator=(const EditorOverlayWidget&) = delete;
 };
 
 #endif

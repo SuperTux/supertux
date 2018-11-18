@@ -14,7 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "editor/input_center.hpp"
+#include "editor/overlay_widget.hpp"
 
 #include "editor/editor.hpp"
 #include "editor/node_marker.hpp"
@@ -39,12 +39,12 @@ namespace {
 
 } // namespace
 
-bool EditorInputCenter::render_background = true;
-bool EditorInputCenter::render_grid = true;
-bool EditorInputCenter::snap_to_grid = false;
-int EditorInputCenter::selected_snap_grid_size = 3;
+bool EditorOverlayWidget::render_background = true;
+bool EditorOverlayWidget::render_grid = true;
+bool EditorOverlayWidget::snap_to_grid = false;
+int EditorOverlayWidget::selected_snap_grid_size = 3;
 
-EditorInputCenter::EditorInputCenter(Editor& editor) :
+EditorOverlayWidget::EditorOverlayWidget(Editor& editor) :
   m_editor(editor),
   m_hovered_tile(0, 0),
   m_sector_pos(0, 0),
@@ -62,12 +62,12 @@ EditorInputCenter::EditorInputCenter(Editor& editor) :
 {
 }
 
-EditorInputCenter::~EditorInputCenter()
+EditorOverlayWidget::~EditorOverlayWidget()
 {
 }
 
 void
-EditorInputCenter::update(float dt_sec)
+EditorOverlayWidget::update(float dt_sec)
 {
   if (m_hovered_object && !m_hovered_object->is_valid()) {
     m_hovered_object = nullptr;
@@ -84,7 +84,7 @@ EditorInputCenter::update(float dt_sec)
 }
 
 void
-EditorInputCenter::delete_markers()
+EditorOverlayWidget::delete_markers()
 {
   auto* sector = m_editor.get_sector();
   for (auto& moving_object : sector->get_objects_by_type<MovingObject>()) {
@@ -99,7 +99,7 @@ EditorInputCenter::delete_markers()
 }
 
 Rectf
-EditorInputCenter::drag_rect()
+EditorOverlayWidget::drag_rect()
 {
   int start_x, start_y, end_x, end_y;
 
@@ -126,7 +126,7 @@ EditorInputCenter::drag_rect()
 }
 
 void
-EditorInputCenter::input_tile(const Vector& pos, uint32_t tile)
+EditorOverlayWidget::input_tile(const Vector& pos, uint32_t tile)
 {
   auto tilemap = dynamic_cast<TileMap*>(m_editor.get_selected_tilemap());
   if ( !tilemap ) {
@@ -144,7 +144,7 @@ EditorInputCenter::input_tile(const Vector& pos, uint32_t tile)
 }
 
 void
-EditorInputCenter::put_tile()
+EditorOverlayWidget::put_tile()
 {
   auto tiles = m_editor.get_tiles();
   Vector add_tile;
@@ -157,7 +157,7 @@ EditorInputCenter::put_tile()
 }
 
 void
-EditorInputCenter::draw_rectangle()
+EditorOverlayWidget::draw_rectangle()
 {
   Rectf dr = drag_rect();
   dr.p1 = sp_to_tp(dr.p1);
@@ -175,7 +175,7 @@ EditorInputCenter::draw_rectangle()
 }
 
 void
-EditorInputCenter::fill()
+EditorOverlayWidget::fill()
 {
   auto tiles = m_editor.get_tiles();
   auto tilemap = dynamic_cast<TileMap*>(m_editor.get_selected_tilemap());
@@ -265,7 +265,7 @@ EditorInputCenter::fill()
 }
 
 void
-EditorInputCenter::hover_object()
+EditorOverlayWidget::hover_object()
 {
   for (auto& moving_object : m_editor.get_sector()->get_objects_by_type<MovingObject>()) {
     auto pm = dynamic_cast<PointMarker*>(&moving_object);
@@ -289,7 +289,7 @@ EditorInputCenter::hover_object()
 }
 
 void
-EditorInputCenter::edit_path(Path* path, GameObject* new_marked_object) {
+EditorOverlayWidget::edit_path(Path* path, GameObject* new_marked_object) {
   if (!path) return;
   delete_markers();
 
@@ -305,7 +305,7 @@ EditorInputCenter::edit_path(Path* path, GameObject* new_marked_object) {
 }
 
 void
-EditorInputCenter::mark_object()
+EditorOverlayWidget::mark_object()
 {
   delete_markers();
   if (!m_dragged_object || !m_dragged_object->is_valid()) return;
@@ -324,7 +324,7 @@ EditorInputCenter::mark_object()
 }
 
 void
-EditorInputCenter::grab_object()
+EditorOverlayWidget::grab_object()
 {
   if (m_hovered_object) {
     if (!m_hovered_object->is_valid()) {
@@ -352,7 +352,7 @@ EditorInputCenter::grab_object()
 }
 
 void
-EditorInputCenter::clone_object()
+EditorOverlayWidget::clone_object()
 {
   if (m_hovered_object && m_hovered_object->is_saveable()) {
     if (!m_hovered_object->is_valid()) {
@@ -387,7 +387,7 @@ EditorInputCenter::clone_object()
 }
 
 void
-EditorInputCenter::set_object()
+EditorOverlayWidget::set_object()
 {
   if (m_hovered_object &&
       m_hovered_object->is_valid() &&
@@ -401,7 +401,7 @@ EditorInputCenter::set_object()
 }
 
 void
-EditorInputCenter::move_object()
+EditorOverlayWidget::move_object()
 {
   if (m_dragged_object) {
     if (!m_dragged_object->is_valid()) {
@@ -423,7 +423,7 @@ EditorInputCenter::move_object()
 }
 
 void
-EditorInputCenter::rubber_object()
+EditorOverlayWidget::rubber_object()
 {
   if (!m_edited_path) {
     delete_markers();
@@ -435,7 +435,7 @@ EditorInputCenter::rubber_object()
 }
 
 void
-EditorInputCenter::rubber_rect()
+EditorOverlayWidget::rubber_rect()
 {
   delete_markers();
   Rectf dr = drag_rect();
@@ -449,7 +449,7 @@ EditorInputCenter::rubber_rect()
 }
 
 void
-EditorInputCenter::update_node_iterators()
+EditorOverlayWidget::update_node_iterators()
 {
   if (!m_edited_path) return;
   if (!m_edited_path->is_valid()) return;
@@ -464,7 +464,7 @@ EditorInputCenter::update_node_iterators()
 }
 
 void
-EditorInputCenter::add_path_node()
+EditorOverlayWidget::add_path_node()
 {
   Path::Node new_node;
   new_node.position = m_sector_pos;
@@ -478,7 +478,7 @@ EditorInputCenter::add_path_node()
 }
 
 void
-EditorInputCenter::put_object()
+EditorOverlayWidget::put_object()
 {
   const std::string& obj = m_editor.get_tileselect_object();
   if (obj[0] == '#') {
@@ -528,7 +528,7 @@ EditorInputCenter::put_object()
 }
 
 void
-EditorInputCenter::process_left_click()
+EditorOverlayWidget::process_left_click()
 {
   m_dragging = true;
   m_dragging_right = false;
@@ -586,7 +586,7 @@ EditorInputCenter::process_left_click()
 }
 
 void
-EditorInputCenter::process_right_click()
+EditorOverlayWidget::process_right_click()
 {
   switch (m_editor.get_tileselect_input_type())
   {
@@ -608,7 +608,7 @@ EditorInputCenter::process_right_click()
 }
 
 Rectf
-EditorInputCenter::tile_drag_rect()
+EditorOverlayWidget::tile_drag_rect()
 {
   Rectf result = drag_rect();
 
@@ -624,7 +624,7 @@ EditorInputCenter::tile_drag_rect()
 }
 
 Rectf
-EditorInputCenter::selection_draw_rect()
+EditorOverlayWidget::selection_draw_rect()
 {
   Rectf select = tile_drag_rect();
   select.p1 = tile_screen_pos(select.p1);
@@ -633,7 +633,7 @@ EditorInputCenter::selection_draw_rect()
 }
 
 void
-EditorInputCenter::update_tile_selection()
+EditorOverlayWidget::update_tile_selection()
 {
   Rectf select = tile_drag_rect();
   auto tiles = m_editor.get_tiles();
@@ -660,14 +660,14 @@ EditorInputCenter::update_tile_selection()
 }
 
 bool
-EditorInputCenter::on_mouse_button_up(const SDL_MouseButtonEvent& button)
+EditorOverlayWidget::on_mouse_button_up(const SDL_MouseButtonEvent& button)
 {
   m_dragging = false;
   return true;
 }
 
 bool
-EditorInputCenter::on_mouse_button_down(const SDL_MouseButtonEvent& button)
+EditorOverlayWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
 {
   switch (button.button)
   {
@@ -685,7 +685,7 @@ EditorInputCenter::on_mouse_button_down(const SDL_MouseButtonEvent& button)
 }
 
 bool
-EditorInputCenter::on_mouse_motion(const SDL_MouseMotionEvent& motion)
+EditorOverlayWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
 {
   m_mouse_pos = VideoSystem::current()->get_viewport().to_logical(motion.x, motion.y);
   update_pos();
@@ -733,7 +733,7 @@ EditorInputCenter::on_mouse_motion(const SDL_MouseMotionEvent& motion)
 }
 
 bool
-EditorInputCenter::on_key_up(const SDL_KeyboardEvent& key)
+EditorOverlayWidget::on_key_up(const SDL_KeyboardEvent& key)
 {
   auto sym = key.keysym.sym;
   if (sym == SDLK_LSHIFT || sym == SDLK_RSHIFT)
@@ -744,7 +744,7 @@ EditorInputCenter::on_key_up(const SDL_KeyboardEvent& key)
 }
 
 bool
-EditorInputCenter::on_key_down(const SDL_KeyboardEvent& key)
+EditorOverlayWidget::on_key_down(const SDL_KeyboardEvent& key)
 {
   auto sym = key.keysym.sym;
   if (sym == SDLK_F8) {
@@ -757,7 +757,7 @@ EditorInputCenter::on_key_down(const SDL_KeyboardEvent& key)
 }
 
 void
-EditorInputCenter::update_pos()
+EditorOverlayWidget::update_pos()
 {
   m_sector_pos = m_mouse_pos + m_editor.get_sector()->get_camera().get_translation();
   m_hovered_tile = sp_to_tp(m_sector_pos);
@@ -766,7 +766,7 @@ EditorInputCenter::update_pos()
 }
 
 void
-EditorInputCenter::draw_tile_tip(DrawingContext& context)
+EditorOverlayWidget::draw_tile_tip(DrawingContext& context)
 {
   if ( m_editor.get_tileselect_input_type() == EditorToolboxWidget::IP_TILE ) {
 
@@ -804,7 +804,7 @@ EditorInputCenter::draw_tile_tip(DrawingContext& context)
 }
 
 void
-EditorInputCenter::draw_tile_grid(DrawingContext& context, const Color& line_color, int tile_size)
+EditorOverlayWidget::draw_tile_grid(DrawingContext& context, const Color& line_color, int tile_size)
 {
   if ( !m_editor.get_selected_tilemap() ) {
     return;
@@ -841,7 +841,7 @@ EditorInputCenter::draw_tile_grid(DrawingContext& context, const Color& line_col
 }
 
 void
-EditorInputCenter::draw_tilemap_border(DrawingContext& context)
+EditorOverlayWidget::draw_tilemap_border(DrawingContext& context)
 {
   if ( !m_editor.get_selected_tilemap() ) return;
 
@@ -858,7 +858,7 @@ EditorInputCenter::draw_tilemap_border(DrawingContext& context)
 }
 
 void
-EditorInputCenter::draw_path(DrawingContext& context)
+EditorOverlayWidget::draw_path(DrawingContext& context)
 {
   if (!m_edited_path) return;
   if (!m_marked_object) return;
@@ -887,7 +887,7 @@ EditorInputCenter::draw_path(DrawingContext& context)
 }
 
 void
-EditorInputCenter::draw(DrawingContext& context)
+EditorOverlayWidget::draw(DrawingContext& context)
 {
   draw_tile_tip(context);
   draw_path(context);
@@ -933,7 +933,7 @@ EditorInputCenter::draw(DrawingContext& context)
 }
 
 Vector
-EditorInputCenter::tp_to_sp(const Vector& tp, int tile_size)
+EditorOverlayWidget::tp_to_sp(const Vector& tp, int tile_size)
 {
   auto tilemap = dynamic_cast<TileMap*>(m_editor.get_selected_tilemap());
   if (!tilemap)
@@ -946,7 +946,7 @@ EditorInputCenter::tp_to_sp(const Vector& tp, int tile_size)
 }
 
 Vector
-EditorInputCenter::sp_to_tp(const Vector& sp, int tile_size)
+EditorOverlayWidget::sp_to_tp(const Vector& sp, int tile_size)
 {
   auto tilemap = dynamic_cast<TileMap*>(m_editor.get_selected_tilemap());
   if (!tilemap)
@@ -959,7 +959,7 @@ EditorInputCenter::sp_to_tp(const Vector& sp, int tile_size)
 }
 
 Vector
-EditorInputCenter::tile_screen_pos(const Vector& tp, int tile_size)
+EditorOverlayWidget::tile_screen_pos(const Vector& tp, int tile_size)
 {
   Vector sp = tp_to_sp(tp, tile_size);
   return sp - m_editor.get_sector()->get_camera().get_translation();

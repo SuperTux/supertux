@@ -19,7 +19,7 @@
 
 #include <string>
 
-#include "editor/input_center.hpp"
+#include "editor/overlay_widget.hpp"
 #include "editor/toolbox_widget.hpp"
 #include "editor/layers_widget.hpp"
 #include "editor/scroller_widget.hpp"
@@ -164,7 +164,7 @@ private:
 
   TileSet* m_tileset;
 
-  EditorInputCenter m_inputcenter;
+  EditorOverlayWidget m_inputcenter;
   EditorToolboxWidget m_tileselect;
   EditorLayersWidget m_layerselect;
   EditorScrollerWidget m_scroller;
