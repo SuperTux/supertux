@@ -100,7 +100,7 @@ EditorSectorsMenu::delete_sector()
     dialog->add_button(_("Delete sector"), [level] {
         MenuManager::instance().clear_menu_stack();
         for (auto i = level->m_sectors.begin(); i != level->m_sectors.end(); ++i) {
-          if ( i->get() == Editor::current()->currentsector ) {
+          if ( i->get() == Editor::current()->get_sector() ) {
             level->m_sectors.erase(i);
             break;
           }

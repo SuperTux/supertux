@@ -82,7 +82,7 @@ EditorInputCenter::update(float dt_sec)
 void
 EditorInputCenter::delete_markers()
 {
-  auto sector = m_editor.currentsector;
+  auto* sector = m_editor.get_sector();
   for (auto& moving_object : sector->get_objects_by_type<MovingObject>()) {
     auto marker = dynamic_cast<PointMarker*>(&moving_object);
     if (marker) {
@@ -263,7 +263,7 @@ EditorInputCenter::fill()
 void
 EditorInputCenter::hover_object()
 {
-  for (auto& moving_object : m_editor.currentsector->get_objects_by_type<MovingObject>()) {
+  for (auto& moving_object : m_editor.get_sector()->get_objects_by_type<MovingObject>()) {
     auto pm = dynamic_cast<PointMarker*>(&moving_object);
     if (!moving_object.is_saveable() && !pm) {
       continue;
@@ -370,7 +370,7 @@ EditorInputCenter::clone_object()
       return;
     }
 
-    GameObject& game_object = m_editor.currentsector->add_object(std::move(game_object_uptr));
+    GameObject& game_object = m_editor.get_sector()->add_object(std::move(game_object_uptr));
 
     m_dragged_object = dynamic_cast<MovingObject*>(&game_object);
     ObjectSettings settings = m_hovered_object->get_settings();
@@ -435,7 +435,7 @@ EditorInputCenter::rubber_rect()
 {
   delete_markers();
   Rectf dr = drag_rect();
-  for (auto& moving_object : m_editor.currentsector->get_objects_by_type<MovingObject>()) {
+  for (auto& moving_object : m_editor.get_sector()->get_objects_by_type<MovingObject>()) {
     Rectf bbox = moving_object.get_bbox();
     if (dr.contains(bbox)) {
       moving_object.editor_delete();
@@ -450,7 +450,7 @@ EditorInputCenter::update_node_iterators()
   if (!m_edited_path) return;
   if (!m_edited_path->is_valid()) return;
 
-  auto sector = m_editor.currentsector;
+  auto* sector = m_editor.get_sector();
   for (auto& moving_object : sector->get_objects_by_type<MovingObject>()) {
     auto marker = dynamic_cast<NodeMarker*>(&moving_object);
     if (marker) {
@@ -469,7 +469,7 @@ EditorInputCenter::add_path_node()
   Sector::get().add<NodeMarker>(m_edited_path, m_edited_path->m_nodes.end() - 1, m_edited_path->m_nodes.size() - 1);
   //last_node_marker = dynamic_cast<NodeMarker*>(marker.get());
   update_node_iterators();
-  m_editor.currentsector->update(0);
+  m_editor.get_sector()->update(0);
   grab_object();
 }
 
@@ -516,7 +516,7 @@ EditorInputCenter::put_object()
   }
 
   try {
-    m_editor.currentsector->add_object(std::move(game_object));
+    m_editor.get_sector()->add_object(std::move(game_object));
   } catch(const std::exception& e) {
     log_warning << "Error adding object " << obj << ": " << e.what() << std::endl;
     return;
@@ -773,7 +773,7 @@ EditorInputCenter::on_key_down(const SDL_KeyboardEvent& key)
 void
 EditorInputCenter::update_pos()
 {
-  m_sector_pos = m_mouse_pos + m_editor.currentsector->get_camera().get_translation();
+  m_sector_pos = m_mouse_pos + m_editor.get_sector()->get_camera().get_translation();
   m_hovered_tile = sp_to_tp(m_sector_pos);
   // update tip
   hover_object();
@@ -805,11 +805,11 @@ EditorInputCenter::draw_tile_tip(DrawingContext& context)
         }
         uint32_t tile_id = tiles->pos(static_cast<int>(drawn_tile.x), static_cast<int>(drawn_tile.y));
         draw_tile(context.color(), *m_editor.get_tileset(), tile_id,
-                  tp_to_sp(on_tile) - m_editor.currentsector->get_camera().get_translation(),
+                  tp_to_sp(on_tile) - m_editor.get_sector()->get_camera().get_translation(),
                   LAYER_GUI-11, Color(1, 1, 1, 0.5));
         /*if (tile_id) {
           const Tile* tg_tile = m_editor.get_tileset()->get( tile_id );
-          tg_tile->draw(context.color(), tp_to_sp(on_tile) - m_editor.currentsector->camera->get_translation(),
+          tg_tile->draw(context.color(), tp_to_sp(on_tile) - m_editor.get_sector()->camera->get_translation(),
                         LAYER_GUI-11, Color(1, 1, 1, 0.5));
         }*/
       }
@@ -829,7 +829,7 @@ EditorInputCenter::draw_tile_grid(DrawingContext& context, const Color& line_col
     return;
   int tm_width = current_tm->get_width() * (32 / tile_size);
   int tm_height = current_tm->get_height() * (32 / tile_size);
-  auto cam_translation = m_editor.currentsector->get_camera().get_translation();
+  auto cam_translation = m_editor.get_sector()->get_camera().get_translation();
   Rectf draw_rect = Rectf(cam_translation, cam_translation +
                           Vector(static_cast<float>(context.get_width()),
                                  static_cast<float>(context.get_height())));
@@ -893,7 +893,7 @@ EditorInputCenter::draw_path(DrawingContext& context)
     } else {
       node2 = &(*j);
     }
-    auto cam_translation = m_editor.currentsector->get_camera().get_translation();
+    auto cam_translation = m_editor.get_sector()->get_camera().get_translation();
     context.color().draw_line(node1->position - cam_translation,
                               node2->position - cam_translation,
                               Color(1, 0, 0), LAYER_GUI - 21);
@@ -922,7 +922,7 @@ EditorInputCenter::draw(DrawingContext& context)
   if (m_dragging && m_editor.get_tileselect_select_mode() == 1
       && !m_dragging_right) {
     // Draw selection rectangle...
-    auto cam_translation = m_editor.currentsector->get_camera().get_translation();
+    auto cam_translation = m_editor.get_sector()->get_camera().get_translation();
     Vector p0 = m_drag_start - cam_translation;
     Vector p1 = Vector(m_drag_start.x, m_sector_pos.y) - cam_translation;
     Vector p2 = Vector(m_sector_pos.x, m_drag_start.y) - cam_translation;
@@ -976,7 +976,7 @@ Vector
 EditorInputCenter::tile_screen_pos(const Vector& tp, int tile_size)
 {
   Vector sp = tp_to_sp(tp, tile_size);
-  return sp - m_editor.currentsector->get_camera().get_translation();
+  return sp - m_editor.get_sector()->get_camera().get_translation();
 }
 
 /* EOF */

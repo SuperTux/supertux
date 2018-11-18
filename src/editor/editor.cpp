@@ -81,7 +81,7 @@ Editor::Editor() :
   save_request(false),
   test_request(false),
   m_savegame(),
-  currentsector(),
+  m_sector(),
   levelloaded(false),
   leveltested(false),
   tileset(nullptr),
@@ -100,7 +100,7 @@ Editor::draw(Compositor& compositor)
   auto& context = compositor.make_context();
 
   if (levelloaded) {
-    currentsector->draw(context);
+    m_sector->draw(context);
     context.color().draw_filled_rect(Rectf(Vector(0, 0), Vector(static_cast<float>(context.get_width()),
                                                                 static_cast<float>(context.get_height()))),
                                      Color(0.0f, 0.0f, 0.0f),
@@ -160,7 +160,7 @@ Editor::update(float dt_sec, const Controller& controller)
 
   // update other stuff
   if (is_active()) {
-    currentsector->update(0);
+    m_sector->update(0);
     tileselect.update(dt_sec);
     layerselect.update(dt_sec);
     inputcenter.update(dt_sec);
@@ -266,19 +266,19 @@ Editor::get_tileselect_move_mode() const
 bool
 Editor::can_scroll_vert() const
 {
-  return levelloaded && (currentsector->get_height() + 32 > static_cast<float>(SCREEN_HEIGHT));
+  return levelloaded && (m_sector->get_height() + 32 > static_cast<float>(SCREEN_HEIGHT));
 }
 
 bool
 Editor::can_scroll_horz() const
 {
-  return levelloaded && (currentsector->get_width() + 128 > static_cast<float>(SCREEN_WIDTH));
+  return levelloaded && (m_sector->get_width() + 128 > static_cast<float>(SCREEN_WIDTH));
 }
 
 void
 Editor::scroll_left(float speed)
 {
-  Camera& camera = currentsector->get_camera();
+  Camera& camera = m_sector->get_camera();
   if (can_scroll_horz()) {
     if (camera.get_translation().x >= speed*32) {
       camera.move(static_cast<int>(-32 * speed), 0);
@@ -293,14 +293,14 @@ Editor::scroll_left(float speed)
 void
 Editor::scroll_right(float speed)
 {
-  Camera& camera = currentsector->get_camera();
+  Camera& camera = m_sector->get_camera();
   if (can_scroll_horz()) {
-    if (camera.get_translation().x <= currentsector->get_width() - static_cast<float>(SCREEN_WIDTH) + 128.0f - 32.0f * speed) {
+    if (camera.get_translation().x <= m_sector->get_width() - static_cast<float>(SCREEN_WIDTH) + 128.0f - 32.0f * speed) {
       camera.move(static_cast<int>(32 * speed), 0);
     } else {
       //When is the camera less than one tile after the right limit, it puts the camera to the limit.
       // The limit is shifted 128 pixels to the right due to the input gui.
-      camera.move(static_cast<int>(currentsector->get_width() - camera.get_translation().x - static_cast<float>(SCREEN_WIDTH) + 128.0f), 0);
+      camera.move(static_cast<int>(m_sector->get_width() - camera.get_translation().x - static_cast<float>(SCREEN_WIDTH) + 128.0f), 0);
     }
     inputcenter.update_pos();
   }
@@ -309,7 +309,7 @@ Editor::scroll_right(float speed)
 void
 Editor::scroll_up(float speed)
 {
-  Camera& camera = currentsector->get_camera();
+  Camera& camera = m_sector->get_camera();
   if (can_scroll_vert()) {
     if (camera.get_translation().y >= speed*32) {
       camera.move(0, static_cast<int>(-32 * speed));
@@ -324,14 +324,14 @@ Editor::scroll_up(float speed)
 void
 Editor::scroll_down(float speed)
 {
-  Camera& camera = currentsector->get_camera();
+  Camera& camera = m_sector->get_camera();
   if (can_scroll_vert()) {
-    if (camera.get_translation().y <= currentsector->get_height() - static_cast<float>(SCREEN_HEIGHT) - 32.0f * speed) {
+    if (camera.get_translation().y <= m_sector->get_height() - static_cast<float>(SCREEN_HEIGHT) - 32.0f * speed) {
       camera.move(0, static_cast<int>(32 * speed));
     } else {
       //When is the camera less than one tile after the bottom limit, it puts the camera to the limit.
       // The limit is shifted 32 pixels to the bottom due to the layer toolbar.
-      camera.move(0, static_cast<int>(currentsector->get_height() - camera.get_translation().y - static_cast<float>(SCREEN_HEIGHT) + 32.0f));
+      camera.move(0, static_cast<int>(m_sector->get_height() - camera.get_translation().y - static_cast<float>(SCREEN_HEIGHT) + 32.0f));
     }
     inputcenter.update_pos();
   }
@@ -381,7 +381,7 @@ Editor::load_layers()
   layerselect.m_layer_icons.clear();
 
   bool tsel = false;
-  for (auto& i : currentsector->get_objects()) {
+  for (auto& i : m_sector->get_objects()) {
     auto go = i.get();
     auto mo = dynamic_cast<MovingObject*>(go);
     if ( !mo && go->is_saveable() ) {
@@ -407,20 +407,20 @@ Editor::load_layers()
 void
 Editor::load_sector(const std::string& name)
 {
-  currentsector = level->get_sector(name);
-  if (!currentsector) {
+  m_sector = level->get_sector(name);
+  if (!m_sector) {
     size_t i = 0;
-    currentsector = level->get_sector(i);
+    m_sector = level->get_sector(i);
   }
-  currentsector->activate("main");
+  m_sector->activate("main");
   load_layers();
 }
 
 void
 Editor::load_sector(size_t id)
 {
-  currentsector = level->get_sector(id);
-  currentsector->activate("main");
+  m_sector = level->get_sector(id);
+  m_sector->activate("main");
   load_layers();
 }
 
@@ -441,8 +441,8 @@ Editor::reload_level()
 
   tileset = TileManager::current()->get_tileset(level->get_tileset());
   load_sector("main");
-  currentsector->activate("main");
-  currentsector->get_camera().set_mode(Camera::MANUAL);
+  m_sector->activate("main");
+  m_sector->get_camera().set_mode(Camera::MANUAL);
   layerselect.refresh_sector_text();
   tileselect.update_mouse_icon();
 }
@@ -521,7 +521,7 @@ Editor::setup()
     leveltested = false;
     Tile::draw_editor_images = true;
     level->reactivate();
-    currentsector->activate(currentsector->get_player().get_pos());
+    m_sector->activate(m_sector->get_player().get_pos());
     MenuManager::instance().clear_menu_stack();
     SoundManager::current()->stop_music();
     deactivate_request = false;
@@ -547,7 +547,7 @@ Editor::event(const SDL_Event& ev)
       Compositor::s_render_lighting = !Compositor::s_render_lighting;
     }
 
-    BIND_SECTOR(*currentsector);
+    BIND_SECTOR(*m_sector);
 
     if ( tileselect.event(ev) ) {
       return;

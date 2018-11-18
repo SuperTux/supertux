@@ -23,7 +23,7 @@
 #include "util/gettext.hpp"
 
 EditorSectorMenu::EditorSectorMenu() :
-  sector(Editor::current()->currentsector),
+  sector(Editor::current()->get_sector()),
   original_name(sector->get_name()),
   size(sector->get_editor_size()),
   new_size(size),

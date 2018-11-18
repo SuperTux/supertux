@@ -125,6 +125,8 @@ public:
 
   GameObject* get_selected_tilemap() const { return layerselect.m_selected_tilemap; }
 
+  Sector* get_sector() { return m_sector; }
+
 private:
   void reload_level();
   void load_layers();
@@ -155,9 +157,9 @@ public:
 
   std::unique_ptr<Savegame> m_savegame;
 
-  Sector* currentsector;
-
 private:
+  Sector* m_sector;
+
   bool levelloaded;
   bool leveltested;
 
