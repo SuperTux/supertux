@@ -76,7 +76,7 @@ private:
   void move_object();
   void clone_object();
   void hover_object();
-  void set_object();
+  void show_object_menu(GameObject& object);
   void mark_object();
   void add_path_node();
 
@@ -109,10 +109,12 @@ private:
   bool m_dragging_right;
   Vector m_drag_start;
   MovingObject* m_dragged_object;
+
   MovingObject* m_hovered_object;
   GameObject* m_marked_object;
   Path* m_edited_path;
   NodeMarker* m_last_node_marker;
+
   std::unique_ptr<Tip> m_object_tip;
   Vector m_obj_mouse_desync;
 

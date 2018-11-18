@@ -333,6 +333,7 @@ EditorOverlayWidget::grab_object()
     }
 
     m_dragged_object = m_hovered_object;
+
     auto pm = dynamic_cast<PointMarker*>(m_hovered_object);
     m_obj_mouse_desync = m_sector_pos - m_hovered_object->get_pos();
     // marker testing
@@ -387,17 +388,11 @@ EditorOverlayWidget::clone_object()
 }
 
 void
-EditorOverlayWidget::set_object()
+EditorOverlayWidget::show_object_menu(GameObject& object)
 {
-  if (m_hovered_object &&
-      m_hovered_object->is_valid() &&
-      m_hovered_object->is_saveable())
-  {
-    auto om = std::make_unique<ObjectMenu>(m_editor, m_hovered_object);
-    m_editor.m_deactivate_request = true;
-    MenuManager::instance().push_menu(std::move(om));
-    return;
-  }
+  auto menu = std::make_unique<ObjectMenu>(m_editor, &object);
+  m_editor.m_deactivate_request = true;
+  MenuManager::instance().push_menu(std::move(menu));
 }
 
 void
@@ -599,7 +594,12 @@ EditorOverlayWidget::process_right_click()
 
     case EditorToolboxWidget::IP_NONE:
     case EditorToolboxWidget::IP_OBJECT:
-      set_object();
+      if (m_hovered_object &&
+          m_hovered_object->is_valid() &&
+          m_hovered_object->is_saveable())
+      {
+        show_object_menu(*m_hovered_object);
+      }
       break;
 
     default:
