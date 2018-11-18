@@ -104,7 +104,7 @@ EditorScroller::update(float dt_sec)
 }
 
 bool
-EditorScroller::event(SDL_Event& ev)
+EditorScroller::event(const SDL_Event& ev)
 {
   switch (ev.type) {
     case SDL_MOUSEBUTTONDOWN:

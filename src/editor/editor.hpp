@@ -54,7 +54,7 @@ public:
   virtual void setup() override;
   virtual void leave() override;
 
-  void event(SDL_Event& ev);
+  void event(const SDL_Event& ev);
   void resize();
 
   void disable_keyboard() { enabled = false; }

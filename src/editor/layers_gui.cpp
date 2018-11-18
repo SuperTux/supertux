@@ -127,7 +127,7 @@ EditorLayersGui::update(float dt_sec)
 }
 
 bool
-EditorLayersGui::event(SDL_Event& ev)
+EditorLayersGui::event(const SDL_Event& ev)
 {
   switch (ev.type)
   {

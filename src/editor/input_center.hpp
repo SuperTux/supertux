@@ -41,7 +41,7 @@ public:
 public:
   EditorInputCenter(Editor& editor);
 
-  void event(SDL_Event& ev);
+  void event(const SDL_Event& ev);
   void draw(DrawingContext&);
   void update(float dt_sec);
 

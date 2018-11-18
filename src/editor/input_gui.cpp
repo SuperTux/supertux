@@ -245,7 +245,7 @@ EditorInputGui::update_selection()
 }
 
 bool
-EditorInputGui::event(SDL_Event& ev)
+EditorInputGui::event(const SDL_Event& ev)
 {
   switch (ev.type) {
     case SDL_MOUSEBUTTONDOWN:

@@ -540,7 +540,7 @@ Editor::resize()
 }
 
 void
-Editor::event(SDL_Event& ev)
+Editor::event(const SDL_Event& ev)
 {
   if (enabled) {
     if (ev.type == SDL_KEYDOWN && ev.key.keysym.sym == SDLK_F6) {

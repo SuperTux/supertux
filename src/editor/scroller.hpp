@@ -33,7 +33,7 @@ public:
 
   void draw(DrawingContext&);
   void update(float dt_sec);
-  bool event(SDL_Event& ev);
+  bool event(const SDL_Event& ev);
 
 public:
   void draw_arrow(DrawingContext&, const Vector& pos);
