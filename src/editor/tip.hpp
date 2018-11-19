@@ -27,7 +27,7 @@ class Vector;
 class Tip final
 {
 public:
-  Tip(GameObject* object);
+  Tip(GameObject& object);
 
   void draw(DrawingContext& context, const Vector& pos);
   void draw_up(DrawingContext& context, const Vector& pos);

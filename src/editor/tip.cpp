@@ -22,25 +22,19 @@
 #include "util/log.hpp"
 #include "video/drawing_context.hpp"
 
-Tip::Tip(GameObject* object) :
+Tip::Tip(GameObject& object) :
   m_strings(),
   m_header()
 {
-  if (!object) {
-    log_warning << "Editor/Tip: Given object doesn't exist." << std::endl;
-    return;
-  }
-
-  auto os = object->get_settings();
+  auto os = object.get_settings();
   m_header = os.get_name();
 
   for (const auto& oo : os.get_options()) {
     if (oo.m_type != MN_REMOVE && (oo.m_flags & OPTION_VISIBLE)) {
       auto value = oo.to_string();
-      if (value.empty()) {
-        continue;
+      if (!value.empty()) {
+        m_strings.push_back(oo.m_text + ": " + value);
       }
-      m_strings.push_back(oo.m_text + ": " + value);
     }
   }
 }

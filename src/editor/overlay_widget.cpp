@@ -275,8 +275,7 @@ EditorOverlayWidget::hover_object()
     if (bbox.contains(m_sector_pos)) {
       if (&moving_object != m_hovered_object) {
         if (moving_object.is_saveable()) {
-          auto new_tip = std::make_unique<Tip>(&moving_object);
-          m_object_tip = std::move(new_tip);
+          m_object_tip = std::make_unique<Tip>(moving_object);
         }
         m_hovered_object = &moving_object;
       }
