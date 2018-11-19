@@ -161,15 +161,19 @@ GameObjectManager::flush_game_objects()
   }
 
   { // add newly created objects
-    for (auto& object : m_gameobjects_new)
-    {
-      if (before_object_add(*object))
+    // Objects might add new objects in finish_construction(), so we
+    // loop until no new objects show up.
+    while (!m_gameobjects_new.empty()) {
+      auto new_objects = std::move(m_gameobjects_new);
+      for (auto& object : new_objects)
       {
-        this_before_object_add(*object);
-        m_gameobjects.push_back(std::move(object));
+        if (before_object_add(*object))
+        {
+          this_before_object_add(*object);
+          m_gameobjects.push_back(std::move(object));
+        }
       }
     }
-    m_gameobjects_new.clear();
   }
 
   { // update solid_tilemaps list
