@@ -166,6 +166,8 @@ private:
 
   std::string m_name;
 
+  bool m_fully_constructed;
+
   std::string m_init_script;
 
   int m_foremost_layer;

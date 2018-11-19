@@ -60,6 +60,7 @@ Sector* Sector::s_current = nullptr;
 Sector::Sector(Level& parent) :
   m_level(parent),
   m_name(),
+  m_fully_constructed(false),
   m_init_script(),
   m_foremost_layer(),
   m_squirrel_environment(new SquirrelEnvironment(SquirrelVirtualMachine::current()->get_vm(), "sector")),
@@ -135,6 +136,8 @@ Sector::finish_construction()
   }
 
   flush_game_objects();
+
+  m_fully_constructed = true;
 }
 
 Level&
@@ -296,6 +299,8 @@ Sector::get_foremost_layer() const
 void
 Sector::update(float dt_sec)
 {
+  assert(m_fully_constructed);
+
   BIND_SECTOR(*this);
 
   m_squirrel_environment->update(dt_sec);
@@ -328,6 +333,12 @@ Sector::before_object_add(GameObject& object)
 
   if (s_current == this) {
     m_squirrel_environment->try_expose(object);
+  }
+
+  if (m_fully_constructed) {
+    // if the sector is already fully constructed, finish the object
+    // constructions, as there should be no more named references to resolve
+    object.finish_construction();
   }
 
   return true;
