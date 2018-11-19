@@ -514,25 +514,32 @@ Editor::resize()
 void
 Editor::event(const SDL_Event& ev)
 {
-  if (m_enabled) {
-    if (ev.type == SDL_KEYDOWN && ev.key.keysym.sym == SDLK_F6) {
-      Compositor::s_render_lighting = !Compositor::s_render_lighting;
-    }
+  try
+  {
+    if (m_enabled) {
+      if (ev.type == SDL_KEYDOWN && ev.key.keysym.sym == SDLK_F6) {
+        Compositor::s_render_lighting = !Compositor::s_render_lighting;
+      }
 
-    BIND_SECTOR(*m_sector);
+      BIND_SECTOR(*m_sector);
 
-    if ( m_toolbox_widget.event(ev) ) {
-      return;
-    }
+      if ( m_toolbox_widget.event(ev) ) {
+        return;
+      }
 
-    if ( m_layers_widget.event(ev) ) {
-      return;
-    }
+      if ( m_layers_widget.event(ev) ) {
+        return;
+      }
 
-    if ( m_scroller_widget.event(ev) ) {
-      return;
+      if ( m_scroller_widget.event(ev) ) {
+        return;
+      }
+      m_overlay_widget.event(ev);
     }
-    m_overlay_widget.event(ev);
+  }
+  catch(const std::exception& err)
+  {
+    log_warning << "error while processing Editor::event(): " << err.what() << std::endl;
   }
 }
 

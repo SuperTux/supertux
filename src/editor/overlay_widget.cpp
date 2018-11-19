@@ -371,13 +371,7 @@ EditorOverlayWidget::clone_object()
     {
       m_obj_mouse_desync = m_sector_pos - m_hovered_object->get_pos();
 
-      std::unique_ptr<GameObject> game_object_uptr;
-      try {
-        game_object_uptr = GameObjectFactory::instance().create(m_hovered_object->get_class(), m_hovered_object->get_pos());
-      } catch(const std::exception& e) {
-        log_warning << "Error creating object " << m_hovered_object->get_class() << ": " << e.what() << std::endl;
-        return;
-      }
+      auto game_object_uptr = GameObjectFactory::instance().create(m_hovered_object->get_class(), m_hovered_object->get_pos());
 
       GameObject& game_object = m_editor.get_sector()->add_object(std::move(game_object_uptr));
 
@@ -482,10 +476,10 @@ EditorOverlayWidget::add_path_node()
 void
 EditorOverlayWidget::put_object()
 {
-  const std::string& obj = m_editor.get_tileselect_object();
-  if (obj[0] == '#')
+  const std::string& object_class = m_editor.get_tileselect_object();
+  if (object_class[0] == '#')
   {
-    if (m_edited_path && obj == "#node") {
+    if (m_edited_path && object_class == "#node") {
       if (m_edited_path->is_valid() && m_last_node_marker) {
         add_path_node();
       }
@@ -500,25 +494,22 @@ EditorOverlayWidget::put_object()
       target_pos = (m_sector_pos / static_cast<float>(snap_grid_size)).to_int_vec() * static_cast<float>(snap_grid_size);
     }
 
-    std::unique_ptr<GameObject> game_object = GameObjectFactory::instance().create(obj, target_pos, LEFT);
+    auto object = GameObjectFactory::instance().create(object_class, target_pos, LEFT);
 
-    if (game_object == nullptr)
-      throw std::runtime_error("Creating " + obj + " object failed.");
-
-    auto* mo = dynamic_cast<MovingObject*> (game_object.get());
+    auto* mo = dynamic_cast<MovingObject*> (object.get());
     if (!mo) {
-      m_editor.add_layer(game_object.get());
+      m_editor.add_layer(object.get());
     } else if (!snap_to_grid) {
       auto bbox = mo->get_bbox();
       mo->move_to(mo->get_pos() - Vector(bbox.get_width() / 2, bbox.get_height() / 2));
     }
 
-    auto* wo = dynamic_cast<worldmap_editor::WorldmapObject*>(game_object.get());
+    auto* wo = dynamic_cast<worldmap_editor::WorldmapObject*>(object.get());
     if (wo) {
       wo->move_to(wo->get_pos() / 32);
     }
 
-    m_editor.get_sector()->add_object(std::move(game_object));
+    m_editor.get_sector()->add_object(std::move(object));
   }
 }
 

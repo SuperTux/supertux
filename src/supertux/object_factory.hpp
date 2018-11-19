@@ -37,6 +37,7 @@ private:
   Factories factories;
 
 public:
+  /** Will throw in case of creation failure, will never return nullptr */
   std::unique_ptr<GameObject> create(const std::string& name, const ReaderMapping& reader) const;
 
 protected:
