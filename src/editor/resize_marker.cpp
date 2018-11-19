@@ -16,9 +16,9 @@
 
 #include <algorithm>
 
-#include "editor/resizer.hpp"
+#include "editor/resize_marker.hpp"
 
-Resizer::Resizer(Rectf* rect, Side vert, Side horz) :
+ResizeMarker::ResizeMarker(Rectf* rect, Side vert, Side horz) :
   m_rect(rect),
   m_vert(vert),
   m_horz(horz)
@@ -27,13 +27,13 @@ Resizer::Resizer(Rectf* rect, Side vert, Side horz) :
 }
 
 void
-Resizer::update(float dt_sec)
+ResizeMarker::update(float dt_sec)
 {
   refresh_pos();
 }
 
 void
-Resizer::refresh_pos()
+ResizeMarker::refresh_pos()
 {
   Vector new_pos;
   switch (m_vert) {
@@ -64,7 +64,7 @@ Resizer::refresh_pos()
 }
 
 void
-Resizer::move_to(const Vector& pos)
+ResizeMarker::move_to(const Vector& pos)
 {
   switch (m_vert) {
     case NONE:
@@ -92,7 +92,7 @@ Resizer::move_to(const Vector& pos)
 }
 
 Vector
-Resizer::get_point_vector() const
+ResizeMarker::get_point_vector() const
 {
   Vector result;
 
@@ -124,7 +124,7 @@ Resizer::get_point_vector() const
 }
 
 Vector
-Resizer::get_offset() const
+ResizeMarker::get_offset() const
 {
   return Vector((m_horz == LEFT_UP) ? 16 : 0, (m_vert == LEFT_UP) ? 16 : 0);
 }

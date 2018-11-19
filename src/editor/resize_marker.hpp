@@ -14,12 +14,13 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_EDITOR_RESIZER_HPP
-#define HEADER_SUPERTUX_EDITOR_RESIZER_HPP
+
+#ifndef HEADER_SUPERTUX_EDITOR_RESIZE_MARKER_HPP
+#define HEADER_SUPERTUX_EDITOR_RESIZE_MARKER_HPP
 
 #include "editor/point_marker.hpp"
 
-class Resizer : public PointMarker
+class ResizeMarker : public PointMarker
 {
 public:
   enum Side {
@@ -29,7 +30,7 @@ public:
   };
 
 public:
-  Resizer(Rectf* rect, Side vert, Side horz);
+  ResizeMarker(Rectf* rect, Side vert, Side horz);
 
   virtual void update(float dt_sec) override;
   virtual void move_to(const Vector& pos) override;
@@ -46,8 +47,8 @@ private:
   Side m_horz;
 
 private:
-  Resizer(const Resizer&) = delete;
-  Resizer& operator=(const Resizer&) = delete;
+  ResizeMarker(const ResizeMarker&) = delete;
+  ResizeMarker& operator=(const ResizeMarker&) = delete;
 };
 
 #endif

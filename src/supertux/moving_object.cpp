@@ -16,7 +16,7 @@
 
 #include "supertux/moving_object.hpp"
 
-#include "editor/resizer.hpp"
+#include "editor/resize_marker.hpp"
 #include "supertux/sector.hpp"
 #include "util/writer.hpp"
 
@@ -49,14 +49,14 @@ MovingObject::edit_bbox() {
     return;
   }
 
-  Sector::get().add<Resizer>(&m_col.m_bbox, Resizer::LEFT_UP, Resizer::LEFT_UP);
-  Sector::get().add<Resizer>(&m_col.m_bbox, Resizer::LEFT_UP, Resizer::NONE);
-  Sector::get().add<Resizer>(&m_col.m_bbox, Resizer::LEFT_UP, Resizer::RIGHT_DOWN);
-  Sector::get().add<Resizer>(&m_col.m_bbox, Resizer::NONE, Resizer::LEFT_UP);
-  Sector::get().add<Resizer>(&m_col.m_bbox, Resizer::NONE, Resizer::RIGHT_DOWN);
-  Sector::get().add<Resizer>(&m_col.m_bbox, Resizer::RIGHT_DOWN, Resizer::LEFT_UP);
-  Sector::get().add<Resizer>(&m_col.m_bbox, Resizer::RIGHT_DOWN, Resizer::NONE);
-  Sector::get().add<Resizer>(&m_col.m_bbox, Resizer::RIGHT_DOWN, Resizer::RIGHT_DOWN);
+  Sector::get().add<ResizeMarker>(&m_col.m_bbox, ResizeMarker::LEFT_UP, ResizeMarker::LEFT_UP);
+  Sector::get().add<ResizeMarker>(&m_col.m_bbox, ResizeMarker::LEFT_UP, ResizeMarker::NONE);
+  Sector::get().add<ResizeMarker>(&m_col.m_bbox, ResizeMarker::LEFT_UP, ResizeMarker::RIGHT_DOWN);
+  Sector::get().add<ResizeMarker>(&m_col.m_bbox, ResizeMarker::NONE, ResizeMarker::LEFT_UP);
+  Sector::get().add<ResizeMarker>(&m_col.m_bbox, ResizeMarker::NONE, ResizeMarker::RIGHT_DOWN);
+  Sector::get().add<ResizeMarker>(&m_col.m_bbox, ResizeMarker::RIGHT_DOWN, ResizeMarker::LEFT_UP);
+  Sector::get().add<ResizeMarker>(&m_col.m_bbox, ResizeMarker::RIGHT_DOWN, ResizeMarker::NONE);
+  Sector::get().add<ResizeMarker>(&m_col.m_bbox, ResizeMarker::RIGHT_DOWN, ResizeMarker::RIGHT_DOWN);
 }
 
 /* EOF */
