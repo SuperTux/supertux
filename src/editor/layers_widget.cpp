@@ -301,7 +301,7 @@ EditorLayersWidget::update_tip()
     m_object_tip = nullptr;
     return;
   }
-  m_object_tip = std::make_unique<Tip>(m_layer_icons[m_hovered_layer]->get_layer());
+  m_object_tip = std::make_unique<Tip>(*m_layer_icons[m_hovered_layer]->get_layer());
 }
 
 Vector
