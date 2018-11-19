@@ -40,21 +40,19 @@ public:
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
 
-  Path& get_path() { return *m_path; }
-
   virtual void save(Writer& writer) override;
 
-  virtual std::string get_class() const override {
-    return "path";
-  }
-
-  virtual std::string get_display_name() const override {
-    return _("Path");
-  }
+  virtual std::string get_class() const override { return "path"; }
+  virtual std::string get_display_name() const override { return _("Path"); }
 
   virtual const std::string get_icon_path() const override {
     return "images/engine/editor/path.png";
   }
+
+  virtual void editor_select() override;
+  virtual void editor_deselect() override;
+
+  Path& get_path() { return *m_path; }
 
 private:
   std::unique_ptr<Path> m_path;

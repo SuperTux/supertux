@@ -163,4 +163,16 @@ PathGameObject::save(Writer& writer)
   m_path->save(writer);
 }
 
+void
+PathGameObject::editor_select()
+{
+  log_fatal << "PathGameObject::selected" << std::endl;
+}
+
+void
+PathGameObject::editor_deselect()
+{
+  log_fatal << "PathGameObject::deselected" << std::endl;
+}
+
 /* EOF */
