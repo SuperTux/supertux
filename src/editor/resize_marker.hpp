@@ -18,9 +18,9 @@
 #ifndef HEADER_SUPERTUX_EDITOR_RESIZE_MARKER_HPP
 #define HEADER_SUPERTUX_EDITOR_RESIZE_MARKER_HPP
 
-#include "editor/point_marker.hpp"
+#include "editor/marker_object.hpp"
 
-class ResizeMarker : public PointMarker
+class ResizeMarker : public MarkerObject
 {
 public:
   enum Side {

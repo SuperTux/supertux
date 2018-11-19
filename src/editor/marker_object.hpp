@@ -14,18 +14,18 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_EDITOR_POINT_MARKER_HPP
-#define HEADER_SUPERTUX_EDITOR_POINT_MARKER_HPP
+#ifndef HEADER_SUPERTUX_EDITOR_MARKER_OBJECT_HPP
+#define HEADER_SUPERTUX_EDITOR_MARKER_OBJECT_HPP
 
 #include "supertux/moving_object.hpp"
 
 class DrawingContext;
 
-class PointMarker : public MovingObject
+class MarkerObject : public MovingObject
 {
 public:
-  PointMarker(const Vector& pos);
-  PointMarker();
+  MarkerObject(const Vector& pos);
+  MarkerObject();
 
   virtual void update(float dt_sec) override {
     //No updates needed
@@ -45,8 +45,8 @@ public:
   virtual Vector get_offset() const = 0;
 
 private:
-  PointMarker(const PointMarker&) = delete;
-  PointMarker& operator=(const PointMarker&) = delete;
+  MarkerObject(const MarkerObject&) = delete;
+  MarkerObject& operator=(const MarkerObject&) = delete;
 };
 
 #endif

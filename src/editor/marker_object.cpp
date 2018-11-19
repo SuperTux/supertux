@@ -14,7 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "editor/point_marker.hpp"
+#include "editor/marker_object.hpp"
 
 #include "supertux/globals.hpp"
 #include "supertux/resources.hpp"
@@ -23,20 +23,20 @@
 #include "video/renderer.hpp"
 #include "video/video_system.hpp"
 
-PointMarker::PointMarker (const Vector& pos)
+MarkerObject::MarkerObject (const Vector& pos)
 {
   m_col.m_bbox.p1 = pos;
   m_col.m_bbox.set_size(16, 16);
 }
 
-PointMarker::PointMarker ()
+MarkerObject::MarkerObject ()
 {
   m_col.m_bbox.p1 = Vector(0, 0);
   m_col.m_bbox.p2 = Vector(16, 16);
 }
 
 void
-PointMarker::draw(DrawingContext& context)
+MarkerObject::draw(DrawingContext& context)
 {
   Vector dir = get_point_vector();
   if (dir.x == 0 && dir.y == 0) {

@@ -17,10 +17,10 @@
 #ifndef HEADER_SUPERTUX_EDITOR_NODE_MARKER_HPP
 #define HEADER_SUPERTUX_EDITOR_NODE_MARKER_HPP
 
-#include "editor/point_marker.hpp"
+#include "editor/marker_object.hpp"
 #include "object/path.hpp"
 
-class NodeMarker : public PointMarker
+class NodeMarker : public MarkerObject
 {
 public:
   NodeMarker(Path* path_, std::vector<Path::Node>::iterator node_iterator, size_t id_);

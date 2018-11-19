@@ -88,7 +88,7 @@ EditorOverlayWidget::delete_markers()
 {
   auto* sector = m_editor.get_sector();
   for (auto& moving_object : sector->get_objects_by_type<MovingObject>()) {
-    auto marker = dynamic_cast<PointMarker*>(&moving_object);
+    auto marker = dynamic_cast<MarkerObject*>(&moving_object);
     if (marker) {
       marker->remove_me();
     }
@@ -268,7 +268,7 @@ void
 EditorOverlayWidget::hover_object()
 {
   for (auto& moving_object : m_editor.get_sector()->get_objects_by_type<MovingObject>()) {
-    auto pm = dynamic_cast<PointMarker*>(&moving_object);
+    auto pm = dynamic_cast<MarkerObject*>(&moving_object);
     if (!moving_object.is_saveable() && !pm) {
       continue;
     }
@@ -334,7 +334,7 @@ EditorOverlayWidget::grab_object()
 
     m_dragged_object = m_hovered_object;
 
-    auto pm = dynamic_cast<PointMarker*>(m_hovered_object);
+    auto pm = dynamic_cast<MarkerObject*>(m_hovered_object);
     m_obj_mouse_desync = m_sector_pos - m_hovered_object->get_pos();
     // marker testing
     if (!pm) {
@@ -361,7 +361,7 @@ EditorOverlayWidget::clone_object()
       return;
     }
 
-    auto pm = dynamic_cast<PointMarker*>(m_hovered_object);
+    auto pm = dynamic_cast<MarkerObject*>(m_hovered_object);
     if (pm) {
       return; //Do not clone markers
     }
@@ -408,7 +408,7 @@ EditorOverlayWidget::move_object()
       auto& snap_grid_size = snap_grid_sizes[selected_snap_grid_size];
       new_pos = (new_pos / static_cast<float>(snap_grid_size)).to_int_vec() * static_cast<float>(snap_grid_size);
 
-      auto pm = dynamic_cast<PointMarker*>(m_dragged_object);
+      auto pm = dynamic_cast<MarkerObject*>(m_dragged_object);
       if (pm) {
         new_pos -= pm->get_offset();
       }
