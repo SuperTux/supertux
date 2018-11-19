@@ -87,6 +87,8 @@ ObjectMenu::ObjectMenu(Editor& editor, GameObject* go) :
 
 ObjectMenu::~ObjectMenu()
 {
+  // FIXME: this is crashy, should not be done in the destructor
+
   m_object->after_editor_set();
 
   m_editor.m_reactivate_request = true;

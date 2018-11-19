@@ -51,7 +51,7 @@ ObjectOption::to_string() const
       return (*(static_cast<bool*>(m_option))) ? _("true") : _("false");
 
     case MN_STRINGSELECT: {
-      auto selected_id = static_cast<int*>(m_option);
+      int* selected_id = static_cast<int*>(m_option);
       if ( *selected_id >= int(m_select.size()) || *selected_id < 0 ) {
         return _("invalid"); //Test whether the selected ID is valid
       } else {

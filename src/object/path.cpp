@@ -195,9 +195,9 @@ Path::is_valid() const {
 }
 
 ObjectOption
-Path::get_mode_option(WalkMode* mode_)
+Path::get_mode_option(WalkMode* mode)
 {
-  ObjectOption result(MN_STRINGSELECT, _("Path Mode"), mode_);
+  ObjectOption result(MN_STRINGSELECT, _("Path Mode"), mode);
   result.m_select.push_back(_("One shot"));
   result.m_select.push_back(_("Ping-pong"));
   result.m_select.push_back(_("Circular"));

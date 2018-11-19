@@ -76,7 +76,7 @@ PathObject::init_path_empty()
 Path*
 PathObject::get_path()
 {
-  auto path_gameobject = d_sector->get_object_by_uid<PathGameObject>(m_path_uid);
+  auto* path_gameobject = d_sector->get_object_by_uid<PathGameObject>(m_path_uid);
   if (!path_gameobject)
   {
     return nullptr;
@@ -90,7 +90,7 @@ PathObject::get_path()
 std::string
 PathObject::get_path_ref() const
 {
-  auto path_gameobject = d_sector->get_object_by_uid<PathGameObject>(m_path_uid);
+  auto* path_gameobject = d_sector->get_object_by_uid<PathGameObject>(m_path_uid);
   if (path_gameobject) {
     return path_gameobject->get_name();
   } else {
