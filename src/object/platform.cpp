@@ -79,17 +79,17 @@ Platform::get_settings()
 HitResponse
 Platform::collision(GameObject& other, const CollisionHit& )
 {
-  if (dynamic_cast<Player*>(&other)) m_player_contact = true;
+  if (dynamic_cast<Player*>(&other)) {
+    m_player_contact = true;
+  }
   return FORCE_MOVE;
 }
 
 void
 Platform::update(float dt_sec)
 {
-  if (!get_path()->is_valid()) {
-    remove_me();
-    return;
-  }
+  if (!get_path()) return;
+  if (!get_path()->is_valid()) return;
 
   // check if Platform should automatically pick a destination
   if (m_automatic) {
@@ -130,7 +130,6 @@ Platform::update(float dt_sec)
     m_col.m_movement = new_pos - get_pos();
     m_speed = m_col.m_movement / dt_sec;
   }
-
 }
 
 void
