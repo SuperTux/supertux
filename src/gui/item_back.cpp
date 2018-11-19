@@ -22,8 +22,9 @@
 #include "video/drawing_context.hpp"
 #include "video/surface.hpp"
 
-ItemBack::ItemBack(const std::string& text, int id) :
-  MenuItem(text, id)
+ItemBack::ItemBack(const std::string& text, int id, std::function<void()> callback) :
+  MenuItem(text, id),
+  m_callback(callback)
 {
 }
 
@@ -48,8 +49,13 @@ ItemBack::get_width() const {
 void
 ItemBack::process_action(const MenuAction& action) {
   if (action == MENU_ACTION_HIT) {
-    if (MenuManager::instance().current_menu()->on_back_action())
+    if (m_callback) {
+      m_callback();
+    }
+
+    if (MenuManager::instance().current_menu()->on_back_action()) {
       MenuManager::instance().pop_menu();
+    }
   }
 }
 /* EOF */

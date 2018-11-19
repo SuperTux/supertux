@@ -275,9 +275,9 @@ Menu::add_file(const std::string& text, std::string* input, const std::vector<st
 }
 
 ItemBack&
-Menu::add_back(const std::string& text, int id)
+Menu::add_back(const std::string& text, int id, std::function<void()> callback)
 {
-  auto item = std::make_unique<ItemBack>(text, id);
+  auto item = std::make_unique<ItemBack>(text, id, callback);
   auto item_ptr = item.get();
   add_item(std::move(item));
   return *item_ptr;
