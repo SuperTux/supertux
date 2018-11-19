@@ -160,7 +160,9 @@ Editor::update(float dt_sec, const Controller& controller)
 
   // update other stuff
   if (is_active()) {
-    m_sector->update(0);
+    BIND_SECTOR(*m_sector);
+
+    m_sector->flush_game_objects();
     m_toolbox_widget.update(dt_sec);
     m_layers_widget.update(dt_sec);
     m_overlay_widget.update(dt_sec);
