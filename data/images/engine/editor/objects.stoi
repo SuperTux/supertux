@@ -328,9 +328,6 @@
   (object
     (class "path")
     (icon "images/engine/editor/path.png"))
-  (object
-    (class "text-array")
-    (icon "images/engine/editor/textarray.png"))
  )
 
  (objectgroup
