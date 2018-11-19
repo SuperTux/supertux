@@ -44,11 +44,8 @@ MovingObject::save(Writer& writer)
 }
 
 void
-MovingObject::edit_bbox() {
-  if (!is_valid()) {
-    return;
-  }
-
+MovingObject::editor_select()
+{
   Sector::get().add<ResizeMarker>(&m_col.m_bbox, ResizeMarker::LEFT_UP, ResizeMarker::LEFT_UP);
   Sector::get().add<ResizeMarker>(&m_col.m_bbox, ResizeMarker::LEFT_UP, ResizeMarker::NONE);
   Sector::get().add<ResizeMarker>(&m_col.m_bbox, ResizeMarker::LEFT_UP, ResizeMarker::RIGHT_DOWN);

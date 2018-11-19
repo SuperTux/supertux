@@ -54,7 +54,7 @@ EditorOverlayWidget::EditorOverlayWidget(Editor& editor) :
   m_drag_start(0, 0),
   m_dragged_object(nullptr),
   m_hovered_object(nullptr),
-  m_marked_object(nullptr),
+  m_selected_object(nullptr),
   m_edited_path(nullptr),
   m_last_node_marker(nullptr),
   m_object_tip(),
@@ -74,11 +74,7 @@ EditorOverlayWidget::update(float dt_sec)
     m_object_tip = nullptr;
   }
 
-  if (m_marked_object && !m_marked_object->is_valid()) {
-    delete_markers();
-  }
-
-  if (m_edited_path && !m_edited_path->is_valid()) {
+  if (m_selected_object && !m_selected_object->is_valid()) {
     delete_markers();
   }
 }
@@ -87,13 +83,16 @@ void
 EditorOverlayWidget::delete_markers()
 {
   auto* sector = m_editor.get_sector();
-  for (auto& moving_object : sector->get_objects_by_type<MovingObject>()) {
-    auto marker = dynamic_cast<MarkerObject*>(&moving_object);
-    if (marker) {
-      marker->remove_me();
-    }
+
+  if (m_selected_object) {
+    m_selected_object->editor_deselect();
   }
-  m_marked_object = nullptr;
+
+  for (auto& marker : sector->get_objects_by_type<MarkerObject>()) {
+    marker.remove_me();
+  }
+
+  m_selected_object = nullptr;
   m_edited_path = nullptr;
   m_last_node_marker = nullptr;
 }
@@ -289,7 +288,8 @@ EditorOverlayWidget::hover_object()
 }
 
 void
-EditorOverlayWidget::edit_path(Path* path, GameObject* new_marked_object) {
+EditorOverlayWidget::edit_path(Path* path, GameObject* new_marked_object)
+{
   if (!path) return;
   delete_markers();
 
@@ -300,19 +300,19 @@ EditorOverlayWidget::edit_path(Path* path, GameObject* new_marked_object) {
   m_edited_path = path;
   m_edited_path->edit_path();
   if (new_marked_object) {
-    m_marked_object = new_marked_object;
+    m_selected_object = new_marked_object;
   }
 }
 
 void
-EditorOverlayWidget::mark_object()
+EditorOverlayWidget::select_object()
 {
   delete_markers();
   if (!m_dragged_object || !m_dragged_object->is_valid()) return;
 
   if (m_dragged_object->has_variable_size()) {
-    m_marked_object = m_dragged_object;
-    m_dragged_object->edit_bbox();
+    m_selected_object = m_dragged_object;
+    m_dragged_object->editor_select();
     return;
   }
 
@@ -327,29 +327,35 @@ void
 EditorOverlayWidget::grab_object()
 {
   if (m_hovered_object) {
-    if (!m_hovered_object->is_valid()) {
+    if (!m_hovered_object->is_valid())
+    {
       m_hovered_object = nullptr;
-      return;
     }
+    else
+    {
+      m_dragged_object = m_hovered_object;
+      m_obj_mouse_desync = m_sector_pos - m_hovered_object->get_pos();
 
-    m_dragged_object = m_hovered_object;
-
-    auto pm = dynamic_cast<MarkerObject*>(m_hovered_object);
-    m_obj_mouse_desync = m_sector_pos - m_hovered_object->get_pos();
-    // marker testing
-    if (!pm) {
-      mark_object();
-    }
-    m_last_node_marker = dynamic_cast<NodeMarker*>(pm);
-    return;
-  }
-  m_dragged_object = nullptr;
-  if (m_edited_path && m_editor.get_tileselect_object() == "#node") {
-    if (m_edited_path->is_valid()) {
-      return;
+      auto* pm = dynamic_cast<MarkerObject*>(m_hovered_object);
+      if (!pm) {
+        select_object();
+      }
+      m_last_node_marker = dynamic_cast<NodeMarker*>(pm);
     }
   }
-  delete_markers();
+  else
+  {
+    m_dragged_object = nullptr;
+
+    if (m_edited_path &&
+        m_editor.get_tileselect_object() == "#node" &&
+        m_edited_path->is_valid())
+    {
+      // do nothing
+    } else {
+      delete_markers();
+    }
+  }
 }
 
 void
@@ -361,30 +367,32 @@ EditorOverlayWidget::clone_object()
       return;
     }
 
-    auto pm = dynamic_cast<MarkerObject*>(m_hovered_object);
-    if (pm) {
-      return; //Do not clone markers
+    auto* pm = dynamic_cast<MarkerObject*>(m_hovered_object);
+    if (!pm)
+    {
+      m_obj_mouse_desync = m_sector_pos - m_hovered_object->get_pos();
+
+      std::unique_ptr<GameObject> game_object_uptr;
+      try {
+        game_object_uptr = GameObjectFactory::instance().create(m_hovered_object->get_class(), m_hovered_object->get_pos());
+      } catch(const std::exception& e) {
+        log_warning << "Error creating object " << m_hovered_object->get_class() << ": " << e.what() << std::endl;
+        return;
+      }
+
+      GameObject& game_object = m_editor.get_sector()->add_object(std::move(game_object_uptr));
+
+      m_dragged_object = dynamic_cast<MovingObject*>(&game_object);
+      ObjectSettings settings = m_hovered_object->get_settings();
+      m_dragged_object->get_settings().copy_from(settings);
+      m_dragged_object->after_editor_set();
     }
-    m_obj_mouse_desync = m_sector_pos - m_hovered_object->get_pos();
-
-    std::unique_ptr<GameObject> game_object_uptr;
-    try {
-      game_object_uptr = GameObjectFactory::instance().create(m_hovered_object->get_class(), m_hovered_object->get_pos());
-    } catch(const std::exception& e) {
-      log_warning << "Error creating object " << m_hovered_object->get_class() << ": " << e.what() << std::endl;
-      return;
-    }
-
-    GameObject& game_object = m_editor.get_sector()->add_object(std::move(game_object_uptr));
-
-    m_dragged_object = dynamic_cast<MovingObject*>(&game_object);
-    ObjectSettings settings = m_hovered_object->get_settings();
-    m_dragged_object->get_settings().copy_from(settings);
-    m_dragged_object->after_editor_set();
-    return;
   }
-  m_dragged_object = nullptr;
-  delete_markers();
+  else
+  {
+    m_dragged_object = nullptr;
+    delete_markers();
+  }
 }
 
 void
@@ -476,49 +484,42 @@ void
 EditorOverlayWidget::put_object()
 {
   const std::string& obj = m_editor.get_tileselect_object();
-  if (obj[0] == '#') {
+  if (obj[0] == '#')
+  {
     if (m_edited_path && obj == "#node") {
       if (m_edited_path->is_valid() && m_last_node_marker) {
         add_path_node();
       }
     }
-    return;
   }
-  std::unique_ptr<GameObject> game_object;
-  try {
+  else
+  {
     auto target_pos = m_sector_pos;
     if (snap_to_grid)
     {
       auto& snap_grid_size = snap_grid_sizes[selected_snap_grid_size];
       target_pos = (m_sector_pos / static_cast<float>(snap_grid_size)).to_int_vec() * static_cast<float>(snap_grid_size);
     }
-    game_object = GameObjectFactory::instance().create(obj, target_pos, LEFT);
-  } catch(const std::exception& e) {
-    log_warning << "Error creating object " << obj << ": " << e.what() << std::endl;
-    return;
-  }
-  if (game_object == nullptr)
-    throw std::runtime_error("Creating " + obj + " object failed.");
 
-  auto mo = dynamic_cast<MovingObject*> (game_object.get());
-  if (!mo) {
-    m_editor.add_layer(game_object.get());
-  }
-  else if (!snap_to_grid) {
-    auto bbox = mo->get_bbox();
-    mo->move_to(mo->get_pos() - Vector(bbox.get_width() / 2, bbox.get_height() / 2));
-  }
+    std::unique_ptr<GameObject> game_object = GameObjectFactory::instance().create(obj, target_pos, LEFT);
 
-  auto wo = dynamic_cast<worldmap_editor::WorldmapObject*> (game_object.get());
-  if (wo) {
-    wo->move_to(wo->get_pos() / 32);
-  }
+    if (game_object == nullptr)
+      throw std::runtime_error("Creating " + obj + " object failed.");
 
-  try {
+    auto* mo = dynamic_cast<MovingObject*> (game_object.get());
+    if (!mo) {
+      m_editor.add_layer(game_object.get());
+    } else if (!snap_to_grid) {
+      auto bbox = mo->get_bbox();
+      mo->move_to(mo->get_pos() - Vector(bbox.get_width() / 2, bbox.get_height() / 2));
+    }
+
+    auto* wo = dynamic_cast<worldmap_editor::WorldmapObject*>(game_object.get());
+    if (wo) {
+      wo->move_to(wo->get_pos() / 32);
+    }
+
     m_editor.get_sector()->add_object(std::move(game_object));
-  } catch(const std::exception& e) {
-    log_warning << "Error adding object " << obj << ": " << e.what() << std::endl;
-    return;
   }
 }
 
@@ -861,8 +862,8 @@ void
 EditorOverlayWidget::draw_path(DrawingContext& context)
 {
   if (!m_edited_path) return;
-  if (!m_marked_object) return;
-  if (!m_marked_object->is_valid()) return;
+  if (!m_selected_object) return;
+  if (!m_selected_object->is_valid()) return;
   if (!m_edited_path->is_valid()) return;
 
   for (auto i = m_edited_path->m_nodes.begin(); i != m_edited_path->m_nodes.end(); ++i) {

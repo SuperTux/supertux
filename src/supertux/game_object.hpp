@@ -94,9 +94,6 @@ public:
   /** schedules this object to be removed at the end of the frame */
   void remove_me() { m_scheduled_for_removal = true; }
 
-  /** used by the editor to delete the object */
-  virtual void editor_delete() { remove_me(); }
-
   /** registers a remove listener which will be called if the object
       gets removed/destroyed */
   void add_remove_listener(ObjectRemoveListener* listener);
@@ -141,6 +138,15 @@ public:
       m_components.erase(it);
     }
   }
+
+  /** The editor requested the deletion of the object */
+  virtual void editor_delete() { remove_me(); }
+
+  /** The user clicked on the object in the editor and selected it*/
+  virtual void editor_select() {}
+
+  /** The object got deselected */
+  virtual void editor_deselect() {}
 
 private:
   void set_uid(const UID& uid) { m_uid = uid; }

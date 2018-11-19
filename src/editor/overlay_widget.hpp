@@ -77,7 +77,7 @@ private:
   void clone_object();
   void hover_object();
   void show_object_menu(GameObject& object);
-  void mark_object();
+  void select_object();
   void add_path_node();
 
   void draw_tile_tip(DrawingContext&);
@@ -111,7 +111,7 @@ private:
   MovingObject* m_dragged_object;
 
   MovingObject* m_hovered_object;
-  GameObject* m_marked_object;
+  GameObject* m_selected_object;
   Path* m_edited_path;
   NodeMarker* m_last_node_marker;
 

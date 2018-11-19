@@ -100,8 +100,7 @@ public:
     return "moving-object";
   }
 
-  /** puts resizers at its edges, used in editor input center */
-  void edit_bbox();
+  virtual void editor_select() override;
 
 protected:
   void set_group(CollisionGroup group)
