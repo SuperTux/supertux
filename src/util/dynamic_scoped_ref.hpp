@@ -38,13 +38,12 @@ public:
     m_ptr(nullptr)
   {}
 
-  /** Return the current value of the ref */
-  T& get() const {
-    assert(m_ptr != nullptr);
-    return *m_ptr;
+  T* get() const {
+    return m_ptr;
   }
 
   T* operator->() const {
+    assert(m_ptr != nullptr);
     return m_ptr;
   }
 
