@@ -19,8 +19,10 @@
 #include "editor/editor.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
-#include "supertux/moving_object.hpp"
+#include "supertux/d_scope.hpp"
+#include "supertux/sector.hpp"
 #include "supertux/game_object.hpp"
+#include "supertux/moving_object.hpp"
 
 ObjectMenu::ObjectMenu(Editor& editor, GameObject* go) :
   m_editor(editor),
@@ -82,19 +84,21 @@ ObjectMenu::ObjectMenu(Editor& editor, GameObject* go) :
     }
   }
   add_hl();
-  add_back(_("OK"));
+  add_back(_("OK"), -1, [this]{
+      // FIXME: this is a bit fishy, menus shouldn't mess with editor internals
+      BIND_SECTOR(*m_editor.get_sector());
+
+      m_object->after_editor_set();
+
+      m_editor.m_reactivate_request = true;
+      if (!dynamic_cast<MovingObject*>(m_object)) {
+        m_editor.sort_layers();
+      }
+    });
 }
 
 ObjectMenu::~ObjectMenu()
 {
-  // FIXME: this is crashy, should not be done in the destructor
-
-  m_object->after_editor_set();
-
-  m_editor.m_reactivate_request = true;
-  if (!dynamic_cast<MovingObject*>(m_object)) {
-    m_editor.sort_layers();
-  }
 }
 
 void
