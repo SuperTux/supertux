@@ -31,11 +31,9 @@
 LayerIcon::LayerIcon(GameObject* layer) :
   ObjectIcon("", layer->get_icon_path()),
   m_layer(layer),
-  m_is_tilemap(false),
   m_selection()
 {
   if (dynamic_cast<TileMap*>(layer)) {
-    m_is_tilemap = true;
     m_selection = Surface::from_file("images/engine/editor/selection.png");
   }
 }
@@ -51,8 +49,10 @@ LayerIcon::draw(DrawingContext& context, const Vector& pos)
     context.color().draw_text(Resources::small_font, std::to_string(l),
                                 pos + Vector(16,16),
                                 ALIGN_CENTER, LAYER_GUI, ColorScheme::Menu::default_color);
-    if (m_is_tilemap) if ((static_cast<TileMap*>(m_layer))->m_editor_active) {
+    if (TileMap* tilemap = dynamic_cast<TileMap*>(m_layer)) {
+      if (tilemap->m_editor_active) {
         context.color().draw_surface(m_selection, pos, LAYER_GUI - 1);
+      }
     }
   }
 }
@@ -64,27 +64,25 @@ LayerIcon::get_zpos() const
     return std::numeric_limits<int>::min();
   }
 
-  if (m_is_tilemap) { //When the layer is a tilemap, the class is obvious.
-    return (static_cast<TileMap*>(m_layer))->get_layer();
-  }
-
-  if (auto* bkgrd = dynamic_cast<Background*>(m_layer)) {
+  if (auto* tilemap = dynamic_cast<TileMap*>(m_layer)) {
+    return tilemap->get_layer();
+  } else if (auto* bkgrd = dynamic_cast<Background*>(m_layer)) {
     return bkgrd->get_layer();
-  }
-
-  if (auto* grd = dynamic_cast<Gradient*>(m_layer)) {
+  } else if (auto* grd = dynamic_cast<Gradient*>(m_layer)) {
     return grd->get_layer();
-  }
-
-  if (auto* ps = dynamic_cast<ParticleSystem*>(m_layer)) {
+  } else if (auto* ps = dynamic_cast<ParticleSystem*>(m_layer)) {
     return ps->get_layer();
-  }
-
-  if (auto* psi = dynamic_cast<ParticleSystem_Interactive*>(m_layer)) {
+  } else if (auto* psi = dynamic_cast<ParticleSystem_Interactive*>(m_layer)) {
     return psi->get_layer();
+  } else {
+    return std::numeric_limits<int>::min();
   }
+}
 
-  return std::numeric_limits<int>::min();
+bool
+LayerIcon::is_tilemap() const
+{
+  return dynamic_cast<TileMap*>(m_layer) != nullptr;
 }
 
 bool

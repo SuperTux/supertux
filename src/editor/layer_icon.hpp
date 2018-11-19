@@ -34,11 +34,10 @@ public:
   bool is_valid() const;
 
   GameObject* get_layer() const { return m_layer; }
-  bool is_tilemap() const { return m_is_tilemap; }
+  bool is_tilemap() const;
 
 private:
   GameObject* m_layer;
-  bool m_is_tilemap;
   SurfacePtr m_selection;
 
 private:
