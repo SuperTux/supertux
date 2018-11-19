@@ -37,8 +37,6 @@ PathObject::~PathObject()
 void
 PathObject::init_path(const ReaderMapping& mapping, bool running_default)
 {
-  if (!d_sector) return;
-
   bool running = running_default;
   mapping.get("running", running);
 
@@ -70,8 +68,6 @@ PathObject::init_path_pos(const Vector& pos, bool running)
 void
 PathObject::init_path_empty()
 {
-  if (!d_sector) return;
-
   auto& path_gameobject = d_sector->add<PathGameObject>();
   m_path_uid = path_gameobject.get_uid();
   m_walker.reset(new PathWalker(m_path_uid));
