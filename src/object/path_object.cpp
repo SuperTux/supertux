@@ -62,8 +62,6 @@ PathObject::init_path(const ReaderMapping& mapping, bool running_default)
 void
 PathObject::init_path_pos(const Vector& pos, bool running)
 {
-  if (!d_sector) return;
-
   auto& path_gameobject = d_sector->add<PathGameObject>(pos);
   m_path_uid = path_gameobject.get_uid();
   m_walker.reset(new PathWalker(path_gameobject.get_uid(), running));
@@ -82,8 +80,6 @@ PathObject::init_path_empty()
 Path*
 PathObject::get_path()
 {
-  if (!d_sector) return nullptr;
-
   auto path_gameobject = d_sector->get_object_by_uid<PathGameObject>(m_path_uid);
   if (!path_gameobject)
   {
@@ -98,8 +94,6 @@ PathObject::get_path()
 std::string
 PathObject::get_path_ref() const
 {
-  if (!d_sector) return {};
-
   auto path_gameobject = d_sector->get_object_by_uid<PathGameObject>(m_path_uid);
   if (path_gameobject) {
     return path_gameobject->get_name();
