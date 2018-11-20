@@ -22,7 +22,7 @@ DynamicScopedRef<const int> d_value;
 
 void check_function(int expected)
 {
-  ASSERT_EQ(d_value.get(), expected);
+  ASSERT_EQ(*d_value.get(), expected);
 }
 
 TEST(DynamicScopedTest, test)
