@@ -84,17 +84,7 @@ ObjectMenu::ObjectMenu(Editor& editor, GameObject* go) :
     }
   }
   add_hl();
-  add_back(_("OK"), -1, [this]{
-      // FIXME: this is a bit fishy, menus shouldn't mess with editor internals
-      BIND_SECTOR(*m_editor.get_sector());
-
-      m_object->after_editor_set();
-
-      m_editor.m_reactivate_request = true;
-      if (!dynamic_cast<MovingObject*>(m_object)) {
-        m_editor.sort_layers();
-      }
-    });
+  add_back(_("OK"), -1);
 }
 
 ObjectMenu::~ObjectMenu()
@@ -104,16 +94,34 @@ ObjectMenu::~ObjectMenu()
 void
 ObjectMenu::menu_action(MenuItem& item)
 {
-  switch (item.get_id()) {
+  switch (item.get_id())
+  {
     case MNID_REMOVE:
       m_editor.delete_markers();
       m_editor.m_reactivate_request = true;
       MenuManager::instance().pop_menu();
       m_object->remove_me();
       break;
+
     default:
       break;
   }
+}
+
+bool
+ObjectMenu::on_back_action()
+{
+  // FIXME: this is a bit fishy, menus shouldn't mess with editor internals
+  BIND_SECTOR(*m_editor.get_sector());
+
+  m_object->after_editor_set();
+
+  m_editor.m_reactivate_request = true;
+  if (!dynamic_cast<MovingObject*>(m_object)) {
+    m_editor.sort_layers();
+  }
+
+  return true;
 }
 
 /* EOF */
