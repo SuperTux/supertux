@@ -17,14 +17,12 @@
 #ifndef HEADER_SUPERTUX_GUI_ITEM_BACK_HPP
 #define HEADER_SUPERTUX_GUI_ITEM_BACK_HPP
 
-#include <functional>
-
 #include "gui/menu_item.hpp"
 
 class ItemBack final : public MenuItem
 {
 public:
-  ItemBack(const std::string& text, int id, std::function<void()> callback);
+  ItemBack(const std::string& text, int id = -1);
 
   /** Draws the menu item. */
   virtual void draw(DrawingContext&, const Vector& pos, int menu_width, bool active) override;
@@ -39,9 +37,6 @@ public:
   virtual bool no_other_action() const override {
     return true;
   }
-
-private:
-  std::function<void()> m_callback;
 
 private:
   ItemBack(const ItemBack&) = delete;

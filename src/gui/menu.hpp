@@ -63,7 +63,7 @@ public:
                          std::function<bool()> get_func,
                          std::function<void(bool)> set_func);
   ItemInactive& add_inactive(const std::string& text);
-  ItemBack& add_back(const std::string& text, int id = -1, std::function<void()> callback = {});
+  ItemBack& add_back(const std::string& text, int id = -1);
   ItemGoTo& add_submenu(const std::string& text, int submenu, int id = -1);
   ItemControlField& add_controlfield(int id, const std::string& text,
                              const std::string& mapping = "");
