@@ -23,11 +23,10 @@ class Sector;
 extern DynamicScopedRef<Sector> d_sector;
 
 namespace worldmap {
-
 class WorldMap;
-extern DynamicScopedRef<WorldMap> d_worldmap;
-
 } // namespace worldmap
+
+extern DynamicScopedRef<worldmap::WorldMap> d_worldmap;
 
 class GameObjectManager;
 extern DynamicScopedRef<GameObjectManager> d_gameobject_manager;
@@ -37,7 +36,7 @@ extern DynamicScopedRef<GameObjectManager> d_gameobject_manager;
   auto gameobject_manager_guard = d_gameobject_manager.bind(x)
 
 #define BIND_WORLDMAP(x) \
-  auto worldmap_guard = d_worldmap.bind(x);                         \
+  auto worldmap_guard = d_worldmap.bind(x);           \
   auto gameobject_manager_guard = d_gameobject_manager.bind(x)
 
 #endif
