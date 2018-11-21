@@ -70,7 +70,9 @@ Sector::Sector(Level& parent) :
 {
   Savegame& savegame = Editor::is_active() ? *Editor::current()->m_savegame : GameSession::current()->get_savegame();
 
-  add<PlayerStatusHUD>(savegame.get_player_status());
+  if (!savegame.is_title_screen()) {
+    add<PlayerStatusHUD>(savegame.get_player_status());
+  }
   add<Player>(savegame.get_player_status(), "Tux");
   add<DisplayEffect>("Effect");
   add<TextObject>("Text");

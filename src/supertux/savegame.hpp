@@ -89,6 +89,8 @@ public:
   void save();
   void load();
 
+  bool is_title_screen() const;
+
 private:
   void clear_state_table();
 

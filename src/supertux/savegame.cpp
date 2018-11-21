@@ -113,6 +113,13 @@ Savegame::Savegame(const std::string& filename) :
 {
 }
 
+bool
+Savegame::is_title_screen() const
+{
+  // bit of a hack, TileScreen uses a dummy savegame without a filename
+  return m_filename.empty();
+}
+
 void
 Savegame::load()
 {
