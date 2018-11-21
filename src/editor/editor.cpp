@@ -33,6 +33,7 @@
 #include "editor/tile_selection.hpp"
 #include "editor/tip.hpp"
 #include "editor/tool_icon.hpp"
+#include "gui/dialog.hpp"
 #include "gui/menu_manager.hpp"
 #include "gui/mousecursor.hpp"
 #include "gui/mousecursor.hpp"
@@ -602,8 +603,9 @@ Editor::get_objectgroups() const
 }
 
 void
-Editor::check_save_prerequisites(bool& sector_valid, bool& spawnpoint_valid) const
+Editor::check_save_prerequisites(const std::function<void ()>& callback) const
 {
+  bool sector_valid = false, spawnpoint_valid = false;
   if (m_worldmap_mode)
   {
     sector_valid = true;
@@ -624,6 +626,24 @@ Editor::check_save_prerequisites(bool& sector_valid, bool& spawnpoint_valid) con
       }
     }
   }
+
+  if(sector_valid && spawnpoint_valid)
+  {
+    callback();
+    return;
+  }
+  else
+  {
+    if (!sector_valid)
+    {
+      Dialog::show_message(_("Couldn't find a \"main\" sector.\nPlease change the name of the sector where\nyou'd like the player to start to \"main\""));
+    }
+    else if (!spawnpoint_valid)
+    {
+      Dialog::show_message(_("Couldn't find a \"main\" spawnpoint.\n Please change the name of the spawnpoint where\nyou'd like the player to start to \"main\""));
+    }
+  }
+
 }
 
 /* EOF */

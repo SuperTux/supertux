@@ -91,26 +91,10 @@ EditorMenu::menu_action(MenuItem& item)
 
     case MNID_SAVELEVEL:
     {
-      bool is_sector_valid = false;
-      bool is_spawnpoint_valid = false;
-
-      editor->check_save_prerequisites(is_sector_valid, is_spawnpoint_valid);
-      if (is_sector_valid && is_spawnpoint_valid)
-      {
+      editor->check_save_prerequisites([editor]() {
         MenuManager::instance().clear_menu_stack();
         editor->m_save_request = true;
-      }
-      else
-      {
-        if (!is_sector_valid)
-        {
-          Dialog::show_message(_("Couldn't find a \"main\" sector.\nPlease change the name of the sector where\nyou'd like the player to start to \"main\""));
-        }
-        else if (!is_spawnpoint_valid)
-        {
-          Dialog::show_message(_("Couldn't find a \"main\" spawnpoint.\n Please change the name of the spawnpoint where\nyou'd like the player to start to \"main\""));
-        }
-      }
+      });
     }
       break;
 
@@ -119,8 +103,12 @@ EditorMenu::menu_action(MenuItem& item)
       break;
 
     case MNID_TESTLEVEL:
-      MenuManager::instance().clear_menu_stack();
-      Editor::current()->m_test_request = true;
+    {
+      editor->check_save_prerequisites([editor]() {
+        MenuManager::instance().clear_menu_stack();
+        editor->m_test_request = true;
+      });
+    }
       break;
 
     case MNID_LEVELSEL:
