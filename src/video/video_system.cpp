@@ -24,6 +24,7 @@
 #include <sstream>
 
 #include "util/log.hpp"
+#include "video/null/null_video_system.hpp"
 #include "video/sdl/sdl_video_system.hpp"
 #include "video/sdl_surface.hpp"
 #include "video/sdl_surface_ptr.hpp"
@@ -78,6 +79,9 @@ VideoSystem::create(VideoSystem::Enum video_system)
       log_info << "new SDL renderer\n";
       return std::make_unique<SDLVideoSystem>();
 
+    case VIDEO_NULL:
+      return std::make_unique<NullVideoSystem>();
+
     default:
       log_fatal << "invalid video system in config" << std::endl;
       assert(false);
@@ -106,10 +110,14 @@ VideoSystem::get_video_system(const std::string &video)
   {
     return VIDEO_SDL;
   }
+  else if (video == "null")
+  {
+    return VIDEO_NULL;
+  }
   else
   {
 #ifdef HAVE_OPENGL
-    throw std::runtime_error("invalid VideoSystem::Enum, valid values are 'auto', 'sdl' and 'opengl'");
+    throw std::runtime_error("invalid VideoSystem::Enum, valid values are 'auto', 'sdl', 'opengl', 'opengl20' and 'null'");
 #else
     throw std::runtime_error("invalid VideoSystem::Enum, valid values are 'auto' and 'sdl'");
 #endif
@@ -129,6 +137,8 @@ VideoSystem::get_video_string(VideoSystem::Enum video)
       return "opengl20";
     case VIDEO_SDL:
       return "sdl";
+    case VIDEO_NULL:
+      return "null";
     default:
       log_fatal << "invalid video system in config" << std::endl;
       assert(false);

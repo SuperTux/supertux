@@ -40,7 +40,8 @@ public:
     VIDEO_AUTO,
     VIDEO_OPENGL33CORE,
     VIDEO_OPENGL20,
-    VIDEO_SDL
+    VIDEO_SDL,
+    VIDEO_NULL
   };
 
   static std::unique_ptr<VideoSystem> create(VideoSystem::Enum video_system);
