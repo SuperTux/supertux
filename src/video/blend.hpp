@@ -18,6 +18,8 @@
 #ifndef HEADER_SUPERTUX_VIDEO_BLEND_HPP
 #define HEADER_SUPERTUX_VIDEO_BLEND_HPP
 
+#include <string>
+
 #include "video/gl.hpp"
 
 class Blend final
