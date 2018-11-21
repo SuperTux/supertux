@@ -113,8 +113,7 @@ InfoBlock::update(float dt_sec)
 
   // hide message if player is too far away
   if (dest_pct > 0) {
-    auto player = get_nearest_player();
-    if (player) {
+    if (auto* player = get_nearest_player()) {
       Vector p1 = m_col.m_bbox.get_middle();
       Vector p2 = player->get_bbox().get_middle();
       Vector dist = (p2 - p1);

@@ -44,8 +44,7 @@ Star::update(float dt_sec)
   m_col.m_movement = physic.get_movement(dt_sec);
 
   // when near Tux, spawn particles
-  auto player = Sector::get().get_nearest_player (m_col.m_bbox);
-  if (player) {
+  if (auto* player = Sector::get().get_nearest_player (m_col.m_bbox)) {
     float disp_x = player->get_bbox().p1.x - m_col.m_bbox.p1.x;
     float disp_y = player->get_bbox().p1.y - m_col.m_bbox.p1.y;
     if (disp_x*disp_x + disp_y*disp_y <= 256*256)

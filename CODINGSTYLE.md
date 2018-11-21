@@ -139,6 +139,14 @@ the value is expected to be `nullptr`.
 Do not pass values as `const std::unique_ptr<T>&` or `const
 std::shared_ptr<T>&`, dereference the pointer and pass as `const&`.
 
+To check for nullptr, use an `if` statements with initializer when possible:
+
+```c++
+if (auto* ptr = get_ptr()) {
+  // code here
+}
+```
+
 ## Namespaces
 
 Namespaces should be written in the form:

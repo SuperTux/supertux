@@ -250,18 +250,20 @@ IceCrusher::after_editor_set() {
 bool
 IceCrusher::found_victim() const
 {
-  auto player = Sector::get().get_nearest_player(m_col.m_bbox);
-  if (!player) return false;
+  if (auto* player = Sector::get().get_nearest_player(m_col.m_bbox))
+  {
+    const Rectf& player_bbox = player->get_bbox();
+    Rectf crush_area = Rectf(m_col.m_bbox.p1.x+1, m_col.m_bbox.p2.y,
+                             m_col.m_bbox.p2.x-1, std::max(m_col.m_bbox.p2.y,player_bbox.p1.y-1));
+    if ((player_bbox.p1.y >= m_col.m_bbox.p2.y) /* player is below crusher */
+        && (player_bbox.p2.x > (m_col.m_bbox.p1.x - DROP_ACTIVATION_DISTANCE))
+        && (player_bbox.p1.x < (m_col.m_bbox.p2.x + DROP_ACTIVATION_DISTANCE))
+        && (Sector::get().is_free_of_statics(crush_area, this, false)) /* and area to player is free of objects */) {
+      return true;
+    }
+  }
 
-  const Rectf& player_bbox = player->get_bbox();
-  Rectf crush_area = Rectf(m_col.m_bbox.p1.x+1, m_col.m_bbox.p2.y, m_col.m_bbox.p2.x-1, std::max(m_col.m_bbox.p2.y,player_bbox.p1.y-1));
-  if ((player_bbox.p1.y >= m_col.m_bbox.p2.y) /* player is below crusher */
-      && (player_bbox.p2.x > (m_col.m_bbox.p1.x - DROP_ACTIVATION_DISTANCE))
-      && (player_bbox.p1.x < (m_col.m_bbox.p2.x + DROP_ACTIVATION_DISTANCE))
-      && (Sector::get().is_free_of_statics(crush_area, this, false))/* and area to player is free of objects */)
-    return true;
-  else
-    return false;
+  return false;
 }
 
 Vector
@@ -269,8 +271,7 @@ IceCrusher::eye_position(bool right) const
 {
   if (state == IDLE)
   {
-    auto player = Sector::get().get_nearest_player (m_col.m_bbox);
-    if (player)
+    if (auto* player = Sector::get().get_nearest_player (m_col.m_bbox))
     {
       // Icecrusher focuses on approximate position of player's head
       const float player_focus_x = (player->get_bbox().p2.x + player->get_bbox().p1.x) * 0.5f;
