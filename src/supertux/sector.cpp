@@ -58,6 +58,12 @@
 
 Sector* Sector::s_current = nullptr;
 
+namespace {
+
+PlayerStatus dummy_player_status;
+
+} // namespace
+
 Sector::Sector(Level& parent) :
   m_level(parent),
   m_name(),
@@ -68,12 +74,15 @@ Sector::Sector(Level& parent) :
   m_collision_system(new CollisionSystem(*this)),
   m_gravity(10.0)
 {
-  Savegame& savegame = Editor::is_active() ? *Editor::current()->m_savegame : GameSession::current()->get_savegame();
+  Savegame* savegame = Editor::is_active() ?
+    Editor::current()->m_savegame.get() :
+    GameSession::current() ? &GameSession::current()->get_savegame() : nullptr;
+  PlayerStatus& player_status = savegame ? savegame->get_player_status() : dummy_player_status;
 
-  if (!savegame.is_title_screen()) {
-    add<PlayerStatusHUD>(savegame.get_player_status());
+  if (savegame && !savegame->is_title_screen()) {
+    add<PlayerStatusHUD>(player_status);
   }
-  add<Player>(savegame.get_player_status(), "Tux");
+  add<Player>(player_status, "Tux");
   add<DisplayEffect>("Effect");
   add<TextObject>("Text");
   add<TextArrayObject>("TextArray");

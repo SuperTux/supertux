@@ -43,8 +43,11 @@ PlayerStatus::PlayerStatus() :
 {
   reset();
 
-  SoundManager::current()->preload("sounds/coin.wav");
-  SoundManager::current()->preload("sounds/lifeup.wav");
+  // FIXME: Move sound handling into PlayerStatusHUD
+  if (SoundManager::current()) {
+    SoundManager::current()->preload("sounds/coin.wav");
+    SoundManager::current()->preload("sounds/lifeup.wav");
+  }
 }
 
 void PlayerStatus::reset()
