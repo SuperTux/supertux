@@ -22,13 +22,13 @@
 #include "video/flip.hpp"
 
 class Blend;
-class Renderer;
+class GLRenderer;
 class GLVideoSystem;
 
 class GLPainter final : public Painter
 {
 public:
-  GLPainter(GLVideoSystem& video_system, Renderer& renderer);
+  GLPainter(GLVideoSystem& video_system, GLRenderer& renderer);
 
   virtual void draw_texture(const TextureRequest& request) override;
   virtual void draw_gradient(const GradientRequest& request) override;
@@ -45,7 +45,7 @@ public:
 
 private:
   GLVideoSystem& m_video_system;
-  Renderer& m_renderer;
+  GLRenderer& m_renderer;
 
 private:
   GLPainter(const GLPainter&) = delete;
