@@ -28,6 +28,7 @@
 #include "physfs/physfs_file_system.hpp"
 #include "sprite/sprite.hpp"
 #include "squirrel/squirrel_environment.hpp"
+#include "supertux/d_scope.hpp"
 #include "supertux/debug.hpp"
 #include "supertux/fadetoblack.hpp"
 #include "supertux/game_manager.hpp"
@@ -86,6 +87,8 @@ WorldMap::WorldMap(const std::string& filename, Savegame& savegame, const std::s
   m_tux = &add<Tux>(this);
 
   SoundManager::current()->preload("sounds/warp.wav");
+
+  BIND_WORLDMAP(*this);
 
   // load worldmap objects
   WorldMapParser parser(*this);
@@ -317,6 +320,8 @@ WorldMap::process_input(const Controller& controller)
 void
 WorldMap::update(float dt_sec)
 {
+  BIND_WORLDMAP(*this);
+
   if (m_in_level) return;
   if (MenuManager::instance().is_active()) return;
 
@@ -457,6 +462,8 @@ WorldMap::at_teleporter(const Vector& pos) const
 void
 WorldMap::draw(DrawingContext& context)
 {
+  BIND_WORLDMAP(*this);
+
   if (get_width() < static_cast<float>(context.get_width()) ||
       get_height() < static_cast<float>(context.get_height()))
   {
