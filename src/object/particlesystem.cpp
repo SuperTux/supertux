@@ -23,6 +23,7 @@
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
 #include "video/drawing_context.hpp"
+#include "video/surface_batch.hpp"
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
@@ -76,7 +77,9 @@ void ParticleSystem::draw(DrawingContext& context)
   context.push_transform();
   context.set_translation(Vector(max_particle_size,max_particle_size));
 
-  for (const auto& particle : particles) {
+  std::unordered_map<SurfacePtr, SurfaceBatch> batches;
+  for (const auto& particle : particles)
+  {
     // remap x,y coordinates onto screencoordinates
     Vector pos;
 
@@ -89,7 +92,21 @@ void ParticleSystem::draw(DrawingContext& context)
     //if(pos.x > virtual_width) pos.x -= virtual_width;
     //if(pos.y > virtual_height) pos.y -= virtual_height;
 
-    context.color().draw_surface(particle->texture, pos, particle->angle, Color(1.0f, 1.0f, 1.0f), Blend(), z_pos);
+    auto it = batches.find(particle->texture);
+    if (it == batches.end()) {
+      auto batch_it = batches.emplace(particle->texture, SurfaceBatch(particle->texture, PaintStyle()));
+      batch_it.first->second.draw(pos, particle->angle);
+    } else {
+      it->second.draw(pos, particle->angle);
+    }
+  }
+
+  for(auto& it : batches) {
+    auto& surface = it.first;
+    auto& batch = it.second;
+    context.color().draw_surface_batch(surface,
+                                       batch.get_srcrects(), batch.get_dstrects(), batch.get_angles(),
+                                       Color::WHITE, z_pos);
   }
 
   context.pop_transform();
