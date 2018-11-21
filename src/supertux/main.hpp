@@ -17,6 +17,8 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_MAIN_HPP
 #define HEADER_SUPERTUX_SUPERTUX_MAIN_HPP
 
+#include <string>
+
 class CommandLineArguments;
 
 class Main final
@@ -26,6 +28,7 @@ private:
   void init_video();
 
   void launch_game(const CommandLineArguments& args);
+  void resave(const std::string& filename);
 
 public:
   /** We call it run() instead of main() as main collides with

@@ -78,6 +78,7 @@ public:
   boost::optional<std::string> repository_url;
 
   boost::optional<std::string> edit_level;
+  boost::optional<bool> resave;
 
   // boost::optional<std::string> locale;
 

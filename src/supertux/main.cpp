@@ -56,6 +56,7 @@ extern "C" {
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/level.hpp"
+#include "supertux/level_parser.hpp"
 #include "supertux/player_status.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/savegame.hpp"
@@ -68,6 +69,7 @@ extern "C" {
 #include "supertux/world.hpp"
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
+#include "util/string_util.hpp"
 #include "video/sdl_surface.hpp"
 #include "video/sdl_surface_ptr.hpp"
 #include "video/ttf_surface_manager.hpp"
@@ -369,9 +371,15 @@ static inline void timelog(const char* component)
 }
 
 void
+Main::resave(const std::string& filename)
+{
+  auto level = LevelParser::from_file(filename);
+  level->save(filename);
+}
+
+void
 Main::launch_game(const CommandLineArguments& args)
 {
-
   SDLSubsystem sdl_subsystem;
   ConsoleBuffer console_buffer;
 
@@ -413,7 +421,8 @@ Main::launch_game(const CommandLineArguments& args)
   GameManager game_manager;
   ScreenManager screen_manager(*video_system, input_manager);
 
-  if (!g_config->start_level.empty()) {
+  if (!g_config->start_level.empty())
+  {
     // we have a normal path specified at commandline, not a physfs path.
     // So we simply mount that path here...
     std::string dir = FileSystem::dirname(g_config->start_level);
@@ -426,12 +435,17 @@ Main::launch_game(const CommandLineArguments& args)
     log_debug << "Adding dir: " << dir << std::endl;
     PHYSFS_mount(dir.c_str(), nullptr, true);
 
-    if (g_config->start_level.size() > 4 &&
-       g_config->start_level.compare(g_config->start_level.size() - 5, 5, ".stwm") == 0)
+    if (args.resave && *args.resave)
+    {
+      resave(g_config->start_level);
+    }
+    else if (StringUtil::has_suffix(g_config->start_level, ".stwm"))
     {
       screen_manager.push_screen(std::make_unique<worldmap::WorldMapScreen>(
-                                   std::make_unique<worldmap::WorldMap>(filename, *default_savegame)));
-    } else {
+                                     std::make_unique<worldmap::WorldMap>(filename, *default_savegame)));
+    }
+    else
+    { // launch game
       std::unique_ptr<GameSession> session (
         new GameSession(filename, *default_savegame));
 
@@ -463,7 +477,9 @@ Main::launch_game(const CommandLineArguments& args)
         session->record_demo(g_config->record_demo);
       screen_manager.push_screen(std::move(session));
     }
-  } else {
+  }
+  else
+  {
     screen_manager.push_screen(std::make_unique<TitleScreen>(*default_savegame));
 
     if (g_config->edit_level) {

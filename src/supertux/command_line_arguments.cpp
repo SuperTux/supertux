@@ -49,7 +49,8 @@ CommandLineArguments::CommandLineArguments() :
   developer_mode(),
   christmas_mode(),
   repository_url(),
-  edit_level()
+  edit_level(),
+  resave()
 {
 }
 
@@ -92,6 +93,7 @@ CommandLineArguments::print_help(const char* arg0) const
     << "\n"
     << _(     "Game Options:") << "\n"
     << _(     "  --edit-level                 Open given level in editor") << "\n"
+    << _(     "  --resave                     Loads given level and saves it") << "\n"
     << _(     "  --show-fps                   Display framerate in levels") << "\n"
     << _(     "  --no-show-fps                Do not display framerate in levels") << "\n"
     << _(     "  --show-pos                   Display player's current position") << "\n"
@@ -382,6 +384,10 @@ CommandLineArguments::parse_args(int argc, char** argv)
       {
         edit_level = argv[++i];
       }
+    }
+    else if (arg == "--resave")
+    {
+      resave = true;
     }
     else if (arg[0] != '-')
     {
