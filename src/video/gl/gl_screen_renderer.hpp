@@ -21,13 +21,12 @@
 #include <SDL.h>
 
 #include "math/vector.hpp"
-#include "video/gl/gl_painter.hpp"
-#include "video/renderer.hpp"
+#include "video/gl/gl_renderer.hpp"
 
 class GLVideoSystem;
 struct DrawingRequest;
 
-class GLScreenRenderer final : public Renderer
+class GLScreenRenderer final : public GLRenderer
 {
 public:
   GLScreenRenderer(GLVideoSystem& video_system);
@@ -36,16 +35,10 @@ public:
   virtual void start_draw() override;
   virtual void end_draw() override;
 
-  virtual GLPainter& get_painter() override { return m_painter; }
-
   virtual Rect get_rect() const override;
   virtual Size get_logical_size() const override;
 
   virtual TexturePtr get_texture() const override { return {}; }
-
-private:
-  GLVideoSystem& m_video_system;
-  GLPainter m_painter;
 
 private:
   GLScreenRenderer(const GLScreenRenderer&) = delete;

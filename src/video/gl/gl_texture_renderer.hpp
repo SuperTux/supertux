@@ -21,8 +21,7 @@
 #include <memory>
 
 #include "video/gl.hpp"
-#include "video/gl/gl_painter.hpp"
-#include "video/renderer.hpp"
+#include "video/gl/gl_renderer.hpp"
 #include "video/texture_ptr.hpp"
 
 class GLFramebuffer;
@@ -32,7 +31,7 @@ class Rect;
 class Texture;
 struct DrawingRequest;
 
-class GLTextureRenderer final : public Renderer
+class GLTextureRenderer final : public GLRenderer
 {
 public:
   GLTextureRenderer(GLVideoSystem& video_system, const Size& size, int downscale);
@@ -40,8 +39,6 @@ public:
 
   virtual void start_draw() override;
   virtual void end_draw() override;
-
-  virtual GLPainter& get_painter() override { return m_painter; }
 
   virtual Rect get_rect() const override;
   virtual Size get_logical_size() const override;
@@ -54,9 +51,6 @@ private:
   void prepare();
 
 private:
-  GLVideoSystem& m_video_system;
-  GLPainter m_painter;
-
   Size m_size;
   int m_downscale;
   TexturePtr m_texture;
