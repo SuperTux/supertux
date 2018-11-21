@@ -28,24 +28,26 @@ class Vector;
 class SurfaceBatch
 {
 public:
-  SurfaceBatch(const SurfacePtr& surface, const PaintStyle& style);
-  SurfaceBatch(const SurfaceBatch&) = default;
-  SurfaceBatch& operator=(const SurfaceBatch&) = default;
+  SurfaceBatch(const SurfacePtr& surface);
+  SurfaceBatch(SurfaceBatch&&) = default;
 
   void draw(const Vector& pos, float angle = 0.0f);
   void draw(const Rectf& dstrect, float angle = 0.0f);
   void draw(const Rectf& srcrect, const Rectf& dstrect, float angle = 0.0f);
 
-  const std::vector<Rectf>& get_srcrects() const { return m_srcrects; }
-  const std::vector<Rectf>& get_dstrects() const { return m_dstrects; }
-  const std::vector<float>& get_angles() const { return m_angles; }
+  std::vector<Rectf>&& get_srcrects() && { return std::move(m_srcrects); }
+  std::vector<Rectf>&& get_dstrects() && { return std::move(m_dstrects); }
+  std::vector<float>&& get_angles() && { return std::move(m_angles); }
 
 private:
   SurfacePtr m_surface;
-  PaintStyle m_style;
   std::vector<Rectf> m_srcrects;
   std::vector<Rectf> m_dstrects;
   std::vector<float> m_angles;
+
+private:
+  SurfaceBatch(const SurfaceBatch&) = delete;
+  SurfaceBatch& operator=(const SurfaceBatch&) = delete;
 };
 
 #endif

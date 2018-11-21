@@ -57,14 +57,14 @@ public:
   void draw_surface_scaled(SurfacePtr surface, const Rectf& dstrect,
                            int layer, const PaintStyle& style = PaintStyle());
   void draw_surface_batch(SurfacePtr surface,
-                          const std::vector<Rectf>& srcrects,
-                          const std::vector<Rectf>& dstrects,
+                          std::vector<Rectf> srcrects,
+                          std::vector<Rectf> dstrects,
                           const Color& color,
                           int layer);
   void draw_surface_batch(SurfacePtr surface,
-                          const std::vector<Rectf>& srcrects,
-                          const std::vector<Rectf>& dstrects,
-                          const std::vector<float>& angles,
+                          std::vector<Rectf> srcrects,
+                          std::vector<Rectf> dstrects,
+                          std::vector<float> angles,
                           const Color& color,
                           int layer);
   void draw_text(FontPtr font, const std::string& text,

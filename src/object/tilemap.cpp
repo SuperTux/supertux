@@ -360,28 +360,26 @@ TileMap::draw(DrawingContext& context)
       const Tile& tile = m_tileset->get(m_tiles[index]);
 
       const SurfacePtr& surface = Editor::current() ? tile.get_current_editor_surface() : tile.get_current_surface();
-
-      if (surface)
-      {
-        std::get<0>(batches[surface]).push_back(Rectf(surface->get_region())),
-        std::get<1>(batches[surface]).push_back(Rectf(pos,
-                                                      Sizef(static_cast<float>(surface->get_width()),
-                                                            static_cast<float>(surface->get_height()))));
+      if (surface) {
+        std::get<0>(batches[surface]).emplace_back(surface->get_region());
+        std::get<1>(batches[surface]).emplace_back(pos,
+                                                   Sizef(static_cast<float>(surface->get_width()),
+                                                         static_cast<float>(surface->get_height())));
       }
     }
   }
 
   Canvas& canvas = context.get_canvas(m_draw_target);
 
-  for (const auto& it : batches)
+  for (auto& it : batches)
   {
     const SurfacePtr& surface = it.first;
-    if (!surface) continue;
-
-    const std::vector<Rectf>& srcrects = std::get<0>(it.second);
-    const std::vector<Rectf>& dstrects = std::get<1>(it.second);
-
-    canvas.draw_surface_batch(surface, srcrects, dstrects, m_current_tint, m_z_pos);
+    if (surface) {
+      canvas.draw_surface_batch(surface,
+                                std::move(std::get<0>(it.second)),
+                                std::move(std::get<1>(it.second)),
+                                m_current_tint, m_z_pos);
+    }
   }
 
   context.pop_transform();

@@ -19,9 +19,8 @@
 #include "math/rectf.hpp"
 #include "video/surface.hpp"
 
-SurfaceBatch::SurfaceBatch(const SurfacePtr& surface, const PaintStyle& style) :
+SurfaceBatch::SurfaceBatch(const SurfacePtr& surface) :
   m_surface(surface),
-  m_style(style),
   m_srcrects(),
   m_dstrects(),
   m_angles()

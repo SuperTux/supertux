@@ -66,7 +66,8 @@ ParticleSystem::~ParticleSystem()
 {
 }
 
-void ParticleSystem::draw(DrawingContext& context)
+void
+ParticleSystem::draw(DrawingContext& context)
 {
   if (!enabled)
     return;
@@ -94,7 +95,7 @@ void ParticleSystem::draw(DrawingContext& context)
 
     auto it = batches.find(particle->texture);
     if (it == batches.end()) {
-      auto batch_it = batches.emplace(particle->texture, SurfaceBatch(particle->texture, PaintStyle()));
+      const auto& batch_it = batches.emplace(particle->texture, SurfaceBatch(particle->texture));
       batch_it.first->second.draw(pos, particle->angle);
     } else {
       it->second.draw(pos, particle->angle);
@@ -105,7 +106,9 @@ void ParticleSystem::draw(DrawingContext& context)
     auto& surface = it.first;
     auto& batch = it.second;
     context.color().draw_surface_batch(surface,
-                                       batch.get_srcrects(), batch.get_dstrects(), batch.get_angles(),
+                                       std::move(batch).get_srcrects(),
+                                       std::move(batch).get_dstrects(),
+                                       std::move(batch).get_angles(),
                                        Color::WHITE, z_pos);
   }
 
