@@ -39,8 +39,8 @@ ConsoleBuffer::ConsoleBuffer() :
 void
 ConsoleBuffer::set_console(Console* console)
 {
-  assert(!m_console);
-  assert(console);
+  assert((console && !m_console) ||
+         (m_console && !console));
 
   m_console = console;
 }
@@ -121,7 +121,7 @@ Console::Console(ConsoleBuffer& buffer) :
   m_font(Resources::console_font),
   m_stayOpen(0)
 {
-  buffer.set_console(this);
+  m_buffer.set_console(this);
 }
 
 Console::~Console()
@@ -130,6 +130,7 @@ Console::~Console()
   {
     sq_release(SquirrelVirtualMachine::current()->get_vm(), &m_vm_object);
   }
+  m_buffer.set_console(nullptr);
 }
 
 void
