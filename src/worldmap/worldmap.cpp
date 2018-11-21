@@ -36,6 +36,7 @@
 #include "supertux/gameconfig.hpp"
 #include "supertux/level.hpp"
 #include "supertux/menu/menu_storage.hpp"
+#include "supertux/player_status_hud.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/savegame.hpp"
 #include "supertux/screen_manager.hpp"
@@ -85,6 +86,7 @@ WorldMap::WorldMap(const std::string& filename, Savegame& savegame, const std::s
   m_in_level(false)
 {
   m_tux = &add<Tux>(this);
+  add<PlayerStatusHUD>(m_savegame.get_player_status());
 
   SoundManager::current()->preload("sounds/warp.wav");
 
@@ -506,8 +508,6 @@ WorldMap::draw_status(DrawingContext& context)
 {
   context.push_transform();
   context.set_translation(Vector(0, 0));
-
-  m_savegame.get_player_status().draw(context);
 
   if (!m_tux->is_moving()) {
     for (auto& level : get_objects_by_type<LevelTile>()) {

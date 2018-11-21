@@ -20,7 +20,7 @@
 #include "object/level_time.hpp"
 #include "object/text_object.hpp"
 #include "supertux/levelintro.hpp"
-#include "supertux/player_status.hpp"
+#include "supertux/player_status_hud.hpp"
 #include "supertux/textscroller_screen.hpp"
 #include "trigger/climbable.hpp"
 #include "trigger/secretarea_trigger.hpp"
@@ -40,7 +40,7 @@ Color ColorScheme::Menu::inactive_color(0.5f,0.5f,0.5f);
 Color ColorScheme::Menu::label_color(0.f,1.f,1.f);
 Color ColorScheme::Menu::field_color(1.f,1.f,0.6f);
 
-Color PlayerStatus::text_color(1.f,1.f,0.6f);
+Color PlayerStatusHUD::text_color(1.f,1.f,0.6f);
 
 Color TextObject::default_color(1.f,1.f,1.f);
 

@@ -48,6 +48,7 @@
 #include "supertux/game_object_factory.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/level.hpp"
+#include "supertux/player_status_hud.hpp"
 #include "supertux/savegame.hpp"
 #include "supertux/tile.hpp"
 #include "util/file_system.hpp"
@@ -67,11 +68,10 @@ Sector::Sector(Level& parent) :
   m_collision_system(new CollisionSystem(*this)),
   m_gravity(10.0)
 {
-  PlayerStatus& player_status = Editor::is_active() ?
-    Editor::current()->m_savegame->get_player_status() :
-    GameSession::current()->get_savegame().get_player_status();
+  Savegame& savegame = Editor::is_active() ? *Editor::current()->m_savegame : GameSession::current()->get_savegame();
 
-  add<Player>(player_status, "Tux");
+  add<PlayerStatusHUD>(savegame.get_player_status());
+  add<Player>(savegame.get_player_status(), "Tux");
   add<DisplayEffect>("Effect");
   add<TextObject>("Text");
   add<TextArrayObject>("TextArray");

@@ -22,22 +22,16 @@
 
 #include "audio/sound_manager.hpp"
 #include "supertux/globals.hpp"
-#include "supertux/resources.hpp"
 #include "util/log.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
-#include "video/drawing_context.hpp"
-#include "video/surface.hpp"
 
 static const int START_COINS = 100;
 static const int MAX_COINS = 9999;
 
-static const int DISPLAYED_COINS_UNSET = -1;
-
 PlayerStatus* player_status = nullptr;
 
 PlayerStatus::PlayerStatus() :
-  /* Do we really want -Weffc++ to bully us into duplicating code from "reset" here? */
   coins(START_COINS),
   bonus(NO_BONUS),
   max_fire_bullets(0),
@@ -45,10 +39,7 @@ PlayerStatus::PlayerStatus() :
   max_air_time(0),
   max_earth_time(0),
   worldmap_sprite("images/worldmap/common/tux.sprite"),
-  last_worldmap(),
-  displayed_coins(DISPLAYED_COINS_UNSET),
-  displayed_coins_frame(0),
-  coin_surface(Surface::from_file("images/engine/hud/coins-0.png"))
+  last_worldmap()
 {
   reset();
 
@@ -60,7 +51,12 @@ void PlayerStatus::reset()
 {
   coins = START_COINS;
   bonus = NO_BONUS;
-  displayed_coins = DISPLAYED_COINS_UNSET;
+}
+
+int
+PlayerStatus::get_max_coins() const
+{
+  return MAX_COINS;
 }
 
 void
@@ -150,48 +146,6 @@ PlayerStatus::read(const ReaderMapping& mapping)
 
   mapping.get("worldmap-sprite", worldmap_sprite);
   mapping.get("last-worldmap", last_worldmap);
-}
-
-void
-PlayerStatus::draw(DrawingContext& context)
-{
-  int player_id = 0;
-
-  if ((displayed_coins == DISPLAYED_COINS_UNSET) ||
-      (std::abs(displayed_coins - coins) > 100)) {
-    displayed_coins = coins;
-    displayed_coins_frame = 0;
-  }
-  if (++displayed_coins_frame > 2) {
-    displayed_coins_frame = 0;
-    if (displayed_coins < coins) displayed_coins++;
-    if (displayed_coins > coins) displayed_coins--;
-  }
-  displayed_coins = std::min(std::max(displayed_coins, 0), MAX_COINS);
-
-  std::stringstream ss;
-  ss << displayed_coins;
-  std::string coins_text = ss.str();
-
-  context.push_transform();
-  context.set_translation(Vector(0, 0));
-
-  if (coin_surface)
-  {
-    context.color().draw_surface(coin_surface,
-                                 Vector(static_cast<float>(context.get_width()) - BORDER_X - static_cast<float>(coin_surface->get_width()) - Resources::fixed_font->get_text_width(coins_text),
-                                        BORDER_Y + 1.0f + (Resources::fixed_font->get_text_height(coins_text) + 5) * static_cast<float>(player_id)),
-                                   LAYER_HUD);
-  }
-  context.color().draw_text(Resources::fixed_font,
-                            coins_text,
-                            Vector(static_cast<float>(context.get_width()) - BORDER_X - Resources::fixed_font->get_text_width(coins_text),
-                                   BORDER_Y + (Resources::fixed_font->get_text_height(coins_text) + 5.0f) * static_cast<float>(player_id)),
-                            ALIGN_LEFT,
-                            LAYER_HUD,
-                            PlayerStatus::text_color);
-
-  context.pop_transform();
 }
 
 std::string PlayerStatus::get_bonus_prefix() const

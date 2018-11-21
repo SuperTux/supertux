@@ -20,9 +20,6 @@
 
 #include <memory>
 
-#include "video/color.hpp"
-#include "video/surface_ptr.hpp"
-
 class DrawingContext;
 class ReaderMapping;
 class Writer;
@@ -34,13 +31,10 @@ enum BonusType {
   NO_BONUS = 0, GROWUP_BONUS, FIRE_BONUS, ICE_BONUS, AIR_BONUS, EARTH_BONUS
 };
 
-/**
- * This class keeps player status between different game sessions (for
- * example when switching maps in the worldmap)
- */
+/** This class keeps player status between different game sessions (for
+    example when switching maps in the worldmap) */
 class PlayerStatus final
 {
-  static Color text_color;
 public:
   PlayerStatus();
   void reset();
@@ -49,8 +43,7 @@ public:
   void write(Writer& writer);
   void read(const ReaderMapping& mapping);
 
-  void draw(DrawingContext& context);
-
+  int get_max_coins() const;
   std::string get_bonus_prefix() const;/**Returns the prefix of the animations that should be displayed*/
 
 public:
@@ -63,11 +56,6 @@ public:
 
   std::string worldmap_sprite; /**< the sprite of Tux that should be used in worldmap */
   std::string last_worldmap; /**< the last played worldmap */
-
-private:
-  int displayed_coins;
-  int displayed_coins_frame;
-  SurfacePtr coin_surface;
 
 private:
   PlayerStatus(const PlayerStatus&) = delete;
