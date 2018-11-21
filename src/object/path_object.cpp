@@ -44,13 +44,13 @@ PathObject::init_path(const ReaderMapping& mapping, bool running_default)
   boost::optional<ReaderMapping> path_mapping;
   if (mapping.get("path", path_mapping))
   {
-    auto& path_gameobject = d_sector->add<PathGameObject>(*path_mapping, true);
+    auto& path_gameobject = d_gameobject_manager->add<PathGameObject>(*path_mapping, true);
     m_path_uid = path_gameobject.get_uid();
     m_walker.reset(new PathWalker(m_path_uid, running));
   }
   else if (mapping.get("path-ref", path_ref))
   {
-    d_sector->request_name_resolve(path_ref, [this, running](UID uid){
+    d_gameobject_manager->request_name_resolve(path_ref, [this, running](UID uid){
         m_path_uid = uid;
         m_walker.reset(new PathWalker(uid, running));
       });
@@ -60,7 +60,7 @@ PathObject::init_path(const ReaderMapping& mapping, bool running_default)
 void
 PathObject::init_path_pos(const Vector& pos, bool running)
 {
-  auto& path_gameobject = d_sector->add<PathGameObject>(pos);
+  auto& path_gameobject = d_gameobject_manager->add<PathGameObject>(pos);
   m_path_uid = path_gameobject.get_uid();
   m_walker.reset(new PathWalker(path_gameobject.get_uid(), running));
 }
@@ -68,7 +68,7 @@ PathObject::init_path_pos(const Vector& pos, bool running)
 void
 PathObject::init_path_empty()
 {
-  auto& path_gameobject = d_sector->add<PathGameObject>();
+  auto& path_gameobject = d_gameobject_manager->add<PathGameObject>();
   m_path_uid = path_gameobject.get_uid();
   m_walker.reset(new PathWalker(m_path_uid));
 }
@@ -76,7 +76,7 @@ PathObject::init_path_empty()
 Path*
 PathObject::get_path()
 {
-  auto* path_gameobject = d_sector->get_object_by_uid<PathGameObject>(m_path_uid);
+  auto* path_gameobject = d_gameobject_manager->get_object_by_uid<PathGameObject>(m_path_uid);
   if (!path_gameobject)
   {
     return nullptr;
@@ -90,7 +90,7 @@ PathObject::get_path()
 std::string
 PathObject::get_path_ref() const
 {
-  auto* path_gameobject = d_sector->get_object_by_uid<PathGameObject>(m_path_uid);
+  auto* path_gameobject = d_gameobject_manager->get_object_by_uid<PathGameObject>(m_path_uid);
   if (path_gameobject) {
     return path_gameobject->get_name();
   } else {
