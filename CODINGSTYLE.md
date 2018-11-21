@@ -1,5 +1,14 @@
 # SuperTux Coding Standards
 
+## Language
+
+C++14 is the main langauge used for this project. GCC, Clang and MSVC are supported.
+
+For better backward compatibilty with older compiler, namely gcc6,
+some C++14 features are not allowed:
+
+* generic lambda function, e.g. `[](auto foo){}`
+
 ## Repository Structure
 
 Properly separate between generic engine code and game specific code whenever
@@ -15,15 +24,30 @@ organisation on Github, not directly included from upstream.
 
 Do not have spaces at the end of lines.
 
-Files should always end with `/* EOF */` and a newline or a similar marker approprimate for
-the given language.
+Files should always end with `/* EOF */` and a newline or a similar
+marker approprimate for the given language. This marker can be left
+out for fileformats that have an end tag, e.g. `</html>`.
 
 Aim for one file per class, small helper classes in the same file are ok.
 
 ## Includes
 
-The path in `#include` directives must not contain `..`. All paths must be
-relative to the `src/` directory.
+The path in `#include` directives must not contain `..`.
+
+All paths for includes from SuperTux must be relative to the `src/`
+directory and use `#include "..."`.
+
+Use the `#include <>` syntax for libraries in `external/`, use `cmake`
+to set the include path properly.
+
+The order of includes shall be as follows, each of those subgroups
+shall be ordered alphabetically:
+
+* include of header file when in a .cpp file
+* include of the base class in a header file of a derived class
+* system includes
+* external includes
+* local includes
 
 Conditional includes should be indented.
 
@@ -32,9 +56,6 @@ Conditional includes should be indented.
 #  include "foobar.hpp"
 #endif
 ```
-
-Use the `#include <>` syntax for libraries in `external/`, use `cmake`
-to set the include path properly.
 
 Include guards are of the form:
 
@@ -49,7 +70,7 @@ include guards on file renames.
 ## Variables
 
 Prefix member variable names with `m_`, global variables with `g_`, and static
-variables with `s_`.
+variables with `s_`. DynamicScopeRefs are prefixed with `d_`.
 
 ## Classes
 
