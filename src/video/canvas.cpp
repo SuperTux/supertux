@@ -124,11 +124,11 @@ Canvas::draw_surface(SurfacePtr surface,
   request->layer = layer;
   request->flip = m_context.transform().flip ^ surface->get_flip();
   request->alpha = m_context.transform().alpha;
-  request->angle = angle;
   request->blend = blend;
 
   request->srcrects.emplace_back(Rectf(surface->get_region()));
   request->dstrects.emplace_back(Rectf(apply_translate(position), Size(surface->get_width(), surface->get_height())));
+  request->angles.emplace_back(0.0f);
   request->texture = surface->get_texture().get();
   request->displacement_texture = surface->get_displacement_texture().get();
   request->color = color;
@@ -166,6 +166,7 @@ Canvas::draw_surface_part(SurfacePtr surface, const Rectf& srcrect, const Rectf&
 
   request->srcrects.emplace_back(srcrect);
   request->dstrects.emplace_back(apply_translate(dstrect.p1), dstrect.get_size());
+  request->angles.emplace_back(0.0f);
   request->texture = surface->get_texture().get();
   request->displacement_texture = surface->get_displacement_texture().get();
   request->color = style.get_color();
@@ -177,6 +178,17 @@ void
 Canvas::draw_surface_batch(SurfacePtr surface,
                            const std::vector<Rectf>& srcrects,
                            const std::vector<Rectf>& dstrects,
+                           const Color& color,
+                           int layer)
+{
+  draw_surface_batch(surface, srcrects, dstrects, std::vector<float>(srcrects.size(), 0.0f), color, layer);
+}
+
+void
+Canvas::draw_surface_batch(SurfacePtr surface,
+                           const std::vector<Rectf>& srcrects,
+                           const std::vector<Rectf>& dstrects,
+                           const std::vector<float>& angles,
                            const Color& color,
                            int layer)
 {
@@ -192,6 +204,7 @@ Canvas::draw_surface_batch(SurfacePtr surface,
 
   request->srcrects = srcrects;
   request->dstrects = dstrects;
+  request->angles = angles;
   for (auto& dstrect : request->dstrects)
   {
     dstrect = Rectf(apply_translate(dstrect.p1), dstrect.get_size());

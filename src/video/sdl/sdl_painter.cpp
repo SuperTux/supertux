@@ -213,6 +213,7 @@ SDLPainter::draw_texture(const TextureRequest& request)
   const auto& texture = static_cast<const SDLTexture&>(*request.texture);
 
   assert(request.srcrects.size() == request.dstrects.size());
+  assert(request.srcrects.size() == request.angles.size());
 
   for (size_t i = 0; i < request.srcrects.size(); ++i)
   {
@@ -248,7 +249,7 @@ SDLPainter::draw_texture(const TextureRequest& request)
       flip = static_cast<SDL_RendererFlip>(flip | SDL_FLIP_VERTICAL);
     }
 
-    RenderCopyEx(m_sdl_renderer, texture.get_texture(), &src_rect, &dst_rect, request.angle, nullptr, flip,
+    RenderCopyEx(m_sdl_renderer, texture.get_texture(), &src_rect, &dst_rect, request.angles[i], nullptr, flip,
                  texture.get_sampler());
   }
 }

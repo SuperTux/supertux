@@ -47,6 +47,7 @@ GLPainter::draw_texture(const TextureRequest& request)
   const auto& texture = static_cast<const GLTexture&>(*request.texture);
 
   assert(request.srcrects.size() == request.dstrects.size());
+  assert(request.srcrects.size() == request.angles.size());
 
   std::vector<float> vertices;
   std::vector<float> uvs;
@@ -68,7 +69,7 @@ GLPainter::draw_texture(const TextureRequest& request)
     if (request.flip & VERTICAL_FLIP)
       std::swap(uv_top, uv_bottom);
 
-    if (request.angle == 0.0f)
+    if (request.angles[i] == 0.0f)
     {
       auto vertices_lst = {
         left, top,
@@ -98,8 +99,8 @@ GLPainter::draw_texture(const TextureRequest& request)
       const float center_x = (left + right) / 2;
       const float center_y = (top + bottom) / 2;
 
-      const float sa = sinf(math::radians(request.angle));
-      const float ca = cosf(math::radians(request.angle));
+      const float sa = sinf(math::radians(request.angles[i]));
+      const float ca = cosf(math::radians(request.angles[i]));
 
       const float new_left = left - center_x;
       const float new_right = right - center_x;

@@ -42,7 +42,6 @@ struct DrawingRequest
   Flip flip;
   float alpha;
   Blend blend;
-  float angle;
 
   DrawingRequest() = delete;
   DrawingRequest(RequestType type_) :
@@ -50,8 +49,7 @@ struct DrawingRequest
     layer(),
     flip(),
     alpha(),
-    blend(),
-    angle(0.0f)
+    blend()
   {}
   virtual ~DrawingRequest() {}
 };
@@ -64,6 +62,7 @@ struct TextureRequest : public DrawingRequest
     displacement_texture(),
     srcrects(),
     dstrects(),
+    angles(),
     color(1.0f, 1.0f, 1.0f)
   {}
 
@@ -71,6 +70,7 @@ struct TextureRequest : public DrawingRequest
   const Texture* displacement_texture;
   std::vector<Rectf> srcrects;
   std::vector<Rectf> dstrects;
+  std::vector<float> angles;
   Color color;
 
 private:
