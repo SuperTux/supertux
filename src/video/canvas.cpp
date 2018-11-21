@@ -128,7 +128,7 @@ Canvas::draw_surface(SurfacePtr surface,
 
   request->srcrects.emplace_back(Rectf(surface->get_region()));
   request->dstrects.emplace_back(Rectf(apply_translate(position), Size(surface->get_width(), surface->get_height())));
-  request->angles.emplace_back(0.0f);
+  request->angles.emplace_back(angle);
   request->texture = surface->get_texture().get();
   request->displacement_texture = surface->get_displacement_texture().get();
   request->color = color;
