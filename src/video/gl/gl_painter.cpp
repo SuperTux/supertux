@@ -460,9 +460,7 @@ GLPainter::get_pixel(const GetPixelRequest& request) const
   GLPixelRequest pixel_request(1, 1);
   pixel_request.request(static_cast<int>(x), static_cast<int>(y));
 
-  uint8_t data[4];
-  pixel_request.get(data, sizeof(data));
-  *(request.color_ptr) = Color::from_rgb888(data[0], data[1], data[2]);
+  *(request.color_ptr) = pixel_request.get_color();
 
 #else
   float pixels[4] = { 0.0f, 0.0f, 0.0f, 0.0f };

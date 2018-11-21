@@ -51,7 +51,7 @@ GLPixelRequest::request(int x, int y)
   assert_gl();
 
   glBindBuffer(GL_PIXEL_PACK_BUFFER, m_buffer);
-  glReadPixels(x, y, m_width, m_height, GL_BGRA, GL_UNSIGNED_BYTE,
+  glReadPixels(x, y, m_width, m_height, GL_RGB, GL_UNSIGNED_BYTE,
                reinterpret_cast<GLvoid*>(m_offset));
   m_sync = glFenceSync(GL_SYNC_GPU_COMMANDS_COMPLETE, GL_NONE_BIT);
   glBindBuffer(GL_PIXEL_PACK_BUFFER, 0);
@@ -92,13 +92,21 @@ GLPixelRequest::is_ready() const
 }
 
 void
-GLPixelRequest::get(void* buffer, size_t length)
+GLPixelRequest::get(void* buffer, size_t length) const
 {
   assert_gl();
   glBindBuffer(GL_PIXEL_PACK_BUFFER, m_buffer);
   glGetBufferSubData(GL_PIXEL_PACK_BUFFER, m_offset, length, buffer);
   glBindBuffer(GL_PIXEL_PACK_BUFFER, 0);
   assert_gl();
+}
+
+Color
+GLPixelRequest::get_color() const
+{
+  uint8_t data[3];
+  get(data, sizeof(data));
+  return Color::from_rgb888(data[0], data[1], data[2]);
 }
 
 #endif

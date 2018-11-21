@@ -19,6 +19,7 @@
 
 #include <stddef.h>
 
+#include "video/color.hpp"
 #include "video/gl.hpp"
 
 #ifndef USE_OPENGLES2
@@ -31,7 +32,10 @@ public:
 
   void request(int x, int y);
   bool is_ready() const;
-  void get(void* buffer, size_t length);
+  Color get_color() const;
+
+private:
+  void get(void* buffer, size_t length) const;
 
 private:
   GLuint m_buffer;
