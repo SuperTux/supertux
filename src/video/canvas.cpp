@@ -181,10 +181,11 @@ Canvas::draw_surface_batch(SurfacePtr surface,
                            const Color& color,
                            int layer)
 {
+  const size_t len = srcrects.size();
   draw_surface_batch(surface,
                      std::move(srcrects),
                      std::move(dstrects),
-                     std::vector<float>(srcrects.size(), 0.0f),
+                     std::vector<float>(len, 0.0f),
                      color, layer);
 }
 
