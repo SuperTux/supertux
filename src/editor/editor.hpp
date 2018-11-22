@@ -17,6 +17,7 @@
 #ifndef HEADER_SUPERTUX_EDITOR_EDITOR_HPP
 #define HEADER_SUPERTUX_EDITOR_EDITOR_HPP
 
+#include <functional>
 #include <string>
 
 #include "editor/overlay_widget.hpp"
