@@ -24,7 +24,7 @@ class Writer final
 {
 public:
   Writer(const std::string& filename);
-  Writer(std::ostream* out);
+  Writer(std::ostream& out);
   ~Writer();
 
   void write_comment(const std::string& comment);

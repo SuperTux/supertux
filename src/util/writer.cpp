@@ -29,9 +29,9 @@ Writer::Writer(const std::string& filename) :
   out->precision(10);
 }
 
-Writer::Writer(std::ostream* newout) :
+Writer::Writer(std::ostream& newout) :
   m_filename("<stream>"),
-  out(newout),
+  out(&newout),
   out_owned(false),
   indent_depth(0),
   lists()
