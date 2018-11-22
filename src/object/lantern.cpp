@@ -55,12 +55,13 @@ ObjectSettings
 Lantern::get_settings()
 {
   ObjectSettings result = Rock::get_settings();
-  result.add(MN_COLOR, _("Colour"), &lightcolor, "color");
+  result.add(MN_COLOR, _("Color"), &lightcolor, "color");
   return result;
 }
 
 void
-Lantern::after_editor_set() {
+Lantern::after_editor_set()
+{
   updateColor();
 }
 
@@ -137,7 +138,8 @@ Lantern::is_open() const
 }
 
 void
-Lantern::add_color(Color c) {
+Lantern::add_color(const Color& c)
+{
   lightcolor.red   = std::min(1.0f, lightcolor.red   + c.red);
   lightcolor.green = std::min(1.0f, lightcolor.green + c.green);
   lightcolor.blue  = std::min(1.0f, lightcolor.blue  + c.blue);
