@@ -54,7 +54,7 @@ public:
   // boost::optional<float> magnification;
 
   boost::optional<bool> use_fullscreen;
-   boost::optional<VideoSystem::Enum> video;
+  boost::optional<VideoSystem::Enum> video;
   // boost::optional<bool> try_vsync;
   boost::optional<bool> show_fps;
   boost::optional<bool> show_player_pos;

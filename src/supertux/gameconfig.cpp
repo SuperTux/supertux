@@ -190,7 +190,12 @@ Config::save()
 
   writer.start_list("video");
   writer.write("fullscreen", use_fullscreen);
-  writer.write("video", VideoSystem::get_video_string(video));
+  if (video == VideoSystem::VIDEO_NULL) {
+    // don't save NULL renderer to config as starting SuperTux without
+    // getting a window is rather confusing
+  } else {
+    writer.write("video", VideoSystem::get_video_string(video));
+  }
   writer.write("vsync", try_vsync);
 
   writer.write("fullscreen_width",  fullscreen_size.width);
