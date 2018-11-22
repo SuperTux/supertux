@@ -208,7 +208,7 @@ TileMap::save(Writer& writer) {
   if (get_path()) {
     writer.write("path-ref", get_path_ref());
   }
-  writer.write("tiles", m_tiles);
+  writer.write("tiles", m_tiles, m_width);
 }
 
 ObjectSettings

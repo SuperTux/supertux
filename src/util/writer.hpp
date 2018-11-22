@@ -37,7 +37,7 @@ public:
   void write(const std::string& name, const char* value);
   void write(const std::string& name, const std::string& value, bool translatable = false);
   void write(const std::string& name, const std::vector<int>& value);
-  void write(const std::string& name, const std::vector<unsigned int>& value);
+  void write(const std::string& name, const std::vector<unsigned int>& value, int width = 0);
   void write(const std::string& name, const std::vector<float>& value);
   void write(const std::string& name, const std::vector<std::string>& value);
   // add more write-functions when needed...

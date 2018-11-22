@@ -147,12 +147,33 @@ Writer::write(const std::string& name,
 
 void
 Writer::write(const std::string& name,
-              const std::vector<unsigned int>& value)
+              const std::vector<unsigned int>& value,
+              int width)
 {
   indent();
   *out << '(' << name;
-  for (const auto& i : value)
-    *out << " " << i;
+  if (!width)
+  {
+    for (const auto& i : value)
+      *out << " " << i;
+  }
+  else
+  {
+    *out << "\n";
+    indent();
+    int count = 0;
+    for (const auto& i : value) {
+      *out << i;
+      count += 1;
+      if (count >= width) {
+        *out << "\n";
+        indent();
+        count = 0;
+      } else {
+        *out << " ";
+      }
+    }
+  }
   *out << ")\n";
 }
 
