@@ -28,6 +28,15 @@
 #include "util/reader_mapping.hpp"
 
 std::unique_ptr<Level>
+LevelParser::from_stream(std::istream& stream)
+{
+  auto level = std::make_unique<Level>();
+  LevelParser parser(*level);
+  parser.load(stream);
+  return level;
+}
+
+std::unique_ptr<Level>
 LevelParser::from_file(const std::string& filename)
 {
   auto level = std::make_unique<Level>();
@@ -85,54 +94,67 @@ LevelParser::LevelParser(Level& level) :
 }
 
 void
+LevelParser::load(std::istream& stream)
+{
+  auto doc = ReaderDocument::from_stream(stream);
+  load(doc);
+}
+
+void
 LevelParser::load(const std::string& filepath)
 {
+  m_level.m_filename = filepath;
+  register_translation_directory(filepath);
   try {
-    m_level.m_filename = filepath;
-    register_translation_directory(filepath);
     auto doc = ReaderDocument::from_file(filepath);
-    auto root = doc.get_root();
-
-    if (root.get_name() != "supertux-level")
-      throw std::runtime_error("file is not a supertux-level file.");
-
-    auto level = root.get_mapping();
-
-    int version = 1;
-    level.get("version", version);
-    if (version == 1) {
-      log_info << "[" <<  filepath << "] level uses old format: version 1" << std::endl;
-      load_old_format(level);
-    } else if (version == 2) {
-      level.get("tileset", m_level.m_tileset);
-
-      level.get("name", m_level.m_name);
-      level.get("author", m_level.m_author);
-      level.get("contact", m_level.m_contact);
-      level.get("license", m_level.m_license);
-      level.get("target-time", m_level.m_target_time);
-
-      auto iter = level.get_iter();
-      while (iter.next()) {
-        if (iter.get_key() == "sector") {
-          auto sector = SectorParser::from_reader(m_level, iter.as_mapping());
-          m_level.add_sector(std::move(sector));
-        }
-      }
-
-      if (m_level.m_license.empty()) {
-        log_warning << "[" <<  filepath << "] The level author \"" << m_level.m_author
-                    << "\" did not specify a license for this level \""
-                    << m_level.m_name << "\". You might not be allowed to share it."
-                    << std::endl;
-      }
-    } else {
-      log_warning << "[" <<  filepath << "] level format version " << version << " is not supported" << std::endl;
-    }
+    load(doc);
   } catch(std::exception& e) {
     std::stringstream msg;
     msg << "Problem when reading level '" << filepath << "': " << e.what();
     throw std::runtime_error(msg.str());
+  }
+}
+
+void
+LevelParser::load(const ReaderDocument& doc)
+{
+  auto root = doc.get_root();
+
+  if (root.get_name() != "supertux-level")
+    throw std::runtime_error("file is not a supertux-level file.");
+
+  auto level = root.get_mapping();
+
+  int version = 1;
+  level.get("version", version);
+  if (version == 1) {
+    log_info << "[" << doc.get_filename() << "] level uses old format: version 1" << std::endl;
+    load_old_format(level);
+  } else if (version == 2) {
+    level.get("tileset", m_level.m_tileset);
+
+    level.get("name", m_level.m_name);
+    level.get("author", m_level.m_author);
+    level.get("contact", m_level.m_contact);
+    level.get("license", m_level.m_license);
+    level.get("target-time", m_level.m_target_time);
+
+    auto iter = level.get_iter();
+    while (iter.next()) {
+      if (iter.get_key() == "sector") {
+        auto sector = SectorParser::from_reader(m_level, iter.as_mapping());
+        m_level.add_sector(std::move(sector));
+      }
+    }
+
+    if (m_level.m_license.empty()) {
+      log_warning << "[" <<  doc.get_filename() << "] The level author \"" << m_level.m_author
+                  << "\" did not specify a license for this level \""
+                  << m_level.m_name << "\". You might not be allowed to share it."
+                  << std::endl;
+    }
+  } else {
+    log_warning << "[" << doc.get_filename() << "] level format version " << version << " is not supported" << std::endl;
   }
 
   m_level.m_stats.init(m_level);

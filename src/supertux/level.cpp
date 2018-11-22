@@ -50,12 +50,17 @@ Level::~Level()
 }
 
 void
+Level::save(std::ostream& stream)
+{
+  Writer writer(stream);
+  save(writer);
+}
+
+void
 Level::save(const std::string& filepath, bool retry)
 {
   //FIXME: It tests for directory in supertux/data, but saves into .supertux2.
-
   try {
-
     { // make sure the level directory exists
       std::string dirname = FileSystem::dirname(filepath);
       if (!PHYSFS_exists(dirname.c_str()))
@@ -78,29 +83,7 @@ Level::save(const std::string& filepath, bool retry)
     }
 
     Writer writer(filepath);
-    writer.start_list("supertux-level");
-    // Starts writing to supertux level file. Keep this at the very beginning.
-
-    writer.write("version", 2);
-    writer.write("name", m_name, true);
-    writer.write("author", m_author, false);
-    writer.write("tileset", m_tileset, false);
-    if (m_contact != "") {
-      writer.write("contact", m_contact, false);
-    }
-    if (m_license != "") {
-      writer.write("license", m_license, false);
-    }
-    if (m_target_time != 0.0f){
-      writer.write("target-time", m_target_time);
-    }
-
-    for (auto& sector : m_sectors) {
-      sector->save(writer);
-    }
-
-    // Ends writing to supertux level file. Keep this at the very end.
-    writer.end_list("supertux-level");
+    save(writer);
     log_warning << "Level saved as " << filepath << "." << std::endl;
   } catch(std::exception& e) {
     if (retry) {
@@ -122,6 +105,34 @@ Level::save(const std::string& filepath, bool retry)
       save(filepath, true);
     }
   }
+}
+
+void
+Level::save(Writer& writer)
+{
+  writer.start_list("supertux-level");
+  // Starts writing to supertux level file. Keep this at the very beginning.
+
+  writer.write("version", 2);
+  writer.write("name", m_name, true);
+  writer.write("author", m_author, false);
+  writer.write("tileset", m_tileset, false);
+  if (m_contact != "") {
+    writer.write("contact", m_contact, false);
+  }
+  if (m_license != "") {
+    writer.write("license", m_license, false);
+  }
+  if (m_target_time != 0.0f){
+    writer.write("target-time", m_target_time);
+  }
+
+  for (auto& sector : m_sectors) {
+    sector->save(writer);
+  }
+
+  // Ends writing to supertux level file. Keep this at the very end.
+  writer.end_list("supertux-level");
 }
 
 void

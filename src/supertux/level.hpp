@@ -21,6 +21,7 @@
 
 class ReaderMapping;
 class Sector;
+class Writer;
 
 /**
  * Represents a collection of Sectors running in a single GameSession.
@@ -30,6 +31,12 @@ class Sector;
 class Level final
 {
   friend class LevelParser;
+
+public:
+  static Level* current() { return s_current; }
+
+private:
+  static Level* s_current;
 
 public:
   std::string m_name;
@@ -51,6 +58,7 @@ public:
 
   // saves to a levelfile
   void save(const std::string& filename, bool retry = false);
+  void save(std::ostream& stream);
 
   void add_sector(std::unique_ptr<Sector> sector);
   const std::string& get_name() const { return m_name; }
@@ -67,15 +75,10 @@ public:
   int get_total_badguys() const;
   int get_total_secrets() const;
 
-  static Level* current() {
-    return s_current;
-  }
-
   void reactivate();
 
 private:
-  static Level* s_current;
-
+  void save(Writer& writer);
   void load_old_format(const ReaderMapping& reader);
 
 private:
