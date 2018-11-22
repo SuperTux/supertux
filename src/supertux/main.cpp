@@ -371,10 +371,24 @@ static inline void timelog(const char* component)
 }
 
 void
-Main::resave(const std::string& filename)
+Main::resave(const std::string& input_filename, const std::string& output_filename)
 {
-  auto level = LevelParser::from_file(filename);
-  level->save(filename);
+  std::ifstream in(input_filename);
+  if (!in) {
+    log_fatal << input_filename << ": couldn't open file for reading" << std::endl;
+  } else {
+    log_info << "loading level: " << input_filename << std::endl;
+    auto level = LevelParser::from_stream(in);
+    in.close();
+
+    std::ofstream out(output_filename);
+    if (!out) {
+      log_fatal << output_filename << ": couldn't open file for writing" << std::endl;
+    } else {
+      log_info << "saving level: " << output_filename << std::endl;
+      level->save(out);
+    }
+  }
 }
 
 void
@@ -447,7 +461,7 @@ Main::launch_game(const CommandLineArguments& args)
 
       if (args.resave && *args.resave)
       {
-        resave(start_level);
+        resave(start_level, start_level);
       }
       else if (args.editor)
       {

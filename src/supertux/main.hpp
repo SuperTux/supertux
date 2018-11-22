@@ -28,7 +28,7 @@ private:
   void init_video();
 
   void launch_game(const CommandLineArguments& args);
-  void resave(const std::string& filename);
+  void resave(const std::string& input_filename, const std::string& output_filename);
 
 public:
   /** We call it run() instead of main() as main collides with
