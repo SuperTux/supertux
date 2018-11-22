@@ -567,7 +567,9 @@ Sector::save(Writer &writer)
   }
 
   if (!Editor::is_active() || !Editor::current()->get_worldmap_mode()) {
-    writer.write("gravity", m_gravity);
+    if (m_gravity != 10.0f) {
+      writer.write("gravity", m_gravity);
+    }
   }
 
   // saving spawnpoints

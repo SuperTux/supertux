@@ -116,7 +116,8 @@ Level::save(Writer& writer)
   writer.write("version", 2);
   writer.write("name", m_name, true);
   writer.write("author", m_author, false);
-  writer.write("tileset", m_tileset, false);
+  if (m_tileset != "images/tiles.strf")
+    writer.write("tileset", m_tileset, false);
   if (m_contact != "") {
     writer.write("contact", m_contact, false);
   }

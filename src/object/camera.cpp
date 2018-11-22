@@ -120,7 +120,10 @@ public:
 void
 Camera::save(Writer& writer)
 {
-  GameObject::save(writer);
+  if (get_name() != "Camera") {
+    GameObject::save(writer);
+  }
+
   if (m_defaultmode == AUTOSCROLL && !get_path()->is_valid()) {
     m_defaultmode = NORMAL;
   }
