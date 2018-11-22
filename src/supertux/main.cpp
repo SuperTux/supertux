@@ -388,8 +388,16 @@ Main::launch_game(const CommandLineArguments& args)
 
   timelog("commandline");
 
+  auto video = g_config->video;
+  if (args.resave && *args.resave) {
+    if (args.video) {
+      video = *args.video;
+    } else {
+      video = VideoSystem::VIDEO_NULL;
+    }
+  }
   timelog("video");
-  std::unique_ptr<VideoSystem> video_system = VideoSystem::create(g_config->video);
+  std::unique_ptr<VideoSystem> video_system = VideoSystem::create(video);
   init_video();
 
   TTFSurfaceManager ttf_surface_manager;
