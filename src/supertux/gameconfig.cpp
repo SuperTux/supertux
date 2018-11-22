@@ -40,12 +40,10 @@ Config::Config() :
   sound_volume(50),
   music_volume(50),
   random_seed(0), // set by time(), by default (unless in config)
-  start_level(),
   enable_script_debugger(false),
   start_demo(),
   record_demo(),
   tux_spawn_pos(),
-  edit_level(),
   locale(),
   keyboard_config(),
   joystick_config(),

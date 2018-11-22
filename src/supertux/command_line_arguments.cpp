@@ -39,7 +39,7 @@ CommandLineArguments::CommandLineArguments() :
   show_player_pos(),
   sound_enabled(),
   music_enabled(),
-  start_level(),
+  filenames(),
   enable_script_debugger(),
   start_demo(),
   record_demo(),
@@ -49,7 +49,7 @@ CommandLineArguments::CommandLineArguments() :
   developer_mode(),
   christmas_mode(),
   repository_url(),
-  edit_level(),
+  editor(),
   resave()
 {
 }
@@ -329,9 +329,6 @@ CommandLineArguments::parse_args(int argc, char** argv)
     {
       Vector spawn_pos;
 
-      if (!start_level)
-        throw std::runtime_error("--spawn-pos can only be used when a levelfile is specified.");
-
       if (++i >= argc)
         throw std::runtime_error("Need to specify a spawn-pos X,Y");
       else
@@ -374,16 +371,9 @@ CommandLineArguments::parse_args(int argc, char** argv)
         repository_url = argv[++i];
       }
     }
-    else if (arg == "--edit-level")
+    else if (arg == "--editor" || arg == "--edit-level")
     {
-      if (i + 1 >= argc)
-      {
-        throw std::runtime_error("Need to specify a level for --edit-level");
-      }
-      else
-      {
-        edit_level = argv[++i];
-      }
+      editor = true;
     }
     else if (arg == "--resave")
     {
@@ -391,12 +381,17 @@ CommandLineArguments::parse_args(int argc, char** argv)
     }
     else if (arg[0] != '-')
     {
-      start_level = arg;
+      filenames.push_back(arg);
     }
     else
     {
       throw std::runtime_error((boost::format("Unknown option '%1%''. Use --help to see a list of options") % arg).str());
     }
+  }
+
+  // some final checks
+  if (filenames.size() > 1 && !(resave && *resave)) {
+    throw std::runtime_error("Only one filename allowed for the given options");
   }
 }
 
@@ -415,7 +410,6 @@ CommandLineArguments::merge_into(Config& config)
   merge_option(show_player_pos);
   merge_option(sound_enabled);
   merge_option(music_enabled);
-  merge_option(start_level);
   merge_option(enable_script_debugger);
   merge_option(start_demo);
   merge_option(record_demo);
@@ -423,7 +417,6 @@ CommandLineArguments::merge_into(Config& config)
   merge_option(developer_mode);
   merge_option(christmas_mode);
   merge_option(repository_url);
-  merge_option(edit_level);
 
 #undef merge_option
 }

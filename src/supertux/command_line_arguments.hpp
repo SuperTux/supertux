@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_SUPERTUX_COMMAND_LINE_ARGUMENTS_HPP
 
 #include <boost/optional.hpp>
+#include <vector>
 
 #include "math/size.hpp"
 #include "math/vector.hpp"
@@ -63,7 +64,7 @@ public:
 
   // boost::optional<int> random_seed;
 
-  boost::optional<std::string> start_level;
+  std::vector<std::string> filenames;
   boost::optional<bool> enable_script_debugger;
   boost::optional<std::string> start_demo;
   boost::optional<std::string> record_demo;
@@ -77,7 +78,7 @@ public:
 
   boost::optional<std::string> repository_url;
 
-  boost::optional<std::string> edit_level;
+  boost::optional<bool> editor;
   boost::optional<bool> resave;
 
   // boost::optional<std::string> locale;

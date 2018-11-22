@@ -280,7 +280,7 @@ public:
     {
       std::ostringstream msg;
       msg << "Failed to use userdir directory '"
-          <<  userdir << "': " << PHYSFS_getLastErrorCode();
+          <<  userdir << "': errorcode: " << PHYSFS_getLastErrorCode();
       throw std::runtime_error(msg.str());
     }
 
@@ -429,80 +429,83 @@ Main::launch_game(const CommandLineArguments& args)
   GameManager game_manager;
   ScreenManager screen_manager(*video_system, input_manager);
 
-  if (!g_config->start_level.empty())
+  if (!args.filenames.empty())
   {
-    // we have a normal path specified at commandline, not a physfs path.
-    // So we simply mount that path here...
-    std::string dir = FileSystem::dirname(g_config->start_level);
-    std::string filename = FileSystem::basename(g_config->start_level);
-    std::string fileProtocol = "file://";
-    std::string::size_type position = dir.find(fileProtocol);
-    if (position != std::string::npos) {
-      dir = dir.replace(position, fileProtocol.length(), "");
-    }
-    log_debug << "Adding dir: " << dir << std::endl;
-    PHYSFS_mount(dir.c_str(), nullptr, true);
+    for(const auto& start_level : args.filenames)
+    {
+      // we have a normal path specified at commandline, not a physfs path.
+      // So we simply mount that path here...
+      std::string dir = FileSystem::dirname(start_level);
+      const std::string filename = FileSystem::basename(start_level);
+      const std::string fileProtocol = "file://";
+      const std::string::size_type position = dir.find(fileProtocol);
+      if (position != std::string::npos) {
+        dir = dir.replace(position, fileProtocol.length(), "");
+      }
+      log_debug << "Adding dir: " << dir << std::endl;
+      PHYSFS_mount(dir.c_str(), nullptr, true);
 
-    if (args.resave && *args.resave)
-    {
-      resave(g_config->start_level);
-    }
-    else if (StringUtil::has_suffix(g_config->start_level, ".stwm"))
-    {
-      screen_manager.push_screen(std::make_unique<worldmap::WorldMapScreen>(
+      if (args.resave && *args.resave)
+      {
+        resave(start_level);
+      }
+      else if (args.editor)
+      {
+        if (PHYSFS_exists(start_level.c_str())) {
+          auto editor = std::make_unique<Editor>();
+          editor->set_level(start_level);
+          editor->setup();
+          editor->update(0, Controller());
+          screen_manager.push_screen(std::move(editor));
+          MenuManager::instance().clear_menu_stack();
+          sound_manager.stop_music(0.5);
+        } else {
+          log_warning << "Level " << start_level << " doesn't exist." << std::endl;
+        }
+      }
+      else if (StringUtil::has_suffix(start_level, ".stwm"))
+      {
+        screen_manager.push_screen(std::make_unique<worldmap::WorldMapScreen>(
                                      std::make_unique<worldmap::WorldMap>(filename, *default_savegame)));
-    }
-    else
-    { // launch game
-      std::unique_ptr<GameSession> session (
-        new GameSession(filename, *default_savegame));
-
-      g_config->random_seed = session->get_demo_random_seed(g_config->start_demo);
-      gameRandom.seed(g_config->random_seed);
-      graphicsRandom.seed(0);
-
-      if (args.sector || args.spawnpoint)
-      {
-        std::string sectorname = args.sector.get_value_or("main");
-
-        const auto& spawnpoints = session->get_current_sector().get_objects_by_type<SpawnPointMarker>();
-        std::string default_spawnpoint = (spawnpoints.begin() != spawnpoints.end()) ?
-          "" : spawnpoints.begin()->get_name();
-        std::string spawnpointname = args.spawnpoint.get_value_or(default_spawnpoint);
-
-        session->respawn(sectorname, spawnpointname);
       }
+      else
+      { // launch game
+        std::unique_ptr<GameSession> session (
+          new GameSession(filename, *default_savegame));
 
-      if (g_config->tux_spawn_pos)
-      {
-        session->get_current_sector().get_player().set_pos(*g_config->tux_spawn_pos);
+        g_config->random_seed = session->get_demo_random_seed(g_config->start_demo);
+        gameRandom.seed(g_config->random_seed);
+        graphicsRandom.seed(0);
+
+        if (args.sector || args.spawnpoint)
+        {
+          std::string sectorname = args.sector.get_value_or("main");
+
+          const auto& spawnpoints = session->get_current_sector().get_objects_by_type<SpawnPointMarker>();
+          std::string default_spawnpoint = (spawnpoints.begin() != spawnpoints.end()) ?
+            "" : spawnpoints.begin()->get_name();
+          std::string spawnpointname = args.spawnpoint.get_value_or(default_spawnpoint);
+
+          session->respawn(sectorname, spawnpointname);
+        }
+
+        if (g_config->tux_spawn_pos)
+        {
+          session->get_current_sector().get_player().set_pos(*g_config->tux_spawn_pos);
+        }
+
+        if (!g_config->start_demo.empty())
+          session->play_demo(g_config->start_demo);
+
+        if (!g_config->record_demo.empty())
+          session->record_demo(g_config->record_demo);
+        screen_manager.push_screen(std::move(session));
       }
-
-      if (!g_config->start_demo.empty())
-        session->play_demo(g_config->start_demo);
-
-      if (!g_config->record_demo.empty())
-        session->record_demo(g_config->record_demo);
-      screen_manager.push_screen(std::move(session));
     }
   }
   else
   {
     screen_manager.push_screen(std::make_unique<TitleScreen>(*default_savegame));
-
-    if (g_config->edit_level) {
-      if (PHYSFS_exists(g_config->edit_level->c_str())) {
-        auto editor = std::make_unique<Editor>();
-        editor->set_level(*(g_config->edit_level));
-        editor->setup();
-        editor->update(0, Controller());
-        screen_manager.push_screen(std::move(editor));
-        MenuManager::instance().clear_menu_stack();
-        sound_manager.stop_music(0.5);
-      } else {
-        log_warning << "Level " << *(g_config->edit_level) << " doesn't exist." << std::endl;
-      }
-    }
   }
 
   screen_manager.run();

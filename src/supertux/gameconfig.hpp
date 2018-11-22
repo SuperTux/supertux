@@ -67,17 +67,12 @@ public:
   /** initial random seed.  0 ==> set from time() */
   int random_seed;
 
-  /** this variable is set if supertux should start in a specific level */
-  std::string start_level;
   bool enable_script_debugger;
   std::string start_demo;
   std::string record_demo;
 
   /** this variable is set if tux should spawn somewhere which isn't the "main" spawn point*/
   boost::optional<Vector> tux_spawn_pos;
-
-  /** The level that should be launched in the editor*/
-  boost::optional<std::string> edit_level;
 
   /** force SuperTux language to this locale, e.g. "de". A file
       "data/locale/xx.po" must exist for this to work. An empty string
