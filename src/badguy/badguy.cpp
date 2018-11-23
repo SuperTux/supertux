@@ -122,21 +122,28 @@ BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name_, int
 void
 BadGuy::draw(DrawingContext& context)
 {
-  if (!m_sprite.get())
-    return;
-  if (m_state == STATE_INIT || m_state == STATE_INACTIVE)
-    return;
-  if (m_state == STATE_FALLING) {
-    context.push_transform();
-    context.set_flip(context.get_flip() ^ VERTICAL_FLIP);
-    m_sprite->draw(context.color(), get_pos(), m_layer);
-    context.pop_transform();
-  } else {
-    m_sprite->draw(context.color(), get_pos(), m_layer);
-  }
+  if (!m_sprite.get()) return;
 
-  if (m_glowing) {
-    m_lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
+  if (m_state == STATE_INIT || m_state == STATE_INACTIVE)
+  {
+    if (Editor::is_active()) {
+      m_sprite->draw(context.color(), get_pos(), m_layer);
+    }
+  }
+  else
+  {
+    if (m_state == STATE_FALLING) {
+      context.push_transform();
+      context.set_flip(context.get_flip() ^ VERTICAL_FLIP);
+      m_sprite->draw(context.color(), get_pos(), m_layer);
+      context.pop_transform();
+    } else {
+      m_sprite->draw(context.color(), get_pos(), m_layer);
+    }
+
+    if (m_glowing) {
+      m_lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
+    }
   }
 }
 
@@ -172,12 +179,14 @@ BadGuy::update(float dt_sec)
       }
       active_update(dt_sec);
       break;
+
     case STATE_INIT:
     case STATE_INACTIVE:
       m_is_active_flag = false;
       inactive_update(dt_sec);
       try_activate();
       break;
+
     case STATE_BURNING: {
       m_is_active_flag = false;
       m_col.m_movement = m_physic.get_movement(dt_sec);
@@ -185,6 +194,7 @@ BadGuy::update(float dt_sec)
         remove_me();
       }
     } break;
+
     case STATE_GEAR:
     case STATE_SQUISHED:
       m_is_active_flag = false;
@@ -194,6 +204,7 @@ BadGuy::update(float dt_sec)
       }
       m_col.m_movement = m_physic.get_movement(dt_sec);
       break;
+
     case STATE_MELTING: {
       m_is_active_flag = false;
       m_col.m_movement = m_physic.get_movement(dt_sec);
@@ -203,6 +214,7 @@ BadGuy::update(float dt_sec)
         break;
       }
     } break;
+
     case STATE_GROUND_MELTING:
       m_is_active_flag = false;
       m_col.m_movement = m_physic.get_movement(dt_sec);
@@ -210,6 +222,7 @@ BadGuy::update(float dt_sec)
         remove_me();
       }
       break;
+
     case STATE_INSIDE_MELTING: {
       m_is_active_flag = false;
       m_col.m_movement = m_physic.get_movement(dt_sec);
@@ -226,6 +239,7 @@ BadGuy::update(float dt_sec)
                                              Vector(0, 0), Vector(0, 100 * Sector::get().get_gravity()),
                                              LAYER_OBJECTS-1);
     } break;
+
     case STATE_FALLING:
       m_is_active_flag = false;
       m_col.m_movement = m_physic.get_movement(dt_sec);
