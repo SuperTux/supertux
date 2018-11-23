@@ -583,10 +583,10 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
           "-Wint-in-bool-context "
           )
       endif()
-      if(Boost_VERSION GREATER_EQUAL 106500)
+      if(Boost_VERSION LESS 106500)
         string(CONCAT SUPERTUX2_EXTRA_WARNING_FLAGS
           "${SUPERTUX2_EXTRA_WARNING_FLAGS} "
-          "-Wimplicit-fallthrough ")
+          "-Wno-implicit-fallthrough ")
       endif()
     elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
       string(CONCAT SUPERTUX2_EXTRA_WARNING_FLAGS
