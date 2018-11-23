@@ -143,8 +143,6 @@ ParticleSystem_Interactive::collision(Particle* object, const Vector& movement)
       return 1; //collision from above
     }
   }
-
-  return 0;
 }
 
 /* EOF */

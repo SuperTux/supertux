@@ -703,8 +703,6 @@ AddonManager::parse_addon_infos(const std::string& filename) const
     msg << "Problem when reading Add-on list: " << e.what();
     throw std::runtime_error(msg.str());
   }
-
-  return m_addons;
 }
 
 void

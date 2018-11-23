@@ -610,7 +610,6 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
         "-Wno-missing-prototypes "
         "-Wno-exit-time-destructors "
         "-Wno-double-promotion "
-        "-Wno-unreachable-code-return "
         "-Wno-implicit-fallthrough "
         "-Wno-global-constructors "
         "-Wno-unreachable-code-break "
