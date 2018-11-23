@@ -14,9 +14,6 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_PHYSFS_OFILE_STREAM_CPP
-#define HEADER_SUPERTUX_PHYSFS_OFILE_STREAM_CPP
-
 #include "physfs/ofile_stream.hpp"
 
 #include "physfs/ofile_streambuf.hpp"
@@ -26,7 +23,5 @@ OFileStream::OFileStream(const std::string& filename) :
 {
   init(sb.get());
 }
-
-#endif
 
 /* EOF */

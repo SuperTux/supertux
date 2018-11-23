@@ -79,10 +79,6 @@ ReaderMapping::get_item(const char* key) const
     return true;                                                        \
   }
 
-#define GET_VALUE_MACRO_DEFAULT(type, checker, getter) \
-  value = defaultValue;                                \
-  GET_VALUE_MACRO(type, checker, getter);
-
 bool
 ReaderMapping::get(const char* key, bool& value, const boost::optional<bool>& default_value) const
 {

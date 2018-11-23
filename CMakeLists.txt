@@ -616,7 +616,6 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
         "-Wno-global-constructors "
         "-Wno-unreachable-code-break "
         "-Wno-duplicate-enum "
-        "-Wno-unused-macros "
         "-Wno-missing-variable-declarations "
         "-Wno-unreachable-code "
       )
