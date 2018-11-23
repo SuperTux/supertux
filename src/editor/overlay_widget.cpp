@@ -469,7 +469,7 @@ EditorOverlayWidget::add_path_node()
   Sector::get().add<NodeMarker>(m_edited_path, m_edited_path->m_nodes.end() - 1, m_edited_path->m_nodes.size() - 1);
   //last_node_marker = dynamic_cast<NodeMarker*>(marker.get());
   update_node_iterators();
-  m_editor.get_sector()->update(0);
+  m_editor.get_sector()->flush_game_objects();
   grab_object();
 }
 

@@ -163,10 +163,7 @@ Editor::update(float dt_sec, const Controller& controller)
   if (is_active()) {
     BIND_SECTOR(*m_sector);
 
-    // FIXME: if only flush_game_objects() is used the badguys stay
-    // invisible, update(0) makes them visible. Needs further investigation.
-    // m_sector->flush_game_objects();
-    m_sector->update(0.0f);
+    m_sector->flush_game_objects();
 
     m_toolbox_widget.update(dt_sec);
     m_layers_widget.update(dt_sec);
