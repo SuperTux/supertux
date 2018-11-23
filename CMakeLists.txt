@@ -619,7 +619,6 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
         "-Wno-unused-macros "
         "-Wno-missing-variable-declarations "
         "-Wno-unreachable-code "
-        "-Wno-return-std-move-in-c++11 "
       )
     endif()
   endif(WARNINGS)

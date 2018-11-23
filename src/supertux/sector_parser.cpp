@@ -86,7 +86,7 @@ SectorParser::parse_object(const std::string& name_, const ReaderMapping& reader
   if (name_ == "camera") {
     auto camera_ = std::make_unique<Camera>(&m_sector, "Camera");
     camera_->parse(reader);
-    return camera_;
+    return std::move(camera_);
   } else if (name_ == "money") { // for compatibility with old maps
     return std::make_unique<Jumpy>(reader);
   } else {
