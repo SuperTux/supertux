@@ -40,6 +40,10 @@ class DrawingContext;
 class MouseCursor final
 {
 public:
+  static MouseCursor* current() { return current_; }
+  static void set_current(MouseCursor* pcursor) { current_ = pcursor; }
+
+public:
   MouseCursor(const std::string& cursor_file,
               const std::string& cursor_click_file,
               const std::string& cursor_link_file);
@@ -57,13 +61,6 @@ public:
 
   /// Set the icon
   void set_icon(SurfacePtr icon_);
-
-  /// Return the current cursor.
-  static MouseCursor* current()
-  {        return current_;      };
-  /// Set current cursor.
-  static void set_current(MouseCursor* pcursor)
-  {        current_ = pcursor;      };
 
 private:
   int m_mid_x;
