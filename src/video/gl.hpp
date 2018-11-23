@@ -48,7 +48,10 @@ inline void glBindVertexArray(GLuint vao) {}
 #endif
 
 #ifdef USE_GLBINDING
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wheader-hygiene"
 using namespace gl;
+#pragma clang diagnostic pop
 #endif
 
 #else
