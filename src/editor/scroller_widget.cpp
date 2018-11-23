@@ -118,13 +118,13 @@ EditorScrollerWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
 
     if (m_mouse_pos.x < SIZE && m_mouse_pos.y < SIZE) {
       m_scrolling = true;
+      return true;
     } else {
       return false;
     }
   } else {
     return false;
   }
-  return true;
 }
 
 bool

@@ -143,31 +143,34 @@ EditorLayersWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
       case HI_SECTOR:
         m_editor.disable_keyboard();
         MenuManager::instance().set_menu(MenuStorage::EDITOR_SECTORS_MENU);
-        break;
+        return true;
 
       case HI_LAYERS:
-        if (m_hovered_layer >= m_layer_icons.size()) {
-          break;
+        if (m_hovered_layer >= m_layer_icons.size())
+        {
+          return false;
         }
-        if (m_layer_icons[m_hovered_layer]->is_tilemap()) {
-          if (m_selected_tilemap) {
-            (static_cast<TileMap*>(m_selected_tilemap))->m_editor_active = false;
+        else
+        {
+          if (m_layer_icons[m_hovered_layer]->is_tilemap()) {
+            if (m_selected_tilemap) {
+              (static_cast<TileMap*>(m_selected_tilemap))->m_editor_active = false;
+            }
+            m_selected_tilemap = m_layer_icons[m_hovered_layer]->get_layer();
+            (static_cast<TileMap*>(m_selected_tilemap))->m_editor_active = true;
+            m_editor.edit_path((static_cast<TileMap*>(m_selected_tilemap))->get_path(),
+                               m_selected_tilemap);
+          } else {
+            auto cam = dynamic_cast<Camera*>(m_layer_icons[m_hovered_layer]->get_layer());
+            if (cam) {
+              m_editor.edit_path(cam->get_path(), cam);
+            }
           }
-          m_selected_tilemap = m_layer_icons[m_hovered_layer]->get_layer();
-          (static_cast<TileMap*>(m_selected_tilemap))->m_editor_active = true;
-          m_editor.edit_path((static_cast<TileMap*>(m_selected_tilemap))->get_path(),
-                             m_selected_tilemap);
-        } else {
-          auto cam = dynamic_cast<Camera*>(m_layer_icons[m_hovered_layer]->get_layer());
-          if (cam) {
-            m_editor.edit_path(cam->get_path(), cam);
-          }
+          return true;
         }
-        break;
 
       default:
         return false;
-        break;
     }
   }
   else if (button.button == SDL_BUTTON_RIGHT)
@@ -176,12 +179,15 @@ EditorLayersWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
       auto om = std::make_unique<ObjectMenu>(m_editor, m_layer_icons[m_hovered_layer]->get_layer());
       m_editor.m_deactivate_request = true;
       MenuManager::instance().push_menu(std::move(om));
+      return true;
     } else {
       return false;
     }
   }
-
-  return false;
+  else
+  {
+    return false;
+  }
 }
 
 bool

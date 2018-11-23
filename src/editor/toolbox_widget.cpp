@@ -146,9 +146,10 @@ EditorToolboxWidget::draw_objectgroup(DrawingContext& context)
 void
 EditorToolboxWidget::update(float dt_sec)
 {
-  switch (m_tile_scrolling) {
+  switch (m_tile_scrolling)
+  {
     case TS_UP:
-    {
+      {
         if (m_starting_tile > 0)
         {
           if (m_using_scroll_wheel)
@@ -165,36 +166,41 @@ EditorToolboxWidget::update(float dt_sec)
             m_starting_tile -= 4;
           }
         }
-    }
+      }
       break;
-    case TS_DOWN: {
-      int size;
-      if (m_input_type == IP_OBJECT) {
-        size = static_cast<int>(m_object_info->m_groups[m_active_objectgroup].get_icons().size());
-      } else {
-        if (m_active_tilegroup == nullptr)
-        {
-          return;
-        }
-        size = static_cast<int>(m_active_tilegroup->tiles.size());
-      }
-      if (m_starting_tile < size-5) {
-        if (m_using_scroll_wheel)
-        {
-          m_starting_tile -= 4 * m_wheel_scroll_amount;
-          if (m_starting_tile > size - 4)
+
+    case TS_DOWN:
+      {
+        int size;
+        if (m_input_type == IP_OBJECT) {
+          size = static_cast<int>(m_object_info->m_groups[m_active_objectgroup].get_icons().size());
+        } else {
+          if (m_active_tilegroup == nullptr)
           {
-            m_starting_tile = size - 4;
+            return;
           }
-          m_tile_scrolling = TS_NONE;
+          size = static_cast<int>(m_active_tilegroup->tiles.size());
         }
-        else
-        {
-          m_starting_tile += 4;
+        if (m_starting_tile < size-5) {
+          if (m_using_scroll_wheel)
+          {
+            m_starting_tile -= 4 * m_wheel_scroll_amount;
+            if (m_starting_tile > size - 4)
+            {
+              m_starting_tile = size - 4;
+            }
+            m_tile_scrolling = TS_NONE;
+          }
+          else
+          {
+            m_starting_tile += 4;
+          }
         }
       }
-    }
-    default: break;
+      break;
+
+    default:
+      break;
   }
 }
 
@@ -271,7 +277,7 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
           m_starting_tile = 0;
           update_mouse_icon();
         }
-        break;
+        return true;
 
       case HI_OBJECTS:
         if ((m_editor.get_worldmap_mode() && m_object_info->get_num_worldmap_groups() > 1) ||
@@ -294,7 +300,7 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
           m_starting_tile = 0;
           update_mouse_icon();
         }
-        break;
+        return true;
 
       case HI_TILE:
         switch (m_input_type)
@@ -357,11 +363,17 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
         }
         return true;
 
+      case HI_NONE:
+        return false;
+
       default:
         return false;
     }
   }
-  return false;
+  else
+  {
+    return false;
+  }
 }
 
 bool
@@ -405,6 +417,7 @@ EditorToolboxWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
   } else {
     m_tile_scrolling = TS_NONE;
   }
+
   return false;
 }
 
