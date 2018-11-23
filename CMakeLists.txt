@@ -617,7 +617,6 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
         "-Wno-unreachable-code-break "
         "-Wno-duplicate-enum "
         "-Wno-unused-macros "
-        "-Wno-newline-eof "
         "-Wno-missing-variable-declarations "
         "-Wno-unreachable-code "
         "-Wno-return-std-move-in-c++11 "
