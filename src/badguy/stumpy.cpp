@@ -157,10 +157,9 @@ Stumpy::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
         m_physic.set_velocity_x(0);
       }
       return CONTINUE;
-      break;
+
     case STATE_NORMAL:
       return WalkingBadguy::collision_badguy(badguy, hit);
-      break;
   }
   return CONTINUE;
 }

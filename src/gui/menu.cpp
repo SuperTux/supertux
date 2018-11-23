@@ -447,7 +447,6 @@ Menu::process_action(const MenuAction& menuaction)
         MenuManager::instance().pop_menu();
       }
       return;
-      break;
 
     default:
       break;
