@@ -14,7 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "util/log.hpp"
+#include "util/file_system.hpp"
 
 #include <sstream>
 #include <stdexcept>
@@ -24,30 +24,32 @@
 
 #include <boost/filesystem.hpp>
 
+#include "util/log.hpp"
+
 namespace fs = boost::filesystem;
 
 namespace FileSystem {
 
 bool exists(const std::string& path)
 {
-	fs::path location(path);
+  fs::path location(path);
 
-	return fs::exists(location);
+  return fs::exists(location);
 }
 
 bool is_directory(const std::string& path)
 {
-	fs::path location(path);
-	return fs::is_directory(location);
+  fs::path location(path);
+  return fs::is_directory(location);
 }
 
 void mkdir(const std::string& directory)
 {
-	fs::path location(directory);
-	if (!fs::create_directory(location))
-	{
-		throw std::runtime_error("failed to create directory: "  + directory);
-	}
+  fs::path location(directory);
+  if (!fs::create_directory(location))
+  {
+    throw std::runtime_error("failed to create directory: "  + directory);
+  }
 }
 
 std::string dirname(const std::string& filename)
@@ -123,7 +125,7 @@ std::string normalize(const std::string& filename)
   // construct path
   std::ostringstream result;
   for (std::vector<std::string>::iterator i = path_stack.begin();
-      i != path_stack.end(); ++i) {
+       i != path_stack.end(); ++i) {
     result << '/' << *i;
   }
   if (path_stack.empty())

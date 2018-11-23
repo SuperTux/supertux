@@ -14,10 +14,13 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "scripting/level.hpp"
+
 #include "supertux/flip_level_transformer.hpp"
 #include "supertux/game_session.hpp"
 
 namespace scripting {
+
 void
 Level_finish(bool win)
 {
@@ -58,6 +61,6 @@ Level_edit(bool edit_mode)
   GameSession::current()->set_editmode(edit_mode);
 }
 
-}
+} // namespace scripting
 
 /* EOF */

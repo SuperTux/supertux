@@ -29,6 +29,8 @@ WrapperCreator::create_wrapper(Namespace* ns)
         << "#ifndef HEADER_SUPERTUX_SCRIPTING_WRAPPER_HPP\n" //TODO avoid hardcoding
         << "#define HEADER_SUPERTUX_SCRIPTING_WRAPPER_HPP\n"
         << "\n"
+        << "#include <squirrel.h>\n"
+        << "\n"
         << "namespace scripting {\n"
         << "\n";
 
@@ -58,6 +60,8 @@ WrapperCreator::create_wrapper(Namespace* ns)
         << " *  '" << fromfile << "'\n"
         << " * DO NOT CHANGE\n"
         << " */\n"
+        << "\n"
+        << "#include \"scripting/wrapper.hpp\"\n"
         << "\n"
         << "#include <assert.h>\n"
         << "#include <limits>\n"

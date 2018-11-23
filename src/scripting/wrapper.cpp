@@ -4,6 +4,8 @@
  * DO NOT CHANGE
  */
 
+#include "scripting/wrapper.hpp"
+
 #include <assert.h>
 #include <limits>
 #include <sstream>

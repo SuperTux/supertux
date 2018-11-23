@@ -28,6 +28,8 @@
 #include "video/color.hpp"
 #include "video/drawing_context.hpp"
 
+namespace {
+
 PathStyle PathStyle_from_string(const std::string& text)
 {
   if (text == "none") {
@@ -39,6 +41,8 @@ PathStyle PathStyle_from_string(const std::string& text)
     return PathStyle::NONE;
   }
 }
+
+} // namespace
 
 PathGameObject::PathGameObject() :
   m_path(new Path),

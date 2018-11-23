@@ -31,6 +31,8 @@
 #include "util/reader_mapping.hpp"
 #include "util/file_system.hpp"
 
+namespace {
+
 std::unique_ptr<SoundFile> load_music_file(const std::string& filename)
 {
   auto doc = ReaderDocument::from_file(filename);
@@ -75,6 +77,8 @@ std::unique_ptr<SoundFile> load_music_file(const std::string& filename)
     }
   }
 }
+
+} // namespace
 
 std::unique_ptr<SoundFile> load_sound_file(const std::string& filename)
 {

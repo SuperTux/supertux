@@ -39,6 +39,23 @@
 #include "worldmap/worldmap.hpp"
 #include "worldmap/worldmap_screen.hpp"
 
+namespace {
+
+// not added to header, function to only be used by others
+// in this file
+bool validate_sector_player()
+{
+  if (::Sector::current() == nullptr)
+  {
+    log_info << "No current sector." << std::endl;
+    return false;
+  }
+
+  return true;
+}
+
+} // namespace
+
 namespace scripting {
 
 SQInteger display(HSQUIRRELVM vm)
@@ -211,19 +228,6 @@ void load_state()
   {
     worldmap->load_state();
   }
-}
-
-// not added to header, function to only be used by others
-// in this file
-bool validate_sector_player()
-{
-  if (::Sector::current() == nullptr)
-  {
-    log_info << "No current sector." << std::endl;
-    return false;
-  }
-
-  return true;
 }
 
 void play_music(const std::string& filename)

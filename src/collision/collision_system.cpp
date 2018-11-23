@@ -70,6 +70,7 @@ CollisionSystem::draw(DrawingContext& context)
   }
 }
 
+namespace {
 
 /** r1 is supposed to be moving, r2 a solid object */
 void check_collisions(collision::Constraints* constraints,
@@ -143,6 +144,8 @@ void check_collisions(collision::Constraints* constraints,
     }
   }
 }
+
+} // namespace
 
 void
 CollisionSystem::collision_tilemap(collision::Constraints* constraints,
