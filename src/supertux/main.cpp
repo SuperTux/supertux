@@ -18,6 +18,7 @@
 
 #include <config.h>
 #include <version.h>
+#include <fstream>
 
 #include <SDL_image.h>
 #include <SDL_ttf.h>
