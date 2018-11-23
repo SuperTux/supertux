@@ -48,14 +48,14 @@ GL20Context::ortho(float width, float height, bool vflip)
 
   if (vflip)
   {
-    glOrtho(0, width,
-            height, 0,
+    glOrtho(0, static_cast<double>(width),
+            static_cast<double>(height), 0,
             -1, 1);
   }
   else
   {
-    glOrtho(0, width,
-            0, height,
+    glOrtho(0, static_cast<double>(width),
+            0, static_cast<double>(height),
             -1, 1);
   }
 

@@ -49,7 +49,7 @@ void RainParticleSystem::init()
   virtual_width = static_cast<float>(SCREEN_WIDTH) * 2.0f;
 
   // create some random raindrops
-  size_t raindropcount = size_t(virtual_width/6.0);
+  size_t raindropcount = size_t(virtual_width/6.0f);
   for (size_t i=0; i<raindropcount; ++i) {
     auto particle = std::make_unique<RainParticle>();
     particle->pos.x = static_cast<float>(graphicsRandom.rand(int(virtual_width)));

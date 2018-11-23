@@ -82,13 +82,13 @@ Explosion::explode()
 
       /* If the distance is very small, for example because "obj" is the badguy
        * causing the explosion, skip this object. */
-      if (distance <= 1.0)
+      if (distance <= 1.0f)
         continue;
 
       /* The force decreases with the distance squared. In the distance of one
        * tile (32 pixels) you will have a speed increase of 150 pixels/s. */
       float force = 150.0f * 32.0f * 32.0f / (distance * distance);
-      if (force > 200.0)
+      if (force > 200.0f)
         force = 200.0;
 
       Vector add_speed = direction.unit () * force;

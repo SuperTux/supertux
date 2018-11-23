@@ -114,7 +114,7 @@ Coin::collect()
     pitch_one = tile;
     pitch = 1;
     last_pitch = 1;
-  } else if (sound_timer.get_timegone() < 0.02) {
+  } else if (sound_timer.get_timegone() < 0.02f) {
     pitch = last_pitch;
   } else {
     switch ((pitch_one - tile) % 7) {

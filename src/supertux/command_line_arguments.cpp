@@ -246,11 +246,11 @@ CommandLineArguments::parse_args(int argc, char** argv)
 
           // use aspect ratio to calculate logical resolution
           if (aspect_ratio > 1) {
-            aspect_size = Size(static_cast<int>(600 * aspect_ratio + 0.5),
+            aspect_size = Size(static_cast<int>(600 * aspect_ratio + 0.5f),
                                          600);
           } else {
             aspect_size = Size(600,
-                                         static_cast<int>(600 * 1/aspect_ratio + 0.5));
+                                         static_cast<int>(600 * 1/aspect_ratio + 0.5f));
           }
         }
       }

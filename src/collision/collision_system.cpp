@@ -471,7 +471,7 @@ CollisionSystem::update()
     const Vector mov = object->get_movement();
 
     // make sure movement is never faster than MAX_SPEED. Norm is pretty fat, so two addl. checks are done before.
-    if (((mov.x > MAX_SPEED * M_SQRT1_2) || (mov.y > MAX_SPEED * M_SQRT1_2)) && (mov.norm() > MAX_SPEED)) {
+    if (((mov.x > MAX_SPEED * static_cast<float>(M_SQRT1_2)) || (mov.y > MAX_SPEED * static_cast<float>(M_SQRT1_2))) && (mov.norm() > MAX_SPEED)) {
       object->m_movement = mov.unit() * MAX_SPEED;
       //log_debug << "Temporarily reduced object's speed of " << mov.norm() << " to " << object->movement.norm() << "." << std::endl;
     }

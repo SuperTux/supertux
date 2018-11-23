@@ -165,18 +165,18 @@ Gradient::set_gradient(Color top, Color bottom)
   m_gradient_top = top;
   m_gradient_bottom = bottom;
 
-  if (m_gradient_top.red > 1.0 ||
-      m_gradient_top.green > 1.0 ||
-      m_gradient_top.blue > 1.0 ||
-      m_gradient_top.alpha > 1.0)
+  if (m_gradient_top.red > 1.0f ||
+      m_gradient_top.green > 1.0f ||
+      m_gradient_top.blue > 1.0f ||
+      m_gradient_top.alpha > 1.0f)
   {
     log_warning << "top gradient color has values above 1.0" << std::endl;
   }
 
-  if (m_gradient_bottom.red > 1.0 ||
-      m_gradient_bottom.green > 1.0 ||
-      m_gradient_bottom.blue > 1.0 ||
-      m_gradient_bottom.alpha > 1.0)
+  if (m_gradient_bottom.red > 1.0f ||
+      m_gradient_bottom.green > 1.0f ||
+      m_gradient_bottom.blue > 1.0f ||
+      m_gradient_bottom.alpha > 1.0f)
   {
     log_warning << "bottom gradient color has values above 1.0" << std::endl;
   }

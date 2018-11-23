@@ -452,7 +452,7 @@ Player::slightly_above_ground() const
 {
   float abs_vy = std::abs(m_physic.get_velocity_y());
   float ground_y_delta = std::abs(m_last_ground_y - get_pos().y);
-  return (abs_vy == 15.625 || abs_vy == 31.25) && ground_y_delta < 0.85;
+  return (abs_vy == 15.625f || abs_vy == 31.25f) && ground_y_delta < 0.85f;
 }
 
 bool

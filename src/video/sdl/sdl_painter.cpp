@@ -182,7 +182,7 @@ void RenderCopyEx(SDL_Renderer*          renderer,
 
     if ((tex_off_x == 0 && tex_off_y == 0) ||
         flip ||
-        angle != 0.0f)
+        angle != 0.0)
     {
       SDL_RenderCopyEx(renderer, texture, sdl_srcrect, sdl_dstrect, angle, nullptr, flip);
     }
@@ -249,7 +249,9 @@ SDLPainter::draw_texture(const TextureRequest& request)
       flip = static_cast<SDL_RendererFlip>(flip | SDL_FLIP_VERTICAL);
     }
 
-    RenderCopyEx(m_sdl_renderer, texture.get_texture(), &src_rect, &dst_rect, request.angles[i], nullptr, flip,
+    RenderCopyEx(m_sdl_renderer, texture.get_texture(),
+                 &src_rect, &dst_rect,
+                 static_cast<double>(request.angles[i]), nullptr, flip,
                  texture.get_sampler());
   }
 }

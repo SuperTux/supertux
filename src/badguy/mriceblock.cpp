@@ -98,7 +98,7 @@ MrIceBlock::collision_solid(const CollisionHit& hit)
         m_physic.set_velocity_x(-m_physic.get_velocity_x()*.975f);
       }
       set_action(m_dir == LEFT ? "flat-left" : "flat-right", /* loops = */ -1);
-      if (fabsf(m_physic.get_velocity_x()) < walk_speed*1.5)
+      if (fabsf(m_physic.get_velocity_x()) < walk_speed * 1.5f)
         set_state(ICESTATE_NORMAL);
       break;
     }

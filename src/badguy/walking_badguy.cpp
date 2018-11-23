@@ -106,23 +106,23 @@ WalkingBadguy::active_update(float dt_sec, float dest_x_velocity)
     m_physic.set_acceleration_x (0.0);
   }
   /* We're very close to our target speed. Just set it to avoid oscillation */
-  else if ((current_x_velocity > (dest_x_velocity - 5.0))
-      && (current_x_velocity < (dest_x_velocity + 5.0)))
+  else if ((current_x_velocity > (dest_x_velocity - 5.0f)) &&
+           (current_x_velocity < (dest_x_velocity + 5.0f)))
   {
     m_physic.set_velocity_x (dest_x_velocity);
     m_physic.set_acceleration_x (0.0);
   }
   /* Check if we're going too slow or even in the wrong direction */
-  else if (((dest_x_velocity <= 0.0) && (current_x_velocity > dest_x_velocity))
-      || ((dest_x_velocity > 0.0) && (current_x_velocity < dest_x_velocity)))
+  else if (((dest_x_velocity <= 0.0f) && (current_x_velocity > dest_x_velocity)) ||
+           ((dest_x_velocity > 0.0f) && (current_x_velocity < dest_x_velocity)))
   {
     /* acceleration == walk-speed => it will take one second to get from zero
      * to full speed. */
     m_physic.set_acceleration_x (dest_x_velocity);
   }
   /* Check if we're going too fast */
-  else if (((dest_x_velocity <= 0.0) && (current_x_velocity < dest_x_velocity))
-      || ((dest_x_velocity > 0.0) && (current_x_velocity > dest_x_velocity)))
+  else if (((dest_x_velocity <= 0.0f) && (current_x_velocity < dest_x_velocity)) ||
+           ((dest_x_velocity > 0.0f) && (current_x_velocity > dest_x_velocity)))
   {
     /* acceleration == walk-speed => it will take one second to get twice the
      * speed to normal speed. */
@@ -141,11 +141,11 @@ WalkingBadguy::active_update(float dt_sec, float dest_x_velocity)
     }
   }
 
-  if ((m_dir == LEFT) && (m_physic.get_velocity_x () > 0.0)) {
+  if ((m_dir == LEFT) && (m_physic.get_velocity_x () > 0.0f)) {
     m_dir = RIGHT;
     set_action (walk_right_action, /* loops = */ -1);
   }
-  else if ((m_dir == RIGHT) && (m_physic.get_velocity_x () < 0.0)) {
+  else if ((m_dir == RIGHT) && (m_physic.get_velocity_x () < 0.0f)) {
     m_dir = LEFT;
     set_action (walk_left_action, /* loops = */ -1);
   }

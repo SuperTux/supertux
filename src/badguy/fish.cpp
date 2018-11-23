@@ -97,7 +97,7 @@ Fish::active_update(float dt_sec)
     m_sprite->set_action(m_physic.get_velocity_y() < 0 ? "normal" : "down");
 
   // we can't afford flying out of the tilemap, 'cause the engine would remove us.
-  if ((get_pos().y - 31.8) < 0) // too high, let us fall
+  if ((get_pos().y - 31.8f) < 0) // too high, let us fall
   {
     m_physic.set_velocity_y(0);
     m_physic.enable_gravity(true);

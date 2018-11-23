@@ -608,7 +608,6 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
         "-Wno-switch-enum "
         "-Wno-covered-switch-default "
         "-Wno-exit-time-destructors "
-        "-Wno-double-promotion "
         "-Wno-implicit-fallthrough "
         "-Wno-global-constructors "
         "-Wno-unreachable-code-break "

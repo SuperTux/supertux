@@ -187,7 +187,7 @@ IceCrusher::update(float dt_sec)
     cooldown_timer -= dt_sec;
     return;
   }
-  else if (cooldown_timer != 0.0)
+  else if (cooldown_timer != 0.0f)
   {
     dt_sec -= cooldown_timer;
     cooldown_timer = 0.0;
@@ -314,7 +314,7 @@ void
 IceCrusher::after_sprite_set()
 {
   float sprite_width = static_cast<float>(m_sprite->get_width());
-  if (sprite_width >= 128.0)
+  if (sprite_width >= 128.0f)
     ic_size = LARGE;
 
   if (!m_sprite->has_action("whites"))

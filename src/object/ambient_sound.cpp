@@ -197,7 +197,7 @@ AmbientSound::update(float dt_sec)
       // set the volume
       sound_source->set_gain(currentvolume*maximumvolume);
 
-      if (sqrdistance>=silence_distance && currentvolume<1e-3)
+      if (sqrdistance>=silence_distance && currentvolume < 1e-3f)
         stop_playing();
       latency=0;
     } else {
@@ -206,7 +206,7 @@ AmbientSound::update(float dt_sec)
         latency=0;
       }
       else // set a reasonable latency
-        latency = static_cast<int>(0.001/distance_factor);
+        latency = static_cast<int>(0.001f / distance_factor);
       //(int)(10*((sqrdistance-silence_distance)/silence_distance));
     }
   }

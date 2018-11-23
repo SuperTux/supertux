@@ -129,7 +129,7 @@ void
 ScreenManager::draw_fps(DrawingContext& context, float fps_fps)
 {
   char str[60];
-  snprintf(str, sizeof(str), "%3.1f", fps_fps);
+  snprintf(str, sizeof(str), "%3.1f", static_cast<double>(fps_fps));
   const char* fpstext = "FPS";
   context.color().draw_text(
     Resources::small_font, fpstext,
@@ -393,7 +393,7 @@ ScreenManager::run()
     last_ticks = ticks;
 
     /** ticks (as returned from SDL_GetTicks) per frame */
-    const Uint32 ticks_per_frame = static_cast<Uint32>(1000.0 / m_target_framerate * g_debug.get_game_speed_multiplier());
+    const Uint32 ticks_per_frame = static_cast<Uint32>(1000.0f / m_target_framerate * g_debug.get_game_speed_multiplier());
 
     if (elapsed_ticks > ticks_per_frame*4)
     {

@@ -64,11 +64,11 @@ AmbientLight::update(float dt_sec)
     float g = (1.0f - percent_done) * m_source_ambient_light.green + percent_done * m_target_ambient_light.green;
     float b = (1.0f - percent_done) * m_source_ambient_light.blue + percent_done * m_target_ambient_light.blue;
 
-    if (r > 1.0)
+    if (r > 1.0f)
       r = 1.0;
-    if (g > 1.0)
+    if (g > 1.0f)
       g = 1.0;
-    if (b > 1.0)
+    if (b > 1.0f)
       b = 1.0;
 
     if (r < 0)

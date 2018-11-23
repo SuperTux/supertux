@@ -300,8 +300,8 @@ Tile::check_position_unisolid (const Rectf& obj_bbox,
   // delta_x, delta_y: Gradient aware version of SHIFT_DELTA. Here, we set the
   // sign of the values only. Also, we determine here which corner of the
   // object's bounding box is the interesting one for us.
-  delta_x = 1.0 * SHIFT_DELTA;
-  delta_y = 1.0 * SHIFT_DELTA;
+  delta_x = 1.0f * SHIFT_DELTA;
+  delta_y = 1.0f * SHIFT_DELTA;
   switch (slope_info & AATriangle::DIRECTION_MASK)
   {
     case AATriangle::SOUTHWEST:

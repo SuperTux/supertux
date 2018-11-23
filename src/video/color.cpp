@@ -40,9 +40,9 @@ Color::Color(float red_, float green_, float blue_, float alpha_) :
   blue(blue_),
   alpha(alpha_)
 {
-  assert(0 <= red   && red <= 1.0);
-  assert(0 <= green && green <= 1.0);
-  assert(0 <= blue  && blue <= 1.0);
+  assert(0 <= red   && red <= 1.0f);
+  assert(0 <= green && green <= 1.0f);
+  assert(0 <= blue  && blue <= 1.0f);
 }
 
 Color::Color(const std::vector<float>& vals) :
@@ -65,9 +65,9 @@ Color::Color(const std::vector<float>& vals) :
     alpha = vals[3];
   else
     alpha = 1.0;
-  assert(0 <= red   && red <= 1.0);
-  assert(0 <= green && green <= 1.0);
-  assert(0 <= blue  && blue <= 1.0);
+  assert(0 <= red   && red <= 1.0f);
+  assert(0 <= green && green <= 1.0f);
+  assert(0 <= blue  && blue <= 1.0f);
 }
 
 bool

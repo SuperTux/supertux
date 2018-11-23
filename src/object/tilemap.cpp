@@ -315,14 +315,14 @@ void
 TileMap::draw(DrawingContext& context)
 {
   // skip draw if current opacity is 0.0
-  if (m_current_alpha == 0.0) return;
+  if (m_current_alpha == 0.0f) return;
 
   context.push_transform();
 
   if (m_flip != NO_FLIP) context.set_flip(m_flip);
 
   if (m_editor_active) {
-    if (m_current_alpha != 1.0) {
+    if (m_current_alpha != 1.0f) {
       context.set_alpha(m_current_alpha);
     }
   } else {

@@ -193,7 +193,7 @@ WeakBlock::spreadHit()
       {
         const float dx = fabsf(wb.get_pos().x - m_col.m_bbox.p1.x);
         const float dy = fabsf(wb.get_pos().y - m_col.m_bbox.p1.y);
-        if ((dx <= 32.5) && (dy <= 32.5)) {
+        if ((dx <= 32.5f) && (dy <= 32.5f)) {
           wb.startBurning();
         }
       }

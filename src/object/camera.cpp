@@ -443,7 +443,7 @@ Camera::update_scroll_normal(float dt_sec)
     }
 
     float peek_move = (peek_to - m_peek_pos.y) * PEEK_ARRIVE_RATIO;
-    if (fabsf(peek_move) < 1.0) {
+    if (fabsf(peek_move) < 1.0f) {
       peek_move = 0.0;
     }
 
@@ -451,7 +451,7 @@ Camera::update_scroll_normal(float dt_sec)
 
     m_translation.y -= m_peek_pos.y;
 
-    if (config_.clamp_y > 0) {
+    if (config_.clamp_y > 0.0f) {
       m_translation.y = math::clamp(m_translation.y,
                             player_pos.y - static_cast<float>(m_screen_size.height) * (1.0f - config_.clamp_y),
                             player_pos.y - static_cast<float>(m_screen_size.height) * config_.clamp_y);
@@ -503,9 +503,9 @@ Camera::update_scroll_normal(float dt_sec)
         m_lookahead_mode = LOOKAHEAD_RIGHT;
       }
       /* at the ends of a level it's obvious which way we will go */
-      if (player_pos.x < m_screen_size.width*0.5) {
+      if (player_pos.x < static_cast<float>(m_screen_size.width) * 0.5f) {
         m_lookahead_mode = LOOKAHEAD_RIGHT;
-      } else if (player_pos.x >= m_sector->get_width() - m_screen_size.width*0.5) {
+      } else if (player_pos.x >= m_sector->get_width() - static_cast<float>(m_screen_size.width) * 0.5f) {
         m_lookahead_mode = LOOKAHEAD_LEFT;
       }
 
@@ -614,15 +614,15 @@ Camera::update_scroll_normal(float dt_sec)
     }
 
     float peek_move = (peek_to - m_peek_pos.x) * PEEK_ARRIVE_RATIO;
-    if (fabsf(peek_move) < 1.0) {
-      peek_move = 0.0;
+    if (fabsf(peek_move) < 1.0f) {
+      peek_move = 0.0f;
     }
 
     m_peek_pos.x += peek_move;
 
     m_translation.x -= m_peek_pos.x;
 
-    if (config_.clamp_x > 0) {
+    if (config_.clamp_x > 0.0f) {
       m_translation.x = math::clamp(m_translation.x,
                             player_pos.x - static_cast<float>(m_screen_size.width) * (1-config_.clamp_x),
                             player_pos.x - static_cast<float>(m_screen_size.width) * config_.clamp_x);
@@ -654,7 +654,7 @@ void
 Camera::update_scroll_to(float dt_sec)
 {
   m_scroll_to_pos += dt_sec * m_scrollspeed;
-  if (m_scroll_to_pos >= 1.0) {
+  if (m_scroll_to_pos >= 1.0f) {
     m_mode = MANUAL;
     m_translation = m_scroll_goal;
     return;

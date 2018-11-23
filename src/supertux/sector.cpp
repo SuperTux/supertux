@@ -287,7 +287,7 @@ Sector::calculate_foremost_layer() const
   {
     if (tm.get_layer() > layer)
     {
-      if ( (tm.get_alpha() < 1.0) )
+      if ( (tm.get_alpha() < 1.0f) )
       {
         layer = tm.get_layer() - 1;
       }
@@ -488,7 +488,7 @@ Sector::change_solid_tiles(uint32_t old_tile_id, uint32_t new_tile_id)
 void
 Sector::set_gravity(float gravity)
 {
-  if (gravity != 10.0)
+  if (gravity != 10.0f)
   {
     log_warning << "Changing a Sector's gravitational constant might have unforeseen side-effects: " << gravity << std::endl;
   }
