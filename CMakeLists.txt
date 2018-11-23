@@ -572,7 +572,6 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
         "-Wcast-qual "
         "-Wold-style-cast "
         "-Wzero-as-null-pointer-constant "
-        "-Wimplicit-fallthrough "
         "-Wconversion "
         "-Wlogical-op "
         "-Wstrict-null-sentinel "
@@ -583,6 +582,11 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
           "${SUPERTUX2_EXTRA_WARNING_FLAGS} "
           "-Wint-in-bool-context "
           )
+      endif()
+      if(Boost_VERSION GREATER_EQUAL 106500)
+        string(CONCAT SUPERTUX2_EXTRA_WARNING_FLAGS
+          "${SUPERTUX2_EXTRA_WARNING_FLAGS} "
+          "-Wimplicit-fallthrough ")
       endif()
     elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
       string(CONCAT SUPERTUX2_EXTRA_WARNING_FLAGS
