@@ -76,10 +76,12 @@ Dispenser::Dispenser(const ReaderMapping& reader) :
 //  if (badguys.size() <= 0)
 //    throw std::runtime_error("No badguys in dispenser.");
 
-  switch (type) {
+  switch (type)
+  {
     case DT_DROPPER:
       m_sprite->set_action("dropper");
       break;
+
     case DT_ROCKETLAUNCHER:
       m_sprite->set_action(m_dir == LEFT ? "working-left" : "working-right");
       set_colgroup_active(COLGROUP_MOVING); //if this were COLGROUP_MOVING_STATIC MrRocket would explode on launch.
@@ -88,12 +90,16 @@ Dispenser::Dispenser(const ReaderMapping& reader) :
         autotarget = true;
       }
       break;
+
     case DT_CANNON:
       m_sprite->set_action("working");
       break;
+
     case DT_POINT:
       m_sprite->set_action("invisible");
       set_colgroup_active(COLGROUP_DISABLED);
+      break;
+
     default:
       break;
   }
@@ -263,11 +269,13 @@ Dispenser::launch_badguy()
       Rectf object_bbox = bad_guy.get_bbox();
 
       Vector spawnpoint;
-      switch (type) {
+      switch (type)
+      {
         case DT_DROPPER:
           spawnpoint = get_anchor_pos (m_col.m_bbox, ANCHOR_BOTTOM);
           spawnpoint.x -= 0.5f * object_bbox.get_width();
           break;
+
         case DT_ROCKETLAUNCHER:
         case DT_CANNON:
           spawnpoint = get_pos(); /* top-left corner of the cannon */
@@ -276,8 +284,11 @@ Dispenser::launch_badguy()
           else
             spawnpoint.x += m_col.m_bbox.get_width() + 1;
           break;
+
         case DT_POINT:
           spawnpoint = m_col.m_bbox.p1;
+          break;
+
         default:
           break;
       }

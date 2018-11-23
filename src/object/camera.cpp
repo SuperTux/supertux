@@ -127,15 +127,26 @@ Camera::save(Writer& writer)
   if (m_defaultmode == AUTOSCROLL && !get_path()->is_valid()) {
     m_defaultmode = NORMAL;
   }
-  switch (m_defaultmode) {
-    case NORMAL: writer.write("mode", "normal", false); break;
-    case MANUAL: writer.write("mode", "manual", false); break;
+
+  switch (m_defaultmode)
+  {
+    case NORMAL:
+      writer.write("mode", "normal", false);
+      break;
+
+    case MANUAL:
+      writer.write("mode", "manual", false);
+      break;
+
     case AUTOSCROLL:
       writer.write("mode", "autoscroll", false);
       if (get_path()) {
         writer.write("path-ref", get_path_ref());
       }
-    case SCROLLTO: break;
+      break;
+
+    case SCROLLTO:
+      break;
   }
 }
 

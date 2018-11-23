@@ -170,41 +170,44 @@ MrIceBlock::collision_squished(GameObject& object)
     return true;
   }
 
-  switch (ice_state) {
+  switch (ice_state)
+  {
     case ICESTATE_KICKED:
-    {
-      auto badguy = dynamic_cast<BadGuy*>(&object);
-      if (badguy) {
-        badguy->kill_fall();
-        break;
+      {
+        auto badguy = dynamic_cast<BadGuy*>(&object);
+        if (badguy) {
+          badguy->kill_fall();
+          break;
+        }
       }
-    }
+      BOOST_FALLTHROUGH;
 
-    // fall through
     case ICESTATE_NORMAL:
-    {
-      squishcount++;
-      if (squishcount >= MAXSQUISHES) {
-        kill_fall();
-        return true;
+      {
+        squishcount++;
+        if (squishcount >= MAXSQUISHES) {
+          kill_fall();
+          return true;
+        }
       }
-    }
 
-    set_state(ICESTATE_FLAT);
-    nokick_timer.start(NOKICK_TIME);
-    break;
+      set_state(ICESTATE_FLAT);
+      nokick_timer.start(NOKICK_TIME);
+      break;
+
     case ICESTATE_FLAT:
     case ICESTATE_WAKING:
-    {
-      auto movingobject = dynamic_cast<MovingObject*>(&object);
-      if (movingobject && (movingobject->get_pos().x < get_pos().x)) {
-        m_dir = RIGHT;
-      } else {
-        m_dir = LEFT;
+      {
+        auto movingobject = dynamic_cast<MovingObject*>(&object);
+        if (movingobject && (movingobject->get_pos().x < get_pos().x)) {
+          m_dir = RIGHT;
+        } else {
+          m_dir = LEFT;
+        }
       }
-    }
-    if (nokick_timer.check()) set_state(ICESTATE_KICKED);
-    break;
+      if (nokick_timer.check()) set_state(ICESTATE_KICKED);
+      break;
+
     case ICESTATE_GRABBED:
       assert(false);
       break;

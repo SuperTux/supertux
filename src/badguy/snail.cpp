@@ -153,10 +153,12 @@ Snail::collision_solid(const CollisionHit& hit)
     return;
   }
 
-  switch (state) {
+  switch (state)
+  {
     case STATE_NORMAL:
       WalkingBadguy::collision_solid(hit);
       return;
+
     case STATE_KICKED:
       if (hit.left || hit.right) {
         SoundManager::current()->play("sounds/iceblock_bump.wav", get_pos());
@@ -168,15 +170,16 @@ Snail::collision_solid(const CollisionHit& hit)
           m_physic.set_velocity_x(-m_physic.get_velocity_x());
         }
       }
-      /* fall-through */
+      BOOST_FALLTHROUGH;
     case STATE_FLAT:
     case STATE_KICKED_DELAY:
       if (hit.top || hit.bottom) {
         m_physic.set_velocity_y(0);
       }
       break;
+
     case STATE_GRABBED:
-        break;
+      break;
   }
 
   update_on_ground_flag(hit);
