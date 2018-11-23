@@ -41,7 +41,7 @@
 #include "object/player.hpp"
 #include "object/spawnpoint.hpp"
 #include "object/tilemap.hpp"
-#include "physfs/physfs_file_system.cpp"
+#include "physfs/physfs_file_system.hpp"
 #include "supertux/game_manager.hpp"
 #include "supertux/level.hpp"
 #include "supertux/level_parser.hpp"
