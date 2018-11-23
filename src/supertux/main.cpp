@@ -520,7 +520,14 @@ Main::launch_game(const CommandLineArguments& args)
   }
   else
   {
-    screen_manager.push_screen(std::make_unique<TitleScreen>(*default_savegame));
+    if (args.editor)
+    {
+      screen_manager.push_screen(std::make_unique<Editor>());
+    }
+    else
+    {
+      screen_manager.push_screen(std::make_unique<TitleScreen>(*default_savegame));
+    }
   }
 
   screen_manager.run();
