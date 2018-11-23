@@ -363,9 +363,7 @@
                  "fire/walk-2.png"
                  "fire/walk-3.png"
                  "fire/walk-4.png"
-                 "fire/walk-5.png"
-                 "fire/walk-6.png"
-                 "fire/walk-7.png"))
+                 "fire/walk-5.png"))
 
        (action
          (name "fire-walk-left")
@@ -487,9 +485,7 @@
                  "ice/walk-2.png"
                  "ice/walk-3.png"
                  "ice/walk-4.png"
-                 "ice/walk-5.png"
-                 "ice/walk-6.png"
-                 "ice/walk-7.png"))
+                 "ice/walk-5.png"))
 
        (action
          (name "ice-walk-left")
