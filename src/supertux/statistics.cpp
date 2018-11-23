@@ -34,11 +34,6 @@
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
-float WMAP_INFO_LEFT_X;
-float WMAP_INFO_RIGHT_X;
-float WMAP_INFO_TOP_Y1;
-float WMAP_INFO_TOP_Y2;
-
 Statistics::Statistics() :
   m_status(INVALID),
   m_total_coins(),
@@ -53,7 +48,11 @@ Statistics::Statistics() :
   CAPTION_MAX_FRAGGING(_("Max fragging:")),
   CAPTION_MAX_SECRETS(_("Max secrets found:")),
   CAPTION_BEST_TIME(_("Best time completed:")),
-  CAPTION_TARGET_TIME(_("Level target time:"))
+  CAPTION_TARGET_TIME(_("Level target time:")),
+  WMAP_INFO_LEFT_X(),
+  WMAP_INFO_RIGHT_X(),
+  WMAP_INFO_TOP_Y1(),
+  WMAP_INFO_TOP_Y2()
 {
   calculate_max_caption_length();
   WMAP_INFO_LEFT_X = static_cast<float>(SCREEN_WIDTH) - 32.0f - static_cast<float>(m_max_width);

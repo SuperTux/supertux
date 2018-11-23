@@ -29,8 +29,6 @@
 static const int START_COINS = 100;
 static const int MAX_COINS = 9999;
 
-PlayerStatus* player_status = nullptr;
-
 PlayerStatus::PlayerStatus() :
   coins(START_COINS),
   bonus(NO_BONUS),

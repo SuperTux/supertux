@@ -97,6 +97,11 @@ private:
   std::string CAPTION_BEST_TIME;
   std::string CAPTION_TARGET_TIME;
 
+  float WMAP_INFO_LEFT_X;
+  float WMAP_INFO_RIGHT_X;
+  float WMAP_INFO_TOP_Y1;
+  float WMAP_INFO_TOP_Y2;
+
 private:
   Statistics(const Statistics&) = delete;
   Statistics& operator=(const Statistics&) = delete;
