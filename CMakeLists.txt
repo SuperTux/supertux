@@ -552,29 +552,27 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
     #   -Wpadded -Wabi -Winline -Wunsafe-loop-optimizations -Wstrict-overflow=5
     # fails on MinGW:
     #   -ansi
-    string(CONCAT SUPERTUX2_EXTRA_WARNING_FLAGS
-      "-fdiagnostics-show-option "
-      "-pedantic "
-      "-Wno-long-long "
-      "-Wcast-align "
-      "-Wdisabled-optimization "
-      "-Winit-self -Winvalid-pch "
-      "-Wmissing-include-dirs "
-      "-Wmissing-noreturn "
-      "-Wpacked -Wredundant-decls "
-      "-Wformat=2 "
-      "-Weffc++ "
-      "-Wctor-dtor-privacy "
-      "-Wno-unused-parameter "
-      "-Wshadow "
-      "-Wnon-virtual-dtor "
-      "-Wcast-qual "
-      "-Wold-style-cast "
-      "-Wzero-as-null-pointer-constant "
-      )
     if(CMAKE_COMPILER_IS_GNUCXX)
       string(CONCAT SUPERTUX2_EXTRA_WARNING_FLAGS
-        "${SUPERTUX2_EXTRA_WARNING_FLAGS} "
+        "-fdiagnostics-show-option "
+        "-pedantic "
+        "-Wno-long-long "
+        "-Wcast-align "
+        "-Wdisabled-optimization "
+        "-Winit-self -Winvalid-pch "
+        "-Wmissing-include-dirs "
+        "-Wmissing-noreturn "
+        "-Wpacked -Wredundant-decls "
+        "-Wformat=2 "
+        "-Weffc++ "
+        "-Wctor-dtor-privacy "
+        "-Wno-unused-parameter "
+        "-Wshadow "
+        "-Wnon-virtual-dtor "
+        "-Wcast-qual "
+        "-Wold-style-cast "
+        "-Wzero-as-null-pointer-constant "
+        "-Wimplicit-fallthrough "
         "-Wconversion "
         "-Wlogical-op "
         "-Wstrict-null-sentinel "
@@ -586,12 +584,44 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
           "-Wint-in-bool-context "
           )
       endif()
-    else()
+    elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
       string(CONCAT SUPERTUX2_EXTRA_WARNING_FLAGS
         "${SUPERTUX2_EXTRA_WARNING_FLAGS} "
-        "-Wconversion "
+        "-Weverything "
+
+        # flags that we deliberately ignore
+        "-Wno-c++98-compat "
+        "-Wno-c++98-compat-pedantic "
+        "-Wno-float-equal "
+        "-Wno-padded "
+        "-Wno-weak-vtables "
+        "-Wno-disabled-macro-expansion "
+        "-Wno-documentation "
+        "-Wno-reserved-id-macro "
         "-Wno-sign-conversion "
-        )
+
+        # warnings that should probably be fixed in code
+        "-Wno-documentation-unknown-command "
+        "-Wno-inconsistent-missing-destructor-override "
+        "-Wno-deprecated-dynamic-exception-spec "
+        "-Wno-deprecated "
+        "-Wno-switch-enum "
+        "-Wno-covered-switch-default "
+        "-Wno-missing-prototypes "
+        "-Wno-exit-time-destructors "
+        "-Wno-double-promotion "
+        "-Wno-unreachable-code-return "
+        "-Wno-extra-semi "
+        "-Wno-implicit-fallthrough "
+        "-Wno-global-constructors "
+        "-Wno-unreachable-code-break "
+        "-Wno-duplicate-enum "
+        "-Wno-unused-macros "
+        "-Wno-newline-eof "
+        "-Wno-missing-variable-declarations "
+        "-Wno-unreachable-code "
+        "-Wno-return-std-move-in-c++11 "
+      )
     endif()
   endif(WARNINGS)
 endif()
