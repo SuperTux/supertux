@@ -42,18 +42,11 @@ public:
   /**
    * returns the lamp's color
    */
-  Color get_color() const {
-    return lightcolor;
-  }
+  Color get_color() const { return lightcolor; }
+  void add_color(const Color& c);
 
-  void add_color(Color c);
-
-  virtual std::string get_class() const override {
-    return "lantern";
-  }
-  virtual std::string get_display_name() const override {
-    return _("Lantern");
-  }
+  virtual std::string get_class() const override { return "lantern"; }
+  virtual std::string get_display_name() const override { return _("Lantern"); }
 
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
