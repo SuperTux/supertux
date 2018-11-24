@@ -29,6 +29,7 @@
 
 #include "audio/sound_manager.hpp"
 #include "control/input_manager.hpp"
+#include "editor/button_widget.hpp"
 #include "editor/layer_icon.hpp"
 #include "editor/object_info.hpp"
 #include "editor/tile_selection.hpp"
@@ -44,6 +45,7 @@
 #include "object/spawnpoint.hpp"
 #include "object/tilemap.hpp"
 #include "physfs/physfs_file_system.hpp"
+#include "sprite/sprite_manager.hpp"
 #include "supertux/game_manager.hpp"
 #include "supertux/level.hpp"
 #include "supertux/level_parser.hpp"
@@ -89,14 +91,39 @@ Editor::Editor() :
   m_levelloaded(false),
   m_leveltested(false),
   m_tileset(nullptr),
-  m_overlay_widget(*this),
-  m_toolbox_widget(*this),
-  m_layers_widget(*this),
-  m_scroller_widget(*this),
+  m_widgets(),
+  m_overlay_widget(),
+  m_toolbox_widget(),
+  m_layers_widget(),
+  m_scroller_widget(),
   m_enabled(false),
   m_bgr_surface(Surface::from_file("images/background/forest1.jpg")),
   m_undo_manager(new UndoManager)
 {
+  auto toolbox_widget = std::make_unique<EditorToolboxWidget>(*this);
+  auto layers_widget = std::make_unique<EditorLayersWidget>(*this);
+  auto scroll_widget = std::make_unique<EditorScrollerWidget>(*this);
+  auto overlay_widget = std::make_unique<EditorOverlayWidget>(*this);
+
+  m_toolbox_widget = toolbox_widget.get();
+  m_layers_widget = layers_widget.get();
+  m_scroller_widget = scroll_widget.get();
+  m_overlay_widget = overlay_widget.get();
+
+  auto undo_button_widget = std::make_unique<ButtonWidget>(
+    SpriteManager::current()->create("images/engine/editor/undo.png"),
+    Vector(0, 200), [this]{ undo(); });
+  auto redo_button_widget = std::make_unique<ButtonWidget>(
+    SpriteManager::current()->create("images/engine/editor/redo.png"),
+    Vector(0, 264), [this]{ redo(); });
+
+  // the order here is important due to how events are dispatched
+  m_widgets.push_back(std::move(undo_button_widget));
+  m_widgets.push_back(std::move(redo_button_widget));
+  m_widgets.push_back(std::move(toolbox_widget));
+  m_widgets.push_back(std::move(layers_widget));
+  m_widgets.push_back(std::move(scroll_widget));
+  m_widgets.push_back(std::move(overlay_widget));
 }
 
 Editor::~Editor()
@@ -120,10 +147,11 @@ Editor::draw(Compositor& compositor)
                                                                    static_cast<float>(context.get_height()))),
                                         -100);
   }
-  m_overlay_widget.draw(context);
-  m_toolbox_widget.draw(context);
-  m_layers_widget.draw(context);
-  m_scroller_widget.draw(context);
+
+  for(const auto& widget : m_widgets) {
+    widget->draw(context);
+  }
+
   MouseCursor::current()->draw(context);
 }
 
@@ -173,10 +201,10 @@ Editor::update(float dt_sec, const Controller& controller)
 
     m_sector->flush_game_objects();
 
-    m_toolbox_widget.update(dt_sec);
-    m_layers_widget.update(dt_sec);
-    m_overlay_widget.update(dt_sec);
-    m_scroller_widget.update(dt_sec);
+    for(const auto& widget : m_widgets) {
+      widget->update(dt_sec);
+    }
+
     update_keyboard(controller);
   }
 }
@@ -266,13 +294,13 @@ Editor::set_world(std::unique_ptr<World> w)
 int
 Editor::get_tileselect_select_mode() const
 {
-  return m_toolbox_widget.get_tileselect_select_mode();
+  return m_toolbox_widget->get_tileselect_select_mode();
 }
 
 int
 Editor::get_tileselect_move_mode() const
 {
-  return m_toolbox_widget.get_tileselect_move_mode();
+  return m_toolbox_widget->get_tileselect_move_mode();
 }
 
 bool
@@ -298,7 +326,7 @@ Editor::scroll_left(float speed)
       //When is the camera less than one tile after the left limit, it puts the camera to the limit.
       camera.move(static_cast<int>(-camera.get_translation().x), 0);
     }
-    m_overlay_widget.update_pos();
+    m_overlay_widget->update_pos();
   }
 }
 
@@ -314,7 +342,7 @@ Editor::scroll_right(float speed)
       // The limit is shifted 128 pixels to the right due to the input gui.
       camera.move(static_cast<int>(m_sector->get_width() - camera.get_translation().x - static_cast<float>(SCREEN_WIDTH) + 128.0f), 0);
     }
-    m_overlay_widget.update_pos();
+    m_overlay_widget->update_pos();
   }
 }
 
@@ -329,7 +357,7 @@ Editor::scroll_up(float speed)
       //When is the camera less than one tile after the top limit, it puts the camera to the limit.
       camera.move(0, static_cast<int>(-camera.get_translation().y));
     }
-    m_overlay_widget.update_pos();
+    m_overlay_widget->update_pos();
   }
 }
 
@@ -345,7 +373,7 @@ Editor::scroll_down(float speed)
       // The limit is shifted 32 pixels to the bottom due to the layer toolbar.
       camera.move(0, static_cast<int>(m_sector->get_height() - camera.get_translation().y - static_cast<float>(SCREEN_HEIGHT) + 32.0f));
     }
-    m_overlay_widget.update_pos();
+    m_overlay_widget->update_pos();
   }
 }
 
@@ -353,7 +381,7 @@ void
 Editor::esc_press()
 {
   m_enabled = false;
-  m_overlay_widget.delete_markers();
+  m_overlay_widget->delete_markers();
   MenuManager::instance().set_menu(MenuStorage::EDITOR_MENU);
 }
 
@@ -395,7 +423,7 @@ Editor::load_sector(const std::string& name)
     m_sector = m_level->get_sector(i);
   }
   m_sector->activate("main");
-  m_layers_widget.refresh();
+  m_layers_widget->refresh();
 }
 
 void
@@ -403,7 +431,7 @@ Editor::load_sector(size_t id)
 {
   m_sector = m_level->get_sector(id);
   m_sector->activate("main");
-  m_layers_widget.refresh();
+  m_layers_widget->refresh();
 }
 
 void
@@ -411,7 +439,7 @@ Editor::set_level(std::unique_ptr<Level> level)
 {
   m_reload_request = false;
   m_enabled = true;
-  m_toolbox_widget.set_input_type(EditorToolboxWidget::InputType::NONE);
+  m_toolbox_widget->set_input_type(EditorToolboxWidget::InputType::NONE);
   // Re/load level
   m_level = nullptr;
   m_levelloaded = true;
@@ -424,8 +452,8 @@ Editor::set_level(std::unique_ptr<Level> level)
   load_sector("main");
   m_sector->activate("main");
   m_sector->get_camera().set_mode(Camera::MANUAL);
-  m_layers_widget.refresh_sector_text();
-  m_toolbox_widget.update_mouse_icon();
+  m_layers_widget->refresh_sector_text();
+  m_toolbox_widget->update_mouse_icon();
 }
 
 void
@@ -488,8 +516,8 @@ Editor::setup()
       MenuManager::instance().push_menu(MenuStorage::EDITOR_LEVELSET_SELECT_MENU);
     }
   }
-  m_toolbox_widget.setup();
-  m_layers_widget.setup();
+  m_toolbox_widget->setup();
+  m_layers_widget->setup();
   m_savegame.reset(new Savegame("levels/misc"));
   m_savegame->load();
 
@@ -514,7 +542,7 @@ Editor::setup()
     SoundManager::current()->stop_music();
     m_deactivate_request = false;
     m_enabled = true;
-    m_toolbox_widget.update_mouse_icon();
+    m_toolbox_widget->update_mouse_icon();
   }
 }
 
@@ -522,9 +550,9 @@ void
 Editor::resize()
 {
   // Calls on window resize.
-  m_toolbox_widget.resize();
-  m_layers_widget.resize();
-  m_overlay_widget.update_pos();
+  m_toolbox_widget->resize();
+  m_layers_widget->resize();
+  m_overlay_widget->update_pos();
 }
 
 void
@@ -540,21 +568,9 @@ Editor::event(const SDL_Event& ev)
         ev.key.keysym.mod & KMOD_CTRL)
     {
       if (ev.key.keysym.mod & KMOD_SHIFT) {
-        log_info << "attempting redo" << std::endl;
-        auto level = m_undo_manager->restore_reverse();
-        if (level) {
-          set_level(std::move(level));
-        } else {
-          log_info << "redo failed" << std::endl;
-        }
+        redo();
       } else {
-        log_info << "attempting undo" << std::endl;
-        auto level = m_undo_manager->restore();
-        if (level) {
-          set_level(std::move(level));
-        } else {
-          log_info << "undo failed" << std::endl;
-        }
+        undo();
       }
       return;
     }
@@ -566,11 +582,10 @@ Editor::event(const SDL_Event& ev)
 
     BIND_SECTOR(*m_sector);
 
-    // abusing short-circuit behaviour of || to chain these calls
-    (m_toolbox_widget.event(ev) ||
-     m_layers_widget.event(ev) ||
-     m_scroller_widget.event(ev) ||
-     m_overlay_widget.event(ev));
+    for(const auto& widget : m_widgets) {
+      if (widget->event(ev))
+        break;
+    }
 
     // unreliable heuristic to snapshot the current state for future undo
     if ((ev.type == SDL_KEYDOWN && ev.key.repeat == 0 &&
@@ -595,25 +610,25 @@ Editor::event(const SDL_Event& ev)
 void
 Editor::update_node_iterators()
 {
-  m_overlay_widget.update_node_iterators();
+  m_overlay_widget->update_node_iterators();
 }
 
 void
 Editor::delete_markers()
 {
-  m_overlay_widget.delete_markers();
+  m_overlay_widget->delete_markers();
 }
 
 void
 Editor::sort_layers()
 {
-  m_layers_widget.sort_layers();
+  m_layers_widget->sort_layers();
 }
 
 void
 Editor::select_tilegroup(int id)
 {
-  m_toolbox_widget.select_tilegroup(id);
+  m_toolbox_widget->select_tilegroup(id);
 }
 
 const std::vector<Tilegroup>&
@@ -626,7 +641,7 @@ void
 Editor::change_tileset()
 {
   m_tileset = TileManager::current()->get_tileset(m_level->get_tileset());
-  m_toolbox_widget.set_input_type(EditorToolboxWidget::InputType::NONE);
+  m_toolbox_widget->set_input_type(EditorToolboxWidget::InputType::NONE);
   for (const auto& sector : m_level->m_sectors) {
     for (auto& tilemap : sector->get_objects_by_type<TileMap>()) {
       tilemap.set_tileset(m_tileset);
@@ -637,13 +652,13 @@ Editor::change_tileset()
 void
 Editor::select_objectgroup(int id)
 {
-  m_toolbox_widget.select_objectgroup(id);
+  m_toolbox_widget->select_objectgroup(id);
 }
 
 const std::vector<ObjectGroup>&
 Editor::get_objectgroups() const
 {
-  return m_toolbox_widget.get_object_info().m_groups;
+  return m_toolbox_widget->get_object_info().m_groups;
 }
 
 void
@@ -688,6 +703,30 @@ Editor::check_save_prerequisites(const std::function<void ()>& callback) const
     }
   }
 
+}
+
+void
+Editor::undo()
+{
+  log_info << "attempting undo" << std::endl;
+  auto level = m_undo_manager->restore();
+  if (level) {
+    set_level(std::move(level));
+  } else {
+    log_info << "undo failed" << std::endl;
+  }
+}
+
+void
+Editor::redo()
+{
+  log_info << "attempting redo" << std::endl;
+  auto level = m_undo_manager->restore_reverse();
+  if (level) {
+    set_level(std::move(level));
+  } else {
+    log_info << "redo failed" << std::endl;
+  }
 }
 
 /* EOF */
