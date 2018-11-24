@@ -135,7 +135,7 @@ public:
   void redo();
 
 private:
-  void set_level(std::unique_ptr<Level> level);
+  void set_level(std::unique_ptr<Level> level, bool reset = true);
   void reload_level();
   void quit_editor();
   void save_level();

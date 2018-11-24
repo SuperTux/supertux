@@ -435,23 +435,42 @@ Editor::load_sector(size_t id)
 }
 
 void
-Editor::set_level(std::unique_ptr<Level> level)
+Editor::set_level(std::unique_ptr<Level> level, bool reset)
 {
+  std::string sector_name = "main";
+  Vector translation;
+
+  if (!reset && m_sector) {
+    translation = m_sector->get_camera().get_translation();
+    sector_name = m_sector->get_name();
+  }
+
   m_reload_request = false;
   m_enabled = true;
-  m_toolbox_widget->set_input_type(EditorToolboxWidget::InputType::NONE);
+
+  if (reset) {
+    m_toolbox_widget->set_input_type(EditorToolboxWidget::InputType::NONE);
+  }
+
   // Re/load level
   m_level = nullptr;
   m_levelloaded = true;
 
-  ReaderMapping::s_translations_enabled = false;
   m_level = std::move(level);
-  ReaderMapping::s_translations_enabled = true;
 
-  m_tileset = TileManager::current()->get_tileset(m_level->get_tileset());
-  load_sector("main");
-  m_sector->activate("main");
+  if (reset) {
+    m_tileset = TileManager::current()->get_tileset(m_level->get_tileset());
+  }
+
+  load_sector(sector_name);
+  m_sector->activate(sector_name);
   m_sector->get_camera().set_mode(Camera::MANUAL);
+
+  if (!reset) {
+    m_sector->get_camera().set_scrolling(static_cast<int>(translation.x),
+                                         static_cast<int>(translation.y));
+  }
+
   m_layers_widget->refresh_sector_text();
   m_toolbox_widget->update_mouse_icon();
 }
@@ -459,8 +478,10 @@ Editor::set_level(std::unique_ptr<Level> level)
 void
 Editor::reload_level()
 {
+  ReaderMapping::s_translations_enabled = false;
   set_level(LevelParser::from_file(m_world ? FileSystem::join(m_world->get_basedir(),
                                                               m_levelfile) : m_levelfile));
+  ReaderMapping::s_translations_enabled = true;
 }
 
 void
@@ -712,7 +733,7 @@ Editor::undo()
   log_info << "attempting undo" << std::endl;
   auto level = m_undo_manager->undo();
   if (level) {
-    set_level(std::move(level));
+    set_level(std::move(level), false);
     m_ignore_sector_change = true;
   } else {
     log_info << "undo failed" << std::endl;
@@ -725,7 +746,7 @@ Editor::redo()
   log_info << "attempting redo" << std::endl;
   auto level = m_undo_manager->redo();
   if (level) {
-    set_level(std::move(level));
+    set_level(std::move(level), false);
     m_ignore_sector_change = true;
   } else {
     log_info << "redo failed" << std::endl;
