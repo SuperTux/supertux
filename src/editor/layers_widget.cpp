@@ -42,7 +42,7 @@ EditorLayersWidget::EditorLayersWidget(Editor& editor) :
   m_Width(512),
   m_sector_text(),
   m_sector_text_width(0),
-  m_hovered_item(HI_NONE),
+  m_hovered_item(HoveredItem::NONE),
   m_hovered_layer(-1),
   m_object_tip()
 {
@@ -68,17 +68,17 @@ EditorLayersWidget::draw(DrawingContext& context)
 
   switch (m_hovered_item)
   {
-    case HI_SPAWNPOINTS:
+    case HoveredItem::SPAWNPOINTS:
       target_rect = Rectf(Vector(0, static_cast<float>(m_Ypos)),
                           Vector(static_cast<float>(m_Xpos), static_cast<float>(SCREEN_HEIGHT)));
       break;
 
-    case HI_SECTOR:
+    case HoveredItem::SECTOR:
       target_rect = Rectf(Vector(static_cast<float>(m_Xpos), static_cast<float>(m_Ypos)),
                           Vector(static_cast<float>(m_sector_text_width + m_Xpos), static_cast<float>(SCREEN_HEIGHT)));
       break;
 
-    case HI_LAYERS:
+    case HoveredItem::LAYERS:
       {
         Vector coords = get_layer_coords(m_hovered_layer);
         target_rect = Rectf(coords, coords + Vector(32, 32));
@@ -140,12 +140,12 @@ EditorLayersWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
   {
     switch (m_hovered_item)
     {
-      case HI_SECTOR:
+      case HoveredItem::SECTOR:
         m_editor.disable_keyboard();
         MenuManager::instance().set_menu(MenuStorage::EDITOR_SECTORS_MENU);
         return true;
 
-      case HI_LAYERS:
+      case HoveredItem::LAYERS:
         if (m_hovered_layer >= m_layer_icons.size())
         {
           return false;
@@ -175,7 +175,7 @@ EditorLayersWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
   }
   else if (button.button == SDL_BUTTON_RIGHT)
   {
-    if (m_hovered_item == HI_LAYERS && m_hovered_layer < m_layer_icons.size()) {
+    if (m_hovered_item == HoveredItem::LAYERS && m_hovered_layer < m_layer_icons.size()) {
       auto om = std::make_unique<ObjectMenu>(m_editor, m_layer_icons[m_hovered_layer]->get_layer());
       m_editor.m_deactivate_request = true;
       MenuManager::instance().push_menu(std::move(om));
@@ -197,25 +197,25 @@ EditorLayersWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
   float x = mouse_pos.x - static_cast<float>(m_Xpos);
   float y = mouse_pos.y - static_cast<float>(m_Ypos);
   if (y < 0 || x > static_cast<float>(m_Width)) {
-    m_hovered_item = HI_NONE;
+    m_hovered_item = HoveredItem::NONE;
     m_object_tip = nullptr;
     return false;
   }
   if (x < 0) {
-    m_hovered_item = HI_SPAWNPOINTS;
+    m_hovered_item = HoveredItem::SPAWNPOINTS;
     m_object_tip = nullptr;
     return true;
   } else {
     if (x <= static_cast<float>(m_sector_text_width)) {
-      m_hovered_item = HI_SECTOR;
+      m_hovered_item = HoveredItem::SECTOR;
       m_object_tip = nullptr;
     } else {
       unsigned int new_hovered_layer = get_layer_pos(mouse_pos);
-      if (m_hovered_layer != new_hovered_layer || m_hovered_item != HI_LAYERS) {
+      if (m_hovered_layer != new_hovered_layer || m_hovered_item != HoveredItem::LAYERS) {
         m_hovered_layer = new_hovered_layer;
         update_tip();
       }
-      m_hovered_item = HI_LAYERS;
+      m_hovered_item = HoveredItem::LAYERS;
     }
   }
 

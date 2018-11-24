@@ -23,7 +23,7 @@
 class ResizeMarker : public MarkerObject
 {
 public:
-  enum Side {
+  enum class Side {
     NONE,
     LEFT_UP,
     RIGHT_DOWN

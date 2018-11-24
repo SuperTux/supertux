@@ -37,25 +37,25 @@ ResizeMarker::refresh_pos()
 {
   Vector new_pos;
   switch (m_vert) {
-    case NONE:
+    case Side::NONE:
       new_pos.y = (m_rect->p1.y + m_rect->p2.y)/2 - 8;
       break;
-    case LEFT_UP:
+    case Side::LEFT_UP:
       new_pos.y = m_rect->p1.y - 16;
       break;
-    case RIGHT_DOWN:
+    case Side::RIGHT_DOWN:
       new_pos.y = m_rect->p2.y;
       break;
   }
 
   switch (m_horz) {
-    case NONE:
+    case Side::NONE:
       new_pos.x = (m_rect->p1.x + m_rect->p2.x)/2 - 8;
       break;
-    case LEFT_UP:
+    case Side::LEFT_UP:
       new_pos.x = m_rect->p1.x - 16;
       break;
-    case RIGHT_DOWN:
+    case Side::RIGHT_DOWN:
       new_pos.x = m_rect->p2.x;
       break;
   }
@@ -67,23 +67,23 @@ void
 ResizeMarker::move_to(const Vector& pos)
 {
   switch (m_vert) {
-    case NONE:
+    case Side::NONE:
       break;
-    case LEFT_UP:
+    case Side::LEFT_UP:
       m_rect->p1.y = std::min(pos.y + 16, m_rect->p2.y - 2);
       break;
-    case RIGHT_DOWN:
+    case Side::RIGHT_DOWN:
       m_rect->p2.y = std::max(pos.y, m_rect->p1.y + 2);
       break;
   }
 
   switch (m_horz) {
-    case NONE:
+    case Side::NONE:
       break;
-    case LEFT_UP:
+    case Side::LEFT_UP:
       m_rect->p1.x = std::min(pos.x + 16, m_rect->p2.x - 2);
       break;
-    case RIGHT_DOWN:
+    case Side::RIGHT_DOWN:
       m_rect->p2.x = std::max(pos.x, m_rect->p1.x + 2);
       break;
   }
@@ -97,25 +97,25 @@ ResizeMarker::get_point_vector() const
   Vector result;
 
   switch (m_vert) {
-    case NONE:
+    case Side::NONE:
       result.y = 0;
       break;
-    case LEFT_UP:
+    case Side::LEFT_UP:
       result.y = -1;
       break;
-    case RIGHT_DOWN:
+    case Side::RIGHT_DOWN:
       result.y = 1;
       break;
   }
 
   switch (m_horz) {
-    case NONE:
+    case Side::NONE:
       result.x = 0;
       break;
-    case LEFT_UP:
+    case Side::LEFT_UP:
       result.x = -1;
       break;
-    case RIGHT_DOWN:
+    case Side::RIGHT_DOWN:
       result.x = 1;
       break;
   }
@@ -126,7 +126,7 @@ ResizeMarker::get_point_vector() const
 Vector
 ResizeMarker::get_offset() const
 {
-  return Vector((m_horz == LEFT_UP) ? 16 : 0, (m_vert == LEFT_UP) ? 16 : 0);
+  return Vector((m_horz == Side::LEFT_UP) ? 16 : 0, (m_vert == Side::LEFT_UP) ? 16 : 0);
 }
 
 /* EOF */

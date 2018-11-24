@@ -39,7 +39,7 @@ EditorToolboxWidget::EditorToolboxWidget(Editor& editor) :
   m_editor(editor),
   m_tiles(new TileSelection()),
   m_object(),
-  m_input_type(IP_NONE),
+  m_input_type(InputType::NONE),
   m_active_tilegroup(),
   m_active_objectgroup(-1),
   m_object_info(new ObjectInfo()),
@@ -47,9 +47,9 @@ EditorToolboxWidget::EditorToolboxWidget(Editor& editor) :
   m_select_mode(new ToolIcon("images/engine/editor/select-mode0.png")),
   m_move_mode(new ToolIcon("images/engine/editor/move-mode0.png")),
   m_settings_mode(new ToolIcon("images/engine/editor/settings-mode0.png")),
-  m_hovered_item(HI_NONE),
+  m_hovered_item(HoveredItem::NONE),
   m_hovered_tile(-1),
-  m_tile_scrolling(TS_NONE),
+  m_tile_scrolling(TileScrolling::NONE),
   m_using_scroll_wheel(false),
   m_wheel_scroll_amount(0),
   m_starting_tile(0),
@@ -77,7 +77,7 @@ EditorToolboxWidget::draw(DrawingContext& context)
                                        0.0f, LAYER_GUI+1);
   }
 
-  if (m_hovered_item != HI_NONE)
+  if (m_hovered_item != HoveredItem::NONE)
   {
     context.color().draw_filled_rect(get_item_rect(m_hovered_item),
                                        Color(0.9f, 0.9f, 1.0f, 0.6f),
@@ -103,7 +103,7 @@ EditorToolboxWidget::draw(DrawingContext& context)
 void
 EditorToolboxWidget::draw_tilegroup(DrawingContext& context)
 {
-  if (m_input_type == IP_TILE) {
+  if (m_input_type == InputType::TILE) {
     int pos = -1;
     for (auto& tile_ID : m_active_tilegroup->tiles) {
       pos++;
@@ -131,7 +131,7 @@ EditorToolboxWidget::draw_tilegroup(DrawingContext& context)
 void
 EditorToolboxWidget::draw_objectgroup(DrawingContext& context)
 {
-  if (m_input_type == IP_OBJECT) {
+  if (m_input_type == InputType::OBJECT) {
     int pos = -1;
     for (auto& icon : m_object_info->m_groups[m_active_objectgroup].get_icons()) {
       pos++;
@@ -148,7 +148,7 @@ EditorToolboxWidget::update(float dt_sec)
 {
   switch (m_tile_scrolling)
   {
-    case TS_UP:
+    case TileScrolling::UP:
       {
         if (m_starting_tile > 0)
         {
@@ -159,7 +159,7 @@ EditorToolboxWidget::update(float dt_sec)
             {
               m_starting_tile = 0;
             }
-            m_tile_scrolling = TS_NONE;
+            m_tile_scrolling = TileScrolling::NONE;
           }
           else
           {
@@ -169,10 +169,10 @@ EditorToolboxWidget::update(float dt_sec)
       }
       break;
 
-    case TS_DOWN:
+    case TileScrolling::DOWN:
       {
         int size;
-        if (m_input_type == IP_OBJECT) {
+        if (m_input_type == InputType::OBJECT) {
           size = static_cast<int>(m_object_info->m_groups[m_active_objectgroup].get_icons().size());
         } else {
           if (m_active_tilegroup == nullptr)
@@ -189,7 +189,7 @@ EditorToolboxWidget::update(float dt_sec)
             {
               m_starting_tile = size - 4;
             }
-            m_tile_scrolling = TS_NONE;
+            m_tile_scrolling = TileScrolling::NONE;
           }
           else
           {
@@ -264,7 +264,7 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
   {
     switch (m_hovered_item)
     {
-      case HI_TILEGROUP:
+      case HoveredItem::TILEGROUP:
         if (m_editor.get_tileset()->get_tilegroups().size() > 1)
         {
           m_editor.disable_keyboard();
@@ -273,13 +273,13 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
         else
         {
           m_active_tilegroup.reset(new Tilegroup(m_editor.get_tileset()->get_tilegroups()[0]));
-          m_input_type = EditorToolboxWidget::IP_TILE;
+          m_input_type = EditorToolboxWidget::InputType::TILE;
           m_starting_tile = 0;
           update_mouse_icon();
         }
         return true;
 
-      case HI_OBJECTS:
+      case HoveredItem::OBJECTS:
         if ((m_editor.get_worldmap_mode() && m_object_info->get_num_worldmap_groups() > 1) ||
             (!m_editor.get_worldmap_mode() && m_object_info->get_num_level_groups() > 1))
         {
@@ -296,16 +296,16 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
           {
             m_active_objectgroup = 0;
           }
-          m_input_type = EditorToolboxWidget::IP_OBJECT;
+          m_input_type = EditorToolboxWidget::InputType::OBJECT;
           m_starting_tile = 0;
           update_mouse_icon();
         }
         return true;
 
-      case HI_TILE:
+      case HoveredItem::TILE:
         switch (m_input_type)
         {
-          case IP_TILE:
+          case InputType::TILE:
             {
               m_dragging = true;
               m_drag_start = Vector(static_cast<float>(m_hovered_tile % 4),
@@ -320,7 +320,7 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
             }
             break;
 
-          case IP_OBJECT:
+          case InputType::OBJECT:
             {
               int size = static_cast<int>(m_object_info->m_groups[m_active_objectgroup].get_icons().size());
               if (m_hovered_tile < size && m_hovered_tile >= 0) {
@@ -335,7 +335,7 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
         }
         return true;
 
-      case HI_TOOL:
+      case HoveredItem::TOOL:
         switch (m_hovered_tile)
         {
           case 0:
@@ -363,7 +363,7 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
         }
         return true;
 
-      case HI_NONE:
+      case HoveredItem::NONE:
         return false;
 
       default:
@@ -384,38 +384,38 @@ EditorToolboxWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
   float y = mouse_pos.y - static_cast<float>(m_Ypos);
 
   if (x < 0) {
-    m_hovered_item = HI_NONE;
-    m_tile_scrolling = TS_NONE;
+    m_hovered_item = HoveredItem::NONE;
+    m_tile_scrolling = TileScrolling::NONE;
     return false;
   }
 
   if (y < 0) {
     if (y < -38) {
-      m_hovered_item = HI_TILEGROUP;
+      m_hovered_item = HoveredItem::TILEGROUP;
     } else if (y < -16) {
-      m_hovered_item = HI_OBJECTS;
+      m_hovered_item = HoveredItem::OBJECTS;
     } else {
-      m_hovered_item = HI_TOOL;
+      m_hovered_item = HoveredItem::TOOL;
       m_hovered_tile = get_tool_pos(mouse_pos);
     }
-    m_tile_scrolling = TS_NONE;
+    m_tile_scrolling = TileScrolling::NONE;
     return false;
   } else {
-    m_hovered_item = HI_TILE;
+    m_hovered_item = HoveredItem::TILE;
     m_hovered_tile = get_tile_pos(mouse_pos);
-    if (m_dragging && m_input_type == IP_TILE) {
+    if (m_dragging && m_input_type == InputType::TILE) {
       update_selection();
     }
   }
 
   if (y < 16) {
-    m_tile_scrolling = TS_UP;
+    m_tile_scrolling = TileScrolling::UP;
     m_using_scroll_wheel = false;
   } else if (y > static_cast<float>(SCREEN_HEIGHT - 16 - m_Ypos)) {
-    m_tile_scrolling = TS_DOWN;
+    m_tile_scrolling = TileScrolling::DOWN;
     m_using_scroll_wheel = false;
   } else {
-    m_tile_scrolling = TS_NONE;
+    m_tile_scrolling = TileScrolling::NONE;
   }
 
   return false;
@@ -424,13 +424,13 @@ EditorToolboxWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
 bool
 EditorToolboxWidget::on_mouse_wheel(const SDL_MouseWheelEvent& wheel)
 {
-  if (m_hovered_item != HI_NONE)
+  if (m_hovered_item != HoveredItem::NONE)
   {
     if (wheel.y > 0) {
-      m_tile_scrolling = TS_UP;
+      m_tile_scrolling = TileScrolling::UP;
     }
     else {
-      m_tile_scrolling = TS_DOWN;
+      m_tile_scrolling = TileScrolling::DOWN;
     }
     m_using_scroll_wheel = true;
     m_wheel_scroll_amount = wheel.y;
@@ -459,17 +459,17 @@ void
 EditorToolboxWidget::update_mouse_icon()
 {
   switch (m_input_type) {
-    case IP_NONE:
+    case InputType::NONE:
       MouseCursor::current()->set_icon(nullptr);
       break;
-    case IP_OBJECT:
+    case InputType::OBJECT:
       if (m_object.empty()) {
         MouseCursor::current()->set_icon(m_rubber->get_current_surface());
       } else {
         MouseCursor::current()->set_icon(m_move_mode->get_current_surface());
       }
       break;
-    case IP_TILE:
+    case InputType::TILE:
       MouseCursor::current()->set_icon(m_select_mode->get_current_surface());
       break;
     default:
@@ -516,19 +516,19 @@ EditorToolboxWidget::get_item_rect(const HoveredItem& item) const
 {
   switch (item)
   {
-    case HI_TILEGROUP: return Rectf(Vector(static_cast<float>(m_Xpos), 0.0f), Vector(static_cast<float>(SCREEN_WIDTH), 22.0f));
-    case HI_OBJECTS:   return Rectf(Vector(static_cast<float>(m_Xpos), 22.0f), Vector(static_cast<float>(SCREEN_WIDTH), 44.0f));
-    case HI_TILE:
+    case HoveredItem::TILEGROUP: return Rectf(Vector(static_cast<float>(m_Xpos), 0.0f), Vector(static_cast<float>(SCREEN_WIDTH), 22.0f));
+    case HoveredItem::OBJECTS:   return Rectf(Vector(static_cast<float>(m_Xpos), 22.0f), Vector(static_cast<float>(SCREEN_WIDTH), 44.0f));
+    case HoveredItem::TILE:
     {
       auto coords = get_tile_coords(m_hovered_tile);
       return Rectf(coords, coords + Vector(32, 32));
     }
-    case HI_TOOL:
+    case HoveredItem::TOOL:
     {
       auto coords = get_tool_coords(m_hovered_tile);
       return Rectf(coords, coords + Vector(32, 16));
     }
-    case HI_NONE:
+    case HoveredItem::NONE:
     default:
       return Rectf();
   }
@@ -550,7 +550,7 @@ void
 EditorToolboxWidget::select_tilegroup(int id)
 {
   m_active_tilegroup.reset(new Tilegroup(m_editor.get_tileset()->get_tilegroups()[id]));
-  m_input_type = EditorToolboxWidget::IP_TILE;
+  m_input_type = EditorToolboxWidget::InputType::TILE;
   m_starting_tile = 0;
   update_mouse_icon();
 }
@@ -559,7 +559,7 @@ void
 EditorToolboxWidget::select_objectgroup(int id)
 {
   m_active_objectgroup = id;
-  m_input_type = EditorToolboxWidget::IP_OBJECT;
+  m_input_type = EditorToolboxWidget::InputType::OBJECT;
   m_starting_tile = 0;
   update_mouse_icon();
 }

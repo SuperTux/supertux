@@ -35,8 +35,8 @@ class Vector;
 class EditorLayersWidget final : public Widget
 {
 public:
-  enum HoveredItem {
-    HI_NONE, HI_SPAWNPOINTS, HI_SECTOR, HI_LAYERS
+  enum class HoveredItem {
+    NONE, SPAWNPOINTS, SECTOR, LAYERS
   };
 
 public:

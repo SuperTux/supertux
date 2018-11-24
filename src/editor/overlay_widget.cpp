@@ -522,7 +522,7 @@ EditorOverlayWidget::process_left_click()
 
   switch (m_editor.get_tileselect_input_type())
   {
-    case EditorToolboxWidget::IP_TILE:
+    case EditorToolboxWidget::InputType::TILE:
       switch (m_editor.get_tileselect_select_mode())
       {
         case 0:
@@ -542,7 +542,7 @@ EditorOverlayWidget::process_left_click()
       }
       break;
 
-    case EditorToolboxWidget::IP_OBJECT:
+    case EditorToolboxWidget::InputType::OBJECT:
       switch (m_editor.get_tileselect_move_mode())
       {
         case 0:
@@ -576,15 +576,15 @@ EditorOverlayWidget::process_right_click()
 {
   switch (m_editor.get_tileselect_input_type())
   {
-    case EditorToolboxWidget::IP_TILE:
+    case EditorToolboxWidget::InputType::TILE:
       m_dragging = true;
       m_dragging_right = true;
       m_drag_start = m_sector_pos;
       update_tile_selection();
       break;
 
-    case EditorToolboxWidget::IP_NONE:
-    case EditorToolboxWidget::IP_OBJECT:
+    case EditorToolboxWidget::InputType::NONE:
+    case EditorToolboxWidget::InputType::OBJECT:
       if (m_hovered_object &&
           m_hovered_object->is_valid() &&
           m_hovered_object->is_saveable())
@@ -685,7 +685,7 @@ EditorOverlayWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
   {
     switch (m_editor.get_tileselect_input_type())
     {
-      case EditorToolboxWidget::IP_TILE:
+      case EditorToolboxWidget::InputType::TILE:
         if (m_dragging_right) {
           update_tile_selection();
         } else {
@@ -702,7 +702,7 @@ EditorOverlayWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
         }
         break;
 
-      case EditorToolboxWidget::IP_OBJECT:
+      case EditorToolboxWidget::InputType::OBJECT:
         if (m_editor.get_tileselect_object().empty()) {
           if (m_editor.get_tileselect_select_mode() == 1) {
             rubber_rect();
@@ -759,7 +759,7 @@ EditorOverlayWidget::update_pos()
 void
 EditorOverlayWidget::draw_tile_tip(DrawingContext& context)
 {
-  if ( m_editor.get_tileselect_input_type() == EditorToolboxWidget::IP_TILE ) {
+  if ( m_editor.get_tileselect_input_type() == EditorToolboxWidget::InputType::TILE ) {
 
     auto tilemap = dynamic_cast<TileMap*>(m_editor.get_selected_tilemap());
     if (!tilemap) {

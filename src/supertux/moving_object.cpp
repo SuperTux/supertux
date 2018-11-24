@@ -46,14 +46,14 @@ MovingObject::save(Writer& writer)
 void
 MovingObject::editor_select()
 {
-  Sector::get().add<ResizeMarker>(&m_col.m_bbox, ResizeMarker::LEFT_UP, ResizeMarker::LEFT_UP);
-  Sector::get().add<ResizeMarker>(&m_col.m_bbox, ResizeMarker::LEFT_UP, ResizeMarker::NONE);
-  Sector::get().add<ResizeMarker>(&m_col.m_bbox, ResizeMarker::LEFT_UP, ResizeMarker::RIGHT_DOWN);
-  Sector::get().add<ResizeMarker>(&m_col.m_bbox, ResizeMarker::NONE, ResizeMarker::LEFT_UP);
-  Sector::get().add<ResizeMarker>(&m_col.m_bbox, ResizeMarker::NONE, ResizeMarker::RIGHT_DOWN);
-  Sector::get().add<ResizeMarker>(&m_col.m_bbox, ResizeMarker::RIGHT_DOWN, ResizeMarker::LEFT_UP);
-  Sector::get().add<ResizeMarker>(&m_col.m_bbox, ResizeMarker::RIGHT_DOWN, ResizeMarker::NONE);
-  Sector::get().add<ResizeMarker>(&m_col.m_bbox, ResizeMarker::RIGHT_DOWN, ResizeMarker::RIGHT_DOWN);
+  Sector::get().add<ResizeMarker>(&m_col.m_bbox, ResizeMarker::Side::LEFT_UP, ResizeMarker::Side::LEFT_UP);
+  Sector::get().add<ResizeMarker>(&m_col.m_bbox, ResizeMarker::Side::LEFT_UP, ResizeMarker::Side::NONE);
+  Sector::get().add<ResizeMarker>(&m_col.m_bbox, ResizeMarker::Side::LEFT_UP, ResizeMarker::Side::RIGHT_DOWN);
+  Sector::get().add<ResizeMarker>(&m_col.m_bbox, ResizeMarker::Side::NONE, ResizeMarker::Side::LEFT_UP);
+  Sector::get().add<ResizeMarker>(&m_col.m_bbox, ResizeMarker::Side::NONE, ResizeMarker::Side::RIGHT_DOWN);
+  Sector::get().add<ResizeMarker>(&m_col.m_bbox, ResizeMarker::Side::RIGHT_DOWN, ResizeMarker::Side::LEFT_UP);
+  Sector::get().add<ResizeMarker>(&m_col.m_bbox, ResizeMarker::Side::RIGHT_DOWN, ResizeMarker::Side::NONE);
+  Sector::get().add<ResizeMarker>(&m_col.m_bbox, ResizeMarker::Side::RIGHT_DOWN, ResizeMarker::Side::RIGHT_DOWN);
 }
 
 /* EOF */

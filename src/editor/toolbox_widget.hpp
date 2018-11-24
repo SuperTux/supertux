@@ -37,16 +37,16 @@ class ToolIcon;
 class EditorToolboxWidget final : public Widget
 {
 public:
-  enum HoveredItem {
-    HI_NONE, HI_TILEGROUP, HI_OBJECTS, HI_TILE, HI_TOOL
+  enum class HoveredItem {
+    NONE, TILEGROUP, OBJECTS, TILE, TOOL
   };
 
-  enum TileScrolling {
-    TS_NONE, TS_UP, TS_DOWN
+  enum class TileScrolling {
+    NONE, UP, DOWN
   };
 
-  enum InputType {
-    IP_NONE, IP_TILE, IP_OBJECT
+  enum class InputType {
+    NONE, TILE, OBJECT
   };
 
 public:
