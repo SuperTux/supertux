@@ -18,6 +18,7 @@
 
 #include <limits>
 #include <physfs.h>
+#include <iostream>
 
 #if defined(_WIN32)
   #include <windows.h>
@@ -33,6 +34,7 @@
 #include "editor/tile_selection.hpp"
 #include "editor/tip.hpp"
 #include "editor/tool_icon.hpp"
+#include "editor/undo_manager.hpp"
 #include "gui/dialog.hpp"
 #include "gui/menu_manager.hpp"
 #include "gui/mousecursor.hpp"
@@ -55,6 +57,7 @@
 #include "supertux/world.hpp"
 #include "util/file_system.hpp"
 #include "util/reader_mapping.hpp"
+#include "util/timelog.hpp"
 #include "video/compositor.hpp"
 #include "video/drawing_context.hpp"
 #include "video/surface.hpp"
@@ -91,7 +94,12 @@ Editor::Editor() :
   m_layers_widget(*this),
   m_scroller_widget(*this),
   m_enabled(false),
-  m_bgr_surface(Surface::from_file("images/background/forest1.jpg"))
+  m_bgr_surface(Surface::from_file("images/background/forest1.jpg")),
+  m_undo_manager(new UndoManager)
+{
+}
+
+Editor::~Editor()
 {
 }
 
@@ -399,7 +407,7 @@ Editor::load_sector(size_t id)
 }
 
 void
-Editor::reload_level()
+Editor::set_level(std::unique_ptr<Level> level)
 {
   m_reload_request = false;
   m_enabled = true;
@@ -409,8 +417,7 @@ Editor::reload_level()
   m_levelloaded = true;
 
   ReaderMapping::s_translations_enabled = false;
-  m_level = LevelParser::from_file(m_world ? FileSystem::join(m_world->get_basedir(),
-                                                          m_levelfile) : m_levelfile);
+  m_level = std::move(level);
   ReaderMapping::s_translations_enabled = true;
 
   m_tileset = TileManager::current()->get_tileset(m_level->get_tileset());
@@ -419,6 +426,13 @@ Editor::reload_level()
   m_sector->get_camera().set_mode(Camera::MANUAL);
   m_layers_widget.refresh_sector_text();
   m_toolbox_widget.update_mouse_icon();
+}
+
+void
+Editor::reload_level()
+{
+  set_level(LevelParser::from_file(m_world ? FileSystem::join(m_world->get_basedir(),
+                                                              m_levelfile) : m_levelfile));
 }
 
 void
@@ -516,27 +530,60 @@ Editor::resize()
 void
 Editor::event(const SDL_Event& ev)
 {
+  if (!m_enabled) return;
+
   try
   {
-    if (m_enabled) {
-      if (ev.type == SDL_KEYDOWN && ev.key.keysym.sym == SDLK_F6) {
-        Compositor::s_render_lighting = !Compositor::s_render_lighting;
+    // undo/redo key combo
+    if (ev.type == SDL_KEYDOWN &&
+        ev.key.keysym.sym == SDLK_z &&
+        ev.key.keysym.mod & KMOD_CTRL)
+    {
+      if (ev.key.keysym.mod & KMOD_SHIFT) {
+        log_info << "attempting redo" << std::endl;
+        auto level = m_undo_manager->restore_reverse();
+        if (level) {
+          set_level(std::move(level));
+        } else {
+          log_info << "redo failed" << std::endl;
+        }
+      } else {
+        log_info << "attempting undo" << std::endl;
+        auto level = m_undo_manager->restore();
+        if (level) {
+          set_level(std::move(level));
+        } else {
+          log_info << "undo failed" << std::endl;
+        }
       }
+      return;
+    }
 
-      BIND_SECTOR(*m_sector);
+    if (ev.type == SDL_KEYDOWN && ev.key.keysym.sym == SDLK_F6) {
+      Compositor::s_render_lighting = !Compositor::s_render_lighting;
+      return;
+    }
 
-      if ( m_toolbox_widget.event(ev) ) {
-        return;
-      }
+    BIND_SECTOR(*m_sector);
 
-      if ( m_layers_widget.event(ev) ) {
-        return;
-      }
+    // abusing short-circuit behaviour of || to chain these calls
+    (m_toolbox_widget.event(ev) ||
+     m_layers_widget.event(ev) ||
+     m_scroller_widget.event(ev) ||
+     m_overlay_widget.event(ev));
 
-      if ( m_scroller_widget.event(ev) ) {
-        return;
-      }
-      m_overlay_widget.event(ev);
+    // unreliable heuristic to snapshot the current state for future undo
+    if ((ev.type == SDL_KEYDOWN && ev.key.repeat == 0 &&
+         ev.key.keysym.sym != SDLK_LSHIFT &&
+         ev.key.keysym.sym != SDLK_RSHIFT &&
+         ev.key.keysym.sym != SDLK_LCTRL &&
+         ev.key.keysym.sym != SDLK_RCTRL) ||
+        ev.type == SDL_MOUSEBUTTONDOWN)
+    {
+      Timelog timelog;
+      timelog.log("save");
+      m_undo_manager->snapshot(*m_level);
+      timelog.log(nullptr);
     }
   }
   catch(const std::exception& err)

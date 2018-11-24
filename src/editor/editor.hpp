@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_EDITOR_EDITOR_HPP
 
 #include <functional>
+#include <vector>
 #include <string>
 
 #include "editor/overlay_widget.hpp"
@@ -38,6 +39,7 @@ class Path;
 class Savegame;
 class Sector;
 class TileSet;
+class UndoManager;
 class World;
 
 class Editor final : public Screen,
@@ -48,6 +50,7 @@ public:
 
 public:
   Editor();
+  ~Editor();
 
   virtual void draw(Compositor&) override;
   virtual void update(float dt_sec, const Controller& controller) override;
@@ -129,6 +132,7 @@ public:
   Sector* get_sector() { return m_sector; }
 
 private:
+  void set_level(std::unique_ptr<Level> level);
   void reload_level();
   void quit_editor();
   void save_level();
@@ -172,6 +176,8 @@ private:
 
   bool m_enabled;
   SurfacePtr m_bgr_surface;
+
+  std::unique_ptr<UndoManager> m_undo_manager;
 
 private:
   Editor(const Editor&) = delete;
