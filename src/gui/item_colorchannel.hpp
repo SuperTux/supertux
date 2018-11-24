@@ -35,29 +35,24 @@ public:
   /** Processes the menu action. */
   virtual void process_action(const MenuAction& action) override;
 
-  float* number;
-
-  void change_input(const std::string& input_) {
-    set_text(input_);
-  }
-
   /** Processes the given event. */
   virtual void event(const SDL_Event& ev) override;
 
   virtual Color get_color() const override;
 
-  virtual bool changes_width() const override {
-    return true;
-  }
+  virtual bool changes_width() const override { return true; }
+
+  void change_input(const std::string& input_) { set_text(input_); }
 
 private:
-
-  int flickw;
-  bool has_comma;
-  Color channel;
-
   void add_char(char c);
   void remove_char();
+
+private:
+  float* m_number;
+  int m_flickw;
+  bool m_has_comma;
+  Color m_channel;
 
 private:
   ItemColorChannel(const ItemColorChannel&) = delete;
