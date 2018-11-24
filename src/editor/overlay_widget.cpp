@@ -495,6 +495,7 @@ EditorOverlayWidget::put_object()
     }
 
     auto object = GameObjectFactory::instance().create(object_class, target_pos, LEFT);
+    object->after_editor_set();
 
     auto* mo = dynamic_cast<MovingObject*> (object.get());
     if (!mo) {
