@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//  Copyright (C) 2018 Ingo Ruhnke <grumbel@gmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,32 +14,25 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_MAIN_HPP
-#define HEADER_SUPERTUX_SUPERTUX_MAIN_HPP
+#ifndef HEADER_SUPERTUX_UTIL_TIMELOG_HPP
+#define HEADER_SUPERTUX_UTIL_TIMELOG_HPP
 
-#include <string>
+#include <SDL.h>
 
-class CommandLineArguments;
-
-class Main final
+class Timelog
 {
 public:
-  Main();
+  Timelog();
 
-  /** We call it run() instead of main() as main collides with
-      #define main SDL_main from SDL.h */
-  int run(int argc, char** argv);
+  void log(const char* component = nullptr);
 
 private:
-  void init_tinygettext();
-  void init_video();
-
-  void launch_game(const CommandLineArguments& args);
-  void resave(const std::string& input_filename, const std::string& output_filename);
+  Uint32 m_last_ticks;
+  const char* m_last_component = nullptr;
 
 private:
-  Main(const Main&) = delete;
-  Main& operator=(const Main&) = delete;
+  Timelog(const Timelog&) = delete;
+  Timelog& operator=(const Timelog&) = delete;
 };
 
 #endif

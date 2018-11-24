@@ -70,12 +70,15 @@ extern "C" {
 #include "supertux/world.hpp"
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
+#include "util/timelog.hpp"
 #include "util/string_util.hpp"
 #include "video/sdl_surface.hpp"
 #include "video/sdl_surface_ptr.hpp"
 #include "video/ttf_surface_manager.hpp"
 #include "worldmap/worldmap.hpp"
 #include "worldmap/worldmap_screen.hpp"
+
+static Timelog s_timelog;
 
 class ConfigSubsystem final
 {
@@ -114,6 +117,10 @@ public:
     g_config.reset();
   }
 };
+
+Main::Main()
+{
+}
 
 void
 Main::init_tinygettext()
@@ -356,21 +363,6 @@ Main::init_video()
            << " Area: "       << g_config->aspect_size << std::endl;
 }
 
-static Uint32 last_timelog_ticks = 0;
-static const char* last_timelog_component = nullptr;
-
-static inline void timelog(const char* component)
-{
-  Uint32 current_ticks = SDL_GetTicks();
-
-  if (last_timelog_component != nullptr) {
-    log_info << "Component '" << last_timelog_component <<  "' finished after " << (current_ticks - last_timelog_ticks) / 1000.0 << " seconds" << std::endl;
-  }
-
-  last_timelog_ticks = current_ticks;
-  last_timelog_component = component;
-}
-
 void
 Main::resave(const std::string& input_filename, const std::string& output_filename)
 {
@@ -398,10 +390,10 @@ Main::launch_game(const CommandLineArguments& args)
   SDLSubsystem sdl_subsystem;
   ConsoleBuffer console_buffer;
 
-  timelog("controller");
+  s_timelog.log("controller");
   InputManager input_manager(g_config->keyboard_config, g_config->joystick_config);
 
-  timelog("commandline");
+  s_timelog.log("commandline");
 
   auto video = g_config->video;
   if (args.resave && *args.resave) {
@@ -411,33 +403,33 @@ Main::launch_game(const CommandLineArguments& args)
       video = VideoSystem::VIDEO_NULL;
     }
   }
-  timelog("video");
+  s_timelog.log("video");
   std::unique_ptr<VideoSystem> video_system = VideoSystem::create(video);
   init_video();
 
   TTFSurfaceManager ttf_surface_manager;
 
-  timelog("audio");
+  s_timelog.log("audio");
   SoundManager sound_manager;
   sound_manager.enable_sound(g_config->sound_enabled);
   sound_manager.enable_music(g_config->music_enabled);
   sound_manager.set_sound_volume(g_config->sound_volume);
   sound_manager.set_music_volume(g_config->music_volume);
 
-  timelog("scripting");
+  s_timelog.log("scripting");
   SquirrelVirtualMachine scripting(g_config->enable_script_debugger);
 
-  timelog("resources");
+  s_timelog.log("resources");
   TileManager tile_manager;
   SpriteManager sprite_manager;
   Resources resources;
 
-  timelog("addons");
+  s_timelog.log("addons");
   AddonManager addon_manager("addons", g_config->addons);
 
   Console console(console_buffer);
 
-  timelog(nullptr);
+  s_timelog.log(nullptr);
 
   const auto default_savegame = std::make_unique<Savegame>(std::string());
 
@@ -578,11 +570,11 @@ Main::run(int argc, char** argv)
     PhysfsSubsystem physfs_subsystem(argv[0], args.datadir, args.userdir);
     physfs_subsystem.print_search_path();
 
-    timelog("config");
+    s_timelog.log("config");
     ConfigSubsystem config_subsystem;
     args.merge_into(*g_config);
 
-    timelog("tinygettext");
+    s_timelog.log("tinygettext");
     init_tinygettext();
 
     switch (args.get_action())

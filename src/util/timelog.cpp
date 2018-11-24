@@ -1,5 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//                2018 Ingo Ruhnke <grumbel@gmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,34 +15,31 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_MAIN_HPP
-#define HEADER_SUPERTUX_SUPERTUX_MAIN_HPP
+#include "util/timelog.hpp"
 
-#include <string>
+#include <iostream>
 
-class CommandLineArguments;
+#include "util/log.hpp"
 
-class Main final
+Timelog::Timelog() :
+  m_last_ticks(0),
+  m_last_component(nullptr)
 {
-public:
-  Main();
+}
 
-  /** We call it run() instead of main() as main collides with
-      #define main SDL_main from SDL.h */
-  int run(int argc, char** argv);
+void
+Timelog::log(const char* component)
+{
+  Uint32 current_ticks = SDL_GetTicks();
 
-private:
-  void init_tinygettext();
-  void init_video();
+  if (m_last_component != nullptr) {
+    log_info << "Component '" << m_last_component <<  "' finished after "
+             << (current_ticks - m_last_ticks) / 1000.0 << " seconds"
+             << std::endl;
+  }
 
-  void launch_game(const CommandLineArguments& args);
-  void resave(const std::string& input_filename, const std::string& output_filename);
-
-private:
-  Main(const Main&) = delete;
-  Main& operator=(const Main&) = delete;
-};
-
-#endif
+  m_last_ticks = current_ticks;
+  m_last_component = component;
+}
 
 /* EOF */
