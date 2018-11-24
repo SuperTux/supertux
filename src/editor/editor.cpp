@@ -473,6 +473,13 @@ Editor::set_level(std::unique_ptr<Level> level, bool reset)
 
   m_layers_widget->refresh_sector_text();
   m_toolbox_widget->update_mouse_icon();
+
+  { // initialize badguy sprites and other GameObject stuff
+    BIND_SECTOR(*m_sector);
+    for(auto& object : m_sector->get_objects()) {
+      object->after_editor_set();
+    }
+  }
 }
 
 void
