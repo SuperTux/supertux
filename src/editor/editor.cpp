@@ -59,7 +59,6 @@
 #include "supertux/world.hpp"
 #include "util/file_system.hpp"
 #include "util/reader_mapping.hpp"
-#include "util/timelog.hpp"
 #include "video/compositor.hpp"
 #include "video/drawing_context.hpp"
 #include "video/surface.hpp"
@@ -98,7 +97,8 @@ Editor::Editor() :
   m_scroller_widget(),
   m_enabled(false),
   m_bgr_surface(Surface::from_file("images/background/forest1.jpg")),
-  m_undo_manager(new UndoManager)
+  m_undo_manager(new UndoManager),
+  m_ignore_sector_change(false)
 {
   auto toolbox_widget = std::make_unique<EditorToolboxWidget>(*this);
   auto layers_widget = std::make_unique<EditorLayersWidget>(*this);
@@ -580,6 +580,8 @@ Editor::event(const SDL_Event& ev)
       return;
     }
 
+    m_ignore_sector_change = false;
+
     BIND_SECTOR(*m_sector);
 
     for(const auto& widget : m_widgets) {
@@ -588,17 +590,16 @@ Editor::event(const SDL_Event& ev)
     }
 
     // unreliable heuristic to snapshot the current state for future undo
-    if ((ev.type == SDL_KEYDOWN && ev.key.repeat == 0 &&
+    if (((ev.type == SDL_KEYUP && ev.key.repeat == 0 &&
          ev.key.keysym.sym != SDLK_LSHIFT &&
          ev.key.keysym.sym != SDLK_RSHIFT &&
          ev.key.keysym.sym != SDLK_LCTRL &&
          ev.key.keysym.sym != SDLK_RCTRL) ||
-        ev.type == SDL_MOUSEBUTTONDOWN)
+         ev.type == SDL_MOUSEBUTTONUP))
     {
-      Timelog timelog;
-      timelog.log("save");
-      m_undo_manager->snapshot(*m_level);
-      timelog.log(nullptr);
+      if (!m_ignore_sector_change) {
+        m_undo_manager->try_snapshot(*m_level);
+      }
     }
   }
   catch(const std::exception& err)
@@ -709,9 +710,10 @@ void
 Editor::undo()
 {
   log_info << "attempting undo" << std::endl;
-  auto level = m_undo_manager->restore();
+  auto level = m_undo_manager->undo();
   if (level) {
     set_level(std::move(level));
+    m_ignore_sector_change = true;
   } else {
     log_info << "undo failed" << std::endl;
   }
@@ -721,9 +723,10 @@ void
 Editor::redo()
 {
   log_info << "attempting redo" << std::endl;
-  auto level = m_undo_manager->restore_reverse();
+  auto level = m_undo_manager->redo();
   if (level) {
     set_level(std::move(level));
+    m_ignore_sector_change = true;
   } else {
     log_info << "redo failed" << std::endl;
   }

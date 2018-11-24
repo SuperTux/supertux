@@ -182,6 +182,7 @@ private:
   SurfacePtr m_bgr_surface;
 
   std::unique_ptr<UndoManager> m_undo_manager;
+  bool m_ignore_sector_change;
 
 private:
   Editor(const Editor&) = delete;

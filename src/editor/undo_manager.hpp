@@ -17,7 +17,7 @@
 #ifndef HEADER_SUPERTUX_EDITOR_UNDO_MANAGER_HPP
 #define HEADER_SUPERTUX_EDITOR_UNDO_MANAGER_HPP
 
-#include <list>
+#include <vector>
 #include <string>
 #include <memory>
 
@@ -29,14 +29,20 @@ private:
 public:
   UndoManager();
 
-  void snapshot(Level& level);
-  std::unique_ptr<Level> restore();
-  std::unique_ptr<Level> restore_reverse();
+  void try_snapshot(Level& level);
+
+  std::unique_ptr<Level> undo();
+  std::unique_ptr<Level> redo();
+
+private:
+  void push_undo_stack(std::string&& level_snapshot);
+  void cleanup();
+  void debug_print(const char* action);
 
 private:
   size_t m_max_snapshots;
-  std::list<std::string> m_snapshots;
-  std::list<std::string>::iterator m_current_snapshot;
+  std::vector<std::string> m_undo_stack;
+  std::vector<std::string> m_redo_stack;
 
 private:
   UndoManager(const UndoManager&) = delete;
