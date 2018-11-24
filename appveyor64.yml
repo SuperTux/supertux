@@ -40,7 +40,7 @@ before_build:
     vcpkg install libvorbis:x64-windows
     vcpkg install openal-soft:x64-windows
     vcpkg install sdl2:x64-windows
-    vcpkg install sdl2-image:x64-windows
+    vcpkg install sdl2-image[libjpeg-turbo]:x64-windows
     git submodule update --init --recursive
     echo Running cmake ..
     cmake -G "Visual Studio 14 2015 Win64" -DVCPKG_BUILD=ON -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_INSTALL_PREFIX=%P% -DHAVE_SDL=true -DPACKAGE_VCREDIST=true
