@@ -74,8 +74,8 @@ EditorSectorsMenu::create_sector()
   } while ( level->get_sector(sector_name) );
   new_sector->set_name(sector_name);
 
-  level->add_sector(move(new_sector));
-  Editor::current()->load_sector(level->get_sector_count() - 1);
+  level->add_sector(std::move(new_sector));
+  Editor::current()->load_sector(sector_name);
   MenuManager::instance().clear_menu_stack();
   Editor::current()->m_reactivate_request = true;
 }
@@ -99,14 +99,7 @@ EditorSectorsMenu::delete_sector()
     dialog->add_cancel_button(_("Cancel"));
     dialog->add_button(_("Delete sector"), [level] {
         MenuManager::instance().clear_menu_stack();
-        for (auto i = level->m_sectors.begin(); i != level->m_sectors.end(); ++i) {
-          if ( i->get() == Editor::current()->get_sector() ) {
-            level->m_sectors.erase(i);
-            break;
-          }
-        }
-        Editor::current()->load_sector(0);
-        Editor::current()->m_reactivate_request = true;
+        Editor::current()->delete_current_sector();
       });
   }
   MenuManager::instance().set_dialog(std::move(dialog));
@@ -117,18 +110,26 @@ EditorSectorsMenu::menu_action(MenuItem& item)
 {
   if (item.get_id() >= 0)
   {
-    Editor::current()->load_sector(item.get_id());
+    Level* level = Editor::current()->get_level();
+    Sector* sector = level->get_sector(item.get_id());
+    Editor::current()->load_sector(sector->get_name());
     MenuManager::instance().clear_menu_stack();
-  } else {
-    switch (item.get_id()) {
+  }
+  else
+  {
+    switch (item.get_id())
+    {
       case -1:
         break;
+
       case -2:
         create_sector();
         break;
+
       case -3:
         delete_sector();
         break;
+
       case -4:
         MenuManager::instance().clear_menu_stack();
         break;

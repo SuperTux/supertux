@@ -99,7 +99,7 @@ public:
   void check_save_prerequisites(const std::function<void ()>& callback) const;
 
   void load_sector(const std::string& name);
-  void load_sector(size_t id);
+  void delete_current_sector();
 
   void update_node_iterators();
   void esc_press();
@@ -135,6 +135,7 @@ public:
   void redo();
 
 private:
+  void set_sector(Sector* sector);
   void set_level(std::unique_ptr<Level> level, bool reset = true);
   void reload_level();
   void quit_editor();

@@ -417,21 +417,47 @@ Editor::update_keyboard(const Controller& controller)
 void
 Editor::load_sector(const std::string& name)
 {
-  m_sector = m_level->get_sector(name);
-  if (!m_sector) {
-    size_t i = 0;
-    m_sector = m_level->get_sector(i);
+  Sector* sector = m_level->get_sector(name);
+  if (!sector) {
+    sector = m_level->get_sector(0);
   }
+  set_sector(sector);
+}
+
+void
+Editor::set_sector(Sector* sector)
+{
+  if (!sector) return;
+
+  m_sector = sector;
   m_sector->activate("main");
+
+  { // initialize badguy sprites and other GameObject stuff
+    BIND_SECTOR(*m_sector);
+    for(auto& object : m_sector->get_objects()) {
+      object->after_editor_set();
+    }
+  }
+
   m_layers_widget->refresh();
 }
 
 void
-Editor::load_sector(size_t id)
+Editor::delete_current_sector()
 {
-  m_sector = m_level->get_sector(id);
-  m_sector->activate("main");
-  m_layers_widget->refresh();
+  if (m_level->m_sectors.size() <= 1) {
+    log_fatal << "deleting the last sector is not allowed" << std::endl;
+  }
+
+  for (auto i = m_level->m_sectors.begin(); i != m_level->m_sectors.end(); ++i) {
+    if ( i->get() == get_sector() ) {
+      m_level->m_sectors.erase(i);
+      break;
+    }
+  }
+
+  set_sector(m_level->m_sectors.front().get());
+  m_reactivate_request = true;
 }
 
 void
@@ -473,13 +499,6 @@ Editor::set_level(std::unique_ptr<Level> level, bool reset)
 
   m_layers_widget->refresh_sector_text();
   m_toolbox_widget->update_mouse_icon();
-
-  { // initialize badguy sprites and other GameObject stuff
-    BIND_SECTOR(*m_sector);
-    for(auto& object : m_sector->get_objects()) {
-      object->after_editor_set();
-    }
-  }
 }
 
 void
