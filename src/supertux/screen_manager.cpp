@@ -271,11 +271,7 @@ ScreenManager::process_events()
         break;
 
       case SDL_KEYDOWN:
-        if (event.key.keysym.sym == SDLK_F9)
-        {
-          g_debug.set_use_bitmap_fonts(!g_debug.get_use_bitmap_fonts());
-        }
-        else if (event.key.keysym.sym == SDLK_F10)
+        if (event.key.keysym.sym == SDLK_F10)
         {
           g_config->show_fps = !g_config->show_fps;
         }
