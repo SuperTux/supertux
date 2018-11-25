@@ -27,13 +27,13 @@ class ReaderMapping;
 class LevelParser final
 {
 public:
-  static std::unique_ptr<Level> from_stream(std::istream& stream);
-  static std::unique_ptr<Level> from_file(const std::string& filename);
+  static std::unique_ptr<Level> from_stream(std::istream& stream, bool editable);
+  static std::unique_ptr<Level> from_file(const std::string& filename, bool editable);
   static std::unique_ptr<Level> from_nothing(const std::string& basedir);
   static std::unique_ptr<Level> from_nothing_worldmap(const std::string& basedir, const std::string& name);
 
 private:
-  LevelParser(Level& level);
+  LevelParser(Level& level, bool editable);
 
   void load(const ReaderDocument& doc);
   void load(std::istream& stream);
@@ -43,6 +43,7 @@ private:
 
 private:
   Level& m_level;
+  bool m_editable;
 
 private:
   LevelParser(const LevelParser&) = delete;

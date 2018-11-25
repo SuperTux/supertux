@@ -505,8 +505,9 @@ void
 Editor::reload_level()
 {
   ReaderMapping::s_translations_enabled = false;
-  set_level(LevelParser::from_file(m_world ? FileSystem::join(m_world->get_basedir(),
-                                                              m_levelfile) : m_levelfile));
+  set_level(LevelParser::from_file(m_world ?
+                                   FileSystem::join(m_world->get_basedir(), m_levelfile) : m_levelfile,
+                                   true));
   ReaderMapping::s_translations_enabled = true;
 }
 

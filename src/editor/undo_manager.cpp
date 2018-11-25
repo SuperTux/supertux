@@ -103,7 +103,7 @@ UndoManager::undo()
   m_undo_stack.pop_back();
 
   std::istringstream in(m_undo_stack.back());
-  auto level = LevelParser::from_stream(in);
+  auto level = LevelParser::from_stream(in, true);
 
   debug_print("undo");
 
@@ -119,7 +119,7 @@ UndoManager::redo()
   m_redo_stack.pop_back();
 
   std::istringstream in(m_undo_stack.back());
-  auto level = LevelParser::from_stream(in);
+  auto level = LevelParser::from_stream(in, true);
 
   debug_print("redo");
 

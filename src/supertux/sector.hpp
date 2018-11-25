@@ -67,7 +67,7 @@ public:
 
   /** Needs to be called after parsing to finish the construction of
       the Sector before using it. */
-  void finish_construction();
+  void finish_construction(bool editable);
 
   Level& get_level() const;
 

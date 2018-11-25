@@ -46,21 +46,21 @@ static const std::string DEFAULT_BG_MIDDLE = "images/background/BlueRock_Forest/
 static const std::string DEFAULT_BG_BOTTOM = "images/background/BlueRock_Forest/blue-bottom.jpg";
 
 std::unique_ptr<Sector>
-SectorParser::from_reader(Level& level, const ReaderMapping& reader)
+SectorParser::from_reader(Level& level, const ReaderMapping& reader, bool editable)
 {
   auto sector = std::make_unique<Sector>(level);
   BIND_SECTOR(*sector);
-  SectorParser parser(*sector);
+  SectorParser parser(*sector, editable);
   parser.parse(reader);
   return sector;
 }
 
 std::unique_ptr<Sector>
-SectorParser::from_reader_old_format(Level& level, const ReaderMapping& reader)
+SectorParser::from_reader_old_format(Level& level, const ReaderMapping& reader, bool editable)
 {
   auto sector = std::make_unique<Sector>(level);
   BIND_SECTOR(*sector);
-  SectorParser parser(*sector);
+  SectorParser parser(*sector, editable);
   parser.parse_old_format(reader);
   return sector;
 }
@@ -70,13 +70,14 @@ SectorParser::from_nothing(Level& level)
 {
   auto sector = std::make_unique<Sector>(level);
   BIND_SECTOR(*sector);
-  SectorParser parser(*sector);
+  SectorParser parser(*sector, false);
   parser.create_sector();
   return sector;
 }
 
-SectorParser::SectorParser(Sector& sector) :
-  m_sector(sector)
+SectorParser::SectorParser(Sector& sector, bool editable) :
+  m_sector(sector),
+  m_editable(editable)
 {
 }
 
@@ -150,7 +151,7 @@ SectorParser::parse(const ReaderMapping& sector)
     }
   }
 
-  m_sector.finish_construction();
+  m_sector.finish_construction(m_editable);
 }
 
 void
@@ -304,7 +305,7 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
     log_warning << "sector '" << m_sector.get_name() << "' does not contain a solid tile layer." << std::endl;
   }
 
-  m_sector.finish_construction();
+  m_sector.finish_construction(m_editable);
 }
 
 void
@@ -348,7 +349,7 @@ SectorParser::create_sector()
 
   m_sector.flush_game_objects();
 
-  m_sector.finish_construction();
+  m_sector.finish_construction(m_editable);
 }
 
 /* EOF */
