@@ -269,9 +269,6 @@
   (name (_"Ambient"))
   (worldmap #f)
   (object
-    (class "ambientlight")
-    (icon "images/engine/editor/ambient_light.png"))
-  (object
     (class "tilemap")
     (icon "images/engine/editor/tilemap.png"))
   (object
