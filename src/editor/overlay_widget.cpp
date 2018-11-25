@@ -888,11 +888,11 @@ EditorOverlayWidget::draw(DrawingContext& context)
   draw_path(context);
 
   if (render_grid) {
-    draw_tile_grid(context, Color(1.f, 1.f, 1.f, 0.7f));
+    draw_tile_grid(context, Color(1.f, 1.f, 1.f, 0.2f));
     draw_tilemap_border(context);
     auto snap_grid_size = snap_grid_sizes[selected_snap_grid_size];
     if (snap_grid_size != 32) {
-      draw_tile_grid(context, Color(1.f, 1.f, 1.f, 0.4f), snap_grid_size);
+      draw_tile_grid(context, Color(1.f, 1.f, 1.f, 0.2f), snap_grid_size);
     }
   }
 
