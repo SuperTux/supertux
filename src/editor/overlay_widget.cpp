@@ -26,6 +26,7 @@
 #include "gui/menu.hpp"
 #include "gui/menu_manager.hpp"
 #include "object/camera.hpp"
+#include "object/path_gameobject.hpp"
 #include "object/tilemap.hpp"
 #include "supertux/game_object_factory.hpp"
 #include "supertux/sector.hpp"
@@ -499,7 +500,9 @@ EditorOverlayWidget::put_object()
 
     auto* mo = dynamic_cast<MovingObject*> (object.get());
     if (!mo) {
-      m_editor.add_layer(object.get());
+      if (!dynamic_cast<PathGameObject*>(object.get())) {
+        m_editor.add_layer(object.get());
+      }
     } else if (!snap_to_grid) {
       auto bbox = mo->get_bbox();
       mo->move_to(mo->get_pos() - Vector(bbox.get_width() / 2, bbox.get_height() / 2));

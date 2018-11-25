@@ -23,6 +23,7 @@
 #include "gui/menu_manager.hpp"
 #include "math/vector.hpp"
 #include "object/camera.hpp"
+#include "object/path_gameobject.hpp"
 #include "object/tilemap.hpp"
 #include "supertux/colorscheme.hpp"
 #include "supertux/menu/menu_storage.hpp"
@@ -247,7 +248,9 @@ EditorLayersWidget::refresh()
     auto go = i.get();
     auto mo = dynamic_cast<MovingObject*>(go);
     if ( !mo && go->is_saveable() ) {
-      add_layer(go);
+      if (!dynamic_cast<PathGameObject*>(go)) {
+        add_layer(go);
+      }
 
       auto tm = dynamic_cast<TileMap*>(go);
       if (tm) {
