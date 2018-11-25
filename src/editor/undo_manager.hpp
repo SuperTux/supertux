@@ -34,6 +34,16 @@ public:
   std::unique_ptr<Level> undo();
   std::unique_ptr<Level> redo();
 
+  bool has_unsaved_changes() const
+  {
+    return m_index_pos != 1;
+  }
+
+  void reset_index()
+  {
+    m_index_pos = 1;
+  }
+
 private:
   void push_undo_stack(std::string&& level_snapshot);
   void cleanup();
@@ -41,6 +51,7 @@ private:
 
 private:
   size_t m_max_snapshots;
+  int m_index_pos;
   std::vector<std::string> m_undo_stack;
   std::vector<std::string> m_redo_stack;
 

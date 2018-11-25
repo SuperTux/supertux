@@ -212,6 +212,7 @@ Editor::update(float dt_sec, const Controller& controller)
 void
 Editor::save_level()
 {
+  m_undo_manager->reset_index();
   m_level->save(m_world ? FileSystem::join(m_world->get_basedir(), m_levelfile) :
               m_levelfile);
 }
@@ -514,14 +515,36 @@ Editor::reload_level()
 void
 Editor::quit_editor()
 {
-  //Quit level editor
-  m_world = nullptr;
-  m_levelfile = "";
-  m_levelloaded = false;
   m_quit_request = false;
-  m_enabled = false;
-  Tile::draw_editor_images = false;
-  ScreenManager::current()->pop_screen();
+  auto quit = [this] ()
+  {
+    //Quit level editor
+    m_world = nullptr;
+    m_levelfile = "";
+    m_levelloaded = false;
+    m_enabled = false;
+    Tile::draw_editor_images = false;
+    ScreenManager::current()->pop_screen();
+  };
+  if(m_undo_manager->has_unsaved_changes())
+  {
+    auto self = this;
+    auto dialog = std::make_unique<Dialog>();
+    dialog->set_text(_("This level contains unsaved changes, do you want to save?"));
+    dialog->add_default_button(_("Yes"), [self, quit] {
+      self->save_level();
+      quit();
+    });
+    dialog->add_button(_("No"), [quit] {
+      quit();
+    });
+    dialog->add_cancel_button(_("Cancel"));
+    MenuManager::instance().set_dialog(std::move(dialog));
+  }
+  else
+  {
+    quit();
+  }
 }
 
 void

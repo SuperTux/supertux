@@ -25,6 +25,7 @@
 
 UndoManager::UndoManager() :
   m_max_snapshots(100),
+  m_index_pos(),
   m_undo_stack(),
   m_redo_stack()
 {
@@ -79,6 +80,7 @@ UndoManager::push_undo_stack(std::string&& level_snapshot)
 
   m_redo_stack.clear();
   m_undo_stack.push_back(std::move(level_snapshot));
+  m_index_pos += 1;
 
   cleanup();
 
@@ -105,6 +107,8 @@ UndoManager::undo()
   std::istringstream in(m_undo_stack.back());
   auto level = LevelParser::from_stream(in, true);
 
+  m_index_pos -= 1;
+
   debug_print("undo");
 
   return std::move(level);
@@ -117,6 +121,8 @@ UndoManager::redo()
 
   m_undo_stack.push_back(std::move(m_redo_stack.back()));
   m_redo_stack.pop_back();
+
+  m_index_pos += 1;
 
   std::istringstream in(m_undo_stack.back());
   auto level = LevelParser::from_stream(in, true);

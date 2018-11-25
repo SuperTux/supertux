@@ -224,7 +224,7 @@ MenuManager::draw(DrawingContext& context)
     }
   }
 
-  if (current_menu() && MouseCursor::current())
+  if ((m_dialog || current_menu()) && MouseCursor::current())
   {
     MouseCursor::current()->draw(context);
   }
