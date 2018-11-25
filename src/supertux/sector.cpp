@@ -26,6 +26,7 @@
 #include "editor/editor.hpp"
 #include "math/aatriangle.hpp"
 #include "math/rect.hpp"
+#include "object/ambient_light.hpp"
 #include "object/background.hpp"
 #include "object/bullet.hpp"
 #include "object/camera.hpp"
@@ -130,6 +131,10 @@ Sector::finish_construction(bool editable)
   if (!get_object_by_type<Camera>()) {
     log_warning << "sector '" << get_name() << "' does not contain a camera." << std::endl;
     add<Camera>(this, "Camera");
+  }
+
+  if (!get_object_by_type<AmbientLight>()) {
+    add<AmbientLight>(Color::WHITE);
   }
 
   if (!get_object_by_type<MusicObject>()) {
