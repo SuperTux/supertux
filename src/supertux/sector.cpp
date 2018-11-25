@@ -594,6 +594,8 @@ Sector::save(Writer &writer)
 void
 Sector::convert_tiles2gameobject()
 {
+  if (Editor::is_active()) return;
+
   // add lights for special tiles
   for (auto& tm : get_objects_by_type<TileMap>())
   {
