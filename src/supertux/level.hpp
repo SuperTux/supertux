@@ -23,11 +23,9 @@ class ReaderMapping;
 class Sector;
 class Writer;
 
-/**
- * Represents a collection of Sectors running in a single GameSession.
- *
- * Each Sector in turn contains GameObjects, e.g. Badguys and Players.
- */
+/** Represents a collection of Sectors running in a single GameSession.
+
+    Each Sector in turn contains GameObjects, e.g. Badguys and Players. */
 class Level final
 {
   friend class LevelParser;
@@ -39,22 +37,8 @@ private:
   static Level* s_current;
 
 public:
-  std::string m_name;
-  std::string m_author;
-  std::string m_contact;
-  std::string m_license;
-  std::string m_filename;
-  std::vector<std::unique_ptr<Sector> > m_sectors;
-  Statistics  m_stats;
-  float       m_target_time;
-  std::string m_tileset;
-
-public:
   Level();
   ~Level();
-
-  // loads a levelfile
-  //void load(const std::string& filename);
 
   // saves to a levelfile
   void save(const std::string& filename, bool retry = false);
@@ -80,6 +64,17 @@ public:
 private:
   void save(Writer& writer);
   void load_old_format(const ReaderMapping& reader);
+
+public:
+  std::string m_name;
+  std::string m_author;
+  std::string m_contact;
+  std::string m_license;
+  std::string m_filename;
+  std::vector<std::unique_ptr<Sector> > m_sectors;
+  Statistics m_stats;
+  float m_target_time;
+  std::string m_tileset;
 
 private:
   Level(const Level&) = delete;
