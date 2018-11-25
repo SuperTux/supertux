@@ -43,6 +43,8 @@ SecretAreaTrigger::SecretAreaTrigger(const ReaderMapping& reader) :
   reader.get("width", w, 32.0f);
   reader.get("height", h, 32.0f);
   m_col.m_bbox.set_size(w, h);
+  new_size.x = w;
+  new_size.y = h;
   reader.get("fade-tilemap", fade_tilemap);
   reader.get("message", message);
   if (message.empty() && !Editor::is_active()) {

@@ -45,6 +45,8 @@ Climbable::Climbable(const ReaderMapping& reader) :
   reader.get("width", w);
   reader.get("height", h);
   m_col.m_bbox.set_size(w, h);
+  new_size.x = w;
+  new_size.y = h;
   reader.get("message", message);
 }
 

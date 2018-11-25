@@ -37,6 +37,8 @@ ScriptTrigger::ScriptTrigger(const ReaderMapping& reader) :
   reader.get("width", w);
   reader.get("height", h);
   m_col.m_bbox.set_size(w, h);
+  new_size.x = w;
+  new_size.y = h;
   reader.get("script", script);
   reader.get("button", must_activate);
   reader.get("oneshot", oneshot);

@@ -37,6 +37,8 @@ SequenceTrigger::SequenceTrigger(const ReaderMapping& reader) :
   reader.get("width", w, 32.0f);
   reader.get("height", h, 32.0f);
   m_col.m_bbox.set_size(w, h);
+  new_size.x = w;
+  new_size.y = h;
   std::string sequence_name;
   if (reader.get("sequence", sequence_name)) {
     sequence = string_to_sequence(sequence_name);
