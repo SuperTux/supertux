@@ -76,7 +76,7 @@ LevelDot::LevelDot(const ReaderMapping& mapping) :
     m_title_color = Color(vColor);
   }
 
-  m_level = Editor::current()->get_world() ?
+  m_level = (Editor::current() && Editor::current()->get_world()) ?
     FileSystem::join(Editor::current()->get_world()->get_basedir(), get_name()) : get_name();
 }
 
@@ -120,6 +120,8 @@ LevelDot::save(Writer& writer)
 void
 LevelDot::after_editor_set()
 {
+  if (!Editor::current()) return;
+
   // Extract the level file to be relative to world directory
   m_name = FileSystem::basename(m_level);
   m_level = FileSystem::dirname(m_level);
