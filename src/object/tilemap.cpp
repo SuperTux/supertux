@@ -210,7 +210,8 @@ TileMap::save(Writer& writer) {
 }
 
 ObjectSettings
-TileMap::get_settings() {
+TileMap::get_settings()
+{
   m_new_size_x = m_width;
   m_new_size_y = m_height;
   m_new_offset_x = 0;
@@ -264,6 +265,9 @@ TileMap::after_editor_set()
       init_path_pos(m_offset, m_running);
     }
   }
+
+  m_current_tint = m_tint;
+  m_current_alpha = m_alpha;
 }
 
 void
@@ -601,9 +605,6 @@ TileMap::move_by(const Vector& shift)
   m_offset += shift;
 }
 
-/*
- * Private methods
- */
 void
 TileMap::update_effective_solid()
 {
