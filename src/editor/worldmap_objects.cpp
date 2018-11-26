@@ -61,6 +61,16 @@ WorldmapObject::move_to(const Vector& pos) {
   set_pos(new_pos);
 }
 
+void
+WorldmapObject::save(Writer& writer)
+{
+  GameObject::save(writer);
+  // worldmap works in tiles, not pixel, so we have to translate the
+  // coordinates instead of using the parent classes ::save()
+  writer.write("x", m_col.m_bbox.p1.x / 32);
+  writer.write("y", m_col.m_bbox.p1.y / 32);
+}
+
 LevelDot::LevelDot(const ReaderMapping& mapping) :
   WorldmapObject(mapping, "images/worldmap/common/leveldot.sprite"),
   m_level(),

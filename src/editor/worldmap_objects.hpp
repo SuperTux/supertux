@@ -39,6 +39,7 @@ public:
   }
 
   virtual void move_to(const Vector& pos) override;
+  virtual void save(Writer& writer) override;
 
 private:
   WorldmapObject(const WorldmapObject&) = delete;
