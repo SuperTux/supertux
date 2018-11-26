@@ -231,7 +231,7 @@ Camera::parse(const ReaderMapping& reader)
       log_warning << "No path specified in autoscroll camera." << std::endl;
       m_mode = NORMAL;
     } else {
-      init_path_empty();
+      init_path(*path_mapping, true);
     }
   } else if (modename == "manual") {
     m_mode = MANUAL;
