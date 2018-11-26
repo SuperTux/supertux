@@ -205,9 +205,7 @@ TileMap::save(Writer& writer) {
     writer.write("alpha", m_alpha);
   }
   writer.write("tint", m_tint.toVector());
-  if (get_path()) {
-    writer.write("path-ref", get_path_ref());
-  }
+  PathObject::save(writer);
   writer.write("tiles", m_tiles, m_width);
 }
 

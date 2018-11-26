@@ -37,15 +37,13 @@ public:
   void init_path_pos(const Vector& pos, bool running = false);
   void init_path_empty();
 
-  /** Returns this object's path */
-  Path* get_path();
-  std::string get_path_ref() const;
-  UID get_path_uid() const { return m_path_uid; }
+  Path* get_path() const;
+  PathWalker* get_walker() const { return m_walker.get(); }
 
-  /** Returns this object's path walker */
-  PathWalker* get_walker() const {
-    return m_walker.get();
-  }
+  void save(Writer& writer) const;
+
+private:
+  std::string get_path_ref() const;
 
 private:
   UID m_path_uid;

@@ -69,9 +69,7 @@ void
 Coin::save(Writer& writer)
 {
   MovingSprite::save(writer);
-  if (get_path()) {
-    writer.write("path-ref", get_path_ref());
-  }
+  PathObject::save(writer);
 }
 
 void

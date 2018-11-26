@@ -23,6 +23,7 @@
 #include "supertux/sector.hpp"
 #include "util/log.hpp"
 #include "util/reader_mapping.hpp"
+#include "util/writer.hpp"
 
 PathObject::PathObject() :
   m_path_uid(),
@@ -74,7 +75,7 @@ PathObject::init_path_empty()
 }
 
 Path*
-PathObject::get_path()
+PathObject::get_path() const
 {
   auto* path_gameobject = d_gameobject_manager->get_object_by_uid<PathGameObject>(m_path_uid);
   if (!path_gameobject)
@@ -95,6 +96,14 @@ PathObject::get_path_ref() const
     return path_gameobject->get_name();
   } else {
     return {};
+  }
+}
+
+void
+PathObject::save(Writer& writer) const
+{
+  if (get_path()) {
+    writer.write("path-ref", get_path_ref());
   }
 }
 

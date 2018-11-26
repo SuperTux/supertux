@@ -140,9 +140,7 @@ Camera::save(Writer& writer)
 
     case AUTOSCROLL:
       writer.write("mode", "autoscroll", false);
-      if (get_path()) {
-        writer.write("path-ref", get_path_ref());
-      }
+      PathObject::save(writer);
       break;
 
     case SCROLLTO:
