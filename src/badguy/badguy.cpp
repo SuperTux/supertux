@@ -817,4 +817,23 @@ BadGuy::set_colgroup_active(CollisionGroup group_)
   if (m_state == STATE_ACTIVE) set_group(group_);
 }
 
+ObjectSettings
+BadGuy::get_settings()
+{
+  ObjectSettings result = MovingSprite::get_settings();
+  result.add(dir_option(&m_dir));
+  result.add(MN_SCRIPT, _("Death script"), &m_dead_script);
+  return result;
+}
+
+void
+BadGuy::after_editor_set()
+{
+  if (m_dir == AUTO) {
+    m_sprite->set_action("left");
+  } else {
+    m_sprite->set_action(dir_to_string(m_dir));
+  }
+}
+
 /* EOF */

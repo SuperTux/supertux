@@ -238,11 +238,4 @@ WalkingBadguy::set_velocity_y(float vy)
   m_physic.set_velocity_y(vy);
 }
 
-void
-WalkingBadguy::after_editor_set()
-{
-  BadGuy::after_editor_set();
-  m_sprite->set_action(m_dir == LEFT ? walk_left_action : walk_right_action);
-}
-
 /* EOF */

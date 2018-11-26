@@ -55,12 +55,8 @@ public:
     return _("Badguy");
   }
 
-  virtual ObjectSettings get_settings() override {
-    ObjectSettings result = MovingSprite::get_settings();
-    result.add(dir_option(&m_dir));
-    result.add(MN_SCRIPT, _("Death script"), &m_dead_script);
-    return result;
-  }
+  virtual ObjectSettings get_settings() override;
+  virtual void after_editor_set() override;
 
   /** Called when a collision with another object occurred. The
       default implementation calls collision_player, collision_solid,

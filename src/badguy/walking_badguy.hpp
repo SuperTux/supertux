@@ -72,7 +72,6 @@ public:
     return BadGuy::is_active();
   }
 
-  virtual void after_editor_set() override;
 
 protected:
   void turn_around();
