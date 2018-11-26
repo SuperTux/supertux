@@ -736,13 +736,13 @@ Editor::get_objectgroups() const
 void
 Editor::check_save_prerequisites(const std::function<void ()>& callback) const
 {
-  bool sector_valid = false, spawnpoint_valid = false;
   if (m_worldmap_mode)
   {
-    sector_valid = true;
-    spawnpoint_valid = true;
+    callback();
     return;
   }
+
+  bool sector_valid = false, spawnpoint_valid = false;
   for (const auto& sector : m_level->m_sectors)
   {
     if (sector->get_name() == "main")
