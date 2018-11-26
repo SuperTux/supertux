@@ -139,13 +139,15 @@ MovingSprite::set_action(const std::string& action, int loops, AnchorPoint ancho
   set_pos(get_anchor_pos(old_bbox, w, h, anchorPoint));
 }
 
-void MovingSprite::change_sprite(const std::string& new_sprite_name)
+void
+MovingSprite::change_sprite(const std::string& new_sprite_name)
 {
   m_sprite_name = new_sprite_name;
   m_sprite = SpriteManager::current()->create(m_sprite_name);
 }
 
-ObjectSettings MovingSprite::get_settings()
+ObjectSettings
+MovingSprite::get_settings()
 {
   ObjectSettings result = MovingObject::get_settings();
   ObjectOption spr(MN_FILE, _("Sprite"), &m_sprite_name);
@@ -154,7 +156,8 @@ ObjectSettings MovingSprite::get_settings()
   return result;
 }
 
-void MovingSprite::save(Writer& writer)
+void
+MovingSprite::save(Writer& writer)
 {
   MovingObject::save(writer);
   if (m_sprite_name != get_default_sprite_name())
@@ -163,14 +166,16 @@ void MovingSprite::save(Writer& writer)
   }
 }
 
-void MovingSprite::after_editor_set()
+void
+MovingSprite::after_editor_set()
 {
   std::string current_action = m_sprite->get_action();
   m_sprite = SpriteManager::current()->create(m_sprite_name);
   m_sprite->set_action(current_action);
 }
 
-void MovingSprite::spawn_explosion_sprites(int count, const std::string& sprite_path)
+void
+MovingSprite::spawn_explosion_sprites(int count, const std::string& sprite_path)
 {
     for (int i = 0; i < count; i++) {
       Vector ppos = m_col.m_bbox.get_middle();

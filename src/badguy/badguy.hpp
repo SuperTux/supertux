@@ -47,13 +47,8 @@ public:
   virtual void update(float dt_sec) override;
 
   virtual void save(Writer& writer) override;
-  virtual std::string get_class() const override {
-    return "badguy";
-  }
-
-  virtual std::string get_display_name() const override {
-    return _("Badguy");
-  }
+  virtual std::string get_class() const override { return "badguy"; }
+  virtual std::string get_display_name() const override { return _("Badguy"); }
 
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
@@ -76,20 +71,10 @@ public:
 
   /** True if this badguy can break bricks or open bonusblocks in his
       current form. */
-  virtual bool can_break() const
-  {
-    return false;
-  }
+  virtual bool can_break() const { return false; }
 
-  Vector get_start_position() const
-  {
-    return m_start_position;
-  }
-
-  void set_start_position(const Vector& vec)
-  {
-    m_start_position = vec;
-  }
+  Vector get_start_position() const { return m_start_position; }
+  void set_start_position(const Vector& vec) { m_start_position = vec; }
 
   /** Called when hit by a fire bullet, and is_flammable() returns true */
   virtual void ignite();
@@ -111,13 +96,9 @@ public:
 
   virtual bool is_freezable() const;
 
-  /**
-   * Return true if this badguy can be hurt by tiles
-   * with the attribute "hurts"
-   */
-  virtual bool is_hurtable() const {
-    return true;
-  }
+  /** Return true if this badguy can be hurt by tiles
+      with the attribute "hurts" */
+  virtual bool is_hurtable() const { return true; }
 
   bool is_frozen() const;
 
@@ -128,22 +109,12 @@ public:
     return "images/objects/water_drop/water_drop.sprite";
   }
 
-  /**
-   * Sets the dispenser that spawns this badguy.
-   * @param parent The dispenser
-   */
-  void set_parent_dispenser(Dispenser* parent)
-  {
-    m_parent_dispenser = parent;
-  }
+  /** Sets the dispenser that spawns this badguy.
+      @param parent The dispenser */
+  void set_parent_dispenser(Dispenser* parent) { m_parent_dispenser = parent; }
 
-  /**
-   * Returns the dispenser this badguys was spawned by
-   */
-  Dispenser* get_parent_dispenser() const
-  {
-    return m_parent_dispenser;
-  }
+  /** Returns the dispenser this badguys was spawned by */
+  Dispenser* get_parent_dispenser() const { return m_parent_dispenser; }
 
 protected:
   enum State {
@@ -197,8 +168,7 @@ protected:
   void kill_squished(GameObject& object);
 
   void set_state(State state);
-  State get_state() const
-  { return m_state; }
+  State get_state() const { return m_state; }
 
   bool check_state_timer() {
     return m_state_timer.check();
@@ -296,8 +266,7 @@ private:
   CollisionGroup m_colgroup_active;
 
   /** If this badguy was dispensed from a dispenser,
-   * save the dispenser here.
-   */
+      save the dispenser here. */
   Dispenser* m_parent_dispenser;
 
 private:

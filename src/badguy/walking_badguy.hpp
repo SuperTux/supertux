@@ -21,9 +21,7 @@
 
 class Timer;
 
-/**
- * Base class for Badguys that walk on the floor.
- */
+/** Base class for Badguys that walk on the floor. */
 class WalkingBadguy : public BadGuy
 {
 public:
@@ -48,30 +46,22 @@ public:
 
   virtual void initialize() override;
   virtual void active_update(float dt_sec) override;
-  void active_update(float dt_sec, float target_velocity);
   virtual void collision_solid(const CollisionHit& hit) override;
   virtual HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit) override;
   virtual void freeze() override;
   virtual void unfreeze() override;
 
+  void active_update(float dt_sec, float target_velocity);
+
   float get_velocity_y() const;
   void set_velocity_y(float vy);
 
-  /**
-   * Adds velocity to the badguy (be careful when using this)
-   */
+  /** Adds velocity to the badguy (be careful when using this) */
   void add_velocity(const Vector& velocity);
 
-  float get_walk_speed() const
-  {
-    return walk_speed;
-  }
-  void  set_walk_speed (float);
-  bool is_active() const
-  {
-    return BadGuy::is_active();
-  }
-
+  float get_walk_speed() const { return walk_speed; }
+  void set_walk_speed (float);
+  bool is_active() const { return BadGuy::is_active(); }
 
 protected:
   void turn_around();
@@ -83,6 +73,10 @@ protected:
   int max_drop_height; /**< Maximum height of drop before we will turn around, or -1 to just drop from any ledge */
   Timer turn_around_timer;
   int turn_around_counter; /**< counts number of turns since turn_around_timer was started */
+
+private:
+  WalkingBadguy(const WalkingBadguy&) = delete;
+  WalkingBadguy& operator=(const WalkingBadguy&) = delete;
 };
 
 #endif
