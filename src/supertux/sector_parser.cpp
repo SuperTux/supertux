@@ -84,11 +84,7 @@ SectorParser::SectorParser(Sector& sector, bool editable) :
 std::unique_ptr<GameObject>
 SectorParser::parse_object(const std::string& name_, const ReaderMapping& reader)
 {
-  if (name_ == "camera") {
-    auto camera_ = std::make_unique<Camera>(&m_sector, "Camera");
-    camera_->parse(reader);
-    return std::move(camera_);
-  } else if (name_ == "money") { // for compatibility with old maps
+  if (name_ == "money") { // for compatibility with old maps
     return std::make_unique<Jumpy>(reader);
   } else {
     try {
@@ -296,7 +292,7 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
   }
 
   // add a camera
-  auto camera_ = std::make_unique<Camera>(&m_sector, "Camera");
+  auto camera_ = std::make_unique<Camera>("Camera");
   m_sector.add_object(std::move(camera_));
 
   m_sector.flush_game_objects();
@@ -344,7 +340,7 @@ SectorParser::create_sector()
     m_sector.add<SpawnPointMarker>("main", Vector(64, 480));
   }
 
-  m_sector.add<Camera>(&m_sector, "Camera");
+  m_sector.add<Camera>("Camera");
   m_sector.add<MusicObject>();
 
   m_sector.flush_game_objects();

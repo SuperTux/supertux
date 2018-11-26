@@ -117,6 +117,90 @@ public:
   }
 };
 
+Camera::Camera(const std::string& name) :
+  GameObject(name),
+  ExposedObject<Camera, scripting::Camera>(this),
+  m_mode(NORMAL),
+  m_defaultmode(NORMAL),
+  m_screen_size(SCREEN_WIDTH, SCREEN_HEIGHT),
+  m_translation(),
+  m_lookahead_mode(LOOKAHEAD_NONE),
+  m_changetime(),
+  m_lookahead_pos(),
+  m_peek_pos(),
+  m_cached_translation(),
+  m_shaketimer(),
+  m_shakespeed(),
+  m_shakedepth_x(),
+  m_shakedepth_y(),
+  m_scroll_from(),
+  m_scroll_goal(),
+  m_scroll_to_pos(),
+  m_scrollspeed(),
+  m_config(std::make_unique<CameraConfig>())
+{
+  reload_config();
+}
+
+Camera::Camera(const ReaderMapping& reader) :
+  GameObject(reader),
+  ExposedObject<Camera, scripting::Camera>(this),
+  m_mode(NORMAL),
+  m_defaultmode(NORMAL),
+  m_screen_size(SCREEN_WIDTH, SCREEN_HEIGHT),
+  m_translation(),
+  m_lookahead_mode(LOOKAHEAD_NONE),
+  m_changetime(),
+  m_lookahead_pos(),
+  m_peek_pos(),
+  m_cached_translation(),
+  m_shaketimer(),
+  m_shakespeed(),
+  m_shakedepth_x(),
+  m_shakedepth_y(),
+  m_scroll_from(),
+  m_scroll_goal(),
+  m_scroll_to_pos(),
+  m_scrollspeed(),
+  m_config(std::make_unique<CameraConfig>())
+{
+  std::string modename;
+
+  reader.get("mode", modename);
+  if (modename == "normal")
+  {
+    m_mode = NORMAL;
+  }
+  else if (modename == "autoscroll")
+  {
+    m_mode = AUTOSCROLL;
+
+    boost::optional<ReaderMapping> path_mapping;
+    if (!reader.get("path", path_mapping)) {
+      log_warning << "No path specified in autoscroll camera." << std::endl;
+      m_mode = NORMAL;
+    } else {
+      init_path(reader, true);
+    }
+  }
+  else if (modename == "manual")
+  {
+    m_mode = MANUAL;
+  }
+  else
+  {
+    m_mode = NORMAL;
+    log_warning << "invalid camera mode '" << modename << "'found in worldfile." << std::endl;
+  }
+  m_defaultmode = m_mode;
+
+  reload_config();
+}
+
+Camera::~Camera()
+{
+}
+
 void
 Camera::save(Writer& writer)
 {
@@ -179,67 +263,10 @@ Camera::after_editor_set()
   }
 }
 
-Camera::Camera(Sector* newsector, const std::string& name) :
-  GameObject(name),
-  ExposedObject<Camera, scripting::Camera>(this),
-  m_mode(NORMAL),
-  m_defaultmode(NORMAL),
-  m_screen_size(SCREEN_WIDTH, SCREEN_HEIGHT),
-  m_translation(),
-  m_sector(newsector),
-  m_lookahead_mode(LOOKAHEAD_NONE),
-  m_changetime(),
-  m_lookahead_pos(),
-  m_peek_pos(),
-  m_cached_translation(),
-  m_shaketimer(),
-  m_shakespeed(),
-  m_shakedepth_x(),
-  m_shakedepth_y(),
-  m_scroll_from(),
-  m_scroll_goal(),
-  m_scroll_to_pos(),
-  m_scrollspeed(),
-  m_config(std::make_unique<CameraConfig>())
-{
-  reload_config();
-}
-
-Camera::~Camera()
-{
-}
-
 const Vector&
 Camera::get_translation() const
 {
   return m_translation;
-}
-
-void
-Camera::parse(const ReaderMapping& reader)
-{
-  std::string modename;
-
-  reader.get("mode", modename);
-  if (modename == "normal") {
-    m_mode = NORMAL;
-  } else if (modename == "autoscroll") {
-    m_mode = AUTOSCROLL;
-
-    boost::optional<ReaderMapping> path_mapping;
-    if (!reader.get("path", path_mapping)) {
-      log_warning << "No path specified in autoscroll camera." << std::endl;
-      m_mode = NORMAL;
-    } else {
-      init_path(*path_mapping, true);
-    }
-  } else if (modename == "manual") {
-    m_mode = MANUAL;
-  } else {
-    m_mode = NORMAL;
-    log_warning << "invalid camera mode '" << modename << "'found in worldfile." << std::endl;
-  }
-  m_defaultmode = m_mode;
 }
 
 void
@@ -321,8 +348,8 @@ Camera::reload_config()
 void
 Camera::keep_in_bounds(Vector& translation_)
 {
-  float width = m_sector->get_width();
-  float height = m_sector->get_height();
+  float width = d_sector->get_width();
+  float height = d_sector->get_height();
 
   // don't scroll before the start or after the level's end
   translation_.x = math::clamp(translation_.x, 0.0f, width - static_cast<float>(m_screen_size.width));
@@ -347,7 +374,7 @@ void
 Camera::update_scroll_normal(float dt_sec)
 {
   const auto& config_ = *(m_config);
-  Player& player = m_sector->get_player();
+  Player& player = d_sector->get_player();
   // TODO: co-op mode needs a good camera
   Vector player_pos(player.get_bbox().get_middle().x,
                                     player.get_bbox().get_bottom());
@@ -362,7 +389,7 @@ Camera::update_scroll_normal(float dt_sec)
   /****** Vertical Scrolling part ******/
   int ymode = config_.ymode;
 
-  if (player.is_dying() || m_sector->get_height() == 19*32) {
+  if (player.is_dying() || d_sector->get_height() == 19*32) {
     ymode = 0;
   }
   if (ymode == 1) {
@@ -423,7 +450,7 @@ Camera::update_scroll_normal(float dt_sec)
     if (player_pos.y < upperend) {
       m_lookahead_pos.y = upperend;
     }
-    if (player_pos.y > m_sector->get_width() - upperend) {
+    if (player_pos.y > d_sector->get_width() - upperend) {
       m_lookahead_pos.y = lowerend;
     }
 
@@ -514,7 +541,7 @@ Camera::update_scroll_normal(float dt_sec)
       /* at the ends of a level it's obvious which way we will go */
       if (player_pos.x < static_cast<float>(m_screen_size.width) * 0.5f) {
         m_lookahead_mode = LOOKAHEAD_RIGHT;
-      } else if (player_pos.x >= m_sector->get_width() - static_cast<float>(m_screen_size.width) * 0.5f) {
+      } else if (player_pos.x >= d_sector->get_width() - static_cast<float>(m_screen_size.width) * 0.5f) {
         m_lookahead_mode = LOOKAHEAD_LEFT;
       }
 
@@ -594,7 +621,7 @@ Camera::update_scroll_normal(float dt_sec)
     if (player_pos.x < LEFTEND) {
       m_lookahead_pos.x = LEFTEND;
     }
-    if (player_pos.x > m_sector->get_width() - LEFTEND) {
+    if (player_pos.x > d_sector->get_width() - LEFTEND) {
       m_lookahead_pos.x = RIGHTEND;
     }
 
@@ -649,7 +676,7 @@ Camera::update_scroll_normal(float dt_sec)
 void
 Camera::update_scroll_autoscroll(float dt_sec)
 {
-  Player& player = m_sector->get_player();
+  Player& player = d_sector->get_player();
   if (player.is_dying())
     return;
 

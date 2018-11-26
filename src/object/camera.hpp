@@ -52,14 +52,12 @@ private:
   };
 
 public:
-  Camera(Sector* sector, const std::string& name = std::string());
+  Camera(const std::string& name);
+  Camera(const ReaderMapping& reader);
   virtual ~Camera();
 
   /** \addtogroup CameraAPI
    *  @{ */
-
-  /** parse camera mode from file */
-  void parse(const ReaderMapping& reader);
 
   /** reset camera position */
   void reset(const Vector& tuxpos);
@@ -130,8 +128,6 @@ private:
   Size m_screen_size;
 
   Vector m_translation;
-
-  Sector* m_sector;
 
   // normal mode
   LookaheadMode m_lookahead_mode;

@@ -73,6 +73,7 @@
 #include "object/bicycle_platform.hpp"
 #include "object/bonus_block.hpp"
 #include "object/brick.hpp"
+#include "object/camera.hpp"
 #include "object/candle.hpp"
 #include "object/cloud_particle_system.hpp"
 #include "object/coin.hpp"
@@ -199,6 +200,7 @@ GameObjectFactory::init_factories()
   add_factory<BicyclePlatform>("bicycle-platform");
   add_factory<BonusBlock>("bonusblock");
   add_factory<Brick>("brick");
+  add_factory<Camera>("camera");
   add_factory<Candle>("candle");
   add_factory<CloudParticleSystem>("particles-clouds");
   add_factory<Coin>("coin");
