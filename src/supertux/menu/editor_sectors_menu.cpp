@@ -97,7 +97,7 @@ EditorSectorsMenu::delete_sector()
     dialog->set_text(_("Do you really want to delete this sector?"));
     dialog->clear_buttons();
     dialog->add_cancel_button(_("Cancel"));
-    dialog->add_button(_("Delete sector"), [level] {
+    dialog->add_button(_("Delete sector"), [] {
         MenuManager::instance().clear_menu_stack();
         Editor::current()->delete_current_sector();
       });

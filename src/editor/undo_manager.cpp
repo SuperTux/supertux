@@ -111,7 +111,7 @@ UndoManager::undo()
 
   debug_print("undo");
 
-  return std::move(level);
+  return level;
 }
 
 std::unique_ptr<Level>
@@ -129,7 +129,7 @@ UndoManager::redo()
 
   debug_print("redo");
 
-  return std::move(level);
+  return level;
 }
 
 /* EOF */
