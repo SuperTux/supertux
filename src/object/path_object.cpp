@@ -66,14 +66,6 @@ PathObject::init_path_pos(const Vector& pos, bool running)
   m_walker.reset(new PathWalker(path_gameobject.get_uid(), running));
 }
 
-void
-PathObject::init_path_empty()
-{
-  auto& path_gameobject = d_gameobject_manager->add<PathGameObject>();
-  m_path_uid = path_gameobject.get_uid();
-  m_walker.reset(new PathWalker(m_path_uid));
-}
-
 Path*
 PathObject::get_path() const
 {

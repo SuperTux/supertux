@@ -35,7 +35,6 @@ public:
       main mapping, not the (path ...) mapping */
   void init_path(const ReaderMapping& mapping, bool running_default);
   void init_path_pos(const Vector& pos, bool running = false);
-  void init_path_empty();
 
   Path* get_path() const;
   PathWalker* get_walker() const { return m_walker.get(); }
