@@ -20,57 +20,49 @@
 #include <string>
 #include <vector>
 
+#include "sprite/sprite_ptr.hpp"
+#include "util/currenton.hpp"
 #include "video/surface_ptr.hpp"
-
-enum MouseCursorState
-  {
-    MC_NORMAL = 0,
-    MC_CLICK,
-    MC_LINK,
-    MC_HIDE
-  };
 
 class DrawingContext;
 
-/// Mouse cursor.
-/** Used to create mouse cursors.
+enum class MouseCursorState
+{
+  NORMAL,
+  CLICK,
+  LINK,
+  HIDE
+};
+
+/** Mouse cursor.
+    Used to create mouse cursors.
     The mouse cursors can be animated
-    and can be used in four different states.
-    (MC_NORMAL, MC_CLICK, MC_LINK or MC_HIDE) */
-class MouseCursor final
+    and can be used in four different states. */
+class MouseCursor final : public Currenton<MouseCursor>
 {
 public:
   static MouseCursor* current() { return current_; }
   static void set_current(MouseCursor* pcursor) { current_ = pcursor; }
 
-public:
-  MouseCursor(const std::string& cursor_file,
-              const std::string& cursor_click_file,
-              const std::string& cursor_link_file);
-
-  /// Set MouseCursor state.
-  /** (MC_NORMAL, MC_CLICK, MC_LINK or MC_HIDE) */
-  void set_state(MouseCursorState nstate);
-
-  /// Define the middle of a MouseCursor.
-  /** Useful for cross mouse cursor images in example. */
-  void set_mid(int x, int y);
-
-  /// Draw MouseCursor on screen.
-  void draw(DrawingContext& context);
-
-  /// Set the icon
-  void set_icon(SurfacePtr icon_);
-
-private:
-  int m_mid_x;
-  int m_mid_y;
-  MouseCursorState m_state;
-  std::vector<SurfacePtr> m_cursor;
-  SurfacePtr m_icon;
-
 private:
   static MouseCursor* current_;
+
+public:
+  MouseCursor(SpritePtr sprite);
+
+  void draw(DrawingContext& context);
+
+  void set_state(MouseCursorState state);
+  void set_icon(SurfacePtr icon);
+
+private:
+  void apply_state(MouseCursorState state);
+
+private:
+  MouseCursorState m_state;
+  MouseCursorState m_applied_state;
+  SpritePtr m_sprite;
+  SurfacePtr m_icon;
 
 private:
   MouseCursor(const MouseCursor&) = delete;

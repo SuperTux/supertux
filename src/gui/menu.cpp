@@ -646,12 +646,12 @@ Menu::event(const SDL_Event& ev)
           active_item = new_active_item;
 
         if (MouseCursor::current())
-          MouseCursor::current()->set_state(MC_LINK);
+          MouseCursor::current()->set_state(MouseCursorState::LINK);
       }
       else
       {
         if (MouseCursor::current())
-          MouseCursor::current()->set_state(MC_NORMAL);
+          MouseCursor::current()->set_state(MouseCursorState::NORMAL);
       }
     }
     break;

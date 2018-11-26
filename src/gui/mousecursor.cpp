@@ -18,6 +18,7 @@
 
 #include <SDL.h>
 
+#include "sprite/sprite.hpp"
 #include "video/drawing_context.hpp"
 #include "video/renderer.hpp"
 #include "video/surface.hpp"
@@ -26,64 +27,78 @@
 
 MouseCursor* MouseCursor::current_ = nullptr;
 
-MouseCursor::MouseCursor(const std::string& cursor_file,
-                         const std::string& cursor_click_file,
-                         const std::string& cursor_link_file) :
-  m_mid_x(0),
-  m_mid_y(0),
-  m_state(MC_NORMAL),
-  m_cursor(),
+MouseCursor::MouseCursor(SpritePtr sprite) :
+  m_state(MouseCursorState::NORMAL),
+  m_applied_state(MouseCursorState::HIDE),
+  m_sprite(std::move(sprite)),
   m_icon()
 {
-  m_cursor.push_back(Surface::from_file(cursor_file));
-  m_cursor.push_back(Surface::from_file(cursor_click_file));
-  m_cursor.push_back(Surface::from_file(cursor_link_file));
 }
 
-void MouseCursor::set_state(MouseCursorState nstate)
+void
+MouseCursor::set_state(MouseCursorState state)
 {
-  m_state = nstate;
+  m_state = state;
 }
 
-void MouseCursor::set_mid(int x, int y)
+void
+MouseCursor::set_icon(SurfacePtr icon)
 {
-  m_mid_x = x;
-  m_mid_y = y;
+  m_icon = icon;
 }
 
-void MouseCursor::set_icon(SurfacePtr icon_)
+void
+MouseCursor::apply_state(MouseCursorState state)
 {
-  m_icon = icon_;
-}
-
-void MouseCursor::draw(DrawingContext& context)
-{
-  if (m_state != MC_HIDE)
+  if (m_applied_state != state)
   {
-    int x;
-    int y;
+    m_applied_state = state;
+
+    switch(state)
+    {
+      case MouseCursorState::NORMAL:
+        m_sprite->set_action("normal");
+        break;
+
+      case MouseCursorState::CLICK:
+        m_sprite->set_action("click");
+        break;
+
+      case MouseCursorState::LINK:
+        m_sprite->set_action("link");
+        break;
+
+      case MouseCursorState::HIDE:
+        break;
+    }
+  }
+}
+
+void
+MouseCursor::draw(DrawingContext& context)
+{
+  if (m_state != MouseCursorState::HIDE)
+  {
+    int x, y;
     Uint32 ispressed = SDL_GetMouseState(&x, &y);
+
+    if (ispressed & SDL_BUTTON(1) || ispressed & SDL_BUTTON(2))
+    {
+      apply_state(MouseCursorState::CLICK);
+    }
+    else
+    {
+      apply_state(m_state);
+    }
 
     Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(x, y);
 
-    x = int(mouse_pos.x);
-    y = int(mouse_pos.y);
-
-    int tmp_state = m_state;
-    if (ispressed & SDL_BUTTON(1) || ispressed & SDL_BUTTON(2))
-    {
-      tmp_state = MC_CLICK;
-    }
-
-    context.color().draw_surface(m_cursor[static_cast<int>(tmp_state)],
-                                 Vector(static_cast<float>(x - m_mid_x),
-                                        static_cast<float>(y - m_mid_y)),
-                                 LAYER_GUI + 100);
+    m_sprite->draw(context.color(), mouse_pos, LAYER_GUI + 100);
 
     if (m_icon) {
       context.color().draw_surface(m_icon,
-                                   Vector(static_cast<float>(x - m_mid_x),
-                                          static_cast<float>(y - m_mid_y - m_icon->get_height())),
+                                   Vector(mouse_pos.x,
+                                          mouse_pos.y - static_cast<float>(m_icon->get_height())),
                                    LAYER_GUI + 100);
     }
   }

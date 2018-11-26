@@ -134,12 +134,12 @@ Dialog::event(const SDL_Event& ev)
       {
         m_selected_button = new_button;
         if (MouseCursor::current())
-          MouseCursor::current()->set_state(MC_LINK);
+          MouseCursor::current()->set_state(MouseCursorState::LINK);
       }
       else
       {
         if (MouseCursor::current())
-          MouseCursor::current()->set_state(MC_NORMAL);
+          MouseCursor::current()->set_state(MouseCursorState::NORMAL);
       }
     }
     break;

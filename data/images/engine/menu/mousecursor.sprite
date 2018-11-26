@@ -1,0 +1,13 @@
+(supertux-sprite
+ (action
+  (name "normal")
+  (images "mousecursor.png"))
+
+ (action
+  (name "click")
+  (images "mousecursor-click.png"))
+
+ (action
+  (name "link")
+  (images "mousecursor-link.png"))
+ )

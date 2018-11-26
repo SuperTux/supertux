@@ -18,6 +18,8 @@
 #include "supertux/resources.hpp"
 
 #include "gui/mousecursor.hpp"
+#include "sprite/sprite.hpp"
+#include "sprite/sprite_manager.hpp"
 #include "supertux/debug.hpp"
 #include "supertux/globals.hpp"
 #include "video/bitmap_font.hpp"
@@ -44,9 +46,7 @@ void
 Resources::load()
 {
   // Load the mouse-cursor
-  mouse_cursor.reset(new MouseCursor("images/engine/menu/mousecursor.png",
-                                     "images/engine/menu/mousecursor-click.png",
-                                     "images/engine/menu/mousecursor-link.png"));
+  mouse_cursor.reset(new MouseCursor(SpriteManager::current()->create("images/engine/menu/mousecursor.sprite")));
   MouseCursor::set_current(mouse_cursor.get());
 
   if (g_debug.get_use_bitmap_fonts())
