@@ -26,6 +26,7 @@ class Sprite final
 {
 public:
   Sprite(SpriteData& data);
+  ~Sprite();
 
   SpritePtr clone() const;
 
