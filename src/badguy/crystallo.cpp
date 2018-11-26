@@ -20,34 +20,37 @@
 
 Crystallo::Crystallo(const ReaderMapping& reader) :
   WalkingBadguy(reader, "images/creatures/crystallo/crystallo.sprite", "left", "right"),
-  radius()
+  m_radius()
 {
   walk_speed = 80;
   max_drop_height = 16;
 
-  reader.get("radius", radius, 100.0f);
+  reader.get("radius", m_radius, 100.0f);
 }
 
 ObjectSettings
-Crystallo::get_settings() {
+Crystallo::get_settings()
+{
   ObjectSettings result = WalkingBadguy::get_settings();
-  result.add(MN_NUMFIELD, _("Radius"), &radius, "radius");
+  result.add(MN_NUMFIELD, _("Radius"), &m_radius, "radius");
   return result;
 }
 
 void
 Crystallo::active_update(float dt_sec)
 {
-  if (get_pos().x > (m_start_position.x + radius)){
+  if (get_pos().x > (m_start_position.x + m_radius)) {
     if (m_dir != LEFT){
       turn_around();
     }
   }
-  if ( get_pos().x < (m_start_position.x - radius)){
+
+  if (get_pos().x < (m_start_position.x - m_radius)) {
     if (m_dir != RIGHT){
       turn_around();
     }
   }
+
   BadGuy::active_update(dt_sec);
 }
 
