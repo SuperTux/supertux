@@ -73,7 +73,7 @@ GameObject::del_remove_listener(ObjectRemoveListener* listener)
 void
 GameObject::save(Writer& writer)
 {
-  if (m_name != "") {
+  if (!m_name.empty()) {
     writer.write("name", m_name, false);
   }
   auto settings = get_settings();

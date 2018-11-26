@@ -180,7 +180,7 @@ BonusBlock::save(Writer& writer)
     m_object->save(writer);
     writer.end_list(m_object->get_class());
   }
-  if (m_script != "") {
+  if (!m_script.empty()) {
     writer.write("script", m_script, false);
   }
   if (m_hit_counter != 1) {

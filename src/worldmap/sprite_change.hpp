@@ -73,8 +73,8 @@ public:
 
 private:
   /** stay action can be used for objects like boats or cars, if it is
-      != "" then this sprite will be displayed when tux left the tile
-      towards another SpriteChange object. */
+      not empty then this sprite will be displayed when tux left the
+      tile towards another SpriteChange object. */
   std::string m_stay_action;
 
   /** name of a group in which only one SpriteChange will ever have

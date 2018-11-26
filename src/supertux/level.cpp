@@ -118,10 +118,10 @@ Level::save(Writer& writer)
   writer.write("author", m_author, false);
   if (m_tileset != "images/tiles.strf")
     writer.write("tileset", m_tileset, false);
-  if (m_contact != "") {
+  if (!m_contact.empty()) {
     writer.write("contact", m_contact, false);
   }
-  if (m_license != "") {
+  if (!m_license.empty()) {
     writer.write("license", m_license, false);
   }
   if (m_target_time != 0.0f){
