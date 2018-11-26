@@ -71,7 +71,7 @@ WillOWisp::WillOWisp(const ReaderMapping& reader) :
 void
 WillOWisp::finish_construction()
 {
-  if (get_walker() && get_walker()->is_moving()) {
+  if (get_walker() && get_walker()->is_running()) {
     m_mystate = STATE_PATHMOVING_TRACK;
   }
 }

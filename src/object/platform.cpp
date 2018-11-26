@@ -61,7 +61,7 @@ void
 Platform::save(Writer& writer)
 {
   MovingSprite::save(writer);
-  writer.write("running", get_walker()->is_moving());
+  writer.write("running", get_walker()->is_running());
   PathObject::save(writer);
 }
 
@@ -92,7 +92,7 @@ Platform::update(float dt_sec)
   // check if Platform should automatically pick a destination
   if (m_automatic) {
 
-    if (!m_player_contact && !get_walker()->is_moving()) {
+    if (!m_player_contact && !get_walker()->is_running()) {
       // Player doesn't touch platform and Platform is not moving
 
       // Travel to node nearest to nearest player
@@ -104,7 +104,7 @@ Platform::update(float dt_sec)
       }
     }
 
-    if (m_player_contact && !m_last_player_contact && !get_walker()->is_moving()) {
+    if (m_player_contact && !m_last_player_contact && !get_walker()->is_running()) {
       // Player touched platform, didn't touch last frame and Platform is not moving
 
       // Travel to node farthest from current position
