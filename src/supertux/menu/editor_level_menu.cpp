@@ -37,7 +37,7 @@ EditorLevelMenu::EditorLevelMenu() :
   add_file(_("Tileset"), &(level->m_tileset), std::vector<std::string>(1, ".strf"));
 
   if (!worldmap) {
-    add_numfield(_("Target time"), &(level->m_target_time));
+    add_floatfield(_("Target time"), &(level->m_target_time));
   }
 
   add_hl();

@@ -174,12 +174,12 @@ Background::get_settings()
   align.m_select.push_back(_("top"));
   align.m_select.push_back(_("bottom"));
   result.add(align);
-  result.add(MN_NUMFIELD, _("Scroll offset x"), &m_scroll_offset.x, "scroll-offset-x");
-  result.add(MN_NUMFIELD, _("Scroll offset y"), &m_scroll_offset.y, "scroll-offset-y");
-  result.add(MN_NUMFIELD, _("Scroll speed x"), &m_scroll_speed.x, "scroll-speed-x");
-  result.add(MN_NUMFIELD, _("Scroll speed y"), &m_scroll_speed.y, "scroll-speed-y");
-  result.add(MN_NUMFIELD, _("Speed x"), &m_speed, "speed");
-  result.add(MN_NUMFIELD, _("Speed y"), &m_speed_y);
+  result.add(MN_FLOATFIELD, _("Scroll offset x"), &m_scroll_offset.x, "scroll-offset-x");
+  result.add(MN_FLOATFIELD, _("Scroll offset y"), &m_scroll_offset.y, "scroll-offset-y");
+  result.add(MN_FLOATFIELD, _("Scroll speed x"), &m_scroll_speed.x, "scroll-speed-x");
+  result.add(MN_FLOATFIELD, _("Scroll speed y"), &m_scroll_speed.y, "scroll-speed-y");
+  result.add(MN_FLOATFIELD, _("Speed x"), &m_speed, "speed");
+  result.add(MN_FLOATFIELD, _("Speed y"), &m_speed_y);
 
   ObjectOption img(MN_FILE, _("Top image"), &m_imagefile_top, "image-top", (OPTION_VISIBLE));
   img.m_select.push_back(".png");

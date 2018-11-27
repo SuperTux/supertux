@@ -57,8 +57,8 @@ ScriptedObject::get_settings()
   new_size.x = m_col.m_bbox.get_width();
   new_size.y = m_col.m_bbox.get_height();
   ObjectSettings result = MovingSprite::get_settings();
-  result.add(MN_NUMFIELD, "width", &new_size.x, "width", false);
-  result.add(MN_NUMFIELD, "height", &new_size.y, "height", false);
+  result.add(MN_FLOATFIELD, "width", &new_size.x, "width", false);
+  result.add(MN_FLOATFIELD, "height", &new_size.y, "height", false);
   result.add(MN_TOGGLE, _("Solid"), &solid, "solid");
   result.add(MN_TOGGLE, _("Physics enabled"), &physic_enabled, "physic-enabled");
   result.add(MN_TOGGLE, _("Visible"), &visible, "visible");

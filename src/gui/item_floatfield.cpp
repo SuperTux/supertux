@@ -14,14 +14,14 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "gui/item_numfield.hpp"
+#include "gui/item_floatfield.hpp"
 
 #include "supertux/colorscheme.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/resources.hpp"
 #include "video/drawing_context.hpp"
 
-ItemNumField::ItemNumField(const std::string& text_, float* input_, int id_) :
+ItemFloatField::ItemFloatField(const std::string& text_, float* input_, int id_) :
   MenuItem(text_, id_),
   number(input_),
   input(std::to_string(*input_)),
@@ -43,7 +43,7 @@ ItemNumField::ItemNumField(const std::string& text_, float* input_, int id_) :
 }
 
 void
-ItemNumField::draw(DrawingContext& context, const Vector& pos, int menu_width, bool active) {
+ItemFloatField::draw(DrawingContext& context, const Vector& pos, int menu_width, bool active) {
   std::string r_input = input;
   bool fl = active && (int(g_real_time*2)%2);
   if ( fl ) {
@@ -60,12 +60,12 @@ ItemNumField::draw(DrawingContext& context, const Vector& pos, int menu_width, b
 }
 
 int
-ItemNumField::get_width() const {
+ItemFloatField::get_width() const {
   return static_cast<int>(Resources::normal_font->get_text_width(get_text()) + Resources::normal_font->get_text_width(input)) + 16 + flickw;
 }
 
 void
-ItemNumField::event(const SDL_Event& ev) {
+ItemFloatField::event(const SDL_Event& ev) {
   if (ev.type == SDL_TEXTINPUT) {
     std::string txt = ev.text.text;
     for (auto i = txt.begin(); i != txt.end(); ++i) {
@@ -75,7 +75,7 @@ ItemNumField::event(const SDL_Event& ev) {
 }
 
 void
-ItemNumField::add_char(char c) {
+ItemFloatField::add_char(char c) {
   if (c == '-') {
     if (input.length() && input != "0") {
       *number *= -1;
@@ -110,7 +110,7 @@ ItemNumField::add_char(char c) {
 }
 
 void
-ItemNumField::process_action(const MenuAction& action) {
+ItemFloatField::process_action(const MenuAction& action) {
   if (action == MENU_ACTION_REMOVE && input.length()) {
     unsigned char last_char;
     do {

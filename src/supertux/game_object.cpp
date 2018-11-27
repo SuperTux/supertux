@@ -92,7 +92,7 @@ GameObject::save(Writer& writer)
           }
           break;
 
-        case MN_NUMFIELD:
+        case MN_FLOATFIELD:
           writer.write(option.m_key, *(reinterpret_cast<float*>(option.m_option)));
           break;
 

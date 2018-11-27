@@ -39,7 +39,7 @@ TEST(ObjectOption, to_string)
 
   {
     float myfloat = 2.125;
-    ObjectOption numfield(MN_NUMFIELD, "test", &myfloat);
+    ObjectOption numfield(MN_FLOATFIELD, "test", &myfloat);
     ASSERT_EQ("2.125000", numfield.to_string());
   }
 

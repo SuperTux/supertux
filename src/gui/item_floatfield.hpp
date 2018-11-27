@@ -14,15 +14,15 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_GUI_ITEM_NUMFIELD_HPP
-#define HEADER_SUPERTUX_GUI_ITEM_NUMFIELD_HPP
+#ifndef HEADER_SUPERTUX_GUI_ITEM_FLOATFIELD_HPP
+#define HEADER_SUPERTUX_GUI_ITEM_FLOATFIELD_HPP
 
 #include "gui/menu_item.hpp"
 
-class ItemNumField final : public MenuItem
+class ItemFloatField final : public MenuItem
 {
 public:
-  ItemNumField(const std::string& text_, float* input_, int id_ = -1);
+  ItemFloatField(const std::string& text_, float* input_, int id_ = -1);
 
   /** Draws the menu item. */
   virtual void draw(DrawingContext&, const Vector& pos, int menu_width, bool active) override;
@@ -55,8 +55,8 @@ private:
   void add_char(char c);
 
 private:
-  ItemNumField(const ItemNumField&) = delete;
-  ItemNumField& operator=(const ItemNumField&) = delete;
+  ItemFloatField(const ItemFloatField&) = delete;
+  ItemFloatField& operator=(const ItemFloatField&) = delete;
 };
 
 #endif

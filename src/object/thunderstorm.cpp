@@ -62,7 +62,7 @@ ObjectSettings
 Thunderstorm::get_settings() {
   ObjectSettings result = GameObject::get_settings();
   result.add(MN_TOGGLE, _("Running"), &running, "running");
-  result.add(MN_NUMFIELD, _("Interval"), &interval, "interval");
+  result.add(MN_FLOATFIELD, _("Interval"), &interval, "interval");
   result.add(MN_REMOVE, "", nullptr);
   return result;
 }

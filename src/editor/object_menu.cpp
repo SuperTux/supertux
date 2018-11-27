@@ -40,8 +40,8 @@ ObjectMenu::ObjectMenu(Editor& editor, GameObject* go) :
       case MN_TEXTFIELD:
         add_textfield(oo.m_text, static_cast<std::string*>(oo.m_option));
         break;
-      case MN_NUMFIELD:
-        add_numfield(oo.m_text, static_cast<float*>(oo.m_option));
+      case MN_FLOATFIELD:
+        add_floatfield(oo.m_text, static_cast<float*>(oo.m_option));
         break;
       case MN_INTFIELD:
         add_intfield(oo.m_text, static_cast<int*>(oo.m_option));

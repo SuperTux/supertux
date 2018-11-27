@@ -74,8 +74,8 @@ SequenceTrigger::get_settings()
   new_size.y = m_col.m_bbox.get_height();
   ObjectSettings result(_("Sequence trigger"));
   result.add(MN_TEXTFIELD, _("Name"), &m_name);
-  result.add(MN_NUMFIELD, _("Width"), &new_size.x, "width");
-  result.add(MN_NUMFIELD, _("Height"), &new_size.y, "height");
+  result.add(MN_FLOATFIELD, _("Width"), &new_size.x, "width");
+  result.add(MN_FLOATFIELD, _("Height"), &new_size.y, "height");
 
   ObjectOption seq(MN_STRINGSELECT, _("Sequence"), &sequence);
   seq.m_select.push_back(_("end sequence"));

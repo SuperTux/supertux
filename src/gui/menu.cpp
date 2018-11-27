@@ -30,7 +30,7 @@
 #include "gui/item_inactive.hpp"
 #include "gui/item_intfield.hpp"
 #include "gui/item_label.hpp"
-#include "gui/item_numfield.hpp"
+#include "gui/item_floatfield.hpp"
 #include "gui/item_script.hpp"
 #include "gui/item_script_line.hpp"
 #include "gui/item_stringselect.hpp"
@@ -200,10 +200,10 @@ Menu::add_intfield(const std::string& text, int* input, int id)
   return *item_ptr;
 }
 
-ItemNumField&
-Menu::add_numfield(const std::string& text, float* input, int id)
+ItemFloatField&
+Menu::add_floatfield(const std::string& text, float* input, int id)
 {
-  auto item = std::make_unique<ItemNumField>(text, input, id);
+  auto item = std::make_unique<ItemFloatField>(text, input, id);
   auto item_ptr = item.get();
   add_item(std::move(item));
   return *item_ptr;

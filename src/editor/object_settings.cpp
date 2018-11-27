@@ -44,7 +44,7 @@ ObjectSettings::copy_from(const ObjectSettings& other)
         *(static_cast<std::string*>(oo1->m_option)) = *(static_cast<std::string*>(oo2->m_option));
         break;
 
-      case MN_NUMFIELD:
+      case MN_FLOATFIELD:
         assert(oo1->m_type == oo2->m_type);
         *(static_cast<float*>(oo1->m_option)) = *(static_cast<float*>(oo2->m_option));
         break;

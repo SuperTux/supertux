@@ -222,9 +222,9 @@ TileMap::get_settings()
   result.add(MN_INTFIELD, _("Resize offset y"), &m_new_offset_y);
   result.add(MN_INTFIELD, _("Width"), &m_new_size_x);
   result.add(MN_INTFIELD, _("Height"), &m_new_size_y);
-  result.add(MN_NUMFIELD, _("Alpha"), &m_alpha);
-  result.add(MN_NUMFIELD, _("Speed x"), &m_speed_x);
-  result.add(MN_NUMFIELD, _("Speed y"), &m_speed_y);
+  result.add(MN_FLOATFIELD, _("Alpha"), &m_alpha);
+  result.add(MN_FLOATFIELD, _("Speed x"), &m_speed_x);
+  result.add(MN_FLOATFIELD, _("Speed y"), &m_speed_y);
   result.add(MN_COLOR, _("Tint"), &m_tint);
   result.add(MN_INTFIELD, _("Z-pos"), &m_z_pos);
 

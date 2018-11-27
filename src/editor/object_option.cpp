@@ -41,7 +41,7 @@ ObjectOption::to_string() const
     case MN_TEXTFIELD:
       return *(static_cast<std::string*>(m_option));
 
-    case MN_NUMFIELD:
+    case MN_FLOATFIELD:
       return std::to_string(*(static_cast<float*>(m_option)));
 
     case MN_INTFIELD:

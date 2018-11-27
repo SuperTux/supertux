@@ -119,8 +119,8 @@ ObjectSettings
 DartTrap::get_settings() {
   ObjectSettings result = BadGuy::get_settings();
   result.add(MN_TOGGLE, _("Enabled"), &enabled, "enabled");
-  result.add(MN_NUMFIELD, _("Initial delay"), &initial_delay, "initial-delay");
-  result.add(MN_NUMFIELD, _("Fire delay"), &fire_delay, "fire-delay");
+  result.add(MN_FLOATFIELD, _("Initial delay"), &initial_delay, "initial-delay");
+  result.add(MN_FLOATFIELD, _("Fire delay"), &fire_delay, "fire-delay");
   result.add(MN_INTFIELD, _("Ammo"), &ammo, "ammo");
 
   return result;

@@ -40,7 +40,7 @@ class ItemHorizontalLine;
 class ItemInactive;
 class ItemIntField;
 class ItemLabel;
-class ItemNumField;
+class ItemFloatField;
 class ItemScript;
 class ItemScriptLine;
 class ItemStringSelect;
@@ -72,7 +72,7 @@ public:
   ItemScript& add_script(const std::string& text, std::string* script, int id = -1);
   ItemScriptLine& add_script_line(std::string* input, int id = -1);
   ItemIntField& add_intfield(const std::string& text, int* input, int id = -1);
-  ItemNumField& add_numfield(const std::string& text, float* input, int id = -1);
+  ItemFloatField& add_floatfield(const std::string& text, float* input, int id = -1);
   ItemBadguySelect& add_badguy_select(const std::string& text, std::vector<std::string>* badguys, int id = -1);
   ItemFile& add_file(const std::string& text, std::string* input, const std::vector<std::string>& extensions, int id = -1);
 

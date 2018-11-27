@@ -435,7 +435,7 @@ ObjectSettings
 Dispenser::get_settings()
 {
   ObjectSettings result = BadGuy::get_settings();
-  result.add(MN_NUMFIELD, _("Interval (seconds)"), &m_cycle, "cycle");
+  result.add(MN_FLOATFIELD, _("Interval (seconds)"), &m_cycle, "cycle");
   result.add(MN_TOGGLE, _("Random"), &m_random, "random");
   result.add(MN_BADGUYSELECT, _("Enemies"), &m_badguys, "badguy");
   result.add(MN_TOGGLE, _("Limit dispensed badguys"), &m_limit_dispensed_badguys,

@@ -280,9 +280,9 @@ WillOWisp::get_settings()
   result.add(MN_TEXTFIELD, _("Sector"), &m_target_sector, "sector");
   result.add(MN_TEXTFIELD, _("Spawnpoint"), &m_target_spawnpoint, "spawnpoint");
   result.add(MN_TEXTFIELD, _("Hit script"), &m_hit_script, "hit-script");
-  result.add(MN_NUMFIELD, _("Track range"), &m_track_range, "track-range");
-  result.add(MN_NUMFIELD, _("Vanish range"), &m_vanish_range, "vanish-range");
-  result.add(MN_NUMFIELD, _("Fly speed"), &m_flyspeed, "flyspeed");
+  result.add(MN_FLOATFIELD, _("Track range"), &m_track_range, "track-range");
+  result.add(MN_FLOATFIELD, _("Vanish range"), &m_vanish_range, "vanish-range");
+  result.add(MN_FLOATFIELD, _("Fly speed"), &m_flyspeed, "flyspeed");
   return result;
 }
 
