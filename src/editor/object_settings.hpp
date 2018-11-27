@@ -21,6 +21,8 @@
 
 #include "editor/object_option.hpp"
 
+class Color;
+
 class ObjectSettings final
 {
 public:
@@ -32,15 +34,32 @@ public:
 
   void add_option(const ObjectOption& option);
 
-  template <typename ...Args>
-  void add(Args && ...args) {
-    add_option(ObjectOption(std::forward<Args>(args)...));
-  }
+  void add_bool(const std::string& text, bool* value_ptr,
+                const std::string& key = {}, int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
+  void add_float(const std::string& text, float* value_ptr,
+                 const std::string& key = {}, int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
+  void add_int(const std::string& text, int* value_ptr,
+               const std::string& key = {}, int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
+  void add_badguy(const std::string& text, std::string* value_ptr,
+                  const std::string& key = {}, int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
+  void add_color(const std::string& text, Color* value_ptr,
+                 const std::string& key = {}, int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
+  void add_remove(const std::string& text, int* value_ptr,
+                  const std::string& key = {}, int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
+  void add_script(const std::string& text, std::string* value_ptr,
+                  const std::string& key = {}, int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
+  void add_text(const std::string& text, std::string* value_ptr,
+                const std::string& key = {}, int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
 
   const std::vector<ObjectOption>& get_options() const { return m_options; }
 
   /** Avoid using this one */
   std::vector<ObjectOption>& get_options_writable() { return m_options; }
+
+  template <typename ...Args>
+  void add(Args && ...args) {
+    add_option(ObjectOption(std::forward<Args>(args)...));
+  }
 
 private:
   std::string m_name;

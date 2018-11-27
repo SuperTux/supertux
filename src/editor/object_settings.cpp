@@ -86,4 +86,60 @@ ObjectSettings::add_option(const ObjectOption& option)
   m_options.push_back(option);
 }
 
+void
+ObjectSettings::add_badguy(const std::string& text, std::string* value_ptr,
+                           const std::string& key, int flags)
+{
+  add(MN_BADGUYSELECT, text, value_ptr, key, flags);
+}
+
+void
+ObjectSettings::add_color(const std::string& text, Color* value_ptr,
+                          const std::string& key, int flags)
+{
+  add(MN_COLOR, text, value_ptr, key, flags);
+}
+
+void
+ObjectSettings::add_bool(const std::string& text, bool* value_ptr,
+                         const std::string& key, int flags)
+{
+  add(MN_TOGGLE, text, value_ptr, key, flags);
+}
+
+void
+ObjectSettings::add_float(const std::string& text, float* value_ptr,
+                          const std::string& key, int flags)
+{
+  add(MN_FLOATFIELD, text, value_ptr, key, flags);
+}
+
+void
+ObjectSettings::add_int(const std::string& text, int* value_ptr,
+                        const std::string& key, int flags)
+{
+  add(MN_INTFIELD, text, value_ptr, key, flags);
+}
+
+void
+ObjectSettings::add_remove(const std::string& text, int* value_ptr,
+                           const std::string& key, int flags)
+{
+  add(MN_REMOVE, text, value_ptr, key, flags);
+}
+
+void
+ObjectSettings::add_script(const std::string& text, std::string* value_ptr,
+                           const std::string& key, int flags)
+{
+  add(MN_SCRIPT, text, value_ptr, key, flags);
+}
+
+void
+ObjectSettings::add_text(const std::string& text, std::string* value_ptr,
+                         const std::string& key, int flags)
+{
+  add(MN_TEXTFIELD, text, value_ptr, key, flags);
+}
+
 /* EOF */
