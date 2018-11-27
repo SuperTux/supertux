@@ -122,10 +122,9 @@ ObjectSettings::add_int(const std::string& text, int* value_ptr,
 }
 
 void
-ObjectSettings::add_remove(const std::string& text, int* value_ptr,
-                           const std::string& key, int flags)
+ObjectSettings::add_remove()
 {
-  add(MN_REMOVE, text, value_ptr, key, flags);
+  add(MN_REMOVE, "", nullptr);
 }
 
 void

@@ -146,7 +146,7 @@ Gradient::get_settings()
   doo.m_select.push_back(_("Horizontal (whole sector)"));
   result.add_option(doo);
 
-  result.add_remove("", nullptr);
+  result.add_remove();
   return result;
 }
 

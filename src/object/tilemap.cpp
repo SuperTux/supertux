@@ -242,7 +242,7 @@ TileMap::get_settings()
   }
 
   if (!m_editor_active) {
-    result.add_remove("", nullptr);
+    result.add_remove();
   }
   return result;
 }

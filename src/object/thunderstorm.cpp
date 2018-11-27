@@ -59,11 +59,14 @@ Thunderstorm::Thunderstorm(const ReaderMapping& reader) :
 }
 
 ObjectSettings
-Thunderstorm::get_settings() {
+Thunderstorm::get_settings()
+{
   ObjectSettings result = GameObject::get_settings();
+
   result.add_bool(_("Running"), &running, "running");
   result.add_float(_("Interval"), &interval, "interval");
-  result.add_remove("", nullptr);
+  result.add_remove();
+
   return result;
 }
 

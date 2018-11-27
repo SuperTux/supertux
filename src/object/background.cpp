@@ -187,7 +187,7 @@ Background::get_settings()
   result.add_surface(_("Image"), &m_imagefile, "image", OPTION_VISIBLE);
   result.add_surface(_("Bottom image"), &m_imagefile_bottom, "image-bottom", OPTION_VISIBLE);
 
-  result.add_remove("", nullptr);
+  result.add_remove();
 
   return result;
 }
