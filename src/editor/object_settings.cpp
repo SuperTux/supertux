@@ -145,7 +145,7 @@ void
 ObjectSettings::add_file(const std::string& text, std::string* value_ptr, const std::string& key,
                          const std::vector<std::string>& filter, int flags)
 {
-  ObjectOption option(MN_FILE, text, value_ptr);
+  ObjectOption option(MN_FILE, text, value_ptr, key, flags);
   option.m_select = filter;
   add_option(option);
 }
