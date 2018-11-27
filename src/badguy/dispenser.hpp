@@ -24,6 +24,14 @@
 class Dispenser final : public BadGuy,
                         public ExposedObject<Dispenser, scripting::Dispenser>
 {
+private:
+  enum class DispenserType {
+    DROPPER, ROCKETLAUNCHER, CANNON, POINT
+  };
+
+  static DispenserType DispenserType_from_string(const std::string& type_string);
+  static std::string DispenserType_to_string(DispenserType type);
+
 public:
   Dispenser(const ReaderMapping& reader);
 
@@ -36,35 +44,15 @@ public:
   virtual void unfreeze() override;
   virtual bool is_freezable() const override;
   virtual bool is_flammable() const override;
-  virtual std::string get_class() const override {
-    return "dispenser";
-  }
-  virtual std::string get_display_name() const override {
-    return _("Dispenser");
-  }
-  virtual std::string get_type_string() const {
-    switch (type) {
-    case DT_DROPPER:
-      return "dropper";
-    case DT_ROCKETLAUNCHER:
-      return "rocketlauncher";
-    case DT_CANNON:
-      return "cannon";
-    case DT_POINT:
-      return "point";
-    default:
-      return "unknown";
-    }
-  }
+  virtual std::string get_class() const override { return "dispenser"; }
+  virtual std::string get_display_name() const override { return _("Dispenser"); }
 
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
 
-  void notify_dead()
-  {
-    if (limit_dispensed_badguys)
-    {
-      current_badguys--;
+  void notify_dead() {
+    if (m_limit_dispensed_badguys) {
+      m_current_badguys--;
     }
   }
 
@@ -74,52 +62,33 @@ protected:
   void launch_badguy();
 
 private:
-
   void set_correct_action();
 
-  float cycle;
-  std::vector<std::string> badguys;
-  unsigned int next_badguy;
-  Timer dispense_timer;
-  bool autotarget;
-  bool swivel;
-  bool broken;
-  bool random;
+private:
+  float m_cycle;
+  std::vector<std::string> m_badguys;
+  unsigned int m_next_badguy;
+  Timer m_dispense_timer;
+  bool m_autotarget;
+  bool m_swivel;
+  bool m_broken;
+  bool m_random;
 
-  typedef enum {
-    DT_DROPPER, DT_ROCKETLAUNCHER, DT_CANNON, DT_POINT
-  } DispenserType;
+  DispenserType m_type;
+  std::string m_type_str;
 
-  DispenserType type;
-  std::string type_str;
+  /** Do we need to limit the number of dispensed badguys? */
+  bool m_limit_dispensed_badguys;
 
-  DispenserType dispenser_type_from_string(const std::string& type_string) const
-  {
-    if (type_string == "dropper")
-      return DT_DROPPER;
-    if (type_string == "rocketlauncher")
-      return DT_ROCKETLAUNCHER;
-    if (type_string == "cannon")
-      return DT_CANNON;
-    if (type_string == "point")
-      return DT_POINT;
-    throw std::exception();
-  }
+  /** Maximum concurrent number of badguys to be dispensed */
+  int m_max_concurrent_badguys;
 
-  /**
-   * Do we need to limit the number of dispensed badguys?
-   */
-  bool limit_dispensed_badguys;
+  /** Current amount of spawned badguys */
+  int m_current_badguys;
 
-  /**
-   * Maximum concurrent number of badguys to be dispensed
-   */
-  int max_concurrent_badguys;
-
-  /**
-   * Current amount of spawned badguys
-   */
-  int current_badguys;
+private:
+  Dispenser(const Dispenser&) = delete;
+  Dispenser& operator=(const Dispenser&) = delete;
 };
 
 #endif
