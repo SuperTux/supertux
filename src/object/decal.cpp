@@ -34,12 +34,11 @@ Decal::Decal(const ReaderMapping& reader) :
 }
 
 ObjectSettings
-Decal::get_settings() {
+Decal::get_settings()
+{
   ObjectSettings result = MovingObject::get_settings();
-  ObjectOption spr(MN_FILE, _("Sprite"), &m_sprite_name, "sprite");
-  spr.m_select.push_back(".png");
-  spr.m_select.push_back(".sprite");
-  result.add_option(spr);
+
+  result.add_file(_("Sprite"), &m_sprite_name, "sprite", {".png", ".sprite"});
   result.add_text(_("Action"), &default_action, "action");
   result.add_bool(_("Solid"), &solid, "solid");
   result.add_int(_("Z-pos"), &m_layer, "z-pos");

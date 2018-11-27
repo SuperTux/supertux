@@ -50,6 +50,8 @@ public:
                   const std::string& key = {}, int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
   void add_text(const std::string& text, std::string* value_ptr,
                 const std::string& key = {}, int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
+  void add_file(const std::string& text, std::string* value_ptr, const std::string& key = {},
+                const std::vector<std::string>& filter = {}, int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
 
   const std::vector<ObjectOption>& get_options() const { return m_options; }
 

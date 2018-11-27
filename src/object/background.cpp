@@ -181,18 +181,10 @@ Background::get_settings()
   result.add_float(_("Speed x"), &m_speed, "speed");
   result.add_float(_("Speed y"), &m_speed_y);
 
-  ObjectOption img(MN_FILE, _("Top image"), &m_imagefile_top, "image-top", (OPTION_VISIBLE));
-  img.m_select.push_back(".png");
-  img.m_select.push_back(".jpg");
-  img.m_select.push_back(".gif");
-  img.m_select.push_back(".bmp");
-  result.add_option(img);
-  ObjectOption img2(MN_FILE, _("Image"), &m_imagefile, "image");
-  img2.m_select = img.m_select;
-  ObjectOption img3(MN_FILE, _("Bottom image"), &m_imagefile_bottom, "image-bottom", (OPTION_VISIBLE));
-  img3.m_select = img.m_select;
-  result.add_option(img2);
-  result.add_option(img3);
+  std::vector<std::string> filter = {".png", ".jpg", ".gif", ".bmp"};
+  result.add_file(_("Top image"), &m_imagefile_top, "image-top", filter, OPTION_VISIBLE);
+  result.add_file(_("Image"), &m_imagefile, "image", filter, OPTION_VISIBLE);
+  result.add_file(_("Bottom image"), &m_imagefile_bottom, "image-bottom", filter, OPTION_VISIBLE);
 
   result.add_remove("", nullptr);
   return result;

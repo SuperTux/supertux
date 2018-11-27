@@ -199,12 +199,13 @@ Block::break_me()
   remove_me();
 }
 
-ObjectSettings Block::get_settings()
+ObjectSettings
+Block::get_settings()
 {
   ObjectSettings result = MovingObject::get_settings();
-  ObjectOption spr(MN_FILE, _("Sprite"), &sprite_name);
-  spr.m_select.push_back(".sprite");
-  result.add_option(spr);
+
+  result.add_file(_("Sprite"), &sprite_name, "sprite", {".sprite"});
+
   return result;
 }
 

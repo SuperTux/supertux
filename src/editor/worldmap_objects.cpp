@@ -100,20 +100,11 @@ ObjectSettings
 LevelDot::get_settings()
 {
   ObjectSettings result(_("Level"));
-
-  ObjectOption lvl(MN_FILE, _("Level"), &m_level);
-  lvl.m_select.push_back(".stl");
-  result.add_option(lvl);
-
+  result.add_file(_("Level"), &m_level, {}, {".stl"});
   result.add_script(_("Outro script"), &m_extro_script);
   result.add_bool(_("Auto play"), &m_auto_play);
-
-  ObjectOption spr(MN_FILE, _("Sprite"), &m_sprite_name);
-  spr.m_select.push_back(".sprite");
-  result.add_option(spr);
-
+  result.add_file(_("Sprite"), &m_sprite_name, {}, {".sprite"});
   result.add_color(_("Title colour"), &m_title_color);
-
   return result;
 }
 
@@ -197,18 +188,13 @@ ObjectSettings
 Teleporter::get_settings()
 {
   ObjectSettings result(_("Teleporter"));
+
   result.add_text(_("Spawnpoint"), &m_spawnpoint);
   result.add_text(_("Message"), &m_message);
   result.add_bool(_("Automatic"), &m_automatic);
-
   result.add_bool(_("Change worldmap"), &m_change_worldmap);
-  ObjectOption wm(MN_FILE, _("Target worldmap"), &m_worldmap);
-  wm.m_select.push_back(".stwm");
-  result.add_option(wm);
-
-  ObjectOption spr(MN_FILE, _("Sprite"), &m_sprite_name);
-  spr.m_select.push_back(".sprite");
-  result.add_option(spr);
+  result.add_file(_("Target worldmap"), &m_worldmap, {}, {".stwm"});
+  result.add_file(_("Sprite"), &m_sprite_name, {}, {".sprite"});
 
   return result;
 }
@@ -280,10 +266,7 @@ SpriteChange::get_settings()
 {
   ObjectSettings result = WorldmapObject::get_settings();
 
-  ObjectOption spr(MN_FILE, _("Sprite"), &m_target_sprite);
-  spr.m_select.push_back(".sprite");
-  result.add_option(spr);
-
+  result.add_file(_("Sprite"), &m_target_sprite, {}, {".sprite"});
   result.add_text(_("Stay action"), &m_stay_action);
   result.add_bool(_("Initial stay action"), &m_initial_stay_action);
   result.add_text(_("Stay group"), &m_stay_group);
@@ -333,15 +316,13 @@ ObjectSettings
 SpecialTile::get_settings()
 {
   ObjectSettings result(_("Special tile"));
+
   result.add_text(_("Message"), &m_map_message);
   result.add_bool(_("Show message"), &m_passive_message);
   result.add_script(_("Script"), &m_script);
   result.add_bool(_("Invisible"), &m_invisible_tile);
   result.add_option(worldmap::dir_option(&m_apply_to_direction));
-
-  ObjectOption spr(MN_FILE, _("Sprite"), &m_sprite_name);
-  spr.m_select.push_back(".sprite");
-  result.add_option(spr);
+  result.add_file(_("Sprite"), &m_sprite_name, {}, {".sprite"});
 
   return result;
 }

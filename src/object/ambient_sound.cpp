@@ -110,20 +110,20 @@ AmbientSound::~AmbientSound()
 }
 
 ObjectSettings
-AmbientSound::get_settings() {
+AmbientSound::get_settings()
+{
   new_size.x = m_col.m_bbox.get_width();
   new_size.y = m_col.m_bbox.get_height();
+
   ObjectSettings result = MovingObject::get_settings();
 
-  ObjectOption smp(MN_FILE, _("Sound"), &sample, "sample");
-  smp.m_select.push_back(".wav");
-  smp.m_select.push_back(".ogg");
-  result.add_option(smp);
+  result.add_file(_("Sound"), &sample, "sample", {".wav", ".ogg"});
   result.add_float(_("Width"), &new_size.x, "width");
   result.add_float(_("Height"), &new_size.y, "height");
   result.add_float(_("Distance factor"), &distance_factor, "distance_factor");
   result.add_float(_("Distance bias"), &distance_bias, "distance_bias");
   result.add_float(_("Volume"), &maximumvolume, "volume");
+
   return result;
 }
 

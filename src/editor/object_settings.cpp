@@ -142,4 +142,13 @@ ObjectSettings::add_text(const std::string& text, std::string* value_ptr,
   add(MN_TEXTFIELD, text, value_ptr, key, flags);
 }
 
+void
+ObjectSettings::add_file(const std::string& text, std::string* value_ptr, const std::string& key,
+                         const std::vector<std::string>& filter, int flags)
+{
+  ObjectOption option(MN_FILE, text, value_ptr);
+  option.m_select = filter,
+  add_option(option);
+}
+
 /* EOF */
