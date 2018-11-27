@@ -108,7 +108,7 @@ MusicObject::get_settings()
   auto file_option = ObjectOption(MN_FILE, _("File"), &m_music, "file", OPTION_VISIBLE);
   file_option.add_select(".ogg");
   file_option.add_select(".music");
-  settings.add(file_option);
+  settings.add_option(file_option);
   return settings;
 }
 

@@ -80,15 +80,15 @@ Torch::collision(GameObject& other, const CollisionHit& )
   return ABORT_MOVE;
 }
 
-ObjectSettings Torch::get_settings()
+ObjectSettings
+Torch::get_settings()
 {
   ObjectSettings result = MovingObject::get_settings();
-  ObjectOption burning(MN_TOGGLE, _("Burning"), &m_burning, "burning");
   ObjectOption spr(MN_FILE, _("Sprite"), &sprite_name, "sprite");
   spr.m_select.push_back(".sprite");
 
-  result.add(burning);
-  result.add(spr);
+  result.add_bool(_("Burning"), &m_burning, "burning");
+  result.add_option(spr);
   return result;
 }
 

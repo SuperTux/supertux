@@ -56,6 +56,7 @@ public:
   /** Avoid using this one */
   std::vector<ObjectOption>& get_options_writable() { return m_options; }
 
+private:
   template <typename ...Args>
   void add(Args && ...args) {
     add_option(ObjectOption(std::forward<Args>(args)...));

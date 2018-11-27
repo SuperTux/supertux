@@ -81,14 +81,14 @@ SequenceTrigger::get_settings()
   seq.m_select.push_back(_("end sequence"));
   seq.m_select.push_back(_("stop Tux"));
   seq.m_select.push_back(_("fireworks"));
+  result.add_option(seq);
 
-  result.add( seq );
   result.add_text(_("New worldmap spawnpoint"), &new_spawnpoint, "new_spawnpoint");
   result.add_text(_("Worldmap fade tilemap"), &fade_tilemap, "fade_tilemap");
   ObjectOption fade_toggle(MN_STRINGSELECT, _("Fade"), &fade, "fade");
   fade_toggle.m_select.push_back(_("Fade in"));
   fade_toggle.m_select.push_back(_("Fade out"));
-  result.add(fade_toggle);
+  result.add_option(fade_toggle);
   return result;
 }
 

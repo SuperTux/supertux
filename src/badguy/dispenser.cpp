@@ -448,7 +448,7 @@ Dispenser::get_settings()
   seq.add_select(_("rocket launcher"));
   seq.add_select(_("cannon"));
   seq.add_select(_("invisible"));
-  result.add(seq);
+  result.add_option(seq);
 
   m_type_str = DispenserType_to_string(m_type);
   result.add_text("type", &m_type_str, "type", false);

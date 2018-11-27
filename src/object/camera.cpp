@@ -240,10 +240,10 @@ Camera::get_settings()
   ObjectOption moo(MN_STRINGSELECT, _("Mode"), &m_defaultmode);
   moo.m_select.push_back(_("normal"));
   moo.m_select.push_back(_("manual"));
-  result.add(moo);
+  result.add_option(moo);
 
   if (get_walker() && get_path()->is_valid()) {
-    result.add( Path::get_mode_option(&get_path()->m_mode) );
+    result.add_option(Path::get_mode_option(&get_path()->m_mode));
   }
 
   return result;

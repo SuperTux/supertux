@@ -103,14 +103,14 @@ LevelDot::get_settings()
 
   ObjectOption lvl(MN_FILE, _("Level"), &m_level);
   lvl.m_select.push_back(".stl");
-  result.add(lvl);
+  result.add_option(lvl);
 
   result.add_script(_("Outro script"), &m_extro_script);
   result.add_bool(_("Auto play"), &m_auto_play);
 
   ObjectOption spr(MN_FILE, _("Sprite"), &m_sprite_name);
   spr.m_select.push_back(".sprite");
-  result.add(spr);
+  result.add_option(spr);
 
   result.add_color(_("Title colour"), &m_title_color);
 
@@ -204,11 +204,11 @@ Teleporter::get_settings()
   result.add_bool(_("Change worldmap"), &m_change_worldmap);
   ObjectOption wm(MN_FILE, _("Target worldmap"), &m_worldmap);
   wm.m_select.push_back(".stwm");
-  result.add(wm);
+  result.add_option(wm);
 
   ObjectOption spr(MN_FILE, _("Sprite"), &m_sprite_name);
   spr.m_select.push_back(".sprite");
-  result.add(spr);
+  result.add_option(spr);
 
   return result;
 }
@@ -243,7 +243,7 @@ ObjectSettings
 WorldmapSpawnPoint::get_settings()
 {
   ObjectSettings result = WorldmapObject::get_settings();
-  result.add( worldmap::dir_option(&m_dir));
+  result.add_option(worldmap::dir_option(&m_dir));
   return result;
 }
 
@@ -282,7 +282,7 @@ SpriteChange::get_settings()
 
   ObjectOption spr(MN_FILE, _("Sprite"), &m_target_sprite);
   spr.m_select.push_back(".sprite");
-  result.add(spr);
+  result.add_option(spr);
 
   result.add_text(_("Stay action"), &m_stay_action);
   result.add_bool(_("Initial stay action"), &m_initial_stay_action);
@@ -337,11 +337,11 @@ SpecialTile::get_settings()
   result.add_bool(_("Show message"), &m_passive_message);
   result.add_script(_("Script"), &m_script);
   result.add_bool(_("Invisible"), &m_invisible_tile);
-  result.add(worldmap::dir_option(&m_apply_to_direction));
+  result.add_option(worldmap::dir_option(&m_apply_to_direction));
 
   ObjectOption spr(MN_FILE, _("Sprite"), &m_sprite_name);
   spr.m_select.push_back(".sprite");
-  result.add(spr);
+  result.add_option(spr);
 
   return result;
 }

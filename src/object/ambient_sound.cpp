@@ -118,7 +118,7 @@ AmbientSound::get_settings() {
   ObjectOption smp(MN_FILE, _("Sound"), &sample, "sample");
   smp.m_select.push_back(".wav");
   smp.m_select.push_back(".ogg");
-  result.add(smp);
+  result.add_option(smp);
   result.add_float(_("Width"), &new_size.x, "width");
   result.add_float(_("Height"), &new_size.y, "height");
   result.add_float(_("Distance factor"), &distance_factor, "distance_factor");

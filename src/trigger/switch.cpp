@@ -60,7 +60,7 @@ Switch::get_settings()
   result.add_text(_("Name"), &m_name);
   ObjectOption spr(MN_FILE, _("Sprite"), &sprite_name, "sprite", (OPTION_VISIBLE));
   spr.m_select.push_back(".sprite");
-  result.add(spr);
+  result.add_option(spr);
   result.add_script(_("Turn on script"), &script, "script");
   result.add_script(_("Turn off script"), &off_script, "off-script", (OPTION_VISIBLE));
   return result;

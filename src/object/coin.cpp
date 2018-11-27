@@ -260,7 +260,7 @@ Coin::get_settings()
   result.add_bool(_("Following path"), &m_add_path);
 
   if (get_walker() && get_path()->is_valid()) {
-    result.add(Path::get_mode_option(&get_path()->m_mode));
+    result.add_option(Path::get_mode_option(&get_path()->m_mode));
   }
 
   result.add_script(_("Collect script"), &m_collect_script, "collect-script");

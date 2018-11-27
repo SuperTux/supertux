@@ -209,7 +209,7 @@ BonusBlock::get_settings()
   coo.m_select.push_back(_("Trampoline"));
   coo.m_select.push_back(_("Coin rain"));
   coo.m_select.push_back(_("Coin explosion"));
-  result.add(coo);
+  result.add_option(coo);
 
   return result;
 }

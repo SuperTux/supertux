@@ -173,7 +173,7 @@ Background::get_settings()
   align.m_select.push_back(_("right"));
   align.m_select.push_back(_("top"));
   align.m_select.push_back(_("bottom"));
-  result.add(align);
+  result.add_option(align);
   result.add_float(_("Scroll offset x"), &m_scroll_offset.x, "scroll-offset-x");
   result.add_float(_("Scroll offset y"), &m_scroll_offset.y, "scroll-offset-y");
   result.add_float(_("Scroll speed x"), &m_scroll_speed.x, "scroll-speed-x");
@@ -186,13 +186,13 @@ Background::get_settings()
   img.m_select.push_back(".jpg");
   img.m_select.push_back(".gif");
   img.m_select.push_back(".bmp");
-  result.add(img);
+  result.add_option(img);
   ObjectOption img2(MN_FILE, _("Image"), &m_imagefile, "image");
   img2.m_select = img.m_select;
   ObjectOption img3(MN_FILE, _("Bottom image"), &m_imagefile_bottom, "image-bottom", (OPTION_VISIBLE));
   img3.m_select = img.m_select;
-  result.add(img2);
-  result.add(img3);
+  result.add_option(img2);
+  result.add_option(img3);
 
   result.add_remove("", nullptr);
   return result;
