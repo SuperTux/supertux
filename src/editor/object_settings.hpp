@@ -40,7 +40,7 @@ public:
                  const std::string& key = {}, int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
   void add_int(const std::string& text, int* value_ptr,
                const std::string& key = {}, int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
-  void add_badguy(const std::string& text, std::string* value_ptr,
+  void add_badguy(const std::string& text, std::vector<std::string>* value_ptr,
                   const std::string& key = {}, int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
   void add_color(const std::string& text, Color* value_ptr,
                  const std::string& key = {}, int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);

@@ -45,7 +45,7 @@ ObjectSettings
 PushButton::get_settings()
 {
   ObjectSettings result = MovingSprite::get_settings();
-  result.add(MN_SCRIPT, _("Script"), &script, "script");
+  result.add_script(_("Script"), &script, "script");
   return result;
 }
 

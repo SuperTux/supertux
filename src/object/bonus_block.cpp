@@ -192,8 +192,8 @@ ObjectSettings
 BonusBlock::get_settings()
 {
   ObjectSettings result = Block::get_settings();
-  result.add(MN_SCRIPT, _("Script"), &m_script);
-  result.add(MN_INTFIELD, _("Count"), &m_hit_counter);
+  result.add_script(_("Script"), &m_script);
+  result.add_int(_("Count"), &m_hit_counter);
 
   ObjectOption coo(MN_STRINGSELECT, _("Content"), &m_contents);
   coo.m_select.push_back(_("Coin"));

@@ -277,12 +277,12 @@ WillOWisp::get_settings()
 {
   ObjectSettings result = GameObject::get_settings();
   result.add(dir_option(&m_dir));
-  result.add(MN_TEXTFIELD, _("Sector"), &m_target_sector, "sector");
-  result.add(MN_TEXTFIELD, _("Spawnpoint"), &m_target_spawnpoint, "spawnpoint");
-  result.add(MN_TEXTFIELD, _("Hit script"), &m_hit_script, "hit-script");
-  result.add(MN_FLOATFIELD, _("Track range"), &m_track_range, "track-range");
-  result.add(MN_FLOATFIELD, _("Vanish range"), &m_vanish_range, "vanish-range");
-  result.add(MN_FLOATFIELD, _("Fly speed"), &m_flyspeed, "flyspeed");
+  result.add_text(_("Sector"), &m_target_sector, "sector");
+  result.add_text(_("Spawnpoint"), &m_target_spawnpoint, "spawnpoint");
+  result.add_text(_("Hit script"), &m_hit_script, "hit-script");
+  result.add_float(_("Track range"), &m_track_range, "track-range");
+  result.add_float(_("Vanish range"), &m_vanish_range, "vanish-range");
+  result.add_float(_("Fly speed"), &m_flyspeed, "flyspeed");
   return result;
 }
 

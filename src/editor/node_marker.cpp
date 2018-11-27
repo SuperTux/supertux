@@ -77,7 +77,7 @@ ObjectSettings
 NodeMarker::get_settings()
 {
   ObjectSettings result(_("Path Node"));
-  result.add(MN_FLOATFIELD, _("Time"), &(m_node->time));
+  result.add_float(_("Time"), &(m_node->time));
   return result;
 }
 

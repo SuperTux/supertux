@@ -435,12 +435,12 @@ ObjectSettings
 Dispenser::get_settings()
 {
   ObjectSettings result = BadGuy::get_settings();
-  result.add(MN_FLOATFIELD, _("Interval (seconds)"), &m_cycle, "cycle");
-  result.add(MN_TOGGLE, _("Random"), &m_random, "random");
-  result.add(MN_BADGUYSELECT, _("Enemies"), &m_badguys, "badguy");
-  result.add(MN_TOGGLE, _("Limit dispensed badguys"), &m_limit_dispensed_badguys,
+  result.add_float(_("Interval (seconds)"), &m_cycle, "cycle");
+  result.add_bool(_("Random"), &m_random, "random");
+  result.add_badguy(_("Enemies"), &m_badguys, "badguy");
+  result.add_bool(_("Limit dispensed badguys"), &m_limit_dispensed_badguys,
              "limit-dispensed-badguys");
-  result.add(MN_INTFIELD, _("Max concurrent badguys"), &m_max_concurrent_badguys,
+  result.add_int(_("Max concurrent badguys"), &m_max_concurrent_badguys,
              "max-concurrent-badguys");
 
   ObjectOption seq(MN_STRINGSELECT, _("Type"), &m_type);
@@ -451,7 +451,7 @@ Dispenser::get_settings()
   result.add(seq);
 
   m_type_str = DispenserType_to_string(m_type);
-  result.add(MN_TEXTFIELD, "type", &m_type_str, "type", false);
+  result.add_text("type", &m_type_str, "type", false);
   return result;
 }
 

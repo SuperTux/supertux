@@ -53,7 +53,7 @@ ObjectSettings
 InfoBlock::get_settings()
 {
   ObjectSettings result = Block::get_settings();
-  result.add(MN_SCRIPT, _("Message"), &message, "message");
+  result.add_script(_("Message"), &message, "message");
 
   return result;
 }

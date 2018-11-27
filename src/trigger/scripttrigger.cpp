@@ -70,12 +70,12 @@ ScriptTrigger::get_settings()
   new_size.x = m_col.m_bbox.get_width();
   new_size.y = m_col.m_bbox.get_height();
   ObjectSettings result(_("Script trigger"));
-  result.add(MN_TEXTFIELD, _("Name"), &m_name);
-  result.add(MN_FLOATFIELD, _("Width"), &new_size.x, "width");
-  result.add(MN_FLOATFIELD, _("Height"), &new_size.y, "height");
-  result.add(MN_SCRIPT, _("Script"), &script, "script");
-  result.add(MN_TOGGLE, _("Button"), &must_activate, "button");
-  result.add(MN_TOGGLE, _("Oneshot"), &oneshot, "oneshot");
+  result.add_text(_("Name"), &m_name);
+  result.add_float(_("Width"), &new_size.x, "width");
+  result.add_float(_("Height"), &new_size.y, "height");
+  result.add_script(_("Script"), &script, "script");
+  result.add_bool(_("Button"), &must_activate, "button");
+  result.add_bool(_("Oneshot"), &oneshot, "oneshot");
   return result;
 }
 

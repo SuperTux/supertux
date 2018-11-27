@@ -130,7 +130,7 @@ Trampoline::is_portable() const
 ObjectSettings
 Trampoline::get_settings() {
   ObjectSettings result = Rock::get_settings();
-  result.add(MN_TOGGLE, _("Portable"), &portable, "portable");
+  result.add_bool(_("Portable"), &portable, "portable");
 
   return result;
 }

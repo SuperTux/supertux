@@ -130,7 +130,7 @@ ObjectSettings
 Brick::get_settings()
 {
   ObjectSettings result = Block::get_settings();
-  result.add(MN_TOGGLE, _("Breakable"), &m_breakable, "breakable");
+  result.add_bool(_("Breakable"), &m_breakable, "breakable");
   return result;
 }
 

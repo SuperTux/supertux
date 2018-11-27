@@ -124,7 +124,7 @@ ObjectSettings
 GameObject::get_settings()
 {
   ObjectSettings result(get_display_name());
-  result.add(MN_TEXTFIELD, _("Name"), &m_name);
+  result.add_text(_("Name"), &m_name);
   return result;
 }
 

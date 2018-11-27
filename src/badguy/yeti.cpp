@@ -363,9 +363,9 @@ ObjectSettings
 Yeti::get_settings()
 {
   ObjectSettings result = BadGuy::get_settings();
-  result.add(MN_TEXTFIELD, "hud-icon", &hud_icon, "hud-icon", false);
-  result.add(MN_TOGGLE,    _("Fixed position"), &fixed_pos, "fixed-pos");
-  result.add(MN_INTFIELD,  _("Lives"),          &hit_points, "lives");
+  result.add_text("hud-icon", &hud_icon, "hud-icon", false);
+  result.add_bool(_("Fixed position"), &fixed_pos, "fixed-pos");
+  result.add_int(_("Lives"),          &hit_points, "lives");
   return result;
 }
 

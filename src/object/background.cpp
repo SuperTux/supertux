@@ -166,7 +166,7 @@ ObjectSettings
 Background::get_settings()
 {
   ObjectSettings result = GameObject::get_settings();
-  result.add(MN_INTFIELD, _("Z-pos"), &m_layer, "z-pos");
+  result.add_int(_("Z-pos"), &m_layer, "z-pos");
   ObjectOption align(MN_STRINGSELECT, _("Alignment"), &m_alignment);
   align.m_select.push_back(_("none"));
   align.m_select.push_back(_("left"));
@@ -174,12 +174,12 @@ Background::get_settings()
   align.m_select.push_back(_("top"));
   align.m_select.push_back(_("bottom"));
   result.add(align);
-  result.add(MN_FLOATFIELD, _("Scroll offset x"), &m_scroll_offset.x, "scroll-offset-x");
-  result.add(MN_FLOATFIELD, _("Scroll offset y"), &m_scroll_offset.y, "scroll-offset-y");
-  result.add(MN_FLOATFIELD, _("Scroll speed x"), &m_scroll_speed.x, "scroll-speed-x");
-  result.add(MN_FLOATFIELD, _("Scroll speed y"), &m_scroll_speed.y, "scroll-speed-y");
-  result.add(MN_FLOATFIELD, _("Speed x"), &m_speed, "speed");
-  result.add(MN_FLOATFIELD, _("Speed y"), &m_speed_y);
+  result.add_float(_("Scroll offset x"), &m_scroll_offset.x, "scroll-offset-x");
+  result.add_float(_("Scroll offset y"), &m_scroll_offset.y, "scroll-offset-y");
+  result.add_float(_("Scroll speed x"), &m_scroll_speed.x, "scroll-speed-x");
+  result.add_float(_("Scroll speed y"), &m_scroll_speed.y, "scroll-speed-y");
+  result.add_float(_("Speed x"), &m_speed, "speed");
+  result.add_float(_("Speed y"), &m_speed_y);
 
   ObjectOption img(MN_FILE, _("Top image"), &m_imagefile_top, "image-top", (OPTION_VISIBLE));
   img.m_select.push_back(".png");
@@ -194,7 +194,7 @@ Background::get_settings()
   result.add(img2);
   result.add(img3);
 
-  result.add(MN_REMOVE, "", nullptr);
+  result.add_remove("", nullptr);
   return result;
 }
 

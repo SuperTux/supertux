@@ -119,11 +119,11 @@ AmbientSound::get_settings() {
   smp.m_select.push_back(".wav");
   smp.m_select.push_back(".ogg");
   result.add(smp);
-  result.add(MN_FLOATFIELD, _("Width"), &new_size.x, "width");
-  result.add(MN_FLOATFIELD, _("Height"), &new_size.y, "height");
-  result.add(MN_FLOATFIELD, _("Distance factor"), &distance_factor, "distance_factor");
-  result.add(MN_FLOATFIELD, _("Distance bias"), &distance_bias, "distance_bias");
-  result.add(MN_FLOATFIELD, _("Volume"), &maximumvolume, "volume");
+  result.add_float(_("Width"), &new_size.x, "width");
+  result.add_float(_("Height"), &new_size.y, "height");
+  result.add_float(_("Distance factor"), &distance_factor, "distance_factor");
+  result.add_float(_("Distance bias"), &distance_bias, "distance_bias");
+  result.add_float(_("Volume"), &maximumvolume, "volume");
   return result;
 }
 

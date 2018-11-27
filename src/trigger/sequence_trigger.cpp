@@ -73,9 +73,9 @@ SequenceTrigger::get_settings()
   new_size.x = m_col.m_bbox.get_width();
   new_size.y = m_col.m_bbox.get_height();
   ObjectSettings result(_("Sequence trigger"));
-  result.add(MN_TEXTFIELD, _("Name"), &m_name);
-  result.add(MN_FLOATFIELD, _("Width"), &new_size.x, "width");
-  result.add(MN_FLOATFIELD, _("Height"), &new_size.y, "height");
+  result.add_text(_("Name"), &m_name);
+  result.add_float(_("Width"), &new_size.x, "width");
+  result.add_float(_("Height"), &new_size.y, "height");
 
   ObjectOption seq(MN_STRINGSELECT, _("Sequence"), &sequence);
   seq.m_select.push_back(_("end sequence"));
@@ -83,8 +83,8 @@ SequenceTrigger::get_settings()
   seq.m_select.push_back(_("fireworks"));
 
   result.add( seq );
-  result.add(MN_TEXTFIELD, _("New worldmap spawnpoint"), &new_spawnpoint, "new_spawnpoint");
-  result.add(MN_TEXTFIELD, _("Worldmap fade tilemap"), &fade_tilemap, "fade_tilemap");
+  result.add_text(_("New worldmap spawnpoint"), &new_spawnpoint, "new_spawnpoint");
+  result.add_text(_("Worldmap fade tilemap"), &fade_tilemap, "fade_tilemap");
   ObjectOption fade_toggle(MN_STRINGSELECT, _("Fade"), &fade, "fade");
   fade_toggle.m_select.push_back(_("Fade in"));
   fade_toggle.m_select.push_back(_("Fade out"));

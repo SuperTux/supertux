@@ -32,7 +32,7 @@ ObjectSettings
 Crystallo::get_settings()
 {
   ObjectSettings result = WalkingBadguy::get_settings();
-  result.add(MN_FLOATFIELD, _("Radius"), &m_radius, "radius");
+  result.add_float(_("Radius"), &m_radius, "radius");
   return result;
 }
 

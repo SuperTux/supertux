@@ -131,14 +131,14 @@ Gradient::get_settings()
   ObjectSettings result = GameObject::get_settings();
 
   if (m_gradient_direction == HORIZONTAL || m_gradient_direction == HORIZONTAL_SECTOR) {
-    result.add(MN_COLOR, _("Left Colour"), &m_gradient_top);
-    result.add(MN_COLOR, _("Right Colour"), &m_gradient_bottom);
+    result.add_color(_("Left Colour"), &m_gradient_top);
+    result.add_color(_("Right Colour"), &m_gradient_bottom);
   } else {
-    result.add(MN_COLOR, _("Top Colour"), &m_gradient_top);
-    result.add(MN_COLOR, _("Bottom Colour"), &m_gradient_bottom);
+    result.add_color(_("Top Colour"), &m_gradient_top);
+    result.add_color(_("Bottom Colour"), &m_gradient_bottom);
   }
 
-  result.add(MN_INTFIELD, _("Z-pos"), &m_layer);
+  result.add_int(_("Z-pos"), &m_layer);
   ObjectOption doo(MN_STRINGSELECT, _("Direction"), &m_gradient_direction);
   doo.m_select.push_back(_("Vertical"));
   doo.m_select.push_back(_("Horizontal"));
@@ -146,7 +146,7 @@ Gradient::get_settings()
   doo.m_select.push_back(_("Horizontal (whole sector)"));
   result.add(doo);
 
-  result.add(MN_REMOVE, "", nullptr);
+  result.add_remove("", nullptr);
   return result;
 }
 

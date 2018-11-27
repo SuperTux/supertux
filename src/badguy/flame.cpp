@@ -54,8 +54,8 @@ ObjectSettings
 Flame::get_settings()
 {
   ObjectSettings result = BadGuy::get_settings();
-  result.add(MN_FLOATFIELD, _("Radius"), &radius, "radius");
-  result.add(MN_FLOATFIELD, _("Speed"), &speed, "speed");
+  result.add_float(_("Radius"), &radius, "radius");
+  result.add_float(_("Speed"), &speed, "speed");
   return result;
 }
 

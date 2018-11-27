@@ -55,7 +55,7 @@ ObjectSettings
 Lantern::get_settings()
 {
   ObjectSettings result = Rock::get_settings();
-  result.add(MN_COLOR, _("Color"), &lightcolor, "color");
+  result.add_color(_("Color"), &lightcolor, "color");
   return result;
 }
 

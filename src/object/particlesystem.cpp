@@ -57,8 +57,8 @@ ObjectSettings
 ParticleSystem::get_settings()
 {
   ObjectSettings result = GameObject::get_settings();
-  result.add(MN_INTFIELD, _("Z-pos"), &z_pos,"z-pos");
-  result.add(MN_REMOVE, "", nullptr);
+  result.add_int(_("Z-pos"), &z_pos,"z-pos");
+  result.add_remove("", nullptr);
   return result;
 }
 

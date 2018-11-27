@@ -105,14 +105,14 @@ LevelDot::get_settings()
   lvl.m_select.push_back(".stl");
   result.add(lvl);
 
-  result.add(MN_SCRIPT, _("Outro script"), &m_extro_script);
-  result.add(MN_TOGGLE, _("Auto play"), &m_auto_play);
+  result.add_script(_("Outro script"), &m_extro_script);
+  result.add_bool(_("Auto play"), &m_auto_play);
 
   ObjectOption spr(MN_FILE, _("Sprite"), &m_sprite_name);
   spr.m_select.push_back(".sprite");
   result.add(spr);
 
-  result.add(MN_COLOR, _("Title colour"), &m_title_color);
+  result.add_color(_("Title colour"), &m_title_color);
 
   return result;
 }
@@ -197,11 +197,11 @@ ObjectSettings
 Teleporter::get_settings()
 {
   ObjectSettings result(_("Teleporter"));
-  result.add(MN_TEXTFIELD, _("Spawnpoint"), &m_spawnpoint);
-  result.add(MN_TEXTFIELD, _("Message"), &m_message);
-  result.add(MN_TOGGLE, _("Automatic"), &m_automatic);
+  result.add_text(_("Spawnpoint"), &m_spawnpoint);
+  result.add_text(_("Message"), &m_message);
+  result.add_bool(_("Automatic"), &m_automatic);
 
-  result.add(MN_TOGGLE, _("Change worldmap"), &m_change_worldmap);
+  result.add_bool(_("Change worldmap"), &m_change_worldmap);
   ObjectOption wm(MN_FILE, _("Target worldmap"), &m_worldmap);
   wm.m_select.push_back(".stwm");
   result.add(wm);
@@ -284,10 +284,10 @@ SpriteChange::get_settings()
   spr.m_select.push_back(".sprite");
   result.add(spr);
 
-  result.add(MN_TEXTFIELD, _("Stay action"), &m_stay_action);
-  result.add(MN_TOGGLE, _("Initial stay action"), &m_initial_stay_action);
-  result.add(MN_TEXTFIELD, _("Stay group"), &m_stay_group);
-  result.add(MN_TOGGLE, _("Change on touch"), &m_change_on_touch);
+  result.add_text(_("Stay action"), &m_stay_action);
+  result.add_bool(_("Initial stay action"), &m_initial_stay_action);
+  result.add_text(_("Stay group"), &m_stay_group);
+  result.add_bool(_("Change on touch"), &m_change_on_touch);
 
   return result;
 }
@@ -333,10 +333,10 @@ ObjectSettings
 SpecialTile::get_settings()
 {
   ObjectSettings result(_("Special tile"));
-  result.add(MN_TEXTFIELD, _("Message"), &m_map_message);
-  result.add(MN_TOGGLE, _("Show message"), &m_passive_message);
-  result.add(MN_SCRIPT, _("Script"), &m_script);
-  result.add(MN_TOGGLE, _("Invisible"), &m_invisible_tile);
+  result.add_text(_("Message"), &m_map_message);
+  result.add_bool(_("Show message"), &m_passive_message);
+  result.add_script(_("Script"), &m_script);
+  result.add_bool(_("Invisible"), &m_invisible_tile);
   result.add(worldmap::dir_option(&m_apply_to_direction));
 
   ObjectOption spr(MN_FILE, _("Sprite"), &m_sprite_name);

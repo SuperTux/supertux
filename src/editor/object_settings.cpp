@@ -87,7 +87,7 @@ ObjectSettings::add_option(const ObjectOption& option)
 }
 
 void
-ObjectSettings::add_badguy(const std::string& text, std::string* value_ptr,
+ObjectSettings::add_badguy(const std::string& text, std::vector<std::string>* value_ptr,
                            const std::string& key, int flags)
 {
   add(MN_BADGUYSELECT, text, value_ptr, key, flags);

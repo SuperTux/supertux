@@ -69,9 +69,9 @@ ObjectSettings
 Candle::get_settings()
 {
   ObjectSettings result = MovingSprite::get_settings();
-  result.add(MN_TOGGLE, _("Burning"), &burning, "burning");
-  result.add(MN_TOGGLE, _("Flicker"), &flicker, "flicker");
-  result.add(MN_COLOR, _("Color"), &lightcolor, "color");
+  result.add_bool(_("Burning"), &burning, "burning");
+  result.add_bool(_("Flicker"), &flicker, "flicker");
+  result.add_color(_("Color"), &lightcolor, "color");
   return result;
 }
 

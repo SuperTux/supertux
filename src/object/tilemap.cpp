@@ -217,16 +217,16 @@ TileMap::get_settings()
   m_new_offset_x = 0;
   m_new_offset_y = 0;
   ObjectSettings result = GameObject::get_settings();
-  result.add(MN_TOGGLE, _("Solid"), &m_real_solid);
-  result.add(MN_INTFIELD, _("Resize offset x"), &m_new_offset_x);
-  result.add(MN_INTFIELD, _("Resize offset y"), &m_new_offset_y);
-  result.add(MN_INTFIELD, _("Width"), &m_new_size_x);
-  result.add(MN_INTFIELD, _("Height"), &m_new_size_y);
-  result.add(MN_FLOATFIELD, _("Alpha"), &m_alpha);
-  result.add(MN_FLOATFIELD, _("Speed x"), &m_speed_x);
-  result.add(MN_FLOATFIELD, _("Speed y"), &m_speed_y);
-  result.add(MN_COLOR, _("Tint"), &m_tint);
-  result.add(MN_INTFIELD, _("Z-pos"), &m_z_pos);
+  result.add_bool(_("Solid"), &m_real_solid);
+  result.add_int(_("Resize offset x"), &m_new_offset_x);
+  result.add_int(_("Resize offset y"), &m_new_offset_y);
+  result.add_int(_("Width"), &m_new_size_x);
+  result.add_int(_("Height"), &m_new_size_y);
+  result.add_float(_("Alpha"), &m_alpha);
+  result.add_float(_("Speed x"), &m_speed_x);
+  result.add_float(_("Speed y"), &m_speed_y);
+  result.add_color(_("Tint"), &m_tint);
+  result.add_int(_("Z-pos"), &m_z_pos);
 
   ObjectOption draw_target_option(MN_STRINGSELECT, _("Draw target"), &m_draw_target);
   draw_target_option.m_select.push_back(_("Normal"));
@@ -234,15 +234,15 @@ TileMap::get_settings()
   result.add(draw_target_option);
 
   m_add_path = get_walker() && get_path() && get_path()->is_valid();
-  result.add(MN_TOGGLE, _("Following path"), &m_add_path);
+  result.add_bool(_("Following path"), &m_add_path);
 
   if (get_walker() && get_path() && get_path()->is_valid()) {
     result.add( Path::get_mode_option(&get_path()->m_mode) );
-    result.add(MN_TOGGLE, _("Running"), &m_running, "running");
+    result.add_bool(_("Running"), &m_running, "running");
   }
 
   if (!m_editor_active) {
-    result.add(MN_REMOVE, "", nullptr);
+    result.add_remove("", nullptr);
   }
   return result;
 }

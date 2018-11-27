@@ -67,8 +67,8 @@ ObjectSettings
 Door::get_settings()
 {
   ObjectSettings result = TriggerBase::get_settings();
-  result.add(MN_TEXTFIELD, _("Sector"), &target_sector, "sector");
-  result.add(MN_TEXTFIELD, _("Spawn point"), &target_spawnpoint, "spawnpoint");
+  result.add_text(_("Sector"), &target_sector, "sector");
+  result.add_text(_("Spawn point"), &target_spawnpoint, "spawnpoint");
   return result;
 }
 

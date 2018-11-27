@@ -40,9 +40,9 @@ Decal::get_settings() {
   spr.m_select.push_back(".png");
   spr.m_select.push_back(".sprite");
   result.add(spr);
-  result.add(MN_TEXTFIELD, _("Action"), &default_action, "action");
-  result.add(MN_TOGGLE, _("Solid"), &solid, "solid");
-  result.add(MN_INTFIELD, _("Z-pos"), &m_layer, "z-pos");
+  result.add_text(_("Action"), &default_action, "action");
+  result.add_bool(_("Solid"), &solid, "solid");
+  result.add_int(_("Z-pos"), &m_layer, "z-pos");
 
   return result;
 }
