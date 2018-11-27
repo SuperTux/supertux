@@ -151,7 +151,7 @@ MovingSprite::get_settings()
 {
   ObjectSettings result = MovingObject::get_settings();
 
-  result.add_file(_("Sprite"), &m_sprite_name, {}, {".sprite"});
+  result.add_sprite(_("Sprite"), &m_sprite_name);
 
   return result;
 }

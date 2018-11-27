@@ -86,7 +86,7 @@ Torch::get_settings()
   ObjectSettings result = MovingObject::get_settings();
 
   result.add_bool(_("Burning"), &m_burning, "burning");
-  result.add_file(_("Sprite"), &sprite_name, "sprite", {".sprite"});
+  result.add_sprite(_("Sprite"), &sprite_name, "sprite");
 
   return result;
 }

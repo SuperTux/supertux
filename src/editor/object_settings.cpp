@@ -147,8 +147,50 @@ ObjectSettings::add_file(const std::string& text, std::string* value_ptr, const 
                          const std::vector<std::string>& filter, int flags)
 {
   ObjectOption option(MN_FILE, text, value_ptr);
-  option.m_select = filter,
+  option.m_select = filter;
   add_option(option);
+}
+
+void
+ObjectSettings::add_level(const std::string& text, std::string* value_ptr, const std::string& key,
+                          int flags)
+{
+  add_file(text, value_ptr, key, {".stl"}, flags);
+}
+
+void
+ObjectSettings::add_sprite(const std::string& text, std::string* value_ptr, const std::string& key,
+                           int flags)
+{
+  add_file(text, value_ptr, key, {".png", ".sprite"}, flags);
+}
+
+void
+ObjectSettings::add_surface(const std::string& text, std::string* value_ptr, const std::string& key,
+                            int flags)
+{
+  add_file(text, value_ptr, key, {".png", ".surface"}, flags);
+}
+
+void
+ObjectSettings::add_sound(const std::string& text, std::string* value_ptr, const std::string& key,
+                          int flags)
+{
+  add_file(text, value_ptr, key, {".wav", ".ogg"}, flags);
+}
+
+void
+ObjectSettings::add_music(const std::string& text, std::string* value_ptr, const std::string& key,
+                          int flags)
+{
+  add_file(text, value_ptr, key, {".ogg", ".music"}, flags);
+}
+
+void
+ObjectSettings::add_worldmap(const std::string& text, std::string* value_ptr, const std::string& key,
+                            int flags)
+{
+  add_file(text, value_ptr, key, {".stwm"}, flags);
 }
 
 /* EOF */

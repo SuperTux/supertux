@@ -117,7 +117,7 @@ AmbientSound::get_settings()
 
   ObjectSettings result = MovingObject::get_settings();
 
-  result.add_file(_("Sound"), &sample, "sample", {".wav", ".ogg"});
+  result.add_sound(_("Sound"), &sample, "sample");
   result.add_float(_("Width"), &new_size.x, "width");
   result.add_float(_("Height"), &new_size.y, "height");
   result.add_float(_("Distance factor"), &distance_factor, "distance_factor");

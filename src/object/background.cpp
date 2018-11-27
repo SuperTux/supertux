@@ -166,7 +166,9 @@ ObjectSettings
 Background::get_settings()
 {
   ObjectSettings result = GameObject::get_settings();
+
   result.add_int(_("Z-pos"), &m_layer, "z-pos");
+
   ObjectOption align(MN_STRINGSELECT, _("Alignment"), &m_alignment);
   align.m_select.push_back(_("none"));
   align.m_select.push_back(_("left"));
@@ -174,19 +176,19 @@ Background::get_settings()
   align.m_select.push_back(_("top"));
   align.m_select.push_back(_("bottom"));
   result.add_option(align);
+
   result.add_float(_("Scroll offset x"), &m_scroll_offset.x, "scroll-offset-x");
   result.add_float(_("Scroll offset y"), &m_scroll_offset.y, "scroll-offset-y");
   result.add_float(_("Scroll speed x"), &m_scroll_speed.x, "scroll-speed-x");
   result.add_float(_("Scroll speed y"), &m_scroll_speed.y, "scroll-speed-y");
   result.add_float(_("Speed x"), &m_speed, "speed");
   result.add_float(_("Speed y"), &m_speed_y);
-
-  std::vector<std::string> filter = {".png", ".jpg", ".gif", ".bmp"};
-  result.add_file(_("Top image"), &m_imagefile_top, "image-top", filter, OPTION_VISIBLE);
-  result.add_file(_("Image"), &m_imagefile, "image", filter, OPTION_VISIBLE);
-  result.add_file(_("Bottom image"), &m_imagefile_bottom, "image-bottom", filter, OPTION_VISIBLE);
+  result.add_surface(_("Top image"), &m_imagefile_top, "image-top", OPTION_VISIBLE);
+  result.add_surface(_("Image"), &m_imagefile, "image", OPTION_VISIBLE);
+  result.add_surface(_("Bottom image"), &m_imagefile_bottom, "image-bottom", OPTION_VISIBLE);
 
   result.add_remove("", nullptr);
+
   return result;
 }
 

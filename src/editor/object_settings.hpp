@@ -50,8 +50,18 @@ public:
                   const std::string& key = {}, int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
   void add_text(const std::string& text, std::string* value_ptr,
                 const std::string& key = {}, int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
-  void add_file(const std::string& text, std::string* value_ptr, const std::string& key = {},
-                const std::vector<std::string>& filter = {}, int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
+  void add_level(const std::string& text, std::string* value_ptr, const std::string& key = {},
+                 int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
+  void add_sprite(const std::string& text, std::string* value_ptr, const std::string& key = {},
+                  int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
+  void add_surface(const std::string& text, std::string* value_ptr, const std::string& key = {},
+                   int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
+  void add_sound(const std::string& text, std::string* value_ptr, const std::string& key = {},
+                 int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
+  void add_music(const std::string& text, std::string* value_ptr, const std::string& key = {},
+                 int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
+  void add_worldmap(const std::string& text, std::string* value_ptr, const std::string& key = {},
+                    int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
 
   const std::vector<ObjectOption>& get_options() const { return m_options; }
 
@@ -59,6 +69,9 @@ public:
   std::vector<ObjectOption>& get_options_writable() { return m_options; }
 
 private:
+  void add_file(const std::string& text, std::string* value_ptr, const std::string& key = {},
+                const std::vector<std::string>& filter = {}, int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
+
   template <typename ...Args>
   void add(Args && ...args) {
     add_option(ObjectOption(std::forward<Args>(args)...));

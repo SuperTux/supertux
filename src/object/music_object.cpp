@@ -106,7 +106,7 @@ MusicObject::get_settings()
 {
   auto settings = GameObject::get_settings();
 
-  settings.add_file(_("File"), &m_music, "file", {".ogg", ".music"}, OPTION_VISIBLE);
+  settings.add_music(_("File"), &m_music, "file", OPTION_VISIBLE);
 
   return settings;
 }
