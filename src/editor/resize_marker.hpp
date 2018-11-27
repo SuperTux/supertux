@@ -39,7 +39,7 @@ public:
 
   virtual bool is_saveable() const override { return false; }
 
-  void refresh_pos();
+  virtual void refresh_pos() override;
 
 private:
   Rectf* m_rect;

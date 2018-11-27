@@ -25,13 +25,12 @@ class NodeMarker : public MarkerObject
 public:
   NodeMarker(Path* path_, std::vector<Path::Node>::iterator node_iterator, size_t id_);
 
-  virtual void update(float dt_sec) override;
   virtual void move_to(const Vector& pos) override;
   virtual void editor_delete() override;
   virtual Vector get_point_vector() const override;
   virtual Vector get_offset() const override;
-
   virtual ObjectSettings get_settings() override;
+  virtual void refresh_pos() override;
 
   void update_iterator();
 

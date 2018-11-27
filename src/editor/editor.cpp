@@ -32,6 +32,7 @@
 #include "editor/button_widget.hpp"
 #include "editor/layer_icon.hpp"
 #include "editor/object_info.hpp"
+#include "editor/resize_marker.hpp"
 #include "editor/tile_selection.hpp"
 #include "editor/tip.hpp"
 #include "editor/tool_icon.hpp"
@@ -198,6 +199,10 @@ Editor::update(float dt_sec, const Controller& controller)
   // update other stuff
   if (is_active()) {
     BIND_SECTOR(*m_sector);
+
+    for(auto& marker : m_sector->get_objects_by_type<MarkerObject>()) {
+      marker.refresh_pos();
+    }
 
     m_sector->flush_game_objects();
 
