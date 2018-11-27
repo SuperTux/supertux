@@ -405,15 +405,14 @@ Dispenser::get_settings()
   result.add(MN_BADGUYSELECT, _("Enemies"), &badguys, "badguy");
   result.add(MN_TOGGLE, _("Limit dispensed badguys"), &limit_dispensed_badguys,
              "limit-dispensed-badguys");
-result.add(MN_NUMFIELD, _("Max concurrent badguys"), &max_concurrent_badguys,
-           "max-concurrent-badguys");
+  result.add(MN_INTFIELD, _("Max concurrent badguys"), &max_concurrent_badguys,
+             "max-concurrent-badguys");
 
   ObjectOption seq(MN_STRINGSELECT, _("Type"), &type);
   seq.add_select(_("dropper"));
   seq.add_select(_("rocket launcher"));
   seq.add_select(_("cannon"));
   seq.add_select(_("invisible"));
-
   result.add(seq);
 
   type_str = get_type_string();
