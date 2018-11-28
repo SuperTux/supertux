@@ -839,6 +839,8 @@ BadGuy::after_editor_set()
       m_sprite->set_action("left");
     } else if (m_sprite->has_action("normal")) {
       m_sprite->set_action("normal");
+    } else if (m_sprite->has_action("idle")) {
+      m_sprite->set_action("idle");
     } else {
       log_warning << "couldn't find editor sprite for badguy: " << get_class() << std::endl;
     }
@@ -855,6 +857,8 @@ BadGuy::after_editor_set()
       m_sprite->set_action("left");
     } else if (m_sprite->has_action("normal")) {
       m_sprite->set_action("normal");
+    } else if (m_sprite->has_action("idle")) {
+      m_sprite->set_action("idle");
     } else {
       log_warning << "couldn't find editor sprite for badguy: " << get_class() << std::endl;
     }
