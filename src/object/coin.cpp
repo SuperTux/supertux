@@ -49,6 +49,7 @@ Coin::Coin(const ReaderMapping& reader) :
   m_collect_script()
 {
   init_path(reader, true);
+  m_add_path = get_walker() && get_path() && get_path()->is_valid();
 
   reader.get("collect-script", m_collect_script, "");
 
@@ -264,7 +265,7 @@ Coin::get_settings()
 {
   ObjectSettings result = MovingSprite::get_settings();
 
-  m_add_path = get_walker() && get_path()->is_valid();
+  m_add_path = get_walker() && get_path() && get_path()->is_valid();
   result.add_bool(_("Following path"), &m_add_path);
 
   if (get_walker() && get_path()->is_valid()) {
