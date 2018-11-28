@@ -829,10 +829,35 @@ BadGuy::get_settings()
 void
 BadGuy::after_editor_set()
 {
-  if (m_dir == AUTO) {
-    m_sprite->set_action("left");
-  } else {
-    m_sprite->set_action(dir_to_string(m_dir));
+  if (m_dir == AUTO)
+  {
+    if (m_sprite->has_action("editor-left")) {
+      m_sprite->set_action("editor-left");
+    } else if (m_sprite->has_action("editor-right")) {
+      m_sprite->set_action("editor-right");
+    } else if (m_sprite->has_action("left")) {
+      m_sprite->set_action("left");
+    } else if (m_sprite->has_action("normal")) {
+      m_sprite->set_action("normal");
+    } else {
+      log_warning << "couldn't find editor sprite for badguy: " << get_class() << std::endl;
+    }
+  }
+  else
+  {
+    std::string action_str = dir_to_string(m_dir);
+
+    if (m_sprite->has_action("editor-" + action_str)) {
+      m_sprite->set_action("editor-" + action_str);
+    } else if (m_sprite->has_action(action_str)) {
+      m_sprite->set_action(action_str);
+    } else if (m_sprite->has_action("left")) {
+      m_sprite->set_action("left");
+    } else if (m_sprite->has_action("normal")) {
+      m_sprite->set_action("normal");
+    } else {
+      log_warning << "couldn't find editor sprite for badguy: " << get_class() << std::endl;
+    }
   }
 }
 
