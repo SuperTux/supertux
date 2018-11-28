@@ -69,22 +69,17 @@ PathObject::init_path_pos(const Vector& pos, bool running)
 Path*
 PathObject::get_path() const
 {
-  auto* path_gameobject = d_gameobject_manager->get_object_by_uid<PathGameObject>(m_path_uid);
-  if (!path_gameobject)
-  {
-    return nullptr;
-  }
-  else
-  {
+  if (auto* path_gameobject = d_gameobject_manager->get_object_by_uid<PathGameObject>(m_path_uid)) {
     return &path_gameobject->get_path();
+  } else {
+    return nullptr;
   }
 }
 
 std::string
 PathObject::get_path_ref() const
 {
-  auto* path_gameobject = d_gameobject_manager->get_object_by_uid<PathGameObject>(m_path_uid);
-  if (path_gameobject) {
+  if (auto* path_gameobject = d_gameobject_manager->get_object_by_uid<PathGameObject>(m_path_uid)) {
     return path_gameobject->get_name();
   } else {
     return {};
