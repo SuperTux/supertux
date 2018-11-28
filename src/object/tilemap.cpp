@@ -108,6 +108,7 @@ TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
   }
 
   init_path(reader, false);
+  m_add_path = get_walker() && get_path() && get_path()->is_valid();
 
   std::string draw_target_s = "normal";
   reader.get("draw-target", draw_target_s);
@@ -307,6 +308,19 @@ TileMap::update(float dt_sec)
     if (get_path() && get_path()->is_valid()) {
       m_movement = v - get_offset();
       set_offset(v);
+    } else {
+      set_offset(Vector(0, 0));
+    }
+  }
+}
+
+void
+TileMap::editor_update()
+{
+  if (get_walker()) {
+    if (get_path() && get_path()->is_valid()) {
+      m_movement = get_walker()->get_pos() - get_offset();
+      set_offset(get_walker()->get_pos());
     } else {
       set_offset(Vector(0, 0));
     }

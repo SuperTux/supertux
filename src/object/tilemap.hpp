@@ -61,6 +61,8 @@ public:
   virtual std::string get_class() const override { return "tilemap"; }
   virtual const std::string get_icon_path() const override { return "images/engine/editor/tilemap.png"; }
 
+  virtual void editor_update() override;
+
   /** Move tilemap until at given node, then stop */
   void goto_node(int node_no);
 
