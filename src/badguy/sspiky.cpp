@@ -19,8 +19,8 @@
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
 
-SSpiky::SSpiky(const ReaderMapping& reader)
-  : WalkingBadguy(reader, "images/creatures/spiky/sleepingspiky.sprite", "left", "right"), state(SSPIKY_SLEEPING)
+SSpiky::SSpiky(const ReaderMapping& reader) :
+  WalkingBadguy(reader, "images/creatures/spiky/sleepingspiky.sprite", "left", "right"), state(SSPIKY_SLEEPING)
 {
   walk_speed = 80;
   max_drop_height = 600;
