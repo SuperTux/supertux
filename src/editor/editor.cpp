@@ -542,7 +542,7 @@ Editor::quit_editor()
         save_level();
         quit();
     });
-    dialog->add_button(_("No"), [this, quit] {
+    dialog->add_button(_("No"), [quit] {
         quit();
     });
     dialog->add_cancel_button(_("Cancel"));
