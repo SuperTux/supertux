@@ -22,6 +22,7 @@
 #include "supertux/level.hpp"
 #include "supertux/level_parser.hpp"
 #include "util/log.hpp"
+#include "util/reader_mapping.hpp"
 
 UndoManager::UndoManager() :
   m_max_snapshots(100),
@@ -105,7 +106,9 @@ UndoManager::undo()
   m_undo_stack.pop_back();
 
   std::istringstream in(m_undo_stack.back());
+  ReaderMapping::s_translations_enabled = false;
   auto level = LevelParser::from_stream(in, true);
+  ReaderMapping::s_translations_enabled = true;
 
   m_index_pos -= 1;
 
@@ -125,7 +128,9 @@ UndoManager::redo()
   m_index_pos += 1;
 
   std::istringstream in(m_undo_stack.back());
+  ReaderMapping::s_translations_enabled = false;
   auto level = LevelParser::from_stream(in, true);
+  ReaderMapping::s_translations_enabled = true;
 
   debug_print("redo");
 
