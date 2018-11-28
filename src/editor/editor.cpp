@@ -521,6 +521,7 @@ void
 Editor::quit_editor()
 {
   m_quit_request = false;
+
   auto quit = [this] ()
   {
     //Quit level editor
@@ -531,17 +532,17 @@ Editor::quit_editor()
     Tile::draw_editor_images = false;
     ScreenManager::current()->pop_screen();
   };
-  if(m_undo_manager->has_unsaved_changes())
+
+  if (m_undo_manager->has_unsaved_changes())
   {
-    auto self = this;
     auto dialog = std::make_unique<Dialog>();
     dialog->set_text(_("This level contains unsaved changes, do you want to save?"));
-    dialog->add_default_button(_("Yes"), [self, quit] {
-      self->save_level();
-      quit();
+    dialog->add_default_button(_("Yes"), [this, quit] {
+        save_level();
+        quit();
     });
-    dialog->add_button(_("No"), [quit] {
-      quit();
+    dialog->add_button(_("No"), [this, quit] {
+        quit();
     });
     dialog->add_cancel_button(_("Cancel"));
     MenuManager::instance().set_dialog(std::move(dialog));
