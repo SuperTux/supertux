@@ -60,4 +60,10 @@
   (name "gear-right")
   (hitbox 6 10 31.8 31.8)
   (mirror-action "gear-left"))
+ (action
+  (name "editor-left")
+  (clone-action "sleeping-left"))
+ (action
+  (name "editor-right")
+  (clone-action "sleeping-right"))
 )
