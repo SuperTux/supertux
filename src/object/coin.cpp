@@ -49,7 +49,6 @@ Coin::Coin(const ReaderMapping& reader) :
   m_collect_script()
 {
   init_path(reader, true);
-  m_add_path = get_walker() && get_path() && get_path()->is_valid();
 
   reader.get("collect-script", m_collect_script, "");
 
@@ -64,6 +63,8 @@ Coin::finish_construction()
     Vector v = get_path()->get_base();
     set_pos(v);
   }
+
+  m_add_path = get_walker() && get_path() && get_path()->is_valid();
 }
 
 void

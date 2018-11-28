@@ -108,7 +108,6 @@ TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
   }
 
   init_path(reader, false);
-  m_add_path = get_walker() && get_path() && get_path()->is_valid();
 
   std::string draw_target_s = "normal";
   reader.get("draw-target", draw_target_s);
@@ -172,6 +171,8 @@ TileMap::finish_construction()
     Vector v = get_path()->get_base();
     set_offset(v);
   }
+
+  m_add_path = get_walker() && get_path() && get_path()->is_valid();
 }
 
 TileMap::~TileMap()
