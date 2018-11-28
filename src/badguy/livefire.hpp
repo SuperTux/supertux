@@ -58,13 +58,11 @@ class LiveFireAsleep final : public LiveFire
 public:
   LiveFireAsleep(const ReaderMapping& reader);
 
+  virtual void draw(DrawingContext& context) override;
+
   virtual void initialize() override;
-  virtual std::string get_class() const override {
-    return "livefire_asleep";
-  }
-  virtual std::string get_display_name() const override {
-    return _("Sleeping live fire");
-  }
+  virtual std::string get_class() const override { return "livefire_asleep"; }
+  virtual std::string get_display_name() const override { return _("Sleeping live fire"); }
 };
 
 class LiveFireDormant final : public LiveFire
@@ -72,13 +70,11 @@ class LiveFireDormant final : public LiveFire
 public:
   LiveFireDormant(const ReaderMapping& reader);
 
+  virtual void draw(DrawingContext& context) override;
+
   virtual void initialize() override;
-  virtual std::string get_class() const override {
-    return "livefire_dormant";
-  }
-  virtual std::string get_display_name() const override {
-    return _("Dormant live fire");
-  }
+  virtual std::string get_class() const override { return "livefire_dormant"; }
+  virtual std::string get_display_name() const override { return _("Dormant live fire"); }
 };
 
 #endif
