@@ -29,5 +29,12 @@
     (name "squished-right")
     (mirror-action "squished-left")
     )
-
+  (action
+    (name "editor-left")
+    (clone-action "walking-left")
+    )
+  (action
+    (name "editor-right")
+    (clone-action "walking-right")
+    )
   )
