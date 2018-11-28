@@ -161,14 +161,14 @@ void
 ObjectSettings::add_sprite(const std::string& text, std::string* value_ptr, const std::string& key,
                            int flags)
 {
-  add_file(text, value_ptr, key, {".png", ".sprite"}, flags);
+  add_file(text, value_ptr, key, {".jpg", ".png", ".sprite"}, flags);
 }
 
 void
 ObjectSettings::add_surface(const std::string& text, std::string* value_ptr, const std::string& key,
                             int flags)
 {
-  add_file(text, value_ptr, key, {".png", ".surface"}, flags);
+  add_file(text, value_ptr, key, {".jpg", ".png", ".surface"}, flags);
 }
 
 void
