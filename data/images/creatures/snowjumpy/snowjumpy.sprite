@@ -65,7 +65,7 @@
 
  (action
   (name "editor-left")
-  (clone-action "left-middle.png"))
+  (clone-action "left-middle"))
 
  (action
   (name "editor-right")
