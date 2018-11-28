@@ -81,6 +81,16 @@ EditorOverlayWidget::update(float dt_sec)
 }
 
 void
+EditorOverlayWidget::on_level_change()
+{
+  m_dragged_object = nullptr;
+  m_selected_object = nullptr;
+  m_edited_path = nullptr;
+  m_last_node_marker = nullptr;
+  m_hovered_object = nullptr;
+}
+
+void
 EditorOverlayWidget::delete_markers()
 {
   auto* sector = m_editor.get_sector();

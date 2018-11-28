@@ -505,6 +505,7 @@ Editor::set_level(std::unique_ptr<Level> level, bool reset)
 
   m_layers_widget->refresh_sector_text();
   m_toolbox_widget->update_mouse_icon();
+  m_overlay_widget->on_level_change();
 }
 
 void

@@ -59,6 +59,7 @@ public:
   void update_pos();
   void delete_markers();
   void update_node_iterators();
+  void on_level_change();
 
   void edit_path(Path* path, GameObject* new_marked_object = nullptr);
 
