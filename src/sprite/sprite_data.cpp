@@ -94,6 +94,7 @@ SpriteData::parse_action(const ReaderMapping& mapping)
   }
 
   std::string mirror_action;
+  std::string clone_action;
   if (mapping.get("mirror-action", mirror_action)) {
     const auto act_tmp = get_action(mirror_action);
     if (act_tmp == nullptr) {
@@ -112,6 +113,19 @@ SpriteData::parse_action(const ReaderMapping& mapping)
       }
       if (action->hitbox_w < 1) action->hitbox_w = max_w - action->x_offset;
       if (action->hitbox_h < 1) action->hitbox_h = max_h - action->y_offset;
+    }
+  } else if (mapping.get("clone-action", clone_action)) {
+    const auto* act_tmp = get_action(clone_action);
+    if (act_tmp == nullptr) {
+      std::ostringstream msg;
+      msg << "Could not clone action. Action not found: \"" << clone_action << "\"\n"
+          << "Mirror actions must be defined after the real one!";
+      throw std::runtime_error(msg.str());
+    } else {
+      // copy everything except the name
+      const std::string oldname = action->name;
+      *action = *act_tmp;
+      action->name = oldname;
     }
   } else { // Load images
     boost::optional<ReaderCollection> surfaces_collection;
