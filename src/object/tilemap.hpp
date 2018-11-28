@@ -58,6 +58,9 @@ public:
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
 
+  virtual std::string get_class() const override { return "tilemap"; }
+  virtual const std::string get_icon_path() const override { return "images/engine/editor/tilemap.png"; }
+
   /** Move tilemap until at given node, then stop */
   void goto_node(int node_no);
 
@@ -80,6 +83,7 @@ public:
   int get_height() const { return m_height; }
   Size get_size() const { return Size(m_width, m_height); }
 
+  void set_offset(const Vector &offset_) { m_offset = offset_; }
   Vector get_offset() const { return m_offset; }
 
   void move_by(const Vector& pos);
@@ -96,8 +100,6 @@ public:
       return Vector(m_movement.x, std::max(0.0f, m_movement.y));
     }
   }
-
-  void set_offset(const Vector &offset_) { m_offset = offset_; }
 
   /** Returns the position of the upper-left corner of tile (x, y) in
       the sector. */
@@ -139,15 +141,8 @@ public:
   /** changes all tiles with the given ID */
   void change_all(uint32_t oldtile, uint32_t newtile);
 
-  void set_flip(Flip flip)
-  {
-    m_flip = flip;
-  }
-
-  Flip get_flip() const
-  {
-    return m_flip;
-  }
+  void set_flip(Flip flip) { m_flip = flip; }
+  Flip get_flip() const { return m_flip; }
 
   /** Start fading the tilemap to opacity given by @c alpha.
       Destination opacity will be reached after @c seconds seconds.
@@ -165,14 +160,6 @@ public:
       in or out, this will return the current alpha value, not the
       target alpha. */
   float get_alpha() const;
-
-  virtual std::string get_class() const override {
-    return "tilemap";
-  }
-
-  virtual const std::string get_icon_path() const override {
-    return "images/engine/editor/tilemap.png";
-  }
 
   void set_tileset(const TileSet* new_tileset);
 

@@ -167,8 +167,7 @@ TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
 void
 TileMap::finish_construction()
 {
-  if (get_path())
-  {
+  if (get_path()) {
     Vector v = get_path()->get_base();
     set_offset(v);
   }
@@ -178,7 +177,8 @@ TileMap::~TileMap()
 {
 }
 
-void TileMap::float_channel(float target, float &current, float remaining_time, float dt_sec)
+void
+TileMap::float_channel(float target, float &current, float remaining_time, float dt_sec)
 {
   float amt = (target - current) / (remaining_time / dt_sec);
   if (amt > 0) current = std::min(current + amt, target);
