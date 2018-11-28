@@ -25,18 +25,19 @@ public:
   YetiStalactite(const ReaderMapping& mapping);
 
   virtual void active_update(float dt_sec) override;
-  void start_shaking();
-  bool is_hanging() const;
+  virtual void draw(DrawingContext& context) override;
   virtual void update(float dt_sec) override;
 
   virtual bool is_flammable() const override;
-  virtual std::string get_class() const override {
-    return "yeti_stalactite";
-  }
-  virtual std::string get_display_name() const override {
-    return _("Yeti's stalactite");
-  }
+  virtual std::string get_class() const override { return "yeti_stalactite"; }
+  virtual std::string get_display_name() const override { return _("Yeti's stalactite"); }
 
+  void start_shaking();
+  bool is_hanging() const;
+
+private:
+  YetiStalactite(const YetiStalactite&) = delete;
+  YetiStalactite& operator=(const YetiStalactite&) = delete;
 };
 
 #endif

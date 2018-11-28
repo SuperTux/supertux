@@ -21,8 +21,8 @@
 
 static const float YT_SHAKE_TIME = .8f;
 
-YetiStalactite::YetiStalactite(const ReaderMapping& mapping)
-  : Stalactite(mapping)
+YetiStalactite::YetiStalactite(const ReaderMapping& mapping) :
+  Stalactite(mapping)
 {
 }
 
@@ -54,11 +54,6 @@ YetiStalactite::active_update(float dt_sec)
 void
 YetiStalactite::update(float dt_sec)
 {
-  if (Editor::is_active() && m_sprite->get_action() != "yeti-stalactite" &&
-      m_sprite->has_action("yeti-stalactite")) {
-    m_sprite->set_action("yeti-stalactite");
-  }
-
   // Respawn instead of removing once squished
   if (get_state() == STATE_SQUISHED && check_state_timer()) {
     set_state(STATE_ACTIVE);
@@ -71,6 +66,23 @@ YetiStalactite::update(float dt_sec)
 
   // Call back to badguy to do normal stuff
   BadGuy::update(dt_sec);
+}
+
+void
+YetiStalactite::draw(DrawingContext& context)
+{
+  if (Editor::is_active() &&
+      m_sprite->get_action() != "yeti-stalactite" &&
+      m_sprite->has_action("yeti-stalactite"))
+  {
+    m_sprite->set_action("yeti-stalactite");
+    BadGuy::draw(context);
+    return;
+  }
+  else
+  {
+    Stalactite::draw(context);
+  }
 }
 
 bool
