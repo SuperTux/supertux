@@ -35,14 +35,8 @@ public:
 
   virtual void unfreeze() override;
   virtual bool is_freezable() const override;
-  virtual std::string get_class() const override {
-    return "toad";
-  }
-  virtual std::string get_display_name() const override {
-    return _("Toad");
-  }
-
-  virtual void after_editor_set() override;
+  virtual std::string get_class() const override { return "toad"; }
+  virtual std::string get_display_name() const override { return _("Toad"); }
 
 protected:
   enum ToadState {
@@ -57,6 +51,10 @@ private:
 private:
   Timer recover_timer;
   ToadState state;
+
+private:
+  Toad(const Toad&) = delete;
+  Toad& operator=(const Toad&) = delete;
 };
 
 #endif

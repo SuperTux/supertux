@@ -19,9 +19,7 @@
 
 #include "badguy/badguy.hpp"
 
-/**
- * Badguy "DartTrap" - Shoots a Dart at regular intervals
- */
+/** Badguy "DartTrap" - Shoots a Dart at regular intervals */
 class DartTrap final : public BadGuy
 {
 public:
@@ -31,15 +29,10 @@ public:
   virtual void activate() override;
   virtual void active_update(float dt_sec) override;
   virtual HitResponse collision_player(Player& player, const CollisionHit& hit) override;
-  virtual std::string get_class() const override {
-    return "darttrap";
-  }
-  virtual std::string get_display_name() const override {
-    return _("Dart trap");
-  }
+  virtual std::string get_class() const override { return "darttrap"; }
+  virtual std::string get_display_name() const override { return _("Dart trap"); }
 
   virtual ObjectSettings get_settings() override;
-  virtual void after_editor_set() override;
 
 protected:
   enum State {
@@ -57,6 +50,10 @@ private:
 
   State state; /**< current state */
   Timer fire_timer; /**< time until new shot is fired */
+
+private:
+  DartTrap(const DartTrap&) = delete;
+  DartTrap& operator=(const DartTrap&) = delete;
 };
 
 #endif

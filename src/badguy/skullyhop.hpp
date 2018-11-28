@@ -19,9 +19,7 @@
 
 #include "badguy/badguy.hpp"
 
-/**
- * Badguy "SkullyHop" - A Hopping Skull
- */
+/** Badguy "SkullyHop" - A Hopping Skull */
 class SkullyHop final : public BadGuy
 {
 public:
@@ -35,14 +33,8 @@ public:
 
   virtual void unfreeze() override;
   virtual bool is_freezable() const override;
-  virtual std::string get_class() const override {
-    return "skullyhop";
-  }
-  virtual std::string get_display_name() const override {
-    return _("Skully hop");
-  }
-
-  virtual void after_editor_set() override;
+  virtual std::string get_class() const override { return "skullyhop"; }
+  virtual std::string get_display_name() const override { return _("Skully hop"); }
 
 private:
   enum SkullyHopState {
@@ -57,6 +49,10 @@ private:
 private:
   Timer recover_timer;
   SkullyHopState state;
+
+private:
+  SkullyHop(const SkullyHop&) = delete;
+  SkullyHop& operator=(const SkullyHop&) = delete;
 };
 
 #endif

@@ -3,7 +3,7 @@
     (name "idle-left")
     (hitbox 1 1 40 24)
     (fps 5.0)
-    (images 
+    (images
       "toad-idle-0.png"
       "toad-idle-1.png"
     )
@@ -27,7 +27,7 @@
   (action
     (name "jumping-left")
     (hitbox 1 1 40 24)
-    (images 
+    (images
       "toad-jumping.png"
     )
   )
@@ -51,7 +51,7 @@
     (name "burning-left")
     (hitbox 1 33 40 24)
     (fps 15.0)
-    (images 
+    (images
       "burning-0.png"
       "burning-1.png"
       "burning-2.png"
@@ -60,11 +60,5 @@
       "burning-5.png"
       "burning-6.png"
     )
-  )
-  (action
-    (name "burning-right")
-    (hitbox 1 33 40 24)
-    (fps 15.0)
-    (mirror-action "burning-left")
   )
 )

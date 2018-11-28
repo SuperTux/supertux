@@ -32,12 +32,8 @@ public:
   virtual void freeze() override;
   virtual bool is_freezable() const override;
   virtual bool is_flammable() const override;
-  virtual std::string get_class() const override {
-    return "jumpy";
-  }
-  virtual std::string get_display_name() const override {
-    return _("Jumpy");
-  }
+  virtual std::string get_class() const override { return "jumpy"; }
+  virtual std::string get_display_name() const override { return _("Jumpy"); }
 
 private:
   HitResponse hit(const CollisionHit& hit);
@@ -45,6 +41,10 @@ private:
 private:
   Vector pos_groundhit;
   bool groundhit_pos_set;
+
+private:
+  Jumpy(const Jumpy&) = delete;
+  Jumpy& operator=(const Jumpy&) = delete;
 };
 
 #endif

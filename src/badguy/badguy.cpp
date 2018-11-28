@@ -841,8 +841,18 @@ BadGuy::after_editor_set()
       m_sprite->set_action("normal");
     } else if (m_sprite->has_action("idle")) {
       m_sprite->set_action("idle");
+    } else if (m_sprite->has_action("idle-left")) {
+      m_sprite->set_action("idle-left");
+    } else if (m_sprite->has_action("flying-left")) {
+      m_sprite->set_action("flying-left");
+    } else if (m_sprite->has_action("walking-left")) {
+      m_sprite->set_action("walking-left");
+    } else if (m_sprite->has_action("flying")) {
+      m_sprite->set_action("flying");
+    } else if (m_sprite->has_action("standing-left")) {
+      m_sprite->set_action("standing-left");
     } else {
-      log_warning << "couldn't find editor sprite for badguy: " << get_class() << std::endl;
+      log_warning << "couldn't find editor sprite for badguy direction='auto': " << get_class() << std::endl;
     }
   }
   else
@@ -853,14 +863,25 @@ BadGuy::after_editor_set()
       m_sprite->set_action("editor-" + action_str);
     } else if (m_sprite->has_action(action_str)) {
       m_sprite->set_action(action_str);
+    } else if (m_sprite->has_action("idle-" + action_str)) {
+      m_sprite->set_action("idle-" + action_str);
+    } else if (m_sprite->has_action("flying-" + action_str)) {
+      m_sprite->set_action("flying-" + action_str);
+    } else if (m_sprite->has_action("standing-" + action_str)) {
+      m_sprite->set_action("standing-" + action_str);
+    } else if (m_sprite->has_action("walking-" + action_str)) {
+      m_sprite->set_action("walking-" + action_str);
     } else if (m_sprite->has_action("left")) {
       m_sprite->set_action("left");
     } else if (m_sprite->has_action("normal")) {
       m_sprite->set_action("normal");
     } else if (m_sprite->has_action("idle")) {
       m_sprite->set_action("idle");
+    } else if (m_sprite->has_action("flying")) {
+      m_sprite->set_action("flying");
     } else {
-      log_warning << "couldn't find editor sprite for badguy: " << get_class() << std::endl;
+      log_warning << "couldn't find editor sprite for badguy direction='" << action_str << "': "
+                  << get_class() << std::endl;
     }
   }
 }

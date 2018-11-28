@@ -225,11 +225,4 @@ Owl::ignite()
   BadGuy::ignite();
 }
 
-void
-Owl::after_editor_set()
-{
-  BadGuy::after_editor_set();
-  m_sprite->set_action(m_dir == LEFT ? "left" : "right");
-}
-
 /* EOF */

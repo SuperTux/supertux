@@ -180,7 +180,7 @@ GhostTree::active_update(float /*dt_sec*/)
         if (is_color_deadly(suck_lantern_color)) {
           die();
         } else {
-          m_sprite->set_action("default");
+          m_sprite->set_action("normal");
           mystate = STATE_IDLE;
           spawn_lantern();
         }

@@ -204,7 +204,7 @@ Yeti::jump_down()
 void
 Yeti::run()
 {
-  m_sprite->set_action((m_dir==RIGHT)?"run-right":"run-left");
+  m_sprite->set_action((m_dir==RIGHT)?"walking-right":"walking-left");
   m_physic.set_velocity_x((m_dir==RIGHT)?(+RUN_VX):(-RUN_VX));
   m_physic.set_velocity_y(0);
   state = RUN;

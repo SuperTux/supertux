@@ -1,8 +1,8 @@
 (supertux-sprite
   (action
-    (name "default")
+    (name "normal")
     (hitbox 230 300 40 60)
-    (images 
+    (images
       "ghosttree.png"
     )
   )
@@ -10,7 +10,7 @@
     (name "swallow")
     (hitbox 230 300 40 60)
     (fps 16)
-    (images 
+    (images
       "ghosttree-swallow-0.png"
       "ghosttree-swallow-1.png"
       "ghosttree-swallow-2.png"
@@ -21,7 +21,7 @@
     (name "dying")
     (hitbox 230 300 40 60)
     (fps 4)
-    (images 
+    (images
       "ghosttree-dying-0.png"
       "ghosttree-dying-0.png"
       "ghosttree-dying-0.png"

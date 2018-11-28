@@ -22,33 +22,33 @@
 
 class SkyDive final : public BadGuy, public Portable
 {
-  private:
-    bool is_grabbed;
+public:
+  SkyDive(const ReaderMapping& reader);
 
-  public:
-    SkyDive(const ReaderMapping& reader);
+  virtual void collision_solid(const CollisionHit& hit) override;
+  virtual HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit) override;
+  virtual void collision_tile(uint32_t tile_attributes) override;
 
-    virtual void collision_solid(const CollisionHit& hit) override;
-    virtual HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit) override;
-    virtual void collision_tile(uint32_t tile_attributes) override;
+  /* Inherited from Portable */
+  virtual void grab(MovingObject& object, const Vector& pos, Direction dir) override;
+  virtual void ungrab(MovingObject& object, Direction dir) override;
+  virtual std::string get_class() const override { return "skydive"; }
+  virtual std::string get_display_name() const override { return _("Sky dive"); }
 
-    /* Inherited from Portable */
-    virtual void grab(MovingObject& object, const Vector& pos, Direction dir) override;
-    virtual void ungrab(MovingObject& object, Direction dir) override;
-    virtual std::string get_class() const override {
-      return "skydive";
-    }
-    virtual std::string get_display_name() const override {
-      return _("Sky dive");
-    }
+private:
+  virtual HitResponse collision_player(Player& player, const CollisionHit& hit) override;
+  virtual bool collision_squished (GameObject& obj) override;
 
-  protected:
-    virtual HitResponse collision_player(Player& player, const CollisionHit& hit) override;
-    virtual bool collision_squished (GameObject& obj) override;
+  virtual void active_update (float dt_sec) override;
 
-    virtual void active_update (float dt_sec) override;
+  void explode();
 
-    void explode();
+private:
+  bool is_grabbed;
+
+private:
+  SkyDive(const SkyDive&) = delete;
+  SkyDive& operator=(const SkyDive&) = delete;
 };
 
 #endif

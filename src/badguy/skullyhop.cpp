@@ -158,11 +158,4 @@ SkullyHop::is_freezable() const
   return true;
 }
 
-void
-SkullyHop::after_editor_set()
-{
-  BadGuy::after_editor_set();
-  m_sprite->set_action(m_dir == LEFT ? "standing-left" : "standing-right");
-}
-
 /* EOF */
