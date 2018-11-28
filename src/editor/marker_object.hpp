@@ -27,22 +27,15 @@ public:
   MarkerObject(const Vector& pos);
   MarkerObject();
 
-  virtual void update(float dt_sec) override {
-    //No updates needed
-  }
-
+  virtual void update(float dt_sec) override {}
   virtual void draw(DrawingContext& context) override;
 
-  void collision_solid(const CollisionHit& hit) override {
-    //This function wouldn't be called anyway.
-  }
-
-  HitResponse collision(GameObject& other, const CollisionHit& hit) override {
-    return FORCE_MOVE;
-  }
+  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override { return FORCE_MOVE; }
 
   virtual Vector get_point_vector() const = 0;
   virtual Vector get_offset() const = 0;
+
+  virtual bool is_saveable() const override { return false; }
 
 private:
   MarkerObject(const MarkerObject&) = delete;

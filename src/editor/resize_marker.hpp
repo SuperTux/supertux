@@ -36,8 +36,6 @@ public:
   virtual Vector get_point_vector() const override;
   virtual Vector get_offset() const override;
 
-  virtual bool is_saveable() const override { return false; }
-
   virtual void editor_update() override;
 
 private:
