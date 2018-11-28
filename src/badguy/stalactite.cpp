@@ -17,6 +17,7 @@
 #include "badguy/stalactite.hpp"
 
 #include "audio/sound_manager.hpp"
+#include "editor/editor.hpp"
 #include "math/random.hpp"
 #include "object/bullet.hpp"
 #include "object/player.hpp"
@@ -145,6 +146,11 @@ Stalactite::kill_fall()
 void
 Stalactite::draw(DrawingContext& context)
 {
+  if (Editor::is_active()) {
+    BadGuy::draw(context);
+    return;
+  }
+
   if (get_state() == STATE_INIT || get_state() == STATE_INACTIVE)
     return;
 

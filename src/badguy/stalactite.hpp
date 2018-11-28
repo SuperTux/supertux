@@ -34,13 +34,10 @@ public:
   virtual void draw(DrawingContext& context) override;
   virtual void deactivate() override;
 
+  virtual std::string get_class() const override { return "stalactite"; }
+  virtual std::string get_display_name() const override { return _("Stalactite"); }
+
   void squish();
-  virtual std::string get_class() const override {
-    return "stalactite";
-  }
-  virtual std::string get_display_name() const override {
-    return _("Stalactite");
-  }
 
 protected:
   enum StalactiteState {
@@ -54,6 +51,10 @@ protected:
   Timer timer;
   StalactiteState state;
   Vector shake_delta;
+
+private:
+  Stalactite(const Stalactite&) = delete;
+  Stalactite& operator=(const Stalactite&) = delete;
 };
 
 #endif
