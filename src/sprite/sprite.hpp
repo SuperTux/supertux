@@ -41,24 +41,22 @@ public:
   void set_action_continued(const std::string& name);
 
   /** Set number of animation cycles until animation stops */
-  void set_animation_loops(int loops = -1)
-  { m_animation_loops = loops; }
+  void set_animation_loops(int loops = -1) { m_animation_loops = loops; }
 
   /* Stop animation */
-  void stop_animation()
-  { m_animation_loops = 0; }
+  void stop_animation() { m_animation_loops = 0; }
+
   /** Check if animation is stopped or not */
   bool animation_done() const;
 
   /** Get current action total frames */
-  int get_frames() const
-  { return static_cast<int>(m_action->surfaces.size()); }
+  int get_frames() const { return static_cast<int>(m_action->surfaces.size()); }
+
   /** Get sprite's name */
-  const std::string& get_name() const
-  { return m_data.name; }
+  const std::string& get_name() const { return m_data.name; }
+
   /** Get current action name */
-  const std::string& get_action() const
-  { return m_action->name; }
+  const std::string& get_action() const { return m_action->name; }
 
   int get_width() const;
   int get_height() const;
@@ -81,17 +79,12 @@ public:
   float get_angle() const;
 
   void set_color(const Color& color);
-
   Color get_color() const;
 
   void set_blend(const Blend& blend);
-
   Blend get_blend() const;
 
-  bool has_action (const std::string& name) const
-  {
-    return (m_data.get_action(name) != nullptr);
-  }
+  bool has_action (const std::string& name) const { return (m_data.get_action(name) != nullptr); }
 
 private:
   void update();
