@@ -90,8 +90,8 @@ Platform::update(float dt_sec)
   if (!get_path()->is_valid()) return;
 
   // check if Platform should automatically pick a destination
-  if (m_automatic) {
-
+  if (m_automatic)
+  {
     if (!m_player_contact && !get_walker()->is_running()) {
       // Player doesn't touch platform and Platform is not moving
 
@@ -121,12 +121,17 @@ Platform::update(float dt_sec)
 
   get_walker()->update(dt_sec);
   Vector new_pos = get_walker()->get_pos();
-  if (Editor::is_active()) {
-    set_pos(new_pos);
-  } else {
     m_col.m_movement = new_pos - get_pos();
     m_speed = m_col.m_movement / dt_sec;
-  }
+}
+
+void
+Platform::editor_update()
+{
+  if (!get_path()) return;
+  if (!get_path()->is_valid()) return;
+
+  set_pos(get_walker()->get_pos());
 }
 
 void

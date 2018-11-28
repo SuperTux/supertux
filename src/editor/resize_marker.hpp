@@ -32,14 +32,16 @@ public:
 public:
   ResizeMarker(Rectf* rect, Side vert, Side horz);
 
-  virtual void update(float dt_sec) override;
   virtual void move_to(const Vector& pos) override;
   virtual Vector get_point_vector() const override;
   virtual Vector get_offset() const override;
 
   virtual bool is_saveable() const override { return false; }
 
-  virtual void refresh_pos() override;
+  virtual void editor_update() override;
+
+private:
+  void refresh_pos();
 
 private:
   Rectf* m_rect;

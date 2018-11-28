@@ -200,13 +200,13 @@ Editor::update(float dt_sec, const Controller& controller)
   if (is_active()) {
     BIND_SECTOR(*m_sector);
 
-    for(auto& marker : m_sector->get_objects_by_type<MarkerObject>()) {
-      marker.refresh_pos();
+    for (auto& object : m_sector->get_objects()) {
+      object->editor_update();
     }
 
     m_sector->flush_game_objects();
 
-    for(const auto& widget : m_widgets) {
+    for (const auto& widget : m_widgets) {
       widget->update(dt_sec);
     }
 

@@ -82,7 +82,7 @@ NodeMarker::get_settings()
 }
 
 void
-NodeMarker::refresh_pos()
+NodeMarker::editor_update()
 {
   set_pos(m_node->position - Vector(8, 8));
 }

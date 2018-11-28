@@ -45,6 +45,8 @@ public:
   virtual std::string get_class() const override { return "platform"; }
   virtual std::string get_display_name() const override { return _("Platform"); }
 
+  virtual void editor_update() override;
+
   const Vector& get_speed() const { return m_speed; }
 
   /**

@@ -89,11 +89,19 @@ Coin::update(float dt_sec)
     }
 
     if (get_path()->is_valid()) {
-      if (Editor::is_active()) {
-        set_pos(v);
-      } else {
-        m_col.m_movement = v - get_pos();
-      }
+      m_col.m_movement = v - get_pos();
+    }
+  }
+}
+
+void
+Coin::editor_update()
+{
+  if (get_walker()) {
+    if (m_from_tilemap) {
+      set_pos(m_offset + get_walker()->get_pos());
+    } else {
+      set_pos(get_walker()->get_pos());
     }
   }
 }

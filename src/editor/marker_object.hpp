@@ -43,7 +43,6 @@ public:
 
   virtual Vector get_point_vector() const = 0;
   virtual Vector get_offset() const = 0;
-  virtual void refresh_pos() = 0;
 
 private:
   MarkerObject(const MarkerObject&) = delete;

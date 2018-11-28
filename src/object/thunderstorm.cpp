@@ -73,7 +73,6 @@ Thunderstorm::get_settings()
 void
 Thunderstorm::update(float )
 {
-  if (Editor::is_active()) return;
   if (!running) return;
 
   if (time_to_thunder.check()) {

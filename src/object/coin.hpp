@@ -41,15 +41,12 @@ public:
   void collect();
   virtual void update(float dt_sec) override;
   virtual void save(Writer& writer) override;
-  virtual std::string get_class() const override {
-    return "coin";
-  }
-  virtual std::string get_display_name() const override {
-    return _("Coin");
-  }
+  virtual std::string get_class() const override { return "coin"; }
+  virtual std::string get_display_name() const override { return _("Coin"); }
 
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
+  virtual void editor_update() override;
 
   virtual void move_to(const Vector& pos) override;
 
@@ -70,12 +67,8 @@ public:
   virtual void update(float dt_sec) override;
   virtual void collision_solid(const CollisionHit& hit) override;
 
-  virtual std::string get_class() const override {
-    return "heavycoin";
-  }
-  virtual std::string get_display_name() const override {
-    return _("Heavy coin");
-  }
+  virtual std::string get_class() const override { return "heavycoin"; }
+  virtual std::string get_display_name() const override { return _("Heavy coin"); }
 
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;

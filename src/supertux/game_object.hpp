@@ -64,7 +64,7 @@ public:
       update it's state. The dt_sec is the time that has passed since
       the last frame in seconds and should be the base for all timed
       calculations (don't use SDL_GetTicks directly as this will fail
-      in pause mode) */
+      in pause mode). This function is not called in the Editor. */
   virtual void update(float dt_sec) = 0;
 
   /** The GameObject should draw itself onto the provided
@@ -147,6 +147,10 @@ public:
 
   /** The object got deselected */
   virtual void editor_deselect() {}
+
+  /** Called each frame in the editor, used to keep linked objects
+      together (e.g. platform on a path) */
+  virtual void editor_update() {}
 
 private:
   void set_uid(const UID& uid) { m_uid = uid; }

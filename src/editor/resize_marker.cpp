@@ -23,11 +23,11 @@ ResizeMarker::ResizeMarker(Rectf* rect, Side vert, Side horz) :
   m_vert(vert),
   m_horz(horz)
 {
-  refresh_pos();
+  editor_update();
 }
 
 void
-ResizeMarker::update(float dt_sec)
+ResizeMarker::editor_update()
 {
   refresh_pos();
 }
@@ -36,25 +36,32 @@ void
 ResizeMarker::refresh_pos()
 {
   Vector new_pos;
-  switch (m_vert) {
+
+  switch (m_vert)
+  {
     case Side::NONE:
       new_pos.y = (m_rect->p1.y + m_rect->p2.y)/2 - 8;
       break;
+
     case Side::LEFT_UP:
       new_pos.y = m_rect->p1.y - 16;
       break;
+
     case Side::RIGHT_DOWN:
       new_pos.y = m_rect->p2.y;
       break;
   }
 
-  switch (m_horz) {
+  switch (m_horz)
+  {
     case Side::NONE:
       new_pos.x = (m_rect->p1.x + m_rect->p2.x)/2 - 8;
       break;
+
     case Side::LEFT_UP:
       new_pos.x = m_rect->p1.x - 16;
       break;
+
     case Side::RIGHT_DOWN:
       new_pos.x = m_rect->p2.x;
       break;

@@ -30,7 +30,7 @@ public:
   virtual Vector get_point_vector() const override;
   virtual Vector get_offset() const override;
   virtual ObjectSettings get_settings() override;
-  virtual void refresh_pos() override;
+  virtual void editor_update() override;
 
   void update_iterator();
 
