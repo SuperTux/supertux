@@ -35,7 +35,7 @@ public:
   virtual void move_to(const Vector& pos) override;
   virtual Vector get_point_vector() const override;
   virtual Vector get_offset() const override;
-
+  virtual bool has_settings() const override { return false; }
   virtual void editor_update() override;
 
 private:

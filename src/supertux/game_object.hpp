@@ -75,7 +75,6 @@ public:
   virtual void save(Writer& writer);
   virtual std::string get_class() const { return "game-object"; }
   virtual std::string get_display_name() const { return _("Unknown object"); }
-  virtual bool is_saveable() const { return true; }
 
   /** If true only a single object of this type is allowed in a
       given GameObjectManager */
@@ -85,7 +84,15 @@ public:
       (secret area trigger, wind, etc.) */
   virtual bool has_variable_size() const { return false; }
 
+  /** Indicates if the object will be saved. If false, the object will
+      be skipped on saving and can't be cloned in the editor. */
+  virtual bool is_saveable() const { return true; }
+
+  /** Indicates if get_settings() is implemented. If true the editor
+      will display Tip and ObjectMenu. */
+  virtual bool has_settings() const { return is_saveable(); }
   virtual ObjectSettings get_settings();
+
   virtual void after_editor_set() {}
 
   /** returns true if the object is not scheduled to be removed yet */

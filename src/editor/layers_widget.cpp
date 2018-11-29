@@ -245,9 +245,9 @@ EditorLayersWidget::refresh()
   bool tsel = false;
   for (auto& i : m_editor.get_sector()->get_objects())
   {
-    auto go = i.get();
-    auto mo = dynamic_cast<MovingObject*>(go);
-    if ( !mo && go->is_saveable() ) {
+    auto* go = i.get();
+    auto* mo = dynamic_cast<MovingObject*>(go);
+    if (!mo && go->has_settings()) {
       if (!dynamic_cast<PathGameObject*>(go)) {
         add_layer(go);
       }

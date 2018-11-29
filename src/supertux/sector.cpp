@@ -584,7 +584,7 @@ Sector::save(Writer &writer)
   }*/
   // Do not save spawnpoints since we have spawnpoint markers.
 
-  // saving oběcts (not really)
+  // saving objects (not really)
   for (auto& obj : get_objects()) {
     if (obj->is_saveable()) {
       writer.start_list(obj->get_class());
