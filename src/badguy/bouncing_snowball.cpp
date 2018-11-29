@@ -31,8 +31,8 @@ BouncingSnowball::BouncingSnowball(const ReaderMapping& reader)
 void
 BouncingSnowball::initialize()
 {
-  m_physic.set_velocity_x(m_dir == LEFT ? -BSNOWBALL_WALKSPEED : BSNOWBALL_WALKSPEED);
-  m_sprite->set_action(m_dir == LEFT ? "left" : "right");
+  m_physic.set_velocity_x(m_dir == Direction::LEFT ? -BSNOWBALL_WALKSPEED : BSNOWBALL_WALKSPEED);
+  m_sprite->set_action(m_dir == Direction::LEFT ? "left" : "right");
 }
 
 bool
@@ -64,9 +64,9 @@ BouncingSnowball::collision_solid(const CollisionHit& hit)
 
   // left or right collision
   // The direction must correspond, else we got fake bounces on slopes.
-  if ((hit.left && m_dir == LEFT) || (hit.right && m_dir == RIGHT)) {
-    m_dir = m_dir == LEFT ? RIGHT : LEFT;
-    m_sprite->set_action(m_dir == LEFT ? "left" : "right");
+  if ((hit.left && m_dir == Direction::LEFT) || (hit.right && m_dir == Direction::RIGHT)) {
+    m_dir = m_dir == Direction::LEFT ? Direction::RIGHT : Direction::LEFT;
+    m_sprite->set_action(m_dir == Direction::LEFT ? "left" : "right");
     m_physic.set_velocity_x(-m_physic.get_velocity_x());
   }
 
@@ -83,7 +83,7 @@ void
 BouncingSnowball::after_editor_set()
 {
   BadGuy::after_editor_set();
-  m_sprite->set_action(m_dir == LEFT ? "left" : "right");
+  m_sprite->set_action(m_dir == Direction::LEFT ? "left" : "right");
 }
 
 /* EOF */

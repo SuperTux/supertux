@@ -40,7 +40,7 @@ Owl::Owl(const ReaderMapping& reader) :
   carried_object(nullptr)
 {
   reader.get("carry", carried_obj_name, "skydive");
-  set_action (m_dir == LEFT ? "left" : "right", /* loops = */ -1);
+  set_action (m_dir == Direction::LEFT ? "left" : "right", /* loops = */ -1);
 }
 
 void
@@ -52,9 +52,9 @@ Owl::save(Writer& writer) {
 void
 Owl::initialize()
 {
-  m_physic.set_velocity_x(m_dir == LEFT ? -FLYING_SPEED : FLYING_SPEED);
+  m_physic.set_velocity_x(m_dir == Direction::LEFT ? -FLYING_SPEED : FLYING_SPEED);
   m_physic.enable_gravity(false);
-  m_sprite->set_action(m_dir == LEFT ? "left" : "right");
+  m_sprite->set_action(m_dir == Direction::LEFT ? "left" : "right");
 
   // If we add the carried object to the sector while we're editing 
   // a level with the editor, it gets written to the level file,
@@ -92,7 +92,7 @@ Owl::is_above_player() const
 
   /* Let go of carried objects a short while *before* Tux is below us. This
    * makes it more likely that we'll hit him. */
-  float x_offset = (m_dir == LEFT) ? ACTIVATION_DISTANCE : -ACTIVATION_DISTANCE;
+  float x_offset = (m_dir == Direction::LEFT) ? ACTIVATION_DISTANCE : -ACTIVATION_DISTANCE;
 
   const Rectf& player_bbox = player->get_bbox();
 
@@ -180,9 +180,9 @@ void
 Owl::unfreeze()
 {
   BadGuy::unfreeze();
-  m_physic.set_velocity_x(m_dir == LEFT ? -FLYING_SPEED : FLYING_SPEED);
+  m_physic.set_velocity_x(m_dir == Direction::LEFT ? -FLYING_SPEED : FLYING_SPEED);
   m_physic.enable_gravity(false);
-  m_sprite->set_action(m_dir == LEFT ? "left" : "right");
+  m_sprite->set_action(m_dir == Direction::LEFT ? "left" : "right");
 }
 
 bool
@@ -202,14 +202,14 @@ Owl::collision_solid(const CollisionHit& hit)
   if (hit.top || hit.bottom) {
     m_physic.set_velocity_y(0);
   } else if (hit.left || hit.right) {
-    if (m_dir == LEFT) {
+    if (m_dir == Direction::LEFT) {
       set_action ("right", /* loops = */ -1);
-      m_dir = RIGHT;
+      m_dir = Direction::RIGHT;
       m_physic.set_velocity_x (FLYING_SPEED);
     }
     else {
       set_action ("left", /* loops = */ -1);
-      m_dir = LEFT;
+      m_dir = Direction::LEFT;
       m_physic.set_velocity_x (-FLYING_SPEED);
     }
   }

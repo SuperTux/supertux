@@ -29,14 +29,14 @@ namespace {
 const float BULLET_XM = 600;
 }
 
-Bullet::Bullet(const Vector& pos, float xm, int dir, BonusType type_) :
+Bullet::Bullet(const Vector& pos, float xm, Direction dir, BonusType type_) :
   physic(),
   life_count(3),
   sprite(),
   lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite")),
   type(type_)
 {
-  float speed = dir == RIGHT ? BULLET_XM : -BULLET_XM;
+  float speed = dir == Direction::RIGHT ? BULLET_XM : -BULLET_XM;
   physic.set_velocity_x(speed + xm);
 
   if (type == FIRE_BONUS) {

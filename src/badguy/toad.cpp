@@ -40,7 +40,7 @@ Toad::initialize()
 {
   // initial state is JUMPING, because we might start airborne
   state = JUMPING;
-  m_sprite->set_action(m_dir == LEFT ? "jumping-left" : "jumping-right");
+  m_sprite->set_action(m_dir == Direction::LEFT ? "jumping-left" : "jumping-right");
 }
 
 void
@@ -51,22 +51,22 @@ Toad::set_state(ToadState newState)
     m_physic.set_velocity_x(0);
     m_physic.set_velocity_y(0);
     if (!m_frozen)
-      m_sprite->set_action(m_dir == LEFT ? "idle-left" : "idle-right");
+      m_sprite->set_action(m_dir == Direction::LEFT ? "idle-left" : "idle-right");
 
     recover_timer.start(TOAD_RECOVER_TIME);
   } else
     if (newState == JUMPING) {
-      m_sprite->set_action(m_dir == LEFT ? "jumping-left" : "jumping-right");
-      m_physic.set_velocity_x(m_dir == LEFT ? -HORIZONTAL_SPEED : HORIZONTAL_SPEED);
+      m_sprite->set_action(m_dir == Direction::LEFT ? "jumping-left" : "jumping-right");
+      m_physic.set_velocity_x(m_dir == Direction::LEFT ? -HORIZONTAL_SPEED : HORIZONTAL_SPEED);
       m_physic.set_velocity_y(VERTICAL_SPEED);
       SoundManager::current()->play( HOP_SOUND, get_pos());
     } else
       if (newState == FALLING) {
         Player* player = get_nearest_player();
         // face player
-        if (player && (player->get_bbox().p2.x < m_col.m_bbox.p1.x) && (m_dir == RIGHT)) m_dir = LEFT;
-        if (player && (player->get_bbox().p1.x > m_col.m_bbox.p2.x) && (m_dir == LEFT)) m_dir = RIGHT;
-        m_sprite->set_action(m_dir == LEFT ? "idle-left" : "idle-right");
+        if (player && (player->get_bbox().p2.x < m_col.m_bbox.p1.x) && (m_dir == Direction::RIGHT)) m_dir = Direction::LEFT;
+        if (player && (player->get_bbox().p1.x > m_col.m_bbox.p2.x) && (m_dir == Direction::LEFT)) m_dir = Direction::RIGHT;
+        m_sprite->set_action(m_dir == Direction::LEFT ? "idle-left" : "idle-right");
       }
 
   state = newState;
@@ -75,7 +75,7 @@ Toad::set_state(ToadState newState)
 bool
 Toad::collision_squished(GameObject& object)
 {
-  m_sprite->set_action(m_dir == LEFT ? "squished-left" : "squished-right");
+  m_sprite->set_action(m_dir == Direction::LEFT ? "squished-left" : "squished-right");
   kill_squished(object);
   return true;
 }

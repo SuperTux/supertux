@@ -24,7 +24,7 @@
 class Star final : public MovingSprite
 {
 public:
-  Star(const Vector& pos, Direction direction = RIGHT);
+  Star(const Vector& pos, Direction direction = Direction::RIGHT);
 
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;

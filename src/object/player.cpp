@@ -136,8 +136,8 @@ Player::Player(PlayerStatus& player_status, const std::string& name_) :
   m_winning(false),
   m_backflipping(false),
   m_backflip_direction(0),
-  m_peekingX(AUTO),
-  m_peekingY(AUTO),
+  m_peekingX(Direction::AUTO),
+  m_peekingY(Direction::AUTO),
   m_ability_time(),
   m_stone(false),
   m_swimming(false),
@@ -148,7 +148,7 @@ Player::Player(PlayerStatus& player_status, const std::string& name_) :
   m_ice_this_frame(false),
   m_lightsprite(SpriteManager::current()->create("images/creatures/tux/light.sprite")),
   m_powersprite(SpriteManager::current()->create("images/creatures/tux/powerups.sprite")),
-  m_dir(RIGHT),
+  m_dir(Direction::RIGHT),
   m_old_dir(m_dir),
   m_last_ground_y(0),
   m_fall_mode(ON_GROUND),
@@ -344,10 +344,10 @@ Player::update(float dt_sec)
   // handle backflipping
   if (m_backflipping && !m_dying) {
     //prevent player from changing direction when backflipping
-    m_dir = (m_backflip_direction == 1) ? LEFT : RIGHT;
+    m_dir = (m_backflip_direction == 1) ? Direction::LEFT : Direction::RIGHT;
     if (m_backflip_timer.started()) m_physic.set_velocity_x(100.0f * static_cast<float>(m_backflip_direction));
     //rotate sprite during flip
-    m_sprite->set_angle(m_sprite->get_angle() + (m_dir==LEFT?1:-1) * dt_sec * (360.0f / 0.5f));
+    m_sprite->set_angle(m_sprite->get_angle() + (m_dir==Direction::LEFT?1:-1) * dt_sec * (360.0f / 0.5f));
     if (m_player_status.bonus == EARTH_BONUS || m_player_status.bonus == AIR_BONUS ||
         (m_player_status.bonus == FIRE_BONUS && g_config->christmas_mode)) {
       m_powersprite->set_angle(m_sprite->get_angle());
@@ -498,12 +498,12 @@ Player::handle_horizontal_input()
   if (!m_duck || m_physic.get_velocity_y() != 0) {
     if (m_controller->hold(Controller::LEFT) && !m_controller->hold(Controller::RIGHT)) {
       m_old_dir = m_dir;
-      m_dir = LEFT;
+      m_dir = Direction::LEFT;
       dirsign = -1;
     } else if (!m_controller->hold(Controller::LEFT)
               && m_controller->hold(Controller::RIGHT)) {
       m_old_dir = m_dir;
-      m_dir = RIGHT;
+      m_dir = Direction::RIGHT;
       dirsign = 1;
     }
   }
@@ -555,8 +555,8 @@ Player::handle_horizontal_input()
         SoundManager::current()->play("sounds/skid.wav");
         // dust some particles
         Sector::get().add<Particles>(
-            Vector(m_dir == LEFT ? m_col.m_bbox.p2.x : m_col.m_bbox.p1.x, m_col.m_bbox.p2.y),
-            m_dir == LEFT ? 50 : -70, m_dir == LEFT ? 70 : -50, 260, 280,
+            Vector(m_dir == Direction::LEFT ? m_col.m_bbox.p2.x : m_col.m_bbox.p1.x, m_col.m_bbox.p2.y),
+            m_dir == Direction::LEFT ? 50 : -70, m_dir == Direction::LEFT ? 70 : -50, 260, 280,
             Vector(0, 300), 3, Color(.4f, .4f, .4f), 3, .8f, LAYER_OBJECTS+1);
 
         ax *= 2.5f;
@@ -648,7 +648,7 @@ Player::do_backflip() {
   if (!on_ground())
     return;
 
-  m_backflip_direction = (m_dir == LEFT)?(+1):(-1);
+  m_backflip_direction = (m_dir == Direction::LEFT)?(+1):(-1);
   m_backflipping = true;
   do_jump((m_player_status.bonus == AIR_BONUS) ? -720 : -580);
   SoundManager::current()->play("sounds/flip.wav");
@@ -792,22 +792,22 @@ Player::handle_input()
 
   /* Peeking */
   if ( m_controller->released( Controller::PEEK_LEFT ) || m_controller->released( Controller::PEEK_RIGHT ) ) {
-    m_peekingX = AUTO;
+    m_peekingX = Direction::AUTO;
   }
   if ( m_controller->released( Controller::PEEK_UP ) || m_controller->released( Controller::PEEK_DOWN ) ) {
-    m_peekingY = AUTO;
+    m_peekingY = Direction::AUTO;
   }
   if ( m_controller->pressed( Controller::PEEK_LEFT ) ) {
-    m_peekingX = LEFT;
+    m_peekingX = Direction::LEFT;
   }
   if ( m_controller->pressed( Controller::PEEK_RIGHT ) ) {
-    m_peekingX = RIGHT;
+    m_peekingX = Direction::RIGHT;
   }
   if (!m_backflipping && !m_jumping && on_ground()) {
     if ( m_controller->pressed( Controller::PEEK_UP ) ) {
-      m_peekingY = UP;
+      m_peekingY = Direction::UP;
     } else if ( m_controller->pressed( Controller::PEEK_DOWN ) ) {
-      m_peekingY = DOWN;
+      m_peekingY = Direction::DOWN;
     }
   }
 
@@ -829,7 +829,7 @@ Player::handle_input()
       (m_player_status.bonus == ICE_BONUS &&
       active_bullets < m_player_status.max_ice_bullets))
     {
-      Vector pos = get_pos() + ((m_dir == LEFT)? Vector(0, m_col.m_bbox.get_height()/2) : Vector(32, m_col.m_bbox.get_height()/2));
+      Vector pos = get_pos() + ((m_dir == Direction::LEFT)? Vector(0, m_col.m_bbox.get_height()/2) : Vector(32, m_col.m_bbox.get_height()/2));
       Sector::get().add<Bullet>(pos, m_physic.get_velocity_x(), m_dir, m_player_status.bonus);
       SoundManager::current()->play("sounds/shoot.wav");
       m_shooting_timer.start(SHOOTING_TIME);
@@ -887,7 +887,7 @@ Player::handle_input()
       Rectf dest_;
       dest_.p2.y = m_col.m_bbox.get_top() + m_col.m_bbox.get_height()*0.66666f;
       dest_.p1.y = dest_.p2.y - grabbed_bbox.get_height();
-      if (m_dir == LEFT) {
+      if (m_dir == Direction::LEFT) {
         dest_.p2.x = m_col.m_bbox.get_left() - 1;
         dest_.p1.x = dest_.p2.x - grabbed_bbox.get_width();
       } else {
@@ -898,7 +898,7 @@ Player::handle_input()
          Sector::get().is_free_of_statics(dest_, moving_object, true)) {
         moving_object->set_pos(dest_.p1);
         if (m_controller->hold(Controller::UP)) {
-          m_grabbed_object->ungrab(*this, UP);
+          m_grabbed_object->ungrab(*this, Direction::UP);
         } else {
           m_grabbed_object->ungrab(*this, m_dir);
         }
@@ -927,7 +927,7 @@ Player::position_grabbed_object()
       m_col.m_bbox.get_top() + m_col.m_bbox.get_height()*0.66666f);
 
   // Adjust to find the grabbed object's upper-left corner
-  if (m_dir == LEFT)
+  if (m_dir == Direction::LEFT)
     pos.x -= object_bbox.get_width();
   pos.y -= object_bbox.get_height();
 
@@ -941,7 +941,7 @@ Player::try_grab()
      && !m_duck) {
 
     Vector pos;
-    if (m_dir == LEFT) {
+    if (m_dir == Direction::LEFT) {
       pos = Vector(m_col.m_bbox.get_left() - 5, m_col.m_bbox.get_bottom() - 16);
     } else {
       pos = Vector(m_col.m_bbox.get_right() + 5, m_col.m_bbox.get_bottom() - 16);
@@ -973,11 +973,11 @@ Player::handle_input_ghost()
   float vx = 0;
   float vy = 0;
   if (m_controller->hold(Controller::LEFT)) {
-    m_dir = LEFT;
+    m_dir = Direction::LEFT;
     vx -= MAX_RUN_XM * 2;
   }
   if (m_controller->hold(Controller::RIGHT)) {
-    m_dir = RIGHT;
+    m_dir = Direction::RIGHT;
     vx += MAX_RUN_XM * 2;
   }
   if ((m_controller->hold(Controller::UP)) || (m_controller->hold(Controller::JUMP))) {
@@ -1073,7 +1073,7 @@ Player::set_bonus(BonusType type, bool animate)
     }
     if (animate) {
       m_growing = true;
-      m_sprite->set_action((m_dir == LEFT)?"grow-left":"grow-right", 1);
+      m_sprite->set_action((m_dir == Direction::LEFT)?"grow-left":"grow-right", 1);
     }
     if (m_climbing) stop_climbing(*m_climbing);
   }
@@ -1088,9 +1088,9 @@ Player::set_bonus(BonusType type, bool animate)
 
   if ((type == NO_BONUS) || (type == GROWUP_BONUS)) {
     Vector ppos = Vector((m_col.m_bbox.p1.x + m_col.m_bbox.p2.x) / 2, m_col.m_bbox.p1.y);
-    Vector pspeed = Vector(((m_dir == LEFT) ? 100.0f : -100.0f), -300.0f);
+    Vector pspeed = Vector(((m_dir == Direction::LEFT) ? 100.0f : -100.0f), -300.0f);
     Vector paccel = Vector(0, 1000);
-    std::string action = (m_dir == LEFT) ? "left" : "right";
+    std::string action = (m_dir == Direction::LEFT) ? "left" : "right";
     std::string particle_name = "";
 
     if ((m_player_status.bonus == FIRE_BONUS) && (animate)) {
@@ -1196,7 +1196,7 @@ Player::draw(DrawingContext& context)
   else
     sa_prefix = "small";
 
-  if (m_dir == LEFT)
+  if (m_dir == Direction::LEFT)
     sa_postfix = "-left";
   else
     sa_postfix = "-right";
@@ -1630,7 +1630,7 @@ void Player::walk(float speed)
 
 void Player::set_dir(bool right)
 {
-  m_dir = right ? RIGHT : LEFT;
+  m_dir = right ? Direction::RIGHT : Direction::LEFT;
 }
 
 void
@@ -1714,11 +1714,11 @@ Player::handle_input_climbing()
   float vx = 0;
   float vy = 0;
   if (m_controller->hold(Controller::LEFT)) {
-    m_dir = LEFT;
+    m_dir = Direction::LEFT;
     vx -= MAX_CLIMB_XM;
   }
   if (m_controller->hold(Controller::RIGHT)) {
-    m_dir = RIGHT;
+    m_dir = Direction::RIGHT;
     vx += MAX_CLIMB_XM;
   }
   if (m_controller->hold(Controller::UP)) {

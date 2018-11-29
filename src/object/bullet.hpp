@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_OBJECT_BULLET_HPP
 
 #include "sprite/sprite_ptr.hpp"
+#include "supertux/direction.hpp"
 #include "supertux/moving_object.hpp"
 #include "supertux/physic.hpp"
 #include "supertux/player_status.hpp"
@@ -25,7 +26,7 @@
 class Bullet final : public MovingObject
 {
 public:
-  Bullet(const Vector& pos, float xm, int dir, BonusType type);
+  Bullet(const Vector& pos, float xm, Direction dir, BonusType type);
 
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
@@ -53,6 +54,10 @@ private:
   SpritePtr sprite;
   SpritePtr lightsprite;
   BonusType type;
+
+private:
+  Bullet(const Bullet&) = delete;
+  Bullet& operator=(const Bullet&) = delete;
 };
 
 #endif

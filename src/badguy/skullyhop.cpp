@@ -39,7 +39,7 @@ SkullyHop::initialize()
 {
   // initial state is JUMPING, because we might start airborne
   state = JUMPING;
-  m_sprite->set_action(m_dir == LEFT ? "jumping-left" : "jumping-right");
+  m_sprite->set_action(m_dir == Direction::LEFT ? "jumping-left" : "jumping-right");
 }
 
 void
@@ -48,18 +48,18 @@ SkullyHop::set_state(SkullyHopState newState)
   if (newState == STANDING) {
     m_physic.set_velocity_x(0);
     m_physic.set_velocity_y(0);
-    m_sprite->set_action(m_dir == LEFT ? "standing-left" : "standing-right");
+    m_sprite->set_action(m_dir == Direction::LEFT ? "standing-left" : "standing-right");
 
     float recover_time = gameRandom.randf(MIN_RECOVER_TIME,MAX_RECOVER_TIME);
     recover_timer.start(recover_time);
   } else
     if (newState == CHARGING) {
-      m_sprite->set_action(m_dir == LEFT ? "charging-left" : "charging-right", 1);
+      m_sprite->set_action(m_dir == Direction::LEFT ? "charging-left" : "charging-right", 1);
     } else
       if (newState == JUMPING) {
-        m_sprite->set_action(m_dir == LEFT ? "jumping-left" : "jumping-right");
+        m_sprite->set_action(m_dir == Direction::LEFT ? "jumping-left" : "jumping-right");
 const float HORIZONTAL_SPEED = 220; /**< x-speed when jumping */
-        m_physic.set_velocity_x(m_dir == LEFT ? -HORIZONTAL_SPEED : HORIZONTAL_SPEED);
+        m_physic.set_velocity_x(m_dir == Direction::LEFT ? -HORIZONTAL_SPEED : HORIZONTAL_SPEED);
 const float VERTICAL_SPEED = -450;   /**< y-speed when jumping */
         m_physic.set_velocity_y(VERTICAL_SPEED);
         SoundManager::current()->play( SKULLYHOP_SOUND, get_pos());
@@ -74,7 +74,7 @@ SkullyHop::collision_squished(GameObject& object)
   if (m_frozen)
     return BadGuy::collision_squished(object);
 
-  m_sprite->set_action(m_dir == LEFT ? "squished-left" : "squished-right");
+  m_sprite->set_action(m_dir == Direction::LEFT ? "squished-left" : "squished-right");
   kill_squished(object);
   return true;
 }
@@ -108,8 +108,8 @@ SkullyHop::collision_solid(const CollisionHit& hit)
 
   // check if we hit left or right while moving in either direction
   if (hit.left || hit.right) {
-    m_dir = m_dir == LEFT ? RIGHT : LEFT;
-    m_sprite->set_action(m_dir == LEFT ? "jumping-left" : "jumping-right");
+    m_dir = m_dir == Direction::LEFT ? Direction::RIGHT : Direction::LEFT;
+    m_sprite->set_action(m_dir == Direction::LEFT ? "jumping-left" : "jumping-right");
     m_physic.set_velocity_x(-0.25f*m_physic.get_velocity_x());
   }
 }

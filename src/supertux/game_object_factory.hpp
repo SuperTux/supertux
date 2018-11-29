@@ -29,7 +29,7 @@ public:
 public:
   using ObjectFactory::create;
   std::unique_ptr<GameObject> create(const std::string& name,
-                                     const Vector& pos, const Direction& dir = AUTO,
+                                     const Vector& pos, const Direction& dir = Direction::AUTO,
                                      const std::string& data = {}) const;
 
 private:

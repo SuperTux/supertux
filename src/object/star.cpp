@@ -32,7 +32,7 @@ Star::Star(const Vector& pos, Direction direction) :
   physic(),
   lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
 {
-  physic.set_velocity((direction == LEFT) ? -STAR_SPEED : STAR_SPEED, INITIALJUMP);
+  physic.set_velocity((direction == Direction::LEFT) ? -STAR_SPEED : STAR_SPEED, INITIALJUMP);
   //set light for glow effect
   lightsprite->set_blend(Blend::ADD);
   lightsprite->set_color(Color(0.4f, 0.4f, 0.4f));

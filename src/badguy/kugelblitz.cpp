@@ -189,12 +189,12 @@ Kugelblitz::try_activate()
     if (!m_is_initialized) {
 
       // if starting direction was set to AUTO, this is our chance to re-orient the badguy
-      if (m_start_dir == AUTO) {
+      if (m_start_dir == Direction::AUTO) {
         Player* player__ = get_nearest_player();
         if (player__ && (player__->get_bbox().p1.x > m_col.m_bbox.p2.x)) {
-          m_dir = RIGHT;
+          m_dir = Direction::RIGHT;
         } else {
-          m_dir = LEFT;
+          m_dir = Direction::LEFT;
         }
       }
 

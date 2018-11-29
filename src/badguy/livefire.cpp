@@ -71,14 +71,14 @@ LiveFire::active_update(float dt_sec) {
     if (player) {
       Rectf pb = player->get_bbox();
 
-      bool inReach_left = (pb.p2.x >= m_col.m_bbox.p2.x-((m_dir == LEFT) ? 256 : 0));
-      bool inReach_right = (pb.p1.x <= m_col.m_bbox.p1.x+((m_dir == RIGHT) ? 256 : 0));
+      bool inReach_left = (pb.p2.x >= m_col.m_bbox.p2.x-((m_dir == Direction::LEFT) ? 256 : 0));
+      bool inReach_right = (pb.p1.x <= m_col.m_bbox.p1.x+((m_dir == Direction::RIGHT) ? 256 : 0));
       bool inReach_top = (pb.p2.y >= m_col.m_bbox.p1.y);
       bool inReach_bottom = (pb.p1.y <= m_col.m_bbox.p2.y);
 
       if (inReach_left && inReach_right && inReach_top && inReach_bottom) {
         // wake up
-        m_sprite->set_action(m_dir == LEFT ? "waking-left" : "waking-right", 1);
+        m_sprite->set_action(m_dir == Direction::LEFT ? "waking-left" : "waking-right", 1);
         state = STATE_WAKING;
       }
     }
@@ -127,7 +127,7 @@ LiveFire::kill_fall()
                                          pspeed, paccel,
                                          LAYER_BACKGROUNDTILES+2);
   // extinguish the flame
-  m_sprite->set_action(m_dir == LEFT ? "extinguish-left" : "extinguish-right", 1);
+  m_sprite->set_action(m_dir == Direction::LEFT ? "extinguish-left" : "extinguish-right", 1);
   m_physic.set_velocity_y(0);
   m_physic.set_acceleration_y(0);
   m_physic.enable_gravity(false);
@@ -151,7 +151,7 @@ void
 LiveFireAsleep::draw(DrawingContext& context)
 {
   if (Editor::is_active()) {
-    m_sprite->set_action(m_dir == LEFT ? "sleeping-left" : "sleeping-right");
+    m_sprite->set_action(m_dir == Direction::LEFT ? "sleeping-left" : "sleeping-right");
     BadGuy::draw(context);
   } else {
     LiveFire::draw(context);
@@ -162,7 +162,7 @@ void
 LiveFireAsleep::initialize()
 {
   m_physic.set_velocity_x(0);
-  m_sprite->set_action(m_dir == LEFT ? "sleeping-left" : "sleeping-right");
+  m_sprite->set_action(m_dir == Direction::LEFT ? "sleeping-left" : "sleeping-right");
 }
 
 /* The following defines a dormant version that never wakes */
@@ -177,7 +177,7 @@ void
 LiveFireDormant::draw(DrawingContext& context)
 {
   if (Editor::is_active()) {
-    m_sprite->set_action(m_dir == LEFT ? "sleeping-left" : "sleeping-right");
+    m_sprite->set_action(m_dir == Direction::LEFT ? "sleeping-left" : "sleeping-right");
     BadGuy::draw(context);
   } else {
     LiveFire::draw(context);
@@ -188,7 +188,7 @@ void
 LiveFireDormant::initialize()
 {
   m_physic.set_velocity_x(0);
-  m_sprite->set_action(m_dir == LEFT ? "sleeping-left" : "sleeping-right");
+  m_sprite->set_action(m_dir == Direction::LEFT ? "sleeping-left" : "sleeping-right");
 }
 
 /* EOF */

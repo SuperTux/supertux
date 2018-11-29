@@ -505,7 +505,7 @@ EditorOverlayWidget::put_object()
       target_pos = (m_sector_pos / static_cast<float>(snap_grid_size)).to_int_vec() * static_cast<float>(snap_grid_size);
     }
 
-    auto object = GameObjectFactory::instance().create(object_class, target_pos, LEFT);
+    auto object = GameObjectFactory::instance().create(object_class, target_pos, Direction::LEFT);
     object->after_editor_set();
 
     auto* mo = dynamic_cast<MovingObject*> (object.get());

@@ -53,8 +53,8 @@ Igel::can_see(const MovingObject& o) const
 {
   Rectf ob = o.get_bbox();
 
-  bool inReach_left = ((ob.p2.x < m_col.m_bbox.p1.x) && (ob.p2.x >= m_col.m_bbox.p1.x-((m_dir == LEFT) ? RANGE_OF_VISION : 0)));
-  bool inReach_right = ((ob.p1.x > m_col.m_bbox.p2.x) && (ob.p1.x <= m_col.m_bbox.p2.x+((m_dir == RIGHT) ? RANGE_OF_VISION : 0)));
+  bool inReach_left = ((ob.p2.x < m_col.m_bbox.p1.x) && (ob.p2.x >= m_col.m_bbox.p1.x-((m_dir == Direction::LEFT) ? RANGE_OF_VISION : 0)));
+  bool inReach_right = ((ob.p1.x > m_col.m_bbox.p2.x) && (ob.p1.x <= m_col.m_bbox.p2.x+((m_dir == Direction::RIGHT) ? RANGE_OF_VISION : 0)));
   bool inReach_top = (ob.p2.y >= m_col.m_bbox.p1.y);
   bool inReach_bottom = (ob.p1.y <= m_col.m_bbox.p2.y);
 
@@ -87,7 +87,7 @@ HitResponse
 Igel::collision_bullet(Bullet& bullet, const CollisionHit& hit)
 {
   // default reaction if hit on front side or for freeze and unfreeze
-  if (((m_dir == LEFT) && hit.left) || ((m_dir == RIGHT) && hit.right) ||
+  if (((m_dir == Direction::LEFT) && hit.left) || ((m_dir == Direction::RIGHT) && hit.right) ||
     (bullet.get_type() == ICE_BONUS) || ((bullet.get_type() == FIRE_BONUS) && (m_frozen))) {
     return BadGuy::collision_bullet(bullet, hit);
   }

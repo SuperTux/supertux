@@ -42,7 +42,7 @@ static const float Y_OFFSCREEN_DISTANCE = 800;
 
 BadGuy::BadGuy(const Vector& pos, const std::string& sprite_name_, int layer_,
                const std::string& light_sprite_name) :
-  BadGuy(pos, LEFT, sprite_name_, layer_, light_sprite_name)
+  BadGuy(pos, Direction::LEFT, sprite_name_, layer_, light_sprite_name)
 {
 }
 
@@ -75,7 +75,7 @@ BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite
   SoundManager::current()->preload("sounds/splash.ogg");
   SoundManager::current()->preload("sounds/fire.ogg");
 
-  m_dir = (m_start_dir == AUTO) ? LEFT : m_start_dir;
+  m_dir = (m_start_dir == Direction::AUTO) ? Direction::LEFT : m_start_dir;
   m_lightsprite->set_blend(Blend::ADD);
 }
 
@@ -86,8 +86,8 @@ BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name_, int
   m_countMe(true),
   m_is_initialized(false),
   m_start_position(m_col.m_bbox.p1),
-  m_dir(LEFT),
-  m_start_dir(AUTO),
+  m_dir(Direction::LEFT),
+  m_start_dir(Direction::AUTO),
   m_frozen(false),
   m_ignited(false),
   m_in_water(false),
@@ -115,7 +115,7 @@ BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name_, int
   SoundManager::current()->preload("sounds/splash.ogg");
   SoundManager::current()->preload("sounds/fire.ogg");
 
-  m_dir = (m_start_dir == AUTO) ? LEFT : m_start_dir;
+  m_dir = (m_start_dir == Direction::AUTO) ? Direction::LEFT : m_start_dir;
   m_lightsprite->set_blend(Blend::ADD);
 }
 
@@ -227,7 +227,7 @@ BadGuy::update(float dt_sec)
       m_is_active_flag = false;
       m_col.m_movement = m_physic.get_movement(dt_sec);
       if ( on_ground() && m_sprite->animation_done() ) {
-        m_sprite->set_action(m_dir == LEFT ? "gear-left" : "gear-right", 1);
+        m_sprite->set_action(m_dir == Direction::LEFT ? "gear-left" : "gear-right", 1);
         set_state(STATE_GEAR);
       }
       int pa = graphicsRandom.rand(0,3);
@@ -262,15 +262,15 @@ Direction
 BadGuy::str2dir(const std::string& dir_str) const
 {
   if ( dir_str == "auto" )
-    return AUTO;
+    return Direction::AUTO;
   if ( dir_str == "left" )
-    return LEFT;
+    return Direction::LEFT;
   if ( dir_str == "right" )
-    return RIGHT;
+    return Direction::RIGHT;
 
   //default to "auto"
   log_warning << "Badguy::str2dir: unknown direction \"" << dir_str << "\"" << std::endl;;
-  return AUTO;
+  return Direction::AUTO;
 }
 
 void
@@ -622,12 +622,12 @@ BadGuy::try_activate()
     if (!m_is_initialized) {
 
       // if starting direction was set to AUTO, this is our chance to re-orient the badguy
-      if (m_start_dir == AUTO) {
+      if (m_start_dir == Direction::AUTO) {
         auto player_ = get_nearest_player();
         if (player_ && (player_->get_bbox().p1.x > m_col.m_bbox.p2.x)) {
-          m_dir = RIGHT;
+          m_dir = Direction::RIGHT;
         } else {
-          m_dir = LEFT;
+          m_dir = Direction::LEFT;
         }
       }
 
@@ -648,7 +648,7 @@ BadGuy::might_fall(int height) const
   float x2;
   float y1 = m_col.m_bbox.p2.y + 1;
   float y2 = m_col.m_bbox.p2.y + 1 + static_cast<float>(height);
-  if (m_dir == LEFT) {
+  if (m_dir == Direction::LEFT) {
     x1 = m_col.m_bbox.p1.x - 1;
     x2 = m_col.m_bbox.p1.x;
   } else {
@@ -698,7 +698,7 @@ BadGuy::freeze()
   m_frozen = true;
 
   if (m_sprite->has_action("iced-left"))
-    m_sprite->set_action(m_dir == LEFT ? "iced-left" : "iced-right", 1);
+    m_sprite->set_action(m_dir == Direction::LEFT ? "iced-left" : "iced-right", 1);
   // when the sprite doesn't have separate actions for left and right, it tries to use an universal one.
   else
   {
@@ -763,11 +763,11 @@ BadGuy::ignite()
 
     // melt it!
     if (m_sprite->has_action("ground-melting-left") && on_ground()) {
-      m_sprite->set_action(m_dir == LEFT ? "ground-melting-left" : "ground-melting-right", 1);
+      m_sprite->set_action(m_dir == Direction::LEFT ? "ground-melting-left" : "ground-melting-right", 1);
       SoundManager::current()->play("sounds/splash.ogg", get_pos());
       set_state(STATE_GROUND_MELTING);
     } else {
-      m_sprite->set_action(m_dir == LEFT ? "melting-left" : "melting-right", 1);
+      m_sprite->set_action(m_dir == Direction::LEFT ? "melting-left" : "melting-right", 1);
       SoundManager::current()->play("sounds/sizzle.ogg", get_pos());
       set_state(STATE_MELTING);
     }
@@ -778,13 +778,13 @@ BadGuy::ignite()
     // burn it!
     m_glowing = true;
     SoundManager::current()->play("sounds/fire.ogg", get_pos());
-    m_sprite->set_action(m_dir == LEFT ? "burning-left" : "burning-right", 1);
+    m_sprite->set_action(m_dir == Direction::LEFT ? "burning-left" : "burning-right", 1);
     set_state(STATE_BURNING);
     run_dead_script();
   } else if (m_sprite->has_action("inside-melting-left")) {
     // melt it inside!
     SoundManager::current()->play("sounds/splash.ogg", get_pos());
-    m_sprite->set_action(m_dir == LEFT ? "inside-melting-left" : "inside-melting-right", 1);
+    m_sprite->set_action(m_dir == Direction::LEFT ? "inside-melting-left" : "inside-melting-right", 1);
     set_state(STATE_INSIDE_MELTING);
     run_dead_script();
   } else {
@@ -829,7 +829,7 @@ BadGuy::get_settings()
 void
 BadGuy::after_editor_set()
 {
-  if (m_dir == AUTO)
+  if (m_dir == Direction::AUTO)
   {
     if (m_sprite->has_action("editor-left")) {
       m_sprite->set_action("editor-left");

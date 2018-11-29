@@ -38,7 +38,7 @@ FlyingSnowBall::FlyingSnowBall(const ReaderMapping& reader) :
 void
 FlyingSnowBall::initialize()
 {
-  m_sprite->set_action(m_dir == LEFT ? "left" : "right");
+  m_sprite->set_action(m_dir == Direction::LEFT ? "left" : "right");
 }
 
 void
@@ -51,7 +51,7 @@ FlyingSnowBall::activate()
 bool
 FlyingSnowBall::collision_squished(GameObject& object)
 {
-  m_sprite->set_action(m_dir == LEFT ? "squished-left" : "squished-right");
+  m_sprite->set_action(m_dir == Direction::LEFT ? "squished-left" : "squished-right");
   m_physic.set_acceleration_y(0);
   m_physic.set_velocity_y(0);
   kill_squished(object);
@@ -96,8 +96,8 @@ FlyingSnowBall::active_update(float dt_sec)
 
   auto player = get_nearest_player();
   if (player) {
-    m_dir = (player->get_pos().x > get_pos().x) ? RIGHT : LEFT;
-    m_sprite->set_action(m_dir == LEFT ? "left" : "right");
+    m_dir = (player->get_pos().x > get_pos().x) ? Direction::RIGHT : Direction::LEFT;
+    m_sprite->set_action(m_dir == Direction::LEFT ? "left" : "right");
   }
 
   // spawn smoke puffs

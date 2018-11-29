@@ -178,7 +178,7 @@ Haywire::freeze() {
 void
 Haywire::start_exploding()
 {
-  set_action ((m_dir == LEFT) ? "ticking-left" : "ticking-right", /* loops = */ -1);
+  set_action ((m_dir == Direction::LEFT) ? "ticking-left" : "ticking-right", /* loops = */ -1);
   walk_left_action = "ticking-left";
   walk_right_action = "ticking-right";
   set_walk_speed (EXPLODING_WALK_SPEED);

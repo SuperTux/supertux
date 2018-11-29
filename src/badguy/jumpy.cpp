@@ -79,22 +79,22 @@ Jumpy::active_update(float dt_sec)
   auto player = get_nearest_player();
   if (player)
   {
-    m_dir = (player->get_pos().x > get_pos().x) ? RIGHT : LEFT;
+    m_dir = (player->get_pos().x > get_pos().x) ? Direction::RIGHT : Direction::LEFT;
   }
 
   if (!groundhit_pos_set)
   {
-    m_sprite->set_action(m_dir == LEFT ? "left-middle" : "right-middle");
+    m_sprite->set_action(m_dir == Direction::LEFT ? "left-middle" : "right-middle");
     return;
   }
 
   if ( get_pos().y < (pos_groundhit.y - JUMPY_MID_TOLERANCE ) )
-    m_sprite->set_action(m_dir == LEFT ? "left-up" : "right-up");
+    m_sprite->set_action(m_dir == Direction::LEFT ? "left-up" : "right-up");
   else if ( get_pos().y >= (pos_groundhit.y - JUMPY_MID_TOLERANCE) &&
             get_pos().y < (pos_groundhit.y - JUMPY_LOW_TOLERANCE) )
-    m_sprite->set_action(m_dir == LEFT ? "left-middle" : "right-middle");
+    m_sprite->set_action(m_dir == Direction::LEFT ? "left-middle" : "right-middle");
   else
-    m_sprite->set_action(m_dir == LEFT ? "left-down" : "right-down");
+    m_sprite->set_action(m_dir == Direction::LEFT ? "left-down" : "right-down");
 }
 
 void

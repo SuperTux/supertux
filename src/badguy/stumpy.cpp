@@ -56,7 +56,7 @@ Stumpy::initialize()
 {
   switch (mystate) {
     case STATE_INVINCIBLE:
-      m_sprite->set_action(m_dir == LEFT ? "dizzy-left" : "dizzy-right");
+      m_sprite->set_action(m_dir == Direction::LEFT ? "dizzy-left" : "dizzy-right");
       m_col.m_bbox.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
       m_physic.set_velocity_x(0);
       break;
@@ -97,7 +97,7 @@ Stumpy::collision_squished(GameObject& object)
 
   // if we can die, we do
   if (mystate == STATE_NORMAL) {
-    m_sprite->set_action(m_dir == LEFT ? "squished-left" : "squished-right");
+    m_sprite->set_action(m_dir == Direction::LEFT ? "squished-left" : "squished-right");
     m_col.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
     kill_squished(object);
     // spawn some particles

@@ -166,13 +166,13 @@ GhostTree::active_update(float /*dt_sec*/)
       Vector dir_ = delta.unit();
       if (delta.norm() < 1) {
         dir_ = delta;
-        suck_lantern->ungrab(*this, RIGHT);
+        suck_lantern->ungrab(*this, Direction::RIGHT);
         suck_lantern->remove_me();
         suck_lantern = nullptr;
         m_sprite->set_action("swallow", 1);
       } else {
         pos += dir_;
-        suck_lantern->grab(*this, pos, RIGHT);
+        suck_lantern->grab(*this, pos, Direction::RIGHT);
       }
     } else {
       // wait until lantern is swallowed
@@ -247,7 +247,7 @@ GhostTree::collision(GameObject& other, const CollisionHit& )
   Lantern* lantern = dynamic_cast<Lantern*>(&other);
   if (lantern) {
     suck_lantern = lantern;
-    suck_lantern->grab(*this, suck_lantern->get_pos(), RIGHT);
+    suck_lantern->grab(*this, suck_lantern->get_pos(), Direction::RIGHT);
     suck_lantern_color = lantern->get_color();
     mystate = STATE_SWALLOWING;
   }

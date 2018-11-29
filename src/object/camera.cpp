@@ -472,9 +472,9 @@ Camera::update_scroll_normal(float dt_sec)
     float peek_to = 0;
     float translation_compensation = player_pos.y - m_translation.y;
 
-    if (player.peeking_direction_y() == ::UP) {
+    if (player.peeking_direction_y() == Direction::UP) {
       peek_to = bottom_edge - translation_compensation;
-    } else if (player.peeking_direction_y() == ::DOWN) {
+    } else if (player.peeking_direction_y() == Direction::DOWN) {
       peek_to = top_edge - translation_compensation;
     }
 
@@ -518,7 +518,7 @@ Camera::update_scroll_normal(float dt_sec)
     LookaheadMode walkDirection;
     if (player_delta.x < -CAMERA_EPSILON) walkDirection = LOOKAHEAD_LEFT;
     else if (player_delta.x > CAMERA_EPSILON) walkDirection = LOOKAHEAD_RIGHT;
-    else if (player.m_dir == ::LEFT) walkDirection = LOOKAHEAD_LEFT;
+    else if (player.m_dir == Direction::LEFT) walkDirection = LOOKAHEAD_LEFT;
     else walkDirection = LOOKAHEAD_RIGHT;
 
     float LEFTEND, RIGHTEND;
@@ -643,9 +643,9 @@ Camera::update_scroll_normal(float dt_sec)
     float peek_to = 0;
     float translation_compensation = player_pos.x - m_translation.x;
 
-    if (player.peeking_direction_x() == ::LEFT) {
+    if (player.peeking_direction_x() == ::Direction::LEFT) {
       peek_to = right_edge - translation_compensation;
-    } else if (player.peeking_direction_x() == ::RIGHT) {
+    } else if (player.peeking_direction_x() == Direction::RIGHT) {
       peek_to = left_edge - translation_compensation;
     }
 

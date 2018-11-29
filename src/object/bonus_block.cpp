@@ -263,7 +263,7 @@ BonusBlock::try_open(Player* player)
   if (player == nullptr)
     return;
 
-  Direction direction = (player->get_bbox().get_middle().x > m_col.m_bbox.get_middle().x) ? LEFT : RIGHT;
+  Direction direction = (player->get_bbox().get_middle().x > m_col.m_bbox.get_middle().x) ? Direction::LEFT : Direction::RIGHT;
 
   switch (m_contents) {
     case CONTENT_COIN:
@@ -394,7 +394,7 @@ BonusBlock::try_drop(Player *player)
   if (player == nullptr)
     return;
 
-  Direction direction = (player->get_bbox().get_middle().x > m_col.m_bbox.get_middle().x) ? LEFT : RIGHT;
+  Direction direction = (player->get_bbox().get_middle().x > m_col.m_bbox.get_middle().x) ? Direction::LEFT : Direction::RIGHT;
 
   bool countdown = false;
 
@@ -439,7 +439,7 @@ BonusBlock::try_drop(Player *player)
 
     case CONTENT_1UP:
     {
-      Sector::get().add<OneUp>(get_pos(), DOWN);
+      Sector::get().add<OneUp>(get_pos(), Direction::DOWN);
       SoundManager::current()->play("sounds/upgrade.wav");
       countdown = true;
       break;

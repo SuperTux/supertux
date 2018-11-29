@@ -115,7 +115,7 @@ GoldBomb::collision_squished(GameObject& object)
   if (is_valid() && tstate == STATE_NORMAL) {
     tstate = STATE_TICKING;
     m_frozen = false;
-    set_action(m_dir == LEFT ? "ticking-left" : "ticking-right", 1);
+    set_action(m_dir == Direction::LEFT ? "ticking-left" : "ticking-right", 1);
     m_physic.set_velocity_x(0);
 
     if (player)
@@ -190,7 +190,7 @@ GoldBomb::grab(MovingObject& object, const Vector& pos, Direction dir_)
 
     // We actually face the opposite direction of Tux here to make the fuse more
     // visible instead of hiding it behind Tux
-    m_sprite->set_action_continued(m_dir == LEFT ? "ticking-right" : "ticking-left");
+    m_sprite->set_action_continued(m_dir == Direction::LEFT ? "ticking-right" : "ticking-left");
     set_colgroup_active(COLGROUP_DISABLED);
     grabbed = true;
     grabber = &object;
@@ -198,7 +198,7 @@ GoldBomb::grab(MovingObject& object, const Vector& pos, Direction dir_)
   else if (m_frozen){
     m_col.m_movement = pos - get_pos();
     m_dir = dir_;
-    m_sprite->set_action(dir_ == LEFT ? "iced-left" : "iced-right");
+    m_sprite->set_action(dir_ == Direction::LEFT ? "iced-left" : "iced-right");
     set_colgroup_active(COLGROUP_DISABLED);
     grabbed = true;
   }
@@ -212,16 +212,16 @@ GoldBomb::ungrab(MovingObject& object, Direction dir_)
   auto player = dynamic_cast<Player*> (&object);
 
   // toss upwards
-  if (dir_ == UP)
+  if (dir_ == Direction::UP)
     toss_velocity_y += -500;
 
   // toss to the side when moving sideways
-  if (player && player->get_physic().get_velocity_x()*(dir_ == LEFT ? -1 : 1) > 1) {
-    toss_velocity_x += (dir_ == LEFT) ? -200 : 200;
+  if (player && player->get_physic().get_velocity_x()*(dir_ == Direction::LEFT ? -1 : 1) > 1) {
+    toss_velocity_x += (dir_ == Direction::LEFT) ? -200 : 200;
     toss_velocity_y = (toss_velocity_y < -200) ? toss_velocity_y : -200;
     // toss farther when running
-    if (player && player->get_physic().get_velocity_x()*(dir_ == LEFT ? -1 : 1) > 200)
-      toss_velocity_x += static_cast<int>(player->get_physic().get_velocity_x() - (190*(dir_ == LEFT ? -1 : 1)));
+    if (player && player->get_physic().get_velocity_x()*(dir_ == Direction::LEFT ? -1 : 1) > 200)
+      toss_velocity_x += static_cast<int>(player->get_physic().get_velocity_x() - (190*(dir_ == Direction::LEFT ? -1 : 1)));
   }
   log_warning << toss_velocity_x << toss_velocity_y << std::endl;////
 

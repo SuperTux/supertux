@@ -33,7 +33,7 @@ MoleRock::MoleRock(const ReaderMapping& reader) :
 }
 
 MoleRock::MoleRock(const Vector& pos, const Vector& velocity, const BadGuy* parent_ = nullptr) :
-  BadGuy(pos, LEFT, "images/creatures/mole/mole_rock.sprite", LAYER_TILES - 2),
+  BadGuy(pos, Direction::LEFT, "images/creatures/mole/mole_rock.sprite", LAYER_TILES - 2),
   parent(parent_),
   initial_velocity(velocity)
 {

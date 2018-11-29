@@ -117,10 +117,10 @@ Dispenser::Dispenser(const ReaderMapping& reader) :
       break;
 
     case DispenserType::ROCKETLAUNCHER:
-      m_sprite->set_action(m_dir == LEFT ? "working-left" : "working-right");
+      m_sprite->set_action(m_dir == Direction::LEFT ? "working-left" : "working-right");
       set_colgroup_active(COLGROUP_MOVING); //if this were COLGROUP_MOVING_STATIC MrRocket would explode on launch.
 
-      if (m_start_dir == AUTO) {
+      if (m_start_dir == Direction::AUTO) {
         m_autotarget = true;
       }
       break;
@@ -159,8 +159,8 @@ Dispenser::activate()
   if (m_autotarget && !m_swivel){ // auto cannon sprite might be wrong
     auto* player = get_nearest_player();
     if (player) {
-      m_dir = (player->get_pos().x > get_pos().x) ? RIGHT : LEFT;
-      m_sprite->set_action(m_dir == LEFT ? "working-left" : "working-right");
+      m_dir = (player->get_pos().x > get_pos().x) ? Direction::RIGHT : Direction::LEFT;
+      m_sprite->set_action(m_dir == Direction::LEFT ? "working-left" : "working-right");
     }
   }
   m_dispense_timer.start(m_cycle, true);
@@ -187,7 +187,7 @@ Dispenser::collision_squished(GameObject& object)
     unfreeze();
   }
 
-  m_sprite->set_action(m_dir == LEFT ? "broken-left" : "broken-right");
+  m_sprite->set_action(m_dir == Direction::LEFT ? "broken-left" : "broken-right");
   m_dispense_timer.start(0);
   set_colgroup_active(COLGROUP_MOVING_STATIC); // Tux can stand on broken cannon.
   auto player = dynamic_cast<Player*>(&object);
@@ -230,17 +230,17 @@ Dispenser::active_update(float )
     // auto always shoots in Tux's direction
     if (m_autotarget) {
       if ( m_sprite->animation_done()) {
-        m_sprite->set_action(m_dir == LEFT ? "working-left" : "working-right");
+        m_sprite->set_action(m_dir == Direction::LEFT ? "working-left" : "working-right");
         m_swivel = false;
       }
 
       auto player = get_nearest_player();
       if (player && !m_swivel){
-        Direction targetdir = (player->get_pos().x > get_pos().x) ? RIGHT : LEFT;
+        Direction targetdir = (player->get_pos().x > get_pos().x) ? Direction::RIGHT : Direction::LEFT;
         if ( m_dir != targetdir ){ // no target: swivel cannon
           m_swivel = true;
           m_dir = targetdir;
-          m_sprite->set_action(m_dir == LEFT ? "swivel-left" : "swivel-right", 1);
+          m_sprite->set_action(m_dir == Direction::LEFT ? "swivel-left" : "swivel-right", 1);
         } else { // tux in sight: shoot
           launch_badguy();
         }
@@ -263,10 +263,10 @@ Dispenser::launch_badguy()
   //FIXME: Does is_offscreen() work right here?
   if (!is_offscreen() && !Editor::is_active()) {
     Direction launchdir = m_dir;
-    if ( !m_autotarget && m_start_dir == AUTO ){
+    if ( !m_autotarget && m_start_dir == Direction::AUTO ){
       Player* player = get_nearest_player();
       if ( player ){
-        launchdir = (player->get_pos().x > get_pos().x) ? RIGHT : LEFT;
+        launchdir = (player->get_pos().x > get_pos().x) ? Direction::RIGHT : Direction::LEFT;
       }
     }
 
@@ -314,7 +314,7 @@ Dispenser::launch_badguy()
         case DispenserType::ROCKETLAUNCHER:
         case DispenserType::CANNON:
           spawnpoint = get_pos(); /* top-left corner of the cannon */
-          if (launchdir == LEFT)
+          if (launchdir == Direction::LEFT)
             spawnpoint.x -= object_bbox.get_width() + 1;
           else
             spawnpoint.x += m_col.m_bbox.get_width() + 1;
@@ -361,7 +361,7 @@ Dispenser::freeze()
 
     if (m_type == DispenserType::ROCKETLAUNCHER && m_sprite->has_action("iced-left"))
     // Only swivel dispensers can use their left/right iced actions.
-    m_sprite->set_action(m_dir == LEFT ? "iced-left" : "iced-right", 1);
+    m_sprite->set_action(m_dir == Direction::LEFT ? "iced-left" : "iced-right", 1);
     // when the sprite doesn't have separate actions for left and right or isn't a rocketlauncher,
     // it tries to use an universal one.
   else
@@ -418,7 +418,7 @@ Dispenser::set_correct_action()
       m_sprite->set_action("dropper");
       break;
     case DispenserType::ROCKETLAUNCHER:
-      m_sprite->set_action(m_dir == LEFT ? "working-left" : "working-right");
+      m_sprite->set_action(m_dir == Direction::LEFT ? "working-left" : "working-right");
       break;
     case DispenserType::CANNON:
       m_sprite->set_action("working");

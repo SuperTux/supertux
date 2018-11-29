@@ -34,21 +34,21 @@ KamikazeSnowball::KamikazeSnowball(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/snowball/kamikaze-snowball.sprite")
 {
   SoundManager::current()->preload(SPLAT_SOUND);
-  set_action (m_dir == LEFT ? "left" : "right", /* loops = */ -1);
+  set_action (m_dir == Direction::LEFT ? "left" : "right", /* loops = */ -1);
 }
 
 void
 KamikazeSnowball::initialize()
 {
-  m_physic.set_velocity_x(m_dir == LEFT ? -KAMIKAZE_SPEED : KAMIKAZE_SPEED);
+  m_physic.set_velocity_x(m_dir == Direction::LEFT ? -KAMIKAZE_SPEED : KAMIKAZE_SPEED);
   m_physic.enable_gravity(false);
-  m_sprite->set_action(m_dir == LEFT ? "left" : "right");
+  m_sprite->set_action(m_dir == Direction::LEFT ? "left" : "right");
 }
 
 bool
 KamikazeSnowball::collision_squished(GameObject& object)
 {
-  m_sprite->set_action(m_dir == LEFT ? "squished-left" : "squished-right");
+  m_sprite->set_action(m_dir == Direction::LEFT ? "squished-left" : "squished-right");
   kill_squished(object);
   return true;
 }
@@ -67,7 +67,7 @@ KamikazeSnowball::collision_solid(const CollisionHit& hit)
 void
 KamikazeSnowball::kill_collision()
 {
-  m_sprite->set_action(m_dir == LEFT ? "collision-left" : "collision-right");
+  m_sprite->set_action(m_dir == Direction::LEFT ? "collision-left" : "collision-right");
   SoundManager::current()->play(SPLAT_SOUND, get_pos());
   m_physic.set_velocity_x(0);
   m_physic.set_velocity_y(0);
@@ -98,9 +98,9 @@ LeafShot::LeafShot(const ReaderMapping& reader) :
 void
 LeafShot::initialize()
 {
-  m_physic.set_velocity_x(m_dir == LEFT ? -LEAFSHOT_SPEED : LEAFSHOT_SPEED);
+  m_physic.set_velocity_x(m_dir == Direction::LEFT ? -LEAFSHOT_SPEED : LEAFSHOT_SPEED);
   m_physic.enable_gravity(false);
-  m_sprite->set_action(m_dir == LEFT ? "left" : "right");
+  m_sprite->set_action(m_dir == Direction::LEFT ? "left" : "right");
 }
 
 bool
@@ -112,7 +112,7 @@ LeafShot::is_freezable() const
 bool
 LeafShot::collision_squished(GameObject& object)
 {
-  m_sprite->set_action(m_dir == LEFT ? "squished-left" : "squished-right");
+  m_sprite->set_action(m_dir == Direction::LEFT ? "squished-left" : "squished-right");
   // Spawn death particles
   spawn_explosion_sprites(3, "images/objects/particles/leafshot.sprite");
   kill_squished(object);

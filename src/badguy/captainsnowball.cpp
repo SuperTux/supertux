@@ -44,7 +44,7 @@ CaptainSnowball::might_climb(int width, int height) const
   float y2a = m_col.m_bbox.p2.y - 1;
   float y1b = m_col.m_bbox.p1.y + 1 - static_cast<float>(height);
   float y2b = m_col.m_bbox.p2.y - 1 - static_cast<float>(height);
-  if (m_dir == LEFT) {
+  if (m_dir == Direction::LEFT) {
     x1 = m_col.m_bbox.p1.x - static_cast<float>(width);
     x2 = m_col.m_bbox.p1.x - 1;
   } else {
@@ -63,7 +63,7 @@ CaptainSnowball::active_update(float dt_sec)
   } else if (on_ground() && might_fall(16)) {
     m_physic.set_velocity_y(-400);
     walk_speed = BOARDING_SPEED;
-    m_physic.set_velocity_x(m_dir == LEFT ? -walk_speed : walk_speed);
+    m_physic.set_velocity_x(m_dir == Direction::LEFT ? -walk_speed : walk_speed);
   }
   WalkingBadguy::active_update(dt_sec);
 }
@@ -73,7 +73,7 @@ CaptainSnowball::collision_solid(const CollisionHit& hit)
 {
   if (is_active() && (walk_speed == BOARDING_SPEED)) {
     walk_speed = CAPTAIN_WALK_SPEED;
-    m_physic.set_velocity_x(m_dir == LEFT ? -walk_speed : walk_speed);
+    m_physic.set_velocity_x(m_dir == Direction::LEFT ? -walk_speed : walk_speed);
   }
   WalkingBadguy::collision_solid(hit);
 }
@@ -81,7 +81,7 @@ CaptainSnowball::collision_solid(const CollisionHit& hit)
 bool
 CaptainSnowball::collision_squished(GameObject& object)
 {
-  m_sprite->set_action(m_dir == LEFT ? "squished-left" : "squished-right");
+  m_sprite->set_action(m_dir == Direction::LEFT ? "squished-left" : "squished-right");
   kill_squished(object);
   return true;
 }
