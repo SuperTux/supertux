@@ -147,6 +147,18 @@ if (auto* ptr = get_ptr()) {
 }
 ```
 
+## auto
+
+Don't use `auto` for basic types (`int`, `float`, `std::string`, ...)
+
+Only use `auto` when the exact type is unnecessary to know (e.g.
+iterators) or obvious from the context, (e.g. `auto foo =
+Foo::create()`)
+
+Capture pointers as `auto*`, not just `auto`.
+
+Ues `const auto&` for loops to avoid copies.
+
 ## Namespaces
 
 Namespaces should be written in the form:
@@ -240,6 +252,9 @@ Write simple getters/setters inside a header file on a single line:
 ```c++
 Vector get_pos() const { retun m_pos; }
 ```
+
+Don't include more complex functions inside a header file, unless it's
+necessary (template, performance).
 
 Declare functions like:
 
