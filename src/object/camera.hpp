@@ -64,15 +64,10 @@ public:
 
   /** return camera position */
   const Vector& get_translation() const;
+  void set_translation(const Vector& translation) { m_translation = translation; }
 
   /** shake camera in a direction 1 time */
   void shake(float speed, float x, float y);
-
-  void set_scrolling(int scroll_x, int scroll_y)
-  {
-    m_translation.x = static_cast<float>(scroll_x);
-    m_translation.y = static_cast<float>(scroll_y);
-  }
 
   /** scroll the upper left edge of the camera in scrolltime seconds
       to the position goal */

@@ -499,8 +499,7 @@ Editor::set_level(std::unique_ptr<Level> level, bool reset)
   m_sector->get_camera().set_mode(Camera::MANUAL);
 
   if (!reset) {
-    m_sector->get_camera().set_scrolling(static_cast<int>(translation.x),
-                                         static_cast<int>(translation.y));
+    m_sector->get_camera().set_translation(translation);
   }
 
   m_layers_widget->refresh_sector_text();
