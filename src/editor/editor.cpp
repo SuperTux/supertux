@@ -247,9 +247,17 @@ Editor::test_level()
 {
   Tile::draw_editor_images = false;
   Compositor::s_render_lighting = true;
-  auto backup_filename = m_levelfile + "~";
-  auto directory = get_level_directory();
-  auto current_world = (m_world != nullptr) ? m_world.get() : World::load(directory).get();
+  std::string backup_filename = m_levelfile + "~";
+  std::string directory = get_level_directory();
+
+  // This is jank to get an owned World pointer, GameManager/World
+  // could probably need a refactor to handle this better.
+  std::unique_ptr<World> owned_world;
+  World* current_world = m_world.get();
+  if (!current_world) {
+    owned_world = World::load(directory);
+    current_world = owned_world.get();
+  }
 
   m_test_levelfile = FileSystem::join(directory, backup_filename);
   m_level->save(m_test_levelfile);
