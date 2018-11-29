@@ -322,9 +322,9 @@
   (object
     (class "leveltime")
     (icon "images/engine/editor/clock.png"))
-  (object
-    (class "path")
-    (icon "images/engine/editor/path.png"))
+;;(object
+;;  (class "path")
+;;  (icon "images/engine/editor/path.png"))
  )
 
  (objectgroup
