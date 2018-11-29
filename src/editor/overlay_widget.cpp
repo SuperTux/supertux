@@ -277,17 +277,16 @@ EditorOverlayWidget::fill()
 void
 EditorOverlayWidget::hover_object()
 {
-  for (auto& moving_object : m_editor.get_sector()->get_objects_by_type<MovingObject>()) {
-    auto pm = dynamic_cast<MarkerObject*>(&moving_object);
+  for (auto& moving_object : m_editor.get_sector()->get_objects_by_type<MovingObject>())
+  {
+    auto* pm = dynamic_cast<MarkerObject*>(&moving_object);
     if (!moving_object.is_saveable() && !pm) {
       continue;
     }
     Rectf bbox = moving_object.get_bbox();
     if (bbox.contains(m_sector_pos)) {
       if (&moving_object != m_hovered_object) {
-        if (moving_object.is_saveable()) {
-          m_object_tip = std::make_unique<Tip>(moving_object);
-        }
+        m_object_tip = std::make_unique<Tip>(moving_object);
         m_hovered_object = &moving_object;
       }
       return;
@@ -599,11 +598,14 @@ EditorOverlayWidget::process_right_click()
 
     case EditorToolboxWidget::InputType::NONE:
     case EditorToolboxWidget::InputType::OBJECT:
-      if (m_hovered_object &&
-          m_hovered_object->is_valid() &&
-          m_hovered_object->is_saveable())
       {
-        show_object_menu(*m_hovered_object);
+        auto* pm = dynamic_cast<MarkerObject*>(m_hovered_object);
+        if (m_hovered_object &&
+            m_hovered_object->is_valid() &&
+            (m_hovered_object->is_saveable() || pm))
+        {
+          show_object_menu(*m_hovered_object);
+        }
       }
       break;
 
