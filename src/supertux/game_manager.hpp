@@ -40,7 +40,6 @@ public:
    */
   void start_level(World* world, const std::string& level_filename);
 
-  std::string get_level_name(const std::string& levelfile) const;
 
   bool load_next_worldmap();
   void set_next_worldmap(const std::string& worldmap, const std::string &spawnpoint);

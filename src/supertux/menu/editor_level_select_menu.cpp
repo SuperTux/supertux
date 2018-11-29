@@ -63,7 +63,7 @@ void EditorLevelSelectMenu::initialize() {
     {
       std::string filename = m_levelset->get_level_filename(i);
       std::string full_filename = FileSystem::join(basedir, filename);
-      std::string title = GameManager::current()->get_level_name(full_filename);
+      std::string title = LevelParser::get_level_name(full_filename);
       add_entry(i, title);
     }
   }

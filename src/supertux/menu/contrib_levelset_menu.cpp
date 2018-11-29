@@ -22,6 +22,7 @@
 #include "audio/sound_manager.hpp"
 #include "gui/item_action.hpp"
 #include "supertux/game_manager.hpp"
+#include "supertux/level_parser.hpp"
 #include "supertux/levelset.hpp"
 #include "supertux/player_status.hpp"
 #include "supertux/savegame.hpp"
@@ -48,7 +49,7 @@ ContribLevelsetMenu::ContribLevelsetMenu(std::unique_ptr<World> world) :
   {
     std::string filename = m_levelset->get_level_filename(i);
     std::string full_filename = FileSystem::join(m_world->get_basedir(), filename);
-    std::string title = GameManager::current()->get_level_name(full_filename);
+    std::string title = LevelParser::get_level_name(full_filename);
     LevelState level_state = state.get_level_state(filename);
 
     std::ostringstream out;

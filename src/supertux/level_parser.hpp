@@ -32,6 +32,8 @@ public:
   static std::unique_ptr<Level> from_nothing(const std::string& basedir);
   static std::unique_ptr<Level> from_nothing_worldmap(const std::string& basedir, const std::string& name);
 
+  static std::string get_level_name(const std::string& filename);
+
 private:
   LevelParser(Level& level, bool editable);
 

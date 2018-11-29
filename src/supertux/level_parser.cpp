@@ -27,6 +27,32 @@
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
 
+std::string
+LevelParser::get_level_name(const std::string& filename)
+{
+  try
+  {
+    register_translation_directory(filename);
+    auto doc = ReaderDocument::from_file(filename);
+    auto root = doc.get_root();
+
+    if (root.get_name() != "supertux-level") {
+      return "";
+    } else {
+      auto mapping = root.get_mapping();
+      std::string name;
+      mapping.get("name", name);
+      return name;
+    }
+  }
+  catch(const std::exception& e)
+  {
+    log_warning << "Problem getting name of '" << filename << "': "
+                << e.what() << std::endl;
+    return "";
+  }
+}
+
 std::unique_ptr<Level>
 LevelParser::from_stream(std::istream& stream, bool editable)
 {

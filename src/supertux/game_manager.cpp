@@ -110,32 +110,6 @@ GameManager::start_worldmap(World* world, const std::string& spawnpoint, const s
   run_worldmap(world, worldmap_filename, spawnpoint);
 }
 
-std::string
-GameManager::get_level_name(const std::string& filename) const
-{
-  try
-  {
-    register_translation_directory(filename);
-    auto doc = ReaderDocument::from_file(filename);
-    auto root = doc.get_root();
-
-    if (root.get_name() != "supertux-level") {
-      return "";
-    } else {
-      auto mapping = root.get_mapping();
-      std::string name;
-      mapping.get("name", name);
-      return name;
-    }
-  }
-  catch(const std::exception& e)
-  {
-    log_warning << "Problem getting name of '" << filename << "': "
-                << e.what() << std::endl;
-    return "";
-  }
-}
-
 bool
 GameManager::load_next_worldmap()
 {
