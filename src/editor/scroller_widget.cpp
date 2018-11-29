@@ -89,18 +89,7 @@ EditorScrollerWidget::update(float dt_sec)
   if (!rendered) return;
   if (!can_scroll()) return;
 
-  float horiz_scroll = m_scrolling_vec.x * dt_sec;
-  float vert_scroll = m_scrolling_vec.y * dt_sec;
-
-  if (horiz_scroll < 0)
-    m_editor.scroll_left(-horiz_scroll);
-  else if (horiz_scroll > 0)
-    m_editor.scroll_right(horiz_scroll);
-
-  if (vert_scroll < 0)
-    m_editor.scroll_up(-vert_scroll);
-  else if (vert_scroll > 0)
-    m_editor.scroll_down(vert_scroll);
+  m_editor.scroll(m_scrolling_vec * 32.0f * dt_sec);
 }
 
 bool

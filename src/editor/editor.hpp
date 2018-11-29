@@ -113,11 +113,7 @@ public:
   void select_objectgroup(int id);
   const std::vector<ObjectGroup>& get_objectgroups() const;
 
-  // speed is in tiles per frame
-  void scroll_up(float speed = 1.0f);
-  void scroll_down(float speed = 1.0f);
-  void scroll_left(float speed = 1.0f);
-  void scroll_right(float speed = 1.0f);
+  void scroll(const Vector& velocity);
 
   bool is_level_loaded() const { return m_levelloaded; }
 
@@ -142,9 +138,6 @@ private:
   void save_level();
   void test_level();
   void update_keyboard(const Controller& controller);
-
-  bool can_scroll_horz() const;
-  bool can_scroll_vert() const;
 
 protected:
   std::unique_ptr<Level> m_level;

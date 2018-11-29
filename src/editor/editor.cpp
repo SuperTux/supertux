@@ -41,6 +41,7 @@
 #include "gui/menu_manager.hpp"
 #include "gui/mousecursor.hpp"
 #include "gui/mousecursor.hpp"
+#include "math/util.hpp"
 #include "object/camera.hpp"
 #include "object/player.hpp"
 #include "object/spawnpoint.hpp"
@@ -309,78 +310,21 @@ Editor::get_tileselect_move_mode() const
   return m_toolbox_widget->get_tileselect_move_mode();
 }
 
-bool
-Editor::can_scroll_vert() const
-{
-  return m_levelloaded && (m_sector->get_height() + 32 > static_cast<float>(SCREEN_HEIGHT));
-}
-
-bool
-Editor::can_scroll_horz() const
-{
-  return m_levelloaded && (m_sector->get_width() + 128 > static_cast<float>(SCREEN_WIDTH));
-}
-
 void
-Editor::scroll_left(float speed)
+Editor::scroll(const Vector& velocity)
 {
-  Camera& camera = m_sector->get_camera();
-  if (can_scroll_horz()) {
-    if (camera.get_translation().x >= speed*32) {
-      camera.move(static_cast<int>(-32 * speed), 0);
-    } else {
-      //When is the camera less than one tile after the left limit, it puts the camera to the limit.
-      camera.move(static_cast<int>(-camera.get_translation().x), 0);
-    }
-    m_overlay_widget->update_pos();
-  }
-}
+  if (!m_levelloaded) return;
 
-void
-Editor::scroll_right(float speed)
-{
+  Rectf bounds(0.0f, 0.0f,
+               m_sector->get_width() - static_cast<float>(SCREEN_WIDTH),
+               m_sector->get_height() - static_cast<float>(SCREEN_HEIGHT));
   Camera& camera = m_sector->get_camera();
-  if (can_scroll_horz()) {
-    if (camera.get_translation().x <= m_sector->get_width() - static_cast<float>(SCREEN_WIDTH) + 128.0f - 32.0f * speed) {
-      camera.move(static_cast<int>(32 * speed), 0);
-    } else {
-      //When is the camera less than one tile after the right limit, it puts the camera to the limit.
-      // The limit is shifted 128 pixels to the right due to the input gui.
-      camera.move(static_cast<int>(m_sector->get_width() - camera.get_translation().x - static_cast<float>(SCREEN_WIDTH) + 128.0f), 0);
-    }
-    m_overlay_widget->update_pos();
-  }
-}
+  Vector pos = camera.get_translation() + velocity;
+  pos = Vector(math::clamp(pos.x, bounds.get_left(), bounds.get_right()),
+               math::clamp(pos.y, bounds.get_top(), bounds.get_bottom()));
+  camera.set_translation(pos);
 
-void
-Editor::scroll_up(float speed)
-{
-  Camera& camera = m_sector->get_camera();
-  if (can_scroll_vert()) {
-    if (camera.get_translation().y >= speed*32) {
-      camera.move(0, static_cast<int>(-32 * speed));
-    } else {
-      //When is the camera less than one tile after the top limit, it puts the camera to the limit.
-      camera.move(0, static_cast<int>(-camera.get_translation().y));
-    }
-    m_overlay_widget->update_pos();
-  }
-}
-
-void
-Editor::scroll_down(float speed)
-{
-  Camera& camera = m_sector->get_camera();
-  if (can_scroll_vert()) {
-    if (camera.get_translation().y <= m_sector->get_height() - static_cast<float>(SCREEN_HEIGHT) - 32.0f * speed) {
-      camera.move(0, static_cast<int>(32 * speed));
-    } else {
-      //When is the camera less than one tile after the bottom limit, it puts the camera to the limit.
-      // The limit is shifted 32 pixels to the bottom due to the layer toolbar.
-      camera.move(0, static_cast<int>(m_sector->get_height() - camera.get_translation().y - static_cast<float>(SCREEN_HEIGHT) + 32.0f));
-    }
-    m_overlay_widget->update_pos();
-  }
+  m_overlay_widget->update_pos();
 }
 
 void
@@ -404,19 +348,19 @@ Editor::update_keyboard(const Controller& controller)
   }
 
   if (controller.hold(Controller::LEFT)) {
-    scroll_left();
+    scroll({-32.0f, 0.0f});
   }
 
   if (controller.hold(Controller::RIGHT)) {
-    scroll_right();
+    scroll({32.0f, 0.0f});
   }
 
   if (controller.hold(Controller::UP)) {
-    scroll_up();
+    scroll({0.0f, -32.0f});
   }
 
   if (controller.hold(Controller::DOWN)) {
-    scroll_down();
+    scroll({0.0f, 32.0f});
   }
 }
 
