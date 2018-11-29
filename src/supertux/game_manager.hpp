@@ -29,27 +29,13 @@ class GameManager final : public Currenton<GameManager>
 public:
   GameManager();
 
-  void start_worldmap(std::unique_ptr<World> world, const std::string& spawnpoint = "", const std::string& worldmap_filename = "");
-  void start_worldmap(World* world, const std::string& spawnpoint = "", const std::string& worldmap_filename = "");
-
-  void start_level(std::unique_ptr<World> world, const std::string& level_filename);
-  /**
-   * This method is to be called when we don't want to give up ownership of the
-   * world unique_ptr. This is specifically the case for when levels are started
-   * from the editor.
-   */
-  void start_level(World* world, const std::string& level_filename);
-
+  void start_worldmap(const World& world, const std::string& spawnpoint = "", const std::string& worldmap_filename = "");
+  void start_level(const World& world, const std::string& level_filename);
 
   bool load_next_worldmap();
   void set_next_worldmap(const std::string& worldmap, const std::string &spawnpoint);
 
 private:
-  void run_level(World* world, const std::string& level_filename);
-  void run_worldmap(World* world, const std::string& worldmap_filename, const std::string& spawnpoint);
-
-private:
-  std::unique_ptr<World> m_world;
   std::unique_ptr<Savegame> m_savegame;
 
   std::string m_next_worldmap;

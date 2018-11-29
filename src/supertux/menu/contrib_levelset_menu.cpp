@@ -78,7 +78,7 @@ ContribLevelsetMenu::menu_action(MenuItem& item)
     // reload the World so that we have something that we can safely
     // std::move() around without wreaking the ContribMenu
     std::unique_ptr<World> world = World::load(m_world->get_basedir());
-    GameManager::current()->start_level(std::move(world), m_levelset->get_level_filename(item.get_id()));
+    GameManager::current()->start_level(*world, m_levelset->get_level_filename(item.get_id()));
   }
 }
 

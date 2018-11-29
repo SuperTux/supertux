@@ -40,7 +40,7 @@ void WorldSetMenu::menu_action(MenuItem& item)
     case WORLDSET_STORY:
     {
       std::unique_ptr<World> world = World::load("levels/world1");
-      GameManager::current()->start_worldmap(std::move(world));
+      GameManager::current()->start_worldmap(*world);
       break;
     }
 

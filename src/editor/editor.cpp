@@ -263,11 +263,11 @@ Editor::test_level()
   m_level->save(m_test_levelfile);
   if (!m_worldmap_mode)
   {
-    GameManager::current()->start_level(current_world, backup_filename);
+    GameManager::current()->start_level(*current_world, backup_filename);
   }
   else
   {
-    GameManager::current()->start_worldmap(current_world, "", m_test_levelfile);
+    GameManager::current()->start_worldmap(*current_world, "", m_test_levelfile);
   }
 
   m_leveltested = true;
