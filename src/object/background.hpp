@@ -58,7 +58,7 @@ public:
   void draw_image(DrawingContext& context, const Vector& pos);
 
   std::string get_image() const { return m_imagefile; }
-  float get_speed() const { return m_speed; }
+  float get_speed() const { return m_speed.x; }
   int get_layer() const { return m_layer; }
 
 private:
@@ -86,8 +86,7 @@ private:
   std::string m_imagefile;
   std::string m_imagefile_bottom;
   Vector m_pos; /**< coordinates of upper-left corner of image */
-  float m_speed; /**< scroll-speed in horizontal direction */
-  float m_speed_y; /**< scroll-speed in vertical direction */
+  Vector m_speed;
   Vector m_scroll_speed;
   Vector m_scroll_offset;
   SurfacePtr m_image_top; /**< image to draw above pos */
