@@ -18,6 +18,7 @@
 
 #include <assert.h>
 
+#include "util/gettext.hpp"
 #include "video/color.hpp"
 
 ObjectSettings::ObjectSettings(const std::string& name) :
@@ -119,6 +120,21 @@ ObjectSettings::add_int(const std::string& text, int* value_ptr,
                         const std::string& key, int flags)
 {
   add(MN_INTFIELD, text, value_ptr, key, flags);
+}
+
+void
+ObjectSettings::add_direction(const std::string& text, Direction* value_ptr,
+                              const std::string& key, int flags)
+{
+  ObjectOption option(MN_STRINGSELECT, _("Direction"), value_ptr);
+
+  option.m_select.push_back(_("auto"));
+  option.m_select.push_back(_("left"));
+  option.m_select.push_back(_("right"));
+  option.m_select.push_back(_("up"));
+  option.m_select.push_back(_("down"));
+
+  add_option(option);
 }
 
 void

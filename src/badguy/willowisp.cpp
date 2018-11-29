@@ -276,7 +276,7 @@ ObjectSettings
 WillOWisp::get_settings()
 {
   ObjectSettings result = GameObject::get_settings();
-  result.add_option(dir_option(&m_dir));
+  result.add_direction(_("Direction"), &m_dir);
   result.add_text(_("Sector"), &m_target_sector, "sector");
   result.add_text(_("Spawnpoint"), &m_target_spawnpoint, "spawnpoint");
   result.add_text(_("Hit script"), &m_hit_script, "hit-script");

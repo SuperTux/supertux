@@ -59,8 +59,9 @@ ObjectSettings
 Ispy::get_settings()
 {
   ObjectSettings result = MovingSprite::get_settings();
+
   result.add_script(_("Script"), &script, "script");
-  result.add_option(dir_option(&dir));
+  result.add_direction(_("Direction"), &dir);
 
   return result;
 }

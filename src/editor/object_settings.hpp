@@ -22,6 +22,7 @@
 #include "editor/object_option.hpp"
 
 class Color;
+enum class Direction;
 
 class ObjectSettings final
 {
@@ -40,6 +41,8 @@ public:
                  const std::string& key = {}, int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
   void add_int(const std::string& text, int* value_ptr,
                const std::string& key = {}, int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
+  void add_direction(const std::string& text, Direction* value_ptr,
+                     const std::string& key = {}, int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
   void add_badguy(const std::string& text, std::vector<std::string>* value_ptr,
                   const std::string& key = {}, int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
   void add_color(const std::string& text, Color* value_ptr,

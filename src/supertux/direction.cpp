@@ -26,18 +26,6 @@ std::ostream& operator<<(std::ostream& o, const Direction& dir)
   return o << dir_to_string(dir);
 }
 
-ObjectOption
-dir_option(Direction *dir)
-{
-  ObjectOption result(MN_STRINGSELECT, _("Direction"), dir);
-  result.m_select.push_back(_("auto"));
-  result.m_select.push_back(_("left"));
-  result.m_select.push_back(_("right"));
-  result.m_select.push_back(_("up"));
-  result.m_select.push_back(_("down"));
-  return result;
-}
-
 std::string
 dir_to_string(const Direction& dir)
 {

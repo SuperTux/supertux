@@ -821,7 +821,7 @@ ObjectSettings
 BadGuy::get_settings()
 {
   ObjectSettings result = MovingSprite::get_settings();
-  result.add_option(dir_option(&m_dir));
+  result.add_direction(_("Direction"), &m_dir);
   result.add_script(_("Death script"), &m_dead_script);
   return result;
 }
