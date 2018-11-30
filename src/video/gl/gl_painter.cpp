@@ -134,11 +134,10 @@ GLPainter::draw_texture(const TextureRequest& request)
 
   GLContext& context = m_video_system.get_context();
 
-  context.set_positions(vertices.data(), sizeof(float) * vertices.size());
-  context.set_texcoords(uvs.data(), sizeof(float) * uvs.size());
-
-  context.bind_texture(texture, request.displacement_texture);
   context.blend_func(request.blend.sfactor, request.blend.dfactor);
+  context.bind_texture(texture, request.displacement_texture);
+  context.set_texcoords(uvs.data(), sizeof(float) * uvs.size());
+  context.set_positions(vertices.data(), sizeof(float) * vertices.size());
   context.set_color(Color(request.color.red,
                           request.color.green,
                           request.color.blue,
@@ -161,17 +160,21 @@ GLPainter::draw_gradient(const GradientRequest& request)
 
   GLContext& context = m_video_system.get_context();
 
-  float vertices[] = {
+  const float vertices[] = {
     region.p1.x, region.p1.y,
     region.p2.x, region.p1.y,
     region.p2.x, region.p2.y,
     region.p1.x, region.p2.y
   };
+
+  context.blend_func(request.blend.sfactor, request.blend.dfactor);
+  context.bind_no_texture();
   context.set_positions(vertices, sizeof(vertices));
+  context.set_texcoord(0.0f, 0.0f);
 
   if (direction == VERTICAL || direction == VERTICAL_SECTOR)
   {
-    float colors[] = {
+    const float colors[] = {
       top.red, top.green, top.blue, top.alpha,
       top.red, top.green, top.blue, top.alpha,
       bottom.red, bottom.green, bottom.blue, bottom.alpha,
@@ -190,10 +193,6 @@ GLPainter::draw_gradient(const GradientRequest& request)
     context.set_colors(colors, sizeof(colors));
   }
 
-  context.bind_no_texture();
-  context.set_texcoord(0.0f, 0.0f);
-  context.blend_func(request.blend.sfactor, request.blend.dfactor);
-
   context.draw_arrays(GL_TRIANGLE_FAN, 0, 4);
 
   assert_gl();
@@ -205,10 +204,11 @@ GLPainter::draw_filled_rect(const FillRectRequest& request)
   assert_gl();
 
   GLContext& context = m_video_system.get_context();
-  context.set_color(request.color);
 
+  context.blend_func(request.blend.sfactor, request.blend.dfactor);
   context.bind_no_texture();
   context.set_texcoord(0.0f, 0.0f);
+  context.set_color(request.color);
 
   if (request.radius != 0.0f)
   {
@@ -350,10 +350,11 @@ GLPainter::draw_inverse_ellipse(const InverseEllipseRequest& request)
 
   GLContext& context = m_video_system.get_context();
 
-  context.set_color(request.color);
+  context.blend_func(request.blend.sfactor, request.blend.dfactor);
   context.bind_no_texture();
   context.set_positions(vertices, sizeof(vertices));
   context.set_texcoord(0.0f, 0.0f);
+  context.set_color(request.color);
 
   context.draw_arrays(GL_TRIANGLES, 0, points);
 
@@ -394,10 +395,11 @@ GLPainter::draw_line(const LineRequest& request)
 
   GLContext& context = m_video_system.get_context();
 
-  context.set_color(request.color);
+  context.blend_func(request.blend.sfactor, request.blend.dfactor);
   context.bind_no_texture();
-  context.set_texcoord(0.0f, 0.0f);
   context.set_positions(vertices, sizeof(vertices));
+  context.set_texcoord(0.0f, 0.0f);
+  context.set_color(request.color);
 
   context.draw_arrays(GL_TRIANGLE_STRIP, 0, 4);
 
@@ -424,10 +426,11 @@ GLPainter::draw_triangle(const TriangleRequest& request)
 
   GLContext& context = m_video_system.get_context();
 
-  context.set_color(request.color);
+  context.blend_func(request.blend.sfactor, request.blend.dfactor);
   context.bind_no_texture();
   context.set_texcoord(0.0f, 0.0f);
   context.set_positions(vertices, sizeof(vertices));
+  context.set_color(request.color);
 
   context.draw_arrays(GL_TRIANGLES, 0, 3);
 
