@@ -51,7 +51,6 @@ private:
 private:
   float* m_number;
   int m_flickw;
-  bool m_has_comma;
   Color m_channel;
 
 private:
