@@ -104,7 +104,8 @@ public:
        bool deprecated = false);
 
   /** Draw a tile on the screen */
-  void draw(Canvas& canvas, const Vector& pos, int z_pos, Color color = Color(1, 1, 1)) const;
+  void draw(Canvas& canvas, const Vector& pos, int z_pos, const Color& color = Color(1, 1, 1)) const;
+  void draw_debug(Canvas& canvas, const Vector& pos, int z_pos, const Color& color = Color(1.0f, 0.f, 1.0f, 0.5f)) const;
 
   SurfacePtr get_current_surface() const;
   SurfacePtr get_current_editor_surface() const;

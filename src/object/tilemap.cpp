@@ -20,6 +20,7 @@
 #include <cmath>
 
 #include "editor/editor.hpp"
+#include "supertux/debug.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/tile.hpp"
@@ -28,6 +29,7 @@
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
 #include "video/drawing_context.hpp"
+#include "video/layer.hpp"
 #include "video/surface.hpp"
 
 TileMap::TileMap(const TileSet *new_tileset) :
@@ -375,6 +377,10 @@ TileMap::draw(DrawingContext& context)
 
       if (m_tiles[index] == 0) continue;
       const Tile& tile = m_tileset->get(m_tiles[index]);
+
+      if (g_debug.show_collision_rects) {
+        tile.draw_debug(context.color(), pos, LAYER_FOREGROUND1);
+      }
 
       const SurfacePtr& surface = Editor::current() ? tile.get_current_editor_surface() : tile.get_current_surface();
       if (surface) {
