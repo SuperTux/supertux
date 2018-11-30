@@ -258,7 +258,7 @@
     )
     (person
       (name "Carsten \"RustyBox\" Wirtz")
-      (info (_ "Level improvements, Graphics, Story Development"))
+      (info (_ "Level Design, Graphics, Story Development"))
       (simple #t)
     )
     (blank)
