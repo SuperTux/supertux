@@ -20,6 +20,7 @@
 #include "util/file_system.hpp"
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
+#include "util/string_util.hpp"
 
 #include <sstream>
 
@@ -53,16 +54,14 @@ SpriteManager::load(const std::string& filename)
 {
   ReaderDocument doc = [filename](){
     try {
-      if (filename.size() >= 7 && filename.compare(filename.size() - 7, 7, ".sprite") == 0) {
-        // Sprite file
+      if (StringUtil::has_suffix(filename, ".sprite")) {
         return ReaderDocument::from_file(filename);
       } else {
-        // Load image file directly
-        std::stringstream lisptext;
-        lisptext << "(supertux-sprite (action "
-        <<    "(name \"default\") "
-        <<    "(images \"" << FileSystem::basename(filename) << "\")))";
-        return ReaderDocument::from_stream(lisptext, filename);
+        std::stringstream text;
+        text << "(supertux-sprite (action "
+             << "(name \"default\") "
+             << "(images \"" << FileSystem::basename(filename) << "\")))";
+        return ReaderDocument::from_stream(text, filename);
       }
     } catch(const std::exception& e) {
       std::ostringstream msg;

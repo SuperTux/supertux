@@ -24,12 +24,13 @@
 #include <physfs.h>
 #include <sstream>
 
-#include "audio/sound_error.hpp"
 #include "audio/ogg_sound_file.hpp"
+#include "audio/sound_error.hpp"
 #include "audio/wav_sound_file.hpp"
+#include "util/file_system.hpp"
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
-#include "util/file_system.hpp"
+#include "util/string_util.hpp"
 
 namespace {
 
@@ -82,8 +83,7 @@ std::unique_ptr<SoundFile> load_music_file(const std::string& filename)
 
 std::unique_ptr<SoundFile> load_sound_file(const std::string& filename)
 {
-  if (filename.length() > 6
-     && filename.compare(filename.length() - 6, 6, ".music") == 0) {
+  if (StringUtil::has_suffix(filename, ".music")) {
     return load_music_file(filename);
   }
 
