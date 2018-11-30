@@ -531,722 +531,410 @@
       (string (_ "Localization"))
     )
     (blank)
-    (person
-      (name "Alert Aleksandar")
-      (info (_ "Serbian"))
-      (simple #t))
-    (person
-      (name "Umidjon Almasov")
-      (info (_ "Uzbek"))
-      (simple #t))
-    (person
-      (name "Am1g0")
-      (info (_ "Italian"))
-      (simple #t))
-    (person
-      (name "Anders")
-      (info (_ "Danish"))
-      (simple #t))
-    (person
-      (name "Angela")
-      (info (_ "Italian"))
-      (simple #t))
-    (person
-      (name "Phan Anh")
-      (info (_ "Vietnamese"))
-      (simple #t))
-    (person
-      (name "Dmitry \"starwars32\" Anikonov")
-      (info (_ "Russian"))
-      (simple #t))
-    (person
-      (name "Anonymouse")
-      (info (_ "French, German"))
-      (simple #t))
-    (person
-      (name "Sébastien Aperghis-Tramoni")
-      (info (_ "French"))
-      (simple #t))
-    (person
-      (name "Ettore Atalan")
-      (info (_ "German"))
-      (simple #t))
-    (person
-      (name "Francisco B.G.")
-      (info (_ "Spanish"))
-      (simple #t))
-    (person
-      (name "Bananasoft")
-      (info (_ "Italian"))
-      (simple #t))
-    (person
-      (name "Constantin Baranov")
-      (info (_ "Russian"))
-      (simple #t))
+    (text
+      (type "reference")
+      (string "Albanian")
+    )
     (person
       (name "Indrit Bashkimi")
-      (info (_ "Albanese"))
-      (simple #t))
-    (person
-      (name "Javier Beaumont")
-      (info (_ "Castilian Spanish"))
-      (simple #t))
-    (person
-      (name "Baráth Béla")
-      (info (_ "Hungarian"))
-      (simple #t))
-    (person
-      (name "William Beltrán")
-      (info (_ "Spanish"))
-      (simple #t))
-    (person
-      (name "Roman 'Kaktuxista' Benji")
-      (info (_ "Slovak"))
-      (simple #t))
-    (person
-      (name "Thomas Bigot")
-      (info (_ "French"))
-      (simple #t))
-    (person
-      (name "BlaCoiso")
-      (info (_ "European Portuguese"))
-      (simple #t))
-    (person
-      (name "Marcello Bolognesi")
-      (info (_ "Italian"))
-      (simple #t))
-    (person
-      (name "Gianfranco Del Borrello")
-      (info (_ "Italian"))
-      (simple #t))
-    (person
-      (name "Martí Bosc")
-      (info (_ "Catalan"))
-      (simple #t))
-    (person
-      (name "G BR")
-      (info (_ "Spanish"))
-      (simple #t))
-    (person
-      (name "Matthias Braun")
-      (info (_ "German"))
-      (simple #t))
-    (person
-      (name "Sergio López Briñas")
-      (info (_ "Castilian Spanish"))
-      (simple #t))
-    (person
-      (name "Laurent Brousse")
-      (info (_ "French"))
-      (simple #t))
-    (person
-      (name "Marko Burjek")
-      (info (_ "Slovenian"))
-      (simple #t))
-    (person
-      (name "Levente Krisztián Büte")
-      (info (_ "Hungarian"))
-      (simple #t))
-    (person
-      (name "Tibor Buzási")
-      (info (_ "Hungarian"))
-      (simple #t))
-    (person
-      (name "Balasankar C")
-      (info (_ "Malayalam"))
-      (simple #t))
-    (person
-      (name "cges30901")
-      (info (_ "Mandarin Chinese"))
-      (simple #t))
-    (person
-      (name "comradekingu")
-      (info (_ "Norwegian Bokmål"))
-      (simple #t))
-    (person
-      (name "Fernando Carmona")
-      (info (_ "Castilian Spanish"))
-      (simple #t))
-    (person
-      (name "Catalanoic")
-      (info (_ "Catalan"))
-      (simple #t))
-    (person
-      (name "Marc Celeiro")
-      (info (_ "Catalan"))
-      (simple #t))
-    (person
-      (name "Wei-Lun Chao")
-      (info (_ "Mandarin"))
-      (simple #t))
-    (person
-      (name "Rubén Leal Coba")
-      (info (_ "Esperanto"))
-      (simple #t))
-    (person
-      (name "Nicolae Crefelean")
-      (info (_ "Romanian"))
-      (simple #t))
-    (person
-      (name "Ricardo Cruz")
-      (info (_ "European Portuguese"))
-      (simple #t))
-    (person
-      (name "Ilija Ćulap")
-      (info (_ "Croatian"))
-      (simple #t))
-    (person
-      (name "Razvan Dajboc")
-      (info (_ "Romanian"))
-      (simple #t))
-    (person
-      (name "Manish Dangol")
-      (info (_ "Nepali"))
-      (simple #t))
-    (person
-      (name "Pieter De Decker")
-      (info (_ "Dutch"))
-      (simple #t))
-    (person
-      (name "Bertrand Delaitre")
-      (info (_ "French"))
-      (simple #t))
-    (person
-      (name "Antoine Dumondel")
-      (info (_ "French"))
-      (simple #t))
-    (person
-      (name "DusXMT")
-      (info (_ "Slovak"))
-      (simple #t))
-    (person
-      (name "Enrico")
-      (info (_ "Italian"))
-      (simple #t))
-    (person
-      (name "Erdy")
-      (info (_ "Turkish"))
-      (simple #t))
-    (person
-      (name "faradundamarti")
-      (info (_ "Turkish"))
-      (simple #t))
-    (person
-      (name "Daniela Ferraz")
-      (info (_ "European/Brazilian Portuguese"))
-      (simple #t))
-    (person
-      (name "Galp Flark")
-      (info (_ "Hungarian"))
-      (simple #t))
-    (person
-      (name "Florian Forster")
-      (info (_ "German"))
-      (simple #t))
-    (person
-      (name "Franchulo")
-      (info (_ "Spanish"))
-      (simple #t))
-    (person
-      (name "fri")
-      (info (_ "Czech"))
-      (simple #t))
-    (person
-      (name "Prabin Gautam")
-      (info (_ "Nepali"))
-      (simple #t))
-    (person
-      (name "Germana")
-      (info (_ "Spanish"))
-      (simple #t))
-    (person
-      (name "Toon van Gerwen")
-      (info (_ "Dutch"))
-      (simple #t))
-    (person
-      (name "GenghisKhan")
-      (info (_ "Hebrew"))
-      (simple #t))
-    (person
-      (name "Victor Gonçalves")
-      (info (_ "Brazilian Portuguese"))
-      (simple #t))
-    (person
-      (name "Gorzy Gorup")
-      (info (_ "Slovenian"))
-      (simple #t))
-    (person
-      (name "Kristoffer Grundström")
-      (info (_ "Swedish"))
-      (simple #t))
-    (person
-      (name "Sebastiano Guerrini")
-      (info (_ "Italian"))
-      (simple #t))
-    (person
-      (name "gyeben")
-      (info (_ "Hungarian"))
-      (simple #t))
-    (person
-      (name "Joe Hansen")
-      (info (_ "Danish"))
-      (simple #t))
-    (person
-      (name "Marcel Haring")
-      (info (_ "German"))
-      (simple #t))
-    (person
-      (name "Dennis Holierhoek")
-      (info (_ "Dutch"))
-      (simple #t))
-    (person
-      (name "Jaakoppi Horila")
-      (info (_ "Finnish"))
-      (simple #t))
-    (person
-      (name "Ondřej Hošek")
-      (info (_ "Czech"))
-      (simple #t))
-    (person
-      (name "Łukasz Hryniuk")
-      (info (_ "Polish"))
-      (simple #t))
-    (person
-      (name "Karl Ove Hufthammer")
-      (info (_ "Norwegian Bokmål, Norwegian Nynorsk"))
-      (simple #t))
-    (person
-      (name "Hume")
-      (info (_ "Czech"))
-      (simple #t))
-    (person
-      (name "Iknos")
-      (info (_ "Italian"))
-      (simple #t))
-    (person
-      (name "Bulat Ibrahim")
-      (info (_ "Tatar"))
-      (simple #t))
-    (person
-      (name "Tony Ivanov")
-      (info (_ "Bulgarian"))
-      (simple #t))
-    (person
-      (name "Jesusaves")
-      (info (_ "Brazilian Portuguese"))
-      (simple #t))
-    (person
-      (name "Jose Jorge")
-      (info (_ "European Portuguese"))
-      (simple #t))
-    (person
-      (name "juanda097")
-      (info (_ "Spanish"))
-      (simple #t))
-    (person
-      (name "Alkım Kaçmaz")
-      (info (_ "Turkish"))
-      (simple #t))
-    (person
-      (name "Manuela Kessler")
-      (info (_ "Italian"))
-      (simple #t))
-    (person
-      (name "Roland Kim")
-      (info (_ "Korean"))
-      (simple #t))
-    (person
-      (name "Günter \"kyber\" Kits")
-      (info (_ "Estonian"))
-      (simple #t))
-    (person
-      (name "Dominik Klementowski")
-      (info (_ "Polish"))
-      (simple #t))
-    (person
-      (name "Marcin Kocur")
-      (info (_ "Polish"))
-      (simple #t))
-    (person
-      (name "Kristóf Kófiás")
-      (info (_ "Hungarian"))
-      (simple #t))
-    (person
-      (name "Simon Kornowski")
-      (info (_ "Polish, Swedish"))
-      (simple #t))
-    (person
-      (name "Marcin Kralka")
-      (info (_ "Polish"))
-      (simple #t))
-    (person
-      (name "Mantas Kriaučiūnas")
-      (info (_ "Lithuanian"))
-      (simple #t))
-    (person
-      (name "Artem Krosheninnikov")
-      (info (_ "Russian"))
-      (simple #t))
-    (person
-      (name "Lapamiko")
-      (info (_ "Finnish"))
-      (simple #t))
-    (person
-      (name "Benjamin Leduc")
-      (info (_ "French/Esperanto"))
-      (simple #t))
-    (person
-      (name "Joel Gil Leon")
-      (info (_ "Spanish, Brazilian Portuguese"))
-      (simple #t))
-    (person
-      (name "Sérgio Lopes")
-      (info (_ "European Portuguese"))
-      (simple #t))
-    (person
-      (name "Frist Lsat")
-      (info (_ "Esperanto"))
-      (simple #t))
-    (person
-      (name "Zhao Wei Lun")
-      (info (_ "Mandarin Chinese"))
-      (simple #t))
-    (person
-      (name "Max Lyashuk")
-      (info (_ "Ukrainian"))
-      (simple #t))
-    (person
-      (name "M&m")
-      (info (_ "German"))
-      (simple #t))
-    (person
-      (name "Riccardo Di Maio")
-      (info (_ "Italian"))
-      (simple #t))
-    (person
-      (name "Mar")
-      (info (_ "Dutch"))
-      (simple #t))
-    (person
-      (name "Tobias Markus")
-      (info (_ "German"))
-      (simple #t))
-    (person
-      (name "Céline Marmin")
-      (info (_ "French"))
-      (simple #t))
-    (person
-      (name "Sugahara Masayuki")
-      (info (_ "Japanese"))
-      (simple #t))
-    (person
-      (name "Lucas Mascaro")
-      (info (_ "French"))
-      (simple #t))
-    (person
-      (name "MCMic")
-      (info (_ "French"))
-      (simple #t))
-    (person
-      (name "meczup")
-      (info (_ "Turkish"))
-      (simple #t))
-    (person
-      (name "melikamp")
-      (info (_ "Russian"))
-      (simple #t))
-    (person
-      (name "Gwenn Meynier")
-      (info (_ "Breton"))
-      (simple #t))
-    (person
-      (name "millimarg")
-      (info (_ "German"))
-      (simple #t))
-    (person
-      (name "MiroslavR")
-      (info (_ "Slovak"))
-      (simple #t))
-    (person
-      (name "mkkot")
-      (info (_ "Polish"))
-      (simple #t))
-    (person
-      (name "mol1")
-      (info (_ "French"))
-      (simple #t))
-    (person
-      (name "Myeongjin")
-      (info (_ "Korean"))
-      (simple #t))
-    (person
-      (name "Norbert Molnár")
-      (info (_ "Hungarian"))
-      (simple #t))
-    (person
-      (name "Narre")
-      (info (_ "Czech"))
-      (simple #t))
-    (person
-      (name "Jonatas L. Nogueira")
-      (info (_ "Brazilian Portuguese"))
-      (simple #t))
-    (person
-      (name "Vangelis Nomikos")
-      (info (_ "Greek"))
-      (simple #t))
-    (person
-      (name "Arvid Norlander")
-      (info (_ "Swedish"))
-      (simple #t))
-    (person
-      (name "Krishnamurti Lelis Lima Vieira Nunes")
-      (info (_ "Brazilian Portuguese"))
-      (simple #t))
-    (person
-      (name "Nwolfy")
-      (info (_ "Slovenian"))
-      (simple #t))
-    (person
-      (name "Lauri \"xet7\" Ojansivu")
-      (info (_ "Finnish"))
-      (simple #t))
-    (person
-      (name "Filipe Oliveira")
-      (info (_ "Brazilian Portuguese"))
-      (simple #t))
-    (person
-      (name "James Ou")
-      (info (_ "Mandarin Chinese"))
-      (simple #t))
-    (person
-      (name "Mahmut Özcan")
-      (info (_ "Turkish"))
-      (simple #t))
-    (person
-      (name "Emre Özkartal")
-      (info (_ "Turkish"))
-      (simple #t))
-    (person
-      (name "Yusuf Özsoy")
-      (info (_ "Turkish"))
-      (simple #t))
-    (person
-      (name "Alisa P")
-      (info (_ "Latin"))
-      (simple #t))
-    (person
-      (name "Mladen Pejaković")
-      (info (_ "Serbian"))
-      (simple #t))
-    (person
-      (name "Rodrigo Piñero")
-      (info (_ "Brazilian Portuguese"))
-      (simple #t))
-    (person
-      (name "Balázs Podolcsák")
-      (info (_ "Hungarian"))
-      (simple #t))
-    (person
-      (name "Léo Poughon")
-      (info (_ "French"))
-      (simple #t))
-    (person
-      (name "Bansaj Pradhan")
-      (info (_ "Nepali"))
-      (simple #t))
-    (person
-      (name "Nathanael Ready")
-      (info (_ "French"))
-      (simple #t))
-    (person
-      (name "Herval Ribeiro")
-      (info (_ "Brazilian Portuguese"))
-      (simple #t))
-    (person
-      (name "Jose Riha")
-      (info (_ "Slovak"))
-      (simple #t))
-    (person
-      (name "Frederic Rodrigo")
-      (info (_ "French"))
-      (simple #t))
-    (person
-      (name "root")
-      (info (_ "Turkish"))
-      (simple #t))
-    (person
-      (name "Irene Di Rosa")
-      (info (_ "Italian"))
-      (simple #t))
-    (person
-      (name "Rui")
-      (info (_ "European Portuguese, Brazilian Portuguese"))
-      (simple #t))
-    (person
-      (name "Marcin S")
-      (info (_ "Polish"))
-      (simple #t))
-    (person
-      (name "D. J. S.")
-      (info (_ "Hungarian"))
-      (simple #t))
-    (person
-      (name "Savsish")
-      (info (_ "Russian"))
-      (simple #t))
-    (person
-      (name "sebras")
-      (info (_ "Swedish"))
-      (simple #t))
-    (person
-      (name "Slobodan Simić")
-      (info (_ "Serbian"))
-      (simple #t))
-    (person
-      (name "Vangelis Skarmoutsos")
-      (info (_ "Greek"))
-      (simple #t))
-    (person
-      (name "SomeRandomUser")
-      (info (_ "Greek"))
-      (simple #t))
-    (person
-      (name "Sumita \"tako44\" Sanshiro")
-      (info (_ "Japanese"))
-      (simple #t))
-    (person
-      (name "Liu Sizhuang")
-      (info (_ "Simplified Chinese"))
-      (simple #t))
-    (person
-      (name "Jan Solanti")
-      (info (_ "Finnish"))
-      (simple #t))
-    (person
-      (name "Christoph Sommer")
-      (info (_ "German"))
-      (simple #t))
-    (person
-      (name "starryprabin")
-      (info (_ "Nepali"))
-      (simple #t))
-    (person
-      (name "Andrius Štikonas")
-      (info (_ "Lithuanian"))
-      (simple #t))
-    (person
-      (name "Sylvain St-Amand")
-      (info (_ "French"))
-      (simple #t))
-    (person
-      (name "Heimen Stoffels")
-      (info (_ "Dutch"))
-      (simple #t))
-    (person
-      (name "symvizan")
-      (info (_ "Hungarian"))
-      (simple #t))
-    (person
-      (name "Krzysiek Szeląg")
-      (info (_ "Polish"))
-      (simple #t))
-    (person
-      (name "Ioma Taani")
-      (info (_ "Italian"))
-      (simple #t))
-    (person
-      (name "Paweł Talar")
-      (info (_ "Polish"))
-      (simple #t))
-    (person
-      (name "Haba Tamás")
-      (info (_ "Hungarian"))
-      (simple #t))
-    (person
-      (name "theschitz")
-      (info (_ "Swedish"))
-      (simple #t))
-    (person
-      (name "Saku Tiihonen")
-      (info (_ "Finnish"))
-      (simple #t))
-    (person
-      (name "tingberg")
-      (info (_ "Finnish"))
-      (simple #t))
-    (person
-      (name "Eugen Uvin")
-      (info (_ "Ukrainian"))
-      (simple #t))
-    (person
-      (name "Frank van der Loo")
-      (info (_ "Dutch"))
-      (simple #t))
+      (simple #t)
+    )
+    (blank)
+    (text
+      (type "reference")
+      (string "Belarusian")
+    )
     (person
       (name "Mihas \"meequz\" Varantsou")
-      (info (_ "Belarusian"))
-      (simple #t))
+      (simple #t)
+    )
+    (blank)
+    (text
+      (type "reference")
+      (string "Breton")
+    )
     (person
-      (name "Jakub Vaněk")
-      (info (_ "Czech"))
-      (simple #t))
+      (name "Gwenn Meynier")
+      (simple #t)
+    )
+    (blank)
+    (text
+      (type "reference")
+      (string "Bulgarian")
+    )
     (person
-      (name "G Vassilev")
-      (info (_ "Bulgarian"))
-      (simple #t))
+      (name "Tony Ivanov, G Vassilev, Lyubomir Vasilev")
+      (simple #t)
+    )
+    (blank)
+    (text
+      (type "reference")
+      (string "Catalan")
+    )
     (person
-      (name "Lyubomir Vasilev")
-      (info (_ "Bulgarian"))
-      (simple #t))
+      (name "Martí Bosc, Catalanoic, Marc Celeiro, Antoni Villalonga")
+      (simple #t)
+    )
+    (blank)
+    (text
+      (type "reference")
+      (string "Chinese (Simplified)")
+    )
     (person
-      (name "Antoni Villalonga")
-      (info (_ "Catalan"))
-      (simple #t))
+      (name "Liu Sizhuang")
+      (simple #t)
+    )
+    (blank)
+    (text
+      (type "reference")
+      (string "Chinese (Mandarin)")
+    )
     (person
-      (name "Robin van der Vliet")
-      (info (_ "Esperanto"))
-      (simple #t))
+      (name "cges30901, Wei-Lun Chao, Zhao Wei Lun, James Ou, Franklin Weng")
+      (simple #t)
+    )
+    (blank)
+    (text
+      (type "reference")
+      (string "Croatian")
+    )
     (person
-      (name "Nils Welzk")
-      (info (_ "German"))
-      (simple #t))
+      (name "Ilija Ćulap")
+      (simple #t)
+    )
+    (blank)
+    (text
+      (type "reference")
+      (string "Czech")
+    )
     (person
-      (name "Franklin Weng")
-      (info (_ "Mandarin Chinese"))
-      (simple #t))
+      (name "fri, Ondřej Hošek, Hume, Narre, Jakub Vaněk")
+      (simple #t)
+    )
+    (blank)
+    (text
+      (type "reference")
+      (string "Danish")
+    )
     (person
-      (name "Wuzzy")
-      (info (_ "German"))
-      (simple #t))
+      (name "Anders, Joe Hansen")
+      (simple #t)
+    )
+    (blank)
+    (text
+      (type "reference")
+      (string "Dutch")
+    )
     (person
-      (name "Roman M. Yagodin")
-      (info (_ "Russian"))
-      (simple #t))
+      (name "Pieter De Decker, Toon van Gerwen, Dennis Holierhoek, Mar, Heimen Stoffels, Frank van der Loo")
+      (simple #t)
+    )
+    (blank)
+    (text
+      (type "reference")
+      (string "Esperanto")
+    )
     (person
-      (name "yakup")
-      (info (_ "Turkish"))
-      (simple #t))
+      (name "Rubén Leal Coba, Benjamin Leduc, Frist Lsat, Robin van der Vliet")
+      (simple #t)
+    )
+    (blank)
+    (text
+      (type "reference")
+      (string "Estonian")
+    )
     (person
-      (name "Yaniel")
-      (info (_ "Finnish"))
-      (simple #t))
+      (name "Günter \"kyber\" Kits")
+      (simple #t)
+    )
+    (blank)
+    (text
+      (type "reference")
+      (string "Finnish")
+    )
     (person
-      (name "Yevgeny")
-      (info (_ "Hebrew"))
-      (simple #t))
+      (name "Jaakoppi Horila, Lapamiko, Lauri \"xet7\" Ojansivu, Jan Solanti, Saku Tiihonen, tingberg, Yaniel")
+      (simple #t)
+    )
+    (blank)
+    (text
+      (type "reference")
+      (string "French")
+    )
+    (person
+      (name "Anonymouse, Sébastien Aperghis-Tramoni, Thomas Bigot, Laurent Brousse, Bertrand Delaitre, Antoine Dumondel, Benjamin Leduc, Céline Marmin, Lucas Mascaro, MCMic, mol1, Léo Poughon, Nathanael Ready, Frederic Rodrigo, Sylvain St-Amand, zecas \"zezinho\"")
+      (simple #t)
+    )
+    (blank)
+    (text
+      (type "reference")
+      (string "German")
+    )
+    (person
+      (name "Anonymouse, Ettore Atalan, Matthias Braun, Florian Forster, Marcel Haring, M&m, Tobias Markus, millimarg, Christoph Sommer, Nils Welzk, Wuzzy")
+      (simple #t)
+    )
+    (blank)
+    (text
+      (type "reference")
+      (string "Greek")
+    )
+    (person
+      (name "Vangelis Nomikos, Vangelis Skarmoutsos, SomeRandomUser")
+      (simple #t)
+    )
+    (blank)
+    (text
+      (type "reference")
+      (string "Hebrew")
+    )
+    (person
+      (name "GenghisKhan, Yevgeny")
+      (simple #t)
+    )
+    (blank)
+    (text
+      (type "reference")
+      (string "Hungarian")
+    )
+    (person
+      (name "Baráth Béla, Levente Krisztián Büte, Tibor Buzási, Galp Flark, gyeben, Kristóf Kófiás, Norbert Molnár, Balázs Podolcsák, D. J. S., symvizan, Haba Tamás, Kővágó Zoltán")
+      (simple #t)
+    )
+    (blank)
+    (text
+      (type "reference")
+      (string "Indonesian")
+    )
     (person
       (name "Christian E Yoga")
-      (info (_ "Indonesian"))
-      (simple #t))
+      (simple #t)
+    )
+    (blank)
+    (text
+      (type "reference")
+      (string "Italian")
+    )
     (person
-      (name "zecas \"zezinho\"")
-      (info (_ "French"))
-      (simple #t))
+      (name "Am1g0, Angela, Bananasoft, Marcello Bolognesi, Gianfranco Del Borrello, Enrico, Sebastiano Guerrini, Iknos, Manuela Kessler, Riccardo Di Maio, Irene Di Rosa, Ioma Taani")
+      (simple #t)
+    )
+    (blank)
+    (text
+      (type "reference")
+      (string "Japanese")
+    )
     (person
-      (name "Kővágó Zoltán")
-      (info (_ "Hungarian"))
-      (simple #t))
+      (name "Sugahara Masayuki, Sumita \"tako44\" Sanshiro")
+      (simple #t)
+    )
+    (blank)
+    (text
+      (type "reference")
+      (string "Korean")
+    )
+    (person
+      (name "Roland Kim, Myeongjin")
+      (simple #t)
+    )
+    (blank)
+    (text
+      (type "reference")
+      (string "Latin")
+    )
+    (person
+      (name "Alisa P")
+      (simple #t)
+    )
+    (blank)
+    (text
+      (type "reference")
+      (string "Lithuanian")
+    )
+    (person
+      (name "Mantas Kriaučiūnas, Andrius Štikonas")
+      (simple #t)
+    )
+    (blank)
+    (text
+      (type "reference")
+      (string "Malayalam")
+    )
+    (person
+      (name "Balasankar C")
+      (simple #t)
+    )
+    (blank)
+    (text
+      (type "reference")
+      (string "Nepali")
+    )
+    (person
+      (name "Manish Dangol, Prabin Gautam, Bansaj Pradhan, starryprabin")
+      (simple #t)
+    )
+    (blank)
+    (text
+      (type "reference")
+      (string "Norwegian Bokmål")
+    )
+    (person
+      (name "comradekingu, Karl Ove Hufthammer")
+      (simple #t)
+    )
+    (blank)
+    (text
+      (type "reference")
+      (string "Norwegian Nynorsk")
+    )
+    (person
+      (name "Karl Ove Hufthammer")
+      (simple #t)
+    )
+    (blank)
+    (text
+      (type "reference")
+      (string "Polish")
+    )
+    (person
+      (name "Łukasz Hryniuk, Dominik Klementowski, Marcin Kocur, Simon Kornowski, Marcin Kralka, mkkot, Marcin S, Krzysiek Szeląg, Paweł Talar")
+      (simple #t)
+    )
+    (blank)
+    (text
+      (type "reference")
+      (string "Portuguese (Brazilian)")
+    )
+    (person
+      (name "Daniela Ferraz, Victor Gonçalves, Jesusaves, Joel Gil Leon, Jonatas L. Nogueira, Krishnamurti Lelis Lima Vieira Nunes, Filipe Oliveira, Rodrigo Piñero, Herval Ribeiro, Rui")
+      (simple #t)
+    )
+    (blank)
+    (text
+      (type "reference")
+      (string "Portuguese (European)")
+    )
+    (person
+      (name "BlaCoiso, Ricardo Cruz, Daniela Ferraz, Jose Jorge, Sérgio Lopes, Rui")
+      (simple #t)
+    )
+    (blank)
+    (text
+      (type "reference")
+      (string "Romanian")
+    )
+    (person
+      (name "Nicolae Crefelean, Razvan Dajboc")
+      (simple #t)
+    )
+    (blank)
+    (text
+      (type "reference")
+      (string "Russian")
+    )
+    (person
+      (name "Dmitry \"starwars32\" Anikonov, Constantin Baranov, Artem Krosheninnikov, melikamp, Savsish, Roman M. Yagodin")
+      (simple #t)
+    )
+    (blank)
+    (text
+      (type "reference")
+      (string "Serbian")
+    )
+    (person
+      (name "Alert Aleksandar, Mladen Pejaković, Slobodan Simić")
+      (simple #t)
+    )
+    (blank)
+    (text
+      (type "reference")
+      (string "Slovak")
+    )
+    (person
+      (name "Roman 'Kaktuxista' Benji, DusXMT, MiroslavR, Jose Riha")
+      (simple #t)
+    )
+    (blank)
+    (text
+      (type "reference")
+      (string "Slovenian")
+    )
+    (person
+      (name "Marko Burjek, Gorzy Gorup, Nwolfy")
+      (simple #t)
+    )
+    (blank)
+    (text
+      (type "reference")
+      (string "Spanish")
+    )
+    (person
+      (name "Francisco B.G., William Beltrán, G BR, Franchulo, Germana, juanda097, Joel Gil Leon")
+      (simple #t)
+    )
+    (blank)
+    (text
+      (type "reference")
+      (string "Spanish (Castilian)")
+    )
+    (person
+      (name "Javier Beaumont, Sergio López Briñas, Fernando Carmona")
+      (simple #t)
+    )
+    (blank)
+    (text
+      (type "reference")
+      (string "Swedish")
+    )
+    (person
+      (name "Kristoffer Grundström, Arvid Norlander, sebras, theschitz")
+      (simple #t)
+    )
+    (blank)
+    (text
+      (type "reference")
+      (string "Tatar")
+    )
+    (person
+      (name "Bulat Ibrahim")
+      (simple #t)
+    )
+    (blank)
+    (text
+      (type "reference")
+      (string "Turkish")
+    )
+    (person
+      (name "Erdy, faradundamarti, Alkım Kaçmaz, meczup, Mahmut Özcan, Emre Özkartal, Yusuf Özsoy, root, yakup")
+      (simple #t)
+    )
+    (blank)
+    (text
+      (type "reference")
+      (string "Ukrainian")
+    )
+    (person
+      (name "Max Lyashuk, Eugen Uvin")
+      (simple #t)
+    )
+    (blank)
+    (text
+      (type "reference")
+      (string "Uzbek")
+    )
+    (person
+      (name "Umidjon Almasov")
+      (simple #t)
+    )
+    (blank)
+    (text
+      (type "reference")
+      (string "Vietnamese")
+    )
+    (person
+      (name "Phan Anh")
+      (simple #t)
+    )
       (blank)
       (blank)
       (text
