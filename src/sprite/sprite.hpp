@@ -52,6 +52,9 @@ public:
   /** Get current action total frames */
   int get_frames() const { return static_cast<int>(m_action->surfaces.size()); }
 
+  /** Get currently drawn frame */
+  int get_current_frame() const { return m_frameidx; }
+
   /** Get sprite's name */
   const std::string& get_name() const { return m_data.name; }
 

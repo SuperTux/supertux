@@ -131,7 +131,7 @@ Explosion::draw(DrawingContext& context)
 HitResponse
 Explosion::collision(GameObject& other, const CollisionHit& )
 {
-  if ((state != STATE_EXPLODING) || !hurt)
+  if ((state != STATE_EXPLODING) || !hurt || m_sprite->get_current_frame() > 8)
     return ABORT_MOVE;
 
   auto player = dynamic_cast<Player*>(&other);
