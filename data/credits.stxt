@@ -198,7 +198,7 @@
     )
     (person
       (name "Kai Alex \"Serano\" Jockers")
-      (info (_ "Level improvements"))
+      (info (_ "Level design, Background graphics"))
       (simple #t)
     )
     (person
@@ -258,7 +258,7 @@
     )
     (person
       (name "Carsten \"RustyBox\" Wirtz")
-      (info (_ "Level improvements"))
+      (info (_ "Level improvements, Graphics, Story Development"))
       (simple #t)
     )
     (blank)
