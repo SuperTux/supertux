@@ -184,7 +184,7 @@ GLPainter::draw_gradient(const GradientRequest& request)
   }
   else
   {
-    float colors[] = {
+    const float colors[] = {
       top.red, top.green, top.blue, top.alpha,
       bottom.red, bottom.green, bottom.blue, bottom.alpha,
       bottom.red, bottom.green, bottom.blue, bottom.alpha,
@@ -215,24 +215,24 @@ GLPainter::draw_filled_rect(const FillRectRequest& request)
     // draw round rect
     // Keep radius in the limits, so that we get a circle instead of
     // just graphic junk
-    float radius = std::min(request.radius,
-                            std::min(request.size.x/2,
-                                     request.size.y/2));
+    const float radius = std::min(request.radius,
+                                  std::min(request.size.x/2,
+                                           request.size.y/2));
 
     // inner rectangle
-    Rectf irect(request.pos.x    + radius,
+    const Rectf irect(request.pos.x    + radius,
                 request.pos.y    + radius,
                 request.pos.x + request.size.x - radius,
                 request.pos.y + request.size.y - radius);
 
-    int n = 8;
+    const int n = 8;
     size_t p = 0;
     std::vector<float> vertices((n+1) * 4 * 2);
 
     for (int i = 0; i <= n; ++i)
     {
-      float x = sinf(static_cast<float>(i) * math::PI_2 / static_cast<float>(n)) * radius;
-      float y = cosf(static_cast<float>(i) * math::PI_2 / static_cast<float>(n)) * radius;
+      const float x = sinf(static_cast<float>(i) * math::PI_2 / static_cast<float>(n)) * radius;
+      const float y = cosf(static_cast<float>(i) * math::PI_2 / static_cast<float>(n)) * radius;
 
       vertices[p++] = irect.get_left() - x;
       vertices[p++] = irect.get_top()  - y;
@@ -243,8 +243,8 @@ GLPainter::draw_filled_rect(const FillRectRequest& request)
 
     for (int i = 0; i <= n; ++i)
     {
-      float x = cosf(static_cast<float>(i) * math::PI_2 / static_cast<float>(n)) * radius;
-      float y = sinf(static_cast<float>(i) * math::PI_2 / static_cast<float>(n)) * radius;
+      const float x = cosf(static_cast<float>(i) * math::PI_2 / static_cast<float>(n)) * radius;
+      const float y = sinf(static_cast<float>(i) * math::PI_2 / static_cast<float>(n)) * radius;
 
       vertices[p++] = irect.get_left()   - x;
       vertices[p++] = irect.get_bottom() + y;
@@ -259,12 +259,12 @@ GLPainter::draw_filled_rect(const FillRectRequest& request)
   }
   else
   {
-    float x = request.pos.x;
-    float y = request.pos.y;
-    float w = request.size.x;
-    float h = request.size.y;
+    const float x = request.pos.x;
+    const float y = request.pos.y;
+    const float w = request.size.x;
+    const float h = request.size.y;
 
-    float vertices[] = {
+    const float vertices[] = {
       x,   y,
       x+w, y,
       x+w, y+h,
@@ -284,20 +284,20 @@ GLPainter::draw_inverse_ellipse(const InverseEllipseRequest& request)
 {
   assert_gl();
 
-  float x = request.pos.x;
-  float y = request.pos.y;
-  float w = request.size.x/2.0f;
-  float h = request.size.y/2.0f;
+  const float x = request.pos.x;
+  const float y = request.pos.y;
+  const float w = request.size.x/2.0f;
+  const float h = request.size.y/2.0f;
 
-  static const int slices = 16;
-  static const int points = (slices+1) * 12;
+  constexpr int slices = 16;
+  constexpr int points = (slices+1) * 12;
 
   float vertices[points * 2];
-  int   p = 0;
+  int p = 0;
 
   const Viewport& viewport = m_video_system.get_viewport();
-  float screen_width = static_cast<float>(viewport.get_screen_width());
-  float screen_height = static_cast<float>(viewport.get_screen_height());
+  const float screen_width = static_cast<float>(viewport.get_screen_width());
+  const float screen_height = static_cast<float>(viewport.get_screen_height());
 
   // Bottom
   vertices[p++] = screen_width; vertices[p++] = screen_height;
@@ -321,11 +321,11 @@ GLPainter::draw_inverse_ellipse(const InverseEllipseRequest& request)
 
   for (int i = 0; i < slices; ++i)
   {
-    float ex1 = sinf(math::PI_2 / static_cast<float>(slices) * static_cast<float>(i)) * w;
-    float ey1 = cosf(math::PI_2 / static_cast<float>(slices) * static_cast<float>(i)) * h;
+    const float ex1 = sinf(math::PI_2 / static_cast<float>(slices) * static_cast<float>(i)) * w;
+    const float ey1 = cosf(math::PI_2 / static_cast<float>(slices) * static_cast<float>(i)) * h;
 
-    float ex2 = sinf(math::PI_2 / static_cast<float>(slices) * static_cast<float>(i+1)) * w;
-    float ey2 = cosf(math::PI_2 / static_cast<float>(slices) * static_cast<float>(i+1)) * h;
+    const float ex2 = sinf(math::PI_2 / static_cast<float>(slices) * static_cast<float>(i+1)) * w;
+    const float ey2 = cosf(math::PI_2 / static_cast<float>(slices) * static_cast<float>(i+1)) * h;
 
     // Bottom/Right
     vertices[p++] = screen_width; vertices[p++] = screen_height;
@@ -366,10 +366,10 @@ GLPainter::draw_line(const LineRequest& request)
 {
   assert_gl();
 
-  float x1 = request.pos.x;
-  float y1 = request.pos.y;
-  float x2 = request.dest_pos.x;
-  float y2 = request.dest_pos.y;
+  const float x1 = request.pos.x;
+  const float y1 = request.pos.y;
+  const float x2 = request.dest_pos.x;
+  const float y2 = request.dest_pos.y;
 
   // OpenGL3.3 doesn't have GL_LINES anymore, so instead we transform
   // the line into a quad and draw it as triangle strip.
@@ -377,7 +377,7 @@ GLPainter::draw_line(const LineRequest& request)
   float x_step = (y2 - y1);
   float y_step = -(x2 - x1);
 
-  float step_norm = sqrtf(x_step * x_step + y_step * y_step);
+  const float step_norm = sqrtf(x_step * x_step + y_step * y_step);
   x_step /= step_norm;
   y_step /= step_norm;
 
@@ -386,7 +386,7 @@ GLPainter::draw_line(const LineRequest& request)
 
   // FIXME: this results in lines of not quite consistant width when
   // the window is scaled
-  float vertices[] = {
+  const float vertices[] = {
     (x1 - x_step), (y1 - y_step),
     (x2 - x_step), (y2 - y_step),
     (x1 + x_step), (y1 + y_step),
@@ -411,17 +411,10 @@ GLPainter::draw_triangle(const TriangleRequest& request)
 {
   assert_gl();
 
-  float x1 = request.pos1.x;
-  float y1 = request.pos1.y;
-  float x2 = request.pos2.x;
-  float y2 = request.pos2.y;
-  float x3 = request.pos3.x;
-  float y3 = request.pos3.y;
-
-  float vertices[] = {
-    x1, y1,
-    x2, y2,
-    x3, y3
+  const float vertices[] = {
+    request.pos1.x, request.pos1.y,
+    request.pos2.x, request.pos2.y,
+    request.pos3.x, request.pos3.y,
   };
 
   GLContext& context = m_video_system.get_context();
@@ -487,12 +480,7 @@ GLPainter::set_clip_rect(const Rect& clip_rect)
   const Rect& rect = m_renderer.get_rect();
   const Size& logical_size = m_renderer.get_logical_size();
 
-  int y = rect.get_height() * clip_rect.top / logical_size.height;
-
-  if (false) // FIXME: invert
-  {
-    y = rect.get_height() - y;
-  }
+  const int y = rect.get_height() * clip_rect.top / logical_size.height;
 
   glScissor(rect.left + rect.get_width() * clip_rect.left / logical_size.width,
             rect.top + y,
