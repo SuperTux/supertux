@@ -616,7 +616,10 @@
       (string "Dutch")
     )
     (person
-      (name "Pieter De Decker, Toon van Gerwen, Dennis Holierhoek, Mar, Heimen Stoffels, Frank van der Loo")
+      (name "Pieter De Decker, Toon van Gerwen, Dennis Holierhoek,")
+    )
+    (person
+      (name "Mar, Heimen Stoffels, Frank van der Loo")
     )
     (blank)
     (text
@@ -640,7 +643,10 @@
       (string "Finnish")
     )
     (person
-      (name "Jaakoppi Horila, Lapamiko, Lauri \"xet7\" Ojansivu, Jan Solanti, Saku Tiihonen, tingberg, Yaniel")
+      (name "Jaakoppi Horila, Lapamiko, Lauri \"xet7\" Ojansivu")
+    )
+    (person
+      (name "Jan Solanti, Saku Tiihonen, tingberg, Yaniel")
     )
     (blank)
     (text
@@ -648,7 +654,16 @@
       (string "French")
     )
     (person
-      (name "Anonymouse, Sébastien Aperghis-Tramoni, Thomas Bigot, Laurent Brousse, Bertrand Delaitre, Antoine Dumondel, Benjamin Leduc, Céline Marmin, Lucas Mascaro, MCMic, mol1, Léo Poughon, Nathanael Ready, Frederic Rodrigo, Sylvain St-Amand, zecas \"zezinho\"")
+      (name "Anonymouse, Sébastien Aperghis-Tramoni, Thomas Bigot, Laurent Brousse,")
+    )
+    (person
+      (name "Bertrand Delaitre, Antoine Dumondel, Benjamin Leduc, Céline Marmin,")
+    )
+    (person
+      (name "Lucas Mascaro, MCMic, mol1, Léo Poughon, Nathanael Ready,")
+    )
+    (person
+      (name "Frederic Rodrigo, Sylvain St-Amand, zecas \"zezinho\"")
     )
     (blank)
     (text
@@ -656,7 +671,13 @@
       (string "German")
     )
     (person
-      (name "Anonymouse, Ettore Atalan, Matthias Braun, Florian Forster, Marcel Haring, M&m, Tobias Markus, millimarg, Christoph Sommer, Nils Welzk, Wuzzy")
+      (name "Anonymouse, Ettore Atalan, Matthias Braun, Florian Forster,")
+    )
+    (person
+      (name "Marcel Haring, M&m, Tobias Markus, millimarg,")
+    )
+    (person
+      (name "Christoph Sommer, Nils Welzk, Wuzzy")
     )
     (blank)
     (text
@@ -680,7 +701,13 @@
       (string "Hungarian")
     )
     (person
-      (name "Baráth Béla, Levente Krisztián Büte, Tibor Buzási, Galp Flark, gyeben, Kristóf Kófiás, Norbert Molnár, Balázs Podolcsák, D. J. S., symvizan, Haba Tamás, Kővágó Zoltán")
+      (name "Baráth Béla, Levente Krisztián Büte, Tibor Buzási, Galp Flark,")
+    )
+    (person
+      (name "gyeben, Kristóf Kófiás, Norbert Molnár, Balázs Podolcsák,")
+    )
+    (person
+      (name "D. J. S., symvizan, Haba Tamás, Kővágó Zoltán")
     )
     (blank)
     (text
@@ -696,7 +723,13 @@
       (string "Italian")
     )
     (person
-      (name "Am1g0, Angela, Bananasoft, Marcello Bolognesi, Gianfranco Del Borrello, Enrico, Sebastiano Guerrini, Iknos, Manuela Kessler, Riccardo Di Maio, Irene Di Rosa, Ioma Taani")
+      (name "Am1g0, Angela, Bananasoft, Marcello Bolognesi,")
+    )
+    (person
+      (name "Gianfranco Del Borrello, Enrico, Sebastiano Guerrini, Iknos,")
+    )
+    (person
+      (name "Manuela Kessler, Riccardo Di Maio, Irene Di Rosa, Ioma Taani")
     )
     (blank)
     (text
@@ -768,7 +801,10 @@
       (string "Polish")
     )
     (person
-      (name "Łukasz Hryniuk, Dominik Klementowski, Marcin Kocur, Simon Kornowski, Marcin Kralka, mkkot, Marcin S, Krzysiek Szeląg, Paweł Talar")
+      (name "Łukasz Hryniuk, Dominik Klementowski, Marcin Kocur, Simon Kornowski,")
+    )
+    (person
+      (name "Marcin Kralka, mkkot, Marcin S, Krzysiek Szeląg, Paweł Talar")
     )
     (blank)
     (text
@@ -776,7 +812,13 @@
       (string "Portuguese (Brazilian)")
     )
     (person
-      (name "Daniela Ferraz, Victor Gonçalves, Jesusaves, Joel Gil Leon, Jonatas L. Nogueira, Krishnamurti Lelis Lima Vieira Nunes, Filipe Oliveira, Rodrigo Piñero, Herval Ribeiro, Rui")
+      (name "Daniela Ferraz, Victor Gonçalves, Jesusaves, Joel Gil Leon,")
+    )
+    (person
+      (name "Jonatas L. Nogueira, Krishnamurti Lelis Lima Vieira Nunes, Filipe Oliveira,")
+    )
+    (person
+      (name "Rodrigo Piñero, Herval Ribeiro, Rui")
     )
     (blank)
     (text
@@ -784,7 +826,10 @@
       (string "Portuguese (European)")
     )
     (person
-      (name "BlaCoiso, Ricardo Cruz, Daniela Ferraz, Jose Jorge, Sérgio Lopes, Rui")
+      (name "BlaCoiso, Ricardo Cruz, Daniela Ferraz,")
+    )
+    (person
+      (name "Jose Jorge, Sérgio Lopes, Rui")
     )
     (blank)
     (text
@@ -800,7 +845,10 @@
       (string "Russian")
     )
     (person
-      (name "Dmitry \"starwars32\" Anikonov, Constantin Baranov, Artem Krosheninnikov, melikamp, Savsish, Roman M. Yagodin")
+      (name "Dmitry \"starwars32\" Anikonov, Constantin Baranov,")
+    )
+    (person
+      (name "Artem Krosheninnikov, melikamp, Savsish, Roman M. Yagodin")
     )
     (blank)
     (text
@@ -832,7 +880,10 @@
       (string "Spanish")
     )
     (person
-      (name "Francisco B.G., William Beltrán, G BR, Franchulo, Germana, juanda097, Joel Gil Leon")
+      (name "Francisco B.G., William Beltrán, G BR, Franchulo,")
+    )
+    (person
+      (name "Germana, juanda097, Joel Gil Leon")
     )
     (blank)
     (text
@@ -864,7 +915,10 @@
       (string "Turkish")
     )
     (person
-      (name "Erdy, faradundamarti, Alkım Kaçmaz, meczup, Mahmut Özcan, Emre Özkartal, Yusuf Özsoy, root, yakup")
+      (name "Erdy, faradundamarti, Alkım Kaçmaz, meczup, Mahmut Özcan,")
+    )
+    (person
+      (name "Emre Özkartal, Yusuf Özsoy, root, yakup")
     )
     (blank)
     (text
