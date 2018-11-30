@@ -68,7 +68,7 @@ Surface::from_file(const std::string& filename, const boost::optional<Rect>& rec
     }
     else
     {
-      return Surface::from_reader(object.get_mapping());
+      return Surface::from_reader(object.get_mapping(), rect);
     }
   }
   else
