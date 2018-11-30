@@ -1,18 +1,19 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# Slobodan Simić <slsimic@gmail.com>, 2016
+# Sinisa3Games <cybersinisa@gmail.com>, 2018
+# Slobodan Simić <slsimic@gmail.com>, 2016,2018
 # Slobodan Simić <slsimic@gmail.com>, 2014
 # Slobodan Simić <slsimic@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-04 15:35+0200\n"
-"PO-Revision-Date: 2016-06-24 07:28+0000\n"
-"Last-Translator: Slobodan Simić <slsimic@gmail.com>\n"
+"Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
+"POT-Creation-Date: 2018-11-05 23:45+0100\n"
+"PO-Revision-Date: 2018-11-23 14:14+0000\n"
+"Last-Translator: Sinisa3Games <cybersinisa@gmail.com>\n"
 "Language-Team: Serbian (http://www.transifex.com/arctic-games/supertux/language/sr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,21 +25,21 @@ msgstr ""
 msgid "Bouncy Coils"
 msgstr "Скакутавци"
 
-#: data/levels/world2/Castle_Entrance.stl:3
-msgid "Entrance to the Castle"
-msgstr "Улаз у замак"
-
-#: data/levels/world2/CounterCurrent.stl:3
-msgid "Countercurrent"
-msgstr "Узводно"
+#: data/levels/world2/Bye_Bye_Forest.stl:3
+msgid "Bye Bye Forest"
+msgstr "Па-па шумица"
 
 #: data/levels/world2/Crumbling_Path.stl:3
 msgid "Crumbling Path"
 msgstr "Одроњени пут"
 
-#: data/levels/world2/Duct_Ape.stl:3
-msgid "Duct Ape"
-msgstr "Мај Мун"
+#: data/levels/world2/Dark_Tunnel.stl:3
+msgid "The Dark Tunnel"
+msgstr "Мрачни тунел"
+
+#: data/levels/world2/Deeper_Down.stl:3
+msgid "Deeper Down"
+msgstr "Још дубље"
 
 #: data/levels/world2/El_Castillo.stl:3
 msgid "A Short Visit to El Castillo"
@@ -48,9 +49,17 @@ msgstr "Кратка посета Ел Кастиљу"
 msgid "Find the Bigger Fish!"
 msgstr "Нађи крупнију рибу!"
 
-#: data/levels/world2/Find_Big_Fish.stl:449
+#: data/levels/world2/Find_Big_Fish.stl:446
 msgid "-A big fish... for you."
 msgstr "-Крупна риба... за тебе."
+
+#: data/levels/world2/Getting_Hot.stl:3
+msgid "It's Getting Hot!"
+msgstr "Постаје вруће"
+
+#: data/levels/world2/Ghostly_World.stl:3
+msgid "A Ghostly World"
+msgstr "Свет духова"
 
 #: data/levels/world2/Going_Underground.stl:3
 msgid "Going Underground"
@@ -59,10 +68,6 @@ msgstr "У подземљу"
 #: data/levels/world2/Kneep_Deep.stl:3
 msgid "Kneep-deep in the depth"
 msgstr "Дубоко у дубини"
-
-#: data/levels/world2/Little_Venice.stl:3
-msgid "Little Venice"
-msgstr "Мала Венеција"
 
 #: data/levels/world2/Mouldy_Grotto.stl:3
 msgid "A Mouldy Grotto"
@@ -89,9 +94,13 @@ msgstr "-О не!\n#Пут је блокиран!\n#Чини се да једи�
 msgid "-Are you lost?"
 msgstr "-Осећаш се изгубљено?"
 
-#: data/levels/world2/Silent_Walls.stl:3
-msgid "The Silent Walls"
-msgstr "Зидови тишине"
+#: data/levels/world2/Scary_Place.stl:3
+msgid "What is this Place?"
+msgstr "Какво је ово место?"
+
+#: data/levels/world2/This_Forest_is_Haunted.stl:3
+msgid "This Forest is Haunted"
+msgstr "Ова шума је уклета"
 
 #: data/levels/world2/Three_Sheets.stl:3
 msgid "Three sheets to the wind"
@@ -109,18 +118,13 @@ msgstr "Три тврђаве"
 msgid "Tux the Builder"
 msgstr "Такс градитељ"
 
-#: data/levels/world2/Tux_Builder.stl:46
+#: data/levels/world2/Tux_Builder.stl:53
 msgid ""
 "-Portable Rocks:\n"
 "\n"
-"!images/help/rockhowto1.png\n"
-"!images/help/rockhowto2.png\n"
-"!images/help/rockhowto3.png\n"
-msgstr "-Мале стене:\n\n!images/help/rockhowto1.png\n!images/help/rockhowto2.png\n!images/help/rockhowto3.png\n"
-
-#: data/levels/world2/Two_Towers.stl:3
-msgid "Two Tiny Towers"
-msgstr "Две мале куле"
+"#Tux can carry some rocks.\n"
+"#When you are next to one press the ACTION key and keep pressed while carrying the rock. Release the key to release the rock."
+msgstr "-Портабилно Камење:\n\n#Такс може да носи неко камење.\n#Када си ти поред једног килкни тастер АКЦИЈА и држи док носиш камен. Пусти тастер да пустиш камен."
 
 #: data/levels/world2/Up_and_Down.stl:3
 msgid "Up and Down"
@@ -171,10 +175,6 @@ msgstr "Чардак тамне шуме — Црна кула"
 msgid "Forest Level 1"
 msgstr "Шумски ниво 1"
 
-#: data/levels/world2/ghostly.stl:3
-msgid "A Ghostly World"
-msgstr "Свет духова"
-
 #: data/levels/world2/key1.stl:3
 msgid "key 1 water - to be placed behind waterfall"
 msgstr "кључ 1 вода — сместити га иза водопада"
@@ -215,7 +215,7 @@ msgstr "Совина освета"
 msgid "Roots, Woody Roots"
 msgstr "Коренко, Дрвени Коренко"
 
-#: data/levels/world2/roots_woody_roots.stl:200
+#: data/levels/world2/roots_woody_roots.stl:199
 msgid ""
 "-Hint:\n"
 "#If there seems to be\n"
@@ -244,3 +244,18 @@ msgstr "Сеоце у шуми"
 #: data/levels/world2/worldmap.stwm:3
 msgid "Forest World"
 msgstr "Шумски свет"
+
+#: data/levels/world2/worldmap.stwm:147
+msgid "More Worlds will be added later..."
+msgstr "Још светова биће додато касније..."
+
+#: data/levels/world2/worldmap.stwm:155 data/levels/world2/worldmap.stwm:162
+#: data/levels/world2/worldmap.stwm:169 data/levels/world2/worldmap.stwm:176
+#: data/levels/world2/worldmap.stwm:183 data/levels/world2/worldmap.stwm:190
+#: data/levels/world2/worldmap.stwm:197
+msgid "There is currently no level"
+msgstr "Тренутно нема нивоа"
+
+#: data/levels/world2/worldmap.stwm:204
+msgid "You Found a Secret Area!"
+msgstr "Пронашао си тајну област!"

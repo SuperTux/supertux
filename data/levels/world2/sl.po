@@ -1,17 +1,17 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
 # Gorzy Gorup <gorupgorazd@gmail.com>, 2016
-# Gorzy Gorup <gorupgorazd@gmail.com>, 2016
+# Gorzy Gorup <gorupgorazd@gmail.com>, 2016,2018
 # Marko Burjek <email4marko@gmail.com>, 2005-2007
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-04 15:35+0200\n"
-"PO-Revision-Date: 2016-06-24 14:17+0000\n"
+"Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
+"POT-Creation-Date: 2018-11-05 23:45+0100\n"
+"PO-Revision-Date: 2018-11-17 21:59+0000\n"
 "Last-Translator: Gorzy Gorup <gorupgorazd@gmail.com>\n"
 "Language-Team: Slovenian (http://www.transifex.com/arctic-games/supertux/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -24,21 +24,21 @@ msgstr ""
 msgid "Bouncy Coils"
 msgstr "Prožne spirale"
 
-#: data/levels/world2/Castle_Entrance.stl:3
-msgid "Entrance to the Castle"
-msgstr "Grajski vhod"
-
-#: data/levels/world2/CounterCurrent.stl:3
-msgid "Countercurrent"
-msgstr "Proti toku"
+#: data/levels/world2/Bye_Bye_Forest.stl:3
+msgid "Bye Bye Forest"
+msgstr "Zbogomlesje"
 
 #: data/levels/world2/Crumbling_Path.stl:3
 msgid "Crumbling Path"
 msgstr "Krušeča se steza"
 
-#: data/levels/world2/Duct_Ape.stl:3
-msgid "Duct Ape"
-msgstr "Lepljiv kanal"
+#: data/levels/world2/Dark_Tunnel.stl:3
+msgid "The Dark Tunnel"
+msgstr "Temačni predor"
+
+#: data/levels/world2/Deeper_Down.stl:3
+msgid "Deeper Down"
+msgstr "Globine"
 
 #: data/levels/world2/El_Castillo.stl:3
 msgid "A Short Visit to El Castillo"
@@ -48,9 +48,17 @@ msgstr "Kratek obisk El Castilla"
 msgid "Find the Bigger Fish!"
 msgstr "Poiščite večje ribe!"
 
-#: data/levels/world2/Find_Big_Fish.stl:449
+#: data/levels/world2/Find_Big_Fish.stl:446
 msgid "-A big fish... for you."
 msgstr "-Velika riba... zate."
+
+#: data/levels/world2/Getting_Hot.stl:3
+msgid "It's Getting Hot!"
+msgstr "Postaja vroče!"
+
+#: data/levels/world2/Ghostly_World.stl:3
+msgid "A Ghostly World"
+msgstr "Svet strahcev"
 
 #: data/levels/world2/Going_Underground.stl:3
 msgid "Going Underground"
@@ -59,10 +67,6 @@ msgstr "Gremo v podzemlje"
 #: data/levels/world2/Kneep_Deep.stl:3
 msgid "Kneep-deep in the depth"
 msgstr "Potapljač"
-
-#: data/levels/world2/Little_Venice.stl:3
-msgid "Little Venice"
-msgstr "Male Benetke"
 
 #: data/levels/world2/Mouldy_Grotto.stl:3
 msgid "A Mouldy Grotto"
@@ -89,9 +93,13 @@ msgstr "-Oh ne!\n#Na stezi je ovira!\n#Čez lahko pridem samo\n#skozi tisto temn
 msgid "-Are you lost?"
 msgstr "-Si se izgubil?"
 
-#: data/levels/world2/Silent_Walls.stl:3
-msgid "The Silent Walls"
-msgstr "Zidovi tišine"
+#: data/levels/world2/Scary_Place.stl:3
+msgid "What is this Place?"
+msgstr "Kaj je ta kraj?"
+
+#: data/levels/world2/This_Forest_is_Haunted.stl:3
+msgid "This Forest is Haunted"
+msgstr "V tem gozdu straši"
 
 #: data/levels/world2/Three_Sheets.stl:3
 msgid "Three sheets to the wind"
@@ -109,18 +117,13 @@ msgstr "Kraljestvo dreves"
 msgid "Tux the Builder"
 msgstr "Mojster Tux"
 
-#: data/levels/world2/Tux_Builder.stl:46
+#: data/levels/world2/Tux_Builder.stl:53
 msgid ""
 "-Portable Rocks:\n"
 "\n"
-"!images/help/rockhowto1.png\n"
-"!images/help/rockhowto2.png\n"
-"!images/help/rockhowto3.png\n"
-msgstr "-Prenosljive skale:\n\n!images/help/rockhowto1.png\n!images/help/rockhowto2.png\n!images/help/rockhowto3.png\n"
-
-#: data/levels/world2/Two_Towers.stl:3
-msgid "Two Tiny Towers"
-msgstr "Dva majhna stolpiča"
+"#Tux can carry some rocks.\n"
+"#When you are next to one press the ACTION key and keep pressed while carrying the rock. Release the key to release the rock."
+msgstr "-Prenosljivi kamni:\n\n#Tux lahko prenaša kamne.\n#Ko si zraven skale, pritisni tipko za dejanje in jo drži, medtem ko prenašaš kamen. Spustiš ga tako, da spustiš tipko."
 
 #: data/levels/world2/Up_and_Down.stl:3
 msgid "Up and Down"
@@ -171,10 +174,6 @@ msgstr "Grajska temnica v temnem gozdu - Črn stolp"
 msgid "Forest Level 1"
 msgstr "Gozdna stopnja 1"
 
-#: data/levels/world2/ghostly.stl:3
-msgid "A Ghostly World"
-msgstr "Svet strahcev"
-
 #: data/levels/world2/key1.stl:3
 msgid "key 1 water - to be placed behind waterfall"
 msgstr "ključ 1 voda - naj bo postavljen za slap"
@@ -215,7 +214,7 @@ msgstr "Sovino maščevanje"
 msgid "Roots, Woody Roots"
 msgstr "Korenine, gozdnate korenine"
 
-#: data/levels/world2/roots_woody_roots.stl:200
+#: data/levels/world2/roots_woody_roots.stl:199
 msgid ""
 "-Hint:\n"
 "#If there seems to be\n"
@@ -244,3 +243,18 @@ msgstr "Vasica v gozdu"
 #: data/levels/world2/worldmap.stwm:3
 msgid "Forest World"
 msgstr "Gozdni svet"
+
+#: data/levels/world2/worldmap.stwm:147
+msgid "More Worlds will be added later..."
+msgstr "Več svetov bo dodanih kasneje..."
+
+#: data/levels/world2/worldmap.stwm:155 data/levels/world2/worldmap.stwm:162
+#: data/levels/world2/worldmap.stwm:169 data/levels/world2/worldmap.stwm:176
+#: data/levels/world2/worldmap.stwm:183 data/levels/world2/worldmap.stwm:190
+#: data/levels/world2/worldmap.stwm:197
+msgid "There is currently no level"
+msgstr "Trenutno ni nobene stopnje"
+
+#: data/levels/world2/worldmap.stwm:204
+msgid "You Found a Secret Area!"
+msgstr "Našel si skrivno območje!"

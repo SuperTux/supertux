@@ -1,22 +1,23 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
 # Wuzzy <almikes@aol.com>, 2015
 # Benjamin Leduc <giby_the_kid@yahoo.fr>, 2013
 # Ettore Atalan <atalanttore@googlemail.com>, 2015
-# Marcel Haring, 2013-2014
+# Marcel Haring <getting@autistici.org>, 2013-2014
 # Nils Welzk, 2013
 # Ondřej Hošek <ondra.hosek@gmail.com>, 2013
-# Tobias Markus <tobbi@mozilla-uk.org>, 2015-2016
+# Tobias Markus <tobbi@supertuxproject.org>, 2015-2016
+# Tobias Markus <tobbi@supertuxproject.org>, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-04 15:35+0200\n"
-"PO-Revision-Date: 2016-06-23 19:26+0000\n"
-"Last-Translator: Tobias Markus <tobbi@mozilla-uk.org>\n"
+"Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
+"POT-Creation-Date: 2018-11-05 23:45+0100\n"
+"PO-Revision-Date: 2018-11-10 11:50+0000\n"
+"Last-Translator: Tobias Markus <tobbi@supertuxproject.org>\n"
 "Language-Team: German (http://www.transifex.com/arctic-games/supertux/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,21 +29,21 @@ msgstr ""
 msgid "Bouncy Coils"
 msgstr "Federnde Spulen"
 
-#: data/levels/world2/Castle_Entrance.stl:3
-msgid "Entrance to the Castle"
-msgstr "Eingang zur Burg"
-
-#: data/levels/world2/CounterCurrent.stl:3
-msgid "Countercurrent"
-msgstr "Gegenstrom"
+#: data/levels/world2/Bye_Bye_Forest.stl:3
+msgid "Bye Bye Forest"
+msgstr "Bye, bye, Wäldchen"
 
 #: data/levels/world2/Crumbling_Path.stl:3
 msgid "Crumbling Path"
 msgstr "Instabiler Pfad"
 
-#: data/levels/world2/Duct_Ape.stl:3
-msgid "Duct Ape"
-msgstr "Röhrenaffe"
+#: data/levels/world2/Dark_Tunnel.stl:3
+msgid "The Dark Tunnel"
+msgstr "Der Dunkle Tunnel"
+
+#: data/levels/world2/Deeper_Down.stl:3
+msgid "Deeper Down"
+msgstr "Ab in die Tiefe"
 
 #: data/levels/world2/El_Castillo.stl:3
 msgid "A Short Visit to El Castillo"
@@ -52,9 +53,17 @@ msgstr "Ein kleiner Abstecher nach El Castillo"
 msgid "Find the Bigger Fish!"
 msgstr "Finde den größeren Fisch!  "
 
-#: data/levels/world2/Find_Big_Fish.stl:449
+#: data/levels/world2/Find_Big_Fish.stl:446
 msgid "-A big fish... for you."
 msgstr "-Ein großer Fisch...für dich."
+
+#: data/levels/world2/Getting_Hot.stl:3
+msgid "It's Getting Hot!"
+msgstr "Es Wird Heiß!"
+
+#: data/levels/world2/Ghostly_World.stl:3
+msgid "A Ghostly World"
+msgstr "Eine gespenstische Welt"
 
 #: data/levels/world2/Going_Underground.stl:3
 msgid "Going Underground"
@@ -63,10 +72,6 @@ msgstr "Abwärts gehen"
 #: data/levels/world2/Kneep_Deep.stl:3
 msgid "Kneep-deep in the depth"
 msgstr "Knietief in der Tiefe"
-
-#: data/levels/world2/Little_Venice.stl:3
-msgid "Little Venice"
-msgstr "Klein-Venedig"
 
 #: data/levels/world2/Mouldy_Grotto.stl:3
 msgid "A Mouldy Grotto"
@@ -93,9 +98,13 @@ msgstr "-Oh nein!\n#Der Weg ist versperrt! Es\n#scheint nur durch dieses \n#dunk
 msgid "-Are you lost?"
 msgstr "-Verlaufen?"
 
-#: data/levels/world2/Silent_Walls.stl:3
-msgid "The Silent Walls"
-msgstr "Die stillen Mauern"
+#: data/levels/world2/Scary_Place.stl:3
+msgid "What is this Place?"
+msgstr "Was ist das für ein Ort?"
+
+#: data/levels/world2/This_Forest_is_Haunted.stl:3
+msgid "This Forest is Haunted"
+msgstr "In Diesem Wald Spukt Es"
 
 #: data/levels/world2/Three_Sheets.stl:3
 msgid "Three sheets to the wind"
@@ -113,18 +122,13 @@ msgstr "Baumfestung"
 msgid "Tux the Builder"
 msgstr "Tux der Baumeister"
 
-#: data/levels/world2/Tux_Builder.stl:46
+#: data/levels/world2/Tux_Builder.stl:53
 msgid ""
 "-Portable Rocks:\n"
 "\n"
-"!images/help/rockhowto1.png\n"
-"!images/help/rockhowto2.png\n"
-"!images/help/rockhowto3.png\n"
-msgstr "-Tragbare Felsen:\n\n!images/help/rockhowto1.png\n!images/help/rockhowto2.png\n!images/help/rockhowto3.png\n"
-
-#: data/levels/world2/Two_Towers.stl:3
-msgid "Two Tiny Towers"
-msgstr "Zwei winzige Türme"
+"#Tux can carry some rocks.\n"
+"#When you are next to one press the ACTION key and keep pressed while carrying the rock. Release the key to release the rock."
+msgstr "-Tragbare Felsen:\n\n#Einige Felsen können von Tux getragen werden.\n#Wenn Du neben einem stehst, drücke die AKTION-Taste und halte sie gedrückt, während Du den Fels aufhebst. Lasse die Taste los, um den Felsen loszulassen."
 
 #: data/levels/world2/Up_and_Down.stl:3
 msgid "Up and Down"
@@ -175,10 +179,6 @@ msgstr "Dunkelwaldfestung – Der schwarze Turm"
 msgid "Forest Level 1"
 msgstr "Waldebene 1"
 
-#: data/levels/world2/ghostly.stl:3
-msgid "A Ghostly World"
-msgstr "Eine gespenstische Welt"
-
 #: data/levels/world2/key1.stl:3
 msgid "key 1 water - to be placed behind waterfall"
 msgstr "Schlüssel 1 Wasser – hinter Wasserfall verstecken"
@@ -219,7 +219,7 @@ msgstr "Rache der Eulen"
 msgid "Roots, Woody Roots"
 msgstr "Wurzeln, hölzerne Wurzeln"
 
-#: data/levels/world2/roots_woody_roots.stl:200
+#: data/levels/world2/roots_woody_roots.stl:199
 msgid ""
 "-Hint:\n"
 "#If there seems to be\n"
@@ -248,3 +248,18 @@ msgstr "Ein Dorf im Wald"
 #: data/levels/world2/worldmap.stwm:3
 msgid "Forest World"
 msgstr "Waldwelt"
+
+#: data/levels/world2/worldmap.stwm:147
+msgid "More Worlds will be added later..."
+msgstr "Weitere Welten werden später hinzugefügt..."
+
+#: data/levels/world2/worldmap.stwm:155 data/levels/world2/worldmap.stwm:162
+#: data/levels/world2/worldmap.stwm:169 data/levels/world2/worldmap.stwm:176
+#: data/levels/world2/worldmap.stwm:183 data/levels/world2/worldmap.stwm:190
+#: data/levels/world2/worldmap.stwm:197
+msgid "There is currently no level"
+msgstr "Hier gibt es aktuell kein Level"
+
+#: data/levels/world2/worldmap.stwm:204
+msgid "You Found a Secret Area!"
+msgstr "Neues Versteck gefunden!"
