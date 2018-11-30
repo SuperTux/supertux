@@ -2,7 +2,7 @@
   (version 2)
   (background "oiltux.jpg")
   (music "music/credits.ogg")
-  (speed 30)
+  (speed 60)
   (content
     (image "images/engine/menu/logo.png")
     (blank)
@@ -537,7 +537,6 @@
     )
     (person
       (name "Indrit Bashkimi")
-      (simple #t)
     )
     (blank)
     (text
@@ -546,7 +545,6 @@
     )
     (person
       (name "Mihas \"meequz\" Varantsou")
-      (simple #t)
     )
     (blank)
     (text
@@ -555,7 +553,6 @@
     )
     (person
       (name "Gwenn Meynier")
-      (simple #t)
     )
     (blank)
     (text
@@ -564,7 +561,6 @@
     )
     (person
       (name "Tony Ivanov, G Vassilev, Lyubomir Vasilev")
-      (simple #t)
     )
     (blank)
     (text
@@ -573,7 +569,6 @@
     )
     (person
       (name "Martí Bosc, Catalanoic, Marc Celeiro, Antoni Villalonga")
-      (simple #t)
     )
     (blank)
     (text
@@ -582,7 +577,6 @@
     )
     (person
       (name "Liu Sizhuang")
-      (simple #t)
     )
     (blank)
     (text
@@ -591,7 +585,6 @@
     )
     (person
       (name "cges30901, Wei-Lun Chao, Zhao Wei Lun, James Ou, Franklin Weng")
-      (simple #t)
     )
     (blank)
     (text
@@ -600,7 +593,6 @@
     )
     (person
       (name "Ilija Ćulap")
-      (simple #t)
     )
     (blank)
     (text
@@ -609,7 +601,6 @@
     )
     (person
       (name "fri, Ondřej Hošek, Hume, Narre, Jakub Vaněk")
-      (simple #t)
     )
     (blank)
     (text
@@ -618,7 +609,6 @@
     )
     (person
       (name "Anders, Joe Hansen")
-      (simple #t)
     )
     (blank)
     (text
@@ -627,7 +617,6 @@
     )
     (person
       (name "Pieter De Decker, Toon van Gerwen, Dennis Holierhoek, Mar, Heimen Stoffels, Frank van der Loo")
-      (simple #t)
     )
     (blank)
     (text
@@ -636,7 +625,6 @@
     )
     (person
       (name "Rubén Leal Coba, Benjamin Leduc, Frist Lsat, Robin van der Vliet")
-      (simple #t)
     )
     (blank)
     (text
@@ -645,7 +633,6 @@
     )
     (person
       (name "Günter \"kyber\" Kits")
-      (simple #t)
     )
     (blank)
     (text
@@ -654,7 +641,6 @@
     )
     (person
       (name "Jaakoppi Horila, Lapamiko, Lauri \"xet7\" Ojansivu, Jan Solanti, Saku Tiihonen, tingberg, Yaniel")
-      (simple #t)
     )
     (blank)
     (text
@@ -663,7 +649,6 @@
     )
     (person
       (name "Anonymouse, Sébastien Aperghis-Tramoni, Thomas Bigot, Laurent Brousse, Bertrand Delaitre, Antoine Dumondel, Benjamin Leduc, Céline Marmin, Lucas Mascaro, MCMic, mol1, Léo Poughon, Nathanael Ready, Frederic Rodrigo, Sylvain St-Amand, zecas \"zezinho\"")
-      (simple #t)
     )
     (blank)
     (text
@@ -672,7 +657,6 @@
     )
     (person
       (name "Anonymouse, Ettore Atalan, Matthias Braun, Florian Forster, Marcel Haring, M&m, Tobias Markus, millimarg, Christoph Sommer, Nils Welzk, Wuzzy")
-      (simple #t)
     )
     (blank)
     (text
@@ -681,7 +665,6 @@
     )
     (person
       (name "Vangelis Nomikos, Vangelis Skarmoutsos, SomeRandomUser")
-      (simple #t)
     )
     (blank)
     (text
@@ -690,7 +673,6 @@
     )
     (person
       (name "GenghisKhan, Yevgeny")
-      (simple #t)
     )
     (blank)
     (text
@@ -699,7 +681,6 @@
     )
     (person
       (name "Baráth Béla, Levente Krisztián Büte, Tibor Buzási, Galp Flark, gyeben, Kristóf Kófiás, Norbert Molnár, Balázs Podolcsák, D. J. S., symvizan, Haba Tamás, Kővágó Zoltán")
-      (simple #t)
     )
     (blank)
     (text
@@ -708,7 +689,6 @@
     )
     (person
       (name "Christian E Yoga")
-      (simple #t)
     )
     (blank)
     (text
@@ -717,7 +697,6 @@
     )
     (person
       (name "Am1g0, Angela, Bananasoft, Marcello Bolognesi, Gianfranco Del Borrello, Enrico, Sebastiano Guerrini, Iknos, Manuela Kessler, Riccardo Di Maio, Irene Di Rosa, Ioma Taani")
-      (simple #t)
     )
     (blank)
     (text
@@ -726,7 +705,6 @@
     )
     (person
       (name "Sugahara Masayuki, Sumita \"tako44\" Sanshiro")
-      (simple #t)
     )
     (blank)
     (text
@@ -735,7 +713,6 @@
     )
     (person
       (name "Roland Kim, Myeongjin")
-      (simple #t)
     )
     (blank)
     (text
@@ -744,7 +721,6 @@
     )
     (person
       (name "Alisa P")
-      (simple #t)
     )
     (blank)
     (text
@@ -753,7 +729,6 @@
     )
     (person
       (name "Mantas Kriaučiūnas, Andrius Štikonas")
-      (simple #t)
     )
     (blank)
     (text
@@ -762,7 +737,6 @@
     )
     (person
       (name "Balasankar C")
-      (simple #t)
     )
     (blank)
     (text
@@ -771,7 +745,6 @@
     )
     (person
       (name "Manish Dangol, Prabin Gautam, Bansaj Pradhan, starryprabin")
-      (simple #t)
     )
     (blank)
     (text
@@ -780,7 +753,6 @@
     )
     (person
       (name "comradekingu, Karl Ove Hufthammer")
-      (simple #t)
     )
     (blank)
     (text
@@ -789,7 +761,6 @@
     )
     (person
       (name "Karl Ove Hufthammer")
-      (simple #t)
     )
     (blank)
     (text
@@ -798,7 +769,6 @@
     )
     (person
       (name "Łukasz Hryniuk, Dominik Klementowski, Marcin Kocur, Simon Kornowski, Marcin Kralka, mkkot, Marcin S, Krzysiek Szeląg, Paweł Talar")
-      (simple #t)
     )
     (blank)
     (text
@@ -807,7 +777,6 @@
     )
     (person
       (name "Daniela Ferraz, Victor Gonçalves, Jesusaves, Joel Gil Leon, Jonatas L. Nogueira, Krishnamurti Lelis Lima Vieira Nunes, Filipe Oliveira, Rodrigo Piñero, Herval Ribeiro, Rui")
-      (simple #t)
     )
     (blank)
     (text
@@ -816,7 +785,6 @@
     )
     (person
       (name "BlaCoiso, Ricardo Cruz, Daniela Ferraz, Jose Jorge, Sérgio Lopes, Rui")
-      (simple #t)
     )
     (blank)
     (text
@@ -825,7 +793,6 @@
     )
     (person
       (name "Nicolae Crefelean, Razvan Dajboc")
-      (simple #t)
     )
     (blank)
     (text
@@ -834,7 +801,6 @@
     )
     (person
       (name "Dmitry \"starwars32\" Anikonov, Constantin Baranov, Artem Krosheninnikov, melikamp, Savsish, Roman M. Yagodin")
-      (simple #t)
     )
     (blank)
     (text
@@ -843,7 +809,6 @@
     )
     (person
       (name "Alert Aleksandar, Mladen Pejaković, Slobodan Simić")
-      (simple #t)
     )
     (blank)
     (text
@@ -852,7 +817,6 @@
     )
     (person
       (name "Roman 'Kaktuxista' Benji, DusXMT, MiroslavR, Jose Riha")
-      (simple #t)
     )
     (blank)
     (text
@@ -861,7 +825,6 @@
     )
     (person
       (name "Marko Burjek, Gorzy Gorup, Nwolfy")
-      (simple #t)
     )
     (blank)
     (text
@@ -870,7 +833,6 @@
     )
     (person
       (name "Francisco B.G., William Beltrán, G BR, Franchulo, Germana, juanda097, Joel Gil Leon")
-      (simple #t)
     )
     (blank)
     (text
@@ -879,7 +841,6 @@
     )
     (person
       (name "Javier Beaumont, Sergio López Briñas, Fernando Carmona")
-      (simple #t)
     )
     (blank)
     (text
@@ -888,7 +849,6 @@
     )
     (person
       (name "Kristoffer Grundström, Arvid Norlander, sebras, theschitz")
-      (simple #t)
     )
     (blank)
     (text
@@ -897,7 +857,6 @@
     )
     (person
       (name "Bulat Ibrahim")
-      (simple #t)
     )
     (blank)
     (text
@@ -906,7 +865,6 @@
     )
     (person
       (name "Erdy, faradundamarti, Alkım Kaçmaz, meczup, Mahmut Özcan, Emre Özkartal, Yusuf Özsoy, root, yakup")
-      (simple #t)
     )
     (blank)
     (text
@@ -915,7 +873,6 @@
     )
     (person
       (name "Max Lyashuk, Eugen Uvin")
-      (simple #t)
     )
     (blank)
     (text
@@ -924,7 +881,6 @@
     )
     (person
       (name "Umidjon Almasov")
-      (simple #t)
     )
     (blank)
     (text
@@ -933,7 +889,6 @@
     )
     (person
       (name "Phan Anh")
-      (simple #t)
     )
       (blank)
       (blank)
