@@ -240,10 +240,8 @@ Background::set_speed(float speed)
 }
 
 void
-Background::draw_image(DrawingContext& context, const Vector& pos__)
+Background::draw_image(DrawingContext& context, const Vector& pos_)
 {
-  const Vector pos_ = pos__.to_int_vec();
-
   const Sizef level(Sector::get().get_width(), Sector::get().get_height());
   const Sizef screen(static_cast<float>(context.get_width()),
                      static_cast<float>(context.get_height()));

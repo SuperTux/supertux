@@ -395,7 +395,7 @@ Canvas::get_pixel(const Vector& position, std::shared_ptr<Color> color_out)
 Vector
 Canvas::apply_translate(const Vector& pos) const
 {
-  Vector translation = m_context.transform().translation.to_int_vec();
+  Vector translation = m_context.transform().translation;
   return (pos - translation) + Vector(static_cast<float>(m_context.get_viewport().left),
                                       static_cast<float>(m_context.get_viewport().top));
 }
