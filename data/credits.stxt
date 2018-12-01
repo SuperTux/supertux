@@ -84,7 +84,7 @@
     (blank)
     (person
       (name "LMH")
-      (info (_ "Programming, Level Design"))
+      (info (_ "Programming"))
     )
     (blank)
     (person
@@ -99,12 +99,7 @@
     (blank)
     (person
       (name "Hume")
-      (info (_ "Programming, Level Design"))
-    )
-    (blank)
-    (person
-      (name "BlasterMaster")
-      (info (_ "Graphics"))
+      (info (_ "Programming"))
     )
     (blank)
     (person
@@ -118,11 +113,6 @@
     )
     (blank)
     (person
-      (name "CT. da'Bomb")
-      (info (_ "Level Design, Graphics"))
-    )
-    (blank)
-    (person
       (name "Jacob \"maths22\" Burroughs")
       (info (_ "Packaging, Nightly builds"))
     )
@@ -132,20 +122,63 @@
       (info (_ "Translation Guru (and many details anyone else could have done)"))
     )
     (blank)
-    (person
-      (name "Arvid Norlander")
-      (info (_ "Level Design"))
+    (blank)
+    (text
+      (type "heading")
+      (string (_ "Graphics"))
     )
     (blank)
     (person
       (name "165your4")
-      (info (_ "Graphics"))
     )
-    (blank)
+    (person
+      (name "BlasterMaster")
+    )
+    (person
+      (name "Bleed - http://remusprites.carbonmade.com/")
+    )
+    (person
+      (name "CT. da'Bomb")
+    )
     (person
       (name "Sydney Dykstra")
-      (info (_ "Graphics"))
     )
+    (person
+      (name "Kai Alex \"Serano\" Jockers")
+    )
+    (person
+      (name "Devyn Collier Johnson")
+    )
+    (person
+      (name "Alexander \"Alzter\" S.")
+    )
+    (person
+      (name "Carsten \"RustyBox\" Wirtz")
+    )
+    (blank)
+    (text
+      (type "heading")
+      (string (_ "Level Design"))
+    )
+    (person
+      (name "CT. da'Bomb")
+    )
+    (person
+      (name "Hume")
+    )
+    (person
+      (name "Kai Alex \"Serano\" Jockers")
+    )
+    (person
+      (name "LMH")
+    )
+    (person
+      (name "Arvid Norlander")
+    )
+    (person
+      (name "Carsten \"RustyBox\" Wirtz")
+    )
+
     (blank)
     (text
       (type "heading")
@@ -154,11 +187,6 @@
     (person
       (name "Arian Behvandnejad")
       (info (_ "Bug fixes"))
-      (simple #t)
-    )
-    (person
-      (name "Bleed - http://remusprites.carbonmade.com/")
-      (info (_ "Explosion sprites"))
       (simple #t)
     )
     (person
@@ -194,16 +222,6 @@
     (person
       (name "Jann Horn")
       (info (_ "Code contributions"))
-      (simple #t)
-    )
-    (person
-      (name "Kai Alex \"Serano\" Jockers")
-      (info (_ "Level design, Background graphics"))
-      (simple #t)
-    )
-    (person
-      (name "Devyn Collier Johnson")
-      (info (_ "Graphics"))
       (simple #t)
     )
     (person
@@ -258,7 +276,7 @@
     )
     (person
       (name "Carsten \"RustyBox\" Wirtz")
-      (info (_ "Level Design, Graphics, Story Development"))
+      (info (_ "Story Development"))
       (simple #t)
     )
     (blank)
