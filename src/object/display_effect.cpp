@@ -110,19 +110,21 @@ DisplayEffect::draw(DrawingContext& context)
           assert(false);
       }
     }
-    context.color().draw_filled_rect(Vector(0, 0), Vector(static_cast<float>(context.get_width()),
-                                                          static_cast<float>(context.get_height())),
-                                       Color(0, 0, 0, alpha), LAYER_GUI-10);
+    context.color().draw_filled_rect(Rectf(0, 0,
+                                           static_cast<float>(context.get_width()),
+                                           static_cast<float>(context.get_height())),
+                                     Color(0, 0, 0, alpha), LAYER_GUI - 10);
   }
 
   if (borders) {
-    context.color().draw_filled_rect(Vector(0, 0), Vector(static_cast<float>(context.get_width()),
-                                                          static_cast<float>(border_size)),
+    context.color().draw_filled_rect(Rectf(0, 0,
+                                           static_cast<float>(context.get_width()),
+                                           static_cast<float>(border_size)),
                                        Color(0, 0, 0, 1.0f), LAYER_GUI-10);
-    context.color().draw_filled_rect(Vector(0,
-                                            static_cast<float>(context.get_height()) - border_size),
-                                     Vector(static_cast<float>(context.get_width()),
-                                            static_cast<float>(border_size)),
+    context.color().draw_filled_rect(Rectf(Vector(0,
+                                                  static_cast<float>(context.get_height()) - border_size),
+                                           Sizef(static_cast<float>(context.get_width()),
+                                                 static_cast<float>(border_size))),
                                        Color(0, 0, 0, 1.0f), LAYER_GUI-10);
   }
 

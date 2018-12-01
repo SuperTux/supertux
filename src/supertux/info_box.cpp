@@ -52,8 +52,9 @@ InfoBox::draw(DrawingContext& context)
   float width = 400.0f;
   float height = 200.0f;
 
-  context.color().draw_filled_rect(Vector(x1, y1), Vector(width, height),
-                                     Color(0.6f, 0.7f, 0.8f, 0.5f), LAYER_GUI-1);
+  context.color().draw_filled_rect(Rectf(Vector(x1, y1),
+                                         Sizef(width, height)),
+                                   Color(0.6f, 0.7f, 0.8f, 0.5f), LAYER_GUI - 1);
 
   float y = y1;
   bool linesLeft = false;

@@ -213,12 +213,12 @@ Dialog::draw(DrawingContext& context)
     return;
 
   // draw HL line
-  context.color().draw_filled_rect(Vector(bg_rect.p1.x, bg_rect.p2.y - 35),
-                                     Vector(bg_rect.get_width(), 4),
-                                     Color(0.6f, 0.7f, 1.0f, 1.0f), LAYER_GUI);
-  context.color().draw_filled_rect(Vector(bg_rect.p1.x, bg_rect.p2.y - 35),
-                                     Vector(bg_rect.get_width(), 2),
-                                     Color(1.0f, 1.0f, 1.0f, 1.0f), LAYER_GUI);
+  context.color().draw_filled_rect(Rectf(Vector(bg_rect.p1.x, bg_rect.p2.y - 35),
+                                         Sizef(bg_rect.get_width(), 4)),
+                                   Color(0.6f, 0.7f, 1.0f, 1.0f), LAYER_GUI);
+  context.color().draw_filled_rect(Rectf(Vector(bg_rect.p1.x, bg_rect.p2.y - 35),
+                                         Sizef(bg_rect.get_width(), 2)),
+                                   Color(1.0f, 1.0f, 1.0f, 1.0f), LAYER_GUI);
 
   // draw buttons
   for (int i = 0; i < static_cast<int>(m_buttons.size()); ++i)

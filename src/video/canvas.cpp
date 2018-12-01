@@ -261,27 +261,6 @@ Canvas::draw_gradient(const Color& top, const Color& bottom, int layer,
 }
 
 void
-Canvas::draw_filled_rect(const Vector& topleft, const Vector& size,
-                         const Color& color, int layer)
-{
-  auto request = new(m_obst) FillRectRequest();
-
-  request->type = FILLRECT;
-  request->layer = layer;
-
-  request->flip = m_context.transform().flip;
-  request->alpha = m_context.transform().alpha;
-
-  request->pos = apply_translate(topleft);
-  request->size = size;
-  request->color = color;
-  request->color.alpha = color.alpha * m_context.transform().alpha;
-  request->radius = 0.0f;
-
-  m_requests.push_back(request);
-}
-
-void
 Canvas::draw_filled_rect(const Rectf& rect, const Color& color,
                          int layer)
 {

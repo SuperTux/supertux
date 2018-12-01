@@ -44,9 +44,9 @@ FadeToBlack::draw(DrawingContext& context)
   } else {
     col.alpha = 1.0f - m_accum_time / m_fade_time;
   }
-  context.color().draw_filled_rect(Vector(0, 0),
-                                   Vector(static_cast<float>(context.get_width()),
-                                          static_cast<float>(context.get_height())),
+  context.color().draw_filled_rect(Rectf(0, 0,
+                                         static_cast<float>(context.get_width()),
+                                         static_cast<float>(context.get_height())),
                                    col, LAYER_GUI + 1);
 }
 

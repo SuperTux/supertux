@@ -132,7 +132,7 @@ Particles::draw(DrawingContext& context)
 {
   // draw particles
   for (auto& particle : particles) {
-    context.color().draw_filled_rect(particle->pos, Vector(size,size), color, drawing_layer);
+    context.color().draw_filled_rect(Rectf(particle->pos, Sizef(size,size)), color, drawing_layer);
   }
 }
 

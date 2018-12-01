@@ -105,7 +105,7 @@ TextObject::draw(DrawingContext& context)
   Vector spos = m_pos + get_anchor_pos(Rectf(0, 0, static_cast<float>(context.get_width()), static_cast<float>(context.get_height())),
                                        width, height, m_anchor);
 
-  context.color().draw_filled_rect(spos, Vector(width, height),
+  context.color().draw_filled_rect(Rectf(spos, Sizef(width, height)),
                                    Color(0.6f, 0.7f, 0.8f, 0.5f), LAYER_GUI-50);
   if (m_centered) {
     context.color().draw_center_text(m_font, m_text, spos, LAYER_GUI-40, TextObject::default_color);
