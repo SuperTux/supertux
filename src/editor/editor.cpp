@@ -421,6 +421,7 @@ Editor::delete_current_sector()
 void
 Editor::set_level(std::unique_ptr<Level> level, bool reset)
 {
+  m_undo_manager->reset_index();
   std::string sector_name = "main";
   Vector translation;
 
