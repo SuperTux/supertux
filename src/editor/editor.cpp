@@ -485,7 +485,7 @@ Editor::quit_editor()
     ScreenManager::current()->pop_screen();
   };
 
-  if (m_undo_manager->has_unsaved_changes())
+  if (m_undo_manager->has_unsaved_changes() && m_levelloaded)
   {
     auto dialog = std::make_unique<Dialog>();
     dialog->set_text(_("This level contains unsaved changes, do you want to save?"));
