@@ -23,6 +23,7 @@
 #include "object/bullet.hpp"
 #include "object/camera.hpp"
 #include "object/player.hpp"
+#include "object/portable.hpp"
 #include "object/sprite_particle.hpp"
 #include "object/water_drop.hpp"
 #include "sprite/sprite.hpp"
@@ -391,6 +392,18 @@ BadGuy::collision_solid(const CollisionHit& hit)
 HitResponse
 BadGuy::collision_player(Player& player, const CollisionHit& )
 {
+  if(player.get_grabbed_object() != nullptr)
+  {
+      auto badguy = dynamic_cast<BadGuy*>(player.get_grabbed_object());
+      if(badguy != nullptr)
+      {
+        player.get_grabbed_object()->ungrab(player, player.m_dir);
+        player.stop_grabbing();
+        badguy->kill_fall();
+        kill_fall();
+        return ABORT_MOVE;
+      }
+  }
   if (player.is_invincible()) {
     kill_fall();
     return ABORT_MOVE;
