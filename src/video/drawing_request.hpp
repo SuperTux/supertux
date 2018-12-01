@@ -102,16 +102,14 @@ struct FillRectRequest : public DrawingRequest
 {
   FillRectRequest() :
     DrawingRequest(FILLRECT),
-    pos(),
-    size(),
+    rect(),
     color(),
     radius()
   {}
 
-  Vector pos;
-  Vector size;
-  Color  color;
-  float  radius;
+  Rectf rect;
+  Color color;
+  float radius;
 };
 
 struct InverseEllipseRequest : public DrawingRequest

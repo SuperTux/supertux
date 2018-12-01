@@ -278,8 +278,8 @@ Canvas::draw_filled_rect(const Rectf& rect, const Color& color, float radius, in
   request->flip = m_context.transform().flip;
   request->alpha = m_context.transform().alpha;
 
-  request->pos = apply_translate(rect.p1);
-  request->size = Vector(rect.get_width(), rect.get_height());
+  request->rect = Rectf(apply_translate(rect.p1),
+                        rect.get_size());
   request->color = color;
   request->color.alpha = color.alpha * m_context.transform().alpha;
   request->radius = radius;

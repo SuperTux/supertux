@@ -216,14 +216,14 @@ GLPainter::draw_filled_rect(const FillRectRequest& request)
     // Keep radius in the limits, so that we get a circle instead of
     // just graphic junk
     const float radius = std::min(request.radius,
-                                  std::min(request.size.x/2,
-                                           request.size.y/2));
+                                  std::min(request.rect.get_width() / 2.0f,
+                                           request.rect.get_height() / 2.0f));
 
     // inner rectangle
-    const Rectf irect(request.pos.x    + radius,
-                request.pos.y    + radius,
-                request.pos.x + request.size.x - radius,
-                request.pos.y + request.size.y - radius);
+    const Rectf irect(request.rect.get_left() + radius,
+                      request.rect.get_top() + radius,
+                      request.rect.get_right() - radius,
+                      request.rect.get_bottom() - radius);
 
     const int n = 8;
     size_t p = 0;
@@ -259,10 +259,10 @@ GLPainter::draw_filled_rect(const FillRectRequest& request)
   }
   else
   {
-    const float x = request.pos.x;
-    const float y = request.pos.y;
-    const float w = request.size.x;
-    const float h = request.size.y;
+    const float x = request.rect.get_left();
+    const float y = request.rect.get_top();
+    const float w = request.rect.get_width();
+    const float h = request.rect.get_height();
 
     const float vertices[] = {
       x,   y,

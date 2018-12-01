@@ -325,11 +325,7 @@ SDLPainter::draw_gradient(const GradientRequest& request)
 void
 SDLPainter::draw_filled_rect(const FillRectRequest& request)
 {
-  SDL_Rect rect;
-  rect.x = static_cast<int>(request.pos.x);
-  rect.y = static_cast<int>(request.pos.y);
-  rect.w = static_cast<int>(request.size.x);
-  rect.h = static_cast<int>(request.size.y);
+  SDL_Rect rect = to_sdl_rect(request.rect);
 
   Uint8 r = static_cast<Uint8>(request.color.red * 255);
   Uint8 g = static_cast<Uint8>(request.color.green * 255);
