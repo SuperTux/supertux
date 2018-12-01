@@ -112,11 +112,15 @@ EditorMenu::menu_action(MenuItem& item)
       break;
 
     case MNID_LEVELSEL:
-      MenuManager::instance().set_menu(MenuStorage::EDITOR_LEVEL_SELECT_MENU);
+      editor->check_unsaved_changes([] {
+        MenuManager::instance().set_menu(MenuStorage::EDITOR_LEVEL_SELECT_MENU);
+      });
       break;
 
     case MNID_LEVELSETSEL:
-      MenuManager::instance().set_menu(MenuStorage::EDITOR_LEVELSET_SELECT_MENU);
+      editor->check_unsaved_changes([] {
+        MenuManager::instance().set_menu(MenuStorage::EDITOR_LEVELSET_SELECT_MENU);
+      });
       break;
 
     case MNID_QUITEDITOR:

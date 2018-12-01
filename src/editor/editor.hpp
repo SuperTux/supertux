@@ -97,6 +97,7 @@ public:
       obvious issues (currently: check if main sector and a spawn point
       named "main" is present) */
   void check_save_prerequisites(const std::function<void ()>& callback) const;
+  void check_unsaved_changes(const std::function<void ()>& action);
 
   void load_sector(const std::string& name);
   void delete_current_sector();

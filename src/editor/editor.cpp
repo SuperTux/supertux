@@ -485,23 +485,33 @@ Editor::quit_editor()
     ScreenManager::current()->pop_screen();
   };
 
+  check_unsaved_changes([quit] {
+    quit();
+  });
+}
+
+void
+Editor::check_unsaved_changes(const std::function<void ()>& action)
+{
   if (m_undo_manager->has_unsaved_changes() && m_levelloaded)
   {
     auto dialog = std::make_unique<Dialog>();
     dialog->set_text(_("This level contains unsaved changes, do you want to save?"));
-    dialog->add_default_button(_("Yes"), [this, quit] {
+    dialog->add_default_button(_("Yes"), [this, action] {
+      check_save_prerequisites([this, action] {
         save_level();
-        quit();
+        action();
+      });
     });
-    dialog->add_button(_("No"), [quit] {
-        quit();
+    dialog->add_button(_("No"), [action] {
+      action();
     });
     dialog->add_cancel_button(_("Cancel"));
     MenuManager::instance().set_dialog(std::move(dialog));
   }
   else
   {
-    quit();
+    action();
   }
 }
 
