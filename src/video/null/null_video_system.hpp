@@ -52,7 +52,7 @@ public:
 
 private:
   Size m_window_size;
-  bool m_vsync_mode;
+  int m_vsync_mode;
   Viewport m_viewport;
   std::unique_ptr<NullRenderer> m_screen_renderer;
   std::unique_ptr<NullRenderer> m_lightmap_renderer;

@@ -151,12 +151,12 @@ GameSessionRecorder::process_events()
     playback_demo_stream->get(down);
     playback_demo_stream->get(jump);
     playback_demo_stream->get(action);
-    demo_controller->press(Controller::LEFT, left);
-    demo_controller->press(Controller::RIGHT, right);
-    demo_controller->press(Controller::UP, up);
-    demo_controller->press(Controller::DOWN, down);
-    demo_controller->press(Controller::JUMP, jump);
-    demo_controller->press(Controller::ACTION, action);
+    demo_controller->press(Controller::LEFT, static_cast<bool>(left));
+    demo_controller->press(Controller::RIGHT, static_cast<bool>(right));
+    demo_controller->press(Controller::UP, static_cast<bool>(up));
+    demo_controller->press(Controller::DOWN, static_cast<bool>(down));
+    demo_controller->press(Controller::JUMP, static_cast<bool>(jump));
+    demo_controller->press(Controller::ACTION, static_cast<bool>(action));
   }
 
   // save input for demo?

@@ -190,8 +190,9 @@ Path::edit_path()
 }
 
 bool
-Path::is_valid() const {
-  return m_nodes.size();
+Path::is_valid() const
+{
+  return !m_nodes.empty();
 }
 
 ObjectOption

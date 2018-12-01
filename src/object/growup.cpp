@@ -31,7 +31,7 @@ GrowUp::GrowUp(Direction direction) :
   lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
 {
   physic.enable_gravity(true);
-  physic.set_velocity_x((direction == Direction::LEFT)?-100:100);
+  physic.set_velocity_x((direction == Direction::LEFT) ? -100.0f : 100.0f);
   SoundManager::current()->preload("sounds/grow.ogg");
   //shadow to remain in place as egg rolls
   shadesprite->set_action("shadow");

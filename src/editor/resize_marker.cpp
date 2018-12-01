@@ -133,7 +133,7 @@ ResizeMarker::get_point_vector() const
 Vector
 ResizeMarker::get_offset() const
 {
-  return Vector((m_horz == Side::LEFT_UP) ? 16 : 0, (m_vert == Side::LEFT_UP) ? 16 : 0);
+  return Vector((m_horz == Side::LEFT_UP) ? 16.0f : 0.0f, (m_vert == Side::LEFT_UP) ? 16.0f : 0.0f);
 }
 
 /* EOF */

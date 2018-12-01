@@ -98,7 +98,7 @@ GLProgram::get_link_status() const
 {
   GLint link_status;
   glGetProgramiv(m_program, GL_LINK_STATUS, &link_status);
-  return link_status;
+  return link_status != 0;
 }
 
 bool
@@ -106,7 +106,7 @@ GLProgram::get_validate_status() const
 {
   GLint validate_status;
   glGetProgramiv(m_program, GL_VALIDATE_STATUS, &validate_status);
-  return validate_status;
+  return validate_status != 0;
 }
 
 std::string

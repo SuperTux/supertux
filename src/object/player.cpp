@@ -650,7 +650,7 @@ Player::do_backflip() {
 
   m_backflip_direction = (m_dir == Direction::LEFT)?(+1):(-1);
   m_backflipping = true;
-  do_jump((m_player_status.bonus == AIR_BONUS) ? -720 : -580);
+  do_jump((m_player_status.bonus == AIR_BONUS) ? -720.0f : -580.0f);
   SoundManager::current()->play("sounds/flip.wav");
   m_backflip_timer.start(TUX_BACKFLIP_TIME);
 }
@@ -1593,9 +1593,9 @@ void
 Player::bounce(BadGuy& )
 {
   if (!(m_player_status.bonus == AIR_BONUS))
-    m_physic.set_velocity_y(m_controller->hold(Controller::JUMP) ? -520 : -300);
+    m_physic.set_velocity_y(m_controller->hold(Controller::JUMP) ? -520.0f : -300.0f);
   else {
-    m_physic.set_velocity_y(m_controller->hold(Controller::JUMP) ? -580 : -340);
+    m_physic.set_velocity_y(m_controller->hold(Controller::JUMP) ? -580.0f : -340.0f);
     m_ability_time = static_cast<float>(m_player_status.max_air_time) * GLIDE_TIME_PER_FLOWER;
   }
 }

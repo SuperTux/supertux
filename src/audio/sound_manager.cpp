@@ -37,7 +37,7 @@ SoundManager::SoundManager() :
   update_list(),
   music_source(),
   music_enabled(false),
-  music_volume(0.0f),
+  music_volume(0),
   current_music()
 {
   try {

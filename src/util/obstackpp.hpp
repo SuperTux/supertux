@@ -17,30 +17,39 @@
 #ifndef HEADER_SUPERTUX_UTIL_OBSTACKPP_HPP
 #define HEADER_SUPERTUX_UTIL_OBSTACKPP_HPP
 
+#include <stddef.h>
 #include <obstack.h>
 
 inline void*
 operator new (size_t bytes, struct obstack& obst)
 {
+#ifdef _MSC_VER
+  return obstack_alloc(&obst, static_cast<ptrdiff_t>(bytes));
+#else
   return obstack_alloc(&obst, static_cast<int>(bytes));
+#endif
 }
 
 inline void*
 operator new[] (size_t bytes, struct obstack& obst)
 {
+#ifdef _MSC_VER
+  return obstack_alloc(&obst, static_cast<ptrdiff_t>(bytes));
+#else
   return obstack_alloc(&obst, static_cast<int>(bytes));
+#endif
 }
 
 inline void
 operator delete (void* obj, struct obstack& obst)
 {
-  obstack_free(&obst, obj);
+  obstack_free(&obst, static_cast<char*>(obj));
 }
 
 inline void
 operator delete[] (void* obj, struct obstack& obst)
 {
-  obstack_free(&obst, obj);
+  obstack_free(&obst, static_cast<char*>(obj));
 }
 
 static inline void* obstack_chunk_alloc(size_t size)
@@ -50,7 +59,7 @@ static inline void* obstack_chunk_alloc(size_t size)
 
 static inline void obstack_chunk_free(void* data)
 {
-  char* ptr = static_cast<char*> (data);
+  char* ptr = static_cast<char*>(data);
   delete[] ptr;
 }
 
