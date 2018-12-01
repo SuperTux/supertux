@@ -400,19 +400,23 @@ Sector::is_free_of_tiles(const Rectf& rect, const bool ignoreUnisolid) const
 bool
 Sector::is_free_of_statics(const Rectf& rect, const MovingObject* ignore_object, const bool ignoreUnisolid) const
 {
-  return m_collision_system->is_free_of_statics(rect, ignore_object->get_collision_object(), ignoreUnisolid);
+  return m_collision_system->is_free_of_statics(rect,
+                                                ignore_object ? ignore_object->get_collision_object() : nullptr,
+                                                ignoreUnisolid);
 }
 
 bool
 Sector::is_free_of_movingstatics(const Rectf& rect, const MovingObject* ignore_object) const
 {
-  return m_collision_system->is_free_of_movingstatics(rect, ignore_object->get_collision_object());
+  return m_collision_system->is_free_of_movingstatics(rect,
+                                                      ignore_object ? ignore_object->get_collision_object() : nullptr);
 }
 
 bool
 Sector::free_line_of_sight(const Vector& line_start, const Vector& line_end, const MovingObject* ignore_object) const
 {
-  return m_collision_system->free_line_of_sight(line_start, line_end, ignore_object->get_collision_object());
+  return m_collision_system->free_line_of_sight(line_start, line_end,
+                                                ignore_object ? ignore_object->get_collision_object() : nullptr);
 }
 
 bool
