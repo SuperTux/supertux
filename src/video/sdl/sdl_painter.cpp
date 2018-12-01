@@ -20,6 +20,7 @@
 #include <algorithm>
 #include <array>
 #include <assert.h>
+#include <math.h>
 
 #include "supertux/globals.hpp"
 #include "math/util.hpp"
@@ -31,6 +32,23 @@
 #include "video/viewport.hpp"
 
 namespace {
+
+SDL_Rect to_sdl_rect(const Rectf& rect)
+{
+  SDL_Rect sdl_rect;
+
+  // floorf() here due to int(-0.5) and int(0.5) both rounding to 0,
+  // thus creating a jump in coordinates at 0
+  sdl_rect.x = static_cast<int>(floorf(rect.p1.x));
+  sdl_rect.y = static_cast<int>(floorf(rect.p1.y));
+
+  // roundf() here due to int(rect.p2.xy - rect.p1.xy) being
+  // off-by-one due to float errors
+  sdl_rect.w = static_cast<int>(roundf(rect.get_width()));
+  sdl_rect.h = static_cast<int>(roundf(rect.get_height()));
+
+  return sdl_rect;
+}
 
 SDL_BlendMode blend2sdl(const Blend& blend)
 {
@@ -217,17 +235,8 @@ SDLPainter::draw_texture(const TextureRequest& request)
 
   for (size_t i = 0; i < request.srcrects.size(); ++i)
   {
-    SDL_Rect src_rect;
-    src_rect.x = static_cast<int>(request.srcrects[i].p1.x);
-    src_rect.y = static_cast<int>(request.srcrects[i].p1.y);
-    src_rect.w = static_cast<int>(request.srcrects[i].get_width());
-    src_rect.h = static_cast<int>(request.srcrects[i].get_height());
-
-    SDL_Rect dst_rect;
-    dst_rect.x = static_cast<int>(request.dstrects[i].p1.x);
-    dst_rect.y = static_cast<int>(request.dstrects[i].p1.y);
-    dst_rect.w = static_cast<int>(request.dstrects[i].get_width());
-    dst_rect.h = static_cast<int>(request.dstrects[i].get_height());
+    const SDL_Rect& src_rect = to_sdl_rect(request.srcrects[i]);
+    const SDL_Rect& dst_rect = to_sdl_rect(request.dstrects[i]);
 
     Uint8 r = static_cast<Uint8>(request.color.red * 255);
     Uint8 g = static_cast<Uint8>(request.color.green * 255);
