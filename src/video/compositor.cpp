@@ -36,7 +36,7 @@ Compositor::Compositor(VideoSystem& video_system) :
 Compositor::~Compositor()
 {
   m_drawing_contexts.clear();
-  obstack_free(&m_obst, static_cast<char*>(nullptr));
+  obstack_free(&m_obst, 0);
 }
 
 DrawingContext&
@@ -153,7 +153,7 @@ Compositor::render()
   }
   m_video_system.flip();
 
-  obstack_free(&m_obst, static_cast<char*>(nullptr));
+  obstack_free(&m_obst, 0);
   obstack_init(&m_obst);
 }
 

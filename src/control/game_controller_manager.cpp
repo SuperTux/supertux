@@ -45,7 +45,7 @@ GameControllerManager::process_button_event(const SDL_ControllerButtonEvent& ev)
   Controller& controller = m_parent->get_controller();
   auto set_control = [this, &controller](Controller::Control control, Uint8 value)
   {
-    m_button_state[control] = static_cast<bool>(value);
+    m_button_state[control] = (value != 0);
     controller.set_control(control, m_button_state[control] == SDL_PRESSED || m_stick_state[control] == SDL_PRESSED);
   };
   switch (ev.button)

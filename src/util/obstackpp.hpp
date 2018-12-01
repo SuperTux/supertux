@@ -17,27 +17,18 @@
 #ifndef HEADER_SUPERTUX_UTIL_OBSTACKPP_HPP
 #define HEADER_SUPERTUX_UTIL_OBSTACKPP_HPP
 
-#include <stddef.h>
 #include <obstack.h>
 
 inline void*
 operator new (size_t bytes, struct obstack& obst)
 {
-#ifdef _MSC_VER
-  return obstack_alloc(&obst, static_cast<ptrdiff_t>(bytes));
-#else
   return obstack_alloc(&obst, static_cast<int>(bytes));
-#endif
 }
 
 inline void*
 operator new[] (size_t bytes, struct obstack& obst)
 {
-#ifdef _MSC_VER
-  return obstack_alloc(&obst, static_cast<ptrdiff_t>(bytes));
-#else
   return obstack_alloc(&obst, static_cast<int>(bytes));
-#endif
 }
 
 inline void
