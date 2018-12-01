@@ -20,7 +20,6 @@
 #include <algorithm>
 
 #include "object/tilemap.hpp"
-#include "supertux/sector.hpp"
 
 bool GameObjectManager::s_draw_solids_only = false;
 
@@ -182,7 +181,7 @@ GameObjectManager::flush_game_objects()
     {
       const auto& tm = dynamic_cast<TileMap*>(obj.get());
       if (!tm) continue;
-      if (tm->is_solid()) static_cast<Sector*>(this)->m_solid_tilemaps.push_back(tm);
+      if (tm->is_solid()) m_solid_tilemaps.push_back(tm);
     }
   }
 }
