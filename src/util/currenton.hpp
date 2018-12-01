@@ -30,7 +30,7 @@ template<class C>
 class Currenton
 {
 private:
-  static C* s_current;
+  static Currenton<C>* s_current;
 
 protected:
   Currenton()
@@ -38,7 +38,7 @@ protected:
     // FIXME: temporarly disabled, as Sector() for the main menu,
     // doesn't get cleaned up before a real Sector() starts
     // assert(!s_current);
-    s_current = static_cast<C*>(this);
+    s_current = this;
   }
 
   virtual ~Currenton()
@@ -50,10 +50,11 @@ protected:
   }
 
 public:
-  static C* current() { return s_current; }
+  static C* current() { return static_cast<C*>(s_current); }
 };
 
-template<class C> C* Currenton<C>::s_current = nullptr;
+template<class C>
+Currenton<C>* Currenton<C>::s_current = nullptr;
 
 #endif
 
