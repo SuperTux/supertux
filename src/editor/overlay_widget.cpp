@@ -415,7 +415,7 @@ EditorOverlayWidget::move_object()
     Vector new_pos = m_sector_pos - m_obj_mouse_desync;
     if (snap_to_grid) {
       auto& snap_grid_size = snap_grid_sizes[selected_snap_grid_size];
-      new_pos = (new_pos / static_cast<float>(snap_grid_size)).to_int_vec() * static_cast<float>(snap_grid_size);
+      new_pos = (new_pos / static_cast<float>(snap_grid_size)).floor() * static_cast<float>(snap_grid_size);
 
       auto pm = dynamic_cast<MarkerObject*>(m_dragged_object);
       if (pm) {
@@ -499,7 +499,7 @@ EditorOverlayWidget::put_object()
     if (snap_to_grid)
     {
       auto& snap_grid_size = snap_grid_sizes[selected_snap_grid_size];
-      target_pos = (m_sector_pos / static_cast<float>(snap_grid_size)).to_int_vec() * static_cast<float>(snap_grid_size);
+      target_pos = (m_sector_pos / static_cast<float>(snap_grid_size)).floor() * static_cast<float>(snap_grid_size);
     }
 
     auto object = GameObjectFactory::instance().create(object_class, target_pos, Direction::LEFT);

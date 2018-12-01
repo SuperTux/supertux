@@ -113,7 +113,7 @@ public:
   float norm() const;
   Vector unit() const;
 
-  Vector to_int_vec() const
+  Vector floor() const
   {
     return Vector(floorf(x), floorf(y));
   }
