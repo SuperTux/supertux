@@ -495,18 +495,23 @@ Editor::check_unsaved_changes(const std::function<void ()>& action)
 {
   if (m_undo_manager->has_unsaved_changes() && m_levelloaded)
   {
+    m_enabled = false;
     auto dialog = std::make_unique<Dialog>();
     dialog->set_text(_("This level contains unsaved changes, do you want to save?"));
     dialog->add_default_button(_("Yes"), [this, action] {
       check_save_prerequisites([this, action] {
         save_level();
         action();
+        m_enabled = true;
       });
     });
-    dialog->add_button(_("No"), [action] {
+    dialog->add_button(_("No"), [this, action] {
       action();
+      m_enabled = true;
     });
-    dialog->add_cancel_button(_("Cancel"));
+    dialog->add_button(_("Cancel"), [this] {
+      m_enabled = true;
+    });
     MenuManager::instance().set_dialog(std::move(dialog));
   }
   else
