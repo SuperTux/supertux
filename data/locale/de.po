@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2018-11-16 00:48+0100\n"
-"PO-Revision-Date: 2018-11-15 23:53+0000\n"
+"PO-Revision-Date: 2018-12-01 10:59+0000\n"
 "Last-Translator: Tobias Markus <tobbi@supertuxproject.org>\n"
 "Language-Team: German (http://www.transifex.com/arctic-games/supertux/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -2871,7 +2871,7 @@ msgstr "Sie"
 
 #: data//credits.stxt:1376
 msgid "Penny awaits you in Milestone 3!"
-msgstr "spielen. Penny erwartet Dich in Meilenstein 3!"
+msgstr "spielst. Penny erwartet Dich in Meilenstein 3!"
 
 #: data//images/engine/editor/objects.stoi:4
 msgid "Hostile"
