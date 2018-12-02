@@ -37,7 +37,7 @@ std::string to_string(const T& v)
 
 } // namespace
 
-ObjectOption::ObjectOption(MenuItemKind ip_type, const std::string& text, const std::string& key, int flags) :
+ObjectOption::ObjectOption(MenuItemKind ip_type, const std::string& text, const std::string& key, unsigned int flags) :
   m_type(ip_type),
   m_text(text),
   m_key(key),
@@ -50,7 +50,7 @@ ObjectOption::~ObjectOption()
 }
 
 BoolObjectOption::BoolObjectOption(const std::string& text, bool* pointer, const std::string& key,
-                                   int flags) :
+                                   unsigned int flags) :
   ObjectOption(MN_TOGGLE, text, key, flags),
   m_pointer(pointer)
 {
@@ -77,7 +77,7 @@ BoolObjectOption::to_string() const
 }
 
 IntObjectOption::IntObjectOption(const std::string& text, int* pointer, const std::string& key,
-                                 int flags) :
+                                 unsigned int flags) :
   ObjectOption(MN_INTFIELD, text, key, flags),
   m_pointer(pointer)
 {
@@ -104,7 +104,7 @@ IntObjectOption::add_to_menu(Menu& menu) const
 }
 
 FloatObjectOption::FloatObjectOption(const std::string& text, float* pointer, const std::string& key,
-                                     int flags) :
+                                     unsigned int flags) :
   ObjectOption(MN_FLOATFIELD, text, key, flags),
   m_pointer(pointer)
 {
@@ -131,7 +131,7 @@ FloatObjectOption::add_to_menu(Menu& menu) const
 }
 
 StringObjectOption::StringObjectOption(const std::string& text, std::string* pointer, const std::string& key,
-                                       int flags) :
+                                       unsigned int flags) :
   ObjectOption(MN_TEXTFIELD, text, key, flags),
   m_pointer(pointer)
 {
@@ -141,7 +141,7 @@ void
 StringObjectOption::save(Writer& writer) const
 {
   auto& value = *m_pointer;
-  if (!value.empty() || (m_flags & OPTION_ALLOW_EMPTY))
+  if (!value.empty())
   {
     if (!m_key.empty()) {
       writer.write(m_key, value);
@@ -164,7 +164,7 @@ StringObjectOption::add_to_menu(Menu& menu) const
 StringSelectObjectOption::StringSelectObjectOption(const std::string& text, int* pointer,
                                                    const std::vector<std::string>& select,
                                                    const std::string& key,
-                                                   int flags) :
+                                                   unsigned int flags) :
   ObjectOption(MN_STRINGSELECT, text, key, flags),
   m_pointer(pointer),
   m_select(select)
@@ -201,7 +201,7 @@ StringSelectObjectOption::add_to_menu(Menu& menu) const
 }
 
 ScriptObjectOption::ScriptObjectOption(const std::string& text, std::string* pointer, const std::string& key,
-                                       int flags) :
+                                       unsigned int flags) :
   ObjectOption(MN_SCRIPT, text, key, flags),
   m_pointer(pointer)
 {
@@ -211,7 +211,7 @@ void
 ScriptObjectOption::save(Writer& writer) const
 {
   auto& value = *m_pointer;
-  if (!value.empty() || (m_flags & OPTION_ALLOW_EMPTY))
+  if (!value.empty())
   {
     if (!m_key.empty()) {
       writer.write(m_key, value);
@@ -235,7 +235,7 @@ ScriptObjectOption::add_to_menu(Menu& menu) const
 }
 
 FileObjectOption::FileObjectOption(const std::string& text, std::string* pointer, const std::string& key,
-                                   std::vector<std::string> filter, int flags) :
+                                   std::vector<std::string> filter, unsigned int flags) :
   ObjectOption(MN_FILE, text, key, flags),
   m_pointer(pointer),
   m_filter(filter)
@@ -246,7 +246,7 @@ void
 FileObjectOption::save(Writer& writer) const
 {
   auto& value = *m_pointer;
-  if (!value.empty() || (m_flags & OPTION_ALLOW_EMPTY))
+  if (!value.empty())
   {
     if (!m_key.empty()) {
       writer.write(m_key, value);
@@ -267,7 +267,7 @@ FileObjectOption::add_to_menu(Menu& menu) const
 }
 
 ColorObjectOption::ColorObjectOption(const std::string& text, Color* pointer, const std::string& key,
-                                     int flags) :
+                                     unsigned int flags) :
   ObjectOption(MN_COLOR, text, key, flags),
   m_pointer(pointer)
 {
@@ -294,7 +294,7 @@ ColorObjectOption::add_to_menu(Menu& menu) const
 }
 
 BadGuySelectObjectOption::BadGuySelectObjectOption(const std::string& text, std::vector<std::string>* pointer, const std::string& key,
-                                                   int flags) :
+                                                   unsigned int flags) :
   ObjectOption(MN_BADGUYSELECT, text, key, flags),
   m_pointer(pointer)
 {
@@ -321,7 +321,7 @@ BadGuySelectObjectOption::add_to_menu(Menu& menu) const
 }
 
 RemoveObjectOption::RemoveObjectOption() :
-  ObjectOption(MN_REMOVE, _("Remove"), "")
+  ObjectOption(MN_REMOVE, _("Remove"), "", 0)
 {
 }
 

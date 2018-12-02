@@ -57,8 +57,8 @@ ScriptedObject::get_settings()
   new_size.x = m_col.m_bbox.get_width();
   new_size.y = m_col.m_bbox.get_height();
   ObjectSettings result = MovingSprite::get_settings();
-  result.add_float("width", &new_size.x, "width", false);
-  result.add_float("height", &new_size.y, "height", false);
+  result.add_float("width", &new_size.x, "width", OPTION_HIDDEN);
+  result.add_float("height", &new_size.y, "height", OPTION_HIDDEN);
   result.add_bool(_("Solid"), &solid, "solid");
   result.add_bool(_("Physics enabled"), &physic_enabled, "physic-enabled");
   result.add_bool(_("Visible"), &visible, "visible");

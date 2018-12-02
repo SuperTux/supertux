@@ -174,9 +174,9 @@ Background::get_settings()
   result.add_float(_("Scroll speed y"), &m_scroll_speed.y, "scroll-speed-y");
   result.add_float(_("Speed x"), &m_speed.x, "speed");
   result.add_float(_("Speed y"), &m_speed.y);
-  result.add_surface(_("Top image"), &m_imagefile_top, "image-top", OPTION_VISIBLE);
-  result.add_surface(_("Image"), &m_imagefile, "image", OPTION_VISIBLE);
-  result.add_surface(_("Bottom image"), &m_imagefile_bottom, "image-bottom", OPTION_VISIBLE);
+  result.add_surface(_("Top image"), &m_imagefile_top, "image-top");
+  result.add_surface(_("Image"), &m_imagefile, "image");
+  result.add_surface(_("Bottom image"), &m_imagefile_bottom, "image-bottom");
 
   result.add_remove();
 

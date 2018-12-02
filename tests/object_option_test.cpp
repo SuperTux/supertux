@@ -27,55 +27,50 @@ TEST(ObjectOption, to_string)
 {
   {
     std::string mystring = "field";
-    StringObjectOption textfield("test", &mystring);
+    StringObjectOption textfield("test", &mystring, {}, 0);
     ASSERT_EQ(mystring, textfield.to_string());
   }
 
   {
     int myint = 73258;
-    IntObjectOption intfield("test", &myint);
+    IntObjectOption intfield("test", &myint, {}, 0);
     ASSERT_EQ("73258", intfield.to_string());
   }
 
   {
     float myfloat = 2.125;
-    FloatObjectOption numfield("test", &myfloat);
+    FloatObjectOption numfield("test", &myfloat, {}, 0);
     ASSERT_EQ("2.125", numfield.to_string());
   }
 
   {
-    std::vector<std::string> select;
-    select.push_back("foo");
-    select.push_back("bar");
+    std::vector<std::string> select = {"foo", "bar"};
     enum FooBar {
       FOO, BAR
     };
     FooBar fb1 = FOO;
     FooBar fb2 = BAR;
-    StringSelectObjectOption stringselect1("test", reinterpret_cast<int*>(&fb1), select);
-    StringSelectObjectOption stringselect2("test", reinterpret_cast<int*>(&fb2), select);
+    StringSelectObjectOption stringselect1("test", reinterpret_cast<int*>(&fb1), select, {}, 0);
+    StringSelectObjectOption stringselect2("test", reinterpret_cast<int*>(&fb2), select, {}, 0);
     ASSERT_EQ("foo", stringselect1.to_string());
     ASSERT_EQ("bar", stringselect2.to_string());
   }
 
   {
-    std::vector<std::string> select;
-    select.push_back("foo");
-    select.push_back("bar");
-    select.push_back("blb");
-    BadGuySelectObjectOption badguyselect("test", &select);
+    std::vector<std::string> select = {"foo", "bar", "blb"};
+    BadGuySelectObjectOption badguyselect("test", &select, {}, 0);
     ASSERT_EQ("3", badguyselect.to_string());
   }
 
   {
     Color mycolor = Color::YELLOW;
-    ColorObjectOption color("test", &mycolor);
+    ColorObjectOption color("test", &mycolor, {}, 0);
     ASSERT_EQ("1.000000 1.000000 0.000000", color.to_string());
   }
 
   {
     std::string myscript = "sector.set_trolling_mode(true)";
-    ScriptObjectOption script("text", &myscript);
+    ScriptObjectOption script("text", &myscript, {}, 0);
     ASSERT_EQ("...", script.to_string());
   }
 }

@@ -55,8 +55,8 @@ ObjectSettings
 Spotlight::get_settings()
 {
   ObjectSettings result = MovingObject::get_settings();
-  result.add_float("x-pos", &m_col.m_bbox.p1.x, "x", false);
-  result.add_float("y-pos", &m_col.m_bbox.p1.y, "y", false);
+  result.add_float("x-pos", &m_col.m_bbox.p1.x, "x", OPTION_HIDDEN);
+  result.add_float("y-pos", &m_col.m_bbox.p1.y, "y", OPTION_HIDDEN);
   result.add_float(_("Angle"), &angle, "angle");
   result.add_color(_("Color"), &color, "color");
   result.add_float(_("Speed"), &speed, "speed");

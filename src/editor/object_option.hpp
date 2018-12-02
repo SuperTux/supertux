@@ -22,10 +22,8 @@
 
 #include "gui/menu_action.hpp"
 
-// ObjectOption bitfield flags
-enum ObjectOptionFlags {
-  OPTION_ALLOW_EMPTY = (1 << 0),
-  OPTION_VISIBLE = (1 << 1)
+enum ObjectOptionFlag {
+  OPTION_HIDDEN = (1 << 0)
 };
 
 class Color;
@@ -35,7 +33,7 @@ class Writer;
 class ObjectOption
 {
 public:
-  ObjectOption(MenuItemKind m_type, const std::string& text, const std::string& key, int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
+  ObjectOption(MenuItemKind m_type, const std::string& text, const std::string& key, unsigned int flags);
   virtual ~ObjectOption();
 
   virtual void save(Writer& write) const = 0;
@@ -56,8 +54,8 @@ private:
 class BoolObjectOption : public ObjectOption
 {
 public:
-  BoolObjectOption(const std::string& text, bool* pointer, const std::string& key = {},
-                   int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
+  BoolObjectOption(const std::string& text, bool* pointer, const std::string& key,
+                   unsigned int flags);
 
   virtual void save(Writer& write) const override;
   virtual std::string to_string() const override;
@@ -74,8 +72,8 @@ private:
 class IntObjectOption : public ObjectOption
 {
 public:
-  IntObjectOption(const std::string& text, int* pointer, const std::string& key = {},
-                  int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
+  IntObjectOption(const std::string& text, int* pointer, const std::string& key,
+                  unsigned int flags);
 
   virtual void save(Writer& write) const override;
   virtual std::string to_string() const override;
@@ -92,8 +90,8 @@ private:
 class FloatObjectOption : public ObjectOption
 {
 public:
-  FloatObjectOption(const std::string& text, float* pointer, const std::string& key = {},
-                    int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
+  FloatObjectOption(const std::string& text, float* pointer, const std::string& key,
+                    unsigned int flags);
 
   virtual void save(Writer& write) const override;
   virtual std::string to_string() const override;
@@ -110,8 +108,8 @@ private:
 class StringObjectOption : public ObjectOption
 {
 public:
-  StringObjectOption(const std::string& text, std::string* pointer, const std::string& key = {},
-                     int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
+  StringObjectOption(const std::string& text, std::string* pointer, const std::string& key,
+                     unsigned int flags);
 
   virtual void save(Writer& write) const override;
   virtual std::string to_string() const override;
@@ -128,8 +126,8 @@ private:
 class StringSelectObjectOption : public ObjectOption
 {
 public:
-  StringSelectObjectOption(const std::string& text, int* pointer, const std::vector<std::string>& select, const std::string& key = {},
-                           int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
+  StringSelectObjectOption(const std::string& text, int* pointer, const std::vector<std::string>& select,
+                           const std::string& key, unsigned int flags);
 
   virtual void save(Writer& write) const override;
   virtual std::string to_string() const override;
@@ -147,8 +145,8 @@ private:
 class ScriptObjectOption : public ObjectOption
 {
 public:
-  ScriptObjectOption(const std::string& text, std::string* pointer, const std::string& key = {},
-                     int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
+  ScriptObjectOption(const std::string& text, std::string* pointer, const std::string& key,
+                     unsigned int flags);
 
   virtual void save(Writer& write) const override;
   virtual std::string to_string() const override;
@@ -165,9 +163,8 @@ private:
 class FileObjectOption : public ObjectOption
 {
 public:
-  FileObjectOption(const std::string& text, std::string* pointer, const std::string& key = {},
-                   std::vector<std::string> filter = {},
-                   int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
+  FileObjectOption(const std::string& text, std::string* pointer, const std::string& key,
+                   std::vector<std::string> filter, unsigned int flags);
 
   virtual void save(Writer& write) const override;
   virtual std::string to_string() const override;
@@ -185,8 +182,8 @@ private:
 class ColorObjectOption : public ObjectOption
 {
 public:
-  ColorObjectOption(const std::string& text, Color* pointer, const std::string& key = {},
-                    int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
+  ColorObjectOption(const std::string& text, Color* pointer, const std::string& key,
+                    unsigned int flags);
 
   virtual void save(Writer& write) const override;
   virtual std::string to_string() const override;
@@ -203,8 +200,8 @@ private:
 class BadGuySelectObjectOption : public ObjectOption
 {
 public:
-  BadGuySelectObjectOption(const std::string& text, std::vector<std::string>* pointer, const std::string& key = {},
-                    int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
+  BadGuySelectObjectOption(const std::string& text, std::vector<std::string>* pointer, const std::string& key,
+                    unsigned int flags);
 
   virtual void save(Writer& write) const override;
   virtual std::string to_string() const override;

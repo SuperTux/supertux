@@ -35,36 +35,36 @@ public:
   void add_option(std::unique_ptr<ObjectOption> option);
 
   void add_bool(const std::string& text, bool* value_ptr,
-                const std::string& key = {}, int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
+                const std::string& key = {}, unsigned int flags = 0);
   void add_float(const std::string& text, float* value_ptr,
-                 const std::string& key = {}, int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
+                 const std::string& key = {}, unsigned int flags = 0);
   void add_int(const std::string& text, int* value_ptr,
-               const std::string& key = {}, int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
+               const std::string& key = {}, unsigned int flags = 0);
   void add_direction(const std::string& text, Direction* value_ptr,
-                     const std::string& key = {}, int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
+                     const std::string& key = {}, unsigned int flags = 0);
   void add_badguy(const std::string& text, std::vector<std::string>* value_ptr,
-                  const std::string& key = {}, int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
+                  const std::string& key = {}, unsigned int flags = 0);
   void add_color(const std::string& text, Color* value_ptr,
-                 const std::string& key = {}, int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
+                 const std::string& key = {}, unsigned int flags = 0);
   void add_remove();
   void add_script(const std::string& text, std::string* value_ptr,
-                  const std::string& key = {}, int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
+                  const std::string& key = {}, unsigned int flags = 0);
   void add_text(const std::string& text, std::string* value_ptr,
-                const std::string& key = {}, int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
+                const std::string& key = {}, unsigned int flags = 0);
   void add_string_select(const std::string& text, int* value_ptr, const std::vector<std::string>& select,
-                         const std::string& key = {}, int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
+                         const std::string& key = {}, unsigned int flags = 0);
   void add_level(const std::string& text, std::string* value_ptr, const std::string& key = {},
-                 int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
+                 unsigned int flags = 0);
   void add_sprite(const std::string& text, std::string* value_ptr, const std::string& key = {},
-                  int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
+                  unsigned int flags = 0);
   void add_surface(const std::string& text, std::string* value_ptr, const std::string& key = {},
-                   int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
+                   unsigned int flags = 0);
   void add_sound(const std::string& text, std::string* value_ptr, const std::string& key = {},
-                 int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
+                 unsigned int flags = 0);
   void add_music(const std::string& text, std::string* value_ptr, const std::string& key = {},
-                 int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
+                 unsigned int flags = 0);
   void add_worldmap(const std::string& text, std::string* value_ptr, const std::string& key = {},
-                    int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
+                    unsigned int flags = 0);
 
   const std::vector<std::unique_ptr<ObjectOption> >& get_options() const { return m_options; }
 
@@ -73,7 +73,7 @@ public:
 
 private:
   void add_file(const std::string& text, std::string* value_ptr, const std::string& key = {},
-                const std::vector<std::string>& filter = {}, int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
+                const std::vector<std::string>& filter = {}, unsigned int flags = 0);
 
 private:
   std::string m_name;

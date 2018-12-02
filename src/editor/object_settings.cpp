@@ -35,42 +35,42 @@ ObjectSettings::add_option(std::unique_ptr<ObjectOption> option)
 
 void
 ObjectSettings::add_badguy(const std::string& text, std::vector<std::string>* value_ptr,
-                           const std::string& key, int flags)
+                           const std::string& key, unsigned int flags)
 {
   add_option(std::make_unique<BadGuySelectObjectOption>(text, value_ptr, key, flags));
 }
 
 void
 ObjectSettings::add_color(const std::string& text, Color* value_ptr,
-                          const std::string& key, int flags)
+                          const std::string& key, unsigned int flags)
 {
   add_option(std::make_unique<ColorObjectOption>(text, value_ptr, key, flags));
 }
 
 void
 ObjectSettings::add_bool(const std::string& text, bool* value_ptr,
-                         const std::string& key, int flags)
+                         const std::string& key, unsigned int flags)
 {
   add_option(std::make_unique<BoolObjectOption>(text, value_ptr, key, flags));
 }
 
 void
 ObjectSettings::add_float(const std::string& text, float* value_ptr,
-                          const std::string& key, int flags)
+                          const std::string& key, unsigned int flags)
 {
   add_option(std::make_unique<FloatObjectOption>(text, value_ptr, key, flags));
 }
 
 void
 ObjectSettings::add_int(const std::string& text, int* value_ptr,
-                        const std::string& key, int flags)
+                        const std::string& key, unsigned int flags)
 {
   add_option(std::make_unique<IntObjectOption>(text, value_ptr, key, flags));
 }
 
 void
 ObjectSettings::add_direction(const std::string& text, Direction* value_ptr,
-                              const std::string& key, int flags)
+                              const std::string& key, unsigned int flags)
 {
   add_string_select(_("Direction"), reinterpret_cast<int*>(value_ptr),
                     {_("auto"), _("left"), _("right"), _("up"), _("down")});
@@ -84,70 +84,70 @@ ObjectSettings::add_remove()
 
 void
 ObjectSettings::add_script(const std::string& text, std::string* value_ptr,
-                           const std::string& key, int flags)
+                           const std::string& key, unsigned int flags)
 {
   add_option(std::make_unique<ScriptObjectOption>(text, value_ptr, key, flags));
 }
 
 void
 ObjectSettings::add_text(const std::string& text, std::string* value_ptr,
-                         const std::string& key, int flags)
+                         const std::string& key, unsigned int flags)
 {
   add_option(std::make_unique<StringObjectOption>(text, value_ptr, key, flags));
 }
 
 void
 ObjectSettings::add_string_select(const std::string& text, int* value_ptr, const std::vector<std::string>& select,
-                                   const std::string& key, int flags)
+                                   const std::string& key, unsigned int flags)
 {
   add_option(std::make_unique<StringSelectObjectOption>(text, value_ptr, select, key, flags));
 }
 
 void
 ObjectSettings::add_file(const std::string& text, std::string* value_ptr, const std::string& key,
-                         const std::vector<std::string>& filter, int flags)
+                         const std::vector<std::string>& filter, unsigned int flags)
 {
   add_option(std::make_unique<FileObjectOption>(text, value_ptr, key, filter, flags));
 }
 
 void
 ObjectSettings::add_level(const std::string& text, std::string* value_ptr, const std::string& key,
-                          int flags)
+                          unsigned int flags)
 {
   add_file(text, value_ptr, key, {".stl"}, flags);
 }
 
 void
 ObjectSettings::add_sprite(const std::string& text, std::string* value_ptr, const std::string& key,
-                           int flags)
+                           unsigned int flags)
 {
   add_file(text, value_ptr, key, {".jpg", ".png", ".sprite"}, flags);
 }
 
 void
 ObjectSettings::add_surface(const std::string& text, std::string* value_ptr, const std::string& key,
-                            int flags)
+                            unsigned int flags)
 {
   add_file(text, value_ptr, key, {".jpg", ".png", ".surface"}, flags);
 }
 
 void
 ObjectSettings::add_sound(const std::string& text, std::string* value_ptr, const std::string& key,
-                          int flags)
+                          unsigned int flags)
 {
   add_file(text, value_ptr, key, {".wav", ".ogg"}, flags);
 }
 
 void
 ObjectSettings::add_music(const std::string& text, std::string* value_ptr, const std::string& key,
-                          int flags)
+                          unsigned int flags)
 {
   add_file(text, value_ptr, key, {".ogg", ".music"}, flags);
 }
 
 void
 ObjectSettings::add_worldmap(const std::string& text, std::string* value_ptr, const std::string& key,
-                            int flags)
+                            unsigned int flags)
 {
   add_file(text, value_ptr, key, {".stwm"}, flags);
 }
