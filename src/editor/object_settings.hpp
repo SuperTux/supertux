@@ -32,8 +32,6 @@ public:
 
   const std::string& get_name() const { return m_name; }
 
-  void copy_from(const ObjectSettings& other);
-
   void add_option(std::unique_ptr<ObjectOption> option);
 
   void add_bool(const std::string& text, bool* value_ptr,
@@ -74,11 +72,6 @@ public:
 private:
   void add_file(const std::string& text, std::string* value_ptr, const std::string& key = {},
                 const std::vector<std::string>& filter = {}, int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
-
-  template <typename ...Args>
-  void add(Args && ...args) {
-    add_option(std::make_unique<ObjectOption>(std::forward<Args>(args)...));
-  }
 
 private:
   std::string m_name;

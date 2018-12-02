@@ -28,60 +28,6 @@ ObjectSettings::ObjectSettings(const std::string& name) :
 }
 
 void
-ObjectSettings::copy_from(const ObjectSettings& other)
-{
-  auto it1 = m_options.begin();
-  auto it2 = other.m_options.begin();
-  while (it1 != m_options.end() && it2 != other.m_options.end()) {
-    const auto& oo1 = *it1;
-    const auto& oo2 = *it2;
-
-    switch (oo1->m_type)
-    {
-      case MN_TEXTFIELD:
-      case MN_SCRIPT:
-      case MN_FILE:
-        assert(oo1->m_type == oo2->m_type);
-        *(static_cast<std::string*>(oo1->m_option)) = *(static_cast<std::string*>(oo2->m_option));
-        break;
-
-      case MN_FLOATFIELD:
-        assert(oo1->m_type == oo2->m_type);
-        *(static_cast<float*>(oo1->m_option)) = *(static_cast<float*>(oo2->m_option));
-        break;
-
-      case MN_INTFIELD:
-      case MN_STRINGSELECT:
-        assert(oo1->m_type == oo2->m_type);
-        *(static_cast<int*>(oo1->m_option)) = *(static_cast<int*>(oo2->m_option));
-        break;
-
-      case MN_TOGGLE:
-        assert(oo1->m_type == oo2->m_type);
-        *(static_cast<bool*>(oo1->m_option)) = *(static_cast<bool*>(oo2->m_option));
-        break;
-
-      case MN_BADGUYSELECT:
-        assert(oo1->m_type == oo2->m_type);
-        *(static_cast<std::vector<std::string>*>(oo1->m_option)) = *(static_cast<std::vector<std::string>*>(oo2->m_option));
-        break;
-
-      case MN_COLOR:
-        assert(oo1->m_type == oo2->m_type);
-        *(static_cast<Color*>(oo1->m_option)) = *(static_cast<Color*>(oo2->m_option));
-        break;
-
-      default:
-        //Do not assert here!
-        break;
-    }
-
-    it1++;
-    it2++;
-  }
-}
-
-void
 ObjectSettings::add_option(std::unique_ptr<ObjectOption> option)
 {
   m_options.push_back(std::move(option));
@@ -91,48 +37,48 @@ void
 ObjectSettings::add_badguy(const std::string& text, std::vector<std::string>* value_ptr,
                            const std::string& key, int flags)
 {
-  add(MN_BADGUYSELECT, text, value_ptr, key, flags);
+  add_option(std::make_unique<BadGuySelectObjectOption>(text, value_ptr, key, flags));
 }
 
 void
 ObjectSettings::add_color(const std::string& text, Color* value_ptr,
                           const std::string& key, int flags)
 {
-  add(MN_COLOR, text, value_ptr, key, flags);
+  add_option(std::make_unique<ColorObjectOption>(text, value_ptr, key, flags));
 }
 
 void
 ObjectSettings::add_bool(const std::string& text, bool* value_ptr,
                          const std::string& key, int flags)
 {
-  add(MN_TOGGLE, text, value_ptr, key, flags);
+  add_option(std::make_unique<BoolObjectOption>(text, value_ptr, key, flags));
 }
 
 void
 ObjectSettings::add_float(const std::string& text, float* value_ptr,
                           const std::string& key, int flags)
 {
-  add(MN_FLOATFIELD, text, value_ptr, key, flags);
+  add_option(std::make_unique<FloatObjectOption>(text, value_ptr, key, flags));
 }
 
 void
 ObjectSettings::add_int(const std::string& text, int* value_ptr,
                         const std::string& key, int flags)
 {
-  add(MN_INTFIELD, text, value_ptr, key, flags);
+  add_option(std::make_unique<IntObjectOption>(text, value_ptr, key, flags));
 }
 
 void
 ObjectSettings::add_direction(const std::string& text, Direction* value_ptr,
                               const std::string& key, int flags)
 {
-  auto option = std::make_unique<ObjectOption>(MN_STRINGSELECT, _("Direction"), value_ptr);
+  auto option = std::make_unique<StringSelectObjectOption>(_("Direction"), reinterpret_cast<int*>(value_ptr));
 
-  option->m_select.push_back(_("auto"));
-  option->m_select.push_back(_("left"));
-  option->m_select.push_back(_("right"));
-  option->m_select.push_back(_("up"));
-  option->m_select.push_back(_("down"));
+  option->add_select(_("auto"));
+  option->add_select(_("left"));
+  option->add_select(_("right"));
+  option->add_select(_("up"));
+  option->add_select(_("down"));
 
   add_option(std::move(option));
 }
@@ -140,30 +86,28 @@ ObjectSettings::add_direction(const std::string& text, Direction* value_ptr,
 void
 ObjectSettings::add_remove()
 {
-  add(MN_REMOVE, "", nullptr);
+  add_option(std::make_unique<RemoveObjectOption>());
 }
 
 void
 ObjectSettings::add_script(const std::string& text, std::string* value_ptr,
                            const std::string& key, int flags)
 {
-  add(MN_SCRIPT, text, value_ptr, key, flags);
+  add_option(std::make_unique<ScriptObjectOption>(text, value_ptr, key, flags));
 }
 
 void
 ObjectSettings::add_text(const std::string& text, std::string* value_ptr,
                          const std::string& key, int flags)
 {
-  add(MN_TEXTFIELD, text, value_ptr, key, flags);
+  add_option(std::make_unique<StringObjectOption>(text, value_ptr, key, flags));
 }
 
 void
 ObjectSettings::add_file(const std::string& text, std::string* value_ptr, const std::string& key,
                          const std::vector<std::string>& filter, int flags)
 {
-  auto option = std::make_unique<ObjectOption>(MN_FILE, text, value_ptr, key, flags);
-  option->m_select = filter;
-  add_option(std::move(option));
+  add_option(std::make_unique<FileObjectOption>(text, value_ptr, key, filter, flags));
 }
 
 void

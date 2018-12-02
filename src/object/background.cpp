@@ -167,12 +167,12 @@ Background::get_settings()
 
   result.add_int(_("Z-pos"), &m_layer, "z-pos");
 
-  auto align = std::make_unique<ObjectOption>(MN_STRINGSELECT, _("Alignment"), &m_alignment);
-  align->m_select.push_back(_("none"));
-  align->m_select.push_back(_("left"));
-  align->m_select.push_back(_("right"));
-  align->m_select.push_back(_("top"));
-  align->m_select.push_back(_("bottom"));
+  auto align = std::make_unique<StringSelectObjectOption>(_("Alignment"), reinterpret_cast<int*>(&m_alignment));
+  align->add_select(_("none"));
+  align->add_select(_("left"));
+  align->add_select(_("right"));
+  align->add_select(_("top"));
+  align->add_select(_("bottom"));
   result.add_option(std::move(align));
 
   result.add_float(_("Scroll offset x"), &m_scroll_offset.x, "scroll-offset-x");

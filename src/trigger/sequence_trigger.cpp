@@ -77,18 +77,18 @@ SequenceTrigger::get_settings()
   result.add_float(_("Width"), &new_size.x, "width");
   result.add_float(_("Height"), &new_size.y, "height");
 
-  auto seq = std::make_unique<ObjectOption>(MN_STRINGSELECT, _("Sequence"), &sequence);
-  seq->m_select.push_back(_("end sequence"));
-  seq->m_select.push_back(_("stop Tux"));
-  seq->m_select.push_back(_("fireworks"));
+  auto seq = std::make_unique<StringSelectObjectOption>(_("Sequence"), reinterpret_cast<int*>(&sequence));
+  seq->add_select(_("end sequence"));
+  seq->add_select(_("stop Tux"));
+  seq->add_select(_("fireworks"));
   result.add_option(std::move(seq));
 
   result.add_text(_("New worldmap spawnpoint"), &new_spawnpoint, "new_spawnpoint");
   result.add_text(_("Worldmap fade tilemap"), &fade_tilemap, "fade_tilemap");
 
-  auto fade_toggle = std::make_unique<ObjectOption>(MN_STRINGSELECT, _("Fade"), &fade, "fade");
-  fade_toggle->m_select.push_back(_("Fade in"));
-  fade_toggle->m_select.push_back(_("Fade out"));
+  auto fade_toggle = std::make_unique<StringSelectObjectOption>(_("Fade"), reinterpret_cast<int*>(&fade), "fade");
+  fade_toggle->add_select(_("Fade in"));
+  fade_toggle->add_select(_("Fade out"));
   result.add_option(std::move(fade_toggle));
 
   return result;

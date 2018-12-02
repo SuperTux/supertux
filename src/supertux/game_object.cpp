@@ -80,45 +80,7 @@ GameObject::save(Writer& writer)
   for (const auto& option_ptr : settings.get_options())
   {
     const auto& option = *option_ptr;
-
-    if (option.is_savable()) {
-      switch (option.m_type) {
-        case MN_SCRIPT:
-        case MN_TEXTFIELD:
-        case MN_FILE:
-          {
-            auto value = *(reinterpret_cast<std::string*>(option.m_option));
-            if (!(option.m_flags & OPTION_ALLOW_EMPTY) && value.empty())
-              continue;
-            writer.write(option.m_key, value);
-          }
-          break;
-
-        case MN_FLOATFIELD:
-          writer.write(option.m_key, *(reinterpret_cast<float*>(option.m_option)));
-          break;
-
-        case MN_INTFIELD:
-        case MN_STRINGSELECT:
-          writer.write(option.m_key, *(reinterpret_cast<int*>(option.m_option)));
-          break;
-
-        case MN_TOGGLE:
-          writer.write(option.m_key, *(reinterpret_cast<bool*>(option.m_option)));
-          break;
-
-        case MN_BADGUYSELECT:
-          writer.write(option.m_key, *(reinterpret_cast<std::vector<std::string>*>(option.m_option)));
-          break;
-
-        case MN_COLOR:
-          writer.write(option.m_key, reinterpret_cast<Color*>(option.m_option)->toVector());
-          break;
-
-        default:
-          break;
-      }
-    }
+    option.save(writer);
   }
 }
 

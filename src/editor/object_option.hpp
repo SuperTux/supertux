@@ -28,29 +28,214 @@ enum ObjectOptionFlags {
   OPTION_VISIBLE = (1 << 1)
 };
 
-class ObjectOption final
+class Color;
+class Menu;
+class Writer;
+
+class ObjectOption
 {
 public:
-  ObjectOption(MenuItemKind ip_type, const std::string& text, void* ip,
-               const std::string& key = std::string(), int flags = (OPTION_ALLOW_EMPTY | OPTION_VISIBLE));
+  ObjectOption(MenuItemKind m_type, const std::string& text, const std::string& key, int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
+  virtual ~ObjectOption();
 
-  bool is_savable() const { return !m_key.empty(); }
-
-  std::string to_string() const;
-
-  void add_select(const std::string& text);
+  virtual void save(Writer& write) const = 0;
+  virtual std::string to_string() const = 0;
+  virtual void add_to_menu(Menu& menu) const = 0;
 
 public:
   MenuItemKind m_type;
   std::string m_text;
-  void* m_option;
   std::string m_key;
   int m_flags;
-  std::vector<std::string> m_select;
 
 private:
   ObjectOption(const ObjectOption&) = delete;
   ObjectOption& operator=(const ObjectOption&) = delete;
+};
+
+class BoolObjectOption : public ObjectOption
+{
+public:
+  BoolObjectOption(const std::string& text, bool* pointer, const std::string& key = {},
+                   int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
+
+  virtual void save(Writer& write) const override;
+  virtual std::string to_string() const override;
+  virtual void add_to_menu(Menu& menu) const override;
+
+private:
+  bool* m_pointer;
+
+private:
+  BoolObjectOption(const BoolObjectOption&) = delete;
+  BoolObjectOption& operator=(const BoolObjectOption&) = delete;
+};
+
+class IntObjectOption : public ObjectOption
+{
+public:
+  IntObjectOption(const std::string& text, int* pointer, const std::string& key = {},
+                  int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
+
+  virtual void save(Writer& write) const override;
+  virtual std::string to_string() const override;
+  virtual void add_to_menu(Menu& menu) const override;
+
+private:
+  int* m_pointer;
+
+private:
+  IntObjectOption(const IntObjectOption&) = delete;
+  IntObjectOption& operator=(const IntObjectOption&) = delete;
+};
+
+class FloatObjectOption : public ObjectOption
+{
+public:
+  FloatObjectOption(const std::string& text, float* pointer, const std::string& key = {},
+                    int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
+
+  virtual void save(Writer& write) const override;
+  virtual std::string to_string() const override;
+  virtual void add_to_menu(Menu& menu) const override;
+
+private:
+  float* m_pointer;
+
+private:
+  FloatObjectOption(const FloatObjectOption&) = delete;
+  FloatObjectOption& operator=(const FloatObjectOption&) = delete;
+};
+
+class StringObjectOption : public ObjectOption
+{
+public:
+  StringObjectOption(const std::string& text, std::string* pointer, const std::string& key = {},
+                     int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
+
+  virtual void save(Writer& write) const override;
+  virtual std::string to_string() const override;
+  virtual void add_to_menu(Menu& menu) const override;
+
+private:
+  std::string* m_pointer;
+
+private:
+  StringObjectOption(const StringObjectOption&) = delete;
+  StringObjectOption& operator=(const StringObjectOption&) = delete;
+};
+
+class StringSelectObjectOption : public ObjectOption
+{
+public:
+  StringSelectObjectOption(const std::string& text, int* pointer, const std::string& key = {},
+                           int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
+  StringSelectObjectOption(const std::string& text, int* pointer, const std::vector<std::string>& select, const std::string& key = {},
+                           int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
+
+  virtual void save(Writer& write) const override;
+  virtual std::string to_string() const override;
+  virtual void add_to_menu(Menu& menu) const override;
+
+  void add_select(const std::string& text) {
+    m_select.push_back(text);
+  }
+
+private:
+  int*  m_pointer;
+  std::vector<std::string> m_select;
+
+private:
+  StringSelectObjectOption(const StringSelectObjectOption&) = delete;
+  StringSelectObjectOption& operator=(const StringSelectObjectOption&) = delete;
+};
+
+class ScriptObjectOption : public ObjectOption
+{
+public:
+  ScriptObjectOption(const std::string& text, std::string* pointer, const std::string& key = {},
+                     int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
+
+  virtual void save(Writer& write) const override;
+  virtual std::string to_string() const override;
+  virtual void add_to_menu(Menu& menu) const override;
+
+private:
+  std::string* m_pointer;
+
+private:
+  ScriptObjectOption(const ScriptObjectOption&) = delete;
+  ScriptObjectOption& operator=(const ScriptObjectOption&) = delete;
+};
+
+class FileObjectOption : public ObjectOption
+{
+public:
+  FileObjectOption(const std::string& text, std::string* pointer, const std::string& key = {},
+                   std::vector<std::string> filter = {},
+                   int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
+
+  virtual void save(Writer& write) const override;
+  virtual std::string to_string() const override;
+  virtual void add_to_menu(Menu& menu) const override;
+
+private:
+  std::string* m_pointer;
+  std::vector<std::string> m_filter;
+
+private:
+  FileObjectOption(const FileObjectOption&) = delete;
+  FileObjectOption& operator=(const FileObjectOption&) = delete;
+};
+
+class ColorObjectOption : public ObjectOption
+{
+public:
+  ColorObjectOption(const std::string& text, Color* pointer, const std::string& key = {},
+                    int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
+
+  virtual void save(Writer& write) const override;
+  virtual std::string to_string() const override;
+  virtual void add_to_menu(Menu& menu) const override;
+
+private:
+  Color* m_pointer;
+
+private:
+  ColorObjectOption(const ColorObjectOption&) = delete;
+  ColorObjectOption& operator=(const ColorObjectOption&) = delete;
+};
+
+class BadGuySelectObjectOption : public ObjectOption
+{
+public:
+  BadGuySelectObjectOption(const std::string& text, std::vector<std::string>* pointer, const std::string& key = {},
+                    int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
+
+  virtual void save(Writer& write) const override;
+  virtual std::string to_string() const override;
+  virtual void add_to_menu(Menu& menu) const override;
+
+private:
+  std::vector<std::string>* m_pointer;
+
+private:
+  BadGuySelectObjectOption(const BadGuySelectObjectOption&) = delete;
+  BadGuySelectObjectOption& operator=(const BadGuySelectObjectOption&) = delete;
+};
+
+class RemoveObjectOption : public ObjectOption
+{
+public:
+  RemoveObjectOption();
+
+  virtual void save(Writer& write) const override {}
+  virtual std::string to_string() const override;
+  virtual void add_to_menu(Menu& menu) const override;
+
+private:
+  RemoveObjectOption(const RemoveObjectOption&) = delete;
+  RemoveObjectOption& operator=(const RemoveObjectOption&) = delete;
 };
 
 #endif

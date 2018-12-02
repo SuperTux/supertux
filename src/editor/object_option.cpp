@@ -20,7 +20,9 @@
 #include <vector>
 #include <sstream>
 
+#include "gui/menu.hpp"
 #include "util/gettext.hpp"
+#include "util/writer.hpp"
 #include "video/color.hpp"
 
 namespace {
@@ -35,67 +37,312 @@ std::string to_string(const T& v)
 
 } // namespace
 
-ObjectOption::ObjectOption(MenuItemKind ip_type, const std::string& text, void* ip,
-                           const std::string& key, int flags) :
+ObjectOption::ObjectOption(MenuItemKind ip_type, const std::string& text, const std::string& key, int flags) :
   m_type(ip_type),
   m_text(text),
-  m_option(ip),
   m_key(key),
-  m_flags(flags),
+  m_flags(flags)
+{
+}
+
+ObjectOption::~ObjectOption()
+{
+}
+
+BoolObjectOption::BoolObjectOption(const std::string& text, bool* pointer, const std::string& key,
+                                   int flags) :
+  ObjectOption(MN_TOGGLE, text, key, flags),
+  m_pointer(pointer)
+{
+}
+
+void
+BoolObjectOption::add_to_menu(Menu& menu) const
+{
+  menu.add_toggle(-1, m_text, m_pointer);
+}
+
+void
+BoolObjectOption::save(Writer& writer) const
+{
+  if (!m_key.empty()) {
+    writer.write(m_key, *m_pointer);
+  }
+}
+
+std::string
+BoolObjectOption::to_string() const
+{
+  return *m_pointer ? _("true") : _("false");
+}
+
+IntObjectOption::IntObjectOption(const std::string& text, int* pointer, const std::string& key,
+                                 int flags) :
+  ObjectOption(MN_INTFIELD, text, key, flags),
+  m_pointer(pointer)
+{
+}
+
+void
+IntObjectOption::save(Writer& writer) const
+{
+  if (!m_key.empty()) {
+    writer.write(m_key, *m_pointer);
+  }
+}
+
+std::string
+IntObjectOption::to_string() const
+{
+  return ::to_string(*m_pointer);
+}
+
+void
+IntObjectOption::add_to_menu(Menu& menu) const
+{
+  menu.add_intfield(m_text, m_pointer);
+}
+
+FloatObjectOption::FloatObjectOption(const std::string& text, float* pointer, const std::string& key,
+                                     int flags) :
+  ObjectOption(MN_FLOATFIELD, text, key, flags),
+  m_pointer(pointer)
+{
+}
+
+void
+FloatObjectOption::save(Writer& writer) const
+{
+  if (!m_key.empty()) {
+    writer.write(m_key, *m_pointer);
+  }
+}
+
+std::string
+FloatObjectOption::to_string() const
+{
+  return ::to_string(*m_pointer);
+}
+
+void
+FloatObjectOption::add_to_menu(Menu& menu) const
+{
+  menu.add_floatfield(m_text, m_pointer);
+}
+
+StringObjectOption::StringObjectOption(const std::string& text, std::string* pointer, const std::string& key,
+                                       int flags) :
+  ObjectOption(MN_TEXTFIELD, text, key, flags),
+  m_pointer(pointer)
+{
+}
+
+void
+StringObjectOption::save(Writer& writer) const
+{
+  auto& value = *m_pointer;
+  if (!value.empty() || (m_flags & OPTION_ALLOW_EMPTY))
+  {
+    if (!m_key.empty()) {
+      writer.write(m_key, value);
+    }
+  }
+}
+
+std::string
+StringObjectOption::to_string() const
+{
+  return *m_pointer;
+}
+
+void
+StringObjectOption::add_to_menu(Menu& menu) const
+{
+  menu.add_textfield(m_text, m_pointer);
+}
+
+StringSelectObjectOption::StringSelectObjectOption(const std::string& text, int* pointer, const std::string& key,
+                                                   int flags) :
+  ObjectOption(MN_STRINGSELECT, text, key, flags),
+  m_pointer(pointer),
   m_select()
 {
 }
 
-std::string
-ObjectOption::to_string() const
+StringSelectObjectOption::StringSelectObjectOption(const std::string& text, int* pointer,
+                                                   const std::vector<std::string>& select,
+                                                   const std::string& key,
+                                                   int flags) :
+  ObjectOption(MN_STRINGSELECT, text, key, flags),
+  m_pointer(pointer),
+  m_select(select)
 {
-  switch (m_type)
-  {
-    case MN_TEXTFIELD:
-      return *(static_cast<std::string*>(m_option));
+}
 
-    case MN_FLOATFIELD:
-      return ::to_string(*(static_cast<float*>(m_option)));
+void
+StringSelectObjectOption::save(Writer& writer) const
+{
+  if (!m_key.empty()) {
+    writer.write(m_key, *m_pointer);
+  }
+}
 
-    case MN_INTFIELD:
-      return ::to_string(*(static_cast<int*>(m_option)));
-
-    case MN_TOGGLE:
-      return (*(static_cast<bool*>(m_option))) ? _("true") : _("false");
-
-    case MN_STRINGSELECT: {
-      int* selected_id = static_cast<int*>(m_option);
-      if ( *selected_id >= int(m_select.size()) || *selected_id < 0 ) {
-        return _("invalid"); //Test whether the selected ID is valid
-      } else {
-        return m_select[*selected_id];
-      }
-    }
-
-    case MN_BADGUYSELECT:
-      return ::to_string((static_cast<std::vector<std::string>*>(m_option))->size());
-
-    case MN_COLOR:
-      return (static_cast<Color*>(m_option))->to_string();
-
-    case MN_SCRIPT:
-      if ((static_cast<std::string*>(m_option))->length()) {
-        return "...";
-      }
-      return "";
-
-    case MN_FILE:
-      return *(static_cast<std::string*>(m_option));
-
-    default:
-      return _("Unknown");
+std::string
+StringSelectObjectOption::to_string() const
+{
+  int* selected_id = static_cast<int*>(m_pointer);
+  if (*selected_id >= int(m_select.size()) || *selected_id < 0) {
+    return _("invalid"); //Test whether the selected ID is valid
+  } else {
+    return m_select[*selected_id];
   }
 }
 
 void
-ObjectOption::add_select(const std::string& text)
+StringSelectObjectOption::add_to_menu(Menu& menu) const
 {
-  m_select.push_back(text);
+  int& selected_id = *m_pointer;
+  if ( selected_id >= static_cast<int>(m_select.size()) || selected_id < 0 ) {
+    selected_id = 0; // Set the option to zero when not selectable
+  }
+  menu.add_string_select(-1, m_text, m_pointer, m_select);
+}
+
+ScriptObjectOption::ScriptObjectOption(const std::string& text, std::string* pointer, const std::string& key,
+                                       int flags) :
+  ObjectOption(MN_SCRIPT, text, key, flags),
+  m_pointer(pointer)
+{
+}
+
+void
+ScriptObjectOption::save(Writer& writer) const
+{
+  auto& value = *m_pointer;
+  if (!value.empty() || (m_flags & OPTION_ALLOW_EMPTY))
+  {
+    if (!m_key.empty()) {
+      writer.write(m_key, value);
+    }
+  }
+}
+
+std::string
+ScriptObjectOption::to_string() const
+{
+  if (!m_pointer->empty()) {
+    return "...";
+  }
+  return "";
+}
+
+void
+ScriptObjectOption::add_to_menu(Menu& menu) const
+{
+  menu.add_script(m_text, m_pointer);
+}
+
+FileObjectOption::FileObjectOption(const std::string& text, std::string* pointer, const std::string& key,
+                                   std::vector<std::string> filter, int flags) :
+  ObjectOption(MN_FILE, text, key, flags),
+  m_pointer(pointer),
+  m_filter(filter)
+{
+}
+
+void
+FileObjectOption::save(Writer& writer) const
+{
+  auto& value = *m_pointer;
+  if (!value.empty() || (m_flags & OPTION_ALLOW_EMPTY))
+  {
+    if (!m_key.empty()) {
+      writer.write(m_key, value);
+    }
+  }
+}
+
+std::string
+FileObjectOption::to_string() const
+{
+  return *m_pointer;
+}
+
+void
+FileObjectOption::add_to_menu(Menu& menu) const
+{
+  menu.add_file(m_text, m_pointer, m_filter);
+}
+
+ColorObjectOption::ColorObjectOption(const std::string& text, Color* pointer, const std::string& key,
+                                     int flags) :
+  ObjectOption(MN_COLOR, text, key, flags),
+  m_pointer(pointer)
+{
+}
+
+void
+ColorObjectOption::save(Writer& writer) const
+{
+  if (!m_key.empty()) {
+    writer.write(m_key, m_pointer->toVector());
+  }
+}
+
+std::string
+ColorObjectOption::to_string() const
+{
+  return m_pointer->to_string();
+}
+
+void
+ColorObjectOption::add_to_menu(Menu& menu) const
+{
+  menu.add_color(m_text, m_pointer);
+}
+
+BadGuySelectObjectOption::BadGuySelectObjectOption(const std::string& text, std::vector<std::string>* pointer, const std::string& key,
+                                                   int flags) :
+  ObjectOption(MN_BADGUYSELECT, text, key, flags),
+  m_pointer(pointer)
+{
+}
+
+void
+BadGuySelectObjectOption::save(Writer& writer) const
+{
+  if (!m_key.empty()) {
+    writer.write(m_key, *m_pointer);
+  }
+}
+
+std::string
+BadGuySelectObjectOption::to_string() const
+{
+  return ::to_string(m_pointer->size());
+}
+
+void
+BadGuySelectObjectOption::add_to_menu(Menu& menu) const
+{
+  menu.add_badguy_select(m_text, m_pointer);
+}
+
+RemoveObjectOption::RemoveObjectOption() :
+  ObjectOption(MN_REMOVE, _("Remove"), "")
+{
+}
+
+std::string
+RemoveObjectOption::to_string() const
+{
+  return {};
+}
+
+void
+RemoveObjectOption::add_to_menu(Menu& menu) const
+{
+  menu.add_entry(MN_REMOVE, m_text);
 }
 
 /* EOF */

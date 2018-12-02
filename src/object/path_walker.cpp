@@ -218,7 +218,7 @@ PathWalker::goback_node()
 std::unique_ptr<ObjectOption>
 PathWalker::get_running_option(bool* _running)
 {
-  return std::make_unique<ObjectOption>(MN_TOGGLE, _("Running"), _running);
+  return std::make_unique<BoolObjectOption>(_("Running"), _running);
 }
 
 /* EOF */

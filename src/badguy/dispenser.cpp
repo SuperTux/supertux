@@ -443,7 +443,7 @@ Dispenser::get_settings()
   result.add_int(_("Max concurrent badguys"), &m_max_concurrent_badguys,
              "max-concurrent-badguys");
 
-  auto seq = std::make_unique<ObjectOption>(MN_STRINGSELECT, _("Type"), &m_type);
+  auto seq = std::make_unique<StringSelectObjectOption>(_("Type"), reinterpret_cast<int*>(&m_type));
   seq->add_select(_("dropper"));
   seq->add_select(_("rocket launcher"));
   seq->add_select(_("cannon"));

@@ -195,20 +195,20 @@ BonusBlock::get_settings()
   result.add_script(_("Script"), &m_script);
   result.add_int(_("Count"), &m_hit_counter);
 
-  auto coo = std::make_unique<ObjectOption>(MN_STRINGSELECT, _("Content"), &m_contents);
-  coo->m_select.push_back(_("Coin"));
-  coo->m_select.push_back(_("Growth (fire flower)"));
-  coo->m_select.push_back(_("Growth (ice flower)"));
-  coo->m_select.push_back(_("Growth (air flower)"));
-  coo->m_select.push_back(_("Growth (earth flower)"));
-  coo->m_select.push_back(_("Star"));
-  coo->m_select.push_back(_("Tux doll"));
-  coo->m_select.push_back(_("Custom"));
-  coo->m_select.push_back(_("Script"));
-  coo->m_select.push_back(_("Light"));
-  coo->m_select.push_back(_("Trampoline"));
-  coo->m_select.push_back(_("Coin rain"));
-  coo->m_select.push_back(_("Coin explosion"));
+  auto coo = std::make_unique<StringSelectObjectOption>(_("Content"), reinterpret_cast<int*>(&m_contents));
+  coo->add_select(_("Coin"));
+  coo->add_select(_("Growth (fire flower)"));
+  coo->add_select(_("Growth (ice flower)"));
+  coo->add_select(_("Growth (air flower)"));
+  coo->add_select(_("Growth (earth flower)"));
+  coo->add_select(_("Star"));
+  coo->add_select(_("Tux doll"));
+  coo->add_select(_("Custom"));
+  coo->add_select(_("Script"));
+  coo->add_select(_("Light"));
+  coo->add_select(_("Trampoline"));
+  coo->add_select(_("Coin rain"));
+  coo->add_select(_("Coin explosion"));
   result.add_option(std::move(coo));
 
   return result;
