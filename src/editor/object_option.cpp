@@ -18,9 +18,22 @@
 
 #include <string>
 #include <vector>
+#include <sstream>
 
 #include "util/gettext.hpp"
 #include "video/color.hpp"
+
+namespace {
+
+template<typename T>
+std::string to_string(const T& v)
+{
+  std::ostringstream out;
+  out << v;
+  return out.str();
+}
+
+} // namespace
 
 ObjectOption::ObjectOption(MenuItemKind ip_type, const std::string& text, void* ip,
                            const std::string& key, int flags) :
@@ -42,10 +55,10 @@ ObjectOption::to_string() const
       return *(static_cast<std::string*>(m_option));
 
     case MN_FLOATFIELD:
-      return std::to_string(*(static_cast<float*>(m_option)));
+      return ::to_string(*(static_cast<float*>(m_option)));
 
     case MN_INTFIELD:
-      return std::to_string(*(static_cast<int*>(m_option)));
+      return ::to_string(*(static_cast<int*>(m_option)));
 
     case MN_TOGGLE:
       return (*(static_cast<bool*>(m_option))) ? _("true") : _("false");
@@ -60,7 +73,7 @@ ObjectOption::to_string() const
     }
 
     case MN_BADGUYSELECT:
-      return std::to_string((static_cast<std::vector<std::string>*>(m_option))->size());
+      return ::to_string((static_cast<std::vector<std::string>*>(m_option))->size());
 
     case MN_COLOR:
       return (static_cast<Color*>(m_option))->to_string();
