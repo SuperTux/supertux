@@ -109,7 +109,6 @@ void
 Gradient::save(Writer& writer)
 {
   GameObject::save(writer);
-  writer.write("z-pos", m_layer);
   switch (m_gradient_direction) {
     case HORIZONTAL:        writer.write("direction", "horizontal"       , false); break;
     case VERTICAL_SECTOR:   writer.write("direction", "vertical_sector"  , false); break;
@@ -122,6 +121,9 @@ Gradient::save(Writer& writer)
   } else {
     writer.write("top_color"   , m_gradient_top.toVector());
     writer.write("bottom_color", m_gradient_bottom.toVector());
+  }
+  if (m_layer != LAYER_BACKGROUND0) {
+    writer.write("z-pos", m_layer);
   }
 }
 

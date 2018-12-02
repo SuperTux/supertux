@@ -145,7 +145,8 @@ Background::~Background()
 }
 
 void
-Background::save(Writer& writer) {
+Background::save(Writer& writer)
+{
   GameObject::save(writer);
   switch (m_alignment) {
     case LEFT_ALIGNMENT:   writer.write("alignment", "left",   false); break;
