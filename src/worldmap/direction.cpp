@@ -82,7 +82,8 @@ dir_option(Direction *dir)
 {
   return std::make_unique<StringSelectObjectOption>(
     _("Direction"), reinterpret_cast<int*>(dir),
-    std::vector<std::string>{_("None"), _("West"), _("East"), _("North"), _("South")}, "direction", 0);
+    std::vector<std::string>{_("None"), _("West"), _("East"), _("North"), _("South")},
+    boost::none, "direction", 0);
 }
 
 } // namespace worldmap

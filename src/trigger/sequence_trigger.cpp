@@ -84,7 +84,7 @@ SequenceTrigger::get_settings()
   result.add_text(_("Worldmap fade tilemap"), &fade_tilemap, "fade_tilemap");
   result.add_string_select(_("Fade"), reinterpret_cast<int*>(&fade),
                            {_("Fade in"), _("Fade out")},
-                           "fade");
+                           boost::none, "fade");
 
   return result;
 }

@@ -41,6 +41,7 @@ public:
   void add_int(const std::string& text, int* value_ptr,
                const std::string& key = {}, unsigned int flags = 0);
   void add_direction(const std::string& text, Direction* value_ptr,
+                     boost::optional<Direction> default_value = {},
                      const std::string& key = {}, unsigned int flags = 0);
   void add_badguy(const std::string& text, std::vector<std::string>* value_ptr,
                   const std::string& key = {}, unsigned int flags = 0);
@@ -52,6 +53,7 @@ public:
   void add_text(const std::string& text, std::string* value_ptr,
                 const std::string& key = {}, unsigned int flags = 0);
   void add_string_select(const std::string& text, int* value_ptr, const std::vector<std::string>& select,
+                         boost::optional<int> default_value = {},
                          const std::string& key = {}, unsigned int flags = 0);
   void add_level(const std::string& text, std::string* value_ptr, const std::string& key = {},
                  unsigned int flags = 0);

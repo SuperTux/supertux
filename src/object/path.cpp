@@ -200,7 +200,8 @@ Path::get_mode_option(WalkMode* mode)
 {
   return std::make_unique<StringSelectObjectOption>(
     _("Path Mode"), reinterpret_cast<int*>(mode),
-    std::vector<std::string>{_("One shot"), _("Ping-pong"), _("Circular"), _("Unordered")}, std::string(), 0);
+    std::vector<std::string>{_("One shot"), _("Ping-pong"), _("Circular"), _("Unordered")},
+    boost::none, std::string(), 0);
 }
 
 /* EOF */

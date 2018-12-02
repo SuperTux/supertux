@@ -70,10 +70,13 @@ ObjectSettings::add_int(const std::string& text, int* value_ptr,
 
 void
 ObjectSettings::add_direction(const std::string& text, Direction* value_ptr,
+                              boost::optional<Direction> default_value,
                               const std::string& key, unsigned int flags)
 {
   add_string_select(_("Direction"), reinterpret_cast<int*>(value_ptr),
-                    {_("auto"), _("left"), _("right"), _("up"), _("down")});
+                    {_("auto"), _("left"), _("right"), _("up"), _("down")},
+                    default_value ? static_cast<int>(*default_value) : boost::optional<int>(),
+                    key, flags);
 }
 
 void
@@ -98,9 +101,10 @@ ObjectSettings::add_text(const std::string& text, std::string* value_ptr,
 
 void
 ObjectSettings::add_string_select(const std::string& text, int* value_ptr, const std::vector<std::string>& select,
-                                   const std::string& key, unsigned int flags)
+                                  boost::optional<int> default_value,
+                                  const std::string& key, unsigned int flags)
 {
-  add_option(std::make_unique<StringSelectObjectOption>(text, value_ptr, select, key, flags));
+  add_option(std::make_unique<StringSelectObjectOption>(text, value_ptr, select, default_value, key, flags));
 }
 
 void

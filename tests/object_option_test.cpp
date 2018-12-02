@@ -50,8 +50,8 @@ TEST(ObjectOption, to_string)
     };
     FooBar fb1 = FOO;
     FooBar fb2 = BAR;
-    StringSelectObjectOption stringselect1("test", reinterpret_cast<int*>(&fb1), select, {}, 0);
-    StringSelectObjectOption stringselect2("test", reinterpret_cast<int*>(&fb2), select, {}, 0);
+    StringSelectObjectOption stringselect1("test", reinterpret_cast<int*>(&fb1), select, {}, {}, 0);
+    StringSelectObjectOption stringselect2("test", reinterpret_cast<int*>(&fb2), select, {}, {}, 0);
     ASSERT_EQ("foo", stringselect1.to_string());
     ASSERT_EQ("bar", stringselect2.to_string());
   }

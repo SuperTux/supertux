@@ -163,11 +163,12 @@ StringObjectOption::add_to_menu(Menu& menu) const
 
 StringSelectObjectOption::StringSelectObjectOption(const std::string& text, int* pointer,
                                                    const std::vector<std::string>& select,
-                                                   const std::string& key,
-                                                   unsigned int flags) :
+                                                   boost::optional<int> default_value,
+                                                   const std::string& key, unsigned int flags) :
   ObjectOption(MN_STRINGSELECT, text, key, flags),
   m_pointer(pointer),
-  m_select(select)
+  m_select(select),
+  m_default_value(default_value)
 {
 }
 
@@ -175,7 +176,11 @@ void
 StringSelectObjectOption::save(Writer& writer) const
 {
   if (!m_key.empty()) {
-    writer.write(m_key, *m_pointer);
+    if (m_default_value && *m_default_value == *m_pointer) {
+      // skip
+    } else {
+      writer.write(m_key, *m_pointer);
+    }
   }
 }
 

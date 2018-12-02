@@ -17,6 +17,7 @@
 #ifndef HEADER_SUPERTUX_EDITOR_OBJECT_OPTION_HPP
 #define HEADER_SUPERTUX_EDITOR_OBJECT_OPTION_HPP
 
+#include <boost/optional.hpp>
 #include <string>
 #include <vector>
 
@@ -127,6 +128,7 @@ class StringSelectObjectOption : public ObjectOption
 {
 public:
   StringSelectObjectOption(const std::string& text, int* pointer, const std::vector<std::string>& select,
+                           boost::optional<int> default_value,
                            const std::string& key, unsigned int flags);
 
   virtual void save(Writer& write) const override;
@@ -136,6 +138,7 @@ public:
 private:
   int*  m_pointer;
   std::vector<std::string> m_select;
+  boost::optional<int> m_default_value;
 
 private:
   StringSelectObjectOption(const StringSelectObjectOption&) = delete;
