@@ -198,14 +198,9 @@ Path::is_valid() const
 std::unique_ptr<ObjectOption>
 Path::get_mode_option(WalkMode* mode)
 {
-  auto result = std::make_unique<StringSelectObjectOption>(_("Path Mode"), reinterpret_cast<int*>(mode));
-
-  result->add_select(_("One shot"));
-  result->add_select(_("Ping-pong"));
-  result->add_select(_("Circular"));
-  result->add_select(_("Unordered"));
-
-  return result;
+  return std::make_unique<StringSelectObjectOption>(
+    _("Path Mode"), reinterpret_cast<int*>(mode),
+    std::vector<std::string>{_("One shot"), _("Ping-pong"), _("Circular"), _("Unordered")});
 }
 
 /* EOF */

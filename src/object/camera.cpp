@@ -237,10 +237,8 @@ Camera::get_settings()
 {
   ObjectSettings result = GameObject::get_settings();
 
-  auto moo = std::make_unique<StringSelectObjectOption>(_("Mode"), reinterpret_cast<int*>(&m_defaultmode));
-  moo->add_select(_("normal"));
-  moo->add_select(_("manual"));
-  result.add_option(std::move(moo));
+  result.add_string_select(_("Mode"), reinterpret_cast<int*>(&m_defaultmode),
+                           {_("normal"), _("manual")});
 
   if (get_walker() && get_path()->is_valid()) {
     result.add_option(Path::get_mode_option(&get_path()->m_mode));

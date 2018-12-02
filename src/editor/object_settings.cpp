@@ -72,15 +72,8 @@ void
 ObjectSettings::add_direction(const std::string& text, Direction* value_ptr,
                               const std::string& key, int flags)
 {
-  auto option = std::make_unique<StringSelectObjectOption>(_("Direction"), reinterpret_cast<int*>(value_ptr));
-
-  option->add_select(_("auto"));
-  option->add_select(_("left"));
-  option->add_select(_("right"));
-  option->add_select(_("up"));
-  option->add_select(_("down"));
-
-  add_option(std::move(option));
+  add_string_select(_("Direction"), reinterpret_cast<int*>(value_ptr),
+                    {_("auto"), _("left"), _("right"), _("up"), _("down")});
 }
 
 void
@@ -101,6 +94,13 @@ ObjectSettings::add_text(const std::string& text, std::string* value_ptr,
                          const std::string& key, int flags)
 {
   add_option(std::make_unique<StringObjectOption>(text, value_ptr, key, flags));
+}
+
+void
+ObjectSettings::add_string_select(const std::string& text, int* value_ptr, const std::vector<std::string>& select,
+                                   const std::string& key, int flags)
+{
+  add_option(std::make_unique<StringSelectObjectOption>(text, value_ptr, select, key, flags));
 }
 
 void

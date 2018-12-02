@@ -139,14 +139,10 @@ Gradient::get_settings()
   }
 
   result.add_int(_("Z-pos"), &m_layer);
-  auto doo = std::make_unique<StringSelectObjectOption>(_("Direction"), reinterpret_cast<int*>(&m_gradient_direction));
-  doo->add_select(_("Vertical"));
-  doo->add_select(_("Horizontal"));
-  doo->add_select(_("Vertical (whole sector)"));
-  doo->add_select(_("Horizontal (whole sector)"));
-  result.add_option(std::move(doo));
-
+  result.add_string_select(_("Direction"), reinterpret_cast<int*>(&m_gradient_direction),
+                           {_("Vertical"), _("Horizontal"), _("Vertical (whole sector)"), _("Horizontal (whole sector)")});
   result.add_remove();
+
   return result;
 }
 

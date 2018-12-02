@@ -51,6 +51,8 @@ public:
                   const std::string& key = {}, int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
   void add_text(const std::string& text, std::string* value_ptr,
                 const std::string& key = {}, int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
+  void add_string_select(const std::string& text, int* value_ptr, const std::vector<std::string>& select,
+                         const std::string& key = {}, int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
   void add_level(const std::string& text, std::string* value_ptr, const std::string& key = {},
                  int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
   void add_sprite(const std::string& text, std::string* value_ptr, const std::string& key = {},

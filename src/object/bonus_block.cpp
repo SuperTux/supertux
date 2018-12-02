@@ -192,24 +192,13 @@ ObjectSettings
 BonusBlock::get_settings()
 {
   ObjectSettings result = Block::get_settings();
+
   result.add_script(_("Script"), &m_script);
   result.add_int(_("Count"), &m_hit_counter);
-
-  auto coo = std::make_unique<StringSelectObjectOption>(_("Content"), reinterpret_cast<int*>(&m_contents));
-  coo->add_select(_("Coin"));
-  coo->add_select(_("Growth (fire flower)"));
-  coo->add_select(_("Growth (ice flower)"));
-  coo->add_select(_("Growth (air flower)"));
-  coo->add_select(_("Growth (earth flower)"));
-  coo->add_select(_("Star"));
-  coo->add_select(_("Tux doll"));
-  coo->add_select(_("Custom"));
-  coo->add_select(_("Script"));
-  coo->add_select(_("Light"));
-  coo->add_select(_("Trampoline"));
-  coo->add_select(_("Coin rain"));
-  coo->add_select(_("Coin explosion"));
-  result.add_option(std::move(coo));
+  result.add_string_select(_("Content"), reinterpret_cast<int*>(&m_contents),
+                           {_("Coin"), _("Growth (fire flower)"), _("Growth (ice flower)"), _("Growth (air flower)"),
+                            _("Growth (earth flower)"), _("Star"), _("Tux doll"), _("Custom"), _("Script"),_("Light"),
+                            _("Trampoline"), _("Coin rain"), _("Coin explosion")});
 
   return result;
 }

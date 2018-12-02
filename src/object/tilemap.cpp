@@ -231,11 +231,8 @@ TileMap::get_settings()
   result.add_float(_("Speed y"), &m_speed_y);
   result.add_color(_("Tint"), &m_tint);
   result.add_int(_("Z-pos"), &m_z_pos);
-
-  auto draw_target_option = std::make_unique<StringSelectObjectOption>(_("Draw target"), reinterpret_cast<int*>(&m_draw_target));
-  draw_target_option->add_select(_("Normal"));
-  draw_target_option->add_select(_("Lightmap"));
-  result.add_option(std::move(draw_target_option));
+  result.add_string_select(_("Draw target"), reinterpret_cast<int*>(&m_draw_target),
+                           {_("Normal"), _("Lightmap")});
 
   m_add_path = get_walker() && get_path() && get_path()->is_valid();
   result.add_bool(_("Following path"), &m_add_path);

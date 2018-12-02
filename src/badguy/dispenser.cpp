@@ -435,6 +435,7 @@ ObjectSettings
 Dispenser::get_settings()
 {
   ObjectSettings result = BadGuy::get_settings();
+
   result.add_float(_("Interval (seconds)"), &m_cycle, "cycle");
   result.add_bool(_("Random"), &m_random, "random");
   result.add_badguy(_("Enemies"), &m_badguys, "badguy");
@@ -442,16 +443,12 @@ Dispenser::get_settings()
              "limit-dispensed-badguys");
   result.add_int(_("Max concurrent badguys"), &m_max_concurrent_badguys,
              "max-concurrent-badguys");
-
-  auto seq = std::make_unique<StringSelectObjectOption>(_("Type"), reinterpret_cast<int*>(&m_type));
-  seq->add_select(_("dropper"));
-  seq->add_select(_("rocket launcher"));
-  seq->add_select(_("cannon"));
-  seq->add_select(_("invisible"));
-  result.add_option(std::move(seq));
+  result.add_string_select(_("Type"), reinterpret_cast<int*>(&m_type),
+                           {_("dropper"), _("rocket launcher"), _("cannon"), _("invisible")});
 
   m_type_str = DispenserType_to_string(m_type);
   result.add_text("type", &m_type_str, "type", false);
+
   return result;
 }
 

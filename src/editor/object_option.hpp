@@ -128,18 +128,12 @@ private:
 class StringSelectObjectOption : public ObjectOption
 {
 public:
-  StringSelectObjectOption(const std::string& text, int* pointer, const std::string& key = {},
-                           int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
   StringSelectObjectOption(const std::string& text, int* pointer, const std::vector<std::string>& select, const std::string& key = {},
                            int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
 
   virtual void save(Writer& write) const override;
   virtual std::string to_string() const override;
   virtual void add_to_menu(Menu& menu) const override;
-
-  void add_select(const std::string& text) {
-    m_select.push_back(text);
-  }
 
 private:
   int*  m_pointer;

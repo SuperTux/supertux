@@ -161,14 +161,6 @@ StringObjectOption::add_to_menu(Menu& menu) const
   menu.add_textfield(m_text, m_pointer);
 }
 
-StringSelectObjectOption::StringSelectObjectOption(const std::string& text, int* pointer, const std::string& key,
-                                                   int flags) :
-  ObjectOption(MN_STRINGSELECT, text, key, flags),
-  m_pointer(pointer),
-  m_select()
-{
-}
-
 StringSelectObjectOption::StringSelectObjectOption(const std::string& text, int* pointer,
                                                    const std::vector<std::string>& select,
                                                    const std::string& key,
