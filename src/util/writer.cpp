@@ -26,7 +26,6 @@ Writer::Writer(const std::string& filename) :
   indent_depth(0),
   lists()
 {
-  out->precision(10);
 }
 
 Writer::Writer(std::ostream& newout) :
@@ -36,7 +35,6 @@ Writer::Writer(std::ostream& newout) :
   indent_depth(0),
   lists()
 {
-  out->precision(10);
 }
 
 Writer::~Writer()
