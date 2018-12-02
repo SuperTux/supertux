@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_EDITOR_OBJECT_SETTINGS_HPP
 
 #include <vector>
+#include <memory>
 
 #include "editor/object_option.hpp"
 
@@ -33,7 +34,7 @@ public:
 
   void copy_from(const ObjectSettings& other);
 
-  void add_option(const ObjectOption& option);
+  void add_option(std::unique_ptr<ObjectOption> option);
 
   void add_bool(const std::string& text, bool* value_ptr,
                 const std::string& key = {}, int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
@@ -65,10 +66,10 @@ public:
   void add_worldmap(const std::string& text, std::string* value_ptr, const std::string& key = {},
                     int flags = OPTION_ALLOW_EMPTY | OPTION_VISIBLE);
 
-  const std::vector<ObjectOption>& get_options() const { return m_options; }
+  const std::vector<std::unique_ptr<ObjectOption> >& get_options() const { return m_options; }
 
   /** Avoid using this one */
-  std::vector<ObjectOption>& get_options_writable() { return m_options; }
+  std::vector<std::unique_ptr<ObjectOption> >& get_options_writable() { return m_options; }
 
 private:
   void add_file(const std::string& text, std::string* value_ptr, const std::string& key = {},
@@ -76,12 +77,12 @@ private:
 
   template <typename ...Args>
   void add(Args && ...args) {
-    add_option(ObjectOption(std::forward<Args>(args)...));
+    add_option(std::make_unique<ObjectOption>(std::forward<Args>(args)...));
   }
 
 private:
   std::string m_name;
-  std::vector<ObjectOption> m_options;
+  std::vector<std::unique_ptr<ObjectOption> > m_options;
 };
 
 #endif

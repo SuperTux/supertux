@@ -19,6 +19,7 @@
 #ifndef HEADER_SUPERTUX_OBJECT_PATH_HPP
 #define HEADER_SUPERTUX_OBJECT_PATH_HPP
 
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -60,7 +61,7 @@ public:
 
 public:
   /** Returns an object option that modifies the mode. */
-  static ObjectOption get_mode_option(WalkMode* mode);
+  static std::unique_ptr<ObjectOption> get_mode_option(WalkMode* mode);
 
 public:
   Path();

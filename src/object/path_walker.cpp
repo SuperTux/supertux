@@ -215,10 +215,10 @@ PathWalker::goback_node()
   m_walking_speed = 0;
 }
 
-ObjectOption
-PathWalker::get_running_option(bool* _running) {
-  ObjectOption result(MN_TOGGLE, _("Running"), _running);
-  return result;
+std::unique_ptr<ObjectOption>
+PathWalker::get_running_option(bool* _running)
+{
+  return std::make_unique<ObjectOption>(MN_TOGGLE, _("Running"), _running);
 }
 
 /* EOF */

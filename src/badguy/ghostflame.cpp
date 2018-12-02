@@ -43,11 +43,12 @@ ObjectSettings
 Ghostflame::get_settings()
 {
   ObjectSettings result = Flame::get_settings();
+
   for (auto& option : result.get_options_writable())
   {
-    if (option.m_key == "sprite")
+    if (option->m_key == "sprite")
     {
-      option.m_flags = 0; // Remove is_visible flag
+      option->m_flags = 0; // Remove is_visible flag
     }
   }
 

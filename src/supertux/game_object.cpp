@@ -77,8 +77,10 @@ GameObject::save(Writer& writer)
     writer.write("name", m_name, false);
   }
   auto settings = get_settings();
-  for (const auto& option : settings.get_options())
+  for (const auto& option_ptr : settings.get_options())
   {
+    const auto& option = *option_ptr;
+
     if (option.is_savable()) {
       switch (option.m_type) {
         case MN_SCRIPT:

@@ -232,10 +232,10 @@ TileMap::get_settings()
   result.add_color(_("Tint"), &m_tint);
   result.add_int(_("Z-pos"), &m_z_pos);
 
-  ObjectOption draw_target_option(MN_STRINGSELECT, _("Draw target"), &m_draw_target);
-  draw_target_option.m_select.push_back(_("Normal"));
-  draw_target_option.m_select.push_back(_("Lightmap"));
-  result.add_option(draw_target_option);
+  auto draw_target_option = std::make_unique<ObjectOption>(MN_STRINGSELECT, _("Draw target"), &m_draw_target);
+  draw_target_option->m_select.push_back(_("Normal"));
+  draw_target_option->m_select.push_back(_("Lightmap"));
+  result.add_option(std::move(draw_target_option));
 
   m_add_path = get_walker() && get_path() && get_path()->is_valid();
   result.add_bool(_("Following path"), &m_add_path);

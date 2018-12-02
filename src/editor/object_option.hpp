@@ -33,8 +33,6 @@ class ObjectOption final
 public:
   ObjectOption(MenuItemKind ip_type, const std::string& text, void* ip,
                const std::string& key = std::string(), int flags = (OPTION_ALLOW_EMPTY | OPTION_VISIBLE));
-  ObjectOption(const ObjectOption& other) = default;
-  ObjectOption& operator=(const ObjectOption& other) = default;
 
   bool is_savable() const { return !m_key.empty(); }
 
@@ -49,6 +47,10 @@ public:
   std::string m_key;
   int m_flags;
   std::vector<std::string> m_select;
+
+private:
+  ObjectOption(const ObjectOption&) = delete;
+  ObjectOption& operator=(const ObjectOption&) = delete;
 };
 
 #endif

@@ -17,6 +17,7 @@
 #ifndef HEADER_SUPERTUX_WORLDMAP_DIRECTION_HPP
 #define HEADER_SUPERTUX_WORLDMAP_DIRECTION_HPP
 
+#include <memory>
 #include <string>
 
 class ObjectOption;
@@ -29,7 +30,7 @@ Direction reverse_dir(Direction direction);
 Direction string_to_direction(const std::string& directory);
 std::string direction_to_string(Direction direction);
 
-ObjectOption dir_option(Direction *dir);
+std::unique_ptr<ObjectOption> dir_option(Direction *dir);
 
 } // namespace worldmap
 

@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_OBJECT_PATH_WALKER_HPP
 
 #include <string.h>
+#include <memory>
 
 #include "object/path.hpp"
 #include "util/uid.hpp"
@@ -28,7 +29,7 @@ class ObjectOption;
 class PathWalker final
 {
 public:
-  static ObjectOption get_running_option(bool* _running);
+  static std::unique_ptr<ObjectOption> get_running_option(bool* _running);
 
 public:
   PathWalker(UID path_uid, bool running = true);

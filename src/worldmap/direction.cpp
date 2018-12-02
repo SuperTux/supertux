@@ -77,15 +77,15 @@ string_to_direction(const std::string& directory)
   }
 }
 
-ObjectOption
+std::unique_ptr<ObjectOption>
 dir_option(Direction *dir)
 {
-  ObjectOption result(MN_STRINGSELECT, _("Direction"), dir);
-  result.m_select.push_back(_("None"));
-  result.m_select.push_back(_("West"));
-  result.m_select.push_back(_("East"));
-  result.m_select.push_back(_("North"));
-  result.m_select.push_back(_("South"));
+  auto result = std::make_unique<ObjectOption>(MN_STRINGSELECT, _("Direction"), dir);
+  result->m_select.push_back(_("None"));
+  result->m_select.push_back(_("West"));
+  result->m_select.push_back(_("East"));
+  result->m_select.push_back(_("North"));
+  result->m_select.push_back(_("South"));
   return result;
 }
 

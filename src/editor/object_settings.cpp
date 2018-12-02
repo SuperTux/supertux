@@ -33,8 +33,8 @@ ObjectSettings::copy_from(const ObjectSettings& other)
   auto it1 = m_options.begin();
   auto it2 = other.m_options.begin();
   while (it1 != m_options.end() && it2 != other.m_options.end()) {
-    auto oo1 = &*it1;
-    auto oo2 = &*it2;
+    const auto& oo1 = *it1;
+    const auto& oo2 = *it2;
 
     switch (oo1->m_type)
     {
@@ -82,9 +82,9 @@ ObjectSettings::copy_from(const ObjectSettings& other)
 }
 
 void
-ObjectSettings::add_option(const ObjectOption& option)
+ObjectSettings::add_option(std::unique_ptr<ObjectOption> option)
 {
-  m_options.push_back(option);
+  m_options.push_back(std::move(option));
 }
 
 void
@@ -126,15 +126,15 @@ void
 ObjectSettings::add_direction(const std::string& text, Direction* value_ptr,
                               const std::string& key, int flags)
 {
-  ObjectOption option(MN_STRINGSELECT, _("Direction"), value_ptr);
+  auto option = std::make_unique<ObjectOption>(MN_STRINGSELECT, _("Direction"), value_ptr);
 
-  option.m_select.push_back(_("auto"));
-  option.m_select.push_back(_("left"));
-  option.m_select.push_back(_("right"));
-  option.m_select.push_back(_("up"));
-  option.m_select.push_back(_("down"));
+  option->m_select.push_back(_("auto"));
+  option->m_select.push_back(_("left"));
+  option->m_select.push_back(_("right"));
+  option->m_select.push_back(_("up"));
+  option->m_select.push_back(_("down"));
 
-  add_option(option);
+  add_option(std::move(option));
 }
 
 void
@@ -161,9 +161,9 @@ void
 ObjectSettings::add_file(const std::string& text, std::string* value_ptr, const std::string& key,
                          const std::vector<std::string>& filter, int flags)
 {
-  ObjectOption option(MN_FILE, text, value_ptr, key, flags);
-  option.m_select = filter;
-  add_option(option);
+  auto option = std::make_unique<ObjectOption>(MN_FILE, text, value_ptr, key, flags);
+  option->m_select = filter;
+  add_option(std::move(option));
 }
 
 void

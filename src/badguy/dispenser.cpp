@@ -443,12 +443,12 @@ Dispenser::get_settings()
   result.add_int(_("Max concurrent badguys"), &m_max_concurrent_badguys,
              "max-concurrent-badguys");
 
-  ObjectOption seq(MN_STRINGSELECT, _("Type"), &m_type);
-  seq.add_select(_("dropper"));
-  seq.add_select(_("rocket launcher"));
-  seq.add_select(_("cannon"));
-  seq.add_select(_("invisible"));
-  result.add_option(seq);
+  auto seq = std::make_unique<ObjectOption>(MN_STRINGSELECT, _("Type"), &m_type);
+  seq->add_select(_("dropper"));
+  seq->add_select(_("rocket launcher"));
+  seq->add_select(_("cannon"));
+  seq->add_select(_("invisible"));
+  result.add_option(std::move(seq));
 
   m_type_str = DispenserType_to_string(m_type);
   result.add_text("type", &m_type_str, "type", false);
