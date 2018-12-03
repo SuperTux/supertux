@@ -107,7 +107,7 @@ deploy:
   - provider: releases
     api_key:
       secure: DF4cqURrLmxI+NNsOgPDsMHe9IHld0qMpxG4HZw2P2oJKJ9/QHMhBiq3Bi1x5lGMuWnJ02vq8s2mIm056qXOSxBJh6fCJO8Q+tUuUHIWm4tO9Jogy/10sDBLnKUq6sNjsM8BrRoeMWApfSVPqu9D/9k5mI3Zv1pVR+ip4ECQVBE=
-    file: "SuperTux*"
+    file: "s3-upload/SuperTux*"
     file_glob: true
     skip_cleanup: true
     on:
