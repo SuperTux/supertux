@@ -40,16 +40,10 @@ public:
     // This function wouldn't be called anyway.
   }
 
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override {
-    return FORCE_MOVE;
-  }
+  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override { return FORCE_MOVE; }
 
-  virtual std::string get_class() const override {
-    return "spawnpoint";
-  }
-  virtual std::string get_display_name() const override {
-    return _("Spawn point");
-  }
+  virtual std::string get_class() const override { return "spawnpoint"; }
+  virtual std::string get_display_name() const override { return _("Spawn point"); }
 
 private:
   SurfacePtr m_surface;

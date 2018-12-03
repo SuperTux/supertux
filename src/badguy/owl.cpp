@@ -90,8 +90,8 @@ Owl::is_above_player() const
   if (!player)
     return false;
 
-  /* Let go of carried objects a short while *before* Tux is below us. This
-   * makes it more likely that we'll hit him. */
+  // Let go of carried objects a short while *before* Tux is below us. This
+  // makes it more likely that we'll hit him.
   float x_offset = (m_dir == Direction::LEFT) ? ACTIVATION_DISTANCE : -ACTIVATION_DISTANCE;
 
   const Rectf& player_bbox = player->get_bbox();

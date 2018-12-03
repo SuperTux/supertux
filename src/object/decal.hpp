@@ -21,30 +21,27 @@
 
 class ReaderMapping;
 
-/**
- * A decorative image, perhaps part of the terrain
- */
+/** A decorative image, perhaps part of the terrain */
 class Decal final : public MovingSprite
 {
 public:
   Decal(const ReaderMapping& reader);
   virtual ~Decal();
 
-  virtual HitResponse collision(GameObject& , const CollisionHit& ) override {
-    return FORCE_MOVE;
-  }
-  virtual std::string get_class() const override {
-    return "decal";
-  }
-  virtual std::string get_display_name() const override {
-    return _("Decal");
-  }
+  virtual HitResponse collision(GameObject& , const CollisionHit& ) override { return FORCE_MOVE; }
+
+  virtual std::string get_class() const override { return "decal"; }
+  virtual std::string get_display_name() const override { return _("Decal"); }
 
   virtual ObjectSettings get_settings() override;
 
 private:
   std::string default_action;
   bool solid;
+
+private:
+  Decal(const Decal&) = delete;
+  Decal& operator=(const Decal&) = delete;
 };
 
 #endif

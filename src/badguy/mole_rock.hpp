@@ -19,9 +19,7 @@
 
 #include "badguy/badguy.hpp"
 
-/**
- * Badguy "MoleRock" - Rock thrown by "Mole" Badguy
- */
+/** Badguy "MoleRock" - Rock thrown by "Mole" Badguy */
 class MoleRock final : public BadGuy
 {
 public:
@@ -40,12 +38,8 @@ public:
   virtual bool updatePointers(const GameObject* from_object, GameObject* to_object);
 
   virtual bool is_flammable() const override;
-  virtual std::string get_class() const override {
-    return "mole_rock";
-  }
-  virtual std::string get_display_name() const override {
-    return _("Mole's rock");
-  }
+  virtual std::string get_class() const override { return "mole_rock"; }
+  virtual std::string get_display_name() const override { return _("Mole's rock"); }
 
 protected:
   const BadGuy* parent; /**< collisions with this BadGuy will be ignored */

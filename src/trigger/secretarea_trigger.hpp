@@ -32,19 +32,15 @@ public:
   SecretAreaTrigger(const ReaderMapping& reader);
   SecretAreaTrigger(const Rectf& area, std::string fade_tilemap = "");
 
-  virtual std::string get_class() const override {
-    return "secretarea";
-  }
-
-  virtual bool has_variable_size() const override {
-    return true;
-  }
+  virtual std::string get_class() const override { return "secretarea"; }
+  virtual bool has_variable_size() const override { return true; }
 
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
 
   virtual void event(Player& player, EventType type) override;
   virtual void draw(DrawingContext& context) override;
+
   std::string get_fade_tilemap_name() const;
 
 private:

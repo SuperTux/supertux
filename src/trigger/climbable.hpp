@@ -32,13 +32,9 @@ public:
   Climbable(const ReaderMapping& reader);
   Climbable(const Rectf& area);
   ~Climbable();
-  virtual std::string get_class() const override {
-    return "climbable";
-  }
 
-  virtual bool has_variable_size() const override {
-    return true;
-  }
+  virtual std::string get_class() const override { return "climbable"; }
+  virtual bool has_variable_size() const override { return true; }
 
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
@@ -47,9 +43,7 @@ public:
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
 
-  /**
-   * returns true if the player is within bounds of the Climbable
-   */
+  /** returns true if the player is within bounds of the Climbable */
   bool may_climb(Player& player) const;
 
 protected:

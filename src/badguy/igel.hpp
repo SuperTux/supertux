@@ -19,9 +19,7 @@
 
 #include "badguy/walking_badguy.hpp"
 
-/**
- * Badguy "Igel" - a hedgehog that can absorb bullets
- */
+/** Badguy "Igel" - a hedgehog that can absorb bullets */
 class Igel final : public WalkingBadguy
 {
 public:
@@ -32,17 +30,13 @@ public:
   virtual void active_update(float dt_sec) override;
 
   virtual bool is_freezable() const override;
-  virtual std::string get_class() const override {
-    return "igel";
-  }
-  virtual std::string get_display_name() const override {
-    return _("Igel");
-  }
+  virtual std::string get_class() const override { return "igel"; }
+  virtual std::string get_display_name() const override { return _("Igel"); }
 
 protected:
-//  virtual bool collision_squished(GameObject& object) override;
-// Enable this and the igel will no longer be butt-jumpable when frozen.
-// Remember to enable it in .cpp too!
+  //  virtual bool collision_squished(GameObject& object) override;
+  // Enable this and the igel will no longer be butt-jumpable when frozen.
+  // Remember to enable it in .cpp too!
   void be_normal(); /**< switch to state STATE_NORMAL */
   void turn_around(); /**< reverse direction, assumes we are in STATE_NORMAL */
   bool can_see(const MovingObject& o) const; /**< check if we can see o */
@@ -50,6 +44,9 @@ protected:
 private:
   Timer turn_recover_timer; /**< wait time until we will turn around again when shot at */
 
+private:
+  Igel(const Igel&) = delete;
+  Igel& operator=(const Igel&) = delete;
 };
 
 #endif

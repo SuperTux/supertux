@@ -19,9 +19,7 @@
 
 #include "badguy/badguy.hpp"
 
-/**
- * "Totem" Badguy - A variable-height stack of wooden blocks
- */
+/** "Totem" Badguy - A variable-height stack of wooden blocks  */
 class Totem final : public BadGuy
 {
 public:
@@ -34,12 +32,8 @@ public:
   virtual HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit) override;
 
   virtual bool updatePointers(const GameObject* from_object, GameObject* to_object);
-  virtual std::string get_class() const override {
-    return "totem";
-  }
-  virtual std::string get_display_name() const override {
-    return _("Totem");
-  }
+  virtual std::string get_class() const override { return "totem"; }
+  virtual std::string get_display_name() const override { return _("Totem"); }
 
 protected:
   virtual bool collision_squished(GameObject& object) override;

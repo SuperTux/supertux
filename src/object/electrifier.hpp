@@ -23,15 +23,14 @@
 #include <stdint.h>
 
 namespace {
-  /**
-   * A one-to-one relation that maps one tile ID with another
-   */
+  /** A one-to-one relation that maps one tile ID with another */
   typedef std::map<uint32_t, uint32_t> TileChangeMap;
 }
 
-//Changes all tiles sharing an ID of a key in a TileChangeMap to the key's assigned
-//value(another tile ID) for a given amount of time, then removes itself
-//Used by the Kugelblitz to electrify water - can be used for other effects, too
+/* Changes all tiles sharing an ID of a key in a TileChangeMap to the
+   key's assigned value(another tile ID) for a given amount of time,
+   then removes itself Used by the Kugelblitz to electrify water - can
+   be used for other effects, too */
 class Electrifier final : public GameObject
 {
 public:

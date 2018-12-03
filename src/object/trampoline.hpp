@@ -19,9 +19,7 @@
 
 #include "object/rock.hpp"
 
-/**
- * Jumping on a trampoline makes tux jump higher.
- */
+/** Jumping on a trampoline makes tux jump higher. */
 class Trampoline final : public Rock
 {
 public:
@@ -33,17 +31,17 @@ public:
 
   virtual void grab(MovingObject&, const Vector& pos, Direction) override;
   virtual bool is_portable() const override;
-  virtual std::string get_class() const override {
-    return "trampoline";
-  }
-  virtual std::string get_display_name() const override {
-    return _("Trampoline");
-  }
+  virtual std::string get_class() const override { return "trampoline"; }
+  virtual std::string get_display_name() const override { return _("Trampoline"); }
 
   virtual ObjectSettings get_settings() override;
 
 private:
   bool portable;
+
+private:
+  Trampoline(const Trampoline&) = delete;
+  Trampoline& operator=(const Trampoline&) = delete;
 
 };
 

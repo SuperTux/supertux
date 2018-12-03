@@ -33,24 +33,27 @@ public:
 
   virtual void activate() override;
   virtual void active_update(float dt_sec) override;
-  void willowisp_died(TreeWillOWisp* willowisp);
   virtual void draw(DrawingContext& context) override;
 
   virtual bool collides(GameObject& other, const CollisionHit& hit) const override;
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
 
+  virtual std::string get_class() const override { return "ghosttree"; }
+  virtual std::string get_display_name() const override { return _("Ghost tree"); }
+
+  void willowisp_died(TreeWillOWisp* willowisp);
   void die();
-  virtual std::string get_class() const override {
-    return "ghosttree";
-  }
-  virtual std::string get_display_name() const override {
-    return _("Ghost tree");
-  }
 
 private:
   enum MyState {
     STATE_IDLE, STATE_SUCKING, STATE_SWALLOWING, STATE_DYING
   };
+
+private:
+  bool is_color_deadly(Color color) const;
+  void spawn_lantern();
+
+private:
   MyState mystate;
   Timer willowisp_timer;
   float willo_spawn_y;
@@ -68,9 +71,6 @@ private:
   Lantern* suck_lantern; /**< Lantern that is currently being sucked in */
 
   std::vector<TreeWillOWisp*> willowisps;
-
-  bool is_color_deadly(Color color) const;
-  void spawn_lantern();
 
 private:
   GhostTree(const GhostTree&) = delete;

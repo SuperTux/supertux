@@ -32,12 +32,8 @@ public:
   virtual void draw(DrawingContext& context) override;
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
-  virtual std::string get_class() const override {
-    return "firefly";
-  }
-  virtual std::string get_display_name() const override {
-    return _("Reset point");
-  }
+  virtual std::string get_class() const override { return "firefly"; }
+  virtual std::string get_display_name() const override { return _("Reset point"); }
 
 private:
   SpritePtr m_sprite_light;

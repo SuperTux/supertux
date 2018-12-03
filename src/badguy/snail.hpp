@@ -20,11 +20,11 @@
 #include "badguy/walking_badguy.hpp"
 #include "object/portable.hpp"
 
-/**
- * Badguy "Snail" - a snail-like creature that can be flipped and tossed around at an angle
- */
-class Snail final : public WalkingBadguy,
-              public Portable
+/** Badguy "Snail" - a snail-like creature that can be flipped and
+    tossed around at an angle */
+class Snail final :
+  public WalkingBadguy,
+  public Portable
 {
 public:
   Snail(const ReaderMapping& reader);
@@ -38,12 +38,8 @@ public:
   virtual void active_update(float dt_sec) override;
 
   virtual bool is_freezable() const override;
-  virtual std::string get_class() const override {
-    return "snail";
-  }
-  virtual std::string get_display_name() const override {
-    return _("Snail");
-  }
+  virtual std::string get_class() const override { return "snail"; }
+  virtual std::string get_display_name() const override { return _("Snail"); }
 
   virtual bool is_portable() const override;
   virtual void ungrab(MovingObject& , Direction dir_) override;
@@ -51,6 +47,7 @@ public:
 
 protected:
   virtual bool collision_squished(GameObject& object) override;
+
   void be_normal(); /**< switch to state STATE_NORMAL */
   void be_flat(); /**< switch to state STATE_FLAT */
   void be_kicked(); /**< switch to state STATE_KICKED_DELAY */
@@ -69,6 +66,10 @@ private:
   State state;
   Timer kicked_delay_timer; /**< wait time until switching from STATE_KICKED_DELAY to STATE_KICKED */
   int   squishcount;
+
+private:
+  Snail(const Snail&) = delete;
+  Snail& operator=(const Snail&) = delete;
 };
 
 #endif

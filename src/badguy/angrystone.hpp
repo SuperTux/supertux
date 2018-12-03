@@ -30,12 +30,8 @@ public:
   virtual void kill_fall() override;
   virtual bool is_freezable() const override;
   virtual bool is_flammable() const override;
-  virtual std::string get_class() const override {
-    return "angrystone";
-  }
-  virtual std::string get_display_name() const override {
-    return _("Angry stone");
-  }
+  virtual std::string get_class() const override { return "angrystone"; }
+  virtual std::string get_display_name() const override { return _("Angry stone"); }
 
 protected:
   enum AngryStoneState {
@@ -50,6 +46,10 @@ private:
   Vector oldWallDirection; /**< if wall was hit during last attack: 1-normalized vector of last attack direction, (0,0) otherwise */
   Timer timer;
   AngryStoneState state;
+
+private:
+  AngryStone(const AngryStone&) = delete;
+  AngryStone& operator=(const AngryStone&) = delete;
 };
 
 #endif

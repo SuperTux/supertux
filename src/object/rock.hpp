@@ -38,12 +38,8 @@ public:
 
   virtual void grab(MovingObject& object, const Vector& pos, Direction dir) override;
   virtual void ungrab(MovingObject& object, Direction dir) override;
-  virtual std::string get_class() const override {
-    return "rock";
-  }
-  virtual std::string get_display_name() const override {
-    return _("Rock");
-  }
+  virtual std::string get_class() const override { return "rock"; }
+  virtual std::string get_display_name() const override { return _("Rock"); }
   virtual ObjectSettings get_settings() override;
 
 protected:
@@ -53,6 +49,10 @@ protected:
   Vector last_movement;
   std::string on_grab_script;
   std::string on_ungrab_script;
+
+private:
+  Rock(const Rock&) = delete;
+  Rock& operator=(const Rock&) = delete;
 };
 
 #endif

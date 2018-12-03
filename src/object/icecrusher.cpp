@@ -98,8 +98,8 @@ IceCrusher::collision(GameObject& other, const CollisionHit& hit)
 {
   auto player = dynamic_cast<Player*>(&other);
 
-  /* If the other object is the player, and the collision is at the bottom of
-   * the ice crusher, hurt the player. */
+  // If the other object is the player, and the collision is at the
+  // bottom of the ice crusher, hurt the player.
   if (player && hit.bottom) {
     SoundManager::current()->play("sounds/brick.wav");
     if (state == CRUSHING)

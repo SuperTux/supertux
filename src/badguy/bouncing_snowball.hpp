@@ -27,17 +27,17 @@ public:
   virtual void initialize() override;
   virtual void collision_solid(const CollisionHit& hit) override;
   virtual HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit) override;
-  virtual std::string get_class() const override {
-    return "bouncingsnowball";
-  }
-  virtual std::string get_display_name() const override {
-    return _("Bouncing Snowball");
-  }
+  virtual std::string get_class() const override { return "bouncingsnowball"; }
+  virtual std::string get_display_name() const override { return _("Bouncing Snowball"); }
 
   virtual void after_editor_set() override;
 
 protected:
   virtual bool collision_squished(GameObject& object) override;
+
+private:
+  BouncingSnowball(const BouncingSnowball&) = delete;
+  BouncingSnowball& operator=(const BouncingSnowball&) = delete;
 };
 
 #endif

@@ -32,26 +32,18 @@ public:
   virtual void draw(DrawingContext& context) override;
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
-
-  /**
-   * @name Scriptable Methods
-   * @{
-   */
-  void puff_smoke(); /**< spawn a puff of smoke */
-  bool get_burning() const; /**< returns true if candle is lighted */
-  void set_burning(bool burning); /**< true: light candle, false: extinguish candle */
-  /**
-   * @}
-   */
-  virtual std::string get_class() const override {
-    return "candle";
-  }
-  virtual std::string get_display_name() const override {
-    return _("Candle");
-  }
+  virtual std::string get_class() const override { return "candle"; }
+  virtual std::string get_display_name() const override { return _("Candle"); }
 
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
+
+  /** @name Scriptable Methods
+      @{ */
+  void puff_smoke(); /**< spawn a puff of smoke */
+  bool get_burning() const; /**< returns true if candle is lighted */
+  void set_burning(bool burning); /**< true: light candle, false: extinguish candle */
+  /** @} */
 
 private:
   bool burning; /**< true if candle is currently lighted */
@@ -60,6 +52,9 @@ private:
   SpritePtr candle_light_1; /**< drawn to lightmap */
   SpritePtr candle_light_2; /**< drawn to lightmap (alternative image) */
 
+private:
+  Candle(const Candle&) = delete;
+  Candle& operator=(const Candle&) = delete;
 };
 
 #endif

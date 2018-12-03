@@ -19,14 +19,13 @@
 
 #include "object/rock.hpp"
 
-/**
- * Lantern. A portable Light Source.
- */
+/** Lantern. A portable Light Source. */
 class Lantern final : public Rock
 {
 public:
   Lantern(const Vector& pos);
   Lantern(const ReaderMapping& reader);
+
   virtual void draw(DrawingContext& context) override;
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
@@ -34,22 +33,18 @@ public:
   virtual void grab(MovingObject& object, const Vector& pos, Direction dir) override;
   virtual void ungrab(MovingObject& object, Direction dir) override;
 
-  /**
-   * returns true if lamp is currently open
-   */
-  bool is_open() const;
-
-  /**
-   * returns the lamp's color
-   */
-  Color get_color() const { return lightcolor; }
-  void add_color(const Color& c);
-
   virtual std::string get_class() const override { return "lantern"; }
   virtual std::string get_display_name() const override { return _("Lantern"); }
 
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
+
+  /** returns true if lamp is currently open */
+  bool is_open() const;
+
+  /** returns the lamp's color */
+  Color get_color() const { return lightcolor; }
+  void add_color(const Color& c);
 
 private:
   Color lightcolor;

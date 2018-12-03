@@ -49,10 +49,8 @@ public:
 
   const Vector& get_speed() const { return m_speed; }
 
-  /**
-   * @name Scriptable Methods
-   * @{
-   */
+  /** @name Scriptable Methods
+      @{ */
 
   /** Move platform until at given node, then stop */
   void goto_node(int node_no);
@@ -63,9 +61,7 @@ public:
   /** Stop platform at next node */
   void stop_moving();
 
-  /**
-   * @}
-   */
+  /** @} */
 
 private:
   Vector m_speed;

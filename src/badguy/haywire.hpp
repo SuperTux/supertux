@@ -38,12 +38,8 @@ public:
   virtual void stop_looping_sounds() override;
   virtual void play_looping_sounds() override;
 
-  virtual std::string get_class() const override {
-    return "haywire";
-  }
-  virtual std::string get_display_name() const override {
-    return _("Haywire");
-  }
+  virtual std::string get_class() const override { return "haywire"; }
+  virtual std::string get_display_name() const override { return _("Haywire"); }
 
 protected:
   virtual bool collision_squished(GameObject& object) override;
@@ -60,6 +56,10 @@ private:
 
   std::unique_ptr<SoundSource> ticking;
   std::unique_ptr<SoundSource> grunting;
+
+private:
+  Haywire(const Haywire&) = delete;
+  Haywire& operator=(const Haywire&) = delete;
 };
 
 #endif

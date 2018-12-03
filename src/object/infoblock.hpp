@@ -28,26 +28,25 @@ class InfoBlock final : public Block
 public:
   InfoBlock(const ReaderMapping& mapping);
   virtual ~InfoBlock();
+
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
 
-  void show_message();
-  void hide_message();
-  virtual std::string get_class() const override {
-    return "infoblock";
-  }
-  virtual std::string get_display_name() const override {
-    return _("Info block");
-  }
+  virtual std::string get_class() const override { return "infoblock"; }
+  virtual std::string get_display_name() const override { return _("Info block"); }
 
   virtual ObjectSettings get_settings() override;
 
-protected:
+  void show_message();
+  void hide_message();
+
+private:
   virtual void hit(Player& player) override;
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+
   Player* get_nearest_player() const;
 
-protected:
+private:
   std::string message;
   //AmbientSound* ringing;
   //bool stopped;
@@ -55,6 +54,10 @@ protected:
   float dest_pct; /**< With each call to update(), shown_pct will slowly transition to this value */
   std::vector<std::unique_ptr<InfoBoxLine> > lines; /**< lines of text (or images) to display */
   float lines_height;
+
+private:
+  InfoBlock(const InfoBlock&) = delete;
+  InfoBlock& operator=(const InfoBlock&) = delete;
 };
 
 #endif

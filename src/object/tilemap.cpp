@@ -355,10 +355,10 @@ TileMap::draw(DrawingContext& context)
     context.set_alpha(m_current_alpha/2);
   }
 
-  /* Force the translation to be an integer so that the tiles appear sharper.
-   * For consistency (i.e., to avoid 1-pixel gaps), this needs to be done even
-   * for solid tilemaps that are guaranteed to have speed 1.
-   * FIXME Force integer translation for all graphics, not just tilemaps. */
+  // Force the translation to be an integer so that the tiles appear sharper.
+  // For consistency (i.e., to avoid 1-pixel gaps), this needs to be done even
+  // for solid tilemaps that are guaranteed to have speed 1.
+  // FIXME Force integer translation for all graphics, not just tilemaps.
   float trans_x = roundf(context.get_translation().x);
   float trans_y = roundf(context.get_translation().y);
   bool normal_speed = m_editor_active && Editor::is_active();

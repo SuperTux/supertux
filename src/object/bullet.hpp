@@ -32,21 +32,15 @@ public:
   virtual void draw(DrawingContext& context) override;
   virtual void collision_solid(const CollisionHit& hit) override;
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
-  virtual bool is_saveable() const override {
-    return false;
-  }
+  virtual bool is_saveable() const override { return false; }
 
-  /**
-   * Makes bullet bounce off an object (that got hit).
-   * To be called by the collision handler of that object.
-   * Note that the @c hit parameter is filled in as perceived by the object, not by the bullet.
-   */
+  /** Makes bullet bounce off an object (that got hit). To be called
+      by the collision handler of that object. Note that the @c hit
+      parameter is filled in as perceived by the object, not by the
+      bullet. */
   void ricochet(GameObject& other, const CollisionHit& hit);
 
-  BonusType get_type() const
-  {
-    return type;
-  }
+  BonusType get_type() const { return type; }
 
 private:
   Physic physic;

@@ -26,9 +26,8 @@ class SkullTile final : public MovingSprite
 {
 public:
   SkullTile(const ReaderMapping& mapping);
-  virtual std::string get_class() const override {
-    return "skulltile";
-  }
+
+  virtual std::string get_class() const override { return "skulltile"; }
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
   virtual void update(float dt_sec) override;

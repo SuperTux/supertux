@@ -20,11 +20,9 @@
 
 #include "object/rock.hpp"
 
-/**
- * Jumping on a trampoline makes tux jump higher.
- * After 3 jumps, it breaks (configurable)
- * It cannot be carried (breaks on ungrab)
- */
+/** Jumping on a trampoline makes tux jump higher.
+    After 3 jumps, it breaks (configurable)
+    It cannot be carried (breaks on ungrab) */
 class RustyTrampoline final : public Rock
 {
 public:
@@ -37,17 +35,16 @@ public:
   virtual void grab(MovingObject&, const Vector& pos, Direction) override;
   virtual void ungrab(MovingObject&, Direction) override;
   virtual bool is_portable() const override;
-  virtual std::string get_class() const override {
-    return "rustytrampoline";
-  }
-  virtual std::string get_display_name() const override {
-    return _("Rusty trampoline");
-  }
+  virtual std::string get_class() const override { return "rustytrampoline"; }
+  virtual std::string get_display_name() const override { return _("Rusty trampoline"); }
 
 private:
   bool portable;
   int counter;
 
+private:
+  RustyTrampoline(const RustyTrampoline&) = delete;
+  RustyTrampoline& operator=(const RustyTrampoline&) = delete;
 };
 
 #endif

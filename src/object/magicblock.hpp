@@ -33,16 +33,12 @@ class MagicBlock final: public MovingSprite
 public:
   MagicBlock(const ReaderMapping& reader);
 
-  bool collides(GameObject& other, const CollisionHit& hit) const override;
+  virtual bool collides(GameObject& other, const CollisionHit& hit) const override;
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
-  virtual std::string get_class() const override {
-    return "magicblock";
-  }
-  virtual std::string get_display_name() const override {
-    return _("Magic block");
-  }
+  virtual std::string get_class() const override { return "magicblock"; }
+  virtual std::string get_display_name() const override { return _("Magic block"); }
 
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;

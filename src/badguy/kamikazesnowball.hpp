@@ -19,6 +19,8 @@
 
 #include "badguy/badguy.hpp"
 
+/** Kamikaze Snowball will fly in one direction until he hits something.
+    On impact he is destroyed, trying to kill what he hit or hit him. */
 class KamikazeSnowball : public BadGuy
 {
 public:
@@ -33,20 +35,28 @@ protected:
   virtual bool collision_squished(GameObject& object) override;
   virtual HitResponse collision_player(Player& player, const CollisionHit& hit) override;
   void kill_collision();
+
+private:
+  KamikazeSnowball(const KamikazeSnowball&) = delete;
+  KamikazeSnowball& operator=(const KamikazeSnowball&) = delete;
 };
 
 class LeafShot final : public KamikazeSnowball
 {
-  public:
-    LeafShot(const ReaderMapping& reader);
+public:
+  LeafShot(const ReaderMapping& reader);
 
-    virtual void initialize() override;
-    virtual bool is_freezable() const override;
-    virtual std::string get_class() const override { return "leafshot"; }
-    virtual std::string get_display_name() const override { return _("Leaf Shot"); }
+  virtual void initialize() override;
+  virtual bool is_freezable() const override;
+  virtual std::string get_class() const override { return "leafshot"; }
+  virtual std::string get_display_name() const override { return _("Leaf Shot"); }
 
-  protected:
-    virtual bool collision_squished(GameObject& object) override;
+protected:
+  virtual bool collision_squished(GameObject& object) override;
+
+private:
+  LeafShot(const LeafShot&) = delete;
+  LeafShot& operator=(const LeafShot&) = delete;
 };
 
 #endif

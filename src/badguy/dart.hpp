@@ -21,9 +21,7 @@
 
 class SoundSource;
 
-/**
- * Badguy "Dart" - Your average poison dart
- */
+/** Badguy "Dart" - Your average poison dart */
 class Dart final : public BadGuy
 {
 public:
@@ -41,18 +39,12 @@ public:
   virtual HitResponse collision_player(Player& player, const CollisionHit& hit) override;
 
   virtual bool updatePointers(const GameObject* from_object, GameObject* to_object);
-  virtual std::string get_class() const override {
-    return "dart";
-  }
-  virtual std::string get_display_name() const override {
-    return _("Dart");
-  }
+  virtual std::string get_class() const override { return "dart"; }
+  virtual std::string get_display_name() const override { return _("Dart"); }
 
   virtual bool is_flammable() const override;
 
-  virtual bool is_hurtable() const override {
-    return false;
-  }
+  virtual bool is_hurtable() const override { return false; }
 
   virtual void stop_looping_sounds() override;
   virtual void play_looping_sounds() override;

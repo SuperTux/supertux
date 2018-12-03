@@ -41,14 +41,11 @@ public:
   virtual bool can_break() const override;
 
   virtual void ignite() override;
-  bool can_break();
 
-  virtual std::string get_class() const override {
-    return "mriceblock";
-  }
-  virtual std::string get_display_name() const override {
-    return _("Mr. Ice Block");
-  }
+  virtual std::string get_class() const override { return "mriceblock"; }
+  virtual std::string get_display_name() const override { return _("Mr. Ice Block"); }
+
+  bool can_break();
 
 protected:
   enum IceState {
@@ -68,6 +65,10 @@ private:
   Timer nokick_timer;
   Timer flat_timer;
   int squishcount;
+
+private:
+  MrIceBlock(const MrIceBlock&) = delete;
+  MrIceBlock& operator=(const MrIceBlock&) = delete;
 };
 
 #endif

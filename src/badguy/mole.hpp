@@ -35,12 +35,8 @@ public:
 
   virtual void ignite() override;
 
-  virtual std::string get_class() const override {
-    return "mole";
-  }
-  virtual std::string get_display_name() const override {
-    return _("Mole");
-  }
+  virtual std::string get_class() const override { return "mole"; }
+  virtual std::string get_display_name() const override { return _("Mole"); }
 
 private:
   enum MoleState {
@@ -60,6 +56,10 @@ private:
   MoleState state;
   Timer timer;
   Timer throw_timer;
+
+private:
+  Mole(const Mole&) = delete;
+  Mole& operator=(const Mole&) = delete;
 };
 
 #endif

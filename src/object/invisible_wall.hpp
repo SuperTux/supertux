@@ -30,16 +30,10 @@ public:
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
   virtual void draw(DrawingContext& context) override;
 
-  virtual std::string get_class() const override {
-    return "invisible_wall";
-  }
-  virtual std::string get_display_name() const override {
-    return _("Invisible wall");
-  }
+  virtual std::string get_class() const override { return "invisible_wall"; }
+  virtual std::string get_display_name() const override { return _("Invisible wall"); }
 
-  virtual bool has_variable_size() const override {
-    return true;
-  }
+  virtual bool has_variable_size() const override { return true; }
 
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
@@ -47,7 +41,13 @@ public:
 private:
   virtual void update(float dt_sec) override;
 
-  float width, height;
+private:
+  float width;
+  float height;
+
+private:
+  InvisibleWall(const InvisibleWall&) = delete;
+  InvisibleWall& operator=(const InvisibleWall&) = delete;
 };
 
 #endif

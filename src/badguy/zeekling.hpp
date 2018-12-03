@@ -32,15 +32,12 @@ public:
   virtual void freeze() override;
   virtual void unfreeze() override;
   virtual bool is_freezable() const override;
-  virtual std::string get_class() const override {
-    return "zeekling";
-  }
-  virtual std::string get_display_name() const override {
-    return _("Zeekling");
-  }
+  virtual std::string get_class() const override { return "zeekling"; }
+  virtual std::string get_display_name() const override { return _("Zeekling"); }
 
 private:
   virtual bool collision_squished(GameObject& object) override;
+
   bool should_we_dive();
   void onBumpHorizontal();
   void onBumpVertical();

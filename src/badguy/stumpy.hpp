@@ -31,12 +31,8 @@ public:
   virtual HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit) override;
 
   virtual bool is_freezable() const override;
-  virtual std::string get_class() const override {
-    return "stumpy";
-  }
-  virtual std::string get_display_name() const override {
-    return _("Stumpy");
-  }
+  virtual std::string get_class() const override { return "stumpy"; }
+  virtual std::string get_display_name() const override { return _("Stumpy"); }
 
 protected:
   enum MyState {
@@ -49,6 +45,10 @@ protected:
 private:
   MyState mystate;
   Timer   invincible_timer;
+
+private:
+  Stumpy(const Stumpy&) = delete;
+  Stumpy& operator=(const Stumpy&) = delete;
 };
 
 #endif

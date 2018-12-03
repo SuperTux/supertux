@@ -19,25 +19,22 @@
 
 #include "badguy/walking_badguy.hpp"
 
-/*
- * Easy to kill badguy that does not jump down from it's ledge.
- */
+/** Easy to kill badguy that does not jump down from it's ledge. */
 class WalkingLeaf final : public WalkingBadguy
 {
 public:
   WalkingLeaf(const ReaderMapping& reader);
 
   virtual bool is_freezable() const override;
-  virtual std::string get_class() const override {
-    return "walkingleaf";
-  }
-  virtual std::string get_display_name() const override {
-    return _("Walking leaf");
-  }
+  virtual std::string get_class() const override { return "walkingleaf"; }
+  virtual std::string get_display_name() const override { return _("Walking leaf"); }
 
 protected:
   virtual bool collision_squished(GameObject& object) override;
 
+private:
+  WalkingLeaf(const WalkingLeaf&) = delete;
+  WalkingLeaf& operator=(const WalkingLeaf&) = delete;
 };
 
 #endif

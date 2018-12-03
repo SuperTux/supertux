@@ -51,19 +51,15 @@ public:
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
   virtual void draw(DrawingContext& context) override;
 
-  Contents get_contents() const { return m_contents; }
-  int get_hit_counter() const { return m_hit_counter; }
-
   virtual void save(Writer& writer) override;
 
-  virtual std::string get_class() const override {
-    return "bonusblock";
-  }
-  virtual std::string get_display_name() const override {
-    return _("Bonus block");
-  }
+  virtual std::string get_class() const override { return "bonusblock"; }
+  virtual std::string get_display_name() const override { return _("Bonus block"); }
 
   virtual ObjectSettings get_settings() override;
+
+  Contents get_contents() const { return m_contents; }
+  int get_hit_counter() const { return m_hit_counter; }
 
 private:
   void try_open(Player* player);

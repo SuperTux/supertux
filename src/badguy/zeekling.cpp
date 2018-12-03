@@ -118,11 +118,10 @@ Zeekling::collision_solid(const CollisionHit& hit)
   }
 }
 
-/**
- * linear prediction of player and badguy positions to decide if we should enter the DIVING state
- */
+/** linear prediction of player and badguy positions to decide if we should enter the DIVING state */
 bool
-Zeekling::should_we_dive() {
+Zeekling::should_we_dive()
+{
   if (m_frozen)
     return false;
 

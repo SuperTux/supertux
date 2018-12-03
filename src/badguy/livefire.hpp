@@ -33,12 +33,8 @@ public:
   virtual bool is_flammable() const override;
 
   virtual void kill_fall() override;
-  virtual std::string get_class() const override {
-    return "livefire";
-  }
-  virtual std::string get_display_name() const override {
-    return _("Live fire");
-  }
+  virtual std::string get_class() const override { return "livefire"; }
+  virtual std::string get_display_name() const override { return _("Live fire"); }
 
 private:
   std::string death_sound;
@@ -50,7 +46,13 @@ protected:
     STATE_WALKING,
     STATE_DORMANT
   };
+
+protected:
   SState state;
+
+private:
+  LiveFire(const LiveFire&) = delete;
+  LiveFire& operator=(const LiveFire&) = delete;
 };
 
 class LiveFireAsleep final : public LiveFire
@@ -63,6 +65,10 @@ public:
   virtual void initialize() override;
   virtual std::string get_class() const override { return "livefire_asleep"; }
   virtual std::string get_display_name() const override { return _("Sleeping live fire"); }
+
+private:
+  LiveFireAsleep(const LiveFireAsleep&) = delete;
+  LiveFireAsleep& operator=(const LiveFireAsleep&) = delete;
 };
 
 class LiveFireDormant final : public LiveFire
@@ -75,6 +81,10 @@ public:
   virtual void initialize() override;
   virtual std::string get_class() const override { return "livefire_dormant"; }
   virtual std::string get_display_name() const override { return _("Dormant live fire"); }
+
+private:
+  LiveFireDormant(const LiveFireDormant&) = delete;
+  LiveFireDormant& operator=(const LiveFireDormant&) = delete;
 };
 
 #endif

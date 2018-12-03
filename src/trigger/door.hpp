@@ -29,9 +29,8 @@ public:
   Door(const ReaderMapping& reader);
   Door(int x, int y, const std::string& sector, const std::string& spawnpoint);
   virtual ~Door();
-  virtual std::string get_class() const override {
-    return "door";
-  }
+
+  virtual std::string get_class() const override { return "door"; }
   virtual std::string get_display_name() const override { return _("Door"); }
 
   virtual ObjectSettings get_settings() override;

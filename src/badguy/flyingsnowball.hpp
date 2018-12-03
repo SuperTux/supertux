@@ -28,12 +28,8 @@ public:
   virtual void activate() override;
   virtual void active_update(float dt_sec) override;
   virtual void collision_solid(const CollisionHit& hit) override;
-  virtual std::string get_class() const override {
-    return "flyingsnowball";
-  }
-  virtual std::string get_display_name() const override {
-    return _("Flying snowball");
-  }
+  virtual std::string get_class() const override { return "flyingsnowball"; }
+  virtual std::string get_display_name() const override { return _("Flying snowball"); }
 
 protected:
   virtual bool collision_squished(GameObject& object) override;
@@ -41,6 +37,10 @@ protected:
 private:
   float normal_propeller_speed;
   Timer puff_timer; /**< time until the next smoke puff is spawned */
+
+private:
+  FlyingSnowBall(const FlyingSnowBall&) = delete;
+  FlyingSnowBall& operator=(const FlyingSnowBall&) = delete;
 };
 
 #endif

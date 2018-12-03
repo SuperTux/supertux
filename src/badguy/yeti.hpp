@@ -30,18 +30,15 @@ public:
   virtual void active_update(float dt_sec) override;
   virtual void collision_solid(const CollisionHit& hit) override;
   virtual bool collision_squished(GameObject& object) override;
-  void kill_squished(GameObject& object);
   virtual void kill_fall() override;
 
   virtual bool is_flammable() const override;
-  virtual std::string get_class() const override {
-    return "yeti";
-  }
-  virtual std::string get_display_name() const override {
-    return _("Yeti");
-  }
+  virtual std::string get_class() const override { return "yeti"; }
+  virtual std::string get_display_name() const override { return _("Yeti"); }
 
   virtual ObjectSettings get_settings() override;
+
+  void kill_squished(GameObject& object);
 
 private:
   void run();
@@ -89,6 +86,10 @@ private:
   public:
     SnowExplosionParticle(const Vector& pos, const Vector& velocity);
   };
+
+private:
+  Yeti(const Yeti&) = delete;
+  Yeti& operator=(const Yeti&) = delete;
 };
 
 #endif

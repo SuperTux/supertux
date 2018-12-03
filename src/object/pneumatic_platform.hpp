@@ -42,9 +42,8 @@ private:
   PneumaticPlatformChild& operator=(const PneumaticPlatformChild&) = delete;
 };
 
-/**
- * Used to construct a pair of pneumatic platforms: If one is pushed down, the other one rises
- */
+/** Used to construct a pair of pneumatic platforms: If one is pushed
+    down, the other one rises */
 class PneumaticPlatform final : public GameObject
 {
   friend class PneumaticPlatformChild;
@@ -55,17 +54,14 @@ public:
 
   virtual void draw(DrawingContext& context) override;
   virtual void update(float dt_sec) override;
-  virtual std::string get_class() const override {
-    return "pneumatic-platform";
-  }
-  virtual std::string get_display_name() const override {
-    return _("Pneumatic platform");
-  }
+
+  virtual std::string get_class() const override { return "pneumatic-platform"; }
+  virtual std::string get_display_name() const override { return _("Pneumatic platform"); }
 
   virtual void after_editor_set() override;
   virtual void editor_delete() override;
 
-protected:
+private:
   float m_start_y; /**< vertical start position */
   float m_speed_y; /**< vertical speed */
   float m_offset_y; /**< vertical offset from the start position in px */

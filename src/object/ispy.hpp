@@ -20,9 +20,7 @@
 #include "object/moving_sprite.hpp"
 #include "supertux/direction.hpp"
 
-/**
- * An Ispy: When it spots Tux, a script will run.
- */
+/** An Ispy: When it spots Tux, a script will run. */
 class Ispy final : public MovingSprite
 {
 public:
@@ -32,12 +30,8 @@ public:
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
 
   virtual void update(float dt_sec) override;
-  virtual std::string get_class() const override {
-    return "ispy";
-  }
-  virtual std::string get_display_name() const override {
-    return _("Ispy");
-  }
+  virtual std::string get_class() const override { return "ispy"; }
+  virtual std::string get_display_name() const override { return _("Ispy"); }
 
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
@@ -49,11 +43,16 @@ private:
     ISPYSTATE_HIDING,
     ISPYSTATE_SHOWING
   };
+
+private:
   IspyState state; /**< current state */
 
   std::string script; /**< script to execute when Tux is spotted */
   Direction dir;
 
+private:
+  Ispy(const Ispy&) = delete;
+  Ispy& operator=(const Ispy&) = delete;
 };
 
 #endif

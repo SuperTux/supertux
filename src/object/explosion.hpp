@@ -19,49 +19,27 @@
 
 #include "object/moving_sprite.hpp"
 
-/**
- * Just your average explosion - goes boom, hurts Tux
- */
+/** Just your average explosion - goes boom, hurts Tux */
 class Explosion final : public MovingSprite
 {
 public:
-  /**
-   * Create new Explosion centered(!) at @c pos
-   */
+  /** Create new Explosion centered(!) at @c pos */
   Explosion(const Vector& pos);
   Explosion(const ReaderMapping& reader);
 
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
-  virtual bool is_saveable() const override {
-    return false;
-  }
+  virtual bool is_saveable() const override { return false; }
 
-  bool hurts() const
-  {
-    return hurt;
-  }
+  bool hurts() const { return hurt; }
+  void hurts (bool val) { hurt = val; }
 
-  void hurts (bool val)
-  {
-    hurt = val;
-  }
+  bool pushes() const { return push; }
+  void pushes (bool val) { push = val; }
 
-  bool pushes() const
-  {
-    return push;
-  }
-
-  void pushes (bool val)
-  {
-    push = val;
-  }
-
-protected:
-  /**
-   * plays sound, starts animation
-   */
+private:
+  /** plays sound, starts animation */
   void explode();
 
 private:
@@ -69,11 +47,16 @@ private:
     STATE_WAITING,
     STATE_EXPLODING
   };
+
+private:
   bool hurt;
   bool push;
   State state;
   SpritePtr lightsprite;
 
+private:
+  Explosion(const Explosion&) = delete;
+  Explosion& operator=(const Explosion&) = delete;
 };
 
 #endif

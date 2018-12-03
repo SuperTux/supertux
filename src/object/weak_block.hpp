@@ -22,10 +22,7 @@
 
 class Bullet;
 
-
-/**
- * A block that can be destroyed by Bullet hits
- */
+/** A block that can be destroyed by Bullet hits */
 class WeakBlock final : public MovingSprite
 {
 public:
@@ -34,28 +31,20 @@ public:
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
-  virtual std::string get_class() const override {
-    return "weak_block";
-  }
-  virtual std::string get_display_name() const override {
-    return _("Weak block");
-  }
+  virtual std::string get_class() const override { return "weak_block"; }
+  virtual std::string get_display_name() const override { return _("Weak block"); }
 
   virtual ObjectSettings get_settings() override;
 
-protected:
-  /**
-   * called by self when hit by a bullet
-   */
-  void startBurning();
-
-  /**
-   * pass hit to nearby WeakBlock objects
-   */
-  void spreadHit();
-
 private:
   virtual HitResponse collision_bullet(Bullet& bullet, const CollisionHit& hit);
+
+private:
+  /** called by self when hit by a bullet */
+  void startBurning();
+
+  /** pass hit to nearby WeakBlock objects */
+  void spreadHit();
 
 private:
   enum State {
@@ -68,6 +57,10 @@ private:
   State state;
   bool linked;
   SpritePtr lightsprite;
+
+private:
+  WeakBlock(const WeakBlock&) = delete;
+  WeakBlock& operator=(const WeakBlock&) = delete;
 };
 
 #endif

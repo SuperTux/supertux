@@ -26,7 +26,7 @@
 class ReaderMapping;
 
 class LevelTime final : public GameObject,
-                  public ExposedObject<LevelTime, scripting::LevelTime>
+                        public ExposedObject<LevelTime, scripting::LevelTime>
 {
   static Color text_color;
 public:
@@ -35,51 +35,37 @@ public:
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
 
-  /**
-   * @name Scriptable Methods
-   * @{
-   */
+  /** @name Scriptable Methods
+      @{ */
 
-  /**
-   * Resumes the countdown
-   */
+  /** Resumes the countdown */
   void start();
 
-  /**
-   * Pauses the countdown
-   */
+  /** Pauses the countdown */
   void stop();
 
-  /**
-   * Returns the number of seconds left on the clock
-   */
+  /** Returns the number of seconds left on the clock */
   float get_time() const;
 
-  /**
-   * Changes the number of seconds left on the clock
-   */
+  /** Changes the number of seconds left on the clock */
   void set_time(float time_left);
 
-  /**
-   * @}
-   */
-  virtual std::string get_class() const override {
-    return "leveltime";
-  }
-  virtual std::string get_display_name() const override {
-    return _("Level time");
-  }
+  /** @} */
+  virtual std::string get_class() const override { return "leveltime"; }
+  virtual std::string get_display_name() const override { return _("Level time"); }
 
   virtual ObjectSettings get_settings() override;
 
-  virtual const std::string get_icon_path() const override {
-    return "images/engine/editor/clock.png";
-  }
+  virtual const std::string get_icon_path() const override { return "images/engine/editor/clock.png"; }
 
 private:
   SurfacePtr time_surface;
   bool running;
   float time_left;
+
+private:
+  LevelTime(const LevelTime&) = delete;
+  LevelTime& operator=(const LevelTime&) = delete;
 };
 
 #endif

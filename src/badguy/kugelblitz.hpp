@@ -31,17 +31,14 @@ public:
 
   virtual void active_update(float) override;
   virtual void kill_fall() override;
-  void explode();
 
   virtual bool is_flammable() const override;
 
   virtual void draw(DrawingContext& context) override;
-  virtual std::string get_class() const override {
-    return "kugelblitz";
-  }
-  virtual std::string get_display_name() const override {
-    return _("Kugelblitz");
-  }
+  virtual std::string get_class() const override { return "kugelblitz"; }
+  virtual std::string get_display_name() const override { return _("Kugelblitz"); }
+
+  void explode();
 
 private:
   void try_activate();
@@ -55,6 +52,10 @@ private:
   Timer lifetime;
   int direction;
   SpritePtr lightsprite;
+
+private:
+  Kugelblitz(const Kugelblitz&) = delete;
+  Kugelblitz& operator=(const Kugelblitz&) = delete;
 };
 
 #endif

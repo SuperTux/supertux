@@ -22,8 +22,9 @@
 #include "squirrel/exposed_object.hpp"
 #include "supertux/physic.hpp"
 
-class ScriptedObject final : public MovingSprite,
-                       public ExposedObject<ScriptedObject, scripting::ScriptedObject>
+class ScriptedObject final :
+  public MovingSprite,
+  public ExposedObject<ScriptedObject, scripting::ScriptedObject>
 {
 public:
   ScriptedObject(const ReaderMapping& mapping);
@@ -34,8 +35,12 @@ public:
   virtual void collision_solid(const CollisionHit& hit) override;
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
 
-  // --- scripting Interface stuff ---
+  virtual std::string get_class() const override { return "scriptedobject"; }
+  virtual std::string get_display_name() const override { return _("Scripted object"); }
 
+  virtual ObjectSettings get_settings() override;
+
+  // --- scripting Interface stuff ---
   void set_action(const std::string& animation);
   std::string get_action() const;
 
@@ -52,15 +57,6 @@ public:
   void enable_gravity(bool f);
   bool gravity_enabled() const;
 
-  virtual std::string get_class() const override {
-    return "scriptedobject";
-  }
-  virtual std::string get_display_name() const override {
-    return _("Scripted object");
-  }
-
-  virtual ObjectSettings get_settings() override;
-
 private:
   Physic physic;
   bool solid;
@@ -70,6 +66,10 @@ private:
   bool new_vel_set;
   Vector new_vel;
   Vector new_size;
+
+private:
+  ScriptedObject(const ScriptedObject&) = delete;
+  ScriptedObject& operator=(const ScriptedObject&) = delete;
 };
 
 #endif

@@ -34,12 +34,8 @@ public:
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit_) override;
 
-  virtual std::string get_class() const override {
-    return "spotlight";
-  }
-  virtual std::string get_display_name() const override {
-    return _("Spotlight");
-  }
+  virtual std::string get_class() const override { return "spotlight"; }
+  virtual std::string get_display_name() const override { return _("Spotlight"); }
 
   virtual ObjectSettings get_settings() override;
 
@@ -52,15 +48,16 @@ private:
   SpritePtr lightcone;
 
   Color   color;
-  /**
-   * Speed that the spotlight is rotating with
-   */
+
+  /** Speed that the spotlight is rotating with */
   float speed;
 
-  /**
-   * If true, the spotlight will rotate counter-clockwise
-   */
+  /** If true, the spotlight will rotate counter-clockwise */
   bool counter_clockwise;
+
+private:
+  Spotlight(const Spotlight&) = delete;
+  Spotlight& operator=(const Spotlight&) = delete;
 };
 
 #endif

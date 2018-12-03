@@ -38,18 +38,18 @@ public:
   virtual bool is_portable() const override;
 
   virtual bool is_freezable() const override;
-  virtual std::string get_class() const override {
-    return "mrbomb";
-  }
-  virtual std::string get_display_name() const override {
-    return _("Mr. Bomb");
-  }
+  virtual std::string get_class() const override { return "mrbomb"; }
+  virtual std::string get_display_name() const override { return _("Mr. Bomb"); }
 
 protected:
   virtual bool collision_squished(GameObject& object) override;
 
 private:
   bool grabbed;
+
+private:
+  MrBomb(const MrBomb&) = delete;
+  MrBomb& operator=(const MrBomb&) = delete;
 };
 
 #endif

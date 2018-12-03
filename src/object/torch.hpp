@@ -32,30 +32,22 @@ public:
   Torch(const ReaderMapping& reader);
 
   virtual void draw(DrawingContext& context) override;
-  void update(float) override;
+  virtual void update(float) override;
 
-  HitResponse collision(GameObject& other, const CollisionHit& ) override;
+  virtual HitResponse collision(GameObject& other, const CollisionHit& ) override;
 
-  /**
-   * @name Scriptable Methods
-   * @{
-   */
-  bool get_burning() const; /**< returns true if torch is lighted */
-  void set_burning(bool burning_); /**< true: light torch, false: extinguish
-                                     torch */
-  /**
-   * @}
-   */
-
-  virtual std::string get_class() const override {
-    return "torch";
-  }
-  virtual std::string get_display_name() const override {
-    return _("Torch");
-  }
+  virtual std::string get_class() const override { return "torch"; }
+  virtual std::string get_display_name() const override { return _("Torch"); }
 
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
+
+  /** @name Scriptable Methods
+      @{ */
+  bool get_burning() const; /**< returns true if torch is lighted */
+  void set_burning(bool burning_); /**< true: light torch, false: extinguish
+                                     torch */
+  /** @} */
 
 private:
   SpritePtr m_torch;

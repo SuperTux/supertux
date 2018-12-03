@@ -22,12 +22,6 @@
 
 class PowerUp final : public MovingSprite
 {
-private:
-  /**
-   * Initialize power up sprites and other defaults
-   */
-  virtual void initialize();
-
 public:
   PowerUp(const ReaderMapping& mapping);
   PowerUp(const Vector& pos, const std::string& sprite_name);
@@ -36,20 +30,25 @@ public:
   virtual void draw(DrawingContext& context) override;
   virtual void collision_solid(const CollisionHit& hit) override;
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
-  virtual std::string get_class() const override {
-    return "powerup";
-  }
-  virtual std::string get_display_name() const override {
-    return _("Power-up");
-  }
+
+  virtual std::string get_class() const override { return "powerup"; }
+  virtual std::string get_display_name() const override { return _("Power-up"); }
 
   virtual ObjectSettings get_settings() override;
+
+private:
+  /** Initialize power up sprites and other defaults */
+  virtual void initialize();
 
 private:
   Physic physic;
   std::string script;
   bool no_physics;
   SpritePtr lightsprite;
+
+private:
+  PowerUp(const PowerUp&) = delete;
+  PowerUp& operator=(const PowerUp&) = delete;
 };
 
 #endif

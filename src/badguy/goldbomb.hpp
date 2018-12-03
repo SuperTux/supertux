@@ -45,12 +45,8 @@ public:
 
   virtual void kill_fall() override;
   virtual void ignite() override;
-  virtual std::string get_class() const override {
-    return "goldbomb";
-  }
-  virtual std::string get_display_name() const override {
-    return _("Golden bomb");
-  }
+  virtual std::string get_class() const override { return "goldbomb"; }
+  virtual std::string get_display_name() const override { return _("Golden bomb"); }
 
   virtual void stop_looping_sounds() override;
   virtual void play_looping_sounds() override;
@@ -64,6 +60,7 @@ private:
     STATE_TICKING
   };
 
+private:
   Ticking_State tstate;
   bool grabbed;
   MovingObject* grabber;

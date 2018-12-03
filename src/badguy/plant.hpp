@@ -29,12 +29,8 @@ public:
   virtual HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit) override;
   virtual void active_update(float dt_sec) override;
   virtual void ignite() override;
-  virtual std::string get_class() const override {
-    return "plant";
-  }
-  virtual std::string get_display_name() const override {
-    return _("Plant");
-  }
+  virtual std::string get_class() const override { return "plant"; }
+  virtual std::string get_display_name() const override { return _("Plant"); }
 
 protected:
   enum PlantState {
@@ -46,6 +42,10 @@ protected:
 private:
   Timer timer;
   PlantState state;
+
+private:
+  Plant(const Plant&) = delete;
+  Plant& operator=(const Plant&) = delete;
 };
 
 #endif

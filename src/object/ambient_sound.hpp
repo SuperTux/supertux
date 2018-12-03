@@ -59,33 +59,22 @@ public:
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit_) override;
 
-  virtual std::string get_class() const override {
-    return "ambient_sound";
-  }
+  virtual std::string get_class() const override { return "ambient_sound"; }
+  virtual std::string get_display_name() const override { return _("Ambient sound"); }
+  virtual bool has_variable_size() const override { return true; }
 
-  virtual bool has_variable_size() const override {
-    return true;
-  }
-
-  /**
-   * @name Scriptable Methods
-   * @{
-   */
+  /** @name Scriptable Methods
+      @{ */
 #ifndef SCRIPTING_API
   virtual void set_pos(const Vector& pos) override;
 #endif
   void set_pos(float x, float y);
   float get_pos_x() const;
   float get_pos_y() const;
-  /**
-   * @}
-   */
+  /** @} */
 
   virtual void draw(DrawingContext& context) override;
 
-  virtual std::string get_display_name() const override {
-    return _("Ambient sound");
-  }
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
 
@@ -95,7 +84,6 @@ protected:
   virtual void stop_playing();
 
 private:
-
   std::string sample;
   std::unique_ptr<SoundSource> sound_source;
   int latency;

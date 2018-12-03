@@ -20,10 +20,6 @@
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 
-/*
- * Kamikaze Snowball will fly in one direction until he hits something.
- * On impact he is destroyed, trying to kill what he hit or hit him.
- */
 namespace{
   static const float KAMIKAZE_SPEED = 200;
   static const float LEAFSHOT_SPEED = 400;

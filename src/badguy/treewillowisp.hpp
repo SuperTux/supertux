@@ -29,16 +29,7 @@ public:
   virtual ~TreeWillOWisp();
 
   virtual void activate() override;
-
-  /**
-   * make TreeWillOWisp vanish
-   */
-  void vanish();
-  void start_sucking(const Vector& suck_target);
-
   virtual void active_update(float dt_sec) override;
-  void set_color(const Color& color);
-  Color get_color() const;
 
   virtual bool is_flammable() const override { return false; }
   virtual bool is_freezable() const override { return false; }
@@ -48,6 +39,13 @@ public:
 
   virtual void stop_looping_sounds() override;
   virtual void play_looping_sounds() override;
+
+  /** make TreeWillOWisp vanish */
+  void vanish();
+  void start_sucking(const Vector& suck_target);
+
+  void set_color(const Color& color);
+  Color get_color() const;
 
 protected:
   virtual bool collides(GameObject& other, const CollisionHit& hit) const override;

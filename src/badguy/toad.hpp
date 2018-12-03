@@ -19,9 +19,7 @@
 
 #include "badguy/badguy.hpp"
 
-/**
- * Badguy "Toad" - A jumping toad
- */
+/** Badguy "Toad" - A jumping toad */
 class Toad final : public BadGuy
 {
 public:

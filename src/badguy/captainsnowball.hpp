@@ -27,16 +27,17 @@ public:
   virtual void active_update(float dt_sec) override;
   virtual void collision_solid(const CollisionHit& hit) override;
 
+  virtual std::string get_class() const override { return "captainsnowball"; }
+  virtual std::string get_display_name() const override { return _("Captain snowball"); }
+
   bool might_climb(int width, int height) const;
-  virtual std::string get_class() const override {
-    return "captainsnowball";
-  }
-  virtual std::string get_display_name() const override {
-    return _("Captain snowball");
-  }
 
 protected:
   virtual bool collision_squished(GameObject& object) override;
+
+private:
+  CaptainSnowball(const CaptainSnowball&) = delete;
+  CaptainSnowball& operator=(const CaptainSnowball&) = delete;
 };
 
 #endif

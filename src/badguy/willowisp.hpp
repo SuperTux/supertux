@@ -24,9 +24,10 @@
 
 class SoundSource;
 
-class WillOWisp final : public BadGuy,
-                  public ExposedObject<WillOWisp, scripting::WillOWisp>,
-                  public PathObject
+class WillOWisp final :
+  public BadGuy,
+  public ExposedObject<WillOWisp, scripting::WillOWisp>,
+  public PathObject
 {
 public:
   WillOWisp(const ReaderMapping& reader);
@@ -43,9 +44,7 @@ public:
   virtual bool is_hurtable() const override { return false; }
   virtual void kill_fall() override { vanish(); }
 
-  /**
-   * make WillOWisp vanish
-   */
+  /** make WillOWisp vanish */
   void vanish();
 
   virtual void goto_node(int node_no);
@@ -56,17 +55,13 @@ public:
   virtual void stop_looping_sounds() override;
   virtual void play_looping_sounds() override;
 
-  virtual std::string get_class() const override {
-    return "willowisp";
-  }
-  virtual std::string get_display_name() const override {
-    return _("Will 'o' wisp");
-  }
+  virtual std::string get_class() const override { return "willowisp"; }
+  virtual std::string get_display_name() const override { return _("Will 'o' wisp"); }
 
   virtual ObjectSettings get_settings() override;
   virtual void move_to(const Vector& pos) override;
 
-protected:
+private:
   virtual bool collides(GameObject& other, const CollisionHit& hit) const override;
   virtual HitResponse collision_player(Player& player, const CollisionHit& hit) override;
 
@@ -87,6 +82,10 @@ private:
   float m_flyspeed;
   float m_track_range;
   float m_vanish_range;
+
+private:
+  WillOWisp(const WillOWisp&) = delete;
+  WillOWisp& operator=(const WillOWisp&) = delete;
 };
 
 #endif

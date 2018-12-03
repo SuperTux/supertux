@@ -56,8 +56,26 @@ public:
   Camera(const ReaderMapping& reader);
   virtual ~Camera();
 
+  /** \addtogroup GameObject
+      @{ */
+  virtual void update(float dt_sec) override;
+  virtual void draw(DrawingContext& ) override;
+
+  virtual bool is_singleton() const override { return true; }
+  virtual bool is_saveable() const override;
+  virtual void save(Writer& writer) override;
+
+  virtual std::string get_class() const override { return "camera"; }
+  virtual std::string get_display_name() const override { return _("Camera"); }
+
+  virtual ObjectSettings get_settings() override;
+  virtual void after_editor_set() override;
+
+  virtual const std::string get_icon_path() const override { return "images/engine/editor/camera.png"; }
+  /** @} */
+
   /** \addtogroup CameraAPI
-   *  @{ */
+      @{ */
 
   /** reset camera position */
   void reset(const Vector& tuxpos);
@@ -81,32 +99,6 @@ public:
   Vector get_center() const;
 
   void set_mode(CameraMode mode_) { m_mode = mode_; }
-  /** @} */
-
-  /** \addtogroup GameObject
-      @{ */
-
-  virtual void update(float dt_sec) override;
-  virtual void draw(DrawingContext& ) override;
-
-  virtual bool is_singleton() const override { return true; }
-  virtual bool is_saveable() const override;
-  virtual void save(Writer& writer) override;
-
-  virtual std::string get_class() const override {
-    return "camera";
-  }
-  virtual std::string get_display_name() const override {
-    return _("Camera");
-  }
-
-  virtual ObjectSettings get_settings() override;
-  virtual void after_editor_set() override;
-
-  virtual const std::string get_icon_path() const override {
-    return "images/engine/editor/camera.png";
-  }
-
   /** @} */
 
 private:

@@ -19,27 +19,23 @@
 
 #include "badguy/walking_badguy.hpp"
 
-/*
- * Easy to kill badguy that does not jump down from it's ledge.
- */
+/** Easy to kill badguy that does not jump down from it's ledge. */
 class SmartBall final : public WalkingBadguy
 {
 public:
   SmartBall(const ReaderMapping& reader);
 
-  virtual std::string get_water_sprite() const override {
-    return "images/objects/water_drop/pink_drop.sprite";
-  }
+  virtual std::string get_water_sprite() const override { return "images/objects/water_drop/pink_drop.sprite"; }
 
-  virtual std::string get_class() const override {
-    return "smartball";
-  }
-  virtual std::string get_display_name() const override {
-    return _("Smart Ball");
-  }
+  virtual std::string get_class() const override { return "smartball"; }
+  virtual std::string get_display_name() const override { return _("Smart Ball"); }
 
 protected:
   virtual bool collision_squished(GameObject& object) override;
+
+private:
+  SmartBall(const SmartBall&) = delete;
+  SmartBall& operator=(const SmartBall&) = delete;
 };
 
 #endif
