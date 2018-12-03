@@ -76,14 +76,15 @@ SecretAreaTrigger::get_settings()
   result.add_float(_("Width"), &new_size.x, "width");
   result.add_float(_("Height"), &new_size.y, "height");
   result.add_text(_("Fade tilemap"), &fade_tilemap, "fade-tilemap");
-  result.add_text(_("Message"), &message, "message");
+  result.add_translatable_text(_("Message"), &message, "message");
   result.add_script(_("Script"), &script, "script");
 
   return result;
 }
 
 void
-SecretAreaTrigger::after_editor_set() {
+SecretAreaTrigger::after_editor_set()
+{
   m_col.m_bbox.set_size(new_size.x, new_size.y);
 }
 

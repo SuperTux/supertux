@@ -60,6 +60,8 @@ public:
                   const std::string& key = {}, unsigned int flags = 0);
   void add_text(const std::string& text, std::string* value_ptr,
                 const std::string& key = {}, unsigned int flags = 0);
+  void add_translatable_text(const std::string& text, std::string* value_ptr,
+                             const std::string& key = {}, unsigned int flags = 0);
   void add_string_select(const std::string& text, int* value_ptr, const std::vector<std::string>& select,
                          boost::optional<int> default_value = {},
                          const std::string& key = {}, unsigned int flags = 0);

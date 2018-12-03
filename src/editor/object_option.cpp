@@ -162,7 +162,7 @@ StringObjectOption::save(Writer& writer) const
   if (!value.empty())
   {
     if (!m_key.empty()) {
-      writer.write(m_key, value);
+      writer.write(m_key, value, (m_flags & OPTION_TRANSLATABLE));
     }
   }
 }

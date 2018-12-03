@@ -108,6 +108,13 @@ ObjectSettings::add_text(const std::string& text, std::string* value_ptr,
 }
 
 void
+ObjectSettings::add_translatable_text(const std::string& text, std::string* value_ptr,
+                                      const std::string& key, unsigned int flags)
+{
+  add_option(std::make_unique<StringObjectOption>(text, value_ptr, key, flags | OPTION_TRANSLATABLE));
+}
+
+void
 ObjectSettings::add_string_select(const std::string& text, int* value_ptr, const std::vector<std::string>& select,
                                   boost::optional<int> default_value,
                                   const std::string& key, unsigned int flags)

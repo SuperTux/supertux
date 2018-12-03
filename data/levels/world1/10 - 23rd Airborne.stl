@@ -6,13 +6,10 @@
   (target-time 80)
   (sector
     (name "main")
-    (music "music/airship_remix.music")
-    (ambient-light 1 1 1)
-    (background
-      (speed 0.5)
-      (image-top "images/background/bluemountain-top.png")
-      (image "images/background/bluemountain-middle.png")
-      (image-bottom "images/background/bluemountain-bottom.png")
+    (music
+      (file "music/airship_remix.music")
+    )
+    (ambient-light
     )
     (bouncingsnowball
       (x 13034)
@@ -27,12 +24,10 @@
       (y 37)
     )
     (bouncingsnowball
-      (direction "left")
       (x 8320)
       (y 736)
     )
     (bouncingsnowball
-      (direction "left")
       (x 8192)
       (y 800)
     )
@@ -204,26 +199,29 @@
       (y 202)
     )
     (scripttrigger
-      (script "secret2.fade (0.0, 1.0);")
-      (button #f)
       (width 32)
       (height 224)
+      (script "secret2.fade (0.0, 1.0);")
+      (button #f)
+      (oneshot #f)
       (x 7616)
       (y 928)
     )
     (secretarea
-      (fade-tilemap "secret1")
       (width 60)
       (height 156)
+      (fade-tilemap "secret1")
+      (message (_ "You found a secret area!"))
       (x 0)
       (y 0)
     )
     (secretarea
+      (width 927.197)
+      (height 95.6396)
       (fade-tilemap "secret2")
-      (width 927.1973)
-      (height 95.63959)
-      (x 8032.575)
-      (y 370.0123)
+      (message (_ "You found a secret area!"))
+      (x 8032.58)
+      (y 370.012)
     )
     (smartblock
       (x 8885)
@@ -250,22 +248,18 @@
       (y 363)
     )
     (snowball
-      (direction "left")
       (x 7168)
       (y 1120)
     )
     (snowball
-      (direction "left")
       (x 7264)
       (y 1120)
     )
     (snowball
-      (direction "left")
       (x 7360)
       (y 1120)
     )
     (snowman
-      (direction "left")
       (x 7424)
       (y 1088)
     )
@@ -432,18 +426,24 @@
       17 17 18
       )
     )
-    (tilemap
-      (solid #f)
-      (z-pos 102)
-      (name "secret2")
+    (path
+      (name "gen154384091894695456858032")
       (path
+        (mode "circular")
         (node
           (x 8000)
           (y 352)
         )
       )
+    )
+    (tilemap
+      (solid #f)
+      (z-pos 102)
+      (name "secret2")
+      (running #f)
       (width 30)
       (height 15)
+      (path-ref "gen154384091894695456858032")
       (tiles
       10 11 115 116 11 11 11 11 11 11 11 11 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       22 11 117 118 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 12

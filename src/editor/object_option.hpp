@@ -26,7 +26,8 @@
 #include "gui/menu_action.hpp"
 
 enum ObjectOptionFlag {
-  OPTION_HIDDEN = (1 << 0)
+  OPTION_HIDDEN = (1 << 0),
+  OPTION_TRANSLATABLE = (1 << 1)
 };
 
 class Color;
