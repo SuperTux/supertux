@@ -119,6 +119,9 @@ Background::Background(const ReaderMapping& reader) :
   m_layer = reader_get_layer (reader, /* default = */ LAYER_BACKGROUND0);
 
   reader.get("image", m_imagefile, "images/background/transparent_up.png");
+  reader.get("speed-x", m_speed.x, 0.5f);
+
+  // for backward compatibilty
   reader.get("speed", m_speed.x, 0.5f);
 
   set_image(m_imagefile, m_speed.x);
@@ -144,37 +147,21 @@ Background::~Background()
 {
 }
 
-void
-Background::save(Writer& writer)
-{
-  GameObject::save(writer);
-  switch (m_alignment) {
-    case LEFT_ALIGNMENT:   writer.write("alignment", "left",   false); break;
-    case RIGHT_ALIGNMENT:  writer.write("alignment", "right",  false); break;
-    case TOP_ALIGNMENT:    writer.write("alignment", "top",    false); break;
-    case BOTTOM_ALIGNMENT: writer.write("alignment", "bottom", false); break;
-    case NO_ALIGNMENT: break;
-  }
-
-  if (m_speed.y != m_speed.x) {
-    writer.write("speed_y", m_speed.y);
-  }
-}
-
 ObjectSettings
 Background::get_settings()
 {
   ObjectSettings result = GameObject::get_settings();
 
-  result.add_int(_("Z-pos"), &m_layer, "z-pos");
+  result.add_int(_("Z-pos"), &m_layer, "z-pos", LAYER_BACKGROUND0);
   result.add_string_select(_("Alignment"), reinterpret_cast<int*>(&m_alignment),
-                           {_("none"), _("left"), _("right"), _("top"), _("bottom")});
-  result.add_float(_("Scroll offset x"), &m_scroll_offset.x, "scroll-offset-x");
-  result.add_float(_("Scroll offset y"), &m_scroll_offset.y, "scroll-offset-y");
-  result.add_float(_("Scroll speed x"), &m_scroll_speed.x, "scroll-speed-x");
-  result.add_float(_("Scroll speed y"), &m_scroll_speed.y, "scroll-speed-y");
-  result.add_float(_("Speed x"), &m_speed.x, "speed");
-  result.add_float(_("Speed y"), &m_speed.y);
+                           {_("none"), _("left"), _("right"), _("top"), _("bottom")},
+                           {}, "alignment");
+  result.add_float(_("Scroll offset x"), &m_scroll_offset.x, "scroll-offset-x", 0);
+  result.add_float(_("Scroll offset y"), &m_scroll_offset.y, "scroll-offset-y", 0);
+  result.add_float(_("Scroll speed x"), &m_scroll_speed.x, "scroll-speed-x", 0.5f);
+  result.add_float(_("Scroll speed y"), &m_scroll_speed.y, "scroll-speed-y", 0.5f);
+  result.add_float(_("Speed x"), &m_speed.x, "speed-x", 0.5f);
+  result.add_float(_("Speed y"), &m_speed.y, "speed-y", 0.5f);
   result.add_surface(_("Top image"), &m_imagefile_top, "image-top");
   result.add_surface(_("Image"), &m_imagefile, "image");
   result.add_surface(_("Bottom image"), &m_imagefile_bottom, "image-bottom");

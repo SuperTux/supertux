@@ -122,7 +122,9 @@ Path::save(Writer& writer)
     writer.start_list("node");
     writer.write("x", nod.position.x);
     writer.write("y", nod.position.y);
-    writer.write("time", nod.time);
+    if (nod.time != 1.0f) {
+      writer.write("time", nod.time);
+    }
     writer.end_list("node");
   }
 

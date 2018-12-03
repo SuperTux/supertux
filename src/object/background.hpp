@@ -35,8 +35,6 @@ public:
   Background(const ReaderMapping& reader);
   virtual ~Background();
 
-  virtual void save(Writer& writer) override;
-
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
 

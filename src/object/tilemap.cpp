@@ -199,6 +199,11 @@ TileMap::save(Writer& writer)
   if (m_speed_y != m_speed_x) {
     writer.write("speed-y", m_speed_y);
   }
+
+  if (m_alpha != 1) {
+    writer.write("alpha", m_alpha);
+  }
+
   writer.write("z-pos", m_z_pos);
 
   GameObject::save(writer);
@@ -210,9 +215,7 @@ TileMap::save(Writer& writer)
   }
   writer.write("width", m_width);
   writer.write("height", m_height);
-  if (m_alpha != 1) {
-    writer.write("alpha", m_alpha);
-  }
+
   if (m_tint != Color::WHITE) {
     writer.write("tint", m_tint.toVector());
   }
