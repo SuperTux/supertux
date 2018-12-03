@@ -33,10 +33,10 @@ Tip::Tip(GameObject& object) :
   {
     const auto& oo = *oo_ptr;
 
-    if (oo.m_type != MN_REMOVE && !(oo.m_flags & OPTION_HIDDEN)) {
+    if (!(oo.get_flags() & OPTION_HIDDEN)) {
       auto value = oo.to_string();
       if (!value.empty()) {
-        m_strings.push_back(oo.m_text + ": " + value);
+        m_strings.push_back(oo.get_text() + ": " + value);
       }
     }
   }

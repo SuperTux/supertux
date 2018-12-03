@@ -80,9 +80,6 @@ public:
 
   const std::vector<std::unique_ptr<ObjectOption> >& get_options() const { return m_options; }
 
-  /** Avoid using this one */
-  std::vector<std::unique_ptr<ObjectOption> >& get_options_writable() { return m_options; }
-
 private:
   void add_file(const std::string& text, std::string* value_ptr, const std::string& key = {},
                 const std::vector<std::string>& filter = {}, unsigned int flags = 0);

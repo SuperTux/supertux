@@ -35,7 +35,7 @@ ObjectMenu::ObjectMenu(Editor& editor, GameObject* go) :
   {
     const auto& oo = *oo_ptr;
 
-    if (!(oo.m_flags & OPTION_HIDDEN)) {
+    if (!(oo.get_flags() & OPTION_HIDDEN)) {
       oo.add_to_menu(*this);
     }
   }

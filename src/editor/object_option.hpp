@@ -26,7 +26,11 @@
 #include "gui/menu_action.hpp"
 
 enum ObjectOptionFlag {
+  /** Set if the value is a hidden implementation detail that
+      shouldn't be exposed to the user */
   OPTION_HIDDEN = (1 << 0),
+
+  /** Set if the text should be saved as translatable */
   OPTION_TRANSLATABLE = (1 << 1)
 };
 
@@ -37,18 +41,21 @@ class Writer;
 class ObjectOption
 {
 public:
-  ObjectOption(MenuItemKind m_type, const std::string& text, const std::string& key, unsigned int flags);
+  ObjectOption(const std::string& text, const std::string& key, unsigned int flags);
   virtual ~ObjectOption();
 
   virtual void save(Writer& write) const = 0;
   virtual std::string to_string() const = 0;
   virtual void add_to_menu(Menu& menu) const = 0;
 
-public:
-  MenuItemKind m_type;
-  std::string m_text;
-  std::string m_key;
-  int m_flags;
+  const std::string& get_key() const { return m_key; }
+  const std::string& get_text() const { return m_text; }
+  unsigned int get_flags() const { return m_flags; }
+
+private:
+  const std::string m_text;
+  const std::string m_key;
+  const unsigned int m_flags;
 
 private:
   ObjectOption(const ObjectOption&) = delete;
@@ -67,8 +74,8 @@ public:
   virtual void add_to_menu(Menu& menu) const override;
 
 private:
-  bool* m_pointer;
-  boost::optional<bool> m_default_value;
+  bool* const m_pointer;
+  const boost::optional<bool> m_default_value;
 
 private:
   BoolObjectOption(const BoolObjectOption&) = delete;
@@ -87,8 +94,8 @@ public:
   virtual void add_to_menu(Menu& menu) const override;
 
 private:
-  int* m_pointer;
-  boost::optional<int> m_default_value;
+  int* const m_pointer;
+  const boost::optional<int> m_default_value;
 
 private:
   IntObjectOption(const IntObjectOption&) = delete;
@@ -107,8 +114,8 @@ public:
   virtual void add_to_menu(Menu& menu) const override;
 
 private:
-  float* m_pointer;
-  boost::optional<float> m_default_value;
+  float* const m_pointer;
+  const boost::optional<float> m_default_value;
 
 private:
   FloatObjectOption(const FloatObjectOption&) = delete;
@@ -126,7 +133,7 @@ public:
   virtual void add_to_menu(Menu& menu) const override;
 
 private:
-  std::string* m_pointer;
+  std::string* const m_pointer;
 
 private:
   StringObjectOption(const StringObjectOption&) = delete;
@@ -145,9 +152,9 @@ public:
   virtual void add_to_menu(Menu& menu) const override;
 
 private:
-  int*  m_pointer;
-  std::vector<std::string> m_select;
-  boost::optional<int> m_default_value;
+  int* const m_pointer;
+  const std::vector<std::string> m_select;
+  const boost::optional<int> m_default_value;
 
 private:
   StringSelectObjectOption(const StringSelectObjectOption&) = delete;
@@ -165,7 +172,7 @@ public:
   virtual void add_to_menu(Menu& menu) const override;
 
 private:
-  std::string* m_pointer;
+  std::string* const m_pointer;
 
 private:
   ScriptObjectOption(const ScriptObjectOption&) = delete;
@@ -183,8 +190,8 @@ public:
   virtual void add_to_menu(Menu& menu) const override;
 
 private:
-  std::string* m_pointer;
-  std::vector<std::string> m_filter;
+  std::string* const m_pointer;
+  const std::vector<std::string> m_filter;
 
 private:
   FileObjectOption(const FileObjectOption&) = delete;
@@ -203,8 +210,8 @@ public:
   virtual void add_to_menu(Menu& menu) const override;
 
 private:
-  Color* m_pointer;
-  boost::optional<Color> m_default_value;
+  Color* const m_pointer;
+  const boost::optional<Color> m_default_value;
 
 private:
   ColorObjectOption(const ColorObjectOption&) = delete;
@@ -222,7 +229,7 @@ public:
   virtual void add_to_menu(Menu& menu) const override;
 
 private:
-  std::vector<std::string>* m_pointer;
+  std::vector<std::string>* const m_pointer;
 
 private:
   BadGuySelectObjectOption(const BadGuySelectObjectOption&) = delete;
