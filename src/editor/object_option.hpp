@@ -21,6 +21,8 @@
 #include <string>
 #include <vector>
 
+#include "video/color.hpp"
+
 #include "gui/menu_action.hpp"
 
 enum ObjectOptionFlag {
@@ -56,6 +58,7 @@ class BoolObjectOption : public ObjectOption
 {
 public:
   BoolObjectOption(const std::string& text, bool* pointer, const std::string& key,
+                   boost::optional<bool> default_value,
                    unsigned int flags);
 
   virtual void save(Writer& write) const override;
@@ -64,6 +67,7 @@ public:
 
 private:
   bool* m_pointer;
+  boost::optional<bool> m_default_value;
 
 private:
   BoolObjectOption(const BoolObjectOption&) = delete;
@@ -74,6 +78,7 @@ class IntObjectOption : public ObjectOption
 {
 public:
   IntObjectOption(const std::string& text, int* pointer, const std::string& key,
+                  boost::optional<int> default_value,
                   unsigned int flags);
 
   virtual void save(Writer& write) const override;
@@ -82,6 +87,7 @@ public:
 
 private:
   int* m_pointer;
+  boost::optional<int> m_default_value;
 
 private:
   IntObjectOption(const IntObjectOption&) = delete;
@@ -92,6 +98,7 @@ class FloatObjectOption : public ObjectOption
 {
 public:
   FloatObjectOption(const std::string& text, float* pointer, const std::string& key,
+                    boost::optional<float> default_value,
                     unsigned int flags);
 
   virtual void save(Writer& write) const override;
@@ -100,6 +107,7 @@ public:
 
 private:
   float* m_pointer;
+  boost::optional<float> m_default_value;
 
 private:
   FloatObjectOption(const FloatObjectOption&) = delete;
@@ -186,6 +194,7 @@ class ColorObjectOption : public ObjectOption
 {
 public:
   ColorObjectOption(const std::string& text, Color* pointer, const std::string& key,
+                    boost::optional<Color> default_value,
                     unsigned int flags);
 
   virtual void save(Writer& write) const override;
@@ -194,6 +203,7 @@ public:
 
 private:
   Color* m_pointer;
+  boost::optional<Color> m_default_value;
 
 private:
   ColorObjectOption(const ColorObjectOption&) = delete;

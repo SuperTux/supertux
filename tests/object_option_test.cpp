@@ -32,14 +32,20 @@ TEST(ObjectOption, to_string)
   }
 
   {
+    bool mybool = true;
+    BoolObjectOption field("test", &mybool, {}, {}, 0);
+    ASSERT_EQ("true", field.to_string());
+  }
+
+  {
     int myint = 73258;
-    IntObjectOption intfield("test", &myint, {}, 0);
+    IntObjectOption intfield("test", &myint, {}, {}, 0);
     ASSERT_EQ("73258", intfield.to_string());
   }
 
   {
     float myfloat = 2.125;
-    FloatObjectOption numfield("test", &myfloat, {}, 0);
+    FloatObjectOption numfield("test", &myfloat, {}, {}, 0);
     ASSERT_EQ("2.125", numfield.to_string());
   }
 
@@ -64,7 +70,7 @@ TEST(ObjectOption, to_string)
 
   {
     Color mycolor = Color::YELLOW;
-    ColorObjectOption color("test", &mycolor, {}, 0);
+    ColorObjectOption color("test", &mycolor, {}, {}, 0);
     ASSERT_EQ("1.000000 1.000000 0.000000", color.to_string());
   }
 

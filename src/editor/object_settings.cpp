@@ -42,30 +42,38 @@ ObjectSettings::add_badguy(const std::string& text, std::vector<std::string>* va
 
 void
 ObjectSettings::add_color(const std::string& text, Color* value_ptr,
-                          const std::string& key, unsigned int flags)
+                          const std::string& key,
+                          boost::optional<Color> default_value,
+                          unsigned int flags)
 {
-  add_option(std::make_unique<ColorObjectOption>(text, value_ptr, key, flags));
+  add_option(std::make_unique<ColorObjectOption>(text, value_ptr, key, default_value, flags));
 }
 
 void
 ObjectSettings::add_bool(const std::string& text, bool* value_ptr,
-                         const std::string& key, unsigned int flags)
+                         const std::string& key,
+                         boost::optional<bool> default_value,
+                         unsigned int flags)
 {
-  add_option(std::make_unique<BoolObjectOption>(text, value_ptr, key, flags));
+  add_option(std::make_unique<BoolObjectOption>(text, value_ptr, key, default_value, flags));
 }
 
 void
 ObjectSettings::add_float(const std::string& text, float* value_ptr,
-                          const std::string& key, unsigned int flags)
+                          const std::string& key,
+                          boost::optional<float> default_value,
+                          unsigned int flags)
 {
-  add_option(std::make_unique<FloatObjectOption>(text, value_ptr, key, flags));
+  add_option(std::make_unique<FloatObjectOption>(text, value_ptr, key, default_value, flags));
 }
 
 void
 ObjectSettings::add_int(const std::string& text, int* value_ptr,
-                        const std::string& key, unsigned int flags)
+                        const std::string& key,
+                        boost::optional<int> default_value,
+                        unsigned int flags)
 {
-  add_option(std::make_unique<IntObjectOption>(text, value_ptr, key, flags));
+  add_option(std::make_unique<IntObjectOption>(text, value_ptr, key, default_value, flags));
 }
 
 void

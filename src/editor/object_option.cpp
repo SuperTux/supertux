@@ -50,9 +50,11 @@ ObjectOption::~ObjectOption()
 }
 
 BoolObjectOption::BoolObjectOption(const std::string& text, bool* pointer, const std::string& key,
+                                   boost::optional<bool> default_value,
                                    unsigned int flags) :
   ObjectOption(MN_TOGGLE, text, key, flags),
-  m_pointer(pointer)
+  m_pointer(pointer),
+  m_default_value(default_value)
 {
 }
 
@@ -65,8 +67,12 @@ BoolObjectOption::add_to_menu(Menu& menu) const
 void
 BoolObjectOption::save(Writer& writer) const
 {
-  if (!m_key.empty()) {
-    writer.write(m_key, *m_pointer);
+  if (m_default_value && *m_default_value == *m_pointer) {
+    // skip
+  } else {
+    if (!m_key.empty()) {
+      writer.write(m_key, *m_pointer);
+    }
   }
 }
 
@@ -77,17 +83,23 @@ BoolObjectOption::to_string() const
 }
 
 IntObjectOption::IntObjectOption(const std::string& text, int* pointer, const std::string& key,
+                                 boost::optional<int> default_value,
                                  unsigned int flags) :
   ObjectOption(MN_INTFIELD, text, key, flags),
-  m_pointer(pointer)
+  m_pointer(pointer),
+  m_default_value(default_value)
 {
 }
 
 void
 IntObjectOption::save(Writer& writer) const
 {
-  if (!m_key.empty()) {
-    writer.write(m_key, *m_pointer);
+  if (m_default_value && *m_default_value == *m_pointer) {
+    // skip
+  } else {
+    if (!m_key.empty()) {
+      writer.write(m_key, *m_pointer);
+    }
   }
 }
 
@@ -104,17 +116,23 @@ IntObjectOption::add_to_menu(Menu& menu) const
 }
 
 FloatObjectOption::FloatObjectOption(const std::string& text, float* pointer, const std::string& key,
+                                     boost::optional<float> default_value,
                                      unsigned int flags) :
   ObjectOption(MN_FLOATFIELD, text, key, flags),
-  m_pointer(pointer)
+  m_pointer(pointer),
+  m_default_value(default_value)
 {
 }
 
 void
 FloatObjectOption::save(Writer& writer) const
 {
-  if (!m_key.empty()) {
-    writer.write(m_key, *m_pointer);
+  if (m_default_value && *m_default_value == *m_pointer) {
+    // skip
+  } else {
+    if (!m_key.empty()) {
+      writer.write(m_key, *m_pointer);
+    }
   }
 }
 
@@ -272,9 +290,11 @@ FileObjectOption::add_to_menu(Menu& menu) const
 }
 
 ColorObjectOption::ColorObjectOption(const std::string& text, Color* pointer, const std::string& key,
+                                     boost::optional<Color> default_value,
                                      unsigned int flags) :
   ObjectOption(MN_COLOR, text, key, flags),
-  m_pointer(pointer)
+  m_pointer(pointer),
+  m_default_value(default_value)
 {
 }
 
