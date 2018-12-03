@@ -69,8 +69,8 @@ ObjectSettings
 Platform::get_settings()
 {
   ObjectSettings result = MovingSprite::get_settings();
-  result.add_option(Path::get_mode_option(&get_path()->m_mode));
-  result.add_option(PathWalker::get_running_option(&get_walker()->m_running));
+  result.add_walk_mode(_("Path Mode"), &get_path()->m_mode, {}, {});
+  result.add_bool(_("Running"), &get_walker()->m_running, "running", {}, 0);
   return result;
 }
 

@@ -88,6 +88,28 @@ ObjectSettings::add_direction(const std::string& text, Direction* value_ptr,
 }
 
 void
+ObjectSettings::add_worldmap_direction(const std::string& text, worldmap::Direction* value_ptr,
+                                       boost::optional<worldmap::Direction> default_value,
+                                       const std::string& key, unsigned int flags)
+{
+  add_option(std::make_unique<StringSelectObjectOption>(
+               text, reinterpret_cast<int*>(value_ptr),
+               std::vector<std::string>{_("None"), _("West"), _("East"), _("North"), _("South")},
+               boost::none, key, 0));
+}
+
+void
+ObjectSettings::add_walk_mode(const std::string& text, WalkMode* value_ptr,
+                              boost::optional<WalkMode> default_value,
+                              const std::string& key, unsigned int flags)
+{
+  add_option(std::make_unique<StringSelectObjectOption>(
+               text, reinterpret_cast<int*>(value_ptr),
+               std::vector<std::string>{_("One shot"), _("Ping-pong"), _("Circular"), _("Unordered")},
+               boost::none, key, 0));
+}
+
+void
 ObjectSettings::add_remove()
 {
   add_option(std::make_unique<RemoveObjectOption>());

@@ -24,6 +24,10 @@
 
 class Color;
 enum class Direction;
+enum class WalkMode;
+namespace worldmap {
+enum class Direction;
+}
 
 class ObjectSettings final
 {
@@ -31,8 +35,6 @@ public:
   ObjectSettings(const std::string& name);
 
   const std::string& get_name() const { return m_name; }
-
-  void add_option(std::unique_ptr<ObjectOption> option);
 
   void add_bool(const std::string& text, bool* value_ptr,
                 const std::string& key = {},
@@ -46,8 +48,14 @@ public:
                const std::string& key = {},
                boost::optional<int> default_value = {},
                unsigned int flags = 0);
+  void add_worldmap_direction(const std::string& text, worldmap::Direction* value_ptr,
+                              boost::optional<worldmap::Direction> default_value = {},
+                              const std::string& key = {}, unsigned int flags = 0);
   void add_direction(const std::string& text, Direction* value_ptr,
                      boost::optional<Direction> default_value = {},
+                     const std::string& key = {}, unsigned int flags = 0);
+  void add_walk_mode(const std::string& text, WalkMode* value_ptr,
+                     boost::optional<WalkMode> default_value = {},
                      const std::string& key = {}, unsigned int flags = 0);
   void add_badguy(const std::string& text, std::vector<std::string>* value_ptr,
                   const std::string& key = {}, unsigned int flags = 0);
@@ -81,6 +89,8 @@ public:
   const std::vector<std::unique_ptr<ObjectOption> >& get_options() const { return m_options; }
 
 private:
+  void add_option(std::unique_ptr<ObjectOption> option);
+
   void add_file(const std::string& text, std::string* value_ptr, const std::string& key = {},
                 const std::vector<std::string>& filter = {}, unsigned int flags = 0);
 

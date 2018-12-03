@@ -30,8 +30,6 @@ Direction reverse_dir(Direction direction);
 Direction string_to_direction(const std::string& directory);
 std::string direction_to_string(Direction direction);
 
-std::unique_ptr<ObjectOption> dir_option(Direction *dir);
-
 } // namespace worldmap
 
 #endif

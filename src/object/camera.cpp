@@ -241,7 +241,7 @@ Camera::get_settings()
                            {_("normal"), _("manual")});
 
   if (get_walker() && get_path()->is_valid()) {
-    result.add_option(Path::get_mode_option(&get_path()->m_mode));
+    result.add_walk_mode(_("Path Mode"), &get_path()->m_mode, {}, {});
   }
 
   return result;

@@ -29,9 +29,6 @@ class ObjectOption;
 class PathWalker final
 {
 public:
-  static std::unique_ptr<ObjectOption> get_running_option(bool* running);
-
-public:
   PathWalker(UID path_uid, bool running = true);
   ~PathWalker();
 

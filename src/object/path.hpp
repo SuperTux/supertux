@@ -60,10 +60,6 @@ public:
   };
 
 public:
-  /** Returns an object option that modifies the mode. */
-  static std::unique_ptr<ObjectOption> get_mode_option(WalkMode* mode);
-
-public:
   Path();
   Path(const Vector& pos);
 

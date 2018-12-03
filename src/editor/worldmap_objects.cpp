@@ -229,7 +229,7 @@ ObjectSettings
 WorldmapSpawnPoint::get_settings()
 {
   ObjectSettings result = WorldmapObject::get_settings();
-  result.add_option(worldmap::dir_option(&m_dir));
+  result.add_worldmap_direction(_("Direction"), &m_dir, {}, "direction");
   return result;
 }
 
@@ -321,7 +321,7 @@ SpecialTile::get_settings()
   result.add_bool(_("Show message"), &m_passive_message);
   result.add_script(_("Script"), &m_script);
   result.add_bool(_("Invisible"), &m_invisible_tile);
-  result.add_option(worldmap::dir_option(&m_apply_to_direction));
+  result.add_worldmap_direction(_("Direction"), &m_apply_to_direction, {}, "direction");
   result.add_sprite(_("Sprite"), &m_sprite_name);
 
   return result;
