@@ -193,4 +193,36 @@ ObjectSettings::add_worldmap(const std::string& text, std::string* value_ptr, co
   add_file(text, value_ptr, key, {".stwm"}, flags);
 }
 
+void
+ObjectSettings::reorder(const std::vector<std::string>& order)
+{
+  std::vector<std::unique_ptr<ObjectOption> > new_options;
+
+  // put all items not in 'order' into 'new_options'
+  for(auto& option : m_options) {
+    if (option) {
+      auto it = std::find(order.begin(), order.end(), option->get_key());
+      if (it == order.end())
+      {
+        new_options.push_back(std::move(option));
+      }
+    }
+  }
+
+  // put all other items in 'order' into 'new_options' in the order of 'order'
+  for(const auto& option_name : order) {
+    auto it = std::find_if(m_options.begin(), m_options.end(),
+                           [option_name](const std::unique_ptr<ObjectOption>& option){
+                             return option && option->get_key() == option_name;
+                           });
+    if (it != m_options.end()) {
+      new_options.push_back(std::move(*it));
+    }
+  }
+
+  assert(m_options.size() == new_options.size());
+
+  m_options = std::move(new_options);
+}
+
 /* EOF */

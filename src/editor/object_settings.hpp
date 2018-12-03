@@ -33,6 +33,7 @@ class ObjectSettings final
 {
 public:
   ObjectSettings(const std::string& name);
+  ObjectSettings(ObjectSettings&&) = default;
 
   const std::string& get_name() const { return m_name; }
 
@@ -88,6 +89,10 @@ public:
 
   const std::vector<std::unique_ptr<ObjectOption> >& get_options() const { return m_options; }
 
+  /** Reorder the options in the given order, this is a hack to get
+      saving identical to the other editor */
+  void reorder(const std::vector<std::string>& order);
+
 private:
   void add_option(std::unique_ptr<ObjectOption> option);
 
@@ -97,6 +102,10 @@ private:
 private:
   std::string m_name;
   std::vector<std::unique_ptr<ObjectOption> > m_options;
+
+private:
+  ObjectSettings(const ObjectSettings&) = delete;
+  ObjectSettings& operator=(const ObjectSettings&) = delete;
 };
 
 #endif
