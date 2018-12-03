@@ -54,11 +54,11 @@ LevelParser::get_level_name(const std::string& filename)
 }
 
 std::unique_ptr<Level>
-LevelParser::from_stream(std::istream& stream, bool editable)
+LevelParser::from_stream(std::istream& stream, const std::string& context, bool editable)
 {
   auto level = std::make_unique<Level>();
   LevelParser parser(*level, editable);
-  parser.load(stream);
+  parser.load(stream, context);
   return level;
 }
 
@@ -121,9 +121,9 @@ LevelParser::LevelParser(Level& level, bool editable) :
 }
 
 void
-LevelParser::load(std::istream& stream)
+LevelParser::load(std::istream& stream, const std::string& context)
 {
-  auto doc = ReaderDocument::from_stream(stream);
+  auto doc = ReaderDocument::from_stream(stream, context);
   load(doc);
 }
 

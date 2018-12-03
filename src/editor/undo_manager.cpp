@@ -107,7 +107,7 @@ UndoManager::undo()
 
   std::istringstream in(m_undo_stack.back());
   ReaderMapping::s_translations_enabled = false;
-  auto level = LevelParser::from_stream(in, true);
+  auto level = LevelParser::from_stream(in, "<undo_stack>", true);
   ReaderMapping::s_translations_enabled = true;
 
   m_index_pos -= 1;
@@ -129,7 +129,7 @@ UndoManager::redo()
 
   std::istringstream in(m_undo_stack.back());
   ReaderMapping::s_translations_enabled = false;
-  auto level = LevelParser::from_stream(in, true);
+  auto level = LevelParser::from_stream(in, "<redo_stack>", true);
   ReaderMapping::s_translations_enabled = true;
 
   debug_print("redo");

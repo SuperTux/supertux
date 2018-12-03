@@ -371,7 +371,7 @@ Main::resave(const std::string& input_filename, const std::string& output_filena
     log_fatal << input_filename << ": couldn't open file for reading" << std::endl;
   } else {
     log_info << "loading level: " << input_filename << std::endl;
-    auto level = LevelParser::from_stream(in, true);
+    auto level = LevelParser::from_stream(in, input_filename, true);
     in.close();
 
     std::ofstream out(output_filename);
