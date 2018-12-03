@@ -151,7 +151,7 @@ WorldMap::on_escape_press()
   // Show or hide the menu
   if (!MenuManager::instance().is_active()) {
     MenuManager::instance().set_menu(MenuStorage::WORLDMAP_MENU);
-    m_tux->set_direction(D_NONE);  // stop tux movement when menu is called
+    m_tux->set_direction(Direction::NONE);  // stop tux movement when menu is called
   } else {
     MenuManager::instance().clear_menu_stack();
   }
@@ -162,19 +162,19 @@ WorldMap::get_next_tile(const Vector& pos, const Direction& direction) const
 {
   auto position = pos;
   switch (direction) {
-    case D_WEST:
+    case Direction::WEST:
       position.x -= 1;
       break;
-    case D_EAST:
+    case Direction::EAST:
       position.x += 1;
       break;
-    case D_NORTH:
+    case Direction::NORTH:
       position.y -= 1;
       break;
-    case D_SOUTH:
+    case Direction::SOUTH:
       position.y += 1;
       break;
-    case D_NONE:
+    case Direction::NONE:
       break;
   }
   return position;
@@ -196,23 +196,23 @@ WorldMap::path_ok(const Direction& direction, const Vector& old_pos, Vector* new
     int new_tile_data = tile_data_at(*new_pos);
     switch (direction)
     {
-      case D_WEST:
+      case Direction::WEST:
         return (old_tile_data & Tile::WORLDMAP_WEST
                 && new_tile_data & Tile::WORLDMAP_EAST);
 
-      case D_EAST:
+      case Direction::EAST:
         return (old_tile_data & Tile::WORLDMAP_EAST
                 && new_tile_data & Tile::WORLDMAP_WEST);
 
-      case D_NORTH:
+      case Direction::NORTH:
         return (old_tile_data & Tile::WORLDMAP_NORTH
                 && new_tile_data & Tile::WORLDMAP_SOUTH);
 
-      case D_SOUTH:
+      case Direction::SOUTH:
         return (old_tile_data & Tile::WORLDMAP_SOUTH
                 && new_tile_data & Tile::WORLDMAP_NORTH);
 
-      case D_NONE:
+      case Direction::NONE:
         log_warning << "path_ok() can't walk if direction is NONE" << std::endl;
         assert(false);
     }
@@ -248,7 +248,7 @@ WorldMap::finished_level(Level* gamelevel)
   if (old_level_state != level->m_solved) {
     // Try to detect the next direction to which we should walk
     // FIXME: Mostly a hack
-    Direction dir = D_NONE;
+    Direction dir = Direction::NONE;
 
     int dirdata = available_directions_at(m_tux->get_tile_pos());
     // first, test for crossroads
@@ -257,21 +257,21 @@ WorldMap::finished_level(Level* gamelevel)
         dirdata == Tile::WORLDMAP_CNEW ||
         dirdata == Tile::WORLDMAP_CSEW ||
         dirdata == Tile::WORLDMAP_CNSEW)
-      dir = D_NONE;
+      dir = Direction::NONE;
     else if (dirdata & Tile::WORLDMAP_NORTH
-             && m_tux->m_back_direction != D_NORTH)
-      dir = D_NORTH;
+             && m_tux->m_back_direction != Direction::NORTH)
+      dir = Direction::NORTH;
     else if (dirdata & Tile::WORLDMAP_SOUTH
-             && m_tux->m_back_direction != D_SOUTH)
-      dir = D_SOUTH;
+             && m_tux->m_back_direction != Direction::SOUTH)
+      dir = Direction::SOUTH;
     else if (dirdata & Tile::WORLDMAP_EAST
-             && m_tux->m_back_direction != D_EAST)
-      dir = D_EAST;
+             && m_tux->m_back_direction != Direction::EAST)
+      dir = Direction::EAST;
     else if (dirdata & Tile::WORLDMAP_WEST
-             && m_tux->m_back_direction != D_WEST)
-      dir = D_WEST;
+             && m_tux->m_back_direction != Direction::WEST)
+      dir = Direction::WEST;
 
-    if (dir != D_NONE) {
+    if (dir != Direction::NONE) {
       m_tux->set_direction(dir);
     }
   }
@@ -341,7 +341,7 @@ WorldMap::update(float dt_sec)
       } else {
         // TODO: an animation, camera scrolling or a fading would be a nice touch
         SoundManager::current()->play("sounds/warp.wav");
-        m_tux->m_back_direction = D_NONE;
+        m_tux->m_back_direction = Direction::NONE;
         move_to_spawnpoint(teleporter->m_spawnpoint, true);
       }
     }

@@ -41,8 +41,8 @@ Tux::Tux(WorldMap* worldmap) :
   m_worldmap(worldmap),
   m_sprite(SpriteManager::current()->create(m_worldmap->get_savegame().get_player_status().worldmap_sprite)),
   m_controller(InputManager::current()->get_controller()),
-  m_input_direction(D_NONE),
-  m_direction(D_NONE),
+  m_input_direction(Direction::NONE),
+  m_direction(Direction::NONE),
   m_tile_pos(),
   m_offset(0),
   m_moving(false),
@@ -95,19 +95,19 @@ Tux::get_pos() const
 
   switch (m_direction)
   {
-    case D_WEST:
+    case Direction::WEST:
       x -= m_offset - 32;
       break;
-    case D_EAST:
+    case Direction::EAST:
       x += m_offset - 32;
       break;
-    case D_NORTH:
+    case Direction::NORTH:
       y -= m_offset - 32;
       break;
-    case D_SOUTH:
+    case Direction::SOUTH:
       y += m_offset - 32;
       break;
-    case D_NONE:
+    case Direction::NONE:
       break;
   }
 
@@ -118,8 +118,8 @@ void
 Tux::stop()
 {
   m_offset = 0;
-  m_direction = D_NONE;
-  m_input_direction = D_NONE;
+  m_direction = Direction::NONE;
+  m_input_direction = Direction::NONE;
   m_moving = false;
 }
 
@@ -146,7 +146,7 @@ Tux::try_start_walking()
 {
   if (m_moving)
     return;
-  if (m_input_direction == D_NONE)
+  if (m_input_direction == Direction::NONE)
     return;
 
   auto level = m_worldmap->at_level();
@@ -172,10 +172,10 @@ bool
 Tux::can_walk(int tile_data, Direction dir) const
 {
   return m_ghost_mode ||
-    ((tile_data & Tile::WORLDMAP_NORTH && dir == D_NORTH) ||
-     (tile_data & Tile::WORLDMAP_SOUTH && dir == D_SOUTH) ||
-     (tile_data & Tile::WORLDMAP_EAST  && dir == D_EAST) ||
-     (tile_data & Tile::WORLDMAP_WEST  && dir == D_WEST));
+    ((tile_data & Tile::WORLDMAP_NORTH && dir == Direction::NORTH) ||
+     (tile_data & Tile::WORLDMAP_SOUTH && dir == Direction::SOUTH) ||
+     (tile_data & Tile::WORLDMAP_EAST  && dir == Direction::EAST) ||
+     (tile_data & Tile::WORLDMAP_WEST  && dir == Direction::WEST));
 }
 
 void
@@ -213,10 +213,10 @@ Tux::try_continue_walking(float dt_sec)
   {
     // direction and the apply_action_ are opposites, since they "see"
     // directions in a different way
-    if ((m_direction == D_NORTH && special_tile->m_apply_action_south) ||
-       (m_direction == D_SOUTH && special_tile->m_apply_action_north) ||
-       (m_direction == D_WEST && special_tile->m_apply_action_east) ||
-       (m_direction == D_EAST && special_tile->m_apply_action_west))
+    if ((m_direction == Direction::NORTH && special_tile->m_apply_action_south) ||
+       (m_direction == Direction::SOUTH && special_tile->m_apply_action_north) ||
+       (m_direction == Direction::WEST && special_tile->m_apply_action_east) ||
+       (m_direction == Direction::EAST && special_tile->m_apply_action_west))
     {
       process_special_tile(special_tile);
     }
@@ -245,17 +245,17 @@ Tux::try_continue_walking(float dt_sec)
     m_direction = m_input_direction;
     m_back_direction = reverse_dir(m_direction);
   } else {
-    Direction dir = D_NONE;
-    if (tile_data & Tile::WORLDMAP_NORTH && m_back_direction != D_NORTH)
-      dir = D_NORTH;
-    else if (tile_data & Tile::WORLDMAP_SOUTH && m_back_direction != D_SOUTH)
-      dir = D_SOUTH;
-    else if (tile_data & Tile::WORLDMAP_EAST && m_back_direction != D_EAST)
-      dir = D_EAST;
-    else if (tile_data & Tile::WORLDMAP_WEST && m_back_direction != D_WEST)
-      dir = D_WEST;
+    Direction dir = Direction::NONE;
+    if (tile_data & Tile::WORLDMAP_NORTH && m_back_direction != Direction::NORTH)
+      dir = Direction::NORTH;
+    else if (tile_data & Tile::WORLDMAP_SOUTH && m_back_direction != Direction::SOUTH)
+      dir = Direction::SOUTH;
+    else if (tile_data & Tile::WORLDMAP_EAST && m_back_direction != Direction::EAST)
+      dir = Direction::EAST;
+    else if (tile_data & Tile::WORLDMAP_WEST && m_back_direction != Direction::WEST)
+      dir = Direction::WEST;
 
-    if (dir == D_NONE) {
+    if (dir == Direction::NONE) {
       // Should never be reached if tiledata is good
       log_warning << "Could not determine where to walk next" << std::endl;
       stop();
@@ -268,7 +268,7 @@ Tux::try_continue_walking(float dt_sec)
   }
 
   // Walk automatically to the next tile
-  if (m_direction == D_NONE)
+  if (m_direction == Direction::NONE)
     return;
 
   Vector next_tile;
@@ -295,13 +295,13 @@ void
 Tux::update_input_direction()
 {
   if (m_controller.hold(Controller::UP))
-    m_input_direction = D_NORTH;
+    m_input_direction = Direction::NORTH;
   else if (m_controller.hold(Controller::DOWN))
-    m_input_direction = D_SOUTH;
+    m_input_direction = Direction::SOUTH;
   else if (m_controller.hold(Controller::LEFT))
-    m_input_direction = D_WEST;
+    m_input_direction = Direction::WEST;
   else if (m_controller.hold(Controller::RIGHT))
-    m_input_direction = D_EAST;
+    m_input_direction = Direction::EAST;
 }
 
 void

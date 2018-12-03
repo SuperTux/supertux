@@ -201,7 +201,7 @@ Teleporter::get_settings()
 
 WorldmapSpawnPoint::WorldmapSpawnPoint (const ReaderMapping& mapping) :
   WorldmapObject(mapping, "images/worldmap/common/tux.png"),
-  m_dir(worldmap::D_NONE)
+  m_dir(worldmap::Direction::NONE)
 {
   mapping.get("name", m_name);
 
@@ -213,7 +213,7 @@ WorldmapSpawnPoint::WorldmapSpawnPoint (const ReaderMapping& mapping) :
 
 WorldmapSpawnPoint::WorldmapSpawnPoint (const std::string& name_, const Vector& pos) :
   WorldmapObject(pos, "images/worldmap/common/tux.png"),
-  m_dir(worldmap::D_NONE)
+  m_dir(worldmap::Direction::NONE)
 {
   m_name = name_;
 }
@@ -281,7 +281,7 @@ SpecialTile::SpecialTile (const ReaderMapping& mapping) :
   m_script(),
   m_passive_message(false),
   m_invisible_tile(true),
-  m_apply_to_direction(worldmap::D_NONE)
+  m_apply_to_direction(worldmap::Direction::NONE)
 {
   mapping.get("map-message", m_map_message);
   mapping.get("script", m_script);

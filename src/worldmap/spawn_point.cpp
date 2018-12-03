@@ -25,7 +25,7 @@ namespace worldmap {
 SpawnPoint::SpawnPoint(const ReaderMapping& mapping) :
   m_name(),
   m_pos(),
-  m_auto_dir(D_NONE)
+  m_auto_dir(Direction::NONE)
 {
   m_pos.x = -1;
   m_pos.y = -1;

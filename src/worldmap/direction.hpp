@@ -24,7 +24,7 @@ class ObjectOption;
 
 namespace worldmap {
 
-enum Direction { D_NONE, D_WEST, D_EAST, D_NORTH, D_SOUTH };
+enum class Direction { NONE, WEST, EAST, NORTH, SOUTH };
 
 Direction reverse_dir(Direction direction);
 Direction string_to_direction(const std::string& directory);
