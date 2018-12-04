@@ -34,6 +34,7 @@ public:
   ~Climbable();
 
   virtual std::string get_class() const override { return "climbable"; }
+  virtual std::string get_display_name() const override { return _("Climbable"); }
   virtual bool has_variable_size() const override { return true; }
 
   virtual ObjectSettings get_settings() override;

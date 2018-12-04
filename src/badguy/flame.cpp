@@ -39,7 +39,7 @@ Flame::Flame(const ReaderMapping& reader) :
   reader.get("speed", speed, 2.0f);
   if (!Editor::is_active()) {
     m_col.m_bbox.set_pos(Vector(m_start_position.x + cosf(angle) * radius,
-                        m_start_position.y + sinf(angle) * radius));
+                                m_start_position.y + sinf(angle) * radius));
   }
   m_countMe = false;
   SoundManager::current()->preload(FLAME_SOUND);
@@ -54,8 +54,10 @@ ObjectSettings
 Flame::get_settings()
 {
   ObjectSettings result = BadGuy::get_settings();
-  result.add_float(_("Radius"), &radius, "radius");
-  result.add_float(_("Speed"), &speed, "speed");
+
+  result.add_float(_("Radius"), &radius, "radius", 100.0f);
+  result.add_float(_("Speed"), &speed, "speed", 2.0f);
+
   return result;
 }
 

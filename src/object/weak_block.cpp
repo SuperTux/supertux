@@ -40,7 +40,8 @@ WeakBlock::WeakBlock(const ReaderMapping& mapping)
   //Check if this weakblock destroys adjacent weakblocks
   if (mapping.get("linked", linked)){
     if (! linked){
-      m_sprite_name = "images/objects/weak_block/meltbox.sprite";
+      m_default_sprite_name = "images/objects/weak_block/meltbox.sprite";
+      m_sprite_name = m_default_sprite_name;
       m_sprite = SpriteManager::current()->create(m_sprite_name);
       m_sprite->set_action("normal");
     }
@@ -205,7 +206,11 @@ ObjectSettings
 WeakBlock::get_settings()
 {
   ObjectSettings result = MovingSprite::get_settings();
+
   result.add_bool(_("Linked"), &linked, "linked");
+
+  result.reorder({"linked", "sprite", "x", "y"});
+
   return result;
 }
 

@@ -154,6 +154,7 @@ Background::get_settings()
 {
   ObjectSettings result = GameObject::get_settings();
 
+  result.add_bool(_("Fill"), &m_fill, "fill", false);
   result.add_int(_("Z-pos"), &m_layer, "z-pos", LAYER_BACKGROUND0);
   result.add_enum(_("Alignment"), reinterpret_cast<int*>(&m_alignment),
                   {_("none"), _("left"), _("right"), _("top"), _("bottom")},
@@ -164,12 +165,19 @@ Background::get_settings()
   result.add_float(_("Scroll speed x"), &m_scroll_speed.x, "scroll-speed-x", 0.5f);
   result.add_float(_("Scroll speed y"), &m_scroll_speed.y, "scroll-speed-y", 0.5f);
   result.add_float(_("Speed x"), &m_speed.x, "speed", boost::none);
-  result.add_float(_("Speed y"), &m_speed.y, "speed-y", 0.5f);
+  result.add_float(_("Speed y"), &m_speed.y, "speed-y", m_speed.x);
   result.add_surface(_("Top image"), &m_imagefile_top, "image-top", m_imagefile);
   result.add_surface(_("Image"), &m_imagefile, "image");
   result.add_surface(_("Bottom image"), &m_imagefile_bottom, "image-bottom", m_imagefile);
+  result.add_enum(_("Draw target"), reinterpret_cast<int*>(&m_target),
+                  {_("Normal"), _("Lightmap")},
+                  {"normal", "lightmap"},
+                  static_cast<int>(DrawingTarget::COLORMAP),
+                  "target");
 
   result.add_remove();
+
+  result.reorder({"alignment", "speed", "speed-y", "fill", "image", "z-pos"});
 
   return result;
 }

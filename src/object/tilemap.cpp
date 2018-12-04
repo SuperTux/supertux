@@ -264,7 +264,7 @@ TileMap::get_settings()
 
   result.add_tiles(_("Tiles"), this, "tiles");
 
-  result.reorder({"solid", "speed", "speed-y", "alpha", "z-pos", "name", "width", "height", "tiles"});
+  result.reorder({"solid", "speed", "speed-y", "tint", "alpha", "z-pos", "name", "width", "height", "tiles"});
 
   if (!m_editor_active) {
     result.add_remove();

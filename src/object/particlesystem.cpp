@@ -58,7 +58,7 @@ ParticleSystem::get_settings()
 {
   ObjectSettings result = GameObject::get_settings();
 
-  result.add_int(_("Z-pos"), &z_pos,"z-pos");
+  result.add_int(_("Z-pos"), &z_pos, "z-pos", LAYER_BACKGROUND1);
   result.add_remove();
 
   return result;

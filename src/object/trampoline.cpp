@@ -44,6 +44,7 @@ Trampoline::Trampoline(const ReaderMapping& mapping) :
     if (!portable) {
       //we need another sprite
       m_sprite_name = "images/objects/trampoline/trampoline_fix.sprite";
+      m_default_sprite_name = m_sprite_name;
       m_sprite = SpriteManager::current()->create(m_sprite_name);
       m_sprite->set_action("normal");
     }

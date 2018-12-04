@@ -50,12 +50,12 @@ MovingObject::get_settings()
 {
   ObjectSettings result = GameObject::get_settings();
 
-  result.add_float(_("X"), &m_col.m_bbox.p1.x, "x");
-  result.add_float(_("Y"), &m_col.m_bbox.p1.y, "y");
-
   if (has_variable_size()) {
     result.add_rectf(_("Region"), &m_col.m_bbox, "region");
   }
+
+  result.add_float(_("X"), &m_col.m_bbox.p1.x, "x");
+  result.add_float(_("Y"), &m_col.m_bbox.p1.y, "y");
 
   return result;
 }

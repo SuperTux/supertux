@@ -75,25 +75,31 @@ SequenceTrigger::get_settings()
 {
   new_size.x = m_col.m_bbox.get_width();
   new_size.y = m_col.m_bbox.get_height();
-  ObjectSettings result(_("Sequence trigger"));
-  result.add_text(_("Name"), &m_name);
-  result.add_float(_("Width"), &new_size.x, "width");
-  result.add_float(_("Height"), &new_size.y, "height");
 
-  result.add_string_select(_("Sequence"), reinterpret_cast<int*>(&sequence),
-                           {_("end sequence"), _("stop Tux"), _("fireworks")});
+  ObjectSettings result = TriggerBase::get_settings();
+
+  //result.add_float(_("Width"), &new_size.x, "width");
+  //result.add_float(_("Height"), &new_size.y, "height");
+
+  result.add_enum(_("Sequence"), reinterpret_cast<int*>(&sequence),
+                  {_("end sequence"), _("stop Tux"), _("fireworks")},
+                  {"endsequence", "stoptux", "fireworks"},
+                  boost::none, "sequence");
 
   result.add_text(_("New worldmap spawnpoint"), &new_spawnpoint, "new_spawnpoint");
   result.add_text(_("Worldmap fade tilemap"), &fade_tilemap, "fade_tilemap");
   result.add_string_select(_("Fade"), reinterpret_cast<int*>(&fade),
                            {_("Fade in"), _("Fade out")},
-                           boost::none, "fade");
+                           0, "fade");
+
+  result.reorder({"sequence", "width", "height", "x", "y", "fade"});
 
   return result;
 }
 
 void
-SequenceTrigger::after_editor_set() {
+SequenceTrigger::after_editor_set()
+{
   m_col.m_bbox.set_size(new_size.x, new_size.y);
 }
 
@@ -107,7 +113,8 @@ SequenceTrigger::event(Player& player, EventType type)
 }
 
 std::string
-SequenceTrigger::get_sequence_name() const {
+SequenceTrigger::get_sequence_name() const
+{
   return sequence_to_string(sequence);
 }
 
