@@ -8,23 +8,232 @@
          (name "grow-left")
          (mirror-action "grow-right"))
 
-; Air Tux
+; Fire Tux
+       (action
+         (name "fire-walk-right")
+         (fps 15)
+         (hitbox 16 15 32 64)
+         (images "fire/hat/stand.png"
+                 "fire/hat/walk-0.png"
+                 "fire/hat/stand.png"
+                 "fire/hat/walk-1.png"))
 
+       (action
+         (name "fire-walk-left")
+         (fps 15)
+         (hitbox 16 15 32 64)
+         (mirror-action "fire-walk-right"))
+
+       (action
+         (name "fire-stand-right")
+         (hitbox 16 14 32 64)
+         (images "fire/hat/stand.png"))
+
+       (action
+         (name "fire-stand-left")
+         (hitbox 16 14 32 64)
+         (mirror-action "fire-stand-right"))
+
+       (action
+         (name "fire-jump-right")
+         (hitbox 16 14 32 64)
+         (images "fire/hat/stand.png"))
+
+       (action
+         (name "fire-jump-left")
+         (hitbox 16 14 32 64)
+         (mirror-action "fire-jump-right"))
+
+       (action
+         (name "fire-skid-right")
+         (hitbox 16 14 32 64)
+         (images "fire/hat/skid.png"))
+
+       (action
+         (name "fire-skid-left")
+         (hitbox 16 14 32 64)
+         (mirror-action "fire-skid-right"))
+
+       (action
+         (name "fire-kick-right")
+         (hitbox 16 14 32 64)
+         (images "fire/hat/stand.png"))
+
+       (action
+         (name "fire-kick-left")
+         (hitbox 16 14 32 64)
+         (mirror-action "fire-kick-right"))
+
+       (action
+         (name "fire-idle-right")
+         (hitbox 16 14 32 64)
+         (images "fire/hat/stand.png"))
+
+       (action
+         (name "fire-idle-left")
+         (hitbox 16 14 32 64)
+         (mirror-action "fire-idle-right"))
+
+       (action
+         (name "fire-climbing-right")
+         (hitbox 22 21 32 64)
+         (images "fire/hat/stand.png"))
+
+       (action
+         (name "fire-climbing-left")
+         (hitbox 22 21 32 64)
+         (mirror-action "fire-climbing-right"))
+
+       (action
+         (name "fire-duck-right")
+         (hitbox 16 45 32 32)
+         (images "fire/hat/duck.png"))
+
+       (action
+         (name "fire-duck-left")
+         (hitbox 16 45 32 32)
+         (mirror-action "fire-duck-right"))
+
+       (action
+         (name "fire-backflip-right")
+         (hitbox 16 37 32 32)
+         (images "fire/hat/backflip.png"))
+
+       (action
+         (name "fire-backflip-left")
+         (hitbox 16 37 32 32)
+         (mirror-action "fire-backflip-right"))
+
+       (action
+         (name "fire-buttjump-right")
+         (hitbox 16 14 32 64)
+         (images "fire/hat/stand.png"))
+
+       (action
+         (name "fire-buttjump-left")
+         (hitbox 16 14 32 64)
+         (mirror-action "fire-buttjump-right"))
+
+; Ice Tux
+       (action
+         (name "ice-walk-right")
+         (fps 15)
+         (hitbox 16 15 32 64)
+         (images "ice/hat/stand.png"
+                 "ice/hat/walk-0.png"
+                 "ice/hat/stand.png"
+                 "ice/hat/walk-1.png"))
+
+       (action
+         (name "ice-walk-left")
+         (fps 15)
+         (hitbox 16 15 32 64)
+         (mirror-action "ice-walk-right"))
+
+       (action
+         (name "ice-stand-right")
+         (hitbox 16 14 32 64)
+         (images "ice/hat/stand.png"))
+
+       (action
+         (name "ice-stand-left")
+         (hitbox 16 14 32 64)
+         (mirror-action "ice-stand-right"))
+
+       (action
+         (name "ice-jump-right")
+         (hitbox 16 14 32 64)
+         (images "ice/hat/stand.png"))
+
+       (action
+         (name "ice-jump-left")
+         (hitbox 16 14 32 64)
+         (mirror-action "ice-jump-right"))
+
+       (action
+         (name "ice-skid-right")
+         (hitbox 16 14 32 64)
+         (images "ice/hat/skid.png"))
+
+       (action
+         (name "ice-skid-left")
+         (hitbox 16 14 32 64)
+         (mirror-action "ice-skid-right"))
+
+       (action
+         (name "ice-kick-right")
+         (hitbox 16 14 32 64)
+         (images "ice/hat/stand.png"))
+
+       (action
+         (name "ice-kick-left")
+         (hitbox 16 14 32 64)
+         (mirror-action "ice-kick-right"))
+
+       (action
+         (name "ice-idle-right")
+         (hitbox 16 14 32 64)
+         (images "ice/hat/stand.png"))
+
+       (action
+         (name "ice-idle-left")
+         (hitbox 16 14 32 64)
+         (mirror-action "ice-idle-right"))
+
+       (action
+         (name "ice-climbing-right")
+         (hitbox 22 21 32 64)
+         (images "ice/hat/stand.png"))
+
+       (action
+         (name "ice-climbing-left")
+         (hitbox 22 21 32 64)
+         (mirror-action "ice-climbing-right"))
+
+       (action
+         (name "ice-duck-right")
+         (hitbox 16 45 32 32)
+         (images "ice/hat/duck.png"))
+
+       (action
+         (name "ice-duck-left")
+         (hitbox 16 45 32 32)
+         (mirror-action "ice-duck-right"))
+
+       (action
+         (name "ice-backflip-right")
+         (hitbox 16 37 32 32)
+         (images "ice/hat/backflip.png"))
+
+       (action
+         (name "ice-backflip-left")
+         (hitbox 16 37 32 32)
+         (mirror-action "ice-backflip-right"))
+
+       (action
+         (name "ice-buttjump-right")
+         (hitbox 16 14 32 64)
+         (images "ice/hat/stand.png"))
+
+       (action
+         (name "ice-buttjump-left")
+         (hitbox 16 14 32 64)
+         (mirror-action "ice-buttjump-right"))
+
+; Air Tux
        (action
          (name "air-walk-right")
          (fps 15)
-         (hitbox 15 14 32 64)
-         (images "air/hat/walk-0.png"
-                 "air/hat/walk-1.png"
-                 "air/hat/stand.png"
+         (hitbox 16 15 32 64)
+         (images "air/hat/stand.png"
                  "air/hat/walk-0.png"
-                 "air/hat/walk-1.png"
-                 "air/hat/stand.png"))
+                 "air/hat/stand.png"
+                 "air/hat/walk-1.png"))
 
        (action
          (name "air-walk-left")
          (fps 15)
-         (hitbox 17 14 32 64)
+         (hitbox 16 15 32 64)
          (mirror-action "air-walk-right"))
 
        (action
@@ -129,18 +338,16 @@
        (action
          (name "earth-walk-right")
          (fps 15)
-         (hitbox 15 14 32 64)
-         (images "earth/hardhat/walk-0.png"
-                 "earth/hardhat/walk-1.png"
-                 "earth/hardhat/stand.png"
+         (hitbox 16 15 32 64)
+         (images "earth/hardhat/stand.png"
                  "earth/hardhat/walk-0.png"
-                 "earth/hardhat/walk-1.png"
-                 "earth/hardhat/stand.png"))
+                 "earth/hardhat/stand.png"
+                 "earth/hardhat/walk-1.png"))
 
        (action
          (name "earth-walk-left")
          (fps 15)
-         (hitbox 17 14 32 64)
+         (hitbox 16 15 32 64)
          (mirror-action "earth-walk-right"))
 
        (action
@@ -232,24 +439,21 @@
          (name "earth-buttjump-left")
          (hitbox 16 14 32 64)
          (mirror-action "earth-buttjump-right"))
-         
-         
+        
 ; Santa Tux
        (action
          (name "santa-walk-right")
          (fps 15)
-         (hitbox 15 14 32 64)
-         (images "fire/santa_cap/walk-0.png"
-                 "fire/santa_cap/walk-1.png"
-                 "fire/santa_cap/stand.png"
+         (hitbox 16 15 32 64)
+         (images "fire/santa_cap/stand.png"
                  "fire/santa_cap/walk-0.png"
-                 "fire/santa_cap/walk-1.png"
-                 "fire/santa_cap/stand.png"))
+                 "fire/santa_cap/stand.png"
+                 "fire/santa_cap/walk-1.png"))
 
        (action
          (name "santa-walk-left")
          (fps 15)
-         (hitbox 17 14 32 64)
+         (hitbox 16 15 32 64)
          (mirror-action "santa-walk-right"))
 
        (action
