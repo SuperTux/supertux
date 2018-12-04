@@ -155,52 +155,62 @@ ObjectSettings::add_enum(const std::string& text, int* value_ptr,
 }
 
 void
-ObjectSettings::add_file(const std::string& text, std::string* value_ptr, const std::string& key,
+ObjectSettings::add_file(const std::string& text, std::string* value_ptr,
+                         const std::string& key,
+                         boost::optional<std::string> default_value,
                          const std::vector<std::string>& filter, unsigned int flags)
 {
-  add_option(std::make_unique<FileObjectOption>(text, value_ptr, key, filter, flags));
+  add_option(std::make_unique<FileObjectOption>(text, value_ptr, default_value, key, filter, flags));
 }
 
 void
 ObjectSettings::add_level(const std::string& text, std::string* value_ptr, const std::string& key,
                           unsigned int flags)
 {
-  add_file(text, value_ptr, key, {".stl"}, flags);
+  add_file(text, value_ptr, key, {}, {".stl"}, flags);
 }
 
 void
-ObjectSettings::add_sprite(const std::string& text, std::string* value_ptr, const std::string& key,
+ObjectSettings::add_sprite(const std::string& text, std::string* value_ptr,
+                           const std::string& key,
+                           boost::optional<std::string> default_value,
                            unsigned int flags)
 {
-  add_file(text, value_ptr, key, {".jpg", ".png", ".sprite"}, flags);
+  add_file(text, value_ptr, key, default_value, {".jpg", ".png", ".sprite"}, flags);
 }
 
 void
-ObjectSettings::add_surface(const std::string& text, std::string* value_ptr, const std::string& key,
+ObjectSettings::add_surface(const std::string& text, std::string* value_ptr,
+                            const std::string& key,
+                            boost::optional<std::string> default_value,
                             unsigned int flags)
 {
-  add_file(text, value_ptr, key, {".jpg", ".png", ".surface"}, flags);
+  add_file(text, value_ptr, key, default_value, {".jpg", ".png", ".surface"}, flags);
 }
 
 void
-ObjectSettings::add_sound(const std::string& text, std::string* value_ptr, const std::string& key,
+ObjectSettings::add_sound(const std::string& text, std::string* value_ptr,
+                          const std::string& key,
+                          boost::optional<std::string> default_value,
                           unsigned int flags)
 {
-  add_file(text, value_ptr, key, {".wav", ".ogg"}, flags);
+  add_file(text, value_ptr, key, default_value, {".wav", ".ogg"}, flags);
 }
 
 void
-ObjectSettings::add_music(const std::string& text, std::string* value_ptr, const std::string& key,
+ObjectSettings::add_music(const std::string& text, std::string* value_ptr,
+                          const std::string& key,
+                          boost::optional<std::string> default_value,
                           unsigned int flags)
 {
-  add_file(text, value_ptr, key, {".ogg", ".music"}, flags);
+  add_file(text, value_ptr, key, default_value, {".ogg", ".music"}, flags);
 }
 
 void
 ObjectSettings::add_worldmap(const std::string& text, std::string* value_ptr, const std::string& key,
                             unsigned int flags)
 {
-  add_file(text, value_ptr, key, {".stwm"}, flags);
+  add_file(text, value_ptr, key, {}, {".stwm"}, flags);
 }
 
 void

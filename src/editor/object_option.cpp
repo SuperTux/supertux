@@ -303,10 +303,13 @@ ScriptObjectOption::add_to_menu(Menu& menu) const
   menu.add_script(get_text(), m_pointer);
 }
 
-FileObjectOption::FileObjectOption(const std::string& text, std::string* pointer, const std::string& key,
+FileObjectOption::FileObjectOption(const std::string& text, std::string* pointer,
+                                   boost::optional<std::string> default_value,
+                                   const std::string& key,
                                    std::vector<std::string> filter, unsigned int flags) :
   ObjectOption(text, key, flags),
   m_pointer(pointer),
+  m_default_value(default_value),
   m_filter(filter)
 {
 }
@@ -314,11 +317,15 @@ FileObjectOption::FileObjectOption(const std::string& text, std::string* pointer
 void
 FileObjectOption::save(Writer& writer) const
 {
-  auto& value = *m_pointer;
-  if (!value.empty())
-  {
-    if (!get_key().empty()) {
-      writer.write(get_key(), value);
+  if (m_default_value && *m_default_value == *m_pointer) {
+    // skip
+  } else {
+    auto& value = *m_pointer;
+    if (!value.empty())
+    {
+      if (!get_key().empty()) {
+        writer.write(get_key(), value);
+      }
     }
   }
 }

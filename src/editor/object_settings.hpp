@@ -79,18 +79,28 @@ public:
                 const std::vector<std::string>& symbols,
                 boost::optional<int> default_value = {},
                 const std::string& key = {}, unsigned int flags = 0);
-  void add_level(const std::string& text, std::string* value_ptr, const std::string& key = {},
-                 unsigned int flags = 0);
-  void add_sprite(const std::string& text, std::string* value_ptr, const std::string& key = {},
+
+  void add_sprite(const std::string& text, std::string* value_ptr,
+                  const std::string& key = {},
+                  boost::optional<std::string> default_value = {},
                   unsigned int flags = 0);
-  void add_surface(const std::string& text, std::string* value_ptr, const std::string& key = {},
+  void add_surface(const std::string& text, std::string* value_ptr,
+                   const std::string& key = {},
+                   boost::optional<std::string> default_value = {},
                    unsigned int flags = 0);
-  void add_sound(const std::string& text, std::string* value_ptr, const std::string& key = {},
+  void add_sound(const std::string& text, std::string* value_ptr,
+                 const std::string& key = {},
+                 boost::optional<std::string> default_value = {},
                  unsigned int flags = 0);
-  void add_music(const std::string& text, std::string* value_ptr, const std::string& key = {},
+  void add_music(const std::string& text, std::string* value_ptr,
+                 const std::string& key = {},
+                 boost::optional<std::string> default_value = {},
                  unsigned int flags = 0);
+
   void add_worldmap(const std::string& text, std::string* value_ptr, const std::string& key = {},
                     unsigned int flags = 0);
+  void add_level(const std::string& text, std::string* value_ptr, const std::string& key = {},
+                 unsigned int flags = 0);
 
   const std::vector<std::unique_ptr<ObjectOption> >& get_options() const { return m_options; }
 
@@ -101,7 +111,9 @@ public:
 private:
   void add_option(std::unique_ptr<ObjectOption> option);
 
-  void add_file(const std::string& text, std::string* value_ptr, const std::string& key = {},
+  void add_file(const std::string& text, std::string* value_ptr,
+                const std::string& key = {},
+                boost::optional<std::string> default_value = {},
                 const std::vector<std::string>& filter = {}, unsigned int flags = 0);
 
 private:
