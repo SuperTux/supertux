@@ -54,10 +54,7 @@ MovingObject::get_settings()
   result.add_float(_("Y"), &m_col.m_bbox.p1.y, "y");
 
   if (has_variable_size()) {
-    /*
-    result.add_float(_("Width"), , "width");
-    result.add_float(_("Height"), &m_col.m_bbox.p1.x, "height");
-    */
+    result.add_rectf(_("Region"), &m_col.m_bbox, "region");
   }
 
   return result;

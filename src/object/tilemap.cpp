@@ -245,7 +245,7 @@ TileMap::get_settings()
 #endif
   result.add_float(_("Alpha"), &m_alpha, "alpha", 1.0f);
   result.add_float(_("Speed x"), &m_speed_x, "speed", 1.0f);
-  result.add_float(_("Speed y"), &m_speed_y, "speed-y", m_speed_x);
+  result.add_float(_("Speed y"), &m_speed_y, "speed-y", 1.0f);
   result.add_color(_("Tint"), &m_tint, "tint", Color::WHITE);
   result.add_int(_("Z-pos"), &m_z_pos, "z-pos");
   result.add_enum(_("Draw target"), reinterpret_cast<int*>(&m_draw_target),

@@ -53,6 +53,10 @@ private:
   std::string off_script;
   SwitchState state;
   bool bistable;
+
+private:
+  Switch(const Switch&) = delete;
+  Switch& operator=(const Switch&) = delete;
 };
 
 #endif

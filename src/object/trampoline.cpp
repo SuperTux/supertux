@@ -128,9 +128,13 @@ Trampoline::is_portable() const
 }
 
 ObjectSettings
-Trampoline::get_settings() {
+Trampoline::get_settings()
+{
   ObjectSettings result = Rock::get_settings();
+
   result.add_bool(_("Portable"), &portable, "portable");
+
+  result.reorder({"portable", "sprite", "x", "y"});
 
   return result;
 }

@@ -74,10 +74,10 @@ SecretAreaTrigger::get_settings()
 
   result.add_text(_("Name"), &m_name);
   result.add_text(_("Fade tilemap"), &fade_tilemap, "fade-tilemap");
-  result.add_translatable_text(_("Message"), &message, "message");
+  result.add_translatable_text(_("Message"), &message, "message", std::string("You found a secret area!"));
   result.add_script(_("Script"), &script, "script");
 
-  result.reorder({"fade-tilemap", "sprite", "message", "x", "y", "width", "height"});
+  result.reorder({"fade-tilemap", "sprite", "message", "region", "x", "y", "width", "height"});
 
   return result;
 }

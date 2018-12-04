@@ -437,17 +437,19 @@ Dispenser::get_settings()
   ObjectSettings result = BadGuy::get_settings();
 
   result.add_float(_("Interval (seconds)"), &m_cycle, "cycle");
-  result.add_bool(_("Random"), &m_random, "random");
+  result.add_bool(_("Random"), &m_random, "random", false);
   result.add_badguy(_("Enemies"), &m_badguys, "badguy");
   result.add_bool(_("Limit dispensed badguys"), &m_limit_dispensed_badguys,
-             "limit-dispensed-badguys");
+                  "limit-dispensed-badguys", false);
   result.add_int(_("Max concurrent badguys"), &m_max_concurrent_badguys,
-             "max-concurrent-badguys");
+                 "max-concurrent-badguys", 0);
   result.add_string_select(_("Type"), reinterpret_cast<int*>(&m_type),
                            {_("dropper"), _("rocket launcher"), _("cannon"), _("invisible")});
 
   m_type_str = DispenserType_to_string(m_type);
   result.add_text("type", &m_type_str, "type", {}, OPTION_HIDDEN);
+
+  result.reorder({"cycle", "type", "random", "badguy", "limit-dispensed-badguys", "max-concurrent-badguys", "x", "y"});
 
   return result;
 }

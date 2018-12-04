@@ -56,12 +56,13 @@ Switch::~Switch()
 ObjectSettings
 Switch::get_settings()
 {
-  ObjectSettings result(_("Switch"));
+  ObjectSettings result = TriggerBase::get_settings();
 
-  result.add_text(_("Name"), &m_name);
   result.add_sprite(_("Sprite"), &sprite_name, "sprite");
   result.add_script(_("Turn on script"), &script, "script");
   result.add_script(_("Turn off script"), &off_script, "off-script");
+
+  result.reorder({"script", "sprite", "x", "y"});
 
   return result;
 }
