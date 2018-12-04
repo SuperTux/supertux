@@ -46,7 +46,6 @@ public:
       state and calls active_update and inactive_update */
   virtual void update(float dt_sec) override;
 
-  virtual void save(Writer& writer) override;
   virtual std::string get_class() const override { return "badguy"; }
   virtual std::string get_display_name() const override { return _("Badguy"); }
 

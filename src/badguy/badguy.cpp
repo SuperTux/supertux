@@ -250,6 +250,7 @@ BadGuy::update(float dt_sec)
   m_on_ground_flag = false;
 }
 
+#if 0
 void
 BadGuy::save(Writer& writer)
 {
@@ -261,6 +262,7 @@ BadGuy::save(Writer& writer)
     writer.write("dead-script", m_dead_script, false);
   }
 }
+#endif
 
 Direction
 BadGuy::str2dir(const std::string& dir_str) const

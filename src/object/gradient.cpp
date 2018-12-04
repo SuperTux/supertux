@@ -105,6 +105,7 @@ Gradient::Gradient(const ReaderMapping& reader) :
   reader.get_custom("target", m_target, DrawingTarget_from_string);
 }
 
+#if 0
 void
 Gradient::save(Writer& writer)
 {
@@ -126,6 +127,7 @@ Gradient::save(Writer& writer)
     writer.write("z-pos", m_layer);
   }
 }
+#endif
 
 ObjectSettings
 Gradient::get_settings()

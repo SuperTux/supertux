@@ -67,12 +67,14 @@ Coin::finish_construction()
   m_add_path = get_walker() && get_path() && get_path()->is_valid();
 }
 
+#if 0
 void
 Coin::save(Writer& writer)
 {
   MovingSprite::save(writer);
   PathObject::save(writer);
 }
+#endif
 
 void
 Coin::update(float dt_sec)

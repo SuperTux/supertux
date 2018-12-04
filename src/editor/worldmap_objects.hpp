@@ -30,16 +30,9 @@ public:
   WorldmapObject(const ReaderMapping& mapping);
   WorldmapObject(const Vector& pos, const std::string& default_sprite);
 
-  HitResponse collision(GameObject& other, const CollisionHit& hit) override {
-    return FORCE_MOVE;
-  }
-
-  virtual std::string get_class() const override {
-    return "worldmap-object";
-  }
-
+  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override { return FORCE_MOVE; }
+  virtual std::string get_class() const override { return "worldmap-object"; }
   virtual void move_to(const Vector& pos) override;
-  virtual void save(Writer& writer) override;
 
 private:
   WorldmapObject(const WorldmapObject&) = delete;
@@ -51,14 +44,11 @@ class LevelDot final : public WorldmapObject
 public:
   LevelDot(const ReaderMapping& mapping);
 
-  virtual std::string get_class() const override {
-    return "level";
-  }
+  virtual std::string get_class() const override { return "level"; }
 
   virtual void draw(DrawingContext& context) override;
 
   virtual ObjectSettings get_settings() override;
-  virtual void save(Writer& writer) override;
   virtual void after_editor_set() override;
 
 private:
@@ -82,7 +72,6 @@ public:
   virtual void draw(DrawingContext& context) override;
 
   virtual ObjectSettings get_settings() override;
-  virtual void save(Writer& writer) override;
 
 private:
   std::string m_worldmap;
@@ -106,7 +95,6 @@ public:
   virtual std::string get_display_name() const override { return _("Spawn point"); }
 
   virtual ObjectSettings get_settings() override;
-  virtual void save(Writer& writer) override;
 
 private:
   worldmap::Direction m_dir;
@@ -124,7 +112,6 @@ public:
   virtual std::string get_class() const override { return "sprite-change"; }
 
   virtual ObjectSettings get_settings() override;
-  virtual void save(Writer& writer) override;
 
 private:
   std::string m_target_sprite;
@@ -146,7 +133,6 @@ public:
   virtual std::string get_class() const override { return "special-tile"; }
 
   virtual ObjectSettings get_settings() override;
-  virtual void save(Writer& writer) override;
 
 private:
   std::string m_map_message;

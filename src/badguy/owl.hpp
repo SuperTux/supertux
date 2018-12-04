@@ -26,7 +26,6 @@ class Owl final : public BadGuy
 {
 public:
   Owl(const ReaderMapping& reader);
-  virtual void save(Writer& writer) override;
 
   virtual void initialize() override;
   virtual void collision_solid(const CollisionHit& hit) override;

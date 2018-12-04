@@ -38,9 +38,7 @@ public:
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
 
-  void collect();
   virtual void update(float dt_sec) override;
-  virtual void save(Writer& writer) override;
   virtual std::string get_class() const override { return "coin"; }
   virtual std::string get_display_name() const override { return _("Coin"); }
 
@@ -50,12 +48,18 @@ public:
 
   virtual void move_to(const Vector& pos) override;
 
+  void collect();
+
 private:
   Vector m_offset;
   bool m_from_tilemap;
   bool m_add_path;
   Physic m_physic;
   std::string m_collect_script;
+
+private:
+  Coin(const Coin&) = delete;
+  Coin& operator=(const Coin&) = delete;
 };
 
 class HeavyCoin final : public Coin
@@ -75,6 +79,10 @@ public:
 
 private:
   Physic m_physic;
+
+private:
+  HeavyCoin(const HeavyCoin&) = delete;
+  HeavyCoin& operator=(const HeavyCoin&) = delete;
 };
 
 #endif

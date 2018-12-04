@@ -33,6 +33,7 @@ public:
   SecretAreaTrigger(const Rectf& area, std::string fade_tilemap = "");
 
   virtual std::string get_class() const override { return "secretarea"; }
+  virtual std::string get_display_name() const override { return _("Secret area"); }
   virtual bool has_variable_size() const override { return true; }
 
   virtual ObjectSettings get_settings() override;
@@ -50,6 +51,10 @@ private:
   std::string fade_tilemap; /**< tilemap to fade away when trigger is activated, or empty if you don't care */
   std::string script; /**< optional script to run when trigger is activated */
   Vector new_size;
+
+private:
+  SecretAreaTrigger(const SecretAreaTrigger&) = delete;
+  SecretAreaTrigger& operator=(const SecretAreaTrigger&) = delete;
 };
 
 #endif

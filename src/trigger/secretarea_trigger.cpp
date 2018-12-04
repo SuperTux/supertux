@@ -70,14 +70,14 @@ SecretAreaTrigger::get_settings()
   new_size.x = m_col.m_bbox.get_width();
   new_size.y = m_col.m_bbox.get_height();
 
-  ObjectSettings result(_("Secret area"));
+  ObjectSettings result = TriggerBase::get_settings();
 
   result.add_text(_("Name"), &m_name);
-  result.add_float(_("Width"), &new_size.x, "width");
-  result.add_float(_("Height"), &new_size.y, "height");
   result.add_text(_("Fade tilemap"), &fade_tilemap, "fade-tilemap");
   result.add_translatable_text(_("Message"), &message, "message");
   result.add_script(_("Script"), &script, "script");
+
+  result.reorder({"fade-tilemap", "sprite", "message", "x", "y", "width", "height"});
 
   return result;
 }

@@ -205,6 +205,7 @@ Camera::~Camera()
 {
 }
 
+#if 0
 void
 Camera::save(Writer& writer)
 {
@@ -235,6 +236,7 @@ Camera::save(Writer& writer)
       break;
   }
 }
+#endif
 
 ObjectSettings
 Camera::get_settings()

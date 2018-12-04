@@ -156,6 +156,7 @@ MovingSprite::get_settings()
   return result;
 }
 
+#if 0
 void
 MovingSprite::save(Writer& writer)
 {
@@ -165,6 +166,7 @@ MovingSprite::save(Writer& writer)
     writer.write("sprite", m_sprite_name);
   }
 }
+#endif
 
 void
 MovingSprite::after_editor_set()

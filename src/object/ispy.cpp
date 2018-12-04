@@ -47,6 +47,7 @@ Ispy::Ispy(const ReaderMapping& reader) :
   m_sprite->set_action((dir == Direction::DOWN) ? "idle-down" : ((dir == Direction::LEFT) ? "idle-left" : "idle-right"));
 }
 
+#if 0
 void
 Ispy::save(Writer& writer) {
   MovingSprite::save(writer);
@@ -54,6 +55,7 @@ Ispy::save(Writer& writer) {
     writer.write("direction", dir_to_string(dir), false);
   }
 }
+#endif
 
 ObjectSettings
 Ispy::get_settings()

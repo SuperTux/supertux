@@ -189,6 +189,7 @@ TileMap::float_channel(float target, float &current, float remaining_time, float
   if (amt < 0) current = std::max(current + amt, target);
 }
 
+#if 0
 void
 TileMap::save(Writer& writer)
 {
@@ -198,6 +199,10 @@ TileMap::save(Writer& writer)
   }
   if (m_speed_y != m_speed_x) {
     writer.write("speed-y", m_speed_y);
+  }
+
+  if (m_tint != Color::WHITE) {
+    writer.write("tint", m_tint.toVector());
   }
 
   if (m_alpha != 1) {
@@ -216,12 +221,10 @@ TileMap::save(Writer& writer)
   writer.write("width", m_width);
   writer.write("height", m_height);
 
-  if (m_tint != Color::WHITE) {
-    writer.write("tint", m_tint.toVector());
-  }
   PathObject::save(writer);
   writer.write("tiles", m_tiles, m_width);
 }
+#endif
 
 ObjectSettings
 TileMap::get_settings()
@@ -230,7 +233,9 @@ TileMap::get_settings()
   m_new_size_y = m_height;
   m_new_offset_x = 0;
   m_new_offset_y = 0;
+
   ObjectSettings result = GameObject::get_settings();
+
   result.add_bool(_("Solid"), &m_real_solid);
   result.add_int(_("Resize offset x"), &m_new_offset_x);
   result.add_int(_("Resize offset y"), &m_new_offset_y);

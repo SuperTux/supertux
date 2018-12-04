@@ -29,7 +29,6 @@ public:
   SequenceTrigger(const ReaderMapping& reader);
   SequenceTrigger(const Vector& pos, const std::string& sequence_name);
 
-  virtual void save(Writer& writer) override;
   virtual std::string get_class() const override { return "sequencetrigger"; }
   virtual bool has_variable_size() const override { return true; }
 

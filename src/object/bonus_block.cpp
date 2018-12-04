@@ -169,6 +169,7 @@ BonusBlock::~BonusBlock()
 {
 }
 
+#if 0
 void
 BonusBlock::save(Writer& writer)
 {
@@ -187,6 +188,7 @@ BonusBlock::save(Writer& writer)
     writer.write("count", m_hit_counter);
   }
 }
+#endif
 
 ObjectSettings
 BonusBlock::get_settings()

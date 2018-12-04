@@ -48,18 +48,15 @@ public:
 
   virtual void finish_construction() override;
 
-  virtual void save(Writer& writer) override;
-  virtual std::string get_display_name() const override {
-    return _("Tilemap");
-  }
+  virtual std::string get_class() const override { return "tilemap"; }
+  virtual const std::string get_icon_path() const override { return "images/engine/editor/tilemap.png"; }
+  virtual std::string get_display_name() const override { return _("Tilemap"); }
+
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
 
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
-
-  virtual std::string get_class() const override { return "tilemap"; }
-  virtual const std::string get_icon_path() const override { return "images/engine/editor/tilemap.png"; }
 
   virtual void editor_update() override;
 

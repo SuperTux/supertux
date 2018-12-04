@@ -35,12 +35,31 @@ MovingObject::~MovingObject()
 {
 }
 
+#if 0
 void
 MovingObject::save(Writer& writer)
 {
   GameObject::save(writer);
   writer.write("x", m_col.m_bbox.p1.x);
   writer.write("y", m_col.m_bbox.p1.y);
+}
+#endif
+
+ObjectSettings
+MovingObject::get_settings()
+{
+  ObjectSettings result = GameObject::get_settings();
+
+  if (has_variable_size()) {
+    /*
+    result.add_float(_("Width"), , "width");
+    result.add_float(_("Height"), &m_col.m_bbox.p1.x, "height");
+    result.add_float(_("X"), &m_col.m_bbox.p1.x, "x");
+    result.add_float(_("Y"), &m_col.m_bbox.p1.y, "y");
+    */
+  }
+
+  return result;
 }
 
 void

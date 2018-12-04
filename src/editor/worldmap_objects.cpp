@@ -61,6 +61,7 @@ WorldmapObject::move_to(const Vector& pos) {
   set_pos(new_pos);
 }
 
+#if 0
 void
 WorldmapObject::save(Writer& writer)
 {
@@ -70,6 +71,7 @@ WorldmapObject::save(Writer& writer)
   writer.write("x", m_col.m_bbox.p1.x / 32);
   writer.write("y", m_col.m_bbox.p1.y / 32);
 }
+#endif
 
 LevelDot::LevelDot(const ReaderMapping& mapping) :
   WorldmapObject(mapping, "images/worldmap/common/leveldot.sprite"),
@@ -100,14 +102,17 @@ ObjectSettings
 LevelDot::get_settings()
 {
   ObjectSettings result(_("Level"));
+
   result.add_level(_("Level"), &m_level);
   result.add_script(_("Outro script"), &m_extro_script);
   result.add_bool(_("Auto play"), &m_auto_play);
   result.add_sprite(_("Sprite"), &m_sprite_name);
   result.add_color(_("Title colour"), &m_title_color);
+
   return result;
 }
 
+#if 0
 void
 LevelDot::save(Writer& writer)
 {
@@ -117,6 +122,7 @@ LevelDot::save(Writer& writer)
   writer.write("auto-play", m_auto_play);
   writer.write("color", m_title_color.toVector());
 }
+#endif
 
 void
 LevelDot::after_editor_set()
@@ -171,8 +177,10 @@ Teleporter::draw(DrawingContext& context)
   m_sprite->draw(context.color(), m_col.m_bbox.p1 + Vector(16, 16), m_layer);
 }
 
+#if 0
 void
-Teleporter::save(Writer& writer) {
+Teleporter::save(Writer& writer)
+{
   WorldmapObject::save(writer);
   writer.write("spawnpoint", m_spawnpoint, false);
   writer.write("message", m_message, true);
@@ -183,6 +191,7 @@ Teleporter::save(Writer& writer) {
     writer.write("worldmap", m_worldmap, false);
   }
 }
+#endif
 
 ObjectSettings
 Teleporter::get_settings()
@@ -218,12 +227,14 @@ WorldmapSpawnPoint::WorldmapSpawnPoint (const std::string& name_, const Vector& 
   m_name = name_;
 }
 
+#if 0
 void
 WorldmapSpawnPoint::save(Writer& writer)
 {
   WorldmapObject::save(writer);
   writer.write("auto-dir", worldmap::direction_to_string(m_dir), false);
 }
+#endif
 
 ObjectSettings
 WorldmapSpawnPoint::get_settings()
@@ -251,8 +262,10 @@ SpriteChange::SpriteChange (const ReaderMapping& mapping) :
   mapping.get("change-on-touch", m_change_on_touch);
 }
 
+#if 0
 void
-SpriteChange::save(Writer& writer) {
+SpriteChange::save(Writer& writer)
+{
   WorldmapObject::save(writer);
   writer.write("stay-action", m_stay_action, false);
   writer.write("initial-stay-action", m_initial_stay_action);
@@ -260,6 +273,7 @@ SpriteChange::save(Writer& writer) {
   writer.write("sprite", m_target_sprite, false);
   writer.write("change-on-touch", m_change_on_touch);
 }
+#endif
 
 ObjectSettings
 SpriteChange::get_settings()
@@ -295,6 +309,8 @@ SpecialTile::SpecialTile (const ReaderMapping& mapping) :
   }
 }
 
+
+#if 0
 void
 SpecialTile::save(Writer& writer)
 {
@@ -311,6 +327,7 @@ SpecialTile::save(Writer& writer)
 
   writer.write("apply-to-direction", worldmap::direction_to_string(m_apply_to_direction), false);
 }
+#endif
 
 ObjectSettings
 SpecialTile::get_settings()

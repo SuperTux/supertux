@@ -42,6 +42,8 @@ Decal::get_settings()
   result.add_bool(_("Solid"), &solid, "solid", false);
   result.add_text(_("Action"), &default_action, "action");
 
+  result.reorder({"z-pos", "sprite", "y", "x"});
+
   return result;
 }
 
