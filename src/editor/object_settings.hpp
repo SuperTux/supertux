@@ -68,7 +68,9 @@ public:
   void add_script(const std::string& text, std::string* value_ptr,
                   const std::string& key = {}, unsigned int flags = 0);
   void add_text(const std::string& text, std::string* value_ptr,
-                const std::string& key = {}, unsigned int flags = 0);
+                const std::string& key = {},
+                boost::optional<std::string> default_value = {},
+                unsigned int flags = 0);
   void add_translatable_text(const std::string& text, std::string* value_ptr,
                              const std::string& key = {}, unsigned int flags = 0);
   void add_string_select(const std::string& text, int* value_ptr, const std::vector<std::string>& select,

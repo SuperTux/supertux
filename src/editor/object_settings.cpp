@@ -81,10 +81,11 @@ ObjectSettings::add_direction(const std::string& text, Direction* value_ptr,
                               boost::optional<Direction> default_value,
                               const std::string& key, unsigned int flags)
 {
-  add_string_select(_("Direction"), reinterpret_cast<int*>(value_ptr),
-                    {_("auto"), _("left"), _("right"), _("up"), _("down")},
-                    default_value ? static_cast<int>(*default_value) : boost::optional<int>(),
-                    key, flags);
+  add_enum(_("Direction"), reinterpret_cast<int*>(value_ptr),
+           {_("auto"), _("left"), _("right"), _("up"), _("down")},
+           {"auto", "left", "right", "up", "down"},
+           default_value ? static_cast<int>(*default_value) : boost::optional<int>(),
+           key, flags);
 }
 
 void
@@ -124,16 +125,18 @@ ObjectSettings::add_script(const std::string& text, std::string* value_ptr,
 
 void
 ObjectSettings::add_text(const std::string& text, std::string* value_ptr,
-                         const std::string& key, unsigned int flags)
+                         const std::string& key,
+                         boost::optional<std::string> default_value,
+                         unsigned int flags)
 {
-  add_option(std::make_unique<StringObjectOption>(text, value_ptr, key, flags));
+  add_option(std::make_unique<StringObjectOption>(text, value_ptr, key, default_value, flags));
 }
 
 void
 ObjectSettings::add_translatable_text(const std::string& text, std::string* value_ptr,
                                       const std::string& key, unsigned int flags)
 {
-  add_option(std::make_unique<StringObjectOption>(text, value_ptr, key, flags | OPTION_TRANSLATABLE));
+  add_option(std::make_unique<StringObjectOption>(text, value_ptr, key, boost::none, flags | OPTION_TRANSLATABLE));
 }
 
 void

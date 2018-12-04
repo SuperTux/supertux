@@ -126,6 +126,7 @@ class StringObjectOption : public ObjectOption
 {
 public:
   StringObjectOption(const std::string& text, std::string* pointer, const std::string& key,
+                     boost::optional<std::string> default_value,
                      unsigned int flags);
 
   virtual void save(Writer& write) const override;
@@ -134,6 +135,7 @@ public:
 
 private:
   std::string* const m_pointer;
+  boost::optional<std::string> m_default_value;
 
 private:
   StringObjectOption(const StringObjectOption&) = delete;

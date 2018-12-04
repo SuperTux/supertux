@@ -126,10 +126,10 @@ FloatObjectOption::FloatObjectOption(const std::string& text, float* pointer, co
 void
 FloatObjectOption::save(Writer& writer) const
 {
-  if (m_default_value && *m_default_value == *m_pointer) {
-    // skip
-  } else {
-    if (!get_key().empty()) {
+  if (!get_key().empty()) {
+    if (m_default_value && *m_default_value == *m_pointer) {
+      // skip
+    } else {
       writer.write(get_key(), *m_pointer);
     }
   }
@@ -148,20 +148,22 @@ FloatObjectOption::add_to_menu(Menu& menu) const
 }
 
 StringObjectOption::StringObjectOption(const std::string& text, std::string* pointer, const std::string& key,
+                                       boost::optional<std::string> default_value,
                                        unsigned int flags) :
   ObjectOption(text, key, flags),
-  m_pointer(pointer)
+  m_pointer(pointer),
+  m_default_value(default_value)
 {
 }
 
 void
 StringObjectOption::save(Writer& writer) const
 {
-  auto& value = *m_pointer;
-  if (!value.empty())
-  {
-    if (!get_key().empty()) {
-      writer.write(get_key(), value, (get_flags() & OPTION_TRANSLATABLE));
+  if (!get_key().empty()) {
+    if ((m_default_value && *m_default_value == *m_pointer) || m_pointer->empty()) {
+      // skip
+    } else {
+      writer.write(get_key(), *m_pointer, (get_flags() & OPTION_TRANSLATABLE));
     }
   }
 }
@@ -355,7 +357,11 @@ void
 ColorObjectOption::save(Writer& writer) const
 {
   if (!get_key().empty()) {
-    writer.write(get_key(), m_pointer->toVector());
+    if (m_default_value && *m_default_value == *m_pointer) {
+      // skip
+    } else {
+      writer.write(get_key(), m_pointer->toVector());
+    }
   }
 }
 
