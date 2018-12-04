@@ -134,8 +134,6 @@ Gradient::get_settings()
 {
   ObjectSettings result = GameObject::get_settings();
 
-  result.add_int(_("Z-pos"), &m_layer, "z-pos", LAYER_BACKGROUND0);
-
   if (m_gradient_direction == HORIZONTAL || m_gradient_direction == HORIZONTAL_SECTOR) {
     result.add_color(_("Left Colour"), &m_gradient_top, "left_color");
     result.add_color(_("Right Colour"), &m_gradient_bottom, "right_color");

@@ -51,16 +51,21 @@ Wind::Wind(const ReaderMapping& reader) :
 }
 
 ObjectSettings
-Wind::get_settings() {
+Wind::get_settings()
+{
   new_size.x = m_col.m_bbox.get_width();
   new_size.y = m_col.m_bbox.get_height();
+
   ObjectSettings result = MovingObject::get_settings();
-  result.add_float("width", &new_size.x, "width", OPTION_HIDDEN);
-  result.add_float("height", &new_size.y, "height", OPTION_HIDDEN);
+
+  //result.add_float("width", &new_size.x, "width", OPTION_HIDDEN);
+  //result.add_float("height", &new_size.y, "height", OPTION_HIDDEN);
   result.add_float(_("Speed X"), &speed.x, "speed-x");
   result.add_float(_("Speed Y"), &speed.y, "speed-y");
   result.add_float(_("Acceleration"), &acceleration, "acceleration");
-  result.add_bool(_("Blowing"), &blowing, "blowing");
+  result.add_bool(_("Blowing"), &blowing, "blowing", true);
+
+  result.reorder({"blowing", "speed-x", "speed-y", "acceleration", "region", "x", "y"});
 
   return result;
 }
