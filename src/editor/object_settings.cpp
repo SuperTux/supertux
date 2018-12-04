@@ -77,6 +77,14 @@ ObjectSettings::add_int(const std::string& text, int* value_ptr,
 }
 
 void
+ObjectSettings::add_rectf(const std::string& text, Rectf* value_ptr,
+                          const std::string& key,
+                          unsigned int flags)
+{
+  add_option(std::make_unique<RectfObjectOption>(text, value_ptr, key, flags));
+}
+
+void
 ObjectSettings::add_direction(const std::string& text, Direction* value_ptr,
                               boost::optional<Direction> default_value,
                               const std::string& key, unsigned int flags)
@@ -134,9 +142,12 @@ ObjectSettings::add_text(const std::string& text, std::string* value_ptr,
 
 void
 ObjectSettings::add_translatable_text(const std::string& text, std::string* value_ptr,
-                                      const std::string& key, unsigned int flags)
+                                      const std::string& key,
+                                      boost::optional<std::string> default_value,
+                                      unsigned int flags)
 {
-  add_option(std::make_unique<StringObjectOption>(text, value_ptr, key, boost::none, flags | OPTION_TRANSLATABLE));
+  add_option(std::make_unique<StringObjectOption>(text, value_ptr, key, default_value,
+                                                  flags | OPTION_TRANSLATABLE));
 }
 
 void

@@ -37,6 +37,7 @@ enum ObjectOptionFlag {
 class Color;
 class Menu;
 class Path;
+class Rectf;
 class TileMap;
 class Writer;
 
@@ -102,6 +103,26 @@ private:
 private:
   IntObjectOption(const IntObjectOption&) = delete;
   IntObjectOption& operator=(const IntObjectOption&) = delete;
+};
+
+class RectfObjectOption : public ObjectOption
+{
+public:
+  RectfObjectOption(const std::string& text, Rectf* pointer, const std::string& key,
+                    unsigned int flags);
+
+  virtual void save(Writer& write) const override;
+  virtual std::string to_string() const override;
+  virtual void add_to_menu(Menu& menu) const override;
+
+private:
+  Rectf* const m_pointer;
+  float m_width;
+  float m_height;
+
+private:
+  RectfObjectOption(const RectfObjectOption&) = delete;
+  RectfObjectOption& operator=(const RectfObjectOption&) = delete;
 };
 
 class FloatObjectOption : public ObjectOption

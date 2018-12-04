@@ -49,6 +49,9 @@ public:
                const std::string& key = {},
                boost::optional<int> default_value = {},
                unsigned int flags = 0);
+  void add_rectf(const std::string& text, Rectf* value_ptr,
+                 const std::string& key = {},
+                 unsigned int flags = 0);
   void add_worldmap_direction(const std::string& text, worldmap::Direction* value_ptr,
                               boost::optional<worldmap::Direction> default_value = {},
                               const std::string& key = {}, unsigned int flags = 0);
@@ -72,7 +75,9 @@ public:
                 boost::optional<std::string> default_value = {},
                 unsigned int flags = 0);
   void add_translatable_text(const std::string& text, std::string* value_ptr,
-                             const std::string& key = {}, unsigned int flags = 0);
+                             const std::string& key = {},
+                             boost::optional<std::string> default_value = {},
+                             unsigned int flags = 0);
   void add_string_select(const std::string& text, int* value_ptr, const std::vector<std::string>& select,
                          boost::optional<int> default_value = {},
                          const std::string& key = {}, unsigned int flags = 0);

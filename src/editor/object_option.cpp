@@ -115,6 +115,39 @@ IntObjectOption::add_to_menu(Menu& menu) const
   menu.add_intfield(get_text(), m_pointer);
 }
 
+RectfObjectOption::RectfObjectOption(const std::string& text, Rectf* pointer, const std::string& key,
+                                     unsigned int flags) :
+  ObjectOption(text, key, flags),
+  m_pointer(pointer),
+  m_width(m_pointer->get_width()),
+  m_height(m_pointer->get_height())
+{
+}
+
+void
+RectfObjectOption::save(Writer& write) const
+{
+  write.write("width", m_width);
+  write.write("height", m_height);
+  // write.write("x", &pointer->p1.x);
+  // write.write("y", &pointer->p1.y);
+}
+
+std::string
+RectfObjectOption::to_string() const
+{
+  std::ostringstream out;
+  out << *m_pointer;
+  return out.str();
+}
+
+void
+RectfObjectOption::add_to_menu(Menu& menu) const
+{
+  menu.add_floatfield(_("Width"), const_cast<float*>(&m_width));
+  menu.add_floatfield(_("Height"), const_cast<float*>(&m_height));
+}
+
 FloatObjectOption::FloatObjectOption(const std::string& text, float* pointer, const std::string& key,
                                      boost::optional<float> default_value,
                                      unsigned int flags) :
