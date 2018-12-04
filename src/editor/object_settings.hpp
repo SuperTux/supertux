@@ -103,6 +103,10 @@ public:
                     unsigned int flags = 0);
   void add_level(const std::string& text, std::string* value_ptr, const std::string& key = {},
                  unsigned int flags = 0);
+  void add_tiles(const std::string& text, TileMap* value_ptr, const std::string& key = {},
+                 unsigned int flags = 0);
+  void add_path(const std::string& text, Path* path, const std::string& key = {},
+                 unsigned int flags = 0);
 
   const std::vector<std::unique_ptr<ObjectOption> >& get_options() const { return m_options; }
 

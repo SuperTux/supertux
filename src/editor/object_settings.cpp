@@ -167,6 +167,20 @@ ObjectSettings::add_file(const std::string& text, std::string* value_ptr,
 }
 
 void
+ObjectSettings::add_tiles(const std::string& text, TileMap* value_ptr, const std::string& key,
+                          unsigned int flags)
+{
+  add_option(std::make_unique<TilesObjectOption>(text, value_ptr, key, flags));
+}
+
+void
+ObjectSettings::add_path(const std::string& text, Path* path, const std::string& key,
+                         unsigned int flags)
+{
+  add_option(std::make_unique<PathObjectOption>(text, path, key, flags));
+}
+
+void
 ObjectSettings::add_level(const std::string& text, std::string* value_ptr, const std::string& key,
                           unsigned int flags)
 {

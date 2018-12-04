@@ -36,6 +36,8 @@ enum ObjectOptionFlag {
 
 class Color;
 class Menu;
+class Path;
+class TileMap;
 class Writer;
 
 class ObjectOption
@@ -251,7 +253,7 @@ class BadGuySelectObjectOption : public ObjectOption
 {
 public:
   BadGuySelectObjectOption(const std::string& text, std::vector<std::string>* pointer, const std::string& key,
-                    unsigned int flags);
+                           unsigned int flags);
 
   virtual void save(Writer& write) const override;
   virtual std::string to_string() const override;
@@ -263,6 +265,42 @@ private:
 private:
   BadGuySelectObjectOption(const BadGuySelectObjectOption&) = delete;
   BadGuySelectObjectOption& operator=(const BadGuySelectObjectOption&) = delete;
+};
+
+class TilesObjectOption : public ObjectOption
+{
+public:
+  TilesObjectOption(const std::string& text, TileMap* tilemap, const std::string& key,
+                    unsigned int flags);
+
+  virtual void save(Writer& write) const override;
+  virtual std::string to_string() const override;
+  virtual void add_to_menu(Menu& menu) const override;
+
+private:
+  TileMap* m_tilemap;
+
+private:
+  TilesObjectOption(const TilesObjectOption&) = delete;
+  TilesObjectOption& operator=(const TilesObjectOption&) = delete;
+};
+
+class PathObjectOption : public ObjectOption
+{
+public:
+  PathObjectOption(const std::string& text, Path* path, const std::string& key,
+                    unsigned int flags);
+
+  virtual void save(Writer& write) const override;
+  virtual std::string to_string() const override;
+  virtual void add_to_menu(Menu& menu) const override;
+
+private:
+  Path* m_path;
+
+private:
+  PathObjectOption(const PathObjectOption&) = delete;
+  PathObjectOption& operator=(const PathObjectOption&) = delete;
 };
 
 class RemoveObjectOption : public ObjectOption

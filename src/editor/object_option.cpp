@@ -21,6 +21,7 @@
 #include <sstream>
 
 #include "gui/menu.hpp"
+#include "object/tilemap.hpp"
 #include "util/gettext.hpp"
 #include "util/writer.hpp"
 #include "video/color.hpp"
@@ -28,7 +29,7 @@
 namespace {
 
 template<typename T>
-std::string to_string(const T& v)
+std::string fmt_to_string(const T& v)
 {
   std::ostringstream out;
   out << v;
@@ -105,7 +106,7 @@ IntObjectOption::save(Writer& writer) const
 std::string
 IntObjectOption::to_string() const
 {
-  return ::to_string(*m_pointer);
+  return fmt_to_string(*m_pointer);
 }
 
 void
@@ -138,7 +139,7 @@ FloatObjectOption::save(Writer& writer) const
 std::string
 FloatObjectOption::to_string() const
 {
-  return ::to_string(*m_pointer);
+  return fmt_to_string(*m_pointer);
 }
 
 void
@@ -395,13 +396,63 @@ BadGuySelectObjectOption::save(Writer& writer) const
 std::string
 BadGuySelectObjectOption::to_string() const
 {
-  return ::to_string(m_pointer->size());
+  return fmt_to_string(m_pointer->size());
 }
 
 void
 BadGuySelectObjectOption::add_to_menu(Menu& menu) const
 {
   menu.add_badguy_select(get_text(), m_pointer);
+}
+
+TilesObjectOption::TilesObjectOption(const std::string& text, TileMap* tilemap, const std::string& key,
+                                     unsigned int flags) :
+  ObjectOption(text, key, flags),
+  m_tilemap(tilemap)
+{
+}
+
+void
+TilesObjectOption::save(Writer& write) const
+{
+  write.write("width", m_tilemap->get_width());
+  write.write("height", m_tilemap->get_height());
+  write.write("tiles", m_tilemap->get_tiles(), m_tilemap->get_width());
+}
+
+std::string
+TilesObjectOption::to_string() const
+{
+  return {};
+}
+
+void
+TilesObjectOption::add_to_menu(Menu& menu) const
+{
+}
+
+PathObjectOption::PathObjectOption(const std::string& text, Path* path, const std::string& key,
+                                   unsigned int flags) :
+  ObjectOption(text, key, flags),
+  m_path(path)
+{
+}
+
+void
+PathObjectOption::save(Writer& write) const
+{
+  m_path->save(write);
+}
+
+std::string
+PathObjectOption::to_string() const
+{
+  return {};
+}
+
+void
+PathObjectOption::add_to_menu(Menu& menu) const
+{
 }
 
 RemoveObjectOption::RemoveObjectOption() :
