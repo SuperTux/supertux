@@ -67,10 +67,10 @@ BoolObjectOption::add_to_menu(Menu& menu) const
 void
 BoolObjectOption::save(Writer& writer) const
 {
-  if (m_default_value && *m_default_value == *m_pointer) {
-    // skip
-  } else {
-    if (!get_key().empty()) {
+  if (!get_key().empty()) {
+    if (m_default_value && *m_default_value == *m_pointer) {
+      // skip
+    } else {
       writer.write(get_key(), *m_pointer);
     }
   }
@@ -94,10 +94,10 @@ IntObjectOption::IntObjectOption(const std::string& text, int* pointer, const st
 void
 IntObjectOption::save(Writer& writer) const
 {
-  if (m_default_value && *m_default_value == *m_pointer) {
-    // skip
-  } else {
-    if (!get_key().empty()) {
+  if (!get_key().empty()) {
+    if (m_default_value && *m_default_value == *m_pointer) {
+      // skip
+    } else {
       writer.write(get_key(), *m_pointer);
     }
   }

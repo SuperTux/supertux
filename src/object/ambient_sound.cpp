@@ -118,11 +118,13 @@ AmbientSound::get_settings()
   ObjectSettings result = MovingObject::get_settings();
 
   result.add_sound(_("Sound"), &sample, "sample");
-  result.add_float(_("Width"), &new_size.x, "width");
-  result.add_float(_("Height"), &new_size.y, "height");
+  //result.add_float(_("Width"), &new_size.x, "width");
+  //result.add_float(_("Height"), &new_size.y, "height");
   result.add_float(_("Distance factor"), &distance_factor, "distance_factor");
   result.add_float(_("Distance bias"), &distance_bias, "distance_bias");
   result.add_float(_("Volume"), &maximumvolume, "volume");
+
+  result.reorder({"sample", "distance_factor", "distance_bias", "volume", "region", "x", "y", "width", "height"});
 
   return result;
 }

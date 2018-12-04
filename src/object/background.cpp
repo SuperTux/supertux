@@ -154,6 +154,9 @@ Background::get_settings()
 {
   ObjectSettings result = GameObject::get_settings();
 
+  result.add_float(_("X"), &m_pos.x, "x", 0.0f, OPTION_HIDDEN);
+  result.add_float(_("Y"), &m_pos.y, "y", 0.0f, OPTION_HIDDEN);
+
   result.add_bool(_("Fill"), &m_fill, "fill", false);
   result.add_int(_("Z-pos"), &m_layer, "z-pos", LAYER_BACKGROUND0);
   result.add_enum(_("Alignment"), reinterpret_cast<int*>(&m_alignment),
@@ -177,7 +180,7 @@ Background::get_settings()
 
   result.add_remove();
 
-  result.reorder({"alignment", "speed", "speed-y", "fill", "image", "z-pos"});
+  result.reorder({"x", "y", "alignment", "speed", "speed-y", "fill", "image-top", "image", "image-bottom", "z-pos"});
 
   return result;
 }

@@ -23,14 +23,14 @@
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 
-Candle::Candle(const ReaderMapping& mapping)
-  : MovingSprite(mapping, "images/objects/candle/candle.sprite", LAYER_BACKGROUNDTILES+1, COLGROUP_DISABLED),
-    ExposedObject<Candle, scripting::Candle>(this),
-    burning(true),
-    flicker(true),
-    lightcolor(1.0f, 1.0f, 1.0f),
-    candle_light_1(SpriteManager::current()->create("images/objects/candle/candle-light-1.sprite")),
-    candle_light_2(SpriteManager::current()->create("images/objects/candle/candle-light-2.sprite"))
+Candle::Candle(const ReaderMapping& mapping) :
+  MovingSprite(mapping, "images/objects/candle/candle.sprite", LAYER_BACKGROUNDTILES+1, COLGROUP_DISABLED),
+  ExposedObject<Candle, scripting::Candle>(this),
+  burning(true),
+  flicker(true),
+  lightcolor(1.0f, 1.0f, 1.0f),
+  candle_light_1(SpriteManager::current()->create("images/objects/candle/candle-light-1.sprite")),
+  candle_light_2(SpriteManager::current()->create("images/objects/candle/candle-light-2.sprite"))
 {
   mapping.get("burning", burning, true);
   mapping.get("flicker", flicker, true);
@@ -72,10 +72,10 @@ Candle::get_settings()
   ObjectSettings result = MovingSprite::get_settings();
 
   result.add_bool(_("Burning"), &burning, "burning", true);
-  result.add_bool(_("Flicker"), &flicker, "flicker");
+  result.add_bool(_("Flicker"), &flicker, "flicker", true);
   result.add_color(_("Color"), &lightcolor, "color", Color::WHITE);
 
-  result.reorder({"flicker", "x", "y"});
+  result.reorder({"flicker", "sprite", "color", "x", "y"});
 
   return result;
 }

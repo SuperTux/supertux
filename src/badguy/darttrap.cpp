@@ -118,10 +118,13 @@ ObjectSettings
 DartTrap::get_settings()
 {
   ObjectSettings result = BadGuy::get_settings();
-  result.add_bool(_("Enabled"), &enabled, "enabled");
+
   result.add_float(_("Initial delay"), &initial_delay, "initial-delay");
+  result.add_bool(_("Enabled"), &enabled, "enabled", true);
   result.add_float(_("Fire delay"), &fire_delay, "fire-delay");
   result.add_int(_("Ammo"), &ammo, "ammo");
+
+  result.reorder({"initial-delay", "fire-delay", "ammo", "x", "y"});
 
   return result;
 }
