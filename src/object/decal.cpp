@@ -36,13 +36,13 @@ Decal::Decal(const ReaderMapping& reader) :
 ObjectSettings
 Decal::get_settings()
 {
-  ObjectSettings result = MovingObject::get_settings();
+  ObjectSettings result = MovingSprite::get_settings();
 
   result.add_int(_("Z-pos"), &m_layer, "z-pos");
   result.add_bool(_("Solid"), &solid, "solid", false);
   result.add_text(_("Action"), &default_action, "action");
 
-  result.reorder({"z-pos", "sprite", "y", "x"});
+  result.reorder({"z-pos", "sprite", "x", "y"});
 
   return result;
 }

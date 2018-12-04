@@ -25,8 +25,9 @@
 
 class ReaderMapping;
 
-class Torch final : public MovingObject,
-              public ExposedObject<Torch, scripting::Torch>
+class Torch final :
+  public MovingObject,
+  public ExposedObject<Torch, scripting::Torch>
 {
 public:
   Torch(const ReaderMapping& reader);

@@ -447,7 +447,7 @@ Dispenser::get_settings()
                            {_("dropper"), _("rocket launcher"), _("cannon"), _("invisible")});
 
   m_type_str = DispenserType_to_string(m_type);
-  result.add_text("type", &m_type_str, "type", OPTION_HIDDEN);
+  result.add_text("type", &m_type_str, "type", {}, OPTION_HIDDEN);
 
   return result;
 }

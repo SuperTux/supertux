@@ -204,7 +204,7 @@ Block::get_settings()
 {
   ObjectSettings result = MovingObject::get_settings();
 
-  result.add_sprite(_("Sprite"), &sprite_name, "sprite");
+  result.add_sprite(_("Sprite"), &sprite_name, "sprite", default_sprite_name);
 
   return result;
 }

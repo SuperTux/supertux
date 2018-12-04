@@ -146,16 +146,6 @@ MovingSprite::change_sprite(const std::string& new_sprite_name)
   m_sprite = SpriteManager::current()->create(m_sprite_name);
 }
 
-ObjectSettings
-MovingSprite::get_settings()
-{
-  ObjectSettings result = MovingObject::get_settings();
-
-  result.add_sprite(_("Sprite"), &m_sprite_name);
-
-  return result;
-}
-
 #if 0
 void
 MovingSprite::save(Writer& writer)
@@ -167,6 +157,18 @@ MovingSprite::save(Writer& writer)
   }
 }
 #endif
+
+ObjectSettings
+MovingSprite::get_settings()
+{
+  ObjectSettings result = MovingObject::get_settings();
+
+  result.add_sprite(_("Sprite"), &m_sprite_name, "sprite", m_default_sprite_name);
+
+  result.reorder({"sprite", "x", "y"});
+
+  return result;
+}
 
 void
 MovingSprite::after_editor_set()

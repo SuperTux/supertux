@@ -361,7 +361,9 @@ ColorObjectOption::save(Writer& writer) const
     if (m_default_value && *m_default_value == *m_pointer) {
       // skip
     } else {
-      writer.write(get_key(), m_pointer->toVector());
+      auto vec = m_pointer->toVector();
+      vec.pop_back();
+      writer.write(get_key(), vec);
     }
   }
 }

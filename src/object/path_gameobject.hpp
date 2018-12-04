@@ -50,6 +50,8 @@ public:
   virtual void editor_select() override;
   virtual void editor_deselect() override;
 
+  virtual ObjectSettings get_settings() override;
+
   Path& get_path() { return *m_path; }
 
 private:

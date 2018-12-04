@@ -236,30 +236,40 @@ TileMap::get_settings()
 
   ObjectSettings result = GameObject::get_settings();
 
-  result.add_bool(_("Solid"), &m_real_solid);
+  result.add_bool(_("Solid"), &m_real_solid, "solid");
   result.add_int(_("Resize offset x"), &m_new_offset_x);
   result.add_int(_("Resize offset y"), &m_new_offset_y);
-  result.add_int(_("Width"), &m_new_size_x);
-  result.add_int(_("Height"), &m_new_size_y);
-  result.add_float(_("Alpha"), &m_alpha);
-  result.add_float(_("Speed x"), &m_speed_x);
-  result.add_float(_("Speed y"), &m_speed_y);
-  result.add_color(_("Tint"), &m_tint);
-  result.add_int(_("Z-pos"), &m_z_pos);
-  result.add_string_select(_("Draw target"), reinterpret_cast<int*>(&m_draw_target),
-                           {_("Normal"), _("Lightmap")});
+#if 0
+  result.add_int(_("Width"), &m_new_size_x, "width");
+  result.add_int(_("Height"), &m_new_size_y, "height");
+#endif
+  result.add_float(_("Alpha"), &m_alpha, "alpha", 1.0f);
+  result.add_float(_("Speed x"), &m_speed_x, "speed", 1.0f);
+  result.add_float(_("Speed y"), &m_speed_y, "speed-y", m_speed_x);
+  result.add_color(_("Tint"), &m_tint, "tint", Color::WHITE);
+  result.add_int(_("Z-pos"), &m_z_pos, "z-pos");
+  result.add_enum(_("Draw target"), reinterpret_cast<int*>(&m_draw_target),
+                  {_("Normal"), _("Lightmap")},
+                  {"normal", "lightmap"},
+                  static_cast<int>(DrawingTarget::COLORMAP),
+                  "target");
 
   m_add_path = get_walker() && get_path() && get_path()->is_valid();
   result.add_bool(_("Following path"), &m_add_path);
 
   if (get_walker() && get_path() && get_path()->is_valid()) {
     result.add_walk_mode(_("Path Mode"), &get_path()->m_mode, {}, {});
-    result.add_bool(_("Running"), &m_running, "running");
+    result.add_bool(_("Running"), &m_running, "running", false);
   }
+
+  result.add_tiles(_("Tiles"), this, "tiles");
+
+  result.reorder({"solid", "speed", "speed-y", "alpha", "z-pos", "name", "width", "height", "tiles"});
 
   if (!m_editor_active) {
     result.add_remove();
   }
+
   return result;
 }
 

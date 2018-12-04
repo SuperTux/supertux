@@ -250,20 +250,6 @@ BadGuy::update(float dt_sec)
   m_on_ground_flag = false;
 }
 
-#if 0
-void
-BadGuy::save(Writer& writer)
-{
-  MovingSprite::save(writer);
-  if (m_dir != Direction::LEFT) {
-    writer.write("direction", dir_to_string(m_dir), false);
-  }
-  if (!m_dead_script.empty()) {
-    writer.write("dead-script", m_dead_script, false);
-  }
-}
-#endif
-
 Direction
 BadGuy::str2dir(const std::string& dir_str) const
 {
@@ -835,12 +821,30 @@ BadGuy::set_colgroup_active(CollisionGroup group_)
   if (m_state == STATE_ACTIVE) set_group(group_);
 }
 
+#if 0
+void
+BadGuy::save(Writer& writer)
+{
+  MovingSprite::save(writer);
+  if (m_dir != Direction::LEFT) {
+    writer.write("direction", dir_to_string(m_dir), false);
+  }
+  if (!m_dead_script.empty()) {
+    writer.write("dead-script", m_dead_script, false);
+  }
+}
+#endif
+
 ObjectSettings
 BadGuy::get_settings()
 {
   ObjectSettings result = MovingSprite::get_settings();
-  result.add_direction(_("Direction"), &m_dir, Direction::LEFT);
-  result.add_script(_("Death script"), &m_dead_script);
+
+  result.add_direction(_("Direction"), &m_dir, Direction::LEFT, "direction");
+  result.add_script(_("Death script"), &m_dead_script, "dead-script");
+
+  result.reorder({"direction", "x", "y"});
+
   return result;
 }
 

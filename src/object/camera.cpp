@@ -243,8 +243,10 @@ Camera::get_settings()
 {
   ObjectSettings result = GameObject::get_settings();
 
-  result.add_string_select(_("Mode"), reinterpret_cast<int*>(&m_defaultmode),
-                           {_("normal"), _("manual")});
+  result.add_enum(_("Mode"), reinterpret_cast<int*>(&m_defaultmode),
+                  {_("normal"), _("manual"), _("autoscroll")},
+                  {"normal", "manual", "autoscroll"},
+                  {}, "mode");
 
   if (get_walker() && get_path()->is_valid()) {
     result.add_walk_mode(_("Path Mode"), &get_path()->m_mode, {}, {});

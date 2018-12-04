@@ -56,6 +56,8 @@ InfoBlock::get_settings()
 
   result.add_translatable_text(_("Message"), &message, "message");
 
+  result.reorder({"message", "x", "y"});
+
   return result;
 }
 
