@@ -222,6 +222,53 @@ StringSelectObjectOption::add_to_menu(Menu& menu) const
   menu.add_string_select(-1, get_text(), m_pointer, m_select);
 }
 
+EnumObjectOption::EnumObjectOption(const std::string& text, int* pointer,
+                                   const std::vector<std::string>& labels,
+                                   const std::vector<std::string>& symbols,
+                                   boost::optional<int> default_value,
+                                   const std::string& key, unsigned int flags) :
+  ObjectOption(text, key, flags),
+  m_pointer(pointer),
+  m_labels(labels),
+  m_symbols(symbols),
+  m_default_value(default_value)
+{
+}
+
+void
+EnumObjectOption::save(Writer& writer) const
+{
+  if (0 <= *m_pointer && *m_pointer < int(m_symbols.size()) &&
+      !get_key().empty())
+  {
+    if (m_default_value && *m_default_value == *m_pointer) {
+      // skip
+    } else {
+      writer.write(get_key(), m_symbols[*m_pointer]);
+    }
+  }
+}
+
+std::string
+EnumObjectOption::to_string() const
+{
+  if (0 <= *m_pointer && *m_pointer < int(m_labels.size())) {
+    return m_labels[*m_pointer];
+  } else {
+    return _("invalid");
+  }
+}
+
+void
+EnumObjectOption::add_to_menu(Menu& menu) const
+{
+  if (*m_pointer >= static_cast<int>(m_labels.size()) || *m_pointer < 0 ) {
+    *m_pointer = 0; // Set the option to zero when not selectable
+  }
+  menu.add_string_select(-1, get_text(), m_pointer, m_labels);
+}
+
+
 ScriptObjectOption::ScriptObjectOption(const std::string& text, std::string* pointer, const std::string& key,
                                        unsigned int flags) :
   ObjectOption(text, key, flags),

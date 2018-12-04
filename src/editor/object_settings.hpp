@@ -74,6 +74,11 @@ public:
   void add_string_select(const std::string& text, int* value_ptr, const std::vector<std::string>& select,
                          boost::optional<int> default_value = {},
                          const std::string& key = {}, unsigned int flags = 0);
+  void add_enum(const std::string& text, int* value_ptr,
+                const std::vector<std::string>& labels,
+                const std::vector<std::string>& symbols,
+                boost::optional<int> default_value = {},
+                const std::string& key = {}, unsigned int flags = 0);
   void add_level(const std::string& text, std::string* value_ptr, const std::string& key = {},
                  unsigned int flags = 0);
   void add_sprite(const std::string& text, std::string* value_ptr, const std::string& key = {},

@@ -153,9 +153,10 @@ Background::get_settings()
   ObjectSettings result = GameObject::get_settings();
 
   result.add_int(_("Z-pos"), &m_layer, "z-pos", LAYER_BACKGROUND0);
-  result.add_string_select(_("Alignment"), reinterpret_cast<int*>(&m_alignment),
-                           {_("none"), _("left"), _("right"), _("top"), _("bottom")},
-                           {}, "alignment");
+  result.add_enum(_("Alignment"), reinterpret_cast<int*>(&m_alignment),
+                  {_("none"), _("left"), _("right"), _("top"), _("bottom")},
+                  {"none", "left", "right", "top", "bottom"},
+                  static_cast<int>(NO_ALIGNMENT), "alignment");
   result.add_float(_("Scroll offset x"), &m_scroll_offset.x, "scroll-offset-x", 0);
   result.add_float(_("Scroll offset y"), &m_scroll_offset.y, "scroll-offset-y", 0);
   result.add_float(_("Scroll speed x"), &m_scroll_speed.x, "scroll-speed-x", 0.5f);

@@ -161,6 +161,30 @@ private:
   StringSelectObjectOption& operator=(const StringSelectObjectOption&) = delete;
 };
 
+class EnumObjectOption : public ObjectOption
+{
+public:
+  EnumObjectOption(const std::string& text, int* pointer,
+                   const std::vector<std::string>& labels,
+                   const std::vector<std::string>& symbols,
+                   boost::optional<int> default_value,
+                   const std::string& key, unsigned int flags);
+
+  virtual void save(Writer& write) const override;
+  virtual std::string to_string() const override;
+  virtual void add_to_menu(Menu& menu) const override;
+
+private:
+  int* const m_pointer;
+  const std::vector<std::string> m_labels;
+  const std::vector<std::string> m_symbols;
+  const boost::optional<int> m_default_value;
+
+private:
+  EnumObjectOption(const EnumObjectOption&) = delete;
+  EnumObjectOption& operator=(const EnumObjectOption&) = delete;
+};
+
 class ScriptObjectOption : public ObjectOption
 {
 public:

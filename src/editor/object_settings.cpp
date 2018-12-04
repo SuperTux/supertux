@@ -145,6 +145,16 @@ ObjectSettings::add_string_select(const std::string& text, int* value_ptr, const
 }
 
 void
+ObjectSettings::add_enum(const std::string& text, int* value_ptr,
+                         const std::vector<std::string>& labels,
+                         const std::vector<std::string>& symbols,
+                         boost::optional<int> default_value,
+                         const std::string& key, unsigned int flags)
+{
+  add_option(std::make_unique<EnumObjectOption>(text, value_ptr, labels, symbols, default_value, key, flags));
+}
+
+void
 ObjectSettings::add_file(const std::string& text, std::string* value_ptr, const std::string& key,
                          const std::vector<std::string>& filter, unsigned int flags)
 {
