@@ -834,25 +834,25 @@ EditorOverlayWidget::draw_tile_grid(DrawingContext& context, const Color& line_c
   int tm_height = current_tm->get_height() * (32 / tile_size);
   auto cam_translation = m_editor.get_sector()->get_camera().get_translation();
   Rectf draw_rect = Rectf(cam_translation, cam_translation +
-                          Vector(static_cast<float>(context.get_width()),
-                                 static_cast<float>(context.get_height())));
+                          Vector(static_cast<float>(context.get_width() - 128),
+                                 static_cast<float>(context.get_height() - 32)));
   Vector start = sp_to_tp( Vector(draw_rect.p1.x, draw_rect.p1.y), tile_size );
   Vector end = sp_to_tp( Vector(draw_rect.p2.x, draw_rect.p2.y), tile_size );
   start.x = std::max(0.0f, start.x);
   start.y = std::max(0.0f, start.y);
-  end.x = std::min(float(tm_width-1), end.x);
-  end.y = std::min(float(tm_height-1), end.y);
+  end.x = std::min(float(tm_width), end.x);
+  end.y = std::min(float(tm_height), end.y);
 
   Vector line_start, line_end;
   for (int i = static_cast<int>(start.x); i <= static_cast<int>(end.x); i++) {
     line_start = tile_screen_pos( Vector(static_cast<float>(i), 0.0f), tile_size );
-    line_end = tile_screen_pos( Vector(static_cast<float>(i), static_cast<float>(tm_height)), tile_size );
+    line_end = tile_screen_pos( Vector(static_cast<float>(i), end.y), tile_size );
     context.color().draw_line(line_start, line_end, line_color, current_tm->get_layer());
   }
 
   for (int i = static_cast<int>(start.y); i <= static_cast<int>(end.y); i++) {
     line_start = tile_screen_pos( Vector(0.0f, static_cast<float>(i)), tile_size );
-    line_end = tile_screen_pos( Vector(static_cast<float>(tm_width), static_cast<float>(i)), tile_size );
+    line_end = tile_screen_pos( Vector(end.x, static_cast<float>(i)), tile_size );
     context.color().draw_line(line_start, line_end, line_color, current_tm->get_layer());
   }
 }
