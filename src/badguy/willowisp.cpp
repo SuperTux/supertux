@@ -277,7 +277,7 @@ WillOWisp::set_state(const std::string& new_state)
 ObjectSettings
 WillOWisp::get_settings()
 {
-  ObjectSettings result = GameObject::get_settings();
+  ObjectSettings result = BadGuy::get_settings();
 
   result.add_direction(_("Direction"), &m_dir);
   result.add_text(_("Sector"), &m_target_sector, "sector");
