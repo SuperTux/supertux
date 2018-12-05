@@ -1,0 +1,62 @@
+(supertux-sprite
+ (action
+  (name "small-stop")
+  (hitbox 4 20 0 0)
+  (images "smalltux.png")
+ )
+ (action
+  (name "small-walking")
+  (hitbox 4 20 0 0)
+  (images "smalltux.png")
+ )
+ (action
+  (name "large-walking")
+  (hitbox 4 20 0 0)
+  (images "tux.png")
+ )
+ (action
+  (name "large-stop")
+  (hitbox 4 20 0 0)
+  (images "tux.png")
+ )
+ (action
+  (name "fire-walking")
+  (hitbox 4 20 0 0)
+  (images "firetux.png")
+ )
+ (action
+  (name "fire-stop")
+  (hitbox 4 20 0 0)
+  (images "firetux.png")
+ )
+  (action
+  (name "ice-walking")
+  (hitbox 4 20 0 0)
+  (images "icetux.png")
+ )
+ (action
+  (name "ice-stop")
+  (hitbox 4 20 0 0)
+  (images "icetux.png")
+ )
+  (action
+  (name "air-walking")
+  (hitbox 4 20 0 0)
+  (images "airtux.png")
+ )
+ (action
+  (name "air-stop")
+  (hitbox 4 20 0 0)
+  (images "airtux.png")
+ )
+  (action
+  (name "earth-walking")
+  (hitbox 4 20 0 0)
+  (images "earthtux.png")
+ )
+ (action
+  (name "earth-stop")
+  (hitbox 4 20 0 0)
+  (images "earthtux.png")
+ )
+)
