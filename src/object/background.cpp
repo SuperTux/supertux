@@ -157,8 +157,8 @@ Background::get_settings()
                   {_("none"), _("left"), _("right"), _("top"), _("bottom")},
                   {"none", "left", "right", "top", "bottom"},
                   static_cast<int>(NO_ALIGNMENT), "alignment");
-  result.add_float(_("Scroll offset x"), &m_scroll_offset.x, "scroll-offset-x", 0);
-  result.add_float(_("Scroll offset y"), &m_scroll_offset.y, "scroll-offset-y", 0);
+  result.add_float(_("Scroll offset x"), &m_scroll_offset.x, "scroll-offset-x", 0.0f);
+  result.add_float(_("Scroll offset y"), &m_scroll_offset.y, "scroll-offset-y", 0.0f);
   result.add_float(_("Scroll speed x"), &m_scroll_speed.x, "scroll-speed-x", 0.5f);
   result.add_float(_("Scroll speed y"), &m_scroll_speed.y, "scroll-speed-y", 0.5f);
   result.add_float(_("Speed x"), &m_speed.x, "speed-x", 0.5f);
