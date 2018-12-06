@@ -6,8 +6,9 @@
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (music "music/chipdisko.ogg")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (bouncingsnowball
       (x 2912)
       (y 224)
@@ -226,6 +227,9 @@
     (mriceblock
       (x 7936)
       (y 352)
+    )
+    (music
+      (file "music/chipdisko.ogg")
     )
     (powerup
       (script "supersecretoplataforma.goto_node(1);")
@@ -1260,9 +1264,10 @@ Plata3.goto_node(0);")
   )
   (sector
     (name "Sky")
-    (music "music/intro.ogg")
     (gravity 8)
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.5)
       (image-top "images/background/arctis_top.jpg")
@@ -1273,6 +1278,9 @@ Plata3.goto_node(0);")
       (mode "normal")
     )
     (particles-clouds
+    )
+    (music
+      (file "music/intro.ogg")
     )
     (scripttrigger
       (script "Level.spawn( \"main\", \"salir\" )")
@@ -1395,9 +1403,10 @@ Plata3.goto_node(0);")
   )
   (sector
     (name "secretship")
-    (music "music/greatgigantic.music")
     (gravity 5)
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.5)
       (image-top "images/background/bluemountain-top.png")
@@ -1534,6 +1543,9 @@ Plata3.goto_node(0);")
     (mriceblock
       (x 2816)
       (y 896)
+    )
+    (music
+      (file "music/greatgigantic.music")
     )
     (pushbutton
       (script "palo1.goto_node(1);

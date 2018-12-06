@@ -4,8 +4,9 @@
   (author "SuperTux Team")
   (sector
     (name "main")
-    (music "darkforestkeep.ogg")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.5)
       (image "images/background/arctis_dark.jpg")
@@ -280,6 +281,9 @@
     (mriceblock
       (x 13692)
       (y 250)
+    )
+    (music
+      (file "darkforestkeep.ogg")
     )
     (snowball
       (x 5231)

@@ -6,8 +6,9 @@
   (target-time 90)
   (sector
     (name "main")
-    (music "/music/forest2.ogg")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.5)
       (image-top "images/background/BlueRock_Forest/blue-top.jpg")
@@ -42,6 +43,9 @@
       (height 40)
       (x 1088)
       (y 576)
+    )
+    (music
+      (file "/music/forest2.ogg")
     )
     (secretarea
       (fade-tilemap "secret")
@@ -167,8 +171,9 @@
   )
   (sector
     (name "deadsector")
-    (music "/music/ghostforest.music")
-    (ambient-light 0 1 1)
+    (ambient-light
+      (color 0 1 1)
+    )
     (background
       (speed 0.5)
       (image-top "images/background/snowcastle.png")
@@ -329,6 +334,9 @@
       (color 1 0 0)
       (x 3136)
       (y 192)
+    )
+    (music
+      (file "/music/ghostforest.music")
     )
     (secretarea
       (width 188)
@@ -548,9 +556,10 @@
   )
   (sector
     (name "Skysector")
-    (music "/music/airship_remix.music")
     (gravity 5)
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 5)
       (image-top "images/background/nightsky_top.png")
@@ -569,6 +578,9 @@
     (firefly
       (x 96)
       (y 192)
+    )
+    (music
+      (file "/music/airship_remix.music")
     )
     (spawnpoint
       (name "main")
@@ -622,8 +634,9 @@
   )
   (sector
     (name "Firesector")
-    (music "/music/greatgigantic.music")
-    (ambient-light 1 0.6666667 0.6666667)
+    (ambient-light
+      (color 1 0.6666667 0.6666667)
+    )
     (background
       (speed 0.5)
       (image-top "images/background/BlueRock_Forest/blue-top.jpg")
@@ -712,6 +725,9 @@
     (igel
       (x 1282.1)
       (y 166.1)
+    )
+    (music
+      (file "/music/greatgigantic.music")
     )
     (secretarea
       (width 220)
@@ -1714,8 +1730,9 @@
   )
   (sector
     (name "EndSector")
-    (music "/music/forest2.ogg")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.5)
       (image-top "images/background/BlueRock_Forest/blue-top.jpg")
@@ -1726,6 +1743,9 @@
       (mode "normal")
     )
     (particles-clouds
+    )
+    (music
+      (file "/music/forest2.ogg")
     )
     (spawnpoint
       (name "main")

@@ -6,8 +6,9 @@
   (target-time 90)
   (sector
     (name "main")
-    (music "music/greatgigantic.music")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (camera
       (mode "normal")
     )
@@ -247,6 +248,9 @@
     (jumpy
       (x 10631)
       (y 40)
+    )
+    (music
+      (file "music/greatgigantic.music")
     )
     (secretarea
       (fade-tilemap "secret1")

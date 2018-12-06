@@ -7,8 +7,9 @@
   (target-time 45)
   (sector
     (name "main")
-    (music "music/airship_remix.music")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.5)
       (image-top "images/background/nightsky_top.png")
@@ -90,6 +91,9 @@
     (smartball
       (x 3744)
       (y 736)
+    )
+    (music
+      (file "music/airship_remix.music")
     )
     (secretarea
       (fade-tilemap "secr1")

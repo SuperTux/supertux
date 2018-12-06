@@ -4,8 +4,9 @@
   (author "sK!LL")
   (sector
     (name "main")
-    (music "music/chipdisko.ogg")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (angrystone
       (x 256)
       (y 1376)
@@ -308,6 +309,9 @@
 !images/tiles/signs/up.png"))
       (x 432)
       (y 1568)
+    )
+    (music
+      (file "music/chipdisko.ogg")
     )
     (powerup
       (sprite "images/powerups/egg/egg.sprite")

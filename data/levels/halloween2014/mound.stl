@@ -7,8 +7,9 @@
   (target-time 80)
   (sector
     (name "main")
-    (music "music/ghostforest2.ogg")
-    (ambient-light 0.2509804 0.2980392 0.3490196)
+    (ambient-light
+      (color 0.2509804 0.2980392 0.3490196)
+    )
     (background
       (alignment "bottom")
       (speed 0)
@@ -341,6 +342,9 @@
       (height 32)
       (x 13472)
       (y 576)
+    )
+    (music
+      (file "music/ghostforest2.ogg")
     )
     (powerup
       (disable-physics #t)

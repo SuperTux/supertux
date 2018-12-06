@@ -6,8 +6,9 @@
   (target-time 40)
   (sector
     (name "main")
-    (music "music/airship_remix.music")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (alignment "bottom")
       (speed 0.25)
@@ -135,6 +136,9 @@
     (smartball
       (x 1792)
       (y 896)
+    )
+    (music
+      (file "music/airship_remix.music")
     )
     (secretarea
       (width 764)

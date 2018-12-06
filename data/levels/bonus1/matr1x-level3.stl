@@ -5,8 +5,9 @@
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (music "music/fortress.music")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (bouncingsnowball
       (x 8331)
       (y 432)
@@ -156,6 +157,9 @@
     (mrbomb
       (x 3955)
       (y 630)
+    )
+    (music
+      (file "music/fortress.music")
     )
     (scripttrigger
       (script "Level.spawn(\"main\",\"secret\")")

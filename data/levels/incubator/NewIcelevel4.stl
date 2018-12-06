@@ -6,9 +6,10 @@
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (music "music/chipdisko.ogg")
     (init-script "Iceberg.start_moving();")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (bouncingsnowball
       (x 10720)
       (y 288)
@@ -287,6 +288,9 @@
     (mriceblock
       (x 1056)
       (y 256)
+    )
+    (music
+      (file "music/chipdisko.ogg")
     )
     (scripttrigger
       (script "bote.goto_node(1);")
@@ -793,8 +797,9 @@ block3.goto_node(2);")
   )
   (sector
     (name "NewSector")
-    (music "music/greatgigantic.music")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.5)
       (image-top "images/background/fog.png")
@@ -859,6 +864,9 @@ block3.goto_node(2);")
     (mriceblock
       (x 386)
       (y 773)
+    )
+    (music
+      (file "music/greatgigantic.music")
     )
     (secretarea
       (width 92)

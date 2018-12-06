@@ -6,8 +6,9 @@
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (music "music/forest2.ogg")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (ambient_sound
       (sample "sounds/waterfall.wav")
       (distance_factor 0.1)
@@ -515,6 +516,9 @@
       (x 5760)
       (y 576)
     )
+    (music
+      (file "music/forest2.ogg")
+    )
     (pushbutton
       (script "Bloquear1.goto_node(2);")
       (x 7257.636)
@@ -915,8 +919,9 @@ bloquesecreto2.goto_node(1);
   )
   (sector
     (name "secret cave")
-    (music "music/cave.music")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.5)
       (image-top "images/background/cave2.jpg")
@@ -925,6 +930,9 @@ bloquesecreto2.goto_node(1);
     )
     (camera
       (mode "normal")
+    )
+    (music
+      (file "music/cave.music")
     )
     (scripttrigger
       (script "Level.spawn( \"main\", \"exit\" )")
@@ -1036,8 +1044,9 @@ bloquesecreto2.goto_node(1);
   )
   (sector
     (name "tower of ice")
-    (music "music/chipdisko.ogg")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.5)
       (image-top "images/background/bluemountain-bottom.png")
@@ -1046,6 +1055,9 @@ bloquesecreto2.goto_node(1);
     )
     (camera
       (mode "normal")
+    )
+    (music
+      (file "music/chipdisko.ogg")
     )
     (scripttrigger
       (script "Level.spawn( \"main\", \"salirtower\" )")
@@ -1161,8 +1173,9 @@ bloquesecreto2.goto_node(1);
   )
   (sector
     (name "topsecretarea")
-    (music "music/greatgigantic.music")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.5)
       (image-top "images/background/arctis_dark.jpg")
@@ -1403,6 +1416,9 @@ bloquesecreto2.goto_node(1);
     (mriceblock
       (x 1536)
       (y 960)
+    )
+    (music
+      (file "music/greatgigantic.music")
     )
     (rock
       (x 2880)

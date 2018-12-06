@@ -5,8 +5,9 @@
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (music "music/forest2.ogg")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.5)
       (image-top "images/background/BlueRock_Forest/blue-top.jpg")
@@ -68,6 +69,9 @@
       (sprite "images/creatures/mr_tree/mr_tree.sprite")
       (x 2112)
       (y 766)
+    )
+    (music
+      (file "music/forest2.ogg")
     )
     (poisonivy
       (direction "left")

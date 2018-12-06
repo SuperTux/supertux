@@ -5,8 +5,9 @@
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (music "music/forest.music")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (x 4000)
       (y 450)
@@ -121,6 +122,9 @@
     (mrtree
       (x 8960)
       (y 734)
+    )
+    (music
+      (file "music/forest.music")
     )
     (poisonivy
       (x 3042)
@@ -400,8 +404,9 @@
   )
   (sector
     (name "secret")
-    (music "music/cave.music")
-    (ambient-light 0.314519 0.314519 0.314519)
+    (ambient-light
+      (color 0.314519 0.314519 0.314519)
+    )
     (background
       (speed 0.5)
       (image "images/background/BlueRock_Forest/blue-bottom.jpg")
@@ -446,6 +451,9 @@
       (message (_ "-A big fish... for you."))
       (x 352)
       (y 1056)
+    )
+    (music
+      (file "music/cave.music")
     )
     (scripttrigger
       (script "Level.spawn( \"main\", \"secret\")")

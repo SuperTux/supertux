@@ -4,8 +4,9 @@
   (author "SuperTux Team")
   (sector
     (name "main")
-    (music "cave.ogg")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.5)
       (image "images/background/cave2.jpg")
@@ -172,6 +173,9 @@ DisplayEffect.fade_in(1);
     (mriceblock
       (x 14134)
       (y 229)
+    )
+    (music
+      (file "cave.ogg")
     )
     (snowball
       (x 954)

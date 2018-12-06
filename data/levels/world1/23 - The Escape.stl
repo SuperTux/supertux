@@ -6,8 +6,9 @@
   (target-time 65)
   (sector
     (name "main")
-    (music "music/chipdisko.ogg")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (bouncingsnowball
       (x 7105)
       (y 384)
@@ -154,6 +155,9 @@
     (smartball
       (x 10179)
       (y 550)
+    )
+    (music
+      (file "music/chipdisko.ogg")
     )
     (secretarea
       (width 707.9941)

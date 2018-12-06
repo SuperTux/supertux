@@ -5,8 +5,9 @@
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (music "music/salcon.ogg")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (camera
       (mode "normal")
     )
@@ -16,6 +17,9 @@
     )
     (leveltime
       (time 200)
+    )
+    (music
+      (file "music/salcon.ogg")
     )
     (particles-snow
     )

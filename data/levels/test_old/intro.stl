@@ -4,17 +4,21 @@
   (author "SuperTux Team")
   (sector
     (name "main")
-    (music "theme.ogg")
     (init-script "
           intro();
         ")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.5)
       (image "images/background/semi_arctic.jpg")
     )
     (camera
       (mode "normal")
+    )
+    (music
+      (file "theme.ogg")
     )
     (scriptedobject
       (name "PENNY")

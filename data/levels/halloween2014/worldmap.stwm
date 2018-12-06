@@ -4,8 +4,9 @@
   (author "Ingo Ruhnke <grumbel@gmail.com>")
   (sector
     (name "main")
-    (music "music/voc-dark.music")
-    (ambient-light 0.75 0.75 0.75)
+    (ambient-light
+      (color 0.75 0.75 0.75)
+    )
     (camera
       (mode "normal")
     )
@@ -120,6 +121,9 @@
       (sprite "images/worldmap/halloween/tree2.png")
       (x 480)
       (y 448)
+    )
+    (music
+      (file "music/voc-dark.music")
     )
     (tilemap
       (solid #f)

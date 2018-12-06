@@ -4,7 +4,6 @@
   (author "SuperTux Team")
   (sector
     (name "main")
-    (music "salcon.ogg")
     (init-script "
 local logo = FloatingImage(\"images/objects/logo/logo.sprite\");
 logo.set_visible(true);
@@ -41,7 +40,9 @@ while(true) {
 	}
 }
 ")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (ambient_sound
       (sample "phone")
       (distance_factor 0.01)
@@ -71,6 +72,9 @@ while(true) {
 "))
       (x 674)
       (y 390)
+    )
+    (music
+      (file "salcon.ogg")
     )
     (scriptedobject
       (name "TUX")

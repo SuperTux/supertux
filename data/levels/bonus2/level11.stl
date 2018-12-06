@@ -5,8 +5,9 @@
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (music "music/cave.music")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.5)
       (image "images/background/cave2.jpg")
@@ -116,6 +117,9 @@
     (mriceblock
       (x 13613)
       (y 517)
+    )
+    (music
+      (file "music/cave.music")
     )
     (snowball
       (x 1678)

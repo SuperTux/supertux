@@ -6,8 +6,9 @@
   (target-time 70)
   (sector
     (name "main")
-    (music "music/cave.music")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (camera
       (mode "normal")
     )
@@ -54,6 +55,9 @@
     (mrbomb
       (x 192)
       (y 2304)
+    )
+    (music
+      (file "music/cave.music")
     )
     (scripttrigger
       (script "Level.spawn(\"outside\",\"main\")")
@@ -475,8 +479,9 @@
   )
   (sector
     (name "backside")
-    (music "music/cave.music")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (camera
       (mode "normal")
     )
@@ -515,6 +520,9 @@
       (spawnpoint "5")
       (x 448)
       (y 832)
+    )
+    (music
+      (file "music/cave.music")
     )
     (spawnpoint
       (name "main")
@@ -717,8 +725,9 @@
   )
   (sector
     (name "outside")
-    (music "music/chipdisko.ogg")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (camera
       (mode "normal")
     )
@@ -737,6 +746,9 @@
     (mriceblock
       (x 1408)
       (y 736)
+    )
+    (music
+      (file "music/chipdisko.ogg")
     )
     (snowball
       (x 1888)

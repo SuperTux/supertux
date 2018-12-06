@@ -7,8 +7,9 @@
   (target-time 60)
   (sector
     (name "main")
-    (music "/music/airship_remix.music")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.5)
       (image-top "images/background/bluemountain-top.png")
@@ -376,6 +377,9 @@
       (x 3552)
       (y 1440)
     )
+    (music
+      (file "/music/airship_remix.music")
+    )
     (secretarea
       (width 124)
       (height 60)
@@ -530,8 +534,9 @@
   )
   (sector
     (name "secret")
-    (music "/music/bonuscave.ogg")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.5)
       (image-top "images/background/snowcastle.png")
@@ -540,6 +545,9 @@
     )
     (camera
       (mode "normal")
+    )
+    (music
+      (file "/music/bonuscave.ogg")
     )
     (spawnpoint
       (name "main")

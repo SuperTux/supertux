@@ -5,8 +5,9 @@
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (music "music/chipdisko.ogg")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (bouncingsnowball
       (x 12243)
       (y 655)
@@ -228,6 +229,9 @@
       (x 15359)
       (y 657)
     )
+    (music
+      (file "music/chipdisko.ogg")
+    )
     (snowball
       (x 9780)
       (y 444)
@@ -418,8 +422,9 @@
   )
   (sector
     (name "castle")
-    (music "music/chipdisko.ogg")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (camera
       (mode "normal")
     )
@@ -457,6 +462,9 @@
     (jumpy
       (x 1383)
       (y 488)
+    )
+    (music
+      (file "music/chipdisko.ogg")
     )
     (snowball
       (x 739)

@@ -6,8 +6,9 @@
   (target-time 30)
   (sector
     (name "main")
-    (music "music/voc-daytime.music")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (bouncingsnowball
       (x 5127)
       (y 391)
@@ -48,6 +49,9 @@
     (smartball
       (x 8244)
       (y 507)
+    )
+    (music
+      (file "music/voc-daytime.music")
     )
     (sspiky
       (direction "right")

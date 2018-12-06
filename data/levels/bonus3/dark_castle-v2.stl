@@ -6,8 +6,9 @@
   (target-time 80)
   (sector
     (name "main")
-    (music "music/darkforestkeep.ogg")
-    (ambient-light 0.1854887 0.1854887 0.1854887)
+    (ambient-light
+      (color 0.1854887 0.1854887 0.1854887)
+    )
     (background
       (speed 1)
       (image-top "images/background/snowcastle.png")
@@ -94,6 +95,9 @@
     (mrbomb
       (x 1667.601)
       (y 466.028)
+    )
+    (music
+      (file "music/darkforestkeep.ogg")
     )
     (sspiky
       (x 320)
@@ -285,8 +289,9 @@
   )
   (sector
     (name "sector2")
-    (music "music/darkforestkeep.ogg")
-    (ambient-light 0.1612879 0.1612879 0.1612879)
+    (ambient-light
+      (color 0.1612879 0.1612879 0.1612879)
+    )
     (background
       (speed 1)
       (image-top "images/background/snowcastle.png")
@@ -415,6 +420,9 @@
     (mrbomb
       (x 4352)
       (y 640)
+    )
+    (music
+      (file "music/darkforestkeep.ogg")
     )
     (spawnpoint
       (name "main")

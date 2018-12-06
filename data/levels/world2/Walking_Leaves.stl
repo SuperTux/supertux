@@ -5,8 +5,9 @@
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (music "music/forest.music")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (x 4000)
       (y 250)
@@ -51,6 +52,9 @@
     (fish
       (x 1248)
       (y 992)
+    )
+    (music
+      (file "music/forest.music")
     )
     (poisonivy
       (direction "left")

@@ -6,8 +6,9 @@
   (target-time 40)
   (sector
     (name "main")
-    (music "/music/cave.music")
-    (ambient-light 0.4715801 0.4979934 0.6697184)
+    (ambient-light
+      (color 0.4715801 0.4979934 0.6697184)
+    )
     (background
       (speed 0.5)
       (image-top "images/background/nightsky_top.png")
@@ -75,6 +76,9 @@
     (smartball
       (x 6179)
       (y 550)
+    )
+    (music
+      (file "/music/cave.music")
     )
     (secretarea
       (fade-tilemap "secret1")

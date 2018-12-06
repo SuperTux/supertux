@@ -4,7 +4,9 @@
   (author "Matthias Braun")
   (sector
     (name "main")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.5)
       (image "images/background/forest1.jpg")

@@ -4,8 +4,9 @@
   (author "Marek Moeckel")
   (sector
     (name "main")
-    (music "ghostforest2.ogg")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 1)
       (image "images/background/ghostforest.jpg")
@@ -40,6 +41,9 @@
     (kugelblitz
       (x 3762)
       (y 130)
+    )
+    (music
+      (file "ghostforest2.ogg")
     )
     (poisonivy
       (x 800)

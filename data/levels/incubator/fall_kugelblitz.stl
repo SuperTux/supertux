@@ -5,14 +5,15 @@
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (music "music/cave.music")
     (init-script "while(true){
  wait(12)
  sector.settings.set_ambient_light(sector.settings.get_ambient_red()*5,sector.settings.get_ambient_green()*5,sector.settings.get_ambient_blue()*5)
  wait(0.1)
  sector.settings.set_ambient_light(sector.settings.get_ambient_red()/5,sector.settings.get_ambient_green()/5,sector.settings.get_ambient_blue()/5)
 }")
-    (ambient-light 0.1254902 0.1254902 0.1254902)
+    (ambient-light
+      (color 0.1254902 0.1254902 0.1254902)
+    )
     (camera
       (mode "normal")
     )
@@ -109,6 +110,9 @@
     (gradient
       (top_color 0 0.3137255 1)
       (bottom_color 1 1 1)
+    )
+    (music
+      (file "music/cave.music")
     )
     (particles-rain
     )

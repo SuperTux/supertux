@@ -6,8 +6,9 @@
   (target-time 80)
   (sector
     (name "main")
-    (music "music/ghostforest.music")
-    (ambient-light 0 0 0)
+    (ambient-light
+      (color 0 0 0)
+    )
     (background
       (speed 0.5)
       (image-top "images/background/ghostforest.jpg")
@@ -290,6 +291,9 @@
     (mrtree
       (x 2816)
       (y 576)
+    )
+    (music
+      (file "music/ghostforest.music")
     )
     (particles-rain
     )

@@ -5,8 +5,9 @@
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (music "music/chipdisko.ogg")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (camera
       (mode "normal")
       (backscrolling #f)
@@ -59,6 +60,9 @@
     (mriceblock
       (x 6497)
       (y 439)
+    )
+    (music
+      (file "music/chipdisko.ogg")
     )
     (secretarea
       (script "secret.fade(1,0)")

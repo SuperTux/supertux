@@ -5,8 +5,9 @@
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "hill")
-    (music "music/treeboss.music")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.5)
       (image-top "images/background/semi_arctic.jpg")
@@ -90,6 +91,9 @@
           (y 928)
         )
       )
+    )
+    (music
+      (file "music/treeboss.music")
     )
     (scripttrigger
       (script "Level.spawn(\"sachta\",\"main\")")
@@ -469,8 +473,9 @@
   )
   (sector
     (name "main")
-    (music "music/chipdisko.ogg")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (bouncingsnowball
       (direction "right")
       (x 5248)
@@ -563,6 +568,9 @@
     (mriceblock
       (x 864)
       (y 352)
+    )
+    (music
+      (file "music/chipdisko.ogg")
     )
     (scripttrigger
       (script "Level.spawn(\"hillcave\",\"main\")")
@@ -1093,8 +1101,9 @@
   )
   (sector
     (name "hillcave")
-    (music "music/cave.music")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.5)
       (image-top "images/background/cave2.jpg")
@@ -1176,6 +1185,9 @@
     (mriceblock
       (x 1472)
       (y 2144)
+    )
+    (music
+      (file "music/cave.music")
     )
     (scripttrigger
       (script "Level.spawn(\"main\",\"igglo\")")
@@ -1505,8 +1517,9 @@
   )
   (sector
     (name "sachta")
-    (music "music/treeboss.music")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.5)
       (image-top "images/background/semi_arctic.jpg")
@@ -1531,6 +1544,9 @@
 #I hope you understood."))
       (x 320)
       (y 416)
+    )
+    (music
+      (file "music/treeboss.music")
     )
     (scripttrigger
       (script "Level.spawn(\"hill\",\"z5\")")
@@ -1692,7 +1708,9 @@
   )
   (sector
     (name "pada0")
-    (ambient-light 0.6666667 0.6666667 0.6666667)
+    (ambient-light
+      (color 0.6666667 0.6666667 0.6666667)
+    )
     (camera
       (mode "normal")
     )
@@ -1784,7 +1802,9 @@
   )
   (sector
     (name "pada1")
-    (ambient-light 0.3333333 0.3333333 0.3333333)
+    (ambient-light
+      (color 0.3333333 0.3333333 0.3333333)
+    )
     (camera
       (mode "normal")
     )
@@ -1876,12 +1896,13 @@
   )
   (sector
     (name "crystalcave")
-    (music "music/cave.music")
     (init-script "Tux.deactivate();
 wait(2);
 settings.set_ambient_light(1,1,1)
 Tux.activate()")
-    (ambient-light 0 0 0)
+    (ambient-light
+      (color 0 0 0)
+    )
     (camera
       (mode "normal")
     )
@@ -1933,6 +1954,9 @@ Tux.activate()")
     (mriceblock
       (x 1504)
       (y 2272)
+    )
+    (music
+      (file "music/cave.music")
     )
     (scripttrigger
       (script "Level.spawn(\"forest\",\"main\")")
@@ -2250,8 +2274,9 @@ Tux.activate()")
   )
   (sector
     (name "forest")
-    (music "music/forest.music")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.5)
       (image-top "images/background/BlueRock_Forest/blue-top.jpg")
@@ -2293,6 +2318,9 @@ Tux.activate()")
     (mrtree
       (x 3360)
       (y 896)
+    )
+    (music
+      (file "music/forest.music")
     )
     (poisonivy
       (x 544)
@@ -2499,8 +2527,9 @@ Tux.activate()")
   )
   (sector
     (name "trees")
-    (music "music/forest.music")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.5)
       (image-top "images/background/BlueRock_Forest/blue-top.jpg")
@@ -2526,6 +2555,9 @@ Tux.activate()")
       (height 956)
       (x 3198)
       (y 0)
+    )
+    (music
+      (file "music/forest.music")
     )
     (scripttrigger
       (script "Level.spawn(\"forest\",\"z5\")")
@@ -2759,10 +2791,14 @@ Tux.activate()")
   )
   (sector
     (name "pipey")
-    (music "music/cave.music")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (camera
       (mode "normal")
+    )
+    (music
+      (file "music/cave.music")
     )
     (scripttrigger
       (script "Level.spawn(\"pipey\",\"2-\")")
@@ -3676,14 +3712,18 @@ Tux.activate()")
   )
   (sector
     (name "water")
-    (music "music/cave.music")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (camera
       (mode "normal")
     )
     (gradient
       (top_color 0 0 1)
       (bottom_color 0 0 1)
+    )
+    (music
+      (file "music/cave.music")
     )
     (scripttrigger
       (script "Level.spawn(\"pipey\",\"z5\")")
@@ -3894,8 +3934,9 @@ Tux.activate()")
   )
   (sector
     (name "bridge")
-    (music "music/chipdisko.ogg")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (camera
       (mode "normal")
     )
@@ -3938,6 +3979,9 @@ Tux.activate()")
 #You are in half the level! "))
       (x 448)
       (y 544)
+    )
+    (music
+      (file "music/chipdisko.ogg")
     )
     (scripttrigger
       (script "platform.goto_node(3)")
@@ -4111,8 +4155,9 @@ Tux.activate()")
   )
   (sector
     (name "castlegate")
-    (music "music/chipdisko.ogg")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (camera
       (mode "normal")
     )
@@ -4164,6 +4209,9 @@ Tux.activate()")
     (mriceblock
       (x 3232)
       (y 672)
+    )
+    (music
+      (file "music/chipdisko.ogg")
     )
     (scripttrigger
       (script "Level.spawn(\"bridge\",\"z5\")")
@@ -4453,8 +4501,9 @@ Tux.activate()")
   )
   (sector
     (name "castle1")
-    (music "music/fortress.music")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (bouncingsnowball
       (x 2048)
       (y 2048)
@@ -4573,6 +4622,9 @@ Tux.activate()")
     (mrbomb
       (x 288)
       (y 992)
+    )
+    (music
+      (file "music/fortress.music")
     )
     (scripttrigger
       (script "Level.spawn(\"castlegate\",\"z5\")")
@@ -4969,8 +5021,9 @@ Tux.activate()")
   )
   (sector
     (name "castle2")
-    (music "music/fortress.music")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.5)
       (image-top "images/background/nightsky_top.png")
@@ -5034,6 +5087,9 @@ Tux.activate()")
     (mrbomb
       (x 1824)
       (y 1952)
+    )
+    (music
+      (file "music/fortress.music")
     )
     (scripttrigger
       (script "Level.spawn(\"castle1\",\"z5\")")
@@ -5501,8 +5557,9 @@ Tux.activate()")
   )
   (sector
     (name "roof")
-    (music "music/wisphunt.music")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.5)
       (image-top "images/background/nightsky_top.png")
@@ -5528,6 +5585,9 @@ Tux.activate()")
       (sprite "images/objects/resetpoints/bell.sprite")
       (x 1056)
       (y 384)
+    )
+    (music
+      (file "music/wisphunt.music")
     )
     (scripttrigger
       (script "Effect.fade_out(2);
@@ -6001,7 +6061,9 @@ Effect.fade_out(0);")
     (name "tower")
     (init-script "platform1.goto_node(1)
 platform2.goto_node(1)")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (camera
       (mode "normal")
     )
@@ -6448,8 +6510,9 @@ platform2.goto_node(1)")
   )
   (sector
     (name "sky")
-    (music "music/wisphunt.music")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.5)
       (image-top "images/background/nightsky_top.png")
@@ -6542,6 +6605,9 @@ platform2.goto_node(1)")
     (mriceblock
       (x 4576)
       (y 1984)
+    )
+    (music
+      (file "music/wisphunt.music")
     )
     (scripttrigger
       (script "Level.spawn(\"roof\",\"z5\")")
@@ -6843,8 +6909,9 @@ platform2.goto_node(1)")
   )
   (sector
     (name "castle3")
-    (music "music/wisphunt.music")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.5)
       (image-top "images/background/nightsky_top.png")
@@ -6864,6 +6931,9 @@ platform2.goto_node(1)")
       (sprite "images/objects/resetpoints/bell.sprite")
       (x 1056)
       (y 416)
+    )
+    (music
+      (file "music/wisphunt.music")
     )
     (scripttrigger
       (script "Level.spawn(\"sky\",\"z5\")")
@@ -6954,8 +7024,9 @@ platform2.goto_node(1)")
   )
   (sector
     (name "castle4")
-    (music "music/fortress.music")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.5)
       (image-top "images/background/arctis_dark.jpg")
@@ -7085,6 +7156,9 @@ platform2.goto_node(1)")
     (mriceblock
       (x 736)
       (y 992)
+    )
+    (music
+      (file "music/fortress.music")
     )
     (scripttrigger
       (script "Level.spawn(\"yeti\",\"main\")")
@@ -7374,8 +7448,9 @@ platform2.goto_node(1)")
   )
   (sector
     (name "yeti")
-    (music "music/bossattack.music")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.5)
       (image-top "images/background/arctis_dark.jpg")
@@ -7384,6 +7459,9 @@ platform2.goto_node(1)")
     )
     (camera
       (mode "normal")
+    )
+    (music
+      (file "music/bossattack.music")
     )
     (spawnpoint
       (name "main")

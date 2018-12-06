@@ -6,8 +6,9 @@
   (target-time 80)
   (sector
     (name "main")
-    (music "music/fortress.music")
-    (ambient-light 0 0 0)
+    (ambient-light
+      (color 0 0 0)
+    )
     (background
       (speed 0.5)
       (image-top "images/background/nightsky_top.png")
@@ -484,6 +485,9 @@
       (color 0 0 1)
       (x 5280)
       (y 608)
+    )
+    (music
+      (file "music/fortress.music")
     )
     (rock
       (x 448)

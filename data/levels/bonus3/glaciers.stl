@@ -6,8 +6,9 @@
   (target-time 40)
   (sector
     (name "main")
-    (music "music/theme.music")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.5)
       (image "images/background/arctis2.png")
@@ -110,6 +111,9 @@
     (smartball
       (x 5571)
       (y 806)
+    )
+    (music
+      (file "music/theme.music")
     )
     (secretarea
       (fade-tilemap "secret")

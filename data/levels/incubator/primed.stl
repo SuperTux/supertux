@@ -6,7 +6,6 @@
   (license "GPL 2 / CC-by-sa 3.0")
   (sector
     (name "main")
-    (music "music/chipdisko.ogg")
     (init-script "	two <- 0;																																																																																																																																																																																																																																																																																																																																																																																																																																																																	
 		three <- 0;																																																																																																																																																																																																																																																																																																																																																																																																																																																																	
 		five <- 0;																																																																																																																																																																																																																																																																																																																																																																																																																																																																	
@@ -19,7 +18,9 @@
 		seven_done <- false;																																																																																																																																																																																																																																																																																																																																																																																																																																																																	
 		eleven_done <- false;																																																																																																																																																																																																																																																																																																																																																																																																																																																																	
 		thirteen_done <- false;	")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (bonusblock
       (custom-contents
          (powerup           (sprite "images/powerups/potions/blue-potion.sprite")
@@ -598,6 +599,9 @@
     (smartball
       (x 5952)
       (y 672)
+    )
+    (music
+      (file "music/chipdisko.ogg")
     )
     (scriptedobject
       (z-pos 0)

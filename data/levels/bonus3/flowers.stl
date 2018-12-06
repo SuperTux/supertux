@@ -5,14 +5,18 @@
   (license "GPL 2 / CC-by-sa 3.0")
   (sector
     (name "main")
-    (music "music/voc-dark.music")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (camera
       (mode "normal")
     )
     (gradient
       (top_color 0 0.3137255 1)
       (bottom_color 1 1 1)
+    )
+    (music
+      (file "music/voc-dark.music")
     )
     (powerup
       (script "	fire_bonus();	")

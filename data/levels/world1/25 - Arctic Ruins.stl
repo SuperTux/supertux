@@ -6,8 +6,9 @@
   (target-time 80)
   (sector
     (name "main")
-    (music "music/wisphunt.music")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (alignment "top")
       (speed 0.2)
@@ -150,6 +151,9 @@
     (smartball
       (x 1751)
       (y 412)
+    )
+    (music
+      (file "music/wisphunt.music")
     )
     (secretarea
       (width 245.5464)

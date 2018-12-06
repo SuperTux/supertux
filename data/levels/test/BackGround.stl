@@ -4,8 +4,9 @@
   (author "slacker")
   (sector
     (name "main")
-    (music "music/darkforestkeep.ogg")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (x 100)
       (y 1000)
@@ -36,6 +37,9 @@
     (mrtree
       (x 69.06396)
       (y 1447.03)
+    )
+    (music
+      (file "music/darkforestkeep.ogg")
     )
     (poisonivy
       (x 3000.177)

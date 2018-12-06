@@ -6,8 +6,9 @@
   (target-time 25)
   (sector
     (name "main")
-    (music "music/theme.music")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.5)
       (image-top "images/background/bluemountain-top.png")
@@ -100,6 +101,9 @@
     (smartball
       (x 2307)
       (y 1158)
+    )
+    (music
+      (file "music/theme.music")
     )
     (secretarea
       (fade-tilemap "secret")

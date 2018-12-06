@@ -5,8 +5,9 @@
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (music "music/forest2.ogg")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (angrystone
       (x 22)
       (y 689)
@@ -41,6 +42,9 @@
     (mrbomb
       (x 257.2599)
       (y 503.8701)
+    )
+    (music
+      (file "music/forest2.ogg")
     )
     (tilemap
       (solid #f)

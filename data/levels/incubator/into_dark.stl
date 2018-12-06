@@ -6,8 +6,9 @@
   (license "GPL 2 / CC-by-sa 3.0")
   (sector
     (name "main")
-    (music "music/clavelian_march.music")
-    (ambient-light 0.8 0.8 0.8)
+    (ambient-light
+      (color 0.8 0.8 0.8)
+    )
     (bonusblock
       (script "")
       (contents "trampoline")
@@ -339,6 +340,9 @@
     (mriceblock
       (x 3009)
       (y 646)
+    )
+    (music
+      (file "music/clavelian_march.music")
     )
     (powerup
       (sprite "images/powerups/fireflower/fireflower.sprite")
@@ -831,8 +835,9 @@
   )
   (sector
     (name "secret")
-    (music "music/clavelian_march.music")
-    (ambient-light 0.1300069 0.1300069 0.1300069)
+    (ambient-light
+      (color 0.1300069 0.1300069 0.1300069)
+    )
     (camera
       (mode "normal")
     )
@@ -977,6 +982,9 @@
     (lantern
       (x 1216)
       (y 278)
+    )
+    (music
+      (file "music/clavelian_march.music")
     )
     (scripttrigger
       (script "Level.spawn(\"main\",\"secret\");")

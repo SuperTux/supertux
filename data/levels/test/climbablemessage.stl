@@ -4,8 +4,9 @@
   (author "M. Teufel")
   (sector
     (name "main")
-    (music "music/voc-daytime2.music")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (camera
       (mode "normal")
     )
@@ -26,6 +27,9 @@
     (gradient
       (top_color 0 0.6006256 1)
       (bottom_color 0.2715496 1 0)
+    )
+    (music
+      (file "music/voc-daytime2.music")
     )
     (spawnpoint
       (name "main")

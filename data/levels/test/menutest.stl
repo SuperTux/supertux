@@ -4,7 +4,6 @@
   (author "Christoph Sommer")
   (sector
     (name "main")
-    (music "music/theme.music")
     (init-script "
 logo <- FloatingImage(\"images/objects/logo/logo.sprite\");
 logo.set_anchor_point(ANCHOR_TOP);
@@ -15,7 +14,9 @@ Camera.set_mode(\"manual\");
 // Suspend (this is needed so that logo doesn't get deleted)
 suspend();
 ")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (y 200)
       (speed 0.5)
@@ -37,6 +38,9 @@ suspend();
     (door
       (x 608)
       (y 448)
+    )
+    (music
+      (file "music/theme.music")
     )
     (scripttrigger
       (script "Text.set_text(\"\\n\\n\\n\\n\\n\\n\\n\\npress up to\\nsee the credits\");

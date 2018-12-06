@@ -6,8 +6,9 @@
   (license "GPL 2 / CC-by-sa 3.0")
   (sector
     (name "main")
-    (music "music/forestmap.ogg")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (decal
       (z-pos 100)
       (sprite "images/worldmap/halloween/tree1.png")
@@ -110,6 +111,9 @@
       (action "")
       (x 861.125)
       (y 1139.429)
+    )
+    (music
+      (file "music/forestmap.ogg")
     )
     (special-tile
       (invisible-tile #t)

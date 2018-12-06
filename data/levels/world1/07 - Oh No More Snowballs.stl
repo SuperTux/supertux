@@ -6,8 +6,9 @@
   (target-time 80)
   (sector
     (name "main")
-    (music "music/voc-daytime2.music")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (bouncingsnowball
       (x 13043)
       (y 343)
@@ -150,6 +151,9 @@
     (smartball
       (x 14531)
       (y 294)
+    )
+    (music
+      (file "music/voc-daytime2.music")
     )
     (secretarea
       (width 300)

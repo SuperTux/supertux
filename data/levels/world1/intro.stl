@@ -5,17 +5,21 @@
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (music "music/intro.ogg")
     (init-script "import(\"levels/world1/intro.nut\");
 trigger_state(\"start\");
 ")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (camera
       (mode "normal")
     )
     (gradient
       (top_color 0 0.85 1)
       (bottom_color 0 0.6 1)
+    )
+    (music
+      (file "music/intro.ogg")
     )
     (scriptedobject
       (z-pos 10)

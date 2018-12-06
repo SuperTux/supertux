@@ -6,8 +6,9 @@
   (target-time 80)
   (sector
     (name "main")
-    (music "music/chipdisko.ogg")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (camera
       (mode "normal")
     )
@@ -103,6 +104,9 @@
     (smartball
       (x 2226)
       (y 185)
+    )
+    (music
+      (file "music/chipdisko.ogg")
     )
     (secretarea
       (fade-tilemap "Secret")

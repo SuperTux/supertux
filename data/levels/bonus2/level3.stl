@@ -5,8 +5,9 @@
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (music "music/theme.music")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (camera
       (mode "normal")
     )
@@ -154,6 +155,9 @@
     (smartball
       (x 12539)
       (y 406)
+    )
+    (music
+      (file "music/theme.music")
     )
     (smartblock
       (x 4763)

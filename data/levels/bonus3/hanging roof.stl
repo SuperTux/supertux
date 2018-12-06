@@ -6,8 +6,9 @@
   (target-time 50)
   (sector
     (name "main")
-    (music "music/airship_remix.music")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.5)
       (image "images/background/bluemountain-middle.png")
@@ -190,6 +191,9 @@
     (smartball
       (x 8227)
       (y 518)
+    )
+    (music
+      (file "music/airship_remix.music")
     )
     (snowball
       (x 1059)

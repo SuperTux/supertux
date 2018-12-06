@@ -6,9 +6,13 @@
   (license "GPL 2 / CC-by-sa 3.0")
   (sector
     (name "main")
-    (music "music/salcon.ogg")
     (init-script "import(\"levels/world1/underground.nut\"); ")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
+    (music
+      (file "music/salcon.ogg")
+    )
     (special-tile
       (invisible-tile #t)
       (script "go_underground(true);")

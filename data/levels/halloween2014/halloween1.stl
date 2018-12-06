@@ -6,8 +6,9 @@
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (music "music/greatgigantic.music")
-    (ambient-light 0.25 0.3 0.35)
+    (ambient-light
+      (color 0.25 0.3 0.35)
+    )
     (background
       (alignment "bottom")
       (speed 0.125)
@@ -289,6 +290,9 @@
       (sprite "images/decal/halloween/tree.png")
       (x 21504)
       (y 640)
+    )
+    (music
+      (file "music/greatgigantic.music")
     )
     (secretarea
       (width 264)

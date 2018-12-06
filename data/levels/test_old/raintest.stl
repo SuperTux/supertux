@@ -4,8 +4,9 @@
   (author "SuperTux Team")
   (sector
     (name "main")
-    (music "music/ghostforest.music")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.5)
       (image "images/background/ghostforest.jpg")
@@ -43,6 +44,9 @@ Effect.fade_in(1);
       (mode "normal")
     )
     (particles-ghosts
+    )
+    (music
+      (file "music/ghostforest.music")
     )
     (particles-rain
     )

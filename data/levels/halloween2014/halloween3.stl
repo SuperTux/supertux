@@ -6,8 +6,9 @@
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (music "music/ghostforest.music")
-    (ambient-light 0.6 0.6 0.7)
+    (ambient-light
+      (color 0.6 0.6 0.7)
+    )
     (background
       (speed 0)
       (fill #t)
@@ -235,6 +236,9 @@
       (sprite "images/decal/halloween/gravestone2.png")
       (x 16064)
       (y 864)
+    )
+    (music
+      (file "music/ghostforest.music")
     )
     (secretarea
       (width 316)

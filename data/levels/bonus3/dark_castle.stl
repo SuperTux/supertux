@@ -7,8 +7,9 @@
   (target-time 45)
   (sector
     (name "main")
-    (music "music/darkforestkeep.ogg")
-    (ambient-light 0.2 0.2 0.2)
+    (ambient-light
+      (color 0.2 0.2 0.2)
+    )
     (bouncingsnowball
       (x 8353)
       (y 544)
@@ -408,6 +409,9 @@
     (smartball
       (x 4931)
       (y 902)
+    )
+    (music
+      (file "music/darkforestkeep.ogg")
     )
     (scripttrigger
       (script "platform1.goto_node(0);

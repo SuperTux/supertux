@@ -5,8 +5,9 @@
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (music "music/fortress.music")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.7)
       (image-top "images/background/black_800px.png")
@@ -135,6 +136,9 @@
     (mrbomb
       (x 6893)
       (y 466)
+    )
+    (music
+      (file "music/fortress.music")
     )
     (scripttrigger
       (script "Tux.kill(true)")

@@ -5,8 +5,9 @@
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (music "music/forest2.ogg")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.1)
       (image "images/background/forest1.jpg")
@@ -69,6 +70,9 @@
     (mrtree
       (x 7750)
       (y 984)
+    )
+    (music
+      (file "music/forest2.ogg")
     )
     (poisonivy
       (x 2391)
@@ -428,8 +432,9 @@
   )
   (sector
     (name "sector1")
-    (music "music/forest2.ogg")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (camera
       (mode "normal")
     )
@@ -438,6 +443,9 @@
       (spawnpoint "spawn3")
       (x 878)
       (y 508)
+    )
+    (music
+      (file "music/forest2.ogg")
     )
     (spawnpoint
       (name "spawn2")

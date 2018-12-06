@@ -5,8 +5,9 @@
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (music "music/chipdisko.ogg")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (camera
       (mode "normal")
     )
@@ -310,6 +311,9 @@
       (sprite "images/creatures/mr_iceblock/mr_iceblock.sprite")
       (x 3001.731)
       (y 1933.755)
+    )
+    (music
+      (file "music/chipdisko.ogg")
     )
     (spawnpoint
       (name "main")
@@ -1081,8 +1085,9 @@
   )
   (sector
     (name "tower")
-    (music "music/darkforestkeep.ogg")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.8)
       (image-top "images/background/castle_foreground.png")
@@ -1350,6 +1355,9 @@
       (sprite "images/creatures/mr_bomb/mr_bomb.sprite")
       (x 234.853)
       (y 1456.195)
+    )
+    (music
+      (file "music/darkforestkeep.ogg")
     )
     (skullyhop
       (direction "left")
@@ -2271,8 +2279,9 @@
   )
   (sector
     (name "treasure1")
-    (music "music/darkforestkeep.ogg")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.5)
       (image-top "images/background/arctis_top.jpg")
@@ -2289,6 +2298,9 @@
       (spawnpoint "treasure1")
       (x 630)
       (y 764)
+    )
+    (music
+      (file "music/darkforestkeep.ogg")
     )
     (spawnpoint
       (name "main")
@@ -2430,8 +2442,9 @@
   )
   (sector
     (name "treasure2")
-    (music "music/darkforestkeep.ogg")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.5)
       (image-top "images/background/arctis_top.jpg")
@@ -2448,6 +2461,9 @@
       (spawnpoint "treasure2")
       (x 630)
       (y 764)
+    )
+    (music
+      (file "music/darkforestkeep.ogg")
     )
     (spawnpoint
       (name "main")
@@ -2589,8 +2605,9 @@
   )
   (sector
     (name "treasure3")
-    (music "music/darkforestkeep.ogg")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.5)
       (image-top "images/background/arctis_top.jpg")
@@ -2607,6 +2624,9 @@
       (spawnpoint "treasure3")
       (x 630)
       (y 764)
+    )
+    (music
+      (file "music/darkforestkeep.ogg")
     )
     (spawnpoint
       (name "main")
@@ -2748,8 +2768,9 @@
   )
   (sector
     (name "treasure4")
-    (music "music/darkforestkeep.ogg")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.5)
       (image-top "images/background/arctis_top.jpg")
@@ -2766,6 +2787,9 @@
       (spawnpoint "treasure4")
       (x 630)
       (y 764)
+    )
+    (music
+      (file "music/darkforestkeep.ogg")
     )
     (spawnpoint
       (name "main")

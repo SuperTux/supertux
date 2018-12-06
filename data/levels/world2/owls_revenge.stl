@@ -5,8 +5,9 @@
   (license "CC-BY-SA 4.0 International")
   (sector
     (name "main")
-    (music "music/greatgigantic.music")
-    (ambient-light 0.9764706 0.9686275 0.9686275)
+    (ambient-light
+      (color 0.9764706 0.9686275 0.9686275)
+    )
     (background
       (alignment "top")
       (speed 0.5)
@@ -33,6 +34,9 @@
     (mrbomb
       (x 1436.136)
       (y 1022.007)
+    )
+    (music
+      (file "music/greatgigantic.music")
     )
     (owl
       (x 1614)

@@ -4,7 +4,9 @@
   (author "Christoph Sommer")
   (sector
     (name "main")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (y 400)
       (speed 0.5)

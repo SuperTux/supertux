@@ -5,8 +5,9 @@
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (music "music/fortress.music")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.8)
       (image "images/background/castle_foreground.png")
@@ -373,6 +374,9 @@
       (direction "left")
       (x 3328)
       (y 1376)
+    )
+    (music
+      (file "music/fortress.music")
     )
     (powerup
       (sprite "images/powerups/egg/egg.sprite")

@@ -26,7 +26,9 @@ wait(2);
 TextArray.next_text();
 wait(2);
 TextArray.set_visible(false);")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (scroll-speed-x 0)
       (scroll-speed-y 0)

@@ -4,7 +4,9 @@
   (author "christoph")
   (sector
     (name "main")
-    (ambient-light 0.314519 0.314519 0.314519)
+    (ambient-light
+      (color 0.314519 0.314519 0.314519)
+    )
     (background
       (speed 0.5)
       (image-top "images/background/BlueRock_Forest/blue-top.jpg")

@@ -5,8 +5,9 @@
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (music "music/ghostforest2.ogg")
-    (ambient-light 0.5333329 0.5333329 0.5333329)
+    (ambient-light
+      (color 0.5333329 0.5333329 0.5333329)
+    )
     (background
       (scroll-offset-x 0.5)
       (scroll-offset-y 0.5)
@@ -464,6 +465,9 @@
       (sprite "images/creatures/mr_bomb/mr_bomb.sprite")
       (x 2112)
       (y 736)
+    )
+    (music
+      (file "music/ghostforest2.ogg")
     )
     (secretarea
       (fade-tilemap "secret")

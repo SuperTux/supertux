@@ -6,8 +6,9 @@
   (target-time 90)
   (sector
     (name "main")
-    (music "music/voc-dark.music")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.5)
       (image "images/background/cave2.jpg")
@@ -146,6 +147,9 @@
     (mriceblock
       (x 9387)
       (y 408)
+    )
+    (music
+      (file "music/voc-dark.music")
     )
     (secretarea
       (fade-tilemap "secret1")

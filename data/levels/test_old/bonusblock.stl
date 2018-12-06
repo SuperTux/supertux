@@ -4,8 +4,9 @@
   (author "SuperTux Team")
   (sector
     (name "main")
-    (music "theme.ogg")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.5)
       (image "images/background/arctis.jpg")
@@ -61,6 +62,9 @@ Effect.fade_in(1);
 #potions."))
       (x 128)
       (y 800)
+    )
+    (music
+      (file "theme.ogg")
     )
     (powerup
       (sprite "images/powerups/egg/egg.sprite")

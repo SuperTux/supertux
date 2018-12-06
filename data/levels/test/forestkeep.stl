@@ -4,14 +4,18 @@
   (author "No Author")
   (sector
     (name "main")
-    (music "music/darkforestkeep.ogg")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.5)
       (image "images/background/arctis_dark.jpg")
     )
     (camera
       (mode "normal")
+    )
+    (music
+      (file "music/darkforestkeep.ogg")
     )
     (spawnpoint
       (name "main")

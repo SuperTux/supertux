@@ -6,8 +6,9 @@
   (target-time 80)
   (sector
     (name "main")
-    (music "music/voc-night.music")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.5)
       (image-top "images/background/nightsky_top.png")
@@ -159,6 +160,9 @@
     (smartball
       (x 11808)
       (y 1728)
+    )
+    (music
+      (file "music/voc-night.music")
     )
     (secretarea
       (fade-tilemap "Secret1")

@@ -6,8 +6,9 @@
   (target-time 30)
   (sector
     (name "main")
-    (music "music/cave.music")
-    (ambient-light 0.2580606 0.2580606 0.2580606)
+    (ambient-light
+      (color 0.2580606 0.2580606 0.2580606)
+    )
     (background
       (speed 0.5)
       (image-top "images/background/cave2.jpg")
@@ -445,6 +446,9 @@
       (direction "left")
       (x 5825)
       (y 230)
+    )
+    (music
+      (file "music/cave.music")
     )
     (powerup
       (sprite "images/powerups/1up/1up.sprite")

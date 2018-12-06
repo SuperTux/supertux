@@ -5,8 +5,12 @@
   (license "GPL 2 / CC-by-sa 3.0")
   (sector
     (name "main")
-    (music "music/voc-daytime2.music")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
+    (music
+      (file "music/voc-daytime2.music")
+    )
     (special-tile
       (map-message (_ "You found a secret place!"))
       (invisible-tile #t)

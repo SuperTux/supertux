@@ -5,7 +5,9 @@
   (sector
     (name "main")
     (init-script "intro_scene2()")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (camera
       (mode "normal")
     )

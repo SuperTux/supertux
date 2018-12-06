@@ -5,14 +5,18 @@
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (music "darkforestkeep.ogg")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 1)
       (image "images/background/arctis_dark.jpg")
     )
     (camera
       (mode "normal")
+    )
+    (music
+      (file "darkforestkeep.ogg")
     )
     (spawnpoint
       (name "main")

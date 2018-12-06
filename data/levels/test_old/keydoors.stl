@@ -9,7 +9,9 @@
       AIRHINT.set_action(\"outline\");
       EARTHHINT.set_action(\"outline\");
       WOODHINT.set_action(\"outline\");")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (x 500)
       (y 500)

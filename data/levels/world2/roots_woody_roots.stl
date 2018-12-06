@@ -5,8 +5,9 @@
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (music "music/forest2.ogg")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (ambient_sound
       (sample "sounds/rain.wav")
       (distance_factor 0.5)
@@ -252,6 +253,9 @@
     (mrtree
       (x 9888)
       (y 1246)
+    )
+    (music
+      (file "music/forest2.ogg")
     )
     (poisonivy
       (x 930)
@@ -1128,8 +1132,9 @@
   )
   (sector
     (name "bonuscaves")
-    (music "music/clavelian_march.music")
-    (ambient-light 0.7529412 0.7529412 0.7529412)
+    (ambient-light
+      (color 0.7529412 0.7529412 0.7529412)
+    )
     (background
       (speed 1)
       (image "images/tiles/forest/underground/background1.png")
@@ -1184,6 +1189,9 @@
       (spawnpoint "from_cave05")
       (x 4736)
       (y 1756)
+    )
+    (music
+      (file "music/clavelian_march.music")
     )
     (poisonivy
       (x 1922)

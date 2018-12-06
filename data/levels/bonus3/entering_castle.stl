@@ -7,8 +7,9 @@
   (target-time 40)
   (sector
     (name "main")
-    (music "music/chipdisko.ogg")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (camera
       (mode "normal")
     )
@@ -95,6 +96,9 @@
     (smartball
       (x 1923)
       (y 1542)
+    )
+    (music
+      (file "music/chipdisko.ogg")
     )
     (scripttrigger
       (script "platf1.goto_node(0);

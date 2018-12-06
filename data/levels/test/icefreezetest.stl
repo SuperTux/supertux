@@ -4,8 +4,9 @@
   (author "sydney")
   (sector
     (name "main")
-    (music "music/voc-daytime2.music")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (camera
       (mode "normal")
     )
@@ -66,6 +67,9 @@
     (mrtree
       (x 2528)
       (y 190)
+    )
+    (music
+      (file "music/voc-daytime2.music")
     )
     (poisonivy
       (x 2946)

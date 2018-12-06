@@ -4,8 +4,9 @@
   (author "Kevin")
   (sector
     (name "main")
-    (music "music/fortress.music")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (alignment "bottom")
       (speed 0.5)
@@ -295,6 +296,9 @@
     (mriceblock
       (x 8699)
       (y 554)
+    )
+    (music
+      (file "music/fortress.music")
     )
     (secretarea
       (fade-tilemap "s1")

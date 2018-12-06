@@ -4,7 +4,9 @@
   (author "Marek Moeckel")
   (sector
     (name "main")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (gradient
       (top_color 0 0 0.2)
       (bottom_color 0 0 0.6)

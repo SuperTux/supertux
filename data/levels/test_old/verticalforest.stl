@@ -4,8 +4,9 @@
   (author "Marek Moeckel")
   (sector
     (name "main")
-    (music "music/forest.music")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.5)
       (image-top "images/background/BlueRock_Forest/blue-top.jpg")
@@ -22,6 +23,9 @@
     (firefly
       (x 543)
       (y 3655)
+    )
+    (music
+      (file "music/forest.music")
     )
     (particles-rain
     )

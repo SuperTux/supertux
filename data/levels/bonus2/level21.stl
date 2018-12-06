@@ -5,9 +5,10 @@
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (music "music/fortress.music")
     (gravity 8)
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (camera
       (mode "normal")
       (backscrolling #f)
@@ -106,6 +107,9 @@
     (smartball
       (x 6371)
       (y 582)
+    )
+    (music
+      (file "music/fortress.music")
     )
     (secretarea
       (fade-tilemap "secret")

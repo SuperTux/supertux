@@ -6,8 +6,9 @@
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (music "music/darkforestkeep.ogg")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (ambient_sound
       (sample "sounds/rain.wav")
       (distance_factor 0)
@@ -801,6 +802,9 @@
     (mriceblock
       (x 736)
       (y 512)
+    )
+    (music
+      (file "music/darkforestkeep.ogg")
     )
     (pushbutton
       (script "SpikePlatform.start_moving();

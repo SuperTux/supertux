@@ -5,7 +5,9 @@
   (license "GPL 2 / CC-by-sa 3.0")
   (sector
     (name "main")
-    (ambient-light 0.1451591 0.1451591 0.1451591)
+    (ambient-light
+      (color 0.1451591 0.1451591 0.1451591)
+    )
     (background
       (speed 0.5)
       (image-top "images/background/arctis_top.jpg")

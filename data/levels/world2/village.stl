@@ -5,8 +5,9 @@
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (music "music/forest.music")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (ambient_sound
       (sample "sounds/saw.wav")
       (distance_factor 0.1)
@@ -148,6 +149,9 @@
       (direction "left")
       (x 3301)
       (y 488)
+    )
+    (music
+      (file "music/forest.music")
     )
     (poisonivy
       (direction "left")
@@ -548,8 +552,9 @@ tischsaege.goto_node( 0 ) 	")
   )
   (sector
     (name "house")
-    (music "music/forest2.ogg")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (x 2500)
       (y 465)
@@ -768,6 +773,9 @@ tischsaege.goto_node( 0 ) 	")
       (direction "right")
       (x 421)
       (y 808)
+    )
+    (music
+      (file "music/forest2.ogg")
     )
     (poisonivy
       (direction "left")

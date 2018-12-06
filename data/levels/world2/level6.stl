@@ -5,8 +5,9 @@
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (music "music/forest2.ogg")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 1)
       (image "images/background/forest1.jpg")
@@ -51,6 +52,9 @@
     (mrtree
       (x 3599)
       (y 4175)
+    )
+    (music
+      (file "music/forest2.ogg")
     )
     (poisonivy
       (x 1349)

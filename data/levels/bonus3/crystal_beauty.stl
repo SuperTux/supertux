@@ -6,8 +6,9 @@
   (target-time 45)
   (sector
     (name "main")
-    (music "music/cave.music")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.5)
       (image-top "images/background/bluemountain-bottom.png")
@@ -108,6 +109,9 @@
     (icecrusher
       (x 8802)
       (y 417)
+    )
+    (music
+      (file "music/cave.music")
     )
     (secretarea
       (width 60)

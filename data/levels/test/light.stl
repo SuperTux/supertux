@@ -4,8 +4,9 @@
   (author "")
   (sector
     (name "main")
-    (music "music/chipdisko.ogg")
-    (ambient-light 0.3 0.3 0.4)
+    (ambient-light
+      (color 0.3 0.3 0.4)
+    )
     (background
       (speed 0.5)
       (image "images/background/arctis.jpg")
@@ -25,6 +26,9 @@
     (candle
       (x 3712)
       (y 352)
+    )
+    (music
+      (file "music/chipdisko.ogg")
     )
     (spawnpoint
       (name "main")

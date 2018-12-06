@@ -5,8 +5,9 @@
   (license "GPL 2 / CC-by-sa 3.0")
   (sector
     (name "main")
-    (music "music/voc-dark.music")
-    (ambient-light 0.02 0.02 0.02)
+    (ambient-light
+      (color 0.02 0.02 0.02)
+    )
     (bonusblock
       (script "")
       (count 0)
@@ -236,6 +237,9 @@
     (mrbomb
       (x 832)
       (y 736)
+    )
+    (music
+      (file "music/voc-dark.music")
     )
     (powerup
       (sprite "images/powerups/iceflower/iceflower.sprite")

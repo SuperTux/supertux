@@ -6,8 +6,9 @@
   (target-time 90)
   (sector
     (name "main")
-    (music "music/fortress.music")
-    (ambient-light 0.8 0.6 0.6)
+    (ambient-light
+      (color 0.8 0.6 0.6)
+    )
     (background
       (alignment "bottom")
       (speed 1)
@@ -309,6 +310,9 @@
       (sprite "images/creatures/mr_iceblock/mr_iceblock.sprite")
       (x 580)
       (y 283)
+    )
+    (music
+      (file "music/fortress.music")
     )
     (scripttrigger
       (script "Tux.deactivate();

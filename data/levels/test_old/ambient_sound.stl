@@ -4,7 +4,9 @@
   (author "basti_")
   (sector
     (name "main")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (ambient_sound
       (sample "sounds/rain.wav")
       (distance_factor 0.01)

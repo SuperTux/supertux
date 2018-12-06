@@ -7,8 +7,9 @@
   (target-time 60)
   (sector
     (name "main")
-    (music "music/voc-daytime2.music")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (bonusblock
       (script "")
       (contents "1up")
@@ -412,6 +413,9 @@
     (smartball
       (x 12835)
       (y 390)
+    )
+    (music
+      (file "music/voc-daytime2.music")
     )
     (powerup
       (sprite "images/powerups/1up/1up.sprite")
@@ -1081,12 +1085,13 @@ secret_solid.goto_node(1);")
   )
   (sector
     (name "clouds")
-    (music "music/salcon.ogg")
     (init-script "Background.start_moving();
       Foreground.start_moving();
       BackClouds.start_moving();
       ForeClouds.start_moving();")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (camera
       (mode "normal")
     )
@@ -1119,6 +1124,9 @@ secret_solid.goto_node(1);")
           (y 384)
         )
       )
+    )
+    (music
+      (file "music/salcon.ogg")
     )
     (powerup
       (sprite "images/powerups/fireflower/fireflower.sprite")

@@ -4,8 +4,9 @@
   (author "No Author")
   (sector
     (name "main")
-    (music "forest2.ogg")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.5)
       (image "images/background/forest1.jpg")
@@ -23,6 +24,9 @@
       (spawnpoint "main")
       (x 1792)
       (y 864)
+    )
+    (music
+      (file "forest2.ogg")
     )
     (secretarea
       (message "Good luck getting this to work, Yuri! :-)")

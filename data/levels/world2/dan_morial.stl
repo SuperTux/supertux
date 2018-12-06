@@ -5,8 +5,9 @@
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (music "music/forest.music")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (y 1100)
       (speed 0.5)
@@ -60,6 +61,9 @@
     (mrbomb
       (x 8032)
       (y 784)
+    )
+    (music
+      (file "music/forest.music")
     )
     (poisonivy
       (x 7120)

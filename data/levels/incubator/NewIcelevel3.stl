@@ -6,8 +6,9 @@
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (music "music/chipdisko.ogg")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (bouncingsnowball
       (x 18420.27)
       (y 543.6215)
@@ -85,6 +86,9 @@
     (mriceblock
       (x 14982.99)
       (y 705.6863)
+    )
+    (music
+      (file "music/chipdisko.ogg")
     )
     (scripttrigger
       (script "Level.spawn( \"sky castle\", \"main\" )")
@@ -520,8 +524,9 @@ castleentrance.goto_node(1);
   )
   (sector
     (name "NewSector")
-    (music "music/intro.ogg")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.5)
       (image-top "images/background/arctis_top.jpg")
@@ -535,6 +540,9 @@ castleentrance.goto_node(1);
     )
     (particles-clouds
       (z-pos 101)
+    )
+    (music
+      (file "music/intro.ogg")
     )
     (scripttrigger
       (script "Level.spawn( \"main\", \"caer\" )")
@@ -732,8 +740,9 @@ castleentrance.goto_node(1);
   )
   (sector
     (name "sky castle")
-    (music "music/greatgigantic.music")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.5)
       (image-top "images/background/bluemountain-top.png")
@@ -872,6 +881,9 @@ castleentrance.goto_node(1);
     (mriceblock
       (x 1600)
       (y 320)
+    )
+    (music
+      (file "music/greatgigantic.music")
     )
     (pushbutton
       (script "bloques.goto_node(1);

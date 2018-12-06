@@ -4,7 +4,9 @@
   (author "Ingo Ruhnke")
   (sector
     (name "main")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.125)
       (image-top "images/background/bluemountain-top.png")

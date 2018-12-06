@@ -5,8 +5,9 @@
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (music "music/chipdisko.ogg")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (camera
       (mode "normal")
     )
@@ -20,6 +21,9 @@
     (mriceblock
       (x 3107)
       (y 825)
+    )
+    (music
+      (file "music/chipdisko.ogg")
     )
     (snowball
       (x 551)

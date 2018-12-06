@@ -5,8 +5,9 @@
   (license "CC-BY-SA 4.0 International")
   (sector
     (name "main")
-    (music "music/ghostforest.music")
-    (ambient-light 0.8117647 0.7803922 0.7803922)
+    (ambient-light
+      (color 0.8117647 0.7803922 0.7803922)
+    )
     (background
       (alignment "bottom")
       (speed 0.5)
@@ -188,6 +189,9 @@
       (sprite "images/creatures/mr_bomb/mr_bomb.sprite")
       (x 8713.646)
       (y 472.3308)
+    )
+    (music
+      (file "music/ghostforest.music")
     )
     (poisonivy
       (direction "left")

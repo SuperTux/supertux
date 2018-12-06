@@ -12,7 +12,9 @@ TextArray.add_text(\"the end\");
 
 TextArray.set_auto(true);
 TextArray.set_visible(true);")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (scroll-speed-x 0)
       (scroll-speed-y 0)

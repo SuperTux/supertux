@@ -6,8 +6,9 @@
   (target-time 70)
   (sector
     (name "main")
-    (music "music/cave.music")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.5)
       (image-top "images/background/BlueRock_Forest/blue-top.jpg")
@@ -34,6 +35,9 @@
     (mrtree
       (x 480)
       (y 832)
+    )
+    (music
+      (file "music/cave.music")
     )
     (poisonivy
       (x 736)
@@ -350,8 +354,9 @@
   )
   (sector
     (name "sector2")
-    (music "music/cave.music")
-    (ambient-light 0.4677348 0.4677348 0.4677348)
+    (ambient-light
+      (color 0.4677348 0.4677348 0.4677348)
+    )
     (background
       (speed 0.5)
       (image-top "images/background/BlueRock_Forest/blue-top.jpg")
@@ -374,6 +379,9 @@
     (mrtree
       (x 2336)
       (y 64)
+    )
+    (music
+      (file "music/cave.music")
     )
     (spawnpoint
       (name "main")
@@ -539,8 +547,9 @@
   )
   (sector
     (name "sector3")
-    (music "music/forest.music")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.5)
       (image-top "images/background/BlueRock_Forest/blue-top.jpg")
@@ -549,6 +558,9 @@
     )
     (camera
       (mode "normal")
+    )
+    (music
+      (file "music/forest.music")
     )
     (spawnpoint
       (name "main")

@@ -4,14 +4,18 @@
   (author "Marek Moeckel")
   (sector
     (name "main")
-    (music "music/bossattack.music")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.5)
       (image "images/background/arctis_dark.jpg")
     )
     (camera
       (mode "normal")
+    )
+    (music
+      (file "music/bossattack.music")
     )
     (spawnpoint
       (name "main")
@@ -102,8 +106,9 @@
   )
   (sector
     (name "sector1")
-    (music "music/chipdisko.ogg")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.5)
       (image "images/background/forest1.jpg")
@@ -121,6 +126,9 @@
     (jumpy
       (x 500)
       (y 400)
+    )
+    (music
+      (file "music/chipdisko.ogg")
     )
     (secretarea
       (message "You found a secret area!")

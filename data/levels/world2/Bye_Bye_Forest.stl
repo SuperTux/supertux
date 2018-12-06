@@ -5,8 +5,9 @@
   (license "CC-BY-SA 4.0 International")
   (sector
     (name "main")
-    (music "music/forest_theme.ogg")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (alignment "bottom")
       (speed 0.5)
@@ -736,6 +737,9 @@
       (x 1184)
       (y 606)
     )
+    (music
+      (file "music/forest_theme.ogg")
+    )
     (poisonivy
       (x 1442)
       (y 932)
@@ -1134,8 +1138,9 @@
   )
   (sector
     (name "NewSector")
-    (music "music/forest_theme.ogg")
-    (ambient-light 0.9137255 0.8431373 0.8431373)
+    (ambient-light
+      (color 0.9137255 0.8431373 0.8431373)
+    )
     (camera
       (mode "normal")
     )
@@ -1160,6 +1165,9 @@
     (firefly
       (x 160)
       (y 192)
+    )
+    (music
+      (file "music/forest_theme.ogg")
     )
     (poisonivy
       (x 1474)

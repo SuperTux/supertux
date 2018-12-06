@@ -6,8 +6,9 @@
   (target-time 40)
   (sector
     (name "main")
-    (music "music/airship_remix.music")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (bonusblock
       (script "")
       (sprite "images/objects/bonus_block/brick.sprite")
@@ -141,6 +142,9 @@
     (smartball
       (x 6787)
       (y 614)
+    )
+    (music
+      (file "music/airship_remix.music")
     )
     (secretarea
       (script "secret.fade(1,0.4);")

@@ -5,8 +5,9 @@
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (music "/music/halloween_1.music")
-    (ambient-light 0.5 0.5 0.5)
+    (ambient-light
+      (color 0.5 0.5 0.5)
+    )
     (background
       (alignment "bottom")
       (speed 0.5)
@@ -240,6 +241,9 @@
       (sprite "images/creatures/mr_bomb/mr_bomb.sprite")
       (x 6949.73)
       (y 555.426)
+    )
+    (music
+      (file "/music/halloween_1.music")
     )
     (poisonivy
       (direction "left")

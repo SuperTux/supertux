@@ -4,7 +4,9 @@
   (author "ingo")
   (sector
     (name "main")
-    (ambient-light 0.25 0.25 0.25)
+    (ambient-light
+      (color 0.25 0.25 0.25)
+    )
     (camera
       (mode "normal")
     )

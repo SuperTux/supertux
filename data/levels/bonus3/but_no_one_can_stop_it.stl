@@ -6,8 +6,9 @@
   (target-time 100)
   (sector
     (name "main")
-    (music "music/chipdisko.ogg")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (bouncingsnowball
       (x 2944)
       (y 320)
@@ -64,6 +65,9 @@
     (smartball
       (x 2123)
       (y 769)
+    )
+    (music
+      (file "music/chipdisko.ogg")
     )
     (particles-snow
     )
@@ -363,8 +367,9 @@
   )
   (sector
     (name "Cave")
-    (music "music/cave.music")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.5)
       (image-top "images/background/cave2.jpg")
@@ -462,6 +467,9 @@
     (mriceblock
       (x 1888)
       (y 256)
+    )
+    (music
+      (file "music/cave.music")
     )
     (secretarea
       (fade-tilemap "Secret1")

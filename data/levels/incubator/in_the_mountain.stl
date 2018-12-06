@@ -6,8 +6,9 @@
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (music "music/chipdisko.ogg")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.5)
       (image-top "images/background/cave2.jpg")
@@ -136,6 +137,9 @@
     (mriceblock
       (x 7937)
       (y 390)
+    )
+    (music
+      (file "music/chipdisko.ogg")
     )
     (owl
       (x 9089.498)

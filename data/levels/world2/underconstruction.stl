@@ -5,12 +5,13 @@
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (music "music/forest3.ogg")
     (init-script "
       AIRHINT.set_action(\"outline\");
       EARTHHINT.set_action(\"outline\");
       WOODHINT.set_action(\"outline\");")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (camera
       (mode "normal")
     )
@@ -49,6 +50,9 @@
     (gradient
       (top_color 0.02131685 0 0.4536355)
       (bottom_color 0.7644312 0.312993 0)
+    )
+    (music
+      (file "music/forest3.ogg")
     )
     (scriptedobject
       (z-pos 101)

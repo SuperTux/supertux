@@ -5,8 +5,9 @@
   (license "GPL 2 / CC-by-sa 3.0")
   (sector
     (name "main")
-    (music "music/clavelian_march.music")
-    (ambient-light 0.3176471 0.2980392 0.2980392)
+    (ambient-light
+      (color 0.3176471 0.2980392 0.2980392)
+    )
     (camera
       (mode "normal")
     )
@@ -144,6 +145,9 @@
     (mrtree
       (x 7680)
       (y 830)
+    )
+    (music
+      (file "music/clavelian_march.music")
     )
     (poisonivy
       (x 802)

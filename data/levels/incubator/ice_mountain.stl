@@ -6,7 +6,6 @@
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (music "music/airship_remix.music")
     (init-script "import(\"levels/incubator/ice_mountain.nut\")
 
 b1 <- FloatingImage(\"images/objects/crystals/crystal_1.sprite\");
@@ -48,7 +47,9 @@ if(query(\"yellow\")){
   eye3.goto_node(1);
 }
 ")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (bouncingsnowball
       (x 2625)
       (y 896)
@@ -587,6 +588,9 @@ if(query(\"yellow\")){
     (mriceblock
       (x 4673)
       (y 294)
+    )
+    (music
+      (file "music/airship_remix.music")
     )
     (owl
       (direction "right")

@@ -6,8 +6,9 @@
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (music "music/greatgigantic.music")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.5)
       (image "images/background/nightsky_top.png")
@@ -62,6 +63,9 @@
     (smartball
       (x 8704)
       (y 800)
+    )
+    (music
+      (file "music/greatgigantic.music")
     )
     (secretarea
       (fade-tilemap "Secret")

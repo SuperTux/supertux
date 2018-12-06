@@ -5,8 +5,9 @@
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (music "music/forest3.ogg")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.5)
       (image-top "images/background/nightsky_top.png")
@@ -114,6 +115,9 @@
     (smartball
       (x 9187)
       (y 532.142)
+    )
+    (music
+      (file "music/forest3.ogg")
     )
     (pushbutton
       (script "IceStonePlatform.start_moving();")

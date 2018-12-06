@@ -4,8 +4,9 @@
   (author "Christoph Sommer")
   (sector
     (name "main")
-    (music "music/bossattack.music")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (y -200)
       (speed 0.5)
@@ -13,6 +14,9 @@
     )
     (camera
       (mode "normal")
+    )
+    (music
+      (file "music/bossattack.music")
     )
     (scripttrigger
       (script "risinglava.goto_node(1);")

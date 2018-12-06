@@ -4,8 +4,9 @@
   (author "Ricardo Cruz")
   (sector
     (name "main")
-    (music "music/credits.ogg")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.5)
       (image "images/background/semi_arctic.jpg")
@@ -136,6 +137,9 @@
     (mriceblock
       (x 7276)
       (y 412)
+    )
+    (music
+      (file "music/credits.ogg")
     )
     (snowball
       (x 2304)

@@ -5,8 +5,9 @@
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (music "music/darkforestkeep.ogg")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (camera
       (mode "normal")
     )
@@ -21,6 +22,9 @@
     (gradient
       (top_color 0 0 0.2)
       (bottom_color 0 0 0.6)
+    )
+    (music
+      (file "music/darkforestkeep.ogg")
     )
     (spawnpoint
       (name "main")
@@ -746,8 +750,9 @@
   )
   (sector
     (name "outside")
-    (music "music/darkforestkeep.ogg")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (camera
       (mode "normal")
     )
@@ -756,6 +761,9 @@
     (gradient
       (top_color 0 0 0.2)
       (bottom_color 0 0 0.6)
+    )
+    (music
+      (file "music/darkforestkeep.ogg")
     )
     (spawnpoint
       (name "main")

@@ -6,12 +6,13 @@
   (target-time 80)
   (sector
     (name "main")
-    (music "music/forest2.ogg")
     (init-script "LeftWall.goto_node(0)
 RightWall.goto_node(1)
 LeftWindow.goto_node(1)
 RightWindow.goto_node(0)")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.5)
       (image-top "images/background/BlueRock_Forest/blue-top.jpg")
@@ -30,6 +31,9 @@ RightWindow.goto_node(0)")
     (mrtree
       (x 1440)
       (y 352)
+    )
+    (music
+      (file "music/forest2.ogg")
     )
     (pushbutton
       (script "LeftWall.goto_node(1)
@@ -246,10 +250,11 @@ Pole.goto_node(1)")
   )
   (sector
     (name "InsideCastle")
-    (music "music/darkforestkeep.ogg")
     (init-script "ButtonBlock.goto_node(1)
 DoorBlock.goto_node(1)")
-    (ambient-light 0.4274205 0.4274205 0.4274205)
+    (ambient-light
+      (color 0.4274205 0.4274205 0.4274205)
+    )
     (background
       (speed 0.5)
       (image-top "images/background/BlueRock_Forest/blue-top.jpg")
@@ -324,6 +329,9 @@ DoorBlock.goto_node(1)")
     (mrtree
       (x 2944)
       (y 576)
+    )
+    (music
+      (file "music/darkforestkeep.ogg")
     )
     (snail
       (x 1248)
@@ -509,8 +517,9 @@ DoorBlock.goto_node(1)")
   )
   (sector
     (name "OutsideCastle")
-    (music "music/forest2.ogg")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.5)
       (image-top "images/background/BlueRock_Forest/blue-top.jpg")
@@ -523,6 +532,9 @@ DoorBlock.goto_node(1)")
     (mrtree
       (x 320)
       (y 192)
+    )
+    (music
+      (file "music/forest2.ogg")
     )
     (poisonivy
       (x 960)

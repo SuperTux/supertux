@@ -6,8 +6,9 @@
   (target-time 80)
   (sector
     (name "main")
-    (music "music/cave.music")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (bouncingsnowball
       (x 1989)
       (y 336)
@@ -122,6 +123,9 @@
     (smartball
       (x 6147)
       (y 518)
+    )
+    (music
+      (file "music/cave.music")
     )
     (secretarea
       (width 360)

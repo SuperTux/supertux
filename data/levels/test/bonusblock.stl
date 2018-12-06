@@ -6,7 +6,9 @@
   (sector
     (name "main")
     (init-script "	lightson <- true;	")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (bonusblock
       (script "")
       (count 3)

@@ -7,8 +7,9 @@
   (target-time 90)
   (sector
     (name "main")
-    (music "music/wisphunt.music")
-    (ambient-light 0.2509804 0.2980392 0.3490196)
+    (ambient-light
+      (color 0.2509804 0.2980392 0.3490196)
+    )
     (background
       (speed 0)
       (image "images/background/halloween/sky.png")
@@ -1609,6 +1610,9 @@
       (sprite "images/decal/halloween/tree.png")
       (x 21824)
       (y 384)
+    )
+    (music
+      (file "music/wisphunt.music")
     )
     (powerup
       (sprite "images/powerups/1up/1up.sprite")

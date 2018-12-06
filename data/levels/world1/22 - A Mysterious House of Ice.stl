@@ -6,8 +6,9 @@
   (target-time 30)
   (sector
     (name "main")
-    (music "music/fortress.music")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (camera
       (mode "normal")
     )
@@ -78,6 +79,9 @@
     (mriceblock
       (x 1804)
       (y 507)
+    )
+    (music
+      (file "music/fortress.music")
     )
     (secretarea
       (fade-tilemap "secret1")

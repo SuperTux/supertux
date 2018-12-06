@@ -5,8 +5,9 @@
   (target-time 120)
   (sector
     (name "main")
-    (music "music/greatgigantic.music")
-    (ambient-light 0.6353094 0.413077 0.413077)
+    (ambient-light
+      (color 0.6353094 0.413077 0.413077)
+    )
     (background
       (y 3350)
       (speed 0.5)
@@ -301,6 +302,9 @@
     (jumpy
       (x 1568)
       (y 800)
+    )
+    (music
+      (file "music/greatgigantic.music")
     )
     (scripttrigger
       (script "door2.goto_node(1);

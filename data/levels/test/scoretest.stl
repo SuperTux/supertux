@@ -6,7 +6,9 @@
   (sector
     (name "main")
     (init-script "Level.spawn(\"main\",\"blbost\")")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (camera
       (mode "normal")
     )

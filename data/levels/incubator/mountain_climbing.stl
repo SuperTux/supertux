@@ -5,9 +5,10 @@
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (music "music/chipdisko.ogg")
     (init-script "secret.fade(0,0)")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.5)
       (image-top "images/background/bluemountain-top.png")
@@ -256,6 +257,9 @@
       (x 544)
       (y 1408)
     )
+    (music
+      (file "music/chipdisko.ogg")
+    )
     (scripttrigger
       (script "secret.fade(1,0)")
       (button #f)
@@ -480,8 +484,9 @@
   )
   (sector
     (name "inside_mountanin")
-    (music "music/cave.music")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.5)
       (image-top "images/background/cave2.jpg")
@@ -514,6 +519,9 @@
     (mriceblock
       (x 864)
       (y 480)
+    )
+    (music
+      (file "music/cave.music")
     )
     (spawnpoint
       (name "main")
@@ -596,8 +604,9 @@
   )
   (sector
     (name "mt2cas")
-    (music "music/chipdisko.ogg")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.5)
       (image-top "images/background/bluemountain-top.png")
@@ -695,6 +704,9 @@
     (mrbomb
       (x 1056)
       (y 800)
+    )
+    (music
+      (file "music/chipdisko.ogg")
     )
     (snowball
       (x 896)
@@ -857,11 +869,15 @@
   )
   (sector
     (name "tower")
-    (music "music/fortress.music")
     (init-script "schody2.fade(0.2,0)")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (camera
       (mode "normal")
+    )
+    (music
+      (file "music/fortress.music")
     )
     (scripttrigger
       (script "Level.spawn(\"cas2mt\",\"main\")")
@@ -1500,8 +1516,9 @@ schody2.fade(0.1,0.5)")
   )
   (sector
     (name "cas2mt")
-    (music "music/chipdisko.ogg")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.5)
       (image-top "images/background/bluemountain-top.png")
@@ -1521,6 +1538,9 @@ schody2.fade(0.1,0.5)")
       (sprite "images/objects/resetpoints/bell.sprite")
       (x 2944)
       (y 960)
+    )
+    (music
+      (file "music/chipdisko.ogg")
     )
     (scripttrigger
       (script "Level.spawn(\"mountanin\",\"main\")")
@@ -1715,8 +1735,9 @@ schody2.fade(0.1,0.5)")
   )
   (sector
     (name "mountanin")
-    (music "music/chipdisko.ogg")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.5)
       (image-top "images/background/bluemountain-top.png")
@@ -1794,6 +1815,9 @@ schody2.fade(0.1,0.5)")
     (mrbomb
       (x 1728)
       (y 416)
+    )
+    (music
+      (file "music/chipdisko.ogg")
     )
     (scripttrigger
       (script "Level.spawn(\"cas2mt\",\"bk\")")
@@ -2045,8 +2069,9 @@ schody2.fade(0.1,0.5)")
   )
   (sector
     (name "mt2mon")
-    (music "music/wisphunt.music")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.5)
       (image-top "images/background/nightsky_top.png")
@@ -2099,6 +2124,9 @@ schody2.fade(0.1,0.5)")
     (mrbomb
       (x 544)
       (y 512)
+    )
+    (music
+      (file "music/wisphunt.music")
     )
     (scripttrigger
       (script "Level.spawn(\"moon\",\"main\")")
@@ -2230,8 +2258,9 @@ schody2.fade(0.1,0.5)")
   )
   (sector
     (name "moon")
-    (music "music/wisphunt.music")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.5)
       (image-top "images/background/nightsky_top.png")
@@ -2272,6 +2301,9 @@ schody2.fade(0.1,0.5)")
     (jumpy
       (x 2304)
       (y 800)
+    )
+    (music
+      (file "music/wisphunt.music")
     )
     (scripttrigger
       (script "Level.spawn(\"mt2moon\",\"bk\")")
@@ -2347,8 +2379,9 @@ schody2.fade(0.1,0.5)")
   )
   (sector
     (name "sky")
-    (music "music/wisphunt.music")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.5)
       (image-top "images/background/nightsky_top.png")
@@ -2357,6 +2390,9 @@ schody2.fade(0.1,0.5)")
     )
     (camera
       (mode "normal")
+    )
+    (music
+      (file "music/wisphunt.music")
     )
     (sequencetrigger
       (sequence "endsequence")

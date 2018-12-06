@@ -5,8 +5,9 @@
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (music "music/treeboss.music")
-    (ambient-light 0.5333334 0.5333334 0.5333334)
+    (ambient-light
+      (color 0.5333334 0.5333334 0.5333334)
+    )
     (background
       (speed 0.5)
       (image "images/background/arctis_dark.jpg")
@@ -55,6 +56,9 @@
       (color 0 0 0)
       (x 1040)
       (y 148)
+    )
+    (music
+      (file "music/treeboss.music")
     )
     (scripttrigger
       (script "platform1.goto_node(1);")

@@ -6,8 +6,9 @@
   (target-time 70)
   (sector
     (name "main")
-    (music "music/treeboss.music")
-    (ambient-light 1 0 0)
+    (ambient-light
+      (color 1 0 0)
+    )
     (background
       (speed 0.5)
       (image-top "images/background/BlueRock_Forest/blue-top.jpg")
@@ -177,6 +178,9 @@
     (mrtree
       (x 3200)
       (y 480)
+    )
+    (music
+      (file "music/treeboss.music")
     )
     (poisonivy
       (x 416)
@@ -697,8 +701,9 @@
   )
   (sector
     (name "secret1")
-    (music "music/salcon.ogg")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.5)
       (image-top "images/background/nightsky_top.png")
@@ -713,6 +718,9 @@
       (spawnpoint "spawn2")
       (x 992)
       (y 288)
+    )
+    (music
+      (file "music/salcon.ogg")
     )
     (spawnpoint
       (name "main")

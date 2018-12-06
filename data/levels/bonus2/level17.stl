@@ -5,8 +5,9 @@
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (music "music/theme.music")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (bouncingsnowball
       (x 10850)
       (y 561)
@@ -160,6 +161,9 @@
     (mrbomb
       (x 1617)
       (y 716)
+    )
+    (music
+      (file "music/theme.music")
     )
     (secretarea
       (fade-tilemap "s1")

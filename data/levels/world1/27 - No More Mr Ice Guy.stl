@@ -5,17 +5,21 @@
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (music "music/bossattack.music")
     (init-script "
 Effect.fade_in(1);
 ")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.5)
       (image "images/background/semi_arctic.jpg")
     )
     (camera
       (mode "normal")
+    )
+    (music
+      (file "music/bossattack.music")
     )
     (secretarea
       (fade-tilemap "Secret")

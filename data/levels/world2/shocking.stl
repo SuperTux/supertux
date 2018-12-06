@@ -5,8 +5,9 @@
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (music "music/bright_thunders.music")
-    (ambient-light 0.5735561 0.4489815 0.5647517)
+    (ambient-light
+      (color 0.5735561 0.4489815 0.5647517)
+    )
     (background
       (alignment "top")
       (speed 0.5)
@@ -51,6 +52,9 @@
     (mrtree
       (x 5792)
       (y 448)
+    )
+    (music
+      (file "music/bright_thunders.music")
     )
     (poisonivy
       (x 656)

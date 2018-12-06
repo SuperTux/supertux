@@ -6,8 +6,9 @@
   (target-time 80)
   (sector
     (name "main")
-    (music "music/cave.music")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (bonusblock
       (script "")
       (count 5)
@@ -132,6 +133,9 @@
     (smartball
       (x 7711)
       (y 400)
+    )
+    (music
+      (file "music/cave.music")
     )
     (smartblock
       (x 10753)

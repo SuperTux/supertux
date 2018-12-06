@@ -5,8 +5,9 @@
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (music "music/voc-daytime2.music")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.5)
       (image-top "images/background/bluemountain-top.png")
@@ -91,6 +92,9 @@
       (direction "left")
       (x 1187)
       (y 166)
+    )
+    (music
+      (file "music/voc-daytime2.music")
     )
     (powerup
       (disable-physics #t)

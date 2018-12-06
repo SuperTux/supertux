@@ -5,8 +5,9 @@
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (music "music/forest2.ogg")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (y 650)
       (speed 0.5)
@@ -46,6 +47,9 @@
       (direction "left")
       (x 1696)
       (y 382)
+    )
+    (music
+      (file "music/forest2.ogg")
     )
     (poisonivy
       (x 738)
@@ -292,8 +296,9 @@
   )
   (sector
     (name "tree house")
-    (music "music/forest.music")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.5)
       (image "images/background/BlueRock_Forest/blue-top.jpg")
@@ -317,6 +322,9 @@
       (direction "left")
       (x 421)
       (y 424)
+    )
+    (music
+      (file "music/forest.music")
     )
     (poisonivy
       (direction "left")

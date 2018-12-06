@@ -5,9 +5,10 @@
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (music "music/fortress.music")
     (init-script "droptrap_fired <- false;")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (y 1500)
       (speed 0.5)
@@ -284,6 +285,9 @@
     (mrtree
       (x 704)
       (y 1664)
+    )
+    (music
+      (file "music/fortress.music")
     )
     (scripttrigger
       (script "trapdoor1.goto_node(1);
