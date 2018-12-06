@@ -75,7 +75,7 @@ Sector::Sector(Level& parent) :
   m_collision_system(new CollisionSystem(*this)),
   m_gravity(10.0)
 {
-  Savegame* savegame = Editor::is_active() ?
+  Savegame* savegame = (Editor::current() && Editor::is_active()) ?
     Editor::current()->m_savegame.get() :
     GameSession::current() ? &GameSession::current()->get_savegame() : nullptr;
   PlayerStatus& player_status = savegame ? savegame->get_player_status() : dummy_player_status;
@@ -575,7 +575,7 @@ Sector::save(Writer &writer)
     writer.write("init-script", m_init_script,false);
   }
 
-  if (!Editor::is_active() || !Editor::current()->get_worldmap_mode()) {
+  if (!Editor::is_active() || !(Editor::current() && Editor::current()->get_worldmap_mode())) {
     if (m_gravity != 10.0f) {
       writer.write("gravity", m_gravity);
     }

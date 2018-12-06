@@ -60,11 +60,17 @@
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
+bool Editor::s_resaving_in_progress = false;
+
 bool
 Editor::is_active()
 {
-  auto self = Editor::current();
-  return self && self->m_levelloaded && !self->m_leveltested;
+  if (s_resaving_in_progress) {
+    return true;
+  } else {
+    auto* self = Editor::current();
+    return self && self->m_levelloaded && !self->m_leveltested;
+  }
 }
 
 Editor::Editor() :

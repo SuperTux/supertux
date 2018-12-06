@@ -221,7 +221,7 @@ Gradient::draw(DrawingContext& context)
 bool
 Gradient::is_saveable() const
 {
-  return !Editor::is_active() || !Editor::current()->get_worldmap_mode();
+  return !Editor::is_active() || !(Editor::current() && Editor::current()->get_worldmap_mode());
 }
 
 /* EOF */
