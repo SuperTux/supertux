@@ -116,7 +116,9 @@ Path::save(Writer& writer)
   if (!is_valid()) return;
 
   writer.start_list("path");
-  writer.write("mode", walk_mode_to_string(m_mode), false);
+  if (m_mode != WalkMode::CIRCULAR) {
+    writer.write("mode", walk_mode_to_string(m_mode), false);
+  }
 
   for (auto& nod : m_nodes) {
     writer.start_list("node");

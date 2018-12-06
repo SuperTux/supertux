@@ -38,7 +38,7 @@ Decal::get_settings()
 {
   ObjectSettings result = MovingSprite::get_settings();
 
-  result.add_int(_("Z-pos"), &m_layer, "z-pos");
+  result.add_int(_("Z-pos"), &m_layer, "z-pos", LAYER_OBJECTS);
   result.add_bool(_("Solid"), &solid, "solid", false);
   result.add_text(_("Action"), &default_action, "action");
 
