@@ -56,6 +56,8 @@
     (music
       (file "music/bright_thunders.music")
     )
+    (particles-rain
+    )
     (poisonivy
       (x 656)
       (y 464)
@@ -89,8 +91,6 @@ end_level();")
       (sprite "images/objects/keys/key_water.sprite")
       (x 7968)
       (y 416)
-    )
-    (particles-rain
     )
     (spawnpoint
       (name "main")

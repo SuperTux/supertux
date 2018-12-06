@@ -116,6 +116,8 @@
     )
     (particles-rain
     )
+    (particles-snow
+    )
     (sequencetrigger
       (sequence "stoptux")
       (width 32)
@@ -129,8 +131,6 @@
       (height 716)
       (x 8928)
       (y -12)
-    )
-    (particles-snow
     )
     (spawnpoint
       (name "main")

@@ -55,8 +55,6 @@
     (camera
       (mode "normal")
     )
-    (particles-clouds
-    )
     (firefly
       (x 4416)
       (y 768)
@@ -117,6 +115,17 @@
       (x 4737)
       (y 806)
     )
+    (music
+      (file "music/airship_remix.music")
+    )
+    (particles-clouds
+    )
+    (secretarea
+      (width 764)
+      (height 188)
+      (x 7072)
+      (y 320)
+    )
     (smartball
       (x 5475)
       (y 1030)
@@ -136,15 +145,6 @@
     (smartball
       (x 1792)
       (y 896)
-    )
-    (music
-      (file "music/airship_remix.music")
-    )
-    (secretarea
-      (width 764)
-      (height 188)
-      (x 7072)
-      (y 320)
     )
     (snowball
       (x 8099)

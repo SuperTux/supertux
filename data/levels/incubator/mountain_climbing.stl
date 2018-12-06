@@ -260,6 +260,14 @@
     (music
       (file "music/chipdisko.ogg")
     )
+    (particles-snow
+    )
+    (particles-snow
+      (z-pos 0)
+    )
+    (particles-snow
+      (z-pos 200)
+    )
     (scripttrigger
       (script "secret.fade(1,0)")
       (button #f)
@@ -281,14 +289,6 @@
     (snowball
       (x 1344)
       (y 1312)
-    )
-    (particles-snow
-    )
-    (particles-snow
-      (z-pos 0)
-    )
-    (particles-snow
-      (z-pos 200)
     )
     (spawnpoint
       (name "main")
@@ -708,10 +708,6 @@
     (music
       (file "music/chipdisko.ogg")
     )
-    (snowball
-      (x 896)
-      (y 832)
-    )
     (particles-snow
     )
     (particles-snow
@@ -719,6 +715,10 @@
     )
     (particles-snow
       (z-pos 200)
+    )
+    (snowball
+      (x 896)
+      (y 832)
     )
     (spawnpoint
       (name "main")
@@ -1542,6 +1542,14 @@ schody2.fade(0.1,0.5)")
     (music
       (file "music/chipdisko.ogg")
     )
+    (particles-snow
+    )
+    (particles-snow
+      (z-pos 0)
+    )
+    (particles-snow
+      (z-pos 200)
+    )
     (scripttrigger
       (script "Level.spawn(\"mountanin\",\"main\")")
       (button #f)
@@ -1581,14 +1589,6 @@ schody2.fade(0.1,0.5)")
     (snowball
       (x 1056)
       (y 480)
-    )
-    (particles-snow
-    )
-    (particles-snow
-      (z-pos 0)
-    )
-    (particles-snow
-      (z-pos 200)
     )
     (spawnpoint
       (name "main")
@@ -1819,6 +1819,14 @@ schody2.fade(0.1,0.5)")
     (music
       (file "music/chipdisko.ogg")
     )
+    (particles-snow
+    )
+    (particles-snow
+      (z-pos 0)
+    )
+    (particles-snow
+      (z-pos 200)
+    )
     (scripttrigger
       (script "Level.spawn(\"cas2mt\",\"bk\")")
       (button #f)
@@ -1834,14 +1842,6 @@ schody2.fade(0.1,0.5)")
       (height 32)
       (x 1952)
       (y -96)
-    )
-    (particles-snow
-    )
-    (particles-snow
-      (z-pos 0)
-    )
-    (particles-snow
-      (z-pos 200)
     )
     (spawnpoint
       (name "main")

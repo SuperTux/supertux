@@ -15,20 +15,14 @@
     (camera
       (mode "normal")
     )
-    (particles-clouds
-    )
-    (platform
-      (running #f)
-      (name "PLATFORM")
-      (sprite "images/objects/flying_platform/flying_platform.sprite")
-      (path-ref "64557f43-3bbd-4981-a6a6-a9c2c492747c")
-    )
     (gradient
       (top_color 0.02131685 0 0.4536355)
       (bottom_color 0.7644312 0.312993 0)
     )
     (music
       (file "music/forest3.ogg")
+    )
+    (particles-clouds
     )
     (path
       (name "64557f43-3bbd-4981-a6a6-a9c2c492747c")
@@ -102,6 +96,12 @@
           (time 2)
         )
       )
+    )
+    (platform
+      (running #f)
+      (name "PLATFORM")
+      (sprite "images/objects/flying_platform/flying_platform.sprite")
+      (path-ref "64557f43-3bbd-4981-a6a6-a9c2c492747c")
     )
     (scriptedobject
       (z-pos 101)

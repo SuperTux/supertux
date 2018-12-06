@@ -78,6 +78,8 @@
     (music
       (file "music/credits.ogg")
     )
+    (particles-snow
+    )
     (path
       (name "30262c5f-0936-4b84-bb5f-9976efd76bfa")
       (path
@@ -240,8 +242,6 @@
     (snowball
       (x 2708)
       (y 339)
-    )
-    (particles-snow
     )
     (spawnpoint
       (name "main")

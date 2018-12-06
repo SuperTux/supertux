@@ -12,8 +12,6 @@
       (mode "normal")
       (backscrolling #f)
     )
-    (particles-clouds
-    )
     (flyingsnowball
       (x 2410)
       (y -8629)
@@ -99,6 +97,8 @@
     )
     (music
       (file "music/chipdisko.ogg")
+    )
+    (particles-clouds
     )
     (snowball
       (x 358)

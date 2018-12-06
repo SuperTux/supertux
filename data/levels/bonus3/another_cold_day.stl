@@ -127,6 +127,25 @@
       (x 3649)
       (y 550)
     )
+    (music
+      (file "music/airship_remix.music")
+    )
+    (path
+      (name "fae59af4-eae7-4f37-ba3c-b74717e1a3a6")
+      (path
+        (node
+          (x 64)
+          (y 768)
+        )
+      )
+    )
+    (secretarea
+      (fade-tilemap "secr1")
+      (width 156)
+      (height 40)
+      (x 64)
+      (y 884)
+    )
     (smartball
       (x 7459)
       (y 646)
@@ -150,29 +169,6 @@
     (smartball
       (x 4995)
       (y 966)
-    )
-    (music
-      (file "music/airship_remix.music")
-    )
-    (path
-      (name "fae59af4-eae7-4f37-ba3c-b74717e1a3a6")
-      (path
-        (node
-          (x 64)
-          (y 768)
-        )
-      )
-    )
-    (secretarea
-      (fade-tilemap "secr1")
-      (width 156)
-      (height 40)
-      (x 64)
-      (y 884)
-    )
-    (sspiky
-      (x 3782)
-      (y 554)
     )
     (snowball
       (x 2179)
@@ -206,6 +202,10 @@
     (spiky
       (x 6406)
       (y 298)
+    )
+    (sspiky
+      (x 3782)
+      (y 554)
     )
     (stalactite
       (x 6240)

@@ -180,24 +180,10 @@
       (x 9880)
       (y 574)
     )
-    (smartball
-      (x 12117)
-      (y 344)
-    )
-    (smartball
-      (x 12181)
-      (y 475)
-    )
-    (smartball
-      (x 8578)
-      (y 464)
-    )
-    (smartball
-      (x 13058)
-      (y 442)
-    )
     (music
       (file "music/voc-night.music")
+    )
+    (particles-snow
     )
     (path
       (name "e8455363-f258-4bc4-8676-f689fe417969")
@@ -244,7 +230,21 @@
       (x -3)
       (y 188)
     )
-    (particles-snow
+    (smartball
+      (x 12117)
+      (y 344)
+    )
+    (smartball
+      (x 12181)
+      (y 475)
+    )
+    (smartball
+      (x 8578)
+      (y 464)
+    )
+    (smartball
+      (x 13058)
+      (y 442)
     )
     (spawnpoint
       (name "main")

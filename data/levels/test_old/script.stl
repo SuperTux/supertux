@@ -40,9 +40,6 @@ while(true) {
 	}
 }
 ")
-    (ambient-light
-      (color 1 1 1)
-    )
     (ambient_sound
       (sample "phone")
       (distance_factor 0.01)
@@ -52,6 +49,9 @@ while(true) {
       (height 32)
       (x 674)
       (y 390)
+    )
+    (ambient-light
+      (color 1 1 1)
     )
     (background
       (speed 0.5)
@@ -76,6 +76,8 @@ while(true) {
     (music
       (file "salcon.ogg")
     )
+    (particles-snow
+    )
     (scriptedobject
       (name "TUX")
       (sprite "images/creatures/yeti/yeti.sprite")
@@ -87,8 +89,6 @@ while(true) {
       (sprite "images/creatures/dummyguy/dummyguy.sprite")
       (x 390)
       (y 448)
-    )
-    (particles-snow
     )
     (spawnpoint
       (name "main")

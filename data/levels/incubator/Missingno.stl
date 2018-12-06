@@ -717,6 +717,11 @@
     (music
       (file "music/chipdisko.ogg")
     )
+    (spawnpoint
+      (name "main")
+      (x 0)
+      (y 1760)
+    )
     (sspiky
       (direction "left")
       (x 6944)
@@ -725,11 +730,6 @@
     (sspiky
       (x 6784)
       (y 1568)
-    )
-    (spawnpoint
-      (name "main")
-      (x 0)
-      (y 1760)
     )
     (stalactite
       (x 7904)

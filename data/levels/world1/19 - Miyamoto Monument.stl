@@ -126,14 +126,6 @@
       (x 1569)
       (y 472)
     )
-    (smartball
-      (x 5789)
-      (y 471)
-    )
-    (smartball
-      (x 7711)
-      (y 400)
-    )
     (music
       (file "music/cave.music")
     )
@@ -145,6 +137,14 @@
           (y 0)
         )
       )
+    )
+    (smartball
+      (x 5789)
+      (y 471)
+    )
+    (smartball
+      (x 7711)
+      (y 400)
     )
     (smartblock
       (x 10753)

@@ -129,14 +129,6 @@
       (x 8513)
       (y 742)
     )
-    (smartball
-      (x 867)
-      (y 294)
-    )
-    (smartball
-      (x 7427)
-      (y 742)
-    )
     (music
       (file "music/chipdisko.ogg")
     )
@@ -156,9 +148,13 @@
       (x 1920)
       (y 896)
     )
-    (sspiky
-      (x 8998)
-      (y 714)
+    (smartball
+      (x 867)
+      (y 294)
+    )
+    (smartball
+      (x 7427)
+      (y 742)
     )
     (snowball
       (x 4291)
@@ -184,6 +180,10 @@
     (spiky
       (x 4966)
       (y 682)
+    )
+    (sspiky
+      (x 8998)
+      (y 714)
     )
     (stalactite
       (x 4736)

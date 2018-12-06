@@ -380,13 +380,13 @@
     (music
       (file "/music/airship_remix.music")
     )
+    (particles-snow
+    )
     (secretarea
       (width 124)
       (height 60)
       (x 9440)
       (y 1824)
-    )
-    (particles-snow
     )
     (spawnpoint
       (name "main")

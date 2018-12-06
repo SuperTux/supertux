@@ -37,6 +37,11 @@
       (x 661.8519)
       (y 786.3027)
     )
+    (spawnpoint
+      (name "main")
+      (x 398.1423)
+      (y 55.5148)
+    )
     (sspiky
       (x 224)
       (y 64)
@@ -84,11 +89,6 @@
     (sspiky
       (x 224)
       (y 512)
-    )
-    (spawnpoint
-      (name "main")
-      (x 398.1423)
-      (y 55.5148)
     )
     (tilemap
       (solid #t)

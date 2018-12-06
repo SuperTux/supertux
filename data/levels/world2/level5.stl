@@ -74,6 +74,8 @@
     (music
       (file "music/forest2.ogg")
     )
+    (particles-rain
+    )
     (poisonivy
       (x 2391)
       (y 1271)
@@ -105,8 +107,6 @@
     (poisonivy
       (x 5847)
       (y 1236)
-    )
-    (particles-rain
     )
     (secretarea
       (width 60)

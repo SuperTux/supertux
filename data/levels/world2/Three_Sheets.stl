@@ -53,11 +53,6 @@
       (x 3584)
       (y 1408)
     )
-    (platform
-      (running #f)
-      (sprite "images/objects/flying_platform/flying_platform.sprite")
-      (path-ref "8911788f-f8b0-4515-81ca-9c801db1c7e6")
-    )
     (igel
       (x 1618.1)
       (y 998.1)
@@ -112,6 +107,11 @@
           (y 832)
         )
       )
+    )
+    (platform
+      (running #f)
+      (sprite "images/objects/flying_platform/flying_platform.sprite")
+      (path-ref "8911788f-f8b0-4515-81ca-9c801db1c7e6")
     )
     (poisonivy
       (x 608)

@@ -37,10 +37,6 @@
       (x 793.2756)
       (y 1193.858)
     )
-    (smartball
-      (x 3966.98)
-      (y 95.15723)
-    )
     (music
       (file "music/salcon.ogg")
     )
@@ -50,6 +46,10 @@
       (height 319.8477)
       (x 451.2024)
       (y 960.7208)
+    )
+    (smartball
+      (x 3966.98)
+      (y 95.15723)
     )
     (spawnpoint
       (name "main")

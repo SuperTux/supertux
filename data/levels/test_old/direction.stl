@@ -180,6 +180,23 @@
       (x 335.9066)
       (y 24.00513)
     )
+    (snail
+      (x 192)
+      (y 128)
+    )
+    (snowball
+      (x 64)
+      (y 128)
+    )
+    (spawnpoint
+      (name "main")
+      (x 768)
+      (y 96)
+    )
+    (spiky
+      (x 595.1513)
+      (y 115.6619)
+    )
     (sspiky
       (direction "left")
       (x 224)
@@ -201,23 +218,6 @@
     (sspiky
       (x 962)
       (y 50)
-    )
-    (snail
-      (x 192)
-      (y 128)
-    )
-    (snowball
-      (x 64)
-      (y 128)
-    )
-    (spawnpoint
-      (name "main")
-      (x 768)
-      (y 96)
-    )
-    (spiky
-      (x 595.1513)
-      (y 115.6619)
     )
     (tilemap
       (solid #t)

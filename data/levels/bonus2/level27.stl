@@ -121,6 +121,8 @@
     (music
       (file "music/chipdisko.ogg")
     )
+    (particles-snow
+    )
     (path
       (name "7cc3c885-b794-4225-a7cf-820439d0e521")
       (path
@@ -184,8 +186,6 @@
     (snowball
       (x 8939)
       (y 542)
-    )
-    (particles-snow
     )
     (spawnpoint
       (name "main")

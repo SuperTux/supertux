@@ -55,9 +55,6 @@
       (mode "autoscroll")
       (path-ref "2445fc9c-b11c-402a-899c-331028794af2")
     )
-    (particles-clouds
-      (z-pos -120)
-    )
     (dispenser
       (cycle 5)
       (type "cannon")
@@ -289,6 +286,9 @@
     )
     (music
       (file "music/fortress.music")
+    )
+    (particles-clouds
+      (z-pos -120)
     )
     (path
       (name "2445fc9c-b11c-402a-899c-331028794af2")

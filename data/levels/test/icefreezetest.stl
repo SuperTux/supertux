@@ -14,8 +14,6 @@
       (x 1154)
       (y 261)
     )
-    (particles-clouds
-    )
     (crystallo
       (x 1280)
       (y 263)
@@ -60,16 +58,14 @@
       (x 1409)
       (y 262)
     )
-    (smartball
-      (x 1027)
-      (y 262)
-    )
     (mrtree
       (x 2528)
       (y 190)
     )
     (music
       (file "music/voc-daytime2.music")
+    )
+    (particles-clouds
     )
     (poisonivy
       (x 2946)
@@ -171,9 +167,9 @@
       (x 777)
       (y 258)
     )
-    (sspiky
-      (x 2054)
-      (y 266)
+    (smartball
+      (x 1027)
+      (y 262)
     )
     (smartblock
       (x 1537)
@@ -194,6 +190,10 @@
     )
     (spiky
       (x 1926)
+      (y 266)
+    )
+    (sspiky
+      (x 2054)
       (y 266)
     )
     (tilemap

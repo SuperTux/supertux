@@ -135,11 +135,6 @@
       (x 5984)
       (y 576)
     )
-    (platform
-      (running #f)
-      (sprite "images/objects/platforms/wood-tiny.sprite")
-      (path-ref "72e383ef-eac4-4d3c-9c90-cf4577e1eeb7")
-    )
     (flyingsnowball
       (x 5696)
       (y 640)
@@ -393,6 +388,11 @@
           (y 672)
         )
       )
+    )
+    (platform
+      (running #f)
+      (sprite "images/objects/platforms/wood-tiny.sprite")
+      (path-ref "72e383ef-eac4-4d3c-9c90-cf4577e1eeb7")
     )
     (powerup
       (sprite "images/powerups/egg/egg.sprite")

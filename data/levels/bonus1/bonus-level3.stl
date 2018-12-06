@@ -205,6 +205,8 @@
     (music
       (file "music/chipdisko.ogg")
     )
+    (particles-snow
+    )
     (secretarea
       (width 124)
       (height 124)
@@ -278,8 +280,6 @@
     (snowball
       (x 11556)
       (y 857)
-    )
-    (particles-snow
     )
     (spawnpoint
       (name "main")

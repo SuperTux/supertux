@@ -51,8 +51,6 @@
     (camera
       (mode "normal")
     )
-    (particles-clouds
-    )
     (coin
       (path-ref "b4dccce1-0ea7-4062-937e-a9cfbbda3521")
     )
@@ -229,6 +227,8 @@
     )
     (music
       (file "music/chipdisko.ogg")
+    )
+    (particles-clouds
     )
     (path
       (name "b4dccce1-0ea7-4062-937e-a9cfbbda3521")

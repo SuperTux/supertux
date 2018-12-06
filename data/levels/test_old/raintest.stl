@@ -43,10 +43,10 @@ Effect.fade_in(1);
     (camera
       (mode "normal")
     )
-    (particles-ghosts
-    )
     (music
       (file "music/ghostforest.music")
+    )
+    (particles-ghosts
     )
     (particles-rain
     )

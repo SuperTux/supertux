@@ -52,6 +52,16 @@
       (x 6912)
       (y 800)
     )
+    (music
+      (file "music/greatgigantic.music")
+    )
+    (secretarea
+      (fade-tilemap "Secret")
+      (width 32)
+      (height 96)
+      (x 4800)
+      (y 864)
+    )
     (smartball
       (x 730)
       (y 852)
@@ -63,20 +73,6 @@
     (smartball
       (x 8704)
       (y 800)
-    )
-    (music
-      (file "music/greatgigantic.music")
-    )
-    (secretarea
-      (fade-tilemap "Secret")
-      (width 32)
-      (height 96)
-      (x 4800)
-      (y 864)
-    )
-    (sspiky
-      (x 3424)
-      (y 768)
     )
     (snowball
       (x 2368)
@@ -110,6 +106,10 @@
     (spiky
       (x 6944)
       (y 928)
+    )
+    (sspiky
+      (x 3424)
+      (y 768)
     )
     (tilemap
       (solid #f)

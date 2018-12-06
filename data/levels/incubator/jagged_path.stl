@@ -61,6 +61,22 @@
       (x 5825)
       (y 614)
     )
+    (music
+      (file "music/cave.music")
+    )
+    (secretarea
+      (fade-tilemap "secret1")
+      (width 60)
+      (height 32)
+      (x 5184)
+      (y 160)
+    )
+    (secretarea
+      (width 220)
+      (height 140)
+      (x 5056)
+      (y 852)
+    )
     (smartball
       (x 1507)
       (y 582)
@@ -100,22 +116,6 @@
     (smartball
       (x 5923)
       (y 614)
-    )
-    (music
-      (file "music/cave.music")
-    )
-    (secretarea
-      (fade-tilemap "secret1")
-      (width 60)
-      (height 32)
-      (x 5184)
-      (y 160)
-    )
-    (secretarea
-      (width 220)
-      (height 140)
-      (x 5056)
-      (y 852)
     )
     (snowball
       (x 4035)

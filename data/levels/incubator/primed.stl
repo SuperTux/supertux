@@ -576,32 +576,10 @@
       (x 6496)
       (y 480)
     )
-    (smartball
-      (x 1952)
-      (y 704)
-    )
-    (smartball
-      (x 2336)
-      (y 608)
-    )
-    (smartball
-      (x 3648)
-      (y 640)
-    )
-    (smartball
-      (x 4256)
-      (y 352)
-    )
-    (smartball
-      (x 5408)
-      (y 672)
-    )
-    (smartball
-      (x 5952)
-      (y 672)
-    )
     (music
       (file "music/chipdisko.ogg")
+    )
+    (particles-snow
     )
     (path
       (name "f4116d56-2137-4c59-87fc-4e6a95160aff")
@@ -968,6 +946,30 @@
       (x 7104)
       (y 656)
     )
+    (smartball
+      (x 1952)
+      (y 704)
+    )
+    (smartball
+      (x 2336)
+      (y 608)
+    )
+    (smartball
+      (x 3648)
+      (y 640)
+    )
+    (smartball
+      (x 4256)
+      (y 352)
+    )
+    (smartball
+      (x 5408)
+      (y 672)
+    )
+    (smartball
+      (x 5952)
+      (y 672)
+    )
     (snowball
       (x 640)
       (y 768)
@@ -975,8 +977,6 @@
     (snowball
       (x 880)
       (y 640)
-    )
-    (particles-snow
     )
     (spawnpoint
       (name "main")

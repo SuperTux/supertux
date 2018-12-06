@@ -75,12 +75,6 @@
       (x 4430)
       (y 931)
     )
-    (platform
-      (running #f)
-      (name "downlift")
-      (sprite "images/objects/platforms/big.sprite")
-      (path-ref "db1fa6bb-39bb-4517-9577-3b8c5944122f")
-    )
     (gradient
       (top_color 0 0 0 0)
       (bottom_color 0 0 0 0)
@@ -153,6 +147,12 @@
         )
       )
     )
+    (platform
+      (running #f)
+      (name "downlift")
+      (sprite "images/objects/platforms/big.sprite")
+      (path-ref "db1fa6bb-39bb-4517-9577-3b8c5944122f")
+    )
     (poisonivy
       (x 802)
       (y 452)
@@ -200,14 +200,6 @@ downlift.goto_node(0);")
       (x 7104)
       (y 224)
     )
-    (sspiky
-      (x 3174)
-      (y 842)
-    )
-    (sspiky
-      (x 8134)
-      (y 490)
-    )
     (snail
       (x 1634)
       (y 611)
@@ -224,6 +216,14 @@ downlift.goto_node(0);")
       (name "main")
       (x 64)
       (y 32)
+    )
+    (sspiky
+      (x 3174)
+      (y 842)
+    )
+    (sspiky
+      (x 8134)
+      (y 490)
     )
     (tilemap
       (solid #f)

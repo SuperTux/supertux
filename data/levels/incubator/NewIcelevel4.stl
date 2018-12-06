@@ -49,44 +49,6 @@
       (x 4438)
       (y -97)
     )
-    (platform
-      (running #f)
-      (name "bote")
-      (sprite "images/objects/platforms/icefloe.sprite")
-      (path-ref "a378eb8b-bb03-48fe-8a70-8fe4284576ff")
-    )
-    (platform
-      (sprite "images/objects/platforms/small.sprite")
-      (path-ref "64705093-9fa8-479b-8f7e-9ae4776d509e")
-    )
-    (platform
-      (sprite "images/objects/platforms/small.sprite")
-      (path-ref "06ed9df4-b165-47ea-9f16-b4c1bd182c6f")
-    )
-    (platform
-      (running #f)
-      (name "bloquespinas")
-      (sprite "images/objects/platforms/vertical-wood.sprite")
-      (path-ref "b51e6883-3d04-492b-ab0d-c8cfbc41e386")
-    )
-    (platform
-      (running #f)
-      (name "block2")
-      (sprite "images/objects/platforms/wood-tiny.sprite")
-      (path-ref "36ad48e1-a474-4dfc-a4da-627c12d5176b")
-    )
-    (platform
-      (running #f)
-      (name "block1")
-      (sprite "images/objects/platforms/wood-tiny.sprite")
-      (path-ref "1b1f65ad-ff04-4988-99b6-feee57d6860a")
-    )
-    (platform
-      (running #f)
-      (name "block3")
-      (sprite "images/objects/platforms/wood-tiny.sprite")
-      (path-ref "7b26c731-0023-41e8-991d-40135cbf74cd")
-    )
     (flyingsnowball
       (x 11392)
       (y 160)
@@ -153,6 +115,8 @@
     )
     (music
       (file "music/chipdisko.ogg")
+    )
+    (particles-snow
     )
     (path
       (name "a378eb8b-bb03-48fe-8a70-8fe4284576ff")
@@ -409,6 +373,44 @@
         )
       )
     )
+    (platform
+      (running #f)
+      (name "bote")
+      (sprite "images/objects/platforms/icefloe.sprite")
+      (path-ref "a378eb8b-bb03-48fe-8a70-8fe4284576ff")
+    )
+    (platform
+      (sprite "images/objects/platforms/small.sprite")
+      (path-ref "64705093-9fa8-479b-8f7e-9ae4776d509e")
+    )
+    (platform
+      (sprite "images/objects/platforms/small.sprite")
+      (path-ref "06ed9df4-b165-47ea-9f16-b4c1bd182c6f")
+    )
+    (platform
+      (running #f)
+      (name "bloquespinas")
+      (sprite "images/objects/platforms/vertical-wood.sprite")
+      (path-ref "b51e6883-3d04-492b-ab0d-c8cfbc41e386")
+    )
+    (platform
+      (running #f)
+      (name "block2")
+      (sprite "images/objects/platforms/wood-tiny.sprite")
+      (path-ref "36ad48e1-a474-4dfc-a4da-627c12d5176b")
+    )
+    (platform
+      (running #f)
+      (name "block1")
+      (sprite "images/objects/platforms/wood-tiny.sprite")
+      (path-ref "1b1f65ad-ff04-4988-99b6-feee57d6860a")
+    )
+    (platform
+      (running #f)
+      (name "block3")
+      (sprite "images/objects/platforms/wood-tiny.sprite")
+      (path-ref "7b26c731-0023-41e8-991d-40135cbf74cd")
+    )
     (scripttrigger
       (script "bote.goto_node(1);")
       (button #f)
@@ -448,6 +450,19 @@ block3.goto_node(2);")
       (x 9248)
       (y 0)
     )
+    (snowball
+      (x 512)
+      (y 256)
+    )
+    (spawnpoint
+      (name "main")
+      (x 128)
+      (y 288)
+    )
+    (spiky
+      (x 4590.581)
+      (y 362.7512)
+    )
     (sspiky
       (x 2400)
       (y 288)
@@ -475,21 +490,6 @@ block3.goto_node(2);")
     (sspiky
       (x 11904)
       (y 384)
-    )
-    (snowball
-      (x 512)
-      (y 256)
-    )
-    (particles-snow
-    )
-    (spawnpoint
-      (name "main")
-      (x 128)
-      (y 288)
-    )
-    (spiky
-      (x 4590.581)
-      (y 362.7512)
     )
     (stalactite
       (x 7840)

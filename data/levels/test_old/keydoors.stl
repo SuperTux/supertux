@@ -23,18 +23,6 @@
     (camera
       (mode "normal")
     )
-    (platform
-      (running #f)
-      (name "door1")
-      (sprite "images/objects/platforms/vertical-wood.sprite")
-      (path-ref "f1383390-b0cc-4723-ae19-29e51c9947f4")
-    )
-    (platform
-      (running #f)
-      (name "PLATFORM")
-      (sprite "images/objects/flying_platform/flying_platform.sprite")
-      (path-ref "b4cfd2dc-f1b0-468b-9fa2-44502ca6aa37")
-    )
     (infoblock
       (message (_ "#Remember that you can type
 #sector.add_key(key);
@@ -88,6 +76,18 @@
           (time 6)
         )
       )
+    )
+    (platform
+      (running #f)
+      (name "door1")
+      (sprite "images/objects/platforms/vertical-wood.sprite")
+      (path-ref "f1383390-b0cc-4723-ae19-29e51c9947f4")
+    )
+    (platform
+      (running #f)
+      (name "PLATFORM")
+      (sprite "images/objects/flying_platform/flying_platform.sprite")
+      (path-ref "b4cfd2dc-f1b0-468b-9fa2-44502ca6aa37")
     )
     (scriptedobject
       (physic-enabled #f)

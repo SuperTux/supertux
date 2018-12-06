@@ -135,16 +135,13 @@
       (x 7461)
       (y 872)
     )
-    (smartball
-      (x 6435)
-      (y 646)
-    )
-    (smartball
-      (x 6787)
-      (y 614)
-    )
     (music
       (file "music/airship_remix.music")
+    )
+    (particles-snow
+    )
+    (particles-snow
+      (z-pos -50)
     )
     (secretarea
       (script "secret.fade(1,0.4);")
@@ -349,13 +346,13 @@
       (x 6217)
       (y 834)
     )
-    (sspiky
-      (x 4486)
-      (y 778)
+    (smartball
+      (x 6435)
+      (y 646)
     )
-    (sspiky
-      (x 7238)
-      (y 554)
+    (smartball
+      (x 6787)
+      (y 614)
     )
     (smartblock
       (x 2723)
@@ -365,15 +362,18 @@
       (x 2442)
       (y 707)
     )
-    (particles-snow
-    )
-    (particles-snow
-      (z-pos -50)
-    )
     (spawnpoint
       (name "main")
       (x 32)
       (y 736)
+    )
+    (sspiky
+      (x 4486)
+      (y 778)
+    )
+    (sspiky
+      (x 7238)
+      (y 554)
     )
     (stalactite
       (x 8064)

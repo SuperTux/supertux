@@ -18,9 +18,6 @@
     (camera
       (mode "normal")
     )
-    (particles-clouds
-      (z-pos -201)
-    )
     (igel
       (x 1653.211)
       (y 668.5576)
@@ -39,6 +36,11 @@
     )
     (music
       (file "music/forest2.ogg")
+    )
+    (particles-clouds
+      (z-pos -201)
+    )
+    (particles-rain
     )
     (path
       (name "3f55b894-2eef-4c5a-93f0-f30c14467862")
@@ -61,22 +63,12 @@
       (x 3215.783)
       (y 659.7925)
     )
-    (particles-rain
-    )
     (secretarea
       (fade-tilemap "secret1")
       (width 203.6345)
       (height 107.2964)
       (x 2394.111)
       (y 600.9527)
-    )
-    (sspiky
-      (x 4618.784)
-      (y 626.2362)
-    )
-    (sspiky
-      (x 4009.258)
-      (y 623.4077)
     )
     (snail
       (x 2182.533)
@@ -86,6 +78,14 @@
       (name "main")
       (x 32)
       (y 576)
+    )
+    (sspiky
+      (x 4618.784)
+      (y 626.2362)
+    )
+    (sspiky
+      (x 4009.258)
+      (y 623.4077)
     )
     (tilemap
       (solid #f)

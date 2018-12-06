@@ -191,83 +191,6 @@ if(query(\"yellow\")){
       (x 2631.735)
       (y 2260.855)
     )
-    (platform
-      (sprite "images/objects/unstable_tile/iceplatform.sprite")
-      (path-ref "3ab09f1c-db83-4b46-b507-a755070c7d45")
-    )
-    (platform
-      (running #f)
-      (name "sm5")
-      (sprite "images/objects/snowman/snow_man_big_passable.sprite")
-      (path-ref "af5868f7-631a-41f0-9d79-91300455ef1d")
-    )
-    (platform
-      (running #f)
-      (name "sm2")
-      (sprite "images/objects/snowman/snow_man_big.sprite")
-      (path-ref "e582d3d5-e855-4449-a592-a4a27d969a71")
-    )
-    (platform
-      (running #f)
-      (name "sm3")
-      (sprite "images/objects/snowman/snow_man_big.sprite")
-      (path-ref "b611d38f-11ba-467e-8c45-cce82acbf607")
-    )
-    (platform
-      (running #f)
-      (name "sm4")
-      (sprite "images/objects/snowman/snow_man_big.sprite")
-      (path-ref "d857c2c1-20f4-479b-8c5f-e0ccb8207ea1")
-    )
-    (platform
-      (running #f)
-      (name "sm1")
-      (sprite "images/objects/snowman/snow_man_big.sprite")
-      (path-ref "312d4b20-8218-4350-9198-b8a416f4d907")
-    )
-    (platform
-      (sprite "images/objects/platforms/icefloe_small.sprite")
-      (path-ref "ff50597d-2bc2-4fb8-a314-1759ea05586d")
-    )
-    (platform
-      (running #f)
-      (name "plat1")
-      (sprite "images/objects/platforms/small.sprite")
-      (path-ref "c55a5480-3089-4277-8a7e-930919e3354a")
-    )
-    (platform
-      (running #f)
-      (name "eye2")
-      (sprite "images/objects/platforms/small.sprite")
-      (path-ref "5e0dd986-d185-4294-81a7-047d45c7efbd")
-    )
-    (platform
-      (running #f)
-      (name "eye1")
-      (sprite "images/objects/platforms/small.sprite")
-      (path-ref "d42f956f-9f3b-444f-9aa4-36f739655576")
-    )
-    (platform
-      (running #f)
-      (name "eye4")
-      (sprite "images/objects/platforms/small.sprite")
-      (path-ref "6eec2277-6f6b-4207-929e-1db43f31a444")
-    )
-    (platform
-      (running #f)
-      (name "eye3")
-      (sprite "images/objects/platforms/small.sprite")
-      (path-ref "a6996da9-d330-4298-8ddb-374b7ca24e56")
-    )
-    (platform
-      (sprite "images/objects/platforms/icefloe_small.sprite")
-      (path-ref "99820cf9-09ac-4505-bf60-a1f2d028c255")
-    )
-    (platform
-      (running #f)
-      (sprite "images/objects/platforms/icefloe.sprite")
-      (path-ref "2ecc3d50-b1d5-4460-b269-22b729deb10d")
-    )
     (gradient
       (top_color 0.6726635 0.9142443 0.9172046)
       (bottom_color 0 0.005798428 0.5741512)
@@ -662,6 +585,83 @@ if(query(\"yellow\")){
         )
       )
     )
+    (platform
+      (sprite "images/objects/unstable_tile/iceplatform.sprite")
+      (path-ref "3ab09f1c-db83-4b46-b507-a755070c7d45")
+    )
+    (platform
+      (running #f)
+      (name "sm5")
+      (sprite "images/objects/snowman/snow_man_big_passable.sprite")
+      (path-ref "af5868f7-631a-41f0-9d79-91300455ef1d")
+    )
+    (platform
+      (running #f)
+      (name "sm2")
+      (sprite "images/objects/snowman/snow_man_big.sprite")
+      (path-ref "e582d3d5-e855-4449-a592-a4a27d969a71")
+    )
+    (platform
+      (running #f)
+      (name "sm3")
+      (sprite "images/objects/snowman/snow_man_big.sprite")
+      (path-ref "b611d38f-11ba-467e-8c45-cce82acbf607")
+    )
+    (platform
+      (running #f)
+      (name "sm4")
+      (sprite "images/objects/snowman/snow_man_big.sprite")
+      (path-ref "d857c2c1-20f4-479b-8c5f-e0ccb8207ea1")
+    )
+    (platform
+      (running #f)
+      (name "sm1")
+      (sprite "images/objects/snowman/snow_man_big.sprite")
+      (path-ref "312d4b20-8218-4350-9198-b8a416f4d907")
+    )
+    (platform
+      (sprite "images/objects/platforms/icefloe_small.sprite")
+      (path-ref "ff50597d-2bc2-4fb8-a314-1759ea05586d")
+    )
+    (platform
+      (running #f)
+      (name "plat1")
+      (sprite "images/objects/platforms/small.sprite")
+      (path-ref "c55a5480-3089-4277-8a7e-930919e3354a")
+    )
+    (platform
+      (running #f)
+      (name "eye2")
+      (sprite "images/objects/platforms/small.sprite")
+      (path-ref "5e0dd986-d185-4294-81a7-047d45c7efbd")
+    )
+    (platform
+      (running #f)
+      (name "eye1")
+      (sprite "images/objects/platforms/small.sprite")
+      (path-ref "d42f956f-9f3b-444f-9aa4-36f739655576")
+    )
+    (platform
+      (running #f)
+      (name "eye4")
+      (sprite "images/objects/platforms/small.sprite")
+      (path-ref "6eec2277-6f6b-4207-929e-1db43f31a444")
+    )
+    (platform
+      (running #f)
+      (name "eye3")
+      (sprite "images/objects/platforms/small.sprite")
+      (path-ref "a6996da9-d330-4298-8ddb-374b7ca24e56")
+    )
+    (platform
+      (sprite "images/objects/platforms/icefloe_small.sprite")
+      (path-ref "99820cf9-09ac-4505-bf60-a1f2d028c255")
+    )
+    (platform
+      (running #f)
+      (sprite "images/objects/platforms/icefloe.sprite")
+      (path-ref "2ecc3d50-b1d5-4460-b269-22b729deb10d")
+    )
     (powerup
       (script "b1.set_visible(true);
 find(\"pink\");
@@ -752,34 +752,6 @@ eye3.goto_node(1);")
       (x 3721)
       (y 290)
     )
-    (sspiky
-      (direction "right")
-      (x 1254)
-      (y 1066)
-    )
-    (sspiky
-      (direction "right")
-      (x 3910)
-      (y 2186)
-    )
-    (sspiky
-      (x 2150)
-      (y 2346)
-    )
-    (sspiky
-      (x 3238)
-      (y 266)
-    )
-    (sspiky
-      (direction "right")
-      (x 3078)
-      (y 234)
-    )
-    (sspiky
-      (direction "right")
-      (x 2790)
-      (y 298)
-    )
     (snowball
       (x 419)
       (y 1124)
@@ -841,6 +813,34 @@ eye3.goto_node(1);")
       (name "main")
       (x 96)
       (y 1088)
+    )
+    (sspiky
+      (direction "right")
+      (x 1254)
+      (y 1066)
+    )
+    (sspiky
+      (direction "right")
+      (x 3910)
+      (y 2186)
+    )
+    (sspiky
+      (x 2150)
+      (y 2346)
+    )
+    (sspiky
+      (x 3238)
+      (y 266)
+    )
+    (sspiky
+      (direction "right")
+      (x 3078)
+      (y 234)
+    )
+    (sspiky
+      (direction "right")
+      (x 2790)
+      (y 298)
     )
     (stalactite
       (x 1757)

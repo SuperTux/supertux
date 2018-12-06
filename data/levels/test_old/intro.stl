@@ -20,13 +20,13 @@
     (music
       (file "theme.ogg")
     )
+    (particles-snow
+    )
     (scriptedobject
       (name "PENNY")
       (sprite "images/creatures/dummyguy/dummyguy.sprite")
       (x 390)
       (y 510)
-    )
-    (particles-snow
     )
     (spawnpoint
       (name "main")

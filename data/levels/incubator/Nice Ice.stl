@@ -92,30 +92,6 @@
       (x 251.0201)
       (y 987.485)
     )
-    (smartball
-      (x 2315.728)
-      (y 980.679)
-    )
-    (smartball
-      (x 2221.728)
-      (y 982.679)
-    )
-    (smartball
-      (x 9119.163)
-      (y 628.854)
-    )
-    (smartball
-      (x 8993.163)
-      (y 826.854)
-    )
-    (smartball
-      (x 9057.163)
-      (y 724.854)
-    )
-    (smartball
-      (x 9187)
-      (y 532.142)
-    )
     (music
       (file "music/forest3.ogg")
     )
@@ -164,6 +140,30 @@
       (height 346)
       (x 9641.372)
       (y 1792)
+    )
+    (smartball
+      (x 2315.728)
+      (y 980.679)
+    )
+    (smartball
+      (x 2221.728)
+      (y 982.679)
+    )
+    (smartball
+      (x 9119.163)
+      (y 628.854)
+    )
+    (smartball
+      (x 8993.163)
+      (y 826.854)
+    )
+    (smartball
+      (x 9057.163)
+      (y 724.854)
+    )
+    (smartball
+      (x 9187)
+      (y 532.142)
     )
     (spawnpoint
       (name "main")

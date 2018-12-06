@@ -18,7 +18,26 @@
     (camera
       (mode "normal")
     )
+    (music
+      (file "music/chipdisko.ogg")
+    )
     (particles-clouds
+    )
+    (path
+      (name "10e8a140-06d8-489a-97b4-172689ddf3d5")
+      (path
+        (node
+          (x 4384)
+          (y 128)
+        )
+      )
+    )
+    (secretarea
+      (fade-tilemap "Secret1")
+      (width 32)
+      (height 108)
+      (x 4512)
+      (y 244)
     )
     (smartball
       (x 963)
@@ -55,25 +74,6 @@
     (smartball
       (x 6883)
       (y 390)
-    )
-    (music
-      (file "music/chipdisko.ogg")
-    )
-    (path
-      (name "10e8a140-06d8-489a-97b4-172689ddf3d5")
-      (path
-        (node
-          (x 4384)
-          (y 128)
-        )
-      )
-    )
-    (secretarea
-      (fade-tilemap "Secret1")
-      (width 32)
-      (height 108)
-      (x 4512)
-      (y 244)
     )
     (snowball
       (x 1379)

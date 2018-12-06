@@ -5,9 +5,6 @@
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (ambient-light
-      (color 0.7022965 0.8745861 1)
-    )
     (ambient_sound
       (sample "sounds/rain.wav")
       (distance_factor 0.5)
@@ -19,6 +16,9 @@
       (x 0)
       (y 0)
     )
+    (ambient-light
+      (color 0.7022965 0.8745861 1)
+    )
     (background
       (speed 0.5)
       (image-top "images/background/BlueRock_Forest/blue-top.jpg")
@@ -27,6 +27,8 @@
     )
     (camera
       (mode "normal")
+    )
+    (particles-rain
     )
     (path
       (name "8f550d1d-488b-48a0-bf63-bae4c94484d6")
@@ -107,8 +109,6 @@
           (y 192)
         )
       )
-    )
-    (particles-rain
     )
     (scripttrigger
       (script "wait(0.5);

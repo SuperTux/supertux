@@ -251,15 +251,6 @@
       (x 3124)
       (y 52)
     )
-    (sspiky
-      (direction "left")
-      (x 1056)
-      (y 1648)
-    )
-    (sspiky
-      (x 1840)
-      (y 1488)
-    )
     (snail
       (x 672)
       (y 1680)
@@ -289,6 +280,15 @@
     (spiky
       (x 960)
       (y 1856)
+    )
+    (sspiky
+      (direction "left")
+      (x 1056)
+      (y 1648)
+    )
+    (sspiky
+      (x 1840)
+      (y 1488)
     )
     (tilemap
       (solid #f)

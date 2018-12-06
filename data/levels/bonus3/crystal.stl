@@ -164,6 +164,37 @@
       (x 449)
       (y 742)
     )
+    (music
+      (file "music/wisphunt.music")
+    )
+    (owl
+      (x 430)
+      (y 519)
+    )
+    (particles-snow
+    )
+    (particles-snow
+    )
+    (short_fuse
+      (x 649)
+      (y 674)
+    )
+    (short_fuse
+      (x 713)
+      (y 674)
+    )
+    (short_fuse
+      (x 7273)
+      (y 738)
+    )
+    (short_fuse
+      (x 7017)
+      (y 738)
+    )
+    (short_fuse
+      (x 7145)
+      (y 738)
+    )
     (smartball
       (x 4483)
       (y 262)
@@ -188,49 +219,18 @@
       (x 8899)
       (y 774)
     )
-    (music
-      (file "music/wisphunt.music")
-    )
-    (owl
-      (x 430)
-      (y 519)
-    )
-    (short_fuse
-      (x 649)
-      (y 674)
-    )
-    (short_fuse
-      (x 713)
-      (y 674)
-    )
-    (short_fuse
-      (x 7273)
-      (y 738)
-    )
-    (short_fuse
-      (x 7017)
-      (y 738)
-    )
-    (short_fuse
-      (x 7145)
-      (y 738)
-    )
-    (sspiky
-      (x 1702)
-      (y 714)
-    )
     (snowball
       (x 8963)
       (y 772)
-    )
-    (particles-snow
-    )
-    (particles-snow
     )
     (spawnpoint
       (name "main")
       (x 32)
       (y 736)
+    )
+    (sspiky
+      (x 1702)
+      (y 714)
     )
     (stalactite
       (x 7296)

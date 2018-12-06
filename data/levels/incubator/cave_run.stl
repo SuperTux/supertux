@@ -98,6 +98,22 @@
       (x 129)
       (y 294)
     )
+    (music
+      (file "music/chipdisko.ogg")
+    )
+    (secretarea
+      (width 108)
+      (height 76)
+      (x 1172)
+      (y 532)
+    )
+    (secretarea
+      (fade-tilemap "Secret1")
+      (width 108)
+      (height 172)
+      (x 6228)
+      (y 500)
+    )
     (smartball
       (x 515)
       (y 326)
@@ -138,22 +154,6 @@
     (smartball
       (x 7683)
       (y 678)
-    )
-    (music
-      (file "music/chipdisko.ogg")
-    )
-    (secretarea
-      (width 108)
-      (height 76)
-      (x 1172)
-      (y 532)
-    )
-    (secretarea
-      (fade-tilemap "Secret1")
-      (width 108)
-      (height 172)
-      (x 6228)
-      (y 500)
     )
     (spawnpoint
       (name "main")

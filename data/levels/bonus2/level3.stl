@@ -11,8 +11,6 @@
     (camera
       (mode "normal")
     )
-    (particles-clouds
-    )
     (firefly
       (x 5114)
       (y 603)
@@ -23,6 +21,11 @@
     )
     (leveltime
       (time 100)
+    )
+    (music
+      (file "music/theme.music")
+    )
+    (particles-clouds
     )
     (smartball
       (x 450)
@@ -155,9 +158,6 @@
     (smartball
       (x 12539)
       (y 406)
-    )
-    (music
-      (file "music/theme.music")
     )
     (smartblock
       (x 4763)

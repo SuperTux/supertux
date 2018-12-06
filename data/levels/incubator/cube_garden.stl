@@ -63,20 +63,10 @@
       (x 6400)
       (y 1056)
     )
-    (smartball
-      (x 1501)
-      (y 634)
-    )
-    (smartball
-      (x 6560)
-      (y 672)
-    )
-    (smartball
-      (x 7360)
-      (y 704)
-    )
     (music
       (file "music/chipdisko.ogg")
+    )
+    (particles-snow
     )
     (secretarea
       (fade-tilemap "Secret")
@@ -97,6 +87,18 @@
       (x 3296)
       (y 736)
     )
+    (smartball
+      (x 1501)
+      (y 634)
+    )
+    (smartball
+      (x 6560)
+      (y 672)
+    )
+    (smartball
+      (x 7360)
+      (y 704)
+    )
     (snowball
       (x 7008)
       (y 832)
@@ -113,8 +115,6 @@
       (direction "left")
       (x 7360)
       (y 992)
-    )
-    (particles-snow
     )
     (spawnpoint
       (name "main")

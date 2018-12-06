@@ -146,6 +146,17 @@
       (x 12451)
       (y 505)
     )
+    (music
+      (file "music/chipdisko.ogg")
+    )
+    (particles-snow
+    )
+    (secretarea
+      (width 408)
+      (height 142)
+      (x 12819)
+      (y 184.4142)
+    )
     (smartball
       (x 14101)
       (y 528)
@@ -182,15 +193,6 @@
       (x 6012)
       (y 567)
     )
-    (music
-      (file "music/chipdisko.ogg")
-    )
-    (secretarea
-      (width 408)
-      (height 142)
-      (x 12819)
-      (y 184.4142)
-    )
     (snowball
       (x 1001)
       (y 568)
@@ -198,8 +200,6 @@
     (snowball
       (x 2460)
       (y 434)
-    )
-    (particles-snow
     )
     (spawnpoint
       (name "main")

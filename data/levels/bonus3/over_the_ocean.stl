@@ -76,22 +76,6 @@
       (x 6656)
       (y 640)
     )
-    (smartball
-      (x 9504)
-      (y 448)
-    )
-    (smartball
-      (x 9600)
-      (y 448)
-    )
-    (smartball
-      (x 8992)
-      (y 512)
-    )
-    (smartball
-      (x 3744)
-      (y 736)
-    )
     (music
       (file "music/airship_remix.music")
     )
@@ -135,9 +119,21 @@
       (x 1911)
       (y 606)
     )
-    (sspiky
-      (x 5728)
-      (y 672)
+    (smartball
+      (x 9504)
+      (y 448)
+    )
+    (smartball
+      (x 9600)
+      (y 448)
+    )
+    (smartball
+      (x 8992)
+      (y 512)
+    )
+    (smartball
+      (x 3744)
+      (y 736)
     )
     (snowball
       (x 3040)
@@ -159,6 +155,10 @@
     (spiky
       (x 4256)
       (y 832)
+    )
+    (sspiky
+      (x 5728)
+      (y 672)
     )
     (tilemap
       (solid #f)

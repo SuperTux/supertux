@@ -295,6 +295,8 @@
     (music
       (file "music/ghostforest.music")
     )
+    (particles-rain
+    )
     (path
       (name "b954134d-b050-4818-82ad-5dc46bbcbbed")
       (path
@@ -303,8 +305,6 @@
           (y 576)
         )
       )
-    )
-    (particles-rain
     )
     (secretarea
       (fade-tilemap "secret1")

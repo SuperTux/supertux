@@ -68,12 +68,6 @@
       (x 8448)
       (y 1344)
     )
-    (platform
-      (running #f)
-      (name "Platform1")
-      (sprite "images/objects/platforms/icefloe_small.sprite")
-      (path-ref "856f7775-25b2-406d-ad6b-dcf18f26bcad")
-    )
     (flyingsnowball
       (x 5785)
       (y 1502)
@@ -142,14 +136,6 @@
       (x 12129)
       (y 1824)
     )
-    (smartball
-      (x 11712)
-      (y 1728)
-    )
-    (smartball
-      (x 11808)
-      (y 1728)
-    )
     (music
       (file "music/voc-night.music")
     )
@@ -177,6 +163,12 @@
         )
       )
     )
+    (platform
+      (running #f)
+      (name "Platform1")
+      (sprite "images/objects/platforms/icefloe_small.sprite")
+      (path-ref "856f7775-25b2-406d-ad6b-dcf18f26bcad")
+    )
     (secretarea
       (fade-tilemap "Secret1")
       (width 64)
@@ -184,13 +176,13 @@
       (x 10400)
       (y 1440)
     )
-    (sspiky
-      (x 3104)
-      (y 1344)
+    (smartball
+      (x 11712)
+      (y 1728)
     )
-    (sspiky
-      (x 3168)
-      (y 1344)
+    (smartball
+      (x 11808)
+      (y 1728)
     )
     (spawnpoint
       (name "main")
@@ -216,6 +208,14 @@
     (spiky
       (x 10848)
       (y 1824)
+    )
+    (sspiky
+      (x 3104)
+      (y 1344)
+    )
+    (sspiky
+      (x 3168)
+      (y 1344)
     )
     (stalactite
       (x 10816)

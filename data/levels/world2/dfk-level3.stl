@@ -11,8 +11,6 @@
     (camera
       (mode "normal")
     )
-    (particles-clouds
-    )
     (door
       (sector "outside")
       (spawnpoint "main")
@@ -25,6 +23,8 @@
     )
     (music
       (file "music/darkforestkeep.ogg")
+    )
+    (particles-clouds
     )
     (spawnpoint
       (name "main")
@@ -756,14 +756,14 @@
     (camera
       (mode "normal")
     )
-    (particles-clouds
-    )
     (gradient
       (top_color 0 0 0.2)
       (bottom_color 0 0 0.6)
     )
     (music
       (file "music/darkforestkeep.ogg")
+    )
+    (particles-clouds
     )
     (spawnpoint
       (name "main")

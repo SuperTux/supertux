@@ -25,8 +25,6 @@
       (x 3072)
       (y 480)
     )
-    (particles-clouds
-    )
     (darttrap
       (initial-delay 0)
       (fire-delay 2)
@@ -60,48 +58,6 @@
     (fish
       (x 4544)
       (y 2496)
-    )
-    (platform
-      (running #f)
-      (name "final_lift")
-      (sprite "images/objects/platforms/small.sprite")
-      (path-ref "884c51a3-f294-40bf-96cd-2f6cb370bf54")
-    )
-    (platform
-      (running #f)
-      (name "blocker1")
-      (sprite "images/objects/platforms/vertical-wood.sprite")
-      (path-ref "5ed006ef-9064-475c-9d04-282a1d22396e")
-    )
-    (platform
-      (running #f)
-      (name "blocker2")
-      (sprite "images/objects/platforms/vertical-wood.sprite")
-      (path-ref "7530e8c7-4499-4725-957e-b23e46fc98b2")
-    )
-    (platform
-      (running #f)
-      (name "blocker4")
-      (sprite "images/objects/platforms/vertical-wood.sprite")
-      (path-ref "8b3e74d4-99be-4a76-9923-b7dc88d1982b")
-    )
-    (platform
-      (running #f)
-      (name "blocker5")
-      (sprite "images/objects/platforms/vertical-wood.sprite")
-      (path-ref "9cfad0f5-4483-4c79-9fee-a81e0fbe59ee")
-    )
-    (platform
-      (running #f)
-      (name "blocker6")
-      (sprite "images/objects/platforms/vertical-wood.sprite")
-      (path-ref "cd79ad6c-5689-4da6-a083-bfe36f0e672d")
-    )
-    (platform
-      (running #f)
-      (name "blocker3")
-      (sprite "images/objects/platforms/vertical-wood.sprite")
-      (path-ref "92e8d145-aa0b-42b0-b0e2-1fb0045ea64a")
     )
     (igel
       (x 4800)
@@ -138,6 +94,8 @@
     )
     (music
       (file "music/forest.music")
+    )
+    (particles-clouds
     )
     (path
       (name "884c51a3-f294-40bf-96cd-2f6cb370bf54")
@@ -241,6 +199,48 @@
         )
       )
     )
+    (platform
+      (running #f)
+      (name "final_lift")
+      (sprite "images/objects/platforms/small.sprite")
+      (path-ref "884c51a3-f294-40bf-96cd-2f6cb370bf54")
+    )
+    (platform
+      (running #f)
+      (name "blocker1")
+      (sprite "images/objects/platforms/vertical-wood.sprite")
+      (path-ref "5ed006ef-9064-475c-9d04-282a1d22396e")
+    )
+    (platform
+      (running #f)
+      (name "blocker2")
+      (sprite "images/objects/platforms/vertical-wood.sprite")
+      (path-ref "7530e8c7-4499-4725-957e-b23e46fc98b2")
+    )
+    (platform
+      (running #f)
+      (name "blocker4")
+      (sprite "images/objects/platforms/vertical-wood.sprite")
+      (path-ref "8b3e74d4-99be-4a76-9923-b7dc88d1982b")
+    )
+    (platform
+      (running #f)
+      (name "blocker5")
+      (sprite "images/objects/platforms/vertical-wood.sprite")
+      (path-ref "9cfad0f5-4483-4c79-9fee-a81e0fbe59ee")
+    )
+    (platform
+      (running #f)
+      (name "blocker6")
+      (sprite "images/objects/platforms/vertical-wood.sprite")
+      (path-ref "cd79ad6c-5689-4da6-a083-bfe36f0e672d")
+    )
+    (platform
+      (running #f)
+      (name "blocker3")
+      (sprite "images/objects/platforms/vertical-wood.sprite")
+      (path-ref "92e8d145-aa0b-42b0-b0e2-1fb0045ea64a")
+    )
     (poisonivy
       (x 3170)
       (y 2240)
@@ -326,11 +326,6 @@ end_level();
       (x 2976)
       (y 480)
     )
-    (sspiky
-      (direction "left")
-      (x 4576)
-      (y 704)
-    )
     (snail
       (x 3456)
       (y 2752)
@@ -344,6 +339,11 @@ end_level();
       (name "secret_back")
       (x 5408)
       (y 1920)
+    )
+    (sspiky
+      (direction "left")
+      (x 4576)
+      (y 704)
     )
     (switch
       (script "if(! (\"door_opened\" in this) ) {

@@ -118,9 +118,6 @@
       (x 5536)
       (y 288)
     )
-    (particles-clouds
-      (z-pos -201)
-    )
     (darttrap
       (initial-delay 0)
       (fire-delay 2)
@@ -488,6 +485,9 @@
     )
     (music
       (file "music/fortress.music")
+    )
+    (particles-clouds
+      (z-pos -201)
     )
     (path
       (name "6b9dbe45-179b-4471-9712-7ec40869ec1d")

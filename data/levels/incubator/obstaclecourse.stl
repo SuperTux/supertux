@@ -35,8 +35,6 @@
       (x 6496)
       (y 224)
     )
-    (particles-clouds
-    )
     (firefly
       (x 4096)
       (y 384)
@@ -88,13 +86,10 @@
       (x 8743)
       (y 424)
     )
-    (smartball
-      (direction "left")
-      (x 1187)
-      (y 166)
-    )
     (music
       (file "music/voc-daytime2.music")
+    )
+    (particles-clouds
     )
     (powerup
       (disable-physics #t)
@@ -136,6 +131,11 @@
       (height 204)
       (x 32)
       (y -204)
+    )
+    (smartball
+      (direction "left")
+      (x 1187)
+      (y 166)
     )
     (spawnpoint
       (name "main")

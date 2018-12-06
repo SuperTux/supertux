@@ -4,9 +4,6 @@
   (author "basti_")
   (sector
     (name "main")
-    (ambient-light
-      (color 1 1 1)
-    )
     (ambient_sound
       (sample "sounds/rain.wav")
       (distance_factor 0.01)
@@ -46,6 +43,9 @@
       (height 32)
       (x 704)
       (y 97)
+    )
+    (ambient-light
+      (color 1 1 1)
     )
     (background
       (speed 0.5)

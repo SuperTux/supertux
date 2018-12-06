@@ -16,10 +16,6 @@
     (camera
       (mode "normal")
     )
-    (particles-clouds
-    )
-    (particles-clouds
-    )
     (firefly
       (x 3776)
       (y 352)
@@ -136,6 +132,17 @@
       (x 8389)
       (y 520)
     )
+    (music
+      (file "music/airship_remix.music")
+    )
+    (particles-clouds
+    )
+    (particles-clouds
+    )
+    (particles-snow
+    )
+    (particles-snow
+    )
     (smartball
       (x 8899)
       (y 390)
@@ -192,9 +199,6 @@
       (x 8227)
       (y 518)
     )
-    (music
-      (file "music/airship_remix.music")
-    )
     (snowball
       (x 1059)
       (y 420)
@@ -222,10 +226,6 @@
     (snowball
       (x 5539)
       (y 388)
-    )
-    (particles-snow
-    )
-    (particles-snow
     )
     (spawnpoint
       (name "main")

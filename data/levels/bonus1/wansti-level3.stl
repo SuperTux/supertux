@@ -108,8 +108,6 @@
       (mode "autoscroll")
       (path-ref "9075113d-d3c9-4597-8f29-4d852d4ee253")
     )
-    (particles-clouds
-    )
     (flyingsnowball
       (x 7712)
       (y 608)
@@ -231,6 +229,8 @@
     )
     (music
       (file "music/chipdisko.ogg")
+    )
+    (particles-clouds
     )
     (path
       (name "9075113d-d3c9-4597-8f29-4d852d4ee253")

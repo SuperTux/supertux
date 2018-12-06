@@ -92,18 +92,6 @@
       (x 2600)
       (y 1051)
     )
-    (smartball
-      (x 1088)
-      (y 1056)
-    )
-    (smartball
-      (x 7555)
-      (y 1056)
-    )
-    (smartball
-      (x 2980)
-      (y 1051)
-    )
     (music
       (file "music/chipdisko.ogg")
     )
@@ -122,6 +110,18 @@
       (height 171)
       (x 8564)
       (y 923)
+    )
+    (smartball
+      (x 1088)
+      (y 1056)
+    )
+    (smartball
+      (x 7555)
+      (y 1056)
+    )
+    (smartball
+      (x 2980)
+      (y 1051)
     )
     (snowball
       (x 1687)

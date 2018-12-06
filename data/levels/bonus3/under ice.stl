@@ -88,26 +88,6 @@
       (x 2369)
       (y 358)
     )
-    (smartball
-      (x 2115)
-      (y 934)
-    )
-    (smartball
-      (x 3907)
-      (y 902)
-    )
-    (smartball
-      (x 4067)
-      (y 902)
-    )
-    (smartball
-      (x 2947)
-      (y 294)
-    )
-    (smartball
-      (x 2275)
-      (y 358)
-    )
     (music
       (file "music/cave.music")
     )
@@ -174,6 +154,35 @@
       (x 4713)
       (y 994)
     )
+    (smartball
+      (x 2115)
+      (y 934)
+    )
+    (smartball
+      (x 3907)
+      (y 902)
+    )
+    (smartball
+      (x 4067)
+      (y 902)
+    )
+    (smartball
+      (x 2947)
+      (y 294)
+    )
+    (smartball
+      (x 2275)
+      (y 358)
+    )
+    (spawnpoint
+      (name "main")
+      (x 864)
+      (y 672)
+    )
+    (spiky
+      (x 4614)
+      (y 298)
+    )
     (sspiky
       (x 4614)
       (y 970)
@@ -185,15 +194,6 @@
     (sspiky
       (x 2470)
       (y 362)
-    )
-    (spawnpoint
-      (name "main")
-      (x 864)
-      (y 672)
-    )
-    (spiky
-      (x 4614)
-      (y 298)
     )
     (tilemap
       (solid #t)

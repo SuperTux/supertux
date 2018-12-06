@@ -12,8 +12,6 @@
       (mode "normal")
       (backscrolling #f)
     )
-    (particles-clouds
-    )
     (gradient
       (top_color 0 0.3137255 1)
       (bottom_color 1 1 1)
@@ -448,6 +446,8 @@
     )
     (music
       (file "music/chipdisko.ogg")
+    )
+    (particles-clouds
     )
     (spawnpoint
       (name "main")

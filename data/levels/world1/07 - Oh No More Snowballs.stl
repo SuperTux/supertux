@@ -87,30 +87,6 @@
       (x 6724)
       (y 590)
     )
-    (smartball
-      (x 4549)
-      (y 277)
-    )
-    (smartball
-      (x 11011)
-      (y 324)
-    )
-    (smartball
-      (x 11701)
-      (y 236)
-    )
-    (smartball
-      (x 12109)
-      (y 228)
-    )
-    (smartball
-      (x 14947)
-      (y 390)
-    )
-    (smartball
-      (x 14531)
-      (y 294)
-    )
     (music
       (file "music/voc-daytime2.music")
     )
@@ -194,6 +170,30 @@
       (height 232)
       (x 16564)
       (y 372)
+    )
+    (smartball
+      (x 4549)
+      (y 277)
+    )
+    (smartball
+      (x 11011)
+      (y 324)
+    )
+    (smartball
+      (x 11701)
+      (y 236)
+    )
+    (smartball
+      (x 12109)
+      (y 228)
+    )
+    (smartball
+      (x 14947)
+      (y 390)
+    )
+    (smartball
+      (x 14531)
+      (y 294)
     )
     (snowball
       (x 13521)

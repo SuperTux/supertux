@@ -10,6 +10,160 @@
     (ambient-light
       (color 1 1 1)
     )
+    (level
+      (auto-play #t)
+      (name "intro.stl")
+      (sprite "images/objects/invisible/invisible.sprite")
+      (x 4)
+      (y 5)
+    )
+    (level
+      (name "01 - Welcome to Antarctica.stl")
+      (x 4)
+      (y 7)
+    )
+    (level
+      (name "02 - The Journey Begins.stl")
+      (x 5)
+      (y 9)
+    )
+    (level
+      (name "03 - Via Nostalgica.stl")
+      (x 6)
+      (y 11)
+    )
+    (level
+      (name "04 - Tobgle Road.stl")
+      (x 9)
+      (y 11)
+    )
+    (level
+      (name "05 - The Somewhat Smaller Bath.stl")
+      (x 13)
+      (y 9)
+    )
+    (level
+      (name "06 - The Frosted Fields.stl")
+      (x 15)
+      (y 6)
+    )
+    (level
+      (name "07 - Oh No More Snowballs.stl")
+      (x 18)
+      (y 8)
+    )
+    (level
+      (name "08 - Stone Cold.stl")
+      (x 14)
+      (y 13)
+    )
+    (level
+      (name "09 - Grumbels Sense of Snow.stl")
+      (x 17)
+      (y 10)
+    )
+    (level
+      (name "10 - 23rd Airborne.stl")
+      (x 22)
+      (y 8)
+    )
+    (level
+      (name "11 - Night Chill.stl")
+      (x 27)
+      (y 7)
+    )
+    (level
+      (name "12 - Into the Stars.stl")
+      (x 30)
+      (y 6)
+    )
+    (level
+      (name "13 - Above the Arctic Skies.stl")
+      (x 31)
+      (y 9)
+    )
+    (level
+      (name "14 - Entrance to the Cave.stl")
+      (x 28)
+      (y 12)
+    )
+    (level
+      (name "15 - Under the Ice.stl")
+      (x 28)
+      (y 15)
+    )
+    (level
+      (name "16 - Living in a Fridge.stl")
+      (x 25)
+      (y 16)
+    )
+    (level
+      (name "17 - Or is it just me.stl")
+      (x 22)
+      (y 17)
+    )
+    (level
+      (name "18 - Ice in the Hole.stl")
+      (x 24)
+      (y 19)
+    )
+    (level
+      (name "19 - Miyamoto Monument.stl")
+      (x 28)
+      (y 21)
+    )
+    (level
+      (name "20 - End of the Tunnel.stl")
+      (x 31)
+      (y 23)
+    )
+    (level
+      (name "21 - A Path in the Clouds.stl")
+      (x 30)
+      (y 27)
+    )
+    (level
+      (name "22 - A Mysterious House of Ice.stl")
+      (x 23)
+      (y 31)
+    )
+    (level
+      (name "23 - The Escape.stl")
+      (x 26)
+      (y 28)
+    )
+    (level
+      (name "24 - The Shattered Bridge.stl")
+      (x 19)
+      (y 33)
+    )
+    (level
+      (name "25 - Arctic Ruins.stl")
+      (x 17)
+      (y 33)
+    )
+    (level
+      (name "bonus.stl")
+      (sprite "images/worldmap/common/bonusdot.sprite")
+      (x 7)
+      (y 21)
+    )
+    (level
+      (name "26 - The Castle of Nolok.stl")
+      (x 9)
+      (y 35)
+    )
+    (level
+      (name "27 - No More Mr Ice Guy.stl")
+      (sprite "images/worldmap/common/yeti.sprite")
+      (x 6)
+      (y 32)
+    )
+    (level
+      (name "Fork_in_the_Road.stl")
+      (x 11)
+      (y 11)
+    )
     (music
       (file "music/salcon.ogg")
     )
@@ -742,160 +896,6 @@
       0 0 0 0 0 2 3 4 2 3 3 3 3 4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       )
-    )
-    (level
-      (auto-play #t)
-      (name "intro.stl")
-      (sprite "images/objects/invisible/invisible.sprite")
-      (x 4)
-      (y 5)
-    )
-    (level
-      (name "01 - Welcome to Antarctica.stl")
-      (x 4)
-      (y 7)
-    )
-    (level
-      (name "02 - The Journey Begins.stl")
-      (x 5)
-      (y 9)
-    )
-    (level
-      (name "03 - Via Nostalgica.stl")
-      (x 6)
-      (y 11)
-    )
-    (level
-      (name "04 - Tobgle Road.stl")
-      (x 9)
-      (y 11)
-    )
-    (level
-      (name "05 - The Somewhat Smaller Bath.stl")
-      (x 13)
-      (y 9)
-    )
-    (level
-      (name "06 - The Frosted Fields.stl")
-      (x 15)
-      (y 6)
-    )
-    (level
-      (name "07 - Oh No More Snowballs.stl")
-      (x 18)
-      (y 8)
-    )
-    (level
-      (name "08 - Stone Cold.stl")
-      (x 14)
-      (y 13)
-    )
-    (level
-      (name "09 - Grumbels Sense of Snow.stl")
-      (x 17)
-      (y 10)
-    )
-    (level
-      (name "10 - 23rd Airborne.stl")
-      (x 22)
-      (y 8)
-    )
-    (level
-      (name "11 - Night Chill.stl")
-      (x 27)
-      (y 7)
-    )
-    (level
-      (name "12 - Into the Stars.stl")
-      (x 30)
-      (y 6)
-    )
-    (level
-      (name "13 - Above the Arctic Skies.stl")
-      (x 31)
-      (y 9)
-    )
-    (level
-      (name "14 - Entrance to the Cave.stl")
-      (x 28)
-      (y 12)
-    )
-    (level
-      (name "15 - Under the Ice.stl")
-      (x 28)
-      (y 15)
-    )
-    (level
-      (name "16 - Living in a Fridge.stl")
-      (x 25)
-      (y 16)
-    )
-    (level
-      (name "17 - Or is it just me.stl")
-      (x 22)
-      (y 17)
-    )
-    (level
-      (name "18 - Ice in the Hole.stl")
-      (x 24)
-      (y 19)
-    )
-    (level
-      (name "19 - Miyamoto Monument.stl")
-      (x 28)
-      (y 21)
-    )
-    (level
-      (name "20 - End of the Tunnel.stl")
-      (x 31)
-      (y 23)
-    )
-    (level
-      (name "21 - A Path in the Clouds.stl")
-      (x 30)
-      (y 27)
-    )
-    (level
-      (name "22 - A Mysterious House of Ice.stl")
-      (x 23)
-      (y 31)
-    )
-    (level
-      (name "23 - The Escape.stl")
-      (x 26)
-      (y 28)
-    )
-    (level
-      (name "24 - The Shattered Bridge.stl")
-      (x 19)
-      (y 33)
-    )
-    (level
-      (name "25 - Arctic Ruins.stl")
-      (x 17)
-      (y 33)
-    )
-    (level
-      (name "bonus.stl")
-      (sprite "images/worldmap/common/bonusdot.sprite")
-      (x 7)
-      (y 21)
-    )
-    (level
-      (name "26 - The Castle of Nolok.stl")
-      (x 9)
-      (y 35)
-    )
-    (level
-      (name "27 - No More Mr Ice Guy.stl")
-      (sprite "images/worldmap/common/yeti.sprite")
-      (x 6)
-      (y 32)
-    )
-    (level
-      (name "Fork_in_the_Road.stl")
-      (x 11)
-      (y 11)
     )
     (worldmap-spawnpoint
       (name "main")

@@ -10,16 +10,6 @@
     (camera
       (mode "normal")
     )
-    (platform
-      (sprite "images/objects/flying_platform/flying_platform.sprite")
-      (path-ref "path1")
-    )
-    (platform
-      (running #f)
-      (name "dummyname")
-      (sprite "images/objects/flying_platform/flying_platform.sprite")
-      (path-ref "path2")
-    )
     (path
       (name "path1")
       (path
@@ -75,6 +65,16 @@
           (time 3)
         )
       )
+    )
+    (platform
+      (sprite "images/objects/flying_platform/flying_platform.sprite")
+      (path-ref "path1")
+    )
+    (platform
+      (running #f)
+      (name "dummyname")
+      (sprite "images/objects/flying_platform/flying_platform.sprite")
+      (path-ref "path2")
     )
     (spawnpoint
       (name "main")

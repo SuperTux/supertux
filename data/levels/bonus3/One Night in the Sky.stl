@@ -37,46 +37,6 @@
       (x 4192)
       (y 928)
     )
-    (smartball
-      (x 2115)
-      (y 390)
-    )
-    (smartball
-      (x 1923)
-      (y 454)
-    )
-    (smartball
-      (x 2307)
-      (y 326)
-    )
-    (smartball
-      (x 2755)
-      (y 902)
-    )
-    (smartball
-      (x 3587)
-      (y 1030)
-    )
-    (smartball
-      (x 3395)
-      (y 838)
-    )
-    (smartball
-      (x 4675)
-      (y 806)
-    )
-    (smartball
-      (x 4675)
-      (y 614)
-    )
-    (smartball
-      (x 4323)
-      (y 902)
-    )
-    (smartball
-      (x 6179)
-      (y 550)
-    )
     (music
       (file "/music/cave.music")
     )
@@ -136,13 +96,45 @@
       (x 7456)
       (y 20)
     )
-    (sspiky
-      (x 1350)
-      (y 362)
+    (smartball
+      (x 2115)
+      (y 390)
     )
-    (sspiky
-      (x 6662)
-      (y 810)
+    (smartball
+      (x 1923)
+      (y 454)
+    )
+    (smartball
+      (x 2307)
+      (y 326)
+    )
+    (smartball
+      (x 2755)
+      (y 902)
+    )
+    (smartball
+      (x 3587)
+      (y 1030)
+    )
+    (smartball
+      (x 3395)
+      (y 838)
+    )
+    (smartball
+      (x 4675)
+      (y 806)
+    )
+    (smartball
+      (x 4675)
+      (y 614)
+    )
+    (smartball
+      (x 4323)
+      (y 902)
+    )
+    (smartball
+      (x 6179)
+      (y 550)
     )
     (snowball
       (x 419)
@@ -160,6 +152,14 @@
     (spiky
       (x 3942)
       (y 970)
+    )
+    (sspiky
+      (x 1350)
+      (y 362)
+    )
+    (sspiky
+      (x 6662)
+      (y 810)
     )
     (stalactite
       (x 928)

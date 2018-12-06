@@ -16,10 +16,6 @@
     (camera
       (mode "normal")
     )
-    (platform
-      (sprite "images/objects/flying_platform/flying_platform.sprite")
-      (path-ref "06694fb9-4012-4d56-99f3-884203444e5e")
-    )
     (path
       (name "06694fb9-4012-4d56-99f3-884203444e5e")
       (path
@@ -32,6 +28,10 @@
           (y 128)
         )
       )
+    )
+    (platform
+      (sprite "images/objects/flying_platform/flying_platform.sprite")
+      (path-ref "06694fb9-4012-4d56-99f3-884203444e5e")
     )
     (poisonivy
       (x 610)

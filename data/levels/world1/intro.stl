@@ -21,6 +21,8 @@ trigger_state(\"start\");
     (music
       (file "music/intro.ogg")
     )
+    (particles-snow
+    )
     (scriptedobject
       (z-pos 10)
       (visible #f)
@@ -100,8 +102,6 @@ trigger_state(\"start\");
       (height 540)
       (x 2528)
       (y 800)
-    )
-    (particles-snow
     )
     (spawnpoint
       (name "main")

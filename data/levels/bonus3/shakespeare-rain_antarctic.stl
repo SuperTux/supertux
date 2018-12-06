@@ -20,16 +20,10 @@
       (x 2182.533)
       (y 671.2115)
     )
-    (smartball
-      (x 1964.211)
-      (y 621.5576)
-    )
-    (smartball
-      (x 2539.861)
-      (y 529.2865)
-    )
     (music
       (file "music/chipdisko.ogg")
+    )
+    (particles-rain
     )
     (path
       (name "10bada0a-f27c-45a3-bd0b-220e794217b6")
@@ -40,8 +34,6 @@
         )
       )
     )
-    (particles-rain
-    )
     (secretarea
       (fade-tilemap "secret1")
       (width 203.6345)
@@ -49,13 +41,13 @@
       (x 2394.111)
       (y 600.9527)
     )
-    (sspiky
-      (x 4618.784)
-      (y 626.2362)
+    (smartball
+      (x 1964.211)
+      (y 621.5576)
     )
-    (sspiky
-      (x 4009.258)
-      (y 623.4077)
+    (smartball
+      (x 2539.861)
+      (y 529.2865)
     )
     (snowball
       (x 544)
@@ -89,6 +81,14 @@
     (spiky
       (x 4440.988)
       (y 661.7667)
+    )
+    (sspiky
+      (x 4618.784)
+      (y 626.2362)
+    )
+    (sspiky
+      (x 4009.258)
+      (y 623.4077)
     )
     (tilemap
       (solid #f)

@@ -11,9 +11,6 @@
     (camera
       (mode "normal")
     )
-    (particles-clouds
-      (z-pos -198)
-    )
     (firefly
       (x 6208)
       (y 416)
@@ -275,6 +272,9 @@
     )
     (music
       (file "music/chipdisko.ogg")
+    )
+    (particles-clouds
+      (z-pos -198)
     )
     (path
       (name "a11e2d4e-c4f9-4e42-a64e-4c992f8a3f46")

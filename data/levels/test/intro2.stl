@@ -17,6 +17,8 @@
       (top_color 0 0.85 1)
       (bottom_color 0 0.6 1)
     )
+    (particles-snow
+    )
     (scriptedobject
       (z-pos 100)
       (name "SUPERTUX")
@@ -53,8 +55,6 @@
       (sprite "images/creatures/nolok/nolok.sprite")
       (x 3631)
       (y 1276)
-    )
-    (particles-snow
     )
     (tilemap
       (solid #f)

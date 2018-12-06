@@ -93,8 +93,6 @@
       (x 6880)
       (y 544)
     )
-    (particles-ghosts
-    )
     (gradient
       (top_color 0 0 0)
       (bottom_color 0 0.11 1)
@@ -468,6 +466,8 @@
     )
     (music
       (file "music/ghostforest2.ogg")
+    )
+    (particles-ghosts
     )
     (secretarea
       (fade-tilemap "secret")

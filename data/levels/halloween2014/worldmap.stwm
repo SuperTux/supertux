@@ -122,6 +122,47 @@
       (x 480)
       (y 448)
     )
+    (level
+      (name "halloween1.stl")
+      (x 11)
+      (y 12)
+    )
+    (level
+      (name "mound.stl")
+      (x 23)
+      (y 14)
+    )
+    (level
+      (name "halloween3.stl")
+      (x 17)
+      (y 13)
+    )
+    (level
+      (name "halloween2.stl")
+      (x 15)
+      (y 9)
+    )
+    (level
+      (name "pools.stl")
+      (x 28)
+      (y 13)
+    )
+    (level
+      (extro-script " wait_for_screenswitch();
+			  display_text_file( \"levels/halloween2014/intro.txt\"	);")
+      (auto-play #t)
+      (name "intro.stl")
+      (sprite "images/objects/invisible/invisible.sprite")
+      (x 9)
+      (y 10)
+    )
+    (level
+      (extro-script "wait_for_screenswitch(); display_text_file( \"levels/halloween2014/outro.txt\"); wait_for_screenswitch(); exit_worldmap();")
+      (name "outro.stl")
+      (sprite "images/objects/invisible/invisible.sprite")
+      (x 32)
+      (y 11)
+    )
     (music
       (file "music/voc-dark.music")
     )
@@ -260,47 +301,6 @@
       1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
       1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
       )
-    )
-    (level
-      (name "halloween1.stl")
-      (x 11)
-      (y 12)
-    )
-    (level
-      (name "mound.stl")
-      (x 23)
-      (y 14)
-    )
-    (level
-      (name "halloween3.stl")
-      (x 17)
-      (y 13)
-    )
-    (level
-      (name "halloween2.stl")
-      (x 15)
-      (y 9)
-    )
-    (level
-      (name "pools.stl")
-      (x 28)
-      (y 13)
-    )
-    (level
-      (extro-script " wait_for_screenswitch();
-			  display_text_file( \"levels/halloween2014/intro.txt\"	);")
-      (auto-play #t)
-      (name "intro.stl")
-      (sprite "images/objects/invisible/invisible.sprite")
-      (x 9)
-      (y 10)
-    )
-    (level
-      (extro-script "wait_for_screenswitch(); display_text_file( \"levels/halloween2014/outro.txt\"); wait_for_screenswitch(); exit_worldmap();")
-      (name "outro.stl")
-      (sprite "images/objects/invisible/invisible.sprite")
-      (x 32)
-      (y 11)
     )
     (worldmap-spawnpoint
       (name "main")

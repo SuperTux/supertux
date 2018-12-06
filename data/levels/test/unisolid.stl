@@ -16,11 +16,6 @@
     (camera
       (mode "normal")
     )
-    (platform
-      (running #f)
-      (sprite "images/objects/platforms/icefloe_small.sprite")
-      (path-ref "9011c7b9-3a56-4445-80d6-0f77c9236c37")
-    )
     (mriceblock
       (x 994)
       (y 453)
@@ -68,6 +63,11 @@
           (y 0)
         )
       )
+    )
+    (platform
+      (running #f)
+      (sprite "images/objects/platforms/icefloe_small.sprite")
+      (path-ref "9011c7b9-3a56-4445-80d6-0f77c9236c37")
     )
     (spawnpoint
       (name "main")

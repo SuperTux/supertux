@@ -16,10 +16,6 @@
       (x 7233)
       (y 235)
     )
-    (platform
-      (sprite "images/objects/platforms/wood-fivetiles.sprite")
-      (path-ref "ed43a4a4-a562-4016-857e-c43f2cdc7e5e")
-    )
     (icecrusher
       (x 8288)
       (y 128)
@@ -59,34 +55,6 @@
     (mriceblock
       (x 11895)
       (y 493)
-    )
-    (smartball
-      (x 12170)
-      (y 494)
-    )
-    (smartball
-      (x 974)
-      (y 215)
-    )
-    (smartball
-      (x 2514)
-      (y 504)
-    )
-    (smartball
-      (x 2636)
-      (y 508)
-    )
-    (smartball
-      (x 6933)
-      (y 277)
-    )
-    (smartball
-      (x 6993)
-      (y 278)
-    )
-    (smartball
-      (x 2226)
-      (y 185)
     )
     (music
       (file "music/chipdisko.ogg")
@@ -130,6 +98,10 @@
         )
       )
     )
+    (platform
+      (sprite "images/objects/platforms/wood-fivetiles.sprite")
+      (path-ref "ed43a4a4-a562-4016-857e-c43f2cdc7e5e")
+    )
     (secretarea
       (fade-tilemap "Secret")
       (width 88)
@@ -143,6 +115,34 @@
       (height 188)
       (x 5876)
       (y 0)
+    )
+    (smartball
+      (x 12170)
+      (y 494)
+    )
+    (smartball
+      (x 974)
+      (y 215)
+    )
+    (smartball
+      (x 2514)
+      (y 504)
+    )
+    (smartball
+      (x 2636)
+      (y 508)
+    )
+    (smartball
+      (x 6933)
+      (y 277)
+    )
+    (smartball
+      (x 6993)
+      (y 278)
+    )
+    (smartball
+      (x 2226)
+      (y 185)
     )
     (smartblock
       (x 8120)

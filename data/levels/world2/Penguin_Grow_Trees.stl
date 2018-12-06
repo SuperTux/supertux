@@ -310,8 +310,6 @@
       (x 640)
       (y 512)
     )
-    (particles-clouds
-    )
     (door
       (sector "main")
       (spawnpoint "ExitTreeHouse")
@@ -325,6 +323,8 @@
     )
     (music
       (file "music/forest.music")
+    )
+    (particles-clouds
     )
     (poisonivy
       (direction "left")

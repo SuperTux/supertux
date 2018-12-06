@@ -148,12 +148,10 @@
       (x 4609)
       (y 742)
     )
-    (smartball
-      (x 5283)
-      (y 934)
-    )
     (music
       (file "/music/chipdisko.ogg")
+    )
+    (particles-snow
     )
     (path
       (name "2d804595-3457-48ed-a086-ad71d64758f8")
@@ -418,7 +416,9 @@
       (x 6848)
       (y 768)
     )
-    (particles-snow
+    (smartball
+      (x 5283)
+      (y 934)
     )
     (spawnpoint
       (name "main")

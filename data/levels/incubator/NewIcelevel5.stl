@@ -6,9 +6,6 @@
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (ambient-light
-      (color 1 1 1)
-    )
     (ambient_sound
       (sample "sounds/rain.wav")
       (distance_factor 0)
@@ -18,6 +15,9 @@
       (height 584)
       (x 8064)
       (y -384)
+    )
+    (ambient-light
+      (color 1 1 1)
     )
     (camera
       (mode "normal")
@@ -65,102 +65,6 @@
     (firefly
       (x 10048)
       (y 672)
-    )
-    (platform
-      (running #f)
-      (name "SpikePlatform")
-      (sprite "images/objects/platforms/vertical-wood.sprite")
-      (path-ref "f7834dbd-dd9c-4876-95d2-d9a58bf97918")
-    )
-    (platform
-      (running #f)
-      (name "Plataforma2")
-      (sprite "images/objects/platforms/big.sprite")
-      (path-ref "7f0995ca-4881-4252-959b-fc2af3d098a4")
-    )
-    (platform
-      (running #f)
-      (name "Pasaje2")
-      (sprite "images/objects/platforms/vertical-wood.sprite")
-      (path-ref "815bd8c7-9d0e-4dd8-8fbf-0e65ecc96cb3")
-    )
-    (platform
-      (running #f)
-      (name "Pasaje1")
-      (sprite "images/objects/platforms/vertical-wood.sprite")
-      (path-ref "8335e077-902b-45e6-ab4a-cc75016ebc95")
-    )
-    (platform
-      (running #f)
-      (name "Subir1")
-      (sprite "images/objects/platforms/big.sprite")
-      (path-ref "8ae9572c-b21a-4089-aeac-a3d783a3b484")
-    )
-    (platform
-      (running #f)
-      (name "Subir2")
-      (sprite "images/objects/platforms/big.sprite")
-      (path-ref "00da3170-5290-42de-bc95-b98831689558")
-    )
-    (platform
-      (running #f)
-      (name "Subir3")
-      (sprite "images/objects/platforms/wood-tiny.sprite")
-      (path-ref "21e49a5c-477e-4c7c-84ac-46d94920ca8a")
-    )
-    (platform
-      (running #f)
-      (name "Plataformapuerta1")
-      (sprite "images/objects/platforms/vertical-wood.sprite")
-      (path-ref "ee8a89ba-3eb6-40de-aa51-bea7a5caab3b")
-    )
-    (platform
-      (running #f)
-      (name "Bloquesalir2")
-      (sprite "images/objects/platforms/wood-tiny.sprite")
-      (path-ref "a1f3ace0-e5bc-467c-ad85-d3d68d71b3a1")
-    )
-    (platform
-      (running #f)
-      (name "Bloquesalir1")
-      (sprite "images/objects/platforms/wood-tiny.sprite")
-      (path-ref "812545d7-41d3-4a48-a94f-1138d9c5a82e")
-    )
-    (platform
-      (running #f)
-      (name "TrapSmall")
-      (sprite "images/objects/platforms/small.sprite")
-      (path-ref "f9d1556c-7750-4411-9000-dea6a666b263")
-    )
-    (platform
-      (running #f)
-      (name "Plataforma1")
-      (sprite "images/objects/platforms/small.sprite")
-      (path-ref "b8b609eb-cb92-414d-a994-d8a42f4f97b4")
-    )
-    (platform
-      (running #f)
-      (name "Subir4")
-      (sprite "images/objects/platforms/small.sprite")
-      (path-ref "3ca0d68d-e11b-4a0f-a339-2e78f4bee219")
-    )
-    (platform
-      (running #f)
-      (name "Subir5")
-      (sprite "images/objects/platforms/big.sprite")
-      (path-ref "b54ff721-76a8-4e51-b253-4291ce4b7969")
-    )
-    (platform
-      (running #f)
-      (name "Subir6")
-      (sprite "images/objects/platforms/wood-tiny.sprite")
-      (path-ref "e87f89f9-4c69-4687-9f96-c75ef41fcc9c")
-    )
-    (platform
-      (running #f)
-      (name "right")
-      (sprite "images/objects/platforms/vertical-wood.sprite")
-      (path-ref "bc0d074b-cd28-4a9b-a3bf-a852957f58d0")
     )
     (flyingsnowball
       (x 1120)
@@ -956,6 +860,102 @@
         )
       )
     )
+    (platform
+      (running #f)
+      (name "SpikePlatform")
+      (sprite "images/objects/platforms/vertical-wood.sprite")
+      (path-ref "f7834dbd-dd9c-4876-95d2-d9a58bf97918")
+    )
+    (platform
+      (running #f)
+      (name "Plataforma2")
+      (sprite "images/objects/platforms/big.sprite")
+      (path-ref "7f0995ca-4881-4252-959b-fc2af3d098a4")
+    )
+    (platform
+      (running #f)
+      (name "Pasaje2")
+      (sprite "images/objects/platforms/vertical-wood.sprite")
+      (path-ref "815bd8c7-9d0e-4dd8-8fbf-0e65ecc96cb3")
+    )
+    (platform
+      (running #f)
+      (name "Pasaje1")
+      (sprite "images/objects/platforms/vertical-wood.sprite")
+      (path-ref "8335e077-902b-45e6-ab4a-cc75016ebc95")
+    )
+    (platform
+      (running #f)
+      (name "Subir1")
+      (sprite "images/objects/platforms/big.sprite")
+      (path-ref "8ae9572c-b21a-4089-aeac-a3d783a3b484")
+    )
+    (platform
+      (running #f)
+      (name "Subir2")
+      (sprite "images/objects/platforms/big.sprite")
+      (path-ref "00da3170-5290-42de-bc95-b98831689558")
+    )
+    (platform
+      (running #f)
+      (name "Subir3")
+      (sprite "images/objects/platforms/wood-tiny.sprite")
+      (path-ref "21e49a5c-477e-4c7c-84ac-46d94920ca8a")
+    )
+    (platform
+      (running #f)
+      (name "Plataformapuerta1")
+      (sprite "images/objects/platforms/vertical-wood.sprite")
+      (path-ref "ee8a89ba-3eb6-40de-aa51-bea7a5caab3b")
+    )
+    (platform
+      (running #f)
+      (name "Bloquesalir2")
+      (sprite "images/objects/platforms/wood-tiny.sprite")
+      (path-ref "a1f3ace0-e5bc-467c-ad85-d3d68d71b3a1")
+    )
+    (platform
+      (running #f)
+      (name "Bloquesalir1")
+      (sprite "images/objects/platforms/wood-tiny.sprite")
+      (path-ref "812545d7-41d3-4a48-a94f-1138d9c5a82e")
+    )
+    (platform
+      (running #f)
+      (name "TrapSmall")
+      (sprite "images/objects/platforms/small.sprite")
+      (path-ref "f9d1556c-7750-4411-9000-dea6a666b263")
+    )
+    (platform
+      (running #f)
+      (name "Plataforma1")
+      (sprite "images/objects/platforms/small.sprite")
+      (path-ref "b8b609eb-cb92-414d-a994-d8a42f4f97b4")
+    )
+    (platform
+      (running #f)
+      (name "Subir4")
+      (sprite "images/objects/platforms/small.sprite")
+      (path-ref "3ca0d68d-e11b-4a0f-a339-2e78f4bee219")
+    )
+    (platform
+      (running #f)
+      (name "Subir5")
+      (sprite "images/objects/platforms/big.sprite")
+      (path-ref "b54ff721-76a8-4e51-b253-4291ce4b7969")
+    )
+    (platform
+      (running #f)
+      (name "Subir6")
+      (sprite "images/objects/platforms/wood-tiny.sprite")
+      (path-ref "e87f89f9-4c69-4687-9f96-c75ef41fcc9c")
+    )
+    (platform
+      (running #f)
+      (name "right")
+      (sprite "images/objects/platforms/vertical-wood.sprite")
+      (path-ref "bc0d074b-cd28-4a9b-a3bf-a852957f58d0")
+    )
     (pushbutton
       (script "SpikePlatform.start_moving();
 spikebad1.start_moving();
@@ -1014,14 +1014,6 @@ Plataformapuerta1.start_moving();
       (x 9984)
       (y 352)
     )
-    (sspiky
-      (x 3232)
-      (y 768)
-    )
-    (sspiky
-      (x 4224)
-      (y 416)
-    )
     (snowball
       (x 2338)
       (y 676)
@@ -1056,6 +1048,14 @@ Plataformapuerta1.start_moving();
     (spiky
       (x 2976)
       (y 672)
+    )
+    (sspiky
+      (x 3232)
+      (y 768)
+    )
+    (sspiky
+      (x 4224)
+      (y 416)
     )
     (stalactite
       (x 8992)

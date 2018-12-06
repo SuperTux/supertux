@@ -69,6 +69,14 @@
     (music
       (file "music/chipdisko.ogg")
     )
+    (particles-snow
+    )
+    (particles-snow
+      (z-pos 0)
+    )
+    (particles-snow
+      (z-pos 200)
+    )
     (powerup
       (script "sector.Tux.trigger_sequence(\"fireworks\")")
       (sprite "images/objects/eat-me/eat-me.sprite")
@@ -148,14 +156,6 @@
     (snowball
       (x 9024)
       (y 736)
-    )
-    (particles-snow
-    )
-    (particles-snow
-      (z-pos 0)
-    )
-    (particles-snow
-      (z-pos 200)
     )
     (spawnpoint
       (name "main")

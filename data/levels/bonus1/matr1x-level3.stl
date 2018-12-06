@@ -161,6 +161,8 @@
     (music
       (file "music/fortress.music")
     )
+    (particles-snow
+    )
     (scripttrigger
       (script "Level.spawn(\"main\",\"secret\")")
       (button #f)
@@ -178,8 +180,6 @@
     (snowball
       (x 8653)
       (y 538)
-    )
-    (particles-snow
     )
     (spawnpoint
       (name "main")

@@ -97,6 +97,8 @@
     (music
       (file "music/chipdisko.ogg")
     )
+    (particles-snow
+    )
     (snowball
       (x 2626)
       (y 684)
@@ -168,8 +170,6 @@
     (snowball
       (x 14267)
       (y 680)
-    )
-    (particles-snow
     )
     (spawnpoint
       (name "main")

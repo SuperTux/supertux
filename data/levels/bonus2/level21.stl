@@ -92,24 +92,10 @@
       (x 10824)
       (y 687)
     )
-    (smartball
-      (x 5827)
-      (y 582)
-    )
-    (smartball
-      (x 5987)
-      (y 582)
-    )
-    (smartball
-      (x 6179)
-      (y 582)
-    )
-    (smartball
-      (x 6371)
-      (y 582)
-    )
     (music
       (file "music/fortress.music")
+    )
+    (particles-snow
     )
     (path
       (name "a70202fb-4e21-4b1f-8f69-a5ecd49261ee")
@@ -127,6 +113,22 @@
       (x 32)
       (y 576)
     )
+    (smartball
+      (x 5827)
+      (y 582)
+    )
+    (smartball
+      (x 5987)
+      (y 582)
+    )
+    (smartball
+      (x 6179)
+      (y 582)
+    )
+    (smartball
+      (x 6371)
+      (y 582)
+    )
     (snowball
       (x 7361)
       (y 681)
@@ -138,8 +140,6 @@
     (snowball
       (x 8027)
       (y 570)
-    )
-    (particles-snow
     )
     (spawnpoint
       (name "main")

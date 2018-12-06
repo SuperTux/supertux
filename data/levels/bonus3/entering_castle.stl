@@ -85,20 +85,10 @@
       (x 1889)
       (y 2278)
     )
-    (smartball
-      (x 2819)
-      (y 902)
-    )
-    (smartball
-      (x 1731)
-      (y 1894)
-    )
-    (smartball
-      (x 1923)
-      (y 1542)
-    )
     (music
       (file "music/chipdisko.ogg")
+    )
+    (particles-snow
     )
     (path
       (name "4245b3e1-b8f7-470f-a1ba-ff06f358111e")
@@ -140,10 +130,17 @@ platf1.goto_node(1);")
       (x 1588)
       (y 2260)
     )
-    (sspiky
-      (direction "right")
-      (x 1830)
-      (y 1130)
+    (smartball
+      (x 2819)
+      (y 902)
+    )
+    (smartball
+      (x 1731)
+      (y 1894)
+    )
+    (smartball
+      (x 1923)
+      (y 1542)
     )
     (snowball
       (x 1699)
@@ -153,12 +150,15 @@ platf1.goto_node(1);")
       (x 2147)
       (y 2308)
     )
-    (particles-snow
-    )
     (spawnpoint
       (name "main")
       (x 128)
       (y 352)
+    )
+    (sspiky
+      (direction "right")
+      (x 1830)
+      (y 1130)
     )
     (stalactite
       (x 3328)

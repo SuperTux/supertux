@@ -456,14 +456,6 @@
       (x 2912)
       (y 256)
     )
-    (sspiky
-      (x 2054)
-      (y 298)
-    )
-    (sspiky
-      (x 8326)
-      (y 1098)
-    )
     (smartblock
       (x 2145)
       (y 454)
@@ -485,6 +477,14 @@
       (name "secret")
       (x 8848)
       (y 0)
+    )
+    (sspiky
+      (x 2054)
+      (y 298)
+    )
+    (sspiky
+      (x 8326)
+      (y 1098)
     )
     (stalactite
       (x 928)
@@ -1016,14 +1016,14 @@
       (x 128)
       (y 160)
     )
-    (sspiky
-      (x 1126)
-      (y 586)
-    )
     (spawnpoint
       (name "main")
       (x 176)
       (y 0)
+    )
+    (sspiky
+      (x 1126)
+      (y 586)
     )
     (tilemap
       (solid #f)

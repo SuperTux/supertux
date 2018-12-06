@@ -150,10 +150,6 @@
       (x 7968)
       (y 800)
     )
-    (smartball
-      (x 8096)
-      (y 800)
-    )
     (music
       (file "music/airship_remix.music")
     )
@@ -162,6 +158,10 @@
       (height 156)
       (x 1376)
       (y 192)
+    )
+    (smartball
+      (x 8096)
+      (y 800)
     )
     (snowman
       (x 8448)

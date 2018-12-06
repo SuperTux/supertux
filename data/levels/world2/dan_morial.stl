@@ -26,12 +26,6 @@
       (x 2208)
       (y 576)
     )
-    (platform
-      (running #f)
-      (name "raiser1")
-      (sprite "images/objects/platforms/big.sprite")
-      (path-ref "c91eeb3d-0cac-4880-96d6-676b10e41f64")
-    )
     (igel
       (x 9056)
       (y 896)
@@ -68,6 +62,12 @@
           (y 512)
         )
       )
+    )
+    (platform
+      (running #f)
+      (name "raiser1")
+      (sprite "images/objects/platforms/big.sprite")
+      (path-ref "c91eeb3d-0cac-4880-96d6-676b10e41f64")
     )
     (poisonivy
       (x 7120)

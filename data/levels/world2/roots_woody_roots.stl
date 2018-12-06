@@ -5,9 +5,6 @@
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (ambient-light
-      (color 1 1 1)
-    )
     (ambient_sound
       (sample "sounds/rain.wav")
       (distance_factor 0.5)
@@ -57,6 +54,9 @@
       (height 125.0352)
       (x 4512.031)
       (y 895.5586)
+    )
+    (ambient-light
+      (color 1 1 1)
     )
     (background
       (y 1100)
@@ -257,6 +257,8 @@
     (music
       (file "music/forest2.ogg")
     )
+    (particles-rain
+    )
     (path
       (name "0c7fcf34-3776-4db1-b5f0-3f44752e5c98")
       (path
@@ -312,8 +314,6 @@
       (sprite "images/powerups/fireflower/fireflower.sprite")
       (x 192)
       (y 2816)
-    )
-    (particles-rain
     )
     (scripttrigger
       (script "secret2.fade(0,1)")

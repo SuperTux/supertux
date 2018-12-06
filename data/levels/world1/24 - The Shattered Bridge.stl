@@ -160,10 +160,6 @@
       (x 12884)
       (y 413)
     )
-    (smartball
-      (x 5342)
-      (y 187)
-    )
     (music
       (file "music/wisphunt.music")
     )
@@ -178,6 +174,10 @@
       (height 153.6224)
       (x 8068.353)
       (y 467.1681)
+    )
+    (smartball
+      (x 5342)
+      (y 187)
     )
     (spawnpoint
       (name "main")

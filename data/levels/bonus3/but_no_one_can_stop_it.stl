@@ -54,6 +54,11 @@
       (x 1437.201)
       (y 708.9973)
     )
+    (music
+      (file "music/chipdisko.ogg")
+    )
+    (particles-snow
+    )
     (smartball
       (x 1711)
       (y 764)
@@ -65,11 +70,6 @@
     (smartball
       (x 2123)
       (y 769)
-    )
-    (music
-      (file "music/chipdisko.ogg")
-    )
-    (particles-snow
     )
     (spawnpoint
       (name "main")
@@ -384,11 +384,6 @@
       (x 96)
       (y 192)
     )
-    (platform
-      (name "fp1")
-      (sprite "images/objects/flying_platform/flying_platform.sprite")
-      (path-ref "c3544fa4-b296-4b97-a3e9-4a83d26b8c9e")
-    )
     (infoblock
       (message (_ "-Sorry, this flying platform is lazy.
 -Come back another time."))
@@ -474,6 +469,11 @@
           (y 288)
         )
       )
+    )
+    (platform
+      (name "fp1")
+      (sprite "images/objects/flying_platform/flying_platform.sprite")
+      (path-ref "c3544fa4-b296-4b97-a3e9-4a83d26b8c9e")
     )
     (secretarea
       (fade-tilemap "Secret1")

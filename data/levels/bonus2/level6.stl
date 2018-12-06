@@ -24,8 +24,6 @@
       (mode "normal")
       (backscrolling #f)
     )
-    (particles-clouds
-    )
     (firefly
       (x 7740)
       (y 726)
@@ -243,6 +241,8 @@
     )
     (music
       (file "music/chipdisko.ogg")
+    )
+    (particles-clouds
     )
     (path
       (name "83cb73f9-d5ab-46ec-944d-1148dd7cb4f2")

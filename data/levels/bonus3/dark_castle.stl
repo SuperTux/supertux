@@ -390,28 +390,10 @@
       (x 9409)
       (y 454)
     )
-    (smartball
-      (x 3427)
-      (y 422)
-    )
-    (smartball
-      (x 4355)
-      (y 870)
-    )
-    (smartball
-      (x 3939)
-      (y 774)
-    )
-    (smartball
-      (x 6499)
-      (y 230)
-    )
-    (smartball
-      (x 4931)
-      (y 902)
-    )
     (music
       (file "music/darkforestkeep.ogg")
+    )
+    (particles-snow
     )
     (path
       (name "80cb8b52-9018-463a-a1b9-68fa72a98482")
@@ -461,6 +443,26 @@ platform1.goto_node(1);")
       (x 8032)
       (y 352)
     )
+    (smartball
+      (x 3427)
+      (y 422)
+    )
+    (smartball
+      (x 4355)
+      (y 870)
+    )
+    (smartball
+      (x 3939)
+      (y 774)
+    )
+    (smartball
+      (x 6499)
+      (y 230)
+    )
+    (smartball
+      (x 4931)
+      (y 902)
+    )
     (snowball
       (x 739)
       (y 420)
@@ -476,8 +478,6 @@ platform1.goto_node(1);")
     (snowball
       (x 4387)
       (y 164)
-    )
-    (particles-snow
     )
     (spawnpoint
       (name "main")

@@ -236,10 +236,6 @@
       (x 14038)
       (y 442)
     )
-    (smartball
-      (x 9800)
-      (y 438)
-    )
     (music
       (file "music/cave.music")
     )
@@ -274,6 +270,10 @@
       (height 172)
       (x 5748)
       (y 120)
+    )
+    (smartball
+      (x 9800)
+      (y 438)
     )
     (smartblock
       (x 14158)

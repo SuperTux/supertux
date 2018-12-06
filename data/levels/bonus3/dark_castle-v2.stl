@@ -99,10 +99,6 @@
     (music
       (file "music/darkforestkeep.ogg")
     )
-    (sspiky
-      (x 320)
-      (y 672)
-    )
     (snail
       (x 5696)
       (y 608)
@@ -116,6 +112,10 @@
       (name "fall1")
       (x 2464)
       (y 576)
+    )
+    (sspiky
+      (x 320)
+      (y 672)
     )
     (tilemap
       (solid #f)

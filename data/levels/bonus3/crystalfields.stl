@@ -82,26 +82,6 @@
       (x 609)
       (y 1254)
     )
-    (smartball
-      (x 1315)
-      (y 838)
-    )
-    (smartball
-      (x 1699)
-      (y 646)
-    )
-    (smartball
-      (x 3907)
-      (y 806)
-    )
-    (smartball
-      (x 4195)
-      (y 806)
-    )
-    (smartball
-      (x 2307)
-      (y 1158)
-    )
     (music
       (file "music/theme.music")
     )
@@ -167,14 +147,25 @@
       (x 3977)
       (y 802)
     )
-    (sspiky
-      (direction "right")
-      (x 3046)
-      (y 1354)
+    (smartball
+      (x 1315)
+      (y 838)
     )
-    (sspiky
-      (x 5478)
-      (y 1194)
+    (smartball
+      (x 1699)
+      (y 646)
+    )
+    (smartball
+      (x 3907)
+      (y 806)
+    )
+    (smartball
+      (x 4195)
+      (y 806)
+    )
+    (smartball
+      (x 2307)
+      (y 1158)
     )
     (snowman
       (x 4938)
@@ -204,6 +195,15 @@
     (spiky
       (x 4550)
       (y 1098)
+    )
+    (sspiky
+      (direction "right")
+      (x 3046)
+      (y 1354)
+    )
+    (sspiky
+      (x 5478)
+      (y 1194)
     )
     (tilemap
       (solid #f)

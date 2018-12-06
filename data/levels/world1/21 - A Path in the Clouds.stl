@@ -144,6 +144,34 @@
       (x 14932)
       (y 480)
     )
+    (music
+      (file "music/chipdisko.ogg")
+    )
+    (path
+      (name "9d9a5283-9f95-4841-a60e-bc2a9779b6d5")
+      (path
+        (node
+          (x 13024)
+          (y 32)
+        )
+      )
+    )
+    (path
+      (name "15366bc8-612b-4991-a47d-ff0a87ff1c3e")
+      (path
+        (node
+          (x 13056)
+          (y 224)
+        )
+      )
+    )
+    (secretarea
+      (fade-tilemap "secret1")
+      (width 1970)
+      (height 106)
+      (x 13045.58)
+      (y 158.3848)
+    )
     (smartball
       (x 1395)
       (y 188)
@@ -175,34 +203,6 @@
     (smartball
       (x 11467)
       (y 473)
-    )
-    (music
-      (file "music/chipdisko.ogg")
-    )
-    (path
-      (name "9d9a5283-9f95-4841-a60e-bc2a9779b6d5")
-      (path
-        (node
-          (x 13024)
-          (y 32)
-        )
-      )
-    )
-    (path
-      (name "15366bc8-612b-4991-a47d-ff0a87ff1c3e")
-      (path
-        (node
-          (x 13056)
-          (y 224)
-        )
-      )
-    )
-    (secretarea
-      (fade-tilemap "secret1")
-      (width 1970)
-      (height 106)
-      (x 13045.58)
-      (y 158.3848)
     )
     (smartblock
       (x 6716)

@@ -185,12 +185,12 @@
       (x 5571)
       (y 438)
     )
+    (music
+      (file "music/cave.music")
+    )
     (smartball
       (x 3237)
       (y 437)
-    )
-    (music
-      (file "music/cave.music")
     )
     (snowball
       (x 3124)

@@ -8,6 +8,231 @@
     (ambient-light
       (color 1 1 1)
     )
+    (level
+      (name "under ice.stl")
+      (x 18)
+      (y 42)
+    )
+    (level
+      (name "hanging roof.stl")
+      (x 18)
+      (y 39)
+    )
+    (level
+      (name "crystalfields.stl")
+      (x 21)
+      (y 33)
+    )
+    (level
+      (name "crystal.stl")
+      (x 25)
+      (y 30)
+    )
+    (level
+      (name "crystal sunset.stl")
+      (x 17)
+      (y 27)
+    )
+    (level
+      (name "another_cold_day.stl")
+      (x 24)
+      (y 43)
+    )
+    (level
+      (name "hilly_landscape.stl")
+      (x 32)
+      (y 34)
+    )
+    (level
+      (name "three_frosty_icebergs.stl")
+      (x 7)
+      (y 30)
+    )
+    (level
+      (name "One Night in the Sky.stl")
+      (x 3)
+      (y 26)
+    )
+    (level
+      (name "niv-3.stl")
+      (sprite "images/worldmap/common/hiddendot.sprite")
+      (x 37)
+      (y 31)
+    )
+    (level
+      (name "sever_escape.stl")
+      (sprite "images/worldmap/common/hiddendot.sprite")
+      (x 27)
+      (y 7)
+    )
+    (level
+      (name "niv-1.1.stl")
+      (x 18)
+      (y 7)
+    )
+    (level
+      (name "niv-2.1.stl")
+      (x 24)
+      (y 9)
+    )
+    (level
+      (name "entering_castle.stl")
+      (x 29)
+      (y 9)
+    )
+    (level
+      (name "dark_castle.stl")
+      (x 30)
+      (y 9)
+    )
+    (level
+      (name "its_getting_unfinishable.stl")
+      (x 21)
+      (y 24)
+    )
+    (level
+      (name "deep_deeper.stl")
+      (x 37)
+      (y 26)
+    )
+    (level
+      (name "deepest.stl")
+      (x 37)
+      (y 22)
+    )
+    (level
+      (name "shakespeare-rain.stl")
+      (x 33)
+      (y 22)
+    )
+    (level
+      (name "shakespeare-rain_antarctic.stl")
+      (x 35)
+      (y 22)
+    )
+    (level
+      (name "light_in_the_darkness.stl")
+      (x 34)
+      (y 28)
+    )
+    (level
+      (name "red_alert_forest.stl")
+      (x 33)
+      (y 32)
+    )
+    (level
+      (name "abandoned_castle.stl")
+      (x 25)
+      (y 27)
+    )
+    (level
+      (name "castle_light+darkness-v3.stl")
+      (x 27)
+      (y 32)
+    )
+    (level
+      (name "dark_castle-v2.stl")
+      (x 25)
+      (y 37)
+    )
+    (level
+      (name "cant_climb_higher_clouds.stl")
+      (x 19)
+      (y 26)
+    )
+    (level
+      (name "but_no_one_can_stop_it.stl")
+      (x 22)
+      (y 19)
+    )
+    (level
+      (name "antarctic_rain.stl")
+      (x 22)
+      (y 15)
+    )
+    (level
+      (name "-89-2_degrees.stl")
+      (x 22)
+      (y 10)
+    )
+    (level
+      (auto-play #t)
+      (name "flowers.stl")
+      (sprite "images/worldmap/common/hiddendot.sprite")
+      (x 21)
+      (y 25)
+    )
+    (level
+      (name "in_the_spring.stl")
+      (sprite "images/worldmap/common/hiddendot.sprite")
+      (x 22)
+      (y 4)
+    )
+    (level
+      (name "coconut_fortress.stl")
+      (x 25)
+      (y 2)
+    )
+    (level
+      (name "cavern_v2.stl")
+      (x 15)
+      (y 16)
+    )
+    (level
+      (name "Global_Warming.stl")
+      (x 8)
+      (y 4)
+    )
+    (level
+      (name "over_the_ocean.stl")
+      (x 9)
+      (y 19)
+    )
+    (level
+      (name "pinksnow.stl")
+      (x 6)
+      (y 12)
+    )
+    (level
+      (name "snowy_hill.stl")
+      (x 3)
+      (y 7)
+    )
+    (level
+      (name "crystal_beauty.stl")
+      (x 15)
+      (y 10)
+    )
+    (level
+      (name "crystal_cataclysm.stl")
+      (x 14)
+      (y 13)
+    )
+    (level
+      (name "cave_run.stl")
+      (x 19)
+      (y 14)
+    )
+    (level
+      (name "glaciers.stl")
+      (x 14)
+      (y 4)
+    )
+    (level
+      (name "dungeon_island/going_down.stl")
+      (x 35)
+      (y 17)
+    )
+    (level
+      (name "dungeon_island/dungeon1.stl")
+      (x 33)
+      (y 14)
+    )
+    (level
+      (name "dungeon_island/dungeon2.stl")
+      (x 31)
+      (y 12)
+    )
     (music
       (file "music/voc-daytime2.music")
     )
@@ -783,231 +1008,6 @@
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       )
-    )
-    (level
-      (name "under ice.stl")
-      (x 18)
-      (y 42)
-    )
-    (level
-      (name "hanging roof.stl")
-      (x 18)
-      (y 39)
-    )
-    (level
-      (name "crystalfields.stl")
-      (x 21)
-      (y 33)
-    )
-    (level
-      (name "crystal.stl")
-      (x 25)
-      (y 30)
-    )
-    (level
-      (name "crystal sunset.stl")
-      (x 17)
-      (y 27)
-    )
-    (level
-      (name "another_cold_day.stl")
-      (x 24)
-      (y 43)
-    )
-    (level
-      (name "hilly_landscape.stl")
-      (x 32)
-      (y 34)
-    )
-    (level
-      (name "three_frosty_icebergs.stl")
-      (x 7)
-      (y 30)
-    )
-    (level
-      (name "One Night in the Sky.stl")
-      (x 3)
-      (y 26)
-    )
-    (level
-      (name "niv-3.stl")
-      (sprite "images/worldmap/common/hiddendot.sprite")
-      (x 37)
-      (y 31)
-    )
-    (level
-      (name "sever_escape.stl")
-      (sprite "images/worldmap/common/hiddendot.sprite")
-      (x 27)
-      (y 7)
-    )
-    (level
-      (name "niv-1.1.stl")
-      (x 18)
-      (y 7)
-    )
-    (level
-      (name "niv-2.1.stl")
-      (x 24)
-      (y 9)
-    )
-    (level
-      (name "entering_castle.stl")
-      (x 29)
-      (y 9)
-    )
-    (level
-      (name "dark_castle.stl")
-      (x 30)
-      (y 9)
-    )
-    (level
-      (name "its_getting_unfinishable.stl")
-      (x 21)
-      (y 24)
-    )
-    (level
-      (name "deep_deeper.stl")
-      (x 37)
-      (y 26)
-    )
-    (level
-      (name "deepest.stl")
-      (x 37)
-      (y 22)
-    )
-    (level
-      (name "shakespeare-rain.stl")
-      (x 33)
-      (y 22)
-    )
-    (level
-      (name "shakespeare-rain_antarctic.stl")
-      (x 35)
-      (y 22)
-    )
-    (level
-      (name "light_in_the_darkness.stl")
-      (x 34)
-      (y 28)
-    )
-    (level
-      (name "red_alert_forest.stl")
-      (x 33)
-      (y 32)
-    )
-    (level
-      (name "abandoned_castle.stl")
-      (x 25)
-      (y 27)
-    )
-    (level
-      (name "castle_light+darkness-v3.stl")
-      (x 27)
-      (y 32)
-    )
-    (level
-      (name "dark_castle-v2.stl")
-      (x 25)
-      (y 37)
-    )
-    (level
-      (name "cant_climb_higher_clouds.stl")
-      (x 19)
-      (y 26)
-    )
-    (level
-      (name "but_no_one_can_stop_it.stl")
-      (x 22)
-      (y 19)
-    )
-    (level
-      (name "antarctic_rain.stl")
-      (x 22)
-      (y 15)
-    )
-    (level
-      (name "-89-2_degrees.stl")
-      (x 22)
-      (y 10)
-    )
-    (level
-      (auto-play #t)
-      (name "flowers.stl")
-      (sprite "images/worldmap/common/hiddendot.sprite")
-      (x 21)
-      (y 25)
-    )
-    (level
-      (name "in_the_spring.stl")
-      (sprite "images/worldmap/common/hiddendot.sprite")
-      (x 22)
-      (y 4)
-    )
-    (level
-      (name "coconut_fortress.stl")
-      (x 25)
-      (y 2)
-    )
-    (level
-      (name "cavern_v2.stl")
-      (x 15)
-      (y 16)
-    )
-    (level
-      (name "Global_Warming.stl")
-      (x 8)
-      (y 4)
-    )
-    (level
-      (name "over_the_ocean.stl")
-      (x 9)
-      (y 19)
-    )
-    (level
-      (name "pinksnow.stl")
-      (x 6)
-      (y 12)
-    )
-    (level
-      (name "snowy_hill.stl")
-      (x 3)
-      (y 7)
-    )
-    (level
-      (name "crystal_beauty.stl")
-      (x 15)
-      (y 10)
-    )
-    (level
-      (name "crystal_cataclysm.stl")
-      (x 14)
-      (y 13)
-    )
-    (level
-      (name "cave_run.stl")
-      (x 19)
-      (y 14)
-    )
-    (level
-      (name "glaciers.stl")
-      (x 14)
-      (y 4)
-    )
-    (level
-      (name "dungeon_island/going_down.stl")
-      (x 35)
-      (y 17)
-    )
-    (level
-      (name "dungeon_island/dungeon1.stl")
-      (x 33)
-      (y 14)
-    )
-    (level
-      (name "dungeon_island/dungeon2.stl")
-      (x 31)
-      (y 12)
     )
     (worldmap-spawnpoint
       (name "main")

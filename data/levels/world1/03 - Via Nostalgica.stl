@@ -68,12 +68,12 @@
       (x 8518)
       (y 541)
     )
+    (music
+      (file "music/chipdisko.ogg")
+    )
     (smartball
       (x 6075)
       (y 539)
-    )
-    (music
-      (file "music/chipdisko.ogg")
     )
     (snowball
       (x 1037)

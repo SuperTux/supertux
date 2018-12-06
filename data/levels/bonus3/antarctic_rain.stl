@@ -75,6 +75,10 @@
     (music
       (file "music/chipdisko.ogg")
     )
+    (particles-rain
+    )
+    (particles-snow
+    )
     (path
       (name "327e44d6-7a13-47ab-b50d-34cf14191fc6")
       (path
@@ -83,8 +87,6 @@
           (y 608)
         )
       )
-    )
-    (particles-rain
     )
     (secretarea
       (fade-tilemap "secret1")
@@ -96,8 +98,6 @@
     (snowball
       (x 352)
       (y 608)
-    )
-    (particles-snow
     )
     (spawnpoint
       (name "main")

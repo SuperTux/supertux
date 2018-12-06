@@ -232,11 +232,6 @@
       (x 3348)
       (y 1728)
     )
-    (sspiky
-      (direction "right")
-      (x 3654)
-      (y 1834)
-    )
     (spawnpoint
       (name "main")
       (x 64)
@@ -246,6 +241,11 @@
       (direction "left")
       (x 3686)
       (y 650)
+    )
+    (sspiky
+      (direction "right")
+      (x 3654)
+      (y 1834)
     )
     (stalactite
       (x 2175.293)

@@ -18,8 +18,6 @@
     (camera
       (mode "normal")
     )
-    (particles-clouds
-    )
     (door
       (sector "deadsector")
       (spawnpoint "main")
@@ -46,6 +44,8 @@
     )
     (music
       (file "/music/forest2.ogg")
+    )
+    (particles-clouds
     )
     (path
       (name "2ffbf6aa-7ab9-4d86-9c85-662a7e65fd4c")
@@ -213,8 +213,6 @@
       (x 96)
       (y 224)
     )
-    (particles-ghosts
-    )
     (infoblock
       (message (_ "- A Way out?
 #Let's Jump! "))
@@ -341,6 +339,8 @@
     )
     (music
       (file "/music/ghostforest.music")
+    )
+    (particles-ghosts
     )
     (secretarea
       (width 188)
@@ -1758,10 +1758,10 @@
     (camera
       (mode "normal")
     )
-    (particles-clouds
-    )
     (music
       (file "/music/forest2.ogg")
+    )
+    (particles-clouds
     )
     (spawnpoint
       (name "main")

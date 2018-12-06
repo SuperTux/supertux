@@ -12,8 +12,6 @@
       (mode "normal")
       (backscrolling #f)
     )
-    (particles-clouds
-    )
     (fish
       (x 830)
       (y 640)
@@ -63,6 +61,8 @@
     )
     (music
       (file "music/chipdisko.ogg")
+    )
+    (particles-clouds
     )
     (path
       (name "f9eb56c0-970e-4527-a2e1-5ca644de54b7")

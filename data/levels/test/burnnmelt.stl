@@ -80,10 +80,6 @@
       (x 517)
       (y 232)
     )
-    (smartball
-      (x 995)
-      (y 262)
-    )
     (mrtree
       (x 1024)
       (y 574)
@@ -107,6 +103,10 @@
     (skullyhop
       (x 1760)
       (y 608)
+    )
+    (smartball
+      (x 995)
+      (y 262)
     )
     (smartblock
       (x 705)

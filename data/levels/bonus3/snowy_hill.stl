@@ -117,16 +117,10 @@
       (x 5985)
       (y 838)
     )
-    (smartball
-      (x 2499)
-      (y 422)
-    )
-    (smartball
-      (x 4707)
-      (y 646)
-    )
     (music
       (file "music/airship_remix.music")
+    )
+    (particles-snow
     )
     (path
       (name "993bc264-9a07-41cd-b610-5fb2be672055")
@@ -153,6 +147,23 @@
       (x 5300)
       (y 372)
     )
+    (smartball
+      (x 2499)
+      (y 422)
+    )
+    (smartball
+      (x 4707)
+      (y 646)
+    )
+    (snowman
+      (x 3882)
+      (y 323)
+    )
+    (spawnpoint
+      (name "main")
+      (x 384)
+      (y 896)
+    )
     (sspiky
       (x 2086)
       (y 970)
@@ -160,17 +171,6 @@
     (sspiky
       (x 7302)
       (y 618)
-    )
-    (snowman
-      (x 3882)
-      (y 323)
-    )
-    (particles-snow
-    )
-    (spawnpoint
-      (name "main")
-      (x 384)
-      (y 896)
     )
     (stalactite
       (x 1792)

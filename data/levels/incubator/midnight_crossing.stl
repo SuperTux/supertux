@@ -50,6 +50,9 @@
       (x 4609)
       (y 614)
     )
+    (music
+      (file "music/airship_remix.music")
+    )
     (smartball
       (direction "left")
       (x 611)
@@ -79,9 +82,6 @@
       (direction "left")
       (x 6787)
       (y 390)
-    )
-    (music
-      (file "music/airship_remix.music")
     )
     (snowball
       (direction "left")

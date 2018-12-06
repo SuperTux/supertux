@@ -45,6 +45,8 @@
     (music
       (file "ghostforest2.ogg")
     )
+    (particles-rain
+    )
     (poisonivy
       (x 800)
       (y 440)
@@ -52,8 +54,6 @@
     (poisonivy
       (x 100)
       (y 438)
-    )
-    (particles-rain
     )
     (snail
       (x 2848)

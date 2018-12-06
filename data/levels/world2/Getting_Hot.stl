@@ -45,8 +45,6 @@
       (x 6349.755)
       (y 305.1912)
     )
-    (particles-ghosts
-    )
     (jumpy
       (sprite "images/creatures/snowjumpy/snowjumpy.sprite")
       (x 2191.6)
@@ -244,6 +242,8 @@
     )
     (music
       (file "/music/halloween_1.music")
+    )
+    (particles-ghosts
     )
     (poisonivy
       (direction "left")

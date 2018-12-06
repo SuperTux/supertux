@@ -20,12 +20,6 @@
       (x 8768)
       (y 544)
     )
-    (platform
-      (running #f)
-      (name "castleentrance")
-      (sprite "images/objects/flying_platform/flying_platform.sprite")
-      (path-ref "5979c4a0-26c0-42da-b375-0169ac05b150")
-    )
     (flyingsnowball
       (x 16800)
       (y 494)
@@ -81,6 +75,8 @@
     (music
       (file "music/chipdisko.ogg")
     )
+    (particles-snow
+    )
     (path
       (name "5979c4a0-26c0-42da-b375-0169ac05b150")
       (path
@@ -93,6 +89,12 @@
           (y 272.8961)
         )
       )
+    )
+    (platform
+      (running #f)
+      (name "castleentrance")
+      (sprite "images/objects/flying_platform/flying_platform.sprite")
+      (path-ref "5979c4a0-26c0-42da-b375-0169ac05b150")
     )
     (scripttrigger
       (script "Level.spawn( \"sky castle\", \"main\" )")
@@ -131,18 +133,6 @@
       (height 92)
       (x 7904)
       (y 544)
-    )
-    (sspiky
-      (x 5412.242)
-      (y 631.5147)
-    )
-    (sspiky
-      (x 17638.27)
-      (y 557.6215)
-    )
-    (sspiky
-      (x 4534.623)
-      (y 409.9988)
     )
     (snowball
       (x 2624)
@@ -184,8 +174,6 @@
       (x 736)
       (y 480)
     )
-    (particles-snow
-    )
     (spawnpoint
       (name "main")
       (x 160)
@@ -204,6 +192,18 @@
     (spiky
       (x 10176)
       (y 448)
+    )
+    (sspiky
+      (x 5412.242)
+      (y 631.5147)
+    )
+    (sspiky
+      (x 17638.27)
+      (y 557.6215)
+    )
+    (sspiky
+      (x 4534.623)
+      (y 409.9988)
     )
     (switch
       (script "viento.start();
@@ -540,13 +540,13 @@ castleentrance.goto_node(1);
     (camera
       (mode "normal")
     )
+    (music
+      (file "music/intro.ogg")
+    )
     (particles-clouds
     )
     (particles-clouds
       (z-pos 101)
-    )
-    (music
-      (file "music/intro.ogg")
     )
     (scripttrigger
       (script "Level.spawn( \"main\", \"caer\" )")
@@ -777,24 +777,6 @@ castleentrance.goto_node(1);
       (x 704)
       (y 32)
     )
-    (platform
-      (running #f)
-      (name "pedestal")
-      (sprite "images/objects/platforms/pedestal.sprite")
-      (path-ref "a189a7e2-0ab2-461a-bd92-437c192ca830")
-    )
-    (platform
-      (running #f)
-      (name "empezar")
-      (sprite "images/objects/flying_platform/flying_platform.sprite")
-      (path-ref "0bc68c52-c77a-4f89-8120-aa5a59f8bb7e")
-    )
-    (platform
-      (running #f)
-      (name "bloques")
-      (sprite "images/objects/platforms/small.sprite")
-      (path-ref "4a146be1-be32-4be6-9314-910d308d61a4")
-    )
     (flyingsnowball
       (x 2624)
       (y 288)
@@ -901,6 +883,24 @@ castleentrance.goto_node(1);
         )
       )
     )
+    (platform
+      (running #f)
+      (name "pedestal")
+      (sprite "images/objects/platforms/pedestal.sprite")
+      (path-ref "a189a7e2-0ab2-461a-bd92-437c192ca830")
+    )
+    (platform
+      (running #f)
+      (name "empezar")
+      (sprite "images/objects/flying_platform/flying_platform.sprite")
+      (path-ref "0bc68c52-c77a-4f89-8120-aa5a59f8bb7e")
+    )
+    (platform
+      (running #f)
+      (name "bloques")
+      (sprite "images/objects/platforms/small.sprite")
+      (path-ref "4a146be1-be32-4be6-9314-910d308d61a4")
+    )
     (pushbutton
       (script "bloques.goto_node(1);
 ")
@@ -924,22 +924,6 @@ castleentrance.goto_node(1);
       (x 160)
       (y 992)
     )
-    (sspiky
-      (x 736)
-      (y 800)
-    )
-    (sspiky
-      (x 1984)
-      (y 256)
-    )
-    (sspiky
-      (x 2144)
-      (y 544)
-    )
-    (sspiky
-      (x 2272)
-      (y 544)
-    )
     (snowball
       (x 2112)
       (y 800)
@@ -956,6 +940,22 @@ castleentrance.goto_node(1);
     (spiky
       (x 2240)
       (y 800)
+    )
+    (sspiky
+      (x 736)
+      (y 800)
+    )
+    (sspiky
+      (x 1984)
+      (y 256)
+    )
+    (sspiky
+      (x 2144)
+      (y 544)
+    )
+    (sspiky
+      (x 2272)
+      (y 544)
     )
     (stalactite
       (x 371.8236)

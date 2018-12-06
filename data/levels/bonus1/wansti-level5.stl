@@ -43,8 +43,6 @@
     (camera
       (mode "normal")
     )
-    (particles-clouds
-    )
     (door
       (sector "castle")
       (spawnpoint "hovno")
@@ -231,6 +229,8 @@
     )
     (music
       (file "music/chipdisko.ogg")
+    )
+    (particles-clouds
     )
     (snowball
       (x 9780)
@@ -428,9 +428,6 @@
     (camera
       (mode "normal")
     )
-    (particles-clouds
-      (z-pos -199)
-    )
     (door
       (sector "main")
       (spawnpoint "hovno")
@@ -465,6 +462,9 @@
     )
     (music
       (file "music/chipdisko.ogg")
+    )
+    (particles-clouds
+      (z-pos -199)
     )
     (snowball
       (x 739)

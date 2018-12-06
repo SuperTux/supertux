@@ -18,6 +18,9 @@
     (camera
       (mode "normal")
     )
+    (music
+      (file "music/chipdisko.ogg")
+    )
     (particles-clouds
     )
     (smartball
@@ -171,9 +174,6 @@
     (smartball
       (x 4672)
       (y 672)
-    )
-    (music
-      (file "music/chipdisko.ogg")
     )
     (spawnpoint
       (name "main")

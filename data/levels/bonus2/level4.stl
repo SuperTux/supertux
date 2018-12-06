@@ -155,20 +155,10 @@
       (x 10208)
       (y 524)
     )
-    (smartball
-      (x 8035)
-      (y 742)
-    )
-    (smartball
-      (x 10435)
-      (y 550)
-    )
-    (smartball
-      (x 10563)
-      (y 614)
-    )
     (music
       (file "music/chipdisko.ogg")
+    )
+    (particles-snow
     )
     (path
       (name "b5dedcb2-9c6d-44b8-b8e7-1893bb0fa82c")
@@ -233,6 +223,18 @@
       (height 192.345)
       (x 12159.65)
       (y 607.6526)
+    )
+    (smartball
+      (x 8035)
+      (y 742)
+    )
+    (smartball
+      (x 10435)
+      (y 550)
+    )
+    (smartball
+      (x 10563)
+      (y 614)
     )
     (smartblock
       (x 8321)
@@ -317,8 +319,6 @@
     (snowball
       (x 11189)
       (y 620)
-    )
-    (particles-snow
     )
     (spawnpoint
       (name "main")

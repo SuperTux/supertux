@@ -129,12 +129,6 @@
       (x 10848)
       (y 864)
     )
-    (platform
-      (running #f)
-      (name "downpath")
-      (sprite "images/objects/platforms/wood-fivetiles.sprite")
-      (path-ref "396f50f1-869f-4ea1-9bbc-4a009553c774")
-    )
     (flyingsnowball
       (x 1664)
       (y 224)
@@ -213,26 +207,6 @@
     (mriceblock
       (x 11233)
       (y 1030)
-    )
-    (smartball
-      (x 1987)
-      (y 294)
-    )
-    (smartball
-      (x 4547)
-      (y 262)
-    )
-    (smartball
-      (x 9411)
-      (y 710)
-    )
-    (smartball
-      (x 9891)
-      (y 710)
-    )
-    (smartball
-      (x 12835)
-      (y 390)
     )
     (music
       (file "music/voc-daytime2.music")
@@ -541,6 +515,12 @@
         )
       )
     )
+    (platform
+      (running #f)
+      (name "downpath")
+      (sprite "images/objects/platforms/wood-fivetiles.sprite")
+      (path-ref "396f50f1-869f-4ea1-9bbc-4a009553c774")
+    )
     (powerup
       (sprite "images/powerups/1up/1up.sprite")
       (x 14784)
@@ -558,6 +538,26 @@
       (height 32)
       (x 9440)
       (y -128)
+    )
+    (smartball
+      (x 1987)
+      (y 294)
+    )
+    (smartball
+      (x 4547)
+      (y 262)
+    )
+    (smartball
+      (x 9411)
+      (y 710)
+    )
+    (smartball
+      (x 9891)
+      (y 710)
+    )
+    (smartball
+      (x 12835)
+      (y 390)
     )
     (snowball
       (x 1731)
@@ -1159,13 +1159,13 @@ secret_solid.goto_node(1);")
     (camera
       (mode "normal")
     )
-    (particles-clouds
-    )
     (coin
       (path-ref "fc4e566d-19ac-44c3-8608-6b14c9868bc3")
     )
     (music
       (file "music/salcon.ogg")
+    )
+    (particles-clouds
     )
     (path
       (name "fc4e566d-19ac-44c3-8608-6b14c9868bc3")

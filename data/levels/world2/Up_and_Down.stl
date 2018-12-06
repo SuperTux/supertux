@@ -22,9 +22,6 @@
     (camera
       (mode "normal")
     )
-    (particles-clouds
-      (z-pos -150)
-    )
     (firefly
       (x 1312)
       (y 896)
@@ -40,29 +37,6 @@
     (fish
       (x 3840)
       (y 768)
-    )
-    (platform
-      (name "eins")
-      (sprite "images/objects/flying_platform/flying_platform.sprite")
-      (path-ref "62e89bc8-855b-48fa-82fd-8740ee3d9a07")
-    )
-    (platform
-      (running #f)
-      (name "zwei")
-      (sprite "images/objects/flying_platform/flying_platform.sprite")
-      (path-ref "aa276c7c-9b26-4a86-a93c-f490fab85684")
-    )
-    (platform
-      (running #f)
-      (name "drei")
-      (sprite "images/objects/flying_platform/flying_platform.sprite")
-      (path-ref "c845a699-c423-4a6e-a843-db865809e5c1")
-    )
-    (platform
-      (running #f)
-      (name "raus")
-      (sprite "images/objects/flying_platform/flying_platform.sprite")
-      (path-ref "1321506e-642d-402d-95c2-d11a75aac433")
     )
     (igel
       (x 4322.1)
@@ -92,6 +66,9 @@
     )
     (music
       (file "music/forest.music")
+    )
+    (particles-clouds
+      (z-pos -150)
     )
     (path
       (name "62e89bc8-855b-48fa-82fd-8740ee3d9a07")
@@ -187,6 +164,29 @@
         )
       )
     )
+    (platform
+      (name "eins")
+      (sprite "images/objects/flying_platform/flying_platform.sprite")
+      (path-ref "62e89bc8-855b-48fa-82fd-8740ee3d9a07")
+    )
+    (platform
+      (running #f)
+      (name "zwei")
+      (sprite "images/objects/flying_platform/flying_platform.sprite")
+      (path-ref "aa276c7c-9b26-4a86-a93c-f490fab85684")
+    )
+    (platform
+      (running #f)
+      (name "drei")
+      (sprite "images/objects/flying_platform/flying_platform.sprite")
+      (path-ref "c845a699-c423-4a6e-a843-db865809e5c1")
+    )
+    (platform
+      (running #f)
+      (name "raus")
+      (sprite "images/objects/flying_platform/flying_platform.sprite")
+      (path-ref "1321506e-642d-402d-95c2-d11a75aac433")
+    )
     (poisonivy
       (x 992)
       (y 800)
@@ -236,11 +236,6 @@ drei.start_moving()")
       (x 3072)
       (y 960)
     )
-    (sspiky
-      (direction "right")
-      (x 512)
-      (y 768)
-    )
     (snail
       (x 640)
       (y 416)
@@ -253,6 +248,11 @@ drei.start_moving()")
       (name "main")
       (x 192)
       (y 512)
+    )
+    (sspiky
+      (direction "right")
+      (x 512)
+      (y 768)
     )
     (tilemap
       (solid #f)
