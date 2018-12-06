@@ -54,28 +54,7 @@
     (particles-clouds
     )
     (coin
-      (path
-        (node
-          (x 3904)
-          (y 96)
-        )
-        (node
-          (x 3904)
-          (y 384)
-        )
-        (node
-          (x 3936)
-          (y 416)
-        )
-        (node
-          (x 3968)
-          (y 384)
-        )
-        (node
-          (x 3904)
-          (y 384)
-        )
-      )
+      (path-ref "b4dccce1-0ea7-4062-937e-a9cfbbda3521")
     )
     (firefly
       (x 7087)
@@ -250,6 +229,40 @@
     )
     (music
       (file "music/chipdisko.ogg")
+    )
+    (path
+      (name "b4dccce1-0ea7-4062-937e-a9cfbbda3521")
+      (path
+        (node
+          (x 3904)
+          (y 96)
+        )
+        (node
+          (x 3904)
+          (y 384)
+        )
+        (node
+          (x 3936)
+          (y 416)
+        )
+        (node
+          (x 3968)
+          (y 384)
+        )
+        (node
+          (x 3904)
+          (y 384)
+        )
+      )
+    )
+    (path
+      (name "b8721684-a6d5-42fe-8353-f607cb150688")
+      (path
+        (node
+          (x 5344)
+          (y 608)
+        )
+      )
     )
     (secretarea
       (fade-tilemap "blb")
@@ -500,12 +513,7 @@
       (solid #f)
       (z-pos 100)
       (name "blb")
-      (path
-        (node
-          (x 5344)
-          (y 608)
-        )
-      )
+      (path-ref "b8721684-a6d5-42fe-8353-f607cb150688")
       (width 26)
       (height 5)
       (tiles

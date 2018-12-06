@@ -52,6 +52,33 @@
     )
     (platform
       (sprite "images/objects/flying_platform/flying_platform.sprite")
+      (path-ref "5fa311b3-6523-4e46-91fd-8d3c051c0442")
+    )
+    (igel
+      (x 928)
+      (y 544)
+    )
+    (jumpy
+      (x 1120)
+      (y 480)
+    )
+    (mrtree
+      (x 2848)
+      (y 480)
+    )
+    (mrtree
+      (x 3040)
+      (y 480)
+    )
+    (mrtree
+      (x 3200)
+      (y 480)
+    )
+    (music
+      (file "music/treeboss.music")
+    )
+    (path
+      (name "5fa311b3-6523-4e46-91fd-8d3c051c0442")
       (path
         (node
           (x 4576)
@@ -158,29 +185,6 @@
           (y 256)
         )
       )
-    )
-    (igel
-      (x 928)
-      (y 544)
-    )
-    (jumpy
-      (x 1120)
-      (y 480)
-    )
-    (mrtree
-      (x 2848)
-      (y 480)
-    )
-    (mrtree
-      (x 3040)
-      (y 480)
-    )
-    (mrtree
-      (x 3200)
-      (y 480)
-    )
-    (music
-      (file "music/treeboss.music")
     )
     (poisonivy
       (x 416)

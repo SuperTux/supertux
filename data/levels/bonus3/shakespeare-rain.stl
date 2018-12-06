@@ -40,6 +40,15 @@
     (music
       (file "music/forest2.ogg")
     )
+    (path
+      (name "3f55b894-2eef-4c5a-93f0-f30c14467862")
+      (path
+        (node
+          (x 2400)
+          (y 608)
+        )
+      )
+    )
     (poisonivy
       (x 544)
       (y 640)
@@ -217,12 +226,7 @@
       (solid #f)
       (z-pos 99)
       (name "secret1")
-      (path
-        (node
-          (x 2400)
-          (y 608)
-        )
-      )
+      (path-ref "3f55b894-2eef-4c5a-93f0-f30c14467862")
       (width 6)
       (height 3)
       (tiles

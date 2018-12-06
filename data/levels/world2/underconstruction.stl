@@ -21,6 +21,17 @@
       (running #f)
       (name "PLATFORM")
       (sprite "images/objects/flying_platform/flying_platform.sprite")
+      (path-ref "64557f43-3bbd-4981-a6a6-a9c2c492747c")
+    )
+    (gradient
+      (top_color 0.02131685 0 0.4536355)
+      (bottom_color 0.7644312 0.312993 0)
+    )
+    (music
+      (file "music/forest3.ogg")
+    )
+    (path
+      (name "64557f43-3bbd-4981-a6a6-a9c2c492747c")
       (path
         (node
           (x 2528)
@@ -47,12 +58,50 @@
         )
       )
     )
-    (gradient
-      (top_color 0.02131685 0 0.4536355)
-      (bottom_color 0.7644312 0.312993 0)
+    (path
+      (name "7c415117-4a3b-4247-abb9-d771a08b84c3")
+      (path
+        (node
+          (x 0)
+          (y -64)
+          (time 7)
+        )
+        (node
+          (x 0)
+          (y -288)
+          (time 6)
+        )
+      )
     )
-    (music
-      (file "music/forest3.ogg")
+    (path
+      (name "28fbeedc-c51b-4dee-b1b3-5d05f2a8b218")
+      (path
+        (node
+          (x 0)
+          (y 0)
+          (time 2)
+        )
+        (node
+          (x -32)
+          (y 0)
+          (time 2)
+        )
+      )
+    )
+    (path
+      (name "b1a87c65-ce28-4d28-926a-7f95c2e1c11d")
+      (path
+        (node
+          (x 0)
+          (y 0)
+          (time 2)
+        )
+        (node
+          (x 32)
+          (y 0)
+          (time 2)
+        )
+      )
     )
     (scriptedobject
       (z-pos 101)
@@ -483,18 +532,7 @@ Text.fade_out(1);
       (solid #t)
       (z-pos -10)
       (name "LAVA")
-      (path
-        (node
-          (x 0)
-          (y -64)
-          (time 7)
-        )
-        (node
-          (x 0)
-          (y -288)
-          (time 6)
-        )
-      )
+      (path-ref "7c415117-4a3b-4247-abb9-d771a08b84c3")
       (width 400)
       (height 76)
       (tiles
@@ -580,18 +618,7 @@ Text.fade_out(1);
       (solid #t)
       (z-pos -10)
       (name "Wood1")
-      (path
-        (node
-          (x 0)
-          (y 0)
-          (time 2)
-        )
-        (node
-          (x -32)
-          (y 0)
-          (time 2)
-        )
-      )
+      (path-ref "28fbeedc-c51b-4dee-b1b3-5d05f2a8b218")
       (width 400)
       (height 76)
       (tiles
@@ -677,18 +704,7 @@ Text.fade_out(1);
       (solid #t)
       (z-pos -10)
       (name "Wood2")
-      (path
-        (node
-          (x 0)
-          (y 0)
-          (time 2)
-        )
-        (node
-          (x 32)
-          (y 0)
-          (time 2)
-        )
-      )
+      (path-ref "b1a87c65-ce28-4d28-926a-7f95c2e1c11d")
       (width 400)
       (height 76)
       (tiles

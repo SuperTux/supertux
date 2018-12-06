@@ -101,6 +101,15 @@
     (music
       (file "music/chipdisko.ogg")
     )
+    (path
+      (name "887dde56-4eb4-4db5-8ee3-4cc32d3eba19")
+      (path
+        (node
+          (x 13504)
+          (y 576)
+        )
+      )
+    )
     (scripttrigger
       (script "Level.spawn(\"water\",\"main\")")
       (button #f)
@@ -490,12 +499,7 @@
       (solid #f)
       (z-pos 101)
       (name "secret")
-      (path
-        (node
-          (x 13504)
-          (y 576)
-        )
-      )
+      (path-ref "887dde56-4eb4-4db5-8ee3-4cc32d3eba19")
       (width 7)
       (height 6)
       (tiles

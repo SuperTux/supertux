@@ -252,6 +252,42 @@
     (music
       (file "music/greatgigantic.music")
     )
+    (path
+      (name "a316a183-b33d-4f76-ae5c-2c8da5798a4f")
+      (path
+        (node
+          (x 7616)
+          (y 0)
+        )
+      )
+    )
+    (path
+      (name "12a63e70-b59a-4946-beaf-0d6ebd64c7bb")
+      (path
+        (node
+          (x 16480)
+          (y 32)
+        )
+      )
+    )
+    (path
+      (name "ff07ec80-6a96-4402-8ca6-ed4bdd0c374d")
+      (path
+        (node
+          (x 13824)
+          (y 0)
+        )
+      )
+    )
+    (path
+      (name "b25f47cf-380c-44a4-ba5a-8903d313be73")
+      (path
+        (node
+          (x 1312)
+          (y 352)
+        )
+      )
+    )
     (secretarea
       (fade-tilemap "secret1")
       (width 444)
@@ -526,12 +562,7 @@
       (solid #f)
       (z-pos 100)
       (name "secret1")
-      (path
-        (node
-          (x 7616)
-          (y 0)
-        )
-      )
+      (path-ref "a316a183-b33d-4f76-ae5c-2c8da5798a4f")
       (width 29)
       (height 10)
       (tiles
@@ -551,12 +582,7 @@
       (solid #f)
       (z-pos 100)
       (name "GoalFront")
-      (path
-        (node
-          (x 16480)
-          (y 32)
-        )
-      )
+      (path-ref "12a63e70-b59a-4946-beaf-0d6ebd64c7bb")
       (width 9)
       (height 7)
       (tiles
@@ -573,12 +599,7 @@
       (solid #f)
       (z-pos 100)
       (name "secret2")
-      (path
-        (node
-          (x 13824)
-          (y 0)
-        )
-      )
+      (path-ref "ff07ec80-6a96-4402-8ca6-ed4bdd0c374d")
       (width 15)
       (height 7)
       (tiles
@@ -595,12 +616,7 @@
       (solid #f)
       (z-pos 100)
       (name "secret3")
-      (path
-        (node
-          (x 1312)
-          (y 352)
-        )
-      )
+      (path-ref "b25f47cf-380c-44a4-ba5a-8903d313be73")
       (width 13)
       (height 14)
       (tiles

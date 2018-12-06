@@ -38,53 +38,13 @@
       (running #f)
       (name "plat1")
       (sprite "images/objects/platforms/big.sprite")
-      (path
-        (node
-          (x 2272)
-          (y 1376)
-          (time 25)
-        )
-        (node
-          (x 2272)
-          (y 1376)
-          (time 7)
-        )
-        (node
-          (x 2272)
-          (y 928)
-          (time 2)
-        )
-        (node
-          (x 2272)
-          (y 864)
-        )
-      )
+      (path-ref "aed0d456-61af-4a45-a29b-2126e331b692")
     )
     (platform
       (running #f)
       (name "plat2")
       (sprite "images/objects/platforms/big.sprite")
-      (path
-        (node
-          (x 2528)
-          (y 1376)
-          (time 25)
-        )
-        (node
-          (x 2528)
-          (y 1376)
-          (time 7)
-        )
-        (node
-          (x 2528)
-          (y 928)
-          (time 2)
-        )
-        (node
-          (x 2528)
-          (y 864)
-        )
-      )
+      (path-ref "0769736f-8b62-44a2-b9b1-9afe8fd811de")
     )
     (igel
       (x 2672)
@@ -104,6 +64,78 @@
     )
     (music
       (file "music/forest.music")
+    )
+    (path
+      (name "aed0d456-61af-4a45-a29b-2126e331b692")
+      (path
+        (node
+          (x 2272)
+          (y 1376)
+          (time 25)
+        )
+        (node
+          (x 2272)
+          (y 1376)
+          (time 7)
+        )
+        (node
+          (x 2272)
+          (y 928)
+          (time 2)
+        )
+        (node
+          (x 2272)
+          (y 864)
+        )
+      )
+    )
+    (path
+      (name "0769736f-8b62-44a2-b9b1-9afe8fd811de")
+      (path
+        (node
+          (x 2528)
+          (y 1376)
+          (time 25)
+        )
+        (node
+          (x 2528)
+          (y 1376)
+          (time 7)
+        )
+        (node
+          (x 2528)
+          (y 928)
+          (time 2)
+        )
+        (node
+          (x 2528)
+          (y 864)
+        )
+      )
+    )
+    (path
+      (name "286e8751-a65a-4e01-9b95-67dea3ddf193")
+      (path
+        (node
+          (x 1856)
+          (y 2784)
+          (time 25)
+        )
+        (node
+          (x 1996)
+          (y 1376)
+          (time 7)
+        )
+        (node
+          (x 2041)
+          (y 928)
+          (time 2)
+        )
+        (node
+          (x 2051)
+          (y 864)
+        )
+      )
     )
     (poisonivy
       (x 704)
@@ -565,27 +597,7 @@ plat2.goto_node(3);")
       (solid #t)
       (z-pos 101)
       (name "LavaRising")
-      (path
-        (node
-          (x 1856)
-          (y 2784)
-          (time 25)
-        )
-        (node
-          (x 1996)
-          (y 1376)
-          (time 7)
-        )
-        (node
-          (x 2041)
-          (y 928)
-          (time 2)
-        )
-        (node
-          (x 2051)
-          (y 864)
-        )
-      )
+      (path-ref "286e8751-a65a-4e01-9b95-67dea3ddf193")
       (width 34)
       (height 41)
       (tiles

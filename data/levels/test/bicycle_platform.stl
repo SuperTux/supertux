@@ -4,28 +4,38 @@
   (author "Marek Moeckel")
   (sector
     (name "main")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (background
       (speed 0.5)
       (image "images/background/arctis.jpg")
     )
     (bicycle-platform
+      (platforms 6)
       (x 320)
       (y 640)
-      (platforms 6)
-      (path-ref "bicyclepath")
     )
-    (path
-        (name "bicyclepath")
-        (style "solid")
-        (path
-          (mode "pingpong")
-          (node (x 320) (y 640))
-          (node (x 520) (y 640))
-          (node (x 720) (y 840))
-        ))
     (camera
       (mode "normal")
+    )
+    (path
+      (name "bicyclepath")
+      (path
+        (mode "pingpong")
+        (node
+          (x 320)
+          (y 640)
+        )
+        (node
+          (x 520)
+          (y 640)
+        )
+        (node
+          (x 720)
+          (y 840)
+        )
+      )
     )
     (rock
       (x 34)

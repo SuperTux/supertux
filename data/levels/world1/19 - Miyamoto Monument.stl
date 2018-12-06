@@ -137,6 +137,15 @@
     (music
       (file "music/cave.music")
     )
+    (path
+      (name "8e30fbed-bcfb-4c32-a343-58eed1988031")
+      (path
+        (node
+          (x 0)
+          (y 0)
+        )
+      )
+    )
     (smartblock
       (x 10753)
       (y 358)
@@ -325,12 +334,7 @@
       (alpha 0.1)
       (z-pos -190)
       (name "background_para2")
-      (path
-        (node
-          (x 0)
-          (y 0)
-        )
-      )
+      (path-ref "8e30fbed-bcfb-4c32-a343-58eed1988031")
       (width 162)
       (height 25)
       (tiles

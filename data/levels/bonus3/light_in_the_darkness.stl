@@ -295,6 +295,15 @@
     (music
       (file "music/ghostforest.music")
     )
+    (path
+      (name "b954134d-b050-4818-82ad-5dc46bbcbbed")
+      (path
+        (node
+          (x 0)
+          (y 576)
+        )
+      )
+    )
     (particles-rain
     )
     (secretarea
@@ -456,12 +465,7 @@
       (solid #f)
       (z-pos 100)
       (name "secret1")
-      (path
-        (node
-          (x 0)
-          (y 576)
-        )
-      )
+      (path-ref "b954134d-b050-4818-82ad-5dc46bbcbbed")
       (width 11)
       (height 5)
       (tiles

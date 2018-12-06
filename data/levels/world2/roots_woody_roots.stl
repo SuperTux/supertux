@@ -257,6 +257,33 @@
     (music
       (file "music/forest2.ogg")
     )
+    (path
+      (name "0c7fcf34-3776-4db1-b5f0-3f44752e5c98")
+      (path
+        (node
+          (x 1280)
+          (y 384)
+        )
+      )
+    )
+    (path
+      (name "536a5c8a-37fb-4f17-8dc6-95e0695d8e4a")
+      (path
+        (node
+          (x 0)
+          (y 1376)
+        )
+      )
+    )
+    (path
+      (name "378b889e-35a5-4764-8231-f5e5f08afa72")
+      (path
+        (node
+          (x 1280)
+          (y 2496)
+        )
+      )
+    )
     (poisonivy
       (x 930)
       (y 1860)
@@ -844,12 +871,7 @@
       (solid #f)
       (z-pos 101)
       (name "secret1")
-      (path
-        (node
-          (x 1280)
-          (y 384)
-        )
-      )
+      (path-ref "0c7fcf34-3776-4db1-b5f0-3f44752e5c98")
       (width 17)
       (height 5)
       (tiles
@@ -864,12 +886,7 @@
       (solid #f)
       (z-pos 102)
       (name "secret2")
-      (path
-        (node
-          (x 0)
-          (y 1376)
-        )
-      )
+      (path-ref "536a5c8a-37fb-4f17-8dc6-95e0695d8e4a")
       (width 17)
       (height 10)
       (tiles
@@ -889,12 +906,7 @@
       (solid #f)
       (z-pos 0)
       (name "nanic")
-      (path
-        (node
-          (x 1280)
-          (y 2496)
-        )
-      )
+      (path-ref "378b889e-35a5-4764-8231-f5e5f08afa72")
       (width 7)
       (height 2)
       (tiles
@@ -1192,6 +1204,15 @@
     )
     (music
       (file "music/clavelian_march.music")
+    )
+    (path
+      (name "914cec24-19fe-46af-88e9-4416a60c1947")
+      (path
+        (node
+          (x 448)
+          (y 864)
+        )
+      )
     )
     (poisonivy
       (x 1922)
@@ -1588,12 +1609,7 @@
       (solid #f)
       (z-pos 101)
       (name "secret")
-      (path
-        (node
-          (x 448)
-          (y 864)
-        )
-      )
+      (path-ref "914cec24-19fe-46af-88e9-4416a60c1947")
       (width 10)
       (height 8)
       (tiles

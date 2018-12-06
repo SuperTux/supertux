@@ -78,6 +78,24 @@
     (music
       (file "music/chipdisko.ogg")
     )
+    (path
+      (name "f6af4de3-4334-4611-8309-171fb1356700")
+      (path
+        (node
+          (x 608)
+          (y 640)
+        )
+      )
+    )
+    (path
+      (name "bd051393-92b7-48b1-9d29-58763cca445b")
+      (path
+        (node
+          (x 4000)
+          (y 672)
+        )
+      )
+    )
     (secretarea
       (fade-tilemap "secreta")
       (width 42.60657)
@@ -361,12 +379,7 @@
       (solid #f)
       (z-pos 101)
       (name "secreta")
-      (path
-        (node
-          (x 608)
-          (y 640)
-        )
-      )
+      (path-ref "f6af4de3-4334-4611-8309-171fb1356700")
       (width 3)
       (height 5)
       (tiles
@@ -381,12 +394,7 @@
       (solid #f)
       (z-pos 101)
       (name "secretb")
-      (path
-        (node
-          (x 4000)
-          (y 672)
-        )
-      )
+      (path-ref "bd051393-92b7-48b1-9d29-58763cca445b")
       (width 5)
       (height 4)
       (tiles

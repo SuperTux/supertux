@@ -126,76 +126,31 @@
       (running #f)
       (name "door1")
       (sprite "images/objects/platforms/vertical-wood.sprite")
-      (path
-        (node
-          (x 160)
-          (y 864)
-        )
-        (node
-          (x 160)
-          (y 992)
-        )
-      )
+      (path-ref "9e363aed-0b2b-4931-9984-2b6c745ee868")
     )
     (platform
       (running #f)
       (name "door2")
       (sprite "images/objects/platforms/vertical-wood.sprite")
-      (path
-        (node
-          (x 4480)
-          (y 1440)
-        )
-        (node
-          (x 4480)
-          (y 1568)
-        )
-      )
+      (path-ref "d9dea6ce-c6e7-4c44-a5fb-8fbf2af04c56")
     )
     (platform
       (running #f)
       (name "door3")
       (sprite "images/objects/platforms/vertical-wood.sprite")
-      (path
-        (node
-          (x 3520)
-          (y 1184)
-        )
-        (node
-          (x 3520)
-          (y 1312)
-        )
-      )
+      (path-ref "32b900a1-6440-4522-9cdc-7b068f15d953")
     )
     (platform
       (running #f)
       (name "door4")
       (sprite "images/objects/platforms/vertical-wood.sprite")
-      (path
-        (node
-          (x 4000)
-          (y 320)
-        )
-        (node
-          (x 4000)
-          (y 288)
-        )
-      )
+      (path-ref "0459c30f-fe8d-4c27-8ee4-40adc8ee356b")
     )
     (platform
       (running #f)
       (name "door5")
       (sprite "images/objects/platforms/vertical-wood.sprite")
-      (path
-        (node
-          (x 4608)
-          (y 1248)
-        )
-        (node
-          (x 4608)
-          (y 1120)
-        )
-      )
+      (path-ref "5d235947-a253-44cd-814d-81fa2b8f4c3b")
     )
     (gradient
       (top_color 0 0.3137255 1)
@@ -261,6 +216,71 @@
     )
     (music
       (file "music/chipdisko.ogg")
+    )
+    (path
+      (name "9e363aed-0b2b-4931-9984-2b6c745ee868")
+      (path
+        (node
+          (x 160)
+          (y 864)
+        )
+        (node
+          (x 160)
+          (y 992)
+        )
+      )
+    )
+    (path
+      (name "d9dea6ce-c6e7-4c44-a5fb-8fbf2af04c56")
+      (path
+        (node
+          (x 4480)
+          (y 1440)
+        )
+        (node
+          (x 4480)
+          (y 1568)
+        )
+      )
+    )
+    (path
+      (name "32b900a1-6440-4522-9cdc-7b068f15d953")
+      (path
+        (node
+          (x 3520)
+          (y 1184)
+        )
+        (node
+          (x 3520)
+          (y 1312)
+        )
+      )
+    )
+    (path
+      (name "0459c30f-fe8d-4c27-8ee4-40adc8ee356b")
+      (path
+        (node
+          (x 4000)
+          (y 320)
+        )
+        (node
+          (x 4000)
+          (y 288)
+        )
+      )
+    )
+    (path
+      (name "5d235947-a253-44cd-814d-81fa2b8f4c3b")
+      (path
+        (node
+          (x 4608)
+          (y 1248)
+        )
+        (node
+          (x 4608)
+          (y 1120)
+        )
+      )
     )
     (pushbutton
       (script "wind1.start()")

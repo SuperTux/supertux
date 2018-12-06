@@ -19,540 +19,205 @@
       (mode "normal")
     )
     (coin
-      (path
-        (node
-          (x 6080)
-          (y -32)
-        )
-      )
-    )
-    (coin
-      (path
-        (node
-          (x 6112)
-          (y -32)
-        )
-      )
-    )
-    (coin
-      (path
-        (node
-          (x 6144)
-          (y -32)
-        )
-      )
-    )
-    (coin
-      (path
-        (node
-          (x 5472)
-          (y -32)
-        )
-      )
-    )
-    (coin
-      (path
-        (node
-          (x 5504)
-          (y -32)
-        )
-      )
-    )
-    (coin
-      (path
-        (node
-          (x 5536)
-          (y -32)
-        )
-      )
-    )
-    (coin
-      (path
-        (node
-          (x 5568)
-          (y -32)
-        )
-      )
-    )
-    (coin
-      (path
-        (node
-          (x 5600)
-          (y -32)
-        )
-      )
-    )
-    (coin
-      (path
-        (node
-          (x 5856)
-          (y -32)
-        )
-      )
-    )
-    (coin
-      (path
-        (node
-          (x 5888)
-          (y -32)
-        )
-      )
-    )
-    (coin
-      (path
-        (node
-          (x 5920)
-          (y -32)
-        )
-      )
-    )
-    (coin
-      (path
-        (node
-          (x 5952)
-          (y -32)
-        )
-      )
-    )
-    (coin
-      (path
-        (node
-          (x 5376)
-          (y -32)
-        )
-      )
+      (path-ref "9ab23e96-7e7a-47c5-a92b-21a2d7f9c2c9")
     )
     (coin
-      (path
-        (node
-          (x 5408)
-          (y -32)
-        )
-      )
+      (path-ref "9ff6bd2e-07c3-4518-a335-b1d88c69454d")
     )
     (coin
-      (path
-        (node
-          (x 5440)
-          (y -32)
-        )
-      )
+      (path-ref "93030c44-4ab0-44ef-81a5-1ad8276db50b")
     )
     (coin
-      (path
-        (node
-          (x 5216)
-          (y -32)
-        )
-      )
+      (path-ref "680b9242-bd9d-4b00-8713-970f28421f08")
     )
     (coin
-      (path
-        (node
-          (x 5248)
-          (y -32)
-        )
-      )
+      (path-ref "f18fb94b-601b-4d10-9311-862a786fec97")
     )
     (coin
-      (path
-        (node
-          (x 5280)
-          (y -32)
-        )
-      )
+      (path-ref "daaa9a30-b019-4b26-8b46-8c556f20d9f5")
     )
     (coin
-      (path
-        (node
-          (x 5312)
-          (y -32)
-        )
-      )
+      (path-ref "fb5f3a8d-39a8-490e-8fea-83f4d5761654")
     )
     (coin
-      (path
-        (node
-          (x 5344)
-          (y -32)
-        )
-      )
+      (path-ref "13716c8b-245e-4028-af27-2e22f02ff89d")
     )
     (coin
-      (path
-        (node
-          (x 5760)
-          (y -32)
-        )
-      )
+      (path-ref "55f1a560-fd04-4cf7-9a03-0e868eabd0fd")
     )
     (coin
-      (path
-        (node
-          (x 5792)
-          (y -32)
-        )
-      )
+      (path-ref "9df1d49a-9494-4603-b07e-b76019cab2fb")
     )
     (coin
-      (path
-        (node
-          (x 5824)
-          (y -32)
-        )
-      )
+      (path-ref "9a891598-eebb-4a6b-aa30-df11860909cf")
     )
     (coin
-      (path
-        (node
-          (x 5632)
-          (y -32)
-        )
-      )
+      (path-ref "213bb676-3c31-4c89-962f-85970df2964c")
     )
     (coin
-      (path
-        (node
-          (x 5664)
-          (y -32)
-        )
-      )
+      (path-ref "7d3d24c0-b973-4596-86fd-79958b4c8158")
     )
     (coin
-      (path
-        (node
-          (x 5696)
-          (y -32)
-        )
-      )
+      (path-ref "461f0937-3b81-4efe-b145-33af924ac7a9")
     )
     (coin
-      (path
-        (node
-          (x 5728)
-          (y -32)
-        )
-      )
+      (path-ref "ad96b647-c2e3-4b3b-b9eb-d3e71fadb2b3")
     )
     (coin
-      (path
-        (node
-          (x 5984)
-          (y -32)
-        )
-      )
+      (path-ref "b3d75785-793e-46c1-aa8f-c7b8c196fd46")
     )
     (coin
-      (path
-        (node
-          (x 6016)
-          (y -32)
-        )
-      )
+      (path-ref "cc3905ee-1989-429c-a31f-6800dabc012b")
     )
     (coin
-      (path
-        (node
-          (x 6048)
-          (y -32)
-        )
-      )
+      (path-ref "5656ca35-90af-4933-8b4f-9031a6c0297a")
     )
     (coin
-      (path
-        (node
-          (x 5296)
-          (y -48)
-        )
-      )
+      (path-ref "10447d08-5b0d-4b3e-83ed-c9878e393ddf")
     )
     (coin
-      (path
-        (node
-          (x 5232)
-          (y -48)
-        )
-      )
+      (path-ref "216a7b38-ebe6-4496-a24a-1acf1709ba4c")
     )
     (coin
-      (path
-        (node
-          (x 5456)
-          (y -48)
-        )
-      )
+      (path-ref "f940eca8-687c-4dbc-b430-6ff0be57309d")
     )
     (coin
-      (path
-        (node
-          (x 5424)
-          (y -48)
-        )
-      )
+      (path-ref "f1624714-8370-4806-a3cc-3a9531390a6b")
     )
     (coin
-      (path
-        (node
-          (x 5392)
-          (y -48)
-        )
-      )
+      (path-ref "9fdf8b88-be6d-4223-b53b-0c50a4307335")
     )
     (coin
-      (path
-        (node
-          (x 5328)
-          (y -48)
-        )
-      )
+      (path-ref "3ca257df-4808-4e2f-8fb3-08014b6c4382")
     )
     (coin
-      (path
-        (node
-          (x 5264)
-          (y -48)
-        )
-      )
+      (path-ref "8880b62e-2416-49d7-a0e1-449aa8cd4a96")
     )
     (coin
-      (path
-        (node
-          (x 5360)
-          (y -48)
-        )
-      )
+      (path-ref "0dea0506-6326-4f07-bbf4-e5f321a71aff")
     )
     (coin
-      (path
-        (node
-          (x 5488)
-          (y -48)
-        )
-      )
+      (path-ref "7f5defb5-74f4-41ff-8973-73228085a0cf")
     )
     (coin
-      (path
-        (node
-          (x 5520)
-          (y -48)
-        )
-      )
+      (path-ref "b276eaa8-d1e5-4522-8fcd-d371da298dbd")
     )
     (coin
-      (path
-        (node
-          (x 5552)
-          (y -48)
-        )
-      )
+      (path-ref "d8bab1a8-0531-4653-aefd-7a6f64f2c3a0")
     )
     (coin
-      (path
-        (node
-          (x 5584)
-          (y -48)
-        )
-      )
+      (path-ref "01d0a7c2-85f1-487b-bfa6-ad041ed15966")
     )
     (coin
-      (path
-        (node
-          (x 5616)
-          (y -48)
-        )
-      )
+      (path-ref "77718980-3a98-4ab2-bf0a-d4ffb475833f")
     )
     (coin
-      (path
-        (node
-          (x 5648)
-          (y -48)
-        )
-      )
+      (path-ref "d2c827bd-3c82-417a-b193-dd2c3f95fd90")
     )
     (coin
-      (path
-        (node
-          (x 5680)
-          (y -48)
-        )
-      )
+      (path-ref "3681d81b-017f-4382-a0fc-03b43cd4ad36")
     )
     (coin
-      (path
-        (node
-          (x 5712)
-          (y -48)
-        )
-      )
+      (path-ref "170ce6cf-b28b-4eb7-9d50-ffc6702e1194")
     )
     (coin
-      (path
-        (node
-          (x 5744)
-          (y -48)
-        )
-      )
+      (path-ref "8b1e41da-6047-4ba9-9f90-e86d14e06ca8")
     )
     (coin
-      (path
-        (node
-          (x 5776)
-          (y -48)
-        )
-      )
+      (path-ref "cb201cda-cf47-4ad8-a036-14fc2dd2d96a")
     )
     (coin
-      (path
-        (node
-          (x 5808)
-          (y -48)
-        )
-      )
+      (path-ref "b779f05a-d2fd-42bb-8211-5c268a22317a")
     )
     (coin
-      (path
-        (node
-          (x 5840)
-          (y -48)
-        )
-      )
+      (path-ref "a67e7b11-0e21-4770-8e4a-dd9ba0d2c2ac")
     )
     (coin
-      (path
-        (node
-          (x 5872)
-          (y -48)
-        )
-      )
+      (path-ref "2e964e6b-1ec7-4066-b837-c06884bd94e7")
     )
     (coin
-      (path
-        (node
-          (x 5904)
-          (y -48)
-        )
-      )
+      (path-ref "edc5a6c0-e824-4e9f-ba6e-ed9a4a050e87")
     )
     (coin
-      (path
-        (node
-          (x 5936)
-          (y -48)
-        )
-      )
+      (path-ref "36c831e5-b1b0-409e-8eb4-93d49458f3ee")
     )
     (coin
-      (path
-        (node
-          (x 6128)
-          (y -48)
-        )
-      )
+      (path-ref "5f253549-dd5a-4da2-a6cf-eb0dbf92e0ae")
     )
     (coin
-      (path
-        (node
-          (x 6096)
-          (y -48)
-        )
-      )
-    )
-    (coin
-      (path
-        (node
-          (x 6064)
-          (y -48)
-        )
-      )
-    )
-    (coin
-      (path
-        (node
-          (x 6032)
-          (y -48)
-        )
-      )
-    )
-    (coin
-      (path
-        (node
-          (x 6000)
-          (y -48)
-        )
-      )
-    )
-    (coin
-      (path
-        (node
-          (x 5968)
-          (y -48)
-        )
-      )
-    )
-    (coin
-      (path
-        (node
-          (x 6688)
-          (y 2096)
-        )
-      )
-    )
-    (coin
-      (path
-        (node
-          (x 6720)
-          (y 2096)
-        )
-      )
-    )
-    (coin
-      (path
-        (node
-          (x 6784)
-          (y 2096)
-        )
-      )
-    )
-    (coin
-      (path
-        (node
-          (x 6816)
-          (y 2096)
-        )
-      )
-    )
-    (coin
-      (path
-        (node
-          (x 5920)
-          (y 2096)
-        )
-      )
-    )
-    (coin
-      (path
-        (node
-          (x 5952)
-          (y 2096)
-        )
-      )
-    )
-    (coin
-      (path
-        (node
-          (x 6016)
-          (y 2096)
-        )
-      )
-    )
-    (coin
-      (path
-        (node
-          (x 6048)
-          (y 2096)
-        )
-      )
+      (path-ref "43a32840-4961-480f-bdfb-88eeeb5baa4d")
+    )
+    (coin
+      (path-ref "34d883fc-8003-4b3f-840a-07670ea3e17d")
+    )
+    (coin
+      (path-ref "9c8a3b5c-8719-49a4-bae9-db77038ec299")
+    )
+    (coin
+      (path-ref "ac4cded9-417c-4a29-a655-35ff046d8a80")
+    )
+    (coin
+      (path-ref "98057582-c8ac-42ef-b79b-44e78ac360d2")
+    )
+    (coin
+      (path-ref "140fc660-25c0-4913-a466-59fcbe976f61")
+    )
+    (coin
+      (path-ref "461c20f4-3074-45b1-b9be-eb0d309bd7d6")
+    )
+    (coin
+      (path-ref "d5717ce2-b37f-43e3-a723-8aefbde323ed")
+    )
+    (coin
+      (path-ref "909784cd-29d3-42d9-afc2-c06305f05d9a")
+    )
+    (coin
+      (path-ref "37050458-3fcf-4714-90f9-a8313d6b112f")
+    )
+    (coin
+      (path-ref "2e570bfe-90ff-4c23-aa07-cdf2f4467553")
+    )
+    (coin
+      (path-ref "5e316249-b61d-47ce-b768-fa7343c1647d")
+    )
+    (coin
+      (path-ref "d7c0d510-2dd9-44e7-917d-6d073f335bc9")
+    )
+    (coin
+      (path-ref "e7152bd0-cec0-4389-b703-c551d8484488")
+    )
+    (coin
+      (path-ref "955fb89a-b2e7-4551-a980-465b63c5d9c7")
+    )
+    (coin
+      (path-ref "a0612557-841d-470a-ab60-1043820a2d23")
+    )
+    (coin
+      (path-ref "62f2f7f9-1854-4718-a7be-3e92c18d98d7")
+    )
+    (coin
+      (path-ref "c5bc8dd3-1c1c-4a68-aa37-c514f9c76fb6")
+    )
+    (coin
+      (path-ref "3b9a5022-a77e-412a-a699-5d979ccd64de")
+    )
+    (coin
+      (path-ref "68ba425a-e8b5-49c0-b318-77e5ff6be5f1")
+    )
+    (coin
+      (path-ref "07c8e066-6825-4089-b438-dc6c6f1c9e53")
+    )
+    (coin
+      (path-ref "024f34d3-2417-4561-b37c-2d1004c726ae")
+    )
+    (coin
+      (path-ref "be72cf18-98be-41a0-a36d-5e1130030dcd")
+    )
+    (coin
+      (path-ref "251fdc33-8e0c-41d3-9542-91c3e1d614c6")
+    )
+    (coin
+      (path-ref "644b2a47-f4e7-4697-8b75-2c07cb3dc174")
     )
     (decal
       (z-pos -102)
@@ -609,82 +274,27 @@
     (platform
       (running #f)
       (sprite "images/objects/platforms/big.sprite")
-      (path
-        (node
-          (x 1984)
-          (y 1568)
-          (time 3)
-        )
-        (node
-          (x 1984)
-          (y 1152)
-          (time 3)
-        )
-      )
+      (path-ref "4a16f2f7-7c54-49a8-89c0-f4b52f39fb34")
     )
     (platform
       (running #f)
       (sprite "images/objects/platforms/big.sprite")
-      (path
-        (node
-          (x 1856)
-          (y 736)
-          (time 3)
-        )
-        (node
-          (x 1856)
-          (y 1152)
-          (time 3)
-        )
-      )
+      (path-ref "9400f1b7-01b9-4c02-b517-6556c2d69f53")
     )
     (platform
       (running #f)
       (sprite "images/objects/flying_platform/flying_platform.sprite")
-      (path
-        (node
-          (x 896)
-          (y 736)
-          (time 2)
-        )
-        (node
-          (x 896)
-          (y 288)
-          (time 2)
-        )
-      )
+      (path-ref "01d87999-36f7-4f80-b127-d6a34e3d4b27")
     )
     (platform
       (running #f)
       (sprite "images/objects/platforms/big.sprite")
-      (path
-        (node
-          (x 5888)
-          (y 2128)
-          (time 8)
-        )
-        (node
-          (x 6752)
-          (y 2128)
-          (time 8)
-        )
-      )
+      (path-ref "81fe9086-056b-4245-b940-927078473be2")
     )
     (platform
       (running #f)
       (sprite "images/objects/flying_platform/flying_platform.sprite")
-      (path
-        (node
-          (x 4448)
-          (y 512)
-          (time 10)
-        )
-        (node
-          (x 6496)
-          (y 512)
-          (time 10)
-        )
-      )
+      (path-ref "e381d614-f3d1-49fe-98ad-2444c8f608e5")
     )
     (haywire
       (direction "left")
@@ -785,6 +395,684 @@
     )
     (music
       (file "music/forest.music")
+    )
+    (path
+      (name "4a16f2f7-7c54-49a8-89c0-f4b52f39fb34")
+      (path
+        (node
+          (x 1984)
+          (y 1568)
+          (time 3)
+        )
+        (node
+          (x 1984)
+          (y 1152)
+          (time 3)
+        )
+      )
+    )
+    (path
+      (name "9400f1b7-01b9-4c02-b517-6556c2d69f53")
+      (path
+        (node
+          (x 1856)
+          (y 736)
+          (time 3)
+        )
+        (node
+          (x 1856)
+          (y 1152)
+          (time 3)
+        )
+      )
+    )
+    (path
+      (name "01d87999-36f7-4f80-b127-d6a34e3d4b27")
+      (path
+        (node
+          (x 896)
+          (y 736)
+          (time 2)
+        )
+        (node
+          (x 896)
+          (y 288)
+          (time 2)
+        )
+      )
+    )
+    (path
+      (name "81fe9086-056b-4245-b940-927078473be2")
+      (path
+        (node
+          (x 5888)
+          (y 2128)
+          (time 8)
+        )
+        (node
+          (x 6752)
+          (y 2128)
+          (time 8)
+        )
+      )
+    )
+    (path
+      (name "e381d614-f3d1-49fe-98ad-2444c8f608e5")
+      (path
+        (node
+          (x 4448)
+          (y 512)
+          (time 10)
+        )
+        (node
+          (x 6496)
+          (y 512)
+          (time 10)
+        )
+      )
+    )
+    (path
+      (name "9ab23e96-7e7a-47c5-a92b-21a2d7f9c2c9")
+      (path
+        (node
+          (x 6080)
+          (y -32)
+        )
+      )
+    )
+    (path
+      (name "9ff6bd2e-07c3-4518-a335-b1d88c69454d")
+      (path
+        (node
+          (x 6112)
+          (y -32)
+        )
+      )
+    )
+    (path
+      (name "93030c44-4ab0-44ef-81a5-1ad8276db50b")
+      (path
+        (node
+          (x 6144)
+          (y -32)
+        )
+      )
+    )
+    (path
+      (name "680b9242-bd9d-4b00-8713-970f28421f08")
+      (path
+        (node
+          (x 5472)
+          (y -32)
+        )
+      )
+    )
+    (path
+      (name "f18fb94b-601b-4d10-9311-862a786fec97")
+      (path
+        (node
+          (x 5504)
+          (y -32)
+        )
+      )
+    )
+    (path
+      (name "daaa9a30-b019-4b26-8b46-8c556f20d9f5")
+      (path
+        (node
+          (x 5536)
+          (y -32)
+        )
+      )
+    )
+    (path
+      (name "fb5f3a8d-39a8-490e-8fea-83f4d5761654")
+      (path
+        (node
+          (x 5568)
+          (y -32)
+        )
+      )
+    )
+    (path
+      (name "13716c8b-245e-4028-af27-2e22f02ff89d")
+      (path
+        (node
+          (x 5600)
+          (y -32)
+        )
+      )
+    )
+    (path
+      (name "55f1a560-fd04-4cf7-9a03-0e868eabd0fd")
+      (path
+        (node
+          (x 5856)
+          (y -32)
+        )
+      )
+    )
+    (path
+      (name "9df1d49a-9494-4603-b07e-b76019cab2fb")
+      (path
+        (node
+          (x 5888)
+          (y -32)
+        )
+      )
+    )
+    (path
+      (name "9a891598-eebb-4a6b-aa30-df11860909cf")
+      (path
+        (node
+          (x 5920)
+          (y -32)
+        )
+      )
+    )
+    (path
+      (name "213bb676-3c31-4c89-962f-85970df2964c")
+      (path
+        (node
+          (x 5952)
+          (y -32)
+        )
+      )
+    )
+    (path
+      (name "7d3d24c0-b973-4596-86fd-79958b4c8158")
+      (path
+        (node
+          (x 5376)
+          (y -32)
+        )
+      )
+    )
+    (path
+      (name "461f0937-3b81-4efe-b145-33af924ac7a9")
+      (path
+        (node
+          (x 5408)
+          (y -32)
+        )
+      )
+    )
+    (path
+      (name "ad96b647-c2e3-4b3b-b9eb-d3e71fadb2b3")
+      (path
+        (node
+          (x 5440)
+          (y -32)
+        )
+      )
+    )
+    (path
+      (name "b3d75785-793e-46c1-aa8f-c7b8c196fd46")
+      (path
+        (node
+          (x 5216)
+          (y -32)
+        )
+      )
+    )
+    (path
+      (name "cc3905ee-1989-429c-a31f-6800dabc012b")
+      (path
+        (node
+          (x 5248)
+          (y -32)
+        )
+      )
+    )
+    (path
+      (name "5656ca35-90af-4933-8b4f-9031a6c0297a")
+      (path
+        (node
+          (x 5280)
+          (y -32)
+        )
+      )
+    )
+    (path
+      (name "10447d08-5b0d-4b3e-83ed-c9878e393ddf")
+      (path
+        (node
+          (x 5312)
+          (y -32)
+        )
+      )
+    )
+    (path
+      (name "216a7b38-ebe6-4496-a24a-1acf1709ba4c")
+      (path
+        (node
+          (x 5344)
+          (y -32)
+        )
+      )
+    )
+    (path
+      (name "f940eca8-687c-4dbc-b430-6ff0be57309d")
+      (path
+        (node
+          (x 5760)
+          (y -32)
+        )
+      )
+    )
+    (path
+      (name "f1624714-8370-4806-a3cc-3a9531390a6b")
+      (path
+        (node
+          (x 5792)
+          (y -32)
+        )
+      )
+    )
+    (path
+      (name "9fdf8b88-be6d-4223-b53b-0c50a4307335")
+      (path
+        (node
+          (x 5824)
+          (y -32)
+        )
+      )
+    )
+    (path
+      (name "3ca257df-4808-4e2f-8fb3-08014b6c4382")
+      (path
+        (node
+          (x 5632)
+          (y -32)
+        )
+      )
+    )
+    (path
+      (name "8880b62e-2416-49d7-a0e1-449aa8cd4a96")
+      (path
+        (node
+          (x 5664)
+          (y -32)
+        )
+      )
+    )
+    (path
+      (name "0dea0506-6326-4f07-bbf4-e5f321a71aff")
+      (path
+        (node
+          (x 5696)
+          (y -32)
+        )
+      )
+    )
+    (path
+      (name "7f5defb5-74f4-41ff-8973-73228085a0cf")
+      (path
+        (node
+          (x 5728)
+          (y -32)
+        )
+      )
+    )
+    (path
+      (name "b276eaa8-d1e5-4522-8fcd-d371da298dbd")
+      (path
+        (node
+          (x 5984)
+          (y -32)
+        )
+      )
+    )
+    (path
+      (name "d8bab1a8-0531-4653-aefd-7a6f64f2c3a0")
+      (path
+        (node
+          (x 6016)
+          (y -32)
+        )
+      )
+    )
+    (path
+      (name "01d0a7c2-85f1-487b-bfa6-ad041ed15966")
+      (path
+        (node
+          (x 6048)
+          (y -32)
+        )
+      )
+    )
+    (path
+      (name "77718980-3a98-4ab2-bf0a-d4ffb475833f")
+      (path
+        (node
+          (x 5296)
+          (y -48)
+        )
+      )
+    )
+    (path
+      (name "d2c827bd-3c82-417a-b193-dd2c3f95fd90")
+      (path
+        (node
+          (x 5232)
+          (y -48)
+        )
+      )
+    )
+    (path
+      (name "3681d81b-017f-4382-a0fc-03b43cd4ad36")
+      (path
+        (node
+          (x 5456)
+          (y -48)
+        )
+      )
+    )
+    (path
+      (name "170ce6cf-b28b-4eb7-9d50-ffc6702e1194")
+      (path
+        (node
+          (x 5424)
+          (y -48)
+        )
+      )
+    )
+    (path
+      (name "8b1e41da-6047-4ba9-9f90-e86d14e06ca8")
+      (path
+        (node
+          (x 5392)
+          (y -48)
+        )
+      )
+    )
+    (path
+      (name "cb201cda-cf47-4ad8-a036-14fc2dd2d96a")
+      (path
+        (node
+          (x 5328)
+          (y -48)
+        )
+      )
+    )
+    (path
+      (name "b779f05a-d2fd-42bb-8211-5c268a22317a")
+      (path
+        (node
+          (x 5264)
+          (y -48)
+        )
+      )
+    )
+    (path
+      (name "a67e7b11-0e21-4770-8e4a-dd9ba0d2c2ac")
+      (path
+        (node
+          (x 5360)
+          (y -48)
+        )
+      )
+    )
+    (path
+      (name "2e964e6b-1ec7-4066-b837-c06884bd94e7")
+      (path
+        (node
+          (x 5488)
+          (y -48)
+        )
+      )
+    )
+    (path
+      (name "edc5a6c0-e824-4e9f-ba6e-ed9a4a050e87")
+      (path
+        (node
+          (x 5520)
+          (y -48)
+        )
+      )
+    )
+    (path
+      (name "36c831e5-b1b0-409e-8eb4-93d49458f3ee")
+      (path
+        (node
+          (x 5552)
+          (y -48)
+        )
+      )
+    )
+    (path
+      (name "5f253549-dd5a-4da2-a6cf-eb0dbf92e0ae")
+      (path
+        (node
+          (x 5584)
+          (y -48)
+        )
+      )
+    )
+    (path
+      (name "43a32840-4961-480f-bdfb-88eeeb5baa4d")
+      (path
+        (node
+          (x 5616)
+          (y -48)
+        )
+      )
+    )
+    (path
+      (name "34d883fc-8003-4b3f-840a-07670ea3e17d")
+      (path
+        (node
+          (x 5648)
+          (y -48)
+        )
+      )
+    )
+    (path
+      (name "9c8a3b5c-8719-49a4-bae9-db77038ec299")
+      (path
+        (node
+          (x 5680)
+          (y -48)
+        )
+      )
+    )
+    (path
+      (name "ac4cded9-417c-4a29-a655-35ff046d8a80")
+      (path
+        (node
+          (x 5712)
+          (y -48)
+        )
+      )
+    )
+    (path
+      (name "98057582-c8ac-42ef-b79b-44e78ac360d2")
+      (path
+        (node
+          (x 5744)
+          (y -48)
+        )
+      )
+    )
+    (path
+      (name "140fc660-25c0-4913-a466-59fcbe976f61")
+      (path
+        (node
+          (x 5776)
+          (y -48)
+        )
+      )
+    )
+    (path
+      (name "461c20f4-3074-45b1-b9be-eb0d309bd7d6")
+      (path
+        (node
+          (x 5808)
+          (y -48)
+        )
+      )
+    )
+    (path
+      (name "d5717ce2-b37f-43e3-a723-8aefbde323ed")
+      (path
+        (node
+          (x 5840)
+          (y -48)
+        )
+      )
+    )
+    (path
+      (name "909784cd-29d3-42d9-afc2-c06305f05d9a")
+      (path
+        (node
+          (x 5872)
+          (y -48)
+        )
+      )
+    )
+    (path
+      (name "37050458-3fcf-4714-90f9-a8313d6b112f")
+      (path
+        (node
+          (x 5904)
+          (y -48)
+        )
+      )
+    )
+    (path
+      (name "2e570bfe-90ff-4c23-aa07-cdf2f4467553")
+      (path
+        (node
+          (x 5936)
+          (y -48)
+        )
+      )
+    )
+    (path
+      (name "5e316249-b61d-47ce-b768-fa7343c1647d")
+      (path
+        (node
+          (x 6128)
+          (y -48)
+        )
+      )
+    )
+    (path
+      (name "d7c0d510-2dd9-44e7-917d-6d073f335bc9")
+      (path
+        (node
+          (x 6096)
+          (y -48)
+        )
+      )
+    )
+    (path
+      (name "e7152bd0-cec0-4389-b703-c551d8484488")
+      (path
+        (node
+          (x 6064)
+          (y -48)
+        )
+      )
+    )
+    (path
+      (name "955fb89a-b2e7-4551-a980-465b63c5d9c7")
+      (path
+        (node
+          (x 6032)
+          (y -48)
+        )
+      )
+    )
+    (path
+      (name "a0612557-841d-470a-ab60-1043820a2d23")
+      (path
+        (node
+          (x 6000)
+          (y -48)
+        )
+      )
+    )
+    (path
+      (name "62f2f7f9-1854-4718-a7be-3e92c18d98d7")
+      (path
+        (node
+          (x 5968)
+          (y -48)
+        )
+      )
+    )
+    (path
+      (name "c5bc8dd3-1c1c-4a68-aa37-c514f9c76fb6")
+      (path
+        (node
+          (x 6688)
+          (y 2096)
+        )
+      )
+    )
+    (path
+      (name "3b9a5022-a77e-412a-a699-5d979ccd64de")
+      (path
+        (node
+          (x 6720)
+          (y 2096)
+        )
+      )
+    )
+    (path
+      (name "68ba425a-e8b5-49c0-b318-77e5ff6be5f1")
+      (path
+        (node
+          (x 6784)
+          (y 2096)
+        )
+      )
+    )
+    (path
+      (name "07c8e066-6825-4089-b438-dc6c6f1c9e53")
+      (path
+        (node
+          (x 6816)
+          (y 2096)
+        )
+      )
+    )
+    (path
+      (name "024f34d3-2417-4561-b37c-2d1004c726ae")
+      (path
+        (node
+          (x 5920)
+          (y 2096)
+        )
+      )
+    )
+    (path
+      (name "be72cf18-98be-41a0-a36d-5e1130030dcd")
+      (path
+        (node
+          (x 5952)
+          (y 2096)
+        )
+      )
+    )
+    (path
+      (name "251fdc33-8e0c-41d3-9542-91c3e1d614c6")
+      (path
+        (node
+          (x 6016)
+          (y 2096)
+        )
+      )
+    )
+    (path
+      (name "644b2a47-f4e7-4697-8b75-2c07cb3dc174")
+      (path
+        (node
+          (x 6048)
+          (y 2096)
+        )
+      )
     )
     (poisonivy
       (x 834)

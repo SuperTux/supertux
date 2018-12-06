@@ -21,6 +21,37 @@
       (running #f)
       (name "y1")
       (sprite "images/objects/platforms/vertical-wood.sprite")
+      (path-ref "8ab71300-5770-4fee-b9f4-4b17016ec596")
+    )
+    (platform
+      (running #f)
+      (name "y2")
+      (sprite "images/objects/platforms/vertical-wood.sprite")
+      (path-ref "060b023c-c11c-4fa5-b133-d2e3a5cb531d")
+    )
+    (platform
+      (running #f)
+      (name "y3")
+      (sprite "images/objects/platforms/vertical-wood.sprite")
+      (path-ref "9ded1b09-0166-439c-a737-91a119ce1254")
+    )
+    (platform
+      (running #f)
+      (name "y4")
+      (sprite "images/objects/platforms/vertical-wood.sprite")
+      (path-ref "ff25a759-39dc-4dad-9daa-c14452131813")
+    )
+    (platform
+      (running #f)
+      (name "y5")
+      (sprite "images/objects/platforms/vertical-wood.sprite")
+      (path-ref "4d7f6d61-5e38-4e89-864b-084bd12af4f2")
+    )
+    (music
+      (file "music/treeboss.music")
+    )
+    (path
+      (name "8ab71300-5770-4fee-b9f4-4b17016ec596")
       (path
         (node
           (x 1088)
@@ -32,10 +63,8 @@
         )
       )
     )
-    (platform
-      (running #f)
-      (name "y2")
-      (sprite "images/objects/platforms/vertical-wood.sprite")
+    (path
+      (name "060b023c-c11c-4fa5-b133-d2e3a5cb531d")
       (path
         (node
           (x 2208)
@@ -47,10 +76,8 @@
         )
       )
     )
-    (platform
-      (running #f)
-      (name "y3")
-      (sprite "images/objects/platforms/vertical-wood.sprite")
+    (path
+      (name "9ded1b09-0166-439c-a737-91a119ce1254")
       (path
         (node
           (x 3328)
@@ -62,10 +89,8 @@
         )
       )
     )
-    (platform
-      (running #f)
-      (name "y4")
-      (sprite "images/objects/platforms/vertical-wood.sprite")
+    (path
+      (name "ff25a759-39dc-4dad-9daa-c14452131813")
       (path
         (node
           (x 4448)
@@ -77,10 +102,8 @@
         )
       )
     )
-    (platform
-      (running #f)
-      (name "y5")
-      (sprite "images/objects/platforms/vertical-wood.sprite")
+    (path
+      (name "4d7f6d61-5e38-4e89-864b-084bd12af4f2")
       (path
         (node
           (x 5568)
@@ -91,9 +114,6 @@
           (y 928)
         )
       )
-    )
-    (music
-      (file "music/treeboss.music")
     )
     (scripttrigger
       (script "Level.spawn(\"sachta\",\"main\")")
@@ -1127,28 +1147,7 @@
       (running #f)
       (name "secretplatform")
       (sprite "images/objects/flying_platform/flying_platform.sprite")
-      (path
-        (node
-          (x 1088)
-          (y 1088)
-          (time 3)
-        )
-        (node
-          (x 1152)
-          (y 608)
-          (time 3)
-        )
-        (node
-          (x 1152)
-          (y 608)
-          (time 3)
-        )
-        (node
-          (x 1088)
-          (y 1088)
-          (time 3)
-        )
-      )
+      (path-ref "b48bd249-fa35-468b-8ce4-b299bf8c901d")
     )
     (jumpy
       (x 768)
@@ -1188,6 +1187,31 @@
     )
     (music
       (file "music/cave.music")
+    )
+    (path
+      (name "b48bd249-fa35-468b-8ce4-b299bf8c901d")
+      (path
+        (node
+          (x 1088)
+          (y 1088)
+          (time 3)
+        )
+        (node
+          (x 1152)
+          (y 608)
+          (time 3)
+        )
+        (node
+          (x 1152)
+          (y 608)
+          (time 3)
+        )
+        (node
+          (x 1088)
+          (y 1088)
+          (time 3)
+        )
+      )
     )
     (scripttrigger
       (script "Level.spawn(\"main\",\"igglo\")")
@@ -3954,6 +3978,19 @@ Tux.activate()")
       (running #f)
       (name "platform")
       (sprite "images/objects/flying_platform/flying_platform.sprite")
+      (path-ref "0bc24245-b521-48ff-b31b-9909233b5b17")
+    )
+    (infoblock
+      (message (_ "-Congratulations!
+#You are in half the level! "))
+      (x 448)
+      (y 544)
+    )
+    (music
+      (file "music/chipdisko.ogg")
+    )
+    (path
+      (name "0bc24245-b521-48ff-b31b-9909233b5b17")
       (path
         (node
           (x 736)
@@ -3973,15 +4010,6 @@ Tux.activate()")
           (y 672)
         )
       )
-    )
-    (infoblock
-      (message (_ "-Congratulations!
-#You are in half the level! "))
-      (x 448)
-      (y 544)
-    )
-    (music
-      (file "music/chipdisko.ogg")
     )
     (scripttrigger
       (script "platform.goto_node(3)")
@@ -6081,6 +6109,16 @@ platform2.goto_node(1)")
       (running #f)
       (name "platform2")
       (sprite "images/objects/flying_platform/flying_platform.sprite")
+      (path-ref "fa1832e0-52fe-46a2-ae80-0fecb6ecc97e")
+    )
+    (platform
+      (running #f)
+      (name "platform1")
+      (sprite "images/objects/flying_platform/flying_platform.sprite")
+      (path-ref "9088ca4d-0f66-4a43-bf6f-bd92187ca36d")
+    )
+    (path
+      (name "fa1832e0-52fe-46a2-ae80-0fecb6ecc97e")
       (path
         (node
           (x 288)
@@ -6093,10 +6131,8 @@ platform2.goto_node(1)")
         )
       )
     )
-    (platform
-      (running #f)
-      (name "platform1")
-      (sprite "images/objects/flying_platform/flying_platform.sprite")
+    (path
+      (name "9088ca4d-0f66-4a43-bf6f-bd92187ca36d")
       (path
         (node
           (x 384)
@@ -6531,16 +6567,7 @@ platform2.goto_node(1)")
       (running #f)
       (name "brana")
       (sprite "images/objects/platforms/vertical-wood.sprite")
-      (path
-        (node
-          (x 1152)
-          (y 3008)
-        )
-        (node
-          (x 1152)
-          (y 3200)
-        )
-      )
+      (path-ref "a74efdf8-19f1-4cb2-9189-2824d3f16ea2")
     )
     (jumpy
       (x 608)
@@ -6608,6 +6635,19 @@ platform2.goto_node(1)")
     )
     (music
       (file "music/wisphunt.music")
+    )
+    (path
+      (name "a74efdf8-19f1-4cb2-9189-2824d3f16ea2")
+      (path
+        (node
+          (x 1152)
+          (y 3008)
+        )
+        (node
+          (x 1152)
+          (y 3200)
+        )
+      )
     )
     (scripttrigger
       (script "Level.spawn(\"roof\",\"z5\")")

@@ -31,6 +31,15 @@
     (music
       (file "music/chipdisko.ogg")
     )
+    (path
+      (name "10bada0a-f27c-45a3-bd0b-220e794217b6")
+      (path
+        (node
+          (x 2400)
+          (y 608)
+        )
+      )
+    )
     (particles-rain
     )
     (secretarea
@@ -310,12 +319,7 @@
       (solid #f)
       (z-pos 99)
       (name "secret1")
-      (path
-        (node
-          (x 2400)
-          (y 608)
-        )
-      )
+      (path-ref "10bada0a-f27c-45a3-bd0b-220e794217b6")
       (width 6)
       (height 3)
       (tiles

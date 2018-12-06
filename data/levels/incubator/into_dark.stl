@@ -78,84 +78,16 @@
       (y 704)
     )
     (coin
-      (path
-        (node
-          (x 2912)
-          (y 352)
-        )
-        (node
-          (x 2976)
-          (y 384)
-        )
-        (node
-          (x 3040)
-          (y 352)
-        )
-        (node
-          (x 2976)
-          (y 320)
-        )
-      )
+      (path-ref "c0bcb4e0-a9fe-49c9-8901-4cff33ba2d7a")
     )
     (coin
-      (path
-        (node
-          (x 2976)
-          (y 384)
-        )
-        (node
-          (x 3040)
-          (y 352)
-        )
-        (node
-          (x 2976)
-          (y 320)
-        )
-        (node
-          (x 2912)
-          (y 352)
-        )
-      )
+      (path-ref "090aa7dc-8dfd-4774-b24b-08057e54c614")
     )
     (coin
-      (path
-        (node
-          (x 3040)
-          (y 352)
-        )
-        (node
-          (x 2976)
-          (y 320)
-        )
-        (node
-          (x 2912)
-          (y 352)
-        )
-        (node
-          (x 2976)
-          (y 384)
-        )
-      )
+      (path-ref "4af0a4e5-7052-4210-b69c-ffd0d2639767")
     )
     (coin
-      (path
-        (node
-          (x 2976)
-          (y 320)
-        )
-        (node
-          (x 2912)
-          (y 352)
-        )
-        (node
-          (x 2976)
-          (y 384)
-        )
-        (node
-          (x 3040)
-          (y 352)
-        )
-      )
+      (path-ref "2911d295-cd0b-4690-b65d-1075bd8089fa")
     )
     (gradient
       (top_color 0.2 0.2941177 0.2941177)
@@ -343,6 +275,90 @@
     )
     (music
       (file "music/clavelian_march.music")
+    )
+    (path
+      (name "c0bcb4e0-a9fe-49c9-8901-4cff33ba2d7a")
+      (path
+        (node
+          (x 2912)
+          (y 352)
+        )
+        (node
+          (x 2976)
+          (y 384)
+        )
+        (node
+          (x 3040)
+          (y 352)
+        )
+        (node
+          (x 2976)
+          (y 320)
+        )
+      )
+    )
+    (path
+      (name "090aa7dc-8dfd-4774-b24b-08057e54c614")
+      (path
+        (node
+          (x 2976)
+          (y 384)
+        )
+        (node
+          (x 3040)
+          (y 352)
+        )
+        (node
+          (x 2976)
+          (y 320)
+        )
+        (node
+          (x 2912)
+          (y 352)
+        )
+      )
+    )
+    (path
+      (name "4af0a4e5-7052-4210-b69c-ffd0d2639767")
+      (path
+        (node
+          (x 3040)
+          (y 352)
+        )
+        (node
+          (x 2976)
+          (y 320)
+        )
+        (node
+          (x 2912)
+          (y 352)
+        )
+        (node
+          (x 2976)
+          (y 384)
+        )
+      )
+    )
+    (path
+      (name "2911d295-cd0b-4690-b65d-1075bd8089fa")
+      (path
+        (node
+          (x 2976)
+          (y 320)
+        )
+        (node
+          (x 2912)
+          (y 352)
+        )
+        (node
+          (x 2976)
+          (y 384)
+        )
+        (node
+          (x 3040)
+          (y 352)
+        )
+      )
     )
     (powerup
       (sprite "images/powerups/fireflower/fireflower.sprite")

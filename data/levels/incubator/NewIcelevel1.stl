@@ -56,129 +56,43 @@
       (running #f)
       (name "plata1")
       (sprite "images/objects/platforms/icefloe_small.sprite")
-      (path
-        (node
-          (x 9952)
-          (y 896)
-        )
-        (node
-          (x 9952)
-          (y 384)
-        )
-      )
+      (path-ref "695b7feb-3806-4733-9abf-bf9c8f2f2972")
     )
     (platform
       (running #f)
       (name "Plata2")
       (sprite "images/objects/platforms/icefloe_small.sprite")
-      (path
-        (node
-          (x 12640)
-          (y 864)
-          (time 9)
-        )
-        (node
-          (x 14464)
-          (y 864)
-          (time 6)
-        )
-        (node
-          (x 14464)
-          (y 288)
-          (time 3)
-        )
-      )
+      (path-ref "dfb76207-fa1e-4944-bcb1-e8f2b5e267aa")
     )
     (platform
       (running #f)
       (name "Plata3")
       (sprite "images/objects/platforms/icefloe_small.sprite")
-      (path
-        (node
-          (x 15360)
-          (y 672)
-        )
-        (node
-          (x 15360)
-          (y 384)
-        )
-      )
+      (path-ref "e0acd3f1-a740-4f13-a5f4-bd22916167ab")
     )
     (platform
       (running #f)
       (name "PlataformaSecreta")
       (sprite "images/objects/flying_platform/flying_platform.sprite")
-      (path
-        (node
-          (x 8832)
-          (y 768)
-          (time 3)
-        )
-        (node
-          (x 9120)
-          (y 768)
-          (time 3)
-        )
-        (node
-          (x 9088)
-          (y 288)
-          (time 4)
-        )
-        (node
-          (x 8896)
-          (y 96)
-          (time 10)
-        )
-        (node
-          (x 10016)
-          (y 96)
-        )
-      )
+      (path-ref "7df83e95-d22e-4308-87e5-9c8fe6202568")
     )
     (platform
       (running #f)
       (name "secretwood1")
       (sprite "images/objects/platforms/vertical-wood.sprite")
-      (path
-        (node
-          (x 14172.34)
-          (y 285.4903)
-        )
-        (node
-          (x 14177.94)
-          (y 376.0416)
-        )
-      )
+      (path-ref "be72755c-8316-4ff6-887a-1e490590c24a")
     )
     (platform
       (running #f)
       (name "secretwood2")
       (sprite "images/objects/platforms/vertical-wood.sprite")
-      (path
-        (node
-          (x 14241.42)
-          (y 287.2929)
-        )
-        (node
-          (x 14239.56)
-          (y 377.487)
-        )
-      )
+      (path-ref "bd356e8f-5d20-46a2-961b-20c6a968c527")
     )
     (platform
       (running #f)
       (name "supersecretoplataforma")
       (sprite "images/objects/flying_platform/flying_platform.sprite")
-      (path
-        (node
-          (x 15552)
-          (y 256)
-        )
-        (node
-          (x 15552)
-          (y -64)
-        )
-      )
+      (path-ref "8b059bfe-ef1a-40f0-abe7-8fa04ed969cf")
     )
     (flyingsnowball
       (x 5056)
@@ -230,6 +144,129 @@
     )
     (music
       (file "music/chipdisko.ogg")
+    )
+    (path
+      (name "695b7feb-3806-4733-9abf-bf9c8f2f2972")
+      (path
+        (node
+          (x 9952)
+          (y 896)
+        )
+        (node
+          (x 9952)
+          (y 384)
+        )
+      )
+    )
+    (path
+      (name "dfb76207-fa1e-4944-bcb1-e8f2b5e267aa")
+      (path
+        (node
+          (x 12640)
+          (y 864)
+          (time 9)
+        )
+        (node
+          (x 14464)
+          (y 864)
+          (time 6)
+        )
+        (node
+          (x 14464)
+          (y 288)
+          (time 3)
+        )
+      )
+    )
+    (path
+      (name "e0acd3f1-a740-4f13-a5f4-bd22916167ab")
+      (path
+        (node
+          (x 15360)
+          (y 672)
+        )
+        (node
+          (x 15360)
+          (y 384)
+        )
+      )
+    )
+    (path
+      (name "7df83e95-d22e-4308-87e5-9c8fe6202568")
+      (path
+        (node
+          (x 8832)
+          (y 768)
+          (time 3)
+        )
+        (node
+          (x 9120)
+          (y 768)
+          (time 3)
+        )
+        (node
+          (x 9088)
+          (y 288)
+          (time 4)
+        )
+        (node
+          (x 8896)
+          (y 96)
+          (time 10)
+        )
+        (node
+          (x 10016)
+          (y 96)
+        )
+      )
+    )
+    (path
+      (name "be72755c-8316-4ff6-887a-1e490590c24a")
+      (path
+        (node
+          (x 14172.34)
+          (y 285.4903)
+        )
+        (node
+          (x 14177.94)
+          (y 376.0416)
+        )
+      )
+    )
+    (path
+      (name "bd356e8f-5d20-46a2-961b-20c6a968c527")
+      (path
+        (node
+          (x 14241.42)
+          (y 287.2929)
+        )
+        (node
+          (x 14239.56)
+          (y 377.487)
+        )
+      )
+    )
+    (path
+      (name "8b059bfe-ef1a-40f0-abe7-8fa04ed969cf")
+      (path
+        (node
+          (x 15552)
+          (y 256)
+        )
+        (node
+          (x 15552)
+          (y -64)
+        )
+      )
+    )
+    (path
+      (name "471f7832-dd13-42f5-8942-b1c90b7d5567")
+      (path
+        (node
+          (x 0)
+          (y 0)
+        )
+      )
     )
     (powerup
       (script "supersecretoplataforma.goto_node(1);")
@@ -1146,12 +1183,7 @@ Plata3.goto_node(0);")
       (solid #f)
       (z-pos 151)
       (name "coin1")
-      (path
-        (node
-          (x 0)
-          (y 0)
-        )
-      )
+      (path-ref "471f7832-dd13-42f5-8942-b1c90b7d5567")
       (width 500)
       (height 30)
       (tiles
@@ -1419,12 +1451,7 @@ Plata3.goto_node(0);")
     )
     (camera
       (mode "normal")
-      (path
-        (node
-          (x 0)
-          (y -2.82843)
-        )
-      )
+      (path-ref "d16d1cca-2859-4cfa-9d6d-02eb27032431")
     )
     (firefly
       (x 1536)
@@ -1453,64 +1480,27 @@ Plata3.goto_node(0);")
       (running #f)
       (name "palo2")
       (sprite "images/objects/platforms/big.sprite")
-      (path
-        (node
-          (x 480)
-          (y 288)
-        )
-        (node
-          (x 480)
-          (y 416)
-        )
-      )
+      (path-ref "7625889f-de6e-4f3f-b90e-0a82e1cfaf40")
     )
     (platform
       (running #f)
       (name "palo1")
       (sprite "images/objects/platforms/vertical-wood.sprite")
-      (path
-        (node
-          (x 384)
-          (y 544)
-        )
-        (node
-          (x 384)
-          (y 832)
-        )
-      )
+      (path-ref "d672965a-5efa-4fd1-94ba-7c1cd7a7615d")
     )
     (platform
       (sprite "images/objects/platforms/vertical-wood.sprite")
-      (path
-        (node
-          (x 1920)
-          (y -128)
-        )
-      )
+      (path-ref "e68d9a2d-d901-4aa6-b02f-269e813403ee")
     )
     (platform
       (sprite "images/objects/platforms/vertical-wood.sprite")
-      (path
-        (node
-          (x 1920)
-          (y -256)
-        )
-      )
+      (path-ref "54701da2-d08f-4eee-9a89-9dc219d19a22")
     )
     (platform
       (running #f)
       (name "TaponCubos")
       (sprite "images/objects/platforms/small.sprite")
-      (path
-        (node
-          (x 1664)
-          (y 672)
-        )
-        (node
-          (x 1664)
-          (y 800)
-        )
-      )
+      (path-ref "540a0804-1902-41f7-b33f-dfbb9c9d07c6")
     )
     (flyingsnowball
       (x 1408)
@@ -1546,6 +1536,72 @@ Plata3.goto_node(0);")
     )
     (music
       (file "music/greatgigantic.music")
+    )
+    (path
+      (name "d16d1cca-2859-4cfa-9d6d-02eb27032431")
+      (path
+        (node
+          (x 0)
+          (y -2.82843)
+        )
+      )
+    )
+    (path
+      (name "7625889f-de6e-4f3f-b90e-0a82e1cfaf40")
+      (path
+        (node
+          (x 480)
+          (y 288)
+        )
+        (node
+          (x 480)
+          (y 416)
+        )
+      )
+    )
+    (path
+      (name "d672965a-5efa-4fd1-94ba-7c1cd7a7615d")
+      (path
+        (node
+          (x 384)
+          (y 544)
+        )
+        (node
+          (x 384)
+          (y 832)
+        )
+      )
+    )
+    (path
+      (name "e68d9a2d-d901-4aa6-b02f-269e813403ee")
+      (path
+        (node
+          (x 1920)
+          (y -128)
+        )
+      )
+    )
+    (path
+      (name "54701da2-d08f-4eee-9a89-9dc219d19a22")
+      (path
+        (node
+          (x 1920)
+          (y -256)
+        )
+      )
+    )
+    (path
+      (name "540a0804-1902-41f7-b33f-dfbb9c9d07c6")
+      (path
+        (node
+          (x 1664)
+          (y 672)
+        )
+        (node
+          (x 1664)
+          (y 800)
+        )
+      )
     )
     (pushbutton
       (script "palo1.goto_node(1);

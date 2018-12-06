@@ -115,6 +115,33 @@
     (music
       (file "music/theme.music")
     )
+    (path
+      (name "9e20f069-5234-481e-8ebb-92f2abdee10c")
+      (path
+        (node
+          (x 2624)
+          (y 736)
+        )
+      )
+    )
+    (path
+      (name "92864fde-20ff-41db-8fe6-4eb4fbb047b3")
+      (path
+        (node
+          (x 2848)
+          (y 768)
+        )
+      )
+    )
+    (path
+      (name "96b223a8-79da-493f-a645-d3d8483c661c")
+      (path
+        (node
+          (x 2624)
+          (y 672)
+        )
+      )
+    )
     (secretarea
       (fade-tilemap "secret")
       (script "slope.set_alpha(1)")
@@ -303,12 +330,7 @@
       (alpha 0.4)
       (z-pos 110)
       (name "ice")
-      (path
-        (node
-          (x 2624)
-          (y 736)
-        )
-      )
+      (path-ref "9e20f069-5234-481e-8ebb-92f2abdee10c")
       (width 8)
       (height 12)
       (tiles
@@ -330,12 +352,7 @@
       (solid #f)
       (z-pos 150)
       (name "secret")
-      (path
-        (node
-          (x 2848)
-          (y 768)
-        )
-      )
+      (path-ref "92864fde-20ff-41db-8fe6-4eb4fbb047b3")
       (width 14)
       (height 8)
       (tiles
@@ -398,12 +415,7 @@
       (alpha 0)
       (z-pos 10)
       (name "slope")
-      (path
-        (node
-          (x 2624)
-          (y 672)
-        )
-      )
+      (path-ref "96b223a8-79da-493f-a645-d3d8483c661c")
       (width 8)
       (height 14)
       (tiles

@@ -47,6 +47,15 @@
     (music
       (file "/music/forest2.ogg")
     )
+    (path
+      (name "2ffbf6aa-7ab9-4d86-9c85-662a7e65fd4c")
+      (path
+        (node
+          (x 0)
+          (y 672)
+        )
+      )
+    )
     (secretarea
       (fade-tilemap "secret")
       (width 220)
@@ -151,12 +160,7 @@
       (solid #f)
       (z-pos 101)
       (name "secret")
-      (path
-        (node
-          (x 0)
-          (y 672)
-        )
-      )
+      (path-ref "2ffbf6aa-7ab9-4d86-9c85-662a7e65fd4c")
       (width 8)
       (height 6)
       (tiles
@@ -647,28 +651,13 @@
       (mode "normal")
     )
     (coin
-      (path
-        (node
-          (x 608)
-          (y 512)
-        )
-      )
+      (path-ref "437990e6-f5aa-4f21-9f92-55a9466241de")
     )
     (coin
-      (path
-        (node
-          (x 1120)
-          (y 512)
-        )
-      )
+      (path-ref "79759b0a-0f1e-4b92-8f06-71c4c4f828cf")
     )
     (coin
-      (path
-        (node
-          (x 2944)
-          (y 544)
-        )
-      )
+      (path-ref "e5aa027b-64b1-427c-96fe-f0e7ecd041db")
     )
     (door
       (sector "Firesector")
@@ -728,6 +717,33 @@
     )
     (music
       (file "/music/greatgigantic.music")
+    )
+    (path
+      (name "437990e6-f5aa-4f21-9f92-55a9466241de")
+      (path
+        (node
+          (x 608)
+          (y 512)
+        )
+      )
+    )
+    (path
+      (name "79759b0a-0f1e-4b92-8f06-71c4c4f828cf")
+      (path
+        (node
+          (x 1120)
+          (y 512)
+        )
+      )
+    )
+    (path
+      (name "e5aa027b-64b1-427c-96fe-f0e7ecd041db")
+      (path
+        (node
+          (x 2944)
+          (y 544)
+        )
+      )
     )
     (secretarea
       (width 220)

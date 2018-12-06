@@ -24,16 +24,7 @@
       (running #f)
       (name "castleentrance")
       (sprite "images/objects/flying_platform/flying_platform.sprite")
-      (path
-        (node
-          (x 3090.97)
-          (y -75.65686)
-        )
-        (node
-          (x 3096.551)
-          (y 272.8961)
-        )
-      )
+      (path-ref "5979c4a0-26c0-42da-b375-0169ac05b150")
     )
     (flyingsnowball
       (x 16800)
@@ -89,6 +80,19 @@
     )
     (music
       (file "music/chipdisko.ogg")
+    )
+    (path
+      (name "5979c4a0-26c0-42da-b375-0169ac05b150")
+      (path
+        (node
+          (x 3090.97)
+          (y -75.65686)
+        )
+        (node
+          (x 3096.551)
+          (y 272.8961)
+        )
+      )
     )
     (scripttrigger
       (script "Level.spawn( \"sky castle\", \"main\" )")
@@ -777,54 +781,19 @@ castleentrance.goto_node(1);
       (running #f)
       (name "pedestal")
       (sprite "images/objects/platforms/pedestal.sprite")
-      (path
-        (node
-          (x 1376)
-          (y 352)
-        )
-        (node
-          (x 1344)
-          (y 352)
-        )
-        (node
-          (x 1344)
-          (y 480)
-        )
-      )
+      (path-ref "a189a7e2-0ab2-461a-bd92-437c192ca830")
     )
     (platform
       (running #f)
       (name "empezar")
       (sprite "images/objects/flying_platform/flying_platform.sprite")
-      (path
-        (node
-          (x 160)
-          (y 1024)
-        )
-        (node
-          (x 160)
-          (y 864)
-        )
-        (node
-          (x 160)
-          (y 160)
-        )
-      )
+      (path-ref "0bc68c52-c77a-4f89-8120-aa5a59f8bb7e")
     )
     (platform
       (running #f)
       (name "bloques")
       (sprite "images/objects/platforms/small.sprite")
-      (path
-        (node
-          (x 608)
-          (y 448)
-        )
-        (node
-          (x 608)
-          (y 832)
-        )
-      )
+      (path-ref "4a146be1-be32-4be6-9314-910d308d61a4")
     )
     (flyingsnowball
       (x 2624)
@@ -884,6 +853,53 @@ castleentrance.goto_node(1);
     )
     (music
       (file "music/greatgigantic.music")
+    )
+    (path
+      (name "a189a7e2-0ab2-461a-bd92-437c192ca830")
+      (path
+        (node
+          (x 1376)
+          (y 352)
+        )
+        (node
+          (x 1344)
+          (y 352)
+        )
+        (node
+          (x 1344)
+          (y 480)
+        )
+      )
+    )
+    (path
+      (name "0bc68c52-c77a-4f89-8120-aa5a59f8bb7e")
+      (path
+        (node
+          (x 160)
+          (y 1024)
+        )
+        (node
+          (x 160)
+          (y 864)
+        )
+        (node
+          (x 160)
+          (y 160)
+        )
+      )
+    )
+    (path
+      (name "4a146be1-be32-4be6-9314-910d308d61a4")
+      (path
+        (node
+          (x 608)
+          (y 448)
+        )
+        (node
+          (x 608)
+          (y 832)
+        )
+      )
     )
     (pushbutton
       (script "bloques.goto_node(1);

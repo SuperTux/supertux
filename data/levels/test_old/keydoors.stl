@@ -27,6 +27,23 @@
       (running #f)
       (name "door1")
       (sprite "images/objects/platforms/vertical-wood.sprite")
+      (path-ref "f1383390-b0cc-4723-ae19-29e51c9947f4")
+    )
+    (platform
+      (running #f)
+      (name "PLATFORM")
+      (sprite "images/objects/flying_platform/flying_platform.sprite")
+      (path-ref "b4cfd2dc-f1b0-468b-9fa2-44502ca6aa37")
+    )
+    (infoblock
+      (message (_ "#Remember that you can type
+#sector.add_key(key);
+#keys are air, wood, earth, fire and water"))
+      (x 192)
+      (y 576)
+    )
+    (path
+      (name "f1383390-b0cc-4723-ae19-29e51c9947f4")
       (path
         (node
           (x 800)
@@ -38,10 +55,8 @@
         )
       )
     )
-    (platform
-      (running #f)
-      (name "PLATFORM")
-      (sprite "images/objects/flying_platform/flying_platform.sprite")
+    (path
+      (name "b4cfd2dc-f1b0-468b-9fa2-44502ca6aa37")
       (path
         (node
           (x 1440)
@@ -59,12 +74,20 @@
         )
       )
     )
-    (infoblock
-      (message (_ "#Remember that you can type
-#sector.add_key(key);
-#keys are air, wood, earth, fire and water"))
-      (x 192)
-      (y 576)
+    (path
+      (name "8c3c9c29-7ffe-43c1-8b7e-7d08eaa182b6")
+      (path
+        (node
+          (x 0)
+          (y -64)
+          (time 7)
+        )
+        (node
+          (x 0)
+          (y -288)
+          (time 6)
+        )
+      )
     )
     (scriptedobject
       (physic-enabled #f)
@@ -281,18 +304,7 @@
       (solid #t)
       (z-pos -10)
       (name "LAVA")
-      (path
-        (node
-          (x 0)
-          (y -64)
-          (time 7)
-        )
-        (node
-          (x 0)
-          (y -288)
-          (time 6)
-        )
-      )
+      (path-ref "8c3c9c29-7ffe-43c1-8b7e-7d08eaa182b6")
       (width 100)
       (height 35)
       (tiles

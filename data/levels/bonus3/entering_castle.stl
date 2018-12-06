@@ -100,6 +100,30 @@
     (music
       (file "music/chipdisko.ogg")
     )
+    (path
+      (name "4245b3e1-b8f7-470f-a1ba-ff06f358111e")
+      (path
+        (node
+          (x 3520)
+          (y 2272)
+          (time 5)
+        )
+        (node
+          (x 3520)
+          (y 960)
+          (time 4)
+        )
+      )
+    )
+    (path
+      (name "b364b592-745e-4880-b268-c450986aa0cd")
+      (path
+        (node
+          (x 1568)
+          (y 2016)
+        )
+      )
+    )
     (scripttrigger
       (script "platf1.goto_node(0);
 platf1.goto_node(1);")
@@ -690,18 +714,7 @@ platf1.goto_node(1);")
       (solid #t)
       (z-pos 0)
       (name "platf1")
-      (path
-        (node
-          (x 3520)
-          (y 2272)
-          (time 5)
-        )
-        (node
-          (x 3520)
-          (y 960)
-          (time 4)
-        )
-      )
+      (path-ref "4245b3e1-b8f7-470f-a1ba-ff06f358111e")
       (width 4)
       (height 1)
       (tiles
@@ -801,12 +814,7 @@ platf1.goto_node(1);")
       (solid #f)
       (z-pos 50)
       (name "secr1")
-      (path
-        (node
-          (x 1568)
-          (y 2016)
-        )
-      )
+      (path-ref "b364b592-745e-4880-b268-c450986aa0cd")
       (width 7)
       (height 11)
       (tiles

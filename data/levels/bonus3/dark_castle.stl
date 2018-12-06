@@ -413,6 +413,21 @@
     (music
       (file "music/darkforestkeep.ogg")
     )
+    (path
+      (name "80cb8b52-9018-463a-a1b9-68fa72a98482")
+      (path
+        (node
+          (x 0)
+          (y 0)
+          (time 4)
+        )
+        (node
+          (x 0)
+          (y -672)
+          (time 4)
+        )
+      )
+    )
     (scripttrigger
       (script "platform1.goto_node(0);
 platform1.goto_node(1);")
@@ -833,18 +848,7 @@ platform1.goto_node(1);")
       (solid #t)
       (z-pos 0)
       (name "platform1")
-      (path
-        (node
-          (x 0)
-          (y 0)
-          (time 4)
-        )
-        (node
-          (x 0)
-          (y -672)
-          (time 4)
-        )
-      )
+      (path-ref "80cb8b52-9018-463a-a1b9-68fa72a98482")
       (width 328)
       (height 35)
       (tiles

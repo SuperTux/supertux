@@ -25,48 +25,7 @@
       (y 517)
     )
     (coin
-      (path
-        (node
-          (x 4320)
-          (y 544)
-        )
-        (node
-          (x 4352)
-          (y 512)
-        )
-        (node
-          (x 4352)
-          (y 480)
-        )
-        (node
-          (x 4352)
-          (y 448)
-        )
-        (node
-          (x 4320)
-          (y 416)
-        )
-        (node
-          (x 4288)
-          (y 416)
-        )
-        (node
-          (x 4256)
-          (y 448)
-        )
-        (node
-          (x 4256)
-          (y 480)
-        )
-        (node
-          (x 4256)
-          (y 512)
-        )
-        (node
-          (x 4288)
-          (y 544)
-        )
-      )
+      (path-ref "c030cd67-e2f6-4606-8ad7-46e044770ade")
     )
     (firefly
       (x 7648)
@@ -154,6 +113,60 @@
     )
     (music
       (file "music/voc-daytime2.music")
+    )
+    (path
+      (name "c030cd67-e2f6-4606-8ad7-46e044770ade")
+      (path
+        (node
+          (x 4320)
+          (y 544)
+        )
+        (node
+          (x 4352)
+          (y 512)
+        )
+        (node
+          (x 4352)
+          (y 480)
+        )
+        (node
+          (x 4352)
+          (y 448)
+        )
+        (node
+          (x 4320)
+          (y 416)
+        )
+        (node
+          (x 4288)
+          (y 416)
+        )
+        (node
+          (x 4256)
+          (y 448)
+        )
+        (node
+          (x 4256)
+          (y 480)
+        )
+        (node
+          (x 4256)
+          (y 512)
+        )
+        (node
+          (x 4288)
+          (y 544)
+        )
+      )
+    )
+    (path
+      (name "03ebc8d6-da5b-4cd6-97e1-5b1c00434b31")
+      (path
+        (node
+          (x 1056)
+          (y 672)
+        )
+      )
     )
     (secretarea
       (width 300)
@@ -336,12 +349,7 @@
       (solid #f)
       (z-pos 60)
       (name "Secret")
-      (path
-        (node
-          (x 1056)
-          (y 672)
-        )
-      )
+      (path-ref "03ebc8d6-da5b-4cd6-97e1-5b1c00434b31")
       (width 9)
       (height 4)
       (tiles

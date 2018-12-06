@@ -30,21 +30,7 @@
       (running #f)
       (name "raiser1")
       (sprite "images/objects/platforms/big.sprite")
-      (path
-        (node
-          (x 8800)
-          (y 864)
-          (time 2)
-        )
-        (node
-          (x 8800)
-          (y 512)
-        )
-        (node
-          (x 8800)
-          (y 512)
-        )
-      )
+      (path-ref "c91eeb3d-0cac-4880-96d6-676b10e41f64")
     )
     (igel
       (x 9056)
@@ -64,6 +50,24 @@
     )
     (music
       (file "music/forest.music")
+    )
+    (path
+      (name "c91eeb3d-0cac-4880-96d6-676b10e41f64")
+      (path
+        (node
+          (x 8800)
+          (y 864)
+          (time 2)
+        )
+        (node
+          (x 8800)
+          (y 512)
+        )
+        (node
+          (x 8800)
+          (y 512)
+        )
+      )
     )
     (poisonivy
       (x 7120)

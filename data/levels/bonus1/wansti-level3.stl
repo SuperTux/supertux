@@ -106,18 +106,7 @@
     )
     (camera
       (mode "autoscroll")
-      (path
-        (mode "oneshot")
-        (node
-          (x 0)
-          (y 352)
-          (time 177)
-        )
-        (node
-          (x 16000)
-          (y 352)
-        )
-      )
+      (path-ref "9075113d-d3c9-4597-8f29-4d852d4ee253")
     )
     (particles-clouds
     )
@@ -242,6 +231,21 @@
     )
     (music
       (file "music/chipdisko.ogg")
+    )
+    (path
+      (name "9075113d-d3c9-4597-8f29-4d852d4ee253")
+      (path
+        (mode "oneshot")
+        (node
+          (x 0)
+          (y 352)
+          (time 177)
+        )
+        (node
+          (x 16000)
+          (y 352)
+        )
+      )
     )
     (snowball
       (x 4096)

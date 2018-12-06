@@ -46,6 +46,52 @@
     (platform
       (name "elevator")
       (sprite "images/objects/flying_platform/flying_platform.sprite")
+      (path-ref "b94c3be7-14d4-4ca1-a48f-80aa4d2083af")
+    )
+    (platform
+      (running #f)
+      (name "bridge3")
+      (sprite "images/objects/flying_platform/flying_platform.sprite")
+      (path-ref "5c364cbc-c382-43f5-aeea-76033eafbae1")
+    )
+    (platform
+      (running #f)
+      (name "bridge2")
+      (sprite "images/objects/flying_platform/flying_platform.sprite")
+      (path-ref "02447c7c-47f3-42d9-911e-d6c45d82ee49")
+    )
+    (platform
+      (running #f)
+      (name "bridge1")
+      (sprite "images/objects/flying_platform/flying_platform.sprite")
+      (path-ref "10d5ed18-83e1-4ba6-9ff2-4677f3081e11")
+    )
+    (haywire
+      (direction "left")
+      (x 1925)
+      (y 392)
+    )
+    (hurting_platform
+      (running #f)
+      (name "tischsaege")
+      (sprite "images/objects/sawblade/sawblade.sprite")
+      (path-ref "9c660e8b-82ba-4a47-8ad7-d8215bd7bcd6")
+    )
+    (mrbomb
+      (direction "left")
+      (x 1157)
+      (y 360)
+    )
+    (mrbomb
+      (direction "left")
+      (x 3301)
+      (y 488)
+    )
+    (music
+      (file "music/forest.music")
+    )
+    (path
+      (name "b94c3be7-14d4-4ca1-a48f-80aa4d2083af")
       (path
         (node
           (x 1120)
@@ -67,10 +113,8 @@
         )
       )
     )
-    (platform
-      (running #f)
-      (name "bridge3")
-      (sprite "images/objects/flying_platform/flying_platform.sprite")
+    (path
+      (name "5c364cbc-c382-43f5-aeea-76033eafbae1")
       (path
         (node
           (x 4672)
@@ -82,10 +126,8 @@
         )
       )
     )
-    (platform
-      (running #f)
-      (name "bridge2")
-      (sprite "images/objects/flying_platform/flying_platform.sprite")
+    (path
+      (name "02447c7c-47f3-42d9-911e-d6c45d82ee49")
       (path
         (node
           (x 4672)
@@ -97,10 +139,8 @@
         )
       )
     )
-    (platform
-      (running #f)
-      (name "bridge1")
-      (sprite "images/objects/flying_platform/flying_platform.sprite")
+    (path
+      (name "10d5ed18-83e1-4ba6-9ff2-4677f3081e11")
       (path
         (node
           (x 4672)
@@ -112,15 +152,8 @@
         )
       )
     )
-    (haywire
-      (direction "left")
-      (x 1925)
-      (y 392)
-    )
-    (hurting_platform
-      (running #f)
-      (name "tischsaege")
-      (sprite "images/objects/sawblade/sawblade.sprite")
+    (path
+      (name "9c660e8b-82ba-4a47-8ad7-d8215bd7bcd6")
       (path
         (node
           (x 1567.851)
@@ -140,18 +173,14 @@
         )
       )
     )
-    (mrbomb
-      (direction "left")
-      (x 1157)
-      (y 360)
-    )
-    (mrbomb
-      (direction "left")
-      (x 3301)
-      (y 488)
-    )
-    (music
-      (file "music/forest.music")
+    (path
+      (name "7ddd35de-c94d-4e34-a8ea-0cec5d640db3")
+      (path
+        (node
+          (x 128)
+          (y 736)
+        )
+      )
     )
     (poisonivy
       (direction "left")
@@ -456,12 +485,7 @@ tischsaege.goto_node( 0 ) 	")
       (solid #f)
       (z-pos 110)
       (name "sa")
-      (path
-        (node
-          (x 128)
-          (y 736)
-        )
-      )
+      (path-ref "7ddd35de-c94d-4e34-a8ea-0cec5d640db3")
       (width 20)
       (height 10)
       (tiles
@@ -581,164 +605,64 @@ tischsaege.goto_node( 0 ) 	")
       (mode "normal")
     )
     (coin
-      (path
-        (node
-          (x 5440)
-          (y 1008)
-        )
-      )
+      (path-ref "a91d986c-9a4b-4ec8-a0bb-5dcb9f950663")
     )
     (coin
-      (path
-        (node
-          (x 5440)
-          (y 1024)
-        )
-      )
+      (path-ref "c612cf90-b844-4dc6-b120-7a35129a27f7")
     )
     (coin
-      (path
-        (node
-          (x 5536)
-          (y 1008)
-        )
-      )
+      (path-ref "5b67d9fe-c758-4684-9be4-169d22cdb92e")
     )
     (coin
-      (path
-        (node
-          (x 5536)
-          (y 1024)
-        )
-      )
+      (path-ref "9948c705-06da-499b-971a-3a255f5aba22")
     )
     (coin
-      (path
-        (node
-          (x 5568)
-          (y 1008)
-        )
-      )
+      (path-ref "797c8140-db67-4e31-98e5-455f53563486")
     )
     (coin
-      (path
-        (node
-          (x 5568)
-          (y 1024)
-        )
-      )
+      (path-ref "bd8a29a7-5f3e-4836-bbf3-76f278a0822b")
     )
     (coin
-      (path
-        (node
-          (x 5472)
-          (y 1008)
-        )
-      )
+      (path-ref "fbdef923-e56e-4653-904b-b53cf5dca1e1")
     )
     (coin
-      (path
-        (node
-          (x 5472)
-          (y 1024)
-        )
-      )
+      (path-ref "f943f3e0-e135-4903-9f8a-2defe08acce4")
     )
     (coin
-      (path
-        (node
-          (x 5504)
-          (y 1008)
-        )
-      )
+      (path-ref "1bb4d59a-f270-427b-9f5e-5d1111e0d0e7")
     )
     (coin
-      (path
-        (node
-          (x 5504)
-          (y 1024)
-        )
-      )
+      (path-ref "423f638a-2e80-41a2-9ca1-4c60e66100ab")
     )
     (coin
-      (path
-        (node
-          (x 5456)
-          (y 1008)
-        )
-      )
+      (path-ref "bdc31474-f9af-4d43-9a87-7e64ff5c8417")
     )
     (coin
-      (path
-        (node
-          (x 5456)
-          (y 1024)
-        )
-      )
+      (path-ref "17f7cb5d-6d7c-4c05-aac0-6f2a4b8a2d22")
     )
     (coin
-      (path
-        (node
-          (x 5488)
-          (y 1024)
-        )
-      )
+      (path-ref "0d586311-e331-45e8-a911-af20ff83813a")
     )
     (coin
-      (path
-        (node
-          (x 5488)
-          (y 1008)
-        )
-      )
+      (path-ref "b5551b8b-ed7f-4476-ae0e-a2feb755ffd4")
     )
     (coin
-      (path
-        (node
-          (x 5520)
-          (y 1008)
-        )
-      )
+      (path-ref "1b0787e5-1fae-47eb-9efe-ec8995982746")
     )
     (coin
-      (path
-        (node
-          (x 5520)
-          (y 1024)
-        )
-      )
+      (path-ref "e5394d2e-eb8f-481e-a13d-3c208b5dac9a")
     )
     (coin
-      (path
-        (node
-          (x 5552)
-          (y 1008)
-        )
-      )
+      (path-ref "b8272206-a829-4ab6-a25f-5e5e7e5938b4")
     )
     (coin
-      (path
-        (node
-          (x 5552)
-          (y 1024)
-        )
-      )
+      (path-ref "8a0b5de5-3c9e-40c6-b24b-b7e07fdb0054")
     )
     (coin
-      (path
-        (node
-          (x 5424)
-          (y 1008)
-        )
-      )
+      (path-ref "6db418c5-b046-4ded-a46e-7a4230e2e8f6")
     )
     (coin
-      (path
-        (node
-          (x 5424)
-          (y 1024)
-        )
-      )
+      (path-ref "242fd323-9f5e-414c-85ee-ff16c704bd3c")
     )
     (door
       (sector "house")
@@ -776,6 +700,186 @@ tischsaege.goto_node( 0 ) 	")
     )
     (music
       (file "music/forest2.ogg")
+    )
+    (path
+      (name "a91d986c-9a4b-4ec8-a0bb-5dcb9f950663")
+      (path
+        (node
+          (x 5440)
+          (y 1008)
+        )
+      )
+    )
+    (path
+      (name "c612cf90-b844-4dc6-b120-7a35129a27f7")
+      (path
+        (node
+          (x 5440)
+          (y 1024)
+        )
+      )
+    )
+    (path
+      (name "5b67d9fe-c758-4684-9be4-169d22cdb92e")
+      (path
+        (node
+          (x 5536)
+          (y 1008)
+        )
+      )
+    )
+    (path
+      (name "9948c705-06da-499b-971a-3a255f5aba22")
+      (path
+        (node
+          (x 5536)
+          (y 1024)
+        )
+      )
+    )
+    (path
+      (name "797c8140-db67-4e31-98e5-455f53563486")
+      (path
+        (node
+          (x 5568)
+          (y 1008)
+        )
+      )
+    )
+    (path
+      (name "bd8a29a7-5f3e-4836-bbf3-76f278a0822b")
+      (path
+        (node
+          (x 5568)
+          (y 1024)
+        )
+      )
+    )
+    (path
+      (name "fbdef923-e56e-4653-904b-b53cf5dca1e1")
+      (path
+        (node
+          (x 5472)
+          (y 1008)
+        )
+      )
+    )
+    (path
+      (name "f943f3e0-e135-4903-9f8a-2defe08acce4")
+      (path
+        (node
+          (x 5472)
+          (y 1024)
+        )
+      )
+    )
+    (path
+      (name "1bb4d59a-f270-427b-9f5e-5d1111e0d0e7")
+      (path
+        (node
+          (x 5504)
+          (y 1008)
+        )
+      )
+    )
+    (path
+      (name "423f638a-2e80-41a2-9ca1-4c60e66100ab")
+      (path
+        (node
+          (x 5504)
+          (y 1024)
+        )
+      )
+    )
+    (path
+      (name "bdc31474-f9af-4d43-9a87-7e64ff5c8417")
+      (path
+        (node
+          (x 5456)
+          (y 1008)
+        )
+      )
+    )
+    (path
+      (name "17f7cb5d-6d7c-4c05-aac0-6f2a4b8a2d22")
+      (path
+        (node
+          (x 5456)
+          (y 1024)
+        )
+      )
+    )
+    (path
+      (name "0d586311-e331-45e8-a911-af20ff83813a")
+      (path
+        (node
+          (x 5488)
+          (y 1024)
+        )
+      )
+    )
+    (path
+      (name "b5551b8b-ed7f-4476-ae0e-a2feb755ffd4")
+      (path
+        (node
+          (x 5488)
+          (y 1008)
+        )
+      )
+    )
+    (path
+      (name "1b0787e5-1fae-47eb-9efe-ec8995982746")
+      (path
+        (node
+          (x 5520)
+          (y 1008)
+        )
+      )
+    )
+    (path
+      (name "e5394d2e-eb8f-481e-a13d-3c208b5dac9a")
+      (path
+        (node
+          (x 5520)
+          (y 1024)
+        )
+      )
+    )
+    (path
+      (name "b8272206-a829-4ab6-a25f-5e5e7e5938b4")
+      (path
+        (node
+          (x 5552)
+          (y 1008)
+        )
+      )
+    )
+    (path
+      (name "8a0b5de5-3c9e-40c6-b24b-b7e07fdb0054")
+      (path
+        (node
+          (x 5552)
+          (y 1024)
+        )
+      )
+    )
+    (path
+      (name "6db418c5-b046-4ded-a46e-7a4230e2e8f6")
+      (path
+        (node
+          (x 5424)
+          (y 1008)
+        )
+      )
+    )
+    (path
+      (name "242fd323-9f5e-414c-85ee-ff16c704bd3c")
+      (path
+        (node
+          (x 5424)
+          (y 1024)
+        )
+      )
     )
     (poisonivy
       (direction "left")

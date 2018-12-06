@@ -25,6 +25,61 @@
     )
     (camera
       (mode "autoscroll")
+      (path-ref "30262c5f-0936-4b84-bb5f-9976efd76bfa")
+    )
+    (flyingsnowball
+      (x 6872)
+      (y 275)
+    )
+    (flyingsnowball
+      (x 6816)
+      (y 205)
+    )
+    (flyingsnowball
+      (x 5770)
+      (y 133)
+    )
+    (flyingsnowball
+      (x 5987)
+      (y 240)
+    )
+    (flyingsnowball
+      (x 2325)
+      (y 73)
+    )
+    (flyingsnowball
+      (x 1275)
+      (y 202)
+    )
+    (mrbomb
+      (x 6508)
+      (y 396)
+    )
+    (mriceblock
+      (x 5152)
+      (y 224)
+    )
+    (mriceblock
+      (x 2368)
+      (y 320)
+    )
+    (mriceblock
+      (x 5408)
+      (y 352)
+    )
+    (mriceblock
+      (x 7119)
+      (y 409)
+    )
+    (mriceblock
+      (x 7276)
+      (y 412)
+    )
+    (music
+      (file "music/credits.ogg")
+    )
+    (path
+      (name "30262c5f-0936-4b84-bb5f-9976efd76bfa")
       (path
         (mode "oneshot")
         (node
@@ -89,57 +144,6 @@
           (time 704)
         )
       )
-    )
-    (flyingsnowball
-      (x 6872)
-      (y 275)
-    )
-    (flyingsnowball
-      (x 6816)
-      (y 205)
-    )
-    (flyingsnowball
-      (x 5770)
-      (y 133)
-    )
-    (flyingsnowball
-      (x 5987)
-      (y 240)
-    )
-    (flyingsnowball
-      (x 2325)
-      (y 73)
-    )
-    (flyingsnowball
-      (x 1275)
-      (y 202)
-    )
-    (mrbomb
-      (x 6508)
-      (y 396)
-    )
-    (mriceblock
-      (x 5152)
-      (y 224)
-    )
-    (mriceblock
-      (x 2368)
-      (y 320)
-    )
-    (mriceblock
-      (x 5408)
-      (y 352)
-    )
-    (mriceblock
-      (x 7119)
-      (y 409)
-    )
-    (mriceblock
-      (x 7276)
-      (y 412)
-    )
-    (music
-      (file "music/credits.ogg")
     )
     (snowball
       (x 2304)

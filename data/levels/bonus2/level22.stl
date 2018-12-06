@@ -64,6 +64,15 @@
     (music
       (file "music/chipdisko.ogg")
     )
+    (path
+      (name "f9eb56c0-970e-4527-a2e1-5ca644de54b7")
+      (path
+        (node
+          (x 672)
+          (y 640)
+        )
+      )
+    )
     (secretarea
       (script "secret.fade(1,0)")
       (width 236)
@@ -338,12 +347,7 @@
       (alpha 0)
       (z-pos 0)
       (name "secret")
-      (path
-        (node
-          (x 672)
-          (y 640)
-        )
-      )
+      (path-ref "f9eb56c0-970e-4527-a2e1-5ca644de54b7")
       (width 16)
       (height 11)
       (tiles

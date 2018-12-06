@@ -134,36 +134,16 @@
       (y 320)
     )
     (coin
-      (path
-        (node
-          (x 3824)
-          (y 1488)
-        )
-      )
+      (path-ref "9ff92a5e-45dd-4beb-bacd-576b517695ab")
     )
     (coin
-      (path
-        (node
-          (x 3824)
-          (y 1520)
-        )
-      )
+      (path-ref "8771e90b-4b03-4c6c-b64d-0d5ffa3c9440")
     )
     (coin
-      (path
-        (node
-          (x 3824)
-          (y 1552)
-        )
-      )
+      (path-ref "324f480a-ad2b-47c6-81ed-13139f69fa10")
     )
     (coin
-      (path
-        (node
-          (x 3824)
-          (y 1584)
-        )
-      )
+      (path-ref "a46d16df-000b-4e14-82e4-45703547b454")
     )
     (gradient
       (top_color 0 0 0)
@@ -208,6 +188,42 @@
     )
     (music
       (file "music/clavelian_march.music")
+    )
+    (path
+      (name "9ff92a5e-45dd-4beb-bacd-576b517695ab")
+      (path
+        (node
+          (x 3824)
+          (y 1488)
+        )
+      )
+    )
+    (path
+      (name "8771e90b-4b03-4c6c-b64d-0d5ffa3c9440")
+      (path
+        (node
+          (x 3824)
+          (y 1520)
+        )
+      )
+    )
+    (path
+      (name "324f480a-ad2b-47c6-81ed-13139f69fa10")
+      (path
+        (node
+          (x 3824)
+          (y 1552)
+        )
+      )
+    )
+    (path
+      (name "a46d16df-000b-4e14-82e4-45703547b454")
+      (path
+        (node
+          (x 3824)
+          (y 1584)
+        )
+      )
     )
     (secretarea
       (fade-tilemap "Secret")

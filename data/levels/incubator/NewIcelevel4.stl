@@ -53,137 +53,39 @@
       (running #f)
       (name "bote")
       (sprite "images/objects/platforms/icefloe.sprite")
-      (path
-        (node
-          (x 5248)
-          (y 544)
-          (time 13)
-        )
-        (node
-          (x 8480)
-          (y 544)
-        )
-      )
+      (path-ref "a378eb8b-bb03-48fe-8a70-8fe4284576ff")
     )
     (platform
       (sprite "images/objects/platforms/small.sprite")
-      (path
-        (node
-          (x 3825.858)
-          (y 125.8787)
-          (time 5)
-        )
-        (node
-          (x 3825.858)
-          (y 861.8788)
-        )
-        (node
-          (x 4017.858)
-          (y 861.8788)
-          (time 5)
-        )
-        (node
-          (x 4017.858)
-          (y 125.8787)
-        )
-      )
+      (path-ref "64705093-9fa8-479b-8f7e-9ae4776d509e")
     )
     (platform
       (sprite "images/objects/platforms/small.sprite")
-      (path
-        (node
-          (x 4019.272)
-          (y 829.8787)
-          (time 5)
-        )
-        (node
-          (x 4019.272)
-          (y 125.8787)
-        )
-        (node
-          (x 3827.272)
-          (y 125.8787)
-          (time 5)
-        )
-        (node
-          (x 3827.272)
-          (y 829.8787)
-        )
-      )
+      (path-ref "06ed9df4-b165-47ea-9f16-b4c1bd182c6f")
     )
     (platform
       (running #f)
       (name "bloquespinas")
       (sprite "images/objects/platforms/vertical-wood.sprite")
-      (path
-        (node
-          (x 9504)
-          (y 32)
-          (time 5)
-        )
-        (node
-          (x 8544)
-          (y 32)
-        )
-      )
+      (path-ref "b51e6883-3d04-492b-ab0d-c8cfbc41e386")
     )
     (platform
       (running #f)
       (name "block2")
       (sprite "images/objects/platforms/wood-tiny.sprite")
-      (path
-        (node
-          (x 8416)
-          (y 128)
-        )
-        (node
-          (x 8448)
-          (y 128)
-        )
-        (node
-          (x 8448)
-          (y 32)
-        )
-      )
+      (path-ref "36ad48e1-a474-4dfc-a4da-627c12d5176b")
     )
     (platform
       (running #f)
       (name "block1")
       (sprite "images/objects/platforms/wood-tiny.sprite")
-      (path
-        (node
-          (x 8416)
-          (y 96)
-        )
-        (node
-          (x 8448)
-          (y 96)
-        )
-        (node
-          (x 8448)
-          (y 0)
-        )
-      )
+      (path-ref "1b1f65ad-ff04-4988-99b6-feee57d6860a")
     )
     (platform
       (running #f)
       (name "block3")
       (sprite "images/objects/platforms/wood-tiny.sprite")
-      (path
-        (node
-          (x 9056)
-          (y 96)
-          (time 2)
-        )
-        (node
-          (x 8480)
-          (y 96)
-        )
-        (node
-          (x 8480)
-          (y 128)
-        )
-      )
+      (path-ref "7b26c731-0023-41e8-991d-40135cbf74cd")
     )
     (flyingsnowball
       (x 11392)
@@ -205,65 +107,25 @@
       (running #f)
       (name "spinatrampa1")
       (sprite "images/objects/sawblade/spikeleft.sprite")
-      (path
-        (node
-          (x 9472)
-          (y 32)
-          (time 5)
-        )
-        (node
-          (x 8512)
-          (y 32)
-        )
-      )
+      (path-ref "4ce22cf6-6ce3-44aa-aac9-40c3a87b20c3")
     )
     (hurting_platform
       (running #f)
       (name "spinatrampa2")
       (sprite "images/objects/sawblade/spikeleft.sprite")
-      (path
-        (node
-          (x 9472)
-          (y 64)
-          (time 5)
-        )
-        (node
-          (x 8512)
-          (y 64)
-        )
-      )
+      (path-ref "8d79e429-aa35-4886-a432-d567ca64a28c")
     )
     (hurting_platform
       (running #f)
       (name "spinatrampa3")
       (sprite "images/objects/sawblade/spikeleft.sprite")
-      (path
-        (node
-          (x 9472)
-          (y 96)
-          (time 5)
-        )
-        (node
-          (x 8512)
-          (y 96)
-        )
-      )
+      (path-ref "271ac443-3cc6-4a26-8158-e92a79c385d3")
     )
     (hurting_platform
       (running #f)
       (name "spinatrampa4")
       (sprite "images/objects/sawblade/spikeleft.sprite")
-      (path
-        (node
-          (x 9472)
-          (y 128)
-          (time 5)
-        )
-        (node
-          (x 8512)
-          (y 128)
-        )
-      )
+      (path-ref "a07ffd1d-10e6-47ec-938b-c31db6fb411c")
     )
     (jumpy
       (x 4896)
@@ -291,6 +153,261 @@
     )
     (music
       (file "music/chipdisko.ogg")
+    )
+    (path
+      (name "a378eb8b-bb03-48fe-8a70-8fe4284576ff")
+      (path
+        (node
+          (x 5248)
+          (y 544)
+          (time 13)
+        )
+        (node
+          (x 8480)
+          (y 544)
+        )
+      )
+    )
+    (path
+      (name "64705093-9fa8-479b-8f7e-9ae4776d509e")
+      (path
+        (node
+          (x 3825.858)
+          (y 125.8787)
+          (time 5)
+        )
+        (node
+          (x 3825.858)
+          (y 861.8788)
+        )
+        (node
+          (x 4017.858)
+          (y 861.8788)
+          (time 5)
+        )
+        (node
+          (x 4017.858)
+          (y 125.8787)
+        )
+      )
+    )
+    (path
+      (name "06ed9df4-b165-47ea-9f16-b4c1bd182c6f")
+      (path
+        (node
+          (x 4019.272)
+          (y 829.8787)
+          (time 5)
+        )
+        (node
+          (x 4019.272)
+          (y 125.8787)
+        )
+        (node
+          (x 3827.272)
+          (y 125.8787)
+          (time 5)
+        )
+        (node
+          (x 3827.272)
+          (y 829.8787)
+        )
+      )
+    )
+    (path
+      (name "b51e6883-3d04-492b-ab0d-c8cfbc41e386")
+      (path
+        (node
+          (x 9504)
+          (y 32)
+          (time 5)
+        )
+        (node
+          (x 8544)
+          (y 32)
+        )
+      )
+    )
+    (path
+      (name "36ad48e1-a474-4dfc-a4da-627c12d5176b")
+      (path
+        (node
+          (x 8416)
+          (y 128)
+        )
+        (node
+          (x 8448)
+          (y 128)
+        )
+        (node
+          (x 8448)
+          (y 32)
+        )
+      )
+    )
+    (path
+      (name "1b1f65ad-ff04-4988-99b6-feee57d6860a")
+      (path
+        (node
+          (x 8416)
+          (y 96)
+        )
+        (node
+          (x 8448)
+          (y 96)
+        )
+        (node
+          (x 8448)
+          (y 0)
+        )
+      )
+    )
+    (path
+      (name "7b26c731-0023-41e8-991d-40135cbf74cd")
+      (path
+        (node
+          (x 9056)
+          (y 96)
+          (time 2)
+        )
+        (node
+          (x 8480)
+          (y 96)
+        )
+        (node
+          (x 8480)
+          (y 128)
+        )
+      )
+    )
+    (path
+      (name "4ce22cf6-6ce3-44aa-aac9-40c3a87b20c3")
+      (path
+        (node
+          (x 9472)
+          (y 32)
+          (time 5)
+        )
+        (node
+          (x 8512)
+          (y 32)
+        )
+      )
+    )
+    (path
+      (name "8d79e429-aa35-4886-a432-d567ca64a28c")
+      (path
+        (node
+          (x 9472)
+          (y 64)
+          (time 5)
+        )
+        (node
+          (x 8512)
+          (y 64)
+        )
+      )
+    )
+    (path
+      (name "271ac443-3cc6-4a26-8158-e92a79c385d3")
+      (path
+        (node
+          (x 9472)
+          (y 96)
+          (time 5)
+        )
+        (node
+          (x 8512)
+          (y 96)
+        )
+      )
+    )
+    (path
+      (name "a07ffd1d-10e6-47ec-938b-c31db6fb411c")
+      (path
+        (node
+          (x 9472)
+          (y 128)
+          (time 5)
+        )
+        (node
+          (x 8512)
+          (y 128)
+        )
+      )
+    )
+    (path
+      (name "09846b36-f656-4fa5-9c76-ebfa83c8acc5")
+      (path
+        (node
+          (x 0)
+          (y 0)
+          (time 2)
+        )
+        (node
+          (x 0)
+          (y 32)
+          (time 2)
+        )
+      )
+    )
+    (path
+      (name "6ae3638e-8710-4cfb-ac05-140a4d2008d3")
+      (path
+        (node
+          (x 4768)
+          (y 64.5)
+          (time 0.2)
+        )
+        (node
+          (x 4764.136)
+          (y 63.85579)
+          (time 0.2)
+        )
+        (node
+          (x 4771.005)
+          (y 64.1328)
+          (time 0.2)
+        )
+        (node
+          (x 4764.283)
+          (y 64.47848)
+          (time 0.4)
+        )
+        (node
+          (x 4768)
+          (y 320)
+        )
+      )
+    )
+    (path
+      (name "fe245189-ffb8-4248-b54c-b31bec3189e9")
+      (path
+        (node
+          (x 4416)
+          (y 64)
+          (time 0.2)
+        )
+        (node
+          (x 4413.699)
+          (y 63.82322)
+          (time 0.2)
+        )
+        (node
+          (x 4417.948)
+          (y 64)
+          (time 0.2)
+        )
+        (node
+          (x 4412.114)
+          (y 63.64986)
+          (time 0.4)
+        )
+        (node
+          (x 4416)
+          (y 256)
+        )
+      )
     )
     (scripttrigger
       (script "bote.goto_node(1);")
@@ -666,18 +783,7 @@ block3.goto_node(2);")
       (solid #t)
       (z-pos 1)
       (name "Iceberg")
-      (path
-        (node
-          (x 0)
-          (y 0)
-          (time 2)
-        )
-        (node
-          (x 0)
-          (y 32)
-          (time 2)
-        )
-      )
+      (path-ref "09846b36-f656-4fa5-9c76-ebfa83c8acc5")
       (width 400)
       (height 20)
       (tiles
@@ -707,32 +813,7 @@ block3.goto_node(2);")
       (solid #t)
       (z-pos -1)
       (name "trampa2")
-      (path
-        (node
-          (x 4768)
-          (y 64.5)
-          (time 0.2)
-        )
-        (node
-          (x 4764.136)
-          (y 63.85579)
-          (time 0.2)
-        )
-        (node
-          (x 4771.005)
-          (y 64.1328)
-          (time 0.2)
-        )
-        (node
-          (x 4764.283)
-          (y 64.47848)
-          (time 0.4)
-        )
-        (node
-          (x 4768)
-          (y 320)
-        )
-      )
+      (path-ref "6ae3638e-8710-4cfb-ac05-140a4d2008d3")
       (width 3)
       (height 4)
       (tiles
@@ -746,32 +827,7 @@ block3.goto_node(2);")
       (solid #t)
       (z-pos -1)
       (name "trampa1")
-      (path
-        (node
-          (x 4416)
-          (y 64)
-          (time 0.2)
-        )
-        (node
-          (x 4413.699)
-          (y 63.82322)
-          (time 0.2)
-        )
-        (node
-          (x 4417.948)
-          (y 64)
-          (time 0.2)
-        )
-        (node
-          (x 4412.114)
-          (y 63.64986)
-          (time 0.4)
-        )
-        (node
-          (x 4416)
-          (y 256)
-        )
-      )
+      (path-ref "fe245189-ffb8-4248-b54c-b31bec3189e9")
       (width 3)
       (height 4)
       (tiles

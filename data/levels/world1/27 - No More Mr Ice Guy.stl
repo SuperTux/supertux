@@ -21,6 +21,15 @@ Effect.fade_in(1);
     (music
       (file "music/bossattack.music")
     )
+    (path
+      (name "3309e96a-c224-435b-afb7-2647145651ae")
+      (path
+        (node
+          (x 640)
+          (y 0)
+        )
+      )
+    )
     (secretarea
       (fade-tilemap "Secret")
       (width 1032)
@@ -168,12 +177,7 @@ Effect.fade_in(1);
       (solid #f)
       (z-pos 150)
       (name "Secret")
-      (path
-        (node
-          (x 640)
-          (y 0)
-        )
-      )
+      (path-ref "3309e96a-c224-435b-afb7-2647145651ae")
       (width 20)
       (height 11)
       (tiles

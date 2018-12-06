@@ -127,6 +127,15 @@
     (music
       (file "music/cave.music")
     )
+    (path
+      (name "83eff2a7-db75-4fd9-97b4-70a4e4933cee")
+      (path
+        (node
+          (x 12256)
+          (y 448)
+        )
+      )
+    )
     (secretarea
       (width 360)
       (height 74.00003)
@@ -320,12 +329,7 @@
       (solid #f)
       (z-pos 101)
       (name "secret1")
-      (path
-        (node
-          (x 12256)
-          (y 448)
-        )
-      )
+      (path-ref "83eff2a7-db75-4fd9-97b4-70a4e4933cee")
       (width 7)
       (height 6)
       (tiles

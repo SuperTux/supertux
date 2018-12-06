@@ -4,31 +4,26 @@
   (author "ingo")
   (sector
     (name "main")
-    (ambient-light 1 1 1)
+    (ambient-light
+      (color 1 1 1)
+    )
     (camera
       (mode "normal")
     )
-    (spawnpoint
-      (name "main")
-      (x 96)
-      (y 96)
-      )
     (platform
       (sprite "images/objects/flying_platform/flying_platform.sprite")
       (path-ref "path1")
-      (running #t)
     )
     (platform
+      (running #f)
       (name "dummyname")
       (sprite "images/objects/flying_platform/flying_platform.sprite")
       (path-ref "path2")
-      (running #f)
     )
     (path
       (name "path1")
-      (style "none")
       (path
-      (mode "pingpong")
+        (mode "pingpong")
         (node
           (x 352)
           (y 192)
@@ -52,13 +47,13 @@
         (node
           (x 576)
           (y 96)
-          )
-        ))
+        )
+      )
+    )
+    (path
+      (name "path2")
       (path
-        (name "path2")
-        (style "solid")
-        (path
-          (mode "pingpong")
+        (mode "pingpong")
         (node
           (x 192)
           (y 504)
@@ -78,10 +73,15 @@
           (x 960)
           (y 504)
           (time 3)
-          )
-        ))
-
-(tilemap
+        )
+      )
+    )
+    (spawnpoint
+      (name "main")
+      (x 96)
+      (y 96)
+    )
+    (tilemap
       (solid #f)
       (z-pos -100)
       (name "Background")

@@ -94,6 +94,65 @@
     )
     (platform
       (sprite "images/objects/platforms/big.sprite")
+      (path-ref "328d2262-dd60-47e3-b75f-df6db7237493")
+    )
+    (platform
+      (sprite "images/objects/platforms/big.sprite")
+      (path-ref "356cd3f8-f8d0-4456-abc2-11e1d9d90723")
+    )
+    (platform
+      (sprite "images/objects/platforms/big.sprite")
+      (path-ref "19518a1b-8f57-458a-bdcf-48b132cef75c")
+    )
+    (platform
+      (running #f)
+      (name "door2")
+      (sprite "images/objects/platforms/vertical-wood.sprite")
+      (path-ref "b975bb7e-dccf-4f31-a5d8-3214bda3a157")
+    )
+    (platform
+      (running #f)
+      (name "door1")
+      (sprite "images/objects/platforms/vertical-wood.sprite")
+      (path-ref "59521437-cb94-4533-8dc7-831d06ebed83")
+    )
+    (hurting_platform
+      (sprite "images/objects/sawblade/sawblade.sprite")
+      (path-ref "6725b23e-21d0-4130-acfd-cdbd0ebade9c")
+    )
+    (hurting_platform
+      (sprite "images/objects/sawblade/sawblade.sprite")
+      (path-ref "a4e4ba0f-4cfc-4bc1-aa23-76a8d053b8b5")
+    )
+    (hurting_platform
+      (sprite "images/objects/sawblade/sawblade.sprite")
+      (path-ref "a5d602e0-9f4b-471f-9d04-80f14c6c19b1")
+    )
+    (hurting_platform
+      (sprite "images/objects/sawblade/sawblade.sprite")
+      (path-ref "ea29d175-0da9-4967-85c1-bfe6638b3631")
+    )
+    (hurting_platform
+      (sprite "images/objects/sawblade/sawblade.sprite")
+      (path-ref "97541d00-299f-43cb-91a9-49a43d970fb3")
+    )
+    (jumpy
+      (x 1152)
+      (y 800)
+    )
+    (jumpy
+      (x 1376)
+      (y 800)
+    )
+    (jumpy
+      (x 1568)
+      (y 800)
+    )
+    (music
+      (file "music/greatgigantic.music")
+    )
+    (path
+      (name "328d2262-dd60-47e3-b75f-df6db7237493")
       (path
         (node
           (x 1856)
@@ -107,8 +166,8 @@
         )
       )
     )
-    (platform
-      (sprite "images/objects/platforms/big.sprite")
+    (path
+      (name "356cd3f8-f8d0-4456-abc2-11e1d9d90723")
       (path
         (node
           (x 896)
@@ -122,8 +181,8 @@
         )
       )
     )
-    (platform
-      (sprite "images/objects/platforms/big.sprite")
+    (path
+      (name "19518a1b-8f57-458a-bdcf-48b132cef75c")
       (path
         (node
           (x 672)
@@ -142,10 +201,8 @@
         )
       )
     )
-    (platform
-      (running #f)
-      (name "door2")
-      (sprite "images/objects/platforms/vertical-wood.sprite")
+    (path
+      (name "b975bb7e-dccf-4f31-a5d8-3214bda3a157")
       (path
         (node
           (x 1120)
@@ -162,10 +219,8 @@
         )
       )
     )
-    (platform
-      (running #f)
-      (name "door1")
-      (sprite "images/objects/platforms/vertical-wood.sprite")
+    (path
+      (name "59521437-cb94-4533-8dc7-831d06ebed83")
       (path
         (node
           (x 1472)
@@ -182,8 +237,8 @@
         )
       )
     )
-    (hurting_platform
-      (sprite "images/objects/sawblade/sawblade.sprite")
+    (path
+      (name "6725b23e-21d0-4130-acfd-cdbd0ebade9c")
       (path
         (node
           (x 1280)
@@ -207,8 +262,8 @@
         )
       )
     )
-    (hurting_platform
-      (sprite "images/objects/sawblade/sawblade.sprite")
+    (path
+      (name "a4e4ba0f-4cfc-4bc1-aa23-76a8d053b8b5")
       (path
         (node
           (x 1440)
@@ -228,8 +283,8 @@
         )
       )
     )
-    (hurting_platform
-      (sprite "images/objects/sawblade/sawblade.sprite")
+    (path
+      (name "a5d602e0-9f4b-471f-9d04-80f14c6c19b1")
       (path
         (node
           (x 1504)
@@ -249,8 +304,8 @@
         )
       )
     )
-    (hurting_platform
-      (sprite "images/objects/sawblade/sawblade.sprite")
+    (path
+      (name "ea29d175-0da9-4967-85c1-bfe6638b3631")
       (path
         (node
           (x 1248)
@@ -270,8 +325,8 @@
         )
       )
     )
-    (hurting_platform
-      (sprite "images/objects/sawblade/sawblade.sprite")
+    (path
+      (name "97541d00-299f-43cb-91a9-49a43d970fb3")
       (path
         (node
           (x 1696)
@@ -291,20 +346,41 @@
         )
       )
     )
-    (jumpy
-      (x 1152)
-      (y 800)
+    (path
+      (name "0b09e233-7416-42f4-95da-89c6d0b2a358")
+      (path
+        (node
+          (x 1088)
+          (y 320)
+        )
+      )
     )
-    (jumpy
-      (x 1376)
-      (y 800)
+    (path
+      (name "8c9904d3-8c91-4a52-96a2-94cf537003b0")
+      (path
+        (node
+          (x 448)
+          (y 3104)
+        )
+      )
     )
-    (jumpy
-      (x 1568)
-      (y 800)
+    (path
+      (name "d93263c8-3f26-4842-84a5-4e3cf8963eb1")
+      (path
+        (node
+          (x 2144)
+          (y 3680)
+        )
+      )
     )
-    (music
-      (file "music/greatgigantic.music")
+    (path
+      (name "5d42e400-28cd-4237-a9db-be4a4368bf9c")
+      (path
+        (node
+          (x 2144)
+          (y 3680)
+        )
+      )
     )
     (scripttrigger
       (script "door2.goto_node(1);
@@ -865,12 +941,7 @@ door1.goto_node(0);")
       (solid #t)
       (z-pos -1)
       (name "Interaktiv 2")
-      (path
-        (node
-          (x 1088)
-          (y 320)
-        )
-      )
+      (path-ref "0b09e233-7416-42f4-95da-89c6d0b2a358")
       (width 23)
       (height 3)
       (tiles
@@ -883,12 +954,7 @@ door1.goto_node(0);")
       (solid #f)
       (z-pos 50)
       (name "secret1")
-      (path
-        (node
-          (x 448)
-          (y 3104)
-        )
-      )
+      (path-ref "8c9904d3-8c91-4a52-96a2-94cf537003b0")
       (width 6)
       (height 5)
       (tiles
@@ -1062,12 +1128,7 @@ door1.goto_node(0);")
       (solid #t)
       (z-pos 1)
       (name "Water")
-      (path
-        (node
-          (x 2144)
-          (y 3680)
-        )
-      )
+      (path-ref "d93263c8-3f26-4842-84a5-4e3cf8963eb1")
       (width 22)
       (height 7)
       (tiles
@@ -1084,12 +1145,7 @@ door1.goto_node(0);")
       (solid #f)
       (z-pos 2)
       (name "WaterEdge")
-      (path
-        (node
-          (x 2144)
-          (y 3680)
-        )
-      )
+      (path-ref "5d42e400-28cd-4237-a9db-be4a4368bf9c")
       (width 22)
       (height 8)
       (tiles

@@ -170,6 +170,42 @@
     (music
       (file "music/chipdisko.ogg")
     )
+    (path
+      (name "b5dedcb2-9c6d-44b8-b8e7-1893bb0fa82c")
+      (path
+        (node
+          (x 0)
+          (y 544)
+        )
+      )
+    )
+    (path
+      (name "65024a0e-32cd-445e-abe6-a8391dc9f1b2")
+      (path
+        (node
+          (x 1696)
+          (y 576)
+        )
+      )
+    )
+    (path
+      (name "32ee6cb6-c39d-4495-8e5e-4d81f4abea72")
+      (path
+        (node
+          (x 3360)
+          (y 608)
+        )
+      )
+    )
+    (path
+      (name "c2906ef7-e6fd-43c7-a378-993fee29d8e6")
+      (path
+        (node
+          (x 12128)
+          (y 608)
+        )
+      )
+    )
     (secretarea
       (fade-tilemap "s1")
       (width 300.2777)
@@ -562,12 +598,7 @@
       (solid #f)
       (z-pos 100)
       (name "s1")
-      (path
-        (node
-          (x 0)
-          (y 544)
-        )
-      )
+      (path-ref "b5dedcb2-9c6d-44b8-b8e7-1893bb0fa82c")
       (width 11)
       (height 9)
       (tiles
@@ -586,12 +617,7 @@
       (solid #f)
       (z-pos 100)
       (name "s2")
-      (path
-        (node
-          (x 1696)
-          (y 576)
-        )
-      )
+      (path-ref "65024a0e-32cd-445e-abe6-a8391dc9f1b2")
       (width 12)
       (height 8)
       (tiles
@@ -609,12 +635,7 @@
       (solid #f)
       (z-pos 100)
       (name "s3")
-      (path
-        (node
-          (x 3360)
-          (y 608)
-        )
-      )
+      (path-ref "32ee6cb6-c39d-4495-8e5e-4d81f4abea72")
       (width 13)
       (height 7)
       (tiles
@@ -631,12 +652,7 @@
       (solid #f)
       (z-pos 100)
       (name "s4")
-      (path
-        (node
-          (x 12128)
-          (y 608)
-        )
-      )
+      (path-ref "c2906ef7-e6fd-43c7-a378-993fee29d8e6")
       (width 22)
       (height 7)
       (tiles

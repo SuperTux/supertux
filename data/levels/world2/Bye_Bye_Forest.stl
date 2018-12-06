@@ -32,244 +32,40 @@
       (y 192)
     )
     (coin
-      (path
-        (node
-          (x 8704)
-          (y 832)
-        )
-        (node
-          (x 8640)
-          (y 896)
-        )
-        (node
-          (x 8704)
-          (y 960)
-        )
-        (node
-          (x 8768)
-          (y 896)
-        )
-      )
+      (path-ref "553ba593-ddc4-4505-8c9f-6db985774db8")
     )
     (coin
-      (path
-        (node
-          (x 8640)
-          (y 896)
-        )
-        (node
-          (x 8704)
-          (y 960)
-        )
-        (node
-          (x 8768)
-          (y 896)
-        )
-        (node
-          (x 8704)
-          (y 832)
-        )
-      )
+      (path-ref "819f06f4-a121-4902-9405-4933511f8ac4")
     )
     (coin
-      (path
-        (node
-          (x 8768)
-          (y 896)
-        )
-        (node
-          (x 8704)
-          (y 832)
-        )
-        (node
-          (x 8640)
-          (y 896)
-        )
-        (node
-          (x 8704)
-          (y 960)
-        )
-      )
+      (path-ref "7f3541b3-611c-4b63-bdde-170872c081b1")
     )
     (coin
-      (path
-        (node
-          (x 8704)
-          (y 960)
-        )
-        (node
-          (x 8768)
-          (y 896)
-        )
-        (node
-          (x 8704)
-          (y 832)
-        )
-        (node
-          (x 8640)
-          (y 896)
-        )
-      )
+      (path-ref "599638d2-5733-45e9-8f58-c65faa3be973")
     )
     (coin
-      (path
-        (node
-          (x 9376)
-          (y 896)
-        )
-        (node
-          (x 9440)
-          (y 960)
-        )
-        (node
-          (x 9504)
-          (y 896)
-        )
-        (node
-          (x 9440)
-          (y 832)
-        )
-      )
+      (path-ref "5d63fea9-e71f-46d5-b48b-671357e7987e")
     )
     (coin
-      (path
-        (node
-          (x 9440)
-          (y 960)
-        )
-        (node
-          (x 9504)
-          (y 896)
-        )
-        (node
-          (x 9440)
-          (y 832)
-        )
-        (node
-          (x 9376)
-          (y 896)
-        )
-      )
+      (path-ref "a2050607-ccf9-467a-8296-10db5450a0d7")
     )
     (coin
-      (path
-        (node
-          (x 9504)
-          (y 896)
-        )
-        (node
-          (x 9440)
-          (y 832)
-        )
-        (node
-          (x 9376)
-          (y 896)
-        )
-        (node
-          (x 9440)
-          (y 960)
-        )
-      )
+      (path-ref "a035dd75-3b67-41ef-81ca-8be4dd8da36f")
     )
     (coin
-      (path
-        (node
-          (x 9440)
-          (y 832)
-        )
-        (node
-          (x 9376)
-          (y 896)
-        )
-        (node
-          (x 9440)
-          (y 960)
-        )
-        (node
-          (x 9504)
-          (y 896)
-        )
-      )
+      (path-ref "cb358f9d-9a50-43df-8999-377dc0561c11")
     )
     (coin
-      (path
-        (node
-          (x 9088)
-          (y 832)
-        )
-        (node
-          (x 9024)
-          (y 896)
-        )
-        (node
-          (x 9088)
-          (y 960)
-        )
-        (node
-          (x 9152)
-          (y 896)
-        )
-      )
+      (path-ref "1f359a3c-be7e-45bb-be34-0b7f1b53f9f5")
     )
     (coin
-      (path
-        (node
-          (x 9024)
-          (y 896)
-        )
-        (node
-          (x 9088)
-          (y 960)
-        )
-        (node
-          (x 9152)
-          (y 896)
-        )
-        (node
-          (x 9088)
-          (y 832)
-        )
-      )
+      (path-ref "b1288916-3fb4-475f-b973-cbf37246d359")
     )
     (coin
-      (path
-        (node
-          (x 9088)
-          (y 960)
-        )
-        (node
-          (x 9152)
-          (y 896)
-        )
-        (node
-          (x 9088)
-          (y 832)
-        )
-        (node
-          (x 9024)
-          (y 896)
-        )
-      )
+      (path-ref "bf8fba58-a0d4-4b15-b830-278954ed9837")
     )
     (coin
-      (path
-        (node
-          (x 9152)
-          (y 896)
-        )
-        (node
-          (x 9088)
-          (y 832)
-        )
-        (node
-          (x 9024)
-          (y 896)
-        )
-        (node
-          (x 9088)
-          (y 960)
-        )
-      )
+      (path-ref "5a252e5a-9fc3-4906-95ab-acd2dd910e58")
     )
     (door
       (sector "NewSector")
@@ -297,409 +93,52 @@
     )
     (platform
       (sprite "images/objects/platforms/big.sprite")
-      (path
-        (node
-          (x 6464)
-          (y 992)
-          (time 4)
-        )
-        (node
-          (x 6464)
-          (y 1216)
-          (time 4)
-        )
-        (node
-          (x 7168)
-          (y 1216)
-          (time 4)
-        )
-        (node
-          (x 7168)
-          (y 992)
-          (time 4)
-        )
-      )
+      (path-ref "1bf96526-eb79-41c1-86a4-dadee39cf2ce")
     )
     (platform
       (sprite "images/objects/platforms/big.sprite")
-      (path
-        (node
-          (x 7168)
-          (y 1216)
-          (time 4)
-        )
-        (node
-          (x 7168)
-          (y 992)
-          (time 4)
-        )
-        (node
-          (x 6496)
-          (y 992)
-          (time 4)
-        )
-        (node
-          (x 6496)
-          (y 1216)
-          (time 4)
-        )
-      )
+      (path-ref "0bf95731-c97f-4a1b-af29-85b23453439b")
     )
     (platform
       (sprite "images/objects/platforms/big.sprite")
-      (path
-        (node
-          (x 7168)
-          (y 992)
-          (time 4)
-        )
-        (node
-          (x 6496)
-          (y 992)
-          (time 4)
-        )
-        (node
-          (x 6496)
-          (y 1216)
-          (time 4)
-        )
-        (node
-          (x 7168)
-          (y 1216)
-          (time 4)
-        )
-      )
+      (path-ref "cf7a7c4f-ebb4-4d7c-8451-5bda19d70d1f")
     )
     (platform
       (sprite "images/objects/platforms/big.sprite")
-      (path
-        (node
-          (x 6464)
-          (y 1216)
-          (time 4)
-        )
-        (node
-          (x 7168)
-          (y 1216)
-          (time 4)
-        )
-        (node
-          (x 7168)
-          (y 992)
-          (time 4)
-        )
-        (node
-          (x 6464)
-          (y 992)
-          (time 4)
-        )
-      )
+      (path-ref "24d74e3e-0f19-49ac-968c-dd15d9a290d1")
     )
     (platform
       (sprite "images/objects/platforms/big.sprite")
-      (path
-        (node
-          (x 9024)
-          (y 992)
-          (time 4)
-        )
-        (node
-          (x 8640)
-          (y 992)
-          (time 4)
-        )
-        (node
-          (x 8384)
-          (y 992)
-          (time 4)
-        )
-        (node
-          (x 8384)
-          (y 1280)
-          (time 4)
-        )
-        (node
-          (x 9664)
-          (y 1280)
-          (time 4)
-        )
-        (node
-          (x 9664)
-          (y 992)
-          (time 4)
-        )
-        (node
-          (x 9376)
-          (y 992)
-          (time 4)
-        )
-      )
+      (path-ref "3a01acbc-9e9f-4457-94a8-13d7bf51f7c0")
     )
     (platform
       (running #f)
       (sprite "images/objects/platforms/big.sprite")
-      (path
-        (node
-          (x 12288)
-          (y 992)
-          (time 4)
-        )
-        (node
-          (x 12736)
-          (y 992)
-          (time 4)
-        )
-        (node
-          (x 13216)
-          (y 992)
-          (time 4)
-        )
-        (node
-          (x 14144)
-          (y 992)
-          (time 4)
-        )
-      )
+      (path-ref "362ade6c-fa03-4ec3-8ed5-8f9a33654007")
     )
     (platform
       (sprite "images/objects/platforms/big.sprite")
-      (path
-        (node
-          (x 8640)
-          (y 992)
-          (time 4)
-        )
-        (node
-          (x 8384)
-          (y 992)
-          (time 4)
-        )
-        (node
-          (x 8384)
-          (y 1248)
-          (time 4)
-        )
-        (node
-          (x 9664)
-          (y 1248)
-          (time 4)
-        )
-        (node
-          (x 9664)
-          (y 992)
-          (time 4)
-        )
-        (node
-          (x 9376)
-          (y 992)
-          (time 4)
-        )
-        (node
-          (x 9024)
-          (y 992)
-          (time 4)
-        )
-      )
+      (path-ref "2a46f708-e86a-4f6c-add9-0d984e2223f8")
     )
     (platform
       (sprite "images/objects/platforms/big.sprite")
-      (path
-        (node
-          (x 9376)
-          (y 992)
-          (time 4)
-        )
-        (node
-          (x 9024)
-          (y 992)
-          (time 4)
-        )
-        (node
-          (x 8640)
-          (y 992)
-          (time 4)
-        )
-        (node
-          (x 8384)
-          (y 992)
-          (time 4)
-        )
-        (node
-          (x 8384)
-          (y 1248)
-          (time 4)
-        )
-        (node
-          (x 9664)
-          (y 1248)
-          (time 4)
-        )
-        (node
-          (x 9664)
-          (y 992)
-          (time 4)
-        )
-      )
+      (path-ref "b89cd4aa-c752-4dc3-926a-753974609521")
     )
     (platform
       (sprite "images/objects/platforms/big.sprite")
-      (path
-        (node
-          (x 8256)
-          (y 992)
-          (time 4)
-        )
-        (node
-          (x 8256)
-          (y 1216)
-          (time 4)
-        )
-        (node
-          (x 9760)
-          (y 1216)
-          (time 4)
-        )
-        (node
-          (x 9760)
-          (y 992)
-          (time 4)
-        )
-        (node
-          (x 9376)
-          (y 992)
-          (time 4)
-        )
-        (node
-          (x 9024)
-          (y 992)
-          (time 4)
-        )
-        (node
-          (x 8640)
-          (y 992)
-          (time 4)
-        )
-      )
+      (path-ref "b6c97045-20ad-40aa-8de3-a0a954a8c845")
     )
     (platform
       (sprite "images/objects/platforms/big.sprite")
-      (path
-        (node
-          (x 8256)
-          (y 1216)
-          (time 4)
-        )
-        (node
-          (x 9760)
-          (y 1216)
-          (time 4)
-        )
-        (node
-          (x 9760)
-          (y 992)
-          (time 4)
-        )
-        (node
-          (x 9376)
-          (y 992)
-          (time 4)
-        )
-        (node
-          (x 9024)
-          (y 992)
-          (time 4)
-        )
-        (node
-          (x 8640)
-          (y 992)
-          (time 4)
-        )
-        (node
-          (x 8256)
-          (y 992)
-          (time 4)
-        )
-      )
+      (path-ref "70c48afd-4dbc-4f29-99f2-7a8c12916ac0")
     )
     (platform
       (sprite "images/objects/platforms/big.sprite")
-      (path
-        (node
-          (x 9760)
-          (y 992)
-          (time 4)
-        )
-        (node
-          (x 9376)
-          (y 992)
-          (time 4)
-        )
-        (node
-          (x 9024)
-          (y 992)
-          (time 4)
-        )
-        (node
-          (x 8640)
-          (y 992)
-          (time 4)
-        )
-        (node
-          (x 8256)
-          (y 992)
-          (time 4)
-        )
-        (node
-          (x 8256)
-          (y 1216)
-          (time 4)
-        )
-        (node
-          (x 9760)
-          (y 1216)
-          (time 4)
-        )
-      )
+      (path-ref "4a25381d-c54c-402f-bc9b-8b99ce5afca7")
     )
     (platform
       (sprite "images/objects/platforms/big.sprite")
-      (path
-        (node
-          (x 9760)
-          (y 1216)
-          (time 4)
-        )
-        (node
-          (x 9760)
-          (y 992)
-          (time 4)
-        )
-        (node
-          (x 9376)
-          (y 992)
-          (time 4)
-        )
-        (node
-          (x 9024)
-          (y 992)
-          (time 4)
-        )
-        (node
-          (x 8640)
-          (y 992)
-          (time 4)
-        )
-        (node
-          (x 8256)
-          (y 992)
-          (time 4)
-        )
-        (node
-          (x 8256)
-          (y 1216)
-          (time 4)
-        )
-      )
+      (path-ref "4a68ce96-3838-4704-b759-3a2f0c179b0d")
     )
     (gradient
       (top_color 0 0.7372549 1)
@@ -739,6 +178,663 @@
     )
     (music
       (file "music/forest_theme.ogg")
+    )
+    (path
+      (name "1bf96526-eb79-41c1-86a4-dadee39cf2ce")
+      (path
+        (node
+          (x 6464)
+          (y 992)
+          (time 4)
+        )
+        (node
+          (x 6464)
+          (y 1216)
+          (time 4)
+        )
+        (node
+          (x 7168)
+          (y 1216)
+          (time 4)
+        )
+        (node
+          (x 7168)
+          (y 992)
+          (time 4)
+        )
+      )
+    )
+    (path
+      (name "0bf95731-c97f-4a1b-af29-85b23453439b")
+      (path
+        (node
+          (x 7168)
+          (y 1216)
+          (time 4)
+        )
+        (node
+          (x 7168)
+          (y 992)
+          (time 4)
+        )
+        (node
+          (x 6496)
+          (y 992)
+          (time 4)
+        )
+        (node
+          (x 6496)
+          (y 1216)
+          (time 4)
+        )
+      )
+    )
+    (path
+      (name "cf7a7c4f-ebb4-4d7c-8451-5bda19d70d1f")
+      (path
+        (node
+          (x 7168)
+          (y 992)
+          (time 4)
+        )
+        (node
+          (x 6496)
+          (y 992)
+          (time 4)
+        )
+        (node
+          (x 6496)
+          (y 1216)
+          (time 4)
+        )
+        (node
+          (x 7168)
+          (y 1216)
+          (time 4)
+        )
+      )
+    )
+    (path
+      (name "24d74e3e-0f19-49ac-968c-dd15d9a290d1")
+      (path
+        (node
+          (x 6464)
+          (y 1216)
+          (time 4)
+        )
+        (node
+          (x 7168)
+          (y 1216)
+          (time 4)
+        )
+        (node
+          (x 7168)
+          (y 992)
+          (time 4)
+        )
+        (node
+          (x 6464)
+          (y 992)
+          (time 4)
+        )
+      )
+    )
+    (path
+      (name "3a01acbc-9e9f-4457-94a8-13d7bf51f7c0")
+      (path
+        (node
+          (x 9024)
+          (y 992)
+          (time 4)
+        )
+        (node
+          (x 8640)
+          (y 992)
+          (time 4)
+        )
+        (node
+          (x 8384)
+          (y 992)
+          (time 4)
+        )
+        (node
+          (x 8384)
+          (y 1280)
+          (time 4)
+        )
+        (node
+          (x 9664)
+          (y 1280)
+          (time 4)
+        )
+        (node
+          (x 9664)
+          (y 992)
+          (time 4)
+        )
+        (node
+          (x 9376)
+          (y 992)
+          (time 4)
+        )
+      )
+    )
+    (path
+      (name "362ade6c-fa03-4ec3-8ed5-8f9a33654007")
+      (path
+        (node
+          (x 12288)
+          (y 992)
+          (time 4)
+        )
+        (node
+          (x 12736)
+          (y 992)
+          (time 4)
+        )
+        (node
+          (x 13216)
+          (y 992)
+          (time 4)
+        )
+        (node
+          (x 14144)
+          (y 992)
+          (time 4)
+        )
+      )
+    )
+    (path
+      (name "2a46f708-e86a-4f6c-add9-0d984e2223f8")
+      (path
+        (node
+          (x 8640)
+          (y 992)
+          (time 4)
+        )
+        (node
+          (x 8384)
+          (y 992)
+          (time 4)
+        )
+        (node
+          (x 8384)
+          (y 1248)
+          (time 4)
+        )
+        (node
+          (x 9664)
+          (y 1248)
+          (time 4)
+        )
+        (node
+          (x 9664)
+          (y 992)
+          (time 4)
+        )
+        (node
+          (x 9376)
+          (y 992)
+          (time 4)
+        )
+        (node
+          (x 9024)
+          (y 992)
+          (time 4)
+        )
+      )
+    )
+    (path
+      (name "b89cd4aa-c752-4dc3-926a-753974609521")
+      (path
+        (node
+          (x 9376)
+          (y 992)
+          (time 4)
+        )
+        (node
+          (x 9024)
+          (y 992)
+          (time 4)
+        )
+        (node
+          (x 8640)
+          (y 992)
+          (time 4)
+        )
+        (node
+          (x 8384)
+          (y 992)
+          (time 4)
+        )
+        (node
+          (x 8384)
+          (y 1248)
+          (time 4)
+        )
+        (node
+          (x 9664)
+          (y 1248)
+          (time 4)
+        )
+        (node
+          (x 9664)
+          (y 992)
+          (time 4)
+        )
+      )
+    )
+    (path
+      (name "b6c97045-20ad-40aa-8de3-a0a954a8c845")
+      (path
+        (node
+          (x 8256)
+          (y 992)
+          (time 4)
+        )
+        (node
+          (x 8256)
+          (y 1216)
+          (time 4)
+        )
+        (node
+          (x 9760)
+          (y 1216)
+          (time 4)
+        )
+        (node
+          (x 9760)
+          (y 992)
+          (time 4)
+        )
+        (node
+          (x 9376)
+          (y 992)
+          (time 4)
+        )
+        (node
+          (x 9024)
+          (y 992)
+          (time 4)
+        )
+        (node
+          (x 8640)
+          (y 992)
+          (time 4)
+        )
+      )
+    )
+    (path
+      (name "70c48afd-4dbc-4f29-99f2-7a8c12916ac0")
+      (path
+        (node
+          (x 8256)
+          (y 1216)
+          (time 4)
+        )
+        (node
+          (x 9760)
+          (y 1216)
+          (time 4)
+        )
+        (node
+          (x 9760)
+          (y 992)
+          (time 4)
+        )
+        (node
+          (x 9376)
+          (y 992)
+          (time 4)
+        )
+        (node
+          (x 9024)
+          (y 992)
+          (time 4)
+        )
+        (node
+          (x 8640)
+          (y 992)
+          (time 4)
+        )
+        (node
+          (x 8256)
+          (y 992)
+          (time 4)
+        )
+      )
+    )
+    (path
+      (name "4a25381d-c54c-402f-bc9b-8b99ce5afca7")
+      (path
+        (node
+          (x 9760)
+          (y 992)
+          (time 4)
+        )
+        (node
+          (x 9376)
+          (y 992)
+          (time 4)
+        )
+        (node
+          (x 9024)
+          (y 992)
+          (time 4)
+        )
+        (node
+          (x 8640)
+          (y 992)
+          (time 4)
+        )
+        (node
+          (x 8256)
+          (y 992)
+          (time 4)
+        )
+        (node
+          (x 8256)
+          (y 1216)
+          (time 4)
+        )
+        (node
+          (x 9760)
+          (y 1216)
+          (time 4)
+        )
+      )
+    )
+    (path
+      (name "4a68ce96-3838-4704-b759-3a2f0c179b0d")
+      (path
+        (node
+          (x 9760)
+          (y 1216)
+          (time 4)
+        )
+        (node
+          (x 9760)
+          (y 992)
+          (time 4)
+        )
+        (node
+          (x 9376)
+          (y 992)
+          (time 4)
+        )
+        (node
+          (x 9024)
+          (y 992)
+          (time 4)
+        )
+        (node
+          (x 8640)
+          (y 992)
+          (time 4)
+        )
+        (node
+          (x 8256)
+          (y 992)
+          (time 4)
+        )
+        (node
+          (x 8256)
+          (y 1216)
+          (time 4)
+        )
+      )
+    )
+    (path
+      (name "553ba593-ddc4-4505-8c9f-6db985774db8")
+      (path
+        (node
+          (x 8704)
+          (y 832)
+        )
+        (node
+          (x 8640)
+          (y 896)
+        )
+        (node
+          (x 8704)
+          (y 960)
+        )
+        (node
+          (x 8768)
+          (y 896)
+        )
+      )
+    )
+    (path
+      (name "819f06f4-a121-4902-9405-4933511f8ac4")
+      (path
+        (node
+          (x 8640)
+          (y 896)
+        )
+        (node
+          (x 8704)
+          (y 960)
+        )
+        (node
+          (x 8768)
+          (y 896)
+        )
+        (node
+          (x 8704)
+          (y 832)
+        )
+      )
+    )
+    (path
+      (name "7f3541b3-611c-4b63-bdde-170872c081b1")
+      (path
+        (node
+          (x 8768)
+          (y 896)
+        )
+        (node
+          (x 8704)
+          (y 832)
+        )
+        (node
+          (x 8640)
+          (y 896)
+        )
+        (node
+          (x 8704)
+          (y 960)
+        )
+      )
+    )
+    (path
+      (name "599638d2-5733-45e9-8f58-c65faa3be973")
+      (path
+        (node
+          (x 8704)
+          (y 960)
+        )
+        (node
+          (x 8768)
+          (y 896)
+        )
+        (node
+          (x 8704)
+          (y 832)
+        )
+        (node
+          (x 8640)
+          (y 896)
+        )
+      )
+    )
+    (path
+      (name "5d63fea9-e71f-46d5-b48b-671357e7987e")
+      (path
+        (node
+          (x 9376)
+          (y 896)
+        )
+        (node
+          (x 9440)
+          (y 960)
+        )
+        (node
+          (x 9504)
+          (y 896)
+        )
+        (node
+          (x 9440)
+          (y 832)
+        )
+      )
+    )
+    (path
+      (name "a2050607-ccf9-467a-8296-10db5450a0d7")
+      (path
+        (node
+          (x 9440)
+          (y 960)
+        )
+        (node
+          (x 9504)
+          (y 896)
+        )
+        (node
+          (x 9440)
+          (y 832)
+        )
+        (node
+          (x 9376)
+          (y 896)
+        )
+      )
+    )
+    (path
+      (name "a035dd75-3b67-41ef-81ca-8be4dd8da36f")
+      (path
+        (node
+          (x 9504)
+          (y 896)
+        )
+        (node
+          (x 9440)
+          (y 832)
+        )
+        (node
+          (x 9376)
+          (y 896)
+        )
+        (node
+          (x 9440)
+          (y 960)
+        )
+      )
+    )
+    (path
+      (name "cb358f9d-9a50-43df-8999-377dc0561c11")
+      (path
+        (node
+          (x 9440)
+          (y 832)
+        )
+        (node
+          (x 9376)
+          (y 896)
+        )
+        (node
+          (x 9440)
+          (y 960)
+        )
+        (node
+          (x 9504)
+          (y 896)
+        )
+      )
+    )
+    (path
+      (name "1f359a3c-be7e-45bb-be34-0b7f1b53f9f5")
+      (path
+        (node
+          (x 9088)
+          (y 832)
+        )
+        (node
+          (x 9024)
+          (y 896)
+        )
+        (node
+          (x 9088)
+          (y 960)
+        )
+        (node
+          (x 9152)
+          (y 896)
+        )
+      )
+    )
+    (path
+      (name "b1288916-3fb4-475f-b973-cbf37246d359")
+      (path
+        (node
+          (x 9024)
+          (y 896)
+        )
+        (node
+          (x 9088)
+          (y 960)
+        )
+        (node
+          (x 9152)
+          (y 896)
+        )
+        (node
+          (x 9088)
+          (y 832)
+        )
+      )
+    )
+    (path
+      (name "bf8fba58-a0d4-4b15-b830-278954ed9837")
+      (path
+        (node
+          (x 9088)
+          (y 960)
+        )
+        (node
+          (x 9152)
+          (y 896)
+        )
+        (node
+          (x 9088)
+          (y 832)
+        )
+        (node
+          (x 9024)
+          (y 896)
+        )
+      )
+    )
+    (path
+      (name "5a252e5a-9fc3-4906-95ab-acd2dd910e58")
+      (path
+        (node
+          (x 9152)
+          (y 896)
+        )
+        (node
+          (x 9088)
+          (y 832)
+        )
+        (node
+          (x 9024)
+          (y 896)
+        )
+        (node
+          (x 9088)
+          (y 960)
+        )
+      )
     )
     (poisonivy
       (x 1442)

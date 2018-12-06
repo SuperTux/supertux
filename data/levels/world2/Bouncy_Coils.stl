@@ -86,6 +86,15 @@
     (music
       (file "music/forest.music")
     )
+    (path
+      (name "da74727c-fb9d-42fa-8535-348e2fda59dd")
+      (path
+        (node
+          (x 3072)
+          (y 384)
+        )
+      )
+    )
     (poisonivy
       (direction "left")
       (x 898)
@@ -300,12 +309,7 @@
       (solid #f)
       (z-pos 101)
       (name "secret1")
-      (path
-        (node
-          (x 3072)
-          (y 384)
-        )
-      )
+      (path-ref "da74727c-fb9d-42fa-8535-348e2fda59dd")
       (width 9)
       (height 5)
       (tiles

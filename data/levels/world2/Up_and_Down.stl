@@ -44,103 +44,25 @@
     (platform
       (name "eins")
       (sprite "images/objects/flying_platform/flying_platform.sprite")
-      (path
-        (node
-          (x 1280)
-          (y 544)
-        )
-        (node
-          (x 1280)
-          (y 544)
-          (time 4)
-        )
-        (node
-          (x 1280)
-          (y 192)
-        )
-        (node
-          (x 1280)
-          (y 192)
-          (time 5)
-        )
-      )
+      (path-ref "62e89bc8-855b-48fa-82fd-8740ee3d9a07")
     )
     (platform
       (running #f)
       (name "zwei")
       (sprite "images/objects/flying_platform/flying_platform.sprite")
-      (path
-        (node
-          (x 3072)
-          (y 992)
-        )
-        (node
-          (x 3072)
-          (y 992)
-          (time 5)
-        )
-        (node
-          (x 3072)
-          (y 416)
-        )
-        (node
-          (x 3072)
-          (y 416)
-          (time 3)
-        )
-      )
+      (path-ref "aa276c7c-9b26-4a86-a93c-f490fab85684")
     )
     (platform
       (running #f)
       (name "drei")
       (sprite "images/objects/flying_platform/flying_platform.sprite")
-      (path
-        (node
-          (x 3200)
-          (y 160)
-        )
-        (node
-          (x 3200)
-          (y 160)
-          (time 3)
-        )
-        (node
-          (x 3200)
-          (y 640)
-        )
-        (node
-          (x 3200)
-          (y 640)
-          (time 5)
-        )
-      )
+      (path-ref "c845a699-c423-4a6e-a843-db865809e5c1")
     )
     (platform
       (running #f)
       (name "raus")
       (sprite "images/objects/flying_platform/flying_platform.sprite")
-      (path
-        (node
-          (x 5120)
-          (y 384)
-          (time 0.6)
-        )
-        (node
-          (x 5120)
-          (y 384)
-          (time 8)
-        )
-        (node
-          (x 6048)
-          (y 928)
-          (time 4)
-        )
-        (node
-          (x 6048)
-          (y 928)
-          (time 10)
-        )
-      )
+      (path-ref "1321506e-642d-402d-95c2-d11a75aac433")
     )
     (igel
       (x 4322.1)
@@ -170,6 +92,100 @@
     )
     (music
       (file "music/forest.music")
+    )
+    (path
+      (name "62e89bc8-855b-48fa-82fd-8740ee3d9a07")
+      (path
+        (node
+          (x 1280)
+          (y 544)
+        )
+        (node
+          (x 1280)
+          (y 544)
+          (time 4)
+        )
+        (node
+          (x 1280)
+          (y 192)
+        )
+        (node
+          (x 1280)
+          (y 192)
+          (time 5)
+        )
+      )
+    )
+    (path
+      (name "aa276c7c-9b26-4a86-a93c-f490fab85684")
+      (path
+        (node
+          (x 3072)
+          (y 992)
+        )
+        (node
+          (x 3072)
+          (y 992)
+          (time 5)
+        )
+        (node
+          (x 3072)
+          (y 416)
+        )
+        (node
+          (x 3072)
+          (y 416)
+          (time 3)
+        )
+      )
+    )
+    (path
+      (name "c845a699-c423-4a6e-a843-db865809e5c1")
+      (path
+        (node
+          (x 3200)
+          (y 160)
+        )
+        (node
+          (x 3200)
+          (y 160)
+          (time 3)
+        )
+        (node
+          (x 3200)
+          (y 640)
+        )
+        (node
+          (x 3200)
+          (y 640)
+          (time 5)
+        )
+      )
+    )
+    (path
+      (name "1321506e-642d-402d-95c2-d11a75aac433")
+      (path
+        (node
+          (x 5120)
+          (y 384)
+          (time 0.6)
+        )
+        (node
+          (x 5120)
+          (y 384)
+          (time 8)
+        )
+        (node
+          (x 6048)
+          (y 928)
+          (time 4)
+        )
+        (node
+          (x 6048)
+          (y 928)
+          (time 10)
+        )
+      )
     )
     (poisonivy
       (x 992)

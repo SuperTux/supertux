@@ -65,108 +65,43 @@
       (running #f)
       (name "final_lift")
       (sprite "images/objects/platforms/small.sprite")
-      (path
-        (node
-          (x 6464)
-          (y 384)
-          (time 3)
-        )
-        (node
-          (x 6464)
-          (y 128)
-          (time 3)
-        )
-      )
+      (path-ref "884c51a3-f294-40bf-96cd-2f6cb370bf54")
     )
     (platform
       (running #f)
       (name "blocker1")
       (sprite "images/objects/platforms/vertical-wood.sprite")
-      (path
-        (node
-          (x 2912)
-          (y 2144)
-        )
-        (node
-          (x 2912)
-          (y 2048)
-        )
-      )
+      (path-ref "5ed006ef-9064-475c-9d04-282a1d22396e")
     )
     (platform
       (running #f)
       (name "blocker2")
       (sprite "images/objects/platforms/vertical-wood.sprite")
-      (path
-        (node
-          (x 2944)
-          (y 2144)
-        )
-        (node
-          (x 2944)
-          (y 2272)
-        )
-      )
+      (path-ref "7530e8c7-4499-4725-957e-b23e46fc98b2")
     )
     (platform
       (running #f)
       (name "blocker4")
       (sprite "images/objects/platforms/vertical-wood.sprite")
-      (path
-        (node
-          (x 3008)
-          (y 2144)
-        )
-        (node
-          (x 3008)
-          (y 2272)
-        )
-      )
+      (path-ref "8b3e74d4-99be-4a76-9923-b7dc88d1982b")
     )
     (platform
       (running #f)
       (name "blocker5")
       (sprite "images/objects/platforms/vertical-wood.sprite")
-      (path
-        (node
-          (x 3040)
-          (y 2144)
-        )
-        (node
-          (x 3040)
-          (y 2048)
-        )
-      )
+      (path-ref "9cfad0f5-4483-4c79-9fee-a81e0fbe59ee")
     )
     (platform
       (running #f)
       (name "blocker6")
       (sprite "images/objects/platforms/vertical-wood.sprite")
-      (path
-        (node
-          (x 3072)
-          (y 2144)
-        )
-        (node
-          (x 3072)
-          (y 2272)
-        )
-      )
+      (path-ref "cd79ad6c-5689-4da6-a083-bfe36f0e672d")
     )
     (platform
       (running #f)
       (name "blocker3")
       (sprite "images/objects/platforms/vertical-wood.sprite")
-      (path
-        (node
-          (x 2976)
-          (y 2144)
-        )
-        (node
-          (x 2976)
-          (y 2048)
-        )
-      )
+      (path-ref "92e8d145-aa0b-42b0-b0e2-1fb0045ea64a")
     )
     (igel
       (x 4800)
@@ -203,6 +138,108 @@
     )
     (music
       (file "music/forest.music")
+    )
+    (path
+      (name "884c51a3-f294-40bf-96cd-2f6cb370bf54")
+      (path
+        (node
+          (x 6464)
+          (y 384)
+          (time 3)
+        )
+        (node
+          (x 6464)
+          (y 128)
+          (time 3)
+        )
+      )
+    )
+    (path
+      (name "5ed006ef-9064-475c-9d04-282a1d22396e")
+      (path
+        (node
+          (x 2912)
+          (y 2144)
+        )
+        (node
+          (x 2912)
+          (y 2048)
+        )
+      )
+    )
+    (path
+      (name "7530e8c7-4499-4725-957e-b23e46fc98b2")
+      (path
+        (node
+          (x 2944)
+          (y 2144)
+        )
+        (node
+          (x 2944)
+          (y 2272)
+        )
+      )
+    )
+    (path
+      (name "8b3e74d4-99be-4a76-9923-b7dc88d1982b")
+      (path
+        (node
+          (x 3008)
+          (y 2144)
+        )
+        (node
+          (x 3008)
+          (y 2272)
+        )
+      )
+    )
+    (path
+      (name "9cfad0f5-4483-4c79-9fee-a81e0fbe59ee")
+      (path
+        (node
+          (x 3040)
+          (y 2144)
+        )
+        (node
+          (x 3040)
+          (y 2048)
+        )
+      )
+    )
+    (path
+      (name "cd79ad6c-5689-4da6-a083-bfe36f0e672d")
+      (path
+        (node
+          (x 3072)
+          (y 2144)
+        )
+        (node
+          (x 3072)
+          (y 2272)
+        )
+      )
+    )
+    (path
+      (name "92e8d145-aa0b-42b0-b0e2-1fb0045ea64a")
+      (path
+        (node
+          (x 2976)
+          (y 2144)
+        )
+        (node
+          (x 2976)
+          (y 2048)
+        )
+      )
+    )
+    (path
+      (name "063460d9-cfa7-4a0a-a9db-ea764fc8bd23")
+      (path
+        (node
+          (x 3584)
+          (y 1312)
+        )
+      )
     )
     (poisonivy
       (x 3170)
@@ -831,12 +868,7 @@ end_level();
       (solid #t)
       (z-pos 100)
       (name "Extra branches")
-      (path
-        (node
-          (x 3584)
-          (y 1312)
-        )
-      )
+      (path-ref "063460d9-cfa7-4a0a-a9db-ea764fc8bd23")
       (width 8)
       (height 7)
       (tiles

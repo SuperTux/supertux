@@ -72,18 +72,7 @@
       (running #f)
       (name "Platform1")
       (sprite "images/objects/platforms/icefloe_small.sprite")
-      (path
-        (node
-          (x 12224)
-          (y 1856)
-          (time 3)
-        )
-        (node
-          (x 12224)
-          (y 864)
-          (time 3)
-        )
-      )
+      (path-ref "856f7775-25b2-406d-ad6b-dcf18f26bcad")
     )
     (flyingsnowball
       (x 5785)
@@ -163,6 +152,30 @@
     )
     (music
       (file "music/voc-night.music")
+    )
+    (path
+      (name "856f7775-25b2-406d-ad6b-dcf18f26bcad")
+      (path
+        (node
+          (x 12224)
+          (y 1856)
+          (time 3)
+        )
+        (node
+          (x 12224)
+          (y 864)
+          (time 3)
+        )
+      )
+    )
+    (path
+      (name "319b1be8-554a-488c-8590-ba236f30cdef")
+      (path
+        (node
+          (x 10272)
+          (y 1440)
+        )
+      )
     )
     (secretarea
       (fade-tilemap "Secret1")
@@ -431,12 +444,7 @@ Platform1.goto_node(0);")
       (solid #f)
       (z-pos 110)
       (name "Secret1")
-      (path
-        (node
-          (x 10272)
-          (y 1440)
-        )
-      )
+      (path-ref "319b1be8-554a-488c-8590-ba236f30cdef")
       (width 7)
       (height 5)
       (tiles

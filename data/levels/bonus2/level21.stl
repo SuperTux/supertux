@@ -111,6 +111,15 @@
     (music
       (file "music/fortress.music")
     )
+    (path
+      (name "a70202fb-4e21-4b1f-8f69-a5ecd49261ee")
+      (path
+        (node
+          (x 0)
+          (y 544)
+        )
+      )
+    )
     (secretarea
       (fade-tilemap "secret")
       (width 60)
@@ -280,12 +289,7 @@
       (solid #f)
       (z-pos 100)
       (name "secret")
-      (path
-        (node
-          (x 0)
-          (y 544)
-        )
-      )
+      (path-ref "a70202fb-4e21-4b1f-8f69-a5ecd49261ee")
       (width 3)
       (height 7)
       (tiles

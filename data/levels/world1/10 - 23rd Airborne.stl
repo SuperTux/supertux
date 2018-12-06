@@ -207,6 +207,15 @@
     (music
       (file "music/airship_remix.music")
     )
+    (path
+      (name "3973e8fa-cc24-469c-a76c-77847ffe5d79")
+      (path
+        (node
+          (x 8000)
+          (y 352)
+        )
+      )
+    )
     (scripttrigger
       (script "secret2.fade (0.0, 1.0);")
       (button #f)
@@ -440,12 +449,7 @@
       (solid #f)
       (z-pos 102)
       (name "secret2")
-      (path
-        (node
-          (x 8000)
-          (y 352)
-        )
-      )
+      (path-ref "3973e8fa-cc24-469c-a76c-77847ffe5d79")
       (width 30)
       (height 15)
       (tiles

@@ -16,6 +16,10 @@
     )
     (platform
       (sprite "images/objects/platforms/big.sprite")
+      (path-ref "f113af11-11fe-421e-b2f6-bad85c946540")
+    )
+    (path
+      (name "f113af11-11fe-421e-b2f6-bad85c946540")
       (path
         (node
           (x 392)

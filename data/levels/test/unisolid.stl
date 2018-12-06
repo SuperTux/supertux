@@ -19,12 +19,7 @@
     (platform
       (running #f)
       (sprite "images/objects/platforms/icefloe_small.sprite")
-      (path
-        (node
-          (x 1280)
-          (y 544)
-        )
-      )
+      (path-ref "9011c7b9-3a56-4445-80d6-0f77c9236c37")
     )
     (mriceblock
       (x 994)
@@ -37,6 +32,42 @@
     (mriceblock
       (x 1090)
       (y 261)
+    )
+    (path
+      (name "9011c7b9-3a56-4445-80d6-0f77c9236c37")
+      (path
+        (node
+          (x 1280)
+          (y 544)
+        )
+      )
+    )
+    (path
+      (name "45534b80-f2e1-418a-86df-e3b835a44508")
+      (path
+        (node
+          (x 0)
+          (y 0)
+        )
+      )
+    )
+    (path
+      (name "d8962301-445c-4eb5-ac7b-3c87746311b2")
+      (path
+        (node
+          (x 0)
+          (y 0)
+        )
+      )
+    )
+    (path
+      (name "bb84b839-0827-4e4e-9ad5-73ece70dd555")
+      (path
+        (node
+          (x 0)
+          (y 0)
+        )
+      )
     )
     (spawnpoint
       (name "main")
@@ -106,12 +137,7 @@
       (speed 0.5)
       (z-pos -200)
       (name "Paralax1")
-      (path
-        (node
-          (x 0)
-          (y 0)
-        )
-      )
+      (path-ref "45534b80-f2e1-418a-86df-e3b835a44508")
       (width 100)
       (height 20)
       (tiles
@@ -142,12 +168,7 @@
       (speed 0.25)
       (z-pos -300)
       (name "Paralax2")
-      (path
-        (node
-          (x 0)
-          (y 0)
-        )
-      )
+      (path-ref "d8962301-445c-4eb5-ac7b-3c87746311b2")
       (width 100)
       (height 20)
       (tiles
@@ -177,12 +198,7 @@
       (solid #f)
       (z-pos 100)
       (name "Foreground")
-      (path
-        (node
-          (x 0)
-          (y 0)
-        )
-      )
+      (path-ref "bb84b839-0827-4e4e-9ad5-73ece70dd555")
       (width 100)
       (height 20)
       (tiles

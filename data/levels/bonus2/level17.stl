@@ -165,6 +165,42 @@
     (music
       (file "music/theme.music")
     )
+    (path
+      (name "c1c8f4db-1cbf-46bf-b0b1-96a47db6910c")
+      (path
+        (node
+          (x 2272)
+          (y 512)
+        )
+      )
+    )
+    (path
+      (name "2a08bac6-b9f3-478c-ba9f-ff946cd7235b")
+      (path
+        (node
+          (x 4704)
+          (y 608)
+        )
+      )
+    )
+    (path
+      (name "736a59ab-bd63-4bec-b6fd-6c0beddf20db")
+      (path
+        (node
+          (x 10688)
+          (y 544)
+        )
+      )
+    )
+    (path
+      (name "d895a7d0-d5b3-46d8-980f-46d22e280c6d")
+      (path
+        (node
+          (x 12544)
+          (y 448)
+        )
+      )
+    )
     (secretarea
       (fade-tilemap "s1")
       (width 44)
@@ -381,12 +417,7 @@
       (solid #f)
       (z-pos 100)
       (name "s1")
-      (path
-        (node
-          (x 2272)
-          (y 512)
-        )
-      )
+      (path-ref "c1c8f4db-1cbf-46bf-b0b1-96a47db6910c")
       (width 2)
       (height 5)
       (tiles
@@ -401,12 +432,7 @@
       (solid #f)
       (z-pos 100)
       (name "s2")
-      (path
-        (node
-          (x 4704)
-          (y 608)
-        )
-      )
+      (path-ref "2a08bac6-b9f3-478c-ba9f-ff946cd7235b")
       (width 2)
       (height 5)
       (tiles
@@ -421,12 +447,7 @@
       (solid #f)
       (z-pos 100)
       (name "s3")
-      (path
-        (node
-          (x 10688)
-          (y 544)
-        )
-      )
+      (path-ref "736a59ab-bd63-4bec-b6fd-6c0beddf20db")
       (width 10)
       (height 7)
       (tiles
@@ -443,12 +464,7 @@
       (solid #f)
       (z-pos 0)
       (name "frgrd")
-      (path
-        (node
-          (x 12544)
-          (y 448)
-        )
-      )
+      (path-ref "d895a7d0-d5b3-46d8-980f-46d22e280c6d")
       (width 1)
       (height 1)
       (tiles

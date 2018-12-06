@@ -128,6 +128,24 @@
     (music
       (file "music/airship_remix.music")
     )
+    (path
+      (name "993bc264-9a07-41cd-b610-5fb2be672055")
+      (path
+        (node
+          (x 5312)
+          (y 192)
+        )
+      )
+    )
+    (path
+      (name "b983230b-a285-4ecb-9f60-6dee6e443764")
+      (path
+        (node
+          (x 7744)
+          (y 640)
+        )
+      )
+    )
     (secretarea
       (fade-tilemap "secr1")
       (width 520)
@@ -442,12 +460,7 @@
       (solid #f)
       (z-pos 100)
       (name "secr1")
-      (path
-        (node
-          (x 5312)
-          (y 192)
-        )
-      )
+      (path-ref "993bc264-9a07-41cd-b610-5fb2be672055")
       (width 17)
       (height 17)
       (tiles
@@ -518,12 +531,7 @@
       (solid #f)
       (z-pos 101)
       (name "IglooSnow")
-      (path
-        (node
-          (x 7744)
-          (y 640)
-        )
-      )
+      (path-ref "b983230b-a285-4ecb-9f60-6dee6e443764")
       (width 7)
       (height 1)
       (tiles

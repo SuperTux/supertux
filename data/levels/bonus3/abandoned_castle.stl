@@ -35,6 +35,80 @@ RightWindow.goto_node(0)")
     (music
       (file "music/forest2.ogg")
     )
+    (path
+      (name "041d4a7d-2e93-43ba-8ec0-ecc48547f815")
+      (path
+        (node
+          (x 2880)
+          (y 320)
+        )
+      )
+    )
+    (path
+      (name "dff5e27a-ca7a-4743-95d0-b5f6c39c10bb")
+      (path
+        (node
+          (x 2400)
+          (y 352)
+        )
+        (node
+          (x 2400)
+          (y 256)
+        )
+      )
+    )
+    (path
+      (name "ee9a3f01-905b-4dd6-b846-81bc2412c74f")
+      (path
+        (node
+          (x 2400)
+          (y 160)
+        )
+        (node
+          (x 2368)
+          (y 160)
+        )
+      )
+    )
+    (path
+      (name "72df4559-572c-4a31-a604-9c652ece5f61")
+      (path
+        (node
+          (x 2464)
+          (y 160)
+        )
+        (node
+          (x 2432)
+          (y 160)
+        )
+      )
+    )
+    (path
+      (name "df68f42f-9442-4127-825b-631d122de566")
+      (path
+        (node
+          (x 2368)
+          (y 160)
+        )
+        (node
+          (x 2400)
+          (y 160)
+        )
+      )
+    )
+    (path
+      (name "d56dbd7b-83a2-497a-b2fa-162990590b4b")
+      (path
+        (node
+          (x 2432)
+          (y 160)
+        )
+        (node
+          (x 2464)
+          (y 160)
+        )
+      )
+    )
     (pushbutton
       (script "LeftWall.goto_node(1)
 RightWall.goto_node(0)
@@ -125,12 +199,7 @@ Pole.goto_node(1)")
       (solid #t)
       (z-pos 1)
       (name "ForeInteractive")
-      (path
-        (node
-          (x 2880)
-          (y 320)
-        )
-      )
+      (path-ref "041d4a7d-2e93-43ba-8ec0-ecc48547f815")
       (width 10)
       (height 1)
       (tiles
@@ -141,16 +210,7 @@ Pole.goto_node(1)")
       (solid #t)
       (z-pos -10)
       (name "Pole")
-      (path
-        (node
-          (x 2400)
-          (y 352)
-        )
-        (node
-          (x 2400)
-          (y 256)
-        )
-      )
+      (path-ref "dff5e27a-ca7a-4743-95d0-b5f6c39c10bb")
       (width 2)
       (height 3)
       (tiles
@@ -163,16 +223,7 @@ Pole.goto_node(1)")
       (solid #f)
       (z-pos -10)
       (name "LeftWall")
-      (path
-        (node
-          (x 2400)
-          (y 160)
-        )
-        (node
-          (x 2368)
-          (y 160)
-        )
-      )
+      (path-ref "ee9a3f01-905b-4dd6-b846-81bc2412c74f")
       (width 1)
       (height 3)
       (tiles
@@ -185,16 +236,7 @@ Pole.goto_node(1)")
       (solid #f)
       (z-pos -10)
       (name "RightWall")
-      (path
-        (node
-          (x 2464)
-          (y 160)
-        )
-        (node
-          (x 2432)
-          (y 160)
-        )
-      )
+      (path-ref "72df4559-572c-4a31-a604-9c652ece5f61")
       (width 1)
       (height 3)
       (tiles
@@ -207,16 +249,7 @@ Pole.goto_node(1)")
       (solid #f)
       (z-pos -9)
       (name "LeftWindow")
-      (path
-        (node
-          (x 2368)
-          (y 160)
-        )
-        (node
-          (x 2400)
-          (y 160)
-        )
-      )
+      (path-ref "df68f42f-9442-4127-825b-631d122de566")
       (width 1)
       (height 3)
       (tiles
@@ -229,16 +262,7 @@ Pole.goto_node(1)")
       (solid #f)
       (z-pos -9)
       (name "RightWindow")
-      (path
-        (node
-          (x 2432)
-          (y 160)
-        )
-        (node
-          (x 2464)
-          (y 160)
-        )
-      )
+      (path-ref "d56dbd7b-83a2-497a-b2fa-162990590b4b")
       (width 1)
       (height 3)
       (tiles
@@ -332,6 +356,32 @@ DoorBlock.goto_node(1)")
     )
     (music
       (file "music/darkforestkeep.ogg")
+    )
+    (path
+      (name "60c2d025-3750-4012-9a19-2bcb8fb4e024")
+      (path
+        (node
+          (x 3104)
+          (y 512)
+        )
+        (node
+          (x 3104)
+          (y 256)
+        )
+      )
+    )
+    (path
+      (name "eb19c96e-f18a-4ea6-a886-39486749b7ba")
+      (path
+        (node
+          (x 1920)
+          (y -160)
+        )
+        (node
+          (x 1920)
+          (y 0)
+        )
+      )
     )
     (snail
       (x 1248)
@@ -450,16 +500,7 @@ DoorBlock.goto_node(1)")
       (solid #t)
       (z-pos 10)
       (name "DoorBlock")
-      (path
-        (node
-          (x 3104)
-          (y 512)
-        )
-        (node
-          (x 3104)
-          (y 256)
-        )
-      )
+      (path-ref "60c2d025-3750-4012-9a19-2bcb8fb4e024")
       (width 3)
       (height 5)
       (tiles
@@ -474,16 +515,7 @@ DoorBlock.goto_node(1)")
       (solid #t)
       (z-pos 0)
       (name "ButtonBlock")
-      (path
-        (node
-          (x 1920)
-          (y -160)
-        )
-        (node
-          (x 1920)
-          (y 0)
-        )
-      )
+      (path-ref "eb19c96e-f18a-4ea6-a886-39486749b7ba")
       (width 2)
       (height 5)
       (tiles

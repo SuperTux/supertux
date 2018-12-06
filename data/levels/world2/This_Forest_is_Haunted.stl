@@ -29,91 +29,19 @@
     )
     (coin
       (sprite "images/objects/coin/coin.sprite")
-      (path
-        (mode "pingpong")
-        (node
-          (x 4060.537)
-          (y 736.3282)
-        )
-        (node
-          (x 4144.49)
-          (y 642.539)
-        )
-        (node
-          (x 4252.252)
-          (y 740.8398)
-        )
-        (node
-          (x 4143.553)
-          (y 830.7147)
-        )
-      )
+      (path-ref "a97bb47d-27ec-4fef-a2ae-65adab507a2e")
     )
     (coin
       (sprite "images/objects/coin/coin.sprite")
-      (path
-        (mode "pingpong")
-        (node
-          (x 4129.875)
-          (y 638.9639)
-        )
-        (node
-          (x 4224.141)
-          (y 742.7122)
-        )
-        (node
-          (x 4154.799)
-          (y 811.0547)
-        )
-        (node
-          (x 4060.159)
-          (y 737.0951)
-        )
-      )
+      (path-ref "ed859698-dc48-4317-bcdf-b9ee997eb763")
     )
     (coin
       (sprite "images/objects/coin/coin.sprite")
-      (path
-        (mode "pingpong")
-        (node
-          (x 4227.327)
-          (y 733.5197)
-        )
-        (node
-          (x 4146.458)
-          (y 821.3529)
-        )
-        (node
-          (x 4063.064)
-          (y 736.1587)
-        )
-        (node
-          (x 4135.215)
-          (y 644.4115)
-        )
-      )
+      (path-ref "2ed90352-9cdf-44bd-b1ce-adc2232d8d32")
     )
     (coin
       (sprite "images/objects/coin/coin.sprite")
-      (path
-        (mode "pingpong")
-        (node
-          (x 4142.994)
-          (y 814.0328)
-        )
-        (node
-          (x 4063.063)
-          (y 741.7761)
-        )
-        (node
-          (x 4135.215)
-          (y 650.0286)
-        )
-        (node
-          (x 4250.469)
-          (y 738.9675)
-        )
-      )
+      (path-ref "14848dd3-8841-47eb-8a26-32030c020ee2")
     )
     (decal
       (sprite "images/decal/halloween/tree.png")
@@ -192,6 +120,94 @@
     )
     (music
       (file "music/ghostforest.music")
+    )
+    (path
+      (name "a97bb47d-27ec-4fef-a2ae-65adab507a2e")
+      (path
+        (mode "pingpong")
+        (node
+          (x 4060.537)
+          (y 736.3282)
+        )
+        (node
+          (x 4144.49)
+          (y 642.539)
+        )
+        (node
+          (x 4252.252)
+          (y 740.8398)
+        )
+        (node
+          (x 4143.553)
+          (y 830.7147)
+        )
+      )
+    )
+    (path
+      (name "ed859698-dc48-4317-bcdf-b9ee997eb763")
+      (path
+        (mode "pingpong")
+        (node
+          (x 4129.875)
+          (y 638.9639)
+        )
+        (node
+          (x 4224.141)
+          (y 742.7122)
+        )
+        (node
+          (x 4154.799)
+          (y 811.0547)
+        )
+        (node
+          (x 4060.159)
+          (y 737.0951)
+        )
+      )
+    )
+    (path
+      (name "2ed90352-9cdf-44bd-b1ce-adc2232d8d32")
+      (path
+        (mode "pingpong")
+        (node
+          (x 4227.327)
+          (y 733.5197)
+        )
+        (node
+          (x 4146.458)
+          (y 821.3529)
+        )
+        (node
+          (x 4063.064)
+          (y 736.1587)
+        )
+        (node
+          (x 4135.215)
+          (y 644.4115)
+        )
+      )
+    )
+    (path
+      (name "14848dd3-8841-47eb-8a26-32030c020ee2")
+      (path
+        (mode "pingpong")
+        (node
+          (x 4142.994)
+          (y 814.0328)
+        )
+        (node
+          (x 4063.063)
+          (y 741.7761)
+        )
+        (node
+          (x 4135.215)
+          (y 650.0286)
+        )
+        (node
+          (x 4250.469)
+          (y 738.9675)
+        )
+      )
     )
     (poisonivy
       (direction "left")

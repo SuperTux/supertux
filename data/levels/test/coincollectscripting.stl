@@ -23,12 +23,7 @@
     (coin
       (collect-script "sector.settings.set_ambient_light(1.0, 0, 0);")
       (sprite "images/objects/coin/coin.sprite")
-      (path
-        (node
-          (x 349.7143)
-          (y 575.9999)
-        )
-      )
+      (path-ref "12a165ab-0853-4cfe-a23f-9565bdda797b")
     )
     (heavycoin
       (collect-script "sector.settings.set_ambient_light(0, 1.0, 0);")
@@ -47,6 +42,15 @@
 #ambient color should change to green!"))
       (x 512.7621)
       (y 478.4261)
+    )
+    (path
+      (name "12a165ab-0853-4cfe-a23f-9565bdda797b")
+      (path
+        (node
+          (x 349.7143)
+          (y 575.9999)
+        )
+      )
     )
     (spawnpoint
       (name "main")

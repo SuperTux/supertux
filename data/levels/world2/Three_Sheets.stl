@@ -56,18 +56,7 @@
     (platform
       (running #f)
       (sprite "images/objects/flying_platform/flying_platform.sprite")
-      (path
-        (node
-          (x 2304)
-          (y 1344)
-          (time 4)
-        )
-        (node
-          (x 2880)
-          (y 1344)
-          (time 4)
-        )
-      )
+      (path-ref "8911788f-f8b0-4515-81ca-9c801db1c7e6")
     )
     (igel
       (x 1618.1)
@@ -99,6 +88,30 @@
     )
     (music
       (file "music/forest2.ogg")
+    )
+    (path
+      (name "8911788f-f8b0-4515-81ca-9c801db1c7e6")
+      (path
+        (node
+          (x 2304)
+          (y 1344)
+          (time 4)
+        )
+        (node
+          (x 2880)
+          (y 1344)
+          (time 4)
+        )
+      )
+    )
+    (path
+      (name "be3f8f8c-5fff-45ea-b7cc-b8cc769c13a9")
+      (path
+        (node
+          (x 2272)
+          (y 832)
+        )
+      )
     )
     (poisonivy
       (x 608)
@@ -477,12 +490,7 @@ wind1h.start();
       (solid #f)
       (z-pos 99)
       (name "secret1")
-      (path
-        (node
-          (x 2272)
-          (y 832)
-        )
-      )
+      (path-ref "be3f8f8c-5fff-45ea-b7cc-b8cc769c13a9")
       (width 6)
       (height 5)
       (tiles

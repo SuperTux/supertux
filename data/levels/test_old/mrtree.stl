@@ -13,8 +13,7 @@
     )
     (camera
       (mode "normal")
-      (path
-      )
+      (path-ref "1852e949-4f16-4e0d-9cf4-8c14cdd81218")
     )
     (mrbomb
       (sprite "images/creatures/mr_cherry/mr_juicebox.sprite")
@@ -56,6 +55,11 @@
     )
     (music
       (file "music/forest.music")
+    )
+    (path
+      (name "1852e949-4f16-4e0d-9cf4-8c14cdd81218")
+      (path
+      )
     )
     (poisonivy
       (x 1000)

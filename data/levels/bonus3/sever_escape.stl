@@ -59,6 +59,15 @@
     (music
       (file "music/cave.music")
     )
+    (path
+      (name "f2973111-ce86-4540-b58f-7fc6501392ca")
+      (path
+        (node
+          (x 1152)
+          (y 1120)
+        )
+      )
+    )
     (scripttrigger
       (script "Level.spawn(\"outside\",\"main\")")
       (button #f)
@@ -464,12 +473,7 @@
       (solid #f)
       (z-pos 97)
       (name "secret")
-      (path
-        (node
-          (x 1152)
-          (y 1120)
-        )
-      )
+      (path-ref "f2973111-ce86-4540-b58f-7fc6501392ca")
       (width 1)
       (height 1)
       (tiles

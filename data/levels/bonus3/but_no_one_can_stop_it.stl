@@ -387,12 +387,7 @@
     (platform
       (name "fp1")
       (sprite "images/objects/flying_platform/flying_platform.sprite")
-      (path
-        (node
-          (x 2464)
-          (y 288)
-        )
-      )
+      (path-ref "c3544fa4-b296-4b97-a3e9-4a83d26b8c9e")
     )
     (infoblock
       (message (_ "-Sorry, this flying platform is lazy.
@@ -470,6 +465,15 @@
     )
     (music
       (file "music/cave.music")
+    )
+    (path
+      (name "c3544fa4-b296-4b97-a3e9-4a83d26b8c9e")
+      (path
+        (node
+          (x 2464)
+          (y 288)
+        )
+      )
     )
     (secretarea
       (fade-tilemap "Secret1")

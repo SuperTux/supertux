@@ -489,6 +489,15 @@
     (music
       (file "music/fortress.music")
     )
+    (path
+      (name "6b9dbe45-179b-4471-9712-7ec40869ec1d")
+      (path
+        (node
+          (x 736)
+          (y 544)
+        )
+      )
+    )
     (rock
       (x 448)
       (y 256)
@@ -721,12 +730,7 @@
       (solid #f)
       (z-pos 100)
       (name "secret1")
-      (path
-        (node
-          (x 736)
-          (y 544)
-        )
-      )
+      (path-ref "6b9dbe45-179b-4471-9712-7ec40869ec1d")
       (width 5)
       (height 4)
       (tiles

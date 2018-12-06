@@ -151,6 +151,15 @@
     (music
       (file "music/voc-dark.music")
     )
+    (path
+      (name "b47fcbd7-94f1-4d27-8d49-6aa97048b35e")
+      (path
+        (node
+          (x 192)
+          (y 96)
+        )
+      )
+    )
     (secretarea
       (fade-tilemap "secret1")
       (width 125)
@@ -314,12 +323,7 @@
       (solid #f)
       (z-pos 101)
       (name "secret1")
-      (path
-        (node
-          (x 192)
-          (y 96)
-        )
-      )
+      (path-ref "b47fcbd7-94f1-4d27-8d49-6aa97048b35e")
       (width 5)
       (height 7)
       (tiles

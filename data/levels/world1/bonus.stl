@@ -53,153 +53,27 @@
     )
     (platform
       (sprite "images/objects/flying_platform/flying_platform.sprite")
-      (path
-        (node
-          (x 2816)
-          (y 608)
-          (time 2)
-        )
-        (node
-          (x 2816)
-          (y 608)
-          (time 4)
-        )
-        (node
-          (x 2816)
-          (y 1376)
-          (time 2)
-        )
-        (node
-          (x 2816)
-          (y 1376)
-          (time 4)
-        )
-      )
+      (path-ref "67dce504-10e0-41cf-bc15-c4ba6e20b04e")
     )
     (platform
       (sprite "images/objects/platforms/icefloe_small.sprite")
-      (path
-        (node
-          (x 1918)
-          (y 1632)
-          (time 0.57)
-        )
-        (node
-          (x 1918)
-          (y 1628)
-          (time 0.3)
-        )
-        (node
-          (x 1918)
-          (y 1632)
-          (time 0.6)
-        )
-        (node
-          (x 1918)
-          (y 1636)
-          (time 0.3)
-        )
-      )
+      (path-ref "749f6b0c-0930-41ce-85b1-295a7daa0fa5")
     )
     (platform
       (sprite "images/objects/platforms/icefloe_small.sprite")
-      (path
-        (node
-          (x 1586)
-          (y 1632)
-          (time 0.5299998)
-        )
-        (node
-          (x 1586)
-          (y 1628)
-          (time 0.3)
-        )
-        (node
-          (x 1586)
-          (y 1632)
-          (time 0.6)
-        )
-        (node
-          (x 1586)
-          (y 1636)
-          (time 0.3)
-        )
-      )
+      (path-ref "1d078a7e-9139-4b1e-be9d-107073ea3905")
     )
     (platform
       (sprite "images/objects/platforms/icefloe_small.sprite")
-      (path
-        (node
-          (x 1244)
-          (y 1632)
-          (time 0.55)
-        )
-        (node
-          (x 1244)
-          (y 1628)
-          (time 0.3)
-        )
-        (node
-          (x 1244)
-          (y 1632)
-          (time 0.6)
-        )
-        (node
-          (x 1244)
-          (y 1636)
-          (time 0.3)
-        )
-      )
+      (path-ref "b1cff7de-fd3f-443b-914d-2f2db3c11755")
     )
     (platform
       (sprite "images/objects/platforms/icefloe_small.sprite")
-      (path
-        (node
-          (x 774)
-          (y 1632)
-          (time 0.5199997)
-        )
-        (node
-          (x 774)
-          (y 1628)
-          (time 0.3)
-        )
-        (node
-          (x 774)
-          (y 1632)
-          (time 0.6)
-        )
-        (node
-          (x 774)
-          (y 1636)
-          (time 0.3)
-        )
-      )
+      (path-ref "d3f9eed9-b55c-4465-a942-8b790ec96f90")
     )
     (platform
       (sprite "images/objects/platforms/icefloe_small.sprite")
-      (path
-        (node
-          (x 3392.5)
-          (y 1632.624)
-          (time 0.57)
-        )
-        (node
-          (x 3392.5)
-          (y 1628.624)
-          (time 0.3)
-        )
-        (node
-          (x 3392.5)
-          (y 1632.624)
-          (time 0.6)
-        )
-        (node
-          (x 3392.5)
-          (y 1636.624)
-          (time 0.3)
-        )
-      )
+      (path-ref "a363256e-9318-4004-8fdd-8be61474a70d")
     )
     (flyingsnowball
       (sprite "images/creatures/flying_snowball/flying_snowball.sprite")
@@ -314,6 +188,156 @@
     )
     (music
       (file "music/chipdisko.ogg")
+    )
+    (path
+      (name "67dce504-10e0-41cf-bc15-c4ba6e20b04e")
+      (path
+        (node
+          (x 2816)
+          (y 608)
+          (time 2)
+        )
+        (node
+          (x 2816)
+          (y 608)
+          (time 4)
+        )
+        (node
+          (x 2816)
+          (y 1376)
+          (time 2)
+        )
+        (node
+          (x 2816)
+          (y 1376)
+          (time 4)
+        )
+      )
+    )
+    (path
+      (name "749f6b0c-0930-41ce-85b1-295a7daa0fa5")
+      (path
+        (node
+          (x 1918)
+          (y 1632)
+          (time 0.57)
+        )
+        (node
+          (x 1918)
+          (y 1628)
+          (time 0.3)
+        )
+        (node
+          (x 1918)
+          (y 1632)
+          (time 0.6)
+        )
+        (node
+          (x 1918)
+          (y 1636)
+          (time 0.3)
+        )
+      )
+    )
+    (path
+      (name "1d078a7e-9139-4b1e-be9d-107073ea3905")
+      (path
+        (node
+          (x 1586)
+          (y 1632)
+          (time 0.5299998)
+        )
+        (node
+          (x 1586)
+          (y 1628)
+          (time 0.3)
+        )
+        (node
+          (x 1586)
+          (y 1632)
+          (time 0.6)
+        )
+        (node
+          (x 1586)
+          (y 1636)
+          (time 0.3)
+        )
+      )
+    )
+    (path
+      (name "b1cff7de-fd3f-443b-914d-2f2db3c11755")
+      (path
+        (node
+          (x 1244)
+          (y 1632)
+          (time 0.55)
+        )
+        (node
+          (x 1244)
+          (y 1628)
+          (time 0.3)
+        )
+        (node
+          (x 1244)
+          (y 1632)
+          (time 0.6)
+        )
+        (node
+          (x 1244)
+          (y 1636)
+          (time 0.3)
+        )
+      )
+    )
+    (path
+      (name "d3f9eed9-b55c-4465-a942-8b790ec96f90")
+      (path
+        (node
+          (x 774)
+          (y 1632)
+          (time 0.5199997)
+        )
+        (node
+          (x 774)
+          (y 1628)
+          (time 0.3)
+        )
+        (node
+          (x 774)
+          (y 1632)
+          (time 0.6)
+        )
+        (node
+          (x 774)
+          (y 1636)
+          (time 0.3)
+        )
+      )
+    )
+    (path
+      (name "a363256e-9318-4004-8fdd-8be61474a70d")
+      (path
+        (node
+          (x 3392.5)
+          (y 1632.624)
+          (time 0.57)
+        )
+        (node
+          (x 3392.5)
+          (y 1628.624)
+          (time 0.3)
+        )
+        (node
+          (x 3392.5)
+          (y 1632.624)
+          (time 0.6)
+        )
+        (node
+          (x 3392.5)
+          (y 1636.624)
+          (time 0.3)
+        )
+      )
     )
     (spawnpoint
       (name "main")
@@ -1208,78 +1232,23 @@
     )
     (platform
       (sprite "images/objects/flying_platform/flying_platform.sprite")
-      (path
-        (node
-          (x 576)
-          (y 2112)
-          (time 4)
-        )
-        (node
-          (x 576)
-          (y 2720)
-          (time 4)
-        )
-      )
+      (path-ref "1f4b28bb-156f-486f-adc9-37b8ab4f351d")
     )
     (platform
       (sprite "images/objects/flying_platform/flying_platform.sprite")
-      (path
-        (node
-          (x 704)
-          (y 2272)
-          (time 4)
-        )
-        (node
-          (x 960)
-          (y 2272)
-          (time 4)
-        )
-      )
+      (path-ref "768b8082-0043-46e3-8e00-3c8f473b27ec")
     )
     (platform
       (sprite "images/objects/flying_platform/flying_platform.sprite")
-      (path
-        (node
-          (x 960)
-          (y 2176)
-          (time 4)
-        )
-        (node
-          (x 960)
-          (y 1888)
-          (time 4)
-        )
-      )
+      (path-ref "f6f87237-70fe-4936-867d-02e722b69018")
     )
     (platform
       (sprite "images/objects/flying_platform/flying_platform.sprite")
-      (path
-        (node
-          (x 448)
-          (y 2272)
-          (time 4)
-        )
-        (node
-          (x 320)
-          (y 2272)
-          (time 4)
-        )
-      )
+      (path-ref "b0c65e4f-8ebd-4907-93a1-5c297fb11ca7")
     )
     (platform
       (sprite "images/objects/flying_platform/flying_platform.sprite")
-      (path
-        (node
-          (x 192)
-          (y 2176)
-          (time 4)
-        )
-        (node
-          (x 192)
-          (y 1888)
-          (time 4)
-        )
-      )
+      (path-ref "4317705b-f95b-40c5-a1c0-fb5b2e9b57ab")
     )
     (gradient
       (top_color 0 0.3137255 1)
@@ -1287,26 +1256,7 @@
     )
     (hurting_platform
       (sprite "images/objects/sawblade/sawblade.sprite")
-      (path
-        (node
-          (x 856)
-          (y 1104)
-          (time 2)
-        )
-        (node
-          (x 856)
-          (y 1104)
-        )
-        (node
-          (x 392)
-          (y 1104)
-          (time 2)
-        )
-        (node
-          (x 392)
-          (y 1104)
-        )
-      )
+      (path-ref "4710647e-0cf7-4d62-afc3-c9bfba3560bd")
     )
     (igel
       (direction "left")
@@ -1358,6 +1308,104 @@
     )
     (music
       (file "music/darkforestkeep.ogg")
+    )
+    (path
+      (name "1f4b28bb-156f-486f-adc9-37b8ab4f351d")
+      (path
+        (node
+          (x 576)
+          (y 2112)
+          (time 4)
+        )
+        (node
+          (x 576)
+          (y 2720)
+          (time 4)
+        )
+      )
+    )
+    (path
+      (name "768b8082-0043-46e3-8e00-3c8f473b27ec")
+      (path
+        (node
+          (x 704)
+          (y 2272)
+          (time 4)
+        )
+        (node
+          (x 960)
+          (y 2272)
+          (time 4)
+        )
+      )
+    )
+    (path
+      (name "f6f87237-70fe-4936-867d-02e722b69018")
+      (path
+        (node
+          (x 960)
+          (y 2176)
+          (time 4)
+        )
+        (node
+          (x 960)
+          (y 1888)
+          (time 4)
+        )
+      )
+    )
+    (path
+      (name "b0c65e4f-8ebd-4907-93a1-5c297fb11ca7")
+      (path
+        (node
+          (x 448)
+          (y 2272)
+          (time 4)
+        )
+        (node
+          (x 320)
+          (y 2272)
+          (time 4)
+        )
+      )
+    )
+    (path
+      (name "4317705b-f95b-40c5-a1c0-fb5b2e9b57ab")
+      (path
+        (node
+          (x 192)
+          (y 2176)
+          (time 4)
+        )
+        (node
+          (x 192)
+          (y 1888)
+          (time 4)
+        )
+      )
+    )
+    (path
+      (name "4710647e-0cf7-4d62-afc3-c9bfba3560bd")
+      (path
+        (node
+          (x 856)
+          (y 1104)
+          (time 2)
+        )
+        (node
+          (x 856)
+          (y 1104)
+        )
+        (node
+          (x 392)
+          (y 1104)
+          (time 2)
+        )
+        (node
+          (x 392)
+          (y 1104)
+        )
+      )
     )
     (skullyhop
       (direction "left")

@@ -199,6 +199,24 @@
     (music
       (file "music/voc-night.music")
     )
+    (path
+      (name "e8455363-f258-4bc4-8676-f689fe417969")
+      (path
+        (node
+          (x 10752)
+          (y 704)
+        )
+      )
+    )
+    (path
+      (name "960a5583-1a01-429c-a84e-779eb1dc9fcf")
+      (path
+        (node
+          (x 11552)
+          (y 768)
+        )
+      )
+    )
     (scripttrigger
       (script "Secret_out.fade(1,1);")
       (button #f)
@@ -355,12 +373,7 @@
       (solid #f)
       (z-pos 90)
       (name "Secret1")
-      (path
-        (node
-          (x 10752)
-          (y 704)
-        )
-      )
+      (path-ref "e8455363-f258-4bc4-8676-f689fe417969")
       (width 26)
       (height 3)
       (tiles
@@ -374,12 +387,7 @@
       (alpha 0)
       (z-pos -10)
       (name "Secret_out")
-      (path
-        (node
-          (x 11552)
-          (y 768)
-        )
-      )
+      (path-ref "960a5583-1a01-429c-a84e-779eb1dc9fcf")
       (width 3)
       (height 1)
       (tiles

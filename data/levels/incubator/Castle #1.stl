@@ -138,27 +138,7 @@
     (platform
       (running #f)
       (sprite "images/objects/platforms/wood-tiny.sprite")
-      (path
-        (mode "oneshot")
-        (node
-          (x 5440)
-          (y 704)
-          (time 5)
-        )
-        (node
-          (x 5920)
-          (y 704)
-          (time 10)
-        )
-        (node
-          (x 5920)
-          (y 2176)
-        )
-        (node
-          (x 7648)
-          (y 2176)
-        )
-      )
+      (path-ref "72e383ef-eac4-4d3c-9c90-cf4577e1eeb7")
     )
     (flyingsnowball
       (x 5696)
@@ -170,49 +150,15 @@
     )
     (hurting_platform
       (sprite "images/creatures/flame/flame.sprite")
-      (path
-        (mode "pingpong")
-        (node
-          (x 3616)
-          (y 1248)
-        )
-        (node
-          (x 3616)
-          (y 1440)
-        )
-        (node
-          (x 3616)
-          (y 1184)
-        )
-      )
+      (path-ref "bbdb6790-4b90-4c3b-8f3d-3e9825d9fbac")
     )
     (hurting_platform
       (sprite "images/creatures/flame/flame.sprite")
-      (path
-        (mode "pingpong")
-        (node
-          (x 3616)
-          (y 1344)
-        )
-        (node
-          (x 3616)
-          (y 1120)
-        )
-        (node
-          (x 3616)
-          (y 1312)
-          (time 3)
-        )
-      )
+      (path-ref "3d666093-ba0c-4563-b34c-a22a8ca93849")
     )
     (hurting_platform
       (sprite "images/creatures/flame/flame.sprite")
-      (path
-        (node
-          (x 3104)
-          (y 672)
-        )
-      )
+      (path-ref "17e14da4-9e8d-4f2a-8f2c-875f9c8d230c")
     )
     (icecrusher
       (x 4043)
@@ -377,6 +323,76 @@
     )
     (music
       (file "music/fortress.music")
+    )
+    (path
+      (name "72e383ef-eac4-4d3c-9c90-cf4577e1eeb7")
+      (path
+        (mode "oneshot")
+        (node
+          (x 5440)
+          (y 704)
+          (time 5)
+        )
+        (node
+          (x 5920)
+          (y 704)
+          (time 10)
+        )
+        (node
+          (x 5920)
+          (y 2176)
+        )
+        (node
+          (x 7648)
+          (y 2176)
+        )
+      )
+    )
+    (path
+      (name "bbdb6790-4b90-4c3b-8f3d-3e9825d9fbac")
+      (path
+        (mode "pingpong")
+        (node
+          (x 3616)
+          (y 1248)
+        )
+        (node
+          (x 3616)
+          (y 1440)
+        )
+        (node
+          (x 3616)
+          (y 1184)
+        )
+      )
+    )
+    (path
+      (name "3d666093-ba0c-4563-b34c-a22a8ca93849")
+      (path
+        (mode "pingpong")
+        (node
+          (x 3616)
+          (y 1344)
+        )
+        (node
+          (x 3616)
+          (y 1120)
+        )
+        (node
+          (x 3616)
+          (y 1312)
+          (time 3)
+        )
+      )
+    )
+    (path
+      (name "17e14da4-9e8d-4f2a-8f2c-875f9c8d230c")
+      (path
+        (node
+          (x 3104)
+          (y 672)
+        )
+      )
     )
     (powerup
       (sprite "images/powerups/egg/egg.sprite")

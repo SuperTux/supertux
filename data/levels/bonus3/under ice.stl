@@ -111,6 +111,24 @@
     (music
       (file "music/cave.music")
     )
+    (path
+      (name "5e7eabcf-d525-4e06-83db-0c22260410e5")
+      (path
+        (node
+          (x 2624)
+          (y 1056)
+        )
+      )
+    )
+    (path
+      (name "17177538-f644-4123-9293-bb86af181fee")
+      (path
+        (node
+          (x 2656)
+          (y 864)
+        )
+      )
+    )
     (scripttrigger
       (script "secretpole.fade (1.0, 0.1);")
       (button #f)
@@ -358,12 +376,7 @@
       (solid #f)
       (z-pos 190)
       (name "secret")
-      (path
-        (node
-          (x 2624)
-          (y 1056)
-        )
-      )
+      (path-ref "5e7eabcf-d525-4e06-83db-0c22260410e5")
       (width 12)
       (height 2)
       (tiles
@@ -375,12 +388,7 @@
       (solid #f)
       (z-pos 200)
       (name "secretpole")
-      (path
-        (node
-          (x 2656)
-          (y 864)
-        )
-      )
+      (path-ref "17177538-f644-4123-9293-bb86af181fee")
       (width 8)
       (height 8)
       (tiles

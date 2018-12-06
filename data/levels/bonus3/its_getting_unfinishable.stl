@@ -67,6 +67,15 @@
     (music
       (file "music/chipdisko.ogg")
     )
+    (path
+      (name "3d5fe49b-ca9d-42e2-9889-bd21b320a0aa")
+      (path
+        (node
+          (x 0)
+          (y 0)
+        )
+      )
+    )
     (powerup
       (sprite "images/powerups/iceflower/iceflower.sprite")
       (x 528)
@@ -227,12 +236,7 @@
       (solid #t)
       (z-pos 0)
       (name "Interactive")
-      (path
-        (node
-          (x 0)
-          (y 0)
-        )
-      )
+      (path-ref "3d5fe49b-ca9d-42e2-9889-bd21b320a0aa")
       (width 100)
       (height 35)
       (tiles

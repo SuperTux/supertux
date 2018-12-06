@@ -13,8 +13,7 @@
     )
     (camera
       (mode "normal")
-      (path
-      )
+      (path-ref "a3102524-da83-45ad-bd26-1a8f345e9cc3")
     )
     (lantern
       (x 224)
@@ -27,6 +26,11 @@
     (mrbomb
       (x 576)
       (y 544)
+    )
+    (path
+      (name "a3102524-da83-45ad-bd26-1a8f345e9cc3")
+      (path
+      )
     )
     (rock
       (x 50)

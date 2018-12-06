@@ -13,6 +13,15 @@
     (music
       (file "music/salcon.ogg")
     )
+    (path
+      (name "42485051-758d-4014-a3c1-7ee1ec7959cf")
+      (path
+        (node
+          (x 0)
+          (y 0)
+        )
+      )
+    )
     (special-tile
       (invisible-tile #t)
       (script "go_underground(true);")
@@ -393,12 +402,7 @@
       (alpha 0)
       (z-pos 400)
       (name "Underground_mask")
-      (path
-        (node
-          (x 0)
-          (y 0)
-        )
-      )
+      (path-ref "42485051-758d-4014-a3c1-7ee1ec7959cf")
       (width 50)
       (height 40)
       (tiles

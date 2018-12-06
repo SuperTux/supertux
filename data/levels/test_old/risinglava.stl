@@ -18,6 +18,20 @@
     (music
       (file "music/bossattack.music")
     )
+    (path
+      (name "b097b869-559d-4094-b449-fe4fa8583bc4")
+      (path
+        (node
+          (x 0)
+          (y 0)
+          (time 20)
+        )
+        (node
+          (x 0)
+          (y -1280)
+        )
+      )
+    )
     (scripttrigger
       (script "risinglava.goto_node(1);")
       (button #f)
@@ -179,17 +193,7 @@
       (solid #t)
       (z-pos 100)
       (name "risinglava")
-      (path
-        (node
-          (x 0)
-          (y 0)
-          (time 20)
-        )
-        (node
-          (x 0)
-          (y -1280)
-        )
-      )
+      (path-ref "b097b869-559d-4094-b449-fe4fa8583bc4")
       (width 30)
       (height 64)
       (tiles

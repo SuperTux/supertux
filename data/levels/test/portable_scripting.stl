@@ -31,6 +31,24 @@
       (x 669.4761)
       (y 630.9287)
     )
+    (path
+      (name "e8fd3bc3-113d-43b1-bae2-ce92b1b7dcc3")
+      (path
+        (node
+          (x 1116.19)
+          (y 355.0476)
+        )
+        (node
+          (x 1113.905)
+          (y 5.333328)
+        )
+        (node
+          (x 1116.191)
+          (y 355.8095)
+          (time 0.001)
+        )
+      )
+    )
     (rock
       (name "rock1")
       (sprite "images/objects/rock/rock.sprite")
@@ -114,21 +132,7 @@ if(a) {
       (solid #t)
       (z-pos 100)
       (name "barrier")
-      (path
-        (node
-          (x 1116.19)
-          (y 355.0476)
-        )
-        (node
-          (x 1113.905)
-          (y 5.333328)
-        )
-        (node
-          (x 1116.191)
-          (y 355.8095)
-          (time 0.001)
-        )
-      )
+      (path-ref "e8fd3bc3-113d-43b1-bae2-ce92b1b7dcc3")
       (width 3)
       (height 10)
       (tiles

@@ -105,6 +105,15 @@
     (music
       (file "music/theme.music")
     )
+    (path
+      (name "88974276-8394-4376-a21c-c502ff9b306e")
+      (path
+        (node
+          (x 2752)
+          (y 1280)
+        )
+      )
+    )
     (secretarea
       (fade-tilemap "secret")
       (width 28)
@@ -654,12 +663,7 @@
       (solid #f)
       (z-pos 190)
       (name "secret")
-      (path
-        (node
-          (x 2752)
-          (y 1280)
-        )
-      )
+      (path-ref "88974276-8394-4376-a21c-c502ff9b306e")
       (width 9)
       (height 7)
       (tiles

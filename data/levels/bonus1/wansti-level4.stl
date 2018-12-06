@@ -137,6 +137,24 @@
     (music
       (file "music/cave.music")
     )
+    (path
+      (name "f11cc4cf-9e62-4b23-85f0-de119b1e314d")
+      (path
+        (node
+          (x 10784)
+          (y 352)
+        )
+      )
+    )
+    (path
+      (name "280dbb14-ecad-48ae-8826-b2dec4f6e2cf")
+      (path
+        (node
+          (x 11200)
+          (y 672)
+        )
+      )
+    )
     (secretarea
       (fade-tilemap "secret2")
       (width 1009.213)
@@ -420,12 +438,7 @@
       (solid #f)
       (z-pos 101)
       (name "secret1")
-      (path
-        (node
-          (x 10784)
-          (y 352)
-        )
-      )
+      (path-ref "f11cc4cf-9e62-4b23-85f0-de119b1e314d")
       (width 17)
       (height 5)
       (tiles
@@ -484,12 +497,7 @@
       (solid #f)
       (z-pos 101)
       (name "secret2")
-      (path
-        (node
-          (x 11200)
-          (y 672)
-        )
-      )
+      (path-ref "280dbb14-ecad-48ae-8826-b2dec4f6e2cf")
       (width 33)
       (height 4)
       (tiles

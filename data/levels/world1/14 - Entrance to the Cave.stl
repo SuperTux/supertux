@@ -18,24 +18,7 @@
     )
     (platform
       (sprite "images/objects/platforms/wood-fivetiles.sprite")
-      (path
-        (node
-          (x 448)
-          (y 352)
-        )
-        (node
-          (x 448)
-          (y 352)
-        )
-        (node
-          (x 448)
-          (y 448)
-        )
-        (node
-          (x 448)
-          (y 448)
-        )
-      )
+      (path-ref "ed43a4a4-a562-4016-857e-c43f2cdc7e5e")
     )
     (icecrusher
       (x 8288)
@@ -107,6 +90,45 @@
     )
     (music
       (file "music/chipdisko.ogg")
+    )
+    (path
+      (name "ed43a4a4-a562-4016-857e-c43f2cdc7e5e")
+      (path
+        (node
+          (x 448)
+          (y 352)
+        )
+        (node
+          (x 448)
+          (y 352)
+        )
+        (node
+          (x 448)
+          (y 448)
+        )
+        (node
+          (x 448)
+          (y 448)
+        )
+      )
+    )
+    (path
+      (name "dce1aae7-23a5-4f62-bcfa-3d95b167142d")
+      (path
+        (node
+          (x 4064)
+          (y 320)
+        )
+      )
+    )
+    (path
+      (name "8dded466-35b1-435c-9eb3-9dddab18d10d")
+      (path
+        (node
+          (x 5888)
+          (y 0)
+        )
+      )
     )
     (secretarea
       (fade-tilemap "Secret")
@@ -297,12 +319,7 @@
       (solid #f)
       (z-pos 150)
       (name "Secret")
-      (path
-        (node
-          (x 4064)
-          (y 320)
-        )
-      )
+      (path-ref "dce1aae7-23a5-4f62-bcfa-3d95b167142d")
       (width 4)
       (height 7)
       (tiles
@@ -391,12 +408,7 @@
       (solid #f)
       (z-pos 150)
       (name "Secret2")
-      (path
-        (node
-          (x 5888)
-          (y 0)
-        )
-      )
+      (path-ref "8dded466-35b1-435c-9eb3-9dddab18d10d")
       (width 6)
       (height 5)
       (tiles

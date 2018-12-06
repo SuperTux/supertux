@@ -16,6 +16,32 @@
     )
     (platform
       (sprite "images/objects/platforms/small.sprite")
+      (path-ref "edd42247-6066-498c-a539-5773eb97b6ba")
+    )
+    (platform
+      (sprite "images/objects/platforms/small.sprite")
+      (path-ref "507c24de-f43d-4d2f-a75b-17b4ffffbdfe")
+    )
+    (platform
+      (sprite "images/objects/platforms/small.sprite")
+      (path-ref "e2da2be1-ce29-4091-bb4f-3387c360982c")
+    )
+    (platform
+      (sprite "images/objects/platforms/small.sprite")
+      (path-ref "c4e70052-e253-47b2-a65a-da9c92f9b73f")
+    )
+    (platform
+      (running #f)
+      (name "platform1")
+      (sprite "images/objects/platforms/vertical-wood.sprite")
+      (path-ref "10369310-574a-4e64-a9aa-4ffbc352808d")
+    )
+    (jumpy
+      (x 140)
+      (y 750)
+    )
+    (path
+      (name "edd42247-6066-498c-a539-5773eb97b6ba")
       (path
         (mode "pingpong")
         (node
@@ -33,8 +59,8 @@
         )
       )
     )
-    (platform
-      (sprite "images/objects/platforms/small.sprite")
+    (path
+      (name "507c24de-f43d-4d2f-a75b-17b4ffffbdfe")
       (path
         (mode "pingpong")
         (node
@@ -55,8 +81,8 @@
         )
       )
     )
-    (platform
-      (sprite "images/objects/platforms/small.sprite")
+    (path
+      (name "e2da2be1-ce29-4091-bb4f-3387c360982c")
       (path
         (node
           (x 328)
@@ -73,8 +99,8 @@
         )
       )
     )
-    (platform
-      (sprite "images/objects/platforms/small.sprite")
+    (path
+      (name "c4e70052-e253-47b2-a65a-da9c92f9b73f")
       (path
         (node
           (x 392)
@@ -95,10 +121,8 @@
         )
       )
     )
-    (platform
-      (running #f)
-      (name "platform1")
-      (sprite "images/objects/platforms/vertical-wood.sprite")
+    (path
+      (name "10369310-574a-4e64-a9aa-4ffbc352808d")
       (path
         (node
           (x 832)
@@ -109,10 +133,6 @@
           (y 704)
         )
       )
-    )
-    (jumpy
-      (x 140)
-      (y 750)
     )
     (powerup
       (sprite "images/powerups/egg/egg.sprite")

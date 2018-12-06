@@ -49,6 +49,15 @@
       (x 940)
       (y 576)
     )
+    (path
+      (name "07eca59c-f05f-44bd-9b9d-51284790d344")
+      (path
+        (node
+          (x 0)
+          (y 0)
+        )
+      )
+    )
     (particles-snow
       (enabled #f)
       (name "snow")
@@ -98,12 +107,7 @@
       (solid #t)
       (z-pos 0)
       (name "Interactive")
-      (path
-        (node
-          (x 0)
-          (y 0)
-        )
-      )
+      (path-ref "07eca59c-f05f-44bd-9b9d-51284790d344")
       (width 40)
       (height 35)
       (tiles

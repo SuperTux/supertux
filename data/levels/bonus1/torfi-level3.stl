@@ -77,6 +77,15 @@
     (music
       (file "music/chipdisko.ogg")
     )
+    (path
+      (name "da829360-70d2-4fc6-99b4-357b59e5189b")
+      (path
+        (node
+          (x 4480)
+          (y 320)
+        )
+      )
+    )
     (secretarea
       (fade-tilemap "secret")
       (width 156)
@@ -343,12 +352,7 @@
       (solid #f)
       (z-pos 101)
       (name "secret")
-      (path
-        (node
-          (x 4480)
-          (y 320)
-        )
-      )
+      (path-ref "da829360-70d2-4fc6-99b4-357b59e5189b")
       (width 12)
       (height 5)
       (tiles

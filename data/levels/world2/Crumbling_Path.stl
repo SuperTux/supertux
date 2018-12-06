@@ -20,54 +20,15 @@
     )
     (coin
       (sprite "images/objects/coin/coin.sprite")
-      (path
-        (node
-          (x 3904)
-          (y 864)
-        )
-        (node
-          (x 3871)
-          (y 928)
-        )
-        (node
-          (x 3936)
-          (y 928)
-        )
-      )
+      (path-ref "a4dd4dca-7cd3-40a8-b542-7a8b272a5594")
     )
     (coin
       (sprite "images/objects/coin/coin.sprite")
-      (path
-        (node
-          (x 3936)
-          (y 928)
-        )
-        (node
-          (x 3905)
-          (y 864)
-        )
-        (node
-          (x 3871)
-          (y 928)
-        )
-      )
+      (path-ref "e0a544ec-702d-4aff-b5c2-43d2a38c507e")
     )
     (coin
       (sprite "images/objects/coin/coin.sprite")
-      (path
-        (node
-          (x 3871)
-          (y 928)
-        )
-        (node
-          (x 3936)
-          (y 928)
-        )
-        (node
-          (x 3905)
-          (y 864)
-        )
-      )
+      (path-ref "2fccb52d-b425-45b5-b119-e77a0441c5a6")
     )
     (firefly
       (sprite "images/objects/resetpoints/default-resetpoint.sprite")
@@ -114,6 +75,57 @@
     )
     (music
       (file "music/forest2.ogg")
+    )
+    (path
+      (name "a4dd4dca-7cd3-40a8-b542-7a8b272a5594")
+      (path
+        (node
+          (x 3904)
+          (y 864)
+        )
+        (node
+          (x 3871)
+          (y 928)
+        )
+        (node
+          (x 3936)
+          (y 928)
+        )
+      )
+    )
+    (path
+      (name "e0a544ec-702d-4aff-b5c2-43d2a38c507e")
+      (path
+        (node
+          (x 3936)
+          (y 928)
+        )
+        (node
+          (x 3905)
+          (y 864)
+        )
+        (node
+          (x 3871)
+          (y 928)
+        )
+      )
+    )
+    (path
+      (name "2fccb52d-b425-45b5-b119-e77a0441c5a6")
+      (path
+        (node
+          (x 3871)
+          (y 928)
+        )
+        (node
+          (x 3936)
+          (y 928)
+        )
+        (node
+          (x 3905)
+          (y 864)
+        )
+      )
     )
     (poisonivy
       (direction "left")

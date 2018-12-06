@@ -39,6 +39,24 @@
     (music
       (file "music/cave.music")
     )
+    (path
+      (name "75d76775-4f74-4fe0-8212-a9c462230742")
+      (path
+        (node
+          (x 224)
+          (y 320)
+        )
+      )
+    )
+    (path
+      (name "429ad8f1-6329-4313-b221-85dc134a4e9c")
+      (path
+        (node
+          (x 352)
+          (y 1568)
+        )
+      )
+    )
     (poisonivy
       (x 736)
       (y 1120)
@@ -294,12 +312,7 @@
       (solid #f)
       (z-pos 100)
       (name "Foreground")
-      (path
-        (node
-          (x 224)
-          (y 320)
-        )
-      )
+      (path-ref "75d76775-4f74-4fe0-8212-a9c462230742")
       (width 2)
       (height 1)
       (tiles
@@ -310,12 +323,7 @@
       (solid #f)
       (z-pos 10)
       (name "BackForeground")
-      (path
-        (node
-          (x 352)
-          (y 1568)
-        )
-      )
+      (path-ref "429ad8f1-6329-4313-b221-85dc134a4e9c")
       (width 2)
       (height 2)
       (tiles

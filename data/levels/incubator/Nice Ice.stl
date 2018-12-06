@@ -119,6 +119,40 @@
     (music
       (file "music/forest3.ogg")
     )
+    (path
+      (name "8eec196d-b5d6-492d-8e9e-83e7c2755a70")
+      (path
+        (node
+          (x 0)
+          (y 0)
+        )
+      )
+    )
+    (path
+      (name "1f8bac2c-4bf3-4a60-87f3-c920923fd49c")
+      (path
+        (mode "oneshot")
+        (node
+          (x 672)
+          (y 992)
+          (time 10)
+        )
+        (node
+          (x 1376)
+          (y 1088)
+          (time 300)
+        )
+      )
+    )
+    (path
+      (name "fe8b56e3-9f78-4aec-9e96-864aa8611ad9")
+      (path
+        (node
+          (x 1728)
+          (y 928)
+        )
+      )
+    )
     (pushbutton
       (script "IceStonePlatform.start_moving();")
       (x 545.929)
@@ -315,12 +349,7 @@
     (tilemap
       (solid #f)
       (z-pos 100)
-      (path
-        (node
-          (x 0)
-          (y 0)
-        )
-      )
+      (path-ref "8eec196d-b5d6-492d-8e9e-83e7c2755a70")
       (width 336)
       (height 80)
       (tiles
@@ -410,19 +439,7 @@
       (solid #t)
       (z-pos 1)
       (name "IceStonePlatform")
-      (path
-        (mode "oneshot")
-        (node
-          (x 672)
-          (y 992)
-          (time 10)
-        )
-        (node
-          (x 1376)
-          (y 1088)
-          (time 300)
-        )
-      )
+      (path-ref "1f8bac2c-4bf3-4a60-87f3-c920923fd49c")
       (width 5)
       (height 3)
       (tiles
@@ -435,12 +452,7 @@
       (solid #t)
       (z-pos -1)
       (name "extra")
-      (path
-        (node
-          (x 1728)
-          (y 928)
-        )
-      )
+      (path-ref "fe8b56e3-9f78-4aec-9e96-864aa8611ad9")
       (width 2)
       (height 3)
       (tiles

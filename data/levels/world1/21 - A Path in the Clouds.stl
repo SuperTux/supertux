@@ -179,6 +179,24 @@
     (music
       (file "music/chipdisko.ogg")
     )
+    (path
+      (name "9d9a5283-9f95-4841-a60e-bc2a9779b6d5")
+      (path
+        (node
+          (x 13024)
+          (y 32)
+        )
+      )
+    )
+    (path
+      (name "15366bc8-612b-4991-a47d-ff0a87ff1c3e")
+      (path
+        (node
+          (x 13056)
+          (y 224)
+        )
+      )
+    )
     (secretarea
       (fade-tilemap "secret1")
       (width 1970)
@@ -353,12 +371,7 @@
       (solid #f)
       (z-pos 101)
       (name "secret1")
-      (path
-        (node
-          (x 13024)
-          (y 32)
-        )
-      )
+      (path-ref "9d9a5283-9f95-4841-a60e-bc2a9779b6d5")
       (width 64)
       (height 9)
       (tiles
@@ -449,12 +462,7 @@
       (solid #f)
       (z-pos -1)
       (name "secret_background")
-      (path
-        (node
-          (x 13056)
-          (y 224)
-        )
-      )
+      (path-ref "15366bc8-612b-4991-a47d-ff0a87ff1c3e")
       (width 60)
       (height 1)
       (tiles

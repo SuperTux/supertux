@@ -450,6 +450,33 @@
     (music
       (file "music/cave.music")
     )
+    (path
+      (name "1b913a37-9e30-447a-8b78-bb9d5a55354a")
+      (path
+        (node
+          (x 1344)
+          (y 192)
+        )
+      )
+    )
+    (path
+      (name "4f2c9083-c536-48de-9afa-ca27193000a2")
+      (path
+        (node
+          (x 3008)
+          (y 448)
+        )
+      )
+    )
+    (path
+      (name "c9efd9f2-6e15-4c6d-a4f5-f7391e88e41f")
+      (path
+        (node
+          (x 5120)
+          (y 352)
+        )
+      )
+    )
     (powerup
       (sprite "images/powerups/1up/1up.sprite")
       (x 5376)
@@ -757,12 +784,7 @@
       (alpha 0.9)
       (z-pos 100)
       (name "secret")
-      (path
-        (node
-          (x 1344)
-          (y 192)
-        )
-      )
+      (path-ref "1b913a37-9e30-447a-8b78-bb9d5a55354a")
       (width 8)
       (height 5)
       (tiles
@@ -777,12 +799,7 @@
       (solid #f)
       (z-pos 102)
       (name "secret2")
-      (path
-        (node
-          (x 3008)
-          (y 448)
-        )
-      )
+      (path-ref "4f2c9083-c536-48de-9afa-ca27193000a2")
       (width 26)
       (height 8)
       (tiles
@@ -800,12 +817,7 @@
       (solid #f)
       (z-pos 102)
       (name "secret3")
-      (path
-        (node
-          (x 5120)
-          (y 352)
-        )
-      )
+      (path-ref "c9efd9f2-6e15-4c6d-a4f5-f7391e88e41f")
       (width 11)
       (height 11)
       (tiles

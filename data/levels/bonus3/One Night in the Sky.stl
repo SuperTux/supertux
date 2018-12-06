@@ -80,6 +80,42 @@
     (music
       (file "/music/cave.music")
     )
+    (path
+      (name "271c83e3-9e38-4698-a11b-15f44d47d431")
+      (path
+        (node
+          (x 0)
+          (y 0)
+        )
+      )
+    )
+    (path
+      (name "91592969-cc75-445b-a4bd-262aefa4cdea")
+      (path
+        (node
+          (x 7488)
+          (y 448)
+        )
+      )
+    )
+    (path
+      (name "fb6f4908-5086-47a8-b6cf-18cb95138d51")
+      (path
+        (node
+          (x 2976)
+          (y 928)
+        )
+      )
+    )
+    (path
+      (name "082720f1-d53d-4d05-a884-9a419d659ba8")
+      (path
+        (node
+          (x 7488)
+          (y 704)
+        )
+      )
+    )
     (secretarea
       (fade-tilemap "secret1")
       (width 232)
@@ -149,12 +185,7 @@
       (solid #f)
       (z-pos -100)
       (name "Background")
-      (path
-        (node
-          (x 0)
-          (y 0)
-        )
-      )
+      (path-ref "271c83e3-9e38-4698-a11b-15f44d47d431")
       (width 250)
       (height 35)
       (tiles
@@ -243,12 +274,7 @@
       (solid #f)
       (z-pos 100)
       (name "Foreground")
-      (path
-        (node
-          (x 7488)
-          (y 448)
-        )
-      )
+      (path-ref "91592969-cc75-445b-a4bd-262aefa4cdea")
       (width 1)
       (height 11)
       (tiles
@@ -269,12 +295,7 @@
       (solid #f)
       (z-pos 99)
       (name "secret1")
-      (path
-        (node
-          (x 2976)
-          (y 928)
-        )
-      )
+      (path-ref "fb6f4908-5086-47a8-b6cf-18cb95138d51")
       (width 8)
       (height 6)
       (tiles
@@ -290,12 +311,7 @@
       (solid #f)
       (z-pos 101)
       (name "Foreforeground")
-      (path
-        (node
-          (x 7488)
-          (y 704)
-        )
-      )
+      (path-ref "082720f1-d53d-4d05-a884-9a419d659ba8")
       (width 16)
       (height 3)
       (tiles
