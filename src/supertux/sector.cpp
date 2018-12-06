@@ -581,15 +581,18 @@ Sector::save(Writer &writer)
     }
   }
 
-  // saving spawnpoints
-  /*for(auto i = spawnpoints.begin(); i != spawnpoints.end(); ++i) {
-    std::shared_ptr<SpawnPoint> spawny = *i;
-    spawny->save(writer);
-  }*/
-  // Do not save spawnpoints since we have spawnpoint markers.
-
-  // saving objects (not really)
+  // saving objects;
+  std::vector<GameObject*> objects;
   for (auto& obj : get_objects()) {
+    objects.push_back(obj.get());
+  }
+
+  std::stable_sort(objects.begin(), objects.end(),
+                   [](const GameObject* lhs, GameObject* rhs) {
+                     return lhs->get_class() < rhs->get_class();
+                   });
+
+  for (auto& obj : objects) {
     if (obj->is_saveable()) {
       writer.start_list(obj->get_class());
       obj->save(writer);
