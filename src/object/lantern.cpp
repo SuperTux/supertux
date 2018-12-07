@@ -55,7 +55,11 @@ ObjectSettings
 Lantern::get_settings()
 {
   ObjectSettings result = Rock::get_settings();
+
   result.add_color(_("Color"), &lightcolor, "color");
+
+  result.reorder({"x", "y", "color"});
+
   return result;
 }
 
