@@ -829,7 +829,7 @@ BadGuy::get_settings()
   result.add_direction(_("Direction"), &m_start_dir, Direction::AUTO, "direction");
   result.add_script(_("Death script"), &m_dead_script, "dead-script");
 
-  result.reorder({"direction", "x", "y"});
+  result.reorder({"direction", "sprite", "x", "y"});
 
   return result;
 }
