@@ -42,6 +42,8 @@
       (x 323)
       (y 74)
     )
+    (music
+    )
     (snowball
       (x 259)
       (y 303)
@@ -125,6 +127,8 @@
       (spawnpoint "behind")
       (x 352)
       (y 256)
+    )
+    (music
     )
     (secretarea
       (message "good jumper")

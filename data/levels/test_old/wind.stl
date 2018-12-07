@@ -14,6 +14,8 @@
     (camera
       (mode "normal")
     )
+    (music
+    )
     (spawnpoint
       (name "main")
       (x 668.0976)

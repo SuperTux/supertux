@@ -1742,6 +1742,8 @@
       (top_color 0 0 1)
       (bottom_color 0 0 1)
     )
+    (music
+    )
     (scripttrigger
       (script "Level.spawn(\"pada1\",\"main\")")
       (button #f)
@@ -1835,6 +1837,8 @@
     (gradient
       (top_color 0 0 1)
       (bottom_color 0 0 1)
+    )
+    (music
     )
     (scripttrigger
       (script "Level.spawn(\"crystalcave\",\"main\")")
@@ -6104,6 +6108,8 @@ platform2.goto_node(1)")
     (door
       (x 384)
       (y 5792)
+    )
+    (music
     )
     (path
       (name "fa1832e0-52fe-46a2-ae80-0fecb6ecc97e")

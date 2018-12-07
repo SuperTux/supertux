@@ -17,6 +17,8 @@
     (camera
       (mode "normal")
     )
+    (music
+    )
     (poisonivy
       (x 210.0589)
       (y 241.3137)

@@ -19,6 +19,8 @@
     (camera
       (mode "normal")
     )
+    (music
+    )
     (powerup
       (script "
       add_key(\"water\");

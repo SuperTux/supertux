@@ -15,6 +15,8 @@
     (camera
       (mode "normal")
     )
+    (music
+    )
     (powerup
       (script "add_key(\"wood\");")
       (disable-physics #t)

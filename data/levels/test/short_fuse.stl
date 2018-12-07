@@ -12,6 +12,8 @@
     (camera
       (mode "normal")
     )
+    (music
+    )
     (short_fuse
       (x 192)
       (y 1024)

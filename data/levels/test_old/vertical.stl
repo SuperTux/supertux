@@ -11,6 +11,8 @@
       (top_color 0 0 0.2)
       (bottom_color 0 0 0.6)
     )
+    (music
+    )
     (spawnpoint
       (name "main")
       (x 100)

@@ -19,6 +19,8 @@
     (camera
       (mode "normal")
     )
+    (music
+    )
     (path
       (name "bicyclepath")
       (path

@@ -17,6 +17,8 @@
     (camera
       (mode "normal")
     )
+    (music
+    )
     (powerup
       (sprite "images/powerups/egg/egg.sprite")
       (x 128)

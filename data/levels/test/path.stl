@@ -10,6 +10,8 @@
     (camera
       (mode "normal")
     )
+    (music
+    )
     (path
       (name "path1")
       (path

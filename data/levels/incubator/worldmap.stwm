@@ -156,6 +156,8 @@
       (x 32)
       (y 14)
     )
+    (music
+    )
     (tilemap
       (solid #t)
       (z-pos 0)

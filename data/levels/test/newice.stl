@@ -465,6 +465,8 @@ if(settings.get_ambient_red() !=1){
     (camera
       (mode "normal")
     )
+    (music
+    )
     (spawnpoint
       (name "main")
       (x 96)

@@ -26,6 +26,8 @@
       (sprite "images/objects/sawblade/sawblade.sprite")
       (path-ref "3fbe39bf-f598-4159-974f-426b365cdd88")
     )
+    (music
+    )
     (path
       (name "783d3519-bbe6-4c6b-a1b9-594d6952cb5f")
       (path

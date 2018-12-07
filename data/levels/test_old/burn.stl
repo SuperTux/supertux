@@ -33,6 +33,8 @@
       (x 640)
       (y 128)
     )
+    (music
+    )
     (powerup
       (sprite "images/powerups/fireflower/fireflower.sprite")
       (x 32)

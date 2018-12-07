@@ -12,6 +12,8 @@
     (camera
       (mode "normal")
     )
+    (music
+    )
     (snowball
       (x 99)
       (y 324)

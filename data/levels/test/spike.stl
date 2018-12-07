@@ -89,6 +89,8 @@
     (camera
       (mode "normal")
     )
+    (music
+    )
     (spawnpoint
       (name "main")
       (x 96)

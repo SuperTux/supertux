@@ -94,6 +94,8 @@
       (x 700)
       (y 864)
     )
+    (music
+    )
     (spawnpoint
       (name "main")
       (x 96)

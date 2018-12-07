@@ -67,6 +67,8 @@
       (x 32)
       (y 96)
     )
+    (music
+    )
     (spawnpoint
       (name "main")
       (x 96)

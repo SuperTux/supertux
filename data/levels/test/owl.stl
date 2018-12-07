@@ -12,6 +12,8 @@
     (camera
       (mode "normal")
     )
+    (music
+    )
     (owl
       (x 704)
       (y 896)

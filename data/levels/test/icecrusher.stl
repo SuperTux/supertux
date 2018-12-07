@@ -40,6 +40,8 @@
       (x 736)
       (y 512)
     )
+    (music
+    )
     (powerup
       (sprite "images/powerups/egg/egg.sprite")
       (x 100)

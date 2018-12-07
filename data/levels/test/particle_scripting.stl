@@ -41,6 +41,8 @@
       (x 940)
       (y 576)
     )
+    (music
+    )
     (particles-clouds
       (enabled #f)
       (name "clouds")

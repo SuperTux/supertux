@@ -28,6 +28,8 @@
     (camera
       (mode "normal")
     )
+    (music
+    )
     (particles-rain
     )
     (path

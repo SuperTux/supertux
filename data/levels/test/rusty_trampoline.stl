@@ -18,6 +18,8 @@
     (camera
       (mode "normal")
     )
+    (music
+    )
     (rustytrampoline
       (counter 5)
       (x 160)
