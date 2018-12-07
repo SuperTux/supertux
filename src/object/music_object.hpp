@@ -39,6 +39,7 @@ public:
 
   virtual std::string get_class() const override { return "music"; }
   virtual std::string get_display_name() const override { return _("Music"); }
+  virtual const std::string get_icon_path() const override { return "images/engine/editor/music.png"; }
 
   virtual ObjectSettings get_settings() override;
 
