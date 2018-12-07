@@ -278,7 +278,7 @@ WillOWisp::get_settings()
   result.add_float(_("Vanish range"), &m_vanish_range, "vanish-range", VANISH_RANGE);
   result.add_float(_("Fly speed"), &m_flyspeed, "flyspeed", FLYSPEED);
 
-  result.reorder({"sector", "spawnpoint", "x", "y"});
+  result.reorder({"sector", "spawnpoint", "track-range", "x", "y"});
 
   return result;
 }
