@@ -215,6 +215,8 @@ Camera::get_settings()
                   {"normal", "manual", "autoscroll"},
                   {}, "mode");
 
+  result.add_path_ref(_("Path"), get_path_ref(), "path-ref");
+
   if (get_walker() && get_path()->is_valid()) {
     result.add_walk_mode(_("Path Mode"), &get_path()->m_mode, {}, {});
   }

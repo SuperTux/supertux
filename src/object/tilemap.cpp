@@ -222,6 +222,7 @@ TileMap::get_settings()
                   static_cast<int>(DrawingTarget::COLORMAP),
                   "target");
 
+  result.add_path_ref(_("Path"), get_path_ref(), "path-ref");
   m_add_path = get_walker() && get_path() && get_path()->is_valid();
   result.add_bool(_("Following path"), &m_add_path);
 
@@ -232,7 +233,7 @@ TileMap::get_settings()
 
   result.add_tiles(_("Tiles"), this, "tiles");
 
-  result.reorder({"solid", "speed", "speed-y", "tint", "alpha", "z-pos", "name", "width", "height", "tiles"});
+  result.reorder({"solid", "speed", "speed-y", "tint", "alpha", "z-pos", "name", "path-ref", "width", "height", "tiles"});
 
   if (!m_editor_active) {
     result.add_remove();
