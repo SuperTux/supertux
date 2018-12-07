@@ -269,6 +269,8 @@ Coin::get_settings()
 
   result.add_script(_("Collect script"), &m_collect_script, "collect-script");
 
+  result.reorder({"collect-script", "path-ref"});
+
   return result;
 }
 

@@ -219,4 +219,14 @@ Owl::ignite()
   BadGuy::ignite();
 }
 
+ObjectSettings
+Owl::get_settings()
+{
+  ObjectSettings result = BadGuy::get_settings();
+
+  result.add_text(_("Carry"), &carried_obj_name, "carry", std::string("skydive"));
+
+  return result;
+}
+
 /* EOF */

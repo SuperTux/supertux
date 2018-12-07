@@ -58,7 +58,7 @@ Lantern::get_settings()
 
   result.add_color(_("Color"), &lightcolor, "color", Color::BLACK);
 
-  result.reorder({"color", "x", "y"});
+  result.reorder({"color", "name", "x", "y"});
 
   return result;
 }

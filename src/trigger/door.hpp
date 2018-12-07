@@ -55,6 +55,10 @@ private:
   std::string script;
   SpritePtr sprite; /**< "door" sprite to render */
   Timer stay_open_timer; /**< time until door will close again */
+
+private:
+  Door(const Door&) = delete;
+  Door& operator=(const Door&) = delete;
 };
 
 #endif

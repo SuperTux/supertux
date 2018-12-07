@@ -78,7 +78,7 @@ Climbable::get_settings()
   // result.add_float(_("Width"), &new_size.x, "width");
   // result.add_float(_("Height"), &new_size.y, "height");
 
-  result.add_text(_("Message"), &message, "message");
+  result.add_translatable_text(_("Message"), &message, "message");
 
   result.reorder({"message", "region", "x", "y"});
 
