@@ -185,12 +185,12 @@ Level::get_total_coins() const
       auto block = dynamic_cast<BonusBlock*>(o.get());
       if (block)
       {
-        if (block->get_contents() == BonusBlock::CONTENT_COIN)
+        if (block->get_contents() == BonusBlock::Content::COIN)
         {
           total_coins += block->get_hit_counter();
           continue;
-        } else if (block->get_contents() == BonusBlock::CONTENT_RAIN ||
-                   block->get_contents() == BonusBlock::CONTENT_EXPLODE)
+        } else if (block->get_contents() == BonusBlock::Content::RAIN ||
+                   block->get_contents() == BonusBlock::Content::EXPLODE)
         {
           total_coins += 10;
           continue;

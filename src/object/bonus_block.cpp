@@ -41,7 +41,7 @@
 #include "video/drawing_context.hpp"
 #include "video/surface.hpp"
 
-BonusBlock::BonusBlock(const Vector& pos, int data) :
+BonusBlock::BonusBlock(const Vector& pos, int tile_data) :
   Block(SpriteManager::current()->create("images/objects/bonus_block/bonusblock.sprite")),
   m_contents(),
   m_object(),
@@ -51,19 +51,18 @@ BonusBlock::BonusBlock(const Vector& pos, int data) :
 {
   m_col.m_bbox.set_pos(pos);
   sprite->set_action("normal");
-  m_contents = get_content_by_data(data);
-  preload_contents(data);
+  m_contents = get_content_by_data(tile_data);
+  preload_contents(tile_data);
 }
 
 BonusBlock::BonusBlock(const ReaderMapping& mapping) :
   Block(mapping, "images/objects/bonus_block/bonusblock.sprite"),
-  m_contents(),
+  m_contents(Content::COIN),
   m_object(),
   m_hit_counter(1),
   m_script(),
   m_lightsprite()
 {
-  m_contents = CONTENT_COIN;
   auto iter = mapping.get_iter();
   while (iter.next()) {
     const std::string& token = iter.get_key();
@@ -81,9 +80,10 @@ BonusBlock::BonusBlock(const ReaderMapping& mapping) :
     } else if (token == "contents") {
       std::string contentstring;
       iter.get(contentstring);
+
       m_contents = get_content_from_string(contentstring);
 
-      if (m_contents == CONTENT_CUSTOM)
+      if (m_contents == Content::CUSTOM)
       {
         boost::optional<ReaderCollection> content_collection;
         if (!mapping.get("custom-contents", content_collection))
@@ -114,7 +114,7 @@ BonusBlock::BonusBlock(const ReaderMapping& mapping) :
     } else if (token == "custom-contents") {
       // handled elsewhere
     } else {
-      if (m_contents == CONTENT_CUSTOM && !m_object) {
+      if (m_contents == Content::CUSTOM && !m_object) {
         // FIXME: This an ugly mess, could probably be removed as of
         // 16. Aug 2018 no level in either the supertux or the
         // addon-src repository is using this anymore
@@ -133,35 +133,37 @@ BonusBlock::BonusBlock(const ReaderMapping& mapping) :
     }
   }
 
-  if (m_contents == CONTENT_CUSTOM && !m_object)
+  if (m_contents == Content::CUSTOM && !m_object)
     throw std::runtime_error("Need to specify content object for custom block");
-  if (m_contents == CONTENT_LIGHT) {
+  if (m_contents == Content::LIGHT) {
     SoundManager::current()->preload("sounds/switch.ogg");
     m_lightsprite = Surface::from_file("/images/objects/lightmap_light/bonusblock_light.png");
   }
 }
 
-BonusBlock::Contents
-BonusBlock::get_content_by_data(int d) const
+BonusBlock::Content
+BonusBlock::get_content_by_data(int tile_data) const
 {
-  switch (d) {
-    case 1: return CONTENT_COIN;
-    case 2: return CONTENT_FIREGROW;
-    case 3: return CONTENT_STAR;
-    case 4: return CONTENT_1UP;
-    case 5: return CONTENT_ICEGROW;
-    case 6: return CONTENT_LIGHT;
-    case 7: return CONTENT_TRAMPOLINE;
-    case 8: return CONTENT_CUSTOM; // Trampoline
-    case 9: return CONTENT_CUSTOM; // Rock
-    case 10: return CONTENT_RAIN;
-    case 11: return CONTENT_EXPLODE;
-    case 12: return CONTENT_CUSTOM; // Red potion
-    case 13: return CONTENT_AIRGROW;
-    case 14: return CONTENT_EARTHGROW;
+  // Warning: 'tile_data' can't be cast to 'Content', this manual
+  // conversion is necessary
+  switch (tile_data) {
+    case 1: return Content::COIN;
+    case 2: return Content::FIREGROW;
+    case 3: return Content::STAR;
+    case 4: return Content::ONEUP;
+    case 5: return Content::ICEGROW;
+    case 6: return Content::LIGHT;
+    case 7: return Content::TRAMPOLINE;
+    case 8: return Content::CUSTOM; // Trampoline
+    case 9: return Content::CUSTOM; // Rock
+    case 10: return Content::RAIN;
+    case 11: return Content::EXPLODE;
+    case 12: return Content::CUSTOM; // Red potion
+    case 13: return Content::AIRGROW;
+    case 14: return Content::EARTHGROW;
     default:
       log_warning << "Invalid box contents" << std::endl;
-      return CONTENT_COIN;
+      return Content::COIN;
   }
 }
 
@@ -180,10 +182,9 @@ BonusBlock::get_settings()
                   {_("Coin"), _("Growth (fire flower)"), _("Growth (ice flower)"), _("Growth (air flower)"),
                    _("Growth (earth flower)"), _("Star"), _("Tux doll"), _("Custom"), _("Script"), _("Light"),
                    _("Trampoline"), _("Coin rain"), _("Coin explosion")},
-                  {"coin", "firegrow" "icegrow", "airgrow",
-                   "earthgrow", "star", "1up", "custom", "script", "light",
-                   "trampoline", "rain", "explode"},
-                  {}, "contents");
+                  {"coin", "firegrow", "icegrow", "airgrow", "earthgrow", "star",
+                   "1up", "custom", "script", "light", "trampoline", "rain", "explode"},
+                  static_cast<int>(Content::COIN), "contents");
 
   result.reorder({"script", "count", "sprite", "x", "y"});
 
@@ -242,7 +243,7 @@ BonusBlock::try_open(Player* player)
   Direction direction = (player->get_bbox().get_middle().x > m_col.m_bbox.get_middle().x) ? Direction::LEFT : Direction::RIGHT;
 
   switch (m_contents) {
-    case CONTENT_COIN:
+    case Content::COIN:
     {
       Sector::get().add<BouncyCoin>(get_pos(), true);
       player->get_status().add_coins(1);
@@ -251,55 +252,55 @@ BonusBlock::try_open(Player* player)
       break;
     }
 
-    case CONTENT_FIREGROW:
+    case Content::FIREGROW:
     {
       raise_growup_bonus(player, FIRE_BONUS, direction);
       break;
     }
 
-    case CONTENT_ICEGROW:
+    case Content::ICEGROW:
     {
       raise_growup_bonus(player, ICE_BONUS, direction);
       break;
     }
 
-    case CONTENT_AIRGROW:
+    case Content::AIRGROW:
     {
       raise_growup_bonus(player, AIR_BONUS, direction);
       break;
     }
 
-    case CONTENT_EARTHGROW:
+    case Content::EARTHGROW:
     {
       raise_growup_bonus(player, EARTH_BONUS, direction);
       break;
     }
 
-    case CONTENT_STAR:
+    case Content::STAR:
     {
       Sector::get().add<Star>(get_pos() + Vector(0, -32), direction);
       SoundManager::current()->play("sounds/upgrade.wav");
       break;
     }
 
-    case CONTENT_1UP:
+    case Content::ONEUP:
     {
       Sector::get().add<OneUp>(get_pos(), direction);
       SoundManager::current()->play("sounds/upgrade.wav");
       break;
     }
 
-    case CONTENT_CUSTOM:
+    case Content::CUSTOM:
     {
       Sector::get().add<SpecialRiser>(get_pos(), std::move(m_object));
       SoundManager::current()->play("sounds/upgrade.wav");
       break;
     }
 
-    case CONTENT_SCRIPT:
+    case Content::SCRIPT:
     { break; } // because scripts always run, this prevents default contents from being assumed
 
-    case CONTENT_LIGHT:
+    case Content::LIGHT:
     {
       if (sprite->get_action() == "on")
         sprite->set_action("off");
@@ -308,20 +309,20 @@ BonusBlock::try_open(Player* player)
       SoundManager::current()->play("sounds/switch.ogg");
       break;
     }
-    case CONTENT_TRAMPOLINE:
+    case Content::TRAMPOLINE:
     {
       Sector::get().add<SpecialRiser>(get_pos(), std::make_unique<Trampoline>(get_pos(), false));
       SoundManager::current()->play("sounds/upgrade.wav");
       break;
     }
-    case CONTENT_RAIN:
+    case Content::RAIN:
     {
       m_hit_counter = 1; // multiple hits of coin rain is not allowed
       Sector::get().add<CoinRain>(get_pos(), true);
       SoundManager::current()->play("sounds/upgrade.wav");
       break;
     }
-    case CONTENT_EXPLODE:
+    case Content::EXPLODE:
     {
       m_hit_counter = 1; // multiple hits of coin explode is not allowed
       Sector::get().add<CoinExplode>(get_pos() + Vector (0, -40));
@@ -335,7 +336,7 @@ BonusBlock::try_open(Player* player)
   }
 
   start_bounce(player);
-  if (m_hit_counter <= 0 || m_contents == CONTENT_LIGHT) { //use 0 to allow infinite hits
+  if (m_hit_counter <= 0 || m_contents == Content::LIGHT) { //use 0 to allow infinite hits
   } else if (m_hit_counter == 1) {
     sprite->set_action("empty");
   } else {
@@ -358,7 +359,7 @@ BonusBlock::try_drop(Player *player)
   dest_.p2.x = m_col.m_bbox.get_right() - 1;
   dest_.p2.y = dest_.p1.y + 30;
 
-  if (!Sector::get().is_free_of_statics(dest_, this, true) && !(m_contents == CONTENT_1UP))
+  if (!Sector::get().is_free_of_statics(dest_, this, true) && !(m_contents == Content::ONEUP))
   {
     try_open(player);
     return;
@@ -375,37 +376,37 @@ BonusBlock::try_drop(Player *player)
   bool countdown = false;
 
   switch (m_contents) {
-    case CONTENT_COIN:
+    case Content::COIN:
     {
       try_open(player);
       break;
     }
 
-    case CONTENT_FIREGROW:
+    case Content::FIREGROW:
     {
       drop_growup_bonus("images/powerups/fireflower/fireflower.sprite", countdown);
       break;
     }
 
-    case CONTENT_ICEGROW:
+    case Content::ICEGROW:
     {
       drop_growup_bonus("images/powerups/iceflower/iceflower.sprite", countdown);
       break;
     }
 
-    case CONTENT_AIRGROW:
+    case Content::AIRGROW:
     {
       drop_growup_bonus("images/powerups/airflower/airflower.sprite", countdown);
       break;
     }
 
-    case CONTENT_EARTHGROW:
+    case Content::EARTHGROW:
     {
       drop_growup_bonus("images/powerups/earthflower/earthflower.sprite", countdown);
       break;
     }
 
-    case CONTENT_STAR:
+    case Content::STAR:
     {
       Sector::get().add<Star>(get_pos() + Vector(0, 32), direction);
       SoundManager::current()->play("sounds/upgrade.wav");
@@ -413,7 +414,7 @@ BonusBlock::try_drop(Player *player)
       break;
     }
 
-    case CONTENT_1UP:
+    case Content::ONEUP:
     {
       Sector::get().add<OneUp>(get_pos(), Direction::DOWN);
       SoundManager::current()->play("sounds/upgrade.wav");
@@ -421,9 +422,9 @@ BonusBlock::try_drop(Player *player)
       break;
     }
 
-    case CONTENT_CUSTOM:
+    case Content::CUSTOM:
     {
-      //NOTE: non-portable trampolines could be moved to CONTENT_CUSTOM, but they should not drop
+      //NOTE: non-portable trampolines could be moved to Content::CUSTOM, but they should not drop
       m_object->set_pos(get_pos() +  Vector(0, 32));
       Sector::get().add_object(std::move(m_object));
       SoundManager::current()->play("sounds/upgrade.wav");
@@ -431,20 +432,20 @@ BonusBlock::try_drop(Player *player)
       break;
     }
 
-    case CONTENT_SCRIPT:
+    case Content::SCRIPT:
     {
       countdown = true;
       break;
     } // because scripts always run, this prevents default contents from being assumed
 
-    case CONTENT_LIGHT:
-    case CONTENT_TRAMPOLINE:
-    case CONTENT_RAIN:
+    case Content::LIGHT:
+    case Content::TRAMPOLINE:
+    case Content::RAIN:
     {
       try_open(player);
       break;
     }
-    case CONTENT_EXPLODE:
+    case Content::EXPLODE:
     {
       m_hit_counter = 1; // multiple hits of coin explode is not allowed
       Sector::get().add<CoinExplode>(get_pos() + Vector (0, 40));
@@ -502,73 +503,61 @@ BonusBlock::draw(DrawingContext& context)
   }
 }
 
-BonusBlock::Contents
+BonusBlock::Content
 BonusBlock::get_content_from_string(const std::string& contentstring) const
 {
-  if (contentstring == "coin")
-    return CONTENT_COIN;
-  if (contentstring == "firegrow")
-    return CONTENT_FIREGROW;
-  if (contentstring == "icegrow")
-    return CONTENT_ICEGROW;
-  if (contentstring == "airgrow")
-    return CONTENT_AIRGROW;
-  if (contentstring == "earthgrow")
-    return CONTENT_EARTHGROW;
-  if (contentstring == "star")
-    return CONTENT_STAR;
-  if (contentstring == "1up")
-    return CONTENT_1UP;
-  if (contentstring == "custom")
-    return CONTENT_CUSTOM;
-  if (contentstring == "script") // use when bonusblock is to contain ONLY a script
-    return CONTENT_SCRIPT;
-  if (contentstring == "light")
-    return CONTENT_LIGHT;
-  if (contentstring == "trampoline")
-    return CONTENT_TRAMPOLINE;
-  if (contentstring == "rain")
-    return CONTENT_RAIN;
-  if (contentstring == "explode")
-    return CONTENT_EXPLODE;
-
-  log_warning << "Invalid box contents '" << contentstring << "'" << std::endl;
-  return CONTENT_COIN;
+  if (contentstring == "coin") {
+    return Content::COIN;
+  } else if (contentstring == "firegrow") {
+    return Content::FIREGROW;
+  } else if (contentstring == "icegrow") {
+    return Content::ICEGROW;
+  } else if (contentstring == "airgrow") {
+    return Content::AIRGROW;
+  } else if (contentstring == "earthgrow") {
+    return Content::EARTHGROW;
+  } else if (contentstring == "star") {
+    return Content::STAR;
+  } else if (contentstring == "1up") {
+    return Content::ONEUP;
+  } else if (contentstring == "custom") {
+    return Content::CUSTOM;
+  } else if (contentstring == "script") { // use when bonusblock is to contain ONLY a script
+    return Content::SCRIPT;
+  } else if (contentstring == "light") {
+    return Content::LIGHT;
+  } else if (contentstring == "trampoline") {
+    return Content::TRAMPOLINE;
+  } else if (contentstring == "rain") {
+    return Content::RAIN;
+  } else if (contentstring == "explode") {
+    return Content::EXPLODE;
+  } else {
+    log_warning << "Invalid box contents '" << contentstring << "'" << std::endl;
+    return Content::COIN;
+  }
 }
 
 std::string
-BonusBlock::contents_to_string(const BonusBlock::Contents& content) const
+BonusBlock::contents_to_string(const BonusBlock::Content& content) const
 {
   switch (m_contents)
   {
-    case CONTENT_COIN:
-      return "coin";
-    case CONTENT_FIREGROW:
-      return "firegrow";
-    case CONTENT_ICEGROW:
-      return "icegrow";
-    case CONTENT_AIRGROW:
-      return "airgrow";
-    case CONTENT_EARTHGROW:
-      return "earthgrow";
-    case CONTENT_STAR:
-      return "star";
-    case CONTENT_1UP:
-      return "1up";
-    case CONTENT_CUSTOM:
-      return "custom";
-    case CONTENT_SCRIPT:
-      return "script";
-    case CONTENT_LIGHT:
-      return "light";
-    case CONTENT_TRAMPOLINE:
-      return "trampoline";
-    case CONTENT_RAIN:
-      return "rain";
-    case CONTENT_EXPLODE:
-      return "explode";
+    case Content::COIN: return "coin";
+    case Content::FIREGROW: return "firegrow";
+    case Content::ICEGROW: return "icegrow";
+    case Content::AIRGROW: return "airgrow";
+    case Content::EARTHGROW: return "earthgrow";
+    case Content::STAR: return "star";
+    case Content::ONEUP: return "1up";
+    case Content::CUSTOM: return "custom";
+    case Content::SCRIPT: return "script";
+    case Content::LIGHT: return "light";
+    case Content::TRAMPOLINE: return "trampoline";
+    case Content::RAIN: return "rain";
+    case Content::EXPLODE: return "explode";
+    default: return "coin";
   }
-  return "coin";
 }
 
 void
