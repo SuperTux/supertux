@@ -197,11 +197,14 @@ BonusBlock::get_settings()
 
   result.add_script(_("Script"), &m_script, "script");
   result.add_int(_("Count"), &m_hit_counter, "count");
-  result.add_string_select(_("Content"), reinterpret_cast<int*>(&m_contents),
-                           {_("Coin"), _("Growth (fire flower)"), _("Growth (ice flower)"), _("Growth (air flower)"),
-                            _("Growth (earth flower)"), _("Star"), _("Tux doll"), _("Custom"), _("Script"),_("Light"),
-                            _("Trampoline"), _("Coin rain"), _("Coin explosion")},
-                           0, "content");
+  result.add_enum(_("Content"), reinterpret_cast<int*>(&m_contents),
+                  {_("Coin"), _("Growth (fire flower)"), _("Growth (ice flower)"), _("Growth (air flower)"),
+                   _("Growth (earth flower)"), _("Star"), _("Tux doll"), _("Custom"), _("Script"), _("Light"),
+                   _("Trampoline"), _("Coin rain"), _("Coin explosion")},
+                  {"coin", "firegrow" "icegrow", "airgrow",
+                   "earthgrow", "star", "1up", "custom", "script", "light",
+                   "trampoline", "rain", "explode"},
+                  {}, "contents");
 
   result.reorder({"script", "count", "sprite", "x", "y"});
 

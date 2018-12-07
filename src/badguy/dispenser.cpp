@@ -449,7 +449,7 @@ Dispenser::get_settings()
   m_type_str = DispenserType_to_string(m_type);
   result.add_text("type", &m_type_str, "type", {}, OPTION_HIDDEN);
 
-  result.reorder({"cycle", "type", "random", "badguy", "limit-dispensed-badguys", "max-concurrent-badguys", "x", "y"});
+  result.reorder({"cycle", "type", "random", "badguy", "direction", "limit-dispensed-badguys", "max-concurrent-badguys", "x", "y"});
 
   return result;
 }
