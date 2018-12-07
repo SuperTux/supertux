@@ -63,7 +63,7 @@ Thunderstorm::get_settings()
 {
   ObjectSettings result = GameObject::get_settings();
 
-  result.add_bool(_("Running"), &running, "running");
+  result.add_bool(_("Running"), &running, "running", true);
   result.add_float(_("Interval"), &interval, "interval");
   result.add_remove();
 
