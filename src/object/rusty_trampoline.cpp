@@ -57,6 +57,19 @@ RustyTrampoline::update(float dt_sec)
   Rock::update(dt_sec);
 }
 
+ObjectSettings
+RustyTrampoline::get_settings()
+{
+  ObjectSettings result = Rock::get_settings();
+
+  result.add_int(_("Counter"), &counter, "counter", 3);
+  result.add_bool(_("Portable"), &portable, "portable", true);
+
+  result.reorder({"counter", "x", "y"});
+
+  return result;
+}
+
 HitResponse
 RustyTrampoline::collision(GameObject& other, const CollisionHit& hit)
 {
