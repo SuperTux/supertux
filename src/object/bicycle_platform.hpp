@@ -76,6 +76,7 @@ private:
 
   std::vector<BicyclePlatformChild*> m_children;
   std::unique_ptr<PathWalker> m_walker;
+  int m_platforms;
 
 private:
   BicyclePlatform(const BicyclePlatform&) = delete;

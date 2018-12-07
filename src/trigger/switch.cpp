@@ -138,7 +138,6 @@ Switch::event(Player& , EventType type)
     case TURN_OFF:
       break;
   }
-
 }
 
 /* EOF */

@@ -81,19 +81,19 @@ BicyclePlatform::BicyclePlatform(const ReaderMapping& reader) :
   m_angular_speed(0.0f),
   m_momentum_change_rate(0.1f),
   m_children(),
-  m_walker()
+  m_walker(),
+  m_platforms(2)
 {
   reader.get("x", m_center.x);
   reader.get("y", m_center.y);
   reader.get("radius", m_radius, 128.0f);
   reader.get("momentum-change-rate", m_momentum_change_rate, 0.1f);
 
-  int platforms = 2;
-  reader.get("platforms", platforms);
-  platforms = std::max(1, platforms);
+  reader.get("platforms", m_platforms);
+  m_platforms = std::max(1, m_platforms);
 
-  for (int i = 0; i < platforms; ++i) {
-    const float offset = static_cast<float>(i) * (math::TAU / static_cast<float>(platforms));
+  for (int i = 0; i < m_platforms; ++i) {
+    const float offset = static_cast<float>(i) * (math::TAU / static_cast<float>(m_platforms));
     m_children.push_back(&d_sector->add<BicyclePlatformChild>(reader, offset, *this));
   }
 
@@ -173,8 +173,13 @@ ObjectSettings
 BicyclePlatform::get_settings()
 {
   auto result = GameObject::get_settings();
-  result.add_float(_("Radius"), &m_radius, "radius");
-  result.add_float(_("Momentum change rate"), &m_momentum_change_rate, "momentum-change-rate");
+
+  result.add_int(_("Platforms"), &m_platforms, "platforms");
+  result.add_float(_("Radius"), &m_radius, "radius", 128);
+  result.add_float(_("Momentum change rate"), &m_momentum_change_rate, "momentum-change-rate", 0.1f);
+
+  result.reorder({"platforms", "x", "y"});
+
   return result;
 }
 
