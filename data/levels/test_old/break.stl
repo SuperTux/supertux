@@ -20,22 +20,18 @@
     (music
     )
     (powerup
-      (sprite "images/powerups/egg/egg.sprite")
       (x 128)
       (y 256)
     )
     (powerup
-      (sprite "images/powerups/egg/egg.sprite")
       (x 288)
       (y 256)
     )
     (powerup
-      (sprite "images/powerups/egg/egg.sprite")
       (x 800)
       (y 224)
     )
     (powerup
-      (sprite "images/powerups/egg/egg.sprite")
       (x 576)
       (y 256)
     )

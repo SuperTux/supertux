@@ -17,7 +17,6 @@
     (music
     )
     (powerup
-      (sprite "images/powerups/egg/egg.sprite")
       (x 100)
       (y 700)
     )

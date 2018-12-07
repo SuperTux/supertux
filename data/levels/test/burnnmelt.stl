@@ -12,7 +12,6 @@
     (bonusblock
       (count -1)
       (contents "firegrow")
-      (sprite "images/objects/bonus_block/bonusblock.sprite")
       (x 192)
       (y 192)
     )

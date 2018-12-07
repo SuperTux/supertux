@@ -219,7 +219,6 @@
     (switch
       (script "settings.set_ambient_light( settings.get_ambient_red(), settings.get_ambient_green(), 1 );")
       (off-script "settings.set_ambient_light( settings.get_ambient_red(), settings.get_ambient_green(), 0.14 );")
-      (sprite "images/objects/switch/left.sprite")
       (x 844)
       (y 544)
     )

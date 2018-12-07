@@ -184,37 +184,30 @@
       (y 672)
     )
     (weak_block
-      (sprite "images/objects/weak_block/meltbox.sprite")
       (x 992)
       (y 704)
     )
     (weak_block
-      (sprite "images/objects/weak_block/meltbox.sprite")
       (x 1024)
       (y 704)
     )
     (weak_block
-      (sprite "images/objects/weak_block/meltbox.sprite")
       (x 1056)
       (y 704)
     )
     (weak_block
-      (sprite "images/objects/weak_block/meltbox.sprite")
       (x 1088)
       (y 704)
     )
     (weak_block
-      (sprite "images/objects/weak_block/meltbox.sprite")
       (x 1120)
       (y 704)
     )
     (weak_block
-      (sprite "images/objects/weak_block/meltbox.sprite")
       (x 1152)
       (y 704)
     )
     (weak_block
-      (sprite "images/objects/weak_block/meltbox.sprite")
       (x 1184)
       (y 704)
     )

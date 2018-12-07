@@ -350,7 +350,6 @@
       (sprite "images/objects/platforms/small.sprite")
     )
     (powerup
-      (sprite "images/powerups/egg/egg.sprite")
       (x 1296)
       (y 2656)
     )
@@ -365,7 +364,6 @@
       (y 672)
     )
     (powerup
-      (sprite "images/powerups/egg/egg.sprite")
       (x 8688)
       (y 384)
     )

@@ -79,7 +79,6 @@ door2.set_solid( false );
 
 door3.set_visible( ! door3.is_visible() );
 door3.set_solid( false );")
-      (sprite "images/objects/switch/left.sprite")
       (x 266.7868)
       (y 319.2929)
     )

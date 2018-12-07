@@ -81,7 +81,6 @@ if(settings.get_ambient_blue() !=1){
 }else{
 	settings.set_ambient_light( settings.get_ambient_red(), settings.get_ambient_green(), 0.14 );
 }")
-      (sprite "images/objects/switch/left.sprite")
       (x 670.799)
       (y 1168.322)
     )

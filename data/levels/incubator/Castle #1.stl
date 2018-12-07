@@ -395,7 +395,6 @@
       (sprite "images/objects/platforms/wood-tiny.sprite")
     )
     (powerup
-      (sprite "images/powerups/egg/egg.sprite")
       (x 5440)
       (y 672)
     )

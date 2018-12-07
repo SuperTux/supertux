@@ -26,7 +26,6 @@
 wait(3);
 pipeair1.stop();
 ")
-      (sprite "images/objects/switch/left.sprite")
       (x 907)
       (y 858)
     )

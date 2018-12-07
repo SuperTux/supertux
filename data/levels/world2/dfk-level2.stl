@@ -422,7 +422,6 @@ Effect.fade_in(1);")
 door2b.goto_node(1);
 door2c.goto_node(1);
 door2d.goto_node(1);")
-      (sprite "images/objects/switch/left.sprite")
       (x 1383.037)
       (y 1777.474)
     )
