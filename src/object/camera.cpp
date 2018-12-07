@@ -120,11 +120,11 @@ public:
 Camera::Camera(const std::string& name) :
   GameObject(name),
   ExposedObject<Camera, scripting::Camera>(this),
-  m_mode(NORMAL),
-  m_defaultmode(NORMAL),
+  m_mode(Mode::NORMAL),
+  m_defaultmode(Mode::NORMAL),
   m_screen_size(SCREEN_WIDTH, SCREEN_HEIGHT),
   m_translation(),
-  m_lookahead_mode(LOOKAHEAD_NONE),
+  m_lookahead_mode(LookaheadMode::NONE),
   m_changetime(),
   m_lookahead_pos(),
   m_peek_pos(),
@@ -145,11 +145,11 @@ Camera::Camera(const std::string& name) :
 Camera::Camera(const ReaderMapping& reader) :
   GameObject(reader),
   ExposedObject<Camera, scripting::Camera>(this),
-  m_mode(NORMAL),
-  m_defaultmode(NORMAL),
+  m_mode(Mode::NORMAL),
+  m_defaultmode(Mode::NORMAL),
   m_screen_size(SCREEN_WIDTH, SCREEN_HEIGHT),
   m_translation(),
-  m_lookahead_mode(LOOKAHEAD_NONE),
+  m_lookahead_mode(LookaheadMode::NONE),
   m_changetime(),
   m_lookahead_pos(),
   m_peek_pos(),
@@ -169,27 +169,27 @@ Camera::Camera(const ReaderMapping& reader) :
   reader.get("mode", modename);
   if (modename == "normal")
   {
-    m_mode = NORMAL;
+    m_mode = Mode::NORMAL;
   }
   else if (modename == "autoscroll")
   {
-    m_mode = AUTOSCROLL;
+    m_mode = Mode::AUTOSCROLL;
 
     boost::optional<ReaderMapping> path_mapping;
     if (!reader.get("path", path_mapping)) {
       log_warning << "No path specified in autoscroll camera." << std::endl;
-      m_mode = NORMAL;
+      m_mode = Mode::NORMAL;
     } else {
       init_path(reader, true);
     }
   }
   else if (modename == "manual")
   {
-    m_mode = MANUAL;
+    m_mode = Mode::MANUAL;
   }
   else
   {
-    m_mode = NORMAL;
+    m_mode = Mode::NORMAL;
     log_warning << "invalid camera mode '" << modename << "'found in worldfile." << std::endl;
   }
   m_defaultmode = m_mode;
@@ -228,11 +228,11 @@ void
 Camera::after_editor_set()
 {
   if (get_walker() && get_path()->is_valid()) {
-    if (m_defaultmode != AUTOSCROLL) {
+    if (m_defaultmode != Mode::AUTOSCROLL) {
       get_path()->m_nodes.clear();
     }
   } else {
-    if (m_defaultmode == AUTOSCROLL) {
+    if (m_defaultmode == Mode::AUTOSCROLL) {
       init_path_pos(Vector(0,0));
     }
   }
@@ -275,7 +275,7 @@ Camera::scroll_to(const Vector& goal, float scrolltime)
 
   m_scroll_to_pos = 0;
   m_scrollspeed = 1.f / scrolltime;
-  m_mode = SCROLLTO;
+  m_mode = Mode::SCROLLTO;
 }
 
 static const float CAMERA_EPSILON = .00001f;
@@ -291,13 +291,13 @@ void
 Camera::update(float dt_sec)
 {
   switch (m_mode) {
-    case NORMAL:
+    case Mode::NORMAL:
       update_scroll_normal(dt_sec);
       break;
-    case AUTOSCROLL:
+    case Mode::AUTOSCROLL:
       update_scroll_autoscroll(dt_sec);
       break;
-    case SCROLLTO:
+    case Mode::SCROLLTO:
       update_scroll_to(dt_sec);
       break;
     default:
@@ -491,10 +491,10 @@ Camera::update_scroll_normal(float dt_sec)
 
     // Find out direction in which the player moves
     LookaheadMode walkDirection;
-    if (player_delta.x < -CAMERA_EPSILON) walkDirection = LOOKAHEAD_LEFT;
-    else if (player_delta.x > CAMERA_EPSILON) walkDirection = LOOKAHEAD_RIGHT;
-    else if (player.m_dir == Direction::LEFT) walkDirection = LOOKAHEAD_LEFT;
-    else walkDirection = LOOKAHEAD_RIGHT;
+    if (player_delta.x < -CAMERA_EPSILON) walkDirection = LookaheadMode::LEFT;
+    else if (player_delta.x > CAMERA_EPSILON) walkDirection = LookaheadMode::RIGHT;
+    else if (player.m_dir == Direction::LEFT) walkDirection = LookaheadMode::LEFT;
+    else walkDirection = LookaheadMode::RIGHT;
 
     float LEFTEND, RIGHTEND;
     if (config_.sensitive_x > 0) {
@@ -505,19 +505,19 @@ Camera::update_scroll_normal(float dt_sec)
       RIGHTEND = 0.0f;
     }
 
-    if (m_lookahead_mode == LOOKAHEAD_NONE) {
+    if (m_lookahead_mode == LookaheadMode::NONE) {
       /* if we're undecided then look if we crossed the left or right
        * "sensitive" area */
       if (player_pos.x < m_cached_translation.x + LEFTEND) {
-        m_lookahead_mode = LOOKAHEAD_LEFT;
+        m_lookahead_mode = LookaheadMode::LEFT;
       } else if (player_pos.x > m_cached_translation.x + RIGHTEND) {
-        m_lookahead_mode = LOOKAHEAD_RIGHT;
+        m_lookahead_mode = LookaheadMode::RIGHT;
       }
       /* at the ends of a level it's obvious which way we will go */
       if (player_pos.x < static_cast<float>(m_screen_size.width) * 0.5f) {
-        m_lookahead_mode = LOOKAHEAD_RIGHT;
+        m_lookahead_mode = LookaheadMode::RIGHT;
       } else if (player_pos.x >= d_sector->get_width() - static_cast<float>(m_screen_size.width) * 0.5f) {
-        m_lookahead_mode = LOOKAHEAD_LEFT;
+        m_lookahead_mode = LookaheadMode::LEFT;
       }
 
       m_changetime = -1;
@@ -528,14 +528,14 @@ Camera::update_scroll_normal(float dt_sec)
       if (m_changetime < 0) {
         m_changetime = g_game_time;
       } else if (g_game_time - m_changetime > config_.dirchange_time) {
-        if (m_lookahead_mode == LOOKAHEAD_LEFT &&
+        if (m_lookahead_mode == LookaheadMode::LEFT &&
            player_pos.x > m_cached_translation.x + RIGHTEND) {
-          m_lookahead_mode = LOOKAHEAD_RIGHT;
-        } else if (m_lookahead_mode == LOOKAHEAD_RIGHT &&
+          m_lookahead_mode = LookaheadMode::RIGHT;
+        } else if (m_lookahead_mode == LookaheadMode::RIGHT &&
                   player_pos.x < m_cached_translation.x + LEFTEND) {
-          m_lookahead_mode = LOOKAHEAD_LEFT;
+          m_lookahead_mode = LookaheadMode::LEFT;
         } else {
-          m_lookahead_mode = LOOKAHEAD_NONE;
+          m_lookahead_mode = LookaheadMode::NONE;
         }
       }
     } else {
@@ -547,9 +547,9 @@ Camera::update_scroll_normal(float dt_sec)
 
     // calculate our scroll target depending on scroll mode
     float target_x;
-    if (m_lookahead_mode == LOOKAHEAD_LEFT)
+    if (m_lookahead_mode == LookaheadMode::LEFT)
       target_x = player_pos.x - RIGHTEND;
-    else if (m_lookahead_mode == LOOKAHEAD_RIGHT)
+    else if (m_lookahead_mode == LookaheadMode::RIGHT)
       target_x = player_pos.x - LEFTEND;
     else
       target_x = m_cached_translation.x;
@@ -666,7 +666,7 @@ Camera::update_scroll_to(float dt_sec)
 {
   m_scroll_to_pos += dt_sec * m_scrollspeed;
   if (m_scroll_to_pos >= 1.0f) {
-    m_mode = MANUAL;
+    m_mode = Mode::MANUAL;
     m_translation = m_scroll_goal;
     return;
   }

@@ -429,7 +429,7 @@ Editor::set_level(std::unique_ptr<Level> level, bool reset)
 
   load_sector(sector_name);
   m_sector->activate(sector_name);
-  m_sector->get_camera().set_mode(Camera::MANUAL);
+  m_sector->get_camera().set_mode(Camera::Mode::MANUAL);
 
   if (!reset) {
     m_sector->get_camera().set_translation(translation);

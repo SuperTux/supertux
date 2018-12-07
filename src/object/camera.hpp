@@ -39,7 +39,7 @@ class Camera final : public GameObject,
                      public PathObject
 {
 public:
-  enum CameraMode
+  enum class Mode
   {
     NORMAL, MANUAL, AUTOSCROLL, SCROLLTO
   };
@@ -47,8 +47,8 @@ public:
 private:
   /** The camera basically provides lookahead on the left or right
       side or is undecided. */
-  enum LookaheadMode {
-    LOOKAHEAD_NONE, LOOKAHEAD_LEFT, LOOKAHEAD_RIGHT
+  enum class LookaheadMode {
+    NONE, LEFT, RIGHT
   };
 
 public:
@@ -97,7 +97,7 @@ public:
       camera */
   Vector get_center() const;
 
-  void set_mode(CameraMode mode_) { m_mode = mode_; }
+  void set_mode(Mode mode_) { m_mode = mode_; }
   /** @} */
 
 private:
@@ -108,8 +108,8 @@ private:
   void shake();
 
 private:
-  CameraMode m_mode;
-  CameraMode m_defaultmode;
+  Mode m_mode;
+  Mode m_defaultmode;
 
   Size m_screen_size;
 
