@@ -28,19 +28,15 @@
       (mode "normal")
     )
     (coin
-      (sprite "images/objects/coin/coin.sprite")
       (path-ref "a97bb47d-27ec-4fef-a2ae-65adab507a2e")
     )
     (coin
-      (sprite "images/objects/coin/coin.sprite")
       (path-ref "ed859698-dc48-4317-bcdf-b9ee997eb763")
     )
     (coin
-      (sprite "images/objects/coin/coin.sprite")
       (path-ref "2ed90352-9cdf-44bd-b1ce-adc2232d8d32")
     )
     (coin
-      (sprite "images/objects/coin/coin.sprite")
       (path-ref "14848dd3-8841-47eb-8a26-32030c020ee2")
     )
     (decal

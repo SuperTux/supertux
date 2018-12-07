@@ -115,26 +115,26 @@
       )
     )
     (platform
-      (sprite "images/objects/platforms/small.sprite")
       (path-ref "edd42247-6066-498c-a539-5773eb97b6ba")
+      (sprite "images/objects/platforms/small.sprite")
     )
     (platform
-      (sprite "images/objects/platforms/small.sprite")
       (path-ref "507c24de-f43d-4d2f-a75b-17b4ffffbdfe")
+      (sprite "images/objects/platforms/small.sprite")
     )
     (platform
-      (sprite "images/objects/platforms/small.sprite")
       (path-ref "e2da2be1-ce29-4091-bb4f-3387c360982c")
+      (sprite "images/objects/platforms/small.sprite")
     )
     (platform
-      (sprite "images/objects/platforms/small.sprite")
       (path-ref "c4e70052-e253-47b2-a65a-da9c92f9b73f")
+      (sprite "images/objects/platforms/small.sprite")
     )
     (platform
       (running #f)
       (name "platform1")
-      (sprite "images/objects/platforms/vertical-wood.sprite")
       (path-ref "10369310-574a-4e64-a9aa-4ffbc352808d")
+      (sprite "images/objects/platforms/vertical-wood.sprite")
     )
     (powerup
       (sprite "images/powerups/egg/egg.sprite")

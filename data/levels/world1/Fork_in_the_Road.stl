@@ -517,8 +517,8 @@
     (platform
       (running #f)
       (name "downpath")
-      (sprite "images/objects/platforms/wood-fivetiles.sprite")
       (path-ref "396f50f1-869f-4ea1-9bbc-4a009553c774")
+      (sprite "images/objects/platforms/wood-fivetiles.sprite")
     )
     (powerup
       (sprite "images/powerups/1up/1up.sprite")

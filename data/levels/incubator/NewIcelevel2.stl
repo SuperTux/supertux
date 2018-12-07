@@ -89,20 +89,20 @@
       (y 480)
     )
     (hurting_platform
-      (sprite "images/objects/sawblade/goodball.sprite")
       (path-ref "0c8c49df-2e53-473b-b0c9-0f31168a7597")
+      (sprite "images/objects/sawblade/goodball.sprite")
     )
     (hurting_platform
-      (sprite "images/objects/sawblade/goodball.sprite")
       (path-ref "146d86ad-9034-4086-8412-638c511bffa1")
+      (sprite "images/objects/sawblade/goodball.sprite")
     )
     (hurting_platform
-      (sprite "images/objects/sawblade/goodball.sprite")
       (path-ref "655d1263-e0ed-46b7-9027-c4af75ea740b")
+      (sprite "images/objects/sawblade/goodball.sprite")
     )
     (hurting_platform
-      (sprite "images/objects/sawblade/goodball.sprite")
       (path-ref "cedba0dd-8274-4f0c-ace4-cc1c9c293fa3")
+      (sprite "images/objects/sawblade/goodball.sprite")
     )
     (jumpy
       (x 4341)
@@ -532,26 +532,25 @@
     (platform
       (running #f)
       (name "Bloquear1")
-      (sprite "images/objects/platforms/vertical-wood.sprite")
       (path-ref "3f5eb051-4309-4d8e-a933-fd9495d7d81e")
+      (sprite "images/objects/platforms/vertical-wood.sprite")
     )
     (platform
       (running #f)
       (name "supersecreto")
-      (sprite "images/objects/flying_platform/flying_platform.sprite")
       (path-ref "4416a1fa-5b61-4d7e-8490-2d7325d6224e")
     )
     (platform
       (running #f)
       (name "bloquesecreto")
-      (sprite "images/objects/platforms/vertical-wood.sprite")
       (path-ref "77c75398-4a8c-4982-95d6-c8f5c622ab09")
+      (sprite "images/objects/platforms/vertical-wood.sprite")
     )
     (platform
       (running #f)
       (name "bloquesecreto2")
-      (sprite "images/objects/platforms/vertical-wood.sprite")
       (path-ref "24e79585-9e86-43f4-b55a-b7f0d0d6da3b")
+      (sprite "images/objects/platforms/vertical-wood.sprite")
     )
     (pushbutton
       (script "Bloquear1.goto_node(2);")
@@ -1447,34 +1446,34 @@ bloquesecreto2.goto_node(1);
       )
     )
     (platform
-      (sprite "images/objects/platforms/wood-tiny.sprite")
       (path-ref "d5582ca3-b15f-430d-b5f0-5a708f1bb3d3")
+      (sprite "images/objects/platforms/wood-tiny.sprite")
     )
     (platform
-      (sprite "images/objects/platforms/wood-tiny.sprite")
       (path-ref "50ce71fe-316b-4e95-9491-c98de4890a15")
+      (sprite "images/objects/platforms/wood-tiny.sprite")
     )
     (platform
-      (sprite "images/objects/platforms/wood-tiny.sprite")
       (path-ref "f67849de-ba71-4a15-a73d-4615a9f8516c")
+      (sprite "images/objects/platforms/wood-tiny.sprite")
     )
     (platform
       (running #f)
       (name "trampa1")
-      (sprite "images/objects/platforms/big.sprite")
       (path-ref "477bbee6-2f48-4ae8-821e-4d1b0c06a918")
+      (sprite "images/objects/platforms/big.sprite")
     )
     (platform
       (running #f)
       (name "trampa2")
-      (sprite "images/objects/platforms/big.sprite")
       (path-ref "124db0a9-fc9f-4330-a4a4-49f75a8dc73b")
+      (sprite "images/objects/platforms/big.sprite")
     )
     (platform
       (running #f)
       (name "trampa3")
-      (sprite "images/objects/platforms/big.sprite")
       (path-ref "ccec2381-1578-443d-873d-39b8a15d5536")
+      (sprite "images/objects/platforms/big.sprite")
     )
     (rock
       (x 2880)

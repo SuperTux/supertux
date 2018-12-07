@@ -263,32 +263,32 @@
     (platform
       (running #f)
       (name "door1")
-      (sprite "images/objects/platforms/vertical-wood.sprite")
       (path-ref "9e363aed-0b2b-4931-9984-2b6c745ee868")
+      (sprite "images/objects/platforms/vertical-wood.sprite")
     )
     (platform
       (running #f)
       (name "door2")
-      (sprite "images/objects/platforms/vertical-wood.sprite")
       (path-ref "d9dea6ce-c6e7-4c44-a5fb-8fbf2af04c56")
+      (sprite "images/objects/platforms/vertical-wood.sprite")
     )
     (platform
       (running #f)
       (name "door3")
-      (sprite "images/objects/platforms/vertical-wood.sprite")
       (path-ref "32b900a1-6440-4522-9cdc-7b068f15d953")
+      (sprite "images/objects/platforms/vertical-wood.sprite")
     )
     (platform
       (running #f)
       (name "door4")
-      (sprite "images/objects/platforms/vertical-wood.sprite")
       (path-ref "0459c30f-fe8d-4c27-8ee4-40adc8ee356b")
+      (sprite "images/objects/platforms/vertical-wood.sprite")
     )
     (platform
       (running #f)
       (name "door5")
-      (sprite "images/objects/platforms/vertical-wood.sprite")
       (path-ref "5d235947-a253-44cd-814d-81fa2b8f4c3b")
+      (sprite "images/objects/platforms/vertical-wood.sprite")
     )
     (pushbutton
       (script "wind1.start()")

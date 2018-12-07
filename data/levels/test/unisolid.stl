@@ -68,8 +68,8 @@
     )
     (platform
       (running #f)
-      (sprite "images/objects/platforms/icefloe_small.sprite")
       (path-ref "9011c7b9-3a56-4445-80d6-0f77c9236c37")
+      (sprite "images/objects/platforms/icefloe_small.sprite")
     )
     (spawnpoint
       (name "main")

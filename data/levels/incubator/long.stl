@@ -88,32 +88,32 @@
     (platform
       (running #f)
       (name "y1")
-      (sprite "images/objects/platforms/vertical-wood.sprite")
       (path-ref "8ab71300-5770-4fee-b9f4-4b17016ec596")
+      (sprite "images/objects/platforms/vertical-wood.sprite")
     )
     (platform
       (running #f)
       (name "y2")
-      (sprite "images/objects/platforms/vertical-wood.sprite")
       (path-ref "060b023c-c11c-4fa5-b133-d2e3a5cb531d")
+      (sprite "images/objects/platforms/vertical-wood.sprite")
     )
     (platform
       (running #f)
       (name "y3")
-      (sprite "images/objects/platforms/vertical-wood.sprite")
       (path-ref "9ded1b09-0166-439c-a737-91a119ce1254")
+      (sprite "images/objects/platforms/vertical-wood.sprite")
     )
     (platform
       (running #f)
       (name "y4")
-      (sprite "images/objects/platforms/vertical-wood.sprite")
       (path-ref "ff25a759-39dc-4dad-9daa-c14452131813")
+      (sprite "images/objects/platforms/vertical-wood.sprite")
     )
     (platform
       (running #f)
       (name "y5")
-      (sprite "images/objects/platforms/vertical-wood.sprite")
       (path-ref "4d7f6d61-5e38-4e89-864b-084bd12af4f2")
+      (sprite "images/objects/platforms/vertical-wood.sprite")
     )
     (scripttrigger
       (script "Level.spawn(\"sachta\",\"main\")")
@@ -1210,7 +1210,6 @@
     (platform
       (running #f)
       (name "secretplatform")
-      (sprite "images/objects/flying_platform/flying_platform.sprite")
       (path-ref "b48bd249-fa35-468b-8ce4-b299bf8c901d")
     )
     (scripttrigger
@@ -4012,7 +4011,6 @@ Tux.activate()")
     (platform
       (running #f)
       (name "platform")
-      (sprite "images/objects/flying_platform/flying_platform.sprite")
       (path-ref "0bc24245-b521-48ff-b31b-9909233b5b17")
     )
     (scripttrigger
@@ -6142,13 +6140,11 @@ platform2.goto_node(1)")
     (platform
       (running #f)
       (name "platform2")
-      (sprite "images/objects/flying_platform/flying_platform.sprite")
       (path-ref "fa1832e0-52fe-46a2-ae80-0fecb6ecc97e")
     )
     (platform
       (running #f)
       (name "platform1")
-      (sprite "images/objects/flying_platform/flying_platform.sprite")
       (path-ref "9088ca4d-0f66-4a43-bf6f-bd92187ca36d")
     )
     (spawnpoint
@@ -6652,8 +6648,8 @@ platform2.goto_node(1)")
     (platform
       (running #f)
       (name "brana")
-      (sprite "images/objects/platforms/vertical-wood.sprite")
       (path-ref "a74efdf8-19f1-4cb2-9189-2824d3f16ea2")
+      (sprite "images/objects/platforms/vertical-wood.sprite")
     )
     (scripttrigger
       (script "Level.spawn(\"roof\",\"z5\")")

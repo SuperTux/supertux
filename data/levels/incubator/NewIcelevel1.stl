@@ -231,43 +231,41 @@
     (platform
       (running #f)
       (name "plata1")
-      (sprite "images/objects/platforms/icefloe_small.sprite")
       (path-ref "695b7feb-3806-4733-9abf-bf9c8f2f2972")
+      (sprite "images/objects/platforms/icefloe_small.sprite")
     )
     (platform
       (running #f)
       (name "Plata2")
-      (sprite "images/objects/platforms/icefloe_small.sprite")
       (path-ref "dfb76207-fa1e-4944-bcb1-e8f2b5e267aa")
+      (sprite "images/objects/platforms/icefloe_small.sprite")
     )
     (platform
       (running #f)
       (name "Plata3")
-      (sprite "images/objects/platforms/icefloe_small.sprite")
       (path-ref "e0acd3f1-a740-4f13-a5f4-bd22916167ab")
+      (sprite "images/objects/platforms/icefloe_small.sprite")
     )
     (platform
       (running #f)
       (name "PlataformaSecreta")
-      (sprite "images/objects/flying_platform/flying_platform.sprite")
       (path-ref "7df83e95-d22e-4308-87e5-9c8fe6202568")
     )
     (platform
       (running #f)
       (name "secretwood1")
-      (sprite "images/objects/platforms/vertical-wood.sprite")
       (path-ref "be72755c-8316-4ff6-887a-1e490590c24a")
+      (sprite "images/objects/platforms/vertical-wood.sprite")
     )
     (platform
       (running #f)
       (name "secretwood2")
-      (sprite "images/objects/platforms/vertical-wood.sprite")
       (path-ref "bd356e8f-5d20-46a2-961b-20c6a968c527")
+      (sprite "images/objects/platforms/vertical-wood.sprite")
     )
     (platform
       (running #f)
       (name "supersecretoplataforma")
-      (sprite "images/objects/flying_platform/flying_platform.sprite")
       (path-ref "8b059bfe-ef1a-40f0-abe7-8fa04ed969cf")
     )
     (powerup
@@ -1580,28 +1578,28 @@ Plata3.goto_node(0);")
     (platform
       (running #f)
       (name "palo2")
-      (sprite "images/objects/platforms/big.sprite")
       (path-ref "7625889f-de6e-4f3f-b90e-0a82e1cfaf40")
+      (sprite "images/objects/platforms/big.sprite")
     )
     (platform
       (running #f)
       (name "palo1")
-      (sprite "images/objects/platforms/vertical-wood.sprite")
       (path-ref "d672965a-5efa-4fd1-94ba-7c1cd7a7615d")
+      (sprite "images/objects/platforms/vertical-wood.sprite")
     )
     (platform
-      (sprite "images/objects/platforms/vertical-wood.sprite")
       (path-ref "e68d9a2d-d901-4aa6-b02f-269e813403ee")
+      (sprite "images/objects/platforms/vertical-wood.sprite")
     )
     (platform
-      (sprite "images/objects/platforms/vertical-wood.sprite")
       (path-ref "54701da2-d08f-4eee-9a89-9dc219d19a22")
+      (sprite "images/objects/platforms/vertical-wood.sprite")
     )
     (platform
       (running #f)
       (name "TaponCubos")
-      (sprite "images/objects/platforms/small.sprite")
       (path-ref "540a0804-1902-41f7-b33f-dfbb9c9d07c6")
+      (sprite "images/objects/platforms/small.sprite")
     )
     (pushbutton
       (script "palo1.goto_node(1);

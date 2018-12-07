@@ -28,7 +28,6 @@
       )
     )
     (platform
-      (sprite "images/objects/flying_platform/flying_platform.sprite")
       (path-ref "838bb6ae-0fd2-4df4-b57b-90dd30dbf381")
     )
     (stalactite

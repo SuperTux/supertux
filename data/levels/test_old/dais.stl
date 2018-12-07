@@ -32,8 +32,8 @@
       )
     )
     (platform
-      (sprite "images/objects/platforms/big.sprite")
       (path-ref "f113af11-11fe-421e-b2f6-bad85c946540")
+      (sprite "images/objects/platforms/big.sprite")
     )
     (spawnpoint
       (name "main")

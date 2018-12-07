@@ -19,15 +19,12 @@
       (mode "normal")
     )
     (coin
-      (sprite "images/objects/coin/coin.sprite")
       (path-ref "a4dd4dca-7cd3-40a8-b542-7a8b272a5594")
     )
     (coin
-      (sprite "images/objects/coin/coin.sprite")
       (path-ref "e0a544ec-702d-4aff-b5c2-43d2a38c507e")
     )
     (coin
-      (sprite "images/objects/coin/coin.sprite")
       (path-ref "2fccb52d-b425-45b5-b119-e77a0441c5a6")
     )
     (firefly

@@ -99,8 +99,8 @@
       )
     )
     (platform
-      (sprite "images/objects/platforms/wood-fivetiles.sprite")
       (path-ref "ed43a4a4-a562-4016-857e-c43f2cdc7e5e")
+      (sprite "images/objects/platforms/wood-fivetiles.sprite")
     )
     (secretarea
       (fade-tilemap "Secret")

@@ -145,13 +145,13 @@
     )
     (platform
       (running #f)
-      (sprite "images/objects/platforms/small.sprite")
       (path-ref "d30d2231-1df6-4a49-b00a-3b1d1b802275")
+      (sprite "images/objects/platforms/small.sprite")
     )
     (platform
       (running #f)
-      (sprite "images/objects/platforms/wood-tiny.sprite")
       (path-ref "a95cedc8-4c3d-498c-ae33-8509fcdb94c5")
+      (sprite "images/objects/platforms/wood-tiny.sprite")
     )
     (secretarea
       (fade-tilemap "Secret_1")

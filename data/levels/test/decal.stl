@@ -16,8 +16,8 @@
     )
     (decal
       (solid #t)
-      (sprite "images/creatures/tux/tux.sprite")
       (action "small-walk-right")
+      (sprite "images/creatures/tux/tux.sprite")
       (x 536)
       (y 192)
     )

@@ -69,13 +69,11 @@
       )
     )
     (platform
-      (sprite "images/objects/flying_platform/flying_platform.sprite")
       (path-ref "path1")
     )
     (platform
       (running #f)
       (name "dummyname")
-      (sprite "images/objects/flying_platform/flying_platform.sprite")
       (path-ref "path2")
     )
     (spawnpoint

@@ -93,7 +93,6 @@
     (platform
       (running #f)
       (name "castleentrance")
-      (sprite "images/objects/flying_platform/flying_platform.sprite")
       (path-ref "5979c4a0-26c0-42da-b375-0169ac05b150")
     )
     (scripttrigger
@@ -885,20 +884,19 @@ castleentrance.goto_node(1);
     (platform
       (running #f)
       (name "pedestal")
-      (sprite "images/objects/platforms/pedestal.sprite")
       (path-ref "a189a7e2-0ab2-461a-bd92-437c192ca830")
+      (sprite "images/objects/platforms/pedestal.sprite")
     )
     (platform
       (running #f)
       (name "empezar")
-      (sprite "images/objects/flying_platform/flying_platform.sprite")
       (path-ref "0bc68c52-c77a-4f89-8120-aa5a59f8bb7e")
     )
     (platform
       (running #f)
       (name "bloques")
-      (sprite "images/objects/platforms/small.sprite")
       (path-ref "4a146be1-be32-4be6-9314-910d308d61a4")
+      (sprite "images/objects/platforms/small.sprite")
     )
     (pushbutton
       (script "bloques.goto_node(1);

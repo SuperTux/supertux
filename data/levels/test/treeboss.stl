@@ -65,7 +65,6 @@
     (platform
       (running #f)
       (name "platform1")
-      (sprite "images/objects/flying_platform/flying_platform.sprite")
       (path-ref "1e32f093-8db3-4e0a-9a16-5768ed5bc413")
     )
     (scripttrigger

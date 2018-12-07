@@ -166,8 +166,8 @@
     (platform
       (running #f)
       (name "Platform1")
-      (sprite "images/objects/platforms/icefloe_small.sprite")
       (path-ref "856f7775-25b2-406d-ad6b-dcf18f26bcad")
+      (sprite "images/objects/platforms/icefloe_small.sprite")
     )
     (secretarea
       (fade-tilemap "Secret1")

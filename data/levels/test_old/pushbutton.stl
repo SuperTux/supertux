@@ -32,8 +32,8 @@
     (platform
       (running #f)
       (name "platform1")
-      (sprite "images/objects/platforms/vertical-wood.sprite")
       (path-ref "4a99a904-32b4-41fd-ab3a-0a458fe35f46")
+      (sprite "images/objects/platforms/vertical-wood.sprite")
     )
     (pushbutton
       (script "platform1.goto_node(0);")

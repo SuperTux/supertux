@@ -32,8 +32,8 @@
     (platform
       (running #f)
       (name "platform1")
-      (sprite "images/objects/platforms/vertical-wood.sprite")
       (path-ref "b5e6cbf7-fdd0-4868-b746-61de4031a1a0")
+      (sprite "images/objects/platforms/vertical-wood.sprite")
     )
     (spawnpoint
       (name "main")

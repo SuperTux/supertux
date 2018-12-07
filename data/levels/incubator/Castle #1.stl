@@ -144,16 +144,16 @@
       (bottom_color 1 1 1)
     )
     (hurting_platform
-      (sprite "images/creatures/flame/flame.sprite")
       (path-ref "bbdb6790-4b90-4c3b-8f3d-3e9825d9fbac")
+      (sprite "images/creatures/flame/flame.sprite")
     )
     (hurting_platform
-      (sprite "images/creatures/flame/flame.sprite")
       (path-ref "3d666093-ba0c-4563-b34c-a22a8ca93849")
+      (sprite "images/creatures/flame/flame.sprite")
     )
     (hurting_platform
-      (sprite "images/creatures/flame/flame.sprite")
       (path-ref "17e14da4-9e8d-4f2a-8f2c-875f9c8d230c")
+      (sprite "images/creatures/flame/flame.sprite")
     )
     (icecrusher
       (x 4043)
@@ -391,8 +391,8 @@
     )
     (platform
       (running #f)
-      (sprite "images/objects/platforms/wood-tiny.sprite")
       (path-ref "72e383ef-eac4-4d3c-9c90-cf4577e1eeb7")
+      (sprite "images/objects/platforms/wood-tiny.sprite")
     )
     (powerup
       (sprite "images/powerups/egg/egg.sprite")

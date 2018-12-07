@@ -15,15 +15,12 @@
       (mode "normal")
     )
     (hurting_platform
-      (sprite "images/objects/sawblade/sawblade.sprite")
       (path-ref "783d3519-bbe6-4c6b-a1b9-594d6952cb5f")
     )
     (hurting_platform
-      (sprite "images/objects/sawblade/sawblade.sprite")
       (path-ref "c85d3bfb-df0e-45d0-87ea-c24ed1bbadf6")
     )
     (hurting_platform
-      (sprite "images/objects/sawblade/sawblade.sprite")
       (path-ref "3fbe39bf-f598-4159-974f-426b365cdd88")
     )
     (music

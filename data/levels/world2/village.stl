@@ -51,7 +51,6 @@
     (hurting_platform
       (running #f)
       (name "tischsaege")
-      (sprite "images/objects/sawblade/sawblade.sprite")
       (path-ref "9c660e8b-82ba-4a47-8ad7-d8215bd7bcd6")
     )
     (mrbomb
@@ -161,25 +160,21 @@
     )
     (platform
       (name "elevator")
-      (sprite "images/objects/flying_platform/flying_platform.sprite")
       (path-ref "b94c3be7-14d4-4ca1-a48f-80aa4d2083af")
     )
     (platform
       (running #f)
       (name "bridge3")
-      (sprite "images/objects/flying_platform/flying_platform.sprite")
       (path-ref "5c364cbc-c382-43f5-aeea-76033eafbae1")
     )
     (platform
       (running #f)
       (name "bridge2")
-      (sprite "images/objects/flying_platform/flying_platform.sprite")
       (path-ref "02447c7c-47f3-42d9-911e-d6c45d82ee49")
     )
     (platform
       (running #f)
       (name "bridge1")
-      (sprite "images/objects/flying_platform/flying_platform.sprite")
       (path-ref "10d5ed18-83e1-4ba6-9ff2-4677f3081e11")
     )
     (poisonivy

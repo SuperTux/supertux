@@ -22,7 +22,6 @@
     )
     (coin
       (collect-script "sector.settings.set_ambient_light(1.0, 0, 0);")
-      (sprite "images/objects/coin/coin.sprite")
       (path-ref "12a165ab-0853-4cfe-a23f-9565bdda797b")
     )
     (heavycoin
