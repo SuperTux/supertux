@@ -53,7 +53,6 @@
     )
     (rock
       (name "rock1")
-      (sprite "images/objects/rock/rock.sprite")
       (x 537.1428)
       (y 641.5237)
     )

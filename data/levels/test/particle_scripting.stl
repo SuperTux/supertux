@@ -71,37 +71,31 @@
     )
     (switch
       (script "clouds.set_enabled(true);")
-      (sprite "images/objects/switch/switch.sprite")
       (x 320)
       (y 650)
     )
     (switch
       (script "ghosts.set_enabled(true);")
-      (sprite "images/objects/switch/switch.sprite")
       (x 460)
       (y 650)
     )
     (switch
       (script "snow.set_enabled(true);")
-      (sprite "images/objects/switch/switch.sprite")
       (x 580)
       (y 650)
     )
     (switch
       (script "clouds.set_enabled(false);")
-      (sprite "images/objects/switch/switch.sprite")
       (x 700)
       (y 650)
     )
     (switch
       (script "ghosts.set_enabled(false);")
-      (sprite "images/objects/switch/switch.sprite")
       (x 820)
       (y 650)
     )
     (switch
       (script "snow.set_enabled(false);")
-      (sprite "images/objects/switch/switch.sprite")
       (x 940)
       (y 650)
     )

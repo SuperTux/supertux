@@ -16,7 +16,6 @@
       (bottom_color 0.9094849 0.5871124 0.1132812)
     )
     (mrbomb
-      (sprite "images/creatures/mr_bomb/mr_bomb.sprite")
       (x 608)
       (y 1024)
     )

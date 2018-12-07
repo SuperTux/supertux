@@ -18,7 +18,6 @@
       (mode "normal")
     )
     (firefly
-      (sprite "")
       (x 32)
       (y 160)
     )
@@ -63,7 +62,6 @@
       (y 160)
     )
     (firefly
-      (sprite "")
       (x 32)
       (y 96)
     )

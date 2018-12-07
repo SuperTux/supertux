@@ -1105,7 +1105,6 @@ RayoArriba1.start_moving();
 RayoArriba2.start_moving();
 this.Electric1 <- true;
 }")
-      (sprite "images/objects/switch/switch.sprite")
       (x 4992)
       (y 864)
     )

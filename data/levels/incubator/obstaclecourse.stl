@@ -157,13 +157,11 @@
     )
     (switch
       (script "Tux.kill(true)")
-      (sprite "images/objects/switch/switch.sprite")
       (x 3779)
       (y 900)
     )
     (switch
       (script "Level.spawn(\"main\",\"secret\")")
-      (sprite "images/objects/switch/switch.sprite")
       (x 7523)
       (y 868)
     )

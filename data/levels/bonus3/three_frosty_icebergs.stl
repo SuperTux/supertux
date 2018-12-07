@@ -209,7 +209,6 @@
     )
     (switch
       (script "wind_1.start();")
-      (sprite "images/objects/switch/switch.sprite")
       (x 1923)
       (y 804)
     )

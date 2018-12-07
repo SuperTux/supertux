@@ -305,7 +305,6 @@ tischsaege.goto_node( 0 ) 	")
 	this.hint_displayed <- true;
 }
 ")
-      (sprite "images/objects/switch/switch.sprite")
       (x 2336)
       (y 800)
     )

@@ -211,7 +211,6 @@ viento2.start();
 viento3.start();
 castleentrance.goto_node(1);
 ")
-      (sprite "images/objects/switch/switch.sprite")
       (x 12927.46)
       (y 728.0416)
     )
@@ -988,14 +987,12 @@ castleentrance.goto_node(1);
     (switch
       (script "pedestal.goto_node(2);
 ")
-      (sprite "images/objects/switch/switch.sprite")
       (x 1184)
       (y 384)
     )
     (switch
       (script "empezar.goto_node(2);
 ")
-      (sprite "images/objects/switch/switch.sprite")
       (x 2688)
       (y 512)
     )

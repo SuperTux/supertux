@@ -87,25 +87,21 @@
     )
     (switch
       (script "p.goto_node(0)")
-      (sprite "images/objects/switch/switch.sprite")
       (x 227)
       (y 516)
     )
     (switch
       (script "p.goto_node(1)")
-      (sprite "images/objects/switch/switch.sprite")
       (x 483)
       (y 548)
     )
     (switch
       (script "p.goto_node(2)")
-      (sprite "images/objects/switch/switch.sprite")
       (x 707)
       (y 548)
     )
     (switch
       (script "p.goto_node(3)")
-      (sprite "images/objects/switch/switch.sprite")
       (x 995)
       (y 516)
     )

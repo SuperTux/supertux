@@ -1676,7 +1676,6 @@ Salir2.start();")
     )
     (switch
       (script "TaponCubos.goto_node(1);")
-      (sprite "images/objects/switch/switch.sprite")
       (x 160)
       (y 896)
     )

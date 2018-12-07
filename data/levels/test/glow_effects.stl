@@ -281,20 +281,17 @@
 				blue.set_burning(!blue.get_burning());																																							
 				wait(	0.1	);																																					
 				purple.set_burning(!purple.get_burning());	")
-      (sprite "images/objects/switch/switch.sprite")
       (x 96)
       (y 448)
     )
     (switch
       (script "	torch1.set_burning(!torch1.get_burning());																																							
 				torch2.set_burning(!torch2.get_burning());	")
-      (sprite "images/objects/switch/switch.sprite")
       (x 1216)
       (y 448)
     )
     (switch
       (script "	settings.set_ambient_light((settings.get_ambient_red() + 0.14 > 1) ? 0.02 : settings.get_ambient_red() + 0.14 , (settings.get_ambient_green() + 0.14 > 1) ? 0.02 : settings.get_ambient_green() + 0.14 , (settings.get_ambient_blue() + 0.14 > 1) ? 0.02 : settings.get_ambient_blue() + 0.14 );	")
-      (sprite "images/objects/switch/switch.sprite")
       (x 320)
       (y 576)
     )

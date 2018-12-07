@@ -229,7 +229,6 @@
       (script "Platform1.goto_node(1);
 wait (5.0);
 Platform1.goto_node(0);")
-      (sprite "images/objects/switch/switch.sprite")
       (x 12323)
       (y 1796)
     )
