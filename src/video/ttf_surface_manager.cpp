@@ -52,7 +52,7 @@ TTFSurfaceManager::create_surface(const TTFFont& font, const std::string& text)
   }
   else
   {
-    if (false)
+    if ((false))
     {
       // Font debug output should go to 'std::cerr', not any of the
       // log_* functions, as those are mirrored on the console which

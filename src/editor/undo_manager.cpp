@@ -56,7 +56,7 @@ UndoManager::try_snapshot(Level& level)
 void
 UndoManager::debug_print(const char* action)
 {
-  if (false)
+  if ((false))
   {
     std::cout << action << std::endl;
     std::cout << "undo_stack: ";
