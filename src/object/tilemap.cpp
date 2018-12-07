@@ -220,7 +220,7 @@ TileMap::get_settings()
                   {_("Normal"), _("Lightmap")},
                   {"normal", "lightmap"},
                   static_cast<int>(DrawingTarget::COLORMAP),
-                  "target");
+                  "draw-target");
 
   result.add_path_ref(_("Path"), get_path_ref(), "path-ref");
   m_add_path = get_walker() && get_path() && get_path()->is_valid();

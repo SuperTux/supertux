@@ -65,7 +65,7 @@ Wind::get_settings()
   result.add_float(_("Acceleration"), &acceleration, "acceleration");
   result.add_bool(_("Blowing"), &blowing, "blowing", true);
 
-  result.reorder({"blowing", "speed-x", "speed-y", "acceleration", "region", "x", "y"});
+  result.reorder({"blowing", "speed-x", "speed-y", "acceleration", "region", "name", "x", "y"});
 
   return result;
 }

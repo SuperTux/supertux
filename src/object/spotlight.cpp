@@ -56,12 +56,12 @@ Spotlight::get_settings()
 {
   ObjectSettings result = MovingObject::get_settings();
 
-  result.add_float(_("Angle"), &angle, "angle", 0.0f);
+  result.add_float(_("Angle"), &angle, "angle");
   result.add_color(_("Color"), &color, "color", Color::WHITE);
   result.add_float(_("Speed"), &speed, "speed", 50.0f);
   result.add_bool(_("Counter-clockwise"), &counter_clockwise, "counter-clockwise", false);
 
-  result.reorder({"x", "y", "angle", "color"});
+  result.reorder({"angle", "color", "x", "y"});
 
   return result;
 }

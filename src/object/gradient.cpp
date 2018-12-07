@@ -123,6 +123,13 @@ Gradient::get_settings()
                   {_("Vertical"), _("Horizontal"), _("Vertical (whole sector)"), _("Horizontal (whole sector)")},
                   {"vertical", "horizontal", "vertical_sector", "horizontal_sector"},
                   static_cast<int>(VERTICAL));
+
+  result.add_enum(_("Draw target"), reinterpret_cast<int*>(&m_target),
+                  {_("Normal"), _("Lightmap")},
+                  {"normal", "lightmap"},
+                  static_cast<int>(DrawingTarget::COLORMAP),
+                  "target");
+
   result.add_remove();
 
   return result;

@@ -446,12 +446,9 @@ Dispenser::get_settings()
   result.add_enum(_("Type"), reinterpret_cast<int*>(&m_type),
                   {_("dropper"), _("rocket launcher"), _("cannon"), _("invisible")},
                   {"dropper", "rocketlauncher", "cannon", "point"},
-                  static_cast<int>(DispenserType::DROPPER), "dropper");
+                  static_cast<int>(DispenserType::DROPPER), "type");
 
-  m_type_str = DispenserType_to_string(m_type);
-  result.add_text("type", &m_type_str, "type", {}, OPTION_HIDDEN);
-
-  result.reorder({"cycle", "type", "random", "badguy", "direction", "limit-dispensed-badguys", "max-concurrent-badguys", "x", "y"});
+  result.reorder({"cycle", "random", "type", "badguy", "direction", "limit-dispensed-badguys", "max-concurrent-badguys", "x", "y"});
 
   return result;
 }
