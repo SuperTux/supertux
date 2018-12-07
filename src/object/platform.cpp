@@ -66,7 +66,7 @@ Platform::get_settings()
   result.add_walk_mode(_("Path Mode"), &get_path()->m_mode, {}, {});
   result.add_bool(_("Running"), &get_walker()->m_running, "running", true, 0);
 
-  result.reorder({"running", "name", "sprite", "path-ref", "x", "y"});
+  result.reorder({"running", "name", "path-ref", "sprite", "x", "y"});
 
   return result;
 }
