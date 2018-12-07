@@ -175,13 +175,7 @@ Camera::Camera(const ReaderMapping& reader) :
   {
     m_mode = Mode::AUTOSCROLL;
 
-    boost::optional<ReaderMapping> path_mapping;
-    if (!reader.get("path", path_mapping)) {
-      log_warning << "No path specified in autoscroll camera." << std::endl;
-      m_mode = Mode::NORMAL;
-    } else {
-      init_path(reader, true);
-    }
+    init_path(reader, true);
   }
   else if (modename == "manual")
   {

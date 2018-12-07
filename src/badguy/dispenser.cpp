@@ -443,8 +443,10 @@ Dispenser::get_settings()
                   "limit-dispensed-badguys", false);
   result.add_int(_("Max concurrent badguys"), &m_max_concurrent_badguys,
                  "max-concurrent-badguys", 0);
-  result.add_string_select(_("Type"), reinterpret_cast<int*>(&m_type),
-                           {_("dropper"), _("rocket launcher"), _("cannon"), _("invisible")});
+  result.add_enum(_("Type"), reinterpret_cast<int*>(&m_type),
+                  {_("dropper"), _("rocket launcher"), _("cannon"), _("invisible")},
+                  {"dropper", "rocketlauncher", "cannon", "point"},
+                  static_cast<int>(DispenserType::DROPPER), "dropper");
 
   m_type_str = DispenserType_to_string(m_type);
   result.add_text("type", &m_type_str, "type", {}, OPTION_HIDDEN);

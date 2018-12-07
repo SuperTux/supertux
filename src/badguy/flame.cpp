@@ -58,6 +58,8 @@ Flame::get_settings()
   result.add_float(_("Radius"), &radius, "radius", 100.0f);
   result.add_float(_("Speed"), &speed, "speed", 2.0f);
 
+  result.reorder({"speed", "x", "y"});
+
   return result;
 }
 

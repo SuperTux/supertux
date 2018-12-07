@@ -196,6 +196,12 @@ ObjectSettings::add_path_ref(const std::string& text, const std::string& path_re
                              unsigned int flags)
 {
   add_option(std::make_unique<PathRefObjectOption>(text, path_ref, key, flags));
+
+  m_options.erase(std::remove_if(m_options.begin(), m_options.end(),
+                                 [](const std::unique_ptr<ObjectOption>& obj) {
+                                   return obj->get_key() == "x" || obj->get_key() == "y";
+                                 }),
+                  m_options.end());
 }
 
 void

@@ -133,7 +133,7 @@ Trampoline::get_settings()
 {
   ObjectSettings result = Rock::get_settings();
 
-  result.add_bool(_("Portable"), &portable, "portable");
+  result.add_bool(_("Portable"), &portable, "portable", true);
 
   result.reorder({"portable", "sprite", "x", "y"});
 
