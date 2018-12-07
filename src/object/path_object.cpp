@@ -86,12 +86,4 @@ PathObject::get_path_ref() const
   }
 }
 
-void
-PathObject::save(Writer& writer) const
-{
-  if (get_path()) {
-    writer.write("path-ref", get_path_ref());
-  }
-}
-
 /* EOF */
