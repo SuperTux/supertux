@@ -35,16 +35,6 @@ MovingObject::~MovingObject()
 {
 }
 
-#if 0
-void
-MovingObject::save(Writer& writer)
-{
-  GameObject::save(writer);
-  writer.write("x", m_col.m_bbox.p1.x);
-  writer.write("y", m_col.m_bbox.p1.y);
-}
-#endif
-
 ObjectSettings
 MovingObject::get_settings()
 {

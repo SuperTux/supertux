@@ -821,20 +821,6 @@ BadGuy::set_colgroup_active(CollisionGroup group_)
   if (m_state == STATE_ACTIVE) set_group(group_);
 }
 
-#if 0
-void
-BadGuy::save(Writer& writer)
-{
-  MovingSprite::save(writer);
-  if (m_dir != Direction::LEFT) {
-    writer.write("direction", dir_to_string(m_dir), false);
-  }
-  if (!m_dead_script.empty()) {
-    writer.write("dead-script", m_dead_script, false);
-  }
-}
-#endif
-
 ObjectSettings
 BadGuy::get_settings()
 {

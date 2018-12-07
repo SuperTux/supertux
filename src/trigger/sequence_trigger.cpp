@@ -61,15 +61,6 @@ SequenceTrigger::SequenceTrigger(const Vector& pos, const std::string& sequence_
   m_col.m_bbox.set_size(32, 32);
 }
 
-#if 0
-void
-SequenceTrigger::save(Writer& writer)
-{
-  MovingObject::save(writer);
-  writer.write("sequence", sequence_to_string(sequence), false);
-}
-#endif
-
 ObjectSettings
 SequenceTrigger::get_settings()
 {

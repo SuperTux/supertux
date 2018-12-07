@@ -169,27 +169,6 @@ BonusBlock::~BonusBlock()
 {
 }
 
-#if 0
-void
-BonusBlock::save(Writer& writer)
-{
-  Block::save(writer);
-  writer.write("contents", contents_to_string(m_contents), false);
-  if (m_contents == CONTENT_CUSTOM && m_object)
-  {
-    writer.start_list(m_object->get_class());
-    m_object->save(writer);
-    writer.end_list(m_object->get_class());
-  }
-  if (!m_script.empty()) {
-    writer.write("script", m_script, false);
-  }
-  if (m_hit_counter != 1) {
-    writer.write("count", m_hit_counter);
-  }
-}
-#endif
-
 ObjectSettings
 BonusBlock::get_settings()
 {

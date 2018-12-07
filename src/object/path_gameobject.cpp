@@ -170,16 +170,6 @@ PathGameObject::get_settings()
   return result;
 }
 
-
-#if 0
-void
-PathGameObject::save(Writer& writer)
-{
-  GameObject::save(writer);
-  m_path->save(writer);
-}
-#endif
-
 void
 PathGameObject::editor_select()
 {

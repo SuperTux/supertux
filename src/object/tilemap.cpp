@@ -194,43 +194,6 @@ TileMap::float_channel(float target, float &current, float remaining_time, float
   if (amt < 0) current = std::max(current + amt, target);
 }
 
-#if 0
-void
-TileMap::save(Writer& writer)
-{
-  writer.write("solid", m_real_solid);
-  if (m_speed_x != 1.0f) {
-    writer.write("speed", m_speed_x);
-  }
-  if (m_speed_y != m_speed_x) {
-    writer.write("speed-y", m_speed_y);
-  }
-
-  if (m_tint != Color::WHITE) {
-    writer.write("tint", m_tint.toVector());
-  }
-
-  if (m_alpha != 1) {
-    writer.write("alpha", m_alpha);
-  }
-
-  writer.write("z-pos", m_z_pos);
-
-  GameObject::save(writer);
-
-  if (m_draw_target == DrawingTarget::LIGHTMAP) {
-    writer.write("draw-target", "lightmap", false);
-  } else {
-    // skip: writer.write("draw-target", "normal", false);
-  }
-  writer.write("width", m_width);
-  writer.write("height", m_height);
-
-  PathObject::save(writer);
-  writer.write("tiles", m_tiles, m_width);
-}
-#endif
-
 ObjectSettings
 TileMap::get_settings()
 {

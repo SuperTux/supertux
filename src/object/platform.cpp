@@ -57,16 +57,6 @@ Platform::finish_construction()
   m_col.m_bbox.set_pos(get_path()->get_base());
 }
 
-#if 0
-void
-Platform::save(Writer& writer)
-{
-  MovingSprite::save(writer);
-  writer.write("running", get_walker()->is_running());
-  PathObject::save(writer);
-}
-#endif
-
 ObjectSettings
 Platform::get_settings()
 {

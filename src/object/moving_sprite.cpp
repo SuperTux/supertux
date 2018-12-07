@@ -146,18 +146,6 @@ MovingSprite::change_sprite(const std::string& new_sprite_name)
   m_sprite = SpriteManager::current()->create(m_sprite_name);
 }
 
-#if 0
-void
-MovingSprite::save(Writer& writer)
-{
-  MovingObject::save(writer);
-  if (m_sprite_name != get_default_sprite_name())
-  {
-    writer.write("sprite", m_sprite_name);
-  }
-}
-#endif
-
 ObjectSettings
 MovingSprite::get_settings()
 {

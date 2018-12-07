@@ -61,18 +61,6 @@ WorldmapObject::move_to(const Vector& pos) {
   set_pos(new_pos);
 }
 
-#if 0
-void
-WorldmapObject::save(Writer& writer)
-{
-  GameObject::save(writer);
-  // worldmap works in tiles, not pixel, so we have to translate the
-  // coordinates instead of using the parent classes ::save()
-  writer.write("x", m_col.m_bbox.p1.x / 32);
-  writer.write("y", m_col.m_bbox.p1.y / 32);
-}
-#endif
-
 LevelDot::LevelDot(const ReaderMapping& mapping) :
   WorldmapObject(mapping, "images/worldmap/common/leveldot.sprite"),
   m_level(),
@@ -111,18 +99,6 @@ LevelDot::get_settings()
 
   return result;
 }
-
-#if 0
-void
-LevelDot::save(Writer& writer)
-{
-  WorldmapObject::save(writer);
-  writer.write("sprite", m_sprite_name, false);
-  writer.write("extro-script", m_extro_script, false);
-  writer.write("auto-play", m_auto_play);
-  writer.write("color", m_title_color.toVector());
-}
-#endif
 
 void
 LevelDot::after_editor_set()
@@ -177,22 +153,6 @@ Teleporter::draw(DrawingContext& context)
   m_sprite->draw(context.color(), m_col.m_bbox.p1 + Vector(16, 16), m_layer);
 }
 
-#if 0
-void
-Teleporter::save(Writer& writer)
-{
-  WorldmapObject::save(writer);
-  writer.write("spawnpoint", m_spawnpoint, false);
-  writer.write("message", m_message, true);
-  writer.write("sprite", m_sprite_name, false);
-  writer.write("automatic", m_automatic);
-
-  if (m_change_worldmap) {
-    writer.write("worldmap", m_worldmap, false);
-  }
-}
-#endif
-
 ObjectSettings
 Teleporter::get_settings()
 {
@@ -227,15 +187,6 @@ WorldmapSpawnPoint::WorldmapSpawnPoint (const std::string& name_, const Vector& 
   m_name = name_;
 }
 
-#if 0
-void
-WorldmapSpawnPoint::save(Writer& writer)
-{
-  WorldmapObject::save(writer);
-  writer.write("auto-dir", worldmap::direction_to_string(m_dir), false);
-}
-#endif
-
 ObjectSettings
 WorldmapSpawnPoint::get_settings()
 {
@@ -261,19 +212,6 @@ SpriteChange::SpriteChange (const ReaderMapping& mapping) :
 
   mapping.get("change-on-touch", m_change_on_touch);
 }
-
-#if 0
-void
-SpriteChange::save(Writer& writer)
-{
-  WorldmapObject::save(writer);
-  writer.write("stay-action", m_stay_action, false);
-  writer.write("initial-stay-action", m_initial_stay_action);
-  writer.write("stay-group", m_stay_group, false);
-  writer.write("sprite", m_target_sprite, false);
-  writer.write("change-on-touch", m_change_on_touch);
-}
-#endif
 
 ObjectSettings
 SpriteChange::get_settings()
@@ -308,26 +246,6 @@ SpecialTile::SpecialTile (const ReaderMapping& mapping) :
     m_apply_to_direction = worldmap::string_to_direction(dir_str);
   }
 }
-
-
-#if 0
-void
-SpecialTile::save(Writer& writer)
-{
-  WorldmapObject::save(writer);
-  writer.write("map-message", m_map_message, true);
-  writer.write("script", m_script, false);
-
-  if (m_sprite_name != "images/worldmap/common/messagedot.png") {
-    writer.write("sprite", m_sprite_name, false);
-  }
-
-  writer.write("passive-message", m_passive_message);
-  writer.write("invisible-tile", m_invisible_tile);
-
-  writer.write("apply-to-direction", worldmap::direction_to_string(m_apply_to_direction), false);
-}
-#endif
 
 ObjectSettings
 SpecialTile::get_settings()

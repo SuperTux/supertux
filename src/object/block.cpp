@@ -214,15 +214,4 @@ void Block::after_editor_set()
   sprite = SpriteManager::current()->create(sprite_name);
 }
 
-#if 0
-void Block::save(Writer& writer)
-{
-  MovingObject::save(writer);
-  if (sprite_name != get_default_sprite_name())
-  {
-    writer.write("sprite", sprite_name);
-  }
-}
-#endif
-
 /* EOF */

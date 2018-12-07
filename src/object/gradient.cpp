@@ -105,30 +105,6 @@ Gradient::Gradient(const ReaderMapping& reader) :
   reader.get_custom("target", m_target, DrawingTarget_from_string);
 }
 
-#if 0
-void
-Gradient::save(Writer& writer)
-{
-  GameObject::save(writer);
-  switch (m_gradient_direction) {
-    case HORIZONTAL:        writer.write("direction", "horizontal"       , false); break;
-    case VERTICAL_SECTOR:   writer.write("direction", "vertical_sector"  , false); break;
-    case HORIZONTAL_SECTOR: writer.write("direction", "horizontal_sector", false); break;
-    case VERTICAL: break;
-  }
-  if (m_gradient_direction == HORIZONTAL || m_gradient_direction == HORIZONTAL_SECTOR) {
-    writer.write("left_color" , m_gradient_top.toVector());
-    writer.write("right_color", m_gradient_bottom.toVector());
-  } else {
-    writer.write("top_color"   , m_gradient_top.toVector());
-    writer.write("bottom_color", m_gradient_bottom.toVector());
-  }
-  if (m_layer != LAYER_BACKGROUND0) {
-    writer.write("z-pos", m_layer);
-  }
-}
-#endif
-
 ObjectSettings
 Gradient::get_settings()
 {

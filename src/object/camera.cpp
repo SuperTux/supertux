@@ -205,39 +205,6 @@ Camera::~Camera()
 {
 }
 
-#if 0
-void
-Camera::save(Writer& writer)
-{
-  if (get_name() != "Camera") {
-    GameObject::save(writer);
-  }
-
-  if (m_defaultmode == AUTOSCROLL && !get_path()->is_valid()) {
-    m_defaultmode = NORMAL;
-  }
-
-  switch (m_defaultmode)
-  {
-    case NORMAL:
-      writer.write("mode", "normal", false);
-      break;
-
-    case MANUAL:
-      writer.write("mode", "manual", false);
-      break;
-
-    case AUTOSCROLL:
-      writer.write("mode", "autoscroll", false);
-      PathObject::save(writer);
-      break;
-
-    case SCROLLTO:
-      break;
-  }
-}
-#endif
-
 ObjectSettings
 Camera::get_settings()
 {

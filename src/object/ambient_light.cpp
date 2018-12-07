@@ -123,17 +123,6 @@ AmbientLight::fade_to_ambient_light(float red, float green, float blue, float se
   m_target_ambient_light = Color(red, green, blue);
 }
 
-#if 0
-void
-AmbientLight::save(Writer& writer)
-{
-  if (m_ambient_light != Color::WHITE) {
-    GameObject::save(writer);
-    writer.write("color", m_ambient_light.toVector());
-  }
-}
-#endif
-
 ObjectSettings
 AmbientLight::get_settings()
 {

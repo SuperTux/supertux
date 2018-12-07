@@ -43,14 +43,6 @@ Owl::Owl(const ReaderMapping& reader) :
   set_action (m_dir == Direction::LEFT ? "left" : "right", /* loops = */ -1);
 }
 
-#if 0
-void
-Owl::save(Writer& writer) {
-  BadGuy::save(writer);
-  writer.write("carry", carried_obj_name);
-}
-#endif
-
 void
 Owl::initialize()
 {

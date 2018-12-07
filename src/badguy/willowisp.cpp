@@ -76,15 +76,6 @@ WillOWisp::finish_construction()
   }
 }
 
-#if 0
-void
-WillOWisp::save(Writer& writer)
-{
-  BadGuy::save(writer);
-  writer.write("running", m_mystate == STATE_PATHMOVING_TRACK);
-}
-#endif
-
 void
 WillOWisp::active_update(float dt_sec)
 {
