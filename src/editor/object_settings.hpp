@@ -112,6 +112,8 @@ public:
                  unsigned int flags = 0);
   void add_path(const std::string& text, Path* path, const std::string& key = {},
                  unsigned int flags = 0);
+  void add_path_ref(const std::string& text, const std::string& path_ref, const std::string& key = {},
+                    unsigned int flags = 0);
 
   const std::vector<std::unique_ptr<ObjectOption> >& get_options() const { return m_options; }
 

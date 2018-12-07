@@ -490,6 +490,32 @@ PathObjectOption::add_to_menu(Menu& menu) const
 {
 }
 
+PathRefObjectOption::PathRefObjectOption(const std::string& text, const std::string& path_ref, const std::string& key,
+                                   unsigned int flags) :
+  ObjectOption(text, key, flags),
+  m_path_ref(path_ref)
+{
+}
+
+void
+PathRefObjectOption::save(Writer& writer) const
+{
+  if (!m_path_ref.empty()) {
+    writer.write("path-ref", m_path_ref);
+  }
+}
+
+std::string
+PathRefObjectOption::to_string() const
+{
+  return m_path_ref;
+}
+
+void
+PathRefObjectOption::add_to_menu(Menu& menu) const
+{
+}
+
 RemoveObjectOption::RemoveObjectOption() :
   ObjectOption(_("Remove"), "", 0)
 {

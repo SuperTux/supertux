@@ -324,6 +324,24 @@ private:
   PathObjectOption& operator=(const PathObjectOption&) = delete;
 };
 
+class PathRefObjectOption : public ObjectOption
+{
+public:
+  PathRefObjectOption(const std::string& text, const std::string& path_ref, const std::string& key,
+                      unsigned int flags);
+
+  virtual void save(Writer& write) const override;
+  virtual std::string to_string() const override;
+  virtual void add_to_menu(Menu& menu) const override;
+
+private:
+  std::string m_path_ref;
+
+private:
+  PathRefObjectOption(const PathRefObjectOption&) = delete;
+  PathRefObjectOption& operator=(const PathRefObjectOption&) = delete;
+};
+
 class RemoveObjectOption : public ObjectOption
 {
 public:
