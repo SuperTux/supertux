@@ -49,6 +49,8 @@ BonusBlock::BonusBlock(const Vector& pos, int tile_data) :
   m_script(),
   m_lightsprite()
 {
+  default_sprite_name = "images/objects/bonus_block/bonusblock.sprite";
+
   m_col.m_bbox.set_pos(pos);
   sprite->set_action("normal");
   m_contents = get_content_by_data(tile_data);
@@ -63,6 +65,8 @@ BonusBlock::BonusBlock(const ReaderMapping& mapping) :
   m_script(),
   m_lightsprite()
 {
+  default_sprite_name = "images/objects/bonus_block/bonusblock.sprite";
+
   auto iter = mapping.get_iter();
   while (iter.next()) {
     const std::string& token = iter.get_key();

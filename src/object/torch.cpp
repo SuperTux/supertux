@@ -88,6 +88,8 @@ Torch::get_settings()
   result.add_bool(_("Burning"), &m_burning, "burning", true);
   result.add_sprite(_("Sprite"), &sprite_name, "sprite", std::string("images/objects/torch/torch1.sprite"));
 
+  result.reorder({"sprite", "x", "y"});
+
   return result;
 }
 

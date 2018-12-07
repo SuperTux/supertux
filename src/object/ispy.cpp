@@ -55,6 +55,8 @@ Ispy::get_settings()
   result.add_script(_("Script"), &script, "script");
   result.add_direction(_("Direction"), &dir);
 
+  result.reorder({"script", "facing-down", "x", "y"});
+
   return result;
 }
 

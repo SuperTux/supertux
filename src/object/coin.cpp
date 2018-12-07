@@ -292,7 +292,11 @@ ObjectSettings
 HeavyCoin::get_settings()
 {
   auto result = MovingSprite::get_settings();
+
   result.add_script(_("Collect script"), &m_collect_script, "collect-script");
+
+  result.reorder({"collect-script", "sprite", "x", "y"});
+
   return result;
 }
 
