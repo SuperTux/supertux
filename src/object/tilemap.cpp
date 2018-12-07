@@ -239,13 +239,13 @@ TileMap::get_settings()
   result.add_bool(_("Solid"), &m_real_solid, "solid");
   result.add_int(_("Resize offset x"), &m_new_offset_x);
   result.add_int(_("Resize offset y"), &m_new_offset_y);
-#if 0
-  result.add_int(_("Width"), &m_new_size_x, "width");
-  result.add_int(_("Height"), &m_new_size_y, "height");
-#endif
+
+  result.add_int(_("Width"), &m_new_size_x);
+  result.add_int(_("Height"), &m_new_size_y);
+
   result.add_float(_("Alpha"), &m_alpha, "alpha", 1.0f);
   result.add_float(_("Speed x"), &m_speed_x, "speed", 1.0f);
-  result.add_float(_("Speed y"), &m_speed_y, "speed-y", m_speed_x);
+  result.add_float(_("Speed y"), &m_speed_y, "speed-y", 1.0f);
   result.add_color(_("Tint"), &m_tint, "tint", Color::WHITE);
   result.add_int(_("Z-pos"), &m_z_pos, "z-pos");
   result.add_enum(_("Draw target"), reinterpret_cast<int*>(&m_draw_target),

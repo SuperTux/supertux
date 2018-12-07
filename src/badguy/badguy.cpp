@@ -840,7 +840,7 @@ BadGuy::get_settings()
 {
   ObjectSettings result = MovingSprite::get_settings();
 
-  result.add_direction(_("Direction"), &m_dir, Direction::LEFT, "direction");
+  result.add_direction(_("Direction"), &m_start_dir, Direction::AUTO, "direction");
   result.add_script(_("Death script"), &m_dead_script, "dead-script");
 
   result.reorder({"direction", "x", "y"});
