@@ -132,13 +132,17 @@ Background::Background(const ReaderMapping& reader) :
   if (reader.get("image-top", m_imagefile_top)) {
     m_image_top = Surface::from_file(m_imagefile_top);
   } else {
-    m_imagefile_top = m_imagefile;
+    if (!Editor::is_active()) {
+      m_imagefile_top = m_imagefile;
+    }
   }
 
   if (reader.get("image-bottom", m_imagefile_bottom)) {
     m_image_bottom = Surface::from_file(m_imagefile_bottom);
-  } else {
-    m_imagefile_bottom = m_imagefile;
+    } else {
+    if (!Editor::is_active()) {
+      m_imagefile_bottom = m_imagefile;
+    }
   }
 
   reader.get_custom("blend", m_blend, Blend::from_string);
@@ -180,7 +184,7 @@ Background::get_settings()
 
   result.add_remove();
 
-  result.reorder({"x", "y", "alignment", "speed", "speed-y", "fill", "image-top", "image", "image-bottom", "z-pos"});
+  result.reorder({"x", "y", "alignment", "speed", "speed-y", "fill", "target", "image-top", "image", "image-bottom", "z-pos"});
 
   return result;
 }

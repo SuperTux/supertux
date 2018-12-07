@@ -99,7 +99,12 @@ TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
 
   reader.get("solid",  m_real_solid);
   reader.get("speed",  m_speed_x);
-  reader.get("speed-y", m_speed_y, m_speed_x);
+
+  if (!reader.get("speed-y", m_speed_y)) {
+    if (!Editor::is_active()) {
+      m_speed_y = m_speed_x;
+    }
+  }
 
   m_z_pos = reader_get_layer (reader, /* default = */ 0);
 
@@ -245,7 +250,7 @@ TileMap::get_settings()
 
   result.add_float(_("Alpha"), &m_alpha, "alpha", 1.0f);
   result.add_float(_("Speed x"), &m_speed_x, "speed", 1.0f);
-  result.add_float(_("Speed y"), &m_speed_y, "speed-y", m_speed_x);
+  result.add_float(_("Speed y"), &m_speed_y, "speed-y", 1.0f);
   result.add_color(_("Tint"), &m_tint, "tint", Color::WHITE);
   result.add_int(_("Z-pos"), &m_z_pos, "z-pos");
   result.add_enum(_("Draw target"), reinterpret_cast<int*>(&m_draw_target),
