@@ -15,7 +15,6 @@
       (image-bottom "images/background/BlueRock_Forest/blue-bottom.jpg")
     )
     (bonusblock
-      (script "")
       (count 8)
       (sprite "images/objects/bonus_block/purpleblock.sprite")
       (x 832)

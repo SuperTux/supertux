@@ -31,7 +31,6 @@
       (z-pos -370)
     )
     (bonusblock
-      (script "")
       (count 5)
       (sprite "images/objects/bonus_block/purpleblock.sprite")
       (x 11680.35)

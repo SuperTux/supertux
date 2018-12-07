@@ -39,27 +39,23 @@
       (z-pos 1000)
     )
     (bonusblock
-      (script "")
       (contents "explode")
       (sprite "images/objects/bonus_block/brickWeb.sprite")
       (x 5504)
       (y 1056)
     )
     (bonusblock
-      (script "")
       (contents "firegrow")
       (x 7440)
       (y 576)
     )
     (bonusblock
-      (script "")
       (contents "firegrow")
       (sprite "images/objects/bonus_block/brickWeb.sprite")
       (x 9344)
       (y 1152)
     )
     (bonusblock
-      (script "")
       (contents "explode")
       (x 8544)
       (y 512)

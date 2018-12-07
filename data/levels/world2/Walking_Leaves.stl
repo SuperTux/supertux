@@ -17,14 +17,12 @@
       (image-bottom "images/background/BlueRock_Forest/blue-bottom.jpg")
     )
     (bonusblock
-      (script "")
       (count 8)
       (sprite "images/objects/bonus_block/purpleblock.sprite")
       (x 8768)
       (y 384)
     )
     (bonusblock
-      (script "")
       (count 8)
       (sprite "images/objects/bonus_block/purpleblock.sprite")
       (x 2256)

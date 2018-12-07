@@ -10,20 +10,17 @@
       (color 1 1 1)
     )
     (bonusblock
-      (script "")
       (count 3)
       (x 256)
       (y 640)
     )
     (bonusblock
-      (script "")
       (contents "firegrow")
       (sprite "images/objects/bonus_block/brick.sprite")
       (x 384)
       (y 640)
     )
     (bonusblock
-      (script "")
       (contents "1up")
       (sprite "images/objects/bonus_block/hiddenbonus.sprite")
       (x 512)

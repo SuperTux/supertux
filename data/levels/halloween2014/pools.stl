@@ -26,7 +26,6 @@
       (image "images/background/halloween/mountain.png")
     )
     (bonusblock
-      (script "")
       (contents "1up")
       (x 19248)
       (y 288)

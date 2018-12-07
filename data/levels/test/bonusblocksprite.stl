@@ -20,7 +20,6 @@
       (custom-contents
          (mriceblock)
       )
-      (script "")
       (contents "custom")
       (sprite "images/objects/bonus_block/orangeblock.sprite")
       (x 528)

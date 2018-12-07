@@ -9,28 +9,24 @@
       (color 0.02 0.02 0.02)
     )
     (bonusblock
-      (script "")
       (count 0)
       (contents "icegrow")
       (x 544)
       (y 352)
     )
     (bonusblock
-      (script "")
       (count 0)
       (contents "star")
       (x 608)
       (y 352)
     )
     (bonusblock
-      (script "")
       (count 0)
       (contents "1up")
       (x 704)
       (y 352)
     )
     (bonusblock
-      (script "")
       (count 0)
       (contents "firegrow")
       (x 768)

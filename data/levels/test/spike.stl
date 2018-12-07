@@ -10,7 +10,6 @@
       (color 1 1 1)
     )
     (bonusblock
-      (script "")
       (count -1)
       (contents "firegrow")
       (sprite "images/objects/bonus_block/bonusblock.sprite")
@@ -18,7 +17,6 @@
       (y 128)
     )
     (bonusblock
-      (script "")
       (count -1)
       (contents "firegrow")
       (sprite "images/objects/bonus_block/bonusblock.sprite")
@@ -26,7 +24,6 @@
       (y 896)
     )
     (bonusblock
-      (script "")
       (count -1)
       (contents "firegrow")
       (sprite "images/objects/bonus_block/bonusblock.sprite")
@@ -34,7 +31,6 @@
       (y 768)
     )
     (bonusblock
-      (script "")
       (count -1)
       (contents "firegrow")
       (sprite "images/objects/bonus_block/bonusblock.sprite")
@@ -42,7 +38,6 @@
       (y 768)
     )
     (bonusblock
-      (script "")
       (count -1)
       (contents "firegrow")
       (sprite "images/objects/bonus_block/bonusblock.sprite")
@@ -50,7 +45,6 @@
       (y 768)
     )
     (bonusblock
-      (script "")
       (count -1)
       (contents "firegrow")
       (sprite "images/objects/bonus_block/bonusblock.sprite")
@@ -58,7 +52,6 @@
       (y 512)
     )
     (bonusblock
-      (script "")
       (count -1)
       (contents "firegrow")
       (sprite "images/objects/bonus_block/bonusblock.sprite")
@@ -66,7 +59,6 @@
       (y 768)
     )
     (bonusblock
-      (script "")
       (count -1)
       (contents "icegrow")
       (sprite "images/objects/bonus_block/bonusblock.sprite")
@@ -74,7 +66,6 @@
       (y 512)
     )
     (bonusblock
-      (script "")
       (count -1)
       (contents "airgrow")
       (sprite "images/objects/bonus_block/bonusblock.sprite")
@@ -82,7 +73,6 @@
       (y 512)
     )
     (bonusblock
-      (script "")
       (count -1)
       (contents "earthgrow")
       (sprite "images/objects/bonus_block/bonusblock.sprite")
@@ -90,7 +80,6 @@
       (y 512)
     )
     (bonusblock
-      (script "")
       (count -1)
       (contents "airgrow")
       (sprite "images/objects/bonus_block/bonusblock.sprite")

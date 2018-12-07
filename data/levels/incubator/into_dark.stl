@@ -10,13 +10,11 @@
       (color 0.8 0.8 0.8)
     )
     (bonusblock
-      (script "")
       (contents "trampoline")
       (x 2976)
       (y 765)
     )
     (bonusblock
-      (script "")
       (contents "1up")
       (sprite "images/objects/bonus_block/brick.sprite")
       (x 5152)

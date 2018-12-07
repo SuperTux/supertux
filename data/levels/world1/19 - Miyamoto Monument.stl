@@ -10,14 +10,12 @@
       (color 1 1 1)
     )
     (bonusblock
-      (script "")
       (count 5)
       (sprite "images/objects/bonus_block/brick.sprite")
       (x 960)
       (y 352)
     )
     (bonusblock
-      (script "")
       (contents "star")
       (sprite "images/objects/bonus_block/brick.sprite")
       (x 1440)

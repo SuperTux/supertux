@@ -30,7 +30,6 @@ DisplayEffect.fade_in(1);
 ")
 )
       )
-      (script "")
       (contents "custom")
       (x 160)
       (y 288)
