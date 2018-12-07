@@ -41,9 +41,7 @@
 #include "util/reader_collection.hpp"
 #include "util/reader_mapping.hpp"
 
-static const std::string DEFAULT_BG_TOP    = "images/background/BlueRock_Forest/blue-top.jpg";
-static const std::string DEFAULT_BG_MIDDLE = "images/background/BlueRock_Forest/blue-middle.jpg";
-static const std::string DEFAULT_BG_BOTTOM = "images/background/BlueRock_Forest/blue-bottom.jpg";
+static const std::string DEFAULT_BG = "images/background/arctis2.png";
 
 std::unique_ptr<Sector>
 SectorParser::from_reader(Level& level, const ReaderMapping& reader, bool editable)
@@ -311,7 +309,7 @@ SectorParser::create_sector()
   bool worldmap = Editor::current() ? Editor::current()->get_worldmap_mode() : false;
   if (!worldmap) {
     auto& background = m_sector.add<Background>();
-    background.set_images(DEFAULT_BG_TOP, DEFAULT_BG_MIDDLE, DEFAULT_BG_BOTTOM);
+    background.set_image(DEFAULT_BG);
     background.set_speed(0.5);
 
     auto& bkgrd = m_sector.add<TileMap>(tileset);
