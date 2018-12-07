@@ -26,21 +26,21 @@ Ispy::Ispy(const ReaderMapping& reader) :
   MovingSprite(reader, "images/objects/ispy/ispy.sprite", LAYER_TILES+5, COLGROUP_DISABLED),
   state(ISPYSTATE_IDLE),
   script(),
-  dir(Direction::AUTO)
+  dir(Direction::AUTO),
+  m_facing_down(false)
 {
   // read script to execute
   reader.get("script", script);
 
   // read direction to face in
   std::string dir_str;
-  bool facing_down;
   if (reader.get("direction", dir_str)) {
     dir = string_to_dir(dir_str);
   } else {
     dir = Direction::LEFT;
   }
-  reader.get("facing-down", facing_down, false);
-  if (facing_down) dir = Direction::DOWN;
+  reader.get("facing-down", m_facing_down, false);
+  if (m_facing_down) dir = Direction::DOWN;
   if (dir == Direction::AUTO) { log_warning << "Setting an Ispy's direction to AUTO is no good idea" << std::endl; }
 
   // set initial sprite action
@@ -52,6 +52,7 @@ Ispy::get_settings()
 {
   ObjectSettings result = MovingSprite::get_settings();
 
+  result.add_bool(_("Facing Down"), &m_facing_down, "facing-down", false);
   result.add_script(_("Script"), &script, "script");
   result.add_direction(_("Direction"), &dir);
 

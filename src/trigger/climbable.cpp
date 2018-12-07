@@ -80,6 +80,8 @@ Climbable::get_settings()
 
   result.add_text(_("Message"), &message, "message");
 
+  result.reorder({"message", "region", "x", "y"});
+
   return result;
 }
 

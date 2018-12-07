@@ -75,7 +75,7 @@ Candle::get_settings()
   result.add_bool(_("Flicker"), &flicker, "flicker", true);
   result.add_color(_("Color"), &lightcolor, "color", Color::WHITE);
 
-  result.reorder({"flicker", "sprite", "color", "x", "y"});
+  result.reorder({"burning", "flicker", "sprite", "color", "x", "y"});
 
   return result;
 }

@@ -48,6 +48,7 @@ private:
 
   std::string script; /**< script to execute when Tux is spotted */
   Direction dir;
+  bool m_facing_down;
 
 private:
   Ispy(const Ispy&) = delete;
