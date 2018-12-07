@@ -131,7 +131,7 @@
       (file "music/chipdisko.ogg")
     )
     (secretarea
-      (message "You found a secret area!")
+      (message (_ "You found a secret area!"))
       (width 32)
       (height 32)
       (x 100)

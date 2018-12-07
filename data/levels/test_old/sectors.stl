@@ -131,7 +131,7 @@
     (music
     )
     (secretarea
-      (message "good jumper")
+      (message (_ "good jumper"))
       (width 95.73828)
       (height 127.5938)
       (x 1791.793)

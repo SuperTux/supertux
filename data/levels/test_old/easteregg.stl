@@ -29,7 +29,7 @@
       (file "forest2.ogg")
     )
     (secretarea
-      (message "Good luck getting this to work, Yuri! :-)")
+      (message (_ "Good luck getting this to work, Yuri! :-)"))
       (width 46)
       (height 224)
       (x 1116)

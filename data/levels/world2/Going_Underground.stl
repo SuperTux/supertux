@@ -153,7 +153,7 @@
       (y 2009.163)
     )
     (secretarea
-      (message "You found a secret area!")
+      (message (_ "You found a secret area!"))
       (width 351.75)
       (height 192.9929)
       (x 1567.75)
@@ -161,7 +161,7 @@
     )
     (secretarea
       (fade-tilemap "secret1")
-      (message "You found a secret area!")
+      (message (_ "You found a secret area!"))
       (width 384.125)
       (height 159.9434)
       (x 3424.63)
