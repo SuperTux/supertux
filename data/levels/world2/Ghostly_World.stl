@@ -215,7 +215,6 @@
     (particles-ghosts
     )
     (particles-rain
-      (z-pos -200)
     )
     (poisonivy
       (direction "left")
