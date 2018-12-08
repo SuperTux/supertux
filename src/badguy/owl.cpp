@@ -224,7 +224,9 @@ Owl::get_settings()
 {
   ObjectSettings result = BadGuy::get_settings();
 
-  result.add_text(_("Carry"), &carried_obj_name, "carry", std::string("skydive"));
+  result.add_text(_("Carry"), &carried_obj_name, "carry"); //, std::string("skydive"));
+
+  result.reorder({"carry", "x", "y"});
 
   return result;
 }
