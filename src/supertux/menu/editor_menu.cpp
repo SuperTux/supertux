@@ -49,6 +49,8 @@ EditorMenu::EditorMenu()
 
   add_entry(MNID_OPEN_DIR, _("Open output directory"));
 
+  add_entry(MNID_SHARE, _("Share"));
+
   if (is_world) {
     add_entry(MNID_LEVELSEL, _("Edit another level"));
   }
@@ -110,6 +112,18 @@ EditorMenu::menu_action(MenuItem& item)
       });
     }
       break;
+
+    case MNID_SHARE:
+    {
+      auto dialog = std::make_unique<Dialog>();
+      dialog->set_text(_("We encourage you to share your levels in the SuperTux forum.\nTo find your level, click the\n\"Open output directory\" menu item.\nDo you want to go to the forum now?"));
+      dialog->add_default_button(_("Yes"), [] {
+        FileSystem::open_path("https://forum.freegamedev.net/viewforum.php?f=69");
+      });
+      dialog->add_cancel_button(_("No"));
+      MenuManager::instance().set_dialog(std::move(dialog));
+    }
+    break;
 
     case MNID_LEVELSEL:
       editor->check_unsaved_changes([] {
