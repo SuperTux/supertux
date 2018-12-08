@@ -50,7 +50,6 @@ TextScrollerScreen::TextScrollerScreen(const std::string& filename) :
   m_text_scroller(),
   m_fading(false)
 {
-  std::string text;
   std::string background_file;
 
   try {
