@@ -285,7 +285,7 @@ WillOWisp::get_settings()
   result.add_float(_("Fly speed"), &m_flyspeed, "flyspeed", FLYSPEED);
   result.add_path_ref(_("Path"), get_path_ref(), "path-ref");
 
-  result.reorder({"flyspeed", "track-range", "hit-script", "name", "path-ref", "sector", "spawnpoint", "vanish-range", "x", "y"});
+  result.reorder({"flyspeed", "hit-script", "name", "path-ref", "sector", "spawnpoint", "track-range", "vanish-range", "region", "x", "y"});
 
   return result;
 }
