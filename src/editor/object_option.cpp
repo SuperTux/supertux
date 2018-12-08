@@ -413,6 +413,40 @@ ColorObjectOption::add_to_menu(Menu& menu) const
   menu.add_color(get_text(), m_pointer);
 }
 
+RGBAObjectOption::RGBAObjectOption(const std::string& text, Color* pointer, const std::string& key,
+                                     boost::optional<Color> default_value,
+                                     unsigned int flags) :
+  ObjectOption(text, key, flags),
+  m_pointer(pointer),
+  m_default_value(default_value)
+{
+}
+
+void
+RGBAObjectOption::save(Writer& writer) const
+{
+  if (!get_key().empty()) {
+    if (m_default_value && *m_default_value == *m_pointer) {
+      // skip
+    } else {
+      auto vec = m_pointer->toVector();
+      writer.write(get_key(), vec);
+    }
+  }
+}
+
+std::string
+RGBAObjectOption::to_string() const
+{
+  return m_pointer->to_string();
+}
+
+void
+RGBAObjectOption::add_to_menu(Menu& menu) const
+{
+  menu.add_color(get_text(), m_pointer);
+}
+
 BadGuySelectObjectOption::BadGuySelectObjectOption(const std::string& text, std::vector<std::string>* pointer, const std::string& key,
                                                    unsigned int flags) :
   ObjectOption(text, key, flags),

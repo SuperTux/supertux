@@ -49,6 +49,16 @@ ObjectSettings::add_color(const std::string& text, Color* value_ptr,
   add_option(std::make_unique<ColorObjectOption>(text, value_ptr, key, default_value, flags));
 }
 
+
+void
+ObjectSettings::add_rgba(const std::string& text, Color* value_ptr,
+                         const std::string& key,
+                         boost::optional<Color> default_value,
+                         unsigned int flags)
+{
+  add_option(std::make_unique<RGBAObjectOption>(text, value_ptr, key, default_value, flags));
+}
+
 void
 ObjectSettings::add_bool(const std::string& text, bool* value_ptr,
                          const std::string& key,
