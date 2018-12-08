@@ -227,13 +227,14 @@ TileMap::get_settings()
   result.add_bool(_("Following path"), &m_add_path);
 
   if (get_walker() && get_path() && get_path()->is_valid()) {
+    m_running = get_walker()->is_running();
     result.add_walk_mode(_("Path Mode"), &get_path()->m_mode, {}, {});
     result.add_bool(_("Running"), &m_running, "running", false);
   }
 
   result.add_tiles(_("Tiles"), this, "tiles");
 
-  result.reorder({"solid", "tint", "draw-target", "speed", "speed-y", "alpha", "z-pos", "name", "path-ref", "width", "height", "tiles"});
+  result.reorder({"solid", "running", "speed", "speed-y", "tint", "draw-target", "alpha", "z-pos", "name", "path-ref", "width", "height", "tiles"});
 
   if (!m_editor_active) {
     result.add_remove();

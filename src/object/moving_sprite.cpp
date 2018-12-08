@@ -19,6 +19,7 @@
 #include <math.h>
 #include <physfs.h>
 
+#include "editor/editor.hpp"
 #include "math/random.hpp"
 #include "math/util.hpp"
 #include "object/sprite_particle.hpp"
@@ -50,7 +51,7 @@ MovingSprite::MovingSprite(const ReaderMapping& reader, const Vector& pos, int l
   if (!reader.get("sprite", m_sprite_name))
     throw std::runtime_error("no sprite name set");
 
-  m_default_sprite_name = m_sprite_name;
+  //m_default_sprite_name = m_sprite_name;
   m_sprite = SpriteManager::current()->create(m_sprite_name);
   m_col.m_bbox.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
   set_group(collision_group);
@@ -67,12 +68,13 @@ MovingSprite::MovingSprite(const ReaderMapping& reader, const std::string& sprit
   reader.get("y", m_col.m_bbox.p1.y);
   reader.get("sprite", m_sprite_name);
 
-  //make the sprite go default when the sprite file is invalid
+  //Make the sprite go default when the sprite file is invalid
   if (m_sprite_name.empty() || !PHYSFS_exists(m_sprite_name.c_str())) {
-    m_sprite_name = sprite_name_;
+    m_sprite = SpriteManager::current()->create(m_default_sprite_name);
+  } else {
+    m_sprite = SpriteManager::current()->create(m_sprite_name);
   }
 
-  m_sprite = SpriteManager::current()->create(m_sprite_name);
   m_col.m_bbox.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
   set_group(collision_group);
 }
@@ -89,7 +91,7 @@ MovingSprite::MovingSprite(const ReaderMapping& reader, int layer_, CollisionGro
   if (!reader.get("sprite", m_sprite_name))
     throw std::runtime_error("no sprite name set");
 
-  m_default_sprite_name = m_sprite_name;
+  //m_default_sprite_name = m_sprite_name;
   m_sprite = SpriteManager::current()->create(m_sprite_name);
   m_col.m_bbox.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
   set_group(collision_group);

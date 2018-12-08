@@ -226,7 +226,7 @@ Owl::get_settings()
 
   result.add_text(_("Carry"), &carried_obj_name, "carry"); //, std::string("skydive"));
 
-  result.reorder({"carry", "direction", "x", "y"});
+  result.reorder({"carry", "direction", "sprite", "x", "y"});
 
   return result;
 }

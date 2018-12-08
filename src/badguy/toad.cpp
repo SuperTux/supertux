@@ -46,7 +46,6 @@ Toad::initialize()
 void
 Toad::set_state(ToadState newState)
 {
-
   if (newState == IDLE) {
     m_physic.set_velocity_x(0);
     m_physic.set_velocity_y(0);
