@@ -39,25 +39,26 @@ const float DEFAULT_SPEED = 20;
 } // namespace
 
 TextScroller::TextScroller(const ReaderMapping& mapping) :
+  m_filename(),
   m_lines(),
   m_scroll(),
   m_speed(DEFAULT_SPEED),
   m_finished(false)
 {
-  std::string filename;
-  if (!mapping.get("file", filename))
+  if (!mapping.get("file", m_filename))
   {
     log_warning << mapping.get_doc().get_filename() << "'file' tag missing" << std::endl;
   }
   else
   {
-    parse_file(filename);
+    parse_file(m_filename);
   }
 
   mapping.get("speed", m_speed);
 }
 
 TextScroller::TextScroller(const ReaderObject& root) :
+  m_filename(),
   m_lines(),
   m_scroll(),
   m_speed(DEFAULT_SPEED),
@@ -248,6 +249,17 @@ TextScroller::scroll(float offset)
   {
     m_scroll = 0.0f;
   }
+}
+
+ObjectSettings
+TextScroller::get_settings()
+{
+  ObjectSettings result = GameObject::get_settings();
+
+  result.add_float(_("Speed"), &m_speed, "speed", DEFAULT_SPEED);
+  result.add_file(_("File"), &m_filename, "file");
+
+  return result;
 }
 
 /* EOF */

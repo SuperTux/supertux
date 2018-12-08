@@ -114,6 +114,10 @@ public:
                  unsigned int flags = 0);
   void add_path_ref(const std::string& text, const std::string& path_ref, const std::string& key = {},
                     unsigned int flags = 0);
+  void add_file(const std::string& text, std::string* value_ptr,
+                const std::string& key = {},
+                boost::optional<std::string> default_value = {},
+                const std::vector<std::string>& filter = {}, unsigned int flags = 0);
 
   const std::vector<std::unique_ptr<ObjectOption> >& get_options() const { return m_options; }
 
@@ -123,11 +127,6 @@ public:
 
 private:
   void add_option(std::unique_ptr<ObjectOption> option);
-
-  void add_file(const std::string& text, std::string* value_ptr,
-                const std::string& key = {},
-                boost::optional<std::string> default_value = {},
-                const std::vector<std::string>& filter = {}, unsigned int flags = 0);
 
 private:
   std::string m_name;
