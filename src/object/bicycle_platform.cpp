@@ -174,6 +174,9 @@ BicyclePlatform::get_settings()
 {
   auto result = GameObject::get_settings();
 
+  result.add_float(_("X"), &m_center.x, "x", 0.0f, OPTION_HIDDEN);
+  result.add_float(_("Y"), &m_center.y, "y", 0.0f, OPTION_HIDDEN);
+
   result.add_int(_("Platforms"), &m_platforms, "platforms");
   result.add_float(_("Radius"), &m_radius, "radius", 128);
   result.add_float(_("Momentum change rate"), &m_momentum_change_rate, "momentum-change-rate", 0.1f);

@@ -130,6 +130,8 @@ Gradient::get_settings()
                   static_cast<int>(DrawingTarget::COLORMAP),
                   "target");
 
+  result.reorder({"blend", "top_color", "bottom_color", "target", "z-pos"});
+
   result.add_remove();
 
   return result;
