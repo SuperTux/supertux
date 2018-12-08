@@ -5,7 +5,10 @@
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (ambient_sound
+    (ambient-light
+      (color 0.7022965 0.8745861 1)
+    )
+    (ambient-sound
       (sample "sounds/rain.wav")
       (distance_factor 0.5)
       (distance_bias 100)
@@ -15,9 +18,6 @@
       (name "Rain")
       (x 0)
       (y 0)
-    )
-    (ambient-light
-      (color 0.7022965 0.8745861 1)
     )
     (background
       (speed 0.5)

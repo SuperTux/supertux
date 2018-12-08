@@ -5,7 +5,10 @@
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (ambient_sound
+    (ambient-light
+      (color 1 1 1)
+    )
+    (ambient-sound
       (sample "sounds/saw.wav")
       (distance_factor 0.1)
       (distance_bias 200)
@@ -14,9 +17,6 @@
       (height 213.7371)
       (x 1259.143)
       (y 884.0861)
-    )
-    (ambient-light
-      (color 1 1 1)
     )
     (background
       (x 2500)

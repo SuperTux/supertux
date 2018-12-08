@@ -5,7 +5,10 @@
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (ambient_sound
+    (ambient-light
+      (color 1 1 1)
+    )
+    (ambient-sound
       (sample "sounds/rain.wav")
       (distance_factor 0.5)
       (distance_bias 100)
@@ -15,7 +18,7 @@
       (x 0)
       (y 20)
     )
-    (ambient_sound
+    (ambient-sound
       (sample "sounds/waterfall.wav")
       (distance_factor 0.1)
       (distance_bias 200)
@@ -25,7 +28,7 @@
       (x 1519)
       (y 3128)
     )
-    (ambient_sound
+    (ambient-sound
       (sample "sounds/waterfall.wav")
       (distance_factor 0.1)
       (distance_bias 200)
@@ -35,7 +38,7 @@
       (x 65)
       (y 3137)
     )
-    (ambient_sound
+    (ambient-sound
       (sample "sounds/rain.wav")
       (distance_factor 0.5)
       (distance_bias 100)
@@ -45,7 +48,7 @@
       (x 5170)
       (y 896.6102)
     )
-    (ambient_sound
+    (ambient-sound
       (sample "sounds/rain.wav")
       (distance_factor 0.5)
       (distance_bias 100)
@@ -54,9 +57,6 @@
       (height 125.0352)
       (x 4512.031)
       (y 895.5586)
-    )
-    (ambient-light
-      (color 1 1 1)
     )
     (background
       (y 1100)

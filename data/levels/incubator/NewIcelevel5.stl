@@ -6,7 +6,10 @@
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (ambient_sound
+    (ambient-light
+      (color 1 1 1)
+    )
+    (ambient-sound
       (sample "sounds/rain.wav")
       (distance_factor 0)
       (distance_bias 0)
@@ -15,9 +18,6 @@
       (height 584)
       (x 8064)
       (y -384)
-    )
-    (ambient-light
-      (color 1 1 1)
     )
     (camera
       (mode "normal")

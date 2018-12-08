@@ -4,7 +4,10 @@
   (author "basti_")
   (sector
     (name "main")
-    (ambient_sound
+    (ambient-light
+      (color 1 1 1)
+    )
+    (ambient-sound
       (sample "sounds/rain.wav")
       (distance_factor 0.01)
       (distance_bias 200)
@@ -14,7 +17,7 @@
       (x 128)
       (y 900)
     )
-    (ambient_sound
+    (ambient-sound
       (sample "sounds/waterfall.wav")
       (distance_factor 0.05)
       (distance_bias 100)
@@ -24,7 +27,7 @@
       (x 512)
       (y 900)
     )
-    (ambient_sound
+    (ambient-sound
       (sample "sounds/lava.wav")
       (distance_factor 0.1)
       (distance_bias 50)
@@ -34,7 +37,7 @@
       (x 700)
       (y 900)
     )
-    (ambient_sound
+    (ambient-sound
       (sample "music/leveldone.ogg")
       (distance_factor 0.01)
       (distance_bias 200)
@@ -43,9 +46,6 @@
       (height 32)
       (x 704)
       (y 97)
-    )
-    (ambient-light
-      (color 1 1 1)
     )
     (background
       (speed 0.5)

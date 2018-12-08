@@ -6,7 +6,10 @@
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (ambient_sound
+    (ambient-light
+      (color 1 1 1)
+    )
+    (ambient-sound
       (sample "sounds/waterfall.wav")
       (distance_factor 0.1)
       (distance_bias 200)
@@ -15,9 +18,6 @@
       (height 490.5051)
       (x 10464)
       (y 224)
-    )
-    (ambient-light
-      (color 1 1 1)
     )
     (background
       (speed 0.5)
