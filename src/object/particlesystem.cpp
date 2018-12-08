@@ -62,6 +62,8 @@ ParticleSystem::get_settings()
   result.add_int(_("Z-pos"), &z_pos, "z-pos", LAYER_BACKGROUND1);
   result.add_remove();
 
+  result.reorder({"enabled", "name"});
+
   return result;
 }
 
