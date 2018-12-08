@@ -93,28 +93,8 @@ MainMenu::menu_action(MenuItem& item)
       break;
 
     case MNID_DONATE:
-    {
-    #if defined(_WIN32) || defined (_WIN64)
-      ShellExecute(NULL, "open", "https://www.supertux.org/donate.html", NULL, NULL, SW_SHOWNORMAL);
-    #else
-      #if defined(__APPLE__)
-      const char* cmd = "open https://www.supertux.org/donate.html";
-      #else
-      const char* cmd = "xdg-open https://www.supertux.org/donate.html";
-      #endif
-
-      int ret = system(cmd);
-      if (ret < 0)
-      {
-        log_fatal << "failed to spawn: " << cmd << std::endl;
-      }
-      else if (ret > 0)
-      {
-        log_fatal << "error " << ret << " while executing: " << cmd << std::endl;
-      }
-    #endif
-    }
-    break;
+      FileSystem::open_path("https://www.supertux.org/donate.html");
+      break;
 
     case MNID_QUITMAINMENU:
       MenuManager::instance().clear_menu_stack();

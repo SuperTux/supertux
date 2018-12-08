@@ -50,6 +50,11 @@ std::string join(const std::string& lhs, const std::string& rhs);
     @return true when successfully removed, false otherwise */
  bool remove(const std::string& path);
 
+/** Opens a file path or an address outside of SuperTux
+ * @param path path or URL to open
+ */
+ void open_path(const std::string& path);
+
 } // namespace FileSystem
 
 #endif

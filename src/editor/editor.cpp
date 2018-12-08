@@ -20,13 +20,6 @@
 #include <physfs.h>
 #include <iostream>
 
-#if defined(_WIN32)
-  #include <windows.h>
-  #include <shellapi.h>
-#else
-  #include <cstdlib>
-#endif
-
 #include "audio/sound_manager.hpp"
 #include "control/input_manager.hpp"
 #include "editor/button_widget.hpp"
@@ -278,26 +271,7 @@ Editor::open_level_directory()
 {
   m_level->save(FileSystem::join(get_level_directory(), m_levelfile));
   auto path = FileSystem::join(PHYSFS_getWriteDir(), get_level_directory());
-
-  #if defined(_WIN32) || defined (_WIN64)
-    ShellExecute(NULL, "open", path.c_str(), NULL, NULL, SW_SHOWNORMAL);
-  #else
-    #if defined(__APPLE__)
-    const char* cmd = std::string("open \"" + path + "\"").c_str();
-    #else
-    const char* cmd = std::string("xdg-open \"" + path + "\"").c_str();
-    #endif
-
-    int ret = system(cmd);
-    if (ret < 0)
-    {
-      log_fatal << "failed to spawn: " << cmd << std::endl;
-    }
-    else if (ret > 0)
-    {
-      log_fatal << "error " << ret << " while executing: " << cmd << std::endl;
-    }
-  #endif
+  FileSystem::open_path(path);
 }
 
 void
