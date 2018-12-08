@@ -35,6 +35,8 @@ ScriptedObject::ScriptedObject(const ReaderMapping& mapping) :
   new_vel(),
   new_size()
 {
+  m_default_sprite_name = std::string();
+
   if (m_name.empty()) {
     m_name = "unnamed" + std::to_string(graphicsRandom.rand());
     log_warning << "Scripted object must have a name specified, setting to: " << m_name << std::endl;
