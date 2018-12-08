@@ -111,11 +111,11 @@ Gradient::get_settings()
   ObjectSettings result = GameObject::get_settings();
 
   if (m_gradient_direction == HORIZONTAL || m_gradient_direction == HORIZONTAL_SECTOR) {
-    result.add_color(_("Left Colour"), &m_gradient_top, "left_color");
-    result.add_color(_("Right Colour"), &m_gradient_bottom, "right_color");
+    result.add_rgba(_("Left Colour"), &m_gradient_top, "left_color");
+    result.add_rgba(_("Right Colour"), &m_gradient_bottom, "right_color");
   } else {
-    result.add_color(_("Top Colour"), &m_gradient_top, "top_color");
-    result.add_color(_("Bottom Colour"), &m_gradient_bottom, "bottom_color");
+    result.add_rgba(_("Top Colour"), &m_gradient_top, "top_color");
+    result.add_rgba(_("Bottom Colour"), &m_gradient_bottom, "bottom_color");
   }
 
   result.add_int(_("Z-pos"), &m_layer, "z-pos", LAYER_BACKGROUND0);
