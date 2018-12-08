@@ -26,7 +26,6 @@
     )
     (heavycoin
       (collect-script "sector.settings.set_ambient_light(0, 1.0, 0);")
-      (sprite "images/objects/coin/coin.sprite")
       (x 604.9528)
       (y 574.4766)
     )
