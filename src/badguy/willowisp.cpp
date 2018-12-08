@@ -46,8 +46,14 @@ WillOWisp::WillOWisp(const ReaderMapping& reader) :
   m_track_range(),
   m_vanish_range()
 {
-  reader.get("sector", m_target_sector, "main");
-  reader.get("spawnpoint", m_target_spawnpoint, "main");
+  if (Editor::is_active()) {
+    reader.get("sector", m_target_sector);
+    reader.get("spawnpoint", m_target_spawnpoint);
+  } else {
+    reader.get("sector", m_target_sector, "main");
+    reader.get("spawnpoint", m_target_spawnpoint, "main");
+  }
+
   reader.get("flyspeed", m_flyspeed, FLYSPEED);
   reader.get("track-range", m_track_range, TRACK_RANGE);
   reader.get("vanish-range", m_vanish_range, VANISH_RANGE);
@@ -277,8 +283,9 @@ WillOWisp::get_settings()
   result.add_float(_("Track range"), &m_track_range, "track-range", TRACK_RANGE);
   result.add_float(_("Vanish range"), &m_vanish_range, "vanish-range", VANISH_RANGE);
   result.add_float(_("Fly speed"), &m_flyspeed, "flyspeed", FLYSPEED);
+  result.add_path_ref(_("Path"), get_path_ref(), "path-ref");
 
-  result.reorder({"flyspeed", "hit-script", "name", "path-ref", "sector", "spawnpoint", "track-range", "vanish-range", "x", "y"});
+  result.reorder({"flyspeed", "track-range", "hit-script", "name", "path-ref", "sector", "spawnpoint", "vanish-range", "x", "y"});
 
   return result;
 }

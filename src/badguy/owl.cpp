@@ -50,7 +50,7 @@ Owl::initialize()
   m_physic.enable_gravity(false);
   m_sprite->set_action(m_dir == Direction::LEFT ? "left" : "right");
 
-  // If we add the carried object to the sector while we're editing 
+  // If we add the carried object to the sector while we're editing
   // a level with the editor, it gets written to the level file,
   // resulting in two carried objects. Returning early is much better.
   if (Editor::is_active())
@@ -226,7 +226,7 @@ Owl::get_settings()
 
   result.add_text(_("Carry"), &carried_obj_name, "carry"); //, std::string("skydive"));
 
-  result.reorder({"carry", "x", "y"});
+  result.reorder({"carry", "direction", "x", "y"});
 
   return result;
 }

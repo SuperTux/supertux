@@ -124,7 +124,7 @@ AmbientSound::get_settings()
   result.add_float(_("Distance bias"), &distance_bias, "distance_bias");
   result.add_float(_("Volume"), &maximumvolume, "volume");
 
-  result.reorder({"sample", "distance_factor", "distance_bias", "volume", "region", "x", "y", "width", "height", "name"});
+  result.reorder({"sample", "distance_factor", "distance_bias", "volume", "region", "name", "x", "y", "width", "height"});
 
   return result;
 }

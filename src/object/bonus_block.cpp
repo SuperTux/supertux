@@ -190,7 +190,7 @@ BonusBlock::get_settings()
                    "1up", "custom", "script", "light", "trampoline", "rain", "explode"},
                   static_cast<int>(Content::COIN), "contents");
 
-  result.reorder({"count", "contents", "script", "sprite", "x", "y"});
+  result.reorder({"script", "count", "contents", "sprite", "x", "y"});
 
   return result;
 }

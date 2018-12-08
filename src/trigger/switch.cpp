@@ -62,7 +62,7 @@ Switch::get_settings()
   result.add_script(_("Turn on script"), &script, "script");
   result.add_script(_("Turn off script"), &off_script, "off-script");
 
-  result.reorder({"script", "sprite", "x", "y"});
+  result.reorder({"script", "off-script", "sprite", "x", "y"});
 
   return result;
 }
