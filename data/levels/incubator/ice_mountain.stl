@@ -374,14 +374,14 @@ if(query(\"yellow\")){
       (file "music/airship_remix.music")
     )
     (owl
-      (direction "right")
       (carry "skydive")
+      (direction "right")
       (x 4270)
       (y 103)
     )
     (owl
-      (direction "right")
       (carry "skydive")
+      (direction "right")
       (x 4654)
       (y 39)
     )
