@@ -430,6 +430,9 @@ RGBAObjectOption::save(Writer& writer) const
       // skip
     } else {
       auto vec = m_pointer->toVector();
+      if (vec.back() == 1.0f) {
+        vec.pop_back();
+      }
       writer.write(get_key(), vec);
     }
   }
