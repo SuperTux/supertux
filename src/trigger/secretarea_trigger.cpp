@@ -78,7 +78,7 @@ SecretAreaTrigger::get_settings()
   result.add_translatable_text(_("Message"), &message, "message");
   result.add_script(_("Script"), &script, "script");
 
-  result.reorder({"fade-tilemap", "script", "sprite", "message", "name", "region", "x", "y", "width", "height"});
+  result.reorder({"fade-tilemap", "script", "sprite", "message", "region", "x", "y", "name", "width", "height"});
 
   return result;
 }

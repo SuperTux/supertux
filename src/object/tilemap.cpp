@@ -108,10 +108,12 @@ TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
 
   m_z_pos = reader_get_layer (reader, /* default = */ 0);
 
-  if (m_real_solid && ((m_speed_x != 1) || (m_speed_y != 1))) {
-    log_warning << "Speed of solid tilemap is not 1. fixing" << std::endl;
-    m_speed_x = 1;
-    m_speed_y = 1;
+  if (!Editor::is_active()) {
+    if (m_real_solid && ((m_speed_x != 1) || (m_speed_y != 1))) {
+      log_warning << "Speed of solid tilemap is not 1. fixing" << std::endl;
+      m_speed_x = 1;
+      m_speed_y = 1;
+    }
   }
 
   init_path(reader, false);

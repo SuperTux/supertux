@@ -65,6 +65,7 @@ public:
 
 private:
   Vector m_pos;
+  std::string m_sprite_name;
   float m_start_y; /**< vertical start position */
   float m_speed_y; /**< vertical speed */
   float m_offset_y; /**< vertical offset from the start position in px */
