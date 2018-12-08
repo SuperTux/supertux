@@ -571,14 +571,14 @@ Sector::save(Writer &writer)
 
   writer.write("name", m_name, false);
 
-  if (m_init_script.size()) {
-    writer.write("init-script", m_init_script,false);
-  }
-
   if (!Editor::is_active() || !(Editor::current() && Editor::current()->get_worldmap_mode())) {
     if (m_gravity != 10.0f) {
       writer.write("gravity", m_gravity);
     }
+  }
+
+  if (m_init_script.size()) {
+    writer.write("init-script", m_init_script,false);
   }
 
   // saving objects;

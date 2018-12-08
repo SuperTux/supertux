@@ -74,7 +74,7 @@ Door::get_settings()
   result.add_text(_("Sector"), &target_sector, "sector");
   result.add_text(_("Spawn point"), &target_spawnpoint, "spawnpoint");
 
-  result.reorder({"sector", "spawnpoint", "x", "y"});
+  result.reorder({"sector", "spawnpoint", "name", "x", "y"});
 
   return result;
 }
