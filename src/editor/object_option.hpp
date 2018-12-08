@@ -254,7 +254,7 @@ class ColorObjectOption : public ObjectOption
 {
 public:
   ColorObjectOption(const std::string& text, Color* pointer, const std::string& key,
-                    boost::optional<Color> default_value,
+                    boost::optional<Color> default_value, bool use_alpha,
                     unsigned int flags);
 
   virtual void save(Writer& write) const override;
@@ -264,30 +264,11 @@ public:
 private:
   Color* const m_pointer;
   const boost::optional<Color> m_default_value;
+  bool m_use_alpha;
 
 private:
   ColorObjectOption(const ColorObjectOption&) = delete;
   ColorObjectOption& operator=(const ColorObjectOption&) = delete;
-};
-
-class RGBAObjectOption : public ObjectOption
-{
-public:
-  RGBAObjectOption(const std::string& text, Color* pointer, const std::string& key,
-                  boost::optional<Color> default_value,
-                  unsigned int flags);
-
-  virtual void save(Writer& write) const override;
-  virtual std::string to_string() const override;
-  virtual void add_to_menu(Menu& menu) const override;
-
-private:
-  Color* const m_pointer;
-  const boost::optional<Color> m_default_value;
-
-private:
-  RGBAObjectOption(const RGBAObjectOption&) = delete;
-  RGBAObjectOption& operator=(const RGBAObjectOption&) = delete;
 };
 
 class BadGuySelectObjectOption : public ObjectOption

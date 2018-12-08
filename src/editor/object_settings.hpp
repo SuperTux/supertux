@@ -71,6 +71,10 @@ public:
                 const std::string& key = {},
                 boost::optional<Color> default_value = {},
                 unsigned int flags = 0);
+  void add_rgb(const std::string& text, Color* value_ptr,
+               const std::string& key = {},
+               boost::optional<Color> default_value = {},
+               unsigned int flags = 0);
   void add_remove();
   void add_script(const std::string& text, std::string* value_ptr,
                   const std::string& key = {}, unsigned int flags = 0);
