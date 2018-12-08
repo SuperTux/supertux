@@ -1449,7 +1449,6 @@ Plata3.goto_node(0);")
     )
     (camera
       (mode "normal")
-      (path-ref "d16d1cca-2859-4cfa-9d6d-02eb27032431")
     )
     (firefly
       (x 1536)
@@ -1508,15 +1507,6 @@ Plata3.goto_node(0);")
     )
     (music
       (file "music/greatgigantic.music")
-    )
-    (path
-      (name "d16d1cca-2859-4cfa-9d6d-02eb27032431")
-      (path
-        (node
-          (x 0)
-          (y -2.82843)
-        )
-      )
     )
     (path
       (name "7625889f-de6e-4f3f-b90e-0a82e1cfaf40")

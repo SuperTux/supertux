@@ -14,7 +14,6 @@
     )
     (camera
       (mode "normal")
-      (path-ref "5d9602f8-21b4-4baa-b69c-d9d2280488a7")
     )
     (ghosttree
       (dead-script "sector.Tux.trigger_sequence(\"fireworks\");")
@@ -38,15 +37,6 @@
     )
     (music
       (file "music/treeboss.music")
-    )
-    (path
-      (name "5d9602f8-21b4-4baa-b69c-d9d2280488a7")
-      (path
-        (node
-          (x 0)
-          (y 0)
-        )
-      )
     )
     (path
       (name "1e32f093-8db3-4e0a-9a16-5768ed5bc413")
