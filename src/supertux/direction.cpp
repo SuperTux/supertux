@@ -45,12 +45,6 @@ dir_to_string(const Direction& dir)
   }
 }
 
-std::string
-dir_to_prefixed(const Direction& dir, const std::string& prefix)
-{
-  return prefix + "-" + dir_to_string(dir);
-}
-
 Direction
 string_to_dir(const std::string& dir_str)
 {
