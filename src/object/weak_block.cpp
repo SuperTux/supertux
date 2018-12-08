@@ -31,8 +31,8 @@
 #include "util/log.hpp"
 #include "util/reader_mapping.hpp"
 
-WeakBlock::WeakBlock(const ReaderMapping& mapping)
-: MovingSprite(mapping, "images/objects/weak_block/strawbox.sprite", LAYER_TILES, COLGROUP_STATIC), state(STATE_NORMAL),
+WeakBlock::WeakBlock(const ReaderMapping& mapping) :
+  MovingSprite(mapping, "images/objects/weak_block/strawbox.sprite", LAYER_TILES, COLGROUP_STATIC), state(STATE_NORMAL),
   linked(true),
   lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
 {
