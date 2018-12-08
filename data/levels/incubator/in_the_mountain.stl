@@ -142,38 +142,46 @@
       (file "music/chipdisko.ogg")
     )
     (owl
+      (carry "skydive")
       (x 9089.498)
       (y 118.3259)
     )
     (owl
+      (carry "skydive")
       (x 8710.348)
       (y 123.1422)
     )
     (owl
       (direction "right")
+      (carry "skydive")
       (x 8932.934)
       (y 102.1127)
     )
     (owl
       (direction "left")
+      (carry "skydive")
       (x 8796.952)
       (y 81.93246)
     )
     (owl
       (direction "left")
+      (carry "skydive")
       (x 9017.984)
       (y 89.00354)
     )
     (owl
+      (carry "skydive")
       (x 8855.498)
       (y 88.3259)
     )
     (owl
+      (carry "skydive")
       (x 8578.498)
       (y 94.3259)
     )
     (owl
       (direction "left")
+      (carry "skydive")
       (x 8656.952)
       (y 74.93246)
     )

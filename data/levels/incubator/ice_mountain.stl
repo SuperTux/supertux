@@ -375,11 +375,13 @@ if(query(\"yellow\")){
     )
     (owl
       (direction "right")
+      (carry "skydive")
       (x 4270)
       (y 103)
     )
     (owl
       (direction "right")
+      (carry "skydive")
       (x 4654)
       (y 39)
     )

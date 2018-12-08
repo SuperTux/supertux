@@ -39,6 +39,7 @@
       (file "music/greatgigantic.music")
     )
     (owl
+      (carry "skydive")
       (x 1614)
       (y 807)
     )
