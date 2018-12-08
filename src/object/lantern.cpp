@@ -21,6 +21,7 @@
 #include "audio/sound_manager.hpp"
 #include "badguy/treewillowisp.hpp"
 #include "badguy/willowisp.hpp"
+#include "editor/editor.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "util/reader_mapping.hpp"
@@ -34,7 +35,9 @@ Lantern::Lantern(const ReaderMapping& reader) :
   if (reader.get("color", vColor)) {
     lightcolor = Color(vColor);
   } else {
-    lightcolor = Color(0, 0, 0);
+    if (!Editor::is_active()) {
+      lightcolor = Color(0, 0, 0);
+    }
   }
   lightsprite->set_blend(Blend::ADD);
   updateColor();

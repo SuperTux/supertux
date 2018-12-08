@@ -78,7 +78,11 @@ ObjectSettings
 WalkingCandle::get_settings()
 {
   ObjectSettings result = BadGuy::get_settings();
-  result.add_color(_("Color"), &lightcolor, "color");
+
+  result.add_color(_("Color"), &lightcolor, "color", Color::WHITE);
+
+  result.reorder({"color", "x", "y"});
+
   return result;
 }
 
