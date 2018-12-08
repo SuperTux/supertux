@@ -42,9 +42,17 @@ Ispy::Ispy(const ReaderMapping& reader) :
       dir = Direction::LEFT;
     }
   }
+
   reader.get("facing-down", m_facing_down, false);
-  if (m_facing_down) dir = Direction::DOWN;
-  if (dir == Direction::AUTO) { log_warning << "Setting an Ispy's direction to AUTO is no good idea" << std::endl; }
+  if (!Editor::is_active()) {
+    if (m_facing_down) {
+      dir = Direction::DOWN;
+    }
+  }
+
+  if (dir == Direction::AUTO) {
+    log_warning << "Setting an Ispy's direction to AUTO is no good idea" << std::endl;
+  }
 
   // set initial sprite action
   m_sprite->set_action((dir == Direction::DOWN) ? "idle-down" : ((dir == Direction::LEFT) ? "idle-left" : "idle-right"));
@@ -57,9 +65,9 @@ Ispy::get_settings()
 
   result.add_bool(_("Facing Down"), &m_facing_down, "facing-down", false);
   result.add_script(_("Script"), &script, "script");
-  result.add_direction(_("Direction"), &dir);
+  result.add_direction(_("Direction"), &dir, Direction::AUTO, "direction");
 
-  result.reorder({"script", "facing-down", "x", "y"});
+  result.reorder({"script", "facing-down", "direction", "x", "y"});
 
   return result;
 }

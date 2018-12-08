@@ -30,6 +30,7 @@
 static const float MESSAGE_TIME=3.5;
 
 SecretAreaTrigger::SecretAreaTrigger(const ReaderMapping& reader) :
+  TriggerBase(reader),
   message_timer(),
   message_displayed(false),
   message(),
@@ -77,7 +78,7 @@ SecretAreaTrigger::get_settings()
   result.add_translatable_text(_("Message"), &message, "message");
   result.add_script(_("Script"), &script, "script");
 
-  result.reorder({"fade-tilemap", "script", "sprite", "message", "region", "x", "y", "width", "height"});
+  result.reorder({"fade-tilemap", "script", "sprite", "message", "name", "region", "x", "y", "width", "height"});
 
   return result;
 }
