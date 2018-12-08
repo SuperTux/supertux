@@ -306,4 +306,14 @@ ObjectSettings::reorder(const std::vector<std::string>& order)
   m_options = std::move(new_options);
 }
 
+void
+ObjectSettings::remove(const std::string& key)
+{
+  m_options.erase(std::remove_if(m_options.begin(), m_options.end(),
+                                 [key](const std::unique_ptr<ObjectOption>& option){
+                                   return option->get_key() == key;
+                                 }),
+                  m_options.end());
+}
+
 /* EOF */

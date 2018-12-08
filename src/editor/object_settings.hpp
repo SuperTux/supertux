@@ -133,6 +133,9 @@ public:
       saving identical to the other editor */
   void reorder(const std::vector<std::string>& order);
 
+  /** Remove an option from the list, this is a hack */
+  void remove(const std::string& key);
+
 private:
   void add_option(std::unique_ptr<ObjectOption> option);
 
