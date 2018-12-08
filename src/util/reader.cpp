@@ -24,6 +24,7 @@
 
 #include <physfs.h>
 
+#include "editor/editor.hpp"
 #include "util/gettext.hpp"
 #include "util/reader_mapping.hpp"
 #include "video/drawing_context.hpp"
@@ -43,8 +44,10 @@ int reader_get_layer(const ReaderMapping& reader, int def)
   if (!status)
     tmp = def;
 
-  if (tmp > (LAYER_GUI - 100))
-    tmp = LAYER_GUI - 100;
+  if (!Editor::is_active()) {
+    if (tmp > (LAYER_GUI - 100))
+      tmp = LAYER_GUI - 100;
+  }
 
   return (tmp);
 }

@@ -63,9 +63,12 @@ Thunderstorm::get_settings()
 {
   ObjectSettings result = GameObject::get_settings();
 
+  result.add_int(_("Z-pos"), &layer, "z-pos", LAYER_BACKGROUNDTILES - 1);
   result.add_bool(_("Running"), &running, "running", true);
   result.add_float(_("Interval"), &interval, "interval", 10.0f);
   result.add_remove();
+
+  result.reorder({"interval", "namespace", "z-pos"});
 
   return result;
 }
