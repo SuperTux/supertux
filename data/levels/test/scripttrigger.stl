@@ -50,7 +50,7 @@
     (scripttrigger
       (script "MYOBJECT.set_velocity(100, -300);")
       (button #f)
-      (width 68.82843)
+      (width 68.8284)
       (height 72.68628)
       (x 90.1787)
       (y 415.2255)
