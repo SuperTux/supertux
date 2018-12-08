@@ -13,14 +13,8 @@
     )
     (camera
       (mode "normal")
-      (path-ref "a8351806-6640-4bcd-b6fa-ae02508a20e8")
     )
     (music
-    )
-    (path
-      (name "a8351806-6640-4bcd-b6fa-ae02508a20e8")
-      (path
-      )
     )
     (tilemap
       (solid #f)
