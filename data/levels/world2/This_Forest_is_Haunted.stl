@@ -630,42 +630,34 @@
       (y 184.6046)
     )
     (trampoline
-      (sprite "images/objects/trampoline/trampoline.sprite")
       (x 4030.178)
       (y 894.5457)
     )
     (trampoline
-      (sprite "images/objects/trampoline/trampoline.sprite")
       (x 4062.969)
       (y 896.4182)
     )
     (trampoline
-      (sprite "images/objects/trampoline/trampoline.sprite")
       (x 4093.894)
       (y 894.5457)
     )
     (trampoline
-      (sprite "images/objects/trampoline/trampoline.sprite")
       (x 4126.69)
       (y 894.5451)
     )
     (trampoline
-      (sprite "images/objects/trampoline/trampoline.sprite")
       (x 4159.485)
       (y 895.4822)
     )
     (trampoline
-      (sprite "images/objects/trampoline/trampoline.sprite")
       (x 4190.404)
       (y 895.4822)
     )
     (trampoline
-      (sprite "images/objects/trampoline/trampoline.sprite")
       (x 4222.263)
       (y 894.5455)
     )
     (trampoline
-      (sprite "images/objects/trampoline/trampoline.sprite")
       (x 4254.121)
       (y 894.5452)
     )
@@ -795,62 +787,50 @@
       (y 341.432)
     )
     (weak_block
-      (sprite "images/objects/weak_block/strawbox.sprite")
       (x 5216.655)
       (y 797.9483)
     )
     (weak_block
-      (sprite "images/objects/weak_block/strawbox.sprite")
       (x 5281.306)
       (y 797.0115)
     )
     (weak_block
-      (sprite "images/objects/weak_block/strawbox.sprite")
       (x 5216.655)
       (y 766.1165)
     )
     (weak_block
-      (sprite "images/objects/weak_block/strawbox.sprite")
       (x 5280.376)
       (y 766.1165)
     )
     (weak_block
-      (sprite "images/objects/weak_block/strawbox.sprite")
       (x 7136.611)
       (y 863.6506)
     )
     (weak_block
-      (sprite "images/objects/weak_block/strawbox.sprite")
       (x 7167.529)
       (y 863.6505)
     )
     (weak_block
-      (sprite "images/objects/weak_block/strawbox.sprite")
       (x 7167.06)
       (y 894.5452)
     )
     (weak_block
-      (sprite "images/objects/weak_block/strawbox.sprite")
       (x 7136.136)
       (y 894.5455)
     )
     (weak_block
-      (sprite "images/objects/weak_block/strawbox.sprite")
       (x 7359.158)
       (y 894.5457)
     )
     (weak_block
-      (sprite "images/objects/weak_block/strawbox.sprite")
       (x 7327.3)
       (y 894.546)
     )
     (weak_block
-      (sprite "images/objects/weak_block/strawbox.sprite")
       (x 7327.296)
       (y 863.6507)
     )
     (weak_block
-      (sprite "images/objects/weak_block/strawbox.sprite")
       (x 7359.154)
       (y 862.7145)
     )
