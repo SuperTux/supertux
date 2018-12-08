@@ -26,7 +26,8 @@
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 
-Door::Door(const ReaderMapping& reader) :
+Door::Door(const ReaderMapping& mapping) :
+  TriggerBase(mapping),
   state(CLOSED),
   target_sector(),
   target_spawnpoint(),
@@ -34,12 +35,12 @@ Door::Door(const ReaderMapping& reader) :
   sprite(SpriteManager::current()->create("images/objects/door/door.sprite")),
   stay_open_timer()
 {
-  reader.get("x", m_col.m_bbox.p1.x);
-  reader.get("y", m_col.m_bbox.p1.y);
-  reader.get("sector", target_sector);
-  reader.get("spawnpoint", target_spawnpoint);
+  mapping.get("x", m_col.m_bbox.p1.x);
+  mapping.get("y", m_col.m_bbox.p1.y);
+  mapping.get("sector", target_sector);
+  mapping.get("spawnpoint", target_spawnpoint);
 
-  reader.get("script", script);
+  mapping.get("script", script);
 
   sprite->set_action("closed");
   m_col.m_bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
@@ -48,6 +49,7 @@ Door::Door(const ReaderMapping& reader) :
 }
 
 Door::Door(int x, int y, const std::string& sector, const std::string& spawnpoint) :
+  TriggerBase(),
   state(CLOSED),
   target_sector(sector),
   target_spawnpoint(spawnpoint),

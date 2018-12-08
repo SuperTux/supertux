@@ -16,6 +16,7 @@
 
 #include "object/ispy.hpp"
 
+#include "editor/editor.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/sector.hpp"
 #include "util/log.hpp"
@@ -37,7 +38,9 @@ Ispy::Ispy(const ReaderMapping& reader) :
   if (reader.get("direction", dir_str)) {
     dir = string_to_dir(dir_str);
   } else {
-    dir = Direction::LEFT;
+    if (!Editor::is_active()) {
+      dir = Direction::LEFT;
+    }
   }
   reader.get("facing-down", m_facing_down, false);
   if (m_facing_down) dir = Direction::DOWN;

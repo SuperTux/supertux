@@ -19,6 +19,16 @@
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
 
+TriggerBase::TriggerBase(const ReaderMapping& mapping) :
+  MovingObject(mapping),
+  m_sprite(),
+  m_lasthit(false),
+  m_hit(false),
+  m_losetouch_listeners()
+{
+  set_group(COLGROUP_TOUCHABLE);
+}
+
 TriggerBase::TriggerBase() :
   m_sprite(),
   m_lasthit(false),

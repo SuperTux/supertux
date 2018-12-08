@@ -68,7 +68,7 @@ Thunderstorm::get_settings()
   result.add_float(_("Interval"), &interval, "interval", 10.0f);
   result.add_remove();
 
-  result.reorder({"interval", "namespace", "z-pos"});
+  result.reorder({"interval", "name", "z-pos"});
 
   return result;
 }
