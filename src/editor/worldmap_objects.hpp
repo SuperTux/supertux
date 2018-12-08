@@ -30,6 +30,7 @@ public:
   WorldmapObject(const ReaderMapping& mapping);
   WorldmapObject(const Vector& pos, const std::string& default_sprite);
 
+  virtual ObjectSettings get_settings() override;
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override { return FORCE_MOVE; }
   virtual std::string get_class() const override { return "worldmap-object"; }
   virtual void move_to(const Vector& pos) override;
@@ -44,10 +45,10 @@ class LevelDot final : public WorldmapObject
 public:
   LevelDot(const ReaderMapping& mapping);
 
-  virtual std::string get_class() const override { return "level"; }
-
   virtual void draw(DrawingContext& context) override;
 
+  virtual std::string get_class() const override { return "level"; }
+  virtual std::string get_display_name() const override { return _("Level"); }
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
 
@@ -67,10 +68,10 @@ class Teleporter final : public WorldmapObject
 public:
   Teleporter(const ReaderMapping& mapping);
 
-  virtual std::string get_class() const override { return "teleporter"; }
-
   virtual void draw(DrawingContext& context) override;
 
+  virtual std::string get_class() const override { return "teleporter"; }
+  virtual std::string get_display_name() const override { return _("Teleporter"); }
   virtual ObjectSettings get_settings() override;
 
 private:
@@ -110,7 +111,7 @@ public:
   SpriteChange(const ReaderMapping& mapping);
 
   virtual std::string get_class() const override { return "sprite-change"; }
-
+  virtual std::string get_display_name() const override { return _("Sprite Change"); }
   virtual ObjectSettings get_settings() override;
 
 private:
@@ -131,7 +132,7 @@ public:
   SpecialTile(const ReaderMapping& mapping);
 
   virtual std::string get_class() const override { return "special-tile"; }
-
+    virtual std::string get_display_name() const override { return _("Special tile"); }
   virtual ObjectSettings get_settings() override;
 
 private:

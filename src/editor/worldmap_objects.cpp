@@ -53,8 +53,16 @@ WorldmapObject::WorldmapObject (const Vector& pos, const std::string& default_sp
   m_col.m_bbox.set_size(32, 32);
 }
 
+ObjectSettings
+WorldmapObject::get_settings()
+{
+  ObjectSettings result = MovingSprite::get_settings();
+  return result;
+}
+
 void
-WorldmapObject::move_to(const Vector& pos) {
+WorldmapObject::move_to(const Vector& pos)
+{
   Vector new_pos;
   new_pos.x = 32.0f * static_cast<float>(pos.x / 32);
   new_pos.y = 32.0f * static_cast<float>(pos.y / 32);
@@ -89,13 +97,17 @@ LevelDot::draw(DrawingContext& context)
 ObjectSettings
 LevelDot::get_settings()
 {
-  ObjectSettings result(_("Level"));
+  ObjectSettings result = WorldmapObject::get_settings();
 
-  result.add_level(_("Level"), &m_level);
-  result.add_script(_("Outro script"), &m_extro_script);
-  result.add_bool(_("Auto play"), &m_auto_play);
-  result.add_sprite(_("Sprite"), &m_sprite_name);
-  result.add_color(_("Title colour"), &m_title_color);
+  result.remove("name");
+
+  result.add_level(_("Level"), &m_level, "name");
+  result.add_script(_("Outro script"), &m_extro_script, "extro-script");
+  result.add_bool(_("Auto play"), &m_auto_play, "auto-play", false);
+  //result.add_sprite(_("Sprite"), &m_sprite_name, "sprite");
+  result.add_color(_("Title colour"), &m_title_color, "color", Color::WHITE);
+
+  result.reorder({"name", "sprite", "x", "y"});
 
   return result;
 }
@@ -156,14 +168,14 @@ Teleporter::draw(DrawingContext& context)
 ObjectSettings
 Teleporter::get_settings()
 {
-  ObjectSettings result(_("Teleporter"));
+  ObjectSettings result = WorldmapObject::get_settings();
 
-  result.add_text(_("Spawnpoint"), &m_spawnpoint);
-  result.add_text(_("Message"), &m_message);
-  result.add_bool(_("Automatic"), &m_automatic);
-  result.add_bool(_("Change worldmap"), &m_change_worldmap);
-  result.add_worldmap(_("Target worldmap"), &m_worldmap);
-  result.add_sprite(_("Sprite"), &m_sprite_name);
+  result.add_text(_("Spawnpoint"), &m_spawnpoint, "spawnpoint");
+  result.add_text(_("Message"), &m_message, "message");
+  result.add_bool(_("Automatic"), &m_automatic, "automatic");
+  result.add_bool(_("Change worldmap"), &m_change_worldmap, "worldmap");
+  result.add_worldmap(_("Target worldmap"), &m_worldmap, "target-worldmap");
+  //result.add_sprite(_("Sprite"), &m_sprite_name, "sprite");
 
   return result;
 }
@@ -191,7 +203,7 @@ ObjectSettings
 WorldmapSpawnPoint::get_settings()
 {
   ObjectSettings result = WorldmapObject::get_settings();
-  result.add_worldmap_direction(_("Direction"), &m_dir, {}, "direction");
+  result.add_worldmap_direction(_("Direction"), &m_dir, worldmap::Direction::NONE, "direction");
   return result;
 }
 
@@ -218,11 +230,13 @@ SpriteChange::get_settings()
 {
   ObjectSettings result = WorldmapObject::get_settings();
 
-  result.add_sprite(_("Sprite"), &m_target_sprite);
-  result.add_text(_("Stay action"), &m_stay_action);
-  result.add_bool(_("Initial stay action"), &m_initial_stay_action);
-  result.add_text(_("Stay group"), &m_stay_group);
-  result.add_bool(_("Change on touch"), &m_change_on_touch);
+  //result.add_sprite(_("Sprite"), &m_target_sprite, "sprite");
+  result.add_text(_("Stay action"), &m_stay_action, "stay-action");
+  result.add_bool(_("Initial stay action"), &m_initial_stay_action, "initial-stay-action");
+  result.add_text(_("Stay group"), &m_stay_group, "stay-group");
+  result.add_bool(_("Change on touch"), &m_change_on_touch, "change-on-touch");
+
+  result.reorder({"change-on-touch", "initial-stay-action", "sprite", "x", "y"});
 
   return result;
 }
@@ -250,14 +264,16 @@ SpecialTile::SpecialTile (const ReaderMapping& mapping) :
 ObjectSettings
 SpecialTile::get_settings()
 {
-  ObjectSettings result(_("Special tile"));
+  ObjectSettings result = WorldmapObject::get_settings();
 
-  result.add_text(_("Message"), &m_map_message);
-  result.add_bool(_("Show message"), &m_passive_message);
-  result.add_script(_("Script"), &m_script);
-  result.add_bool(_("Invisible"), &m_invisible_tile);
-  result.add_worldmap_direction(_("Direction"), &m_apply_to_direction, {}, "direction");
-  result.add_sprite(_("Sprite"), &m_sprite_name);
+  result.add_text(_("Message"), &m_map_message, "map-message");
+  result.add_bool(_("Show message"), &m_passive_message, "passive-message");
+  result.add_script(_("Script"), &m_script, "script");
+  result.add_bool(_("Invisible"), &m_invisible_tile, "invisible-tile");
+  result.add_worldmap_direction(_("Direction"), &m_apply_to_direction, worldmap::Direction::NONE, "direction");
+  //result.add_sprite(_("Sprite"), &m_sprite_name, "sprite");
+
+  result.reorder({"direction", "map-message", "invisible-tile", "passive-message", "sprite", "x", "y"});
 
   return result;
 }
