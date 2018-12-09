@@ -123,7 +123,7 @@ ObjectSettings::add_worldmap_direction(const std::string& text, worldmap::Direct
   add_option(std::make_unique<StringSelectObjectOption>(
                text, reinterpret_cast<int*>(value_ptr),
                std::vector<std::string>{_("None"), _("West"), _("East"), _("North"), _("South")},
-               boost::none, key, 0));
+               default_value ? static_cast<int>(*default_value) : boost::optional<int>(), key, 0));
 }
 
 void

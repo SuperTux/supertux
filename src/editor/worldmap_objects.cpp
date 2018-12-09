@@ -171,11 +171,13 @@ Teleporter::get_settings()
   ObjectSettings result = WorldmapObject::get_settings();
 
   result.add_text(_("Spawnpoint"), &m_spawnpoint, "spawnpoint");
-  result.add_text(_("Message"), &m_message, "message");
-  result.add_bool(_("Automatic"), &m_automatic, "automatic");
-  result.add_bool(_("Change worldmap"), &m_change_worldmap, "worldmap");
+  result.add_translatable_text(_("Message"), &m_message, "message");
+  result.add_bool(_("Automatic"), &m_automatic, "automatic", false);
+  result.add_bool(_("Change worldmap"), &m_change_worldmap, "worldmap", false);
   result.add_worldmap(_("Target worldmap"), &m_worldmap, "target-worldmap");
   //result.add_sprite(_("Sprite"), &m_sprite_name, "sprite");
+
+  result.reorder({"spawnpoint", "message", "sprite", "x", "y"});
 
   return result;
 }

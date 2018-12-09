@@ -116,8 +116,6 @@ Level::save(Writer& writer)
   writer.write("version", 2);
   writer.write("name", m_name, true);
   writer.write("author", m_author, false);
-  if (m_tileset != "images/tiles.strf")
-    writer.write("tileset", m_tileset, false);
   if (!m_contact.empty()) {
     writer.write("contact", m_contact, false);
   }
@@ -131,6 +129,9 @@ Level::save(Writer& writer)
   for (auto& sector : m_sectors) {
     sector->save(writer);
   }
+
+  if (m_tileset != "images/tiles.strf")
+    writer.write("tileset", m_tileset, false);
 
   // Ends writing to supertux level file. Keep this at the very end.
   writer.end_list("supertux-level");
