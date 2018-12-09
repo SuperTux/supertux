@@ -36,6 +36,11 @@ public:
   virtual void move_to(const Vector& pos) override;
 
 private:
+  // FIXME: purely used for saving, is not updated normally, don't use.
+  int m_tile_x;
+  int m_tile_y;
+
+private:
   WorldmapObject(const WorldmapObject&) = delete;
   WorldmapObject& operator=(const WorldmapObject&) = delete;
 };

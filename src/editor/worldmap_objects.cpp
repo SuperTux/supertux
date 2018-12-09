@@ -30,7 +30,9 @@
 namespace worldmap_editor {
 
 WorldmapObject::WorldmapObject (const ReaderMapping& mapping, const std::string& default_sprite) :
-  MovingSprite(mapping, default_sprite)
+  MovingSprite(mapping, default_sprite),
+  m_tile_x(),
+  m_tile_y()
 {
   m_col.m_bbox.p1.x = 32 * m_col.m_bbox.p1.x;
   m_col.m_bbox.p1.y = 32 * m_col.m_bbox.p1.y;
@@ -38,7 +40,9 @@ WorldmapObject::WorldmapObject (const ReaderMapping& mapping, const std::string&
 }
 
 WorldmapObject::WorldmapObject (const ReaderMapping& mapping) :
-  MovingSprite(mapping)
+  MovingSprite(mapping),
+  m_tile_x(),
+  m_tile_y()
 {
   m_col.m_bbox.p1.x = 32 * m_col.m_bbox.p1.x;
   m_col.m_bbox.p1.y = 32 * m_col.m_bbox.p1.y;
@@ -46,7 +50,9 @@ WorldmapObject::WorldmapObject (const ReaderMapping& mapping) :
 }
 
 WorldmapObject::WorldmapObject (const Vector& pos, const std::string& default_sprite) :
-  MovingSprite(pos, default_sprite)
+  MovingSprite(pos, default_sprite),
+  m_tile_x(),
+  m_tile_y()
 {
   m_col.m_bbox.p1.x = 32 * m_col.m_bbox.p1.x;
   m_col.m_bbox.p1.y = 32 * m_col.m_bbox.p1.y;
@@ -57,6 +63,16 @@ ObjectSettings
 WorldmapObject::get_settings()
 {
   ObjectSettings result = MovingSprite::get_settings();
+
+  m_tile_x = static_cast<int>(m_col.m_bbox.p1.x) / 32;
+  m_tile_y = static_cast<int>(m_col.m_bbox.p1.y) / 32;
+
+  result.remove("x");
+  result.remove("y");
+
+  result.add_int(_("X"), &m_tile_x, "x", 0.0f, OPTION_HIDDEN);
+  result.add_int(_("Y"), &m_tile_y, "y", 0.0f, OPTION_HIDDEN);
+
   return result;
 }
 
