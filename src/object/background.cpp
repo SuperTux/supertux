@@ -145,7 +145,7 @@ Background::Background(const ReaderMapping& reader) :
     }
   }
 
-  reader.get_custom("blend", m_blend, Blend::from_string);
+  reader.get_custom("blend", m_blend, Blend_from_string);
   reader.get_custom("target", m_target, DrawingTarget_from_string);
 }
 

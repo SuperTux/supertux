@@ -52,29 +52,25 @@ SDL_Rect to_sdl_rect(const Rectf& rect)
 
 SDL_BlendMode blend2sdl(const Blend& blend)
 {
-  if (blend.sfactor == GL_ONE &&
-      blend.dfactor == GL_ZERO)
+  if (blend == Blend::NONE)
   {
     return SDL_BLENDMODE_NONE;
   }
-  else if (blend.sfactor == GL_SRC_ALPHA &&
-           blend.dfactor == GL_ONE_MINUS_SRC_ALPHA)
+  else if (blend == Blend::BLEND)
   {
     return SDL_BLENDMODE_BLEND;
   }
-  else if (blend.sfactor == GL_SRC_ALPHA &&
-           blend.dfactor == GL_ONE)
+  else if (blend == Blend::ADD)
   {
     return SDL_BLENDMODE_ADD;
   }
-  else if (blend.sfactor == GL_DST_COLOR &&
-           blend.dfactor == GL_ZERO)
+  else if (blend == Blend::MOD)
   {
     return SDL_BLENDMODE_MOD;
   }
   else
   {
-    log_warning << "unknown blend mode combinations: sfactor=" << blend.sfactor << " dfactor=" << blend.dfactor << std::endl;
+    log_warning << "unknown blend mode combinations: blend=" << static_cast<int>(blend) << std::endl;
     return SDL_BLENDMODE_BLEND;
   }
 }
