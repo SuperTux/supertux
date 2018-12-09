@@ -16,6 +16,7 @@
 
 #include "object/scripted_object.hpp"
 
+#include "editor/editor.hpp"
 #include "math/random.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
@@ -35,11 +36,13 @@ ScriptedObject::ScriptedObject(const ReaderMapping& mapping) :
   new_vel(),
   new_size()
 {
-  m_default_sprite_name = std::string();
+  m_default_sprite_name = {};
 
-  if (m_name.empty()) {
-    m_name = "unnamed" + std::to_string(graphicsRandom.rand());
-    log_warning << "Scripted object must have a name specified, setting to: " << m_name << std::endl;
+  if (!Editor::is_active()) {
+    if (m_name.empty()) {
+      m_name = "unnamed" + std::to_string(graphicsRandom.rand());
+      log_warning << "Scripted object must have a name specified, setting to: " << m_name << std::endl;
+    }
   }
 
   mapping.get("solid", solid, true);
