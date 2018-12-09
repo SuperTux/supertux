@@ -16,6 +16,9 @@
 
 #include "util/writer.hpp"
 
+#include <sexp/value.hpp>
+#include <sexp/io.hpp>
+
 #include "physfs/ofile_stream.hpp"
 #include "util/log.hpp"
 
@@ -198,6 +201,43 @@ Writer::write(const std::string& name,
     *out << " ";
     write_escaped_string(i);
   }
+  *out << ")\n";
+}
+
+void
+Writer::write_sexp(const sexp::Value& value, bool fudge)
+{
+  if (value.is_array()) {
+    if (fudge) {
+      indent_depth -= 1;
+      indent();
+      indent_depth += 1;
+    } else {
+      indent();
+    }
+    *out << "(";
+    auto& arr = value.as_array();
+    for(size_t i = 0; i < arr.size(); ++i) {
+      write_sexp(arr[i], false);
+      if (i != arr.size() - 1) {
+        *out << " ";
+      }
+    }
+    *out << ")\n";
+  } else {
+    *out << value;
+  }
+}
+
+void
+Writer::write(const std::string& name, const sexp::Value& value)
+{
+  indent();
+  *out << '(' << name << "\n";
+  indent_depth += 4;
+  write_sexp(value, true);
+  indent_depth -= 4;
+  indent();
   *out << ")\n";
 }
 
