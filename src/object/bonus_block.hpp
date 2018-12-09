@@ -77,6 +77,7 @@ private:
   int m_hit_counter;
   std::string m_script;
   SurfacePtr m_lightsprite;
+  sexp::Value m_custom_sx;
 
 private:
   BonusBlock(const BonusBlock&) = delete;

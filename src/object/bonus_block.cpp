@@ -18,6 +18,7 @@
 
 #include "audio/sound_manager.hpp"
 #include "badguy/badguy.hpp"
+#include "editor/editor.hpp"
 #include "object/bouncy_coin.hpp"
 #include "object/coin_explode.hpp"
 #include "object/coin_rain.hpp"
@@ -47,7 +48,8 @@ BonusBlock::BonusBlock(const Vector& pos, int tile_data) :
   m_object(),
   m_hit_counter(1),
   m_script(),
-  m_lightsprite()
+  m_lightsprite(),
+  m_custom_sx()
 {
   default_sprite_name = "images/objects/bonus_block/bonusblock.sprite";
 
@@ -63,7 +65,8 @@ BonusBlock::BonusBlock(const ReaderMapping& mapping) :
   m_object(),
   m_hit_counter(1),
   m_script(),
-  m_lightsprite()
+  m_lightsprite(),
+  m_custom_sx()
 {
   default_sprite_name = "images/objects/bonus_block/bonusblock.sprite";
 
@@ -89,28 +92,32 @@ BonusBlock::BonusBlock(const ReaderMapping& mapping) :
 
       if (m_contents == Content::CUSTOM)
       {
-        boost::optional<ReaderCollection> content_collection;
-        if (!mapping.get("custom-contents", content_collection))
-        {
-          log_warning << "bonusblock is missing 'custom-contents' tag" << std::endl;
-        }
-        else
-        {
-          const auto& object_specs = content_collection->get_objects();
-          if (!object_specs.empty()) {
-            if (object_specs.size() > 1) {
-              log_warning << "only one object allowed in bonusblock 'custom-contents', ignoring the rest" << std::endl;
-            }
+        if (Editor::is_active()) {
+          mapping.get("custom-contents", m_custom_sx);
+        } else {
+          boost::optional<ReaderCollection> content_collection;
+          if (!mapping.get("custom-contents", content_collection))
+          {
+            log_warning << "bonusblock is missing 'custom-contents' tag" << std::endl;
+          }
+          else
+          {
+            const auto& object_specs = content_collection->get_objects();
+            if (!object_specs.empty()) {
+              if (object_specs.size() > 1) {
+                log_warning << "only one object allowed in bonusblock 'custom-contents', ignoring the rest" << std::endl;
+              }
 
-            const ReaderObject& spec = object_specs[0];
-            auto game_object = GameObjectFactory::instance().create(spec.get_name(), spec.get_mapping());
+              const ReaderObject& spec = object_specs[0];
+              auto game_object = GameObjectFactory::instance().create(spec.get_name(), spec.get_mapping());
 
-            GameObject* tmp_ptr = game_object.release();
-            MovingObject* typed_tmp_ptr = dynamic_cast<MovingObject*>(tmp_ptr);
-            if (!typed_tmp_ptr) {
-              log_warning << "Only MovingObjects are allowed inside BonusBlocks" << std::endl;
-            } else {
-              m_object = std::unique_ptr<MovingObject>(typed_tmp_ptr);
+              GameObject* tmp_ptr = game_object.release();
+              MovingObject* typed_tmp_ptr = dynamic_cast<MovingObject*>(tmp_ptr);
+              if (!typed_tmp_ptr) {
+                log_warning << "Only MovingObjects are allowed inside BonusBlocks" << std::endl;
+              } else {
+                m_object = std::unique_ptr<MovingObject>(typed_tmp_ptr);
+              }
             }
           }
         }
@@ -137,8 +144,12 @@ BonusBlock::BonusBlock(const ReaderMapping& mapping) :
     }
   }
 
-  if (m_contents == Content::CUSTOM && !m_object)
-    throw std::runtime_error("Need to specify content object for custom block");
+  if (!Editor::is_active()) {
+    if (m_contents == Content::CUSTOM && !m_object) {
+      throw std::runtime_error("Need to specify content object for custom block");
+    }
+  }
+
   if (m_contents == Content::LIGHT) {
     SoundManager::current()->preload("sounds/switch.ogg");
     m_lightsprite = Surface::from_file("/images/objects/lightmap_light/bonusblock_light.png");
@@ -189,6 +200,7 @@ BonusBlock::get_settings()
                   {"coin", "firegrow", "icegrow", "airgrow", "earthgrow", "star",
                    "1up", "custom", "script", "light", "trampoline", "rain", "explode"},
                   static_cast<int>(Content::COIN), "contents");
+  result.add_sexp(_("Custom Content"), "custom-contents", m_custom_sx);
 
   result.reorder({"script", "count", "contents", "sprite", "x", "y"});
 
