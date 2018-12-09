@@ -27,7 +27,10 @@ enum class Direction;
 enum class WalkMode;
 namespace worldmap {
 enum class Direction;
-}
+} // namespace worldmap
+namespace sexp {
+class Value;
+} // namespace sexp
 
 class ObjectSettings final
 {
@@ -126,6 +129,8 @@ public:
                 const std::string& key = {},
                 boost::optional<std::string> default_value = {},
                 const std::vector<std::string>& filter = {}, unsigned int flags = 0);
+  void add_sexp(const std::string& text, const std::string& key,
+                sexp::Value& value, unsigned int flags = 0);
 
   const std::vector<std::unique_ptr<ObjectOption> >& get_options() const { return m_options; }
 

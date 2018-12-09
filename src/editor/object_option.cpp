@@ -504,7 +504,7 @@ void
 PathRefObjectOption::save(Writer& writer) const
 {
   if (!m_path_ref.empty()) {
-    writer.write("path-ref", m_path_ref);
+    writer.write(get_key(), m_path_ref);
   }
 }
 
@@ -516,6 +516,32 @@ PathRefObjectOption::to_string() const
 
 void
 PathRefObjectOption::add_to_menu(Menu& menu) const
+{
+}
+
+SExpObjectOption::SExpObjectOption(const std::string& text, const std::string& key, sexp::Value& value,
+                                   unsigned int flags) :
+  ObjectOption(text, key, flags),
+  m_sx(value)
+{
+}
+
+void
+SExpObjectOption::save(Writer& writer) const
+{
+  if (!m_sx.is_nil()) {
+    writer.write(get_key(), m_sx);
+  }
+}
+
+std::string
+SExpObjectOption::to_string() const
+{
+  return m_sx.str();
+}
+
+void
+SExpObjectOption::add_to_menu(Menu& menu) const
 {
 }
 

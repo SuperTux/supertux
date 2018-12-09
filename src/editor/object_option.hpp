@@ -21,8 +21,9 @@
 #include <string>
 #include <vector>
 
-#include "video/color.hpp"
+#include <sexp/value.hpp>
 
+#include "video/color.hpp"
 #include "gui/menu_action.hpp"
 
 enum ObjectOptionFlag {
@@ -34,6 +35,9 @@ enum ObjectOptionFlag {
   OPTION_TRANSLATABLE = (1 << 1)
 };
 
+namespace sexp {
+class Value;
+} // namespace sexp
 class Color;
 class Menu;
 class Path;
@@ -341,6 +345,23 @@ private:
 private:
   PathRefObjectOption(const PathRefObjectOption&) = delete;
   PathRefObjectOption& operator=(const PathRefObjectOption&) = delete;
+};
+
+class SExpObjectOption : public ObjectOption
+{
+public:
+  SExpObjectOption(const std::string& text, const std::string& key, sexp::Value& value, unsigned int flags);
+
+  virtual void save(Writer& write) const override;
+  virtual std::string to_string() const override;
+  virtual void add_to_menu(Menu& menu) const override;
+
+private:
+  sexp::Value m_sx;
+
+private:
+  SExpObjectOption(const SExpObjectOption&) = delete;
+  SExpObjectOption& operator=(const SExpObjectOption&) = delete;
 };
 
 class RemoveObjectOption : public ObjectOption

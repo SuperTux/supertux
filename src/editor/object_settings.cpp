@@ -17,6 +17,7 @@
 #include "editor/object_settings.hpp"
 
 #include <assert.h>
+#include <sexp/value.hpp>
 
 #include "util/gettext.hpp"
 #include "video/color.hpp"
@@ -272,6 +273,12 @@ ObjectSettings::add_worldmap(const std::string& text, std::string* value_ptr, co
                             unsigned int flags)
 {
   add_file(text, value_ptr, key, {}, {".stwm"}, flags);
+}
+
+void
+ObjectSettings::add_sexp(const std::string& text, const std::string& key, sexp::Value& value, unsigned int flags)
+{
+  add_option(std::make_unique<SExpObjectOption>(text, key, value, flags));
 }
 
 void
