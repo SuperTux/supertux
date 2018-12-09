@@ -119,6 +119,7 @@ Gradient::get_settings()
   }
 
   result.add_int(_("Z-pos"), &m_layer, "z-pos", LAYER_BACKGROUND0);
+
   result.add_enum(_("Direction"), reinterpret_cast<int*>(&m_gradient_direction),
                   {_("Vertical"), _("Horizontal"), _("Vertical (whole sector)"), _("Horizontal (whole sector)")},
                   {"vertical", "horizontal", "vertical_sector", "horizontal_sector"},
@@ -129,6 +130,12 @@ Gradient::get_settings()
                   {"normal", "lightmap"},
                   static_cast<int>(DrawingTarget::COLORMAP),
                   "target");
+
+  result.add_enum(_("Blend mode"), reinterpret_cast<int*>(&m_blend),
+                  {_("Blend"), _("Additive"), _("Modulate"), _("None")},
+                  {"blend", "add", "mod", "none"},
+                  static_cast<int>(Blend::BLEND),
+                  "blend");
 
   result.reorder({"blend", "top_color", "bottom_color", "target", "z-pos"});
 
