@@ -49,7 +49,7 @@ EditorMenu::EditorMenu()
 
   add_entry(MNID_OPEN_DIR, _("Open output directory"));
 
-  add_entry(MNID_SHARE, _("Share"));
+  add_entry(MNID_SHARE, _("Share your level"));
 
   if (is_world) {
     add_entry(MNID_LEVELSEL, _("Edit another level"));
