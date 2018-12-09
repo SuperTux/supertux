@@ -145,7 +145,8 @@ private:
   std::string m_script;
   bool m_passive_message;
   bool m_invisible_tile;
-  worldmap::Direction m_apply_to_direction;
+
+  std::string m_apply_to_directions;
 
 private:
   SpecialTile(const SpecialTile&) = delete;

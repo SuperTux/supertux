@@ -269,7 +269,7 @@ SpecialTile::SpecialTile (const ReaderMapping& mapping) :
   m_script(),
   m_passive_message(false),
   m_invisible_tile(false),
-  m_apply_to_direction(worldmap::Direction::NONE)
+  m_apply_to_directions("north-east-south-west")
 {
   mapping.get("map-message", m_map_message);
   mapping.get("script", m_script);
@@ -277,10 +277,7 @@ SpecialTile::SpecialTile (const ReaderMapping& mapping) :
   mapping.get("passive-message", m_passive_message);
   mapping.get("invisible-tile", m_invisible_tile);
 
-  std::string dir_str;
-  if (mapping.get("apply-to-direction", dir_str)) {
-    m_apply_to_direction = worldmap::string_to_direction(dir_str);
-  }
+  mapping.get("apply-to-direction", m_apply_to_directions);
 }
 
 ObjectSettings
@@ -292,7 +289,7 @@ SpecialTile::get_settings()
   result.add_bool(_("Show message"), &m_passive_message, "passive-message", false);
   result.add_script(_("Script"), &m_script, "script");
   result.add_bool(_("Invisible"), &m_invisible_tile, "invisible-tile", false);
-  result.add_worldmap_direction(_("Direction"), &m_apply_to_direction, worldmap::Direction::NONE, "apply-to-direction");
+  result.add_text(_("Direction"), &m_apply_to_directions, "apply-to-direction", std::string("north-east-south-west"));
   //result.add_sprite(_("Sprite"), &m_sprite_name, "sprite");
 
   result.reorder({"map-message", "invisible-tile", "script", "passive-message", "apply-to-direction", "sprite", "x", "y"});
