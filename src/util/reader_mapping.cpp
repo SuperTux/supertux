@@ -220,11 +220,12 @@ bool
 ReaderMapping::get(const char* key, sexp::Value& value) const
 {
   auto const sx = get_item(key);
-  if (sx) {
-    value = *sx;
-    return true;
-  } else {
+  if (!sx) {
     return false;
+  } else {
+    assert_array_size_eq(m_doc, *sx, 2);
+    value = sx->as_array()[1];
+    return true;
   }
 }
 
