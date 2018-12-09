@@ -119,10 +119,12 @@ Background::Background(const ReaderMapping& reader) :
   m_layer = reader_get_layer (reader, /* default = */ LAYER_BACKGROUND0);
 
   reader.get("image", m_imagefile, "images/background/transparent_up.png");
-  reader.get("speed-x", m_speed.x, 0.5f);
 
-  // for backward compatibilty
-  reader.get("speed", m_speed.x, 0.5f);
+  if(!reader.get("speed-x", m_speed.x))
+  {
+    // for backward compatibilty
+    reader.get("speed", m_speed.x, 0.5f);
+  };
 
   set_image(m_imagefile, m_speed.x);
   reader.get("speed-y", m_speed.y, m_speed.x);
