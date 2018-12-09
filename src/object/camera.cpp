@@ -194,6 +194,10 @@ Camera::Camera(const ReaderMapping& reader) :
   }
   m_defaultmode = m_mode;
 
+  if (m_name.empty()) {
+    m_name = "Camera";
+  }
+
   reload_config();
 }
 
