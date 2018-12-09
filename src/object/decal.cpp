@@ -21,7 +21,7 @@
 
 Decal::Decal(const ReaderMapping& reader) :
   MovingSprite(reader, "images/decal/explanations/billboard-bigtux.png", LAYER_OBJECTS, COLGROUP_DISABLED),
-  default_action(),
+  default_action("default"),
   solid()
 {
   m_layer = reader_get_layer (reader, /* default = */ LAYER_OBJECTS);
@@ -40,7 +40,7 @@ Decal::get_settings()
 
   result.add_int(_("Z-pos"), &m_layer, "z-pos", LAYER_OBJECTS);
   result.add_bool(_("Solid"), &solid, "solid", false);
-  result.add_text(_("Action"), &default_action, "action");
+  result.add_text(_("Action"), &default_action, "action", std::string("default"));
 
   result.reorder({"z-pos", "sprite", "x", "y"});
 

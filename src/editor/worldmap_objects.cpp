@@ -70,8 +70,8 @@ WorldmapObject::get_settings()
   result.remove("x");
   result.remove("y");
 
-  result.add_int(_("X"), &m_tile_x, "x", 0.0f, OPTION_HIDDEN);
-  result.add_int(_("Y"), &m_tile_y, "y", 0.0f, OPTION_HIDDEN);
+  result.add_int(_("X"), &m_tile_x, "x", {}, OPTION_HIDDEN);
+  result.add_int(_("Y"), &m_tile_y, "y", {}, OPTION_HIDDEN);
 
   return result;
 }
@@ -189,11 +189,11 @@ Teleporter::get_settings()
   result.add_text(_("Spawnpoint"), &m_spawnpoint, "spawnpoint");
   result.add_translatable_text(_("Message"), &m_message, "message");
   result.add_bool(_("Automatic"), &m_automatic, "automatic", false);
-  result.add_bool(_("Change worldmap"), &m_change_worldmap, "worldmap", false);
-  result.add_worldmap(_("Target worldmap"), &m_worldmap, "target-worldmap");
+  // result.add_bool(_("Change worldmap"), &m_change_worldmap, "worldmap", true);
+  result.add_worldmap(_("Target worldmap"), &m_worldmap, "worldmap");
   //result.add_sprite(_("Sprite"), &m_sprite_name, "sprite");
 
-  result.reorder({"spawnpoint", "message", "sprite", "x", "y"});
+  result.reorder({"spawnpoint", "automatic", "message", "sprite", "x", "y"});
 
   return result;
 }
@@ -221,7 +221,11 @@ ObjectSettings
 WorldmapSpawnPoint::get_settings()
 {
   ObjectSettings result = WorldmapObject::get_settings();
-  result.add_worldmap_direction(_("Direction"), &m_dir, worldmap::Direction::NONE, "direction");
+
+  result.add_worldmap_direction(_("Direction"), &m_dir, worldmap::Direction::NONE, "auto-dir");
+
+  result.reorder({"auto-dir", "name", "x", "y"});
+
   return result;
 }
 
@@ -254,7 +258,7 @@ SpriteChange::get_settings()
   result.add_text(_("Stay group"), &m_stay_group, "stay-group");
   result.add_bool(_("Change on touch"), &m_change_on_touch, "change-on-touch");
 
-  result.reorder({"change-on-touch", "initial-stay-action", "sprite", "x", "y"});
+  result.reorder({"change-on-touch", "initial-stay-action", "stay-group", "sprite", "x", "y"});
 
   return result;
 }
@@ -264,7 +268,7 @@ SpecialTile::SpecialTile (const ReaderMapping& mapping) :
   m_map_message(),
   m_script(),
   m_passive_message(false),
-  m_invisible_tile(true),
+  m_invisible_tile(false),
   m_apply_to_direction(worldmap::Direction::NONE)
 {
   mapping.get("map-message", m_map_message);
@@ -284,14 +288,14 @@ SpecialTile::get_settings()
 {
   ObjectSettings result = WorldmapObject::get_settings();
 
-  result.add_text(_("Message"), &m_map_message, "map-message");
-  result.add_bool(_("Show message"), &m_passive_message, "passive-message");
+  result.add_translatable_text(_("Message"), &m_map_message, "map-message");
+  result.add_bool(_("Show message"), &m_passive_message, "passive-message", false);
   result.add_script(_("Script"), &m_script, "script");
-  result.add_bool(_("Invisible"), &m_invisible_tile, "invisible-tile");
-  result.add_worldmap_direction(_("Direction"), &m_apply_to_direction, worldmap::Direction::NONE, "direction");
+  result.add_bool(_("Invisible"), &m_invisible_tile, "invisible-tile", false);
+  result.add_worldmap_direction(_("Direction"), &m_apply_to_direction, worldmap::Direction::NONE, "apply-to-direction");
   //result.add_sprite(_("Sprite"), &m_sprite_name, "sprite");
 
-  result.reorder({"direction", "map-message", "invisible-tile", "passive-message", "sprite", "x", "y"});
+  result.reorder({"map-message", "invisible-tile", "script", "passive-message", "apply-to-direction", "sprite", "x", "y"});
 
   return result;
 }

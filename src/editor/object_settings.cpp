@@ -108,7 +108,7 @@ ObjectSettings::add_direction(const std::string& text, Direction* value_ptr,
                               boost::optional<Direction> default_value,
                               const std::string& key, unsigned int flags)
 {
-  add_enum(_("Direction"), reinterpret_cast<int*>(value_ptr),
+  add_enum(text, reinterpret_cast<int*>(value_ptr),
            {_("auto"), _("left"), _("right"), _("up"), _("down")},
            {"auto", "left", "right", "up", "down"},
            default_value ? static_cast<int>(*default_value) : boost::optional<int>(),
@@ -120,10 +120,11 @@ ObjectSettings::add_worldmap_direction(const std::string& text, worldmap::Direct
                                        boost::optional<worldmap::Direction> default_value,
                                        const std::string& key, unsigned int flags)
 {
-  add_option(std::make_unique<StringSelectObjectOption>(
-               text, reinterpret_cast<int*>(value_ptr),
-               std::vector<std::string>{_("None"), _("West"), _("East"), _("North"), _("South")},
-               default_value ? static_cast<int>(*default_value) : boost::optional<int>(), key, 0));
+  add_enum(text, reinterpret_cast<int*>(value_ptr),
+           {_("None"), _("West"), _("East"), _("North"), _("South")},
+           {"none", "west", "east", "north", "south"},
+           default_value ? static_cast<int>(*default_value) : boost::optional<int>(),
+           key, flags);
 }
 
 void
@@ -134,7 +135,7 @@ ObjectSettings::add_walk_mode(const std::string& text, WalkMode* value_ptr,
   add_option(std::make_unique<StringSelectObjectOption>(
                text, reinterpret_cast<int*>(value_ptr),
                std::vector<std::string>{_("One shot"), _("Ping-pong"), _("Circular"), _("Unordered")},
-               boost::none, key, 0));
+               boost::none, key, flags));
 }
 
 void
