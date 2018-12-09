@@ -216,4 +216,16 @@ ReaderMapping::get(const char* key, boost::optional<ReaderCollection>& value) co
   }
 }
 
+bool
+ReaderMapping::get(const char* key, sexp::Value& value) const
+{
+  auto const sx = get_item(key);
+  if (sx) {
+    value = *sx;
+    return true;
+  } else {
+    return false;
+  }
+}
+
 /* EOF */
