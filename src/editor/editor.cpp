@@ -303,9 +303,10 @@ Editor::scroll(const Vector& velocity)
 {
   if (!m_levelloaded) return;
 
-  Rectf bounds(0.0f, 0.0f,
-               m_sector->get_width() - static_cast<float>(SCREEN_WIDTH - 128),
-               m_sector->get_height() - static_cast<float>(SCREEN_HEIGHT - 32));
+  Rectf bounds(0.0f,
+               0.0f,
+               std::max(0.0f, m_sector->get_width() - static_cast<float>(SCREEN_WIDTH - 128)),
+               std::max(0.0f, m_sector->get_height() - static_cast<float>(SCREEN_HEIGHT - 32)));
   Camera& camera = m_sector->get_camera();
   Vector pos = camera.get_translation() + velocity;
   pos = Vector(math::clamp(pos.x, bounds.get_left(), bounds.get_right()),
