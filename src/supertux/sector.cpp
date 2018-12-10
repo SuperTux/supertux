@@ -442,10 +442,13 @@ Sector::inside(const Rectf& rect) const
 {
   for (const auto& solids : get_solid_tilemaps()) {
     Rectf bbox = solids->get_bbox();
-    bbox.get_top() = -INFINITY; // pretend the tilemap extends infinitely far upwards
 
-    if (bbox.contains(rect))
+    // the top of the sector extends to infinity
+    if (bbox.get_left() <= rect.get_left() &&
+        rect.get_right() <= bbox.get_right() &&
+        rect.get_bottom() <= bbox.get_bottom()) {
       return true;
+    }
   }
   return false;
 }
