@@ -23,8 +23,8 @@
 Rectf::Rectf(const Rect& rect) :
   m_p1(static_cast<float>(rect.left),
      static_cast<float>(rect.top)),
-  m_p2(static_cast<float>(rect.right),
-     static_cast<float>(rect.bottom))
+  m_size(static_cast<float>(rect.get_width()),
+         static_cast<float>(rect.get_height()))
 {
 }
 
