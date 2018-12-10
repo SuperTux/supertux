@@ -83,7 +83,7 @@ MagicBlock::MagicBlock(const ReaderMapping& mapping) :
   }
 
   m_center = m_col.m_bbox.get_middle();
-  m_solid_box = Rectf(m_col.m_bbox.p1.x + SHIFT_DELTA, m_col.m_bbox.p1.y + SHIFT_DELTA, m_col.m_bbox.p2.x - SHIFT_DELTA, m_col.m_bbox.p2.y - SHIFT_DELTA);
+  m_solid_box = Rectf(m_col.m_bbox.get_left() + SHIFT_DELTA, m_col.m_bbox.get_top() + SHIFT_DELTA, m_col.m_bbox.get_right() - SHIFT_DELTA, m_col.m_bbox.get_bottom() - SHIFT_DELTA);
 }
 
 ObjectSettings

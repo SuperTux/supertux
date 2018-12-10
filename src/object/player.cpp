@@ -279,7 +279,7 @@ Player::adjust_height(float new_height)
 
   // adjust bbox accordingly
   // note that we use members of moving_object for this, so we can run this during CD, too
-  set_pos(bbox2.p1);
+  set_pos(bbox2.p1());
   m_col.set_size(bbox2.get_width(), bbox2.get_height());
   return true;
 }
@@ -416,8 +416,8 @@ Player::update(float dt_sec)
   if (m_invincible_timer.started())
   {
     if (graphicsRandom.rand(0, 2) == 0) {
-      float px = graphicsRandom.randf(m_col.m_bbox.p1.x+0, m_col.m_bbox.p2.x-0);
-      float py = graphicsRandom.randf(m_col.m_bbox.p1.y+0, m_col.m_bbox.p2.y-0);
+      float px = graphicsRandom.randf(m_col.m_bbox.get_left()+0, m_col.m_bbox.get_right()-0);
+      float py = graphicsRandom.randf(m_col.m_bbox.get_top()+0, m_col.m_bbox.get_bottom()-0);
       Vector ppos = Vector(px, py);
       Vector pspeed = Vector(0, 0);
       Vector paccel = Vector(0, 0);
@@ -555,7 +555,7 @@ Player::handle_horizontal_input()
         SoundManager::current()->play("sounds/skid.wav");
         // dust some particles
         Sector::get().add<Particles>(
-            Vector(m_dir == Direction::LEFT ? m_col.m_bbox.p2.x : m_col.m_bbox.p1.x, m_col.m_bbox.p2.y),
+            Vector(m_dir == Direction::LEFT ? m_col.m_bbox.get_right() : m_col.m_bbox.get_left(), m_col.m_bbox.get_bottom()),
             m_dir == Direction::LEFT ? 50 : -70, m_dir == Direction::LEFT ? 70 : -50, 260, 280,
             Vector(0, 300), 3, Color(.4f, .4f, .4f), 3, .8f, LAYER_OBJECTS+1);
 
@@ -885,18 +885,18 @@ Player::handle_input()
       // move the grabbed object a bit away from tux
       Rectf grabbed_bbox = moving_object->get_bbox();
       Rectf dest_;
-      dest_.p2.y = m_col.m_bbox.get_top() + m_col.m_bbox.get_height()*0.66666f;
-      dest_.p1.y = dest_.p2.y - grabbed_bbox.get_height();
+      dest_.set_bottom(m_col.m_bbox.get_top() + m_col.m_bbox.get_height() * 0.66666f);
+      dest_.set_top(dest_.get_bottom() - grabbed_bbox.get_height());
       if (m_dir == Direction::LEFT) {
-        dest_.p2.x = m_col.m_bbox.get_left() - 1;
-        dest_.p1.x = dest_.p2.x - grabbed_bbox.get_width();
+        dest_.set_right(m_col.m_bbox.get_left() - 1);
+        dest_.set_left(dest_.get_right() - grabbed_bbox.get_width());
       } else {
-        dest_.p1.x = m_col.m_bbox.get_right() + 1;
-        dest_.p2.x = dest_.p1.x + grabbed_bbox.get_width();
+        dest_.set_left(m_col.m_bbox.get_right() + 1);
+        dest_.set_right(dest_.get_left() + grabbed_bbox.get_width());
       }
       if (Sector::get().is_free_of_tiles(dest_, true) &&
          Sector::get().is_free_of_statics(dest_, moving_object, true)) {
-        moving_object->set_pos(dest_.p1);
+        moving_object->set_pos(dest_.p1());
         if (m_controller->hold(Controller::UP)) {
           m_grabbed_object->ungrab(*this, Direction::UP);
         } else {
@@ -1087,7 +1087,7 @@ Player::set_bonus(BonusType type, bool animate)
   }
 
   if ((type == NO_BONUS) || (type == GROWUP_BONUS)) {
-    Vector ppos = Vector((m_col.m_bbox.p1.x + m_col.m_bbox.p2.x) / 2, m_col.m_bbox.p1.y);
+    Vector ppos = Vector((m_col.m_bbox.get_left() + m_col.m_bbox.get_right()) / 2, m_col.m_bbox.get_top());
     Vector pspeed = Vector(((m_dir == Direction::LEFT) ? 100.0f : -100.0f), -300.0f);
     Vector paccel = Vector(0, 1000);
     std::string action = (m_dir == Direction::LEFT) ? "left" : "right";
@@ -1170,10 +1170,10 @@ Player::draw(DrawingContext& context)
     return;
 
   // if Tux is above camera, draw little "air arrow" to show where he is x-wise
-  if (m_col.m_bbox.p2.y - 16 < Sector::get().get_camera().get_translation().y) {
-    float px = m_col.m_bbox.p1.x + (m_col.m_bbox.p2.x - m_col.m_bbox.p1.x - static_cast<float>(m_airarrow.get()->get_width())) / 2.0f;
+  if (m_col.m_bbox.get_bottom() - 16 < Sector::get().get_camera().get_translation().y) {
+    float px = m_col.m_bbox.get_left() + (m_col.m_bbox.get_right() - m_col.m_bbox.get_left() - static_cast<float>(m_airarrow.get()->get_width())) / 2.0f;
     float py = Sector::get().get_camera().get_translation().y;
-    py += std::min(((py - (m_col.m_bbox.p2.y + 16)) / 4), 16.0f);
+    py += std::min(((py - (m_col.m_bbox.get_bottom() + 16)) / 4), 16.0f);
     context.color().draw_surface(m_airarrow, Vector(px, py), LAYER_HUD - 1);
   }
 
@@ -1305,8 +1305,8 @@ Player::draw(DrawingContext& context)
 
     // give an indicator that stone form cannot be used for a while
     if (m_cooldown_timer.started() && graphicsRandom.rand(0, 4) == 0) {
-      float px = graphicsRandom.randf(m_col.m_bbox.p1.x, m_col.m_bbox.p2.x);
-      float py = m_col.m_bbox.p2.y+8;
+      float px = graphicsRandom.randf(m_col.m_bbox.get_left(), m_col.m_bbox.get_right());
+      float py = m_col.m_bbox.get_bottom()+8;
       Vector ppos = Vector(px, py);
       Sector::get().add<SpriteParticle>(
         "images/objects/particles/sparkle.sprite", "dark",
@@ -1372,13 +1372,13 @@ Player::collision_solid(const CollisionHit& hit)
       m_physic.set_velocity_y(-300);
       m_on_ground_flag = false;
       Sector::get().add<Particles>(
-                                      m_col.m_bbox.p2,
-                                      50, 70, 260, 280, Vector(0, 300), 3,
-                                      Color(.4f, .4f, .4f), 3, .8f, LAYER_OBJECTS+1);
+        m_col.m_bbox.p2(),
+        50, 70, 260, 280, Vector(0, 300), 3,
+        Color(.4f, .4f, .4f), 3, .8f, LAYER_OBJECTS+1);
       Sector::get().add<Particles>(
-                                      Vector(m_col.m_bbox.p1.x, m_col.m_bbox.p2.y),
-                                      -70, -50, 260, 280, Vector(0, 300), 3,
-                                      Color(.4f, .4f, .4f), 3, .8f, LAYER_OBJECTS+1);
+        Vector(m_col.m_bbox.get_left(), m_col.m_bbox.get_bottom()),
+        -70, -50, 260, 280, Vector(0, 300), 3,
+        Color(.4f, .4f, .4f), 3, .8f, LAYER_OBJECTS+1);
       Sector::get().get_camera().shake(.1f, 0, 5);
     }
 
@@ -1554,7 +1554,7 @@ Player::check_bounds()
   if (m_col.m_bbox.get_right() > Sector::get().get_width()) {
     // Lock Tux to the size of the level, so that he doesn't fall off
     // the right side
-    set_pos(Vector(Sector::get().get_width() - m_col.m_bbox.get_width(), m_col.m_bbox.p1.y));
+    set_pos(Vector(Sector::get().get_width() - m_col.m_bbox.get_width(), m_col.m_bbox.get_top()));
   }
 
   /* fallen out of the level? */

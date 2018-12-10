@@ -90,9 +90,9 @@ Owl::is_above_player() const
 
   const Rectf& player_bbox = player->get_bbox();
 
-  return ((player_bbox.p1.y >= m_col.m_bbox.p2.y) /* player is below us */
-          && ((player_bbox.p2.x + x_offset) > m_col.m_bbox.p1.x)
-          && ((player_bbox.p1.x + x_offset) < m_col.m_bbox.p2.x));
+  return ((player_bbox.get_top() >= m_col.m_bbox.get_bottom()) /* player is below us */
+          && ((player_bbox.get_right() + x_offset) > m_col.m_bbox.get_left())
+          && ((player_bbox.get_left() + x_offset) < m_col.m_bbox.get_right()));
 }
 
 void

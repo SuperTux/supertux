@@ -45,7 +45,7 @@ Kugelblitz::Kugelblitz(const ReaderMapping& reader) :
   direction(),
   lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light.sprite"))
 {
-  m_start_position.x = m_col.m_bbox.p1.x;
+  m_start_position.x = m_col.m_bbox.get_left();
   m_sprite->set_action("falling");
   m_physic.enable_gravity(false);
   m_countMe = false;
@@ -79,8 +79,8 @@ Kugelblitz::collision_player(Player& player, const CollisionHit& )
     return ABORT_MOVE;
   }
   // hit from above?
-  if (player.get_movement().y - get_movement().y > 0 && player.get_bbox().p2.y <
-     (m_col.m_bbox.p1.y + m_col.m_bbox.p2.y) / 2) {
+  if (player.get_movement().y - get_movement().y > 0 && player.get_bbox().get_bottom() <
+     (m_col.m_bbox.get_top() + m_col.m_bbox.get_bottom()) / 2) {
     // if it's not is it possible to squish us, then this will hurt
     if (!collision_squished(player))
       player.kill(false);
@@ -166,7 +166,7 @@ void
 Kugelblitz::explode()
 {
   if (!dying) {
-    SoundManager::current()->play("sounds/lightning.wav", m_col.m_bbox.p1);
+    SoundManager::current()->play("sounds/lightning.wav", m_col.m_bbox.p1());
     m_sprite->set_action("pop");
     lifetime.start(0.2f);
     dying = true;
@@ -191,7 +191,7 @@ Kugelblitz::try_activate()
       // if starting direction was set to AUTO, this is our chance to re-orient the badguy
       if (m_start_dir == Direction::AUTO) {
         Player* player__ = get_nearest_player();
-        if (player__ && (player__->get_bbox().p1.x > m_col.m_bbox.p2.x)) {
+        if (player__ && (player__->get_bbox().get_left() > m_col.m_bbox.get_right())) {
           m_dir = Direction::RIGHT;
         } else {
           m_dir = Direction::LEFT;

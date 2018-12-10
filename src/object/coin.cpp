@@ -247,7 +247,7 @@ HeavyCoin::collision_solid(const CollisionHit& hit)
 void
 Coin::move_to(const Vector& pos)
 {
-  Vector shift = pos - m_col.m_bbox.p1;
+  Vector shift = pos - m_col.m_bbox.p1();
   if (get_path()) {
     get_path()->move_by(shift);
   }
@@ -285,7 +285,7 @@ Coin::after_editor_set()
     }
   } else {
     if (m_add_path) {
-      init_path_pos(m_col.m_bbox.p1);
+      init_path_pos(m_col.m_bbox.p1());
     }
   }
 }

@@ -207,10 +207,10 @@ CollisionSystem::collision_tilemap(collision::Constraints* constraints,
 uint32_t
 CollisionSystem::collision_tile_attributes(const Rectf& dest, const Vector& mov) const
 {
-  const float x1 = dest.p1.x;
-  const float y1 = dest.p1.y;
-  const float x2 = dest.p2.x;
-  const float y2 = dest.p2.y;
+  const float x1 = dest.get_left();
+  const float y1 = dest.get_top();
+  const float x2 = dest.get_right();
+  const float y2 = dest.get_bottom();
 
   uint32_t result = 0;
   for (auto& solids: m_sector.get_solid_tilemaps())
@@ -362,12 +362,12 @@ CollisionSystem::collision_static_constrains(CollisionObject& object)
         // looking at the vertical constraints
         pressure.y += object.get_bbox().get_height() - height;
       } else {
-        dest.p2.y = constraints.get_position_bottom() - DELTA;
-        dest.p1.y = dest.p2.y - object.get_bbox().get_height();
+        dest.set_bottom(constraints.get_position_bottom() - DELTA);
+        dest.set_top(dest.get_bottom() - object.get_bbox().get_height());
       }
     } else if (constraints.get_position_top() > -infinity) {
-      dest.p1.y = constraints.get_position_top() + DELTA;
-      dest.p2.y = dest.p1.y + object.get_bbox().get_height();
+      dest.set_top(constraints.get_position_top() + DELTA);
+      dest.set_bottom(dest.get_top() + object.get_bbox().get_height());
     }
   }
 
@@ -400,15 +400,15 @@ CollisionSystem::collision_static_constrains(CollisionObject& object)
         pressure.x += object.get_bbox().get_width() - width;
       } else {
         float xmid = constraints.get_x_midpoint ();
-        dest.p1.x = xmid - object.get_bbox().get_width()/2;
-        dest.p2.x = xmid + object.get_bbox().get_width()/2;
+        dest.set_left(xmid - object.get_bbox().get_width()/2);
+        dest.set_right(xmid + object.get_bbox().get_width()/2);
       }
     } else if (constraints.get_position_right() < infinity) {
-      dest.p2.x = constraints.get_position_right() - DELTA;
-      dest.p1.x = dest.p2.x - object.get_bbox().get_width();
+      dest.set_right(constraints.get_position_right() - DELTA);
+      dest.set_left(dest.get_right() - object.get_bbox().get_width());
     } else if (constraints.get_position_left() > -infinity) {
-      dest.p1.x = constraints.get_position_left() + DELTA;
-      dest.p2.x = dest.p1.x + object.get_bbox().get_width();
+      dest.set_left(constraints.get_position_left() + DELTA);
+      dest.set_right(dest.get_left() + object.get_bbox().get_width());
     }
   }
 

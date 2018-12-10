@@ -44,8 +44,8 @@ MovingObject::get_settings()
     result.add_rectf(_("Region"), &m_col.m_bbox, "region");
   }
 
-  result.add_float(_("X"), &m_col.m_bbox.p1.x, "x");
-  result.add_float(_("Y"), &m_col.m_bbox.p1.y, "y");
+  result.add_float(_("X"), &m_col.m_bbox.get_left(), "x");
+  result.add_float(_("Y"), &m_col.m_bbox.get_top(), "y");
 
   return result;
 }

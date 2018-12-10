@@ -78,10 +78,10 @@ GLPainter::draw_texture(const TextureRequest& request)
   std::vector<float> uvs;
   for (size_t i = 0; i < request.srcrects.size(); ++i)
   {
-    const float left = request.dstrects[i].p1.x;
-    const float top = request.dstrects[i].p1.y;
-    const float right  = request.dstrects[i].p2.x;
-    const float bottom = request.dstrects[i].p2.y;
+    const float left = request.dstrects[i].get_left();
+    const float top = request.dstrects[i].get_top();
+    const float right  = request.dstrects[i].get_right();
+    const float bottom = request.dstrects[i].get_bottom();
 
     float uv_left = request.srcrects[i].get_left() / static_cast<float>(texture.get_texture_width());
     float uv_top = request.srcrects[i].get_top() / static_cast<float>(texture.get_texture_height());
@@ -186,10 +186,10 @@ GLPainter::draw_gradient(const GradientRequest& request)
   GLContext& context = m_video_system.get_context();
 
   const float vertices[] = {
-    region.p1.x, region.p1.y,
-    region.p2.x, region.p1.y,
-    region.p2.x, region.p2.y,
-    region.p1.x, region.p2.y
+    region.get_left(), region.get_top(),
+    region.get_right(), region.get_top(),
+    region.get_right(), region.get_bottom(),
+    region.get_left(), region.get_bottom()
   };
 
   context.blend_func(sfactor(request.blend), dfactor(request.blend));

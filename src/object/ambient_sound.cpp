@@ -43,8 +43,8 @@ AmbientSound::AmbientSound(const ReaderMapping& mapping) :
   m_col.m_group = COLGROUP_DISABLED;
 
   float w, h;
-  mapping.get("x", m_col.m_bbox.p1.x, 0.0f);
-  mapping.get("y", m_col.m_bbox.p1.y, 0.0f);
+  mapping.get("x", m_col.m_bbox.get_left(), 0.0f);
+  mapping.get("y", m_col.m_bbox.get_top(), 0.0f);
   mapping.get("width" , w, 32.0f);
   mapping.get("height", h, 32.0f);
   m_col.m_bbox.set_size(w, h);
@@ -173,10 +173,10 @@ AmbientSound::update(float dt_sec)
     py=Sector::get().get_camera().get_center().y;
 
     // Relate to which point in the area
-    rx=px<m_col.m_bbox.p1.x?m_col.m_bbox.p1.x:
-      (px<m_col.m_bbox.p2.x?px:m_col.m_bbox.p2.x);
-    ry=py<m_col.m_bbox.p1.y?m_col.m_bbox.p1.y:
-      (py<m_col.m_bbox.p2.y?py:m_col.m_bbox.p2.y);
+    rx=px<m_col.m_bbox.get_left()?m_col.m_bbox.get_left():
+      (px<m_col.m_bbox.get_right()?px:m_col.m_bbox.get_right());
+    ry=py<m_col.m_bbox.get_top()?m_col.m_bbox.get_top():
+      (py<m_col.m_bbox.get_bottom()?py:m_col.m_bbox.get_bottom());
 
     // calculate square of distance
     float sqrdistance=(px-rx)*(px-rx)+(py-ry)*(py-ry);
@@ -236,13 +236,13 @@ AmbientSound::set_pos(float x, float y)
 float
 AmbientSound::get_pos_x() const
 {
-  return m_col.m_bbox.p1.x;
+  return m_col.m_bbox.get_left();
 }
 
 float
 AmbientSound::get_pos_y() const
 {
-  return m_col.m_bbox.p1.y;
+  return m_col.m_bbox.get_top();
 }
 
 HitResponse

@@ -34,8 +34,8 @@ Wind::Wind(const ReaderMapping& reader) :
   dt_sec(0)
 {
   float w,h;
-  reader.get("x", m_col.m_bbox.p1.x, 0.0f);
-  reader.get("y", m_col.m_bbox.p1.y, 0.0f);
+  reader.get("x", m_col.m_bbox.get_left(), 0.0f);
+  reader.get("y", m_col.m_bbox.get_top(), 0.0f);
   reader.get("width", w, 32.0f);
   reader.get("height", h, 32.0f);
   m_col.m_bbox.set_size(w, h);
@@ -81,7 +81,7 @@ Wind::update(float dt_sec_)
   // TODO: nicer, configurable particles for wind?
   if (graphicsRandom.rand(0, 100) < 20) {
     // emit a particle
-    Vector ppos = Vector(graphicsRandom.randf(m_col.m_bbox.p1.x+8, m_col.m_bbox.p2.x-8), graphicsRandom.randf(m_col.m_bbox.p1.y+8, m_col.m_bbox.p2.y-8));
+    Vector ppos = Vector(graphicsRandom.randf(m_col.m_bbox.get_left()+8, m_col.m_bbox.get_right()-8), graphicsRandom.randf(m_col.m_bbox.get_top()+8, m_col.m_bbox.get_bottom()-8));
     Vector pspeed = Vector(speed.x, speed.y);
     Sector::get().add<Particles>(ppos, 44, 46, pspeed, Vector(0,0), 1, Color(.4f, .4f, .4f), 3, .1f,
                                       LAYER_BACKGROUNDTILES+1);

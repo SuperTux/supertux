@@ -53,7 +53,7 @@ BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite
   m_physic(),
   m_countMe(true),
   m_is_initialized(false),
-  m_start_position(m_col.m_bbox.p1),
+  m_start_position(m_col.m_bbox.p1()),
   m_dir(direction),
   m_start_dir(direction),
   m_frozen(false),
@@ -86,7 +86,7 @@ BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name_, int
   m_physic(),
   m_countMe(true),
   m_is_initialized(false),
-  m_start_position(m_col.m_bbox.p1),
+  m_start_position(m_col.m_bbox.p1()),
   m_dir(Direction::LEFT),
   m_start_dir(Direction::AUTO),
   m_frozen(false),
@@ -210,7 +210,7 @@ BadGuy::update(float dt_sec)
       m_is_active_flag = false;
       m_col.m_movement = m_physic.get_movement(dt_sec);
       if ( m_sprite->animation_done() || on_ground() ) {
-        Sector::get().add<WaterDrop>(m_col.m_bbox.p1, get_water_sprite(), m_physic.get_velocity());
+        Sector::get().add<WaterDrop>(m_col.m_bbox.p1(), get_water_sprite(), m_physic.get_velocity());
         remove_me();
         break;
       }
@@ -232,8 +232,8 @@ BadGuy::update(float dt_sec)
         set_state(STATE_GEAR);
       }
       int pa = graphicsRandom.rand(0,3);
-      float px = graphicsRandom.randf(m_col.m_bbox.p1.x, m_col.m_bbox.p2.x);
-      float py = graphicsRandom.randf(m_col.m_bbox.p1.y, m_col.m_bbox.p2.y);
+      float px = graphicsRandom.randf(m_col.m_bbox.get_left(), m_col.m_bbox.get_right());
+      float py = graphicsRandom.randf(m_col.m_bbox.get_top(), m_col.m_bbox.get_bottom());
       Vector ppos = Vector(px, py);
       Sector::get().add<SpriteParticle>(get_water_sprite(), "particle_" + std::to_string(pa),
                                              ppos, ANCHOR_MIDDLE,
@@ -333,7 +333,7 @@ BadGuy::collision(GameObject& other, const CollisionHit& hit)
     /* Badguys don't let badguys squish other badguys. It's bad. */
 #if 0
     // hit from above?
-    if (badguy->get_bbox().p2.y < (bbox.p1.y + 16)) {
+    if (badguy->get_bbox().get_bottom() < (bbox.get_top() + 16)) {
       if (collision_squished(*badguy)) {
         return ABORT_MOVE;
       }
@@ -347,7 +347,7 @@ BadGuy::collision(GameObject& other, const CollisionHit& hit)
   if (player) {
 
     // hit from above?
-    if (player->get_bbox().p2.y < (m_col.m_bbox.p1.y + 16)) {
+    if (player->get_bbox().get_bottom() < (m_col.m_bbox.get_top() + 16)) {
       if (player->is_stone()) {
         kill_fall();
         return FORCE_MOVE;
@@ -512,7 +512,7 @@ BadGuy::kill_fall()
         Vector speed = Vector((pr_pos.x - cx) * 8, (pr_pos.y - cy) * 8 + 100);
         Sector::get().add<SpriteParticle>(
             "images/particles/ice_piece1.sprite", "default",
-            m_col.m_bbox.p1 + pr_pos, ANCHOR_MIDDLE,
+            m_col.m_bbox.p1() + pr_pos, ANCHOR_MIDDLE,
             speed,
             Vector(0, Sector::get().get_gravity() * 100.0f));
       }
@@ -628,7 +628,7 @@ BadGuy::try_activate()
       // if starting direction was set to AUTO, this is our chance to re-orient the badguy
       if (m_start_dir == Direction::AUTO) {
         auto player_ = get_nearest_player();
-        if (player_ && (player_->get_bbox().p1.x > m_col.m_bbox.p2.x)) {
+        if (player_ && (player_->get_bbox().get_left() > m_col.m_bbox.get_right())) {
           m_dir = Direction::RIGHT;
         } else {
           m_dir = Direction::LEFT;
@@ -650,14 +650,14 @@ BadGuy::might_fall(int height) const
 
   float x1;
   float x2;
-  float y1 = m_col.m_bbox.p2.y + 1;
-  float y2 = m_col.m_bbox.p2.y + 1 + static_cast<float>(height);
+  float y1 = m_col.m_bbox.get_bottom() + 1;
+  float y2 = m_col.m_bbox.get_bottom() + 1 + static_cast<float>(height);
   if (m_dir == Direction::LEFT) {
-    x1 = m_col.m_bbox.p1.x - 1;
-    x2 = m_col.m_bbox.p1.x;
+    x1 = m_col.m_bbox.get_left() - 1;
+    x2 = m_col.m_bbox.get_left();
   } else {
-    x1 = m_col.m_bbox.p2.x;
-    x2 = m_col.m_bbox.p2.x + 1;
+    x1 = m_col.m_bbox.get_right();
+    x2 = m_col.m_bbox.get_right() + 1;
   }
   return Sector::get().is_free_of_statics(Rectf(x1, y1, x2, y2));
 }

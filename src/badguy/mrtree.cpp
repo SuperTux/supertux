@@ -73,9 +73,9 @@ MrTree::collision_squished(GameObject& object)
 
   // spawn some particles
   // TODO: provide convenience function in MovingSprite or MovingObject?
-  for (int px = static_cast<int>(stumpy.get_bbox().p1.x); px < static_cast<int>(stumpy.get_bbox().p2.x); px+=10) {
+  for (int px = static_cast<int>(stumpy.get_bbox().get_left()); px < static_cast<int>(stumpy.get_bbox().get_right()); px+=10) {
     Vector ppos = Vector(static_cast<float>(px),
-                         static_cast<float>(stumpy.get_bbox().p1.y) - 5.0f);
+                         static_cast<float>(stumpy.get_bbox().get_top()) - 5.0f);
     float angle = graphicsRandom.randf(-math::PI_2, math::PI_2);
     float velocity = graphicsRandom.randf(45, 90);
     float vx = sinf(angle)*velocity;
@@ -94,7 +94,7 @@ MrTree::collision_squished(GameObject& object)
     Vector leaf1_pos(stumpy_pos.x - POISONIVY_WIDTH - 1, stumpy_pos.y - POISONIVY_Y_OFFSET);
     Rectf leaf1_bbox(leaf1_pos.x, leaf1_pos.y, leaf1_pos.x + POISONIVY_WIDTH, leaf1_pos.y + POISONIVY_HEIGHT);
     if (Sector::get().is_free_of_movingstatics(leaf1_bbox, this)) {
-      auto& leaf1 = Sector::get().add<PoisonIvy>(leaf1_bbox.p1, Direction::LEFT);
+      auto& leaf1 = Sector::get().add<PoisonIvy>(leaf1_bbox.p1(), Direction::LEFT);
       leaf1.m_countMe = false;
     }
 
@@ -102,7 +102,7 @@ MrTree::collision_squished(GameObject& object)
     Vector leaf2_pos(stumpy_pos.x + m_sprite->get_current_hitbox_width() + 1, stumpy_pos.y - POISONIVY_Y_OFFSET);
     Rectf leaf2_bbox(leaf2_pos.x, leaf2_pos.y, leaf2_pos.x + POISONIVY_WIDTH, leaf2_pos.y + POISONIVY_HEIGHT);
     if (Sector::get().is_free_of_movingstatics(leaf2_bbox, this)) {
-      auto& leaf2 = Sector::get().add<PoisonIvy>(leaf2_bbox.p1, Direction::RIGHT);
+      auto& leaf2 = Sector::get().add<PoisonIvy>(leaf2_bbox.p1(), Direction::RIGHT);
       leaf2.m_countMe = false;
     }
   }

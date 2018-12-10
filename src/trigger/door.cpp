@@ -35,8 +35,8 @@ Door::Door(const ReaderMapping& mapping) :
   sprite(SpriteManager::current()->create("images/objects/door/door.sprite")),
   stay_open_timer()
 {
-  mapping.get("x", m_col.m_bbox.p1.x);
-  mapping.get("y", m_col.m_bbox.p1.y);
+  mapping.get("x", m_col.m_bbox.get_left());
+  mapping.get("y", m_col.m_bbox.get_top());
   mapping.get("sector", target_sector);
   mapping.get("spawnpoint", target_spawnpoint);
 
@@ -117,7 +117,7 @@ Door::update(float )
 void
 Door::draw(DrawingContext& context)
 {
-  sprite->draw(context.color(), m_col.m_bbox.p1, LAYER_BACKGROUNDTILES+1);
+  sprite->draw(context.color(), m_col.m_bbox.p1(), LAYER_BACKGROUNDTILES+1);
 }
 
 void

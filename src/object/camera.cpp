@@ -373,7 +373,7 @@ Camera::update_scroll_normal(float dt_sec)
     if (player.m_fall_mode == Player::JUMPING)
       target_y = player.m_last_ground_y + player.get_bbox().get_height();
     else
-      target_y = player.get_bbox().p2.y;
+      target_y = player.get_bbox().get_bottom();
     target_y -= static_cast<float>(static_cast<float>(m_screen_size.height)) * config_.target_y;
 
     // delta_y is the distance we'd have to travel to directly reach target_y

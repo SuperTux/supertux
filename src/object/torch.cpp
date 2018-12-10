@@ -32,8 +32,8 @@ Torch::Torch(const ReaderMapping& reader) :
   m_burning(true),
   sprite_name("images/objects/torch/torch1.sprite")
 {
-  reader.get("x", m_col.m_bbox.p1.x);
-  reader.get("y", m_col.m_bbox.p1.y);
+  reader.get("x", m_col.m_bbox.get_left());
+  reader.get("y", m_col.m_bbox.get_top());
 
   reader.get("sprite", sprite_name);
   reader.get("burning", m_burning, true);

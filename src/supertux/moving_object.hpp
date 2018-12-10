@@ -64,9 +64,9 @@ public:
 
   virtual bool listener_is_valid() const override { return is_valid(); }
 
-  const Vector& get_pos() const
+  Vector get_pos() const
   {
-    return m_col.m_bbox.p1;
+    return m_col.m_bbox.p1();
   }
 
   const Rectf& get_bbox() const

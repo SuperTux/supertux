@@ -44,63 +44,51 @@ public:
 
 public:
   Rectf() :
-    p1(),
-    p2()
+    m_p1(),
+    m_p2()
   { }
 
   Rectf(const Vector& np1, const Vector& np2) :
-    p1(np1), p2(np2)
+    m_p1(np1), m_p2(np2)
   {
   }
 
   Rectf(float x1, float y1, float x2, float y2) :
-    p1(x1, y1), p2(x2, y2)
+    m_p1(x1, y1), m_p2(x2, y2)
   {
-    assert(p1.x <= p2.x && p1.y <= p2.y);
+    assert(m_p1.x <= m_p2.x && m_p1.y <= m_p2.y);
   }
 
-  Rectf(const Vector& p1_, const Sizef& size) :
-    p1(p1_),
-    p2(p1_.x + size.width, p1_.y + size.height)
+  Rectf(const Vector& p1, const Sizef& size) :
+    m_p1(p1),
+    m_p2(p1.x + size.width, p1.y + size.height)
   {
   }
 
   Rectf(const Rect& rect);
 
-  float get_left() const
-  { return p1.x; }
+  float& get_left() { return m_p1.x; }
+  float& get_top() { return m_p1.y; }
 
-  float get_right() const
-  { return p2.x; }
+  float get_left() const { return m_p1.x; }
+  float get_right() const { return m_p2.x; }
+  float get_top() const { return m_p1.y; }
+  float get_bottom() const { return m_p2.y; }
 
-  float get_top() const
-  { return p1.y; }
+  float get_width() const { return m_p2.x - m_p1.x; }
+  float get_height() const { return m_p2.y - m_p1.y; }
 
-  float get_bottom() const
-  { return p2.y; }
+  void set_left(float v) { m_p1.x = v; }
+  void set_right(float v) { m_p2.x = v; }
+  void set_top(float v) { m_p1.y = v; }
+  void set_bottom(float v) { m_p2.y = v; }
 
-  float get_width() const
-  { return p2.x - p1.x; }
+  Vector get_middle() const { return Vector((m_p1.x + m_p2.x) / 2, (m_p1.y + m_p2.y) / 2); }
 
-  float get_height() const
-  { return p2.y - p1.y; }
+  void set_pos(const Vector& v) { move(v - m_p1); }
 
-  Vector get_middle() const
-  { return Vector((p1.x+p2.x)/2, (p1.y+p2.y)/2); }
-
-  void set_pos(const Vector& v)
-  {
-    move(v-p1);
-  }
-
-  void set_height(float height)
-  {
-    p2.y = p1.y + height;
-  }
-  void set_width(float width)
-  {
-    p2.x = p1.x + width;
-  }
+  void set_height(float height) { m_p2.y = m_p1.y + height; }
+  void set_width(float width) { m_p2.x = m_p1.x + width; }
   void set_size(float width, float height)
   {
     set_width(width);
@@ -113,19 +101,19 @@ public:
 
   void move(const Vector& v)
   {
-    p1 += v;
-    p2 += v;
+    m_p1 += v;
+    m_p2 += v;
   }
 
   bool contains(const Vector& v) const
   {
-    return v.x >= p1.x && v.y >= p1.y && v.x < p2.x && v.y < p2.y;
+    return v.x >= m_p1.x && v.y >= m_p1.y && v.x < m_p2.x && v.y < m_p2.y;
   }
   bool contains(const Rectf& other) const
   {
-    if (p1.x >= other.p2.x || other.p1.x >= p2.x)
+    if (m_p1.x >= other.get_right() || other.get_left() >= m_p2.x)
       return false;
-    if (p1.y >= other.p2.y || other.p1.y >= p2.y)
+    if (m_p1.y >= other.get_bottom() || other.get_top() >= m_p2.y)
       return false;
 
     return true;
@@ -147,17 +135,24 @@ public:
 
   Rectf grown(float border) const
   {
-    return Rectf(p1.x - border, p1.y - border,
-                 p2.x + border, p2.y + border);
+    return Rectf(m_p1.x - border, m_p1.y - border,
+                 m_p2.x + border, m_p2.y + border);
   }
 
   // leave these two public to save the headaches of set/get functions for such
   // simple things :)
 
+  Vector p1() const { return m_p1; }
+  Vector p2() const { return m_p2; }
+
+  void set_p1(const Vector& p) { m_p1 = p; }
+  void set_p2(const Vector& p) { m_p2 = p; }
+
+private:
   /// upper left edge
-  Vector p1;
+  Vector m_p1;
   /// lower right edge
-  Vector p2;
+  Vector m_p2;
 };
 
 std::ostream& operator<<(std::ostream& out, const Rectf& rect);

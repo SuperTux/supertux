@@ -34,8 +34,8 @@ WorldmapObject::WorldmapObject (const ReaderMapping& mapping, const std::string&
   m_tile_x(),
   m_tile_y()
 {
-  m_col.m_bbox.p1.x = 32 * m_col.m_bbox.p1.x;
-  m_col.m_bbox.p1.y = 32 * m_col.m_bbox.p1.y;
+  m_col.m_bbox.get_left() = 32 * m_col.m_bbox.get_left();
+  m_col.m_bbox.get_top() = 32 * m_col.m_bbox.get_top();
   m_col.m_bbox.set_size(32, 32);
 }
 
@@ -44,8 +44,8 @@ WorldmapObject::WorldmapObject (const ReaderMapping& mapping) :
   m_tile_x(),
   m_tile_y()
 {
-  m_col.m_bbox.p1.x = 32 * m_col.m_bbox.p1.x;
-  m_col.m_bbox.p1.y = 32 * m_col.m_bbox.p1.y;
+  m_col.m_bbox.get_left() = 32 * m_col.m_bbox.get_left();
+  m_col.m_bbox.get_top() = 32 * m_col.m_bbox.get_top();
   m_col.m_bbox.set_size(32, 32);
 }
 
@@ -54,8 +54,8 @@ WorldmapObject::WorldmapObject (const Vector& pos, const std::string& default_sp
   m_tile_x(),
   m_tile_y()
 {
-  m_col.m_bbox.p1.x = 32 * m_col.m_bbox.p1.x;
-  m_col.m_bbox.p1.y = 32 * m_col.m_bbox.p1.y;
+  m_col.m_bbox.get_left() = 32 * m_col.m_bbox.get_left();
+  m_col.m_bbox.get_top() = 32 * m_col.m_bbox.get_top();
   m_col.m_bbox.set_size(32, 32);
 }
 
@@ -64,8 +64,8 @@ WorldmapObject::get_settings()
 {
   ObjectSettings result = MovingSprite::get_settings();
 
-  m_tile_x = static_cast<int>(m_col.m_bbox.p1.x) / 32;
-  m_tile_y = static_cast<int>(m_col.m_bbox.p1.y) / 32;
+  m_tile_x = static_cast<int>(m_col.m_bbox.get_left()) / 32;
+  m_tile_y = static_cast<int>(m_col.m_bbox.get_top()) / 32;
 
   result.remove("x");
   result.remove("y");
@@ -107,7 +107,7 @@ LevelDot::LevelDot(const ReaderMapping& mapping) :
 void
 LevelDot::draw(DrawingContext& context)
 {
-  m_sprite->draw(context.color(), m_col.m_bbox.p1 + Vector(16, 16), m_layer);
+  m_sprite->draw(context.color(), m_col.m_bbox.p1() + Vector(16, 16), m_layer);
 }
 
 ObjectSettings
@@ -178,7 +178,7 @@ Teleporter::Teleporter (const ReaderMapping& mapping) :
 void
 Teleporter::draw(DrawingContext& context)
 {
-  m_sprite->draw(context.color(), m_col.m_bbox.p1 + Vector(16, 16), m_layer);
+  m_sprite->draw(context.color(), m_col.m_bbox.p1() + Vector(16, 16), m_layer);
 }
 
 ObjectSettings

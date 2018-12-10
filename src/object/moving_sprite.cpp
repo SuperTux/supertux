@@ -64,8 +64,8 @@ MovingSprite::MovingSprite(const ReaderMapping& reader, const std::string& sprit
   m_sprite(),
   m_layer(layer_)
 {
-  reader.get("x", m_col.m_bbox.p1.x);
-  reader.get("y", m_col.m_bbox.p1.y);
+  reader.get("x", m_col.m_bbox.get_left());
+  reader.get("y", m_col.m_bbox.get_top());
   reader.get("sprite", m_sprite_name);
 
   //Make the sprite go default when the sprite file is invalid
@@ -86,8 +86,8 @@ MovingSprite::MovingSprite(const ReaderMapping& reader, int layer_, CollisionGro
   m_sprite(),
   m_layer(layer_)
 {
-  reader.get("x", m_col.m_bbox.p1.x);
-  reader.get("y", m_col.m_bbox.p1.y);
+  reader.get("x", m_col.m_bbox.get_left());
+  reader.get("y", m_col.m_bbox.get_top());
   if (!reader.get("sprite", m_sprite_name))
     throw std::runtime_error("no sprite name set");
 

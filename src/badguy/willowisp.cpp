@@ -307,7 +307,7 @@ void WillOWisp::play_looping_sounds()
 void
 WillOWisp::move_to(const Vector& pos)
 {
-  Vector shift = pos - m_col.m_bbox.p1;
+  Vector shift = pos - m_col.m_bbox.p1();
   if (get_path()) {
     get_path()->move_by(shift);
   }

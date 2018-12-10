@@ -101,10 +101,10 @@ void
 Yeti::recalculate_pos()
 {
   if (m_dir == Direction::RIGHT) {
-    left_stand_x = m_col.m_bbox.p1.x;
+    left_stand_x = m_col.m_bbox.get_left();
     right_stand_x = left_stand_x + RUN_DISTANCE;
   } else {
-    right_stand_x = m_col.m_bbox.p1.x;
+    right_stand_x = m_col.m_bbox.get_left();
     left_stand_x = right_stand_x - RUN_DISTANCE;
   }
 

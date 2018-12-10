@@ -223,7 +223,7 @@ Sector::activate(const Vector& player_pos)
     if (!is_free_of_tiles(player.get_bbox())) {
       std::string current_level = "[" + Sector::get().get_level().m_filename + "] ";
       log_warning << current_level << "Tried spawning Tux in solid matter. Compensating." << std::endl;
-      Vector npos = player.get_bbox().p1;
+      Vector npos = player.get_bbox().p1();
       npos.y-=32;
       player.move(npos);
     }
@@ -428,10 +428,10 @@ Sector::can_see_player(const Vector& eye) const
 {
   for (const auto& player : get_objects_by_type<Player>()) {
     // test for free line of sight to any of all four corners and the middle of the player's bounding box
-    if (free_line_of_sight(eye, player.get_bbox().p1, &player)) return true;
-    if (free_line_of_sight(eye, Vector(player.get_bbox().p2.x, player.get_bbox().p1.y), &player)) return true;
-    if (free_line_of_sight(eye, player.get_bbox().p2, &player)) return true;
-    if (free_line_of_sight(eye, Vector(player.get_bbox().p1.x, player.get_bbox().p2.y), &player)) return true;
+    if (free_line_of_sight(eye, player.get_bbox().p1(), &player)) return true;
+    if (free_line_of_sight(eye, Vector(player.get_bbox().get_right(), player.get_bbox().get_top()), &player)) return true;
+    if (free_line_of_sight(eye, player.get_bbox().p2(), &player)) return true;
+    if (free_line_of_sight(eye, Vector(player.get_bbox().get_left(), player.get_bbox().get_bottom()), &player)) return true;
     if (free_line_of_sight(eye, player.get_bbox().get_middle(), &player)) return true;
   }
   return false;
@@ -442,7 +442,7 @@ Sector::inside(const Rectf& rect) const
 {
   for (const auto& solids : get_solid_tilemaps()) {
     Rectf bbox = solids->get_bbox();
-    bbox.p1.y = -INFINITY; // pretend the tilemap extends infinitely far upwards
+    bbox.get_top() = -INFINITY; // pretend the tilemap extends infinitely far upwards
 
     if (bbox.contains(rect))
       return true;

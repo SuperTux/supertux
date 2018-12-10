@@ -38,8 +38,8 @@ SecretAreaTrigger::SecretAreaTrigger(const ReaderMapping& reader) :
   script(),
   new_size()
 {
-  reader.get("x", m_col.m_bbox.p1.x);
-  reader.get("y", m_col.m_bbox.p1.y);
+  reader.get("x", m_col.m_bbox.get_left());
+  reader.get("y", m_col.m_bbox.get_top());
   float w,h;
   reader.get("width", w, 32.0f);
   reader.get("height", h, 32.0f);

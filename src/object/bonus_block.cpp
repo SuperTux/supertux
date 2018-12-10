@@ -370,10 +370,10 @@ BonusBlock::try_drop(Player *player)
 
   // First what's below the bonus block, if solid send it up anyway (excepting doll)
   Rectf dest_;
-  dest_.p1.x = m_col.m_bbox.get_left() + 1;
-  dest_.p1.y = m_col.m_bbox.get_bottom() + 1;
-  dest_.p2.x = m_col.m_bbox.get_right() - 1;
-  dest_.p2.y = dest_.p1.y + 30;
+  dest_.set_left(m_col.m_bbox.get_left() + 1);
+  dest_.set_top(m_col.m_bbox.get_bottom() + 1);
+  dest_.set_right(m_col.m_bbox.get_right() - 1);
+  dest_.set_bottom(dest_.get_top() + 30);
 
   if (!Sector::get().is_free_of_statics(dest_, this, true) && !(m_contents == Content::ONEUP))
   {

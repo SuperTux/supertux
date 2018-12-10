@@ -31,8 +31,8 @@ SequenceTrigger::SequenceTrigger(const ReaderMapping& reader) :
   fade_tilemap(),
   fade()
 {
-  reader.get("x", m_col.m_bbox.p1.x, 0.0f);
-  reader.get("y", m_col.m_bbox.p1.y, 0.0f);
+  reader.get("x", m_col.m_bbox.get_left(), 0.0f);
+  reader.get("y", m_col.m_bbox.get_top(), 0.0f);
   float w, h;
   reader.get("width", w, 32.0f);
   reader.get("height", h, 32.0f);

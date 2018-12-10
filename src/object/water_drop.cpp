@@ -54,8 +54,8 @@ WaterDrop::collision_solid(const CollisionHit& hit)
     // spawn water particles
     for (int i = 50; i; i--) {
       int pa = graphicsRandom.rand(0,3);
-      float px = graphicsRandom.randf(m_col.m_bbox.p1.x, m_col.m_bbox.p2.x);
-      float py = graphicsRandom.randf(m_col.m_bbox.p1.y, m_col.m_bbox.p2.y);
+      float px = graphicsRandom.randf(m_col.m_bbox.get_left(), m_col.m_bbox.get_right());
+      float py = graphicsRandom.randf(m_col.m_bbox.get_top(), m_col.m_bbox.get_bottom());
       Vector ppos = Vector(px, py);
       Vector pspeed = ppos - m_col.m_bbox.get_middle();
       pspeed.x *= 12;

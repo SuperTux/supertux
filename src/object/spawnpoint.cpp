@@ -26,7 +26,7 @@ SpawnPointMarker::SpawnPointMarker(const std::string& name, const Vector& pos) :
   m_surface(Surface::from_file("images/engine/editor/spawnpoint.png"))
 {
   m_name = name;
-  m_col.m_bbox.p1 = pos;
+  m_col.m_bbox.set_p1(pos);
   m_col.m_bbox.set_size(32, 32);
 
   if (!Editor::is_active()) {
@@ -38,8 +38,8 @@ SpawnPointMarker::SpawnPointMarker(const ReaderMapping& mapping) :
   m_surface(Surface::from_file("images/engine/editor/spawnpoint.png"))
 {
   mapping.get("name", m_name, "");
-  mapping.get("x", m_col.m_bbox.p1.x, 0.0f);
-  mapping.get("y", m_col.m_bbox.p1.y, 0.0f);
+  mapping.get("x", m_col.m_bbox.get_left(), 0.0f);
+  mapping.get("y", m_col.m_bbox.get_top(), 0.0f);
 
   m_col.m_bbox.set_size(32, 32);
   set_group(COLGROUP_DISABLED);
@@ -50,7 +50,7 @@ SpawnPointMarker::draw(DrawingContext& context)
 {
   if (Editor::current() || g_debug.show_collision_rects)
   {
-    context.color().draw_surface(m_surface, m_col.m_bbox.p1, LAYER_FOREGROUND1);
+    context.color().draw_surface(m_surface, m_col.m_bbox.p1(), LAYER_FOREGROUND1);
   }
 }
 

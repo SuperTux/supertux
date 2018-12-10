@@ -165,7 +165,7 @@ Canvas::draw_surface_part(SurfacePtr surface, const Rectf& srcrect, const Rectf&
   request->blend = style.get_blend();
 
   request->srcrects.emplace_back(srcrect);
-  request->dstrects.emplace_back(apply_translate(dstrect.p1), dstrect.get_size());
+  request->dstrects.emplace_back(apply_translate(dstrect.p1()), dstrect.get_size());
   request->angles.emplace_back(0.0f);
   request->texture = surface->get_texture().get();
   request->displacement_texture = surface->get_displacement_texture().get();
@@ -213,7 +213,7 @@ Canvas::draw_surface_batch(SurfacePtr surface,
 
   for (auto& dstrect : request->dstrects)
   {
-    dstrect = Rectf(apply_translate(dstrect.p1), dstrect.get_size());
+    dstrect = Rectf(apply_translate(dstrect.p1()), dstrect.get_size());
   }
 
   request->texture = surface->get_texture().get();
@@ -254,8 +254,8 @@ Canvas::draw_gradient(const Color& top, const Color& bottom, int layer,
   request->top = top;
   request->bottom = bottom;
   request->direction = direction;
-  request->region = Rectf(apply_translate(region.p1),
-                          apply_translate(region.p2));
+  request->region = Rectf(apply_translate(region.p1()),
+                          apply_translate(region.p2()));
 
   m_requests.push_back(request);
 }
@@ -278,7 +278,7 @@ Canvas::draw_filled_rect(const Rectf& rect, const Color& color, float radius, in
   request->flip = m_context.transform().flip;
   request->alpha = m_context.transform().alpha;
 
-  request->rect = Rectf(apply_translate(rect.p1),
+  request->rect = Rectf(apply_translate(rect.p1()),
                         rect.get_size());
   request->color = color;
   request->color.alpha = color.alpha * m_context.transform().alpha;

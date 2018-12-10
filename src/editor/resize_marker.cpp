@@ -40,30 +40,30 @@ ResizeMarker::refresh_pos()
   switch (m_vert)
   {
     case Side::NONE:
-      new_pos.y = (m_rect->p1.y + m_rect->p2.y)/2 - 8;
+      new_pos.y = (m_rect->get_top() + m_rect->get_bottom())/2 - 8;
       break;
 
     case Side::LEFT_UP:
-      new_pos.y = m_rect->p1.y - 16;
+      new_pos.y = m_rect->get_top() - 16;
       break;
 
     case Side::RIGHT_DOWN:
-      new_pos.y = m_rect->p2.y;
+      new_pos.y = m_rect->get_bottom();
       break;
   }
 
   switch (m_horz)
   {
     case Side::NONE:
-      new_pos.x = (m_rect->p1.x + m_rect->p2.x)/2 - 8;
+      new_pos.x = (m_rect->get_left() + m_rect->get_right())/2 - 8;
       break;
 
     case Side::LEFT_UP:
-      new_pos.x = m_rect->p1.x - 16;
+      new_pos.x = m_rect->get_left() - 16;
       break;
 
     case Side::RIGHT_DOWN:
-      new_pos.x = m_rect->p2.x;
+      new_pos.x = m_rect->get_right();
       break;
   }
 
@@ -77,10 +77,10 @@ ResizeMarker::move_to(const Vector& pos)
     case Side::NONE:
       break;
     case Side::LEFT_UP:
-      m_rect->p1.y = std::min(pos.y + 16, m_rect->p2.y - 2);
+      m_rect->set_top(std::min(pos.y + 16, m_rect->get_bottom() - 2));
       break;
     case Side::RIGHT_DOWN:
-      m_rect->p2.y = std::max(pos.y, m_rect->p1.y + 2);
+      m_rect->set_bottom(std::max(pos.y, m_rect->get_top() + 2));
       break;
   }
 
@@ -88,10 +88,10 @@ ResizeMarker::move_to(const Vector& pos)
     case Side::NONE:
       break;
     case Side::LEFT_UP:
-      m_rect->p1.x = std::min(pos.x + 16, m_rect->p2.x - 2);
+      m_rect->set_left(std::min(pos.x + 16, m_rect->get_right() - 2));
       break;
     case Side::RIGHT_DOWN:
-      m_rect->p2.x = std::max(pos.x, m_rect->p1.x + 2);
+      m_rect->set_right(std::max(pos.x, m_rect->get_left() + 2));
       break;
   }
 

@@ -205,7 +205,7 @@ Dispenser::collision(GameObject& other, const CollisionHit& hit)
   auto player = dynamic_cast<Player*> (&other);
   if (player) {
     // hit from above?
-    if (player->get_bbox().p2.y < (m_col.m_bbox.p1.y + 16)) {
+    if (player->get_bbox().get_bottom() < (m_col.m_bbox.get_top() + 16)) {
       collision_squished(*player);
       return FORCE_MOVE;
     }
@@ -321,7 +321,7 @@ Dispenser::launch_badguy()
           break;
 
         case DispenserType::POINT:
-          spawnpoint = m_col.m_bbox.p1;
+          spawnpoint = m_col.m_bbox.p1();
           break;
 
         default:
