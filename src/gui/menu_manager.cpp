@@ -111,10 +111,10 @@ public:
     Rectf rect = m_to_rect;
     if (m_is_active)
     {
-      rect.set_left((m_to_rect.get_left() * p) + (m_from_rect.get_left() * (1.0f - p)));
-      rect.set_top((m_to_rect.get_top() * p) + (m_from_rect.get_top() * (1.0f - p)));
-      rect.set_right((m_to_rect.get_right() * p) + (m_from_rect.get_right() * (1.0f - p)));
-      rect.set_bottom((m_to_rect.get_bottom() * p) + (m_from_rect.get_bottom() * (1.0f - p)));
+      rect = Rectf((m_to_rect.get_left() * p) + (m_from_rect.get_left() * (1.0f - p)),
+                   (m_to_rect.get_top() * p) + (m_from_rect.get_top() * (1.0f - p)),
+                   (m_to_rect.get_right() * p) + (m_from_rect.get_right() * (1.0f - p)),
+                   (m_to_rect.get_bottom() * p) + (m_from_rect.get_bottom() * (1.0f - p)));
     }
 
     // draw menu background rectangles

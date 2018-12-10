@@ -34,9 +34,9 @@ WorldmapObject::WorldmapObject (const ReaderMapping& mapping, const std::string&
   m_tile_x(),
   m_tile_y()
 {
-  m_col.m_bbox.get_left() = 32 * m_col.m_bbox.get_left();
-  m_col.m_bbox.get_top() = 32 * m_col.m_bbox.get_top();
-  m_col.m_bbox.set_size(32, 32);
+  m_col.m_bbox = Rectf(Vector(32 * m_col.m_bbox.get_left(),
+                              32 * m_col.m_bbox.get_top()),
+                       Sizef(32.0f, 32.0f));
 }
 
 WorldmapObject::WorldmapObject (const ReaderMapping& mapping) :
@@ -44,8 +44,8 @@ WorldmapObject::WorldmapObject (const ReaderMapping& mapping) :
   m_tile_x(),
   m_tile_y()
 {
-  m_col.m_bbox.get_left() = 32 * m_col.m_bbox.get_left();
-  m_col.m_bbox.get_top() = 32 * m_col.m_bbox.get_top();
+  m_col.m_bbox.set_left(32 * m_col.m_bbox.get_left());
+  m_col.m_bbox.set_top(32 * m_col.m_bbox.get_top());
   m_col.m_bbox.set_size(32, 32);
 }
 
@@ -54,8 +54,8 @@ WorldmapObject::WorldmapObject (const Vector& pos, const std::string& default_sp
   m_tile_x(),
   m_tile_y()
 {
-  m_col.m_bbox.get_left() = 32 * m_col.m_bbox.get_left();
-  m_col.m_bbox.get_top() = 32 * m_col.m_bbox.get_top();
+  m_col.m_bbox.set_left(32 * m_col.m_bbox.get_left());
+  m_col.m_bbox.set_top(32 * m_col.m_bbox.get_top());
   m_col.m_bbox.set_size(32, 32);
 }
 
