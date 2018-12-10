@@ -35,7 +35,7 @@ TTFSurface::create(const TTFFont& font, const std::string& text)
   if (!text_surface)
   {
     std::ostringstream msg;
-    msg << "Couldn't load image '" << text << "' :" << SDL_GetError();
+    msg << "Couldn't render text '" << text << "' :" << SDL_GetError();
     throw std::runtime_error(msg.str());
   }
 
