@@ -168,12 +168,12 @@ void open_path(const std::string& path)
   ShellExecute(NULL, "open", path.c_str(), NULL, NULL, SW_SHOWNORMAL);
 #else
   #if defined(__APPLE__)
-  const char* cmd = std::string("open \"" + path + "\"").c_str();
+  std::string cmd = "open \"" + path + "\"";
   #else
-  const char* cmd = std::string("xdg-open \"" + path + "\"").c_str();
+  std::string cmd = "xdg-open \"" + path + "\"";
   #endif
 
-  int ret = system(cmd);
+  int ret = system(cmd.c_str());
   if (ret < 0)
   {
     log_fatal << "failed to spawn: " << cmd << std::endl;
