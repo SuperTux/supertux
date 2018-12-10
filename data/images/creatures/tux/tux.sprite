@@ -45,7 +45,7 @@
 
        (action
          (name "small-run-left")
-         (fps 25.0)
+         (fps 15.0)
          (hitbox 8 16 32 32)
          (mirror-action "small-walk-right"))
 
