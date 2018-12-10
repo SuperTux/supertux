@@ -66,8 +66,8 @@
     (platform
       (running #f)
       (name "raiser1")
-      (sprite "images/objects/platforms/big.sprite")
       (path-ref "c91eeb3d-0cac-4880-96d6-676b10e41f64")
+      (sprite "images/objects/platforms/big.sprite")
     )
     (poisonivy
       (x 7120)

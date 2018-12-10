@@ -34,8 +34,8 @@ Wind::Wind(const ReaderMapping& reader) :
   dt_sec(0)
 {
   float w,h;
-  reader.get("x", m_col.m_bbox.p1.x, 0.0f);
-  reader.get("y", m_col.m_bbox.p1.y, 0.0f);
+  reader.get("x", m_col.m_bbox.get_left(), 0.0f);
+  reader.get("y", m_col.m_bbox.get_top(), 0.0f);
   reader.get("width", w, 32.0f);
   reader.get("height", h, 32.0f);
   m_col.m_bbox.set_size(w, h);
@@ -51,16 +51,21 @@ Wind::Wind(const ReaderMapping& reader) :
 }
 
 ObjectSettings
-Wind::get_settings() {
+Wind::get_settings()
+{
   new_size.x = m_col.m_bbox.get_width();
   new_size.y = m_col.m_bbox.get_height();
+
   ObjectSettings result = MovingObject::get_settings();
-  result.add_float("width", &new_size.x, "width", OPTION_HIDDEN);
-  result.add_float("height", &new_size.y, "height", OPTION_HIDDEN);
+
+  //result.add_float("width", &new_size.x, "width", OPTION_HIDDEN);
+  //result.add_float("height", &new_size.y, "height", OPTION_HIDDEN);
   result.add_float(_("Speed X"), &speed.x, "speed-x");
   result.add_float(_("Speed Y"), &speed.y, "speed-y");
   result.add_float(_("Acceleration"), &acceleration, "acceleration");
-  result.add_bool(_("Blowing"), &blowing, "blowing");
+  result.add_bool(_("Blowing"), &blowing, "blowing", true);
+
+  result.reorder({"blowing", "speed-x", "speed-y", "acceleration", "region", "name", "x", "y"});
 
   return result;
 }
@@ -76,7 +81,7 @@ Wind::update(float dt_sec_)
   // TODO: nicer, configurable particles for wind?
   if (graphicsRandom.rand(0, 100) < 20) {
     // emit a particle
-    Vector ppos = Vector(graphicsRandom.randf(m_col.m_bbox.p1.x+8, m_col.m_bbox.p2.x-8), graphicsRandom.randf(m_col.m_bbox.p1.y+8, m_col.m_bbox.p2.y-8));
+    Vector ppos = Vector(graphicsRandom.randf(m_col.m_bbox.get_left()+8, m_col.m_bbox.get_right()-8), graphicsRandom.randf(m_col.m_bbox.get_top()+8, m_col.m_bbox.get_bottom()-8));
     Vector pspeed = Vector(speed.x, speed.y);
     Sector::get().add<Particles>(ppos, 44, 46, pspeed, Vector(0,0), 1, Color(.4f, .4f, .4f), 3, .1f,
                                       LAYER_BACKGROUNDTILES+1);

@@ -44,6 +44,7 @@ Trampoline::Trampoline(const ReaderMapping& mapping) :
     if (!portable) {
       //we need another sprite
       m_sprite_name = "images/objects/trampoline/trampoline_fix.sprite";
+      m_default_sprite_name = m_sprite_name;
       m_sprite = SpriteManager::current()->create(m_sprite_name);
       m_sprite->set_action("normal");
     }
@@ -128,9 +129,13 @@ Trampoline::is_portable() const
 }
 
 ObjectSettings
-Trampoline::get_settings() {
+Trampoline::get_settings()
+{
   ObjectSettings result = Rock::get_settings();
-  result.add_bool(_("Portable"), &portable, "portable");
+
+  result.add_bool(_("Portable"), &portable, "portable", true);
+
+  result.reorder({"portable", "sprite", "x", "y"});
 
   return result;
 }

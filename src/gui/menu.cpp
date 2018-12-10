@@ -542,8 +542,8 @@ Menu::draw(DrawingContext& context)
                     pos.x + static_cast<float>(text_width) / 2.0f + 8.0f,
                     static_cast<float>(SCREEN_HEIGHT) - 48.0f + static_cast<float>(text_height) / 2.0f + 4.0f);
 
-    context.color().draw_filled_rect(Rectf(text_rect.p1 - Vector(4,4),
-                                             text_rect.p2 + Vector(4,4)),
+    context.color().draw_filled_rect(Rectf(text_rect.p1() - Vector(4,4),
+                                             text_rect.p2() + Vector(4,4)),
                                        Color(0.2f, 0.3f, 0.4f, 0.8f),
                                        16.0f,
                                        LAYER_GUI-10);

@@ -224,40 +224,37 @@
       )
     )
     (platform
-      (sprite "images/objects/flying_platform/flying_platform.sprite")
       (path-ref "52bc6486-c034-4cce-b353-02f96f4d7775")
     )
     (platform
-      (sprite "images/objects/flying_platform/flying_platform.sprite")
       (path-ref "d39944f0-b98c-438c-a007-e7e4239de113")
     )
     (platform
-      (sprite "images/objects/flying_platform/flying_platform.sprite")
       (path-ref "786fd441-161f-4e53-896b-90df7cc20544")
     )
     (platform
       (running #f)
       (name "lift1")
-      (sprite "images/objects/platforms/big.sprite")
       (path-ref "5ac5eb3e-1ab0-43c1-af73-3a686aaef889")
+      (sprite "images/objects/platforms/big.sprite")
     )
     (platform
       (running #f)
       (name "lift2")
-      (sprite "images/objects/platforms/big.sprite")
       (path-ref "c3e84413-55a6-4895-842a-1f84fea84f36")
+      (sprite "images/objects/platforms/big.sprite")
     )
     (platform
       (running #f)
       (name "lift3")
-      (sprite "images/objects/platforms/big.sprite")
       (path-ref "b72e40cb-d02a-4caf-87eb-d15576cbdeb2")
+      (sprite "images/objects/platforms/big.sprite")
     )
     (platform
       (running #f)
       (name "lift4")
-      (sprite "images/objects/platforms/big.sprite")
       (path-ref "439cdea6-fb13-47cf-a830-8c1dcb1222f9")
+      (sprite "images/objects/platforms/big.sprite")
     )
     (poisonivy
       (x 1762)

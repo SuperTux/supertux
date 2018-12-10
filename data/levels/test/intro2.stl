@@ -17,6 +17,8 @@
       (top_color 0 0.85 1)
       (bottom_color 0 0.6 1)
     )
+    (music
+    )
     (particles-snow
     )
     (scriptedobject

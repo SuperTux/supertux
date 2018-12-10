@@ -192,6 +192,8 @@
       (x 2720)
       (y 416)
     )
+    (music
+    )
     (spawnpoint
       (name "main")
       (x 96)
@@ -211,14 +213,12 @@
     (switch
       (script "settings.set_ambient_light( settings.get_ambient_red(), 1, settings.get_ambient_blue() );")
       (off-script "settings.set_ambient_light( settings.get_ambient_red(), 0.14, settings.get_ambient_blue() );")
-      (sprite "images/objects/switch/switch.sprite")
       (x 736)
       (y 544)
     )
     (switch
       (script "settings.set_ambient_light( settings.get_ambient_red(), settings.get_ambient_green(), 1 );")
       (off-script "settings.set_ambient_light( settings.get_ambient_red(), settings.get_ambient_green(), 0.14 );")
-      (sprite "images/objects/switch/left.sprite")
       (x 844)
       (y 544)
     )

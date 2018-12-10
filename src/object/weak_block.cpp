@@ -31,8 +31,8 @@
 #include "util/log.hpp"
 #include "util/reader_mapping.hpp"
 
-WeakBlock::WeakBlock(const ReaderMapping& mapping)
-: MovingSprite(mapping, "images/objects/weak_block/strawbox.sprite", LAYER_TILES, COLGROUP_STATIC), state(STATE_NORMAL),
+WeakBlock::WeakBlock(const ReaderMapping& mapping) :
+  MovingSprite(mapping, "images/objects/weak_block/strawbox.sprite", LAYER_TILES, COLGROUP_STATIC), state(STATE_NORMAL),
   linked(true),
   lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
 {
@@ -40,7 +40,8 @@ WeakBlock::WeakBlock(const ReaderMapping& mapping)
   //Check if this weakblock destroys adjacent weakblocks
   if (mapping.get("linked", linked)){
     if (! linked){
-      m_sprite_name = "images/objects/weak_block/meltbox.sprite";
+      m_default_sprite_name = "images/objects/weak_block/meltbox.sprite";
+      m_sprite_name = m_default_sprite_name;
       m_sprite = SpriteManager::current()->create(m_sprite_name);
       m_sprite->set_action("normal");
     }
@@ -191,8 +192,8 @@ WeakBlock::spreadHit()
     for (auto& wb : Sector::get().get_objects_by_type<WeakBlock>()) {
       if (&wb != this && wb.state == STATE_NORMAL)
       {
-        const float dx = fabsf(wb.get_pos().x - m_col.m_bbox.p1.x);
-        const float dy = fabsf(wb.get_pos().y - m_col.m_bbox.p1.y);
+        const float dx = fabsf(wb.get_pos().x - m_col.m_bbox.get_left());
+        const float dy = fabsf(wb.get_pos().y - m_col.m_bbox.get_top());
         if ((dx <= 32.5f) && (dy <= 32.5f)) {
           wb.startBurning();
         }
@@ -205,7 +206,11 @@ ObjectSettings
 WeakBlock::get_settings()
 {
   ObjectSettings result = MovingSprite::get_settings();
-  result.add_bool(_("Linked"), &linked, "linked");
+
+  result.add_bool(_("Linked"), &linked, "linked", true);
+
+  result.reorder({"linked", "sprite", "x", "y"});
+
   return result;
 }
 

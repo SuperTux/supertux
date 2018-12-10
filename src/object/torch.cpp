@@ -32,8 +32,8 @@ Torch::Torch(const ReaderMapping& reader) :
   m_burning(true),
   sprite_name("images/objects/torch/torch1.sprite")
 {
-  reader.get("x", m_col.m_bbox.p1.x);
-  reader.get("y", m_col.m_bbox.p1.y);
+  reader.get("x", m_col.m_bbox.get_left());
+  reader.get("y", m_col.m_bbox.get_top());
 
   reader.get("sprite", sprite_name);
   reader.get("burning", m_burning, true);
@@ -85,8 +85,10 @@ Torch::get_settings()
 {
   ObjectSettings result = MovingObject::get_settings();
 
-  result.add_bool(_("Burning"), &m_burning, "burning");
-  result.add_sprite(_("Sprite"), &sprite_name, "sprite");
+  result.add_bool(_("Burning"), &m_burning, "burning", true);
+  result.add_sprite(_("Sprite"), &sprite_name, "sprite", std::string("images/objects/torch/torch1.sprite"));
+
+  result.reorder({"sprite", "x", "y"});
 
   return result;
 }

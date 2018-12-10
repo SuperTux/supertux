@@ -44,19 +44,13 @@ Owl::Owl(const ReaderMapping& reader) :
 }
 
 void
-Owl::save(Writer& writer) {
-  BadGuy::save(writer);
-  writer.write("carry", carried_obj_name);
-}
-
-void
 Owl::initialize()
 {
   m_physic.set_velocity_x(m_dir == Direction::LEFT ? -FLYING_SPEED : FLYING_SPEED);
   m_physic.enable_gravity(false);
   m_sprite->set_action(m_dir == Direction::LEFT ? "left" : "right");
 
-  // If we add the carried object to the sector while we're editing 
+  // If we add the carried object to the sector while we're editing
   // a level with the editor, it gets written to the level file,
   // resulting in two carried objects. Returning early is much better.
   if (Editor::is_active())
@@ -96,9 +90,9 @@ Owl::is_above_player() const
 
   const Rectf& player_bbox = player->get_bbox();
 
-  return ((player_bbox.p1.y >= m_col.m_bbox.p2.y) /* player is below us */
-          && ((player_bbox.p2.x + x_offset) > m_col.m_bbox.p1.x)
-          && ((player_bbox.p1.x + x_offset) < m_col.m_bbox.p2.x));
+  return ((player_bbox.get_top() >= m_col.m_bbox.get_bottom()) /* player is below us */
+          && ((player_bbox.get_right() + x_offset) > m_col.m_bbox.get_left())
+          && ((player_bbox.get_left() + x_offset) < m_col.m_bbox.get_right()));
 }
 
 void
@@ -223,6 +217,18 @@ Owl::ignite()
     carried_object = nullptr;
   }
   BadGuy::ignite();
+}
+
+ObjectSettings
+Owl::get_settings()
+{
+  ObjectSettings result = BadGuy::get_settings();
+
+  result.add_text(_("Carry"), &carried_obj_name, "carry"); //, std::string("skydive"));
+
+  result.reorder({"carry", "direction", "sprite", "x", "y"});
+
+  return result;
 }
 
 /* EOF */

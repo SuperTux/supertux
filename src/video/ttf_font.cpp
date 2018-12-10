@@ -64,7 +64,7 @@ TTFFont::get_text_width(const std::string& text) const
     // Since create_surface() takes a surface from the cache instead of
     // generating it from scratch it should be faster than doing a whole
     // layout.
-    if (false)
+    if ((false))
     {
       int w = 0;
       int h = 0;

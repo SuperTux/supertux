@@ -19,7 +19,6 @@
       (file "music/forest2.ogg")
     )
     (powerup
-      (sprite "")
       (x 100)
       (y 700)
     )

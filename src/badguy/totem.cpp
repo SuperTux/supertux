@@ -90,7 +90,7 @@ Totem::active_update(float dt_sec)
       // skip if we are not approaching each other
       if (!((m_dir == Direction::LEFT) && (t->m_dir == Direction::RIGHT))) continue;
 
-      Vector p1 = m_col.m_bbox.p1;
+      Vector p1 = m_col.m_bbox.p1();
       Vector p2 = t->get_pos();
 
       // skip if not on same height

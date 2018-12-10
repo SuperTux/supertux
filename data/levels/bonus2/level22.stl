@@ -10,7 +10,6 @@
     )
     (camera
       (mode "normal")
-      (backscrolling #f)
     )
     (fish
       (x 830)

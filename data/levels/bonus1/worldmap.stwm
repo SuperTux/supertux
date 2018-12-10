@@ -141,35 +141,30 @@
     (teleporter
       (spawnpoint "matr1x")
       (message (_ "Warp to Matr1x' Sector"))
-      (sprite "images/worldmap/common/teleporterdot.sprite")
       (x 33)
       (y 8)
     )
     (teleporter
       (spawnpoint "thompson")
       (message (_ "Warp to Thompson's Domain"))
-      (sprite "images/worldmap/common/teleporterdot.sprite")
       (x 31)
       (y 8)
     )
     (teleporter
       (spawnpoint "team2")
       (message (_ "Leave the SuperTux Team Island"))
-      (sprite "images/worldmap/common/teleporterdot.sprite")
       (x 54)
       (y 25)
     )
     (teleporter
       (spawnpoint "abednego")
       (message (_ "Warp to Abednego's Area"))
-      (sprite "images/worldmap/common/teleporterdot.sprite")
       (x 37)
       (y 8)
     )
     (teleporter
       (spawnpoint "torfi2")
       (message (_ "Leave Torfi's Territory"))
-      (sprite "images/worldmap/common/teleporterdot.sprite")
       (x 65)
       (y 43)
     )
@@ -182,7 +177,6 @@
     (teleporter
       (spawnpoint "thompson2")
       (message (_ "Leave Thompson's Domain"))
-      (sprite "images/worldmap/common/teleporterdot.sprite")
       (x 35)
       (y 26)
     )
@@ -195,21 +189,18 @@
     (teleporter
       (spawnpoint "main")
       (message (_ "Warp home"))
-      (sprite "images/worldmap/common/teleporterdot.sprite")
       (x 27)
       (y 39)
     )
     (teleporter
       (spawnpoint "abednego2")
       (message (_ "Leave Abednego's Area"))
-      (sprite "images/worldmap/common/teleporterdot.sprite")
       (x 18)
       (y 43)
     )
     (teleporter
       (spawnpoint "team")
       (message (_ "Warp to the SuperTux Team Island"))
-      (sprite "images/worldmap/common/teleporterdot.sprite")
       (x 35)
       (y 8)
     )
@@ -222,7 +213,6 @@
     (teleporter
       (spawnpoint "thompson")
       (message (_ "Warp to Thompson's Domain"))
-      (sprite "images/worldmap/common/teleporterdot.sprite")
       (x 31)
       (y 8)
     )
@@ -241,14 +231,12 @@
     (teleporter
       (spawnpoint "matr1x3")
       (message (_ "Continue Matr1x' Sector"))
-      (sprite "images/worldmap/common/teleporterdot.sprite")
       (x 19)
       (y 24)
     )
     (teleporter
       (spawnpoint "torfi")
       (message (_ "Warp to Torfi's Territory"))
-      (sprite "images/worldmap/common/teleporterdot.sprite")
       (x 39)
       (y 8)
     )

@@ -34,12 +34,9 @@ public:
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
 
-  virtual std::string get_default_sprite_name() const {
-    return default_sprite_name;
-  }
+  virtual std::string get_default_sprite_name() const { return default_sprite_name; }
 
   virtual ObjectSettings get_settings() override;
-  virtual void save(Writer& writer) override;
   virtual void after_editor_set() override;
 
 protected:

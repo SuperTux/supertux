@@ -31,6 +31,7 @@ public:
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
   virtual void update(float dt_sec) override;
+  virtual bool is_saveable() const override { return false; }
 
 protected:
   PneumaticPlatform& m_parent;
@@ -58,10 +59,13 @@ public:
   virtual std::string get_class() const override { return "pneumatic-platform"; }
   virtual std::string get_display_name() const override { return _("Pneumatic platform"); }
 
+  virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
   virtual void editor_delete() override;
 
 private:
+  Vector m_pos;
+  std::string m_sprite_name;
   float m_start_y; /**< vertical start position */
   float m_speed_y; /**< vertical speed */
   float m_offset_y; /**< vertical offset from the start position in px */

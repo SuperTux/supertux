@@ -34,7 +34,6 @@ public:
 
   virtual void finish_construction() override;
 
-  virtual void save(Writer& writer) override;
   virtual ObjectSettings get_settings() override;
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;

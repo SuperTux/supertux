@@ -102,7 +102,6 @@
     )
     (camera
       (mode "normal")
-      (backscrolling #f)
     )
     (firefly
       (x 6984)

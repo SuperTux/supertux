@@ -40,7 +40,10 @@ while(true) {
 	}
 }
 ")
-    (ambient_sound
+    (ambient-light
+      (color 1 1 1)
+    )
+    (ambient-sound
       (sample "phone")
       (distance_factor 0.01)
       (distance_bias 200)
@@ -49,9 +52,6 @@ while(true) {
       (height 32)
       (x 674)
       (y 390)
-    )
-    (ambient-light
-      (color 1 1 1)
     )
     (background
       (speed 0.5)

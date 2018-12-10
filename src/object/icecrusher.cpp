@@ -41,7 +41,7 @@ const float PAUSE_TIME_LARGE  = 1.0f;
 IceCrusher::IceCrusher(const ReaderMapping& reader) :
   MovingSprite(reader, "images/creatures/icecrusher/icecrusher.sprite", LAYER_OBJECTS, COLGROUP_STATIC),
   state(IDLE),
-  start_position(m_col.m_bbox.p1),
+  start_position(m_col.m_bbox.p1()),
   physic(),
   cooldown_timer(0.0),
   lefteye(),
@@ -134,11 +134,11 @@ IceCrusher::collision_solid(const CollisionHit& hit)
           for (int j = 0; j < 9; j++)
           {
             Sector::get().add<Particles>(
-              Vector(m_col.m_bbox.p2.x - static_cast<float>(j) * 8.0f - 4.0f, m_col.m_bbox.p2.y),
+              Vector(m_col.m_bbox.get_right() - static_cast<float>(j) * 8.0f - 4.0f, m_col.m_bbox.get_bottom()),
               0, 90-5*j, 140, 380, Vector(0.0f, 300.0f),
               1, Color(.6f, .6f, .6f), 5, 1.8f, LAYER_OBJECTS+1);
             Sector::get().add<Particles>(
-              Vector(m_col.m_bbox.p1.x + static_cast<float>(j) * 8.0f + 4.0f, m_col.m_bbox.p2.y),
+              Vector(m_col.m_bbox.get_left() + static_cast<float>(j) * 8.0f + 4.0f, m_col.m_bbox.get_bottom()),
               270+5*j, 360, 140, 380, Vector(0.0f, 300.0f),
               1, Color(.6f, .6f, .6f), 5, 1.8f, LAYER_OBJECTS+1);
           }
@@ -159,13 +159,13 @@ IceCrusher::collision_solid(const CollisionHit& hit)
           for (int j = 0; j < 5; j++)
           {
             Sector::get().add<Particles>(
-              Vector(m_col.m_bbox.p2.x - static_cast<float>(j) * 8.0f - 4.0f,
-                     m_col.m_bbox.p2.y),
+              Vector(m_col.m_bbox.get_right() - static_cast<float>(j) * 8.0f - 4.0f,
+                     m_col.m_bbox.get_bottom()),
               0, 90+10*j, 140, 260, Vector(0, 300),
               1, Color(.6f, .6f, .6f), 4, 1.6f, LAYER_OBJECTS+1);
             Sector::get().add<Particles>(
-              Vector(m_col.m_bbox.p1.x + static_cast<float>(j) * 8.0f + 4.0f,
-                     m_col.m_bbox.p2.y),
+              Vector(m_col.m_bbox.get_left() + static_cast<float>(j) * 8.0f + 4.0f,
+                     m_col.m_bbox.get_bottom()),
               270+10*j, 360, 140, 260, Vector(0, 300),
               1, Color(.6f, .6f, .6f), 4, 1.6f, LAYER_OBJECTS+1);
           }
@@ -205,7 +205,7 @@ IceCrusher::update(float dt_sec)
         m_col.m_movement.y = MAX_DROP_SPEED;
       break;
     case RECOVERING:
-      if (m_col.m_bbox.p1.y <= start_position.y+1) {
+      if (m_col.m_bbox.get_top() <= start_position.y+1) {
         set_pos(start_position);
         m_col.m_movement = Vector (0, 0);
         if (ic_size == LARGE)
@@ -253,11 +253,11 @@ IceCrusher::found_victim() const
   if (auto* player = Sector::get().get_nearest_player(m_col.m_bbox))
   {
     const Rectf& player_bbox = player->get_bbox();
-    Rectf crush_area = Rectf(m_col.m_bbox.p1.x+1, m_col.m_bbox.p2.y,
-                             m_col.m_bbox.p2.x-1, std::max(m_col.m_bbox.p2.y,player_bbox.p1.y-1));
-    if ((player_bbox.p1.y >= m_col.m_bbox.p2.y) /* player is below crusher */
-        && (player_bbox.p2.x > (m_col.m_bbox.p1.x - DROP_ACTIVATION_DISTANCE))
-        && (player_bbox.p1.x < (m_col.m_bbox.p2.x + DROP_ACTIVATION_DISTANCE))
+    Rectf crush_area = Rectf(m_col.m_bbox.get_left()+1, m_col.m_bbox.get_bottom(),
+                             m_col.m_bbox.get_right()-1, std::max(m_col.m_bbox.get_bottom(),player_bbox.get_top()-1));
+    if ((player_bbox.get_top() >= m_col.m_bbox.get_bottom()) /* player is below crusher */
+        && (player_bbox.get_right() > (m_col.m_bbox.get_left() - DROP_ACTIVATION_DISTANCE))
+        && (player_bbox.get_left() < (m_col.m_bbox.get_right() + DROP_ACTIVATION_DISTANCE))
         && (Sector::get().is_free_of_statics(crush_area, this, false)) /* and area to player is free of objects */) {
       return true;
     }
@@ -274,8 +274,8 @@ IceCrusher::eye_position(bool right) const
     if (auto* player = Sector::get().get_nearest_player (m_col.m_bbox))
     {
       // Icecrusher focuses on approximate position of player's head
-      const float player_focus_x = (player->get_bbox().p2.x + player->get_bbox().p1.x) * 0.5f;
-      const float player_focus_y = player->get_bbox().p2.y * 0.25f + player->get_bbox().p1.y * 0.75f;
+      const float player_focus_x = (player->get_bbox().get_right() + player->get_bbox().get_left()) * 0.5f;
+      const float player_focus_y = player->get_bbox().get_bottom() * 0.25f + player->get_bbox().get_top() * 0.75f;
       // Icecrusher's approximate origin of line-of-sight
       const float crusher_origin_x = m_col.m_bbox.get_middle().x;
       const float crusher_origin_y = m_col.m_bbox.get_middle().y;

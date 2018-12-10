@@ -49,6 +49,9 @@ public:
   static bool is_active();
 
 public:
+  static bool s_resaving_in_progress;
+
+public:
   Editor();
   ~Editor();
 

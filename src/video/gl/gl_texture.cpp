@@ -125,7 +125,7 @@ GLTexture::GLTexture(const SDL_Surface& image, const Sampler& sampler) :
                  GL_UNSIGNED_BYTE, convert->pixels);
 
     // no not use mipmaps
-    if (false)
+    if ((false))
     {
       glGenerateMipmap(GL_TEXTURE_2D);
     }

@@ -26,24 +26,24 @@ class Player;
 class BonusBlock final : public Block
 {
 public:
-  enum Contents {
-    CONTENT_COIN,
-    CONTENT_FIREGROW,
-    CONTENT_ICEGROW,
-    CONTENT_AIRGROW,
-    CONTENT_EARTHGROW,
-    CONTENT_STAR,
-    CONTENT_1UP,
-    CONTENT_CUSTOM,
-    CONTENT_SCRIPT,
-    CONTENT_LIGHT,
-    CONTENT_TRAMPOLINE,
-    CONTENT_RAIN,
-    CONTENT_EXPLODE
+  enum class Content {
+    COIN,
+    FIREGROW,
+    ICEGROW,
+    AIRGROW,
+    EARTHGROW,
+    STAR,
+    ONEUP,
+    CUSTOM,
+    SCRIPT,
+    LIGHT,
+    TRAMPOLINE,
+    RAIN,
+    EXPLODE
   };
 
 public:
-  BonusBlock(const Vector& pos, int data);
+  BonusBlock(const Vector& pos, int tile_data);
   BonusBlock(const ReaderMapping& mapping);
   virtual ~BonusBlock();
 
@@ -51,14 +51,12 @@ public:
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
   virtual void draw(DrawingContext& context) override;
 
-  virtual void save(Writer& writer) override;
-
   virtual std::string get_class() const override { return "bonusblock"; }
   virtual std::string get_display_name() const override { return _("Bonus block"); }
 
   virtual ObjectSettings get_settings() override;
 
-  Contents get_contents() const { return m_contents; }
+  Content get_contents() const { return m_contents; }
   int get_hit_counter() const { return m_hit_counter; }
 
 private:
@@ -69,18 +67,17 @@ private:
   void raise_growup_bonus(Player* player, const BonusType& bonus, const Direction& dir);
   void drop_growup_bonus(const std::string& bonus_sprite_name, bool& countdown);
 
-  BonusBlock::Contents get_content_by_data(int d) const;
-  BonusBlock::Contents get_content_from_string(const std::string& contentstring) const;
-  std::string contents_to_string(const BonusBlock::Contents& content) const;
+  BonusBlock::Content get_content_by_data(int tile_data) const;
+  BonusBlock::Content get_content_from_string(const std::string& contentstring) const;
+  std::string contents_to_string(const BonusBlock::Content& content) const;
 
 private:
-  Contents m_contents;
+  Content m_contents;
   std::unique_ptr<MovingObject> m_object;
   int m_hit_counter;
-
-private:
   std::string m_script;
   SurfacePtr m_lightsprite;
+  sexp::Value m_custom_sx;
 
 private:
   BonusBlock(const BonusBlock&) = delete;

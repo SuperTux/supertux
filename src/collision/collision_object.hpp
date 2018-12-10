@@ -68,9 +68,9 @@ public:
     m_bbox.set_pos(pos);
   }
 
-  const Vector& get_pos() const
+  Vector get_pos() const
   {
-    return m_bbox.p1;
+    return m_bbox.p1();
   }
 
   /** moves entire object to a specific position, including all

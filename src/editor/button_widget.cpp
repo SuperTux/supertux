@@ -37,7 +37,7 @@ ButtonWidget::draw(DrawingContext& context)
                                    LAYER_GUI-5);
 
   if (m_sprite) {
-    m_sprite->draw(context.color(), m_rect.p1, LAYER_GUI-5);
+    m_sprite->draw(context.color(), m_rect.p1(), LAYER_GUI-5);
   }
 
   if (m_grab) {

@@ -160,11 +160,14 @@ PathGameObject::draw(DrawingContext& context)
   }
 }
 
-void
-PathGameObject::save(Writer& writer)
+ObjectSettings
+PathGameObject::get_settings()
 {
-  GameObject::save(writer);
-  m_path->save(writer);
+  ObjectSettings result = GameObject::get_settings();
+
+  result.add_path(_("Path"), m_path.get(), "path");
+
+  return result;
 }
 
 void

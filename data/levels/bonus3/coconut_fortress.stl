@@ -93,23 +93,18 @@
       (y 1024)
     )
     (hurting_platform
-      (sprite "images/objects/sawblade/sawblade.sprite")
       (path-ref "6725b23e-21d0-4130-acfd-cdbd0ebade9c")
     )
     (hurting_platform
-      (sprite "images/objects/sawblade/sawblade.sprite")
       (path-ref "a4e4ba0f-4cfc-4bc1-aa23-76a8d053b8b5")
     )
     (hurting_platform
-      (sprite "images/objects/sawblade/sawblade.sprite")
       (path-ref "a5d602e0-9f4b-471f-9d04-80f14c6c19b1")
     )
     (hurting_platform
-      (sprite "images/objects/sawblade/sawblade.sprite")
       (path-ref "ea29d175-0da9-4967-85c1-bfe6638b3631")
     )
     (hurting_platform
-      (sprite "images/objects/sawblade/sawblade.sprite")
       (path-ref "97541d00-299f-43cb-91a9-49a43d970fb3")
     )
     (jumpy
@@ -359,28 +354,28 @@
       )
     )
     (platform
-      (sprite "images/objects/platforms/big.sprite")
       (path-ref "328d2262-dd60-47e3-b75f-df6db7237493")
+      (sprite "images/objects/platforms/big.sprite")
     )
     (platform
-      (sprite "images/objects/platforms/big.sprite")
       (path-ref "356cd3f8-f8d0-4456-abc2-11e1d9d90723")
+      (sprite "images/objects/platforms/big.sprite")
     )
     (platform
-      (sprite "images/objects/platforms/big.sprite")
       (path-ref "19518a1b-8f57-458a-bdcf-48b132cef75c")
+      (sprite "images/objects/platforms/big.sprite")
     )
     (platform
       (running #f)
       (name "door2")
-      (sprite "images/objects/platforms/vertical-wood.sprite")
       (path-ref "b975bb7e-dccf-4f31-a5d8-3214bda3a157")
+      (sprite "images/objects/platforms/vertical-wood.sprite")
     )
     (platform
       (running #f)
       (name "door1")
-      (sprite "images/objects/platforms/vertical-wood.sprite")
       (path-ref "59521437-cb94-4533-8dc7-831d06ebed83")
+      (sprite "images/objects/platforms/vertical-wood.sprite")
     )
     (scripttrigger
       (script "door2.goto_node(1);

@@ -29,6 +29,8 @@ TextArray.fade_in(1);")
     (camera
       (mode "normal")
     )
+    (music
+    )
     (spawnpoint
       (name "main")
       (x 64)

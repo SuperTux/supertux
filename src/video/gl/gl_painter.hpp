@@ -21,7 +21,7 @@
 
 #include "video/flip.hpp"
 
-class Blend;
+enum class Blend;
 class GLRenderer;
 class GLVideoSystem;
 

@@ -788,53 +788,53 @@
       )
     )
     (platform
-      (sprite "images/objects/platforms/big.sprite")
       (path-ref "1bf96526-eb79-41c1-86a4-dadee39cf2ce")
+      (sprite "images/objects/platforms/big.sprite")
     )
     (platform
-      (sprite "images/objects/platforms/big.sprite")
       (path-ref "0bf95731-c97f-4a1b-af29-85b23453439b")
+      (sprite "images/objects/platforms/big.sprite")
     )
     (platform
-      (sprite "images/objects/platforms/big.sprite")
       (path-ref "cf7a7c4f-ebb4-4d7c-8451-5bda19d70d1f")
+      (sprite "images/objects/platforms/big.sprite")
     )
     (platform
-      (sprite "images/objects/platforms/big.sprite")
       (path-ref "24d74e3e-0f19-49ac-968c-dd15d9a290d1")
+      (sprite "images/objects/platforms/big.sprite")
     )
     (platform
-      (sprite "images/objects/platforms/big.sprite")
       (path-ref "3a01acbc-9e9f-4457-94a8-13d7bf51f7c0")
+      (sprite "images/objects/platforms/big.sprite")
     )
     (platform
       (running #f)
-      (sprite "images/objects/platforms/big.sprite")
       (path-ref "362ade6c-fa03-4ec3-8ed5-8f9a33654007")
+      (sprite "images/objects/platforms/big.sprite")
     )
     (platform
-      (sprite "images/objects/platforms/big.sprite")
       (path-ref "2a46f708-e86a-4f6c-add9-0d984e2223f8")
+      (sprite "images/objects/platforms/big.sprite")
     )
     (platform
-      (sprite "images/objects/platforms/big.sprite")
       (path-ref "b89cd4aa-c752-4dc3-926a-753974609521")
+      (sprite "images/objects/platforms/big.sprite")
     )
     (platform
-      (sprite "images/objects/platforms/big.sprite")
       (path-ref "b6c97045-20ad-40aa-8de3-a0a954a8c845")
+      (sprite "images/objects/platforms/big.sprite")
     )
     (platform
-      (sprite "images/objects/platforms/big.sprite")
       (path-ref "70c48afd-4dbc-4f29-99f2-7a8c12916ac0")
+      (sprite "images/objects/platforms/big.sprite")
     )
     (platform
-      (sprite "images/objects/platforms/big.sprite")
       (path-ref "4a25381d-c54c-402f-bc9b-8b99ce5afca7")
+      (sprite "images/objects/platforms/big.sprite")
     )
     (platform
-      (sprite "images/objects/platforms/big.sprite")
       (path-ref "4a68ce96-3838-4704-b759-3a2f0c179b0d")
+      (sprite "images/objects/platforms/big.sprite")
     )
     (poisonivy
       (x 1442)

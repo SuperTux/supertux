@@ -51,26 +51,23 @@ Platform::finish_construction()
   if (!get_path())
   {
     // If no path is given, make a one-node dummy path
-    init_path_pos(m_col.m_bbox.p1, false);
+    init_path_pos(m_col.m_bbox.p1(), false);
   }
 
   m_col.m_bbox.set_pos(get_path()->get_base());
-}
-
-void
-Platform::save(Writer& writer)
-{
-  MovingSprite::save(writer);
-  writer.write("running", get_walker()->is_running());
-  PathObject::save(writer);
 }
 
 ObjectSettings
 Platform::get_settings()
 {
   ObjectSettings result = MovingSprite::get_settings();
+
+  result.add_path_ref(_("Path"), get_path_ref(), "path-ref");
   result.add_walk_mode(_("Path Mode"), &get_path()->m_mode, {}, {});
-  result.add_bool(_("Running"), &get_walker()->m_running, "running", {}, 0);
+  result.add_bool(_("Running"), &get_walker()->m_running, "running", true, 0);
+
+  result.reorder({"running", "name", "path-ref", "sprite", "x", "y"});
+
   return result;
 }
 
@@ -97,7 +94,7 @@ Platform::update(float dt_sec)
 
       // Travel to node nearest to nearest player
       if (auto* player = Sector::get().get_nearest_player(m_col.m_bbox)) {
-        int nearest_node_id = get_path()->get_nearest_node_no(player->get_bbox().p2);
+        int nearest_node_id = get_path()->get_nearest_node_no(player->get_bbox().p2());
         if (nearest_node_id != -1) {
           goto_node(nearest_node_id);
         }
@@ -155,7 +152,7 @@ Platform::stop_moving()
 void
 Platform::move_to(const Vector& pos)
 {
-  Vector shift = pos - m_col.m_bbox.p1;
+  Vector shift = pos - m_col.m_bbox.p1();
   if (get_path()) {
     get_path()->move_by(shift);
   }

@@ -111,21 +111,21 @@ public:
     Rectf rect = m_to_rect;
     if (m_is_active)
     {
-      rect.p1.x = (m_to_rect.p1.x * p) + (m_from_rect.p1.x * (1.0f - p));
-      rect.p1.y = (m_to_rect.p1.y * p) + (m_from_rect.p1.y * (1.0f - p));
-      rect.p2.x = (m_to_rect.p2.x * p) + (m_from_rect.p2.x * (1.0f - p));
-      rect.p2.y = (m_to_rect.p2.y * p) + (m_from_rect.p2.y * (1.0f - p));
+      rect = Rectf((m_to_rect.get_left() * p) + (m_from_rect.get_left() * (1.0f - p)),
+                   (m_to_rect.get_top() * p) + (m_from_rect.get_top() * (1.0f - p)),
+                   (m_to_rect.get_right() * p) + (m_from_rect.get_right() * (1.0f - p)),
+                   (m_to_rect.get_bottom() * p) + (m_from_rect.get_bottom() * (1.0f - p)));
     }
 
     // draw menu background rectangles
-    context.color().draw_filled_rect(Rectf(rect.p1.x - 4, rect.p1.y - 10-4,
-                                             rect.p2.x + 4, rect.p2.y + 10 + 4),
+    context.color().draw_filled_rect(Rectf(rect.get_left() - 4, rect.get_top() - 10-4,
+                                             rect.get_right() + 4, rect.get_bottom() + 10 + 4),
                                        Color(0.2f, 0.3f, 0.4f, 0.8f),
                                        20.0f,
                                        LAYER_GUI-10);
 
-    context.color().draw_filled_rect(Rectf(rect.p1.x, rect.p1.y - 10,
-                                             rect.p2.x, rect.p2.y + 10),
+    context.color().draw_filled_rect(Rectf(rect.get_left(), rect.get_top() - 10,
+                                             rect.get_right(), rect.get_bottom() + 10),
                                        Color(0.6f, 0.7f, 0.8f, 0.5f),
                                        16.0f,
                                        LAYER_GUI-10);

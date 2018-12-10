@@ -25,7 +25,6 @@ class Ispy final : public MovingSprite
 {
 public:
   Ispy(const ReaderMapping& mapping);
-  virtual void save(Writer& writer) override;
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
 
@@ -49,6 +48,7 @@ private:
 
   std::string script; /**< script to execute when Tux is spotted */
   Direction dir;
+  bool m_facing_down;
 
 private:
   Ispy(const Ispy&) = delete;

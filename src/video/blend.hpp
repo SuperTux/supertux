@@ -22,36 +22,15 @@
 
 #include "video/gl.hpp"
 
-class Blend final
-{
-public:
-  static const Blend NONE;
-  static const Blend BLEND;
-  static const Blend ADD;
-  static const Blend MOD;
-
-public:
-  static Blend from_string(const std::string& text);
-
-public:
-  GLenum sfactor;
-  GLenum dfactor;
-
-  Blend()
-    : sfactor(GL_SRC_ALPHA), dfactor(GL_ONE_MINUS_SRC_ALPHA)
-  {}
-
-  Blend(GLenum s, GLenum d)
-    : sfactor(s), dfactor(d)
-  {}
-
-  bool operator==(const Blend& other) const {
-    return (sfactor == other.sfactor &&
-            dfactor == other.dfactor);
-  }
-
-  std::string to_string() const;
+enum class Blend {
+  BLEND, // moving this first, as old code had Blend() as BLEND
+  ADD,
+  MOD,
+  NONE
 };
+
+Blend Blend_from_string(const std::string& text);
+std::string Blend_to_string(Blend blend);
 
 #endif
 

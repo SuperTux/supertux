@@ -17,6 +17,7 @@
 #include "editor/object_settings.hpp"
 
 #include <assert.h>
+#include <sexp/value.hpp>
 
 #include "util/gettext.hpp"
 #include "video/color.hpp"
@@ -46,7 +47,25 @@ ObjectSettings::add_color(const std::string& text, Color* value_ptr,
                           boost::optional<Color> default_value,
                           unsigned int flags)
 {
-  add_option(std::make_unique<ColorObjectOption>(text, value_ptr, key, default_value, flags));
+  add_option(std::make_unique<ColorObjectOption>(text, value_ptr, key, default_value, true, flags));
+}
+
+void
+ObjectSettings::add_rgba(const std::string& text, Color* value_ptr,
+                         const std::string& key,
+                         boost::optional<Color> default_value,
+                         unsigned int flags)
+{
+  add_option(std::make_unique<ColorObjectOption>(text, value_ptr, key, default_value, true, flags));
+}
+
+void
+ObjectSettings::add_rgb(const std::string& text, Color* value_ptr,
+                        const std::string& key,
+                        boost::optional<Color> default_value,
+                        unsigned int flags)
+{
+  add_option(std::make_unique<ColorObjectOption>(text, value_ptr, key, default_value, false, flags));
 }
 
 void
@@ -77,14 +96,23 @@ ObjectSettings::add_int(const std::string& text, int* value_ptr,
 }
 
 void
+ObjectSettings::add_rectf(const std::string& text, Rectf* value_ptr,
+                          const std::string& key,
+                          unsigned int flags)
+{
+  add_option(std::make_unique<RectfObjectOption>(text, value_ptr, key, flags));
+}
+
+void
 ObjectSettings::add_direction(const std::string& text, Direction* value_ptr,
                               boost::optional<Direction> default_value,
                               const std::string& key, unsigned int flags)
 {
-  add_string_select(_("Direction"), reinterpret_cast<int*>(value_ptr),
-                    {_("auto"), _("left"), _("right"), _("up"), _("down")},
-                    default_value ? static_cast<int>(*default_value) : boost::optional<int>(),
-                    key, flags);
+  add_enum(text, reinterpret_cast<int*>(value_ptr),
+           {_("auto"), _("left"), _("right"), _("up"), _("down")},
+           {"auto", "left", "right", "up", "down"},
+           default_value ? static_cast<int>(*default_value) : boost::optional<int>(),
+           key, flags);
 }
 
 void
@@ -92,10 +120,11 @@ ObjectSettings::add_worldmap_direction(const std::string& text, worldmap::Direct
                                        boost::optional<worldmap::Direction> default_value,
                                        const std::string& key, unsigned int flags)
 {
-  add_option(std::make_unique<StringSelectObjectOption>(
-               text, reinterpret_cast<int*>(value_ptr),
-               std::vector<std::string>{_("None"), _("West"), _("East"), _("North"), _("South")},
-               boost::none, key, 0));
+  add_enum(text, reinterpret_cast<int*>(value_ptr),
+           {_("None"), _("West"), _("East"), _("North"), _("South")},
+           {"none", "west", "east", "north", "south"},
+           default_value ? static_cast<int>(*default_value) : boost::optional<int>(),
+           key, flags);
 }
 
 void
@@ -106,7 +135,7 @@ ObjectSettings::add_walk_mode(const std::string& text, WalkMode* value_ptr,
   add_option(std::make_unique<StringSelectObjectOption>(
                text, reinterpret_cast<int*>(value_ptr),
                std::vector<std::string>{_("One shot"), _("Ping-pong"), _("Circular"), _("Unordered")},
-               boost::none, key, 0));
+               boost::none, key, flags));
 }
 
 void
@@ -124,16 +153,21 @@ ObjectSettings::add_script(const std::string& text, std::string* value_ptr,
 
 void
 ObjectSettings::add_text(const std::string& text, std::string* value_ptr,
-                         const std::string& key, unsigned int flags)
+                         const std::string& key,
+                         boost::optional<std::string> default_value,
+                         unsigned int flags)
 {
-  add_option(std::make_unique<StringObjectOption>(text, value_ptr, key, flags));
+  add_option(std::make_unique<StringObjectOption>(text, value_ptr, key, default_value, flags));
 }
 
 void
 ObjectSettings::add_translatable_text(const std::string& text, std::string* value_ptr,
-                                      const std::string& key, unsigned int flags)
+                                      const std::string& key,
+                                      boost::optional<std::string> default_value,
+                                      unsigned int flags)
 {
-  add_option(std::make_unique<StringObjectOption>(text, value_ptr, key, flags | OPTION_TRANSLATABLE));
+  add_option(std::make_unique<StringObjectOption>(text, value_ptr, key, default_value,
+                                                  flags | OPTION_TRANSLATABLE));
 }
 
 void
@@ -155,52 +189,97 @@ ObjectSettings::add_enum(const std::string& text, int* value_ptr,
 }
 
 void
-ObjectSettings::add_file(const std::string& text, std::string* value_ptr, const std::string& key,
+ObjectSettings::add_file(const std::string& text, std::string* value_ptr,
+                         const std::string& key,
+                         boost::optional<std::string> default_value,
                          const std::vector<std::string>& filter, unsigned int flags)
 {
-  add_option(std::make_unique<FileObjectOption>(text, value_ptr, key, filter, flags));
+  add_option(std::make_unique<FileObjectOption>(text, value_ptr, default_value, key, filter, flags));
+}
+
+void
+ObjectSettings::add_tiles(const std::string& text, TileMap* value_ptr, const std::string& key,
+                          unsigned int flags)
+{
+  add_option(std::make_unique<TilesObjectOption>(text, value_ptr, key, flags));
+}
+
+void
+ObjectSettings::add_path(const std::string& text, Path* path, const std::string& key,
+                         unsigned int flags)
+{
+  add_option(std::make_unique<PathObjectOption>(text, path, key, flags));
+}
+
+void
+ObjectSettings::add_path_ref(const std::string& text, const std::string& path_ref, const std::string& key,
+                             unsigned int flags)
+{
+  add_option(std::make_unique<PathRefObjectOption>(text, path_ref, key, flags));
+
+  if (!path_ref.empty()) {
+    m_options.erase(std::remove_if(m_options.begin(), m_options.end(),
+                                   [](const std::unique_ptr<ObjectOption>& obj) {
+                                     return obj->get_key() == "x" || obj->get_key() == "y";
+                                   }),
+                    m_options.end());
+  }
 }
 
 void
 ObjectSettings::add_level(const std::string& text, std::string* value_ptr, const std::string& key,
                           unsigned int flags)
 {
-  add_file(text, value_ptr, key, {".stl"}, flags);
+  add_file(text, value_ptr, key, {}, {".stl"}, flags);
 }
 
 void
-ObjectSettings::add_sprite(const std::string& text, std::string* value_ptr, const std::string& key,
+ObjectSettings::add_sprite(const std::string& text, std::string* value_ptr,
+                           const std::string& key,
+                           boost::optional<std::string> default_value,
                            unsigned int flags)
 {
-  add_file(text, value_ptr, key, {".jpg", ".png", ".sprite"}, flags);
+  add_file(text, value_ptr, key, default_value, {".jpg", ".png", ".sprite"}, flags);
 }
 
 void
-ObjectSettings::add_surface(const std::string& text, std::string* value_ptr, const std::string& key,
+ObjectSettings::add_surface(const std::string& text, std::string* value_ptr,
+                            const std::string& key,
+                            boost::optional<std::string> default_value,
                             unsigned int flags)
 {
-  add_file(text, value_ptr, key, {".jpg", ".png", ".surface"}, flags);
+  add_file(text, value_ptr, key, default_value, {".jpg", ".png", ".surface"}, flags);
 }
 
 void
-ObjectSettings::add_sound(const std::string& text, std::string* value_ptr, const std::string& key,
+ObjectSettings::add_sound(const std::string& text, std::string* value_ptr,
+                          const std::string& key,
+                          boost::optional<std::string> default_value,
                           unsigned int flags)
 {
-  add_file(text, value_ptr, key, {".wav", ".ogg"}, flags);
+  add_file(text, value_ptr, key, default_value, {".wav", ".ogg"}, flags);
 }
 
 void
-ObjectSettings::add_music(const std::string& text, std::string* value_ptr, const std::string& key,
+ObjectSettings::add_music(const std::string& text, std::string* value_ptr,
+                          const std::string& key,
+                          boost::optional<std::string> default_value,
                           unsigned int flags)
 {
-  add_file(text, value_ptr, key, {".ogg", ".music"}, flags);
+  add_file(text, value_ptr, key, default_value, {".ogg", ".music"}, flags);
 }
 
 void
 ObjectSettings::add_worldmap(const std::string& text, std::string* value_ptr, const std::string& key,
                             unsigned int flags)
 {
-  add_file(text, value_ptr, key, {".stwm"}, flags);
+  add_file(text, value_ptr, key, {}, {".stwm"}, flags);
+}
+
+void
+ObjectSettings::add_sexp(const std::string& text, const std::string& key, sexp::Value& value, unsigned int flags)
+{
+  add_option(std::make_unique<SExpObjectOption>(text, key, value, flags));
 }
 
 void
@@ -233,6 +312,16 @@ ObjectSettings::reorder(const std::vector<std::string>& order)
   assert(m_options.size() == new_options.size());
 
   m_options = std::move(new_options);
+}
+
+void
+ObjectSettings::remove(const std::string& key)
+{
+  m_options.erase(std::remove_if(m_options.begin(), m_options.end(),
+                                 [key](const std::unique_ptr<ObjectOption>& option){
+                                   return option->get_key() == key;
+                                 }),
+                  m_options.end());
 }
 
 /* EOF */

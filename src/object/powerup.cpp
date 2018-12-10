@@ -143,13 +143,13 @@ PowerUp::update(float dt_sec)
   //Stars sparkle when close to Tux
   if (m_sprite_name == "images/powerups/star/star.sprite"){
     if (auto* player = Sector::get().get_nearest_player(m_col.m_bbox)) {
-      float disp_x = player->get_bbox().p1.x - m_col.m_bbox.p1.x;
-      float disp_y = player->get_bbox().p1.y - m_col.m_bbox.p1.y;
+      float disp_x = player->get_bbox().get_left() - m_col.m_bbox.get_left();
+      float disp_y = player->get_bbox().get_top() - m_col.m_bbox.get_top();
       if (disp_x*disp_x + disp_y*disp_y <= 256*256)
       {
         if (graphicsRandom.rand(0, 2) == 0) {
-          float px = graphicsRandom.randf(m_col.m_bbox.p1.x * 1.0f, m_col.m_bbox.p2.x * 1.0f);
-          float py = graphicsRandom.randf(m_col.m_bbox.p1.y * 1.0f, m_col.m_bbox.p2.y * 1.0f);
+          float px = graphicsRandom.randf(m_col.m_bbox.get_left() * 1.0f, m_col.m_bbox.get_right() * 1.0f);
+          float py = graphicsRandom.randf(m_col.m_bbox.get_top() * 1.0f, m_col.m_bbox.get_bottom() * 1.0f);
           Vector ppos = Vector(px, py);
           Vector pspeed = Vector(0, 0);
           Vector paccel = Vector(0, 0);
@@ -184,8 +184,12 @@ ObjectSettings
 PowerUp::get_settings()
 {
   ObjectSettings result = MovingSprite::get_settings();
+
   result.add_script(_("Script"), &script, "script");
-  result.add_bool(_("Disable gravity"), &no_physics, "disable-physics");
+  result.add_bool(_("Disable gravity"), &no_physics, "disable-physics", false);
+
+  result.reorder({"script", "disable-physics", "sprite", "x", "y"});
+
   return result;
 }
 

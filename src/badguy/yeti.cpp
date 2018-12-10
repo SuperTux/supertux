@@ -79,7 +79,7 @@ Yeti::Yeti(const ReaderMapping& reader) :
 
   initialize();
 
-  reader.get("fixed-pos", fixed_pos, false); 
+  reader.get("fixed-pos", fixed_pos, false);
   if (fixed_pos) {
     left_stand_x = 80;
     right_stand_x = 1140;
@@ -101,10 +101,10 @@ void
 Yeti::recalculate_pos()
 {
   if (m_dir == Direction::RIGHT) {
-    left_stand_x = m_col.m_bbox.p1.x;
+    left_stand_x = m_col.m_bbox.get_left();
     right_stand_x = left_stand_x + RUN_DISTANCE;
   } else {
-    right_stand_x = m_col.m_bbox.p1.x;
+    right_stand_x = m_col.m_bbox.get_left();
     left_stand_x = right_stand_x - RUN_DISTANCE;
   }
 
@@ -364,9 +364,9 @@ Yeti::get_settings()
 {
   ObjectSettings result = BadGuy::get_settings();
 
-  result.add_text("hud-icon", &hud_icon, "hud-icon", OPTION_HIDDEN);
-  result.add_bool(_("Fixed position"), &fixed_pos, "fixed-pos");
-  result.add_int(_("Lives"),          &hit_points, "lives");
+  result.add_text("hud-icon", &hud_icon, "hud-icon", std::string("images/creatures/yeti/hudlife.png"), OPTION_HIDDEN);
+  result.add_bool(_("Fixed position"), &fixed_pos, "fixed-pos", false);
+  result.add_int(_("Lives"), &hit_points, "lives", 5);
 
   return result;
 }

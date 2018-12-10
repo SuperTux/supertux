@@ -11,6 +11,10 @@
       (speed 0.5)
       (image "images/background/arctis.jpg")
     )
+    (camera
+      (name "Camera")
+      (mode "normal")
+    )
     (candle
       (x 896)
       (y 224)

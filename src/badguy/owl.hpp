@@ -26,7 +26,6 @@ class Owl final : public BadGuy
 {
 public:
   Owl(const ReaderMapping& reader);
-  virtual void save(Writer& writer) override;
 
   virtual void initialize() override;
   virtual void collision_solid(const CollisionHit& hit) override;
@@ -38,6 +37,7 @@ public:
   virtual void ignite() override;
   virtual std::string get_class() const override { return "owl"; }
   virtual std::string get_display_name() const override { return _("Owl"); }
+  virtual ObjectSettings get_settings() override;
 
 protected:
   bool is_above_player() const;

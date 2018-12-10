@@ -30,16 +30,15 @@ public:
   WorldmapObject(const ReaderMapping& mapping);
   WorldmapObject(const Vector& pos, const std::string& default_sprite);
 
-  HitResponse collision(GameObject& other, const CollisionHit& hit) override {
-    return FORCE_MOVE;
-  }
-
-  virtual std::string get_class() const override {
-    return "worldmap-object";
-  }
-
+  virtual ObjectSettings get_settings() override;
+  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override { return FORCE_MOVE; }
+  virtual std::string get_class() const override { return "worldmap-object"; }
   virtual void move_to(const Vector& pos) override;
-  virtual void save(Writer& writer) override;
+
+private:
+  // FIXME: purely used for saving, is not updated normally, don't use.
+  int m_tile_x;
+  int m_tile_y;
 
 private:
   WorldmapObject(const WorldmapObject&) = delete;
@@ -51,14 +50,11 @@ class LevelDot final : public WorldmapObject
 public:
   LevelDot(const ReaderMapping& mapping);
 
-  virtual std::string get_class() const override {
-    return "level";
-  }
-
   virtual void draw(DrawingContext& context) override;
 
+  virtual std::string get_class() const override { return "level"; }
+  virtual std::string get_display_name() const override { return _("Level"); }
   virtual ObjectSettings get_settings() override;
-  virtual void save(Writer& writer) override;
   virtual void after_editor_set() override;
 
 private:
@@ -77,12 +73,11 @@ class Teleporter final : public WorldmapObject
 public:
   Teleporter(const ReaderMapping& mapping);
 
-  virtual std::string get_class() const override { return "teleporter"; }
-
   virtual void draw(DrawingContext& context) override;
 
+  virtual std::string get_class() const override { return "teleporter"; }
+  virtual std::string get_display_name() const override { return _("Teleporter"); }
   virtual ObjectSettings get_settings() override;
-  virtual void save(Writer& writer) override;
 
 private:
   std::string m_worldmap;
@@ -106,7 +101,6 @@ public:
   virtual std::string get_display_name() const override { return _("Spawn point"); }
 
   virtual ObjectSettings get_settings() override;
-  virtual void save(Writer& writer) override;
 
 private:
   worldmap::Direction m_dir;
@@ -122,9 +116,8 @@ public:
   SpriteChange(const ReaderMapping& mapping);
 
   virtual std::string get_class() const override { return "sprite-change"; }
-
+  virtual std::string get_display_name() const override { return _("Sprite Change"); }
   virtual ObjectSettings get_settings() override;
-  virtual void save(Writer& writer) override;
 
 private:
   std::string m_target_sprite;
@@ -144,16 +137,16 @@ public:
   SpecialTile(const ReaderMapping& mapping);
 
   virtual std::string get_class() const override { return "special-tile"; }
-
+    virtual std::string get_display_name() const override { return _("Special tile"); }
   virtual ObjectSettings get_settings() override;
-  virtual void save(Writer& writer) override;
 
 private:
   std::string m_map_message;
   std::string m_script;
   bool m_passive_message;
   bool m_invisible_tile;
-  worldmap::Direction m_apply_to_direction;
+
+  std::string m_apply_to_directions;
 
 private:
   SpecialTile(const SpecialTile&) = delete;

@@ -12,6 +12,8 @@
     (camera
       (mode "normal")
     )
+    (music
+    )
     (path
       (name "831443b9-9cb9-4ebc-8261-dab0d635cb23")
       (path
@@ -69,13 +71,11 @@
       )
     )
     (platform
-      (sprite "images/objects/flying_platform/flying_platform.sprite")
       (path-ref "831443b9-9cb9-4ebc-8261-dab0d635cb23")
     )
     (platform
       (running #f)
       (name "p")
-      (sprite "images/objects/flying_platform/flying_platform.sprite")
       (path-ref "b00104f5-02c7-4558-bbad-ff768681ae65")
     )
     (spawnpoint
@@ -85,25 +85,21 @@
     )
     (switch
       (script "p.goto_node(0)")
-      (sprite "images/objects/switch/switch.sprite")
       (x 227)
       (y 516)
     )
     (switch
       (script "p.goto_node(1)")
-      (sprite "images/objects/switch/switch.sprite")
       (x 483)
       (y 548)
     )
     (switch
       (script "p.goto_node(2)")
-      (sprite "images/objects/switch/switch.sprite")
       (x 707)
       (y 548)
     )
     (switch
       (script "p.goto_node(3)")
-      (sprite "images/objects/switch/switch.sprite")
       (x 995)
       (y 516)
     )

@@ -71,7 +71,6 @@ if(settings.get_ambient_green() !=1){
 }else{
 	settings.set_ambient_light( settings.get_ambient_red(), 0.14, settings.get_ambient_blue() );
 }")
-      (sprite "images/objects/switch/switch.sprite")
       (x 570.3345)
       (y 1165.192)
     )
@@ -82,7 +81,6 @@ if(settings.get_ambient_blue() !=1){
 }else{
 	settings.set_ambient_light( settings.get_ambient_red(), settings.get_ambient_green(), 0.14 );
 }")
-      (sprite "images/objects/switch/left.sprite")
       (x 670.799)
       (y 1168.322)
     )
@@ -464,6 +462,8 @@ if(settings.get_ambient_red() !=1){
     )
     (camera
       (mode "normal")
+    )
+    (music
     )
     (spawnpoint
       (name "main")

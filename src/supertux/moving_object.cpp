@@ -35,12 +35,19 @@ MovingObject::~MovingObject()
 {
 }
 
-void
-MovingObject::save(Writer& writer)
+ObjectSettings
+MovingObject::get_settings()
 {
-  GameObject::save(writer);
-  writer.write("x", m_col.m_bbox.p1.x);
-  writer.write("y", m_col.m_bbox.p1.y);
+  ObjectSettings result = GameObject::get_settings();
+
+  if (has_variable_size()) {
+    result.add_rectf(_("Region"), &m_col.m_bbox, "region");
+  }
+
+  result.add_float(_("X"), &m_col.m_bbox.get_left(), "x");
+  result.add_float(_("Y"), &m_col.m_bbox.get_top(), "y");
+
+  return result;
 }
 
 void

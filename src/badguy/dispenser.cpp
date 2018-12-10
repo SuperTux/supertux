@@ -205,7 +205,7 @@ Dispenser::collision(GameObject& other, const CollisionHit& hit)
   auto player = dynamic_cast<Player*> (&other);
   if (player) {
     // hit from above?
-    if (player->get_bbox().p2.y < (m_col.m_bbox.p1.y + 16)) {
+    if (player->get_bbox().get_bottom() < (m_col.m_bbox.get_top() + 16)) {
       collision_squished(*player);
       return FORCE_MOVE;
     }
@@ -321,7 +321,7 @@ Dispenser::launch_badguy()
           break;
 
         case DispenserType::POINT:
-          spawnpoint = m_col.m_bbox.p1;
+          spawnpoint = m_col.m_bbox.p1();
           break;
 
         default:
@@ -437,17 +437,18 @@ Dispenser::get_settings()
   ObjectSettings result = BadGuy::get_settings();
 
   result.add_float(_("Interval (seconds)"), &m_cycle, "cycle");
-  result.add_bool(_("Random"), &m_random, "random");
+  result.add_bool(_("Random"), &m_random, "random", false);
   result.add_badguy(_("Enemies"), &m_badguys, "badguy");
   result.add_bool(_("Limit dispensed badguys"), &m_limit_dispensed_badguys,
-             "limit-dispensed-badguys");
+                  "limit-dispensed-badguys", false);
   result.add_int(_("Max concurrent badguys"), &m_max_concurrent_badguys,
-             "max-concurrent-badguys");
-  result.add_string_select(_("Type"), reinterpret_cast<int*>(&m_type),
-                           {_("dropper"), _("rocket launcher"), _("cannon"), _("invisible")});
+                 "max-concurrent-badguys", 0);
+  result.add_enum(_("Type"), reinterpret_cast<int*>(&m_type),
+                  {_("dropper"), _("rocket launcher"), _("cannon"), _("invisible")},
+                  {"dropper", "rocketlauncher", "cannon", "point"},
+                  static_cast<int>(DispenserType::DROPPER), "type");
 
-  m_type_str = DispenserType_to_string(m_type);
-  result.add_text("type", &m_type_str, "type", OPTION_HIDDEN);
+  result.reorder({"cycle", "random", "type", "badguy", "direction", "limit-dispensed-badguys", "max-concurrent-badguys", "x", "y"});
 
   return result;
 }

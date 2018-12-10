@@ -174,15 +174,15 @@ void
 EditorOverlayWidget::draw_rectangle()
 {
   Rectf dr = drag_rect();
-  dr.p1 = sp_to_tp(dr.p1);
-  dr.p2 = sp_to_tp(dr.p2);
+  dr.set_p1(sp_to_tp(dr.p1()));
+  dr.set_p2(sp_to_tp(dr.p2()));
   bool sgn_x = m_drag_start.x < m_sector_pos.x;
   bool sgn_y = m_drag_start.y < m_sector_pos.y;
 
   int x_ = sgn_x ? 0 : static_cast<int>(-dr.get_width());
-  for (int x = static_cast<int>(dr.p1.x); x <= static_cast<int>(dr.p2.x); x++, x_++) {
+  for (int x = static_cast<int>(dr.get_left()); x <= static_cast<int>(dr.get_right()); x++, x_++) {
     int y_ = sgn_y ? 0 : static_cast<int>(-dr.get_height());
-    for (int y = static_cast<int>(dr.p1.y); y <= static_cast<int>(dr.p2.y); y++, y_++) {
+    for (int y = static_cast<int>(dr.get_top()); y <= static_cast<int>(dr.get_bottom()); y++, y_++) {
       input_tile( Vector(static_cast<float>(x), static_cast<float>(y)), m_editor.get_tiles()->pos(x_, y_) );
     }
   }
@@ -631,12 +631,12 @@ EditorOverlayWidget::tile_drag_rect()
 
   // Increase drag rectangle size to the
   // nearest tile border respectively.
-  result = Rectf(floorf(result.p1.x / 32) * 32,
-                 floorf(result.p1.y / 32) * 32,
-                 ceilf(result.p2.x / 32) * 32,
-                 ceilf(result.p2.y / 32) * 32);
-  result.p1 = sp_to_tp(result.p1);
-  result.p2 = sp_to_tp(result.p2);
+  result = Rectf(floorf(result.get_left() / 32) * 32,
+                 floorf(result.get_top() / 32) * 32,
+                 ceilf(result.get_right() / 32) * 32,
+                 ceilf(result.get_bottom() / 32) * 32);
+  result.set_p1(sp_to_tp(result.p1()));
+  result.set_p2(sp_to_tp(result.p2()));
   return result;
 }
 
@@ -644,8 +644,8 @@ Rectf
 EditorOverlayWidget::selection_draw_rect()
 {
   Rectf select = tile_drag_rect();
-  select.p1 = tile_screen_pos(select.p1);
-  select.p2 = tile_screen_pos(select.p2);
+  select.set_p1(tile_screen_pos(select.p1()));
+  select.set_p2(tile_screen_pos(select.p2()));
   return select;
 }
 
@@ -665,8 +665,8 @@ EditorOverlayWidget::update_tile_selection()
 
   int w = static_cast<int>(tilemap->get_width());
   int h = static_cast<int>(tilemap->get_height());
-  for (int y = static_cast<int>(select.p1.y); y < static_cast<int>(select.p2.y); y++) {
-    for (int x = static_cast<int>(select.p1.x); x < static_cast<int>(select.p2.x); x++) {
+  for (int y = static_cast<int>(select.get_top()); y < static_cast<int>(select.get_bottom()); y++) {
+    for (int x = static_cast<int>(select.get_left()); x < static_cast<int>(select.get_right()); x++) {
       if ( x < 0 || y < 0 || x >= w || y >= h) {
         tiles->m_tiles.push_back(0);
       } else {
@@ -836,8 +836,8 @@ EditorOverlayWidget::draw_tile_grid(DrawingContext& context, const Color& line_c
   Rectf draw_rect = Rectf(cam_translation, cam_translation +
                           Vector(static_cast<float>(context.get_width() - 128),
                                  static_cast<float>(context.get_height() - 32)));
-  Vector start = sp_to_tp( Vector(draw_rect.p1.x, draw_rect.p1.y), tile_size );
-  Vector end = sp_to_tp( Vector(draw_rect.p2.x, draw_rect.p2.y), tile_size );
+  Vector start = sp_to_tp( Vector(draw_rect.get_left(), draw_rect.get_top()), tile_size );
+  Vector end = sp_to_tp( Vector(draw_rect.get_right(), draw_rect.get_bottom()), tile_size );
   start.x = std::max(0.0f, start.x);
   start.y = std::max(0.0f, start.y);
   end.x = std::min(float(tm_width), end.x);

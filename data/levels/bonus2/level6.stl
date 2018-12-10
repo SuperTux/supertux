@@ -22,7 +22,6 @@
     )
     (camera
       (mode "normal")
-      (backscrolling #f)
     )
     (firefly
       (x 7740)

@@ -12,7 +12,10 @@
     (camera
       (mode "normal")
     )
+    (music
+    )
     (owl
+      (carry "skydive")
       (x 704)
       (y 896)
     )

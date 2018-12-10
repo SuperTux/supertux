@@ -39,10 +39,10 @@ SDL_Rect to_sdl_rect(const Rectf& rect)
 
   // floorf() here due to int(-0.5) and int(0.5) both rounding to 0,
   // thus creating a jump in coordinates at 0
-  sdl_rect.x = static_cast<int>(floorf(rect.p1.x));
-  sdl_rect.y = static_cast<int>(floorf(rect.p1.y));
+  sdl_rect.x = static_cast<int>(floorf(rect.get_left()));
+  sdl_rect.y = static_cast<int>(floorf(rect.get_top()));
 
-  // roundf() here due to int(rect.p2.xy - rect.p1.xy) being
+  // roundf() here due to int(rect.get_right()y - rect.get_left()y) being
   // off-by-one due to float errors
   sdl_rect.w = static_cast<int>(roundf(rect.get_width()));
   sdl_rect.h = static_cast<int>(roundf(rect.get_height()));
@@ -52,29 +52,25 @@ SDL_Rect to_sdl_rect(const Rectf& rect)
 
 SDL_BlendMode blend2sdl(const Blend& blend)
 {
-  if (blend.sfactor == GL_ONE &&
-      blend.dfactor == GL_ZERO)
+  if (blend == Blend::NONE)
   {
     return SDL_BLENDMODE_NONE;
   }
-  else if (blend.sfactor == GL_SRC_ALPHA &&
-           blend.dfactor == GL_ONE_MINUS_SRC_ALPHA)
+  else if (blend == Blend::BLEND)
   {
     return SDL_BLENDMODE_BLEND;
   }
-  else if (blend.sfactor == GL_SRC_ALPHA &&
-           blend.dfactor == GL_ONE)
+  else if (blend == Blend::ADD)
   {
     return SDL_BLENDMODE_ADD;
   }
-  else if (blend.sfactor == GL_DST_COLOR &&
-           blend.dfactor == GL_ZERO)
+  else if (blend == Blend::MOD)
   {
     return SDL_BLENDMODE_MOD;
   }
   else
   {
-    log_warning << "unknown blend mode combinations: sfactor=" << blend.sfactor << " dfactor=" << blend.dfactor << std::endl;
+    log_warning << "unknown blend mode combinations: blend=" << static_cast<int>(blend) << std::endl;
     return SDL_BLENDMODE_BLEND;
   }
 }
@@ -284,17 +280,17 @@ SDLPainter::draw_gradient(const GradientRequest& request)
     SDL_Rect rect;
     if (direction == VERTICAL || direction == VERTICAL_SECTOR)
     {
-      rect.x = static_cast<int>(region.p1.x);
-      rect.y = static_cast<int>(region.p2.y * static_cast<float>(i) / static_cast<float>(n));
-      rect.w = static_cast<int>(region.p2.x);
-      rect.h = static_cast<int>((region.p2.y * static_cast<float>(i+1) / static_cast<float>(n)) - static_cast<float>(rect.y));
+      rect.x = static_cast<int>(region.get_left());
+      rect.y = static_cast<int>(region.get_bottom() * static_cast<float>(i) / static_cast<float>(n));
+      rect.w = static_cast<int>(region.get_right());
+      rect.h = static_cast<int>((region.get_bottom() * static_cast<float>(i+1) / static_cast<float>(n)) - static_cast<float>(rect.y));
     }
     else
     {
-      rect.x = static_cast<int>(region.p2.x * static_cast<float>(i) / static_cast<float>(n));
-      rect.y = static_cast<int>(region.p1.y);
-      rect.w = static_cast<int>((region.p2.x * static_cast<float>(i+1) / static_cast<float>(n)) - static_cast<float>(rect.x));
-      rect.h = static_cast<int>(region.p2.y);
+      rect.x = static_cast<int>(region.get_right() * static_cast<float>(i) / static_cast<float>(n));
+      rect.y = static_cast<int>(region.get_top());
+      rect.w = static_cast<int>((region.get_right() * static_cast<float>(i+1) / static_cast<float>(n)) - static_cast<float>(rect.x));
+      rect.h = static_cast<int>(region.get_bottom());
     }
 
     float p = static_cast<float>(i+1) / static_cast<float>(n);
@@ -302,7 +298,7 @@ SDLPainter::draw_gradient(const GradientRequest& request)
 
     if ( direction == HORIZONTAL_SECTOR || direction == VERTICAL_SECTOR)
     {
-        float begin_percentage = region.p1.x * -1 / region.p2.x;
+        float begin_percentage = region.get_left() * -1 / region.get_right();
         r = static_cast<Uint8>(((1.0f - begin_percentage - p) * top.red + (p + begin_percentage) * bottom.red)  * 255);
         g = static_cast<Uint8>(((1.0f - begin_percentage - p) * top.green + (p + begin_percentage) * bottom.green) * 255);
         b = static_cast<Uint8>(((1.0f - begin_percentage - p) * top.blue + (p + begin_percentage) * bottom.blue) * 255);
@@ -488,27 +484,27 @@ draw_span_between_edges(SDL_Renderer* renderer, const Rectf& e1, const Rectf& e2
 {
   // calculate difference between the y coordinates
   // of the first edge and return if 0
-  float e1ydiff = static_cast<float>(e1.p2.y - e1.p1.y);
+  float e1ydiff = static_cast<float>(e1.get_bottom() - e1.get_top());
   if (e1ydiff == 0.0f)
     return;
 
   // calculate difference between the y coordinates
   // of the second edge and return if 0
-  float e2ydiff = static_cast<float>(e2.p2.y - e2.p1.y);
+  float e2ydiff = static_cast<float>(e2.get_bottom() - e2.get_top());
   if (e2ydiff == 0.0f)
     return;
 
-  float e1xdiff = e1.p2.x - e1.p1.x;
-  float e2xdiff = e2.p2.x - e2.p1.x;
-  float factor1 = (e2.p1.y - e1.p1.y) / e1ydiff;
+  float e1xdiff = e1.get_right() - e1.get_left();
+  float e2xdiff = e2.get_right() - e2.get_left();
+  float factor1 = (e2.get_top() - e1.get_top()) / e1ydiff;
   float factorStep1 = 1.0f / e1ydiff;
   float factor2 = 0.0f;
   float factorStep2 = 1.0f / e2ydiff;
 
-  for (int y = static_cast<int>(e2.p1.y); y < static_cast<int>(e2.p2.y); y++) {
+  for (int y = static_cast<int>(e2.get_top()); y < static_cast<int>(e2.get_bottom()); y++) {
     SDL_RenderDrawLine(renderer,
-                       static_cast<int>(e1.p1.x + e1xdiff * factor1), y,
-                       static_cast<int>(e2.p1.x + e2xdiff * factor2), y);
+                       static_cast<int>(e1.get_left() + e1xdiff * factor1), y,
+                       static_cast<int>(e2.get_left() + e2xdiff * factor2), y);
     factor1 += factorStep1;
     factor2 += factorStep2;
   }
@@ -541,7 +537,7 @@ SDLPainter::draw_triangle(const TriangleRequest& request)
 
   // find edge with the greatest length in the y axis
   for (int i = 0; i < 3; i++) {
-    int length = static_cast<int>(edges[i].p2.y - edges[i].p1.y);
+    int length = static_cast<int>(edges[i].get_bottom() - edges[i].get_top());
     if (length > maxLength) {
       maxLength = length;
       longEdge = i;

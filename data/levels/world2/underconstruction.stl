@@ -100,7 +100,6 @@
     (platform
       (running #f)
       (name "PLATFORM")
-      (sprite "images/objects/flying_platform/flying_platform.sprite")
       (path-ref "64557f43-3bbd-4981-a6a6-a9c2c492747c")
     )
     (scriptedobject

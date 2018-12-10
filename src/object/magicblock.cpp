@@ -22,6 +22,7 @@
 
 #include "object/magicblock.hpp"
 
+#include "editor/editor.hpp"
 #include "object/camera.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/constants.hpp"
@@ -63,31 +64,37 @@ MagicBlock::MagicBlock(const ReaderMapping& mapping) :
     m_color = Color(0, 0, 0);
   }
 
-  // all alpha to make the sprite still visible
-  m_color.alpha = ALPHA_SOLID;
+  if (!Editor::is_active()) {
+    // all alpha to make the sprite still visible
+    m_color.alpha = ALPHA_SOLID;
 
-  // set trigger
-  if (m_color.red == 0 && m_color.green == 0 && m_color.blue == 0) { // is it black?
-    m_black = true;
-    m_trigger_red = MIN_INTENSITY;
-    m_trigger_green = MIN_INTENSITY;
-    m_trigger_blue = MIN_INTENSITY;
-  } else {
-    m_black = false;
-    m_trigger_red = m_color.red;
-    m_trigger_green = m_color.green;
-    m_trigger_blue = m_color.blue;
+    // set trigger
+    if (m_color.red == 0 && m_color.green == 0 && m_color.blue == 0) { // is it black?
+      m_black = true;
+      m_trigger_red = MIN_INTENSITY;
+      m_trigger_green = MIN_INTENSITY;
+      m_trigger_blue = MIN_INTENSITY;
+    } else {
+      m_black = false;
+      m_trigger_red = m_color.red;
+      m_trigger_green = m_color.green;
+      m_trigger_blue = m_color.blue;
+    }
   }
 
   m_center = m_col.m_bbox.get_middle();
-  m_solid_box = Rectf(m_col.m_bbox.p1.x + SHIFT_DELTA, m_col.m_bbox.p1.y + SHIFT_DELTA, m_col.m_bbox.p2.x - SHIFT_DELTA, m_col.m_bbox.p2.y - SHIFT_DELTA);
+  m_solid_box = Rectf(m_col.m_bbox.get_left() + SHIFT_DELTA, m_col.m_bbox.get_top() + SHIFT_DELTA, m_col.m_bbox.get_right() - SHIFT_DELTA, m_col.m_bbox.get_bottom() - SHIFT_DELTA);
 }
 
 ObjectSettings
 MagicBlock::get_settings()
 {
   ObjectSettings result = MovingSprite::get_settings();
-  result.add_color(_("Color"), &m_color, "color");
+
+  result.add_rgb(_("Color"), &m_color, "color", Color::BLACK);
+
+  result.reorder({"color", "x", "y"});
+
   return result;
 }
 

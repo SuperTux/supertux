@@ -166,25 +166,21 @@
     )
     (platform
       (name "eins")
-      (sprite "images/objects/flying_platform/flying_platform.sprite")
       (path-ref "62e89bc8-855b-48fa-82fd-8740ee3d9a07")
     )
     (platform
       (running #f)
       (name "zwei")
-      (sprite "images/objects/flying_platform/flying_platform.sprite")
       (path-ref "aa276c7c-9b26-4a86-a93c-f490fab85684")
     )
     (platform
       (running #f)
       (name "drei")
-      (sprite "images/objects/flying_platform/flying_platform.sprite")
       (path-ref "c845a699-c423-4a6e-a843-db865809e5c1")
     )
     (platform
       (running #f)
       (name "raus")
-      (sprite "images/objects/flying_platform/flying_platform.sprite")
       (path-ref "1321506e-642d-402d-95c2-d11a75aac433")
     )
     (poisonivy

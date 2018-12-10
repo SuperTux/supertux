@@ -17,6 +17,7 @@
 #include "object/particlesystem_interactive.hpp"
 
 #include "collision/collision.hpp"
+#include "editor/editor.hpp"
 #include "math/aatriangle.hpp"
 #include "object/tilemap.hpp"
 #include "supertux/globals.hpp"
@@ -34,7 +35,9 @@ ParticleSystem_Interactive::ParticleSystem_Interactive() :
 {
   virtual_width = static_cast<float>(SCREEN_WIDTH);
   virtual_height = static_cast<float>(SCREEN_HEIGHT);
-  z_pos = 0;
+  if (!Editor::is_active()) {
+    z_pos = 0;
+  }
 }
 
 ParticleSystem_Interactive::ParticleSystem_Interactive(const ReaderMapping& mapping) :
@@ -42,7 +45,9 @@ ParticleSystem_Interactive::ParticleSystem_Interactive(const ReaderMapping& mapp
 {
   virtual_width = static_cast<float>(SCREEN_WIDTH);
   virtual_height = static_cast<float>(SCREEN_HEIGHT);
-  z_pos = 0;
+  if (!Editor::is_active()) {
+    z_pos = 0;
+  }
 }
 
 ParticleSystem_Interactive::~ParticleSystem_Interactive()

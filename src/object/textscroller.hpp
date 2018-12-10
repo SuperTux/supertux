@@ -38,6 +38,9 @@ public:
 
   virtual void draw(DrawingContext& context) override;
   virtual void update(float dt_sec) override;
+  virtual ObjectSettings get_settings() override;
+  virtual std::string get_class() const override { return "textscroller"; }
+  virtual std::string get_display_name() const override { return _("TextScroller"); }
 
   void set_speed(float speed);
   void scroll(float offset);
@@ -49,6 +52,7 @@ private:
   void parse_content(const ReaderCollection& collection);
 
 private:
+  std::string m_filename;
   std::vector<std::unique_ptr<InfoBoxLine> > m_lines;
   float m_scroll;
   float m_speed;

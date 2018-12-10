@@ -16,8 +16,8 @@
     )
     (decal
       (solid #t)
-      (sprite "images/creatures/tux/tux.sprite")
       (action "small-walk-right")
+      (sprite "images/creatures/tux/tux.sprite")
       (x 536)
       (y 192)
     )
@@ -66,6 +66,8 @@
       (sprite "images/creatures/nolok/walk-2.png")
       (x 800)
       (y 112)
+    )
+    (music
     )
     (tilemap
       (solid #f)

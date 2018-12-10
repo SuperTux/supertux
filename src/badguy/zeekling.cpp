@@ -131,7 +131,7 @@ Zeekling::should_we_dive()
     // get positions, calculate movement
     const Vector& player_pos = player->get_pos();
     const Vector player_mov = (player_pos - last_player_pos);
-    const Vector self_pos = m_col.m_bbox.p1;
+    const Vector self_pos = m_col.m_bbox.p1();
     const Vector self_mov = (self_pos - last_self_pos);
 
     // new vertical speed to test with
@@ -165,7 +165,7 @@ Zeekling::should_we_dive()
   last_player = player;
   if (player) {
     last_player_pos = player->get_pos();
-    last_self_pos = m_col.m_bbox.p1;
+    last_self_pos = m_col.m_bbox.p1();
   }
 
   return false;

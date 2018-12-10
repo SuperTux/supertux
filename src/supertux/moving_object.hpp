@@ -64,9 +64,9 @@ public:
 
   virtual bool listener_is_valid() const override { return is_valid(); }
 
-  const Vector& get_pos() const
+  Vector get_pos() const
   {
-    return m_col.m_bbox.p1;
+    return m_col.m_bbox.p1();
   }
 
   const Rectf& get_bbox() const
@@ -92,13 +92,8 @@ public:
     return &m_col;
   }
 
-  /** This function saves the object.
-   *  Editor will use that.
-   */
-  virtual void save(Writer& writer) override;
-  virtual std::string get_class() const override {
-    return "moving-object";
-  }
+  virtual std::string get_class() const override { return "moving-object"; }
+  virtual ObjectSettings get_settings() override;
 
   virtual void editor_select() override;
 

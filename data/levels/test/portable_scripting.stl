@@ -31,6 +31,8 @@
       (x 669.4761)
       (y 630.9287)
     )
+    (music
+    )
     (path
       (name "e8fd3bc3-113d-43b1-bae2-ce92b1b7dcc3")
       (path
@@ -51,7 +53,6 @@
     )
     (rock
       (name "rock1")
-      (sprite "images/objects/rock/rock.sprite")
       (x 537.1428)
       (y 641.5237)
     )

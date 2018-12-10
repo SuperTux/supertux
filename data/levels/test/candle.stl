@@ -43,6 +43,8 @@
       (x 672)
       (y 832)
     )
+    (music
+    )
     (scripttrigger
       (script "candle1.set_burning(true);
 wait(0.1);

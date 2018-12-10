@@ -47,6 +47,10 @@
       (x 15604)
       (y 309)
     )
+    (camera
+      (name "Camera")
+      (mode "normal")
+    )
     (firefly
       (x 7681)
       (y 224)

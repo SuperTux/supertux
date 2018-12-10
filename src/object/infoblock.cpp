@@ -56,6 +56,8 @@ InfoBlock::get_settings()
 
   result.add_translatable_text(_("Message"), &message, "message");
 
+  result.reorder({"message", "x", "y"});
+
   return result;
 }
 
@@ -146,8 +148,8 @@ InfoBlock::draw(DrawingContext& context)
   float border = 8;
   float width = 400; // this is the text width only
   float height = lines_height; // this is the text height only
-  float x1 = (m_col.m_bbox.p1.x + m_col.m_bbox.p2.x)/2 - width/2;
-  float x2 = (m_col.m_bbox.p1.x + m_col.m_bbox.p2.x)/2 + width/2;
+  float x1 = (m_col.m_bbox.get_left() + m_col.m_bbox.get_right())/2 - width/2;
+  float x2 = (m_col.m_bbox.get_left() + m_col.m_bbox.get_right())/2 + width/2;
   float y1 = original_y - height;
 
   if (x1 < 0) {

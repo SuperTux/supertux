@@ -19,6 +19,7 @@
 #include "object/player.hpp"
 #include "object/portable.hpp"
 #include "supertux/sector.hpp"
+#include "util/reader_mapping.hpp"
 
 PneumaticPlatformChild::PneumaticPlatformChild(const ReaderMapping& mapping, bool left, PneumaticPlatform& parent) :
   MovingSprite(mapping, "images/objects/platforms/small.sprite", LAYER_OBJECTS, COLGROUP_STATIC),
@@ -48,7 +49,7 @@ PneumaticPlatformChild::collision(GameObject& other, const CollisionHit& )
   // somehow the hit parameter does not get filled in, so to determine (hit.top == true) we do this:
   auto mo = dynamic_cast<MovingObject*>(&other);
   if (!mo) return FORCE_MOVE;
-  if ((mo->get_bbox().p2.y) > (m_col.m_bbox.p1.y + 2)) return FORCE_MOVE;
+  if ((mo->get_bbox().get_bottom()) > (m_col.m_bbox.get_top() + 2)) return FORCE_MOVE;
 
   auto pl = dynamic_cast<Player*>(mo);
   if (pl) {
@@ -64,11 +65,17 @@ PneumaticPlatformChild::collision(GameObject& other, const CollisionHit& )
 
 PneumaticPlatform::PneumaticPlatform(const ReaderMapping& mapping) :
   GameObject(mapping),
+  m_pos(),
+  m_sprite_name(),
   m_start_y(),
   m_speed_y(0),
   m_offset_y(0),
   m_children()
 {
+  mapping.get("x", m_pos.x);
+  mapping.get("y", m_pos.y);
+  mapping.get("sprite", m_sprite_name);
+
   m_children.push_back(&d_sector->add<PneumaticPlatformChild>(mapping, true, *this));
   m_children.push_back(&d_sector->add<PneumaticPlatformChild>(mapping, false, *this));
 
@@ -117,6 +124,18 @@ PneumaticPlatform::editor_delete()
   for (auto& child : m_children) {
     child->remove_me();
   }
+}
+
+ObjectSettings
+PneumaticPlatform::get_settings()
+{
+  ObjectSettings result = GameObject::get_settings();
+
+  result.add_sprite(_("Sprite"), &m_sprite_name, "sprite", std::string("images/objects/platforms/small.sprite"));
+  result.add_float(_("X"), &m_pos.x, "x", 0.0f, OPTION_HIDDEN);
+  result.add_float(_("Y"), &m_pos.y, "y", 0.0f, OPTION_HIDDEN);
+
+  return result;
 }
 
 void

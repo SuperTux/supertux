@@ -39,9 +39,6 @@ public:
   Path* get_path() const;
   PathWalker* get_walker() const { return m_walker.get(); }
 
-  void save(Writer& writer) const;
-
-private:
   std::string get_path_ref() const;
 
 private:

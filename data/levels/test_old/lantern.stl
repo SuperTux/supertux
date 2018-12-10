@@ -26,6 +26,8 @@
       (x 240)
       (y 328)
     )
+    (music
+    )
     (spawnpoint
       (name "main")
       (x 96)

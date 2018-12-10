@@ -46,8 +46,14 @@ WillOWisp::WillOWisp(const ReaderMapping& reader) :
   m_track_range(),
   m_vanish_range()
 {
-  reader.get("sector", m_target_sector, "main");
-  reader.get("spawnpoint", m_target_spawnpoint, "main");
+  if (Editor::is_active()) {
+    reader.get("sector", m_target_sector);
+    reader.get("spawnpoint", m_target_spawnpoint);
+  } else {
+    reader.get("sector", m_target_sector, "main");
+    reader.get("spawnpoint", m_target_spawnpoint, "main");
+  }
+
   reader.get("flyspeed", m_flyspeed, FLYSPEED);
   reader.get("track-range", m_track_range, TRACK_RANGE);
   reader.get("vanish-range", m_vanish_range, VANISH_RANGE);
@@ -74,13 +80,6 @@ WillOWisp::finish_construction()
   if (get_walker() && get_walker()->is_running()) {
     m_mystate = STATE_PATHMOVING_TRACK;
   }
-}
-
-void
-WillOWisp::save(Writer& writer)
-{
-  BadGuy::save(writer);
-  writer.write("running", m_mystate == STATE_PATHMOVING_TRACK);
 }
 
 void
@@ -275,14 +274,19 @@ WillOWisp::set_state(const std::string& new_state)
 ObjectSettings
 WillOWisp::get_settings()
 {
-  ObjectSettings result = GameObject::get_settings();
+  ObjectSettings result = BadGuy::get_settings();
+
   result.add_direction(_("Direction"), &m_dir);
   result.add_text(_("Sector"), &m_target_sector, "sector");
   result.add_text(_("Spawnpoint"), &m_target_spawnpoint, "spawnpoint");
   result.add_text(_("Hit script"), &m_hit_script, "hit-script");
-  result.add_float(_("Track range"), &m_track_range, "track-range");
-  result.add_float(_("Vanish range"), &m_vanish_range, "vanish-range");
-  result.add_float(_("Fly speed"), &m_flyspeed, "flyspeed");
+  result.add_float(_("Track range"), &m_track_range, "track-range", TRACK_RANGE);
+  result.add_float(_("Vanish range"), &m_vanish_range, "vanish-range", VANISH_RANGE);
+  result.add_float(_("Fly speed"), &m_flyspeed, "flyspeed", FLYSPEED);
+  result.add_path_ref(_("Path"), get_path_ref(), "path-ref");
+
+  result.reorder({"sector", "spawnpoint", "flyspeed", "track-range", "hit-script", "vanish-range", "name", "path-ref", "region", "x", "y"});
+
   return result;
 }
 
@@ -303,7 +307,7 @@ void WillOWisp::play_looping_sounds()
 void
 WillOWisp::move_to(const Vector& pos)
 {
-  Vector shift = pos - m_col.m_bbox.p1;
+  Vector shift = pos - m_col.m_bbox.p1();
   if (get_path()) {
     get_path()->move_by(shift);
   }

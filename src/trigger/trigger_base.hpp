@@ -39,6 +39,7 @@ public:
   };
 
 public:
+  TriggerBase(const ReaderMapping& mapping);
   TriggerBase();
   ~TriggerBase();
 

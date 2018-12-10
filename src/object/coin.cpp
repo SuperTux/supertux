@@ -68,13 +68,6 @@ Coin::finish_construction()
 }
 
 void
-Coin::save(Writer& writer)
-{
-  MovingSprite::save(writer);
-  PathObject::save(writer);
-}
-
-void
 Coin::update(float dt_sec)
 {
   // if we have a path to follow, follow it
@@ -254,7 +247,7 @@ HeavyCoin::collision_solid(const CollisionHit& hit)
 void
 Coin::move_to(const Vector& pos)
 {
-  Vector shift = pos - m_col.m_bbox.p1;
+  Vector shift = pos - m_col.m_bbox.p1();
   if (get_path()) {
     get_path()->move_by(shift);
   }
@@ -266,6 +259,7 @@ Coin::get_settings()
 {
   ObjectSettings result = MovingSprite::get_settings();
 
+  result.add_path_ref(_("Path"), get_path_ref(), "path-ref");
   m_add_path = get_walker() && get_path() && get_path()->is_valid();
   result.add_bool(_("Following path"), &m_add_path);
 
@@ -274,6 +268,8 @@ Coin::get_settings()
   }
 
   result.add_script(_("Collect script"), &m_collect_script, "collect-script");
+
+  result.reorder({"collect-script", "path-ref"});
 
   return result;
 }
@@ -289,7 +285,7 @@ Coin::after_editor_set()
     }
   } else {
     if (m_add_path) {
-      init_path_pos(m_col.m_bbox.p1);
+      init_path_pos(m_col.m_bbox.p1());
     }
   }
 }
@@ -298,7 +294,11 @@ ObjectSettings
 HeavyCoin::get_settings()
 {
   auto result = MovingSprite::get_settings();
+
   result.add_script(_("Collect script"), &m_collect_script, "collect-script");
+
+  result.reorder({"collect-script", "sprite", "x", "y"});
+
   return result;
 }
 

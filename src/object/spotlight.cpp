@@ -33,8 +33,8 @@ Spotlight::Spotlight(const ReaderMapping& mapping) :
 {
   m_col.m_group = COLGROUP_DISABLED;
 
-  mapping.get("x", m_col.m_bbox.p1.x, 0.0f);
-  mapping.get("y", m_col.m_bbox.p1.y, 0.0f);
+  mapping.get("x", m_col.m_bbox.get_left(), 0.0f);
+  mapping.get("y", m_col.m_bbox.get_top(), 0.0f);
   m_col.m_bbox.set_size(32, 32);
 
   mapping.get("angle", angle, 0.0f);
@@ -55,12 +55,14 @@ ObjectSettings
 Spotlight::get_settings()
 {
   ObjectSettings result = MovingObject::get_settings();
-  result.add_float("x-pos", &m_col.m_bbox.p1.x, "x", OPTION_HIDDEN);
-  result.add_float("y-pos", &m_col.m_bbox.p1.y, "y", OPTION_HIDDEN);
+
   result.add_float(_("Angle"), &angle, "angle");
-  result.add_color(_("Color"), &color, "color");
-  result.add_float(_("Speed"), &speed, "speed");
-  result.add_bool(_("Counter-clockwise"), &counter_clockwise, "counter-clockwise");
+  result.add_color(_("Color"), &color, "color", Color::WHITE);
+  result.add_float(_("Speed"), &speed, "speed", 50.0f);
+  result.add_bool(_("Counter-clockwise"), &counter_clockwise, "counter-clockwise", false);
+
+  result.reorder({"angle", "color", "x", "y"});
+
   return result;
 }
 
@@ -83,21 +85,21 @@ Spotlight::draw(DrawingContext& context)
   light->set_color(color);
   light->set_blend(Blend::ADD);
   light->set_angle(angle);
-  light->draw(context.light(), m_col.m_bbox.p1, 0);
+  light->draw(context.light(), m_col.m_bbox.p1(), 0);
 
   //lightcone->set_angle(angle);
   //lightcone->draw(context.color(), position, 0);
 
   lights->set_angle(angle);
-  lights->draw(context.color(), m_col.m_bbox.p1, 0);
+  lights->draw(context.color(), m_col.m_bbox.p1(), 0);
 
   base->set_angle(angle);
-  base->draw(context.color(), m_col.m_bbox.p1, 0);
+  base->draw(context.color(), m_col.m_bbox.p1(), 0);
 
-  center->draw(context.color(), m_col.m_bbox.p1, 0);
+  center->draw(context.color(), m_col.m_bbox.p1(), 0);
 
   lightcone->set_angle(angle);
-  lightcone->draw(context.color(), m_col.m_bbox.p1, LAYER_FOREGROUND1 + 10);
+  lightcone->draw(context.color(), m_col.m_bbox.p1(), LAYER_FOREGROUND1 + 10);
 }
 
 HitResponse

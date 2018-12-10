@@ -517,8 +517,8 @@
     (platform
       (running #f)
       (name "downpath")
-      (sprite "images/objects/platforms/wood-fivetiles.sprite")
       (path-ref "396f50f1-869f-4ea1-9bbc-4a009553c774")
+      (sprite "images/objects/platforms/wood-fivetiles.sprite")
     )
     (powerup
       (sprite "images/powerups/1up/1up.sprite")
@@ -526,7 +526,6 @@
       (y 160)
     )
     (powerup
-      (sprite "images/powerups/egg/egg.sprite")
       (x 15392)
       (y 960)
     )
@@ -599,14 +598,12 @@
     (switch
       (script "lift.goto_node(1);
 lift_solid.goto_node(1);")
-      (sprite "images/objects/switch/left.sprite")
       (x 5036)
       (y 484)
     )
     (switch
       (script "escape.goto_node(1);
 escape_solid.goto_node(1);")
-      (sprite "images/objects/switch/left.sprite")
       (x 7532)
       (y 839)
     )

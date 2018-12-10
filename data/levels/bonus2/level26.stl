@@ -20,7 +20,6 @@
     )
     (camera
       (mode "normal")
-      (backscrolling #f)
     )
     (firefly
       (x 12072)

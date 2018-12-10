@@ -116,8 +116,6 @@ Level::save(Writer& writer)
   writer.write("version", 2);
   writer.write("name", m_name, true);
   writer.write("author", m_author, false);
-  if (m_tileset != "images/tiles.strf")
-    writer.write("tileset", m_tileset, false);
   if (!m_contact.empty()) {
     writer.write("contact", m_contact, false);
   }
@@ -131,6 +129,9 @@ Level::save(Writer& writer)
   for (auto& sector : m_sectors) {
     sector->save(writer);
   }
+
+  if (m_tileset != "images/tiles.strf")
+    writer.write("tileset", m_tileset, false);
 
   // Ends writing to supertux level file. Keep this at the very end.
   writer.end_list("supertux-level");
@@ -185,12 +186,12 @@ Level::get_total_coins() const
       auto block = dynamic_cast<BonusBlock*>(o.get());
       if (block)
       {
-        if (block->get_contents() == BonusBlock::CONTENT_COIN)
+        if (block->get_contents() == BonusBlock::Content::COIN)
         {
           total_coins += block->get_hit_counter();
           continue;
-        } else if (block->get_contents() == BonusBlock::CONTENT_RAIN ||
-                   block->get_contents() == BonusBlock::CONTENT_EXPLODE)
+        } else if (block->get_contents() == BonusBlock::Content::RAIN ||
+                   block->get_contents() == BonusBlock::Content::EXPLODE)
         {
           total_coins += 10;
           continue;

@@ -63,8 +63,8 @@ Block::Block(const ReaderMapping& mapping, const std::string& sprite_file) :
   bounce_offset(0),
   original_y(-1)
 {
-  mapping.get("x", m_col.m_bbox.p1.x);
-  mapping.get("y", m_col.m_bbox.p1.y);
+  mapping.get("x", m_col.m_bbox.get_left());
+  mapping.get("y", m_col.m_bbox.get_top());
 
   std::string sf;
   mapping.get("sprite", sf);
@@ -159,7 +159,7 @@ void
 Block::start_bounce(GameObject* hitter)
 {
   if (original_y == -1){
-    original_y = m_col.m_bbox.p1.y;
+    original_y = m_col.m_bbox.get_top();
   }
   bouncing = true;
   bounce_dir = -BOUNCY_BRICK_SPEED;
@@ -204,7 +204,7 @@ Block::get_settings()
 {
   ObjectSettings result = MovingObject::get_settings();
 
-  result.add_sprite(_("Sprite"), &sprite_name, "sprite");
+  result.add_sprite(_("Sprite"), &sprite_name, "sprite", default_sprite_name);
 
   return result;
 }
@@ -212,15 +212,6 @@ Block::get_settings()
 void Block::after_editor_set()
 {
   sprite = SpriteManager::current()->create(sprite_name);
-}
-
-void Block::save(Writer& writer)
-{
-  MovingObject::save(writer);
-  if (sprite_name != get_default_sprite_name())
-  {
-    writer.write("sprite", sprite_name);
-  }
 }
 
 /* EOF */

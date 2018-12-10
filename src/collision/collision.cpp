@@ -25,9 +25,9 @@ namespace collision {
 
 bool intersects(const Rectf& r1, const Rectf& r2)
 {
-  if (r1.p2.x < r2.p1.x || r1.p1.x > r2.p2.x)
+  if (r1.get_right() < r2.get_left() || r1.get_left() > r2.get_right())
     return false;
-  if (r1.p2.y < r2.p1.y || r1.p1.y > r2.p2.y)
+  if (r1.get_bottom() < r2.get_top() || r1.get_top() > r2.get_bottom())
     return false;
 
   return true;
@@ -38,7 +38,7 @@ bool intersects(const Rectf& r1, const Rectf& r2)
 namespace {
 inline void makePlane(const Vector& p1, const Vector& p2, Vector& n, float& c)
 {
-  n = Vector(p2.y-p1.y, p1.x-p2.x);
+  n = Vector(p1.x-p1.y, p1.x-p2.x);
   c = -(p2 * n);
   float nval = n.norm();
   n /= nval;
@@ -59,24 +59,24 @@ bool rectangle_aatriangle(Constraints* constraints, const Rectf& rect,
   Rectf area;
   switch (triangle.dir & AATriangle::DEFORM_MASK) {
     case 0:
-      area.p1 = triangle.bbox.p1;
-      area.p2 = triangle.bbox.p2;
+      area.set_p1(triangle.bbox.p1());
+      area.set_p2(triangle.bbox.p2());
       break;
     case AATriangle::DEFORM_BOTTOM:
-      area.p1 = Vector(triangle.bbox.p1.x, triangle.bbox.p1.y + triangle.bbox.get_height()/2);
-      area.p2 = triangle.bbox.p2;
+      area.set_p1(Vector(triangle.bbox.get_left(), triangle.bbox.get_top() + triangle.bbox.get_height()/2));
+      area.set_p2(triangle.bbox.p2());
       break;
     case AATriangle::DEFORM_TOP:
-      area.p1 = triangle.bbox.p1;
-      area.p2 = Vector(triangle.bbox.p2.x, triangle.bbox.p1.y + triangle.bbox.get_height()/2);
+      area.set_p1(triangle.bbox.p1());
+      area.set_p2(Vector(triangle.bbox.get_right(), triangle.bbox.get_top() + triangle.bbox.get_height()/2));
       break;
     case AATriangle::DEFORM_LEFT:
-      area.p1 = triangle.bbox.p1;
-      area.p2 = Vector(triangle.bbox.p1.x + triangle.bbox.get_width()/2, triangle.bbox.p2.y);
+      area.set_p1(triangle.bbox.p1());
+      area.set_p2(Vector(triangle.bbox.get_left() + triangle.bbox.get_width()/2, triangle.bbox.get_bottom()));
       break;
     case AATriangle::DEFORM_RIGHT:
-      area.p1 = Vector(triangle.bbox.p1.x + triangle.bbox.get_width()/2, triangle.bbox.p1.y);
-      area.p2 = triangle.bbox.p2;
+      area.set_p1(Vector(triangle.bbox.get_left() + triangle.bbox.get_width()/2, triangle.bbox.get_top()));
+      area.set_p2(triangle.bbox.p2());
       break;
     default:
       assert(false);
@@ -84,22 +84,22 @@ bool rectangle_aatriangle(Constraints* constraints, const Rectf& rect,
 
   switch (triangle.dir & AATriangle::DIRECTION_MASK) {
     case AATriangle::SOUTHWEST:
-      p1 = Vector(rect.p1.x, rect.p2.y);
-      makePlane(area.p1, area.p2, normal, c);
+      p1 = Vector(rect.get_left(), rect.get_bottom());
+      makePlane(area.p1(), area.p2(), normal, c);
       break;
     case AATriangle::NORTHEAST:
-      p1 = Vector(rect.p2.x, rect.p1.y);
-      makePlane(area.p2, area.p1, normal, c);
+      p1 = Vector(rect.get_right(), rect.get_top());
+      makePlane(area.p2(), area.p1(), normal, c);
       break;
     case AATriangle::SOUTHEAST:
-      p1 = rect.p2;
-      makePlane(Vector(area.p1.x, area.p2.y),
-                Vector(area.p2.x, area.p1.y), normal, c);
+      p1 = rect.p2();
+      makePlane(Vector(area.get_left(), area.get_bottom()),
+                Vector(area.get_right(), area.get_top()), normal, c);
       break;
     case AATriangle::NORTHWEST:
-      p1 = rect.p1;
-      makePlane(Vector(area.p2.x, area.p1.y),
-                Vector(area.p1.x, area.p2.y), normal, c);
+      p1 = rect.p1();
+      makePlane(Vector(area.get_right(), area.get_top()),
+                Vector(area.get_left(), area.get_bottom()), normal, c);
       break;
     default:
       assert(false);
@@ -118,8 +118,8 @@ bool rectangle_aatriangle(Constraints* constraints, const Rectf& rect,
   Vector outvec = normal * (depth + 0.2f);
 
   const float RDELTA = 3;
-  if (p1.x < area.p1.x - RDELTA || p1.x > area.p2.x + RDELTA
-     || p1.y < area.p1.y - RDELTA || p1.y > area.p2.y + RDELTA) {
+  if (p1.x < area.get_left() - RDELTA || p1.x > area.get_right() + RDELTA
+     || p1.y < area.get_top() - RDELTA || p1.y > area.get_bottom() + RDELTA) {
     set_rectangle_rectangle_constraints(constraints, rect, area);
   } else {
     if (outvec.x < 0) {
@@ -213,10 +213,10 @@ bool line_intersects_line(const Vector& line1_start, const Vector& line1_end, co
 
 bool intersects_line(const Rectf& r, const Vector& line_start, const Vector& line_end)
 {
-  Vector p1 = r.p1;
-  Vector p2 = Vector(r.p2.x, r.p1.y);
-  Vector p3 = r.p2;
-  Vector p4 = Vector(r.p1.x, r.p2.y);
+  Vector p1 = r.p1();
+  Vector p2 = Vector(r.get_right(), r.get_top());
+  Vector p3 = r.p2();
+  Vector p4 = Vector(r.get_left(), r.get_bottom());
   if (line_intersects_line(p1, p2, line_start, line_end)) return true;
   if (line_intersects_line(p2, p3, line_start, line_end)) return true;
   if (line_intersects_line(p3, p4, line_start, line_end)) return true;

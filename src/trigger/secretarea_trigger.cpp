@@ -30,6 +30,7 @@
 static const float MESSAGE_TIME=3.5;
 
 SecretAreaTrigger::SecretAreaTrigger(const ReaderMapping& reader) :
+  TriggerBase(reader),
   message_timer(),
   message_displayed(false),
   message(),
@@ -37,8 +38,8 @@ SecretAreaTrigger::SecretAreaTrigger(const ReaderMapping& reader) :
   script(),
   new_size()
 {
-  reader.get("x", m_col.m_bbox.p1.x);
-  reader.get("y", m_col.m_bbox.p1.y);
+  reader.get("x", m_col.m_bbox.get_left());
+  reader.get("y", m_col.m_bbox.get_top());
   float w,h;
   reader.get("width", w, 32.0f);
   reader.get("height", h, 32.0f);
@@ -70,14 +71,14 @@ SecretAreaTrigger::get_settings()
   new_size.x = m_col.m_bbox.get_width();
   new_size.y = m_col.m_bbox.get_height();
 
-  ObjectSettings result(_("Secret area"));
+  ObjectSettings result = TriggerBase::get_settings();
 
   result.add_text(_("Name"), &m_name);
-  result.add_float(_("Width"), &new_size.x, "width");
-  result.add_float(_("Height"), &new_size.y, "height");
   result.add_text(_("Fade tilemap"), &fade_tilemap, "fade-tilemap");
   result.add_translatable_text(_("Message"), &message, "message");
   result.add_script(_("Script"), &script, "script");
+
+  result.reorder({"fade-tilemap", "script", "sprite", "message", "region", "name", "x", "y"});
 
   return result;
 }

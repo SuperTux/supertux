@@ -68,26 +68,26 @@
     (hurting_platform
       (running #f)
       (name "spinatrampa1")
-      (sprite "images/objects/sawblade/spikeleft.sprite")
       (path-ref "4ce22cf6-6ce3-44aa-aac9-40c3a87b20c3")
+      (sprite "images/objects/sawblade/spikeleft.sprite")
     )
     (hurting_platform
       (running #f)
       (name "spinatrampa2")
-      (sprite "images/objects/sawblade/spikeleft.sprite")
       (path-ref "8d79e429-aa35-4886-a432-d567ca64a28c")
+      (sprite "images/objects/sawblade/spikeleft.sprite")
     )
     (hurting_platform
       (running #f)
       (name "spinatrampa3")
-      (sprite "images/objects/sawblade/spikeleft.sprite")
       (path-ref "271ac443-3cc6-4a26-8158-e92a79c385d3")
+      (sprite "images/objects/sawblade/spikeleft.sprite")
     )
     (hurting_platform
       (running #f)
       (name "spinatrampa4")
-      (sprite "images/objects/sawblade/spikeleft.sprite")
       (path-ref "a07ffd1d-10e6-47ec-938b-c31db6fb411c")
+      (sprite "images/objects/sawblade/spikeleft.sprite")
     )
     (jumpy
       (x 4896)
@@ -376,40 +376,40 @@
     (platform
       (running #f)
       (name "bote")
-      (sprite "images/objects/platforms/icefloe.sprite")
       (path-ref "a378eb8b-bb03-48fe-8a70-8fe4284576ff")
+      (sprite "images/objects/platforms/icefloe.sprite")
     )
     (platform
-      (sprite "images/objects/platforms/small.sprite")
       (path-ref "64705093-9fa8-479b-8f7e-9ae4776d509e")
+      (sprite "images/objects/platforms/small.sprite")
     )
     (platform
-      (sprite "images/objects/platforms/small.sprite")
       (path-ref "06ed9df4-b165-47ea-9f16-b4c1bd182c6f")
+      (sprite "images/objects/platforms/small.sprite")
     )
     (platform
       (running #f)
       (name "bloquespinas")
-      (sprite "images/objects/platforms/vertical-wood.sprite")
       (path-ref "b51e6883-3d04-492b-ab0d-c8cfbc41e386")
+      (sprite "images/objects/platforms/vertical-wood.sprite")
     )
     (platform
       (running #f)
       (name "block2")
-      (sprite "images/objects/platforms/wood-tiny.sprite")
       (path-ref "36ad48e1-a474-4dfc-a4da-627c12d5176b")
+      (sprite "images/objects/platforms/wood-tiny.sprite")
     )
     (platform
       (running #f)
       (name "block1")
-      (sprite "images/objects/platforms/wood-tiny.sprite")
       (path-ref "1b1f65ad-ff04-4988-99b6-feee57d6860a")
+      (sprite "images/objects/platforms/wood-tiny.sprite")
     )
     (platform
       (running #f)
       (name "block3")
-      (sprite "images/objects/platforms/wood-tiny.sprite")
       (path-ref "7b26c731-0023-41e8-991d-40135cbf74cd")
+      (sprite "images/objects/platforms/wood-tiny.sprite")
     )
     (scripttrigger
       (script "bote.goto_node(1);")

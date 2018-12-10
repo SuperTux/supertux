@@ -17,15 +17,9 @@
     )
     (camera
       (mode "normal")
-      (path-ref "6c1f287f-336a-4793-8a87-dd66183470ea")
     )
     (music
       (file "music/forest.music")
-    )
-    (path
-      (name "6c1f287f-336a-4793-8a87-dd66183470ea")
-      (path
-      )
     )
     (tilemap
       (solid #f)

@@ -33,6 +33,31 @@
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
+namespace {
+
+inline std::tuple<GLenum, GLenum> blend_factor(Blend blend)
+{
+  switch(blend) {
+    case Blend::NONE: return {GL_ONE, GL_ZERO};
+    case Blend::BLEND: return {GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA};
+    case Blend::ADD: return {GL_SRC_ALPHA, GL_ONE};
+    case Blend::MOD: return {GL_DST_COLOR, GL_ZERO};
+    default: return {GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA};
+  }
+}
+
+inline GLenum sfactor(Blend blend)
+{
+  return std::get<0>(blend_factor(blend));
+}
+
+inline GLenum dfactor(Blend blend)
+{
+  return std::get<1>(blend_factor(blend));
+}
+
+} // namespace
+
 GLPainter::GLPainter(GLVideoSystem& video_system, GLRenderer& renderer) :
   m_video_system(video_system),
   m_renderer(renderer)
@@ -53,10 +78,10 @@ GLPainter::draw_texture(const TextureRequest& request)
   std::vector<float> uvs;
   for (size_t i = 0; i < request.srcrects.size(); ++i)
   {
-    const float left = request.dstrects[i].p1.x;
-    const float top = request.dstrects[i].p1.y;
-    const float right  = request.dstrects[i].p2.x;
-    const float bottom = request.dstrects[i].p2.y;
+    const float left = request.dstrects[i].get_left();
+    const float top = request.dstrects[i].get_top();
+    const float right  = request.dstrects[i].get_right();
+    const float bottom = request.dstrects[i].get_bottom();
 
     float uv_left = request.srcrects[i].get_left() / static_cast<float>(texture.get_texture_width());
     float uv_top = request.srcrects[i].get_top() / static_cast<float>(texture.get_texture_height());
@@ -134,7 +159,7 @@ GLPainter::draw_texture(const TextureRequest& request)
 
   GLContext& context = m_video_system.get_context();
 
-  context.blend_func(request.blend.sfactor, request.blend.dfactor);
+  context.blend_func(sfactor(request.blend), dfactor(request.blend));
   context.bind_texture(texture, request.displacement_texture);
   context.set_texcoords(uvs.data(), sizeof(float) * uvs.size());
   context.set_positions(vertices.data(), sizeof(float) * vertices.size());
@@ -161,13 +186,13 @@ GLPainter::draw_gradient(const GradientRequest& request)
   GLContext& context = m_video_system.get_context();
 
   const float vertices[] = {
-    region.p1.x, region.p1.y,
-    region.p2.x, region.p1.y,
-    region.p2.x, region.p2.y,
-    region.p1.x, region.p2.y
+    region.get_left(), region.get_top(),
+    region.get_right(), region.get_top(),
+    region.get_right(), region.get_bottom(),
+    region.get_left(), region.get_bottom()
   };
 
-  context.blend_func(request.blend.sfactor, request.blend.dfactor);
+  context.blend_func(sfactor(request.blend), dfactor(request.blend));
   context.bind_no_texture();
   context.set_positions(vertices, sizeof(vertices));
   context.set_texcoord(0.0f, 0.0f);
@@ -205,7 +230,7 @@ GLPainter::draw_filled_rect(const FillRectRequest& request)
 
   GLContext& context = m_video_system.get_context();
 
-  context.blend_func(request.blend.sfactor, request.blend.dfactor);
+  context.blend_func(sfactor(request.blend), dfactor(request.blend));
   context.bind_no_texture();
   context.set_texcoord(0.0f, 0.0f);
   context.set_color(request.color);
@@ -350,7 +375,7 @@ GLPainter::draw_inverse_ellipse(const InverseEllipseRequest& request)
 
   GLContext& context = m_video_system.get_context();
 
-  context.blend_func(request.blend.sfactor, request.blend.dfactor);
+  context.blend_func(sfactor(request.blend), dfactor(request.blend));
   context.bind_no_texture();
   context.set_positions(vertices, sizeof(vertices));
   context.set_texcoord(0.0f, 0.0f);
@@ -395,7 +420,7 @@ GLPainter::draw_line(const LineRequest& request)
 
   GLContext& context = m_video_system.get_context();
 
-  context.blend_func(request.blend.sfactor, request.blend.dfactor);
+  context.blend_func(sfactor(request.blend), dfactor(request.blend));
   context.bind_no_texture();
   context.set_positions(vertices, sizeof(vertices));
   context.set_texcoord(0.0f, 0.0f);
@@ -419,7 +444,7 @@ GLPainter::draw_triangle(const TriangleRequest& request)
 
   GLContext& context = m_video_system.get_context();
 
-  context.blend_func(request.blend.sfactor, request.blend.dfactor);
+  context.blend_func(sfactor(request.blend), dfactor(request.blend));
   context.bind_no_texture();
   context.set_texcoord(0.0f, 0.0f);
   context.set_positions(vertices, sizeof(vertices));

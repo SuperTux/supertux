@@ -40,8 +40,6 @@ public:
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
 
-  virtual void save(Writer& writer) override;
-
   virtual std::string get_class() const override { return "path"; }
   virtual std::string get_display_name() const override { return _("Path"); }
 
@@ -51,6 +49,8 @@ public:
 
   virtual void editor_select() override;
   virtual void editor_deselect() override;
+
+  virtual ObjectSettings get_settings() override;
 
   Path& get_path() { return *m_path; }
 

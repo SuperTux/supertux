@@ -84,7 +84,6 @@
       (y 608)
     )
     (fish
-      (sprite "images/creatures/fish/fish.sprite")
       (x 3584)
       (y 704)
     )
@@ -100,7 +99,6 @@
     )
     (haywire
       (direction "left")
-      (sprite "images/creatures/haywire/haywire.sprite")
       (x 5590.484)
       (y 961.1852)
     )
@@ -460,7 +458,6 @@
     )
     (mrbomb
       (direction "left")
-      (sprite "images/creatures/mr_bomb/mr_bomb.sprite")
       (x 2112)
       (y 736)
     )
@@ -478,7 +475,6 @@
     )
     (snail
       (direction "left")
-      (sprite "images/creatures/snail/snail.sprite")
       (x 9528.786)
       (y 634.541)
     )
@@ -493,7 +489,6 @@
       (y 351.0745)
     )
     (spidermite
-      (sprite "images/creatures/spidermite/spidermite.sprite")
       (x 6317.684)
       (y 571.3297)
     )
@@ -781,19 +776,16 @@
     )
     (walkingleaf
       (direction "left")
-      (sprite "images/creatures/walkingleaf/walkingleaf.sprite")
       (x 2784)
       (y 704)
     )
     (walkingleaf
       (direction "left")
-      (sprite "images/creatures/walkingleaf/walkingleaf.sprite")
       (x 8088.788)
       (y 434.7344)
     )
     (walkingleaf
       (direction "left")
-      (sprite "images/creatures/walkingleaf/walkingleaf.sprite")
       (x 9887.655)
       (y 598.03)
     )

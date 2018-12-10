@@ -65,7 +65,7 @@ WalkingCandle::unfreeze() {
 HitResponse
 WalkingCandle::collision(GameObject& other, const CollisionHit& hit) {
   auto l = dynamic_cast<Lantern*>(&other);
-  if (l && !m_frozen) if (l->get_bbox().p2.y < m_col.m_bbox.p1.y) {
+  if (l && !m_frozen) if (l->get_bbox().get_bottom() < m_col.m_bbox.get_top()) {
     l->add_color(lightcolor);
     run_dead_script();
     remove_me();
@@ -78,7 +78,11 @@ ObjectSettings
 WalkingCandle::get_settings()
 {
   ObjectSettings result = BadGuy::get_settings();
-  result.add_color(_("Color"), &lightcolor, "color");
+
+  result.add_color(_("Color"), &lightcolor, "color", Color::WHITE);
+
+  result.reorder({"color", "x", "y"});
+
   return result;
 }
 

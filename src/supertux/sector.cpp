@@ -75,7 +75,7 @@ Sector::Sector(Level& parent) :
   m_collision_system(new CollisionSystem(*this)),
   m_gravity(10.0)
 {
-  Savegame* savegame = Editor::is_active() ?
+  Savegame* savegame = (Editor::current() && Editor::is_active()) ?
     Editor::current()->m_savegame.get() :
     GameSession::current() ? &GameSession::current()->get_savegame() : nullptr;
   PlayerStatus& player_status = savegame ? savegame->get_player_status() : dummy_player_status;
@@ -128,9 +128,13 @@ Sector::finish_construction(bool editable)
     log_warning << "sector '" << get_name() << "' does not contain a solid tile layer." << std::endl;
   }
 
-  if (!get_object_by_type<Camera>()) {
-    log_warning << "sector '" << get_name() << "' does not contain a camera." << std::endl;
-    add<Camera>("Camera");
+  if (!Editor::is_active()) {
+    if (!(Editor::current() && Editor::current()->get_worldmap_mode())) {
+      if (!get_object_by_type<Camera>()) {
+        log_warning << "sector '" << get_name() << "' does not contain a camera." << std::endl;
+        add<Camera>("Camera");
+      }
+    }
   }
 
   if (!get_object_by_type<AmbientLight>()) {
@@ -219,7 +223,7 @@ Sector::activate(const Vector& player_pos)
     if (!is_free_of_tiles(player.get_bbox())) {
       std::string current_level = "[" + Sector::get().get_level().m_filename + "] ";
       log_warning << current_level << "Tried spawning Tux in solid matter. Compensating." << std::endl;
-      Vector npos = player.get_bbox().p1;
+      Vector npos = player.get_bbox().p1();
       npos.y-=32;
       player.move(npos);
     }
@@ -424,10 +428,10 @@ Sector::can_see_player(const Vector& eye) const
 {
   for (const auto& player : get_objects_by_type<Player>()) {
     // test for free line of sight to any of all four corners and the middle of the player's bounding box
-    if (free_line_of_sight(eye, player.get_bbox().p1, &player)) return true;
-    if (free_line_of_sight(eye, Vector(player.get_bbox().p2.x, player.get_bbox().p1.y), &player)) return true;
-    if (free_line_of_sight(eye, player.get_bbox().p2, &player)) return true;
-    if (free_line_of_sight(eye, Vector(player.get_bbox().p1.x, player.get_bbox().p2.y), &player)) return true;
+    if (free_line_of_sight(eye, player.get_bbox().p1(), &player)) return true;
+    if (free_line_of_sight(eye, Vector(player.get_bbox().get_right(), player.get_bbox().get_top()), &player)) return true;
+    if (free_line_of_sight(eye, player.get_bbox().p2(), &player)) return true;
+    if (free_line_of_sight(eye, Vector(player.get_bbox().get_left(), player.get_bbox().get_bottom()), &player)) return true;
     if (free_line_of_sight(eye, player.get_bbox().get_middle(), &player)) return true;
   }
   return false;
@@ -438,10 +442,13 @@ Sector::inside(const Rectf& rect) const
 {
   for (const auto& solids : get_solid_tilemaps()) {
     Rectf bbox = solids->get_bbox();
-    bbox.p1.y = -INFINITY; // pretend the tilemap extends infinitely far upwards
 
-    if (bbox.contains(rect))
+    // the top of the sector extends to infinity
+    if (bbox.get_left() <= rect.get_left() &&
+        rect.get_right() <= bbox.get_right() &&
+        rect.get_bottom() <= bbox.get_bottom()) {
       return true;
+    }
   }
   return false;
 }
@@ -571,25 +578,28 @@ Sector::save(Writer &writer)
 
   writer.write("name", m_name, false);
 
-  if (m_init_script.size()) {
-    writer.write("init-script", m_init_script,false);
-  }
-
-  if (!Editor::is_active() || !Editor::current()->get_worldmap_mode()) {
+  if (!Editor::is_active() || !(Editor::current() && Editor::current()->get_worldmap_mode())) {
     if (m_gravity != 10.0f) {
       writer.write("gravity", m_gravity);
     }
   }
 
-  // saving spawnpoints
-  /*for(auto i = spawnpoints.begin(); i != spawnpoints.end(); ++i) {
-    std::shared_ptr<SpawnPoint> spawny = *i;
-    spawny->save(writer);
-  }*/
-  // Do not save spawnpoints since we have spawnpoint markers.
+  if (m_init_script.size()) {
+    writer.write("init-script", m_init_script,false);
+  }
 
-  // saving objects (not really)
+  // saving objects;
+  std::vector<GameObject*> objects;
   for (auto& obj : get_objects()) {
+    objects.push_back(obj.get());
+  }
+
+  std::stable_sort(objects.begin(), objects.end(),
+                   [](const GameObject* lhs, GameObject* rhs) {
+                     return lhs->get_class() < rhs->get_class();
+                   });
+
+  for (auto& obj : objects) {
     if (obj->is_saveable()) {
       writer.start_list(obj->get_class());
       obj->save(writer);

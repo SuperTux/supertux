@@ -31,9 +31,8 @@ class WillOWisp final :
 {
 public:
   WillOWisp(const ReaderMapping& reader);
-  virtual void finish_construction() override;
 
-  virtual void save(Writer& writer) override;
+  virtual void finish_construction() override;
 
   virtual void activate() override;
   virtual void deactivate() override;
@@ -43,9 +42,6 @@ public:
   virtual bool is_freezable() const override { return false; }
   virtual bool is_hurtable() const override { return false; }
   virtual void kill_fall() override { vanish(); }
-
-  /** make WillOWisp vanish */
-  void vanish();
 
   virtual void goto_node(int node_no);
   virtual void set_state(const std::string& state);
@@ -60,6 +56,9 @@ public:
 
   virtual ObjectSettings get_settings() override;
   virtual void move_to(const Vector& pos) override;
+
+  /** make WillOWisp vanish */
+  void vanish();
 
 private:
   virtual bool collides(GameObject& other, const CollisionHit& hit) const override;

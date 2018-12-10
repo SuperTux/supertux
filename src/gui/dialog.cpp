@@ -94,8 +94,8 @@ Dialog::get_button_at(const Vector& mouse_pos) const
     float segment_width = bg_rect.get_width() / static_cast<float>(m_buttons.size());
     float button_width = segment_width;
     float button_height = 24.0f;
-    Vector pos(bg_rect.p1.x + segment_width/2.0f + static_cast<float>(i) * segment_width,
-               bg_rect.p2.y - 12);
+    Vector pos(bg_rect.get_left() + segment_width/2.0f + static_cast<float>(i) * segment_width,
+               bg_rect.get_bottom() - 12);
     Rectf button_rect(Vector(pos.x - button_width/2, pos.y - button_height/2),
                       Vector(pos.x + button_width/2, pos.y + button_height/2));
     if (button_rect.contains(mouse_pos))
@@ -206,17 +206,17 @@ Dialog::draw(DrawingContext& context)
 
   // draw text
   context.color().draw_text(Resources::normal_font, m_text,
-                              Vector(bg_rect.p1.x + bg_rect.get_width()/2.0f,
-                                     bg_rect.p1.y),
+                              Vector(bg_rect.get_left() + bg_rect.get_width()/2.0f,
+                                     bg_rect.get_top()),
                               ALIGN_CENTER, LAYER_GUI);
   if (m_passive)
     return;
 
   // draw HL line
-  context.color().draw_filled_rect(Rectf(Vector(bg_rect.p1.x, bg_rect.p2.y - 35),
+  context.color().draw_filled_rect(Rectf(Vector(bg_rect.get_left(), bg_rect.get_bottom() - 35),
                                          Sizef(bg_rect.get_width(), 4)),
                                    Color(0.6f, 0.7f, 1.0f, 1.0f), LAYER_GUI);
-  context.color().draw_filled_rect(Rectf(Vector(bg_rect.p1.x, bg_rect.p2.y - 35),
+  context.color().draw_filled_rect(Rectf(Vector(bg_rect.get_left(), bg_rect.get_bottom() - 35),
                                          Sizef(bg_rect.get_width(), 2)),
                                    Color(1.0f, 1.0f, 1.0f, 1.0f), LAYER_GUI);
 
@@ -225,8 +225,8 @@ Dialog::draw(DrawingContext& context)
   {
     float segment_width = bg_rect.get_width() / static_cast<float>(m_buttons.size());
     float button_width = segment_width;
-    Vector pos(bg_rect.p1.x + segment_width/2.0f + static_cast<float>(i) * segment_width,
-               bg_rect.p2.y - 12);
+    Vector pos(bg_rect.get_left() + segment_width/2.0f + static_cast<float>(i) * segment_width,
+               bg_rect.get_bottom() - 12);
 
     if (i == m_selected_button)
     {

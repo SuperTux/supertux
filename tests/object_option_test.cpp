@@ -27,7 +27,7 @@ TEST(ObjectOption, to_string)
 {
   {
     std::string mystring = "field";
-    StringObjectOption textfield("test", &mystring, {}, 0);
+    StringObjectOption textfield("test", &mystring, {}, boost::none, 0);
     ASSERT_EQ(mystring, textfield.to_string());
   }
 
@@ -70,7 +70,7 @@ TEST(ObjectOption, to_string)
 
   {
     Color mycolor = Color::YELLOW;
-    ColorObjectOption color("test", &mycolor, {}, {}, 0);
+    ColorObjectOption color("test", &mycolor, {}, {}, false, 0);
     ASSERT_EQ("1.000000 1.000000 0.000000", color.to_string());
   }
 

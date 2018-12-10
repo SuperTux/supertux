@@ -19,13 +19,8 @@
 #include "util/log.hpp"
 #include "video/blend.hpp"
 
-const Blend Blend::NONE(GL_ONE, GL_ZERO);
-const Blend Blend::BLEND(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-const Blend Blend::ADD(GL_SRC_ALPHA, GL_ONE);
-const Blend Blend::MOD(GL_DST_COLOR, GL_ZERO);
-
 Blend
-Blend::from_string(const std::string& text)
+Blend_from_string(const std::string& text)
 {
   if (text == "none")
   {
@@ -51,27 +46,27 @@ Blend::from_string(const std::string& text)
 }
 
 std::string
-Blend::to_string() const
+Blend_to_string(Blend blend)
 {
-  if (*this == Blend::NONE)
+  if (blend == Blend::NONE)
   {
     return "none";
   }
-  else if (*this == Blend::BLEND)
+  else if (blend == Blend::BLEND)
   {
     return "blend";
   }
-  else if (*this == Blend::ADD)
+  else if (blend == Blend::ADD)
   {
     return "add";
   }
-  else if (*this == Blend::MOD)
+  else if (blend == Blend::MOD)
   {
     return "mod";
   }
   else
   {
-    log_warning << "unknown blend mode combinations: sfactor=" << sfactor << " dfactor=" << dfactor << std::endl;
+    log_warning << "unknown blend mode: " << static_cast<int>(blend) << std::endl;
     return "blend";
   }
 }

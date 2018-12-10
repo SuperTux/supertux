@@ -39,17 +39,14 @@
       (y 1404)
     )
     (firefly
-      (sprite "images/objects/resetpoints/default-resetpoint.sprite")
       (x 4473.05)
       (y 1576.839)
     )
     (firefly
-      (sprite "images/objects/resetpoints/default-resetpoint.sprite")
       (x 6112)
       (y 928)
     )
     (firefly
-      (sprite "images/objects/resetpoints/default-resetpoint.sprite")
       (x 9312)
       (y 1104)
     )
@@ -59,13 +56,11 @@
     )
     (mrtree
       (direction "left")
-      (sprite "images/creatures/mr_tree/mr_tree.sprite")
       (x 7104)
       (y 1022)
     )
     (mrtree
       (direction "left")
-      (sprite "images/creatures/mr_tree/mr_tree.sprite")
       (x 8224)
       (y 1022)
     )
@@ -74,49 +69,41 @@
     )
     (poisonivy
       (direction "left")
-      (sprite "images/creatures/poison_ivy/poison_ivy.sprite")
       (x 1410)
       (y 1796)
     )
     (poisonivy
       (direction "left")
-      (sprite "images/creatures/poison_ivy/poison_ivy.sprite")
       (x 2338)
       (y 1668)
     )
     (poisonivy
       (direction "left")
-      (sprite "images/creatures/poison_ivy/poison_ivy.sprite")
       (x 3586)
       (y 1636)
     )
     (poisonivy
       (direction "left")
-      (sprite "images/creatures/poison_ivy/poison_ivy.sprite")
       (x 6210)
       (y 1476)
     )
     (poisonivy
       (direction "left")
-      (sprite "images/creatures/poison_ivy/poison_ivy.sprite")
       (x 7330)
       (y 1636)
     )
     (poisonivy
       (direction "left")
-      (sprite "images/creatures/poison_ivy/poison_ivy.sprite")
       (x 9698)
       (y 1316)
     )
     (poisonivy
       (direction "left")
-      (sprite "images/creatures/poison_ivy/poison_ivy.sprite")
       (x 10082)
       (y 1604)
     )
     (poisonivy
       (direction "left")
-      (sprite "images/creatures/poison_ivy/poison_ivy.sprite")
       (x 12098)
       (y 1700)
     )

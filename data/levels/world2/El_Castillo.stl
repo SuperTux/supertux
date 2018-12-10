@@ -285,50 +285,50 @@
     (platform
       (running #f)
       (name "trapdoor2")
-      (sprite "images/objects/platforms/big.sprite")
       (path-ref "4156374f-d2d3-418a-ab2d-878a66d01582")
+      (sprite "images/objects/platforms/big.sprite")
     )
     (platform
       (running #f)
       (name "trapdoor1")
-      (sprite "images/objects/platforms/big.sprite")
       (path-ref "373701d9-df5c-4bb3-a870-535b9c5c8cc5")
+      (sprite "images/objects/platforms/big.sprite")
     )
     (platform
       (running #f)
       (name "trapdoor4")
-      (sprite "images/objects/platforms/big.sprite")
       (path-ref "6ee238b0-989d-4242-94cf-e0bff6a9831f")
+      (sprite "images/objects/platforms/big.sprite")
     )
     (platform
       (running #f)
       (name "trapdoor3")
-      (sprite "images/objects/platforms/big.sprite")
       (path-ref "14ac62c9-6e0b-4722-b437-db5ca6e20176")
+      (sprite "images/objects/platforms/big.sprite")
     )
     (platform
       (running #f)
       (name "maindoor")
-      (sprite "images/objects/platforms/vertical-wood.sprite")
       (path-ref "245be7e6-085f-4ddb-bdb4-3c4651943293")
+      (sprite "images/objects/platforms/vertical-wood.sprite")
     )
     (platform
       (running #f)
       (name "dropdoor1")
-      (sprite "images/objects/platforms/vertical-wood.sprite")
       (path-ref "cd591c62-874c-4c9b-a382-076ae798365d")
+      (sprite "images/objects/platforms/vertical-wood.sprite")
     )
     (platform
       (running #f)
       (name "dropdoor2")
-      (sprite "images/objects/platforms/vertical-wood.sprite")
       (path-ref "20ba6173-f2d5-4fda-90d9-e85b33e73264")
+      (sprite "images/objects/platforms/vertical-wood.sprite")
     )
     (platform
       (running #f)
       (name "dropdoor3")
-      (sprite "images/objects/platforms/big.sprite")
       (path-ref "cd550c6c-3100-4ee2-825e-1f9ffeb641a1")
+      (sprite "images/objects/platforms/big.sprite")
     )
     (scripttrigger
       (script "trapdoor1.goto_node(1);

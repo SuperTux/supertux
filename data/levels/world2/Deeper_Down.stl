@@ -150,8 +150,8 @@
     (platform
       (running #f)
       (name "downlift")
-      (sprite "images/objects/platforms/big.sprite")
       (path-ref "db1fa6bb-39bb-4517-9577-3b8c5944122f")
+      (sprite "images/objects/platforms/big.sprite")
     )
     (poisonivy
       (x 802)

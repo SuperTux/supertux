@@ -366,6 +366,7 @@ Main::init_video()
 void
 Main::resave(const std::string& input_filename, const std::string& output_filename)
 {
+  Editor::s_resaving_in_progress = true;
   std::ifstream in(input_filename);
   if (!in) {
     log_fatal << input_filename << ": couldn't open file for reading" << std::endl;
@@ -382,6 +383,7 @@ Main::resave(const std::string& input_filename, const std::string& output_filena
       level->save(out);
     }
   }
+  Editor::s_resaving_in_progress = false;
 }
 
 void

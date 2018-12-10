@@ -132,16 +132,20 @@ Background::Background(const ReaderMapping& reader) :
   if (reader.get("image-top", m_imagefile_top)) {
     m_image_top = Surface::from_file(m_imagefile_top);
   } else {
-    m_imagefile_top = m_imagefile;
+    if (!Editor::is_active()) {
+      m_imagefile_top = m_imagefile;
+    }
   }
 
   if (reader.get("image-bottom", m_imagefile_bottom)) {
     m_image_bottom = Surface::from_file(m_imagefile_bottom);
-  } else {
-    m_imagefile_bottom = m_imagefile;
+    } else {
+    if (!Editor::is_active()) {
+      m_imagefile_bottom = m_imagefile;
+    }
   }
 
-  reader.get_custom("blend", m_blend, Blend::from_string);
+  reader.get_custom("blend", m_blend, Blend_from_string);
   reader.get_custom("target", m_target, DrawingTarget_from_string);
 }
 
@@ -154,6 +158,10 @@ Background::get_settings()
 {
   ObjectSettings result = GameObject::get_settings();
 
+  result.add_float(_("X"), &m_pos.x, "x", 0.0f, OPTION_HIDDEN);
+  result.add_float(_("Y"), &m_pos.y, "y", 0.0f, OPTION_HIDDEN);
+
+  result.add_bool(_("Fill"), &m_fill, "fill", false);
   result.add_int(_("Z-pos"), &m_layer, "z-pos", LAYER_BACKGROUND0);
   result.add_enum(_("Alignment"), reinterpret_cast<int*>(&m_alignment),
                   {_("none"), _("left"), _("right"), _("top"), _("bottom")},
@@ -163,13 +171,20 @@ Background::get_settings()
   result.add_float(_("Scroll offset y"), &m_scroll_offset.y, "scroll-offset-y", 0.0f);
   result.add_float(_("Scroll speed x"), &m_scroll_speed.x, "scroll-speed-x", 0.5f);
   result.add_float(_("Scroll speed y"), &m_scroll_speed.y, "scroll-speed-y", 0.5f);
-  result.add_float(_("Speed x"), &m_speed.x, "speed-x", 0.5f);
-  result.add_float(_("Speed y"), &m_speed.y, "speed-y", 0.5f);
-  result.add_surface(_("Top image"), &m_imagefile_top, "image-top");
+  result.add_float(_("Speed x"), &m_speed.x, "speed", boost::none);
+  result.add_float(_("Speed y"), &m_speed.y, "speed-y", m_speed.x);
+  result.add_surface(_("Top image"), &m_imagefile_top, "image-top", std::string());
   result.add_surface(_("Image"), &m_imagefile, "image");
-  result.add_surface(_("Bottom image"), &m_imagefile_bottom, "image-bottom");
+  result.add_surface(_("Bottom image"), &m_imagefile_bottom, "image-bottom", std::string());
+  result.add_enum(_("Draw target"), reinterpret_cast<int*>(&m_target),
+                  {_("Normal"), _("Lightmap")},
+                  {"normal", "lightmap"},
+                  static_cast<int>(DrawingTarget::COLORMAP),
+                  "target");
 
   result.add_remove();
+
+  result.reorder({"x", "y", "alignment", "scroll-speed-x", "scroll-speed-y", "speed", "speed-y", "fill", "target", "image-top", "image", "image-bottom", "z-pos"});
 
   return result;
 }

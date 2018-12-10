@@ -21,10 +21,10 @@
 #include "math/rect.hpp"
 
 Rectf::Rectf(const Rect& rect) :
-  p1(static_cast<float>(rect.left),
+  m_p1(static_cast<float>(rect.left),
      static_cast<float>(rect.top)),
-  p2(static_cast<float>(rect.right),
-     static_cast<float>(rect.bottom))
+  m_size(static_cast<float>(rect.get_width()),
+         static_cast<float>(rect.get_height()))
 {
 }
 

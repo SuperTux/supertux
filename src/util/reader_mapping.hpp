@@ -54,6 +54,8 @@ public:
   bool get(const char* key, boost::optional<ReaderMapping>&) const;
   bool get(const char* key, boost::optional<ReaderCollection>&) const;
 
+  bool get(const char* key, sexp::Value& value) const;
+
   /** Read a custom data format, such an as enum. The data is stored
       as string and converted to the custom type using the supplied
       `from_string` convert function. Example:

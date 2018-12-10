@@ -21,6 +21,7 @@
 #include <sstream>
 
 #include "gui/menu.hpp"
+#include "object/tilemap.hpp"
 #include "util/gettext.hpp"
 #include "util/writer.hpp"
 #include "video/color.hpp"
@@ -28,7 +29,7 @@
 namespace {
 
 template<typename T>
-std::string to_string(const T& v)
+std::string fmt_to_string(const T& v)
 {
   std::ostringstream out;
   out << v;
@@ -66,10 +67,10 @@ BoolObjectOption::add_to_menu(Menu& menu) const
 void
 BoolObjectOption::save(Writer& writer) const
 {
-  if (m_default_value && *m_default_value == *m_pointer) {
-    // skip
-  } else {
-    if (!get_key().empty()) {
+  if (!get_key().empty()) {
+    if (m_default_value && *m_default_value == *m_pointer) {
+      // skip
+    } else {
       writer.write(get_key(), *m_pointer);
     }
   }
@@ -93,10 +94,10 @@ IntObjectOption::IntObjectOption(const std::string& text, int* pointer, const st
 void
 IntObjectOption::save(Writer& writer) const
 {
-  if (m_default_value && *m_default_value == *m_pointer) {
-    // skip
-  } else {
-    if (!get_key().empty()) {
+  if (!get_key().empty()) {
+    if (m_default_value && *m_default_value == *m_pointer) {
+      // skip
+    } else {
       writer.write(get_key(), *m_pointer);
     }
   }
@@ -105,13 +106,46 @@ IntObjectOption::save(Writer& writer) const
 std::string
 IntObjectOption::to_string() const
 {
-  return ::to_string(*m_pointer);
+  return fmt_to_string(*m_pointer);
 }
 
 void
 IntObjectOption::add_to_menu(Menu& menu) const
 {
   menu.add_intfield(get_text(), m_pointer);
+}
+
+RectfObjectOption::RectfObjectOption(const std::string& text, Rectf* pointer, const std::string& key,
+                                     unsigned int flags) :
+  ObjectOption(text, key, flags),
+  m_pointer(pointer),
+  m_width(m_pointer->get_width()),
+  m_height(m_pointer->get_height())
+{
+}
+
+void
+RectfObjectOption::save(Writer& write) const
+{
+  write.write("width", m_width);
+  write.write("height", m_height);
+  // write.write("x", &pointer->p1.x);
+  // write.write("y", &pointer->p1.y);
+}
+
+std::string
+RectfObjectOption::to_string() const
+{
+  std::ostringstream out;
+  out << *m_pointer;
+  return out.str();
+}
+
+void
+RectfObjectOption::add_to_menu(Menu& menu) const
+{
+  menu.add_floatfield(_("Width"), const_cast<float*>(&m_width));
+  menu.add_floatfield(_("Height"), const_cast<float*>(&m_height));
 }
 
 FloatObjectOption::FloatObjectOption(const std::string& text, float* pointer, const std::string& key,
@@ -126,10 +160,10 @@ FloatObjectOption::FloatObjectOption(const std::string& text, float* pointer, co
 void
 FloatObjectOption::save(Writer& writer) const
 {
-  if (m_default_value && *m_default_value == *m_pointer) {
-    // skip
-  } else {
-    if (!get_key().empty()) {
+  if (!get_key().empty()) {
+    if (m_default_value && *m_default_value == *m_pointer) {
+      // skip
+    } else {
       writer.write(get_key(), *m_pointer);
     }
   }
@@ -138,7 +172,7 @@ FloatObjectOption::save(Writer& writer) const
 std::string
 FloatObjectOption::to_string() const
 {
-  return ::to_string(*m_pointer);
+  return fmt_to_string(*m_pointer);
 }
 
 void
@@ -148,20 +182,22 @@ FloatObjectOption::add_to_menu(Menu& menu) const
 }
 
 StringObjectOption::StringObjectOption(const std::string& text, std::string* pointer, const std::string& key,
+                                       boost::optional<std::string> default_value,
                                        unsigned int flags) :
   ObjectOption(text, key, flags),
-  m_pointer(pointer)
+  m_pointer(pointer),
+  m_default_value(default_value)
 {
 }
 
 void
 StringObjectOption::save(Writer& writer) const
 {
-  auto& value = *m_pointer;
-  if (!value.empty())
-  {
-    if (!get_key().empty()) {
-      writer.write(get_key(), value, (get_flags() & OPTION_TRANSLATABLE));
+  if (!get_key().empty()) {
+    if ((m_default_value && *m_default_value == *m_pointer) || m_pointer->empty()) {
+      // skip
+    } else {
+      writer.write(get_key(), *m_pointer, (get_flags() & OPTION_TRANSLATABLE));
     }
   }
 }
@@ -303,10 +339,13 @@ ScriptObjectOption::add_to_menu(Menu& menu) const
   menu.add_script(get_text(), m_pointer);
 }
 
-FileObjectOption::FileObjectOption(const std::string& text, std::string* pointer, const std::string& key,
+FileObjectOption::FileObjectOption(const std::string& text, std::string* pointer,
+                                   boost::optional<std::string> default_value,
+                                   const std::string& key,
                                    std::vector<std::string> filter, unsigned int flags) :
   ObjectOption(text, key, flags),
   m_pointer(pointer),
+  m_default_value(default_value),
   m_filter(filter)
 {
 }
@@ -314,11 +353,15 @@ FileObjectOption::FileObjectOption(const std::string& text, std::string* pointer
 void
 FileObjectOption::save(Writer& writer) const
 {
-  auto& value = *m_pointer;
-  if (!value.empty())
-  {
-    if (!get_key().empty()) {
-      writer.write(get_key(), value);
+  if (m_default_value && *m_default_value == *m_pointer) {
+    // skip
+  } else {
+    auto& value = *m_pointer;
+    if (!value.empty())
+    {
+      if (!get_key().empty()) {
+        writer.write(get_key(), value);
+      }
     }
   }
 }
@@ -336,11 +379,12 @@ FileObjectOption::add_to_menu(Menu& menu) const
 }
 
 ColorObjectOption::ColorObjectOption(const std::string& text, Color* pointer, const std::string& key,
-                                     boost::optional<Color> default_value,
+                                     boost::optional<Color> default_value, bool use_alpha,
                                      unsigned int flags) :
   ObjectOption(text, key, flags),
   m_pointer(pointer),
-  m_default_value(default_value)
+  m_default_value(default_value),
+  m_use_alpha(use_alpha)
 {
 }
 
@@ -348,7 +392,15 @@ void
 ColorObjectOption::save(Writer& writer) const
 {
   if (!get_key().empty()) {
-    writer.write(get_key(), m_pointer->toVector());
+    if (m_default_value && *m_default_value == *m_pointer) {
+      // skip
+    } else {
+      auto vec = m_pointer->toVector();
+      if (!m_use_alpha || vec.back() == 1.0f) {
+        vec.pop_back();
+      }
+      writer.write(get_key(), vec);
+    }
   }
 }
 
@@ -382,13 +434,115 @@ BadGuySelectObjectOption::save(Writer& writer) const
 std::string
 BadGuySelectObjectOption::to_string() const
 {
-  return ::to_string(m_pointer->size());
+  return fmt_to_string(m_pointer->size());
 }
 
 void
 BadGuySelectObjectOption::add_to_menu(Menu& menu) const
 {
   menu.add_badguy_select(get_text(), m_pointer);
+}
+
+TilesObjectOption::TilesObjectOption(const std::string& text, TileMap* tilemap, const std::string& key,
+                                     unsigned int flags) :
+  ObjectOption(text, key, flags),
+  m_tilemap(tilemap)
+{
+}
+
+void
+TilesObjectOption::save(Writer& write) const
+{
+  write.write("width", m_tilemap->get_width());
+  write.write("height", m_tilemap->get_height());
+  write.write("tiles", m_tilemap->get_tiles(), m_tilemap->get_width());
+}
+
+std::string
+TilesObjectOption::to_string() const
+{
+  return {};
+}
+
+void
+TilesObjectOption::add_to_menu(Menu& menu) const
+{
+}
+
+PathObjectOption::PathObjectOption(const std::string& text, Path* path, const std::string& key,
+                                   unsigned int flags) :
+  ObjectOption(text, key, flags),
+  m_path(path)
+{
+}
+
+void
+PathObjectOption::save(Writer& write) const
+{
+  m_path->save(write);
+}
+
+std::string
+PathObjectOption::to_string() const
+{
+  return {};
+}
+
+void
+PathObjectOption::add_to_menu(Menu& menu) const
+{
+}
+
+PathRefObjectOption::PathRefObjectOption(const std::string& text, const std::string& path_ref, const std::string& key,
+                                   unsigned int flags) :
+  ObjectOption(text, key, flags),
+  m_path_ref(path_ref)
+{
+}
+
+void
+PathRefObjectOption::save(Writer& writer) const
+{
+  if (!m_path_ref.empty()) {
+    writer.write(get_key(), m_path_ref);
+  }
+}
+
+std::string
+PathRefObjectOption::to_string() const
+{
+  return m_path_ref;
+}
+
+void
+PathRefObjectOption::add_to_menu(Menu& menu) const
+{
+}
+
+SExpObjectOption::SExpObjectOption(const std::string& text, const std::string& key, sexp::Value& value,
+                                   unsigned int flags) :
+  ObjectOption(text, key, flags),
+  m_sx(value)
+{
+}
+
+void
+SExpObjectOption::save(Writer& writer) const
+{
+  if (!m_sx.is_nil()) {
+    writer.write(get_key(), m_sx);
+  }
+}
+
+std::string
+SExpObjectOption::to_string() const
+{
+  return m_sx.str();
+}
+
+void
+SExpObjectOption::add_to_menu(Menu& menu) const
+{
 }
 
 RemoveObjectOption::RemoveObjectOption() :

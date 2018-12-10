@@ -31,8 +31,8 @@ ScriptTrigger::ScriptTrigger(const ReaderMapping& reader) :
   oneshot(false),
   runcount(0)
 {
-  reader.get("x", m_col.m_bbox.p1.x);
-  reader.get("y", m_col.m_bbox.p1.y);
+  reader.get("x", m_col.m_bbox.get_left());
+  reader.get("y", m_col.m_bbox.get_top());
   float w = 32, h = 32;
   reader.get("width", w);
   reader.get("height", h);
@@ -69,13 +69,20 @@ ScriptTrigger::get_settings()
 {
   new_size.x = m_col.m_bbox.get_width();
   new_size.y = m_col.m_bbox.get_height();
+
   ObjectSettings result(_("Script trigger"));
+
   result.add_text(_("Name"), &m_name);
   result.add_float(_("Width"), &new_size.x, "width");
   result.add_float(_("Height"), &new_size.y, "height");
+  result.add_float(_("X"), &m_col.m_bbox.get_left(), "x", {}, OPTION_HIDDEN);
+  result.add_float(_("Y"), &m_col.m_bbox.get_top(), "y", {}, OPTION_HIDDEN);
   result.add_script(_("Script"), &script, "script");
   result.add_bool(_("Button"), &must_activate, "button");
-  result.add_bool(_("Oneshot"), &oneshot, "oneshot");
+  result.add_bool(_("Oneshot"), &oneshot, "oneshot", false);
+
+  result.reorder({"script", "button", "width", "height", "x", "y"});
+
   return result;
 }
 

@@ -223,9 +223,9 @@ Rectf
 EditorToolboxWidget::selection_draw_rect() const
 {
   Rectf select = normalize_selection();
-  select.p2 += Vector(1, 1);
-  select.p1 = (select.p1 * 32.0f) + Vector(static_cast<float>(m_Xpos), static_cast<float>(m_Ypos));
-  select.p2 = (select.p2 * 32.0f) + Vector(static_cast<float>(m_Xpos), static_cast<float>(m_Ypos));
+  select.set_p2(select.p2() + Vector(1, 1));
+  select.set_p1((select.p1() * 32.0f) + Vector(static_cast<float>(m_Xpos), static_cast<float>(m_Ypos)));
+  select.set_p2((select.p2() * 32.0f) + Vector(static_cast<float>(m_Xpos), static_cast<float>(m_Ypos)));
   return select;
 }
 
@@ -238,8 +238,8 @@ EditorToolboxWidget::update_selection()
   m_tiles->m_height = static_cast<int>(select.get_height() + 1);
 
   int size = static_cast<int>(m_active_tilegroup->tiles.size());
-  for (int y = static_cast<int>(select.p1.y); y <= static_cast<int>(select.p2.y); y++) {
-    for (int x = static_cast<int>(select.p1.x); x <= static_cast<int>(select.p2.x); x++) {
+  for (int y = static_cast<int>(select.get_top()); y <= static_cast<int>(select.get_bottom()); y++) {
+    for (int x = static_cast<int>(select.get_left()); x <= static_cast<int>(select.get_right()); x++) {
       int tile_pos = y*4 + x + m_starting_tile;
       if (tile_pos < size && tile_pos >= 0) {
         m_tiles->m_tiles.push_back(m_active_tilegroup->tiles[tile_pos]);

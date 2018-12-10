@@ -128,14 +128,14 @@
     (platform
       (running #f)
       (name "plat1")
-      (sprite "images/objects/platforms/big.sprite")
       (path-ref "aed0d456-61af-4a45-a29b-2126e331b692")
+      (sprite "images/objects/platforms/big.sprite")
     )
     (platform
       (running #f)
       (name "plat2")
-      (sprite "images/objects/platforms/big.sprite")
       (path-ref "0769736f-8b62-44a2-b9b1-9afe8fd811de")
+      (sprite "images/objects/platforms/big.sprite")
     )
     (poisonivy
       (x 704)

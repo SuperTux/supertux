@@ -11,6 +11,8 @@
     (camera
       (mode "normal")
     )
+    (music
+    )
     (scripttrigger
       (script "Level.finish(true);")
       (button #f)

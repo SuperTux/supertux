@@ -99,14 +99,21 @@ TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
 
   reader.get("solid",  m_real_solid);
   reader.get("speed",  m_speed_x);
-  reader.get("speed-y", m_speed_y, m_speed_x);
+
+  if (!reader.get("speed-y", m_speed_y)) {
+    if (!Editor::is_active()) {
+      m_speed_y = m_speed_x;
+    }
+  }
 
   m_z_pos = reader_get_layer (reader, /* default = */ 0);
 
-  if (m_real_solid && ((m_speed_x != 1) || (m_speed_y != 1))) {
-    log_warning << "Speed of solid tilemap is not 1. fixing" << std::endl;
-    m_speed_x = 1;
-    m_speed_y = 1;
+  if (!Editor::is_active()) {
+    if (m_real_solid && ((m_speed_x != 1) || (m_speed_y != 1))) {
+      log_warning << "Speed of solid tilemap is not 1. fixing" << std::endl;
+      m_speed_x = 1;
+      m_speed_y = 1;
+    }
   }
 
   init_path(reader, false);
@@ -189,40 +196,6 @@ TileMap::float_channel(float target, float &current, float remaining_time, float
   if (amt < 0) current = std::max(current + amt, target);
 }
 
-void
-TileMap::save(Writer& writer)
-{
-  writer.write("solid", m_real_solid);
-  if (m_speed_x != 1.0f) {
-    writer.write("speed", m_speed_x);
-  }
-  if (m_speed_y != m_speed_x) {
-    writer.write("speed-y", m_speed_y);
-  }
-
-  if (m_alpha != 1) {
-    writer.write("alpha", m_alpha);
-  }
-
-  writer.write("z-pos", m_z_pos);
-
-  GameObject::save(writer);
-
-  if (m_draw_target == DrawingTarget::LIGHTMAP) {
-    writer.write("draw-target", "lightmap", false);
-  } else {
-    // skip: writer.write("draw-target", "normal", false);
-  }
-  writer.write("width", m_width);
-  writer.write("height", m_height);
-
-  if (m_tint != Color::WHITE) {
-    writer.write("tint", m_tint.toVector());
-  }
-  PathObject::save(writer);
-  writer.write("tiles", m_tiles, m_width);
-}
-
 ObjectSettings
 TileMap::get_settings()
 {
@@ -230,31 +203,45 @@ TileMap::get_settings()
   m_new_size_y = m_height;
   m_new_offset_x = 0;
   m_new_offset_y = 0;
+
   ObjectSettings result = GameObject::get_settings();
-  result.add_bool(_("Solid"), &m_real_solid);
+
+  result.add_bool(_("Solid"), &m_real_solid, "solid");
   result.add_int(_("Resize offset x"), &m_new_offset_x);
   result.add_int(_("Resize offset y"), &m_new_offset_y);
+
   result.add_int(_("Width"), &m_new_size_x);
   result.add_int(_("Height"), &m_new_size_y);
-  result.add_float(_("Alpha"), &m_alpha);
-  result.add_float(_("Speed x"), &m_speed_x);
-  result.add_float(_("Speed y"), &m_speed_y);
-  result.add_color(_("Tint"), &m_tint);
-  result.add_int(_("Z-pos"), &m_z_pos);
-  result.add_string_select(_("Draw target"), reinterpret_cast<int*>(&m_draw_target),
-                           {_("Normal"), _("Lightmap")});
 
+  result.add_float(_("Alpha"), &m_alpha, "alpha", 1.0f);
+  result.add_float(_("Speed x"), &m_speed_x, "speed", 1.0f);
+  result.add_float(_("Speed y"), &m_speed_y, "speed-y", 1.0f);
+  result.add_color(_("Tint"), &m_tint, "tint", Color::WHITE);
+  result.add_int(_("Z-pos"), &m_z_pos, "z-pos");
+  result.add_enum(_("Draw target"), reinterpret_cast<int*>(&m_draw_target),
+                  {_("Normal"), _("Lightmap")},
+                  {"normal", "lightmap"},
+                  static_cast<int>(DrawingTarget::COLORMAP),
+                  "draw-target");
+
+  result.add_path_ref(_("Path"), get_path_ref(), "path-ref");
   m_add_path = get_walker() && get_path() && get_path()->is_valid();
   result.add_bool(_("Following path"), &m_add_path);
 
   if (get_walker() && get_path() && get_path()->is_valid()) {
+    m_running = get_walker()->is_running();
     result.add_walk_mode(_("Path Mode"), &get_path()->m_mode, {}, {});
-    result.add_bool(_("Running"), &m_running, "running");
+    result.add_bool(_("Running"), &m_running, "running", false);
   }
+
+  result.add_tiles(_("Tiles"), this, "tiles");
+
+  result.reorder({"solid", "running", "speed", "speed-y", "tint", "draw-target", "alpha", "z-pos", "name", "path-ref", "width", "height", "tiles"});
 
   if (!m_editor_active) {
     result.add_remove();
   }
+
   return result;
 }
 

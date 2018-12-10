@@ -10,7 +10,6 @@
     )
     (camera
       (mode "normal")
-      (backscrolling #f)
     )
     (gradient
       (top_color 0 0.3137255 1)

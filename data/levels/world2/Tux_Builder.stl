@@ -30,22 +30,18 @@
       (y 615)
     )
     (firefly
-      (sprite "images/objects/resetpoints/default-resetpoint.sprite")
       (x 3200)
       (y 704)
     )
     (firefly
-      (sprite "images/objects/resetpoints/default-resetpoint.sprite")
       (x 7072)
       (y 704)
     )
     (fish
-      (sprite "images/creatures/fish/fish.sprite")
       (x 8032)
       (y 768)
     )
     (fish
-      (sprite "images/creatures/fish/fish.sprite")
       (x 4256)
       (y 832)
     )
@@ -59,13 +55,11 @@
     )
     (mrbomb
       (direction "left")
-      (sprite "images/creatures/mr_bomb/mr_bomb.sprite")
       (x 3141)
       (y 808)
     )
     (mrtree
       (direction "left")
-      (sprite "images/creatures/mr_tree/mr_tree.sprite")
       (x 2112)
       (y 766)
     )
@@ -74,145 +68,118 @@
     )
     (poisonivy
       (direction "left")
-      (sprite "images/creatures/poison_ivy/poison_ivy.sprite")
       (x 9250)
       (y 740)
     )
     (poisonivy
       (direction "left")
-      (sprite "images/creatures/poison_ivy/poison_ivy.sprite")
       (x 8962)
       (y 868)
     )
     (poisonivy
       (direction "left")
-      (sprite "images/creatures/poison_ivy/poison_ivy.sprite")
       (x 8674)
       (y 708)
     )
     (poisonivy
       (direction "left")
-      (sprite "images/creatures/poison_ivy/poison_ivy.sprite")
       (x 5858)
       (y 804)
     )
     (poisonivy
       (direction "left")
-      (sprite "images/creatures/poison_ivy/poison_ivy.sprite")
       (x 6562)
       (y 548)
     )
     (poisonivy
       (direction "left")
-      (sprite "images/creatures/poison_ivy/poison_ivy.sprite")
       (x 1762)
       (y 644)
     )
     (poisonivy
       (direction "left")
-      (sprite "images/creatures/poison_ivy/poison_ivy.sprite")
       (x 2498)
       (y 676)
     )
     (poisonivy
       (direction "left")
-      (sprite "images/creatures/poison_ivy/poison_ivy.sprite")
       (x 2818)
       (y 804)
     )
     (rock
-      (sprite "images/objects/rock/rock.sprite")
       (x 3360)
       (y 576)
     )
     (rock
-      (sprite "images/objects/rock/rock.sprite")
       (x 3488)
       (y 576)
     )
     (rock
-      (sprite "images/objects/rock/rock.sprite")
       (x 3424)
       (y 576)
     )
     (rock
-      (sprite "images/objects/rock/rock.sprite")
       (x 3424)
       (y 704)
     )
     (rock
-      (sprite "images/objects/rock/rock.sprite")
       (x 3424)
       (y 672)
     )
     (rock
-      (sprite "images/objects/rock/rock.sprite")
       (x 3488)
       (y 672)
     )
     (rock
-      (sprite "images/objects/rock/rock.sprite")
       (x 3488)
       (y 704)
     )
     (rock
-      (sprite "images/objects/rock/rock.sprite")
       (x 7488)
       (y 736)
     )
     (rock
-      (sprite "images/objects/rock/rock.sprite")
       (x 7392)
       (y 768)
     )
     (rock
-      (sprite "images/objects/rock/rock.sprite")
       (x 7392)
       (y 736)
     )
     (rock
-      (sprite "images/objects/rock/rock.sprite")
       (x 7424)
       (y 768)
     )
     (rock
-      (sprite "images/objects/rock/rock.sprite")
       (x 7456)
       (y 768)
     )
     (rock
-      (sprite "images/objects/rock/rock.sprite")
       (x 7520)
       (y 704)
     )
     (rock
-      (sprite "images/objects/rock/rock.sprite")
       (x 7520)
       (y 736)
     )
     (rock
-      (sprite "images/objects/rock/rock.sprite")
       (x 7488)
       (y 768)
     )
     (rock
-      (sprite "images/objects/rock/rock.sprite")
       (x 7488)
       (y 704)
     )
     (rock
-      (sprite "images/objects/rock/rock.sprite")
       (x 7456)
       (y 736)
     )
     (rock
-      (sprite "images/objects/rock/rock.sprite")
       (x 672)
       (y 671)
     )
     (snail
       (direction "left")
-      (sprite "images/creatures/snail/snail.sprite")
       (x 5152)
       (y 736)
     )
@@ -340,7 +307,6 @@
     )
     (zeekling
       (direction "left")
-      (sprite "images/creatures/zeekling/zeekling.sprite")
       (x 5632)
       (y 512)
     )

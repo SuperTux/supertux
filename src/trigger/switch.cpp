@@ -37,8 +37,8 @@ Switch::Switch(const ReaderMapping& reader) :
   state(OFF),
   bistable()
 {
-  if (!reader.get("x", m_col.m_bbox.p1.x)) throw std::runtime_error("no x position set");
-  if (!reader.get("y", m_col.m_bbox.p1.y)) throw std::runtime_error("no y position set");
+  if (!reader.get("x", m_col.m_bbox.get_left())) throw std::runtime_error("no x position set");
+  if (!reader.get("y", m_col.m_bbox.get_top())) throw std::runtime_error("no y position set");
   if (!reader.get("sprite", sprite_name)) sprite_name = "images/objects/switch/left.sprite";
   sprite = SpriteManager::current()->create(sprite_name);
   m_col.m_bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
@@ -56,12 +56,13 @@ Switch::~Switch()
 ObjectSettings
 Switch::get_settings()
 {
-  ObjectSettings result(_("Switch"));
+  ObjectSettings result = TriggerBase::get_settings();
 
-  result.add_text(_("Name"), &m_name);
-  result.add_sprite(_("Sprite"), &sprite_name, "sprite");
+  result.add_sprite(_("Sprite"), &sprite_name, "sprite", std::string("images/objects/switch/left.sprite"));
   result.add_script(_("Turn on script"), &script, "script");
   result.add_script(_("Turn off script"), &off_script, "off-script");
+
+  result.reorder({"script", "off-script", "sprite", "x", "y"});
 
   return result;
 }
@@ -80,7 +81,7 @@ Switch::update(float )
     case TURN_ON:
       if (sprite->animation_done()) {
         std::ostringstream location;
-        location << "switch" << m_col.m_bbox.p1;
+        location << "switch" << m_col.m_bbox.p1();
         Sector::get().run_script(script, location.str());
 
         sprite->set_action("on", 1);
@@ -97,7 +98,7 @@ Switch::update(float )
       if (sprite->animation_done()) {
         if (bistable) {
           std::ostringstream location;
-          location << "switch" << m_col.m_bbox.p1;
+          location << "switch" << m_col.m_bbox.p1();
           Sector::get().run_script(off_script, location.str());
         }
 
@@ -111,7 +112,7 @@ Switch::update(float )
 void
 Switch::draw(DrawingContext& context)
 {
-  sprite->draw(context.color(), m_col.m_bbox.p1, LAYER_TILES);
+  sprite->draw(context.color(), m_col.m_bbox.p1(), LAYER_TILES);
 }
 
 void
@@ -137,7 +138,6 @@ Switch::event(Player& , EventType type)
     case TURN_OFF:
       break;
   }
-
 }
 
 /* EOF */

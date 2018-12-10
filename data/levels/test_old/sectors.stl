@@ -42,6 +42,8 @@
       (x 323)
       (y 74)
     )
+    (music
+    )
     (snowball
       (x 259)
       (y 303)
@@ -126,8 +128,10 @@
       (x 352)
       (y 256)
     )
+    (music
+    )
     (secretarea
-      (message "good jumper")
+      (message (_ "good jumper"))
       (width 95.73828)
       (height 127.5938)
       (x 1791.793)

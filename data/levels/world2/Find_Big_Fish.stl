@@ -716,32 +716,26 @@
       )
     )
     (weak_block
-      (sprite "images/objects/weak_block/strawbox.sprite")
       (x 1040)
       (y 800)
     )
     (weak_block
-      (sprite "images/objects/weak_block/strawbox.sprite")
       (x 1024)
       (y 768)
     )
     (weak_block
-      (sprite "images/objects/weak_block/strawbox.sprite")
       (x 1008)
       (y 800)
     )
     (weak_block
-      (sprite "images/objects/weak_block/strawbox.sprite")
       (x 1056)
       (y 832)
     )
     (weak_block
-      (sprite "images/objects/weak_block/strawbox.sprite")
       (x 1024)
       (y 832)
     )
     (weak_block
-      (sprite "images/objects/weak_block/strawbox.sprite")
       (x 992)
       (y 832)
     )
