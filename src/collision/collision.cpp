@@ -38,7 +38,7 @@ bool intersects(const Rectf& r1, const Rectf& r2)
 namespace {
 inline void makePlane(const Vector& p1, const Vector& p2, Vector& n, float& c)
 {
-  n = Vector(p1.x-p1.y, p1.x-p2.x);
+  n = Vector(p2.y - p1.y, p1.x - p2.x);
   c = -(p2 * n);
   float nval = n.norm();
   n /= nval;
