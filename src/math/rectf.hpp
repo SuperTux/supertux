@@ -69,6 +69,7 @@ public:
             m_size == other.m_size);
   }
 
+  // This is a temporary hack to pass x/y to ReaderMapping
   float& get_left() { return m_p1.x; }
   float& get_top() { return m_p1.y; }
 
@@ -80,13 +81,14 @@ public:
   float get_width() const { return m_size.width; }
   float get_height() const { return m_size.height; }
 
-  void set_left(float v) { m_p1.x = v; }
-  void set_right(float v) { m_size.width = v - m_p1.x; }
-  void set_top(float v) { m_p1.y = v; }
-  void set_bottom(float v) { m_size.height = v - m_p1.y; }
+  void set_left(float v) { m_size.width -= v - m_p1.x; m_p1.x = v; }
+  void set_right(float v) { m_size.width += v - get_right(); }
 
-  Vector get_middle() const { return Vector(m_p1.x + m_size.width / 2,
-                                            m_p1.y + m_size.height / 2); }
+  void set_top(float v) { m_size.height -= v - m_p1.y; m_p1.y = v; }
+  void set_bottom(float v) { m_size.height += v - get_bottom(); }
+
+  Vector get_middle() const { return Vector(m_p1.x + m_size.width / 2.0f,
+                                            m_p1.y + m_size.height / 2.0f); }
 
   void set_pos(const Vector& v) { m_p1 = v; }
 
