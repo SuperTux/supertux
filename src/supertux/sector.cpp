@@ -128,13 +128,9 @@ Sector::finish_construction(bool editable)
     log_warning << "sector '" << get_name() << "' does not contain a solid tile layer." << std::endl;
   }
 
-  if (!Editor::is_active()) {
-    if (!(Editor::current() && Editor::current()->get_worldmap_mode())) {
-      if (!get_object_by_type<Camera>()) {
-        log_warning << "sector '" << get_name() << "' does not contain a camera." << std::endl;
-        add<Camera>("Camera");
-      }
-    }
+  if (!get_object_by_type<Camera>()) {
+    log_warning << "sector '" << get_name() << "' does not contain a camera." << std::endl;
+    add<Camera>("Camera");
   }
 
   if (!get_object_by_type<AmbientLight>()) {
