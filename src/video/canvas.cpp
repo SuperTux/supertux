@@ -107,7 +107,7 @@ Canvas::draw_surface(SurfacePtr surface,
                      const Vector& position, float angle, const Color& color, const Blend& blend,
                      int layer)
 {
-  assert(surface);
+  if (!surface) return;
 
   const auto& cliprect = m_context.get_cliprect();
 
@@ -154,7 +154,7 @@ void
 Canvas::draw_surface_part(SurfacePtr surface, const Rectf& srcrect, const Rectf& dstrect,
                           int layer, const PaintStyle& style)
 {
-  assert(surface);
+  if (!surface) return;
 
   auto request = new(m_obst) TextureRequest();
 
@@ -197,7 +197,7 @@ Canvas::draw_surface_batch(SurfacePtr surface,
                            const Color& color,
                            int layer)
 {
-  assert(surface != nullptr);
+  if (!surface) return;
 
   auto request = new(m_obst) TextureRequest();
 
