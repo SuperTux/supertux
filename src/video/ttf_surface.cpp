@@ -20,6 +20,7 @@
 
 #include <sstream>
 
+#include "util/log.hpp"
 #include "video/sdl_surface.hpp"
 #include "video/surface.hpp"
 #include "video/ttf_font.hpp"
@@ -34,9 +35,8 @@ TTFSurface::create(const TTFFont& font, const std::string& text)
                                                     SDL_Color{255, 255, 255, 255}));
   if (!text_surface)
   {
-    std::ostringstream msg;
-    msg << "Couldn't render text '" << text << "' :" << SDL_GetError();
-    throw std::runtime_error(msg.str());
+    log_warning << "Couldn't render text '" << text << "' :" << SDL_GetError();
+    return std::make_shared<TTFSurface>(SurfacePtr(), Vector());
   }
 
   // FIXME: handle shadow offset
@@ -120,13 +120,21 @@ TTFSurface::TTFSurface(const SurfacePtr& surface, const Vector& offset) :
 int
 TTFSurface::get_width() const
 {
-  return m_surface->get_width();
+  if (m_surface) {
+    return m_surface->get_width();
+  } else {
+    return 0;
+  }
 }
 
 int
 TTFSurface::get_height() const
 {
-  return m_surface->get_height();
+  if (m_surface) {
+    return m_surface->get_height();
+  } else {
+    return 0;
+  }
 }
 
 /* EOF */
