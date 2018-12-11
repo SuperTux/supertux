@@ -24,7 +24,7 @@ class GameObject;
 
 class ObjectMenu final : public Menu
 {
-private:
+public:
   enum {
     MNID_REMOVE
   };

@@ -20,6 +20,7 @@
 #include <vector>
 #include <sstream>
 
+#include "editor/object_menu.hpp"
 #include "gui/menu.hpp"
 #include "object/tilemap.hpp"
 #include "util/gettext.hpp"
@@ -559,7 +560,7 @@ RemoveObjectOption::to_string() const
 void
 RemoveObjectOption::add_to_menu(Menu& menu) const
 {
-  menu.add_entry(MN_REMOVE, get_text());
+  menu.add_entry(ObjectMenu::MNID_REMOVE, get_text());
 }
 
 /* EOF */
