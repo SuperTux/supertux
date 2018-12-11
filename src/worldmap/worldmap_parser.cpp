@@ -21,6 +21,7 @@
 #include "object/ambient_light.hpp"
 #include "object/background.hpp"
 #include "object/decal.hpp"
+#include "object/music_object.hpp"
 #include "object/tilemap.hpp"
 #include "physfs/physfs_file_system.hpp"
 #include "supertux/tile_manager.hpp"
@@ -91,9 +92,11 @@ WorldMapParser::load_worldmap(const std::string& filename)
         } else if (iter.get_key() == "music") {
           const auto& sx = iter.get_sexp();
           if (sx.is_array() && sx.as_array().size() == 2 && sx.as_array()[1].is_string()) {
-            iter.get(m_worldmap.m_music);
+            std::string value;
+            iter.get(value);
+            m_worldmap.add<MusicObject>().set_music(value);
           } else {
-            iter.as_mapping().get("music", m_worldmap.m_music);
+            m_worldmap.add<MusicObject>(iter.as_mapping());
           }
         } else if (iter.get_key() == "init-script") {
           iter.get(m_worldmap.m_init_script);
@@ -149,6 +152,8 @@ WorldMapParser::load_worldmap(const std::string& filename)
       e.what();
     throw std::runtime_error(msg.str());
   }
+
+  m_worldmap.finish_construction();
 }
 
 void

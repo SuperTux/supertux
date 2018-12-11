@@ -23,6 +23,7 @@
 #include "control/input_manager.hpp"
 #include "gui/menu_manager.hpp"
 #include "object/decal.hpp"
+#include "object/music_object.hpp"
 #include "object/tilemap.hpp"
 #include "physfs/ifile_stream.hpp"
 #include "physfs/physfs_file_system.hpp"
@@ -72,7 +73,6 @@ WorldMap::WorldMap(const std::string& filename, Savegame& savegame, const std::s
   m_savegame(savegame),
   m_tileset(nullptr),
   m_name("<no title>"),
-  m_music("music/salcon.ogg"),
   m_init_script(),
   m_passive_message_timer(),
   m_passive_message(),
@@ -101,6 +101,14 @@ WorldMap::~WorldMap()
 {
   clear_objects();
   m_spawn_points.clear();
+}
+
+void
+WorldMap::finish_construction()
+{
+  if (!get_object_by_type<MusicObject>()) {
+    add<MusicObject>();
+  }
 }
 
 bool
@@ -569,7 +577,9 @@ WorldMap::draw_status(DrawingContext& context)
 void
 WorldMap::setup()
 {
-  SoundManager::current()->play_music(m_music);
+  auto& music_object = get_singleton_by_type<MusicObject>();
+  music_object.play_music(MusicType::LEVEL_MUSIC);
+
   MenuManager::instance().clear_menu_stack();
   ScreenManager::current()->set_screen_fade(std::make_unique<FadeToBlack>(FadeToBlack::FADEIN, 1));
 

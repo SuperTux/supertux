@@ -62,6 +62,8 @@ public:
   WorldMap(const std::string& filename, Savegame& savegame, const std::string& force_spawnpoint = "");
   ~WorldMap();
 
+  void finish_construction();
+
   void setup();
   void leave();
 
@@ -179,7 +181,6 @@ private:
   TileSet* m_tileset;
 
   std::string m_name;
-  std::string m_music;
   std::string m_init_script;
 
   /** Variables to deal with the passive map messages */
