@@ -28,7 +28,7 @@ ItemGoTo::ItemGoTo(const std::string& text, int target_menu_, int id) :
 
 void
 ItemGoTo::process_action(const MenuAction& action) {
-  if (action == MENU_ACTION_HIT) {
+  if (action == MenuAction::HIT) {
     assert(target_menu != 0);
     MenuManager::instance().push_menu(target_menu);
   }

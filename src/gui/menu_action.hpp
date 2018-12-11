@@ -18,16 +18,16 @@
 #define HEADER_SUPERTUX_GUI_MENU_ACTION_HPP
 
 /** Action done on the menu */
-enum MenuAction {
-  MENU_ACTION_NONE = -1,
-  MENU_ACTION_UP,
-  MENU_ACTION_DOWN,
-  MENU_ACTION_LEFT,
-  MENU_ACTION_RIGHT,
-  MENU_ACTION_HIT,
-  MENU_ACTION_INPUT,
-  MENU_ACTION_REMOVE,
-  MENU_ACTION_BACK
+enum class MenuAction {
+  NONE = -1,
+  UP,
+  DOWN,
+  LEFT,
+  RIGHT,
+  HIT,
+  INPUT,
+  REMOVE,
+  BACK
 };
 
 #endif

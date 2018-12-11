@@ -63,7 +63,7 @@ ItemStringSelect::get_width() const {
 void
 ItemStringSelect::process_action(const MenuAction& action) {
   switch (action) {
-    case MENU_ACTION_LEFT:
+    case MenuAction::LEFT:
       if ( (*selected) > 0) {
         (*selected)--;
       } else {
@@ -74,8 +74,8 @@ ItemStringSelect::process_action(const MenuAction& action) {
         m_callback(*selected);
       }
       break;
-    case MENU_ACTION_RIGHT:
-    case MENU_ACTION_HIT:
+    case MenuAction::RIGHT:
+    case MenuAction::HIT:
       if ( (*selected)+1 < int(list.size())) {
         (*selected)++;
       } else {

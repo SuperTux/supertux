@@ -341,69 +341,69 @@ Menu::process_input(const Controller& controller)
     pos.y = static_cast<float>(SCREEN_HEIGHT) / 2.0f - static_cast<float>(scroll_offset) * ((static_cast<float>(active_item) / static_cast<float>(items.size() - 1)) - 0.5f) * 2.0f;
   }
 
-  MenuAction menuaction = MENU_ACTION_NONE;
+  MenuAction menuaction = MenuAction::NONE;
 
   /** check main input controller... */
   if (controller.pressed(Controller::UP)) {
-    menuaction = MENU_ACTION_UP;
+    menuaction = MenuAction::UP;
     menu_repeat_time = g_real_time + MENU_REPEAT_INITIAL;
   }
   if (controller.hold(Controller::UP) &&
      menu_repeat_time != 0 && g_real_time > menu_repeat_time) {
-    menuaction = MENU_ACTION_UP;
+    menuaction = MenuAction::UP;
     menu_repeat_time = g_real_time + MENU_REPEAT_RATE;
   }
 
   if (controller.pressed(Controller::DOWN)) {
-    menuaction = MENU_ACTION_DOWN;
+    menuaction = MenuAction::DOWN;
     menu_repeat_time = g_real_time + MENU_REPEAT_INITIAL;
   }
   if (controller.hold(Controller::DOWN) &&
      menu_repeat_time != 0 && g_real_time > menu_repeat_time) {
-    menuaction = MENU_ACTION_DOWN;
+    menuaction = MenuAction::DOWN;
     menu_repeat_time = g_real_time + MENU_REPEAT_RATE;
   }
 
   if (controller.pressed(Controller::LEFT)) {
-    menuaction = MENU_ACTION_LEFT;
+    menuaction = MenuAction::LEFT;
     menu_repeat_time = g_real_time + MENU_REPEAT_INITIAL;
   }
   if (controller.hold(Controller::LEFT) &&
      menu_repeat_time != 0 && g_real_time > menu_repeat_time) {
-    menuaction = MENU_ACTION_LEFT;
+    menuaction = MenuAction::LEFT;
     menu_repeat_time = g_real_time + MENU_REPEAT_RATE;
   }
 
   if (controller.pressed(Controller::RIGHT)) {
-    menuaction = MENU_ACTION_RIGHT;
+    menuaction = MenuAction::RIGHT;
     menu_repeat_time = g_real_time + MENU_REPEAT_INITIAL;
   }
   if (controller.hold(Controller::RIGHT) &&
      menu_repeat_time != 0 && g_real_time > menu_repeat_time) {
-    menuaction = MENU_ACTION_RIGHT;
+    menuaction = MenuAction::RIGHT;
     menu_repeat_time = g_real_time + MENU_REPEAT_RATE;
   }
 
   if (controller.pressed(Controller::ACTION) ||
      controller.pressed(Controller::MENU_SELECT) ||
      (!is_sensitive() && controller.pressed(Controller::MENU_SELECT_SPACE))) {
-    menuaction = MENU_ACTION_HIT;
+    menuaction = MenuAction::HIT;
   }
 
   if (controller.pressed(Controller::ESCAPE) ||
      controller.pressed(Controller::CHEAT_MENU) ||
      controller.pressed(Controller::DEBUG_MENU) ||
      controller.pressed(Controller::MENU_BACK)) {
-    menuaction = MENU_ACTION_BACK;
+    menuaction = MenuAction::BACK;
   }
 
   if (controller.pressed(Controller::REMOVE)) {
-    menuaction = MENU_ACTION_REMOVE;
+    menuaction = MenuAction::REMOVE;
     menu_repeat_time = g_real_time + MENU_REPEAT_INITIAL;
   }
   if (controller.hold(Controller::REMOVE) &&
      menu_repeat_time != 0 && g_real_time > menu_repeat_time) {
-    menuaction = MENU_ACTION_REMOVE;
+    menuaction = MenuAction::REMOVE;
     menu_repeat_time = g_real_time + MENU_REPEAT_RATE;
   }
 
@@ -422,7 +422,7 @@ Menu::process_action(const MenuAction& menuaction)
   int last_active_item = active_item;
 
   switch (menuaction) {
-    case MENU_ACTION_UP:
+    case MenuAction::UP:
       do {
         if (active_item > 0)
           --active_item;
@@ -432,7 +432,7 @@ Menu::process_action(const MenuAction& menuaction)
                && (active_item != last_active_item));
       break;
 
-    case MENU_ACTION_DOWN:
+    case MenuAction::DOWN:
       do {
         if (active_item < int(items.size())-1 )
           ++active_item;
@@ -442,7 +442,7 @@ Menu::process_action(const MenuAction& menuaction)
                && (active_item != last_active_item));
       break;
 
-    case MENU_ACTION_BACK:
+    case MenuAction::BACK:
       if (on_back_action()) {
         MenuManager::instance().pop_menu();
       }
@@ -461,7 +461,7 @@ Menu::process_action(const MenuAction& menuaction)
   if (items[active_item]->changes_width()) {
     calculate_width();
   }
-  if (menuaction == MENU_ACTION_HIT) {
+  if (menuaction == MenuAction::HIT) {
     menu_action(*items[active_item]);
   }
 }
@@ -622,7 +622,7 @@ Menu::event(const SDL_Event& ev)
           mouse_pos.y > pos.y - get_height() / 2.0f &&
           mouse_pos.y < pos.y + get_height() / 2.0f)
       {
-        process_action(MENU_ACTION_HIT);
+        process_action(MenuAction::HIT);
       }
     }
     break;

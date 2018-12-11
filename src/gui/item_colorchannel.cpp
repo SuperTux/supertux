@@ -130,11 +130,11 @@ ItemColorChannel::process_action(const MenuAction& action)
 {
   switch (action)
   {
-    case MENU_ACTION_REMOVE:
+    case MenuAction::REMOVE:
       remove_char();
       break;
 
-    case MENU_ACTION_LEFT:
+    case MenuAction::LEFT:
       *m_number = truncf(*m_number * 10.0f) / 10.0f;
       *m_number -= 0.1f;
       *m_number = math::clamp(*m_number, 0.0f, 1.0f);
@@ -142,7 +142,7 @@ ItemColorChannel::process_action(const MenuAction& action)
       break;
 
 
-    case MENU_ACTION_RIGHT:
+    case MenuAction::RIGHT:
       *m_number = truncf(*m_number * 10.0f) / 10.0f;
       *m_number += 0.1f;
       *m_number = math::clamp(*m_number, 0.0f, 1.0f);
