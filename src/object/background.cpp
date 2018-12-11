@@ -182,9 +182,9 @@ Background::get_settings()
                   static_cast<int>(DrawingTarget::COLORMAP),
                   "target");
 
-  result.add_remove();
-
   result.reorder({"x", "y", "alignment", "scroll-speed-x", "scroll-speed-y", "speed", "speed-y", "fill", "target", "image-top", "image", "image-bottom", "z-pos"});
+
+  result.add_remove();
 
   return result;
 }

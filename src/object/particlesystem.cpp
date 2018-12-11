@@ -60,9 +60,10 @@ ParticleSystem::get_settings()
 
   result.add_bool(_("Enabled"), &enabled, "enabled", true);
   result.add_int(_("Z-pos"), &z_pos, "z-pos", LAYER_BACKGROUND1);
-  result.add_remove();
 
   result.reorder({"enabled", "name"});
+
+  result.add_remove();
 
   return result;
 }
