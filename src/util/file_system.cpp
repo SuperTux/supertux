@@ -16,6 +16,7 @@
 
 #include "util/file_system.hpp"
 
+#include <boost/filesystem.hpp>
 #include <sstream>
 #include <stdexcept>
 #include <sys/stat.h>
@@ -78,6 +79,11 @@ std::string basename(const std::string& filename)
     return filename;
 
   return filename.substr(p+1, filename.size()-p-1);
+}
+
+std::string relpath(const std::string& filename, const std::string& basedir)
+{
+  return boost::filesystem::relative(filename, basedir).string();
 }
 
 std::string strip_extension(const std::string& filename)
