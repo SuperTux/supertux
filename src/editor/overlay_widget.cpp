@@ -887,7 +887,7 @@ EditorOverlayWidget::draw_path(DrawingContext& context)
     Path::Node* node1 = &(*i);
     Path::Node* node2;
     if (j == m_edited_path->m_nodes.end()) {
-      if (m_edited_path->m_mode == WalkMode::CIRCULAR || m_edited_path->m_mode == WalkMode::UNORDERED) {
+      if (m_edited_path->m_mode == WalkMode::CIRCULAR) {
         //loop to the first node
         node2 = &(*m_edited_path->m_nodes.begin());
       } else {

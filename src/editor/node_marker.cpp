@@ -41,7 +41,7 @@ NodeMarker::get_point_vector() const
 {
   std::vector<Path::Node>::iterator next_node = m_node + 1;
   if (next_node == m_path->m_nodes.end()) {
-    if (m_path->m_mode == WalkMode::CIRCULAR || m_path->m_mode == WalkMode::UNORDERED) {
+    if (m_path->m_mode == WalkMode::CIRCULAR) {
       //loop to the first node
       return m_path->m_nodes.begin()->position - m_node->position;
     } else {
