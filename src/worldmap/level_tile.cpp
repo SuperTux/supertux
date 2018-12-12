@@ -21,6 +21,7 @@
 
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
+#include "util/file_system.hpp"
 #include "util/log.hpp"
 #include "util/reader_mapping.hpp"
 #include "worldmap/worldmap.hpp"
@@ -28,7 +29,9 @@
 namespace worldmap {
 
 LevelTile::LevelTile(const std::string& basedir_, const ReaderMapping& mapping) :
+  GameObject(mapping),
   m_pos(),
+  m_level_filename(),
   m_title(),
   m_solved(false),
   m_perfect(false),
@@ -40,7 +43,11 @@ LevelTile::LevelTile(const std::string& basedir_, const ReaderMapping& mapping) 
   m_title_color(WorldMap::level_title_color),
   m_basedir(basedir_)
 {
-  mapping.get("name", m_name);
+  if (!mapping.get("level", m_level_filename)) {
+    // Hack for backward compatibility with 0.5.x level
+    m_level_filename = m_name;
+  }
+
   mapping.get("x", m_pos.x);
   mapping.get("y", m_pos.y);
   mapping.get("auto-play", m_auto_play);
@@ -60,9 +67,9 @@ LevelTile::LevelTile(const std::string& basedir_, const ReaderMapping& mapping) 
     m_basedir = "";
   }
 
-  if (!PHYSFS_exists((m_basedir + m_name).c_str()))
+  if (!PHYSFS_exists(FileSystem::join(m_basedir, m_level_filename).c_str()))
   {
-    log_warning << "level file '" << get_name()
+    log_warning << "level file '" << m_level_filename
                 << "' does not exist and will not be added to the worldmap" << std::endl;
     return;
   }

@@ -58,7 +58,7 @@ public:
   virtual void after_editor_set() override;
 
 private:
-  std::string m_level;
+  std::string m_level_filename;
   std::string m_extro_script;
   bool m_auto_play;
   Color m_title_color;

@@ -87,21 +87,22 @@ WorldmapObject::move_to(const Vector& pos)
 
 LevelDot::LevelDot(const ReaderMapping& mapping) :
   WorldmapObject(mapping, "images/worldmap/common/leveldot.sprite"),
-  m_level(),
+  m_level_filename(),
   m_extro_script(),
   m_auto_play(false),
   m_title_color(1, 1, 1)
 {
   mapping.get("extro-script", m_extro_script);
   mapping.get("auto-play", m_auto_play);
+  if (!mapping.get("level", m_level_filename)) {
+    // Hack for backward compatibility with 0.5.x level
+    m_level_filename = std::move(m_name);
+  }
 
   std::vector<float> vColor;
   if (mapping.get("color", vColor)) {
     m_title_color = Color(vColor);
   }
-
-  m_level = (Editor::current() && Editor::current()->get_world()) ?
-    FileSystem::join(Editor::current()->get_world()->get_basedir(), get_name()) : get_name();
 }
 
 void
@@ -115,9 +116,7 @@ LevelDot::get_settings()
 {
   ObjectSettings result = WorldmapObject::get_settings();
 
-  result.remove("name");
-
-  result.add_level(_("Level"), &m_level, "name");
+  result.add_level(_("Level"), &m_level_filename, "level");
   result.add_script(_("Outro script"), &m_extro_script, "extro-script");
   result.add_bool(_("Auto play"), &m_auto_play, "auto-play", false);
   //result.add_sprite(_("Sprite"), &m_sprite_name, "sprite");
@@ -133,6 +132,7 @@ LevelDot::after_editor_set()
 {
   if (!Editor::current()) return;
 
+#if 0
   // Extract the level file to be relative to world directory
   m_name = FileSystem::basename(m_level);
   m_level = FileSystem::dirname(m_level);
@@ -156,6 +156,7 @@ LevelDot::after_editor_set()
     m_level = basedir + "/";
     m_name = "";
   }
+#endif
 }
 
 Teleporter::Teleporter (const ReaderMapping& mapping) :

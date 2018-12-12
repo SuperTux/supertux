@@ -47,6 +47,7 @@ private:
   Vector m_pos;
 
 public:
+  std::string m_level_filename;
   std::string m_title;
   bool m_solved;
   bool m_perfect;
