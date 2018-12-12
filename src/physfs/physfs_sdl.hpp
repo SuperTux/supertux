@@ -26,6 +26,7 @@
 
     See: https://wiki.libsdl.org/SDL_RWclose */
 SDL_RWops* get_physfs_SDLRWops(const std::string& filename);
+SDL_RWops* get_writable_physfs_SDLRWops(const std::string& filename);
 
 #endif
 
