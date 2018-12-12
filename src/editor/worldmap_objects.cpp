@@ -116,7 +116,16 @@ LevelDot::get_settings()
 {
   ObjectSettings result = WorldmapObject::get_settings();
 
-  result.add_level(_("Level"), &m_level_filename, "level");
+  std::string basedir = Editor::current() ? Editor::current()->get_world()->get_basedir() : std::string();
+
+  // FIXME: hack to make the basedir absolute, making
+  // World::get_basedir() itself absolute would be correct, but
+  // invalidate savefiles.
+  if (!basedir.empty() && basedir.front() != '/') {
+    basedir = "/" + basedir;
+  }
+
+  result.add_level(_("Level"), &m_level_filename, "level", basedir);
   result.add_script(_("Outro script"), &m_extro_script, "extro-script");
   result.add_bool(_("Auto play"), &m_auto_play, "auto-play", false);
   //result.add_sprite(_("Sprite"), &m_sprite_name, "sprite");
@@ -130,33 +139,6 @@ LevelDot::get_settings()
 void
 LevelDot::after_editor_set()
 {
-  if (!Editor::current()) return;
-
-#if 0
-  // Extract the level file to be relative to world directory
-  m_name = FileSystem::basename(m_level);
-  m_level = FileSystem::dirname(m_level);
-  m_level.erase(m_level.end() - 1); // Erase the slash at the end
-  if (m_level[0] == '/' || m_level[0] == '\\') {
-    m_level.erase(m_level.begin()); // Erase the slash at the begin
-  }
-  std::string basedir = Editor::current()->get_world()->get_basedir();
-  int c = 100;
-  while (m_level.size() && m_level != basedir && c > 0) {
-    m_name = FileSystem::join(FileSystem::basename(m_level), m_name);
-    m_level = FileSystem::dirname(m_level);
-    m_level.erase(m_level.end() - 1); // Erase the slash at the end
-    c--; //Do not cycle forever if something has failed.
-  }
-
-  // Forbid the players to use levels of other levelsets
-  m_level = FileSystem::join(Editor::current()->get_world()->get_basedir(), m_name);
-  if (!PHYSFS_exists(m_level.c_str())) {
-    log_warning << "Using levels of other level subsets is not allowed!" << std::endl;
-    m_level = basedir + "/";
-    m_name = "";
-  }
-#endif
 }
 
 Teleporter::Teleporter (const ReaderMapping& mapping) :
