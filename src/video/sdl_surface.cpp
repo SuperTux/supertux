@@ -96,7 +96,7 @@ SDLSurface::save_png(const SDL_Surface& surface, const std::string& filename)
   // This does not lead to a double free when 'tmp == screen', as
   // SDL_PNGFormatAlpha() will increase the refcount of surface.
   SDLSurfacePtr tmp(SDL_PNGFormatAlpha(const_cast<SDL_Surface*>(&surface)));
-  int ret = SDL_SavePNG(tmp.get(), filename.c_str());
+  int ret = SDL_SavePNG_RW(tmp.get(), get_writable_physfs_SDLRWops(filename), 1);
   if (ret < 0)
   {
     log_warning << "Saving " << filename << " failed: " << SDL_GetError() << std::endl;

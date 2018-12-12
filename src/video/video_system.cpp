@@ -23,6 +23,7 @@
 #include <physfs.h>
 #include <sstream>
 
+#include "util/file_system.hpp"
 #include "util/log.hpp"
 #include "video/null/null_video_system.hpp"
 #include "video/sdl/sdl_video_system.hpp"
@@ -155,25 +156,25 @@ VideoSystem::do_take_screenshot()
     return;
   }
 
+  const std::string screenshots_dir = "/screenshots";
+  if (!PHYSFS_exists(screenshots_dir.c_str())) {
+    if (!PHYSFS_mkdir(screenshots_dir.c_str())) {
+      log_warning << "Creating '" << screenshots_dir << "' failed" << std::endl;
+      return;
+    }
+  }
+
   auto find_filename = [&]() -> boost::optional<std::string>
     {
-      const std::string writeDir = PHYSFS_getWriteDir();
-      const std::string dirSep = PHYSFS_getDirSeparator();
-      const std::string baseName = "screenshot";
-      const std::string fileExt = ".png";
-
       for (int num = 0; num < 1000000; ++num)
       {
         std::ostringstream oss;
-        oss << baseName << std::setw(6) << std::setfill('0') << num << fileExt;
-        if (!PHYSFS_exists(oss.str().c_str()))
-        {
-          std::ostringstream fullpath;
-          fullpath << writeDir << dirSep << oss.str();
-          return fullpath.str();
+        oss << "screenshot" << std::setw(6) << std::setfill('0') << num << ".png";
+        const std::string screenshot_filename = FileSystem::join(screenshots_dir, oss.str());
+        if (!PHYSFS_exists(screenshot_filename.c_str())) {
+          return screenshot_filename;
         }
       }
-
       return boost::none;
     };
 
