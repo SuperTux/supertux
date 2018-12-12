@@ -83,7 +83,43 @@ std::string basename(const std::string& filename)
 
 std::string relpath(const std::string& filename, const std::string& basedir)
 {
-  return boost::filesystem::relative(filename, basedir).string();
+#if BOOST_VERSION >= 106000
+  return fs::relative(filename, basedir).string();
+#else
+  fs::path from = basedir;
+  fs::path to = filename;
+
+  // Taken from https://stackoverflow.com/a/29221546
+
+  // Start at the root path and while they are the same then do nothing then when they first
+  // diverge take the entire from path, swap it with '..' segments, and then append the remainder of the to path.
+  fs::path::const_iterator fromIter = from.begin();
+  fs::path::const_iterator toIter = to.begin();
+
+  // Loop through both while they are the same to find nearest common directory
+  while (fromIter != from.end() && toIter != to.end() && (*toIter) == (*fromIter))
+  {
+    ++toIter;
+    ++fromIter;
+  }
+
+  // Replace from path segments with '..' (from => nearest common directory)
+  fs::path finalPath;
+  while (fromIter != from.end())
+  {
+    finalPath /= "..";
+    ++fromIter;
+  }
+
+  // Append the remainder of the to path (nearest common directory => to)
+  while (toIter != to.end())
+  {
+    finalPath /= *toIter;
+    ++toIter;
+  }
+
+  return finalPath.string();
+#endif
 }
 
 std::string strip_extension(const std::string& filename)
