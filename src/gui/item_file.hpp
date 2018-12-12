@@ -22,15 +22,15 @@
 class ItemFile final : public MenuItem
 {
 public:
-  ItemFile(const std::string& text, std::string* filename_,
-           const std::vector<std::string>& extensions_, int id = -1);
+  ItemFile(const std::string& text, std::string* filename,
+           const std::vector<std::string>& extensions, int id = -1);
 
   /** Processes the menu action. */
   virtual void process_action(const MenuAction& action) override;
 
 private:
-  std::string* filename;
-  std::vector<std::string> extensions;
+  std::string* m_filename;
+  std::vector<std::string> m_extensions;
 
 private:
   ItemFile(const ItemFile&) = delete;

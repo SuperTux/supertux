@@ -20,18 +20,19 @@
 #include "gui/menu_filesystem.hpp"
 #include "gui/menu_manager.hpp"
 
-ItemFile::ItemFile(const std::string& text, std::string* filename_,
-                   const std::vector<std::string>& extensions_, int id) :
+ItemFile::ItemFile(const std::string& text, std::string* filename,
+                   const std::vector<std::string>& extensions, int id) :
   MenuItem(text, id),
-  filename(filename_),
-  extensions(extensions_)
+  m_filename(filename),
+  m_extensions(extensions)
 {
 }
 
 void
-ItemFile::process_action(const MenuAction& action) {
+ItemFile::process_action(const MenuAction& action)
+{
   if (action == MenuAction::HIT) {
-    MenuManager::instance().push_menu(std::make_unique<FileSystemMenu>(filename, extensions));
+    MenuManager::instance().push_menu(std::make_unique<FileSystemMenu>(m_filename, m_extensions));
   }
 }
 
