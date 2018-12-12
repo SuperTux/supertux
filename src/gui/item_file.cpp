@@ -21,10 +21,13 @@
 #include "gui/menu_manager.hpp"
 
 ItemFile::ItemFile(const std::string& text, std::string* filename,
-                   const std::vector<std::string>& extensions, int id) :
+                   const std::vector<std::string>& extensions,
+                   const std::string& basedir,
+                   int id) :
   MenuItem(text, id),
   m_filename(filename),
-  m_extensions(extensions)
+  m_extensions(extensions),
+  m_basedir(basedir)
 {
 }
 
@@ -32,7 +35,7 @@ void
 ItemFile::process_action(const MenuAction& action)
 {
   if (action == MenuAction::HIT) {
-    MenuManager::instance().push_menu(std::make_unique<FileSystemMenu>(m_filename, m_extensions));
+    MenuManager::instance().push_menu(std::make_unique<FileSystemMenu>(m_filename, m_extensions, m_basedir));
   }
 }
 

@@ -34,7 +34,7 @@ EditorLevelMenu::EditorLevelMenu() :
   add_textfield(_("Author"), &(level->m_author));
   add_textfield(_("Contact"), &(level->m_contact));
   add_textfield(_("License"), &(level->m_license));
-  add_file(_("Tileset"), &(level->m_tileset), std::vector<std::string>(1, ".strf"));
+  add_file(_("Tileset"), &(level->m_tileset), std::vector<std::string>(1, ".strf"), {});
 
   if (!worldmap) {
     add_floatfield(_("Target time"), &(level->m_target_time));

@@ -117,8 +117,8 @@ public:
 
   void add_worldmap(const std::string& text, std::string* value_ptr, const std::string& key = {},
                     unsigned int flags = 0);
-  void add_level(const std::string& text, std::string* value_ptr, const std::string& key = {},
-                 unsigned int flags = 0);
+  void add_level(const std::string& text, std::string* value_ptr, const std::string& basedir,
+                 const std::string& key = {}, unsigned int flags = 0);
   void add_tiles(const std::string& text, TileMap* value_ptr, const std::string& key = {},
                  unsigned int flags = 0);
   void add_path(const std::string& text, Path* path, const std::string& key = {},
@@ -128,7 +128,9 @@ public:
   void add_file(const std::string& text, std::string* value_ptr,
                 const std::string& key = {},
                 boost::optional<std::string> default_value = {},
-                const std::vector<std::string>& filter = {}, unsigned int flags = 0);
+                const std::vector<std::string>& filter = {},
+                const std::string& basedir = {},
+                unsigned int flags = 0);
   void add_sexp(const std::string& text, const std::string& key,
                 sexp::Value& value, unsigned int flags = 0);
 

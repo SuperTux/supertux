@@ -74,7 +74,8 @@ public:
   ItemIntField& add_intfield(const std::string& text, int* input, int id = -1);
   ItemFloatField& add_floatfield(const std::string& text, float* input, int id = -1);
   ItemBadguySelect& add_badguy_select(const std::string& text, std::vector<std::string>* badguys, int id = -1);
-  ItemFile& add_file(const std::string& text, std::string* input, const std::vector<std::string>& extensions, int id = -1);
+  ItemFile& add_file(const std::string& text, std::string* input, const std::vector<std::string>& extensions,
+                     const std::string& basedir, int id = -1);
 
   ItemColor& add_color(const std::string& text, Color* color, int id = -1);
   ItemColorDisplay& add_color_display(Color* color, int id = -1);

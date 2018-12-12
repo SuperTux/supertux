@@ -23,7 +23,9 @@ class ItemFile final : public MenuItem
 {
 public:
   ItemFile(const std::string& text, std::string* filename,
-           const std::vector<std::string>& extensions, int id = -1);
+           const std::vector<std::string>& extensions,
+           const std::string& basedir,
+           int id = -1);
 
   /** Processes the menu action. */
   virtual void process_action(const MenuAction& action) override;
@@ -31,6 +33,7 @@ public:
 private:
   std::string* m_filename;
   std::vector<std::string> m_extensions;
+  std::string m_basedir;
 
 private:
   ItemFile(const ItemFile&) = delete;

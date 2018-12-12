@@ -27,10 +27,14 @@
 #include "util/gettext.hpp"
 #include "util/string_util.hpp"
 
-FileSystemMenu::FileSystemMenu(std::string* filename, const std::vector<std::string>& extensions) :
+FileSystemMenu::FileSystemMenu(std::string* filename, const std::vector<std::string>& extensions,
+                               const std::string& basedir) :
   m_filename(filename),
-  m_directory(FileSystem::dirname(*filename)),
+  // when a basedir is given, 'filename' is relative to basedir, so
+  // it's useless as a starting point
+  m_directory(basedir.empty() ? FileSystem::dirname(*filename) : basedir),
   m_extensions(extensions),
+  m_basedir(basedir),
   m_directories(),
   m_files()
 {
@@ -135,7 +139,14 @@ FileSystemMenu::menu_action(MenuItem& item)
     } else {
       id -= m_directories.size();
       if (id < m_files.size()) {
-        *m_filename = FileSystem::join(m_directory, m_files[id]);
+        std::string new_filename = FileSystem::join(m_directory, m_files[id]);
+
+        if (!m_basedir.empty()) {
+          new_filename = FileSystem::relpath(new_filename, m_basedir);
+        }
+
+        *m_filename = new_filename;
+
         MenuManager::instance().pop_menu();
       } else {
         log_warning << "Selected invalid file or directory" << std::endl;

@@ -238,7 +238,9 @@ public:
   FileObjectOption(const std::string& text, std::string* pointer,
                    boost::optional<std::string> default_value,
                    const std::string& key,
-                   std::vector<std::string> filter, unsigned int flags);
+                   std::vector<std::string> filter,
+                   const std::string& basedir,
+                   unsigned int flags);
 
   virtual void save(Writer& write) const override;
   virtual std::string to_string() const override;
@@ -248,6 +250,7 @@ private:
   std::string* const m_pointer;
   boost::optional<std::string> m_default_value;
   const std::vector<std::string> m_filter;
+  std::string m_basedir;
 
 private:
   FileObjectOption(const FileObjectOption&) = delete;
