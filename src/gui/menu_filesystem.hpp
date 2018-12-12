@@ -22,20 +22,21 @@
 class FileSystemMenu final : public Menu
 {
 public:
-  FileSystemMenu(std::string* filename_, const std::vector<std::string>& extensions_);
+  FileSystemMenu(std::string* filename, const std::vector<std::string>& extensions);
   ~FileSystemMenu();
 
   void menu_action(MenuItem& item) override;
 
 private:
-  std::string* filename;
-  std::string directory;
-  std::vector<std::string> extensions;
-  std::vector<std::string> directories;
-  std::vector<std::string> files;
-
   void refresh_items();
   bool has_right_suffix(const std::string& file) const;
+
+private:
+  std::string* m_filename;
+  std::string m_directory;
+  std::vector<std::string> m_extensions;
+  std::vector<std::string> m_directories;
+  std::vector<std::string> m_files;
 
 private:
   FileSystemMenu(const FileSystemMenu&) = delete;
