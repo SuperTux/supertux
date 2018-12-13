@@ -7,9 +7,6 @@
     (ambient-light
       (color 0.75 0.75 0.75)
     )
-    (camera
-      (mode "normal")
-    )
     (decal
       (z-pos 1)
       (sprite "images/worldmap/halloween/home.png")
