@@ -141,9 +141,15 @@ public:
   Vector p1() const { return m_p1; }
   Vector p2() const { return Vector(m_p1.x + m_size.width, m_p1.y + m_size.height); }
 
-  void set_p1(const Vector& p) { m_p1 = p; }
-  void set_p2(const Vector& p) { m_size = Sizef(p.x - m_p1.x,
-                                                p.y - m_p1.y); }
+  void set_p1(const Vector& p) {
+    m_size = Sizef(m_size.width + (m_p1.x - p.x),
+                   m_size.height + (m_p1.y - p.y));
+    m_p1 = p;
+  }
+  void set_p2(const Vector& p) {
+    m_size = Sizef(p.x - m_p1.x,
+                   p.y - m_p1.y);
+  }
 
 private:
   /// upper left edge

@@ -67,4 +67,18 @@ TEST(RectfTest, from_center)
   ASSERT_EQ(Rectf::from_center({16.0f, 16.0f}, {32.0f, 32.0f}), Rectf(0.0f, 0.0f, 32.0f, 32.0f));
 }
 
+TEST(RectfTest, set_p1)
+{
+  Rectf rect(Vector(16.0f, 16.0f), Vector(32.0f, 32.0f));
+  rect.set_p1({1.0f, 5.0f});
+  ASSERT_EQ(Rectf(Vector(1.0f, 5.0f), Vector(32.0f, 32.0f)), rect);
+}
+
+TEST(RectfTest, set_p2)
+{
+  Rectf rect(Vector(16.0f, 16.0f), Vector(32.0f, 32.0f));
+  rect.set_p2({48.0f, 100.0f});
+  ASSERT_EQ(Rectf(Vector(16.0f, 16.0f), Vector(48.0f, 100.0f)), rect);
+}
+
 /* EOF */
