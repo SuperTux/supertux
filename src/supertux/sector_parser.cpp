@@ -306,8 +306,9 @@ void
 SectorParser::create_sector()
 {
   auto tileset = TileManager::current()->get_tileset(m_sector.get_level().get_tileset());
-  bool worldmap = Editor::current() ? Editor::current()->get_level()->is_worldmap() : false;
-  if (!worldmap) {
+  bool worldmap = m_sector.get_level().is_worldmap();
+  if (!worldmap)
+  {
     auto& background = m_sector.add<Background>();
     background.set_image(DEFAULT_BG);
     background.set_speed(0.5);

@@ -146,7 +146,6 @@ protected:
 
   std::string m_levelfile;
   std::string m_test_levelfile;
-  bool m_worldmap_mode;
 
 public:
   bool m_quit_request;

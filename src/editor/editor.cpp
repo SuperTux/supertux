@@ -79,7 +79,6 @@ Editor::Editor() :
   m_world(),
   m_levelfile(),
   m_test_levelfile(),
-  m_worldmap_mode(false),
   m_quit_request(false),
   m_newlevel_request(false),
   m_reload_request(false),
@@ -261,7 +260,7 @@ Editor::test_level()
 
   m_test_levelfile = FileSystem::join(directory, backup_filename);
   m_level->save(m_test_levelfile);
-  if (!m_worldmap_mode)
+  if (!m_level->is_worldmap())
   {
     GameManager::current()->start_level(*current_world, backup_filename);
   }
@@ -693,7 +692,7 @@ Editor::get_objectgroups() const
 void
 Editor::check_save_prerequisites(const std::function<void ()>& callback) const
 {
-  if (m_worldmap_mode)
+  if (m_level->is_worldmap())
   {
     callback();
     return;
