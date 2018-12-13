@@ -32,6 +32,7 @@
       (y 1120)
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (captainsnowball

@@ -9,6 +9,7 @@
       (color 1 1 1)
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (candle
@@ -1076,6 +1077,7 @@
       (z-pos -120)
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (candle
@@ -2268,6 +2270,7 @@
       (image-bottom "images/background/arctis_top.jpg")
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (door
@@ -2429,6 +2432,7 @@
       (image-bottom "images/background/arctis_top.jpg")
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (door
@@ -2590,6 +2594,7 @@
       (image-bottom "images/background/arctis_top.jpg")
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (door
@@ -2751,6 +2756,7 @@
       (image-bottom "images/background/arctis_top.jpg")
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (door

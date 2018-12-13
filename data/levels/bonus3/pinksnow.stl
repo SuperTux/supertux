@@ -16,6 +16,7 @@
       (image-bottom "images/background/arctis2.png")
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (music

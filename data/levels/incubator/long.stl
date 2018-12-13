@@ -15,6 +15,7 @@
       (image-bottom "images/background/semi_arctic.jpg")
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (music
@@ -512,6 +513,7 @@
       (y 576)
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (firefly
@@ -1131,6 +1133,7 @@
       (image-bottom "images/background/cave2.jpg")
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (firefly
@@ -1550,6 +1553,7 @@
       (image-bottom "images/background/semi_arctic.jpg")
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (firefly
@@ -1735,6 +1739,7 @@
       (color 0.6666667 0.6666667 0.6666667)
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (gradient
@@ -1831,6 +1836,7 @@
       (color 0.3333333 0.3333333 0.3333333)
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (gradient
@@ -1931,6 +1937,7 @@ Tux.activate()")
       (color 0 0 0)
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (firefly
@@ -2311,6 +2318,7 @@ Tux.activate()")
       (image-bottom "images/background/BlueRock_Forest/blue-bottom.jpg")
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (door
@@ -2564,6 +2572,7 @@ Tux.activate()")
       (image-bottom "images/background/BlueRock_Forest/blue-bottom.jpg")
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (firefly
@@ -2822,6 +2831,7 @@ Tux.activate()")
       (color 1 1 1)
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (music
@@ -3743,6 +3753,7 @@ Tux.activate()")
       (color 1 1 1)
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (gradient
@@ -3965,6 +3976,7 @@ Tux.activate()")
       (color 1 1 1)
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (firefly
@@ -4189,6 +4201,7 @@ Tux.activate()")
       (color 1 1 1)
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (firefly
@@ -4539,6 +4552,7 @@ Tux.activate()")
       (y 2048)
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (firefly
@@ -5061,6 +5075,7 @@ Tux.activate()")
       (image-bottom "images/background/nightsky_bottom.png")
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (jumpy
@@ -5597,6 +5612,7 @@ Tux.activate()")
       (image-bottom "images/background/nightsky_bottom.png")
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (door
@@ -6095,6 +6111,7 @@ platform2.goto_node(1)")
       (color 1 1 1)
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (door
@@ -6563,6 +6580,7 @@ platform2.goto_node(1)")
       (y 1312)
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (jumpy
@@ -6961,6 +6979,7 @@ platform2.goto_node(1)")
       (image-bottom "images/background/nightsky_bottom.png")
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (door
@@ -7092,6 +7111,7 @@ platform2.goto_node(1)")
       (y 1952)
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (door
@@ -7500,6 +7520,7 @@ platform2.goto_node(1)")
       (image-bottom "images/background/arctis_dark.jpg")
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (music

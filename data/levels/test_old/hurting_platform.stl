@@ -12,6 +12,7 @@
       (image "images/background/castle_foreground.png")
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (hurting_platform

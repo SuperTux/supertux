@@ -40,6 +40,7 @@ Effect.fade_in(1);
       (y 160)
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (music

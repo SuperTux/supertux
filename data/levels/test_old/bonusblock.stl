@@ -50,6 +50,7 @@ Effect.fade_in(1);
       (y 96)
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (infoblock

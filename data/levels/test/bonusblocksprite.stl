@@ -26,6 +26,7 @@
       (y 128)
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (music

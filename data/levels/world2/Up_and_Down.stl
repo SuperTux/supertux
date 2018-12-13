@@ -20,6 +20,7 @@
       (z-pos -199)
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (firefly

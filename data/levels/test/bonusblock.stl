@@ -60,6 +60,7 @@
       (y 640)
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (candle

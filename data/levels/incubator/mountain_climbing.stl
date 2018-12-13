@@ -16,6 +16,7 @@
       (image-bottom "images/background/bluemountain-bottom.png")
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (door
@@ -494,6 +495,7 @@
       (image-bottom "images/background/cave2.jpg")
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (door
@@ -614,6 +616,7 @@
       (image-bottom "images/background/bluemountain-middle.png")
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (door
@@ -874,6 +877,7 @@
       (color 1 1 1)
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (music
@@ -1526,6 +1530,7 @@ schody2.fade(0.1,0.5)")
       (image-bottom "images/background/bluemountain-top.png")
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (door
@@ -1745,6 +1750,7 @@ schody2.fade(0.1,0.5)")
       (image-bottom "images/background/bluemountain-top.png")
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (firefly
@@ -2079,6 +2085,7 @@ schody2.fade(0.1,0.5)")
       (image-bottom "images/background/nightsky_top.png")
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (firefly
@@ -2268,6 +2275,7 @@ schody2.fade(0.1,0.5)")
       (image-bottom "images/background/nightsky_top.png")
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (jumpy
@@ -2389,6 +2397,7 @@ schody2.fade(0.1,0.5)")
       (image-bottom "images/background/nightsky_top.png")
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (music

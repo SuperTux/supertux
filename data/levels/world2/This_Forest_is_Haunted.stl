@@ -25,6 +25,7 @@
       (image-bottom "images/background/halloween/sky.png")
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (coin

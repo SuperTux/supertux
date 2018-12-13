@@ -16,6 +16,7 @@
       (image-bottom "images/background/BlueRock_Forest/blue-bottom.jpg")
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (door
@@ -185,6 +186,7 @@
       (image-bottom "images/background/snowcastle.png")
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (candle
@@ -571,6 +573,7 @@
       (image-bottom "images/background/nightsky_bottom.png")
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (door
@@ -648,6 +651,7 @@
       (image-bottom "images/background/BlueRock_Forest/blue-bottom.jpg")
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (coin
@@ -1756,6 +1760,7 @@
       (image-bottom "images/background/BlueRock_Forest/blue-bottom.jpg")
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (music

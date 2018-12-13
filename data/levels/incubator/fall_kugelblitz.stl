@@ -15,6 +15,7 @@
       (color 0.1254902 0.1254902 0.1254902)
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (dispenser

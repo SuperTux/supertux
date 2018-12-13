@@ -8,6 +8,7 @@
       (color 0.25 0.25 0.25)
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (lantern

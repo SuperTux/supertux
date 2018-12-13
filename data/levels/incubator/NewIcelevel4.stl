@@ -35,6 +35,7 @@
       (y 192)
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (climbable
@@ -863,6 +864,7 @@ block3.goto_node(2);")
       (image-bottom "images/background/fog.png")
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (dispenser

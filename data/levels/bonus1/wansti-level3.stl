@@ -105,6 +105,7 @@
       (y 572)
     )
     (camera
+      (name "Camera")
       (mode "autoscroll")
       (path-ref "9075113d-d3c9-4597-8f29-4d852d4ee253")
     )

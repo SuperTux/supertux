@@ -12,6 +12,7 @@
       (image "images/background/bluemountain-top.png")
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (door

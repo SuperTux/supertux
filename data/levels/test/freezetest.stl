@@ -17,6 +17,7 @@
       (y 576)
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (climbable

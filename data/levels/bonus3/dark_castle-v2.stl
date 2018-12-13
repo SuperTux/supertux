@@ -16,6 +16,7 @@
       (image-bottom "images/background/snowcastle.png")
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (door
@@ -299,6 +300,7 @@
       (image-bottom "images/background/snowcastle.png")
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (candle

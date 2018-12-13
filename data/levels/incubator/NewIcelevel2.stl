@@ -54,6 +54,7 @@
       (y 384)
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (firefly
@@ -960,6 +961,7 @@ bloquesecreto2.goto_node(1);
       (image-bottom "images/background/cave2.jpg")
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (music
@@ -1085,6 +1087,7 @@ bloquesecreto2.goto_node(1);
       (image-bottom "images/background/bluemountain-bottom.png")
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (music
@@ -1250,6 +1253,7 @@ bloquesecreto2.goto_node(1);
       (y 1642.204)
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (flame

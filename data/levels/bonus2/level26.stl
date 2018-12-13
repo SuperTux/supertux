@@ -19,6 +19,7 @@
       (image "images/background/bridgeocean-nofade.png")
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (firefly

@@ -28,6 +28,7 @@
       (y 160.1324)
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (candle

@@ -49,6 +49,7 @@
       (y 555)
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (coin

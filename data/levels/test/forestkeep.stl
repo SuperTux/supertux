@@ -12,6 +12,7 @@
       (image "images/background/arctis_dark.jpg")
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (music

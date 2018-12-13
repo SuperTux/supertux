@@ -17,6 +17,7 @@
       (image-bottom "images/background/bluemountain-bottom.png")
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (captainsnowball
@@ -544,6 +545,7 @@
       (image-bottom "images/background/snowcastle.png")
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (music

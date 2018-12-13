@@ -42,6 +42,7 @@
       (y 672)
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (firefly
@@ -1305,6 +1306,7 @@ Plata3.goto_node(0);")
       (image-bottom "images/background/arctis_top.jpg")
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (music
@@ -1448,6 +1450,7 @@ Plata3.goto_node(0);")
       (y 736)
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (firefly

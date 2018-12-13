@@ -55,6 +55,7 @@ if(query(\"yellow\")){
       (y 896)
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (crystallo

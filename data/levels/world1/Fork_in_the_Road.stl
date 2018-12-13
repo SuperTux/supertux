@@ -29,6 +29,7 @@
       (y 960)
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (captainsnowball
@@ -1153,6 +1154,7 @@ secret_solid.goto_node(1);")
       (color 1 1 1)
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (coin

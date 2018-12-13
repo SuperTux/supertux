@@ -13,6 +13,7 @@
       (image "images/background/snowcastle.png")
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (jumpy

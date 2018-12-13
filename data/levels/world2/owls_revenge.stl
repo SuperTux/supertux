@@ -25,6 +25,7 @@
       (z-pos -190)
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (gradient

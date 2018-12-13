@@ -13,6 +13,7 @@
       (image "images/background/forest1.jpg")
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (door
@@ -436,6 +437,7 @@
       (color 1 1 1)
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (door

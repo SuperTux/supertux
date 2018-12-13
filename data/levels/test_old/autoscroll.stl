@@ -24,6 +24,7 @@
       (y 52)
     )
     (camera
+      (name "Camera")
       (mode "autoscroll")
       (path-ref "30262c5f-0936-4b84-bb5f-9976efd76bfa")
     )

@@ -12,6 +12,7 @@
       (image "images/background/ghostforest.jpg")
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (jumpy

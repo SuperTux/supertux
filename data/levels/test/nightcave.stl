@@ -12,6 +12,7 @@
       (image "images/background/nightsky_top.png")
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (decal

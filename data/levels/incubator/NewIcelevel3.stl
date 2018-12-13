@@ -14,6 +14,7 @@
       (y 543.6215)
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (firefly
@@ -536,6 +537,7 @@ castleentrance.goto_node(1);
       (image-bottom "images/background/arctis_top.jpg")
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (music
@@ -752,6 +754,7 @@ castleentrance.goto_node(1);
       (image-bottom "images/background/bluemountain-top.png")
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (flame

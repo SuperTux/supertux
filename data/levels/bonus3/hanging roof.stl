@@ -14,6 +14,7 @@
       (image "images/background/bluemountain-middle.png")
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (firefly

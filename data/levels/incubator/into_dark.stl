@@ -21,6 +21,7 @@
       (y 736)
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (candle
@@ -853,6 +854,7 @@
       (color 0.1300069 0.1300069 0.1300069)
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (candle

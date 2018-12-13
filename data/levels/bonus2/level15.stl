@@ -37,6 +37,7 @@
       (y 575)
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (jumpy

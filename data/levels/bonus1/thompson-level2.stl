@@ -29,6 +29,7 @@
       (y 619)
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (door

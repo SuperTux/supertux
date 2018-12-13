@@ -21,6 +21,7 @@
       (y 2400)
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (dispenser

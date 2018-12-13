@@ -12,6 +12,7 @@
       (image "images/background/BlueRock_Forest/blue-top.jpg")
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (music

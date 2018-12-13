@@ -17,6 +17,7 @@
       (z-pos -190)
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (climbable
@@ -1238,6 +1239,7 @@
       (color 0.9137255 0.8431373 0.8431373)
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (door

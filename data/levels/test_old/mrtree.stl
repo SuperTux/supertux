@@ -12,6 +12,7 @@
       (image "images/background/forest1.jpg")
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (mrbomb

@@ -16,6 +16,7 @@
       (image "images/background/fog.png")
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (music

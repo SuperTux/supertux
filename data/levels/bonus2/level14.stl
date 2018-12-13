@@ -17,6 +17,7 @@
       (y 496)
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (gradient

@@ -13,6 +13,7 @@
       (image "images/background/cave2.jpg")
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (firefly

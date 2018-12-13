@@ -27,6 +27,7 @@
       (image-bottom "images/background/BlueRock_Forest/blue-bottom.jpg")
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (door
@@ -594,6 +595,7 @@ tischsaege.goto_node( 0 ) 	")
       (y 768)
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (coin

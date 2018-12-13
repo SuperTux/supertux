@@ -15,6 +15,7 @@
       (image "images/background/semi_arctic.jpg")
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (music

@@ -14,6 +14,7 @@
       (image-bottom "images/background/nightsky_bottom.png")
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (music

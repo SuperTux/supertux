@@ -79,6 +79,7 @@ DisplayEffect.fade_in(1);
       (y 189)
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (jumpy

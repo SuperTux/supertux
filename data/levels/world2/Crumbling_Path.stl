@@ -16,6 +16,7 @@
       (z-pos -200)
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (coin

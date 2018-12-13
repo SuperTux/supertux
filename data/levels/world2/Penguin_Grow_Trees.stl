@@ -22,6 +22,7 @@
       (y 448)
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (candle
@@ -303,6 +304,7 @@
       (image "images/background/BlueRock_Forest/blue-top.jpg")
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (candle

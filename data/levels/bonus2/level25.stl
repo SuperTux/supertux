@@ -30,6 +30,7 @@
       (y 413)
     )
     (camera
+      (name "Camera")
       (mode "normal")
     )
     (flame
