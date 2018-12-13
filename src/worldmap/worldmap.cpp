@@ -386,7 +386,7 @@ WorldMap::update(float dt_sec)
         try {
           Vector shrinkpos = Vector(level_->get_pos().x * 32 + 16 - m_camera->get_offset().x,
                                     level_->get_pos().y * 32 +  8 - m_camera->get_offset().y);
-          std::string levelfile = m_levels_path + level_->get_name();
+          std::string levelfile = m_levels_path + level_->get_level_filename();
 
           // update state and savegame
           save_state();

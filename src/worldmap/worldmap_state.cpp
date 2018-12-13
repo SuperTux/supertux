@@ -74,7 +74,7 @@ WorldMapState::load_state()
     // load levels
     get_table_entry(vm, "levels");
     for (auto& level : m_worldmap.get_objects_by_type<LevelTile>()) {
-      sq_pushstring(vm, level.get_name().c_str(), -1);
+      sq_pushstring(vm, level.get_level_filename().c_str(), -1);
       if (SQ_SUCCEEDED(sq_get(vm, -2))) {
         if (!get_bool(vm, "solved", level.m_solved))
         {
@@ -248,11 +248,11 @@ WorldMapState::save_state() const
     begin_table(vm, "levels");
 
     for (const auto& level : m_worldmap.get_objects_by_type<LevelTile>()) {
-      begin_table(vm, level.get_name().c_str());
+      begin_table(vm, level.get_level_filename().c_str());
       store_bool(vm, "solved", level.m_solved);
       store_bool(vm, "perfect", level.m_perfect);
       level.m_statistics.serialize_to_squirrel(vm);
-      end_table(vm, level.get_name().c_str());
+      end_table(vm, level.get_level_filename().c_str());
     }
     end_table(vm, "levels");
 

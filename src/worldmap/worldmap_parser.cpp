@@ -164,10 +164,10 @@ WorldMapParser::load_level_information(LevelTile& level)
   level.m_target_time = 0.0f;
 
   try {
-    std::string filename = m_worldmap.m_levels_path + level.get_name();
+    std::string filename = m_worldmap.m_levels_path + level.get_level_filename();
 
     if (m_worldmap.m_levels_path == "./")
-      filename = level.get_name();
+      filename = level.get_level_filename();
 
     if (!PHYSFS_exists(filename.c_str()))
     {

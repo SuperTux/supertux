@@ -43,6 +43,8 @@ public:
 
   Vector get_pos() const { return m_pos; }
 
+  std::string get_level_filename() const { return m_level_filename; }
+
 private:
   Vector m_pos;
 
