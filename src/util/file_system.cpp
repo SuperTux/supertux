@@ -17,6 +17,7 @@
 #include "util/file_system.hpp"
 
 #include <boost/filesystem.hpp>
+#include <boost/version.hpp>
 #include <sstream>
 #include <stdexcept>
 #include <sys/stat.h>
@@ -28,8 +29,6 @@
 #else
   #include <cstdlib>
 #endif
-
-#include <boost/filesystem.hpp>
 
 #include "util/log.hpp"
 
