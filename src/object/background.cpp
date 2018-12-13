@@ -250,8 +250,8 @@ Background::draw_image(DrawingContext& context, const Vector& pos_)
   const float img_w = static_cast<float>(m_image->get_width());
   const float img_h = static_cast<float>(m_image->get_height());
 
-  const float img_w_2 = floorf(img_w / 2.0f);
-  const float img_h_2 = floorf(img_h / 2.0f);
+  const float img_w_2 = img_w / 2.0f;
+  const float img_h_2 = img_h / 2.0f;
 
   const int start_x = static_cast<int>(floorf((cliprect.get_left() - (pos_.x - img_w /2.0f)) / img_w));
   const int end_x   = static_cast<int>(ceilf((cliprect.get_right() - (pos_.x + img_w /2.0f)) / img_w)) + 1;
