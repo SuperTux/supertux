@@ -41,7 +41,7 @@ private:
   void load(std::istream& stream, const std::string& context);
   void load(const std::string& filepath);
   void load_old_format(const ReaderMapping& reader);
-  void create(const std::string& filepath, const std::string& levelname, bool worldmap);
+  void create(const std::string& filepath, const std::string& levelname);
 
 private:
   Level& m_level;

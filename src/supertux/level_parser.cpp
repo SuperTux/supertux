@@ -87,7 +87,7 @@ LevelParser::from_nothing(const std::string& basedir)
   std::string level_name = "Level " + std::to_string(num);
   level_file = "level" + std::to_string(num) + ".stl";
 
-  parser.create(level_file, level_name, false);
+  parser.create(level_file, level_name);
   return level;
 }
 
@@ -110,7 +110,7 @@ LevelParser::from_nothing_worldmap(const std::string& basedir, const std::string
     level_file = "worldmap.stwm";
   }
 
-  parser.create(level_file, name, true);
+  parser.create(level_file, name);
   return level;
 }
 
@@ -199,12 +199,12 @@ LevelParser::load_old_format(const ReaderMapping& reader)
 }
 
 void
-LevelParser::create(const std::string& filepath, const std::string& levelname, bool worldmap)
+LevelParser::create(const std::string& filepath, const std::string& levelname)
 {
   m_level.m_filename = filepath;
   m_level.m_name = levelname;
   m_level.m_license = "CC-BY-SA 4.0 International";
-  m_level.m_tileset = worldmap ? "images/worldmap.strf" : "images/tiles.strf";
+  m_level.m_tileset = m_worldmap ? "images/worldmap.strf" : "images/tiles.strf";
 
   auto sector = SectorParser::from_nothing(m_level);
   sector->set_name("main");
