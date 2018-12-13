@@ -22,6 +22,7 @@
 #include "audio/sound_manager.hpp"
 #include "control/input_manager.hpp"
 #include "gui/menu_manager.hpp"
+#include "object/ambient_light.hpp"
 #include "object/decal.hpp"
 #include "object/music_object.hpp"
 #include "object/tilemap.hpp"
@@ -106,9 +107,15 @@ WorldMap::~WorldMap()
 void
 WorldMap::finish_construction()
 {
+  if (!get_object_by_type<AmbientLight>()) {
+    add<AmbientLight>(Color::WHITE);
+  }
+
   if (!get_object_by_type<MusicObject>()) {
     add<MusicObject>();
   }
+
+  flush_game_objects();
 }
 
 bool
