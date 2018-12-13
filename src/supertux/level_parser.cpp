@@ -54,19 +54,19 @@ LevelParser::get_level_name(const std::string& filename)
 }
 
 std::unique_ptr<Level>
-LevelParser::from_stream(std::istream& stream, const std::string& context, bool editable)
+LevelParser::from_stream(std::istream& stream, const std::string& context, bool worldmap, bool editable)
 {
-  auto level = std::make_unique<Level>();
-  LevelParser parser(*level, editable);
+  auto level = std::make_unique<Level>(worldmap);
+  LevelParser parser(*level, worldmap, editable);
   parser.load(stream, context);
   return level;
 }
 
 std::unique_ptr<Level>
-LevelParser::from_file(const std::string& filename, bool editable)
+LevelParser::from_file(const std::string& filename, bool worldmap, bool editable)
 {
-  auto level = std::make_unique<Level>();
-  LevelParser parser(*level, editable);
+  auto level = std::make_unique<Level>(worldmap);
+  LevelParser parser(*level, worldmap, editable);
   parser.load(filename);
   return level;
 }
@@ -74,8 +74,8 @@ LevelParser::from_file(const std::string& filename, bool editable)
 std::unique_ptr<Level>
 LevelParser::from_nothing(const std::string& basedir)
 {
-  auto level = std::make_unique<Level>();
-  LevelParser parser(*level, false);
+  auto level = std::make_unique<Level>(false);
+  LevelParser parser(*level, false, false);
 
   // Find a free level filename
   std::string level_file;
@@ -94,8 +94,8 @@ LevelParser::from_nothing(const std::string& basedir)
 std::unique_ptr<Level>
 LevelParser::from_nothing_worldmap(const std::string& basedir, const std::string& name)
 {
-  auto level = std::make_unique<Level>();
-  LevelParser parser(*level, false);
+  auto level = std::make_unique<Level>(true);
+  LevelParser parser(*level, true, false);
 
   // Find a free level filename
   std::string level_file = basedir + "/worldmap.stwm";
@@ -114,8 +114,9 @@ LevelParser::from_nothing_worldmap(const std::string& basedir, const std::string
   return level;
 }
 
-LevelParser::LevelParser(Level& level, bool editable) :
+LevelParser::LevelParser(Level& level, bool worldmap, bool editable) :
   m_level(level),
+  m_worldmap(worldmap),
   m_editable(editable)
 {
 }

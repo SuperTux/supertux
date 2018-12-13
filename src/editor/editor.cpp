@@ -54,6 +54,7 @@
 #include "supertux/world.hpp"
 #include "util/file_system.hpp"
 #include "util/reader_mapping.hpp"
+#include "util/string_util.hpp"
 #include "video/compositor.hpp"
 #include "video/drawing_context.hpp"
 #include "video/surface.hpp"
@@ -447,6 +448,7 @@ Editor::reload_level()
   ReaderMapping::s_translations_enabled = false;
   set_level(LevelParser::from_file(m_world ?
                                    FileSystem::join(m_world->get_basedir(), m_levelfile) : m_levelfile,
+                                   StringUtil::has_suffix(m_levelfile, ".stwm"),
                                    true));
   ReaderMapping::s_translations_enabled = true;
 }

@@ -38,7 +38,7 @@ private:
   void initialize();
   void create_level();
   void create_worldmap();
-  void create_item();
+  void create_item(bool worldmap);
 
 private:
   EditorLevelSelectMenu(const EditorLevelSelectMenu&) = delete;

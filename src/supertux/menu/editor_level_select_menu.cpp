@@ -95,37 +95,41 @@ EditorLevelSelectMenu::~EditorLevelSelectMenu()
 void
 EditorLevelSelectMenu::create_level()
 {
-  Editor::current()->set_worldmap_mode(false);
-  create_item();
+  create_item(false);
 }
 
 void
 EditorLevelSelectMenu::create_worldmap()
 {
-  Editor::current()->set_worldmap_mode(true);
-  create_item();
+  create_item(true);
 }
 
 void
-EditorLevelSelectMenu::create_item()
+EditorLevelSelectMenu::create_item(bool worldmap)
 {
   auto editor = Editor::current();
   World* world = editor->get_world();
   auto basedir = world->get_basedir();
-  auto new_item = editor->get_worldmap_mode() ?
+  auto new_item = worldmap ?
       LevelParser::from_nothing_worldmap(basedir, world->m_title) :
       LevelParser::from_nothing(basedir);
   new_item->save(basedir + "/" + new_item->m_filename);
   editor->set_level(new_item->m_filename);
   MenuManager::instance().clear_menu_stack();
 
-  if (editor->get_worldmap_mode())
+  if (worldmap)
   {
-    Dialog::show_message(_("Share this worldmap under license CC-BY-SA 4.0 International (advised).\nIt allows modifications and redistribution by third-parties.\nIf you don't agree with this license, change it in worldmap properties.\nDISCLAIMER: The SuperTux authors take no responsibility for your choice of license."));
+    Dialog::show_message(_("Share this worldmap under license CC-BY-SA 4.0 International (advised).\n"
+                           "It allows modifications and redistribution by third-parties.\nIf you don't "
+                           "agree with this license, change it in worldmap properties.\nDISCLAIMER: The "
+                           "SuperTux authors take no responsibility for your choice of license."));
   }
   else
   {
-    Dialog::show_message(_("Share this level under license CC-BY-SA 4.0 International (advised).\nIt allows modifications and redistribution by third-parties.\nIf you don't agree with this license, change it in level properties.\nDISCLAIMER: The SuperTux authors take no responsibility for your choice of license."));
+    Dialog::show_message(_("Share this level under license CC-BY-SA 4.0 International (advised).\n"
+                           "It allows modifications and redistribution by third-parties.\nIf you don't "
+                           "agree with this license, change it in level properties.\nDISCLAIMER: The "
+                           "SuperTux authors take no responsibility for your choice of license."));
   }
 }
 
@@ -137,7 +141,7 @@ EditorLevelSelectMenu::menu_action(MenuItem& item)
   if (item.get_id() >= 0)
   {
     editor->set_level(m_levelset->get_level_filename(item.get_id()));
-    editor->set_worldmap_mode(false);
+
     MenuManager::instance().clear_menu_stack();
   } else {
     switch (item.get_id()) {
@@ -153,7 +157,6 @@ EditorLevelSelectMenu::menu_action(MenuItem& item)
       } break;
       case -4:
         editor->set_level("worldmap.stwm");
-        editor->set_worldmap_mode(true);
         MenuManager::instance().clear_menu_stack();
         break;
       case -5:

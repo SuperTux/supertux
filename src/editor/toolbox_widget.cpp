@@ -27,6 +27,7 @@
 #include "supertux/console.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
+#include "supertux/level.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/resources.hpp"
 #include "util/gettext.hpp"
@@ -280,15 +281,15 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
         return true;
 
       case HoveredItem::OBJECTS:
-        if ((m_editor.get_worldmap_mode() && m_object_info->get_num_worldmap_groups() > 1) ||
-            (!m_editor.get_worldmap_mode() && m_object_info->get_num_level_groups() > 1))
+        if ((m_editor.get_level()->is_worldmap() && m_object_info->get_num_worldmap_groups() > 1) ||
+            (!m_editor.get_level()->is_worldmap() && m_object_info->get_num_level_groups() > 1))
         {
           m_editor.disable_keyboard();
           MenuManager::instance().push_menu(MenuStorage::EDITOR_OBJECTGROUP_MENU);
         }
         else
         {
-          if (m_editor.get_worldmap_mode())
+          if (m_editor.get_level()->is_worldmap())
           {
             m_active_objectgroup = m_object_info->get_first_worldmap_group_index();
           }

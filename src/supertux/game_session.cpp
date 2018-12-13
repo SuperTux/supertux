@@ -116,7 +116,7 @@ GameSession::restart_level(bool after_death)
 
   try {
     m_old_level = std::move(m_level);
-    m_level = LevelParser::from_file(m_levelfile, false);
+    m_level = LevelParser::from_file(m_levelfile, false, false);
 
     if (!m_reset_sector.empty()) {
       m_currentsector = m_level->get_sector(m_reset_sector);

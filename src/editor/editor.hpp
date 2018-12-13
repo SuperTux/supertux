@@ -91,9 +91,6 @@ public:
 
   void open_level_directory();
 
-  void set_worldmap_mode(bool new_mode) { m_worldmap_mode = new_mode; }
-  bool get_worldmap_mode() const { return m_worldmap_mode; }
-
   bool is_testing_level() const { return m_leveltested; }
 
   /** Checks whether the level can be saved and does not contain

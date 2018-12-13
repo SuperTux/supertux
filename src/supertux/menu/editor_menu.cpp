@@ -16,17 +16,18 @@
 
 #include "supertux/menu/editor_menu.hpp"
 
+#include "editor/editor.hpp"
 #include "gui/dialog.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
-#include "editor/editor.hpp"
+#include "supertux/level.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "util/gettext.hpp"
 #include "video/compositor.hpp"
 
 EditorMenu::EditorMenu()
 {
-  bool worldmap = Editor::current()->get_worldmap_mode();
+  bool worldmap = Editor::current()->get_level()->is_worldmap();
   bool is_world = Editor::current()->get_world() != nullptr;
   std::vector<std::string> snap_grid_sizes;
   snap_grid_sizes.push_back(_("1/8 tile (4px)"));

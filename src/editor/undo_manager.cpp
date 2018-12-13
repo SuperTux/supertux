@@ -19,6 +19,7 @@
 #include <sstream>
 #include <iostream>
 
+#include "editor/editor.hpp"
 #include "supertux/level.hpp"
 #include "supertux/level_parser.hpp"
 #include "util/log.hpp"
@@ -107,7 +108,7 @@ UndoManager::undo()
 
   std::istringstream in(m_undo_stack.back());
   ReaderMapping::s_translations_enabled = false;
-  auto level = LevelParser::from_stream(in, "<undo_stack>", true);
+  auto level = LevelParser::from_stream(in, "<undo_stack>", Editor::current()->get_level()->is_worldmap(), true);
   ReaderMapping::s_translations_enabled = true;
 
   m_index_pos -= 1;
@@ -129,7 +130,7 @@ UndoManager::redo()
 
   std::istringstream in(m_undo_stack.back());
   ReaderMapping::s_translations_enabled = false;
-  auto level = LevelParser::from_stream(in, "<redo_stack>", true);
+  auto level = LevelParser::from_stream(in, "<redo_stack>", Editor::current()->get_level()->is_worldmap(), true);
   ReaderMapping::s_translations_enabled = true;
 
   debug_print("redo");

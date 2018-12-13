@@ -37,7 +37,7 @@ private:
   static Level* s_current;
 
 public:
-  Level();
+  Level(bool m_is_worldmap);
   ~Level();
 
   // saves to a levelfile
@@ -61,11 +61,14 @@ public:
 
   void reactivate();
 
+  bool is_worldmap() const { return m_is_worldmap; }
+
 private:
   void save(Writer& writer);
   void load_old_format(const ReaderMapping& reader);
 
 public:
+  bool m_is_worldmap;
   std::string m_name;
   std::string m_author;
   std::string m_contact;

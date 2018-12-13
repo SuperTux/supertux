@@ -19,9 +19,9 @@
 #include <math.h>
 #include <physfs.h>
 
-#include "editor/editor.hpp"
 #include "math/util.hpp"
 #include "object/player.hpp"
+#include "supertux/level.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
@@ -685,6 +685,7 @@ Camera::move(const int dx, const int dy)
 bool
 Camera::is_saveable() const
 {
-  return !Editor::is_active() || !(Editor::current() && Editor::current()->get_worldmap_mode());
+  return !(Level::current() &&
+           Level::current()->is_worldmap());
 }
 /* EOF */

@@ -18,6 +18,7 @@
 
 #include "editor/editor.hpp"
 #include "object/camera.hpp"
+#include "supertux/level.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader.hpp"
 #include "util/reader_mapping.hpp"
@@ -213,7 +214,8 @@ Gradient::draw(DrawingContext& context)
 bool
 Gradient::is_saveable() const
 {
-  return !Editor::is_active() || !(Editor::current() && Editor::current()->get_worldmap_mode());
+  return !(Level::current() &&
+           Level::current()->is_worldmap());
 }
 
 /* EOF */

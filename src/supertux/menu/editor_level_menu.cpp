@@ -25,7 +25,7 @@
 EditorLevelMenu::EditorLevelMenu() :
   old_tileset(Editor::current()->get_level()->m_tileset)
 {
-  bool worldmap = Editor::current()->get_worldmap_mode();
+  bool worldmap = Editor::current()->get_level()->is_worldmap();
   auto level = Editor::current()->get_level();
 
   add_label(worldmap ? _("Worldmap properties") :_("Level properties"));

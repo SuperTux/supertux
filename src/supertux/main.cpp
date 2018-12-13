@@ -70,6 +70,7 @@ extern "C" {
 #include "supertux/world.hpp"
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
+#include "util/string_util.hpp"
 #include "util/timelog.hpp"
 #include "util/string_util.hpp"
 #include "video/sdl_surface.hpp"
@@ -372,7 +373,7 @@ Main::resave(const std::string& input_filename, const std::string& output_filena
     log_fatal << input_filename << ": couldn't open file for reading" << std::endl;
   } else {
     log_info << "loading level: " << input_filename << std::endl;
-    auto level = LevelParser::from_stream(in, input_filename, true);
+    auto level = LevelParser::from_stream(in, input_filename, StringUtil::has_suffix(input_filename, ".stwm"), true);
     in.close();
 
     std::ofstream out(output_filename);

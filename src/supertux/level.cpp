@@ -30,7 +30,8 @@
 
 Level* Level::s_current = nullptr;
 
-Level::Level() :
+Level::Level(bool worldmap) :
+  m_is_worldmap(worldmap),
   m_name("noname"),
   m_author("Mr. X"),
   m_contact(),

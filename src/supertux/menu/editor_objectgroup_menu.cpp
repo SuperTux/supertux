@@ -20,11 +20,12 @@
 #include "editor/object_group.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
+#include "supertux/level.hpp"
 #include "util/gettext.hpp"
 
 EditorObjectgroupMenu::EditorObjectgroupMenu()
 {
-  bool worldmap = Editor::current()->get_worldmap_mode();
+  bool worldmap = Editor::current()->get_level()->is_worldmap();
 
   add_label(_("Objects"));
   add_hl();
