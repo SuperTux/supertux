@@ -28,12 +28,10 @@
     uploading SDL_Surfaces into the texture. */
 class Texture
 {
-public:
   friend class TextureManager;
-  using Key = std::tuple<std::string, int, int, int, int>;
 
-private:
-  boost::optional<Key> m_cache_key;
+public:
+  using Key = std::tuple<std::string, int, int, int, int>;
 
 protected:
   Texture();
@@ -43,8 +41,12 @@ public:
 
   virtual int get_texture_width() const = 0;
   virtual int get_texture_height() const = 0;
+
   virtual int get_image_width() const = 0;
   virtual int get_image_height() const = 0;
+
+private:
+  boost::optional<Key> m_cache_key;
 
 private:
   Texture(const Texture&) = delete;

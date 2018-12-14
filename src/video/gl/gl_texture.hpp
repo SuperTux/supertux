@@ -31,7 +31,29 @@ class Sampler;
     uploading SDL_Surfaces into the texture. */
 class GLTexture final : public Texture
 {
-protected:
+public:
+  GLTexture(int width, int height, boost::optional<Color> fill_color = boost::none);
+  GLTexture(const SDL_Surface& image, const Sampler& sampler);
+  ~GLTexture();
+
+  virtual int get_texture_width() const override { return m_texture_width; }
+  virtual int get_texture_height() const override { return m_texture_height; }
+
+  virtual int get_image_width() const override { return m_image_width; }
+  virtual int get_image_height() const override { return m_image_height; }
+
+  void set_handle(GLuint handle) { m_handle = handle; }
+  const GLuint &get_handle() const { return m_handle; }
+
+  const Sampler& get_sampler() const { return m_sampler; }
+
+  void set_image_width(int width) { m_image_width = width; }
+  void set_image_height(int height) { m_image_height = height; }
+
+private:
+  void set_texture_params();
+
+private:
   GLuint m_handle;
   Sampler m_sampler;
   int m_texture_width;
@@ -39,56 +61,9 @@ protected:
   int m_image_width;
   int m_image_height;
 
-public:
-  GLTexture(int width, int height, boost::optional<Color> fill_color = boost::none);
-  GLTexture(const SDL_Surface& image, const Sampler& sampler);
-  ~GLTexture();
-
-  const GLuint &get_handle() const {
-    return m_handle;
-  }
-
-  void set_handle(GLuint handle) {
-    m_handle = handle;
-  }
-
-  const Sampler& get_sampler() const
-  {
-    return m_sampler;
-  }
-
-  virtual int get_texture_width() const override
-  {
-    return m_texture_width;
-  }
-
-  virtual int get_texture_height() const override
-  {
-    return m_texture_height;
-  }
-
-  virtual int get_image_width() const override
-  {
-    return m_image_width;
-  }
-
-  virtual int get_image_height() const override
-  {
-    return m_image_height;
-  }
-
-  void set_image_width(int width)
-  {
-    m_image_width = width;
-  }
-
-  void set_image_height(int height)
-  {
-    m_image_height = height;
-  }
-
 private:
-  void set_texture_params();
+  GLTexture(const GLTexture&) = delete;
+  GLTexture& operator=(const GLTexture&) = delete;
 };
 
 #endif

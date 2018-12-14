@@ -27,46 +27,25 @@ struct SDL_Texture;
 
 class SDLTexture final : public Texture
 {
-protected:
-  SDL_Texture* m_texture;
-  int m_width;
-  int m_height;
-  Sampler m_sampler;
-
 public:
   SDLTexture(SDL_Texture* texture, int width, int height, const Sampler& sampler);
   SDLTexture(const SDL_Surface& sdl_surface, const Sampler& sampler);
   virtual ~SDLTexture();
 
-  SDL_Texture *get_texture() const
-  {
-    return m_texture;
-  }
+  virtual int get_texture_width() const override { return m_width; }
+  virtual int get_texture_height() const override { return m_height; }
 
-  const Sampler& get_sampler() const
-  {
-    return m_sampler;
-  }
+  virtual int get_image_width() const override { return m_width; }
+  virtual int get_image_height() const override { return m_height; }
 
-  virtual int get_texture_width() const override
-  {
-    return m_width;
-  }
+  SDL_Texture *get_texture() const { return m_texture; }
+  const Sampler& get_sampler() const { return m_sampler; }
 
-  virtual int get_texture_height() const override
-  {
-    return m_height;
-  }
-
-  virtual int get_image_width() const override
-  {
-    return m_width;
-  }
-
-  virtual int get_image_height() const override
-  {
-    return m_height;
-  }
+private:
+  SDL_Texture* m_texture;
+  int m_width;
+  int m_height;
+  Sampler m_sampler;
 
 private:
   SDLTexture(const SDLTexture&) = delete;
