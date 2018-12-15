@@ -37,7 +37,7 @@
       (physic-enabled #f)
       (solid #f)
       (name "LETTER")
-      (sprite "/images/decal/storymode/letter-small.sprite")
+      (sprite "/images/objects/letter/letter-small.sprite")
       (x 992)
       (y 496)
     )
