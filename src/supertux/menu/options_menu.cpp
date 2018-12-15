@@ -381,8 +381,10 @@ OptionsMenu::OptionsMenu(bool complete) :
   MenuItem& vsync = add_string_select(MNID_VSYNC, _("VSync"), &next_vsync, vsyncs);
   vsync.set_help(_("Set the VSync mode"));
 
-  MenuItem& framerate = add_string_select(MNID_FRAMERATE, _("Framerate"), &next_framerate, framerates);
-  framerate.set_help(_("Change the maximum framerate of the game"));
+  if (g_config->developer_mode) {
+    MenuItem& framerate = add_string_select(MNID_FRAMERATE, _("Framerate"), &next_framerate, framerates);
+    framerate.set_help(_("Change the maximum framerate of the game"));
+  }
 
   MenuItem& aspect = add_string_select(MNID_ASPECTRATIO, _("Aspect Ratio"), &next_aspect_ratio, aspect_ratios);
   aspect.set_help(_("Adjust the aspect ratio"));
