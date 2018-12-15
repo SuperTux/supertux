@@ -1563,7 +1563,9 @@
   (tile
     (id 84)
     (images
-      "objects/bonus_block/empty.png"
+      (surface (diffuse-texture (file "objects/bonus_block/empty.png"))
+              (displacement-texture (file "objects/bonus_block/displacement.png"))
+      )
     )
     (solid #t)
   )

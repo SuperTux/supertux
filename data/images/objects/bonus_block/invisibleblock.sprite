@@ -3,6 +3,9 @@
         (name "default-editor")
         (images "bonus-invisible.png"))
       (action
-        (name "empty")
-        (images "empty.png"))
+         (name "empty")
+         (surfaces
+          (surface
+           (diffuse-texture (file "empty.png"))
+           (displacement-texture (file "displacement.png")))))
 )

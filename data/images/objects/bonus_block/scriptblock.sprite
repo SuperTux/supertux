@@ -4,6 +4,9 @@
          (images "scriptblock.png"))
       (action
          (name "empty")
-         (images "scriptblock_empty.png"))
+         (surfaces
+          (surface
+           (diffuse-texture (file "scriptblock_empty.png"))
+           (displacement-texture (file "displacement.png")))))
 
 )

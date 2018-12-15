@@ -15,5 +15,8 @@
                  ))
       (action
          (name "empty")
-         (images "purple_empty.png"))
+         (surfaces
+          (surface
+           (diffuse-texture (file "purple_empty.png"))
+           (displacement-texture (file "displacement.png")))))
 )
