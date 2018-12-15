@@ -588,6 +588,7 @@
       1008 1009 1010 1011
       1012 1013 1014 1015
       1016 1017 1018 1019
+	  3621 3622 3623 3624
       1723 1724 1725 1726
       1817 1013 1014 1820
       1819 1533 1534 1535
@@ -1563,9 +1564,7 @@
   (tile
     (id 84)
     (images
-      (surface (diffuse-texture (file "objects/bonus_block/empty.png"))
-              (displacement-texture (file "objects/bonus_block/displacement.png"))
-      )
+      "objects/bonus_block/empty.png"
     )
     (solid #t)
   )
@@ -2322,6 +2321,17 @@
       1 1 1 1
     )
     (image "tiles/forest/foresttiles-1.png")
+  )
+  (tiles
+    (width 4)
+    (height 1)
+    (ids
+      3621 3622 3623 3624
+    )
+    (attributes
+      1 1 1 1
+    )
+    (image "tiles/forest/foresttiles-1a.png")
   )
   (tiles
     (width 3)
@@ -3178,7 +3188,7 @@
     (hurts #t)
     (fire #t)
     (solid #f)
-    (fps 8)
+    (fps 2)
   )
   (tile
     (id 1701)
@@ -3191,7 +3201,7 @@
     (hurts #t)
     (fire #t)
     (solid #f)
-    (fps 8)
+    (fps 2)
   )
   (tile
     (id 1702)
@@ -3207,7 +3217,7 @@
     (hurts #t)
     (fire #t)
     (solid #f)
-    (fps 8)
+    (fps 2)
   )
   (tile
     (id 1703)
@@ -3222,7 +3232,7 @@
       "tiles/lava/zone/bubble-in-1-4.png")
     (fire #t)
     (solid #f)
-    (fps 8)
+    (fps 2)
   )
   (tile
     (id 1704)
@@ -3238,7 +3248,7 @@
     )
     (fire #t)
     (solid #f)
-    (fps 8)
+    (fps 2)
   )
   (tile
     (id 1705)
@@ -3251,7 +3261,7 @@
     (hurts #t)
     (fire #t)
     (solid #f)
-    (fps 8)
+    (fps 2)
   )
   (tile
     (id 1706)
@@ -3264,7 +3274,7 @@
     (hurts #t)
     (fire #t)
     (solid #f)
-    (fps 8)
+    (fps 2)
   )
   (tile
     (id 1707)
@@ -3275,7 +3285,7 @@
       "tiles/lava/zone/edge-right-1-4.png")
     (fire #t)
     (solid #f)
-    (fps 8)
+    (fps 2)
   )
   (tile
     (id 1708)
@@ -3285,7 +3295,7 @@
       "tiles/lava/zone/surface-1-3.png"
       "tiles/lava/zone/surface-1-4.png")
     (solid #f)
-    (fps 8)
+    (fps 2)
   )
   (tile
     (id 1709)
@@ -3296,7 +3306,7 @@
       "tiles/lava/zone/edge-left-1-4.png")
     (fire #t)
     (solid #f)
-    (fps 8)
+    (fps 2)
   )
   (tile
     (id 1710)
@@ -3307,7 +3317,7 @@
       "tiles/lava/zone/edge-right-1-1.png")
     (fire #t)
     (solid #f)
-    (fps 8)
+    (fps 2)
   )
   (tile
     (id 1711)
@@ -3318,7 +3328,7 @@
       "tiles/lava/zone/edge-left-1-4.png")
     (fire #t)
     (solid #f)
-    (fps 8)
+    (fps 2)
   )
   (tile
     (id 1712)
@@ -3329,7 +3339,7 @@
       "tiles/lava/zone/edge-flip-1-4.png")
     (fire #t)
     (solid #f)
-    (fps 8)
+    (fps 2)
   )
   (tile
     (id 1713)
@@ -3340,7 +3350,7 @@
       "tiles/lava/zone/bubble-bottom-1-4.png")
     (fire #t)
     (solid #f)
-    (fps 8)
+    (fps 2)
   )
   (tile
     (id 1714)
@@ -3355,7 +3365,7 @@
       "tiles/lava/zone/bubble-out-1-4.png")
     (fire #t)
     (solid #f)
-    (fps 8)
+    (fps 2)
   )
   (tile
     (id 1715)
@@ -3370,7 +3380,7 @@
       "tiles/lava/zone/rest.png")
     (fire #t)
     (solid #f)
-    (fps 8)
+    (fps 2)
   )
 
   (tile
@@ -3387,7 +3397,7 @@
     )
     (fire #t)
     (solid #f)
-    (fps 8)
+    (fps 2)
   )
   (tiles
     (width 5)
@@ -3813,25 +3823,16 @@
     )
     (attributes
       512 512 512 512
-      )
-
+    )
     (image
-     (surface (diffuse-texture (file "tiles/water/antarctic-1.png"))
-              (displacement-texture (file "tiles/water/antarctic-displacement.png")))
-     (surface (diffuse-texture (file "tiles/water/antarctic-2.png"))
-              (displacement-texture (file "tiles/water/antarctic-displacement.png")))
-     (surface (diffuse-texture (file "tiles/water/antarctic-3.png"))
-              (displacement-texture (file "tiles/water/antarctic-displacement.png")))
-     (surface (diffuse-texture (file "tiles/water/antarctic-4.png"))
-              (displacement-texture (file "tiles/water/antarctic-displacement.png")))
-     (surface (diffuse-texture (file "tiles/water/antarctic-5.png"))
-              (displacement-texture (file "tiles/water/antarctic-displacement.png")))
-     (surface (diffuse-texture (file "tiles/water/antarctic-6.png"))
-              (displacement-texture (file "tiles/water/antarctic-displacement.png")))
-     (surface (diffuse-texture (file "tiles/water/antarctic-7.png"))
-              (displacement-texture (file "tiles/water/antarctic-displacement.png")))
-     (surface (diffuse-texture (file "tiles/water/antarctic-8.png"))
-              (displacement-texture (file "tiles/water/antarctic-displacement.png")))
+      "tiles/water/antarctic-1.png"
+      "tiles/water/antarctic-2.png"
+      "tiles/water/antarctic-3.png"
+      "tiles/water/antarctic-4.png"
+      "tiles/water/antarctic-5.png"
+      "tiles/water/antarctic-6.png"
+      "tiles/water/antarctic-7.png"
+      "tiles/water/antarctic-8.png"
     )
     (fps 16)
   )
@@ -4402,9 +4403,8 @@
     (width 3)(height 1)
     (ids 3041 3042 3043)
     (attributes 257 257 257)
-    (images
-     (surface (diffuse-texture (file "objects/icecube/iceslick.png"))
-              (displacement-texture (file "objects/icecube/iceslick-displacement.png")))))
+    (image "objects/icecube/iceslick.png")
+  )
   (tiles
     (width 4)(height 4)
     (ids
@@ -5104,5 +5104,5 @@
      3617 3618 3619 3620
      ))
 
-  ;; next-id: 3621
+  ;; next-id: 3625
   )
