@@ -12,6 +12,9 @@ branches:
   except:
     - coverity_scan # No need for Windows builds on that branch
 
+skip_commits:
+  message: /\[(skip ci)|(ci skip)\]/
+
 cache: c:\tools\vcpkg\installed -> appveyor.yml
 
 install:
