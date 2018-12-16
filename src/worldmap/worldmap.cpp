@@ -24,6 +24,7 @@
 #include "gui/menu_manager.hpp"
 #include "object/ambient_light.hpp"
 #include "object/decal.hpp"
+#include "object/display_effect.hpp"
 #include "object/music_object.hpp"
 #include "object/tilemap.hpp"
 #include "physfs/ifile_stream.hpp"
@@ -113,6 +114,10 @@ WorldMap::finish_construction()
 
   if (!get_object_by_type<MusicObject>()) {
     add<MusicObject>();
+  }
+
+  if (!get_object_by_type<DisplayEffect>()) {
+    add<DisplayEffect>("Effect");
   }
 
   flush_game_objects();
