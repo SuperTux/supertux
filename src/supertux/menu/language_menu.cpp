@@ -16,6 +16,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "supertux/menu/language_menu.hpp"
+#include "addon/addon_manager.hpp"
 
 extern "C" {
 #include <findlocale.h>
@@ -92,8 +93,15 @@ LanguageMenu::menu_action(MenuItem& item)
       }
     }
   }
-  if (g_dictionary_manager->get_language().get_language() != "en")
+  if (g_dictionary_manager->get_language().get_language() != "en" &&
+      !AddonManager::current()->is_addon_installed("language-pack"))
+  {
     MenuManager::instance().push_menu(MenuStorage::LANGPACK_AUTO_UPDATE_MENU);
+  }
+  else
+  {
+    MenuManager::instance().clear_menu_stack();
+  }
 }
 
 /* EOF */

@@ -79,6 +79,7 @@ public:
   void mount_old_addons();
   void unmount_old_addons();
   bool is_from_old_addon(const std::string& filename) const;
+  bool is_addon_installed(const std::string& id) const;
 
   void update();
   void check_for_langpack_updates();

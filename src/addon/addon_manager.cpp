@@ -551,6 +551,17 @@ AddonManager::is_from_old_addon(const std::string& filename) const
   return false;
 }
 
+bool
+AddonManager::is_addon_installed(const std::string& id) const
+{
+  for(const auto& installed_addon : get_installed_addons())
+  {
+    if(installed_addon == id)
+      return true;
+  }
+  return false;
+}
+
 std::vector<std::string>
 AddonManager::scan_for_archives() const
 {
