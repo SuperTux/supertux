@@ -116,7 +116,8 @@ LevelDot::get_settings()
 {
   ObjectSettings result = WorldmapObject::get_settings();
 
-  std::string basedir = Editor::current() ? Editor::current()->get_world()->get_basedir() : std::string();
+  std::string basedir = (Editor::current() && Editor::current()->get_world()) ?
+    Editor::current()->get_world()->get_basedir() : std::string();
 
   // FIXME: hack to make the basedir absolute, making
   // World::get_basedir() itself absolute would be correct, but
