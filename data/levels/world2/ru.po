@@ -1,21 +1,22 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
+# Andrei Stepanov <adem4ik@gmail.com>, 2018
 # Artem Krosheninnikov <feeblehamster@gmail.com>, 2013
 # Benjamin Leduc <giby_the_kid@yahoo.fr>, 2013
 # Dmitry Anikonov <starwars32@yandex.ru>, 2016
-# Dmitry <linuxsquirrel.dev@gmail.com>, 2013
-# Dmitry <linuxsquirrel.dev@gmail.com>, 2013
+# Dmitry <dmitrymq@gmail.com>, 2013
+# Dmitry <dmitrymq@gmail.com>, 2013
 # Dmitry Anikonov <starwars32@yandex.ru>, 2013,2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-04 15:35+0200\n"
-"PO-Revision-Date: 2016-06-23 15:39+0000\n"
-"Last-Translator: Tobias Markus <tobbi@mozilla-uk.org>\n"
+"Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
+"POT-Creation-Date: 2018-11-05 23:45+0100\n"
+"PO-Revision-Date: 2018-12-16 03:45+0000\n"
+"Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/arctic-games/supertux/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27,33 +28,41 @@ msgstr ""
 msgid "Bouncy Coils"
 msgstr "Прыгающие монеты"
 
-#: data/levels/world2/Castle_Entrance.stl:3
-msgid "Entrance to the Castle"
-msgstr "Вход в замок"
-
-#: data/levels/world2/CounterCurrent.stl:3
-msgid "Countercurrent"
-msgstr "Против течения"
+#: data/levels/world2/Bye_Bye_Forest.stl:3
+msgid "Bye Bye Forest"
+msgstr "До свидания, Лес"
 
 #: data/levels/world2/Crumbling_Path.stl:3
 msgid "Crumbling Path"
 msgstr "Рассыпающийся путь"
 
-#: data/levels/world2/Duct_Ape.stl:3
-msgid "Duct Ape"
-msgstr "Проточные Обезьяны"
+#: data/levels/world2/Dark_Tunnel.stl:3
+msgid "The Dark Tunnel"
+msgstr "Тёмный тоннель"
+
+#: data/levels/world2/Deeper_Down.stl:3
+msgid "Deeper Down"
+msgstr "Вглубь"
 
 #: data/levels/world2/El_Castillo.stl:3
 msgid "A Short Visit to El Castillo"
-msgstr ""
+msgstr "Короткий визит в Эль Кастильо"
 
 #: data/levels/world2/Find_Big_Fish.stl:3
 msgid "Find the Bigger Fish!"
 msgstr "Найди большую рыбу"
 
-#: data/levels/world2/Find_Big_Fish.stl:449
+#: data/levels/world2/Find_Big_Fish.stl:446
 msgid "-A big fish... for you."
 msgstr ""
+
+#: data/levels/world2/Getting_Hot.stl:3
+msgid "It's Getting Hot!"
+msgstr "Становится жарко!"
+
+#: data/levels/world2/Ghostly_World.stl:3
+msgid "A Ghostly World"
+msgstr "Призрачный мир"
 
 #: data/levels/world2/Going_Underground.stl:3
 msgid "Going Underground"
@@ -62,10 +71,6 @@ msgstr "Спускаться в подземелье"
 #: data/levels/world2/Kneep_Deep.stl:3
 msgid "Kneep-deep in the depth"
 msgstr "Книп-дип в глубине"
-
-#: data/levels/world2/Little_Venice.stl:3
-msgid "Little Venice"
-msgstr "Маленькая Венеция"
 
 #: data/levels/world2/Mouldy_Grotto.stl:3
 msgid "A Mouldy Grotto"
@@ -92,9 +97,13 @@ msgstr "-О нет!\n#Путь перекрыт!\n#Кажется, единст�
 msgid "-Are you lost?"
 msgstr "-Заблудился?"
 
-#: data/levels/world2/Silent_Walls.stl:3
-msgid "The Silent Walls"
-msgstr "Тихие стены"
+#: data/levels/world2/Scary_Place.stl:3
+msgid "What is this Place?"
+msgstr "Что это за место?"
+
+#: data/levels/world2/This_Forest_is_Haunted.stl:3
+msgid "This Forest is Haunted"
+msgstr ""
 
 #: data/levels/world2/Three_Sheets.stl:3
 msgid "Three sheets to the wind"
@@ -110,20 +119,15 @@ msgstr "Лесная крепость"
 
 #: data/levels/world2/Tux_Builder.stl:3
 msgid "Tux the Builder"
-msgstr "Тукс-строитель"
+msgstr "Строитель Такс"
 
-#: data/levels/world2/Tux_Builder.stl:46
+#: data/levels/world2/Tux_Builder.stl:53
 msgid ""
 "-Portable Rocks:\n"
 "\n"
-"!images/help/rockhowto1.png\n"
-"!images/help/rockhowto2.png\n"
-"!images/help/rockhowto3.png\n"
-msgstr "-Перемещаемые блоки:\n\n!images/help/rockhowto1.png\n!images/help/rockhowto2.png\n!images/help/rockhowto3.png\n"
-
-#: data/levels/world2/Two_Towers.stl:3
-msgid "Two Tiny Towers"
-msgstr "Две мелкие башни"
+"#Tux can carry some rocks.\n"
+"#When you are next to one press the ACTION key and keep pressed while carrying the rock. Release the key to release the rock."
+msgstr ""
 
 #: data/levels/world2/Up_and_Down.stl:3
 msgid "Up and Down"
@@ -174,10 +178,6 @@ msgstr "Темная Чаща - Черная Башня"
 msgid "Forest Level 1"
 msgstr "Лесной уровень 1"
 
-#: data/levels/world2/ghostly.stl:3
-msgid "A Ghostly World"
-msgstr "Призрачный мир"
-
 #: data/levels/world2/key1.stl:3
 msgid "key 1 water - to be placed behind waterfall"
 msgstr "ключ 1 вода - для расположения за водопадом"
@@ -218,7 +218,7 @@ msgstr "Реванш сов"
 msgid "Roots, Woody Roots"
 msgstr "Корни, древесные корни"
 
-#: data/levels/world2/roots_woody_roots.stl:200
+#: data/levels/world2/roots_woody_roots.stl:199
 msgid ""
 "-Hint:\n"
 "#If there seems to be\n"
@@ -247,3 +247,18 @@ msgstr "Деревушка в лесу"
 #: data/levels/world2/worldmap.stwm:3
 msgid "Forest World"
 msgstr "Лесной мир"
+
+#: data/levels/world2/worldmap.stwm:147
+msgid "More Worlds will be added later..."
+msgstr "Больше миров появится позже..."
+
+#: data/levels/world2/worldmap.stwm:155 data/levels/world2/worldmap.stwm:162
+#: data/levels/world2/worldmap.stwm:169 data/levels/world2/worldmap.stwm:176
+#: data/levels/world2/worldmap.stwm:183 data/levels/world2/worldmap.stwm:190
+#: data/levels/world2/worldmap.stwm:197
+msgid "There is currently no level"
+msgstr "Здесь нет уровней"
+
+#: data/levels/world2/worldmap.stwm:204
+msgid "You Found a Secret Area!"
+msgstr "Вы нашли тайник!"

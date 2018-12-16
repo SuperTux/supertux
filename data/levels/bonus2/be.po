@@ -1,15 +1,16 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
+# se luxxy <70luxxy@gmail.com>, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-04 15:35+0200\n"
-"PO-Revision-Date: 2016-01-12 08:35+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
+"POT-Creation-Date: 2018-11-05 23:45+0100\n"
+"PO-Revision-Date: 2018-12-12 10:32+0000\n"
+"Last-Translator: se luxxy <70luxxy@gmail.com>\n"
 "Language-Team: Belarusian (http://www.transifex.com/arctic-games/supertux/language/be/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -46,11 +47,11 @@ msgid ""
 "\n"
 "\n"
 " The end of the ice age is near..."
-msgstr ""
+msgstr "-Віншуем!\n\n#Вы паспяхова прайшлі праз\n#Бонусную выспу II\n\n\n\tузроўні рабілі:\n\tKevin\n\tJason Kleinemas\n\tDenilson\n\tTobe Deprez\n\tBig C\n\tThomas Nilsen\n\tTorfi Gunnarsson\n\tDaniel Alston\n\tNilrok\n\tCorlin Heydman\n\n\n#І зноўку мы хочам падзякаваць\n#кожнаму, хто зрабіў унёсак у гэты\n#выпуск. Спадзяемся, вы атрымалі\n#асалоду, да таго ж чакаць Milestone 2\n#стала трохі лягчэй. :-)\n\n\n Канец гэтага ледніковага перыяду ўжо блізка..."
 
 #: data/levels/bonus2/level1.stl:3
 msgid "Mario's Supposed to Deal With This..."
-msgstr "Гэтаму, мусіць, дасцё рады Марыа..."
+msgstr "Верагодна, Марыа справіцца з гэтым..."
 
 #: data/levels/bonus2/level10.stl:3
 msgid "fjerd"
@@ -86,7 +87,7 @@ msgstr "...Дзе ўсё магчыма"
 
 #: data/levels/bonus2/level18.stl:3
 msgid "Insert Original Title Here"
-msgstr "Пазначце тут загаловак"
+msgstr "Устаўце арыгінальную назву тут"
 
 #: data/levels/bonus2/level19.stl:3
 msgid "End Of The Ice Age"
@@ -102,7 +103,7 @@ msgstr "Вентылятарная крэпасць"
 
 #: data/levels/bonus2/level21.stl:3
 msgid "Nolok's Party Pit"
-msgstr "Акоп Нолака"
+msgstr "Вечарынка нолака"
 
 #: data/levels/bonus2/level22.stl:3
 msgid "Water Ways"
