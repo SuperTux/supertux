@@ -22,6 +22,7 @@
 #include "object/background.hpp"
 #include "object/decal.hpp"
 #include "object/music_object.hpp"
+#include "object/path_gameobject.hpp"
 #include "object/tilemap.hpp"
 #include "physfs/physfs_file_system.hpp"
 #include "supertux/tile_manager.hpp"
@@ -114,6 +115,8 @@ WorldMapParser::load_worldmap(const std::string& filename)
           m_worldmap.add<Teleporter>(iter.as_mapping());
         } else if (iter.get_key() == "decal") {
           m_worldmap.add<Decal>(iter.as_mapping());
+        } else if (iter.get_key() == "path") {
+          m_worldmap.add<PathGameObject>(iter.as_mapping());
         } else if (iter.get_key() == "ambient-light") {
           const auto& sx = iter.get_sexp();
           if (sx.is_array() && sx.as_array().size() >= 3 &&
