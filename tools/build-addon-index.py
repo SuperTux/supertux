@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 #
 # SuperTux
 # Copyright (C) 2014 Ingo Ruhnke <grumbel@gmail.com>
@@ -31,7 +31,8 @@ def escape_str(string):
     return "\"%s\"" % string.replace("\"", "\\\"")
 
 
-class Addon(object):
+class Addon:
+
     def __init__(self, filename):
         lst = sexpr.parse(filename)
         if lst[0][0] != "supertux-addoninfo":
@@ -95,7 +96,7 @@ def generate_index(fout, directory, base_url, zipdir):
     for addon_dir in os.listdir(directory):
         addon_dir = os.path.join(directory, addon_dir)
         if os.path.isdir(addon_dir):
-            print addon_dir
+            # print(addon_dir)
             nfos = glob.glob(os.path.join(addon_dir, "*.nfo"))
             if len(nfos) == 0:
                 raise Exception(".nfo file missing from %s" % addon_dir)
@@ -104,13 +105,20 @@ def generate_index(fout, directory, base_url, zipdir):
             else:
                 try:
                     process_addon(fout, addon_dir, nfos[0], base_url, zipdir)
-                except Exception, e:
+                except Exception as e:
                     sys.stderr.write("%s: ignoring addon because: %s\n" % (addon_dir, e))
     fout.write(")\n\n;; EOF ;;\n")
 
 
+EXAMPLE_TEXT="""Example:
+
+    ./build-addon-index.py -z ../../addons/repository/ ../../addons/src/"""
+
+
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Addon Index/Zip Generator')
+    parser = argparse.ArgumentParser(description="Addon Index/Zip Generator",
+                                     epilog=EXAMPLE_TEXT,
+                                     formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('DIRECTORY',  type=str, nargs=1,
                         help="directory containing the mods")
     parser.add_argument('-o', '--output', metavar='FILE', type=str, required=False,
@@ -128,5 +136,6 @@ if __name__ == "__main__":
     else:
         with open(args.output, "w") as fout:
             generate_index(fout, args.DIRECTORY[0], args.url, args.zipdir)
+
 
 # EOF #
