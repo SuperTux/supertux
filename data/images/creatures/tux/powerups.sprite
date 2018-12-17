@@ -16,10 +16,12 @@
          (hitbox 15 14 32 64)
          (images "air/hat/walk-0.png"
                  "air/hat/walk-1.png"
-                 "air/hat/stand.png"
-                 "air/hat/walk-0.png"
-                 "air/hat/walk-1.png"
-                 "air/hat/stand.png"))
+                 "air/hat/walk-2.png"
+                 "air/hat/walk-3.png"
+                 "air/hat/walk-4.png"
+                 "air/hat/walk-5.png"
+				 "air/hat/walk-6.png"
+				 "air/hat/walk-7.png"))
 
        (action
          (name "air-walk-left")
@@ -41,10 +43,10 @@
          (name "air-jump-right")
          (fps 10)
          (hitbox 16 14 32 64)
-         (images "air/hat/stand.png"
+         (images "air/hat/spin-0.png"
                  "air/hat/spin-1.png"
                  "air/hat/spin-2.png"
-                 "air/hat/spin-3.png"))
+                 "air/hat/spin-1.png"))
 
        (action
          (name "air-jump-left")
@@ -75,9 +77,10 @@
          (name "air-idle-right")
          (fps 5)
          (hitbox 16 14 32 64)
-         (images "air/hat/spin-1.png"
-                 "air/hat/spin-2.png"
-                 "air/hat/spin-3.png"))
+         (images "air/hat/spin-0.png"
+                 "air/hat/spin-1.png"
+				 "air/hat/spin-2.png"
+                 "air/hat/spin-1.png"))
 
        (action
          (name "air-idle-left")
@@ -114,10 +117,97 @@
          (hitbox 16 37 32 32)
          (mirror-action "air-backflip-right"))
 
-       (action
+	   (action
          (name "air-buttjump-right")
          (hitbox 16 14 32 64)
-         (images "air/hat/stand.png"))
+         (images "air/hat/buttjump-0.png"
+                 "air/hat/buttjump-1.png"
+                 "air/hat/buttjump-2.png"
+                 "air/hat/buttjump-3.png"
+                 "air/hat/buttjump-4.png"
+                 "air/hat/buttjump-5.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"
+                 "air/hat/buttjump-6.png"))
 
        (action
          (name "air-buttjump-left")
@@ -132,10 +222,12 @@
          (hitbox 15 14 32 64)
          (images "earth/hardhat/walk-0.png"
                  "earth/hardhat/walk-1.png"
-                 "earth/hardhat/stand.png"
-                 "earth/hardhat/walk-0.png"
-                 "earth/hardhat/walk-1.png"
-                 "earth/hardhat/stand.png"))
+                 "earth/hardhat/walk-2.png"
+                 "earth/hardhat/walk-3.png"
+                 "earth/hardhat/walk-4.png"
+                 "earth/hardhat/walk-5.png"
+				 "earth/hardhat/walk-6.png"
+				 "earth/hardhat/walk-7.png"))
 
        (action
          (name "earth-walk-left")
@@ -226,7 +318,94 @@
        (action
          (name "earth-buttjump-right")
          (hitbox 16 14 32 64)
-         (images "earth/hardhat/stand.png"))
+         (images "earth/hardhat/buttjump-0.png"
+                 "earth/hardhat/buttjump-1.png"
+                 "earth/hardhat/buttjump-2.png"
+                 "earth/hardhat/buttjump-3.png"
+                 "earth/hardhat/buttjump-4.png"
+                 "earth/hardhat/buttjump-5.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"
+                 "earth/hardhat/buttjump-6.png"))
 
        (action
          (name "earth-buttjump-left")
