@@ -10,7 +10,7 @@ function initialize()
   Effect.fade_in(2);
   Camera.scroll_to(0, 913, 15);
   Tux.walk(200);
-  wait(1);
+  wait(2);
   Tux.set_visible(true);
   wait(4);
   Tux.walk(0);
