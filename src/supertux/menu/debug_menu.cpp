@@ -21,6 +21,8 @@
 
 #include "gui/item_stringselect.hpp"
 #include "supertux/debug.hpp"
+#include "supertux/gameconfig.hpp"
+#include "supertux/globals.hpp"
 #include "util/gettext.hpp"
 
 DebugMenu::DebugMenu() :
@@ -59,6 +61,8 @@ DebugMenu::DebugMenu() :
 
   add_toggle(-1, _("Show Collision Rects"), &g_debug.show_collision_rects);
   add_toggle(-1, _("Show Worldmap Path"), &g_debug.show_worldmap_path);
+  add_toggle(-1, _("Show Framerate"), &g_config->show_fps);
+  add_toggle(-1, _("Show Player Position"), &g_config->show_player_pos);
   add_toggle(-1, _("Use Bitmap Fonts"),
              []{ return g_debug.get_use_bitmap_fonts(); },
              [](bool value){ g_debug.set_use_bitmap_fonts(value); });
