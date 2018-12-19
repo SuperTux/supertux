@@ -57,8 +57,10 @@ GLVideoSystem::GLVideoSystem(bool use_opengl33core) :
 
 #if defined(USE_OPENGLES2)
   m_context.reset(new GL33CoreContext(*this));
+  m_use_opengl33core = true;
 #elif defined(USE_OPENGLES1)
   m_context.reset(new GL20Context);
+  m_use_opengl33core = false;
 #else
   if (use_opengl33core)
   {
