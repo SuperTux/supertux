@@ -33,6 +33,7 @@
 #include "video/compositor.hpp"
 #include "video/drawing_context.hpp"
 #include "video/surface.hpp"
+#include "video/video_system.hpp"
 
 TitleScreen::TitleScreen(Savegame& savegame) :
   m_frame(Surface::from_file("images/engine/menu/frame.png")),
@@ -42,7 +43,8 @@ TitleScreen::TitleScreen(Savegame& savegame) :
     _("Copyright") + " (c) 2003-2018 SuperTux Devel Team\n" +
     _("This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
       "redistribute it under certain conditions; see the license file for details.\n"
-   ))
+      )),
+  m_videosystem_name(VideoSystem::current()->get_name())
 {
   Player& player = m_titlesession->get_current_sector().get_player();
   player.set_controller(m_controller.get());
@@ -119,6 +121,12 @@ TitleScreen::draw(Compositor& compositor)
                             m_copyright_text,
                             Vector(5.0f, static_cast<float>(context.get_height()) - 50.0f),
                             ALIGN_LEFT, LAYER_FOREGROUND1);
+
+  context.color().draw_text(Resources::small_font,
+                            m_videosystem_name,
+                            Vector(static_cast<float>(context.get_width()) - 5.0f,
+                                   static_cast<float>(context.get_height()) - 14.0f),
+                            ALIGN_RIGHT, LAYER_FOREGROUND1);
 }
 
 void

@@ -49,6 +49,7 @@ private:
   std::unique_ptr<CodeController> m_controller;
   std::unique_ptr<GameSession> m_titlesession;
   std::string m_copyright_text;
+  std::string m_videosystem_name;
 
 private:
   TitleScreen(const TitleScreen&) = delete;
