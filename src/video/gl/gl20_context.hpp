@@ -27,6 +27,8 @@ public:
   GL20Context();
   ~GL20Context();
 
+  virtual std::string get_name() const override { return "opengl20"; }
+
   virtual void bind() override;
 
   virtual void ortho(float width, float height, bool vflip) override;

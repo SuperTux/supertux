@@ -32,6 +32,8 @@ public:
   GL33CoreContext(GLVideoSystem& video_system);
   ~GL33CoreContext();
 
+  virtual std::string get_name() const override { return "opengl33"; }
+
   virtual void bind() override;
 
   virtual void ortho(float width, float height, bool vflip) override;

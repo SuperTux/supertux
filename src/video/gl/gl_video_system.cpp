@@ -80,6 +80,22 @@ GLVideoSystem::~GLVideoSystem()
   SDL_GL_DeleteContext(m_glcontext);
 }
 
+std::string
+GLVideoSystem::get_name() const
+{
+  std::ostringstream out;
+  out << m_context->get_name() << " - ";
+
+  const char* version = reinterpret_cast<const char*>(glGetString(GL_VERSION));
+  if (version) {
+    out << version;
+  } else {
+    out << "(unknown)";
+  }
+
+  return out.str();
+}
+
 void
 GLVideoSystem::create_gl_window()
 {

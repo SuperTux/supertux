@@ -53,6 +53,9 @@ public:
   VideoSystem() {}
   virtual ~VideoSystem() {}
 
+  /** Return a human readable name of the current video system */
+  virtual std::string get_name() const = 0;
+
   virtual Renderer* get_back_renderer() const = 0;
   virtual Renderer& get_renderer() const = 0;
   virtual Renderer& get_lightmap() const = 0;

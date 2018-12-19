@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_VIDEO_GL_GL_CONTEXT_HPP
 
 #include <stddef.h>
+#include <string>
 
 #include "video/gl.hpp"
 
@@ -30,6 +31,8 @@ class GLContext
 public:
   GLContext() {}
   virtual ~GLContext() {}
+
+  virtual std::string get_name() const = 0;
 
   virtual void bind() = 0;
 
