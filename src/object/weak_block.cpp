@@ -47,9 +47,10 @@ WeakBlock::WeakBlock(const ReaderMapping& mapping) :
     }
   }
 
+  lightsprite->set_blend(Blend::ADD);
+  lightsprite->set_color(Color(0.3f, 0.2f, 0.1f));
+
   if (m_sprite_name == "images/objects/weak_block/strawbox.sprite") {
-    lightsprite->set_blend(Blend::ADD);
-    lightsprite->set_color(Color(0.3f, 0.2f, 0.1f));
     SoundManager::current()->preload("sounds/fire.ogg"); // TODO: use own sound?
   } else if (m_sprite_name == "images/objects/weak_block/meltbox.sprite") {
     SoundManager::current()->preload("sounds/sizzle.ogg");
