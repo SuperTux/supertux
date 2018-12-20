@@ -19,12 +19,15 @@
 #include <sstream>
 
 #include "util/log.hpp"
+#include "video/glutil.hpp"
 
 GLProgram::GLProgram() :
   m_program(glCreateProgram()),
   m_frag_shader(),
   m_vert_shader()
 {
+  assert_gl();
+
 #if defined(USE_OPENGLES2)
   m_frag_shader = GLShader::from_file(GL_FRAGMENT_SHADER, "shader/shader100.frag");
   m_vert_shader = GLShader::from_file(GL_VERTEX_SHADER, "shader/shader100.vert");
@@ -32,6 +35,7 @@ GLProgram::GLProgram() :
   m_frag_shader = GLShader::from_file(GL_FRAGMENT_SHADER, "shader/shader330.frag");
   m_vert_shader = GLShader::from_file(GL_VERTEX_SHADER, "shader/shader330.vert");
 #endif
+  assert_gl();
 
   glAttachShader(m_program, m_frag_shader->get_handle());
   glAttachShader(m_program, m_vert_shader->get_handle());
@@ -44,6 +48,8 @@ GLProgram::GLProgram() :
     out << "link failure:\n" << get_info_log() << std::endl;
     throw std::runtime_error(out.str());
   }
+
+  assert_gl();
 }
 
 GLProgram::~GLProgram()

@@ -25,6 +25,7 @@
 
 GL20Context::GL20Context()
 {
+  assert_gl();
 }
 
 GL20Context::~GL20Context()
@@ -34,9 +35,13 @@ GL20Context::~GL20Context()
 void
 GL20Context::bind()
 {
+  assert_gl();
+
   glDisable(GL_DEPTH_TEST);
   glDisable(GL_CULL_FACE);
   glEnable(GL_BLEND);
+
+  assert_gl();
 }
 
 void

@@ -20,6 +20,7 @@
 #include <sstream>
 
 #include "physfs/ifile_stream.hpp"
+#include "video/glutil.hpp"
 
 std::unique_ptr<GLShader>
 GLShader::from_file(GLenum type, const std::string& filename)
@@ -48,9 +49,14 @@ GLShader::from_file(GLenum type, const std::string& filename)
 std::unique_ptr<GLShader>
 GLShader::from_source(GLenum type, const std::vector<std::string>& sources)
 {
+  assert_gl();
+
   auto shader = std::make_unique<GLShader>(type);
   shader->source(sources);
   shader->compile();
+
+  assert_gl();
+
   return shader;
 }
 
