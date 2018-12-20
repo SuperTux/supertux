@@ -8,7 +8,8 @@
           "left-2.png"
           "left-3.png"
           "left-4.png"
-          "left-5.png"))
+          "left-5.png"
+          "left-6.png"))
 
  (action
   (name "right")
