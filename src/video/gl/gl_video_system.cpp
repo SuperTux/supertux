@@ -154,6 +154,8 @@ GLVideoSystem::create_gl_context()
 {
   m_glcontext = SDL_GL_CreateContext(m_sdl_window.get());
 
+  assert_gl();
+
   if (g_config->try_vsync) {
     // we want vsync for smooth scrolling
     if (SDL_GL_SetSwapInterval(-1) != 0)
@@ -165,6 +167,8 @@ GLVideoSystem::create_gl_context()
       }
     }
   }
+
+  assert_gl();
 
 #if defined(USE_OPENGLES2)
   // nothing to do
@@ -223,12 +227,17 @@ GLVideoSystem::create_gl_context()
       throw std::runtime_error(out.str());
     }
 
+  // older GLEW throws 'invalid enum' error in OpenGL3.3Core, thus we eat up the error code here
+  glGetError();
+
   // log_info << "OpenGL 3.3: " << GLEW_VERSION_3_3 << std::endl;
   log_info << "OpenGL: " << glGetString(GL_VERSION) << std::endl;
   log_info << "Using GLEW " << glewGetString(GLEW_VERSION) << std::endl;
   log_info << "GLEW_ARB_texture_non_power_of_two: " << static_cast<int>(GLEW_ARB_texture_non_power_of_two) << std::endl;
 #  endif
 #endif
+
+  assert_gl();
 }
 
 void
