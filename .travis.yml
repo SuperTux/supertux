@@ -75,6 +75,14 @@ before_install:
     if [ "$TRAVIS_OS_NAME" = "osx" ]; then cd libraqm && ./autogen.sh && ./configure --prefix=/usr/local --disable-Werror && make -j3 && sudo make install; fi;
     cd ..;
 
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then
+    wget https://netcologne.dl.sourceforge.net/project/glew/glew/2.1.0/glew-2.1.0.tgz -O - | tar xz;
+    cd glew-2.1.0/;
+    make;
+    sudo make install LIBDIR=/usr/lib;
+    cd ..;
+    fi;
+
 script:
   - cmake --version
   - $CXX --version
@@ -131,7 +139,6 @@ addons:
     - libc++-dev
     - libogg-dev
     - libvorbis-dev
-    - libglew-dev
     - libopenal-dev
     - libboost-all-dev
     - libsdl2-dev
