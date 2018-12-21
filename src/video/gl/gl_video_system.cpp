@@ -52,8 +52,7 @@ GLVideoSystem::GLVideoSystem(bool use_opengl33core) :
 {
   create_gl_window();
 
-  m_texture_manager.reset(new TextureManager);
-  m_renderer.reset(new GLScreenRenderer(*this));
+  assert_gl();
 
 #if defined(USE_OPENGLES2)
   m_context.reset(new GL33CoreContext(*this));
@@ -71,6 +70,16 @@ GLVideoSystem::GLVideoSystem(bool use_opengl33core) :
     m_context.reset(new GL20Context);
   }
 #endif
+
+  assert_gl();
+
+  m_texture_manager.reset(new TextureManager);
+
+  assert_gl();
+
+  m_renderer.reset(new GLScreenRenderer(*this));
+
+  assert_gl();
 
   apply_config();
 }
