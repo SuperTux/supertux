@@ -96,8 +96,6 @@ private:
   float targetvolume;  /// how loud we want to be
   float currentvolume; /// how loud we are
 
-  Vector new_size;
-
 private:
   AmbientSound(const AmbientSound&) = delete;
   AmbientSound& operator=(const AmbientSound&) = delete;

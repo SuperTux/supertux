@@ -37,8 +37,7 @@ AmbientSound::AmbientSound(const ReaderMapping& mapping) :
   silence_distance(),
   maximumvolume(),
   targetvolume(),
-  currentvolume(0),
-  new_size()
+  currentvolume(0)
 {
   m_col.m_group = COLGROUP_DISABLED;
 
@@ -87,13 +86,12 @@ AmbientSound::AmbientSound(const Vector& pos, float factor, float bias, float vo
   silence_distance(),
   maximumvolume(vol),
   targetvolume(),
-  currentvolume(),
-  new_size()
+  currentvolume()
 {
   m_col.m_group = COLGROUP_DISABLED;
 
   m_col.m_bbox.set_pos(pos);
-  m_col.m_bbox.set_size(0, 0);
+  m_col.m_bbox.set_size(32, 32);
 
   // set default silence_distance
 
@@ -116,14 +114,9 @@ AmbientSound::~AmbientSound()
 ObjectSettings
 AmbientSound::get_settings()
 {
-  new_size.x = m_col.m_bbox.get_width();
-  new_size.y = m_col.m_bbox.get_height();
-
   ObjectSettings result = MovingObject::get_settings();
 
   result.add_sound(_("Sound"), &sample, "sample");
-  //result.add_float(_("Width"), &new_size.x, "width");
-  //result.add_float(_("Height"), &new_size.y, "height");
   result.add_float(_("Distance factor"), &distance_factor, "distance_factor");
   result.add_float(_("Distance bias"), &distance_bias, "distance_bias");
   result.add_float(_("Volume"), &maximumvolume, "volume");
@@ -134,8 +127,8 @@ AmbientSound::get_settings()
 }
 
 void
-AmbientSound::after_editor_set() {
-  m_col.m_bbox.set_size(new_size.x, new_size.y);
+AmbientSound::after_editor_set()
+{
 }
 
 void
@@ -260,7 +253,7 @@ AmbientSound::draw(DrawingContext& context)
 {
   if (Editor::is_active()) {
     context.color().draw_filled_rect(m_col.m_bbox, Color(0.0f, 0.0f, 1.0f, 0.6f),
-                             0.0f, LAYER_OBJECTS);
+                                     0.0f, LAYER_OBJECTS);
   }
 }
 
