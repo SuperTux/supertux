@@ -70,8 +70,10 @@ AmbientSound::AmbientSound(const ReaderMapping& mapping) :
 
   mapping.get("silence_distance",silence_distance);
 
-  sound_source.reset(); // not playing at the beginning
-  SoundManager::current()->preload(sample);
+  if (!Editor::is_active()) {
+    sound_source.reset(); // not playing at the beginning
+    SoundManager::current()->preload(sample);
+  }
   latency=0;
 }
 
@@ -100,8 +102,10 @@ AmbientSound::AmbientSound(const Vector& pos, float factor, float bias, float vo
   else
     silence_distance = 1/distance_factor;
 
-  sound_source.reset(); // not playing at the beginning
-  SoundManager::current()->preload(sample);
+  if (!Editor::is_active()) {
+    sound_source.reset(); // not playing at the beginning
+    SoundManager::current()->preload(sample);
+  }
 }
 
 AmbientSound::~AmbientSound()
