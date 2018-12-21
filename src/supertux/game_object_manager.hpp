@@ -163,12 +163,12 @@ public:
 
   /** Get total number of GameObjects of given type */
   template<class T>
-  int get_object_count(std::function<bool(const T*)> predicate = NULL) const
+  int get_object_count(std::function<bool(const T&)> predicate = nullptr) const
   {
     int total = 0;
     for (const auto& obj : m_gameobjects) {
       auto object = dynamic_cast<T*>(obj.get());
-      if (object && (predicate == NULL || predicate(object)))
+      if (object && (predicate == nullptr || predicate(*object)))
       {
         total += 1;
       }
