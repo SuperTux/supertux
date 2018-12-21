@@ -70,7 +70,7 @@ Editor::is_active()
     return true;
   } else {
     auto* self = Editor::current();
-    return self && self->m_levelloaded && !self->m_leveltested;
+    return self && !self->m_leveltested;
   }
 }
 
@@ -197,7 +197,7 @@ Editor::update(float dt_sec, const Controller& controller)
   }
 
   // update other stuff
-  if (is_active()) {
+  if (m_levelloaded && !m_leveltested) {
     BIND_SECTOR(*m_sector);
 
     for (auto& object : m_sector->get_objects()) {
