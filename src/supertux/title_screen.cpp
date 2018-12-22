@@ -136,6 +136,7 @@ TitleScreen::update(float dt_sec, const Controller& controller)
   Sector& sector  = m_titlesession->get_current_sector();
   sector.update(dt_sec);
 
+  BIND_SECTOR(sector);
   make_tux_jump();
 
   // reopen menu if user closed it (so that the app doesn't close when user
