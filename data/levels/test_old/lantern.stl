@@ -1,5 +1,5 @@
 (supertux-level
-  (version 2)
+  (version 3)
   (name (_ "Lantern catches WillOWisp Test"))
   (author "christoph")
   (sector

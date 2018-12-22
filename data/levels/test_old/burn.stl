@@ -1,5 +1,5 @@
 (supertux-level
-  (version 2)
+  (version 3)
   (name (_ "Weak Block Chain Reaction Test"))
   (author "Christoph Sommer")
   (sector

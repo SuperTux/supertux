@@ -1,5 +1,5 @@
 (supertux-level
-  (version 2)
+  (version 3)
   (name (_ "The Fog is Clearing Up"))
   (author "Ingo Ruhnke")
   (contact "grumbel@gmail.com")

@@ -1,5 +1,5 @@
 (supertux-level
-  (version 2)
+  (version 3)
   (name (_ "Darkness Prevails"))
   (author "Ingo Ruhnke")
   (contact "grumbel@gmail.com")

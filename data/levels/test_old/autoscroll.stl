@@ -1,5 +1,5 @@
 (supertux-level
-  (version 2)
+  (version 3)
   (name (_ "Autoscroll Test (Above the Arctic Skies)"))
   (author "Ricardo Cruz")
   (sector

@@ -1,5 +1,5 @@
 (supertux-level
-  (version 2)
+  (version 3)
   (name (_ "Nolok Test (also look at sector1)"))
   (author "Marek Moeckel")
   (sector

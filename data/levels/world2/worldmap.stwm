@@ -1,5 +1,5 @@
 (supertux-level
-  (version 2)
+  (version 3)
   (name (_ "Forest Island"))
   (author "Carsten Wirtz")
   (contact "https://supertux.org")

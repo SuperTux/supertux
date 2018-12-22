@@ -1,5 +1,5 @@
 (supertux-level
-  (version 2)
+  (version 3)
   (name (_ "Crystal Cave (Crystallo Test)"))
   (author "Wolfgang Becker")
   (contact "uafr@gmx.de")

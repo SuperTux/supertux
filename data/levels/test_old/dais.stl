@@ -1,5 +1,5 @@
 (supertux-level
-  (version 2)
+  (version 3)
   (name (_ "Badguys Stay on Moving Platform Test"))
   (author "Marek Moeckel")
   (sector

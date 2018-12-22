@@ -1,5 +1,5 @@
 (supertux-level
-  (version 2)
+  (version 3)
   (name (_ "Inside The Tree (Very Annoying and Unfinished)"))
   (author "Marek Moeckel")
   (sector

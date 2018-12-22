@@ -1,5 +1,5 @@
 (supertux-level
-  (version 2)
+  (version 3)
   (name (_ "Vertical/Buttstomp/Spikes/Backscroll/Trampoline"))
   (author "Marek Moeckel")
   (sector

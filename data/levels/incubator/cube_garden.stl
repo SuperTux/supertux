@@ -1,5 +1,5 @@
 (supertux-level
-  (version 2)
+  (version 3)
   (name (_ "Mad Ysonn Cube Garden"))
   (author "Florian \"octo\" Forster")
   (contact "supertux at octo.it")

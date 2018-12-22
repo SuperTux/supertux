@@ -1,5 +1,5 @@
 (supertux-level
-  (version 2)
+  (version 3)
   (name (_ "Slope Test"))
   (author "Matthias Braun")
   (sector

@@ -1,5 +1,5 @@
 (supertux-level
-  (version 2)
+  (version 3)
   (name (_ "Halloween 2014"))
   (author "Ingo Ruhnke <grumbel@gmail.com>")
   (sector

@@ -1,5 +1,5 @@
 (supertux-level
-  (version 2)
+  (version 3)
   (name (_ "Bonus Island II"))
   (author "SuperTux Team")
   (contact "http://developer.berlios.de/projects/supertux/")

@@ -1,5 +1,5 @@
 (supertux-level
-  (version 2)
+  (version 3)
   (name (_ "Icy Island"))
   (author "Carsten Wirtz")
   (contact "https://supertux.org")

@@ -1,5 +1,5 @@
 (supertux-level
-  (version 2)
+  (version 3)
   (name (_ "Crystal Cataclysm"))
   (author "lazure")
   (license "GPL 3+/CC-BY-SA 3.0")

@@ -1,5 +1,5 @@
 (supertux-level
-  (version 2)
+  (version 3)
   (name (_ "In the Spring"))
   (author "Anja")
   (target-time 40)

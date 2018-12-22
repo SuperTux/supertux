@@ -1,5 +1,5 @@
 (supertux-level
-  (version 2)
+  (version 3)
   (name (_ "Rock, Slope, and Hole Test"))
   (author "SuperTux Team")
   (sector

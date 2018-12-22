@@ -1,5 +1,5 @@
 (supertux-level
-  (version 2)
+  (version 3)
   (name (_ "TextArray test scripted"))
   (author "g--o")
   (license "CC-BY-SA 4.0 International")

@@ -1,5 +1,5 @@
 (supertux-level
-  (version 2)
+  (version 3)
   (name (_ "Unnamed (Ice Test)"))
   (author "Wolfgang Becker")
   (contact "uafr@gmx.de")

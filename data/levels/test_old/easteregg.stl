@@ -1,5 +1,5 @@
 (supertux-level
-  (version 2)
+  (version 3)
   (name (_ "Easter Egg Demo"))
   (author "No Author")
   (sector

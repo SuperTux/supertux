@@ -1,5 +1,5 @@
 (supertux-level
-  (version 2)
+  (version 3)
   (name (_ "My Penny is over the ocean"))
   (author "Wolfs")
   (contact "pizzaservice at freenet.de")

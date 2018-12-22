@@ -1,5 +1,5 @@
 (supertux-level
-  (version 2)
+  (version 3)
   (name (_ "Incubator Island"))
   (author "SuperTux development team")
   (license "GPL 2+ / CC-by-sa 3.0")

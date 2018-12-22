@@ -1,5 +1,5 @@
 (supertux-level
-  (version 2)
+  (version 3)
   (name (_ "rusty trampoline test (C++ implementation)"))
   (author "Jonas Kuemmerlin")
   (contact "rgcjonas@googlemail.com")

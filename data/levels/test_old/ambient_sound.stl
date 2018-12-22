@@ -1,5 +1,5 @@
 (supertux-level
-  (version 2)
+  (version 3)
   (name (_ "Ambient Sound Test"))
   (author "basti_")
   (sector

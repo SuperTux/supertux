@@ -1,5 +1,5 @@
 (supertux-level
-  (version 2)
+  (version 3)
   (name (_ "In the mountain"))
   (author "Eliminator")
   (contact "jacob_vejvoda@hotmail.com")

@@ -1,5 +1,5 @@
 (supertux-level
-  (version 2)
+  (version 3)
   (name (_ "Flapping Parcours - Don't touch grey blocks!"))
   (author "the time you went through this, you know how to flap :)")
   (sector
