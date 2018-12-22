@@ -98,10 +98,17 @@ TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
   assert(m_tileset);
 
   reader.get("solid",  m_real_solid);
-  reader.get("speed",  m_speed_x);
+
+  bool backward_compatibility_fudge = false;
+
+  if (!reader.get("speed-x", m_speed_x)) {
+    if (reader.get("speed",  m_speed_x)) {
+      backward_compatibility_fudge = true;
+    }
+  }
 
   if (!reader.get("speed-y", m_speed_y)) {
-    if (!Editor::is_active()) {
+    if (backward_compatibility_fudge) {
       m_speed_y = m_speed_x;
     }
   }
@@ -214,7 +221,7 @@ TileMap::get_settings()
   result.add_int(_("Height"), &m_new_size_y);
 
   result.add_float(_("Alpha"), &m_alpha, "alpha", 1.0f);
-  result.add_float(_("Speed x"), &m_speed_x, "speed", 1.0f);
+  result.add_float(_("Speed x"), &m_speed_x, "speed-x", 1.0f);
   result.add_float(_("Speed y"), &m_speed_y, "speed-y", 1.0f);
   result.add_color(_("Tint"), &m_tint, "tint", Color::WHITE);
   result.add_int(_("Z-pos"), &m_z_pos, "z-pos");
@@ -236,7 +243,7 @@ TileMap::get_settings()
 
   result.add_tiles(_("Tiles"), this, "tiles");
 
-  result.reorder({"solid", "running", "speed", "speed-y", "tint", "draw-target", "alpha", "z-pos", "name", "path-ref", "width", "height", "tiles"});
+  result.reorder({"solid", "running", "speed-x", "speed-y", "tint", "draw-target", "alpha", "z-pos", "name", "path-ref", "width", "height", "tiles"});
 
   if (!m_editor_active) {
     result.add_remove();
