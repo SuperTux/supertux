@@ -1516,7 +1516,7 @@
     )
     (tilemap
       (solid #f)
-      (speed 0.5)
+      (speed-x 0.5)
       (speed-y 0.5)
       (z-pos -210)
       (name "para")
@@ -1559,7 +1559,7 @@
     )
     (tilemap
       (solid #f)
-      (speed 0.3)
+      (speed-x 0.3)
       (speed-y 0.3)
       (z-pos -220)
       (name "para2")

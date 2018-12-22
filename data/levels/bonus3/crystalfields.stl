@@ -320,7 +320,8 @@
     )
     (tilemap
       (solid #f)
-      (speed 0.8)
+      (speed-x 0.8)
+      (speed-y 0.8)
       (z-pos -170)
       (name "back")
       (width 400)
@@ -377,7 +378,8 @@
     )
     (tilemap
       (solid #f)
-      (speed 0.7)
+      (speed-x 0.7)
+      (speed-y 0.7)
       (z-pos -180)
       (name "back2")
       (width 400)
@@ -434,7 +436,8 @@
     )
     (tilemap
       (solid #f)
-      (speed 0.6)
+      (speed-x 0.6)
+      (speed-y 0.6)
       (z-pos -190)
       (name "back3")
       (width 400)
@@ -547,7 +550,8 @@
     )
     (tilemap
       (solid #f)
-      (speed 0.8)
+      (speed-x 0.8)
+      (speed-y 0.8)
       (z-pos -160)
       (name "beforeBack")
       (width 400)
@@ -604,7 +608,8 @@
     )
     (tilemap
       (solid #f)
-      (speed 2)
+      (speed-x 2)
+      (speed-y 2)
       (alpha 0.7)
       (z-pos 200)
       (name "ForeCrystal")

@@ -385,7 +385,8 @@
     )
     (tilemap
       (solid #f)
-      (speed 0.5)
+      (speed-x 0.5)
+      (speed-y 0.5)
       (alpha 0.4)
       (z-pos -100)
       (name "Background")
@@ -455,7 +456,8 @@
     )
     (tilemap
       (solid #f)
-      (speed 0.7)
+      (speed-x 0.7)
+      (speed-y 0.7)
       (alpha 0.8)
       (z-pos -50)
       (name "ForeCrystals")
@@ -491,7 +493,8 @@
     )
     (tilemap
       (solid #f)
-      (speed 0.1)
+      (speed-x 0.1)
+      (speed-y 0.1)
       (alpha 0.2)
       (z-pos -150)
       (name "Backlayer")

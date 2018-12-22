@@ -137,7 +137,8 @@
     )
     (tilemap
       (solid #f)
-      (speed 0.5)
+      (speed-x 0.5)
+      (speed-y 0.5)
       (z-pos -200)
       (name "Paralax1")
       (path-ref "45534b80-f2e1-418a-86df-e3b835a44508")
@@ -168,7 +169,8 @@
     )
     (tilemap
       (solid #f)
-      (speed 0.25)
+      (speed-x 0.25)
+      (speed-y 0.25)
       (z-pos -300)
       (name "Paralax2")
       (path-ref "d8962301-445c-4eb5-ac7b-3c87746311b2")

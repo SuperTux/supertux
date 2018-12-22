@@ -537,7 +537,7 @@
     )
     (tilemap
       (solid #f)
-      (speed 0.2)
+      (speed-x 0.2)
       (speed-y 0.2)
       (tint 0.6 0.8 1)
       (alpha 0.65)

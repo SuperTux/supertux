@@ -432,7 +432,8 @@
     )
     (tilemap
       (solid #f)
-      (speed 0.5)
+      (speed-x 0.5)
+      (speed-y 0.5)
       (tint 0.4 0.4 0.5)
       (z-pos -230)
       (name "paralax1")
@@ -470,7 +471,8 @@
     )
     (tilemap
       (solid #f)
-      (speed 0.2)
+      (speed-x 0.2)
+      (speed-y 0.2)
       (tint 0.2 0.2 0.3)
       (z-pos -270)
       (name "paralax2")
