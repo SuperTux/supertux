@@ -114,7 +114,7 @@ Level::save(Writer& writer)
   writer.start_list("supertux-level");
   // Starts writing to supertux level file. Keep this at the very beginning.
 
-  writer.write("version", 2);
+  writer.write("version", 3);
   writer.write("name", m_name, true);
   writer.write("author", m_author, false);
   if (!m_contact.empty()) {

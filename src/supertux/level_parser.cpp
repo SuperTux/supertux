@@ -158,7 +158,7 @@ LevelParser::load(const ReaderDocument& doc)
   if (version == 1) {
     log_info << "[" << doc.get_filename() << "] level uses old format: version 1" << std::endl;
     load_old_format(level);
-  } else if (version == 2) {
+  } else if (version == 2 || version == 3) {
     level.get("tileset", m_level.m_tileset);
 
     level.get("name", m_level.m_name);
