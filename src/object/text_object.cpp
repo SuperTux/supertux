@@ -66,7 +66,9 @@ TextObject::wrap_text()
   for(char& c : m_text) {
     if (c == '\n') {
       if (prev_c == '\n') {
-        rest += c;
+        rest += '\n';
+      } else {
+        rest += ' ';
       }
     } else {
       rest += c;
