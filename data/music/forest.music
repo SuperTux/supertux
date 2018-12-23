@@ -1,5 +1,5 @@
 (supertux-music
   (file "forest.ogg")
-  (loop-begin 54.36)
-  (loop-at    109.25)
+  (loop-begin 54.818)
+  (loop-at    95.955)
 )
