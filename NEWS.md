@@ -1,13 +1,13 @@
 SuperTux Release and Development Notes
 ======================================
 
-SuperTux 0.6.0-alpha.1 (2018-11-16)
+SuperTux 0.6.0 (2018-12-23)
 ---------------------------
 
 The SuperTux team is excited to announce the availability of the first alpha for the upcoming stable release 0.6.0 after almost two years of development.
 
 Changes:
-
+* Complete redesign of the icy world and forest world
 * Complete revamp of our rendering engine, the game should be much faster than it was previously
 * We now support OpenGL 3.3 Core as well as OpenGL ES 2.0, thus allowing SuperTux to be run on the Raspberry Pi, and potentially WebGL.
 * A few graphics have been updated, and effects have been added
@@ -20,8 +20,6 @@ Changes:
 * Official Linux binaries
 
 **Note:** If you've previously used torches in your levels and their positioning is off, please re-position them. We had to re-align their bounding boxes in order to fix bugs with their flame.
-
-This section will be updated with more alphas, betas, RCs or a stable version being released.
 
 SuperTux 0.5.1 (2016-11-05)
 ---------------------------
