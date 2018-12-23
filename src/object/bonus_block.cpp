@@ -42,6 +42,21 @@
 #include "video/drawing_context.hpp"
 #include "video/surface.hpp"
 
+namespace {
+
+std::unique_ptr<MovingObject>
+to_moving_object(std::unique_ptr<GameObject> object) {
+  MovingObject* moving_object = dynamic_cast<MovingObject*>(object.get());
+  if (moving_object) {
+    object.release();
+    return std::unique_ptr<MovingObject>(moving_object);
+  } else {
+    return std::unique_ptr<MovingObject>();
+  }
+}
+
+} // namespace
+
 BonusBlock::BonusBlock(const Vector& pos, int tile_data) :
   Block(SpriteManager::current()->create("images/objects/bonus_block/bonusblock.sprite")),
   m_contents(),
@@ -110,13 +125,9 @@ BonusBlock::BonusBlock(const ReaderMapping& mapping) :
 
               const ReaderObject& spec = object_specs[0];
               auto game_object = GameObjectFactory::instance().create(spec.get_name(), spec.get_mapping());
-
-              GameObject* tmp_ptr = game_object.release();
-              MovingObject* typed_tmp_ptr = dynamic_cast<MovingObject*>(tmp_ptr);
-              if (!typed_tmp_ptr) {
+              m_object = to_moving_object(std::move(game_object));
+              if (!m_object) {
                 log_warning << "Only MovingObjects are allowed inside BonusBlocks" << std::endl;
-              } else {
-                m_object = std::unique_ptr<MovingObject>(typed_tmp_ptr);
               }
             }
           }
@@ -132,11 +143,9 @@ BonusBlock::BonusBlock(const ReaderMapping& mapping) :
         ReaderMapping object_mapping = iter.as_mapping();
         auto game_object = GameObjectFactory::instance().create(token, object_mapping);
 
-        MovingObject* moving_object_ptr = dynamic_cast<MovingObject*>(game_object.get());
-        if (moving_object_ptr == nullptr) {
+        m_object = to_moving_object(std::move(game_object));
+        if (!m_object) {
           throw std::runtime_error("Only MovingObjects are allowed inside BonusBlocks");
-        } else {
-          m_object.reset(static_cast<MovingObject*>(game_object.get()));
         }
       } else {
         log_warning << "Invalid element '" << token << "' in bonusblock" << std::endl;
