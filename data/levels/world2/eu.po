@@ -3,85 +3,82 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# Gianfranco Del Borrello <jeffry84@hotmail.it>, 2016
-# Am1g0 <Giuego@aol.com>, 2014
-# Paride Barison, 2015
-# Marcello Bolognesi, 2013
-# Paride Barison, 2018
-# Paride Barison, 2018
+# Bingen Galartza Iparragirre <bingalipa@gmail.com>, 2017
+# Mielanjel Iraeta <pospolos@gmail.com>, 2018
+# Urtzi Odriozola <urtzi.odriozola@gmail.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2018-11-05 23:45+0100\n"
-"PO-Revision-Date: 2018-12-18 13:53+0000\n"
-"Last-Translator: Paride Barison\n"
-"Language-Team: Italian (http://www.transifex.com/arctic-games/supertux/language/it/)\n"
+"PO-Revision-Date: 2018-11-14 21:11+0000\n"
+"Last-Translator: Mielanjel Iraeta <pospolos@gmail.com>\n"
+"Language-Team: Basque (http://www.transifex.com/arctic-games/supertux/language/eu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: it\n"
+"Language: eu\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/levels/world2/Bouncy_Coils.stl:3
 msgid "Bouncy Coils"
-msgstr "Bobine Rimbalzanti"
+msgstr "Espiral jauzilariak"
 
 #: data/levels/world2/Bye_Bye_Forest.stl:3
 msgid "Bye Bye Forest"
-msgstr "Ciao ciao Foresta"
+msgstr "Hurrengora arte, basoa"
 
 #: data/levels/world2/Crumbling_Path.stl:3
 msgid "Crumbling Path"
-msgstr "Percorso Instabile"
+msgstr "Bide ezegonkorra"
 
 #: data/levels/world2/Dark_Tunnel.stl:3
 msgid "The Dark Tunnel"
-msgstr "Il Tunnel Oscuro"
+msgstr "Tunel iluna"
 
 #: data/levels/world2/Deeper_Down.stl:3
 msgid "Deeper Down"
-msgstr "Sempre più Giù"
+msgstr "Sakontasunetan"
 
 #: data/levels/world2/El_Castillo.stl:3
 msgid "A Short Visit to El Castillo"
-msgstr "Una breve visita a El Castillio"
+msgstr "El Castillora bisita motza"
 
 #: data/levels/world2/Find_Big_Fish.stl:3
 msgid "Find the Bigger Fish!"
-msgstr "Trova il pesce più grosso!"
+msgstr "Aurkitu arrainik handienak!"
 
 #: data/levels/world2/Find_Big_Fish.stl:446
 msgid "-A big fish... for you."
-msgstr "-Un grosso pesce... per te."
+msgstr "-Arrain handia... zuretzat."
 
 #: data/levels/world2/Getting_Hot.stl:3
 msgid "It's Getting Hot!"
-msgstr "Scotta!"
+msgstr "Bero, bero!"
 
 #: data/levels/world2/Ghostly_World.stl:3
 msgid "A Ghostly World"
-msgstr "Un Mondo Spettrale"
+msgstr "Mamu mundu bat!"
 
 #: data/levels/world2/Going_Underground.stl:3
 msgid "Going Underground"
-msgstr "Passaggio Sotterraneo"
+msgstr "Lur azpian barrena"
 
 #: data/levels/world2/Kneep_Deep.stl:3
 msgid "Kneep-deep in the depth"
-msgstr "In Profondità"
+msgstr "Sakona sakontasunean"
 
 #: data/levels/world2/Mouldy_Grotto.stl:3
 msgid "A Mouldy Grotto"
-msgstr "Una Grotta Ammuffita"
+msgstr "Leize lizuntsua"
 
 #: data/levels/world2/Penguin_Grow_Trees.stl:3
 msgid "Penguins don't grow on Trees"
-msgstr "I pinguini non crescono sugli alberi"
+msgstr "Pinguinoak ez dira zuhaitzetan hazten"
 
 #: data/levels/world2/Rabbit_Hole.stl:3
 msgid "Down The Rabbit Hole"
-msgstr "Nel Paese delle Meraviglie"
+msgstr "Untxi zuloan behera"
 
 #: data/levels/world2/Rabbit_Hole.stl:46
 msgid ""
@@ -90,35 +87,35 @@ msgid ""
 "#seems that the only way\n"
 "#leads through that dark\n"
 "#hole in the ground..."
-msgstr "-Oh no!\n#La strada è bloccata!\n#Sembra che l'unica via\n#passi attraverso quello\n#scuro buco nel terreno..."
+msgstr "-O ez!\n#Bidea moztuta dago\n#badirudi bide bakarrak\n#lurreko zulo horretatik\n#doala..."
 
 #: data/levels/world2/Rabbit_Hole.stl:55
 msgid "-Are you lost?"
-msgstr "-Ti sei perso?"
+msgstr "-Galduta zaude?"
 
 #: data/levels/world2/Scary_Place.stl:3
 msgid "What is this Place?"
-msgstr "Che è 'sto Posto?"
+msgstr "Non gaude?"
 
 #: data/levels/world2/This_Forest_is_Haunted.stl:3
 msgid "This Forest is Haunted"
-msgstr "Questa Foresta è Stregata"
+msgstr "Baso hau sorgindurik dago"
 
 #: data/levels/world2/Three_Sheets.stl:3
 msgid "Three sheets to the wind"
-msgstr "Ubriaco Fradicio"
+msgstr "Hiru hosto haizetan"
 
 #: data/levels/world2/Treasure_Skies.stl:3
 msgid "Treasure in the skies"
-msgstr "Tesoro nei cieli"
+msgstr "Altxorra zeruetan"
 
 #: data/levels/world2/Tree_Fortress.stl:3
 msgid "Tree Fortress"
-msgstr "Fortezza dell'Albero"
+msgstr "Zuhaitzeko gotorlekua"
 
 #: data/levels/world2/Tux_Builder.stl:3
 msgid "Tux the Builder"
-msgstr "Tux il Costruttore"
+msgstr "Tux eraikitzailea"
 
 #: data/levels/world2/Tux_Builder.stl:53
 msgid ""
@@ -126,23 +123,23 @@ msgid ""
 "\n"
 "#Tux can carry some rocks.\n"
 "#When you are next to one press the ACTION key and keep pressed while carrying the rock. Release the key to release the rock."
-msgstr "-Rocce Portatili:\n\n#Tux può portare un po' di rocce.\n#Quando sei vicino ad una roccia premi il tasto AZIONE e mantienilo premuto per portarla. Rilascia il tasto per lasciarla."
+msgstr "-Harri eramangarriak:\n\n#Tuxek harkaitz batzuk eraman ditzake.\n#Baten ondoan zaudela ACTION tekla sakatuta izan harkaitza mugitu bitartean. Askatu tekla harkaitza askatzeko."
 
 #: data/levels/world2/Up_and_Down.stl:3
 msgid "Up and Down"
-msgstr "Su e Giù"
+msgstr "Gora eta behera"
 
 #: data/levels/world2/Walking_Leaves.stl:3
 msgid "Walking Leaves"
-msgstr "Foglie che camminano"
+msgstr "Hostoetan oinez"
 
 #: data/levels/world2/Welcome_Forest.stl:3
 msgid "Welcome to the Forest"
-msgstr "Benvenuto nella Foresta"
+msgstr "Ongi etorri basora"
 
 #: data/levels/world2/castle.stl:3
 msgid "Iceberg Fortress"
-msgstr "Fortezza dell'Iceberg"
+msgstr "Izeberg gotorlekua"
 
 #: data/levels/world2/castledoor.stl:3
 #: data/levels/world2/dfk-placeholder-1.stl:3
@@ -151,7 +148,7 @@ msgstr "NOLOK"
 
 #: data/levels/world2/christophD.stl:3
 msgid "Room of Stars"
-msgstr "Stanza delle Stelle"
+msgstr "Izarren gela"
 
 #: data/levels/world2/dan_morial.stl:3
 msgid "Dan Morial"
@@ -159,63 +156,63 @@ msgstr "Dan Morial"
 
 #: data/levels/world2/detour.stl:3
 msgid "Detour"
-msgstr "Deviazione"
+msgstr "Desbideraketa"
 
 #: data/levels/world2/dfk-level1.stl:3
 msgid "Dark Forest Keep - The Evil Chamber"
-msgstr "Fortezza della Foresta Oscura - La Camera Malefica"
+msgstr "Oihan ilun ezkutua - Deabruaren gela"
 
 #: data/levels/world2/dfk-level2.stl:3
 msgid "Dark Forest Keep - The Eyes Of Nolok"
-msgstr "Fortezza della Foresta Oscura - Gli Occhi di Nolok"
+msgstr "Oihan ilun ezkutua - Noloken begiak"
 
 #: data/levels/world2/dfk-level3.stl:3
 msgid "Dark Forest Keep - The Black Tower"
-msgstr "Fortezza della Foresta Oscura - La Torre Nera"
+msgstr "Oihan ilun ezkutua - Dorre beltza"
 
 #: data/levels/world2/forest1-grumbel.stl:3
 msgid "Forest Level 1"
-msgstr "Foresta Livello 1"
+msgstr "Baso mundua 1"
 
 #: data/levels/world2/key1.stl:3
 msgid "key 1 water - to be placed behind waterfall"
-msgstr "chiave  1 acqua - da inserire dietro la cascata"
+msgstr "Giltza 1 ura - ur jauziaren atzean jartzeko"
 
 #: data/levels/world2/key2.stl:3
 msgid "key 2 earth - to be placed underground"
-msgstr "chiave 2 terra - da inserire nel passaggio sotterraneo"
+msgstr "Giltza 2 lurra - lur azpian jartzeko"
 
 #: data/levels/world2/key3.stl:3
 msgid "key 3 wood - to be placed in a big tree"
-msgstr "chiave 3 legno - da inserire nel grande albero"
+msgstr "Giltza 3 egurra - zuhaitz handi batean jartzeko"
 
 #: data/levels/world2/key4.stl:3
 msgid "key 4 fire - to be placed in a small castle"
-msgstr "chiave 4 fuoco - da inserire in un piccolo castello"
+msgstr "giltza 4 sua - gaztelu txiki batean jartzeko"
 
 #: data/levels/world2/key5.stl:3
 msgid "key 5 air - to be placed in clouds "
-msgstr "chiave 5 aria - da inserire nelle nuvole"
+msgstr "Giltza 5 haizea - lainoetan jartzeko"
 
 #: data/levels/world2/level5.stl:3
 msgid "Green Hills"
-msgstr "Colline Verdi"
+msgstr "Mendixka berdeak"
 
 #: data/levels/world2/level6.stl:3
 msgid "No Name"
-msgstr "Senza Nome"
+msgstr "Izenik gabe"
 
 #: data/levels/world2/light+magic.stl:3
 msgid "Light and Magic"
-msgstr "Luce e Magia"
+msgstr "Argia eta magia"
 
 #: data/levels/world2/owls_revenge.stl:3
 msgid "Owls' Revenge"
-msgstr "La Vendetta dei Gufi"
+msgstr "Hontzaren mendekua"
 
 #: data/levels/world2/roots_woody_roots.stl:3
 msgid "Roots, Woody Roots"
-msgstr "Radici, Legnose Radici"
+msgstr "Sustraiak, egur sustraiak"
 
 #: data/levels/world2/roots_woody_roots.stl:199
 msgid ""
@@ -225,39 +222,39 @@ msgid ""
 "#remember that you might\n"
 "#be supposed to come out\n"
 "#of that door..."
-msgstr "-Suggerimento:\n#Se ti sembra che non ci sia\n#modo di raggiungere una porta,\n#ricorda che potresti invece\n#dover uscire da lì..."
+msgstr "-Ahoikua:\n#Atea aurkitzeko modurik\n#ez dagoela badirudi,\n#gogoratu ahal izango\n#zenukela ate horretatik\n#irten..."
 
 #: data/levels/world2/scripts_default.txt:2
 msgid "---Insert Cutscene Here---"
-msgstr "---Inserire Cutscene Qui---"
+msgstr "---Sartu hemen jarraibide zinematikoa---"
 
 #: data/levels/world2/shocking.stl:3
 msgid "Shocking"
-msgstr "Scioccante"
+msgstr "Izugarria"
 
 #: data/levels/world2/underconstruction.stl:3
 msgid "Under Construction"
-msgstr "In Costruzione"
+msgstr "Eraikitzen"
 
 #: data/levels/world2/village.stl:3
 msgid "A Village in the Forest"
-msgstr "Un villaggio nella foresta"
+msgstr "Herrixka bat basoan"
 
 #: data/levels/world2/worldmap.stwm:3
 msgid "Forest World"
-msgstr "Mondo della Foresta"
+msgstr "Baso mundua"
 
 #: data/levels/world2/worldmap.stwm:147
 msgid "More Worlds will be added later..."
-msgstr "Altri mondi verranno aggiunti successivamente..."
+msgstr "Aurki mundu gehiago izango da aurkitzeko..."
 
 #: data/levels/world2/worldmap.stwm:155 data/levels/world2/worldmap.stwm:162
 #: data/levels/world2/worldmap.stwm:169 data/levels/world2/worldmap.stwm:176
 #: data/levels/world2/worldmap.stwm:183 data/levels/world2/worldmap.stwm:190
 #: data/levels/world2/worldmap.stwm:197
 msgid "There is currently no level"
-msgstr "Non ci sono livelli"
+msgstr "Oraindik ez dago mailarik"
 
 #: data/levels/world2/worldmap.stwm:204
 msgid "You Found a Secret Area!"
-msgstr "Hai Trovato un'Area Segreta!"
+msgstr "Eremu sekretu bat aurkitu duzu!"

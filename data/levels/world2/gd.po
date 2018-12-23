@@ -3,85 +3,82 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# Gianfranco Del Borrello <jeffry84@hotmail.it>, 2016
-# Am1g0 <Giuego@aol.com>, 2014
-# Paride Barison, 2015
-# Marcello Bolognesi, 2013
-# Paride Barison, 2018
-# Paride Barison, 2018
+# GunChleoc, 2016
+# GunChleoc, 2016
+# GunChleoc, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2018-11-05 23:45+0100\n"
-"PO-Revision-Date: 2018-12-18 13:53+0000\n"
-"Last-Translator: Paride Barison\n"
-"Language-Team: Italian (http://www.transifex.com/arctic-games/supertux/language/it/)\n"
+"PO-Revision-Date: 2018-11-14 18:34+0000\n"
+"Last-Translator: GunChleoc\n"
+"Language-Team: Gaelic, Scottish (http://www.transifex.com/arctic-games/supertux/language/gd/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: it\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: gd\n"
+"Plural-Forms: nplurals=4; plural=(n==1 || n==11) ? 0 : (n==2 || n==12) ? 1 : (n > 2 && n < 20) ? 2 : 3;\n"
 
 #: data/levels/world2/Bouncy_Coils.stl:3
 msgid "Bouncy Coils"
-msgstr "Bobine Rimbalzanti"
+msgstr "Cuibhlichean sgeingeach"
 
 #: data/levels/world2/Bye_Bye_Forest.stl:3
 msgid "Bye Bye Forest"
-msgstr "Ciao ciao Foresta"
+msgstr "Coille an t-soraidh slàin"
 
 #: data/levels/world2/Crumbling_Path.stl:3
 msgid "Crumbling Path"
-msgstr "Percorso Instabile"
+msgstr "Slighe a’ dol às a chèile"
 
 #: data/levels/world2/Dark_Tunnel.stl:3
 msgid "The Dark Tunnel"
-msgstr "Il Tunnel Oscuro"
+msgstr "An tunail dhorcha"
 
 #: data/levels/world2/Deeper_Down.stl:3
 msgid "Deeper Down"
-msgstr "Sempre più Giù"
+msgstr "Nas fhaide shìos"
 
 #: data/levels/world2/El_Castillo.stl:3
 msgid "A Short Visit to El Castillo"
-msgstr "Una breve visita a El Castillio"
+msgstr "Sgrìob dhan chaisteal"
 
 #: data/levels/world2/Find_Big_Fish.stl:3
 msgid "Find the Bigger Fish!"
-msgstr "Trova il pesce più grosso!"
+msgstr "Lorg an t-iasg as motha!"
 
 #: data/levels/world2/Find_Big_Fish.stl:446
 msgid "-A big fish... for you."
-msgstr "-Un grosso pesce... per te."
+msgstr "-Seo iasg mòr… dhutsa."
 
 #: data/levels/world2/Getting_Hot.stl:3
 msgid "It's Getting Hot!"
-msgstr "Scotta!"
+msgstr "Tha e a’ fàs teth!"
 
 #: data/levels/world2/Ghostly_World.stl:3
 msgid "A Ghostly World"
-msgstr "Un Mondo Spettrale"
+msgstr "Saoghal taibhseach"
 
 #: data/levels/world2/Going_Underground.stl:3
 msgid "Going Underground"
-msgstr "Passaggio Sotterraneo"
+msgstr "Fon talamh"
 
 #: data/levels/world2/Kneep_Deep.stl:3
 msgid "Kneep-deep in the depth"
-msgstr "In Profondità"
+msgstr "Domhainn"
 
 #: data/levels/world2/Mouldy_Grotto.stl:3
 msgid "A Mouldy Grotto"
-msgstr "Una Grotta Ammuffita"
+msgstr "Uamhag liath"
 
 #: data/levels/world2/Penguin_Grow_Trees.stl:3
 msgid "Penguins don't grow on Trees"
-msgstr "I pinguini non crescono sugli alberi"
+msgstr "Chan fhàs cinn-fhionna air craobhan"
 
 #: data/levels/world2/Rabbit_Hole.stl:3
 msgid "Down The Rabbit Hole"
-msgstr "Nel Paese delle Meraviglie"
+msgstr "Sìos toll na rabaid"
 
 #: data/levels/world2/Rabbit_Hole.stl:46
 msgid ""
@@ -90,35 +87,35 @@ msgid ""
 "#seems that the only way\n"
 "#leads through that dark\n"
 "#hole in the ground..."
-msgstr "-Oh no!\n#La strada è bloccata!\n#Sembra che l'unica via\n#passi attraverso quello\n#scuro buco nel terreno..."
+msgstr "-Ochan ò!\n#Chaidh an t-slighe a bhacadh\n#Tha coltas nach eil ach aon\n#shlige ann tron toll dorcha\n# san talamh…"
 
 #: data/levels/world2/Rabbit_Hole.stl:55
 msgid "-Are you lost?"
-msgstr "-Ti sei perso?"
+msgstr "-Na deach thu air chall?"
 
 #: data/levels/world2/Scary_Place.stl:3
 msgid "What is this Place?"
-msgstr "Che è 'sto Posto?"
+msgstr "Dè an t-àite seo?"
 
 #: data/levels/world2/This_Forest_is_Haunted.stl:3
 msgid "This Forest is Haunted"
-msgstr "Questa Foresta è Stregata"
+msgstr "Tha tàbharnadh air a’ choille seo"
 
 #: data/levels/world2/Three_Sheets.stl:3
 msgid "Three sheets to the wind"
-msgstr "Ubriaco Fradicio"
+msgstr "An aghaidh na gaoithe"
 
 #: data/levels/world2/Treasure_Skies.stl:3
 msgid "Treasure in the skies"
-msgstr "Tesoro nei cieli"
+msgstr "Ulaidh sna speuran"
 
 #: data/levels/world2/Tree_Fortress.stl:3
 msgid "Tree Fortress"
-msgstr "Fortezza dell'Albero"
+msgstr "Dùn chraobhan"
 
 #: data/levels/world2/Tux_Builder.stl:3
 msgid "Tux the Builder"
-msgstr "Tux il Costruttore"
+msgstr "Tux an neach-togail"
 
 #: data/levels/world2/Tux_Builder.stl:53
 msgid ""
@@ -126,23 +123,23 @@ msgid ""
 "\n"
 "#Tux can carry some rocks.\n"
 "#When you are next to one press the ACTION key and keep pressed while carrying the rock. Release the key to release the rock."
-msgstr "-Rocce Portatili:\n\n#Tux può portare un po' di rocce.\n#Quando sei vicino ad una roccia premi il tasto AZIONE e mantienilo premuto per portarla. Rilascia il tasto per lasciarla."
+msgstr "-Clachan so-ghiùlan:\n\n#’S urrainn dha Tux clachan a thoirt leis.\n#Nuair a bhios tè ri do thaobh, brùth air iuchair a’ GHNÌOMHA is cum sìos i fhad ’s a bhios tu a’ giùlan na cloiche. Leig às an iuchair airson a’ chlach a leigeil às."
 
 #: data/levels/world2/Up_and_Down.stl:3
 msgid "Up and Down"
-msgstr "Su e Giù"
+msgstr "Suas is sìos"
 
 #: data/levels/world2/Walking_Leaves.stl:3
 msgid "Walking Leaves"
-msgstr "Foglie che camminano"
+msgstr "A’ coiseachd an duillich"
 
 #: data/levels/world2/Welcome_Forest.stl:3
 msgid "Welcome to the Forest"
-msgstr "Benvenuto nella Foresta"
+msgstr "Fàilte dhan choille"
 
 #: data/levels/world2/castle.stl:3
 msgid "Iceberg Fortress"
-msgstr "Fortezza dell'Iceberg"
+msgstr "Eigh-dhùn"
 
 #: data/levels/world2/castledoor.stl:3
 #: data/levels/world2/dfk-placeholder-1.stl:3
@@ -151,71 +148,71 @@ msgstr "NOLOK"
 
 #: data/levels/world2/christophD.stl:3
 msgid "Room of Stars"
-msgstr "Stanza delle Stelle"
+msgstr "Seòmar nan rionnag"
 
 #: data/levels/world2/dan_morial.stl:3
 msgid "Dan Morial"
-msgstr "Dan Morial"
+msgstr "Tìr Mhario"
 
 #: data/levels/world2/detour.stl:3
 msgid "Detour"
-msgstr "Deviazione"
+msgstr "Frith-rathad"
 
 #: data/levels/world2/dfk-level1.stl:3
 msgid "Dark Forest Keep - The Evil Chamber"
-msgstr "Fortezza della Foresta Oscura - La Camera Malefica"
+msgstr "Daingean dubh coille - An t-seòmar olc"
 
 #: data/levels/world2/dfk-level2.stl:3
 msgid "Dark Forest Keep - The Eyes Of Nolok"
-msgstr "Fortezza della Foresta Oscura - Gli Occhi di Nolok"
+msgstr "Daingean dubh coille - Sùilean Nolok"
 
 #: data/levels/world2/dfk-level3.stl:3
 msgid "Dark Forest Keep - The Black Tower"
-msgstr "Fortezza della Foresta Oscura - La Torre Nera"
+msgstr "Daingean dubh coille -  An tùr dubh"
 
 #: data/levels/world2/forest1-grumbel.stl:3
 msgid "Forest Level 1"
-msgstr "Foresta Livello 1"
+msgstr "Leibheil 1 na coille"
 
 #: data/levels/world2/key1.stl:3
 msgid "key 1 water - to be placed behind waterfall"
-msgstr "chiave  1 acqua - da inserire dietro la cascata"
+msgstr "iuchair 1 uisge - ri a cur air cùlaibh easa"
 
 #: data/levels/world2/key2.stl:3
 msgid "key 2 earth - to be placed underground"
-msgstr "chiave 2 terra - da inserire nel passaggio sotterraneo"
+msgstr "iuchair 2 ùir - ri a cur fon talamh"
 
 #: data/levels/world2/key3.stl:3
 msgid "key 3 wood - to be placed in a big tree"
-msgstr "chiave 3 legno - da inserire nel grande albero"
+msgstr "iuchair 3 fiodh - ri a cur ann an craobh mòr"
 
 #: data/levels/world2/key4.stl:3
 msgid "key 4 fire - to be placed in a small castle"
-msgstr "chiave 4 fuoco - da inserire in un piccolo castello"
+msgstr "iuchair 4 teine - ri a cur ann an caisteal beag"
 
 #: data/levels/world2/key5.stl:3
 msgid "key 5 air - to be placed in clouds "
-msgstr "chiave 5 aria - da inserire nelle nuvole"
+msgstr "iuchair 5 adhair - ri a cur sna neòil"
 
 #: data/levels/world2/level5.stl:3
 msgid "Green Hills"
-msgstr "Colline Verdi"
+msgstr "Cnuic uaine"
 
 #: data/levels/world2/level6.stl:3
 msgid "No Name"
-msgstr "Senza Nome"
+msgstr "Gun ainm"
 
 #: data/levels/world2/light+magic.stl:3
 msgid "Light and Magic"
-msgstr "Luce e Magia"
+msgstr "Solas is draoidheachd"
 
 #: data/levels/world2/owls_revenge.stl:3
 msgid "Owls' Revenge"
-msgstr "La Vendetta dei Gufi"
+msgstr "Dìoghaltas na caillich-oidhche"
 
 #: data/levels/world2/roots_woody_roots.stl:3
 msgid "Roots, Woody Roots"
-msgstr "Radici, Legnose Radici"
+msgstr "Freumhan fiodha"
 
 #: data/levels/world2/roots_woody_roots.stl:199
 msgid ""
@@ -225,39 +222,39 @@ msgid ""
 "#remember that you might\n"
 "#be supposed to come out\n"
 "#of that door..."
-msgstr "-Suggerimento:\n#Se ti sembra che non ci sia\n#modo di raggiungere una porta,\n#ricorda che potresti invece\n#dover uscire da lì..."
+msgstr "-Oidheam:\n#Mura saoil thu gun\n#ruig thu doras,\n#cuimhnich gum bu chòir dhut\n#tighinn a-mach às an dearbh\n#dhoras ma dh’fhaoidte…"
 
 #: data/levels/world2/scripts_default.txt:2
 msgid "---Insert Cutscene Here---"
-msgstr "---Inserire Cutscene Qui---"
+msgstr "---Cuir sealladh a-steach an-seo---"
 
 #: data/levels/world2/shocking.stl:3
 msgid "Shocking"
-msgstr "Scioccante"
+msgstr "Gairiseachail"
 
 #: data/levels/world2/underconstruction.stl:3
 msgid "Under Construction"
-msgstr "In Costruzione"
+msgstr "’Ga thogail"
 
 #: data/levels/world2/village.stl:3
 msgid "A Village in the Forest"
-msgstr "Un villaggio nella foresta"
+msgstr "Baile sa choille"
 
 #: data/levels/world2/worldmap.stwm:3
 msgid "Forest World"
-msgstr "Mondo della Foresta"
+msgstr "Saoghal na coille"
 
 #: data/levels/world2/worldmap.stwm:147
 msgid "More Worlds will be added later..."
-msgstr "Altri mondi verranno aggiunti successivamente..."
+msgstr "Thèid barrachd shaoghalan a chur ris fhathast… "
 
 #: data/levels/world2/worldmap.stwm:155 data/levels/world2/worldmap.stwm:162
 #: data/levels/world2/worldmap.stwm:169 data/levels/world2/worldmap.stwm:176
 #: data/levels/world2/worldmap.stwm:183 data/levels/world2/worldmap.stwm:190
 #: data/levels/world2/worldmap.stwm:197
 msgid "There is currently no level"
-msgstr "Non ci sono livelli"
+msgstr "Chan eil leibheil ann an-dràsta"
 
 #: data/levels/world2/worldmap.stwm:204
 msgid "You Found a Secret Area!"
-msgstr "Hai Trovato un'Area Segreta!"
+msgstr "Lorg thu raon dìomhair!"

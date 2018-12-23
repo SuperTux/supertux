@@ -3,28 +3,24 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# Angela <angelapellegrino@hotmail.it>, 2014
-# Gianfranco Del Borrello <jeffry84@hotmail.it>, 2016
-# Paride Barison, 2015-2016
-# Marcello Bolognesi, 2013-2014
-# Paride Barison, 2018
+# abuyop <abuyop@gmail.com>, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2018-11-05 23:45+0100\n"
-"PO-Revision-Date: 2018-12-18 13:51+0000\n"
-"Last-Translator: Paride Barison\n"
-"Language-Team: Italian (http://www.transifex.com/arctic-games/supertux/language/it/)\n"
+"PO-Revision-Date: 2018-12-20 10:01+0000\n"
+"Last-Translator: abuyop <abuyop@gmail.com>\n"
+"Language-Team: Malay (Malaysia) (http://www.transifex.com/arctic-games/supertux/language/ms_MY/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: it\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: ms_MY\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:3
 msgid "Welcome to Antarctica"
-msgstr "Benvenuto ad Antarctica"
+msgstr "Selamat Datang ke Antartika"
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:33
 msgid ""
@@ -33,156 +29,156 @@ msgid ""
 "#Bonus blocks can contain coins, power-ups or special items to help you in your quest.\n"
 "#\n"
 "#Hit them from below to get at their contents."
-msgstr "-Blocchi bonus\n!images/objects/bonus_block/full-0.png\n#I blocchi bonus possono contenere monete, potenziamenti o oggetti speciali che ti aiuteranno nella tua impresa.\n#\n#Colpiscili dal basso per prenderne il contenuto."
+msgstr ""
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:42
 msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden crates with his head."
-msgstr "-Uova\n!images/powerups/egg/egg.png\n#Le Uova rendono Tux più grande. In questo modo Tux può rompere le casse di legno colpendole con la testa."
+msgstr ""
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:49
 msgid ""
 "-Checkpoints\n"
 "!images/objects/resetpoints/bell-m.png\n"
 "#Activate the checkpoint. If you die, you can retry the level from here. Every time you retry from a checkpoint, you will lose 10 percent of your coins (at least 25 coins)."
-msgstr "-Punti di controllo\n!images/objects/resetpoints/bell-m.png\n#Attiva il punto di controllo. Se muori, puoi ricominciare il livello da qui. Ogni volta che ricominci da un punto di controllo, perdi il 10% delle monete (almeno 25 monete)."
+msgstr ""
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:56
 msgid ""
 "-Running\n"
 "!images/tiles/signs/run.png\n"
 "#The path in front of you is blocked. Gain some speed before jumping to pass over the blocks."
-msgstr "-Correre\n!images/tiles/signs/run.png\n#Il cammino di fronte a te è bloccato. Prendi velocità prima di saltare per oltrepassare i blocchi."
+msgstr ""
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:63
 msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#The fire flower gives Tux the ability to shoot fireballs."
-msgstr "-Fiore di Fuoco\n!images/powerups/fireflower/fire_flower-0.png\n#Il fiore di fuoco dona a Tux l'abilità di lanciare palle di fuoco."
+msgstr ""
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:70
 msgid ""
 "-Tux Doll\n"
 "!images/powerups/1up/1up.png\n"
 "#The Tux doll gives Tux 100 coins."
-msgstr "-Bambola Tux\n!images/powerups/1up/1up.png\n#La bambola Tux fornisce 100 monete."
+msgstr "-Anak Patung Tux\n!images/powerups/1up/1up.png\n#Anak Patung Tux menyumbang 100 syiling kepada Tux."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:77
 msgid ""
 "-Secret Areas\n"
 "#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."
-msgstr "-Aree Segrete\n#Molti livelli contengono aree segrete nascoste dietro a quelli che sembrano normali muri. Cerca gli indizi per trovarle."
+msgstr "-Kawasan Rahsia\n#Banyak aras mengandungi kawasan rahsia walaupun nampak seperti dinding biasa. Cari petunjuk-petunjuk untuk menemuinya."
 
 #: data/levels/world1/02 - The Journey Begins.stl:3
 msgid "The Journey Begins"
-msgstr "Il Viaggio Comincia"
+msgstr "Pengembaraan Bermula"
 
 #: data/levels/world1/03 - Via Nostalgica.stl:3
 msgid "Via Nostalgica"
-msgstr "Via Nostalgica"
+msgstr "Melalui Nostalgica"
 
 #: data/levels/world1/04 - Tobgle Road.stl:3
 msgid "Tobgle Road"
-msgstr "La Strada per Tobgle"
+msgstr "Jalan Tobgle"
 
 #: data/levels/world1/05 - The Somewhat Smaller Bath.stl:3
 msgid "The Somewhat Smaller Bath"
-msgstr "Il Bagno Aquanto Piccino"
+msgstr "Kolam Mandi yang Kecil"
 
 #: data/levels/world1/06 - The Frosted Fields.stl:3
 msgid "The Frosted Fields"
-msgstr "I Campi Ghiacciati"
+msgstr "Padang Berais"
 
 #: data/levels/world1/07 - Oh No More Snowballs.stl:3
 msgid "Oh no! More Snowballs!"
-msgstr "Oh no! Altre Palle di Neve!"
+msgstr "Tidak! Ada Lagi Bola Salji!"
 
 #: data/levels/world1/08 - Stone Cold.stl:3
 msgid "Stone Cold"
-msgstr "Pietrafredda"
+msgstr "Batu Sejuk"
 
 #: data/levels/world1/09 - Grumbels Sense of Snow.stl:3
 msgid "Grumbel's Sense of Snow"
-msgstr "Il Senso di Grumbel per la Neve"
+msgstr "Gerak Rasa Salji Grumble"
 
 #: data/levels/world1/10 - 23rd Airborne.stl:3
 msgid "23rd Airborne"
-msgstr "23esima Aviotrasportata"
+msgstr "Penerbangan ke-23"
 
 #: data/levels/world1/11 - Night Chill.stl:3
 msgid "Night Chill"
-msgstr "Gelo Notturno"
+msgstr "Kesejukan Malam"
 
 #: data/levels/world1/12 - Into the Stars.stl:3
 msgid "Into the Stars"
-msgstr "Fra le Stelle"
+msgstr "Menuju Bintang"
 
 #: data/levels/world1/13 - Above the Arctic Skies.stl:3
 msgid "Above the Arctic Skies"
-msgstr "Sopra i Cieli Artici"
+msgstr "Di atas Langit Artik"
 
 #: data/levels/world1/14 - Entrance to the Cave.stl:3
 msgid "Entrance to the Cave"
-msgstr "Ingresso della Grotta"
+msgstr "Pintu Masuk Gua"
 
 #: data/levels/world1/15 - Under the Ice.stl:3
 msgid "Under the Ice"
-msgstr "Sotto il ghiaccio"
+msgstr "Di bawah Ais"
 
 #: data/levels/world1/16 - Living in a Fridge.stl:3
 msgid "Living in a Fridge"
-msgstr "Vivere in un frigorifero"
+msgstr "Kehidupan seperti di dalam Peti Ais"
 
 #: data/levels/world1/17 - Or is it just me.stl:3
 msgid "'...or is it just me?'"
-msgstr "'...o sono solo io?'"
+msgstr "'...atau saya seorang merasainya?'"
 
 #: data/levels/world1/18 - Ice in the Hole.stl:3
 msgid "Ice in the Hole"
-msgstr "Ghiaccio in buca"
+msgstr "Ais dalam Lubang"
 
 #: data/levels/world1/19 - Miyamoto Monument.stl:3
 msgid "Miyamoto Monument"
-msgstr "Monumento a Miyamoto"
+msgstr "Monumen Miyamoto"
 
 #: data/levels/world1/20 - End of the Tunnel.stl:3
 msgid "End of the Tunnel"
-msgstr "La fine del Tunnel"
+msgstr "Penghujung Terowong"
 
 #: data/levels/world1/21 - A Path in the Clouds.stl:3
 msgid "A Path in the Clouds"
-msgstr "Un Sentiero fra le Nuvole"
+msgstr "Laluan di atas Awan"
 
 #: data/levels/world1/22 - A Mysterious House of Ice.stl:3
 msgid "A Mysterious House of Ice"
-msgstr "Una Misteriosa Casa di Ghiaccio"
+msgstr "Rumah Ais yang Misteri"
 
 #: data/levels/world1/23 - The Escape.stl:3
 msgid "The Escape"
-msgstr "La Fuga"
+msgstr "Pelepasan"
 
 #: data/levels/world1/24 - The Shattered Bridge.stl:3
 msgid "The Shattered Bridge"
-msgstr "Il Ponte Distrutto"
+msgstr "Jambatan Rapuh"
 
 #: data/levels/world1/25 - Arctic Ruins.stl:3
 msgid "Arctic Ruins"
-msgstr "Rovine Artiche"
+msgstr "Runtuhan Artik"
 
 #: data/levels/world1/26 - The Castle of Nolok.stl:3
 msgid "The Castle of Nolok"
-msgstr "Il Castello di Nolok"
+msgstr "Istana Nolok"
 
 #: data/levels/world1/27 - No More Mr Ice Guy.stl:3
 msgid "No More Mr Ice Guy"
-msgstr "Non Più Signor Ghiacciolo"
+msgstr "Tiada Lagi En Ais"
 
 #: data/levels/world1/Fork_in_the_Road.stl:3
 msgid "A Fork in the Road"
-msgstr "Un Bivio per la Strada"
+msgstr "Cabang Jalan"
 
 #: data/levels/world1/Fork_in_the_Road.stl:355
 msgid ""
@@ -191,54 +187,54 @@ msgid ""
 "!images/objects/switch/switch-0.png\n"
 "!images/objects/switch/right-0.png\n"
 "#Switches can be used to do all manner of things. Press the UP key to use switches.  This one activates the lift to your right."
-msgstr "-Interruttori\n!images/objects/switch/left-0.png\n!images/objects/switch/switch-0.png\n!images/objects/switch/right-0.png\n#Gli interruttori possono essere usati per ogni genere di cose. Premi il tasto SU per utilizzarli. Questo interruttore attiva l'ascensore alla tua destra."
+msgstr "-Suis\n!images/objects/switch/left-0.png\n!images/objects/switch/switch-0.png\n!images/objects/switch/right-0.png\n#Suis boleh digunakan untuk membuat pelbagai perkara. Ketik kekunci UP untuk guna suis.  Yang ini dapat aktifkan lif di sebelah kanan anda."
 
 #: data/levels/world1/Fork_in_the_Road.stl:364
 msgid ""
 "-Trampolines\n"
 "!images/objects/trampoline/trampoline2-0.png\n"
 "#Trampolines allow Tux to jump to new heights. Hold down the jump key while bouncing on the trampoline to launch extra high."
-msgstr "-Trampolino\n!images/objects/trampoline/trampoline2-0.png\n#I trampolini permettono a Tux di raggiungere nuove vette. Tieni premuto il pulsante SALTO mentre rimbalzi su un trampolino per lanciarti più in alto."
+msgstr ""
 
 #: data/levels/world1/Fork_in_the_Road.stl:371
 msgid ""
 "- Climbing\n"
 "# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
-msgstr "- Arrampicarsi\n# Tux può arrampicarsi! Premi il tasto SU per cominciare ad arrampicarti. Premi il tasto AZIONE o salta per mollare la presa."
+msgstr "- Memanjat\n# Tux boleh memanjat!  Ketik kekunci UP untuk mula memanjat.  Ketik kekunci ACTION atau lompat keluar."
 
 #: data/levels/world1/bonus.stl:3
 msgid "Bonus Level"
-msgstr "Livello Bonus"
+msgstr "Aras Bonus"
 
 #: data/levels/world1/intro.stl:3
 msgid "Picnic With Penny"
-msgstr "Picnic Con Penny"
+msgstr "Berkelah Dengan si Penny"
 
 #: data/levels/world1/scripts_intro.txt:2
 msgid ""
 "Somewhere at the shores\n"
 "of Antarctica..."
-msgstr "Da qualche parte\nper le spiagge di Antarctica..."
+msgstr "Disuatu pantai Antartika..."
 
 #: data/levels/world1/scripts_intro.txt:4
 msgid "Tux: Hello Penny"
-msgstr "Tux: Ciao Penny"
+msgstr "Tux: Hello Penny"
 
 #: data/levels/world1/scripts_intro.txt:5
 msgid "Penny: Hey Tux"
-msgstr "Penny: Ehi Tux"
+msgstr "Penny: Hai Tux"
 
 #: data/levels/world1/scripts_intro.txt:6
 msgid "Tux: Check out my dance moves."
-msgstr "Tux: Guarda come ballo."
+msgstr "Tux: Tengoklah gerakan tarian saya."
 
 #: data/levels/world1/scripts_intro.txt:7
 msgid "Tux: Oww... my head..."
-msgstr "Tux: Ohh... la mia testa..."
+msgstr "Tux: Aduh... kepala saya..."
 
 #: data/levels/world1/scripts_intro.txt:8
 msgid "Tux: Wait!"
-msgstr "Tux: Aspetta!"
+msgstr "Tux: Tunggu!"
 
 #: data/levels/world1/scripts_intro.txt:9
 msgid "Tux: Penny!"
@@ -246,20 +242,20 @@ msgstr "Tux: Penny!"
 
 #: data/levels/world1/scripts_intro.txt:10
 msgid "Tux: Where are you, Penny?!"
-msgstr "Tux: Penny! Dove sei!?"
+msgstr "Tux: Di mana kamu, Penny?!"
 
 #: data/levels/world1/scripts_intro.txt:11
 msgid "Tux: Oh no..."
-msgstr "Tux: Oh no..."
+msgstr "Tux: Tidak..."
 
 #: data/levels/world1/scripts_intro.txt:12
 msgid "Tux: Don't worry, Penny, I'll rescue you!"
-msgstr "Tux: Penny, non ti preoccupare! Ti salverò!!"
+msgstr "Tux: Jangan risau, Penny, Saya selamatkan awak!"
 
 #: data/levels/world1/worldmap.stwm:3
 msgid "Icyisland"
-msgstr "Freddisola"
+msgstr "Pulau Ais"
 
 #: data/levels/world1/worldmap.stwm:37
 msgid "You Found a Secret Area!"
-msgstr "Hai Trovato un'Area Segreta!"
+msgstr "Anda Menemui Kawasan Rahsia!"

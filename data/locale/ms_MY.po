@@ -3,40 +3,28 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# Angela <angelapellegrino@hotmail.it>, 2014-2015
-# Benjamin Leduc <giby_the_kid@yahoo.fr>, 2015
-# Gianfranco Del Borrello <jeffry84@hotmail.it>, 2016
-# Iknos <ze4lot@email.it>, 2004
-# Paride Barison, 2015
-# Irene Di Rosa, 2014
-# Marcello Bolognesi, 2013-2015
-# Paride Barison, 2018
-# Paride Barison, 2018
-# Seb47TV <seb47tv@gmail.com>, 2016
-# Simone Centonze <mypythonit@gmail.com>, 2018
-# William Beltrán <wbeltranc@gmail.com>, 2016
-# William Beltrán <wbeltranc@gmail.com>, 2016
+# abuyop <abuyop@gmail.com>, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2018-11-16 00:48+0100\n"
-"PO-Revision-Date: 2018-12-18 13:50+0000\n"
-"Last-Translator: Paride Barison\n"
-"Language-Team: Italian (http://www.transifex.com/arctic-games/supertux/language/it/)\n"
+"PO-Revision-Date: 2018-12-20 09:47+0000\n"
+"Last-Translator: abuyop <abuyop@gmail.com>\n"
+"Language-Team: Malay (Malaysia) (http://www.transifex.com/arctic-games/supertux/language/ms_MY/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: it\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: ms_MY\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: src/trigger/secretarea_trigger.cpp:48 src/trigger/secretarea_trigger.cpp:56
 msgid "You found a secret area!"
-msgstr "Hai trovato un'area segreta!"
+msgstr "Anda telah menemui kawasan rahsia! yay"
 
 #: src/trigger/secretarea_trigger.cpp:69
 msgid "Secret area"
-msgstr "Area segreta"
+msgstr "Kawasan rahsia"
 
 #: src/trigger/secretarea_trigger.cpp:70 src/trigger/scripttrigger.cpp:70
 #: src/trigger/climbable.cpp:73 src/trigger/switch.cpp:60
@@ -46,503 +34,503 @@ msgstr "Area segreta"
 #: src/supertux/menu/editor_new_levelset_menu.cpp:34
 #: src/supertux/menu/editor_level_menu.cpp:33
 msgid "Name"
-msgstr "Nome"
+msgstr "Nama"
 
 #: src/trigger/secretarea_trigger.cpp:71 src/trigger/scripttrigger.cpp:71
 #: src/trigger/climbable.cpp:74 src/trigger/sequence_trigger.cpp:74
 #: src/object/invisible_wall.cpp:44 src/object/ambient_sound.cpp:122
 #: src/object/tilemap.cpp:224 src/supertux/menu/editor_sector_menu.cpp:39
 msgid "Width"
-msgstr "Larghezza"
+msgstr "Lebar"
 
 #: src/trigger/secretarea_trigger.cpp:72 src/trigger/scripttrigger.cpp:72
 #: src/trigger/climbable.cpp:75 src/trigger/sequence_trigger.cpp:75
 #: src/object/invisible_wall.cpp:45 src/object/ambient_sound.cpp:123
 #: src/object/tilemap.cpp:225 src/supertux/menu/editor_sector_menu.cpp:40
 msgid "Height"
-msgstr "Altezza"
+msgstr "Tinggi"
 
 #: src/trigger/secretarea_trigger.cpp:73
 msgid "Fade tilemap"
-msgstr "Sbiadisci tilemap"
+msgstr "Lenyap peta jubin"
 
 #: src/trigger/secretarea_trigger.cpp:74 src/trigger/climbable.cpp:76
 #: src/object/infoblock.cpp:56 src/editor/worldmap_objects.cpp:189
 #: src/editor/worldmap_objects.cpp:324
 msgid "Message"
-msgstr "Messaggio"
+msgstr "Mesej"
 
 #: src/trigger/secretarea_trigger.cpp:75 src/trigger/scripttrigger.cpp:73
 #: src/object/ispy.cpp:62 src/object/bonus_block.cpp:195
 #: src/object/bonus_block.cpp:207 src/object/pushbutton.cpp:48
 #: src/object/powerup.cpp:188 src/editor/worldmap_objects.cpp:326
 msgid "Script"
-msgstr "Script"
+msgstr "Skrip"
 
 #: src/trigger/scripttrigger.cpp:69
 msgid "Script trigger"
-msgstr "Attivatore di script"
+msgstr "Pemicu skrip"
 
 #: src/trigger/scripttrigger.cpp:74 src/object/pushbutton.hpp:36
 msgid "Button"
-msgstr "Tasto"
+msgstr "Butang"
 
 #: src/trigger/scripttrigger.cpp:75
 msgid "Oneshot"
-msgstr "Oneshot"
+msgstr "Sekaligus"
 
 #: src/trigger/climbable.cpp:72
 msgid "Climbable"
-msgstr "Arrampicabile"
+msgstr "Boleh Didaki"
 
 #: src/trigger/door.cpp:70 src/badguy/willowisp.cpp:280
 #: src/supertux/menu/editor_sector_menu.cpp:32 src/editor/layers_gui.cpp:216
 msgid "Sector"
-msgstr "Settore"
+msgstr "Sektor"
 
 #: src/trigger/door.cpp:71 src/object/spawnpoint.hpp:51
 msgid "Spawn point"
-msgstr "Punto di apparizione"
+msgstr "Titik Muncul"
 
 #: src/trigger/switch.cpp:59
 msgid "Switch"
-msgstr "Interruttore"
+msgstr "Suis"
 
 #: src/trigger/switch.cpp:61 src/object/decal.cpp:39 src/object/block.cpp:205
 #: src/object/torch.cpp:87 src/object/moving_sprite.cpp:151
 #: src/editor/worldmap_objects.cpp:101 src/editor/worldmap_objects.cpp:197
 #: src/editor/worldmap_objects.cpp:271 src/editor/worldmap_objects.cpp:330
 msgid "Sprite"
-msgstr "Sprite"
+msgstr "Pari-Pari"
 
 #: src/trigger/switch.cpp:64
 msgid "Turn on script"
-msgstr "Attiva script"
+msgstr "Hidupkan skrip"
 
 #: src/trigger/switch.cpp:65
 msgid "Turn off script"
-msgstr "Disattiva script"
+msgstr "Matikan skrip"
 
 #: src/trigger/sequence_trigger.cpp:72
 msgid "Sequence trigger"
-msgstr "Attivatore di sequenza"
+msgstr "Urutan pemicu"
 
 #: src/trigger/sequence_trigger.cpp:77
 msgid "Sequence"
-msgstr "Sequenza"
+msgstr "Urutan"
 
 #: src/trigger/sequence_trigger.cpp:78
 msgid "end sequence"
-msgstr "fine sequenza"
+msgstr "penghujung jujukan"
 
 #: src/trigger/sequence_trigger.cpp:79
 msgid "stop Tux"
-msgstr "ferma Tux"
+msgstr "henti Tux"
 
 #: src/trigger/sequence_trigger.cpp:80
 msgid "fireworks"
-msgstr "fuochi artificiali"
+msgstr "bunga apai"
 
 #: src/trigger/sequence_trigger.cpp:83
 msgid "New worldmap spawnpoint"
-msgstr "Nuovo punto di rinascita nella mappa del mondo"
+msgstr "titik muncul peta dunia baharu"
 
 #: src/trigger/sequence_trigger.cpp:84
 msgid "Worldmap fade tilemap"
-msgstr "Sbiadisci tilemap nella mappa del mondo"
+msgstr "Peta jubin lenyap peta dunia"
 
 #: src/trigger/sequence_trigger.cpp:85
 msgid "Fade"
-msgstr "Sbiadisci"
+msgstr "Lenyap"
 
 #: src/trigger/sequence_trigger.cpp:86
 msgid "Fade in"
-msgstr "Dissolvenza in apertura"
+msgstr "Resap Jelma"
 
 #: src/trigger/sequence_trigger.cpp:87
 msgid "Fade out"
-msgstr "Dissolvenza in chiusura"
+msgstr "Resap lenyap"
 
 #: src/object/thunderstorm.hpp:82
 msgid "Thunderstorm"
-msgstr "Tempesta di fulmini"
+msgstr "Ribut Petir"
 
 #: src/object/path_gameobject.hpp:52
 msgid "Path"
-msgstr "Percorso"
+msgstr "Laluan"
 
 #: src/object/decal.cpp:43 src/supertux/menu/keyboard_menu.cpp:37
 #: src/supertux/menu/joystick_menu.cpp:74
 msgid "Action"
-msgstr "Azione"
+msgstr "Tindakan"
 
 #: src/object/decal.cpp:44 src/object/scripted_object.cpp:62
 #: src/object/tilemap.cpp:221
 msgid "Solid"
-msgstr "Solido"
+msgstr "Tegar"
 
 #: src/object/decal.cpp:45 src/object/particlesystem.cpp:59
 #: src/object/background.cpp:169 src/object/tilemap.cpp:230
 #: src/object/gradient.cpp:141
 msgid "Z-pos"
-msgstr "Z-pos"
+msgstr "pos-Z"
 
 #: src/object/weak_block.hpp:41
 msgid "Weak block"
-msgstr "Blocco debole"
+msgstr "Blok lemah"
 
 #: src/object/gradient.hpp:61
 msgid "Gradient"
-msgstr "Gradiente"
+msgstr "Gradien"
 
 #: src/object/tilemap.hpp:53
 msgid "Tilemap"
-msgstr "Tilemap"
+msgstr "Peta Jubin"
 
 #: src/object/brick.cpp:133
 msgid "Breakable"
-msgstr "Rompibile"
+msgstr "Boleh Pecah"
 
 #: src/object/trampoline.cpp:133
 msgid "Portable"
-msgstr "Portatile"
+msgstr "Boleh Alih"
 
 #: src/object/spotlight.cpp:60
 msgid "Angle"
-msgstr "Angolo"
+msgstr "Sudut"
 
 #: src/object/spotlight.cpp:61 src/object/magicblock.cpp:90
 #: src/object/candle.cpp:74 src/object/lantern.cpp:59
 #: src/badguy/walking_candle.cpp:81
 msgid "Colour"
-msgstr "Colore"
+msgstr "Warna"
 
 #: src/object/spotlight.cpp:62 src/badguy/flame.cpp:58
 msgid "Speed"
-msgstr "Velocità"
+msgstr "Kelajuan"
 
 #: src/object/spotlight.cpp:63
 msgid "Counter-clockwise"
-msgstr "Anti-orario"
+msgstr "Lawan-jam"
 
 #: src/object/scripted_object.cpp:63
 msgid "Physics enabled"
-msgstr "Fisica attivata"
+msgstr "Fizik dibenarkan"
 
 #: src/object/scripted_object.cpp:64
 msgid "Visible"
-msgstr "Visibile"
+msgstr "Tampak"
 
 #: src/object/scripted_object.cpp:65 src/badguy/willowisp.cpp:282
 msgid "Hit script"
-msgstr "Script di collisione"
+msgstr "Skrip kena"
 
 #: src/object/bonus_block.cpp:196
 msgid "Count"
-msgstr "Conteggio"
+msgstr "kiraan"
 
 #: src/object/bonus_block.cpp:198
 msgid "Content"
-msgstr "Contenuto"
+msgstr "Kandungan"
 
 #: src/object/bonus_block.cpp:199 src/object/coin.hpp:48
 msgid "Coin"
-msgstr "Moneta"
+msgstr "Syiling"
 
 #: src/object/bonus_block.cpp:200
 msgid "Growth (fire flower)"
-msgstr "Crescita (fiore di fuoco)"
+msgstr "Pembesaran (bunga api)"
 
 #: src/object/bonus_block.cpp:201
 msgid "Growth (ice flower)"
-msgstr "Crescita (fiore di ghiaccio)"
+msgstr "Pembesaran (bunga ais)"
 
 #: src/object/bonus_block.cpp:202
 msgid "Growth (air flower)"
-msgstr "Crescita (fiore d'aria)"
+msgstr "Pembesaran (bunga udara)"
 
 #: src/object/bonus_block.cpp:203
 msgid "Growth (earth flower)"
-msgstr "Crescita (fiore di terra)"
+msgstr "Pembesaran (bunga tanah)"
 
 #: src/object/bonus_block.cpp:204
 msgid "Star"
-msgstr "Stella"
+msgstr "Bintang"
 
 #: src/object/bonus_block.cpp:205
 msgid "Tux doll"
-msgstr "Bambola Tux"
+msgstr "Anak patung Tux"
 
 #: src/object/bonus_block.cpp:206
 msgid "Custom"
-msgstr "Personalizzato"
+msgstr "Suai"
 
 #: src/object/bonus_block.cpp:208
 msgid "Light"
-msgstr "Luce"
+msgstr "Cahaya"
 
 #: src/object/bonus_block.cpp:209 src/object/trampoline.hpp:40
 msgid "Trampoline"
-msgstr "Trampolino"
+msgstr "Trampolin"
 
 #: src/object/bonus_block.cpp:210
 msgid "Coin rain"
-msgstr "Pioggia di monete"
+msgstr "Hujan syiling"
 
 #: src/object/bonus_block.cpp:211
 msgid "Coin explosion"
-msgstr "Esplosione di monete"
+msgstr "Letusan syiling"
 
 #: src/object/pneumatic_platform.hpp:62
 msgid "Pneumatic platform"
-msgstr "Piattaforma pneumatica"
+msgstr "Platform penumatik"
 
 #: src/object/coin.cpp:262 src/object/tilemap.cpp:238
 msgid "Following path"
-msgstr "Segue sentiero"
+msgstr "Laluan diikuti"
 
 #: src/object/coin.cpp:268 src/object/coin.cpp:293
 msgid "Collect script"
-msgstr "Raccogli script"
+msgstr "Skrip kutip"
 
 #: src/object/ghost_particle_system.hpp:36
 msgid "Ghost particles"
-msgstr "Particelle fantasma"
+msgstr "Zarah hantu"
 
 #: src/object/camera.cpp:144
 msgid "Mode"
-msgstr "Modalità"
+msgstr "Mod"
 
 #: src/object/camera.cpp:145
 msgid "normal"
-msgstr "normale"
+msgstr "biasa"
 
 #: src/object/camera.cpp:146
 msgid "manual"
-msgstr "manuale"
+msgstr "manual"
 
 #: src/object/candle.hpp:50
 msgid "Candle"
-msgstr "Candela"
+msgstr "Lilin"
 
 #: src/object/invisible_block.hpp:33
 msgid "Invisible block"
-msgstr "Blocco invisibile"
+msgstr "Stok lutsinar"
 
 #: src/object/snow_particle_system.hpp:36
 msgid "Snow particles"
-msgstr "Particelle di neve"
+msgstr "Zarah salji"
 
 #: src/object/powerup.hpp:43
 msgid "Power-up"
-msgstr "Power-up"
+msgstr "Tingkat-kuasa"
 
 #: src/object/level_time.hpp:70
 msgid "Level time"
-msgstr "Tempo livello"
+msgstr "Masa aras"
 
 #: src/object/ambient_sound.cpp:118 src/supertux/menu/options_menu.cpp:392
 #: data//credits.stxt:429
 msgid "Sound"
-msgstr "Suono"
+msgstr "Bunyi"
 
 #: src/object/ambient_sound.cpp:124
 msgid "Distance factor"
-msgstr "Fattore distanza"
+msgstr "Faktor jarak"
 
 #: src/object/ambient_sound.cpp:125
 msgid "Distance bias"
-msgstr "Influenza della distanza"
+msgstr "Bias jarak"
 
 #: src/object/ambient_sound.cpp:126
 msgid "Volume"
-msgstr "Volume"
+msgstr "Volum"
 
 #: src/object/torch.hpp:54
 msgid "Torch"
-msgstr "Torcia"
+msgstr "Obor"
 
 #: src/object/icecrusher.hpp:42
 msgid "Ice crusher"
-msgstr "Rompighiaccio"
+msgstr "Pemecah ais"
 
 #: src/object/background.hpp:62 data//images/tiles.strf:808
 msgid "Background"
-msgstr "Sfondo"
+msgstr "Latar Belakang"
 
 #: src/object/firefly.hpp:39
 msgid "Reset point"
-msgstr "Punto di ripristino"
+msgstr "Titik tetap semula"
 
 #: src/object/ambient_light.hpp:36
 msgid "Ambient light"
-msgstr "Luce ambientale"
+msgstr "Cahaya sekeliling"
 
 #: src/object/lantern.hpp:55
 msgid "Lantern"
-msgstr "Lanterna"
+msgstr "Tanglung"
 
 #: src/object/wind.hpp:66
 msgid "Wind"
-msgstr "Vento"
+msgstr "Angin"
 
 #: src/object/bicycle_platform.cpp:176 src/badguy/flame.cpp:57
 #: src/badguy/crystallo.cpp:34
 msgid "Radius"
-msgstr "Raggio"
+msgstr "Radius"
 
 #: src/object/bicycle_platform.cpp:177
 msgid "Momentum change rate"
-msgstr "Cambia il tasso di moto"
+msgstr "Kadar perubahan momentum"
 
 #: src/object/rain_particle_system.hpp:34
 msgid "Rain particles"
-msgstr "Particelle di pioggia"
+msgstr "Zarah hujan"
 
 #: src/object/platform.hpp:73
 msgid "Platform"
-msgstr "Piattaforma"
+msgstr "Platform"
 
 #: src/object/rock.hpp:45
 msgid "Rock"
-msgstr "Roccia"
+msgstr "Batu"
 
 #: src/object/music_object.hpp:41 src/supertux/menu/options_menu.cpp:394
 msgid "Music"
-msgstr "Musica"
+msgstr "Muzik"
 
 #: src/object/rusty_trampoline.hpp:44
 msgid "Rusty trampoline"
-msgstr "Trampolino arrugginito"
+msgstr "Trampolin berkarat"
 
 #: src/object/particlesystem.hpp:53
 msgid "Particle system"
-msgstr "Sistema di particelle"
+msgstr "Sistem zarah"
 
 #: src/object/candle.cpp:72 src/object/torch.cpp:86
 msgid "Burning"
-msgstr "Bruciante"
+msgstr "Terbakar"
 
 #: src/object/candle.cpp:73
 msgid "Flicker"
-msgstr "Tremolio"
+msgstr "Kerdipan"
 
 #: src/object/text_array_object.hpp:62
 msgid "Text array"
-msgstr "Array di testo"
+msgstr "Tatasusunan teks"
 
 #: src/object/infoblock.hpp:40
 msgid "Info block"
-msgstr "Blocco informativo"
+msgstr "Blok maklumat"
 
 #: src/object/powerup.cpp:189
 msgid "Disable gravity"
-msgstr "Disabilita gravità"
+msgstr "Lumpuhkan graviti"
 
 #: src/object/ambient_sound.hpp:87
 msgid "Ambient sound"
-msgstr "Suono ambientale"
+msgstr "Bunyi sekeliling"
 
 #: src/object/level_time.cpp:49 src/supertux/statistics.cpp:246
 #: src/editor/node_marker.cpp:80
 msgid "Time"
-msgstr "Tempo"
+msgstr "Masa"
 
 #: src/object/hurting_platform.hpp:35
 msgid "Hurting platform"
-msgstr "Piattaforma dolorosa"
+msgstr "Platform hurting"
 
 #: src/object/background.cpp:170
 msgid "Alignment"
-msgstr "Allineamento"
+msgstr "Jajaran"
 
 #: src/object/background.cpp:171
 msgid "none"
-msgstr "nessuno"
+msgstr "tiada"
 
 #: src/object/background.cpp:172 src/supertux/direction.cpp:33
 msgid "left"
-msgstr "sinistra"
+msgstr "kiri"
 
 #: src/object/background.cpp:173 src/supertux/direction.cpp:34
 msgid "right"
-msgstr "destra"
+msgstr "kanan"
 
 #: src/object/background.cpp:174
 msgid "top"
-msgstr "cima"
+msgstr "atas"
 
 #: src/object/background.cpp:175
 msgid "bottom"
-msgstr "fondo"
+msgstr "bawah"
 
 #: src/object/background.cpp:177
 msgid "Scroll offset x"
-msgstr "Compensazione di scorrimento x"
+msgstr "Ofset tatal x"
 
 #: src/object/background.cpp:178
 msgid "Scroll offset y"
-msgstr "Compensazione di scorrimento y"
+msgstr "Ofset tatal y"
 
 #: src/object/background.cpp:179
 msgid "Scroll speed x"
-msgstr "Velocità di scorrimento x"
+msgstr "Kelajuan tatal x"
 
 #: src/object/background.cpp:180
 msgid "Scroll speed y"
-msgstr "Velocità di scorrimento y"
+msgstr "Kelajuan tatal y"
 
 #: src/object/background.cpp:181 src/object/tilemap.cpp:227
 msgid "Speed x"
-msgstr "Velocità x"
+msgstr "Kelajuan x"
 
 #: src/object/background.cpp:182 src/object/tilemap.cpp:228
 msgid "Speed y"
-msgstr "Velocità y"
+msgstr "Kelajuan y"
 
 #: src/object/background.cpp:184
 msgid "Top image"
-msgstr "Immagine superiore"
+msgstr "Imej atas"
 
 #: src/object/background.cpp:190
 msgid "Image"
-msgstr "Immagine"
+msgstr "Imej"
 
 #: src/object/background.cpp:192
 msgid "Bottom image"
-msgstr "Immagine inferiore"
+msgstr "Imej bawah"
 
 #: src/object/wind.cpp:60
 msgid "Speed X"
-msgstr "Velocità X"
+msgstr "Kelajuan X"
 
 #: src/object/wind.cpp:61
 msgid "Speed Y"
-msgstr "Velocità Y"
+msgstr "Kelajuan Y"
 
 #: src/object/wind.cpp:62
 msgid "Acceleration"
-msgstr "Accelerazione"
+msgstr "Pemecutan"
 
 #: src/object/wind.cpp:63
 msgid "Blowing"
-msgstr "Soffio"
+msgstr "Peniupan"
 
 #: src/object/ambient_light.cpp:138
 msgid "Color"
-msgstr "Colore"
+msgstr "Warna"
 
 #: src/object/bicycle_platform.hpp:64
 msgid "Bicycle platform"
-msgstr "Piattaforma bicicletta"
+msgstr "Platform basikal"
 
 #: src/object/path.cpp:200
 msgid "Path Mode"
-msgstr "Modalità sentiero"
+msgstr "Mod Laluan"
 
 #: src/object/path.cpp:201
 msgid "One shot"
-msgstr "One shot"
+msgstr "Sekaligus"
 
 #: src/object/path.cpp:202
 msgid "Ping-pong"
@@ -550,60 +538,60 @@ msgstr "Ping-pong"
 
 #: src/object/path.cpp:203
 msgid "Circular"
-msgstr "Circolare"
+msgstr "Membulat"
 
 #: src/object/path.cpp:204
 msgid "Unordered"
-msgstr "Non ordinato"
+msgstr "Tidak Tertib"
 
 #: src/object/rock.cpp:173
 msgid "On-grab script"
-msgstr "Script di presa"
+msgstr "Skrip Ambil"
 
 #: src/object/rock.cpp:174
 msgid "On-ungrab script"
-msgstr "Script di rilascio"
+msgstr "Skrip tak ambil"
 
 #: src/object/particlesystem_interactive.hpp:45
 msgid "Interactive particle system"
-msgstr "Sistema di particelle interattivo"
+msgstr "Sistem zarah interaktif"
 
 #: src/object/music_object.cpp:108
 msgid "File"
-msgstr "File"
+msgstr "Fail"
 
 #: src/object/path_walker.cpp:220 src/object/thunderstorm.cpp:64
 #: src/object/tilemap.cpp:242
 msgid "Running"
-msgstr "Correre"
+msgstr "Berjalan"
 
 #: src/object/thunderstorm.cpp:65
 msgid "Interval"
-msgstr "Intervallo"
+msgstr "Sela"
 
 #: src/object/cloud_particle_system.hpp:36
 msgid "Cloud particles"
-msgstr "Particelle di nuvola"
+msgstr "Zarah awan"
 
 #: src/object/ispy.hpp:39
 msgid "Ispy"
-msgstr "Spione"
+msgstr ""
 
 #: src/object/weak_block.cpp:208
 msgid "Linked"
-msgstr "Collegato"
+msgstr ""
 
 #: src/object/decal.hpp:40
 msgid "Decal"
-msgstr "Ricalca"
+msgstr ""
 
 #: src/object/tilemap.cpp:222
 msgid "Resize offset x"
-msgstr "Ridimensiona offset X"
+msgstr "Ofset saiz semula x"
 
 #: src/object/tilemap.cpp:223
 msgid "Resize offset y"
-msgstr "Ridimensiona offset Y"
+msgstr "Ofset saiz semula y"
 
 #: src/object/tilemap.cpp:226
 msgid "Alpha"
@@ -611,105 +599,105 @@ msgstr "Alfa"
 
 #: src/object/tilemap.cpp:229
 msgid "Tint"
-msgstr "Tinta"
+msgstr "Seri Warna"
 
 #: src/object/tilemap.cpp:232
 msgid "Draw target"
-msgstr "Disegna obiettivo"
+msgstr ""
 
 #: src/object/tilemap.cpp:233
 msgid "Normal"
-msgstr "Normale"
+msgstr "Biasa"
 
 #: src/object/tilemap.cpp:234 data//images/engine/editor/objects.stoi:249
 #: data//images/tiles.strf:1152
 msgid "Lightmap"
-msgstr "Mappa luci"
+msgstr "Peta Cahaya"
 
 #: src/object/gradient.cpp:134
 msgid "Left Colour"
-msgstr "Colore sinistro"
+msgstr "Warna Kiri"
 
 #: src/object/gradient.cpp:135
 msgid "Right Colour"
-msgstr "Colore destro"
+msgstr "Warna Kanan"
 
 #: src/object/gradient.cpp:137
 msgid "Top Colour"
-msgstr "Colore superiore"
+msgstr "Warna Atas"
 
 #: src/object/gradient.cpp:138
 msgid "Bottom Colour"
-msgstr "Colore inferiore"
+msgstr "Warna Bawah"
 
 #: src/object/gradient.cpp:142 src/supertux/direction.cpp:31
 #: src/worldmap/direction.cpp:83
 msgid "Direction"
-msgstr "Direzione"
+msgstr "Arah"
 
 #: src/object/gradient.cpp:143
 msgid "Vertical"
-msgstr "Verticale"
+msgstr "Menegak"
 
 #: src/object/gradient.cpp:144
 msgid "Horizontal"
-msgstr "Orizzontale"
+msgstr "Mengufuk"
 
 #: src/object/gradient.cpp:145
 msgid "Vertical (whole sector)"
-msgstr "Verticale (intero settore)"
+msgstr "Menegak (seluruh sektor)"
 
 #: src/object/gradient.cpp:146
 msgid "Horizontal (whole sector)"
-msgstr "Orizzontale (intero settore)"
+msgstr "Mengufuk (seluruh sektor)"
 
 #: src/object/unstable_tile.hpp:39
 msgid "Unstable tile"
-msgstr "Casella instabile"
+msgstr "Jubin tak stabil"
 
 #: src/object/brick.hpp:31
 msgid "Brick"
-msgstr "Mattone"
+msgstr "Bata"
 
 #: src/object/invisible_wall.hpp:37
 msgid "Invisible wall"
-msgstr "Muro invisibile"
+msgstr "Dinding halimunan"
 
 #: src/object/spotlight.hpp:41
 msgid "Spotlight"
-msgstr "Riflettore"
+msgstr "Cahaya sorot"
 
 #: src/object/scripted_object.hpp:59
 msgid "Scripted object"
-msgstr "Oggetto scriptato"
+msgstr "Objek berskrip"
 
 #: src/object/coin.hpp:77
 msgid "Heavy coin"
-msgstr "Moneta pesante"
+msgstr "Syiling berat"
 
 #: src/object/bonus_block.hpp:63
 msgid "Bonus block"
-msgstr "Blocco bonus"
+msgstr "Blok bonus"
 
 #: src/object/magicblock.hpp:44
 msgid "Magic block"
-msgstr "Blocco magico"
+msgstr "Blok ajaib"
 
 #: src/object/camera.hpp:107
 msgid "Camera"
-msgstr "Camera"
+msgstr "Kamera"
 
 #: src/gui/menu_badguy_select.cpp:93
 msgid "List of enemies"
-msgstr "Lista dei nemici"
+msgstr "Senarai musuh"
 
 #: src/gui/menu_badguy_select.cpp:95
 msgid "Enemy"
-msgstr "Nemico"
+msgstr "Musuh"
 
 #: src/gui/menu_badguy_select.cpp:96
 msgid "Add"
-msgstr "Aggiungi"
+msgstr "Tambah"
 
 #: src/gui/menu_badguy_select.cpp:106 src/gui/menu_color.cpp:34
 #: src/gui/dialog.hpp:80 src/gui/menu_script.cpp:47
@@ -723,19 +711,19 @@ msgstr "OK"
 
 #: src/gui/menu_badguy_select.cpp:135
 msgid "Do you want to delete this badguy from the list?"
-msgstr "Vuoi togliere questo cattivo dalla lista?"
+msgstr "Anda mahu padam orang jahat ini dalam senarai?"
 
 #: src/gui/menu_badguy_select.cpp:136 src/gui/dialog.hpp:89
 msgid "Yes"
-msgstr "Si"
+msgstr "Ya"
 
 #: src/gui/menu_badguy_select.cpp:139 src/gui/dialog.hpp:90
 msgid "No"
-msgstr "No"
+msgstr "Tidak"
 
 #: src/gui/menu_color.cpp:24
 msgid "Mix the colour"
-msgstr "Mescola il colore"
+msgstr "Campur warna"
 
 #: src/gui/menu_filesystem.cpp:107
 #: src/supertux/menu/editor_sectors_menu.cpp:44
@@ -744,23 +732,23 @@ msgstr "Mescola il colore"
 #: src/supertux/menu/editor_objectgroup_menu.cpp:41
 #: src/supertux/menu/editor_tilegroup_menu.cpp:36
 msgid "Cancel"
-msgstr "Cancella"
+msgstr "Batal"
 
 #: src/gui/menu_script.cpp:28
 msgid "Edit script"
-msgstr "Modifica script"
+msgstr "Sunting Skrip"
 
 #: src/badguy/toad.hpp:42
 msgid "Toad"
-msgstr "Rospo"
+msgstr "Katak"
 
 #: src/badguy/mrtree.hpp:32
 msgid "Mr. Tree"
-msgstr "Signor Albero"
+msgstr "En. Pokok"
 
 #: src/badguy/plant.hpp:36
 msgid "Plant"
-msgstr "Pianta"
+msgstr "Pokok"
 
 #: src/badguy/crystallo.hpp:34
 msgid "Crystallo"
@@ -772,19 +760,19 @@ msgstr "Totem"
 
 #: src/badguy/stalactite.hpp:42
 msgid "Stalactite"
-msgstr "Stalattite"
+msgstr "Stalaktit"
 
 #: src/badguy/haywire.hpp:45
 msgid "Haywire"
-msgstr "Caotibomba"
+msgstr ""
 
 #: src/badguy/dispenser.hpp:43
 msgid "Dispenser"
-msgstr "Distributore"
+msgstr ""
 
 #: src/badguy/short_fuse.hpp:31
 msgid "Short fuse"
-msgstr "Miccia corta"
+msgstr "Fius pendek"
 
 #: src/badguy/zeekling.hpp:39
 msgid "Zeekling"
@@ -792,35 +780,35 @@ msgstr "Zeekling"
 
 #: src/badguy/mriceblock.hpp:50
 msgid "Mr. Ice Block"
-msgstr "Signore Blocco di Ghiaccio"
+msgstr "En. Blok Ais"
 
 #: src/badguy/jumpy.hpp:39
 msgid "Jumpy"
-msgstr "Saltellino"
+msgstr "Jumpy"
 
 #: src/badguy/captainsnowball.hpp:35
 msgid "Captain snowball"
-msgstr "Capitan Palla di Neve"
+msgstr "Kapten snowball"
 
 #: src/badguy/ghosttree.hpp:47
 msgid "Ghost tree"
-msgstr "Albero fantasma"
+msgstr "Pokok hantu"
 
 #: src/badguy/willowisp.cpp:281 src/editor/worldmap_objects.cpp:188
 msgid "Spawnpoint"
-msgstr "Punto di apparizione"
+msgstr "Titik Muncul"
 
 #: src/badguy/willowisp.cpp:283
 msgid "Track range"
-msgstr "Gittata d'inseguimento"
+msgstr "Julat trek"
 
 #: src/badguy/willowisp.cpp:284
 msgid "Vanish range"
-msgstr "Gittata di scomparsa"
+msgstr "Julat hilang"
 
 #: src/badguy/willowisp.cpp:285
 msgid "Fly speed"
-msgstr "Velocità di volo"
+msgstr "Kelajuan terbang"
 
 #: src/badguy/kugelblitz.hpp:43
 msgid "Kugelblitz"
@@ -828,31 +816,31 @@ msgstr "Kugelblitz"
 
 #: src/badguy/mole_rock.hpp:47
 msgid "Mole's rock"
-msgstr "Roccia di Talpa"
+msgstr ""
 
 #: src/badguy/sspiky.hpp:39
 msgid "Sleeping spiky"
-msgstr "Spiky addormentato"
+msgstr ""
 
 #: src/badguy/yeti_stalactite.hpp:37
 msgid "Yeti's stalactite"
-msgstr "Stalattite dello Yeti"
+msgstr "Stalaktit Yeti"
 
 #: src/badguy/livefire.hpp:40
 msgid "Live fire"
-msgstr "Fuoco vivente"
+msgstr "Api hidup"
 
 #: src/badguy/livefire.hpp:66
 msgid "Sleeping live fire"
-msgstr "Fuoco vivente addormentato"
+msgstr "Api hidup tidur"
 
 #: src/badguy/livefire.hpp:80
 msgid "Dormant live fire"
-msgstr "Fuoco vivente dormiente"
+msgstr "Api hidup kaku"
 
 #: src/badguy/owl.hpp:43
 msgid "Owl"
-msgstr "Gufo"
+msgstr "Burung Hantu"
 
 #: src/badguy/igel.hpp:39
 msgid "Igel"
@@ -860,95 +848,95 @@ msgstr "Igel"
 
 #: src/badguy/darttrap.cpp:121
 msgid "Enabled"
-msgstr "Abilitato"
+msgstr "Dibenarkan"
 
 #: src/badguy/darttrap.cpp:122
 msgid "Initial delay"
-msgstr "Ritardo iniziale"
+msgstr "Lengah awal"
 
 #: src/badguy/darttrap.cpp:123
 msgid "Fire delay"
-msgstr "Ritardo fuoco"
+msgstr "Lengah api"
 
 #: src/badguy/darttrap.cpp:124
 msgid "Ammo"
-msgstr "Munizioni"
+msgstr "Peluru"
 
 #: src/badguy/snowball.hpp:31
 msgid "Snowball"
-msgstr "Palla di neve"
+msgstr "Bola Ais"
 
 #: src/badguy/smartblock.hpp:34
 msgid "Smart Block"
-msgstr "Blocco intelligente"
+msgstr "Blok Pintar"
 
 #: src/badguy/yeti.cpp:367
 msgid "Fixed position"
-msgstr "Posizione fissata"
+msgstr "Kedudukan tetap"
 
 #: src/badguy/yeti.cpp:368
 msgid "Lives"
-msgstr "Vite"
+msgstr "Hayat"
 
 #: src/badguy/goldbomb.hpp:52
 msgid "Golden bomb"
-msgstr "Bomba dorata"
+msgstr "Bom emas"
 
 #: src/badguy/flyingsnowball.hpp:35
 msgid "Flying snowball"
-msgstr "Palla di neve volante"
+msgstr "Bola ais terbang"
 
 #: src/badguy/skullyhop.hpp:42
 msgid "Skully hop"
-msgstr "Salteschio"
+msgstr ""
 
 #: src/badguy/kamikazesnowball.hpp:33
 msgid "Kamikaze snowball"
-msgstr "Palla di neve kamikaze"
+msgstr "Bola ais kamikaze"
 
 #: src/badguy/kamikazesnowball.hpp:55
 msgid "Leaf Shot"
-msgstr "Sparo alla foglia"
+msgstr ""
 
 #: src/badguy/flame.hpp:44
 msgid "Flame"
-msgstr "Fiamma"
+msgstr "Nyalaan"
 
 #: src/badguy/poisonivy.hpp:33
 msgid "Poisonous ivy"
-msgstr "Edera velenosa"
+msgstr "Ivy Beracun"
 
 #: src/badguy/willowisp.hpp:63
 msgid "Will 'o' wisp"
-msgstr "Fuoco fatuo"
+msgstr "Will 'o' wisp"
 
 #: src/badguy/badguy.hpp:55
 msgid "Badguy"
-msgstr "Cattivo"
+msgstr "Orang Jahat"
 
 #: src/badguy/badguy.hpp:61
 msgid "Death script"
-msgstr "Script di morte"
+msgstr "Skrip maut"
 
 #: src/badguy/ghostflame.hpp:34
 msgid "Ghost flame"
-msgstr "Fiamma fantasma"
+msgstr "Nyalaan hantu"
 
 #: src/badguy/spiky.hpp:33
 msgid "Spiky"
-msgstr "Spiky"
+msgstr ""
 
 #: src/badguy/walkingleaf.hpp:35
 msgid "Walking leaf"
-msgstr "Foglia ambulante"
+msgstr "Daun berjalan"
 
 #: src/badguy/darttrap.hpp:38
 msgid "Dart trap"
-msgstr "Trappola di dardi"
+msgstr ""
 
 #: src/badguy/skydive.hpp:42
 msgid "Sky dive"
-msgstr "Tuffatore"
+msgstr ""
 
 #: src/badguy/yeti.hpp:41
 msgid "Yeti"
@@ -956,327 +944,327 @@ msgstr "Yeti"
 
 #: src/badguy/mole.hpp:42
 msgid "Mole"
-msgstr "Talpa"
+msgstr ""
 
 #: src/badguy/mrbomb.hpp:45
 msgid "Mr. Bomb"
-msgstr "Signor Bomba"
+msgstr "En. Bom"
 
 #: src/badguy/walking_candle.hpp:43
 msgid "Mr. Candle"
-msgstr "Signore Candela"
+msgstr "En. Lilin"
 
 #: src/badguy/angrystone.hpp:37
 msgid "Angry stone"
-msgstr "Pietra Arrabbiata"
+msgstr "Batu marah"
 
 #: src/badguy/spidermite.hpp:38
 msgid "Spider mite"
-msgstr "Ragno"
+msgstr "Sarang labah-labah"
 
 #: src/badguy/snowman.hpp:30
 msgid "Snowman"
-msgstr "Pupazzo di neve"
+msgstr "Orang salji"
 
 #: src/badguy/stumpy.hpp:38
 msgid "Stumpy"
-msgstr "Troncone"
+msgstr ""
 
 #: src/badguy/fish.hpp:43
 msgid "Fish"
-msgstr "Pesce"
+msgstr "Ikan"
 
 #: src/badguy/dispenser.cpp:392
 msgid "Interval (seconds)"
-msgstr "Intervallo (secondi)"
+msgstr "Sela (saat)"
 
 #: src/badguy/dispenser.cpp:393
 msgid "Random"
-msgstr "Casuale"
+msgstr "Rawak"
 
 #: src/badguy/dispenser.cpp:394
 msgid "Enemies"
-msgstr "Nemici"
+msgstr "Musuh"
 
 #: src/badguy/dispenser.cpp:395
 msgid "Limit dispensed badguys"
-msgstr "Limita la distribuzione dei cattivi"
+msgstr ""
 
 #: src/badguy/dispenser.cpp:397
 msgid "Max concurrent badguys"
-msgstr "Numero massimo di cattivi simultanei"
+msgstr ""
 
 #: src/badguy/dispenser.cpp:400 src/supertux/menu/editor_levelset_menu.cpp:60
 msgid "Type"
-msgstr "Tipo"
+msgstr "Jenis"
 
 #: src/badguy/dispenser.cpp:401
 msgid "dropper"
-msgstr "contagocce"
+msgstr ""
 
 #: src/badguy/dispenser.cpp:402
 msgid "rocket launcher"
-msgstr "lanciarazzi"
+msgstr "pelancar roket"
 
 #: src/badguy/dispenser.cpp:403
 msgid "cannon"
-msgstr "cannone"
+msgstr "meriam"
 
 #: src/badguy/dispenser.cpp:404
 msgid "invisible"
-msgstr "invisibile"
+msgstr "halimunan"
 
 #: src/badguy/snail.hpp:45
 msgid "Snail"
-msgstr "Lumaca"
+msgstr "Siput"
 
 #: src/badguy/smartball.hpp:38
 msgid "Smart Ball"
-msgstr "Palla intelligente"
+msgstr "Bola Pintar"
 
 #: src/badguy/bouncing_snowball.hpp:34
 msgid "Bouncing Snowball"
-msgstr "Palla di neve rimbalzante"
+msgstr "Bola Salji Melantun"
 
 #: src/badguy/iceflame.hpp:37
 msgid "Ice flame"
-msgstr "Fiamma di ghiaccio"
+msgstr "Nyalaan ais"
 
 #: src/badguy/dart.hpp:48
 msgid "Dart"
-msgstr "Dardo"
+msgstr ""
 
 #: src/supertux/statistics.cpp:52
 msgid "Max coins collected:"
-msgstr "N. massimo di monete raccolte:"
+msgstr "Maks. syiling dikutip:"
 
 #: src/supertux/statistics.cpp:53
 msgid "Max fragging:"
-msgstr "N. massimo di uccisioni:"
+msgstr ""
 
 #: src/supertux/statistics.cpp:54
 msgid "Max secrets found:"
-msgstr "N. massimo di segreti trovati:"
+msgstr "Maks. rahsia ditemui:"
 
 #: src/supertux/statistics.cpp:55
 msgid "Best time completed:"
-msgstr "Miglior tempo di completamento:"
+msgstr "Masa tamat terbaik:"
 
 #: src/supertux/statistics.cpp:56
 msgid "Level target time:"
-msgstr "Obiettivo tempo per il livello:"
+msgstr "Masa sasaran aras:"
 
 #: src/supertux/statistics.cpp:140 src/supertux/levelintro.cpp:164
 msgid "Best Level Statistics"
-msgstr "Statistiche dei migliori risultati dei livelli"
+msgstr "Statistik Aras Terbaik"
 
 #: src/supertux/statistics.cpp:217
 msgid "You"
-msgstr "Tu"
+msgstr "Anda"
 
 #: src/supertux/statistics.cpp:219
 msgid "Best"
-msgstr "Migliore"
+msgstr "Terbaik"
 
 #: src/supertux/statistics.cpp:221 src/supertux/levelintro.cpp:170
 msgid "Coins"
-msgstr "Monete"
+msgstr "Syiling"
 
 #: src/supertux/statistics.cpp:230
 msgid "Badguys"
-msgstr "Cattivi"
+msgstr "Orang jahat"
 
 #: src/supertux/statistics.cpp:238 src/supertux/levelintro.cpp:174
 msgid "Secrets"
-msgstr "Segreti"
+msgstr "Rahsia"
 
 #: src/supertux/game_object.hpp:77
 msgid "Unknown object"
-msgstr "Oggetto sconosciuto"
+msgstr "Objek tidak diketahui"
 
 #: src/supertux/command_line_arguments.cpp:73
 #, c-format
 msgid "Usage: %s [OPTIONS] [LEVELFILE]"
-msgstr "Uso: %s [OPZIONI] [LIVELLO]"
+msgstr "Penggunaan: %s [OPTIONS] [LEVELFILE]"
 
 #: src/supertux/command_line_arguments.cpp:74
 msgid "General Options:"
-msgstr "Opzioni Generali:"
+msgstr "Pilihan Am:"
 
 #: src/supertux/command_line_arguments.cpp:75
 msgid "  -h, --help                   Show this help message and quit"
-msgstr "-h, --help Mostra questo messaggio di aiuto e chiude"
+msgstr "  -h, --help                   Tunjuk mesej bantuan ini kemudian keluar"
 
 #: src/supertux/command_line_arguments.cpp:76
 msgid "  -v, --version                Show SuperTux version and quit"
-msgstr "  -v, --version  Mostra la versione di SuperTux e chiude"
+msgstr "  -v, --version                Tunjuk versi SuperTux kemudian keluar"
 
 #: src/supertux/command_line_arguments.cpp:77
 msgid "  --verbose                    Print verbose messages"
-msgstr "--verbose Stampa messaggi prolissi"
+msgstr "  --verbose                    Cetak mesej berjela"
 
 #: src/supertux/command_line_arguments.cpp:78
 msgid "  --debug                      Print extra verbose messages"
-msgstr "-debug Stampa messaggi prolissi extra"
+msgstr "  --debug                      Cetak mesej berjela tambahan"
 
 #: src/supertux/command_line_arguments.cpp:79
 msgid ""
 "  --print-datadir              Print SuperTux's primary data directory."
-msgstr "  --print-datadir              Mostra la cartella di dati principale di SuperTux."
+msgstr "  --print-datadir              Cetak direktori data utama SuperTux."
 
 #: src/supertux/command_line_arguments.cpp:81
 msgid "Video Options:"
-msgstr "Opzioni Video:"
+msgstr "Pilihan Video:"
 
 #: src/supertux/command_line_arguments.cpp:82
 msgid "  -f, --fullscreen             Run in fullscreen mode"
-msgstr "-f, --fullscreen Esegui in modalità a schermo intero"
+msgstr "  -f, --fullscreen             Jalankan dalam mod skrin penuh"
 
 #: src/supertux/command_line_arguments.cpp:83
 msgid "  -w, --window                 Run in window mode"
-msgstr "-w, --window Esegui in modalità finestra"
+msgstr "  -w, --window                 Jalankan dalam mod tetingkap"
 
 #: src/supertux/command_line_arguments.cpp:84
 msgid "  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution"
-msgstr "-g, --geometry WIDTHxHEIGHT Esegui SuperTux alla risoluzione data"
+msgstr "  -g, --geometry WIDTHxHEIGHT  Jalankan SuperTuxdalam resolusi diberi"
 
 #: src/supertux/command_line_arguments.cpp:85
 msgid "  -a, --aspect WIDTH:HEIGHT    Run SuperTux with given aspect ratio"
-msgstr "-a, --aspect WIDTH:HEIGHT Esegui SuperTux con le proporzioni fornite"
+msgstr "  -a, --aspect WIDTH:HEIGHT    Jalankan SuperTux dengan nisbah bidang diberi"
 
 #: src/supertux/command_line_arguments.cpp:86
 msgid "  -d, --default                Reset video settings to default values"
-msgstr "-d, --default Ripristina le impostazioni video ai valori originali"
+msgstr "  -d, --default                Tetap semula tetapan video ke nilai lalai"
 
 #: src/supertux/command_line_arguments.cpp:87
 msgid "  --renderer RENDERER          Use sdl, opengl, or auto to render"
-msgstr "--renderer RENDERER Usa sdl, opengl, o auto per la visualizzazione"
+msgstr "  --renderer RENDERER          Guna sdl, opengl, atau auto untuk diterapkan"
 
 #: src/supertux/command_line_arguments.cpp:89
 msgid "Audio Options:"
-msgstr "Opzioni Audio:"
+msgstr "Pilihan Audio:"
 
 #: src/supertux/command_line_arguments.cpp:90
 msgid "  --disable-sound              Disable sound effects"
-msgstr "--disable-sound Disabilita gli effetti sonori"
+msgstr "  --disable-sound              Lumpuhkan kesan bunyi"
 
 #: src/supertux/command_line_arguments.cpp:91
 msgid "  --disable-music              Disable music"
-msgstr "--disable-music Disabilita la musica"
+msgstr "  --disable-music              Lumpuhkan muzik"
 
 #: src/supertux/command_line_arguments.cpp:93
 msgid "Game Options:"
-msgstr "Opzioni Gioco:"
+msgstr "Pilihan Permainan:"
 
 #: src/supertux/command_line_arguments.cpp:94
 msgid "  --edit-level                 Open given level in editor"
-msgstr "  --edit-level                 Apri nell'editor il livello dato"
+msgstr ""
 
 #: src/supertux/command_line_arguments.cpp:95
 msgid "  --show-fps                   Display framerate in levels"
-msgstr "--show-fps Mostra il framerate nei livelli"
+msgstr ""
 
 #: src/supertux/command_line_arguments.cpp:96
 msgid "  --no-show-fps                Do not display framerate in levels"
-msgstr "--no-show-fps Non mostrare il framerate nei livelli"
+msgstr ""
 
 #: src/supertux/command_line_arguments.cpp:97
 msgid "  --show-pos                   Display player's current position"
-msgstr "  --show-pos                   Mostra l'attuale posizione del giocatore"
+msgstr ""
 
 #: src/supertux/command_line_arguments.cpp:98
 msgid "  --no-show-pos                Do not display player's position"
-msgstr "  --no-show-pos                Non mostra la posizione del giocatore"
+msgstr ""
 
 #: src/supertux/command_line_arguments.cpp:99
 msgid "  --developer                  Switch on developer feature"
-msgstr "--developer Attiva le funzionalità da sviluppatore"
+msgstr ""
 
 #: src/supertux/command_line_arguments.cpp:100
 msgid "  -s, --debug-scripts          Enable script debugger."
-msgstr "-s, --debug-scripts Abilita lo script debugger."
+msgstr ""
 
 #: src/supertux/command_line_arguments.cpp:101
 msgid ""
 "  --spawn-pos X,Y              Where in the level to spawn Tux. Only used if"
 " level is specified."
-msgstr "--spawn-pos X,Y Dove far apparire Tux nel livello. Utilizzato solo se il livello è specificato."
+msgstr ""
 
 #: src/supertux/command_line_arguments.cpp:102
 msgid "  --sector SECTOR              Spawn Tux in SECTOR\n"
-msgstr "  --sector SETTORE              Metti Tux al SETTORE\n"
+msgstr ""
 
 #: src/supertux/command_line_arguments.cpp:103
 msgid "  --spawnpoint SPAWNPOINT      Spawn Tux at SPAWNPOINT\n"
-msgstr "  --spawnpoint PUNTO DI RINASCITA      Metti Tux al PUNTO DI RINASCITA\n"
+msgstr ""
 
 #: src/supertux/command_line_arguments.cpp:105
 msgid "Demo Recording Options:"
-msgstr "Opzioni di registrazione demo:"
+msgstr ""
 
 #: src/supertux/command_line_arguments.cpp:106
 msgid "  --record-demo FILE LEVEL     Record a demo to FILE"
-msgstr "--record-demo FILE LEVEL Registra una demo su FILE"
+msgstr ""
 
 #: src/supertux/command_line_arguments.cpp:107
 msgid "  --play-demo FILE LEVEL       Play a recorded demo"
-msgstr "--play-demo FILE LEVEL Esegui una demo registrata"
+msgstr ""
 
 #: src/supertux/command_line_arguments.cpp:109
 msgid "Directory Options:"
-msgstr "Opzioni cartella:"
+msgstr "Pilihan Direktori:"
 
 #: src/supertux/command_line_arguments.cpp:110
 msgid ""
 "  --datadir DIR                Set the directory for the games datafiles"
-msgstr "--datadir DIR Setta la cartella per i file del gioco"
+msgstr ""
 
 #: src/supertux/command_line_arguments.cpp:111
 msgid ""
 "  --userdir DIR                Set the directory for user data (savegames, "
 "etc.)"
-msgstr "--userdir DIR Setta la cartella per i dati utente (salvataggi, ecc.)"
+msgstr ""
 
 #: src/supertux/command_line_arguments.cpp:113
 msgid "Add-On Options:"
-msgstr "Opzioni componenti aggiuntivi"
+msgstr ""
 
 #: src/supertux/command_line_arguments.cpp:114
 msgid "  --repository-url URL         Set the URL to the Add-On repository"
-msgstr "  --repository-url URL         Imposta l'URL dell'archivio dei componenti aggiuntivi"
+msgstr ""
 
 #: src/supertux/command_line_arguments.cpp:116
 msgid "Environment variables:"
-msgstr "Variabili d'ambiente:"
+msgstr ""
 
 #: src/supertux/command_line_arguments.cpp:117
 msgid ""
 "  SUPERTUX2_USER_DIR           Directory for user data (savegames, etc.)"
-msgstr "SUPERTUX2_USER_DIR Cartella per i dati (salvataggi, ecc.)"
+msgstr ""
 
 #: src/supertux/command_line_arguments.cpp:118
 msgid "  SUPERTUX2_DATA_DIR           Directory for the games datafiles"
-msgstr "SUPERTUX2_DATA_DIR Cartella per i dati del gioco"
+msgstr ""
 
 #: src/supertux/title_screen.cpp:42
 msgid "Copyright"
-msgstr "Copyright"
+msgstr ""
 
 #: src/supertux/title_screen.cpp:43
 msgid ""
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
 "redistribute it under certain conditions; see the license file for details.\n"
-msgstr "Il gioco viene fornito SENZA NESSUNA GARANZIA. Questo è software libero e sei libero di \nredistribuirlo sotto alcune condizioni; vedi il file di licenza per i dettagli.\n"
+msgstr ""
 
 #: src/supertux/menu/contrib_menu.cpp:79
 #: src/supertux/menu/world_set_menu.cpp:31
 msgid "Contrib Levels"
-msgstr "Livelli aggiuntivi"
+msgstr ""
 
 #: src/supertux/menu/contrib_menu.cpp:120
 #: src/supertux/menu/contrib_menu.cpp:151
 msgid "*NEW*"
-msgstr "*NUOVO*"
+msgstr ""
 
 #: src/supertux/menu/contrib_menu.cpp:173 src/supertux/menu/debug_menu.cpp:67
 #: src/supertux/menu/editor_level_select_menu.cpp:83
@@ -1292,89 +1280,89 @@ msgstr "*NUOVO*"
 #: src/supertux/menu/contrib_levelset_menu.cpp:67
 #: src/supertux/menu/cheat_menu.cpp:44
 msgid "Back"
-msgstr "Indietro"
+msgstr "Undur"
 
 #: src/supertux/menu/debug_menu.cpp:29
 msgid "Debug"
-msgstr "Debug"
+msgstr "Nyahpepijat"
 
 #: src/supertux/menu/debug_menu.cpp:53
 msgid "Game Speed"
-msgstr "Velocità del gioco"
+msgstr "Kelajuan Permainan"
 
 #: src/supertux/menu/debug_menu.cpp:54
 msgid "Adjust Game Speed"
-msgstr "Aggiuta velocità del gioco"
+msgstr "Laras Kelajuan Permainan"
 
 #: src/supertux/menu/debug_menu.cpp:60
 msgid "Show Collision Rects"
-msgstr "Mostra i rettangoli di collisione"
+msgstr ""
 
 #: src/supertux/menu/debug_menu.cpp:61
 msgid "Show Worldmap Path"
-msgstr "Mostra il percorso della mappa del mondo"
+msgstr "Tunjuk Laluan Peta Dunia"
 
 #: src/supertux/menu/debug_menu.cpp:62
 msgid "Use Bitmap Fonts"
-msgstr "Usa font bitmap"
+msgstr "Guna Fon Peta Bit"
 
 #: src/supertux/menu/editor_sectors_menu.cpp:31
 msgid "Choose sector to edit:"
-msgstr "Seleziona settore da modificare:"
+msgstr "Pilih sektor untuk disunting:"
 
 #: src/supertux/menu/editor_sectors_menu.cpp:41
 msgid "Sector settings..."
-msgstr "Impostazioni settore..."
+msgstr "Tetapan sektor..."
 
 #: src/supertux/menu/editor_sectors_menu.cpp:42
 msgid "Create new sector"
-msgstr "Crea nuovo settore"
+msgstr "Cipta sektor baharu"
 
 #: src/supertux/menu/editor_sectors_menu.cpp:43
 msgid "Delete this sector"
-msgstr "Elimina questo settore"
+msgstr "Padam sektor ini"
 
 #: src/supertux/menu/editor_sectors_menu.cpp:92
 msgid "Each level must have at least one sector."
-msgstr "Ogni livello deve avere almeno un settore."
+msgstr "Setiap aras mesti mempunyai sekurang-kurangnya satu sektor."
 
 #: src/supertux/menu/editor_sectors_menu.cpp:97
 msgid "Do you really want to delete this sector?"
-msgstr "Vuoi davvero eliminare questo settore?"
+msgstr "Anda pasti mahu memadam sektor ini?"
 
 #: src/supertux/menu/editor_sectors_menu.cpp:100
 msgid "Delete sector"
-msgstr "Elimina settore"
+msgstr "Padam sektor"
 
 #: src/supertux/menu/editor_objectgroup_menu.cpp:29
 #: src/editor/input_gui.cpp:88
 msgid "Objects"
-msgstr "Oggetti"
+msgstr "Objek"
 
 #: src/supertux/menu/editor_tilegroup_menu.cpp:26 src/editor/input_gui.cpp:85
 msgid "Tilegroups"
-msgstr "Gruppi di caselle"
+msgstr "Kumpulanjubin"
 
 #: src/supertux/menu/editor_level_select_menu.cpp:58
 msgid "Empty levelset"
-msgstr "Set di livelli vuoto"
+msgstr "Setaras kosong"
 
 #: src/supertux/menu/editor_level_select_menu.cpp:75
 msgid "Edit worldmap"
-msgstr "Modifica mappa del mondo"
+msgstr "Sunting peta dunia"
 
 #: src/supertux/menu/editor_level_select_menu.cpp:77
 msgid "Create worldmap"
-msgstr "Crea mappa del mondo"
+msgstr "Cipta peta dunia"
 
 #: src/supertux/menu/editor_level_select_menu.cpp:81
 msgid "Create Level"
-msgstr "Crea livello"
+msgstr "Cipta aras"
 
 #: src/supertux/menu/editor_level_select_menu.cpp:82
 #: src/supertux/menu/editor_levelset_menu.cpp:56
 msgid "Level subset properties"
-msgstr "Proprietà gruppo di livelli"
+msgstr "Sifat subset aras"
 
 #: src/supertux/menu/editor_level_select_menu.cpp:124
 msgid ""
@@ -1382,7 +1370,7 @@ msgid ""
 "It allows modifications and redistribution by third-parties.\n"
 "If you don't agree with this license, change it in worldmap properties.\n"
 "DISCLAIMER: The SuperTux authors take no responsibility for your choice of license."
-msgstr "Condividi questa mappa con licenza CC-BY-SA 4.0 Internazionale (consigliato).\nQuesto permette la modifica e la redistribuzione da terze parti.\nSe non sei d'accordo con questa licenza, cambiala nelle proprietà del livello.\nDICHIARAZIONE LIBERATORIA: Gli autori di SuperTux non si assumono alcuna responsabilità per la licenza scelta."
+msgstr ""
 
 #: src/supertux/menu/editor_level_select_menu.cpp:128
 msgid ""
@@ -1390,93 +1378,92 @@ msgid ""
 "It allows modifications and redistribution by third-parties.\n"
 "If you don't agree with this license, change it in level properties.\n"
 "DISCLAIMER: The SuperTux authors take no responsibility for your choice of license."
-msgstr "Condividi questo livello con licenza CC-BY-SA 4.0 Internazionale (consigliato).\nQuesto permette la modifica e la redistribuzione da terze parti.\nSe non sei d'accordo con questa licenza, cambiala nelle proprietà del livello.\nDICHIARAZIONE LIBERATORIA: Gli autori di SuperTux non si assumono alcuna responsabilità per la licenza scelta."
+msgstr ""
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:33
 #: src/supertux/menu/cheat_menu.cpp:30
 msgid "Cheats"
-msgstr "Trucchi"
+msgstr "Tipu"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:35
 #: src/supertux/menu/cheat_menu.cpp:32
 msgid "Bonus: Grow"
-msgstr "Bonus: Crescita"
+msgstr "Bonus: Membesar"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:36
 #: src/supertux/menu/cheat_menu.cpp:33
 msgid "Bonus: Fire"
-msgstr "Bonus: Fuoco"
+msgstr "Bonus: Api"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:37
 #: src/supertux/menu/cheat_menu.cpp:34
 msgid "Bonus: Ice"
-msgstr "Bonus: Ghiaccio"
+msgstr "Bonus: Ais"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:38
 #: src/supertux/menu/cheat_menu.cpp:35
 msgid "Bonus: Air"
-msgstr "Bonus: Aria"
+msgstr "Bonus: Udara"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:39
 #: src/supertux/menu/cheat_menu.cpp:36
 msgid "Bonus: Earth"
-msgstr "Bonus: Terra"
+msgstr "Bonus: Tanah"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:40
 msgid "Bonus: None"
-msgstr "Bonus: Nessuno"
+msgstr "Bonus: Tiada"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:43
 #: src/supertux/menu/cheat_menu.cpp:42
 msgid "Leave Ghost Mode"
-msgstr "Lascia la modalità Fantasma"
+msgstr "Keluar dari Mod Hantu"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:43
 #: src/supertux/menu/cheat_menu.cpp:42
 msgid "Activate Ghost Mode"
-msgstr "Attiva modalità fantasma"
+msgstr "Aktifkan Mod Hantu"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:45
 #: src/supertux/menu/cheat_menu.cpp:40
 msgid "Finish Level"
-msgstr "Completa livello"
+msgstr "Selesaikan Aras"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:46
 msgid "Reset Level"
-msgstr "Resetta livello"
+msgstr "Tetap Semula Aras"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:48
 msgid "Finish Worldmap"
-msgstr "Fine Mondo mappa"
+msgstr "Selesaikan Peta Dunia"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:49
 msgid "Reset Worldmap"
-msgstr "Resetta mondo mappa"
+msgstr "Tetap Semula Peta Dunia"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:51
 msgid "Move to main spawnpoint"
-msgstr "Sposta al punto di apparizione principale"
+msgstr "Gerak ke titik muncul utama"
 
 #: src/supertux/menu/editor_levelset_select_menu.cpp:54
 msgid "Choose level subset"
-msgstr "Scegli gruppo di livelli"
+msgstr "Pilih subset aras"
 
 #: src/supertux/menu/editor_levelset_select_menu.cpp:82
 #, c-format
 msgid "%d level"
 msgid_plural "%d levels"
-msgstr[0] "%d livello"
-msgstr[1] "%d livelli"
+msgstr[0] "Aras %d"
 
 #: src/supertux/menu/editor_levelset_select_menu.cpp:95
 #: src/supertux/menu/editor_new_levelset_menu.cpp:31
 msgid "New level subset"
-msgstr "Nuovo gruppo di livelli"
+msgstr "Subset aras baharu"
 
 #: src/supertux/menu/options_menu.cpp:89 src/supertux/menu/main_menu.cpp:47
 #: src/supertux/menu/game_menu.cpp:48 src/supertux/menu/worldmap_menu.cpp:31
 msgid "Options"
-msgstr "Opzioni"
+msgstr "Pilihan"
 
 #: src/supertux/menu/options_menu.cpp:95
 #: src/supertux/menu/options_menu.cpp:131
@@ -1487,74 +1474,74 @@ msgstr "auto"
 
 #: src/supertux/menu/options_menu.cpp:210
 msgid "Desktop"
-msgstr "Scrivania"
+msgstr "Desktop"
 
 #: src/supertux/menu/options_menu.cpp:356
 msgid "Select Language"
-msgstr "Seleziona la lingua"
+msgstr "Pilih Bahasa"
 
 #: src/supertux/menu/options_menu.cpp:357
 msgid "Select a different language to display text in"
-msgstr "Seleziona una lingua diversa in cui mostrare il testo"
+msgstr "Pilih bahasa lain untuk paparan teks di dalamnya"
 
 #: src/supertux/menu/options_menu.cpp:359
 msgid "Language Packs"
-msgstr "Pacchetti lingua"
+msgstr "Pek Bahasa"
 
 #: src/supertux/menu/options_menu.cpp:360
 msgid "Language packs contain up-to-date translations"
-msgstr "I pacchetti lingua contengono aggiornamenti alle traduzioni"
+msgstr "Pek bahasa mengandungi terjemahan yang terkini"
 
 #: src/supertux/menu/options_menu.cpp:362
 #: src/supertux/menu/profile_menu.cpp:30
 msgid "Select Profile"
-msgstr "Seleziona il profilo"
+msgstr "Pilih Profil"
 
 #: src/supertux/menu/options_menu.cpp:363
 msgid "Select a profile to play with"
-msgstr "Seleziona il profilo con cui giocare"
+msgstr "Pilih satu profil untuk main"
 
 #: src/supertux/menu/options_menu.cpp:366
 msgid "Window Resizable"
-msgstr "Finestra ridimensionabile"
+msgstr "Tetingkap Boleh Saiz Semula"
 
 #: src/supertux/menu/options_menu.cpp:367
 msgid "Allow window resizing, might require a restart to take effect"
-msgstr "Permetti il ridimensionamento della finestra. Potrebbe essere necessario riavvare il gioco affinché le modifiche abbiano effetto."
+msgstr "Benarkan saizkan semula tetingkap, perlu dimulakan semula supaya berkesan"
 
 #: src/supertux/menu/options_menu.cpp:369
 msgid "Window Resolution"
-msgstr "Risoluzione della finestra"
+msgstr "Resolusi Tetingkap"
 
 #: src/supertux/menu/options_menu.cpp:370
 msgid "Resize the window to the given size"
-msgstr "Ridimensiona la finestra data la dimensione"
+msgstr "Saiz semula tetingkap ke saiz dikehendaki"
 
 #: src/supertux/menu/options_menu.cpp:372
 msgid "Fullscreen"
-msgstr "Modalità schermo intero"
+msgstr "Skrin Penuh"
 
 #: src/supertux/menu/options_menu.cpp:373
 msgid "Fill the entire screen"
-msgstr "Gioca a tutto schermo"
+msgstr "Isi keseluruhan skrin"
 
 #: src/supertux/menu/options_menu.cpp:375
 msgid "Fullscreen Resolution"
-msgstr "Risoluzione a schermo intero"
+msgstr "Resolusi Skrin Penuh"
 
 #: src/supertux/menu/options_menu.cpp:376
 msgid ""
 "Determine the resolution used in fullscreen mode (you must toggle fullscreen"
 " to complete the change)"
-msgstr "Determina la risoluzione usata a schermo intero (devi selezionare Schermo Intero per completare le modifiche)"
+msgstr ""
 
 #: src/supertux/menu/options_menu.cpp:378
 msgid "Magnification"
-msgstr "Ingrandimento"
+msgstr "Pembesaran"
 
 #: src/supertux/menu/options_menu.cpp:379
 msgid "Change the magnification of the game area"
-msgstr "Imposta l'ingrandimento dell'area di gioco"
+msgstr "Ubah pembesaran kawasan permainan"
 
 #: src/supertux/menu/options_menu.cpp:381
 msgid "VSync"
@@ -1562,416 +1549,416 @@ msgstr "VSync"
 
 #: src/supertux/menu/options_menu.cpp:382
 msgid "Set the VSync mode"
-msgstr "Imposta la modalità VSync"
+msgstr "Tetapkan mod VSync"
 
 #: src/supertux/menu/options_menu.cpp:384
 msgid "Framerate"
-msgstr "Framerate"
+msgstr "Kadar bingkai"
 
 #: src/supertux/menu/options_menu.cpp:385
 msgid "Change the maximum framerate of the game"
-msgstr "Modifica il massimo framerate del gioco"
+msgstr "Ubah kadar bingkai maksimum permainan"
 
 #: src/supertux/menu/options_menu.cpp:387
 msgid "Aspect Ratio"
-msgstr "Rapporto larghezza/altezza"
+msgstr "Nisbah Bidang"
 
 #: src/supertux/menu/options_menu.cpp:388
 msgid "Adjust the aspect ratio"
-msgstr "Imposta il rapporto larghezza/altezza"
+msgstr "Laras nisbah bidang"
 
 #: src/supertux/menu/options_menu.cpp:393
 msgid "Disable all sound effects"
-msgstr "Disattiva tutti gli effetti sonori"
+msgstr "Lumpuhkan semua kesan bunyi"
 
 #: src/supertux/menu/options_menu.cpp:395
 msgid "Disable all music"
-msgstr "Disattiva la musica"
+msgstr "Lumpuhkan semua muzik"
 
 #: src/supertux/menu/options_menu.cpp:397
 msgid "Sound Volume"
-msgstr "Volume del sonoro"
+msgstr "Volum Bunyi"
 
 #: src/supertux/menu/options_menu.cpp:398
 msgid "Adjust sound volume"
-msgstr "Modifica il volume del sonoro"
+msgstr "Laras volum bunyi"
 
 #: src/supertux/menu/options_menu.cpp:400
 msgid "Music Volume"
-msgstr "Volume della musica"
+msgstr "Volum Muzik"
 
 #: src/supertux/menu/options_menu.cpp:401
 msgid "Adjust music volume"
-msgstr "Modifica il volume della musica"
+msgstr "Laras volum muzik"
 
 #: src/supertux/menu/options_menu.cpp:405
 msgid "Sound (disabled)"
-msgstr "Suono (disattivato)"
+msgstr "Bunyi (dilumpuhkan)"
 
 #: src/supertux/menu/options_menu.cpp:406
 msgid "Music (disabled)"
-msgstr "Musica (disattivata)"
+msgstr "Muzik (dilumpuhkan)"
 
 #: src/supertux/menu/options_menu.cpp:409
 #: src/supertux/menu/keyboard_menu.cpp:30
 msgid "Setup Keyboard"
-msgstr "Configurazione controlli"
+msgstr "Persediaan Papan Kekunci"
 
 #: src/supertux/menu/options_menu.cpp:410
 msgid "Configure key-action mappings"
-msgstr "Configura i tasti"
+msgstr "Konfigur pemetaan tindakan-kekunci"
 
 #: src/supertux/menu/options_menu.cpp:412
 #: src/supertux/menu/joystick_menu.cpp:52
 msgid "Setup Joystick"
-msgstr "Configura joystick"
+msgstr "Persediaan Kayu Ria"
 
 #: src/supertux/menu/options_menu.cpp:413
 msgid "Configure joystick control-action mappings"
-msgstr "Configura il joystick"
+msgstr "Konfigur pemetaan tindakan-kawalan kayu ria"
 
 #: src/supertux/menu/options_menu.cpp:415
 msgid "Enable transitions"
-msgstr "Abilita le transizioni"
+msgstr "Benarkan peralihan"
 
 #: src/supertux/menu/options_menu.cpp:416
 msgid "Enable screen transitions and smooth menu animation"
-msgstr "Abilita le transizioni e le animazioni nei menù"
+msgstr "Benarkan peralihan skrin dan animasi menu yang lancar"
 
 #: src/supertux/menu/options_menu.cpp:420
 msgid "Developer Mode"
-msgstr "Modalità Sviluppatore"
+msgstr "Mod Pembangun"
 
 #: src/supertux/menu/options_menu.cpp:425
 msgid "Christmas Mode"
-msgstr "Modalità Natale"
+msgstr "Mod Hari Krismas"
 
 #: src/supertux/menu/options_menu.cpp:428
 msgid "Confirmation Dialog"
-msgstr "Dialogo di conferma"
+msgstr "Dialog Pengesahan"
 
 #: src/supertux/menu/options_menu.cpp:429
 msgid "Pause on focus loss"
-msgstr "Pausa alla perdita del focus"
+msgstr "Jeda jika kehilangan fokus"
 
 #: src/supertux/menu/main_menu.cpp:45 src/supertux/menu/world_set_menu.cpp:28
 msgid "Start Game"
-msgstr "Inizia a giocare"
+msgstr "Mula Permainan"
 
 #: src/supertux/menu/main_menu.cpp:46 src/supertux/menu/addon_menu.cpp:119
 msgid "Add-ons"
-msgstr "Add-ons"
+msgstr "Tambahan"
 
 #: src/supertux/menu/main_menu.cpp:48 src/supertux/menu/editor_menu.cpp:37
 msgid "Level Editor"
-msgstr "Editor dei livelli"
+msgstr "Penyunting Aras"
 
 #: src/supertux/menu/main_menu.cpp:49
 msgid "Credits"
-msgstr "Crediti"
+msgstr "Penghargaan"
 
 #: src/supertux/menu/main_menu.cpp:50
 msgid "Donate"
-msgstr "Dona"
+msgstr "Derma"
 
 #: src/supertux/menu/main_menu.cpp:51
 msgid "Quit"
-msgstr "Esci"
+msgstr "Keluar"
 
 #: src/supertux/menu/editor_sector_menu.cpp:35
 msgid "Initialization script"
-msgstr "Script d'inizializzazione"
+msgstr "Skrip pengawalan"
 
 #: src/supertux/menu/editor_sector_menu.cpp:36
 msgid "Gravity"
-msgstr "Gravità"
+msgstr "Graviti"
 
 #: src/supertux/menu/editor_sector_menu.cpp:41
 msgid "Resize offset X"
-msgstr "Ridimensiona offset X"
+msgstr ""
 
 #: src/supertux/menu/editor_sector_menu.cpp:42
 msgid "Resize offset Y"
-msgstr "Ridimensiona offset Y"
+msgstr ""
 
 #: src/supertux/menu/editor_sector_menu.cpp:43
 msgid "Resize"
-msgstr "Ridimensiona"
+msgstr "Saiz semula"
 
 #: src/supertux/menu/profile_menu.cpp:37
 #, c-format
 msgid "[Profile %s]"
-msgstr "[Profilo %s]"
+msgstr "[Profil %s]"
 
 #: src/supertux/menu/profile_menu.cpp:41
 #, c-format
 msgid "Profile %s"
-msgstr "Profilo %s"
+msgstr "Profil %s"
 
 #: src/supertux/menu/editor_levelset_menu.cpp:59
 #: src/supertux/menu/editor_new_levelset_menu.cpp:35
 msgid "Description"
-msgstr "Descrizione"
+msgstr "Keterangan"
 
 #: src/supertux/menu/editor_levelset_menu.cpp:60
 #: src/supertux/menu/addon_menu.cpp:48
 msgid "Worldmap"
-msgstr "Mappa del mondo"
+msgstr "Peta dunia"
 
 #: src/supertux/menu/editor_levelset_menu.cpp:60
 #: src/supertux/menu/addon_menu.cpp:45
 msgid "Levelset"
-msgstr "Set di livelli"
+msgstr "Setaras"
 
 #: src/supertux/menu/addon_menu.cpp:51
 msgid "World"
-msgstr "Mondo"
+msgstr "Dunia"
 
 #: src/supertux/menu/addon_menu.cpp:57 src/editor/object_option.cpp:78
 msgid "Unknown"
-msgstr "Sconosciuto"
+msgstr "Tidak diketahui"
 
 #: src/supertux/menu/addon_menu.cpp:68
 #, c-format
 msgid "%s \"%s\" by \"%s\""
-msgstr "%s \"%s\" di \"%s\""
+msgstr "%s \"%s\" oleh \"%s\""
 
 #: src/supertux/menu/addon_menu.cpp:126
 msgid "No Add-ons installed"
-msgstr "Nessun componente aggiuntivo installato"
+msgstr "Tiada Tambahan dipasang"
 
 #: src/supertux/menu/addon_menu.cpp:130
 msgid "No Add-ons found"
-msgstr "Nessun componente aggiuntivo trovato"
+msgstr "Tiada Tambahan ditemui"
 
 #: src/supertux/menu/addon_menu.cpp:176
 #, c-format
 msgid "Install %s *NEW*"
-msgstr "Installa %s *NUOVO*"
+msgstr ""
 
 #: src/supertux/menu/addon_menu.cpp:187
 #, c-format
 msgid "Install %s"
-msgstr "Installa %s"
+msgstr "Pasang %s"
 
 #: src/supertux/menu/addon_menu.cpp:196
 msgid "No new Add-ons found"
-msgstr "Nessun nuovo componente aggiuntivo trovato"
+msgstr "Tiada Tambahan baharu ditemui"
 
 #: src/supertux/menu/addon_menu.cpp:202
 msgid "Check Online (disabled)"
-msgstr "Controlla sul Web (disattivato)"
+msgstr "Periksa Atas Talian (dilumpuhkan)"
 
 #: src/supertux/menu/addon_menu.cpp:206
 msgid "Check Online"
-msgstr "Controlla sul Web"
+msgstr "Periksa Atas-Talian"
 
 #: src/supertux/menu/addon_menu.cpp:283
 msgid "Downloading Add-On Repository Index"
-msgstr "Scaricamento dell'indice dei componenti aggiuntivi"
+msgstr "Memuat Turun Indeks Repositori Tambahan"
 
 #: src/supertux/menu/addon_menu.cpp:298
 #, c-format
 msgid "Downloading %s"
-msgstr "Scaricamento di %s"
+msgstr "Memuat turun %s"
 
 #: src/supertux/menu/addon_menu.cpp:345
 msgid ""
 "Please restart SuperTux\n"
 "for these changes to take effect."
-msgstr "Riavviare SuperTux\naffinché le modifiche abbiano effetto"
+msgstr ""
 
 #: src/supertux/menu/editor_new_levelset_menu.cpp:51
 msgid "Please enter a name for this level subset."
-msgstr "Inserisci un nome per questo gruppo di livelli"
+msgstr "SIla masukkan nama untuk subset aras ini"
 
 #: src/supertux/menu/world_set_menu.cpp:30
 msgid "Story Mode"
-msgstr "Storia"
+msgstr "Mod Cerita"
 
 #: src/supertux/menu/game_menu.cpp:29
 msgid "Are you sure?"
-msgstr "Sei sicuro?"
+msgstr "Anda pasti?"
 
 #: src/supertux/menu/game_menu.cpp:46 src/supertux/menu/worldmap_menu.cpp:30
 msgid "Continue"
-msgstr "Continua"
+msgstr "Teruskan"
 
 #: src/supertux/menu/game_menu.cpp:47
 msgid "Restart Level"
-msgstr "Ricomincia livello"
+msgstr "Mula Semula Aras"
 
 #: src/supertux/menu/game_menu.cpp:50
 msgid "Abort Level"
-msgstr "Abbandona il livello"
+msgstr "Henti Paksa Aras"
 
 #: src/supertux/menu/keyboard_menu.cpp:32
 #: src/supertux/menu/joystick_menu.cpp:69
 msgid "Up"
-msgstr "Su"
+msgstr "Naik"
 
 #: src/supertux/menu/keyboard_menu.cpp:33
 #: src/supertux/menu/joystick_menu.cpp:70
 msgid "Down"
-msgstr "Giù/Abbassati"
+msgstr "Turun"
 
 #: src/supertux/menu/keyboard_menu.cpp:34
 #: src/supertux/menu/joystick_menu.cpp:71
 msgid "Left"
-msgstr "Sinistra"
+msgstr "Kiri"
 
 #: src/supertux/menu/keyboard_menu.cpp:35
 #: src/supertux/menu/joystick_menu.cpp:72
 msgid "Right"
-msgstr "Destra"
+msgstr "Kanan"
 
 #: src/supertux/menu/keyboard_menu.cpp:36
 #: src/supertux/menu/joystick_menu.cpp:73
 msgid "Jump"
-msgstr "Salta"
+msgstr "Lompat"
 
 #: src/supertux/menu/keyboard_menu.cpp:38
 #: src/supertux/menu/joystick_menu.cpp:76
 msgid "Peek Left"
-msgstr "Guarda a sinistra"
+msgstr "Intai Kiri"
 
 #: src/supertux/menu/keyboard_menu.cpp:39
 #: src/supertux/menu/joystick_menu.cpp:77
 msgid "Peek Right"
-msgstr "Guarda a destra"
+msgstr "Intai Kanan"
 
 #: src/supertux/menu/keyboard_menu.cpp:40
 #: src/supertux/menu/joystick_menu.cpp:78
 msgid "Peek Up"
-msgstr "Guarda su"
+msgstr "Intai Atas"
 
 #: src/supertux/menu/keyboard_menu.cpp:41
 #: src/supertux/menu/joystick_menu.cpp:79
 msgid "Peek Down"
-msgstr "Guarda giù"
+msgstr "Intai Bawah"
 
 #: src/supertux/menu/keyboard_menu.cpp:43
 #: src/supertux/menu/joystick_menu.cpp:81
 msgid "Console"
-msgstr "Console"
+msgstr "Konsol"
 
 #: src/supertux/menu/keyboard_menu.cpp:46
 #: src/supertux/menu/joystick_menu.cpp:84
 msgid "Cheat Menu"
-msgstr "Menù Trucchi"
+msgstr "Menu Tipu"
 
 #: src/supertux/menu/keyboard_menu.cpp:47
 #: src/supertux/menu/joystick_menu.cpp:85
 msgid "Debug Menu"
-msgstr "Menù di Debug"
+msgstr "Menu Nyahpepijat"
 
 #: src/supertux/menu/keyboard_menu.cpp:49
 #: src/supertux/menu/joystick_menu.cpp:87
 msgid "Jump with Up"
-msgstr "Salta con il tasto Su"
+msgstr "Lompat ke Atas"
 
 #: src/supertux/menu/keyboard_menu.cpp:60
 #: src/supertux/menu/joystick_menu.cpp:108
 #: src/supertux/menu/joystick_menu.cpp:215 src/worldmap/direction.cpp:84
 msgid "None"
-msgstr "Nessuno"
+msgstr "Tiada"
 
 #: src/supertux/menu/keyboard_menu.cpp:62
 msgid "Up cursor"
-msgstr "Freccia su"
+msgstr "Kursor atas"
 
 #: src/supertux/menu/keyboard_menu.cpp:64
 msgid "Down cursor"
-msgstr "Freccia giù"
+msgstr "Kursor bawah"
 
 #: src/supertux/menu/keyboard_menu.cpp:66
 msgid "Left cursor"
-msgstr "Freccia sinistra"
+msgstr "Kursor kiri"
 
 #: src/supertux/menu/keyboard_menu.cpp:68
 msgid "Right cursor"
-msgstr "Freccia destra"
+msgstr "Kursor kanan"
 
 #: src/supertux/menu/keyboard_menu.cpp:70
 msgid "Return"
-msgstr "Invio"
+msgstr "Return"
 
 #: src/supertux/menu/keyboard_menu.cpp:72
 msgid "Space"
-msgstr "Spazio"
+msgstr "Space"
 
 #: src/supertux/menu/keyboard_menu.cpp:74
 msgid "Right Shift"
-msgstr "Shift destro"
+msgstr "Shift Kanan"
 
 #: src/supertux/menu/keyboard_menu.cpp:76
 msgid "Left Shift"
-msgstr "Shift sinistro"
+msgstr "Shift Kiri"
 
 #: src/supertux/menu/keyboard_menu.cpp:78
 msgid "Right Control"
-msgstr "Ctrl destro"
+msgstr "Control Kanan"
 
 #: src/supertux/menu/keyboard_menu.cpp:80
 msgid "Left Control"
-msgstr "Ctrl sinistro"
+msgstr "Control Kiri"
 
 #: src/supertux/menu/keyboard_menu.cpp:82
 msgid "Right Alt"
-msgstr "Alt destro"
+msgstr "Alt Kanan"
 
 #: src/supertux/menu/keyboard_menu.cpp:84
 msgid "Left Alt"
-msgstr "Alt sinistro"
+msgstr "Alt Kiri"
 
 #: src/supertux/menu/keyboard_menu.cpp:86
 msgid "Right Command"
-msgstr "comando destro"
+msgstr "Command Kanan"
 
 #: src/supertux/menu/keyboard_menu.cpp:88
 msgid "Left Command"
-msgstr "comando sinistra"
+msgstr "Command Kiri"
 
 #: src/supertux/menu/keyboard_menu.cpp:102
 msgid "Press Key"
-msgstr "Premi un tasto"
+msgstr "Tekan Kekunci"
 
 #: src/supertux/menu/language_menu.cpp:38
 msgid "Language"
-msgstr "Lingua"
+msgstr "Bahasa"
 
 #: src/supertux/menu/language_menu.cpp:40
 msgid "<auto-detect>"
-msgstr "<riconosci automaticamente>"
+msgstr "<auto-detect>"
 
 #: src/supertux/menu/joystick_menu.cpp:55
 msgid "Manual Configuration"
-msgstr "Configurazione Manuale"
+msgstr "Konfigurasi Manual"
 
 #: src/supertux/menu/joystick_menu.cpp:57
 msgid ""
 "Use manual configuration instead of SDL2's automatic GameController support"
-msgstr "Utilizza la configurazione manuale anziché usare il supporto automatico per il GameController di SDL2"
+msgstr ""
 
 #: src/supertux/menu/joystick_menu.cpp:75
 msgid "Pause/Menu"
-msgstr "Pausa/Menu"
+msgstr "Jeda/Menu"
 
 #: src/supertux/menu/joystick_menu.cpp:93
 msgid "No Joysticks found"
-msgstr "Nessun joystick trovato"
+msgstr "Tiada Kayu Ria ditemui"
 
 #: src/supertux/menu/joystick_menu.cpp:94
 msgid "Scan for Joysticks"
-msgstr "Cerca joystick"
+msgstr "Imbas Kayu Ria"
 
 #: src/supertux/menu/joystick_menu.cpp:127
 msgid "Press Button"
-msgstr "Premi il pulsante"
+msgstr "Tekan Butang"
 
 #: src/supertux/menu/joystick_menu.cpp:164
 msgid "Axis "
-msgstr "Asse"
+msgstr "Paksi"
 
 #: src/supertux/menu/joystick_menu.cpp:167
 msgid "-"
@@ -1987,7 +1974,7 @@ msgstr "X"
 
 #: src/supertux/menu/joystick_menu.cpp:174
 msgid "Y"
-msgstr "S"
+msgstr "Y"
 
 #: src/supertux/menu/joystick_menu.cpp:176
 msgid "X2"
@@ -1995,256 +1982,256 @@ msgstr "X2"
 
 #: src/supertux/menu/joystick_menu.cpp:178
 msgid "Y2"
-msgstr "Y2"
+msgstr ""
 
 #: src/supertux/menu/joystick_menu.cpp:191
 msgid "Hat Up"
-msgstr "Levetta su"
+msgstr "Hat Atas"
 
 #: src/supertux/menu/joystick_menu.cpp:195
 msgid "Hat Down"
-msgstr "Levetta giù"
+msgstr "Hat Bawah"
 
 #: src/supertux/menu/joystick_menu.cpp:199
 msgid "Hat Left"
-msgstr "Levetta sinistra"
+msgstr "Hat Kiri"
 
 #: src/supertux/menu/joystick_menu.cpp:203
 msgid "Hat Right"
-msgstr "Levetta destra"
+msgstr "Hat Kanan"
 
 #: src/supertux/menu/worldmap_menu.cpp:28
 msgid "Pause"
-msgstr "Pausa"
+msgstr "Jeda"
 
 #: src/supertux/menu/worldmap_menu.cpp:33
 msgid "Leave World"
-msgstr "Esci dal mondo"
+msgstr "Keluar dari Dunia"
 
 #: src/supertux/menu/download_dialog.cpp:26
 msgid "Abort Download"
-msgstr "Interrompi Download"
+msgstr "Henti Paksa Muat Turun"
 
 #: src/supertux/menu/download_dialog.cpp:41
 msgid "Error:\n"
-msgstr "Errore:\n"
+msgstr "Ralat:\n"
 
 #: src/supertux/menu/download_dialog.cpp:95
 msgid "Close"
-msgstr "Chiudi"
+msgstr "Tutup"
 
 #: src/supertux/menu/cheat_menu.cpp:37
 msgid "Bonus: Star"
-msgstr "Bonus: Stella"
+msgstr "Bonus: Bintang"
 
 #: src/supertux/menu/cheat_menu.cpp:38
 msgid "Shrink Tux"
-msgstr "Strizzacervelli Tux"
+msgstr "Kecilkan Tx"
 
 #: src/supertux/menu/cheat_menu.cpp:39
 msgid "Kill Tux"
-msgstr "Uccidi Tux"
+msgstr "Matikan Tux"
 
 #: src/supertux/menu/editor_level_menu.cpp:31
 #: src/supertux/menu/editor_menu.cpp:66
 msgid "Worldmap properties"
-msgstr "Proprietà mappa del mondo"
+msgstr "Sifat peta dunia"
 
 #: src/supertux/menu/editor_level_menu.cpp:31
 #: src/supertux/menu/editor_menu.cpp:66
 msgid "Level properties"
-msgstr "Proprietà livello"
+msgstr "Sifat aras"
 
 #: src/supertux/menu/editor_level_menu.cpp:34
 msgid "Author"
-msgstr "Autore"
+msgstr "Pengarang"
 
 #: src/supertux/menu/editor_level_menu.cpp:35 data//credits.stxt:1271
 msgid "Contact"
-msgstr "Contatti"
+msgstr "Hubungi"
 
 #: src/supertux/menu/editor_level_menu.cpp:36
 msgid "License"
-msgstr "Licenza"
+msgstr "Lesen"
 
 #: src/supertux/menu/editor_level_menu.cpp:37
 msgid "Tileset"
-msgstr "Tileset"
+msgstr "Set Jubin"
 
 #: src/supertux/menu/editor_level_menu.cpp:40
 msgid "Target time"
-msgstr "Tempo da raggiungere"
+msgstr "Masa sasaran"
 
 #: src/supertux/menu/editor_level_menu.cpp:82
 msgid "Please enter a name for this level."
-msgstr "Inserisci un nome per questo livello"
+msgstr "Sila masukkan nama untuk aras ini."
 
 #: src/supertux/menu/editor_level_menu.cpp:86
 msgid "Please enter a level author for this level."
-msgstr "Inserisci un nome d'autore per questo livello"
+msgstr "Sila masukkan pengarang bagi aras ini."
 
 #: src/supertux/menu/editor_level_menu.cpp:90
 msgid "Please enter a license for this level."
-msgstr "Inserisci una licenza per questo livello"
+msgstr "Sila masukkan lesen untuk aras ini."
 
 #: src/supertux/menu/editor_menu.cpp:32
 msgid "1/8 tile (4px)"
-msgstr "1/8 tile (4px)"
+msgstr "Jubin 1/8 (4px)"
 
 #: src/supertux/menu/editor_menu.cpp:33
 msgid "1/4 tile (8px)"
-msgstr "1/4 tile (8px)"
+msgstr "Jubin 1/4 (8px)"
 
 #: src/supertux/menu/editor_menu.cpp:34
 msgid "1/2 tile (16px)"
-msgstr "1/2 tile (16px)"
+msgstr "Jubin 1/2 (16px)"
 
 #: src/supertux/menu/editor_menu.cpp:35
 msgid "1 tile (32px)"
-msgstr "1 tile (32px)"
+msgstr "Jubin 1 (32px)"
 
 #: src/supertux/menu/editor_menu.cpp:39
 msgid "Return to editor"
-msgstr "Ritorna all'editor"
+msgstr "Kembali ke penyunting"
 
 #: src/supertux/menu/editor_menu.cpp:40
 msgid "Save current worldmap"
-msgstr "Salva mappa mondo attuale"
+msgstr "Simpan peta dunia semasa"
 
 #: src/supertux/menu/editor_menu.cpp:40
 msgid "Save current level"
-msgstr "Salva livello attuale"
+msgstr "Simpan aras semasa"
 
 #: src/supertux/menu/editor_menu.cpp:43
 msgid "Test the level"
-msgstr "Prova livello"
+msgstr "Uji aras"
 
 #: src/supertux/menu/editor_menu.cpp:47
 msgid "Test the worldmap"
-msgstr "Testa la mappa del mondo"
+msgstr "Uji peta dunia"
 
 #: src/supertux/menu/editor_menu.cpp:50
 msgid "Open output directory"
-msgstr "Apri cartella di output"
+msgstr "Buka direktori output"
 
 #: src/supertux/menu/editor_menu.cpp:53
 msgid "Edit another level"
-msgstr "Modifica un altro livello"
+msgstr "Sunting aras lain"
 
 #: src/supertux/menu/editor_menu.cpp:56
 msgid "Choose another level subset"
-msgstr "Scegli un altro gruppo di livelli"
+msgstr "Pilih subset aras lain"
 
 #: src/supertux/menu/editor_menu.cpp:58
 msgid "Grid size"
-msgstr "Dimensione griglia"
+msgstr "Saiz grid"
 
 #: src/supertux/menu/editor_menu.cpp:60
 msgid "Render lighting (F6)"
-msgstr "Renderizza effetti luce (F6)"
+msgstr "Terap pencahayaan (F6)"
 
 #: src/supertux/menu/editor_menu.cpp:61
 msgid "Snap objects to grid (F7)"
-msgstr "Allinea gli oggetti alla griglia (F7)"
+msgstr "Lekat objek dengan grid (F7)"
 
 #: src/supertux/menu/editor_menu.cpp:62
 msgid "Show grid (F8)"
-msgstr "Mostra griglia (F8)"
+msgstr "Tunjuk grid (F8)"
 
 #: src/supertux/menu/editor_menu.cpp:63
 msgid "Render background"
-msgstr "Renderizza sfondo"
+msgstr "Terap latar belakang"
 
 #: src/supertux/menu/editor_menu.cpp:64
 msgid "Show scroller (F9)"
-msgstr "Mostra scorrimento (F9)"
+msgstr "Tunjuk penatal (F9)"
 
 #: src/supertux/menu/editor_menu.cpp:70
 msgid "Exit level editor"
-msgstr "Esci dall'editor di livello"
+msgstr "Keluar dari penyunting aras"
 
 #: src/supertux/menu/editor_menu.cpp:107
 msgid ""
 "Couldn't find a \"main\" sector.\n"
 "Please change the name of the sector where\n"
 "you'd like the player to start to \"main\""
-msgstr "Impossibile trovare il settore \"main\".\nCambiare il nome del settore dove\nvorresti che il giocatore cominci su \"main\""
+msgstr ""
 
 #: src/supertux/menu/editor_menu.cpp:111
 msgid ""
 "Couldn't find a \"main\" spawnpoint.\n"
 " Please change the name of the spawnpoint where\n"
 "you'd like the player to start to \"main\""
-msgstr "Impossibile trovare il punto di rinascita \"main\".\nCambiare il nome del punto di rinascita dove\nvorresti che il giocatore cominci su \"main\""
+msgstr ""
 
 #: src/supertux/levelintro.cpp:138
 #, c-format
 msgid "contributed by %s"
-msgstr "con il contributo di  %s"
+msgstr "disumbang oleh %s"
 
 #: src/supertux/levelintro.cpp:172
 msgid "Badguys killed"
-msgstr "Cattivoni uccisi"
+msgstr "Orang jahat terbunuh"
 
 #: src/supertux/levelintro.cpp:176
 msgid "Best time"
-msgstr "Miglior tempo"
+msgstr "Masa terbaik"
 
 #: src/supertux/levelintro.cpp:180
 msgid "Level target time"
-msgstr "Obiettivo tempo per il livello"
+msgstr "Masa sasaran aras"
 
 #: src/supertux/tile_set.cpp:92
 msgid "Others"
-msgstr "Altri"
+msgstr "Lain-lain"
 
 #: src/supertux/direction.cpp:35
 msgid "up"
-msgstr "su"
+msgstr "naik"
 
 #: src/supertux/direction.cpp:36
 msgid "down"
-msgstr "giù"
+msgstr "turun"
 
 #: src/control/joystick_config.cpp:85
 msgid "Joystick Mappings"
-msgstr "Configurazione Joystick"
+msgstr "Pemetaan Kayu Ria"
 
 #: src/worldmap/worldmap_parser.cpp:158
 msgid "<no title>"
-msgstr "<nessun titolo>"
+msgstr "<no title>"
 
 #: src/worldmap/direction.cpp:85
 msgid "West"
-msgstr "Ovest"
+msgstr "Barat"
 
 #: src/worldmap/direction.cpp:86
 msgid "East"
-msgstr "Est"
+msgstr "Timur"
 
 #: src/worldmap/direction.cpp:87
 msgid "North"
-msgstr "Nord"
+msgstr "Utara"
 
 #: src/worldmap/direction.cpp:88
 msgid "South"
-msgstr "Sud"
+msgstr "Selatan"
 
 #: src/editor/node_marker.cpp:79
 msgid "Path Node"
-msgstr "Snodo del sentiero"
+msgstr "Nod Laluan"
 
 #: src/editor/object_option.cpp:51
 msgid "true"
-msgstr "vero"
+msgstr "benar"
 
 #: src/editor/object_option.cpp:51
 msgid "false"
-msgstr "falso"
+msgstr "palsu"
 
 #: src/editor/object_option.cpp:56
 msgid "invalid"
-msgstr "non valido"
+msgstr "tidak sah"
 
 #: src/editor/editor.cpp:434
 msgid ""
@@ -2252,282 +2239,282 @@ msgid ""
 "and might cause collisions with default Super Tux structure.\n"
 "You can still enable these add-ons in the menu.\n"
 "Disabling these add-ons will not delete your game progress."
-msgstr "Alcuni componenti aggiuntivi obsoleti sono ancora attivi\ne possono creare conflitti con la struttura di base di Super Tux.\nSi possono ancora abilitare questi componenti nel menu.\nDisabilitare questi componenti aggiuntivi non cancellerà i progressi di gioco."
+msgstr ""
 
 #: src/editor/editor.cpp:437
 msgid "Disable add-ons"
-msgstr "Disabilita componenti aggiuntivi"
+msgstr "Lumpuhkan tambahan"
 
 #: src/editor/editor.cpp:442
 msgid "Ignore (not advised)"
-msgstr "Ignora (sconsigliato)"
+msgstr "Abai (tidak disarankan)"
 
 #: src/editor/editor.cpp:446
 msgid "Leave editor"
-msgstr "Esci dall'editor dei livelli"
+msgstr "Keluar dari penyunting"
 
 #: src/editor/worldmap_objects.cpp:92 src/editor/worldmap_objects.cpp:94
 msgid "Level"
-msgstr "Livello"
+msgstr "Aras"
 
 #: src/editor/worldmap_objects.cpp:98
 msgid "Outro script"
-msgstr "Script di epilogo"
+msgstr "Skrip outro"
 
 #: src/editor/worldmap_objects.cpp:99
 msgid "Auto play"
-msgstr "Riproduzione automatica"
+msgstr "Auto main"
 
 #: src/editor/worldmap_objects.cpp:105
 msgid "Title colour"
-msgstr "Colore titolo"
+msgstr "Warna tajuk"
 
 #: src/editor/worldmap_objects.cpp:187
 msgid "Teleporter"
-msgstr "Teletrasportatore"
+msgstr "Teleporter"
 
 #: src/editor/worldmap_objects.cpp:190
 msgid "Automatic"
-msgstr "Automatico"
+msgstr "Automatik"
 
 #: src/editor/worldmap_objects.cpp:192
 msgid "Change worldmap"
-msgstr "Cambia mappa del mondo"
+msgstr "Ubah peta dunia"
 
 #: src/editor/worldmap_objects.cpp:193
 msgid "Target worldmap"
-msgstr "Specifica mappa del mondo"
+msgstr "Peta dunia sasaran"
 
 #: src/editor/worldmap_objects.cpp:275
 msgid "Stay action"
-msgstr "Azione di stasi"
+msgstr "Tindakan tetap"
 
 #: src/editor/worldmap_objects.cpp:276
 msgid "Initial stay action"
-msgstr "Azione iniziale di stasi"
+msgstr "Tindakan tetap awalan"
 
 #: src/editor/worldmap_objects.cpp:277
 msgid "Stay group"
-msgstr "Ferma gruppo"
+msgstr ""
 
 #: src/editor/worldmap_objects.cpp:278
 msgid "Change on touch"
-msgstr "Cambia al tocco"
+msgstr "Ubah bila disentuh"
 
 #: src/editor/worldmap_objects.cpp:323
 msgid "Special tile"
-msgstr "Casella speciale"
+msgstr "Jubin khas"
 
 #: src/editor/worldmap_objects.cpp:325
 msgid "Show message"
-msgstr "Mostra messaggio"
+msgstr "Tunjuk mesej"
 
 #: src/editor/worldmap_objects.cpp:327
 msgid "Invisible"
-msgstr "Invisibile"
+msgstr "Halimunan"
 
 #: src/editor/object_menu.cpp:76
 msgid "Remove"
-msgstr "Rimuovi"
+msgstr "Buang"
 
 #: data//credits.stxt:13
 msgid "Original Developer"
-msgstr "Sviluppatore originale"
+msgstr "Pembangun Asal"
 
 #: data//credits.stxt:19 data//credits.stxt:25
 msgid "Graphics, Programming, Level Design"
-msgstr "Grafica, programmazione, creazione livelli"
+msgstr "Grafik, Pengaturcaraan, Rekabentuk Aras"
 
 #: data//credits.stxt:31
 msgid "Music, Level Design"
-msgstr "Musica, creazione livelli"
+msgstr "Muzik, Rekabentuk Aras"
 
 #: data//credits.stxt:37 data//credits.stxt:107 data//credits.stxt:142
 #: data//credits.stxt:147 data//credits.stxt:206 data//credits.stxt:276
 msgid "Graphics"
-msgstr "Grafica"
+msgstr "Grafik"
 
 #: data//credits.stxt:43
 msgid "Programming, Graphics, Level Design"
-msgstr "Programmazione, grafica, creazione livelli"
+msgstr "Pengaturcaraan, Grafik, Rekabentuk Aras"
 
 #: data//credits.stxt:49 data//credits.stxt:87 data//credits.stxt:102
 msgid "Programming, Level Design"
-msgstr "Programmazione, creazione livelli"
+msgstr "Pengaturcaraan, Rekabentuk Aras"
 
 #: data//credits.stxt:55
 msgid "Graphics, Story"
-msgstr "Grafica, storia"
+msgstr "Grafik, Jalan Cerita"
 
 #: data//credits.stxt:61
 msgid "Programming, Documentation"
-msgstr "Programmazione, documentazione"
+msgstr "Pengaturcaraan, DokumentasiAras"
 
 #: data//credits.stxt:67 data//credits.stxt:77 data//credits.stxt:82
 #: data//credits.stxt:112 data//credits.stxt:272 data//credits.stxt:284
 msgid "Programming"
-msgstr "Programmazione"
+msgstr "Pengaturcaraan"
 
 #: data//credits.stxt:72
 msgid "Programming, project lead ad interim"
-msgstr "Programmazione, capo progetto ad interim"
+msgstr "Pengaturcaraan, peneraju projek interim"
 
 #: data//credits.stxt:92
 msgid "Coordination"
-msgstr "Coordinamento"
+msgstr "Koordinasi"
 
 #: data//credits.stxt:97
 msgid "Programming, \"Flexlay\" Level editor"
-msgstr "Programmazione, editor di livello \"Flexlay\""
+msgstr "Pengaturcaraan, Penyunting aras \"Flexlay\""
 
 #: data//credits.stxt:117
 msgid "Windows build fixes"
-msgstr "Correzioni alla versione Windows"
+msgstr "Pembaikan binaan Windows"
 
 #: data//credits.stxt:122
 msgid "Level Design, Graphics"
-msgstr "Creazione livelli, grafica"
+msgstr "Rekabentuk Aras, Grafik"
 
 #: data//credits.stxt:127
 msgid "Packaging, Nightly builds"
-msgstr "Paccheto, NIghtly build"
+msgstr "Pakej, binaan Malam"
 
 #: data//credits.stxt:132
 msgid "Translation Guru (and many details anyone else could have done)"
-msgstr "Guru della traduzione (e molte altre minuzie che poteva fare chiunque altro)"
+msgstr "Guru Terjemahan (dan banyak lagi perincian lain)"
 
 #: data//credits.stxt:137
 msgid "Level Design"
-msgstr "Creazione livelli"
+msgstr "Rekabentuk Aras"
 
 #: data//credits.stxt:152
 msgid "Additional contributors"
-msgstr "Altri contributori"
+msgstr "Penyumbang tambahan"
 
 #: data//credits.stxt:156
 msgid "Bug fixes"
-msgstr "Correzione bug"
+msgstr "Pembaikan pepijat"
 
 #: data//credits.stxt:161
 msgid "Explosion sprites"
-msgstr "Esplosione di sprite"
+msgstr ""
 
 #: data//credits.stxt:166
 msgid "Scripting functions, Level fixes"
-msgstr "Funzioni scripting, correzioni ai livelli"
+msgstr "Fungsi penskripan, Baiki aras"
 
 #: data//credits.stxt:171
 msgid "Code quality fixes"
-msgstr "Correzioni di qualità al codice"
+msgstr "Pembaikan kualiti kod"
 
 #: data//credits.stxt:176 data//credits.stxt:181 data//credits.stxt:186
 #: data//credits.stxt:226
 msgid "Various contributions"
-msgstr "Contributi vari"
+msgstr "Pelbagai sumbangan"
 
 #: data//credits.stxt:191
 msgid "Build issue fix"
-msgstr "Riparazioni ai problemi di compilazione"
+msgstr "Baiki masalah binaan"
 
 #: data//credits.stxt:196
 msgid "Code contributions"
-msgstr "Contributi al codice"
+msgstr "Sumbangan kod"
 
 #: data//credits.stxt:201 data//credits.stxt:261
 msgid "Level improvements"
-msgstr "Miglioramenti ai livelli"
+msgstr "Penambahbaikan aras"
 
 #: data//credits.stxt:211
 msgid "Code contribution, AppData file"
-msgstr "Contributi al codice, file AppData"
+msgstr "Sumbangan kod, fail AppData"
 
 #: data//credits.stxt:216
 msgid "Bug fix"
-msgstr "Correzione bug"
+msgstr "Baiki pepijat"
 
 #: data//credits.stxt:221
 msgid "Menu reorganization"
-msgstr "Riorganizzazione menu"
+msgstr "Susunan semula menu"
 
 #: data//credits.stxt:231
 msgid "Fixing tile bugs"
-msgstr "Correzione bug caselle"
+msgstr "Membaiki pepijat"
 
 #: data//credits.stxt:236
 msgid "Build error fix"
-msgstr "Correzione errori di compilazione"
+msgstr "Baiki ralat binaan"
 
 #: data//credits.stxt:241
 msgid "Scripting function fix"
-msgstr "Correzione funzione di scripting"
+msgstr "Baiki fungsi penskripan"
 
 #: data//credits.stxt:246
 msgid "Support for \"glbinding\" as optional OpenGL binding"
-msgstr "Supporto per \"glbinding\" come binding OpenGL opzionale"
+msgstr "Sokongan untuk \"glbinding\" sebagai pengikatan pilihan OpenGL"
 
 #: data//credits.stxt:251
 msgid "New menu code"
-msgstr "Nuovo codice menu"
+msgstr "Kod menu baharu"
 
 #: data//credits.stxt:256
 msgid "Big Tux Walking Sprites improvements"
-msgstr "Miglioramenti agli sprite di camminata di Big Tux"
+msgstr ""
 
 #: data//credits.stxt:267
 msgid "Milestone 1 contributions by..."
-msgstr "Contributi alla Milestone 1 di..."
+msgstr "Sumbangan Milestone 1 oleh..."
 
 #: data//credits.stxt:280 data//credits.stxt:288
 msgid "Contrib Programming"
-msgstr "Contributi a Programmazione"
+msgstr "Pengaturcaraan Contrib"
 
 #: data//credits.stxt:292
 msgid "Programming, Previous Maintainer"
-msgstr "Programmazione, manutentore precedente"
+msgstr "Pengaturcaraan, Penyelenggara Terdahulu"
 
 #: data//credits.stxt:297
 msgid "Additional Music"
-msgstr "Musica addizionale"
+msgstr "Muzik Tambahan"
 
 #: data//credits.stxt:302
 msgid "\"Mortimers Chipdisko\" by"
-msgstr "\"Mortimers Chipdisko\" di"
+msgstr "\"Mortimers Chipdisko\" oleh"
 
 #: data//credits.stxt:311
 msgid "\"Salsa Con Carne\" by"
-msgstr "\"Salsa Con Carne\" di"
+msgstr "\"Salsa Con Carne\" oleh"
 
 #: data//credits.stxt:319 data//credits.stxt:371
 msgid "remixed by"
-msgstr "Riarrangiata da"
+msgstr "diadun semula oleh"
 
 #: data//credits.stxt:328
 msgid "\"voc songs\" by"
-msgstr "\"voc songs\" di"
+msgstr "\"voc songs\" oleh"
 
 #: data//credits.stxt:337
 msgid "\"clavelian_march\" by"
-msgstr "\"clavelian_march\" di"
+msgstr "\"clavelian_march\" oleh"
 
 #: data//credits.stxt:346
 msgid "Excerpts from the Giana Sisters"
-msgstr "Estratti da The Giana Sisters"
+msgstr "Sedutan dari the Giana Sisters"
 
 #: data//credits.stxt:350
 msgid "Soundtrack used with kind permission"
-msgstr "Colonna sonora usata su gentile concessione"
+msgstr "Runut bunyi digunakan dengan keizinan"
 
 #: data//credits.stxt:354
 msgid "from"
-msgstr "da"
+msgstr "daripada"
 
 #: data//credits.stxt:363
 msgid "\"Airship song\" (orchestral remix) by"
-msgstr "\"Airship song\" (orchestral remix) di"
+msgstr "\"Airship song\" (adunan okestra) oleh"
 
 #: data//credits.stxt:380
 msgid "\"Battle Theme\" by"
-msgstr "\"Battle Theme\" di"
+msgstr "\"Battle Theme\" oleh"
 
 #: data//credits.stxt:389
 msgid "\"SuperTux christmas theme\""
@@ -2535,59 +2522,59 @@ msgstr "\"SuperTux christmas theme\""
 
 #: data//credits.stxt:393
 msgid "original by"
-msgstr "originale di"
+msgstr "asal oleh"
 
 #: data//credits.stxt:402
 msgid "arranged by"
-msgstr "arrangiata da"
+msgstr "disusun oleh"
 
 #: data//credits.stxt:411
 msgid "\"halloween_1.ogg\" by"
-msgstr "\"halloween_1.ogg\" di"
+msgstr "\"halloween_1.ogg\" oleh"
 
 #: data//credits.stxt:420
 msgid "\"Forest Prophecy reEducated\" (forest_theme.ogg) by"
-msgstr "\"Forest Prophecy reEducated\" (forest_theme.ogg) di"
+msgstr "\"Forest Prophecy reEducated\" (forest_theme.ogg) oleh"
 
 #: data//credits.stxt:500
 msgid "Voice Acting"
-msgstr "Doppiaggio"
+msgstr "Lakonan Suara"
 
 #: data//credits.stxt:531
 msgid "Localization"
-msgstr "Traduzione"
+msgstr "Penyetempatan"
 
 #: data//credits.stxt:536 data//credits.stxt:1040 data//credits.stxt:1104
 msgid "Serbian"
-msgstr "Serbo"
+msgstr "Serbia"
 
 #: data//credits.stxt:540
 msgid "Uzbek"
-msgstr "Uzbeko"
+msgstr "Uzbek"
 
 #: data//credits.stxt:544 data//credits.stxt:552 data//credits.stxt:580
 #: data//credits.stxt:616 data//credits.stxt:620 data//credits.stxt:724
 #: data//credits.stxt:784 data//credits.stxt:824 data//credits.stxt:852
 #: data//credits.stxt:924 data//credits.stxt:1080 data//credits.stxt:1156
 msgid "Italian"
-msgstr "Italiano"
+msgstr "Itali"
 
 #: data//credits.stxt:548 data//credits.stxt:792
 msgid "Danish"
-msgstr "Danese"
+msgstr "Denmark"
 
 #: data//credits.stxt:556
 msgid "Vietnamese"
-msgstr "Vietnamita"
+msgstr "VIetnam"
 
 #: data//credits.stxt:560 data//credits.stxt:584 data//credits.stxt:888
 #: data//credits.stxt:956 data//credits.stxt:1096 data//credits.stxt:1224
 msgid "Russian"
-msgstr "Russo"
+msgstr "Rusia"
 
 #: data//credits.stxt:564
 msgid "French, German"
-msgstr "Francese, Tedesco"
+msgstr "Perancis, Jerman"
 
 #: data//credits.stxt:568 data//credits.stxt:608 data//credits.stxt:640
 #: data//credits.stxt:712 data//credits.stxt:716 data//credits.stxt:936
@@ -2595,70 +2582,70 @@ msgstr "Francese, Tedesco"
 #: data//credits.stxt:1052 data//credits.stxt:1060 data//credits.stxt:1072
 #: data//credits.stxt:1140 data//credits.stxt:1244
 msgid "French"
-msgstr "Francese"
+msgstr "Perancis"
 
 #: data//credits.stxt:572 data//credits.stxt:632 data//credits.stxt:744
 #: data//credits.stxt:796 data//credits.stxt:920 data//credits.stxt:932
 #: data//credits.stxt:964 data//credits.stxt:1128 data//credits.stxt:1212
 #: data//credits.stxt:1220
 msgid "German"
-msgstr "Tedesco"
+msgstr "Jerman"
 
 #: data//credits.stxt:576 data//credits.stxt:600 data//credits.stxt:628
 #: data//credits.stxt:748 data//credits.stxt:760 data//credits.stxt:844
 msgid "Spanish"
-msgstr "Spagnolo"
+msgstr "Sepanyol"
 
 #: data//credits.stxt:588
 msgid "Albanese"
-msgstr "Albanese"
+msgstr "Albania"
 
 #: data//credits.stxt:592 data//credits.stxt:636 data//credits.stxt:668
 msgid "Castilian Spanish"
-msgstr "Spagnolo castigliano"
+msgstr "Sepanyol Castil"
 
 #: data//credits.stxt:596 data//credits.stxt:648 data//credits.stxt:652
 #: data//credits.stxt:740 data//credits.stxt:788 data//credits.stxt:872
 #: data//credits.stxt:984 data//credits.stxt:1048 data//credits.stxt:1092
 #: data//credits.stxt:1148 data//credits.stxt:1164 data//credits.stxt:1248
 msgid "Hungarian"
-msgstr "Ungherese"
+msgstr "Hungary"
 
 #: data//credits.stxt:604 data//credits.stxt:720 data//credits.stxt:968
 #: data//credits.stxt:1068
 msgid "Slovak"
-msgstr "Slovacco"
+msgstr "Slovak"
 
 #: data//credits.stxt:612 data//credits.stxt:692 data//credits.stxt:840
 #: data//credits.stxt:904
 msgid "European Portuguese"
-msgstr "Portoghese europeo"
+msgstr "Portugis Eropah"
 
 #: data//credits.stxt:624 data//credits.stxt:672 data//credits.stxt:676
 #: data//credits.stxt:1204
 msgid "Catalan"
-msgstr "Catalano"
+msgstr "Catal"
 
 #: data//credits.stxt:644 data//credits.stxt:776 data//credits.stxt:1008
 msgid "Slovenian"
-msgstr "Sloveno"
+msgstr "Slovenia"
 
 #: data//credits.stxt:656
 msgid "Malayalam"
-msgstr "Lingua malayalam"
+msgstr "Malayalam"
 
 #: data//credits.stxt:660 data//credits.stxt:912 data//credits.stxt:1020
 #: data//credits.stxt:1216
 msgid "Mandarin Chinese"
-msgstr "Cinese Mandarino"
+msgstr "Cina Mandarin"
 
 #: data//credits.stxt:664
 msgid "Norwegian Bokmål"
-msgstr "Norvegese Bokmål"
+msgstr "Bokmål Norway"
 
 #: data//credits.stxt:680
 msgid "Mandarin"
-msgstr "Mandarino"
+msgstr "Mandarin"
 
 #: data//credits.stxt:684 data//credits.stxt:908 data//credits.stxt:1208
 msgid "Esperanto"
@@ -2666,187 +2653,187 @@ msgstr "Esperanto"
 
 #: data//credits.stxt:688 data//credits.stxt:700
 msgid "Romanian"
-msgstr "Rumeno"
+msgstr "Romania"
 
 #: data//credits.stxt:696
 msgid "Croatian"
-msgstr "Croato"
+msgstr "Croatia"
 
 #: data//credits.stxt:704 data//credits.stxt:756 data//credits.stxt:1056
 #: data//credits.stxt:1132
 msgid "Nepali"
-msgstr "Nepalese"
+msgstr "Nepal"
 
 #: data//credits.stxt:708 data//credits.stxt:764 data//credits.stxt:800
 #: data//credits.stxt:928 data//credits.stxt:1144 data//credits.stxt:1184
 msgid "Dutch"
-msgstr "Nederlandese"
+msgstr "Belanda"
 
 #: data//credits.stxt:728 data//credits.stxt:732 data//credits.stxt:848
 #: data//credits.stxt:952 data//credits.stxt:1024 data//credits.stxt:1028
 #: data//credits.stxt:1032 data//credits.stxt:1076 data//credits.stxt:1228
 msgid "Turkish"
-msgstr "Turco"
+msgstr "Turki"
 
 #: data//credits.stxt:736
 msgid "European/Brazilian Portuguese"
-msgstr "Portoghese europeo/brasiliano"
+msgstr "Portugis Eropah/Brazil"
 
 #: data//credits.stxt:752 data//credits.stxt:808 data//credits.stxt:820
 #: data//credits.stxt:988 data//credits.stxt:1192
 msgid "Czech"
-msgstr "Ceco"
+msgstr "Czech"
 
 #: data//credits.stxt:768 data//credits.stxt:1236
 msgid "Hebrew"
-msgstr "Ebraico"
+msgstr "Ibrani"
 
 #: data//credits.stxt:772 data//credits.stxt:836 data//credits.stxt:992
 #: data//credits.stxt:1004 data//credits.stxt:1016 data//credits.stxt:1044
 #: data//credits.stxt:1064
 msgid "Brazilian Portuguese"
-msgstr "Portoghese brasiliano"
+msgstr "Portugis Brazil"
 
 #: data//credits.stxt:780 data//credits.stxt:1000 data//credits.stxt:1100
 #: data//credits.stxt:1168
 msgid "Swedish"
-msgstr "Svedese"
+msgstr "Sweden"
 
 #: data//credits.stxt:804 data//credits.stxt:892 data//credits.stxt:1012
 #: data//credits.stxt:1124 data//credits.stxt:1172 data//credits.stxt:1176
 #: data//credits.stxt:1232
 msgid "Finnish"
-msgstr "Finlandese"
+msgstr "Finland"
 
 #: data//credits.stxt:812 data//credits.stxt:864 data//credits.stxt:868
 #: data//credits.stxt:880 data//credits.stxt:972 data//credits.stxt:1088
 #: data//credits.stxt:1152 data//credits.stxt:1160
 msgid "Polish"
-msgstr "Polacco"
+msgstr "Poland"
 
 #: data//credits.stxt:816
 msgid "Norwegian Bokmål, Norwegian Nynorsk"
-msgstr "Bokmål Norvegese, Nynorsk Norvegese"
+msgstr "Bokmål Norway, Nynorsk Norway"
 
 #: data//credits.stxt:828
 msgid "Tatar"
-msgstr "Lingua tatara"
+msgstr "Tatar"
 
 #: data//credits.stxt:832 data//credits.stxt:1196 data//credits.stxt:1200
 msgid "Bulgarian"
-msgstr "Bulgaro"
+msgstr "Bulgaria"
 
 #: data//credits.stxt:856 data//credits.stxt:980
 msgid "Korean"
-msgstr "Coreano"
+msgstr "Korea"
 
 #: data//credits.stxt:860
 msgid "Estonian"
-msgstr "Estone"
+msgstr "Estonia"
 
 #: data//credits.stxt:876
 msgid "Polish, Swedish"
-msgstr "Polacco, Svedese"
+msgstr "Poland, Sweden"
 
 #: data//credits.stxt:884 data//credits.stxt:1136
 msgid "Lithuanian"
-msgstr "Lituano"
+msgstr "Lithuania"
 
 #: data//credits.stxt:896
 msgid "French/Esperanto"
-msgstr "Francese/Esperanto"
+msgstr "Perancis/Esperanto"
 
 #: data//credits.stxt:900
 msgid "Spanish, Brazilian Portuguese"
-msgstr "Spangnolo, Portoghese Brasiliano"
+msgstr "Sepanyol, Portugis Brazil"
 
 #: data//credits.stxt:916 data//credits.stxt:1180
 msgid "Ukrainian"
-msgstr "Ucraino"
+msgstr "Ukraine"
 
 #: data//credits.stxt:940 data//credits.stxt:1116
 msgid "Japanese"
-msgstr "Giapponese"
+msgstr "Jepun"
 
 #: data//credits.stxt:960
 msgid "Breton"
-msgstr "Bretone"
+msgstr "Breton"
 
 #: data//credits.stxt:996 data//credits.stxt:1108 data//credits.stxt:1112
 msgid "Greek"
-msgstr "Greco"
+msgstr "Yunani"
 
 #: data//credits.stxt:1036
 msgid "Latin"
-msgstr "Latino"
+msgstr "Latin"
 
 #: data//credits.stxt:1084
 msgid "European Portuguese, Brazilian Portuguese"
-msgstr "Portoghese Europeo, Portoghese Brasiliano"
+msgstr "Portugis Eropah, Portugis Brazil"
 
 #: data//credits.stxt:1120
 msgid "Simplified Chinese"
-msgstr "Cinese semplificato"
+msgstr "Cina Ringkas"
 
 #: data//credits.stxt:1188
 msgid "Belarusian"
-msgstr "Bielorusso"
+msgstr "Belarusia"
 
 #: data//credits.stxt:1240
 msgid "Indonesian"
-msgstr "Indonesiano"
+msgstr "Indonesia"
 
 #: data//credits.stxt:1254
 msgid "Thanks to"
-msgstr "Grazie a"
+msgstr "Terima kasih kepada"
 
 #: data//credits.stxt:1259
 msgid "Creator of Tux, the Linux penguin"
-msgstr "Creatore di Tux, il pinguino di Linux"
+msgstr "Pencipta Tux, si penguin Linux"
 
 #: data//credits.stxt:1263
 msgid "SDL, OpenAL and OpenGL"
-msgstr "SDL, OpenAL e OpenGL"
+msgstr "SDL, OpenAL dan OpenGL"
 
 #: data//credits.stxt:1264
 msgid ""
 "For making such a great gaming experience\n"
 "        possible on Linux"
-msgstr "Per aver reso possibile una tale esperienza\ndi gioco su Linux"
+msgstr "Kerana pengalaman permainan yang hebat\n        dapat diwujudkan untuk Linux"
 
 #: data//credits.stxt:1276
 msgid "Visit our webpage at"
-msgstr "Visita la nostra pagina a"
+msgstr "Lawati laman sesawang kami di"
 
 #: data//credits.stxt:1285
 msgid "Or visit us directly at IRC:"
-msgstr "Oppure facci visita direttamente su IRC:"
+msgstr "Atau lawati kami terus di IRC:"
 
 #: data//credits.stxt:1289
 msgid "#supertux at webchat.freenode.net"
-msgstr "#supertux su webchat.freenode.net"
+msgstr "#supertux di webchat.freenode.net"
 
 #: data//credits.stxt:1294
 msgid "Or at our Forum:"
-msgstr "O sul nostro Forum:"
+msgstr "Atau di Forum kami:"
 
 #: data//credits.stxt:1303
 msgid "Comments, ideas and suggestions"
-msgstr "Commenti, idee e suggerimenti"
+msgstr "Komen, idea dan cadangan"
 
 #: data//credits.stxt:1307
 msgid "go to our mailing list"
-msgstr "vai alla nostra mailing list"
+msgstr "pergi ke senarai mel kami"
 
 #. l10n: typo contact
 #: data//credits.stxt:1317
 msgid "Typographical errors can be"
-msgstr "Gli errori tipografici possono essere"
+msgstr "Ralat Tifografi boleh berlaku"
 
 #. l10n: typo contact
 #: data//credits.stxt:1322
 msgid "reported to"
-msgstr "riportato a"
+msgstr "dan laporkan kepada"
 
 #. l10n: typo contact, see <https://github.com/SuperTux/supertux/issues/611>
 #: data//credits.stxt:1327
@@ -2855,79 +2842,79 @@ msgstr "supertux-devel@lists.lethargik.org"
 
 #: data//credits.stxt:1334
 msgid "Want to help…"
-msgstr "Vuoi aiutare..."
+msgstr "Mahu membantu..."
 
 #: data//credits.stxt:1339
 msgid "…with localization?"
-msgstr "...con la traduzione?"
+msgstr "…with penyetempatan?"
 
 #: data//credits.stxt:1349
 msgid "…with something else?"
-msgstr "...con qualcos'altro?"
+msgstr "…dengan perkara lain?"
 
 #: data//credits.stxt:1360
 msgid "Thank you for"
-msgstr "Grazie per"
+msgstr "Terima kasih kerana"
 
 #: data//credits.stxt:1364
 msgid "playing"
-msgstr "aver giocato"
+msgstr "bermain"
 
 #: data//credits.stxt:1376
 msgid "Penny awaits you in Milestone 3!"
-msgstr "Penny ti aspetta nella Milestone 3!"
+msgstr "Penny menunggu anda di Milestone 3!"
 
 #: data//images/engine/editor/objects.stoi:4
 msgid "Hostile"
-msgstr "Ostile"
+msgstr ""
 
 #: data//images/engine/editor/objects.stoi:135
 msgid "Projectiles"
-msgstr "Proiettili"
+msgstr "Unjuran"
 
 #: data//images/engine/editor/objects.stoi:158
 msgid "Bosses"
-msgstr "Boss"
+msgstr "Bos"
 
 #: data//images/engine/editor/objects.stoi:169
 msgid "Interactive"
-msgstr "Interattivo"
+msgstr "Interaktif"
 
 #: data//images/engine/editor/objects.stoi:269
 msgid "Ambient"
-msgstr "Ambiente"
+msgstr "Ambien"
 
 #: data//images/engine/editor/objects.stoi:337
 msgid "Worldmap markers"
-msgstr "Marcatori mondo mappa"
+msgstr "Pembuat peta dunia"
 
 #: data//images/ice_world.strf:6
 msgid "Ice Cave & Crystal"
-msgstr "Grotta di ghiaccio e cristallo"
+msgstr "Gua & Hablur Ais"
 
 #: data//images/ice_world.strf:53
 msgid "Embellishments"
-msgstr "Decorazioni"
+msgstr "Hiasan"
 
 #: data//images/ice_world.strf:137
 msgid "Ice"
-msgstr "Ghiaccio"
+msgstr "Ais"
 
 #: data//images/ice_world.strf:182 data//images/tiles.strf:1045
 msgid "Castle"
-msgstr "Castello"
+msgstr "Istana"
 
 #: data//images/ice_world.strf:200
 msgid "Pathing"
-msgstr "Instradamento"
+msgstr "Laluan"
 
 #: data//images/ice_world.strf:289 data//images/tiles.strf:983
 msgid "Water"
-msgstr "Acqua"
+msgstr "Air"
 
 #: data//images/tiles.strf:225
 msgid "Pipes"
-msgstr "Tubi"
+msgstr "Paip"
 
 #: data//images/tiles.strf:254 data//images/worldmap.strf:199
 msgid "Halloween"
@@ -2935,96 +2922,96 @@ msgstr "Halloween"
 
 #: data//images/tiles.strf:281
 msgid "Test"
-msgstr "Prova"
+msgstr "Ujian"
 
 #: data//images/tiles.strf:288
 msgid "Crystal Cave"
-msgstr "Grotta di Cristallo"
+msgstr "Gua Hablur"
 
 #: data//images/tiles.strf:379
 msgid "Snow Mountain"
-msgstr "Montagna Nevosa"
+msgstr "Gunung Salji"
 
 #: data//images/tiles.strf:453 data//images/worldmap.strf:41
 msgid "Snow"
-msgstr "Neve"
+msgstr "Salji"
 
 #: data//images/tiles.strf:571
 msgid "Snow (Paralax Background)"
-msgstr "Neve (sfondo in parallasse)"
+msgstr ""
 
 #: data//images/tiles.strf:584 data//images/worldmap.strf:67
 msgid "Forest"
-msgstr "Foresta"
+msgstr "Hutan"
 
 #: data//images/tiles.strf:666
 msgid "Forest (Background)"
-msgstr "Foresta (sfondo)"
+msgstr "Hutan (Latar Belakang)"
 
 #: data//images/tiles.strf:760
 msgid "Forest (Underground)"
-msgstr "Foresta (Sottoterra)"
+msgstr "Hutan (Bawah Tanah)"
 
 #: data//images/tiles.strf:804
 msgid "Block"
-msgstr "Blocco"
+msgstr "Blok"
 
 #: data//images/tiles.strf:827
 msgid "Points"
-msgstr "Punti"
+msgstr "Titik"
 
 #: data//images/tiles.strf:831
 msgid "Misc"
-msgstr "Varie"
+msgstr "Pelbagai"
 
 #: data//images/tiles.strf:862
 msgid "Pole"
-msgstr "Polo"
+msgstr "Tiang"
 
 #: data//images/tiles.strf:885
 msgid "Stone Brick Walls"
-msgstr "Muri di mattoni"
+msgstr "Dinding Batu Bata"
 
 #: data//images/tiles.strf:937
 msgid "Signs"
-msgstr "Segnali"
+msgstr "Tanda"
 
 #: data//images/tiles.strf:959
 msgid "Jungle"
-msgstr "Giungla"
+msgstr "Hutan"
 
 #: data//images/tiles.strf:969
 msgid "Industrial"
-msgstr "Industriale"
+msgstr "Industri"
 
 #: data//images/tiles.strf:1004
 msgid "Icebridge"
-msgstr "Ponte di ghiaccio"
+msgstr "Jambatan Ais"
 
 #: data//images/tiles.strf:1012
 msgid "LavaFlow"
-msgstr "Flusso di lava"
+msgstr "Aliran Lava"
 
 #: data//images/tiles.strf:1022
 msgid "Exits"
-msgstr "Uscite"
+msgstr "Laluan Keluar"
 
 #: data//images/tiles.strf:1123
 msgid "Cave background"
-msgstr "Sfondo di grotta"
+msgstr "Latar belakang gua"
 
 #: data//images/tiles.strf:1161
 msgid "Unisolid"
-msgstr "Semipermeabile"
+msgstr ""
 
 #: data//images/worldmap.strf:24
 msgid "Water paths"
-msgstr "Percorsi acquatici"
+msgstr "Laluan air"
 
 #: data//images/worldmap.strf:32
 msgid "Castle paths"
-msgstr "Percorsi del castello"
+msgstr "Laluan istana"
 
 #: data//images/worldmap.strf:135
 msgid "Darker Forest"
-msgstr "Foresta più oscura"
+msgstr "Hutan Rimba"

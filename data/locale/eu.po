@@ -3,40 +3,30 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# Angela <angelapellegrino@hotmail.it>, 2014-2015
-# Benjamin Leduc <giby_the_kid@yahoo.fr>, 2015
-# Gianfranco Del Borrello <jeffry84@hotmail.it>, 2016
-# Iknos <ze4lot@email.it>, 2004
-# Paride Barison, 2015
-# Irene Di Rosa, 2014
-# Marcello Bolognesi, 2013-2015
-# Paride Barison, 2018
-# Paride Barison, 2018
-# Seb47TV <seb47tv@gmail.com>, 2016
-# Simone Centonze <mypythonit@gmail.com>, 2018
-# William Beltrán <wbeltranc@gmail.com>, 2016
-# William Beltrán <wbeltranc@gmail.com>, 2016
+# Bingen Galartza Iparragirre <bingalipa@gmail.com>, 2016-2017
+# Mielanjel Iraeta <pospolos@gmail.com>, 2018
+# Urtzi Odriozola <urtzi.odriozola@gmail.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2018-11-16 00:48+0100\n"
-"PO-Revision-Date: 2018-12-18 13:50+0000\n"
-"Last-Translator: Paride Barison\n"
-"Language-Team: Italian (http://www.transifex.com/arctic-games/supertux/language/it/)\n"
+"PO-Revision-Date: 2018-11-18 00:01+0000\n"
+"Last-Translator: Mielanjel Iraeta <pospolos@gmail.com>\n"
+"Language-Team: Basque (http://www.transifex.com/arctic-games/supertux/language/eu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: it\n"
+"Language: eu\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/trigger/secretarea_trigger.cpp:48 src/trigger/secretarea_trigger.cpp:56
 msgid "You found a secret area!"
-msgstr "Hai trovato un'area segreta!"
+msgstr "Eremu ezkutu bat aurkitu duzu!"
 
 #: src/trigger/secretarea_trigger.cpp:69
 msgid "Secret area"
-msgstr "Area segreta"
+msgstr "Eremu ezkutua"
 
 #: src/trigger/secretarea_trigger.cpp:70 src/trigger/scripttrigger.cpp:70
 #: src/trigger/climbable.cpp:73 src/trigger/switch.cpp:60
@@ -46,31 +36,31 @@ msgstr "Area segreta"
 #: src/supertux/menu/editor_new_levelset_menu.cpp:34
 #: src/supertux/menu/editor_level_menu.cpp:33
 msgid "Name"
-msgstr "Nome"
+msgstr "Izena"
 
 #: src/trigger/secretarea_trigger.cpp:71 src/trigger/scripttrigger.cpp:71
 #: src/trigger/climbable.cpp:74 src/trigger/sequence_trigger.cpp:74
 #: src/object/invisible_wall.cpp:44 src/object/ambient_sound.cpp:122
 #: src/object/tilemap.cpp:224 src/supertux/menu/editor_sector_menu.cpp:39
 msgid "Width"
-msgstr "Larghezza"
+msgstr "Zabalera"
 
 #: src/trigger/secretarea_trigger.cpp:72 src/trigger/scripttrigger.cpp:72
 #: src/trigger/climbable.cpp:75 src/trigger/sequence_trigger.cpp:75
 #: src/object/invisible_wall.cpp:45 src/object/ambient_sound.cpp:123
 #: src/object/tilemap.cpp:225 src/supertux/menu/editor_sector_menu.cpp:40
 msgid "Height"
-msgstr "Altezza"
+msgstr "Altuera"
 
 #: src/trigger/secretarea_trigger.cpp:73
 msgid "Fade tilemap"
-msgstr "Sbiadisci tilemap"
+msgstr "Tilemap desagertu"
 
 #: src/trigger/secretarea_trigger.cpp:74 src/trigger/climbable.cpp:76
 #: src/object/infoblock.cpp:56 src/editor/worldmap_objects.cpp:189
 #: src/editor/worldmap_objects.cpp:324
 msgid "Message"
-msgstr "Messaggio"
+msgstr "Mezua"
 
 #: src/trigger/secretarea_trigger.cpp:75 src/trigger/scripttrigger.cpp:73
 #: src/object/ispy.cpp:62 src/object/bonus_block.cpp:195
@@ -81,32 +71,32 @@ msgstr "Script"
 
 #: src/trigger/scripttrigger.cpp:69
 msgid "Script trigger"
-msgstr "Attivatore di script"
+msgstr "Script aktibatzailea"
 
 #: src/trigger/scripttrigger.cpp:74 src/object/pushbutton.hpp:36
 msgid "Button"
-msgstr "Tasto"
+msgstr "Botoia"
 
 #: src/trigger/scripttrigger.cpp:75
 msgid "Oneshot"
-msgstr "Oneshot"
+msgstr "Behin egin"
 
 #: src/trigger/climbable.cpp:72
 msgid "Climbable"
-msgstr "Arrampicabile"
+msgstr "Eskalagarria"
 
 #: src/trigger/door.cpp:70 src/badguy/willowisp.cpp:280
 #: src/supertux/menu/editor_sector_menu.cpp:32 src/editor/layers_gui.cpp:216
 msgid "Sector"
-msgstr "Settore"
+msgstr "Sektorea"
 
 #: src/trigger/door.cpp:71 src/object/spawnpoint.hpp:51
 msgid "Spawn point"
-msgstr "Punto di apparizione"
+msgstr "Sortze puntua"
 
 #: src/trigger/switch.cpp:59
 msgid "Switch"
-msgstr "Interruttore"
+msgstr "Etengailua"
 
 #: src/trigger/switch.cpp:61 src/object/decal.cpp:39 src/object/block.cpp:205
 #: src/object/torch.cpp:87 src/object/moving_sprite.cpp:151
@@ -117,69 +107,69 @@ msgstr "Sprite"
 
 #: src/trigger/switch.cpp:64
 msgid "Turn on script"
-msgstr "Attiva script"
+msgstr "Jarri scripta"
 
 #: src/trigger/switch.cpp:65
 msgid "Turn off script"
-msgstr "Disattiva script"
+msgstr "Kendu scripta"
 
 #: src/trigger/sequence_trigger.cpp:72
 msgid "Sequence trigger"
-msgstr "Attivatore di sequenza"
+msgstr "Sekuentzia-aktibatzailea"
 
 #: src/trigger/sequence_trigger.cpp:77
 msgid "Sequence"
-msgstr "Sequenza"
+msgstr "Sekuentzia"
 
 #: src/trigger/sequence_trigger.cpp:78
 msgid "end sequence"
-msgstr "fine sequenza"
+msgstr "amaitu sekuentzia"
 
 #: src/trigger/sequence_trigger.cpp:79
 msgid "stop Tux"
-msgstr "ferma Tux"
+msgstr "gelditu Tux"
 
 #: src/trigger/sequence_trigger.cpp:80
 msgid "fireworks"
-msgstr "fuochi artificiali"
+msgstr "suziriak"
 
 #: src/trigger/sequence_trigger.cpp:83
 msgid "New worldmap spawnpoint"
-msgstr "Nuovo punto di rinascita nella mappa del mondo"
+msgstr "Mundu mapa berria"
 
 #: src/trigger/sequence_trigger.cpp:84
 msgid "Worldmap fade tilemap"
-msgstr "Sbiadisci tilemap nella mappa del mondo"
+msgstr "Desmuntatu mundu mapa"
 
 #: src/trigger/sequence_trigger.cpp:85
 msgid "Fade"
-msgstr "Sbiadisci"
+msgstr "Iraungitzea"
 
 #: src/trigger/sequence_trigger.cpp:86
 msgid "Fade in"
-msgstr "Dissolvenza in apertura"
+msgstr "Iraungita"
 
 #: src/trigger/sequence_trigger.cpp:87
 msgid "Fade out"
-msgstr "Dissolvenza in chiusura"
+msgstr "Desagerturik"
 
 #: src/object/thunderstorm.hpp:82
 msgid "Thunderstorm"
-msgstr "Tempesta di fulmini"
+msgstr "Ekaitz elektrikoa"
 
 #: src/object/path_gameobject.hpp:52
 msgid "Path"
-msgstr "Percorso"
+msgstr "Bidea"
 
 #: src/object/decal.cpp:43 src/supertux/menu/keyboard_menu.cpp:37
 #: src/supertux/menu/joystick_menu.cpp:74
 msgid "Action"
-msgstr "Azione"
+msgstr "Akzioa"
 
 #: src/object/decal.cpp:44 src/object/scripted_object.cpp:62
 #: src/object/tilemap.cpp:221
 msgid "Solid"
-msgstr "Solido"
+msgstr "Solidoa"
 
 #: src/object/decal.cpp:45 src/object/particlesystem.cpp:59
 #: src/object/background.cpp:169 src/object/tilemap.cpp:230
@@ -189,11 +179,11 @@ msgstr "Z-pos"
 
 #: src/object/weak_block.hpp:41
 msgid "Weak block"
-msgstr "Blocco debole"
+msgstr "Bloke hauskorra"
 
 #: src/object/gradient.hpp:61
 msgid "Gradient"
-msgstr "Gradiente"
+msgstr "Gradientea"
 
 #: src/object/tilemap.hpp:53
 msgid "Tilemap"
@@ -201,348 +191,348 @@ msgstr "Tilemap"
 
 #: src/object/brick.cpp:133
 msgid "Breakable"
-msgstr "Rompibile"
+msgstr "Hauskorra"
 
 #: src/object/trampoline.cpp:133
 msgid "Portable"
-msgstr "Portatile"
+msgstr "Eramangarria"
 
 #: src/object/spotlight.cpp:60
 msgid "Angle"
-msgstr "Angolo"
+msgstr "Angelua"
 
 #: src/object/spotlight.cpp:61 src/object/magicblock.cpp:90
 #: src/object/candle.cpp:74 src/object/lantern.cpp:59
 #: src/badguy/walking_candle.cpp:81
 msgid "Colour"
-msgstr "Colore"
+msgstr "Kolorea"
 
 #: src/object/spotlight.cpp:62 src/badguy/flame.cpp:58
 msgid "Speed"
-msgstr "Velocità"
+msgstr "Abiadura"
 
 #: src/object/spotlight.cpp:63
 msgid "Counter-clockwise"
-msgstr "Anti-orario"
+msgstr "Erlojuaren kontrako norabidean"
 
 #: src/object/scripted_object.cpp:63
 msgid "Physics enabled"
-msgstr "Fisica attivata"
+msgstr "Fisika gaituta"
 
 #: src/object/scripted_object.cpp:64
 msgid "Visible"
-msgstr "Visibile"
+msgstr "Ikusgai"
 
 #: src/object/scripted_object.cpp:65 src/badguy/willowisp.cpp:282
 msgid "Hit script"
-msgstr "Script di collisione"
+msgstr "Kolpe scripta"
 
 #: src/object/bonus_block.cpp:196
 msgid "Count"
-msgstr "Conteggio"
+msgstr "Zenbaketa"
 
 #: src/object/bonus_block.cpp:198
 msgid "Content"
-msgstr "Contenuto"
+msgstr "Edukia"
 
 #: src/object/bonus_block.cpp:199 src/object/coin.hpp:48
 msgid "Coin"
-msgstr "Moneta"
+msgstr "Txanpona"
 
 #: src/object/bonus_block.cpp:200
 msgid "Growth (fire flower)"
-msgstr "Crescita (fiore di fuoco)"
+msgstr "Handitzea (suzko lorea)"
 
 #: src/object/bonus_block.cpp:201
 msgid "Growth (ice flower)"
-msgstr "Crescita (fiore di ghiaccio)"
+msgstr "Handitzea (izotzezko lorea)"
 
 #: src/object/bonus_block.cpp:202
 msgid "Growth (air flower)"
-msgstr "Crescita (fiore d'aria)"
+msgstr "Handitzea (zeruko lorea)"
 
 #: src/object/bonus_block.cpp:203
 msgid "Growth (earth flower)"
-msgstr "Crescita (fiore di terra)"
+msgstr "Handitzea (lurreko lorea)"
 
 #: src/object/bonus_block.cpp:204
 msgid "Star"
-msgstr "Stella"
+msgstr "Izarra"
 
 #: src/object/bonus_block.cpp:205
 msgid "Tux doll"
-msgstr "Bambola Tux"
+msgstr "Tux panpina"
 
 #: src/object/bonus_block.cpp:206
 msgid "Custom"
-msgstr "Personalizzato"
+msgstr "Pertsonalizatua"
 
 #: src/object/bonus_block.cpp:208
 msgid "Light"
-msgstr "Luce"
+msgstr "Argia"
 
 #: src/object/bonus_block.cpp:209 src/object/trampoline.hpp:40
 msgid "Trampoline"
-msgstr "Trampolino"
+msgstr "Ohe elastikoa"
 
 #: src/object/bonus_block.cpp:210
 msgid "Coin rain"
-msgstr "Pioggia di monete"
+msgstr "Txanpon-euria"
 
 #: src/object/bonus_block.cpp:211
 msgid "Coin explosion"
-msgstr "Esplosione di monete"
+msgstr "Txanpon-leherketa"
 
 #: src/object/pneumatic_platform.hpp:62
 msgid "Pneumatic platform"
-msgstr "Piattaforma pneumatica"
+msgstr "Plataforma pneumatikoa"
 
 #: src/object/coin.cpp:262 src/object/tilemap.cpp:238
 msgid "Following path"
-msgstr "Segue sentiero"
+msgstr "Jarraitu beharreko bidea"
 
 #: src/object/coin.cpp:268 src/object/coin.cpp:293
 msgid "Collect script"
-msgstr "Raccogli script"
+msgstr "Script ukitzean"
 
 #: src/object/ghost_particle_system.hpp:36
 msgid "Ghost particles"
-msgstr "Particelle fantasma"
+msgstr "Mamu-partikulak"
 
 #: src/object/camera.cpp:144
 msgid "Mode"
-msgstr "Modalità"
+msgstr "Modua"
 
 #: src/object/camera.cpp:145
 msgid "normal"
-msgstr "normale"
+msgstr "normala"
 
 #: src/object/camera.cpp:146
 msgid "manual"
-msgstr "manuale"
+msgstr "eskuzkoa"
 
 #: src/object/candle.hpp:50
 msgid "Candle"
-msgstr "Candela"
+msgstr "Kandela"
 
 #: src/object/invisible_block.hpp:33
 msgid "Invisible block"
-msgstr "Blocco invisibile"
+msgstr "Bloke ikusezina"
 
 #: src/object/snow_particle_system.hpp:36
 msgid "Snow particles"
-msgstr "Particelle di neve"
+msgstr "Elur-partikulak"
 
 #: src/object/powerup.hpp:43
 msgid "Power-up"
-msgstr "Power-up"
+msgstr "Indartzailea"
 
 #: src/object/level_time.hpp:70
 msgid "Level time"
-msgstr "Tempo livello"
+msgstr "Mailako denbora"
 
 #: src/object/ambient_sound.cpp:118 src/supertux/menu/options_menu.cpp:392
 #: data//credits.stxt:429
 msgid "Sound"
-msgstr "Suono"
+msgstr "Soinua"
 
 #: src/object/ambient_sound.cpp:124
 msgid "Distance factor"
-msgstr "Fattore distanza"
+msgstr "Distantzia faktorea"
 
 #: src/object/ambient_sound.cpp:125
 msgid "Distance bias"
-msgstr "Influenza della distanza"
+msgstr "Distantzia-tartea"
 
 #: src/object/ambient_sound.cpp:126
 msgid "Volume"
-msgstr "Volume"
+msgstr "Bolumena"
 
 #: src/object/torch.hpp:54
 msgid "Torch"
-msgstr "Torcia"
+msgstr "Zuzia"
 
 #: src/object/icecrusher.hpp:42
 msgid "Ice crusher"
-msgstr "Rompighiaccio"
+msgstr "izotz-pikatzailea"
 
 #: src/object/background.hpp:62 data//images/tiles.strf:808
 msgid "Background"
-msgstr "Sfondo"
+msgstr "Hondoa"
 
 #: src/object/firefly.hpp:39
 msgid "Reset point"
-msgstr "Punto di ripristino"
+msgstr "Berrabiarazte-puntua"
 
 #: src/object/ambient_light.hpp:36
 msgid "Ambient light"
-msgstr "Luce ambientale"
+msgstr "Giroko argia"
 
 #: src/object/lantern.hpp:55
 msgid "Lantern"
-msgstr "Lanterna"
+msgstr "Linterna"
 
 #: src/object/wind.hpp:66
 msgid "Wind"
-msgstr "Vento"
+msgstr "Haizea"
 
 #: src/object/bicycle_platform.cpp:176 src/badguy/flame.cpp:57
 #: src/badguy/crystallo.cpp:34
 msgid "Radius"
-msgstr "Raggio"
+msgstr "Erradioa"
 
 #: src/object/bicycle_platform.cpp:177
 msgid "Momentum change rate"
-msgstr "Cambia il tasso di moto"
+msgstr "Bulkadaren aldaketa tasa"
 
 #: src/object/rain_particle_system.hpp:34
 msgid "Rain particles"
-msgstr "Particelle di pioggia"
+msgstr "Euri-partikulak"
 
 #: src/object/platform.hpp:73
 msgid "Platform"
-msgstr "Piattaforma"
+msgstr "Plataforma"
 
 #: src/object/rock.hpp:45
 msgid "Rock"
-msgstr "Roccia"
+msgstr "Arroka"
 
 #: src/object/music_object.hpp:41 src/supertux/menu/options_menu.cpp:394
 msgid "Music"
-msgstr "Musica"
+msgstr "Musika"
 
 #: src/object/rusty_trampoline.hpp:44
 msgid "Rusty trampoline"
-msgstr "Trampolino arrugginito"
+msgstr "Tranpolin erdoildua"
 
 #: src/object/particlesystem.hpp:53
 msgid "Particle system"
-msgstr "Sistema di particelle"
+msgstr "Partikula-sistema"
 
 #: src/object/candle.cpp:72 src/object/torch.cpp:86
 msgid "Burning"
-msgstr "Bruciante"
+msgstr "Piztuta"
 
 #: src/object/candle.cpp:73
 msgid "Flicker"
-msgstr "Tremolio"
+msgstr "Keinada"
 
 #: src/object/text_array_object.hpp:62
 msgid "Text array"
-msgstr "Array di testo"
+msgstr "Testu matrizea"
 
 #: src/object/infoblock.hpp:40
 msgid "Info block"
-msgstr "Blocco informativo"
+msgstr "Informazio-blokea"
 
 #: src/object/powerup.cpp:189
 msgid "Disable gravity"
-msgstr "Disabilita gravità"
+msgstr "Desaktibatu grabitatea"
 
 #: src/object/ambient_sound.hpp:87
 msgid "Ambient sound"
-msgstr "Suono ambientale"
+msgstr "Giroko musika"
 
 #: src/object/level_time.cpp:49 src/supertux/statistics.cpp:246
 #: src/editor/node_marker.cpp:80
 msgid "Time"
-msgstr "Tempo"
+msgstr "Denbora"
 
 #: src/object/hurting_platform.hpp:35
 msgid "Hurting platform"
-msgstr "Piattaforma dolorosa"
+msgstr "Plataforma matxuratuta"
 
 #: src/object/background.cpp:170
 msgid "Alignment"
-msgstr "Allineamento"
+msgstr "Lerrokatzea"
 
 #: src/object/background.cpp:171
 msgid "none"
-msgstr "nessuno"
+msgstr "bat ere ez"
 
 #: src/object/background.cpp:172 src/supertux/direction.cpp:33
 msgid "left"
-msgstr "sinistra"
+msgstr "ezkerra"
 
 #: src/object/background.cpp:173 src/supertux/direction.cpp:34
 msgid "right"
-msgstr "destra"
+msgstr "eskubia"
 
 #: src/object/background.cpp:174
 msgid "top"
-msgstr "cima"
+msgstr "goiko aldea"
 
 #: src/object/background.cpp:175
 msgid "bottom"
-msgstr "fondo"
+msgstr "beheko aldea"
 
 #: src/object/background.cpp:177
 msgid "Scroll offset x"
-msgstr "Compensazione di scorrimento x"
+msgstr "Mugitu x-n"
 
 #: src/object/background.cpp:178
 msgid "Scroll offset y"
-msgstr "Compensazione di scorrimento y"
+msgstr "Mugitu y-n"
 
 #: src/object/background.cpp:179
 msgid "Scroll speed x"
-msgstr "Velocità di scorrimento x"
+msgstr "X ardatzaren abiadura"
 
 #: src/object/background.cpp:180
 msgid "Scroll speed y"
-msgstr "Velocità di scorrimento y"
+msgstr "Y ardatzaren abiadura"
 
 #: src/object/background.cpp:181 src/object/tilemap.cpp:227
 msgid "Speed x"
-msgstr "Velocità x"
+msgstr "X abiadura"
 
 #: src/object/background.cpp:182 src/object/tilemap.cpp:228
 msgid "Speed y"
-msgstr "Velocità y"
+msgstr "Y abiadura"
 
 #: src/object/background.cpp:184
 msgid "Top image"
-msgstr "Immagine superiore"
+msgstr "Goiko irudia"
 
 #: src/object/background.cpp:190
 msgid "Image"
-msgstr "Immagine"
+msgstr "Irudia"
 
 #: src/object/background.cpp:192
 msgid "Bottom image"
-msgstr "Immagine inferiore"
+msgstr "Beheko irudia"
 
 #: src/object/wind.cpp:60
 msgid "Speed X"
-msgstr "Velocità X"
+msgstr "X abiadura"
 
 #: src/object/wind.cpp:61
 msgid "Speed Y"
-msgstr "Velocità Y"
+msgstr "Y abiadura"
 
 #: src/object/wind.cpp:62
 msgid "Acceleration"
-msgstr "Accelerazione"
+msgstr "Azelerazioa"
 
 #: src/object/wind.cpp:63
 msgid "Blowing"
-msgstr "Soffio"
+msgstr "Murmurioa"
 
 #: src/object/ambient_light.cpp:138
 msgid "Color"
-msgstr "Colore"
+msgstr "Kolorea"
 
 #: src/object/bicycle_platform.hpp:64
 msgid "Bicycle platform"
-msgstr "Piattaforma bicicletta"
+msgstr "Bizikleta plataforma"
 
 #: src/object/path.cpp:200
 msgid "Path Mode"
-msgstr "Modalità sentiero"
+msgstr "Bide modua"
 
 #: src/object/path.cpp:201
 msgid "One shot"
-msgstr "One shot"
+msgstr "Tiro bat"
 
 #: src/object/path.cpp:202
 msgid "Ping-pong"
@@ -550,60 +540,60 @@ msgstr "Ping-pong"
 
 #: src/object/path.cpp:203
 msgid "Circular"
-msgstr "Circolare"
+msgstr "Biribila"
 
 #: src/object/path.cpp:204
 msgid "Unordered"
-msgstr "Non ordinato"
+msgstr "Ordenatu gabe"
 
 #: src/object/rock.cpp:173
 msgid "On-grab script"
-msgstr "Script di presa"
+msgstr "Script hartzean"
 
 #: src/object/rock.cpp:174
 msgid "On-ungrab script"
-msgstr "Script di rilascio"
+msgstr "Script askatzean"
 
 #: src/object/particlesystem_interactive.hpp:45
 msgid "Interactive particle system"
-msgstr "Sistema di particelle interattivo"
+msgstr "Partikula-sistema interaktiboa"
 
 #: src/object/music_object.cpp:108
 msgid "File"
-msgstr "File"
+msgstr "Fitxategia"
 
 #: src/object/path_walker.cpp:220 src/object/thunderstorm.cpp:64
 #: src/object/tilemap.cpp:242
 msgid "Running"
-msgstr "Correre"
+msgstr "Martxan"
 
 #: src/object/thunderstorm.cpp:65
 msgid "Interval"
-msgstr "Intervallo"
+msgstr "denbora-tartea"
 
 #: src/object/cloud_particle_system.hpp:36
 msgid "Cloud particles"
-msgstr "Particelle di nuvola"
+msgstr "Hodei-partikulak"
 
 #: src/object/ispy.hpp:39
 msgid "Ispy"
-msgstr "Spione"
+msgstr "Ispy"
 
 #: src/object/weak_block.cpp:208
 msgid "Linked"
-msgstr "Collegato"
+msgstr "Lotuta"
 
 #: src/object/decal.hpp:40
 msgid "Decal"
-msgstr "Ricalca"
+msgstr "Kalkomania"
 
 #: src/object/tilemap.cpp:222
 msgid "Resize offset x"
-msgstr "Ridimensiona offset X"
+msgstr "Tamaina aldatu ofset x-ri"
 
 #: src/object/tilemap.cpp:223
 msgid "Resize offset y"
-msgstr "Ridimensiona offset Y"
+msgstr "Tamaina aldatu ofset y-ri"
 
 #: src/object/tilemap.cpp:226
 msgid "Alpha"
@@ -611,105 +601,105 @@ msgstr "Alfa"
 
 #: src/object/tilemap.cpp:229
 msgid "Tint"
-msgstr "Tinta"
+msgstr "Tindagaia"
 
 #: src/object/tilemap.cpp:232
 msgid "Draw target"
-msgstr "Disegna obiettivo"
+msgstr "Marrazketa mota txandakatu"
 
 #: src/object/tilemap.cpp:233
 msgid "Normal"
-msgstr "Normale"
+msgstr "Normala"
 
 #: src/object/tilemap.cpp:234 data//images/engine/editor/objects.stoi:249
 #: data//images/tiles.strf:1152
 msgid "Lightmap"
-msgstr "Mappa luci"
+msgstr "Argiak"
 
 #: src/object/gradient.cpp:134
 msgid "Left Colour"
-msgstr "Colore sinistro"
+msgstr "Ezkerreko kolorea"
 
 #: src/object/gradient.cpp:135
 msgid "Right Colour"
-msgstr "Colore destro"
+msgstr "Eskuineko kolorea"
 
 #: src/object/gradient.cpp:137
 msgid "Top Colour"
-msgstr "Colore superiore"
+msgstr "Goiko kolorea"
 
 #: src/object/gradient.cpp:138
 msgid "Bottom Colour"
-msgstr "Colore inferiore"
+msgstr "Beheko kolorea"
 
 #: src/object/gradient.cpp:142 src/supertux/direction.cpp:31
 #: src/worldmap/direction.cpp:83
 msgid "Direction"
-msgstr "Direzione"
+msgstr "Noranzkoa"
 
 #: src/object/gradient.cpp:143
 msgid "Vertical"
-msgstr "Verticale"
+msgstr "Bertikala"
 
 #: src/object/gradient.cpp:144
 msgid "Horizontal"
-msgstr "Orizzontale"
+msgstr "Horizontala"
 
 #: src/object/gradient.cpp:145
 msgid "Vertical (whole sector)"
-msgstr "Verticale (intero settore)"
+msgstr "Bertikala (sektore osoa)"
 
 #: src/object/gradient.cpp:146
 msgid "Horizontal (whole sector)"
-msgstr "Orizzontale (intero settore)"
+msgstr "Horizontala (sektore osoa)"
 
 #: src/object/unstable_tile.hpp:39
 msgid "Unstable tile"
-msgstr "Casella instabile"
+msgstr "Azulejo ezegonkorra"
 
 #: src/object/brick.hpp:31
 msgid "Brick"
-msgstr "Mattone"
+msgstr "Adreilua"
 
 #: src/object/invisible_wall.hpp:37
 msgid "Invisible wall"
-msgstr "Muro invisibile"
+msgstr "Horma ikusezina"
 
 #: src/object/spotlight.hpp:41
 msgid "Spotlight"
-msgstr "Riflettore"
+msgstr "Fokoa"
 
 #: src/object/scripted_object.hpp:59
 msgid "Scripted object"
-msgstr "Oggetto scriptato"
+msgstr "Script bidezko objektua"
 
 #: src/object/coin.hpp:77
 msgid "Heavy coin"
-msgstr "Moneta pesante"
+msgstr "Txanpon astuna"
 
 #: src/object/bonus_block.hpp:63
 msgid "Bonus block"
-msgstr "Blocco bonus"
+msgstr "Sari-blokea"
 
 #: src/object/magicblock.hpp:44
 msgid "Magic block"
-msgstr "Blocco magico"
+msgstr "Bloke magikoa"
 
 #: src/object/camera.hpp:107
 msgid "Camera"
-msgstr "Camera"
+msgstr "Kamera"
 
 #: src/gui/menu_badguy_select.cpp:93
 msgid "List of enemies"
-msgstr "Lista dei nemici"
+msgstr "Etsaien zerrenda"
 
 #: src/gui/menu_badguy_select.cpp:95
 msgid "Enemy"
-msgstr "Nemico"
+msgstr "Etsaia"
 
 #: src/gui/menu_badguy_select.cpp:96
 msgid "Add"
-msgstr "Aggiungi"
+msgstr "Gehitu"
 
 #: src/gui/menu_badguy_select.cpp:106 src/gui/menu_color.cpp:34
 #: src/gui/dialog.hpp:80 src/gui/menu_script.cpp:47
@@ -719,23 +709,23 @@ msgstr "Aggiungi"
 #: src/supertux/menu/editor_new_levelset_menu.cpp:37
 #: src/supertux/menu/editor_level_menu.cpp:44 src/editor/object_menu.cpp:84
 msgid "OK"
-msgstr "OK"
+msgstr "Ados"
 
 #: src/gui/menu_badguy_select.cpp:135
 msgid "Do you want to delete this badguy from the list?"
-msgstr "Vuoi togliere questo cattivo dalla lista?"
+msgstr "Etsai hau zerrendatik ezabatu nahi duzu?"
 
 #: src/gui/menu_badguy_select.cpp:136 src/gui/dialog.hpp:89
 msgid "Yes"
-msgstr "Si"
+msgstr "Bai"
 
 #: src/gui/menu_badguy_select.cpp:139 src/gui/dialog.hpp:90
 msgid "No"
-msgstr "No"
+msgstr "Ez"
 
 #: src/gui/menu_color.cpp:24
 msgid "Mix the colour"
-msgstr "Mescola il colore"
+msgstr "Nahastu koloreak"
 
 #: src/gui/menu_filesystem.cpp:107
 #: src/supertux/menu/editor_sectors_menu.cpp:44
@@ -744,23 +734,23 @@ msgstr "Mescola il colore"
 #: src/supertux/menu/editor_objectgroup_menu.cpp:41
 #: src/supertux/menu/editor_tilegroup_menu.cpp:36
 msgid "Cancel"
-msgstr "Cancella"
+msgstr "Ezeztatu"
 
 #: src/gui/menu_script.cpp:28
 msgid "Edit script"
-msgstr "Modifica script"
+msgstr "Scripta editatu"
 
 #: src/badguy/toad.hpp:42
 msgid "Toad"
-msgstr "Rospo"
+msgstr "Apoa"
 
 #: src/badguy/mrtree.hpp:32
 msgid "Mr. Tree"
-msgstr "Signor Albero"
+msgstr "Zuhaitz jauna"
 
 #: src/badguy/plant.hpp:36
 msgid "Plant"
-msgstr "Pianta"
+msgstr "Landarea"
 
 #: src/badguy/crystallo.hpp:34
 msgid "Crystallo"
@@ -768,23 +758,23 @@ msgstr "Crystallo"
 
 #: src/badguy/totem.hpp:41
 msgid "Totem"
-msgstr "Totem"
+msgstr "Totema"
 
 #: src/badguy/stalactite.hpp:42
 msgid "Stalactite"
-msgstr "Stalattite"
+msgstr "Estalaktita"
 
 #: src/badguy/haywire.hpp:45
 msgid "Haywire"
-msgstr "Caotibomba"
+msgstr "Kaotikoa"
 
 #: src/badguy/dispenser.hpp:43
 msgid "Dispenser"
-msgstr "Distributore"
+msgstr "Banagailua"
 
 #: src/badguy/short_fuse.hpp:31
 msgid "Short fuse"
-msgstr "Miccia corta"
+msgstr "Metxa laburra"
 
 #: src/badguy/zeekling.hpp:39
 msgid "Zeekling"
@@ -792,35 +782,35 @@ msgstr "Zeekling"
 
 #: src/badguy/mriceblock.hpp:50
 msgid "Mr. Ice Block"
-msgstr "Signore Blocco di Ghiaccio"
+msgstr "Izotz-bloke jauna"
 
 #: src/badguy/jumpy.hpp:39
 msgid "Jumpy"
-msgstr "Saltellino"
+msgstr "Malguki"
 
 #: src/badguy/captainsnowball.hpp:35
 msgid "Captain snowball"
-msgstr "Capitan Palla di Neve"
+msgstr "Elur-pilota kapitaina"
 
 #: src/badguy/ghosttree.hpp:47
 msgid "Ghost tree"
-msgstr "Albero fantasma"
+msgstr "Zuhaitz-mamua"
 
 #: src/badguy/willowisp.cpp:281 src/editor/worldmap_objects.cpp:188
 msgid "Spawnpoint"
-msgstr "Punto di apparizione"
+msgstr "Sortze puntua"
 
 #: src/badguy/willowisp.cpp:283
 msgid "Track range"
-msgstr "Gittata d'inseguimento"
+msgstr "Jarraipen-tartea"
 
 #: src/badguy/willowisp.cpp:284
 msgid "Vanish range"
-msgstr "Gittata di scomparsa"
+msgstr "Desagerpen-tartea"
 
 #: src/badguy/willowisp.cpp:285
 msgid "Fly speed"
-msgstr "Velocità di volo"
+msgstr "Hegaldi-abiadura"
 
 #: src/badguy/kugelblitz.hpp:43
 msgid "Kugelblitz"
@@ -828,435 +818,435 @@ msgstr "Kugelblitz"
 
 #: src/badguy/mole_rock.hpp:47
 msgid "Mole's rock"
-msgstr "Roccia di Talpa"
+msgstr "Satorraren arroka"
 
 #: src/badguy/sspiky.hpp:39
 msgid "Sleeping spiky"
-msgstr "Spiky addormentato"
+msgstr "Pintxo lotia"
 
 #: src/badguy/yeti_stalactite.hpp:37
 msgid "Yeti's stalactite"
-msgstr "Stalattite dello Yeti"
+msgstr "Yetiren estalaktita"
 
 #: src/badguy/livefire.hpp:40
 msgid "Live fire"
-msgstr "Fuoco vivente"
+msgstr "Su biziduna"
 
 #: src/badguy/livefire.hpp:66
 msgid "Sleeping live fire"
-msgstr "Fuoco vivente addormentato"
+msgstr "Zuzeneko sua bizi"
 
 #: src/badguy/livefire.hpp:80
 msgid "Dormant live fire"
-msgstr "Fuoco vivente dormiente"
+msgstr "Su bizia lotan"
 
 #: src/badguy/owl.hpp:43
 msgid "Owl"
-msgstr "Gufo"
+msgstr "Hontza"
 
 #: src/badguy/igel.hpp:39
 msgid "Igel"
-msgstr "Igel"
+msgstr "Trikua"
 
 #: src/badguy/darttrap.cpp:121
 msgid "Enabled"
-msgstr "Abilitato"
+msgstr "Aktibatuta"
 
 #: src/badguy/darttrap.cpp:122
 msgid "Initial delay"
-msgstr "Ritardo iniziale"
+msgstr "Hasierako atzerapena"
 
 #: src/badguy/darttrap.cpp:123
 msgid "Fire delay"
-msgstr "Ritardo fuoco"
+msgstr "Tiro atzerapena"
 
 #: src/badguy/darttrap.cpp:124
 msgid "Ammo"
-msgstr "Munizioni"
+msgstr "Munizioa"
 
 #: src/badguy/snowball.hpp:31
 msgid "Snowball"
-msgstr "Palla di neve"
+msgstr "Elur-pilota"
 
 #: src/badguy/smartblock.hpp:34
 msgid "Smart Block"
-msgstr "Blocco intelligente"
+msgstr "Bloke adimentsua"
 
 #: src/badguy/yeti.cpp:367
 msgid "Fixed position"
-msgstr "Posizione fissata"
+msgstr "Ezarritako posizioa"
 
 #: src/badguy/yeti.cpp:368
 msgid "Lives"
-msgstr "Vite"
+msgstr "Bizitzak"
 
 #: src/badguy/goldbomb.hpp:52
 msgid "Golden bomb"
-msgstr "Bomba dorata"
+msgstr "Urrezko lehergailua"
 
 #: src/badguy/flyingsnowball.hpp:35
 msgid "Flying snowball"
-msgstr "Palla di neve volante"
+msgstr "Elur-pilota hegalaria"
 
 #: src/badguy/skullyhop.hpp:42
 msgid "Skully hop"
-msgstr "Salteschio"
+msgstr "Garezur itxaropena"
 
 #: src/badguy/kamikazesnowball.hpp:33
 msgid "Kamikaze snowball"
-msgstr "Palla di neve kamikaze"
+msgstr "Elur-pilota kamikazea"
 
 #: src/badguy/kamikazesnowball.hpp:55
 msgid "Leaf Shot"
-msgstr "Sparo alla foglia"
+msgstr "Hosto jaurtiketa"
 
 #: src/badguy/flame.hpp:44
 msgid "Flame"
-msgstr "Fiamma"
+msgstr "Sugarra"
 
 #: src/badguy/poisonivy.hpp:33
 msgid "Poisonous ivy"
-msgstr "Edera velenosa"
+msgstr "Huntz pozoitsua"
 
 #: src/badguy/willowisp.hpp:63
 msgid "Will 'o' wisp"
-msgstr "Fuoco fatuo"
+msgstr "Argi-txakurra"
 
 #: src/badguy/badguy.hpp:55
 msgid "Badguy"
-msgstr "Cattivo"
+msgstr "Etsaia"
 
 #: src/badguy/badguy.hpp:61
 msgid "Death script"
-msgstr "Script di morte"
+msgstr "Heriotz scripta"
 
 #: src/badguy/ghostflame.hpp:34
 msgid "Ghost flame"
-msgstr "Fiamma fantasma"
+msgstr "Sutzarra"
 
 #: src/badguy/spiky.hpp:33
 msgid "Spiky"
-msgstr "Spiky"
+msgstr "Pintxo"
 
 #: src/badguy/walkingleaf.hpp:35
 msgid "Walking leaf"
-msgstr "Foglia ambulante"
+msgstr "Hosto biziduna"
 
 #: src/badguy/darttrap.hpp:38
 msgid "Dart trap"
-msgstr "Trappola di dardi"
+msgstr "Dardoen tranpa"
 
 #: src/badguy/skydive.hpp:42
 msgid "Sky dive"
-msgstr "Tuffatore"
+msgstr "Paratxuta"
 
 #: src/badguy/yeti.hpp:41
 msgid "Yeti"
-msgstr "Yeti"
+msgstr "Yetia"
 
 #: src/badguy/mole.hpp:42
 msgid "Mole"
-msgstr "Talpa"
+msgstr "Satorra"
 
 #: src/badguy/mrbomb.hpp:45
 msgid "Mr. Bomb"
-msgstr "Signor Bomba"
+msgstr "Lehergailu jauna"
 
 #: src/badguy/walking_candle.hpp:43
 msgid "Mr. Candle"
-msgstr "Signore Candela"
+msgstr "Kandela jauna"
 
 #: src/badguy/angrystone.hpp:37
 msgid "Angry stone"
-msgstr "Pietra Arrabbiata"
+msgstr "Harri petrala"
 
 #: src/badguy/spidermite.hpp:38
 msgid "Spider mite"
-msgstr "Ragno"
+msgstr "Armiarma-akaroa"
 
 #: src/badguy/snowman.hpp:30
 msgid "Snowman"
-msgstr "Pupazzo di neve"
+msgstr "Elurrezko panpina"
 
 #: src/badguy/stumpy.hpp:38
 msgid "Stumpy"
-msgstr "Troncone"
+msgstr "Sokamutur"
 
 #: src/badguy/fish.hpp:43
 msgid "Fish"
-msgstr "Pesce"
+msgstr "Arraina"
 
 #: src/badguy/dispenser.cpp:392
 msgid "Interval (seconds)"
-msgstr "Intervallo (secondi)"
+msgstr "Denbora-tartea (segundotan)"
 
 #: src/badguy/dispenser.cpp:393
 msgid "Random"
-msgstr "Casuale"
+msgstr "Ausazkoa"
 
 #: src/badguy/dispenser.cpp:394
 msgid "Enemies"
-msgstr "Nemici"
+msgstr "Etsaiak"
 
 #: src/badguy/dispenser.cpp:395
 msgid "Limit dispensed badguys"
-msgstr "Limita la distribuzione dei cattivi"
+msgstr "Mugatu gaiztoen emariak"
 
 #: src/badguy/dispenser.cpp:397
 msgid "Max concurrent badguys"
-msgstr "Numero massimo di cattivi simultanei"
+msgstr "Gaizto kopuruaren gehienezkoa"
 
 #: src/badguy/dispenser.cpp:400 src/supertux/menu/editor_levelset_menu.cpp:60
 msgid "Type"
-msgstr "Tipo"
+msgstr "Mota"
 
 #: src/badguy/dispenser.cpp:401
 msgid "dropper"
-msgstr "contagocce"
+msgstr "jaurtigailua"
 
 #: src/badguy/dispenser.cpp:402
 msgid "rocket launcher"
-msgstr "lanciarazzi"
+msgstr "suziri-jaurtigailua"
 
 #: src/badguy/dispenser.cpp:403
 msgid "cannon"
-msgstr "cannone"
+msgstr "kanoia"
 
 #: src/badguy/dispenser.cpp:404
 msgid "invisible"
-msgstr "invisibile"
+msgstr "ikusezina"
 
 #: src/badguy/snail.hpp:45
 msgid "Snail"
-msgstr "Lumaca"
+msgstr "Barraskiloa"
 
 #: src/badguy/smartball.hpp:38
 msgid "Smart Ball"
-msgstr "Palla intelligente"
+msgstr "Bola azkarra"
 
 #: src/badguy/bouncing_snowball.hpp:34
 msgid "Bouncing Snowball"
-msgstr "Palla di neve rimbalzante"
+msgstr "Elur-pilota jauzilaria"
 
 #: src/badguy/iceflame.hpp:37
 msgid "Ice flame"
-msgstr "Fiamma di ghiaccio"
+msgstr "Izotzezko sugarra"
 
 #: src/badguy/dart.hpp:48
 msgid "Dart"
-msgstr "Dardo"
+msgstr "Dardoa"
 
 #: src/supertux/statistics.cpp:52
 msgid "Max coins collected:"
-msgstr "N. massimo di monete raccolte:"
+msgstr "Bildutako gehienezko txanpon kopurua:"
 
 #: src/supertux/statistics.cpp:53
 msgid "Max fragging:"
-msgstr "N. massimo di uccisioni:"
+msgstr "Gehienezko hilketa kopurua:"
 
 #: src/supertux/statistics.cpp:54
 msgid "Max secrets found:"
-msgstr "N. massimo di segreti trovati:"
+msgstr "Aurkitutako gehienezko sekretuak:"
 
 #: src/supertux/statistics.cpp:55
 msgid "Best time completed:"
-msgstr "Miglior tempo di completamento:"
+msgstr "Osatutako denbora onena:"
 
 #: src/supertux/statistics.cpp:56
 msgid "Level target time:"
-msgstr "Obiettivo tempo per il livello:"
+msgstr "Mailako benetako denbora:"
 
 #: src/supertux/statistics.cpp:140 src/supertux/levelintro.cpp:164
 msgid "Best Level Statistics"
-msgstr "Statistiche dei migliori risultati dei livelli"
+msgstr "Mailako estatistika hobeak"
 
 #: src/supertux/statistics.cpp:217
 msgid "You"
-msgstr "Tu"
+msgstr "Zu"
 
 #: src/supertux/statistics.cpp:219
 msgid "Best"
-msgstr "Migliore"
+msgstr "Onena"
 
 #: src/supertux/statistics.cpp:221 src/supertux/levelintro.cpp:170
 msgid "Coins"
-msgstr "Monete"
+msgstr "Txanponak"
 
 #: src/supertux/statistics.cpp:230
 msgid "Badguys"
-msgstr "Cattivi"
+msgstr "Gaizkileak"
 
 #: src/supertux/statistics.cpp:238 src/supertux/levelintro.cpp:174
 msgid "Secrets"
-msgstr "Segreti"
+msgstr "Sekretuak"
 
 #: src/supertux/game_object.hpp:77
 msgid "Unknown object"
-msgstr "Oggetto sconosciuto"
+msgstr "Objektu ezezaguna"
 
 #: src/supertux/command_line_arguments.cpp:73
 #, c-format
 msgid "Usage: %s [OPTIONS] [LEVELFILE]"
-msgstr "Uso: %s [OPZIONI] [LIVELLO]"
+msgstr "Erabilera: %s [OPTIONS] [LEVELFILE]"
 
 #: src/supertux/command_line_arguments.cpp:74
 msgid "General Options:"
-msgstr "Opzioni Generali:"
+msgstr "Aukera orokorrak:"
 
 #: src/supertux/command_line_arguments.cpp:75
 msgid "  -h, --help                   Show this help message and quit"
-msgstr "-h, --help Mostra questo messaggio di aiuto e chiude"
+msgstr "  -h, --help                   Mezu hau erakusten du"
 
 #: src/supertux/command_line_arguments.cpp:76
 msgid "  -v, --version                Show SuperTux version and quit"
-msgstr "  -v, --version  Mostra la versione di SuperTux e chiude"
+msgstr "  -v, --version                SuperTux bertsioa erakusten du"
 
 #: src/supertux/command_line_arguments.cpp:77
 msgid "  --verbose                    Print verbose messages"
-msgstr "--verbose Stampa messaggi prolissi"
+msgstr "-zehatza                          Mezu zehatzak inprimatu"
 
 #: src/supertux/command_line_arguments.cpp:78
 msgid "  --debug                      Print extra verbose messages"
-msgstr "-debug Stampa messaggi prolissi extra"
+msgstr "--araztu                            Mezu zehatz estra inprimatzen ditu"
 
 #: src/supertux/command_line_arguments.cpp:79
 msgid ""
 "  --print-datadir              Print SuperTux's primary data directory."
-msgstr "  --print-datadir              Mostra la cartella di dati principale di SuperTux."
+msgstr "  --print-datadir            Inprimatu SuperTuxen datu nagusien direktorioa."
 
 #: src/supertux/command_line_arguments.cpp:81
 msgid "Video Options:"
-msgstr "Opzioni Video:"
+msgstr "Bideo aukerak:"
 
 #: src/supertux/command_line_arguments.cpp:82
 msgid "  -f, --fullscreen             Run in fullscreen mode"
-msgstr "-f, --fullscreen Esegui in modalità a schermo intero"
+msgstr "-f, --fullscreen Pantaila osoan exekutatzen da"
 
 #: src/supertux/command_line_arguments.cpp:83
 msgid "  -w, --window                 Run in window mode"
-msgstr "-w, --window Esegui in modalità finestra"
+msgstr "-w, --window Leiho moduan exekutatzen da"
 
 #: src/supertux/command_line_arguments.cpp:84
 msgid "  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution"
-msgstr "-g, --geometry WIDTHxHEIGHT Esegui SuperTux alla risoluzione data"
+msgstr "-g, --geometry ZABALERAxALTUERA SuperTux hautatutako erresoluzioan exekutatzen da"
 
 #: src/supertux/command_line_arguments.cpp:85
 msgid "  -a, --aspect WIDTH:HEIGHT    Run SuperTux with given aspect ratio"
-msgstr "-a, --aspect WIDTH:HEIGHT Esegui SuperTux con le proporzioni fornite"
+msgstr "-a, --aspektua ZABALERA: ALTUERA Exekutatu SuperTux emandako aspektu-erlazioarekin"
 
 #: src/supertux/command_line_arguments.cpp:86
 msgid "  -d, --default                Reset video settings to default values"
-msgstr "-d, --default Ripristina le impostazioni video ai valori originali"
+msgstr "  -d, --lehenetsia    Berrezarri bideoaren ezarpenak balio ehenetsietara"
 
 #: src/supertux/command_line_arguments.cpp:87
 msgid "  --renderer RENDERER          Use sdl, opengl, or auto to render"
-msgstr "--renderer RENDERER Usa sdl, opengl, o auto per la visualizzazione"
+msgstr "  --errendatzailea ERRENDATZAILEA      Erabili sdl, opengl edo auto errendatu"
 
 #: src/supertux/command_line_arguments.cpp:89
 msgid "Audio Options:"
-msgstr "Opzioni Audio:"
+msgstr "Audio aukerak:"
 
 #: src/supertux/command_line_arguments.cpp:90
 msgid "  --disable-sound              Disable sound effects"
-msgstr "--disable-sound Disabilita gli effetti sonori"
+msgstr "--desgaitu-soinua              Desgaitu soinu efektuak"
 
 #: src/supertux/command_line_arguments.cpp:91
 msgid "  --disable-music              Disable music"
-msgstr "--disable-music Disabilita la musica"
+msgstr "--desgaitu                          Desgaitu musika"
 
 #: src/supertux/command_line_arguments.cpp:93
 msgid "Game Options:"
-msgstr "Opzioni Gioco:"
+msgstr "Joko aukerak:"
 
 #: src/supertux/command_line_arguments.cpp:94
 msgid "  --edit-level                 Open given level in editor"
-msgstr "  --edit-level                 Apri nell'editor il livello dato"
+msgstr "--edit-level Hautatutako maila editorean ireki"
 
 #: src/supertux/command_line_arguments.cpp:95
 msgid "  --show-fps                   Display framerate in levels"
-msgstr "--show-fps Mostra il framerate nei livelli"
+msgstr "--erakutsi koadroak segundoko   Mailatan koadroak segundoko erakusten ditu"
 
 #: src/supertux/command_line_arguments.cpp:96
 msgid "  --no-show-fps                Do not display framerate in levels"
-msgstr "--no-show-fps Non mostrare il framerate nei livelli"
+msgstr "--ez erakutsi koadroak segundoko   Mailatan ez ditu koadroak segundoko erakusten"
 
 #: src/supertux/command_line_arguments.cpp:97
 msgid "  --show-pos                   Display player's current position"
-msgstr "  --show-pos                   Mostra l'attuale posizione del giocatore"
+msgstr "--kokapena erakutsi      Jokalariaren oraingo kokapena erakusten du"
 
 #: src/supertux/command_line_arguments.cpp:98
 msgid "  --no-show-pos                Do not display player's position"
-msgstr "  --no-show-pos                Non mostra la posizione del giocatore"
+msgstr "--kokapena ez erakutsi      Jokalariaren oraingo kokapena ez du erakusten"
 
 #: src/supertux/command_line_arguments.cpp:99
 msgid "  --developer                  Switch on developer feature"
-msgstr "--developer Attiva le funzionalità da sviluppatore"
+msgstr "  --garatzailea                  Garatzailearen funtzioa pizten du"
 
 #: src/supertux/command_line_arguments.cpp:100
 msgid "  -s, --debug-scripts          Enable script debugger."
-msgstr "-s, --debug-scripts Abilita lo script debugger."
+msgstr "  -s, --debug-scripts         script debugger gaitzen du."
 
 #: src/supertux/command_line_arguments.cpp:101
 msgid ""
 "  --spawn-pos X,Y              Where in the level to spawn Tux. Only used if"
 " level is specified."
-msgstr "--spawn-pos X,Y Dove far apparire Tux nel livello. Utilizzato solo se il livello è specificato."
+msgstr "  --spawn-pos X,Y             Tux-ean sortzen den lekuan. Erabili bakarrik mailak zehazten badu."
 
 #: src/supertux/command_line_arguments.cpp:102
 msgid "  --sector SECTOR              Spawn Tux in SECTOR\n"
-msgstr "  --sector SETTORE              Metti Tux al SETTORE\n"
+msgstr "-sector SEKTOREA            Tux hasiko den SEKTOREA\n"
 
 #: src/supertux/command_line_arguments.cpp:103
 msgid "  --spawnpoint SPAWNPOINT      Spawn Tux at SPAWNPOINT\n"
-msgstr "  --spawnpoint PUNTO DI RINASCITA      Metti Tux al PUNTO DI RINASCITA\n"
+msgstr "  --spawnpoint HASIERA TOKIA      Tux HASIERA TOKIA-n hasiko da\n\n"
 
 #: src/supertux/command_line_arguments.cpp:105
 msgid "Demo Recording Options:"
-msgstr "Opzioni di registrazione demo:"
+msgstr "Demo grabaketa aukerak:"
 
 #: src/supertux/command_line_arguments.cpp:106
 msgid "  --record-demo FILE LEVEL     Record a demo to FILE"
-msgstr "--record-demo FILE LEVEL Registra una demo su FILE"
+msgstr "  --record-demo FILE LEVEL     Demo FITXATEGIA grabatzen du"
 
 #: src/supertux/command_line_arguments.cpp:107
 msgid "  --play-demo FILE LEVEL       Play a recorded demo"
-msgstr "--play-demo FILE LEVEL Esegui una demo registrata"
+msgstr "  --jokatu-demo FILE LEVEL       Grabatutako demoa jolastu"
 
 #: src/supertux/command_line_arguments.cpp:109
 msgid "Directory Options:"
-msgstr "Opzioni cartella:"
+msgstr "Direktorio aukerak:"
 
 #: src/supertux/command_line_arguments.cpp:110
 msgid ""
 "  --datadir DIR                Set the directory for the games datafiles"
-msgstr "--datadir DIR Setta la cartella per i file del gioco"
+msgstr "  --datadir DIR                Jokoaren datu fitxategien direktorioa aukeratzen du"
 
 #: src/supertux/command_line_arguments.cpp:111
 msgid ""
 "  --userdir DIR                Set the directory for user data (savegames, "
 "etc.)"
-msgstr "--userdir DIR Setta la cartella per i dati utente (salvataggi, ecc.)"
+msgstr "  --userdir DIR                Jokalariaren datuen direktorioa aukeratzen du (gordetak partidak, etab.)"
 
 #: src/supertux/command_line_arguments.cpp:113
 msgid "Add-On Options:"
-msgstr "Opzioni componenti aggiuntivi"
+msgstr "Gehigarrien aukerak:"
 
 #: src/supertux/command_line_arguments.cpp:114
 msgid "  --repository-url URL         Set the URL to the Add-On repository"
-msgstr "  --repository-url URL         Imposta l'URL dell'archivio dei componenti aggiuntivi"
+msgstr "  --repository-url URL         URLa Add-On biltegia aukeratzen du"
 
 #: src/supertux/command_line_arguments.cpp:116
 msgid "Environment variables:"
-msgstr "Variabili d'ambiente:"
+msgstr "Ingurugiroaren aldagaiak:"
 
 #: src/supertux/command_line_arguments.cpp:117
 msgid ""
 "  SUPERTUX2_USER_DIR           Directory for user data (savegames, etc.)"
-msgstr "SUPERTUX2_USER_DIR Cartella per i dati (salvataggi, ecc.)"
+msgstr "  SUPERTUX2_USER_DIR           Erabiltzaileen datuen direktorioa (gordeetako jokoak, etab.)"
 
 #: src/supertux/command_line_arguments.cpp:118
 msgid "  SUPERTUX2_DATA_DIR           Directory for the games datafiles"
-msgstr "SUPERTUX2_DATA_DIR Cartella per i dati del gioco"
+msgstr "  SUPERTUX2_DATA_DIR           Jokoaren datu direktorioa"
 
 #: src/supertux/title_screen.cpp:42
 msgid "Copyright"
@@ -1266,17 +1256,17 @@ msgstr "Copyright"
 msgid ""
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
 "redistribute it under certain conditions; see the license file for details.\n"
-msgstr "Il gioco viene fornito SENZA NESSUNA GARANZIA. Questo è software libero e sei libero di \nredistribuirlo sotto alcune condizioni; vedi il file di licenza per i dettagli.\n"
+msgstr "Joko honek ez du INOLAKO BERMERIK. Software librekoa da, \nirakurri lizentzia-fitxategia xehetasun gehiagorako.\n"
 
 #: src/supertux/menu/contrib_menu.cpp:79
 #: src/supertux/menu/world_set_menu.cpp:31
 msgid "Contrib Levels"
-msgstr "Livelli aggiuntivi"
+msgstr "Gehitutako mailak"
 
 #: src/supertux/menu/contrib_menu.cpp:120
 #: src/supertux/menu/contrib_menu.cpp:151
 msgid "*NEW*"
-msgstr "*NUOVO*"
+msgstr "*BERRIA*"
 
 #: src/supertux/menu/contrib_menu.cpp:173 src/supertux/menu/debug_menu.cpp:67
 #: src/supertux/menu/editor_level_select_menu.cpp:83
@@ -1292,89 +1282,89 @@ msgstr "*NUOVO*"
 #: src/supertux/menu/contrib_levelset_menu.cpp:67
 #: src/supertux/menu/cheat_menu.cpp:44
 msgid "Back"
-msgstr "Indietro"
+msgstr "Atzera"
 
 #: src/supertux/menu/debug_menu.cpp:29
 msgid "Debug"
-msgstr "Debug"
+msgstr "Arazketa"
 
 #: src/supertux/menu/debug_menu.cpp:53
 msgid "Game Speed"
-msgstr "Velocità del gioco"
+msgstr "Joko abiadura"
 
 #: src/supertux/menu/debug_menu.cpp:54
 msgid "Adjust Game Speed"
-msgstr "Aggiuta velocità del gioco"
+msgstr "Joko abiadura doitu"
 
 #: src/supertux/menu/debug_menu.cpp:60
 msgid "Show Collision Rects"
-msgstr "Mostra i rettangoli di collisione"
+msgstr "Erakutsi kolpe zuzenak"
 
 #: src/supertux/menu/debug_menu.cpp:61
 msgid "Show Worldmap Path"
-msgstr "Mostra il percorso della mappa del mondo"
+msgstr "Erakutsi mundu mapa ibilbidea"
 
 #: src/supertux/menu/debug_menu.cpp:62
 msgid "Use Bitmap Fonts"
-msgstr "Usa font bitmap"
+msgstr "Erabili bitmap letra tipoak"
 
 #: src/supertux/menu/editor_sectors_menu.cpp:31
 msgid "Choose sector to edit:"
-msgstr "Seleziona settore da modificare:"
+msgstr "Aukeratu aldatu nahi duzun sektorea:"
 
 #: src/supertux/menu/editor_sectors_menu.cpp:41
 msgid "Sector settings..."
-msgstr "Impostazioni settore..."
+msgstr "Sektorearen ezarpenak..."
 
 #: src/supertux/menu/editor_sectors_menu.cpp:42
 msgid "Create new sector"
-msgstr "Crea nuovo settore"
+msgstr "Sortu sektore berria"
 
 #: src/supertux/menu/editor_sectors_menu.cpp:43
 msgid "Delete this sector"
-msgstr "Elimina questo settore"
+msgstr "Ezabatu sektore hau"
 
 #: src/supertux/menu/editor_sectors_menu.cpp:92
 msgid "Each level must have at least one sector."
-msgstr "Ogni livello deve avere almeno un settore."
+msgstr "Maila bakoitzak gutxienez sektore bat izan behar du"
 
 #: src/supertux/menu/editor_sectors_menu.cpp:97
 msgid "Do you really want to delete this sector?"
-msgstr "Vuoi davvero eliminare questo settore?"
+msgstr "Ziur zaude sektore hau ezabatu nahi duzula?"
 
 #: src/supertux/menu/editor_sectors_menu.cpp:100
 msgid "Delete sector"
-msgstr "Elimina settore"
+msgstr "Ezabatu sektorea"
 
 #: src/supertux/menu/editor_objectgroup_menu.cpp:29
 #: src/editor/input_gui.cpp:88
 msgid "Objects"
-msgstr "Oggetti"
+msgstr "Objektuak"
 
 #: src/supertux/menu/editor_tilegroup_menu.cpp:26 src/editor/input_gui.cpp:85
 msgid "Tilegroups"
-msgstr "Gruppi di caselle"
+msgstr "Hondoa"
 
 #: src/supertux/menu/editor_level_select_menu.cpp:58
 msgid "Empty levelset"
-msgstr "Set di livelli vuoto"
+msgstr "Maila multzoa hutsik"
 
 #: src/supertux/menu/editor_level_select_menu.cpp:75
 msgid "Edit worldmap"
-msgstr "Modifica mappa del mondo"
+msgstr "Editatu mundu-mapa"
 
 #: src/supertux/menu/editor_level_select_menu.cpp:77
 msgid "Create worldmap"
-msgstr "Crea mappa del mondo"
+msgstr "Sortu mundu-mapa"
 
 #: src/supertux/menu/editor_level_select_menu.cpp:81
 msgid "Create Level"
-msgstr "Crea livello"
+msgstr "Maila sortu"
 
 #: src/supertux/menu/editor_level_select_menu.cpp:82
 #: src/supertux/menu/editor_levelset_menu.cpp:56
 msgid "Level subset properties"
-msgstr "Proprietà gruppo di livelli"
+msgstr "Maila sekzioko propietateak"
 
 #: src/supertux/menu/editor_level_select_menu.cpp:124
 msgid ""
@@ -1382,7 +1372,7 @@ msgid ""
 "It allows modifications and redistribution by third-parties.\n"
 "If you don't agree with this license, change it in worldmap properties.\n"
 "DISCLAIMER: The SuperTux authors take no responsibility for your choice of license."
-msgstr "Condividi questa mappa con licenza CC-BY-SA 4.0 Internazionale (consigliato).\nQuesto permette la modifica e la redistribuzione da terze parti.\nSe non sei d'accordo con questa licenza, cambiala nelle proprietà del livello.\nDICHIARAZIONE LIBERATORIA: Gli autori di SuperTux non si assumono alcuna responsabilità per la licenza scelta."
+msgstr "Munduko mapa hau partekatu CC-BY-SA 4.0 lizentzia Internazionala erabiliz (aholkatua).\nHirugarrenen aldaketak eta birbanaketa ahalbidetzen du.\nLizentzia honekin ados ez bazaude, aldatu munduko mapen propietateetan.\nOHARRA: SuperTux-eko egileak ez dira zure aukeren arduradunak."
 
 #: src/supertux/menu/editor_level_select_menu.cpp:128
 msgid ""
@@ -1390,93 +1380,93 @@ msgid ""
 "It allows modifications and redistribution by third-parties.\n"
 "If you don't agree with this license, change it in level properties.\n"
 "DISCLAIMER: The SuperTux authors take no responsibility for your choice of license."
-msgstr "Condividi questo livello con licenza CC-BY-SA 4.0 Internazionale (consigliato).\nQuesto permette la modifica e la redistribuzione da terze parti.\nSe non sei d'accordo con questa licenza, cambiala nelle proprietà del livello.\nDICHIARAZIONE LIBERATORIA: Gli autori di SuperTux non si assumono alcuna responsabilità per la licenza scelta."
+msgstr "Mailak partekatu CC-BY-SA 4.0 lizentzia Internazionala erabiliz (aholkatua).\nHirugarrenen aldaketak eta birbanaketa ahalbidetzen du.\nLizentzia honekin ados ez bazaude, aldatu mailen propietateetan.\nOHARRA: SuperTux-eko egileak ez dira zure aukeren arduradunak."
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:33
 #: src/supertux/menu/cheat_menu.cpp:30
 msgid "Cheats"
-msgstr "Trucchi"
+msgstr "Iruzurrak"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:35
 #: src/supertux/menu/cheat_menu.cpp:32
 msgid "Bonus: Grow"
-msgstr "Bonus: Crescita"
+msgstr "Saria: Hazi"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:36
 #: src/supertux/menu/cheat_menu.cpp:33
 msgid "Bonus: Fire"
-msgstr "Bonus: Fuoco"
+msgstr "Saria: Sua"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:37
 #: src/supertux/menu/cheat_menu.cpp:34
 msgid "Bonus: Ice"
-msgstr "Bonus: Ghiaccio"
+msgstr "Saria: Izotza"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:38
 #: src/supertux/menu/cheat_menu.cpp:35
 msgid "Bonus: Air"
-msgstr "Bonus: Aria"
+msgstr "Saria: Haizea"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:39
 #: src/supertux/menu/cheat_menu.cpp:36
 msgid "Bonus: Earth"
-msgstr "Bonus: Terra"
+msgstr "Saria: Lurra"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:40
 msgid "Bonus: None"
-msgstr "Bonus: Nessuno"
+msgstr "Saria: Batere ez"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:43
 #: src/supertux/menu/cheat_menu.cpp:42
 msgid "Leave Ghost Mode"
-msgstr "Lascia la modalità Fantasma"
+msgstr "Mamu modutik irten"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:43
 #: src/supertux/menu/cheat_menu.cpp:42
 msgid "Activate Ghost Mode"
-msgstr "Attiva modalità fantasma"
+msgstr "Aktibatu mamu modua"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:45
 #: src/supertux/menu/cheat_menu.cpp:40
 msgid "Finish Level"
-msgstr "Completa livello"
+msgstr "Bukatu maila"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:46
 msgid "Reset Level"
-msgstr "Resetta livello"
+msgstr "Berrabiarazi maila"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:48
 msgid "Finish Worldmap"
-msgstr "Fine Mondo mappa"
+msgstr "Bukatu mundu-mapa"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:49
 msgid "Reset Worldmap"
-msgstr "Resetta mondo mappa"
+msgstr "Berrabiarazi mundu-mapa"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:51
 msgid "Move to main spawnpoint"
-msgstr "Sposta al punto di apparizione principale"
+msgstr "Joan sortze puntu nagusira"
 
 #: src/supertux/menu/editor_levelset_select_menu.cpp:54
 msgid "Choose level subset"
-msgstr "Scegli gruppo di livelli"
+msgstr "Aukeratu mailaren azpimultzoa"
 
 #: src/supertux/menu/editor_levelset_select_menu.cpp:82
 #, c-format
 msgid "%d level"
 msgid_plural "%d levels"
-msgstr[0] "%d livello"
-msgstr[1] "%d livelli"
+msgstr[0] "%d mailak"
+msgstr[1] "%d mailak"
 
 #: src/supertux/menu/editor_levelset_select_menu.cpp:95
 #: src/supertux/menu/editor_new_levelset_menu.cpp:31
 msgid "New level subset"
-msgstr "Nuovo gruppo di livelli"
+msgstr "Mailaren azpimultzo berria"
 
 #: src/supertux/menu/options_menu.cpp:89 src/supertux/menu/main_menu.cpp:47
 #: src/supertux/menu/game_menu.cpp:48 src/supertux/menu/worldmap_menu.cpp:31
 msgid "Options"
-msgstr "Opzioni"
+msgstr "Ezarpenak"
 
 #: src/supertux/menu/options_menu.cpp:95
 #: src/supertux/menu/options_menu.cpp:131
@@ -1487,491 +1477,491 @@ msgstr "auto"
 
 #: src/supertux/menu/options_menu.cpp:210
 msgid "Desktop"
-msgstr "Scrivania"
+msgstr "Mahaigaina"
 
 #: src/supertux/menu/options_menu.cpp:356
 msgid "Select Language"
-msgstr "Seleziona la lingua"
+msgstr "Aukeratu hizkuntza"
 
 #: src/supertux/menu/options_menu.cpp:357
 msgid "Select a different language to display text in"
-msgstr "Seleziona una lingua diversa in cui mostrare il testo"
+msgstr "Aukeratu hizkuntza ezberdin bat testua hemen erakusteko"
 
 #: src/supertux/menu/options_menu.cpp:359
 msgid "Language Packs"
-msgstr "Pacchetti lingua"
+msgstr "Hizkuntza paketeak"
 
 #: src/supertux/menu/options_menu.cpp:360
 msgid "Language packs contain up-to-date translations"
-msgstr "I pacchetti lingua contengono aggiornamenti alle traduzioni"
+msgstr "Hizkuntza paketeek itzulpen eguneraketak dauzkate"
 
 #: src/supertux/menu/options_menu.cpp:362
 #: src/supertux/menu/profile_menu.cpp:30
 msgid "Select Profile"
-msgstr "Seleziona il profilo"
+msgstr "Aukeratu profila"
 
 #: src/supertux/menu/options_menu.cpp:363
 msgid "Select a profile to play with"
-msgstr "Seleziona il profilo con cui giocare"
+msgstr "Aukeratu jolasteko erabili nahi duzun profila"
 
 #: src/supertux/menu/options_menu.cpp:366
 msgid "Window Resizable"
-msgstr "Finestra ridimensionabile"
+msgstr "Leiho tamaina aldagarriak"
 
 #: src/supertux/menu/options_menu.cpp:367
 msgid "Allow window resizing, might require a restart to take effect"
-msgstr "Permetti il ridimensionamento della finestra. Potrebbe essere necessario riavvare il gioco affinché le modifiche abbiano effetto."
+msgstr "Onartu leihoaren tamaina, berrabiarazi behar da"
 
 #: src/supertux/menu/options_menu.cpp:369
 msgid "Window Resolution"
-msgstr "Risoluzione della finestra"
+msgstr "Leiho erresoluzioa"
 
 #: src/supertux/menu/options_menu.cpp:370
 msgid "Resize the window to the given size"
-msgstr "Ridimensiona la finestra data la dimensione"
+msgstr "Aldatu leihoa emandako tamainara"
 
 #: src/supertux/menu/options_menu.cpp:372
 msgid "Fullscreen"
-msgstr "Modalità schermo intero"
+msgstr "Pantaila-osoa"
 
 #: src/supertux/menu/options_menu.cpp:373
 msgid "Fill the entire screen"
-msgstr "Gioca a tutto schermo"
+msgstr "Pantaila osoa bete"
 
 #: src/supertux/menu/options_menu.cpp:375
 msgid "Fullscreen Resolution"
-msgstr "Risoluzione a schermo intero"
+msgstr "Pantaila-osoko erresoluzioa"
 
 #: src/supertux/menu/options_menu.cpp:376
 msgid ""
 "Determine the resolution used in fullscreen mode (you must toggle fullscreen"
 " to complete the change)"
-msgstr "Determina la risoluzione usata a schermo intero (devi selezionare Schermo Intero per completare le modifiche)"
+msgstr "Pantaila osoaren moduan erabilitako bereizmena zehaztu (pantaila osoa aldatu behar duzu aldaketa osatzeko)"
 
 #: src/supertux/menu/options_menu.cpp:378
 msgid "Magnification"
-msgstr "Ingrandimento"
+msgstr "Handitze maila"
 
 #: src/supertux/menu/options_menu.cpp:379
 msgid "Change the magnification of the game area"
-msgstr "Imposta l'ingrandimento dell'area di gioco"
+msgstr "Joko gunearen handitze maila aldatu"
 
 #: src/supertux/menu/options_menu.cpp:381
 msgid "VSync"
-msgstr "VSync"
+msgstr "Sinkronizatu bertikala"
 
 #: src/supertux/menu/options_menu.cpp:382
 msgid "Set the VSync mode"
-msgstr "Imposta la modalità VSync"
+msgstr "Zehaztu sinkronizazio bertikalaren modua"
 
 #: src/supertux/menu/options_menu.cpp:384
 msgid "Framerate"
-msgstr "Framerate"
+msgstr "Zenbat koadro segundoko"
 
 #: src/supertux/menu/options_menu.cpp:385
 msgid "Change the maximum framerate of the game"
-msgstr "Modifica il massimo framerate del gioco"
+msgstr "Aldatu jokoaren segundoko koadroen gehienezkoa"
 
 #: src/supertux/menu/options_menu.cpp:387
 msgid "Aspect Ratio"
-msgstr "Rapporto larghezza/altezza"
+msgstr "Aspektu Ratioa"
 
 #: src/supertux/menu/options_menu.cpp:388
 msgid "Adjust the aspect ratio"
-msgstr "Imposta il rapporto larghezza/altezza"
+msgstr "Aspektu ratioa doitu"
 
 #: src/supertux/menu/options_menu.cpp:393
 msgid "Disable all sound effects"
-msgstr "Disattiva tutti gli effetti sonori"
+msgstr "Desaktibatu soinu efektu guztiak"
 
 #: src/supertux/menu/options_menu.cpp:395
 msgid "Disable all music"
-msgstr "Disattiva la musica"
+msgstr "Desaktibatu musika"
 
 #: src/supertux/menu/options_menu.cpp:397
 msgid "Sound Volume"
-msgstr "Volume del sonoro"
+msgstr "Soinu bolumena"
 
 #: src/supertux/menu/options_menu.cpp:398
 msgid "Adjust sound volume"
-msgstr "Modifica il volume del sonoro"
+msgstr "Soinu bolumena doitu"
 
 #: src/supertux/menu/options_menu.cpp:400
 msgid "Music Volume"
-msgstr "Volume della musica"
+msgstr "Musikaren bolumena"
 
 #: src/supertux/menu/options_menu.cpp:401
 msgid "Adjust music volume"
-msgstr "Modifica il volume della musica"
+msgstr "Musikaren bolumena doitu"
 
 #: src/supertux/menu/options_menu.cpp:405
 msgid "Sound (disabled)"
-msgstr "Suono (disattivato)"
+msgstr "Soinua (desaktibatua)"
 
 #: src/supertux/menu/options_menu.cpp:406
 msgid "Music (disabled)"
-msgstr "Musica (disattivata)"
+msgstr "Musika (desaktibatua)"
 
 #: src/supertux/menu/options_menu.cpp:409
 #: src/supertux/menu/keyboard_menu.cpp:30
 msgid "Setup Keyboard"
-msgstr "Configurazione controlli"
+msgstr "Doitu teklatua"
 
 #: src/supertux/menu/options_menu.cpp:410
 msgid "Configure key-action mappings"
-msgstr "Configura i tasti"
+msgstr "Konfiguratu tekla-ekintza mapak"
 
 #: src/supertux/menu/options_menu.cpp:412
 #: src/supertux/menu/joystick_menu.cpp:52
 msgid "Setup Joystick"
-msgstr "Configura joystick"
+msgstr "Doitu aginteak"
 
 #: src/supertux/menu/options_menu.cpp:413
 msgid "Configure joystick control-action mappings"
-msgstr "Configura il joystick"
+msgstr "Konfiguratu joystick-kontrolaren ekintza-mapak"
 
 #: src/supertux/menu/options_menu.cpp:415
 msgid "Enable transitions"
-msgstr "Abilita le transizioni"
+msgstr "Aktibatu trantsizioak"
 
 #: src/supertux/menu/options_menu.cpp:416
 msgid "Enable screen transitions and smooth menu animation"
-msgstr "Abilita le transizioni e le animazioni nei menù"
+msgstr "Gaitu pantailaren trantsizioa eta menu leuna animazioa"
 
 #: src/supertux/menu/options_menu.cpp:420
 msgid "Developer Mode"
-msgstr "Modalità Sviluppatore"
+msgstr "Garatzaile modua"
 
 #: src/supertux/menu/options_menu.cpp:425
 msgid "Christmas Mode"
-msgstr "Modalità Natale"
+msgstr "Gabonetako modua"
 
 #: src/supertux/menu/options_menu.cpp:428
 msgid "Confirmation Dialog"
-msgstr "Dialogo di conferma"
+msgstr "Berrespen elkarrizketa"
 
 #: src/supertux/menu/options_menu.cpp:429
 msgid "Pause on focus loss"
-msgstr "Pausa alla perdita del focus"
+msgstr "Geldialdia fokatze galeran"
 
 #: src/supertux/menu/main_menu.cpp:45 src/supertux/menu/world_set_menu.cpp:28
 msgid "Start Game"
-msgstr "Inizia a giocare"
+msgstr "Hasi Jokoa"
 
 #: src/supertux/menu/main_menu.cpp:46 src/supertux/menu/addon_menu.cpp:119
 msgid "Add-ons"
-msgstr "Add-ons"
+msgstr "Gehigarriak"
 
 #: src/supertux/menu/main_menu.cpp:48 src/supertux/menu/editor_menu.cpp:37
 msgid "Level Editor"
-msgstr "Editor dei livelli"
+msgstr "Maila-editorea"
 
 #: src/supertux/menu/main_menu.cpp:49
 msgid "Credits"
-msgstr "Crediti"
+msgstr "Kredituak"
 
 #: src/supertux/menu/main_menu.cpp:50
 msgid "Donate"
-msgstr "Dona"
+msgstr "Dohaintza"
 
 #: src/supertux/menu/main_menu.cpp:51
 msgid "Quit"
-msgstr "Esci"
+msgstr "Itxi"
 
 #: src/supertux/menu/editor_sector_menu.cpp:35
 msgid "Initialization script"
-msgstr "Script d'inizializzazione"
+msgstr "Hasteko scripta"
 
 #: src/supertux/menu/editor_sector_menu.cpp:36
 msgid "Gravity"
-msgstr "Gravità"
+msgstr "Grabitatea"
 
 #: src/supertux/menu/editor_sector_menu.cpp:41
 msgid "Resize offset X"
-msgstr "Ridimensiona offset X"
+msgstr "Tamaina aldatu ofset X-ri"
 
 #: src/supertux/menu/editor_sector_menu.cpp:42
 msgid "Resize offset Y"
-msgstr "Ridimensiona offset Y"
+msgstr "Tamaina aldatu ofset Y-ri"
 
 #: src/supertux/menu/editor_sector_menu.cpp:43
 msgid "Resize"
-msgstr "Ridimensiona"
+msgstr "Tamaina aldatu"
 
 #: src/supertux/menu/profile_menu.cpp:37
 #, c-format
 msgid "[Profile %s]"
-msgstr "[Profilo %s]"
+msgstr "[%s profila]"
 
 #: src/supertux/menu/profile_menu.cpp:41
 #, c-format
 msgid "Profile %s"
-msgstr "Profilo %s"
+msgstr "%s profila"
 
 #: src/supertux/menu/editor_levelset_menu.cpp:59
 #: src/supertux/menu/editor_new_levelset_menu.cpp:35
 msgid "Description"
-msgstr "Descrizione"
+msgstr "Deskribapena"
 
 #: src/supertux/menu/editor_levelset_menu.cpp:60
 #: src/supertux/menu/addon_menu.cpp:48
 msgid "Worldmap"
-msgstr "Mappa del mondo"
+msgstr "Mundu-mapa"
 
 #: src/supertux/menu/editor_levelset_menu.cpp:60
 #: src/supertux/menu/addon_menu.cpp:45
 msgid "Levelset"
-msgstr "Set di livelli"
+msgstr "Maila zehaztu"
 
 #: src/supertux/menu/addon_menu.cpp:51
 msgid "World"
-msgstr "Mondo"
+msgstr "Mundua"
 
 #: src/supertux/menu/addon_menu.cpp:57 src/editor/object_option.cpp:78
 msgid "Unknown"
-msgstr "Sconosciuto"
+msgstr "Ezezaguna"
 
 #: src/supertux/menu/addon_menu.cpp:68
 #, c-format
 msgid "%s \"%s\" by \"%s\""
-msgstr "%s \"%s\" di \"%s\""
+msgstr "%s \"%s\" by \"%s\""
 
 #: src/supertux/menu/addon_menu.cpp:126
 msgid "No Add-ons installed"
-msgstr "Nessun componente aggiuntivo installato"
+msgstr "Ez dago gehigarririk instalatuta"
 
 #: src/supertux/menu/addon_menu.cpp:130
 msgid "No Add-ons found"
-msgstr "Nessun componente aggiuntivo trovato"
+msgstr "Ez da gehigarririk aurkitu"
 
 #: src/supertux/menu/addon_menu.cpp:176
 #, c-format
 msgid "Install %s *NEW*"
-msgstr "Installa %s *NUOVO*"
+msgstr "Instalatu %s *BERRIA*"
 
 #: src/supertux/menu/addon_menu.cpp:187
 #, c-format
 msgid "Install %s"
-msgstr "Installa %s"
+msgstr "Instalatu %s"
 
 #: src/supertux/menu/addon_menu.cpp:196
 msgid "No new Add-ons found"
-msgstr "Nessun nuovo componente aggiuntivo trovato"
+msgstr "Ez da gehigarri berririk aurkitu"
 
 #: src/supertux/menu/addon_menu.cpp:202
 msgid "Check Online (disabled)"
-msgstr "Controlla sul Web (disattivato)"
+msgstr "Bilatu online (desaktibatua)"
 
 #: src/supertux/menu/addon_menu.cpp:206
 msgid "Check Online"
-msgstr "Controlla sul Web"
+msgstr "Bilatu online"
 
 #: src/supertux/menu/addon_menu.cpp:283
 msgid "Downloading Add-On Repository Index"
-msgstr "Scaricamento dell'indice dei componenti aggiuntivi"
+msgstr "Gehigarrien biltegiaren indizea deskargatzen"
 
 #: src/supertux/menu/addon_menu.cpp:298
 #, c-format
 msgid "Downloading %s"
-msgstr "Scaricamento di %s"
+msgstr "%s deskargatzen"
 
 #: src/supertux/menu/addon_menu.cpp:345
 msgid ""
 "Please restart SuperTux\n"
 "for these changes to take effect."
-msgstr "Riavviare SuperTux\naffinché le modifiche abbiano effetto"
+msgstr "Mesedez berrabiarazi Supertux\naldaketak gauzatu daitezen."
 
 #: src/supertux/menu/editor_new_levelset_menu.cpp:51
 msgid "Please enter a name for this level subset."
-msgstr "Inserisci un nome per questo gruppo di livelli"
+msgstr "Mesedez izendatu maila azpimultzo hau."
 
 #: src/supertux/menu/world_set_menu.cpp:30
 msgid "Story Mode"
-msgstr "Storia"
+msgstr "Istorioa"
 
 #: src/supertux/menu/game_menu.cpp:29
 msgid "Are you sure?"
-msgstr "Sei sicuro?"
+msgstr "Ziur zaude?"
 
 #: src/supertux/menu/game_menu.cpp:46 src/supertux/menu/worldmap_menu.cpp:30
 msgid "Continue"
-msgstr "Continua"
+msgstr "Jarraitu"
 
 #: src/supertux/menu/game_menu.cpp:47
 msgid "Restart Level"
-msgstr "Ricomincia livello"
+msgstr "Berriro hasi"
 
 #: src/supertux/menu/game_menu.cpp:50
 msgid "Abort Level"
-msgstr "Abbandona il livello"
+msgstr "Irten"
 
 #: src/supertux/menu/keyboard_menu.cpp:32
 #: src/supertux/menu/joystick_menu.cpp:69
 msgid "Up"
-msgstr "Su"
+msgstr "Gora"
 
 #: src/supertux/menu/keyboard_menu.cpp:33
 #: src/supertux/menu/joystick_menu.cpp:70
 msgid "Down"
-msgstr "Giù/Abbassati"
+msgstr "Behera"
 
 #: src/supertux/menu/keyboard_menu.cpp:34
 #: src/supertux/menu/joystick_menu.cpp:71
 msgid "Left"
-msgstr "Sinistra"
+msgstr "Ezkerrera"
 
 #: src/supertux/menu/keyboard_menu.cpp:35
 #: src/supertux/menu/joystick_menu.cpp:72
 msgid "Right"
-msgstr "Destra"
+msgstr "Eskuina"
 
 #: src/supertux/menu/keyboard_menu.cpp:36
 #: src/supertux/menu/joystick_menu.cpp:73
 msgid "Jump"
-msgstr "Salta"
+msgstr "Salto"
 
 #: src/supertux/menu/keyboard_menu.cpp:38
 #: src/supertux/menu/joystick_menu.cpp:76
 msgid "Peek Left"
-msgstr "Guarda a sinistra"
+msgstr "Ezkerrera begiratu"
 
 #: src/supertux/menu/keyboard_menu.cpp:39
 #: src/supertux/menu/joystick_menu.cpp:77
 msgid "Peek Right"
-msgstr "Guarda a destra"
+msgstr "Eskuinera begiratu"
 
 #: src/supertux/menu/keyboard_menu.cpp:40
 #: src/supertux/menu/joystick_menu.cpp:78
 msgid "Peek Up"
-msgstr "Guarda su"
+msgstr "Gora begiratu"
 
 #: src/supertux/menu/keyboard_menu.cpp:41
 #: src/supertux/menu/joystick_menu.cpp:79
 msgid "Peek Down"
-msgstr "Guarda giù"
+msgstr "Behera begiratu"
 
 #: src/supertux/menu/keyboard_menu.cpp:43
 #: src/supertux/menu/joystick_menu.cpp:81
 msgid "Console"
-msgstr "Console"
+msgstr "Kontsola"
 
 #: src/supertux/menu/keyboard_menu.cpp:46
 #: src/supertux/menu/joystick_menu.cpp:84
 msgid "Cheat Menu"
-msgstr "Menù Trucchi"
+msgstr "Iruzur Menua"
 
 #: src/supertux/menu/keyboard_menu.cpp:47
 #: src/supertux/menu/joystick_menu.cpp:85
 msgid "Debug Menu"
-msgstr "Menù di Debug"
+msgstr "Arazteko menua"
 
 #: src/supertux/menu/keyboard_menu.cpp:49
 #: src/supertux/menu/joystick_menu.cpp:87
 msgid "Jump with Up"
-msgstr "Salta con il tasto Su"
+msgstr "Gezia gora jauzi"
 
 #: src/supertux/menu/keyboard_menu.cpp:60
 #: src/supertux/menu/joystick_menu.cpp:108
 #: src/supertux/menu/joystick_menu.cpp:215 src/worldmap/direction.cpp:84
 msgid "None"
-msgstr "Nessuno"
+msgstr "Bat ere ez"
 
 #: src/supertux/menu/keyboard_menu.cpp:62
 msgid "Up cursor"
-msgstr "Freccia su"
+msgstr "Kurtsorea gora"
 
 #: src/supertux/menu/keyboard_menu.cpp:64
 msgid "Down cursor"
-msgstr "Freccia giù"
+msgstr "Kurtsorea behera"
 
 #: src/supertux/menu/keyboard_menu.cpp:66
 msgid "Left cursor"
-msgstr "Freccia sinistra"
+msgstr "Kurtsorea ezkerretara"
 
 #: src/supertux/menu/keyboard_menu.cpp:68
 msgid "Right cursor"
-msgstr "Freccia destra"
+msgstr "Kurtsorea eskuinetara"
 
 #: src/supertux/menu/keyboard_menu.cpp:70
 msgid "Return"
-msgstr "Invio"
+msgstr "Itzuli"
 
 #: src/supertux/menu/keyboard_menu.cpp:72
 msgid "Space"
-msgstr "Spazio"
+msgstr "Hutsunea"
 
 #: src/supertux/menu/keyboard_menu.cpp:74
 msgid "Right Shift"
-msgstr "Shift destro"
+msgstr "Eskuin Shift"
 
 #: src/supertux/menu/keyboard_menu.cpp:76
 msgid "Left Shift"
-msgstr "Shift sinistro"
+msgstr "Ezker Shift"
 
 #: src/supertux/menu/keyboard_menu.cpp:78
 msgid "Right Control"
-msgstr "Ctrl destro"
+msgstr "Eskuin kontrola"
 
 #: src/supertux/menu/keyboard_menu.cpp:80
 msgid "Left Control"
-msgstr "Ctrl sinistro"
+msgstr "Ezker kontrola"
 
 #: src/supertux/menu/keyboard_menu.cpp:82
 msgid "Right Alt"
-msgstr "Alt destro"
+msgstr "Eskuin Alt"
 
 #: src/supertux/menu/keyboard_menu.cpp:84
 msgid "Left Alt"
-msgstr "Alt sinistro"
+msgstr "Ezker Alt"
 
 #: src/supertux/menu/keyboard_menu.cpp:86
 msgid "Right Command"
-msgstr "comando destro"
+msgstr "Eskuin komandoa"
 
 #: src/supertux/menu/keyboard_menu.cpp:88
 msgid "Left Command"
-msgstr "comando sinistra"
+msgstr "Ezker komandoa"
 
 #: src/supertux/menu/keyboard_menu.cpp:102
 msgid "Press Key"
-msgstr "Premi un tasto"
+msgstr "Tekla sakatu"
 
 #: src/supertux/menu/language_menu.cpp:38
 msgid "Language"
-msgstr "Lingua"
+msgstr "Hizkuntza"
 
 #: src/supertux/menu/language_menu.cpp:40
 msgid "<auto-detect>"
-msgstr "<riconosci automaticamente>"
+msgstr "<auto-antzeman>"
 
 #: src/supertux/menu/joystick_menu.cpp:55
 msgid "Manual Configuration"
-msgstr "Configurazione Manuale"
+msgstr "Eskuzko doiketa"
 
 #: src/supertux/menu/joystick_menu.cpp:57
 msgid ""
 "Use manual configuration instead of SDL2's automatic GameController support"
-msgstr "Utilizza la configurazione manuale anziché usare il supporto automatico per il GameController di SDL2"
+msgstr "Eskuzko konfigurazioa erabili jokoaren SDL2 kontrolatzailearen euskarri automatikoa erabili ordez"
 
 #: src/supertux/menu/joystick_menu.cpp:75
 msgid "Pause/Menu"
-msgstr "Pausa/Menu"
+msgstr "Pausatu/Menua"
 
 #: src/supertux/menu/joystick_menu.cpp:93
 msgid "No Joysticks found"
-msgstr "Nessun joystick trovato"
+msgstr "Ez da aginterik aurkitu"
 
 #: src/supertux/menu/joystick_menu.cpp:94
 msgid "Scan for Joysticks"
-msgstr "Cerca joystick"
+msgstr "Bilatu aginteak"
 
 #: src/supertux/menu/joystick_menu.cpp:127
 msgid "Press Button"
-msgstr "Premi il pulsante"
+msgstr "Sakatu Botoia"
 
 #: src/supertux/menu/joystick_menu.cpp:164
 msgid "Axis "
-msgstr "Asse"
+msgstr "Ardatza"
 
 #: src/supertux/menu/joystick_menu.cpp:167
 msgid "-"
@@ -1987,7 +1977,7 @@ msgstr "X"
 
 #: src/supertux/menu/joystick_menu.cpp:174
 msgid "Y"
-msgstr "S"
+msgstr "Y"
 
 #: src/supertux/menu/joystick_menu.cpp:176
 msgid "X2"
@@ -1999,73 +1989,73 @@ msgstr "Y2"
 
 #: src/supertux/menu/joystick_menu.cpp:191
 msgid "Hat Up"
-msgstr "Levetta su"
+msgstr "Okertu goraka"
 
 #: src/supertux/menu/joystick_menu.cpp:195
 msgid "Hat Down"
-msgstr "Levetta giù"
+msgstr "Okertu beheraka"
 
 #: src/supertux/menu/joystick_menu.cpp:199
 msgid "Hat Left"
-msgstr "Levetta sinistra"
+msgstr "Okertu ezkerrera"
 
 #: src/supertux/menu/joystick_menu.cpp:203
 msgid "Hat Right"
-msgstr "Levetta destra"
+msgstr "Okertu eskuinera"
 
 #: src/supertux/menu/worldmap_menu.cpp:28
 msgid "Pause"
-msgstr "Pausa"
+msgstr "Pausatu"
 
 #: src/supertux/menu/worldmap_menu.cpp:33
 msgid "Leave World"
-msgstr "Esci dal mondo"
+msgstr "Atera mundutik"
 
 #: src/supertux/menu/download_dialog.cpp:26
 msgid "Abort Download"
-msgstr "Interrompi Download"
+msgstr "Utzi deskarga"
 
 #: src/supertux/menu/download_dialog.cpp:41
 msgid "Error:\n"
-msgstr "Errore:\n"
+msgstr "Errorea\n"
 
 #: src/supertux/menu/download_dialog.cpp:95
 msgid "Close"
-msgstr "Chiudi"
+msgstr "Itxi"
 
 #: src/supertux/menu/cheat_menu.cpp:37
 msgid "Bonus: Star"
-msgstr "Bonus: Stella"
+msgstr "Saria: Izarra"
 
 #: src/supertux/menu/cheat_menu.cpp:38
 msgid "Shrink Tux"
-msgstr "Strizzacervelli Tux"
+msgstr "Tux uzkurtu"
 
 #: src/supertux/menu/cheat_menu.cpp:39
 msgid "Kill Tux"
-msgstr "Uccidi Tux"
+msgstr "Erail Tux"
 
 #: src/supertux/menu/editor_level_menu.cpp:31
 #: src/supertux/menu/editor_menu.cpp:66
 msgid "Worldmap properties"
-msgstr "Proprietà mappa del mondo"
+msgstr "Mundu-maparen propietateak"
 
 #: src/supertux/menu/editor_level_menu.cpp:31
 #: src/supertux/menu/editor_menu.cpp:66
 msgid "Level properties"
-msgstr "Proprietà livello"
+msgstr "Mailaren propietateak"
 
 #: src/supertux/menu/editor_level_menu.cpp:34
 msgid "Author"
-msgstr "Autore"
+msgstr "Autorea"
 
 #: src/supertux/menu/editor_level_menu.cpp:35 data//credits.stxt:1271
 msgid "Contact"
-msgstr "Contatti"
+msgstr "Kontaktua"
 
 #: src/supertux/menu/editor_level_menu.cpp:36
 msgid "License"
-msgstr "Licenza"
+msgstr "Lizentzia"
 
 #: src/supertux/menu/editor_level_menu.cpp:37
 msgid "Tileset"
@@ -2073,178 +2063,178 @@ msgstr "Tileset"
 
 #: src/supertux/menu/editor_level_menu.cpp:40
 msgid "Target time"
-msgstr "Tempo da raggiungere"
+msgstr "Benetako denbora"
 
 #: src/supertux/menu/editor_level_menu.cpp:82
 msgid "Please enter a name for this level."
-msgstr "Inserisci un nome per questo livello"
+msgstr "Mesedez izendatu maila."
 
 #: src/supertux/menu/editor_level_menu.cpp:86
 msgid "Please enter a level author for this level."
-msgstr "Inserisci un nome d'autore per questo livello"
+msgstr "Mesedez autore izena sartu maila honetarako."
 
 #: src/supertux/menu/editor_level_menu.cpp:90
 msgid "Please enter a license for this level."
-msgstr "Inserisci una licenza per questo livello"
+msgstr "Mesedez lizentzia sartu maila honetarako."
 
 #: src/supertux/menu/editor_menu.cpp:32
 msgid "1/8 tile (4px)"
-msgstr "1/8 tile (4px)"
+msgstr "Baldosa 1/8 (4px)"
 
 #: src/supertux/menu/editor_menu.cpp:33
 msgid "1/4 tile (8px)"
-msgstr "1/4 tile (8px)"
+msgstr "Baldosa 1/4 (8px)"
 
 #: src/supertux/menu/editor_menu.cpp:34
 msgid "1/2 tile (16px)"
-msgstr "1/2 tile (16px)"
+msgstr "Baldosa 1/2 (16px)"
 
 #: src/supertux/menu/editor_menu.cpp:35
 msgid "1 tile (32px)"
-msgstr "1 tile (32px)"
+msgstr "Baldosa 1 (32px)"
 
 #: src/supertux/menu/editor_menu.cpp:39
 msgid "Return to editor"
-msgstr "Ritorna all'editor"
+msgstr "Editorera itzuli"
 
 #: src/supertux/menu/editor_menu.cpp:40
 msgid "Save current worldmap"
-msgstr "Salva mappa mondo attuale"
+msgstr "Oraingo mundu mapa gorde"
 
 #: src/supertux/menu/editor_menu.cpp:40
 msgid "Save current level"
-msgstr "Salva livello attuale"
+msgstr "Oraingo maila gorde"
 
 #: src/supertux/menu/editor_menu.cpp:43
 msgid "Test the level"
-msgstr "Prova livello"
+msgstr "Maila probatu"
 
 #: src/supertux/menu/editor_menu.cpp:47
 msgid "Test the worldmap"
-msgstr "Testa la mappa del mondo"
+msgstr "Munduko mapa probatu"
 
 #: src/supertux/menu/editor_menu.cpp:50
 msgid "Open output directory"
-msgstr "Apri cartella di output"
+msgstr "Ireki irteerako direktorioa"
 
 #: src/supertux/menu/editor_menu.cpp:53
 msgid "Edit another level"
-msgstr "Modifica un altro livello"
+msgstr "Beste maila bat editatu"
 
 #: src/supertux/menu/editor_menu.cpp:56
 msgid "Choose another level subset"
-msgstr "Scegli un altro gruppo di livelli"
+msgstr "Aukeratu mailaren beste azpimultzo bat"
 
 #: src/supertux/menu/editor_menu.cpp:58
 msgid "Grid size"
-msgstr "Dimensione griglia"
+msgstr "Lauki-sarearen tamaina"
 
 #: src/supertux/menu/editor_menu.cpp:60
 msgid "Render lighting (F6)"
-msgstr "Renderizza effetti luce (F6)"
+msgstr "Argiztatze efektuak gaitu (F6)"
 
 #: src/supertux/menu/editor_menu.cpp:61
 msgid "Snap objects to grid (F7)"
-msgstr "Allinea gli oggetti alla griglia (F7)"
+msgstr "Lauki sareari objektuak erantsi (F7)"
 
 #: src/supertux/menu/editor_menu.cpp:62
 msgid "Show grid (F8)"
-msgstr "Mostra griglia (F8)"
+msgstr "Lauki sarea erakutsi (F8)"
 
 #: src/supertux/menu/editor_menu.cpp:63
 msgid "Render background"
-msgstr "Renderizza sfondo"
+msgstr "Egin atzeko planoa"
 
 #: src/supertux/menu/editor_menu.cpp:64
 msgid "Show scroller (F9)"
-msgstr "Mostra scorrimento (F9)"
+msgstr "Scroller erakutsi (F9)"
 
 #: src/supertux/menu/editor_menu.cpp:70
 msgid "Exit level editor"
-msgstr "Esci dall'editor di livello"
+msgstr "Maila-editoretik atera"
 
 #: src/supertux/menu/editor_menu.cpp:107
 msgid ""
 "Couldn't find a \"main\" sector.\n"
 "Please change the name of the sector where\n"
 "you'd like the player to start to \"main\""
-msgstr "Impossibile trovare il settore \"main\".\nCambiare il nome del settore dove\nvorresti che il giocatore cominci su \"main\""
+msgstr "Ezin izan da sektore \"nagusi\" bat aurkitu.\nAlda ezazu mesedez jokalariak \"nagusi\" moduan\nhastea nahi duzun sektorea"
 
 #: src/supertux/menu/editor_menu.cpp:111
 msgid ""
 "Couldn't find a \"main\" spawnpoint.\n"
 " Please change the name of the spawnpoint where\n"
 "you'd like the player to start to \"main\""
-msgstr "Impossibile trovare il punto di rinascita \"main\".\nCambiare il nome del punto di rinascita dove\nvorresti che il giocatore cominci su \"main\""
+msgstr "Ezin izan da hasteko puntu \"nagusi\" bat aurkitu.\nAlda ezazu mesedez Jokalariak \"nagusi\" moduan\nhastea nahi duzun puntua"
 
 #: src/supertux/levelintro.cpp:138
 #, c-format
 msgid "contributed by %s"
-msgstr "con il contributo di  %s"
+msgstr "%s lagunduta"
 
 #: src/supertux/levelintro.cpp:172
 msgid "Badguys killed"
-msgstr "Cattivoni uccisi"
+msgstr "Hildako gaizkileak"
 
 #: src/supertux/levelintro.cpp:176
 msgid "Best time"
-msgstr "Miglior tempo"
+msgstr "Denbora onena"
 
 #: src/supertux/levelintro.cpp:180
 msgid "Level target time"
-msgstr "Obiettivo tempo per il livello"
+msgstr "Maila nahien denbora"
 
 #: src/supertux/tile_set.cpp:92
 msgid "Others"
-msgstr "Altri"
+msgstr "Besteak"
 
 #: src/supertux/direction.cpp:35
 msgid "up"
-msgstr "su"
+msgstr "gora"
 
 #: src/supertux/direction.cpp:36
 msgid "down"
-msgstr "giù"
+msgstr "behera"
 
 #: src/control/joystick_config.cpp:85
 msgid "Joystick Mappings"
-msgstr "Configurazione Joystick"
+msgstr "Aginte konfigurazioa"
 
 #: src/worldmap/worldmap_parser.cpp:158
 msgid "<no title>"
-msgstr "<nessun titolo>"
+msgstr "<izenbururik ez>"
 
 #: src/worldmap/direction.cpp:85
 msgid "West"
-msgstr "Ovest"
+msgstr "Mendebaldea"
 
 #: src/worldmap/direction.cpp:86
 msgid "East"
-msgstr "Est"
+msgstr "Ekialdea"
 
 #: src/worldmap/direction.cpp:87
 msgid "North"
-msgstr "Nord"
+msgstr "Iparraldea"
 
 #: src/worldmap/direction.cpp:88
 msgid "South"
-msgstr "Sud"
+msgstr "Hegoaldea"
 
 #: src/editor/node_marker.cpp:79
 msgid "Path Node"
-msgstr "Snodo del sentiero"
+msgstr "Bideko nodoa"
 
 #: src/editor/object_option.cpp:51
 msgid "true"
-msgstr "vero"
+msgstr "egia"
 
 #: src/editor/object_option.cpp:51
 msgid "false"
-msgstr "falso"
+msgstr "gezurra"
 
 #: src/editor/object_option.cpp:56
 msgid "invalid"
-msgstr "non valido"
+msgstr "baliogabea"
 
 #: src/editor/editor.cpp:434
 msgid ""
@@ -2252,342 +2242,342 @@ msgid ""
 "and might cause collisions with default Super Tux structure.\n"
 "You can still enable these add-ons in the menu.\n"
 "Disabling these add-ons will not delete your game progress."
-msgstr "Alcuni componenti aggiuntivi obsoleti sono ancora attivi\ne possono creare conflitti con la struttura di base di Super Tux.\nSi possono ancora abilitare questi componenti nel menu.\nDisabilitare questi componenti aggiuntivi non cancellerà i progressi di gioco."
+msgstr "Osagai zahar batzuk oraindik aktibo daude\nbaliteke horiek arazoak sortzea SuperTuxeko egiturekin.\nHala ere, osagai horiek menuan gaitu ditzakezu.\nOsagai horiek desgaitzeak ez dizu partidan eragingo."
 
 #: src/editor/editor.cpp:437
 msgid "Disable add-ons"
-msgstr "Disabilita componenti aggiuntivi"
+msgstr "Gehigarriak desaktibatu"
 
 #: src/editor/editor.cpp:442
 msgid "Ignore (not advised)"
-msgstr "Ignora (sconsigliato)"
+msgstr "Ez ikusiarena egin (ez gomendatua)"
 
 #: src/editor/editor.cpp:446
 msgid "Leave editor"
-msgstr "Esci dall'editor dei livelli"
+msgstr "Atera editoretik"
 
 #: src/editor/worldmap_objects.cpp:92 src/editor/worldmap_objects.cpp:94
 msgid "Level"
-msgstr "Livello"
+msgstr "Maila"
 
 #: src/editor/worldmap_objects.cpp:98
 msgid "Outro script"
-msgstr "Script di epilogo"
+msgstr "Ixteko script"
 
 #: src/editor/worldmap_objects.cpp:99
 msgid "Auto play"
-msgstr "Riproduzione automatica"
+msgstr "Erreprodukzio automatikoa"
 
 #: src/editor/worldmap_objects.cpp:105
 msgid "Title colour"
-msgstr "Colore titolo"
+msgstr "Izenburuaren kolorea"
 
 #: src/editor/worldmap_objects.cpp:187
 msgid "Teleporter"
-msgstr "Teletrasportatore"
+msgstr "Telegarraiatzailea"
 
 #: src/editor/worldmap_objects.cpp:190
 msgid "Automatic"
-msgstr "Automatico"
+msgstr "Automatikoa"
 
 #: src/editor/worldmap_objects.cpp:192
 msgid "Change worldmap"
-msgstr "Cambia mappa del mondo"
+msgstr "Aldatu munduko mapa"
 
 #: src/editor/worldmap_objects.cpp:193
 msgid "Target worldmap"
-msgstr "Specifica mappa del mondo"
+msgstr "Hautatutako munduko mapa"
 
 #: src/editor/worldmap_objects.cpp:275
 msgid "Stay action"
-msgstr "Azione di stasi"
+msgstr "Posizio estatikoa"
 
 #: src/editor/worldmap_objects.cpp:276
 msgid "Initial stay action"
-msgstr "Azione iniziale di stasi"
+msgstr "Hasierako posizio estatikoa"
 
 #: src/editor/worldmap_objects.cpp:277
 msgid "Stay group"
-msgstr "Ferma gruppo"
+msgstr "Taldea egonean"
 
 #: src/editor/worldmap_objects.cpp:278
 msgid "Change on touch"
-msgstr "Cambia al tocco"
+msgstr "Aldatu ukitzean"
 
 #: src/editor/worldmap_objects.cpp:323
 msgid "Special tile"
-msgstr "Casella speciale"
+msgstr "Azulejo berezia"
 
 #: src/editor/worldmap_objects.cpp:325
 msgid "Show message"
-msgstr "Mostra messaggio"
+msgstr "Erakutsi mezua"
 
 #: src/editor/worldmap_objects.cpp:327
 msgid "Invisible"
-msgstr "Invisibile"
+msgstr "Ikusezina"
 
 #: src/editor/object_menu.cpp:76
 msgid "Remove"
-msgstr "Rimuovi"
+msgstr "Ezabatu"
 
 #: data//credits.stxt:13
 msgid "Original Developer"
-msgstr "Sviluppatore originale"
+msgstr "Jatorrizko garatzailea"
 
 #: data//credits.stxt:19 data//credits.stxt:25
 msgid "Graphics, Programming, Level Design"
-msgstr "Grafica, programmazione, creazione livelli"
+msgstr "Grafikoak, programazioa, mailen diseinua"
 
 #: data//credits.stxt:31
 msgid "Music, Level Design"
-msgstr "Musica, creazione livelli"
+msgstr "Musika, mailen diseinua"
 
 #: data//credits.stxt:37 data//credits.stxt:107 data//credits.stxt:142
 #: data//credits.stxt:147 data//credits.stxt:206 data//credits.stxt:276
 msgid "Graphics"
-msgstr "Grafica"
+msgstr "Grafikoak"
 
 #: data//credits.stxt:43
 msgid "Programming, Graphics, Level Design"
-msgstr "Programmazione, grafica, creazione livelli"
+msgstr "Programazioa, grafikoak, mailen diseinua"
 
 #: data//credits.stxt:49 data//credits.stxt:87 data//credits.stxt:102
 msgid "Programming, Level Design"
-msgstr "Programmazione, creazione livelli"
+msgstr "Programazioa eta mailen diseinua"
 
 #: data//credits.stxt:55
 msgid "Graphics, Story"
-msgstr "Grafica, storia"
+msgstr "Grafikoak eta historia"
 
 #: data//credits.stxt:61
 msgid "Programming, Documentation"
-msgstr "Programmazione, documentazione"
+msgstr "Programazioa eta dokumentazioa"
 
 #: data//credits.stxt:67 data//credits.stxt:77 data//credits.stxt:82
 #: data//credits.stxt:112 data//credits.stxt:272 data//credits.stxt:284
 msgid "Programming"
-msgstr "Programmazione"
+msgstr "Programazioa"
 
 #: data//credits.stxt:72
 msgid "Programming, project lead ad interim"
-msgstr "Programmazione, capo progetto ad interim"
+msgstr "Programazioa eta proiektuaren behin behineko liderra"
 
 #: data//credits.stxt:92
 msgid "Coordination"
-msgstr "Coordinamento"
+msgstr "Koordinaketa"
 
 #: data//credits.stxt:97
 msgid "Programming, \"Flexlay\" Level editor"
-msgstr "Programmazione, editor di livello \"Flexlay\""
+msgstr "Programazioa, \"Flexlay\" mailen editorea"
 
 #: data//credits.stxt:117
 msgid "Windows build fixes"
-msgstr "Correzioni alla versione Windows"
+msgstr "Windows bertsiokoko konponketak"
 
 #: data//credits.stxt:122
 msgid "Level Design, Graphics"
-msgstr "Creazione livelli, grafica"
+msgstr "Grafiko eta mailen diseinua"
 
 #: data//credits.stxt:127
 msgid "Packaging, Nightly builds"
-msgstr "Paccheto, NIghtly build"
+msgstr "Argitalpena eta eguneko bertsioak"
 
 #: data//credits.stxt:132
 msgid "Translation Guru (and many details anyone else could have done)"
-msgstr "Guru della traduzione (e molte altre minuzie che poteva fare chiunque altro)"
+msgstr "Itzulpen Gurua (eta xehetasun asko beste norbaitek egin ditzake)"
 
 #: data//credits.stxt:137
 msgid "Level Design"
-msgstr "Creazione livelli"
+msgstr "Mailen diseinua"
 
 #: data//credits.stxt:152
 msgid "Additional contributors"
-msgstr "Altri contributori"
+msgstr "Laguntzaile gehigarriak"
 
 #: data//credits.stxt:156
 msgid "Bug fixes"
-msgstr "Correzione bug"
+msgstr "Zenbat konponketa"
 
 #: data//credits.stxt:161
 msgid "Explosion sprites"
-msgstr "Esplosione di sprite"
+msgstr "Sprites leherketa"
 
 #: data//credits.stxt:166
 msgid "Scripting functions, Level fixes"
-msgstr "Funzioni scripting, correzioni ai livelli"
+msgstr "Script funtzioak eta mailetako konponketak"
 
 #: data//credits.stxt:171
 msgid "Code quality fixes"
-msgstr "Correzioni di qualità al codice"
+msgstr "Iturburu kodearen garbiketa"
 
 #: data//credits.stxt:176 data//credits.stxt:181 data//credits.stxt:186
 #: data//credits.stxt:226
 msgid "Various contributions"
-msgstr "Contributi vari"
+msgstr "Zenbat laguntza"
 
 #: data//credits.stxt:191
 msgid "Build issue fix"
-msgstr "Riparazioni ai problemi di compilazione"
+msgstr "Konpilazio arazoen konponketak"
 
 #: data//credits.stxt:196
 msgid "Code contributions"
-msgstr "Contributi al codice"
+msgstr "Kode laguntzak"
 
 #: data//credits.stxt:201 data//credits.stxt:261
 msgid "Level improvements"
-msgstr "Miglioramenti ai livelli"
+msgstr "Mailetako hobekuntzak"
 
 #: data//credits.stxt:211
 msgid "Code contribution, AppData file"
-msgstr "Contributi al codice, file AppData"
+msgstr "Kode laguntza, AppData fitxategia"
 
 #: data//credits.stxt:216
 msgid "Bug fix"
-msgstr "Correzione bug"
+msgstr "Zenbat konponketa"
 
 #: data//credits.stxt:221
 msgid "Menu reorganization"
-msgstr "Riorganizzazione menu"
+msgstr "Menuaren berrantolaketa"
 
 #: data//credits.stxt:231
 msgid "Fixing tile bugs"
-msgstr "Correzione bug caselle"
+msgstr "Azulejoen arazo konponketak"
 
 #: data//credits.stxt:236
 msgid "Build error fix"
-msgstr "Correzione errori di compilazione"
+msgstr "Konpilatze konponketak"
 
 #: data//credits.stxt:241
 msgid "Scripting function fix"
-msgstr "Correzione funzione di scripting"
+msgstr "Script funtzioen konponketak"
 
 #: data//credits.stxt:246
 msgid "Support for \"glbinding\" as optional OpenGL binding"
-msgstr "Supporto per \"glbinding\" come binding OpenGL opzionale"
+msgstr "\"glbinding\" euskarria aukerako OpenGL lotura moduan"
 
 #: data//credits.stxt:251
 msgid "New menu code"
-msgstr "Nuovo codice menu"
+msgstr "Menuaren kode berria"
 
 #: data//credits.stxt:256
 msgid "Big Tux Walking Sprites improvements"
-msgstr "Miglioramenti agli sprite di camminata di Big Tux"
+msgstr "Big Tux Walking Sprites hobekuntzak"
 
 #: data//credits.stxt:267
 msgid "Milestone 1 contributions by..."
-msgstr "Contributi alla Milestone 1 di..."
+msgstr "1 faseko laguntzaileak dira..."
 
 #: data//credits.stxt:280 data//credits.stxt:288
 msgid "Contrib Programming"
-msgstr "Contributi a Programmazione"
+msgstr "Programazio gehigarria"
 
 #: data//credits.stxt:292
 msgid "Programming, Previous Maintainer"
-msgstr "Programmazione, manutentore precedente"
+msgstr "Programazioa eta aurreko proiektuaren nagusia"
 
 #: data//credits.stxt:297
 msgid "Additional Music"
-msgstr "Musica addizionale"
+msgstr "Musika gehigarria"
 
 #: data//credits.stxt:302
 msgid "\"Mortimers Chipdisko\" by"
-msgstr "\"Mortimers Chipdisko\" di"
+msgstr "\"Mortimers Chipdisko\" ..."
 
 #: data//credits.stxt:311
 msgid "\"Salsa Con Carne\" by"
-msgstr "\"Salsa Con Carne\" di"
+msgstr "\"Salsa Con Carne\" ..."
 
 #: data//credits.stxt:319 data//credits.stxt:371
 msgid "remixed by"
-msgstr "Riarrangiata da"
+msgstr "nahasketak ..."
 
 #: data//credits.stxt:328
 msgid "\"voc songs\" by"
-msgstr "\"voc songs\" di"
+msgstr "\"voc songs\" ..."
 
 #: data//credits.stxt:337
 msgid "\"clavelian_march\" by"
-msgstr "\"clavelian_march\" di"
+msgstr "\"clavelian_march\" ..."
 
 #: data//credits.stxt:346
 msgid "Excerpts from the Giana Sisters"
-msgstr "Estratti da The Giana Sisters"
+msgstr "Giana ahizpen zatiak"
 
 #: data//credits.stxt:350
 msgid "Soundtrack used with kind permission"
-msgstr "Colonna sonora usata su gentile concessione"
+msgstr "Baimendutako soinu banda"
 
 #: data//credits.stxt:354
 msgid "from"
-msgstr "da"
+msgstr "hemendik"
 
 #: data//credits.stxt:363
 msgid "\"Airship song\" (orchestral remix) by"
-msgstr "\"Airship song\" (orchestral remix) di"
+msgstr "\"Airship song\" (orkestra nahasketa) ..."
 
 #: data//credits.stxt:380
 msgid "\"Battle Theme\" by"
-msgstr "\"Battle Theme\" di"
+msgstr "\"Battle Theme\" ..."
 
 #: data//credits.stxt:389
 msgid "\"SuperTux christmas theme\""
-msgstr "\"SuperTux christmas theme\""
+msgstr "\"SuperTux Gabonetako musika\""
 
 #: data//credits.stxt:393
 msgid "original by"
-msgstr "originale di"
+msgstr "honek egindakoan oinarritua"
 
 #: data//credits.stxt:402
 msgid "arranged by"
-msgstr "arrangiata da"
+msgstr "musika konponketak..."
 
 #: data//credits.stxt:411
 msgid "\"halloween_1.ogg\" by"
-msgstr "\"halloween_1.ogg\" di"
+msgstr "\"halloween_1.ogg\" ..."
 
 #: data//credits.stxt:420
 msgid "\"Forest Prophecy reEducated\" (forest_theme.ogg) by"
-msgstr "\"Forest Prophecy reEducated\" (forest_theme.ogg) di"
+msgstr "\"Forest Prophecy reEducated\" (forest_theme.ogg) ..."
 
 #: data//credits.stxt:500
 msgid "Voice Acting"
-msgstr "Doppiaggio"
+msgstr "Ahotsak"
 
 #: data//credits.stxt:531
 msgid "Localization"
-msgstr "Traduzione"
+msgstr "Itzultzaileak"
 
 #: data//credits.stxt:536 data//credits.stxt:1040 data//credits.stxt:1104
 msgid "Serbian"
-msgstr "Serbo"
+msgstr "Serbian"
 
 #: data//credits.stxt:540
 msgid "Uzbek"
-msgstr "Uzbeko"
+msgstr "Uzbek"
 
 #: data//credits.stxt:544 data//credits.stxt:552 data//credits.stxt:580
 #: data//credits.stxt:616 data//credits.stxt:620 data//credits.stxt:724
 #: data//credits.stxt:784 data//credits.stxt:824 data//credits.stxt:852
 #: data//credits.stxt:924 data//credits.stxt:1080 data//credits.stxt:1156
 msgid "Italian"
-msgstr "Italiano"
+msgstr "Italian"
 
 #: data//credits.stxt:548 data//credits.stxt:792
 msgid "Danish"
-msgstr "Danese"
+msgstr "Danish"
 
 #: data//credits.stxt:556
 msgid "Vietnamese"
-msgstr "Vietnamita"
+msgstr "Vietnamese"
 
 #: data//credits.stxt:560 data//credits.stxt:584 data//credits.stxt:888
 #: data//credits.stxt:956 data//credits.stxt:1096 data//credits.stxt:1224
 msgid "Russian"
-msgstr "Russo"
+msgstr "Russian"
 
 #: data//credits.stxt:564
 msgid "French, German"
-msgstr "Francese, Tedesco"
+msgstr "French, German"
 
 #: data//credits.stxt:568 data//credits.stxt:608 data//credits.stxt:640
 #: data//credits.stxt:712 data//credits.stxt:716 data//credits.stxt:936
@@ -2595,19 +2585,19 @@ msgstr "Francese, Tedesco"
 #: data//credits.stxt:1052 data//credits.stxt:1060 data//credits.stxt:1072
 #: data//credits.stxt:1140 data//credits.stxt:1244
 msgid "French"
-msgstr "Francese"
+msgstr "French"
 
 #: data//credits.stxt:572 data//credits.stxt:632 data//credits.stxt:744
 #: data//credits.stxt:796 data//credits.stxt:920 data//credits.stxt:932
 #: data//credits.stxt:964 data//credits.stxt:1128 data//credits.stxt:1212
 #: data//credits.stxt:1220
 msgid "German"
-msgstr "Tedesco"
+msgstr "German"
 
 #: data//credits.stxt:576 data//credits.stxt:600 data//credits.stxt:628
 #: data//credits.stxt:748 data//credits.stxt:760 data//credits.stxt:844
 msgid "Spanish"
-msgstr "Spagnolo"
+msgstr "Spanish"
 
 #: data//credits.stxt:588
 msgid "Albanese"
@@ -2615,50 +2605,50 @@ msgstr "Albanese"
 
 #: data//credits.stxt:592 data//credits.stxt:636 data//credits.stxt:668
 msgid "Castilian Spanish"
-msgstr "Spagnolo castigliano"
+msgstr "Castilian Spanish"
 
 #: data//credits.stxt:596 data//credits.stxt:648 data//credits.stxt:652
 #: data//credits.stxt:740 data//credits.stxt:788 data//credits.stxt:872
 #: data//credits.stxt:984 data//credits.stxt:1048 data//credits.stxt:1092
 #: data//credits.stxt:1148 data//credits.stxt:1164 data//credits.stxt:1248
 msgid "Hungarian"
-msgstr "Ungherese"
+msgstr "Hungarian"
 
 #: data//credits.stxt:604 data//credits.stxt:720 data//credits.stxt:968
 #: data//credits.stxt:1068
 msgid "Slovak"
-msgstr "Slovacco"
+msgstr "Slovak"
 
 #: data//credits.stxt:612 data//credits.stxt:692 data//credits.stxt:840
 #: data//credits.stxt:904
 msgid "European Portuguese"
-msgstr "Portoghese europeo"
+msgstr "European Portuguese"
 
 #: data//credits.stxt:624 data//credits.stxt:672 data//credits.stxt:676
 #: data//credits.stxt:1204
 msgid "Catalan"
-msgstr "Catalano"
+msgstr "Catalan"
 
 #: data//credits.stxt:644 data//credits.stxt:776 data//credits.stxt:1008
 msgid "Slovenian"
-msgstr "Sloveno"
+msgstr "Slovenian"
 
 #: data//credits.stxt:656
 msgid "Malayalam"
-msgstr "Lingua malayalam"
+msgstr "Malayalam"
 
 #: data//credits.stxt:660 data//credits.stxt:912 data//credits.stxt:1020
 #: data//credits.stxt:1216
 msgid "Mandarin Chinese"
-msgstr "Cinese Mandarino"
+msgstr "Mandarin Chinese"
 
 #: data//credits.stxt:664
 msgid "Norwegian Bokmål"
-msgstr "Norvegese Bokmål"
+msgstr "Norwegian Bokmål"
 
 #: data//credits.stxt:680
 msgid "Mandarin"
-msgstr "Mandarino"
+msgstr "Mandarin"
 
 #: data//credits.stxt:684 data//credits.stxt:908 data//credits.stxt:1208
 msgid "Esperanto"
@@ -2666,187 +2656,187 @@ msgstr "Esperanto"
 
 #: data//credits.stxt:688 data//credits.stxt:700
 msgid "Romanian"
-msgstr "Rumeno"
+msgstr "Romanian"
 
 #: data//credits.stxt:696
 msgid "Croatian"
-msgstr "Croato"
+msgstr "Croatian"
 
 #: data//credits.stxt:704 data//credits.stxt:756 data//credits.stxt:1056
 #: data//credits.stxt:1132
 msgid "Nepali"
-msgstr "Nepalese"
+msgstr "Nepali"
 
 #: data//credits.stxt:708 data//credits.stxt:764 data//credits.stxt:800
 #: data//credits.stxt:928 data//credits.stxt:1144 data//credits.stxt:1184
 msgid "Dutch"
-msgstr "Nederlandese"
+msgstr "Dutch"
 
 #: data//credits.stxt:728 data//credits.stxt:732 data//credits.stxt:848
 #: data//credits.stxt:952 data//credits.stxt:1024 data//credits.stxt:1028
 #: data//credits.stxt:1032 data//credits.stxt:1076 data//credits.stxt:1228
 msgid "Turkish"
-msgstr "Turco"
+msgstr "Turkish"
 
 #: data//credits.stxt:736
 msgid "European/Brazilian Portuguese"
-msgstr "Portoghese europeo/brasiliano"
+msgstr "European/Brazilian Portuguese"
 
 #: data//credits.stxt:752 data//credits.stxt:808 data//credits.stxt:820
 #: data//credits.stxt:988 data//credits.stxt:1192
 msgid "Czech"
-msgstr "Ceco"
+msgstr "Czech"
 
 #: data//credits.stxt:768 data//credits.stxt:1236
 msgid "Hebrew"
-msgstr "Ebraico"
+msgstr "Hebrew"
 
 #: data//credits.stxt:772 data//credits.stxt:836 data//credits.stxt:992
 #: data//credits.stxt:1004 data//credits.stxt:1016 data//credits.stxt:1044
 #: data//credits.stxt:1064
 msgid "Brazilian Portuguese"
-msgstr "Portoghese brasiliano"
+msgstr "Brazilian Portuguese"
 
 #: data//credits.stxt:780 data//credits.stxt:1000 data//credits.stxt:1100
 #: data//credits.stxt:1168
 msgid "Swedish"
-msgstr "Svedese"
+msgstr "Swedish"
 
 #: data//credits.stxt:804 data//credits.stxt:892 data//credits.stxt:1012
 #: data//credits.stxt:1124 data//credits.stxt:1172 data//credits.stxt:1176
 #: data//credits.stxt:1232
 msgid "Finnish"
-msgstr "Finlandese"
+msgstr "Finnish"
 
 #: data//credits.stxt:812 data//credits.stxt:864 data//credits.stxt:868
 #: data//credits.stxt:880 data//credits.stxt:972 data//credits.stxt:1088
 #: data//credits.stxt:1152 data//credits.stxt:1160
 msgid "Polish"
-msgstr "Polacco"
+msgstr "Polish"
 
 #: data//credits.stxt:816
 msgid "Norwegian Bokmål, Norwegian Nynorsk"
-msgstr "Bokmål Norvegese, Nynorsk Norvegese"
+msgstr "Norwegian Bokmål, Norwegian Nynorsk"
 
 #: data//credits.stxt:828
 msgid "Tatar"
-msgstr "Lingua tatara"
+msgstr "Tatar"
 
 #: data//credits.stxt:832 data//credits.stxt:1196 data//credits.stxt:1200
 msgid "Bulgarian"
-msgstr "Bulgaro"
+msgstr "Bulgarian"
 
 #: data//credits.stxt:856 data//credits.stxt:980
 msgid "Korean"
-msgstr "Coreano"
+msgstr "Korean"
 
 #: data//credits.stxt:860
 msgid "Estonian"
-msgstr "Estone"
+msgstr "Estonian"
 
 #: data//credits.stxt:876
 msgid "Polish, Swedish"
-msgstr "Polacco, Svedese"
+msgstr "Polish, Swedish"
 
 #: data//credits.stxt:884 data//credits.stxt:1136
 msgid "Lithuanian"
-msgstr "Lituano"
+msgstr "Lithuanian"
 
 #: data//credits.stxt:896
 msgid "French/Esperanto"
-msgstr "Francese/Esperanto"
+msgstr "French/Esperanto"
 
 #: data//credits.stxt:900
 msgid "Spanish, Brazilian Portuguese"
-msgstr "Spangnolo, Portoghese Brasiliano"
+msgstr "Spanish, Brazilian Portuguese"
 
 #: data//credits.stxt:916 data//credits.stxt:1180
 msgid "Ukrainian"
-msgstr "Ucraino"
+msgstr "Ukrainian"
 
 #: data//credits.stxt:940 data//credits.stxt:1116
 msgid "Japanese"
-msgstr "Giapponese"
+msgstr "Japanese"
 
 #: data//credits.stxt:960
 msgid "Breton"
-msgstr "Bretone"
+msgstr "Breton"
 
 #: data//credits.stxt:996 data//credits.stxt:1108 data//credits.stxt:1112
 msgid "Greek"
-msgstr "Greco"
+msgstr "Greek"
 
 #: data//credits.stxt:1036
 msgid "Latin"
-msgstr "Latino"
+msgstr "Latin"
 
 #: data//credits.stxt:1084
 msgid "European Portuguese, Brazilian Portuguese"
-msgstr "Portoghese Europeo, Portoghese Brasiliano"
+msgstr "European Portuguese, Brazilian Portuguese"
 
 #: data//credits.stxt:1120
 msgid "Simplified Chinese"
-msgstr "Cinese semplificato"
+msgstr "Simplified Chinese"
 
 #: data//credits.stxt:1188
 msgid "Belarusian"
-msgstr "Bielorusso"
+msgstr "Belarusian"
 
 #: data//credits.stxt:1240
 msgid "Indonesian"
-msgstr "Indonesiano"
+msgstr "Indonesian"
 
 #: data//credits.stxt:1254
 msgid "Thanks to"
-msgstr "Grazie a"
+msgstr "Eskerrak"
 
 #: data//credits.stxt:1259
 msgid "Creator of Tux, the Linux penguin"
-msgstr "Creatore di Tux, il pinguino di Linux"
+msgstr "Tuxen sortzailea, Linuxen pinguinoa"
 
 #: data//credits.stxt:1263
 msgid "SDL, OpenAL and OpenGL"
-msgstr "SDL, OpenAL e OpenGL"
+msgstr "SDL, OpenAL eta OpenGL"
 
 #: data//credits.stxt:1264
 msgid ""
 "For making such a great gaming experience\n"
 "        possible on Linux"
-msgstr "Per aver reso possibile una tale esperienza\ndi gioco su Linux"
+msgstr "Linuxen joko esperientzia handia posible\n                   egiteagatik"
 
 #: data//credits.stxt:1276
 msgid "Visit our webpage at"
-msgstr "Visita la nostra pagina a"
+msgstr "Bisitatu gure web gunea hemen"
 
 #: data//credits.stxt:1285
 msgid "Or visit us directly at IRC:"
-msgstr "Oppure facci visita direttamente su IRC:"
+msgstr "Edo bat egin gure IRC kanalarekin:"
 
 #: data//credits.stxt:1289
 msgid "#supertux at webchat.freenode.net"
-msgstr "#supertux su webchat.freenode.net"
+msgstr "#supertux hemen webchat.freenode.net"
 
 #: data//credits.stxt:1294
 msgid "Or at our Forum:"
-msgstr "O sul nostro Forum:"
+msgstr "Edo gure foroan:"
 
 #: data//credits.stxt:1303
 msgid "Comments, ideas and suggestions"
-msgstr "Commenti, idee e suggerimenti"
+msgstr "Iruzkinak, ideiak eta iradokizunak"
 
 #: data//credits.stxt:1307
 msgid "go to our mailing list"
-msgstr "vai alla nostra mailing list"
+msgstr "gure posta zerrendarekin bat egin dezakezu"
 
 #. l10n: typo contact
 #: data//credits.stxt:1317
 msgid "Typographical errors can be"
-msgstr "Gli errori tipografici possono essere"
+msgstr "Akatsen berri eman dezakezu"
 
 #. l10n: typo contact
 #: data//credits.stxt:1322
 msgid "reported to"
-msgstr "riportato a"
+msgstr "hona idatziz"
 
 #. l10n: typo contact, see <https://github.com/SuperTux/supertux/issues/611>
 #: data//credits.stxt:1327
@@ -2855,79 +2845,79 @@ msgstr "supertux-devel@lists.lethargik.org"
 
 #: data//credits.stxt:1334
 msgid "Want to help…"
-msgstr "Vuoi aiutare..."
+msgstr "Lagundu nahi duzu..."
 
 #: data//credits.stxt:1339
 msgid "…with localization?"
-msgstr "...con la traduzione?"
+msgstr "Itzultzen?"
 
 #: data//credits.stxt:1349
 msgid "…with something else?"
-msgstr "...con qualcos'altro?"
+msgstr "...edo beste zerbaitetan?"
 
 #: data//credits.stxt:1360
 msgid "Thank you for"
-msgstr "Grazie per"
+msgstr "Mila esker"
 
 #: data//credits.stxt:1364
 msgid "playing"
-msgstr "aver giocato"
+msgstr "Jolasteagatik"
 
 #: data//credits.stxt:1376
 msgid "Penny awaits you in Milestone 3!"
-msgstr "Penny ti aspetta nella Milestone 3!"
+msgstr "Penny zain duzu Milestone 3n!"
 
 #: data//images/engine/editor/objects.stoi:4
 msgid "Hostile"
-msgstr "Ostile"
+msgstr "Oldarkorra"
 
 #: data//images/engine/editor/objects.stoi:135
 msgid "Projectiles"
-msgstr "Proiettili"
+msgstr "Jaurtigailuak"
 
 #: data//images/engine/editor/objects.stoi:158
 msgid "Bosses"
-msgstr "Boss"
+msgstr "Nagusiak"
 
 #: data//images/engine/editor/objects.stoi:169
 msgid "Interactive"
-msgstr "Interattivo"
+msgstr "Interaktiboa"
 
 #: data//images/engine/editor/objects.stoi:269
 msgid "Ambient"
-msgstr "Ambiente"
+msgstr "Ingurugiroa"
 
 #: data//images/engine/editor/objects.stoi:337
 msgid "Worldmap markers"
-msgstr "Marcatori mondo mappa"
+msgstr "Mapa markatzaileak"
 
 #: data//images/ice_world.strf:6
 msgid "Ice Cave & Crystal"
-msgstr "Grotta di ghiaccio e cristallo"
+msgstr "Izotzezko eta kristalezko koba"
 
 #: data//images/ice_world.strf:53
 msgid "Embellishments"
-msgstr "Decorazioni"
+msgstr "Apaingarriak"
 
 #: data//images/ice_world.strf:137
 msgid "Ice"
-msgstr "Ghiaccio"
+msgstr "Izotza"
 
 #: data//images/ice_world.strf:182 data//images/tiles.strf:1045
 msgid "Castle"
-msgstr "Castello"
+msgstr "Gaztelua"
 
 #: data//images/ice_world.strf:200
 msgid "Pathing"
-msgstr "Instradamento"
+msgstr "Bidea"
 
 #: data//images/ice_world.strf:289 data//images/tiles.strf:983
 msgid "Water"
-msgstr "Acqua"
+msgstr "Ura"
 
 #: data//images/tiles.strf:225
 msgid "Pipes"
-msgstr "Tubi"
+msgstr "Tutuak"
 
 #: data//images/tiles.strf:254 data//images/worldmap.strf:199
 msgid "Halloween"
@@ -2935,96 +2925,96 @@ msgstr "Halloween"
 
 #: data//images/tiles.strf:281
 msgid "Test"
-msgstr "Prova"
+msgstr "Probatu"
 
 #: data//images/tiles.strf:288
 msgid "Crystal Cave"
-msgstr "Grotta di Cristallo"
+msgstr "Kristalezko leizea"
 
 #: data//images/tiles.strf:379
 msgid "Snow Mountain"
-msgstr "Montagna Nevosa"
+msgstr "Mendi elurtua"
 
 #: data//images/tiles.strf:453 data//images/worldmap.strf:41
 msgid "Snow"
-msgstr "Neve"
+msgstr "Elurra"
 
 #: data//images/tiles.strf:571
 msgid "Snow (Paralax Background)"
-msgstr "Neve (sfondo in parallasse)"
+msgstr "Elurra (Paralax atzeko planoa)"
 
 #: data//images/tiles.strf:584 data//images/worldmap.strf:67
 msgid "Forest"
-msgstr "Foresta"
+msgstr "Basoa"
 
 #: data//images/tiles.strf:666
 msgid "Forest (Background)"
-msgstr "Foresta (sfondo)"
+msgstr "Basoa (atzeko planoa)"
 
 #: data//images/tiles.strf:760
 msgid "Forest (Underground)"
-msgstr "Foresta (Sottoterra)"
+msgstr "Basoa (Lurrazpikoa)"
 
 #: data//images/tiles.strf:804
 msgid "Block"
-msgstr "Blocco"
+msgstr "Blokea"
 
 #: data//images/tiles.strf:827
 msgid "Points"
-msgstr "Punti"
+msgstr "Puntuak"
 
 #: data//images/tiles.strf:831
 msgid "Misc"
-msgstr "Varie"
+msgstr "Era askotakoak"
 
 #: data//images/tiles.strf:862
 msgid "Pole"
-msgstr "Polo"
+msgstr "Poloa"
 
 #: data//images/tiles.strf:885
 msgid "Stone Brick Walls"
-msgstr "Muri di mattoni"
+msgstr "Harrizko adreiluzko hormak"
 
 #: data//images/tiles.strf:937
 msgid "Signs"
-msgstr "Segnali"
+msgstr "Kartelak"
 
 #: data//images/tiles.strf:959
 msgid "Jungle"
-msgstr "Giungla"
+msgstr "Oihana"
 
 #: data//images/tiles.strf:969
 msgid "Industrial"
-msgstr "Industriale"
+msgstr "Industriala"
 
 #: data//images/tiles.strf:1004
 msgid "Icebridge"
-msgstr "Ponte di ghiaccio"
+msgstr "Izotzezko zubia"
 
 #: data//images/tiles.strf:1012
 msgid "LavaFlow"
-msgstr "Flusso di lava"
+msgstr "Laba-jarioa"
 
 #: data//images/tiles.strf:1022
 msgid "Exits"
-msgstr "Uscite"
+msgstr "Irteerak"
 
 #: data//images/tiles.strf:1123
 msgid "Cave background"
-msgstr "Sfondo di grotta"
+msgstr "Kobako atzeko planoa"
 
 #: data//images/tiles.strf:1161
 msgid "Unisolid"
-msgstr "Semipermeabile"
+msgstr "Ez-solidoa"
 
 #: data//images/worldmap.strf:24
 msgid "Water paths"
-msgstr "Percorsi acquatici"
+msgstr "Ur-bideak"
 
 #: data//images/worldmap.strf:32
 msgid "Castle paths"
-msgstr "Percorsi del castello"
+msgstr "Gazteluko bideak"
 
 #: data//images/worldmap.strf:135
 msgid "Darker Forest"
-msgstr "Foresta più oscura"
+msgstr "Baso ilunena"

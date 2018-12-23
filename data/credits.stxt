@@ -559,6 +559,46 @@
     (blank)
     (text
       (type "reference")
+      (string "Arabic")
+    )
+    (person
+      (name "Fahad Al-Saidi")
+    )
+    (blank)
+    (text
+      (type "reference")
+      (string "Armenian")
+    )
+    (person
+      (name "Grant Davtjan")
+    )
+    (blank)
+    (text
+      (type "reference")
+      (string "Asturian (Spain)")
+    )
+    (person
+      (name "Tornes Ḷḷume")
+    )
+    (blank)
+    (text
+      (type "reference")
+      (string "Azerbaijani")
+    )
+    (person
+      (name "yakup")
+    )
+    (blank)
+    (text
+      (type "reference")
+      (string "Basque")
+    )
+    (person
+      (name "Bingen Galartza Iparragirre, Mielanjel Iraeta, Urtzi Odriozola")
+    )
+    (blank)
+    (text
+      (type "reference")
       (string "Belarusian")
     )
     (person
@@ -570,7 +610,7 @@
       (string "Breton")
     )
     (person
-      (name "Gwenn Meynier")
+      (name "Gwenn Meynier, Irriep Nala Novram")
     )
     (blank)
     (text
@@ -586,7 +626,10 @@
       (string "Catalan")
     )
     (person
-      (name "Martí Bosc, Catalanoic, Marc Celeiro, Antoni Villalonga")
+      (name "Martí Bosc, Catalanoic, Marc Celeiro, Yael Codesal, Francesc Famadas,")
+    )
+    (person
+      (name "Alícia Folgarona, Jordi Mas, Ariadna Pascual, Antoni Villalonga")
     )
     (blank)
     (text
@@ -594,7 +637,7 @@
       (string "Chinese (Simplified)")
     )
     (person
-      (name "Liu Sizhuang")
+      (name "Liu Sizhuang, Franklin Weng, 玉堂白鹤")
     )
     (blank)
     (text
@@ -602,7 +645,15 @@
       (string "Chinese (Mandarin)")
     )
     (person
-      (name "cges30901, Wei-Lun Chao, Zhao Wei Lun, James Ou, Franklin Weng")
+      (name "bluebat, cges30901, Wei-Lun Chao, Zhao Wei Lun, James Ou, Franklin Weng")
+    )
+    (blank)
+    (text
+      (type "reference")
+      (string "Chinese (Taiwan)")
+    )
+    (person
+      (name "James Ou, Hsiu-Ming Chang, Jeff Huang, Ｖ字龍(Vdragon), Franklin Weng")
     )
     (blank)
     (text
@@ -618,7 +669,7 @@
       (string "Czech")
     )
     (person
-      (name "fri, Ondřej Hošek, Hume, Narre, Jakub Vaněk")
+      (name "fri, Matouš Dřízhal, Ondřej Hošek, Hume, Narre, Jakub Vaněk")
     )
     (blank)
     (text
@@ -626,7 +677,7 @@
       (string "Danish")
     )
     (person
-      (name "Anders, Joe Hansen")
+      (name "Anders, Joe Hansen, jonaskoelker")
     )
     (blank)
     (text
@@ -634,10 +685,10 @@
       (string "Dutch")
     )
     (person
-      (name "Pieter De Decker, Toon van Gerwen, Dennis Holierhoek,")
+      (name "Anne, Pieter De Decker, Toon van Gerwen, Dennis Holierhoek,")
     )
     (person
-      (name "Mar, Heimen Stoffels, Frank van der Loo")
+      (name "Mar, Heimen Stoffels, Bert Van de Poel, Frank van der Loo")
     )
     (blank)
     (text
@@ -645,7 +696,7 @@
       (string "Esperanto")
     )
     (person
-      (name "Rubén Leal Coba, Benjamin Leduc, Frist Lsat, Robin van der Vliet")
+      (name "Rubén Leal Coba, Benjamin Leduc, KalipoWars, Frist Lsat, Verdulo :-), Любомир Василев, Rachel Singh, Robin van der Vliet")
     )
     (blank)
     (text
@@ -672,16 +723,16 @@
       (string "French")
     )
     (person
-      (name "Anonymouse, Sébastien Aperghis-Tramoni, Thomas Bigot, Laurent Brousse,")
+      (name "Amaury Doaré, Anonymouse, Sébastien Aperghis-Tramoni, Benjamin Bertrand, Thomas Bigot, Laurent Brousse,")
     )
     (person
-      (name "Bertrand Delaitre, Antoine Dumondel, Benjamin Leduc, Céline Marmin,")
+      (name "David D, Bertrand Delaitre, Antoine Dumondel, Groog, Inperpetuammemoriam, Jean-Philippe L'Étoile,")
     )
     (person
-      (name "Lucas Mascaro, MCMic, mol1, Léo Poughon, Nathanael Ready,")
+      (name "Simon Le Guével, Benjamin Leduc, Céline Marmin, Lucas Mascaro, MCMic, mol1, Nexus nexus,")
     )
     (person
-      (name "Frederic Rodrigo, Sylvain St-Amand, zecas \"zezinho\"")
+      (name "Irriep Nala Novram, Léo Poughon, Nathanael Ready, Frederic Rodrigo, Sylvain St-Amand, zecas \"zezinho\"")
     )
     (blank)
     (text
@@ -689,13 +740,13 @@
       (string "German")
     )
     (person
-      (name "Anonymouse, Ettore Atalan, Matthias Braun, Florian Forster,")
+      (name "Anonymouse, Ettore Atalan, Matthias Braun, Florian Forster, Inperpetuammemoriam,")
     )
     (person
-      (name "Marcel Haring, M&m, Tobias Markus, millimarg,")
+      (name "Marcel Haring, Ondřej Hošek, M&m, Tobias Markus, millimarg, Marten S.")
     )
     (person
-      (name "Christoph Sommer, Nils Welzk, Wuzzy")
+      (name "Christoph Sommer, Daniel W, Nils Welzk, Wuzzy")
     )
     (blank)
     (text
@@ -703,7 +754,7 @@
       (string "Greek")
     )
     (person
-      (name "Vangelis Nomikos, Vangelis Skarmoutsos, SomeRandomUser")
+      (name "Wasilis Mandratzis-Walz, Vangelis Nomikos, Marinus Savoritias, Vangelis Skarmoutsos, SomeRandomUser")
     )
     (blank)
     (text
@@ -711,7 +762,7 @@
       (string "Hebrew")
     )
     (person
-      (name "GenghisKhan, Yevgeny")
+      (name "GenghisKhan, Nemechek guricz, Evgeny Satanovsky, Yevgney Sliosarenko, Yevgeny")
     )
     (blank)
     (text
@@ -719,13 +770,13 @@
       (string "Hungarian")
     )
     (person
-      (name "Baráth Béla, Levente Krisztián Büte, Tibor Buzási, Galp Flark,")
+      (name "Baráth Béla, Levente Krisztián Büte, Tibor Buzási, Galp Flark, Krisztián Gyurász")
     )
     (person
       (name "gyeben, Kristóf Kófiás, Norbert Molnár, Balázs Podolcsák,")
     )
     (person
-      (name "D. J. S., symvizan, Haba Tamás, Kővágó Zoltán")
+      (name "D. J. S., symvizan, Haba Tamás, Balázs Úr, Kővágó Zoltán")
     )
     (blank)
     (text
@@ -733,7 +784,7 @@
       (string "Indonesian")
     )
     (person
-      (name "Christian E Yoga")
+      (name "Christian Elbrianno, Christian E Yoga")
     )
     (blank)
     (text
@@ -741,13 +792,16 @@
       (string "Italian")
     )
     (person
-      (name "Am1g0, Angela, Bananasoft, Marcello Bolognesi,")
+      (name "Am1g0, Angela, Bananasoft, Paride Barison, William Beltrán, Marcello Bolognesi,")
     )
     (person
-      (name "Gianfranco Del Borrello, Enrico, Sebastiano Guerrini, Iknos,")
+      (name "Simone Centonze, Gianfranco Del Borrello, Enrico, Benedetto Gregorio,")
     )
     (person
-      (name "Manuela Kessler, Riccardo Di Maio, Irene Di Rosa, Ioma Taani")
+      (name "Sebastiano Guerrini, Iknos, Manuela Kessler, Riccardo Di Maio, Irene Di Rosa,")
+    )
+    (person
+      (name "Airina Santonocito, Seb47TV, Ioma Taani")
     )
     (blank)
     (text
@@ -755,7 +809,7 @@
       (string "Japanese")
     )
     (person
-      (name "Sugahara Masayuki, Sumita \"tako44\" Sanshiro")
+      (name "あわしろいくや, 堀 風羽, Sugahara Masayuki, Sumita \"tako44\" Sanshiro")
     )
     (blank)
     (text
@@ -779,7 +833,31 @@
       (string "Lithuanian")
     )
     (person
-      (name "Mantas Kriaučiūnas, Andrius Štikonas")
+      (name "Deividas Tvarijonas, Mantas Kriaučiūnas, Andrius Štikonas")
+    )
+    (blank)
+    (text
+      (type "reference")
+      (string "Lojban")
+    )
+    (person
+      (name "Wuzzy")
+    )
+    (blank)
+    (text
+      (type "reference")
+      (string "Low German")
+    )
+    (person
+      (name "Benedikt Straub")
+    )
+    (blank)
+    (text
+      (type "reference")
+      (string "Malay (Malaysia)")
+    )
+    (person
+      (name "abuyop")
     )
     (blank)
     (text
@@ -795,7 +873,7 @@
       (string "Nepali")
     )
     (person
-      (name "Manish Dangol, Prabin Gautam, Bansaj Pradhan, starryprabin")
+      (name "Shalil Awaley, Manish Dangol, Prabin Gautam, Bansaj Pradhan, rajansilwal, sailendrafsf, starryprabin")
     )
     (blank)
     (text
@@ -822,7 +900,7 @@
       (name "Łukasz Hryniuk, Dominik Klementowski, Marcin Kocur, Simon Kornowski,")
     )
     (person
-      (name "Marcin Kralka, mkkot, Marcin S, Krzysiek Szeląg, Paweł Talar")
+      (name "Marcin Kralka, MarPiRK, mkkot, Marcin S, Krzysiek Szeląg, Paweł Talar")
     )
     (blank)
     (text
@@ -830,13 +908,13 @@
       (string "Portuguese (Brazilian)")
     )
     (person
-      (name "Daniela Ferraz, Victor Gonçalves, Jesusaves, Joel Gil Leon,")
+      (name "Gabriel Arruda, Marcelo Bitencourt, Melo Everton, Thiago Corbari Feldhaus (Ninja Apps),")
     )
     (person
-      (name "Jonatas L. Nogueira, Krishnamurti Lelis Lima Vieira Nunes, Filipe Oliveira,")
+      (name "Daniela Ferraz, Victor Gonçalves, Jesusaves, Joel Gil Leon, MDK3, Jonatas L. Nogueira,")
     )
     (person
-      (name "Rodrigo Piñero, Herval Ribeiro, Rui")
+      (name "Krishnamurti Lelis Lima Vieira Nunes, Filipe Oliveira, Marcelo Paez, Rodrigo Piñero, Herval Ribeiro, Rui")
     )
     (blank)
     (text
@@ -847,7 +925,7 @@
       (name "BlaCoiso, Ricardo Cruz, Daniela Ferraz,")
     )
     (person
-      (name "Jose Jorge, Sérgio Lopes, Rui")
+      (name "Jose Jorge, Sérgio Lopes, Rui, zecas")
     )
     (blank)
     (text
@@ -863,10 +941,13 @@
       (string "Russian")
     )
     (person
-      (name "Dmitry \"starwars32\" Anikonov, Constantin Baranov,")
+      (name "Dmitry \"starwars32\" Anikonov, Constantin Baranov, Kirill Kapralov, Artem Krosheninnikov,")
     )
     (person
-      (name "Artem Krosheninnikov, melikamp, Savsish, Roman M. Yagodin")
+      (name "se luxxy, Евгений малянов, melikamp, Evgeny Satanovsky, Savsish, Simple88, Andrei Stepanov,")
+    )
+    (person
+      (name "Svetlana Tkachenko, Deividas Tvarijonas, Roman M. Yagodin")
     )
     (blank)
     (text
@@ -874,7 +955,7 @@
       (string "Serbian")
     )
     (person
-      (name "Alert Aleksandar, Mladen Pejaković, Slobodan Simić")
+      (name "Alert Aleksandar, Mladen Pejaković, Slobodan Simić, Sinisa, X X")
     )
     (blank)
     (text
@@ -890,7 +971,7 @@
       (string "Slovenian")
     )
     (person
-      (name "Marko Burjek, Gorzy Gorup, Nwolfy")
+      (name "Marko Burjek, Gorzy Gorup, Andrej Mernik, Nwolfy")
     )
     (blank)
     (text
@@ -898,10 +979,13 @@
       (string "Spanish")
     )
     (person
-      (name "Francisco B.G., William Beltrán, G BR, Franchulo,")
+      (name "alexlikerock, Francisco B.G., William Beltrán, Jacob Burroughs, G BR, Franchulo, Germana")
     )
     (person
-      (name "Germana, juanda097, Joel Gil Leon")
+      (name "Germana, juanda097, Joel Gil Leon, Pedro Montaño, Diego J. Romero López, Swyter, Josep Tomàs,")
+    )
+    (person
+      (name "Alejandro Torres, Juan José Trujillo")
     )
     (blank)
     (text
@@ -917,7 +1001,7 @@
       (string "Swedish")
     )
     (person
-      (name "Kristoffer Grundström, Arvid Norlander, sebras, theschitz")
+      (name "Kristoffer Grundström, Simon Kornowski, Anders Jonsson, Arvid Norlander, sebras, theschitz")
     )
     (blank)
     (text
@@ -936,7 +1020,7 @@
       (name "Erdy, faradundamarti, Alkım Kaçmaz, meczup, Mahmut Özcan,")
     )
     (person
-      (name "Emre Özkartal, Yusuf Özsoy, root, yakup")
+      (name "Emre Özkartal, Yusuf Özsoy, root, Sarper S, Utku Tönel, yakup")
     )
     (blank)
     (text
@@ -944,7 +1028,7 @@
       (string "Ukrainian")
     )
     (person
-      (name "Max Lyashuk, Eugen Uvin")
+      (name "Eugene Loza, Max Lyashuk, Ievgen Tkach, Eugen Uvin")
     )
     (blank)
     (text
@@ -960,7 +1044,7 @@
       (string "Vietnamese")
     )
     (person
-      (name "Phan Anh")
+      (name "Phan Anh, Trong Dzang, nguyen vui")
     )
       (blank)
       (blank)
