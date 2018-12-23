@@ -25,6 +25,7 @@ TextObject::TextObject(const std::string& name) :
   ExposedObject<TextObject, scripting::Text>(this),
   m_font(Resources::normal_font),
   m_text(),
+  m_wrapped_text(),
   m_fading(0),
   m_fadetime(0),
   m_visible(false),
@@ -51,12 +52,44 @@ TextObject::set_font(const std::string& name_)
     log_warning << "Unknown font '" << name_ << "'." << std::endl;
     m_font = Resources::normal_font;
   }
+
+  wrap_text();
+}
+
+void
+TextObject::wrap_text()
+{
+  std::string rest;
+
+  // strip all newlines except double ones (markdown'ish)
+  char prev_c = ' ';
+  for(char& c : m_text) {
+    if (c == '\n') {
+      if (prev_c == '\n') {
+        rest += c;
+      }
+    } else {
+      rest += c;
+    }
+  }
+
+  m_wrapped_text.clear();
+
+  do {
+    std::string overflow;
+    m_wrapped_text += m_font->wrap_to_width(rest, 500, &overflow);
+    if (!overflow.empty()) {
+      m_wrapped_text += "\n";
+    }
+    rest = overflow;
+  } while (!rest.empty());
 }
 
 void
 TextObject::set_text(const std::string& text_)
 {
   m_text = text_;
+  wrap_text();
 }
 
 void
@@ -100,17 +133,17 @@ TextObject::draw(DrawingContext& context)
     return;
   }
 
-  float width  = 500;
-  float height = 70;
+  float width  = m_font->get_text_width(m_wrapped_text) + 20.0f;
+  float height = m_font->get_text_height(m_wrapped_text) + 20.0f;
   Vector spos = m_pos + get_anchor_pos(Rectf(0, 0, static_cast<float>(context.get_width()), static_cast<float>(context.get_height())),
                                        width, height, m_anchor);
 
   context.color().draw_filled_rect(Rectf(spos, Sizef(width, height)),
                                    Color(0.6f, 0.7f, 0.8f, 0.5f), LAYER_GUI-50);
   if (m_centered) {
-    context.color().draw_center_text(m_font, m_text, spos, LAYER_GUI-40, TextObject::default_color);
+    context.color().draw_center_text(m_font, m_wrapped_text, spos, LAYER_GUI-40, TextObject::default_color);
   } else {
-    context.color().draw_text(m_font, m_text, spos + Vector(10, 10), ALIGN_LEFT, LAYER_GUI-40, TextObject::default_color);
+    context.color().draw_text(m_font, m_wrapped_text, spos + Vector(10, 10), ALIGN_LEFT, LAYER_GUI-40, TextObject::default_color);
   }
 
   context.pop_transform();

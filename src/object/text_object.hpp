@@ -54,8 +54,12 @@ public:
   const Vector& get_pos() const { return m_pos; }
 
 private:
+  void wrap_text();
+
+private:
   FontPtr m_font;
   std::string m_text;
+  std::string m_wrapped_text;
   float m_fading;
   float m_fadetime;
   bool m_visible;
