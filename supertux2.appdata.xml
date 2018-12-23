@@ -32,14 +32,18 @@
     <category>ArcadeGame</category>
   </categories>
   <screenshots>
-    <screenshot type="default">https://www.supertux.org/images/0_4_0/0_4_0_1.png</screenshot>
-    <screenshot>https://www.supertux.org/images/0_4_0/0_4_0_5.png</screenshot>
-    <screenshot>https://www.supertux.org/images/0_4_0/0_4_0_6.png</screenshot>
-    <screenshot>https://www.supertux.org/images/0_4_0/0_4_0_9.png</screenshot>
-    <screenshot>https://www.supertux.org/images/0_4_0/0_4_0_10.png</screenshot>
+    <screenshot type="default">https://www.supertux.org/images/0_6_0/0_6_0_1.png</screenshot>
+    <screenshot>https://www.supertux.org/images/0_6_0/0_6_0_2.png</screenshot>
+    <screenshot>https://www.supertux.org/images/0_6_0/0_6_0_3.png</screenshot>
+    <screenshot>https://www.supertux.org/images/0_6_0/0_6_0_4.png</screenshot>
+    <screenshot>https://www.supertux.org/images/0_6_0/0_6_0_5.png</screenshot>
   </screenshots>
   <launchable type="desktop-id">supertux2.desktop</launchable>
   <provides>
     <binary>supertux2</binary>
   </provides>
+  <releases>
+    <release version="0.6.0" date="2018-12-23" />
+    <release version="0.5.1" date="2016-11-05" />
+  </releases>
 </component>
