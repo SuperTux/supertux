@@ -19,6 +19,7 @@
 #define HEADER_SUPERTUX_SUPERTUX_RESOURCES_HPP
 
 #include <memory>
+#include <string>
 
 #include "video/font_ptr.hpp"
 #include "video/surface_ptr.hpp"
@@ -56,6 +57,10 @@ public:
 public:
   static void load();
   static void unload();
+
+private:
+  static std::string current_font;
+  static std::string get_font_for_locale(const std::string& locale);
 
 public:
   Resources();

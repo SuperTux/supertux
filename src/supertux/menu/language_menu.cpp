@@ -25,6 +25,7 @@ extern "C" {
 #include "gui/menu_manager.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
+#include "supertux/resources.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "util/gettext.hpp"
 
@@ -93,6 +94,10 @@ LanguageMenu::menu_action(MenuItem& item)
       }
     }
   }
+
+  // Reload font files
+  Resources::load();
+
   if (g_dictionary_manager->get_language().get_language() != "en" &&
       !AddonManager::current()->is_addon_installed("language-pack"))
   {

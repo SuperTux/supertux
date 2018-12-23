@@ -21,6 +21,7 @@
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/debug.hpp"
+#include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "video/bitmap_font.hpp"
 #include "video/font.hpp"
@@ -42,6 +43,8 @@ SurfacePtr Resources::arrow_left;
 SurfacePtr Resources::arrow_right;
 SurfacePtr Resources::no_tile;
 
+std::string Resources::current_font;
+
 void
 Resources::load()
 {
@@ -60,10 +63,16 @@ Resources::load()
   else
   {
     console_font.reset(new TTFFont("fonts/SuperTux-Medium.ttf", 12, 1.25f, 0, 1));
-    fixed_font.reset(new TTFFont("fonts/SuperTux-Medium.ttf", 18, 1.25f, 2, 1));
-    normal_font = fixed_font;
-    small_font.reset(new TTFFont("fonts/SuperTux-Medium.ttf", 10, 1.25f, 2, 1));
-    big_font.reset(new TTFFont("fonts/SuperTux-Medium.ttf", 22, 1.25f, 2, 1));
+
+    auto font = get_font_for_locale(g_config->locale);
+    if(font != current_font)
+    {
+      current_font = font;
+      fixed_font.reset(new TTFFont(font, 18, 1.25f, 2, 1));
+      normal_font = fixed_font;
+      small_font.reset(new TTFFont(font, 10, 1.25f, 2, 1));
+      big_font.reset(new TTFFont(font, 22, 1.25f, 2, 1));
+    }
   }
 
   /* Load menu images */
@@ -73,6 +82,18 @@ Resources::load()
   arrow_left = Surface::from_file("images/engine/menu/arrow-left.png");
   arrow_right = Surface::from_file("images/engine/menu/arrow-right.png");
   no_tile = Surface::from_file("images/tiles/auxiliary/notile.png");
+}
+
+std::string
+Resources::get_font_for_locale(const std::string& locale)
+{
+  if(locale == "ne")
+    return "fonts/NotoSansDevanagari-Medium.ttf";
+  if(locale == "cmn" || locale == "ja" || locale == "zh_CN" || locale == "zh_TW")
+    return "fonts/NotoSansCJKjp-Medium.otf";
+  if(locale == "he")
+    return "fonts/NotoSansHebrew-Medium.ttf";
+  return "fonts/SuperTux-Medium.ttf";
 }
 
 void
