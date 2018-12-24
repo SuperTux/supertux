@@ -73,6 +73,8 @@ GLShader::~GLShader()
 void
 GLShader::compile()
 {
+  assert_gl();
+
   glCompileShader(m_shader);
 
   GLint compile_status;
@@ -83,11 +85,15 @@ GLShader::compile()
     out << "Shader compile failed: " << get_shader_info_log() << std::endl;
     throw std::runtime_error(out.str());
   }
+
+  assert_gl();
 }
 
 void
 GLShader::source(std::vector<std::string> const& sources)
 {
+  assert_gl();
+
   std::vector<GLint> length_lst(sources.size());
   std::vector<const char*> source_lst(sources.size());
   for (size_t i = 0; i < sources.size(); ++i)
@@ -98,13 +104,19 @@ GLShader::source(std::vector<std::string> const& sources)
 
   glShaderSource(m_shader, static_cast<GLsizei>(sources.size()), source_lst.data(),
                  length_lst.data());
+
+  assert_gl();
 }
 
 std::string
 GLShader::get_shader_info_log() const
 {
+  assert_gl();
+
   GLint length = 0;
   glGetShaderiv(m_shader, GL_INFO_LOG_LENGTH, &length);
+
+  assert_gl();
 
   if (length == 0)
   {

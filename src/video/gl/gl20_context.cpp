@@ -48,6 +48,7 @@ void
 GL20Context::ortho(float width, float height, bool vflip)
 {
   assert_gl();
+
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
 
@@ -66,21 +67,28 @@ GL20Context::ortho(float width, float height, bool vflip)
 
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
+
   assert_gl();
 }
 
 void
 GL20Context::blend_func(GLenum src, GLenum dst)
 {
+  assert_gl();
+
   glBlendFunc(src, dst);
+
+  assert_gl();
 }
 
 void
 GL20Context::set_positions(const float* data, size_t size)
 {
   assert_gl();
+
   glEnableClientState(GL_VERTEX_ARRAY);
   glVertexPointer(2, GL_FLOAT, 0, data);
+
   assert_gl();
 }
 
@@ -88,8 +96,10 @@ void
 GL20Context::set_texcoords(const float* data, size_t size)
 {
   assert_gl();
+
   glEnableClientState(GL_TEXTURE_COORD_ARRAY);
   glTexCoordPointer(2, GL_FLOAT, 0, data);
+
   assert_gl();
 }
 
@@ -97,7 +107,9 @@ void
 GL20Context::set_texcoord(float u, float v)
 {
   assert_gl();
+
   glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+
   assert_gl();
 }
 
@@ -105,8 +117,10 @@ void
 GL20Context::set_colors(const float* data, size_t size)
 {
   assert_gl();
+
   glEnableClientState(GL_COLOR_ARRAY);
   glColorPointer(4, GL_FLOAT, 0, data);
+
   assert_gl();
 }
 
@@ -114,8 +128,10 @@ void
 GL20Context::set_color(const Color& color)
 {
   assert_gl();
+
   glDisableClientState(GL_COLOR_ARRAY);
   glColor4f(color.red, color.green, color.blue, color.alpha);
+
   assert_gl();
 }
 
@@ -123,8 +139,10 @@ void
 GL20Context::bind_texture(const Texture& texture, const Texture* displacement_texture)
 {
   assert_gl();
+
   glEnable(GL_TEXTURE_2D);
   glBindTexture(GL_TEXTURE_2D, static_cast<const GLTexture&>(texture).get_handle());
+
   assert_gl();
 
   Vector animate = static_cast<const GLTexture&>(texture).get_sampler().get_animate();
@@ -146,13 +164,17 @@ GL20Context::bind_texture(const Texture& texture, const Texture* displacement_te
     glTranslatef(animate.x, animate.y, 0.0f);
     glMatrixMode(GL_MODELVIEW);
   }
+
+  assert_gl();
 }
 
 void
 GL20Context::bind_no_texture()
 {
   assert_gl();
+
   glDisable(GL_TEXTURE_2D);
+
   assert_gl();
 }
 
@@ -160,7 +182,9 @@ void
 GL20Context::draw_arrays(GLenum type, GLint first, GLsizei count)
 {
   assert_gl();
+
   glDrawArrays(type, first, count);
+
   assert_gl();
 }
 

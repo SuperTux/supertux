@@ -95,9 +95,11 @@ void
 GLPixelRequest::get(void* buffer, size_t length) const
 {
   assert_gl();
+
   glBindBuffer(GL_PIXEL_PACK_BUFFER, m_buffer);
   glGetBufferSubData(GL_PIXEL_PACK_BUFFER, m_offset, length, buffer);
   glBindBuffer(GL_PIXEL_PACK_BUFFER, 0);
+
   assert_gl();
 }
 

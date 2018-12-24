@@ -114,6 +114,8 @@ GL33CoreContext::bind()
 void
 GL33CoreContext::ortho(float width, float height, bool vflip)
 {
+  assert_gl();
+
   const float sx = 2.0f / static_cast<float>(width);
   const float sy = -2.0f / static_cast<float>(height) * (vflip ? 1.0f : -1.0f);
 
@@ -128,12 +130,18 @@ GL33CoreContext::ortho(float width, float height, bool vflip)
 
   const GLint mvp_loc = m_program->get_uniform_location("modelviewprojection");
   glUniformMatrix3fv(mvp_loc, 1, false, mvp_matrix);
+
+  assert_gl();
 }
 
 void
 GL33CoreContext::blend_func(GLenum src, GLenum dst)
 {
+  assert_gl();
+
   glBlendFunc(src, dst);
+
+  assert_gl();
 }
 
 void
@@ -169,6 +177,8 @@ GL33CoreContext::set_color(const Color& color)
 void
 GL33CoreContext::bind_texture(const Texture& texture, const Texture* displacement_texture)
 {
+  assert_gl();
+
   GLTextureRenderer* back_renderer = static_cast<GLTextureRenderer*>(m_video_system.get_back_renderer());
 
   if (displacement_texture && back_renderer->is_rendering())
@@ -206,22 +216,32 @@ GL33CoreContext::bind_texture(const Texture& texture, const Texture* displacemen
     glActiveTexture(GL_TEXTURE1);
     glBindTexture(GL_TEXTURE_2D, m_grey_texture->get_handle());
   }
+
+  assert_gl();
 }
 
 void
 GL33CoreContext::bind_no_texture()
 {
+  assert_gl();
+
   glActiveTexture(GL_TEXTURE0);
   glBindTexture(GL_TEXTURE_2D, m_white_texture->get_handle());
 
   glActiveTexture(GL_TEXTURE1);
   glBindTexture(GL_TEXTURE_2D, m_grey_texture->get_handle());
+
+  assert_gl();
 }
 
 void
 GL33CoreContext::draw_arrays(GLenum type, GLint first, GLsizei count)
 {
+  assert_gl();
+
   glDrawArrays(type, first, count);
+
+  assert_gl();
 }
 
 /* EOF */

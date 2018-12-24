@@ -459,8 +459,10 @@ void
 GLPainter::clear(const Color& color)
 {
   assert_gl();
+
   glClearColor(color.red, color.green, color.blue, color.alpha);
   glClear(GL_COLOR_BUFFER_BIT);
+
   assert_gl();
 }
 
@@ -520,7 +522,9 @@ void
 GLPainter::clear_clip_rect()
 {
   assert_gl();
+
   glDisable(GL_SCISSOR_TEST);
+
   assert_gl();
 }
 

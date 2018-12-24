@@ -62,12 +62,18 @@ GLProgram::~GLProgram()
 void
 GLProgram::bind()
 {
+  assert_gl();
+
   glUseProgram(m_program);
+
+  assert_gl();
 }
 
 void
 GLProgram::validate()
 {
+  assert_gl();
+
   glValidateProgram(m_program);
   if (!get_validate_status())
   {
@@ -75,51 +81,77 @@ GLProgram::validate()
     out << "validate failure:\n" << get_info_log() << std::endl;
     throw std::runtime_error(out.str());
   }
+
+  assert_gl();
 }
 
 GLint
 GLProgram::get_attrib_location(const char* name) const
 {
+  assert_gl();
+
   GLint loc = glGetAttribLocation(m_program, name);
   if (loc == -1)
   {
     log_debug << "GLProgram::get_attrib_location(\"" << name << "\") failed" << std::endl;
   }
+
+  assert_gl();
+
   return loc;
 }
 
 GLint
 GLProgram::get_uniform_location(const char* name) const
 {
+  assert_gl();
+
   GLint loc = glGetUniformLocation(m_program, name);
   if (loc == -1)
   {
     log_debug << "GLProgram::get_uniform_location(\"" << name << "\") failed" << std::endl;
   }
+
+  assert_gl();
+
   return loc;
 }
 
 bool
 GLProgram::get_link_status() const
 {
+  assert_gl();
+
   GLint link_status;
   glGetProgramiv(m_program, GL_LINK_STATUS, &link_status);
+
+  assert_gl();
+
   return link_status != 0;
 }
 
 bool
 GLProgram::get_validate_status() const
 {
+  assert_gl();
+
   GLint validate_status;
   glGetProgramiv(m_program, GL_VALIDATE_STATUS, &validate_status);
+
+  assert_gl();
+
   return validate_status != 0;
 }
 
 std::string
 GLProgram::get_info_log() const
 {
+  assert_gl();
+
   GLint length;
   glGetProgramiv(m_program, GL_INFO_LOG_LENGTH, &length);
+
+  assert_gl();
 
   if (length == 0)
   {
@@ -130,6 +162,7 @@ GLProgram::get_info_log() const
     GLsizei out_length;
     std::vector<char> str(length);
     glGetProgramInfoLog(m_program, static_cast<GLsizei>(str.size()), &out_length, str.data());
+    assert_gl();
     return std::string(str.begin(), str.end());
   }
 }

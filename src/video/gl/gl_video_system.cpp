@@ -92,6 +92,8 @@ GLVideoSystem::~GLVideoSystem()
 std::string
 GLVideoSystem::get_name() const
 {
+  assert_gl();
+
   std::ostringstream out;
   out << m_context->get_name() << " - ";
 
@@ -101,6 +103,8 @@ GLVideoSystem::get_name() const
   } else {
     out << "(unknown)";
   }
+
+  assert_gl();
 
   return out.str();
 }
@@ -311,6 +315,8 @@ GLVideoSystem::get_vsync() const
 SDLSurfacePtr
 GLVideoSystem::make_screenshot()
 {
+  assert_gl();
+
   GLint viewport[4];
   glGetIntegerv(GL_VIEWPORT, viewport);
 
@@ -334,6 +340,8 @@ GLVideoSystem::make_screenshot()
     memcpy(dst, src, 3 * viewport_width);
   }
   SDL_UnlockSurface(surface.get());
+
+  assert_gl();
 
   return surface;
 }
