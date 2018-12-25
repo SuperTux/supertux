@@ -21,14 +21,14 @@
 
 #include <squirrel.h>
 
-/**
- * This class keeps a list of squirrel threads that are scheduled for a certain
- * time. (the typical result of a wait() command in a squirrel script)
- */
+class SquirrelVM;
+
+/** This class keeps a list of squirrel threads that are scheduled for a certain
+    time. (the typical result of a wait() command in a squirrel script) */
 class SquirrelScheduler final
 {
 public:
-  SquirrelScheduler(HSQUIRRELVM vm);
+  SquirrelScheduler(SquirrelVM& vm);
 
   /** time must be absolute time, not relative updates, i.e. g_game_time */
   void update(float time);
@@ -49,7 +49,7 @@ private:
   };
 
 private:
-  HSQUIRRELVM m_vm;
+  SquirrelVM& m_vm;
 
   typedef std::vector<ScheduleEntry> ScheduleHeap;
   ScheduleHeap schedule;

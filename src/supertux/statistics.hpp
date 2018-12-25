@@ -19,13 +19,12 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_STATISTICS_HPP
 #define HEADER_SUPERTUX_SUPERTUX_STATISTICS_HPP
 
-#include <squirrel.h>
-
 #include "video/color.hpp"
 #include "video/surface_ptr.hpp"
 
 class DrawingContext;
 class Level;
+class SquirrelVM;
 
 /** This class is a layer between level and worldmap to keep
     track of stuff like scores, and minor, but funny things, like
@@ -49,10 +48,10 @@ public:
   Statistics(); /**< Creates new statistics, call reset() before counting */
 
   /** serialize statistics object as squirrel table "statistics" */
-  void serialize_to_squirrel(HSQUIRRELVM vm) const;
+  void serialize_to_squirrel(SquirrelVM& vm) const;
 
   /** unserialize statistics object from squirrel table "statistics" */
-  void unserialize_from_squirrel(HSQUIRRELVM vm);
+  void unserialize_from_squirrel(SquirrelVM& vm);
 
   void draw_worldmap_info(DrawingContext& context, float target_time); /**< draw worldmap stat HUD */
   void draw_endseq_panel(DrawingContext& context, Statistics* best_stats, SurfacePtr backdrop); /**< draw panel shown during level's end sequence */

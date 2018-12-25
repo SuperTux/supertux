@@ -128,7 +128,7 @@ Console::~Console()
 {
   if (m_vm != nullptr && SquirrelVirtualMachine::current() != nullptr)
   {
-    sq_release(SquirrelVirtualMachine::current()->get_vm(), &m_vm_object);
+    sq_release(SquirrelVirtualMachine::current()->get_vm().get_vm(), &m_vm_object);
   }
   m_buffer.set_console(nullptr);
 }
@@ -154,7 +154,7 @@ void
 Console::ready_vm()
 {
   if (m_vm == nullptr) {
-    m_vm = SquirrelVirtualMachine::current()->get_vm();
+    m_vm = SquirrelVirtualMachine::current()->get_vm().get_vm();
     HSQUIRRELVM new_vm = sq_newthread(m_vm, 16);
     if (new_vm == nullptr)
       throw SquirrelError(m_vm, "Couldn't create new VM thread for console");

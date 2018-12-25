@@ -27,6 +27,7 @@
 
 class GameObject;
 class ScriptInterface;
+class SquirrelVM;
 
 /** The SquirrelEnvironment contains the environment in which a script
     is executed, meaning a root table containing objects and
@@ -34,11 +35,11 @@ class ScriptInterface;
 class SquirrelEnvironment
 {
 public:
-  SquirrelEnvironment(HSQUIRRELVM vm, const std::string& name);
+  SquirrelEnvironment(SquirrelVM& vm, const std::string& name);
   virtual ~SquirrelEnvironment();
 
 public:
-  HSQUIRRELVM get_vm() const { return m_vm; }
+  SquirrelVM& get_vm() const { return m_vm; }
 
   /** Expose this engine under 'name' */
   void expose_self();
@@ -54,9 +55,9 @@ public:
   template<typename T>
   void expose(const std::string& name, std::unique_ptr<T> script_object)
   {
-    sq_pushobject(m_vm, m_table);
-    expose_object(m_vm, -1, std::move(script_object), name.c_str());
-    sq_pop(m_vm, 1);
+    sq_pushobject(m_vm.get_vm(), m_table);
+    expose_object(m_vm.get_vm(), -1, std::move(script_object), name.c_str());
+    sq_pop(m_vm.get_vm(), 1);
   }
   void unexpose(const std::string& name);
 
@@ -77,7 +78,7 @@ private:
   void garbage_collect();
 
 private:
-  HSQUIRRELVM m_vm;
+  SquirrelVM& m_vm;
   HSQOBJECT m_table;
   std::string m_name;
   std::vector<HSQOBJECT> m_scripts;

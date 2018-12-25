@@ -21,6 +21,7 @@
 
 #include <squirrel.h>
 
+#include "squirrel/squirrel_vm.hpp"
 #include "util/currenton.hpp"
 
 class SquirrelThreadQueue;
@@ -32,7 +33,7 @@ public:
   SquirrelVirtualMachine(bool enable_debugger);
   ~SquirrelVirtualMachine();
 
-  HSQUIRRELVM get_vm() const { return m_vm; }
+  SquirrelVM& get_vm() { return m_vm; }
 
   void wait_for_seconds(HSQUIRRELVM vm, float seconds);
   void update(float dt_sec);
@@ -47,7 +48,7 @@ private:
     void update_debugger();
 
 private:
-  HSQUIRRELVM m_vm;
+  SquirrelVM m_vm;
 
   std::unique_ptr<SquirrelThreadQueue> m_screenswitch_queue;
   std::unique_ptr<SquirrelScheduler> m_scheduler;

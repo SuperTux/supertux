@@ -1,5 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//                2018 Ingo Ruhnke <grumbel@gmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,33 +15,28 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SQUIRREL_SQUIRREL_THREAD_QUEUE_HPP
-#define HEADER_SUPERTUX_SQUIRREL_SQUIRREL_THREAD_QUEUE_HPP
+#ifndef HEADER_SUPERTUX_SQUIRREL_SQUIRREL_VM_HPP
+#define HEADER_SUPERTUX_SQUIRREL_SQUIRREL_VM_HPP
 
 #include <squirrel.h>
-#include <vector>
 
-class SquirrelVM;
-
-/** Keeps a list of SquirrelThreads that wait for a wakeup event */
-class SquirrelThreadQueue final
+/** Basic wrapper around HSQUIRRELVM with some utility functions, not
+    to be confused with SquirrelVirtualMachine. The classes might be
+    merged in the future. */
+class SquirrelVM
 {
 public:
-  SquirrelThreadQueue(SquirrelVM& vm);
+  SquirrelVM();
+  ~SquirrelVM();
 
-  /** adds a thread (actually a weakref to the thread) */
-  void add(HSQUIRRELVM vm);
-
-  /** wakes up threads in the list */
-  void wakeup();
+  HSQUIRRELVM get_vm() const { return m_vm; }
 
 private:
-  SquirrelVM& m_vm;
-  std::vector<HSQOBJECT> m_threads;
+  HSQUIRRELVM m_vm;
 
 private:
-  SquirrelThreadQueue(const SquirrelThreadQueue&) = delete;
-  SquirrelThreadQueue& operator=(const SquirrelThreadQueue&) = delete;
+  SquirrelVM(const SquirrelVM&) = delete;
+  SquirrelVM& operator=(const SquirrelVM&) = delete;
 };
 
 #endif

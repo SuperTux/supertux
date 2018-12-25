@@ -146,7 +146,7 @@ Savegame::load()
 
     try
     {
-      HSQUIRRELVM vm = SquirrelVirtualMachine::current()->get_vm();
+      SquirrelVM& vm = SquirrelVirtualMachine::current()->get_vm();
 
       auto doc = ReaderDocument::from_file(m_filename);
       auto root = doc.get_root();
@@ -183,10 +183,10 @@ Savegame::load()
           }
           else
           {
-            sq_pushroottable(vm);
-            get_table_entry(vm, "state");
-            load_squirrel_table(vm, -1, *state);
-            sq_pop(vm, 2);
+            sq_pushroottable(vm.get_vm());
+            get_table_entry(vm.get_vm(), "state");
+            load_squirrel_table(vm.get_vm(), -1, *state);
+            sq_pop(vm.get_vm(), 2);
           }
         }
       }
@@ -201,15 +201,15 @@ Savegame::load()
 void
 Savegame::clear_state_table()
 {
-  HSQUIRRELVM vm = SquirrelVirtualMachine::current()->get_vm();
+  SquirrelVM& vm = SquirrelVirtualMachine::current()->get_vm();
 
   // delete existing state table, if it exists
-  sq_pushroottable(vm);
+  sq_pushroottable(vm.get_vm());
   {
     // create a new empty state table
-    create_empty_table(vm, "state");
+    create_empty_table(vm.get_vm(), "state");
   }
-  sq_pop(vm, 1);
+  sq_pop(vm.get_vm(), 1);
 }
 
 void
@@ -244,7 +244,7 @@ Savegame::save()
     }
   }
 
-  HSQUIRRELVM vm = SquirrelVirtualMachine::current()->get_vm();
+  SquirrelVM& vm = SquirrelVirtualMachine::current()->get_vm();
 
   Writer writer(m_filename);
 
@@ -267,17 +267,17 @@ Savegame::save()
 
   writer.start_list("state");
 
-  sq_pushroottable(vm);
+  sq_pushroottable(vm.get_vm());
   try
   {
-    get_table_entry(vm, "state"); // Push "state"
-    save_squirrel_table(vm, -1, writer);
-    sq_pop(vm, 1); // Pop "state"
+    get_table_entry(vm.get_vm(), "state"); // Push "state"
+    save_squirrel_table(vm.get_vm(), -1, writer);
+    sq_pop(vm.get_vm(), 1); // Pop "state"
   }
   catch(const std::exception&)
   {
   }
-  sq_pop(vm, 1); // Pop root table
+  sq_pop(vm.get_vm(), 1); // Pop root table
   writer.end_list("state");
 
   writer.end_list("supertux-savegame");
@@ -288,22 +288,22 @@ Savegame::get_worldmaps()
 {
   std::vector<std::string> worlds;
 
-  HSQUIRRELVM vm = SquirrelVirtualMachine::current()->get_vm();
-  SQInteger oldtop = sq_gettop(vm);
+  SquirrelVM& vm = SquirrelVirtualMachine::current()->get_vm();
+  SQInteger oldtop = sq_gettop(vm.get_vm());
 
   try
   {
-    sq_pushroottable(vm);
-    get_table_entry(vm, "state");
-    get_or_create_table_entry(vm, "worlds");
-    worlds = get_table_keys(vm);
+    sq_pushroottable(vm.get_vm());
+    get_table_entry(vm.get_vm(), "state");
+    get_or_create_table_entry(vm.get_vm(), "worlds");
+    worlds = get_table_keys(vm.get_vm());
   }
   catch(const std::exception& err)
   {
     log_warning << err.what() << std::endl;
   }
 
-  sq_settop(vm, oldtop);
+  sq_settop(vm.get_vm(), oldtop);
 
   return worlds;
 }
@@ -313,25 +313,25 @@ Savegame::get_worldmap_state(const std::string& name)
 {
   WorldmapState result;
 
-  HSQUIRRELVM vm = SquirrelVirtualMachine::current()->get_vm();
-  SQInteger oldtop = sq_gettop(vm);
+  SquirrelVM& vm = SquirrelVirtualMachine::current()->get_vm();
+  SQInteger oldtop = sq_gettop(vm.get_vm());
 
   try
   {
-    sq_pushroottable(vm);
-    get_table_entry(vm, "state");
-    get_or_create_table_entry(vm, "worlds");
-    get_or_create_table_entry(vm, name);
-    get_or_create_table_entry(vm, "levels");
+    sq_pushroottable(vm.get_vm());
+    get_table_entry(vm.get_vm(), "state");
+    get_or_create_table_entry(vm.get_vm(), "worlds");
+    get_or_create_table_entry(vm.get_vm(), name);
+    get_or_create_table_entry(vm.get_vm(), "levels");
 
-    result.level_states = get_level_states(vm);
+    result.level_states = get_level_states(vm.get_vm());
   }
   catch(const std::exception& err)
   {
     log_warning << err.what() << std::endl;
   }
 
-  sq_settop(vm, oldtop);
+  sq_settop(vm.get_vm(), oldtop);
 
   return result;
 }
@@ -341,22 +341,22 @@ Savegame::get_levelsets()
 {
   std::vector<std::string> results;
 
-  HSQUIRRELVM vm = SquirrelVirtualMachine::current()->get_vm();
-  SQInteger oldtop = sq_gettop(vm);
+  SquirrelVM& vm = SquirrelVirtualMachine::current()->get_vm();
+  SQInteger oldtop = sq_gettop(vm.get_vm());
 
   try
   {
-    sq_pushroottable(vm);
-    get_table_entry(vm, "state");
-    get_or_create_table_entry(vm, "levelsets");
-    results = get_table_keys(vm);
+    sq_pushroottable(vm.get_vm());
+    get_table_entry(vm.get_vm(), "state");
+    get_or_create_table_entry(vm.get_vm(), "levelsets");
+    results = get_table_keys(vm.get_vm());
   }
   catch(const std::exception& err)
   {
     log_warning << err.what() << std::endl;
   }
 
-  sq_settop(vm, oldtop);
+  sq_settop(vm.get_vm(), oldtop);
 
   return results;
 }
@@ -366,25 +366,25 @@ Savegame::get_levelset_state(const std::string& basedir)
 {
   LevelsetState result;
 
-  HSQUIRRELVM vm = SquirrelVirtualMachine::current()->get_vm();
-  SQInteger oldtop = sq_gettop(vm);
+  SquirrelVM& vm = SquirrelVirtualMachine::current()->get_vm();
+  SQInteger oldtop = sq_gettop(vm.get_vm());
 
   try
   {
-    sq_pushroottable(vm);
-    get_table_entry(vm, "state");
-    get_or_create_table_entry(vm, "levelsets");
-    get_or_create_table_entry(vm, basedir);
-    get_or_create_table_entry(vm, "levels");
+    sq_pushroottable(vm.get_vm());
+    get_table_entry(vm.get_vm(), "state");
+    get_or_create_table_entry(vm.get_vm(), "levelsets");
+    get_or_create_table_entry(vm.get_vm(), basedir);
+    get_or_create_table_entry(vm.get_vm(), "levels");
 
-    result.level_states = get_level_states(vm);
+    result.level_states = get_level_states(vm.get_vm());
   }
   catch(const std::exception& err)
   {
     log_warning << err.what() << std::endl;
   }
 
-  sq_settop(vm, oldtop);
+  sq_settop(vm.get_vm(), oldtop);
 
   return result;
 }
@@ -396,28 +396,28 @@ Savegame::set_levelset_state(const std::string& basedir,
 {
   LevelsetState state = get_levelset_state(basedir);
 
-  HSQUIRRELVM vm = SquirrelVirtualMachine::current()->get_vm();
-  SQInteger oldtop = sq_gettop(vm);
+  SquirrelVM& vm = SquirrelVirtualMachine::current()->get_vm();
+  SQInteger oldtop = sq_gettop(vm.get_vm());
 
   try
   {
-    sq_pushroottable(vm);
-    get_table_entry(vm, "state");
-    get_or_create_table_entry(vm, "levelsets");
-    get_or_create_table_entry(vm, basedir);
-    get_or_create_table_entry(vm, "levels");
-    get_or_create_table_entry(vm, level_filename);
+    sq_pushroottable(vm.get_vm());
+    get_table_entry(vm.get_vm(), "state");
+    get_or_create_table_entry(vm.get_vm(), "levelsets");
+    get_or_create_table_entry(vm.get_vm(), basedir);
+    get_or_create_table_entry(vm.get_vm(), "levels");
+    get_or_create_table_entry(vm.get_vm(), level_filename);
 
     bool old_solved = false;
-    get_bool(vm, "solved", old_solved);
-    store_bool(vm, "solved", solved || old_solved);
+    get_bool(vm.get_vm(), "solved", old_solved);
+    store_bool(vm.get_vm(), "solved", solved || old_solved);
   }
   catch(const std::exception& err)
   {
     log_warning << err.what() << std::endl;
   }
 
-  sq_settop(vm, oldtop);
+  sq_settop(vm.get_vm(), oldtop);
 }
 
 /* EOF */

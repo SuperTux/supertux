@@ -83,35 +83,35 @@ Statistics::calculate_max_caption_length()
 }
 
 void
-Statistics::serialize_to_squirrel(HSQUIRRELVM vm) const
+Statistics::serialize_to_squirrel(SquirrelVM& vm) const
 {
   if (m_status != FINAL) return;
 
-  begin_table(vm, "statistics");
-  store_int(vm, "coins-collected", m_coins);
-  store_int(vm, "badguys-killed", m_badguys);
-  store_int(vm, "secrets-found", m_secrets);
-  store_float(vm, "time-needed", m_time);
-  store_int(vm, "coins-collected-total", m_total_coins);
-  store_int(vm, "badguys-killed-total", m_total_badguys);
-  store_int(vm, "secrets-found-total", m_total_secrets);
-  end_table(vm, "statistics");
+  begin_table(vm.get_vm(), "statistics");
+  store_int(vm.get_vm(), "coins-collected", m_coins);
+  store_int(vm.get_vm(), "badguys-killed", m_badguys);
+  store_int(vm.get_vm(), "secrets-found", m_secrets);
+  store_float(vm.get_vm(), "time-needed", m_time);
+  store_int(vm.get_vm(), "coins-collected-total", m_total_coins);
+  store_int(vm.get_vm(), "badguys-killed-total", m_total_badguys);
+  store_int(vm.get_vm(), "secrets-found-total", m_total_secrets);
+  end_table(vm.get_vm(), "statistics");
 }
 
 void
-Statistics::unserialize_from_squirrel(HSQUIRRELVM vm)
+Statistics::unserialize_from_squirrel(SquirrelVM& vm)
 {
   try
   {
-    get_table_entry(vm, "statistics");
-    get_int(vm, "coins-collected", m_coins);
-    get_int(vm, "badguys-killed", m_badguys);
-    get_int(vm, "secrets-found", m_secrets);
-    get_float(vm, "time-needed", m_time);
-    get_int(vm, "coins-collected-total", m_total_coins);
-    get_int(vm, "badguys-killed-total", m_total_badguys);
-    get_int(vm, "secrets-found-total", m_total_secrets);
-    sq_pop(vm, 1);
+    get_table_entry(vm.get_vm(), "statistics");
+    get_int(vm.get_vm(), "coins-collected", m_coins);
+    get_int(vm.get_vm(), "badguys-killed", m_badguys);
+    get_int(vm.get_vm(), "secrets-found", m_secrets);
+    get_float(vm.get_vm(), "time-needed", m_time);
+    get_int(vm.get_vm(), "coins-collected-total", m_total_coins);
+    get_int(vm.get_vm(), "badguys-killed-total", m_total_badguys);
+    get_int(vm.get_vm(), "secrets-found-total", m_total_secrets);
+    sq_pop(vm.get_vm(), 1);
 
     m_status = FINAL;
   }
