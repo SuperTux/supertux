@@ -34,33 +34,33 @@
 
 namespace {
 
-std::vector<LevelState> get_level_states(HSQUIRRELVM vm)
+std::vector<LevelState> get_level_states(SquirrelVM& vm)
 {
   std::vector<LevelState> results;
 
-  sq_pushnull(vm);
-  while (SQ_SUCCEEDED(sq_next(vm, -2)))
+  sq_pushnull(vm.get_vm());
+  while (SQ_SUCCEEDED(sq_next(vm.get_vm(), -2)))
   {
     //here -1 is the value and -2 is the key
     const char* result;
-    if (SQ_FAILED(sq_getstring(vm, -2, &result)))
+    if (SQ_FAILED(sq_getstring(vm.get_vm(), -2, &result)))
     {
       std::ostringstream msg;
       msg << "Couldn't get string value";
-      throw SquirrelError(vm, msg.str());
+      throw SquirrelError(vm.get_vm(), msg.str());
     }
     else
     {
       LevelState level_state;
       level_state.filename = result;
-      get_bool(vm, "solved", level_state.solved);
-      get_bool(vm, "perfect", level_state.perfect);
+      vm.get_bool("solved", level_state.solved);
+      vm.get_bool("perfect", level_state.perfect);
 
       results.push_back(level_state);
     }
 
     // pops key and val before the next iteration
-    sq_pop(vm, 2);
+    sq_pop(vm.get_vm(), 2);
   }
 
   return results;
@@ -184,7 +184,7 @@ Savegame::load()
           else
           {
             sq_pushroottable(vm.get_vm());
-            get_table_entry(vm.get_vm(), "state");
+            vm.get_table_entry("state");
             load_squirrel_table(vm.get_vm(), -1, *state);
             sq_pop(vm.get_vm(), 2);
           }
@@ -207,7 +207,7 @@ Savegame::clear_state_table()
   sq_pushroottable(vm.get_vm());
   {
     // create a new empty state table
-    create_empty_table(vm.get_vm(), "state");
+    vm.create_empty_table("state");
   }
   sq_pop(vm.get_vm(), 1);
 }
@@ -270,7 +270,7 @@ Savegame::save()
   sq_pushroottable(vm.get_vm());
   try
   {
-    get_table_entry(vm.get_vm(), "state"); // Push "state"
+    vm.get_table_entry("state"); // Push "state"
     save_squirrel_table(vm.get_vm(), -1, writer);
     sq_pop(vm.get_vm(), 1); // Pop "state"
   }
@@ -294,9 +294,9 @@ Savegame::get_worldmaps()
   try
   {
     sq_pushroottable(vm.get_vm());
-    get_table_entry(vm.get_vm(), "state");
-    get_or_create_table_entry(vm.get_vm(), "worlds");
-    worlds = get_table_keys(vm.get_vm());
+    vm.get_table_entry("state");
+    vm.get_or_create_table_entry("worlds");
+    worlds = vm.get_table_keys();
   }
   catch(const std::exception& err)
   {
@@ -319,12 +319,12 @@ Savegame::get_worldmap_state(const std::string& name)
   try
   {
     sq_pushroottable(vm.get_vm());
-    get_table_entry(vm.get_vm(), "state");
-    get_or_create_table_entry(vm.get_vm(), "worlds");
-    get_or_create_table_entry(vm.get_vm(), name);
-    get_or_create_table_entry(vm.get_vm(), "levels");
+    vm.get_table_entry("state");
+    vm.get_or_create_table_entry("worlds");
+    vm.get_or_create_table_entry(name);
+    vm.get_or_create_table_entry("levels");
 
-    result.level_states = get_level_states(vm.get_vm());
+    result.level_states = get_level_states(vm);
   }
   catch(const std::exception& err)
   {
@@ -347,9 +347,9 @@ Savegame::get_levelsets()
   try
   {
     sq_pushroottable(vm.get_vm());
-    get_table_entry(vm.get_vm(), "state");
-    get_or_create_table_entry(vm.get_vm(), "levelsets");
-    results = get_table_keys(vm.get_vm());
+    vm.get_table_entry("state");
+    vm.get_or_create_table_entry("levelsets");
+    results = vm.get_table_keys();
   }
   catch(const std::exception& err)
   {
@@ -372,12 +372,12 @@ Savegame::get_levelset_state(const std::string& basedir)
   try
   {
     sq_pushroottable(vm.get_vm());
-    get_table_entry(vm.get_vm(), "state");
-    get_or_create_table_entry(vm.get_vm(), "levelsets");
-    get_or_create_table_entry(vm.get_vm(), basedir);
-    get_or_create_table_entry(vm.get_vm(), "levels");
+    vm.get_table_entry("state");
+    vm.get_or_create_table_entry("levelsets");
+    vm.get_or_create_table_entry(basedir);
+    vm.get_or_create_table_entry("levels");
 
-    result.level_states = get_level_states(vm.get_vm());
+    result.level_states = get_level_states(vm);
   }
   catch(const std::exception& err)
   {
@@ -402,15 +402,15 @@ Savegame::set_levelset_state(const std::string& basedir,
   try
   {
     sq_pushroottable(vm.get_vm());
-    get_table_entry(vm.get_vm(), "state");
-    get_or_create_table_entry(vm.get_vm(), "levelsets");
-    get_or_create_table_entry(vm.get_vm(), basedir);
-    get_or_create_table_entry(vm.get_vm(), "levels");
-    get_or_create_table_entry(vm.get_vm(), level_filename);
+    vm.get_table_entry("state");
+    vm.get_or_create_table_entry("levelsets");
+    vm.get_or_create_table_entry(basedir);
+    vm.get_or_create_table_entry("levels");
+    vm.get_or_create_table_entry(level_filename);
 
     bool old_solved = false;
-    get_bool(vm.get_vm(), "solved", old_solved);
-    store_bool(vm.get_vm(), "solved", solved || old_solved);
+    vm.get_bool("solved", old_solved);
+    vm.store_bool("solved", solved || old_solved);
   }
   catch(const std::exception& err)
   {

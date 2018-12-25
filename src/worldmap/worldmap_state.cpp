@@ -46,20 +46,20 @@ WorldMapState::load_state()
   try {
     // get state table
     sq_pushroottable(vm.get_vm());
-    get_table_entry(vm.get_vm(), "state");
-    get_table_entry(vm.get_vm(), "worlds");
-    get_table_entry(vm.get_vm(), m_worldmap.m_map_filename);
+    vm.get_table_entry("state");
+    vm.get_table_entry("worlds");
+    vm.get_table_entry(m_worldmap.m_map_filename);
 
     // load tux
-    get_table_entry(vm.get_vm(), "tux");
+    vm.get_table_entry("tux");
 
     Vector p;
-    if (!get_float(vm.get_vm(), "x", p.x) || !get_float(vm.get_vm(), "y", p.y))
+    if (!vm.get_float("x", p.x) || !vm.get_float("y", p.y))
     {
       log_warning << "Player position not set, respawning." << std::endl;
       m_worldmap.move_to_spawnpoint("main");
     }
-    std::string back_str = read_string(vm.get_vm(), "back");
+    std::string back_str = vm.read_string("back");
     m_worldmap.m_tux->m_back_direction = string_to_direction(back_str);
     m_worldmap.m_tux->set_tile_pos(p);
 
@@ -72,15 +72,15 @@ WorldMapState::load_state()
     sq_pop(vm.get_vm(), 1);
 
     // load levels
-    get_table_entry(vm.get_vm(), "levels");
+    vm.get_table_entry("levels");
     for (auto& level : m_worldmap.get_objects_by_type<LevelTile>()) {
       sq_pushstring(vm.get_vm(), level.get_level_filename().c_str(), -1);
       if (SQ_SUCCEEDED(sq_get(vm.get_vm(), -2))) {
-        if (!get_bool(vm.get_vm(), "solved", level.m_solved))
+        if (!vm.get_bool("solved", level.m_solved))
         {
           level.m_solved = false;
         }
-        if (!get_bool(vm.get_vm(), "perfect", level.m_perfect))
+        if (!vm.get_bool("perfect", level.m_perfect))
         {
           level.m_perfect = false;
         }
@@ -94,7 +94,7 @@ WorldMapState::load_state()
     sq_pop(vm.get_vm(), 1);
 
     try {
-      get_table_entry(vm.get_vm(), "tilemaps");
+      vm.get_table_entry("tilemaps");
       sq_pushnull(vm.get_vm()); // Null-iterator
       while (SQ_SUCCEEDED(sq_next(vm.get_vm(), -2)))
       {
@@ -140,7 +140,7 @@ WorldMapState::load_state()
     if (m_worldmap.get_object_count<SpriteChange>() > 0)
     {
       // load sprite change action:
-      get_table_entry(vm.get_vm(), "sprite-changes");
+      vm.get_table_entry("sprite-changes");
       for (auto& sc : m_worldmap.get_objects_by_type<SpriteChange>())
       {
         auto key = std::to_string(int(sc.get_pos().x)) + "_" +
@@ -148,7 +148,7 @@ WorldMapState::load_state()
         sq_pushstring(vm.get_vm(), key.c_str(), -1);
         if (SQ_SUCCEEDED(sq_get(vm.get_vm(), -2))) {
           bool show_stay_action = false;
-          if (!get_bool(vm.get_vm(), "show-stay-action", show_stay_action))
+          if (!vm.get_bool("show-stay-action", show_stay_action))
           {
             sc.clear_stay_action(/* propagate = */ false);
           }
@@ -190,37 +190,38 @@ WorldMapState::save_state() const
   try {
     // get state table
     sq_pushroottable(vm.get_vm());
-    get_table_entry(vm.get_vm(), "state");
-    get_or_create_table_entry(vm.get_vm(), "worlds");
+    vm.get_table_entry("state");
+    vm.get_or_create_table_entry("worlds");
 
-    delete_table_entry(vm.get_vm(), m_worldmap.m_map_filename.c_str());
+    vm.delete_table_entry(m_worldmap.m_map_filename.c_str());
 
     // construct new table for this worldmap
-    begin_table(vm.get_vm(), m_worldmap.m_map_filename.c_str());
+    vm.begin_table(m_worldmap.m_map_filename.c_str());
 
     // store tux
-    begin_table(vm.get_vm(), "tux");
+    vm.begin_table("tux");
 
-    store_float(vm.get_vm(), "x", m_worldmap.m_tux->get_tile_pos().x);
-    store_float(vm.get_vm(), "y", m_worldmap.m_tux->get_tile_pos().y);
-    store_string(vm.get_vm(), "back", direction_to_string(m_worldmap.m_tux->m_back_direction));
+    vm.store_float("x", m_worldmap.m_tux->get_tile_pos().x);
+    vm.store_float("y", m_worldmap.m_tux->get_tile_pos().y);
+    vm.store_string("back", direction_to_string(m_worldmap.m_tux->m_back_direction));
 
-    end_table(vm.get_vm(), "tux");
+    vm.end_table("tux");
 
     // sprite change objects:
     if (m_worldmap.get_object_count<SpriteChange>() > 0)
     {
-      begin_table(vm.get_vm(), "sprite-changes");
+      vm.begin_table("sprite-changes");
 
       for (const auto& sc : m_worldmap.get_objects_by_type<SpriteChange>())
       {
         auto key = std::to_string(int(sc.get_pos().x)) + "_" +
                    std::to_string(int(sc.get_pos().y));
-        begin_table(vm.get_vm(), key.c_str());
-        store_bool(vm.get_vm(), "show-stay-action", sc.show_stay_action());
-        end_table(vm.get_vm(), key.c_str());
+        vm.begin_table(key.c_str());
+        vm.store_bool("show-stay-action", sc.show_stay_action());
+        vm.end_table(key.c_str());
       }
-      end_table(vm.get_vm(), "sprite-changes");
+
+      vm.end_table("sprite-changes");
     }
 
     // tilemap visibility
@@ -232,7 +233,7 @@ WorldMapState::save_state() const
       {
         sq_pushstring(vm.get_vm(), tilemap.get_name().c_str(), -1);
         sq_newtable(vm.get_vm());
-        store_float(vm.get_vm(), "alpha", tilemap.get_alpha());
+        vm.store_float("alpha", tilemap.get_alpha());
         if (SQ_FAILED(sq_createslot(vm.get_vm(), -3)))
         {
           throw std::runtime_error("failed to create '" + m_worldmap.m_name + "' table entry");
@@ -245,19 +246,19 @@ WorldMapState::save_state() const
     }
 
     // levels...
-    begin_table(vm.get_vm(), "levels");
+    vm.begin_table("levels");
 
     for (const auto& level : m_worldmap.get_objects_by_type<LevelTile>()) {
-      begin_table(vm.get_vm(), level.get_level_filename().c_str());
-      store_bool(vm.get_vm(), "solved", level.m_solved);
-      store_bool(vm.get_vm(), "perfect", level.m_perfect);
+      vm.begin_table(level.get_level_filename().c_str());
+      vm.store_bool("solved", level.m_solved);
+      vm.store_bool("perfect", level.m_perfect);
       level.m_statistics.serialize_to_squirrel(vm);
-      end_table(vm.get_vm(), level.get_level_filename().c_str());
+      vm.end_table(level.get_level_filename().c_str());
     }
-    end_table(vm.get_vm(), "levels");
+    vm.end_table("levels");
 
     // push world into worlds table
-    end_table(vm.get_vm(), m_worldmap.m_map_filename.c_str());
+    vm.end_table(m_worldmap.m_map_filename.c_str());
   } catch(std::exception& ) {
     sq_settop(vm.get_vm(), oldtop);
   }

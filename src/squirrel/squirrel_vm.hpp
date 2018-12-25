@@ -18,6 +18,9 @@
 #ifndef HEADER_SUPERTUX_SQUIRREL_SQUIRREL_VM_HPP
 #define HEADER_SUPERTUX_SQUIRREL_SQUIRREL_VM_HPP
 
+#include <string>
+#include <vector>
+
 #include <squirrel.h>
 
 /** Basic wrapper around HSQUIRRELVM with some utility functions, not
@@ -30,6 +33,39 @@ public:
   ~SquirrelVM();
 
   HSQUIRRELVM get_vm() const { return m_vm; }
+
+  void begin_table(const char* name);
+  void end_table(const char* name);
+
+  /** Creates an empty table with given name
+      @param vm VM to create table on
+      @param name Name of the table to create */
+  void create_empty_table(const char* name);
+
+  bool has_property(const char* name);
+
+  void store_bool(const char* name, bool val);
+  void store_int(const char* name, int val);
+  void store_float(const char* name, float val);
+  void store_string(const char* name, const std::string& val);
+  void store_object(const char* name, const HSQOBJECT& val);
+
+  bool get_bool(const char* name, bool& val);
+  bool get_int(const char* name, int& val);
+  bool get_float(const char* name, float& val);
+  bool get_string(const char* name, std::string& val);
+
+  bool read_bool(const char* name);
+  int read_int(const char* name);
+  float read_float(const char* name);
+  std::string read_string(const char* name);
+
+  void get_table_entry(const std::string& name);
+  void get_or_create_table_entry(const std::string& name);
+  void delete_table_entry(const char* name);
+  std::vector<std::string> get_table_keys();
+
+  HSQOBJECT create_thread();
 
 private:
   HSQUIRRELVM m_vm;

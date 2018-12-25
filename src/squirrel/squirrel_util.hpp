@@ -34,7 +34,6 @@ void print_squirrel_stack(HSQUIRRELVM vm);
 
 SQInteger squirrel_read_char(SQUserPointer file);
 
-HSQOBJECT create_thread(HSQUIRRELVM vm);
 HSQUIRRELVM object_to_vm(HSQOBJECT object);
 
 void compile_script(HSQUIRRELVM vm, std::istream& in,
@@ -75,40 +74,6 @@ static inline void unexpose_object(HSQUIRRELVM vm, SQInteger table_idx,
     throw SquirrelError(vm, msg.str());
   }
 }
-
-// begin serialization functions
-void begin_table(HSQUIRRELVM vm, const char* name);
-void end_table(HSQUIRRELVM vm, const char* name);
-/**
- * Creates an empty table with given name
- * @param vm VM to create table on
- * @param name Name of the table to create
- */
-void create_empty_table(HSQUIRRELVM vm, const char* name);
-
-void store_float(HSQUIRRELVM vm, const char* name, float val);
-void store_int(HSQUIRRELVM vm, const char* name, int val);
-void store_string(HSQUIRRELVM vm, const char* name, const std::string& val);
-void store_bool(HSQUIRRELVM vm, const char* name, bool val);
-void store_object(HSQUIRRELVM vm, const char* name, const HSQOBJECT& val);
-
-bool has_property(HSQUIRRELVM vm, const char* name);
-
-bool get_float(HSQUIRRELVM vm, const char* name, float& val);
-bool get_int(HSQUIRRELVM vm, const char* name, int& val);
-bool get_string(HSQUIRRELVM vm, const char* name, std::string& val);
-bool get_bool(HSQUIRRELVM vm, const char* name, bool& val);
-
-float read_float(HSQUIRRELVM vm, const char* name);
-int read_int(HSQUIRRELVM vm, const char* name);
-std::string read_string(HSQUIRRELVM vm, const char* name);
-bool read_bool(HSQUIRRELVM vm, const char* name);
-// end serialization functions
-
-void get_table_entry(HSQUIRRELVM vm, const std::string& name);
-void get_or_create_table_entry(HSQUIRRELVM vm, const std::string& name);
-void delete_table_entry(HSQUIRRELVM vm, const char* name);
-std::vector<std::string> get_table_keys(HSQUIRRELVM vm);
 
 #endif
 

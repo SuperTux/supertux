@@ -67,7 +67,7 @@ void
 SquirrelEnvironment::expose_self()
 {
   sq_pushroottable(m_vm.get_vm());
-  store_object(m_vm.get_vm(), m_name.c_str(), m_table);
+  m_vm.store_object(m_name.c_str(), m_table);
   sq_pop(m_vm.get_vm(), 1);
 }
 
@@ -75,7 +75,7 @@ void
 SquirrelEnvironment::unexpose_self()
 {
   sq_pushroottable(m_vm.get_vm());
-  delete_table_entry(m_vm.get_vm(), m_name.c_str());
+  m_vm.delete_table_entry(m_name.c_str());
   sq_pop(m_vm.get_vm(), 1);
 }
 
@@ -153,7 +153,7 @@ SquirrelEnvironment::run_script(std::istream& in, const std::string& sourcename)
 
   try
   {
-    HSQOBJECT object = create_thread(m_vm.get_vm());
+    HSQOBJECT object = m_vm.create_thread();
     m_scripts.push_back(object);
 
     HSQUIRRELVM vm = object_to_vm(object);
