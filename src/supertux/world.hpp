@@ -29,26 +29,21 @@ public:
   static std::unique_ptr<World> create(const std::string& title, const std::string& desc);
 
 private:
-  World();
+  World(const std::string& directory);
 
 public:
-  std::string get_basedir() const;
-  std::string get_title() const;
+  std::string get_basedir() const { return m_basedir; }
+  std::string get_title() const { return m_title; }
 
   bool hide_from_contribs() const { return m_hide_from_contribs; }
 
   bool is_levelset() const { return m_is_levelset; }
   bool is_worldmap() const { return !m_is_levelset; }
 
-  std::string get_worldmap_filename() const { return m_worldmap_filename; }
-  std::string get_savegame_filename() const { return m_savegame_filename; }
+  std::string get_worldmap_filename() const;
+  std::string get_savegame_filename() const;
 
   void save(bool retry = false);
-  void set_default_values();
-
-private:
-  void load_(const std::string& directory);
-  void create_(const std::string& directory, const std::string& title, const std::string& desc);
 
 public:
   std::string m_title;
@@ -57,8 +52,6 @@ public:
 
 private:
   std::string m_basedir;
-  std::string m_worldmap_filename;
-  std::string m_savegame_filename;
   bool m_hide_from_contribs;
 
 private:

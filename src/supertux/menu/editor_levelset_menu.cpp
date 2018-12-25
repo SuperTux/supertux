@@ -51,12 +51,12 @@ EditorLevelsetMenu::~EditorLevelsetMenu()
 void
 EditorLevelsetMenu::initialize() {
 
-  levelset_type = world->m_is_levelset ? 1 : 0;
+  levelset_type = world->is_levelset() ? 1 : 0;
 
   add_label(_("Level subset properties"));
   add_hl();
-  add_textfield(_("Name"), &(world->m_title));
-  add_textfield(_("Description"), &(world->m_description));
+  add_textfield(_("Name"), &world->m_title);
+  add_textfield(_("Description"), &world->m_description);
   add_string_select(1, _("Type"), &levelset_type, {_("Worldmap"), _("Levelset")});
   add_hl();
   add_back(_("OK"));
