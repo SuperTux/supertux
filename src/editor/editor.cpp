@@ -545,8 +545,7 @@ Editor::setup()
   }
   m_toolbox_widget->setup();
   m_layers_widget->setup();
-  m_savegame.reset(new Savegame("levels/misc"));
-  m_savegame->load();
+  m_savegame = Savegame::from_file("levels/misc");
 
   // Reactivate the editor after level test
   if (m_leveltested) {

@@ -92,15 +92,14 @@ ContribMenu::ContribMenu() :
       std::unique_ptr<World> world = World::from_directory(*it);
       if (!world->hide_from_contribs())
       {
-        Savegame savegame(world->get_savegame_filename());
-        savegame.load();
+        auto savegame = Savegame::from_file(world->get_savegame_filename());
 
         if (world->is_levelset())
         {
           int level_count = 0;
           int solved_count = 0;
 
-          const auto& state = savegame.get_levelset_state(world->get_basedir());
+          const auto& state = savegame->get_levelset_state(world->get_basedir());
           for (const auto& level_state : state.level_states)
           {
             if (level_state.filename.empty())
@@ -131,7 +130,7 @@ ContribMenu::ContribMenu() :
           int level_count = 0;
           int solved_count = 0;
 
-          const auto& state = savegame.get_worldmap_state(world->get_worldmap_filename());
+          const auto& state = savegame->get_worldmap_state(world->get_worldmap_filename());
           for (const auto& level_state : state.level_states)
           {
             if (level_state.filename.empty())

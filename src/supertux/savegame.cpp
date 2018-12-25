@@ -107,6 +107,14 @@ LevelsetState::get_level_state(const std::string& filename) const
   }
 }
 
+std::unique_ptr<Savegame>
+Savegame::from_file(const std::string& filename)
+{
+  std::unique_ptr<Savegame> savegame(new Savegame(filename));
+  savegame->load();
+  return savegame;
+}
+
 Savegame::Savegame(const std::string& filename) :
   m_filename(filename),
   m_player_status(new PlayerStatus)
