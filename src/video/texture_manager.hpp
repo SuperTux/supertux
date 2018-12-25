@@ -69,6 +69,10 @@ private:
 private:
   std::map<Texture::Key, std::weak_ptr<Texture> > m_image_textures;
   std::map<std::string, SDLSurfacePtr> m_surfaces;
+
+private:
+  TextureManager(const TextureManager&) = delete;
+  TextureManager& operator=(const TextureManager&) = delete;
 };
 
 #endif
