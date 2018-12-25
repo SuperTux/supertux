@@ -89,7 +89,7 @@ ContribMenu::ContribMenu() :
       if (levelset->get_num_levels() == 0)
         continue;
 
-      std::unique_ptr<World> world = World::load(*it);
+      std::unique_ptr<World> world = World::from_directory(*it);
       if (!world->hide_from_contribs())
       {
         Savegame savegame(world->get_savegame_filename());
@@ -181,7 +181,7 @@ ContribMenu::menu_action(MenuItem& item)
   {
     // reload the World so that we have something that we can safely
     // std::move() around without wreaking the ContribMenu
-    std::unique_ptr<World> world = World::load(m_contrib_worlds[index]->get_basedir());
+    std::unique_ptr<World> world = World::from_directory(m_contrib_worlds[index]->get_basedir());
     if (!world->is_levelset())
     {
       GameManager::current()->start_worldmap(*world);

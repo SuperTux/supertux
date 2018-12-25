@@ -90,7 +90,7 @@ GameManager::load_next_worldmap()
   {
     return false;
   }
-  std::unique_ptr<World> world = World::load(m_next_worldmap);
+  std::unique_ptr<World> world = World::from_directory(m_next_worldmap);
   m_next_worldmap = "";
   if (!world)
   {

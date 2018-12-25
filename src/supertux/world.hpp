@@ -22,20 +22,14 @@
 
 class World final
 {
+public:
+  /** Load a World
+      @param directory  Directory containing the info file, e.g. "levels/world1" */
+  static std::unique_ptr<World> from_directory(const std::string& directory);
+  static std::unique_ptr<World> create(const std::string& title, const std::string& desc);
+
 private:
   World();
-
-  void load_(const std::string& directory);
-  void create_(const std::string& directory, const std::string& title, const std::string& desc);
-
-public:
-  /**
-      Load a World
-
-      @param directory  Directory containing the info file, e.g. "levels/world1"
-  */
-  static std::unique_ptr<World> load(const std::string& directory);
-  static std::unique_ptr<World> create(const std::string& title, const std::string& desc);
 
 public:
   std::string get_basedir() const;
@@ -53,19 +47,19 @@ public:
   void set_default_values();
 
 private:
-  std::string m_basedir;
-  std::string m_worldmap_filename;
-  std::string m_savegame_filename;
+  void load_(const std::string& directory);
+  void create_(const std::string& directory, const std::string& title, const std::string& desc);
 
 public:
   std::string m_title;
   std::string m_description;
+  bool m_is_levelset;
 
 private:
+  std::string m_basedir;
+  std::string m_worldmap_filename;
+  std::string m_savegame_filename;
   bool m_hide_from_contribs;
-
-public:
-  bool m_is_levelset;
 
 private:
   World(const World&) = delete;

@@ -254,7 +254,7 @@ Editor::test_level()
   std::unique_ptr<World> owned_world;
   World* current_world = m_world.get();
   if (!current_world) {
-    owned_world = World::load(directory);
+    owned_world = World::from_directory(directory);
     current_world = owned_world.get();
   }
 

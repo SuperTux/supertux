@@ -29,7 +29,7 @@
 #include "util/writer.hpp"
 
 std::unique_ptr<World>
-World::load(const std::string& directory)
+World::from_directory(const std::string& directory)
 {
   std::unique_ptr<World> world(new World);
 
@@ -85,13 +85,13 @@ World::create(const std::string& title, const std::string& desc)
 }
 
 World::World() :
+  m_title(),
+  m_description(),
+  m_is_levelset(true),
   m_basedir(),
   m_worldmap_filename(),
   m_savegame_filename(),
-  m_title(),
-  m_description(),
-  m_hide_from_contribs(false),
-  m_is_levelset(true)
+  m_hide_from_contribs(false)
 {
 }
 

@@ -59,7 +59,7 @@ EditorLevelsetSelectMenu::EditorLevelsetSelectMenu() :
   {
     try
     {
-      std::unique_ptr<World> world = World::load(level_world);
+      std::unique_ptr<World> world = World::from_directory(level_world);
       if (world->hide_from_contribs())
       {
         continue;
@@ -115,7 +115,7 @@ EditorLevelsetSelectMenu::menu_action(MenuItem& item)
   if (item.get_id() >= 0)
   {
     std::unique_ptr<Menu> menu = std::unique_ptr<Menu>(new EditorLevelSelectMenu(
-                                 World::load(m_contrib_worlds[item.get_id()])));
+                                 World::from_directory(m_contrib_worlds[item.get_id()])));
     MenuManager::instance().push_menu(std::move(menu));
   }
 }
