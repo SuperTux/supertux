@@ -21,9 +21,10 @@
 #include <physfs.h>
 
 #include "physfs/physfs_file_system.hpp"
-#include "squirrel/squirrel_virtual_machine.hpp"
+#include "physfs/util.hpp"
 #include "squirrel/serialize.hpp"
 #include "squirrel/squirrel_util.hpp"
+#include "squirrel/squirrel_virtual_machine.hpp"
 #include "supertux/player_status.hpp"
 #include "util/file_system.hpp"
 #include "util/log.hpp"
@@ -313,6 +314,9 @@ Savegame::get_worldmaps()
 
   sq_settop(vm.get_vm(), oldtop);
 
+  // ensure that the loaded worldmap names have their canonical form
+  std::transform(worlds.begin(), worlds.end(), worlds.begin(), physfs_realpath);
+
   return worlds;
 }
 
@@ -329,6 +333,13 @@ Savegame::get_worldmap_state(const std::string& name)
     sq_pushroottable(vm.get_vm());
     vm.get_table_entry("state");
     vm.get_or_create_table_entry("worlds");
+
+    // if a non-canonical entry is present, replace them with a canonical one
+    std::string old_map_filename = name.substr(1);
+    if (vm.has_property(old_map_filename.c_str())) {
+      vm.rename_table_entry(old_map_filename.c_str(), name.c_str());
+    }
+
     vm.get_or_create_table_entry(name);
     vm.get_or_create_table_entry("levels");
 

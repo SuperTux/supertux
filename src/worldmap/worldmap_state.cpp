@@ -48,6 +48,13 @@ WorldMapState::load_state()
     sq_pushroottable(vm.get_vm());
     vm.get_table_entry("state");
     vm.get_table_entry("worlds");
+
+    // if a non-canonical entry is present, replace them with a canonical one
+    std::string old_map_filename = m_worldmap.m_map_filename.substr(1);
+    if (vm.has_property(old_map_filename.c_str())) {
+      vm.rename_table_entry(old_map_filename.c_str(), m_worldmap.m_map_filename.c_str());
+    }
+
     vm.get_table_entry(m_worldmap.m_map_filename);
 
     // load tux
