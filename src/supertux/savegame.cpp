@@ -335,9 +335,11 @@ Savegame::get_worldmap_state(const std::string& name)
     vm.get_or_create_table_entry("worlds");
 
     // if a non-canonical entry is present, replace them with a canonical one
-    std::string old_map_filename = name.substr(1);
-    if (vm.has_property(old_map_filename.c_str())) {
-      vm.rename_table_entry(old_map_filename.c_str(), name.c_str());
+    if (name != "/levels/world2/worldmap.stwm") {
+      std::string old_map_filename = name.substr(1);
+      if (vm.has_property(old_map_filename.c_str())) {
+        vm.rename_table_entry(old_map_filename.c_str(), name.c_str());
+      }
     }
 
     vm.get_or_create_table_entry(name);

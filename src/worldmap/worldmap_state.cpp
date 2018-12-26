@@ -50,9 +50,11 @@ WorldMapState::load_state()
     vm.get_table_entry("worlds");
 
     // if a non-canonical entry is present, replace them with a canonical one
-    std::string old_map_filename = m_worldmap.m_map_filename.substr(1);
-    if (vm.has_property(old_map_filename.c_str())) {
-      vm.rename_table_entry(old_map_filename.c_str(), m_worldmap.m_map_filename.c_str());
+    if (m_worldmap.m_map_filename != "/levels/world2/worldmap.stwm") {
+      std::string old_map_filename = m_worldmap.m_map_filename.substr(1);
+      if (vm.has_property(old_map_filename.c_str())) {
+        vm.rename_table_entry(old_map_filename.c_str(), m_worldmap.m_map_filename.c_str());
+      }
     }
 
     vm.get_table_entry(m_worldmap.m_map_filename);
