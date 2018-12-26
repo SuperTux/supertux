@@ -25,6 +25,7 @@
 #include "object/path_gameobject.hpp"
 #include "object/tilemap.hpp"
 #include "physfs/physfs_file_system.hpp"
+#include "physfs/util.hpp"
 #include "supertux/tile_manager.hpp"
 #include "util/file_system.hpp"
 #include "util/log.hpp"
@@ -52,7 +53,7 @@ WorldMapParser::WorldMapParser(WorldMap& worldmap) :
 void
 WorldMapParser::load_worldmap(const std::string& filename)
 {
-  m_worldmap.m_map_filename = filename;
+  m_worldmap.m_map_filename = physfs_realpath(filename);
   m_worldmap.m_levels_path = FileSystem::dirname(m_worldmap.m_map_filename);
 
   try {
