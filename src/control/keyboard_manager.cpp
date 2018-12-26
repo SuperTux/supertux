@@ -124,6 +124,16 @@ KeyboardManager::process_console_key_event(const SDL_KeyboardEvent& event)
     case SDLK_END:
       console->move_cursor(+65535);
       break;
+    case SDLK_a:
+      if (event.keysym.mod & KMOD_CTRL) {
+        console->move_cursor(-65535);
+      }
+      break;
+    case SDLK_e:
+      if (event.keysym.mod & KMOD_CTRL) {
+        console->move_cursor(+65535);
+      }
+      break;
     case SDLK_UP:
       console->show_history(-1);
       break;
