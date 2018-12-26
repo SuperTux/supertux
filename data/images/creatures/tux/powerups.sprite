@@ -76,12 +76,21 @@
 
        (action
          (name "fire-climbing-right")
-         (hitbox 22 21 32 64)
-         (images "fire/hat/stand.png"))
+         (hitbox 9 14 25 64)
+         (fps 15.0)
+         (images "fire/hat/climb-0.png"
+                 "fire/hat/climb-0.png"
+                 "fire/hat/climb-0.png"
+                 "fire/hat/climb-0.png"
+                 "fire/hat/climb-1.png"
+                 "fire/hat/climb-1.png"
+                 "fire/hat/climb-1.png"
+                 "fire/hat/climb-1.png"))
 
        (action
          (name "fire-climbing-left")
-         (hitbox 22 21 32 64)
+         (hitbox 9 14 25 64)
+         (fps 15.0)
          (mirror-action "fire-climbing-right"))
 
        (action
@@ -192,12 +201,21 @@
 
        (action
          (name "ice-climbing-right")
-         (hitbox 22 21 32 64)
-         (images "ice/hat/stand.png"))
+         (hitbox 9 14 25 64)
+         (fps 15.0)
+         (images "ice/hat/climb-0.png"
+                 "ice/hat/climb-0.png"
+                 "ice/hat/climb-0.png"
+                 "ice/hat/climb-0.png"
+                 "ice/hat/climb-1.png"
+                 "ice/hat/climb-1.png"
+                 "ice/hat/climb-1.png"
+                 "ice/hat/climb-1.png"))
 
        (action
          (name "ice-climbing-left")
-         (hitbox 22 21 32 64)
+         (hitbox 9 14 25 64)
+         (fps 15.0)
          (mirror-action "ice-climbing-right"))
 
        (action
@@ -315,12 +333,21 @@
 
        (action
          (name "air-climbing-right")
-         (hitbox 22 21 32 64)
-         (images "air/hat/stand.png"))
+         (hitbox 9 14 25 64)
+         (fps 15.0)
+         (images "air/hat/climb-0.png"
+                 "air/hat/climb-0.png"
+                 "air/hat/climb-0.png"
+                 "air/hat/climb-0.png"
+                 "air/hat/climb-1.png"
+                 "air/hat/climb-1.png"
+                 "air/hat/climb-1.png"
+                 "air/hat/climb-1.png"))
 
        (action
          (name "air-climbing-left")
-         (hitbox 22 21 32 64)
+         (hitbox 9 14 25 64)
+         (fps 15.0)
          (mirror-action "air-climbing-right"))
 
        (action
@@ -432,12 +459,21 @@
 
        (action
          (name "earth-climbing-right")
-         (hitbox 22 21 32 64)
-         (images "earth/hardhat/stand.png"))
+         (hitbox 9 14 25 64)
+         (fps 15.0)
+         (images "earth/hardhat/climb-0.png"
+                 "earth/hardhat/climb-0.png"
+                 "earth/hardhat/climb-0.png"
+                 "earth/hardhat/climb-0.png"
+                 "earth/hardhat/climb-1.png"
+                 "earth/hardhat/climb-1.png"
+                 "earth/hardhat/climb-1.png"
+                 "earth/hardhat/climb-1.png"))
 
        (action
          (name "earth-climbing-left")
-         (hitbox 22 21 32 64)
+         (hitbox 9 14 25 64)
+         (fps 15.0)
          (mirror-action "earth-climbing-right"))
 
        (action
@@ -548,12 +584,21 @@
 
        (action
          (name "santa-climbing-right")
-         (hitbox 22 21 32 64)
-         (images "fire/santa_cap/stand.png"))
+         (hitbox 9 14 25 64)
+         (fps 15.0)
+         (images "fire/santa_cap/climb-0.png"
+                 "fire/santa_cap/climb-0.png"
+                 "fire/santa_cap/climb-0.png"
+                 "fire/santa_cap/climb-0.png"
+                 "fire/santa_cap/climb-1.png"
+                 "fire/santa_cap/climb-1.png"
+                 "fire/santa_cap/climb-1.png"
+                 "fire/santa_cap/climb-1.png"))
 
        (action
          (name "santa-climbing-left")
-         (hitbox 22 21 32 64)
+         (hitbox 9 14 25 64)
+         (fps 15.0)
          (mirror-action "santa-climbing-right"))
 
        (action
