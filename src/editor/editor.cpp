@@ -624,7 +624,9 @@ Editor::event(const SDL_Event& ev)
          ev.type == SDL_MOUSEBUTTONUP))
     {
       if (!m_ignore_sector_change) {
-        m_undo_manager->try_snapshot(*m_level);
+        if (m_level) {
+          m_undo_manager->try_snapshot(*m_level);
+        }
       }
     }
   }
