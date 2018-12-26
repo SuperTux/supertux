@@ -63,6 +63,7 @@ public:
   void get_table_entry(const std::string& name);
   void get_or_create_table_entry(const std::string& name);
   void delete_table_entry(const char* name);
+  void rename_table_entry(const char* oldname, const char* newname);
   std::vector<std::string> get_table_keys();
 
   HSQOBJECT create_thread();

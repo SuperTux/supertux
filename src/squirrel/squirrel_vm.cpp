@@ -254,6 +254,27 @@ SquirrelVM::delete_table_entry(const char* name)
   }
 }
 
+void
+SquirrelVM::rename_table_entry(const char* oldname, const char* newname)
+{
+  SQInteger oldtop = sq_gettop(m_vm);
+
+  // push key
+  sq_pushstring(m_vm, newname, -1);
+
+  // push value and delete old oldname
+  sq_pushstring(m_vm, oldname, -1);
+  if (SQ_FAILED(sq_deleteslot(m_vm, oldtop, SQTrue))) {
+    sq_settop(m_vm, oldtop);
+    throw SquirrelError(m_vm, "Couldn't find 'oldname' entry in table");
+  }
+
+  // create new entry
+  sq_createslot(m_vm, -3);
+
+  sq_settop(m_vm, oldtop);
+}
+
 std::vector<std::string>
 SquirrelVM::get_table_keys()
 {
