@@ -4,14 +4,8 @@
     (hitbox 4 18 36 18)
     (images "left-1.png"
             "left-2.png"
-            "left-1.png"
-            "left-2.png"
             "left-3.png"
-            "left-4.png"
-            "left-3.png"
-            "left-4.png"
-            "left-3.png"
-            "left-2.png")
+            "left-4.png")
   )
   (action
     (name "right")
