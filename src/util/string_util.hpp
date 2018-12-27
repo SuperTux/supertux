@@ -27,6 +27,8 @@ public:
   /** Compare two strings according to their numeric value, similar to
       what 'sort -n' does. */
   static bool numeric_less(const std::string& lhs, const std::string& rhs);
+
+  static std::string tolower(const std::string& text);
 };
 
 #endif
