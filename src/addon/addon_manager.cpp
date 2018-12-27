@@ -66,6 +66,15 @@ MD5 md5_from_file(const std::string& filename)
   }
 }
 
+MD5 md5_from_archive(const std::string& filename)
+{
+  if (physfsutil::is_directory(filename)) {
+    return MD5();
+  } else {
+    return md5_from_file(filename);
+  }
+}
+
 static Addon& get_addon(const AddonManager::AddonList& list, const AddonId& id,
                         bool installed)
 {
@@ -574,9 +583,19 @@ AddonManager::scan_for_archives() const
   for (char** i = rc.get(); *i != nullptr; ++i)
   {
     const std::string fullpath = FileSystem::join(m_addon_directory, *i);
-    if (StringUtil::has_suffix(StringUtil::tolower(*i), ".zip")) {
-      if (PHYSFS_exists(fullpath.c_str())) {
+    if (physfsutil::is_directory(fullpath))
+    {
+      // ignore dot files (e.g. '.git/')
+      if ((*i)[0] != '.') {
         archives.push_back(fullpath);
+      }
+    }
+    else
+    {
+      if (StringUtil::has_suffix(StringUtil::tolower(*i), ".zip")) {
+        if (PHYSFS_exists(fullpath.c_str())) {
+          archives.push_back(fullpath);
+        }
       }
     }
   }
@@ -661,7 +680,7 @@ AddonManager::add_installed_addons()
 
   for (const auto& archive : archives)
   {
-    MD5 md5 = md5_from_file(archive);
+    MD5 md5 = md5_from_archive(archive);
     add_installed_archive(archive, md5.hex_digest());
   }
 }
