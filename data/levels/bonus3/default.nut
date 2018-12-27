@@ -73,7 +73,7 @@ function reset_keys(){
 }
 
 if("map" in this){
-  outpath <- state.worlds["levels/bonus3/worldmap.stwm"].levels["sever_escape.stl"].solved;
+  outpath <- state.worlds["/levels/bonus3/worldmap.stwm"].levels["sever_escape.stl"].solved;
   set_darkness(status.darkness);
   set_unlicensed(status.unlicensed);
   wait(0.1);

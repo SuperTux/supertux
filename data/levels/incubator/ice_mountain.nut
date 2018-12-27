@@ -112,7 +112,7 @@ if(status.star){
 }
 
 if("map" in this){
-  outpath <- state.worlds["levels/pre_git_bugtracker_worldmap/worldmap.stwm"].levels["sever_escape.stl"].solved;
+  outpath <- state.worlds["/levels/pre_git_bugtracker_worldmap/worldmap.stwm"].levels["sever_escape.stl"].solved;
   set_darkness(status.darkness);
   set_unlicensed(status.unlicensed);
   wait(1);
