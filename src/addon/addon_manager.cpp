@@ -573,12 +573,10 @@ AddonManager::scan_for_archives() const
        PHYSFS_freeList);
   for (char** i = rc.get(); *i != nullptr; ++i)
   {
-    if (StringUtil::has_suffix(*i, ".zip"))
-    {
-      std::string archive = FileSystem::join(m_addon_directory, *i);
-      if (PHYSFS_exists(archive.c_str()))
-      {
-        archives.push_back(archive);
+    const std::string fullpath = FileSystem::join(m_addon_directory, *i);
+    if (StringUtil::has_suffix(StringUtil::tolower(*i), ".zip")) {
+      if (PHYSFS_exists(fullpath.c_str())) {
+        archives.push_back(fullpath);
       }
     }
   }
