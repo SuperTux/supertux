@@ -383,7 +383,7 @@ TileMap::draw(DrawingContext& context)
         tile.draw_debug(context.color(), pos, LAYER_FOREGROUND1);
       }
 
-      const SurfacePtr& surface = Editor::current() ? tile.get_current_editor_surface() : tile.get_current_surface();
+      const SurfacePtr& surface = Editor::is_active() ? tile.get_current_editor_surface() : tile.get_current_surface();
       if (surface) {
         std::get<0>(batches[surface]).emplace_back(surface->get_region());
         std::get<1>(batches[surface]).emplace_back(pos,

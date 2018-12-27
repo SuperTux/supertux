@@ -48,7 +48,7 @@ SpawnPointMarker::SpawnPointMarker(const ReaderMapping& mapping) :
 void
 SpawnPointMarker::draw(DrawingContext& context)
 {
-  if (Editor::current() || g_debug.show_collision_rects)
+  if (Editor::is_active() || g_debug.show_collision_rects)
   {
     context.color().draw_surface(m_surface, m_col.m_bbox.p1(), LAYER_FOREGROUND1);
   }
