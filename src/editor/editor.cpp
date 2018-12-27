@@ -39,7 +39,7 @@
 #include "object/player.hpp"
 #include "object/spawnpoint.hpp"
 #include "object/tilemap.hpp"
-#include "physfs/physfs_file_system.hpp"
+#include "physfs/util.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/game_manager.hpp"
 #include "supertux/level.hpp"
@@ -552,7 +552,7 @@ Editor::setup()
     if (!m_test_levelfile.empty())
     {
       // Try to remove the test level using the PhysFS file system
-      if (PhysFSFileSystem::remove(m_test_levelfile) != 0)
+      if (physfsutil::remove(m_test_levelfile) != 0)
       {
         // This file is not inside any PhysFS mounts,
         // try to remove this using normal file system

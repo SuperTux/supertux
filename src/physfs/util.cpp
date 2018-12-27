@@ -16,9 +16,13 @@
 
 #include "physfs/util.hpp"
 
+#include <physfs.h>
+
 #include "util/file_system.hpp"
 
-std::string physfs_realpath(const std::string& path)
+namespace physfsutil {
+
+std::string realpath(const std::string& path)
 {
   std::string result = FileSystem::normalize(path);
   if (result.empty()) {
@@ -29,5 +33,22 @@ std::string physfs_realpath(const std::string& path)
     return result;
   }
 }
+
+bool is_directory(const std::string& path)
+{
+  PHYSFS_Stat statbuf;
+  if (!PHYSFS_stat(path.c_str(), &statbuf)) {
+    return false;
+  } else {
+    return statbuf.filetype == PHYSFS_FILETYPE_DIRECTORY;
+  }
+}
+
+bool remove(const std::string& filename)
+{
+  return PHYSFS_delete(filename.c_str()) == 0;
+}
+
+} // namespace physfsutil
 
 /* EOF */

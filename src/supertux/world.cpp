@@ -18,7 +18,7 @@
 
 #include <physfs.h>
 
-#include "physfs/physfs_file_system.hpp"
+#include "physfs/util.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "util/file_system.hpp"
@@ -127,7 +127,7 @@ World::save(bool retry)
         }
       }
 
-      if (!PhysFSFileSystem::is_directory(dirname))
+      if (!physfsutil::is_directory(dirname))
       {
         std::ostringstream msg;
         msg << "Levelset path '" << dirname << "' is not a directory";

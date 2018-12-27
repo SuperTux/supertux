@@ -21,7 +21,7 @@
 
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
-#include "physfs/physfs_file_system.hpp"
+#include "physfs/util.hpp"
 #include "supertux/game_manager.hpp"
 #include "supertux/levelset.hpp"
 #include "supertux/menu/contrib_levelset_menu.hpp"
@@ -44,7 +44,7 @@ ContribMenu::ContribMenu() :
   for (const char* const* filename = files.get(); *filename != nullptr; ++filename)
   {
     std::string filepath = FileSystem::join("levels", *filename);
-    if (PhysFSFileSystem::is_directory(filepath))
+    if (physfsutil::is_directory(filepath))
     {
       level_worlds.push_back(filepath);
     }
@@ -56,10 +56,10 @@ ContribMenu::ContribMenu() :
   for (const char* const* addondir = addons.get(); *addondir != nullptr; ++addondir)
   {
     std::string addonpath = FileSystem::join("custom", *addondir);
-    if (PhysFSFileSystem::is_directory(addonpath))
+    if (physfsutil::is_directory(addonpath))
     {
       std::string addonlevelpath = FileSystem::join(addonpath.c_str(), "levels");
-      if (PhysFSFileSystem::is_directory(addonlevelpath))
+      if (physfsutil::is_directory(addonlevelpath))
       {
         std::unique_ptr<char*, decltype(&PHYSFS_freeList)>
           addonfiles(PHYSFS_enumerateFiles(addonlevelpath.c_str()),
@@ -67,7 +67,7 @@ ContribMenu::ContribMenu() :
         for (const char* const* filename = addonfiles.get(); *filename != nullptr; ++filename)
         {
           std::string filepath = FileSystem::join(addonlevelpath.c_str(), *filename);
-          if (PhysFSFileSystem::is_directory(filepath))
+          if (physfsutil::is_directory(filepath))
           {
             level_worlds.push_back(filepath);
           }

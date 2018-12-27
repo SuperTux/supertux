@@ -19,9 +19,16 @@
 
 #include <string>
 
+namespace physfsutil {
+
 /** Convert 'path' to it's canonical name, i.e. normalize it and add a
     '/' to the front) */
-std::string physfs_realpath(const std::string& path);
+std::string realpath(const std::string& path);
+
+bool is_directory(const std::string& path);
+bool remove(const std::string& filenam);
+
+} // namespace physfsutil
 
 #endif
 

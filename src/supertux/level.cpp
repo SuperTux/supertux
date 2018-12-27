@@ -19,7 +19,7 @@
 #include "badguy/goldbomb.hpp"
 #include "object/bonus_block.hpp"
 #include "object/coin.hpp"
-#include "physfs/physfs_file_system.hpp"
+#include "physfs/util.hpp"
 #include "supertux/sector.hpp"
 #include "trigger/secretarea_trigger.hpp"
 #include "util/file_system.hpp"
@@ -75,7 +75,7 @@ Level::save(const std::string& filepath, bool retry)
         }
       }
 
-      if (!PhysFSFileSystem::is_directory(dirname))
+      if (!physfsutil::is_directory(dirname))
       {
         std::ostringstream msg;
         msg << "Level path '" << dirname << "' is not a directory";

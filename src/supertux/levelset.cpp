@@ -19,7 +19,7 @@
 #include <physfs.h>
 #include <algorithm>
 
-#include "physfs/physfs_file_system.hpp"
+#include "physfs/util.hpp"
 #include "util/file_system.hpp"
 #include "util/log.hpp"
 #include "util/string_util.hpp"
@@ -58,7 +58,7 @@ Levelset::walk_directory(const std::string& directory, bool recursively)
   for (const char* const* filename = files; *filename != nullptr; ++filename)
   {
     auto filepath = FileSystem::join(directory.c_str(), *filename);
-    if (PhysFSFileSystem::is_directory(filepath) && recursively)
+    if (physfsutil::is_directory(filepath) && recursively)
     {
       walk_directory(filepath, true);
     }

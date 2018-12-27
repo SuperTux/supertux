@@ -146,7 +146,7 @@ Savegame::load()
   }
   else
   {
-    if (PhysFSFileSystem::is_directory(m_filename))
+    if (physfsutil::is_directory(m_filename))
     {
       log_info << m_filename << " is a directory, not loading state" << std::endl;
       return;
@@ -245,7 +245,7 @@ Savegame::save()
       }
     }
 
-    if (!PhysFSFileSystem::is_directory(dirname))
+    if (!physfsutil::is_directory(dirname))
     {
       std::ostringstream msg;
       msg << "Savegame path '" << dirname << "' is not a directory";
@@ -315,7 +315,7 @@ Savegame::get_worldmaps()
   sq_settop(vm.get_vm(), oldtop);
 
   // ensure that the loaded worldmap names have their canonical form
-  std::transform(worlds.begin(), worlds.end(), worlds.begin(), physfs_realpath);
+  std::transform(worlds.begin(), worlds.end(), worlds.begin(), physfsutil::realpath);
 
   return worlds;
 }

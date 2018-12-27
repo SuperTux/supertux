@@ -19,12 +19,9 @@
 
 #include <tinygettext/file_system.hpp>
 
+/** Helper class for tinygettext */
 class PhysFSFileSystem final : public tinygettext::FileSystem
 {
-public:
-  static bool is_directory(const std::string& filename);
-  static bool remove(const std::string& filenam);
-
 public:
   PhysFSFileSystem();
 

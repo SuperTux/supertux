@@ -21,7 +21,7 @@
 #include "addon/addon_manager.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
-#include "physfs/physfs_file_system.hpp"
+#include "physfs/util.hpp"
 #include "util/file_system.hpp"
 #include "util/log.hpp"
 #include "util/gettext.hpp"
@@ -76,7 +76,7 @@ FileSystemMenu::refresh_items()
     for (const char* const* file = dir_files; *file != nullptr; ++file)
     {
       std::string filepath = FileSystem::join(m_directory, *file);
-      if (PhysFSFileSystem::is_directory(filepath))
+      if (physfsutil::is_directory(filepath))
       {
         m_directories.push_back(*file);
       }

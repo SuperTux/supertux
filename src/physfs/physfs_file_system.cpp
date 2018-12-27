@@ -45,18 +45,4 @@ PhysFSFileSystem::open_file(const std::string& filename)
   return std::make_unique<IFileStream>(filename);
 }
 
-bool
-PhysFSFileSystem::is_directory(const std::string& filename)
-{
-  PHYSFS_Stat statbuf;
-  PHYSFS_stat(filename.c_str(), &statbuf);
-  return statbuf.filetype == PHYSFS_FILETYPE_DIRECTORY;
-}
-
-bool
-PhysFSFileSystem::remove(const std::string& filename)
-{
-  return PHYSFS_delete(filename.c_str()) == 0;
-}
-
 /* EOF */
