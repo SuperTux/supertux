@@ -188,7 +188,7 @@ AmbientSound::update(float dt_sec)
     float rise=targetvolume/currentvolume;
 
     // rise/fall half life?
-    currentvolume*=pow(rise, dt_sec * 10);
+    currentvolume *= powf(rise, dt_sec * 10.0f);
     currentvolume += 1e-6f; // volume is at least 1e-6 (0 would never rise)
 
     if (sound_source != nullptr) {
