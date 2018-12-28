@@ -37,12 +37,13 @@ namespace {
 
 inline std::tuple<GLenum, GLenum> blend_factor(Blend blend)
 {
+  using B = std::tuple<GLenum, GLenum>;
   switch(blend) {
-    case Blend::NONE: return {GL_ONE, GL_ZERO};
-    case Blend::BLEND: return {GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA};
-    case Blend::ADD: return {GL_SRC_ALPHA, GL_ONE};
-    case Blend::MOD: return {GL_DST_COLOR, GL_ZERO};
-    default: return {GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA};
+    case Blend::NONE: return B(GL_ONE, GL_ZERO);
+    case Blend::BLEND: return B(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    case Blend::ADD: return B(GL_SRC_ALPHA, GL_ONE);
+    case Blend::MOD: return B(GL_DST_COLOR, GL_ZERO);
+    default: return B(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   }
 }
 

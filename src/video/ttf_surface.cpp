@@ -55,12 +55,13 @@ TTFSurface::create(const TTFFont& font, const std::string& text)
     SDL_SetSurfaceColorMod(text_surface.get(), 0, 0, 0);
     SDL_SetSurfaceBlendMode(text_surface.get(), SDL_BLENDMODE_BLEND);
 
+    using P = std::tuple<int, int>;
     const std::initializer_list<std::tuple<int, int> > positions[] = {
       {},
-      {{0, 0}},
-      {{-1, 0}, {1, 0}, {0, -1}, {0, 1}},
-      {{-2, 0}, {2, 0}, {0, -2}, {0, 2},
-       {-1, -1}, {1, -1}, {-1, 1}, {1, 1}}
+      {P{0, 0}},
+      {P{-1, 0}, P{1, 0}, P{0, -1}, P{0, 1}},
+      {P{-2, 0}, P{2, 0}, P{0, -2}, P{0, 2},
+       P{-1, -1}, P{1, -1}, P{-1, 1}, P{1, 1}}
     };
 
     int shadow_size = std::min(2, font.get_shadow_size());
@@ -77,11 +78,12 @@ TTFSurface::create(const TTFFont& font, const std::string& text)
     SDL_SetSurfaceColorMod(text_surface.get(), 0, 0, 0);
     SDL_SetSurfaceBlendMode(text_surface.get(), SDL_BLENDMODE_BLEND);
 
+    using P = std::tuple<int, int>;
     const std::initializer_list<std::tuple<int, int> > positions[] = {
       {},
-      {{-1, 0}, {1, 0}, {0, -1}, {0, 1}},
-      {{-2, 0}, {2, 0}, {0, -2}, {0, 2},
-       {-1, -1}, {1, -1}, {-1, 1}, {1, 1}}
+      {P{-1, 0}, P{1, 0}, P{0, -1}, P{0, 1}},
+      {P{-2, 0}, P{2, 0}, P{0, -2}, P{0, 2},
+       P{-1, -1}, P{1, -1}, P{-1, 1}, P{1, 1}}
     };
 
     int border = std::min(2, font.get_border());
