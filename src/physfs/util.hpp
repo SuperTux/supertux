@@ -25,7 +25,10 @@ namespace physfsutil {
     '/' to the front) */
 std::string realpath(const std::string& path);
 
+/** Returns true if the given path is a directory or a symlink
+    pointing to a directory */
 bool is_directory(const std::string& path);
+
 bool remove(const std::string& filenam);
 
 } // namespace physfsutil

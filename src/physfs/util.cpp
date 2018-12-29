@@ -40,7 +40,18 @@ bool is_directory(const std::string& path)
   if (!PHYSFS_stat(path.c_str(), &statbuf)) {
     return false;
   } else {
-    return statbuf.filetype == PHYSFS_FILETYPE_DIRECTORY;
+    if (statbuf.filetype == PHYSFS_FILETYPE_SYMLINK) {
+      // PHYSFS_stat() doesn't follow symlinks, so we do it manually
+      const char* realdir = PHYSFS_getRealDir(path.c_str());
+      if (realdir == nullptr) {
+        return false;
+      } else {
+        const std::string realfname = FileSystem::join(realdir, path);
+        return FileSystem::is_directory(realfname);
+      }
+    } else {
+      return statbuf.filetype == PHYSFS_FILETYPE_DIRECTORY;
+    }
   }
 }
 
