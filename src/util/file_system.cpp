@@ -187,9 +187,21 @@ std::string join(const std::string& lhs, const std::string& rhs)
   {
     return rhs;
   }
-  else if (lhs.back() == '/')
+  else if (rhs.empty())
+  {
+    return lhs + "/";
+  }
+  else if (lhs.back() == '/' && rhs.front() != '/')
   {
     return lhs + rhs;
+  }
+  else if (lhs.back() != '/' && rhs.front() == '/')
+  {
+    return lhs + rhs;
+  }
+  else if (lhs.back() == '/' && rhs.front() == '/')
+  {
+    return lhs + rhs.substr(1);
   }
   else
   {

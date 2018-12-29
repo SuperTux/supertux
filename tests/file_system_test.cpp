@@ -25,4 +25,14 @@ TEST(FileSystemTest, relpath)
   ASSERT_EQ(FileSystem::relpath("/levels/juser/level.stl", "/levels/juser"), "level.stl");
 }
 
+TEST(FileSystemTest, join)
+{
+  ASSERT_EQ(FileSystem::join("foo/bar", ""), "foo/bar/");
+  ASSERT_EQ(FileSystem::join("", "foo/bar"), "foo/bar");
+  ASSERT_EQ(FileSystem::join("foo/bar", "baz/boing"), "foo/bar/baz/boing");
+  ASSERT_EQ(FileSystem::join("foo/bar", "/baz/boing"), "foo/bar/baz/boing");
+  ASSERT_EQ(FileSystem::join("foo/bar/", "/baz/boing"), "foo/bar/baz/boing");
+  ASSERT_EQ(FileSystem::join("/foo/bar", "baz/boing"), "/foo/bar/baz/boing");
+}
+
 /* EOF */
