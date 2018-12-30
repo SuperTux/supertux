@@ -17,7 +17,7 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_CONTROLLER_HUD_HPP
 #define HEADER_SUPERTUX_SUPERTUX_CONTROLLER_HUD_HPP
 
-#include <unordered_map>
+#include <map>
 
 #include "control/controller.hpp"
 #include "math/rectf.hpp"
@@ -32,7 +32,7 @@ public:
   void draw(DrawingContext& context);
 
 private:
-  std::unordered_map<Controller::Control, Rectf> m_controls;
+  std::map<Controller::Control, Rectf> m_controls;
 
 private:
   ControllerHUD(const ControllerHUD&) = delete;
