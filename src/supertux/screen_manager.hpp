@@ -25,6 +25,7 @@
 #include "util/currenton.hpp"
 
 class Compositor;
+class ControllerHUD;
 class DrawingContext;
 class InputManager;
 class MenuManager;
@@ -67,6 +68,7 @@ private:
   InputManager& m_input_manager;
   std::unique_ptr<MenuStorage> m_menu_storage;
   std::unique_ptr<MenuManager> m_menu_manager;
+  std::unique_ptr<ControllerHUD> m_controller_hud;
 
   float m_speed;
   float m_target_framerate;

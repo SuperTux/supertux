@@ -24,6 +24,7 @@
 #include "squirrel/squirrel_virtual_machine.hpp"
 #include "supertux/console.hpp"
 #include "supertux/constants.hpp"
+#include "supertux/controller_hud.hpp"
 #include "supertux/debug.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/gameconfig.hpp"
@@ -46,6 +47,7 @@ ScreenManager::ScreenManager(VideoSystem& video_system, InputManager& input_mana
   m_input_manager(input_manager),
   m_menu_storage(new MenuStorage),
   m_menu_manager(new MenuManager),
+  m_controller_hud(new ControllerHUD),
   m_speed(1.0),
   m_target_framerate(60.0f),
   m_actions(),
@@ -168,20 +170,21 @@ ScreenManager::draw(Compositor& compositor)
   auto& context = compositor.make_context(true);
   m_menu_manager->draw(context);
 
-  if (m_screen_fade)
-  {
+  if (m_screen_fade) {
     m_screen_fade->draw(context);
   }
 
   Console::current()->draw(context);
 
-  if (g_config->show_fps)
-  {
+  if (g_config->show_fps) {
     draw_fps(context, m_fps);
   }
 
-  if (g_config->show_player_pos)
-  {
+  if (g_debug.show_controller) {
+    m_controller_hud->draw(context);
+  }
+
+  if (g_config->show_player_pos) {
     draw_player_pos(context);
   }
 

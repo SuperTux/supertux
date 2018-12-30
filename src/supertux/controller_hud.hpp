@@ -14,46 +14,31 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "supertux/debug.hpp"
+#ifndef HEADER_SUPERTUX_SUPERTUX_CONTROLLER_HUD_HPP
+#define HEADER_SUPERTUX_SUPERTUX_CONTROLLER_HUD_HPP
 
-#include "supertux/resources.hpp"
-#include "util/log.hpp"
+#include <unordered_map>
 
-Debug g_debug;
+#include "control/controller.hpp"
+#include "math/rectf.hpp"
 
-Debug::Debug() :
-  show_collision_rects(false),
-  show_worldmap_path(false),
-  show_controller(false),
-  m_use_bitmap_fonts(false),
-  m_game_speed_multiplier(1.0f)
+class DrawingContext;
+
+class ControllerHUD
 {
-}
+public:
+  ControllerHUD();
 
-void
-Debug::set_use_bitmap_fonts(bool value)
-{
-  m_use_bitmap_fonts = value;
-  Resources::load();
-}
+  void draw(DrawingContext& context);
 
-bool
-Debug::get_use_bitmap_fonts() const
-{
-  return m_use_bitmap_fonts;
-}
+private:
+  std::unordered_map<Controller::Control, Rectf> m_controls;
 
-void
-Debug::set_game_speed_multiplier(float v)
-{
-  m_game_speed_multiplier = v;
-  log_info << m_game_speed_multiplier << std::endl;
-}
+private:
+  ControllerHUD(const ControllerHUD&) = delete;
+  ControllerHUD& operator=(const ControllerHUD&) = delete;
+};
 
-float
-Debug::get_game_speed_multiplier() const
-{
-  return m_game_speed_multiplier;
-}
+#endif
 
 /* EOF */

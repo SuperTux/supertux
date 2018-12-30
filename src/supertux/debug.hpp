@@ -35,6 +35,8 @@ public:
   /** Draw the path on the worldmap, including invisible paths */
   bool show_worldmap_path;
 
+  bool show_controller;
+
 private:
   /** Use old bitmap fonts instead of TTF */
   bool m_use_bitmap_fonts;
