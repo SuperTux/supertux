@@ -531,6 +531,11 @@ Menu::on_window_resize()
 void
 Menu::draw(DrawingContext& context)
 {
+  for (unsigned int i = 0; i < m_items.size(); ++i)
+  {
+    draw_item(context, i);
+  }
+
   if (!m_items[m_active_item]->get_help().empty())
   {
     const int text_width = static_cast<int>(Resources::normal_font->get_text_width(m_items[m_active_item]->get_help()));
@@ -545,21 +550,16 @@ Menu::draw(DrawingContext& context)
                                            text_rect.p2() + Vector(4,4)),
                                      Color(0.2f, 0.3f, 0.4f, 0.8f),
                                      16.0f,
-                                     LAYER_GUI-10);
+                                     LAYER_GUI);
 
     context.color().draw_filled_rect(text_rect,
                                      Color(0.6f, 0.7f, 0.8f, 0.5f),
                                      16.0f,
-                                     LAYER_GUI-10);
+                                     LAYER_GUI);
 
     context.color().draw_text(Resources::normal_font, m_items[m_active_item]->get_help(),
                               Vector(m_pos.x, static_cast<float>(SCREEN_HEIGHT) - 48.0f - static_cast<float>(text_height) / 2.0f),
                               ALIGN_CENTER, LAYER_GUI);
-  }
-
-  for (unsigned int i = 0; i < m_items.size(); ++i)
-  {
-    draw_item(context, i);
   }
 }
 
