@@ -102,9 +102,8 @@ Menu::add_item(std::unique_ptr<MenuItem> new_item, int pos_)
   m_items.insert(m_items.begin()+pos_,std::move(new_item));
   MenuItem& item = *m_items[pos_];
 
-  /* When the item is inserted before the selected item, the
-   * same menu item should be still selected.
-   */
+  // When the item is inserted before the selected item, the
+  // same menu item should be still selected.
 
   if (m_active_item >= pos_)
   {
@@ -121,9 +120,8 @@ Menu::delete_item(int pos_)
 {
   m_items.erase(m_items.begin()+pos_);
 
-  /* When the item is deleted before the selected item, the
-   * same menu item should be still selected.
-   */
+  // When the item is deleted before the selected item, the
+  // same menu item should be still selected.
 
   if (m_active_item >= pos_)
   {
@@ -335,7 +333,7 @@ Menu::clear()
 void
 Menu::process_input(const Controller& controller)
 {
-  int menu_height = static_cast<int>(get_height());
+  const int menu_height = static_cast<int>(get_height());
   if (menu_height > SCREEN_HEIGHT)
   { // Scrolling
     int scroll_offset = (menu_height - SCREEN_HEIGHT) / 2 + 32;
@@ -420,7 +418,7 @@ Menu::process_input(const Controller& controller)
 void
 Menu::process_action(const MenuAction& menuaction)
 {
-  int last_active_item = m_active_item;
+  const int last_active_item = m_active_item;
 
   switch (menuaction) {
     case MenuAction::UP:
@@ -470,29 +468,29 @@ Menu::process_action(const MenuAction& menuaction)
 void
 Menu::draw_item(DrawingContext& context, int index)
 {
-  float menu_height = get_height();
-  float menu_width_ = get_width();
+  const float menu_height = get_height();
+  const float menu_width = get_width();
 
   MenuItem* pitem = m_items[index].get();
 
-  float x_pos       = m_pos.x - menu_width_/2;
-  float y_pos       = m_pos.y + 24.0f * static_cast<float>(index) - menu_height / 2.0f + 12.0f;
+  const float x_pos = m_pos.x - menu_width / 2.0f;
+  const float y_pos = m_pos.y + 24.0f * static_cast<float>(index) - menu_height / 2.0f + 12.0f;
 
-  pitem->draw(context, Vector(x_pos, y_pos), static_cast<int>(menu_width_), m_active_item == index);
+  pitem->draw(context, Vector(x_pos, y_pos), static_cast<int>(menu_width), m_active_item == index);
 
   if (m_active_item == index)
   {
     float blink = (sinf(g_real_time * math::PI * 1.0f)/2.0f + 0.5f) * 0.5f + 0.25f;
-    context.color().draw_filled_rect(Rectf(Vector(m_pos.x - menu_width_/2 + 10 - 2, y_pos - 12 - 2),
-                                   Vector(m_pos.x + menu_width_/2 - 10 + 2, y_pos + 12 + 2)),
-                             Color(1.0f, 1.0f, 1.0f, blink),
-                             14.0f,
-                             LAYER_GUI-10);
-    context.color().draw_filled_rect(Rectf(Vector(m_pos.x - menu_width_/2 + 10, y_pos - 12),
-                                   Vector(m_pos.x + menu_width_/2 - 10, y_pos + 12)),
-                             Color(1.0f, 1.0f, 1.0f, 0.5f),
-                             12.0f,
-                             LAYER_GUI-10);
+    context.color().draw_filled_rect(Rectf(Vector(m_pos.x - menu_width/2 + 10 - 2, y_pos - 12 - 2),
+                                           Vector(m_pos.x + menu_width/2 - 10 + 2, y_pos + 12 + 2)),
+                                     Color(1.0f, 1.0f, 1.0f, blink),
+                                     14.0f,
+                                     LAYER_GUI-10);
+    context.color().draw_filled_rect(Rectf(Vector(m_pos.x - menu_width/2 + 10, y_pos - 12),
+                                           Vector(m_pos.x + menu_width/2 - 10, y_pos + 12)),
+                                     Color(1.0f, 1.0f, 1.0f, 0.5f),
+                                     12.0f,
+                                     LAYER_GUI-10);
   }
 }
 
@@ -535,24 +533,24 @@ Menu::draw(DrawingContext& context)
 {
   if (!m_items[m_active_item]->get_help().empty())
   {
-    int text_width  = static_cast<int>(Resources::normal_font->get_text_width(m_items[m_active_item]->get_help()));
-    int text_height = static_cast<int>(Resources::normal_font->get_text_height(m_items[m_active_item]->get_help()));
+    const int text_width = static_cast<int>(Resources::normal_font->get_text_width(m_items[m_active_item]->get_help()));
+    const int text_height = static_cast<int>(Resources::normal_font->get_text_height(m_items[m_active_item]->get_help()));
 
-    Rectf text_rect(m_pos.x - static_cast<float>(text_width) / 2.0f - 8.0f,
-                    static_cast<float>(SCREEN_HEIGHT) - 48.0f - static_cast<float>(text_height) / 2.0f - 4.0f,
-                    m_pos.x + static_cast<float>(text_width) / 2.0f + 8.0f,
-                    static_cast<float>(SCREEN_HEIGHT) - 48.0f + static_cast<float>(text_height) / 2.0f + 4.0f);
+    const Rectf text_rect(m_pos.x - static_cast<float>(text_width) / 2.0f - 8.0f,
+                          static_cast<float>(SCREEN_HEIGHT) - 48.0f - static_cast<float>(text_height) / 2.0f - 4.0f,
+                          m_pos.x + static_cast<float>(text_width) / 2.0f + 8.0f,
+                          static_cast<float>(SCREEN_HEIGHT) - 48.0f + static_cast<float>(text_height) / 2.0f + 4.0f);
 
     context.color().draw_filled_rect(Rectf(text_rect.p1() - Vector(4,4),
-                                             text_rect.p2() + Vector(4,4)),
-                                       Color(0.2f, 0.3f, 0.4f, 0.8f),
-                                       16.0f,
-                                       LAYER_GUI-10);
+                                           text_rect.p2() + Vector(4,4)),
+                                     Color(0.2f, 0.3f, 0.4f, 0.8f),
+                                     16.0f,
+                                     LAYER_GUI-10);
 
     context.color().draw_filled_rect(text_rect,
-                                       Color(0.6f, 0.7f, 0.8f, 0.5f),
-                                       16.0f,
-                                       LAYER_GUI-10);
+                                     Color(0.6f, 0.7f, 0.8f, 0.5f),
+                                     16.0f,
+                                     LAYER_GUI-10);
 
     context.color().draw_text(Resources::normal_font, m_items[m_active_item]->get_help(),
                               Vector(m_pos.x, static_cast<float>(SCREEN_HEIGHT) - 48.0f - static_cast<float>(text_height) / 2.0f),
@@ -602,7 +600,8 @@ void
 Menu::event(const SDL_Event& ev)
 {
   m_items[m_active_item]->event(ev);
-  switch (ev.type) {
+  switch (ev.type)
+  {
     case SDL_KEYDOWN:
     case SDL_TEXTINPUT:
       if (((ev.type == SDL_KEYDOWN && ev.key.keysym.sym == SDLK_BACKSPACE) ||
@@ -674,7 +673,8 @@ Menu::set_active_item(int id)
 }
 
 bool
-Menu::is_sensitive() const {
+Menu::is_sensitive() const
+{
   return false;
 }
 
