@@ -18,6 +18,7 @@
 
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
+#include "supertux/menu/menu_storage.hpp"
 #include "supertux/player_status.hpp"
 #include "supertux/savegame.hpp"
 #include "util/log.hpp"
@@ -48,6 +49,7 @@ WorldmapCheatMenu::WorldmapCheatMenu()
   add_entry(MNID_FINISH_WORLDMAP, _("Finish Worldmap"));
   add_entry(MNID_RESET_WORLDMAP, _("Reset Worldmap"));
   add_hl();
+  add_entry(MNID_MOVE_TO_LEVEL, _("Move to level"));
   add_entry(MNID_MOVE_TO_MAIN, _("Move to main spawnpoint"));
   add_hl();
   add_back(_("Back"));
@@ -124,11 +126,48 @@ WorldmapCheatMenu::menu_action(MenuItem& item)
       worldmap->set_levels_solved(false, false);
       break;
 
+    case MNID_MOVE_TO_LEVEL:
+      MenuManager::instance().set_menu(MenuStorage::WORLDMAP_LEVEL_SELECT_MENU);
+      return;
+
     case MNID_MOVE_TO_MAIN:
       worldmap->move_to_spawnpoint("main");
       break;
   }
 
+  MenuManager::instance().clear_menu_stack();
+}
+
+WorldmapLevelSelectMenu::WorldmapLevelSelectMenu()
+{
+  auto worldmap = worldmap::WorldMap::current();
+  int id = 0;
+  add_label(_("Select level"));
+  add_hl();
+  for (auto& level : worldmap->get_objects_by_type<worldmap::LevelTile>())
+  {
+    add_entry(id, level.m_title);
+    id++;
+  }
+  add_hl();
+  add_back(_("Back"));
+}
+
+void
+WorldmapLevelSelectMenu::menu_action(MenuItem& item)
+{
+  auto worldmap = worldmap::WorldMap::current();
+  auto& tux = worldmap->get_singleton_by_type<worldmap::Tux>();
+  int id = 0;
+  for(const auto& tile : worldmap->get_objects_by_type<worldmap::LevelTile>())
+  {
+    if(id == item.get_id())
+    {
+      tux.set_tile_pos(tile.get_pos());
+      break;
+    }
+    id++;
+  }
   MenuManager::instance().clear_menu_stack();
 }
 

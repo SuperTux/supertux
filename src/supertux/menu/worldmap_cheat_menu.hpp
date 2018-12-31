@@ -34,6 +34,7 @@ private:
     MNID_RESET_LEVEL,
     MNID_FINISH_WORLDMAP,
     MNID_RESET_WORLDMAP,
+    MNID_MOVE_TO_LEVEL,
     MNID_MOVE_TO_MAIN
   };
 
@@ -45,6 +46,18 @@ public:
 private:
   WorldmapCheatMenu(const WorldmapCheatMenu&) = delete;
   WorldmapCheatMenu& operator=(const WorldmapCheatMenu&) = delete;
+};
+
+class WorldmapLevelSelectMenu final : public Menu
+{
+public:
+  WorldmapLevelSelectMenu();
+
+  void menu_action(MenuItem& item) override;
+
+private:
+  WorldmapLevelSelectMenu(const WorldmapLevelSelectMenu&) = delete;
+  WorldmapLevelSelectMenu& operator=(const WorldmapLevelSelectMenu&) = delete;
 };
 
 #endif

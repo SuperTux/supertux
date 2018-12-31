@@ -96,6 +96,9 @@ MenuStorage::create(MenuId menu_id)
     case WORLDMAP_CHEAT_MENU:
       return std::make_unique<WorldmapCheatMenu>();
 
+    case WORLDMAP_LEVEL_SELECT_MENU:
+      return std::make_unique<WorldmapLevelSelectMenu>();
+
     case GAME_MENU:
       return std::make_unique<GameMenu>();
 
