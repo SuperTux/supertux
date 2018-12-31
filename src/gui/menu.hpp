@@ -97,7 +97,7 @@ public:
   /** Remove all entries from the menu */
   void clear();
 
-  MenuItem& get_item(int index) { return *(items[index]); }
+  MenuItem& get_item(int index) { return *(m_items[index]); }
 
   MenuItem& get_item_by_id(int id);
   const MenuItem& get_item_by_id(int id) const;
@@ -106,7 +106,7 @@ public:
   void set_active_item(int id);
 
   void draw(DrawingContext& context);
-  Vector get_center_pos() const { return pos; }
+  Vector get_center_pos() const { return m_pos; }
   void set_center_pos(float x, float y);
 
   void event(const SDL_Event& event);
@@ -131,22 +131,22 @@ private:
 
 private:
   /** position of the menu (ie. center of the menu, not top/left) */
-  Vector pos;
+  Vector m_pos;
 
   /* input implementation variables */
-  int delete_character;
-  char mn_input_char;
-  float menu_repeat_time;
-  float menu_width;
+  int m_delete_character;
+  char m_mn_input_char;
+  float m_menu_repeat_time;
+  float m_menu_width;
 
 public:
-  std::vector<std::unique_ptr<MenuItem> > items;
+  std::vector<std::unique_ptr<MenuItem> > m_items;
 
 private:
-  int arrange_left;
+  int m_arrange_left;
 
 protected:
-  int active_item;
+  int m_active_item;
 
 private:
   Menu(const Menu&) = delete;

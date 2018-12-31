@@ -55,7 +55,7 @@ FileSystemMenu::~FileSystemMenu()
 void
 FileSystemMenu::refresh_items()
 {
-  items.clear();
+  m_items.clear();
   m_directories.clear();
   m_files.clear();
   m_directory = FileSystem::normalize(m_directory);
@@ -110,7 +110,7 @@ FileSystemMenu::refresh_items()
   add_hl();
   add_back(_("Cancel"));
 
-  active_item = 2;
+  m_active_item = 2;
 
   // Re-center menu
   on_window_resize();

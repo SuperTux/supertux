@@ -69,19 +69,19 @@ ScriptMenu::remove_line() {
     return;
   }
 
-  script_strings.erase(script_strings.begin() + (active_item - 2));
-  delete_item(active_item);
+  script_strings.erase(script_strings.begin() + (m_active_item - 2));
+  delete_item(m_active_item);
 }
 
 void
 ScriptMenu::add_line() {
   auto new_line = std::make_unique<std::string>();
-  script_strings.insert(script_strings.begin() + (active_item - 1), move(new_line));
+  script_strings.insert(script_strings.begin() + (m_active_item - 1), move(new_line));
 
   auto line_item = std::unique_ptr<ItemScriptLine>(
-        new ItemScriptLine( (script_strings.begin()+(active_item-1))->get() ));
-  add_item(move(line_item), active_item+1);
-  active_item++;
+        new ItemScriptLine( (script_strings.begin()+(m_active_item-1))->get() ));
+  add_item(std::move(line_item), m_active_item+1);
+  m_active_item++;
 }
 
 void

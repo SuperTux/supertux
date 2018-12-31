@@ -51,15 +51,15 @@ static const float MENU_REPEAT_INITIAL = 0.4f;
 static const float MENU_REPEAT_RATE    = 0.1f;
 
 Menu::Menu() :
-  pos(Vector(static_cast<float>(SCREEN_WIDTH) / 2.0f,
-             static_cast<float>(SCREEN_HEIGHT) / 2.0f)),
-  delete_character(0),
-  mn_input_char('\0'),
-  menu_repeat_time(),
-  menu_width(),
-  items(),
-  arrange_left(0),
-  active_item(-1)
+  m_pos(Vector(static_cast<float>(SCREEN_WIDTH) / 2.0f,
+               static_cast<float>(SCREEN_HEIGHT) / 2.0f)),
+  m_delete_character(0),
+  m_mn_input_char('\0'),
+  m_menu_repeat_time(),
+  m_menu_width(),
+  m_items(),
+  m_arrange_left(0),
+  m_active_item(-1)
 {
 }
 
@@ -70,25 +70,25 @@ Menu::~Menu()
 void
 Menu::set_center_pos(float x, float y)
 {
-  pos.x = x;
-  pos.y = y;
+  m_pos.x = x;
+  m_pos.y = y;
 }
 
 /* Add an item to a menu */
 MenuItem&
 Menu::add_item(std::unique_ptr<MenuItem> new_item)
 {
-  items.push_back(std::move(new_item));
-  MenuItem& item = *items.back();
+  m_items.push_back(std::move(new_item));
+  MenuItem& item = *m_items.back();
 
   /* If a new menu is being built, the active item shouldn't be set to
    * something that isn't selectable. Set the active_item to the first
    * selectable item added.
    */
 
-  if (active_item == -1 && !item.skippable())
+  if (m_active_item == -1 && !item.skippable())
   {
-    active_item = static_cast<int>(items.size()) - 1;
+    m_active_item = static_cast<int>(m_items.size()) - 1;
   }
 
   calculate_width();
@@ -99,16 +99,16 @@ Menu::add_item(std::unique_ptr<MenuItem> new_item)
 MenuItem&
 Menu::add_item(std::unique_ptr<MenuItem> new_item, int pos_)
 {
-  items.insert(items.begin()+pos_,std::move(new_item));
-  MenuItem& item = *items[pos_];
+  m_items.insert(m_items.begin()+pos_,std::move(new_item));
+  MenuItem& item = *m_items[pos_];
 
   /* When the item is inserted before the selected item, the
    * same menu item should be still selected.
    */
 
-  if (active_item >= pos_)
+  if (m_active_item >= pos_)
   {
-    active_item++;
+    m_active_item++;
   }
 
   calculate_width();
@@ -119,20 +119,20 @@ Menu::add_item(std::unique_ptr<MenuItem> new_item, int pos_)
 void
 Menu::delete_item(int pos_)
 {
-  items.erase(items.begin()+pos_);
+  m_items.erase(m_items.begin()+pos_);
 
   /* When the item is deleted before the selected item, the
    * same menu item should be still selected.
    */
 
-  if (active_item >= pos_)
+  if (m_active_item >= pos_)
   {
     do {
-      if (active_item > 0)
-        --active_item;
+      if (m_active_item > 0)
+        --m_active_item;
       else
-        active_item = int(items.size())-1;
-    } while (items[active_item]->skippable());
+        m_active_item = int(m_items.size())-1;
+    } while (m_items[m_active_item]->skippable());
   }
 }
 
@@ -328,8 +328,8 @@ Menu::add_badguy_select(const std::string& text, std::vector<std::string>* badgu
 void
 Menu::clear()
 {
-  items.clear();
-  active_item = -1;
+  m_items.clear();
+  m_active_item = -1;
 }
 
 void
@@ -339,7 +339,7 @@ Menu::process_input(const Controller& controller)
   if (menu_height > SCREEN_HEIGHT)
   { // Scrolling
     int scroll_offset = (menu_height - SCREEN_HEIGHT) / 2 + 32;
-    pos.y = static_cast<float>(SCREEN_HEIGHT) / 2.0f - static_cast<float>(scroll_offset) * ((static_cast<float>(active_item) / static_cast<float>(items.size() - 1)) - 0.5f) * 2.0f;
+    m_pos.y = static_cast<float>(SCREEN_HEIGHT) / 2.0f - static_cast<float>(scroll_offset) * ((static_cast<float>(m_active_item) / static_cast<float>(m_items.size() - 1)) - 0.5f) * 2.0f;
   }
 
   MenuAction menuaction = MenuAction::NONE;
@@ -347,42 +347,42 @@ Menu::process_input(const Controller& controller)
   /** check main input controller... */
   if (controller.pressed(Controller::UP)) {
     menuaction = MenuAction::UP;
-    menu_repeat_time = g_real_time + MENU_REPEAT_INITIAL;
+    m_menu_repeat_time = g_real_time + MENU_REPEAT_INITIAL;
   }
   if (controller.hold(Controller::UP) &&
-     menu_repeat_time != 0 && g_real_time > menu_repeat_time) {
+     m_menu_repeat_time != 0 && g_real_time > m_menu_repeat_time) {
     menuaction = MenuAction::UP;
-    menu_repeat_time = g_real_time + MENU_REPEAT_RATE;
+    m_menu_repeat_time = g_real_time + MENU_REPEAT_RATE;
   }
 
   if (controller.pressed(Controller::DOWN)) {
     menuaction = MenuAction::DOWN;
-    menu_repeat_time = g_real_time + MENU_REPEAT_INITIAL;
+    m_menu_repeat_time = g_real_time + MENU_REPEAT_INITIAL;
   }
   if (controller.hold(Controller::DOWN) &&
-     menu_repeat_time != 0 && g_real_time > menu_repeat_time) {
+     m_menu_repeat_time != 0 && g_real_time > m_menu_repeat_time) {
     menuaction = MenuAction::DOWN;
-    menu_repeat_time = g_real_time + MENU_REPEAT_RATE;
+    m_menu_repeat_time = g_real_time + MENU_REPEAT_RATE;
   }
 
   if (controller.pressed(Controller::LEFT)) {
     menuaction = MenuAction::LEFT;
-    menu_repeat_time = g_real_time + MENU_REPEAT_INITIAL;
+    m_menu_repeat_time = g_real_time + MENU_REPEAT_INITIAL;
   }
   if (controller.hold(Controller::LEFT) &&
-     menu_repeat_time != 0 && g_real_time > menu_repeat_time) {
+     m_menu_repeat_time != 0 && g_real_time > m_menu_repeat_time) {
     menuaction = MenuAction::LEFT;
-    menu_repeat_time = g_real_time + MENU_REPEAT_RATE;
+    m_menu_repeat_time = g_real_time + MENU_REPEAT_RATE;
   }
 
   if (controller.pressed(Controller::RIGHT)) {
     menuaction = MenuAction::RIGHT;
-    menu_repeat_time = g_real_time + MENU_REPEAT_INITIAL;
+    m_menu_repeat_time = g_real_time + MENU_REPEAT_INITIAL;
   }
   if (controller.hold(Controller::RIGHT) &&
-     menu_repeat_time != 0 && g_real_time > menu_repeat_time) {
+     m_menu_repeat_time != 0 && g_real_time > m_menu_repeat_time) {
     menuaction = MenuAction::RIGHT;
-    menu_repeat_time = g_real_time + MENU_REPEAT_RATE;
+    m_menu_repeat_time = g_real_time + MENU_REPEAT_RATE;
   }
 
   if (controller.pressed(Controller::ACTION) ||
@@ -400,15 +400,15 @@ Menu::process_input(const Controller& controller)
 
   if (controller.pressed(Controller::REMOVE)) {
     menuaction = MenuAction::REMOVE;
-    menu_repeat_time = g_real_time + MENU_REPEAT_INITIAL;
+    m_menu_repeat_time = g_real_time + MENU_REPEAT_INITIAL;
   }
   if (controller.hold(Controller::REMOVE) &&
-     menu_repeat_time != 0 && g_real_time > menu_repeat_time) {
+     m_menu_repeat_time != 0 && g_real_time > m_menu_repeat_time) {
     menuaction = MenuAction::REMOVE;
-    menu_repeat_time = g_real_time + MENU_REPEAT_RATE;
+    m_menu_repeat_time = g_real_time + MENU_REPEAT_RATE;
   }
 
-  if (items.size() == 0)
+  if (m_items.size() == 0)
     return;
 
   // The menu_action() call can pop() the menu from the stack and thus
@@ -420,27 +420,27 @@ Menu::process_input(const Controller& controller)
 void
 Menu::process_action(const MenuAction& menuaction)
 {
-  int last_active_item = active_item;
+  int last_active_item = m_active_item;
 
   switch (menuaction) {
     case MenuAction::UP:
       do {
-        if (active_item > 0)
-          --active_item;
+        if (m_active_item > 0)
+          --m_active_item;
         else
-          active_item = int(items.size())-1;
-      } while (items[active_item]->skippable()
-               && (active_item != last_active_item));
+          m_active_item = int(m_items.size())-1;
+      } while (m_items[m_active_item]->skippable()
+               && (m_active_item != last_active_item));
       break;
 
     case MenuAction::DOWN:
       do {
-        if (active_item < int(items.size())-1 )
-          ++active_item;
+        if (m_active_item < int(m_items.size())-1 )
+          ++m_active_item;
         else
-          active_item = 0;
-      } while (items[active_item]->skippable()
-               && (active_item != last_active_item));
+          m_active_item = 0;
+      } while (m_items[m_active_item]->skippable()
+               && (m_active_item != last_active_item));
       break;
 
     case MenuAction::BACK:
@@ -453,17 +453,17 @@ Menu::process_action(const MenuAction& menuaction)
       break;
   }
 
-  if (items[active_item]->no_other_action()) {
-    items[active_item]->process_action(menuaction);
+  if (m_items[m_active_item]->no_other_action()) {
+    m_items[m_active_item]->process_action(menuaction);
     return;
   }
 
-  items[active_item]->process_action(menuaction);
-  if (items[active_item]->changes_width()) {
+  m_items[m_active_item]->process_action(menuaction);
+  if (m_items[m_active_item]->changes_width()) {
     calculate_width();
   }
   if (menuaction == MenuAction::HIT) {
-    menu_action(*items[active_item]);
+    menu_action(*m_items[m_active_item]);
   }
 }
 
@@ -473,23 +473,23 @@ Menu::draw_item(DrawingContext& context, int index)
   float menu_height = get_height();
   float menu_width_ = get_width();
 
-  MenuItem* pitem = items[index].get();
+  MenuItem* pitem = m_items[index].get();
 
-  float x_pos       = pos.x - menu_width_/2;
-  float y_pos       = pos.y + 24.0f * static_cast<float>(index) - menu_height / 2.0f + 12.0f;
+  float x_pos       = m_pos.x - menu_width_/2;
+  float y_pos       = m_pos.y + 24.0f * static_cast<float>(index) - menu_height / 2.0f + 12.0f;
 
-  pitem->draw(context, Vector(x_pos, y_pos), static_cast<int>(menu_width_), active_item == index);
+  pitem->draw(context, Vector(x_pos, y_pos), static_cast<int>(menu_width_), m_active_item == index);
 
-  if (active_item == index)
+  if (m_active_item == index)
   {
     float blink = (sinf(g_real_time * math::PI * 1.0f)/2.0f + 0.5f) * 0.5f + 0.25f;
-    context.color().draw_filled_rect(Rectf(Vector(pos.x - menu_width_/2 + 10 - 2, y_pos - 12 - 2),
-                                   Vector(pos.x + menu_width_/2 - 10 + 2, y_pos + 12 + 2)),
+    context.color().draw_filled_rect(Rectf(Vector(m_pos.x - menu_width_/2 + 10 - 2, y_pos - 12 - 2),
+                                   Vector(m_pos.x + menu_width_/2 - 10 + 2, y_pos + 12 + 2)),
                              Color(1.0f, 1.0f, 1.0f, blink),
                              14.0f,
                              LAYER_GUI-10);
-    context.color().draw_filled_rect(Rectf(Vector(pos.x - menu_width_/2 + 10, y_pos - 12),
-                                   Vector(pos.x + menu_width_/2 - 10, y_pos + 12)),
+    context.color().draw_filled_rect(Rectf(Vector(m_pos.x - menu_width_/2 + 10, y_pos - 12),
+                                   Vector(m_pos.x + menu_width_/2 - 10, y_pos + 12)),
                              Color(1.0f, 1.0f, 1.0f, 0.5f),
                              12.0f,
                              LAYER_GUI-10);
@@ -502,45 +502,45 @@ Menu::calculate_width()
   /* The width of the menu has to be more than the width of the text
      with the most characters */
   float max_width = 0;
-  for (unsigned int i = 0; i < items.size(); ++i)
+  for (unsigned int i = 0; i < m_items.size(); ++i)
   {
-    float w = static_cast<float>(items[i]->get_width());
+    float w = static_cast<float>(m_items[i]->get_width());
     if (w > max_width)
       max_width = w;
   }
-  menu_width = max_width;
+  m_menu_width = max_width;
 }
 
 float
 Menu::get_width() const
 {
-  return menu_width + 24;
+  return m_menu_width + 24;
 }
 
 float
 Menu::get_height() const
 {
-  return static_cast<float>(items.size() * 24);
+  return static_cast<float>(m_items.size() * 24);
 }
 
 void
 Menu::on_window_resize()
 {
-  pos.x = static_cast<float>(SCREEN_WIDTH) / 2.0f;
-  pos.y = static_cast<float>(SCREEN_HEIGHT) / 2.0f;
+  m_pos.x = static_cast<float>(SCREEN_WIDTH) / 2.0f;
+  m_pos.y = static_cast<float>(SCREEN_HEIGHT) / 2.0f;
 }
 
 void
 Menu::draw(DrawingContext& context)
 {
-  if (!items[active_item]->get_help().empty())
+  if (!m_items[m_active_item]->get_help().empty())
   {
-    int text_width  = static_cast<int>(Resources::normal_font->get_text_width(items[active_item]->get_help()));
-    int text_height = static_cast<int>(Resources::normal_font->get_text_height(items[active_item]->get_help()));
+    int text_width  = static_cast<int>(Resources::normal_font->get_text_width(m_items[m_active_item]->get_help()));
+    int text_height = static_cast<int>(Resources::normal_font->get_text_height(m_items[m_active_item]->get_help()));
 
-    Rectf text_rect(pos.x - static_cast<float>(text_width) / 2.0f - 8.0f,
+    Rectf text_rect(m_pos.x - static_cast<float>(text_width) / 2.0f - 8.0f,
                     static_cast<float>(SCREEN_HEIGHT) - 48.0f - static_cast<float>(text_height) / 2.0f - 4.0f,
-                    pos.x + static_cast<float>(text_width) / 2.0f + 8.0f,
+                    m_pos.x + static_cast<float>(text_width) / 2.0f + 8.0f,
                     static_cast<float>(SCREEN_HEIGHT) - 48.0f + static_cast<float>(text_height) / 2.0f + 4.0f);
 
     context.color().draw_filled_rect(Rectf(text_rect.p1() - Vector(4,4),
@@ -554,12 +554,12 @@ Menu::draw(DrawingContext& context)
                                        16.0f,
                                        LAYER_GUI-10);
 
-    context.color().draw_text(Resources::normal_font, items[active_item]->get_help(),
-                              Vector(pos.x, static_cast<float>(SCREEN_HEIGHT) - 48.0f - static_cast<float>(text_height) / 2.0f),
+    context.color().draw_text(Resources::normal_font, m_items[m_active_item]->get_help(),
+                              Vector(m_pos.x, static_cast<float>(SCREEN_HEIGHT) - 48.0f - static_cast<float>(text_height) / 2.0f),
                               ALIGN_CENTER, LAYER_GUI);
   }
 
-  for (unsigned int i = 0; i < items.size(); ++i)
+  for (unsigned int i = 0; i < m_items.size(); ++i)
   {
     draw_item(context, i);
   }
@@ -568,7 +568,7 @@ Menu::draw(DrawingContext& context)
 MenuItem&
 Menu::get_item_by_id(int id)
 {
-  for (const auto& item : items)
+  for (const auto& item : m_items)
   {
     if (item->get_id() == id)
     {
@@ -582,7 +582,7 @@ Menu::get_item_by_id(int id)
 const MenuItem&
 Menu::get_item_by_id(int id) const
 {
-  for (const auto& item : items)
+  for (const auto& item : m_items)
   {
     if (item->get_id() == id)
     {
@@ -595,18 +595,18 @@ Menu::get_item_by_id(int id) const
 
 int Menu::get_active_item_id() const
 {
-  return items[active_item]->get_id();
+  return m_items[m_active_item]->get_id();
 }
 
 void
 Menu::event(const SDL_Event& ev)
 {
-  items[active_item]->event(ev);
+  m_items[m_active_item]->event(ev);
   switch (ev.type) {
     case SDL_KEYDOWN:
     case SDL_TEXTINPUT:
       if (((ev.type == SDL_KEYDOWN && ev.key.keysym.sym == SDLK_BACKSPACE) ||
-         ev.type == SDL_TEXTINPUT) && items[active_item]->changes_width())
+         ev.type == SDL_TEXTINPUT) && m_items[m_active_item]->changes_width())
       {
         // Changed item value? Let's recalculate width:
         calculate_width();
@@ -618,10 +618,10 @@ Menu::event(const SDL_Event& ev)
     {
       Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(ev.motion.x, ev.motion.y);
 
-      if (mouse_pos.x > pos.x - get_width() / 2.0f &&
-          mouse_pos.x < pos.x + get_width() / 2.0f &&
-          mouse_pos.y > pos.y - get_height() / 2.0f &&
-          mouse_pos.y < pos.y + get_height() / 2.0f)
+      if (mouse_pos.x > m_pos.x - get_width() / 2.0f &&
+          mouse_pos.x < m_pos.x + get_width() / 2.0f &&
+          mouse_pos.y > m_pos.y - get_height() / 2.0f &&
+          mouse_pos.y < m_pos.y + get_height() / 2.0f)
       {
         process_action(MenuAction::HIT);
       }
@@ -634,17 +634,17 @@ Menu::event(const SDL_Event& ev)
       float x = mouse_pos.x;
       float y = mouse_pos.y;
 
-      if (x > pos.x - get_width()/2 &&
-         x < pos.x + get_width()/2 &&
-         y > pos.y - get_height()/2 &&
-         y < pos.y + get_height()/2)
+      if (x > m_pos.x - get_width()/2 &&
+         x < m_pos.x + get_width()/2 &&
+         y > m_pos.y - get_height()/2 &&
+         y < m_pos.y + get_height()/2)
       {
         int new_active_item
-          = static_cast<int> ((y - (pos.y - get_height()/2)) / 24);
+          = static_cast<int> ((y - (m_pos.y - get_height()/2)) / 24);
 
         /* only change the mouse focus to a selectable item */
-        if (!items[new_active_item]->skippable())
-          active_item = new_active_item;
+        if (!m_items[new_active_item]->skippable())
+          m_active_item = new_active_item;
 
         if (MouseCursor::current())
           MouseCursor::current()->set_state(MouseCursorState::LINK);
@@ -665,9 +665,9 @@ Menu::event(const SDL_Event& ev)
 void
 Menu::set_active_item(int id)
 {
-  for (size_t i = 0; i < items.size(); ++i) {
-    if (items[i]->get_id() == id) {
-      active_item = static_cast<int>(i);
+  for (size_t i = 0; i < m_items.size(); ++i) {
+    if (m_items[i]->get_id() == id) {
+      m_active_item = static_cast<int>(i);
       break;
     }
   }

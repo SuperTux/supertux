@@ -88,7 +88,7 @@ BadguySelectMenu::BadguySelectMenu(std::vector<std::string>* badguys_) :
 void
 BadguySelectMenu::refresh_menu()
 {
-  items.clear();
+  m_items.clear();
 
   add_label(_("List of enemies"));
   add_hl();
@@ -111,9 +111,9 @@ BadguySelectMenu::remove_badguy()
 {
   badguys->erase(badguys->begin() + remove_item);
   refresh_menu();
-  if (items[active_item]->skippable()) {
+  if (m_items[m_active_item]->skippable()) {
     //We are on the bottom headline.
-    active_item++;
+    m_active_item++;
   }
 }
 
