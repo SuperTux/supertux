@@ -966,7 +966,6 @@
     (tilemap
       (solid #f)
       (speed-x 0.4)
-      (speed-y 1.0)
       (z-pos -150)
       (width 150)
       (height 110)
