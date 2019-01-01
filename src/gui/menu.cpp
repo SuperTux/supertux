@@ -365,14 +365,20 @@ Menu::process_input(const Controller& controller)
     const float menu_area = screen_height - help_height;
     // get_height() doesn't include the border, so we manually add some
     const float menu_height = get_height() + 32.0f;
+    const float center_y = menu_area / 2.0f;
     if (menu_height > menu_area)
     {
       const float scroll_range = (menu_height - menu_area) / 2.0f;
       const float scroll_pos = ((static_cast<float>(m_active_item - first_idx)
                                  / static_cast<float>(last_idx - first_idx)) - 0.5f) * 2.0f;
-      const float center_y = menu_area / 2.0f;
 
       m_pos.y = floorf(center_y - scroll_range * scroll_pos);
+    }
+    else
+    {
+      if (help_height != 0.0f) {
+        m_pos.y = floorf(center_y);
+      }
     }
   }
 
