@@ -548,12 +548,12 @@ Menu::draw(DrawingContext& context)
 
     context.color().draw_filled_rect(Rectf(text_rect.p1() - Vector(4,4),
                                            text_rect.p2() + Vector(4,4)),
-                                     Color(0.2f, 0.3f, 0.4f, 0.8f),
+                                     Color(0.5f, 0.6f, 0.7f, 0.8f),
                                      16.0f,
                                      LAYER_GUI);
 
     context.color().draw_filled_rect(text_rect,
-                                     Color(0.6f, 0.7f, 0.8f, 0.5f),
+                                     Color(0.8f, 0.9f, 1.0f, 0.5f),
                                      16.0f,
                                      LAYER_GUI);
 
