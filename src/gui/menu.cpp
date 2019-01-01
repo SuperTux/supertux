@@ -333,11 +333,47 @@ Menu::clear()
 void
 Menu::process_input(const Controller& controller)
 {
-  const int menu_height = static_cast<int>(get_height());
-  if (menu_height > SCREEN_HEIGHT)
   { // Scrolling
-    int scroll_offset = (menu_height - SCREEN_HEIGHT) / 2 + 32;
-    m_pos.y = static_cast<float>(SCREEN_HEIGHT) / 2.0f - static_cast<float>(scroll_offset) * ((static_cast<float>(m_active_item) / static_cast<float>(m_items.size() - 1)) - 0.5f) * 2.0f;
+
+    // If a help text is present, make some space at the bottom of the
+    // menu so that the last few items don't overlap with the help
+    // text.
+    float help_height = 0.0f;
+    for (auto& item : m_items) {
+      if (!item->get_help().empty()) {
+        help_height = 96.0f;
+        break;
+      }
+    }
+
+    // Find the first and last selectable item in the current menu, so
+    // that the top most selected item gives a scroll_pos of -1.0f and
+    // the bottom most gives 1.0f, as otherwise the non-selectable
+    // header would be cut off.
+    size_t first_idx = m_items.size();
+    size_t last_idx = m_items.size();
+    for (size_t i = 0; i < m_items.size(); ++i) {
+      if (!m_items[i]->skippable()) {
+        if (first_idx == m_items.size()) {
+          first_idx = i;
+        }
+        last_idx = i;
+      }
+    }
+
+    const float screen_height = static_cast<float>(SCREEN_HEIGHT);
+    const float menu_area = screen_height - help_height;
+    // get_height() doesn't include the border, so we manually add some
+    const float menu_height = get_height() + 32.0f;
+    if (menu_height > menu_area)
+    {
+      const float scroll_range = (menu_height - menu_area) / 2.0f;
+      const float scroll_pos = ((static_cast<float>(m_active_item - first_idx)
+                                 / static_cast<float>(last_idx - first_idx)) - 0.5f) * 2.0f;
+      const float center_y = menu_area / 2.0f;
+
+      m_pos.y = floorf(center_y - scroll_range * scroll_pos);
+    }
   }
 
   MenuAction menuaction = MenuAction::NONE;
