@@ -17,8 +17,8 @@
 #include "object/background.hpp"
 
 #include "editor/editor.hpp"
+#include "supertux/d_scope.hpp"
 #include "supertux/globals.hpp"
-#include "supertux/sector.hpp"
 #include "util/reader.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
@@ -241,7 +241,7 @@ Background::set_speed(float speed)
 void
 Background::draw_image(DrawingContext& context, const Vector& pos_)
 {
-  const Sizef level(Sector::get().get_width(), Sector::get().get_height());
+  const Sizef level(d_gameobject_manager->get_width(), d_gameobject_manager->get_height());
   const Sizef screen(static_cast<float>(context.get_width()),
                      static_cast<float>(context.get_height()));
   const Sizef parallax_image_size = (1.0f - m_speed.x) * screen + level * m_speed.x;
@@ -342,8 +342,8 @@ Background::draw(DrawingContext& context)
   if (m_image.get() == nullptr)
     return;
 
-  Sizef level_size(Sector::get().get_width(),
-                   Sector::get().get_height());
+  Sizef level_size(d_gameobject_manager->get_width(),
+                   d_gameobject_manager->get_height());
   Sizef screen(static_cast<float>(context.get_width()),
                static_cast<float>(context.get_height()));
   Sizef translation_range = level_size - screen;
