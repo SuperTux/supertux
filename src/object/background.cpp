@@ -113,8 +113,8 @@ Background::Background(const ReaderMapping& reader) :
   reader.get("scroll-offset-x", m_scroll_offset.x, 0.0f);
   reader.get("scroll-offset-y", m_scroll_offset.y, 0.0f);
 
-  reader.get("scroll-speed-x", m_scroll_speed.x, 0.5f);
-  reader.get("scroll-speed-y", m_scroll_speed.y, 0.5f);
+  reader.get("scroll-speed-x", m_scroll_speed.x, 0.0f);
+  reader.get("scroll-speed-y", m_scroll_speed.y, 0.0f);
 
   m_layer = reader_get_layer (reader, /* default = */ LAYER_BACKGROUND0);
 
@@ -169,8 +169,8 @@ Background::get_settings()
                   static_cast<int>(NO_ALIGNMENT), "alignment");
   result.add_float(_("Scroll offset x"), &m_scroll_offset.x, "scroll-offset-x", 0.0f);
   result.add_float(_("Scroll offset y"), &m_scroll_offset.y, "scroll-offset-y", 0.0f);
-  result.add_float(_("Scroll speed x"), &m_scroll_speed.x, "scroll-speed-x", 0.5f);
-  result.add_float(_("Scroll speed y"), &m_scroll_speed.y, "scroll-speed-y", 0.5f);
+  result.add_float(_("Scroll speed x"), &m_scroll_speed.x, "scroll-speed-x", 0.0f);
+  result.add_float(_("Scroll speed y"), &m_scroll_speed.y, "scroll-speed-y", 0.0f);
   result.add_float(_("Speed x"), &m_speed.x, "speed", boost::none);
   result.add_float(_("Speed y"), &m_speed.y, "speed-y", m_speed.x);
   result.add_surface(_("Top image"), &m_imagefile_top, "image-top", std::string());
@@ -350,9 +350,9 @@ Background::draw(DrawingContext& context)
   Vector center_offset(context.get_translation().x - translation_range.width  / 2.0f,
                        context.get_translation().y - translation_range.height / 2.0f);
 
-  float px = m_has_pos_x ? m_pos.x : level_size.width/2;
-  float py = m_has_pos_y ? m_pos.y : level_size.height/2;
-  draw_image(context, Vector(px, py) + center_offset * (1.0f - m_speed.x));
+  Vector pos(m_has_pos_x ? m_pos.x : level_size.width / 2,
+             m_has_pos_y ? m_pos.y : level_size.height / 2);
+  draw_image(context, pos + m_scroll_offset + center_offset * (1.0f - m_speed.x));
 }
 
 /* EOF */
