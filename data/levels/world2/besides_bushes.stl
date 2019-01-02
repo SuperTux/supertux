@@ -10,8 +10,6 @@
       (color 1 1 1)
     )
     (background
-      (scroll-speed-x 0)
-      (scroll-speed-y 0)
       (speed 0.3)
       (image-top "/images/background/transparent_up.png")
       (image "/images/background/forest_para2.png")

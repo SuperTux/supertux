@@ -16,8 +16,6 @@ TextArray.set_visible(true);")
       (color 1 1 1)
     )
     (background
-      (scroll-speed-x 0)
-      (scroll-speed-y 0)
       (speed 0.5)
       (image-top "images/background/BlueRock_Forest/blue-top.jpg")
       (image "images/background/BlueRock_Forest/blue-middle.jpg")
