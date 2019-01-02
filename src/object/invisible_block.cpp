@@ -29,7 +29,7 @@ InvisibleBlock::InvisibleBlock(const Vector& pos) :
 {
   m_col.m_bbox.set_pos(pos);
   SoundManager::current()->preload("sounds/brick.wav");
-  sprite->set_action("default-editor");
+  m_sprite->set_action("default-editor");
 }
 
 InvisibleBlock::InvisibleBlock(const ReaderMapping& mapping) :
@@ -43,7 +43,7 @@ void
 InvisibleBlock::draw(DrawingContext& context)
 {
   if (visible || Editor::is_active())
-    sprite->draw(context.color(), get_pos(), LAYER_OBJECTS);
+    m_sprite->draw(context.color(), get_pos(), LAYER_OBJECTS);
 }
 
 bool
@@ -77,7 +77,7 @@ InvisibleBlock::hit(Player& player)
   if (visible)
     return;
 
-  sprite->set_action("empty");
+  m_sprite->set_action("empty");
   start_bounce(&player);
   set_group(COLGROUP_STATIC);
   visible = true;

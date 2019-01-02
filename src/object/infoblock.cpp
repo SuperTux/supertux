@@ -150,7 +150,7 @@ InfoBlock::draw(DrawingContext& context)
   float height = lines_height; // this is the text height only
   float x1 = (m_col.m_bbox.get_left() + m_col.m_bbox.get_right())/2 - width/2;
   float x2 = (m_col.m_bbox.get_left() + m_col.m_bbox.get_right())/2 + width/2;
-  float y1 = original_y - height;
+  float y1 = m_original_y - height;
 
   if (x1 < 0) {
     x1 = 0;

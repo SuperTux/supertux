@@ -66,10 +66,10 @@ BonusBlock::BonusBlock(const Vector& pos, int tile_data) :
   m_lightsprite(),
   m_custom_sx()
 {
-  default_sprite_name = "images/objects/bonus_block/bonusblock.sprite";
+  m_default_sprite_name = "images/objects/bonus_block/bonusblock.sprite";
 
   m_col.m_bbox.set_pos(pos);
-  sprite->set_action("normal");
+  m_sprite->set_action("normal");
   m_contents = get_content_by_data(tile_data);
   preload_contents(tile_data);
 }
@@ -83,7 +83,7 @@ BonusBlock::BonusBlock(const ReaderMapping& mapping) :
   m_lightsprite(),
   m_custom_sx()
 {
-  default_sprite_name = "images/objects/bonus_block/bonusblock.sprite";
+  m_default_sprite_name = "images/objects/bonus_block/bonusblock.sprite";
 
   auto iter = mapping.get_iter();
   while (iter.next()) {
@@ -254,7 +254,7 @@ BonusBlock::collision(GameObject& other, const CollisionHit& hit_)
 void
 BonusBlock::try_open(Player* player)
 {
-  if (sprite->get_action() == "empty") {
+  if (m_sprite->get_action() == "empty") {
     SoundManager::current()->play("sounds/brick.wav");
     return;
   }
@@ -327,10 +327,10 @@ BonusBlock::try_open(Player* player)
 
     case Content::LIGHT:
     {
-      if (sprite->get_action() == "on")
-        sprite->set_action("off");
+      if (m_sprite->get_action() == "on")
+        m_sprite->set_action("off");
       else
-        sprite->set_action("on");
+        m_sprite->set_action("on");
       SoundManager::current()->play("sounds/switch.ogg");
       break;
     }
@@ -363,7 +363,7 @@ BonusBlock::try_open(Player* player)
   start_bounce(player);
   if (m_hit_counter <= 0 || m_contents == Content::LIGHT) { //use 0 to allow infinite hits
   } else if (m_hit_counter == 1) {
-    sprite->set_action("empty");
+    m_sprite->set_action("empty");
   } else {
     m_hit_counter--;
   }
@@ -372,7 +372,7 @@ BonusBlock::try_open(Player* player)
 void
 BonusBlock::try_drop(Player *player)
 {
-  if (sprite->get_action() == "empty") {
+  if (m_sprite->get_action() == "empty") {
     SoundManager::current()->play("sounds/brick.wav");
     return;
   }
@@ -486,7 +486,7 @@ BonusBlock::try_drop(Player *player)
 
   if (countdown) { // only decrease hit counter if try_open was not called
     if (m_hit_counter == 1) {
-      sprite->set_action("empty");
+      m_sprite->set_action("empty");
     } else {
       m_hit_counter--;
     }
@@ -521,7 +521,7 @@ BonusBlock::draw(DrawingContext& context)
   // do the regular drawing first
   Block::draw(context);
   // then Draw the light if on.
-  if (sprite->get_action() == "on") {
+  if (m_sprite->get_action() == "on") {
     Vector pos = get_pos() + (m_col.m_bbox.get_size().as_vector() - Vector(static_cast<float>(m_lightsprite->get_width()),
                                                                    static_cast<float>(m_lightsprite->get_height()))) / 2.0f;
     context.light().draw_surface(m_lightsprite, pos, 10);

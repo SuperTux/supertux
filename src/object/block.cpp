@@ -38,14 +38,14 @@ static const float BOUNCY_BRICK_SPEED = 90;
 static const float BUMP_ROTATION_ANGLE = 10;
 
 Block::Block(SpritePtr newsprite) :
-  sprite(std::move(newsprite)),
-  sprite_name(),
-  default_sprite_name(),
-  bouncing(false),
-  breaking(false),
-  bounce_dir(0),
-  bounce_offset(0),
-  original_y(-1)
+  m_sprite(std::move(newsprite)),
+  m_sprite_name(),
+  m_default_sprite_name(),
+  m_bouncing(false),
+  m_breaking(false),
+  m_bounce_dir(0),
+  m_bounce_offset(0),
+  m_original_y(-1)
 {
   m_col.m_bbox.set_size(32, 32.1f);
   set_group(COLGROUP_STATIC);
@@ -54,14 +54,14 @@ Block::Block(SpritePtr newsprite) :
 }
 
 Block::Block(const ReaderMapping& mapping, const std::string& sprite_file) :
-  sprite(),
-  sprite_name(),
-  default_sprite_name(),
-  bouncing(false),
-  breaking(false),
-  bounce_dir(0),
-  bounce_offset(0),
-  original_y(-1)
+  m_sprite(),
+  m_sprite_name(),
+  m_default_sprite_name(),
+  m_bouncing(false),
+  m_breaking(false),
+  m_bounce_dir(0),
+  m_bounce_offset(0),
+  m_original_y(-1)
 {
   mapping.get("x", m_col.m_bbox.get_left());
   mapping.get("y", m_col.m_bbox.get_top());
@@ -71,9 +71,9 @@ Block::Block(const ReaderMapping& mapping, const std::string& sprite_file) :
   if (sf.empty() || !PHYSFS_exists(sf.c_str())) {
     sf = sprite_file;
   }
-  sprite = SpriteManager::current()->create(sf);
-  sprite_name = sf;
-  default_sprite_name = sprite_name;
+  m_sprite = SpriteManager::current()->create(sf);
+  m_sprite_name = sf;
+  m_default_sprite_name = m_sprite_name;
 
   m_col.m_bbox.set_size(32, 32.1f);
   set_group(COLGROUP_STATIC);
@@ -101,7 +101,7 @@ Block::collision(GameObject& other, const CollisionHit& )
   bool is_portable = ((portable != nullptr) && portable->is_portable());
   bool is_bomb = (bomb != nullptr); // bombs need to explode, although they are considered portable
   bool hit_mo_from_below = ((moving_object == nullptr) || (moving_object->get_bbox().get_bottom() < (m_col.m_bbox.get_top() + SHIFT_DELTA)));
-  if (bouncing && (!is_portable || is_bomb) && hit_mo_from_below) {
+  if (m_bouncing && (!is_portable || is_bomb) && hit_mo_from_below) {
 
     // Badguys get killed
     auto badguy = dynamic_cast<BadGuy*> (&other);
@@ -129,47 +129,47 @@ Block::collision(GameObject& other, const CollisionHit& )
 void
 Block::update(float dt_sec)
 {
-  if (!bouncing)
+  if (!m_bouncing)
     return;
 
-  float offset = original_y - get_pos().y;
+  float offset = m_original_y - get_pos().y;
   if (offset > BOUNCY_BRICK_MAX_OFFSET) {
-    bounce_dir = BOUNCY_BRICK_SPEED;
-    m_col.m_movement = Vector(0, bounce_dir * dt_sec);
-    if (breaking){
+    m_bounce_dir = BOUNCY_BRICK_SPEED;
+    m_col.m_movement = Vector(0, m_bounce_dir * dt_sec);
+    if (m_breaking){
       break_me();
     }
-  } else if (offset < BOUNCY_BRICK_SPEED * dt_sec && bounce_dir > 0) {
+  } else if (offset < BOUNCY_BRICK_SPEED * dt_sec && m_bounce_dir > 0) {
     m_col.m_movement = Vector(0, offset);
-    bounce_dir = 0;
-    bouncing = false;
-    sprite->set_angle(0);
+    m_bounce_dir = 0;
+    m_bouncing = false;
+    m_sprite->set_angle(0);
   } else {
-    m_col.m_movement = Vector(0, bounce_dir * dt_sec);
+    m_col.m_movement = Vector(0, m_bounce_dir * dt_sec);
   }
 }
 
 void
 Block::draw(DrawingContext& context)
 {
-  sprite->draw(context.color(), get_pos(), LAYER_OBJECTS+1);
+  m_sprite->draw(context.color(), get_pos(), LAYER_OBJECTS+1);
 }
 
 void
 Block::start_bounce(GameObject* hitter)
 {
-  if (original_y == -1){
-    original_y = m_col.m_bbox.get_top();
+  if (m_original_y == -1){
+    m_original_y = m_col.m_bbox.get_top();
   }
-  bouncing = true;
-  bounce_dir = -BOUNCY_BRICK_SPEED;
-  bounce_offset = 0;
+  m_bouncing = true;
+  m_bounce_dir = -BOUNCY_BRICK_SPEED;
+  m_bounce_offset = 0;
 
   MovingObject* hitter_mo = dynamic_cast<MovingObject*>(hitter);
   if (hitter_mo) {
     float center_of_hitter = hitter_mo->get_bbox().get_middle().x;
     float offset = (m_col.m_bbox.get_middle().x - center_of_hitter)*2 / m_col.m_bbox.get_width();
-    sprite->set_angle(BUMP_ROTATION_ANGLE*offset);
+    m_sprite->set_angle(BUMP_ROTATION_ANGLE*offset);
   }
 }
 
@@ -177,7 +177,7 @@ void
 Block::start_break(GameObject* hitter)
 {
   start_bounce(hitter);
-  breaking = true;
+  m_breaking = true;
 }
 
 void
@@ -190,7 +190,7 @@ Block::break_me()
   {
     Vector velocity(graphicsRandom.randf(-100, 100),
                     graphicsRandom.randf(-400, -300));
-    Sector::get().add<SpriteParticle>(sprite->clone(), action,
+    Sector::get().add<SpriteParticle>(m_sprite->clone(), action,
                                 pos, ANCHOR_MIDDLE,
                                 velocity, Vector(0, gravity),
                                 LAYER_OBJECTS + 1);
@@ -204,14 +204,14 @@ Block::get_settings()
 {
   ObjectSettings result = MovingObject::get_settings();
 
-  result.add_sprite(_("Sprite"), &sprite_name, "sprite", default_sprite_name);
+  result.add_sprite(_("Sprite"), &m_sprite_name, "sprite", m_default_sprite_name);
 
   return result;
 }
 
 void Block::after_editor_set()
 {
-  sprite = SpriteManager::current()->create(sprite_name);
+  m_sprite = SpriteManager::current()->create(m_sprite_name);
 }
 
 /* EOF */

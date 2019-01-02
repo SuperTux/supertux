@@ -56,7 +56,7 @@ Brick::Brick(const ReaderMapping& mapping) :
 void
 Brick::hit(Player& player)
 {
-  if (sprite->get_action() == "empty")
+  if (m_sprite->get_action() == "empty")
     return;
 
   try_break(&player);
@@ -100,7 +100,7 @@ Brick::collision(GameObject& other, const CollisionHit& hit_)
 void
 Brick::try_break(Player* player)
 {
-  if (sprite->get_action() == "empty")
+  if (m_sprite->get_action() == "empty")
     return;
 
   SoundManager::current()->play("sounds/brick.wav");
@@ -110,7 +110,7 @@ Brick::try_break(Player* player)
     m_coin_counter--;
     player_one.get_status().add_coins(1);
     if (m_coin_counter == 0)
-      sprite->set_action("empty");
+      m_sprite->set_action("empty");
     start_bounce(player);
   } else if (m_breakable) {
     if (player) {
