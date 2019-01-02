@@ -57,7 +57,7 @@ Background::Background(const ReaderMapping& reader) :
   m_imagefile(),
   m_imagefile_bottom(),
   m_pos(),
-  m_parallax_speed(),
+  m_parallax_speed(1.0f, 1.0f),
   m_scroll_speed(),
   m_scroll_offset(),
   m_image_top(),
@@ -74,9 +74,6 @@ Background::Background(const ReaderMapping& reader) :
   m_has_pos_x = reader.get("x", px);
   m_has_pos_y = reader.get("y", py);
   m_pos = Vector(px,py);
-
-  m_parallax_speed.x = 1.0f;
-  m_parallax_speed.y = 1.0f;
 
   reader.get("fill", m_fill);
 
@@ -119,6 +116,7 @@ Background::Background(const ReaderMapping& reader) :
   m_layer = reader_get_layer (reader, /* default = */ LAYER_BACKGROUND0);
 
   reader.get("image", m_imagefile, "images/background/transparent_up.png");
+  m_image = Surface::from_file(m_imagefile);
 
   if(!reader.get("speed-x", m_parallax_speed.x))
   {
@@ -126,7 +124,6 @@ Background::Background(const ReaderMapping& reader) :
     reader.get("speed", m_parallax_speed.x, 0.5f);
   };
 
-  set_image(m_imagefile, m_parallax_speed.x);
   reader.get("speed-y", m_parallax_speed.y, m_parallax_speed.x);
 
   if (reader.get("image-top", m_imagefile_top)) {
@@ -204,33 +201,25 @@ Background::update(float dt_sec)
 }
 
 void
-Background::set_image(const std::string& name_)
+Background::set_image(const std::string& name)
 {
-  m_imagefile = name_;
-  m_image = Surface::from_file(name_);
-  m_imagefile = name_;
+  m_imagefile = name;
+  m_image = Surface::from_file(name);
 }
 
 void
-Background::set_image(const std::string& name, float speed)
+Background::set_images(const std::string& name_top,
+                       const std::string& name_middle,
+                       const std::string& name_bottom)
 {
-  m_parallax_speed.x = speed;
-  m_parallax_speed.y = speed;
-  set_image(name);
-}
+  m_image_top = Surface::from_file(name_top);
+  m_imagefile_top = name_top;
 
-void
-Background::set_images(const std::string& name_top_, const std::string& name_middle_,
-                       const std::string& name_bottom_)
-{
-  m_image_top = Surface::from_file(name_top_);
-  m_imagefile_top = name_top_;
+  m_image = Surface::from_file(name_middle);
+  m_imagefile = name_middle;
 
-  m_image = Surface::from_file(name_middle_);
-  m_imagefile = name_middle_;
-
-  m_image_bottom = Surface::from_file(name_bottom_);
-  m_imagefile_bottom = name_bottom_;
+  m_image_bottom = Surface::from_file(name_bottom);
+  m_imagefile_bottom = name_bottom;
 }
 
 void

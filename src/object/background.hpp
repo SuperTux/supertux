@@ -49,8 +49,7 @@ public:
   virtual void after_editor_set() override;
 
   void set_image(const std::string& name);
-  void set_image(const std::string& name, float bkgd_speed);
-  void set_images(const std::string& name_top_, const std::string& name_middle_, const std::string& name_bottom_);
+  void set_images(const std::string& name_top, const std::string& name_middle, const std::string& name_bottom);
   void set_speed(float bgd_speed);
 
   void draw_image(DrawingContext& context, const Vector& pos);

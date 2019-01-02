@@ -191,7 +191,8 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
 
   if (!backgroundimage.empty()) {
     auto& background = m_sector.add<Background>();
-    background.set_image(backgroundimage, bgspeed);
+    background.set_image(backgroundimage);
+    background.set_speed(bgspeed);
   } else {
     auto& gradient = m_sector.add<Gradient>();
     gradient.set_gradient(bkgd_top, bkgd_bottom);

@@ -75,7 +75,7 @@ void
 Background::set_speed(float speed)
 {
   SCRIPT_GUARD_VOID;
-  object.set_image(object.get_image(), speed);
+  object.set_speed(speed);
 }
 
 } // namespace scripting
