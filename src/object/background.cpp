@@ -34,7 +34,7 @@ Background::Background() :
   m_imagefile(),
   m_imagefile_bottom(),
   m_pos(),
-  m_speed(),
+  m_parallax_speed(),
   m_scroll_speed(),
   m_scroll_offset(),
   m_image_top(),
@@ -57,7 +57,7 @@ Background::Background(const ReaderMapping& reader) :
   m_imagefile(),
   m_imagefile_bottom(),
   m_pos(),
-  m_speed(),
+  m_parallax_speed(),
   m_scroll_speed(),
   m_scroll_offset(),
   m_image_top(),
@@ -75,8 +75,8 @@ Background::Background(const ReaderMapping& reader) :
   m_has_pos_y = reader.get("y", py);
   m_pos = Vector(px,py);
 
-  m_speed.x = 1.0;
-  m_speed.y = 1.0;
+  m_parallax_speed.x = 1.0f;
+  m_parallax_speed.y = 1.0f;
 
   reader.get("fill", m_fill);
 
@@ -120,14 +120,14 @@ Background::Background(const ReaderMapping& reader) :
 
   reader.get("image", m_imagefile, "images/background/transparent_up.png");
 
-  if(!reader.get("speed-x", m_speed.x))
+  if(!reader.get("speed-x", m_parallax_speed.x))
   {
     // for backward compatibilty
-    reader.get("speed", m_speed.x, 0.5f);
+    reader.get("speed", m_parallax_speed.x, 0.5f);
   };
 
-  set_image(m_imagefile, m_speed.x);
-  reader.get("speed-y", m_speed.y, m_speed.x);
+  set_image(m_imagefile, m_parallax_speed.x);
+  reader.get("speed-y", m_parallax_speed.y, m_parallax_speed.x);
 
   if (reader.get("image-top", m_imagefile_top)) {
     m_image_top = Surface::from_file(m_imagefile_top);
@@ -171,8 +171,8 @@ Background::get_settings()
   result.add_float(_("Scroll offset y"), &m_scroll_offset.y, "scroll-offset-y", 0.0f);
   result.add_float(_("Scroll speed x"), &m_scroll_speed.x, "scroll-speed-x", 0.0f);
   result.add_float(_("Scroll speed y"), &m_scroll_speed.y, "scroll-speed-y", 0.0f);
-  result.add_float(_("Speed x"), &m_speed.x, "speed", boost::none);
-  result.add_float(_("Speed y"), &m_speed.y, "speed-y", m_speed.x);
+  result.add_float(_("Parallax Speed x"), &m_parallax_speed.x, "speed", boost::none);
+  result.add_float(_("Parallax Speed y"), &m_parallax_speed.y, "speed-y", m_parallax_speed.x);
   result.add_surface(_("Top image"), &m_imagefile_top, "image-top", std::string());
   result.add_surface(_("Image"), &m_imagefile, "image");
   result.add_surface(_("Bottom image"), &m_imagefile_bottom, "image-bottom", std::string());
@@ -214,7 +214,8 @@ Background::set_image(const std::string& name_)
 void
 Background::set_image(const std::string& name, float speed)
 {
-  m_speed.x = speed;
+  m_parallax_speed.x = speed;
+  m_parallax_speed.y = speed;
   set_image(name);
 }
 
@@ -235,7 +236,8 @@ Background::set_images(const std::string& name_top_, const std::string& name_mid
 void
 Background::set_speed(float speed)
 {
-  m_speed.x = speed;
+  m_parallax_speed.x = speed;
+  m_parallax_speed.y = speed;
 }
 
 void
@@ -244,7 +246,8 @@ Background::draw_image(DrawingContext& context, const Vector& pos_)
   const Sizef level(d_gameobject_manager->get_width(), d_gameobject_manager->get_height());
   const Sizef screen(static_cast<float>(context.get_width()),
                      static_cast<float>(context.get_height()));
-  const Sizef parallax_image_size = (1.0f - m_speed.x) * screen + level * m_speed.x;
+  const Sizef parallax_image_size((1.0f - m_parallax_speed.x) * screen.width + level.width * m_parallax_speed.x,
+                                  (1.0f - m_parallax_speed.y) * screen.height + level.height * m_parallax_speed.y);
 
   const Rectf cliprect = context.get_cliprect();
   const float img_w = static_cast<float>(m_image->get_width());
@@ -352,7 +355,8 @@ Background::draw(DrawingContext& context)
 
   Vector pos(m_has_pos_x ? m_pos.x : level_size.width / 2,
              m_has_pos_y ? m_pos.y : level_size.height / 2);
-  draw_image(context, pos + m_scroll_offset + center_offset * (1.0f - m_speed.x));
+  draw_image(context, pos + m_scroll_offset + Vector(center_offset.x * (1.0f - m_parallax_speed.x),
+                                                     center_offset.y * (1.0f - m_parallax_speed.y)));
 }
 
 /* EOF */
