@@ -103,20 +103,15 @@ private:
   void check_alc_error(const char* message) const;
 
 private:
-  typedef std::map<std::string, ALuint> SoundBuffers;
-  typedef std::vector<std::unique_ptr<OpenALSoundSource> > SoundSources;
-  typedef std::vector<StreamSoundSource*> StreamSoundSources;
-
-private:
   ALCdevice* m_device;
   ALCcontext* m_context;
   bool m_sound_enabled;
   int m_sound_volume;
 
-  SoundBuffers m_buffers;
-  SoundSources m_sources;
+  std::map<std::string, ALuint> m_buffers;
+  std::vector<std::unique_ptr<OpenALSoundSource> > m_sources;
 
-  StreamSoundSources m_update_list;
+  std::vector<StreamSoundSource*> m_update_list;
 
   std::unique_ptr<StreamSoundSource> m_music_source;
 

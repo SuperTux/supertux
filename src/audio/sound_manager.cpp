@@ -120,9 +120,9 @@ SoundManager::intern_create_sound_source(const std::string& filename)
   ALuint buffer;
 
   // reuse an existing static sound buffer
-  SoundBuffers::iterator i = m_buffers.find(filename);
-  if (i != m_buffers.end()) {
-    buffer = i->second;
+  auto it = m_buffers.find(filename);
+  if (it != m_buffers.end()) {
+    buffer = it->second;
   } else {
     // Load sound file
     std::unique_ptr<SoundFile> file(load_sound_file(filename));
@@ -163,9 +163,9 @@ SoundManager::preload(const std::string& filename)
   if (!m_sound_enabled)
     return;
 
-  SoundBuffers::iterator i = m_buffers.find(filename);
+  auto it = m_buffers.find(filename);
   // already loaded?
-  if (i != m_buffers.end())
+  if (it != m_buffers.end())
     return;
   try {
     std::unique_ptr<SoundFile> file (load_sound_file(filename));
@@ -226,12 +226,12 @@ SoundManager::remove_from_update(StreamSoundSource* sss)
 {
   if (sss)
   {
-    StreamSoundSources::iterator i = m_update_list.begin();
-    while ( i != m_update_list.end() ){
-      if ( *i == sss ){
-        i = m_update_list.erase(i);
+    auto it = m_update_list.begin();
+    while (it != m_update_list.end()) {
+      if (*it == sss) {
+        it = m_update_list.erase(it);
       } else {
-        ++i;
+        ++it;
       }
     }
   }
@@ -428,15 +428,15 @@ SoundManager::update()
   lasttime = now;
 
   // update and check for finished sound sources
-  for (SoundSources::iterator i = m_sources.begin(); i != m_sources.end(); ) {
-    auto& source = *i;
+  for (auto it = m_sources.begin(); it != m_sources.end(); ) {
+    auto& source = *it;
 
     source->update();
 
     if (!source->playing()) {
-      i = m_sources.erase(i);
+      it = m_sources.erase(it);
     } else {
-      ++i;
+      ++it;
     }
   }
   // check streaming sounds
@@ -451,8 +451,8 @@ SoundManager::update()
   }
 
   //run update() for stream_sound_source
-  StreamSoundSources::iterator s = m_update_list.begin();
-  while ( s != m_update_list.end() ){
+  auto s = m_update_list.begin();
+  while (s != m_update_list.end()) {
     (*s)->update();
     ++s;
   }
