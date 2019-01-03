@@ -29,7 +29,7 @@ public:
   virtual const char* what() const throw() override;
 
 private:
-  std::string message;
+  std::string m_message;
 };
 
 #endif

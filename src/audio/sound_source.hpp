@@ -19,11 +19,9 @@
 
 class Vector;
 
-/**
- * A sound source represents the source of audio output. You can place
- * sources at certain points in your world or set their velocity to produce
- * doppler effects
- */
+/** A sound source represents the source of audio output. You can
+    place sources at certain points in your world or set their
+    velocity to produce doppler effects */
 class SoundSource
 {
 public:

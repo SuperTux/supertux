@@ -25,6 +25,12 @@ struct PHYSFS_File;
 
 class OggSoundFile final : public SoundFile
 {
+private:
+  static size_t cb_read(void* ptr, size_t size, size_t nmemb, void* source);
+  static int cb_seek(void* source, ogg_int64_t offset, int whence);
+  static int cb_close(void* source);
+  static long cb_tell(void* source);
+
 public:
   OggSoundFile(PHYSFS_File* file, double loop_begin, double loop_at);
   ~OggSoundFile();
@@ -33,15 +39,10 @@ public:
   virtual void reset() override;
 
 private:
-  static size_t cb_read(void* ptr, size_t size, size_t nmemb, void* source);
-  static int cb_seek(void* source, ogg_int64_t offset, int whence);
-  static int cb_close(void* source);
-  static long cb_tell(void* source);
-
-  PHYSFS_File*   file;
-  OggVorbis_File vorbis_file;
-  ogg_int64_t    loop_begin;
-  ogg_int64_t    loop_at;
+  PHYSFS_File* m_file;
+  OggVorbis_File m_vorbis_file;
+  ogg_int64_t m_loop_begin;
+  ogg_int64_t m_loop_at;
 
 private:
   OggSoundFile(const OggSoundFile&) = delete;

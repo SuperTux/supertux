@@ -23,18 +23,15 @@
 
 class OpenALSoundSource : public SoundSource
 {
+  friend class SoundManager;
+
 public:
   OpenALSoundSource();
   virtual ~OpenALSoundSource();
 
   virtual void play() override;
   virtual void stop() override;
-  virtual void pause();
-  virtual void resume();
   virtual bool playing() const override;
-  virtual bool paused() const;
-
-  virtual void update();
 
   virtual void set_looping(bool looping) override;
   virtual void set_relative(bool relative) override;
@@ -43,12 +40,16 @@ public:
   virtual void set_position(const Vector& position) override;
   virtual void set_velocity(const Vector& position) override;
   virtual void set_reference_distance(float distance) override;
+
   virtual void set_volume(float volume);
 
-protected:
-  friend class SoundManager;
+  virtual void pause();
+  virtual bool paused() const;
+  virtual void resume();
+  virtual void update();
 
-  ALuint source;
+protected:
+  ALuint m_source;
   float m_gain;
   float m_volume;
 

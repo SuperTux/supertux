@@ -22,35 +22,35 @@
 #include <physfs.h>
 
 OggSoundFile::OggSoundFile(PHYSFS_File* file_, double loop_begin_, double loop_at_) :
-  file(file_),
-  vorbis_file(),
-  loop_begin(),
-  loop_at()
+  m_file(file_),
+  m_vorbis_file(),
+  m_loop_begin(),
+  m_loop_at()
 {
   ov_callbacks callbacks = { cb_read, cb_seek, cb_close, cb_tell };
-  ov_open_callbacks(file, &vorbis_file, nullptr, 0, callbacks);
+  ov_open_callbacks(m_file, &m_vorbis_file, nullptr, 0, callbacks);
 
-  vorbis_info* vi = ov_info(&vorbis_file, -1);
+  vorbis_info* vi = ov_info(&m_vorbis_file, -1);
 
-  channels        = vi->channels;
-  rate            = static_cast<int>(vi->rate);
-  bits_per_sample = 16;
-  size            = static_cast<size_t> (ov_pcm_total(&vorbis_file, -1) * 2);
+  m_channels = vi->channels;
+  m_rate = static_cast<int>(vi->rate);
+  m_bits_per_sample = 16;
+  m_size = static_cast<size_t> (ov_pcm_total(&m_vorbis_file, -1) * 2);
 
-  double samples_begin = loop_begin_ * rate;
-  double sample_loop   = loop_at_ * rate;
+  double samples_begin = loop_begin_ * m_rate;
+  double sample_loop   = loop_at_ * m_rate;
 
-  loop_begin     = static_cast<ogg_int64_t>(samples_begin);
+  m_loop_begin = static_cast<ogg_int64_t>(samples_begin);
   if (loop_begin_ < 0) {
-    loop_at = static_cast<ogg_int64_t>(-1);
+    m_loop_at = static_cast<ogg_int64_t>(-1);
   } else {
-    loop_at = static_cast<ogg_int64_t>(sample_loop);
+    m_loop_at = static_cast<ogg_int64_t>(sample_loop);
   }
 }
 
 OggSoundFile::~OggSoundFile()
 {
-  ov_clear(&vorbis_file);
+  ov_clear(&m_vorbis_file);
 }
 
 size_t
@@ -68,10 +68,10 @@ OggSoundFile::read(void* _buffer, size_t buffer_size)
 #endif
 
     size_t bytes_to_read    = buffer_size;
-    if (loop_at > 0) {
+    if (m_loop_at > 0) {
       size_t      bytes_per_sample       = 2;
-      ogg_int64_t time                   = ov_pcm_tell(&vorbis_file);
-      ogg_int64_t samples_left_till_loop = loop_at - time;
+      ogg_int64_t time                   = ov_pcm_tell(&m_vorbis_file);
+      ogg_int64_t samples_left_till_loop = m_loop_at - time;
       ogg_int64_t bytes_left_till_loop = samples_left_till_loop * bytes_per_sample;
       if (bytes_left_till_loop <= 4)
         break;
@@ -82,7 +82,7 @@ OggSoundFile::read(void* _buffer, size_t buffer_size)
     }
 
     long bytesRead
-      = ov_read(&vorbis_file, buffer, static_cast<int>(bytes_to_read), bigendian,
+      = ov_read(&m_vorbis_file, buffer, static_cast<int>(bytes_to_read), bigendian,
                 2, 1, &section);
     if (bytesRead == 0) {
       break;
@@ -98,7 +98,7 @@ OggSoundFile::read(void* _buffer, size_t buffer_size)
 void
 OggSoundFile::reset()
 {
-  ov_pcm_seek(&vorbis_file, loop_begin);
+  ov_pcm_seek(&m_vorbis_file, m_loop_begin);
 }
 
 size_t

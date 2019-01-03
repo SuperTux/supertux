@@ -31,9 +31,8 @@ public:
   virtual void reset() override;
 
 private:
-  PHYSFS_file* file;
-
-  PHYSFS_sint64 datastart;
+  PHYSFS_file* m_file;
+  PHYSFS_sint64 m_datastart;
 
 private:
   WavSoundFile(const WavSoundFile&) = delete;

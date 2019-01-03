@@ -31,26 +31,27 @@ public:
   };
 
 public:
+  static FileFormat get_file_format(PHYSFS_File* file, const std::string& filename);
+
+public:
   SoundFile() :
-    channels(),
-    rate(),
-    bits_per_sample(),
-    size()
+    m_channels(),
+    m_rate(),
+    m_bits_per_sample(),
+    m_size()
   {}
 
-  virtual ~SoundFile()
-  { }
+  virtual ~SoundFile() {}
 
   virtual size_t read(void* buffer, size_t buffer_size) = 0;
   virtual void reset() = 0;
 
-  int channels;
-  int rate;
-  int bits_per_sample;
+public:
+  int m_channels;
+  int m_rate;
+  int m_bits_per_sample;
   /// size in bytes
-  size_t size;
-
-  static FileFormat get_file_format(PHYSFS_File* file, const std::string& filename);
+  size_t m_size;
 
 private:
   SoundFile(const SoundFile&) = delete;

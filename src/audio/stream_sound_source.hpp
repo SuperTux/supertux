@@ -23,44 +23,38 @@ class SoundFile;
 
 class StreamSoundSource final : public OpenALSoundSource
 {
+private:
+  static const size_t STREAMBUFFERSIZE = 1024 * 500;
+  static const size_t STREAMFRAGMENTS = 5;
+  static const size_t STREAMFRAGMENTSIZE = STREAMBUFFERSIZE / STREAMFRAGMENTS;
+
+public:
+  enum FadeState { NoFading, FadingOn, FadingOff, FadingPause, FadingResume };
+
 public:
   StreamSoundSource();
   virtual ~StreamSoundSource();
 
+  virtual void update() override;
+  virtual void set_looping(bool looping_) override { m_looping = looping_; }
+
   void set_sound_file(std::unique_ptr<SoundFile> newfile);
 
-  enum FadeState { NoFading, FadingOn, FadingOff, FadingPause, FadingResume };
-
   void set_fading(FadeState state, float fadetime);
-  FadeState get_fade_state() const
-  {
-    return fade_state;
-  }
-  virtual void update() override;
-
-  virtual void set_looping(bool looping_) override
-  {
-    looping = looping_;
-  }
-  bool get_looping() const
-  {
-    return looping;
-  }
+  FadeState get_fade_state() const { return m_fade_state; }
+  bool get_looping() const { return m_looping; }
 
 private:
-  static const size_t STREAMBUFFERSIZE = 1024 * 500;
-  static const size_t STREAMFRAGMENTS = 5;
-  static const size_t STREAMFRAGMENTSIZE
-  = STREAMBUFFERSIZE / STREAMFRAGMENTS;
-
   bool fillBufferAndQueue(ALuint buffer);
-  std::unique_ptr<SoundFile> file;
-  ALuint buffers[STREAMFRAGMENTS];
 
-  FadeState fade_state;
-  float fade_start_time;
-  float fade_time;
-  bool looping;
+private:
+  std::unique_ptr<SoundFile> m_file;
+  ALuint m_buffers[STREAMFRAGMENTS];
+
+  FadeState m_fade_state;
+  float m_fade_start_time;
+  float m_fade_time;
+  bool m_looping;
 
 private:
   StreamSoundSource(const StreamSoundSource&) = delete;

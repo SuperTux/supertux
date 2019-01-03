@@ -16,8 +16,8 @@
 
 #include "audio/sound_error.hpp"
 
-SoundError::SoundError(const std::string& message_) throw() :
-  message(message_)
+SoundError::SoundError(const std::string& message) throw() :
+  m_message(message)
 {
 }
 
@@ -27,7 +27,7 @@ SoundError::~SoundError() throw()
 const char*
 SoundError::what() const throw()
 {
-  return message.c_str();
+  return m_message.c_str();
 }
 
 /* EOF */
