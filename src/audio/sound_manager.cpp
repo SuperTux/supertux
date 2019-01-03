@@ -28,39 +28,39 @@
 #include "util/log.hpp"
 
 SoundManager::SoundManager() :
-  device(alcOpenDevice(nullptr)),
-  context(alcCreateContext(device, /* attributes = */ nullptr)),
-  sound_enabled(false),
-  sound_volume(0),
-  buffers(),
-  sources(),
-  update_list(),
-  music_source(),
-  music_enabled(false),
-  music_volume(0),
-  current_music()
+  m_device(alcOpenDevice(nullptr)),
+  m_context(alcCreateContext(m_device, /* attributes = */ nullptr)),
+  m_sound_enabled(false),
+  m_sound_volume(0),
+  m_buffers(),
+  m_sources(),
+  m_update_list(),
+  m_music_source(),
+  m_music_enabled(false),
+  m_music_volume(0),
+  m_current_music()
 {
   try {
-    if (device == nullptr) {
+    if (m_device == nullptr) {
       throw std::runtime_error("Couldn't open audio device.");
     }
     check_alc_error("Couldn't create audio context: ");
-    alcMakeContextCurrent(context);
+    alcMakeContextCurrent(m_context);
     check_alc_error("Couldn't select audio context: ");
 
     check_al_error("Audio error after init: ");
-    sound_enabled = true;
-    music_enabled = true;
+    m_sound_enabled = true;
+    m_music_enabled = true;
 
     set_listener_orientation(Vector(0.0f, 0.0f), Vector(0.0f, -1.0f));
   } catch(std::exception& e) {
-    if (context != nullptr) {
-      alcDestroyContext(context);
-      context = nullptr;
+    if (m_context != nullptr) {
+      alcDestroyContext(m_context);
+      m_context = nullptr;
     }
-    if (device != nullptr) {
-      alcCloseDevice(device);
-      device = nullptr;
+    if (m_device != nullptr) {
+      alcCloseDevice(m_device);
+      m_device = nullptr;
     }
     log_warning << "Couldn't initialize audio device: " << e.what() << std::endl;
     print_openal_version();
@@ -69,20 +69,20 @@ SoundManager::SoundManager() :
 
 SoundManager::~SoundManager()
 {
-  music_source.reset();
-  sources.clear();
+  m_music_source.reset();
+  m_sources.clear();
 
-  for (const auto& buffer : buffers) {
+  for (const auto& buffer : m_buffers) {
     alDeleteBuffers(1, &buffer.second);
   }
 
-  if (context != nullptr) {
-    alcDestroyContext(context);
-    context = nullptr;
+  if (m_context != nullptr) {
+    alcDestroyContext(m_context);
+    m_context = nullptr;
   }
-  if (device != nullptr) {
-    alcCloseDevice(device);
-    device = nullptr;
+  if (m_device != nullptr) {
+    alcCloseDevice(m_device);
+    m_device = nullptr;
   }
 }
 
@@ -112,16 +112,16 @@ SoundManager::load_file_into_buffer(SoundFile& file)
 std::unique_ptr<OpenALSoundSource>
 SoundManager::intern_create_sound_source(const std::string& filename)
 {
-  assert(sound_enabled);
+  assert(m_sound_enabled);
 
   auto source = std::make_unique<OpenALSoundSource>();
-  source->set_volume(static_cast<float>(sound_volume) / 100.0f);
+  source->set_volume(static_cast<float>(m_sound_volume) / 100.0f);
 
   ALuint buffer;
 
   // reuse an existing static sound buffer
-  SoundBuffers::iterator i = buffers.find(filename);
-  if (i != buffers.end()) {
+  SoundBuffers::iterator i = m_buffers.find(filename);
+  if (i != m_buffers.end()) {
     buffer = i->second;
   } else {
     // Load sound file
@@ -129,7 +129,7 @@ SoundManager::intern_create_sound_source(const std::string& filename)
 
     if (file->size < 100000) {
       buffer = load_file_into_buffer(*file);
-      buffers.insert(std::make_pair(filename, buffer));
+      m_buffers.insert(std::make_pair(filename, buffer));
     } else {
       auto source_ = std::make_unique<StreamSoundSource>();
       source_->set_sound_file(std::move(file));
@@ -146,7 +146,7 @@ SoundManager::intern_create_sound_source(const std::string& filename)
 std::unique_ptr<SoundSource>
 SoundManager::create_sound_source(const std::string& filename)
 {
-  if (!sound_enabled)
+  if (!m_sound_enabled)
     return create_dummy_sound_source();
 
   try {
@@ -160,12 +160,12 @@ SoundManager::create_sound_source(const std::string& filename)
 void
 SoundManager::preload(const std::string& filename)
 {
-  if (!sound_enabled)
+  if (!m_sound_enabled)
     return;
 
-  SoundBuffers::iterator i = buffers.find(filename);
+  SoundBuffers::iterator i = m_buffers.find(filename);
   // already loaded?
-  if (i != buffers.end())
+  if (i != m_buffers.end())
     return;
   try {
     std::unique_ptr<SoundFile> file (load_sound_file(filename));
@@ -174,7 +174,7 @@ SoundManager::preload(const std::string& filename)
       return;
 
     ALuint buffer = load_file_into_buffer(*file);
-    buffers.insert(std::make_pair(filename, buffer));
+    m_buffers.insert(std::make_pair(filename, buffer));
   } catch(std::exception& e) {
     log_warning << "Error while preloading sound file: " << e.what() << std::endl;
   }
@@ -183,7 +183,7 @@ SoundManager::preload(const std::string& filename)
 void
 SoundManager::play(const std::string& filename, const Vector& pos)
 {
-  if (!sound_enabled)
+  if (!m_sound_enabled)
     return;
 
   try {
@@ -195,7 +195,7 @@ SoundManager::play(const std::string& filename, const Vector& pos)
       source->set_position(pos);
     }
     source->play();
-    sources.push_back(std::move(source));
+    m_sources.push_back(std::move(source));
   } catch(std::exception& e) {
     log_warning << "Couldn't play sound " << filename << ": " << e.what() << std::endl;
   }
@@ -208,7 +208,7 @@ SoundManager::manage_source(std::unique_ptr<SoundSource> source)
   if (dynamic_cast<OpenALSoundSource*>(source.get()))
   {
     std::unique_ptr<OpenALSoundSource> openal_source(dynamic_cast<OpenALSoundSource*>(source.release()));
-    sources.push_back(std::move(openal_source));
+    m_sources.push_back(std::move(openal_source));
   }
 }
 
@@ -217,7 +217,7 @@ SoundManager::register_for_update(StreamSoundSource* sss)
 {
   if (sss)
   {
-    update_list.push_back(sss);
+    m_update_list.push_back(sss);
   }
 }
 
@@ -226,10 +226,10 @@ SoundManager::remove_from_update(StreamSoundSource* sss)
 {
   if (sss)
   {
-    StreamSoundSources::iterator i = update_list.begin();
-    while ( i != update_list.end() ){
+    StreamSoundSources::iterator i = m_update_list.begin();
+    while ( i != m_update_list.end() ){
       if ( *i == sss ){
-        i = update_list.erase(i);
+        i = m_update_list.erase(i);
       } else {
         ++i;
       }
@@ -240,24 +240,24 @@ SoundManager::remove_from_update(StreamSoundSource* sss)
 void
 SoundManager::enable_sound(bool enable)
 {
-  if (device == nullptr)
+  if (m_device == nullptr)
     return;
 
-  sound_enabled = enable;
+  m_sound_enabled = enable;
 }
 
 void
 SoundManager::enable_music(bool enable)
 {
-  if (device == nullptr)
+  if (m_device == nullptr)
     return;
 
-  music_enabled = enable;
-  if (music_enabled) {
-    play_music(current_music);
+  m_music_enabled = enable;
+  if (m_music_enabled) {
+    play_music(m_current_music);
   } else {
-    if (music_source) {
-      music_source.reset();
+    if (m_music_source) {
+      m_music_source.reset();
     }
   }
 }
@@ -266,43 +266,43 @@ void
 SoundManager::stop_music(float fadetime)
 {
   if (fadetime > 0) {
-    if (music_source
-       && music_source->get_fade_state() != StreamSoundSource::FadingOff)
-      music_source->set_fading(StreamSoundSource::FadingOff, fadetime);
+    if (m_music_source
+       && m_music_source->get_fade_state() != StreamSoundSource::FadingOff)
+      m_music_source->set_fading(StreamSoundSource::FadingOff, fadetime);
   } else {
-    music_source.reset();
+    m_music_source.reset();
   }
-  current_music = "";
+  m_current_music = "";
 }
 
 void
 SoundManager::set_music_volume(int volume)
 {
-  music_volume = volume;
-  if (music_source != nullptr) music_source->set_volume(static_cast<float>(volume) / 100.0f);
+  m_music_volume = volume;
+  if (m_music_source != nullptr) m_music_source->set_volume(static_cast<float>(volume) / 100.0f);
 }
 
 void
 SoundManager::play_music(const std::string& filename, bool fade)
 {
-  if (filename == current_music && music_source != nullptr)
+  if (filename == m_current_music && m_music_source != nullptr)
   {
-    if (music_source->paused())
+    if (m_music_source->paused())
     {
-      music_source->resume();
+      m_music_source->resume();
     }
-    else if (!music_source->playing())
+    else if (!m_music_source->playing())
     {
-      music_source->play();
+      m_music_source->play();
     }
     return;
   }
-  current_music = filename;
-  if (!music_enabled)
+  m_current_music = filename;
+  if (!m_music_enabled)
     return;
 
   if (filename.empty()) {
-    music_source.reset();
+    m_music_source.reset();
     return;
   }
 
@@ -311,12 +311,12 @@ SoundManager::play_music(const std::string& filename, bool fade)
     newmusic->set_sound_file(load_sound_file(filename));
     newmusic->set_looping(true);
     newmusic->set_relative(true);
-    newmusic->set_volume(static_cast<float>(music_volume) / 100.0f);
+    newmusic->set_volume(static_cast<float>(m_music_volume) / 100.0f);
     if (fade)
       newmusic->set_fading(StreamSoundSource::FadingOn, .5f);
     newmusic->play();
 
-    music_source = std::move(newmusic);
+    m_music_source = std::move(newmusic);
   } catch(std::exception& e) {
     log_warning << "Couldn't play music file '" << filename << "': " << e.what() << std::endl;
     // When this happens, previous music continued playing, stop it, just in case.
@@ -327,22 +327,22 @@ SoundManager::play_music(const std::string& filename, bool fade)
 void
 SoundManager::pause_music(float fadetime)
 {
-  if (music_source == nullptr)
+  if (m_music_source == nullptr)
     return;
 
   if (fadetime > 0) {
-    if (music_source
-       && music_source->get_fade_state() != StreamSoundSource::FadingPause)
-      music_source->set_fading(StreamSoundSource::FadingPause, fadetime);
+    if (m_music_source
+       && m_music_source->get_fade_state() != StreamSoundSource::FadingPause)
+      m_music_source->set_fading(StreamSoundSource::FadingPause, fadetime);
   } else {
-    music_source->pause();
+    m_music_source->pause();
   }
 }
 
 void
 SoundManager::pause_sounds()
 {
-  for (auto& source : sources) {
+  for (auto& source : m_sources) {
     if (source->playing()) {
       source->pause();
     }
@@ -352,7 +352,7 @@ SoundManager::pause_sounds()
 void
 SoundManager::resume_sounds()
 {
-  for (auto& source : sources) {
+  for (auto& source : m_sources) {
     if (source->paused()) {
       source->resume();
     }
@@ -362,7 +362,7 @@ SoundManager::resume_sounds()
 void
 SoundManager::stop_sounds()
 {
-  for (auto& source : sources) {
+  for (auto& source : m_sources) {
     source->stop();
   }
 }
@@ -370,8 +370,8 @@ SoundManager::stop_sounds()
 void
 SoundManager::set_sound_volume(int volume)
 {
-  sound_volume = volume;
-  for (auto& source : sources) {
+  m_sound_volume = volume;
+  for (auto& source : m_sources) {
     source->set_volume(static_cast<float>(volume) / 100.0f);
   }
 }
@@ -379,15 +379,15 @@ SoundManager::set_sound_volume(int volume)
 void
 SoundManager::resume_music(float fadetime)
 {
-  if (music_source == nullptr)
+  if (m_music_source == nullptr)
     return;
 
   if (fadetime > 0) {
-    if (music_source
-       && music_source->get_fade_state() != StreamSoundSource::FadingResume)
-      music_source->set_fading(StreamSoundSource::FadingResume, fadetime);
+    if (m_music_source
+       && m_music_source->get_fade_state() != StreamSoundSource::FadingResume)
+      m_music_source->set_fading(StreamSoundSource::FadingResume, fadetime);
   } else {
-    music_source->resume();
+    m_music_source->resume();
   }
 }
 
@@ -428,31 +428,31 @@ SoundManager::update()
   lasttime = now;
 
   // update and check for finished sound sources
-  for (SoundSources::iterator i = sources.begin(); i != sources.end(); ) {
+  for (SoundSources::iterator i = m_sources.begin(); i != m_sources.end(); ) {
     auto& source = *i;
 
     source->update();
 
     if (!source->playing()) {
-      i = sources.erase(i);
+      i = m_sources.erase(i);
     } else {
       ++i;
     }
   }
   // check streaming sounds
-  if (music_source) {
-    music_source->update();
+  if (m_music_source) {
+    m_music_source->update();
   }
 
-  if (context)
+  if (m_context)
   {
-    alcProcessContext(context);
+    alcProcessContext(m_context);
     check_alc_error("Error while processing audio context: ");
   }
 
   //run update() for stream_sound_source
-  StreamSoundSources::iterator s = update_list.begin();
-  while ( s != update_list.end() ){
+  StreamSoundSources::iterator s = m_update_list.begin();
+  while ( s != m_update_list.end() ){
     (*s)->update();
     ++s;
   }
@@ -494,10 +494,10 @@ SoundManager::print_openal_version()
 void
 SoundManager::check_alc_error(const char* message) const
 {
-  int err = alcGetError(device);
+  int err = alcGetError(m_device);
   if (err != ALC_NO_ERROR) {
     std::stringstream msg;
-    msg << message << alcGetString(device, err);
+    msg << message << alcGetString(m_device, err);
     throw std::runtime_error(msg.str());
   }
 }
