@@ -385,4 +385,37 @@ TextureManager::create_dummy_texture()
   }
 }
 
+void
+TextureManager::debug_print(std::ostream& out) const
+{
+  out << "textures:begin" << std::endl;
+  for(const auto& it : m_image_textures)
+  {
+    const auto& key = it.first;
+    const auto& texture = it.second;
+
+    out << "  texture "
+        << " filename:" << std::get<0>(key)
+        << " Rect("
+        << std::get<1>(key) << ", "
+        << std::get<2>(key) << ", "
+        << std::get<3>(key) << ", "
+        << std::get<4>(key) << ")"
+        << " " << "use_count:" << texture.use_count() << std::endl;
+  }
+  out << "textures:end" << std::endl;
+  out << "surfaces:begin" << std::endl;
+  for(const auto& it : m_surfaces)
+  {
+    const auto& filename = it.first;
+    const auto& surface = it.second;
+
+    out << "  surface filename:" << filename << " " << surface->w << "x" << surface->h << std::endl;
+  }
+  out << "surfaces:end" << std::endl;
+
+  out << "total texture count:" << m_image_textures.size() << std::endl;
+  out << "total surface count:" << m_surfaces.size() << std::endl;
+}
+
 /* EOF */

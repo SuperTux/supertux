@@ -31,6 +31,7 @@ class Texture
   friend class TextureManager;
 
 public:
+  /** filename, left, top, right, bottom */
   using Key = std::tuple<std::string, int, int, int, int>;
 
 protected:

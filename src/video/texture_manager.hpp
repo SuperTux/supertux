@@ -20,6 +20,7 @@
 #include <config.h>
 #include <map>
 #include <memory>
+#include <ostream>
 #include <set>
 #include <string>
 #include <vector>
@@ -50,6 +51,8 @@ public:
   TexturePtr get(const std::string& filename,
                  const boost::optional<Rect>& rect,
                  const Sampler& sampler = Sampler());
+
+  void debug_print(std::ostream& out) const;
 
 private:
   const SDL_Surface& get_surface(const std::string& filename);
