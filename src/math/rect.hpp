@@ -20,6 +20,7 @@
 #include <iosfwd>
 
 #include <algorithm>
+#include <tuple>
 #include <SDL.h>
 
 #include "math/size.hpp"
@@ -136,6 +137,10 @@ public:
   SDL_Rect to_sdl() const
   {
     return {left, top, get_width(), get_height()};
+  }
+
+  bool operator<(const Rect& other) const {
+    return std::tie(left, top, right, bottom) < std::tie(other.left, other.top, other.right, other.bottom);
   }
 };
 

@@ -184,7 +184,7 @@ TexturePtr
 TextureManager::get(const std::string& _filename)
 {
   std::string filename = FileSystem::normalize(_filename);
-  Texture::Key key(filename, 0, 0, 0, 0);
+  Texture::Key key(filename, Rect(0, 0, 0, 0));
   auto i = m_image_textures.find(key);
 
   TexturePtr texture;
@@ -209,11 +209,11 @@ TextureManager::get(const std::string& _filename,
   Texture::Key key;
   if (rect)
   {
-    key = Texture::Key(filename, rect->left, rect->top, rect->right, rect->bottom);
+    key = Texture::Key(filename, *rect);
   }
   else
   {
-    key = Texture::Key(filename, 0, 0, 0, 0);
+    key = Texture::Key(filename, Rect());
   }
 
   auto i = m_image_textures.find(key);
@@ -396,11 +396,7 @@ TextureManager::debug_print(std::ostream& out) const
 
     out << "  texture "
         << " filename:" << std::get<0>(key)
-        << " Rect("
-        << std::get<1>(key) << ", "
-        << std::get<2>(key) << ", "
-        << std::get<3>(key) << ", "
-        << std::get<4>(key) << ")"
+        << std::get<1>(key)
         << " " << "use_count:" << texture.use_count() << std::endl;
   }
   out << "textures:end" << std::endl;

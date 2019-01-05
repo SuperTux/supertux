@@ -21,6 +21,7 @@
 #include <tuple>
 #include <boost/optional.hpp>
 
+#include "math/rect.hpp"
 #include "video/flip.hpp"
 
 /** This class is a wrapper around a texture handle. It stores the
@@ -32,7 +33,7 @@ class Texture
 
 public:
   /** filename, left, top, right, bottom */
-  using Key = std::tuple<std::string, int, int, int, int>;
+  using Key = std::tuple<std::string, Rect>;
 
 protected:
   Texture();
