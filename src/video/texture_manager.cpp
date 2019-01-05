@@ -388,30 +388,39 @@ TextureManager::create_dummy_texture()
 void
 TextureManager::debug_print(std::ostream& out) const
 {
+  size_t total_texture_pixels = 0;
   out << "textures:begin" << std::endl;
   for(const auto& it : m_image_textures)
   {
     const auto& key = it.first;
-    const auto& texture = it.second;
+
+    if (auto texture = it.second.lock()) {
+      total_texture_pixels += std::get<1>(key).get_area();
+    }
 
     out << "  texture "
-        << " filename:" << std::get<0>(key)
-        << std::get<1>(key)
-        << " " << "use_count:" << texture.use_count() << std::endl;
+        << " filename:" << std::get<0>(key) << " " << std::get<1>(key)
+        << " " << "use_count:" << it.second.use_count() << std::endl;
   }
   out << "textures:end" << std::endl;
+
+  size_t total_surface_pixels = 0;
   out << "surfaces:begin" << std::endl;
   for(const auto& it : m_surfaces)
   {
     const auto& filename = it.first;
     const auto& surface = it.second;
 
+    total_surface_pixels += surface->w * surface->h;
     out << "  surface filename:" << filename << " " << surface->w << "x" << surface->h << std::endl;
   }
   out << "surfaces:end" << std::endl;
 
   out << "total texture count:" << m_image_textures.size() << std::endl;
+  out << "total texture pixels:" << total_texture_pixels << std::endl;
+
   out << "total surface count:" << m_surfaces.size() << std::endl;
+  out << "total surface pixels:" << total_surface_pixels << std::endl;
 }
 
 /* EOF */

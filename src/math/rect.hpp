@@ -98,6 +98,7 @@ public:
   int get_width()  const { return right - left; }
   int get_height() const { return bottom - top; }
   Size get_size() const { return Size(right - left, bottom - top); }
+  int get_area() const { return get_width() * get_height(); }
 
   bool empty() const
   {
