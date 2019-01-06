@@ -44,6 +44,7 @@ public:
   Vector get_pos() const { return m_pos; }
 
   std::string get_level_filename() const { return m_level_filename; }
+  std::string get_basedir() const { return m_basedir; }
 
 private:
   Vector m_pos;

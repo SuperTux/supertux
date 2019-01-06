@@ -538,6 +538,13 @@ WorldMap::draw_status(DrawingContext& context)
                                          static_cast<float>(context.get_height()) - Resources::normal_font->get_height() - 10),
                                   ALIGN_CENTER, LAYER_HUD, level.m_title_color);
 
+        if (g_config->developer_mode) {
+          context.color().draw_text(Resources::small_font, FileSystem::join(level.get_basedir(), level.get_level_filename()),
+                                    Vector(static_cast<float>(context.get_width()) / 2.0f,
+                                           static_cast<float>(context.get_height()) - Resources::normal_font->get_height() - 25),
+                                    ALIGN_CENTER, LAYER_HUD, level.m_title_color);
+        }
+
         // if level is solved, draw level picture behind stats
         /*
           if (level.solved) {
