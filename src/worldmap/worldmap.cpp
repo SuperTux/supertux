@@ -250,22 +250,19 @@ WorldMap::finished_level(Level* gamelevel)
     return;
   }
 
-  bool old_level_state = level->m_solved;
-  level->m_solved = true;
-  level->m_sprite->set_action("solved");
+  bool old_level_state = level->is_solved();
+  level->set_solved(true);
 
   // deal with statistics
-  level->m_statistics.update(gamelevel->m_stats);
+  level->get_statistics().update(gamelevel->m_stats);
 
-  if (level->m_statistics.completed(level->m_statistics, level->get_target_time())) {
-    level->m_perfect = true;
-    if (level->m_sprite->has_action("perfect"))
-      level->m_sprite->set_action("perfect");
+  if (level->get_statistics().completed(level->get_statistics(), level->get_target_time())) {
+    level->set_perfect(true);
   }
 
   save_state();
 
-  if (old_level_state != level->m_solved) {
+  if (old_level_state != level->is_solved()) {
     // Try to detect the next direction to which we should walk
     // FIXME: Mostly a hack
     Direction dir = Direction::NONE;
@@ -373,7 +370,7 @@ WorldMap::update(float dt_sec)
     if (level && level->is_auto_play() && !level->is_solved() && !m_tux->is_moving()) {
       m_enter_level = true;
       // automatically mark these levels as solved in case player aborts
-      level->m_solved = true;
+      level->set_solved(true);
     }
   }
 
@@ -402,7 +399,7 @@ WorldMap::update(float dt_sec)
 
           // update state and savegame
           save_state();
-          ScreenManager::current()->push_screen(std::make_unique<GameSession>(levelfile, m_savegame, &level_->m_statistics),
+          ScreenManager::current()->push_screen(std::make_unique<GameSession>(levelfile, m_savegame, &level_->get_statistics()),
                                                 std::make_unique<ShrinkFade>(shrinkpos, 1.0f));
           m_in_level = true;
         } catch(std::exception& e) {
@@ -557,7 +554,7 @@ WorldMap::draw_status(DrawingContext& context)
           }
           }
         */
-        level.m_statistics.draw_worldmap_info(context, level.get_target_time());
+        level.get_statistics().draw_worldmap_info(context, level.get_target_time());
         break;
       }
     }
@@ -681,8 +678,9 @@ WorldMap::solved_level_count() const
 {
   size_t count = 0;
   for (auto& level : get_objects_by_type<LevelTile>()) {
-    if (level.m_solved)
+    if (level.is_solved()) {
       count++;
+    }
   }
 
   return count;

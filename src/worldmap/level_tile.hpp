@@ -39,7 +39,13 @@ public:
   virtual void update(float dt_sec) override;
 
   void set_solved(bool v);
+  bool is_solved() const { return m_solved; }
+
   void set_perfect(bool v);
+  bool is_perfect() const { return m_perfect; }
+
+  Statistics& get_statistics() { return m_statistics; }
+  const Statistics& get_statistics() const { return m_statistics; }
 
   void update_sprite_action();
 
@@ -52,7 +58,6 @@ public:
   std::string get_extro_script() const { return m_extro_script; }
   float get_target_time() const { return m_target_time; }
   bool is_auto_play() const { return m_auto_play; }
-  bool is_solved() const { return m_solved; }
 
 private:
   Vector m_pos;
@@ -69,15 +74,13 @@ private:
   /** Script that is run when the level is successfully finished */
   std::string m_extro_script;
 
-public:
+  /** Level state */
   bool m_solved;
   bool m_perfect;
+
   Statistics m_statistics;
 
-public:
   SpritePtr m_sprite;
-
-private:
   Color m_title_color;
 
 private:

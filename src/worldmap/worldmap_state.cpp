@@ -84,17 +84,18 @@ WorldMapState::load_state()
     vm.get_table_entry("levels");
     for (auto& level : m_worldmap.get_objects_by_type<LevelTile>()) {
       sq_pushstring(vm.get_vm(), level.get_level_filename().c_str(), -1);
-      if (SQ_SUCCEEDED(sq_get(vm.get_vm(), -2))) {
-        if (!vm.get_bool("solved", level.m_solved))
-        {
-          level.m_solved = false;
-        }
-        if (!vm.get_bool("perfect", level.m_perfect))
-        {
-          level.m_perfect = false;
-        }
+      if (SQ_SUCCEEDED(sq_get(vm.get_vm(), -2)))
+      {
+        bool solved = false;
+        vm.get_bool("solved", solved);
+        level.set_solved(solved);
+
+        bool perfect = false;
+        vm.get_bool("perfect", perfect);
+        level.set_perfect(perfect);
+
         level.update_sprite_action();
-        level.m_statistics.unserialize_from_squirrel(vm);
+        level.get_statistics().unserialize_from_squirrel(vm);
         sq_pop(vm.get_vm(), 1);
       }
     }
@@ -257,11 +258,14 @@ WorldMapState::save_state() const
     // levels...
     vm.begin_table("levels");
 
-    for (const auto& level : m_worldmap.get_objects_by_type<LevelTile>()) {
+    for (const auto& level : m_worldmap.get_objects_by_type<LevelTile>())
+    {
       vm.begin_table(level.get_level_filename().c_str());
-      vm.store_bool("solved", level.m_solved);
-      vm.store_bool("perfect", level.m_perfect);
-      level.m_statistics.serialize_to_squirrel(vm);
+
+      vm.store_bool("solved", level.is_solved());
+      vm.store_bool("perfect", level.is_perfect());
+
+      level.get_statistics().serialize_to_squirrel(vm);
       vm.end_table(level.get_level_filename().c_str());
     }
     vm.end_table("levels");

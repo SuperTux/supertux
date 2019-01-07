@@ -153,7 +153,7 @@ Tux::try_start_walking()
 
   // We got a new direction, so lets start walking when possible
   Vector next_tile;
-  if ((!level || level->m_solved || level->m_perfect
+  if ((!level || level->is_solved() || level->is_perfect()
       || (Editor::current() && Editor::current()->is_testing_level()))
       && m_worldmap->path_ok(m_input_direction, m_tile_pos, &next_tile)) {
     m_tile_pos = next_tile;
