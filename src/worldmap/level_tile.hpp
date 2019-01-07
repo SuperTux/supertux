@@ -29,6 +29,8 @@ namespace worldmap {
 
 class LevelTile final : public GameObject
 {
+  friend class WorldMapParser;
+
 public:
   LevelTile(const std::string& basedir, const ReaderMapping& mapping);
   virtual ~LevelTile();
@@ -43,33 +45,40 @@ public:
 
   Vector get_pos() const { return m_pos; }
 
+  std::string get_title() const { return m_title; }
   std::string get_level_filename() const { return m_level_filename; }
   std::string get_basedir() const { return m_basedir; }
+  Color get_title_color() const { return m_title_color; }
+  std::string get_extro_script() const { return m_extro_script; }
+  float get_target_time() const { return m_target_time; }
+  bool is_auto_play() const { return m_auto_play; }
+  bool is_solved() const { return m_solved; }
 
 private:
   Vector m_pos;
 
-public:
+  std::string m_basedir;
   std::string m_level_filename;
   std::string m_title;
-  bool m_solved;
-  bool m_perfect;
-  bool m_auto_play; /**< true if Tux should automatically enter this level if it's unfinished */
 
-  SpritePtr m_sprite;
+  /** true if Tux should automatically enter this level if it's unfinished */
+  bool m_auto_play;
 
-  /** Statistics for level tiles */
-  Statistics m_statistics;
   float m_target_time;
 
   /** Script that is run when the level is successfully finished */
   std::string m_extro_script;
 
-  /** The colour of the level title */
-  Color m_title_color;
+public:
+  bool m_solved;
+  bool m_perfect;
+  Statistics m_statistics;
+
+public:
+  SpritePtr m_sprite;
 
 private:
-  std::string m_basedir;
+  Color m_title_color;
 
 private:
   LevelTile(const LevelTile&) = delete;

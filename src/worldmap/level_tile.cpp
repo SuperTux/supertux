@@ -28,20 +28,20 @@
 
 namespace worldmap {
 
-LevelTile::LevelTile(const std::string& basedir_, const ReaderMapping& mapping) :
+LevelTile::LevelTile(const std::string& basedir, const ReaderMapping& mapping) :
   GameObject(mapping),
   m_pos(),
+  m_basedir(basedir),
   m_level_filename(),
   m_title(),
-  m_solved(false),
-  m_perfect(false),
   m_auto_play(false),
-  m_sprite(),
-  m_statistics(),
   m_target_time(),
   m_extro_script(),
-  m_title_color(WorldMap::level_title_color),
-  m_basedir(basedir_)
+  m_solved(false),
+  m_perfect(false),
+  m_statistics(),
+  m_sprite(),
+  m_title_color(WorldMap::level_title_color)
 {
   if (!mapping.get("level", m_level_filename)) {
     // Hack for backward compatibility with 0.5.x level

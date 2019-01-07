@@ -257,7 +257,7 @@ WorldMap::finished_level(Level* gamelevel)
   // deal with statistics
   level->m_statistics.update(gamelevel->m_stats);
 
-  if (level->m_statistics.completed(level->m_statistics, level->m_target_time)) {
+  if (level->m_statistics.completed(level->m_statistics, level->get_target_time())) {
     level->m_perfect = true;
     if (level->m_sprite->has_action("perfect"))
       level->m_sprite->set_action("perfect");
@@ -296,9 +296,9 @@ WorldMap::finished_level(Level* gamelevel)
     }
   }
 
-  if (!level->m_extro_script.empty()) {
+  if (!level->get_extro_script().empty()) {
     try {
-      run_script(level->m_extro_script, "worldmap:extro_script");
+      run_script(level->get_extro_script(), "worldmap:extro_script");
     } catch(std::exception& e) {
       log_warning << "Couldn't run level-extro-script: " << e.what() << std::endl;
     }
@@ -370,7 +370,7 @@ WorldMap::update(float dt_sec)
   {
     // check for auto-play levels
     auto level = at_level();
-    if (level && (level->m_auto_play) && (!level->m_solved) && (!m_tux->is_moving())) {
+    if (level && level->is_auto_play() && !level->is_solved() && !m_tux->is_moving()) {
       m_enter_level = true;
       // automatically mark these levels as solved in case player aborts
       level->m_solved = true;
@@ -533,16 +533,16 @@ WorldMap::draw_status(DrawingContext& context)
   if (!m_tux->is_moving()) {
     for (auto& level : get_objects_by_type<LevelTile>()) {
       if (level.get_pos() == m_tux->get_tile_pos()) {
-        context.color().draw_text(Resources::normal_font, level.m_title,
+        context.color().draw_text(Resources::normal_font, level.get_title(),
                                   Vector(static_cast<float>(context.get_width()) / 2.0f,
                                          static_cast<float>(context.get_height()) - Resources::normal_font->get_height() - 10),
-                                  ALIGN_CENTER, LAYER_HUD, level.m_title_color);
+                                  ALIGN_CENTER, LAYER_HUD, level.get_title_color());
 
         if (g_config->developer_mode) {
           context.color().draw_text(Resources::small_font, FileSystem::join(level.get_basedir(), level.get_level_filename()),
                                     Vector(static_cast<float>(context.get_width()) / 2.0f,
                                            static_cast<float>(context.get_height()) - Resources::normal_font->get_height() - 25),
-                                    ALIGN_CENTER, LAYER_HUD, level.m_title_color);
+                                    ALIGN_CENTER, LAYER_HUD, level.get_title_color());
         }
 
         // if level is solved, draw level picture behind stats
@@ -557,7 +557,7 @@ WorldMap::draw_status(DrawingContext& context)
           }
           }
         */
-        level.m_statistics.draw_worldmap_info(context, level.m_target_time);
+        level.m_statistics.draw_worldmap_info(context, level.get_target_time());
         break;
       }
     }

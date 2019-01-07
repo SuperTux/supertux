@@ -146,7 +146,7 @@ WorldmapLevelSelectMenu::WorldmapLevelSelectMenu()
   add_hl();
   for (auto& level : worldmap->get_objects_by_type<worldmap::LevelTile>())
   {
-    add_entry(id, level.m_title);
+    add_entry(id, level.get_title());
     id++;
   }
   add_hl();
