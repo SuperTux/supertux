@@ -1,0 +1,7 @@
+---
+Checks:          'clang-diagnostic-*,clang-analyzer-*'
+WarningsAsErrors: ''
+HeaderFilterRegex: 'src/.*hpp'
+AnalyzeTemporaryDtors: true
+...
+

@@ -480,6 +480,25 @@ if(WIN32)
   add_definitions(-DWIN32)
 endif(WIN32)
 
+## Lint
+
+if(CMAKE_VERSION VERSION_GREATER 3.6)
+  if (USE_CLANG_TIDY)
+    find_program(
+      CLANG_TIDY_EXE
+      NAMES "clang-tidy"
+      DOC "Path to clang-tidy executable"
+      )
+
+    if(NOT CLANG_TIDY_EXE)
+      message(FATAL_ERROR "clang-tidy not found.")
+    else()
+      message(STATUS "clang-tidy found: ${CLANG_TIDY_EXE}")
+      set(CMAKE_CXX_CLANG_TIDY "${CLANG_TIDY_EXE}")
+    endif()
+  endif()
+endif()
+
 ## Build list of sources for supertux binary
 
 file(GLOB SUPERTUX_SOURCES_C RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} external/obstack/*.c external/findlocale/findlocale.c)
@@ -533,6 +552,7 @@ endif(COMPILE_AMALGATION)
 
 option(WERROR "Stop on first compiler warning" OFF)
 option(WARNINGS "Enable long list of warnings for compiler to check" OFF)
+option(USE_CLANG_TIDY "Run clang-tidy" OFF)
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   set(CMAKE_CXX_FLAGS_DEBUG "-O0 -g" CACHE STRING "Debug flags")
