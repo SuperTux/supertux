@@ -141,9 +141,9 @@ WorldMap::move_to_spawnpoint(const std::string& spawnpoint, bool pan, bool main_
 {
   auto sp = get_spawnpoint_by_name(spawnpoint);
   if (sp != nullptr) {
-    Vector p = sp->m_pos;
+    Vector p = sp->get_pos();
     m_tux->set_tile_pos(p);
-    m_tux->set_direction(sp->m_auto_dir);
+    m_tux->set_direction(sp->get_auto_dir());
     if (pan) {
       m_camera->pan();
     }
