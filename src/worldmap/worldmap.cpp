@@ -562,8 +562,8 @@ WorldMap::draw_status(DrawingContext& context)
     for (auto& special_tile : get_objects_by_type<SpecialTile>()) {
       if (special_tile.get_pos() == m_tux->get_tile_pos()) {
         /* Display an in-map message in the map, if any as been selected */
-        if (!special_tile.m_map_message.empty() && !special_tile.m_passive_message)
-          context.color().draw_text(Resources::normal_font, special_tile.m_map_message,
+        if (!special_tile.get_map_message().empty() && !special_tile.is_passive_message())
+          context.color().draw_text(Resources::normal_font, special_tile.get_map_message(),
                                     Vector(static_cast<float>(context.get_width()) / 2.0f,
                                            static_cast<float>(context.get_height()) - static_cast<float>(Resources::normal_font->get_height()) - 60.0f),
                                     ALIGN_CENTER, LAYER_FOREGROUND1, WorldMap::message_color);

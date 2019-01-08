@@ -38,11 +38,18 @@ public:
   virtual void update(float dt_sec) override;
 
   Vector get_pos() const { return m_pos; }
+  std::string get_map_message() const { return m_map_message; }
+  bool is_passive_message() const { return m_passive_message; }
+  std::string get_script() const { return m_script; }
+
+  bool get_apply_action_north() const { return m_apply_action_north; }
+  bool get_apply_action_east() const  { return m_apply_action_east; }
+  bool get_apply_action_south() const { return m_apply_action_south; }
+  bool get_apply_action_west() const { return m_apply_action_west; }
 
 private:
   Vector m_pos;
 
-public:
   /** Sprite to render instead of guessing what image to draw */
   SpritePtr m_sprite;
 

@@ -213,10 +213,10 @@ Tux::try_continue_walking(float dt_sec)
   {
     // direction and the apply_action_ are opposites, since they "see"
     // directions in a different way
-    if ((m_direction == Direction::NORTH && special_tile->m_apply_action_south) ||
-       (m_direction == Direction::SOUTH && special_tile->m_apply_action_north) ||
-       (m_direction == Direction::WEST && special_tile->m_apply_action_east) ||
-       (m_direction == Direction::EAST && special_tile->m_apply_action_west))
+    if ((m_direction == Direction::NORTH && special_tile->get_apply_action_south()) ||
+        (m_direction == Direction::SOUTH && special_tile->get_apply_action_north()) ||
+        (m_direction == Direction::WEST && special_tile->get_apply_action_east()) ||
+        (m_direction == Direction::EAST && special_tile->get_apply_action_west()))
     {
       process_special_tile(special_tile);
     }
@@ -228,11 +228,11 @@ Tux::try_continue_walking(float dt_sec)
   // stop if we reached a level, a WORLDMAP_STOP tile, a teleporter or a special tile without a passive_message
   if ((m_worldmap->at_level()) ||
       (m_worldmap->tile_data_at(m_tile_pos) & Tile::WORLDMAP_STOP) ||
-      (special_tile && !special_tile->m_passive_message && special_tile->m_script.empty()) ||
+      (special_tile && !special_tile->is_passive_message() && special_tile->get_script().empty()) ||
       (teleporter) ||
       m_ghost_mode)
   {
-    if (special_tile && !special_tile->m_map_message.empty() && !special_tile->m_passive_message) {
+    if (special_tile && !special_tile->get_map_message().empty() && !special_tile->is_passive_message()) {
       m_worldmap->set_passive_message({}, 0.0f);
     }
     stop();
@@ -325,16 +325,17 @@ Tux::setup()
 }
 
 void
-Tux::process_special_tile(SpecialTile* special_tile) {
+Tux::process_special_tile(SpecialTile* special_tile)
+{
   if (!special_tile) {
     return;
   }
 
-  if (special_tile->m_passive_message) {
-    m_worldmap->set_passive_message(special_tile->m_map_message, map_message_TIME);
-  } else if (!special_tile->m_script.empty()) {
+  if (special_tile->is_passive_message()) {
+    m_worldmap->set_passive_message(special_tile->get_map_message(), map_message_TIME);
+  } else if (!special_tile->get_script().empty()) {
     try {
-      m_worldmap->run_script(special_tile->m_script, "specialtile");
+      m_worldmap->run_script(special_tile->get_script(), "specialtile");
     } catch(std::exception& e) {
       log_warning << "Couldn't execute special tile script: " << e.what()
                   << std::endl;
