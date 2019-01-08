@@ -44,10 +44,10 @@ private:
   void capture_demo_step();
 
 private:
-  std::unique_ptr<std::ostream> capture_demo_stream;
-  std::string capture_file;
-  std::unique_ptr<std::istream> playback_demo_stream;
-  std::unique_ptr<CodeController> demo_controller;
+  std::string m_capture_file;
+  std::unique_ptr<std::ostream> m_capture_demo_stream;
+  std::unique_ptr<std::istream> m_playback_demo_stream;
+  std::unique_ptr<CodeController> m_demo_controller;
   bool m_playing;
 
 private:
