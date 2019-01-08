@@ -36,12 +36,15 @@ public:
   virtual void update(float dt_sec) override;
 
   Vector get_pos() const { return m_pos; }
+  std::string get_worldmap() const { return m_worldmap; }
+  std::string get_spawnpoint() const { return m_spawnpoint; }
+  bool is_automatic() const { return m_automatic; }
+  std::string get_message() const { return m_message; }
 
 private:
   /** Position (in tiles, not pixels) */
   Vector m_pos;
 
-public:
   /** Sprite to render, or 0 for no sprite */
   SpritePtr m_sprite;
 

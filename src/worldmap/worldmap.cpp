@@ -351,15 +351,15 @@ WorldMap::update(float dt_sec)
   {
     // check for teleporters
     auto teleporter = at_teleporter(m_tux->get_tile_pos());
-    if (teleporter && (teleporter->m_automatic || (m_enter_level && (!m_tux->is_moving())))) {
+    if (teleporter && (teleporter->is_automatic() || (m_enter_level && (!m_tux->is_moving())))) {
       m_enter_level = false;
-      if (!teleporter->m_worldmap.empty()) {
-        change(teleporter->m_worldmap, teleporter->m_spawnpoint);
+      if (!teleporter->get_worldmap().empty()) {
+        change(teleporter->get_worldmap(), teleporter->get_spawnpoint());
       } else {
         // TODO: an animation, camera scrolling or a fading would be a nice touch
         SoundManager::current()->play("sounds/warp.wav");
         m_tux->m_back_direction = Direction::NONE;
-        move_to_spawnpoint(teleporter->m_spawnpoint, true);
+        move_to_spawnpoint(teleporter->get_spawnpoint(), true);
       }
     }
   }
@@ -573,10 +573,10 @@ WorldMap::draw_status(DrawingContext& context)
 
     // display teleporter messages
     auto teleporter = at_teleporter(m_tux->get_tile_pos());
-    if (teleporter && (!teleporter->m_message.empty())) {
+    if (teleporter && (!teleporter->get_message().empty())) {
       Vector pos = Vector(static_cast<float>(context.get_width()) / 2.0f,
                           static_cast<float>(context.get_height()) - Resources::normal_font->get_height() - 30.0f);
-      context.color().draw_text(Resources::normal_font, teleporter->m_message, pos, ALIGN_CENTER, LAYER_FOREGROUND1, WorldMap::teleporter_message_color);
+      context.color().draw_text(Resources::normal_font, teleporter->get_message(), pos, ALIGN_CENTER, LAYER_FOREGROUND1, WorldMap::teleporter_message_color);
     }
   }
 
