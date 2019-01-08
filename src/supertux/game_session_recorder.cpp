@@ -28,19 +28,16 @@
 #include "util/log.hpp"
 
 GameSessionRecorder::GameSessionRecorder() :
-  capture_demo_stream(nullptr),
+  capture_demo_stream(),
   capture_file(),
-  playback_demo_stream(nullptr),
-  demo_controller(nullptr),
+  playback_demo_stream(),
+  demo_controller(),
   m_playing(false)
 {
 }
 
 GameSessionRecorder::~GameSessionRecorder()
 {
-  delete capture_demo_stream;
-  delete playback_demo_stream;
-  delete demo_controller;
 }
 
 void
@@ -60,9 +57,7 @@ GameSessionRecorder::start_recording()
 void
 GameSessionRecorder::record_demo(const std::string& filename)
 {
-  delete capture_demo_stream;
-
-  capture_demo_stream = new std::ofstream(filename.c_str());
+  capture_demo_stream.reset(new std::ofstream(filename.c_str()));
   if (!capture_demo_stream->good()) {
     std::stringstream msg;
     msg << "Couldn't open demo file '" << filename << "' for writing.";
@@ -79,23 +74,25 @@ GameSessionRecorder::record_demo(const std::string& filename)
 int
 GameSessionRecorder::get_demo_random_seed(const std::string& filename) const
 {
-  std::istream* test_stream = new std::ifstream(filename.c_str());
-  if (test_stream->good()) {
+  std::unique_ptr<std::istream> test_stream(new std::ifstream(filename.c_str()));
+  if (test_stream->good())
+  {
     char buf[30];                     // recall the seed from the demo file
     int seed;
+
     for (int i=0; i<30 && (i==0 || buf[i-1]); i++)
       test_stream->get(buf[i]);
-    if (sscanf(buf, "random_seed=%10d", &seed) == 1) {
+
+    if (sscanf(buf, "random_seed=%10d", &seed) == 1)
+    {
       log_info << "Random seed " << seed << " from demo file" << std::endl;
-      delete test_stream;
-      test_stream = nullptr;
       return seed;
     }
     else
+    {
       log_info << "Demo file contains no random number" << std::endl;
+    }
   }
-  delete test_stream;
-  test_stream = nullptr;
   return 0;
 }
 
@@ -103,10 +100,11 @@ void
 GameSessionRecorder::play_demo(const std::string& filename)
 {
   m_playing = true;
-  delete playback_demo_stream;
-  delete demo_controller;
 
-  playback_demo_stream = new std::ifstream(filename.c_str());
+  playback_demo_stream.reset();
+  demo_controller.reset();
+
+  playback_demo_stream.reset(new std::ifstream(filename.c_str()));
   if (!playback_demo_stream->good()) {
     std::stringstream msg;
     msg << "Couldn't open demo file '" << filename << "' for reading.";
@@ -129,13 +127,13 @@ GameSessionRecorder::play_demo(const std::string& filename)
 void
 GameSessionRecorder::reset_demo_controller()
 {
-  if (demo_controller == nullptr)
-  {
-    demo_controller = new CodeController();
+  if (!demo_controller) {
+    demo_controller.reset(new CodeController());
   }
+
   auto game_session = GameSession::current();
   Player& player = game_session->get_current_sector().get_player();
-  player.set_controller(demo_controller);
+  player.set_controller(demo_controller.get());
 }
 
 void

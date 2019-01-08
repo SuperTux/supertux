@@ -17,6 +17,7 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_GAME_SESSION_RECORDER_HPP
 #define HEADER_SUPERTUX_SUPERTUX_GAME_SESSION_RECORDER_HPP
 
+#include <memory>
 #include <string>
 
 #include "control/codecontroller.hpp"
@@ -33,23 +34,20 @@ public:
   void play_demo(const std::string& filename);
   void process_events();
 
-  /**
-   * Re-sets the demo controller in case the sector
-   * (and thus the Player instance) changes. 
-   */
+  /** Re-sets the demo controller in case the sector (and thus the
+      Player instance) changes. */
   void reset_demo_controller();
 
-  bool is_playing_demo() const {
-    return m_playing;
-  }
+  bool is_playing_demo() const { return m_playing; }
 
 private:
   void capture_demo_step();
 
-  std::ostream* capture_demo_stream;
+private:
+  std::unique_ptr<std::ostream> capture_demo_stream;
   std::string capture_file;
-  std::istream* playback_demo_stream;
-  CodeController* demo_controller;
+  std::unique_ptr<std::istream> playback_demo_stream;
+  std::unique_ptr<CodeController> demo_controller;
   bool m_playing;
 
 private:
