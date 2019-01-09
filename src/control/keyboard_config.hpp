@@ -27,6 +27,9 @@ class Writer;
 
 class KeyboardConfig final
 {
+  friend class KeyboardManager;
+  friend class KeyboardMenu;
+
 public:
   KeyboardConfig();
 
@@ -36,9 +39,9 @@ public:
   void read(const ReaderMapping& keymap_mapping);
   void write(Writer& writer);
 
-  typedef std::map<SDL_Keycode, Control> KeyMap;
-  KeyMap keymap;
-  bool jump_with_up_kbd;
+private:
+  std::map<SDL_Keycode, Control> m_keymap;
+  bool m_jump_with_up_kbd;
 
 private:
   KeyboardConfig(const KeyboardConfig&) = delete;

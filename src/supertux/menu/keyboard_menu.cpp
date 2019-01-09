@@ -46,7 +46,7 @@ KeyboardMenu::KeyboardMenu(InputManager& input_manager) :
     add_controlfield(static_cast<int>(Control::CHEAT_MENU), _("Cheat Menu"));
     add_controlfield(static_cast<int>(Control::DEBUG_MENU), _("Debug Menu"));
   }
-  add_toggle(static_cast<int>(Control::CONTROLCOUNT), _("Jump with Up"), &g_config->keyboard_config.jump_with_up_kbd);
+  add_toggle(static_cast<int>(Control::CONTROLCOUNT), _("Jump with Up"), &g_config->keyboard_config.m_jump_with_up_kbd);
   add_hl();
   add_back(_("Back"));
   refresh();

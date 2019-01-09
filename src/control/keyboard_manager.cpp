@@ -35,10 +35,10 @@ KeyboardManager::KeyboardManager(InputManager* parent,
 void
 KeyboardManager::process_key_event(const SDL_KeyboardEvent& event)
 {
-  auto key_mapping = m_keyboard_config.keymap.find(event.keysym.sym);
+  auto key_mapping = m_keyboard_config.m_keymap.find(event.keysym.sym);
 
   // if console key was pressed: toggle console
-  if (key_mapping != m_keyboard_config.keymap.end() &&
+  if (key_mapping != m_keyboard_config.m_keymap.end() &&
       key_mapping->second == Control::CONSOLE)
   {
     if (event.type == SDL_KEYDOWN)
@@ -65,7 +65,7 @@ KeyboardManager::process_key_event(const SDL_KeyboardEvent& event)
     // if menu mode: send key there
     process_menu_key_event(event);
   }
-  else if (key_mapping == m_keyboard_config.keymap.end())
+  else if (key_mapping == m_keyboard_config.m_keymap.end())
   {
     // default action: update controls
     //log_debug << "Key " << event.key.SDL_Keycode.sym << " is unbound" << std::endl;
@@ -77,7 +77,7 @@ KeyboardManager::process_key_event(const SDL_KeyboardEvent& event)
 
     m_parent->get_controller().set_control(control, value);
 
-    if (m_keyboard_config.jump_with_up_kbd && control == Control::UP) {
+    if (m_keyboard_config.m_jump_with_up_kbd && control == Control::UP) {
       m_parent->get_controller().set_control(Control::JUMP, value);
     }
   }
@@ -217,11 +217,11 @@ KeyboardManager::process_menu_key_event(const SDL_KeyboardEvent& event)
       control = Control::REMOVE;
       break;
     default:
-      if (m_keyboard_config.keymap.count(event.keysym.sym) == 0)
+      if (m_keyboard_config.m_keymap.count(event.keysym.sym) == 0)
       {
         return;
       }
-      control = m_keyboard_config.keymap[event.keysym.sym];
+      control = m_keyboard_config.m_keymap[event.keysym.sym];
       break;
   }
 
