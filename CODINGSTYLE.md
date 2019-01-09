@@ -291,6 +291,7 @@ if (foo)
 ## Other Information
 
 More general info on good practices can be found in [Google's C++
-Style Guide](https://google.github.io/styleguide/cppguide.html), note
-however that we do not strictly follow that guide and divert from it
-in some points.
+Style Guide](https://google.github.io/styleguide/cppguide.html) and in
+the [C++ Core Guidelines](http://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines),
+note however that we do not strictly follow either of them and divert from
+them in some points, so just take them as general guidelines, not hard rules.
