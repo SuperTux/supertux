@@ -253,12 +253,10 @@ Player::use_scripting_controller(bool use_or_release)
 }
 
 void
-Player::do_scripting_controller(const std::string& control, bool pressed)
+Player::do_scripting_controller(const std::string& control_text, bool pressed)
 {
-  for (int i = 0; Controller::s_control_names[i] != nullptr; ++i) {
-    if (control == std::string(Controller::s_control_names[i])) {
-      m_scripting_controller->press(Control(i), pressed);
-    }
+  if (const auto maybe_control = Control_from_string(control_text)) {
+    m_scripting_controller->press(*maybe_control, pressed);
   }
 }
 

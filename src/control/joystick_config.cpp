@@ -168,32 +168,31 @@ JoystickConfig::read(const ReaderMapping& joystick_mapping)
   {
     if (iter.get_key() == "map")
     {
-      int button = -1;
-      int axis   = 0;
-      int hat    = -1;
-      std::string control;
-      auto map = iter.as_mapping();
-      map.get("control", control);
-      int i = 0;
-      for (i = 0; Controller::s_control_names[i] != nullptr; ++i)
-      {
-        if (control == Controller::s_control_names[i])
-          break;
-      }
+      const auto& map = iter.as_mapping();
 
-      if (Controller::s_control_names[i] == nullptr)
+      std::string control_text;
+      map.get("control", control_text);
+
+      const boost::optional<Control> maybe_control = Control_from_string(control_text);
+      if (!maybe_control)
       {
-        log_info << "Invalid control '" << control << "' in buttonmap" << std::endl;
+        log_info << "Invalid control '" << control_text << "' in buttonmap" << std::endl;
       }
       else
       {
+        const Control control = *maybe_control;
+
+        int button = -1;
+        int axis   = 0;
+        int hat    = -1;
+
         if (map.get("button", button))
         {
-          bind_joybutton(0, button, Control(i));
+          bind_joybutton(0, button, control);
         }
         else if (map.get("axis",   axis))
         {
-          bind_joyaxis(0, axis, Control(i));
+          bind_joyaxis(0, axis, control);
         }
         else if (map.get("hat",   hat))
         {
@@ -205,7 +204,7 @@ JoystickConfig::read(const ReaderMapping& joystick_mapping)
           }
           else
           {
-            bind_joyhat(0, hat, Control(i));
+            bind_joyhat(0, hat, control);
           }
         }
       }
@@ -223,21 +222,21 @@ JoystickConfig::write(Writer& writer)
   for (const auto& i : m_joy_button_map) {
     writer.start_list("map");
     writer.write("button", i.first.second);
-    writer.write("control", Controller::s_control_names[static_cast<int>(i.second)]);
+    writer.write("control", Control_to_string(i.second));
     writer.end_list("map");
   }
 
   for (const auto& i : m_joy_hat_map) {
     writer.start_list("map");
     writer.write("hat", i.first.second);
-    writer.write("control", Controller::s_control_names[static_cast<int>(i.second)]);
+    writer.write("control", Control_to_string(i.second));
     writer.end_list("map");
   }
 
   for (const auto& i : m_joy_axis_map) {
     writer.start_list("map");
     writer.write("axis", i.first.second);
-    writer.write("control", Controller::s_control_names[static_cast<int>(i.second)]);
+    writer.write("control", Control_to_string(i.second));
     writer.end_list("map");
   }
 }

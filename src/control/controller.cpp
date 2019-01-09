@@ -18,7 +18,9 @@
 
 #include <ostream>
 
-const char* Controller::s_control_names[] = {
+namespace {
+
+const char* g_control_names[] = {
   "left",
   "right",
   "up",
@@ -41,9 +43,27 @@ const char* Controller::s_control_names[] = {
   nullptr
 };
 
+} // namespace
+
 std::ostream& operator<<(std::ostream& os, Control control)
 {
-  return os << Controller::s_control_names[static_cast<int>(control)];
+  return os << g_control_names[static_cast<int>(control)];
+}
+
+std::string Control_to_string(Control control)
+{
+  return g_control_names[static_cast<int>(control)];
+}
+
+boost::optional<Control> Control_from_string(const std::string& text)
+{
+  for(int i = 0; g_control_names[i] != nullptr; ++i) {
+    if (text == g_control_names[i]) {
+      return static_cast<Control>(i);
+    }
+  }
+
+  return boost::none;
 }
 
 Controller::Controller()

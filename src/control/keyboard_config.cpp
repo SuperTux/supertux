@@ -16,6 +16,8 @@
 
 #include "control/keyboard_config.hpp"
 
+#include <boost/optional.hpp>
+
 #include "util/log.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
@@ -65,24 +67,19 @@ KeyboardConfig::read(const ReaderMapping& keymap_mapping)
       if (iter.get_key() == "map")
       {
         int key = -1;
-        std::string control;
         auto map = iter.as_mapping();
         map.get("key", key);
-        map.get("control", control);
 
-        int i = 0;
-        for (i = 0; Controller::s_control_names[i] != nullptr; ++i)
-        {
-          if (control == Controller::s_control_names[i])
-            break;
-        }
+        std::string control_text;
+        map.get("control", control_text);
 
-        if (Controller::s_control_names[i] == nullptr)
-        {
-          log_info << "Invalid control '" << control << "' in keymap" << std::endl;
-          continue;
+        const boost::optional<Control> maybe_control = Control_from_string(control_text);
+        if (!maybe_control) {
+          log_info << "Invalid control '" << control_text << "' in keymap" << std::endl;
+        } else {
+          const Control control = *maybe_control;
+          m_keymap[static_cast<SDL_Keycode>(key)] = control;
         }
-        m_keymap[static_cast<SDL_Keycode>(key)] = static_cast<Control>(i);
       }
     }
   }
@@ -142,7 +139,7 @@ KeyboardConfig::write(Writer& writer)
   {
     writer.start_list("map");
     writer.write("key", static_cast<int>(i.first));
-    writer.write("control", Controller::s_control_names[static_cast<int>(i.second)]);
+    writer.write("control", Control_to_string(i.second));
     writer.end_list("map");
   }
 }
