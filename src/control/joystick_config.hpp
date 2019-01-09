@@ -34,15 +34,6 @@ public:
   typedef std::map<std::pair<JoyId, int>, Control> HatMap;
 
 public:
-  int dead_zone;
-  bool jump_with_up_joy;
-  bool use_game_controller;
-
-  ButtonMap joy_button_map;
-  AxisMap joy_axis_map;
-  HatMap joy_hat_map;
-
-public:
   JoystickConfig();
 
   void print_joystick_mappings() const;
@@ -59,6 +50,15 @@ public:
 
   void read(const ReaderMapping& joystick_mapping);
   void write(Writer& writer);
+
+public:
+  int m_dead_zone;
+  bool m_jump_with_up_joy;
+  bool m_use_game_controller;
+
+  ButtonMap m_joy_button_map;
+  AxisMap m_joy_axis_map;
+  HatMap m_joy_hat_map;
 
 private:
   JoystickConfig(const JoystickConfig&) = delete;

@@ -55,8 +55,6 @@ public:
   static const char* s_control_names[];
 
 public:
-
-public:
   Controller();
   virtual ~Controller();
 

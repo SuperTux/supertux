@@ -24,12 +24,12 @@
 #include "util/writer.hpp"
 
 JoystickConfig::JoystickConfig() :
-  dead_zone(8000),
-  jump_with_up_joy(false),
-  use_game_controller(true),
-  joy_button_map(),
-  joy_axis_map(),
-  joy_hat_map()
+  m_dead_zone(8000),
+  m_jump_with_up_joy(false),
+  m_use_game_controller(true),
+  m_joy_button_map(),
+  m_joy_axis_map(),
+  m_joy_hat_map()
 {
   // Default joystick button configuration
   bind_joybutton(0, 0, Control::JUMP);
@@ -49,7 +49,7 @@ JoystickConfig::JoystickConfig() :
 int
 JoystickConfig::reversemap_joyaxis(Control c) const
 {
-  for (const auto& i : joy_axis_map) {
+  for (const auto& i : m_joy_axis_map) {
     if (i.second == c)
       return i.first.second;
   }
@@ -60,7 +60,7 @@ JoystickConfig::reversemap_joyaxis(Control c) const
 int
 JoystickConfig::reversemap_joybutton(Control c) const
 {
-  for (const auto& i : joy_button_map) {
+  for (const auto& i : m_joy_button_map) {
     if (i.second == c)
       return i.first.second;
   }
@@ -71,7 +71,7 @@ JoystickConfig::reversemap_joybutton(Control c) const
 int
 JoystickConfig::reversemap_joyhat(Control c) const
 {
-  for (const auto& i : joy_hat_map) {
+  for (const auto& i : m_joy_hat_map) {
     if (i.second == c)
       return i.first.second;
   }
@@ -84,15 +84,15 @@ JoystickConfig::print_joystick_mappings() const
 {
   std::cout << _("Joystick Mappings") << std::endl;
   std::cout << "-----------------" << std::endl;
-  for (const auto& i : joy_axis_map) {
+  for (const auto& i : m_joy_axis_map) {
     std::cout << "Axis: " << i.first.second << " -> " << i.second << std::endl;
   }
 
-  for (const auto& i : joy_button_map) {
+  for (const auto& i : m_joy_button_map) {
     std::cout << "Button: " << i.first.second << " -> " << i.second << std::endl;
   }
 
-  for (const auto& i : joy_hat_map) {
+  for (const auto& i : m_joy_hat_map) {
     std::cout << "Hat: " << i.first.second << " -> " << i.second << std::endl;
   }
   std::cout << std::endl;
@@ -102,23 +102,23 @@ void
 JoystickConfig::unbind_joystick_control(Control control)
 {
   // remove all previous mappings for that control
-  for (AxisMap::iterator i = joy_axis_map.begin(); i != joy_axis_map.end(); /* no ++i */) {
+  for (AxisMap::iterator i = m_joy_axis_map.begin(); i != m_joy_axis_map.end(); /* no ++i */) {
     if (i->second == control)
-      joy_axis_map.erase(i++);
+      m_joy_axis_map.erase(i++);
     else
       ++i;
   }
 
-  for (ButtonMap::iterator i = joy_button_map.begin(); i != joy_button_map.end(); /* no ++i */) {
+  for (ButtonMap::iterator i = m_joy_button_map.begin(); i != m_joy_button_map.end(); /* no ++i */) {
     if (i->second == control)
-      joy_button_map.erase(i++);
+      m_joy_button_map.erase(i++);
     else
       ++i;
   }
 
-  for (HatMap::iterator i = joy_hat_map.begin();  i != joy_hat_map.end(); /* no ++i */) {
+  for (HatMap::iterator i = m_joy_hat_map.begin();  i != m_joy_hat_map.end(); /* no ++i */) {
     if (i->second == control)
-      joy_hat_map.erase(i++);
+      m_joy_hat_map.erase(i++);
     else
       ++i;
   }
@@ -135,7 +135,7 @@ JoystickConfig::bind_joyaxis(JoyId joy_id, int axis, Control control)
   unbind_joystick_control(control);
 
   // add new mapping
-  joy_axis_map[std::make_pair(joy_id, axis)] = control;
+  m_joy_axis_map[std::make_pair(joy_id, axis)] = control;
 }
 
 void
@@ -144,7 +144,7 @@ JoystickConfig::bind_joyhat(JoyId joy_id, int dir, Control c)
   unbind_joystick_control(c);
 
   // add new mapping
-  joy_hat_map[std::make_pair(joy_id, dir)] = c;
+  m_joy_hat_map[std::make_pair(joy_id, dir)] = c;
 }
 
 void
@@ -153,15 +153,15 @@ JoystickConfig::bind_joybutton(JoyId joy_id, int button, Control control)
   unbind_joystick_control(control);
 
   // add new mapping
-  joy_button_map[std::make_pair(joy_id, button)] = control;
+  m_joy_button_map[std::make_pair(joy_id, button)] = control;
 }
 
 void
 JoystickConfig::read(const ReaderMapping& joystick_mapping)
 {
-  joystick_mapping.get("dead-zone", dead_zone);
-  joystick_mapping.get("jump-with-up", jump_with_up_joy);
-  joystick_mapping.get("use-game-controller", use_game_controller);
+  joystick_mapping.get("dead-zone", m_dead_zone);
+  joystick_mapping.get("jump-with-up", m_jump_with_up_joy);
+  joystick_mapping.get("use-game-controller", m_use_game_controller);
 
   auto iter = joystick_mapping.get_iter();
   while (iter.next())
@@ -216,25 +216,25 @@ JoystickConfig::read(const ReaderMapping& joystick_mapping)
 void
 JoystickConfig::write(Writer& writer)
 {
-  writer.write("dead-zone", dead_zone);
-  writer.write("jump-with-up", jump_with_up_joy);
-  writer.write("use-game-controller", use_game_controller);
+  writer.write("dead-zone", m_dead_zone);
+  writer.write("jump-with-up", m_jump_with_up_joy);
+  writer.write("use-game-controller", m_use_game_controller);
 
-  for (const auto& i : joy_button_map) {
+  for (const auto& i : m_joy_button_map) {
     writer.start_list("map");
     writer.write("button", i.first.second);
     writer.write("control", Controller::s_control_names[static_cast<int>(i.second)]);
     writer.end_list("map");
   }
 
-  for (const auto& i : joy_hat_map) {
+  for (const auto& i : m_joy_hat_map) {
     writer.start_list("map");
     writer.write("hat", i.first.second);
     writer.write("control", Controller::s_control_names[static_cast<int>(i.second)]);
     writer.end_list("map");
   }
 
-  for (const auto& i : joy_axis_map) {
+  for (const auto& i : m_joy_axis_map) {
     writer.start_list("map");
     writer.write("axis", i.first.second);
     writer.write("control", Controller::s_control_names[static_cast<int>(i.second)]);

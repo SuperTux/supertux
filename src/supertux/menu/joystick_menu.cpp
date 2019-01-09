@@ -84,7 +84,7 @@ JoystickMenu::recreate_menu()
         add_controlfield(static_cast<int>(Control::CHEAT_MENU), _("Cheat Menu"));
         add_controlfield(static_cast<int>(Control::DEBUG_MENU), _("Debug Menu"));
       }
-      add_toggle(MNID_JUMP_WITH_UP, _("Jump with Up"), &g_config->joystick_config.jump_with_up_joy);
+      add_toggle(MNID_JUMP_WITH_UP, _("Jump with Up"), &g_config->joystick_config.m_jump_with_up_joy);
     }
     else
     {

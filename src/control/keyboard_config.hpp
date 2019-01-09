@@ -39,6 +39,10 @@ public:
   typedef std::map<SDL_Keycode, Control> KeyMap;
   KeyMap keymap;
   bool jump_with_up_kbd;
+
+private:
+  KeyboardConfig(const KeyboardConfig&) = delete;
+  KeyboardConfig& operator=(const KeyboardConfig&) = delete;
 };
 
 #endif
