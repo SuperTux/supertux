@@ -106,7 +106,7 @@ DisplayEffect::draw(DrawingContext& context)
           alpha = (screen_fadetime - screen_fading) / screen_fadetime;
           break;
         default:
-          alpha = 0;
+          alpha = 0.0f; // NOLINT
           assert(false);
       }
     }

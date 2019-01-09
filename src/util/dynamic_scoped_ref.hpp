@@ -95,7 +95,7 @@ public:
   {
   }
 
-  DynamicScopedRefGuard(DynamicScopedRefGuard<T>&&) = default;
+  DynamicScopedRefGuard(DynamicScopedRefGuard<T>&&) noexcept = default;
 
   ~DynamicScopedRefGuard()
   {

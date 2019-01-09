@@ -35,13 +35,13 @@ public:
     m_surface(surface)
   {}
 
-  SDLSurfacePtr(SDLSurfacePtr&& other) :
+  SDLSurfacePtr(SDLSurfacePtr&& other) noexcept :
     m_surface(other.m_surface)
   {
     other.m_surface = nullptr;
   }
 
-  SDLSurfacePtr& operator=(SDLSurfacePtr&& other)
+  SDLSurfacePtr& operator=(SDLSurfacePtr&& other) noexcept
   {
     if (this != &other)
     {

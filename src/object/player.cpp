@@ -918,7 +918,7 @@ Player::position_grabbed_object()
 {
   auto moving_object = dynamic_cast<MovingObject*>(m_grabbed_object);
   assert(moving_object);
-  auto object_bbox = moving_object->get_bbox();
+  const auto& object_bbox = moving_object->get_bbox();
 
   // Position where we will hold the lower-inner corner
   Vector pos(m_col.m_bbox.get_left() + m_col.m_bbox.get_width()/2,

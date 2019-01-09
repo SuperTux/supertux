@@ -26,7 +26,7 @@ class Bomb final : public BadGuy,
                    public Portable
 {
 public:
-  Bomb(const Vector& pos, Direction dir, std::string custom_sprite = "images/creatures/mr_bomb/bomb.sprite" );
+  Bomb(const Vector& pos, Direction dir, const std::string& custom_sprite = "images/creatures/mr_bomb/bomb.sprite" );
   virtual bool is_saveable() const override {
     return false;
   }

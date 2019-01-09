@@ -49,28 +49,28 @@ public:
   Canvas(DrawingContext& context, obstack& obst);
   ~Canvas();
 
-  void draw_surface(SurfacePtr surface, const Vector& position, int layer);
-  void draw_surface(SurfacePtr surface, const Vector& position, float angle, const Color& color, const Blend& blend,
+  void draw_surface(const SurfacePtr& surface, const Vector& position, int layer);
+  void draw_surface(const SurfacePtr& surface, const Vector& position, float angle, const Color& color, const Blend& blend,
                     int layer);
-  void draw_surface_part(SurfacePtr surface, const Rectf& srcrect, const Rectf& dstrect,
+  void draw_surface_part(const SurfacePtr& surface, const Rectf& srcrect, const Rectf& dstrect,
                          int layer, const PaintStyle& style = PaintStyle());
-  void draw_surface_scaled(SurfacePtr surface, const Rectf& dstrect,
+  void draw_surface_scaled(const SurfacePtr& surface, const Rectf& dstrect,
                            int layer, const PaintStyle& style = PaintStyle());
-  void draw_surface_batch(SurfacePtr surface,
+  void draw_surface_batch(const SurfacePtr& surface,
                           std::vector<Rectf> srcrects,
                           std::vector<Rectf> dstrects,
                           const Color& color,
                           int layer);
-  void draw_surface_batch(SurfacePtr surface,
+  void draw_surface_batch(const SurfacePtr& surface,
                           std::vector<Rectf> srcrects,
                           std::vector<Rectf> dstrects,
                           std::vector<float> angles,
                           const Color& color,
                           int layer);
-  void draw_text(FontPtr font, const std::string& text,
+  void draw_text(const FontPtr& font, const std::string& text,
                  const Vector& position, FontAlignment alignment, int layer, const Color& color = Color(1.0,1.0,1.0));
   /** Draw text to the center of the screen */
-  void draw_center_text(FontPtr font, const std::string& text,
+  void draw_center_text(const FontPtr& font, const std::string& text,
                         const Vector& position, int layer, const Color& color = Color(1.0,1.0,1.0));
   void draw_gradient(const Color& from, const Color& to, int layer, const GradientDirection& direction,
                      const Rectf& region, const Blend& blend = Blend());
@@ -83,7 +83,7 @@ public:
   void draw_triangle(const Vector& pos1, const Vector& pos2, const Vector& pos3, const Color& color, int layer);
 
   /** on next update, set color to lightmap's color at position */
-  void get_pixel(const Vector& position, std::shared_ptr<Color> color_out);
+  void get_pixel(const Vector& position, const std::shared_ptr<Color>& color_out);
 
   void clear();
   void render(Renderer& renderer, Filter filter);

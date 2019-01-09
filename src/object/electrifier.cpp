@@ -19,7 +19,7 @@
 #include "supertux/sector.hpp"
 
 Electrifier::Electrifier(TileChangeMap replacements, float seconds) :
-  change_map(replacements),
+  change_map(std::move(replacements)),
   duration()
 {
   duration.start(seconds);

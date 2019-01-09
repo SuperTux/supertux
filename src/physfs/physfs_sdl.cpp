@@ -47,7 +47,7 @@ Sint64 funcSeek(struct SDL_RWops* context, Sint64 offset, int whence)
       res = PHYSFS_seek(file, PHYSFS_fileLength(file) + offset);
       break;
     default:
-      res = 0;
+      res = 0; // NOLINT
       assert(false);
       break;
   }

@@ -141,7 +141,7 @@ TextScroller::parse_content(const ReaderCollection& collection)
           log_warning << "[" << collection.get_doc().get_filename() << "] Simple person entry shouldn't specify images" << std::endl;
         }
 
-        m_lines.emplace_back(new InfoBoxLine(' ', name + " (" + info + ")"));
+        m_lines.emplace_back(new InfoBoxLine(' ', name + " (" + info + ")")); // NOLINT
       } else {
         if (item.get_mapping().get("name", name)) {
           m_lines.emplace_back(new InfoBoxLine('\t', name));

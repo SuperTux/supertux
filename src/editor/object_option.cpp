@@ -187,7 +187,7 @@ StringObjectOption::StringObjectOption(const std::string& text, std::string* poi
                                        unsigned int flags) :
   ObjectOption(text, key, flags),
   m_pointer(pointer),
-  m_default_value(default_value)
+  m_default_value(std::move(default_value))
 {
 }
 
@@ -348,8 +348,8 @@ FileObjectOption::FileObjectOption(const std::string& text, std::string* pointer
                                    unsigned int flags) :
   ObjectOption(text, key, flags),
   m_pointer(pointer),
-  m_default_value(default_value),
-  m_filter(filter),
+  m_default_value(std::move(default_value)),
+  m_filter(std::move(filter)),
   m_basedir(basedir)
 {
 }
@@ -387,7 +387,7 @@ ColorObjectOption::ColorObjectOption(const std::string& text, Color* pointer, co
                                      unsigned int flags) :
   ObjectOption(text, key, flags),
   m_pointer(pointer),
-  m_default_value(default_value),
+  m_default_value(std::move(default_value)),
   m_use_alpha(use_alpha)
 {
 }

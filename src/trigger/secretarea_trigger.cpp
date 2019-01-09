@@ -54,7 +54,7 @@ SecretAreaTrigger::SecretAreaTrigger(const ReaderMapping& reader) :
   reader.get("script", script);
 }
 
-SecretAreaTrigger::SecretAreaTrigger(const Rectf& area, std::string fade_tilemap_) :
+SecretAreaTrigger::SecretAreaTrigger(const Rectf& area, const std::string& fade_tilemap_) :
   message_timer(),
   message_displayed(false),
   message(_("You found a secret area!")),

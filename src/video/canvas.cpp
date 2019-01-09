@@ -103,7 +103,7 @@ Canvas::render(Renderer& renderer, Filter filter)
 }
 
 void
-Canvas::draw_surface(SurfacePtr surface,
+Canvas::draw_surface(const SurfacePtr& surface,
                      const Vector& position, float angle, const Color& color, const Blend& blend,
                      int layer)
 {
@@ -137,13 +137,13 @@ Canvas::draw_surface(SurfacePtr surface,
 }
 
 void
-Canvas::draw_surface(SurfacePtr surface, const Vector& position, int layer)
+Canvas::draw_surface(const SurfacePtr& surface, const Vector& position, int layer)
 {
   draw_surface(surface, position, 0.0f, Color(1.0f, 1.0f, 1.0f), Blend(), layer);
 }
 
 void
-Canvas::draw_surface_scaled(SurfacePtr surface, const Rectf& dstrect,
+Canvas::draw_surface_scaled(const SurfacePtr& surface, const Rectf& dstrect,
                             int layer, const PaintStyle& style)
 {
   draw_surface_part(surface, Rectf(0.0f, 0.0f, static_cast<float>(surface->get_width()), static_cast<float>(surface->get_height())),
@@ -151,7 +151,7 @@ Canvas::draw_surface_scaled(SurfacePtr surface, const Rectf& dstrect,
 }
 
 void
-Canvas::draw_surface_part(SurfacePtr surface, const Rectf& srcrect, const Rectf& dstrect,
+Canvas::draw_surface_part(const SurfacePtr& surface, const Rectf& srcrect, const Rectf& dstrect,
                           int layer, const PaintStyle& style)
 {
   if (!surface) return;
@@ -175,7 +175,7 @@ Canvas::draw_surface_part(SurfacePtr surface, const Rectf& srcrect, const Rectf&
 }
 
 void
-Canvas::draw_surface_batch(SurfacePtr surface,
+Canvas::draw_surface_batch(const SurfacePtr& surface,
                            std::vector<Rectf> srcrects,
                            std::vector<Rectf> dstrects,
                            const Color& color,
@@ -190,7 +190,7 @@ Canvas::draw_surface_batch(SurfacePtr surface,
 }
 
 void
-Canvas::draw_surface_batch(SurfacePtr surface,
+Canvas::draw_surface_batch(const SurfacePtr& surface,
                            std::vector<Rectf> srcrects,
                            std::vector<Rectf> dstrects,
                            std::vector<float> angles,
@@ -223,14 +223,14 @@ Canvas::draw_surface_batch(SurfacePtr surface,
 }
 
 void
-Canvas::draw_text(FontPtr font, const std::string& text,
+Canvas::draw_text(const FontPtr& font, const std::string& text,
                   const Vector& pos, FontAlignment alignment, int layer, const Color& color)
 {
   font->draw_text(*this, text, pos, alignment, layer, color);
 }
 
 void
-Canvas::draw_center_text(FontPtr font, const std::string& text,
+Canvas::draw_center_text(const FontPtr& font, const std::string& text,
                          const Vector& position, int layer, const Color& color)
 {
   draw_text(font, text, Vector(position.x + static_cast<float>(m_context.get_width()) / 2.0f, position.y),
@@ -346,7 +346,7 @@ Canvas::draw_triangle(const Vector& pos1, const Vector& pos2, const Vector& pos3
 }
 
 void
-Canvas::get_pixel(const Vector& position, std::shared_ptr<Color> color_out)
+Canvas::get_pixel(const Vector& position, const std::shared_ptr<Color>& color_out)
 {
   assert(color_out);
 

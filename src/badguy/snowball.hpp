@@ -23,7 +23,7 @@ class SnowBall final : public WalkingBadguy
 {
 public:
   SnowBall(const ReaderMapping& reader);
-  SnowBall(const Vector& pos, Direction d, std::string script);
+  SnowBall(const Vector& pos, Direction d, const std::string& script);
 
   virtual std::string get_class() const override { return "snowball"; }
   virtual std::string get_display_name() const override { return _("Snowball"); }

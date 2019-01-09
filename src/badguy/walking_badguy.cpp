@@ -131,7 +131,7 @@ WalkingBadguy::active_update(float dt_sec, float dest_x_velocity)
   else
   {
     /* The above should have covered all cases. */
-    assert (23 == 42);
+    assert(false);
   }
 
   if (max_drop_height > -1) {

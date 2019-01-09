@@ -72,6 +72,7 @@ TEST(RandomTest, rand_determinism)
 
   random.seed(0);
   std::vector<int> run1;
+  run1.reserve(1000);
   for(int i = 0; i < 1000; ++i)
   {
     run1.push_back(random.rand());
@@ -79,6 +80,7 @@ TEST(RandomTest, rand_determinism)
 
   random.seed(0);
   std::vector<int> run2;
+  run2.reserve(1000);
   for(int i = 0; i < 1000; ++i)
   {
     run2.push_back(random.rand());
@@ -93,6 +95,7 @@ TEST(RandomTest, randf_determinism)
 
   random.seed(0);
   std::vector<float> run1;
+  run1.reserve(1000);
   for(int i = 0; i < 1000; ++i)
   {
     run1.push_back(random.randf(1.0f));
@@ -100,6 +103,7 @@ TEST(RandomTest, randf_determinism)
 
   random.seed(0);
   std::vector<float> run2;
+  run2.reserve(1000);
   for(int i = 0; i < 1000; ++i)
   {
     run2.push_back(random.randf(1.0f));

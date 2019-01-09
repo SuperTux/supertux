@@ -255,17 +255,18 @@ TileSetParser::parse_tiles(const ReaderMapping& reader)
       {
         if (ids[i] != 0)
         {
-          int x = static_cast<int>(32 * (i % width));
-          int y = static_cast<int>(32 * (i / width));
+          const int x = static_cast<int>(32 * (i % width));
+          const int y = static_cast<int>(32 * (i / width));
 
           std::vector<SurfacePtr> regions;
-          std::vector<SurfacePtr> editor_regions;
-
+          regions.reserve(surfaces.size());
           for (const auto& surface : surfaces)
           {
             regions.push_back(surface->region(Rect(x, y, Size(32, 32))));
           }
 
+          std::vector<SurfacePtr> editor_regions;
+          editor_regions.reserve(editor_surfaces.size());
           for (const auto& surface : editor_surfaces)
           {
             editor_regions.push_back(surface->region(Rect(x, y, Size(32, 32))));

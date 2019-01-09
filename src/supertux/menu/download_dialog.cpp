@@ -18,8 +18,9 @@
 
 #include "addon/addon_manager.hpp"
 
-DownloadDialog::DownloadDialog(TransferStatusPtr status, bool auto_close, bool passive) : Dialog(passive),
-  m_status(status),
+DownloadDialog::DownloadDialog(TransferStatusPtr status, bool auto_close, bool passive) :
+  Dialog(passive),
+  m_status(std::move(status)),
   m_title(),
   m_auto_close(auto_close)
 {

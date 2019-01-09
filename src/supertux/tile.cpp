@@ -403,7 +403,7 @@ Tile::check_position_unisolid (const Rectf& obj_bbox,
       break;
 
     default:
-      assert (23 == 42);
+      assert(false);
       return 0;
   }
 

@@ -45,7 +45,7 @@ GameObjectManager::~GameObjectManager()
 void
 GameObjectManager::request_name_resolve(const std::string& name, std::function<void (UID)> callback)
 {
-  m_name_resolve_requests.push_back({name, callback});
+  m_name_resolve_requests.push_back({name, std::move(callback)});
 }
 
 void

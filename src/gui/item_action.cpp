@@ -18,7 +18,7 @@
 
 ItemAction::ItemAction(const std::string& text, int id, std::function<void()> callback) :
   MenuItem(text, id),
-  m_callback(callback)
+  m_callback(std::move(callback))
 {
 }
 

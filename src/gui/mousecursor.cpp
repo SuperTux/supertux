@@ -44,7 +44,7 @@ MouseCursor::set_state(MouseCursorState state)
 void
 MouseCursor::set_icon(SurfacePtr icon)
 {
-  m_icon = icon;
+  m_icon = std::move(icon);
 }
 
 void

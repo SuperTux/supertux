@@ -130,7 +130,7 @@ InfoBoxLine::split(const std::string& text, float width)
     if (i >= text.size()) break;
 
     // extract one line
-    l = text.find("\n", i);
+    l = text.find('\n', i);
     if (l == std::string::npos) l=text.size();
     std::string s = text.substr(i, l-i);
     i = l+1;

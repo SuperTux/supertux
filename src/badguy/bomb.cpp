@@ -23,7 +23,7 @@
 #include "sprite/sprite.hpp"
 #include "supertux/sector.hpp"
 
-Bomb::Bomb(const Vector& pos, Direction dir_, std::string custom_sprite /*= "images/creatures/mr_bomb/mr_bomb.sprite"*/ ) :
+Bomb::Bomb(const Vector& pos, Direction dir_, const std::string& custom_sprite /*= "images/creatures/mr_bomb/mr_bomb.sprite"*/ ) :
   BadGuy( pos, dir_, custom_sprite ),
   grabbed(false),
   grabber(nullptr),
