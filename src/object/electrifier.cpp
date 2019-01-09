@@ -32,7 +32,10 @@ Electrifier::Electrifier(uint32_t oldtile, uint32_t newtile, float seconds) :
   change_map({{oldtile, newtile}}),
   duration()
 {
-  Electrifier(change_map, seconds);
+  duration.start(seconds);
+  for (auto& tile : change_map) {
+    Sector::get().change_solid_tiles(tile.first, tile.second);
+  }
 }
 
 void

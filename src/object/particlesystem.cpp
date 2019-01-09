@@ -38,7 +38,7 @@ ParticleSystem::ParticleSystem(const ReaderMapping& reader, float max_particle_s
   enabled(true)
 {
   reader.get("enabled", enabled, true);
-  z_pos = reader_get_layer(reader, /* default = */ LAYER_BACKGROUND1);
+  z_pos = reader_get_layer(reader, LAYER_BACKGROUND1);
 }
 
 ParticleSystem::ParticleSystem(float max_particle_size_) :
@@ -112,9 +112,9 @@ ParticleSystem::draw(DrawingContext& context)
     auto& surface = it.first;
     auto& batch = it.second;
     context.color().draw_surface_batch(surface,
-                                       std::move(batch).get_srcrects(),
-                                       std::move(batch).get_dstrects(),
-                                       std::move(batch).get_angles(),
+                                       batch.move_srcrects(),
+                                       batch.move_dstrects(),
+                                       batch.move_angles(),
                                        Color::WHITE, z_pos);
   }
 

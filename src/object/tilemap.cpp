@@ -112,7 +112,7 @@ TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
     }
   }
 
-  m_z_pos = reader_get_layer (reader, /* default = */ 0);
+  m_z_pos = reader_get_layer(reader, 0);
 
   if (!Editor::is_active()) {
     if (m_real_solid && ((m_speed_x != 1) || (m_speed_y != 1))) {

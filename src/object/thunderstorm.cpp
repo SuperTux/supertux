@@ -47,7 +47,7 @@ Thunderstorm::Thunderstorm(const ReaderMapping& reader) :
   if (interval <= 0) {
     log_warning << "Running a thunderstorm with non-positive time interval is a bad idea" << std::endl;
   }
-  layer = reader_get_layer (reader, /* default = */ LAYER_BACKGROUNDTILES-1);
+  layer = reader_get_layer (reader, LAYER_BACKGROUNDTILES - 1);
 
   SoundManager::current()->preload("sounds/thunder.wav");
   SoundManager::current()->preload("sounds/lightning.wav");
@@ -146,7 +146,7 @@ Thunderstorm::flash()
 void
 Thunderstorm::electrify()
 {
-  auto changing_tiles = TileChangeMap({
+  auto changing_tiles = Electrifier::TileChangeMap({
     {200, 1421}, {201, 1422},
     {3419, 3523}, {3420, 3524},
     {3421, 3525}, {3422, 3526},

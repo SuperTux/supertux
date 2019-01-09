@@ -252,12 +252,12 @@ Camera::reset(const Vector& tuxpos)
 }
 
 void
-Camera::shake(float time, float x, float y)
+Camera::shake(float duration, float x, float y)
 {
-  m_shaketimer.start(time);
+  m_shaketimer.start(duration);
   m_shakedepth_x = x;
   m_shakedepth_y = y;
-  m_shakespeed = math::PI_2 / time;
+  m_shakespeed = math::PI_2 / duration;
 }
 
 void

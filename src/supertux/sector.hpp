@@ -40,7 +40,6 @@ class Player;
 class ReaderMapping;
 class Rectf;
 class Size;
-class SpawnPoint;
 class TileMap;
 class Vector;
 class Writer;

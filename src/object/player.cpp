@@ -857,7 +857,7 @@ Player::handle_input()
     m_stone = false;
     for (int i = 0; i < 8; i++)
     {
-      Vector ppos = Vector(m_col.m_bbox.get_left() + 8.0f + 16.0f * static_cast<float>(i / 4),
+      Vector ppos = Vector(m_col.m_bbox.get_left() + 8.0f + 16.0f * static_cast<float>(static_cast<int>(i / 4)),
                            m_col.m_bbox.get_top() + 16.0f * static_cast<float>(i % 4));
       float grey = graphicsRandom.randf(.4f, .8f);
       Color pcolor = Color(grey, grey, grey);

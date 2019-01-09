@@ -45,7 +45,6 @@
 #include "squirrel/exposed_object.hpp"
 
 class GameObject;
-class Player;
 class ReaderMapping;
 class SoundSource;
 

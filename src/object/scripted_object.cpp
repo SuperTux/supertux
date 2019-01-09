@@ -49,7 +49,7 @@ ScriptedObject::ScriptedObject(const ReaderMapping& mapping) :
   mapping.get("physic-enabled", physic_enabled, true);
   mapping.get("visible", visible, true);
   mapping.get("hit-script", hit_script, "");
-  m_layer = reader_get_layer(mapping, /* default = */ LAYER_OBJECTS);
+  m_layer = reader_get_layer(mapping, LAYER_OBJECTS);
   if ( solid ){
     set_group( COLGROUP_MOVING_STATIC );
   } else {

@@ -44,12 +44,10 @@
 
 namespace {
 
-std::unique_ptr<MovingObject>
-to_moving_object(std::unique_ptr<GameObject> object) {
-  MovingObject* moving_object = dynamic_cast<MovingObject*>(object.get());
-  if (moving_object) {
-    object.release();
-    return std::unique_ptr<MovingObject>(moving_object);
+std::unique_ptr<MovingObject> to_moving_object(std::unique_ptr<GameObject> object)
+{
+  if (dynamic_cast<MovingObject*>(object.get()) != nullptr) {
+    return std::unique_ptr<MovingObject>(static_cast<MovingObject*>(object.release()));
   } else {
     return std::unique_ptr<MovingObject>();
   }

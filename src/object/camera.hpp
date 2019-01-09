@@ -28,7 +28,6 @@
 #include "supertux/game_object.hpp"
 #include "supertux/timer.hpp"
 
-class Sector;
 class Path;
 class PathWalker;
 class ReaderMapping;
@@ -84,7 +83,7 @@ public:
   void set_translation(const Vector& translation) { m_translation = translation; }
 
   /** shake camera in a direction 1 time */
-  void shake(float speed, float x, float y);
+  void shake(float duration, float x, float y);
 
   /** scroll the upper left edge of the camera in scrolltime seconds
       to the position goal */

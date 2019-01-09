@@ -47,7 +47,7 @@ Gradient::Gradient(const ReaderMapping& reader) :
   m_blend(),
   m_target(DrawingTarget::COLORMAP)
 {
-  m_layer = reader_get_layer (reader, /* default = */ LAYER_BACKGROUND0);
+  m_layer = reader_get_layer (reader, LAYER_BACKGROUND0);
   std::vector<float> bkgd_top_color, bkgd_bottom_color;
   std::string direction;
   if (reader.get("direction", direction))
