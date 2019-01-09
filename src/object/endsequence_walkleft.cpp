@@ -51,9 +51,9 @@ EndSequenceWalkLeft::running(float dt_sec)
   Player& tux = Sector::get().get_player();
 
   if (tux_may_walk) {
-    end_sequence_controller->press(Controller::LEFT);
+    end_sequence_controller->press(Control::LEFT);
     if (int(last_x_pos) == int(tux.get_pos().x)) {
-      end_sequence_controller->press(Controller::JUMP);
+      end_sequence_controller->press(Control::JUMP);
     }
   }
 

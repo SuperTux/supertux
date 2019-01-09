@@ -25,7 +25,7 @@ CodeController::~CodeController()
 void
 CodeController::press(Control c, bool pressed_)
 {
-  controls[c] = pressed_;
+  m_controls[static_cast<int>(c)] = pressed_;
 }
 
 void
@@ -33,8 +33,9 @@ CodeController::update()
 {
   Controller::update();
 
-  for (int i = 0; i < CONTROLCOUNT; ++i)
-    controls[i] = false;
+  for (int i = 0; i < static_cast<int>(Control::CONTROLCOUNT); ++i) {
+    m_controls[i] = false;
+  }
 }
 
 /* EOF */

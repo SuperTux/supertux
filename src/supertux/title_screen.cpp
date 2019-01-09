@@ -59,14 +59,14 @@ TitleScreen::make_tux_jump()
   Player& tux = sector.get_player();
 
   m_controller->update();
-  m_controller->press(Controller::RIGHT);
+  m_controller->press(Control::RIGHT);
 
   // Check if we should press the jump button
   Rectf lookahead = tux.get_bbox();
   lookahead.set_right(lookahead.get_right() + 96);
   bool pathBlocked = !sector.is_free_of_statics(lookahead);
   if ((pathBlocked && jumpWasReleased) || !tux.on_ground()) {
-    m_controller->press(Controller::JUMP);
+    m_controller->press(Control::JUMP);
     jumpWasReleased = false;
   } else {
     jumpWasReleased = true;

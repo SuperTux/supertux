@@ -28,7 +28,7 @@ public:
   virtual ~JoystickMenu();
 
   void refresh() override;
-  void refresh_menu_item(Controller::Control id);
+  void refresh_menu_item(Control id);
 
   std::string get_button_name(int button) const;
   void menu_action(MenuItem& item) override;

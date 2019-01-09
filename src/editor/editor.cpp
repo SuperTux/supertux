@@ -331,24 +331,24 @@ Editor::update_keyboard(const Controller& controller)
     return;
   }
 
-  if (controller.pressed(Controller::ESCAPE)) {
+  if (controller.pressed(Control::ESCAPE)) {
     esc_press();
     return;
   }
 
-  if (controller.hold(Controller::LEFT)) {
+  if (controller.hold(Control::LEFT)) {
     scroll({-32.0f, 0.0f});
   }
 
-  if (controller.hold(Controller::RIGHT)) {
+  if (controller.hold(Control::RIGHT)) {
     scroll({32.0f, 0.0f});
   }
 
-  if (controller.hold(Controller::UP)) {
+  if (controller.hold(Control::UP)) {
     scroll({0.0f, -32.0f});
   }
 
-  if (controller.hold(Controller::DOWN)) {
+  if (controller.hold(Control::DOWN)) {
     scroll({0.0f, 32.0f});
   }
 }

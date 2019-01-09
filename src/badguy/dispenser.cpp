@@ -272,7 +272,7 @@ Dispenser::launch_badguy()
 
     if (m_badguys.size() > 1) {
       if (m_random) {
-        m_next_badguy = gameRandom.rand(static_cast<int>(m_badguys.size()));
+        m_next_badguy = static_cast<unsigned int>(gameRandom.rand(static_cast<int>(m_badguys.size())));
       }
       else {
         m_next_badguy++;

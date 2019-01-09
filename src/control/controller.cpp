@@ -16,7 +16,9 @@
 
 #include "control/controller.hpp"
 
-const char* Controller::controlNames[] = {
+#include <ostream>
+
+const char* Controller::s_control_names[] = {
   "left",
   "right",
   "up",
@@ -39,6 +41,11 @@ const char* Controller::controlNames[] = {
   nullptr
 };
 
+std::ostream& operator<<(std::ostream& os, Control control)
+{
+  return os << Controller::s_control_names[static_cast<int>(control)];
+}
+
 Controller::Controller()
 {
   reset();
@@ -50,41 +57,42 @@ Controller::~Controller()
 void
 Controller::reset()
 {
-  for (int i = 0; i < CONTROLCOUNT; ++i) {
-    controls[i] = false;
-    oldControls[i] = false;
+  for (int i = 0; i < static_cast<int>(Control::CONTROLCOUNT); ++i) {
+    m_controls[i] = false;
+    m_old_controls[i] = false;
   }
 }
 
 void
 Controller::set_control(Control control, bool value)
 {
-  controls[control] = value;
+  m_controls[static_cast<int>(control)] = value;
 }
 
 bool
 Controller::hold(Control control) const
 {
-  return controls[control];
+  return m_controls[static_cast<int>(control)];
 }
 
 bool
 Controller::pressed(Control control) const
 {
-  return !oldControls[control] && controls[control];
+  return !m_old_controls[static_cast<int>(control)] && m_controls[static_cast<int>(control)];
 }
 
 bool
 Controller::released(Control control) const
 {
-  return oldControls[control] && !controls[control];
+  return m_old_controls[static_cast<int>(control)] && !m_controls[static_cast<int>(control)];
 }
 
 void
 Controller::update()
 {
-  for (int i = 0; i < CONTROLCOUNT; ++i)
-    oldControls[i] = controls[i];
+  for (int i = 0; i < static_cast<int>(Control::CONTROLCOUNT); ++i) {
+    m_old_controls[i] = m_controls[i];
+  }
 }
 
 /* EOF */

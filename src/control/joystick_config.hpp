@@ -29,9 +29,9 @@ class JoystickConfig final
 {
 public:
   typedef Uint8 JoyId;
-  typedef std::map<std::pair<JoyId, int>, Controller::Control> ButtonMap;
-  typedef std::map<std::pair<JoyId, int>, Controller::Control> AxisMap;
-  typedef std::map<std::pair<JoyId, int>, Controller::Control> HatMap;
+  typedef std::map<std::pair<JoyId, int>, Control> ButtonMap;
+  typedef std::map<std::pair<JoyId, int>, Control> AxisMap;
+  typedef std::map<std::pair<JoyId, int>, Control> HatMap;
 
 public:
   int dead_zone;
@@ -47,15 +47,15 @@ public:
 
   void print_joystick_mappings() const;
 
-  int reversemap_joybutton(Controller::Control c) const;
-  int reversemap_joyaxis(Controller::Control c) const;
-  int reversemap_joyhat(Controller::Control c) const;
+  int reversemap_joybutton(Control c) const;
+  int reversemap_joyaxis(Control c) const;
+  int reversemap_joyhat(Control c) const;
 
-  void unbind_joystick_control(Controller::Control c);
+  void unbind_joystick_control(Control c);
 
-  void bind_joybutton(JoyId joy_id, int button, Controller::Control c);
-  void bind_joyaxis(JoyId joy_id, int axis, Controller::Control c);
-  void bind_joyhat(JoyId joy_id, int dir, Controller::Control c);
+  void bind_joybutton(JoyId joy_id, int button, Control c);
+  void bind_joyaxis(JoyId joy_id, int axis, Control c);
+  void bind_joyhat(JoyId joy_id, int dir, Control c);
 
   void read(const ReaderMapping& joystick_mapping);
   void write(Writer& writer);

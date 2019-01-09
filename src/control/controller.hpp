@@ -17,58 +17,70 @@
 #ifndef HEADER_SUPERTUX_CONTROL_CONTROLLER_HPP
 #define HEADER_SUPERTUX_CONTROL_CONTROLLER_HPP
 
+#include <iosfwd>
+
+enum class Control {
+  LEFT = 0,
+  RIGHT,
+  UP,
+  DOWN,
+
+  JUMP,
+  ACTION,
+
+  START,
+  ESCAPE,
+  MENU_SELECT,
+  MENU_SELECT_SPACE,
+  MENU_BACK,
+  REMOVE,
+
+  CHEAT_MENU,
+  DEBUG_MENU,
+  CONSOLE,
+
+  PEEK_LEFT,
+  PEEK_RIGHT,
+  PEEK_UP,
+  PEEK_DOWN,
+
+  CONTROLCOUNT
+};
+
+std::ostream& operator<<(std::ostream& os, Control control);
+
 class Controller
 {
 public:
-  static const char* controlNames[];
+  static const char* s_control_names[];
 
-  enum Control {
-    LEFT = 0,
-    RIGHT,
-    UP,
-    DOWN,
+public:
 
-    JUMP,
-    ACTION,
-
-    START,
-    ESCAPE,
-    MENU_SELECT,
-    MENU_SELECT_SPACE,
-    MENU_BACK,
-    REMOVE,
-
-    CHEAT_MENU,
-    DEBUG_MENU,
-    CONSOLE,
-
-    PEEK_LEFT,
-    PEEK_RIGHT,
-    PEEK_UP,
-    PEEK_DOWN,
-
-    CONTROLCOUNT
-  };
-
+public:
   Controller();
   virtual ~Controller();
 
+  virtual void update();
+
   void set_control(Control control, bool value);
+
   /** returns true if the control is pressed down */
   bool hold(Control control) const;
+
   /** returns true if the control has just been pressed down this frame */
   bool pressed(Control control) const;
+
   /** returns true if the control has just been released this frame */
   bool released(Control control) const;
 
-  virtual void reset();
-  virtual void update();
+  void reset();
 
 protected:
   /** current control status */
-  bool controls[CONTROLCOUNT];
+  bool m_controls[static_cast<int>(Control::CONTROLCOUNT)];
+
   /** control status at last frame */
-  bool oldControls[CONTROLCOUNT];
+  bool m_old_controls[static_cast<int>(Control::CONTROLCOUNT)];
 
 private:
   Controller(const Controller&) = delete;

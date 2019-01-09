@@ -30,13 +30,13 @@ class KeyboardConfig final
 public:
   KeyboardConfig();
 
-  SDL_Keycode reversemap_key(Controller::Control c) const;
-  void bind_key(SDL_Keycode key, Controller::Control c);
+  SDL_Keycode reversemap_key(Control c) const;
+  void bind_key(SDL_Keycode key, Control c);
 
   void read(const ReaderMapping& keymap_mapping);
   void write(Writer& writer);
 
-  typedef std::map<SDL_Keycode, Controller::Control> KeyMap;
+  typedef std::map<SDL_Keycode, Control> KeyMap;
   KeyMap keymap;
   bool jump_with_up_kbd;
 };

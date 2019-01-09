@@ -35,11 +35,11 @@ KeyboardManager::KeyboardManager(InputManager* parent,
 void
 KeyboardManager::process_key_event(const SDL_KeyboardEvent& event)
 {
-  KeyboardConfig::KeyMap::iterator key_mapping = m_keyboard_config.keymap.find(event.keysym.sym);
+  auto key_mapping = m_keyboard_config.keymap.find(event.keysym.sym);
 
   // if console key was pressed: toggle console
   if (key_mapping != m_keyboard_config.keymap.end() &&
-      key_mapping->second == Controller::CONSOLE)
+      key_mapping->second == Control::CONSOLE)
   {
     if (event.type == SDL_KEYDOWN)
     {
@@ -74,10 +74,11 @@ KeyboardManager::process_key_event(const SDL_KeyboardEvent& event)
   {
     auto control = key_mapping->second;
     bool value = (event.type == SDL_KEYDOWN);
+
     m_parent->get_controller().set_control(control, value);
-    if (m_keyboard_config.jump_with_up_kbd && control == Controller::UP)
-    {
-      m_parent->get_controller().set_control(Controller::JUMP, value);
+
+    if (m_keyboard_config.jump_with_up_kbd && control == Control::UP) {
+      m_parent->get_controller().set_control(Control::JUMP, value);
     }
   }
 }
@@ -163,7 +164,7 @@ KeyboardManager::process_menu_key_event(const SDL_KeyboardEvent& event)
     if (event.keysym.sym != SDLK_ESCAPE &&
         event.keysym.sym != SDLK_PAUSE)
     {
-      m_keyboard_config.bind_key(event.keysym.sym, static_cast<Controller::Control>(wait_for_key));
+      m_keyboard_config.bind_key(event.keysym.sym, static_cast<Control>(wait_for_key));
     }
     m_parent->reset();
     MenuManager::instance().refresh();
@@ -182,38 +183,38 @@ KeyboardManager::process_menu_key_event(const SDL_KeyboardEvent& event)
     return;
   }
 
-  Controller::Control control;
+  Control control;
   /* we use default keys when the menu is open (to avoid problems when
    * redefining keys to invalid settings
    */
   switch (event.keysym.sym) {
     case SDLK_UP:
-      control = Controller::UP;
+      control = Control::UP;
       break;
     case SDLK_DOWN:
-      control = Controller::DOWN;
+      control = Control::DOWN;
       break;
     case SDLK_LEFT:
-      control = Controller::LEFT;
+      control = Control::LEFT;
       break;
     case SDLK_RIGHT:
-      control = Controller::RIGHT;
+      control = Control::RIGHT;
       break;
     case SDLK_SPACE:
-      control = Controller::MENU_SELECT_SPACE;
+      control = Control::MENU_SELECT_SPACE;
       break;
     case SDLK_RETURN:
     case SDLK_KP_ENTER:
-      control = Controller::MENU_SELECT;
+      control = Control::MENU_SELECT;
       break;
     case SDLK_ESCAPE:
-      control = Controller::ESCAPE;
+      control = Control::ESCAPE;
       break;
     case SDLK_PAUSE:
-      control = Controller::START;
+      control = Control::START;
       break;
     case SDLK_BACKSPACE:
-      control = Controller::REMOVE;
+      control = Control::REMOVE;
       break;
     default:
       if (m_keyboard_config.keymap.count(event.keysym.sym) == 0)
@@ -228,9 +229,9 @@ KeyboardManager::process_menu_key_event(const SDL_KeyboardEvent& event)
 }
 
 void
-KeyboardManager::bind_next_event_to(Controller::Control id)
+KeyboardManager::bind_next_event_to(Control id)
 {
-  wait_for_key = id;
+  wait_for_key = static_cast<int>(id);
 }
 
 /* EOF */

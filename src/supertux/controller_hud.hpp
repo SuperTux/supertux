@@ -32,7 +32,7 @@ public:
   void draw(DrawingContext& context);
 
 private:
-  std::map<Controller::Control, Rectf> m_controls;
+  std::map<Control, Rectf> m_controls;
 
 private:
   ControllerHUD(const ControllerHUD&) = delete;

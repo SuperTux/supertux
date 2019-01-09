@@ -307,29 +307,29 @@ WorldMap::process_input(const Controller& controller)
 {
   m_enter_level = false;
 
-  if (controller.pressed(Controller::ACTION) ||
-      controller.pressed(Controller::JUMP) ||
-      controller.pressed(Controller::MENU_SELECT))
+  if (controller.pressed(Control::ACTION) ||
+      controller.pressed(Control::JUMP) ||
+      controller.pressed(Control::MENU_SELECT))
   {
     // some people define UP and JUMP on the same key...
-    if (!controller.pressed(Controller::UP)) {
+    if (!controller.pressed(Control::UP)) {
       m_enter_level = true;
     }
   }
 
-  if (controller.pressed(Controller::START) ||
-      controller.pressed(Controller::ESCAPE))
+  if (controller.pressed(Control::START) ||
+      controller.pressed(Control::ESCAPE))
   {
     on_escape_press();
   }
 
-  if (controller.pressed(Controller::CHEAT_MENU) &&
+  if (controller.pressed(Control::CHEAT_MENU) &&
       g_config->developer_mode)
   {
     MenuManager::instance().set_menu(MenuStorage::WORLDMAP_CHEAT_MENU);
   }
 
-  if (controller.pressed(Controller::DEBUG_MENU) &&
+  if (controller.pressed(Control::DEBUG_MENU) &&
       g_config->developer_mode)
   {
     MenuManager::instance().set_menu(MenuStorage::DEBUG_MENU);

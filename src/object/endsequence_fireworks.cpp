@@ -50,7 +50,7 @@ EndSequenceFireworks::running(float dt_sec)
   //Player& tux = *Sector::get().player;
 
   if (tux_may_walk) {
-    end_sequence_controller->press(Controller::JUMP);
+    end_sequence_controller->press(Control::JUMP);
   }
 
   if (endsequence_timer.check()) isdone = true;

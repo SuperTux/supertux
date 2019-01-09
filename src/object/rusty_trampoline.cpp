@@ -81,7 +81,7 @@ RustyTrampoline::collision(GameObject& other, const CollisionHit& hit)
       float vy = player->get_physic().get_velocity_y();
       //player is falling down on trampoline
       if (hit.top && vy >= 0) {
-        if (player->get_controller().hold(Controller::JUMP)) {
+        if (player->get_controller().hold(Control::JUMP)) {
           vy = VY_TRIGGER;
         } else {
           vy = VY_BOUNCE;

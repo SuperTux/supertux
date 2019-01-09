@@ -250,10 +250,10 @@ TextArrayObject::handle_input_requests()
 {
   const Controller& controller = InputManager::current()->get_controller();
 
-  if (controller.pressed(Controller::MENU_SELECT)) {
+  if (controller.pressed(Control::MENU_SELECT)) {
     m_isAuto = false;
     next_text();
-  } else if (controller.pressed(Controller::REMOVE)) {
+  } else if (controller.pressed(Control::REMOVE)) {
     m_isAuto = false;
     prev_text();
   }

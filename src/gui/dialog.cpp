@@ -155,27 +155,27 @@ Dialog::process_input(const Controller& controller)
   if (m_passive) // Passive dialogs don't accept events
     return;
 
-  if (controller.pressed(Controller::LEFT))
+  if (controller.pressed(Control::LEFT))
   {
     m_selected_button -= 1;
     m_selected_button = std::max(m_selected_button, 0);
   }
 
-  if (controller.pressed(Controller::RIGHT))
+  if (controller.pressed(Control::RIGHT))
   {
     m_selected_button += 1;
     m_selected_button = std::min(m_selected_button, static_cast<int>(m_buttons.size()) - 1);
   }
 
-  if (controller.pressed(Controller::ACTION) ||
-      controller.pressed(Controller::MENU_SELECT))
+  if (controller.pressed(Control::ACTION) ||
+      controller.pressed(Control::MENU_SELECT))
   {
     on_button_click(m_selected_button);
   }
 
   if (m_cancel_button != -1 &&
-      (controller.pressed(Controller::ESCAPE) ||
-       controller.pressed(Controller::MENU_BACK)))
+      (controller.pressed(Control::ESCAPE) ||
+       controller.pressed(Control::MENU_BACK)))
   {
     on_button_click(m_cancel_button);
   }

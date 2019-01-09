@@ -32,22 +32,22 @@ JoystickConfig::JoystickConfig() :
   joy_hat_map()
 {
   // Default joystick button configuration
-  bind_joybutton(0, 0, Controller::JUMP);
-  bind_joybutton(0, 0, Controller::MENU_SELECT);
-  bind_joybutton(0, 1, Controller::ACTION);
-  bind_joybutton(0, 4, Controller::PEEK_LEFT);
-  bind_joybutton(0, 5, Controller::PEEK_RIGHT);
-  bind_joybutton(0, 6, Controller::START);
+  bind_joybutton(0, 0, Control::JUMP);
+  bind_joybutton(0, 0, Control::MENU_SELECT);
+  bind_joybutton(0, 1, Control::ACTION);
+  bind_joybutton(0, 4, Control::PEEK_LEFT);
+  bind_joybutton(0, 5, Control::PEEK_RIGHT);
+  bind_joybutton(0, 6, Control::START);
 
   // Default joystick axis configuration
-  bind_joyaxis(0, -1, Controller::LEFT);
-  bind_joyaxis(0, 1, Controller::RIGHT);
-  bind_joyaxis(0, -2, Controller::UP);
-  bind_joyaxis(0, 2, Controller::DOWN);
+  bind_joyaxis(0, -1, Control::LEFT);
+  bind_joyaxis(0, 1, Control::RIGHT);
+  bind_joyaxis(0, -2, Control::UP);
+  bind_joyaxis(0, 2, Control::DOWN);
 }
 
 int
-JoystickConfig::reversemap_joyaxis(Controller::Control c) const
+JoystickConfig::reversemap_joyaxis(Control c) const
 {
   for (const auto& i : joy_axis_map) {
     if (i.second == c)
@@ -58,7 +58,7 @@ JoystickConfig::reversemap_joyaxis(Controller::Control c) const
 }
 
 int
-JoystickConfig::reversemap_joybutton(Controller::Control c) const
+JoystickConfig::reversemap_joybutton(Control c) const
 {
   for (const auto& i : joy_button_map) {
     if (i.second == c)
@@ -69,7 +69,7 @@ JoystickConfig::reversemap_joybutton(Controller::Control c) const
 }
 
 int
-JoystickConfig::reversemap_joyhat(Controller::Control c) const
+JoystickConfig::reversemap_joyhat(Control c) const
 {
   for (const auto& i : joy_hat_map) {
     if (i.second == c)
@@ -99,7 +99,7 @@ JoystickConfig::print_joystick_mappings() const
 }
 
 void
-JoystickConfig::unbind_joystick_control(Controller::Control control)
+JoystickConfig::unbind_joystick_control(Control control)
 {
   // remove all previous mappings for that control
   for (AxisMap::iterator i = joy_axis_map.begin(); i != joy_axis_map.end(); /* no ++i */) {
@@ -125,7 +125,7 @@ JoystickConfig::unbind_joystick_control(Controller::Control control)
 }
 
 void
-JoystickConfig::bind_joyaxis(JoyId joy_id, int axis, Controller::Control control)
+JoystickConfig::bind_joyaxis(JoyId joy_id, int axis, Control control)
 {
   // axis isn't the SDL axis number, but axisnumber + 1 with sign
   // changed depending on if the positive or negative end is to be
@@ -139,7 +139,7 @@ JoystickConfig::bind_joyaxis(JoyId joy_id, int axis, Controller::Control control
 }
 
 void
-JoystickConfig::bind_joyhat(JoyId joy_id, int dir, Controller::Control c)
+JoystickConfig::bind_joyhat(JoyId joy_id, int dir, Control c)
 {
   unbind_joystick_control(c);
 
@@ -148,7 +148,7 @@ JoystickConfig::bind_joyhat(JoyId joy_id, int dir, Controller::Control c)
 }
 
 void
-JoystickConfig::bind_joybutton(JoyId joy_id, int button, Controller::Control control)
+JoystickConfig::bind_joybutton(JoyId joy_id, int button, Control control)
 {
   unbind_joystick_control(control);
 
@@ -175,13 +175,13 @@ JoystickConfig::read(const ReaderMapping& joystick_mapping)
       auto map = iter.as_mapping();
       map.get("control", control);
       int i = 0;
-      for (i = 0; Controller::controlNames[i] != nullptr; ++i)
+      for (i = 0; Controller::s_control_names[i] != nullptr; ++i)
       {
-        if (control == Controller::controlNames[i])
+        if (control == Controller::s_control_names[i])
           break;
       }
 
-      if (Controller::controlNames[i] == nullptr)
+      if (Controller::s_control_names[i] == nullptr)
       {
         log_info << "Invalid control '" << control << "' in buttonmap" << std::endl;
       }
@@ -189,11 +189,11 @@ JoystickConfig::read(const ReaderMapping& joystick_mapping)
       {
         if (map.get("button", button))
         {
-          bind_joybutton(0, button, Controller::Control(i));
+          bind_joybutton(0, button, Control(i));
         }
         else if (map.get("axis",   axis))
         {
-          bind_joyaxis(0, axis, Controller::Control(i));
+          bind_joyaxis(0, axis, Control(i));
         }
         else if (map.get("hat",   hat))
         {
@@ -205,7 +205,7 @@ JoystickConfig::read(const ReaderMapping& joystick_mapping)
           }
           else
           {
-            bind_joyhat(0, hat, Controller::Control(i));
+            bind_joyhat(0, hat, Control(i));
           }
         }
       }
@@ -223,21 +223,21 @@ JoystickConfig::write(Writer& writer)
   for (const auto& i : joy_button_map) {
     writer.start_list("map");
     writer.write("button", i.first.second);
-    writer.write("control", Controller::controlNames[i.second]);
+    writer.write("control", Controller::s_control_names[static_cast<int>(i.second)]);
     writer.end_list("map");
   }
 
   for (const auto& i : joy_hat_map) {
     writer.start_list("map");
     writer.write("hat", i.first.second);
-    writer.write("control", Controller::controlNames[i.second]);
+    writer.write("control", Controller::s_control_names[static_cast<int>(i.second)]);
     writer.end_list("map");
   }
 
   for (const auto& i : joy_axis_map) {
     writer.start_list("map");
     writer.write("axis", i.first.second);
-    writer.write("control", Controller::controlNames[i.second]);
+    writer.write("control", Controller::s_control_names[static_cast<int>(i.second)]);
     writer.end_list("map");
   }
 }

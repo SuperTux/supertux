@@ -41,8 +41,6 @@ private:
   friend class KeyboardMenu;
   friend class JoystickMenu;
 
-  typedef Controller::Control Control;
-
 public:
   InputManager(KeyboardConfig& keyboard_config,
                JoystickConfig& joystick_config);

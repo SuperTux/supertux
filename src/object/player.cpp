@@ -255,9 +255,9 @@ Player::use_scripting_controller(bool use_or_release)
 void
 Player::do_scripting_controller(const std::string& control, bool pressed)
 {
-  for (int i = 0; Controller::controlNames[i] != nullptr; ++i) {
-    if (control == std::string(Controller::controlNames[i])) {
-      m_scripting_controller->press(Controller::Control(i), pressed);
+  for (int i = 0; Controller::s_control_names[i] != nullptr; ++i) {
+    if (control == std::string(Controller::s_control_names[i])) {
+      m_scripting_controller->press(Control(i), pressed);
     }
   }
 }
@@ -496,12 +496,12 @@ Player::handle_horizontal_input()
 
   float dirsign = 0;
   if (!m_duck || m_physic.get_velocity_y() != 0) {
-    if (m_controller->hold(Controller::LEFT) && !m_controller->hold(Controller::RIGHT)) {
+    if (m_controller->hold(Control::LEFT) && !m_controller->hold(Control::RIGHT)) {
       m_old_dir = m_dir;
       m_dir = Direction::LEFT;
       dirsign = -1;
-    } else if (!m_controller->hold(Controller::LEFT)
-              && m_controller->hold(Controller::RIGHT)) {
+    } else if (!m_controller->hold(Control::LEFT)
+              && m_controller->hold(Control::RIGHT)) {
       m_old_dir = m_dir;
       m_dir = Direction::RIGHT;
       dirsign = 1;
@@ -698,14 +698,14 @@ void
 Player::handle_vertical_input()
 {
   // Press jump key
-  if (m_controller->pressed(Controller::JUMP)) m_jump_button_timer.start(JUMP_GRACE_TIME);
-  if (m_controller->hold(Controller::JUMP) && m_jump_button_timer.started() && m_can_jump) {
+  if (m_controller->pressed(Control::JUMP)) m_jump_button_timer.start(JUMP_GRACE_TIME);
+  if (m_controller->hold(Control::JUMP) && m_jump_button_timer.started() && m_can_jump) {
     m_jump_button_timer.stop();
     if (m_duck) {
       // when running, only jump a little bit; else do a backflip
       if ((m_physic.get_velocity_x() != 0) ||
-          (m_controller->hold(Controller::LEFT)) ||
-          (m_controller->hold(Controller::RIGHT)))
+          (m_controller->hold(Control::LEFT)) ||
+          (m_controller->hold(Control::RIGHT)))
       {
         do_jump(-300);
       }
@@ -722,12 +722,12 @@ Player::handle_vertical_input()
         do_jump((fabsf(m_physic.get_velocity_x()) > MAX_WALK_XM) ? -580.0f : -520.0f);
     }
     // airflower glide only when holding jump key
-  } else  if (m_controller->hold(Controller::JUMP) && m_player_status.bonus == AIR_BONUS && m_physic.get_velocity_y() > MAX_GLIDE_YM) {
+  } else  if (m_controller->hold(Control::JUMP) && m_player_status.bonus == AIR_BONUS && m_physic.get_velocity_y() > MAX_GLIDE_YM) {
       if (m_ability_time > 0 && !m_ability_timer.started())
         m_ability_timer.start(m_ability_time);
       else if (m_ability_timer.started()) {
         // glide stops after some duration or if buttjump is initiated
-        if ((m_ability_timer.get_timeleft() <= 0.05f) || m_controller->hold(Controller::DOWN)) {
+        if ((m_ability_timer.get_timeleft() <= 0.05f) || m_controller->hold(Control::DOWN)) {
           m_ability_time = 0;
           m_ability_timer.stop();
         } else {
@@ -739,7 +739,7 @@ Player::handle_vertical_input()
 
 
   // Let go of jump key
-  else if (!m_controller->hold(Controller::JUMP)) {
+  else if (!m_controller->hold(Control::JUMP)) {
     if (!m_backflipping && m_jumping && m_physic.get_velocity_y() < 0) {
       m_jumping = false;
       early_jump_apex();
@@ -756,13 +756,13 @@ Player::handle_vertical_input()
 
   /* In case the player has pressed Down while in a certain range of air,
      enable butt jump action */
-  if (m_controller->hold(Controller::DOWN) && !m_duck && is_big() && !on_ground()) {
+  if (m_controller->hold(Control::DOWN) && !m_duck && is_big() && !on_ground()) {
     m_wants_buttjump = true;
     if (m_physic.get_velocity_y() >= BUTTJUMP_MIN_VELOCITY_Y) m_does_buttjump = true;
   }
 
   /* When Down is not held anymore, disable butt jump */
-  if (!m_controller->hold(Controller::DOWN)) {
+  if (!m_controller->hold(Control::DOWN)) {
     m_wants_buttjump = false;
     m_does_buttjump = false;
   }
@@ -771,7 +771,7 @@ Player::handle_vertical_input()
   m_physic.set_acceleration_y(0);
 #ifdef SWIMMING
   if (swimming) {
-    if (controller->hold(Controller::UP) || controller->hold(Controller::JUMP))
+    if (controller->hold(Control::UP) || controller->hold(Control::JUMP))
       physic.set_acceleration_y(-2000);
     physic.set_velocity_y(physic.get_velocity_y() * 0.94);
   }
@@ -791,22 +791,22 @@ Player::handle_input()
   }
 
   /* Peeking */
-  if ( m_controller->released( Controller::PEEK_LEFT ) || m_controller->released( Controller::PEEK_RIGHT ) ) {
+  if ( m_controller->released( Control::PEEK_LEFT ) || m_controller->released( Control::PEEK_RIGHT ) ) {
     m_peekingX = Direction::AUTO;
   }
-  if ( m_controller->released( Controller::PEEK_UP ) || m_controller->released( Controller::PEEK_DOWN ) ) {
+  if ( m_controller->released( Control::PEEK_UP ) || m_controller->released( Control::PEEK_DOWN ) ) {
     m_peekingY = Direction::AUTO;
   }
-  if ( m_controller->pressed( Controller::PEEK_LEFT ) ) {
+  if ( m_controller->pressed( Control::PEEK_LEFT ) ) {
     m_peekingX = Direction::LEFT;
   }
-  if ( m_controller->pressed( Controller::PEEK_RIGHT ) ) {
+  if ( m_controller->pressed( Control::PEEK_RIGHT ) ) {
     m_peekingX = Direction::RIGHT;
   }
   if (!m_backflipping && !m_jumping && on_ground()) {
-    if ( m_controller->pressed( Controller::PEEK_UP ) ) {
+    if ( m_controller->pressed( Control::PEEK_UP ) ) {
       m_peekingY = Direction::UP;
-    } else if ( m_controller->pressed( Controller::PEEK_DOWN ) ) {
+    } else if ( m_controller->pressed( Control::PEEK_DOWN ) ) {
       m_peekingY = Direction::DOWN;
     }
   }
@@ -823,7 +823,7 @@ Player::handle_input()
 
   /* Shoot! */
   auto active_bullets = Sector::get().get_object_count<Bullet>();
-  if (m_controller->pressed(Controller::ACTION) && (m_player_status.bonus == FIRE_BONUS || m_player_status.bonus == ICE_BONUS)) {
+  if (m_controller->pressed(Control::ACTION) && (m_player_status.bonus == FIRE_BONUS || m_player_status.bonus == ICE_BONUS)) {
     if ((m_player_status.bonus == FIRE_BONUS &&
       active_bullets < m_player_status.max_fire_bullets) ||
       (m_player_status.bonus == ICE_BONUS &&
@@ -837,8 +837,8 @@ Player::handle_input()
   }
 
   /* Turn to Stone */
-  if (m_controller->pressed(Controller::DOWN) && m_player_status.bonus == EARTH_BONUS && !m_cooldown_timer.started() && on_ground()) {
-    if (m_controller->hold(Controller::ACTION) && !m_ability_timer.started()) {
+  if (m_controller->pressed(Control::DOWN) && m_player_status.bonus == EARTH_BONUS && !m_cooldown_timer.started() && on_ground()) {
+    if (m_controller->hold(Control::ACTION) && !m_ability_timer.started()) {
       m_ability_timer.start(static_cast<float>(m_player_status.max_earth_time) * STONE_TIME_PER_FLOWER);
       m_powersprite->stop_animation();
       m_stone = true;
@@ -850,7 +850,7 @@ Player::handle_input()
     apply_friction();
 
   /* Revert from Stone */
-  if (m_stone && (!m_controller->hold(Controller::ACTION) || m_ability_timer.get_timeleft() <= 0.5f)) {
+  if (m_stone && (!m_controller->hold(Control::ACTION) || m_ability_timer.get_timeleft() <= 0.5f)) {
     m_cooldown_timer.start(m_ability_timer.get_timegone()/2.0f); //The longer stone form is used, the longer until it can be used again
     m_ability_timer.stop();
     m_sprite->set_angle(0.0f);
@@ -870,7 +870,7 @@ Player::handle_input()
   }
 
   /* Duck or Standup! */
-  if (m_controller->hold(Controller::DOWN) && !m_stone) {
+  if (m_controller->hold(Control::DOWN) && !m_stone) {
     do_duck();
   } else {
     do_standup();
@@ -879,7 +879,7 @@ Player::handle_input()
   /* grabbing */
   try_grab();
 
-  if (!m_controller->hold(Controller::ACTION) && m_grabbed_object) {
+  if (!m_controller->hold(Control::ACTION) && m_grabbed_object) {
     auto moving_object = dynamic_cast<MovingObject*> (m_grabbed_object);
     if (moving_object) {
       // move the grabbed object a bit away from tux
@@ -897,7 +897,7 @@ Player::handle_input()
       if (Sector::get().is_free_of_tiles(dest_, true) &&
          Sector::get().is_free_of_statics(dest_, moving_object, true)) {
         moving_object->set_pos(dest_.p1());
-        if (m_controller->hold(Controller::UP)) {
+        if (m_controller->hold(Control::UP)) {
           m_grabbed_object->ungrab(*this, Direction::UP);
         } else {
           m_grabbed_object->ungrab(*this, m_dir);
@@ -910,7 +910,7 @@ Player::handle_input()
   }
 
   /* stop backflipping at will */
-  if ( m_backflipping && ( !m_controller->hold(Controller::JUMP) && !m_backflip_timer.started()) ){
+  if ( m_backflipping && ( !m_controller->hold(Control::JUMP) && !m_backflip_timer.started()) ){
     stop_backflipping();
   }
 }
@@ -937,7 +937,7 @@ Player::position_grabbed_object()
 void
 Player::try_grab()
 {
-  if (m_controller->hold(Controller::ACTION) && !m_grabbed_object
+  if (m_controller->hold(Control::ACTION) && !m_grabbed_object
      && !m_duck) {
 
     Vector pos;
@@ -972,21 +972,21 @@ Player::handle_input_ghost()
 {
   float vx = 0;
   float vy = 0;
-  if (m_controller->hold(Controller::LEFT)) {
+  if (m_controller->hold(Control::LEFT)) {
     m_dir = Direction::LEFT;
     vx -= MAX_RUN_XM * 2;
   }
-  if (m_controller->hold(Controller::RIGHT)) {
+  if (m_controller->hold(Control::RIGHT)) {
     m_dir = Direction::RIGHT;
     vx += MAX_RUN_XM * 2;
   }
-  if ((m_controller->hold(Controller::UP)) || (m_controller->hold(Controller::JUMP))) {
+  if ((m_controller->hold(Control::UP)) || (m_controller->hold(Control::JUMP))) {
     vy -= MAX_RUN_XM * 2;
   }
-  if (m_controller->hold(Controller::DOWN)) {
+  if (m_controller->hold(Control::DOWN)) {
     vy += MAX_RUN_XM * 2;
   }
-  if (m_controller->hold(Controller::ACTION)) {
+  if (m_controller->hold(Control::ACTION)) {
     set_ghost_mode(false);
   }
   m_physic.set_velocity(vx, vy);
@@ -1422,7 +1422,7 @@ Player::collision(GameObject& other, const CollisionHit& hit)
   if (moving_object->get_group() == COLGROUP_TOUCHABLE) {
     auto trigger = dynamic_cast<TriggerBase*> (&other);
     if (trigger && !m_deactivated) {
-      if (m_controller->pressed(Controller::UP))
+      if (m_controller->pressed(Control::UP))
         trigger->event(*this, TriggerBase::EVENT_ACTIVATE);
     }
 
@@ -1593,9 +1593,9 @@ void
 Player::bounce(BadGuy& )
 {
   if (!(m_player_status.bonus == AIR_BONUS))
-    m_physic.set_velocity_y(m_controller->hold(Controller::JUMP) ? -520.0f : -300.0f);
+    m_physic.set_velocity_y(m_controller->hold(Control::JUMP) ? -520.0f : -300.0f);
   else {
-    m_physic.set_velocity_y(m_controller->hold(Controller::JUMP) ? -580.0f : -340.0f);
+    m_physic.set_velocity_y(m_controller->hold(Control::JUMP) ? -580.0f : -340.0f);
     m_ability_time = static_cast<float>(m_player_status.max_air_time) * GLIDE_TIME_PER_FLOWER;
   }
 }
@@ -1696,7 +1696,7 @@ Player::stop_climbing(Climbable& /*climbable*/)
   m_physic.set_velocity(0, 0);
   m_physic.set_acceleration(0, 0);
 
-  if ((m_controller->hold(Controller::JUMP)) || (m_controller->hold(Controller::UP))) {
+  if ((m_controller->hold(Control::JUMP)) || (m_controller->hold(Control::UP))) {
     m_on_ground_flag = true;
     // TODO: This won't help. Why?
     do_jump(-300);
@@ -1713,21 +1713,21 @@ Player::handle_input_climbing()
 
   float vx = 0;
   float vy = 0;
-  if (m_controller->hold(Controller::LEFT)) {
+  if (m_controller->hold(Control::LEFT)) {
     m_dir = Direction::LEFT;
     vx -= MAX_CLIMB_XM;
   }
-  if (m_controller->hold(Controller::RIGHT)) {
+  if (m_controller->hold(Control::RIGHT)) {
     m_dir = Direction::RIGHT;
     vx += MAX_CLIMB_XM;
   }
-  if (m_controller->hold(Controller::UP)) {
+  if (m_controller->hold(Control::UP)) {
     vy -= MAX_CLIMB_YM;
   }
-  if (m_controller->hold(Controller::DOWN)) {
+  if (m_controller->hold(Control::DOWN)) {
     vy += MAX_CLIMB_YM;
   }
-  if (m_controller->hold(Controller::JUMP)) {
+  if (m_controller->hold(Control::JUMP)) {
     if (m_can_jump) {
       stop_climbing(*m_climbing);
       return;
@@ -1735,7 +1735,7 @@ Player::handle_input_climbing()
   } else {
     m_can_jump = true;
   }
-  if (m_controller->hold(Controller::ACTION)) {
+  if (m_controller->hold(Control::ACTION)) {
     stop_climbing(*m_climbing);
     return;
   }

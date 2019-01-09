@@ -25,26 +25,26 @@ KeyboardConfig::KeyboardConfig() :
   jump_with_up_kbd(false)
 {
   // initialize default keyboard map
-  keymap[SDLK_LEFT]     = Controller::LEFT;
-  keymap[SDLK_RIGHT]    = Controller::RIGHT;
-  keymap[SDLK_UP]       = Controller::UP;
-  keymap[SDLK_DOWN]     = Controller::DOWN;
-  keymap[SDLK_SPACE]    = Controller::JUMP;
-  keymap[SDLK_LCTRL]    = Controller::ACTION;
-  keymap[SDLK_LALT]     = Controller::ACTION;
-  keymap[SDLK_ESCAPE]   = Controller::ESCAPE;
-  keymap[SDLK_p]        = Controller::START;
-  keymap[SDLK_PAUSE]    = Controller::START;
-  keymap[SDLK_RETURN]   = Controller::MENU_SELECT;
-  keymap[SDLK_KP_ENTER] = Controller::MENU_SELECT;
-  keymap[SDLK_CARET]    = Controller::CONSOLE;
-  keymap[SDLK_DELETE]   = Controller::PEEK_LEFT;
-  keymap[SDLK_PAGEDOWN] = Controller::PEEK_RIGHT;
-  keymap[SDLK_HOME]     = Controller::PEEK_UP;
-  keymap[SDLK_END]      = Controller::PEEK_DOWN;
-  keymap[SDLK_F1]       = Controller::CHEAT_MENU;
-  keymap[SDLK_F2]       = Controller::DEBUG_MENU;
-  keymap[SDLK_BACKSPACE]= Controller::REMOVE;
+  keymap[SDLK_LEFT]     = Control::LEFT;
+  keymap[SDLK_RIGHT]    = Control::RIGHT;
+  keymap[SDLK_UP]       = Control::UP;
+  keymap[SDLK_DOWN]     = Control::DOWN;
+  keymap[SDLK_SPACE]    = Control::JUMP;
+  keymap[SDLK_LCTRL]    = Control::ACTION;
+  keymap[SDLK_LALT]     = Control::ACTION;
+  keymap[SDLK_ESCAPE]   = Control::ESCAPE;
+  keymap[SDLK_p]        = Control::START;
+  keymap[SDLK_PAUSE]    = Control::START;
+  keymap[SDLK_RETURN]   = Control::MENU_SELECT;
+  keymap[SDLK_KP_ENTER] = Control::MENU_SELECT;
+  keymap[SDLK_CARET]    = Control::CONSOLE;
+  keymap[SDLK_DELETE]   = Control::PEEK_LEFT;
+  keymap[SDLK_PAGEDOWN] = Control::PEEK_RIGHT;
+  keymap[SDLK_HOME]     = Control::PEEK_UP;
+  keymap[SDLK_END]      = Control::PEEK_DOWN;
+  keymap[SDLK_F1]       = Control::CHEAT_MENU;
+  keymap[SDLK_F2]       = Control::DEBUG_MENU;
+  keymap[SDLK_BACKSPACE]= Control::REMOVE;
 }
 
 void
@@ -71,25 +71,25 @@ KeyboardConfig::read(const ReaderMapping& keymap_mapping)
         map.get("control", control);
 
         int i = 0;
-        for (i = 0; Controller::controlNames[i] != nullptr; ++i)
+        for (i = 0; Controller::s_control_names[i] != nullptr; ++i)
         {
-          if (control == Controller::controlNames[i])
+          if (control == Controller::s_control_names[i])
             break;
         }
 
-        if (Controller::controlNames[i] == nullptr)
+        if (Controller::s_control_names[i] == nullptr)
         {
           log_info << "Invalid control '" << control << "' in keymap" << std::endl;
           continue;
         }
-        keymap[static_cast<SDL_Keycode>(key)] = static_cast<Controller::Control>(i);
+        keymap[static_cast<SDL_Keycode>(key)] = static_cast<Control>(i);
       }
     }
   }
 }
 
 void
-KeyboardConfig::bind_key(SDL_Keycode key, Controller::Control control)
+KeyboardConfig::bind_key(SDL_Keycode key, Control control)
 {
   // remove all previous mappings for that control and for that key
   for (KeyMap::iterator i = keymap.begin();
@@ -117,7 +117,7 @@ KeyboardConfig::bind_key(SDL_Keycode key, Controller::Control control)
 }
 
 SDL_Keycode
-KeyboardConfig::reversemap_key(Controller::Control c) const
+KeyboardConfig::reversemap_key(Control c) const
 {
   for (const auto& i : keymap)
   {
@@ -144,7 +144,7 @@ KeyboardConfig::write(Writer& writer)
   {
     writer.start_list("map");
     writer.write("key", static_cast<int>(i.first));
-    writer.write("control", Controller::controlNames[i.second]);
+    writer.write("control", Controller::s_control_names[static_cast<int>(i.second)]);
     writer.end_list("map");
   }
 }

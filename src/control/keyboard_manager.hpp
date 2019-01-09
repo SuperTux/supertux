@@ -27,12 +27,6 @@ struct SDL_TextInputEvent;
 
 class KeyboardManager final
 {
-private:
-  InputManager* m_parent;
-  KeyboardConfig& m_keyboard_config;
-  int wait_for_key;
-  bool m_lock_text_input;
-
 public:
   KeyboardManager(InputManager* parent, KeyboardConfig& keyboard_config);
 
@@ -41,7 +35,13 @@ public:
   void process_console_key_event(const SDL_KeyboardEvent& event);
   void process_menu_key_event(const SDL_KeyboardEvent& event);
 
-  void bind_next_event_to(Controller::Control id);
+  void bind_next_event_to(Control id);
+
+private:
+  InputManager* m_parent;
+  KeyboardConfig& m_keyboard_config;
+  int wait_for_key;
+  bool m_lock_text_input;
 
 private:
   KeyboardManager(const KeyboardManager&) = delete;

@@ -80,11 +80,11 @@ LevelIntro::update(float dt_sec, const Controller& controller)
   }
 
   // Check if it's time to exit the screen
-  if (controller.pressed(Controller::JUMP) ||
-     controller.pressed(Controller::ACTION) ||
-     controller.pressed(Controller::MENU_SELECT) ||
-     controller.pressed(Controller::START) ||
-     controller.pressed(Controller::ESCAPE)) {
+  if (controller.pressed(Control::JUMP) ||
+     controller.pressed(Control::ACTION) ||
+     controller.pressed(Control::MENU_SELECT) ||
+     controller.pressed(Control::START) ||
+     controller.pressed(Control::ESCAPE)) {
     ScreenManager::current()->pop_screen(std::make_unique<FadeToBlack>(FadeToBlack::FADEOUT, 0.1f));
   }
 

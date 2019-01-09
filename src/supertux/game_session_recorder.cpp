@@ -153,12 +153,12 @@ GameSessionRecorder::process_events()
     m_playback_demo_stream->get(jump);
     m_playback_demo_stream->get(action);
 
-    m_demo_controller->press(Controller::LEFT, left != 0);
-    m_demo_controller->press(Controller::RIGHT, right != 0);
-    m_demo_controller->press(Controller::UP, up != 0);
-    m_demo_controller->press(Controller::DOWN,  down != 0);
-    m_demo_controller->press(Controller::JUMP, jump != 0);
-    m_demo_controller->press(Controller::ACTION,  action != 0);
+    m_demo_controller->press(Control::LEFT, left != 0);
+    m_demo_controller->press(Control::RIGHT, right != 0);
+    m_demo_controller->press(Control::UP, up != 0);
+    m_demo_controller->press(Control::DOWN,  down != 0);
+    m_demo_controller->press(Control::JUMP, jump != 0);
+    m_demo_controller->press(Control::ACTION,  action != 0);
   }
 
   // save input for demo?
@@ -166,12 +166,12 @@ GameSessionRecorder::process_events()
   {
     Controller& controller = InputManager::current()->get_controller();
 
-    m_capture_demo_stream->put(controller.hold(Controller::LEFT));
-    m_capture_demo_stream->put(controller.hold(Controller::RIGHT));
-    m_capture_demo_stream->put(controller.hold(Controller::UP));
-    m_capture_demo_stream->put(controller.hold(Controller::DOWN));
-    m_capture_demo_stream->put(controller.hold(Controller::JUMP));
-    m_capture_demo_stream->put(controller.hold(Controller::ACTION));
+    m_capture_demo_stream->put(controller.hold(Control::LEFT));
+    m_capture_demo_stream->put(controller.hold(Control::RIGHT));
+    m_capture_demo_stream->put(controller.hold(Control::UP));
+    m_capture_demo_stream->put(controller.hold(Control::DOWN));
+    m_capture_demo_stream->put(controller.hold(Control::JUMP));
+    m_capture_demo_stream->put(controller.hold(Control::ACTION));
   }
 }
 

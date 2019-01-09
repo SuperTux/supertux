@@ -52,7 +52,7 @@ void
 ItemScriptLine::process_action(const MenuAction& action) {
   ItemTextField::process_action(action);
   const Controller& controller = InputManager::current()->get_controller();
-  if (action == MenuAction::HIT && controller.pressed(Controller::MENU_SELECT)) {
+  if (action == MenuAction::HIT && controller.pressed(Control::MENU_SELECT)) {
     auto menu = dynamic_cast<ScriptMenu*>(MenuManager::instance().current_menu());
     if (!menu) {
       return;
