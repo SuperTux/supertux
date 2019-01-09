@@ -645,8 +645,8 @@ CollisionSystem::free_line_of_sight(const Vector& line_start, const Vector& line
   const float lsy = std::min(line_start.y, line_end.y);
   const float ley = std::max(line_start.y, line_end.y);
 
-  for (float test_x = lsx; test_x <= lex; test_x += 16) {
-    for (float test_y = lsy; test_y <= ley; test_y += 16) {
+  for (float test_x = lsx; test_x <= lex; test_x += 16) { // NOLINT
+    for (float test_y = lsy; test_y <= ley; test_y += 16) { // NOLINT
       for (const auto& solids : m_sector.get_solid_tilemaps()) {
         const Tile& tile = solids->get_tile_at(Vector(test_x, test_y));
         // FIXME: check collision with slope tiles

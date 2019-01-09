@@ -18,7 +18,6 @@
 
 #include <limits>
 #include <physfs.h>
-#include <iostream>
 
 #include "audio/sound_manager.hpp"
 #include "control/input_manager.hpp"
@@ -429,11 +428,15 @@ Editor::set_level(std::unique_ptr<Level> level, bool reset)
   }
 
   load_sector(sector_name);
-  m_sector->activate(sector_name);
-  m_sector->get_camera().set_mode(Camera::Mode::MANUAL);
 
-  if (!reset) {
-    m_sector->get_camera().set_translation(translation);
+  if (m_sector != nullptr)
+  {
+    m_sector->activate(sector_name);
+    m_sector->get_camera().set_mode(Camera::Mode::MANUAL);
+
+    if (!reset) {
+      m_sector->get_camera().set_translation(translation);
+    }
   }
 
   m_layers_widget->refresh_sector_text();

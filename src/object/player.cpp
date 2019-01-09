@@ -489,7 +489,7 @@ Player::handle_horizontal_input()
 {
   float vx = m_physic.get_velocity_x();
   float vy = m_physic.get_velocity_y();
-  float ax = m_physic.get_acceleration_x();
+  float ax = m_physic.get_acceleration_x(); // NOLINT
   float ay = m_physic.get_acceleration_y();
 
   float dirsign = 0;
