@@ -1,7 +1,6 @@
 ---
-Checks:          'clang-diagnostic-*,clang-analyzer-*,portability-*,performance-*,misc-*,-misc-unused-parameters'
-WarningsAsErrors: '*'
+Checks:          'clang-diagnostic-*,clang-analyzer-*,portability-*,performance-*,bugprone-*,misc-*,-misc-unused-parameters'
+WarningsAsErrors: '*,-bugprone-parent-virtual-call'
 HeaderFilterRegex: 'src/.*hpp'
 AnalyzeTemporaryDtors: true
 ...
-
