@@ -102,21 +102,21 @@ void
 JoystickConfig::unbind_joystick_control(Control control)
 {
   // remove all previous mappings for that control
-  for (AxisMap::iterator i = m_joy_axis_map.begin(); i != m_joy_axis_map.end(); /* no ++i */) {
+  for (auto i = m_joy_axis_map.begin(); i != m_joy_axis_map.end(); /* no ++i */) {
     if (i->second == control)
       m_joy_axis_map.erase(i++);
     else
       ++i;
   }
 
-  for (ButtonMap::iterator i = m_joy_button_map.begin(); i != m_joy_button_map.end(); /* no ++i */) {
+  for (auto i = m_joy_button_map.begin(); i != m_joy_button_map.end(); /* no ++i */) {
     if (i->second == control)
       m_joy_button_map.erase(i++);
     else
       ++i;
   }
 
-  for (HatMap::iterator i = m_joy_hat_map.begin();  i != m_joy_hat_map.end(); /* no ++i */) {
+  for (auto i = m_joy_hat_map.begin(); i != m_joy_hat_map.end(); /* no ++i */) {
     if (i->second == control)
       m_joy_hat_map.erase(i++);
     else
@@ -125,7 +125,7 @@ JoystickConfig::unbind_joystick_control(Control control)
 }
 
 void
-JoystickConfig::bind_joyaxis(JoyId joy_id, int axis, Control control)
+JoystickConfig::bind_joyaxis(JoystickID joy_id, int axis, Control control)
 {
   // axis isn't the SDL axis number, but axisnumber + 1 with sign
   // changed depending on if the positive or negative end is to be
@@ -139,7 +139,7 @@ JoystickConfig::bind_joyaxis(JoyId joy_id, int axis, Control control)
 }
 
 void
-JoystickConfig::bind_joyhat(JoyId joy_id, int dir, Control c)
+JoystickConfig::bind_joyhat(JoystickID joy_id, int dir, Control c)
 {
   unbind_joystick_control(c);
 
@@ -148,7 +148,7 @@ JoystickConfig::bind_joyhat(JoyId joy_id, int dir, Control c)
 }
 
 void
-JoystickConfig::bind_joybutton(JoyId joy_id, int button, Control control)
+JoystickConfig::bind_joybutton(JoystickID joy_id, int button, Control control)
 {
   unbind_joystick_control(control);
 

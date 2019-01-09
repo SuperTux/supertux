@@ -27,11 +27,12 @@ class Writer;
 
 class JoystickConfig final
 {
+  friend class InputManager;
+  friend class JoystickManager;
+  friend class JoystickMenu;
+
 public:
-  typedef Uint8 JoyId;
-  typedef std::map<std::pair<JoyId, int>, Control> ButtonMap;
-  typedef std::map<std::pair<JoyId, int>, Control> AxisMap;
-  typedef std::map<std::pair<JoyId, int>, Control> HatMap;
+  using JoystickID = SDL_JoystickID;
 
 public:
   JoystickConfig();
@@ -44,21 +45,21 @@ public:
 
   void unbind_joystick_control(Control c);
 
-  void bind_joybutton(JoyId joy_id, int button, Control c);
-  void bind_joyaxis(JoyId joy_id, int axis, Control c);
-  void bind_joyhat(JoyId joy_id, int dir, Control c);
+  void bind_joybutton(JoystickID joy_id, int button, Control c);
+  void bind_joyaxis(JoystickID joy_id, int axis, Control c);
+  void bind_joyhat(JoystickID joy_id, int dir, Control c);
 
   void read(const ReaderMapping& joystick_mapping);
   void write(Writer& writer);
 
-public:
+private:
   int m_dead_zone;
   bool m_jump_with_up_joy;
   bool m_use_game_controller;
 
-  ButtonMap m_joy_button_map;
-  AxisMap m_joy_axis_map;
-  HatMap m_joy_hat_map;
+  std::map<std::pair<JoystickID, int>, Control> m_joy_button_map;
+  std::map<std::pair<JoystickID, int>, Control> m_joy_axis_map;
+  std::map<std::pair<JoystickID, int>, Control> m_joy_hat_map;
 
 private:
   JoystickConfig(const JoystickConfig&) = delete;
