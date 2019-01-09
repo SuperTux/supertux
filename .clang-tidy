@@ -1,6 +1,6 @@
 ---
 Checks:          'clang-diagnostic-*,clang-analyzer-*'
-WarningsAsErrors: ''
+WarningsAsErrors: '*'
 HeaderFilterRegex: 'src/.*hpp'
 AnalyzeTemporaryDtors: true
 ...
