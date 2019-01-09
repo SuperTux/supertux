@@ -27,7 +27,7 @@ KeyboardManager::KeyboardManager(InputManager* parent,
                                  KeyboardConfig& keyboard_config) :
   m_parent(parent),
   m_keyboard_config(keyboard_config),
-  wait_for_key(-1),
+  m_wait_for_key(),
   m_lock_text_input(false)
 {
 }
@@ -156,7 +156,7 @@ void
 KeyboardManager::process_menu_key_event(const SDL_KeyboardEvent& event)
 {
   // wait for key mode?
-  if (wait_for_key >= 0)
+  if (m_wait_for_key)
   {
     if (event.type == SDL_KEYUP)
       return;
@@ -164,11 +164,11 @@ KeyboardManager::process_menu_key_event(const SDL_KeyboardEvent& event)
     if (event.keysym.sym != SDLK_ESCAPE &&
         event.keysym.sym != SDLK_PAUSE)
     {
-      m_keyboard_config.bind_key(event.keysym.sym, static_cast<Control>(wait_for_key));
+      m_keyboard_config.bind_key(event.keysym.sym, *m_wait_for_key);
     }
     m_parent->reset();
     MenuManager::instance().refresh();
-    wait_for_key = -1;
+    m_wait_for_key = boost::none;
     return;
   }
 
@@ -231,7 +231,7 @@ KeyboardManager::process_menu_key_event(const SDL_KeyboardEvent& event)
 void
 KeyboardManager::bind_next_event_to(Control id)
 {
-  wait_for_key = static_cast<int>(id);
+  m_wait_for_key = id;
 }
 
 /* EOF */

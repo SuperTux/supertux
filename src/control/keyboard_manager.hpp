@@ -18,6 +18,8 @@
 #ifndef HEADER_SUPERTUX_CONTROL_KEYBOARD_MANAGER_HPP
 #define HEADER_SUPERTUX_CONTROL_KEYBOARD_MANAGER_HPP
 
+#include <boost/optional.hpp>
+
 #include "control/controller.hpp"
 
 class InputManager;
@@ -40,7 +42,7 @@ public:
 private:
   InputManager* m_parent;
   KeyboardConfig& m_keyboard_config;
-  int wait_for_key;
+  boost::optional<Control> m_wait_for_key;
   bool m_lock_text_input;
 
 private:
