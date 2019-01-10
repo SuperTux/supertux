@@ -210,7 +210,7 @@ EditorToolboxWidget::normalize_selection() const
 {
   Vector drag_start_ = m_drag_start;
   Vector drag_end = Vector(static_cast<float>(m_hovered_tile % 4),
-                           static_cast<float>(m_hovered_tile / 4));
+                           static_cast<float>(m_hovered_tile / 4)); // NOLINT
   if (drag_start_.x > drag_end.x) {
     std::swap(drag_start_.x, drag_end.x);
   }
@@ -310,7 +310,7 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
             {
               m_dragging = true;
               m_drag_start = Vector(static_cast<float>(m_hovered_tile % 4),
-                                    static_cast<float>(m_hovered_tile / 4));
+                                    static_cast<float>(m_hovered_tile / 4)); // NOLINT
               int size = static_cast<int>(m_active_tilegroup->tiles.size());
               int tile_pos = m_hovered_tile + m_starting_tile;
               if (tile_pos < size && tile_pos >= 0) {

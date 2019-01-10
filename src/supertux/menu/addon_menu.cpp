@@ -28,14 +28,14 @@
 
 namespace {
 
-#define IS_REPOSITORY_MENU_ID(idx) ((idx - MNID_ADDON_LIST_START) % 2 == 0)
-#define IS_INSTALLED_MENU_ID(idx) ((idx - MNID_ADDON_LIST_START) % 2 == 1)
+#define IS_REPOSITORY_MENU_ID(idx) (((idx) - MNID_ADDON_LIST_START) % 2 == 0)
+#define IS_INSTALLED_MENU_ID(idx) (((idx) - MNID_ADDON_LIST_START) % 2 == 1)
 
-#define MAKE_REPOSITORY_MENU_ID(idx) (MNID_ADDON_LIST_START + 2*idx+0)
-#define MAKE_INSTALLED_MENU_ID(idx) (MNID_ADDON_LIST_START + 2*idx+1)
+#define MAKE_REPOSITORY_MENU_ID(idx) (MNID_ADDON_LIST_START + 2 * (idx) + 0)
+#define MAKE_INSTALLED_MENU_ID(idx) (MNID_ADDON_LIST_START + 2 * (idx) + 1)
 
-#define UNPACK_REPOSITORY_MENU_ID(idx) (((idx - MNID_ADDON_LIST_START) - 0) / 2)
-#define UNPACK_INSTALLED_MENU_ID(idx) (((idx - MNID_ADDON_LIST_START) - 1) / 2)
+#define UNPACK_REPOSITORY_MENU_ID(idx) ((((idx) - MNID_ADDON_LIST_START) - 0) / 2)
+#define UNPACK_INSTALLED_MENU_ID(idx) ((((idx) - MNID_ADDON_LIST_START) - 1) / 2)
 
 std::string addon_type_to_translated_string(Addon::Type type)
 {

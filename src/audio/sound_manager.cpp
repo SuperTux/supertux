@@ -29,7 +29,7 @@
 
 SoundManager::SoundManager() :
   m_device(alcOpenDevice(nullptr)),
-  m_context(alcCreateContext(m_device, /* attributes = */ nullptr)),
+  m_context(alcCreateContext(m_device, nullptr)),
   m_sound_enabled(false),
   m_sound_volume(0),
   m_buffers(),

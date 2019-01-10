@@ -43,7 +43,9 @@ uint32_t decode_utf8(const std::string& text, size_t& p)
 {
   uint32_t c1 = static_cast<unsigned char>(text[p+0]);
 
-  if (has_multibyte_mark(static_cast<unsigned char>(c1))) std::runtime_error("Malformed utf-8 sequence");
+  if (has_multibyte_mark(static_cast<unsigned char>(c1))) {
+    throw std::runtime_error("Malformed utf-8 sequence");
+  }
 
   if ((c1 & 0200) == 0000) {
     // 0xxx.xxxx: 1 byte sequence

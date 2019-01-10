@@ -48,7 +48,7 @@ TEST(RandomTest, rand1f)
   random.seed(0);
   for(int i = 0; i < 1000; ++i)
   {
-    int v = random.randf(10);
+    float v = random.randf(10);
     ASSERT_LE(0.0f, v);
     ASSERT_LT(v, 10.0f);
   }
@@ -60,7 +60,7 @@ TEST(RandomTest, rand2f)
   random.seed(0);
   for(int i = 0; i < 1000; ++i)
   {
-    int v = random.randf(10.0f, 20.0f);
+    float v = random.randf(10.0f, 20.0f);
     ASSERT_LE(10.0f, v);
     ASSERT_LT(v, 20.0f);
   }

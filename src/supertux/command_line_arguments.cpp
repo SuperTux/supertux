@@ -242,15 +242,11 @@ CommandLineArguments::parse_args(int argc, char** argv)
         }
         else
         {
-          float aspect_ratio = static_cast<float>(aspect_width) / static_cast<float>(aspect_height);
-
           // use aspect ratio to calculate logical resolution
-          if (aspect_ratio > 1) {
-            aspect_size = Size(static_cast<int>(600 * aspect_ratio + 0.5f),
-                                         600);
+          if (aspect_width / aspect_height > 1) {
+            aspect_size = Size(600 * aspect_width / aspect_height, 600);
           } else {
-            aspect_size = Size(600,
-                                         static_cast<int>(600 * 1/aspect_ratio + 0.5f));
+            aspect_size = Size(600, 600 * aspect_height / aspect_width);
           }
         }
       }
@@ -398,7 +394,7 @@ CommandLineArguments::parse_args(int argc, char** argv)
 void
 CommandLineArguments::merge_into(Config& config)
 {
-#define merge_option(x) if (x) { config.x = *x; }
+#define merge_option(x) if (x) { config.x = *(x); }
 
   merge_option(fullscreen_size);
   merge_option(fullscreen_refresh_rate);
