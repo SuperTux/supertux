@@ -728,6 +728,9 @@ if(GENERATE_WRAPPER)
     DEPENDS tools/miniswig/miniswig
     IMPLICIT_DEPENDS CXX ${CMAKE_CURRENT_SOURCE_DIR}/src/scripting/wrapper.interface.hpp
     )
+  if(USE_CLANG_TIDY)
+    set_target_properties(miniswig PROPERTIES CXX_CLANG_TIDY "")
+  endif()
 endif(GENERATE_WRAPPER)
 
 ## Generate supertux executable in the right place
