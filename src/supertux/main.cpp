@@ -349,7 +349,7 @@ public:
 void
 Main::init_video()
 {
-  VideoSystem::current()->set_title(PACKAGE_NAME " " PACKAGE_VERSION);
+  VideoSystem::current()->set_title("SuperTux " PACKAGE_VERSION);
 
   const char* icon_fname = "images/engine/icons/supertux-256x256.png";
 
