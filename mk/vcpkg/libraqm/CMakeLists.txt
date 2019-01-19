@@ -17,7 +17,7 @@ target_include_directories(raqm SYSTEM PUBLIC ${HARFBUZZ_INCLUDE_DIR})
 target_include_directories(raqm SYSTEM PUBLIC ${FRIBIDI_INCLUDE_DIR})
 
 target_link_libraries(raqm PRIVATE Freetype::Freetype)
-target_link_libraries(raqm PUBLIC ${HARFBUZZ_LIBRARY} ${FRIBIDI_LIBRARY})
+target_link_libraries(raqm PRIVATE ${HARFBUZZ_LIBRARY} ${FRIBIDI_LIBRARY})
 
 install(TARGETS raqm 
     RUNTIME DESTINATION bin
@@ -25,4 +25,7 @@ install(TARGETS raqm
     LIBRARY DESTINATION lib
 )
 
+set(RAQM_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/src")
+set(RAQM_LIBRARY raqm)
+set(RAQM_LIBRARIES ${HARFBUZZ_LIBRARY} ${FRIBIDI_LIBRARY} ${RAQM_LIBRARY})
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/src/raqm.h DESTINATION ${CURRENT_PACKAGES_DIR}/include)
