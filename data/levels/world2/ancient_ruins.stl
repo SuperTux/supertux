@@ -1450,8 +1450,9 @@
     )
     (switch
       (script "passage1.goto_node(1);")
-      (x 3948)
-      (y 924)
+      (sprite "/images/objects/switch/switch.sprite")
+      (x 3760)
+      (y 912)
     )
     (switch
       (script "lift1.goto_node(1);
