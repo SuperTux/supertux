@@ -30,7 +30,7 @@ DownloadDialog::DownloadDialog(TransferStatusPtr status, bool auto_close, bool p
 
   update_text();
 
-  status->then(
+  m_status->then(
     [this](bool success)
     {
       if (success)
