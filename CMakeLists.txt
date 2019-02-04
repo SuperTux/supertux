@@ -376,6 +376,11 @@ endif()
 
 include(ConfigureChecks)
 
+# Include altivec wrapper on ppc
+if(CMAKE_SYSTEM_PROCESSOR MATCHES "^ppc.*")
+  include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/ppc)
+endif()
+
 
 ## Also build external/squirrel
 
@@ -420,6 +425,13 @@ if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/external/tinygettext/CMakeLists.txt)
   message(FATAL_ERROR "tinygettext submodule is not checked out or ${CMAKE_CURRENT_SOURCE_DIR}/external/tinygettext/CMakeLists.txt is missing")
 endif()
 
+# Include altivec wrapper on ppc
+if(CMAKE_SYSTEM_PROCESSOR MATCHES "^ppc.*")
+  set(TINYGETTEXT_CXX_FLAGS "-isystem ${CMAKE_CURRENT_SOURCE_DIR}/src/ppc ${CMAKE_CXX_FLAGS}")
+else()
+  set(TINYGETTEXT_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+endif()
+
 set(TINYGETTEXT_PREFIX ${CMAKE_BINARY_DIR}/tinygettext/)
 ExternalProject_Add(tinygettext
   SOURCE_DIR "${CMAKE_SOURCE_DIR}/external/tinygettext/"
@@ -428,7 +440,7 @@ ExternalProject_Add(tinygettext
   -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
   -DCMAKE_C_FLAGS=${CMAKE_C_FLAGS}
   -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
-  -DCMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}
+  -DCMAKE_CXX_FLAGS=${TINYGETTEXT_CXX_FLAGS}
   -DBUILD_SHARED_LIBS=OFF
   -DHAVE_SDL=ON
   -DVCPKG_BUILD=${VCPKG_BUILD}
@@ -442,6 +454,7 @@ add_library(tinygettext_lib STATIC IMPORTED)
 set_target_properties(tinygettext_lib PROPERTIES IMPORTED_LOCATION "${TINYGETTEXT_PREFIX}/lib${LIB_SUFFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}tinygettext${CMAKE_STATIC_LIBRARY_SUFFIX}")
 
 include_directories(SYSTEM ${TINYGETTEXT_PREFIX}/include)
+
 
 ## external/SDL_ttf with patches
 find_package(Freetype REQUIRED)
