@@ -39,8 +39,8 @@
 
 #include <stdio.h>
 
-/** don't skip more than every 2nd frame */
-static const int MAX_FRAME_SKIP = 2;
+/** wait at least MIN_TICKS for every frame */
+static const int MIN_TICKS = 2;
 
 ScreenManager::ScreenManager(VideoSystem& video_system, InputManager& input_manager) :
   m_video_system(video_system),
@@ -392,7 +392,8 @@ ScreenManager::run()
     last_ticks = ticks;
 
     /** ticks (as returned from SDL_GetTicks) per frame */
-    const Uint32 ticks_per_frame = static_cast<Uint32>(1000.0f / m_target_framerate * g_debug.get_game_speed_multiplier());
+    const Uint32 ticks_per_frame =
+      static_cast<Uint32>(1000.0f / m_target_framerate);
 
     if (elapsed_ticks > ticks_per_frame*4)
     {
@@ -402,27 +403,26 @@ ScreenManager::run()
       elapsed_ticks = 0;
     }
 
-    if (elapsed_ticks < ticks_per_frame)
+    if (elapsed_ticks == 0)
     {
-      Uint32 delay_ticks = ticks_per_frame - elapsed_ticks;
+      Uint32 delay_ticks = MIN_TICKS;
       SDL_Delay(delay_ticks);
       last_ticks += delay_ticks;
       elapsed_ticks += delay_ticks;
     }
 
-    int frames = 0;
-
-    while (elapsed_ticks >= ticks_per_frame && frames < MAX_FRAME_SKIP)
+    if (elapsed_ticks >= MIN_TICKS)
     {
-      elapsed_ticks -= ticks_per_frame;
-      float timestep = 1.0f / m_target_framerate;
+      float speed_multiplier = 1.0f / g_debug.get_game_speed_multiplier();
+      float timestep = speed_multiplier *
+        static_cast<float>(elapsed_ticks) / 1000.0f;
+      elapsed_ticks = 0;
       g_real_time += timestep;
       timestep *= m_speed;
       g_game_time += timestep;
 
       process_events();
       update_gamelogic(timestep);
-      frames += 1;
     }
 
     if (!m_screen_stack.empty())
