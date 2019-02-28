@@ -77,8 +77,7 @@ KeyboardConfig::read(const ReaderMapping& keymap_mapping)
 
     const boost::optional<Control> maybe_control = Control_from_string(control_text);
     if (maybe_control) {
-      const Control control = *maybe_control;
-      m_keymap[static_cast<SDL_Keycode>(key)] = control;
+      bind_key(static_cast<SDL_Keycode>(key), *maybe_control);
     } else {
       log_warning << "Invalid control '" << control_text << "' in keymap" << std::endl;
     }
