@@ -120,43 +120,43 @@ Coin::collect()
   } else {
     switch ((pitch_one - tile) % 7) {
       case -6:
-        pitch = 1.f/2;
+        pitch = 1.f/2;  // C
         break;
       case -5:
-        pitch = 5.f/8;
+        pitch = 5.f/8;  // E
         break;
       case -4:
-        pitch = 4.f/6;
+        pitch = 4.f/6;  // F
         break;
       case -3:
-        pitch = 3.f/4;
+        pitch = 3.f/4;  // G
         break;
       case -2:
-        pitch = 5.f/6;
+        pitch = 5.f/6;  // A
         break;
       case -1:
-        pitch = 9.f/10;
+        pitch = 9.f/10;  // Bb
         break;
       case 0:
-        pitch = 1.f;
+        pitch = 1.f;  // c
         break;
       case 1:
-        pitch = 9.f/8;
+        pitch = 9.f/8;  // d
         break;
       case 2:
-        pitch = 5.f/4;
+        pitch = 5.f/4;  // e
         break;
       case 3:
-        pitch = 4.f/3;
+        pitch = 4.f/3;  // f
         break;
       case 4:
-        pitch = 3.f/2;
+        pitch = 3.f/2;  // g
         break;
       case 5:
-        pitch = 5.f/3;
+        pitch = 5.f/3;  // a
         break;
       case 6:
-        pitch = 9.f/5;
+        pitch = 9.f/5;  // bb
         break;
     }
     last_pitch = pitch;
