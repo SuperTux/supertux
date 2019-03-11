@@ -184,13 +184,19 @@ SoundManager::preload(const std::string& filename)
 }
 
 void
-SoundManager::play(const std::string& filename, const Vector& pos)
+SoundManager::play(const std::string& filename, const Vector& pos,
+  const float gain)
 {
   if (!m_sound_enabled)
     return;
 
+  // Test gain for invalid values; it must not exceed 1 because in the end
+  // the value is set to min(sound_gain * sound_volume, 1)
+  assert(gain >= 0.0f && gain <= 1.0f);
+
   try {
     std::unique_ptr<OpenALSoundSource> source(intern_create_sound_source(filename));
+    source->set_gain(gain);
 
     if (pos.x < 0 || pos.y < 0) {
       source->set_relative(true);

@@ -37,7 +37,7 @@ Config::Config() :
   show_player_pos(false),
   sound_enabled(true),
   music_enabled(true),
-  sound_volume(50),
+  sound_volume(100),
   music_volume(50),
   random_seed(0), // set by time(), by default (unless in config)
   enable_script_debugger(false),
