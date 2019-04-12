@@ -13,214 +13,8 @@
 ;;    and increment it by one
 ;;  - the meaning of the values in (attributes ...) can be seen in
 ;;    src/tile.cpp, unisolid is 3 not 2
+
 (supertux-tiles
-  (tile
-    (id 3162)
-    (images
-      "objects/bonus_block/full-0.png"
-      "objects/bonus_block/full-1.png"
-      "objects/bonus_block/full-2.png"
-      "objects/bonus_block/full-3.png"
-      "objects/bonus_block/full-4.png"
-      "objects/bonus_block/full-3.png"
-      "objects/bonus_block/full-2.png"
-      "objects/bonus_block/full-1.png"
-      "objects/bonus_block/full-0.png"
-      "objects/bonus_block/full-0.png"
-      "objects/bonus_block/full-0.png"
-    )
-    (solid #t)
-    (object-name "bonusblock")
-    (object-data "(sprite \"images/objects/bonus_block/bonusblock.sprite\") (data 14)")
-    (editor-images "objects/bonus_block/bonus-earth_flower.png")
-    (data 14)
-    (fps 15)
-  )
-
-  (tile
-    (id 3161)
-    (images
-      "objects/bonus_block/full-0.png"
-      "objects/bonus_block/full-1.png"
-      "objects/bonus_block/full-2.png"
-      "objects/bonus_block/full-3.png"
-      "objects/bonus_block/full-4.png"
-      "objects/bonus_block/full-3.png"
-      "objects/bonus_block/full-2.png"
-      "objects/bonus_block/full-1.png"
-      "objects/bonus_block/full-0.png"
-      "objects/bonus_block/full-0.png"
-      "objects/bonus_block/full-0.png"
-    )
-    (solid #t)
-    (object-name "bonusblock")
-    (object-data "(sprite \"images/objects/bonus_block/bonusblock.sprite\") (data 13)")
-    (editor-images "objects/bonus_block/bonus-air_flower.png")
-    (data 13)
-    (fps 15)
-  )
-
-  (tile
-    (id 3037)
-    (images
-      "objects/bonus_block/full-0.png"
-      "objects/bonus_block/full-1.png"
-      "objects/bonus_block/full-2.png"
-      "objects/bonus_block/full-3.png"
-      "objects/bonus_block/full-4.png"
-      "objects/bonus_block/full-3.png"
-      "objects/bonus_block/full-2.png"
-      "objects/bonus_block/full-1.png"
-      "objects/bonus_block/full-0.png"
-      "objects/bonus_block/full-0.png"
-      "objects/bonus_block/full-0.png"
-    )
-    (solid #t)
-    (object-name "bonusblock")
-    (object-data "(sprite \"images/objects/bonus_block/bonusblock.sprite\") (data 12)")
-    (editor-images "objects/bonus_block/bonus-levelflip.png")
-    (data 12)
-    (fps 15)
-  )
-
-  (tile
-    (id 2948)
-    (images
-      "objects/bonus_block/full-0.png"
-      "objects/bonus_block/full-1.png"
-      "objects/bonus_block/full-2.png"
-      "objects/bonus_block/full-3.png"
-      "objects/bonus_block/full-4.png"
-      "objects/bonus_block/full-3.png"
-      "objects/bonus_block/full-2.png"
-      "objects/bonus_block/full-1.png"
-      "objects/bonus_block/full-0.png"
-      "objects/bonus_block/full-0.png"
-      "objects/bonus_block/full-0.png"
-    )
-    (solid #t)
-    (object-name "bonusblock")
-    (object-data "(sprite \"images/objects/bonus_block/bonusblock.sprite\") (data 11)")
-    (editor-images "objects/bonus_block/bonus-explode.png")
-    (data 11)
-    (fps 15)
-  )
-
-  (tile
-    (id 2947)
-    (images
-      "objects/bonus_block/full-0.png"
-      "objects/bonus_block/full-1.png"
-      "objects/bonus_block/full-2.png"
-      "objects/bonus_block/full-3.png"
-      "objects/bonus_block/full-4.png"
-      "objects/bonus_block/full-3.png"
-      "objects/bonus_block/full-2.png"
-      "objects/bonus_block/full-1.png"
-      "objects/bonus_block/full-0.png"
-      "objects/bonus_block/full-0.png"
-      "objects/bonus_block/full-0.png"
-    )
-    (solid #t)
-    (object-name "bonusblock")
-    (object-data "(sprite \"images/objects/bonus_block/bonusblock.sprite\") (data 10)")
-    (editor-images "objects/bonus_block/bonus-rain.png")
-    (data 10)
-    (fps 15)
-  )
-
-  (tile
-    (id 2946)
-    (images
-      "objects/bonus_block/full-0.png"
-      "objects/bonus_block/full-1.png"
-      "objects/bonus_block/full-2.png"
-      "objects/bonus_block/full-3.png"
-      "objects/bonus_block/full-4.png"
-      "objects/bonus_block/full-3.png"
-      "objects/bonus_block/full-2.png"
-      "objects/bonus_block/full-1.png"
-      "objects/bonus_block/full-0.png"
-      "objects/bonus_block/full-0.png"
-      "objects/bonus_block/full-0.png"
-    )
-    (solid #t)
-    (object-name "bonusblock")
-    (object-data "(sprite \"images/objects/bonus_block/bonusblock.sprite\") (data 9)")
-    (editor-images "objects/bonus_block/bonus-rock.png")
-    (data 9)
-    (fps 15)
-  )
-
-  (tile
-    (id 2945)
-    (images
-      "objects/bonus_block/full-0.png"
-      "objects/bonus_block/full-1.png"
-      "objects/bonus_block/full-2.png"
-      "objects/bonus_block/full-3.png"
-      "objects/bonus_block/full-4.png"
-      "objects/bonus_block/full-3.png"
-      "objects/bonus_block/full-2.png"
-      "objects/bonus_block/full-1.png"
-      "objects/bonus_block/full-0.png"
-      "objects/bonus_block/full-0.png"
-      "objects/bonus_block/full-0.png"
-    )
-    (solid #t)
-    (object-name "bonusblock")
-    (object-data "(sprite \"images/objects/bonus_block/bonusblock.sprite\") (data 8)")
-    (editor-images "objects/bonus_block/bonus-porttramp.png")
-    (data 8)
-    (fps 15)
-  )
-
-  (tile
-    (id 2944)
-    (images
-      "objects/bonus_block/full-0.png"
-      "objects/bonus_block/full-1.png"
-      "objects/bonus_block/full-2.png"
-      "objects/bonus_block/full-3.png"
-      "objects/bonus_block/full-4.png"
-      "objects/bonus_block/full-3.png"
-      "objects/bonus_block/full-2.png"
-      "objects/bonus_block/full-1.png"
-      "objects/bonus_block/full-0.png"
-      "objects/bonus_block/full-0.png"
-      "objects/bonus_block/full-0.png"
-    )
-    (solid #t)
-    (object-name "bonusblock")
-    (object-data "(sprite \"images/objects/bonus_block/bonusblock.sprite\") (data 7)")
-    (editor-images "objects/bonus_block/bonus-tramp.png")
-    (data 7)
-    (fps 15)
-  )
-
-  (tile
-    (id 2943)
-    (images
-      "objects/bonus_block/full-0.png"
-      "objects/bonus_block/full-1.png"
-      "objects/bonus_block/full-2.png"
-      "objects/bonus_block/full-3.png"
-      "objects/bonus_block/full-4.png"
-      "objects/bonus_block/full-3.png"
-      "objects/bonus_block/full-2.png"
-      "objects/bonus_block/full-1.png"
-      "objects/bonus_block/full-0.png"
-      "objects/bonus_block/full-0.png"
-      "objects/bonus_block/full-0.png"
-    )
-    (solid #t)
-    (object-name "bonusblock")
-    (object-data "(sprite \"images/objects/bonus_block/bonusblock.sprite\") (data 6)")
-    (editor-images "objects/bonus_block/off.png")
-    (data 6)
-    (fps 15)
-  )
-  
   (tilegroup
     (name (_ "Snow"))
     (tiles
@@ -322,7 +116,7 @@
   )
   
   (tilegroup
-    (name (_ "Snow BG"))
+    (name (_ "Snow Background"))
     (tiles
       122  209  123  0
       124  210  125  0
@@ -358,6 +152,80 @@
       0    0    0    1342
     )
   )
+  
+(tilegroup
+ (name (_ "Snow Mountain"))
+(tiles
+2679 2680 2681 2682
+2695 2696 2697 2698
+2711 2712 2713 2714
+2727 2728 2729 2730
+2743 2744 2745 2746
+2759 2760 2761 2762
+2775 2776 2777 2778
+2791 2792 2793 2794
+
+2683 2684 2685 2686
+2699 2700 2701 2702
+2715 2716 2717 2718
+2731 2732 2733 2734
+2747 2748 2749 2750
+2763 2764 2765 2766
+2779 2780 2781 2782
+2795 2796 2797 2798
+
+2687 2688 2689 2690
+2703 2704 2705 2706
+2719 2720 2721 2722
+2735 2736 2737 2738
+2751 2752 2753 2754
+2767 2768 2769 2770
+2783 2784 2785 2786
+2799 2800 2801 2802
+
+2691 2692 2693 2694
+2707 2708 2709 2710
+2723 2724 2725 2726
+2739 2740 2741 2742
+2755 2756 2757 2758
+2771 2772 2773 2774
+2787 2788 2789 2790
+2803 2804 2805 2806
+
+   0    0 3291 3300
+3297 3298 3299    0
+   0    0 3293 3304
+3292 3302 3303    0
+3301    0    0    0
+3305 3294    0    0
+   0 3306 3307 3295
+   0    0    0 3308
+3309 3296    0    0
+   0 3310 3311 3312
+   0    0    0 3357
+   0    0 3356 3368
+   0 3355 3367    0
+3365 3366    0    0
+3358    0    0    0
+3369 3359    0    0
+   0 3370 3360    0
+   0    0 3371 3372
+   0 3341 3342    0
+   0 3352 3353    0
+3351 3362 3363 3354
+3361    0    0 3364
+   0    0    0 3317
+   0 3323 3324 3325
+3333 3334 3335 3336
+3343 3344 3345 3346
+3318    0    0    0
+3326 3327 3328    0
+3337 3338 3339 3340
+3347 3348 3349 3350
+3313 3314 3315 3316
+3319 3320 3321 3322
+3329 3330 3331 3332
+))
 
   (tilegroup
    (name (_ "Crystal"))
@@ -450,82 +318,8 @@
     )
    )
 
-(tilegroup
- (name (_ "Snow Mountain"))
-(tiles
-2679 2680 2681 2682
-2695 2696 2697 2698
-2711 2712 2713 2714
-2727 2728 2729 2730
-2743 2744 2745 2746
-2759 2760 2761 2762
-2775 2776 2777 2778
-2791 2792 2793 2794
-
-2683 2684 2685 2686
-2699 2700 2701 2702
-2715 2716 2717 2718
-2731 2732 2733 2734
-2747 2748 2749 2750
-2763 2764 2765 2766
-2779 2780 2781 2782
-2795 2796 2797 2798
-
-2687 2688 2689 2690
-2703 2704 2705 2706
-2719 2720 2721 2722
-2735 2736 2737 2738
-2751 2752 2753 2754
-2767 2768 2769 2770
-2783 2784 2785 2786
-2799 2800 2801 2802
-
-2691 2692 2693 2694
-2707 2708 2709 2710
-2723 2724 2725 2726
-2739 2740 2741 2742
-2755 2756 2757 2758
-2771 2772 2773 2774
-2787 2788 2789 2790
-2803 2804 2805 2806
-
-   0    0 3291 3300
-3297 3298 3299    0
-   0    0 3293 3304
-3292 3302 3303    0
-3301    0    0    0
-3305 3294    0    0
-   0 3306 3307 3295
-   0    0    0 3308
-3309 3296    0    0
-   0 3310 3311 3312
-   0    0    0 3357
-   0    0 3356 3368
-   0 3355 3367    0
-3365 3366    0    0
-3358    0    0    0
-3369 3359    0    0
-   0 3370 3360    0
-   0    0 3371 3372
-   0 3341 3342    0
-   0 3352 3353    0
-3351 3362 3363 3354
-3361    0    0 3364
-   0    0    0 3317
-   0 3323 3324 3325
-3333 3334 3335 3336
-3343 3344 3345 3346
-3318    0    0    0
-3326 3327 3328    0
-3337 3338 3339 3340
-3347 3348 3349 3350
-3313 3314 3315 3316
-3319 3320 3321 3322
-3329 3330 3331 3332
-))
-
   (tilegroup
-    (name (_ "Forest (WIP)"))
+    (name (_ "Forest"))
     (tiles
       3687 3688 3689 3690
       3691 3692 3693 3694
@@ -815,6 +609,13 @@
   (tilegroup
     (name (_ "Miscellaneous"))
     (tiles
+      2817 2818 2819 2820
+      2823 2821 2822 2824
+      2828 2832 2830 2826
+      2827 2831 2829 2825
+      2839 2833 2834 2840
+      2835 2837 2838 2836
+      
       130  129  132  133
       295  296  297  298
       81   0    0    2047
@@ -854,18 +655,6 @@
       3203 3204 3205 3206
       3171 3172 3183 3184
       3177 3178 3176 3182
-    )
-  )
-
-  (tilegroup
-    (name (_ "Engine"))
-    (tiles
-      2817 2818 2819 2820
-      2823 2821 2822 2824
-      2828 2832 2830 2826
-      2827 2831 2829 2825
-      2839 2833 2834 2840
-      2835 2837 2838 2836
       
       2032 2033 2034 2035
       2036 2037    0 2038
@@ -1151,6 +940,213 @@
       3683 3684 0    0
       3685 3686 0    0
     )
+  )
+  
+  (tile
+    (id 3162)
+    (images
+      "objects/bonus_block/full-0.png"
+      "objects/bonus_block/full-1.png"
+      "objects/bonus_block/full-2.png"
+      "objects/bonus_block/full-3.png"
+      "objects/bonus_block/full-4.png"
+      "objects/bonus_block/full-3.png"
+      "objects/bonus_block/full-2.png"
+      "objects/bonus_block/full-1.png"
+      "objects/bonus_block/full-0.png"
+      "objects/bonus_block/full-0.png"
+      "objects/bonus_block/full-0.png"
+    )
+    (solid #t)
+    (object-name "bonusblock")
+    (object-data "(sprite \"images/objects/bonus_block/bonusblock.sprite\") (data 14)")
+    (editor-images "objects/bonus_block/bonus-earth_flower.png")
+    (data 14)
+    (fps 15)
+  )
+
+  (tile
+    (id 3161)
+    (images
+      "objects/bonus_block/full-0.png"
+      "objects/bonus_block/full-1.png"
+      "objects/bonus_block/full-2.png"
+      "objects/bonus_block/full-3.png"
+      "objects/bonus_block/full-4.png"
+      "objects/bonus_block/full-3.png"
+      "objects/bonus_block/full-2.png"
+      "objects/bonus_block/full-1.png"
+      "objects/bonus_block/full-0.png"
+      "objects/bonus_block/full-0.png"
+      "objects/bonus_block/full-0.png"
+    )
+    (solid #t)
+    (object-name "bonusblock")
+    (object-data "(sprite \"images/objects/bonus_block/bonusblock.sprite\") (data 13)")
+    (editor-images "objects/bonus_block/bonus-air_flower.png")
+    (data 13)
+    (fps 15)
+  )
+
+  (tile
+    (id 3037)
+    (images
+      "objects/bonus_block/full-0.png"
+      "objects/bonus_block/full-1.png"
+      "objects/bonus_block/full-2.png"
+      "objects/bonus_block/full-3.png"
+      "objects/bonus_block/full-4.png"
+      "objects/bonus_block/full-3.png"
+      "objects/bonus_block/full-2.png"
+      "objects/bonus_block/full-1.png"
+      "objects/bonus_block/full-0.png"
+      "objects/bonus_block/full-0.png"
+      "objects/bonus_block/full-0.png"
+    )
+    (solid #t)
+    (object-name "bonusblock")
+    (object-data "(sprite \"images/objects/bonus_block/bonusblock.sprite\") (data 12)")
+    (editor-images "objects/bonus_block/bonus-levelflip.png")
+    (data 12)
+    (fps 15)
+  )
+
+  (tile
+    (id 2948)
+    (images
+      "objects/bonus_block/full-0.png"
+      "objects/bonus_block/full-1.png"
+      "objects/bonus_block/full-2.png"
+      "objects/bonus_block/full-3.png"
+      "objects/bonus_block/full-4.png"
+      "objects/bonus_block/full-3.png"
+      "objects/bonus_block/full-2.png"
+      "objects/bonus_block/full-1.png"
+      "objects/bonus_block/full-0.png"
+      "objects/bonus_block/full-0.png"
+      "objects/bonus_block/full-0.png"
+    )
+    (solid #t)
+    (object-name "bonusblock")
+    (object-data "(sprite \"images/objects/bonus_block/bonusblock.sprite\") (data 11)")
+    (editor-images "objects/bonus_block/bonus-explode.png")
+    (data 11)
+    (fps 15)
+  )
+
+  (tile
+    (id 2947)
+    (images
+      "objects/bonus_block/full-0.png"
+      "objects/bonus_block/full-1.png"
+      "objects/bonus_block/full-2.png"
+      "objects/bonus_block/full-3.png"
+      "objects/bonus_block/full-4.png"
+      "objects/bonus_block/full-3.png"
+      "objects/bonus_block/full-2.png"
+      "objects/bonus_block/full-1.png"
+      "objects/bonus_block/full-0.png"
+      "objects/bonus_block/full-0.png"
+      "objects/bonus_block/full-0.png"
+    )
+    (solid #t)
+    (object-name "bonusblock")
+    (object-data "(sprite \"images/objects/bonus_block/bonusblock.sprite\") (data 10)")
+    (editor-images "objects/bonus_block/bonus-rain.png")
+    (data 10)
+    (fps 15)
+  )
+
+  (tile
+    (id 2946)
+    (images
+      "objects/bonus_block/full-0.png"
+      "objects/bonus_block/full-1.png"
+      "objects/bonus_block/full-2.png"
+      "objects/bonus_block/full-3.png"
+      "objects/bonus_block/full-4.png"
+      "objects/bonus_block/full-3.png"
+      "objects/bonus_block/full-2.png"
+      "objects/bonus_block/full-1.png"
+      "objects/bonus_block/full-0.png"
+      "objects/bonus_block/full-0.png"
+      "objects/bonus_block/full-0.png"
+    )
+    (solid #t)
+    (object-name "bonusblock")
+    (object-data "(sprite \"images/objects/bonus_block/bonusblock.sprite\") (data 9)")
+    (editor-images "objects/bonus_block/bonus-rock.png")
+    (data 9)
+    (fps 15)
+  )
+
+  (tile
+    (id 2945)
+    (images
+      "objects/bonus_block/full-0.png"
+      "objects/bonus_block/full-1.png"
+      "objects/bonus_block/full-2.png"
+      "objects/bonus_block/full-3.png"
+      "objects/bonus_block/full-4.png"
+      "objects/bonus_block/full-3.png"
+      "objects/bonus_block/full-2.png"
+      "objects/bonus_block/full-1.png"
+      "objects/bonus_block/full-0.png"
+      "objects/bonus_block/full-0.png"
+      "objects/bonus_block/full-0.png"
+    )
+    (solid #t)
+    (object-name "bonusblock")
+    (object-data "(sprite \"images/objects/bonus_block/bonusblock.sprite\") (data 8)")
+    (editor-images "objects/bonus_block/bonus-porttramp.png")
+    (data 8)
+    (fps 15)
+  )
+
+  (tile
+    (id 2944)
+    (images
+      "objects/bonus_block/full-0.png"
+      "objects/bonus_block/full-1.png"
+      "objects/bonus_block/full-2.png"
+      "objects/bonus_block/full-3.png"
+      "objects/bonus_block/full-4.png"
+      "objects/bonus_block/full-3.png"
+      "objects/bonus_block/full-2.png"
+      "objects/bonus_block/full-1.png"
+      "objects/bonus_block/full-0.png"
+      "objects/bonus_block/full-0.png"
+      "objects/bonus_block/full-0.png"
+    )
+    (solid #t)
+    (object-name "bonusblock")
+    (object-data "(sprite \"images/objects/bonus_block/bonusblock.sprite\") (data 7)")
+    (editor-images "objects/bonus_block/bonus-tramp.png")
+    (data 7)
+    (fps 15)
+  )
+
+  (tile
+    (id 2943)
+    (images
+      "objects/bonus_block/full-0.png"
+      "objects/bonus_block/full-1.png"
+      "objects/bonus_block/full-2.png"
+      "objects/bonus_block/full-3.png"
+      "objects/bonus_block/full-4.png"
+      "objects/bonus_block/full-3.png"
+      "objects/bonus_block/full-2.png"
+      "objects/bonus_block/full-1.png"
+      "objects/bonus_block/full-0.png"
+      "objects/bonus_block/full-0.png"
+      "objects/bonus_block/full-0.png"
+    )
+    (solid #t)
+    (object-name "bonusblock")
+    (object-data "(sprite \"images/objects/bonus_block/bonusblock.sprite\") (data 6)")
+    (editor-images "objects/bonus_block/off.png")
+    (data 6)
+    (fps 15)
   )
   
   (tile
