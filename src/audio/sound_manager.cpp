@@ -128,15 +128,18 @@ SoundManager::intern_create_sound_source(const std::string& filename)
     std::unique_ptr<SoundFile> file(load_sound_file(filename));
 
     if (file->m_size < 100000) {
+      log_debug << "Adding \"" << filename <<
+        "\" into the buffer, file size: " << file->m_size << std::endl;
       buffer = load_file_into_buffer(*file);
       m_buffers.insert(std::make_pair(filename, buffer));
     } else {
-      auto source_ = std::make_unique<StreamSoundSource>();
-      source_->set_sound_file(std::move(file));
-      return std::move(source_);
+      log_debug << "Playing \"" << filename <<
+        "\" as StreamSoundSource, file size: " << file->m_size << std::endl;
+      auto stream_source = std::make_unique<StreamSoundSource>();
+      stream_source->set_sound_file(std::move(file));
+      stream_source->set_volume(static_cast<float>(m_sound_volume) / 100.0f);
+      return std::move(stream_source);
     }
-
-    log_debug << "Uncached sound \"" << filename << "\" requested to be played" << std::endl;
   }
 
   alSourcei(source->m_source, AL_BUFFER, buffer);
