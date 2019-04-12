@@ -85,7 +85,7 @@ Flame::activate()
   sound_source = SoundManager::current()->create_sound_source(FLAME_SOUND);
   sound_source->set_position(get_pos());
   sound_source->set_looping(true);
-  sound_source->set_gain(2.0);
+  sound_source->set_gain(1.0f);
   sound_source->set_reference_distance(32);
   sound_source->play();
 }
