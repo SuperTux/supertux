@@ -73,7 +73,7 @@ Dart::activate()
   sound_source = SoundManager::current()->create_sound_source(DART_SOUND);
   sound_source->set_position(get_pos());
   sound_source->set_looping(true);
-  sound_source->set_gain(1.0);
+  sound_source->set_gain(0.5f);
   sound_source->set_reference_distance(32);
   sound_source->play();
 }

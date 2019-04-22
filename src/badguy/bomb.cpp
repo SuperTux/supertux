@@ -34,7 +34,7 @@ Bomb::Bomb(const Vector& pos, Direction dir_, const std::string& custom_sprite /
 
   ticking->set_position(get_pos());
   ticking->set_looping(true);
-  ticking->set_gain(2.0);
+  ticking->set_gain(1.0f);
   ticking->set_reference_distance(32);
   ticking->play();
 }
