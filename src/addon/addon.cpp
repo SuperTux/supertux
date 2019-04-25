@@ -51,7 +51,7 @@ Addon::Type addon_type_from_string(const std::string& type)
   }
   else
   {
-    return Addon::ADD-ON;
+    return Addon::ADDON;
   }
 }
 
