@@ -45,9 +45,13 @@ Addon::Type addon_type_from_string(const std::string& type)
   {
     return Addon::LANGUAGEPACK;
   }
+  else if (type == "textures")
+  {
+    return Addon::TEXTURES;
+  }
   else
   {
-    throw std::runtime_error("not a valid Addon::Type: " + type);
+    return Addon::ADD-ON;
   }
 }
 

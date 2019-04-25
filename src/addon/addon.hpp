@@ -29,7 +29,7 @@ public:
   static std::unique_ptr<Addon> parse(const ReaderMapping& mapping);
   static std::unique_ptr<Addon> parse(const std::string& fname);
 
-  enum Type { WORLD, WORLDMAP, LEVELSET, LANGUAGEPACK };
+  enum Type { WORLD, WORLDMAP, LEVELSET, LANGUAGEPACK, TEXTURES, ADD-ON };
 
   enum Format {
     ORIGINAL = 0,
