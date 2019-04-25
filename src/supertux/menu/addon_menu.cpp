@@ -53,10 +53,10 @@ std::string addon_type_to_translated_string(Addon::Type type)
     case Addon::LANGUAGEPACK:
       return "";
       
-    case Addon::TEXTURES;
+    case Addon::TEXTURES:
       return _("Textures");
       
-    case Addon::ADDON;
+    case Addon::ADDON:
       return _("Add-on");
 
     default:
