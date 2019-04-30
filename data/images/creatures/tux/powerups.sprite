@@ -8,41 +8,286 @@
          (name "grow-left")
          (mirror-action "grow-right"))
 
-; Air Tux
+; Fire Tux
+       (action
+         (name "fire-walk-right")
+         (fps 15)
+         (hitbox 16 15 32 64)
+         (images "fire/hat/walk-0.png"
+                 "fire/hat/walk-1.png"
+                 "fire/hat/walk-0.png"
+                 "fire/hat/walk-3.png"))
 
+       (action
+         (name "fire-walk-left")
+         (fps 15)
+         (hitbox 16 15 32 64)
+         (mirror-action "fire-walk-right"))
+
+       (action
+         (name "fire-stand-right")
+         (hitbox 16 15 32 64)
+         (images "fire/hat/stand.png"))
+
+       (action
+         (name "fire-stand-left")
+         (hitbox 16 15 32 64)
+         (mirror-action "fire-stand-right"))
+
+       (action
+         (name "fire-jump-right")
+         (hitbox 16 15 32 64)
+         (images "fire/hat/stand.png"))
+
+       (action
+         (name "fire-jump-left")
+         (hitbox 16 15 32 64)
+         (mirror-action "fire-jump-right"))
+
+       (action
+         (name "fire-skid-right")
+         (hitbox 16 15 32 64)
+         (images "fire/hat/skid.png"))
+
+       (action
+         (name "fire-skid-left")
+         (hitbox 16 15 32 64)
+         (mirror-action "fire-skid-right"))
+
+       (action
+         (name "fire-kick-right")
+         (hitbox 16 15 32 64)
+         (images "fire/hat/stand.png"))
+
+       (action
+         (name "fire-kick-left")
+         (hitbox 16 15 32 64)
+         (mirror-action "fire-kick-right"))
+
+       (action
+         (name "fire-idle-right")
+         (hitbox 16 15 32 64)
+         (images "fire/hat/stand.png"))
+
+       (action
+         (name "fire-idle-left")
+         (hitbox 16 15 32 64)
+         (mirror-action "fire-idle-right"))
+
+       (action
+         (name "fire-climbing-right")
+         (hitbox 9 14 25 64)
+         (fps 15.0)
+         (images "fire/hat/climb-0.png"
+                 "fire/hat/climb-0.png"
+                 "fire/hat/climb-0.png"
+                 "fire/hat/climb-0.png"
+                 "fire/hat/climb-1.png"
+                 "fire/hat/climb-1.png"
+                 "fire/hat/climb-1.png"
+                 "fire/hat/climb-1.png"))
+
+       (action
+         (name "fire-climbing-left")
+         (hitbox 9 14 25 64)
+         (fps 15.0)
+         (mirror-action "fire-climbing-right"))
+
+       (action
+         (name "fire-duck-right")
+         (hitbox 16 45 32 32)
+         (images "fire/hat/duck.png"))
+
+       (action
+         (name "fire-duck-left")
+         (hitbox 16 45 32 32)
+         (mirror-action "fire-duck-right"))
+
+       (action
+         (name "fire-backflip-right")
+         (hitbox 16 37 32 32)
+         (images "fire/hat/backflip.png"))
+
+       (action
+         (name "fire-backflip-left")
+         (hitbox 16 37 32 32)
+         (mirror-action "fire-backflip-right"))
+
+       (action
+         (name "fire-buttjump-right")
+         (hitbox 16 15 32 64)
+         (fps 20.0)
+         (loops 1)
+         (images "fire/hat/buttjump-0.png"
+                 "fire/hat/buttjump-1.png"
+                 "fire/hat/buttjump-2.png"
+                 "fire/hat/buttjump-3.png"
+                 "fire/hat/buttjump-4.png"
+                 "fire/hat/buttjump-5.png"
+                 "fire/hat/buttjump-6.png"))
+
+       (action
+         (name "fire-buttjump-left")
+         (hitbox 16 15 32 64)
+         (fps 20.0)
+         (loops 1)
+         (mirror-action "fire-buttjump-right"))
+
+; Ice Tux
+       (action
+         (name "ice-walk-right")
+         (fps 15)
+         (hitbox 16 15 32 64)
+         (images "ice/hat/walk-0.png"
+                 "ice/hat/walk-1.png"
+                 "ice/hat/walk-0.png"
+                 "ice/hat/walk-3.png"))
+
+       (action
+         (name "ice-walk-left")
+         (fps 15)
+         (hitbox 16 15 32 64)
+         (mirror-action "ice-walk-right"))
+
+       (action
+         (name "ice-stand-right")
+         (hitbox 16 15 32 64)
+         (images "ice/hat/stand.png"))
+
+       (action
+         (name "ice-stand-left")
+         (hitbox 16 15 32 64)
+         (mirror-action "ice-stand-right"))
+
+       (action
+         (name "ice-jump-right")
+         (hitbox 16 15 32 64)
+         (images "ice/hat/stand.png"))
+
+       (action
+         (name "ice-jump-left")
+         (hitbox 16 15 32 64)
+         (mirror-action "ice-jump-right"))
+
+       (action
+         (name "ice-skid-right")
+         (hitbox 16 15 32 64)
+         (images "ice/hat/skid.png"))
+
+       (action
+         (name "ice-skid-left")
+         (hitbox 16 15 32 64)
+         (mirror-action "ice-skid-right"))
+
+       (action
+         (name "ice-kick-right")
+         (hitbox 16 15 32 64)
+         (images "ice/hat/stand.png"))
+
+       (action
+         (name "ice-kick-left")
+         (hitbox 16 15 32 64)
+         (mirror-action "ice-kick-right"))
+
+       (action
+         (name "ice-idle-right")
+         (hitbox 16 15 32 64)
+         (images "ice/hat/stand.png"))
+
+       (action
+         (name "ice-idle-left")
+         (hitbox 16 15 32 64)
+         (mirror-action "ice-idle-right"))
+
+       (action
+         (name "ice-climbing-right")
+         (hitbox 9 14 25 64)
+         (fps 15.0)
+         (images "ice/hat/climb-0.png"
+                 "ice/hat/climb-0.png"
+                 "ice/hat/climb-0.png"
+                 "ice/hat/climb-0.png"
+                 "ice/hat/climb-1.png"
+                 "ice/hat/climb-1.png"
+                 "ice/hat/climb-1.png"
+                 "ice/hat/climb-1.png"))
+
+       (action
+         (name "ice-climbing-left")
+         (hitbox 9 14 25 64)
+         (fps 15.0)
+         (mirror-action "ice-climbing-right"))
+
+       (action
+         (name "ice-duck-right")
+         (hitbox 16 45 32 32)
+         (images "ice/hat/duck.png"))
+
+       (action
+         (name "ice-duck-left")
+         (hitbox 16 45 32 32)
+         (mirror-action "ice-duck-right"))
+
+       (action
+         (name "ice-backflip-right")
+         (hitbox 16 37 32 32)
+         (images "ice/hat/backflip.png"))
+
+       (action
+         (name "ice-backflip-left")
+         (hitbox 16 37 32 32)
+         (mirror-action "ice-backflip-right"))
+
+       (action
+         (name "ice-buttjump-right")
+         (hitbox 16 15 32 64)
+         (fps 20.0)
+         (loops 1)
+         (images "ice/hat/buttjump-0.png"
+                 "ice/hat/buttjump-1.png"
+                 "ice/hat/buttjump-2.png"
+                 "ice/hat/buttjump-3.png"
+                 "ice/hat/buttjump-4.png"
+                 "ice/hat/buttjump-5.png"
+                 "ice/hat/buttjump-6.png"))
+
+       (action
+         (name "ice-buttjump-left")
+         (hitbox 16 15 32 64)
+         (fps 20.0)
+         (loops 1)
+         (mirror-action "ice-buttjump-right"))
+
+; Air Tux
        (action
          (name "air-walk-right")
          (fps 15)
-         (hitbox 15 14 32 64)
+         (hitbox 16 15 32 64)
          (images "air/hat/walk-0.png"
                  "air/hat/walk-1.png"
-                 "air/hat/walk-2.png"
-                 "air/hat/walk-3.png"
-                 "air/hat/walk-4.png"
-                 "air/hat/walk-5.png"
-				 "air/hat/walk-6.png"
-				 "air/hat/walk-7.png"))
+                 "air/hat/walk-0.png"
+                 "air/hat/walk-3.png"))
 
        (action
          (name "air-walk-left")
          (fps 15)
-         (hitbox 17 14 32 64)
+         (hitbox 16 15 32 64)
          (mirror-action "air-walk-right"))
 
        (action
          (name "air-stand-right")
-         (hitbox 16 14 32 64)
+         (hitbox 16 15 32 64)
          (images "air/hat/stand.png"))
 
        (action
          (name "air-stand-left")
-         (hitbox 16 14 32 64)
+         (hitbox 16 15 32 64)
          (mirror-action "air-stand-right"))
 
        (action
          (name "air-jump-right")
          (fps 10)
-         (hitbox 16 14 32 64)
+         (hitbox 16 15 32 64)
          (images "air/hat/spin-0.png"
                  "air/hat/spin-1.png"
                  "air/hat/spin-2.png"
@@ -50,51 +295,59 @@
 
        (action
          (name "air-jump-left")
-         (hitbox 16 14 32 64)
+         (hitbox 16 15 32 64)
          (mirror-action "air-jump-right"))
 
        (action
          (name "air-skid-right")
-         (hitbox 16 14 32 64)
+         (hitbox 16 15 32 64)
          (images "air/hat/skid.png"))
 
        (action
          (name "air-skid-left")
-         (hitbox 16 14 32 64)
+         (hitbox 16 15 32 64)
          (mirror-action "air-skid-right"))
 
        (action
          (name "air-kick-right")
-         (hitbox 16 14 32 64)
+         (hitbox 16 15 32 64)
          (images "air/hat/stand.png"))
 
        (action
          (name "air-kick-left")
-         (hitbox 16 14 32 64)
+         (hitbox 16 15 32 64)
          (mirror-action "air-kick-right"))
 
        (action
          (name "air-idle-right")
          (fps 5)
-         (hitbox 16 14 32 64)
+         (hitbox 16 15 32 64)
          (images "air/hat/spin-0.png"
                  "air/hat/spin-1.png"
-				 "air/hat/spin-2.png"
+                 "air/hat/spin-2.png"
                  "air/hat/spin-1.png"))
-
        (action
          (name "air-idle-left")
-         (hitbox 16 14 32 64)
+         (hitbox 16 15 32 64)
          (mirror-action "air-idle-right"))
 
        (action
          (name "air-climbing-right")
-         (hitbox 22 21 32 64)
-         (images "air/hat/stand.png"))
+         (hitbox 9 14 25 64)
+         (fps 15.0)
+         (images "air/hat/climb-0.png"
+                 "air/hat/climb-0.png"
+                 "air/hat/climb-0.png"
+                 "air/hat/climb-0.png"
+                 "air/hat/climb-1.png"
+                 "air/hat/climb-1.png"
+                 "air/hat/climb-1.png"
+                 "air/hat/climb-1.png"))
 
        (action
          (name "air-climbing-left")
-         (hitbox 22 21 32 64)
+         (hitbox 9 14 25 64)
+         (fps 15.0)
          (mirror-action "air-climbing-right"))
 
        (action
@@ -117,101 +370,24 @@
          (hitbox 16 37 32 32)
          (mirror-action "air-backflip-right"))
 
-	   (action
+       (action
          (name "air-buttjump-right")
-         (hitbox 16 14 32 64)
+         (hitbox 16 15 32 64)
+         (fps 20.0)
+         (loops 1)
          (images "air/hat/buttjump-0.png"
                  "air/hat/buttjump-1.png"
                  "air/hat/buttjump-2.png"
                  "air/hat/buttjump-3.png"
                  "air/hat/buttjump-4.png"
                  "air/hat/buttjump-5.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
-                 "air/hat/buttjump-6.png"
                  "air/hat/buttjump-6.png"))
 
        (action
          (name "air-buttjump-left")
-         (hitbox 16 14 32 64)
+         (hitbox 16 15 32 64)
+         (fps 20.0)
+         (loops 1)
          (mirror-action "air-buttjump-right"))
 
 ; Earth Tux
@@ -219,80 +395,85 @@
        (action
          (name "earth-walk-right")
          (fps 15)
-         (hitbox 15 14 32 64)
+         (hitbox 16 15 32 64)
          (images "earth/hardhat/walk-0.png"
                  "earth/hardhat/walk-1.png"
-                 "earth/hardhat/walk-2.png"
-                 "earth/hardhat/walk-3.png"
-                 "earth/hardhat/walk-4.png"
-                 "earth/hardhat/walk-5.png"
-				 "earth/hardhat/walk-6.png"
-				 "earth/hardhat/walk-7.png"))
+                 "earth/hardhat/walk-0.png"
+                 "earth/hardhat/walk-3.png"))
 
        (action
          (name "earth-walk-left")
          (fps 15)
-         (hitbox 17 14 32 64)
+         (hitbox 16 15 32 64)
          (mirror-action "earth-walk-right"))
 
        (action
          (name "earth-stand-right")
-         (hitbox 16 14 32 64)
+         (hitbox 16 15 32 64)
          (images "earth/hardhat/stand.png"))
 
        (action
          (name "earth-stand-left")
-         (hitbox 16 14 32 64)
+         (hitbox 16 15 32 64)
          (mirror-action "earth-stand-right"))
 
        (action
          (name "earth-jump-right")
-         (hitbox 16 14 32 64)
+         (hitbox 16 15 32 64)
          (images "earth/hardhat/stand.png"))
 
        (action
          (name "earth-jump-left")
-         (hitbox 16 14 32 64)
+         (hitbox 16 15 32 64)
          (mirror-action "earth-jump-right"))
 
        (action
          (name "earth-skid-right")
-         (hitbox 16 14 32 64)
+         (hitbox 16 15 32 64)
          (images "earth/hardhat/skid.png"))
 
        (action
          (name "earth-skid-left")
-         (hitbox 16 14 32 64)
+         (hitbox 16 15 32 64)
          (mirror-action "earth-skid-right"))
 
        (action
          (name "earth-kick-right")
-         (hitbox 16 14 32 64)
+         (hitbox 16 15 32 64)
          (images "earth/hardhat/stand.png"))
 
        (action
          (name "earth-kick-left")
-         (hitbox 16 14 32 64)
+         (hitbox 16 15 32 64)
          (mirror-action "earth-kick-right"))
 
        (action
          (name "earth-idle-right")
-         (hitbox 16 14 32 64)
+         (hitbox 16 15 32 64)
          (images "earth/hardhat/stand.png"))
 
        (action
          (name "earth-idle-left")
-         (hitbox 16 14 32 64)
+         (hitbox 16 15 32 64)
          (mirror-action "earth-idle-right"))
 
        (action
          (name "earth-climbing-right")
-         (hitbox 22 21 32 64)
-         (images "earth/hardhat/stand.png"))
+         (hitbox 9 14 25 64)
+         (fps 15.0)
+         (images "earth/hardhat/climb-0.png"
+                 "earth/hardhat/climb-0.png"
+                 "earth/hardhat/climb-0.png"
+                 "earth/hardhat/climb-0.png"
+                 "earth/hardhat/climb-1.png"
+                 "earth/hardhat/climb-1.png"
+                 "earth/hardhat/climb-1.png"
+                 "earth/hardhat/climb-1.png"))
 
        (action
          (name "earth-climbing-left")
-         (hitbox 22 21 32 64)
+         (hitbox 9 14 25 64)
+         (fps 15.0)
          (mirror-action "earth-climbing-right"))
 
        (action
@@ -317,180 +498,107 @@
 
        (action
          (name "earth-buttjump-right")
-         (hitbox 16 14 32 64)
+         (hitbox 16 15 32 64)
+         (fps 20.0)
+         (loops 1)
          (images "earth/hardhat/buttjump-0.png"
                  "earth/hardhat/buttjump-1.png"
                  "earth/hardhat/buttjump-2.png"
                  "earth/hardhat/buttjump-3.png"
                  "earth/hardhat/buttjump-4.png"
                  "earth/hardhat/buttjump-5.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
-                 "earth/hardhat/buttjump-6.png"
                  "earth/hardhat/buttjump-6.png"))
 
        (action
          (name "earth-buttjump-left")
-         (hitbox 16 14 32 64)
+         (hitbox 16 15 32 64)
+         (fps 20.0)
+         (loops 1)
          (mirror-action "earth-buttjump-right"))
-         
-         
+        
 ; Santa Tux
        (action
          (name "santa-walk-right")
          (fps 15)
-         (hitbox 15 14 32 64)
+         (hitbox 16 15 32 64)
          (images "fire/santa_cap/walk-0.png"
                  "fire/santa_cap/walk-1.png"
-                 "fire/santa_cap/walk-2.png"
-				 "fire/santa_cap/walk-3.png"
-                 "fire/santa_cap/walk-4.png"
-                 "fire/santa_cap/walk-5.png"
-				 "fire/santa_cap/walk-6.png"
-				 "fire/santa_cap/walk-7.png"))
+                 "fire/santa_cap/walk-0.png"
+                 "fire/santa_cap/walk-3.png"))
 
        (action
          (name "santa-walk-left")
          (fps 15)
-         (hitbox 17 14 32 64)
+         (hitbox 16 15 32 64)
          (mirror-action "santa-walk-right"))
 
        (action
          (name "santa-stand-right")
-         (hitbox 16 14 32 64)
+         (hitbox 16 15 32 64)
          (images "fire/santa_cap/stand.png"))
 
        (action
          (name "santa-stand-left")
-         (hitbox 16 14 32 64)
+         (hitbox 16 15 32 64)
          (mirror-action "santa-stand-right"))
 
        (action
          (name "santa-jump-right")
-         (hitbox 16 14 32 64)
+         (hitbox 16 15 32 64)
          (images "fire/santa_cap/stand.png"))
 
        (action
          (name "santa-jump-left")
-         (hitbox 16 14 32 64)
+         (hitbox 16 15 32 64)
          (mirror-action "santa-jump-right"))
 
        (action
          (name "santa-skid-right")
-         (hitbox 16 14 32 64)
+         (hitbox 16 15 32 64)
          (images "fire/santa_cap/skid.png"))
 
        (action
          (name "santa-skid-left")
-         (hitbox 16 14 32 64)
+         (hitbox 16 15 32 64)
          (mirror-action "santa-skid-right"))
 
        (action
          (name "santa-kick-right")
-         (hitbox 16 14 32 64)
+         (hitbox 16 15 32 64)
          (images "fire/santa_cap/stand.png"))
 
        (action
          (name "santa-kick-left")
-         (hitbox 16 14 32 64)
+         (hitbox 16 15 32 64)
          (mirror-action "santa-kick-right"))
 
        (action
          (name "santa-idle-right")
-         (hitbox 16 14 32 64)
+         (hitbox 16 15 32 64)
          (images "fire/santa_cap/stand.png"))
 
        (action
          (name "santa-idle-left")
-         (hitbox 16 14 32 64)
+         (hitbox 16 15 32 64)
          (mirror-action "santa-idle-right"))
 
        (action
          (name "santa-climbing-right")
-         (hitbox 22 21 32 64)
-         (images "fire/santa_cap/stand.png"))
+         (hitbox 9 14 25 64)
+         (fps 15.0)
+         (images "fire/santa_cap/climb-0.png"
+                 "fire/santa_cap/climb-0.png"
+                 "fire/santa_cap/climb-0.png"
+                 "fire/santa_cap/climb-0.png"
+                 "fire/santa_cap/climb-1.png"
+                 "fire/santa_cap/climb-1.png"
+                 "fire/santa_cap/climb-1.png"
+                 "fire/santa_cap/climb-1.png"))
 
        (action
          (name "santa-climbing-left")
-         (hitbox 22 21 32 64)
+         (hitbox 9 14 25 64)
+         (fps 15.0)
          (mirror-action "santa-climbing-right"))
 
        (action
@@ -513,101 +621,24 @@
          (hitbox 16 37 32 32)
          (mirror-action "santa-backflip-right"))
 
-	   (action
+       (action
          (name "santa-buttjump-right")
-         (hitbox 16 14 32 64)
+         (hitbox 16 15 32 64)
+         (fps 20.0)
+         (loops 1)
          (images "fire/santa_cap/buttjump-0.png"
                  "fire/santa_cap/buttjump-1.png"
                  "fire/santa_cap/buttjump-2.png"
                  "fire/santa_cap/buttjump-3.png"
                  "fire/santa_cap/buttjump-4.png"
                  "fire/santa_cap/buttjump-5.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
-                 "fire/santa_cap/buttjump-6.png"
                  "fire/santa_cap/buttjump-6.png"))
 
        (action
          (name "santa-buttjump-left")
-         (hitbox 16 14 32 64)
+         (hitbox 16 15 32 64)
+         (fps 20.0)
+         (loops 1)
          (mirror-action "santa-buttjump-right"))
 
 )

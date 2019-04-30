@@ -22,6 +22,7 @@
 
 #include "audio/sound_manager.hpp"
 #include "badguy/badguy.hpp"
+#include "object/coin.hpp"
 #include "object/camera.hpp"
 #include "object/particles.hpp"
 #include "object/player.hpp"
@@ -113,6 +114,11 @@ IceCrusher::collision(GameObject& other, const CollisionHit& hit)
   auto badguy = dynamic_cast<BadGuy*>(&other);
   if (badguy) {
     badguy->kill_fall();
+  }
+
+  auto heavy_coin = dynamic_cast<HeavyCoin*>(&other);
+  if(heavy_coin) {
+    return ABORT_MOVE;
   }
   return FORCE_MOVE;
 }

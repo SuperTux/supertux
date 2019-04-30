@@ -39,8 +39,11 @@ namespace FileSystem {
 bool exists(const std::string& path)
 {
   fs::path location(path);
+  boost::system::error_code ec;
 
-  return fs::exists(location);
+  // If we get an error (such as "Permission denied"), then ignore it
+  // and pretend that the path doesn't exist.
+  return fs::exists(location, ec);
 }
 
 bool is_directory(const std::string& path)

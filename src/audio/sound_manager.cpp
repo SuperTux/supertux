@@ -128,15 +128,18 @@ SoundManager::intern_create_sound_source(const std::string& filename)
     std::unique_ptr<SoundFile> file(load_sound_file(filename));
 
     if (file->m_size < 100000) {
+      log_debug << "Adding \"" << filename <<
+        "\" into the buffer, file size: " << file->m_size << std::endl;
       buffer = load_file_into_buffer(*file);
       m_buffers.insert(std::make_pair(filename, buffer));
     } else {
-      auto source_ = std::make_unique<StreamSoundSource>();
-      source_->set_sound_file(std::move(file));
-      return std::move(source_);
+      log_debug << "Playing \"" << filename <<
+        "\" as StreamSoundSource, file size: " << file->m_size << std::endl;
+      auto stream_source = std::make_unique<StreamSoundSource>();
+      stream_source->set_sound_file(std::move(file));
+      stream_source->set_volume(static_cast<float>(m_sound_volume) / 100.0f);
+      return std::move(stream_source);
     }
-
-    log_debug << "Uncached sound \"" << filename << "\" requested to be played" << std::endl;
   }
 
   alSourcei(source->m_source, AL_BUFFER, buffer);
@@ -181,13 +184,19 @@ SoundManager::preload(const std::string& filename)
 }
 
 void
-SoundManager::play(const std::string& filename, const Vector& pos)
+SoundManager::play(const std::string& filename, const Vector& pos,
+  const float gain)
 {
   if (!m_sound_enabled)
     return;
 
+  // Test gain for invalid values; it must not exceed 1 because in the end
+  // the value is set to min(sound_gain * sound_volume, 1)
+  assert(gain >= 0.0f && gain <= 1.0f);
+
   try {
     std::unique_ptr<OpenALSoundSource> source(intern_create_sound_source(filename));
+    source->set_gain(gain);
 
     if (pos.x < 0 || pos.y < 0) {
       source->set_relative(true);

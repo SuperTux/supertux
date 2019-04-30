@@ -63,7 +63,10 @@ Explosion::explode()
   set_action(hurt ? "default" : "pop", 1);
   m_sprite->set_animation_loops(1); //TODO: this is necessary because set_action will not set "loops" when "action" is the default action
   m_sprite->set_angle(graphicsRandom.randf(0, 360)); // a random rotation on the sprite to make explosions appear more random
-  SoundManager::current()->play(hurt ? "sounds/explosion.wav" : "sounds/firecracker.ogg", get_pos());
+  if (hurt)
+    SoundManager::current()->play("sounds/explosion.wav", get_pos(), 0.98f);
+  else
+    SoundManager::current()->play("sounds/firecracker.ogg", get_pos(), 0.7f);
 
   // spawn some particles
   int pnumber = push ? 8 : 100;
