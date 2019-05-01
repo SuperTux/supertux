@@ -53,6 +53,8 @@ std::unique_ptr<MovingObject> to_moving_object(std::unique_ptr<GameObject> objec
   }
 }
 
+const float upgrade_sound_gain = 0.3f;
+
 } // namespace
 
 BonusBlock::BonusBlock(const Vector& pos, int tile_data) :
@@ -252,10 +254,9 @@ BonusBlock::collision(GameObject& other, const CollisionHit& hit_)
 void
 BonusBlock::try_open(Player* player)
 {
-  if (m_sprite->get_action() == "empty") {
-    SoundManager::current()->play("sounds/brick.wav");
+  SoundManager::current()->play("sounds/brick.wav");
+  if (m_sprite->get_action() == "empty")
     return;
-  }
 
   if (player == nullptr)
     player = &Sector::get().get_player();
@@ -265,6 +266,7 @@ BonusBlock::try_open(Player* player)
 
   Direction direction = (player->get_bbox().get_middle().x > m_col.m_bbox.get_middle().x) ? Direction::LEFT : Direction::RIGHT;
 
+  bool play_upgrade_sound = false;
   switch (m_contents) {
     case Content::COIN:
     {
@@ -302,21 +304,21 @@ BonusBlock::try_open(Player* player)
     case Content::STAR:
     {
       Sector::get().add<Star>(get_pos() + Vector(0, -32), direction);
-      SoundManager::current()->play("sounds/upgrade.wav");
+      play_upgrade_sound = true;
       break;
     }
 
     case Content::ONEUP:
     {
       Sector::get().add<OneUp>(get_pos(), direction);
-      SoundManager::current()->play("sounds/upgrade.wav");
+      play_upgrade_sound = true;
       break;
     }
 
     case Content::CUSTOM:
     {
       Sector::get().add<SpecialRiser>(get_pos(), std::move(m_object));
-      SoundManager::current()->play("sounds/upgrade.wav");
+      play_upgrade_sound = true;
       break;
     }
 
@@ -335,24 +337,27 @@ BonusBlock::try_open(Player* player)
     case Content::TRAMPOLINE:
     {
       Sector::get().add<SpecialRiser>(get_pos(), std::make_unique<Trampoline>(get_pos(), false));
-      SoundManager::current()->play("sounds/upgrade.wav");
+      play_upgrade_sound = true;
       break;
     }
     case Content::RAIN:
     {
       m_hit_counter = 1; // multiple hits of coin rain is not allowed
       Sector::get().add<CoinRain>(get_pos(), true);
-      SoundManager::current()->play("sounds/upgrade.wav");
+      play_upgrade_sound = true;
       break;
     }
     case Content::EXPLODE:
     {
       m_hit_counter = 1; // multiple hits of coin explode is not allowed
       Sector::get().add<CoinExplode>(get_pos() + Vector (0, -40));
-      SoundManager::current()->play("sounds/upgrade.wav");
+      play_upgrade_sound = true;
       break;
     }
   }
+
+  if (play_upgrade_sound)
+    SoundManager::current()->play("sounds/upgrade.wav", upgrade_sound_gain);
 
   if (!m_script.empty()) { // scripts always run if defined
     Sector::get().run_script(m_script, "BonusBlockScript");
@@ -370,10 +375,9 @@ BonusBlock::try_open(Player* player)
 void
 BonusBlock::try_drop(Player *player)
 {
-  if (m_sprite->get_action() == "empty") {
-    SoundManager::current()->play("sounds/brick.wav");
+  SoundManager::current()->play("sounds/brick.wav");
+  if (m_sprite->get_action() == "empty")
     return;
-  }
 
   // First what's below the bonus block, if solid send it up anyway (excepting doll)
   Rectf dest_;
@@ -397,6 +401,7 @@ BonusBlock::try_drop(Player *player)
   Direction direction = (player->get_bbox().get_middle().x > m_col.m_bbox.get_middle().x) ? Direction::LEFT : Direction::RIGHT;
 
   bool countdown = false;
+  bool play_upgrade_sound = false;
 
   switch (m_contents) {
     case Content::COIN:
@@ -432,7 +437,7 @@ BonusBlock::try_drop(Player *player)
     case Content::STAR:
     {
       Sector::get().add<Star>(get_pos() + Vector(0, 32), direction);
-      SoundManager::current()->play("sounds/upgrade.wav");
+      play_upgrade_sound = true;
       countdown = true;
       break;
     }
@@ -440,7 +445,7 @@ BonusBlock::try_drop(Player *player)
     case Content::ONEUP:
     {
       Sector::get().add<OneUp>(get_pos(), Direction::DOWN);
-      SoundManager::current()->play("sounds/upgrade.wav");
+      play_upgrade_sound = true;
       countdown = true;
       break;
     }
@@ -450,7 +455,7 @@ BonusBlock::try_drop(Player *player)
       //NOTE: non-portable trampolines could be moved to Content::CUSTOM, but they should not drop
       m_object->set_pos(get_pos() +  Vector(0, 32));
       Sector::get().add_object(std::move(m_object));
-      SoundManager::current()->play("sounds/upgrade.wav");
+      play_upgrade_sound = true;
       countdown = true;
       break;
     }
@@ -472,11 +477,14 @@ BonusBlock::try_drop(Player *player)
     {
       m_hit_counter = 1; // multiple hits of coin explode is not allowed
       Sector::get().add<CoinExplode>(get_pos() + Vector (0, 40));
-      SoundManager::current()->play("sounds/upgrade.wav");
+      play_upgrade_sound = true;
       countdown = true;
       break;
     }
   }
+
+  if (play_upgrade_sound)
+    SoundManager::current()->play("sounds/upgrade.wav", upgrade_sound_gain);
 
   if (!m_script.empty()) { // scripts always run if defined
     Sector::get().run_script(m_script, "powerup-script");
@@ -502,14 +510,14 @@ BonusBlock::raise_growup_bonus(Player* player, const BonusType& bonus, const Dir
   }
 
   Sector::get().add<SpecialRiser>(get_pos(), std::move(obj));
-  SoundManager::current()->play("sounds/upgrade.wav");
+  SoundManager::current()->play("sounds/upgrade.wav", upgrade_sound_gain);
 }
 
 void
 BonusBlock::drop_growup_bonus(const std::string& bonus_sprite_name, bool& countdown)
 {
   Sector::get().add<PowerUp>(get_pos() + Vector(0, 32), bonus_sprite_name);
-  SoundManager::current()->play("sounds/upgrade.wav");
+  SoundManager::current()->play("sounds/upgrade.wav", upgrade_sound_gain);
   countdown = true;
 }
 
