@@ -309,7 +309,7 @@ BadGuy::collision_tile(uint32_t tile_attributes)
     m_in_water = false;
   }
 
-  if (tile_attributes & Tile::HURTS && is_hurtable()) {    
+  if (tile_attributes & Tile::HURTS && is_hurtable()) {
     if (tile_attributes & Tile::FIRE) {
       if (is_flammable()) ignite();
     }
@@ -383,6 +383,10 @@ BadGuy::collision_solid(const CollisionHit& hit)
 HitResponse
 BadGuy::collision_player(Player& player, const CollisionHit& )
 {
+  if (player.is_invincible()) {
+    kill_fall();
+    return ABORT_MOVE;
+  }
   if(player.get_grabbed_object() != nullptr)
   {
       auto badguy = dynamic_cast<BadGuy*>(player.get_grabbed_object());
@@ -394,10 +398,6 @@ BadGuy::collision_player(Player& player, const CollisionHit& )
         kill_fall();
         return ABORT_MOVE;
       }
-  }
-  if (player.is_invincible()) {
-    kill_fall();
-    return ABORT_MOVE;
   }
 
   //TODO: unfreeze timer
