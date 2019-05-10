@@ -35,18 +35,6 @@ Physic::reset()
 }
 
 void
-Physic::set_velocity_x(float nvx)
-{
-  vx = nvx;
-}
-
-void
-Physic::set_velocity_y(float nvy)
-{
-  vy = nvy;
-}
-
-void
 Physic::set_velocity(float nvx, float nvy)
 {
   vx = nvx;
@@ -60,87 +48,11 @@ Physic::set_velocity(const Vector& vector)
   vy = vector.y;
 }
 
-void Physic::inverse_velocity_x()
-{
-  vx = -vx;
-}
-
-void Physic::inverse_velocity_y()
-{
-  vy = -vy;
-}
-
-float
-Physic::get_velocity_x() const
-{
-  return vx;
-}
-
-float
-Physic::get_velocity_y() const
-{
-  return vy;
-}
-
-Vector
-Physic::get_velocity() const
-{
-  return Vector(vx, vy);
-}
-
-void
-Physic::set_acceleration_x(float nax)
-{
-  ax = nax;
-}
-
-void
-Physic::set_acceleration_y(float nay)
-{
-  ay = nay;
-}
-
 void
 Physic::set_acceleration(float nax, float nay)
 {
   ax = nax;
   ay = nay;
-}
-
-float
-Physic::get_acceleration_x() const
-{
-  return ax;
-}
-
-float
-Physic::get_acceleration_y() const
-{
-  return ay;
-}
-
-Vector
-Physic::get_acceleration() const
-{
-  return Vector(ax, ay);
-}
-
-void
-Physic::enable_gravity(bool enable_gravity_)
-{
-  gravity_enabled_flag = enable_gravity_;
-}
-
-bool
-Physic::gravity_enabled() const
-{
-  return gravity_enabled_flag;
-}
-
-void
-Physic::set_gravity_modifier(float gravity_modifier_)
-{
-  gravity_modifier = gravity_modifier_;
 }
 
 Vector

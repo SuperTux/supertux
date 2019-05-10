@@ -18,7 +18,7 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_PHYSIC_HPP
 #define HEADER_SUPERTUX_SUPERTUX_PHYSIC_HPP
 
-class Vector;
+#include "math/vector.hpp"
 
 /// Physics engine.
 /** This is a very simplistic physics engine handling accelerated and constant
@@ -33,39 +33,39 @@ public:
   void reset();
 
   /// Sets velocity to a fixed value.
-  void set_velocity(float vx, float vy);
+  void set_velocity(float nvx, float nvy);
   void set_velocity(const Vector& vector);
 
-  void set_velocity_x(float vx);
-  void set_velocity_y(float vy);
+  void set_velocity_x(float nvx) { vx = nvx; }
+  void set_velocity_y(float nvy) { vy = nvy; }
 
   /// Velocity inversion.
-  void inverse_velocity_x();
-  void inverse_velocity_y();
+  void inverse_velocity_x() { vx = -vx; }
+  void inverse_velocity_y() { vy = -vy; }
 
-  Vector get_velocity() const;
-  float get_velocity_x() const;
-  float get_velocity_y() const;
+  Vector get_velocity() const { return Vector(vx, vy); }
+  float get_velocity_x() const { return vx; }
+  float get_velocity_y() const { return vy; }
 
   /// Set acceleration.
   /** Sets acceleration applied to the object. (Note that gravity is
    * eventually added to the vertical acceleration)
    */
-  void set_acceleration(float ax, float ay);
+  void set_acceleration(float nax, float nay);
 
-  void set_acceleration_x(float ax);
-  void set_acceleration_y(float ay);
+  void set_acceleration_x(float nax) { ax = nax; }
+  void set_acceleration_y(float nay) { ay = nay; }
 
-  Vector get_acceleration() const;
-  float get_acceleration_x() const;
-  float get_acceleration_y() const;
+  Vector get_acceleration() const { return Vector(ax, ay); }
+  float get_acceleration_x() const { return ax; }
+  float get_acceleration_y() const { return ay; }
 
   /// Enables or disables handling of gravity.
-  void enable_gravity(bool gravity_enabled);
-  bool gravity_enabled() const;
+  void enable_gravity(bool enable) { gravity_enabled_flag = enable; }
+  bool gravity_enabled() const { return gravity_enabled_flag; }
 
   /** Set gravity modifier factor to apply to object when enabled */
-  void set_gravity_modifier(float gravity);
+  void set_gravity_modifier(float modifier) { gravity_modifier = modifier; }
 
   Vector get_movement(float dt_sec);
 
