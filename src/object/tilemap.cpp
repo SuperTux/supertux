@@ -365,26 +365,48 @@ TileMap::draw(DrawingContext& context)
                      std::tuple<std::vector<Rectf>,
                                 std::vector<Rectf>>> batches;
 
-  for (pos.x = start.x, tx = t_draw_rect.left; tx < t_draw_rect.right; pos.x += 32, ++tx) {
-    for (pos.y = start.y, ty = t_draw_rect.top; ty < t_draw_rect.bottom; pos.y += 32, ++ty) {
+  for (pos.y = start.y, ty = t_draw_rect.top; ty < t_draw_rect.bottom; pos.y += 32, ++ty) {
+    pos.x = start.x;
+    tx = t_draw_rect.left;
+    while (tx < t_draw_rect.right) {
       int index = ty*m_width + tx;
-      assert (index >= 0);
-      assert (index < (m_width * m_height));
+      assert (index >= 0 && index < (m_width * m_height));
+      uint32_t tile_id = m_tiles[index];
 
-      if (m_tiles[index] == 0) continue;
+      if (tile_id == 0) {
+        ++tx;
+        pos.x += 32;
+        continue;
+      }
+
+      // Group horizontally adjacent tiles if they are the same
+      int tiles_cnt = 1;
+      for (int tx2 = tx+1; tx2 < t_draw_rect.right; ++tx2) {
+        if (m_tiles[ty*m_width + tx2] != tile_id)
+          break;
+        ++tiles_cnt;
+      }
+
       const Tile& tile = m_tileset->get(m_tiles[index]);
 
       if (g_debug.show_collision_rects) {
-        tile.draw_debug(context.color(), pos, LAYER_FOREGROUND1);
+        for (int i = 0; i < tiles_cnt; ++i) {
+          tile.draw_debug(context.color(), Vector(pos.x + i * 32, pos.y),
+            LAYER_FOREGROUND1);
+        }
       }
 
       const SurfacePtr& surface = Editor::is_active() ? tile.get_current_editor_surface() : tile.get_current_surface();
       if (surface) {
         std::get<0>(batches[surface]).emplace_back(surface->get_region());
-        std::get<1>(batches[surface]).emplace_back(pos,
-                                                   Sizef(static_cast<float>(surface->get_width()),
-                                                         static_cast<float>(surface->get_height())));
+        // TODO: do not stretch the texture
+        std::get<1>(batches[surface]).emplace_back(pos, Sizef(
+          surface->get_width() * tiles_cnt,
+          static_cast<float>(surface->get_height())));
       }
+
+      pos.x += 32 * tiles_cnt;
+      tx += tiles_cnt;
     }
   }
 
