@@ -155,7 +155,7 @@ GameSession::restart_level(bool after_death)
 void
 GameSession::on_escape_press()
 {
-  if (m_currentsector->get_player().is_dying() || m_end_sequence)
+  if ((m_currentsector->get_player().is_dying() && m_play_time > 2.0f) || m_end_sequence)
   {
     // Let the timers run out, we fast-forward them to force past a sequence
     if (m_end_sequence)
