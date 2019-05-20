@@ -46,6 +46,7 @@ public:
 
   int get_max_coins() const;
   std::string get_bonus_prefix() const;/**Returns the prefix of the animations that should be displayed*/
+  bool has_hat_sprite() const { return bonus > GROWUP_BONUS; }
 
 public:
   int  coins;
