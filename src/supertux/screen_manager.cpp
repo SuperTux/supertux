@@ -38,6 +38,7 @@
 #include "video/drawing_context.hpp"
 
 #include <stdio.h>
+#include <chrono>
 
 /** wait at least MIN_TICKS for every frame */
 static const int MIN_TICKS = 2;
@@ -51,7 +52,6 @@ ScreenManager::ScreenManager(VideoSystem& video_system, InputManager& input_mana
   m_speed(1.0),
   m_target_framerate(60.0f),
   m_actions(),
-  m_fps(0),
   m_screen_fade(),
   m_screen_stack()
 {
@@ -127,17 +127,102 @@ ScreenManager::get_speed() const
   return m_speed;
 }
 
-void
-ScreenManager::draw_fps(DrawingContext& context, float fps_fps)
+struct ScreenManager::FPS_Stats
 {
-  char str[60];
-  snprintf(str, sizeof(str), "%3.1f", static_cast<double>(fps_fps));
-  const char* fpstext = "FPS";
-  context.color().draw_text(
-    Resources::small_font, fpstext,
-    Vector(static_cast<float>(context.get_width()) - Resources::small_font->get_text_width(fpstext) - Resources::small_font->get_text_width(" 99999") - BORDER_X,
-           BORDER_Y + 20), ALIGN_LEFT, LAYER_HUD);
-  context.color().draw_text(Resources::small_font, str, Vector(static_cast<float>(context.get_width()) - BORDER_X, BORDER_Y + 20), ALIGN_RIGHT, LAYER_HUD);
+  FPS_Stats():
+    measurements_cnt(0),
+    acc_us(0),
+    min_us(1000000),
+    max_us(0),
+    last_fps(0),
+    last_fps_min(0),
+    last_fps_max(0),
+    // Use chrono instead of SDL_GetTicks for more precise FPS measurement
+    time_prev(std::chrono::steady_clock::now())
+  {
+  }
+
+  void report_frame()
+  {
+    auto time_now = std::chrono::steady_clock::now();
+    int dtime_us = static_cast<int>(std::chrono::duration_cast<
+      std::chrono::microseconds>(time_now - time_prev).count());
+    if (dtime_us == 0)
+      return;
+    time_prev = time_now;
+
+    acc_us += dtime_us;
+    ++measurements_cnt;
+    if (min_us > dtime_us)
+      min_us = dtime_us;
+    if (max_us < dtime_us)
+      max_us = dtime_us;
+
+    float expired_seconds = static_cast<float>(acc_us) / 1000000.0f;
+    if (expired_seconds < 0.5f)
+      return;
+    // Update values to be printed every 0.5 s
+    if (measurements_cnt > 0) {
+      last_fps = static_cast<float>(measurements_cnt) / expired_seconds;
+      last_fps_min = 1000000.0f / static_cast<float>(max_us);
+      last_fps_max = 1000000.0f / static_cast<float>(min_us);
+    } else {
+      last_fps = 0;
+      last_fps_min = 0;
+      last_fps_max = 0;
+    }
+    measurements_cnt = 0;
+    acc_us = 0;
+    min_us = 1000000;
+    max_us = 0;
+  }
+
+  float get_fps() const { return last_fps; }
+  float get_fps_min() const { return last_fps_min; }
+  float get_fps_max() const { return last_fps_max; }
+
+private:
+  int measurements_cnt;
+  int acc_us;
+  int min_us;
+  int max_us;
+  float last_fps;
+  float last_fps_min;
+  float last_fps_max;
+  std::chrono::steady_clock::time_point time_prev;
+};
+
+void
+ScreenManager::draw_fps(DrawingContext& context)
+{
+  static FPS_Stats fps_statistics;
+  // Assume that draw_fps is called once every frame
+  fps_statistics.report_frame();
+  // The fonts are not monospace, so the numbers need to be drawn separately
+  Vector pos(static_cast<float>(context.get_width()) - BORDER_X, BORDER_Y + 20);
+  context.color().draw_text(Resources::small_font, "FPS  min / avg / max",
+    pos, ALIGN_RIGHT, LAYER_HUD);
+  static const float w2 = Resources::small_font->get_text_width("999.9 /");
+  static const float w3 = Resources::small_font->get_text_width("999.9");
+  char str1[60];
+  char str2[60];
+  char str3[60];
+  int str_length = sizeof(str1);
+  snprintf(str1, str_length, "%3.1f /",
+    static_cast<double>(fps_statistics.get_fps_min()));
+  snprintf(str2, str_length, "%3.1f /",
+    static_cast<double>(fps_statistics.get_fps()));
+  snprintf(str3, str_length, "%3.1f",
+    static_cast<double>(fps_statistics.get_fps_max()));
+  pos.y += 15;
+  context.color().draw_text(Resources::small_font, str3,
+    pos, ALIGN_RIGHT, LAYER_HUD);
+  pos.x -= w3;
+  context.color().draw_text(Resources::small_font, str2,
+    pos, ALIGN_RIGHT, LAYER_HUD);
+  pos.x -= w2;
+  context.color().draw_text(Resources::small_font, str1,
+    pos, ALIGN_RIGHT, LAYER_HUD);
 }
 
 void
@@ -152,7 +237,7 @@ ScreenManager::draw_player_pos(DrawingContext& context)
     context.color().draw_text(
       Resources::small_font, pos_text,
       Vector(static_cast<float>(context.get_width()) - Resources::small_font->get_text_width("99999x99999") - BORDER_X,
-             BORDER_Y + 40.0f), ALIGN_LEFT, LAYER_HUD);
+             BORDER_Y + 60), ALIGN_LEFT, LAYER_HUD);
   }
 }
 
@@ -160,8 +245,6 @@ void
 ScreenManager::draw(Compositor& compositor)
 {
   assert(!m_screen_stack.empty());
-
-  static Uint32 fps_ticks = SDL_GetTicks();
 
   // draw the actual screen
   m_screen_stack.back()->draw(compositor);
@@ -176,9 +259,8 @@ ScreenManager::draw(Compositor& compositor)
 
   Console::current()->draw(context);
 
-  if (g_config->show_fps) {
-    draw_fps(context, m_fps);
-  }
+  if (g_config->show_fps)
+    draw_fps(context);
 
   if (g_debug.show_controller) {
     m_controller_hud->draw(context);
@@ -190,20 +272,6 @@ ScreenManager::draw(Compositor& compositor)
 
   // render everything
   compositor.render();
-
-  /* Calculate frames per second */
-  if (g_config->show_fps)
-  {
-    static int frame_count = 0;
-    ++frame_count;
-
-    if (SDL_GetTicks() - fps_ticks >= 500)
-    {
-      m_fps = static_cast<float>(frame_count) / 0.5f;
-      frame_count = 0;
-      fps_ticks = SDL_GetTicks();
-    }
-  }
 }
 
 void
