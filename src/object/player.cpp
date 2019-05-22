@@ -346,8 +346,7 @@ Player::update(float dt_sec)
     if (m_backflip_timer.started()) m_physic.set_velocity_x(100.0f * static_cast<float>(m_backflip_direction));
     //rotate sprite during flip
     m_sprite->set_angle(m_sprite->get_angle() + (m_dir==Direction::LEFT?1:-1) * dt_sec * (360.0f / 0.5f));
-    if (m_player_status.bonus == EARTH_BONUS || m_player_status.bonus == AIR_BONUS ||
-        (m_player_status.bonus == FIRE_BONUS && g_config->christmas_mode)) {
+    if (m_player_status.has_hat_sprite()) {
       m_powersprite->set_angle(m_sprite->get_angle());
       if (m_player_status.bonus == EARTH_BONUS)
         m_lightsprite->set_angle(m_sprite->get_angle());
@@ -1270,13 +1269,10 @@ Player::draw(DrawingContext& context)
   }
 
   /* Set Tux powerup sprite action */
-  if (m_player_status.bonus == EARTH_BONUS) {
+  if (m_player_status.has_hat_sprite()) {
     m_powersprite->set_action(m_sprite->get_action());
-    m_lightsprite->set_action(m_sprite->get_action());
-  } else if (m_player_status.bonus == AIR_BONUS) {
-    m_powersprite->set_action(m_sprite->get_action());
-  } else if (m_player_status.bonus == FIRE_BONUS && g_config->christmas_mode) {
-    m_powersprite->set_action(m_sprite->get_action());
+    if (m_player_status.bonus == EARTH_BONUS)
+      m_lightsprite->set_action(m_sprite->get_action());
   }
 
   /*
@@ -1317,11 +1313,8 @@ Player::draw(DrawingContext& context)
     else
       m_sprite->draw(context.color(), get_pos(), LAYER_OBJECTS + 1);
 
-    if (m_player_status.bonus == AIR_BONUS)
+    if (m_player_status.has_hat_sprite())
       m_powersprite->draw(context.color(), get_pos(), LAYER_OBJECTS + 1);
-    else if (m_player_status.bonus == FIRE_BONUS && g_config->christmas_mode) {
-      m_powersprite->draw(context.color(), get_pos(), LAYER_OBJECTS + 1);
-    }
   }
 
 }
