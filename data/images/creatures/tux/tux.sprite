@@ -270,6 +270,7 @@
          (name "big-buttjump-left")
          (hitbox 16 14 32 46)
          (fps 20.0)
+         (loops 1)
          (mirror-action "big-buttjump-right"))
 
 ; Fire Tux
@@ -385,6 +386,7 @@
          (name "fire-buttjump-left")
          (hitbox 16 14 32 46)
          (fps 20.0)
+         (loops 1)
          (mirror-action "big-buttjump-right"))
 
 ; Ice Tux
@@ -500,6 +502,7 @@
          (name "ice-buttjump-left")
          (hitbox 16 14 32 46)
          (fps 20.0)
+         (loops 1)
          (mirror-action "big-buttjump-right"))
 
 ; Earth Tux
