@@ -12,7 +12,15 @@
  (action
   (name "large-walking")
   (hitbox 4 20 0 0)
-  (images "tux.png")
+  (fps 15)
+  (images "tuxwalk1.png"
+"tuxwalk2.png"
+"tuxwalk3.png"
+"tuxwalk4.png"
+"tuxwalk5.png"
+"tuxwalk6.png"
+"tuxwalk7.png"
+"tuxwalk8.png")
  )
  (action
   (name "large-stop")
