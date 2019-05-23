@@ -12,7 +12,7 @@
 
        (action
          (name "small-walk-right")
-         (fps 15.0)
+         (fps 20.0)
          (hitbox 8 16 32 32)
          (images "small/walk-0.png"
                  "small/walk-1.png"
@@ -25,19 +25,19 @@
 
        (action
          (name "small-walk-left")
-         (fps 15.0)
+         (fps 20.0)
          (hitbox 8 16 32 32)
          (mirror-action "small-walk-right"))
 
        (action
          (name "small-run-right")
-         (fps 15.0)
+         (fps 20.0)
          (hitbox 8 16 32 32)
          (clone-action "small-walk-right"))
 
        (action
          (name "small-run-left")
-         (fps 15.0)
+         (fps 20.0)
          (hitbox 8 16 32 32)
          (mirror-action "small-walk-right"))
 
@@ -139,7 +139,7 @@
 
        (action
          (name "big-walk-right")
-         (fps 15.0)
+         (fps 20.0)
          (hitbox 16 14 32 64)
          (images "big/walk-0.png"
                  "big/walk-1.png"
@@ -152,7 +152,7 @@
 
        (action
          (name "big-walk-left")
-         (fps 15.0)
+         (fps 20.0)
          (hitbox 16 14 32 64)
          (mirror-action "big-walk-right"))
 
@@ -276,13 +276,13 @@
 
        (action
          (name "fire-walk-right")
-         (fps 15.0)
+         (fps 20.0)
          (hitbox 16 14 32 64)
          (clone-action "big-walk-right"))
 
        (action
          (name "fire-walk-left")
-         (fps 15.0)
+         (fps 20.0)
          (hitbox 16 14 32 64)
          (mirror-action "big-walk-right"))
 
@@ -343,14 +343,14 @@
 
        (action
          (name "fire-climbing-right")
-         (fps 15.0)
          (hitbox 9 14 25 64)
+         (fps 15.0)
          (clone-action "big-climbing-right"))
 
        (action
          (name "fire-climbing-left")
-         (fps 15.0)
          (hitbox 9 14 25 64)
+         (fps 15.0)
          (mirror-action "big-climbing-right"))
 
        (action
@@ -385,20 +385,19 @@
          (name "fire-buttjump-left")
          (hitbox 16 14 32 46)
          (fps 20.0)
-         (loops 1)
          (mirror-action "big-buttjump-right"))
 
 ; Ice Tux
 
        (action
          (name "ice-walk-right")
-         (fps 15.0)
+         (fps 20.0)
          (hitbox 16 14 32 64)
          (clone-action "big-walk-right"))
 
        (action
          (name "ice-walk-left")
-         (fps 15.0)
+         (fps 20.0)
          (hitbox 16 14 32 64)
          (mirror-action "big-walk-right"))
 
@@ -459,14 +458,14 @@
 
        (action
          (name "ice-climbing-right")
-         (fps 15.0)
          (hitbox 9 14 25 64)
+         (fps 15.0)
          (clone-action "big-climbing-right"))
 
        (action
          (name "ice-climbing-left")
-         (fps 15.0)
          (hitbox 9 14 25 64)
+         (fps 15.0)
          (mirror-action "big-climbing-right"))
 
        (action
@@ -501,20 +500,19 @@
          (name "ice-buttjump-left")
          (hitbox 16 14 32 46)
          (fps 20.0)
-         (loops 1)
          (mirror-action "big-buttjump-right"))
 
 ; Earth Tux
 
        (action
          (name "earth-walk-right")
-         (fps 15.0)
+         (fps 20.0)
          (hitbox 16 14 32 64)
          (clone-action "big-walk-right"))
 
        (action
          (name "earth-walk-left")
-         (fps 15.0)
+         (fps 20.0)
          (hitbox 16 14 32 64)
          (mirror-action "big-walk-right"))
 
@@ -624,13 +622,13 @@
 
        (action
          (name "earth-walk-right-stone")
-         (fps 15.0)
+         (fps 20.0)
          (hitbox 16 14 32 64)
          (images "earth/statue.png"))
 
        (action
          (name "earth-walk-left-stone")
-         (fps 15.0)
+         (fps 20.0)
          (hitbox 16 14 32 64)
          (mirror-action "earth-walk-right-stone"))
 
@@ -734,13 +732,13 @@
 
        (action
          (name "air-walk-right")
-         (fps 15.0)
+         (fps 20.0)
          (hitbox 16 14 32 64)
          (clone-action "big-walk-right"))
 
        (action
          (name "air-walk-left")
-         (fps 15.0)
+         (fps 20.0)
          (hitbox 16 14 32 64)
          (mirror-action "big-walk-right"))
 
@@ -850,13 +848,13 @@
 
        (action
          (name "santa-walk-right")
-         (fps 15.0)
+         (fps 20.0)
          (hitbox 16 14 32 64)
          (clone-action "big-walk-right"))
 
        (action
          (name "santa-walk-left")
-         (fps 15.0)
+         (fps 20.0)
          (hitbox 16 14 32 64)
          (mirror-action "big-walk-right"))
 
