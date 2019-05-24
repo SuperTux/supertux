@@ -7,7 +7,15 @@
  (action
   (name "small-walking")
   (hitbox 4 20 0 0)
-  (images "smalltux.png")
+  (fps 15)
+  (images "smalltuxwalk1.png"
+"smalltuxwalk2.png"
+"smalltuxwalk3.png"
+"smalltuxwalk4.png"
+"smalltuxwalk5.png"
+"smalltuxwalk6.png"
+"smalltuxwalk7.png"
+"smalltuxwalk8.png")
  )
  (action
   (name "large-walking")
