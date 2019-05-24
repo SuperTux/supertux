@@ -89,13 +89,13 @@ public:
    */
   void set_visible(bool visible);
   /**
-   * returns true if the player is currently visible (that is he was not set
+   * returns true if Tux is currently visible (that is he was not set
    * invisible by the set_visible method)
    */
   bool get_visible() const;
 
   /**
-   * Hurts a player, if completely=true then the player will be killed even
+   * Hurts Tux, if completely=true then he will be killed even
    * if he had grow or fireflower bonus
    */
   void kill(bool completely);

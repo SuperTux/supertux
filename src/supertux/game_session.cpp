@@ -162,7 +162,7 @@ GameSession::on_escape_press()
       m_end_sequence->stop();
 
     m_currentsector->get_player().m_dying_timer.start(FLT_EPSILON);
-    return;   // don't let the player open the menu, when he is dying
+    return;   // don't let the player open the menu, when Tux is dying
   }
 
   toggle_pause();
