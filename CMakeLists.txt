@@ -108,7 +108,10 @@ if(WIN32)
   endif()
 
   ## Enable multi-processor compilation (faster)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP")
+  if(MSVC)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP")
+  endif(MSVC)
+
   ## And shut up about unsafe stuff
   add_definitions(-D_CRT_SECURE_NO_WARNINGS)
   ## Add an icon
