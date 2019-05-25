@@ -52,7 +52,7 @@ before_build:
 build:
   project: ALL_BUILD.vcxproj
   parallel: true
-  verbosity: detailed
+  verbosity: minimal
 
 after_build:
 - cmd: '"C:\Program Files (x86)\CMake\bin\cpack.exe"'
