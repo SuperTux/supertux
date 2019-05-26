@@ -462,11 +462,6 @@ include_directories(SYSTEM ${TINYGETTEXT_PREFIX}/include)
 ## external/SDL_ttf with patches
 find_package(Freetype REQUIRED)
 find_package(RAQM)
-if(RAQM_FOUND)
-  set(WITH_RAQM --with-raqm)
-else()
-  set(WITH_RAQM --without-raqm)
-endif()
 set(SDL_TTF_PREFIX ${CMAKE_BINARY_DIR}/SDL_ttf/)
 ExternalProject_Add(SDL_ttf
   SOURCE_DIR "${CMAKE_SOURCE_DIR}/external/SDL_ttf/"
@@ -476,11 +471,19 @@ ExternalProject_Add(SDL_ttf
   -DCMAKE_C_FLAGS=${CMAKE_C_FLAGS}
   -DCMAKE_INSTALL_PREFIX=${SDL_TTF_PREFIX}
   -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
+  -DWITH_RAQM=${RAQM_FOUND}
+  -DRAQM_LIBRARIES=${RAQM_LIBRARY}
+  -DRAQM_INCLUDE_DIR=${RAQM_INCLUDE_DIR}
   -DBUILD_SHARED_LIBS=OFF)
 add_library(SDL_ttf_lib STATIC IMPORTED)
 set_target_properties(SDL_ttf_lib PROPERTIES IMPORTED_LOCATION "${SDL_TTF_PREFIX}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}SDL2_ttf${CMAKE_STATIC_LIBRARY_SUFFIX}")
 link_directories(${SDL_TTF_PREFIX}/lib)
 include_directories(SYSTEM ${SDL_TTF_PREFIX}/include/SDL2)
+if(RAQM_FOUND)
+  find_package(Fribidi REQUIRED)
+  find_package(Harfbuzz REQUIRED)
+  set_target_properties(SDL_ttf_lib PROPERTIES INTERFACE_LINK_LIBRARIES "${RAQM_LIBRARIES}")
+endif()
 
 ## Some additional include paths
 
@@ -797,8 +800,9 @@ else()
 endif()
 target_link_libraries(supertux2_lib PUBLIC SDL_ttf_lib)
 target_link_libraries(supertux2_lib PUBLIC ${FREETYPE_LIBRARIES})
+
 if(RAQM_FOUND)
-  target_link_libraries(supertux2_lib PUBLIC ${RAQM_LIBRARIES})
+  target_link_libraries(supertux2_lib PUBLIC ${HARFBUZZ_LIBRARY} ${FRIBIDI_LIBRARY} ${RAQM_LIBRARY})
 endif()
 
 target_link_libraries(supertux2_lib PUBLIC squirrel_lib)
