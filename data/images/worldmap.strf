@@ -285,7 +285,6 @@
     37 42 44 38
     70 69 47 45
     68 71 40 8
-  (deprecated #t)
   )
   (datas
     6  10 23 30
@@ -293,12 +292,13 @@
     18 20 3  31
     17 24 12 0
   )
+  (deprecated #t)
   (image "worldmap/antarctica/roads.png")
 )
 ;dupe of 38
 (tile (id 46)
-    (deprecated #t)
-	  (images
+      (deprecated #t)
+      (images
         (region "worldmap/antarctica/roads.png" 96 32 32 32)
       )
       (north #t)
@@ -316,12 +316,12 @@
     52 53 54
     55 56 57
   )
-  (deprecated #t)
   (datas
     0 0  0
     0 0  0
     0 20 12
   )
+  (deprecated #t)
   (image "worldmap/antarctica/castle.png")
 )
 
@@ -332,17 +332,17 @@
     58
     59
   )
-  (deprecated #t)
   (datas
     0
     18
   )
+  (deprecated #t)
   (image "worldmap/antarctica/igloo.png")
 )
 
 (tile (id 60)
       (deprecated #t)
-	    (images "worldmap/antarctica/snowman.png")
+      (images "worldmap/antarctica/snowman.png")
       (north #f)
       (south #t)
       (west  #f)
@@ -351,8 +351,9 @@
  ;; Secret paths
 (tile (id 61)
       (deprecated #t)
-	    (images
-        (region "worldmap/antarctica/roads.png" 96 32 32 32))
+      (images
+        (region "worldmap/antarctica/roads.png" 96 32 32 32)
+      )
       (editor-images
         (region "worldmap/antarctica/secretpaths-editor.png" 0 0 32 32))
       (stop  #t)
@@ -363,8 +364,9 @@
 
 (tile (id 62)
       (deprecated #t)
-	    (images
-        (region "worldmap/antarctica/snowconvex.png" 0 32 32 32))
+      (images
+        (region "worldmap/antarctica/snowconvex.png" 0 32 32 32)
+      )
       (editor-images
         (region "worldmap/antarctica/secretpaths-editor.png" 32 0 32 32))
       (stop  #f)
@@ -374,8 +376,8 @@
       (east  #t))
 
 (tile (id 63)
+      ; Dupe of 78.
       (deprecated #t)
-	    ; Dupe of 78.
       (images "worldmap/antarctica/water.png")
       (editor-images
         (region "worldmap/antarctica/water-editor.png" 0 0 32 32))
@@ -387,8 +389,9 @@
 
 (tile (id 64)
       (deprecated #t)
-	    (images
-        (region "worldmap/antarctica/snowconvex.png" 64 32 32 32))
+      (images
+        (region "worldmap/antarctica/snowconvex.png" 64 32 32 32)
+      )
       (editor-images
         (region "worldmap/antarctica/secretpaths-editor.png" 64 0 32 32))
       (stop  #f)
@@ -400,8 +403,9 @@
 ;; one-way vertical road
 (tile (id 65)
       (deprecated #t)
-	    (images
-        (region "worldmap/antarctica/roads.png" 64 64 32 32))
+      (images
+        (region "worldmap/antarctica/roads.png" 64 64 32 32)
+      )
       (north #t)
       (south #t)
       (west  #f)
@@ -412,8 +416,9 @@
  ;; one-way horizontal road
  (tile (id 66)
        (deprecated #t)
-	     (images
-         (region "worldmap/antarctica/roads.png" 64 96 32 32))
+       (images
+         (region "worldmap/antarctica/roads.png" 64 96 32 32)
+       )
        (north #f)
        (south #f)
        (west  #t)
@@ -424,8 +429,9 @@
  ;; Another invisible road
  (tile (id 67)
        (deprecated #t)
-	     (images
-         (region "worldmap/antarctica/snowconvex.png" 32 32 32 32))
+       (images
+         (region "worldmap/antarctica/snowconvex.png" 32 32 32 32)
+       )
        (editor-images
          (region "worldmap/antarctica/secretpaths-editor.png" 96 0 32 32))
        (stop  #t)
@@ -437,8 +443,9 @@
 ;; Yet another invisible one
 (tile (id 72)
       (deprecated #t)
-	    (images
-        (region "worldmap/antarctica/roads.png" 32 64 32 32))
+      (images
+        (region "worldmap/antarctica/roads.png" 32 64 32 32)
+      )
       (editor-images
         (region "worldmap/antarctica/secretpaths-editor.png" 128 0 32 32))
       (stop #t)
@@ -453,10 +460,10 @@
   (ids
     73 74 75
   )
-  (deprecated #t)
   (datas
     12 12 12
   )
+  (deprecated #t)
   (image "worldmap/antarctica/icebridge.png")
 )
 
@@ -466,16 +473,16 @@
   (ids
     77 76
   )
-  (deprecated #t)
   (datas
     12 12
   )
+  (deprecated #t)
   (image "worldmap/antarctica/castlepass.png")
 )
 
 (tile (id 78)
+      ; Dupe of 63.
       (deprecated #t)
-	    ; Dupe of 63.
       (images "worldmap/antarctica/water.png")
       (editor-images
         (region "worldmap/antarctica/water-editor.png" 0 0 32 32))
@@ -486,7 +493,7 @@
 
 (tile (id 79)
       (deprecated #t)
-	    (images "worldmap/antarctica/water.png")
+      (images "worldmap/antarctica/water.png")
       (editor-images
         (region "worldmap/antarctica/water-editor.png" 32 0 32 32))
       (north #t)
@@ -496,7 +503,7 @@
 
 (tile (id 80)
       (deprecated #t)
-	    (images "worldmap/antarctica/water.png")
+      (images "worldmap/antarctica/water.png")
       (editor-images
         (region "worldmap/antarctica/water-editor.png" 64 0 32 32))
       (north #f)
@@ -506,7 +513,7 @@
 
 (tile (id 81)
       (deprecated #t)
-	    (images "worldmap/antarctica/water.png")
+      (images "worldmap/antarctica/water.png")
       (editor-images
         (region "worldmap/antarctica/water-editor.png" 96 0 32 32))
       (north #f)
@@ -516,7 +523,7 @@
 
 (tile (id 82)
       (deprecated #t)
-	    (images "worldmap/antarctica/water.png")
+      (images "worldmap/antarctica/water.png")
       (editor-images
         (region "worldmap/antarctica/water-editor.png" 0 32 32 32))
       (north #t)
@@ -526,7 +533,7 @@
 
 (tile (id 83)
       (deprecated #t)
-	    (images "worldmap/antarctica/water.png")
+      (images "worldmap/antarctica/water.png")
       (editor-images
         (region "worldmap/antarctica/water-editor.png" 32 32 32 32))
       (north #t)
@@ -536,7 +543,7 @@
 
 (tile (id 84)
       (deprecated #t)
-	    (images "worldmap/antarctica/water.png")
+      (images "worldmap/antarctica/water.png")
       (editor-images
         (region "worldmap/antarctica/water-editor.png" 64 32 32 32))
       (north #t)
@@ -546,7 +553,7 @@
 
 (tile (id 85)
       (deprecated #t)
-	    (images "worldmap/antarctica/water.png")
+      (images "worldmap/antarctica/water.png")
       (editor-images
         (region "worldmap/antarctica/water-editor.png" 96 32 32 32))
       (north #t)
@@ -556,7 +563,7 @@
 
 (tile (id 86)
       (deprecated #t)
-	    (images "worldmap/antarctica/water.png")
+      (images "worldmap/antarctica/water.png")
       (editor-images
         (region "worldmap/antarctica/water-editor.png" 0 64 32 32))
       (north #t)
@@ -566,7 +573,7 @@
 
 (tile (id 87)
       (deprecated #t)
-	    (images "worldmap/antarctica/water.png")
+      (images "worldmap/antarctica/water.png")
       (editor-images
         (region "worldmap/antarctica/water-editor.png" 32 64 32 32))
       (north #f)
@@ -575,7 +582,7 @@
       (east #t))
 (tile (id 100)
       (deprecated #t)
-	    (images "worldmap/forest/path_map.png")
+      (images "worldmap/forest/path_map.png")
       (editor-images
         (region "worldmap/forest/path.png" 0 0 32 32))
       (north #f)
@@ -584,7 +591,7 @@
       (east #t))
 (tile (id 101)
       (deprecated #t)
-	    (images "worldmap/forest/path_map.png")
+      (images "worldmap/forest/path_map.png")
       (editor-images
         (region "worldmap/forest/path.png" 32 0 32 32))
       (north #f)
@@ -593,7 +600,7 @@
       (east #f))
 (tile (id 102)
       (deprecated #t)
-	    (images "worldmap/forest/path_map.png")
+      (images "worldmap/forest/path_map.png")
       (editor-images
         (region "worldmap/forest/path.png" 64 0 32 32))
       (north #t)
@@ -603,7 +610,7 @@
       (stop #t))
 (tile (id 103)
       (deprecated #t)
-	    (images "worldmap/forest/path_map.png")
+      (images "worldmap/forest/path_map.png")
       (editor-images
         (region "worldmap/forest/path.png" 96 0 32 32))
       (north #t)
@@ -613,7 +620,7 @@
       (stop #t))
 (tile (id 104)
       (deprecated #t)
-	    (images "worldmap/forest/path_map.png")
+      (images "worldmap/forest/path_map.png")
       (editor-images
         (region "worldmap/forest/path.png" 0 32 32 32))
       (north #t)
@@ -624,7 +631,7 @@
 
 (tile (id 105)
       (deprecated #t)
-	    (images "worldmap/forest/path_map.png")
+      (images "worldmap/forest/path_map.png")
       (editor-images
         (region "worldmap/forest/path.png" 32 32 32 32))
       (north #t)
@@ -634,7 +641,7 @@
       (stop #f))
 (tile (id 106)
       (deprecated #t)
-	    (images "worldmap/forest/path_map.png")
+      (images "worldmap/forest/path_map.png")
       (editor-images
         (region "worldmap/forest/path.png" 64 32 32 32))
       (north #f)
@@ -645,7 +652,7 @@
 
 (tile (id 107)
       (deprecated #t)
-	    (images "worldmap/forest/path_map.png")
+      (images "worldmap/forest/path_map.png")
       (editor-images
         (region "worldmap/forest/path.png" 96 32 32 32))
       (north #t)
@@ -655,7 +662,7 @@
       (stop #t))
 (tile (id 108)
       (deprecated #t)
-	    (images "worldmap/forest/path_map.png")
+      (images "worldmap/forest/path_map.png")
       (editor-images
         (region "worldmap/forest/path.png" 0 64 32 32))
       (north #t)
@@ -665,7 +672,7 @@
       (stop #t))
 (tile (id 109)
       (deprecated #t)
-	    (images "worldmap/forest/path_map.png")
+      (images "worldmap/forest/path_map.png")
       (editor-images
         (region "worldmap/forest/path.png" 32 64 32 32))
       (north #t)
@@ -676,7 +683,7 @@
 
 (tile (id 110)
       (deprecated #t)
-	    (images "worldmap/forest/path_map.png")
+      (images "worldmap/forest/path_map.png")
       (editor-images
         (region "worldmap/forest/path.png" 64 64 32 32))
       (north #f)
@@ -695,7 +702,6 @@
     417 418 419 420 421
     422 423 424 425 0
   )
-  (deprecated #t)
   (datas
     6  23 5  10 12
     30 27 3  0  5
@@ -710,6 +716,7 @@
     1 1 1 1 1
     1 1 1 1 0
   )
+  (deprecated #t)
   (image "worldmap/forest/forestwood.png")
 )
 
@@ -720,11 +727,11 @@
     552 553 554
     555 556 557
   )
-  (deprecated #t)
   (attributes
     1 1 1
     1 1 1
   )
+  (deprecated #t)
   (image "worldmap/forest/cropcircle.png")
 )
 
@@ -758,7 +765,6 @@
     698 699 700 701 702
     703 704 705 706 707
   )
-  (deprecated #t)
   (attributes
     1 1 1 1 1
     1 1 1 1 1
@@ -773,6 +779,7 @@
     0 0 12 12 12
     0 0 0  0  0
   )
+  (deprecated #t)
   (image "worldmap/forest/stream.png")
 )
 (tiles
@@ -785,7 +792,6 @@
     723 724 725 726 727
     0   728 730 731 732 ;mistake?
   )
-  (deprecated #t)
   (attributes
     0 0 0 0 0
     0 0 0 0 0
@@ -800,6 +806,7 @@
     0  0  0  0  0
     0  0  0  0  0
   )
+  (deprecated #t)
   (image "worldmap/forest/ghostwood.png")
 )
 
@@ -813,7 +820,6 @@
     748 749 750 751 752
     753 754 755 756 757
   )
-  (deprecated #t)
   (attributes
     1 1 1 1 1
     1 1 1 1 1
@@ -828,6 +834,7 @@
     0 0 12 12 0
     0 0 0  0  0
   )
+  (deprecated #t)
   (image "worldmap/forest/icestream.png")
 )
 
@@ -839,12 +846,12 @@
     763 764 765 766 767
     768 769 770 771 772
   )
-  (deprecated #t)
   (datas
     6  23 5  10 12
     30 27 3  0  3
     29 9  3  31 31
   )
+  (deprecated #t)
   (image "worldmap/forest/forestwood-2.png")
 )
 (tiles
@@ -866,7 +873,6 @@
     897 898 899 900 901 902 903 904 905
     906 0   907 908 909 910 911 912 913
   )
-  (deprecated #t)
   (attributes
     1 1 1 1 1 1 1 1 1
     1 1 1 1 1 1 1 1 1
@@ -883,6 +889,7 @@
     1 1 1 1 1 1 1 1 1
     1 1 1 1 1 1 1 1 1
   )
+  (deprecated #t)
   (image "worldmap/forest/forest.png")
 )
 (tiles
@@ -891,10 +898,10 @@
   (ids
     914 915 916
   )
-  (deprecated #t)
   (datas
     12 12 12
   )
+  (deprecated #t)
   (image "worldmap/antarctica/pier.png")
 )
 (tiles
