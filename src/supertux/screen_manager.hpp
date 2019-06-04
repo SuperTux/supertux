@@ -56,7 +56,8 @@ public:
   void set_screen_fade(std::unique_ptr<ScreenFade> fade);
 
 private:
-  void draw_fps(DrawingContext& context, float fps);
+  struct FPS_Stats;
+  void draw_fps(DrawingContext& context);
   void draw_player_pos(DrawingContext& context);
   void draw(Compositor& compositor);
   void update_gamelogic(float dt_sec);
@@ -88,8 +89,6 @@ private:
 
   std::vector<Action> m_actions;
 
-  /// measured fps
-  float m_fps;
   std::unique_ptr<ScreenFade> m_screen_fade;
   std::vector<std::unique_ptr<Screen> > m_screen_stack;
 };

@@ -19,7 +19,8 @@ docs/doxygen/
 # Qt Creator project file
 CMakeLists.txt.user
 
-# Visual Studio Code project file
+# Visual Studio Code project files
+.vscode/
 language.settings.xml
 
 # Windows build dependencies

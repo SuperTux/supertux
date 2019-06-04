@@ -1,0 +1,6 @@
+(supertux-level-subset
+  (title (_ "Christmas Special"))
+  (description (_ "Christmas 2016 Level Pack"))
+  (levelset #f)
+  (hide-from-contribs #f)
+)
