@@ -25,6 +25,9 @@ KeyboardConfig::KeyboardConfig(int playernumber) :
   jump_with_up_kbd(false),
   playernum(playernumber)
 {
+  /*###################################################*/
+  /*################## To be removed ##################*/
+  /*###################################################*/
   // initialize default keyboard map
   keymap[SDLK_LEFT]     = Controller::LEFT;
   keymap[SDLK_RIGHT]    = Controller::RIGHT;
@@ -45,6 +48,33 @@ KeyboardConfig::KeyboardConfig(int playernumber) :
   keymap[SDLK_END]      = Controller::PEEK_DOWN;
   keymap[SDLK_F1]       = Controller::CHEAT_MENU;
   keymap[SDLK_BACKSPACE]= Controller::REMOVE;
+
+  playerKeyMap[SDLK_LEFT] 	  = std::make_pair(Controller::LEFT, 		Player::PLAYER_1);
+  playerKeyMap[SDLK_RIGHT]    = std::make_pair(Controller::RIGHT, 		Player::PLAYER_1);
+  playerKeyMap[SDLK_UP]       = std::make_pair(Controller::UP, 			Player::PLAYER_1);
+  playerKeyMap[SDLK_DOWN]     = std::make_pair(Controller::DOWN, 		Player::PLAYER_1);
+  playerKeyMap[SDLK_SPACE]    = std::make_pair(Controller::JUMP, 		Player::PLAYER_1);
+  playerKeyMap[SDLK_LCTRL]    = std::make_pair(Controller::ACTION, 		Player::PLAYER_1);
+  playerKeyMap[SDLK_LALT]     = std::make_pair(Controller::ACTION, 		Player::PLAYER_1);
+  playerKeyMap[SDLK_ESCAPE]   = std::make_pair(Controller::ESCAPE, 		Player::PLAYER_1);
+  playerKeyMap[SDLK_p]        = std::make_pair(Controller::START, 		Player::PLAYER_1);
+  playerKeyMap[SDLK_PAUSE]    = std::make_pair(Controller::START, 		Player::PLAYER_1);
+  playerKeyMap[SDLK_RETURN]   = std::make_pair(Controller::MENU_SELECT, Player::PLAYER_1);
+  playerKeyMap[SDLK_KP_ENTER] = std::make_pair(Controller::MENU_SELECT, Player::PLAYER_1);
+  playerKeyMap[SDLK_CARET]    = std::make_pair(Controller::CONSOLE, 	Player::PLAYER_1);
+  playerKeyMap[SDLK_DELETE]   = std::make_pair(Controller::PEEK_LEFT, 	Player::PLAYER_1);
+  playerKeyMap[SDLK_PAGEDOWN] = std::make_pair(Controller::PEEK_RIGHT, 	Player::PLAYER_1);
+  playerKeyMap[SDLK_HOME]     = std::make_pair(Controller::PEEK_UP, 	Player::PLAYER_1);
+  playerKeyMap[SDLK_END]      = std::make_pair(Controller::PEEK_DOWN, 	Player::PLAYER_1);
+  playerKeyMap[SDLK_F1]       = std::make_pair(Controller::CHEAT_MENU, 	Player::PLAYER_1);
+  playerKeyMap[SDLK_BACKSPACE]= std::make_pair(Controller::REMOVE, 		Player::PLAYER_1);
+
+  playerKeyMap[SDLK_KP_4]	  = std::make_pair(Controller::LEFT, 		Player::PLAYER_2);
+  playerKeyMap[SDLK_KP_6]	  = std::make_pair(Controller::RIGHT, 		Player::PLAYER_2);
+  playerKeyMap[SDLK_KP_8]     = std::make_pair(Controller::UP, 			Player::PLAYER_2);
+  playerKeyMap[SDLK_KP_2]  	  = std::make_pair(Controller::DOWN, 		Player::PLAYER_2);
+  playerKeyMap[SDLK_KP_0]  	  = std::make_pair(Controller::JUMP, 		Player::PLAYER_2);
+
 }
 
 void

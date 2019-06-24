@@ -88,8 +88,10 @@ Sector::Sector(Level* parent) :
   if (!player_status) {
     log_warning << "Player status is not initialized." << std::endl;
   }
-  auto player1 = std::make_shared<Player>(player_status, "Tux");
-  auto player2 = std::make_shared<Player>(player_status, "Penny");
+
+  // create players
+  auto player1 = std::make_shared<Player>(Player::PLAYER_1,player_status, "Tux");
+  auto player2 = std::make_shared<Player>(Player::PLAYER_2,player_status, "Penny");
 
   player1->get_camera()->set_number(1);
   player2->get_camera()->set_number(2);

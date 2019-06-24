@@ -43,7 +43,7 @@ using namespace gl;
 #  include <GLES/glext.h>
 #else
 #  include <GL/gl.h>
-#  include <GL/glext.h>
+//#  include <GL/glext.h>
 #endif
 
 #endif

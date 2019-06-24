@@ -290,7 +290,7 @@ Tux::tryContinueWalking(float elapsed_time)
 void
 Tux::updateInputDirection()
 {
-  auto controller_ = InputManager::current()->get_controller();
+  auto controller_ = InputManager::current()->get_controller(Player::PLAYER_1);
   if(controller_->hold(Controller::UP))
     input_direction = D_NORTH;
   else if(controller_->hold(Controller::DOWN))

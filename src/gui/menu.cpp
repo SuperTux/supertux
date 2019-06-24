@@ -268,7 +268,7 @@ Menu::process_input()
   }
 
   MenuAction menuaction = MENU_ACTION_NONE;
-  auto controller = InputManager::current()->get_controller();
+  auto controller = InputManager::current()->get_controller(Player::PLAYER_1);
   /** check main input controller... */
   if(controller->pressed(Controller::UP)) {
     menuaction = MENU_ACTION_UP;

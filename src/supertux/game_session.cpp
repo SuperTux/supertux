@@ -329,7 +329,7 @@ GameSession::update(float elapsed_time)
     m_active = true;
   }
   // handle controller
-  auto controller = InputManager::current()->get_controller(); 
+  auto controller = InputManager::current()->get_controller(Player::PLAYER_1);
   if(controller->pressed(Controller::ESCAPE) || 
      controller->pressed(Controller::START))
   {

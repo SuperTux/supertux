@@ -22,6 +22,8 @@
 #include "control/keyboard_config.hpp"
 #include "gui/menu_manager.hpp"
 #include "supertux/console.hpp"
+#include "util/log.hpp"
+#include "object/player.hpp"
 
 KeyboardManager::KeyboardManager(InputManager* parent,
                                  KeyboardConfig& keyboard_config) :
@@ -35,11 +37,11 @@ KeyboardManager::KeyboardManager(InputManager* parent,
 void
 KeyboardManager::process_key_event(const SDL_KeyboardEvent& event)
 {
-  KeyboardConfig::KeyMap::iterator key_mapping = m_keyboard_config.keymap.find(event.keysym.sym);
+  KeyboardConfig::PlayerKeyMap::iterator keyPlayer_mapping = m_keyboard_config.playerKeyMap.find(event.keysym.sym);
 
   // if console key was pressed: toggle console
-  if (key_mapping != m_keyboard_config.keymap.end() &&
-      key_mapping->second == Controller::CONSOLE)
+  if (keyPlayer_mapping != m_keyboard_config.playerKeyMap.end() &&
+      keyPlayer_mapping->second.first == Controller::CONSOLE)
   {
     if (event.type == SDL_KEYDOWN)
     {
@@ -65,19 +67,23 @@ KeyboardManager::process_key_event(const SDL_KeyboardEvent& event)
     // if menu mode: send key there
     process_menu_key_event(event);
   }
-  else if (key_mapping == m_keyboard_config.keymap.end())
+  else if (keyPlayer_mapping == m_keyboard_config.playerKeyMap.end())
   {
     // default action: update controls
     //log_debug << "Key " << event.key.SDL_Keycode.sym << " is unbound" << std::endl;
   }
   else
   {
-    auto control = key_mapping->second;
+    auto control = keyPlayer_mapping->second.first;
     bool value = (event.type == SDL_KEYDOWN);
-    m_parent->get_controller()->set_control(control, value);
+    auto controlPlayer_map = keyPlayer_mapping->second;
+    // get the id of the player
+    Player::PlayerId id =controlPlayer_map.second;
+
+    m_parent->get_controller(id)->set_control(control, value);
     if (m_keyboard_config.jump_with_up_kbd && control == Controller::UP)
     {
-      m_parent->get_controller()->set_control(Controller::JUMP, value);
+      m_parent->get_controller(id)->set_control(Controller::JUMP, value);
     }
   }
 }
@@ -214,7 +220,7 @@ KeyboardManager::process_menu_key_event(const SDL_KeyboardEvent& event)
       break;
   }
 
-  m_parent->get_controller()->set_control(control, (event.type == SDL_KEYDOWN));
+  m_parent->get_controller(Player::PLAYER_1)->set_control(control, (event.type == SDL_KEYDOWN));
 }
 
 void

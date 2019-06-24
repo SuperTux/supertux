@@ -220,7 +220,7 @@ void TextArrayObject::handle_input_requests()
   if (!inputManager)
     return;
 
-  auto* inputController = inputManager->get_controller();
+  auto* inputController = inputManager->get_controller(Player::PLAYER_1);
   if (!inputController)
     return;
 

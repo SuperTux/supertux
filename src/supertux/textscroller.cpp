@@ -183,7 +183,7 @@ TextScroller::setup()
 void
 TextScroller::update(float elapsed_time)
 {
-  Controller* controller = InputManager::current()->get_controller();
+  Controller* controller = InputManager::current()->get_controller(Player::PLAYER_1);
   if(controller->hold(Controller::UP)) {
     speed = -defaultspeed*5;
   } else if(controller->hold(Controller::DOWN)) {

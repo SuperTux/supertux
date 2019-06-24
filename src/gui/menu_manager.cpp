@@ -166,7 +166,7 @@ MenuManager::process_input()
 {
   if (m_dialog && !m_dialog->is_passive())
   {
-    m_dialog->process_input(*InputManager::current()->get_controller());
+    m_dialog->process_input(*InputManager::current()->get_controller(Player::PLAYER_1));
   }
   else if (current_menu())
   {

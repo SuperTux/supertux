@@ -26,6 +26,7 @@
 #include <memory>
 
 #include "util/currenton.hpp"
+#include "object/player.hpp"
 
 class GameControllerManager;
 class JoystickManager;
@@ -56,10 +57,10 @@ public:
   void use_game_controller(bool v);
   bool use_game_controller() const { return m_use_game_controller; }
 
-  Controller* get_controller() const;
+  Controller* get_controller(Player::PlayerId id) const;
 
 private:
-  std::unique_ptr<Controller> controller;
+  std::vector< std::unique_ptr<Controller> > controllers;
 
 public:
   bool& m_use_game_controller;

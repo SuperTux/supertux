@@ -158,7 +158,7 @@ GameSessionRecorder::process_events()
 
   // save input for demo?
   if(capture_demo_stream != 0) {
-    auto controller = InputManager::current()->get_controller();
+    auto controller = InputManager::current()->get_controller(Player::PLAYER_1);
     capture_demo_stream ->put(controller->hold(Controller::LEFT));
     capture_demo_stream ->put(controller->hold(Controller::RIGHT));
     capture_demo_stream ->put(controller->hold(Controller::UP));

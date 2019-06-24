@@ -54,6 +54,7 @@
 #include "worldmap/tux.hpp"
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
+#include "object/player.hpp"
 
 static const float CAMERA_PAN_SPEED = 5.0;
 
@@ -564,7 +565,7 @@ WorldMap::update(float delta)
     }
 
     // handle input
-    auto controller = InputManager::current()->get_controller();
+    auto controller = InputManager::current()->get_controller(Player::PLAYER_1);
     bool enter_level = false;
     if(controller->pressed(Controller::ACTION)
        || controller->pressed(Controller::JUMP)

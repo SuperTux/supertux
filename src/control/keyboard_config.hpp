@@ -21,6 +21,7 @@
 #include <map>
 
 #include "control/controller.hpp"
+#include "object/player.hpp"
 
 class ReaderMapping;
 class Writer;
@@ -37,7 +38,11 @@ public:
   void write(Writer& writer);
 
   typedef std::map<SDL_Keycode, Controller::Control> KeyMap;
+  /// Map <SDL Key, Control, PlayerId>
+  typedef std::map<SDL_Keycode, std::pair<Controller::Control, Player::PlayerId> > PlayerKeyMap;
+
   KeyMap keymap;
+  PlayerKeyMap playerKeyMap;
   bool jump_with_up_kbd;
   int playernum;
 };

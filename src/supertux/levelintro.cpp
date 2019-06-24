@@ -29,6 +29,8 @@
 #include "supertux/sector.hpp"
 #include "util/gettext.hpp"
 #include "video/compositor.hpp"
+#include "util/log.hpp"
+#include "object/player.hpp"
 
 #include <boost/format.hpp>
 
@@ -73,7 +75,7 @@ LevelIntro::setup()
 void
 LevelIntro::update(float elapsed_time)
 {
-  auto controller = InputManager::current()->get_controller();
+  auto controller = InputManager::current()->get_controller(Player::PLAYER_1);
   auto bonus_prefix = player_status->get_bonus_prefix();
   if(player_status->bonus == FIRE_BONUS && g_config->christmas_mode)
   {

@@ -114,89 +114,91 @@ static const float DUCKED_TUX_HEIGHT = 31.8f;
 bool no_water = true;
 }
 
-Player::Player(PlayerStatus* _player_status, const std::string& name_) :
-  ExposedObject<Player, scripting::Player>(this),
-  m_deactivated(false),
-  m_controller(InputManager::current()->get_controller()),
-  m_scripting_controller(new CodeController()),
-  m_player_status(_player_status),
-  m_duck(false),
-  m_dead(false),
-  m_dying(false),
-  m_winning(false),
-  m_backflipping(false),
-  m_backflip_direction(0),
-  m_peekingX(AUTO),
-  m_peekingY(AUTO),
-  m_ability_time(),
-  m_stone(false),
-  m_swimming(false),
-  m_speedlimit(0), //no special limit
-  m_scripting_controller_old(0),
-  m_jump_early_apex(false),
-  m_on_ice(false),
-  m_ice_this_frame(false),
-  m_lightsprite(SpriteManager::current()->create("images/creatures/tux/light.sprite")),
-  m_powersprite(SpriteManager::current()->create("images/creatures/tux/powerups.sprite")),
-  m_dir(RIGHT),
-  m_old_dir(m_dir),
-  m_last_ground_y(0),
-  m_fall_mode(ON_GROUND),
-  m_on_ground_flag(false),
-  m_jumping(false),
-  m_can_jump(true),
-  m_jump_button_timer(),
-  m_wants_buttjump(false),
-  m_does_buttjump(false),
-  m_invincible_timer(),
-  m_skidding_timer(),
-  m_safe_timer(),
-  m_kick_timer(),
-  m_shooting_timer(),
-  m_ability_timer(),
-  m_cooldown_timer(),
-  m_dying_timer(),
-  m_second_growup_sound_timer(),
-  m_growing(false),
-  m_backflip_timer(),
-  m_physic(),
-  m_visible(true),
-  m_grabbed_object(NULL),
-  // if/when we have complete penny gfx, we can
-  // load those instead of Tux's sprite in the
-  // constructor
-  m_sprite(SpriteManager::current()->create("images/creatures/tux/tux.sprite")),
-  m_airarrow(Surface::from_file("images/engine/hud/airarrow.png")),
-  m_floor_normal(),
-  m_ghost_mode(false),
-  m_edit_mode(false),
-  m_unduck_hurt_timer(),
-  m_idle_timer(),
-  m_idle_stage(0),
-  m_climbing(0),
-  camera(std::make_shared<Camera>(Sector::current(), this, "Camera"))
+Player::Player(PlayerId id, PlayerStatus* _player_status, const std::string& name_):
+	m_id(id),
+	ExposedObject<Player, scripting::Player>(this),
+	m_deactivated(false),
+	m_controller(InputManager::current()->get_controller(id)),
+	m_scripting_controller(new CodeController()),
+	m_player_status(_player_status),
+	m_duck(false),
+	m_dead(false),
+	m_dying(false),
+	m_winning(false),
+	m_backflipping(false),
+	m_backflip_direction(0),
+	m_peekingX(AUTO),
+	m_peekingY(AUTO),
+	m_ability_time(),
+	m_stone(false),
+	m_swimming(false),
+	m_speedlimit(0), //no special limit
+	m_scripting_controller_old(0),
+	m_jump_early_apex(false),
+	m_on_ice(false),
+	m_ice_this_frame(false),
+	m_lightsprite(SpriteManager::current()->create("images/creatures/tux/light.sprite")),
+	m_powersprite(SpriteManager::current()->create("images/creatures/tux/powerups.sprite")),
+	m_dir(RIGHT),
+	m_old_dir(m_dir),
+	m_last_ground_y(0),
+	m_fall_mode(ON_GROUND),
+	m_on_ground_flag(false),
+	m_jumping(false),
+	m_can_jump(true),
+	m_jump_button_timer(),
+	m_wants_buttjump(false),
+	m_does_buttjump(false),
+	m_invincible_timer(),
+	m_skidding_timer(),
+	m_safe_timer(),
+	m_kick_timer(),
+	m_shooting_timer(),
+	m_ability_timer(),
+	m_cooldown_timer(),
+	m_dying_timer(),
+	m_second_growup_sound_timer(),
+	m_growing(false),
+	m_backflip_timer(),
+	m_physic(),
+	m_visible(true),
+	m_grabbed_object(NULL),
+	// if/when we have complete penny gfx, we can
+	// load those instead of Tux's sprite in the
+	// constructor
+	m_sprite(SpriteManager::current()->create("images/creatures/tux/tux.sprite")),
+	m_airarrow(Surface::from_file("images/engine/hud/airarrow.png")),
+	m_floor_normal(),
+	m_ghost_mode(false),
+	m_edit_mode(false),
+	m_unduck_hurt_timer(),
+	m_idle_timer(),
+	m_idle_stage(0),
+	m_climbing(0),
+	camera(std::make_shared<Camera>(Sector::current(), this, "Camera"))
 {
-  m_name = name_;
-  m_idle_timer.start(static_cast<float>(IDLE_TIME[0]) / 1000.0f);
+	m_name = name_;
+	m_idle_timer.start(static_cast<float>(IDLE_TIME[0]) / 1000.0f);
 
-  SoundManager::current()->preload("sounds/bigjump.wav");
-  SoundManager::current()->preload("sounds/jump.wav");
-  SoundManager::current()->preload("sounds/hurt.wav");
-  SoundManager::current()->preload("sounds/kill.wav");
-  SoundManager::current()->preload("sounds/skid.wav");
-  SoundManager::current()->preload("sounds/flip.wav");
-  SoundManager::current()->preload("sounds/invincible_start.ogg");
-  SoundManager::current()->preload("sounds/splash.wav");
-  SoundManager::current()->preload("sounds/grow.wav");
-  set_size(TUX_WIDTH, is_big() ? BIG_TUX_HEIGHT : SMALL_TUX_HEIGHT);
+	SoundManager::current()->preload("sounds/bigjump.wav");
+	SoundManager::current()->preload("sounds/jump.wav");
+	SoundManager::current()->preload("sounds/hurt.wav");
+	SoundManager::current()->preload("sounds/kill.wav");
+	SoundManager::current()->preload("sounds/skid.wav");
+	SoundManager::current()->preload("sounds/flip.wav");
+	SoundManager::current()->preload("sounds/invincible_start.ogg");
+	SoundManager::current()->preload("sounds/splash.wav");
+	SoundManager::current()->preload("sounds/grow.wav");
+	set_size(TUX_WIDTH, is_big() ? BIG_TUX_HEIGHT : SMALL_TUX_HEIGHT);
 
-  m_sprite->set_angle(0.0f);
-  m_powersprite->set_angle(0.0f);
-  m_lightsprite->set_angle(0.0f);
-  m_lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
+	m_sprite->set_angle(0.0f);
+	m_powersprite->set_angle(0.0f);
+	m_lightsprite->set_angle(0.0f);
+	m_lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
 
-  m_physic.reset();
+	m_physic.reset();
 }
+
 
 Player::~Player()
 {

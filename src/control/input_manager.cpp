@@ -27,12 +27,15 @@
 
 InputManager::InputManager(KeyboardConfig& keyboard_config,
                            JoystickConfig& joystick_config) :
-  controller(new Controller),
   m_use_game_controller(joystick_config.use_game_controller),
   keyboard_manager(new KeyboardManager(this, keyboard_config)),
   joystick_manager(new JoystickManager(this, joystick_config)),
   game_controller_manager(new GameControllerManager(this))
 {
+	auto controller_1 = std::make_unique<Controller>();
+	auto controller_2 = std::make_unique<Controller>();
+	controllers.push_back(std::move(controller_1));
+	controllers.push_back(std::move(controller_2));
 }
 
 InputManager::~InputManager()
@@ -40,9 +43,9 @@ InputManager::~InputManager()
 }
 
 Controller*
-InputManager::get_controller() const
+InputManager::get_controller(Player::PlayerId id) const
 {
-  return controller.get();
+  return controllers[static_cast<int>(id)].get();
 }
 
 void
@@ -54,13 +57,21 @@ InputManager::use_game_controller(bool v)
 void
 InputManager::update()
 {
-  controller->update();
+  // We have to update both controllers
+  for (auto &controller_p:controllers)
+  {
+	  controller_p->update();
+  }
 }
 
 void
 InputManager::reset()
 {
-  controller->reset();
+  // We have to update both controllers
+  for (auto &controller_p:controllers)
+  {
+	  controller_p->reset();
+  }
 }
 
 void

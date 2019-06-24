@@ -281,7 +281,7 @@ void Editor::update_keyboard() {
     return;
   }
 
-  auto controller = InputManager::current()->get_controller();
+  auto controller = InputManager::current()->get_controller(Player::PLAYER_1);
 
   if (controller->pressed(Controller::ESCAPE)) {
     esc_press();
