@@ -33,7 +33,7 @@ Level* Level::s_current = nullptr;
 Level::Level(bool worldmap) :
   m_is_worldmap(worldmap),
   m_name("noname"),
-  m_author("Mr. X"),
+  m_author("SuperTux Player"),
   m_contact(),
   m_license(),
   m_filename(),

@@ -27,7 +27,6 @@ before_build:
 - cmd: |
     echo Installing dependencies...
     vcpkg integrate install
-    xcopy /s mk\vcpkg C:\tools\vcpkg\ports
     copy mk\cmake\x64-windows.cmake C:\tools\vcpkg\triplets\
     vcpkg install boost-date-time:x64-windows
     vcpkg install boost-filesystem:x64-windows

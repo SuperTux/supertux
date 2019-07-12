@@ -24,7 +24,7 @@
 #include "sprite/sprite.hpp"
 #include "util/reader_mapping.hpp"
 
-/* Trampoline will accelerate player to to VY_BOUNCE, if
+/* Trampoline will accelerate Tux to to VY_BOUNCE, if
  * he jumps on it to VY_TRIGGER. */
 namespace {
 const std::string BOUNCE_SOUND = "sounds/trampoline.wav";

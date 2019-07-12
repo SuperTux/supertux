@@ -62,7 +62,7 @@ public:
     ICE       = 0x0100,
     /** a water tile in which tux starts to swim */
     WATER     = 0x0200,
-    /** a tile that hurts the player if he touches it */
+    /** a tile that hurts Tux if he touches it */
     HURTS     = 0x0400,
     /** for lava: WATER, HURTS, FIRE */
     FIRE      = 0x0800
