@@ -72,6 +72,7 @@ public:
   std::string get_working_directory() const;
   int restart_level(bool after_death = false);
   bool reset_button;
+  bool reset_checkpoint_button;
 
   void toggle_pause();
   void abort_level();

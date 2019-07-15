@@ -1482,7 +1482,7 @@ Player::kill(bool completely)
       return;
     }
 
-    if (m_player_status.coins >= 25 && !GameSession::current()->get_reset_point_sectorname().empty())
+    if (m_player_status.can_reach_checkpoint())
     {
       for (int i = 0; i < 5; i++)
       {
@@ -1491,7 +1491,7 @@ Player::kill(bool completely)
                                                       Vector(graphicsRandom.randf(5.0f), graphicsRandom.randf(-32.0f, 18.0f)),
                                                       graphicsRandom.randf(-100.0f, 100.0f));
       }
-      m_player_status.coins -= std::max(m_player_status.coins/10, 25);
+      m_player_status.take_checkpoint_coins();
     }
     else
     {
