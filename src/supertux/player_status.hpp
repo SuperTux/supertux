@@ -20,6 +20,7 @@
 
 #include <memory>
 #include <string>
+#include <algorithm>
 
 class DrawingContext;
 class ReaderMapping;
