@@ -71,7 +71,7 @@ deploy:
   artifact: setup
   draft: true
   on:
-    appveyor_repo_tag: true        # deploy on tag push only
+    appveyor_repo_tag: true       # deploy on tag push only
 - provider: S3
   access_key_id:
     secure: +cR4ZicEZHr0OiXAsitUhBL7PsqPzHQZb9q+IKK5P2o=
