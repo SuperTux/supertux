@@ -20,6 +20,7 @@
 
 #include <memory>
 #include <string>
+#include <algorithm>
 
 class DrawingContext;
 class ReaderMapping;
@@ -40,11 +41,13 @@ public:
   PlayerStatus();
   void reset();
   void add_coins(int count, bool play_sound = true);
+  void take_checkpoint_coins() { coins -= std::max(coins / 10, 25); }
 
   void write(Writer& writer);
   void read(const ReaderMapping& mapping);
 
   int get_max_coins() const;
+  bool can_reach_checkpoint() const;
   std::string get_bonus_prefix() const;/**Returns the prefix of the animations that should be displayed*/
   bool has_hat_sprite() const { return bonus > GROWUP_BONUS; }
 

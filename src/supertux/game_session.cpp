@@ -45,6 +45,7 @@
 GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Statistics* statistics) :
   GameSessionRecorder(),
   reset_button(false),
+  reset_checkpoint_button(false),
   m_level(),
   m_old_level(),
   m_statistics_backdrop(Surface::from_file("images/engine/menu/score-backdrop.png")),
@@ -406,6 +407,10 @@ GameSession::update(float dt_sec, const Controller& controller)
     reset_button = false;
     reset_level();
     restart_level();
+  } else if(reset_checkpoint_button) {
+    reset_checkpoint_button = false;
+
+    get_current_sector().get_player().kill(true);
   }
 }
 

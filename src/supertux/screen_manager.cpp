@@ -181,6 +181,18 @@ struct ScreenManager::FPS_Stats
   float get_fps_min() const { return last_fps_min; }
   float get_fps_max() const { return last_fps_max; }
 
+  // This returns the highest measured delay between two frames from the
+  // previous and current 0.5 s measuring intervals
+  float get_highest_max_ms() const
+  {
+    float previous_max_ms = 1000.0f / last_fps_min;
+    if (measurements_cnt > 0) {
+      float current_max_ms = static_cast<float>(max_us) / 1000.0f;
+      return std::max<float>(previous_max_ms, current_max_ms);
+    }
+    return previous_max_ms;
+  }
+
 private:
   int measurements_cnt;
   int acc_us;
@@ -465,7 +477,6 @@ ScreenManager::run()
   handle_screen_switch();
 
   while (!m_screen_stack.empty()) {
-    fps_statistics.report_frame();
     Uint32 ticks = SDL_GetTicks();
     elapsed_ms += static_cast<float>(ticks - last_ticks);
     last_ticks = ticks;
@@ -473,8 +484,8 @@ ScreenManager::run()
     // The average framerate over the last 0.5 seconds
     float current_avg_fps = fps_statistics.get_fps();
     if (current_avg_fps < 5.0f)
-      // Very low fps usually happens when loading a level, assume target fps
-      current_avg_fps = m_target_framerate;
+      // Very low fps usually happens when loading a level, assume 30 fps
+      current_avg_fps = 30.0f;
     const float avg_ms_per_frame = 1000.0f / current_avg_fps;
 
     if (elapsed_ms > 67.0f) {
@@ -526,9 +537,28 @@ ScreenManager::run()
         dtime = max_ms_per_frame;
       }
       ms_offset = dtime - dtime_target;
+    } else {
+      float min_ms = 1000.0f / m_target_framerate;
+      // Reduce the minimum delay a bit because the framerate setting usually
+      // refers to a multiple of the display framerate
+      min_ms *= 0.95f;
+      // Subtract the offset to the highest known measured maximum delay;
+      // this reduces the sleep time if the game is lagging
+      float achievable_min_ms = fps_statistics.get_highest_max_ms();
+      if (achievable_min_ms > min_ms)
+        min_ms -= achievable_min_ms - min_ms;
+      if (elapsed_ms < min_ms) {
+        // Sleep a bit to limit the fps (if delay is not rounded down to 0)
+        Uint32 delay = static_cast<Uint32>(min_ms - elapsed_ms);
+        if (delay > 0) {
+          SDL_Delay(delay);
+          continue;
+        }
+      }
     }
     elapsed_ms = 0;
 
+    fps_statistics.report_frame();
     float speed_multiplier = 1.0f / g_debug.get_game_speed_multiplier();
     float timestep = speed_multiplier * dtime / 1000.0f;
     g_real_time += timestep;

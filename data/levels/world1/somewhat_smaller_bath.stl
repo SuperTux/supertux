@@ -33,6 +33,10 @@
       (x 11904)
       (y 576)
     )
+    (firefly
+      (x 8560)
+      (y 448)
+    )
     (gradient
       (top_color 0 0.3137259 1)
       (bottom_color 1 1 1)
