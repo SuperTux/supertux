@@ -116,6 +116,15 @@ Rock::collision(GameObject& other, const CollisionHit& hit)
   if (is_grabbed()) {
     return ABORT_MOVE;
   }
+
+  // Don't fall further if we are on a rock which is on the ground.
+  // This is to avoid jittering.
+  auto rock = dynamic_cast<Rock*> (&other);
+  if (rock && rock->on_ground && hit.bottom) {
+    physic.set_velocity_y(0);
+    return CONTINUE;
+  }
+
   if (!on_ground) {
     if (hit.bottom && physic.get_velocity_y() > 200) {
       auto moving_object = dynamic_cast<MovingObject*> (&other);
