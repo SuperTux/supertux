@@ -73,6 +73,12 @@ BicyclePlatformChild::collision(GameObject& other, const CollisionHit& )
   return FORCE_MOVE;
 }
 
+void BicyclePlatformChild::editor_delete()
+{
+  // removing a child removes the whole platform
+  m_parent.editor_delete();
+}
+
 BicyclePlatform::BicyclePlatform(const ReaderMapping& reader) :
   GameObject(reader),
   m_center(),
@@ -157,10 +163,14 @@ BicyclePlatform::update(float dt_sec)
 void
 BicyclePlatform::editor_delete()
 {
+  // remove children
   for (auto& child : m_children)
   {
     child->remove_me();
   }
+
+  // remove self
+  remove_me();
 }
 
 void
