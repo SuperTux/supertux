@@ -104,17 +104,9 @@ In case you need help, feel free to reach out using the following means:
 
 ## Development status
 
-With the release of SuperTux 0.4.0 (December 2015), we wanted to provide a
-fairly stable release. The release of SuperTux 0.5.0 should have fixed some
-stability issues from 0.4.0 and introduced a new level editor. Development of
-the game will continue (of course), now working towards more releases.
-Most notably, development focus will be shifted on providing a better gameplay
-experience.
-
-The Forest World (you can check it out: Start Game > Contrib Levels > Forest
-World) is relatively unstable, which is why it resides only in the contrib
-levels menu. We (SuperTux Team) intend to continue with the development of the
-Forest World, but decided that in order to allow more access to the most recent
-version (in repositories etc.) we would have to release Milestone 2 without the
-Forest World included in the Story Mode. Constructive feedback with regards to
-the Forest World is welcome.
+With the release of SuperTux 0.6.0 (December 2018), the Forest World finally found
+it's way back to the core part of the game. It's now considered stable, but it
+still misses the second half, which consists of the ghostforest and the boss
+of the Forest World. The Team will continue with the development of the Forest
+World, and, as always, constructive feedback and contributions regarding
+the game is highly welcome.
