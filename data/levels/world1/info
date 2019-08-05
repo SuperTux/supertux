@@ -1,6 +1,6 @@
-(supertux-world
+(supertux-level-subset
   (title (_ "Icy Island"))
-  (description "The first world of SuperTux.")
-  (hide-from-contribs #t)
+  (description (_ "The first world of SuperTux."))
   (levelset #f)
+  (hide-from-contribs #f)
 )

@@ -1,48 +1,45 @@
 function initialize()
 {
   Tux.deactivate();
-  Tux.set_visible(false);
-  Tux.add_bonus("grow");
+  settings.fade_to_ambient_light(0, 0, 0, 0.05);
   RADIO.set_action("quiet");
   PENNY.set_action("stand-left");
   NOLOK.set_visible(false);
   Effect.sixteen_to_nine(0);
-  Effect.fade_in(2);
-  Camera.scroll_to(0, 913, 15);
-  Tux.walk(200);
-  wait(2);
-  Tux.set_visible(true);
-  wait(4);
-  Tux.walk(0);
-  wait(11);
-  Tux.walk(200);
-  Camera.scroll_to(2808, 913, 18);
-  wait(7.3);
-  logo.fade_in(0.2);
-  wait(5.5);
-  logo.fade_out(1.2);
-  wait(5);
-}
-
-function logo_in()
-{
-}
-
-function intro_text()
-{
-}
-
-function rap_scene()
-{
-  Tux.walk(0);
-  Tux.set_visible(true);
-  wait(7);
-  Text.set_text(_("Somewhere at the shores of Antarctica..."));
-  Text.fade_in(1);
+  wait(0.2);
+  Camera.scroll_to(1100, 1, 1);
+  wait(0.5);
+  settings.fade_to_ambient_light(1, 1, 1, 2);
+  wait(0.5);
+  Camera.scroll_to(100, 913, 27);
   wait(3);
-  Text.fade_out(1);
+  Tux.set_visible(true);
+  wait(1);
+  Text.set_text(_("Somewhere at the shores of Antarctica..."));
+  Text.fade_in(1.5);
+  wait(4);
+  Text.fade_out(2.5);
+  wait(4);
+  Text.set_text(_("In a land devoid of all humans..."));
+  Text.fade_in(1.5);
+  wait(4);
+  Text.fade_out(2.5);
+  wait(4);
+  logo.fade_in(2.5);
+  wait(6.5);
+  logo.fade_out(1.2);
   wait(2);
-  Text.set_text(_("Tux and Penny had a nice picnic\non the ice fields."));
+  Tux.add_bonus("grow");
+  Camera.scroll_to(2808, 913, 20);
+  Tux.walk(200);
+  wait(5);
+  Text.set_text(_("Our young protagonist, Tux, was going to meet\nhis friend..."));
+  Text.fade_in(0.5);
+  wait(5);
+  Text.fade_out(1.5);
+  wait(10);
+  Tux.set_visible(true);
+  Text.set_text(_("...Penny, who was having a\npicnic with him."));
   Text.fade_in(1);
   wait(3);
   Text.fade_out(1);
@@ -54,6 +51,10 @@ function rap_scene()
   wait(1.5);
   play_sound("speech/tux_murp_01.ogg"); // 1.5 seconds
   wait(1.5);
+  Text.set_text(_("After some chatting and eating, Tux decided to\nimpress Penny with his dance skills."));
+  Text.fade_in(1);
+  wait(6);
+  Text.fade_out(1);
   RADIO.set_action("loud");
   play_sound("speech/tux_rap.ogg"); // 24.6 seconds
   local t = ::newthread(shake_bush_thread);
@@ -157,29 +158,84 @@ function rap_scene()
   wait(1.5); // t=2.4
   Tux.set_dir(false);
   Tux.walk(-200);
-  Text.set_text(_("Oh no! Nolok has kidnapped Penny!")); // t=3.9
-  Text.fade_in(1);
-  wait(0.1);
+  Text.set_text(_("Tux woke up with a lump on his head, noticing\nhe has been shrunken...")); // t=3.9
+  Text.fade_in(0.2);
+  wait(0.9);
   Tux.walk(0);
   wait(1.4);
   Tux.set_dir(true);
   Tux.walk(200);
   wait(0.1);
   Tux.walk(0);
-  wait(1.4); // t=4.4
-  Text.fade_out(1);
+  wait(2.4); // t=4.4
+  Text.fade_out(0.2);
   wait(1.7);
   Tux.do_jump(-150);
+  Text.set_text(_("...but more importantly, Penny was missing!"));
+  Text.fade_in(0.2);
+  wait(3.6);
+  Text.fade_out(0.2);
   wait(1.5); // t=6.9
-  Tux.walk(50);
-  Tux.walk(100);
-  Tux.walk(150);
-  Tux.walk(250);
-  Tux.walk(300);
-  Text.set_text(_("And now it is up to Tux to save her!")); // t=8.4
-  Text.fade_in(1);
+  Text.set_text(_("As Tux started to become worried about where\nPenny was, he noticed a letter dropped in front\nof him."));
+  Text.fade_in(0.2);
+  wait(3.6);
+  Text.fade_out(0.2);
+  Tux.walk(30);
+  wait(3);
+  Tux.walk(0);
+  Text.set_text(_("He picked it up and read:"));
+  Text.fade_in(0.2);
+  wait(3);
+  Text.fade_out(0.2);
+  wait(0.4);
+  Text.set_text(_("\"Tux, I have kidnapped your beloved Penny\nand have taken her to my fortress.\""));
+  Text.fade_in(0.2);
+  wait(5);
+  Text.fade_out(0.2);
+  wait(0.4);
+  Text.set_text(_("\"The path to my fortress is littered with\nmy minions.\""));
+  Text.fade_in(0.2);
+  wait(3);
+  Text.fade_out(0.2);
+  wait(0.4);
+  Text.set_text(_("\"Give up on the thought of saving her from me!\""));
+  Text.fade_in(0.2);
+  wait(3);
+  Text.fade_out(0.2);
+  wait(0.4);
+  Text.set_text(_("\"You don't have a chance. Signed, Nolok.\""));
+  Text.fade_in(0.2);
+  wait(5);
+  Text.fade_out(1);
+  wait(2);
+  Text.set_text(_("Tux realized this was all his fault."));
+  Text.fade_in(0.2);
   wait(3);
   Text.fade_out(1);
+  wait(1.4);
+  Text.set_text(_("After all, Tux had been selfish and was too busy\nshowing off instead of protecting Penny."));
+  Text.fade_in(0.2);
+  wait(5);
+  Text.fade_out(1);
+  wait(1.4);
+  Text.set_text(_("Realizing the trouble he had put Penny in,\nTux became determined to save Penny at all costs."));
+  Text.fade_in(0.2);
+  wait(5);
+  Text.fade_out(1);
+  wait(1.4);
+  Tux.walk(50);
+  wait(0.1);
+  Tux.walk(100);
+  wait(0.1);
+  Tux.walk(150);
+  wait(0.1);
+  Tux.walk(250);
+  wait(0.1);
+  Tux.walk(300);
+  Text.set_text(_("Then, Tux saw Nolok's castle in the distance\nand set off to rescue Penny!")); // t=8.4
+  Text.fade_in(1);
+  wait(5);
+  Text.fade_out(3);
   wait(5);
 }
 
@@ -203,16 +259,14 @@ function shake_bush_thread(table)
   table.shake_bush();
   table.wait(3);
   table.shake_bush();
-  Text.set_text(_("Suddenly, Nolok jumped out from behind\nan ice bush!"));
-  Text.fade_in(0.5);
-  table.wait(2);
-  Text.fade_out(0.5);
   table.shake_bush();
   table.shake_bush(); // total 23 seconds
   //enter Nolok
   table.NOLOK.set_velocity(-220, 600);
   table.NOLOK.set_visible(true);
-  table.Effect.fade_out(0.5);
+  wait(2);
+  table.Effect.fade_out(0);
+  table.play_sound("sounds/thud.ogg");
 }
 
 function end_level()

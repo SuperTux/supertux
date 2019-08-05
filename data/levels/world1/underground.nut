@@ -16,3 +16,12 @@ function go_underground(under){
 }
 
 go_underground(state.underground);
+
+function go_dark(darkness){
+
+  fade_time <- 0.85;
+  darkmap.fade(darkness ? 0.7 : 0, fade_time);
+  state.dark <- darkness;
+}
+
+go_dark(state.dark);
