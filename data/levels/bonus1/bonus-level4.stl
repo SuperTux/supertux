@@ -298,7 +298,7 @@
       (y 698)
     )
     (music
-      (file "music/fortress.music")
+      (file "music/castle/fortress.music")
     )
     (path
       (name "8e37d2ee-b172-4e34-99ed-8683334ca8b4")
