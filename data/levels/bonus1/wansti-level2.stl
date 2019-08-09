@@ -140,7 +140,7 @@
       (y 596)
     )
     (music
-      (file "music/cave.music")
+      (file "music/antarctic/cave.music")
     )
     (snowball
       (x 2070)
