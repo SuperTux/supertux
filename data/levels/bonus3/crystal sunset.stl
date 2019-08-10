@@ -134,7 +134,7 @@
       (y 872)
     )
     (music
-      (file "music/airship_remix.music")
+      (file "music/antarctic/airship_remix.music")
     )
     (particles-snow
     )
