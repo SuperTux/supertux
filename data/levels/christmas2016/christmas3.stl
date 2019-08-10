@@ -7,7 +7,7 @@
   (sector
     (name "main")
     (ambient-light 0.6000000238 0.6999999881 0.8000000119 1)
-    (music "/music/voc-night.music")
+    (music "/music/antarctic/voc-night.music")
     (gravity 10)
     (tilemap
       (draw-target "normal")
