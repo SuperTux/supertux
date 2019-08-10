@@ -151,7 +151,7 @@
       (y 33)
     )
     (music
-      (file "music/salcon.ogg")
+      (file "music/antarctic/salcon.ogg")
     )
     (special-tile
       (map-message (_ "You found a secret place!"))
