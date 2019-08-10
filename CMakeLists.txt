@@ -530,6 +530,7 @@ if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/external/sexp-cpp/CMakeLists.txt)
 endif()
 file(GLOB SEXP_SOURCES_CXX RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} external/sexp-cpp/src/*.cpp)
 add_library(sexp STATIC ${SEXP_SOURCES_CXX})
+target_compile_definitions(sexp PRIVATE -DSEXP_USE_LOCALE)
 
 file(GLOB SAVEPNG_SOURCES_CXX RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} external/SDL_SavePNG/savepng.c)
 add_library(savepng STATIC ${SAVEPNG_SOURCES_CXX})
