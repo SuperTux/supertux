@@ -56,7 +56,7 @@
       (y 708.9973)
     )
     (music
-      (file "music/chipdisko.ogg")
+      (file "music/antarctic/chipdisko.ogg")
     )
     (particles-snow
     )
@@ -463,7 +463,7 @@
       (y 256)
     )
     (music
-      (file "music/cave.music")
+      (file "music/antarctic/cave.music")
     )
     (path
       (name "c3544fa4-b296-4b97-a3e9-4a83d26b8c9e")
