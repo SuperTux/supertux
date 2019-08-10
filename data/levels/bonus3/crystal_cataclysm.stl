@@ -263,7 +263,7 @@
       (y 40)
     )
     (music
-      (file "music/greatgigantic.music")
+      (file "music/forest/greatgigantic.music")
     )
     (path
       (name "a316a183-b33d-4f76-ae5c-2c8da5798a4f")
