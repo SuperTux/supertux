@@ -74,7 +74,7 @@
       (y 768)
     )
     (music
-      (file "music/chipdisko.ogg")
+      (file "music/antarctic/chipdisko.ogg")
     )
     (particles-rain
     )
