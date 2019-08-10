@@ -182,7 +182,7 @@
       (time 600)
     )
     (music
-      (file "music/chipdisko.ogg")
+      (file "music/antarctic/chipdisko.ogg")
     )
     (snowball
       (x 9519)
