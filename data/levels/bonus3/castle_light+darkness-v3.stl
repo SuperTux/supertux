@@ -485,7 +485,7 @@
       (y 608)
     )
     (music
-      (file "music/fortress.music")
+      (file "music/castle/fortress.music")
     )
     (particles-clouds
       (z-pos -201)
