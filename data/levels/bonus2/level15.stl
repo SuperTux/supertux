@@ -172,7 +172,7 @@
       (y 790)
     )
     (music
-      (file "music/salcon.ogg")
+      (file "music/antarctic/salcon.ogg")
     )
     (secretarea
       (width 188)
