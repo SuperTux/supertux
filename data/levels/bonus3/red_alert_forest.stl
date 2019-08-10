@@ -72,7 +72,7 @@
       (y 480)
     )
     (music
-      (file "music/treeboss.music")
+      (file "music/forest/treeboss.music")
     )
     (path
       (name "5fa311b3-6523-4e46-91fd-8d3c051c0442")
@@ -725,7 +725,7 @@
       (y 288)
     )
     (music
-      (file "music/salcon.ogg")
+      (file "music/antarctic/salcon.ogg")
     )
     (spawnpoint
       (name "main")
