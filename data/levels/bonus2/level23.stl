@@ -20,7 +20,7 @@
       (time 500)
     )
     (music
-      (file "music/chipdisko.ogg")
+      (file "music/antarctic/chipdisko.ogg")
     )
     (particles-snow
     )
