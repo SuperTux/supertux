@@ -58,7 +58,7 @@
       (y 2304)
     )
     (music
-      (file "music/cave.music")
+      (file "music/antarctic/cave.music")
     )
     (path
       (name "f2973111-ce86-4540-b58f-7fc6501392ca")
@@ -528,7 +528,7 @@
       (y 832)
     )
     (music
-      (file "music/cave.music")
+      (file "music/antarctic/cave.music")
     )
     (spawnpoint
       (name "main")
@@ -755,7 +755,7 @@
       (y 736)
     )
     (music
-      (file "music/chipdisko.ogg")
+      (file "music/antarctic/chipdisko.ogg")
     )
     (sequencetrigger
       (sequence "endsequence")
