@@ -52,6 +52,9 @@ public:
     bottom(0)
   {}
 
+  Rect(const Rect& rhs) = default;
+  Rect& operator=(const Rect& rhs) = default;
+
   Rect(int left_, int top_, int right_, int bottom_) :
     left(left_),
     top(top_),
