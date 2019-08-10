@@ -176,7 +176,7 @@
       (y 716)
     )
     (music
-      (file "music/theme.music")
+      (file "music/misc/theme.music")
     )
     (particles-snow
     )
