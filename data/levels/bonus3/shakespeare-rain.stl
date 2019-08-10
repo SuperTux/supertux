@@ -36,7 +36,7 @@
       (y 603.9736)
     )
     (music
-      (file "music/forest2.ogg")
+      (file "music/forest/forest2.ogg")
     )
     (particles-clouds
       (z-pos -201)
