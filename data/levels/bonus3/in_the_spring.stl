@@ -81,7 +81,7 @@
       (y 160)
     )
     (music
-      (file "/music/beneath_the_rabbit_hole.ogg")
+      (file "/music/forest/beneath_the_rabbit_hole.ogg")
     )
     (secretarea
       (width 104)
