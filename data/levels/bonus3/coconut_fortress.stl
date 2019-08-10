@@ -139,7 +139,7 @@
       (y 800)
     )
     (music
-      (file "music/greatgigantic.music")
+      (file "music/forest/greatgigantic.music")
     )
     (path
       (name "328d2262-dd60-47e3-b75f-df6db7237493")
