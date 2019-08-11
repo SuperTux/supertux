@@ -325,7 +325,7 @@ Level.spawn(\"balcony\", \"door\");")
       (bottom_color 1 1 1)
     )
     (music
-      (file "/music/voc-boss.music")
+      (file "/music/antarctic/voc-boss.music")
     )
     (particles-clouds
     )
