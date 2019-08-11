@@ -17,7 +17,7 @@
       (bottom_color 1 1 1)
     )
     (music
-      (file "music/bossattack.music")
+      (file "music/antarctic/bossattack.music")
     )
     (particles-snow
     )
