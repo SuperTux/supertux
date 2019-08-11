@@ -163,7 +163,7 @@
       (y 834.252)
     )
     (music
-      (file "/music/forest2.ogg")
+      (file "/music/forest/forest2.ogg")
     )
     (path
       (name "gen156499799035906160")
@@ -838,7 +838,7 @@
       (y 736.9731)
     )
     (music
-      (file "/music/forest2.ogg")
+      (file "/music/forest/forest2.ogg")
     )
     (powerup
       (sprite "images/powerups/1up/1up.sprite")
