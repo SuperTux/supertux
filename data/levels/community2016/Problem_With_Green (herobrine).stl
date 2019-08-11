@@ -7,7 +7,7 @@
   (sector
     (name "main")
     (ambient-light 1 1 1 1)
-    (music "/music/forest2.ogg")
+    (music "/music/forest/forest2.ogg")
     (gravity 10)
     (background
       (z-pos -300)
