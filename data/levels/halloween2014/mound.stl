@@ -341,7 +341,7 @@
       (y 576)
     )
     (music
-      (file "music/ghostforest2.ogg")
+      (file "music/forest/ghostforest2.ogg")
     )
     (powerup
       (disable-physics #t)
