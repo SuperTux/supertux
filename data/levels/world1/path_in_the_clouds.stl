@@ -212,7 +212,7 @@
       (y 544)
     )
     (music
-      (file "music/chipdisko.ogg")
+      (file "music/antarctic/chipdisko.ogg")
     )
     (particles-clouds
     )
@@ -817,7 +817,7 @@ wind.start();")
       (bottom_color 1 1 1)
     )
     (music
-      (file "/music/salcon.ogg")
+      (file "/music/antarctic/salcon.ogg")
     )
     (particles-clouds
     )
