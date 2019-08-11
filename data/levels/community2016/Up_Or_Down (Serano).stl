@@ -6,7 +6,7 @@
   (target-time 0)
   (sector
     (name "main")
-    (music "music/forest.ogg")
+    (music "music/forest/forest.ogg")
     (ambient-light 0.6941177 0.6392157 0.6392157)
     (background
       (alignment "top")
