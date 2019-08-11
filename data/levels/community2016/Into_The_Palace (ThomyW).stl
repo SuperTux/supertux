@@ -7,7 +7,7 @@
   (sector
     (name "main")
     (ambient-light 1 1 1 1)
-    (music "/music/chipdisko.ogg")
+    (music "/music/antarctic/chipdisko.ogg")
     (gravity 10)
     (tilemap
       (draw-target "normal")
