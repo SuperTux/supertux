@@ -7,7 +7,7 @@
   (sector
     (name "main")
     (ambient-light 0.5 0.6000000238 0.6999999881 1)
-    (music "/music/forest3.ogg")
+    (music "/music/forest/forest3.ogg")
     (gravity 10)
     (tilemap
       (draw-target "normal")
