@@ -307,7 +307,7 @@
       (y 384)
     )
     (music
-      (file "music/fortress.music")
+      (file "music/castle/fortress.music")
     )
     (path
       (name "gen15431589172413435717904")
