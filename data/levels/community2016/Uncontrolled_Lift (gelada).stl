@@ -7,7 +7,7 @@
   (sector
     (name "main")
     (ambient-light 1 1 1 1)
-    (music "music/wisphunt.ogg")
+    (music "music/forest/wisphunt.ogg")
     (gravity 10)
     (ambient_sound
       (name "agua caindo")
@@ -420,7 +420,7 @@ Wait!")
   (sector
     (name "casa gelada")
     (ambient-light 0.02949569002 0.02444495074 0.06675822288 1)
-    (music "music/cave.ogg")
+    (music "music/antarctic/cave.ogg")
     (gravity 10)
     (ambient_sound
 
