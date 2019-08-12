@@ -224,7 +224,7 @@
       (y 704)
     )
     (music
-      (file "music/forest.music")
+      (file "music/forest/forest.music")
     )
     (path
       (name "gen15425651272696405983168")
@@ -802,7 +802,7 @@ lift1.goto_node(0);")
       (y 1056)
     )
     (music
-      (file "music/forest-cave.ogg")
+      (file "music/forest/forest-cave.ogg")
     )
     (path
       (name "gen15425651272696405974240")
