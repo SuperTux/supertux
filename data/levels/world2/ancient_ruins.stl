@@ -228,7 +228,7 @@
       (y 1792)
     )
     (music
-      (file "/music/greatgigantic.music")
+      (file "/music/forest/greatgigantic.music")
     )
     (path
       (name "gen15438507242295660711904")
@@ -1236,7 +1236,7 @@
       (y 1280)
     )
     (music
-      (file "/music/greatgigantic.music")
+      (file "/music/forest/greatgigantic.music")
     )
     (path
       (name "gen15438507252295660716368")
