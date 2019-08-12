@@ -11,16 +11,11 @@ function initialize()
   wait(0.5);
   settings.fade_to_ambient_light(1, 1, 1, 2);
   wait(0.5);
-  Camera.scroll_to(100, 913, 27);
+  Camera.scroll_to(100, 913, 20);
   wait(3);
   Tux.set_visible(true);
   wait(1);
   Text.set_text(_("Somewhere at the shores of Antarctica..."));
-  Text.fade_in(1.5);
-  wait(4);
-  Text.fade_out(2.5);
-  wait(4);
-  Text.set_text(_("In a land devoid of all humans..."));
   Text.fade_in(1.5);
   wait(4);
   Text.fade_out(2.5);
@@ -51,10 +46,6 @@ function initialize()
   wait(1.5);
   play_sound("speech/tux_murp_01.ogg"); // 1.5 seconds
   wait(1.5);
-  Text.set_text(_("After some chatting and eating, Tux decided to\nimpress Penny with his dance skills."));
-  Text.fade_in(1);
-  wait(6);
-  Text.fade_out(1);
   RADIO.set_action("loud");
   play_sound("speech/tux_rap.ogg"); // 24.6 seconds
   local t = ::newthread(shake_bush_thread);
@@ -131,17 +122,13 @@ function initialize()
   Tux.do_duck();
   wait(0.5);
   Tux.do_jump(-400);
-  wait(1.0);
+  wait(2.0);
   Tux.do_standup();
   wait(0.796875);
   Tux.set_dir(true); //t=23.8 - Tux sees Nolok!
   Tux.do_jump(-520);
-  wait(1.5);
   // we have to activate Tux to hurt him
-  Tux.activate();
-  Tux.kill(false);
-  Tux.deactivate();
-  wait(3);
+  wait(2);
   // song is done
   // darkness
   NOLOK.set_visible(false);
@@ -153,13 +140,10 @@ function initialize()
   //wake up, Tux...
   Effect.fade_in(3);
   play_sound("speech/tux_upset.ogg"); // 11 seconds
-  wait(2.4);
   Tux.do_jump(-150);
   wait(1.5); // t=2.4
   Tux.set_dir(false);
   Tux.walk(-200);
-  Text.set_text(_("Tux woke up with a lump on his head, noticing\nhe has been shrunken...")); // t=3.9
-  Text.fade_in(0.2);
   wait(0.9);
   Tux.walk(0);
   wait(1.4);
@@ -167,25 +151,19 @@ function initialize()
   Tux.walk(200);
   wait(0.1);
   Tux.walk(0);
-  wait(2.4); // t=4.4
-  Text.fade_out(0.2);
-  wait(1.7);
+  wait(1.4); // t=4.4
   Tux.do_jump(-150);
-  Text.set_text(_("...but more importantly, Penny was missing!"));
+  Text.set_text(_("Tux woke up, dizzy, to find that Penny was missing!"));
   Text.fade_in(0.2);
   wait(3.6);
   Text.fade_out(0.2);
   wait(1.5); // t=6.9
-  Text.set_text(_("As Tux started to become worried about where\nPenny was, he noticed a letter dropped in front\nof him."));
-  Text.fade_in(0.2);
-  wait(3.6);
-  Text.fade_out(0.2);
   Tux.walk(30);
   wait(3);
   Tux.walk(0);
-  Text.set_text(_("He picked it up and read:"));
+  Text.set_text(_("As Tux started to become worried about where\nPenny was, he noticed a letter dropped in front\nof him that read:"));
   Text.fade_in(0.2);
-  wait(3);
+  wait(5);
   Text.fade_out(0.2);
   wait(0.4);
   Text.set_text(_("\"Tux, I have kidnapped your beloved Penny\nand have taken her to my fortress.\""));
@@ -207,18 +185,8 @@ function initialize()
   Text.fade_in(0.2);
   wait(5);
   Text.fade_out(1);
-  wait(2);
-  Text.set_text(_("Tux realized this was all his fault."));
-  Text.fade_in(0.2);
-  wait(3);
-  Text.fade_out(1);
   wait(1.4);
-  Text.set_text(_("After all, Tux had been selfish and was too busy\nshowing off instead of protecting Penny."));
-  Text.fade_in(0.2);
-  wait(5);
-  Text.fade_out(1);
-  wait(1.4);
-  Text.set_text(_("Realizing the trouble he had put Penny in,\nTux became determined to save Penny at all costs."));
+  Text.set_text(_("Realizing the trouble Penny was in,\nTux became determined to save Penny at all costs."));
   Text.fade_in(0.2);
   wait(5);
   Text.fade_out(1);
@@ -264,8 +232,11 @@ function shake_bush_thread(table)
   //enter Nolok
   table.NOLOK.set_velocity(-220, 600);
   table.NOLOK.set_visible(true);
-  wait(2);
+  wait(1);
   table.Effect.fade_out(0);
+  Tux.activate();
+  Tux.kill(false);
+  Tux.deactivate();
   table.play_sound("sounds/thud.ogg");
 }
 
