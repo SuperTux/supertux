@@ -13,7 +13,7 @@
       (mode "normal")
     )
     (gradient
-      (top_color 0 0.375 1)
+      (top_color 0 0.35 1)
       (bottom_color 0.8 0.9 1)
     )
     (music

@@ -89,6 +89,13 @@
       (y 896)
     )
     (infoblock
+      (message (_ "-Secret Exits
+#Some level can have multiple exits. They are mostly hidden, so keep an eye out for them.
+#Maybe they lead you to something special...?"))
+      (x 11552)
+      (y 640)
+    )
+    (infoblock
       (message (_ "-Switches
 !images/objects/switch/switch-0.png
 !images/objects/pushbutton/pushbutton-0.png
@@ -272,6 +279,11 @@
       (height 448)
       (x 15104)
       (y 0)
+    )
+    (short_fuse
+      (direction "left")
+      (x 832)
+      (y 864)
     )
     (smartball
       (direction "left")
