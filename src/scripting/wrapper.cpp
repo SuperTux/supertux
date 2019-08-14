@@ -5911,6 +5911,29 @@ static SQInteger play_music_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger stop_music_wrapper(HSQUIRRELVM vm)
+{
+  SQFloat arg0;
+  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a float"));
+    return SQ_ERROR;
+  }
+
+  try {
+    scripting::stop_music(arg0);
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'stop_music'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger play_sound_wrapper(HSQUIRRELVM vm)
 {
   const SQChar* arg0;
@@ -7153,6 +7176,13 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|ts");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'play_music'");
+  }
+
+  sq_pushstring(v, "stop_music", -1);
+  sq_newclosure(v, &stop_music_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tf");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'stop_music'");
   }
 
   sq_pushstring(v, "play_sound", -1);
