@@ -177,7 +177,7 @@
     (teleporter
       (spawnpoint "abednego2")
       (message (_ "Leave Abednego's Area"))
-      (sprite "/images/worldmap/common/teleporterdot.sprite")
+      (sprite "/images/worldmap/common/invisible.png")
       (x 15)
       (y 31)
     )
@@ -191,7 +191,7 @@
     (teleporter
       (spawnpoint "matr1x2")
       (message (_ "Back to Matr1x' Sector"))
-      (sprite "/images/worldmap/common/teleporterdot.sprite")
+      (sprite "/images/worldmap/common/invisible.png")
       (x 32)
       (y 37)
     )
@@ -219,7 +219,7 @@
     (teleporter
       (spawnpoint "team2")
       (message (_ "Leave the SuperTux Team Island"))
-      (sprite "/images/worldmap/common/teleporterdot.sprite")
+      (sprite "/images/worldmap/common/invisible.png")
       (x 51)
       (y 10)
     )
@@ -232,14 +232,14 @@
     (teleporter
       (spawnpoint "thompson2")
       (message (_ "Leave Thompson's Domain"))
-      (sprite "/images/worldmap/common/teleporterdot.sprite")
+      (sprite "/images/worldmap/common/invisible.png")
       (x 34)
       (y 18)
     )
     (teleporter
       (spawnpoint "matr1x4")
       (message (_ "Leave Matr1x' Sector"))
-      (sprite "/images/worldmap/common/teleporterdot.sprite")
+      (sprite "/images/worldmap/common/invisible.png")
       (x 20)
       (y 14)
     )
@@ -260,7 +260,7 @@
     (teleporter
       (spawnpoint "torfi2")
       (message (_ "Leave Torfi's Territory"))
-      (sprite "/images/worldmap/common/teleporterdot.sprite")
+      (sprite "/images/worldmap/common/invisible.png")
       (x 61)
       (y 33)
     )
