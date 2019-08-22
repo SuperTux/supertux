@@ -1,5 +1,0 @@
-(supertux-music
-  (file "theme.ogg")
-  (loop-begin 9)
-  (loop-at    135)
-)
