@@ -1,5 +1,0 @@
-(supertux-music
-  (file "battle_theme.ogg")
-  (loop-begin 30)
-  (loop-at    200)
-)
