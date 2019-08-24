@@ -170,14 +170,27 @@
 
        (action
          (name "big-jump-right")
-         (fps 15.0)
+         (fps 16.0)
          (hitbox 16 14 32 64)
-         (images "big/jump-0.png"))
+         (loops 1)
+         (images "big/jump-0.png"
+                 "big/jump-1.png"
+                 "big/jump-2.png"
+                 "big/jump-2.png"
+                 "big/jump-2.png"
+                 "big/jump-2.png"
+                 "big/jump-2.png"
+                 "big/jump-2.png"
+                 "big/fall-0.png"
+                 "big/fall-1.png"
+                 "big/fall-2.png"
+                 "big/fall-3.png"))
 
        (action
          (name "big-jump-left")
-         (fps 15.0)
+         (fps 16.0)
          (hitbox 16 14 32 64)
+         (loops 1)
          (mirror-action "big-jump-right"))
 
        (action
@@ -301,14 +314,16 @@
 
        (action
          (name "fire-jump-right")
-         (fps 15.0)
+         (fps 16.0)
          (hitbox 16 14 32 64)
+         (loops 1)
          (clone-action "big-jump-right"))
 
        (action
          (name "fire-jump-left")
-         (fps 15.0)
+         (fps 16.0)
          (hitbox 16 14 32 64)
+         (loops 1)
          (mirror-action "big-jump-right"))
 
        (action
@@ -417,14 +432,16 @@
 
        (action
          (name "ice-jump-right")
-         (fps 15.0)
+         (fps 16.0)
          (hitbox 16 14 32 64)
+         (loops 1)
          (clone-action "big-jump-right"))
 
        (action
          (name "ice-jump-left")
-         (fps 15.0)
+         (fps 16.0)
          (hitbox 16 14 32 64)
+         (loops 1)
          (mirror-action "big-jump-right"))
 
        (action
@@ -533,14 +550,16 @@
 
        (action
          (name "earth-jump-right")
-         (fps 15.0)
+         (fps 16.0)
          (hitbox 16 14 32 64)
+         (loops 1)
          (clone-action "big-jump-right"))
 
        (action
          (name "earth-jump-left")
-         (fps 15.0)
+         (fps 16.0)
          (hitbox 16 14 32 64)
+         (loops 1)
          (mirror-action "big-jump-right"))
 
        (action
@@ -759,14 +778,16 @@
 
        (action
          (name "air-jump-right")
-         (fps 15.0)
+         (fps 16.0)
          (hitbox 16 14 32 64)
+         (loops 1)
          (clone-action "big-jump-right"))
 
        (action
          (name "air-jump-left")
-         (fps 15.0)
+         (fps 16.0)
          (hitbox 16 14 32 64)
+         (loops 1)
          (mirror-action "big-jump-right"))
 
        (action
@@ -875,14 +896,16 @@
 
        (action
          (name "santa-jump-right")
-         (fps 15.0)
+         (fps 16.0)
          (hitbox 16 14 32 64)
+         (loops 1)
          (clone-action "big-jump-right"))
 
        (action
          (name "santa-jump-left")
-         (fps 15.0)
+         (fps 16.0)
          (hitbox 16 14 32 64)
+         (loops 1)
          (mirror-action "big-jump-right"))
 
        (action
