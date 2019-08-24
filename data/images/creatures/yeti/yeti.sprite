@@ -1,8 +1,8 @@
 (supertux-sprite
  (action
   (name "walking-right")
-  (fps 4.0)
-  (hitbox 17 12 60 90)
+  (fps 12)
+  (hitbox 29 10 50 98)
   (images
    "y1.png"
    "y2.png"
@@ -11,60 +11,103 @@
    "y5.png"
    "y6.png"
    "y7.png"
+   "y8.png"
    )
   )
  (action
   (name "walking-left")
   (mirror-action "walking-right")
-  (fps 4.0)
-  (hitbox 17 12 60 90)
+  (fps 12)
+  (hitbox 29 10 50 98)
   )
+ 
  (action
   (name "jump-right")
   (images
    "yeti_jump.png"
    )
-  (hitbox 17 12 60 90)
+  (hitbox 34.5 10 50 98)
   )
  (action
   (name "jump-left")
   (mirror-action "jump-right")
-  (hitbox 17 12 60 90)
+  (hitbox 34.5 10 50 98)
   )
+ 
  (action
   (name "stand-right")
   (images
    "y.png"
    )
-  (hitbox 17 12 60 90)
+  (hitbox 16 10 50 100)
   )
  (action
   (name "stand-left")
   (mirror-action "stand-right")
-  (hitbox 17 12 60 90)
+  (hitbox 16 10 50 100)
   )
+ 
  (action
   (name "stomp-right")
   (images
-   "y-jump.png"
+   "yeti_stomp1.png"
    )
-  (hitbox 17 12 60 90)
+  (hitbox 34.5 10 50 98)
   )
  (action
   (name "stomp-left")
   (mirror-action "stomp-right")
-  (hitbox 17 12 60 90)
+  (hitbox 34.5 10 50 98)
+  )
+ 
+ (action
+  (name "land-right")
+  (images
+   "yeti_stomp2.png"
+   )
+  (hitbox 34.5 10 50 98)
   )
  (action
-  (name "dead")
-  (fps 3)
+  (name "land-left")
+  (mirror-action "land-right")
+  (hitbox 34.5 10 50 98)
+  )
+ 
+ (action
+  (name "throw-right")
+  (fps 12)
   (images
-   "busted1.png"
-   "busted1.png"
-   "busted2.png"
-   "busted1.png"
-   "busted2.png"
+   "y-t1.png"
+   "y-t2.png"
+   "y-t3.png"
+   "y-t4.png"
+   "y-t5.png"
+   "y-t6.png"
+   "y-t7.png"
+   "y-t8.png"
    )
-  (hitbox 300 400 60 90)
+  (hitbox 50 10 50 100)
+  )
+ (action
+  (name "throw-left")
+  (mirror-action "throw-right")
+  (hitbox 50 10 50 100)
+  )
+ 
+ (action
+  (name "busted-right")
+  (fps 12)
+  (images
+   "iceyeti_dust1.png"
+   "iceyeti_dust2.png"
+   "iceyeti_dust3.png"
+   "iceyeti_dust4.png"
+   )
+  (hitbox 16 32 50 70)
+  )
+ (action
+  (name "busted-left")
+  (mirror-action "busted-right")
+  (hitbox 16 32 50 70)
   )
  )
