@@ -1,5 +1,0 @@
-(supertux-music
-  (file "voc-dark.ogg")
-  (loop-begin 0)
-  (loop-at    -1)
-)

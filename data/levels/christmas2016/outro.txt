@@ -1,6 +1,6 @@
 (supertux-text			
   (background	"christmas/outro.jpg")
-  (music	"music/christmas_theme.ogg")
+  (music	"music/misc/christmas_theme.ogg")
   (text "-Ready for Christmas!
 
 	After a long search, Tux was still able

@@ -20,7 +20,7 @@
       (time 200)
     )
     (music
-      (file "music/salcon.ogg")
+      (file "music/antarctic/salcon.ogg")
     )
     (particles-snow
     )

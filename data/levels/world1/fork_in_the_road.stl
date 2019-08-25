@@ -135,7 +135,7 @@
       (y 1024)
     )
     (music
-      (file "music/voc-daytime2.music")
+      (file "music/antarctic/voc-daytime2.music")
     )
     (path
       (name "gen15435264741679206240944")

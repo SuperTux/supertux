@@ -63,6 +63,12 @@ PneumaticPlatformChild::collision(GameObject& other, const CollisionHit& )
   return FORCE_MOVE;
 }
 
+void PneumaticPlatformChild::editor_delete()
+{
+  // removing a child removes the whole platform
+  m_parent.editor_delete();
+}
+
 PneumaticPlatform::PneumaticPlatform(const ReaderMapping& mapping) :
   GameObject(mapping),
   m_pos(),
@@ -121,9 +127,13 @@ PneumaticPlatform::update(float dt_sec)
 void
 PneumaticPlatform::editor_delete()
 {
+  // remove children
   for (auto& child : m_children) {
     child->remove_me();
   }
+
+  // remove self
+  remove_me();
 }
 
 ObjectSettings

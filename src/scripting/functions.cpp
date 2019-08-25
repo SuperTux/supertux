@@ -235,6 +235,11 @@ void play_music(const std::string& filename)
   SoundManager::current()->play_music(filename);
 }
 
+void stop_music(float fadetime)
+{
+  SoundManager::current()->stop_music(fadetime);
+}
+
 void play_sound(const std::string& filename)
 {
   SoundManager::current()->play(filename);

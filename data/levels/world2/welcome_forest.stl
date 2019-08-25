@@ -70,7 +70,7 @@
       (y 992)
     )
     (music
-      (file "music/forest.music")
+      (file "music/forest/forest.music")
     )
     (path
       (name "gen15425498641934523964320")

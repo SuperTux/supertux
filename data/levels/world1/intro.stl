@@ -11,7 +11,7 @@
 logo <- FloatingImage(\"images/objects/logo/logo_final.sprite\");
 Tux.set_visible(false);
 trigger_state(\"start\");")
-    (music "music/intro.ogg")
+    (music "music/misc/intro.ogg")
     (gravity 10)
     (camera
       (name "Camera")

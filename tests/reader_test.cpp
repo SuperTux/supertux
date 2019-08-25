@@ -28,6 +28,10 @@ TEST(ReaderTest, get)
     "   (myfloat 1.125)\n\r"
     "   (mystring \"Hello World\")\n"
     "   (mystringtrans (_ \"Hello World\"))\n"
+    "   (myboolarray #t #f #t #f)\n"
+    "   (myintarray 5 4 3 2 1 0)\n"
+    "   (myfloatarray 6.5 5.25 4.125 3.0625 2.0 1.0 0.5 0.25 0.125)\n"
+    "   (mystringarray \"One\" \"Two\" \"Three\")\n"
     "   (mymapping (a 1) (b 2))\n"
     "   (mycustom \"1234\")\n"
     ")\n");
@@ -65,6 +69,34 @@ TEST(ReaderTest, get)
     std::string mystringtrans;
     mapping.get("mystringtrans", mystringtrans);
     ASSERT_EQ("Hello World", mystringtrans);
+  }
+
+  {
+    std::vector<bool> expected{ true, false, true, false };
+    std::vector<bool> result;
+    mapping.get("myboolarray", result);
+    ASSERT_EQ(expected, result);
+  }
+
+  {
+    std::vector<int> expected{ 5, 4, 3, 2, 1, 0 };
+    std::vector<int> result;
+    mapping.get("myintarray", result);
+    ASSERT_EQ(expected, result);
+  }
+
+  {
+    std::vector<float> expected({6.5f, 5.25f, 4.125f, 3.0625f, 2.0f, 1.0f, 0.5f, 0.25f, 0.125f});
+    std::vector<float> result;
+    mapping.get("myfloatarray", result);
+    ASSERT_EQ(expected, result);
+  }
+
+  {
+    std::vector<std::string> expected{"One", "Two", "Three"};
+    std::vector<std::string> result;
+    mapping.get("mystringarray", result);
+    ASSERT_EQ(expected, result);
   }
 
   {

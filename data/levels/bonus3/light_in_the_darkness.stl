@@ -294,7 +294,7 @@
       (y 576)
     )
     (music
-      (file "music/ghostforest.music")
+      (file "music/forest/ghostforest.music")
     )
     (particles-rain
     )

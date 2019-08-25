@@ -477,7 +477,7 @@ WrapperCreator::push_to_stack(const Type& type, const std::string& var)
     } else if(type.atomic_type == &BasicType::BOOL) {
         out << "sq_pushbool(vm, " << var << ");\n";
     } else if(type.atomic_type == StringType::instance()) {
-        out << "assert(" << var << ".size() < std::numeric_limits<SQInteger>::max());\n"
+        out << "assert(" << var << ".size() < static_cast<size_t>(std::numeric_limits<SQInteger>::max()));\n"
             << ind << ind << "sq_pushstring(vm, " << var << ".c_str(), static_cast<SQInteger>("
             << var << ".size()));\n";
     } else {

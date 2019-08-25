@@ -31,7 +31,7 @@
       (bottom_color 0 0 0)
     )
     (music
-      (file "/music/clavelian_march.music")
+      (file "/music/forest/clavelian_march.music")
     )
     (particles-ghosts
       (z-pos -180)

@@ -240,7 +240,7 @@
       (y 544)
     )
     (music
-      (file "music/ghostforest2.ogg")
+      (file "music/forest/ghostforest2.ogg")
     )
     (secretarea
       (width 476)

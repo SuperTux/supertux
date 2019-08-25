@@ -1,5 +1,0 @@
-(supertux-music
-  (file "bright_thunders.ogg")
-  (loop-begin 0)
-  (loop-at -1)
-)

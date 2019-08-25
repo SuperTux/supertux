@@ -41,7 +41,8 @@ void
 FallingCoin::update(float dt_sec)
 {
   pos += physic.get_movement(dt_sec);
-  if (pos.y > static_cast<float>(SCREEN_HEIGHT))
+  if (pos.y > static_cast<float>(SCREEN_HEIGHT) &&
+      physic.get_velocity_y() > 0.0f)
     remove_me();
 }
 

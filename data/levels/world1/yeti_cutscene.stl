@@ -17,7 +17,7 @@
       (bottom_color 1 1 1)
     )
     (music
-      (file "/music/voc-dark.music")
+      (file "/music/antarctic/voc-dark.music")
     )
     (scriptedobject
       (name "Yeti")
