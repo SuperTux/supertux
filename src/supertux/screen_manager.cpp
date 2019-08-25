@@ -205,20 +205,11 @@ private:
 };
 
 void
-ScreenManager::draw_fps(DrawingContext& context, FPS_Stats& fps_statistics)
+ScreenManager::draw_fps(DrawingContext& context)
 {
-  bool vsync_enabled = VideoSystem::current()->get_vsync() != 0;
-  if (vsync_enabled) {
-    // Do not show min and max fps because they do not correspond to what is
-    // shown (see the run method)
-    char str[60];
-    snprintf(str, sizeof(str), "%3.1f FPS",
-      static_cast<double>(fps_statistics.get_fps()));
-    context.color().draw_text(Resources::small_font, str,
-      Vector(static_cast<float>(context.get_width()) - BORDER_X, BORDER_Y + 20),
-      ALIGN_RIGHT, LAYER_HUD);
-    return;
-  }
+  static FPS_Stats fps_statistics;
+  // Assume that draw_fps is called once every frame
+  fps_statistics.report_frame();
   // The fonts are not monospace, so the numbers need to be drawn separately
   Vector pos(static_cast<float>(context.get_width()) - BORDER_X, BORDER_Y + 20);
   context.color().draw_text(Resources::small_font, "FPS  min / avg / max",
@@ -263,7 +254,7 @@ ScreenManager::draw_player_pos(DrawingContext& context)
 }
 
 void
-ScreenManager::draw(Compositor& compositor, FPS_Stats& fps_statistics)
+ScreenManager::draw(Compositor& compositor)
 {
   assert(!m_screen_stack.empty());
 
@@ -281,7 +272,7 @@ ScreenManager::draw(Compositor& compositor, FPS_Stats& fps_statistics)
   Console::current()->draw(context);
 
   if (g_config->show_fps)
-    draw_fps(context, fps_statistics);
+    draw_fps(context);
 
   if (g_debug.show_controller) {
     m_controller_hud->draw(context);
@@ -470,107 +461,54 @@ void
 ScreenManager::run()
 {
   Uint32 last_ticks = 0;
-  float elapsed_ms = 0;
-  float ms_offset = 0;
-  FPS_Stats fps_statistics;
+  Uint32 elapsed_ticks = 0;
 
   handle_screen_switch();
 
-  while (!m_screen_stack.empty()) {
+  while (!m_screen_stack.empty())
+  {
     Uint32 ticks = SDL_GetTicks();
-    elapsed_ms += static_cast<float>(ticks - last_ticks);
+    elapsed_ticks += ticks - last_ticks;
     last_ticks = ticks;
 
-    // The average framerate over the last 0.5 seconds
-    float current_avg_fps = fps_statistics.get_fps();
-    if (current_avg_fps < 5.0f)
-      // Very low fps usually happens when loading a level, assume 30 fps
-      current_avg_fps = 30.0f;
-    const float avg_ms_per_frame = 1000.0f / current_avg_fps;
+    /** ticks (as returned from SDL_GetTicks) per frame */
+    const Uint32 ticks_per_frame =
+      static_cast<Uint32>(1000.0f / m_target_framerate);
 
-    if (elapsed_ms > 67.0f) {
+    if (elapsed_ticks > ticks_per_frame*4)
+    {
       // when the game loads up or levels are switched the
-      // elapsed_ms grows extremely large, so we just ignore those
+      // elapsed_ticks grows extremely large, so we just ignore those
       // large time jumps
-      elapsed_ms = 0;
+      elapsed_ticks = 0;
     }
 
-    if (elapsed_ms < MIN_TICKS) {
-      SDL_Delay(MIN_TICKS);
-      continue;
+    if (elapsed_ticks == 0)
+    {
+      Uint32 delay_ticks = MIN_TICKS;
+      SDL_Delay(delay_ticks);
+      last_ticks += delay_ticks;
+      elapsed_ticks += delay_ticks;
     }
 
-    float dtime = elapsed_ms;
-    // FIXME: adaptive vsync is treated like usual vsync here
-    bool vsync_enabled = VideoSystem::current()->get_vsync() != 0;
-    if (vsync_enabled) {
-      // The frames are not shown immediately but end up in a buffer, so later
-      // they are aligned to the screen framerate (my assumption)
-      // This uses a nearly constant delta time instead of the measured
-      // time difference to compensate for the alignment.
-      // It may have a negative effect on the user input handling, sounds, etc.
-      float dtime_target = elapsed_ms + ms_offset;
-      float off_abs = fabsf(ms_offset);
-      float min_ms_per_frame = 0.01f;
-      float max_ms_per_frame = dtime_target;
-      if (off_abs < 10.0f) {
-        // If the offset is small, use a nearly constant dtime
-        min_ms_per_frame = avg_ms_per_frame * 0.99f;
-        max_ms_per_frame = avg_ms_per_frame * 1.01f;
-      } else if (off_abs < 18.0f) {
-        // Try to slowly go back to avg_ms_per_frame
-        min_ms_per_frame = avg_ms_per_frame * 0.95f;
-        max_ms_per_frame = avg_ms_per_frame * 1.05f;
-      } else if (off_abs < 30.0f) {
-        // Try to go back to avg_ms_per_frame more aggressively
-        min_ms_per_frame = avg_ms_per_frame * 0.9f;
-        max_ms_per_frame = avg_ms_per_frame * 1.3f;
-      } else if (off_abs < 50.0f) {
-        // Try to go back to avg_ms_per_frame noticeably
-        min_ms_per_frame = avg_ms_per_frame * 0.7f;
-        max_ms_per_frame = avg_ms_per_frame * 1.8f;
-      } // Else force synchronisation
-      dtime = dtime_target;
-      if (dtime < min_ms_per_frame) {
-        dtime = min_ms_per_frame;
-      } else if (dtime > max_ms_per_frame) {
-        dtime = max_ms_per_frame;
-      }
-      ms_offset = dtime - dtime_target;
-    } else {
-      float min_ms = 1000.0f / m_target_framerate;
-      // Reduce the minimum delay a bit because the framerate setting usually
-      // refers to a multiple of the display framerate
-      min_ms *= 0.95f;
-      // Subtract the offset to the highest known measured maximum delay;
-      // this reduces the sleep time if the game is lagging
-      float achievable_min_ms = fps_statistics.get_highest_max_ms();
-      if (achievable_min_ms > min_ms)
-        min_ms -= achievable_min_ms - min_ms;
-      if (elapsed_ms < min_ms) {
-        // Sleep a bit to limit the fps (if delay is not rounded down to 0)
-        Uint32 delay = static_cast<Uint32>(min_ms - elapsed_ms);
-        if (delay > 0) {
-          SDL_Delay(delay);
-          continue;
-        }
-      }
+    if (elapsed_ticks >= MIN_TICKS)
+    {
+      float speed_multiplier = 1.0f / g_debug.get_game_speed_multiplier();
+      float timestep = speed_multiplier *
+        static_cast<float>(elapsed_ticks) / 1000.0f;
+      elapsed_ticks = 0;
+      g_real_time += timestep;
+      timestep *= m_speed;
+      g_game_time += timestep;
+
+      process_events();
+      update_gamelogic(timestep);
     }
-    elapsed_ms = 0;
 
-    fps_statistics.report_frame();
-    float speed_multiplier = 1.0f / g_debug.get_game_speed_multiplier();
-    float timestep = speed_multiplier * dtime / 1000.0f;
-    g_real_time += timestep;
-    timestep *= m_speed;
-    g_game_time += timestep;
-
-    process_events();
-    update_gamelogic(timestep);
-
-    if (!m_screen_stack.empty()) {
+    if (!m_screen_stack.empty())
+    {
       Compositor compositor(m_video_system);
-      draw(compositor, fps_statistics);
+      draw(compositor);
     }
 
     SoundManager::current()->update();
