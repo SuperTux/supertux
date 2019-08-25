@@ -55,14 +55,27 @@
 
        (action
          (name "small-jump-right")
-         (fps 15.0)
+         (fps 16.0)
          (hitbox 8 16 32 32)
-         (images "small/jump-0.png"))
+         (loops 1)
+         (images "small/jump-0.png"
+                 "small/jump-1.png"
+                 "small/jump-2.png"
+                 "small/jump-2.png"
+                 "small/jump-2.png"
+                 "small/jump-2.png"
+                 "small/jump-2.png"
+                 "small/jump-2.png"
+                 "small/fall-0.png"
+                 "small/fall-1.png"
+                 "small/fall-2.png"
+                 "small/fall-3.png"))
 
        (action
          (name "small-jump-left")
-         (fps 15.0)
+         (fps 16.0)
          (hitbox 8 16 32 32)
+         (loops 1)
          (mirror-action "small-jump-right"))
 
        (action
