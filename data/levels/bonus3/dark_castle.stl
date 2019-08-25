@@ -392,7 +392,7 @@
       (y 454)
     )
     (music
-      (file "music/darkforestkeep.ogg")
+      (file "music/forest/darkforestkeep.ogg")
     )
     (particles-snow
     )

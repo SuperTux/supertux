@@ -151,7 +151,7 @@
       (y 33)
     )
     (music
-      (file "music/salcon.ogg")
+      (file "music/antarctic/salcon.ogg")
     )
     (special-tile
       (map-message (_ "You found a secret place!"))
@@ -172,12 +172,14 @@
     (teleporter
       (spawnpoint "castle")
       (message (_ "I wonder where that path leads to..."))
+      (sprite "/images/worldmap/common/teleporterdot.sprite")
       (x 60)
       (y 20)
     )
     (teleporter
       (spawnpoint "main")
       (message (_ "Warp home..."))
+      (sprite "/images/worldmap/common/teleporterdot.sprite")
       (x 25)
       (y 8)
     )

@@ -115,7 +115,7 @@
       (y 640)
     )
     (music
-      (file "music/chipdisko.ogg")
+      (file "music/antarctic/chipdisko.ogg")
     )
     (path
       (name "2fba371f-9d50-4482-9d17-3303f2577fa3")

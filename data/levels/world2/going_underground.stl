@@ -129,7 +129,7 @@
       (y 1408)
     )
     (music
-      (file "/music/greatgigantic.music")
+      (file "/music/forest/greatgigantic.music")
     )
     (particles-rain
       (z-pos 0)
@@ -1185,7 +1185,7 @@
       (mode "normal")
     )
     (music
-      (file "/music/bonuscave.ogg")
+      (file "/music/misc/bonuscave.ogg")
     )
     (scripttrigger
       (script "Level.spawn(\"main\", \"warp\");")

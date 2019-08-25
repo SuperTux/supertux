@@ -1,7 +1,7 @@
 (supertux-text
   (version 2)
   (background "oiltux.jpg")
-  (music "music/credits.ogg")
+  (music "music/misc/credits.ogg")
   (speed 60)
   (content
     (image "images/engine/menu/logo.png")

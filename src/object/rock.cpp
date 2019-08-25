@@ -76,12 +76,8 @@ Rock::Rock(const ReaderMapping& reader, const std::string& spritename) :
 void
 Rock::update(float dt_sec)
 {
-  if ( grabbed )
-    return;
-
-  if (on_ground) physic.set_velocity_x(0);
-
-  m_col.m_movement = physic.get_movement(dt_sec);
+  if (!grabbed)
+    m_col.m_movement = physic.get_movement(dt_sec);
 }
 
 void
@@ -92,13 +88,17 @@ Rock::collision_solid(const CollisionHit& hit)
   }
   if (hit.top || hit.bottom)
     physic.set_velocity_y(0);
-  if (hit.left || hit.right)
-    physic.set_velocity_x(0);
+  if (hit.left || hit.right) {
+    // Bounce back slightly when hitting a wall
+    float velx = physic.get_velocity_x();
+    physic.set_velocity_x(-0.1f * velx);
+  }
   if (hit.crush)
     physic.set_velocity(0, 0);
 
   if (hit.bottom  && !on_ground && !grabbed) {
     SoundManager::current()->play(ROCK_SOUND, get_pos());
+    physic.set_velocity_x(0);
     on_ground = true;
   }
 }
@@ -125,6 +125,7 @@ Rock::collision(GameObject& other, const CollisionHit& hit)
       if (moving_object) {
         //Getting a rock on the head hurts. A lot.
         moving_object->collision_tile(Tile::HURTS);
+        physic.set_velocity_y(0);
       }
     }
     return FORCE_MOVE;
@@ -154,6 +155,8 @@ Rock::ungrab(MovingObject& , Direction dir)
   on_ground = false;
   if (dir == Direction::UP) {
     physic.set_velocity(0, -500);
+  } else if (dir == Direction::DOWN) {
+    physic.set_velocity(0, 500);
   } else if (last_movement.norm() > 1) {
     physic.set_velocity((dir == Direction::RIGHT) ? 200.0f : -200.0f, -200.0f);
   } else {

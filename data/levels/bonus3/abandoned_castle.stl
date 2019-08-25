@@ -34,7 +34,7 @@ RightWindow.goto_node(0)")
       (y 352)
     )
     (music
-      (file "music/forest2.ogg")
+      (file "music/forest/forest2.ogg")
     )
     (path
       (name "041d4a7d-2e93-43ba-8ec0-ecc48547f815")
@@ -357,7 +357,7 @@ DoorBlock.goto_node(1)")
       (y 576)
     )
     (music
-      (file "music/darkforestkeep.ogg")
+      (file "music/castle/darkforestkeep.ogg")
     )
     (path
       (name "60c2d025-3750-4012-9a19-2bcb8fb4e024")
@@ -567,7 +567,7 @@ DoorBlock.goto_node(1)")
       (y 192)
     )
     (music
-      (file "music/forest2.ogg")
+      (file "music/forest/forest2.ogg")
     )
     (poisonivy
       (x 960)

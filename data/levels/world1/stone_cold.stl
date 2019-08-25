@@ -170,7 +170,7 @@
       (y 480)
     )
     (music
-      (file "music/chipdisko.ogg")
+      (file "music/antarctic/chipdisko.ogg")
     )
     (path
       (name "gen15435272821679206245408")

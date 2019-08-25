@@ -38,7 +38,7 @@
       (y 832)
     )
     (music
-      (file "music/cave.music")
+      (file "music/antarctic/cave.music")
     )
     (path
       (name "75d76775-4f74-4fe0-8212-a9c462230742")
@@ -391,7 +391,7 @@
       (y 64)
     )
     (music
-      (file "music/cave.music")
+      (file "music/antarctic/cave.music")
     )
     (spawnpoint
       (name "main")
@@ -571,7 +571,7 @@
       (mode "normal")
     )
     (music
-      (file "music/forest.music")
+      (file "music/forest/forest.music")
     )
     (spawnpoint
       (name "main")

@@ -35,7 +35,7 @@
       (y 512)
     )
     (music
-      (file "/music/voc-daytime2.music")
+      (file "/music/antarctic/voc-daytime2.music")
     )
     (path
       (name "gen15435262761679206245840")
@@ -725,7 +725,7 @@ Moving4.start_moving();")
       (y 992)
     )
     (music
-      (file "/music/jewels.music")
+      (file "/music/antarctic/jewels.music")
     )
     (path
       (name "gen15435262761679206249440")
@@ -2218,7 +2218,7 @@ door2.goto_node(1);")
       (bottom_color 1 1 1)
     )
     (music
-      (file "/music/voc-daytime2.music")
+      (file "/music/antarctic/voc-daytime2.music")
     )
     (path
       (name "gen15435262761679206250880")

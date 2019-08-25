@@ -65,7 +65,7 @@
       (bottom_color 1 1 1)
     )
     (music
-      (file "music/chipdisko.ogg")
+      (file "music/antarctic/chipdisko.ogg")
     )
     (path
       (name "3d5fe49b-ca9d-42e2-9889-bd21b320a0aa")

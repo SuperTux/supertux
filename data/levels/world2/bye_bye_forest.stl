@@ -228,7 +228,7 @@
       (y 672)
     )
     (music
-      (file "music/forest_theme.ogg")
+      (file "music/forest/forest_theme.ogg")
     )
     (path
       (name "gen15438661181662399223728")

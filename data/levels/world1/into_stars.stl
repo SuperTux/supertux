@@ -240,7 +240,7 @@
       (y 1536)
     )
     (music
-      (file "music/voc-night.music")
+      (file "music/antarctic/voc-night.music")
     )
     (particles-snow
     )

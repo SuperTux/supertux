@@ -172,7 +172,7 @@
       (y 498)
     )
     (music
-      (file "music/chipdisko.ogg")
+      (file "music/antarctic/chipdisko.ogg")
     )
     (secretarea
       (script "secret.fade(1,0)")
