@@ -83,7 +83,7 @@
       (y 6)
     )
     (music
-      (file "/music/antarctic/jasons_chipdisco_arctic_breeze.ogg")
+      (file "/music/antarctic/arctic_breeze.ogg")
     )
     (sprite-change
       (change-on-touch #t)
