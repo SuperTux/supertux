@@ -35,7 +35,7 @@
       (y 544)
     )
     (music
-      (file "/music/forest/forest.music")
+      (file "/music/forest.music")
     )
     (poisonivy
       (x 480)
@@ -375,7 +375,7 @@
       (y 1120)
     )
     (music
-      (file "/music/forest/forest-cave.ogg")
+      (file "/music/cave.music")
     )
     (path
       (name "gen15443889881324235614304")
@@ -1238,7 +1238,7 @@
       (y 640)
     )
     (music
-      (file "/music/forest/forest.music")
+      (file "/music/forest.music")
     )
     (particles-clouds
     )

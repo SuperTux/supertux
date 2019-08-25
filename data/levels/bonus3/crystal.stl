@@ -166,7 +166,7 @@
       (y 742)
     )
     (music
-      (file "music/forest/wisphunt.music")
+      (file "music/wisphunt.music")
     )
     (owl
       (carry "skydive")

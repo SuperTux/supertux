@@ -114,7 +114,7 @@
       (y 29)
     )
     (music
-      (file "/music/forest/new_forest_map.ogg")
+      (file "/music/new_forest_map.ogg")
     )
     (special-tile
       (invisible-tile #t)

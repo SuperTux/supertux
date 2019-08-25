@@ -161,7 +161,7 @@
       (y 11)
     )
     (music
-      (file "music/antarctic/voc-dark.music")
+      (file "music/voc-dark.music")
     )
     (tilemap
       (solid #f)

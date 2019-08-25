@@ -138,7 +138,7 @@
       (y 896)
     )
     (music
-      (file "music/forest/forest2.ogg")
+      (file "music/forest2.ogg")
     )
     (path
       (name "gen15424606122212440385824")
@@ -1645,7 +1645,7 @@
       (bottom_color 1 0.8 0)
     )
     (music
-      (file "/music/forest/forest2.ogg")
+      (file "/music/forest2.ogg")
     )
     (secretarea
       (message (_ "You found a secret area!"))

@@ -239,7 +239,7 @@
       (y 864)
     )
     (music
-      (file "music/forest/ghostforest.music")
+      (file "music/ghostforest.music")
     )
     (secretarea
       (width 316)

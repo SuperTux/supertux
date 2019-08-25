@@ -1,6 +1,6 @@
 (supertux-text			
   (background	"halloween/outro.jpg")
-  (music	"music/antarctic/chipdisko.ogg")
+  (music	"music/chipdisko.ogg")
   (text "-Halloween Party!
 
 	After a laborious journey through the

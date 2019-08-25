@@ -95,7 +95,7 @@
       (y 768)
     )
     (music
-      (file "/music/forest/forest2.ogg")
+      (file "/music/forest2.ogg")
     )
     (owl
       (carry "skydive")

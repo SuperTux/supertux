@@ -134,7 +134,7 @@
       (y 520)
     )
     (music
-      (file "music/antarctic/airship_remix.music")
+      (file "music/airship_remix.music")
     )
     (particles-clouds
     )

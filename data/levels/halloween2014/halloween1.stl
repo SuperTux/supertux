@@ -293,7 +293,7 @@
       (y 640)
     )
     (music
-      (file "music/forest/greatgigantic.music")
+      (file "music/greatgigantic.music")
     )
     (secretarea
       (width 264)

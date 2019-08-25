@@ -94,7 +94,7 @@
       (y 808)
     )
     (music
-      (file "music/misc/theme.music")
+      (file "music/theme.music")
     )
     (path
       (name "9e20f069-5234-481e-8ebb-92f2abdee10c")

@@ -160,7 +160,7 @@
       (y 630)
     )
     (music
-      (file "music/castle/fortress.music")
+      (file "music/fortress.music")
     )
     (particles-snow
     )

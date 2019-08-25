@@ -84,7 +84,7 @@
       (y 512)
     )
     (music
-      (file "music/antarctic/voc-daytime.music")
+      (file "music/voc-daytime.music")
     )
     (sequencetrigger
       (sequence "stoptux")

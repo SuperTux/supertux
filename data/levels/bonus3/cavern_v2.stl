@@ -449,7 +449,7 @@
       (y 230)
     )
     (music
-      (file "music/antarctic/cave.music")
+      (file "music/cave.music")
     )
     (path
       (name "1b913a37-9e30-447a-8b78-bb9d5a55354a")

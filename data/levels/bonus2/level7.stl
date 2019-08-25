@@ -356,7 +356,7 @@
       (y 470)
     )
     (music
-      (file "music/antarctic/chipdisko.ogg")
+      (file "music/chipdisko.ogg")
     )
     (snowball
       (x 2111)

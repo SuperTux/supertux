@@ -90,7 +90,7 @@
       (y 640)
     )
     (music
-      (file "/music/forest/bright_thunders.music")
+      (file "/music/bright_thunders.music")
     )
     (particles-rain
       (z-pos 0)

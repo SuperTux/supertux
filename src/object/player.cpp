@@ -896,8 +896,6 @@ Player::handle_input()
         moving_object->set_pos(dest_.p1());
         if (m_controller->hold(Control::UP)) {
           m_grabbed_object->ungrab(*this, Direction::UP);
-        } else if (m_controller->hold(Control::DOWN)) {
-          m_grabbed_object->ungrab(*this, Direction::DOWN);
         } else {
           m_grabbed_object->ungrab(*this, m_dir);
         }

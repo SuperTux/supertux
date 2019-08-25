@@ -25,13 +25,13 @@ if(is_christmas()) {
   paralax2.tint_fade(0, 0.2, 0.2, 0.3, 1);
 
   // change music
-  settings.set_music(\"music/misc/christmas_theme.music\");
+  settings.set_music(\"music/christmas_theme.music\");
 }
 logo.set_anchor_point(ANCHOR_MIDDLE);
 logo.set_pos(0, -171);
 logo.set_visible(true);
 ")
-    (music "/music/misc/theme.music")
+    (music "/music/theme.music")
     (gravity 10)
     (camera
       (name "Camera")

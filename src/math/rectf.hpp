@@ -43,9 +43,6 @@ public:
     m_size()
   { }
 
-  Rectf(const Rectf& rhs) = default;
-  Rectf& operator=(const Rectf& rhs) = default;
-
   Rectf(const Vector& np1, const Vector& np2) :
     m_p1(np1), m_size(np2.x - np1.x, np2.y - np1.y)
   {

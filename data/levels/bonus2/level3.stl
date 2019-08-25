@@ -24,7 +24,7 @@
       (time 100)
     )
     (music
-      (file "music/misc/theme.music")
+      (file "music/theme.music")
     )
     (particles-clouds
     )

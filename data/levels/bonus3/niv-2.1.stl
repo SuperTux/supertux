@@ -379,7 +379,7 @@
       (y 1440)
     )
     (music
-      (file "/music/antarctic/airship_remix.music")
+      (file "/music/airship_remix.music")
     )
     (particles-snow
     )
@@ -549,7 +549,7 @@
       (mode "normal")
     )
     (music
-      (file "/music/misc/bonuscave.ogg")
+      (file "/music/bonuscave.ogg")
     )
     (spawnpoint
       (name "main")

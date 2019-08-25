@@ -89,7 +89,7 @@
       (y 1088)
     )
     (music
-      (file "/music/forest/forest.music")
+      (file "/music/forest.music")
     )
     (poisonivy
       (x 672)

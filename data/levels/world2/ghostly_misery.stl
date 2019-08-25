@@ -385,7 +385,7 @@
       (y 1205.438)
     )
     (music
-      (file "/music/forest/ghostforest.music")
+      (file "/music/ghostforest.music")
     )
     (particles-ghosts
     )

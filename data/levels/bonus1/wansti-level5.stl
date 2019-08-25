@@ -229,7 +229,7 @@
       (y 657)
     )
     (music
-      (file "music/antarctic/chipdisko.ogg")
+      (file "music/chipdisko.ogg")
     )
     (particles-clouds
     )
@@ -463,7 +463,7 @@
       (y 488)
     )
     (music
-      (file "music/antarctic/chipdisko.ogg")
+      (file "music/chipdisko.ogg")
     )
     (particles-clouds
       (z-pos -199)

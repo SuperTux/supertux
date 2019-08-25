@@ -1,6 +1,6 @@
 (supertux-text			
   (background	"halloween/intro.jpg")
-  (music	"music/antarctic/voc-dark.music")
+  (music	"music/voc-dark.music")
   (text "-Halloween Party!
  Or maybe not?
 

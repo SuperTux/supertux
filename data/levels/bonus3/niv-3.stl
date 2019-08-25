@@ -44,7 +44,7 @@
       (y 576)
     )
     (music
-      (file "/music/forest/forest2.ogg")
+      (file "/music/forest2.ogg")
     )
     (particles-clouds
     )
@@ -340,7 +340,7 @@
       (y 192)
     )
     (music
-      (file "/music/forest/ghostforest.music")
+      (file "/music/ghostforest.music")
     )
     (particles-ghosts
     )
@@ -587,7 +587,7 @@
       (y 192)
     )
     (music
-      (file "/music/antarctic/airship_remix.music")
+      (file "/music/airship_remix.music")
     )
     (spawnpoint
       (name "main")
@@ -720,7 +720,7 @@
       (y 166.1)
     )
     (music
-      (file "/music/forest/greatgigantic.music")
+      (file "/music/greatgigantic.music")
     )
     (path
       (name "437990e6-f5aa-4f21-9f92-55a9466241de")
@@ -1764,7 +1764,7 @@
       (mode "normal")
     )
     (music
-      (file "/music/forest/forest2.ogg")
+      (file "/music/forest2.ogg")
     )
     (particles-clouds
     )

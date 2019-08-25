@@ -24,7 +24,7 @@
       (bottom_color 0.5 0.7 1)
     )
     (music
-      (file "/music/forest/forest.music")
+      (file "/music/forest.music")
     )
     (scripttrigger
       (script "Tux.deactivate();

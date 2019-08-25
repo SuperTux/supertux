@@ -138,7 +138,7 @@
       (y 800)
     )
     (music
-      (file "/music/forest/forest2.ogg")
+      (file "/music/forest2.ogg")
     )
     (particles-clouds
     )

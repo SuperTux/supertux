@@ -1158,7 +1158,7 @@ static SQInteger FloatingImage_get_action_wrapper(HSQUIRRELVM vm)
   try {
     std::string return_value = _this->get_action();
 
-    assert(return_value.size() < static_cast<size_t>(std::numeric_limits<SQInteger>::max()));
+    assert(return_value.size() < std::numeric_limits<SQInteger>::max());
     sq_pushstring(vm, return_value.c_str(), static_cast<SQInteger>(return_value.size()));
     return 1;
 
@@ -1298,7 +1298,7 @@ static SQInteger Gradient_get_direction_wrapper(HSQUIRRELVM vm)
   try {
     std::string return_value = _this->get_direction();
 
-    assert(return_value.size() < static_cast<size_t>(std::numeric_limits<SQInteger>::max()));
+    assert(return_value.size() < std::numeric_limits<SQInteger>::max());
     sq_pushstring(vm, return_value.c_str(), static_cast<SQInteger>(return_value.size()));
     return 1;
 
@@ -2632,7 +2632,7 @@ static SQInteger ScriptedObject_get_action_wrapper(HSQUIRRELVM vm)
   try {
     std::string return_value = _this->get_action();
 
-    assert(return_value.size() < static_cast<size_t>(std::numeric_limits<SQInteger>::max()));
+    assert(return_value.size() < std::numeric_limits<SQInteger>::max());
     sq_pushstring(vm, return_value.c_str(), static_cast<SQInteger>(return_value.size()));
     return 1;
 
@@ -3092,7 +3092,7 @@ static SQInteger ScriptedObject_get_name_wrapper(HSQUIRRELVM vm)
   try {
     std::string return_value = _this->get_name();
 
-    assert(return_value.size() < static_cast<size_t>(std::numeric_limits<SQInteger>::max()));
+    assert(return_value.size() < std::numeric_limits<SQInteger>::max());
     sq_pushstring(vm, return_value.c_str(), static_cast<SQInteger>(return_value.size()));
     return 1;
 
@@ -5602,7 +5602,7 @@ static SQInteger translate_wrapper(HSQUIRRELVM vm)
   try {
     std::string return_value = scripting::translate(arg0);
 
-    assert(return_value.size() < static_cast<size_t>(std::numeric_limits<SQInteger>::max()));
+    assert(return_value.size() < std::numeric_limits<SQInteger>::max());
     sq_pushstring(vm, return_value.c_str(), static_cast<SQInteger>(return_value.size()));
     return 1;
 
@@ -5627,7 +5627,7 @@ static SQInteger __wrapper(HSQUIRRELVM vm)
   try {
     std::string return_value = scripting::_(arg0);
 
-    assert(return_value.size() < static_cast<size_t>(std::numeric_limits<SQInteger>::max()));
+    assert(return_value.size() < std::numeric_limits<SQInteger>::max());
     sq_pushstring(vm, return_value.c_str(), static_cast<SQInteger>(return_value.size()));
     return 1;
 
@@ -5662,7 +5662,7 @@ static SQInteger translate_plural_wrapper(HSQUIRRELVM vm)
   try {
     std::string return_value = scripting::translate_plural(arg0, arg1, static_cast<int> (arg2));
 
-    assert(return_value.size() < static_cast<size_t>(std::numeric_limits<SQInteger>::max()));
+    assert(return_value.size() < std::numeric_limits<SQInteger>::max());
     sq_pushstring(vm, return_value.c_str(), static_cast<SQInteger>(return_value.size()));
     return 1;
 
@@ -5697,7 +5697,7 @@ static SQInteger ___wrapper(HSQUIRRELVM vm)
   try {
     std::string return_value = scripting::__(arg0, arg1, static_cast<int> (arg2));
 
-    assert(return_value.size() < static_cast<size_t>(std::numeric_limits<SQInteger>::max()));
+    assert(return_value.size() < std::numeric_limits<SQInteger>::max());
     sq_pushstring(vm, return_value.c_str(), static_cast<SQInteger>(return_value.size()));
     return 1;
 
@@ -5906,29 +5906,6 @@ static SQInteger play_music_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   } catch(...) {
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'play_music'"));
-    return SQ_ERROR;
-  }
-
-}
-
-static SQInteger stop_music_wrapper(HSQUIRRELVM vm)
-{
-  SQFloat arg0;
-  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
-    sq_throwerror(vm, _SC("Argument 1 not a float"));
-    return SQ_ERROR;
-  }
-
-  try {
-    scripting::stop_music(arg0);
-
-    return 0;
-
-  } catch(std::exception& e) {
-    sq_throwerror(vm, e.what());
-    return SQ_ERROR;
-  } catch(...) {
-    sq_throwerror(vm, _SC("Unexpected exception while executing function 'stop_music'"));
     return SQ_ERROR;
   }
 
@@ -7176,13 +7153,6 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|ts");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'play_music'");
-  }
-
-  sq_pushstring(v, "stop_music", -1);
-  sq_newclosure(v, &stop_music_wrapper, 0);
-  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tf");
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register function 'stop_music'");
   }
 
   sq_pushstring(v, "play_sound", -1);

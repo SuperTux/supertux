@@ -151,7 +151,7 @@
       (y 544)
     )
     (music
-      (file "/music/forest/clavelian_march.music")
+      (file "/music/clavelian_march.music")
     )
     (path
       (name "gen15425406231622872220416")
@@ -907,7 +907,7 @@ stonewall3.start_moving();")
       (y 288)
     )
     (music
-      (file "/music/forest/clavelian_march.music")
+      (file "/music/clavelian_march.music")
     )
     (path
       (name "gen15425406231622872220272")

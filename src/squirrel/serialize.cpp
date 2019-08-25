@@ -56,23 +56,23 @@ void load_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, const ReaderMappin
 
     // push the value
     switch (value.get_type()) {
-      case sexp::Value::Type::ARRAY:
+      case sexp::Value::TYPE_ARRAY:
         sq_newtable(vm);
         load_squirrel_table(vm, sq_gettop(vm), ReaderMapping(mapping.get_doc(), arr[i]));
         break;
-      case sexp::Value::Type::INTEGER:
+      case sexp::Value::TYPE_INTEGER:
         sq_pushinteger(vm, value.as_int());
         break;
-      case sexp::Value::Type::REAL:
+      case sexp::Value::TYPE_REAL:
         sq_pushfloat(vm, value.as_float());
         break;
-      case sexp::Value::Type::STRING:
+      case sexp::Value::TYPE_STRING:
         sq_pushstring(vm, value.as_string().c_str(), -1);
         break;
-      case sexp::Value::Type::BOOLEAN:
+      case sexp::Value::TYPE_BOOLEAN:
         sq_pushbool(vm, value.as_bool() ? SQTrue : SQFalse);
         break;
-      case sexp::Value::Type::SYMBOL:
+      case sexp::Value::TYPE_SYMBOL:
         log_fatal << "Unexpected symbol in file: " << value.as_string() << std::endl;
         sq_pushnull(vm);
         break;

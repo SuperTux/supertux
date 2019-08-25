@@ -214,7 +214,7 @@
       (y 678)
     )
     (music
-      (file "music/castle/fortress.music")
+      (file "music/fortress.music")
     )
     (particles-clouds
     )

@@ -163,7 +163,7 @@
       (y 1792)
     )
     (music
-      (file "/music/forest/forest.music")
+      (file "/music/forest.music")
     )
     (path
       (name "gen15441204971562006052736")
@@ -873,7 +873,7 @@
       (bottom_color 0.5 0.7 1)
     )
     (music
-      (file "/music/forest/forest.music")
+      (file "/music/forest.music")
     )
     (spawnpoint
       (name "bonus")

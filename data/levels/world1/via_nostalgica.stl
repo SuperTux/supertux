@@ -87,7 +87,7 @@
       (y 576)
     )
     (music
-      (file "music/antarctic/chipdisko.ogg")
+      (file "music/chipdisko.ogg")
     )
     (sequencetrigger
       (sequence "endsequence")

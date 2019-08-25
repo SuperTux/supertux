@@ -1,12 +1,11 @@
 (supertux-level
-  (version 3)
+  (version 2)
   (name (_ "Going down"))
   (author "Torfi Gunnarsson")
   (sector
     (name "main")
-    (ambient-light
-      (color 1 1 1)
-    )
+    (music "music/fortress.music")
+    (ambient-light 1 1 1)
     (background
       (speed 0.5)
       (image-top "images/background/BlueRock_Forest/blue-top.jpg")
@@ -14,7 +13,6 @@
       (image-bottom "images/background/BlueRock_Forest/blue-bottom.jpg")
     )
     (camera
-      (name "Camera")
       (mode "normal")
     )
     (candle
@@ -45,13 +43,12 @@
       (x 192)
       (y 6144)
     )
-    (music
-      (file "music/castle/fortress.music")
-    )
     (particles-clouds
     )
-    (path
-      (name "gen156473139827738880")
+    (platform
+      (name "door2")
+      (running #f)
+      (sprite "images/objects/platforms/wood-tiny.sprite")
       (path
         (node
           (x 736)
@@ -73,8 +70,10 @@
         )
       )
     )
-    (path
-      (name "gen156473139827738992")
+    (platform
+      (name "door3")
+      (running #f)
+      (sprite "images/objects/platforms/wood-tiny.sprite")
       (path
         (node
           (x 704)
@@ -96,8 +95,10 @@
         )
       )
     )
-    (path
-      (name "gen156473139827740080")
+    (platform
+      (name "door4")
+      (running #f)
+      (sprite "images/objects/platforms/wood-tiny.sprite")
       (path
         (node
           (x 672)
@@ -119,8 +120,10 @@
         )
       )
     )
-    (path
-      (name "gen156473139827747472")
+    (platform
+      (name "bottom2")
+      (running #f)
+      (sprite "images/objects/platforms/big.sprite")
       (path
         (node
           (x 1376)
@@ -138,8 +141,10 @@
         )
       )
     )
-    (path
-      (name "gen156473139827745360")
+    (platform
+      (name "bottom1")
+      (running #f)
+      (sprite "images/objects/platforms/big.sprite")
       (path
         (node
           (x 1248)
@@ -157,8 +162,10 @@
         )
       )
     )
-    (path
-      (name "gen156473139827516928")
+    (platform
+      (name "bottom3")
+      (running #f)
+      (sprite "images/objects/platforms/big.sprite")
       (path
         (node
           (x 1504)
@@ -176,8 +183,10 @@
         )
       )
     )
-    (path
-      (name "gen156473139828296464")
+    (platform
+      (name "top1")
+      (running #f)
+      (sprite "images/objects/platforms/big.sprite")
       (path
         (node
           (x 1632)
@@ -195,8 +204,10 @@
         )
       )
     )
-    (path
-      (name "gen156473139827924064")
+    (platform
+      (name "top2")
+      (running #f)
+      (sprite "images/objects/platforms/big.sprite")
       (path
         (node
           (x 1760)
@@ -214,8 +225,10 @@
         )
       )
     )
-    (path
-      (name "gen156473139828295584")
+    (platform
+      (name "top3")
+      (running #f)
+      (sprite "images/objects/platforms/big.sprite")
       (path
         (node
           (x 1888)
@@ -233,8 +246,10 @@
         )
       )
     )
-    (path
-      (name "gen156473139827940976")
+    (platform
+      (name "enemyrelease1")
+      (running #f)
+      (sprite "images/objects/platforms/vertical-wood.sprite")
       (path
         (node
           (x 1216)
@@ -264,8 +279,10 @@
         )
       )
     )
-    (path
-      (name "gen156473139827941552")
+    (platform
+      (name "enemyrelease2")
+      (running #f)
+      (sprite "images/objects/platforms/vertical-wood.sprite")
       (path
         (node
           (x 1632)
@@ -295,8 +312,10 @@
         )
       )
     )
-    (path
-      (name "gen156473139827944944")
+    (platform
+      (name "enemyrelease3c")
+      (running #f)
+      (sprite "images/objects/platforms/wood-tiny.sprite")
       (path
         (node
           (x 1312)
@@ -320,8 +339,10 @@
         )
       )
     )
-    (path
-      (name "gen156473139827946144")
+    (platform
+      (name "enemyrelease4b")
+      (running #f)
+      (sprite "images/objects/platforms/wood-tiny.sprite")
       (path
         (node
           (x 1536)
@@ -345,8 +366,10 @@
         )
       )
     )
-    (path
-      (name "gen156473139827946784")
+    (platform
+      (name "enemyrelease3b")
+      (running #f)
+      (sprite "images/objects/platforms/wood-tiny.sprite")
       (path
         (node
           (x 1312)
@@ -370,8 +393,10 @@
         )
       )
     )
-    (path
-      (name "gen156473139827947424")
+    (platform
+      (name "enemyrelease4c")
+      (running #f)
+      (sprite "images/objects/platforms/wood-tiny.sprite")
       (path
         (node
           (x 1536)
@@ -395,8 +420,10 @@
         )
       )
     )
-    (path
-      (name "gen156473139827948160")
+    (platform
+      (name "enemyrelease3a")
+      (running #f)
+      (sprite "images/objects/platforms/vertical-wood.sprite")
       (path
         (node
           (x 1216)
@@ -426,8 +453,10 @@
         )
       )
     )
-    (path
-      (name "gen156473139827948944")
+    (platform
+      (name "enemyrelease4a")
+      (running #f)
+      (sprite "images/objects/platforms/vertical-wood.sprite")
       (path
         (node
           (x 1632)
@@ -457,8 +486,10 @@
         )
       )
     )
-    (path
-      (name "gen156473139827950144")
+    (platform
+      (name "way1")
+      (running #f)
+      (sprite "images/objects/platforms/pedestal.sprite")
       (path
         (node
           (x 1376)
@@ -471,8 +502,10 @@
         )
       )
     )
-    (path
-      (name "gen156473139827950400")
+    (platform
+      (name "way2")
+      (running #f)
+      (sprite "images/objects/platforms/pedestal.sprite")
       (path
         (node
           (x 1472)
@@ -485,8 +518,10 @@
         )
       )
     )
-    (path
-      (name "gen156473139827968720")
+    (platform
+      (name "way3")
+      (running #f)
+      (sprite "images/objects/platforms/pedestal.sprite")
       (path
         (node
           (x 1312)
@@ -499,8 +534,10 @@
         )
       )
     )
-    (path
-      (name "gen156473139827969296")
+    (platform
+      (name "way4")
+      (running #f)
+      (sprite "images/objects/platforms/pedestal.sprite")
       (path
         (node
           (x 1440)
@@ -513,8 +550,10 @@
         )
       )
     )
-    (path
-      (name "gen156473139827969872")
+    (platform
+      (name "way5")
+      (running #f)
+      (sprite "images/objects/platforms/pedestal.sprite")
       (path
         (node
           (x 1568)
@@ -527,8 +566,10 @@
         )
       )
     )
-    (path
-      (name "gen156473139827970448")
+    (platform
+      (name "way6")
+      (running #f)
+      (sprite "images/objects/platforms/pedestal.sprite")
       (path
         (node
           (x 1312)
@@ -546,8 +587,10 @@
         )
       )
     )
-    (path
-      (name "gen156473139827971184")
+    (platform
+      (name "way7")
+      (running #f)
+      (sprite "images/objects/platforms/pedestal.sprite")
       (path
         (node
           (x 1536)
@@ -565,8 +608,10 @@
         )
       )
     )
-    (path
-      (name "gen156473139827971920")
+    (platform
+      (name "way8")
+      (running #f)
+      (sprite "images/objects/platforms/pedestal.sprite")
       (path
         (node
           (x 1344)
@@ -584,8 +629,10 @@
         )
       )
     )
-    (path
-      (name "gen156473139827972656")
+    (platform
+      (name "way9")
+      (running #f)
+      (sprite "images/objects/platforms/pedestal.sprite")
       (path
         (node
           (x 1504)
@@ -603,8 +650,10 @@
         )
       )
     )
-    (path
-      (name "gen156473139827973392")
+    (platform
+      (name "way10")
+      (running #f)
+      (sprite "images/objects/platforms/pedestal.sprite")
       (path
         (node
           (x 1312)
@@ -617,8 +666,10 @@
         )
       )
     )
-    (path
-      (name "gen156473139827974064")
+    (platform
+      (name "way11")
+      (running #f)
+      (sprite "images/objects/platforms/pedestal.sprite")
       (path
         (node
           (x 1536)
@@ -631,8 +682,10 @@
         )
       )
     )
-    (path
-      (name "gen156473139827974736")
+    (platform
+      (name "way12")
+      (running #f)
+      (sprite "images/objects/platforms/pedestal.sprite")
       (path
         (node
           (x 1408)
@@ -650,8 +703,10 @@
         )
       )
     )
-    (path
-      (name "gen156473139827975472")
+    (platform
+      (name "way13")
+      (running #f)
+      (sprite "images/objects/platforms/pedestal.sprite")
       (path
         (node
           (x 1440)
@@ -669,8 +724,10 @@
         )
       )
     )
-    (path
-      (name "gen156473139827976208")
+    (platform
+      (name "way15")
+      (running #f)
+      (sprite "images/objects/platforms/pedestal.sprite")
       (path
         (node
           (x 1376)
@@ -683,8 +740,10 @@
         )
       )
     )
-    (path
-      (name "gen156473139827976880")
+    (platform
+      (name "way17")
+      (running #f)
+      (sprite "images/objects/platforms/pedestal.sprite")
       (path
         (node
           (x 1344)
@@ -702,8 +761,10 @@
         )
       )
     )
-    (path
-      (name "gen156473139827977616")
+    (platform
+      (name "way16")
+      (running #f)
+      (sprite "images/objects/platforms/pedestal.sprite")
       (path
         (node
           (x 1536)
@@ -716,8 +777,10 @@
         )
       )
     )
-    (path
-      (name "gen156473139827978288")
+    (platform
+      (name "way18")
+      (running #f)
+      (sprite "images/objects/platforms/pedestal.sprite")
       (path
         (node
           (x 1440)
@@ -735,8 +798,10 @@
         )
       )
     )
-    (path
-      (name "gen156473139827979024")
+    (platform
+      (name "way19")
+      (running #f)
+      (sprite "images/objects/platforms/pedestal.sprite")
       (path
         (node
           (x 1504)
@@ -749,8 +814,10 @@
         )
       )
     )
-    (path
-      (name "gen156473139827979696")
+    (platform
+      (name "way20")
+      (running #f)
+      (sprite "images/objects/platforms/pedestal.sprite")
       (path
         (node
           (x 1312)
@@ -763,8 +830,10 @@
         )
       )
     )
-    (path
-      (name "gen156473139827980400")
+    (platform
+      (name "way21")
+      (running #f)
+      (sprite "images/objects/platforms/pedestal.sprite")
       (path
         (node
           (x 1376)
@@ -777,8 +846,10 @@
         )
       )
     )
-    (path
-      (name "gen156473139827981104")
+    (platform
+      (name "way22")
+      (running #f)
+      (sprite "images/objects/platforms/pedestal.sprite")
       (path
         (node
           (x 1472)
@@ -791,8 +862,10 @@
         )
       )
     )
-    (path
-      (name "gen156473139827981808")
+    (platform
+      (name "way14")
+      (running #f)
+      (sprite "images/objects/platforms/pedestal.sprite")
       (path
         (node
           (x 1536)
@@ -805,8 +878,10 @@
         )
       )
     )
-    (path
-      (name "gen156473139827982512")
+    (platform
+      (name "way6b")
+      (running #f)
+      (sprite "images/objects/platforms/pedestal.sprite")
       (path
         (node
           (x 1408)
@@ -824,8 +899,10 @@
         )
       )
     )
-    (path
-      (name "gen156473139827983280")
+    (platform
+      (name "enemyrelease5")
+      (running #f)
+      (sprite "images/objects/platforms/vertical-wood.sprite")
       (path
         (node
           (x 1216)
@@ -855,8 +932,10 @@
         )
       )
     )
-    (path
-      (name "gen156473139827984064")
+    (platform
+      (name "enemyrelease6")
+      (running #f)
+      (sprite "images/objects/platforms/vertical-wood.sprite")
       (path
         (node
           (x 1632)
@@ -886,8 +965,10 @@
         )
       )
     )
-    (path
-      (name "gen156473139827984848")
+    (platform
+      (name "way23")
+      (running #f)
+      (sprite "images/objects/platforms/pedestal.sprite")
       (path
         (node
           (x 1536)
@@ -900,8 +981,10 @@
         )
       )
     )
-    (path
-      (name "gen156473139827985520")
+    (platform
+      (name "way24")
+      (running #f)
+      (sprite "images/objects/platforms/pedestal.sprite")
       (path
         (node
           (x 1568)
@@ -914,8 +997,10 @@
         )
       )
     )
-    (path
-      (name "gen156473139827986224")
+    (platform
+      (name "way25")
+      (running #f)
+      (sprite "images/objects/platforms/pedestal.sprite")
       (path
         (node
           (x 1312)
@@ -933,8 +1018,10 @@
         )
       )
     )
-    (path
-      (name "gen156473139827986992")
+    (platform
+      (name "way26")
+      (running #f)
+      (sprite "images/objects/platforms/pedestal.sprite")
       (path
         (node
           (x 1344)
@@ -952,8 +1039,10 @@
         )
       )
     )
-    (path
-      (name "gen156473139827987728")
+    (platform
+      (name "way28")
+      (running #f)
+      (sprite "images/objects/platforms/pedestal.sprite")
       (path
         (node
           (x 1472)
@@ -971,8 +1060,10 @@
         )
       )
     )
-    (path
-      (name "gen156473139827988464")
+    (platform
+      (name "way27")
+      (running #f)
+      (sprite "images/objects/platforms/pedestal.sprite")
       (path
         (node
           (x 1440)
@@ -990,8 +1081,10 @@
         )
       )
     )
-    (path
-      (name "gen156473139827989200")
+    (platform
+      (name "way31")
+      (running #f)
+      (sprite "images/objects/platforms/pedestal.sprite")
       (path
         (node
           (x 1440)
@@ -1005,8 +1098,10 @@
         )
       )
     )
-    (path
-      (name "gen156473139827989872")
+    (platform
+      (name "way29")
+      (running #f)
+      (sprite "images/objects/platforms/pedestal.sprite")
       (path
         (node
           (x 1312)
@@ -1020,8 +1115,10 @@
         )
       )
     )
-    (path
-      (name "gen156473139827990576")
+    (platform
+      (name "way30")
+      (running #f)
+      (sprite "images/objects/platforms/pedestal.sprite")
       (path
         (node
           (x 1344)
@@ -1035,8 +1132,10 @@
         )
       )
     )
-    (path
-      (name "gen156473139827991280")
+    (platform
+      (name "way32")
+      (running #f)
+      (sprite "images/objects/platforms/pedestal.sprite")
       (path
         (node
           (x 1472)
@@ -1050,8 +1149,10 @@
         )
       )
     )
-    (path
-      (name "gen156473139827991984")
+    (platform
+      (name "door5")
+      (running #f)
+      (sprite "images/objects/platforms/vertical-wood.sprite")
       (path
         (node
           (x 1216)
@@ -1064,8 +1165,10 @@
         )
       )
     )
-    (path
-      (name "gen156473139827992688")
+    (platform
+      (name "door1")
+      (running #f)
+      (sprite "images/objects/platforms/wood-tiny.sprite")
       (path
         (node
           (x 768)
@@ -1082,8 +1185,10 @@
         )
       )
     )
-    (path
-      (name "gen156473139827993456")
+    (platform
+      (name "waysecret1")
+      (running #f)
+      (sprite "images/objects/platforms/pedestal.sprite")
       (path
         (node
           (x 1632)
@@ -1095,336 +1200,6 @@
           (y 6368)
         )
       )
-    )
-    (platform
-      (running #f)
-      (name "door2")
-      (path-ref "gen156473139827738880")
-      (sprite "images/objects/platforms/wood-tiny.sprite")
-    )
-    (platform
-      (running #f)
-      (name "door3")
-      (path-ref "gen156473139827738992")
-      (sprite "images/objects/platforms/wood-tiny.sprite")
-    )
-    (platform
-      (running #f)
-      (name "door4")
-      (path-ref "gen156473139827740080")
-      (sprite "images/objects/platforms/wood-tiny.sprite")
-    )
-    (platform
-      (running #f)
-      (name "bottom2")
-      (path-ref "gen156473139827747472")
-      (sprite "images/objects/platforms/big.sprite")
-    )
-    (platform
-      (running #f)
-      (name "bottom1")
-      (path-ref "gen156473139827745360")
-      (sprite "images/objects/platforms/big.sprite")
-    )
-    (platform
-      (running #f)
-      (name "bottom3")
-      (path-ref "gen156473139827516928")
-      (sprite "images/objects/platforms/big.sprite")
-    )
-    (platform
-      (running #f)
-      (name "top1")
-      (path-ref "gen156473139828296464")
-      (sprite "images/objects/platforms/big.sprite")
-    )
-    (platform
-      (running #f)
-      (name "top2")
-      (path-ref "gen156473139827924064")
-      (sprite "images/objects/platforms/big.sprite")
-    )
-    (platform
-      (running #f)
-      (name "top3")
-      (path-ref "gen156473139828295584")
-      (sprite "images/objects/platforms/big.sprite")
-    )
-    (platform
-      (running #f)
-      (name "enemyrelease1")
-      (path-ref "gen156473139827940976")
-      (sprite "images/objects/platforms/vertical-wood.sprite")
-    )
-    (platform
-      (running #f)
-      (name "enemyrelease2")
-      (path-ref "gen156473139827941552")
-      (sprite "images/objects/platforms/vertical-wood.sprite")
-    )
-    (platform
-      (running #f)
-      (name "enemyrelease3c")
-      (path-ref "gen156473139827944944")
-      (sprite "images/objects/platforms/wood-tiny.sprite")
-    )
-    (platform
-      (running #f)
-      (name "enemyrelease4b")
-      (path-ref "gen156473139827946144")
-      (sprite "images/objects/platforms/wood-tiny.sprite")
-    )
-    (platform
-      (running #f)
-      (name "enemyrelease3b")
-      (path-ref "gen156473139827946784")
-      (sprite "images/objects/platforms/wood-tiny.sprite")
-    )
-    (platform
-      (running #f)
-      (name "enemyrelease4c")
-      (path-ref "gen156473139827947424")
-      (sprite "images/objects/platforms/wood-tiny.sprite")
-    )
-    (platform
-      (running #f)
-      (name "enemyrelease3a")
-      (path-ref "gen156473139827948160")
-      (sprite "images/objects/platforms/vertical-wood.sprite")
-    )
-    (platform
-      (running #f)
-      (name "enemyrelease4a")
-      (path-ref "gen156473139827948944")
-      (sprite "images/objects/platforms/vertical-wood.sprite")
-    )
-    (platform
-      (running #f)
-      (name "way1")
-      (path-ref "gen156473139827950144")
-      (sprite "images/objects/platforms/pedestal.sprite")
-    )
-    (platform
-      (running #f)
-      (name "way2")
-      (path-ref "gen156473139827950400")
-      (sprite "images/objects/platforms/pedestal.sprite")
-    )
-    (platform
-      (running #f)
-      (name "way3")
-      (path-ref "gen156473139827968720")
-      (sprite "images/objects/platforms/pedestal.sprite")
-    )
-    (platform
-      (running #f)
-      (name "way4")
-      (path-ref "gen156473139827969296")
-      (sprite "images/objects/platforms/pedestal.sprite")
-    )
-    (platform
-      (running #f)
-      (name "way5")
-      (path-ref "gen156473139827969872")
-      (sprite "images/objects/platforms/pedestal.sprite")
-    )
-    (platform
-      (running #f)
-      (name "way6")
-      (path-ref "gen156473139827970448")
-      (sprite "images/objects/platforms/pedestal.sprite")
-    )
-    (platform
-      (running #f)
-      (name "way7")
-      (path-ref "gen156473139827971184")
-      (sprite "images/objects/platforms/pedestal.sprite")
-    )
-    (platform
-      (running #f)
-      (name "way8")
-      (path-ref "gen156473139827971920")
-      (sprite "images/objects/platforms/pedestal.sprite")
-    )
-    (platform
-      (running #f)
-      (name "way9")
-      (path-ref "gen156473139827972656")
-      (sprite "images/objects/platforms/pedestal.sprite")
-    )
-    (platform
-      (running #f)
-      (name "way10")
-      (path-ref "gen156473139827973392")
-      (sprite "images/objects/platforms/pedestal.sprite")
-    )
-    (platform
-      (running #f)
-      (name "way11")
-      (path-ref "gen156473139827974064")
-      (sprite "images/objects/platforms/pedestal.sprite")
-    )
-    (platform
-      (running #f)
-      (name "way12")
-      (path-ref "gen156473139827974736")
-      (sprite "images/objects/platforms/pedestal.sprite")
-    )
-    (platform
-      (running #f)
-      (name "way13")
-      (path-ref "gen156473139827975472")
-      (sprite "images/objects/platforms/pedestal.sprite")
-    )
-    (platform
-      (running #f)
-      (name "way15")
-      (path-ref "gen156473139827976208")
-      (sprite "images/objects/platforms/pedestal.sprite")
-    )
-    (platform
-      (running #f)
-      (name "way17")
-      (path-ref "gen156473139827976880")
-      (sprite "images/objects/platforms/pedestal.sprite")
-    )
-    (platform
-      (running #f)
-      (name "way16")
-      (path-ref "gen156473139827977616")
-      (sprite "images/objects/platforms/pedestal.sprite")
-    )
-    (platform
-      (running #f)
-      (name "way18")
-      (path-ref "gen156473139827978288")
-      (sprite "images/objects/platforms/pedestal.sprite")
-    )
-    (platform
-      (running #f)
-      (name "way19")
-      (path-ref "gen156473139827979024")
-      (sprite "images/objects/platforms/pedestal.sprite")
-    )
-    (platform
-      (running #f)
-      (name "way20")
-      (path-ref "gen156473139827979696")
-      (sprite "images/objects/platforms/pedestal.sprite")
-    )
-    (platform
-      (running #f)
-      (name "way21")
-      (path-ref "gen156473139827980400")
-      (sprite "images/objects/platforms/pedestal.sprite")
-    )
-    (platform
-      (running #f)
-      (name "way22")
-      (path-ref "gen156473139827981104")
-      (sprite "images/objects/platforms/pedestal.sprite")
-    )
-    (platform
-      (running #f)
-      (name "way14")
-      (path-ref "gen156473139827981808")
-      (sprite "images/objects/platforms/pedestal.sprite")
-    )
-    (platform
-      (running #f)
-      (name "way6b")
-      (path-ref "gen156473139827982512")
-      (sprite "images/objects/platforms/pedestal.sprite")
-    )
-    (platform
-      (running #f)
-      (name "enemyrelease5")
-      (path-ref "gen156473139827983280")
-      (sprite "images/objects/platforms/vertical-wood.sprite")
-    )
-    (platform
-      (running #f)
-      (name "enemyrelease6")
-      (path-ref "gen156473139827984064")
-      (sprite "images/objects/platforms/vertical-wood.sprite")
-    )
-    (platform
-      (running #f)
-      (name "way23")
-      (path-ref "gen156473139827984848")
-      (sprite "images/objects/platforms/pedestal.sprite")
-    )
-    (platform
-      (running #f)
-      (name "way24")
-      (path-ref "gen156473139827985520")
-      (sprite "images/objects/platforms/pedestal.sprite")
-    )
-    (platform
-      (running #f)
-      (name "way25")
-      (path-ref "gen156473139827986224")
-      (sprite "images/objects/platforms/pedestal.sprite")
-    )
-    (platform
-      (running #f)
-      (name "way26")
-      (path-ref "gen156473139827986992")
-      (sprite "images/objects/platforms/pedestal.sprite")
-    )
-    (platform
-      (running #f)
-      (name "way28")
-      (path-ref "gen156473139827987728")
-      (sprite "images/objects/platforms/pedestal.sprite")
-    )
-    (platform
-      (running #f)
-      (name "way27")
-      (path-ref "gen156473139827988464")
-      (sprite "images/objects/platforms/pedestal.sprite")
-    )
-    (platform
-      (running #f)
-      (name "way31")
-      (path-ref "gen156473139827989200")
-      (sprite "images/objects/platforms/pedestal.sprite")
-    )
-    (platform
-      (running #f)
-      (name "way29")
-      (path-ref "gen156473139827989872")
-      (sprite "images/objects/platforms/pedestal.sprite")
-    )
-    (platform
-      (running #f)
-      (name "way30")
-      (path-ref "gen156473139827990576")
-      (sprite "images/objects/platforms/pedestal.sprite")
-    )
-    (platform
-      (running #f)
-      (name "way32")
-      (path-ref "gen156473139827991280")
-      (sprite "images/objects/platforms/pedestal.sprite")
-    )
-    (platform
-      (running #f)
-      (name "door5")
-      (path-ref "gen156473139827991984")
-      (sprite "images/objects/platforms/vertical-wood.sprite")
-    )
-    (platform
-      (running #f)
-      (name "door1")
-      (path-ref "gen156473139827992688")
-      (sprite "images/objects/platforms/wood-tiny.sprite")
-    )
-    (platform
-      (running #f)
-      (name "waysecret1")
-      (path-ref "gen156473139827993456")
-      (sprite "images/objects/platforms/pedestal.sprite")
     )
     (poisonivy
       (x 1664)
@@ -1706,47 +1481,47 @@ way32.goto_node(1);
       (y 4480)
     )
     (tilemap
-      (solid #f)
       (z-pos -100)
+      (solid #f)
       (name "Background")
       (width 78)
       (height 200)
       (tiles
-      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2813 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2813 2815 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2813 2815 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2813 2815 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2813 2815 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2813 2815 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2813 2815 0 0 0 0 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2813 2815 0 0 0 0 0 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2813 2815 0 0 0 0 0 0 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-      0 0 0 0 0 0 0 0 141 142 0 0 0 0 0 0 2813 2815 0 0 0 0 0 0 0 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-      0 0 0 0 0 0 0 0 143 144 0 0 0 0 0 2813 2815 0 0 0 0 0 0 0 0 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2815 0 0 0 0 0 0 0 0 0 1478 1478 1478 0 0 0 0 0 0 0 0 0 0 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-      2019 2140 2141 2142 2019 2140 2141 2142 2019 2140 2141 2142 2019 2140 2141 2142 2019 2140 2141 2142 2019 2140 2141 2142 2019 1478 1478 0 0 0 0 0 0 0 0 0 0 0 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-      2020 2020 2020 2020 2020 2020 2020 2020 2020 2020 2020 2020 2020 2020 2020 2020 2020 2020 2020 2020 2020 2020 2020 2020 2020 1478 1478 1478 0 0 0 0 0 0 0 0 0 0 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-      2020 2020 2020 2020 2020 2020 2020 2020 2020 2020 2020 2020 2020 2020 2020 2020 2020 2020 2020 2020 2020 2020 2020 2020 2020 1478 1478 0 0 0 0 0 0 0 0 0 0 0 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-      2020 2020 2020 2020 2020 2020 2020 2020 2020 2020 2020 2020 2020 2020 2020 2020 2020 2020 2020 2020 2020 2020 2020 2020 2020 1478 1478 0 0 0 0 0 0 0 0 0 0 0 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-      2020 2020 2020 2020 2020 2020 2020 2020 2020 2020 2020 2020 2020 2020 2020 2020 2020 2020 2020 2020 2020 2020 2020 2020 2020 0 0 0 0 0 0 0 0 0 0 0 0 0 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-      2020 2020 2020 2020 2020 2020 2020 2020 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-      2020 2020 2020 2020 2020 2020 2020 2020 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-      2020 2020 2020 2020 2020 2020 2020 2020 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-      2020 2020 2020 2020 2020 2020 2020 2020 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-      2020 2020 2020 2020 2020 2020 2020 2020 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-      2020 2020 2020 2020 2020 2020 2020 2020 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-      2020 2020 2020 2020 2020 2020 2020 2020 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-      2020 2020 2020 2020 2020 2020 2020 2020 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-      2020 2020 2020 2020 2020 2020 2020 2020 2020 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-      2020 2020 2020 2020 2020 2020 2020 2020 2020 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-      2020 2020 2020 2020 2020 2020 2020 2020 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-      2020 2020 2020 2020 2020 2020 2020 2020 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-      2020 2020 2020 2020 2020 2020 2020 2020 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-      2020 2020 2020 2020 2020 2020 2020 2020 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-      2020 2020 2020 2020 2020 2020 2020 2020 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-      2020 2020 2020 2020 2020 2020 2020 2020 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-      2020 2020 2020 2020 2020 2020 2020 2020 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-      2020 2020 2020 2020 2020 2020 2020 2020 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 141 142 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 143 144 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1478 1478 1478 0 0 0 0 0 0 0 0 0 0 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      76 76 76 76 76 76 76 76 76 76 76 76 76 76 76 76 76 76 76 76 76 76 76 76 76 1478 1478 0 0 0 0 0 0 0 0 0 0 0 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      75 75 75 75 75 75 75 75 75 75 75 75 75 75 75 75 75 75 75 75 75 75 75 75 75 1478 1478 1478 0 0 0 0 0 0 0 0 0 0 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      75 75 75 75 75 75 75 75 75 75 75 75 75 75 75 75 75 75 75 75 75 75 75 75 75 1478 1478 0 0 0 0 0 0 0 0 0 0 0 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      75 75 75 75 75 75 75 75 75 75 75 75 75 75 75 75 75 75 75 75 75 75 75 75 75 1478 1478 0 0 0 0 0 0 0 0 0 0 0 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      75 75 75 75 75 75 75 75 75 75 75 75 75 75 75 75 75 75 75 75 75 75 75 75 75 0 0 0 0 0 0 0 0 0 0 0 0 0 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      75 75 75 75 75 75 75 75 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      75 75 75 75 75 75 75 75 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      75 75 75 75 75 75 75 75 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      75 75 75 75 75 75 75 75 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      75 75 75 75 75 75 75 75 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      75 75 75 75 75 75 75 75 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      75 75 75 75 75 75 75 75 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      75 75 75 75 75 75 75 75 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      75 75 75 75 75 75 75 75 75 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      75 75 75 75 75 75 75 75 75 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      75 75 75 75 75 75 75 75 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      75 75 75 75 75 75 75 75 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      75 75 75 75 75 75 75 75 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      75 75 75 75 75 75 75 75 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      75 75 75 75 75 75 75 75 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      75 75 75 75 75 75 75 75 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      75 75 75 75 75 75 75 75 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      75 75 75 75 75 75 75 75 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 1478 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
@@ -1915,8 +1690,8 @@ way32.goto_node(1);
       )
     )
     (tilemap
-      (solid #t)
       (z-pos 0)
+      (solid #t)
       (name "Interactive")
       (width 78)
       (height 200)
@@ -1932,22 +1707,22 @@ way32.goto_node(1);
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 68 62 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 68 62 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64
       0 0 0 0 0 1000 1001 1001 1001 1001 1001 1001 1003 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 68 62 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64
-      0 0 0 0 0 1004 1005 1005 1005 1005 1005 1005 1007 1779 1782 1782 1780 1782 1782 1780 1802 0 0 0 0 340 338 338 338 341 338 338 338 338 338 338 338 338 342 0 0 0 0 0 0 0 0 0 0 0 0 68 62 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64
-      28 28 28 28 28 29 1009 1009 1020 1021 1021 1022 1011 0 0 0 0 0 0 0 0 0 0 0 0 68 64 321 321 321 64 64 64 64 64 64 64 62 69 0 0 0 0 0 0 0 0 0 0 0 0 68 62 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64
-      0 0 0 0 0 1008 1020 1022 1026 1027 1027 1028 1011 0 0 0 0 0 0 0 0 0 0 0 0 68 64 64 64 64 64 64 64 64 64 64 64 62 69 0 0 0 0 0 0 0 0 0 0 0 0 68 62 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64
+      0 0 0 0 0 1004 1005 1005 1005 1005 1005 1005 1007 321 321 321 321 337 338 338 339 0 0 0 0 340 338 338 338 341 338 338 338 338 338 338 338 338 342 0 0 0 0 0 0 0 0 0 0 0 0 68 62 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64
+      28 28 28 28 28 29 1009 1009 1020 1021 1021 1022 1011 295 295 295 295 337 341 338 339 0 0 0 0 68 64 321 321 321 64 64 64 64 64 64 64 62 69 0 0 0 0 0 0 0 0 0 0 0 0 68 62 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64
+      0 0 0 0 0 1008 1020 1022 1026 1027 1027 1028 1011 340 338 338 338 338 338 341 339 0 0 0 0 68 64 64 64 64 64 64 64 64 64 64 64 62 69 0 0 0 0 0 0 0 0 0 0 0 0 68 62 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64
       0 0 0 0 0 1008 1023 1031 1022 1009 1009 1009 1011 0 0 0 0 0 0 0 0 0 0 0 0 68 64 64 64 64 64 64 64 64 64 64 64 62 69 0 0 0 0 0 0 0 0 0 0 0 0 68 62 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64
-      0 0 0 0 0 1008 1026 1027 1028 1009 1009 1010 1011 1724 1724 1724 1724 1724 1724 1724 1724 1724 1724 1724 1724 68 64 64 64 64 64 64 64 64 64 64 64 62 69 0 0 44 0 44 0 44 0 44 0 44 0 68 62 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64
+      0 0 0 0 0 1008 1026 1027 1028 1009 1009 1009 1011 1724 1724 1724 1724 1724 1724 1724 1724 1724 1724 1724 1724 68 64 64 64 64 64 64 64 64 64 64 64 62 69 0 0 44 0 44 0 44 0 44 0 44 0 68 62 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64
       0 0 0 0 0 1016 1013 1009 1009 1009 1009 1009 1013 1013 1013 1013 1013 1013 1013 1013 1013 1013 1013 1013 1820 68 64 64 64 64 64 64 64 64 64 64 64 62 69 0 0 0 0 0 0 0 0 0 0 0 0 68 62 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64
-      0 0 0 0 0 0 1012 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1533 1534 1535 1009 1009 1009 1009 68 64 64 64 64 64 64 64 64 64 64 64 62 69 0 44 0 44 0 44 0 44 0 44 0 0 68 62 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64
-      0 0 0 0 0 0 1012 1009 1009 1010 1009 1009 1009 1009 1009 1009 1009 1009 1536 1537 1538 1009 1009 1009 1009 68 64 64 64 64 64 64 64 64 64 64 64 62 69 0 0 0 0 0 0 0 0 0 0 0 0 68 62 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64
-      0 0 0 0 0 0 1016 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1020 1022 1009 1009 68 64 64 64 64 64 64 64 64 64 64 64 62 69 0 0 0 0 0 0 0 0 0 0 0 0 68 62 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64
-      0 0 0 0 0 0 0 1012 1009 1009 1533 1534 1535 1009 1009 1009 1010 1009 1009 1009 1009 1026 1028 1009 1009 68 64 64 64 64 64 64 64 64 64 64 64 62 69 0 0 0 0 0 0 0 0 0 0 0 0 68 62 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64
-      0 0 0 0 0 0 0 1012 1009 1009 1536 1537 1538 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 68 64 64 64 64 64 64 64 64 64 64 64 62 69 0 0 0 0 0 0 0 0 0 0 0 0 68 62 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64
+      0 0 0 0 0 0 1012 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 68 64 64 64 64 64 64 64 64 64 64 64 62 69 0 44 0 44 0 44 0 44 0 44 0 0 68 62 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64
+      0 0 0 0 0 0 1012 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 68 64 64 64 64 64 64 64 64 64 64 64 62 69 0 0 0 0 0 0 0 0 0 0 0 0 68 62 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64
+      0 0 0 0 0 0 1016 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 68 64 64 64 64 64 64 64 64 64 64 64 62 69 0 0 0 0 0 0 0 0 0 0 0 0 68 62 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64
       0 0 0 0 0 0 0 1012 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 68 64 64 64 64 64 64 64 64 64 64 64 62 69 0 0 0 0 0 0 0 0 0 0 0 0 68 62 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64
-      0 0 0 0 0 0 0 1012 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1020 1021 1021 1022 1009 68 64 64 64 64 64 64 64 64 64 64 64 62 69 0 0 0 0 0 0 0 0 0 0 0 0 68 62 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64
-      0 0 0 0 0 0 0 1012 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1026 1027 1027 1028 1009 68 64 64 64 64 64 64 64 64 64 64 64 62 69 0 44 0 0 0 0 0 0 0 0 44 0 68 62 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64
-      0 0 0 0 0 0 0 1012 1009 1009 1009 1009 1009 1009 1009 1009 1009 1533 1534 1535 1009 1009 1009 1009 1009 68 64 64 64 64 64 64 64 64 64 64 64 62 69 0 44 0 0 0 0 0 0 0 0 44 0 68 62 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64
-      0 0 0 0 0 0 1072 1012 1009 1009 1009 1010 1009 1009 1009 1009 1009 1536 1537 1538 1009 1009 1009 1009 1009 68 64 64 64 64 64 64 64 64 64 64 64 62 69 0 44 0 0 0 0 0 0 0 0 44 0 68 62 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64
+      0 0 0 0 0 0 0 1012 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 68 64 64 64 64 64 64 64 64 64 64 64 62 69 0 0 0 0 0 0 0 0 0 0 0 0 68 62 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64
+      0 0 0 0 0 0 0 1012 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 68 64 64 64 64 64 64 64 64 64 64 64 62 69 0 0 0 0 0 0 0 0 0 0 0 0 68 62 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64
+      0 0 0 0 0 0 0 1012 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 68 64 64 64 64 64 64 64 64 64 64 64 62 69 0 0 0 0 0 0 0 0 0 0 0 0 68 62 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64
+      0 0 0 0 0 0 0 1012 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 68 64 64 64 64 64 64 64 64 64 64 64 62 69 0 44 0 0 0 0 0 0 0 0 44 0 68 62 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64
+      0 0 0 0 0 0 0 1012 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 68 64 64 64 64 64 64 64 64 64 64 64 62 69 0 44 0 0 0 0 0 0 0 0 44 0 68 62 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64
+      0 0 0 0 0 0 1072 1012 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 68 64 64 64 64 64 64 64 64 64 64 64 62 69 0 44 0 0 0 0 0 0 0 0 44 0 68 62 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64
       0 0 0 0 0 0 1072 1012 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 68 64 64 64 64 64 64 64 64 64 64 64 62 69 0 44 0 0 0 0 0 0 0 0 44 0 68 62 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64
       0 0 0 0 0 0 1072 1012 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 1009 68 64 64 64 64 64 64 64 64 64 64 64 62 69 0 44 0 0 0 0 0 0 0 0 44 0 68 62 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64
       64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 62 69 0 44 0 0 0 0 0 0 0 0 44 0 68 62 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64
@@ -2124,8 +1899,8 @@ way32.goto_node(1);
       )
     )
     (tilemap
-      (solid #f)
       (z-pos 100)
+      (solid #f)
       (name "Foreground")
       (width 78)
       (height 200)
@@ -2147,17 +1922,17 @@ way32.goto_node(1);
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 329 330 0 0 0 0 0 0 0 0 0 0 64 69 0 0 0 0 0 0 0 0 0 0 0 0 68 64 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 64 69 0 0 0 0 0 0 0 0 0 0 0 0 68 64 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 64 69 0 0 0 0 0 0 0 0 0 0 0 0 68 64 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-      0 0 0 0 0 0 0 0 0 0 0 0 0 0 317 318 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 64 69 0 0 0 0 0 0 0 0 0 0 0 0 68 64 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-      0 0 0 0 0 0 0 0 0 0 0 0 0 0 319 320 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 64 69 0 0 0 0 0 0 0 0 0 0 0 0 68 64 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 64 69 0 0 0 0 0 0 0 0 0 0 0 0 68 64 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 64 69 0 0 0 0 0 0 0 0 0 0 0 0 68 64 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 64 69 0 0 0 0 0 0 0 0 0 0 0 0 68 64 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-      0 0 0 0 0 0 0 0 0 317 318 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 64 69 0 0 0 0 0 0 0 0 0 0 0 0 68 64 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-      0 0 0 0 0 0 0 0 0 319 320 0 0 0 317 318 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 64 69 0 0 0 0 0 0 0 0 0 0 0 0 68 64 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-      0 0 0 0 0 0 0 0 0 0 0 0 0 0 319 320 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 64 69 0 0 0 0 0 0 0 0 0 0 0 0 68 64 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 64 69 0 0 0 0 0 0 0 0 0 0 0 0 68 64 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 317 318 0 0 0 0 0 0 0 0 0 0 0 0 0 64 69 0 0 0 0 0 0 0 0 0 0 0 0 68 64 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 319 320 0 0 0 0 0 0 0 0 0 0 0 0 0 64 69 0 0 0 0 0 0 0 0 0 0 0 0 68 64 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 64 69 0 0 0 0 0 0 0 0 0 0 0 0 68 64 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 64 69 0 0 0 0 0 0 0 0 0 0 0 0 68 64 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 64 69 0 0 0 0 0 0 0 0 0 0 0 0 68 64 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 64 69 0 0 0 0 0 0 0 0 0 0 0 0 68 64 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 64 69 0 0 0 0 0 0 0 0 0 0 0 0 68 64 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 64 69 0 0 0 0 0 0 0 0 0 0 0 0 68 64 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 64 69 0 0 0 0 0 0 0 0 0 0 0 0 68 64 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 64 69 0 0 0 0 0 0 0 0 0 0 0 0 68 64 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 64 69 0 0 0 0 0 0 0 0 0 0 0 0 68 64 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 64 69 0 0 0 0 0 0 0 0 0 0 0 0 68 64 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
@@ -2326,15 +2101,15 @@ way32.goto_node(1);
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-      0 0 0 0 0 0 0 0 1408 1412 1396 1372 1372 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 1408 1412 1396 1372 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 1408 1412 1412 1412 1412 1396 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 295 295 295 295 295 295 295 295 295 295 295 295 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 1408 1412 1396 1372 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1368 1368 1368 1368 1368 1368 1368 1368 1368 1368 1368 1368 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 1368 1368 1368 1368 1368 1369 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1372 1372 1372 1372 1372 1372 1372 1372 1372 1372 1372 1372 1372 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       )
     )
     (tilemap
-      (solid #f)
       (z-pos -98)
+      (solid #f)
       (name "Lava")
       (width 78)
       (height 200)
@@ -2537,13 +2312,13 @@ way32.goto_node(1);
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-      0 0 0 0 0 0 0 0 0 0 0 0 0 0 1708 1708 1708 1708 1708 1708 1708 1708 1708 1708 1708 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-      0 0 0 0 0 0 0 0 0 0 0 0 0 0 1705 1705 1705 1705 1705 1705 1705 1705 1705 1705 1705 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 174 174 174 174 174 174 174 174 174 174 174 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 173 173 173 173 173 173 173 173 173 173 173 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       )
     )
     (tilemap
-      (solid #t)
       (z-pos -99)
+      (solid #t)
       (name "Lava-kill")
       (width 78)
       (height 200)
@@ -2751,8 +2526,8 @@ way32.goto_node(1);
       )
     )
     (tilemap
-      (solid #f)
       (z-pos 101)
+      (solid #f)
       (name "secret1")
       (width 78)
       (height 200)
@@ -2960,104 +2735,104 @@ way32.goto_node(1);
       )
     )
     (unstable_tile
-      (sprite "images/objects/unstable_tile/unstable_tile.sprite")
       (x 1280)
       (y 4480)
+      (sprite "images/objects/unstable_tile/unstable_tile.sprite")
     )
     (unstable_tile
-      (sprite "images/objects/unstable_tile/unstable_tile.sprite")
       (x 1248)
       (y 4480)
+      (sprite "images/objects/unstable_tile/unstable_tile.sprite")
     )
     (unstable_tile
-      (sprite "images/objects/unstable_tile/unstable_tile.sprite")
       (x 1280)
       (y 5152)
+      (sprite "images/objects/unstable_tile/unstable_tile.sprite")
     )
     (unstable_tile
-      (sprite "images/objects/unstable_tile/unstable_tile.sprite")
       (x 1248)
       (y 4576)
+      (sprite "images/objects/unstable_tile/unstable_tile.sprite")
     )
     (unstable_tile
-      (sprite "images/objects/unstable_tile/unstable_tile.sprite")
       (x 1280)
       (y 4576)
+      (sprite "images/objects/unstable_tile/unstable_tile.sprite")
     )
     (unstable_tile
-      (sprite "images/objects/unstable_tile/unstable_tile.sprite")
       (x 1536)
       (y 5280)
+      (sprite "images/objects/unstable_tile/unstable_tile.sprite")
     )
     (unstable_tile
-      (sprite "images/objects/unstable_tile/unstable_tile.sprite")
       (x 1248)
       (y 5152)
+      (sprite "images/objects/unstable_tile/unstable_tile.sprite")
     )
     (unstable_tile
-      (sprite "images/objects/unstable_tile/unstable_tile.sprite")
       (x 1376)
       (y 5280)
+      (sprite "images/objects/unstable_tile/unstable_tile.sprite")
     )
     (unstable_tile
-      (sprite "images/objects/unstable_tile/unstable_tile.sprite")
       (x 2112)
       (y 6208)
+      (sprite "images/objects/unstable_tile/unstable_tile.sprite")
     )
     (unstable_tile
-      (sprite "images/objects/unstable_tile/unstable_tile.sprite")
       (x 1504)
       (y 5280)
+      (sprite "images/objects/unstable_tile/unstable_tile.sprite")
     )
     (unstable_tile
-      (sprite "images/objects/unstable_tile/unstable_tile.sprite")
       (x 1408)
       (y 5280)
+      (sprite "images/objects/unstable_tile/unstable_tile.sprite")
     )
     (unstable_tile
-      (sprite "images/objects/unstable_tile/unstable_tile.sprite")
       (x 2080)
       (y 6208)
+      (sprite "images/objects/unstable_tile/unstable_tile.sprite")
     )
     (unstable_tile
-      (sprite "images/objects/unstable_tile/unstable_tile.sprite")
       (x 1920)
       (y 6240)
+      (sprite "images/objects/unstable_tile/unstable_tile.sprite")
     )
     (unstable_tile
-      (sprite "images/objects/unstable_tile/unstable_tile.sprite")
       (x 1952)
       (y 6240)
+      (sprite "images/objects/unstable_tile/unstable_tile.sprite")
     )
     (unstable_tile
-      (sprite "images/objects/unstable_tile/unstable_tile.sprite")
       (x 1984)
       (y 6240)
+      (sprite "images/objects/unstable_tile/unstable_tile.sprite")
     )
     (unstable_tile
-      (sprite "images/objects/unstable_tile/unstable_tile.sprite")
       (x 2048)
       (y 6240)
+      (sprite "images/objects/unstable_tile/unstable_tile.sprite")
     )
     (unstable_tile
-      (sprite "images/objects/unstable_tile/unstable_tile.sprite")
       (x 2080)
       (y 6240)
+      (sprite "images/objects/unstable_tile/unstable_tile.sprite")
     )
     (unstable_tile
-      (sprite "images/objects/unstable_tile/unstable_tile.sprite")
       (x 2016)
       (y 6240)
+      (sprite "images/objects/unstable_tile/unstable_tile.sprite")
     )
     (unstable_tile
-      (sprite "images/objects/unstable_tile/unstable_tile.sprite")
       (x 1888)
       (y 6208)
+      (sprite "images/objects/unstable_tile/unstable_tile.sprite")
     )
     (unstable_tile
-      (sprite "images/objects/unstable_tile/unstable_tile.sprite")
       (x 1920)
       (y 6208)
+      (sprite "images/objects/unstable_tile/unstable_tile.sprite")
     )
   )
 )

@@ -240,7 +240,7 @@
       (y 816)
     )
     (music
-      (file "music/antarctic/chipdisko.ogg")
+      (file "music/chipdisko.ogg")
     )
     (particles-clouds
     )

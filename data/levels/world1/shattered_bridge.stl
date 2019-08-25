@@ -241,7 +241,7 @@
       (y 576)
     )
     (music
-      (file "/music/antarctic/airship_remix.music")
+      (file "/music/airship_remix.music")
     )
     (path
       (name "gen15425718202028860579200")

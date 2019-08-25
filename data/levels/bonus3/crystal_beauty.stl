@@ -112,7 +112,7 @@
       (y 417)
     )
     (music
-      (file "music/antarctic/cave.music")
+      (file "music/cave.music")
     )
     (secretarea
       (width 60)

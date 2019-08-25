@@ -241,7 +241,7 @@
       (y 448)
     )
     (music
-      (file "music/antarctic/cave.music")
+      (file "music/cave.music")
     )
     (sequencetrigger
       (sequence "stoptux")

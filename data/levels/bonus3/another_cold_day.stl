@@ -129,7 +129,7 @@
       (y 550)
     )
     (music
-      (file "music/antarctic/airship_remix.music")
+      (file "music/airship_remix.music")
     )
     (path
       (name "fae59af4-eae7-4f37-ba3c-b74717e1a3a6")

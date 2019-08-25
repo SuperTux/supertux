@@ -80,7 +80,7 @@
       (time 100)
     )
     (music
-      (file "music/castle/fortress.music")
+      (file "music/fortress.music")
     )
     (spawnpoint
       (name "main")

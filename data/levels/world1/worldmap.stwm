@@ -166,7 +166,7 @@
       (y 53)
     )
     (music
-      (file "/music/antarctic/salcon.ogg")
+      (file "/music/salcon.ogg")
     )
     (special-tile
       (invisible-tile #t)

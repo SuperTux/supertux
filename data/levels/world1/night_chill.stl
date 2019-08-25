@@ -198,7 +198,7 @@
       (y 608)
     )
     (music
-      (file "music/antarctic/voc-night.music")
+      (file "music/voc-night.music")
     )
     (particles-snow
     )

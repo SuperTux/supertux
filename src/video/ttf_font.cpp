@@ -18,7 +18,6 @@
 #include "video/ttf_font.hpp"
 
 #include <iostream>
-#include <numeric>
 #include <sstream>
 
 #include "util/line_iterator.hpp"
@@ -92,12 +91,19 @@ TTFFont::get_text_height(const std::string& text) const
   if (text.empty())
     return 0.0f;
 
+  float total_height = get_height();
   // since UTF8 multibyte characters are decoded with values
   // outside the ASCII range there is no risk of overlapping and
   // thus we don't need to decode the utf-8 string
-  return std::accumulate(text.begin(), text.end(), get_height(), [this] (float accumulator, const char c) {
-    return accumulator += (c == '\n' ? get_height() : 0.0f);
-  });
+  for (auto c : text)
+  {
+    if (c == '\n')
+    {
+      total_height += get_height();
+    }
+  }
+
+  return total_height;
 }
 
 void

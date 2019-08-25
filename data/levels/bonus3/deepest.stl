@@ -30,7 +30,7 @@
       (y 288)
     )
     (music
-      (file "music/forest/forest3.ogg")
+      (file "music/forest3.ogg")
     )
     (snail
       (x 544)
@@ -207,7 +207,7 @@
       (y 896)
     )
     (music
-      (file "music/antarctic/cave.music")
+      (file "music/cave.music")
     )
     (poisonivy
       (x 544)
@@ -472,7 +472,7 @@
       (y 32)
     )
     (music
-      (file "music/antarctic/cave.music")
+      (file "music/cave.music")
     )
     (poisonivy
       (x 2624)

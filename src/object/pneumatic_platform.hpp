@@ -33,8 +33,6 @@ public:
   virtual void update(float dt_sec) override;
   virtual bool is_saveable() const override { return false; }
 
-  virtual void editor_delete() override;
-
 protected:
   PneumaticPlatform& m_parent;
   bool m_left;
