@@ -157,12 +157,6 @@
       (y 25)
     )
     (level
-      (level "in_the_spring.stl")
-      (sprite "images/worldmap/common/hiddendot.sprite")
-      (x 22)
-      (y 4)
-    )
-    (level
       (level "coconut_fortress.stl")
       (x 47)
       (y 62)
