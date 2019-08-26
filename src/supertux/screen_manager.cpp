@@ -40,8 +40,6 @@
 #include <stdio.h>
 #include <chrono>
 
-/** wait at least MIN_TICKS for every frame */
-static const int MIN_TICKS = 2;
 
 ScreenManager::ScreenManager(VideoSystem& video_system, InputManager& input_manager) :
   m_video_system(video_system),
@@ -460,55 +458,64 @@ ScreenManager::handle_screen_switch()
 void
 ScreenManager::run()
 {
+  Uint32 last_ticks_visual = 0;
+  const Uint32 min_ms_per_frame = static_cast<Uint32>(1000.0f / m_target_framerate);
+
   Uint32 last_ticks = 0;
   Uint32 elapsed_ticks = 0;
+  const Uint32 ms_per_step = static_cast<Uint32>(1000.0f / LOGICAL_FPS);
+  const float seconds_per_step = static_cast<float>(ms_per_step) / 1000.0f;
 
   handle_screen_switch();
 
-  while (!m_screen_stack.empty())
-  {
+  while (!m_screen_stack.empty()) {
     Uint32 ticks = SDL_GetTicks();
     elapsed_ticks += ticks - last_ticks;
     last_ticks = ticks;
 
-    /** ticks (as returned from SDL_GetTicks) per frame */
-    const Uint32 ticks_per_frame =
-      static_cast<Uint32>(1000.0f / m_target_framerate);
-
-    if (elapsed_ticks > ticks_per_frame*4)
-    {
+    if (elapsed_ticks > ms_per_step * 8) {
       // when the game loads up or levels are switched the
       // elapsed_ticks grows extremely large, so we just ignore those
       // large time jumps
       elapsed_ticks = 0;
     }
 
-    if (elapsed_ticks == 0)
-    {
-      Uint32 delay_ticks = MIN_TICKS;
-      SDL_Delay(delay_ticks);
-      last_ticks += delay_ticks;
-      elapsed_ticks += delay_ticks;
+    bool draw_frame = ticks - last_ticks_visual >= min_ms_per_frame;
+    if (elapsed_ticks < ms_per_step && !draw_frame) {
+      // Sleep a bit because not enough time has passed since the previous
+      // logical game step
+      SDL_Delay(ms_per_step - elapsed_ticks);
+      continue;
     }
 
-    if (elapsed_ticks >= MIN_TICKS)
-    {
-      float speed_multiplier = 1.0f / g_debug.get_game_speed_multiplier();
-      float timestep = speed_multiplier *
-        static_cast<float>(elapsed_ticks) / 1000.0f;
-      elapsed_ticks = 0;
-      g_real_time += timestep;
-      timestep *= m_speed;
-      g_game_time += timestep;
+    g_real_time = static_cast<float>(ticks) / 1000.0f;
 
+    float speed_multiplier = 1.0f / g_debug.get_game_speed_multiplier();
+    int steps = static_cast<int>(elapsed_ticks * speed_multiplier) / ms_per_step;
+    // Do not calculate more than a few steps at once
+    steps = std::min<int>(steps, 3);
+    for (int i = 0; i < steps; ++i) {
+      // Perform a logical game step; seconds_per_step is set to a fixed value
+      // so that the game is deterministic
+      g_game_time += seconds_per_step;
       process_events();
-      update_gamelogic(timestep);
+      update_gamelogic(seconds_per_step);
+      elapsed_ticks -= ms_per_step;
     }
 
-    if (!m_screen_stack.empty())
-    {
-      Compositor compositor(m_video_system);
-      draw(compositor);
+    // Avoid hang when the game speed is very low
+    if (speed_multiplier < 0.3f && steps == 0) {
+      process_events();
+      update_gamelogic(0.0f);
+    }
+
+    if (draw_frame) {
+      if (!m_screen_stack.empty()) {
+        // Draw a frame
+        Compositor compositor(m_video_system);
+        draw(compositor);
+      }
+      last_ticks_visual = ticks;
     }
 
     SoundManager::current()->update();
