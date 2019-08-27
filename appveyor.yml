@@ -56,7 +56,6 @@ build:
 after_build:
 - cmd: '"C:\Program Files (x86)\CMake\bin\cpack.exe"'
 
-
 test: off
 
 artifacts:
