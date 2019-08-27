@@ -491,22 +491,20 @@ ScreenManager::run()
     g_real_time = static_cast<float>(ticks) / 1000.0f;
 
     float speed_multiplier = 1.0f / g_debug.get_game_speed_multiplier();
-    int steps = static_cast<int>(elapsed_ticks * speed_multiplier) / ms_per_step;
+    int steps = static_cast<int>(elapsed_ticks) / ms_per_step;
     // Do not calculate more than a few steps at once
     steps = std::min<int>(steps, 3);
     for (int i = 0; i < steps; ++i) {
       // Perform a logical game step; seconds_per_step is set to a fixed value
       // so that the game is deterministic
-      g_game_time += seconds_per_step;
+      float dtime = seconds_per_step;
+      if (speed_multiplier != 1.0f)
+        // speed_multiplier is a debug setting; usually dtime is fixed
+        dtime *= speed_multiplier;
+      g_game_time += dtime;
       process_events();
-      update_gamelogic(seconds_per_step);
+      update_gamelogic(dtime);
       elapsed_ticks -= ms_per_step;
-    }
-
-    // Avoid hang when the game speed is very low
-    if (speed_multiplier < 0.3f && steps == 0) {
-      process_events();
-      update_gamelogic(0.0f);
     }
 
     if (draw_frame) {
