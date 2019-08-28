@@ -563,12 +563,10 @@ AddonManager::is_from_old_addon(const std::string& filename) const
 bool
 AddonManager::is_addon_installed(const std::string& id) const
 {
-  for(const auto& installed_addon : get_installed_addons())
-  {
-    if(installed_addon == id)
-      return true;
-  }
-  return false;
+  return std::any_of(get_installed_addons().begin(), get_installed_addons().end(),
+    [id] (const auto& installed_addon) {
+      return installed_addon == id;
+    });
 }
 
 std::vector<std::string>
