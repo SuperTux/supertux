@@ -48,7 +48,6 @@ ScreenManager::ScreenManager(VideoSystem& video_system, InputManager& input_mana
   m_menu_manager(new MenuManager),
   m_controller_hud(new ControllerHUD),
   m_speed(1.0),
-  m_target_framerate(60.0f),
   m_actions(),
   m_screen_fade(),
   m_screen_stack()
@@ -105,18 +104,6 @@ void
 ScreenManager::set_speed(float speed)
 {
   m_speed = speed;
-}
-
-void
-ScreenManager::set_target_framerate(float framerate)
-{
-  m_target_framerate = framerate;
-}
-
-float
-ScreenManager::get_target_framerate() const
-{
-  return m_target_framerate;
 }
 
 float
@@ -458,9 +445,6 @@ ScreenManager::handle_screen_switch()
 void
 ScreenManager::run()
 {
-  Uint32 last_ticks_visual = 0;
-  const Uint32 min_ms_per_frame = static_cast<Uint32>(1000.0f / m_target_framerate);
-
   Uint32 last_ticks = 0;
   Uint32 elapsed_ticks = 0;
   const Uint32 ms_per_step = static_cast<Uint32>(1000.0f / LOGICAL_FPS);
@@ -480,8 +464,7 @@ ScreenManager::run()
       elapsed_ticks = 0;
     }
 
-    bool draw_frame = ticks - last_ticks_visual >= min_ms_per_frame;
-    if (elapsed_ticks < ms_per_step && !draw_frame) {
+    if (elapsed_ticks < ms_per_step) {
       // Sleep a bit because not enough time has passed since the previous
       // logical game step
       SDL_Delay(ms_per_step - elapsed_ticks);
@@ -491,7 +474,7 @@ ScreenManager::run()
     g_real_time = static_cast<float>(ticks) / 1000.0f;
 
     float speed_multiplier = 1.0f / g_debug.get_game_speed_multiplier();
-    int steps = static_cast<int>(elapsed_ticks) / ms_per_step;
+    int steps = elapsed_ticks / ms_per_step;
     // Do not calculate more than a few steps at once
     steps = std::min<int>(steps, 3);
     for (int i = 0; i < steps; ++i) {
@@ -507,13 +490,10 @@ ScreenManager::run()
       elapsed_ticks -= ms_per_step;
     }
 
-    if (draw_frame) {
-      if (!m_screen_stack.empty()) {
-        // Draw a frame
-        Compositor compositor(m_video_system);
-        draw(compositor);
-      }
-      last_ticks_visual = ticks;
+    if (steps > 0 && !m_screen_stack.empty()) {
+      // Draw a frame
+      Compositor compositor(m_video_system);
+      draw(compositor);
     }
 
     SoundManager::current()->update();

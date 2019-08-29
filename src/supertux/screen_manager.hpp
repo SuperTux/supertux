@@ -45,8 +45,6 @@ public:
   void run();
   void quit(std::unique_ptr<ScreenFade> fade = {});
   void set_speed(float speed);
-  void set_target_framerate(float framerate);
-  float get_target_framerate() const;
   float get_speed() const;
   bool has_pending_fadeout() const;
 
@@ -72,8 +70,6 @@ private:
   std::unique_ptr<ControllerHUD> m_controller_hud;
 
   float m_speed;
-  float m_target_framerate;
-
   struct Action
   {
     enum Type { PUSH_ACTION, POP_ACTION, QUIT_ACTION };
