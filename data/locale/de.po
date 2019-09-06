@@ -2871,7 +2871,7 @@ msgstr "Sie"
 
 #: data//credits.stxt:1376
 msgid "Penny awaits you in Milestone 3!"
-msgstr "spielst. Penny erwartet Dich in Meilenstein 3!"
+msgstr "SuperTux spielen. Penny erwartet Sie in Meilenstein 3!"
 
 #: data//images/engine/editor/objects.stoi:4
 msgid "Hostile"
