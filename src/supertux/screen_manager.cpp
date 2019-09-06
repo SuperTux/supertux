@@ -190,11 +190,8 @@ private:
 };
 
 void
-ScreenManager::draw_fps(DrawingContext& context)
+ScreenManager::draw_fps(DrawingContext& context, FPS_Stats& fps_statistics)
 {
-  static FPS_Stats fps_statistics;
-  // Assume that draw_fps is called once every frame
-  fps_statistics.report_frame();
   // The fonts are not monospace, so the numbers need to be drawn separately
   Vector pos(static_cast<float>(context.get_width()) - BORDER_X, BORDER_Y + 20);
   context.color().draw_text(Resources::small_font, "FPS  min / avg / max",
@@ -239,7 +236,7 @@ ScreenManager::draw_player_pos(DrawingContext& context)
 }
 
 void
-ScreenManager::draw(Compositor& compositor)
+ScreenManager::draw(Compositor& compositor, FPS_Stats& fps_statistics)
 {
   assert(!m_screen_stack.empty());
 
@@ -257,7 +254,7 @@ ScreenManager::draw(Compositor& compositor)
   Console::current()->draw(context);
 
   if (g_config->show_fps)
-    draw_fps(context);
+    draw_fps(context, fps_statistics);
 
   if (g_debug.show_controller) {
     m_controller_hud->draw(context);
@@ -449,9 +446,9 @@ ScreenManager::run()
   Uint32 elapsed_ticks = 0;
   const Uint32 ms_per_step = static_cast<Uint32>(1000.0f / LOGICAL_FPS);
   const float seconds_per_step = static_cast<float>(ms_per_step) / 1000.0f;
+  FPS_Stats fps_statistics;
 
   handle_screen_switch();
-
   while (!m_screen_stack.empty()) {
     Uint32 ticks = SDL_GetTicks();
     elapsed_ticks += ticks - last_ticks;
@@ -493,7 +490,8 @@ ScreenManager::run()
     if (steps > 0 && !m_screen_stack.empty()) {
       // Draw a frame
       Compositor compositor(m_video_system);
-      draw(compositor);
+      draw(compositor, fps_statistics);
+      fps_statistics.report_frame();
     }
 
     SoundManager::current()->update();

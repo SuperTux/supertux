@@ -55,9 +55,9 @@ public:
 
 private:
   struct FPS_Stats;
-  void draw_fps(DrawingContext& context);
+  void draw_fps(DrawingContext& context, FPS_Stats& fps_statistics);
   void draw_player_pos(DrawingContext& context);
-  void draw(Compositor& compositor);
+  void draw(Compositor& compositor, FPS_Stats& fps_statistics);
   void update_gamelogic(float dt_sec);
   void process_events();
   void handle_screen_switch();
