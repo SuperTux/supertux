@@ -472,8 +472,26 @@ ScreenManager::run()
 
     float speed_multiplier = 1.0f / g_debug.get_game_speed_multiplier();
     int steps = elapsed_ticks / ms_per_step;
+
     // Do not calculate more than a few steps at once
-    steps = std::min<int>(steps, 3);
+    // The maximum number of steps executed before drawing a frame is
+    // adjusted to the current average frame rate
+    float seconds_per_frame = 1.0f / fps_statistics.get_fps();
+    int max_steps_per_frame = static_cast<int>(
+      ceilf(seconds_per_frame / seconds_per_step));
+    if (max_steps_per_frame < 2)
+      // max_steps_per_frame is very negative when the fps value is zero
+      // Furthermore, the game should always be able to execute
+      // up to two steps before drawing a frame
+      max_steps_per_frame = 2;
+    if (max_steps_per_frame > 4)
+      // When the game is very laggy, it should slow down instead of calculating
+      // lots of steps at once so that the player can still control Tux
+      // reasonably;
+      // four steps per frame approximately corresponds to a 16 FPS gameplay
+      max_steps_per_frame = 4;
+    steps = std::min<int>(steps, max_steps_per_frame);
+
     for (int i = 0; i < steps; ++i) {
       // Perform a logical game step; seconds_per_step is set to a fixed value
       // so that the game is deterministic
