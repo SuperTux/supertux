@@ -52,8 +52,9 @@ SkyDive::collision_badguy(BadGuy&, const CollisionHit& hit)
 }
 
 void
-SkyDive::grab(MovingObject&, const Vector& pos, Direction dir_)
+SkyDive::grab(MovingObject& object, const Vector& pos, Direction dir_)
 {
+  Portable::grab(object, pos, dir_);
   m_col.m_movement = pos - get_pos();
   m_dir = dir_;
 
@@ -67,7 +68,7 @@ SkyDive::grab(MovingObject&, const Vector& pos, Direction dir_)
 }
 
 void
-SkyDive::ungrab(MovingObject& , Direction)
+SkyDive::ungrab(MovingObject& object, Direction dir_)
 {
   is_grabbed = false;
 
@@ -75,6 +76,7 @@ SkyDive::ungrab(MovingObject& , Direction)
   m_physic.set_acceleration_y(0);
   m_physic.enable_gravity(true);
   set_colgroup_active(COLGROUP_MOVING);
+  Portable::ungrab(object, dir_);
 }
 
 HitResponse

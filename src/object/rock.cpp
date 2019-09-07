@@ -135,8 +135,9 @@ Rock::collision(GameObject& other, const CollisionHit& hit)
 }
 
 void
-Rock::grab(MovingObject& , const Vector& pos, Direction)
+Rock::grab(MovingObject& object, const Vector& pos, Direction dir_)
 {
+  Portable::grab(object, pos, dir_);
   m_col.m_movement = pos - get_pos();
   last_movement = m_col.m_movement;
   set_group(COLGROUP_TOUCHABLE); //needed for lanterns catching willowisps
@@ -149,7 +150,7 @@ Rock::grab(MovingObject& , const Vector& pos, Direction)
 }
 
 void
-Rock::ungrab(MovingObject& , Direction dir)
+Rock::ungrab(MovingObject& object, Direction dir)
 {
   set_group(COLGROUP_MOVING_STATIC);
   on_ground = false;
@@ -167,6 +168,7 @@ Rock::ungrab(MovingObject& , Direction dir)
   if (!on_ungrab_script.empty()) {
     Sector::get().run_script(on_ungrab_script, "Rock::on_ungrab");
   }
+  Portable::ungrab(object, dir);
 }
 
 ObjectSettings

@@ -116,8 +116,9 @@ MrBomb::ignite()
 }
 
 void
-MrBomb::grab(MovingObject&, const Vector& pos, Direction dir_)
+MrBomb::grab(MovingObject& object, const Vector& pos, Direction dir_)
 {
+  Portable::grab(object, pos, dir_);
   assert(m_frozen);
   m_col.m_movement = pos - get_pos();
   m_dir = dir_;
@@ -127,11 +128,12 @@ MrBomb::grab(MovingObject&, const Vector& pos, Direction dir_)
 }
 
 void
-MrBomb::ungrab(MovingObject& , Direction dir_)
+MrBomb::ungrab(MovingObject& object, Direction dir_)
 {
   m_dir = dir_;
   set_colgroup_active(COLGROUP_MOVING);
   grabbed = false;
+  Portable::ungrab(object, dir_);
 }
 
 bool

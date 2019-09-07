@@ -184,6 +184,7 @@ GoldBomb::ignite()
 void
 GoldBomb::grab(MovingObject& object, const Vector& pos, Direction dir_)
 {
+  Portable::grab(object,pos,dir_);
   if (tstate == STATE_TICKING){
     m_col.m_movement = pos - get_pos();
     m_dir = dir_;
@@ -230,6 +231,7 @@ GoldBomb::ungrab(MovingObject& object, Direction dir_)
                       static_cast<float>(toss_velocity_y));
   set_colgroup_active(COLGROUP_MOVING);
   grabbed = false;
+  Portable::ungrab(object, dir_);
 }
 
 void

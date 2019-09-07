@@ -119,6 +119,7 @@ Bomb::ignite()
 void
 Bomb::grab(MovingObject& object, const Vector& pos, Direction dir_)
 {
+  Portable::grab(object, pos, dir_);
   m_col.m_movement = pos - get_pos();
   m_dir = dir_;
 
@@ -157,6 +158,7 @@ Bomb::ungrab(MovingObject& object, Direction dir_)
 
   set_colgroup_active(COLGROUP_MOVING);
   grabbed = false;
+  Portable::ungrab(object, dir_);
 }
 
 void Bomb::stop_looping_sounds()
