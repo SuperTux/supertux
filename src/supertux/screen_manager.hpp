@@ -45,8 +45,6 @@ public:
   void run();
   void quit(std::unique_ptr<ScreenFade> fade = {});
   void set_speed(float speed);
-  void set_target_framerate(float framerate);
-  float get_target_framerate() const;
   float get_speed() const;
   bool has_pending_fadeout() const;
 
@@ -57,9 +55,9 @@ public:
 
 private:
   struct FPS_Stats;
-  void draw_fps(DrawingContext& context);
+  void draw_fps(DrawingContext& context, FPS_Stats& fps_statistics);
   void draw_player_pos(DrawingContext& context);
-  void draw(Compositor& compositor);
+  void draw(Compositor& compositor, FPS_Stats& fps_statistics);
   void update_gamelogic(float dt_sec);
   void process_events();
   void handle_screen_switch();
@@ -72,8 +70,6 @@ private:
   std::unique_ptr<ControllerHUD> m_controller_hud;
 
   float m_speed;
-  float m_target_framerate;
-
   struct Action
   {
     enum Type { PUSH_ACTION, POP_ACTION, QUIT_ACTION };

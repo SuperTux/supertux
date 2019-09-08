@@ -40,8 +40,6 @@
 #include <stdio.h>
 #include <chrono>
 
-/** wait at least MIN_TICKS for every frame */
-static const int MIN_TICKS = 2;
 
 ScreenManager::ScreenManager(VideoSystem& video_system, InputManager& input_manager) :
   m_video_system(video_system),
@@ -50,7 +48,6 @@ ScreenManager::ScreenManager(VideoSystem& video_system, InputManager& input_mana
   m_menu_manager(new MenuManager),
   m_controller_hud(new ControllerHUD),
   m_speed(1.0),
-  m_target_framerate(60.0f),
   m_actions(),
   m_screen_fade(),
   m_screen_stack()
@@ -107,18 +104,6 @@ void
 ScreenManager::set_speed(float speed)
 {
   m_speed = speed;
-}
-
-void
-ScreenManager::set_target_framerate(float framerate)
-{
-  m_target_framerate = framerate;
-}
-
-float
-ScreenManager::get_target_framerate() const
-{
-  return m_target_framerate;
 }
 
 float
@@ -205,11 +190,8 @@ private:
 };
 
 void
-ScreenManager::draw_fps(DrawingContext& context)
+ScreenManager::draw_fps(DrawingContext& context, FPS_Stats& fps_statistics)
 {
-  static FPS_Stats fps_statistics;
-  // Assume that draw_fps is called once every frame
-  fps_statistics.report_frame();
   // The fonts are not monospace, so the numbers need to be drawn separately
   Vector pos(static_cast<float>(context.get_width()) - BORDER_X, BORDER_Y + 20);
   context.color().draw_text(Resources::small_font, "FPS  min / avg / max",
@@ -254,7 +236,7 @@ ScreenManager::draw_player_pos(DrawingContext& context)
 }
 
 void
-ScreenManager::draw(Compositor& compositor)
+ScreenManager::draw(Compositor& compositor, FPS_Stats& fps_statistics)
 {
   assert(!m_screen_stack.empty());
 
@@ -272,7 +254,7 @@ ScreenManager::draw(Compositor& compositor)
   Console::current()->draw(context);
 
   if (g_config->show_fps)
-    draw_fps(context);
+    draw_fps(context, fps_statistics);
 
   if (g_debug.show_controller) {
     m_controller_hud->draw(context);
@@ -462,53 +444,72 @@ ScreenManager::run()
 {
   Uint32 last_ticks = 0;
   Uint32 elapsed_ticks = 0;
+  const Uint32 ms_per_step = static_cast<Uint32>(1000.0f / LOGICAL_FPS);
+  const float seconds_per_step = static_cast<float>(ms_per_step) / 1000.0f;
+  FPS_Stats fps_statistics;
 
   handle_screen_switch();
-
-  while (!m_screen_stack.empty())
-  {
+  while (!m_screen_stack.empty()) {
     Uint32 ticks = SDL_GetTicks();
     elapsed_ticks += ticks - last_ticks;
     last_ticks = ticks;
 
-    /** ticks (as returned from SDL_GetTicks) per frame */
-    const Uint32 ticks_per_frame =
-      static_cast<Uint32>(1000.0f / m_target_framerate);
-
-    if (elapsed_ticks > ticks_per_frame*4)
-    {
+    if (elapsed_ticks > ms_per_step * 8) {
       // when the game loads up or levels are switched the
       // elapsed_ticks grows extremely large, so we just ignore those
       // large time jumps
       elapsed_ticks = 0;
     }
 
-    if (elapsed_ticks == 0)
-    {
-      Uint32 delay_ticks = MIN_TICKS;
-      SDL_Delay(delay_ticks);
-      last_ticks += delay_ticks;
-      elapsed_ticks += delay_ticks;
+    if (elapsed_ticks < ms_per_step) {
+      // Sleep a bit because not enough time has passed since the previous
+      // logical game step
+      SDL_Delay(ms_per_step - elapsed_ticks);
+      continue;
     }
 
-    if (elapsed_ticks >= MIN_TICKS)
-    {
-      float speed_multiplier = 1.0f / g_debug.get_game_speed_multiplier();
-      float timestep = speed_multiplier *
-        static_cast<float>(elapsed_ticks) / 1000.0f;
-      elapsed_ticks = 0;
-      g_real_time += timestep;
-      timestep *= m_speed;
-      g_game_time += timestep;
+    g_real_time = static_cast<float>(ticks) / 1000.0f;
 
+    float speed_multiplier = 1.0f / g_debug.get_game_speed_multiplier();
+    int steps = elapsed_ticks / ms_per_step;
+
+    // Do not calculate more than a few steps at once
+    // The maximum number of steps executed before drawing a frame is
+    // adjusted to the current average frame rate
+    float seconds_per_frame = 1.0f / fps_statistics.get_fps();
+    int max_steps_per_frame = static_cast<int>(
+      ceilf(seconds_per_frame / seconds_per_step));
+    if (max_steps_per_frame < 2)
+      // max_steps_per_frame is very negative when the fps value is zero
+      // Furthermore, the game should always be able to execute
+      // up to two steps before drawing a frame
+      max_steps_per_frame = 2;
+    if (max_steps_per_frame > 4)
+      // When the game is very laggy, it should slow down instead of calculating
+      // lots of steps at once so that the player can still control Tux
+      // reasonably;
+      // four steps per frame approximately corresponds to a 16 FPS gameplay
+      max_steps_per_frame = 4;
+    steps = std::min<int>(steps, max_steps_per_frame);
+
+    for (int i = 0; i < steps; ++i) {
+      // Perform a logical game step; seconds_per_step is set to a fixed value
+      // so that the game is deterministic
+      float dtime = seconds_per_step;
+      if (speed_multiplier != 1.0f)
+        // speed_multiplier is a debug setting; usually dtime is fixed
+        dtime *= speed_multiplier;
+      g_game_time += dtime;
       process_events();
-      update_gamelogic(timestep);
+      update_gamelogic(dtime);
+      elapsed_ticks -= ms_per_step;
     }
 
-    if (!m_screen_stack.empty())
-    {
+    if (steps > 0 && !m_screen_stack.empty()) {
+      // Draw a frame
       Compositor compositor(m_video_system);
-      draw(compositor);
+      draw(compositor, fps_statistics);
+      fps_statistics.report_frame();
     }
 
     SoundManager::current()->update();
