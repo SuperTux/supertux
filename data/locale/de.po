@@ -2851,7 +2851,7 @@ msgstr "supertux-devel@lists.lethargik.org"
 
 #: data//credits.stxt:1334
 msgid "Want to help…"
-msgstr "Möchtest Du..."
+msgstr "Möchten Sie..."
 
 #: data//credits.stxt:1339
 msgid "…with localization?"
@@ -2871,7 +2871,7 @@ msgstr "Sie"
 
 #: data//credits.stxt:1376
 msgid "Penny awaits you in Milestone 3!"
-msgstr "SuperTux spielen. Penny erwartet Sie in Meilenstein 3!"
+msgstr "spielen. Penny erwartet Sie in Meilenstein 3!"
 
 #: data//images/engine/editor/objects.stoi:4
 msgid "Hostile"
