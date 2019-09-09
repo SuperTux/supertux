@@ -30,8 +30,6 @@
 GoldBomb::GoldBomb(const ReaderMapping& reader) :
   WalkingBadguy(reader, "images/creatures/gold_bomb/gold_bomb.sprite", "left", "right"),
   tstate(STATE_NORMAL),
-  grabbed(false),
-  grabber(nullptr),
   ticking()
 {
   walk_speed = 80;
@@ -80,7 +78,7 @@ GoldBomb::collision(GameObject& object, const CollisionHit& hit)
       return ABORT_MOVE;
     }
   }
-  if (grabbed)
+  if (is_grabbed())
     return FORCE_MOVE;
   return WalkingBadguy::collision(object, hit);
 }
@@ -90,7 +88,7 @@ GoldBomb::collision_player(Player& player, const CollisionHit& hit)
 {
   if (tstate == STATE_TICKING)
     return FORCE_MOVE;
-  if (grabbed)
+  if (is_grabbed())
     return FORCE_MOVE;
   return WalkingBadguy::collision_player(player, hit);
 }
@@ -140,12 +138,12 @@ GoldBomb::active_update(float dt_sec)
     if (m_sprite->animation_done()) {
       kill_fall();
     }
-    else if (!grabbed) {
+    else if (!is_grabbed()) {
       m_col.m_movement = m_physic.get_movement(dt_sec);
     }
     return;
   }
-  if (grabbed)
+  if (is_grabbed())
     return;
   WalkingBadguy::active_update(dt_sec);
 }
@@ -159,8 +157,8 @@ GoldBomb::kill_fall()
   // Make the player let go before we explode, otherwise the player is holding
   // an invalid object. There's probably a better way to do this than in the
   // GoldBomb class.
-  if (grabber != nullptr) {
-    Player* player = dynamic_cast<Player*>(grabber);
+  if (is_grabbed()) {
+    Player* player = dynamic_cast<Player*>(m_owner);
 
     if (player)
       player->stop_grabbing();
@@ -193,15 +191,12 @@ GoldBomb::grab(MovingObject& object, const Vector& pos, Direction dir_)
     // visible instead of hiding it behind Tux
     m_sprite->set_action_continued(m_dir == Direction::LEFT ? "ticking-right" : "ticking-left");
     set_colgroup_active(COLGROUP_DISABLED);
-    grabbed = true;
-    grabber = &object;
   }
   else if (m_frozen){
     m_col.m_movement = pos - get_pos();
     m_dir = dir_;
     m_sprite->set_action(dir_ == Direction::LEFT ? "iced-left" : "iced-right");
     set_colgroup_active(COLGROUP_DISABLED);
-    grabbed = true;
   }
 }
 
@@ -230,7 +225,6 @@ GoldBomb::ungrab(MovingObject& object, Direction dir_)
   m_physic.set_velocity(static_cast<float>(toss_velocity_x),
                       static_cast<float>(toss_velocity_y));
   set_colgroup_active(COLGROUP_MOVING);
-  grabbed = false;
   Portable::ungrab(object, dir_);
 }
 

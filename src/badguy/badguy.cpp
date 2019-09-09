@@ -153,7 +153,7 @@ BadGuy::update(float dt_sec)
 {
   if (!Sector::get().inside(m_col.m_bbox)) {
     auto this_portable = dynamic_cast<Portable*> (this);
-    if (!this_portable || this_portable->get_owner() == nullptr)
+    if (!this_portable || !this_portable->is_grabbed())
     {
       run_dead_script();
       m_is_active_flag = false;

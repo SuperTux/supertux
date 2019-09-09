@@ -25,8 +25,6 @@
 
 Bomb::Bomb(const Vector& pos, Direction dir_, const std::string& custom_sprite /*= "images/creatures/mr_bomb/mr_bomb.sprite"*/ ) :
   BadGuy( pos, dir_, custom_sprite ),
-  grabbed(false),
-  grabber(nullptr),
   ticking(SoundManager::current()->create_sound_source("sounds/fizz.wav"))
 {
   set_action(dir_ == Direction::LEFT ? "ticking-left" : "ticking-right", 1);
@@ -42,7 +40,7 @@ Bomb::Bomb(const Vector& pos, Direction dir_, const std::string& custom_sprite /
 void
 Bomb::collision_solid(const CollisionHit& hit)
 {
-  if (grabbed) {
+  if (is_grabbed()) {
     return;
   }
   if (hit.top || hit.bottom)
@@ -76,7 +74,7 @@ Bomb::active_update(float dt_sec)
   if (m_sprite->animation_done()) {
     explode();
   }
-  else if (!grabbed) {
+  else if (!is_grabbed()) {
     m_col.m_movement = m_physic.get_movement(dt_sec);
   }
 }
@@ -89,8 +87,8 @@ Bomb::explode()
   // Make the player let go before we explode, otherwise the player is holding
   // an invalid object. There's probably a better way to do this than in the
   // Bomb class.
-  if (grabber != nullptr) {
-    auto player = dynamic_cast<Player*>(grabber);
+  if (is_grabbed()) {
+    auto player = dynamic_cast<Player*>(m_owner);
 
     if (player)
       player->stop_grabbing();
@@ -127,8 +125,6 @@ Bomb::grab(MovingObject& object, const Vector& pos, Direction dir_)
   // visible instead of hiding it behind Tux
   m_sprite->set_action_continued(m_dir == Direction::LEFT ? "ticking-right" : "ticking-left");
   set_colgroup_active(COLGROUP_DISABLED);
-  grabbed = true;
-  grabber = &object;
 }
 
 void
@@ -157,7 +153,6 @@ Bomb::ungrab(MovingObject& object, Direction dir_)
                       static_cast<float>(toss_velocity_y));
 
   set_colgroup_active(COLGROUP_MOVING);
-  grabbed = false;
   Portable::ungrab(object, dir_);
 }
 

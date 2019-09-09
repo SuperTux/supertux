@@ -27,8 +27,7 @@
 #include "util/reader_mapping.hpp"
 
 MrBomb::MrBomb(const ReaderMapping& reader) :
-  WalkingBadguy(reader, "images/creatures/mr_bomb/mr_bomb.sprite", "left", "right"),
-  grabbed(false)
+  WalkingBadguy(reader, "images/creatures/mr_bomb/mr_bomb.sprite", "left", "right")
 {
   walk_speed = 80;
   max_drop_height = 16;
@@ -51,7 +50,7 @@ MrBomb::MrBomb(const ReaderMapping& reader) :
 HitResponse
 MrBomb::collision(GameObject& object, const CollisionHit& hit)
 {
-  if (grabbed)
+  if (is_grabbed())
     return FORCE_MOVE;
   return WalkingBadguy::collision(object, hit);
 }
@@ -59,7 +58,7 @@ MrBomb::collision(GameObject& object, const CollisionHit& hit)
 HitResponse
 MrBomb::collision_player(Player& player, const CollisionHit& hit)
 {
-  if (grabbed)
+  if (is_grabbed())
     return FORCE_MOVE;
   return WalkingBadguy::collision_player(player, hit);
 }
@@ -93,7 +92,7 @@ MrBomb::collision_squished(GameObject& object)
 void
 MrBomb::active_update(float dt_sec)
 {
-  if (grabbed)
+  if (is_grabbed())
     return;
   WalkingBadguy::active_update(dt_sec);
 }
@@ -124,7 +123,6 @@ MrBomb::grab(MovingObject& object, const Vector& pos, Direction dir_)
   m_dir = dir_;
   m_sprite->set_action(dir_ == Direction::LEFT ? "iced-left" : "iced-right");
   set_colgroup_active(COLGROUP_DISABLED);
-  grabbed = true;
 }
 
 void
@@ -132,7 +130,6 @@ MrBomb::ungrab(MovingObject& object, Direction dir_)
 {
   m_dir = dir_;
   set_colgroup_active(COLGROUP_MOVING);
-  grabbed = false;
   Portable::ungrab(object, dir_);
 }
 
