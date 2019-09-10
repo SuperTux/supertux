@@ -17,7 +17,7 @@
       (bottom_color 1 1 1)
     )
     (music
-      (file "music/voc-dark.music")
+      (file "/music/antarctic/arctic_cave.music")
     )
     (powerup
       (script "	fire_bonus();	")
