@@ -47,9 +47,6 @@ public:
   virtual void play_looping_sounds() override;
 
 private:
-  bool grabbed;
-  MovingObject* grabber;
-
   std::unique_ptr<SoundSource> ticking;
 
 private:

@@ -32,7 +32,6 @@ Rock::Rock(const Vector& pos, const std::string& spritename) :
   ExposedObject<Rock, scripting::Rock>(this),
   physic(),
   on_ground(false),
-  grabbed(false),
   last_movement(),
   on_grab_script(),
   on_ungrab_script()
@@ -46,7 +45,6 @@ Rock::Rock(const ReaderMapping& reader) :
   ExposedObject<Rock, scripting::Rock>(this),
   physic(),
   on_ground(false),
-  grabbed(false),
   last_movement(),
   on_grab_script(),
   on_ungrab_script()
@@ -62,7 +60,6 @@ Rock::Rock(const ReaderMapping& reader, const std::string& spritename) :
   ExposedObject<Rock, scripting::Rock>(this),
   physic(),
   on_ground(false),
-  grabbed(false),
   last_movement(),
   on_grab_script(),
   on_ungrab_script()
@@ -76,14 +73,14 @@ Rock::Rock(const ReaderMapping& reader, const std::string& spritename) :
 void
 Rock::update(float dt_sec)
 {
-  if (!grabbed)
+  if (!is_grabbed())
     m_col.m_movement = physic.get_movement(dt_sec);
 }
 
 void
 Rock::collision_solid(const CollisionHit& hit)
 {
-  if (grabbed) {
+  if (is_grabbed()) {
     return;
   }
   if (hit.top || hit.bottom)
@@ -96,7 +93,7 @@ Rock::collision_solid(const CollisionHit& hit)
   if (hit.crush)
     physic.set_velocity(0, 0);
 
-  if (hit.bottom  && !on_ground && !grabbed) {
+  if (hit.bottom  && !on_ground && !is_grabbed()) {
     SoundManager::current()->play(ROCK_SOUND, get_pos());
     physic.set_velocity_x(0);
     on_ground = true;
@@ -116,7 +113,7 @@ Rock::collision(GameObject& other, const CollisionHit& hit)
     return ABORT_MOVE;
   }
 
-  if (grabbed) {
+  if (is_grabbed()) {
     return ABORT_MOVE;
   }
   if (!on_ground) {
@@ -135,13 +132,13 @@ Rock::collision(GameObject& other, const CollisionHit& hit)
 }
 
 void
-Rock::grab(MovingObject& , const Vector& pos, Direction)
+Rock::grab(MovingObject& object, const Vector& pos, Direction dir_)
 {
+  Portable::grab(object, pos, dir_);
   m_col.m_movement = pos - get_pos();
   last_movement = m_col.m_movement;
   set_group(COLGROUP_TOUCHABLE); //needed for lanterns catching willowisps
   on_ground = false;
-  grabbed = true;
 
   if (!on_grab_script.empty()) {
     Sector::get().run_script(on_grab_script, "Rock::on_grab");
@@ -149,7 +146,7 @@ Rock::grab(MovingObject& , const Vector& pos, Direction)
 }
 
 void
-Rock::ungrab(MovingObject& , Direction dir)
+Rock::ungrab(MovingObject& object, Direction dir)
 {
   set_group(COLGROUP_MOVING_STATIC);
   on_ground = false;
@@ -162,11 +159,11 @@ Rock::ungrab(MovingObject& , Direction dir)
   } else {
     physic.set_velocity(0, 0);
   }
-  grabbed = false;
 
   if (!on_ungrab_script.empty()) {
     Sector::get().run_script(on_ungrab_script, "Rock::on_ungrab");
   }
+  Portable::ungrab(object, dir);
 }
 
 ObjectSettings
