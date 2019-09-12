@@ -45,8 +45,6 @@ protected:
   virtual bool collision_squished(GameObject& object) override;
 
 private:
-
-private:
   MrBomb(const MrBomb&) = delete;
   MrBomb& operator=(const MrBomb&) = delete;
 };

@@ -36,8 +36,8 @@ public:
   virtual void grab(MovingObject& other, const Vector& pos, Direction dir) { m_owner = &other; }
   virtual void ungrab(MovingObject& other, Direction ) { m_owner = nullptr; }
 
-  virtual MovingObject* get_owner() { return m_owner; }
-  virtual bool is_grabbed() {return m_owner != nullptr; }
+  virtual MovingObject* get_owner() const { return m_owner; }
+  virtual bool is_grabbed() const {return m_owner != nullptr; }
   virtual bool is_portable() const { return true; }
 
   /** Is the object so heavy/bulky/fragile that Tux can't run while
