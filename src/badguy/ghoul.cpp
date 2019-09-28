@@ -37,7 +37,7 @@ Ghoul::Ghoul(const ReaderMapping& reader) :
   reader.get("track-range", m_track_range, TRACK_RANGE);
   
   bool running;
-  if ( !reader.get("running", running)) running = false;
+  reader.get("running", running, false);
 
   init_path(reader, running);
   
@@ -86,13 +86,10 @@ void
 Ghoul::deactivate()
 {
   switch (m_mystate) {
-    case STATE_STOPPED:
-    case STATE_IDLE:
-    case STATE_PATHMOVING:
-    case STATE_PATHMOVING_TRACK:
-      break;
     case STATE_TRACKING:
       m_mystate = STATE_IDLE;
+      break;
+	default:
       break;
   }
 }
@@ -107,7 +104,8 @@ Ghoul::active_update(float dt_sec)
   }
 
   auto player = get_nearest_player();
-  if (!player) return;
+  if (!player) 
+  return;
   Vector p1 = m_col.m_bbox.get_middle();
   Vector p2 = player->get_bbox().get_middle();
   Vector dist = (p2 - p1);
@@ -208,6 +206,5 @@ Ghoul::move_to(const Vector& pos)
   }
   set_pos(pos);
 }
-
 
 /* EOF */
