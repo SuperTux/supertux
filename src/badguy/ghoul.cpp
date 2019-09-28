@@ -89,7 +89,7 @@ Ghoul::deactivate()
     case STATE_TRACKING:
       m_mystate = STATE_IDLE;
       break;
-	default:
+    default:
       break;
   }
 }
@@ -113,11 +113,11 @@ Ghoul::active_update(float dt_sec)
   const Rectf& player_bbox = player->get_bbox();
   
   if (player_bbox.get_right() < m_col.m_bbox.get_left()) {
-	  m_sprite->set_action("left", -1);
+    m_sprite->set_action("left", -1);
   }
   
   if (player_bbox.get_left() > m_col.m_bbox.get_right()) {
-	  m_sprite->set_action("right", -1);
+    m_sprite->set_action("right", -1);
   }
 
   switch (m_mystate) {
