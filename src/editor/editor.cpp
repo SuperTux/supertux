@@ -632,6 +632,13 @@ Editor::event(const SDL_Event& ev)
         }
       }
     }
+
+    // scroll with mouse wheel
+    if (ev.type == SDL_MOUSEWHEEL) {
+      float scroll_x = static_cast<float>(ev.wheel.x * -32);
+      float scroll_y = static_cast<float>(ev.wheel.y * -32);
+      scroll({scroll_x, scroll_y});
+    }
   }
   catch(const std::exception& err)
   {
