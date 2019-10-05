@@ -24,26 +24,26 @@ class Ghoul final : public BadGuy,
 {
 public:
   Ghoul(const ReaderMapping& reader);
-  std::string get_class() const { return "ghoul"; }
-  std::string get_display_name() const { return _("Ghoul"); }
-  bool is_freezable() const;
-  bool is_flammable() const;
+  std::string get_class() const override { return "ghoul"; }
+  std::string get_display_name() const override { return _("Ghoul"); }
+  bool is_freezable() const override;
+  bool is_flammable() const override;
   
-  void finish_construction();
+  void finish_construction() override;
 
-  void activate();
-  void deactivate();
-  void active_update(float dt_sec);
+  void activate() override;
+  void deactivate() override;
+  void active_update(float dt_sec) override;
   
   void goto_node(int node_no);
   void set_state(const std::string& state);
   void start_moving();
   void stop_moving();
 
-  void move_to(const Vector& pos);
+  void move_to(const Vector& pos) override;
   
 protected:
-  bool collision_squished(GameObject& object);
+  bool collision_squished(GameObject& object) override;
   
 private:
   enum MyState {
