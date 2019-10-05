@@ -38,7 +38,7 @@ public:
   void goto_node(int node_no);
   void set_state(const std::string& state);
   void start_moving();
-  virtual void stop_moving();
+  void stop_moving();
 
   void move_to(const Vector& pos);
   
