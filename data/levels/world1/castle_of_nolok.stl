@@ -346,24 +346,16 @@ load_level(\"levels/world1/castle_cutscene.stl\");")
       (y 64)
     )
     (scripttrigger
-      (script "Tux.deactivate();
-Effect.sixteen_to_nine(0);
-Tux.walk(110);
-wait(2);
-Tux.walk(0);
-start.goto_node(1);
-wait(1.5);
-Tux.activate();
-Effect.four_to_three(0.3);")
+      (script "start.goto_node(1);")
       (button #f)
       (width 32)
       (height 192)
-      (x 0)
+      (x 160)
       (y 288)
     )
     (spawnpoint
       (name "main")
-      (x 0)
+      (x 160)
       (y 384)
     )
     (spiky
