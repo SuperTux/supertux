@@ -90,7 +90,7 @@ Tux.do_jump(-250);
 wait(0.8);
 Tux.set_dir(false);
 Camera.scroll_to(0, 96, 0.2);
-play_music(\"music/voc-boss.music\");
+play_music(\"music/antarctic/voc-boss.music\");
 wait(0.3);
 Yeti.set_action(\"stomp-right\");
 play_sound(\"sounds/yeti_gna.wav\");
