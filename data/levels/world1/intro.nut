@@ -28,7 +28,7 @@ function initialize()
   Camera.scroll_to(2808, 913, 15);
   Tux.walk(300);
   wait(3);
-  Text.set_text(_("Our young protagonist, Tux, was going to meet\nhis friend, Penny, for a picnic."));
+  Text.set_text(_("Tux the penguin was going to meet his friend, Penny, for a picnic."));
   Text.fade_in(0.5);
   wait(5);
   Text.fade_out(1.5);
@@ -156,7 +156,7 @@ function initialize()
   Tux.walk(30);
   wait(3);
   Tux.walk(0);
-  Text.set_text(_("As Tux started to become worried about\nPenny, he noticed a letter dropped in front\nof him that read:"));
+  Text.set_text(_("Tux was starting to become worried. He then saw a letter, and it read:"));
   Text.fade_in(0.2);
   wait(5);
   Text.fade_out(0.2);
@@ -171,17 +171,12 @@ function initialize()
   wait(3);
   Text.fade_out(0.2);
   wait(0.4);
-  Text.set_text(_("\"Give up on the thought of saving her from me!\""));
-  Text.fade_in(0.2);
-  wait(3);
-  Text.fade_out(0.2);
-  wait(0.4);
-  Text.set_text(_("\"You don't have a chance. Signed, Nolok.\""));
+  Text.set_text(_("\"You don't have a chance of saving her! Signed, Nolok.\""));
   Text.fade_in(0.2);
   wait(5);
   Text.fade_out(1);
   wait(1.4);
-  Text.set_text(_("Realizing the trouble Penny was in,\nTux became determined to save Penny at all costs."));
+  Text.set_text(_("Realizing the trouble Penny could be in,\nTux became determined to save her."));
   Text.fade_in(0.2);
   wait(5);
   Text.fade_out(1);
