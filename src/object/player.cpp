@@ -868,7 +868,7 @@ Player::handle_input()
   if (m_controller->hold(Control::DOWN) && !m_stone) {
     do_duck();
   } else {
-    do_standup(m_controller->hold(Control::UP));
+    do_standup(false);
   }
 
   /* grabbing */
