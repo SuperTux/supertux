@@ -161,12 +161,12 @@ function initialize()
   wait(5);
   Text.fade_out(0.2);
   wait(0.4);
-  Text.set_text(_("\"Tux, I have kidnapped your beloved Penny\nand have taken her to my fortress.\""));
+  Text.set_text(_("\"Tux, I have kidnapped your beloved Penny and have taken her to my fortress.\""));
   Text.fade_in(0.2);
   wait(5);
   Text.fade_out(0.2);
   wait(0.4);
-  Text.set_text(_("\"The path to my fortress is littered with\nmy minions.\""));
+  Text.set_text(_("\"The path to my fortress is littered with my minions.\""));
   Text.fade_in(0.2);
   wait(3);
   Text.fade_out(0.2);
@@ -176,7 +176,7 @@ function initialize()
   wait(5);
   Text.fade_out(1);
   wait(1.4);
-  Text.set_text(_("Realizing the trouble Penny could be in,\nTux became determined to save her."));
+  Text.set_text(_("Realizing the trouble Penny could be in, Tux became determined to save her."));
   Text.fade_in(0.2);
   wait(5);
   Text.fade_out(1);
@@ -190,7 +190,7 @@ function initialize()
   Tux.walk(250);
   wait(0.1);
   Tux.walk(300);
-  Text.set_text(_("Then, Tux saw Nolok's castle in the distance\nand set off to rescue Penny!")); // t=8.4
+  Text.set_text(_("Then, Tux saw Nolok's castle in the distance and set off to rescue Penny!")); // t=8.4
   Text.fade_in(1);
   wait(5);
   Text.fade_out(3);
