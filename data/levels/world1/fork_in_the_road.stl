@@ -944,7 +944,7 @@ backclouds2.start_moving();")
       (bottom_color 1 1 1)
     )
     (music
-      (file "/music/salcon.ogg")
+      (file "/music/antarctic/salcon.ogg")
     )
     (particles-clouds
     )
