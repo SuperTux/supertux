@@ -61,11 +61,34 @@ CollisionSystem::remove(CollisionObject* object)
 void
 CollisionSystem::draw(DrawingContext& context)
 {
-  const Color color(1.0f, 0.0f, 0.0f, 0.75f);
-
+  const Color violet(0.5f, 0.0f, 1.0f, 0.75f);
+  const Color red(1.0f, 0.0f, 0.0f, 0.75f);
+  const Color red_bright(1.0f, 0.5f, 0.5f, 0.75f);
+  const Color cyan(0.0f, 1.0f, 1.0f, 0.75f);
+  const Color orange(1.0f, 0.5f, 0.0f, 0.75f);
+  const Color green_bright(0.7f, 1.0f, 0.7f, 0.75f);
   for (auto& object : m_objects) {
+    Color color;
+    switch (object->get_group()) {
+    case COLGROUP_MOVING_STATIC:
+      color = violet;
+      break;
+    case COLGROUP_MOVING:
+      color = red;
+      break;
+    case COLGROUP_MOVING_ONLY_STATIC:
+      color = red_bright;
+      break;
+    case COLGROUP_STATIC:
+      color = cyan;
+      break;
+    case COLGROUP_TOUCHABLE:
+      color = orange;
+      break;
+    default:
+      color = green_bright;
+    }
     const Rectf& rect = object->get_bbox();
-
     context.color().draw_filled_rect(rect, color, LAYER_FOREGROUND1 + 10);
   }
 }
