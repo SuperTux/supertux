@@ -26,14 +26,29 @@
 
 PoisonIvy::PoisonIvy(const ReaderMapping& reader)
   : WalkingBadguy(reader, "images/creatures/poison_ivy/poison_ivy.sprite", "left", "right")
-{
+ {
   walk_speed = 80;
-}
+ }
 
 PoisonIvy::PoisonIvy(const Vector& pos, Direction d)
   : WalkingBadguy(pos, d, "images/creatures/poison_ivy/poison_ivy.sprite", "left", "right")
-{
+ {
   walk_speed = 80;
+ }
+
+void
+PoisonIvy::initialize()
+{
+  m_sprite->set_action(m_dir == Direction::LEFT ? "left" : "right");
+  m_physic.set_gravity_modifier(.10f);
+  m_physic.enable_gravity(true);
+  
+}
+
+void
+PoisonIvy::active_update(float dt_sec)
+{
+  WalkingBadguy::active_update(dt_sec);
 }
 
 bool

@@ -18,21 +18,25 @@
 #define HEADER_SUPERTUX_BADGUY_POISONIVY_HPP
 
 #include "badguy/walking_badguy.hpp"
+#include "supertux/physic.hpp"
 
 class PoisonIvy final : public WalkingBadguy
 {
 public:
   PoisonIvy(const ReaderMapping& reader);
   PoisonIvy(const Vector& pos, Direction d);
-
+  
+  virtual void initialize() override;
+  virtual void active_update(float dt_sec) override;
   virtual bool is_freezable() const override;
   virtual std::string get_class() const override { return "poisonivy"; }
-  virtual std::string get_display_name() const override { return _("Poisonous ivy"); }
+  virtual std::string get_display_name() const override { return _("Spring Leaf"); }
 
 protected:
   virtual bool collision_squished(GameObject& object) override;
 
 private:
+  Physic physic;
   PoisonIvy(const PoisonIvy&) = delete;
   PoisonIvy& operator=(const PoisonIvy&) = delete;
 };
