@@ -30,8 +30,8 @@
       (y 544)
     )
     (gradient
-      (top_color 0 0.3137255 1)
-      (bottom_color 1 1 1)
+      (top_color 0 0.35 1)
+      (bottom_color 0.8 0.9 1)
     )
     (jumpy
       (direction "left")
