@@ -199,6 +199,8 @@ private:
   void do_jump_apex();
   void early_jump_apex();
 
+  void swim();
+
   bool slightly_above_ground() const;
 
   BonusType string_to_bonus(const std::string& bonus) const;
@@ -278,6 +280,10 @@ private:
 
   SpritePtr m_sprite; /**< The main sprite representing Tux */
 
+  Vector m_swimming_direction;
+  int m_swimming_accel_modifier;
+  float m_swimming_angle;
+  float m_pointed_angle;
   SurfacePtr m_airarrow; /**< arrow indicating Tux' position when he's above the camera */
 
   Vector m_floor_normal;

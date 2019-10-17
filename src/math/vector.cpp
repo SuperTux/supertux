@@ -24,9 +24,24 @@ Vector Vector::unit() const
   return *this / norm();
 }
 
+Vector Vector::polar() const
+{
+  return x==0 && y==0 ? Vector(0,0) : Vector(norm(),angle());
+}
+
+Vector Vector::rectangular() const
+{
+  return Vector(cosf(y),sinf(y))*x;
+}
+
 float Vector::norm() const
 {
   return sqrtf(x*x + y*y);
+}
+
+float Vector::angle() const
+{
+  return !(x||y) ? 0 : atan2(y,x);
 }
 
 std::ostream& operator<<(std::ostream& out, const Vector& vector)

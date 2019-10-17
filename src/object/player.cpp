@@ -40,7 +40,7 @@
 #include "trigger/trigger_base.hpp"
 #include "video/surface.hpp"
 
-//#define SWIMMING
+#define SWIMMING
 
 const float TUX_INVINCIBLE_TIME_WARNING = 2.0f;
 
@@ -176,6 +176,10 @@ Player::Player(PlayerStatus& player_status, const std::string& name_) :
   // load those instead of Tux's sprite in the
   // constructor
   m_sprite(SpriteManager::current()->create("images/creatures/tux/tux.sprite")),
+  m_swimming_direction(0,0),
+  m_swimming_accel_modifier(100),
+  m_swimming_angle(0),
+  m_pointed_angle(0),
   m_airarrow(Surface::from_file("images/engine/hud/airarrow.png")),
   m_floor_normal(),
   m_ghost_mode(false),
@@ -444,6 +448,69 @@ Player::update(float dt_sec)
 
 }
 
+void
+Player::swim()
+{
+  // float ax = m_physic.get_acceleration_x();
+  // float ay = m_physic.get_acceleration_y();
+  #define CENTRAL 5
+  int pointx = 0, pointy = 0;
+  // m_physic.enable_gravity(false);
+  m_physic.set_gravity_modifier(.02f);
+    if (m_controller->hold(Control::UP)&&!m_controller->hold(Control::DOWN))
+      pointy = -1;
+    else if (m_controller->hold(Control::DOWN)&&!m_controller->hold(Control::UP))
+      pointy = 1;
+    if (m_controller->hold(Control::LEFT)&&!m_controller->hold(Control::RIGHT))
+      pointx = -1;
+    else if (m_controller->hold(Control::RIGHT)&&!m_controller->hold(Control::LEFT))
+      pointx = 1;
+    m_pointed_angle = (pointx || pointy) ? Vector(pointx, pointy).angle() : CENTRAL;
+    
+    float delta = m_pointed_angle - m_swimming_angle;
+    float epsilon = .1 * delta;
+    m_swimming_angle += epsilon;
+    if(delta<0.04f) m_swimming_angle = m_pointed_angle;
+    m_swimming_direction = Vector(1,m_swimming_angle).rectangular();
+    //log_debug << m_swimming_angle << std::endl;
+    //float vel = m_physic.get_velocity;
+    if (m_pointed_angle == CENTRAL) m_swimming_accel_modifier = 0;
+    else m_swimming_accel_modifier = 300;
+    m_physic.set_acceleration_x(m_swimming_accel_modifier*m_swimming_direction.x);
+    m_physic.set_acceleration_y(m_swimming_accel_modifier*m_swimming_direction.y);
+
+  // Limit speed
+
+  float vx = m_physic.get_velocity_x();
+  float vy = m_physic.get_velocity_y();
+
+  float limit = 200.f;
+  if (m_physic.get_velocity().norm()>limit)
+    m_physic.set_acceleration(-vx,-vy);
+
+  // Natural friction
+  if (m_pointed_angle==CENTRAL) {
+    m_physic.set_acceleration(-.8*vx,-.8*vy);
+  }
+
+  // Turbo
+  if (m_controller->pressed(Control::JUMP)/*&&m_pointed_angle!=CENTRAL*/) {
+    vx += 200*pointx;
+    vy += 200*pointy;
+
+    if (Vector(vx,vy).norm()<40) {
+      vx = vy = 0;
+    }
+    m_physic.set_velocity(vx,vy);
+  }
+
+  m_dir = m_physic.get_velocity_x() > 0 ? Direction::RIGHT : Direction::LEFT;
+  // if (m_physic.get_velocity_x()>200) m_physic.set_velocity_x(200);
+  // if (m_physic.get_velocity_x()<-200) m_physic.set_velocity_x(-200);
+  // if (m_physic.get_velocity_y()>200) m_physic.set_velocity_y(200);
+  // if (m_physic.get_velocity_y()<-200) m_physic.set_velocity_y(-200);
+}
+
 bool
 Player::slightly_above_ground() const
 {
@@ -479,7 +546,7 @@ Player::apply_friction()
       m_physic.set_acceleration_x(friction);
     } else if (m_physic.get_velocity_x() > 0) {
       m_physic.set_acceleration_x(-friction);
-    } // no friction for physic.get_velocity_x() == 0
+    } // no friction for m_physic.get_velocity_x() == 0
   }
 }
 
@@ -531,7 +598,6 @@ Player::handle_horizontal_input()
       ax = 0;
     }
   }
-
   // we can reach WALK_SPEED without any acceleration
   if (dirsign != 0 && fabsf(vx) < WALK_SPEED) {
     vx = dirsign * WALK_SPEED;
@@ -766,13 +832,6 @@ Player::handle_vertical_input()
 
   // swimming
   m_physic.set_acceleration_y(0);
-#ifdef SWIMMING
-  if (swimming) {
-    if (controller->hold(Control::UP) || controller->hold(Control::JUMP))
-      physic.set_acceleration_y(-2000);
-    physic.set_velocity_y(physic.get_velocity_y() * 0.94);
-  }
-#endif
 }
 
 void
@@ -785,6 +844,13 @@ Player::handle_input()
   if (m_climbing) {
     handle_input_climbing();
     return;
+  }
+  if (m_swimming)
+  {
+    swim();
+    return;
+  } else {
+    m_physic.set_gravity_modifier(1);
   }
 
   /* Peeking */
@@ -1176,6 +1242,12 @@ Player::draw(DrawingContext& context)
     context.color().draw_surface(m_airarrow, Vector(px, py), LAYER_HUD - 1);
   }
 
+  if(m_swimming)
+  {
+    //Vector pxy = m_col.m_bbox.get_middle()+Vector(30*m_swimming_direction_x- static_cast<float>(m_airarrow.get()->get_width())/2,30*m_swimming_direction_y- static_cast<float>(m_airarrow.get()->get_height())/2);
+    //context.color().draw_surface(m_airarrow, pxy, LAYER_HUD - 1);
+    context.color().draw_surface(m_airarrow, m_swimming_direction*30, LAYER_HUD - 1);
+  }
   std::string sa_prefix = "";
   std::string sa_postfix = "";
 
@@ -1279,7 +1351,7 @@ Player::draw(DrawingContext& context)
 
   /*
   // Tux is holding something
-  if ((grabbed_object != 0 && physic.get_velocity_y() == 0) ||
+  if ((grabbed_object != 0 && m_physic.get_velocity_y() == 0) ||
   (shooting_timer.get_timeleft() > 0 && !shooting_timer.check())) {
   if (duck) {
   } else {
@@ -1328,17 +1400,18 @@ Player::collision_tile(uint32_t tile_attributes)
     kill(false);
 
 #ifdef SWIMMING
-  if ( swimming ){
+  if ( m_swimming ){
     if ( tile_attributes & Tile::WATER ){
       no_water = false;
     } else {
-      swimming = false;
+      m_swimming = false;
     }
   } else {
     if ( tile_attributes & Tile::WATER ){
-      swimming = true;
+      m_swimming = true;
       no_water = false;
       SoundManager::current()->play( "sounds/splash.wav" );
+      log_debug << "Started swimming!" << std::endl;
     }
   }
 #endif
