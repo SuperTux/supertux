@@ -175,6 +175,7 @@ Player::Player(PlayerStatus& player_status, const std::string& name_) :
   // if/when we have complete penny gfx, we can
   // load those instead of Tux's sprite in the
   // constructor
+
   m_sprite(SpriteManager::current()->create("images/creatures/tux/tux.sprite")),
   m_swimming_direction(0,0),
   m_swimming_accel_modifier(100),
@@ -307,6 +308,12 @@ Player::update(float dt_sec)
 
   if ( no_water ){
     m_swimming = false;
+//=======
+//  if( no_water ) {
+//    swimming = false;
+//  } else if ( on_ground() ) {
+//    start_swim_y = std::numeric_limits<float>::min();
+//>>>>>>> Narre/swimming_enhancements
   }
   no_water = true;
 
@@ -832,7 +839,6 @@ Player::handle_vertical_input()
 
   // swimming
   m_physic.set_acceleration_y(0);
-}
 
 void
 Player::handle_input()
@@ -1303,9 +1309,14 @@ Player::draw(DrawingContext& context)
   else if ((m_wants_buttjump || m_does_buttjump) && is_big()) {
     m_sprite->set_action(sa_prefix+"-buttjump"+sa_postfix, 1);
   }
-  else if (!on_ground() || m_fall_mode != ON_GROUND) {
-    if (m_physic.get_velocity_x() != 0 || m_fall_mode != ON_GROUND) {
-        m_sprite->set_action(sa_prefix+"-jump"+sa_postfix);
+  
+  else if (!on_ground() || fall_mode != ON_GROUND) {
+    if(physic.get_velocity_x() != 0 || fall_mode != ON_GROUND) {
+      if (swimming) {
+        sprite->set_action(sa_prefix+"-swimming"+sa_postfix);
+      } else {
+        sprite->set_action(sa_prefix+"-jump"+sa_postfix);
+      }
     }
   }
   else {
@@ -1410,6 +1421,7 @@ Player::collision_tile(uint32_t tile_attributes)
     if ( tile_attributes & Tile::WATER ){
       m_swimming = true;
       no_water = false;
+      start_swim_y = bbox.p1.y + 16.0;
       SoundManager::current()->play( "sounds/splash.wav" );
       log_debug << "Started swimming!" << std::endl;
     }

@@ -41,6 +41,16 @@
          (mirror-action "earth-jump-right"))
 
        (action
+         (name "earth-swimming-right")
+         (hitbox 516 134 32 64)
+         (images "earth/light/stand.png"))
+
+       (action
+         (name "earth-swimming-left")
+         (hitbox 516 134 32 64)
+         (mirror-action "earth-swimming-right"))
+
+       (action
          (name "earth-skid-right")
          (hitbox 516 514 32 64)
          (images "earth/light/skid.png"))
