@@ -494,11 +494,10 @@ ScreenManager::run()
 
     for (int i = 0; i < steps; ++i) {
       // Perform a logical game step; seconds_per_step is set to a fixed value
-      // so that the game is deterministic
-      float dtime = seconds_per_step;
-      if (speed_multiplier != 1.0f)
-        // speed_multiplier is a debug setting; usually dtime is fixed
-        dtime *= speed_multiplier;
+      // so that the game is deterministic.
+      // In cases which don't affect regular gameplay, such as the
+      // end sequence and debugging, dtime can be changed.
+      float dtime = seconds_per_step * m_speed * speed_multiplier;
       g_game_time += dtime;
       process_events();
       update_gamelogic(dtime);
