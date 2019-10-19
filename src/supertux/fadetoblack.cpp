@@ -39,11 +39,14 @@ void
 FadeToBlack::draw(DrawingContext& context)
 {
   Color col = m_color;
-  if (m_direction == FADEOUT) {
-    col.alpha = m_accum_time / m_fade_time;
-  } else {
-    col.alpha = 1.0f - m_accum_time / m_fade_time;
-  }
+  col.alpha = m_accum_time / m_fade_time;
+  if (m_direction != FADEOUT)
+    col.alpha = 1.0f - col.alpha;
+
+  // The colours are mixed directly in sRGB space, so change alpha for a more
+  // linear fading (it may only work correctly with black)
+  col.alpha = Color::remove_gamma(col.alpha);
+
   context.color().draw_filled_rect(Rectf(0, 0,
                                          static_cast<float>(context.get_width()),
                                          static_cast<float>(context.get_height())),
