@@ -1,6 +1,6 @@
 (supertux-level
   (version 2)
-  (name (_ "The Ancient ruins of the Forest"))
+  (name (_ "The Ancient Ruins Of The Forest"))
   (author "Carsten")
   (tileset "images/tiles.strf")
   (license "CC-BY-SA 4.0 International")

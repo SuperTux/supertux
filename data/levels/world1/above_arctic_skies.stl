@@ -222,16 +222,6 @@
     )
     (mriceblock
       (direction "left")
-      (x 4448)
-      (y 832)
-    )
-    (mriceblock
-      (direction "left")
-      (x 4320)
-      (y 832)
-    )
-    (mriceblock
-      (direction "left")
       (x 10272)
       (y 992)
     )
@@ -420,18 +410,8 @@
     )
     (spiky
       (direction "left")
-      (x 7488)
-      (y 1056)
-    )
-    (spiky
-      (direction "left")
       (x 7648)
       (y 1056)
-    )
-    (spiky
-      (direction "left")
-      (x 13344)
-      (y 896)
     )
     (spiky
       (direction "left")

@@ -1,6 +1,6 @@
 (supertux-level
   (version 2)
-  (name (_ "Up, or down?"))
+  (name (_ "Up, Or Down?"))
   (author "alex")
   (license "CC-BY-SA 4.0 International")
   (target-time 0)

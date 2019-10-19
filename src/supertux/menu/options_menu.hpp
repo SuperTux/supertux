@@ -34,7 +34,6 @@ private:
   int next_window_resolution;
   int next_resolution;
   int next_vsync;
-  int next_framerate;
   int next_sound_volume;
   int next_music_volume;
 
@@ -43,7 +42,6 @@ private:
   std::vector<std::string> window_resolutions;
   std::vector<std::string> resolutions;
   std::vector<std::string> vsyncs;
-  std::vector<std::string> framerates;
   std::vector<std::string> sound_volumes;
   std::vector<std::string> music_volumes;
 
