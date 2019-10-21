@@ -177,10 +177,7 @@ Player::Player(PlayerStatus& player_status, const std::string& name_) :
   // constructor
 
   m_sprite(SpriteManager::current()->create("images/creatures/tux/tux.sprite")),
-  m_swimming_direction(0,0),
-  m_swimming_accel_modifier(100),
-  m_swimming_angle(0),
-  m_pointed_angle(0),
+  m_swimming_accel_modifier(100.f),
   m_airarrow(Surface::from_file("images/engine/hud/airarrow.png")),
   m_floor_normal(),
   m_ghost_mode(false),
@@ -456,81 +453,82 @@ Player::update(float dt_sec)
 }
 
 void
-Player::swim()
+Player::handle_input_swimming()
 {
   // Handling input
-  int pointx = 0, pointy = 0;
+  float pointx = 0, pointy = 0;
   // m_physic.enable_gravity(false);
   m_physic.set_gravity_modifier(.02f);
     if (m_controller->hold(Control::UP)&&!m_controller->hold(Control::DOWN))
-      pointy = -1;
+      pointy = -1.f;
     else if (m_controller->hold(Control::DOWN)&&!m_controller->hold(Control::UP))
-      pointy = 1;
+      pointy = 1.f;
     if (m_controller->hold(Control::LEFT)&&!m_controller->hold(Control::RIGHT))
-      pointx = -1;
+      pointx = -1.f;
     else if (m_controller->hold(Control::RIGHT)&&!m_controller->hold(Control::LEFT))
-      pointx = 1;
+      pointx = 1.f;
+    bool boost = m_controller->pressed(Control::JUMP);
+  swim(pointx,pointy,boost);
+}
+
+void
+Player::swim(float pointx, float pointy, bool boost)
+{
     // Angle
     bool is_ang_defined = pointx || pointy;
-    m_pointed_angle = Vector(pointx, pointy).angle();
+    float swimming_angle;
+    float pointed_angle = Vector(pointx, pointy).angle();
     float delta = 0;
     if(is_ang_defined)
     {
-      delta = m_pointed_angle - m_swimming_angle;
-      if(abs(delta) > M_PI) delta += delta > 0 ? -2.f * M_PI : 2.f * M_PI;
+      delta = pointed_angle - swimming_angle;
+      if(abs(delta) > M_PIf32) delta += delta > 0 ? -2.f * M_PIf32 : 2.f * M_PIf32;
       float epsilon = .1f * delta;
-      m_swimming_angle += epsilon;
-      if (m_swimming_angle > M_PI) m_swimming_angle -= 2.f * M_PI;
-      if (m_swimming_angle <= -M_PI) m_swimming_angle += 2.f * M_PI;
+      swimming_angle += epsilon;
+      if (swimming_angle > M_PIf32) swimming_angle -= 2.f * M_PIf32;
+      if (swimming_angle <= -M_PIf32) swimming_angle += 2.f * M_PIf32;
     }
-    if(is_ang_defined && abs(delta)<0.01f) m_swimming_angle = m_pointed_angle;
+    if(is_ang_defined && abs(delta)<0.01f) swimming_angle = pointed_angle;
     if (!is_ang_defined) m_swimming_accel_modifier = 0;
-    else m_swimming_accel_modifier = 300;
-    m_swimming_direction = Vector(m_swimming_accel_modifier,m_swimming_angle).rectangular();
-    m_physic.set_acceleration_x(m_swimming_direction.x);
-    m_physic.set_acceleration_y(m_swimming_direction.y);
+    else m_swimming_accel_modifier = 700.f;
+    Vector swimming_direction = Vector(m_swimming_accel_modifier,pointed_angle).rectangular();
+    m_physic.set_acceleration_x(temp.x);
+    m_physic.set_acceleration_y(temp.y);
 
   // Limit speed
 
   float vx = m_physic.get_velocity_x();
   float vy = m_physic.get_velocity_y();
 
-  float limit = 200.f;
+  float limit = 300.f;
   if (m_physic.get_velocity().norm()>limit)
     m_physic.set_acceleration(-vx,-vy);   // Was too lazy to set it properly ~~zwatotem
 
   // Natural friction
   if (!is_ang_defined) {
-    m_physic.set_acceleration(-.8*vx,-.8*vy);
+    m_physic.set_acceleration(-.8f*vx,-.8f*vy);
   }
 
   // Turbo
-  if (m_controller->pressed(Control::JUMP)) {
+  if (boost) {
     vx += 200.f*pointx;
     vy += 200.f*pointy;
-    log_debug << "Boost" << std::endl;
-    if (Vector(vx,vy).norm()<40) {
+    if (Vector(vx,vy).norm()<40.f) {
       vx = 0;
       vy = 0;
     }
     m_physic.set_velocity(vx,vy);
   }
 
-  m_dir = abs(m_swimming_angle) < M_PI_4 ? Direction::RIGHT : Direction::LEFT;
+  m_dir = abs(swimming_angle) <= M_PI_2f32 ? Direction::RIGHT : Direction::LEFT;
 
   if (m_dir == Direction::RIGHT)
   {
-    m_sprite->set_angle(math::degrees(m_swimming_angle));
+    m_sprite->set_angle(math::degrees(swimming_angle));
   }
   else {
-    m_sprite->set_angle(-math::degrees(math::sgn(m_swimming_angle)*M_PI-m_swimming_angle));
+    m_sprite->set_angle(-math::degrees(static_cast<float>(math::sgn(swimming_angle))*M_PIf32-swimming_angle));
   }
-  //  log_debug << is_ang_defined << ' ' << m_swimming_angle << std::endl;
-  //  if(pointx == -1 && pointy == -1) log_debug << m_swimming_accel_modifier << std::endl;
-  // if (m_physic.get_velocity_x()>200) m_physic.set_velocity_x(200);
-  // if (m_physic.get_velocity_x()<-200) m_physic.set_velocity_x(-200);
-  // if (m_physic.get_velocity_y()>200) m_physic.set_velocity_y(200);
-  // if (m_physic.get_velocity_y()<-200) m_physic.set_velocity_y(-200);
 }
 
 bool
@@ -866,11 +864,11 @@ Player::handle_input()
     handle_input_climbing();
     return;
   }
-  if (m_swimming)
+  if (m_swimming && !on_ground())
   {
-    swim();
-    return;
+    handle_input_swimming();
   } else {
+    m_sprite->set_angle(0);
     m_physic.set_gravity_modifier(1);
   }
 
@@ -894,7 +892,8 @@ Player::handle_input()
       m_peekingY = Direction::DOWN;
     }
   }
-
+  if(m_swimming && !on_ground())
+    return;
   /* Handle horizontal movement: */
   if (!m_backflipping && !m_stone) handle_horizontal_input();
 
@@ -1263,12 +1262,6 @@ Player::draw(DrawingContext& context)
     context.color().draw_surface(m_airarrow, Vector(px, py), LAYER_HUD - 1);
   }
 
-  if(m_swimming)
-  {
-    //Vector pxy = m_col.m_bbox.get_middle()+Vector(30*m_swimming_direction_x- static_cast<float>(m_airarrow.get()->get_width())/2,30*m_swimming_direction_y- static_cast<float>(m_airarrow.get()->get_height())/2);
-    //context.color().draw_surface(m_airarrow, pxy, LAYER_HUD - 1);
-    //context.color().draw_surface(m_airarrow, m_swimming_direction*30, LAYER_HUD - 1);
-  }
   std::string sa_prefix = "";
   std::string sa_postfix = "";
 

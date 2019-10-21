@@ -192,14 +192,15 @@ private:
   void handle_input();
   void handle_input_ghost(); /**< input handling while in ghost mode */
   void handle_input_climbing(); /**< input handling while climbing */
-
+  void handle_input_swimming();
+  
   void handle_horizontal_input();
   void handle_vertical_input();
 
   void do_jump_apex();
   void early_jump_apex();
 
-  void swim();
+  void swim(float pointx, float pointy, bool boost);
 
   bool slightly_above_ground() const;
 
@@ -281,9 +282,7 @@ private:
   SpritePtr m_sprite; /**< The main sprite representing Tux */
 
   Vector m_swimming_direction;
-  int m_swimming_accel_modifier;
-  float m_swimming_angle;
-  float m_pointed_angle;
+  float m_swimming_accel_modifier;
   SurfacePtr m_airarrow; /**< arrow indicating Tux' position when he's above the camera */
 
   Vector m_floor_normal;
@@ -298,7 +297,7 @@ private:
 
   Climbable* m_climbing; /**< Climbable object we are currently climbing, null if none */
 
-  float start_swim_y; /**< the y coordinate of where Tux touched water */
+  //float start_swim_y; /**< the y coordinate of where Tux touched water */
 
 private:
   Player(const Player&) = delete;
