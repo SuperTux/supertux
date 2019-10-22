@@ -280,8 +280,8 @@ private:
   Portable* m_grabbed_object;
 
   SpritePtr m_sprite; /**< The main sprite representing Tux */
-
-  Vector m_swimming_direction;
+  
+  float m_swimming_angle;
   float m_swimming_accel_modifier;
   SurfacePtr m_airarrow; /**< arrow indicating Tux' position when he's above the camera */
 

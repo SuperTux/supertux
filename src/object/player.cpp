@@ -177,6 +177,7 @@ Player::Player(PlayerStatus& player_status, const std::string& name_) :
   // constructor
 
   m_sprite(SpriteManager::current()->create("images/creatures/tux/tux.sprite")),
+  m_swimming_angle(0),
   m_swimming_accel_modifier(100.f),
   m_airarrow(Surface::from_file("images/engine/hud/airarrow.png")),
   m_floor_normal(),
@@ -476,25 +477,23 @@ Player::swim(float pointx, float pointy, bool boost)
 {
     // Angle
     bool is_ang_defined = pointx || pointy;
-    float swimming_angle;
     float pointed_angle = Vector(pointx, pointy).angle();
     float delta = 0;
     if(is_ang_defined)
     {
-      delta = pointed_angle - swimming_angle;
-      if(abs(delta) > M_PIf32) delta += delta > 0 ? -2.f * M_PIf32 : 2.f * M_PIf32;
+      delta = pointed_angle - m_swimming_angle;
+      if(abs(delta) > math::PI) delta += delta > 0 ? -math::TAU : math::TAU;
       float epsilon = .1f * delta;
-      swimming_angle += epsilon;
-      if (swimming_angle > M_PIf32) swimming_angle -= 2.f * M_PIf32;
-      if (swimming_angle <= -M_PIf32) swimming_angle += 2.f * M_PIf32;
+      m_swimming_angle += epsilon;
+      if (m_swimming_angle > math::PI) m_swimming_angle -= math::TAU;
+      if (m_swimming_angle <= -math::PI) m_swimming_angle += math::TAU;
     }
-    if(is_ang_defined && abs(delta)<0.01f) swimming_angle = pointed_angle;
+    if(is_ang_defined && abs(delta)<0.01f) m_swimming_angle = pointed_angle;
     if (!is_ang_defined) m_swimming_accel_modifier = 0;
     else m_swimming_accel_modifier = 700.f;
     Vector swimming_direction = Vector(m_swimming_accel_modifier,pointed_angle).rectangular();
-    m_physic.set_acceleration_x(temp.x);
-    m_physic.set_acceleration_y(temp.y);
-
+    m_physic.set_acceleration_x(swimming_direction.x);
+    m_physic.set_acceleration_y(swimming_direction.y);
   // Limit speed
 
   float vx = m_physic.get_velocity_x();
@@ -520,14 +519,14 @@ Player::swim(float pointx, float pointy, bool boost)
     m_physic.set_velocity(vx,vy);
   }
 
-  m_dir = abs(swimming_angle) <= M_PI_2f32 ? Direction::RIGHT : Direction::LEFT;
+  m_dir = abs(m_swimming_angle) <= math::PI_2 ? Direction::RIGHT : Direction::LEFT;
 
   if (m_dir == Direction::RIGHT)
   {
-    m_sprite->set_angle(math::degrees(swimming_angle));
+    m_sprite->set_angle(math::degrees(m_swimming_angle));
   }
   else {
-    m_sprite->set_angle(-math::degrees(static_cast<float>(math::sgn(swimming_angle))*M_PIf32-swimming_angle));
+    m_sprite->set_angle(-math::degrees(static_cast<float>(math::sgn(m_swimming_angle))*math::PI-m_swimming_angle));
   }
 }
 
@@ -864,9 +863,15 @@ Player::handle_input()
     handle_input_climbing();
     return;
   }
-  if (m_swimming && !on_ground())
+  if (m_swimming)
   {
-    handle_input_swimming();
+    if (on_ground()) {
+      m_sprite->set_angle(0);
+      if (m_controller->hold(Control::UP)) do_jump(-100);
+    }
+    else {
+      handle_input_swimming();
+    }
   } else {
     m_sprite->set_angle(0);
     m_physic.set_gravity_modifier(1);
