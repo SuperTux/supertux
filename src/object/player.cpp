@@ -831,7 +831,6 @@ Player::handle_vertical_input()
       m_ability_timer.stop();
     }
   }
-
   if (m_jump_early_apex && m_physic.get_velocity_y() >= 0) {
     do_jump_apex();
   }
@@ -850,7 +849,7 @@ Player::handle_vertical_input()
   }
 
   // swimming
-  m_physic.set_acceleration_y(0);
+  //m_physic.set_acceleration_y(0);
 }
 void
 Player::handle_input()
@@ -874,7 +873,13 @@ Player::handle_input()
     }
   } else {
     m_sprite->set_angle(0);
-    m_physic.set_gravity_modifier(1);
+    if(!m_jump_early_apex) {
+      m_physic.set_gravity_modifier(1.0f);
+    }
+    else {
+      m_physic.set_gravity_modifier(JUMP_EARLY_APEX_FACTOR);
+    }
+    
   }
 
   /* Peeking */
@@ -1324,7 +1329,7 @@ Player::draw(DrawingContext& context)
   }
   
   else if (!on_ground() || m_fall_mode != ON_GROUND) {
-    if(m_physic.get_velocity_x() != 0 || m_fall_mode != ON_GROUND) {
+    if (m_physic.get_velocity_x() != 0 || m_fall_mode != ON_GROUND) {
       if (m_swimming) {
         m_sprite->set_action(sa_prefix+"-swimming"+sa_postfix);
       } else {
@@ -1436,7 +1441,6 @@ Player::collision_tile(uint32_t tile_attributes)
       no_water = false;
       //start_swim_y = m_bbox.p1.y + 16.0;
       SoundManager::current()->play( "sounds/splash.wav" );
-      log_debug << "Started swimming!" << std::endl;
     }
   }
 #endif
