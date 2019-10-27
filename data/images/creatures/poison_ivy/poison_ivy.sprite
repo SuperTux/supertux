@@ -10,6 +10,14 @@
   (hitbox 2 4 31.8 31.8)
   (mirror-action "left"))
  (action
+  (name "falling-left")
+  (hitbox 2 4 31.8 31.8)
+  (images "left-2.png"))
+  (action
+  (name "falling-right")
+  (hitbox 2 4 31.8 31.8)
+  (mirror-action "falling-left"))
+ (action
   (name "iced-left")
   (hitbox 2 4 31.8 31.8)
   (images "frozen.png"))
