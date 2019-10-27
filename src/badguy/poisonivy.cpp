@@ -48,6 +48,9 @@ PoisonIvy::initialize()
 void
 PoisonIvy::active_update(float dt_sec)
 {
+  if (!on_ground()) {
+  m_sprite->set_action(m_dir == Direction::LEFT ? "falling-left" : "falling-right");} else if (on_ground()) {
+  m_sprite->set_action(m_dir == Direction::LEFT ? "left" : "right");}
   WalkingBadguy::active_update(dt_sec);
 }
 

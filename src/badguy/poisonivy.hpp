@@ -36,7 +36,6 @@ protected:
   virtual bool collision_squished(GameObject& object) override;
 
 private:
-  Physic physic;
   PoisonIvy(const PoisonIvy&) = delete;
   PoisonIvy& operator=(const PoisonIvy&) = delete;
 };
