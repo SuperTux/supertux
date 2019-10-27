@@ -16,6 +16,7 @@
 
 #include "trigger/secretarea_trigger.hpp"
 
+#include "audio/sound_manager.hpp"
 #include "editor/editor.hpp"
 #include "object/tilemap.hpp"
 #include "supertux/debug.hpp"
@@ -121,6 +122,7 @@ SecretAreaTrigger::event(Player& , EventType type)
       message_timer.start(MESSAGE_TIME);
       message_displayed = true;
       Sector::get().get_level().m_stats.m_secrets++;
+      SoundManager::current()->play("sounds/excellent.wav");
 
       if (!fade_tilemap.empty()) {
         // fade away tilemaps
