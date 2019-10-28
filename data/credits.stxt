@@ -1172,7 +1172,7 @@
       (blank)
       (text
         (type "normal")
-        (string (_ "Penny awaits you in Milestone 3!"))
+        (string (_ "Penny awaits you in warmer climes!"))
       )
   )
 )
