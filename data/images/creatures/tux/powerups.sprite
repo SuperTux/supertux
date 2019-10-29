@@ -499,23 +499,13 @@
        (action
          (name "earth-buttjump-right")
          (hitbox 16 15 32 64)
-         (fps 20.0)
-         (loops 1)
-         (images "earth/hardhat/buttjump-0.png"
-                 "earth/hardhat/buttjump-1.png"
-                 "earth/hardhat/buttjump-2.png"
-                 "earth/hardhat/buttjump-3.png"
-                 "earth/hardhat/buttjump-4.png"
-                 "earth/hardhat/buttjump-5.png"
-                 "earth/hardhat/buttjump-6.png"))
+         (images "earth/hardhat/stand.png"))
 
        (action
          (name "earth-buttjump-left")
          (hitbox 16 15 32 64)
-         (fps 20.0)
-         (loops 1)
          (mirror-action "earth-buttjump-right"))
-        
+
 ; Santa Tux
        (action
          (name "santa-walk-right")

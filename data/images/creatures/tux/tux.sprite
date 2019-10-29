@@ -609,16 +609,12 @@
        (action
          (name "earth-buttjump-right")
          (hitbox 16 14 32 46)
-         (fps 20.0)
-         (loops 1)
-         (clone-action "big-buttjump-right"))
+         (images "big/buttjump_side.png"))
 
        (action
          (name "earth-buttjump-left")
          (hitbox 16 14 32 46)
-         (fps 20.0)
-         (loops 1)
-         (mirror-action "big-buttjump-right"))
+         (mirror-action "earth-buttjump-right"))
 
 ; Stone Tux
 
