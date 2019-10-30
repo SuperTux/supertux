@@ -11,7 +11,8 @@
 - If you made a mistake in your bug report, please use GitHub's edit feature
   to correct the wrong detail, instead of closing the old issue and opening a
   new one.
-
+- When opening a crash issue, upload the [stacktrace](https://developer.mozilla.org/en-US/docs/Mozilla/How_to_get_a_stacktrace_for_a_bug_report)
+- If it's reproducible, detail the steps to reproduce the bug. 
 
 ### Required information
 
