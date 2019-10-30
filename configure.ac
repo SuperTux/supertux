@@ -69,8 +69,7 @@ fi
 
 dnl ===========================================================================
 dnl Check for SDL
-AM_PATH_SDL($SDL_VERSION,
-            :,
+PKG_CHECK_MODULES([SDL], [sdl >= $SDL_VERSION],,
 	    AC_MSG_ERROR([*** SDL version $SDL_VERSION not found!]))
 CXXFLAGS="$CXXFLAGS $SDL_CFLAGS"
 CFLAGS="$CFLAGS $SDL_CFLAGS"
@@ -86,8 +85,11 @@ AC_ARG_ENABLE(silence,
 if test x$enable_silence = xyes; then
     CXXFLAGS="$CXXFLAGS -DNOSOUND"
 else
-AC_CHECK_LIB(SDL_mixer, Mix_OpenAudio,,
+PKG_CHECK_MODULES([SDL_MIXER], [SDL_mixer], ,
 	AC_MSG_ERROR([SDL_mixer library required]))
+CXXFLAGS="$CXXFLAGS $SDL_MIXER_CFLAGS"
+CFLAGS="$CFLAGS $SDL_MIXER_CFLAGS"
+LIBS="$LIBS $SDL_MIXER_LIBS"
 AC_DEFINE(HAVE_SOUND, 1, [Compile with sound support])
 fi
 AM_CONDITIONAL(HAVE_SOUND, test "x$enable_silence" != "xyes")
@@ -130,9 +132,11 @@ AC_CHECK_LIB(jpeg,jpeg_abort)
 
 AC_CHECK_LIB(png,png_free)
 
-AC_CHECK_LIB(SDL_image, IMG_Load,,
+PKG_CHECK_MODULES([SDL_IMAGE], [SDL_image], ,
 	AC_MSG_ERROR([SDL_image library required]))
-
+CXXFLAGS="$CXXFLAGS $SDL_IMAGE_CFLAGS"
+CFLAGS="$CFLAGS $SDL_IMAGE_CFLAGS"
+LIBS="$LIBS $SDL_IMAGE_LIBS"
 
 if test "x${enable_opengl}" != "xno"; then
   AX_CHECK_GL
