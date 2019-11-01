@@ -1,6 +1,6 @@
 (supertux-level
   (version 3)
-  (name (_ "Tower of Ghosts"))
+  (name (_ "Tower Of Ghosts"))
   (author "Daniel Ward")
   (license "CC-BY-SA 4.0 International")
   (sector
