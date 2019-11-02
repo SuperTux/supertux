@@ -585,10 +585,10 @@ Sector::save(Writer &writer)
   }
 
   // saving objects;
-  std::vector<GameObject*> objects;
-  for (auto& obj : get_objects()) {
-    objects.push_back(obj.get());
-  }
+  std::vector<GameObject*> objects(get_objects().size());
+  std::transform(get_objects().begin(), get_objects().end(), objects.begin(), [] (auto& obj) {
+    return obj.get();
+  });
 
   std::stable_sort(objects.begin(), objects.end(),
                    [](const GameObject* lhs, GameObject* rhs) {
