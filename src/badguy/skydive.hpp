@@ -44,9 +44,6 @@ private:
   void explode();
 
 private:
-  bool is_grabbed;
-
-private:
   SkyDive(const SkyDive&) = delete;
   SkyDive& operator=(const SkyDive&) = delete;
 };

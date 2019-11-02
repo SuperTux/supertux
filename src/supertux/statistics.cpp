@@ -86,7 +86,7 @@ void
 Statistics::serialize_to_squirrel(SquirrelVM& vm) const
 {
   if (m_status != FINAL) return;
-
+  
   vm.begin_table("statistics");
   vm.store_int("coins-collected", m_coins);
   vm.store_int("badguys-killed", m_badguys);
@@ -281,7 +281,7 @@ void
 Statistics::update(const Statistics& other)
 {
   if (other.m_status != FINAL) return;
-
+  
   m_coins = std::max(m_coins, other.m_coins);
   m_badguys = std::max(m_badguys, other.m_badguys);
   m_secrets = std::max(m_secrets, other.m_secrets);
@@ -297,6 +297,7 @@ Statistics::update(const Statistics& other)
   m_coins = math::clamp(m_coins, 0, m_total_coins);
   m_badguys = math::clamp(m_badguys, 0, m_total_badguys);
   m_secrets = math::clamp(m_secrets, 0, m_total_secrets);
+  m_status = FINAL;
 }
 
 bool

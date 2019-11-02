@@ -1143,7 +1143,6 @@ void
 Player::set_visible(bool visible_)
 {
   m_visible = visible_;
-  set_group(visible_ ? COLGROUP_MOVING : COLGROUP_DISABLED);
 }
 
 bool

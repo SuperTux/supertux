@@ -597,7 +597,7 @@ WorldMap::setup()
   music_object.play_music(MusicType::LEVEL_MUSIC);
 
   MenuManager::instance().clear_menu_stack();
-  ScreenManager::current()->set_screen_fade(std::make_unique<FadeToBlack>(FadeToBlack::FADEIN, 1));
+  ScreenManager::current()->set_screen_fade(std::make_unique<FadeToBlack>(FadeToBlack::FADEIN, 1.0f));
 
   load_state();
 

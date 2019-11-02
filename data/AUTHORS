@@ -6,6 +6,8 @@ Most images were created either by grumbel or gwater. Check the log for details.
 * images/background/block-snow-*.png - Jason Lavallée, dual-licensed: GPL version 2 or later and CC-BY-SA
 * images/background/cloud-mountains-*.png - Jason Lavallée, dual-licensed: GPL version 2 or later and CC-BY-SA
 * images/background/darkcave*.png - Jason Lavallée, dual-licensed: GPL version 2 or later and CC-BY-SA
+* images/background/dawn_hill_para_blur.png - Daniel W, Romero Nickerson, dual-licensed: GPL version 2 or later and CC-BY-SA
+* images/background/ghostforest_grave.png - jkjkke - https://opengameart.org/content/background-6, edited, licensed under CC-BY 3.0
 * images/objects/explosion/explosion*.png - Bleed - http://remusprites.carbonmade.com/ licensed under CC-BY 3.0, see https://opengameart.org/content/simple-explosion-bleeds-game-art
 
 == Levels ==
@@ -52,7 +54,7 @@ All files in data/music created by wansti and licensed under GPLv2+CC-by-sa, unl
 * halloween_1.ogg - By Forty-Two - licensed under CC-BY-SA 4.0
 * intro.ogg
 * invincible.ogg
-* jasons_chipdisco_arctic_breeze.ogg - Jason Lavallée, dual-licensed: GPL version 2 or later and CC-BY-SA
+* arctic_breeze.ogg - Jason Lavallée, dual-licensed: GPL version 2 or later and CC-BY-SA
 * jewels.ogg - By cynicmusic/congusbongus - <http://opengameart.org/content/crystal-cave-mysterious-ambience-seamless-loop> - CC-BY 3.0/CC-BY-SA 3.0/GPL 3.0
 * leveldone.ogg
 * new_forest_map.ogg - Jason Lavallée, dual-licensed: GPL version 2 or later and CC-BY-SA

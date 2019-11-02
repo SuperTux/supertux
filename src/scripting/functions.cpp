@@ -315,7 +315,7 @@ void warp(float offset_x, float offset_y)
 void camera()
 {
   if (!validate_sector_player()) return;
-  auto& cam_pos = ::Sector::get().get_camera().get_translation();
+  const auto& cam_pos = ::Sector::get().get_camera().get_translation();
   log_info << "Camera is at " << cam_pos.x << "," << cam_pos.y << std::endl;
 }
 

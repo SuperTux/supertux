@@ -47,7 +47,7 @@
       (y 9)
     )
     (music
-      (file "/music/antarctic/jasons_chipdisco_arctic_breeze.ogg")
+      (file "/music/antarctic/arctic_breeze.ogg")
     )
     (tilemap
       (solid #t)
