@@ -263,6 +263,14 @@ Camera::shake(float duration, float x, float y)
 void
 Camera::scroll_to(const Vector& goal, float scrolltime)
 {
+  if(scrolltime == 0.0f)
+  {
+    m_translation.x = goal.x;
+    m_translation.y = goal.y;
+    m_mode = Mode::MANUAL;
+    return;
+  }
+
   m_scroll_from = m_translation;
   m_scroll_goal = goal;
   keep_in_bounds(m_scroll_goal);
