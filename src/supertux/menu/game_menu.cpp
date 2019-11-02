@@ -52,10 +52,10 @@ GameMenu::GameMenu() :
   add_label(level.m_name);
   add_hl();
   add_entry(MNID_CONTINUE, _("Continue"));
-  add_entry(MNID_RESETLEVEL, _("Restart Level"));
+  add_entry(MNID_RESETLEVEL, _("Level Restart"));
 
   if (Sector::current()->get_player().get_status().can_reach_checkpoint()) {
-    add_entry(MNID_RESETLEVELCHECKPOINT, _("Restart Level from Checkpoint"));
+    add_entry(MNID_RESETLEVELCHECKPOINT, _("Checkpoint Restart"));
   }
 
   add_submenu(_("Options"), MenuStorage::INGAME_OPTIONS_MENU);
