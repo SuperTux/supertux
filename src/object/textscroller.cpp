@@ -238,14 +238,6 @@ TextScroller::update(float dt_sec)
   if (m_scroll < 0)
     m_scroll = 0;
 
-  if (controller.hold(Control::UP)) {
-    set_speed(-DEFAULT_SPEED * 5);
-  } else if (controller.hold(Control::DOWN)) {
-    set_speed(DEFAULT_SPEED * 5);
-  } else {
-    set_speed(DEFAULT_SPEED);
-  }
-  
   if (controller.pressed(Control::START) ||
       controller.pressed(Control::ESCAPE)) {
     ScreenManager::current()->pop_screen(std::unique_ptr<ScreenFade>(new FadeToBlack(FadeToBlack::FADEOUT, 0.25)));
