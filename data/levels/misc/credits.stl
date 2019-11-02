@@ -24,7 +24,19 @@
       (file "/music/misc/credits.music")
     )
     (scripttrigger
-      (script "Tux.deactivate();")
+      (script "Tux.deactivate();
+wait(107);
+play_music(\"music/forest/forest3.music\");
+wait(99);
+play_music(\"music/forest/forest_theme.music\");
+wait(136);
+play_music(\"music/misc/theme.music\");
+wait(137);
+play_music(\"music/misc/credits.music\");
+wait(107);
+play_music(\"music/forest/forest3.music\");
+wait(99);
+play_music(\"music/forest/forest_theme.music\");")
       (button #f)
       (width 32)
       (height 32)
