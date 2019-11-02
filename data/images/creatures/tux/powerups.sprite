@@ -43,7 +43,17 @@
          (name "fire-jump-left")
          (hitbox 16 15 32 64)
          (mirror-action "fire-jump-right"))
+		 
+	   (action
+         (name "fire-fall-right")
+         (hitbox 16 15 32 64)
+         (images "fire/hat/stand.png"))
 
+       (action
+         (name "fire-fall-left")
+         (hitbox 16 15 32 64)
+         (mirror-action "fire-jump-right"))
+		 
        (action
          (name "fire-skid-right")
          (hitbox 16 15 32 64)
@@ -166,6 +176,16 @@
 
        (action
          (name "ice-jump-left")
+         (hitbox 16 15 32 64)
+         (mirror-action "ice-jump-right"))
+		 
+	   (action
+         (name "ice-fall-right")
+         (hitbox 16 15 32 64)
+         (images "ice/hat/stand.png"))
+
+       (action
+         (name "ice-fall-left")
          (hitbox 16 15 32 64)
          (mirror-action "ice-jump-right"))
 
@@ -297,6 +317,20 @@
          (name "air-jump-left")
          (hitbox 16 15 32 64)
          (mirror-action "air-jump-right"))
+		 
+	   (action
+         (name "air-fall-right")
+         (fps 10)
+         (hitbox 16 15 32 64)
+         (images "air/hat/spin-0.png"
+                 "air/hat/spin-1.png"
+                 "air/hat/spin-2.png"
+                 "air/hat/spin-1.png"))
+
+       (action
+         (name "air-fall-left")
+         (hitbox 16 15 32 64)
+         (mirror-action "air-jump-right"))
 
        (action
          (name "air-skid-right")
@@ -426,6 +460,16 @@
          (name "earth-jump-left")
          (hitbox 16 15 32 64)
          (mirror-action "earth-jump-right"))
+		 
+	   (action
+         (name "earth-fall-right")
+         (hitbox 16 15 32 64)
+         (images "earth/hardhat/stand.png"))
+
+       (action
+         (name "earth-fall-left")
+         (hitbox 16 15 32 64)
+         (mirror-action "earth-jump-right"))
 
        (action
          (name "earth-skid-right")
@@ -549,6 +593,16 @@
 
        (action
          (name "santa-jump-left")
+         (hitbox 16 15 32 64)
+         (mirror-action "santa-jump-right"))
+		 
+	   (action
+         (name "santa-fall-right")
+         (hitbox 16 15 32 64)
+         (images "fire/santa_cap/stand.png"))
+
+       (action
+         (name "santa-fall-left")
          (hitbox 16 15 32 64)
          (mirror-action "santa-jump-right"))
 

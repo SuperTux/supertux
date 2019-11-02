@@ -66,6 +66,19 @@
          (mirror-action "small-jump-right"))
 
        (action
+         (name "small-fall-right")
+         (fps 15.0)
+         (hitbox 8 16 32 32)
+         (images "small/jump-0.png"))
+		 
+		 
+	   (action
+         (name "small-fall-right")
+         (fps 15.0)
+         (hitbox 8 16 32 32)
+         (mirror-action "small-jump-right"))
+		 
+       (action
          (name "small-skid-right")
          (hitbox 8 17 32 32)
          (images "small/skid-0.png"))
@@ -176,6 +189,18 @@
 
        (action
          (name "big-jump-left")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (mirror-action "big-jump-right"))
+		 
+	   (action
+         (name "big-fall-right")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (images "big/jump-0.png"))
+
+       (action
+         (name "big-fall-left")
          (fps 15.0)
          (hitbox 16 14 32 64)
          (mirror-action "big-jump-right"))
@@ -309,6 +334,18 @@
          (fps 15.0)
          (hitbox 16 14 32 64)
          (mirror-action "big-jump-right"))
+		 
+	   (action
+         (name "fire-fall-right")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (clone-action "big-jump-right"))
+
+       (action
+         (name "fire-fall-left")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (mirror-action "big-jump-right"))
 
        (action
          (name "fire-skid-right")
@@ -422,6 +459,18 @@
 
        (action
          (name "ice-jump-left")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (mirror-action "big-jump-right"))
+		 
+	   (action
+         (name "ice-fall-right")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (clone-action "big-jump-right"))
+
+       (action
+         (name "ice-fall-left")
          (fps 15.0)
          (hitbox 16 14 32 64)
          (mirror-action "big-jump-right"))
@@ -541,6 +590,18 @@
          (fps 15.0)
          (hitbox 16 14 32 64)
          (mirror-action "big-jump-right"))
+		 
+	   (action
+         (name "earth-fall-right")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (clone-action "big-jump-right"))
+
+       (action
+         (name "earth-fall-left")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (mirror-action "big-jump-right"))
 
        (action
          (name "earth-skid-right")
@@ -657,6 +718,18 @@
          (fps 15.0)
          (hitbox 16 14 32 64)
          (mirror-action "earth-jump-right-stone"))
+		 
+	   (action
+         (name "earth-fall-right-stone")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (images "earth/statue.png"))
+
+       (action
+         (name "earth-fall-left-stone")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (mirror-action "earth-jump-right-stone"))
 
        (action
          (name "earth-skid-right-stone")
@@ -764,6 +837,18 @@
 
        (action
          (name "air-jump-left")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (mirror-action "big-jump-right"))
+		 
+	   (action
+         (name "air-fall-right")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (clone-action "big-jump-right"))
+
+       (action
+         (name "air-fall-left")
          (fps 15.0)
          (hitbox 16 14 32 64)
          (mirror-action "big-jump-right"))
@@ -880,6 +965,18 @@
 
        (action
          (name "santa-jump-left")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (mirror-action "big-jump-right"))
+		 
+	   (action
+         (name "santa-fall-right")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (clone-action "big-jump-right"))
+
+       (action
+         (name "santa-fall-left")
          (fps 15.0)
          (hitbox 16 14 32 64)
          (mirror-action "big-jump-right"))
