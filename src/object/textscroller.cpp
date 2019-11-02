@@ -46,6 +46,7 @@ TextScroller::TextScroller(const ReaderMapping& mapping) :
   m_lines(),
   m_scroll(),
   m_speed(DEFAULT_SPEED),
+  controller(),
   m_finished(false),
   m_fading(false)
 {
@@ -66,7 +67,9 @@ TextScroller::TextScroller(const ReaderObject& root) :
   m_lines(),
   m_scroll(),
   m_speed(DEFAULT_SPEED),
-  m_finished(false)
+  controller(),
+  m_finished(false),
+  m_fading(false)
 {
   parse_root(root);
 }
