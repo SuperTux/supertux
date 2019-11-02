@@ -166,7 +166,11 @@ GameSession::on_escape_press()
     return;   // don't let the player open the menu, when Tux is dying
   }
 
+  if (m_level->m_name != "Credits") {
   toggle_pause();
+  } else {
+	 abort_level();
+  }
 }
 
 void
@@ -524,7 +528,7 @@ GameSession::start_sequence(Sequence seq, const SequenceData* data)
   m_end_sequence = static_cast<EndSequence*>(&m_currentsector->add_object(std::move(end_sequence)));
   m_end_sequence->start();
 
-  SoundManager::current()->play_music("music/misc/leveldone.ogg", false);
+  SoundManager::current()->play_music("music/leveldone.ogg", false);
   m_currentsector->get_player().set_winning();
 
   // Stop all clocks.
