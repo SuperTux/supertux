@@ -84,7 +84,7 @@ const float SKID_TIME = .3f;
 /** maximum walk velocity (pixel/s) */
 const float MAX_WALK_XM = 230;
 /** maximum run velocity (pixel/s) */
-const float MAX_RUN_XM = 320;
+const float MAX_RUN_XM = 330;
 /** bonus run velocity addition (pixel/s) */
 const float BONUS_RUN_XM = 80;
 /** maximum horizontal climb velocity */
@@ -97,7 +97,7 @@ const float MAX_GLIDE_YM = 128;
 const float WALK_SPEED = 100;
 
 /** multiplied by WALK_ACCELERATION to give friction */
-const float NORMAL_FRICTION_MULTIPLIER = 1.5f;
+const float NORMAL_FRICTION_MULTIPLIER = 2.0f;
 /** multiplied by WALK_ACCELERATION to give friction */
 const float ICE_FRICTION_MULTIPLIER = 0.1f;
 const float ICE_ACCELERATION_MULTIPLIER = 0.25f;
@@ -1233,7 +1233,12 @@ Player::draw(DrawingContext& context)
   }
   else if (!on_ground() || m_fall_mode != ON_GROUND) {
     if (m_physic.get_velocity_x() != 0 || m_fall_mode != ON_GROUND) {
-        m_sprite->set_action(sa_prefix+"-jump"+sa_postfix);
+		if (m_physic.get_velocity_y() > 0) {
+        m_sprite->set_action(sa_prefix+"-fall"+sa_postfix);
+		}
+		else if (m_physic.get_velocity_y() <= 0) {
+		m_sprite->set_action(sa_prefix+"-jump"+sa_postfix);
+		}
     }
   }
   else {
