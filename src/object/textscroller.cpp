@@ -20,8 +20,11 @@
 #include <boost/optional.hpp>
 #include <sexp/value.hpp>
 
+#include "control/input_manager.hpp"
 #include "supertux/globals.hpp"
+#include "supertux/fadetoblack.hpp"
 #include "supertux/info_box_line.hpp"
+#include "supertux/screen_manager.hpp"
 #include "util/log.hpp"
 #include "util/reader.hpp"
 #include "util/reader_collection.hpp"
@@ -34,7 +37,7 @@
 namespace {
 
 const float LEFT_BORDER = 0;
-const float DEFAULT_SPEED = 20;
+const float DEFAULT_SPEED = 60;
 
 } // namespace
 
@@ -43,7 +46,8 @@ TextScroller::TextScroller(const ReaderMapping& mapping) :
   m_lines(),
   m_scroll(),
   m_speed(DEFAULT_SPEED),
-  m_finished(false)
+  m_finished(false),
+  m_fading(false)
 {
   if (!mapping.get("file", m_filename))
   {
@@ -233,6 +237,27 @@ TextScroller::update(float dt_sec)
 
   if (m_scroll < 0)
     m_scroll = 0;
+
+  if (controller.hold(Control::UP)) {
+    set_speed(-DEFAULT_SPEED * 5);
+  } else if (controller.hold(Control::DOWN)) {
+    set_speed(DEFAULT_SPEED * 5);
+  } else {
+    set_speed(DEFAULT_SPEED);
+  }
+  
+  if (controller.pressed(Control::START) ||
+      controller.pressed(Control::ESCAPE)) {
+    ScreenManager::current()->pop_screen(std::unique_ptr<ScreenFade>(new FadeToBlack(FadeToBlack::FADEOUT, 0.25)));
+  }
+  
+  { // close when done
+    if (m_finished && !m_fading)
+    {
+	  m_fading = true;
+      ScreenManager::current()->pop_screen(std::unique_ptr<ScreenFade>(new FadeToBlack(FadeToBlack::FADEOUT, 0.25)));
+    }
+  }
 }
 
 void
