@@ -19,6 +19,7 @@
 
 #include <string>
 #include <vector>
+#include <math.h>
 
 #include <SDL_image.h>
 
@@ -49,6 +50,15 @@ public:
                  static_cast<float>(b) / 255.0f,
                  static_cast<float>(a) / 255.0f);
   }
+
+  static Color from_linear(float r, float g, float b, float a = 1.0f)
+  {
+    return Color(add_gamma(r), add_gamma(g), add_gamma(b), a);
+  }
+
+  // Helper functions to approximately transform to/from sRGB colours
+  static float add_gamma(float x) { return powf(x, 1.0f / 2.2f); }
+  static float remove_gamma(float x) { return powf(x, 2.2f); }
 
 public:
   Color();
