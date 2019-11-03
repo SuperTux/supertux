@@ -70,7 +70,7 @@ ScriptTrigger::get_settings()
   new_size.x = m_col.m_bbox.get_width();
   new_size.y = m_col.m_bbox.get_height();
 
-  ObjectSettings result(_("Script trigger"));
+  ObjectSettings result(_("Script Trigger"));
 
   result.add_text(_("Name"), &m_name);
   result.add_float(_("Width"), &new_size.x, "width");
