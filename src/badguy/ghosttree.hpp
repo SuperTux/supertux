@@ -39,7 +39,7 @@ public:
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
 
   virtual std::string get_class() const override { return "ghosttree"; }
-  virtual std::string get_display_name() const override { return _("Ghost tree"); }
+  virtual std::string get_display_name() const override { return _("Ghost Tree"); }
 
   void willowisp_died(TreeWillOWisp* willowisp);
   void die();
@@ -52,6 +52,7 @@ private:
 private:
   bool is_color_deadly(Color color) const;
   void spawn_lantern();
+  void take_hit(Player& player);
 
 private:
   MyState mystate;
@@ -60,6 +61,8 @@ private:
   float willo_radius;
   float willo_speed;
   int   willo_color;
+  int hit_points;
+  Timer safe_timer;
 
   SpritePtr glow_sprite;
   Timer colorchange_timer;
