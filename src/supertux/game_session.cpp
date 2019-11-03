@@ -166,7 +166,11 @@ GameSession::on_escape_press()
     return;   // don't let the player open the menu, when Tux is dying
   }
 
+  if (m_level->m_name != "Credits") {
   toggle_pause();
+  } else {
+	 abort_level();
+  }
 }
 
 void

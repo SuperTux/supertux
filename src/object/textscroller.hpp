@@ -23,6 +23,7 @@
 
 #include "supertux/info_box_line.hpp"
 #include "supertux/game_object.hpp"
+#include "control/controller.hpp"
 
 class DrawingContext;
 class InfoBoxLine;
@@ -45,6 +46,9 @@ public:
   void set_speed(float speed);
   void scroll(float offset);
   bool is_finished() const { return m_finished; }
+  
+protected:
+  Controller controller;
 
 private:
   void parse_file(const std::string& filename);
@@ -57,6 +61,7 @@ private:
   float m_scroll;
   float m_speed;
   bool m_finished;
+  bool m_fading;
 
 private:
   TextScroller(const TextScroller&) = delete;
