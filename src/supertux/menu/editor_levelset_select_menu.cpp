@@ -51,7 +51,7 @@ EditorLevelsetSelectMenu::EditorLevelsetSelectMenu() :
     }
   }
 
-  add_label(_("Choose level subset"));
+  add_label(_("Choose World"));
   add_hl();
 
   int i = 0;
@@ -92,7 +92,7 @@ EditorLevelsetSelectMenu::EditorLevelsetSelectMenu() :
   }
 
   add_hl();
-  add_submenu(_("New level subset"), MenuStorage::EDITOR_NEW_LEVELSET_MENU);
+  add_submenu(_("Create World"), MenuStorage::EDITOR_NEW_LEVELSET_MENU);
   add_back(_("Back"),-2);
 }
 

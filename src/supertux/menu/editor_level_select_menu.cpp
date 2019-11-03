@@ -55,7 +55,7 @@ void EditorLevelSelectMenu::initialize() {
 
   if (num_levels == 0)
   {
-    add_inactive(_("Empty levelset"));
+    add_inactive(_("Empty World"));
   }
   else
   {
@@ -69,17 +69,18 @@ void EditorLevelSelectMenu::initialize() {
   }
 
   add_hl();
+  
+  add_entry(-1, _("Create Level"));
 
   std::string worldmap_file = FileSystem::join(basedir, "worldmap.stwm");
   if (PHYSFS_exists(worldmap_file.c_str())) {
-    add_entry(-4, _("Edit worldmap"));
+    add_entry(-4, _("Edit Worldmap"));
   } else {
-    add_entry(-5, _("Create worldmap"));
+    add_entry(-5, _("Create Worldmap"));
   }
-  add_hl();
 
-  add_entry(-1, _("Create Level"));
-  add_entry(-3, _("Level subset properties"));
+  add_hl();
+  add_entry(-3, _("World Settings"));
   add_back(_("Back"),-2);
 }
 
