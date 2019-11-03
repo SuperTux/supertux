@@ -179,6 +179,7 @@ Player::Player(PlayerStatus& player_status, const std::string& name_) :
   m_sprite(SpriteManager::current()->create("images/creatures/tux/tux.sprite")),
   m_swimming_angle(0),
   m_swimming_accel_modifier(100.f),
+  m_dive_walk(false),
   m_airarrow(Surface::from_file("images/engine/hud/airarrow.png")),
   m_floor_normal(),
   m_ghost_mode(false),
@@ -304,14 +305,20 @@ Player::update(float dt_sec)
 {
   check_bounds();
 
-  if ( no_water ){
-    m_swimming = false;
+ if ( no_water ){
+   m_swimming = false;
 //=======
 //  if( no_water ) {
 //    swimming = false;
 //  } else if ( on_ground() ) {
 //    start_swim_y = std::numeric_limits<float>::min();
 //>>>>>>> Narre/swimming_enhancements
+  }
+
+  if(on_ground() && !no_water)
+  {
+    m_swimming = false;
+    m_dive_walk = true;
   }
   no_water = true;
 
@@ -848,8 +855,12 @@ Player::handle_vertical_input()
     m_does_buttjump = false;
   }
 
-  // swimming
-  //m_physic.set_acceleration_y(0);
+  //Back to swimming
+  if(m_dive_walk && m_controller->hold(Control::UP))
+  {
+    do_jump(-100);
+  }
+  m_physic.set_acceleration_y(0);
 }
 void
 Player::handle_input()
@@ -862,24 +873,18 @@ Player::handle_input()
     handle_input_climbing();
     return;
   }
-  if (m_swimming)
+  if (m_swimming) {
+    handle_input_swimming();
+  } 
+  else 
   {
-    if (on_ground()) {
-      m_sprite->set_angle(0);
-      if (m_controller->hold(Control::UP)) do_jump(-100);
-    }
-    else {
-      handle_input_swimming();
-    }
-  } else {
     m_sprite->set_angle(0);
-    if(!m_jump_early_apex) {
+    if (!m_jump_early_apex) {
       m_physic.set_gravity_modifier(1.0f);
     }
     else {
       m_physic.set_gravity_modifier(JUMP_EARLY_APEX_FACTOR);
     }
-    
   }
 
   /* Peeking */
@@ -902,17 +907,16 @@ Player::handle_input()
       m_peekingY = Direction::DOWN;
     }
   }
-  if(m_swimming && !on_ground())
-    return;
+
   /* Handle horizontal movement: */
-  if (!m_backflipping && !m_stone) handle_horizontal_input();
+  if (!m_backflipping && !m_stone && !m_swimming) handle_horizontal_input();
 
   /* Jump/jumping? */
   if (on_ground())
     m_can_jump = true;
 
   /* Handle vertical movement: */
-  if (!m_stone) handle_vertical_input();
+  if (!m_stone && !m_swimming) handle_vertical_input();
 
   /* Shoot! */
   auto active_bullets = Sector::get().get_object_count<Bullet>();
@@ -963,7 +967,7 @@ Player::handle_input()
   }
 
   /* Duck or Standup! */
-  if (m_controller->hold(Control::DOWN) && !m_stone) {
+  if (m_controller->hold(Control::DOWN) && !m_stone && !m_swimming) {
     do_duck();
   } else {
     do_standup();
@@ -1429,7 +1433,7 @@ Player::collision_tile(uint32_t tile_attributes)
     kill(false);
 
 #ifdef SWIMMING
-  if ( m_swimming ){
+  if ( m_swimming ) {
     if ( tile_attributes & Tile::WATER ){
       no_water = false;
     } else {
@@ -1437,10 +1441,13 @@ Player::collision_tile(uint32_t tile_attributes)
     }
   } else {
     if ( tile_attributes & Tile::WATER ){
-      m_swimming = true;
       no_water = false;
-      //start_swim_y = m_bbox.p1.y + 16.0;
-      SoundManager::current()->play( "sounds/splash.wav" );
+      if(!on_ground()) {
+        m_dive_walk = false;  // **Can directly walk out of water!**
+        m_swimming = true;
+        //start_swim_y = m_bbox.p1.y + 16.0;
+        SoundManager::current()->play( "sounds/splash.wav" );
+      }
     }
   }
 #endif
