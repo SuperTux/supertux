@@ -18,11 +18,8 @@
 #define HEADER_SUPERTUX_BADGUY_SSPIKY_HPP
 
 #include "badguy/walking_badguy.hpp"
-#include "object/portable.hpp"
-#include "supertux/physic.hpp"
 
-class SSpiky final : public WalkingBadguy,
-                     public Portable
+class SSpiky final : public WalkingBadguy
 {
 public:
   SSpiky(const ReaderMapping& reader);
@@ -31,24 +28,12 @@ public:
   virtual void collision_solid(const CollisionHit& hit) override;
   virtual HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit) override;
   virtual void active_update(float dt_sec) override;
-  virtual void grab(MovingObject& object, const Vector& pos, Direction dir) override;
-  virtual void ungrab(MovingObject& object, Direction dir) override;
-  virtual bool is_portable() const override;
-  virtual HitResponse collision(GameObject& object, const CollisionHit& hit) override;
 
   virtual void freeze() override;
   virtual bool is_freezable() const override;
   virtual bool is_flammable() const override;
   virtual std::string get_class() const override { return "sspiky"; }
   virtual std::string get_display_name() const override { return _("Sleeping Spiky"); }
-  
-protected:
-  Physic physic;
-  bool on_ground;
-  Vector last_movement;
-  
-private:
-  bool grabbed;
 
 protected:
   enum SSpikyState {

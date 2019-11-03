@@ -52,7 +52,6 @@ private:
 private:
   bool is_color_deadly(Color color) const;
   void spawn_lantern();
-  void take_hit(Player& player);
 
 private:
   MyState mystate;
@@ -61,8 +60,6 @@ private:
   float willo_radius;
   float willo_speed;
   int   willo_color;
-  int hit_points;
-  Timer safe_timer;
 
   SpritePtr glow_sprite;
   Timer colorchange_timer;
