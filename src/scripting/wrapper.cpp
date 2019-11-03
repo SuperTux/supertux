@@ -5920,7 +5920,7 @@ static SQInteger stop_music_wrapper(HSQUIRRELVM vm)
   }
 
   try {
-    scripting::stop_music(arg0);
+    scripting::stop_music(static_cast<float> (arg0));
 
     return 0;
 
@@ -7180,7 +7180,7 @@ void register_supertux_wrapper(HSQUIRRELVM v)
 
   sq_pushstring(v, "stop_music", -1);
   sq_newclosure(v, &stop_music_wrapper, 0);
-  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tf");
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tn");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'stop_music'");
   }

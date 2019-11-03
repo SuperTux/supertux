@@ -1,5 +1,5 @@
 version: '{build}'
-os: Visual Studio 2015
+os: Previous Visual Studio 2015
 configuration: Release
 platform: x64
 
@@ -55,7 +55,7 @@ build:
 after_build:
 - cmd: '"C:\Program Files (x86)\CMake\bin\cpack.exe"'
 
-test: off
+test: off 
 
 artifacts:
 - path: SuperTux-*

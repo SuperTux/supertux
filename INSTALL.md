@@ -21,7 +21,7 @@ libraries installed. Note that most of these things should already be
 available prepackaged and optimized for your distribution, it is
 recommended that you check your distribution first before downloading
 from the websites. You can also check
-<hhttps://github.com/SuperTux/wiki/blob/master/Building-SuperTux.md> for up-to-date
+<https://github.com/SuperTux/wiki/blob/master/Building-SuperTux.md> for up-to-date
 build instructions for a variety of different platforms and
 distributions.
 

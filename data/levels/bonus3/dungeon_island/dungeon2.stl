@@ -357,7 +357,7 @@ Level.spawn(\"main2\", \"main2\");
       (y 448)
     )
     (music
-      (file "music/cave.music")
+      (file "music/antarctic/cave.music")
     )
     (path
       (name "gen156473738523652048")
@@ -811,7 +811,7 @@ Level.spawn(\"main\", \"endmain\");
       (y 480)
     )
     (music
-      (file "music/cave.music")
+      (file "music/antarctic/cave.music")
     )
     (sequencetrigger
       (sequence "endsequence")
@@ -1092,7 +1092,7 @@ Level.spawn(\"main\", \"endmain\");
       (y 384)
     )
     (music
-      (file "music/cave.music")
+      (file "music/antarctic/cave.music")
     )
     (spawnpoint
       (name "secret1inside1")

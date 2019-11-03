@@ -1,6 +1,6 @@
 (supertux-level
   (version 3)
-  (name (_ "Oh no! More Snowballs!"))
+  (name (_ "Oh No! More Snowballs!"))
   (author "SuperTux Team")
   (license "GPL 2+ / CC-by-sa 3.0")
   (target-time 58)
@@ -23,8 +23,8 @@
       (y 512)
     )
     (gradient
-      (top_color 0 0.3137259 1)
-      (bottom_color 1 1 1)
+      (top_color 0 0.35 1)
+      (bottom_color 0.8 0.9 1)
     )
     (haywire
       (direction "left")

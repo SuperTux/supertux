@@ -93,18 +93,19 @@ Block::collision(GameObject& other, const CollisionHit& )
 
   // only interact with other objects if...
   //   1) we are bouncing
-  //   2) the object is not portable (either never or not currently)
+  //   2) the object is not portable (either never or not currently);
+  //      make an exception if it's a portable badguy - those get killed
   //   3) the object is being hit from below (baguys don't get killed for activating boxes)
+  auto badguy = dynamic_cast<BadGuy*> (&other);
   auto portable = dynamic_cast<Portable*> (&other);
   auto moving_object = dynamic_cast<MovingObject*> (&other);
   auto bomb = dynamic_cast<Bomb*> (&other);
   bool is_portable = ((portable != nullptr) && portable->is_portable());
   bool is_bomb = (bomb != nullptr); // bombs need to explode, although they are considered portable
   bool hit_mo_from_below = ((moving_object == nullptr) || (moving_object->get_bbox().get_bottom() < (m_col.m_bbox.get_top() + SHIFT_DELTA)));
-  if (m_bouncing && (!is_portable || is_bomb) && hit_mo_from_below) {
+  if (m_bouncing && (!is_portable || badguy || is_bomb) && hit_mo_from_below) {
 
     // Badguys get killed
-    auto badguy = dynamic_cast<BadGuy*> (&other);
     if (badguy) {
       badguy->kill_fall();
     }

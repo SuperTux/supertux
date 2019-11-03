@@ -12,9 +12,9 @@
       (scroll-speed-x 0.5)
       (scroll-speed-y 0.5)
       (speed 0.5)
-      (image-top "images/background/arctis_top.jpg")
-      (image "images/background/arctis.jpg")
-      (image-bottom "images/background/arctis_bottom.jpg")
+      (image-top "/images/background/misty_snowhills_small.png")
+      (image "/images/background/misty_snowhills_small.png")
+      (image-bottom "/images/background/misty_snowhills_small.png")
     )
     (bouncingsnowball
       (direction "left")

@@ -62,8 +62,6 @@ private:
 
 private:
   Ticking_State tstate;
-  bool grabbed;
-  MovingObject* grabber;
 
   std::unique_ptr<SoundSource> ticking;
 

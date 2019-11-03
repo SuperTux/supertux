@@ -38,12 +38,14 @@ Thunderstorm::Thunderstorm(const ReaderMapping& reader) :
   running(true),
   interval(10.0f),
   layer(LAYER_BACKGROUNDTILES-1),
+  m_strike_script(),
   time_to_thunder(),
   time_to_lightning(),
   flash_display_timer()
 {
   reader.get("running", running);
   reader.get("interval", interval);
+  reader.get("strike-script", m_strike_script, "");
   if (interval <= 0) {
     log_warning << "Running a thunderstorm with non-positive time interval is a bad idea" << std::endl;
   }
@@ -66,8 +68,9 @@ Thunderstorm::get_settings()
   result.add_int(_("Z-pos"), &layer, "z-pos", LAYER_BACKGROUNDTILES - 1);
   result.add_bool(_("Running"), &running, "running", true);
   result.add_float(_("Interval"), &interval, "interval", 10.0f);
+  result.add_text(_("Strike Script"), &m_strike_script, "strike-script");
 
-  result.reorder({"interval", "name", "z-pos"});
+  result.reorder({"interval", "name", "z-pos" "strike-script"});
 
   result.add_remove();
 
@@ -134,6 +137,9 @@ Thunderstorm::lightning()
 {
   flash();
   electrify();
+  if (!m_strike_script.empty()) {
+	  Sector::get().run_script(m_strike_script, "strike-script");
+  }
 }
 
 void

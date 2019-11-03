@@ -157,12 +157,6 @@
       (y 25)
     )
     (level
-      (level "in_the_spring.stl")
-      (sprite "images/worldmap/common/hiddendot.sprite")
-      (x 22)
-      (y 4)
-    )
-    (level
       (level "coconut_fortress.stl")
       (x 47)
       (y 62)
@@ -238,7 +232,7 @@
       (y 59)
     )
     (music
-      (file "/music/antarctic/jasons_chipdisco_arctic_breeze.ogg")
+      (file "/music/antarctic/arctic_breeze.ogg")
     )
     (special-tile
       (map-message (_ "You found a secret place!"))

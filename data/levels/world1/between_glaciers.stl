@@ -1,6 +1,6 @@
 (supertux-level
   (version 3)
-  (name (_ "Between two Glaciers"))
+  (name (_ "Between Two Glaciers"))
   (author "Carsten Wirtz")
   (license "CC-BY-SA 4.0 International")
   (target-time 80)
@@ -97,8 +97,8 @@
       (y 1632)
     )
     (gradient
-      (top_color 0 0.3137259 1)
-      (bottom_color 1 1 1)
+      (top_color 0 0.35 1)
+      (bottom_color 0.8 0.9 1)
     )
     (infoblock
       (message (_ "-Crystals

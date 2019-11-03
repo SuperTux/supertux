@@ -45,7 +45,6 @@ public:
 protected:
   Physic physic;
   bool on_ground;
-  bool grabbed;
   Vector last_movement;
   std::string on_grab_script;
   std::string on_ungrab_script;

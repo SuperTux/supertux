@@ -29,6 +29,7 @@
 #include "badguy/flyingsnowball.hpp"
 #include "badguy/ghostflame.hpp"
 #include "badguy/ghosttree.hpp"
+#include "badguy/ghoul.hpp"
 #include "badguy/goldbomb.hpp"
 #include "badguy/haywire.hpp"
 #include "badguy/iceflame.hpp"
@@ -151,6 +152,7 @@ GameObjectFactory::init_factories()
   add_factory<FlyingSnowBall>("flyingsnowball");
   add_factory<Ghostflame>("ghostflame");
   add_factory<GhostTree>("ghosttree");
+  add_factory<Ghoul>("ghoul");
   add_factory<GoldBomb>("goldbomb");
   add_factory<Haywire>("haywire");
   add_factory<Iceflame>("iceflame");
