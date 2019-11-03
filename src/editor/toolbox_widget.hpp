@@ -108,7 +108,7 @@ private:
   std::unique_ptr<ToolIcon> m_rubber;
   std::unique_ptr<ToolIcon> m_select_mode;
   std::unique_ptr<ToolIcon> m_move_mode;
-  std::unique_ptr<ToolIcon> m_settings_mode;
+  std::unique_ptr<ToolIcon> m_undo_mode;
 
   HoveredItem m_hovered_item;
   int m_hovered_tile;
@@ -120,7 +120,7 @@ private:
   Vector m_drag_start;
 
   int m_Xpos;
-  const int m_Ypos = 60;
+  const int m_Ypos = 96;
 
 private:
   EditorToolboxWidget(const EditorToolboxWidget&) = delete;

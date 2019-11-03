@@ -32,7 +32,6 @@ ObjectGroup::ObjectGroup(const ReaderMapping& reader) :
   m_for_worldmap(false)
 {
   m_icons.clear();
-  add_icon("#move", "images/engine/editor/arrow.png");
 
   reader.get("name", m_name);
   reader.get("worldmap", m_for_worldmap);

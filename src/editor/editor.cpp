@@ -94,7 +94,6 @@ Editor::Editor() :
   m_overlay_widget(),
   m_toolbox_widget(),
   m_layers_widget(),
-  m_scroller_widget(),
   m_enabled(false),
   m_bgr_surface(Surface::from_file("images/background/arctis2.png")),
   m_undo_manager(new UndoManager),
@@ -102,27 +101,23 @@ Editor::Editor() :
 {
   auto toolbox_widget = std::make_unique<EditorToolboxWidget>(*this);
   auto layers_widget = std::make_unique<EditorLayersWidget>(*this);
-  auto scroll_widget = std::make_unique<EditorScrollerWidget>(*this);
   auto overlay_widget = std::make_unique<EditorOverlayWidget>(*this);
 
   m_toolbox_widget = toolbox_widget.get();
   m_layers_widget = layers_widget.get();
-  m_scroller_widget = scroll_widget.get();
   m_overlay_widget = overlay_widget.get();
-
+  
   auto undo_button_widget = std::make_unique<ButtonWidget>(
     SpriteManager::current()->create("images/engine/editor/undo.png"),
-    Vector(0, 200), [this]{ undo(); });
+    Vector(10, 10), [this]{ undo(); });
   auto redo_button_widget = std::make_unique<ButtonWidget>(
     SpriteManager::current()->create("images/engine/editor/redo.png"),
-    Vector(0, 264), [this]{ redo(); });
+    Vector(60, 10), [this]{ redo(); });
 
-  // the order here is important due to how events are dispatched
   m_widgets.push_back(std::move(undo_button_widget));
   m_widgets.push_back(std::move(redo_button_widget));
   m_widgets.push_back(std::move(toolbox_widget));
   m_widgets.push_back(std::move(layers_widget));
-  m_widgets.push_back(std::move(scroll_widget));
   m_widgets.push_back(std::move(overlay_widget));
 }
 
@@ -590,19 +585,30 @@ Editor::event(const SDL_Event& ev)
   if (!m_enabled) return;
 
   try
-  {
-    // undo/redo key combo
-    if (ev.type == SDL_KEYDOWN &&
+  {	
+	if (ev.type == SDL_KEYDOWN &&
+        ev.key.keysym.sym == SDLK_t &&
+        ev.key.keysym.mod & KMOD_CTRL) {
+		test_level();
+		}
+		
+	if (ev.type == SDL_KEYDOWN &&
+        ev.key.keysym.sym == SDLK_s &&
+        ev.key.keysym.mod & KMOD_CTRL) {
+		save_level();
+		}
+		
+	if (ev.type == SDL_KEYDOWN &&
         ev.key.keysym.sym == SDLK_z &&
-        ev.key.keysym.mod & KMOD_CTRL)
-    {
-      if (ev.key.keysym.mod & KMOD_SHIFT) {
-        redo();
-      } else {
-        undo();
-      }
-      return;
-    }
+        ev.key.keysym.mod & KMOD_CTRL) {
+		undo();
+		}
+		
+	if (ev.type == SDL_KEYDOWN &&
+        ev.key.keysym.sym == SDLK_y &&
+        ev.key.keysym.mod & KMOD_CTRL) {
+		redo();
+		}
 
     if (ev.type == SDL_KEYDOWN && ev.key.keysym.sym == SDLK_F6) {
       Compositor::s_render_lighting = !Compositor::s_render_lighting;
@@ -631,6 +637,13 @@ Editor::event(const SDL_Event& ev)
           m_undo_manager->try_snapshot(*m_level);
         }
       }
+    }
+	
+	// scroll with mouse wheel
+    if (ev.type == SDL_MOUSEWHEEL) {
+      float scroll_x = static_cast<float>(ev.wheel.x * -32);
+      float scroll_y = static_cast<float>(ev.wheel.y * -32);
+      scroll({scroll_x, scroll_y});
     }
   }
   catch(const std::exception& err)
