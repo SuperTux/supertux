@@ -483,7 +483,7 @@ void
 Player::swim(float pointx, float pointy, bool boost)
 {
     // Angle
-    bool is_ang_defined = pointx || pointy;
+    bool is_ang_defined = (pointx != 0) || (pointy != 0);
     float pointed_angle = Vector(pointx, pointy).angle();
     float delta = 0;
     if(is_ang_defined)
