@@ -64,9 +64,7 @@ EditorOverlayWidget::EditorOverlayWidget(Editor& editor) :
   m_edited_path(nullptr),
   m_last_node_marker(nullptr),
   m_object_tip(),
-  m_obj_mouse_desync(0, 0),
-  m_object(),
-  m_tiles(new TileSelection())
+  m_obj_mouse_desync(0, 0)
 {
 }
 
