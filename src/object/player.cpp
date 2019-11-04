@@ -315,10 +315,12 @@ Player::update(float dt_sec)
 //>>>>>>> Narre/swimming_enhancements
   }
 
-  if(on_ground() && !no_water)
-  {
+  if (on_ground() && !no_water) {
     m_swimming = false;
     m_dive_walk = true;
+  }
+  else {
+    m_dive_walk = false;
   }
   no_water = true;
 
@@ -499,31 +501,32 @@ Player::swim(float pointx, float pointy, bool boost)
     if (!is_ang_defined) m_swimming_accel_modifier = 0;
     else m_swimming_accel_modifier = 700.f;
     Vector swimming_direction = Vector(m_swimming_accel_modifier,pointed_angle).rectangular();
-    m_physic.set_acceleration_x(swimming_direction.x);
-    m_physic.set_acceleration_y(swimming_direction.y);
+
+    float vx = m_physic.get_velocity_x();
+    float vy = m_physic.get_velocity_y();
+
+    m_physic.set_acceleration_x(swimming_direction.x - 1.0f*vx);
+    m_physic.set_acceleration_y(swimming_direction.y - 1.0f*vy);
+
   // Limit speed
-
-  float vx = m_physic.get_velocity_x();
-  float vy = m_physic.get_velocity_y();
-
   float limit = 300.f;
   if (m_physic.get_velocity().norm()>limit)
     m_physic.set_acceleration(-vx,-vy);   // Was too lazy to set it properly ~~zwatotem
 
   // Natural friction
   if (!is_ang_defined) {
-    m_physic.set_acceleration(-.8f*vx,-.8f*vy);
+    m_physic.set_acceleration(-.8f*vx, -.8f*vy);
   }
 
   // Turbo
   if (boost) {
-    vx += 200.f*pointx;
-    vy += 200.f*pointy;
+    vx += 200.f * pointx;
+    vy += 200.f * pointy;
     if (Vector(vx,vy).norm()<40.f) {
       vx = 0;
       vy = 0;
     }
-    m_physic.set_velocity(vx,vy);
+    m_physic.set_velocity(vx, vy);
   }
 
   m_dir = abs(m_swimming_angle) <= math::PI_2 ? Direction::RIGHT : Direction::LEFT;
@@ -1443,7 +1446,7 @@ Player::collision_tile(uint32_t tile_attributes)
     if ( tile_attributes & Tile::WATER ){
       no_water = false;
       if(!on_ground()) {
-        m_dive_walk = false;  // **Can directly walk out of water!**
+        m_dive_walk = false;
         m_swimming = true;
         //start_swim_y = m_bbox.p1.y + 16.0;
         SoundManager::current()->play( "sounds/splash.wav" );
