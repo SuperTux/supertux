@@ -84,7 +84,7 @@ MainMenu::menu_action(MenuItem& item)
      case MNID_CREDITS:
     {
       // Credits Level
-      SoundManager::current()->stop_music(0.2);
+      SoundManager::current()->stop_music(0.2f);
       std::unique_ptr<World> world = World::from_directory("levels/misc");
       GameManager::current()->start_level(*world, "credits.stl");
     }

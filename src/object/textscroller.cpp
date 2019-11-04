@@ -42,10 +42,10 @@ const float DEFAULT_SPEED = 60;
 } // namespace
 
 TextScroller::TextScroller(const ReaderMapping& mapping) :
+  controller(),
   m_filename(),
   m_lines(),
   m_scroll(),
-  controller(),
   m_speed(DEFAULT_SPEED),
   m_finished(false),
   m_fading(false)
@@ -63,10 +63,10 @@ TextScroller::TextScroller(const ReaderMapping& mapping) :
 }
 
 TextScroller::TextScroller(const ReaderObject& root) :
+  controller(),
   m_filename(),
   m_lines(),
   m_scroll(),
-  controller(),
   m_speed(DEFAULT_SPEED),
   m_finished(false),
   m_fading(false)
