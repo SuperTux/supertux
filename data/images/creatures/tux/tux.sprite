@@ -65,24 +65,43 @@
          (hitbox 8 16 32 32)
          (mirror-action "small-jump-right"))
 
-        (action
+       (action
          (name "small-swimming-right")
          (fps 15.0)
          (hitbox 8 16 32 32)
          (images "small/swim-0.png"
-		 "small/swim-1.png"
-		 "small/swim-2.png"
-		 "small/swim-3.png"
-		 "small/swim-4.png"
-		 "small/swim-3.png"
-		 "small/swim-2.png"
-		 "small/swim-1.png"))
+            "small/swim-1.png"
+            "small/swim-2.png"
+            "small/swim-3.png"
+            "small/swim-4.png"
+            "small/swim-3.png"
+            "small/swim-2.png"
+            "small/swim-1.png"))
 
        (action
          (name "small-swimming-left")
          (fps 15.0)
          (hitbox 8 16 32 32)
          (mirror-action "small-swimming-right"))
+
+       (action
+         (name "small-swimming-up")
+         (hitbox 12 19 36 35)
+         (fps 15.0)
+         (images "small/ladder-0.png"
+                 "small/ladder-1.png"
+                 "small/ladder-2.png"
+                 "small/ladder-3.png"
+                 "small/ladder-4.png"
+                 "small/ladder-5.png"
+                 "small/ladder-6.png"
+                 "small/ladder-7.png"))
+
+       (action
+         (name "small-swimming-down")
+         (hitbox 12 19 36 35)
+         (fps 15.0)
+         (clone-action "small-swimming-up"))
 
        (action
          (name "small-skid-right")
@@ -217,6 +236,33 @@
          (fps 15.0)
          (hitbox 16 14 32 64)
          (mirror-action "big-swimming-right"))
+
+
+       (action
+         (name "big-swimming-up")
+         (hitbox 12 19 36 35)
+         (fps 15.0)
+         (images "big/ladder-0.png"
+                 "big/ladder-1.png"
+                 "big/ladder-2.png"
+                 "big/ladder-3.png"
+                 "big/ladder-4.png"
+                 "big/ladder-5.png"
+                 "big/ladder-6.png"
+                 "big/ladder-7.png"))
+
+       (action
+         (name "big-swimming-down")
+         (hitbox 12 19 36 35)
+         (fps 15.0)
+         (images "big/ladder-0.png"
+                 "big/ladder-1.png"
+                 "big/ladder-2.png"
+                 "big/ladder-3.png"
+                 "big/ladder-4.png"
+                 "big/ladder-5.png"
+                 "big/ladder-6.png"
+                 "big/ladder-7.png"))
 
        (action
          (name "big-skid-right")
@@ -368,6 +414,18 @@
          (mirror-action "fire-swimming-right"))
 
        (action
+         (name "fire-swimming-up")
+         (hitbox 12 19 36 35)
+         (fps 15.0)
+         (clone-action "big-swimming-up"))
+
+       (action
+         (name "fire-swimming-down")
+         (hitbox 12 19 36 35)
+         (fps 15.0)
+         (clone-action "big-swimming-up"))
+
+       (action
          (name "fire-skid-right")
          (hitbox 16 14 32 64)
          (clone-action "big-skid-right"))
@@ -503,6 +561,18 @@
          (mirror-action "ice-swimming-right"))
 
        (action
+         (name "ice-swimming-up")
+         (hitbox 12 19 36 35)
+         (fps 15.0)
+         (clone-action "big-swimming-up"))
+
+       (action
+         (name "ice-swimming-down")
+         (hitbox 12 19 36 35)
+         (fps 15.0)
+         (clone-action "big-swimming-up"))
+
+       (action
          (name "ice-skid-right")
          (hitbox 16 14 32 64)
          (clone-action "big-skid-right"))
@@ -636,6 +706,18 @@
          (fps 15.0)
          (hitbox 16 14 32 64)
          (mirror-action "earth-swimming-right"))
+
+       (action
+         (name "earth-swimming-up")
+         (hitbox 12 19 36 35)
+         (fps 15.0)
+         (clone-action "big-swimming-up"))
+
+       (action
+         (name "earth-swimming-down")
+         (hitbox 12 19 36 35)
+         (fps 15.0)
+         (clone-action "big-swimming-up"))
 
        (action
          (name "earth-skid-right")
@@ -883,6 +965,18 @@
          (fps 15.0)
          (hitbox 16 14 32 64)
          (mirror-action "air-swimming-right"))
+
+       (action
+         (name "air-swimming-up")
+         (hitbox 12 19 36 35)
+         (fps 15.0)
+         (clone-action "big-swimming-up"))
+
+       (action
+         (name "air-swimming-down")
+         (hitbox 12 19 36 35)
+         (fps 15.0)
+         (clone-action "big-swimming-up"))
 
        (action
          (name "air-skid-right")

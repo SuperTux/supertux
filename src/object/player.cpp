@@ -529,14 +529,26 @@ Player::swim(float pointx, float pointy, bool boost)
     m_physic.set_velocity(vx, vy);
   }
 
-  m_dir = abs(m_swimming_angle) <= math::PI_2 ? Direction::RIGHT : Direction::LEFT;
+  m_dir = abs(m_swimming_angle) < math::PI_4 ? Direction::RIGHT : 
+          abs(m_swimming_angle) > 3.f * math::PI_4 ? Direction::LEFT :
+          m_swimming_angle < 0 ? Direction::UP :
+          Direction::DOWN;
 
-  if (m_dir == Direction::RIGHT)
+  switch (m_dir)
   {
+  case Direction::RIGHT:
     m_sprite->set_angle(math::degrees(m_swimming_angle));
-  }
-  else {
+    break;
+  case Direction::LEFT:
     m_sprite->set_angle(-math::degrees(static_cast<float>(math::sgn(m_swimming_angle))*math::PI-m_swimming_angle));
+    break;
+  case Direction::UP:
+  case Direction::DOWN:
+    m_sprite->set_angle(math::degrees(m_swimming_angle+math::PI_2));
+    break;
+  default:
+    m_sprite->set_angle(0);
+    break;
   }
 }
 
@@ -1302,6 +1314,12 @@ Player::draw(DrawingContext& context)
     sa_postfix = "-left";
   else
     sa_postfix = "-right";
+  if (m_swimming) {
+    if(m_dir == Direction::UP)
+      sa_postfix = "-up";
+    if(m_dir == Direction::DOWN)
+      sa_postfix = "-down";
+  }
 
   /* Set Tux sprite action */
   if (m_dying) {
