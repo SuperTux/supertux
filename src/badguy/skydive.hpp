@@ -33,7 +33,7 @@ public:
   virtual void grab(MovingObject& object, const Vector& pos, Direction dir) override;
   virtual void ungrab(MovingObject& object, Direction dir) override;
   virtual std::string get_class() const override { return "skydive"; }
-  virtual std::string get_display_name() const override { return _("Sky dive"); }
+  virtual std::string get_display_name() const override { return _("Skydive"); }
 
 private:
   virtual HitResponse collision_player(Player& player, const CollisionHit& hit) override;

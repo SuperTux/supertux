@@ -43,7 +43,7 @@ public:
   virtual void ignite() override;
 
   virtual std::string get_class() const override { return "mriceblock"; }
-  virtual std::string get_display_name() const override { return _("Mr. Ice Block"); }
+  virtual std::string get_display_name() const override { return _("Iceblock"); }
 
   bool can_break();
 

@@ -170,7 +170,6 @@ private:
   EditorOverlayWidget* m_overlay_widget;
   EditorToolboxWidget* m_toolbox_widget;
   EditorLayersWidget* m_layers_widget;
-  EditorScrollerWidget* m_scroller_widget;
 
   bool m_enabled;
   SurfacePtr m_bgr_surface;

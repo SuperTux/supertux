@@ -47,7 +47,7 @@ EditorToolboxWidget::EditorToolboxWidget(Editor& editor) :
   m_rubber(new ToolIcon("images/engine/editor/rubber.png")),
   m_select_mode(new ToolIcon("images/engine/editor/select-mode0.png")),
   m_move_mode(new ToolIcon("images/engine/editor/move-mode0.png")),
-  m_settings_mode(new ToolIcon("images/engine/editor/settings-mode0.png")),
+  m_undo_mode(new ToolIcon("images/engine/editor/arrow.png")),
   m_hovered_item(HoveredItem::NONE),
   m_hovered_tile(-1),
   m_tile_scrolling(TileScrolling::NONE),
@@ -61,6 +61,7 @@ EditorToolboxWidget::EditorToolboxWidget(Editor& editor) :
   m_select_mode->push_mode("images/engine/editor/select-mode1.png");
   m_select_mode->push_mode("images/engine/editor/select-mode2.png");
   m_move_mode->push_mode("images/engine/editor/move-mode1.png");
+  m_undo_mode->push_mode("images/engine/editor/redo.png");
   //settings_mode->push_mode("images/engine/editor/settings-mode1.png");
 }
 
@@ -85,17 +86,17 @@ EditorToolboxWidget::draw(DrawingContext& context)
                                        0.0f, LAYER_GUI - 5);
   }
 
-  context.color().draw_text(Resources::normal_font, _("Tilegroups"),
-                            Vector(static_cast<float>(context.get_width()), 0),
+  context.color().draw_text(Resources::normal_font, _("Tiles"),
+                            Vector(static_cast<float>(context.get_width()), 5),
                             ALIGN_RIGHT, LAYER_GUI, ColorScheme::Menu::default_color);
   context.color().draw_text(Resources::normal_font, _("Objects"),
-                            Vector(static_cast<float>(context.get_width()), 24),
+                            Vector(static_cast<float>(context.get_width()), 37),
                             ALIGN_RIGHT, LAYER_GUI, ColorScheme::Menu::default_color);
 
   m_rubber->draw(context);
   m_select_mode->draw(context);
   m_move_mode->draw(context);
-  m_settings_mode->draw(context);
+  m_undo_mode->draw(context);
 
   draw_tilegroup(context);
   draw_objectgroup(context);
@@ -261,7 +262,7 @@ EditorToolboxWidget::on_mouse_button_up(const SDL_MouseButtonEvent& button)
 bool
 EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
 {
-  if (button.button == SDL_BUTTON_LEFT || button.button == SDL_BUTTON_RIGHT)
+  if (button.button == SDL_BUTTON_LEFT)
   {
     switch (m_hovered_item)
     {
@@ -354,10 +355,11 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
             m_move_mode->next_mode();
             update_mouse_icon();
             break;
-
-          case 3:
-            m_editor.esc_press();
-            break;
+			
+	      case 3:
+		    m_object = "#move";
+			update_mouse_icon();
+			break;
 
           default:
             break;
@@ -391,9 +393,9 @@ EditorToolboxWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
   }
 
   if (y < 0) {
-    if (y < -38) {
+    if (y < -64) {
       m_hovered_item = HoveredItem::TILEGROUP;
-    } else if (y < -16) {
+    } else if (y < -32) {
       m_hovered_item = HoveredItem::OBJECTS;
     } else {
       m_hovered_item = HoveredItem::TOOL;
@@ -443,10 +445,10 @@ void
 EditorToolboxWidget::resize()
 {
   m_Xpos = SCREEN_WIDTH - 128;
-  m_rubber->m_pos        = Vector(static_cast<float>(m_Xpos)        , 44.0f);
-  m_select_mode->m_pos   = Vector(static_cast<float>(m_Xpos) + 32.0f, 44.0f);
-  m_move_mode->m_pos     = Vector(static_cast<float>(m_Xpos) + 64.0f, 44.0f);
-  m_settings_mode->m_pos = Vector(static_cast<float>(m_Xpos) + 96.0f, 44.0f);
+  m_rubber->m_pos        = Vector(static_cast<float>(m_Xpos)        , 64.0f);
+  m_select_mode->m_pos   = Vector(static_cast<float>(m_Xpos) + 32.0f, 64.0f);
+  m_move_mode->m_pos     = Vector(static_cast<float>(m_Xpos) + 64.0f, 64.0f);
+  m_undo_mode->m_pos     = Vector(static_cast<float>(m_Xpos) + 96.0f, 64.0f);
 }
 
 void
@@ -501,14 +503,14 @@ EditorToolboxWidget::get_tool_coords(const int pos) const
   int x = pos%4;
   int y = pos/4;
   return Vector(static_cast<float>(x * 32 + m_Xpos),
-                static_cast<float>(y * 16 + 44));
+                static_cast<float>(y * 32 + 64));
 }
 
 int
 EditorToolboxWidget::get_tool_pos(const Vector& coords) const
 {
   int x = static_cast<int>((coords.x - static_cast<float>(m_Xpos)) / 32.0f);
-  int y = static_cast<int>((coords.y - 44.0f) / 16.0f);
+  int y = static_cast<int>((coords.y - 64.0f) / 32.0f);
   return y*4 + x;
 }
 
@@ -517,8 +519,8 @@ EditorToolboxWidget::get_item_rect(const HoveredItem& item) const
 {
   switch (item)
   {
-    case HoveredItem::TILEGROUP: return Rectf(Vector(static_cast<float>(m_Xpos), 0.0f), Vector(static_cast<float>(SCREEN_WIDTH), 22.0f));
-    case HoveredItem::OBJECTS:   return Rectf(Vector(static_cast<float>(m_Xpos), 22.0f), Vector(static_cast<float>(SCREEN_WIDTH), 44.0f));
+    case HoveredItem::TILEGROUP: return Rectf(Vector(static_cast<float>(m_Xpos), 0.0f), Vector(static_cast<float>(SCREEN_WIDTH), 32.0f));
+    case HoveredItem::OBJECTS:   return Rectf(Vector(static_cast<float>(m_Xpos), 32.0f), Vector(static_cast<float>(SCREEN_WIDTH), 64.0f));
     case HoveredItem::TILE:
     {
       auto coords = get_tile_coords(m_hovered_tile);
@@ -527,7 +529,7 @@ EditorToolboxWidget::get_item_rect(const HoveredItem& item) const
     case HoveredItem::TOOL:
     {
       auto coords = get_tool_coords(m_hovered_tile);
-      return Rectf(coords, coords + Vector(32, 16));
+      return Rectf(coords, coords + Vector(32, 32));
     }
     case HoveredItem::NONE:
     default:

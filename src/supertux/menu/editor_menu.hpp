@@ -30,6 +30,7 @@ private:
     MNID_SHARE,
     MNID_LEVELSEL,
     MNID_LEVELSETSEL,
+	MNID_HELP,
     MNID_QUITEDITOR
   };
 

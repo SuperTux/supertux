@@ -52,7 +52,7 @@ public:
   virtual void play_looping_sounds() override;
 
   virtual std::string get_class() const override { return "willowisp"; }
-  virtual std::string get_display_name() const override { return _("Will 'o' wisp"); }
+  virtual std::string get_display_name() const override { return _("Will o' Wisp"); }
 
   virtual ObjectSettings get_settings() override;
   virtual void move_to(const Vector& pos) override;

@@ -32,7 +32,7 @@ public:
 
   virtual bool is_freezable() const override;
   virtual std::string get_class() const override { return "stumpy"; }
-  virtual std::string get_display_name() const override { return _("Stumpy"); }
+  virtual std::string get_display_name() const override { return _("Walking Stump"); }
 
 protected:
   enum MyState {

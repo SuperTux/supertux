@@ -26,7 +26,7 @@ public:
   ShortFuse(const ReaderMapping& reader);
 
   virtual std::string get_class() const override { return "short_fuse"; }
-  virtual std::string get_display_name() const override { return _("Short fuse"); }
+  virtual std::string get_display_name() const override { return _("Short Fuse"); }
 
 protected:
   virtual HitResponse collision_player (Player& player, const CollisionHit& hit) override;

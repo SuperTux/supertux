@@ -23,6 +23,7 @@
 #include "editor/editor.hpp"
 #include "editor/node_marker.hpp"
 #include "editor/object_menu.hpp"
+#include "editor/object_info.hpp"
 #include "editor/tile_selection.hpp"
 #include "editor/tip.hpp"
 #include "editor/util.hpp"
@@ -46,7 +47,7 @@ namespace {
 
 bool EditorOverlayWidget::render_background = true;
 bool EditorOverlayWidget::render_grid = true;
-bool EditorOverlayWidget::snap_to_grid = false;
+bool EditorOverlayWidget::snap_to_grid = true;
 int EditorOverlayWidget::selected_snap_grid_size = 3;
 
 EditorOverlayWidget::EditorOverlayWidget(Editor& editor) :

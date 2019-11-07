@@ -30,7 +30,7 @@ public:
   SequenceTrigger(const Vector& pos, const std::string& sequence_name);
 
   virtual std::string get_class() const override { return "sequencetrigger"; }
-  virtual std::string get_display_name() const override { return _("Sequence trigger"); }
+  virtual std::string get_display_name() const override { return _("Sequence Trigger"); }
   virtual bool has_variable_size() const override { return true; }
 
   virtual ObjectSettings get_settings() override;
