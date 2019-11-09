@@ -119,6 +119,8 @@ const float RUNNING_TUX_WIDTH = 34;
 const float SMALL_TUX_HEIGHT = 30.8f;
 const float BIG_TUX_HEIGHT = 62.8f;
 const float DUCKED_TUX_HEIGHT = 31.8f;
+const float BUTTJUMP_TUX_HEIGHT = 43.96f;
+const float BUTTJUMP_TUX_SHIFT = 25.f;
 
 bool no_water = true;
 
@@ -757,8 +759,8 @@ Player::handle_vertical_input()
   if (m_controller->hold(Control::DOWN) && !m_duck && is_big() && !on_ground()) {
     if(!m_wants_buttjump)
     {
-      if (!adjust_height(.70f * BIG_TUX_HEIGHT, 25.f))
-        log_debug << "Fuckup" << std::endl;
+      if (!adjust_height(BUTTJUMP_TUX_HEIGHT, BUTTJUMP_TUX_SHIFT))
+        log_debug << "Cannot addjust Tux' height!" << std::endl;
     }
     m_wants_buttjump = true;
     if (m_physic.get_velocity_y() >= BUTTJUMP_MIN_VELOCITY_Y) m_does_buttjump = true;
@@ -769,8 +771,9 @@ Player::handle_vertical_input()
     if (m_wants_buttjump){
       bool is_big = m_player_status.bonus > NO_BONUS;
       float target_height = is_big ? BIG_TUX_HEIGHT : SMALL_TUX_HEIGHT;
-        if (!is_big || !adjust_height(target_height,-25.f)) {
-        adjust_height(target_height);
+        if (!is_big || !adjust_height(target_height, -BUTTJUMP_TUX_SHIFT)) {
+          if (!adjust_height(target_height))
+            kill(false);
       }
     }
     m_wants_buttjump = false;
