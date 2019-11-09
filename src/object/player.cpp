@@ -261,16 +261,16 @@ Player::do_scripting_controller(const std::string& control_text, bool pressed)
 }
 
 bool
-Player::adjust_height(float new_height)
+Player::adjust_height(float new_height, float bottom_offset)
 {
   Rectf bbox2 = m_col.m_bbox;
-  bbox2.move(Vector(0, m_col.m_bbox.get_height() - new_height));
+  bbox2.move(Vector(0, m_col.m_bbox.get_height() - new_height - bottom_offset));
   bbox2.set_height(new_height);
 
 
   if (new_height > m_col.m_bbox.get_height()) {
     Rectf additional_space = bbox2;
-    additional_space.set_height(new_height - m_col.m_bbox.get_height());
+    //additional_space.set_height(new_height - m_col.m_bbox.get_height());
     if (!Sector::get().is_free_of_statics(additional_space, this, true))
       return false;
   }
@@ -719,18 +719,19 @@ Player::handle_vertical_input()
         do_jump((fabsf(m_physic.get_velocity_x()) > MAX_WALK_XM) ? -580.0f : -520.0f);
     }
     // airflower glide only when holding jump key
-  } else  if (m_controller->hold(Control::JUMP) && m_player_status.bonus == AIR_BONUS && m_physic.get_velocity_y() > MAX_GLIDE_YM) {
-      if (m_ability_time > 0 && !m_ability_timer.started())
-        m_ability_timer.start(m_ability_time);
-      else if (m_ability_timer.started()) {
+  } else  
+      if (m_controller->hold(Control::JUMP) && m_player_status.bonus == AIR_BONUS && m_physic.get_velocity_y() > MAX_GLIDE_YM) {
+        if (m_ability_time > 0 && !m_ability_timer.started())
+          m_ability_timer.start(m_ability_time);
+        else if (m_ability_timer.started()) {
         // glide stops after some duration or if buttjump is initiated
-        if ((m_ability_timer.get_timeleft() <= 0.05f) || m_controller->hold(Control::DOWN)) {
-          m_ability_time = 0;
-          m_ability_timer.stop();
-        } else {
-          m_physic.set_velocity_y(MAX_GLIDE_YM);
-          m_physic.set_acceleration_y(0);
-        }
+          if ((m_ability_timer.get_timeleft() <= 0.05f) || m_controller->hold(Control::DOWN)) {
+            m_ability_time = 0;
+            m_ability_timer.stop();
+          } else {
+            m_physic.set_velocity_y(MAX_GLIDE_YM);
+            m_physic.set_acceleration_y(0);
+          }
       }
     }
 
@@ -754,12 +755,24 @@ Player::handle_vertical_input()
   /* In case the player has pressed Down while in a certain range of air,
      enable butt jump action */
   if (m_controller->hold(Control::DOWN) && !m_duck && is_big() && !on_ground()) {
+    if(!m_wants_buttjump)
+    {
+      if (!adjust_height(.70f * BIG_TUX_HEIGHT, 25.f))
+        log_debug << "Fuckup" << std::endl;
+    }
     m_wants_buttjump = true;
     if (m_physic.get_velocity_y() >= BUTTJUMP_MIN_VELOCITY_Y) m_does_buttjump = true;
   }
 
   /* When Down is not held anymore, disable butt jump */
   if (!m_controller->hold(Control::DOWN)) {
+    if (m_wants_buttjump){
+      bool is_big = m_player_status.bonus > NO_BONUS;
+      float target_height = is_big ? BIG_TUX_HEIGHT : SMALL_TUX_HEIGHT;
+        if (!is_big || !adjust_height(target_height,-25.f)) {
+        adjust_height(target_height);
+      }
+    }
     m_wants_buttjump = false;
     m_does_buttjump = false;
   }
