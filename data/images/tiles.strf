@@ -910,7 +910,7 @@
   )
   
   (tilegroup
-    (name (_ "Old/Unused Tiles"))
+    (name (_ "Old/Unused"))
     (tiles
      3541 3542 3543 3544
      3545 3546 3547 3548
