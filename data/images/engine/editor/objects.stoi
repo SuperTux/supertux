@@ -25,9 +25,6 @@
     (class "kamikazesnowball")
     (icon "images/creatures/snowball/kamikaze-left.png"))
   (object
-    (class "yeti")
-    (icon "images/creatures/yeti/hudlife.png"))
-  (object
     (class "mrbomb")
     (icon "images/creatures/mr_bomb/center.png"))
   (object
@@ -73,9 +70,6 @@
     (class "stalactite")
     (icon "images/creatures/stalactite/falling.png"))
   (object
-    (class "yeti_stalactite")
-    (icon "images/engine/editor/stalactite_yeti.png"))
-  (object
     (class "willowisp")
     (icon "images/creatures/willowisp/idle-0.png"))
   (object
@@ -118,9 +112,6 @@
     (class "mole")
     (icon "images/creatures/mole/mole-5.png"))
   (object
-    (class "skydive")
-    (icon "images/creatures/skydive/skydive.png"))
-  (object
     (class "fish")
     (icon "images/creatures/fish/down.png"))
   (object
@@ -148,9 +139,6 @@
     (class "angrystone")
     (icon "images/creatures/angrystone/charging-0.png"))
   (object
-    (class "dart")
-    (icon "images/creatures/dart/flying.png"))
-  (object
     (class "darttrap")
     (icon "images/creatures/darttrap/idle.png"))
   (object
@@ -160,15 +148,37 @@
     (class "ispy")
     (icon "images/objects/ispy/idle-0.png"))
   (object
-    (class "ghosttree")
-    (icon "images/creatures/ghosttree/ghosttree.png"))
-  (object
     (class "ghoul")
     (icon "images/creatures/ghoul/g1.png"))
  )
 
  (objectgroup
-  (name (_"Items"))
+  (name (_"Bosses"))
+  (worldmap #f)
+  (object
+    (class "yeti")
+    (icon "images/creatures/yeti/hudlife.png"))
+  (object
+    (class "ghosttree")
+    (icon "images/creatures/ghosttree/ghosttree.png"))
+ )
+ 
+ (objectgroup
+  (name (_"Projectiles"))
+  (worldmap #f)
+  (object
+    (class "yeti_stalactite")
+    (icon "images/engine/editor/stalactite_yeti.png"))
+  (object
+    (class "skydive")
+    (icon "images/creatures/skydive/skydive.png"))
+  (object
+    (class "dart")
+    (icon "images/creatures/dart/flying.png"))
+ )
+ 
+ (objectgroup
+  (name (_"Environment"))
   (worldmap #f)
   (object
     (class "bonusblock")
@@ -257,30 +267,6 @@
   (object
     (class "spotlight")
     (icon "images/objects/spotlight/spotlight_center.png"))
-  (object
-    (class "climbable")
-    (icon "images/engine/editor/climbable.png"))
-  (object
-    (class "invisible_wall")
-    (icon "images/engine/editor/invisible_wall.png"))
-  (object
-    (class "scripttrigger")
-    (icon "images/engine/editor/scripttrigger.png"))
-  (object
-    (class "secretarea")
-    (icon "images/engine/editor/secretarea.png"))
-  (object
-    (class "sequencetrigger")
-    (icon "images/engine/editor/sequencetrigger.png"))
-  (object
-    (class "spawnpoint")
-    (icon "images/engine/editor/spawnpoint.png"))
-  (object
-    (class "ambient_sound")
-    (icon "images/engine/editor/ambientsound.png"))
-  (object
-    (class "wind")
-    (icon "images/engine/editor/wind.png"))
  )
 
  (objectgroup
@@ -313,6 +299,30 @@
   (object
     (class "thunderstorm")
     (icon "images/engine/editor/thunderstorm.png"))
+  (object
+    (class "climbable")
+    (icon "images/engine/editor/climbable.png"))
+  (object
+    (class "invisible_wall")
+    (icon "images/engine/editor/invisible_wall.png"))
+  (object
+    (class "scripttrigger")
+    (icon "images/engine/editor/scripttrigger.png"))
+  (object
+    (class "secretarea")
+    (icon "images/engine/editor/secretarea.png"))
+  (object
+    (class "sequencetrigger")
+    (icon "images/engine/editor/sequencetrigger.png"))
+  (object
+    (class "spawnpoint")
+    (icon "images/engine/editor/spawnpoint.png"))
+  (object
+    (class "ambient_sound")
+    (icon "images/engine/editor/ambientsound.png"))
+  (object
+    (class "wind")
+    (icon "images/engine/editor/wind.png"))
  )
 
  (objectgroup
