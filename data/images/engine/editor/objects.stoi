@@ -267,6 +267,30 @@
   (object
     (class "spotlight")
     (icon "images/objects/spotlight/spotlight_center.png"))
+  (object
+    (class "climbable")
+    (icon "images/engine/editor/climbable.png"))
+  (object
+    (class "invisible_wall")
+    (icon "images/engine/editor/invisible_wall.png"))
+  (object
+    (class "scripttrigger")
+    (icon "images/engine/editor/scripttrigger.png"))
+  (object
+    (class "secretarea")
+    (icon "images/engine/editor/secretarea.png"))
+  (object
+    (class "sequencetrigger")
+    (icon "images/engine/editor/sequencetrigger.png"))
+  (object
+    (class "spawnpoint")
+    (icon "images/engine/editor/spawnpoint.png"))
+  (object
+    (class "ambient_sound")
+    (icon "images/engine/editor/ambientsound.png"))
+  (object
+    (class "wind")
+    (icon "images/engine/editor/wind.png"))
  )
 
  (objectgroup
@@ -299,30 +323,6 @@
   (object
     (class "thunderstorm")
     (icon "images/engine/editor/thunderstorm.png"))
-  (object
-    (class "climbable")
-    (icon "images/engine/editor/climbable.png"))
-  (object
-    (class "invisible_wall")
-    (icon "images/engine/editor/invisible_wall.png"))
-  (object
-    (class "scripttrigger")
-    (icon "images/engine/editor/scripttrigger.png"))
-  (object
-    (class "secretarea")
-    (icon "images/engine/editor/secretarea.png"))
-  (object
-    (class "sequencetrigger")
-    (icon "images/engine/editor/sequencetrigger.png"))
-  (object
-    (class "spawnpoint")
-    (icon "images/engine/editor/spawnpoint.png"))
-  (object
-    (class "ambient_sound")
-    (icon "images/engine/editor/ambientsound.png"))
-  (object
-    (class "wind")
-    (icon "images/engine/editor/wind.png"))
  )
 
  (objectgroup
