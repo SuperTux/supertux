@@ -769,9 +769,8 @@ Player::handle_vertical_input()
   /* When Down is not held anymore, disable butt jump */
   if (!m_controller->hold(Control::DOWN)) {
     if (m_wants_buttjump){
-      bool is_big = m_player_status.bonus > NO_BONUS;
-      float target_height = is_big ? BIG_TUX_HEIGHT : SMALL_TUX_HEIGHT;
-        if (!is_big || !adjust_height(target_height, -BUTTJUMP_TUX_SHIFT)) {
+      float target_height = is_big() ? BIG_TUX_HEIGHT : SMALL_TUX_HEIGHT;
+        if (!is_big() || !adjust_height(target_height, -BUTTJUMP_TUX_SHIFT)) {
           if (!adjust_height(target_height))
             kill(false);
       }
