@@ -10,7 +10,8 @@
       (color 0.7 0.7 0.8999998)
     )
     (background
-      (speed 1.1)
+      (scroll-speed-x 25)
+      (speed 1.2)
       (image-top "/images/background/fog.png")
       (image "/images/background/fog.png")
       (image-bottom "/images/background/fog.png")
@@ -236,7 +237,7 @@
       (y 448)
     )
     (music
-      (file "music/antarctic/cave.music")
+      (file "/music/antarctic/arctic_cave.music")
     )
     (sequencetrigger
       (sequence "stoptux")
