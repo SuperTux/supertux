@@ -9,6 +9,14 @@
     (ambient-light
       (color 0.7 0.7 0.8999998)
     )
+    (background
+      (scroll-speed-x 25)
+      (speed 1.2)
+      (image-top "/images/background/fog.png")
+      (image "/images/background/fog.png")
+      (image-bottom "/images/background/fog.png")
+      (z-pos 200)
+    )
     (bouncingsnowball
       (direction "left")
       (x 3616)
@@ -292,7 +300,7 @@
       (y 1408)
     )
     (music
-      (file "music/antarctic/cave.music")
+      (file "/music/antarctic/arctic_cave.music")
     )
     (path
       (name "gen15435266391679206246992")
