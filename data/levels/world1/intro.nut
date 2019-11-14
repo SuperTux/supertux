@@ -16,21 +16,21 @@ function initialize()
   Text.fade_in(1);
   wait(4);
   Text.fade_out(1);
-  wait(2.5);
-  Text.set_text(_("Tux the penguin was going to meet his friend, Penny, for a picnic."));
-  Text.fade_in(1);
-  wait(4);
-  Text.fade_out(1);
-  wait(3);
+  wait(9.5);
   Camera.scroll_to(2808, 913, 17);
   Tux.walk(300);
   wait(6.2);
   logo.fade_in(0.2);
   wait(1.4);
   Tux.do_jump(-500);
-  wait(4.1);
+  wait(2);
   logo.fade_out(1.2);
-  wait(6.5);
+  wait(2);
+  Text.set_text(_("Tux the penguin was going to meet his friend, Penny, for a picnic."));
+  Text.fade_in(1);
+  wait(4);
+  Text.fade_out(1);
+  wait(2.5);
   //begin conversation and Tux rap
   play_sound("speech/tux_hello.ogg"); // 3.1 seconds
   wait(3.5);
@@ -215,15 +215,16 @@ function shake_bush_thread(table)
   table.shake_bush(); // each bush shake lasts 1 second
   table.wait(5);
   table.shake_bush();
-  table.wait(3);
+  table.wait(3.2);
   table.shake_bush();
   table.shake_bush();
   table.shake_bush(); // total 23 seconds
   //enter Nolok
   table.NOLOK.set_velocity(-220, 600);
   table.NOLOK.set_visible(true);
-  table.Effect.fade_out(0.1);
   table.wait(0.2);
+  table.Effect.fade_out(0.1);
+  table.wait(0.3);
   table.play_sound("sounds/thud.ogg");
   Tux.activate();
   Tux.kill(false);
