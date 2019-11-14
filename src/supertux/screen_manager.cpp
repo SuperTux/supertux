@@ -461,7 +461,7 @@ ScreenManager::run()
       elapsed_ticks = 0;
     }
 
-    if (elapsed_ticks < ms_per_step) {
+    if (elapsed_ticks < ms_per_step && !g_debug.draw_redundant_frames) {
       // Sleep a bit because not enough time has passed since the previous
       // logical game step
       SDL_Delay(ms_per_step - elapsed_ticks);
@@ -504,7 +504,8 @@ ScreenManager::run()
       elapsed_ticks -= ms_per_step;
     }
 
-    if (steps > 0 && !m_screen_stack.empty()) {
+    if ((steps > 0 && !m_screen_stack.empty())
+        || g_debug.draw_redundant_frames) {
       // Draw a frame
       Compositor compositor(m_video_system);
       draw(compositor, fps_statistics);

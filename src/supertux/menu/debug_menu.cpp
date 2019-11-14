@@ -64,6 +64,7 @@ DebugMenu::DebugMenu() :
   add_toggle(-1, _("Show Worldmap Path"), &g_debug.show_worldmap_path);
   add_toggle(-1, _("Show Controller"), &g_debug.show_controller);
   add_toggle(-1, _("Show Framerate"), &g_config->show_fps);
+  add_toggle(-1, _("Draw Redundant Frames"), &g_debug.draw_redundant_frames);
   add_toggle(-1, _("Show Player Position"), &g_config->show_player_pos);
   add_toggle(-1, _("Use Bitmap Fonts"),
              []{ return g_debug.get_use_bitmap_fonts(); },
