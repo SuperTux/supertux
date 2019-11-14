@@ -158,7 +158,7 @@ public:
 
   /** Changes height of bounding box.
       Returns true if successful, false otherwise */
-  bool adjust_height(float new_height);
+  bool adjust_height(float new_height, float bottom_offset = 0);
 
   /** Orders the current GameSession to start a sequence
       @param sequence_name Name of the sequence to start

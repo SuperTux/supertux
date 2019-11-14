@@ -266,16 +266,16 @@ Player::do_scripting_controller(const std::string& control_text, bool pressed)
 }
 
 bool
-Player::adjust_height(float new_height)
+Player::adjust_height(float new_height, float bottom_offset)
 {
   Rectf bbox2 = m_col.m_bbox;
-  bbox2.move(Vector(0, m_col.m_bbox.get_height() - new_height));
+  bbox2.move(Vector(0, m_col.m_bbox.get_height() - new_height - bottom_offset));
   bbox2.set_height(new_height);
 
 
   if (new_height > m_col.m_bbox.get_height()) {
     Rectf additional_space = bbox2;
-    additional_space.set_height(new_height - m_col.m_bbox.get_height());
+    //additional_space.set_height(new_height - m_col.m_bbox.get_height());
     if (!Sector::get().is_free_of_statics(additional_space, this, true))
       return false;
   }
@@ -318,6 +318,8 @@ Player::update(float dt_sec)
   }
 
   if (on_ground() && !no_water) {
+    if(m_swimming) 
+      adjust_height(is_big() ? BIG_TUX_HEIGHT : SMALL_TUX_HEIGHT);
     m_swimming = false;
     m_dive_walk = true;
   }
@@ -342,13 +344,36 @@ Player::update(float dt_sec)
   apply_friction();
   */
 
-  // extend/shrink tux collision rectangle so that we fall through/walk over 1
-  // tile holes
-  if (fabsf(m_physic.get_velocity_x()) > MAX_WALK_XM) {
-    m_col.set_width(RUNNING_TUX_WIDTH);
-  } else {
-    m_col.set_width(TUX_WIDTH);
+  if(m_swimming && is_big())
+  {
+    switch (m_dir)
+    {
+    case Direction::RIGHT:
+    case Direction::LEFT:
+      m_col.set_width(BIG_TUX_HEIGHT);
+      adjust_height(TUX_WIDTH,0*(BIG_TUX_HEIGHT-TUX_WIDTH)/2);
+      break;
+    case Direction::UP:
+    case Direction::DOWN:
+      m_col.set_width(TUX_WIDTH);
+      adjust_height(BIG_TUX_HEIGHT,0*(TUX_WIDTH-BIG_TUX_HEIGHT)/2);
+      break;
+    default:
+      break;
+    }
   }
+  else
+  {
+    // extend/shrink tux collision rectangle so that we fall through/walk over 1
+    // tile holes
+    if (fabsf(m_physic.get_velocity_x()) > MAX_WALK_XM) {
+      m_col.set_width(RUNNING_TUX_WIDTH);
+    } else {
+      m_col.set_width(TUX_WIDTH);
+    }
+  }
+  
+  
 
   // on downward slopes, adjust vertical velocity so tux walks smoothly down
   if (on_ground() && !m_dying) {
@@ -521,18 +546,17 @@ Player::swim(float pointx, float pointy, bool boost)
 
       // Natural friction
       if (!is_ang_defined) {
-        m_physic.set_acceleration(-1.4f*vx, -1.4f*vy);
+        m_physic.set_acceleration(-1.6f*vx, -1.6f*vy);
       }
-      
-
+      // Snapping to prevent unwanted floating
+      if (!is_ang_defined && Vector(vx,vy).norm()<100.f) {
+        vx = 0;
+        vy = 0;
+      }
       // Turbo
       if (boost) {
         vx += 200.f * pointx;
         vy += 200.f * pointy;
-        if (Vector(vx,vy).norm()<40.f) {
-          vx = 0;
-          vy = 0;
-        }
         m_physic.set_velocity(vx, vy);
       }
     }
