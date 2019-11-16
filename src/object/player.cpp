@@ -760,7 +760,7 @@ Player::handle_vertical_input()
     if(!m_wants_buttjump)
     {
       if (!adjust_height(BUTTJUMP_TUX_HEIGHT, BUTTJUMP_TUX_SHIFT))
-        log_debug << "Cannot addjust Tux' height!" << std::endl;
+        log_debug << "Cannot adjust Tux' height!" << std::endl;
     }
     m_wants_buttjump = true;
     if (m_physic.get_velocity_y() >= BUTTJUMP_MIN_VELOCITY_Y) m_does_buttjump = true;
@@ -769,10 +769,14 @@ Player::handle_vertical_input()
   /* When Down is not held anymore, disable butt jump */
   if (!m_controller->hold(Control::DOWN)) {
     if (m_wants_buttjump){
-      float target_height = is_big() ? BIG_TUX_HEIGHT : SMALL_TUX_HEIGHT;
-        if (!is_big() || !adjust_height(target_height, -BUTTJUMP_TUX_SHIFT)) {
+      bool is_big = m_player_status.bonus > NO_BONUS;
+      float target_height = is_big ? BIG_TUX_HEIGHT : SMALL_TUX_HEIGHT;
+        if (!is_big || m_duck || !adjust_height(target_height, -BUTTJUMP_TUX_SHIFT)) {
           if (!adjust_height(target_height))
-            kill(false);
+          {
+            m_duck = true;
+            do_standup();
+          }
       }
     }
     m_wants_buttjump = false;
