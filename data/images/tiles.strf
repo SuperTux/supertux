@@ -5246,6 +5246,27 @@
      49 67 49 67
      65 51 65 51
     ))
+   (tiles
+    (width 4)
+    (height 1)
+	(fps 16)
+	(water #t)
+	(hurts #t)
+    (images "tiles/water/antarctic-1a.png"
+	        "tiles/water/antarctic-1b.png")
+    (ids
+     3873 3874 3875 3876
+     )
+	(attributes
+	 1024 1024 1024 1024))
+   (tile
+	(fps 16)
+	(water #t)
+	(hurts #t)
+    (images "tiles/water/antarctic-1c.png"
+	        "tiles/water/antarctic-1d.png")
+    (id
+     3877))
 
   ;; next-id: 3837
   )
