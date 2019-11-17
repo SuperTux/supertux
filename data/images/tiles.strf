@@ -661,7 +661,7 @@
     (name (_ "Liquid"))
     (tiles
       2019 2140 2141 2142
-      2020 3880    0    0
+      2020 0    0    0
 
       291 292 293 294
       287 288 289 290
@@ -5267,20 +5267,6 @@
 	        "tiles/water/antarctic-1d.png")
     (id
      3877))
-   (tile
-	(fps 16)
-	(water #t)
-	(hurts #t)
-    (images "tiles/lava/lava-deep-1.png"
-	        "tiles/lava/lava-deep-2.png"
-			"tiles/lava/lava-deep-3.png"
-			"tiles/lava/lava-deep-4.png"
-			"tiles/lava/lava-deep-5.png"
-			"tiles/lava/lava-deep-6.png"
-			"tiles/lava/lava-deep-7.png"
-			"tiles/lava/lava-deep-8.png")
-    (id
-     3880))
 
   ;; next-id: 3837
   )
