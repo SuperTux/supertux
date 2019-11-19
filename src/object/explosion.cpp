@@ -29,7 +29,7 @@
 Explosion::Explosion(const Vector& pos) :
   MovingSprite(pos, "images/objects/explosion/explosion.sprite", LAYER_OBJECTS+40, COLGROUP_MOVING),
   hurt(true),
-  push(false),
+  push(true),
   state(STATE_WAITING),
   lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-large.sprite"))
 {
@@ -76,7 +76,7 @@ Explosion::explode()
 
   if (push) {
     Vector center = m_col.m_bbox.get_middle ();
-    auto near_objects = Sector::get().get_nearby_objects (center, 10.0 * 32.0);
+    auto near_objects = Sector::get().get_nearby_objects (center, 128.0 * 32.0);
 
     for (auto& obj: near_objects) {
       Vector obj_vector = obj->get_bbox ().get_middle ();
@@ -90,8 +90,9 @@ Explosion::explode()
 
       /* The force decreases with the distance squared. In the distance of one
        * tile (32 pixels) you will have a speed increase of 150 pixels/s. */
-      float force = 150.0f * 32.0f * 32.0f / (distance * distance);
-      if (force > 200.0f)
+      float force = 150.0f * 100.0f * 100.0f / (distance * distance);
+	  // If we somehow get a force of over 200, keep it at 200 because unexpected behaviour could result otherwise.
+	  if (force > 200.0f)
         force = 200.0;
 
       Vector add_speed = direction.unit () * force;
