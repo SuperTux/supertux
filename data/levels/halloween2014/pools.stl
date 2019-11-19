@@ -1924,11 +1924,11 @@
     )
     (torch
       (sprite "images/objects/torch/torch2.sprite")
-      (x 12496)
+      (x 12480)
       (y 832)
     )
     (torch
-      (x 13232)
+      (x 13216)
       (y 800)
     )
     (torch
@@ -1947,7 +1947,7 @@
     )
     (torch
       (sprite "images/objects/torch/torch3.sprite")
-      (x 17616)
+      (x 17600)
       (y 896)
     )
     (torch
