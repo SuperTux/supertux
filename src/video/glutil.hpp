@@ -23,7 +23,7 @@
 #include "video/gl.hpp"
 
 #ifdef USE_GLBINDING
-#  include <glbinding/ContextInfo.h>
+#  include <glbinding-aux/ContextInfo.h>
 #  include <glbinding/gl/extension.h>
 #endif
 
