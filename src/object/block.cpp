@@ -86,7 +86,11 @@ Block::collision(GameObject& other, const CollisionHit& )
 {
   auto player = dynamic_cast<Player*> (&other);
   if (player) {
-    if (player->get_bbox().get_top() > m_col.m_bbox.get_bottom() - SHIFT_DELTA) {
+    bool x_coordinates_intersect =
+        player->get_bbox().get_right()  >= m_col.m_bbox.get_left() &&
+        player->get_bbox().get_left()   <= m_col.m_bbox.get_right();
+    if (player->get_bbox().get_top() > m_col.m_bbox.get_bottom() - SHIFT_DELTA &&
+        x_coordinates_intersect) {
       hit(*player);
     }
   }
