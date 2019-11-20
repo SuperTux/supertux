@@ -82,7 +82,7 @@ inline bool gl_needs_power_of_two()
   return true;
 #else
 #  ifdef USE_GLBINDING
-  static auto extensions = glbinding::ContextInfo::extensions();
+  static auto extensions = glbinding::aux::ContextInfo::extensions();
   return extensions.find(GLextension::GL_ARB_texture_non_power_of_two) == extensions.end();
 #  else
   return !GLEW_ARB_texture_non_power_of_two;
