@@ -64,8 +64,15 @@ inline void check_gl_error(const char* filename, int line)
         msg << "TABLE_TOO_LARGE: table is too large";
         break;
 #endif
+#ifdef USE_GLBINDING
+      default:
+      // TODO: WHat now?
+      break;
+#else
       default:
         msg << "Unknown error (code " << error << ")";
+        break;
+#endif
     }
 
     throw std::runtime_error(msg.str());

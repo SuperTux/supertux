@@ -35,9 +35,9 @@
 
 #ifdef USE_GLBINDING
 #  include <glbinding/Binding.h>
-#  include <glbinding/ContextInfo.h>
+#  include <glbinding/glbinding.h>
 #  include <glbinding/gl/extension.h>
-#  include <glbinding/callbacks.h>
+#  include <glbinding-aux/ContextInfo.h>
 #endif
 
 GLVideoSystem::GLVideoSystem(bool use_opengl33core) :
@@ -180,7 +180,10 @@ GLVideoSystem::create_gl_context()
   // nothing to do
 #else
 #  ifdef USE_GLBINDING
-  glbinding::Binding::initialize();
+
+  glbinding::initialize([](const char* param) {
+    return glbinding::ProcAddress(SDL_GL_GetProcAddress(param));
+  });
 
 #    ifdef USE_GLBINDING_DEBUG_OUTPUT
   glbinding::setCallbackMask(glbinding::CallbackMask::After | glbinding::CallbackMask::ParametersAndReturnValue);
@@ -205,7 +208,7 @@ GLVideoSystem::create_gl_context()
       std::cout << std::endl;
     });
 #    endif
-  static auto extensions = glbinding::ContextInfo::extensions();
+  static auto extensions = glbinding::aux::ContextInfo::extensions();
   log_info << "Using glbinding" << std::endl;
   log_info << "ARB_texture_non_power_of_two: " << static_cast<int>(extensions.find(GLextension::GL_ARB_texture_non_power_of_two) != extensions.end()) << std::endl;
 #  else
