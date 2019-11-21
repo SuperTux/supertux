@@ -45,6 +45,10 @@ macro (find LIB_NAME HEADER)
         NAMES ${LIBNAME}d
         PATHS ${HINT_PATHS}
         DOC "The ${LIB_NAME} debug library")
+    find_library(${LIB_NAME_UPPER}_LIBRARY_AUX
+        NAMES ${LIBNAME}-aux
+        PATHS ${HINT_PATHS}
+        DOC "The ${LIB_NAME} aux library")
 
     if(${LIB_NAME_UPPER}_LIBRARY_RELEASE AND ${LIB_NAME_UPPER}_LIBRARY_DEBUG)
         set(${LIB_NAME_UPPER}_LIBRARY "optimized" ${${LIB_NAME_UPPER}_LIBRARY_RELEASE} "debug" ${${LIB_NAME_UPPER}_LIBRARY_DEBUG})
@@ -56,6 +60,10 @@ macro (find LIB_NAME HEADER)
 
     list(APPEND GLBINDING_INCLUDE_DIRS ${${LIB_NAME_UPPER}_INCLUDE_DIR})
     list(APPEND GLBINDING_LIBRARIES ${${LIB_NAME_UPPER}_LIBRARY})
+
+    if(${LIB_NAME_UPPER}_LIBRARY_AUX)
+        list(APPEND GLBINDING_LIBRARIES ${${LIB_NAME_UPPER}_LIBRARY_AUX})
+    endif()
 
     # DEBUG
     # message("${LIB_NAME_UPPER}_INCLUDE_DIR     = ${${LIB_NAME_UPPER}_INCLUDE_DIR}")
