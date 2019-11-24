@@ -17,34 +17,26 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: data/levels/halloween2014/halloween1.stl:3
-msgid "Darkness Prevails"
+#: data/levels/christmas2016/christmas1.stl:3
+msgid "Ready for Christmas"
 msgstr ""
 
-#: data/levels/halloween2014/halloween2.stl:3
-msgid "The Fog is Clearing Up"
+#: data/levels/christmas2016/christmas2.stl:3
+msgid "Up and Down"
 msgstr ""
 
-#: data/levels/halloween2014/halloween3.stl:3
-msgid "Graveyard Shift"
+#: data/levels/christmas2016/christmas3.stl:3
+msgid "Find the Perfect Tree"
 msgstr ""
 
-#: data/levels/halloween2014/intro.stl:3
-msgid "The Abandoned House"
+#: data/levels/christmas2016/intro.stl:3
+msgid "Christmas Time?"
 msgstr ""
 
-#: data/levels/halloween2014/mound.stl:3
-msgid "Mound of the Dead"
+#: data/levels/christmas2016/outro.stl:3
+msgid "Christmas Time!"
 msgstr ""
 
-#: data/levels/halloween2014/outro.stl:3
-msgid "Halloween Party?"
-msgstr ""
-
-#: data/levels/halloween2014/pools.stl:3
-msgid "Putrid Pools"
-msgstr ""
-
-#: data/levels/halloween2014/worldmap.stwm:3
-msgid "Halloween 2014"
+#: data/levels/christmas2016/worldmap.stwm:3
+msgid "Christmas 2016"
 msgstr ""
