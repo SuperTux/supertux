@@ -1,6 +1,23 @@
 SuperTux Release and Development Notes
 ======================================
 
+SuperTux 0.6.1 beta 1 (2019-11-24; pre-release)
+---------------------------
+This is the first BETA release for the upcoming release of SuperTux 0.6.1. This is first and foremost a bugfix release that fixes reported issues after the release of 0.6.1 a year ago, however, we also introduced a lot of other changes, such as new graphics, levels and other game content.
+
+Changes:
+* Rework of the first 3 Bonus Worlds
+* Added 3 new bonus worlds to the core game
+* Improvements to the story mode
+* Addition of Ghost Forest to the Story Mode
+* New Backgrounds and Music by BlasterMaster
+* Tiles and Sprites Improvements by Alzter, weluvgoatz and RustyBox
+* New enemy: The Ghoul
+* Fixes and optimizations (Fixing buggy controls, game speed, etc.)
+* Level Editor Improvements, Fixes and Optimisations
+* Revamp of the Credits Menu
+
+
 SuperTux 0.6.0 (2018-12-23)
 ---------------------------
 
