@@ -53,10 +53,6 @@ msgstr ""
 msgid "Is The Biggest Fish"
 msgstr ""
 
-#: data/levels/community2016/Is_The_Biggest_Fish (cookie monster).stl:108
-msgid "Area secreta"
-msgstr ""
-
 #: data/levels/community2016/Problem_With_Green (herobrine).stl:3
 msgid "The Problem With GREEN"
 msgstr ""
@@ -69,22 +65,12 @@ msgstr ""
 msgid "The Mountains"
 msgstr ""
 
-#: data/levels/community2016/The_Mountains (gelada).stl:234
-msgid "area secreta"
-msgstr ""
-
 #: data/levels/community2016/The_Strange_Thing (herobrine).stl:3
 msgid "The Strange Thing"
 msgstr ""
 
 #: data/levels/community2016/Uncontrolled_Lift (gelada).stl:3
 msgid "Uncontrolled Lift"
-msgstr ""
-
-#: data/levels/community2016/Uncontrolled_Lift (gelada).stl:93
-msgid ""
-"Espera uma bocadinho!\n"
-"Wait!"
 msgstr ""
 
 #: data/levels/community2016/Up_Or_Down (Serano).stl:3
