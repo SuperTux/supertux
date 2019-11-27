@@ -105,7 +105,7 @@
       (y 960)
     )
     (music
-      (file "music/forest/forest2.ogg")
+      (file "music/forest/forest2.music")
     )
     (path
       (name "gen15425645892763072618832")
@@ -711,7 +711,7 @@
       (y 448)
     )
     (music
-      (file "/music/forest/forest2.ogg")
+      (file "/music/forest/forest2.music")
     )
     (poisonivy
       (x 736)
