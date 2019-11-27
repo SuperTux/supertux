@@ -315,7 +315,7 @@ BonusBlock::try_open(Player* player)
 
     case Content::CUSTOM:
     {
-      Sector::get().add<SpecialRiser>(get_pos(), std::move(m_object));
+      Sector::get().add<SpecialRiser>(get_pos(), std::move(m_object), true);
       SoundManager::current()->play("sounds/upgrade.wav");
       break;
     }
@@ -334,7 +334,7 @@ BonusBlock::try_open(Player* player)
     }
     case Content::TRAMPOLINE:
     {
-      Sector::get().add<SpecialRiser>(get_pos(), std::make_unique<Trampoline>(get_pos(), false));
+      Sector::get().add<SpecialRiser>(get_pos(), std::make_unique<Trampoline>(get_pos(), false), true);
       SoundManager::current()->play("sounds/upgrade.wav");
       break;
     }

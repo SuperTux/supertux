@@ -23,20 +23,25 @@
  * special object that contains another object and slowly rises it out of a
  * bonus block.
  */
-class SpecialRiser final : public GameObject
+class SpecialRiser final : public MovingObject
 {
 public:
-  SpecialRiser(const Vector& pos, std::unique_ptr<MovingObject> child);
+  SpecialRiser(const Vector& pos, std::unique_ptr<MovingObject> child, bool is_solid = false);
   virtual bool is_saveable() const override {
     return false;
+  }
+
+  HitResponse collision(GameObject& other, const CollisionHit& hit) override {
+    return FORCE_MOVE;
   }
 
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
 
 private:
-  float offset;
-  std::unique_ptr<MovingObject> child;
+  Vector m_start_pos; 
+  float m_offset;
+  std::unique_ptr<MovingObject> m_child;
 
 private:
   SpecialRiser(const SpecialRiser&) = delete;
