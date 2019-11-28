@@ -2,42 +2,22 @@
   (action
     (name "default")
     (hitbox 16 16 0 0)
-    (images "leveldot_blue-01.png"
-			"leveldot_blue-02.png"
-			"leveldot_blue-03.png")
+    (images "bonusdot_red-01.png"
+      "bonusdot_red-02.png"
+      "bonusdot_red-03.png")
   )
   (action
     (name "solved")
     (hitbox 16 16 0 0)
-    (images "leveldot_green.png")
+    (images "bonusdot_green-01.png"
+      "bonusdot_green-02.png"
+      "bonusdot_green-03.png")
   )
   (action
     (name "perfect")
     (hitbox 16 16 0 0)
-    (images "leveldot_green.png"
-      "leveldot_green.png"
-      "leveldot_green.png"
-      "leveldot_green.png"
-      "leveldot_green.png"
-      "leveldot_green.png"
-      "leveldot_green.png"
-      "leveldot_green.png"
-      "leveldot_green.png"
-      "leveldot_green_perfect-0.png"
-      "leveldot_green_perfect-1.png"
-      "leveldot_green_perfect-2.png"
-      "leveldot_green_perfect-3.png"
-      "leveldot_green_perfect-2.png"
-      "leveldot_green_perfect-1.png"
-      "leveldot_green_perfect-0.png"
-      "leveldot_green.png"
-      "leveldot_green.png"
-      "leveldot_green.png"
-      "leveldot_green.png"
-      "leveldot_green.png"
-      "leveldot_green.png"
-      "leveldot_green.png"
-      "leveldot_green.png"
-      "leveldot_green.png")
+    (images "bonusdot_blue-01.png"
+      "bonusdot_blue-02.png"
+      "bonusdot_blue-03.png")
   )
 )
