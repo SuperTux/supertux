@@ -80,7 +80,7 @@ Sector::Sector(Level& parent) :
     GameSession::current() ? &GameSession::current()->get_savegame() : nullptr;
   PlayerStatus& player_status = savegame ? savegame->get_player_status() : dummy_player_status;
 
-  if (savegame && m_level.m_name != "Credits" && !savegame->is_title_screen()) {
+  if (savegame && m_level.m_name != "vfeb79x98f" && !savegame->is_title_screen()) {
     add<PlayerStatusHUD>(player_status);
   }
   add<Player>(player_status, "Tux");
