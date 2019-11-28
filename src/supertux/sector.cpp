@@ -80,7 +80,7 @@ Sector::Sector(Level& parent) :
     GameSession::current() ? &GameSession::current()->get_savegame() : nullptr;
   PlayerStatus& player_status = savegame ? savegame->get_player_status() : dummy_player_status;
 
-  if (savegame && m_level.m_name != "Credits" && !savegame->is_title_screen()) {
+  if (savegame && m_level.m_name != "vfeb79x98f" && !savegame->is_title_screen()) {
     add<PlayerStatusHUD>(player_status);
   }
   add<Player>(player_status, "Tux");
@@ -585,10 +585,10 @@ Sector::save(Writer &writer)
   }
 
   // saving objects;
-  std::vector<GameObject*> objects(get_objects().size());
-  std::transform(get_objects().begin(), get_objects().end(), objects.begin(), [] (auto& obj) {
-    return obj.get();
-  });
+  std::vector<GameObject*> objects;
+  for (auto& obj : get_objects()) {
+    objects.push_back(obj.get());
+  }
 
   std::stable_sort(objects.begin(), objects.end(),
                    [](const GameObject* lhs, GameObject* rhs) {
