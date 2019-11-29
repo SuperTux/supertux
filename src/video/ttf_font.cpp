@@ -62,25 +62,21 @@ TTFFont::get_text_width(const std::string& text) const
   {
     const std::string& line = iter.get();
 
-    // Since create_surface() takes a surface from the cache instead of
-    // generating it from scratch it should be faster than doing a whole
-    // layout.
-    if ((false))
-    {
+    // Since get_cached_surface_width() takes a surface from the cache
+    // instead of generating it from scratch,
+    // it should be faster than doing a whole layout.
+    int line_width = TTFSurfaceManager::current()->get_cached_surface_width(*this, line);
+    if (line_width < 0) {
+      // Not in cache
       int w = 0;
       int h = 0;
       int ret = TTF_SizeUTF8(m_font, line.c_str(), &w, &h);
-      if (ret < 0)
-      {
+      if (ret < 0) {
         std::cerr << "TTFFont::get_text_width(): " << TTF_GetError() << std::endl;
       }
-      max_width = std::max(max_width, static_cast<float>(w));
+      line_width = w;
     }
-    else
-    {
-      TTFSurfacePtr surface = TTFSurfaceManager::current()->create_surface(*this, line);
-      max_width = std::max(max_width, static_cast<float>(surface->get_width()));
-    }
+    max_width = std::max(max_width, static_cast<float>(line_width));
   }
 
   return max_width;
