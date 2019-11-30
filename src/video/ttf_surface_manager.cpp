@@ -53,14 +53,14 @@ TTFSurfaceManager::create_surface(const TTFFont& font, const std::string& text)
   }
   else
   {
-    if (false)
-    {
-      // Font debug output should go to 'std::cerr', not any of the
-      // log_* functions, as those are mirrored on the console which
-      // in turn will lead to the creation of more TTFSurface's and
-      // screw up the results.
-      print_debug_info(std::cerr);
-    }
+
+#if 0
+    // Font debug output should go to 'std::cerr', not any of the
+    // log_* functions, as those are mirrored on the console which
+    // in turn will lead to the creation of more TTFSurface's and
+    // screw up the results.
+    print_debug_info(std::cerr);
+#endif
 
     cache_cleanup_step();
 
