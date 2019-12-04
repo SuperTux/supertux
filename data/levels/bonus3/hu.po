@@ -1,20 +1,21 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
+# Balázs Úr, 2018
 # Norbert Molnár <buzitetu@indamail.hu>, 2013
 # gyeben <gyonkibendeguz@gmail.com>, 2013
 # Haba Tamás <habatamas0@gmail.com>, 2016
-# Kristóf Kófiás <kristof.kofias@gmail.com>, 2014
+# Kristóf Kófiás <kristof.kofias@gmail.com>, 2014,2019
 # Tibor Buzási, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-04 15:35+0200\n"
-"PO-Revision-Date: 2016-05-04 15:01+0000\n"
-"Last-Translator: Haba Tamás <habatamas0@gmail.com>\n"
+"Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
+"POT-Creation-Date: 2019-11-24 01:44+0100\n"
+"PO-Revision-Date: 2019-11-24 19:53+0000\n"
+"Last-Translator: Kristóf Kófiás <kristof.kofias@gmail.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/arctic-games/supertux/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,7 +24,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/levels/bonus3/-89-2_degrees.stl:3
-msgid "-89,2 degrees"
+msgid "-89.2 degrees"
 msgstr "-89,2 fok"
 
 #: data/levels/bonus3/Global_Warming.stl:3
@@ -50,7 +51,7 @@ msgstr "Antarktiszi zápor"
 msgid "...but no one can stop it..."
 msgstr "...de senki sem tudja megállítani..."
 
-#: data/levels/bonus3/but_no_one_can_stop_it.stl:393
+#: data/levels/bonus3/but_no_one_can_stop_it.stl:392
 msgid ""
 "-Sorry, this flying platform is lazy.\n"
 "-Come back another time."
@@ -72,7 +73,7 @@ msgstr "Barlang futás"
 msgid "Cold Cavern"
 msgstr "Hideg barlang"
 
-#: data/levels/bonus3/cavern_v2.stl:50
+#: data/levels/bonus3/cavern_v2.stl:47
 msgid ""
 "#Good job! You kept the red lantern! You didn't need to though, but just "
 "because you did, have 100 coins!"
@@ -177,7 +178,7 @@ msgid ""
 "#Press the up key to flush! "
 msgstr "- Öblítés: \n#Nyomd meg a fel gombot az öblítéshez! "
 
-#: data/levels/bonus3/niv-3.stl:216
+#: data/levels/bonus3/niv-3.stl:219
 msgid ""
 "- A Way out?\n"
 "#Let's Jump! "
@@ -223,14 +224,15 @@ msgstr "A jég alatt"
 msgid "Bonus Island III"
 msgstr "Bónusz-sziget 3."
 
-#: data/levels/bonus3/worldmap.stwm:12
+#: data/levels/bonus3/worldmap.stwm:238
 msgid "You found a secret place!"
 msgstr "Találtál egy titkos helyet!"
 
-#: data/levels/bonus3/worldmap.stwm:20
-msgid "Congratulations... you found the secret pathway!"
-msgstr "Gratulálok... megtaláltad a titkos ösvényt!"
-
-#: data/levels/bonus3/worldmap.stwm:78 data/levels/bonus3/worldmap.stwm:86
+#: data/levels/bonus3/worldmap.stwm:282 data/levels/bonus3/worldmap.stwm:297
+#: data/levels/bonus3/worldmap.stwm:304
 msgid "Go Home"
 msgstr "Menj haza"
+
+#: data/levels/bonus3/worldmap.stwm:290
+msgid "Enter Forest Section"
+msgstr "Lépj be az erdő részlegbe"

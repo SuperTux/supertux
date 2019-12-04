@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# GunChleoc, 2016,2018
+# GunChleoc, 2016,2018-2019
 # GunChleoc, 2016
 # GunChleoc, 2016
 msgid ""
@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2018-11-16 00:48+0100\n"
-"PO-Revision-Date: 2018-11-16 09:27+0000\n"
+"PO-Revision-Date: 2019-11-24 04:35+0000\n"
 "Last-Translator: GunChleoc\n"
 "Language-Team: Gaelic, Scottish (http://www.transifex.com/arctic-games/supertux/language/gd/)\n"
 "MIME-Version: 1.0\n"
@@ -460,11 +460,11 @@ msgstr "gu deas"
 
 #: src/object/background.cpp:174
 msgid "top"
-msgstr "ris a’ bharr"
+msgstr "ris a' bharr"
 
 #: src/object/background.cpp:175
 msgid "bottom"
-msgstr "ris a’ bhonn"
+msgstr "ris a' bhonn"
 
 #: src/object/background.cpp:177
 msgid "Scroll offset x"
@@ -492,7 +492,7 @@ msgstr "Luaths y"
 
 #: src/object/background.cpp:184
 msgid "Top image"
-msgstr "Dealbh a’ bharra"
+msgstr "Dealbh a' bharra"
 
 #: src/object/background.cpp:190
 msgid "Image"
@@ -500,7 +500,7 @@ msgstr "Dealbh"
 
 #: src/object/background.cpp:192
 msgid "Bottom image"
-msgstr "Dealbh a’ bhuinn"
+msgstr "Dealbh a' bhuinn"
 
 #: src/object/wind.cpp:60
 msgid "Speed X"
@@ -548,11 +548,11 @@ msgstr "Gun òrdugh"
 
 #: src/object/rock.cpp:173
 msgid "On-grab script"
-msgstr "Sgriobt “leis-an-togail”"
+msgstr "Sgriobt \"leis-an-togail\""
 
 #: src/object/rock.cpp:174
 msgid "On-ungrab script"
-msgstr "Sgriobt “leis-an-leigeil-às”"
+msgstr "Sgriobt \"leis-an-leigeil-às\""
 
 #: src/object/particlesystem_interactive.hpp:45
 msgid "Interactive particle system"
@@ -565,7 +565,7 @@ msgstr "Faidhle"
 #: src/object/path_walker.cpp:220 src/object/thunderstorm.cpp:64
 #: src/object/tilemap.cpp:242
 msgid "Running"
-msgstr "A’ ruith"
+msgstr "A' ruith"
 
 #: src/object/thunderstorm.cpp:65
 msgid "Interval"
@@ -626,11 +626,11 @@ msgstr "Dath an taoibh dheis"
 
 #: src/object/gradient.cpp:137
 msgid "Top Colour"
-msgstr "Dath a’ bharra"
+msgstr "Dath a' bharra"
 
 #: src/object/gradient.cpp:138
 msgid "Bottom Colour"
-msgstr "Dath a’ bhuinn"
+msgstr "Dath a' bhuinn"
 
 #: src/object/gradient.cpp:142 src/supertux/direction.cpp:31
 #: src/worldmap/direction.cpp:83
@@ -822,7 +822,7 @@ msgstr "Clach faimh"
 
 #: src/badguy/sspiky.hpp:39
 msgid "Sleeping spiky"
-msgstr "Spìceach ’na chadal"
+msgstr "Spìceach 'na chadal"
 
 #: src/badguy/yeti_stalactite.hpp:37
 msgid "Yeti's stalactite"
@@ -834,11 +834,11 @@ msgstr "Teine beò"
 
 #: src/badguy/livefire.hpp:66
 msgid "Sleeping live fire"
-msgstr "Teine beò ’na chadal"
+msgstr "Teine beò 'na chadal"
 
 #: src/badguy/livefire.hpp:80
 msgid "Dormant live fire"
-msgstr "Teine beò ’na chadal domhainn"
+msgstr "Teine beò 'na chadal domhainn"
 
 #: src/badguy/owl.hpp:43
 msgid "Owl"
@@ -930,7 +930,7 @@ msgstr "Spìceach"
 
 #: src/badguy/walkingleaf.hpp:35
 msgid "Walking leaf"
-msgstr "Duilleag a’ coiseachd"
+msgstr "Duilleag a' coiseachd"
 
 #: src/badguy/darttrap.hpp:38
 msgid "Dart trap"
@@ -1026,7 +1026,7 @@ msgstr "Bàla glic"
 
 #: src/badguy/bouncing_snowball.hpp:34
 msgid "Bouncing Snowball"
-msgstr "Ball-sneachda a’ bocadaich"
+msgstr "Ball-sneachda a' bocadaich"
 
 #: src/badguy/iceflame.hpp:37
 msgid "Ice flame"
@@ -1132,7 +1132,7 @@ msgstr "  -g, --geometry LEUDxÀIRDE    Ruith SuperTux leis an dùmhlachd-bhreac
 
 #: src/supertux/command_line_arguments.cpp:85
 msgid "  -a, --aspect WIDTH:HEIGHT    Run SuperTux with given aspect ratio"
-msgstr "  -a, --aspect LEUD:ÀIRDE      Ruth SuperTux leis a’ cho-mheas deilbh seo"
+msgstr "  -a, --aspect LEUD:ÀIRDE      Ruth SuperTux leis a' cho-mheas deilbh seo"
 
 #: src/supertux/command_line_arguments.cpp:86
 msgid "  -d, --default                Reset video settings to default values"
@@ -1172,11 +1172,11 @@ msgstr "  --no-show-fps                Na seall astar nam frèam sna leibheilean
 
 #: src/supertux/command_line_arguments.cpp:97
 msgid "  --show-pos                   Display player's current position"
-msgstr "  --show-pos                   Seall ionad làithreach a’ chluicheadair"
+msgstr "  --show-pos                   Seall ionad làithreach a' chluicheadair"
 
 #: src/supertux/command_line_arguments.cpp:98
 msgid "  --no-show-pos                Do not display player's position"
-msgstr "  --no-show-pos                Na seall ionad làithreach a’ chluicheadair"
+msgstr "  --no-show-pos                Na seall ionad làithreach a' chluicheadair"
 
 #: src/supertux/command_line_arguments.cpp:99
 msgid "  --developer                  Switch on developer feature"
@@ -1198,7 +1198,7 @@ msgstr "  --sector SGÌRE              Gin Tux san SGÌRE\n"
 
 #: src/supertux/command_line_arguments.cpp:103
 msgid "  --spawnpoint SPAWNPOINT      Spawn Tux at SPAWNPOINT\n"
-msgstr "  --spawnpoint PUING-GHINTINN      Gin Tux air a’ PHUING-GHINTINN\n"
+msgstr "  --spawnpoint PUING-GHINTINN      Gin Tux air a' PHUING-GHINTINN\n"
 
 #: src/supertux/command_line_arguments.cpp:105
 msgid "Demo Recording Options:"
@@ -1219,13 +1219,13 @@ msgstr "Roghainnean nam pasgan:"
 #: src/supertux/command_line_arguments.cpp:110
 msgid ""
 "  --datadir DIR                Set the directory for the games datafiles"
-msgstr "  --datadir PASGAN             Suidhich pasgan nam faidhlichean-dàta aig a’ gheama"
+msgstr "  --datadir PASGAN             Suidhich pasgan nam faidhlichean-dàta aig a' gheama"
 
 #: src/supertux/command_line_arguments.cpp:111
 msgid ""
 "  --userdir DIR                Set the directory for user data (savegames, "
 "etc.)"
-msgstr "  --userdir PASGAN             Suidhich am pasgan airson dàta a’ chleachdaiche (sàbhaladh gheamannan is msaa.)"
+msgstr "  --userdir PASGAN             Suidhich am pasgan airson dàta a' chleachdaiche (sàbhaladh gheamannan is msaa.)"
 
 #: src/supertux/command_line_arguments.cpp:113
 msgid "Add-On Options:"
@@ -1242,11 +1242,11 @@ msgstr "Caochladairean na h-àrainneachd:"
 #: src/supertux/command_line_arguments.cpp:117
 msgid ""
 "  SUPERTUX2_USER_DIR           Directory for user data (savegames, etc.)"
-msgstr "  SUPERTUX2_USER_DIR           Am pasgan airson dàta a’ chleachdaiche (sàbhaladh gheamannan is msaa.)"
+msgstr "  SUPERTUX2_USER_DIR           Am pasgan airson dàta a' chleachdaiche (sàbhaladh gheamannan is msaa.)"
 
 #: src/supertux/command_line_arguments.cpp:118
 msgid "  SUPERTUX2_DATA_DIR           Directory for the games datafiles"
-msgstr "  SUPERTUX2_DATA_DIR           Am pasgan airson faidhlichean-dàta a’ gheama"
+msgstr "  SUPERTUX2_DATA_DIR           Am pasgan airson faidhlichean-dàta a' gheama"
 
 #: src/supertux/title_screen.cpp:42
 msgid "Copyright"
@@ -1256,7 +1256,7 @@ msgstr "Còir-lethbhreac"
 msgid ""
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
 "redistribute it under certain conditions; see the license file for details.\n"
-msgstr "Fhuair thu an geama seo GUN BHARANTAS SAM BITH. Seo bathar-bog saor agus faodaidh tu ath-sgaoileadh\nair do thoil fo chumhan sònraichte; faic faidhle a’ cheadachais airson barrachd fiosrachadh.\n"
+msgstr "Fhuair thu an geama seo GUN BHARANTAS SAM BITH. Seo bathar-bog saor agus faodaidh tu ath-sgaoileadh\nair do thoil fo chumhan sònraichte; faic faidhle a' cheadachais airson barrachd fiosrachadh.\n"
 
 #: src/supertux/menu/contrib_menu.cpp:79
 #: src/supertux/menu/world_set_menu.cpp:31
@@ -1290,15 +1290,15 @@ msgstr "Dì-bhugaich"
 
 #: src/supertux/menu/debug_menu.cpp:53
 msgid "Game Speed"
-msgstr "Luaths a’ gheama"
+msgstr "Luaths a' gheama"
 
 #: src/supertux/menu/debug_menu.cpp:54
 msgid "Adjust Game Speed"
-msgstr "Cuir gleus air luaths a’ gheama"
+msgstr "Cuir gleus air luaths a' gheama"
 
 #: src/supertux/menu/debug_menu.cpp:60
 msgid "Show Collision Rects"
-msgstr "Seall ceart-cheàrnaich a’ cho-bhualaidh"
+msgstr "Seall ceart-cheàrnaich a' cho-bhualaidh"
 
 #: src/supertux/menu/debug_menu.cpp:61
 msgid "Show Worldmap Path"
@@ -1372,7 +1372,7 @@ msgid ""
 "It allows modifications and redistribution by third-parties.\n"
 "If you don't agree with this license, change it in worldmap properties.\n"
 "DISCLAIMER: The SuperTux authors take no responsibility for your choice of license."
-msgstr "Co-roinn mapa an t-saoghail seo fo cheadachas CC-BY-SA 4.0 International (molta).\nCeadaichidh e atharrachadh is ath-sgaoileadh le daoine eile.\nMur aontaich thu ris a’ cheadachas seo, atharraich e ann an roghainnean airson mapa an t-saoghail.\nAITHRIS-ÀICHIDH: Chan eil uallach air ùghdaran SuperTux a thaobh dè an ceadachas a thaghas tu."
+msgstr "Co-roinn mapa an t-saoghail seo fo cheadachas CC-BY-SA 4.0 International (molta).\nCeadaichidh e atharrachadh is ath-sgaoileadh le daoine eile.\nMur aontaich thu ris a' cheadachas seo, atharraich e ann an roghainnean airson mapa an t-saoghail.\nAITHRIS-ÀICHIDH: Chan eil uallach air ùghdaran SuperTux a thaobh dè an ceadachas a thaghas tu."
 
 #: src/supertux/menu/editor_level_select_menu.cpp:128
 msgid ""
@@ -1380,7 +1380,7 @@ msgid ""
 "It allows modifications and redistribution by third-parties.\n"
 "If you don't agree with this license, change it in level properties.\n"
 "DISCLAIMER: The SuperTux authors take no responsibility for your choice of license."
-msgstr "Co-roinn an leibheil seo fo cheadachas CC-BY-SA 4.0 International (molta).\nCeadaichidh e atharrachadh is ath-sgaoileadh le daoine eile.\nMur aontaich thu ris a’ cheadachas seo, atharraich e ann an roghainnean an leibheil.\nAITHRIS-ÀICHIDH: Chan eil uallach air ùghdaran SuperTux a thaobh dè an ceadachas a thaghas tu."
+msgstr "Co-roinn an leibheil seo fo cheadachas CC-BY-SA 4.0 International (molta).\nCeadaichidh e atharrachadh is ath-sgaoileadh le daoine eile.\nMur aontaich thu ris a' cheadachas seo, atharraich e ann an roghainnean an leibheil.\nAITHRIS-ÀICHIDH: Chan eil uallach air ùghdaran SuperTux a thaobh dè an ceadachas a thaghas tu."
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:33
 #: src/supertux/menu/cheat_menu.cpp:30
@@ -1512,7 +1512,7 @@ msgstr "Atharrachadh air meud na h-uinneige"
 
 #: src/supertux/menu/options_menu.cpp:367
 msgid "Allow window resizing, might require a restart to take effect"
-msgstr "Ceadaich atharrachadh air meud na h-uinneige. Dh’fhaoidte gum bi feum air ath-thòiseachadh mus bi buaidh aig seo"
+msgstr "Ceadaich atharrachadh air meud na h-uinneige. Dh'fhaoidte gum bi feum air ath-thòiseachadh mus bi buaidh aig seo"
 
 #: src/supertux/menu/options_menu.cpp:369
 msgid "Window Resolution"
@@ -1562,7 +1562,7 @@ msgstr "Reat fhrèamaichean"
 
 #: src/supertux/menu/options_menu.cpp:385
 msgid "Change the maximum framerate of the game"
-msgstr "Atharraich an reat fhrèamaichean as motha aig a’ gheama"
+msgstr "Atharraich an reat fhrèamaichean as motha aig a' gheama"
 
 #: src/supertux/menu/options_menu.cpp:387
 msgid "Aspect Ratio"
@@ -1590,11 +1590,11 @@ msgstr "Cuir air gleus àirde na fuaime"
 
 #: src/supertux/menu/options_menu.cpp:400
 msgid "Music Volume"
-msgstr "Àirde a’ chiùil"
+msgstr "Àirde a' chiùil"
 
 #: src/supertux/menu/options_menu.cpp:401
 msgid "Adjust music volume"
-msgstr "Cuir air gleus àirde fuaime a’ chiùil"
+msgstr "Cuir air gleus àirde fuaime a' chiùil"
 
 #: src/supertux/menu/options_menu.cpp:405
 msgid "Sound (disabled)"
@@ -1611,7 +1611,7 @@ msgstr "Suidhich meur-chlàr"
 
 #: src/supertux/menu/options_menu.cpp:410
 msgid "Configure key-action mappings"
-msgstr "Rèitich am mapachadh eadar na h-iuchraichean ’s na gnìomhan"
+msgstr "Rèitich am mapachadh eadar na h-iuchraichean 's na gnìomhan"
 
 #: src/supertux/menu/options_menu.cpp:412
 #: src/supertux/menu/joystick_menu.cpp:52
@@ -1620,7 +1620,7 @@ msgstr "Suidhich joystick"
 
 #: src/supertux/menu/options_menu.cpp:413
 msgid "Configure joystick control-action mappings"
-msgstr "Rèitich am mapachadh eadar na h-uidheaman-smachd joystick ’s na gnìomhan"
+msgstr "Rèitich am mapachadh eadar na h-uidheaman-smachd joystick 's na gnìomhan"
 
 #: src/supertux/menu/options_menu.cpp:415
 msgid "Enable transitions"
@@ -1644,7 +1644,7 @@ msgstr "Còmhradh dearbhaidh"
 
 #: src/supertux/menu/options_menu.cpp:429
 msgid "Pause on focus loss"
-msgstr "Cuir ’na stad le call an fhòcais"
+msgstr "Cuir 'na stad le call an fhòcais"
 
 #: src/supertux/menu/main_menu.cpp:45 src/supertux/menu/world_set_menu.cpp:28
 msgid "Start Game"
@@ -1726,7 +1726,7 @@ msgstr "Chan eil fhios"
 #: src/supertux/menu/addon_menu.cpp:68
 #, c-format
 msgid "%s \"%s\" by \"%s\""
-msgstr "%s “%s” le “%s”"
+msgstr "%s \"%s\" le \"%s\""
 
 #: src/supertux/menu/addon_menu.cpp:126
 msgid "No Add-ons installed"
@@ -1760,12 +1760,12 @@ msgstr "Thoir sùil air loidhne"
 
 #: src/supertux/menu/addon_menu.cpp:283
 msgid "Downloading Add-On Repository Index"
-msgstr "A’ luchdadh a-nuas inneacs ionad-tasgaidh nan tuilleadan"
+msgstr "A' luchdadh a-nuas inneacs ionad-tasgaidh nan tuilleadan"
 
 #: src/supertux/menu/addon_menu.cpp:298
 #, c-format
 msgid "Downloading %s"
-msgstr "A’ luchdadh a-nuas %s"
+msgstr "A' luchdadh a-nuas %s"
 
 #: src/supertux/menu/addon_menu.cpp:345
 msgid ""
@@ -1947,7 +1947,7 @@ msgstr "Cleachd rèiteachadh a làimh seach taic fèin-obrachail ri uidheaman-sm
 
 #: src/supertux/menu/joystick_menu.cpp:75
 msgid "Pause/Menu"
-msgstr "Cuir ’na stad/Clàr-taice"
+msgstr "Cuir 'na stad/Clàr-taice"
 
 #: src/supertux/menu/joystick_menu.cpp:93
 msgid "No Joysticks found"
@@ -2007,7 +2007,7 @@ msgstr "Ad deas"
 
 #: src/supertux/menu/worldmap_menu.cpp:28
 msgid "Pause"
-msgstr "Cuir ’na stad"
+msgstr "Cuir 'na stad"
 
 #: src/supertux/menu/worldmap_menu.cpp:33
 msgid "Leave World"
@@ -2129,7 +2129,7 @@ msgstr "Tagh fo-bhuidheann leibheilean eile"
 
 #: src/supertux/menu/editor_menu.cpp:58
 msgid "Grid size"
-msgstr "Meud a’ ghriod"
+msgstr "Meud a' ghriod"
 
 #: src/supertux/menu/editor_menu.cpp:60
 msgid "Render lighting (F6)"
@@ -2137,7 +2137,7 @@ msgstr "Reandaraich an soillseachadh (F6)"
 
 #: src/supertux/menu/editor_menu.cpp:61
 msgid "Snap objects to grid (F7)"
-msgstr "Greimich nithean ris a’ ghriod (F7)"
+msgstr "Greimich nithean ris a' ghriod (F7)"
 
 #: src/supertux/menu/editor_menu.cpp:62
 msgid "Show grid (F8)"
@@ -2160,14 +2160,14 @@ msgid ""
 "Couldn't find a \"main\" sector.\n"
 "Please change the name of the sector where\n"
 "you'd like the player to start to \"main\""
-msgstr "Cha deach sgìre “main” a lorg.\nThoir “main” air an sgìre far am bu\nchòir an cluicheadair tòiseachadh"
+msgstr "Cha deach sgìre \"main\" a lorg.\nThoir \"main\" air an sgìre far am bu\nchòir an cluicheadair tòiseachadh"
 
 #: src/supertux/menu/editor_menu.cpp:111
 msgid ""
 "Couldn't find a \"main\" spawnpoint.\n"
 " Please change the name of the spawnpoint where\n"
 "you'd like the player to start to \"main\""
-msgstr "Cha deach puing-ghintinn “main” a lorg.\nThoir “main” air a’ phuing-ghintinn far am bu\nchòir an cluicheadair tòiseachadh"
+msgstr "Cha deach puing-ghintinn \"main\" a lorg.\nThoir \"main\" air a' phuing-ghintinn far am bu\nchòir an cluicheadair tòiseachadh"
 
 #: src/supertux/levelintro.cpp:138
 #, c-format
@@ -2244,7 +2244,7 @@ msgid ""
 "and might cause collisions with default Super Tux structure.\n"
 "You can still enable these add-ons in the menu.\n"
 "Disabling these add-ons will not delete your game progress."
-msgstr "Tha cuid a sheann-tuilleadain gnìomhach fhathast\nagus faodaidh iad còmhstri adhbharachadh le sructar bunasach Super Tux.\n’S urrainn dhut na tuilleadain seo a ghnìomhachadh sa chlàr-taice fhathast.\nMa chuireas tu na tuilleadain seo à comas, cha sguab seo às d’ adhartas sa gheama."
+msgstr "Tha cuid a sheann-tuilleadain gnìomhach fhathast\nagus faodaidh iad còmhstri adhbharachadh le sructar bunasach Super Tux.\n'S urrainn dhut na tuilleadain seo a ghnìomhachadh sa chlàr-taice fhathast.\nMa chuireas tu na tuilleadain seo à comas, cha sguab seo às d' adhartas sa gheama."
 
 #: src/editor/editor.cpp:437
 msgid "Disable add-ons"
@@ -2370,7 +2370,7 @@ msgstr "Co-òrdanachadh"
 
 #: data//credits.stxt:97
 msgid "Programming, \"Flexlay\" Level editor"
-msgstr "Prògramachadh, deasaiche leibheilean “Flexlay”"
+msgstr "Prògramachadh, deasaiche leibheilean \"Flexlay\""
 
 #: data//credits.stxt:117
 msgid "Windows build fixes"
@@ -2386,7 +2386,7 @@ msgstr "Pacaideadh, toglaichean oidhcheil"
 
 #: data//credits.stxt:132
 msgid "Translation Guru (and many details anyone else could have done)"
-msgstr "Guru nan eadar-theangachaidhean (agus iomadh rud eile a b’ urrainn do dhuine sam bith eile a dhèanamh)"
+msgstr "Guru nan eadar-theangachaidhean (agus iomadh rud eile a b' urrainn do dhuine sam bith eile a dhèanamh)"
 
 #: data//credits.stxt:137
 msgid "Level Design"
@@ -2410,7 +2410,7 @@ msgstr "Foincseanan sgriobtaidh, càraidhean leibheilean"
 
 #: data//credits.stxt:171
 msgid "Code quality fixes"
-msgstr "Càradh air càileachd ’ chòd"
+msgstr "Càradh air càileachd ' chòd"
 
 #: data//credits.stxt:176 data//credits.stxt:181 data//credits.stxt:186
 #: data//credits.stxt:226
@@ -2455,7 +2455,7 @@ msgstr "Càradh air foincsean sgriobtaidh"
 
 #: data//credits.stxt:246
 msgid "Support for \"glbinding\" as optional OpenGL binding"
-msgstr "Taic ri “glbinding” mar nasgadh OpenGL roghainneil"
+msgstr "Taic ri \"glbinding\" mar nasgadh OpenGL roghainneil"
 
 #: data//credits.stxt:251
 msgid "New menu code"
@@ -2483,11 +2483,11 @@ msgstr "Ceòl a bharrachd"
 
 #: data//credits.stxt:302
 msgid "\"Mortimers Chipdisko\" by"
-msgstr "“Mortimers Chipdisko” le"
+msgstr "\"Mortimers Chipdisko\" le"
 
 #: data//credits.stxt:311
 msgid "\"Salsa Con Carne\" by"
-msgstr "“Salsa Con Carne” le"
+msgstr "\"Salsa Con Carne\" le"
 
 #: data//credits.stxt:319 data//credits.stxt:371
 msgid "remixed by"
@@ -2495,11 +2495,11 @@ msgstr "air ath-mheasgachadh le"
 
 #: data//credits.stxt:328
 msgid "\"voc songs\" by"
-msgstr "“voc songs” le"
+msgstr "\"voc songs\" le"
 
 #: data//credits.stxt:337
 msgid "\"clavelian_march\" by"
-msgstr "“clavelian_march” le"
+msgstr "\"clavelian_march\" le"
 
 #: data//credits.stxt:346
 msgid "Excerpts from the Giana Sisters"
@@ -2507,7 +2507,7 @@ msgstr "Às-earrannan o na Giana Sisters"
 
 #: data//credits.stxt:350
 msgid "Soundtrack used with kind permission"
-msgstr "Tha an traca fuaime ’ga chleachdadh le cead coibhneil"
+msgstr "Tha an traca fuaime 'ga chleachdadh le cead coibhneil"
 
 #: data//credits.stxt:354
 msgid "from"
@@ -2515,15 +2515,15 @@ msgstr "o"
 
 #: data//credits.stxt:363
 msgid "\"Airship song\" (orchestral remix) by"
-msgstr "“Airship song” (ath-mheasgachadh orcastra) le"
+msgstr "\"Airship song\" (ath-mheasgachadh orcastra) le"
 
 #: data//credits.stxt:380
 msgid "\"Battle Theme\" by"
-msgstr "“Battle Theme” le"
+msgstr "\"Battle Theme\" le"
 
 #: data//credits.stxt:389
 msgid "\"SuperTux christmas theme\""
-msgstr "“SuperTux christmas theme”"
+msgstr "\"SuperTux christmas theme\""
 
 #: data//credits.stxt:393
 msgid "original by"
@@ -2535,11 +2535,11 @@ msgstr "air rianachadh le"
 
 #: data//credits.stxt:411
 msgid "\"halloween_1.ogg\" by"
-msgstr "“halloween_1.ogg” le"
+msgstr "\"halloween_1.ogg\" le"
 
 #: data//credits.stxt:420
 msgid "\"Forest Prophecy reEducated\" (forest_theme.ogg) by"
-msgstr "“Forest Prophecy reEducated” (forest_theme.ogg) le"
+msgstr "\"Forest Prophecy reEducated\" (forest_theme.ogg) le"
 
 #: data//credits.stxt:500
 msgid "Voice Acting"
@@ -2734,7 +2734,7 @@ msgstr "Coirèanais"
 
 #: data//credits.stxt:860
 msgid "Estonian"
-msgstr "Eastonais"
+msgstr "Estonais"
 
 #: data//credits.stxt:876
 msgid "Polish, Swedish"
@@ -2820,7 +2820,7 @@ msgstr "#supertux aig webchat.freenode.net"
 
 #: data//credits.stxt:1294
 msgid "Or at our Forum:"
-msgstr "No air a’ bhòrd-bhrath againn:"
+msgstr "No air a' bhòrd-bhrath againn:"
 
 #: data//credits.stxt:1303
 msgid "Comments, ideas and suggestions"
@@ -2833,7 +2833,7 @@ msgstr "rach dhan liosta-phuist againn"
 #. l10n: typo contact
 #: data//credits.stxt:1317
 msgid "Typographical errors can be"
-msgstr "’S urrainn dhut mearachdan litreachaidh"
+msgstr "'S urrainn dhut mearachdan litreachaidh"
 
 #. l10n: typo contact
 #: data//credits.stxt:1322
@@ -2867,7 +2867,7 @@ msgstr "cluiche"
 
 #: data//credits.stxt:1376
 msgid "Penny awaits you in Milestone 3!"
-msgstr "Tha Peinidh a’ feitheamh ort aig an treas clach-mhìle!"
+msgstr "Tha Peinidh a' feitheamh ort aig an treas clach-mhìle!"
 
 #: data//images/engine/editor/objects.stoi:4
 msgid "Hostile"
@@ -2895,7 +2895,7 @@ msgstr "Comharran mapa an t-saoghail"
 
 #: data//images/ice_world.strf:6
 msgid "Ice Cave & Crystal"
-msgstr "Uamh deighe ⁊ criostal"
+msgstr "Uamh deighe is criostal"
 
 #: data//images/ice_world.strf:53
 msgid "Embellishments"

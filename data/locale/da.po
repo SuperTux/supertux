@@ -4,14 +4,14 @@
 # 
 # Translators:
 # Benjamin Leduc <giby_the_kid@yahoo.fr>, 2015
-# Joe Hansen <joedalton2@yahoo.dk>, 2015-2016,2018
+# Joe Hansen <joedalton2@yahoo.dk>, 2015-2016,2018-2019
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2018-11-16 00:48+0100\n"
-"PO-Revision-Date: 2018-11-15 23:50+0000\n"
-"Last-Translator: Tobias Markus <tobbi@supertuxproject.org>\n"
+"PO-Revision-Date: 2019-11-24 04:35+0000\n"
+"Last-Translator: Joe Hansen <joedalton2@yahoo.dk>\n"
 "Language-Team: Danish (http://www.transifex.com/arctic-games/supertux/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -53,7 +53,7 @@ msgstr "Højde"
 
 #: src/trigger/secretarea_trigger.cpp:73
 msgid "Fade tilemap"
-msgstr ""
+msgstr "Zoom feltkort"
 
 #: src/trigger/secretarea_trigger.cpp:74 src/trigger/climbable.cpp:76
 #: src/object/infoblock.cpp:56 src/editor/worldmap_objects.cpp:189
@@ -78,7 +78,7 @@ msgstr "Knap"
 
 #: src/trigger/scripttrigger.cpp:75
 msgid "Oneshot"
-msgstr ""
+msgstr "Et skud"
 
 #: src/trigger/climbable.cpp:72
 msgid "Climbable"
@@ -134,23 +134,23 @@ msgstr "fyrværkeri"
 
 #: src/trigger/sequence_trigger.cpp:83
 msgid "New worldmap spawnpoint"
-msgstr ""
+msgstr "Nyt startpunkt på verdenskort"
 
 #: src/trigger/sequence_trigger.cpp:84
 msgid "Worldmap fade tilemap"
-msgstr ""
+msgstr "Zoom feltkort på verdenskort"
 
 #: src/trigger/sequence_trigger.cpp:85
 msgid "Fade"
-msgstr ""
+msgstr "Zoom"
 
 #: src/trigger/sequence_trigger.cpp:86
 msgid "Fade in"
-msgstr ""
+msgstr "Zoom ind"
 
 #: src/trigger/sequence_trigger.cpp:87
 msgid "Fade out"
-msgstr ""
+msgstr "Zoom ud"
 
 #: src/object/thunderstorm.hpp:82
 msgid "Thunderstorm"
@@ -158,7 +158,7 @@ msgstr "Tordenvejr"
 
 #: src/object/path_gameobject.hpp:52
 msgid "Path"
-msgstr ""
+msgstr "Sti"
 
 #: src/object/decal.cpp:43 src/supertux/menu/keyboard_menu.cpp:37
 #: src/supertux/menu/joystick_menu.cpp:74
@@ -186,7 +186,7 @@ msgstr "Overgang"
 
 #: src/object/tilemap.hpp:53
 msgid "Tilemap"
-msgstr ""
+msgstr "Feltkort"
 
 #: src/object/brick.cpp:133
 msgid "Breakable"
@@ -212,11 +212,11 @@ msgstr "Hastighed"
 
 #: src/object/spotlight.cpp:63
 msgid "Counter-clockwise"
-msgstr ""
+msgstr "Mod uret"
 
 #: src/object/scripted_object.cpp:63
 msgid "Physics enabled"
-msgstr ""
+msgstr "Fysik aktiveret"
 
 #: src/object/scripted_object.cpp:64
 msgid "Visible"
@@ -256,19 +256,19 @@ msgstr "Vækst (jordblomst)"
 
 #: src/object/bonus_block.cpp:204
 msgid "Star"
-msgstr ""
+msgstr "Stjerne"
 
 #: src/object/bonus_block.cpp:205
 msgid "Tux doll"
-msgstr ""
+msgstr "Tuxdukke"
 
 #: src/object/bonus_block.cpp:206
 msgid "Custom"
-msgstr ""
+msgstr "Tilpasset"
 
 #: src/object/bonus_block.cpp:208
 msgid "Light"
-msgstr ""
+msgstr "Lys"
 
 #: src/object/bonus_block.cpp:209 src/object/trampoline.hpp:40
 msgid "Trampoline"
@@ -276,11 +276,11 @@ msgstr "Trampolin"
 
 #: src/object/bonus_block.cpp:210
 msgid "Coin rain"
-msgstr ""
+msgstr "Møntregn"
 
 #: src/object/bonus_block.cpp:211
 msgid "Coin explosion"
-msgstr ""
+msgstr "Mønteksplosion"
 
 #: src/object/pneumatic_platform.hpp:62
 msgid "Pneumatic platform"
@@ -324,7 +324,7 @@ msgstr "Snepartikler"
 
 #: src/object/powerup.hpp:43
 msgid "Power-up"
-msgstr ""
+msgstr "Start"
 
 #: src/object/level_time.hpp:70
 msgid "Level time"
@@ -382,7 +382,7 @@ msgstr "Radius"
 
 #: src/object/bicycle_platform.cpp:177
 msgid "Momentum change rate"
-msgstr ""
+msgstr "Ændringshastighed for momentum"
 
 #: src/object/rain_particle_system.hpp:34
 msgid "Rain particles"
@@ -418,7 +418,7 @@ msgstr "Flimmer"
 
 #: src/object/text_array_object.hpp:62
 msgid "Text array"
-msgstr ""
+msgstr "Teksttabel"
 
 #: src/object/infoblock.hpp:40
 msgid "Info block"
@@ -519,7 +519,7 @@ msgstr "Blæsende"
 
 #: src/object/ambient_light.cpp:138
 msgid "Color"
-msgstr ""
+msgstr "Farve"
 
 #: src/object/bicycle_platform.hpp:64
 msgid "Bicycle platform"
@@ -531,27 +531,27 @@ msgstr "Stitilstand"
 
 #: src/object/path.cpp:201
 msgid "One shot"
-msgstr ""
+msgstr "Et skud"
 
 #: src/object/path.cpp:202
 msgid "Ping-pong"
-msgstr ""
+msgstr "Ping pong"
 
 #: src/object/path.cpp:203
 msgid "Circular"
-msgstr ""
+msgstr "Cirkulær"
 
 #: src/object/path.cpp:204
 msgid "Unordered"
-msgstr ""
+msgstr "Ikke ordnet"
 
 #: src/object/rock.cpp:173
 msgid "On-grab script"
-msgstr ""
+msgstr "On grab-skript"
 
 #: src/object/rock.cpp:174
 msgid "On-ungrab script"
-msgstr ""
+msgstr "On-ungrab-skript"
 
 #: src/object/particlesystem_interactive.hpp:45
 msgid "Interactive particle system"
@@ -559,7 +559,7 @@ msgstr "Interaktivt partikelsystem"
 
 #: src/object/music_object.cpp:108
 msgid "File"
-msgstr ""
+msgstr "Fil"
 
 #: src/object/path_walker.cpp:220 src/object/thunderstorm.cpp:64
 #: src/object/tilemap.cpp:242
@@ -588,19 +588,19 @@ msgstr "Mærkat"
 
 #: src/object/tilemap.cpp:222
 msgid "Resize offset x"
-msgstr ""
+msgstr "Ændr forskydning x"
 
 #: src/object/tilemap.cpp:223
 msgid "Resize offset y"
-msgstr ""
+msgstr "Ændr forskydning y"
 
 #: src/object/tilemap.cpp:226
 msgid "Alpha"
-msgstr ""
+msgstr "Alfa"
 
 #: src/object/tilemap.cpp:229
 msgid "Tint"
-msgstr ""
+msgstr "Toning"
 
 #: src/object/tilemap.cpp:232
 msgid "Draw target"
@@ -608,7 +608,7 @@ msgstr "Tegn mål"
 
 #: src/object/tilemap.cpp:233
 msgid "Normal"
-msgstr ""
+msgstr "Normal"
 
 #: src/object/tilemap.cpp:234 data//images/engine/editor/objects.stoi:249
 #: data//images/tiles.strf:1152
@@ -638,19 +638,19 @@ msgstr "Retning"
 
 #: src/object/gradient.cpp:143
 msgid "Vertical"
-msgstr ""
+msgstr "Lodret"
 
 #: src/object/gradient.cpp:144
 msgid "Horizontal"
-msgstr ""
+msgstr "Vandret"
 
 #: src/object/gradient.cpp:145
 msgid "Vertical (whole sector)"
-msgstr ""
+msgstr "Lodret (hel sektor)"
 
 #: src/object/gradient.cpp:146
 msgid "Horizontal (whole sector)"
-msgstr ""
+msgstr "Vandret (hel sektor)"
 
 #: src/object/unstable_tile.hpp:39
 msgid "Unstable tile"
@@ -737,7 +737,7 @@ msgstr "Annuller"
 
 #: src/gui/menu_script.cpp:28
 msgid "Edit script"
-msgstr ""
+msgstr "Rediger skript"
 
 #: src/badguy/toad.hpp:42
 msgid "Toad"
@@ -989,11 +989,11 @@ msgstr "Fjender"
 
 #: src/badguy/dispenser.cpp:395
 msgid "Limit dispensed badguys"
-msgstr ""
+msgstr "Begræns antallet af onde folk"
 
 #: src/badguy/dispenser.cpp:397
 msgid "Max concurrent badguys"
-msgstr ""
+msgstr "Maks samtidige onde folk"
 
 #: src/badguy/dispenser.cpp:400 src/supertux/menu/editor_levelset_menu.cpp:60
 msgid "Type"
@@ -1193,11 +1193,11 @@ msgstr "  --spawn-pos X,Y              Hvor på banen Tux skal dukke op. Kun anv
 
 #: src/supertux/command_line_arguments.cpp:102
 msgid "  --sector SECTOR              Spawn Tux in SECTOR\n"
-msgstr ""
+msgstr "  --sector SEKTOR              Start med Tux i SEKTOR\n"
 
 #: src/supertux/command_line_arguments.cpp:103
 msgid "  --spawnpoint SPAWNPOINT      Spawn Tux at SPAWNPOINT\n"
-msgstr ""
+msgstr "  --spawnpoint STARTPUNKT      Start med Tux ved STARTPUNKT\n"
 
 #: src/supertux/command_line_arguments.cpp:105
 msgid "Demo Recording Options:"
@@ -1285,27 +1285,27 @@ msgstr "Tilbage"
 
 #: src/supertux/menu/debug_menu.cpp:29
 msgid "Debug"
-msgstr ""
+msgstr "Fejlsøg"
 
 #: src/supertux/menu/debug_menu.cpp:53
 msgid "Game Speed"
-msgstr ""
+msgstr "Spilhastighed"
 
 #: src/supertux/menu/debug_menu.cpp:54
 msgid "Adjust Game Speed"
-msgstr ""
+msgstr "Juster spilhastighed"
 
 #: src/supertux/menu/debug_menu.cpp:60
 msgid "Show Collision Rects"
-msgstr ""
+msgstr "Vis kollisionsrects"
 
 #: src/supertux/menu/debug_menu.cpp:61
 msgid "Show Worldmap Path"
-msgstr ""
+msgstr "Vis stier på verdenskort"
 
 #: src/supertux/menu/debug_menu.cpp:62
 msgid "Use Bitmap Fonts"
-msgstr ""
+msgstr "Brug bitmap-skrifttyper"
 
 #: src/supertux/menu/editor_sectors_menu.cpp:31
 msgid "Choose sector to edit:"
@@ -1454,8 +1454,8 @@ msgstr "Vælg baneundersæt"
 #, c-format
 msgid "%d level"
 msgid_plural "%d levels"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d bane"
+msgstr[1] "%d baner"
 
 #: src/supertux/menu/editor_levelset_select_menu.cpp:95
 #: src/supertux/menu/editor_new_levelset_menu.cpp:31
@@ -1505,19 +1505,19 @@ msgstr "Vælg hvilken profil du vil spille på"
 
 #: src/supertux/menu/options_menu.cpp:366
 msgid "Window Resizable"
-msgstr ""
+msgstr "Ændr størrelse på vindue"
 
 #: src/supertux/menu/options_menu.cpp:367
 msgid "Allow window resizing, might require a restart to take effect"
-msgstr ""
+msgstr "Tillad at ændre størrelse på vinduet, kan kræve en genstart for at træde i kraft"
 
 #: src/supertux/menu/options_menu.cpp:369
 msgid "Window Resolution"
-msgstr ""
+msgstr "Vinduesopløsning"
 
 #: src/supertux/menu/options_menu.cpp:370
 msgid "Resize the window to the given size"
-msgstr ""
+msgstr "Ændr størrelse på vinduet til den angivne størrelse"
 
 #: src/supertux/menu/options_menu.cpp:372
 msgid "Fullscreen"
@@ -1529,7 +1529,7 @@ msgstr "Udfyld hele skærmen"
 
 #: src/supertux/menu/options_menu.cpp:375
 msgid "Fullscreen Resolution"
-msgstr ""
+msgstr "Opløsning for fuldskærm"
 
 #: src/supertux/menu/options_menu.cpp:376
 msgid ""
@@ -1547,19 +1547,19 @@ msgstr "Vælg hvor meget spillet skal forstørres"
 
 #: src/supertux/menu/options_menu.cpp:381
 msgid "VSync"
-msgstr ""
+msgstr "VSync"
 
 #: src/supertux/menu/options_menu.cpp:382
 msgid "Set the VSync mode"
-msgstr ""
+msgstr "Angiv VSync-tilstanden"
 
 #: src/supertux/menu/options_menu.cpp:384
 msgid "Framerate"
-msgstr ""
+msgstr "Billedhastighed"
 
 #: src/supertux/menu/options_menu.cpp:385
 msgid "Change the maximum framerate of the game"
-msgstr ""
+msgstr "Ændr den maksimale billedhastighed på spillet"
 
 #: src/supertux/menu/options_menu.cpp:387
 msgid "Aspect Ratio"
@@ -1579,19 +1579,19 @@ msgstr "Slå musikken fra"
 
 #: src/supertux/menu/options_menu.cpp:397
 msgid "Sound Volume"
-msgstr ""
+msgstr "Lydstyrke"
 
 #: src/supertux/menu/options_menu.cpp:398
 msgid "Adjust sound volume"
-msgstr ""
+msgstr "Juster lydstyrke"
 
 #: src/supertux/menu/options_menu.cpp:400
 msgid "Music Volume"
-msgstr ""
+msgstr "Musiklydstyrke"
 
 #: src/supertux/menu/options_menu.cpp:401
 msgid "Adjust music volume"
-msgstr ""
+msgstr "Juster musiklydstyrke"
 
 #: src/supertux/menu/options_menu.cpp:405
 msgid "Sound (disabled)"
@@ -1637,11 +1637,11 @@ msgstr "Juletilstand"
 
 #: src/supertux/menu/options_menu.cpp:428
 msgid "Confirmation Dialog"
-msgstr ""
+msgstr "Bekræftelsedialog"
 
 #: src/supertux/menu/options_menu.cpp:429
 msgid "Pause on focus loss"
-msgstr ""
+msgstr "Pause ved tab af fokus"
 
 #: src/supertux/menu/main_menu.cpp:45 src/supertux/menu/world_set_menu.cpp:28
 msgid "Start Game"
@@ -1661,7 +1661,7 @@ msgstr "Rulletekst"
 
 #: src/supertux/menu/main_menu.cpp:50
 msgid "Donate"
-msgstr ""
+msgstr "Doner"
 
 #: src/supertux/menu/main_menu.cpp:51
 msgid "Quit"
@@ -1677,11 +1677,11 @@ msgstr "Tyngdekraft"
 
 #: src/supertux/menu/editor_sector_menu.cpp:41
 msgid "Resize offset X"
-msgstr ""
+msgstr "Ændr forskydning X"
 
 #: src/supertux/menu/editor_sector_menu.cpp:42
 msgid "Resize offset Y"
-msgstr ""
+msgstr "Ændr forskydning Y"
 
 #: src/supertux/menu/editor_sector_menu.cpp:43
 msgid "Resize"
@@ -1780,7 +1780,7 @@ msgstr "Historietilstand"
 
 #: src/supertux/menu/game_menu.cpp:29
 msgid "Are you sure?"
-msgstr ""
+msgstr "Er du sikker?"
 
 #: src/supertux/menu/game_menu.cpp:46 src/supertux/menu/worldmap_menu.cpp:30
 msgid "Continue"
@@ -1852,7 +1852,7 @@ msgstr "Snydemenu"
 #: src/supertux/menu/keyboard_menu.cpp:47
 #: src/supertux/menu/joystick_menu.cpp:85
 msgid "Debug Menu"
-msgstr ""
+msgstr "Fejlsøgningsmenu"
 
 #: src/supertux/menu/keyboard_menu.cpp:49
 #: src/supertux/menu/joystick_menu.cpp:87
@@ -2114,7 +2114,7 @@ msgstr "Test verdenskortet"
 
 #: src/supertux/menu/editor_menu.cpp:50
 msgid "Open output directory"
-msgstr ""
+msgstr "Åbn uddatamappe"
 
 #: src/supertux/menu/editor_menu.cpp:53
 msgid "Edit another level"
@@ -2142,7 +2142,7 @@ msgstr "Vis gitter (F8)"
 
 #: src/supertux/menu/editor_menu.cpp:63
 msgid "Render background"
-msgstr ""
+msgstr "Optegn baggrund"
 
 #: src/supertux/menu/editor_menu.cpp:64
 msgid "Show scroller (F9)"
@@ -2157,14 +2157,14 @@ msgid ""
 "Couldn't find a \"main\" sector.\n"
 "Please change the name of the sector where\n"
 "you'd like the player to start to \"main\""
-msgstr ""
+msgstr "Kunne ikke finde en »hovedsektor«.\nÆndr venligst navnet på sektoren, hvor\ndu ønsker at spillere skal starte, til »main«"
 
 #: src/supertux/menu/editor_menu.cpp:111
 msgid ""
 "Couldn't find a \"main\" spawnpoint.\n"
 " Please change the name of the spawnpoint where\n"
 "you'd like the player to start to \"main\""
-msgstr ""
+msgstr "Kunne ikke finde et »hovedstartpunkt«.\nÆndr venligst navnet på startpunktet, hvor\ndu ønsker at spillere skal starte, til »main«"
 
 #: src/supertux/levelintro.cpp:138
 #, c-format
@@ -2205,19 +2205,19 @@ msgstr "<ingen titel>"
 
 #: src/worldmap/direction.cpp:85
 msgid "West"
-msgstr ""
+msgstr "Vest"
 
 #: src/worldmap/direction.cpp:86
 msgid "East"
-msgstr ""
+msgstr "Øst"
 
 #: src/worldmap/direction.cpp:87
 msgid "North"
-msgstr ""
+msgstr "Nord"
 
 #: src/worldmap/direction.cpp:88
 msgid "South"
-msgstr ""
+msgstr "Syd"
 
 #: src/editor/node_marker.cpp:79
 msgid "Path Node"
@@ -2399,7 +2399,7 @@ msgstr "Fejlrettelser"
 
 #: data//credits.stxt:161
 msgid "Explosion sprites"
-msgstr ""
+msgstr "Eksploderende computergrafik"
 
 #: data//credits.stxt:166
 msgid "Scripting functions, Level fixes"
@@ -2460,7 +2460,7 @@ msgstr "Ny menukode"
 
 #: data//credits.stxt:256
 msgid "Big Tux Walking Sprites improvements"
-msgstr ""
+msgstr "Forbedringer af computergrafik for den store gående Tux"
 
 #: data//credits.stxt:267
 msgid "Milestone 1 contributions by..."
@@ -2952,7 +2952,7 @@ msgstr "Skov (baggrund)"
 
 #: data//images/tiles.strf:760
 msgid "Forest (Underground)"
-msgstr ""
+msgstr "Skov (under jorden)"
 
 #: data//images/tiles.strf:804
 msgid "Block"

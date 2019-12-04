@@ -1,15 +1,16 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
 # Любомир Василев, 2015-2016
+# Любомир Василев, 2018-2019
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-04 15:35+0200\n"
-"PO-Revision-Date: 2016-05-12 14:09+0000\n"
+"Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
+"POT-Creation-Date: 2019-11-24 01:44+0100\n"
+"PO-Revision-Date: 2019-11-24 22:23+0000\n"
 "Last-Translator: Любомир Василев\n"
 "Language-Team: Bulgarian (http://www.transifex.com/arctic-games/supertux/language/bg/)\n"
 "MIME-Version: 1.0\n"
@@ -19,7 +20,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/levels/bonus3/-89-2_degrees.stl:3
-msgid "-89,2 degrees"
+msgid "-89.2 degrees"
 msgstr "-89,2 градуса"
 
 #: data/levels/bonus3/Global_Warming.stl:3
@@ -46,7 +47,7 @@ msgstr "Антарктически влак"
 msgid "...but no one can stop it..."
 msgstr "…но никой не може да го спре…"
 
-#: data/levels/bonus3/but_no_one_can_stop_it.stl:393
+#: data/levels/bonus3/but_no_one_can_stop_it.stl:392
 msgid ""
 "-Sorry, this flying platform is lazy.\n"
 "-Come back another time."
@@ -68,7 +69,7 @@ msgstr "Пещерен бяг"
 msgid "Cold Cavern"
 msgstr "Студена пещера"
 
-#: data/levels/bonus3/cavern_v2.stl:50
+#: data/levels/bonus3/cavern_v2.stl:47
 msgid ""
 "#Good job! You kept the red lantern! You didn't need to though, but just "
 "because you did, have 100 coins!"
@@ -173,7 +174,7 @@ msgid ""
 "#Press the up key to flush! "
 msgstr "- Измиване: \n#Натисни НАГОРЕ, за да пуснеш водата! "
 
-#: data/levels/bonus3/niv-3.stl:216
+#: data/levels/bonus3/niv-3.stl:219
 msgid ""
 "- A Way out?\n"
 "#Let's Jump! "
@@ -219,14 +220,15 @@ msgstr "Под леда"
 msgid "Bonus Island III"
 msgstr "Допълнителен остров 3"
 
-#: data/levels/bonus3/worldmap.stwm:12
+#: data/levels/bonus3/worldmap.stwm:238
 msgid "You found a secret place!"
 msgstr "Ти откри тайно място!"
 
-#: data/levels/bonus3/worldmap.stwm:20
-msgid "Congratulations... you found the secret pathway!"
-msgstr "Поздравления… ти откри тайния проход!"
-
-#: data/levels/bonus3/worldmap.stwm:78 data/levels/bonus3/worldmap.stwm:86
+#: data/levels/bonus3/worldmap.stwm:282 data/levels/bonus3/worldmap.stwm:297
+#: data/levels/bonus3/worldmap.stwm:304
 msgid "Go Home"
 msgstr "Към къщи"
+
+#: data/levels/bonus3/worldmap.stwm:290
+msgid "Enter Forest Section"
+msgstr "Влизане в горския сектор"

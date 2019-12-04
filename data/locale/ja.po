@@ -5,18 +5,20 @@
 # Translators:
 # Ryo Nakano, 2016-2017
 # Ryo Nakano, 2016
+# Ryo Nakano, 2018-2019
 # Ryo Nakano, 2016
 # Sanshiro sumita, 2015
 # Sanshiro sumita, 2015-2016
 # Sanshiro sumita, 2015
 # Timothy Goya <tuxdev103@gmail.com>, 2013
+# 堀 風羽 <Riie-ivt@outlook.com>, 2019
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2018-11-16 00:48+0100\n"
-"PO-Revision-Date: 2018-11-15 23:50+0000\n"
-"Last-Translator: Tobias Markus <tobbi@supertuxproject.org>\n"
+"PO-Revision-Date: 2019-11-24 04:35+0000\n"
+"Last-Translator: 堀 風羽 <Riie-ivt@outlook.com>\n"
 "Language-Team: Japanese (http://www.transifex.com/arctic-games/supertux/language/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,11 +28,11 @@ msgstr ""
 
 #: src/trigger/secretarea_trigger.cpp:48 src/trigger/secretarea_trigger.cpp:56
 msgid "You found a secret area!"
-msgstr "ひみつの場所を見つけました！"
+msgstr "秘密の場所を見つけました！"
 
 #: src/trigger/secretarea_trigger.cpp:69
 msgid "Secret area"
-msgstr "シークレットエリア"
+msgstr "秘密の場所"
 
 #: src/trigger/secretarea_trigger.cpp:70 src/trigger/scripttrigger.cpp:70
 #: src/trigger/climbable.cpp:73 src/trigger/switch.cpp:60
@@ -47,7 +49,7 @@ msgstr "名前"
 #: src/object/invisible_wall.cpp:44 src/object/ambient_sound.cpp:122
 #: src/object/tilemap.cpp:224 src/supertux/menu/editor_sector_menu.cpp:39
 msgid "Width"
-msgstr "全長"
+msgstr "幅"
 
 #: src/trigger/secretarea_trigger.cpp:72 src/trigger/scripttrigger.cpp:72
 #: src/trigger/climbable.cpp:75 src/trigger/sequence_trigger.cpp:75
@@ -58,7 +60,7 @@ msgstr "高さ"
 
 #: src/trigger/secretarea_trigger.cpp:73
 msgid "Fade tilemap"
-msgstr ""
+msgstr "タイルマップをフェード"
 
 #: src/trigger/secretarea_trigger.cpp:74 src/trigger/climbable.cpp:76
 #: src/object/infoblock.cpp:56 src/editor/worldmap_objects.cpp:189
@@ -83,7 +85,7 @@ msgstr "ボタン"
 
 #: src/trigger/scripttrigger.cpp:75
 msgid "Oneshot"
-msgstr ""
+msgstr "一度のみ"
 
 #: src/trigger/climbable.cpp:72
 msgid "Climbable"
@@ -119,15 +121,15 @@ msgstr "スプリクト効果を止める"
 
 #: src/trigger/sequence_trigger.cpp:72
 msgid "Sequence trigger"
-msgstr "連鎖トリガー"
+msgstr "シーケンストリガー"
 
 #: src/trigger/sequence_trigger.cpp:77
 msgid "Sequence"
-msgstr "連鎖開始"
+msgstr "シーケンス"
 
 #: src/trigger/sequence_trigger.cpp:78
 msgid "end sequence"
-msgstr "連鎖終了"
+msgstr "シーケンスを終了"
 
 #: src/trigger/sequence_trigger.cpp:79
 msgid "stop Tux"
@@ -139,7 +141,7 @@ msgstr "花火"
 
 #: src/trigger/sequence_trigger.cpp:83
 msgid "New worldmap spawnpoint"
-msgstr ""
+msgstr "新しいワールドマップのスタート地点"
 
 #: src/trigger/sequence_trigger.cpp:84
 msgid "Worldmap fade tilemap"
@@ -147,15 +149,15 @@ msgstr ""
 
 #: src/trigger/sequence_trigger.cpp:85
 msgid "Fade"
-msgstr ""
+msgstr "フェード"
 
 #: src/trigger/sequence_trigger.cpp:86
 msgid "Fade in"
-msgstr ""
+msgstr "フェードイン"
 
 #: src/trigger/sequence_trigger.cpp:87
 msgid "Fade out"
-msgstr ""
+msgstr "フェードアウト"
 
 #: src/object/thunderstorm.hpp:82
 msgid "Thunderstorm"
@@ -163,7 +165,7 @@ msgstr "雷雨"
 
 #: src/object/path_gameobject.hpp:52
 msgid "Path"
-msgstr ""
+msgstr "道"
 
 #: src/object/decal.cpp:43 src/supertux/menu/keyboard_menu.cpp:37
 #: src/supertux/menu/joystick_menu.cpp:74
@@ -183,7 +185,7 @@ msgstr "z軸のポジション"
 
 #: src/object/weak_block.hpp:41
 msgid "Weak block"
-msgstr "弱い石"
+msgstr "壊れやすいブロック"
 
 #: src/object/gradient.hpp:61
 msgid "Gradient"
@@ -191,7 +193,7 @@ msgstr "傾き"
 
 #: src/object/tilemap.hpp:53
 msgid "Tilemap"
-msgstr ""
+msgstr "タイルマップ"
 
 #: src/object/brick.cpp:133
 msgid "Breakable"
@@ -203,7 +205,7 @@ msgstr "持ち運び可能"
 
 #: src/object/spotlight.cpp:60
 msgid "Angle"
-msgstr "アングル"
+msgstr "角度"
 
 #: src/object/spotlight.cpp:61 src/object/magicblock.cpp:90
 #: src/object/candle.cpp:74 src/object/lantern.cpp:59
@@ -213,19 +215,19 @@ msgstr "色"
 
 #: src/object/spotlight.cpp:62 src/badguy/flame.cpp:58
 msgid "Speed"
-msgstr "スピード"
+msgstr "速度"
 
 #: src/object/spotlight.cpp:63
 msgid "Counter-clockwise"
-msgstr ""
+msgstr "左回り"
 
 #: src/object/scripted_object.cpp:63
 msgid "Physics enabled"
-msgstr ""
+msgstr "物理エンジンが有効"
 
 #: src/object/scripted_object.cpp:64
 msgid "Visible"
-msgstr "可視可能"
+msgstr "可視"
 
 #: src/object/scripted_object.cpp:65 src/badguy/willowisp.cpp:282
 msgid "Hit script"
@@ -261,19 +263,19 @@ msgstr "進化 (アース フラワー)"
 
 #: src/object/bonus_block.cpp:204
 msgid "Star"
-msgstr ""
+msgstr "スター"
 
 #: src/object/bonus_block.cpp:205
 msgid "Tux doll"
-msgstr ""
+msgstr "Tuxの人形"
 
 #: src/object/bonus_block.cpp:206
 msgid "Custom"
-msgstr ""
+msgstr "カスタム"
 
 #: src/object/bonus_block.cpp:208
 msgid "Light"
-msgstr ""
+msgstr "光"
 
 #: src/object/bonus_block.cpp:209 src/object/trampoline.hpp:40
 msgid "Trampoline"
@@ -281,15 +283,15 @@ msgstr "トランポリン"
 
 #: src/object/bonus_block.cpp:210
 msgid "Coin rain"
-msgstr ""
+msgstr "コインの雨"
 
 #: src/object/bonus_block.cpp:211
 msgid "Coin explosion"
-msgstr ""
+msgstr "コインの爆発"
 
 #: src/object/pneumatic_platform.hpp:62
 msgid "Pneumatic platform"
-msgstr "空気圧のプラットホーム"
+msgstr "空気圧で動く足場"
 
 #: src/object/coin.cpp:262 src/object/tilemap.cpp:238
 msgid "Following path"
@@ -297,7 +299,7 @@ msgstr "道に従う"
 
 #: src/object/coin.cpp:268 src/object/coin.cpp:293
 msgid "Collect script"
-msgstr ""
+msgstr "スクリプトを記録する"
 
 #: src/object/ghost_particle_system.hpp:36
 msgid "Ghost particles"
@@ -329,7 +331,7 @@ msgstr "雪粒"
 
 #: src/object/powerup.hpp:43
 msgid "Power-up"
-msgstr ""
+msgstr "パワーアップ"
 
 #: src/object/level_time.hpp:70
 msgid "Level time"
@@ -387,7 +389,7 @@ msgstr "半径"
 
 #: src/object/bicycle_platform.cpp:177
 msgid "Momentum change rate"
-msgstr ""
+msgstr "推進力変化率"
 
 #: src/object/rain_particle_system.hpp:34
 msgid "Rain particles"
@@ -395,7 +397,7 @@ msgstr "雨粒"
 
 #: src/object/platform.hpp:73
 msgid "Platform"
-msgstr "プラットホーム"
+msgstr "動く足場"
 
 #: src/object/rock.hpp:45
 msgid "Rock"
@@ -423,15 +425,15 @@ msgstr "光"
 
 #: src/object/text_array_object.hpp:62
 msgid "Text array"
-msgstr ""
+msgstr "テキスト配列"
 
 #: src/object/infoblock.hpp:40
 msgid "Info block"
-msgstr "インフォブロック"
+msgstr "情報ブロック"
 
 #: src/object/powerup.cpp:189
 msgid "Disable gravity"
-msgstr "重力を無効化"
+msgstr "重力を無効にする"
 
 #: src/object/ambient_sound.hpp:87
 msgid "Ambient sound"
@@ -444,7 +446,7 @@ msgstr "時間"
 
 #: src/object/hurting_platform.hpp:35
 msgid "Hurting platform"
-msgstr "壊れたプラットホーム"
+msgstr "壊れた動く足場"
 
 #: src/object/background.cpp:170
 msgid "Alignment"
@@ -524,11 +526,11 @@ msgstr "吹かせる"
 
 #: src/object/ambient_light.cpp:138
 msgid "Color"
-msgstr ""
+msgstr "色"
 
 #: src/object/bicycle_platform.hpp:64
 msgid "Bicycle platform"
-msgstr "自動で動くプラットホーム"
+msgstr "自動で動く足場"
 
 #: src/object/path.cpp:200
 msgid "Path Mode"
@@ -536,27 +538,27 @@ msgstr "パスモード"
 
 #: src/object/path.cpp:201
 msgid "One shot"
-msgstr ""
+msgstr "一度"
 
 #: src/object/path.cpp:202
 msgid "Ping-pong"
-msgstr ""
+msgstr "往復"
 
 #: src/object/path.cpp:203
 msgid "Circular"
-msgstr ""
+msgstr "円形"
 
 #: src/object/path.cpp:204
 msgid "Unordered"
-msgstr ""
+msgstr "順不同"
 
 #: src/object/rock.cpp:173
 msgid "On-grab script"
-msgstr ""
+msgstr "スクリプトをつかむ"
 
 #: src/object/rock.cpp:174
 msgid "On-ungrab script"
-msgstr ""
+msgstr "スクリプトを離す"
 
 #: src/object/particlesystem_interactive.hpp:45
 msgid "Interactive particle system"
@@ -564,7 +566,7 @@ msgstr "インタラクティブ パーティクル システム"
 
 #: src/object/music_object.cpp:108
 msgid "File"
-msgstr ""
+msgstr "ファイル"
 
 #: src/object/path_walker.cpp:220 src/object/thunderstorm.cpp:64
 #: src/object/tilemap.cpp:242
@@ -593,27 +595,27 @@ msgstr "デカール"
 
 #: src/object/tilemap.cpp:222
 msgid "Resize offset x"
-msgstr ""
+msgstr "オフセットのx座標をサイズ変更"
 
 #: src/object/tilemap.cpp:223
 msgid "Resize offset y"
-msgstr ""
+msgstr "オフセットのy座標をサイズ変更"
 
 #: src/object/tilemap.cpp:226
 msgid "Alpha"
-msgstr ""
+msgstr "アルファ値"
 
 #: src/object/tilemap.cpp:229
 msgid "Tint"
-msgstr ""
+msgstr "色合い"
 
 #: src/object/tilemap.cpp:232
 msgid "Draw target"
-msgstr ""
+msgstr "ターゲットを表示"
 
 #: src/object/tilemap.cpp:233
 msgid "Normal"
-msgstr ""
+msgstr "標準"
 
 #: src/object/tilemap.cpp:234 data//images/engine/editor/objects.stoi:249
 #: data//images/tiles.strf:1152
@@ -643,19 +645,19 @@ msgstr "向き"
 
 #: src/object/gradient.cpp:143
 msgid "Vertical"
-msgstr ""
+msgstr "縦"
 
 #: src/object/gradient.cpp:144
 msgid "Horizontal"
-msgstr ""
+msgstr "横"
 
 #: src/object/gradient.cpp:145
 msgid "Vertical (whole sector)"
-msgstr ""
+msgstr "縦 (セクター全体)"
 
 #: src/object/gradient.cpp:146
 msgid "Horizontal (whole sector)"
-msgstr ""
+msgstr "横 (セクター全体)"
 
 #: src/object/unstable_tile.hpp:39
 msgid "Unstable tile"
@@ -675,11 +677,11 @@ msgstr "スポットライト"
 
 #: src/object/scripted_object.hpp:59
 msgid "Scripted object"
-msgstr "スクリプト オブジェクト"
+msgstr "スクリプトがあるオブジェクト"
 
 #: src/object/coin.hpp:77
 msgid "Heavy coin"
-msgstr ""
+msgstr "重いコイン"
 
 #: src/object/bonus_block.hpp:63
 msgid "Bonus block"
@@ -687,7 +689,7 @@ msgstr "ボーナスブロック"
 
 #: src/object/magicblock.hpp:44
 msgid "Magic block"
-msgstr "マジック・ブロック"
+msgstr "マジックブロック"
 
 #: src/object/camera.hpp:107
 msgid "Camera"
@@ -729,7 +731,7 @@ msgstr "いいえ"
 
 #: src/gui/menu_color.cpp:24
 msgid "Mix the colour"
-msgstr "混色する"
+msgstr "色を混ぜる"
 
 #: src/gui/menu_filesystem.cpp:107
 #: src/supertux/menu/editor_sectors_menu.cpp:44
@@ -742,7 +744,7 @@ msgstr "キャンセル"
 
 #: src/gui/menu_script.cpp:28
 msgid "Edit script"
-msgstr ""
+msgstr "スクリプトを編集"
 
 #: src/badguy/toad.hpp:42
 msgid "Toad"
@@ -794,7 +796,7 @@ msgstr "ジャンピー"
 
 #: src/badguy/captainsnowball.hpp:35
 msgid "Captain snowball"
-msgstr "キャプテン・スノーボール"
+msgstr "キャプテン スノーボール"
 
 #: src/badguy/ghosttree.hpp:47
 msgid "Ghost tree"
@@ -854,7 +856,7 @@ msgstr "ハリネズミ"
 
 #: src/badguy/darttrap.cpp:121
 msgid "Enabled"
-msgstr ""
+msgstr "有効"
 
 #: src/badguy/darttrap.cpp:122
 msgid "Initial delay"
@@ -874,7 +876,7 @@ msgstr "雪玉"
 
 #: src/badguy/smartblock.hpp:34
 msgid "Smart Block"
-msgstr "スマートブロック"
+msgstr "賢いブロック"
 
 #: src/badguy/yeti.cpp:367
 msgid "Fixed position"
@@ -914,7 +916,7 @@ msgstr "毒性のあるツタ"
 
 #: src/badguy/willowisp.hpp:63
 msgid "Will 'o' wisp"
-msgstr "ウィル・オー・ザ・ウィスプ"
+msgstr "ウィル・オー・ウィスプ"
 
 #: src/badguy/badguy.hpp:55
 msgid "Badguy"
@@ -934,7 +936,7 @@ msgstr "スパイキー"
 
 #: src/badguy/walkingleaf.hpp:35
 msgid "Walking leaf"
-msgstr "ウォーキングリーフ"
+msgstr "歩いている葉っぱ"
 
 #: src/badguy/darttrap.hpp:38
 msgid "Dart trap"
@@ -974,7 +976,7 @@ msgstr "雪だるま"
 
 #: src/badguy/stumpy.hpp:38
 msgid "Stumpy"
-msgstr "くすみ"
+msgstr "切り株"
 
 #: src/badguy/fish.hpp:43
 msgid "Fish"
@@ -994,11 +996,11 @@ msgstr "敵"
 
 #: src/badguy/dispenser.cpp:395
 msgid "Limit dispensed badguys"
-msgstr ""
+msgstr "分配される敵を制限"
 
 #: src/badguy/dispenser.cpp:397
 msgid "Max concurrent badguys"
-msgstr ""
+msgstr "同時に出てくる敵の最大数"
 
 #: src/badguy/dispenser.cpp:400 src/supertux/menu/editor_levelset_menu.cpp:60
 msgid "Type"
@@ -1018,7 +1020,7 @@ msgstr "大砲"
 
 #: src/badguy/dispenser.cpp:404
 msgid "invisible"
-msgstr "隠す"
+msgstr "非表示"
 
 #: src/badguy/snail.hpp:45
 msgid "Snail"
@@ -1026,11 +1028,11 @@ msgstr "カタツムリ"
 
 #: src/badguy/smartball.hpp:38
 msgid "Smart Ball"
-msgstr "賢いボール"
+msgstr "賢い玉"
 
 #: src/badguy/bouncing_snowball.hpp:34
 msgid "Bouncing Snowball"
-msgstr "ボーナス・スノーボール"
+msgstr "ボーナス スノーボール"
 
 #: src/badguy/iceflame.hpp:37
 msgid "Ice flame"
@@ -1054,15 +1056,15 @@ msgstr "秘密の場所を最も多く見つけた回数:"
 
 #: src/supertux/statistics.cpp:55
 msgid "Best time completed:"
-msgstr "ゴールまでの最短記録:"
+msgstr "ゴールまでの最短時間:"
 
 #: src/supertux/statistics.cpp:56
 msgid "Level target time:"
-msgstr "コースの目標時間:"
+msgstr "レベルの目標時間:"
 
 #: src/supertux/statistics.cpp:140 src/supertux/levelintro.cpp:164
 msgid "Best Level Statistics"
-msgstr "コースの統計情報"
+msgstr "レベルの統計情報"
 
 #: src/supertux/statistics.cpp:217
 msgid "You"
@@ -1074,7 +1076,7 @@ msgstr "ベスト"
 
 #: src/supertux/statistics.cpp:221 src/supertux/levelintro.cpp:170
 msgid "Coins"
-msgstr "集めたコイン"
+msgstr "集めたコインの数"
 
 #: src/supertux/statistics.cpp:230
 msgid "Badguys"
@@ -1099,24 +1101,24 @@ msgstr "全般的なオプション:"
 
 #: src/supertux/command_line_arguments.cpp:75
 msgid "  -h, --help                   Show this help message and quit"
-msgstr "-h、--help このヘルプメッセージを表示して終了します。"
+msgstr "  -h, --help                   このヘルプメッセージを表示して終了します"
 
 #: src/supertux/command_line_arguments.cpp:76
 msgid "  -v, --version                Show SuperTux version and quit"
-msgstr "-v、--version表示 SuperTuxバージョンを表示して終了します。"
+msgstr "  -v, --version                SuperTuxのバージョンを表示して終了します"
 
 #: src/supertux/command_line_arguments.cpp:77
 msgid "  --verbose                    Print verbose messages"
-msgstr "--verbose 詳細メッセージを印刷します。"
+msgstr "  --verbose                    詳細なメッセージを出力します"
 
 #: src/supertux/command_line_arguments.cpp:78
 msgid "  --debug                      Print extra verbose messages"
-msgstr "--debug 追加の詳細メッセージを印刷します。"
+msgstr "  --debug                      追加の詳細メッセージを出力します"
 
 #: src/supertux/command_line_arguments.cpp:79
 msgid ""
 "  --print-datadir              Print SuperTux's primary data directory."
-msgstr "--print-datadir SuperTux の現在のデータ ディレクトリを出力します。"
+msgstr "  --print-datadir              SuperTux の現在のデータディレクトリを出力します。"
 
 #: src/supertux/command_line_arguments.cpp:81
 msgid "Video Options:"
@@ -1124,27 +1126,27 @@ msgstr "ビデオのオプション:"
 
 #: src/supertux/command_line_arguments.cpp:82
 msgid "  -f, --fullscreen             Run in fullscreen mode"
-msgstr "-f, --フルスクリーンモードでフルスクリーンランをします。"
+msgstr "  -f, --fullscreen             全画面モードで実行します"
 
 #: src/supertux/command_line_arguments.cpp:83
 msgid "  -w, --window                 Run in window mode"
-msgstr "-w, --windows ウィンドウモードで実行します。"
+msgstr "  -w, --window                 ウィンドウモードで実行します"
 
 #: src/supertux/command_line_arguments.cpp:84
 msgid "  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution"
-msgstr "-g, --geometry SuperTuxの指定された解像度の横と縦の長さです。"
+msgstr "  -g, --geometry 幅x高さ  指定された解像度でSuperTuxを実行します"
 
 #: src/supertux/command_line_arguments.cpp:85
 msgid "  -a, --aspect WIDTH:HEIGHT    Run SuperTux with given aspect ratio"
-msgstr "-a, --aspect SuperTuxの指定された横と縦のアスペクト比です。"
+msgstr "  -a, --aspect 幅:高さ    指定されたアスペクト比でSuperTuxを実行します"
 
 #: src/supertux/command_line_arguments.cpp:86
 msgid "  -d, --default                Reset video settings to default values"
-msgstr "-d, --defaukt ビデオ設定をデフォルトに戻します。"
+msgstr "  -d, --default                ビデオ設定をデフォルト値に戻します"
 
 #: src/supertux/command_line_arguments.cpp:87
 msgid "  --renderer RENDERER          Use sdl, opengl, or auto to render"
-msgstr "--renderer RENDERERの使用SDL、OpenGLを自動レンダリングします。"
+msgstr "  --renderer レンダラー          SDLまたは、OpenGLを使用するか、自動的にレンダリングします"
 
 #: src/supertux/command_line_arguments.cpp:89
 msgid "Audio Options:"
@@ -1152,11 +1154,11 @@ msgstr "オーディオのオプション:"
 
 #: src/supertux/command_line_arguments.cpp:90
 msgid "  --disable-sound              Disable sound effects"
-msgstr "--disable-sound 効果音を無効にします。"
+msgstr "  --disable-sound              効果音を無効にします"
 
 #: src/supertux/command_line_arguments.cpp:91
 msgid "  --disable-music              Disable music"
-msgstr "--disable-music 音楽を無効にします。"
+msgstr "  --disable-music              BGMを無効にします"
 
 #: src/supertux/command_line_arguments.cpp:93
 msgid "Game Options:"
@@ -1164,45 +1166,45 @@ msgstr "ゲームのオプション:"
 
 #: src/supertux/command_line_arguments.cpp:94
 msgid "  --edit-level                 Open given level in editor"
-msgstr "--edit-level 与えられたレベルをレベルエディターで開きます"
+msgstr "  --edit-level                 指定されたレベルをエディターで開きます"
 
 #: src/supertux/command_line_arguments.cpp:95
 msgid "  --show-fps                   Display framerate in levels"
-msgstr "--show-fps コースのフレームレートを表示します。"
+msgstr "  --show-fps                   レベルにフレームレートを表示します"
 
 #: src/supertux/command_line_arguments.cpp:96
 msgid "  --no-show-fps                Do not display framerate in levels"
-msgstr "--no-show-fps コースのフレームレートを表示しません。"
+msgstr "  --no-show-fps                レベルにフレームレートを表示しません"
 
 #: src/supertux/command_line_arguments.cpp:97
 msgid "  --show-pos                   Display player's current position"
-msgstr "--show-pos プレイヤーの現在の位置を表示します"
+msgstr "  --show-pos                   プレイヤーの現在の位置を表示します"
 
 #: src/supertux/command_line_arguments.cpp:98
 msgid "  --no-show-pos                Do not display player's position"
-msgstr "--no-show-pos プレイヤーの位置を表示しません"
+msgstr "  --no-show-pos                プレイヤーの位置を表示しません"
 
 #: src/supertux/command_line_arguments.cpp:99
 msgid "  --developer                  Switch on developer feature"
-msgstr "開発者向け機能の--developerスイッチ"
+msgstr "  --developer                  開発者向け機能を有効にします"
 
 #: src/supertux/command_line_arguments.cpp:100
 msgid "  -s, --debug-scripts          Enable script debugger."
-msgstr "-s、--debug-スクリプトは、スクリプトデバッガを有効にします。"
+msgstr "  -s, --debug-scripts          スクリプトデバッガーを有効にします"
 
 #: src/supertux/command_line_arguments.cpp:101
 msgid ""
 "  --spawn-pos X,Y              Where in the level to spawn Tux. Only used if"
 " level is specified."
-msgstr "--spawn-pos X,Y Tux をレベルのどこからスタートさせるか指定します。レベルが指定されている場合のみに使われます。"
+msgstr "  --spawn-pos X,Y              Tux をレベルのどこからスタートさせるか指定します。レベルが指定されている場合のみに使われます。"
 
 #: src/supertux/command_line_arguments.cpp:102
 msgid "  --sector SECTOR              Spawn Tux in SECTOR\n"
-msgstr ""
+msgstr "  --sector セクター              Tuxを指定されたセクターから開始させます\n"
 
 #: src/supertux/command_line_arguments.cpp:103
 msgid "  --spawnpoint SPAWNPOINT      Spawn Tux at SPAWNPOINT\n"
-msgstr ""
+msgstr "  --spawnpoint スタート地点      Tuxを指定されたスタート地点から開始させます\n"
 
 #: src/supertux/command_line_arguments.cpp:105
 msgid "Demo Recording Options:"
@@ -1210,34 +1212,34 @@ msgstr "デモの録音オプション:"
 
 #: src/supertux/command_line_arguments.cpp:106
 msgid "  --record-demo FILE LEVEL     Record a demo to FILE"
-msgstr "--record-demo デモファイルコースのレコードファイル"
+msgstr "  --record-demo ファイル レベル     ファイルにデモを記録します"
 
 #: src/supertux/command_line_arguments.cpp:107
 msgid "  --play-demo FILE LEVEL       Play a recorded demo"
-msgstr "--play-demo プレイ･デモを再生"
+msgstr "  --play-demo ファイル レベル       記録したデモを再生します"
 
 #: src/supertux/command_line_arguments.cpp:109
 msgid "Directory Options:"
-msgstr "ディレクトリオプション"
+msgstr "ディレクトリのオプション:"
 
 #: src/supertux/command_line_arguments.cpp:110
 msgid ""
 "  --datadir DIR                Set the directory for the games datafiles"
-msgstr "--datadir DIR ゲームデータファイル設定のディレクトリ"
+msgstr "  --datadir ディレクトリ                ゲームのデータファイルを保存するディレクトリを設定します"
 
 #: src/supertux/command_line_arguments.cpp:111
 msgid ""
 "  --userdir DIR                Set the directory for user data (savegames, "
 "etc.)"
-msgstr "-- userdir DIR ユーザデータの設定ファイルのディレクトリ(セーブデータなど)"
+msgstr "  --userdir ディレクトリ                ユーザーデータ (セーブデータなど) を保存するディレクトリを設定します"
 
 #: src/supertux/command_line_arguments.cpp:113
 msgid "Add-On Options:"
-msgstr "アドオンのオプション"
+msgstr "アドオンのオプション:"
 
 #: src/supertux/command_line_arguments.cpp:114
 msgid "  --repository-url URL         Set the URL to the Add-On repository"
-msgstr " --repository-url URL URLをアドオンのレポジトリに設定"
+msgstr "  --repository-url URL         URLをアドオンのレポジトリに設定します"
 
 #: src/supertux/command_line_arguments.cpp:116
 msgid "Environment variables:"
@@ -1246,11 +1248,11 @@ msgstr "環境変数:"
 #: src/supertux/command_line_arguments.cpp:117
 msgid ""
 "  SUPERTUX2_USER_DIR           Directory for user data (savegames, etc.)"
-msgstr "SUPERTUX2_USER_DIR ユーザデータのディレクトリ\n(セーブデータなど)"
+msgstr "  SUPERTUX2_USER_DIR           ユーザーデータ (セーブデータなど) を保存するディレクトリ"
 
 #: src/supertux/command_line_arguments.cpp:118
 msgid "  SUPERTUX2_DATA_DIR           Directory for the games datafiles"
-msgstr "SUPERTUX2_DATA_DIR ゲームデータのディレクトリ"
+msgstr "  SUPERTUX2_DATA_DIR           ゲームのデータファイルを保存するディレクトリ"
 
 #: src/supertux/title_screen.cpp:42
 msgid "Copyright"
@@ -1265,7 +1267,7 @@ msgstr "このゲームは絶対無保証です。このゲームはフリーソ
 #: src/supertux/menu/contrib_menu.cpp:79
 #: src/supertux/menu/world_set_menu.cpp:31
 msgid "Contrib Levels"
-msgstr "その他のコース"
+msgstr "その他のレベル"
 
 #: src/supertux/menu/contrib_menu.cpp:120
 #: src/supertux/menu/contrib_menu.cpp:151
@@ -1290,27 +1292,27 @@ msgstr "戻る"
 
 #: src/supertux/menu/debug_menu.cpp:29
 msgid "Debug"
-msgstr ""
+msgstr "デバッグ"
 
 #: src/supertux/menu/debug_menu.cpp:53
 msgid "Game Speed"
-msgstr ""
+msgstr "ゲームのスピード"
 
 #: src/supertux/menu/debug_menu.cpp:54
 msgid "Adjust Game Speed"
-msgstr ""
+msgstr "ゲームのスピードを調整"
 
 #: src/supertux/menu/debug_menu.cpp:60
 msgid "Show Collision Rects"
-msgstr ""
+msgstr "衝突判定を表示"
 
 #: src/supertux/menu/debug_menu.cpp:61
 msgid "Show Worldmap Path"
-msgstr ""
+msgstr "ワールドマップの道を表示"
 
 #: src/supertux/menu/debug_menu.cpp:62
 msgid "Use Bitmap Fonts"
-msgstr ""
+msgstr "ビットマップフォントを使う"
 
 #: src/supertux/menu/editor_sectors_menu.cpp:31
 msgid "Choose sector to edit:"
@@ -1318,7 +1320,7 @@ msgstr "編集するセクターを選択"
 
 #: src/supertux/menu/editor_sectors_menu.cpp:41
 msgid "Sector settings..."
-msgstr "セクター設定…"
+msgstr "セクターの設定…"
 
 #: src/supertux/menu/editor_sectors_menu.cpp:42
 msgid "Create new sector"
@@ -1351,7 +1353,7 @@ msgstr "タイルグループ"
 
 #: src/supertux/menu/editor_level_select_menu.cpp:58
 msgid "Empty levelset"
-msgstr "空のレベルセット"
+msgstr "空のレベル集"
 
 #: src/supertux/menu/editor_level_select_menu.cpp:75
 msgid "Edit worldmap"
@@ -1376,7 +1378,7 @@ msgid ""
 "It allows modifications and redistribution by third-parties.\n"
 "If you don't agree with this license, change it in worldmap properties.\n"
 "DISCLAIMER: The SuperTux authors take no responsibility for your choice of license."
-msgstr "クリエイティブ・コモンズ - 表示 - 継承 4.0 国際ライセンスに基づいてこのワールドマップを共有します (推奨)。\nこれは、サードパーティの修正および再頒布を可能にします。\nもしこのライセンスに同意できない場合、ワールドマップのプロパティでこれを変更してください。\n免責事項：SuperTuxの作成者はあなたのライセンスの選択について責任を負いません。"
+msgstr "クリエイティブ・コモンズ - 表示 - 継承 4.0 国際ライセンスに基づいてこのワールドマップを共有します (推奨)。\nこれは、サードパーティの修正および再頒布を可能にします。\nこのライセンスに同意できない場合、ワールドマップのプロパティでこれを変更してください。\n免責事項: SuperTuxの作成者は、ライセンスの選択について責任を負いません。"
 
 #: src/supertux/menu/editor_level_select_menu.cpp:128
 msgid ""
@@ -1384,7 +1386,7 @@ msgid ""
 "It allows modifications and redistribution by third-parties.\n"
 "If you don't agree with this license, change it in level properties.\n"
 "DISCLAIMER: The SuperTux authors take no responsibility for your choice of license."
-msgstr "クリエイティブ・コモンズ - 表示 - 継承 4.0 国際ライセンスに基づいてこのレベルを共有します (推奨)。\nこれは、サードパーティの修正および再頒布を可能にします。\nもしこのライセンスに同意できない場合、レベルのプロパティでこれを変更してください。\n免責事項：SuperTuxの作成者はあなたのライセンスの選択について責任を負いません。"
+msgstr "クリエイティブ・コモンズ - 表示 - 継承 4.0 国際ライセンスに基づいてこのレベルを共有します (推奨)。\nこれは、サードパーティの修正および再頒布を可能にします。\nこのライセンスに同意できない場合、レベルのプロパティでこれを変更してください。\n免責事項: SuperTuxの作成者は、ライセンスの選択について責任を負いません。"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:33
 #: src/supertux/menu/cheat_menu.cpp:30
@@ -1394,50 +1396,50 @@ msgstr "攻略"
 #: src/supertux/menu/worldmap_cheat_menu.cpp:35
 #: src/supertux/menu/cheat_menu.cpp:32
 msgid "Bonus: Grow"
-msgstr "ボーナス:大きめ"
+msgstr "ボーナス: 大きめ"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:36
 #: src/supertux/menu/cheat_menu.cpp:33
 msgid "Bonus: Fire"
-msgstr "ボーナス:ファイア"
+msgstr "ボーナス: ファイア"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:37
 #: src/supertux/menu/cheat_menu.cpp:34
 msgid "Bonus: Ice"
-msgstr "ボーナス:アイス"
+msgstr "ボーナス: アイス"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:38
 #: src/supertux/menu/cheat_menu.cpp:35
 msgid "Bonus: Air"
-msgstr "ボーナス:エアー"
+msgstr "ボーナス: エアー"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:39
 #: src/supertux/menu/cheat_menu.cpp:36
 msgid "Bonus: Earth"
-msgstr "ボーナス:アース"
+msgstr "ボーナス: アース"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:40
 msgid "Bonus: None"
-msgstr "ボーナス:普通"
+msgstr "ボーナス: 普通"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:43
 #: src/supertux/menu/cheat_menu.cpp:42
 msgid "Leave Ghost Mode"
-msgstr ""
+msgstr "ゴーストモードを終了"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:43
 #: src/supertux/menu/cheat_menu.cpp:42
 msgid "Activate Ghost Mode"
-msgstr "ゴーストモードを動作させる"
+msgstr "ゴーストモードを有効にする"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:45
 #: src/supertux/menu/cheat_menu.cpp:40
 msgid "Finish Level"
-msgstr "コースを終える"
+msgstr "レベルを終える"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:46
 msgid "Reset Level"
-msgstr "コースをリセットする"
+msgstr "レベルをリセット"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:48
 msgid "Finish Worldmap"
@@ -1445,7 +1447,7 @@ msgstr "ワールドマップを終わる"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:49
 msgid "Reset Worldmap"
-msgstr "ワールドマップをリセットする"
+msgstr "ワールドマップをリセット"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:51
 msgid "Move to main spawnpoint"
@@ -1453,13 +1455,13 @@ msgstr "ゲームのスタート地点に移動"
 
 #: src/supertux/menu/editor_levelset_select_menu.cpp:54
 msgid "Choose level subset"
-msgstr "レベルのサブセットの選択"
+msgstr "レベルのサブセットを選択"
 
 #: src/supertux/menu/editor_levelset_select_menu.cpp:82
 #, c-format
 msgid "%d level"
 msgid_plural "%d levels"
-msgstr[0] ""
+msgstr[0] "%d レベル"
 
 #: src/supertux/menu/editor_levelset_select_menu.cpp:95
 #: src/supertux/menu/editor_new_levelset_menu.cpp:31
@@ -1469,7 +1471,7 @@ msgstr "新しいレベルのサブセット"
 #: src/supertux/menu/options_menu.cpp:89 src/supertux/menu/main_menu.cpp:47
 #: src/supertux/menu/game_menu.cpp:48 src/supertux/menu/worldmap_menu.cpp:31
 msgid "Options"
-msgstr "設定"
+msgstr "オプション"
 
 #: src/supertux/menu/options_menu.cpp:95
 #: src/supertux/menu/options_menu.cpp:131
@@ -1484,11 +1486,11 @@ msgstr "デスクトップ"
 
 #: src/supertux/menu/options_menu.cpp:356
 msgid "Select Language"
-msgstr "言語選択"
+msgstr "言語を選択"
 
 #: src/supertux/menu/options_menu.cpp:357
 msgid "Select a different language to display text in"
-msgstr "文章を表示するための言語を選択します。"
+msgstr "文章を表示するための言語を選択します"
 
 #: src/supertux/menu/options_menu.cpp:359
 msgid "Language Packs"
@@ -1496,74 +1498,74 @@ msgstr "言語パック"
 
 #: src/supertux/menu/options_menu.cpp:360
 msgid "Language packs contain up-to-date translations"
-msgstr "言語パックには、最新の翻訳データが含まれています。"
+msgstr "言語パックには、最新の翻訳データが含まれています"
 
 #: src/supertux/menu/options_menu.cpp:362
 #: src/supertux/menu/profile_menu.cpp:30
 msgid "Select Profile"
-msgstr "プロファイル選択"
+msgstr "プロファイルを選択"
 
 #: src/supertux/menu/options_menu.cpp:363
 msgid "Select a profile to play with"
-msgstr "プロファイルを選択します。"
+msgstr "プロファイルを選択します"
 
 #: src/supertux/menu/options_menu.cpp:366
 msgid "Window Resizable"
-msgstr ""
+msgstr "ウィンドウをサイズ変更可能にする"
 
 #: src/supertux/menu/options_menu.cpp:367
 msgid "Allow window resizing, might require a restart to take effect"
-msgstr ""
+msgstr "ウィンドウのサイズ変更を許可します。反映するには再起動する必要がある可能性があります"
 
 #: src/supertux/menu/options_menu.cpp:369
 msgid "Window Resolution"
-msgstr ""
+msgstr "ウィンドウ解像度"
 
 #: src/supertux/menu/options_menu.cpp:370
 msgid "Resize the window to the given size"
-msgstr ""
+msgstr "指定されたサイズにウィンドウをサイズ変更します"
 
 #: src/supertux/menu/options_menu.cpp:372
 msgid "Fullscreen"
-msgstr "フルスクリーン"
+msgstr "全画面"
 
 #: src/supertux/menu/options_menu.cpp:373
 msgid "Fill the entire screen"
-msgstr "画面全体にゲームを映します。"
+msgstr "画面全体にゲームを映します"
 
 #: src/supertux/menu/options_menu.cpp:375
 msgid "Fullscreen Resolution"
-msgstr ""
+msgstr "全画面解像度"
 
 #: src/supertux/menu/options_menu.cpp:376
 msgid ""
 "Determine the resolution used in fullscreen mode (you must toggle fullscreen"
 " to complete the change)"
-msgstr "フルスクリーンモードで使用する解像度を決めます。\n(フルスクリーンモードに切り替える必要があります)"
+msgstr "全画面モードで使用する解像度を決めます (全画面モードに切り替える必要があります)"
 
 #: src/supertux/menu/options_menu.cpp:378
 msgid "Magnification"
-msgstr "倍率"
+msgstr "拡大率"
 
 #: src/supertux/menu/options_menu.cpp:379
 msgid "Change the magnification of the game area"
-msgstr "ゲームエリアの倍率を設定します。"
+msgstr "ゲームエリアの拡大率を設定します"
 
 #: src/supertux/menu/options_menu.cpp:381
 msgid "VSync"
-msgstr ""
+msgstr "垂直同期"
 
 #: src/supertux/menu/options_menu.cpp:382
 msgid "Set the VSync mode"
-msgstr ""
+msgstr "垂直同期モードを設定します"
 
 #: src/supertux/menu/options_menu.cpp:384
 msgid "Framerate"
-msgstr ""
+msgstr "フレームレート"
 
 #: src/supertux/menu/options_menu.cpp:385
 msgid "Change the maximum framerate of the game"
-msgstr ""
+msgstr "ゲームの最小フレームレートを変更します"
 
 #: src/supertux/menu/options_menu.cpp:387
 msgid "Aspect Ratio"
@@ -1571,31 +1573,31 @@ msgstr "アスペクト比"
 
 #: src/supertux/menu/options_menu.cpp:388
 msgid "Adjust the aspect ratio"
-msgstr "アスペクト比調整をします。"
+msgstr "アスペクト比を調整します"
 
 #: src/supertux/menu/options_menu.cpp:393
 msgid "Disable all sound effects"
-msgstr "すべての効果音を無効にします。"
+msgstr "すべての効果音を無効にします"
 
 #: src/supertux/menu/options_menu.cpp:395
 msgid "Disable all music"
-msgstr "すべての音楽を無効にします。"
+msgstr "すべての音楽を無効にします"
 
 #: src/supertux/menu/options_menu.cpp:397
 msgid "Sound Volume"
-msgstr ""
+msgstr "効果音の音量"
 
 #: src/supertux/menu/options_menu.cpp:398
 msgid "Adjust sound volume"
-msgstr ""
+msgstr "効果音の音量を調整します"
 
 #: src/supertux/menu/options_menu.cpp:400
 msgid "Music Volume"
-msgstr ""
+msgstr "音楽の音量"
 
 #: src/supertux/menu/options_menu.cpp:401
 msgid "Adjust music volume"
-msgstr ""
+msgstr "音楽の音量を調整します"
 
 #: src/supertux/menu/options_menu.cpp:405
 msgid "Sound (disabled)"
@@ -1612,16 +1614,16 @@ msgstr "キーボードをセットアップ"
 
 #: src/supertux/menu/options_menu.cpp:410
 msgid "Configure key-action mappings"
-msgstr "キーアクションの使用するキーを設定します。"
+msgstr "キーアクションの割り当てを設定します"
 
 #: src/supertux/menu/options_menu.cpp:412
 #: src/supertux/menu/joystick_menu.cpp:52
 msgid "Setup Joystick"
-msgstr "ジョイスティックを準備する"
+msgstr "ジョイスティックをセットアップ"
 
 #: src/supertux/menu/options_menu.cpp:413
 msgid "Configure joystick control-action mappings"
-msgstr "ジョイスティックコントロールアクションのボタン設定します。"
+msgstr "ジョイスティックのコントロールボタン・アクションボタンの割り当てを設定します"
 
 #: src/supertux/menu/options_menu.cpp:415
 msgid "Enable transitions"
@@ -1629,7 +1631,7 @@ msgstr "トランジションを有効にする"
 
 #: src/supertux/menu/options_menu.cpp:416
 msgid "Enable screen transitions and smooth menu animation"
-msgstr "画面遷移と滑らかなメニューアニメーションを有効にします。"
+msgstr "画面遷移と滑らかなメニューアニメーションを有効にします"
 
 #: src/supertux/menu/options_menu.cpp:420
 msgid "Developer Mode"
@@ -1641,11 +1643,11 @@ msgstr "クリスマスモード"
 
 #: src/supertux/menu/options_menu.cpp:428
 msgid "Confirmation Dialog"
-msgstr ""
+msgstr "確認ダイアログ"
 
 #: src/supertux/menu/options_menu.cpp:429
 msgid "Pause on focus loss"
-msgstr ""
+msgstr "ウィンドウがフォーカスされていないときに一時停止"
 
 #: src/supertux/menu/main_menu.cpp:45 src/supertux/menu/world_set_menu.cpp:28
 msgid "Start Game"
@@ -1661,19 +1663,19 @@ msgstr "レベルエディター"
 
 #: src/supertux/menu/main_menu.cpp:49
 msgid "Credits"
-msgstr "スタッフ クレジット"
+msgstr "クレジット"
 
 #: src/supertux/menu/main_menu.cpp:50
 msgid "Donate"
-msgstr ""
+msgstr "寄付"
 
 #: src/supertux/menu/main_menu.cpp:51
 msgid "Quit"
-msgstr "やめる"
+msgstr "終了"
 
 #: src/supertux/menu/editor_sector_menu.cpp:35
 msgid "Initialization script"
-msgstr "スクリプトを初期化する"
+msgstr "初期化スクリプト"
 
 #: src/supertux/menu/editor_sector_menu.cpp:36
 msgid "Gravity"
@@ -1681,25 +1683,25 @@ msgstr "重力"
 
 #: src/supertux/menu/editor_sector_menu.cpp:41
 msgid "Resize offset X"
-msgstr ""
+msgstr "オフセットのX座標をサイズ変更"
 
 #: src/supertux/menu/editor_sector_menu.cpp:42
 msgid "Resize offset Y"
-msgstr ""
+msgstr "オフセットのY座標をサイズ変更"
 
 #: src/supertux/menu/editor_sector_menu.cpp:43
 msgid "Resize"
-msgstr "リサイズ"
+msgstr "サイズ変更"
 
 #: src/supertux/menu/profile_menu.cpp:37
 #, c-format
 msgid "[Profile %s]"
-msgstr "[セーブデータ %s]"
+msgstr "[プロファイル %s]"
 
 #: src/supertux/menu/profile_menu.cpp:41
 #, c-format
 msgid "Profile %s"
-msgstr "セーブデータ %s"
+msgstr "プロファイル %s"
 
 #: src/supertux/menu/editor_levelset_menu.cpp:59
 #: src/supertux/menu/editor_new_levelset_menu.cpp:35
@@ -1714,7 +1716,7 @@ msgstr "ワールドマップ"
 #: src/supertux/menu/editor_levelset_menu.cpp:60
 #: src/supertux/menu/addon_menu.cpp:45
 msgid "Levelset"
-msgstr "コース集"
+msgstr "レベル集"
 
 #: src/supertux/menu/addon_menu.cpp:51
 msgid "World"
@@ -1727,20 +1729,20 @@ msgstr "不明"
 #: src/supertux/menu/addon_menu.cpp:68
 #, c-format
 msgid "%s \"%s\" by \"%s\""
-msgstr "%s \"%s\" 作成者：\"%s\""
+msgstr "%s \"%s\" 作成者: \"%s\""
 
 #: src/supertux/menu/addon_menu.cpp:126
 msgid "No Add-ons installed"
-msgstr "アドオンがインストールされていません。"
+msgstr "アドオンがインストールされていません"
 
 #: src/supertux/menu/addon_menu.cpp:130
 msgid "No Add-ons found"
-msgstr "アドオンが見つかりませんでした。"
+msgstr "アドオンが見つかりませんでした"
 
 #: src/supertux/menu/addon_menu.cpp:176
 #, c-format
 msgid "Install %s *NEW*"
-msgstr "%s をインストール \"新規\""
+msgstr "%s をインストール *新規*"
 
 #: src/supertux/menu/addon_menu.cpp:187
 #, c-format
@@ -1749,11 +1751,11 @@ msgstr "%s をインストール"
 
 #: src/supertux/menu/addon_menu.cpp:196
 msgid "No new Add-ons found"
-msgstr "新しいアドオンが見つかりませんでした。"
+msgstr "新しいアドオンは見つかりませんでした"
 
 #: src/supertux/menu/addon_menu.cpp:202
 msgid "Check Online (disabled)"
-msgstr "調べる (無効)"
+msgstr "オンラインで調べる (無効)"
 
 #: src/supertux/menu/addon_menu.cpp:206
 msgid "Check Online"
@@ -1761,18 +1763,18 @@ msgstr "オンラインで調べる"
 
 #: src/supertux/menu/addon_menu.cpp:283
 msgid "Downloading Add-On Repository Index"
-msgstr "アドオンのダウンロード進行状況"
+msgstr "アドオンのレポジトリのインデックスをダウンロードしています"
 
 #: src/supertux/menu/addon_menu.cpp:298
 #, c-format
 msgid "Downloading %s"
-msgstr "ダウンロード中 %s"
+msgstr "%s をダウンロードしています"
 
 #: src/supertux/menu/addon_menu.cpp:345
 msgid ""
 "Please restart SuperTux\n"
 "for these changes to take effect."
-msgstr "これらの変更を有効にするためには、\nSuperTuxを再起動してください。"
+msgstr "これらの変更を反映するには、\nSuperTuxを再起動してください。"
 
 #: src/supertux/menu/editor_new_levelset_menu.cpp:51
 msgid "Please enter a name for this level subset."
@@ -1784,15 +1786,15 @@ msgstr "ストーリーモード"
 
 #: src/supertux/menu/game_menu.cpp:29
 msgid "Are you sure?"
-msgstr ""
+msgstr "よろしいですか？"
 
 #: src/supertux/menu/game_menu.cpp:46 src/supertux/menu/worldmap_menu.cpp:30
 msgid "Continue"
-msgstr "続ける"
+msgstr "続行"
 
 #: src/supertux/menu/game_menu.cpp:47
 msgid "Restart Level"
-msgstr "コースをリスタートする"
+msgstr "レベルを最初からやり直す"
 
 #: src/supertux/menu/game_menu.cpp:50
 msgid "Abort Level"
@@ -1826,22 +1828,22 @@ msgstr "ジャンプ"
 #: src/supertux/menu/keyboard_menu.cpp:38
 #: src/supertux/menu/joystick_menu.cpp:76
 msgid "Peek Left"
-msgstr "左"
+msgstr "左を見る"
 
 #: src/supertux/menu/keyboard_menu.cpp:39
 #: src/supertux/menu/joystick_menu.cpp:77
 msgid "Peek Right"
-msgstr "右"
+msgstr "右を見る"
 
 #: src/supertux/menu/keyboard_menu.cpp:40
 #: src/supertux/menu/joystick_menu.cpp:78
 msgid "Peek Up"
-msgstr "上"
+msgstr "上を見る"
 
 #: src/supertux/menu/keyboard_menu.cpp:41
 #: src/supertux/menu/joystick_menu.cpp:79
 msgid "Peek Down"
-msgstr "下"
+msgstr "下を見る"
 
 #: src/supertux/menu/keyboard_menu.cpp:43
 #: src/supertux/menu/joystick_menu.cpp:81
@@ -1856,12 +1858,12 @@ msgstr "攻略メニュー"
 #: src/supertux/menu/keyboard_menu.cpp:47
 #: src/supertux/menu/joystick_menu.cpp:85
 msgid "Debug Menu"
-msgstr ""
+msgstr "デバッグメニュー"
 
 #: src/supertux/menu/keyboard_menu.cpp:49
 #: src/supertux/menu/joystick_menu.cpp:87
 msgid "Jump with Up"
-msgstr "上キーでジャンプする"
+msgstr "上キーでジャンプ"
 
 #: src/supertux/menu/keyboard_menu.cpp:60
 #: src/supertux/menu/joystick_menu.cpp:108
@@ -1871,27 +1873,27 @@ msgstr "なし"
 
 #: src/supertux/menu/keyboard_menu.cpp:62
 msgid "Up cursor"
-msgstr "カーソルを上へ"
+msgstr "上キー"
 
 #: src/supertux/menu/keyboard_menu.cpp:64
 msgid "Down cursor"
-msgstr "カーソルを下へ"
+msgstr "下キー"
 
 #: src/supertux/menu/keyboard_menu.cpp:66
 msgid "Left cursor"
-msgstr "カーソルを左へ"
+msgstr "左キー"
 
 #: src/supertux/menu/keyboard_menu.cpp:68
 msgid "Right cursor"
-msgstr "カーソルを右へ"
+msgstr "右キー"
 
 #: src/supertux/menu/keyboard_menu.cpp:70
 msgid "Return"
-msgstr "リターン"
+msgstr "Returnキー"
 
 #: src/supertux/menu/keyboard_menu.cpp:72
 msgid "Space"
-msgstr "Spaceキー"
+msgstr "スペースキー"
 
 #: src/supertux/menu/keyboard_menu.cpp:74
 msgid "Right Shift"
@@ -1903,19 +1905,19 @@ msgstr "左Shiftキー"
 
 #: src/supertux/menu/keyboard_menu.cpp:78
 msgid "Right Control"
-msgstr "右のコントロールキー"
+msgstr "右Controlキー"
 
 #: src/supertux/menu/keyboard_menu.cpp:80
 msgid "Left Control"
-msgstr "左のコントロールキー"
+msgstr "左Controlキー"
 
 #: src/supertux/menu/keyboard_menu.cpp:82
 msgid "Right Alt"
-msgstr "右altキー"
+msgstr "右Altキー"
 
 #: src/supertux/menu/keyboard_menu.cpp:84
 msgid "Left Alt"
-msgstr "左altキー"
+msgstr "左Altキー"
 
 #: src/supertux/menu/keyboard_menu.cpp:86
 msgid "Right Command"
@@ -1935,7 +1937,7 @@ msgstr "言語"
 
 #: src/supertux/menu/language_menu.cpp:40
 msgid "<auto-detect>"
-msgstr "<自動判別>"
+msgstr "<auto-detect>"
 
 #: src/supertux/menu/joystick_menu.cpp:55
 msgid "Manual Configuration"
@@ -1944,7 +1946,7 @@ msgstr "手動構成"
 #: src/supertux/menu/joystick_menu.cpp:57
 msgid ""
 "Use manual configuration instead of SDL2's automatic GameController support"
-msgstr "代わりにSDL2の自動 GameControllerサポートの手動構成を使用します。"
+msgstr "SDL2 の自動 GameController サポートの代わりに、手動構成を使用します"
 
 #: src/supertux/menu/joystick_menu.cpp:75
 msgid "Pause/Menu"
@@ -1956,7 +1958,7 @@ msgstr "ジョイスティックが見つかりません"
 
 #: src/supertux/menu/joystick_menu.cpp:94
 msgid "Scan for Joysticks"
-msgstr "ジョイスティックを検索します"
+msgstr "ジョイスティックを検索"
 
 #: src/supertux/menu/joystick_menu.cpp:127
 msgid "Press Button"
@@ -2016,7 +2018,7 @@ msgstr "ワールドを去る"
 
 #: src/supertux/menu/download_dialog.cpp:26
 msgid "Abort Download"
-msgstr "ダウンロードを中止する"
+msgstr "ダウンロードを中止"
 
 #: src/supertux/menu/download_dialog.cpp:41
 msgid "Error:\n"
@@ -2028,11 +2030,11 @@ msgstr "閉じる"
 
 #: src/supertux/menu/cheat_menu.cpp:37
 msgid "Bonus: Star"
-msgstr "ボーナス:スター"
+msgstr "ボーナス: スター"
 
 #: src/supertux/menu/cheat_menu.cpp:38
 msgid "Shrink Tux"
-msgstr "ちいさいTux"
+msgstr "Tuxを小さくする"
 
 #: src/supertux/menu/cheat_menu.cpp:39
 msgid "Kill Tux"
@@ -2062,11 +2064,11 @@ msgstr "ライセンス"
 
 #: src/supertux/menu/editor_level_menu.cpp:37
 msgid "Tileset"
-msgstr ""
+msgstr "タイルセット"
 
 #: src/supertux/menu/editor_level_menu.cpp:40
 msgid "Target time"
-msgstr "ターゲットタイム"
+msgstr "目標時間"
 
 #: src/supertux/menu/editor_level_menu.cpp:82
 msgid "Please enter a name for this level."
@@ -2082,19 +2084,19 @@ msgstr "このレベルのライセンスを入力してください。"
 
 #: src/supertux/menu/editor_menu.cpp:32
 msgid "1/8 tile (4px)"
-msgstr ""
+msgstr "1/8 タイル (4px)"
 
 #: src/supertux/menu/editor_menu.cpp:33
 msgid "1/4 tile (8px)"
-msgstr ""
+msgstr "1/4 タイル (8px)"
 
 #: src/supertux/menu/editor_menu.cpp:34
 msgid "1/2 tile (16px)"
-msgstr ""
+msgstr "1/2 タイル (16px)"
 
 #: src/supertux/menu/editor_menu.cpp:35
 msgid "1 tile (32px)"
-msgstr ""
+msgstr "1 タイル (32px)"
 
 #: src/supertux/menu/editor_menu.cpp:39
 msgid "Return to editor"
@@ -2114,11 +2116,11 @@ msgstr "レベルをテスト"
 
 #: src/supertux/menu/editor_menu.cpp:47
 msgid "Test the worldmap"
-msgstr ""
+msgstr "ワールドマップをテスト"
 
 #: src/supertux/menu/editor_menu.cpp:50
 msgid "Open output directory"
-msgstr ""
+msgstr "出力ディレクトリを開く"
 
 #: src/supertux/menu/editor_menu.cpp:53
 msgid "Edit another level"
@@ -2130,15 +2132,15 @@ msgstr "他のレベルのサブセットを選択"
 
 #: src/supertux/menu/editor_menu.cpp:58
 msgid "Grid size"
-msgstr ""
+msgstr "グリッドサイズ"
 
 #: src/supertux/menu/editor_menu.cpp:60
 msgid "Render lighting (F6)"
-msgstr ""
+msgstr "光を表示 (F6)"
 
 #: src/supertux/menu/editor_menu.cpp:61
 msgid "Snap objects to grid (F7)"
-msgstr ""
+msgstr "グリッドにオブジェクトをスナップ (F7)"
 
 #: src/supertux/menu/editor_menu.cpp:62
 msgid "Show grid (F8)"
@@ -2146,7 +2148,7 @@ msgstr "グリッドを表示 (F8)"
 
 #: src/supertux/menu/editor_menu.cpp:63
 msgid "Render background"
-msgstr ""
+msgstr "背景を表示"
 
 #: src/supertux/menu/editor_menu.cpp:64
 msgid "Show scroller (F9)"
@@ -2154,21 +2156,21 @@ msgstr "スクロールボタンを表示 (F9)"
 
 #: src/supertux/menu/editor_menu.cpp:70
 msgid "Exit level editor"
-msgstr "レベルエディターを終了する"
+msgstr "レベルエディターを終了"
 
 #: src/supertux/menu/editor_menu.cpp:107
 msgid ""
 "Couldn't find a \"main\" sector.\n"
 "Please change the name of the sector where\n"
 "you'd like the player to start to \"main\""
-msgstr ""
+msgstr "\"main\" セクターを見つけられませんでした。\nプレイヤーにスタートしてほしいセクターの名前を\n\"main\" に変更してください。"
 
 #: src/supertux/menu/editor_menu.cpp:111
 msgid ""
 "Couldn't find a \"main\" spawnpoint.\n"
 " Please change the name of the spawnpoint where\n"
 "you'd like the player to start to \"main\""
-msgstr ""
+msgstr "\"main\" スタート地点を見つけられませんでした。\nプレイヤーにスタートしてほしいスタート地点の名前を\n\"main\" に変更してください。"
 
 #: src/supertux/levelintro.cpp:138
 #, c-format
@@ -2181,15 +2183,15 @@ msgstr "敵を倒した数"
 
 #: src/supertux/levelintro.cpp:176
 msgid "Best time"
-msgstr "最短タイム"
+msgstr "最短時間"
 
 #: src/supertux/levelintro.cpp:180
 msgid "Level target time"
-msgstr "コースの制限時間"
+msgstr "レベルの目標時間"
 
 #: src/supertux/tile_set.cpp:92
 msgid "Others"
-msgstr ""
+msgstr "その他"
 
 #: src/supertux/direction.cpp:35
 msgid "up"
@@ -2201,27 +2203,27 @@ msgstr "下へ"
 
 #: src/control/joystick_config.cpp:85
 msgid "Joystick Mappings"
-msgstr "ジョイスティックの操作法"
+msgstr "ジョイスティックのマッピング"
 
 #: src/worldmap/worldmap_parser.cpp:158
 msgid "<no title>"
-msgstr "<タイトル無し>"
+msgstr "<no title>"
 
 #: src/worldmap/direction.cpp:85
 msgid "West"
-msgstr ""
+msgstr "西"
 
 #: src/worldmap/direction.cpp:86
 msgid "East"
-msgstr ""
+msgstr "東"
 
 #: src/worldmap/direction.cpp:87
 msgid "North"
-msgstr ""
+msgstr "北"
 
 #: src/worldmap/direction.cpp:88
 msgid "South"
-msgstr ""
+msgstr "南"
 
 #: src/editor/node_marker.cpp:79
 msgid "Path Node"
@@ -2237,7 +2239,7 @@ msgstr "いいえ"
 
 #: src/editor/object_option.cpp:56
 msgid "invalid"
-msgstr ""
+msgstr "無効"
 
 #: src/editor/editor.cpp:434
 msgid ""
@@ -2245,7 +2247,7 @@ msgid ""
 "and might cause collisions with default Super Tux structure.\n"
 "You can still enable these add-ons in the menu.\n"
 "Disabling these add-ons will not delete your game progress."
-msgstr "廃止されたアドオンがまだいくつか有効で、\n別のSuperTuxのストラクチャーとの競合を起こしているかもしれません。\nこれらのアドオンはまだメニューで有効にすることができます。\nこれらのアドオンを無効にすることはあなたのゲームの進捗を削除しません。"
+msgstr "不要なアドオンの一部が有効なままであり、\nデフォルトのSuperTuxのストラクチャーとの競合を起こしている可能性があります。\nこれらのアドオンをメニューで有効にすることができます。\nこれらのアドオンを無効にしても、ゲームの状態は削除されません。"
 
 #: src/editor/editor.cpp:437
 msgid "Disable add-ons"
@@ -2265,7 +2267,7 @@ msgstr "レベル"
 
 #: src/editor/worldmap_objects.cpp:98
 msgid "Outro script"
-msgstr "終了のスクリプト"
+msgstr "終了時のスクリプト"
 
 #: src/editor/worldmap_objects.cpp:99
 msgid "Auto play"
@@ -2317,7 +2319,7 @@ msgstr "メッセージを表示"
 
 #: src/editor/worldmap_objects.cpp:327
 msgid "Invisible"
-msgstr "隠す"
+msgstr "非表示"
 
 #: src/editor/object_menu.cpp:76
 msgid "Remove"
@@ -2403,7 +2405,7 @@ msgstr "バグ修正"
 
 #: data//credits.stxt:161
 msgid "Explosion sprites"
-msgstr ""
+msgstr "爆発するスプライト"
 
 #: data//credits.stxt:166
 msgid "Scripting functions, Level fixes"
@@ -2476,7 +2478,7 @@ msgstr "プログラムの協力"
 
 #: data//credits.stxt:292
 msgid "Programming, Previous Maintainer"
-msgstr "プログラミング、以前の維持"
+msgstr "プログラミング、以前のメンテナー"
 
 #: data//credits.stxt:297
 msgid "Additional Music"
@@ -2484,11 +2486,11 @@ msgstr "追加の音楽"
 
 #: data//credits.stxt:302
 msgid "\"Mortimers Chipdisko\" by"
-msgstr "\"Mortimers Chipdisko\""
+msgstr "\"Mortimers Chipdisko\" の作曲"
 
 #: data//credits.stxt:311
 msgid "\"Salsa Con Carne\" by"
-msgstr "\"Salsa Con Carne\""
+msgstr "\"Salsa Con Carne\" の作曲"
 
 #: data//credits.stxt:319 data//credits.stxt:371
 msgid "remixed by"
@@ -2496,11 +2498,11 @@ msgstr "リミックス"
 
 #: data//credits.stxt:328
 msgid "\"voc songs\" by"
-msgstr "\"voc songs\""
+msgstr "\"voc songs\" の作曲"
 
 #: data//credits.stxt:337
 msgid "\"clavelian_march\" by"
-msgstr "\"clavelian_march\""
+msgstr "\"clavelian_march\" の作曲"
 
 #: data//credits.stxt:346
 msgid "Excerpts from the Giana Sisters"
@@ -2516,11 +2518,11 @@ msgstr "サウンドトラック"
 
 #: data//credits.stxt:363
 msgid "\"Airship song\" (orchestral remix) by"
-msgstr "\"Airship song\" ( オーケストラのリミックス )"
+msgstr "\"Airship song\" (オーケストラのリミックス) の作曲"
 
 #: data//credits.stxt:380
 msgid "\"Battle Theme\" by"
-msgstr "\"Battle Theme\""
+msgstr "\"Battle Theme\" の作曲"
 
 #: data//credits.stxt:389
 msgid "\"SuperTux christmas theme\""
@@ -2536,11 +2538,11 @@ msgstr "編曲"
 
 #: data//credits.stxt:411
 msgid "\"halloween_1.ogg\" by"
-msgstr "\"halloween_1.ogg\""
+msgstr "\"halloween_1.ogg\" の作曲"
 
 #: data//credits.stxt:420
 msgid "\"Forest Prophecy reEducated\" (forest_theme.ogg) by"
-msgstr "\"Forest Prophecy reEducated\" (forest_theme.ogg)"
+msgstr "\"Forest Prophecy reEducated\" (forest_theme.ogg) の作曲"
 
 #: data//credits.stxt:500
 msgid "Voice Acting"
@@ -2556,7 +2558,7 @@ msgstr "セルビア語"
 
 #: data//credits.stxt:540
 msgid "Uzbek"
-msgstr ""
+msgstr "ウズベク語"
 
 #: data//credits.stxt:544 data//credits.stxt:552 data//credits.stxt:580
 #: data//credits.stxt:616 data//credits.stxt:620 data//credits.stxt:724
@@ -2580,7 +2582,7 @@ msgstr "ロシア語"
 
 #: data//credits.stxt:564
 msgid "French, German"
-msgstr ""
+msgstr "フランス語、ドイツ語"
 
 #: data//credits.stxt:568 data//credits.stxt:608 data//credits.stxt:640
 #: data//credits.stxt:712 data//credits.stxt:716 data//credits.stxt:936
@@ -2604,11 +2606,11 @@ msgstr "スペイン語"
 
 #: data//credits.stxt:588
 msgid "Albanese"
-msgstr "アルバネーゼ"
+msgstr "アルバニア語"
 
 #: data//credits.stxt:592 data//credits.stxt:636 data//credits.stxt:668
 msgid "Castilian Spanish"
-msgstr "カスティリヤ人スペイン語"
+msgstr "スペイン語の標準語"
 
 #: data//credits.stxt:596 data//credits.stxt:648 data//credits.stxt:652
 #: data//credits.stxt:740 data//credits.stxt:788 data//credits.stxt:872
@@ -2620,12 +2622,12 @@ msgstr "ハンガリー語"
 #: data//credits.stxt:604 data//credits.stxt:720 data//credits.stxt:968
 #: data//credits.stxt:1068
 msgid "Slovak"
-msgstr ""
+msgstr "スロバキア語"
 
 #: data//credits.stxt:612 data//credits.stxt:692 data//credits.stxt:840
 #: data//credits.stxt:904
 msgid "European Portuguese"
-msgstr "ヨーロッパのポルトガル語"
+msgstr "ヨーロッパポルトガル語"
 
 #: data//credits.stxt:624 data//credits.stxt:672 data//credits.stxt:676
 #: data//credits.stxt:1204
@@ -2638,12 +2640,12 @@ msgstr "スロベニア語"
 
 #: data//credits.stxt:656
 msgid "Malayalam"
-msgstr ""
+msgstr "マラヤーラム語"
 
 #: data//credits.stxt:660 data//credits.stxt:912 data//credits.stxt:1020
 #: data//credits.stxt:1216
 msgid "Mandarin Chinese"
-msgstr ""
+msgstr "中国語の標準語"
 
 #: data//credits.stxt:664
 msgid "Norwegian Bokmål"
@@ -2651,11 +2653,11 @@ msgstr "ノルウェー語"
 
 #: data//credits.stxt:680
 msgid "Mandarin"
-msgstr "北京官話"
+msgstr "中国語の標準語"
 
 #: data//credits.stxt:684 data//credits.stxt:908 data//credits.stxt:1208
 msgid "Esperanto"
-msgstr ""
+msgstr "エスペラント"
 
 #: data//credits.stxt:688 data//credits.stxt:700
 msgid "Romanian"
@@ -2663,7 +2665,7 @@ msgstr "ルーマニア語"
 
 #: data//credits.stxt:696
 msgid "Croatian"
-msgstr ""
+msgstr "クロアチア語"
 
 #: data//credits.stxt:704 data//credits.stxt:756 data//credits.stxt:1056
 #: data//credits.stxt:1132
@@ -2683,7 +2685,7 @@ msgstr "トルコ語"
 
 #: data//credits.stxt:736
 msgid "European/Brazilian Portuguese"
-msgstr "ヨーロッパ・ブラジルのポルトガル語"
+msgstr "ヨーロッパ・ブラジルポルトガル語"
 
 #: data//credits.stxt:752 data//credits.stxt:808 data//credits.stxt:820
 #: data//credits.stxt:988 data//credits.stxt:1192
@@ -2692,13 +2694,13 @@ msgstr "チェコ語"
 
 #: data//credits.stxt:768 data//credits.stxt:1236
 msgid "Hebrew"
-msgstr ""
+msgstr "ヘブライ語"
 
 #: data//credits.stxt:772 data//credits.stxt:836 data//credits.stxt:992
 #: data//credits.stxt:1004 data//credits.stxt:1016 data//credits.stxt:1044
 #: data//credits.stxt:1064
 msgid "Brazilian Portuguese"
-msgstr "ブラジルのポルトガル語"
+msgstr "ブラジルポルトガル語"
 
 #: data//credits.stxt:780 data//credits.stxt:1000 data//credits.stxt:1100
 #: data//credits.stxt:1168
@@ -2719,11 +2721,11 @@ msgstr "ポーランド語"
 
 #: data//credits.stxt:816
 msgid "Norwegian Bokmål, Norwegian Nynorsk"
-msgstr ""
+msgstr "ノルウェー語ブークモール、ノルウェー語ニーノシュク"
 
 #: data//credits.stxt:828
 msgid "Tatar"
-msgstr ""
+msgstr "タタール語"
 
 #: data//credits.stxt:832 data//credits.stxt:1196 data//credits.stxt:1200
 msgid "Bulgarian"
@@ -2731,7 +2733,7 @@ msgstr "ブルガリア語"
 
 #: data//credits.stxt:856 data//credits.stxt:980
 msgid "Korean"
-msgstr ""
+msgstr "韓国語"
 
 #: data//credits.stxt:860
 msgid "Estonian"
@@ -2739,7 +2741,7 @@ msgstr "エストニア語"
 
 #: data//credits.stxt:876
 msgid "Polish, Swedish"
-msgstr ""
+msgstr "ポーランド語、スウェーデン語"
 
 #: data//credits.stxt:884 data//credits.stxt:1136
 msgid "Lithuanian"
@@ -2747,11 +2749,11 @@ msgstr "リトアニア語"
 
 #: data//credits.stxt:896
 msgid "French/Esperanto"
-msgstr "フランス語・エスペラント"
+msgstr "フランス語／エスペラント"
 
 #: data//credits.stxt:900
 msgid "Spanish, Brazilian Portuguese"
-msgstr ""
+msgstr "スペイン語、ブラジルポルトガル語"
 
 #: data//credits.stxt:916 data//credits.stxt:1180
 msgid "Ukrainian"
@@ -2771,11 +2773,11 @@ msgstr "ギリシャ語"
 
 #: data//credits.stxt:1036
 msgid "Latin"
-msgstr ""
+msgstr "ラテン語"
 
 #: data//credits.stxt:1084
 msgid "European Portuguese, Brazilian Portuguese"
-msgstr ""
+msgstr "ヨーロッパポルトガル語、ブラジルポルトガル語"
 
 #: data//credits.stxt:1120
 msgid "Simplified Chinese"
@@ -2787,11 +2789,11 @@ msgstr "ベラルーシ語"
 
 #: data//credits.stxt:1240
 msgid "Indonesian"
-msgstr ""
+msgstr "インドネシア語"
 
 #: data//credits.stxt:1254
 msgid "Thanks to"
-msgstr "感謝の思いを"
+msgstr "謝辞"
 
 #: data//credits.stxt:1259
 msgid "Creator of Tux, the Linux penguin"
@@ -2809,11 +2811,11 @@ msgstr "Linux 上でこのような素晴らしいゲーム体験を\n作り出�
 
 #: data//credits.stxt:1276
 msgid "Visit our webpage at"
-msgstr "私達の Web ページを訪問してください"
+msgstr "以下で私たちの Web ページを参照してください"
 
 #: data//credits.stxt:1285
 msgid "Or visit us directly at IRC:"
-msgstr "IRC で直接会う："
+msgstr "または、IRC で直接連絡してください:"
 
 #: data//credits.stxt:1289
 msgid "#supertux at webchat.freenode.net"
@@ -2821,7 +2823,7 @@ msgstr "#supertux at webchat.freenode.net"
 
 #: data//credits.stxt:1294
 msgid "Or at our Forum:"
-msgstr "フォーラム："
+msgstr "フォーラムもご利用いただけます:"
 
 #: data//credits.stxt:1303
 msgid "Comments, ideas and suggestions"
@@ -2829,22 +2831,22 @@ msgstr "コメント、アイデア、提案"
 
 #: data//credits.stxt:1307
 msgid "go to our mailing list"
-msgstr "私たちのメーリング・リストに移動"
+msgstr "メーリングリストに移動"
 
 #. l10n: typo contact
 #: data//credits.stxt:1317
 msgid "Typographical errors can be"
-msgstr ""
+msgstr "誤字の訂正は"
 
 #. l10n: typo contact
 #: data//credits.stxt:1322
 msgid "reported to"
-msgstr ""
+msgstr "以下で報告できます"
 
 #. l10n: typo contact, see <https://github.com/SuperTux/supertux/issues/611>
 #: data//credits.stxt:1327
 msgid "supertux-devel@lists.lethargik.org"
-msgstr ""
+msgstr "supertux-devel@lists.lethargik.org"
 
 #: data//credits.stxt:1334
 msgid "Want to help…"
@@ -2860,7 +2862,7 @@ msgstr "その他について"
 
 #: data//credits.stxt:1360
 msgid "Thank you for"
-msgstr "プレイしてくださり"
+msgstr "プレイしてくださって"
 
 #: data//credits.stxt:1364
 msgid "playing"
@@ -2896,7 +2898,7 @@ msgstr "ワールドマップメーカー"
 
 #: data//images/ice_world.strf:6
 msgid "Ice Cave & Crystal"
-msgstr "氷洞窟・結晶"
+msgstr "氷洞窟と結晶"
 
 #: data//images/ice_world.strf:53
 msgid "Embellishments"
@@ -2924,7 +2926,7 @@ msgstr "パイプ"
 
 #: data//images/tiles.strf:254 data//images/worldmap.strf:199
 msgid "Halloween"
-msgstr "ハローウィン"
+msgstr "ハロウィン"
 
 #: data//images/tiles.strf:281
 msgid "Test"
@@ -2932,11 +2934,11 @@ msgstr "テスト"
 
 #: data//images/tiles.strf:288
 msgid "Crystal Cave"
-msgstr ""
+msgstr "結晶の洞窟"
 
 #: data//images/tiles.strf:379
 msgid "Snow Mountain"
-msgstr ""
+msgstr "雪山"
 
 #: data//images/tiles.strf:453 data//images/worldmap.strf:41
 msgid "Snow"
@@ -2944,7 +2946,7 @@ msgstr "雪原"
 
 #: data//images/tiles.strf:571
 msgid "Snow (Paralax Background)"
-msgstr "雪原(視差背景)"
+msgstr "雪原 (視差背景)"
 
 #: data//images/tiles.strf:584 data//images/worldmap.strf:67
 msgid "Forest"
@@ -2952,11 +2954,11 @@ msgstr "森"
 
 #: data//images/tiles.strf:666
 msgid "Forest (Background)"
-msgstr "森(背景)"
+msgstr "森 (背景)"
 
 #: data//images/tiles.strf:760
 msgid "Forest (Underground)"
-msgstr ""
+msgstr "森 (地下)"
 
 #: data//images/tiles.strf:804
 msgid "Block"

@@ -4,7 +4,7 @@
 # 
 # Translators:
 # Andrej Mernik <andrejm@ubuntu.si>, 2017
-# Gorzy Gorup <gorupgorazd@gmail.com>, 2016,2018
+# Gorzy Gorup <gorupgorazd@gmail.com>, 2016,2018-2019
 # Marko Burjek <email4marko@gmail.com>, 2005-2007
 # Nwolfy <inactive+Nwolfy@transifex.com>, 2014
 msgid ""
@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2018-11-16 00:48+0100\n"
-"PO-Revision-Date: 2018-11-17 22:22+0000\n"
+"PO-Revision-Date: 2019-11-28 20:22+0000\n"
 "Last-Translator: Gorzy Gorup <gorupgorazd@gmail.com>\n"
 "Language-Team: Slovenian (http://www.transifex.com/arctic-games/supertux/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -23,7 +23,7 @@ msgstr ""
 
 #: src/trigger/secretarea_trigger.cpp:48 src/trigger/secretarea_trigger.cpp:56
 msgid "You found a secret area!"
-msgstr "Odkril si skrito območje!"
+msgstr "Odkril/a si skrito območje!"
 
 #: src/trigger/secretarea_trigger.cpp:69
 msgid "Secret area"
@@ -72,7 +72,7 @@ msgstr "Zapis"
 
 #: src/trigger/scripttrigger.cpp:69
 msgid "Script trigger"
-msgstr "Sprožitelj zapisa"
+msgstr "Sprožilec skripte"
 
 #: src/trigger/scripttrigger.cpp:74 src/object/pushbutton.hpp:36
 msgid "Button"
@@ -108,11 +108,11 @@ msgstr "Animirane sličice"
 
 #: src/trigger/switch.cpp:64
 msgid "Turn on script"
-msgstr "Vklopi zapis"
+msgstr "Vklopi skripto"
 
 #: src/trigger/switch.cpp:65
 msgid "Turn off script"
-msgstr "Izklopi zapis"
+msgstr "Izklopi skripto"
 
 #: src/trigger/sequence_trigger.cpp:72
 msgid "Sequence trigger"
@@ -226,7 +226,7 @@ msgstr "Viden"
 
 #: src/object/scripted_object.cpp:65 src/badguy/willowisp.cpp:282
 msgid "Hit script"
-msgstr "Zapis udarca"
+msgstr "Skripta udarca"
 
 #: src/object/bonus_block.cpp:196
 msgid "Count"
@@ -274,7 +274,7 @@ msgstr "Svetloba"
 
 #: src/object/bonus_block.cpp:209 src/object/trampoline.hpp:40
 msgid "Trampoline"
-msgstr "Trampulin"
+msgstr "Trampolin"
 
 #: src/object/bonus_block.cpp:210
 msgid "Coin rain"
@@ -294,7 +294,7 @@ msgstr "Sledenje stezi"
 
 #: src/object/coin.cpp:268 src/object/coin.cpp:293
 msgid "Collect script"
-msgstr "Zbiralni zapis"
+msgstr "Zbiralna skripta"
 
 #: src/object/ghost_particle_system.hpp:36
 msgid "Ghost particles"
@@ -404,7 +404,7 @@ msgstr "Glasba"
 
 #: src/object/rusty_trampoline.hpp:44
 msgid "Rusty trampoline"
-msgstr "Rjasti trampulin"
+msgstr "Rjasti trampolin"
 
 #: src/object/particlesystem.hpp:53
 msgid "Particle system"
@@ -549,11 +549,11 @@ msgstr "Neurejeno"
 
 #: src/object/rock.cpp:173
 msgid "On-grab script"
-msgstr "Zapis ob prijemu"
+msgstr "Skripta ob prijemu"
 
 #: src/object/rock.cpp:174
 msgid "On-ungrab script"
-msgstr "Zapis ob odlaganju"
+msgstr "Skripta ob odlaganju"
 
 #: src/object/particlesystem_interactive.hpp:45
 msgid "Interactive particle system"
@@ -672,7 +672,7 @@ msgstr "Žarišče"
 
 #: src/object/scripted_object.hpp:59
 msgid "Scripted object"
-msgstr "Predmeti z zapisom"
+msgstr "Predmeti s skripto"
 
 #: src/object/coin.hpp:77
 msgid "Heavy coin"
@@ -747,7 +747,7 @@ msgstr "Krastača"
 
 #: src/badguy/mrtree.hpp:32
 msgid "Mr. Tree"
-msgstr "Gospod Drevesnik"
+msgstr "Gospod Drevo"
 
 #: src/badguy/plant.hpp:36
 msgid "Plant"
@@ -911,7 +911,7 @@ msgstr "Strupena ovijalka"
 
 #: src/badguy/willowisp.hpp:63
 msgid "Will 'o' wisp"
-msgstr "Sledeča zgaga"
+msgstr "Blodeča lučka"
 
 #: src/badguy/badguy.hpp:55
 msgid "Badguy"
@@ -1373,7 +1373,7 @@ msgid ""
 "It allows modifications and redistribution by third-parties.\n"
 "If you don't agree with this license, change it in worldmap properties.\n"
 "DISCLAIMER: The SuperTux authors take no responsibility for your choice of license."
-msgstr "Ta zemljevid sveta deli pod licenco CC-BY-SA 4.0 International (priporočljivo).\nS tem je drugim omogočeno preurejanje in prerazporeditev.\nČe se s to licenco ne strinjaš, jo spremeni v lastnostih stopnje.\nOPOZORILO: Avtorji SuperTuxa ne prevzemajo odgovornosti za vašo izbiro licence."
+msgstr "Ta zemljevid sveta deli pod licenco CC-BY-SA 4.0 International (priporočljivo).\nS tem je drugim omogočeno preurejanje in redistribucija.\nČe se s to licenco ne strinjaš, jo spremeni v lastnostih stopnje.\nOPOZORILO: Avtorji SuperTuxa ne prevzemajo odgovornosti za tvojo izbiro licence."
 
 #: src/supertux/menu/editor_level_select_menu.cpp:128
 msgid ""
@@ -1381,7 +1381,7 @@ msgid ""
 "It allows modifications and redistribution by third-parties.\n"
 "If you don't agree with this license, change it in level properties.\n"
 "DISCLAIMER: The SuperTux authors take no responsibility for your choice of license."
-msgstr "To stopnjo deli pod licenco CC-BY-SA 4.0 International (priporočljivo).\nS tem je drugim omogočeno preurejanje in prerazporeditev.\nČe se s to licenco ne strinjaš, jo spremeni v lastnostih stopnje.\nOPOZORILO: Avtorji SuperTuxa ne prevzemajo odgovornosti za vašo izbiro licence."
+msgstr "To stopnjo deli pod licenco CC-BY-SA 4.0 International (priporočljivo).\nS tem je drugim omogočeno preurejanje in redistribucija.\nČe se s to licenco ne strinjaš, jo spremeni v lastnostih stopnje.\nOPOZORILO: Avtorji SuperTuxa ne prevzemajo odgovornosti za tvojo izbiro licence."
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:33
 #: src/supertux/menu/cheat_menu.cpp:30
@@ -1753,11 +1753,11 @@ msgstr "Ne najdem novih dodatkov"
 
 #: src/supertux/menu/addon_menu.cpp:202
 msgid "Check Online (disabled)"
-msgstr "Preverite na spletu (onemogočeno)"
+msgstr "Preveri na spletu (onemogočeno)"
 
 #: src/supertux/menu/addon_menu.cpp:206
 msgid "Check Online"
-msgstr "Preverite na spletu"
+msgstr "Preveri na spletu"
 
 #: src/supertux/menu/addon_menu.cpp:283
 msgid "Downloading Add-On Repository Index"
@@ -2839,7 +2839,7 @@ msgstr "Tiskarske napake lahko"
 #. l10n: typo contact
 #: data//credits.stxt:1322
 msgid "reported to"
-msgstr "prijavite na"
+msgstr "prijaviš na"
 
 #. l10n: typo contact, see <https://github.com/SuperTux/supertux/issues/611>
 #: data//credits.stxt:1327
@@ -2848,7 +2848,7 @@ msgstr "supertux-devel@lists.lethargik.org"
 
 #: data//credits.stxt:1334
 msgid "Want to help…"
-msgstr "Bi rad pomagal..."
+msgstr "Bi rad/a pomagal/a..."
 
 #: data//credits.stxt:1339
 msgid "…with localization?"
@@ -2864,11 +2864,11 @@ msgstr "Hvala, ker si"
 
 #: data//credits.stxt:1364
 msgid "playing"
-msgstr "igral"
+msgstr "igral/a"
 
 #: data//credits.stxt:1376
 msgid "Penny awaits you in Milestone 3!"
-msgstr "Penny te čaka na 3. mejniku!"
+msgstr "Penny te čaka na tretjem mejniku!"
 
 #: data//images/engine/editor/objects.stoi:4
 msgid "Hostile"
@@ -2932,7 +2932,7 @@ msgstr "Preizkus"
 
 #: data//images/tiles.strf:288
 msgid "Crystal Cave"
-msgstr "Crystal Cave"
+msgstr "Kristalna jama"
 
 #: data//images/tiles.strf:379
 msgid "Snow Mountain"

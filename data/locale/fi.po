@@ -4,7 +4,7 @@
 # 
 # Translators:
 # Benjamin Leduc <giby_the_kid@yahoo.fr>, 2015
-# Jaakoppi Horila <supermariojaska5@gmail.com>, 2016,2018
+# Jaakoppi Horila <supermariojaska5@gmail.com>, 2016,2018-2019
 # Lapamiko <lapamiko@luukku.com>, 2007
 # Saku Tiihonen <zackyistic@gmail.com>, 2016
 # tingberg <tom.ingberg@iki.fi>, 2013
@@ -15,8 +15,8 @@ msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2018-11-16 00:48+0100\n"
-"PO-Revision-Date: 2018-11-15 23:50+0000\n"
-"Last-Translator: Tobias Markus <tobbi@supertuxproject.org>\n"
+"PO-Revision-Date: 2019-11-24 04:35+0000\n"
+"Last-Translator: Jaakoppi Horila <supermariojaska5@gmail.com>\n"
 "Language-Team: Finnish (http://www.transifex.com/arctic-games/supertux/language/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -58,7 +58,7 @@ msgstr "Korkeus"
 
 #: src/trigger/secretarea_trigger.cpp:73
 msgid "Fade tilemap"
-msgstr ""
+msgstr "Häivyttyvät palikat"
 
 #: src/trigger/secretarea_trigger.cpp:74 src/trigger/climbable.cpp:76
 #: src/object/infoblock.cpp:56 src/editor/worldmap_objects.cpp:189
@@ -83,7 +83,7 @@ msgstr "Nappi"
 
 #: src/trigger/scripttrigger.cpp:75
 msgid "Oneshot"
-msgstr ""
+msgstr "Yksittäinen"
 
 #: src/trigger/climbable.cpp:72
 msgid "Climbable"
@@ -139,23 +139,23 @@ msgstr "ilotulitteet"
 
 #: src/trigger/sequence_trigger.cpp:83
 msgid "New worldmap spawnpoint"
-msgstr ""
+msgstr "Uusi maailmankartan syntymäpiste"
 
 #: src/trigger/sequence_trigger.cpp:84
 msgid "Worldmap fade tilemap"
-msgstr ""
+msgstr "Maailmankartan häivyttyvät palikat"
 
 #: src/trigger/sequence_trigger.cpp:85
 msgid "Fade"
-msgstr ""
+msgstr "Haihtuminen"
 
 #: src/trigger/sequence_trigger.cpp:86
 msgid "Fade in"
-msgstr ""
+msgstr "Ilmaantuminen"
 
 #: src/trigger/sequence_trigger.cpp:87
 msgid "Fade out"
-msgstr ""
+msgstr "Pois haihtuminen"
 
 #: src/object/thunderstorm.hpp:82
 msgid "Thunderstorm"
@@ -163,7 +163,7 @@ msgstr "Ukkosmyrsky"
 
 #: src/object/path_gameobject.hpp:52
 msgid "Path"
-msgstr ""
+msgstr "Polku"
 
 #: src/object/decal.cpp:43 src/supertux/menu/keyboard_menu.cpp:37
 #: src/supertux/menu/joystick_menu.cpp:74
@@ -191,7 +191,7 @@ msgstr "Nousu"
 
 #: src/object/tilemap.hpp:53
 msgid "Tilemap"
-msgstr ""
+msgstr "Palikkakartta"
 
 #: src/object/brick.cpp:133
 msgid "Breakable"
@@ -217,11 +217,11 @@ msgstr "Nopeus"
 
 #: src/object/spotlight.cpp:63
 msgid "Counter-clockwise"
-msgstr ""
+msgstr "Vastapäivä"
 
 #: src/object/scripted_object.cpp:63
 msgid "Physics enabled"
-msgstr ""
+msgstr "Fysiikat päällä"
 
 #: src/object/scripted_object.cpp:64
 msgid "Visible"
@@ -261,19 +261,19 @@ msgstr "Kasvaminen (maakukka)"
 
 #: src/object/bonus_block.cpp:204
 msgid "Star"
-msgstr ""
+msgstr "Tähti"
 
 #: src/object/bonus_block.cpp:205
 msgid "Tux doll"
-msgstr ""
+msgstr "Tux-nukke"
 
 #: src/object/bonus_block.cpp:206
 msgid "Custom"
-msgstr ""
+msgstr "Muokattava"
 
 #: src/object/bonus_block.cpp:208
 msgid "Light"
-msgstr ""
+msgstr "Valo"
 
 #: src/object/bonus_block.cpp:209 src/object/trampoline.hpp:40
 msgid "Trampoline"
@@ -281,11 +281,11 @@ msgstr "Trampoliini"
 
 #: src/object/bonus_block.cpp:210
 msgid "Coin rain"
-msgstr ""
+msgstr "Kolikkosade"
 
 #: src/object/bonus_block.cpp:211
 msgid "Coin explosion"
-msgstr ""
+msgstr "Kolikkoräjähdys"
 
 #: src/object/pneumatic_platform.hpp:62
 msgid "Pneumatic platform"
@@ -329,7 +329,7 @@ msgstr "Lumipartikkelit"
 
 #: src/object/powerup.hpp:43
 msgid "Power-up"
-msgstr ""
+msgstr "Lisävoima"
 
 #: src/object/level_time.hpp:70
 msgid "Level time"
@@ -387,7 +387,7 @@ msgstr "Alue"
 
 #: src/object/bicycle_platform.cpp:177
 msgid "Momentum change rate"
-msgstr ""
+msgstr "Vauhdin muutosnopeus"
 
 #: src/object/rain_particle_system.hpp:34
 msgid "Rain particles"
@@ -423,7 +423,7 @@ msgstr "Välkyntä"
 
 #: src/object/text_array_object.hpp:62
 msgid "Text array"
-msgstr ""
+msgstr "Tekstiryhmä"
 
 #: src/object/infoblock.hpp:40
 msgid "Info block"
@@ -524,7 +524,7 @@ msgstr "Puhallus"
 
 #: src/object/ambient_light.cpp:138
 msgid "Color"
-msgstr ""
+msgstr "Väri"
 
 #: src/object/bicycle_platform.hpp:64
 msgid "Bicycle platform"
@@ -536,27 +536,27 @@ msgstr "Polkutila"
 
 #: src/object/path.cpp:201
 msgid "One shot"
-msgstr ""
+msgstr "Yksittäinen"
 
 #: src/object/path.cpp:202
 msgid "Ping-pong"
-msgstr ""
+msgstr "Ping-pong"
 
 #: src/object/path.cpp:203
 msgid "Circular"
-msgstr ""
+msgstr "Pyöreä"
 
 #: src/object/path.cpp:204
 msgid "Unordered"
-msgstr ""
+msgstr "Järjestämätön"
 
 #: src/object/rock.cpp:173
 msgid "On-grab script"
-msgstr ""
+msgstr "Päällä-tarttumisen koodi"
 
 #: src/object/rock.cpp:174
 msgid "On-ungrab script"
-msgstr ""
+msgstr "Päällä-irrottamisen koodi"
 
 #: src/object/particlesystem_interactive.hpp:45
 msgid "Interactive particle system"
@@ -564,7 +564,7 @@ msgstr "Interaktiivinen partikkelijärjestelmä"
 
 #: src/object/music_object.cpp:108
 msgid "File"
-msgstr ""
+msgstr "Tiedosto"
 
 #: src/object/path_walker.cpp:220 src/object/thunderstorm.cpp:64
 #: src/object/tilemap.cpp:242
@@ -593,19 +593,19 @@ msgstr "Siirrettävä kuva"
 
 #: src/object/tilemap.cpp:222
 msgid "Resize offset x"
-msgstr ""
+msgstr "Muuta korvikkeen x kokoa"
 
 #: src/object/tilemap.cpp:223
 msgid "Resize offset y"
-msgstr ""
+msgstr "Muuta korvikkeen y kokoa"
 
 #: src/object/tilemap.cpp:226
 msgid "Alpha"
-msgstr ""
+msgstr "Alfa"
 
 #: src/object/tilemap.cpp:229
 msgid "Tint"
-msgstr ""
+msgstr "Sävy"
 
 #: src/object/tilemap.cpp:232
 msgid "Draw target"
@@ -613,7 +613,7 @@ msgstr "Piirrä kohde"
 
 #: src/object/tilemap.cpp:233
 msgid "Normal"
-msgstr ""
+msgstr "Tavallinen"
 
 #: src/object/tilemap.cpp:234 data//images/engine/editor/objects.stoi:249
 #: data//images/tiles.strf:1152
@@ -643,19 +643,19 @@ msgstr "Suunta"
 
 #: src/object/gradient.cpp:143
 msgid "Vertical"
-msgstr ""
+msgstr "Sivusuuntainen"
 
 #: src/object/gradient.cpp:144
 msgid "Horizontal"
-msgstr ""
+msgstr "Pystysuuntainen"
 
 #: src/object/gradient.cpp:145
 msgid "Vertical (whole sector)"
-msgstr ""
+msgstr "Sivusuuntainen (koko sektori)"
 
 #: src/object/gradient.cpp:146
 msgid "Horizontal (whole sector)"
-msgstr ""
+msgstr "Pystysuuntainen (koko sektori)"
 
 #: src/object/unstable_tile.hpp:39
 msgid "Unstable tile"
@@ -742,7 +742,7 @@ msgstr "Peruuta"
 
 #: src/gui/menu_script.cpp:28
 msgid "Edit script"
-msgstr ""
+msgstr "Muokkaa koodia"
 
 #: src/badguy/toad.hpp:42
 msgid "Toad"
@@ -994,11 +994,11 @@ msgstr "Viholliset"
 
 #: src/badguy/dispenser.cpp:395
 msgid "Limit dispensed badguys"
-msgstr ""
+msgstr "Rajoita syötettyjä pahiksia"
 
 #: src/badguy/dispenser.cpp:397
 msgid "Max concurrent badguys"
-msgstr ""
+msgstr "Samanaikaisten pahisten korkein määrä"
 
 #: src/badguy/dispenser.cpp:400 src/supertux/menu/editor_levelset_menu.cpp:60
 msgid "Type"
@@ -1198,11 +1198,11 @@ msgstr "--spawn-pos X.Y Paikka, jonne asetat Tuxin. Käytetty ainoastaan, jos ke
 
 #: src/supertux/command_line_arguments.cpp:102
 msgid "  --sector SECTOR              Spawn Tux in SECTOR\n"
-msgstr ""
+msgstr "--sektori SEKTORI              Synnytä Tux sektorissa SEKTORI\n"
 
 #: src/supertux/command_line_arguments.cpp:103
 msgid "  --spawnpoint SPAWNPOINT      Spawn Tux at SPAWNPOINT\n"
-msgstr ""
+msgstr "--syntymäpiste SYNTYMÄPISTE      Synnytä Tux pisteessä SYNTYMÄPISTE\n"
 
 #: src/supertux/command_line_arguments.cpp:105
 msgid "Demo Recording Options:"
@@ -1290,27 +1290,27 @@ msgstr "Takaisin"
 
 #: src/supertux/menu/debug_menu.cpp:29
 msgid "Debug"
-msgstr ""
+msgstr "Buginpoisto"
 
 #: src/supertux/menu/debug_menu.cpp:53
 msgid "Game Speed"
-msgstr ""
+msgstr "Pelinopeus"
 
 #: src/supertux/menu/debug_menu.cpp:54
 msgid "Adjust Game Speed"
-msgstr ""
+msgstr "Säädä pelinopeutta"
 
 #: src/supertux/menu/debug_menu.cpp:60
 msgid "Show Collision Rects"
-msgstr ""
+msgstr "Näytä törmäyssuunnat"
 
 #: src/supertux/menu/debug_menu.cpp:61
 msgid "Show Worldmap Path"
-msgstr ""
+msgstr "Näytä maailmankartan polku"
 
 #: src/supertux/menu/debug_menu.cpp:62
 msgid "Use Bitmap Fonts"
-msgstr ""
+msgstr "Käytä Bittikarttafontteja"
 
 #: src/supertux/menu/editor_sectors_menu.cpp:31
 msgid "Choose sector to edit:"
@@ -1459,8 +1459,8 @@ msgstr "Valitse kentän alasetti"
 #, c-format
 msgid "%d level"
 msgid_plural "%d levels"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d kenttä"
+msgstr[1] "%d kentät"
 
 #: src/supertux/menu/editor_levelset_select_menu.cpp:95
 #: src/supertux/menu/editor_new_levelset_menu.cpp:31
@@ -1510,19 +1510,19 @@ msgstr "Valitse profiili jolla aiot pelata"
 
 #: src/supertux/menu/options_menu.cpp:366
 msgid "Window Resizable"
-msgstr ""
+msgstr "Ikkunan koko muutettavissa"
 
 #: src/supertux/menu/options_menu.cpp:367
 msgid "Allow window resizing, might require a restart to take effect"
-msgstr ""
+msgstr "Salli ikkunan koon muuttaminen, saattaa tarvita uudelleenkäynnistämisen vaikuttamiseen"
 
 #: src/supertux/menu/options_menu.cpp:369
 msgid "Window Resolution"
-msgstr ""
+msgstr "Ikkunan resoluutio"
 
 #: src/supertux/menu/options_menu.cpp:370
 msgid "Resize the window to the given size"
-msgstr ""
+msgstr "Muuta ikkunan koko tiettyyn kokoon"
 
 #: src/supertux/menu/options_menu.cpp:372
 msgid "Fullscreen"
@@ -1534,7 +1534,7 @@ msgstr "Käytä koko näyttöä"
 
 #: src/supertux/menu/options_menu.cpp:375
 msgid "Fullscreen Resolution"
-msgstr ""
+msgstr "Koko ruudun resoluutio"
 
 #: src/supertux/menu/options_menu.cpp:376
 msgid ""
@@ -1552,19 +1552,19 @@ msgstr "Muuta pelialueen suurennusta"
 
 #: src/supertux/menu/options_menu.cpp:381
 msgid "VSync"
-msgstr ""
+msgstr "VSync"
 
 #: src/supertux/menu/options_menu.cpp:382
 msgid "Set the VSync mode"
-msgstr ""
+msgstr "Aseta VSync-tila"
 
 #: src/supertux/menu/options_menu.cpp:384
 msgid "Framerate"
-msgstr ""
+msgstr "Ruudunpäivitysnopeus"
 
 #: src/supertux/menu/options_menu.cpp:385
 msgid "Change the maximum framerate of the game"
-msgstr ""
+msgstr "Säädä pelin maksimiruudunpäivitysnopeutta"
 
 #: src/supertux/menu/options_menu.cpp:387
 msgid "Aspect Ratio"
@@ -1576,7 +1576,7 @@ msgstr "Säädä kuvasuhdetta"
 
 #: src/supertux/menu/options_menu.cpp:393
 msgid "Disable all sound effects"
-msgstr "Poistaa kaikki ääniefektit"
+msgstr "Poista kaikki ääniefektit"
 
 #: src/supertux/menu/options_menu.cpp:395
 msgid "Disable all music"
@@ -1584,19 +1584,19 @@ msgstr "Poista kaikki musiikki"
 
 #: src/supertux/menu/options_menu.cpp:397
 msgid "Sound Volume"
-msgstr ""
+msgstr "Äänien voimakkuus"
 
 #: src/supertux/menu/options_menu.cpp:398
 msgid "Adjust sound volume"
-msgstr ""
+msgstr "Säädä äänien voimakkuutta"
 
 #: src/supertux/menu/options_menu.cpp:400
 msgid "Music Volume"
-msgstr ""
+msgstr "Musiikin voimakkuus"
 
 #: src/supertux/menu/options_menu.cpp:401
 msgid "Adjust music volume"
-msgstr ""
+msgstr "Säädä musiikin voimakkuutta"
 
 #: src/supertux/menu/options_menu.cpp:405
 msgid "Sound (disabled)"
@@ -1642,11 +1642,11 @@ msgstr "Joulutila"
 
 #: src/supertux/menu/options_menu.cpp:428
 msgid "Confirmation Dialog"
-msgstr ""
+msgstr "Vahvistusdialogi"
 
 #: src/supertux/menu/options_menu.cpp:429
 msgid "Pause on focus loss"
-msgstr ""
+msgstr "Pysäytä keskittymisen menetykseen"
 
 #: src/supertux/menu/main_menu.cpp:45 src/supertux/menu/world_set_menu.cpp:28
 msgid "Start Game"
@@ -1666,7 +1666,7 @@ msgstr "Tekijät"
 
 #: src/supertux/menu/main_menu.cpp:50
 msgid "Donate"
-msgstr ""
+msgstr "Lahjoita"
 
 #: src/supertux/menu/main_menu.cpp:51
 msgid "Quit"
@@ -1682,11 +1682,11 @@ msgstr "Painovoima"
 
 #: src/supertux/menu/editor_sector_menu.cpp:41
 msgid "Resize offset X"
-msgstr ""
+msgstr "Muuta korvikkeen X kokoa"
 
 #: src/supertux/menu/editor_sector_menu.cpp:42
 msgid "Resize offset Y"
-msgstr ""
+msgstr "Muuta korvikkeen Y kokoa"
 
 #: src/supertux/menu/editor_sector_menu.cpp:43
 msgid "Resize"
@@ -1785,7 +1785,7 @@ msgstr "Tarinapeli"
 
 #: src/supertux/menu/game_menu.cpp:29
 msgid "Are you sure?"
-msgstr ""
+msgstr "Oletko varma?"
 
 #: src/supertux/menu/game_menu.cpp:46 src/supertux/menu/worldmap_menu.cpp:30
 msgid "Continue"
@@ -1857,7 +1857,7 @@ msgstr "Huijausvalikko"
 #: src/supertux/menu/keyboard_menu.cpp:47
 #: src/supertux/menu/joystick_menu.cpp:85
 msgid "Debug Menu"
-msgstr ""
+msgstr "Buginpoistovalikko"
 
 #: src/supertux/menu/keyboard_menu.cpp:49
 #: src/supertux/menu/joystick_menu.cpp:87
@@ -2119,7 +2119,7 @@ msgstr "Testaa maailmankarttaa"
 
 #: src/supertux/menu/editor_menu.cpp:50
 msgid "Open output directory"
-msgstr ""
+msgstr "Avaa ulostulon kansio"
 
 #: src/supertux/menu/editor_menu.cpp:53
 msgid "Edit another level"
@@ -2147,7 +2147,7 @@ msgstr "Näytä ruudukko (F8)"
 
 #: src/supertux/menu/editor_menu.cpp:63
 msgid "Render background"
-msgstr ""
+msgstr "Renderöi tausta"
 
 #: src/supertux/menu/editor_menu.cpp:64
 msgid "Show scroller (F9)"
@@ -2162,14 +2162,14 @@ msgid ""
 "Couldn't find a \"main\" sector.\n"
 "Please change the name of the sector where\n"
 "you'd like the player to start to \"main\""
-msgstr ""
+msgstr "\"pääsektoria\" ei voitu löytää.\nMuuta sen sektorin nimeä, minkä haluat olevan\npelaajan aloittamisen \"pääsektori\""
 
 #: src/supertux/menu/editor_menu.cpp:111
 msgid ""
 "Couldn't find a \"main\" spawnpoint.\n"
 " Please change the name of the spawnpoint where\n"
 "you'd like the player to start to \"main\""
-msgstr ""
+msgstr "\"pääsyntymäpistettä\" ei voitu löytää.\nMuuta sen syntymäpisteen nimeä, minkä haluat olevan\npelaajan aloittamisen \"pääsyntymäpiste\""
 
 #: src/supertux/levelintro.cpp:138
 #, c-format
@@ -2210,19 +2210,19 @@ msgstr "<ei nimeä>"
 
 #: src/worldmap/direction.cpp:85
 msgid "West"
-msgstr ""
+msgstr "Länsi"
 
 #: src/worldmap/direction.cpp:86
 msgid "East"
-msgstr ""
+msgstr "Itä"
 
 #: src/worldmap/direction.cpp:87
 msgid "North"
-msgstr ""
+msgstr "Pohjoinen"
 
 #: src/worldmap/direction.cpp:88
 msgid "South"
-msgstr ""
+msgstr "Etelä"
 
 #: src/editor/node_marker.cpp:79
 msgid "Path Node"
@@ -2404,7 +2404,7 @@ msgstr "Bugien korjaus"
 
 #: data//credits.stxt:161
 msgid "Explosion sprites"
-msgstr ""
+msgstr "Räjähdyksen ulkonäkö"
 
 #: data//credits.stxt:166
 msgid "Scripting functions, Level fixes"
@@ -2465,7 +2465,7 @@ msgstr "Uusi valikkokoodi"
 
 #: data//credits.stxt:256
 msgid "Big Tux Walking Sprites improvements"
-msgstr ""
+msgstr "Ison Tuxin kävelemisen ulkonäön parannukset"
 
 #: data//credits.stxt:267
 msgid "Milestone 1 contributions by..."
@@ -2648,7 +2648,7 @@ msgstr "mandariinikiina"
 
 #: data//credits.stxt:664
 msgid "Norwegian Bokmål"
-msgstr "Kirjanorja"
+msgstr "kirjanorja"
 
 #: data//credits.stxt:680
 msgid "Mandarin"
@@ -2957,7 +2957,7 @@ msgstr "Metsä (tausta)"
 
 #: data//images/tiles.strf:760
 msgid "Forest (Underground)"
-msgstr ""
+msgstr "Metsä (Maanalainen)"
 
 #: data//images/tiles.strf:804
 msgid "Block"

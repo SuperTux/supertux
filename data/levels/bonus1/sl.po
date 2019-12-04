@@ -1,17 +1,18 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
 #  <email4marko@gmail.com>, 2006
 # Gorzy Gorup <gorupgorazd@gmail.com>, 2016
+# Gorzy Gorup <gorupgorazd@gmail.com>, 2019
 # Marko Burjek <email4marko@gmail.com>, 2006-2007
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-04 15:35+0200\n"
-"PO-Revision-Date: 2016-04-10 13:50+0000\n"
+"Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
+"POT-Creation-Date: 2018-11-05 23:45+0100\n"
+"PO-Revision-Date: 2019-11-26 20:58+0000\n"
 "Last-Translator: Gorzy Gorup <gorupgorazd@gmail.com>\n"
 "Language-Team: Slovenian (http://www.transifex.com/arctic-games/supertux/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -26,7 +27,7 @@ msgstr "Test letenja "
 
 #: data/levels/bonus1/abednego-level2.stl:3
 msgid "Dungeons but no Dragons"
-msgstr "Grajske podzemne ječe, ampak brez zmajev"
+msgstr "Temnice, a brez zmajev"
 
 #: data/levels/bonus1/abednego-level3.stl:3
 msgid "Lies!"
@@ -50,7 +51,7 @@ msgstr "Dolga pot domov"
 
 #: data/levels/bonus1/bonus-level4.stl:3
 msgid "Bonus Island Castle"
-msgstr "Bonus Otokški grad"
+msgstr "Bonus Otoški grad"
 
 #: data/levels/bonus1/bonus-level5.stl:3
 msgid "Area 42"
@@ -81,7 +82,7 @@ msgid ""
 "#A big \"Thank you\" goes out to\n"
 "#everyone who contributed to this\n"
 "#release. We hope you enjoyed it!"
-msgstr "-Čestitke!\n\n#Uspešno si dokončal\n#Bonus Otok I\n\n⇥predstavljene stopnje so darovali\n⇥Jason W. Thompson\n⇥Torfi Gunnarsson\n⇥Abednego\n⇥Matr1x\n\n\n#Če še nisi šel čez vse stopnje,\n#pojdi domov in uberi drugo pot.\n#Čaka te še več izzivov!\n\n#Najdeš lahko tudi skrivno stopnjo...\n\n#Res smo hvaležni vsem, ki so\n#prispevali k tej izdaji. Upamo, da\n#si užival v njej!"
+msgstr "-Čestitke!\n\n#Uspešno si dokončal/a\n#Bonus Otok I\n\n\tpredstavljene stopnje so prispevali\n\tJason W. Thompson\n\tTorfi Gunnarsson\n\tAbednego\n\tMatr1x\n\n\n#Če še nisi šel/a čez vse stopnje,\n#pojdi domov in uberi drugo pot.\n#Čaka te še več izzivov!\n\n#Najdeš lahko tudi skrivno stopnjo...\n\n#Res smo hvaležni vsem, ki so\n#prispevali k tej izdaji. Upamo, da\n#si užival/a v njej!"
 
 #: data/levels/bonus1/matr1x-level1.stl:3
 msgid "Pipe Down Over There"
@@ -89,7 +90,7 @@ msgstr "Cev tam doli"
 
 #: data/levels/bonus1/matr1x-level2.stl:3
 msgid "Something Fishy"
-msgstr "Nekaj smrdi po ribi"
+msgstr "Nekaj smrdi... po ribi"
 
 #: data/levels/bonus1/matr1x-level3.stl:3
 msgid "Fire In The Sky"
@@ -97,7 +98,7 @@ msgstr "Ogenj na nebu"
 
 #: data/levels/bonus1/thompson-level1.stl:3
 msgid "Have I been here before?"
-msgstr "Ali sem že bil tukaj?"
+msgstr "Tole mi je pa znano..."
 
 #: data/levels/bonus1/thompson-level2.stl:3
 msgid "Bad Guys Stink!"
@@ -111,9 +112,9 @@ msgstr "Dober začetek"
 msgid "Too easy"
 msgstr "Prelahko"
 
-#: data/levels/bonus1/torfi-level2.stl:43
+#: data/levels/bonus1/torfi-level2.stl:42
 msgid "#All these levels were upgraded to milestone 2 design by Hume2."
-msgstr "#Vse stopnje smo nadgradili v skladu z dizajnom drugega mejnika darovalca Hume2."
+msgstr "#Vse stopnje smo nadgradili v skladu z dizajnom drugega mejnika, ki ga je prispeval Hume2."
 
 #: data/levels/bonus1/torfi-level3.stl:3
 msgid "Still too easy"
@@ -133,7 +134,7 @@ msgstr "Labirint na nebu"
 
 #: data/levels/bonus1/wansti-level4.stl:3
 msgid "Collapse Imminent!"
-msgstr "Skorajšnji propad!"
+msgstr "Sekunde do katastrofe!"
 
 #: data/levels/bonus1/wansti-level5.stl:3
 msgid "Tip Of The Iceberg"
@@ -145,7 +146,7 @@ msgstr "Bonus Otok I"
 
 #: data/levels/bonus1/worldmap.stwm:12
 msgid "You found a secret place!"
-msgstr "Odkril si skriven prostor!"
+msgstr "Odkril/a si skriven prostor!"
 
 #: data/levels/bonus1/worldmap.stwm:20
 msgid "Hint: Use igloos to get back here."
@@ -161,15 +162,15 @@ msgstr "Teleportiraj se do Thompsonove domene"
 
 #: data/levels/bonus1/worldmap.stwm:43 data/levels/bonus1/worldmap.stwm:104
 msgid "Leave the SuperTux Team Island"
-msgstr "Zapusti moštveni otok SuperTux"
+msgstr "Zapusti otok ekipe SuperTux"
 
 #: data/levels/bonus1/worldmap.stwm:50
 msgid "Warp to Abednego's Area"
-msgstr "Teleportiraj se do Abednegovega Območja"
+msgstr "Teleportiraj se do Abednegovega območja"
 
 #: data/levels/bonus1/worldmap.stwm:57 data/levels/bonus1/worldmap.stwm:143
 msgid "Leave Torfi's Territory"
-msgstr "Zapusti Torfov teritorij"
+msgstr "Zapusti Torfijev teritorij"
 
 #: data/levels/bonus1/worldmap.stwm:64 data/levels/bonus1/worldmap.stwm:90
 msgid "Leave Abednego's Area"
@@ -189,7 +190,7 @@ msgstr "Teleportiraj se domov"
 
 #: data/levels/bonus1/worldmap.stwm:97
 msgid "Warp to the SuperTux Team Island"
-msgstr "Teleportiraj se do moštvenega otoka SuperTux"
+msgstr "Teleportiraj se do otoka ekipe SuperTux"
 
 #: data/levels/bonus1/worldmap.stwm:123
 msgid "Leave Matr1x' Sector"
@@ -197,8 +198,8 @@ msgstr "Zapusti Matr1x-ov sektor"
 
 #: data/levels/bonus1/worldmap.stwm:129
 msgid "Continue Matr1x' Sector"
-msgstr "Nadaljuj Matr1x-ov sektor"
+msgstr "Nadaljuj v Matr1x-ov sektor"
 
 #: data/levels/bonus1/worldmap.stwm:136
 msgid "Warp to Torfi's Territory"
-msgstr "Teleportiraj se do Torfijevega Teritorija"
+msgstr "Teleportiraj se do Torfijevega teritorija"

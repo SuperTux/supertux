@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# Myeongjin <aranet100@gmail.com>, 2016-2018
+# Myeongjin <aranet100@gmail.com>, 2016-2019
 # Roland Kim <dyn4micwork@gmail.com>, 2014-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2018-11-16 00:48+0100\n"
-"PO-Revision-Date: 2018-12-11 18:01+0000\n"
+"PO-Revision-Date: 2019-11-24 04:35+0000\n"
 "Last-Translator: Myeongjin <aranet100@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/arctic-games/supertux/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -53,7 +53,7 @@ msgstr "높이"
 
 #: src/trigger/secretarea_trigger.cpp:73
 msgid "Fade tilemap"
-msgstr ""
+msgstr "페이드 타일맵"
 
 #: src/trigger/secretarea_trigger.cpp:74 src/trigger/climbable.cpp:76
 #: src/object/infoblock.cpp:56 src/editor/worldmap_objects.cpp:189
@@ -78,7 +78,7 @@ msgstr "버튼"
 
 #: src/trigger/scripttrigger.cpp:75
 msgid "Oneshot"
-msgstr ""
+msgstr "한번쏘기"
 
 #: src/trigger/climbable.cpp:72
 msgid "Climbable"
@@ -134,23 +134,23 @@ msgstr "폭죽"
 
 #: src/trigger/sequence_trigger.cpp:83
 msgid "New worldmap spawnpoint"
-msgstr ""
+msgstr "새 월드맵 스폰지점"
 
 #: src/trigger/sequence_trigger.cpp:84
 msgid "Worldmap fade tilemap"
-msgstr ""
+msgstr "월드맵 페이드 타일맵"
 
 #: src/trigger/sequence_trigger.cpp:85
 msgid "Fade"
-msgstr ""
+msgstr "페이드"
 
 #: src/trigger/sequence_trigger.cpp:86
 msgid "Fade in"
-msgstr ""
+msgstr "페이드 인"
 
 #: src/trigger/sequence_trigger.cpp:87
 msgid "Fade out"
-msgstr ""
+msgstr "페이드 아웃"
 
 #: src/object/thunderstorm.hpp:82
 msgid "Thunderstorm"
@@ -158,7 +158,7 @@ msgstr "천둥 번개"
 
 #: src/object/path_gameobject.hpp:52
 msgid "Path"
-msgstr ""
+msgstr "길"
 
 #: src/object/decal.cpp:43 src/supertux/menu/keyboard_menu.cpp:37
 #: src/supertux/menu/joystick_menu.cpp:74
@@ -186,7 +186,7 @@ msgstr "그라디언트"
 
 #: src/object/tilemap.hpp:53
 msgid "Tilemap"
-msgstr ""
+msgstr "타일맵"
 
 #: src/object/brick.cpp:133
 msgid "Breakable"
@@ -212,11 +212,11 @@ msgstr "속도"
 
 #: src/object/spotlight.cpp:63
 msgid "Counter-clockwise"
-msgstr ""
+msgstr "반 시계 방향"
 
 #: src/object/scripted_object.cpp:63
 msgid "Physics enabled"
-msgstr ""
+msgstr "물리 활성화됨"
 
 #: src/object/scripted_object.cpp:64
 msgid "Visible"
@@ -256,19 +256,19 @@ msgstr "성장 (지구 꽃)"
 
 #: src/object/bonus_block.cpp:204
 msgid "Star"
-msgstr ""
+msgstr "별"
 
 #: src/object/bonus_block.cpp:205
 msgid "Tux doll"
-msgstr ""
+msgstr "턱스 인형"
 
 #: src/object/bonus_block.cpp:206
 msgid "Custom"
-msgstr ""
+msgstr "사용자 지정"
 
 #: src/object/bonus_block.cpp:208
 msgid "Light"
-msgstr ""
+msgstr "빛"
 
 #: src/object/bonus_block.cpp:209 src/object/trampoline.hpp:40
 msgid "Trampoline"
@@ -276,11 +276,11 @@ msgstr "트램폴린"
 
 #: src/object/bonus_block.cpp:210
 msgid "Coin rain"
-msgstr ""
+msgstr "코인 비"
 
 #: src/object/bonus_block.cpp:211
 msgid "Coin explosion"
-msgstr ""
+msgstr "코인 폭발"
 
 #: src/object/pneumatic_platform.hpp:62
 msgid "Pneumatic platform"
@@ -292,7 +292,7 @@ msgstr "따라오는 길"
 
 #: src/object/coin.cpp:268 src/object/coin.cpp:293
 msgid "Collect script"
-msgstr ""
+msgstr "모음 스크립트"
 
 #: src/object/ghost_particle_system.hpp:36
 msgid "Ghost particles"
@@ -324,7 +324,7 @@ msgstr "눈 입자"
 
 #: src/object/powerup.hpp:43
 msgid "Power-up"
-msgstr ""
+msgstr "파워-업"
 
 #: src/object/level_time.hpp:70
 msgid "Level time"
@@ -382,7 +382,7 @@ msgstr "반지름"
 
 #: src/object/bicycle_platform.cpp:177
 msgid "Momentum change rate"
-msgstr ""
+msgstr "운동량 변화율"
 
 #: src/object/rain_particle_system.hpp:34
 msgid "Rain particles"
@@ -418,7 +418,7 @@ msgstr "깜박임"
 
 #: src/object/text_array_object.hpp:62
 msgid "Text array"
-msgstr ""
+msgstr "텍스트 배열"
 
 #: src/object/infoblock.hpp:40
 msgid "Info block"
@@ -531,27 +531,27 @@ msgstr "길 모드"
 
 #: src/object/path.cpp:201
 msgid "One shot"
-msgstr ""
+msgstr "한 번 쏘기"
 
 #: src/object/path.cpp:202
 msgid "Ping-pong"
-msgstr ""
+msgstr "왔다 갔다"
 
 #: src/object/path.cpp:203
 msgid "Circular"
-msgstr ""
+msgstr "돌기"
 
 #: src/object/path.cpp:204
 msgid "Unordered"
-msgstr ""
+msgstr "순서 없음"
 
 #: src/object/rock.cpp:173
 msgid "On-grab script"
-msgstr ""
+msgstr "잡은 상태 스크립트"
 
 #: src/object/rock.cpp:174
 msgid "On-ungrab script"
-msgstr ""
+msgstr "놓은 상태 스크립트"
 
 #: src/object/particlesystem_interactive.hpp:45
 msgid "Interactive particle system"
@@ -588,27 +588,27 @@ msgstr "데칼"
 
 #: src/object/tilemap.cpp:222
 msgid "Resize offset x"
-msgstr ""
+msgstr "오프셋 x 크기 조정"
 
 #: src/object/tilemap.cpp:223
 msgid "Resize offset y"
-msgstr ""
+msgstr "오프셋 y 크기 조정"
 
 #: src/object/tilemap.cpp:226
 msgid "Alpha"
-msgstr ""
+msgstr "알파"
 
 #: src/object/tilemap.cpp:229
 msgid "Tint"
-msgstr ""
+msgstr "색조"
 
 #: src/object/tilemap.cpp:232
 msgid "Draw target"
-msgstr ""
+msgstr "그리기 대상"
 
 #: src/object/tilemap.cpp:233
 msgid "Normal"
-msgstr ""
+msgstr "보통"
 
 #: src/object/tilemap.cpp:234 data//images/engine/editor/objects.stoi:249
 #: data//images/tiles.strf:1152
@@ -638,19 +638,19 @@ msgstr "방향"
 
 #: src/object/gradient.cpp:143
 msgid "Vertical"
-msgstr ""
+msgstr "수직"
 
 #: src/object/gradient.cpp:144
 msgid "Horizontal"
-msgstr ""
+msgstr "수평"
 
 #: src/object/gradient.cpp:145
 msgid "Vertical (whole sector)"
-msgstr ""
+msgstr "수직 (전체 부분)"
 
 #: src/object/gradient.cpp:146
 msgid "Horizontal (whole sector)"
-msgstr ""
+msgstr "수평 (전체 부분)"
 
 #: src/object/unstable_tile.hpp:39
 msgid "Unstable tile"
@@ -674,7 +674,7 @@ msgstr "스크립트된 개체"
 
 #: src/object/coin.hpp:77
 msgid "Heavy coin"
-msgstr ""
+msgstr "무거운 코인"
 
 #: src/object/bonus_block.hpp:63
 msgid "Bonus block"
@@ -849,7 +849,7 @@ msgstr "고슴도치"
 
 #: src/badguy/darttrap.cpp:121
 msgid "Enabled"
-msgstr ""
+msgstr "활성화됨"
 
 #: src/badguy/darttrap.cpp:122
 msgid "Initial delay"
@@ -989,11 +989,11 @@ msgstr "적"
 
 #: src/badguy/dispenser.cpp:395
 msgid "Limit dispensed badguys"
-msgstr ""
+msgstr "분배된 악당 제한"
 
 #: src/badguy/dispenser.cpp:397
 msgid "Max concurrent badguys"
-msgstr ""
+msgstr "최대 동시 악당"
 
 #: src/badguy/dispenser.cpp:400 src/supertux/menu/editor_levelset_menu.cpp:60
 msgid "Type"
@@ -1098,7 +1098,7 @@ msgstr "  -h, --help                   이 도움말 메시지를 보여주고 �
 
 #: src/supertux/command_line_arguments.cpp:76
 msgid "  -v, --version                Show SuperTux version and quit"
-msgstr "  -v, --version                SuperTux의 버전을 보여주고 종료합니다"
+msgstr "  -v, --version                슈퍼턱스의 버전을 보여주고 종료합니다"
 
 #: src/supertux/command_line_arguments.cpp:77
 msgid "  --verbose                    Print verbose messages"
@@ -1111,7 +1111,7 @@ msgstr "  --debug                      더 자세한 메시지 내용을 출력�
 #: src/supertux/command_line_arguments.cpp:79
 msgid ""
 "  --print-datadir              Print SuperTux's primary data directory."
-msgstr "  --print-datadir              SuperTux의 기본 데이터 디렉터리를 출력합니다."
+msgstr "  --print-datadir              슈퍼턱스의 기본 데이터 디렉터리를 출력합니다."
 
 #: src/supertux/command_line_arguments.cpp:81
 msgid "Video Options:"
@@ -1127,11 +1127,11 @@ msgstr "  -w, --window                 창 모드로 실행합니다"
 
 #: src/supertux/command_line_arguments.cpp:84
 msgid "  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution"
-msgstr "  -g, --geometry 너비x높이  SuperTux를 지정된 해상도로 실행합니다"
+msgstr "  -g, --geometry 너비x높이  슈퍼턱스를 지정된 해상도로 실행합니다"
 
 #: src/supertux/command_line_arguments.cpp:85
 msgid "  -a, --aspect WIDTH:HEIGHT    Run SuperTux with given aspect ratio"
-msgstr "  -a, --aspect 너비:높이    SuperTux를 지정된 화면 비율로 실행합니다"
+msgstr "  -a, --aspect 너비:높이    슈퍼턱스를 지정된 화면 비율로 실행합니다"
 
 #: src/supertux/command_line_arguments.cpp:86
 msgid "  -d, --default                Reset video settings to default values"
@@ -1143,7 +1143,7 @@ msgstr "  --renderer 렌더러          사용할 그래픽 엔진을 sdl, openg
 
 #: src/supertux/command_line_arguments.cpp:89
 msgid "Audio Options:"
-msgstr "소리 옵션:"
+msgstr "오디오 옵션:"
 
 #: src/supertux/command_line_arguments.cpp:90
 msgid "  --disable-sound              Disable sound effects"
@@ -1193,11 +1193,11 @@ msgstr "  --spawn-pos X,Y              턱스가 레벨에 스폰할 위치. 레
 
 #: src/supertux/command_line_arguments.cpp:102
 msgid "  --sector SECTOR              Spawn Tux in SECTOR\n"
-msgstr ""
+msgstr "  --sector 부분              턱스를 부분으로 스폰합니다\n"
 
 #: src/supertux/command_line_arguments.cpp:103
 msgid "  --spawnpoint SPAWNPOINT      Spawn Tux at SPAWNPOINT\n"
-msgstr ""
+msgstr "  --spawnpoint 스폰지점      턱스를 스폰지점으로 스폰합니다\n"
 
 #: src/supertux/command_line_arguments.cpp:105
 msgid "Demo Recording Options:"
@@ -1285,27 +1285,27 @@ msgstr "뒤로"
 
 #: src/supertux/menu/debug_menu.cpp:29
 msgid "Debug"
-msgstr ""
+msgstr "디버그"
 
 #: src/supertux/menu/debug_menu.cpp:53
 msgid "Game Speed"
-msgstr ""
+msgstr "게임 속도"
 
 #: src/supertux/menu/debug_menu.cpp:54
 msgid "Adjust Game Speed"
-msgstr ""
+msgstr "게임 속도 조정"
 
 #: src/supertux/menu/debug_menu.cpp:60
 msgid "Show Collision Rects"
-msgstr ""
+msgstr "충돌 구형 보이기"
 
 #: src/supertux/menu/debug_menu.cpp:61
 msgid "Show Worldmap Path"
-msgstr ""
+msgstr "월드맵 길 보이기"
 
 #: src/supertux/menu/debug_menu.cpp:62
 msgid "Use Bitmap Fonts"
-msgstr ""
+msgstr "비트맵 글꼴 사용"
 
 #: src/supertux/menu/editor_sectors_menu.cpp:31
 msgid "Choose sector to edit:"
@@ -1371,7 +1371,7 @@ msgid ""
 "It allows modifications and redistribution by third-parties.\n"
 "If you don't agree with this license, change it in worldmap properties.\n"
 "DISCLAIMER: The SuperTux authors take no responsibility for your choice of license."
-msgstr "이 월드맵을 CC-BY-SA 4.0 국제 사용 허가에 따라 공유합니다 (권장).\n제3자에 의해 수정 및 재배포를 할 수 있도록 합니다.\n이 라이선스에 동의하지 않는다면, 월드맵 속성에서 라이선스를 바꾸세요.\n면책 조항: SuperTux 저자는 라이선스 선택에 대한 책임을 지지 않습니다."
+msgstr "이 월드맵을 CC-BY-SA 4.0 국제 사용 허가에 따라 공유합니다 (권장).\n제3자에 의해 수정 및 재배포를 할 수 있도록 합니다.\n이 라이선스에 동의하지 않는다면, 월드맵 속성에서 라이선스를 바꾸세요.\n면책 조항: 슈퍼턱스 저자는 라이선스 선택에 대한 책임을 지지 않습니다."
 
 #: src/supertux/menu/editor_level_select_menu.cpp:128
 msgid ""
@@ -1379,7 +1379,7 @@ msgid ""
 "It allows modifications and redistribution by third-parties.\n"
 "If you don't agree with this license, change it in level properties.\n"
 "DISCLAIMER: The SuperTux authors take no responsibility for your choice of license."
-msgstr "이 레벨을 CC-BY-SA 4.0 국제 사용 허가에 따라 공유합니다 (권장).\n제3자에 의해 수정 및 재배포를 할 수 있도록 합니다.\n이 라이선스에 동의하지 않는다면, 레벨 속성에서 라이선스를 바꾸세요.\n면책 조항: SuperTux 저자는 라이선스 선택에 대한 책임을 지지 않습니다."
+msgstr "이 레벨을 CC-BY-SA 4.0 국제 사용 허가에 따라 공유합니다 (권장).\n제3자에 의해 수정 및 재배포를 할 수 있도록 합니다.\n이 라이선스에 동의하지 않는다면, 레벨 속성에서 라이선스를 바꾸세요.\n면책 조항: 슈퍼턱스 저자는 라이선스 선택에 대한 책임을 지지 않습니다."
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:33
 #: src/supertux/menu/cheat_menu.cpp:30
@@ -1418,7 +1418,7 @@ msgstr "보너스: 없음"
 #: src/supertux/menu/worldmap_cheat_menu.cpp:43
 #: src/supertux/menu/cheat_menu.cpp:42
 msgid "Leave Ghost Mode"
-msgstr ""
+msgstr "유령 모드 떠나기"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:43
 #: src/supertux/menu/cheat_menu.cpp:42
@@ -1432,7 +1432,7 @@ msgstr "레벨 도착"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:46
 msgid "Reset Level"
-msgstr "레벨 초기화"
+msgstr "레벨 재설정"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:48
 msgid "Finish Worldmap"
@@ -1504,19 +1504,19 @@ msgstr "플레이할 프로필을 선택합니다"
 
 #: src/supertux/menu/options_menu.cpp:366
 msgid "Window Resizable"
-msgstr ""
+msgstr "창 크기 조정 가능"
 
 #: src/supertux/menu/options_menu.cpp:367
 msgid "Allow window resizing, might require a restart to take effect"
-msgstr ""
+msgstr "창 크기 조정할 수 있도록 합니다, 적용하려면 다시 시작해야 할 수 있습니다"
 
 #: src/supertux/menu/options_menu.cpp:369
 msgid "Window Resolution"
-msgstr ""
+msgstr "창 해상도"
 
 #: src/supertux/menu/options_menu.cpp:370
 msgid "Resize the window to the given size"
-msgstr ""
+msgstr "창을 주어진 크기로 조정합니다"
 
 #: src/supertux/menu/options_menu.cpp:372
 msgid "Fullscreen"
@@ -1528,7 +1528,7 @@ msgstr "전체 화면 모드로 전환합니다"
 
 #: src/supertux/menu/options_menu.cpp:375
 msgid "Fullscreen Resolution"
-msgstr ""
+msgstr "전체 화면 해상도"
 
 #: src/supertux/menu/options_menu.cpp:376
 msgid ""
@@ -1546,19 +1546,19 @@ msgstr "게임 화면 배율을 조정합니다"
 
 #: src/supertux/menu/options_menu.cpp:381
 msgid "VSync"
-msgstr ""
+msgstr "VSync"
 
 #: src/supertux/menu/options_menu.cpp:382
 msgid "Set the VSync mode"
-msgstr ""
+msgstr "VSync 모드 설정"
 
 #: src/supertux/menu/options_menu.cpp:384
 msgid "Framerate"
-msgstr ""
+msgstr "프레임 속도"
 
 #: src/supertux/menu/options_menu.cpp:385
 msgid "Change the maximum framerate of the game"
-msgstr ""
+msgstr "게임의 최대 프레임 속도를 변경합니다"
 
 #: src/supertux/menu/options_menu.cpp:387
 msgid "Aspect Ratio"
@@ -1578,19 +1578,19 @@ msgstr "모든 음악을 끕니다"
 
 #: src/supertux/menu/options_menu.cpp:397
 msgid "Sound Volume"
-msgstr ""
+msgstr "소리 음량"
 
 #: src/supertux/menu/options_menu.cpp:398
 msgid "Adjust sound volume"
-msgstr ""
+msgstr "소리 음량을 조정합니다"
 
 #: src/supertux/menu/options_menu.cpp:400
 msgid "Music Volume"
-msgstr ""
+msgstr "음악 음량"
 
 #: src/supertux/menu/options_menu.cpp:401
 msgid "Adjust music volume"
-msgstr ""
+msgstr "음악 음량을 조정합니다"
 
 #: src/supertux/menu/options_menu.cpp:405
 msgid "Sound (disabled)"
@@ -1636,11 +1636,11 @@ msgstr "크리스마스 모드"
 
 #: src/supertux/menu/options_menu.cpp:428
 msgid "Confirmation Dialog"
-msgstr ""
+msgstr "확인 대화 상자"
 
 #: src/supertux/menu/options_menu.cpp:429
 msgid "Pause on focus loss"
-msgstr ""
+msgstr "초점 손실시 일시 정지"
 
 #: src/supertux/menu/main_menu.cpp:45 src/supertux/menu/world_set_menu.cpp:28
 msgid "Start Game"
@@ -1660,7 +1660,7 @@ msgstr "제작진"
 
 #: src/supertux/menu/main_menu.cpp:50
 msgid "Donate"
-msgstr ""
+msgstr "기부"
 
 #: src/supertux/menu/main_menu.cpp:51
 msgid "Quit"
@@ -1676,11 +1676,11 @@ msgstr "중력"
 
 #: src/supertux/menu/editor_sector_menu.cpp:41
 msgid "Resize offset X"
-msgstr ""
+msgstr "오프셋 X 크기 조정"
 
 #: src/supertux/menu/editor_sector_menu.cpp:42
 msgid "Resize offset Y"
-msgstr ""
+msgstr "오프셋 Y 크기 조정"
 
 #: src/supertux/menu/editor_sector_menu.cpp:43
 msgid "Resize"
@@ -1767,7 +1767,7 @@ msgstr "%s 다운로드 중"
 msgid ""
 "Please restart SuperTux\n"
 "for these changes to take effect."
-msgstr "바뀜을 적용하려면 SuperTux를\n다시 시작해주세요."
+msgstr "변경을 적용하려면 슈퍼턱스를\n다시 시작해주세요."
 
 #: src/supertux/menu/editor_new_levelset_menu.cpp:51
 msgid "Please enter a name for this level subset."
@@ -1779,7 +1779,7 @@ msgstr "이야기 모드"
 
 #: src/supertux/menu/game_menu.cpp:29
 msgid "Are you sure?"
-msgstr ""
+msgstr "확실합니까?"
 
 #: src/supertux/menu/game_menu.cpp:46 src/supertux/menu/worldmap_menu.cpp:30
 msgid "Continue"
@@ -1851,7 +1851,7 @@ msgstr "치트 메뉴"
 #: src/supertux/menu/keyboard_menu.cpp:47
 #: src/supertux/menu/joystick_menu.cpp:85
 msgid "Debug Menu"
-msgstr ""
+msgstr "디버그 메뉴"
 
 #: src/supertux/menu/keyboard_menu.cpp:49
 #: src/supertux/menu/joystick_menu.cpp:87
@@ -1898,11 +1898,11 @@ msgstr "왼쪽 Shift"
 
 #: src/supertux/menu/keyboard_menu.cpp:78
 msgid "Right Control"
-msgstr "오른쪽 Ctrl"
+msgstr "오른쪽 Control"
 
 #: src/supertux/menu/keyboard_menu.cpp:80
 msgid "Left Control"
-msgstr "왼쪽 Ctrl"
+msgstr "왼쪽 Control"
 
 #: src/supertux/menu/keyboard_menu.cpp:82
 msgid "Right Alt"
@@ -1943,7 +1943,7 @@ msgstr "SDL2의 자동 게임 컨트롤러 지원 대신 수동 구성을 사용
 
 #: src/supertux/menu/joystick_menu.cpp:75
 msgid "Pause/Menu"
-msgstr "일시정지/메뉴"
+msgstr "일시 정지/메뉴"
 
 #: src/supertux/menu/joystick_menu.cpp:93
 msgid "No Joysticks found"
@@ -2003,7 +2003,7 @@ msgstr "모자 오른쪽"
 
 #: src/supertux/menu/worldmap_menu.cpp:28
 msgid "Pause"
-msgstr "일시정지"
+msgstr "일시 정지"
 
 #: src/supertux/menu/worldmap_menu.cpp:33
 msgid "Leave World"
@@ -2057,7 +2057,7 @@ msgstr "라이선스"
 
 #: src/supertux/menu/editor_level_menu.cpp:37
 msgid "Tileset"
-msgstr ""
+msgstr "타일셋"
 
 #: src/supertux/menu/editor_level_menu.cpp:40
 msgid "Target time"
@@ -2077,19 +2077,19 @@ msgstr "이 레벨의 라이선스를 입력하세요."
 
 #: src/supertux/menu/editor_menu.cpp:32
 msgid "1/8 tile (4px)"
-msgstr ""
+msgstr "1/8 타일 (4px)"
 
 #: src/supertux/menu/editor_menu.cpp:33
 msgid "1/4 tile (8px)"
-msgstr ""
+msgstr "1/4 타일 (8px)"
 
 #: src/supertux/menu/editor_menu.cpp:34
 msgid "1/2 tile (16px)"
-msgstr ""
+msgstr "1/2 타일 (16px)"
 
 #: src/supertux/menu/editor_menu.cpp:35
 msgid "1 tile (32px)"
-msgstr ""
+msgstr "1 타일 (32px)"
 
 #: src/supertux/menu/editor_menu.cpp:39
 msgid "Return to editor"
@@ -2109,11 +2109,11 @@ msgstr "레벨 테스트"
 
 #: src/supertux/menu/editor_menu.cpp:47
 msgid "Test the worldmap"
-msgstr ""
+msgstr "웹드맵 테스트"
 
 #: src/supertux/menu/editor_menu.cpp:50
 msgid "Open output directory"
-msgstr ""
+msgstr "출력 디렉터리 열기"
 
 #: src/supertux/menu/editor_menu.cpp:53
 msgid "Edit another level"
@@ -2125,15 +2125,15 @@ msgstr "다른 레벨 서브셋 선택"
 
 #: src/supertux/menu/editor_menu.cpp:58
 msgid "Grid size"
-msgstr ""
+msgstr "격자 크기"
 
 #: src/supertux/menu/editor_menu.cpp:60
 msgid "Render lighting (F6)"
-msgstr ""
+msgstr "빛 렌더링 (F6)"
 
 #: src/supertux/menu/editor_menu.cpp:61
 msgid "Snap objects to grid (F7)"
-msgstr ""
+msgstr "개체를 격자에 맞춤 (F7)"
 
 #: src/supertux/menu/editor_menu.cpp:62
 msgid "Show grid (F8)"
@@ -2141,7 +2141,7 @@ msgstr "눈금선 보이기 (F8)"
 
 #: src/supertux/menu/editor_menu.cpp:63
 msgid "Render background"
-msgstr ""
+msgstr "배경 렌더링"
 
 #: src/supertux/menu/editor_menu.cpp:64
 msgid "Show scroller (F9)"
@@ -2156,14 +2156,14 @@ msgid ""
 "Couldn't find a \"main\" sector.\n"
 "Please change the name of the sector where\n"
 "you'd like the player to start to \"main\""
-msgstr ""
+msgstr "\"주요\" 부분을 찾을 수 없었습니다.\n플레이어가 \"주요\"에서 시작하기를 원하는\n부분의 이름을 변경해주세요"
 
 #: src/supertux/menu/editor_menu.cpp:111
 msgid ""
 "Couldn't find a \"main\" spawnpoint.\n"
 " Please change the name of the spawnpoint where\n"
 "you'd like the player to start to \"main\""
-msgstr ""
+msgstr "\"주요\" 스폰지점을 찾을 수 없었습니다.\n 플레이어가 \"주요\"에서 시작하기를 원하는\n스폰지점의 이름을 변경해주세요"
 
 #: src/supertux/levelintro.cpp:138
 #, c-format
@@ -2184,7 +2184,7 @@ msgstr "레벨 목표 시간"
 
 #: src/supertux/tile_set.cpp:92
 msgid "Others"
-msgstr ""
+msgstr "기타"
 
 #: src/supertux/direction.cpp:35
 msgid "up"
@@ -2204,19 +2204,19 @@ msgstr "<제목 없음>"
 
 #: src/worldmap/direction.cpp:85
 msgid "West"
-msgstr ""
+msgstr "서"
 
 #: src/worldmap/direction.cpp:86
 msgid "East"
-msgstr ""
+msgstr "동"
 
 #: src/worldmap/direction.cpp:87
 msgid "North"
-msgstr ""
+msgstr "북"
 
 #: src/worldmap/direction.cpp:88
 msgid "South"
-msgstr ""
+msgstr "남"
 
 #: src/editor/node_marker.cpp:79
 msgid "Path Node"
@@ -2232,7 +2232,7 @@ msgstr "거짓"
 
 #: src/editor/object_option.cpp:56
 msgid "invalid"
-msgstr ""
+msgstr "잘못됨"
 
 #: src/editor/editor.cpp:434
 msgid ""
@@ -2398,7 +2398,7 @@ msgstr "버그 수정"
 
 #: data//credits.stxt:161
 msgid "Explosion sprites"
-msgstr ""
+msgstr "폭발 스프라이트"
 
 #: data//credits.stxt:166
 msgid "Scripting functions, Level fixes"
@@ -2455,11 +2455,11 @@ msgstr "\"glbinding\"을 위해 선택적 OpenGL 바인딩으로 지원"
 
 #: data//credits.stxt:251
 msgid "New menu code"
-msgstr "새로운 메뉴 코드"
+msgstr "새 메뉴 코드"
 
 #: data//credits.stxt:256
 msgid "Big Tux Walking Sprites improvements"
-msgstr ""
+msgstr "큰 턱스 걷기 스프라이트 개선"
 
 #: data//credits.stxt:267
 msgid "Milestone 1 contributions by..."
@@ -2479,11 +2479,11 @@ msgstr "추가 음악"
 
 #: data//credits.stxt:302
 msgid "\"Mortimers Chipdisko\" by"
-msgstr "\"Mortimers Chipdisko\" 작곡가"
+msgstr "\"Mortimers Chipdisko\" 작곡"
 
 #: data//credits.stxt:311
 msgid "\"Salsa Con Carne\" by"
-msgstr "\"Salsa Con Carne\" 작곡가"
+msgstr "\"Salsa Con Carne\" 작곡"
 
 #: data//credits.stxt:319 data//credits.stxt:371
 msgid "remixed by"
@@ -2491,11 +2491,11 @@ msgstr "리믹스하신 분"
 
 #: data//credits.stxt:328
 msgid "\"voc songs\" by"
-msgstr "\"voc songs\" 작곡가"
+msgstr "\"voc songs\" 작곡"
 
 #: data//credits.stxt:337
 msgid "\"clavelian_march\" by"
-msgstr "\"clavelian_march\" 작곡가"
+msgstr "\"clavelian_march\" 작곡"
 
 #: data//credits.stxt:346
 msgid "Excerpts from the Giana Sisters"
@@ -2511,19 +2511,19 @@ msgstr "여기에서"
 
 #: data//credits.stxt:363
 msgid "\"Airship song\" (orchestral remix) by"
-msgstr "\"Airship song\" (오케스트라 리믹스) 작곡가"
+msgstr "\"Airship song\" (오케스트라 리믹스) 작곡"
 
 #: data//credits.stxt:380
 msgid "\"Battle Theme\" by"
-msgstr "\"Battle Theme\" 작곡가"
+msgstr "\"Battle Theme\" 작곡"
 
 #: data//credits.stxt:389
 msgid "\"SuperTux christmas theme\""
-msgstr "\"SuperTux 크리스마스 테마\""
+msgstr "\"슈퍼턱스 크리스마스 테마\""
 
 #: data//credits.stxt:393
 msgid "original by"
-msgstr "원래 작곡가"
+msgstr "원래 작곡"
 
 #: data//credits.stxt:402
 msgid "arranged by"
@@ -2531,11 +2531,11 @@ msgstr "어레인지하신 분"
 
 #: data//credits.stxt:411
 msgid "\"halloween_1.ogg\" by"
-msgstr "\"halloween_1.ogg\" 작곡가"
+msgstr "\"halloween_1.ogg\" 작곡"
 
 #: data//credits.stxt:420
 msgid "\"Forest Prophecy reEducated\" (forest_theme.ogg) by"
-msgstr "\"Forest Prophecy reEducated\" (forest_theme.ogg) 작곡가"
+msgstr "\"Forest Prophecy reEducated\" (forest_theme.ogg) 작곡"
 
 #: data//credits.stxt:500
 msgid "Voice Acting"
@@ -2551,7 +2551,7 @@ msgstr "세르비아어"
 
 #: data//credits.stxt:540
 msgid "Uzbek"
-msgstr ""
+msgstr "우즈베크어"
 
 #: data//credits.stxt:544 data//credits.stxt:552 data//credits.stxt:580
 #: data//credits.stxt:616 data//credits.stxt:620 data//credits.stxt:724
@@ -2575,7 +2575,7 @@ msgstr "러시아어"
 
 #: data//credits.stxt:564
 msgid "French, German"
-msgstr ""
+msgstr "프랑스어, 독일어"
 
 #: data//credits.stxt:568 data//credits.stxt:608 data//credits.stxt:640
 #: data//credits.stxt:712 data//credits.stxt:716 data//credits.stxt:936
@@ -2615,7 +2615,7 @@ msgstr "헝가리어"
 #: data//credits.stxt:604 data//credits.stxt:720 data//credits.stxt:968
 #: data//credits.stxt:1068
 msgid "Slovak"
-msgstr ""
+msgstr "슬로바키아어"
 
 #: data//credits.stxt:612 data//credits.stxt:692 data//credits.stxt:840
 #: data//credits.stxt:904
@@ -2633,12 +2633,12 @@ msgstr "슬로베니아어"
 
 #: data//credits.stxt:656
 msgid "Malayalam"
-msgstr ""
+msgstr "말레이시아어"
 
 #: data//credits.stxt:660 data//credits.stxt:912 data//credits.stxt:1020
 #: data//credits.stxt:1216
 msgid "Mandarin Chinese"
-msgstr ""
+msgstr "관화"
 
 #: data//credits.stxt:664
 msgid "Norwegian Bokmål"
@@ -2650,7 +2650,7 @@ msgstr "관화"
 
 #: data//credits.stxt:684 data//credits.stxt:908 data//credits.stxt:1208
 msgid "Esperanto"
-msgstr ""
+msgstr "에스페란토"
 
 #: data//credits.stxt:688 data//credits.stxt:700
 msgid "Romanian"
@@ -2658,7 +2658,7 @@ msgstr "루마니아어"
 
 #: data//credits.stxt:696
 msgid "Croatian"
-msgstr ""
+msgstr "크로아티아어"
 
 #: data//credits.stxt:704 data//credits.stxt:756 data//credits.stxt:1056
 #: data//credits.stxt:1132
@@ -2687,7 +2687,7 @@ msgstr "체코어"
 
 #: data//credits.stxt:768 data//credits.stxt:1236
 msgid "Hebrew"
-msgstr ""
+msgstr "히브리어"
 
 #: data//credits.stxt:772 data//credits.stxt:836 data//credits.stxt:992
 #: data//credits.stxt:1004 data//credits.stxt:1016 data//credits.stxt:1044
@@ -2714,11 +2714,11 @@ msgstr "폴란드어"
 
 #: data//credits.stxt:816
 msgid "Norwegian Bokmål, Norwegian Nynorsk"
-msgstr ""
+msgstr "노르웨이 보크몰, 노르웨이 뉘노르스크"
 
 #: data//credits.stxt:828
 msgid "Tatar"
-msgstr ""
+msgstr "타타르어"
 
 #: data//credits.stxt:832 data//credits.stxt:1196 data//credits.stxt:1200
 msgid "Bulgarian"
@@ -2726,7 +2726,7 @@ msgstr "불가리아어"
 
 #: data//credits.stxt:856 data//credits.stxt:980
 msgid "Korean"
-msgstr ""
+msgstr "한국어"
 
 #: data//credits.stxt:860
 msgid "Estonian"
@@ -2734,7 +2734,7 @@ msgstr "에스토니아어"
 
 #: data//credits.stxt:876
 msgid "Polish, Swedish"
-msgstr ""
+msgstr "폴란드어, 스웨덴어"
 
 #: data//credits.stxt:884 data//credits.stxt:1136
 msgid "Lithuanian"
@@ -2746,7 +2746,7 @@ msgstr "프랑스어/에스페란토"
 
 #: data//credits.stxt:900
 msgid "Spanish, Brazilian Portuguese"
-msgstr ""
+msgstr "스페인어, 브라질 포르투갈어"
 
 #: data//credits.stxt:916 data//credits.stxt:1180
 msgid "Ukrainian"
@@ -2766,11 +2766,11 @@ msgstr "그리스어"
 
 #: data//credits.stxt:1036
 msgid "Latin"
-msgstr ""
+msgstr "라틴어"
 
 #: data//credits.stxt:1084
 msgid "European Portuguese, Brazilian Portuguese"
-msgstr ""
+msgstr "유럽 포르투갈어, 브라질 포르투갈어"
 
 #: data//credits.stxt:1120
 msgid "Simplified Chinese"
@@ -2782,7 +2782,7 @@ msgstr "벨라루스어"
 
 #: data//credits.stxt:1240
 msgid "Indonesian"
-msgstr ""
+msgstr "인도네시아어"
 
 #: data//credits.stxt:1254
 msgid "Thanks to"
@@ -2804,11 +2804,11 @@ msgstr "리눅스에서 이러한 훌륭한 게임 경험을\n        가능하�
 
 #: data//credits.stxt:1276
 msgid "Visit our webpage at"
-msgstr "우리의 웹페이지를 방문하세요:"
+msgstr "우리의 웹페이지를 방문하거나"
 
 #: data//credits.stxt:1285
 msgid "Or visit us directly at IRC:"
-msgstr "또는 우리에게 직접 IRC에서 방문하세요:"
+msgstr "우리에게 직접 IRC에서 방문하세요:"
 
 #: data//credits.stxt:1289
 msgid "#supertux at webchat.freenode.net"
@@ -2829,17 +2829,17 @@ msgstr "우리의 메일링 리스트에 가세요"
 #. l10n: typo contact
 #: data//credits.stxt:1317
 msgid "Typographical errors can be"
-msgstr ""
+msgstr "오자는"
 
 #. l10n: typo contact
 #: data//credits.stxt:1322
 msgid "reported to"
-msgstr ""
+msgstr "에 보고하실 수 있습니다"
 
 #. l10n: typo contact, see <https://github.com/SuperTux/supertux/issues/611>
 #: data//credits.stxt:1327
 msgid "supertux-devel@lists.lethargik.org"
-msgstr ""
+msgstr "supertux-devel@lists.lethargik.org"
 
 #: data//credits.stxt:1334
 msgid "Want to help…"
@@ -2927,11 +2927,11 @@ msgstr "테스트"
 
 #: data//images/tiles.strf:288
 msgid "Crystal Cave"
-msgstr ""
+msgstr "크리스탈 동굴"
 
 #: data//images/tiles.strf:379
 msgid "Snow Mountain"
-msgstr ""
+msgstr "눈 산"
 
 #: data//images/tiles.strf:453 data//images/worldmap.strf:41
 msgid "Snow"
@@ -2951,7 +2951,7 @@ msgstr "숲 (배경)"
 
 #: data//images/tiles.strf:760
 msgid "Forest (Underground)"
-msgstr ""
+msgstr "숲 (지하)"
 
 #: data//images/tiles.strf:804
 msgid "Block"

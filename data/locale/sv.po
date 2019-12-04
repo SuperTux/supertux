@@ -3,10 +3,12 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# Anders Jonsson <transifex@norsjovallen.se>, 2017-2018
+# Anders Jonsson <transifex@norsjovallen.se>, 2017-2019
 # Arvid Norlander <anmaster@berlios.de>, 2006-2010
 # Benjamin Leduc <giby_the_kid@yahoo.fr>, 2015
+# Kristoffer Grundström <hamnisdude@gmail.com>, 2019
 # Kristoffer Grundström <hamnisdude@gmail.com>, 2014
+# Sebastian Rasmussen <sebras@gmail.com>, 2019
 # Sebastian Rasmussen <sebras@gmail.com>, 2015-2016,2018
 # Simon Kornowski <kornowski.simon@gmail.com>, 2013
 # theschitz <theodore@theschitz.se>, 2016
@@ -15,8 +17,8 @@ msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2018-11-16 00:48+0100\n"
-"PO-Revision-Date: 2018-11-15 23:50+0000\n"
-"Last-Translator: Tobias Markus <tobbi@supertuxproject.org>\n"
+"PO-Revision-Date: 2019-11-25 00:41+0000\n"
+"Last-Translator: Sebastian Rasmussen <sebras@gmail.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/arctic-games/supertux/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -30,7 +32,7 @@ msgstr "Du har hittat ett hemligt område!"
 
 #: src/trigger/secretarea_trigger.cpp:69
 msgid "Secret area"
-msgstr "Hemliga områden"
+msgstr "Hemligt område"
 
 #: src/trigger/secretarea_trigger.cpp:70 src/trigger/scripttrigger.cpp:70
 #: src/trigger/climbable.cpp:73 src/trigger/switch.cpp:60
@@ -58,7 +60,7 @@ msgstr "Höjd"
 
 #: src/trigger/secretarea_trigger.cpp:73
 msgid "Fade tilemap"
-msgstr ""
+msgstr "Tona ut plattkarta"
 
 #: src/trigger/secretarea_trigger.cpp:74 src/trigger/climbable.cpp:76
 #: src/object/infoblock.cpp:56 src/editor/worldmap_objects.cpp:189
@@ -163,7 +165,7 @@ msgstr "Åskväder"
 
 #: src/object/path_gameobject.hpp:52
 msgid "Path"
-msgstr ""
+msgstr "Genväg"
 
 #: src/object/decal.cpp:43 src/supertux/menu/keyboard_menu.cpp:37
 #: src/supertux/menu/joystick_menu.cpp:74
@@ -191,7 +193,7 @@ msgstr "Gradient"
 
 #: src/object/tilemap.hpp:53
 msgid "Tilemap"
-msgstr ""
+msgstr "Plattkarta"
 
 #: src/object/brick.cpp:133
 msgid "Breakable"
@@ -221,7 +223,7 @@ msgstr "Moturs"
 
 #: src/object/scripted_object.cpp:63
 msgid "Physics enabled"
-msgstr ""
+msgstr "Fysik aktiverad"
 
 #: src/object/scripted_object.cpp:64
 msgid "Visible"
@@ -329,7 +331,7 @@ msgstr "Snöpartiklar"
 
 #: src/object/powerup.hpp:43
 msgid "Power-up"
-msgstr ""
+msgstr "Uppgradering"
 
 #: src/object/level_time.hpp:70
 msgid "Level time"
@@ -423,7 +425,7 @@ msgstr "flämtande"
 
 #: src/object/text_array_object.hpp:62
 msgid "Text array"
-msgstr ""
+msgstr "Textarray"
 
 #: src/object/infoblock.hpp:40
 msgid "Info block"
@@ -524,7 +526,7 @@ msgstr "Blåsande"
 
 #: src/object/ambient_light.cpp:138
 msgid "Color"
-msgstr ""
+msgstr "Färg"
 
 #: src/object/bicycle_platform.hpp:64
 msgid "Bicycle platform"
@@ -536,27 +538,27 @@ msgstr "Vägläge"
 
 #: src/object/path.cpp:201
 msgid "One shot"
-msgstr ""
+msgstr "Engångs"
 
 #: src/object/path.cpp:202
 msgid "Ping-pong"
-msgstr ""
+msgstr "Ping-pong"
 
 #: src/object/path.cpp:203
 msgid "Circular"
-msgstr ""
+msgstr "Rund"
 
 #: src/object/path.cpp:204
 msgid "Unordered"
-msgstr ""
+msgstr "Oordnad"
 
 #: src/object/rock.cpp:173
 msgid "On-grab script"
-msgstr ""
+msgstr "Upplockningsskript"
 
 #: src/object/rock.cpp:174
 msgid "On-ungrab script"
-msgstr ""
+msgstr "Släppningsskript"
 
 #: src/object/particlesystem_interactive.hpp:45
 msgid "Interactive particle system"
@@ -564,7 +566,7 @@ msgstr "Interaktivt partikelsystem"
 
 #: src/object/music_object.cpp:108
 msgid "File"
-msgstr ""
+msgstr "Fil"
 
 #: src/object/path_walker.cpp:220 src/object/thunderstorm.cpp:64
 #: src/object/tilemap.cpp:242
@@ -593,19 +595,19 @@ msgstr "Dekal"
 
 #: src/object/tilemap.cpp:222
 msgid "Resize offset x"
-msgstr ""
+msgstr "Storleksändringsavstånd x"
 
 #: src/object/tilemap.cpp:223
 msgid "Resize offset y"
-msgstr ""
+msgstr "Storleksändringsavstånd y"
 
 #: src/object/tilemap.cpp:226
 msgid "Alpha"
-msgstr ""
+msgstr "Alfa"
 
 #: src/object/tilemap.cpp:229
 msgid "Tint"
-msgstr ""
+msgstr "Färgton"
 
 #: src/object/tilemap.cpp:232
 msgid "Draw target"
@@ -613,7 +615,7 @@ msgstr "Rita mål"
 
 #: src/object/tilemap.cpp:233
 msgid "Normal"
-msgstr ""
+msgstr "Normal"
 
 #: src/object/tilemap.cpp:234 data//images/engine/editor/objects.stoi:249
 #: data//images/tiles.strf:1152
@@ -643,19 +645,19 @@ msgstr "Riktning"
 
 #: src/object/gradient.cpp:143
 msgid "Vertical"
-msgstr ""
+msgstr "Vertikal"
 
 #: src/object/gradient.cpp:144
 msgid "Horizontal"
-msgstr ""
+msgstr "Horisontell"
 
 #: src/object/gradient.cpp:145
 msgid "Vertical (whole sector)"
-msgstr ""
+msgstr "Vertikal (hela sektorn)"
 
 #: src/object/gradient.cpp:146
 msgid "Horizontal (whole sector)"
-msgstr ""
+msgstr "Horisontell (hela sektorn)"
 
 #: src/object/unstable_tile.hpp:39
 msgid "Unstable tile"
@@ -742,7 +744,7 @@ msgstr "Avbryt"
 
 #: src/gui/menu_script.cpp:28
 msgid "Edit script"
-msgstr ""
+msgstr "Redigera skript"
 
 #: src/badguy/toad.hpp:42
 msgid "Toad"
@@ -826,7 +828,7 @@ msgstr "Mullvadens sten"
 
 #: src/badguy/sspiky.hpp:39
 msgid "Sleeping spiky"
-msgstr "Sovande tagge"
+msgstr "Sovande Tagge"
 
 #: src/badguy/yeti_stalactite.hpp:37
 msgid "Yeti's stalactite"
@@ -1290,27 +1292,27 @@ msgstr "Tillbaka"
 
 #: src/supertux/menu/debug_menu.cpp:29
 msgid "Debug"
-msgstr ""
+msgstr "Felsökning"
 
 #: src/supertux/menu/debug_menu.cpp:53
 msgid "Game Speed"
-msgstr ""
+msgstr "Spelhastighet"
 
 #: src/supertux/menu/debug_menu.cpp:54
 msgid "Adjust Game Speed"
-msgstr ""
+msgstr "Justera spelets hastighet"
 
 #: src/supertux/menu/debug_menu.cpp:60
 msgid "Show Collision Rects"
-msgstr ""
+msgstr "Visa kollisionsrektanglar"
 
 #: src/supertux/menu/debug_menu.cpp:61
 msgid "Show Worldmap Path"
-msgstr ""
+msgstr "Visa sökväg till världskarta"
 
 #: src/supertux/menu/debug_menu.cpp:62
 msgid "Use Bitmap Fonts"
-msgstr ""
+msgstr "Använd bitmappstypsnitt"
 
 #: src/supertux/menu/editor_sectors_menu.cpp:31
 msgid "Choose sector to edit:"
@@ -1510,19 +1512,19 @@ msgstr "Välj en profil att spela med"
 
 #: src/supertux/menu/options_menu.cpp:366
 msgid "Window Resizable"
-msgstr ""
+msgstr "Fönster kan ändra storlek"
 
 #: src/supertux/menu/options_menu.cpp:367
 msgid "Allow window resizing, might require a restart to take effect"
-msgstr ""
+msgstr "Tillåt storleksändring av fönster, kan kräva en omstart för att  bli verksamt"
 
 #: src/supertux/menu/options_menu.cpp:369
 msgid "Window Resolution"
-msgstr ""
+msgstr "Fönsterupplösning"
 
 #: src/supertux/menu/options_menu.cpp:370
 msgid "Resize the window to the given size"
-msgstr ""
+msgstr "Ändra storlek på fönstret till den angivna storleken"
 
 #: src/supertux/menu/options_menu.cpp:372
 msgid "Fullscreen"
@@ -1534,7 +1536,7 @@ msgstr "Fyll hela skärmen"
 
 #: src/supertux/menu/options_menu.cpp:375
 msgid "Fullscreen Resolution"
-msgstr ""
+msgstr "Helskärmsupplösning"
 
 #: src/supertux/menu/options_menu.cpp:376
 msgid ""
@@ -1584,19 +1586,19 @@ msgstr "Inaktivera all musik"
 
 #: src/supertux/menu/options_menu.cpp:397
 msgid "Sound Volume"
-msgstr ""
+msgstr "Ljudvolym"
 
 #: src/supertux/menu/options_menu.cpp:398
 msgid "Adjust sound volume"
-msgstr ""
+msgstr "Justera ljudvolym"
 
 #: src/supertux/menu/options_menu.cpp:400
 msgid "Music Volume"
-msgstr ""
+msgstr "Volym för musik"
 
 #: src/supertux/menu/options_menu.cpp:401
 msgid "Adjust music volume"
-msgstr ""
+msgstr "Justera volym för musik"
 
 #: src/supertux/menu/options_menu.cpp:405
 msgid "Sound (disabled)"
@@ -1666,7 +1668,7 @@ msgstr "Författare"
 
 #: src/supertux/menu/main_menu.cpp:50
 msgid "Donate"
-msgstr ""
+msgstr "Donera"
 
 #: src/supertux/menu/main_menu.cpp:51
 msgid "Quit"
@@ -1857,7 +1859,7 @@ msgstr "Fuskmeny"
 #: src/supertux/menu/keyboard_menu.cpp:47
 #: src/supertux/menu/joystick_menu.cpp:85
 msgid "Debug Menu"
-msgstr ""
+msgstr "Felsökningsmeny"
 
 #: src/supertux/menu/keyboard_menu.cpp:49
 #: src/supertux/menu/joystick_menu.cpp:87
@@ -2119,7 +2121,7 @@ msgstr "Testa världskartan"
 
 #: src/supertux/menu/editor_menu.cpp:50
 msgid "Open output directory"
-msgstr ""
+msgstr "Öppna utdatakatalog"
 
 #: src/supertux/menu/editor_menu.cpp:53
 msgid "Edit another level"
@@ -2162,14 +2164,14 @@ msgid ""
 "Couldn't find a \"main\" sector.\n"
 "Please change the name of the sector where\n"
 "you'd like the player to start to \"main\""
-msgstr ""
+msgstr "Kunde inte hitta en sektor med namnet \"main\".\nByt namn på sektorn där du vill att\nspelaren ska börja till \"main\""
 
 #: src/supertux/menu/editor_menu.cpp:111
 msgid ""
 "Couldn't find a \"main\" spawnpoint.\n"
 " Please change the name of the spawnpoint where\n"
 "you'd like the player to start to \"main\""
-msgstr ""
+msgstr "Kunde inte hitta återuppståndspunkten \"main\".\n Ändra namnet på återuppståndspunkten där\ndu vill att spelaren ska börja på till \"main\""
 
 #: src/supertux/levelintro.cpp:138
 #, c-format
@@ -2210,19 +2212,19 @@ msgstr "<ingen titel>"
 
 #: src/worldmap/direction.cpp:85
 msgid "West"
-msgstr ""
+msgstr "Väster"
 
 #: src/worldmap/direction.cpp:86
 msgid "East"
-msgstr ""
+msgstr "Öster"
 
 #: src/worldmap/direction.cpp:87
 msgid "North"
-msgstr ""
+msgstr "Norr"
 
 #: src/worldmap/direction.cpp:88
 msgid "South"
-msgstr ""
+msgstr "Söder"
 
 #: src/editor/node_marker.cpp:79
 msgid "Path Node"
@@ -2404,7 +2406,7 @@ msgstr "Programfixar"
 
 #: data//credits.stxt:161
 msgid "Explosion sprites"
-msgstr ""
+msgstr "Explosionsanimationer"
 
 #: data//credits.stxt:166
 msgid "Scripting functions, Level fixes"

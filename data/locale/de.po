@@ -3,22 +3,32 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
+# afba88cf42cbdff57149d4a6d53a94f9, 2018
 # Wuzzy <almikes@aol.com>, 2015-2016
 # Anonymouse <anonymouse2048@gmail.com>, 2013-2014
+# TheTrueBrot <noah.schluessel@gmail.com>, 2015
 # Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>, 2006,2013
+# cvcxc <hans.andersen72@yahoo.com>, 2013
+# divVerent <divVerent@xonotic.org>, 2011,2013
 # Ettore Atalan <atalanttore@googlemail.com>, 2014-2016
+# Larson März <larson@protonmail.ch>, 2016
 # Marcel Haring <getting@autistici.org>, 2013-2014
 # Matthias Braun <matze@braunis.de>, 2004
-# M. Teufel, 2018
+# mteufel, 2018
+# mteufel, 2018
+# Sless <sless@gmx.net>, 2014
+# TheTrueBrot <noah.schluessel@gmail.com>, 2015
 # Tobias Markus <tobbi@supertuxproject.org>, 2013-2017
-# Tobias Markus <tobbi@supertuxproject.org>, 2018
+# Tobias Markus <tobbi@supertuxproject.org>, 2018-2019
+# Wuzzy <almikes@aol.com>, 2016
+# Yepoleb <huberg18@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2018-11-16 00:48+0100\n"
-"PO-Revision-Date: 2018-12-01 10:59+0000\n"
-"Last-Translator: Tobias Markus <tobbi@supertuxproject.org>\n"
+"PO-Revision-Date: 2019-11-26 19:40+0000\n"
+"Last-Translator: Wuzzy <almikes@aol.com>\n"
 "Language-Team: German (http://www.transifex.com/arctic-games/supertux/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -719,7 +729,7 @@ msgstr "OK"
 
 #: src/gui/menu_badguy_select.cpp:135
 msgid "Do you want to delete this badguy from the list?"
-msgstr "Möchtest Du diesen Gegner von der Liste entfernen?"
+msgstr "Möchtest du diesen Gegner von der Liste entfernen?"
 
 #: src/gui/menu_badguy_select.cpp:136 src/gui/dialog.hpp:89
 msgid "Yes"
@@ -916,7 +926,7 @@ msgstr "Giftefeu"
 
 #: src/badguy/willowisp.hpp:63
 msgid "Will 'o' wisp"
-msgstr "Irrlicht"
+msgstr "Weidenwisp"
 
 #: src/badguy/badguy.hpp:55
 msgid "Badguy"
@@ -1012,7 +1022,7 @@ msgstr "Fallenlasser"
 
 #: src/badguy/dispenser.cpp:402
 msgid "rocket launcher"
-msgstr "Raketenstarter"
+msgstr "Raketenwerfer"
 
 #: src/badguy/dispenser.cpp:403
 msgid "cannon"
@@ -1109,16 +1119,16 @@ msgstr "-v, --version SuperTux-Version anzeigen und beenden"
 
 #: src/supertux/command_line_arguments.cpp:77
 msgid "  --verbose                    Print verbose messages"
-msgstr "--verbose Mehr Informationen ausgeben"
+msgstr "  --verbose                    Mehr Informationen ausgeben"
 
 #: src/supertux/command_line_arguments.cpp:78
 msgid "  --debug                      Print extra verbose messages"
-msgstr "--debug Noch mehr Informationen ausgeben"
+msgstr "  --debug                      Noch mehr Informationen ausgeben"
 
 #: src/supertux/command_line_arguments.cpp:79
 msgid ""
 "  --print-datadir              Print SuperTux's primary data directory."
-msgstr "--print-datadir SuperTuxs primäres Datenverzeichnis ausgeben."
+msgstr "  --print-datadir              SuperTux' primäres Datenverzeichnis ausgeben."
 
 #: src/supertux/command_line_arguments.cpp:81
 msgid "Video Options:"
@@ -1170,11 +1180,11 @@ msgstr "--edit-level Angegebenes Level im Editor öffnen"
 
 #: src/supertux/command_line_arguments.cpp:95
 msgid "  --show-fps                   Display framerate in levels"
-msgstr "--show-fps Bildwechselfrequenz in Leveln anzeigen"
+msgstr "  --show-fps                   Bildwechselfrequenz in Leveln anzeigen"
 
 #: src/supertux/command_line_arguments.cpp:96
 msgid "  --no-show-fps                Do not display framerate in levels"
-msgstr "--no-show-fps Bildwechselfrequenz in Leveln nicht anzeigen"
+msgstr "  --no-show-fps                Bildwechselfrequenz in Leveln nicht anzeigen"
 
 #: src/supertux/command_line_arguments.cpp:97
 msgid "  --show-pos                   Display player's current position"
@@ -1212,11 +1222,11 @@ msgstr "Wiederholungsaufnahmeoptionen:"
 
 #: src/supertux/command_line_arguments.cpp:106
 msgid "  --record-demo FILE LEVEL     Record a demo to FILE"
-msgstr "--record-demo DATEI LEVEL Eine Wiederholung in DATEI aufnehmen"
+msgstr "  --record-demo DATEI LEVEL    Eine Wiederholung in DATEI aufnehmen"
 
 #: src/supertux/command_line_arguments.cpp:107
 msgid "  --play-demo FILE LEVEL       Play a recorded demo"
-msgstr "--play-demo DATEI LEVEL Eine aufgenommene Wiederholung abspielen"
+msgstr "  --play-demo DATEI LEVEL      Eine aufgenommene Wiederholung abspielen"
 
 #: src/supertux/command_line_arguments.cpp:109
 msgid "Directory Options:"
@@ -1225,7 +1235,7 @@ msgstr "Verzeichnisoptionen:"
 #: src/supertux/command_line_arguments.cpp:110
 msgid ""
 "  --datadir DIR                Set the directory for the games datafiles"
-msgstr "--datadir VERZEICHNIS Verzeichnis für die Spieldatendateien festlegen"
+msgstr "  --datadir VERZEICHNIS        Verzeichnis für die Spieldatendateien festlegen"
 
 #: src/supertux/command_line_arguments.cpp:111
 msgid ""
@@ -1252,7 +1262,7 @@ msgstr "SUPERTUX2_USER_DIR Verzeichnis für Benutzerdaten (gespeicherte Spiele, 
 
 #: src/supertux/command_line_arguments.cpp:118
 msgid "  SUPERTUX2_DATA_DIR           Directory for the games datafiles"
-msgstr "SUPERTUX2_DATA_DIR Verzeichnis für Spieldatendateien"
+msgstr "  SUPERTUX2_DATA_DIR           Verzeichnis für Spieldatendateien"
 
 #: src/supertux/title_screen.cpp:42
 msgid "Copyright"
@@ -1262,7 +1272,7 @@ msgstr "Copyright"
 msgid ""
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
 "redistribute it under certain conditions; see the license file for details.\n"
-msgstr "Dieses Spiel kommt mit KEINERLEI GARANTIE. Dies ist freie Software und Du bist herzlich eingeladen,\nsie unter bestimmten Bedingungen weiterzuverbreiten; für Details lies die Lizenzdatei.\n"
+msgstr "Dieses Spiel kommt mit KEINERLEI GARANTIE. Dies ist freie Software und du bist herzlich eingeladen,\nsie unter bestimmten Bedingungen weiterzuverbreiten; für Details lies die Lizenzdatei.\n"
 
 #: src/supertux/menu/contrib_menu.cpp:79
 #: src/supertux/menu/world_set_menu.cpp:31
@@ -1320,7 +1330,7 @@ msgstr "Zu bearbeitenden Sektor auswählen:"
 
 #: src/supertux/menu/editor_sectors_menu.cpp:41
 msgid "Sector settings..."
-msgstr "Sektor-Einstellungen"
+msgstr "Sektor-Einstellungen ..."
 
 #: src/supertux/menu/editor_sectors_menu.cpp:42
 msgid "Create new sector"
@@ -1336,7 +1346,7 @@ msgstr "Jedes Level muss mindestens einen Sektor haben."
 
 #: src/supertux/menu/editor_sectors_menu.cpp:97
 msgid "Do you really want to delete this sector?"
-msgstr "Möchtest Du diesen Sektor wirklich löschen?"
+msgstr "Möchtest du diesen Sektor wirklich löschen?"
 
 #: src/supertux/menu/editor_sectors_menu.cpp:100
 msgid "Delete sector"
@@ -1378,7 +1388,7 @@ msgid ""
 "It allows modifications and redistribution by third-parties.\n"
 "If you don't agree with this license, change it in worldmap properties.\n"
 "DISCLAIMER: The SuperTux authors take no responsibility for your choice of license."
-msgstr "Diese Weltkarte wird unter der Lizenz CC-BY-SA 4.0 International (vorgeschlagene Lizenz) geteilt.\nDiese Lizenz erlaubt Modifikationen und Weiterverbreitung durch Dritte.\nWenn Du dieser Lizenz nicht zustimmst, ändere sie in den Weltkarteneigenschaften.\nHAFTUNGSAUSSCHLUSS: Die SuperTux-Autoren übernehmen keine Verantwortung für deine Wahl der Lizenz."
+msgstr "Diese Weltkarte wird unter der Lizenz CC-BY-SA 4.0 International (vorgeschlagene Lizenz) geteilt.\nDiese Lizenz erlaubt Modifikationen und Weiterverbreitung durch Dritte.\nWenn du dieser Lizenz nicht zustimmst, ändere sie in den Weltkarteneigenschaften.\nHAFTUNGSAUSSCHLUSS: Die SuperTux-Autoren übernehmen keine Verantwortung für deine Wahl der Lizenz."
 
 #: src/supertux/menu/editor_level_select_menu.cpp:128
 msgid ""
@@ -1386,7 +1396,7 @@ msgid ""
 "It allows modifications and redistribution by third-parties.\n"
 "If you don't agree with this license, change it in level properties.\n"
 "DISCLAIMER: The SuperTux authors take no responsibility for your choice of license."
-msgstr "Dieser Level wird unter der Lizenz CC-BY-SA 4.0 International (vorgeschlagene Lizenz) geteilt.\nDiese Lizenz erlaubt Modifikationen und Weiterverbreitung durch Dritte.\nWenn Du dieser Lizenz nicht zustimmst, ändere sie in den Leveleigenschaften.\nHAFTUNGSAUSSCHLUSS: Die SuperTux-Autoren übernehmen keine Verantwortung für deine Wahl der Lizenz."
+msgstr "Dieser Level wird unter der Lizenz CC-BY-SA 4.0 International (vorgeschlagene Lizenz) geteilt.\nDiese Lizenz erlaubt Modifikationen und Weiterverbreitung durch Dritte.\nWenn du dieser Lizenz nicht zustimmst, ändere sie in den Leveleigenschaften.\nHAFTUNGSAUSSCHLUSS: Die SuperTux-Autoren übernehmen keine Verantwortung für deine Wahl der Lizenz."
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:33
 #: src/supertux/menu/cheat_menu.cpp:30
@@ -1524,7 +1534,7 @@ msgstr "Fensterauflösung"
 
 #: src/supertux/menu/options_menu.cpp:370
 msgid "Resize the window to the given size"
-msgstr "Die Größe des Fensters auf die angegebene Größe ändern "
+msgstr "Die Größe des Fensters auf die angegebene Größe ändern"
 
 #: src/supertux/menu/options_menu.cpp:372
 msgid "Fullscreen"
@@ -1664,7 +1674,7 @@ msgstr "Leveleditor"
 
 #: src/supertux/menu/main_menu.cpp:49
 msgid "Credits"
-msgstr "Abspann"
+msgstr "Entwickler"
 
 #: src/supertux/menu/main_menu.cpp:50
 msgid "Donate"
@@ -1730,7 +1740,7 @@ msgstr "Unbekannt"
 #: src/supertux/menu/addon_menu.cpp:68
 #, c-format
 msgid "%s \"%s\" by \"%s\""
-msgstr "%s \"%s\" von \"%s\""
+msgstr "%s »%s« von »%s«"
 
 #: src/supertux/menu/addon_menu.cpp:126
 msgid "No Add-ons installed"
@@ -1787,7 +1797,7 @@ msgstr "Geschichtsmodus"
 
 #: src/supertux/menu/game_menu.cpp:29
 msgid "Are you sure?"
-msgstr "Sind Sie sicher?"
+msgstr "Bist du sicher?"
 
 #: src/supertux/menu/game_menu.cpp:46 src/supertux/menu/worldmap_menu.cpp:30
 msgid "Continue"
@@ -1983,7 +1993,7 @@ msgstr "X"
 
 #: src/supertux/menu/joystick_menu.cpp:174
 msgid "Y"
-msgstr "J"
+msgstr "Y"
 
 #: src/supertux/menu/joystick_menu.cpp:176
 msgid "X2"
@@ -2164,14 +2174,14 @@ msgid ""
 "Couldn't find a \"main\" sector.\n"
 "Please change the name of the sector where\n"
 "you'd like the player to start to \"main\""
-msgstr "Konnte den \"main\"-Sektor nicht finden.\nBitte ändere den Namen des Sektors,\nin dem der Spieler starten soll, auf \"main\""
+msgstr "Konnte den »main«-Sektor nicht finden.\nBitte ändere den Namen des Sektors,\nin dem der Spieler starten soll, auf »main«"
 
 #: src/supertux/menu/editor_menu.cpp:111
 msgid ""
 "Couldn't find a \"main\" spawnpoint.\n"
 " Please change the name of the spawnpoint where\n"
 "you'd like the player to start to \"main\""
-msgstr "Konnte den \"main\"-Spawnpoint nicht finden.\nBitte ändere den Namen des Spawnpoints,\nin dem der Spieler starten soll, auf \"main\""
+msgstr "Konnte den »main«-Spawnpoint nicht finden.\nBitte ändere den Namen des Spawnpoints,\nin dem der Spieler starten soll, auf »main«"
 
 #: src/supertux/levelintro.cpp:138
 #, c-format
@@ -2467,11 +2477,11 @@ msgstr "Code für neues Menü"
 
 #: data//credits.stxt:256
 msgid "Big Tux Walking Sprites improvements"
-msgstr "Verbesserungen der Gang-Animation von \"Big Tux\""
+msgstr "Verbesserungen der Gang-Animation des großen Tux"
 
 #: data//credits.stxt:267
 msgid "Milestone 1 contributions by..."
-msgstr "Beiträge zu Meilenstein 1 von..."
+msgstr "Beiträge zu Meilenstein 1 von ..."
 
 #: data//credits.stxt:280 data//credits.stxt:288
 msgid "Contrib Programming"
@@ -2487,11 +2497,11 @@ msgstr "Zusätzliche Musik"
 
 #: data//credits.stxt:302
 msgid "\"Mortimers Chipdisko\" by"
-msgstr "\"Mortimers Chipdisko\" von"
+msgstr "»Mortimers Chipdisko« von"
 
 #: data//credits.stxt:311
 msgid "\"Salsa Con Carne\" by"
-msgstr "\"Salsa Con Carne\" von"
+msgstr "»Salsa Con Carne« von"
 
 #: data//credits.stxt:319 data//credits.stxt:371
 msgid "remixed by"
@@ -2499,11 +2509,11 @@ msgstr "neu abgemischt von"
 
 #: data//credits.stxt:328
 msgid "\"voc songs\" by"
-msgstr "\"voc songs\" von"
+msgstr "»voc songs« von"
 
 #: data//credits.stxt:337
 msgid "\"clavelian_march\" by"
-msgstr "\"clavelian_march\" von"
+msgstr "»clavelian_march« von"
 
 #: data//credits.stxt:346
 msgid "Excerpts from the Giana Sisters"
@@ -2519,15 +2529,15 @@ msgstr "von"
 
 #: data//credits.stxt:363
 msgid "\"Airship song\" (orchestral remix) by"
-msgstr "\"Airship song\" (orchestral remix) von"
+msgstr "»Airship song« (orchestral remix) von"
 
 #: data//credits.stxt:380
 msgid "\"Battle Theme\" by"
-msgstr "\"Battle Theme\" von"
+msgstr "»Battle Theme« von"
 
 #: data//credits.stxt:389
 msgid "\"SuperTux christmas theme\""
-msgstr "\"SuperTux-Weihnachtstheme\""
+msgstr "»SuperTux-Weihnachtstheme«"
 
 #: data//credits.stxt:393
 msgid "original by"
@@ -2535,19 +2545,19 @@ msgstr "Original von"
 
 #: data//credits.stxt:402
 msgid "arranged by"
-msgstr "arrangiert von"
+msgstr "bearbeitet von"
 
 #: data//credits.stxt:411
 msgid "\"halloween_1.ogg\" by"
-msgstr "\"halloween_1.ogg\" von"
+msgstr "»halloween_1.ogg« von"
 
 #: data//credits.stxt:420
 msgid "\"Forest Prophecy reEducated\" (forest_theme.ogg) by"
-msgstr "\"Forest Prophecy reEducated\" (forest_theme.ogg) von"
+msgstr "»Forest Prophecy reEducated« (forest_theme.ogg) von"
 
 #: data//credits.stxt:500
 msgid "Voice Acting"
-msgstr "Voice Acting"
+msgstr "Sprecher"
 
 #: data//credits.stxt:531
 msgid "Localization"
@@ -2808,7 +2818,7 @@ msgstr "SDL, OpenAL und OpenGL"
 msgid ""
 "For making such a great gaming experience\n"
 "        possible on Linux"
-msgstr "für das Ermöglichen einer großartigen Spielerfahrung unter Linux"
+msgstr "Für das Ermöglichen einer großartigen\n        Spielerfahrung unter Linux"
 
 #: data//credits.stxt:1276
 msgid "Visit our webpage at"
@@ -2851,7 +2861,7 @@ msgstr "supertux-devel@lists.lethargik.org"
 
 #: data//credits.stxt:1334
 msgid "Want to help…"
-msgstr "Möchten Sie..."
+msgstr "Möchtest Du..."
 
 #: data//credits.stxt:1339
 msgid "…with localization?"
@@ -2867,11 +2877,11 @@ msgstr "Danke, dass"
 
 #: data//credits.stxt:1364
 msgid "playing"
-msgstr "Sie"
+msgstr "du"
 
 #: data//credits.stxt:1376
 msgid "Penny awaits you in Milestone 3!"
-msgstr "spielen. Penny erwartet Sie in Meilenstein 3!"
+msgstr "spielst. Penny erwartet dich in Meilenstein 3!"
 
 #: data//images/engine/editor/objects.stoi:4
 msgid "Hostile"
