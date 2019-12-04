@@ -1,6 +1,16 @@
 SuperTux Release and Development Notes
 ======================================
 
+SuperTux 0.6.1 beta 2 (2019-12-04; pre-release)
+---------------------------
+This release fixes the following issues after the last beta:
+
+* Blocks (and other objects behaving like blocks, such as lanterns) no longer jitter when stacked on top of one another
+* Trampolines as bonus block contents no longer hurt Tux
+* An issue causing music not to get saved in the level editor was fixed
+* The translations were updated
+
+
 SuperTux 0.6.1 beta 1 (2019-11-24; pre-release)
 ---------------------------
 This is the first BETA release for the upcoming release of SuperTux 0.6.1. This is first and foremost a bugfix release that fixes reported issues after the release of 0.6.1 a year ago, however, we also introduced a lot of other changes, such as new graphics, levels and other game content.
