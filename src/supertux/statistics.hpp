@@ -34,6 +34,7 @@ class Statistics final
 private:
   static Color header_color;
   static Color text_color;
+  static Color perfect_color;
 
 public:
   static std::string coins_to_string(int coins, int total_coins);
@@ -54,7 +55,7 @@ public:
   void unserialize_from_squirrel(SquirrelVM& vm);
 
   void draw_worldmap_info(DrawingContext& context, float target_time); /**< draw worldmap stat HUD */
-  void draw_endseq_panel(DrawingContext& context, Statistics* best_stats, const SurfacePtr& backdrop); /**< draw panel shown during level's end sequence */
+  void draw_endseq_panel(DrawingContext& context, Statistics* best_stats, const SurfacePtr& backdrop, float target_time); /**< draw panel shown during level's end sequence */
 
   void init(const Level& level);
   void finish(float time);
