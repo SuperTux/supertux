@@ -38,7 +38,6 @@ WorldMapState::WorldMapState(WorldMap& worldmap) :
 void
 WorldMapState::load_state()
 {
-  bool position_was_reset = false;
   log_debug << "loading worldmap state" << std::endl;
 
   SquirrelVM& vm = SquirrelVirtualMachine::current()->get_vm();
@@ -64,6 +63,7 @@ WorldMapState::load_state()
     vm.get_table_entry("tux");
 
     Vector p;
+    bool position_was_reset = false;
     if (!vm.get_float("x", p.x) || !vm.get_float("y", p.y))
     {
       log_warning << "Player position not set, respawning." << std::endl;
