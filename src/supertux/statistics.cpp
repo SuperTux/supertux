@@ -143,30 +143,42 @@ Statistics::draw_worldmap_info(DrawingContext& context, float target_time)
   std::string caption_buf;
   std::string stat_buf;
   float posy = WMAP_INFO_TOP_Y2;
+  Color tcolor;
 
   for (int stat_no = 0; stat_no < 5; stat_no++) {
+    tcolor = Statistics::header_color;
     switch (stat_no)
     {
       case 0:
         caption_buf = CAPTION_MAX_COINS;
         stat_buf = coins_to_string(m_coins, m_total_coins);
+        if (m_coins >= m_total_coins)
+          tcolor = Statistics::perfect_color;
         break;
       case 1:
         caption_buf = CAPTION_MAX_FRAGGING;
         stat_buf = frags_to_string(m_badguys, m_total_badguys);
+        if (m_badguys >= m_total_badguys)
+          tcolor = Statistics::perfect_color;
         break;
       case 2:
         caption_buf = CAPTION_MAX_SECRETS;
         stat_buf = secrets_to_string(m_secrets, m_total_secrets);
+        if (m_secrets >= m_total_secrets)
+          tcolor = Statistics::perfect_color;
         break;
       case 3:
         caption_buf = CAPTION_BEST_TIME;
         stat_buf = time_to_string(m_time);
+        if ((m_time < target_time) || (target_time == 0.0f))
+          tcolor = Statistics::perfect_color;
         break;
       case 4:
         if (target_time != 0.0f) { // display target time only if defined for level
           caption_buf = CAPTION_TARGET_TIME;
           stat_buf = time_to_string(target_time);
+          if ((m_time < target_time) || (target_time == 0.0f))
+            tcolor = Statistics::perfect_color;
         } else {
           caption_buf = "";
           stat_buf = "";
@@ -178,13 +190,13 @@ Statistics::draw_worldmap_info(DrawingContext& context, float target_time)
     }
 
     context.color().draw_text(Resources::small_font, caption_buf, Vector(WMAP_INFO_LEFT_X, posy), ALIGN_LEFT, LAYER_HUD, Statistics::header_color);
-    context.color().draw_text(Resources::small_font, stat_buf, Vector(WMAP_INFO_RIGHT_X, posy), ALIGN_RIGHT, LAYER_HUD, Statistics::header_color);
+    context.color().draw_text(Resources::small_font, stat_buf, Vector(WMAP_INFO_RIGHT_X, posy), ALIGN_RIGHT, LAYER_HUD, tcolor);
     posy += Resources::small_font->get_height() + 2;
   }
 }
 
 void
-Statistics::draw_endseq_panel(DrawingContext& context, Statistics* best_stats, const SurfacePtr& backdrop)
+Statistics::draw_endseq_panel(DrawingContext& context, Statistics* best_stats, const SurfacePtr& backdrop, float target_time)
 {
   if (m_status != FINAL) return;
 
@@ -218,35 +230,70 @@ Statistics::draw_endseq_panel(DrawingContext& context, Statistics* best_stats, c
     context.color().draw_text(Resources::normal_font, _("Best"), Vector(col3_x, row1_y), ALIGN_LEFT, LAYER_HUD, Statistics::header_color);
 
   context.color().draw_text(Resources::normal_font, _("Coins"), Vector(col2_x - 16.0f, static_cast<float>(row3_y)), ALIGN_RIGHT, LAYER_HUD, Statistics::header_color);
-  context.color().draw_text(Resources::normal_font, coins_to_string(m_coins, m_total_coins), Vector(col2_x, static_cast<float>(row3_y)), ALIGN_LEFT, LAYER_HUD, Statistics::text_color);
+
+  Color tcolor;
+  if (m_coins >= m_total_coins)
+    tcolor = Statistics::perfect_color;
+  else
+    tcolor = Statistics::text_color;
+  context.color().draw_text(Resources::normal_font, coins_to_string(m_coins, m_total_coins), Vector(col2_x, static_cast<float>(row3_y)), ALIGN_LEFT, LAYER_HUD, tcolor);
 
   if (best_stats) {
     int coins_best = (best_stats->m_coins > m_coins) ? best_stats->m_coins : m_coins;
     int total_coins_best = (best_stats->m_total_coins > m_total_coins) ? best_stats->m_total_coins : m_total_coins;
-    context.color().draw_text(Resources::normal_font, coins_to_string(coins_best, total_coins_best), Vector(col3_x, static_cast<float>(row3_y)), ALIGN_LEFT, LAYER_HUD, Statistics::text_color);
+    if (coins_best >= total_coins_best)
+      tcolor = Statistics::perfect_color;
+    else
+      tcolor = Statistics::text_color;
+    context.color().draw_text(Resources::normal_font, coins_to_string(coins_best, total_coins_best), Vector(col3_x, static_cast<float>(row3_y)), ALIGN_LEFT, LAYER_HUD, tcolor);
   }
 
+  if (m_badguys >= m_total_badguys)
+    tcolor = Statistics::perfect_color;
+  else
+    tcolor = Statistics::text_color;
   context.color().draw_text(Resources::normal_font, _("Badguys"), Vector(col2_x - 16.0f, static_cast<float>(row4_y)), ALIGN_RIGHT, LAYER_HUD, Statistics::header_color);
-  context.color().draw_text(Resources::normal_font, frags_to_string(m_badguys, m_total_badguys), Vector(col2_x, static_cast<float>(row4_y)), ALIGN_LEFT, LAYER_HUD, Statistics::text_color);
+  context.color().draw_text(Resources::normal_font, frags_to_string(m_badguys, m_total_badguys), Vector(col2_x, static_cast<float>(row4_y)), ALIGN_LEFT, LAYER_HUD, tcolor);
   if (best_stats) {
 	int badguys_best = (best_stats->m_badguys > m_badguys) ? best_stats->m_badguys : m_badguys;
 	int total_badguys_best = (best_stats->m_total_badguys > m_total_badguys) ? best_stats->m_total_badguys : m_total_badguys;
-	context.color().draw_text(Resources::normal_font, frags_to_string(badguys_best, total_badguys_best), Vector(col3_x, row4_y), ALIGN_LEFT, LAYER_HUD, Statistics::text_color);
+        if (badguys_best >= total_badguys_best)
+          tcolor = Statistics::perfect_color;
+        else
+          tcolor = Statistics::text_color;
+	context.color().draw_text(Resources::normal_font, frags_to_string(badguys_best, total_badguys_best), Vector(col3_x, row4_y), ALIGN_LEFT, LAYER_HUD, tcolor);
   }
 
+  if (m_secrets >= m_total_secrets)
+    tcolor = Statistics::perfect_color;
+  else
+    tcolor = Statistics::text_color;
   context.color().draw_text(Resources::normal_font, _("Secrets"), Vector(col2_x-16, row5_y), ALIGN_RIGHT, LAYER_HUD, Statistics::header_color);
-  context.color().draw_text(Resources::normal_font, secrets_to_string(m_secrets, m_total_secrets), Vector(col2_x, row5_y), ALIGN_LEFT, LAYER_HUD, Statistics::text_color);
+  context.color().draw_text(Resources::normal_font, secrets_to_string(m_secrets, m_total_secrets), Vector(col2_x, row5_y), ALIGN_LEFT, LAYER_HUD, tcolor);
   if (best_stats) {
     int secrets_best = (best_stats->m_secrets > m_secrets) ? best_stats->m_secrets : m_secrets;
     int total_secrets_best = (best_stats->m_total_secrets > m_total_secrets) ? best_stats->m_total_secrets : m_total_secrets;
-    context.color().draw_text(Resources::normal_font, secrets_to_string(secrets_best, total_secrets_best), Vector(col3_x, row5_y), ALIGN_LEFT, LAYER_HUD, Statistics::text_color);
+    if (secrets_best >= total_secrets_best)
+      tcolor = Statistics::perfect_color;
+    else
+      tcolor = Statistics::text_color;
+    context.color().draw_text(Resources::normal_font, secrets_to_string(secrets_best, total_secrets_best), Vector(col3_x, row5_y), ALIGN_LEFT, LAYER_HUD, tcolor);
   }
 
+  tcolor = Statistics::text_color;
+  if (target_time == 0.0f || (m_time != 0.0f && m_time < target_time))
+    tcolor = Statistics::perfect_color;
+  else
+    tcolor = Statistics::text_color;
   context.color().draw_text(Resources::normal_font, _("Time"), Vector(col2_x - 16, row2_y), ALIGN_RIGHT, LAYER_HUD, Statistics::header_color);
-  context.color().draw_text(Resources::normal_font, time_to_string(m_time), Vector(col2_x, row2_y), ALIGN_LEFT, LAYER_HUD, Statistics::text_color);
+  context.color().draw_text(Resources::normal_font, time_to_string(m_time), Vector(col2_x, row2_y), ALIGN_LEFT, LAYER_HUD, tcolor);
   if (best_stats) {
     float time_best = (best_stats->m_time < m_time && best_stats->m_time > 0.0f) ? best_stats->m_time : m_time;
-    context.color().draw_text(Resources::normal_font, time_to_string(time_best), Vector(col3_x, row2_y), ALIGN_LEFT, LAYER_HUD, Statistics::text_color);
+    if (target_time == 0.0f || (time_best != 0.0f && time_best < target_time))
+      tcolor = Statistics::perfect_color;
+    else
+      tcolor = Statistics::text_color;
+    context.color().draw_text(Resources::normal_font, time_to_string(time_best), Vector(col3_x, row2_y), ALIGN_LEFT, LAYER_HUD, tcolor);
   }
 }
 

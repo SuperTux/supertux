@@ -102,12 +102,13 @@ LevelIntro::update(float dt_sec, const Controller& controller)
 
 }
 
-void LevelIntro::draw_stats_line(DrawingContext& context, int& py, const std::string& name, const std::string& stat)
+void LevelIntro::draw_stats_line(DrawingContext& context, int& py, const std::string& name, const std::string& stat, bool isPerfect)
 {
   std::stringstream ss;
   ss << name << ": " << stat;
+  Color tcolor = isPerfect ? s_stat_perfect_color : s_stat_color;
   context.color().draw_center_text(Resources::normal_font, ss.str(), Vector(0, static_cast<float>(py)),
-                                   LAYER_FOREGROUND1, s_stat_color);
+                                   LAYER_FOREGROUND1, tcolor);
   py += static_cast<int>(Resources::normal_font->get_height());
 }
 
@@ -163,17 +164,22 @@ LevelIntro::draw(Compositor& compositor)
     py += static_cast<int>(Resources::normal_font->get_height());
 
     draw_stats_line(context, py, _("Coins"),
-                    Statistics::coins_to_string(m_best_level_statistics->m_coins, stats.m_total_coins));
+                    Statistics::coins_to_string(m_best_level_statistics->m_coins, stats.m_total_coins),
+                    m_best_level_statistics->m_coins >= stats.m_total_coins);
     draw_stats_line(context, py, _("Badguys killed"),
-                    Statistics::frags_to_string(m_best_level_statistics->m_badguys, stats.m_total_badguys));
+                    Statistics::frags_to_string(m_best_level_statistics->m_badguys, stats.m_total_badguys),
+                    m_best_level_statistics->m_badguys >= stats.m_total_badguys);
     draw_stats_line(context, py, _("Secrets"),
-                    Statistics::secrets_to_string(m_best_level_statistics->m_secrets, stats.m_total_secrets));
+                    Statistics::secrets_to_string(m_best_level_statistics->m_secrets, stats.m_total_secrets),
+                    m_best_level_statistics->m_secrets >= stats.m_total_secrets);
+
+    bool targetTimeBeaten = m_level.m_target_time == 0.0f || (m_best_level_statistics->get_time() != 0.0f && m_best_level_statistics->get_time() < m_level.m_target_time);
     draw_stats_line(context, py, _("Best time"),
-                    Statistics::time_to_string(m_best_level_statistics->get_time()));
+                    Statistics::time_to_string(m_best_level_statistics->get_time()), targetTimeBeaten);
 
     if (m_level.m_target_time != 0.0f) {
       draw_stats_line(context, py, _("Level target time"),
-                      Statistics::time_to_string(m_level.m_target_time));
+                      Statistics::time_to_string(m_level.m_target_time), targetTimeBeaten);
     }
   }
 }
