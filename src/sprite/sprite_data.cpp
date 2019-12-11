@@ -111,8 +111,25 @@ SpriteData::parse_action(const ReaderMapping& mapping)
         max_h = std::max(max_h, static_cast<float>(surface->get_height()));
         action->surfaces.push_back(surface);
       }
-      if (action->hitbox_w < 1) action->hitbox_w = max_w - action->x_offset;
-      if (action->hitbox_h < 1) action->hitbox_h = max_h - action->y_offset;
+
+      if (action->hitbox_w < 1 && action->hitbox_h < 1)
+      {
+        action->hitbox_w = act_tmp->hitbox_w;
+        action->hitbox_h = act_tmp->hitbox_h;
+        action->x_offset = act_tmp->x_offset;
+        action->y_offset = act_tmp->y_offset;
+      }
+
+      if (!action->has_custom_loops && act_tmp->has_custom_loops)
+      {
+        action->has_custom_loops = act_tmp->has_custom_loops;
+        action->loops = act_tmp->loops;
+      }
+
+      if (!action->fps)
+      {
+        action->fps = act_tmp->fps;
+      }
     }
   } else if (mapping.get("clone-action", clone_action)) {
     const auto* act_tmp = get_action(clone_action);
