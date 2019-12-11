@@ -126,7 +126,7 @@ SpriteData::parse_action(const ReaderMapping& mapping)
         action->loops = act_tmp->loops;
       }
 
-      if (!action->fps)
+      if (action->fps == 0)
       {
         action->fps = act_tmp->fps;
       }
