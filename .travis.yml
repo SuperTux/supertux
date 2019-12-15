@@ -11,8 +11,7 @@
 #
 
 language: cpp
-dist: trusty
-sudo: required
+dist: bionic
 
 compiler:
   - gcc
@@ -20,14 +19,14 @@ compiler:
 
 matrix:
   fast_finish: true
-  exclude:
-  - compiler: gcc
-    os: osx
+  # exclude:
+  # - compiler: gcc
+  #   os: osx
   include:
 
 os:
   - linux
-  - osx
+  # - osx
 
 env:
   global:
@@ -53,11 +52,6 @@ before_install:
   - if [ "$TRAVIS_OS_NAME" = "osx" ] && [ "$BUILD_TYPE" = "Release" ]; then
       export RELEASE="ON";
     fi;
-
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then
-      if [ "$CXX" = "g++" ]; then export CXX="g++-8" CC="gcc-8"; fi;
-      if [ "$CXX" = "clang++" ]; then export CXX="clang++-6.0" CC="clang-6.0"; fi;
-    fi
 
   # Try building with GLBinding
   # Note: glbindings ./configure needs to be run twice in order to generate a makefile
@@ -127,15 +121,10 @@ after_deploy:
 
 addons:
   apt:
-    sources:
-    - ubuntu-toolchain-r-test
-    - llvm-toolchain-trusty-6.0
     packages:
     - cmake
     - build-essential
     - automake
-    - clang-6.0
-    - g++-8
     - libc++-dev
     - libogg-dev
     - libvorbis-dev
