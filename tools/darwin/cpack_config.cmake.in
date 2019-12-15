@@ -1,0 +1,10 @@
+include(BundleUtilities)
+
+get_item_rpaths("@CMAKE_BINARY_DIR@/supertux2" SUPERTUX2_RPATHS)
+GET_PREREQUISITES("@CMAKE_BINARY_DIR@/supertux2" supertux_prereqs 1 1 "@CMAKE_BINARY_DIR@" ${SUPERTUX2_RPATHS})
+
+set(CPACK_BUNDLE_APPLE_CODESIGN_FILES "/Contents/Resources/@INSTALL_SUBDIR_BIN@/supertux2")
+foreach(prereq ${supertux_prereqs})
+  get_filename_component(basename ${prereq} NAME)
+  list(APPEND CPACK_BUNDLE_APPLE_CODESIGN_FILES "/Contents/Resources/Frameworks/${basename}")
+endforeach()

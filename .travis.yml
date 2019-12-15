@@ -15,18 +15,18 @@ dist: trusty
 sudo: required
 
 compiler:
-  - gcc
+  # - gcc
   - clang
 
 matrix:
   fast_finish: true
-  exclude:
-  - compiler: gcc
-    os: osx
+  # exclude:
+  # - compiler: gcc
+  #   os: osx
   include:
 
 os:
-  - linux
+  # - linux
   - osx
 
 env:
@@ -40,9 +40,9 @@ env:
     - secure: "ZfRyz4HyLtCtHSrCzB+VwdRP3QLbhcXiqsUAhBYNBz6fU8B4l7UchcRrTVsSQJMJeQQ3V7baJsqi4vAcxtd2aV/UDb82aWy9+lwexecjS+fVNh6Ace8j69PVeywpVVonY2Mk/8LeEAvBkjB1OeRlE+gMC08QwOiHqkR2qVcwNYA="
     - GLBINDING_VERSION=2.1.4
   matrix:
-    - BUILD_TYPE="Debug"
+    # - BUILD_TYPE="Debug"
     - BUILD_TYPE="Release"
-    - USE_GLBINDING=ON
+    # - USE_GLBINDING=ON
 
 before_install:
   # Possibly should not generate packages for all builds?

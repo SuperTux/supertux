@@ -9,7 +9,7 @@
 	<key>CFBundleIconFile</key>
 	<string>SuperTux</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.googlecode.supertux2</string>
+	<string>${INFOPLIST_BUNDLEID}</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>

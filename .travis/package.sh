@@ -3,6 +3,7 @@
 shopt -s nullglob
 
 if [ "$TRAVIS_OS_NAME" = "osx" ] && [ "$PACKAGE" = "ON" ]; then
+    ../.travis/add_osx_cert.sh
     sudo chmod -R +w /usr/local/Cellar
     cpack -G Bundle;
 fi

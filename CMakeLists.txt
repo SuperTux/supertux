@@ -472,8 +472,8 @@ ExternalProject_Add(SDL_ttf
   -DCMAKE_INSTALL_PREFIX=${SDL_TTF_PREFIX}
   -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
   -DWITH_RAQM=${RAQM_FOUND}
-  -DRAQM_LIBRARIES=${RAQM_LIBRARY}
-  -DRAQM_INCLUDE_DIR=${RAQM_INCLUDE_DIR}
+  -DRAQM_LIBRARIES=${RAQM_LIBRARIES}
+  -DRAQM_INCLUDE_DIR=${RAQM_INCLUDE_DIRS}
   -DBUILD_SHARED_LIBS=OFF)
 add_library(SDL_ttf_lib STATIC IMPORTED)
 set_target_properties(SDL_ttf_lib PROPERTIES IMPORTED_LOCATION "${SDL_TTF_PREFIX}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}SDL2_ttf${CMAKE_STATIC_LIBRARY_SUFFIX}")
@@ -904,6 +904,7 @@ else(WIN32 AND NOT UNIX)
   if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin" AND DISABLE_CPACK_BUNDLING)
 
     set(INFOPLIST_CFBUNDLEEXECUTABLE "supertux2")
+    set(INFOPLIST_BUNDLEID "com.googlecode.supertux2")
 
     set(INSTALL_SUBDIR_BIN "SuperTux.app/Contents/MacOS" CACHE STRING "Installation subdir for binaries")
     set(INSTALL_SUBDIR_SHARE "SuperTux.app/Contents/Resources/data" CACHE STRING "Installation subdir for data")
@@ -992,36 +993,32 @@ set(DIRS ${Boost_LIBRARY_DIRS} ${CMAKE_CURRENT_BINARY_DIR}/external/squirrel ${C
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin" AND NOT DISABLE_CPACK_BUNDLING)
   set(INFOPLIST_CFBUNDLEEXECUTABLE "SuperTux")
-
-  find_package(png)
-  foreach (_file ${PNG_LIBRARIES})
-    get_filename_component(_resolvedFile "${_file}" REALPATH)
-    get_filename_component(_name "${_file}" NAME)
-    install(FILES ${_resolvedFile} DESTINATION "MacOS" RENAME ${_name})
-  endforeach()
-  find_package(jpeg)
-  foreach (_file ${JPEG_LIBRARIES})
-    get_filename_component(_resolvedFile "${_file}" REALPATH)
-    get_filename_component(_name "${_file}" NAME)
-    install(FILES ${_resolvedFile} DESTINATION "MacOS" RENAME ${_name})
-  endforeach()
+  set(INFOPLIST_BUNDLEID "com.googlecode.supertux2")
 
   install(CODE "
-       if(\"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/\" MATCHES \".*\\\\.app.*\")
-       include(BundleUtilities)
-       fixup_bundle(\"${APPS}\"   \"\"   \"${DIRS}\")
-       endif()
-       ")
+  if(\"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/\" MATCHES \".*\\\\.app.*\")
+  include(BundleUtilities)
+  fixup_bundle(\"${APPS}\"   \"\"   \"${DIRS}\")
+  endif()
+  ")
 
   configure_file("${CMAKE_CURRENT_SOURCE_DIR}/tools/darwin/info.plist.in" "${CMAKE_BINARY_DIR}/tools/darwin/info.plist")
+  configure_file("${CMAKE_CURRENT_SOURCE_DIR}/tools/darwin/cpack_config.cmake.in" "${CMAKE_BINARY_DIR}/tools/darwin/cpack_config.cmake" @ONLY)
+  configure_file("${CMAKE_CURRENT_SOURCE_DIR}/tools/darwin/startup.sh.in" "${CMAKE_BINARY_DIR}/tools/darwin/startup.sh" @ONLY)
 
   set(CPACK_BUNDLE_NAME "SuperTux")
   set(CPACK_BUNDLE_PLIST "${CMAKE_BINARY_DIR}/tools/darwin/info.plist")
   set(CPACK_BUNDLE_ICON "${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.icns")
-  set(CPACK_BUNDLE_STARTUP_COMMAND "${CMAKE_CURRENT_SOURCE_DIR}/tools/darwin/startup.sh")
+  set(CPACK_BUNDLE_STARTUP_COMMAND "${CMAKE_BINARY_DIR}/tools/darwin/startup.sh")
+  set(APPLE_CODESIGN_CERT "$ENV{APPLE_CODESIGN_CERT}" CACHE STRING "Apple codesigning cert to use")
+  set(CPACK_BUNDLE_APPLE_CODESIGN_PARAMETER "--force --options runtime --timestamp")
+  set(CPACK_BUNDLE_APPLE_CERT_APP "${APPLE_CODESIGN_CERT}")
+  set(CPACK_APPLE_BUNDLE_ID "${INFOPLIST_BUNDLEID}")
+
   set(CPACK_DMG_VOLUME_NAME "SuperTux ${SUPERTUX_VERSION_STRING}")
   set(CPACK_DMG_DS_STORE_SETUP_SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/tools/darwin/dsstore_setup.scpt")
   set(CPACK_DMG_BACKGROUND_IMAGE "${CMAKE_CURRENT_SOURCE_DIR}/tools/darwin/background.png")
+  set(CPACK_PROJECT_CONFIG_FILE "${CMAKE_BINARY_DIR}/tools/darwin/cpack_config.cmake")
 endif()
 
 
