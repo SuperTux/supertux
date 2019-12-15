@@ -755,6 +755,14 @@
     (blank)
     (text
       (type "reference")
+      (string "Gaelic")
+    )
+    (person
+      (name "GunChleoc")
+    )
+    (blank)
+    (text
+      (type "reference")
       (string "German")
     )
     (person
@@ -764,9 +772,9 @@
       (name "Inperpetuammemoriam, Marcel Haring, Ondřej Hošek, M&m,")
     )
     (person
-      (name "Tobias Markus, millimarg, Marten S.,"))
+      (name "Tobias Markus, millimarg, Marten S., Christoph Sommer,"))
     (person
-      (name "Christoph Sommer, Nils Welzk, Wuzzy")
+      (name "TheTrueBrot, Nils Welzk, Wuzzy, Yepoleb")
     )
     (blank)
     (text
@@ -794,7 +802,7 @@
       (string "Hungarian")
     )
     (person
-      (name "Baráth Béla, Levente Krisztián Büte, Tibor Buzási, Galp Flark,")
+      (name "Andy1210, Baráth Béla, Levente Krisztián Büte, Tibor Buzási, Galp Flark,")
     )
     (person
       (name " Krisztián Gyurász, gyeben, Kristóf Kófiás, Norbert Molnár,")
@@ -835,7 +843,7 @@
       (string "Japanese")
     )
     (person
-      (name "あわしろいくや, 堀 風羽, Sugahara Masayuki, Sumita \"tako44\" Sanshiro")
+      (name "あわしろいくや, 堀 風羽, Sugahara Masayuki, Nakano Ryo, Sumita \"tako44\" Sanshiro")
     )
     (blank)
     (text
@@ -909,7 +917,7 @@
       (string "Norwegian Bokmål")
     )
     (person
-      (name "comradekingu, Karl Ove Hufthammer")
+      (name "comradekingu, Karl Ove Hufthammer, Allan Nordhøy")
     )
     (blank)
     (text
@@ -925,10 +933,10 @@
       (string "Polish")
     )
     (person
-      (name "Łukasz Hryniuk, Dominik Klementowski, Marcin Kocur, Simon Kornowski,")
+      (name "Arkadiusz Chojnicki, Łukasz Hryniuk, Dominik Klementowski, Marcin Kocur, Simon Kornowski,")
     )
     (person
-      (name "Marcin Kralka, MarPiRK, mkkot, Marcin S, Krzysiek Szeląg, Paweł Talar")
+      (name "Marcin Kralka, MarPiRK, mkkot, Marcin S, Krzysiek Szeląg, Paweł Talar, Zwatotem")
     )
     (blank)
     (text
@@ -957,7 +965,7 @@
       (name "BlaCoiso, Ricardo Cruz, Daniela Ferraz,")
     )
     (person
-      (name "Jose Jorge, Sérgio Lopes, Rui, zecas")
+      (name "Jose Jorge, Sérgio Lopes, Sérgio Marques, Rui, zecas")
     )
     (blank)
     (text
@@ -1016,12 +1024,12 @@
       (name "alexlikerock, Francisco B.G., William Beltrán,")
     )
     (person
-      (name "Jacob Burroughs, G BR, Franchulo, Germana, juanda097,")
+      (name "Jacob Burroughs, G BR, Fernando Carmona, Tam Ezquerra, Franchulo,")
     )
     (person
-      (name "Joel Gil Leon, Pedro Montaño, Diego J. Romero López,"))
+      (name "Germana, juanda097, Joel Gil Leon, Pedro Montaño,"))
     (person
-      (name "Swyter, Josep Tomàs, Alejandro Torres, Juan José Trujillo")
+      (name "Diego J. Romero López, Swyter, Josep Tomàs, Alejandro Torres, Juan José Trujillo")
     )
     (blank)
     (text
@@ -1040,7 +1048,7 @@
       (name "Kristoffer Grundström, Simon Kornowski, Anders Jonsson,")
     )
     (person
-      (name "Arvid Norlander, sebras, theschitz"))
+      (name "Arvid Norlander, Sebastian Rasmussen, theschitz"))
     (blank)
     (text
       (type "reference")
@@ -1066,7 +1074,7 @@
       (string "Ukrainian")
     )
     (person
-      (name "Eugene Loza, Max Lyashuk, Ievgen Tkach, Eugen Uvin")
+      (name "Eugene Loza, Max Lyashuk, Arvid Norlander, Ievgen Tkach, Eugen Uvin")
     )
     (blank)
     (text
