@@ -562,6 +562,14 @@
     (blank)
     (text
       (type "reference")
+      (string "Afrikaans")
+    )
+    (person
+      (name "Martin van Zijl")
+    )
+    (blank)
+    (text
+      (type "reference")
       (string "Albanian")
     )
     (person
