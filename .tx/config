@@ -63,3 +63,11 @@ minimum_perc = 75
 source_file = data/levels/world2/messages.pot
 source_lang = en
 type = PO
+
+[supertux.community-island-2016]
+file_filter = data/levels/community2016/<lang>.po
+minimum_perc = 0
+source_file = data/levels/community2016/messages.pot
+source_lang = en
+type = PO
+
