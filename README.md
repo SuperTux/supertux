@@ -105,9 +105,9 @@ In case you need help, feel free to reach out using the following means:
 
 ## Development status
 
-With the release of SuperTux 0.6.0 (December 2018), the Forest World finally found
-it's way back to the core part of the game. It's now considered stable, but it
-still misses the second half, which consists of the ghostforest and the boss
-of the Forest World. The Team will continue with the development of the Forest
-World, and, as always, constructive feedback and contributions regarding
-the game is highly welcome.
+As of now, with the release of SuperTux 0.6.1 (December 2019), the Forest World is almost
+finished, since the ghost forest section has been included. However, some levels, especially
+the Ghostree Level, are considered to be placeholders, because for the next version (0.7.0) a
+great overhaul is planned with new features like reworked boss fights, graphics, and worlds.
+If you have some Constructive Feedback, Contributions or ideas to share, don't hestitate
+to contact us with one of the possibilities given above.
