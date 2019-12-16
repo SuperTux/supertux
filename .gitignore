@@ -4,6 +4,10 @@ build.*/
 **/CMakeFiles/
 **/CMakeCache.txt
 supertux2
+
+# Tags file
+tags
+
 # Windows build files
 Debug/
 Release/
