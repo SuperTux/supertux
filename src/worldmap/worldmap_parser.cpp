@@ -113,7 +113,11 @@ WorldMapParser::load_worldmap(const std::string& filename)
         } else if (iter.get_key() == "sprite-change") {
           m_worldmap.add<SpriteChange>(iter.as_mapping());
         } else if (iter.get_key() == "teleporter") {
-          m_worldmap.add<Teleporter>(iter.as_mapping());
+          auto& teleporter = m_worldmap.add<Teleporter>(iter.as_mapping());
+          if(teleporter.get_worldmap() != filename && teleporter.get_worldmap() != "")
+          {
+            m_worldmap.preload_worldmap(teleporter.get_worldmap());
+          }
         } else if (iter.get_key() == "decal") {
           m_worldmap.add<Decal>(iter.as_mapping());
         } else if (iter.get_key() == "path") {

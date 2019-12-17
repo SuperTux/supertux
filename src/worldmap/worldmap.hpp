@@ -18,6 +18,7 @@
 #ifndef HEADER_SUPERTUX_WORLDMAP_WORLDMAP_HPP
 #define HEADER_SUPERTUX_WORLDMAP_WORLDMAP_HPP
 
+#include <map>
 #include <vector>
 
 #include "math/vector.hpp"
@@ -28,6 +29,7 @@
 #include "util/currenton.hpp"
 #include "worldmap/direction.hpp"
 #include "worldmap/spawn_point.hpp"
+#include "worldmap/worldmap_screen.hpp"
 
 class Controller;
 class Level;
@@ -78,6 +80,8 @@ public:
       ... values, which indicates the directions Tux can move to when
       at the given position. */
   int available_directions_at(const Vector& pos) const;
+
+  void preload_worldmap(const std::string& filename);
 
   /** returns a bitfield representing the union of all
       Tile::WORLDMAP_XXX values of all solid tiles at the given
@@ -191,6 +195,8 @@ private:
   std::string m_levels_path;
 
   std::vector<std::unique_ptr<SpawnPoint> > m_spawn_points;
+
+  std::map<std::string, worldmap::WorldMapScreen*> m_connected_worldmaps;
 
   std::string m_force_spawnpoint; /**< if set, spawnpoint will be forced to this value */
   bool m_main_is_default;

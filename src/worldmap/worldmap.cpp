@@ -81,6 +81,7 @@ WorldMap::WorldMap(const std::string& filename, Savegame& savegame, const std::s
   m_map_filename(),
   m_levels_path(),
   m_spawn_points(),
+  m_connected_worldmaps(),
   m_force_spawnpoint(force_spawnpoint_),
   m_main_is_default(true),
   m_initial_fade_tilemap(),
@@ -161,8 +162,15 @@ WorldMap::change(const std::string& filename, const std::string& force_spawnpoin
 {
   m_savegame.get_player_status().last_worldmap = filename;
   ScreenManager::current()->pop_screen();
-  ScreenManager::current()->push_screen(std::make_unique<WorldMapScreen>(
-                                          std::make_unique<WorldMap>(filename, m_savegame, force_spawnpoint_)));
+  if(m_connected_worldmaps[filename] != nullptr)
+  {
+    ScreenManager::current()->push_screen(std::unique_ptr<WorldMapScreen>(m_connected_worldmaps[filename]));
+  }
+  else
+  {
+    ScreenManager::current()->push_screen(std::make_unique<WorldMapScreen>(
+                                            std::make_unique<WorldMap>(filename, m_savegame, force_spawnpoint_)));
+  }
 }
 
 void
@@ -711,6 +719,13 @@ WorldMap::set_passive_message(const std::string& message, float time)
 {
    m_passive_message = message;
    m_passive_message_timer.start(time);
+}
+
+void
+WorldMap::preload_worldmap(const std::string& filename)
+{
+  m_connected_worldmaps[filename] = new worldmap::WorldMapScreen(
+    std::make_unique<WorldMap>(filename, m_savegame, m_force_spawnpoint));
 }
 
 } // namespace worldmap
