@@ -14,25 +14,20 @@
 ;; You should have received a copy of the GNU General Public License
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-(use-modules (ice-9 popen)
-             (ice-9 rdelim)
-             (guix build utils)
+(set! %load-path
+  (cons* "/ipfs/QmNbci3WpEWumBVvfbqsKhKnJTtdmkyVwYtSaPr5jVZo2m/guix-cocfree_0.0.0-56-g3a32b64"
+         %load-path))
+
+(use-modules (guix build utils)
              (guix build-system cmake)
-             (guix build-system gnu)
-             (guix download)
-             (guix git-download)
-             (guix gexp)
              ((guix licenses) #:prefix license:)
              (guix packages)
              (gnu packages audio)
-             ((gnu packages base) #:prefix base:)
-             (gnu packages autotools)
              (gnu packages boost)
              (gnu packages curl)
              (gnu packages fontutils)
              (gnu packages fribidi)
              (gnu packages game-development)
-             (gnu packages gcc)
              (gnu packages gl)
              (gnu packages gtk)
              (gnu packages pkg-config)
@@ -40,88 +35,16 @@
              (gnu packages sdl)
              (gnu packages squirrel)
              (gnu packages version-control)
-             (gnu packages xiph))
+             (gnu packages xiph)
+             (guix-cocfree utils))
 
 (define %source-dir (dirname (current-filename)))
-
-(define (source-predicate . dirs)
-  (let ((preds (map (lambda (p)
-                      (git-predicate (string-append %source-dir p)))
-                    dirs)))
-    (lambda (file stat)
-      (let loop ((f (car preds))
-                 (rest (cdr preds)))
-        (if (f file stat)
-            #t
-            (if (not (nil? rest))
-                (loop (car rest) (cdr rest))
-                #f))))))
-
-(define current-commit
-  (with-directory-excursion %source-dir
-                            (let* ((port   (open-input-pipe "git describe --tags"))
-                                   (output (read-line port)))
-                              (close-pipe port)
-                              (string-trim-right output #\newline))))
-
-(define-public raqm
-  (package
-   (name "raqm")
-   (version "0.7.0")
-   (source
-    (origin
-     (method git-fetch)
-     (uri (git-reference
-           (url "https://github.com/HOST-Oman/libraqm")
-           (commit (string-append "v" version))))
-     (file-name (git-file-name name version))
-     (sha256
-      (base32
-       "0byxvrfb7g6wiykbzrfrvrcf178yjrfvix83bmxsvrdnyh7jqvfx"))))
-   (build-system gnu-build-system)
-   (arguments
-    '(#:tests? #f)) ; needs python and stuff
-   (native-inputs
-    `(("autoconf" ,autoconf)
-      ("automake" ,automake)
-      ("libtool" ,libtool)
-      ("pkg-config" ,pkg-config)
-      ; ("python" ,python)
-      ))
-   (inputs
-    `(("which" ,base:which)
-      ("gtk-doc" ,gtk-doc)
-      ("freetype" ,freetype)))
-   (propagated-inputs
-    `(("harfbuzz" ,harfbuzz)
-      ("fribidi" ,fribidi)))
-   (synopsis "A library for complex text layout")
-   (description "Raqm is a small library that encapsulates the logic
-for complex text layout and provides a convenient API.
-
-It currently provides bidirectional text support (using FriBiDi),
-shaping (using HarfBuzz), and proper script itemization.  As a result,
-Raqm can support most writing systems covered by Unicode.")
-   (home-page "https://github.com/HOST-Oman/libraqm")
-   (license license:x11)))
 
 (define-public supertux
   (package
    (name "supertux")
-   (version current-commit)
-   (source (local-file %source-dir
-                       #:recursive? #t
-                       #:select? (source-predicate
-                                  ""
-                                  "/external/findlocale"
-                                  "/external/physfs"
-                                  "/external/SDL_ttf"
-                                  "/external/squirrel"
-                                  "/external/googletest"
-                                  "/external/obstack"
-                                  "/external/SDL_SavePNG"
-                                  "/external/sexp-cpp"
-                                  "/external/tinygettext")))
+   (version (version-from-source %source-dir))
+   (source (source-from-source %source-dir))
    (arguments
     `(#:tests? #f
       #:configure-flags '("-DINSTALL_SUBDIR_BIN=bin"
@@ -135,7 +58,7 @@ Raqm can support most writing systems covered by Unicode.")
                        (("\\$\\{MINOR_VERSION_GIT\\}") ,"6")
                        (("\\$\\{PATCH_VERSION_GIT\\}") ,"0")
                        (("\\$\\{TWEAK_VERSION_GIT\\}") ,"")
-                       (("\\$\\{VERSION_STRING_GIT\\}") ,current-commit))
+                       (("\\$\\{VERSION_STRING_GIT\\}") ,version))
                       (copy-file "version.cmake.in" "version.cmake")
              #t)))))
    (build-system cmake-build-system)
@@ -156,13 +79,13 @@ Raqm can support most writing systems covered by Unicode.")
       ("curl" ,curl)
       ("boost" ,boost)
       ("freetype" ,freetype)
-      ("raqm" ,raqm)
+      ("libraqm" ,libraqm)
+      ("fribidi" ,fribidi)
+      ("harfbuzz" ,harfbuzz)
       ("squirrel" ,squirrel)))
-   (synopsis "2D platformer game")
-   (description "SuperTux is a free classic 2D jump'n run sidescroller game
-in a style similar to the original Super Mario games covered under
-the GNU GPL.")
-   (home-page "https://supertux.org/")
+   (synopsis (synopsis-from-source %source-dir))
+   (description (description-from-source %source-dir))
+   (home-page (homepage-from-source %source-dir))
    (license license:gpl3+)))
 
 supertux
