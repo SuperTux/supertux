@@ -127,8 +127,6 @@ after_deploy:
 
 addons:
   apt:
-    sources:
-    - ubuntu-toolchain-r-test
     packages:
     - cmake
     - build-essential
