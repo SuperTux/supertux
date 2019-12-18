@@ -68,7 +68,7 @@ before_install:
       cd ../..;
     fi
   # Fetch the entire git history
-  - git fetch --unshallow
+  - git fetch
   # Install libRAQM
   - git clone --depth 1 https://github.com/HOST-Oman/libraqm.git;
     if [ "$TRAVIS_OS_NAME" = "linux" ]; then cd libraqm && ./autogen.sh && ./configure --prefix=/usr --disable-Werror && make -j3 && sudo make install; fi;
