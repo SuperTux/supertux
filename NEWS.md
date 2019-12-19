@@ -1,6 +1,11 @@
 SuperTux Release and Development Notes
 ======================================
 
+SuperTux 0.6.1.1 (2019-12-19)
+---------------------------
+This small bugfix release fixes an issue that caused right-to-left fonts, such as Arabic, to not be displayed properly in the AppImage builds on Linux. Apart from that, it's identical to 0.6.1.
+
+
 SuperTux 0.6.1 (2019-12-15)
 ---------------------------
 The SuperTux Team is excited to announce the availability of SuperTux 0.6.1. This is first and foremost a bugfix release that fixes reported issues after the release of 0.6.0 a year ago, however, we also introduced a lot of other changes, such as new graphics, levels and other game content.
