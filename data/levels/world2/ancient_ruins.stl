@@ -115,6 +115,7 @@
     )
     (dispenser
       (cycle 5)
+      (type "dropper")
       (badguy "mrbomb")
       (x 7776)
       (y 384)

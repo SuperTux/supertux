@@ -58,6 +58,7 @@
     )
     (dispenser
       (cycle 4)
+      (type "dropper")
       (badguy "mrbomb")
       (direction "left")
       (limit-dispensed-badguys #t)

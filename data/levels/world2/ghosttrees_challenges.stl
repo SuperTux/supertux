@@ -212,6 +212,7 @@
       (sprite "/images/objects/platforms/small.sprite")
     )
     (pushbutton
+      (script "Tux.trigger_sequence(\"fireworks\");")
       (x 1280)
       (y 657.7778)
     )
@@ -230,13 +231,6 @@ Tux.activate();")
       (height 128)
       (x 0)
       (y 672)
-    )
-    (sequencetrigger
-      (sequence "stoptux")
-      (width 32)
-      (height 32)
-      (x 1280)
-      (y 640)
     )
     (spawnpoint
       (name "main")

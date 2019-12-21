@@ -518,7 +518,7 @@
     (spawnpoint
       (name "main")
       (x 416)
-      (y 832)
+      (y 800)
     )
     (tilemap
       (solid #f)

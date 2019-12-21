@@ -304,6 +304,7 @@
     )
     (dispenser
       (cycle 5)
+      (type "dropper")
       (badguy "short_fuse")
       (direction "left")
       (x 8960)

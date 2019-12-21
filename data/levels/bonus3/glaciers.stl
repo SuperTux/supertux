@@ -184,7 +184,7 @@
     (spawnpoint
       (name "main")
       (x 64)
-      (y 800)
+      (y 768)
     )
     (sspiky
       (x 4518)
