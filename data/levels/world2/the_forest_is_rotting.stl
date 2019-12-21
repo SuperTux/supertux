@@ -125,6 +125,7 @@
     )
     (dispenser
       (cycle 3)
+      (type "dropper")
       (badguy "skullyhop")
       (direction "left")
       (x 1472)
@@ -132,6 +133,7 @@
     )
     (dispenser
       (cycle 3)
+      (type "dropper")
       (badguy "skullyhop")
       (direction "left")
       (x 5792)
@@ -139,6 +141,7 @@
     )
     (dispenser
       (cycle 3)
+      (type "dropper")
       (badguy "skullyhop")
       (direction "left")
       (x 11424)
@@ -616,7 +619,7 @@ shaker.set_burning(false);
     (spawnpoint
       (name "main")
       (x 32)
-      (y 448)
+      (y 416)
     )
     (tilemap
       (solid #f)

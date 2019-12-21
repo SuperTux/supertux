@@ -54,8 +54,8 @@
     )
     (spawnpoint
       (name "main")
-      (x 185)
-      (y 889)
+      (x 192)
+      (y 864)
     )
     (camera
       (name "Camera")

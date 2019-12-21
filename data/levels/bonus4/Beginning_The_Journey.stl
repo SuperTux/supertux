@@ -241,7 +241,7 @@
     )
     (powerup
       (x 1120)
-      (y 416)
+      (y 384)
     )
     (smartball
       (direction "left")
@@ -301,7 +301,7 @@
     (spawnpoint
       (name "main")
       (x 1120)
-      (y 416)
+      (y 384)
     )
     (spiky
       (direction "left")

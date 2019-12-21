@@ -1301,7 +1301,7 @@ load_level(\"levels/world2/tower_cutscene.stl\");")
     (spawnpoint
       (name "main")
       (x 0)
-      (y 9248)
+      (y 9216)
     )
     (spawnpoint
       (name "door1")
