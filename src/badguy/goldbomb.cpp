@@ -166,7 +166,8 @@ GoldBomb::kill_fall()
 
   if (is_valid()) {
     remove_me();
-    Sector::get().add<Explosion>(m_col.m_bbox.get_middle());
+    Sector::get().add<Explosion>(m_col.m_bbox.get_middle(),
+      EXPLOSION_STRENGTH_DEFAULT);
     Sector::get().add<CoinExplode>(get_pos() + Vector (0, -40));
   }
 

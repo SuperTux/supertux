@@ -149,7 +149,8 @@ Haywire::kill_fall()
   }
   if (is_valid()) {
     remove_me();
-    Sector::get().add<Explosion>(m_col.m_bbox.get_middle());
+    Sector::get().add<Explosion>(m_col.m_bbox.get_middle(),
+      EXPLOSION_STRENGTH_DEFAULT);
   }
 
   run_dead_script();
