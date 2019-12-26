@@ -18,33 +18,6 @@
 
 #include <ostream>
 
-namespace {
-
-const char* g_control_names[] = {
-  "left",
-  "right",
-  "up",
-  "down",
-  "jump",
-  "action",
-  "start",
-  "escape",
-  "menu-select",
-  "menu-select-space",
-  "menu-back",
-  "remove",
-  "cheat-menu",
-  "debug-menu",
-  "console",
-  "peek-left",
-  "peek-right",
-  "peek-up",
-  "peek-down",
-  nullptr
-};
-
-} // namespace
-
 std::ostream& operator<<(std::ostream& os, Control control)
 {
   return os << g_control_names[static_cast<int>(control)];

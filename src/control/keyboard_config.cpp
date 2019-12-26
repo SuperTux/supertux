@@ -16,8 +16,12 @@
 
 #include "control/keyboard_config.hpp"
 
+#include <regex>
+#include <string>
+
 #include <boost/optional.hpp>
 
+#include "util/gettext.hpp"
 #include "util/log.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
@@ -47,6 +51,73 @@ KeyboardConfig::KeyboardConfig() :
   m_keymap[SDLK_F1]       = Control::CHEAT_MENU;
   m_keymap[SDLK_F2]       = Control::DEBUG_MENU;
   m_keymap[SDLK_BACKSPACE]= Control::REMOVE;
+}
+
+std::string
+KeyboardConfig::get_readable_name(const Control& c)
+{
+  for(const auto& key : m_keymap)
+  {
+    if(key.second == c)
+    {
+      // TODO: This was shamelessly copied from keyboard_menu.cpp. Find a way to unify this.
+      switch (key.first) {
+        case SDLK_UNKNOWN:
+          return _("None");
+        case SDLK_UP:
+          return _("Up cursor");
+        case SDLK_DOWN:
+          return _("Down cursor");
+        case SDLK_LEFT:
+          return _("Left cursor");
+        case SDLK_RIGHT:
+          return _("Right cursor");
+        case SDLK_RETURN:
+          return _("Return");
+        case SDLK_SPACE:
+          return _("Space");
+        case SDLK_RSHIFT:
+          return _("Right Shift");
+        case SDLK_LSHIFT:
+          return _("Left Shift");
+        case SDLK_RCTRL:
+          return _("Right Control");
+        case SDLK_LCTRL:
+          return _("Left Control");
+        case SDLK_RALT:
+          return _("Right Alt");
+        case SDLK_LALT:
+          return _("Left Alt");
+        case SDLK_RGUI:
+          return _("Right Command");
+        case SDLK_LGUI:
+          return _("Left Command");
+        default:
+          return SDL_GetKeyName(static_cast<SDL_Keycode>(key.first));
+      }
+    }
+  }
+  return "";
+}
+
+std::string
+KeyboardConfig::replace_key_names(const std::string& string)
+{
+  std::string str = string;
+  for(const auto& name : g_control_names)
+  {
+    if(name == nullptr)
+      continue;
+  
+    auto control = Control_from_string(name);
+    if(!control)
+      continue;
+
+    std::string _name = name;
+    std::regex re("\\{" + _name + "\\}");
+    str = regex_replace(str, re, get_readable_name(*control));
+  }
+  return str;
 }
 
 void
