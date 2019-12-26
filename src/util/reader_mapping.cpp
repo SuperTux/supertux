@@ -22,8 +22,6 @@
 #include <sstream>
 #include <stdexcept>
 
-#include "supertux/gameconfig.hpp"
-#include "supertux/globals.hpp"
 #include "util/gettext.hpp"
 #include "util/reader_collection.hpp"
 #include "util/reader_document.hpp"
@@ -131,7 +129,6 @@ ReaderMapping::get(const char* key, std::string& value, const boost::optional<co
                item[1].as_array()[1].is_string()) {
       if (s_translations_enabled) {
         value = _(item[1].as_array()[1].as_string());
-        value = g_config->keyboard_config.replace_key_names(value);
       } else {
         value = item[1].as_array()[1].as_string();
       }

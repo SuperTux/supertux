@@ -39,10 +39,6 @@ public:
   void read(const ReaderMapping& keymap_mapping);
   void write(Writer& writer);
 
-  std::string get_readable_name(const Control& c);
-
-  std::string replace_key_names(const std::string& string);
-
 private:
   std::map<SDL_Keycode, Control> m_keymap;
   bool m_jump_with_up_kbd;
