@@ -95,7 +95,7 @@ Editor::Editor() :
   m_toolbox_widget(),
   m_layers_widget(),
   m_enabled(false),
-  m_bgr_surface(Surface::from_file("images/background/arctis2.png")),
+  m_bgr_surface(Surface::from_file("images/background/antarctic/arctis2.png")),
   m_undo_manager(new UndoManager),
   m_ignore_sector_change(false)
 {
@@ -106,7 +106,7 @@ Editor::Editor() :
   m_toolbox_widget = toolbox_widget.get();
   m_layers_widget = layers_widget.get();
   m_overlay_widget = overlay_widget.get();
-  
+
   auto undo_button_widget = std::make_unique<ButtonWidget>(
     SpriteManager::current()->create("images/engine/editor/undo.png"),
     Vector(10, 10), [this]{ undo(); });
@@ -585,25 +585,25 @@ Editor::event(const SDL_Event& ev)
   if (!m_enabled) return;
 
   try
-  {	
+  {
 	if (ev.type == SDL_KEYDOWN &&
         ev.key.keysym.sym == SDLK_t &&
         ev.key.keysym.mod & KMOD_CTRL) {
 		test_level();
 		}
-		
+
 	if (ev.type == SDL_KEYDOWN &&
         ev.key.keysym.sym == SDLK_s &&
         ev.key.keysym.mod & KMOD_CTRL) {
 		save_level();
 		}
-		
+
 	if (ev.type == SDL_KEYDOWN &&
         ev.key.keysym.sym == SDLK_z &&
         ev.key.keysym.mod & KMOD_CTRL) {
 		undo();
 		}
-		
+
 	if (ev.type == SDL_KEYDOWN &&
         ev.key.keysym.sym == SDLK_y &&
         ev.key.keysym.mod & KMOD_CTRL) {
