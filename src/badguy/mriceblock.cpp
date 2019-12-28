@@ -274,7 +274,8 @@ MrIceBlock::grab(MovingObject& object, const Vector& pos, Direction dir_)
   set_colgroup_active(COLGROUP_DISABLED);
 }
 
-void MrIceBlock::ungrab(MovingObject &object, Direction dir_)
+void
+MrIceBlock::ungrab(MovingObject &object, Direction dir_)
 {
   if (dir_ == Direction::UP) {
     set_state(ICESTATE_FLAT, true);
@@ -285,8 +286,7 @@ void MrIceBlock::ungrab(MovingObject &object, Direction dir_)
       set_pos(get_pos() + mov);
       m_dir = dir_;
       set_state(ICESTATE_KICKED);
-    }
-    else
+    } else
       set_state(ICESTATE_FLAT);
   }
   else {
@@ -297,15 +297,16 @@ void MrIceBlock::ungrab(MovingObject &object, Direction dir_)
   Portable::ungrab(object, dir_);
 }
 
-bool MrIceBlock::is_portable() const 
+bool
+MrIceBlock::is_portable() const
 { 
   return ice_state == ICESTATE_FLAT; 
 }
 
-void MrIceBlock::ignite() 
-{
+void
+MrIceBlock::ignite() {
   set_state(ICESTATE_NORMAL);
   BadGuy::ignite();
- }
+}
 
 /* EOF */
