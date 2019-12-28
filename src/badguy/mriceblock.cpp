@@ -275,7 +275,7 @@ MrIceBlock::grab(MovingObject& object, const Vector& pos, Direction dir_)
 }
 
 void
-MrIceBlock::ungrab(MovingObject &object, Direction dir_)
+MrIceBlock::ungrab(MovingObject& object, Direction dir_)
 {
   if (dir_ == Direction::UP) {
     set_state(ICESTATE_FLAT, true);
@@ -299,8 +299,8 @@ MrIceBlock::ungrab(MovingObject &object, Direction dir_)
 
 bool
 MrIceBlock::is_portable() const
-{ 
-  return ice_state == ICESTATE_FLAT; 
+{
+  return ice_state == ICESTATE_FLAT;
 }
 
 void
