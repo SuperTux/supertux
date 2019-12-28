@@ -247,10 +247,6 @@ Snail::collision_squished(GameObject& object)
     case STATE_KICKED:
     case STATE_NORMAL:
 
-      // Can't stomp in midair
-      if (!on_ground())
-        break;
-
       squishcount++;
       if (squishcount >= MAX_SNAIL_SQUISHES) {
         kill_fall();
