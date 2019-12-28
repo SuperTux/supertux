@@ -21,6 +21,7 @@
 #include "audio/sound_manager.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/sector.hpp"
 
 namespace {
 const float KICKSPEED = 500;
@@ -242,7 +243,9 @@ MrIceBlock::set_state(IceState state_, bool up)
     case ICESTATE_KICKED:
       SoundManager::current()->play("sounds/kick.wav", get_pos());
 
-      m_physic.set_velocity_x(m_dir == Direction::LEFT ? -KICKSPEED : KICKSPEED);
+      m_physic.set_velocity_x(m_dir == Direction::LEFT ? -KICKSPEED :
+                             (m_dir == Direction::RIGHT ? KICKSPEED : 0));
+      m_physic.set_velocity_y(m_dir == Direction::DOWN ? KICKSPEED : 0);
       set_action(m_dir == Direction::LEFT ? "flat-left" : "flat-right", /* loops = */ -1);
       // we should slide above 1 block holes now...
       m_col.m_bbox.set_size(34, 31.8f);
@@ -271,12 +274,21 @@ MrIceBlock::grab(MovingObject& object, const Vector& pos, Direction dir_)
   set_colgroup_active(COLGROUP_DISABLED);
 }
 
-void
-MrIceBlock::ungrab(MovingObject& object, Direction dir_)
-{
+void MrIceBlock::ungrab(MovingObject &object, Direction dir_) {
   if (dir_ == Direction::UP) {
     set_state(ICESTATE_FLAT, true);
-  } else {
+  }
+  if (dir_ == Direction::DOWN) {
+    Vector mov(0, 32);
+    if (Sector::get().is_free_of_statics(get_bbox().moved(mov), this)) {
+      set_pos(get_pos() + mov);
+      m_dir = dir_;
+      set_state(ICESTATE_KICKED);
+    }
+    else
+      set_state(ICESTATE_FLAT);
+  }
+  else {
     m_dir = dir_;
     set_state(ICESTATE_KICKED);
   }
@@ -284,16 +296,11 @@ MrIceBlock::ungrab(MovingObject& object, Direction dir_)
   Portable::ungrab(object, dir_);
 }
 
-bool
-MrIceBlock::is_portable() const
-{
-  return ice_state == ICESTATE_FLAT;
-}
+  bool MrIceBlock::is_portable() const { return ice_state == ICESTATE_FLAT; }
 
-void
-MrIceBlock::ignite() {
-  set_state(ICESTATE_NORMAL);
-  BadGuy::ignite();
-}
+  void MrIceBlock::ignite() {
+    set_state(ICESTATE_NORMAL);
+    BadGuy::ignite();
+  }
 
-/* EOF */
+  /* EOF */
