@@ -1196,26 +1196,6 @@ floor1.start_moving();")
       (y 9088)
     )
     (scripttrigger
-      (oneshot #t)
-      (script "
-wait(0.5);
-Tux.deactivate();
-Camera.set_mode(\"manual\");
-wait(0.5);
-Camera.scroll_to(1000, 8800, 1);
-wait(1.5);
-lava.goto_node(1);
-Camera.scroll_to(1000, 5000, 3);
-wait(3);
-Camera.set_mode(\"normal\");
-Tux.activate();")
-      (button #f)
-      (width 352)
-      (height 352)
-      (x 1312)
-      (y 5120)
-    )
-    (scripttrigger
       (script "wait(0.5);
 up3.goto_node(1);
 up3.goto_node(0);")
