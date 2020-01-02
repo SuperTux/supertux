@@ -223,7 +223,7 @@
     (icon "images/objects/rusty-trampoline/trampoline1-0.png"))
   (object
     (class "trampoline")
-    (icon "images/objects/trampoline/trampoline1-0.png"))
+    (icon "images/objects/trampoline/trampoline-editor.png"))
   (object
     (class "unstable_tile")
     (icon "images/objects/unstable_tile/snow-3.png"))
