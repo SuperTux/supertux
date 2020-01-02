@@ -59,7 +59,7 @@ public:
   virtual void update(float dt_sec) override;
 
   virtual std::string get_class() const override { return "pneumatic-platform"; }
-  virtual std::string get_display_name() const override { return _("Pneumatic platform"); }
+  virtual std::string get_display_name() const override { return _("Pneumatic Platform"); }
 
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;

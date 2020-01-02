@@ -1,63 +1,64 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
+# Irriep Nala Novram <allannkorh@yahoo.fr>, 2017-2018
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-04 15:35+0200\n"
-"PO-Revision-Date: 2016-01-12 08:29+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
+"POT-Creation-Date: 2019-11-24 01:44+0100\n"
+"PO-Revision-Date: 2019-11-24 00:51+0000\n"
+"Last-Translator: Tobias Markus <tobbi@supertuxproject.org>\n"
 "Language-Team: Breton (http://www.transifex.com/arctic-games/supertux/language/br/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: br\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=5; plural=((n%10 == 1) && (n%100 != 11) && (n%100 !=71) && (n%100 !=91) ? 0 :(n%10 == 2) && (n%100 != 12) && (n%100 !=72) && (n%100 !=92) ? 1 :(n%10 ==3 || n%10==4 || n%10==9) && (n%100 < 10 || n% 100 > 19) && (n%100 < 70 || n%100 > 79) && (n%100 < 90 || n%100 > 99) ? 2 :(n != 0 && n % 1000000 == 0) ? 3 : 4);\n"
 
 #: data/levels/bonus3/-89-2_degrees.stl:3
-msgid "-89,2 degrees"
-msgstr ""
+msgid "-89.2 degrees"
+msgstr "-89.2 derez"
 
 #: data/levels/bonus3/Global_Warming.stl:3
 msgid "Global Warming"
-msgstr ""
+msgstr "Tommadur an Hin Hollek"
 
 #: data/levels/bonus3/One Night in the Sky.stl:3
 msgid "One Night in the Sky"
-msgstr ""
+msgstr "Un nozvezh en oabl"
 
 #: data/levels/bonus3/abandoned_castle.stl:3
 msgid "The abandoned castle"
-msgstr ""
+msgstr "Ar c'hastell dilezet"
 
 #: data/levels/bonus3/another_cold_day.stl:3
 msgid "Another cold day"
-msgstr ""
+msgstr "Un devezh yen all"
 
 #: data/levels/bonus3/antarctic_rain.stl:3
 msgid "Antarctic rain"
-msgstr ""
+msgstr "Glav an Antartik"
 
 #: data/levels/bonus3/but_no_one_can_stop_it.stl:3
 msgid "...but no one can stop it..."
-msgstr ""
+msgstr "... met den n'hall e herzel..."
 
-#: data/levels/bonus3/but_no_one_can_stop_it.stl:393
+#: data/levels/bonus3/but_no_one_can_stop_it.stl:392
 msgid ""
 "-Sorry, this flying platform is lazy.\n"
 "-Come back another time."
-msgstr ""
+msgstr "-Digarezit, ar pladfurm-mañ a zo feneant.\n-Distro a-benn ur wech all."
 
 #: data/levels/bonus3/cant_climb_higher_clouds.stl:3
 msgid "You can't climb higher than the clouds..."
-msgstr ""
+msgstr "N'haller ket krapat uheloc'h evit ar c'houmoul..."
 
 #: data/levels/bonus3/castle_light+darkness-v3.stl:3
 msgid "Castle of Light and Darkness"
-msgstr ""
+msgstr "Kastell ar gouloù hag an deñvalijenn"
 
 #: data/levels/bonus3/cave_run.stl:3
 msgid "Cave Run"
@@ -65,150 +66,150 @@ msgstr "Redadeg ar c'hav"
 
 #: data/levels/bonus3/cavern_v2.stl:3
 msgid "Cold Cavern"
-msgstr ""
+msgstr "Kavarn yen"
 
-#: data/levels/bonus3/cavern_v2.stl:50
+#: data/levels/bonus3/cavern_v2.stl:47
 msgid ""
 "#Good job! You kept the red lantern! You didn't need to though, but just "
 "because you did, have 100 coins!"
-msgstr ""
+msgstr "#Labour vat! Tapet ho peus al lutig ruz! N'ho poa ket ezhomm anezhañ, met dre m'ho peus hen tapet memestra, bez ho po 100 pezh-aour!"
 
 #: data/levels/bonus3/coconut_fortress.stl:3
 msgid "Coconut Fortress"
-msgstr ""
+msgstr "Kreñvlec'h ar c'hraoñ-koko"
 
 #: data/levels/bonus3/crystal sunset.stl:3
 msgid "Crystal Sunset"
-msgstr ""
+msgstr "Ar c'huzh-heol kristalin"
 
 #: data/levels/bonus3/crystal.stl:3
 msgid "Crystal Skies"
-msgstr ""
+msgstr "An neñvoù kristal"
 
 #: data/levels/bonus3/crystal_beauty.stl:3
 msgid "Crystal Beauty"
-msgstr ""
+msgstr "Braventez ar c'hristal"
 
 #: data/levels/bonus3/crystal_cataclysm.stl:3
 msgid "Crystal Cataclysm"
-msgstr ""
+msgstr "Reverzhiad kristal"
 
 #: data/levels/bonus3/crystalfields.stl:3
 msgid "Out on the Crystal Fields"
-msgstr ""
+msgstr "Mont er-maez eus ar parkeier kristal"
 
 #: data/levels/bonus3/dark_castle-v2.stl:3
 #: data/levels/bonus3/dark_castle.stl:3
 msgid "The dark castle"
-msgstr ""
+msgstr "Ar c'hastell teñval"
 
 #: data/levels/bonus3/deep_deeper.stl:3
 msgid "Deep, deeper..."
-msgstr ""
+msgstr "Don, donoc'h..."
 
 #: data/levels/bonus3/deepest.stl:3
 msgid "...deepest!"
-msgstr ""
+msgstr "... an donañ posupl!"
 
 #: data/levels/bonus3/dungeon_island/dungeon1.stl:3
 msgid "Circles"
-msgstr ""
+msgstr "Kelc'hioù"
 
 #: data/levels/bonus3/dungeon_island/dungeon2.stl:3
 msgid "Don't miss your ride"
-msgstr ""
+msgstr "Na c'hwitit ket ho marc'h"
 
 #: data/levels/bonus3/dungeon_island/going_down.stl:3
 msgid "Going down"
-msgstr ""
+msgstr "Mont d'an traoñ"
 
 #: data/levels/bonus3/entering_castle.stl:3
 msgid "Entering the castle"
-msgstr ""
+msgstr "Antre ar c'hastell"
 
 #: data/levels/bonus3/flowers.stl:3
 msgid "Flower Bonus"
-msgstr ""
+msgstr "Bleuniennoù bonus"
 
 #: data/levels/bonus3/glaciers.stl:3
 msgid "After the Glaciers"
-msgstr ""
+msgstr "Goude ar skornegoù"
 
 #: data/levels/bonus3/hanging roof.stl:3
 msgid "Hanging From the Roof"
-msgstr ""
+msgstr "Staget d'ar plafoñs"
 
 #: data/levels/bonus3/hilly_landscape.stl:3
 msgid "A hilly landscape"
-msgstr ""
+msgstr "Ur maezad sav-diskenn"
 
 #: data/levels/bonus3/in_the_spring.stl:3
 msgid "In the Spring"
-msgstr ""
+msgstr "En nevez-amzer"
 
 #: data/levels/bonus3/its_getting_unfinishable.stl:3
 msgid "It's getting unfinishable"
-msgstr ""
+msgstr "Difin e teu da vezañ"
 
 #: data/levels/bonus3/light_in_the_darkness.stl:3
 msgid "Some light in the darkness would be fine, thanks!"
-msgstr ""
+msgstr "Espar e vije kaout gouloù en deñvalijenn, trugarez!"
 
 #: data/levels/bonus3/niv-1.1.stl:3
 msgid "Snowfall alert"
-msgstr ""
+msgstr "Diwallit d'an diruilhad"
 
 #: data/levels/bonus3/niv-2.1.stl:3
 msgid "Holes, a Day on Ice"
-msgstr ""
+msgstr "Toulloù, un devezh war ar skorn"
 
 #: data/levels/bonus3/niv-3.stl:3
 msgid "The Toilette zone"
-msgstr ""
+msgstr "Zonenn Kêrsoulach"
 
 #: data/levels/bonus3/niv-3.stl:29
 msgid ""
 "- Flush: \n"
 "#Press the up key to flush! "
-msgstr ""
+msgstr "-Goullonderiñ:\n#Pouezit war ar bouton \"us\" da c'houllonderiñ!"
 
-#: data/levels/bonus3/niv-3.stl:216
+#: data/levels/bonus3/niv-3.stl:219
 msgid ""
 "- A Way out?\n"
 "#Let's Jump! "
-msgstr ""
+msgstr "-Un hent-achap?\n#Deomp de'i!"
 
 #: data/levels/bonus3/over_the_ocean.stl:3
 msgid "My Penny is over the ocean"
-msgstr ""
+msgstr "Ma Fenny a zo war-c'horr ar mor"
 
 #: data/levels/bonus3/pinksnow.stl:3
 msgid "Pink Snow"
-msgstr ""
+msgstr "An erc'h-roz"
 
 #: data/levels/bonus3/red_alert_forest.stl:3
 msgid "Red alert! The forest is burning!"
-msgstr ""
+msgstr "Kemenn-ruz! Ar c'hoad a zo o teviñ!"
 
 #: data/levels/bonus3/sever_escape.stl:3
 msgid "Sewer escape"
-msgstr ""
+msgstr "Achapiñ gant ar c'hanioù-skarzhañ"
 
 #: data/levels/bonus3/shakespeare-rain.stl:3
 msgid "To rain or not to rain - That's the question"
-msgstr ""
+msgstr "Ober glav pe chom hep ober glav - Aze emañ ar goulenn"
 
 #: data/levels/bonus3/shakespeare-rain_antarctic.stl:3
 msgid "To rain or not to rain - That's the question (Antarctic)"
-msgstr ""
+msgstr "Ober glav pe chom hep ober glav - Aze emañ ar goulenn (Antartik)"
 
 #: data/levels/bonus3/snowy_hill.stl:3
 msgid "A snowy hill"
-msgstr ""
+msgstr "Un duchenn leun a erc'h"
 
 #: data/levels/bonus3/three_frosty_icebergs.stl:3
 msgid "Three Frosty Icebergs"
-msgstr ""
+msgstr "Tri skorngrec'h skornet"
 
 #: data/levels/bonus3/under ice.stl:3
 msgid "Under the Ice"
@@ -216,16 +217,17 @@ msgstr "Dindan ar skorn"
 
 #: data/levels/bonus3/worldmap.stwm:3
 msgid "Bonus Island III"
-msgstr ""
+msgstr "Bonus an Enezenn III"
 
-#: data/levels/bonus3/worldmap.stwm:12
+#: data/levels/bonus3/worldmap.stwm:238
 msgid "You found a secret place!"
-msgstr ""
+msgstr "Kavet ho peus ul lec'h kuzh!"
 
-#: data/levels/bonus3/worldmap.stwm:20
-msgid "Congratulations... you found the secret pathway!"
-msgstr ""
-
-#: data/levels/bonus3/worldmap.stwm:78 data/levels/bonus3/worldmap.stwm:86
+#: data/levels/bonus3/worldmap.stwm:282 data/levels/bonus3/worldmap.stwm:297
+#: data/levels/bonus3/worldmap.stwm:304
 msgid "Go Home"
+msgstr "Distreiñ d'an degemer"
+
+#: data/levels/bonus3/worldmap.stwm:290
+msgid "Enter Forest Section"
 msgstr ""

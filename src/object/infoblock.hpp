@@ -33,7 +33,7 @@ public:
   virtual void draw(DrawingContext& context) override;
 
   virtual std::string get_class() const override { return "infoblock"; }
-  virtual std::string get_display_name() const override { return _("Info block"); }
+  virtual std::string get_display_name() const override { return _("Info Block"); }
 
   virtual ObjectSettings get_settings() override;
 

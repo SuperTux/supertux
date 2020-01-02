@@ -78,6 +78,7 @@ public:
   Statistics m_stats;
   float m_target_time;
   std::string m_tileset;
+  bool m_suppress_pause_menu;
 
 private:
   Level(const Level&) = delete;

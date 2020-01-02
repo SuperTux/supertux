@@ -1,18 +1,20 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
+# Anders Jonsson <transifex@norsjovallen.se>, 2018
 # Arvid Norlander <anmaster@berlios.de>, 2006-2010
-# Kristoffer Grundström <kristoffer.grundstrom1983@gmail.com>, 2014
-# sebras <sebras@gmail.com>, 2015-2016
+# Kristoffer Grundström <hamnisdude@gmail.com>, 2014
+# Sebastian Rasmussen <sebras@gmail.com>, 2019
+# Sebastian Rasmussen <sebras@gmail.com>, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-04 15:35+0200\n"
-"PO-Revision-Date: 2016-06-24 16:30+0000\n"
-"Last-Translator: sebras <sebras@gmail.com>\n"
+"Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
+"POT-Creation-Date: 2019-11-24 01:44+0100\n"
+"PO-Revision-Date: 2019-11-24 16:37+0000\n"
+"Last-Translator: Sebastian Rasmussen <sebras@gmail.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/arctic-games/supertux/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,210 +22,128 @@ msgstr ""
 "Language: sv\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: data/levels/world2/Bouncy_Coils.stl:3
+#: data/levels/world2/ancient_ruins.stl:3
+msgid "Ancient Ruins"
+msgstr "Uråldriga ruiner"
+
+#: data/levels/world2/ancient_ruins.stl:1415
+#: data/levels/world2/ancient_ruins.stl:1423
+#: data/levels/world2/bouncy_coils.stl:237
+#: data/levels/world2/bouncy_coils.stl:245
+#: data/levels/world2/bye_bye_forest.stl:977
+#: data/levels/world2/crumbling_path.stl:278
+#: data/levels/world2/crumbling_path.stl:1651
+#: data/levels/world2/going_underground.stl:199
+#: data/levels/world2/going_underground.stl:1199
+#: data/levels/world2/mouldy_grotto.stl:559
+#: data/levels/world2/penguin_grow_trees.stl:459
+#: data/levels/world2/penguin_grow_trees.stl:467
+#: data/levels/world2/through_dark.stl:309
+#: data/levels/world2/tux_builder.stl:283
+#: data/levels/world2/wooden_roots.stl:279
+#: data/levels/world2/worldmap.stwm:185
+msgid "You found a secret area!"
+msgstr "Du har hittat ett hemligt område!"
+
+#: data/levels/world2/besides_bushes.stl:3
+msgid "Besides the Bushes"
+msgstr "Förutom buskarna"
+
+#: data/levels/world2/bouncy_coils.stl:3
 msgid "Bouncy Coils"
 msgstr "Studsande spolar"
 
-#: data/levels/world2/Castle_Entrance.stl:3
-msgid "Entrance to the Castle"
-msgstr "Ingången till slottet"
+#: data/levels/world2/bye_bye_forest.stl:3
+msgid "Bye Bye Forest"
+msgstr "Farvälskogen"
 
-#: data/levels/world2/CounterCurrent.stl:3
-msgid "Countercurrent"
-msgstr "Motströms"
-
-#: data/levels/world2/Crumbling_Path.stl:3
+#: data/levels/world2/crumbling_path.stl:3
 msgid "Crumbling Path"
 msgstr "Sönderfallande väg"
 
-#: data/levels/world2/Duct_Ape.stl:3
-msgid "Duct Ape"
-msgstr "Kanal-apa"
+#: data/levels/world2/darkness_awaits.stl:3
+msgid "Darkness Awaits"
+msgstr "Mörkret väntar"
 
-#: data/levels/world2/El_Castillo.stl:3
-msgid "A Short Visit to El Castillo"
-msgstr "En kort visit till El Castillo"
-
-#: data/levels/world2/Find_Big_Fish.stl:3
+#: data/levels/world2/find_big_fish.stl:3
 msgid "Find the Bigger Fish!"
 msgstr "Hitta den större fisken!"
 
-#: data/levels/world2/Find_Big_Fish.stl:449
+#: data/levels/world2/find_big_fish.stl:800
 msgid "-A big fish... for you."
 msgstr "-En stor fisk...för dig."
 
-#: data/levels/world2/Going_Underground.stl:3
+#: data/levels/world2/forest_intro.stl:3
+msgid "A New Location"
+msgstr "En ny plats"
+
+#: data/levels/world2/ghost_cutscene.stl:3
+msgid "What is Happening?"
+msgstr "Vad händer?"
+
+#: data/levels/world2/ghostly_misery.stl:3
+msgid "Ghostly Misery"
+msgstr "Spökligt elände"
+
+#: data/levels/world2/ghosttrees_challenges.stl:3
+msgid "Ghosttree's Challenges"
+msgstr "Spökträdets utmaningar"
+
+#: data/levels/world2/ghouls_lair.stl:3
+msgid "Ghouls' Lair"
+msgstr "Den onde andens lya"
+
+#: data/levels/world2/ghouls_lair.stl:421
+msgid ""
+"#Lanterns are used to make magic blocks solid, so you're able to walk atop "
+"of them."
+msgstr "#Lanternor används för att göra magiska block solida, så att du kan gå ovanpå dem."
+
+#: data/levels/world2/going_underground.stl:3
 msgid "Going Underground"
 msgstr "Gå ner i underjorden"
 
-#: data/levels/world2/Kneep_Deep.stl:3
-msgid "Kneep-deep in the depth"
-msgstr "Upp till knäna i djupet"
+#: data/levels/world2/i_spy_with_my_little_eye.stl:3
+msgid "I Spy With My Little Eye"
+msgstr "Jag ser med mitt lilla öga"
 
-#: data/levels/world2/Little_Venice.stl:3
-msgid "Little Venice"
-msgstr "Lilla Venedig"
+#: data/levels/world2/i_spy_with_my_little_eye.stl:173
+msgid ""
+"-Ispy\n"
+"#Ispys will activate things like platforms whenever Tux is in their sight."
+msgstr "-Ispy\n#Ispys kommer att aktivera saker så som plattformar närhelst Tux är inom deras sikte."
 
-#: data/levels/world2/Mouldy_Grotto.stl:3
+#: data/levels/world2/i_spy_with_my_little_eye.stl:547
+msgid "Hint: Use snails to break blocks!"
+msgstr "Tips: Använd sniglar för att bryta söner block!"
+
+#: data/levels/world2/leaf_wind.stl:3
+msgid "Like a leaf in the Wind"
+msgstr "Som ett löv i vinden"
+
+#: data/levels/world2/lost_village.stl:3
+msgid "Lost Village"
+msgstr "Den förlorade byn"
+
+#: data/levels/world2/lost_village.stl:142
+msgid "#Don't forget to hit the switch!"
+msgstr "#Glöm inte att slå på brytaren!"
+
+#: data/levels/world2/mouldy_grotto.stl:3
 msgid "A Mouldy Grotto"
 msgstr "En möglig grotta"
 
-#: data/levels/world2/Penguin_Grow_Trees.stl:3
+#: data/levels/world2/owls_again.stl:3
+msgid "The Owls again..."
+msgstr "Ugglorna igen…"
+
+#: data/levels/world2/owls_skydive_commando.stl:3
+msgid "Owls' Skydive Commando"
+msgstr "Ugglornas fallskärmskommando"
+
+#: data/levels/world2/penguin_grow_trees.stl:3
 msgid "Penguins don't grow on Trees"
 msgstr "Pingviner växer inte på träd"
-
-#: data/levels/world2/Rabbit_Hole.stl:3
-msgid "Down The Rabbit Hole"
-msgstr "Ner i kaninhålet"
-
-#: data/levels/world2/Rabbit_Hole.stl:46
-msgid ""
-"-Oh no!\n"
-"#The path is blocked! It\n"
-"#seems that the only way\n"
-"#leads through that dark\n"
-"#hole in the ground..."
-msgstr "-Åh nej!\n#Vägen är blockerad! Det\n#verkar som om den enda\n#vägen leder genom det\n#där mörka hålet i marken…"
-
-#: data/levels/world2/Rabbit_Hole.stl:55
-msgid "-Are you lost?"
-msgstr "-Är du vilse?"
-
-#: data/levels/world2/Silent_Walls.stl:3
-msgid "The Silent Walls"
-msgstr "De tysta väggarna"
-
-#: data/levels/world2/Three_Sheets.stl:3
-msgid "Three sheets to the wind"
-msgstr "Tre lakan till vinden"
-
-#: data/levels/world2/Treasure_Skies.stl:3
-msgid "Treasure in the skies"
-msgstr "Skatter i skyn"
-
-#: data/levels/world2/Tree_Fortress.stl:3
-msgid "Tree Fortress"
-msgstr "Trädfästningen"
-
-#: data/levels/world2/Tux_Builder.stl:3
-msgid "Tux the Builder"
-msgstr "Byggare Tux"
-
-#: data/levels/world2/Tux_Builder.stl:46
-msgid ""
-"-Portable Rocks:\n"
-"\n"
-"!images/help/rockhowto1.png\n"
-"!images/help/rockhowto2.png\n"
-"!images/help/rockhowto3.png\n"
-msgstr "-Flyttbara stenar:\n\n!images/help/rockhowto1.png\n!images/help/rockhowto2.png\n!images/help/rockhowto3.png\n"
-
-#: data/levels/world2/Two_Towers.stl:3
-msgid "Two Tiny Towers"
-msgstr "Två små torn"
-
-#: data/levels/world2/Up_and_Down.stl:3
-msgid "Up and Down"
-msgstr "Upp och ner"
-
-#: data/levels/world2/Walking_Leaves.stl:3
-msgid "Walking Leaves"
-msgstr "Gående löv"
-
-#: data/levels/world2/Welcome_Forest.stl:3
-msgid "Welcome to the Forest"
-msgstr "Välkommen till skogen"
-
-#: data/levels/world2/castle.stl:3
-msgid "Iceberg Fortress"
-msgstr "Isbergsfästningen"
-
-#: data/levels/world2/castledoor.stl:3
-#: data/levels/world2/dfk-placeholder-1.stl:3
-msgid "NOLOK"
-msgstr "NOLOK"
-
-#: data/levels/world2/christophD.stl:3
-msgid "Room of Stars"
-msgstr "Stjärnrummet"
-
-#: data/levels/world2/dan_morial.stl:3
-msgid "Dan Morial"
-msgstr "Dan Morial"
-
-#: data/levels/world2/detour.stl:3
-msgid "Detour"
-msgstr "Omväg"
-
-#: data/levels/world2/dfk-level1.stl:3
-msgid "Dark Forest Keep - The Evil Chamber"
-msgstr "Mörka skogens torn - Den elaka kammaren"
-
-#: data/levels/world2/dfk-level2.stl:3
-msgid "Dark Forest Keep - The Eyes Of Nolok"
-msgstr "Mörka skogens torn - Noloks ögon"
-
-#: data/levels/world2/dfk-level3.stl:3
-msgid "Dark Forest Keep - The Black Tower"
-msgstr "Mörka skogens torn - Det svarta tornet"
-
-#: data/levels/world2/forest1-grumbel.stl:3
-msgid "Forest Level 1"
-msgstr "Skogsbana 1"
-
-#: data/levels/world2/ghostly.stl:3
-msgid "A Ghostly World"
-msgstr "En spökvärld"
-
-#: data/levels/world2/key1.stl:3
-msgid "key 1 water - to be placed behind waterfall"
-msgstr "nyckel 1 vatten - ska placeras bakom ett vattenfall"
-
-#: data/levels/world2/key2.stl:3
-msgid "key 2 earth - to be placed underground"
-msgstr "nyckel 2 jord - ska placeras under jord"
-
-#: data/levels/world2/key3.stl:3
-msgid "key 3 wood - to be placed in a big tree"
-msgstr "nyckel 3 trä - ska placeras i ett stort träd"
-
-#: data/levels/world2/key4.stl:3
-msgid "key 4 fire - to be placed in a small castle"
-msgstr "nyckel 4 eld - ska placeras i ett litet slott"
-
-#: data/levels/world2/key5.stl:3
-msgid "key 5 air - to be placed in clouds "
-msgstr "nyckel 5 luft - ska placeras i molnen"
-
-#: data/levels/world2/level5.stl:3
-msgid "Green Hills"
-msgstr "Gröna kullar"
-
-#: data/levels/world2/level6.stl:3
-msgid "No Name"
-msgstr "Inget namn"
-
-#: data/levels/world2/light+magic.stl:3
-msgid "Light and Magic"
-msgstr "Ljus och magi"
-
-#: data/levels/world2/owls_revenge.stl:3
-msgid "Owls' Revenge"
-msgstr "Ugglans hämnd"
-
-#: data/levels/world2/roots_woody_roots.stl:3
-msgid "Roots, Woody Roots"
-msgstr "Rötter, träaktiga rötter"
-
-#: data/levels/world2/roots_woody_roots.stl:200
-msgid ""
-"-Hint:\n"
-"#If there seems to be\n"
-"#no way to reach a door,\n"
-"#remember that you might\n"
-"#be supposed to come out\n"
-"#of that door..."
-msgstr "-Tips:\n#Om det inte verkar finnas\n#något sätt att nå en dörr,\n#kom ihåg att det kanske inte\n#är meningen att du ska komma\n#ut genom den dörren…"
 
 #: data/levels/world2/scripts_default.txt:2
 msgid "---Insert Cutscene Here---"
@@ -233,14 +153,75 @@ msgstr "---Infoga filmsekvens här---"
 msgid "Shocking"
 msgstr "Chockerande"
 
-#: data/levels/world2/underconstruction.stl:3
-msgid "Under Construction"
-msgstr "Under uppbyggnad"
+#: data/levels/world2/the_forest_is_rotting.stl:3
+msgid "The Forest Is Rotting"
+msgstr "Skogen ruttnar"
 
-#: data/levels/world2/village.stl:3
-msgid "A Village in the Forest"
-msgstr "En by i skogen"
+#: data/levels/world2/through_dark.stl:3
+msgid "Through the Dark"
+msgstr "Genom mörkret"
+
+#: data/levels/world2/through_dark.stl:96
+msgid ""
+"-Earth Flower\n"
+"!images/powerups/earthflower/earth_flower-1.png\n"
+"#The earth flower gives Tux the ability to turn into stone by pressing the ACTION Key and the DOWN Key at the same time.\n"
+"#This does not work while jumping or falling!"
+msgstr "-Jordblomma\n!images/powerups/earthflower/earth_flower-1.png\n#Jordblomman ger Tux förmågan att förvandras till tenom att samidigt trycka på ÅTGÄRDS-knappen och NER-knappen.\n#Detta fungerar inte under hopp eller då Tux faller!"
+
+#: data/levels/world2/tower_cutscene.stl:3
+msgid "Tower Cutscene"
+msgstr "Filmsekvensen i tornet"
+
+#: data/levels/world2/tower_of_ghosts.stl:3
+msgid "Tower Of Ghosts"
+msgstr "Spökenas torn"
+
+#: data/levels/world2/tux_builder.stl:3
+msgid "Tux the Builder"
+msgstr "Byggare Tux"
+
+#: data/levels/world2/tux_builder.stl:80
+msgid ""
+"-Portable Objects:\n"
+"!images/objects/rock/rock.png\n"
+"#Tux can pick up certain objects and carry them around.\n"
+"#Press the ACTION key to grab an object and hold it pressed as long as you want to carry the object. Release the ACTION key to drop the object."
+msgstr "-Portabla objekt:\n!images/objects/rock/rock.png\n#Tux kan plocka upp vissa objekt och bära runt på dem.\n#Tryck på ÅTGÄRDS-knappen för att plocka upp ett objekt och håll den nedtryckt så länge som du vill bära objektet. Släpp ÅTGÄRDS-knappen för att släppa objektet."
+
+#: data/levels/world2/tux_own_horror_show.stl:3
+msgid "Tux' Own Horror Show"
+msgstr "Tux egna skräckshow"
+
+#: data/levels/world2/tux_own_horror_show.stl:280
+msgid ""
+"#Willow-wisps are small, annoying ghosts, which transport you to different, "
+"often dangerous places."
+msgstr "#Irrbloss är små, irriterande spöken som transporterar dig till andra, ofta farliga platser."
+
+#: data/levels/world2/walking_leaves.stl:3
+msgid "Walking Leaves"
+msgstr "Gående löv"
+
+#: data/levels/world2/welcome_forest.stl:3
+msgid "Welcome to the Forest"
+msgstr "Välkommen till skogen"
+
+#: data/levels/world2/welcome_forest.stl:50
+msgid ""
+"-Doors\n"
+"!images/objects/door/door-0.png\n"
+"#Tux can go through a door by pressing the UP key."
+msgstr "-Dörrar\n!images/objects/door/door-0.png\n#Tux kan gå genom en dörr genom att trycka på UPP-knappen."
+
+#: data/levels/world2/wooden_roots.stl:3
+msgid "Wooden Roots"
+msgstr "Träiga rötter"
 
 #: data/levels/world2/worldmap.stwm:3
-msgid "Forest World"
-msgstr "Skogsvärlden"
+msgid "Forest Island"
+msgstr "Skogsön"
+
+#: data/levels/world2/worldmap.stwm:199
+msgid "To be continued..."
+msgstr "Fortsättning följer..."

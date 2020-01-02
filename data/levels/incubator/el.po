@@ -1,6 +1,6 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
 # I will not tell you that <leftermos@yahoo.gr>, 2015
@@ -9,9 +9,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-05 20:42+0200\n"
-"PO-Revision-Date: 2016-08-31 14:31+0000\n"
+"Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
+"POT-Creation-Date: 2018-11-05 23:45+0100\n"
+"PO-Revision-Date: 2017-09-19 19:41+0000\n"
 "Last-Translator: Vangelis Skarmoutsos <skarmoutsosv@gmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/arctic-games/supertux/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -24,7 +24,7 @@ msgstr ""
 msgid "Angry Stone vs. YOU"
 msgstr "Θυμωμένη πέτρα vs. ΕΣΥ"
 
-#: data/levels/incubator/Angry Stone vs. YOU.stl:308
+#: data/levels/incubator/Angry Stone vs. YOU.stl:307
 msgid ""
 "#You activate switches with this button:\n"
 "!images/tiles/signs/up.png"
@@ -38,11 +38,11 @@ msgstr "Κάστρο #1"
 msgid "Missingno"
 msgstr "Missingno"
 
-#: data/levels/incubator/Missingno.stl:535
+#: data/levels/incubator/Missingno.stl:534
 msgid "#Be patient!"
 msgstr "#Έχε υπομονή!"
 
-#: data/levels/incubator/Missingno.stl:540
+#: data/levels/incubator/Missingno.stl:539
 msgid ""
 "#Dont move while flying!\n"
 "#Pay attention at landing!"
@@ -72,7 +72,7 @@ msgstr "Ηλεκτρικό εργοστάσιο ξυλείας"
 msgid "Nice Ice"
 msgstr "Καλός πάγος"
 
-#: data/levels/incubator/Nice Ice.stl:89
+#: data/levels/incubator/Nice Ice.stl:86
 msgid "#Use the enemy to finish this level!"
 msgstr "#Χρησιμοποίησε τον εχθρό για να τελειώσεις αυτό το επίπεδο!"
 
@@ -116,13 +116,13 @@ msgstr "Μέσα στο βουνό"
 msgid "Into the Dark"
 msgstr "Στο σκοτάδι"
 
-#: data/levels/incubator/into_dark.stl:224
+#: data/levels/incubator/into_dark.stl:210
 msgid ""
 "-Hint:\n"
 "#Use the fireflower to melt a path through the ice."
 msgstr "-Στοιχείο\n#Χρησιμοποίησε το λουλούδι φωτιάς για να λοιώσεις ένα μονοπάτι μέσα από τον πάγο."
 
-#: data/levels/incubator/into_dark.stl:230
+#: data/levels/incubator/into_dark.stl:216
 msgid "#Beware of fire!"
 msgstr "#Προσοχή στη φωτιά!"
 
@@ -134,7 +134,7 @@ msgstr "Το Οδοντωτό Μονοπάτι"
 msgid "Let us snow!"
 msgstr "Ας χιονίσουμε!"
 
-#: data/levels/incubator/let_us_snow.stl:205
+#: data/levels/incubator/let_us_snow.stl:204
 msgid ""
 "-Warning!\n"
 "#Beware the falling enemies!"
@@ -144,7 +144,7 @@ msgstr "-Προειδοποίηση\n#Προσοχή στους εχθρούς �
 msgid "A long adventure"
 msgstr "Μια μακρουλή περιπέτεια"
 
-#: data/levels/incubator/long.stl:1579
+#: data/levels/incubator/long.stl:1525
 msgid ""
 "#Until this moment you have luck.\n"
 "#The way here was hard.\n"
@@ -155,13 +155,13 @@ msgid ""
 "#I hope you understood."
 msgstr "#Μέχρι αυτή τη στιγμή δεν είχες τύχη.\n#Ο δρόμος μέχρι εδώ ήταν δύσκολος.\n#Έχεις πολύ ακόμη δρόμο.\n#Πρέπει να το γνωρίζεις καλά.\n#Ακόμη και τώρα δεν πρέπει να αποτύχεις.\n#Τώρα πάνε κάτω στο πηγάδι.\n#Ελπίζω να κατάλαβες."
 
-#: data/levels/incubator/long.stl:3997
+#: data/levels/incubator/long.stl:3937
 msgid ""
 "-Congratulations!\n"
 "#You are in half the level! "
 msgstr "-Συγχαρητήρια!\n#Είσαι στην μέση του επιπέδου!"
 
-#: data/levels/incubator/long.stl:4549
+#: data/levels/incubator/long.stl:4485
 msgid "-You are going wrong!"
 msgstr "-Πηγαίνεις λάθος!"
 

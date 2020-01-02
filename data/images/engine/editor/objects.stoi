@@ -70,9 +70,6 @@
     (class "stalactite")
     (icon "images/creatures/stalactite/falling.png"))
   (object
-    (class "yeti_stalactite")
-    (icon "images/engine/editor/stalactite_yeti.png"))
-  (object
     (class "willowisp")
     (icon "images/creatures/willowisp/idle-0.png"))
   (object
@@ -115,9 +112,6 @@
     (class "mole")
     (icon "images/creatures/mole/mole-5.png"))
   (object
-    (class "skydive")
-    (icon "images/creatures/skydive/skydive.png"))
-  (object
     (class "fish")
     (icon "images/creatures/fish/down.png"))
   (object
@@ -145,8 +139,22 @@
     (class "angrystone")
     (icon "images/creatures/angrystone/charging-0.png"))
   (object
-    (class "dart")
-    (icon "images/creatures/dart/flying.png"))
+    (class "darttrap")
+    (icon "images/creatures/darttrap/idle.png"))
+  (object
+    (class "dispenser")
+    (icon "images/creatures/dispenser/canon.png"))
+  (object
+    (class "ispy")
+    (icon "images/objects/ispy/idle-0.png"))
+  (object
+    (class "ghoul")
+    (icon "images/creatures/ghoul/g1.png"))
+ )
+
+ (objectgroup
+  (name (_"Bosses"))
+  (worldmap #f)
   (object
     (class "yeti")
     (icon "images/creatures/yeti/hudlife.png"))
@@ -154,9 +162,23 @@
     (class "ghosttree")
     (icon "images/creatures/ghosttree/ghosttree.png"))
  )
-
+ 
  (objectgroup
-  (name (_"Items"))
+  (name (_"Projectiles"))
+  (worldmap #f)
+  (object
+    (class "yeti_stalactite")
+    (icon "images/engine/editor/stalactite_yeti.png"))
+  (object
+    (class "skydive")
+    (icon "images/creatures/skydive/skydive.png"))
+  (object
+    (class "dart")
+    (icon "images/creatures/dart/flying.png"))
+ )
+ 
+ (objectgroup
+  (name (_"Environment"))
   (worldmap #f)
   (object
     (class "bonusblock")
@@ -183,12 +205,6 @@
     (class "powerup")
     (icon "images/engine/editor/powerup.png"))
   (object
-    (class "darttrap")
-    (icon "images/creatures/darttrap/idle.png"))
-  (object
-    (class "dispenser")
-    (icon "images/creatures/dispenser/dropper.png"))
-  (object
     (class "#node")
     (icon "images/engine/editor/path_node.png"))
 ;;(object
@@ -209,9 +225,6 @@
   (object
     (class "scriptedobject")
     (icon "images/engine/editor/scriptedobject.png"))
-  (object
-    (class "ispy")
-    (icon "images/objects/ispy/idle-0.png"))
   (object
     (class "firefly")
     (icon "images/objects/resetpoints/bell-m.png"))
@@ -281,7 +294,7 @@
  )
 
  (objectgroup
-  (name (_"Level"))
+  (name (_"Sector"))
   (worldmap #f)
   (object
     (class "tilemap")

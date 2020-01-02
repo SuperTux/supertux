@@ -815,6 +815,7 @@ lift1.goto_node(0);")
         (node
           (x 3264)
           (y 0)
+          (time 4.5)
         )
       )
     )
@@ -834,7 +835,8 @@ lift1.goto_node(0);")
     )
     (scripttrigger
       (script "lift.goto_node(1);
-wait(6);")
+wait(0.5);
+lift.goto_node(0);")
       (button #f)
       (width 32)
       (height 16)

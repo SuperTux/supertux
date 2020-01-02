@@ -40,7 +40,8 @@ Level::Level(bool worldmap) :
   m_sectors(),
   m_stats(),
   m_target_time(),
-  m_tileset("images/tiles.strf")
+  m_tileset("images/tiles.strf"),
+  m_suppress_pause_menu()
 {
   s_current = this;
 }
@@ -125,6 +126,9 @@ Level::save(Writer& writer)
   }
   if (m_target_time != 0.0f){
     writer.write("target-time", m_target_time);
+  }
+  if(m_suppress_pause_menu) {
+    writer.write("suppress-pause-menu", m_suppress_pause_menu);
   }
 
   for (auto& sector : m_sectors) {

@@ -11,7 +11,7 @@
     )
     (background
       (alignment "top")
-      (speed 0.0500001)
+      (speed 0.05)
       (image-top "images/background/transparent_up.png")
       (image "/images/background/cloud-mountains-background.png")
       (image-bottom "images/background/transparent_up.png")
@@ -58,6 +58,7 @@
       (cycle 4)
       (type "cannon")
       (badguy "leafshot")
+      (direction "left")
       (x 9568)
       (y 1312)
     )

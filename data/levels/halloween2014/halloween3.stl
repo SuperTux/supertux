@@ -125,6 +125,7 @@
       (initial-delay 0)
       (fire-delay 2)
       (ammo -1)
+      (direction "left")
       (x 8880)
       (y 800)
     )
@@ -132,6 +133,7 @@
       (initial-delay 0)
       (fire-delay 2)
       (ammo -1)
+      (direction "left")
       (x 8880)
       (y 736)
     )
@@ -139,6 +141,7 @@
       (initial-delay 0)
       (fire-delay 2)
       (ammo -1)
+      (direction "left")
       (x 8880)
       (y 640)
     )
@@ -440,7 +443,7 @@
     (spawnpoint
       (name "main")
       (x 96)
-      (y 256)
+      (y 224)
     )
     (tilemap
       (solid #f)

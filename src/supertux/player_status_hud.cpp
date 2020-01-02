@@ -87,6 +87,73 @@ PlayerStatusHUD::draw(DrawingContext& context)
                             LAYER_HUD,
                             PlayerStatusHUD::text_color);
 
+  std::string ammo_text;
+
+  if (m_player_status.bonus == FIRE_BONUS) {
+
+    ammo_text = std::to_string(m_player_status.max_fire_bullets);
+
+    if (fire_surface) {
+      context.color().draw_surface(fire_surface,
+                                   Vector(static_cast<float>(context.get_width())
+                                              - BORDER_X
+                                              - static_cast<float>(fire_surface->get_width())
+                                              - Resources::fixed_font->get_text_width(ammo_text),
+                                          BORDER_Y
+                                              + 1.0f
+                                              + (Resources::fixed_font->get_text_height(coins_text) + 5)
+                                              + (Resources::fixed_font->get_text_height(ammo_text) + 5)
+                                              * static_cast<float>(player_id)),
+                                   LAYER_HUD);
+    }
+
+    context.color().draw_text(Resources::fixed_font,
+                              ammo_text,
+                              Vector(static_cast<float>(context.get_width())
+                                         - BORDER_X
+                                         - Resources::fixed_font->get_text_width(ammo_text),
+                                     BORDER_Y
+                                         + (Resources::fixed_font->get_text_height(coins_text) + 5.0f)
+                                         + (Resources::fixed_font->get_text_height(ammo_text) + 5.0f)
+                                         * static_cast<float>(player_id)),
+                              ALIGN_LEFT,
+                              LAYER_HUD,
+                              PlayerStatusHUD::text_color);
+  }
+
+  if (m_player_status.bonus == ICE_BONUS) {
+
+    ammo_text = std::to_string(m_player_status.max_ice_bullets);
+
+    if (ice_surface) {
+      context.color().draw_surface(ice_surface,
+                                   Vector(static_cast<float>(context.get_width())
+                                              - BORDER_X
+                                              - static_cast<float>(ice_surface->get_width())
+                                              - Resources::fixed_font->get_text_width(ammo_text),
+                                          BORDER_Y
+                                              + 1.0f
+                                              + (Resources::fixed_font->get_text_height(coins_text) + 5)
+                                              + (Resources::fixed_font->get_text_height(ammo_text) + 5)
+                                              * static_cast<float>(player_id)),
+                                   LAYER_HUD);
+    }
+
+    context.color().draw_text(Resources::fixed_font,
+                              ammo_text,
+                              Vector(static_cast<float>(context.get_width())
+                                         - BORDER_X
+                                         - Resources::fixed_font->get_text_width(ammo_text),
+                                     BORDER_Y
+                                         + (Resources::fixed_font->get_text_height(coins_text) + 5.0f)
+                                         + (Resources::fixed_font->get_text_height(ammo_text) + 5.0f)
+                                         * static_cast<float>(player_id)),
+                              ALIGN_LEFT,
+                              LAYER_HUD,
+                              PlayerStatusHUD::text_color);
+  }
+
+
   context.pop_transform();
 }
 

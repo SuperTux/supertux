@@ -21,6 +21,7 @@
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
 #include "supertux/level.hpp"
+#include "supertux/gameconfig.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "util/gettext.hpp"
 #include "video/compositor.hpp"
@@ -37,40 +38,41 @@ EditorMenu::EditorMenu()
 
   add_label(_("Level Editor"));
   add_hl();
-  add_entry(MNID_RETURNTOEDITOR, _("Return to editor"));
-  add_entry(MNID_SAVELEVEL, worldmap ? _("Save current worldmap") : _("Save current level"));
+  add_entry(MNID_RETURNTOEDITOR, _("Return to Editor"));
+  add_entry(MNID_SAVELEVEL, worldmap ? _("Save Worldmap") : _("Save Level"));
 
   if (!worldmap) {
-    add_entry(MNID_TESTLEVEL, _("Test the level"));
+    add_entry(MNID_TESTLEVEL, _("Test Level"));
   }
   else
   {
-    add_entry(MNID_TESTLEVEL, _("Test the worldmap"));
+    add_entry(MNID_TESTLEVEL, _("Test Worldmap"));
   }
+  
+  add_entry(MNID_SHARE, _("Share Level"));
 
-  add_entry(MNID_OPEN_DIR, _("Open output directory"));
-
-  add_entry(MNID_SHARE, _("Share your level"));
+  add_entry(MNID_OPEN_DIR, _("Open Level Directory"));
 
   if (is_world) {
-    add_entry(MNID_LEVELSEL, _("Edit another level"));
+    add_entry(MNID_LEVELSEL, _("Edit Another Level"));
   }
 
-  add_entry(MNID_LEVELSETSEL, _("Choose another level subset"));
+  add_entry(MNID_LEVELSETSEL, _("Edit Another World"));
+  
+  add_hl();
 
-  add_string_select(-1, _("Grid size"), &EditorOverlayWidget::selected_snap_grid_size, snap_grid_sizes);
+  add_string_select(-1, _("Grid Size"), &EditorOverlayWidget::selected_snap_grid_size, snap_grid_sizes);
+  add_toggle(-1, _("Show Grid"), &EditorOverlayWidget::render_grid);
+  add_toggle(-1, _("Grid Snapping"), &EditorOverlayWidget::snap_to_grid);
+  add_toggle(-1, _("Render Background"), &EditorOverlayWidget::render_background);
+  add_toggle(-1, _("Render Light"), &Compositor::s_render_lighting);
 
-  add_toggle(-1, _("Render lighting (F6)"), &Compositor::s_render_lighting);
-  add_toggle(-1, _("Snap objects to grid (F7)"), &EditorOverlayWidget::snap_to_grid);
-  add_toggle(-1, _("Show grid (F8)"), &EditorOverlayWidget::render_grid);
-  add_toggle(-1, _("Render background"), &EditorOverlayWidget::render_background);
-  add_toggle(-1, _("Show scroller (F9)"), &EditorScrollerWidget::rendered);
-
-  add_submenu(worldmap ? _("Worldmap properties") : _("Level properties"),
+  add_submenu(worldmap ? _("Worldmap Settings") : _("Level Settings"),
               MenuStorage::EDITOR_LEVEL_MENU);
+  add_entry(MNID_HELP, _("Keyboard Shortcuts"));
 
   add_hl();
-  add_entry(MNID_QUITEDITOR, _("Exit level editor"));
+  add_entry(MNID_QUITEDITOR, _("Exit Level Editor"));
 }
 
 EditorMenu::~EditorMenu()
@@ -122,6 +124,15 @@ EditorMenu::menu_action(MenuItem& item)
         FileSystem::open_path("https://forum.freegamedev.net/viewforum.php?f=69");
       });
       dialog->add_cancel_button(_("No"));
+      MenuManager::instance().set_dialog(std::move(dialog));
+    }
+    break;
+	
+	case MNID_HELP:
+    {
+      auto dialog = std::make_unique<Dialog>();
+      dialog->set_text(_("Keyboard Shortcuts:\n---------------------\nEsc = Open Menu\nCtrl+S = Save\nCtrl+T = Test\nCtrl+Z = Undo\nCtrl+Y = Redo\nF6 = Render Light\nF7 = Grid Snapping\nF8 = Show Grid"));
+      dialog->add_cancel_button(_("Got it!"));
       MenuManager::instance().set_dialog(std::move(dialog));
     }
     break;

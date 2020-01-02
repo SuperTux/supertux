@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2018-11-16 00:48+0100\n"
-"PO-Revision-Date: 2018-11-15 23:50+0000\n"
-"Last-Translator: Tobias Markus <tobbi@supertuxproject.org>\n"
+"PO-Revision-Date: 2019-11-24 04:35+0000\n"
+"Last-Translator: Alisa P <parashchenko.alisa@yandex.com>\n"
 "Language-Team: Latin (http://www.transifex.com/arctic-games/supertux/language/la/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -52,7 +52,7 @@ msgstr "Altitudo"
 
 #: src/trigger/secretarea_trigger.cpp:73
 msgid "Fade tilemap"
-msgstr ""
+msgstr "Schema quadratorum disapparendum"
 
 #: src/trigger/secretarea_trigger.cpp:74 src/trigger/climbable.cpp:76
 #: src/object/infoblock.cpp:56 src/editor/worldmap_objects.cpp:189
@@ -77,7 +77,7 @@ msgstr "Quadratum"
 
 #: src/trigger/scripttrigger.cpp:75
 msgid "Oneshot"
-msgstr ""
+msgstr "Una Missio"
 
 #: src/trigger/climbable.cpp:72
 msgid "Climbable"
@@ -86,7 +86,7 @@ msgstr "Tux ascendere potest"
 #: src/trigger/door.cpp:70 src/badguy/willowisp.cpp:280
 #: src/supertux/menu/editor_sector_menu.cpp:32 src/editor/layers_gui.cpp:216
 msgid "Sector"
-msgstr "Pars"
+msgstr "Ager"
 
 #: src/trigger/door.cpp:71 src/object/spawnpoint.hpp:51
 msgid "Spawn point"
@@ -133,23 +133,23 @@ msgstr "luces effecti"
 
 #: src/trigger/sequence_trigger.cpp:83
 msgid "New worldmap spawnpoint"
-msgstr ""
+msgstr "Punctum initii novum schematae mundi"
 
 #: src/trigger/sequence_trigger.cpp:84
 msgid "Worldmap fade tilemap"
-msgstr ""
+msgstr "Schema quadratorum disapparendum schematae mundi"
 
 #: src/trigger/sequence_trigger.cpp:85
 msgid "Fade"
-msgstr ""
+msgstr "Transire"
 
 #: src/trigger/sequence_trigger.cpp:86
 msgid "Fade in"
-msgstr ""
+msgstr "Inire"
 
 #: src/trigger/sequence_trigger.cpp:87
 msgid "Fade out"
-msgstr ""
+msgstr "Exire"
 
 #: src/object/thunderstorm.hpp:82
 msgid "Thunderstorm"
@@ -157,7 +157,7 @@ msgstr "Tempestas"
 
 #: src/object/path_gameobject.hpp:52
 msgid "Path"
-msgstr ""
+msgstr "Via"
 
 #: src/object/decal.cpp:43 src/supertux/menu/keyboard_menu.cpp:37
 #: src/supertux/menu/joystick_menu.cpp:74
@@ -185,7 +185,7 @@ msgstr "Mutatio lucis"
 
 #: src/object/tilemap.hpp:53
 msgid "Tilemap"
-msgstr ""
+msgstr "Schema quadratorum"
 
 #: src/object/brick.cpp:133
 msgid "Breakable"
@@ -207,15 +207,15 @@ msgstr "Color"
 
 #: src/object/spotlight.cpp:62 src/badguy/flame.cpp:58
 msgid "Speed"
-msgstr "Celeritudo"
+msgstr "Velocitas"
 
 #: src/object/spotlight.cpp:63
 msgid "Counter-clockwise"
-msgstr ""
+msgstr "Contra motionem horae"
 
 #: src/object/scripted_object.cpp:63
 msgid "Physics enabled"
-msgstr ""
+msgstr "Physica adest"
 
 #: src/object/scripted_object.cpp:64
 msgid "Visible"
@@ -255,11 +255,11 @@ msgstr "Crescentia (flos terrae)"
 
 #: src/object/bonus_block.cpp:204
 msgid "Star"
-msgstr ""
+msgstr "Stella"
 
 #: src/object/bonus_block.cpp:205
 msgid "Tux doll"
-msgstr ""
+msgstr "Tux ludibrium"
 
 #: src/object/bonus_block.cpp:206
 msgid "Custom"
@@ -267,7 +267,7 @@ msgstr ""
 
 #: src/object/bonus_block.cpp:208
 msgid "Light"
-msgstr ""
+msgstr "Lux"
 
 #: src/object/bonus_block.cpp:209 src/object/trampoline.hpp:40
 msgid "Trampoline"
@@ -275,11 +275,11 @@ msgstr "Axis saliendi"
 
 #: src/object/bonus_block.cpp:210
 msgid "Coin rain"
-msgstr ""
+msgstr "Pluvia nummorum"
 
 #: src/object/bonus_block.cpp:211
 msgid "Coin explosion"
-msgstr ""
+msgstr "Explosio nummorum"
 
 #: src/object/pneumatic_platform.hpp:62
 msgid "Pneumatic platform"
@@ -323,7 +323,7 @@ msgstr "Partes nivis"
 
 #: src/object/powerup.hpp:43
 msgid "Power-up"
-msgstr ""
+msgstr "Additio"
 
 #: src/object/level_time.hpp:70
 msgid "Level time"
@@ -518,7 +518,7 @@ msgstr "Ventus adest"
 
 #: src/object/ambient_light.cpp:138
 msgid "Color"
-msgstr ""
+msgstr "Color"
 
 #: src/object/bicycle_platform.hpp:64
 msgid "Bicycle platform"
@@ -530,15 +530,15 @@ msgstr "Modus viarum"
 
 #: src/object/path.cpp:201
 msgid "One shot"
-msgstr ""
+msgstr "Una missio"
 
 #: src/object/path.cpp:202
 msgid "Ping-pong"
-msgstr ""
+msgstr "Ping-pong"
 
 #: src/object/path.cpp:203
 msgid "Circular"
-msgstr ""
+msgstr "In circulo"
 
 #: src/object/path.cpp:204
 msgid "Unordered"
@@ -595,11 +595,11 @@ msgstr ""
 
 #: src/object/tilemap.cpp:226
 msgid "Alpha"
-msgstr ""
+msgstr "Alpha"
 
 #: src/object/tilemap.cpp:229
 msgid "Tint"
-msgstr ""
+msgstr "Coloratio"
 
 #: src/object/tilemap.cpp:232
 msgid "Draw target"
@@ -607,7 +607,7 @@ msgstr ""
 
 #: src/object/tilemap.cpp:233
 msgid "Normal"
-msgstr ""
+msgstr "Normā"
 
 #: src/object/tilemap.cpp:234 data//images/engine/editor/objects.stoi:249
 #: data//images/tiles.strf:1152
@@ -848,7 +848,7 @@ msgstr "Igel"
 
 #: src/badguy/darttrap.cpp:121
 msgid "Enabled"
-msgstr ""
+msgstr "Adest"
 
 #: src/badguy/darttrap.cpp:122
 msgid "Initial delay"
@@ -992,7 +992,7 @@ msgstr ""
 
 #: src/badguy/dispenser.cpp:397
 msgid "Max concurrent badguys"
-msgstr ""
+msgstr "Maximum hostum simul"
 
 #: src/badguy/dispenser.cpp:400 src/supertux/menu/editor_levelset_menu.cpp:60
 msgid "Type"
@@ -1192,11 +1192,11 @@ msgstr "--spawn-pos X,Y Ubi in levele Tux apparet. Solum usatur, si level consta
 
 #: src/supertux/command_line_arguments.cpp:102
 msgid "  --sector SECTOR              Spawn Tux in SECTOR\n"
-msgstr ""
+msgstr "--sector AGER        Tux in AGRO apparebit\n"
 
 #: src/supertux/command_line_arguments.cpp:103
 msgid "  --spawnpoint SPAWNPOINT      Spawn Tux at SPAWNPOINT\n"
-msgstr ""
+msgstr "--spawnpoint PUNCTUM_INITII    Tux in PUNCTO_INITII apparebit\n"
 
 #: src/supertux/command_line_arguments.cpp:105
 msgid "Demo Recording Options:"
@@ -1288,51 +1288,51 @@ msgstr ""
 
 #: src/supertux/menu/debug_menu.cpp:53
 msgid "Game Speed"
-msgstr ""
+msgstr "Velocitas ludi"
 
 #: src/supertux/menu/debug_menu.cpp:54
 msgid "Adjust Game Speed"
-msgstr ""
+msgstr "Velocitatem ludi mutare"
 
 #: src/supertux/menu/debug_menu.cpp:60
 msgid "Show Collision Rects"
-msgstr ""
+msgstr "Quadrata collisionis ostendere"
 
 #: src/supertux/menu/debug_menu.cpp:61
 msgid "Show Worldmap Path"
-msgstr ""
+msgstr "Viam schematae mundi ostendere"
 
 #: src/supertux/menu/debug_menu.cpp:62
 msgid "Use Bitmap Fonts"
-msgstr ""
+msgstr "Bitmap signas usare"
 
 #: src/supertux/menu/editor_sectors_menu.cpp:31
 msgid "Choose sector to edit:"
-msgstr "Elige partem pro mutatione:"
+msgstr "Elige agrem mutandum:"
 
 #: src/supertux/menu/editor_sectors_menu.cpp:41
 msgid "Sector settings..."
-msgstr "Praeferentiae partis..."
+msgstr "Praeferentiae agri..."
 
 #: src/supertux/menu/editor_sectors_menu.cpp:42
 msgid "Create new sector"
-msgstr "Partem novam facere"
+msgstr "Agrum novum facere"
 
 #: src/supertux/menu/editor_sectors_menu.cpp:43
 msgid "Delete this sector"
-msgstr "Eam partem delere"
+msgstr "Eum agrum delere"
 
 #: src/supertux/menu/editor_sectors_menu.cpp:92
 msgid "Each level must have at least one sector."
-msgstr "In omne levele minime una pars existere debet."
+msgstr "In omne levele minime unum ager esse debet."
 
 #: src/supertux/menu/editor_sectors_menu.cpp:97
 msgid "Do you really want to delete this sector?"
-msgstr "Visne vere eam partem delere?"
+msgstr "Verene eum agrum delere vis?"
 
 #: src/supertux/menu/editor_sectors_menu.cpp:100
 msgid "Delete sector"
-msgstr "Partem delere"
+msgstr "Agrum delere"
 
 #: src/supertux/menu/editor_objectgroup_menu.cpp:29
 #: src/editor/input_gui.cpp:88
@@ -1453,8 +1453,8 @@ msgstr "Elige coniunctionem levelum"
 #, c-format
 msgid "%d level"
 msgid_plural "%d levels"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d level"
+msgstr[1] "%d leveles"
 
 #: src/supertux/menu/editor_levelset_select_menu.cpp:95
 #: src/supertux/menu/editor_new_levelset_menu.cpp:31
@@ -1464,7 +1464,7 @@ msgstr "Coniunctio levelum nova"
 #: src/supertux/menu/options_menu.cpp:89 src/supertux/menu/main_menu.cpp:47
 #: src/supertux/menu/game_menu.cpp:48 src/supertux/menu/worldmap_menu.cpp:31
 msgid "Options"
-msgstr "Possibilitates"
+msgstr "Praeferentiae"
 
 #: src/supertux/menu/options_menu.cpp:95
 #: src/supertux/menu/options_menu.cpp:131
@@ -1479,7 +1479,7 @@ msgstr "Mensa"
 
 #: src/supertux/menu/options_menu.cpp:356
 msgid "Select Language"
-msgstr "Linguam elige"
+msgstr "Linguam eligere"
 
 #: src/supertux/menu/options_menu.cpp:357
 msgid "Select a different language to display text in"
@@ -1546,7 +1546,7 @@ msgstr "Augmentum mutare"
 
 #: src/supertux/menu/options_menu.cpp:381
 msgid "VSync"
-msgstr ""
+msgstr "VSync"
 
 #: src/supertux/menu/options_menu.cpp:382
 msgid "Set the VSync mode"
@@ -1554,7 +1554,7 @@ msgstr ""
 
 #: src/supertux/menu/options_menu.cpp:384
 msgid "Framerate"
-msgstr ""
+msgstr "Frequentia imaginum"
 
 #: src/supertux/menu/options_menu.cpp:385
 msgid "Change the maximum framerate of the game"
@@ -1578,19 +1578,19 @@ msgstr "Musicam pellere"
 
 #: src/supertux/menu/options_menu.cpp:397
 msgid "Sound Volume"
-msgstr ""
+msgstr "Magnitudo sonorum"
 
 #: src/supertux/menu/options_menu.cpp:398
 msgid "Adjust sound volume"
-msgstr ""
+msgstr "Magnitudinem soni mutare"
 
 #: src/supertux/menu/options_menu.cpp:400
 msgid "Music Volume"
-msgstr ""
+msgstr "Magnitudo musicae"
 
 #: src/supertux/menu/options_menu.cpp:401
 msgid "Adjust music volume"
-msgstr ""
+msgstr "Magnitudinem musicae mutare"
 
 #: src/supertux/menu/options_menu.cpp:405
 msgid "Sound (disabled)"
@@ -1612,7 +1612,7 @@ msgstr "Quadratum-Factum configurare"
 #: src/supertux/menu/options_menu.cpp:412
 #: src/supertux/menu/joystick_menu.cpp:52
 msgid "Setup Joystick"
-msgstr "Ioystickem designare"
+msgstr "Joystickem designare"
 
 #: src/supertux/menu/options_menu.cpp:413
 msgid "Configure joystick control-action mappings"
@@ -1636,7 +1636,7 @@ msgstr "Modus de Christmas"
 
 #: src/supertux/menu/options_menu.cpp:428
 msgid "Confirmation Dialog"
-msgstr ""
+msgstr "Fenestra confirmationis"
 
 #: src/supertux/menu/options_menu.cpp:429
 msgid "Pause on focus loss"
@@ -1660,7 +1660,7 @@ msgstr "Credits"
 
 #: src/supertux/menu/main_menu.cpp:50
 msgid "Donate"
-msgstr ""
+msgstr "Donare"
 
 #: src/supertux/menu/main_menu.cpp:51
 msgid "Quit"
@@ -1779,7 +1779,7 @@ msgstr "Modus historiae"
 
 #: src/supertux/menu/game_menu.cpp:29
 msgid "Are you sure?"
-msgstr ""
+msgstr "Esne certus?"
 
 #: src/supertux/menu/game_menu.cpp:46 src/supertux/menu/worldmap_menu.cpp:30
 msgid "Continue"
@@ -1791,7 +1791,7 @@ msgstr "Levelem reinire"
 
 #: src/supertux/menu/game_menu.cpp:50
 msgid "Abort Level"
-msgstr "Levelem interrumpare"
+msgstr "Levelem interrumpere"
 
 #: src/supertux/menu/keyboard_menu.cpp:32
 #: src/supertux/menu/joystick_menu.cpp:69
@@ -2156,14 +2156,14 @@ msgid ""
 "Couldn't find a \"main\" sector.\n"
 "Please change the name of the sector where\n"
 "you'd like the player to start to \"main\""
-msgstr ""
+msgstr "\"main\" agrem invenire non potui.\nQuaeso, muta nominem agri, ubi\nludatorem inire vis, ad \"main\"."
 
 #: src/supertux/menu/editor_menu.cpp:111
 msgid ""
 "Couldn't find a \"main\" spawnpoint.\n"
 " Please change the name of the spawnpoint where\n"
 "you'd like the player to start to \"main\""
-msgstr ""
+msgstr "Punctum initii \"main\" invenire non potui.\nQuaeso, muta nominem puncti initii, ubi\nludatorem inire vis, ad \"main\"."
 
 #: src/supertux/levelintro.cpp:138
 #, c-format
@@ -2204,19 +2204,19 @@ msgstr "<sine nomine>"
 
 #: src/worldmap/direction.cpp:85
 msgid "West"
-msgstr ""
+msgstr "Vesper"
 
 #: src/worldmap/direction.cpp:86
 msgid "East"
-msgstr ""
+msgstr "Oriens"
 
 #: src/worldmap/direction.cpp:87
 msgid "North"
-msgstr ""
+msgstr "Boreas"
 
 #: src/worldmap/direction.cpp:88
 msgid "South"
-msgstr ""
+msgstr "Meridies"
 
 #: src/editor/node_marker.cpp:79
 msgid "Path Node"
@@ -2232,7 +2232,7 @@ msgstr "false"
 
 #: src/editor/object_option.cpp:56
 msgid "invalid"
-msgstr ""
+msgstr "non validus"
 
 #: src/editor/editor.cpp:434
 msgid ""
@@ -2398,7 +2398,7 @@ msgstr "Correctiones"
 
 #: data//credits.stxt:161
 msgid "Explosion sprites"
-msgstr ""
+msgstr "Imagines explosionis"
 
 #: data//credits.stxt:166
 msgid "Scripting functions, Level fixes"
@@ -2459,7 +2459,7 @@ msgstr "Programma novum electionis"
 
 #: data//credits.stxt:256
 msgid "Big Tux Walking Sprites improvements"
-msgstr ""
+msgstr "Melioratio Imaginum Tuxis Magni Iendi"
 
 #: data//credits.stxt:267
 msgid "Milestone 1 contributions by..."
@@ -2551,7 +2551,7 @@ msgstr "Serbian"
 
 #: data//credits.stxt:540
 msgid "Uzbek"
-msgstr ""
+msgstr "Uzbek"
 
 #: data//credits.stxt:544 data//credits.stxt:552 data//credits.stxt:580
 #: data//credits.stxt:616 data//credits.stxt:620 data//credits.stxt:724
@@ -2575,7 +2575,7 @@ msgstr "Russian"
 
 #: data//credits.stxt:564
 msgid "French, German"
-msgstr ""
+msgstr "French, German"
 
 #: data//credits.stxt:568 data//credits.stxt:608 data//credits.stxt:640
 #: data//credits.stxt:712 data//credits.stxt:716 data//credits.stxt:936
@@ -2615,7 +2615,7 @@ msgstr "Hungarian"
 #: data//credits.stxt:604 data//credits.stxt:720 data//credits.stxt:968
 #: data//credits.stxt:1068
 msgid "Slovak"
-msgstr ""
+msgstr "Slovak"
 
 #: data//credits.stxt:612 data//credits.stxt:692 data//credits.stxt:840
 #: data//credits.stxt:904
@@ -2633,12 +2633,12 @@ msgstr "Slovenian"
 
 #: data//credits.stxt:656
 msgid "Malayalam"
-msgstr ""
+msgstr "Malayalam"
 
 #: data//credits.stxt:660 data//credits.stxt:912 data//credits.stxt:1020
 #: data//credits.stxt:1216
 msgid "Mandarin Chinese"
-msgstr ""
+msgstr "Mandarin Chinese"
 
 #: data//credits.stxt:664
 msgid "Norwegian Bokmål"
@@ -2650,7 +2650,7 @@ msgstr "Mandarin"
 
 #: data//credits.stxt:684 data//credits.stxt:908 data//credits.stxt:1208
 msgid "Esperanto"
-msgstr ""
+msgstr "Esperanto"
 
 #: data//credits.stxt:688 data//credits.stxt:700
 msgid "Romanian"
@@ -2658,7 +2658,7 @@ msgstr "Romanian"
 
 #: data//credits.stxt:696
 msgid "Croatian"
-msgstr ""
+msgstr "Croatian"
 
 #: data//credits.stxt:704 data//credits.stxt:756 data//credits.stxt:1056
 #: data//credits.stxt:1132
@@ -2687,7 +2687,7 @@ msgstr "Czech"
 
 #: data//credits.stxt:768 data//credits.stxt:1236
 msgid "Hebrew"
-msgstr ""
+msgstr "Hebrew"
 
 #: data//credits.stxt:772 data//credits.stxt:836 data//credits.stxt:992
 #: data//credits.stxt:1004 data//credits.stxt:1016 data//credits.stxt:1044
@@ -2714,11 +2714,11 @@ msgstr "Polish"
 
 #: data//credits.stxt:816
 msgid "Norwegian Bokmål, Norwegian Nynorsk"
-msgstr ""
+msgstr "Norwegian Bokmål, Norwegian Nynorsk"
 
 #: data//credits.stxt:828
 msgid "Tatar"
-msgstr ""
+msgstr "Tatar"
 
 #: data//credits.stxt:832 data//credits.stxt:1196 data//credits.stxt:1200
 msgid "Bulgarian"
@@ -2726,7 +2726,7 @@ msgstr "Bulgarian"
 
 #: data//credits.stxt:856 data//credits.stxt:980
 msgid "Korean"
-msgstr ""
+msgstr "Korean"
 
 #: data//credits.stxt:860
 msgid "Estonian"
@@ -2734,7 +2734,7 @@ msgstr "Estonian"
 
 #: data//credits.stxt:876
 msgid "Polish, Swedish"
-msgstr ""
+msgstr "Polish, Swedish"
 
 #: data//credits.stxt:884 data//credits.stxt:1136
 msgid "Lithuanian"
@@ -2746,7 +2746,7 @@ msgstr "French/Esperanto"
 
 #: data//credits.stxt:900
 msgid "Spanish, Brazilian Portuguese"
-msgstr ""
+msgstr "Spanish, Brazilian Portuguese"
 
 #: data//credits.stxt:916 data//credits.stxt:1180
 msgid "Ukrainian"
@@ -2770,7 +2770,7 @@ msgstr "Lingua latina"
 
 #: data//credits.stxt:1084
 msgid "European Portuguese, Brazilian Portuguese"
-msgstr ""
+msgstr "European Portuguese, Brazilian Portuguese"
 
 #: data//credits.stxt:1120
 msgid "Simplified Chinese"
@@ -2782,7 +2782,7 @@ msgstr "Belarusian"
 
 #: data//credits.stxt:1240
 msgid "Indonesian"
-msgstr ""
+msgstr "Indonesian"
 
 #: data//credits.stxt:1254
 msgid "Thanks to"
@@ -2790,7 +2790,7 @@ msgstr "Gratias ad"
 
 #: data//credits.stxt:1259
 msgid "Creator of Tux, the Linux penguin"
-msgstr "Auctor avis Antarcticae Tuxis Linuxis"
+msgstr "Auctor Tuxis, pinguinis Linuxis"
 
 #: data//credits.stxt:1263
 msgid "SDL, OpenAL and OpenGL"
@@ -2903,7 +2903,7 @@ msgstr "Glacies"
 
 #: data//images/ice_world.strf:182 data//images/tiles.strf:1045
 msgid "Castle"
-msgstr "Aedificium"
+msgstr "Castellum"
 
 #: data//images/ice_world.strf:200
 msgid "Pathing"
@@ -2951,7 +2951,7 @@ msgstr "Silva (Imago retro)"
 
 #: data//images/tiles.strf:760
 msgid "Forest (Underground)"
-msgstr ""
+msgstr "Silva (sub terra)"
 
 #: data//images/tiles.strf:804
 msgid "Block"
@@ -3011,7 +3011,7 @@ msgstr "Viae in aqua"
 
 #: data//images/worldmap.strf:32
 msgid "Castle paths"
-msgstr "Viae in aedificio"
+msgstr "Viae castelli"
 
 #: data//images/worldmap.strf:135
 msgid "Darker Forest"

@@ -69,6 +69,19 @@ TTFSurfaceManager::create_surface(const TTFFont& font, const std::string& text)
   }
 }
 
+int
+TTFSurfaceManager::get_cached_surface_width(const TTFFont& font,
+  const std::string& text)
+{
+  auto key = Key(font.get_ttf_font(), text);
+  auto it = m_cache.find(key);
+  if (it == m_cache.end())
+    return -1;
+  auto& entry = m_cache[key];
+  entry.last_access = g_game_time;
+  return entry.ttf_surface->get_width();
+}
+
 void
 TTFSurfaceManager::cache_cleanup_step()
 {

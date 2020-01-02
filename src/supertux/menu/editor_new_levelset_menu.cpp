@@ -28,7 +28,7 @@ EditorNewLevelsetMenu::EditorNewLevelsetMenu() :
   levelset_name(),
   levelset_desc()
 {
-  add_label(_("New level subset"));
+  add_label(_("New World"));
   add_hl();
 
   add_textfield(_("Name"), &levelset_name);

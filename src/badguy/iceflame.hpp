@@ -30,7 +30,7 @@ public:
   virtual bool is_flammable() const override;
   virtual bool is_freezable() const override;
   virtual std::string get_class() const override { return "iceflame"; }
-  virtual std::string get_display_name() const override { return _("Ice flame"); }
+  virtual std::string get_display_name() const override { return _("Ice Flame"); }
 
 private:
   Iceflame(const Iceflame&) = delete;

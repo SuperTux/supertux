@@ -3,15 +3,15 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# GunChleoc, 2016
-# GunChleoc, 2016
+# GunChleoc, 2016,2019
+# GunChleoc, 2016,2019
 # GunChleoc, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2018-11-05 23:45+0100\n"
-"PO-Revision-Date: 2018-11-14 18:34+0000\n"
+"POT-Creation-Date: 2019-11-24 01:44+0100\n"
+"PO-Revision-Date: 2019-12-12 18:05+0000\n"
 "Last-Translator: GunChleoc\n"
 "Language-Team: Gaelic, Scottish (http://www.transifex.com/arctic-games/supertux/language/gd/)\n"
 "MIME-Version: 1.0\n"
@@ -20,209 +20,128 @@ msgstr ""
 "Language: gd\n"
 "Plural-Forms: nplurals=4; plural=(n==1 || n==11) ? 0 : (n==2 || n==12) ? 1 : (n > 2 && n < 20) ? 2 : 3;\n"
 
-#: data/levels/world2/Bouncy_Coils.stl:3
+#: data/levels/world2/ancient_ruins.stl:3
+msgid "Ancient Ruins"
+msgstr "Làrach àrsaidh"
+
+#: data/levels/world2/ancient_ruins.stl:1415
+#: data/levels/world2/ancient_ruins.stl:1423
+#: data/levels/world2/bouncy_coils.stl:237
+#: data/levels/world2/bouncy_coils.stl:245
+#: data/levels/world2/bye_bye_forest.stl:977
+#: data/levels/world2/crumbling_path.stl:278
+#: data/levels/world2/crumbling_path.stl:1651
+#: data/levels/world2/going_underground.stl:199
+#: data/levels/world2/going_underground.stl:1199
+#: data/levels/world2/mouldy_grotto.stl:559
+#: data/levels/world2/penguin_grow_trees.stl:459
+#: data/levels/world2/penguin_grow_trees.stl:467
+#: data/levels/world2/through_dark.stl:309
+#: data/levels/world2/tux_builder.stl:283
+#: data/levels/world2/wooden_roots.stl:279
+#: data/levels/world2/worldmap.stwm:185
+msgid "You found a secret area!"
+msgstr "Lorg thu raon dìomhair!"
+
+#: data/levels/world2/besides_bushes.stl:3
+msgid "Besides the Bushes"
+msgstr "Ri taobh nam preasan"
+
+#: data/levels/world2/bouncy_coils.stl:3
 msgid "Bouncy Coils"
 msgstr "Cuibhlichean sgeingeach"
 
-#: data/levels/world2/Bye_Bye_Forest.stl:3
+#: data/levels/world2/bye_bye_forest.stl:3
 msgid "Bye Bye Forest"
 msgstr "Coille an t-soraidh slàin"
 
-#: data/levels/world2/Crumbling_Path.stl:3
+#: data/levels/world2/crumbling_path.stl:3
 msgid "Crumbling Path"
-msgstr "Slighe a’ dol às a chèile"
+msgstr "Slighe a' dol às a chèile"
 
-#: data/levels/world2/Dark_Tunnel.stl:3
-msgid "The Dark Tunnel"
-msgstr "An tunail dhorcha"
+#: data/levels/world2/darkness_awaits.stl:3
+msgid "Darkness Awaits"
+msgstr "An dorchadas a' feitheamh ort"
 
-#: data/levels/world2/Deeper_Down.stl:3
-msgid "Deeper Down"
-msgstr "Nas fhaide shìos"
-
-#: data/levels/world2/El_Castillo.stl:3
-msgid "A Short Visit to El Castillo"
-msgstr "Sgrìob dhan chaisteal"
-
-#: data/levels/world2/Find_Big_Fish.stl:3
+#: data/levels/world2/find_big_fish.stl:3
 msgid "Find the Bigger Fish!"
 msgstr "Lorg an t-iasg as motha!"
 
-#: data/levels/world2/Find_Big_Fish.stl:446
+#: data/levels/world2/find_big_fish.stl:800
 msgid "-A big fish... for you."
-msgstr "-Seo iasg mòr… dhutsa."
+msgstr "-Seo iasg mòr... dhutsa."
 
-#: data/levels/world2/Getting_Hot.stl:3
-msgid "It's Getting Hot!"
-msgstr "Tha e a’ fàs teth!"
+#: data/levels/world2/forest_intro.stl:3
+msgid "A New Location"
+msgstr "Ionad ùr"
 
-#: data/levels/world2/Ghostly_World.stl:3
-msgid "A Ghostly World"
-msgstr "Saoghal taibhseach"
+#: data/levels/world2/ghost_cutscene.stl:3
+msgid "What is Happening?"
+msgstr "Dè tha dol?"
 
-#: data/levels/world2/Going_Underground.stl:3
+#: data/levels/world2/ghostly_misery.stl:3
+msgid "Ghostly Misery"
+msgstr "Truaighe thaibhsean"
+
+#: data/levels/world2/ghosttrees_challenges.stl:3
+msgid "Ghosttree's Challenges"
+msgstr "Dùbhlain craoibh thaibhse"
+
+#: data/levels/world2/ghouls_lair.stl:3
+msgid "Ghouls' Lair"
+msgstr "Taigh gùil"
+
+#: data/levels/world2/ghouls_lair.stl:421
+msgid ""
+"#Lanterns are used to make magic blocks solid, so you're able to walk atop "
+"of them."
+msgstr "#Cleachdaidh tu lanntairean airson blocaichean draoidheach a dhèanamh cruaidh ach an urrainn dhut coiseachd orra."
+
+#: data/levels/world2/going_underground.stl:3
 msgid "Going Underground"
 msgstr "Fon talamh"
 
-#: data/levels/world2/Kneep_Deep.stl:3
-msgid "Kneep-deep in the depth"
-msgstr "Domhainn"
+#: data/levels/world2/i_spy_with_my_little_eye.stl:3
+msgid "I Spy With My Little Eye"
+msgstr "Gu sealladh sealbh ort!"
 
-#: data/levels/world2/Mouldy_Grotto.stl:3
+#: data/levels/world2/i_spy_with_my_little_eye.stl:173
+msgid ""
+"-Ispy\n"
+"#Ispys will activate things like platforms whenever Tux is in their sight."
+msgstr "-Sùil-bhrathaidh\n#Gnìomhaichidh sùilean-brathaidh nithean mar ùrlaran uair sam bith a chì iad Tux."
+
+#: data/levels/world2/i_spy_with_my_little_eye.stl:547
+msgid "Hint: Use snails to break blocks!"
+msgstr "Gliocas: Cleachd seilcheagan airson blocaichean a bhriseadh!"
+
+#: data/levels/world2/leaf_wind.stl:3
+msgid "Like a leaf in the Wind"
+msgstr "Mar duilleach sa ghaoth"
+
+#: data/levels/world2/lost_village.stl:3
+msgid "Lost Village"
+msgstr "Baile caillte"
+
+#: data/levels/world2/lost_village.stl:142
+msgid "#Don't forget to hit the switch!"
+msgstr "#Na dìochuimhnich gum buail thu air an t-suidse!"
+
+#: data/levels/world2/mouldy_grotto.stl:3
 msgid "A Mouldy Grotto"
 msgstr "Uamhag liath"
 
-#: data/levels/world2/Penguin_Grow_Trees.stl:3
+#: data/levels/world2/owls_again.stl:3
+msgid "The Owls again..."
+msgstr "Na cailleachan-oidhche a-rithist..."
+
+#: data/levels/world2/owls_skydive_commando.stl:3
+msgid "Owls' Skydive Commando"
+msgstr "Sìos on adhair, a chailleachan-oidhche!"
+
+#: data/levels/world2/penguin_grow_trees.stl:3
 msgid "Penguins don't grow on Trees"
 msgstr "Chan fhàs cinn-fhionna air craobhan"
-
-#: data/levels/world2/Rabbit_Hole.stl:3
-msgid "Down The Rabbit Hole"
-msgstr "Sìos toll na rabaid"
-
-#: data/levels/world2/Rabbit_Hole.stl:46
-msgid ""
-"-Oh no!\n"
-"#The path is blocked! It\n"
-"#seems that the only way\n"
-"#leads through that dark\n"
-"#hole in the ground..."
-msgstr "-Ochan ò!\n#Chaidh an t-slighe a bhacadh\n#Tha coltas nach eil ach aon\n#shlige ann tron toll dorcha\n# san talamh…"
-
-#: data/levels/world2/Rabbit_Hole.stl:55
-msgid "-Are you lost?"
-msgstr "-Na deach thu air chall?"
-
-#: data/levels/world2/Scary_Place.stl:3
-msgid "What is this Place?"
-msgstr "Dè an t-àite seo?"
-
-#: data/levels/world2/This_Forest_is_Haunted.stl:3
-msgid "This Forest is Haunted"
-msgstr "Tha tàbharnadh air a’ choille seo"
-
-#: data/levels/world2/Three_Sheets.stl:3
-msgid "Three sheets to the wind"
-msgstr "An aghaidh na gaoithe"
-
-#: data/levels/world2/Treasure_Skies.stl:3
-msgid "Treasure in the skies"
-msgstr "Ulaidh sna speuran"
-
-#: data/levels/world2/Tree_Fortress.stl:3
-msgid "Tree Fortress"
-msgstr "Dùn chraobhan"
-
-#: data/levels/world2/Tux_Builder.stl:3
-msgid "Tux the Builder"
-msgstr "Tux an neach-togail"
-
-#: data/levels/world2/Tux_Builder.stl:53
-msgid ""
-"-Portable Rocks:\n"
-"\n"
-"#Tux can carry some rocks.\n"
-"#When you are next to one press the ACTION key and keep pressed while carrying the rock. Release the key to release the rock."
-msgstr "-Clachan so-ghiùlan:\n\n#’S urrainn dha Tux clachan a thoirt leis.\n#Nuair a bhios tè ri do thaobh, brùth air iuchair a’ GHNÌOMHA is cum sìos i fhad ’s a bhios tu a’ giùlan na cloiche. Leig às an iuchair airson a’ chlach a leigeil às."
-
-#: data/levels/world2/Up_and_Down.stl:3
-msgid "Up and Down"
-msgstr "Suas is sìos"
-
-#: data/levels/world2/Walking_Leaves.stl:3
-msgid "Walking Leaves"
-msgstr "A’ coiseachd an duillich"
-
-#: data/levels/world2/Welcome_Forest.stl:3
-msgid "Welcome to the Forest"
-msgstr "Fàilte dhan choille"
-
-#: data/levels/world2/castle.stl:3
-msgid "Iceberg Fortress"
-msgstr "Eigh-dhùn"
-
-#: data/levels/world2/castledoor.stl:3
-#: data/levels/world2/dfk-placeholder-1.stl:3
-msgid "NOLOK"
-msgstr "NOLOK"
-
-#: data/levels/world2/christophD.stl:3
-msgid "Room of Stars"
-msgstr "Seòmar nan rionnag"
-
-#: data/levels/world2/dan_morial.stl:3
-msgid "Dan Morial"
-msgstr "Tìr Mhario"
-
-#: data/levels/world2/detour.stl:3
-msgid "Detour"
-msgstr "Frith-rathad"
-
-#: data/levels/world2/dfk-level1.stl:3
-msgid "Dark Forest Keep - The Evil Chamber"
-msgstr "Daingean dubh coille - An t-seòmar olc"
-
-#: data/levels/world2/dfk-level2.stl:3
-msgid "Dark Forest Keep - The Eyes Of Nolok"
-msgstr "Daingean dubh coille - Sùilean Nolok"
-
-#: data/levels/world2/dfk-level3.stl:3
-msgid "Dark Forest Keep - The Black Tower"
-msgstr "Daingean dubh coille -  An tùr dubh"
-
-#: data/levels/world2/forest1-grumbel.stl:3
-msgid "Forest Level 1"
-msgstr "Leibheil 1 na coille"
-
-#: data/levels/world2/key1.stl:3
-msgid "key 1 water - to be placed behind waterfall"
-msgstr "iuchair 1 uisge - ri a cur air cùlaibh easa"
-
-#: data/levels/world2/key2.stl:3
-msgid "key 2 earth - to be placed underground"
-msgstr "iuchair 2 ùir - ri a cur fon talamh"
-
-#: data/levels/world2/key3.stl:3
-msgid "key 3 wood - to be placed in a big tree"
-msgstr "iuchair 3 fiodh - ri a cur ann an craobh mòr"
-
-#: data/levels/world2/key4.stl:3
-msgid "key 4 fire - to be placed in a small castle"
-msgstr "iuchair 4 teine - ri a cur ann an caisteal beag"
-
-#: data/levels/world2/key5.stl:3
-msgid "key 5 air - to be placed in clouds "
-msgstr "iuchair 5 adhair - ri a cur sna neòil"
-
-#: data/levels/world2/level5.stl:3
-msgid "Green Hills"
-msgstr "Cnuic uaine"
-
-#: data/levels/world2/level6.stl:3
-msgid "No Name"
-msgstr "Gun ainm"
-
-#: data/levels/world2/light+magic.stl:3
-msgid "Light and Magic"
-msgstr "Solas is draoidheachd"
-
-#: data/levels/world2/owls_revenge.stl:3
-msgid "Owls' Revenge"
-msgstr "Dìoghaltas na caillich-oidhche"
-
-#: data/levels/world2/roots_woody_roots.stl:3
-msgid "Roots, Woody Roots"
-msgstr "Freumhan fiodha"
-
-#: data/levels/world2/roots_woody_roots.stl:199
-msgid ""
-"-Hint:\n"
-"#If there seems to be\n"
-"#no way to reach a door,\n"
-"#remember that you might\n"
-"#be supposed to come out\n"
-"#of that door..."
-msgstr "-Oidheam:\n#Mura saoil thu gun\n#ruig thu doras,\n#cuimhnich gum bu chòir dhut\n#tighinn a-mach às an dearbh\n#dhoras ma dh’fhaoidte…"
 
 #: data/levels/world2/scripts_default.txt:2
 msgid "---Insert Cutscene Here---"
@@ -232,29 +151,75 @@ msgstr "---Cuir sealladh a-steach an-seo---"
 msgid "Shocking"
 msgstr "Gairiseachail"
 
-#: data/levels/world2/underconstruction.stl:3
-msgid "Under Construction"
-msgstr "’Ga thogail"
+#: data/levels/world2/the_forest_is_rotting.stl:3
+msgid "The Forest Is Rotting"
+msgstr "Tha a' choille seo a' lobhadh"
 
-#: data/levels/world2/village.stl:3
-msgid "A Village in the Forest"
-msgstr "Baile sa choille"
+#: data/levels/world2/through_dark.stl:3
+msgid "Through the Dark"
+msgstr "Tron dorchadas"
+
+#: data/levels/world2/through_dark.stl:96
+msgid ""
+"-Earth Flower\n"
+"!images/powerups/earthflower/earth_flower-1.png\n"
+"#The earth flower gives Tux the ability to turn into stone by pressing the ACTION Key and the DOWN Key at the same time.\n"
+"#This does not work while jumping or falling!"
+msgstr "-Dìthean ùire\n!images/powerups/earthflower/earth_flower-1.png\n#Bheir dìthean ùire comas dha Tux ach an dèid e na chlach 's tu a' brùthadh air an iuchair GNÌOMHA 's an iuchair SÌOS aig an aon àm.\n#Chan obraich seo fhad 's a bhios tu a' leum no a' tuiteam!"
+
+#: data/levels/world2/tower_cutscene.stl:3
+msgid "Tower Cutscene"
+msgstr "Sealladh sgeòil an tùir"
+
+#: data/levels/world2/tower_of_ghosts.stl:3
+msgid "Tower Of Ghosts"
+msgstr "Tùr nan taibhsean"
+
+#: data/levels/world2/tux_builder.stl:3
+msgid "Tux the Builder"
+msgstr "Tux an neach-togail"
+
+#: data/levels/world2/tux_builder.stl:80
+msgid ""
+"-Portable Objects:\n"
+"!images/objects/rock/rock.png\n"
+"#Tux can pick up certain objects and carry them around.\n"
+"#Press the ACTION key to grab an object and hold it pressed as long as you want to carry the object. Release the ACTION key to drop the object."
+msgstr "-Nithean so-ghiùlan:\n!images/objects/rock/rock.png\n#'S urrainn dha Tux nithean sònraichte a thogail 's a thoirt leis.\n#Brùth air an iuchair GNÌOMHA airson grèim fhaighinn air nì is cùm sìos i cho fhad 's a tha thu airson an nì a thoirt leat. Tog do chorrag far na h-iuchrach GNÌOMHA airson an nì a leigeil às."
+
+#: data/levels/world2/tux_own_horror_show.stl:3
+msgid "Tux' Own Horror Show"
+msgstr "Dealbh-chluich oillteil Tux"
+
+#: data/levels/world2/tux_own_horror_show.stl:280
+msgid ""
+"#Willow-wisps are small, annoying ghosts, which transport you to different, "
+"often dangerous places."
+msgstr "#'S e taibhsean beaga buaireanta a tha sna teintean-biorach a bheir am baideigin eile thu agus siud bad cunnartach gu tric."
+
+#: data/levels/world2/walking_leaves.stl:3
+msgid "Walking Leaves"
+msgstr "A' coiseachd an duillich"
+
+#: data/levels/world2/welcome_forest.stl:3
+msgid "Welcome to the Forest"
+msgstr "Fàilte dhan choille"
+
+#: data/levels/world2/welcome_forest.stl:50
+msgid ""
+"-Doors\n"
+"!images/objects/door/door-0.png\n"
+"#Tux can go through a door by pressing the UP key."
+msgstr "-Dorsan\n!images/objects/door/door-0.png\n#Thèid Tux tro dhoras nuair a nì thu brùthadh air an iuchair SUAS."
+
+#: data/levels/world2/wooden_roots.stl:3
+msgid "Wooden Roots"
+msgstr "Freumhan fiodha"
 
 #: data/levels/world2/worldmap.stwm:3
-msgid "Forest World"
-msgstr "Saoghal na coille"
+msgid "Forest Island"
+msgstr "Eilean na coille"
 
-#: data/levels/world2/worldmap.stwm:147
-msgid "More Worlds will be added later..."
-msgstr "Thèid barrachd shaoghalan a chur ris fhathast… "
-
-#: data/levels/world2/worldmap.stwm:155 data/levels/world2/worldmap.stwm:162
-#: data/levels/world2/worldmap.stwm:169 data/levels/world2/worldmap.stwm:176
-#: data/levels/world2/worldmap.stwm:183 data/levels/world2/worldmap.stwm:190
-#: data/levels/world2/worldmap.stwm:197
-msgid "There is currently no level"
-msgstr "Chan eil leibheil ann an-dràsta"
-
-#: data/levels/world2/worldmap.stwm:204
-msgid "You Found a Secret Area!"
-msgstr "Lorg thu raon dìomhair!"
+#: data/levels/world2/worldmap.stwm:199
+msgid "To be continued..."
+msgstr "Ri leantainn..."

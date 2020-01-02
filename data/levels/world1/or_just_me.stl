@@ -1,6 +1,6 @@
 (supertux-level
   (version 3)
-  (name (_ "'...or is it just me?'"))
+  (name (_ "...Or Is It Just Me?"))
   (author "SuperTux Team")
   (license "GPL 2+ / CC-by-sa 3.0")
   (target-time 75)

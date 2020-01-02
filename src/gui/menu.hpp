@@ -89,7 +89,8 @@ public:
 
   ItemColor& add_color(const std::string& text, Color* color, int id = -1);
   ItemColorDisplay& add_color_display(Color* color, int id = -1);
-  ItemColorChannel& add_color_channel(float* input, Color channel, int id = -1);
+  ItemColorChannel& add_color_channel(float* input, Color channel, int id = -1,
+    bool is_linear = false);
 
   void process_input(const Controller& controller);
 

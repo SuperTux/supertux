@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# GunChleoc, 2016
+# GunChleoc, 2016,2019
 # GunChleoc, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2018-11-05 23:45+0100\n"
-"PO-Revision-Date: 2018-11-14 18:29+0000\n"
+"PO-Revision-Date: 2019-02-16 16:25+0000\n"
 "Last-Translator: GunChleoc\n"
 "Language-Team: Gaelic, Scottish (http://www.transifex.com/arctic-games/supertux/language/gd/)\n"
 "MIME-Version: 1.0\n"
@@ -21,7 +21,7 @@ msgstr ""
 
 #: data/levels/incubator/Angry Stone vs. YOU.stl:3
 msgid "Angry Stone vs. YOU"
-msgstr "Clach fheargach ’nad aghaidh-sa"
+msgstr "Clach fheargach 'nad aghaidh-sa"
 
 #: data/levels/incubator/Angry Stone vs. YOU.stl:307
 msgid ""
@@ -45,7 +45,7 @@ msgstr "#Bi foighdinneach!"
 msgid ""
 "#Dont move while flying!\n"
 "#Pay attention at landing!"
-msgstr "#Na gluais fhad ’s a bhios tu ag itealadh!\n#Thoir a aire nuair a thig thu air tìr!"
+msgstr "#Na gluais fhad 's a bhios tu ag itealadh!\n#Thoir a aire nuair a thig thu air tìr!"
 
 #: data/levels/incubator/NewIcelevel1.stl:3
 msgid "Blue iced hills"
@@ -152,7 +152,7 @@ msgid ""
 "#Even now you must not fail it.\n"
 "#Now go down to the shaft.\n"
 "#I hope you understood."
-msgstr "#Bha an fhortan leat gu ruige seo.\n#’S ann doirbh a bha an rathad.\n#Tha rathad fada romhad fhathast.\n#Tha thu làn-eòlach air seo.\n#Feumaidh tu a’ chùis a dhèanamh fhathast.\n#Nise, sìos leat dhan t-sloc.\n#Tha mi ’n dòchas gu bheil thu agam."
+msgstr "#Bha an fhortan leat gu ruige seo.\n#'S ann doirbh a bha an rathad.\n#Tha rathad fada romhad fhathast.\n#Tha thu làn-eòlach air seo.\n#Feumaidh tu a' chùis a dhèanamh fhathast.\n#Nise, sìos leat dhan t-sloc.\n#Tha mi 'n dòchas gu bheil thu agam."
 
 #: data/levels/incubator/long.stl:3937
 msgid ""

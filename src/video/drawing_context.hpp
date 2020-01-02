@@ -98,6 +98,8 @@ public:
 
   int get_width() const { return m_viewport.get_width(); }
   int get_height() const { return m_viewport.get_height(); }
+  Vector get_size() const { return Vector(static_cast<float>(get_width()), static_cast<float>(get_height())); }
+  Rectf get_rect() const { return Rectf(Vector(0, 0), get_size()); }
 
   bool use_lightmap() const
   {

@@ -14,8 +14,6 @@ if [ "$TRAVIS_OS_NAME" = "linux" ] && [ "$PACKAGE" = "ON" ]; then
     mv ~/out/* .
 fi
 
-declare -A urls
-
 mkdir s3-upload
 mv SuperTux* s3-upload/
 
@@ -23,7 +21,6 @@ if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then
     for file in s3-upload/SuperTux*; do
         echo "Uploading $file";
         url=$(curl --upload-file "$file" "https://transfer.sh/$file")
-        urls[$file]=$url
         echo $url
     done
 fi

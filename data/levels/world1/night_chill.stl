@@ -549,6 +549,7 @@
       (y 704)
     )
     (trampoline
+      (portable #f)
       (sprite "/images/objects/trampoline/trampoline_fix.sprite")
       (x 6992)
       (y 480)

@@ -31,7 +31,7 @@ public:
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
   virtual void update(float dt_sec) override;
   virtual std::string get_class() const override { return "unstable_tile"; }
-  virtual std::string get_display_name() const override { return _("Unstable tile"); }
+  virtual std::string get_display_name() const override { return _("Unstable Tile"); }
 
 private:
   enum State {

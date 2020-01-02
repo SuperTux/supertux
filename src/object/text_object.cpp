@@ -19,6 +19,9 @@
 #include "supertux/globals.hpp"
 #include "supertux/resources.hpp"
 #include "video/drawing_context.hpp"
+#include "video/renderer.hpp"
+#include "video/video_system.hpp"
+#include "video/viewport.hpp"
 
 TextObject::TextObject(const std::string& name) :
   GameObject(name),
@@ -137,15 +140,15 @@ TextObject::draw(DrawingContext& context)
 
   float width  = m_font->get_text_width(m_wrapped_text) + 20.0f;
   float height = m_font->get_text_height(m_wrapped_text) + 20.0f;
-  Vector spos = m_pos + get_anchor_pos(Rectf(0, 0, static_cast<float>(context.get_width()), static_cast<float>(context.get_height())),
+  Vector spos = m_pos + get_anchor_pos(Rectf(0, 0, static_cast<float>(context.get_width()), static_cast<float>(context.get_height() + SCREEN_HEIGHT) - 340.0f),
                                        width, height, m_anchor);
 
   context.color().draw_filled_rect(Rectf(spos, Sizef(width, height)),
-                                   Color(0.6f, 0.7f, 0.8f, 0.5f), LAYER_GUI-50);
+                                   Color(0.6f, 0.7f, 0.8f, 0.5f), LAYER_GUI+50);
   if (m_centered) {
-    context.color().draw_center_text(m_font, m_wrapped_text, spos, LAYER_GUI-40, TextObject::default_color);
+    context.color().draw_center_text(m_font, m_wrapped_text, spos, LAYER_GUI+60, TextObject::default_color);
   } else {
-    context.color().draw_text(m_font, m_wrapped_text, spos + Vector(10, 10), ALIGN_LEFT, LAYER_GUI-40, TextObject::default_color);
+    context.color().draw_text(m_font, m_wrapped_text, spos + Vector(10, 10), ALIGN_LEFT, LAYER_GUI+60, TextObject::default_color);
   }
 
   context.pop_transform();

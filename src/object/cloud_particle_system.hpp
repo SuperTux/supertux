@@ -33,7 +33,7 @@ public:
   virtual void update(float dt_sec) override;
 
   virtual std::string get_class() const override { return "particles-clouds"; }
-  virtual std::string get_display_name() const override { return _("Cloud particles"); }
+  virtual std::string get_display_name() const override { return _("Cloud Particles"); }
 
   virtual const std::string get_icon_path() const override {
     return "images/engine/editor/clouds.png";

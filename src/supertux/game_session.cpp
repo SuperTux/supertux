@@ -166,7 +166,11 @@ GameSession::on_escape_press()
     return;   // don't let the player open the menu, when Tux is dying
   }
 
-  toggle_pause();
+  if (!m_level->m_suppress_pause_menu) {
+    toggle_pause();
+  } else {
+	  abort_level();
+  }
 }
 
 void

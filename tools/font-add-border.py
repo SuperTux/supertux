@@ -16,7 +16,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from PIL import Image
-import os
 import argparse
 import tempfile
 

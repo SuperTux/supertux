@@ -48,6 +48,8 @@ private:
   int displayed_coins;
   int displayed_coins_frame;
   SurfacePtr coin_surface;
+  SurfacePtr fire_surface;
+  SurfacePtr ice_surface;
 
 private:
   PlayerStatusHUD(const PlayerStatusHUD&) = delete;

@@ -1,6 +1,6 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
 # Любомир Василев, 2015-2016
@@ -8,9 +8,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-05 20:42+0200\n"
-"PO-Revision-Date: 2016-08-16 08:59+0000\n"
+"Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
+"POT-Creation-Date: 2018-11-05 23:45+0100\n"
+"PO-Revision-Date: 2017-09-20 10:06+0000\n"
 "Last-Translator: Любомир Василев\n"
 "Language-Team: Bulgarian (http://www.transifex.com/arctic-games/supertux/language/bg/)\n"
 "MIME-Version: 1.0\n"
@@ -23,7 +23,7 @@ msgstr ""
 msgid "Angry Stone vs. YOU"
 msgstr "Ядосаният камък срещу ТЕБ"
 
-#: data/levels/incubator/Angry Stone vs. YOU.stl:308
+#: data/levels/incubator/Angry Stone vs. YOU.stl:307
 msgid ""
 "#You activate switches with this button:\n"
 "!images/tiles/signs/up.png"
@@ -37,11 +37,11 @@ msgstr "Замък №1"
 msgid "Missingno"
 msgstr "Мисинго"
 
-#: data/levels/incubator/Missingno.stl:535
+#: data/levels/incubator/Missingno.stl:534
 msgid "#Be patient!"
 msgstr "#Търпение!"
 
-#: data/levels/incubator/Missingno.stl:540
+#: data/levels/incubator/Missingno.stl:539
 msgid ""
 "#Dont move while flying!\n"
 "#Pay attention at landing!"
@@ -71,7 +71,7 @@ msgstr "Електрически дървени платформи"
 msgid "Nice Ice"
 msgstr "Приятен лед"
 
-#: data/levels/incubator/Nice Ice.stl:89
+#: data/levels/incubator/Nice Ice.stl:86
 msgid "#Use the enemy to finish this level!"
 msgstr "#Използвай врага, за да завършиш това ниво!"
 
@@ -115,13 +115,13 @@ msgstr "В планината"
 msgid "Into the Dark"
 msgstr "В мрака"
 
-#: data/levels/incubator/into_dark.stl:224
+#: data/levels/incubator/into_dark.stl:210
 msgid ""
 "-Hint:\n"
 "#Use the fireflower to melt a path through the ice."
 msgstr "-Съвет:\n#Използвай огненото цвете, за да разтопиш път през леда."
 
-#: data/levels/incubator/into_dark.stl:230
+#: data/levels/incubator/into_dark.stl:216
 msgid "#Beware of fire!"
 msgstr "#Пази се от огъня!"
 
@@ -133,7 +133,7 @@ msgstr "Неравният път"
 msgid "Let us snow!"
 msgstr "Да валим като сняг!"
 
-#: data/levels/incubator/let_us_snow.stl:205
+#: data/levels/incubator/let_us_snow.stl:204
 msgid ""
 "-Warning!\n"
 "#Beware the falling enemies!"
@@ -143,7 +143,7 @@ msgstr "-Внимание!\n#Пази се от падащите врагове!
 msgid "A long adventure"
 msgstr "Дълго приключение"
 
-#: data/levels/incubator/long.stl:1579
+#: data/levels/incubator/long.stl:1525
 msgid ""
 "#Until this moment you have luck.\n"
 "#The way here was hard.\n"
@@ -154,13 +154,13 @@ msgid ""
 "#I hope you understood."
 msgstr "#Досега имаше късмет.\n#Пътят до тук беше труден.\n#Но още имаш много път.\n#Трябва да ти е ясно вече.\n#И сега не трябва да се проваляш.\n#Сега слизай в шахтата.\n#Надявам се, че разбираш."
 
-#: data/levels/incubator/long.stl:3997
+#: data/levels/incubator/long.stl:3937
 msgid ""
 "-Congratulations!\n"
 "#You are in half the level! "
 msgstr "-Поздравления!\n#Преполови нивото!"
 
-#: data/levels/incubator/long.stl:4549
+#: data/levels/incubator/long.stl:4485
 msgid "-You are going wrong!"
 msgstr "-На грешен път си!"
 

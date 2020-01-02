@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# Andrei Stepanov <adem4ik@gmail.com>, 2018
+# Andrei Stepanov <adem4ik@gmail.com>, 2018-2019
 # Artem Krosheninnikov <feeblehamster@gmail.com>, 2013
 # Dmitry Anikonov <starwars32@yandex.ru>, 2016
 # Dmitry <dmitrymq@gmail.com>, 2013
@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2018-11-05 23:45+0100\n"
-"PO-Revision-Date: 2018-12-12 05:40+0000\n"
+"PO-Revision-Date: 2019-11-26 15:28+0000\n"
 "Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/arctic-games/supertux/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -115,7 +115,7 @@ msgstr "Слишком легко"
 
 #: data/levels/bonus1/torfi-level2.stl:42
 msgid "#All these levels were upgraded to milestone 2 design by Hume2."
-msgstr "#Для соответствия дизайну milestone 2 эти уровни обновил Hume2."
+msgstr "#Для соответствия дизайну 2 этапа эти уровни обновил Hume2."
 
 #: data/levels/bonus1/torfi-level3.stl:3
 msgid "Still too easy"
@@ -151,7 +151,7 @@ msgstr "Ты нашёл тайник!"
 
 #: data/levels/bonus1/worldmap.stwm:20
 msgid "Hint: Use igloos to get back here."
-msgstr "Подсказка: используй иглу, чтобы вернуться."
+msgstr "Подсказка: используйте жилища эскимосов, чтобы вернуться сюда."
 
 #: data/levels/bonus1/worldmap.stwm:29
 msgid "Warp to Matr1x' Sector"

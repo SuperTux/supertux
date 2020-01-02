@@ -124,7 +124,7 @@ public:
 
   void add_layer(GameObject* layer) { m_layers_widget->add_layer(layer); }
 
-  GameObject* get_selected_tilemap() const { return m_layers_widget->get_selected_tilemap(); }
+  TileMap* get_selected_tilemap() const { return m_layers_widget->get_selected_tilemap(); }
 
   Sector* get_sector() { return m_sector; }
 
@@ -170,7 +170,6 @@ private:
   EditorOverlayWidget* m_overlay_widget;
   EditorToolboxWidget* m_toolbox_widget;
   EditorLayersWidget* m_layers_widget;
-  EditorScrollerWidget* m_scroller_widget;
 
   bool m_enabled;
   SurfacePtr m_bgr_surface;

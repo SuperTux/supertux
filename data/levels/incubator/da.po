@@ -1,15 +1,15 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
 # Joe Hansen <joedalton2@yahoo.dk>, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-05 20:42+0200\n"
-"PO-Revision-Date: 2016-09-06 12:42+0000\n"
+"Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
+"POT-Creation-Date: 2018-11-05 23:45+0100\n"
+"PO-Revision-Date: 2017-09-19 19:01+0000\n"
 "Last-Translator: Joe Hansen <joedalton2@yahoo.dk>\n"
 "Language-Team: Danish (http://www.transifex.com/arctic-games/supertux/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "Angry Stone vs. YOU"
 msgstr "Vred sten vs. DIG"
 
-#: data/levels/incubator/Angry Stone vs. YOU.stl:308
+#: data/levels/incubator/Angry Stone vs. YOU.stl:307
 msgid ""
 "#You activate switches with this button:\n"
 "!images/tiles/signs/up.png"
@@ -36,11 +36,11 @@ msgstr "Borg #1"
 msgid "Missingno"
 msgstr "Missingno"
 
-#: data/levels/incubator/Missingno.stl:535
+#: data/levels/incubator/Missingno.stl:534
 msgid "#Be patient!"
 msgstr "#Vær tålmodig!"
 
-#: data/levels/incubator/Missingno.stl:540
+#: data/levels/incubator/Missingno.stl:539
 msgid ""
 "#Dont move while flying!\n"
 "#Pay attention at landing!"
@@ -70,7 +70,7 @@ msgstr "Elektrisk-træ fabrik"
 msgid "Nice Ice"
 msgstr "Flot is"
 
-#: data/levels/incubator/Nice Ice.stl:89
+#: data/levels/incubator/Nice Ice.stl:86
 msgid "#Use the enemy to finish this level!"
 msgstr "#Brug fjenden til at afslutte denne bane!"
 
@@ -114,13 +114,13 @@ msgstr "I bjerget"
 msgid "Into the Dark"
 msgstr "Ind i mørket"
 
-#: data/levels/incubator/into_dark.stl:224
+#: data/levels/incubator/into_dark.stl:210
 msgid ""
 "-Hint:\n"
 "#Use the fireflower to melt a path through the ice."
 msgstr "-Fif:\n#Brug ildblomsten til at smelte en sti igennem isen."
 
-#: data/levels/incubator/into_dark.stl:230
+#: data/levels/incubator/into_dark.stl:216
 msgid "#Beware of fire!"
 msgstr "#Pas på ilden!"
 
@@ -132,7 +132,7 @@ msgstr "Den takkede sti"
 msgid "Let us snow!"
 msgstr "Lad det sne!"
 
-#: data/levels/incubator/let_us_snow.stl:205
+#: data/levels/incubator/let_us_snow.stl:204
 msgid ""
 "-Warning!\n"
 "#Beware the falling enemies!"
@@ -142,7 +142,7 @@ msgstr "-Advarsel!\n#Pas på de faldende fjender!"
 msgid "A long adventure"
 msgstr "Et langt eventyr"
 
-#: data/levels/incubator/long.stl:1579
+#: data/levels/incubator/long.stl:1525
 msgid ""
 "#Until this moment you have luck.\n"
 "#The way here was hard.\n"
@@ -153,13 +153,13 @@ msgid ""
 "#I hope you understood."
 msgstr "#Indtil nu har du været heldig.\n#Vejen hertil var hård.\n#Du har stadig lang vej.\n#Du skal kende den godt.\n#Selv nu må du ikke fejle.\n#Gå ned til skakten.\n#Jeg håber du forstår."
 
-#: data/levels/incubator/long.stl:3997
+#: data/levels/incubator/long.stl:3937
 msgid ""
 "-Congratulations!\n"
 "#You are in half the level! "
 msgstr "-Tillykke!\n#Du er halvvejs!"
 
-#: data/levels/incubator/long.stl:4549
+#: data/levels/incubator/long.stl:4485
 msgid "-You are going wrong!"
 msgstr "-Du går forkert!"
 

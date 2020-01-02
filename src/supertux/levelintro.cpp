@@ -55,10 +55,7 @@ LevelIntro::LevelIntro(const Level& level, const Statistics* best_level_statisti
   m_player_sprite_jump_timer.start(graphicsRandom.randf(5,10));
 
   /* Set Tux powerup sprite action */
-  if (m_player_status.bonus == EARTH_BONUS || m_player_status.bonus == AIR_BONUS)
-  {
     m_power_sprite->set_action(m_player_sprite->get_action());
-  }
 }
 
 LevelIntro::~LevelIntro()
@@ -146,13 +143,11 @@ LevelIntro::draw(Compositor& compositor)
     m_player_sprite->draw(context.color(), Vector((static_cast<float>(context.get_width()) - m_player_sprite->get_current_hitbox_width()) / 2,
                                                 static_cast<float>(py) + m_player_sprite_py), LAYER_FOREGROUND1);
 
-    if (m_player_status.bonus == EARTH_BONUS
-        || m_player_status.bonus == AIR_BONUS
-        || (m_player_status.bonus == FIRE_BONUS && g_config->christmas_mode))
-    {
+    if (m_player_status.bonus > GROWUP_BONUS) {
       m_power_sprite->draw(context.color(), Vector((static_cast<float>(context.get_width()) - m_player_sprite->get_current_hitbox_width()) / 2,
-                                                 static_cast<float>(py) + m_player_sprite_py), LAYER_FOREGROUND1);
+                                                  static_cast<float>(py) + m_player_sprite_py), LAYER_FOREGROUND1);
     }
+
     py += static_cast<int>(m_player_sprite->get_current_hitbox_height());
   }
 

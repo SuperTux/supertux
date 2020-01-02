@@ -124,7 +124,7 @@ HitResponse
 MrIceBlock::collision_player(Player& player, const CollisionHit& hit)
 {
   // handle kicks from left or right side
-  if (ice_state == ICESTATE_FLAT && get_state() == STATE_ACTIVE) {
+  if ((ice_state == ICESTATE_WAKING || ice_state == ICESTATE_FLAT) && get_state() == STATE_ACTIVE) {
     if (hit.left) {
       m_dir = Direction::RIGHT;
       player.kick();
@@ -261,8 +261,9 @@ MrIceBlock::set_state(IceState state_, bool up)
 }
 
 void
-MrIceBlock::grab(MovingObject&, const Vector& pos, Direction dir_)
+MrIceBlock::grab(MovingObject& object, const Vector& pos, Direction dir_)
 {
+  Portable::grab(object, pos, dir_);
   m_col.m_movement = pos - get_pos();
   m_dir = dir_;
   set_action(dir_ == Direction::LEFT ? "flat-left" : "flat-right", /* loops = */ -1);
@@ -271,7 +272,7 @@ MrIceBlock::grab(MovingObject&, const Vector& pos, Direction dir_)
 }
 
 void
-MrIceBlock::ungrab(MovingObject& , Direction dir_)
+MrIceBlock::ungrab(MovingObject& object, Direction dir_)
 {
   if (dir_ == Direction::UP) {
     set_state(ICESTATE_FLAT, true);
@@ -280,6 +281,7 @@ MrIceBlock::ungrab(MovingObject& , Direction dir_)
     set_state(ICESTATE_KICKED);
   }
   set_colgroup_active(COLGROUP_MOVING);
+  Portable::ungrab(object, dir_);
 }
 
 bool

@@ -37,6 +37,10 @@ public:
 
   bool show_controller;
 
+  // Draw frames even when visually nothing changes; this can be used to
+  // vaguely measure the impact of code changes which should increase the FPS
+  bool draw_redundant_frames;
+
 private:
   /** Use old bitmap fonts instead of TTF */
   bool m_use_bitmap_fonts;

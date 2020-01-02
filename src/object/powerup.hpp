@@ -32,7 +32,7 @@ public:
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
 
   virtual std::string get_class() const override { return "powerup"; }
-  virtual std::string get_display_name() const override { return _("Power-up"); }
+  virtual std::string get_display_name() const override { return _("Powerup"); }
 
   virtual ObjectSettings get_settings() override;
 
