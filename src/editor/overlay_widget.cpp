@@ -827,13 +827,10 @@ EditorOverlayWidget::draw_tile_tip(DrawingContext& context)
 void
 EditorOverlayWidget::draw_tile_grid(DrawingContext& context, const Color& line_color, int tile_size)
 {
-  if (!m_editor.get_selected_tilemap()) {
-    return;
-  }
-
   auto current_tm = m_editor.get_selected_tilemap();
   if (current_tm == nullptr)
     return;
+ 
   int tm_width = current_tm->get_width() * (32 / tile_size);
   int tm_height = current_tm->get_height() * (32 / tile_size);
   auto cam_translation = m_editor.get_sector()->get_camera().get_translation();
