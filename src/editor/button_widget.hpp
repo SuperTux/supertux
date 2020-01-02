@@ -30,8 +30,8 @@ class ButtonWidget : public Widget
 private:
 public:
   ButtonWidget(SpritePtr sprite, const Vector& pos, std::function<void()> m_sig_click = {});
-  ButtonWidget(const std::string& path, const Vector& pos, std::function<void()> m_sig_click = {}) :
-    ButtonWidget(SpriteManager::current()->create(path), pos, m_sig_click)
+  ButtonWidget(const std::string& path, const Vector& pos, std::function<void()> callback = {}) :
+    ButtonWidget(SpriteManager::current()->create(path), pos, callback)
   {
   }
 
