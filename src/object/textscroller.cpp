@@ -211,7 +211,7 @@ TextScroller::draw(DrawingContext& context)
   const float ctx_w = static_cast<float>(context.get_width());
   const float ctx_h = static_cast<float>(context.get_height());
 
-  float y = ctx_h - m_scroll;
+  float y = floorf(ctx_h - m_scroll);
 
   { // draw text
     for (const auto& line : m_lines)
@@ -220,7 +220,7 @@ TextScroller::draw(DrawingContext& context)
         line->draw(context, Rectf(LEFT_BORDER, y, ctx_w - 2*LEFT_BORDER, y), LAYER_GUI);
       }
 
-      y += line->get_height();
+      y += floorf(line->get_height());
     }
   }
 
