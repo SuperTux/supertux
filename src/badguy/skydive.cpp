@@ -115,6 +115,12 @@ SkyDive::active_update(float dt_sec)
 }
 
 void
+SkyDive::kill_fall()
+{
+  explode();
+}
+
+void
 SkyDive::explode()
 {
   if (!is_valid())
@@ -123,7 +129,7 @@ SkyDive::explode()
   auto& explosion = Sector::get().add<Explosion>(get_anchor_pos(m_col.m_bbox, ANCHOR_BOTTOM));
 
   explosion.hurts(true);
-  explosion.pushes(false);
+  explosion.pushes(true);
 
   remove_me();
 }
