@@ -29,6 +29,7 @@
 #include "supertux/game_session.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
+#include "supertux/level.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/screen_fade.hpp"
@@ -326,7 +327,7 @@ ScreenManager::process_events()
           case SDL_WINDOWEVENT_FOCUS_LOST:
             if (g_config->pause_on_focusloss)
             {
-              if (session != nullptr && session->is_active())
+              if (session != nullptr && session->is_active() && !Level::current()->m_suppress_pause_menu)
               {
                 session->toggle_pause();
               }
