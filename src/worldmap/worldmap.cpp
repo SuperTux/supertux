@@ -486,9 +486,7 @@ WorldMap::draw(DrawingContext& context)
   if (get_width() < static_cast<float>(context.get_width()) ||
       get_height() < static_cast<float>(context.get_height()))
   {
-    context.color().draw_filled_rect(Rectf(0, 0,
-                                           static_cast<float>(context.get_width()),
-                                           static_cast<float>(context.get_height())),
+    context.color().draw_filled_rect(context.get_rect(),
                                      Color(0.0f, 0.0f, 0.0f, 1.0f), LAYER_BACKGROUND0);
   }
 

@@ -130,14 +130,12 @@ Editor::draw(Compositor& compositor)
 
   if (m_levelloaded) {
     m_sector->draw(context);
-    context.color().draw_filled_rect(Rectf(Vector(0, 0), Vector(static_cast<float>(context.get_width()),
-                                                                static_cast<float>(context.get_height()))),
+    context.color().draw_filled_rect(context.get_rect(),
                                      Color(0.0f, 0.0f, 0.0f),
                                      0.0f, std::numeric_limits<int>::min());
   } else {
     context.color().draw_surface_scaled(m_bgr_surface,
-                                        Rectf(Vector(0, 0), Vector(static_cast<float>(context.get_width()),
-                                                                   static_cast<float>(context.get_height()))),
+                                        context.get_rect(),
                                         -100);
   }
 
