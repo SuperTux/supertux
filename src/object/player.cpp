@@ -1688,9 +1688,12 @@ Player::stop_climbing(Climbable& /*climbable*/)
   m_physic.set_velocity(0, 0);
   m_physic.set_acceleration(0, 0);
 
-  if ((m_controller->hold(Control::JUMP)) || (m_controller->hold(Control::UP))) {
+  if (m_controller->hold(Control::JUMP)) {
     m_on_ground_flag = true;
-    // TODO: This won't help. Why?
+    do_jump(m_player_status.bonus == BonusType::AIR_BONUS ? -540 : -480);
+  }
+  else if (m_controller->hold(Control::UP)) {
+    m_on_ground_flag = true;
     do_jump(-300);
   }
 }
