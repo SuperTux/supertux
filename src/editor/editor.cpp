@@ -107,11 +107,9 @@ Editor::Editor() :
   m_layers_widget = layers_widget.get();
   m_overlay_widget = overlay_widget.get();
 
-  auto undo_button_widget = std::make_unique<ButtonWidget>(
-    SpriteManager::current()->create("images/engine/editor/undo.png"),
+  auto undo_button_widget = std::make_unique<ButtonWidget>("images/engine/editor/undo.png",
     Vector(10, 10), [this]{ undo(); });
-  auto redo_button_widget = std::make_unique<ButtonWidget>(
-    SpriteManager::current()->create("images/engine/editor/redo.png"),
+  auto redo_button_widget = std::make_unique<ButtonWidget>("images/engine/editor/redo.png",
     Vector(60, 10), [this]{ redo(); });
 
   m_widgets.push_back(std::move(undo_button_widget));
