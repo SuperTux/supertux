@@ -143,8 +143,8 @@ EditorOverlayWidget::drag_rect()
 void
 EditorOverlayWidget::input_tile(const Vector& pos, uint32_t tile)
 {
-  auto tilemap = dynamic_cast<TileMap*>(m_editor.get_selected_tilemap());
-  if ( !tilemap ) {
+  auto tilemap = m_editor.get_selected_tilemap();
+  if (!tilemap) {
     return;
   }
 
@@ -193,8 +193,8 @@ void
 EditorOverlayWidget::fill()
 {
   auto tiles = m_editor.get_tiles();
-  auto tilemap = dynamic_cast<TileMap*>(m_editor.get_selected_tilemap());
-  if (! tilemap) {
+  auto tilemap = m_editor.get_selected_tilemap();
+  if (!tilemap) {
     return;
   }
 
@@ -655,8 +655,8 @@ EditorOverlayWidget::update_tile_selection()
 {
   Rectf select = tile_drag_rect();
   auto tiles = m_editor.get_tiles();
-  auto tilemap = dynamic_cast<TileMap*>(m_editor.get_selected_tilemap());
-  if ( !tilemap ) {
+  auto tilemap = m_editor.get_selected_tilemap();
+  if (!tilemap) {
     return;
   }
 
@@ -791,7 +791,7 @@ EditorOverlayWidget::draw_tile_tip(DrawingContext& context)
 {
   if ( m_editor.get_tileselect_input_type() == EditorToolboxWidget::InputType::TILE ) {
 
-    auto tilemap = dynamic_cast<TileMap*>(m_editor.get_selected_tilemap());
+    auto tilemap = m_editor.get_selected_tilemap();
     if (!tilemap) {
       return;
     }
@@ -827,12 +827,12 @@ EditorOverlayWidget::draw_tile_tip(DrawingContext& context)
 void
 EditorOverlayWidget::draw_tile_grid(DrawingContext& context, const Color& line_color, int tile_size)
 {
-  if ( !m_editor.get_selected_tilemap() ) {
+  if (!m_editor.get_selected_tilemap()) {
     return;
   }
 
-  auto current_tm = dynamic_cast<TileMap*>(m_editor.get_selected_tilemap());
-  if ( current_tm == nullptr )
+  auto current_tm = m_editor.get_selected_tilemap();
+  if (current_tm == nullptr)
     return;
   int tm_width = current_tm->get_width() * (32 / tile_size);
   int tm_height = current_tm->get_height() * (32 / tile_size);
@@ -866,8 +866,9 @@ EditorOverlayWidget::draw_tilemap_border(DrawingContext& context)
 {
   if ( !m_editor.get_selected_tilemap() ) return;
 
-  auto current_tm = dynamic_cast<TileMap*>(m_editor.get_selected_tilemap());
-  if ( !current_tm ) return;
+  auto current_tm = m_editor.get_selected_tilemap();
+  if (!current_tm)
+    return;
 
   Vector start = tile_screen_pos( Vector(0, 0) );
   Vector end = tile_screen_pos( Vector(static_cast<float>(current_tm->get_width()),
@@ -956,7 +957,7 @@ EditorOverlayWidget::draw(DrawingContext& context)
 Vector
 EditorOverlayWidget::tp_to_sp(const Vector& tp, int tile_size)
 {
-  auto tilemap = dynamic_cast<TileMap*>(m_editor.get_selected_tilemap());
+  auto tilemap = m_editor.get_selected_tilemap();
   if (!tilemap)
   {
     return Vector(0, 0);
@@ -969,7 +970,7 @@ EditorOverlayWidget::tp_to_sp(const Vector& tp, int tile_size)
 Vector
 EditorOverlayWidget::sp_to_tp(const Vector& sp, int tile_size)
 {
-  auto tilemap = dynamic_cast<TileMap*>(m_editor.get_selected_tilemap());
+  auto tilemap = m_editor.get_selected_tilemap();
   if (!tilemap)
   {
     return Vector(0, 0);
