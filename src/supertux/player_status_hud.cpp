@@ -31,8 +31,8 @@ PlayerStatusHUD::PlayerStatusHUD(PlayerStatus& player_status) :
   displayed_coins(DISPLAYED_COINS_UNSET),
   displayed_coins_frame(0),
   coin_surface(Surface::from_file("images/engine/hud/coins-0.png")),
-  fire_surface(Surface::from_file("images/objects/bullets/fire_bullet-0.png")),
-  ice_surface(Surface::from_file("images/objects/bullets/ice_bullet.png"))
+  fire_surface(Surface::from_file("images/objects/bullets/fire-hud.png")),
+  ice_surface(Surface::from_file("images/objects/bullets/ice-hud.png"))
 {
 }
 
