@@ -394,7 +394,7 @@ TextureManager::debug_print(std::ostream& out) const
   {
     const auto& key = it.first;
 
-    if (auto texture = it.second.lock()) {
+    if (it.second.lock()) {
       total_texture_pixels += std::get<1>(key).get_area();
     }
 
