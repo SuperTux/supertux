@@ -119,7 +119,7 @@ EditorMenu::menu_action(MenuItem& item)
     case MNID_SHARE:
     {
       auto dialog = std::make_unique<Dialog>();
-      dialog->set_text(_("We encourage you to share your levels in the SuperTux forum.\nTo find your level, click the\n\"Open output directory\" menu item.\nDo you want to go to the forum now?"));
+      dialog->set_text(_("We encourage you to share your levels in the SuperTux forum.\nTo find your level, click the\n\"Open Level directory\" menu item.\nDo you want to go to the forum now?"));
       dialog->add_default_button(_("Yes"), [] {
         FileSystem::open_path("https://forum.freegamedev.net/viewforum.php?f=69");
       });
