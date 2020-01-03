@@ -234,8 +234,6 @@ JoystickMenu::refresh()
 
     if (g_config->developer_mode) {
       refresh_menu_item(Control::CONSOLE);
-    }
-    if (g_config->developer_mode) {
       refresh_menu_item(Control::CHEAT_MENU);
       refresh_menu_item(Control::DEBUG_MENU);
     }
