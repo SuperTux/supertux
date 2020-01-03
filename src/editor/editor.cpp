@@ -129,6 +129,10 @@ Editor::draw(Compositor& compositor)
   auto& context = compositor.make_context();
 
   if (m_levelloaded) {
+  for(const auto& widget : m_widgets) {
+    widget->draw(context);
+  }
+
     m_sector->draw(context);
     context.color().draw_filled_rect(context.get_rect(),
                                      Color(0.0f, 0.0f, 0.0f),
@@ -137,10 +141,6 @@ Editor::draw(Compositor& compositor)
     context.color().draw_surface_scaled(m_bgr_surface,
                                         context.get_rect(),
                                         -100);
-  }
-
-  for(const auto& widget : m_widgets) {
-    widget->draw(context);
   }
 
   MouseCursor::current()->draw(context);
