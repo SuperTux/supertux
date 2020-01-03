@@ -6,7 +6,7 @@
   )
   (action
     (name "swinging")
-	(fps 20)
+	(fps 32)
     (hitbox 2 32 32 32)
     (images "trampoline1-0.png"
             "trampoline1-1.png"
