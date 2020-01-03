@@ -102,8 +102,12 @@ TileSet::add_unassigned_tilegroup()
         if (tile_in_group == tile)
         {
           found = true;
+          break;
         }
       }
+
+      if(found)
+        break;
     }
 
     // Weed out all the tiles that have an ID
