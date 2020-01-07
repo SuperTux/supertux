@@ -291,6 +291,9 @@
   (object
     (class "wind")
     (icon "images/engine/editor/wind.png"))
+  (object
+    (class "skull_tile")
+    (icon "images/objects/skulls/skull.png"))
  )
 
  (objectgroup
