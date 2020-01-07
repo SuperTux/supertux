@@ -90,14 +90,14 @@
     (door
       (sector "cave")
       (spawnpoint "Ent")
-      (x 9758.223)
-      (y 428.4445)
+      (x 9760)
+      (y 416)
     )
     (door
       (sector "Cave")
       (spawnpoint "back2")
       (x 11392)
-      (y 204.4444)
+      (y 192)
     )
     (gradient
       (top_color 0.3 0.4 0.75)
@@ -461,14 +461,14 @@
     (door
       (sector "main")
       (spawnpoint "back")
-      (x 192.8889)
-      (y 460.4444)
+      (x 192)
+      (y 448)
     )
     (door
       (sector "main")
       (spawnpoint "exit")
-      (x 1983.111)
-      (y 267.5556)
+      (x 1984)
+      (y 256)
     )
     (music
       (file "/music/antarctic/voc-daytime.ogg")
