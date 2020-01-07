@@ -293,7 +293,7 @@
     (icon "images/engine/editor/wind.png"))
   (object
     (class "skull_tile")
-    (icon "images/objects/skulls/skull.png"))
+    (icon "images/objects/skull_tile/skull.png"))
  )
 
  (objectgroup
