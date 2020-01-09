@@ -97,17 +97,14 @@ TileSet::add_unassigned_tilegroup()
     bool found = false;
     for (const auto& group : m_tilegroups)
     {
-      for (const auto& tile_in_group : group.tiles)
-      {
-        if (tile_in_group == tile)
-        {
-          found = true;
-          break;
-        }
-      }
-
+      found = std::any_of(group.tiles.begin(), group.tiles.end(),
+        [tile](const int& tile_in_group) {
+          return tile_in_group == tile;
+        });
       if(found)
+      {
         break;
+      }
     }
 
     // Weed out all the tiles that have an ID
