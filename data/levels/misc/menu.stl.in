@@ -107,8 +107,8 @@ logo.set_visible(true);
     (gradient
       (name "background")
       (layer -300)
-      (top_color 0.3000000119 0.400000006 0.75 1)
-      (bottom_color 1 1 1 1)
+      (top_color 0 0.2 1)
+      (bottom_color 0.8 0.9 1)
     )
     (particles-snow
       (name "snow_particles")
