@@ -502,7 +502,7 @@
     )
     (tilemap
       (solid #f)
-      (z-pos -90)
+      (z-pos 10)
       (width 70)
       (height 50)
       (tiles
