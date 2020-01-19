@@ -317,7 +317,7 @@ BonusBlock::try_open(Player* player)
 
     case Content::CUSTOM:
     {
-      Sector::get().add<SpecialRiser>(get_pos(), std::move(m_object));
+      Sector::get().add<SpecialRiser>(get_pos(), std::move(m_object), true);
       play_upgrade_sound = true;
       break;
     }
@@ -336,7 +336,7 @@ BonusBlock::try_open(Player* player)
     }
     case Content::TRAMPOLINE:
     {
-      Sector::get().add<SpecialRiser>(get_pos(), std::make_unique<Trampoline>(get_pos(), false));
+      Sector::get().add<SpecialRiser>(get_pos(), std::make_unique<Trampoline>(get_pos(), false), true);
       play_upgrade_sound = true;
       break;
     }
