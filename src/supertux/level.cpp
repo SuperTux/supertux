@@ -156,12 +156,12 @@ Level::add_sector(std::unique_ptr<Sector> sector)
 Sector*
 Level::get_sector(const std::string& name_) const
 {
-  auto sector = std::find_if(m_sectors.begin(), m_sectors.end(), [name_] (const std::unique_ptr<Sector>& sector) {
+  auto _sector = std::find_if(m_sectors.begin(), m_sectors.end(), [name_] (const std::unique_ptr<Sector>& sector) {
     return sector->get_name() == name_;
   });
-  if(sector == m_sectors.end())
+  if(_sector == m_sectors.end())
     return nullptr;
-  return sector->get();
+  return _sector->get();
 }
 
 size_t
