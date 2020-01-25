@@ -599,20 +599,25 @@ BadGuy::set_state(State state_)
 bool
 BadGuy::is_offscreen() const
 {
-  Vector dist;
+  Vector cam_dist;
+  Vector player_dist;
+  Camera& cam = Sector::get().get_camera();
+  cam_dist = cam.get_center() - m_col.m_bbox.get_middle();
   if (Editor::is_active()) {
-    Camera& cam = Sector::get().get_camera();
-    dist = cam.get_center() - m_col.m_bbox.get_middle();
+      if ((fabsf(cam_dist.x) <= X_OFFSCREEN_DISTANCE) && (fabsf(cam_dist.y) <= Y_OFFSCREEN_DISTANCE)) {
+        return false;
+    }
   }
   auto player = get_nearest_player();
   if (!player)
     return false;
   if (!Editor::is_active()) {
-    dist = player->get_bbox().get_middle() - m_col.m_bbox.get_middle();
+    player_dist = player->get_bbox().get_middle() - m_col.m_bbox.get_middle();
   }
   // In SuperTux 0.1.x, Badguys were activated when Tux<->Badguy center distance was approx. <= ~668px
   // This doesn't work for wide-screen monitors which give us a virt. res. of approx. 1066px x 600px
-  if ((fabsf(dist.x) <= X_OFFSCREEN_DISTANCE) && (fabsf(dist.y) <= Y_OFFSCREEN_DISTANCE)) {
+  if (((fabsf(player_dist.x) <= X_OFFSCREEN_DISTANCE) && (fabsf(player_dist.y) <= Y_OFFSCREEN_DISTANCE))
+      ||((fabsf(cam_dist.x) <= X_OFFSCREEN_DISTANCE) && (fabsf(cam_dist.y) <= Y_OFFSCREEN_DISTANCE))) {
     return false;
   }
   return true;
