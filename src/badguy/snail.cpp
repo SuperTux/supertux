@@ -236,7 +236,7 @@ Snail::collision_squished(GameObject& object)
     return WalkingBadguy::collision_squished(object);
 
   Player* player = dynamic_cast<Player*>(&object);
-  if (player && (player->m_does_buttjump || player->is_invincible())) {
+  if (player && player->is_invincible()) {
     kill_fall();
     player->bounce(*this);
     return true;
@@ -244,8 +244,13 @@ Snail::collision_squished(GameObject& object)
 
   switch (state) {
 
-    case STATE_KICKED:
     case STATE_NORMAL:
+      if(!player->m_does_buttjump)
+      {
+        player->bounce(*this);
+        break;
+      }
+    case STATE_KICKED:
 
       squishcount++;
       if (squishcount >= MAX_SNAIL_SQUISHES) {
