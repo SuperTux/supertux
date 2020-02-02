@@ -158,7 +158,7 @@ public:
 
   /** Changes height of bounding box.
       Returns true if successful, false otherwise */
-  bool adjust_height(float new_height);
+  bool adjust_height(float new_height, float bottom_offset = 0);
 
   /** Orders the current GameSession to start a sequence
       @param sequence_name Name of the sequence to start
@@ -192,12 +192,15 @@ private:
   void handle_input();
   void handle_input_ghost(); /**< input handling while in ghost mode */
   void handle_input_climbing(); /**< input handling while climbing */
-
+  void handle_input_swimming();
+  
   void handle_horizontal_input();
   void handle_vertical_input();
 
   void do_jump_apex();
   void early_jump_apex();
+
+  void swim(float pointx, float pointy, bool boost);
 
   bool slightly_above_ground() const;
 
@@ -277,7 +280,11 @@ private:
   Portable* m_grabbed_object;
 
   SpritePtr m_sprite; /**< The main sprite representing Tux */
-
+  
+  float m_swimming_angle;
+  float m_swimming_accel_modifier;
+  bool m_water_jump;
+  bool m_dive_walk;
   SurfacePtr m_airarrow; /**< arrow indicating Tux' position when he's above the camera */
 
   Vector m_floor_normal;
@@ -291,6 +298,8 @@ private:
   unsigned int m_idle_stage;
 
   Climbable* m_climbing; /**< Climbable object we are currently climbing, null if none */
+
+  //float start_swim_y; /**< the y coordinate of where Tux touched water */
 
 private:
   Player(const Player&) = delete;
