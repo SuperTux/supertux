@@ -90,7 +90,7 @@ Snail::be_kicked()
 }
 
 void
-Snail::be_shelled()
+Snail::be_shielded()
 {
   state = STATE_SHIELDED;
 
@@ -287,14 +287,13 @@ Snail::collision_squished(GameObject& object)
   switch (state) {
 
     case STATE_SHIELDED:
-      if(!player->m_does_buttjump)
+    case STATE_NORMAL:
+    case STATE_KICKED:
+      if(state == STATE_SHIELDED && !player->m_does_buttjump)
       {
         player->bounce(*this);
         break;
       }
-    case STATE_NORMAL:
-    case STATE_KICKED:
-
       squishcount++;
       if (squishcount >= MAX_SNAIL_SQUISHES) {
         kill_fall();
