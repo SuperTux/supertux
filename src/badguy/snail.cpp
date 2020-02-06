@@ -35,6 +35,7 @@ Snail::Snail(const ReaderMapping& reader) :
   WalkingBadguy(reader, "images/creatures/snail/snail.sprite", "left", "right"),
   state(STATE_NORMAL),
   kicked_delay_timer(),
+  danger_gone_timer(),
   squishcount(0)
 {
   walk_speed = 80;
