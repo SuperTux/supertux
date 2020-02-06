@@ -21,11 +21,14 @@
 #include "audio/sound_manager.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/sector.hpp"
 
 namespace {
 const float SNAIL_KICK_SPEED = 500;
 const int MAX_SNAIL_SQUISHES = 10;
 const float SNAIL_KICK_SPEED_Y = -500; /**< y-velocity gained when kicked */
+const float DANGER_SENSE_DIST = 25;
+const float SHIELDED_TIME = 0.5f;
 }
 
 Snail::Snail(const ReaderMapping& reader) :
@@ -86,9 +89,34 @@ Snail::be_kicked()
   kicked_delay_timer.start(0.05f);
 }
 
+void
+Snail::be_shelled()
+{
+  state = STATE_SHIELDED;
+
+  m_physic.set_velocity_x(0);
+  m_physic.set_velocity_y(0);
+
+  m_sprite->set_action(m_dir == Direction::LEFT ? "shielded-left" : "shielded-right");
+
+  danger_gone_timer.start(SHIELDED_TIME);
+}
+
 bool
 Snail::can_break() const {
   return state == STATE_KICKED;
+}
+
+bool
+Snail::is_in_danger()
+{
+  Rectf sense_zone = get_bbox().moved(Vector(0, -DANGER_SENSE_DIST));
+  auto player = Sector::get().get_nearest_player(get_bbox());
+  if (sense_zone.contains(player->get_bbox()) && player->get_velocity().y > 0)
+  {
+    return true;
+  }
+  return false;
 }
 
 void
@@ -101,6 +129,11 @@ Snail::active_update(float dt_sec)
   {
     BadGuy::active_update(dt_sec);
     return;
+  }
+
+  if(state == STATE_NORMAL && is_in_danger())
+  {
+    be_shielded();
   }
 
   switch (state) {
@@ -130,6 +163,13 @@ Snail::active_update(float dt_sec)
 
     case STATE_GRABBED:
       break;
+
+    case STATE_SHIELDED:
+      if (danger_gone_timer.check())
+      {
+        be_normal();
+      }
+      break;
   }
 
   BadGuy::active_update(dt_sec);
@@ -156,6 +196,7 @@ Snail::collision_solid(const CollisionHit& hit)
   switch (state)
   {
     case STATE_NORMAL:
+    case STATE_SHIELDED:
       WalkingBadguy::collision_solid(hit);
       return;
 
@@ -194,6 +235,7 @@ Snail::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
 
   switch (state) {
     case STATE_NORMAL:
+    case STATE_SHIELDED:
       return WalkingBadguy::collision_badguy(badguy, hit);
     case STATE_FLAT:
     case STATE_KICKED_DELAY:
@@ -244,12 +286,13 @@ Snail::collision_squished(GameObject& object)
 
   switch (state) {
 
-    case STATE_NORMAL:
+    case STATE_SHIELDED:
       if(!player->m_does_buttjump)
       {
         player->bounce(*this);
         break;
       }
+    case STATE_NORMAL:
     case STATE_KICKED:
 
       squishcount++;
