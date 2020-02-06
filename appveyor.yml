@@ -36,7 +36,7 @@ before_build:
     vcpkg install boost-system:x86-windows
     vcpkg remove curl:x86-windows
     vcpkg install curl:x86-windows
-    vcpkg install freetype:x86-windows
+    vcpkg install --recurse freetype:x86-windows
     vcpkg install glew:x86-windows
     vcpkg install libogg:x86-windows
     vcpkg install libraqm:x86-windows
