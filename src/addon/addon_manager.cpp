@@ -435,29 +435,29 @@ AddonManager::enable_addon(const AddonId& addon_id)
     log_debug << "Adding archive \"" << addon.get_install_filename() << "\" to search path" << std::endl;
     //int PHYSFS_mount(addon.installed_install_filename.c_str(), "addons/", 0)
 
-    std::string mountpoint;
-    switch (addon.get_format()) {
-      case Addon::ORIGINAL:
-        mountpoint = "";
-        break;
-      default:
-        mountpoint = "custom/" + addon_id;
-        break;
-    }
+    // std::string mountpoint;
+    // switch (addon.get_format()) {
+    //   case Addon::ORIGINAL:
+    //     mountpoint = "";
+    //     break;
+    //   default:
+    //     mountpoint = "custom/" + addon_id;
+    //     break;
+    // }
 
-    if (PHYSFS_mount(addon.get_install_filename().c_str(), mountpoint.c_str(), 0) == 0)
-    {
-      log_warning << "Could not add " << addon.get_install_filename() << " to search path: "
-                  << PHYSFS_getLastErrorCode() << std::endl;
-    }
-    else
-    {
+    // if (PHYSFS_mount(addon.get_install_filename().c_str(), mountpoint.c_str(), 0) == 0)
+    // {
+    //   log_warning << "Could not add " << addon.get_install_filename() << " to search path: "
+    //               << PHYSFS_getLastErrorCode() << std::endl;
+    // }
+    // else
+    // {
       if (addon.get_type() == Addon::LANGUAGEPACK)
       {
         PHYSFS_enumerate(addon.get_id().c_str(), add_to_dictionary_path, nullptr);
       }
       addon.set_enabled(true);
-    }
+    // }
   }
 }
 
@@ -472,20 +472,20 @@ AddonManager::disable_addon(const AddonId& addon_id)
   }
   else
   {
-    log_debug << "Removing archive \"" << addon.get_install_filename() << "\" from search path" << std::endl;
-    if (PHYSFS_unmount(addon.get_install_filename().c_str()) == 0)
-    {
-      log_warning << "Could not remove " << addon.get_install_filename() << " from search path: "
-                  << PHYSFS_getLastErrorCode() << std::endl;
-    }
-    else
-    {
+    // log_debug << "Removing archive \"" << addon.get_install_filename() << "\" from search path" << std::endl;
+    // if (PHYSFS_unmount(addon.get_install_filename().c_str()) == 0)
+    // {
+    //   log_warning << "Could not remove " << addon.get_install_filename() << " from search path: "
+    //               << PHYSFS_getLastErrorCode() << std::endl;
+    // }
+    // else
+    // {
       if (addon.get_type() == Addon::LANGUAGEPACK)
       {
         PHYSFS_enumerate(addon.get_id().c_str(), remove_from_dictionary_path, nullptr);
       }
       addon.set_enabled(false);
-    }
+    // }
   }
 }
 
