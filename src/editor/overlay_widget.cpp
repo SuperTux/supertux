@@ -100,7 +100,7 @@ EditorOverlayWidget::delete_markers()
 {
   auto* sector = m_editor.get_sector();
 
-  if (m_selected_object) {
+  if (m_selected_object && m_selected_object->is_valid()) {
     m_selected_object->editor_deselect();
   }
 
