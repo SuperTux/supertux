@@ -257,7 +257,7 @@ ScreenManager::draw(Compositor& compositor, FPS_Stats& fps_statistics)
   if (g_config->show_fps)
     draw_fps(context, fps_statistics);
 
-  if (g_debug.show_controller) {
+  if (g_config->show_controller) {
     m_controller_hud->draw(context);
   }
 
