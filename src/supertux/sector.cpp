@@ -41,6 +41,7 @@
 #include "object/text_array_object.hpp"
 #include "object/text_object.hpp"
 #include "object/tilemap.hpp"
+#include "object/vertical_stripes.hpp"
 #include "physfs/ifile_stream.hpp"
 #include "scripting/sector.hpp"
 #include "squirrel/squirrel_environment.hpp"
@@ -139,6 +140,10 @@ Sector::finish_construction(bool editable)
 
   if (!get_object_by_type<MusicObject>()) {
     add<MusicObject>();
+  }
+
+  if (!get_object_by_type<VerticalStripes>()) {
+    add<VerticalStripes>();
   }
 
   flush_game_objects();
