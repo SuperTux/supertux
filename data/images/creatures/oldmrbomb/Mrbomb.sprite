@@ -1,0 +1,56 @@
+(supertux-sprite
+ (action
+  (name "left")
+  (fps 10.0)
+  (hitbox 5 8 32 32)
+  (images "mrbomb-left-0.png"
+          "mrbomb-left-1.png"
+          "mrbomb-left-2.png"
+          "mrbomb-left-3.png"))
+
+ (action
+  (name "right")
+  (fps 10.0)
+  (hitbox 5 8 32 32)
+  (mirror-action "left"))
+ 
+ (action
+  (name "iced-left")
+  (hitbox 5 8 31.8 31.8)
+  (images "mrbomb-iced-1.png"))
+ 
+ (action
+  (name "iced-right")
+  (hitbox 5 8 31.8 31.8)
+  (mirror-action "iced-left"))
+
+ (action
+  (name "ticking-left")
+  (fps 10.0)
+  (hitbox 5 8 32 32)
+  (images "mrbombx-left-0.png"
+          "mrbombx-left-1.png"
+          "mrbombx-left-0.png"
+          "mrbombx-left-1.png"
+          "mrbombx-left-0.png"
+          "mrbombx-left-1.png"
+          "mrbombx-left-0.png"
+          "mrbombx-left-1.png"
+          "mrbombx-left-0.png"
+          "mrbombx-left-1.png"
+          "mrbombx-left-0.png"
+          "mrbombx-left-1.png"
+          "mrbombx-left-0.png"
+          "mrbombx-left-1.png"
+          "mrbombx-left-0.png"
+          "mrbombx-left-1.png"
+          ))
+
+ 
+ (action
+  (name "ticking-right")
+  (fps 10.0)
+  (hitbox 5 8 32 32)
+  (mirror-action "ticking-left"))
+ 
+)
