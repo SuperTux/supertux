@@ -1,0 +1,11 @@
+(supertux-sprite
+ (action
+  (name "working")
+  (hitbox 3 5 32 60)
+  (images "frozen-turret.png"))
+
+ (action
+  (name "iced")
+  (hitbox 3 5 32 60)
+  (images "canon-frozen.png"))
+)
