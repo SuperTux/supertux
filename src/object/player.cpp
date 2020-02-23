@@ -141,6 +141,7 @@ Player::Player(PlayerStatus& player_status, const std::string& name_) :
   m_ability_time(),
   m_stone(false),
   m_swimming(false),
+  m_swimboosting(false),
   m_speedlimit(0), //no special limit
   m_scripting_controller_old(nullptr),
   m_jump_early_apex(false),
@@ -321,6 +322,7 @@ Player::update(float dt_sec)
     if(m_swimming) 
       adjust_height(is_big() ? BIG_TUX_HEIGHT : SMALL_TUX_HEIGHT);
     m_swimming = false;
+    m_swimboosting = false;
     m_dive_walk = true;
   }
   else {
@@ -536,14 +538,16 @@ Player::swim(float pointx, float pointy, bool boost)
       else m_swimming_accel_modifier = 700.f;
       Vector swimming_direction = Vector(m_swimming_accel_modifier,pointed_angle).rectangular();
 
-      m_physic.set_acceleration_x(swimming_direction.x - 1.0f*vx);
-      m_physic.set_acceleration_y(swimming_direction.y - 1.0f*vy);
+      m_physic.set_acceleration_x(swimming_direction.x - 1.0f * vx);
+      m_physic.set_acceleration_y(swimming_direction.y - 1.0f * vy);
 
       // Limit speed
       float limit = 300.f;
       if (m_physic.get_velocity().norm()>limit)
+      {
         m_physic.set_acceleration(-vx,-vy);   // Was too lazy to set it properly ~~zwatotem
-
+      }
+    
       // Natural friction
       if (!is_ang_defined) {
         m_physic.set_acceleration(-1.6f*vx, -1.6f*vy);
@@ -555,11 +559,20 @@ Player::swim(float pointx, float pointy, bool boost)
       }
       // Turbo
       if (boost) {
+        m_swimboosting = true;
         vx += 200.f * pointx;
         vy += 200.f * pointy;
         m_physic.set_velocity(vx, vy);
       }
+      else
+      {
+        if (m_physic.get_velocity().norm() < 360.f)
+        {
+          m_swimboosting = false;
+        }
+      }
     }
+
     if (m_water_jump && !m_swimming)
     {
       m_swimming_angle = Vector(vx,vy).angle();

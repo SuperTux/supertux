@@ -132,6 +132,8 @@ public:
   bool is_dead() const { return m_dead; }
   bool is_big() const;
   bool is_stone() const { return m_stone; }
+  bool is_swimming() const { return m_swimming; }
+  bool is_swimboosting() const { return m_swimboosting; }
 
   void set_visible(bool visible);
   bool get_visible() const;
@@ -228,6 +230,7 @@ private:
   float m_ability_time;
   bool m_stone;
   bool m_swimming;
+  bool m_swimboosting;
   float m_speedlimit;
   const Controller* m_scripting_controller_old; /**< Saves the old controller while the scripting_controller is used */
   bool m_jump_early_apex;
