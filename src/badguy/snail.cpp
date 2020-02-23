@@ -113,7 +113,7 @@ Snail::is_in_danger()
 {
   Rectf sense_zone = get_bbox().moved(Vector(0, -DANGER_SENSE_DIST));
   auto player = Sector::get().get_nearest_player(get_bbox());
-  if (sense_zone.contains(player->get_bbox()) && player->get_velocity().y > 0)
+  if (player && sense_zone.contains(player->get_bbox()) && player->get_velocity().y > 0)
   {
     return true;
   }
