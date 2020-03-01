@@ -65,7 +65,6 @@ PushButton::collision(GameObject& other, const CollisionHit& hit)
   auto player = dynamic_cast<Player*>(&other);
   auto rock = dynamic_cast<Rock*>(&other);
   if (!player && !rock) return FORCE_MOVE;
-  if (player || rock) {
 	  if (player) {
   float vy = player->get_physic().get_velocity_y();
   if (vy <= 0) return FORCE_MOVE;
@@ -90,7 +89,6 @@ PushButton::collision(GameObject& other, const CollisionHit& hit)
   Sector::get().run_script(script, "PushButton");
 
   return FORCE_MOVE;
-  }
 }
 
 /* EOF */
