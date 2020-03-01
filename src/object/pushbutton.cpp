@@ -18,6 +18,7 @@
 
 #include "audio/sound_manager.hpp"
 #include "object/player.hpp"
+#include "object/rock.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
@@ -62,15 +63,18 @@ HitResponse
 PushButton::collision(GameObject& other, const CollisionHit& hit)
 {
   auto player = dynamic_cast<Player*>(&other);
-  if (!player) return FORCE_MOVE;
+  auto rock = dynamic_cast<Rock*>(&other);
+  if (!player && !rock) return FORCE_MOVE;
+  if (player || rock) {
+	  if (player) {
   float vy = player->get_physic().get_velocity_y();
-
+  if (vy <= 0) return FORCE_MOVE;
   //player->add_velocity(Vector(0, -150));
   player->get_physic().set_velocity_y(-150);
+	  }
 
   if (state != OFF) return FORCE_MOVE;
   if (!hit.top) return FORCE_MOVE;
-  if (vy <= 0) return FORCE_MOVE;
 
   // change appearance
   state = ON;
@@ -86,6 +90,7 @@ PushButton::collision(GameObject& other, const CollisionHit& hit)
   Sector::get().run_script(script, "PushButton");
 
   return FORCE_MOVE;
+  }
 }
 
 /* EOF */
