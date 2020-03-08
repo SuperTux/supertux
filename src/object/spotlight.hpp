@@ -55,6 +55,9 @@ private:
   /** If true, the spotlight will rotate counter-clockwise */
   bool counter_clockwise;
 
+  /** The layer (z-pos) of the spotlight. */
+  int m_layer;
+
 private:
   Spotlight(const Spotlight&) = delete;
   Spotlight& operator=(const Spotlight&) = delete;
