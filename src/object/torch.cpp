@@ -37,6 +37,7 @@ Torch::Torch(const ReaderMapping& reader) :
 
   reader.get("sprite", sprite_name);
   reader.get("burning", m_burning, true);
+  reader.get("layer", m_layer, 0);
 
   m_torch = SpriteManager::current()->create(sprite_name);
   m_col.m_bbox.set_size(static_cast<float>(m_torch->get_width()),
@@ -51,16 +52,16 @@ Torch::draw(DrawingContext& context)
 {
   if (m_burning)
   {
-    m_flame->draw(context.color(), get_pos(), LAYER_TILES - 1);
+    m_flame->draw(context.color(), get_pos(), m_layer - 1);
 
-    m_flame_light->draw(context.light(), get_pos(), 0);
+    m_flame_light->draw(context.light(), get_pos(), m_layer);
   }
 
-  m_torch->draw(context.color(), get_pos(), LAYER_TILES - 1);
+  m_torch->draw(context.color(), get_pos(), m_layer - 1);
 
   if (m_burning)
   {
-    m_flame_glow->draw(context.color(), get_pos(), LAYER_TILES - 1);
+    m_flame_glow->draw(context.color(), get_pos(), m_layer - 1);
   }
 }
 
@@ -87,8 +88,9 @@ Torch::get_settings()
 
   result.add_bool(_("Burning"), &m_burning, "burning", true);
   result.add_sprite(_("Sprite"), &sprite_name, "sprite", std::string("images/objects/torch/torch1.sprite"));
+  result.add_int(_("Layer"), &m_layer, "layer", 0);
 
-  result.reorder({"sprite", "x", "y"});
+  result.reorder({"sprite", "layer", "x", "y"});
 
   return result;
 }
