@@ -316,7 +316,7 @@ GameSession::update(float dt_sec, const Controller& controller)
   {
     if (!MenuManager::instance().is_active())
     {
-      m_game_pause = true;
+      toggle_pause();
       MenuManager::instance().set_menu(MenuStorage::CHEAT_MENU);
     }
   }
@@ -325,7 +325,7 @@ GameSession::update(float dt_sec, const Controller& controller)
   {
     if (!MenuManager::instance().is_active())
     {
-      m_game_pause = true;
+      toggle_pause();
       MenuManager::instance().set_menu(MenuStorage::DEBUG_MENU);
     }
   }
