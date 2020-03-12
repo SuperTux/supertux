@@ -29,7 +29,8 @@ Spotlight::Spotlight(const ReaderMapping& mapping) :
   lightcone(SpriteManager::current()->create("images/objects/spotlight/lightcone.sprite")),
   color(1.0f, 1.0f, 1.0f),
   speed(50.0f),
-  counter_clockwise()
+  counter_clockwise(),
+  m_layer(0)
 {
   m_col.m_group = COLGROUP_DISABLED;
 

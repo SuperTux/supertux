@@ -30,7 +30,8 @@ Torch::Torch(const ReaderMapping& reader) :
   m_flame_glow(SpriteManager::current()->create("images/objects/torch/flame_glow.sprite")),
   m_flame_light(SpriteManager::current()->create("images/objects/torch/flame_light.sprite")),
   m_burning(true),
-  sprite_name("images/objects/torch/torch1.sprite")
+  sprite_name("images/objects/torch/torch1.sprite"),
+  m_layer(0)
 {
   reader.get("x", m_col.m_bbox.get_left());
   reader.get("y", m_col.m_bbox.get_top());
