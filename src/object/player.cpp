@@ -1785,7 +1785,11 @@ Player::get_velocity() const
 void
 Player::bounce(BadGuy& )
 {
-  if (!(m_player_status.bonus == AIR_BONUS))
+  if (m_swimming)
+  {
+    m_physic.set_velocity(m_physic.get_velocity() * -0.5f);
+  }
+  else if (!(m_player_status.bonus == AIR_BONUS))
     m_physic.set_velocity_y(m_controller->hold(Control::JUMP) ? -520.0f : -300.0f);
   else {
     m_physic.set_velocity_y(m_controller->hold(Control::JUMP) ? -580.0f : -340.0f);

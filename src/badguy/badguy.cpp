@@ -391,6 +391,11 @@ BadGuy::collision_player(Player& player, const CollisionHit& )
     kill_fall();
     return ABORT_MOVE;
   }
+  if (player.is_swimboosting())
+  {
+    if(collision_squished(player))
+      return ABORT_MOVE;
+  }
   if(player.get_grabbed_object() != nullptr)
   {
       auto badguy = dynamic_cast<BadGuy*>(player.get_grabbed_object());
@@ -432,7 +437,7 @@ BadGuy::collision_squished(GameObject& object)
       return true;
     }
   }
-    return false;
+  return false;
 }
 
 HitResponse
