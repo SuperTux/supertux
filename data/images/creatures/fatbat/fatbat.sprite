@@ -17,10 +17,15 @@
   )
 
   (action
-    (name "squished")
+    (name "squished-left")
     (hitbox 0 0 32 32)
     (images "squished.png")
    )
+  (action
+    (name "squished-right")
+    (hitbox 0 0 32 32)
+    (mirror-action "squished-left")
+  )
   (action
     (name "burning-left")
     (fps 15)
