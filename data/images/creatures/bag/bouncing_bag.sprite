@@ -1,26 +1,30 @@
 (supertux-sprite
- (action
-  (name "left")
-  (hitbox 1 0 31.8 31.8)
-  (images "bag-bounce-0.png")
-  (images "bag-bounce-1.png")
-  (images "bag-bounce-2.png")
-  (images "bag-bounce-3.png")
-  (images "bag-bounce-4.png")
-)
-
- (action
-  (name "right")
-  (hitbox 1 0 31.8 31.8)
-  (mirror-action "left"))
-
- (action
-  (name "squished-left")
-  (hitbox 1 -19 31.8 31.8)
-  (images "../bag/bag-squished.png"))
+  (action
+    (name "left")
+    (fps 20)
+    (hitbox 16 7 32 32)
+    (images "bag-bounce-0.png"
+            "bag-bounce-1.png"
+            "bag-bounce-2.png"
+            "bag-bounce-3.png"
+            "bag-bounce-4.png"
+   )
+  )
+  (action
+    (name "right")
+    (fps 20)
+    (hitbox 16 7 32 32)
+    (mirror-action "left")
+  )
 
   (action
+    (name "squished-left")
+    (hitbox 0 0 32 32)
+    (images "bag-squished.png")
+   )
+  (action
     (name "squished-right")
-    (hitbox 1 -19 31.8 31.8)
-    (mirror-action "squished-left"))
+    (hitbox 0 0 32 32)
+    (mirror-action "squished-left")
+  )
 )
