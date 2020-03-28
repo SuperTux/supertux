@@ -177,10 +177,9 @@ GameObjectManager::flush_game_objects()
 
   { // update solid_tilemaps list
     m_solid_tilemaps.clear();
-    for (const auto& obj : m_gameobjects)
+    for (auto tilemap : get_objects_by_type_index(typeid(TileMap)))
     {
-      const auto& tm = dynamic_cast<TileMap*>(obj.get());
-      if (!tm) continue;
+      TileMap* tm = static_cast<TileMap*>(tilemap);
       if (tm->is_solid()) m_solid_tilemaps.push_back(tm);
     }
   }
