@@ -50,6 +50,8 @@ private:
 
   TransferStatusPtr m_transfer_status;
 
+  std::map<std::string, std::string> m_enabled_addon_paths; 
+
 public:
   AddonManager(const std::string& addon_directory,
                std::vector<Config::Addon>& addon_config);
@@ -62,6 +64,10 @@ public:
 
   std::vector<AddonId> get_repository_addons() const;
   std::vector<AddonId> get_installed_addons() const;
+  std::map<std::string, std::string> get_enabled_addon_paths() const
+  {
+    return m_enabled_addon_paths;
+  }
 
   Addon& get_repository_addon(const AddonId& addon) const;
   Addon& get_installed_addon(const AddonId& addon) const;

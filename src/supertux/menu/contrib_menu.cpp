@@ -19,6 +19,7 @@
 #include <physfs.h>
 #include <sstream>
 
+#include "addon/addon_manager.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
 #include "physfs/util.hpp"
@@ -37,6 +38,15 @@ ContribMenu::ContribMenu() :
 {
   // Generating contrib levels list by making use of Level Subset
   std::vector<std::string> level_worlds;
+  for(const auto& addon_path: AddonManager::current()->get_enabled_addon_paths())
+  {
+    log_warning << addon_path.second << std::endl;
+    if (PHYSFS_mount(addon_path.second.c_str(), "", 0) == 0)
+    {
+      log_warning << "Could not add " << addon_path.second << " to search path: "
+                  << PHYSFS_getLastErrorCode() << std::endl;
+    }
+  }
 
   std::unique_ptr<char*, decltype(&PHYSFS_freeList)>
     files(PHYSFS_enumerateFiles("levels"),
@@ -92,6 +102,7 @@ ContribMenu::ContribMenu() :
       std::unique_ptr<World> world = World::from_directory(*it);
       if (!world->hide_from_contribs())
       {
+        log_warning << "Savegame filename: " << world->get_savegame_filename() << std::endl;
         auto savegame = Savegame::from_file(world->get_savegame_filename());
 
         if (world->is_levelset())
@@ -130,6 +141,7 @@ ContribMenu::ContribMenu() :
           int level_count = 0;
           int solved_count = 0;
 
+          log_warning << "Worldmap filename " << world->get_worldmap_filename() << std::endl;
           const auto& state = savegame->get_worldmap_state(world->get_worldmap_filename());
           for (const auto& level_state : state.level_states)
           {
@@ -170,6 +182,15 @@ ContribMenu::ContribMenu() :
 
   add_hl();
   add_back(_("Back"));
+  for(const auto& addon_path: AddonManager::current()->get_enabled_addon_paths())
+  {
+    log_warning << addon_path.second << std::endl;
+    if (PHYSFS_unmount(addon_path.second.c_str()) == 0)
+    {
+      log_warning << "Could not unmount " << addon_path.second << " to search path: "
+                  << PHYSFS_getLastErrorCode() << std::endl;
+    }
+  }
 }
 
 void

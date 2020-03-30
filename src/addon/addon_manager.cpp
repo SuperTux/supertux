@@ -140,7 +140,8 @@ AddonManager::AddonManager(const std::string& addon_directory,
   m_installed_addons(),
   m_repository_addons(),
   m_has_been_updated(false),
-  m_transfer_status()
+  m_transfer_status(),
+  m_enabled_addon_paths()
 {
   if (!PHYSFS_mkdir(m_addon_directory.c_str()))
   {
@@ -433,6 +434,7 @@ AddonManager::enable_addon(const AddonId& addon_id)
   else
   {
     log_debug << "Adding archive \"" << addon.get_install_filename() << "\" to search path" << std::endl;
+    m_enabled_addon_paths[addon_id] = addon.get_install_filename();
     //int PHYSFS_mount(addon.installed_install_filename.c_str(), "addons/", 0)
 
     // std::string mountpoint;
@@ -472,6 +474,7 @@ AddonManager::disable_addon(const AddonId& addon_id)
   }
   else
   {
+    m_enabled_addon_paths[addon_id] = nullptr;
     // log_debug << "Removing archive \"" << addon.get_install_filename() << "\" from search path" << std::endl;
     // if (PHYSFS_unmount(addon.get_install_filename().c_str()) == 0)
     // {

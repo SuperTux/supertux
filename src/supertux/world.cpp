@@ -37,11 +37,6 @@ World::from_directory(const std::string& directory)
 
   try
   {
-    if(PHYSFS_mount(directory.c_str(), "", 0) == 0)
-    {
-      log_warning << "Failed to add add-on directory to PHYSFS search path" << std::endl;
-    }
-
     register_translation_directory(info_filename);
     auto doc = ReaderDocument::from_file(info_filename);
     auto root = doc.get_root();
@@ -115,18 +110,10 @@ World::World(const std::string& directory) :
   m_basedir(directory),
   m_hide_from_contribs(false)
 {
-  if(PHYSFS_mount(m_basedir.c_str(), "", 0) == 0)
-  {
-    log_warning << "Failed to add add-on directory to PHYSFS search path" << std::endl;
-  }
 }
 
 World::~World()
 {
-  if (PHYSFS_unmount(m_basedir.c_str()) == 0)
-  {
-    log_warning << "Failed to remove add-on directory from PHYSFS search path" << std::endl;
-  }
 }
 
 void
