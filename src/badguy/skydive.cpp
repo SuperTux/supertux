@@ -18,6 +18,7 @@
 
 #include "object/explosion.hpp"
 #include "object/player.hpp"
+#include "sprite/sprite.hpp"
 #include "supertux/constants.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/tile.hpp"
@@ -70,6 +71,8 @@ void
 SkyDive::ungrab(MovingObject& , Direction)
 {
   is_grabbed = false;
+  
+  m_sprite->set_action("falling", 1);
 
   m_physic.set_velocity_y(0);
   m_physic.set_acceleration_y(0);
@@ -118,6 +121,12 @@ SkyDive::active_update(float dt_sec)
 }
 
 void
+SkyDive::kill_fall()
+{
+  explode();
+}
+
+void
 SkyDive::explode()
 {
   if (!is_valid())
@@ -126,7 +135,7 @@ SkyDive::explode()
   auto& explosion = Sector::get().add<Explosion>(get_anchor_pos(m_col.m_bbox, ANCHOR_BOTTOM));
 
   explosion.hurts(true);
-  explosion.pushes(false);
+  explosion.pushes(true);
 
   remove_me();
 }
