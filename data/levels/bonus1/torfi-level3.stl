@@ -120,8 +120,8 @@
     )
     (spawnpoint
       (name "main")
-      (x 100)
-      (y 522)
+      (x 96)
+      (y 512)
     )
     (stalactite
       (x 1057)

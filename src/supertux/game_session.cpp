@@ -166,7 +166,11 @@ GameSession::on_escape_press()
     return;   // don't let the player open the menu, when Tux is dying
   }
 
-  toggle_pause();
+  if (!m_level->m_suppress_pause_menu) {
+    toggle_pause();
+  } else {
+	  abort_level();
+  }
 }
 
 void
@@ -312,7 +316,7 @@ GameSession::update(float dt_sec, const Controller& controller)
   {
     if (!MenuManager::instance().is_active())
     {
-      m_game_pause = true;
+      toggle_pause();
       MenuManager::instance().set_menu(MenuStorage::CHEAT_MENU);
     }
   }
@@ -321,7 +325,7 @@ GameSession::update(float dt_sec, const Controller& controller)
   {
     if (!MenuManager::instance().is_active())
     {
-      m_game_pause = true;
+      toggle_pause();
       MenuManager::instance().set_menu(MenuStorage::DEBUG_MENU);
     }
   }
@@ -542,7 +546,7 @@ GameSession::drawstatus(DrawingContext& context)
 {
   // draw level stats while end_sequence is running
   if (m_end_sequence) {
-    m_level->m_stats.draw_endseq_panel(context, m_best_level_statistics, m_statistics_backdrop);
+    m_level->m_stats.draw_endseq_panel(context, m_best_level_statistics, m_statistics_backdrop, m_level->m_target_time);
   }
 }
 

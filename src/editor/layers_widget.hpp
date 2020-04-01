@@ -21,6 +21,7 @@
 
 #include "control/input_manager.hpp"
 #include "editor/widget.hpp"
+#include "object/tilemap.hpp"
 #include "supertux/screen.hpp"
 
 class DrawingContext;
@@ -58,7 +59,7 @@ public:
   void sort_layers();
   void add_layer(GameObject* layer);
 
-  GameObject* get_selected_tilemap() const { return m_selected_tilemap; }
+  TileMap* get_selected_tilemap() const { return m_selected_tilemap; }
 
 private:
   Vector get_layer_coords(const int pos) const;
@@ -68,7 +69,7 @@ private:
 private:
   Editor& m_editor;
   std::vector<std::unique_ptr<LayerIcon>> m_layer_icons;
-  GameObject* m_selected_tilemap;
+  TileMap* m_selected_tilemap;
 
   int m_Ypos;
   const int m_Xpos = 32;

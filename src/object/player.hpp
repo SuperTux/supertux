@@ -108,7 +108,7 @@ public:
   void do_duck();
 
   /** stand back up if possible. */
-  void do_standup();
+  void do_standup(bool force_standup);
 
   /** do a backflip if possible. */
   void do_backflip();

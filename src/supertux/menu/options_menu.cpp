@@ -23,11 +23,10 @@
 #include "gui/item_toggle.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
-#include "supertux/game_session.hpp"
 #include "supertux/gameconfig.hpp"
+#include "supertux/game_session.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/menu/menu_storage.hpp"
-#include "supertux/screen_manager.hpp"
 #include "util/gettext.hpp"
 #include "util/log.hpp"
 #include "video/renderer.hpp"
@@ -56,7 +55,6 @@ enum OptionsMenuIDs {
   MNID_MAGNIFICATION,
   MNID_ASPECTRATIO,
   MNID_VSYNC,
-  MNID_FRAMERATE,
   MNID_SOUND,
   MNID_MUSIC,
   MNID_SOUND_VOLUME,
@@ -74,7 +72,6 @@ OptionsMenu::OptionsMenu(bool complete) :
   next_window_resolution(0),
   next_resolution(0),
   next_vsync(0),
-  next_framerate(0),
   next_sound_volume(0),
   next_music_volume(0),
   magnifications(),
@@ -82,7 +79,6 @@ OptionsMenu::OptionsMenu(bool complete) :
   window_resolutions(),
   resolutions(),
   vsyncs(),
-  framerates(),
   sound_volumes(),
   music_volumes()
 {
@@ -236,26 +232,6 @@ OptionsMenu::OptionsMenu(bool complete) :
     resolutions.push_back(fullscreen_size_str);
   }
 
-  framerates.push_back("30");
-  framerates.push_back("60");
-  framerates.push_back("75");
-  framerates.push_back("90");
-  framerates.push_back("120");
-  framerates.push_back("144");
-  framerates.push_back("240");
-  framerates.push_back("288");
-  framerates.push_back("500");
-  framerates.push_back("1000");
-  next_framerate = 1;
-  const int target_framerate = static_cast<int>(ScreenManager::current()->get_target_framerate());
-  for (size_t i = 0; i < framerates.size(); ++i)
-  {
-    if (std::to_string(target_framerate) == framerates[i])
-    {
-      next_framerate = static_cast<int>(i);
-    }
-  }
-
   { // vsync
     vsyncs.push_back("on");
     vsyncs.push_back("off");
@@ -381,12 +357,6 @@ OptionsMenu::OptionsMenu(bool complete) :
   MenuItem& vsync = add_string_select(MNID_VSYNC, _("VSync"), &next_vsync, vsyncs);
   vsync.set_help(_("Set the VSync mode"));
 
-  if (g_config->developer_mode) {
-    MenuItem& framerate = add_string_select(MNID_FRAMERATE, _("Framerate"), &next_framerate, framerates);
-    framerate.set_help(_("Change the maximum framerate of the game, "
-      "ignored when vsync is enabled"));
-  }
-
   MenuItem& aspect = add_string_select(MNID_ASPECTRATIO, _("Aspect Ratio"), &next_aspect_ratio, aspect_ratios);
   aspect.set_help(_("Adjust the aspect ratio"));
 
@@ -428,7 +398,7 @@ OptionsMenu::OptionsMenu(bool complete) :
     add_toggle(MNID_CHRISTMAS_MODE, _("Christmas Mode"), &g_config->christmas_mode);
   }
 
-  add_toggle(MNID_CONFIRMATION_DIALOG, _("Confirmation Dialog"), &g_config->confirmation_dialog).set_help("Confirm aborting level");
+  add_toggle(MNID_CONFIRMATION_DIALOG, _("Confirmation Dialog"), &g_config->confirmation_dialog).set_help(_("Confirm aborting level"));
   add_toggle(MNID_CONFIRMATION_DIALOG, _("Pause on focus loss"), &g_config->pause_on_focusloss)
     .set_help("Automatically pause the game when the window loses focus");
   add_hl();
@@ -529,10 +499,6 @@ OptionsMenu::menu_action(MenuItem& item)
             g_config->fullscreen_refresh_rate = 0;
         }
       }
-      break;
-
-    case MNID_FRAMERATE:
-      ScreenManager::current()->set_target_framerate(std::stof(framerates[next_framerate]));
       break;
 
     case MNID_VSYNC:

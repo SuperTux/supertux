@@ -298,7 +298,7 @@
     (secretarea
       (width 264)
       (height 220)
-      (x 4916)
+      (x 4928)
       (y 256)
     )
     (secretarea
@@ -518,7 +518,7 @@
     (spawnpoint
       (name "main")
       (x 416)
-      (y 832)
+      (y 800)
     )
     (tilemap
       (solid #f)
@@ -866,7 +866,7 @@
     )
     (torch
       (sprite "images/objects/torch/torch2.sprite")
-      (x 4944)
+      (x 4928)
       (y 320)
     )
     (torch

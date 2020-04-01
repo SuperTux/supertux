@@ -37,7 +37,7 @@ public:
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
   virtual std::string get_class() const override { return "walking_candle"; }
-  virtual std::string get_display_name() const override { return _("Mr. Candle"); }
+  virtual std::string get_display_name() const override { return _("Walking Candle"); }
 
 private:
   Color lightcolor;

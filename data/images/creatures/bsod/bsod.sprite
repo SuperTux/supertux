@@ -1,0 +1,34 @@
+(supertux-sprite
+  (action
+    (name "left")
+    (hitbox 3 4 32 32)
+    (images "bsod-0.png"
+            "bsod-1.png"
+            "bsod-2.png"
+            "bsod-3.png"
+            "bsod-4.png"
+            "bsod-5.png"
+            "bsod-6.png"
+            "bsod-7.png")
+  )
+  (action
+    (name "default")
+    (hitbox 3 4 32 32)
+    (mirror-action "left")
+  )
+  (action
+    (name "right")
+    (hitbox 3 4 32 32)
+    (mirror-action "left")
+  )
+  (action
+    (name "squished-left")
+    (hitbox 1 -19 31.8 31.8)
+    (images "bsod-squished.png")
+  )
+  (action
+    (name "squished-right")
+    (hitbox 1 -19 31.8 31.8)
+    (mirror-action "squished-left")
+  )
+)

@@ -364,7 +364,7 @@
       (y 868)
     )
     (music
-      (file "/music/bonuscave.ogg")
+      (file "/music/misc/bonuscave.ogg")
     )
     (spawnpoint
       (name "main")

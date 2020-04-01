@@ -33,7 +33,7 @@ public:
   SecretAreaTrigger(const Rectf& area, const std::string& fade_tilemap = "");
 
   virtual std::string get_class() const override { return "secretarea"; }
-  virtual std::string get_display_name() const override { return _("Secret area"); }
+  virtual std::string get_display_name() const override { return _("Secret Area"); }
   virtual bool has_variable_size() const override { return true; }
 
   virtual ObjectSettings get_settings() override;

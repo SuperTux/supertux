@@ -1,15 +1,15 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# Myeongjin <aranet100@gmail.com>, 2016
+# Myeongjin <aranet100@gmail.com>, 2016-2017
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-05 20:42+0200\n"
-"PO-Revision-Date: 2016-09-07 11:41+0000\n"
+"Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
+"POT-Creation-Date: 2018-11-05 23:45+0100\n"
+"PO-Revision-Date: 2017-09-20 13:21+0000\n"
 "Last-Translator: Myeongjin <aranet100@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/arctic-games/supertux/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "Angry Stone vs. YOU"
 msgstr "화난 돌 vs. 너"
 
-#: data/levels/incubator/Angry Stone vs. YOU.stl:308
+#: data/levels/incubator/Angry Stone vs. YOU.stl:307
 msgid ""
 "#You activate switches with this button:\n"
 "!images/tiles/signs/up.png"
@@ -36,11 +36,11 @@ msgstr "성 #1"
 msgid "Missingno"
 msgstr "미싱노"
 
-#: data/levels/incubator/Missingno.stl:535
+#: data/levels/incubator/Missingno.stl:534
 msgid "#Be patient!"
 msgstr "#서두르지 마!"
 
-#: data/levels/incubator/Missingno.stl:540
+#: data/levels/incubator/Missingno.stl:539
 msgid ""
 "#Dont move while flying!\n"
 "#Pay attention at landing!"
@@ -70,7 +70,7 @@ msgstr "전기 목재 공장"
 msgid "Nice Ice"
 msgstr "좋은 얼음"
 
-#: data/levels/incubator/Nice Ice.stl:89
+#: data/levels/incubator/Nice Ice.stl:86
 msgid "#Use the enemy to finish this level!"
 msgstr "#이 레벨을 마치려면 적을 사용하세요!"
 
@@ -114,13 +114,13 @@ msgstr "산에서"
 msgid "Into the Dark"
 msgstr "어둠 속으로"
 
-#: data/levels/incubator/into_dark.stl:224
+#: data/levels/incubator/into_dark.stl:210
 msgid ""
 "-Hint:\n"
 "#Use the fireflower to melt a path through the ice."
-msgstr "-힌트:\n#얼음을 통해 길을 녹이려면 불꽃을 사용하세요."
+msgstr "-힌트:\n#얼음을 통한 길을 녹이려면 불꽃을 사용하세요."
 
-#: data/levels/incubator/into_dark.stl:230
+#: data/levels/incubator/into_dark.stl:216
 msgid "#Beware of fire!"
 msgstr "#불 조심해!"
 
@@ -132,7 +132,7 @@ msgstr "들쭉날쭉 길"
 msgid "Let us snow!"
 msgstr "눈과 놀자!"
 
-#: data/levels/incubator/let_us_snow.stl:205
+#: data/levels/incubator/let_us_snow.stl:204
 msgid ""
 "-Warning!\n"
 "#Beware the falling enemies!"
@@ -142,7 +142,7 @@ msgstr "-경고!\n#타락한 적들을 조심해!"
 msgid "A long adventure"
 msgstr "긴 모험"
 
-#: data/levels/incubator/long.stl:1579
+#: data/levels/incubator/long.stl:1525
 msgid ""
 "#Until this moment you have luck.\n"
 "#The way here was hard.\n"
@@ -153,13 +153,13 @@ msgid ""
 "#I hope you understood."
 msgstr "#이 순간까지 당신은 운이 좋았습니다.\n#이곳 길은 어려웠습니다.\n#여전히 갈 길이 멉니다.\n#당신은 잘 알아야 합니다.\n#심지어 지금도 실패하지 않아야 합니다.\n#이제 축 아래로 가세요.\n#당신이 알아듣기를 바랍니다."
 
-#: data/levels/incubator/long.stl:3997
+#: data/levels/incubator/long.stl:3937
 msgid ""
 "-Congratulations!\n"
 "#You are in half the level! "
 msgstr "-축하합니다!\n#레벨의 절반에 있습니다!"
 
-#: data/levels/incubator/long.stl:4549
+#: data/levels/incubator/long.stl:4485
 msgid "-You are going wrong!"
 msgstr "-잘못 가고 있습니다!"
 

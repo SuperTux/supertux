@@ -1,17 +1,18 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
 #  <email4marko@gmail.com>, 2006
 # Gorzy Gorup <gorupgorazd@gmail.com>, 2016
+# Gorzy Gorup <gorupgorazd@gmail.com>, 2019
 # Marko Burjek <email4marko@gmail.com>, 2006-2007
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-04 15:35+0200\n"
-"PO-Revision-Date: 2016-04-10 13:50+0000\n"
+"Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
+"POT-Creation-Date: 2018-11-05 23:45+0100\n"
+"PO-Revision-Date: 2019-11-26 21:05+0000\n"
 "Last-Translator: Gorzy Gorup <gorupgorazd@gmail.com>\n"
 "Language-Team: Slovenian (http://www.transifex.com/arctic-games/supertux/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -49,7 +50,7 @@ msgid ""
 "\n"
 "\n"
 " The end of the ice age is near..."
-msgstr "-Čestitke!\n\n#Uspelo ti je priti čez Bonus Otok II\n\n\n⇥stopnje so prispevali\n⇥Kevin\n⇥Jason Kleinemas\n⇥Denilson\n⇥Tobe Deprez\n⇥Big C\n⇥Thomas Nilsen\n⇥Torfi Gunnarsson\n⇥Daniel Alston\n⇥Nilrok\n⇥Corlin Heydman\n\n#Znova bi se radi zahvalili vsem,\n#ki so prispevali za to izdajo.\n#Upamo, da si užival v njej\n#in da ti je olajšala čakanje\n#na tretji mejnik. :-)\n\n\nKonec ledene dobe se bliža..."
+msgstr "-Čestitke!\n\n#Uspelo ti je priti čez Bonus Otok II\n\n\n\tstopnje so prispevali\n\tKevin\n\tJason Kleinemas\n\tDenilson\n\tTobe Deprez\n\tBig C\n\tThomas Nilsen\n\tTorfi Gunnarsson\n\tDaniel Alston\n\tNilrok\n\tCorlin Heydman\n\n#Znova bi se radi zahvalili vsem,\n#ki so prispevali za to izdajo.\n#Upamo, da si užival/a v njej\n#in da ti je olajšala čakanje\n#na 3. mejnik. :-)\n\n\nKonec ledene dobe se bliža..."
 
 #: data/levels/bonus2/level1.stl:3
 msgid "Mario's Supposed to Deal With This..."
@@ -73,7 +74,7 @@ msgstr "snarf"
 
 #: data/levels/bonus2/level14.stl:3
 msgid "On The Road Again"
-msgstr "Spet na poti"
+msgstr "Pot pod noge"
 
 #: data/levels/bonus2/level15.stl:3
 msgid "Frozen Tunnel"
@@ -89,7 +90,7 @@ msgstr "....Kjer je vse mogoče"
 
 #: data/levels/bonus2/level18.stl:3
 msgid "Insert Original Title Here"
-msgstr "Tukaj vstavite izviren naslov"
+msgstr "Izviren naslov"
 
 #: data/levels/bonus2/level19.stl:3
 msgid "End Of The Ice Age"
@@ -97,7 +98,7 @@ msgstr "Konec ledene dobe"
 
 #: data/levels/bonus2/level2.stl:3
 msgid "Think Fast, or Die"
-msgstr "Hitro razmišljaj, ali umri"
+msgstr "Hitro razmišljaj ali umri"
 
 #: data/levels/bonus2/level20.stl:3
 msgid "Fan Fortress"
@@ -113,7 +114,7 @@ msgstr "Vodnate poti"
 
 #: data/levels/bonus2/level23.stl:3
 msgid "All That Glistens Is Not Gold"
-msgstr "Ni vse zlato kar se sveti"
+msgstr "Ni vse zlato, kar se sveti"
 
 #: data/levels/bonus2/level24.stl:3
 msgid "A Cold Day"
@@ -153,7 +154,7 @@ msgstr "Pot med oblaki"
 
 #: data/levels/bonus2/level7.stl:3
 msgid "In Flanders Ice Field"
-msgstr "Na Flandrijskem polju ledu"
+msgstr "Poledenela Flandrijska polja"
 
 #: data/levels/bonus2/level8.stl:3
 msgid "Castle in the Sky"
@@ -169,11 +170,11 @@ msgstr "Bonus Otok II"
 
 #: data/levels/bonus2/worldmap.stwm:12 data/levels/bonus2/worldmap.stwm:20
 msgid "You found a secret place!"
-msgstr "Našel si skrito območje!"
+msgstr "Našel/a si skrito območje!"
 
 #: data/levels/bonus2/worldmap.stwm:29
 msgid "I wonder where that path leads to..."
-msgstr "Zanima me, kam pelje ta pot..."
+msgstr "Le kam pelje ta pot?"
 
 #: data/levels/bonus2/worldmap.stwm:36
 msgid "Warp home..."

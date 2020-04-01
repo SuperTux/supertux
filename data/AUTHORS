@@ -6,6 +6,8 @@ Most images were created either by grumbel or gwater. Check the log for details.
 * images/background/block-snow-*.png - Jason Lavallée, dual-licensed: GPL version 2 or later and CC-BY-SA
 * images/background/cloud-mountains-*.png - Jason Lavallée, dual-licensed: GPL version 2 or later and CC-BY-SA
 * images/background/darkcave*.png - Jason Lavallée, dual-licensed: GPL version 2 or later and CC-BY-SA
+* images/background/dawn_hill_para_blur.png - Daniel W, Romero Nickerson, dual-licensed: GPL version 2 or later and CC-BY-SA
+* images/background/ghostforest_grave.png - jkjkke - https://opengameart.org/content/background-6, edited, licensed under CC-BY 3.0
 * images/objects/explosion/explosion*.png - Bleed - http://remusprites.carbonmade.com/ licensed under CC-BY 3.0, see https://opengameart.org/content/simple-explosion-bleeds-game-art
 
 == Levels ==
@@ -32,6 +34,7 @@ All files in data/music created by wansti and licensed under GPLv2+CC-by-sa, unl
 * bossattack.ogg
 * bright_thunders.ogg - by Krobonil, licensed under CC-BY-SA
 * cave.ogg
+* call_of_the_winding_path.ogg - Jason Lavallée, dual-licensed: GPL version 2 or later and CC-BY-SA
 * chipdisko.ogg - Mortimer's Chipdisko by Lukas Nystrand as Mortimer Twang - explicit permission granted to release unter GPL and CC-by-sa.
 * clavelian_march.ogg
 * credits.ogg
@@ -50,9 +53,10 @@ All files in data/music created by wansti and licensed under GPLv2+CC-by-sa, unl
 * greatgigantic.ogg - Based on a work by Chris Huelsbeck - We have his permission to release this under GPL.
 * shallow-green.ogg - Jason Lavallée, dual-licensed: GPL version 2 or later and CC-BY-SA
 * halloween_1.ogg - By Forty-Two - licensed under CC-BY-SA 4.0
+* ice_music.ogg - By ZhayTee
 * intro.ogg
 * invincible.ogg
-* jasons_chipdisco_arctic_breeze.ogg - Jason Lavallée, dual-licensed: GPL version 2 or later and CC-BY-SA
+* arctic_breeze.ogg - Jason Lavallée, dual-licensed: GPL version 2 or later and CC-BY-SA
 * jewels.ogg - By cynicmusic/congusbongus - <http://opengameart.org/content/crystal-cave-mysterious-ambience-seamless-loop> - CC-BY 3.0/CC-BY-SA 3.0/GPL 3.0
 * leveldone.ogg
 * new_forest_map.ogg - Jason Lavallée, dual-licensed: GPL version 2 or later and CC-BY-SA
@@ -60,7 +64,9 @@ All files in data/music created by wansti and licensed under GPLv2+CC-by-sa, unl
     by a work-in-progress remix in trunk and the 0.3.x branch (r4585), for which we have permission to release under GPL and CC-by-sa. - wansti
 * theme.ogg
 * treeboss.ogg
+* tropicalbreeze.ogg - by flan, licensed CC-BY-SA 4.0
 * wisphunt.ogg
+* worldmap_old.ogg - By ZhayTee
 * voc-***.ogg
 
 == Scripts ==

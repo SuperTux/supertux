@@ -29,7 +29,7 @@ public:
   virtual void active_update(float dt_sec) override;
   virtual void collision_solid(const CollisionHit& hit) override;
   virtual std::string get_class() const override { return "flyingsnowball"; }
-  virtual std::string get_display_name() const override { return _("Flying snowball"); }
+  virtual std::string get_display_name() const override { return _("Flying Snowball"); }
 
 protected:
   virtual bool collision_squished(GameObject& object) override;

@@ -233,11 +233,16 @@ public:
 		userdir = PHYSFS_getPrefDir("SuperTux","supertux2");
     }
 	//Kept for backwards-compatability only, hence the silence
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#ifdef __GNUC__
+  #pragma GCC diagnostic push
+  #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#endif
 	std::string physfs_userdir = PHYSFS_getUserDir();
-#pragma GCC diagnostic pop
+#ifdef __GNUC__
+  #pragma GCC diagnostic pop
+#endif
 
+#ifndef __HAIKU__
 #ifdef _WIN32
 	std::string olduserdir = FileSystem::join(physfs_userdir, PACKAGE_NAME);
 #else
@@ -278,6 +283,7 @@ public:
 	    log_info << "Moved old config dir " << olduserdir << " to " << userdir << std::endl;
 	  }
 	}
+#endif
 
     if (!FileSystem::is_directory(userdir))
     {

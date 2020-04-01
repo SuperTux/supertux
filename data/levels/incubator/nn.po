@@ -1,6 +1,6 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
 # Karl Ove Hufthammer <karl@huftis.org>, 2013-2016
@@ -8,9 +8,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-05 20:42+0200\n"
-"PO-Revision-Date: 2016-09-18 13:13+0000\n"
+"Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
+"POT-Creation-Date: 2018-11-05 23:45+0100\n"
+"PO-Revision-Date: 2019-03-16 15:39+0000\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk (http://www.transifex.com/arctic-games/supertux/language/nn/)\n"
 "MIME-Version: 1.0\n"
@@ -23,7 +23,7 @@ msgstr ""
 msgid "Angry Stone vs. YOU"
 msgstr "Sint stein vs. DEG"
 
-#: data/levels/incubator/Angry Stone vs. YOU.stl:308
+#: data/levels/incubator/Angry Stone vs. YOU.stl:307
 msgid ""
 "#You activate switches with this button:\n"
 "!images/tiles/signs/up.png"
@@ -37,11 +37,11 @@ msgstr "Slott 1"
 msgid "Missingno"
 msgstr "Manglartal"
 
-#: data/levels/incubator/Missingno.stl:535
+#: data/levels/incubator/Missingno.stl:534
 msgid "#Be patient!"
 msgstr "#Ver tolmodig!"
 
-#: data/levels/incubator/Missingno.stl:540
+#: data/levels/incubator/Missingno.stl:539
 msgid ""
 "#Dont move while flying!\n"
 "#Pay attention at landing!"
@@ -71,7 +71,7 @@ msgstr "Elektrisk tre-fabrikk"
 msgid "Nice Ice"
 msgstr "Fin is"
 
-#: data/levels/incubator/Nice Ice.stl:89
+#: data/levels/incubator/Nice Ice.stl:86
 msgid "#Use the enemy to finish this level!"
 msgstr "#Bruk fienden til å fullføra brettet!"
 
@@ -115,13 +115,13 @@ msgstr "På fjellet"
 msgid "Into the Dark"
 msgstr "Inn i mørket"
 
-#: data/levels/incubator/into_dark.stl:224
+#: data/levels/incubator/into_dark.stl:210
 msgid ""
 "-Hint:\n"
 "#Use the fireflower to melt a path through the ice."
 msgstr "-Hint:\n#Bruk eldblomen for å smelta ein sti gjennom isen."
 
-#: data/levels/incubator/into_dark.stl:230
+#: data/levels/incubator/into_dark.stl:216
 msgid "#Beware of fire!"
 msgstr "#Pass deg for elden!"
 
@@ -133,7 +133,7 @@ msgstr "Den ujamne stien"
 msgid "Let us snow!"
 msgstr "La oss snø!"
 
-#: data/levels/incubator/let_us_snow.stl:205
+#: data/levels/incubator/let_us_snow.stl:204
 msgid ""
 "-Warning!\n"
 "#Beware the falling enemies!"
@@ -143,7 +143,7 @@ msgstr "-Åtvaring!\n#Pass deg for fallande fiendar!"
 msgid "A long adventure"
 msgstr "Eit langt eventyr"
 
-#: data/levels/incubator/long.stl:1579
+#: data/levels/incubator/long.stl:1525
 msgid ""
 "#Until this moment you have luck.\n"
 "#The way here was hard.\n"
@@ -154,13 +154,13 @@ msgid ""
 "#I hope you understood."
 msgstr "#Fram til no har du hatt flaks.\n#Vegen fram var tung.\n#Men du har framleis langt att.\n#Ver heilt klar over dette.\n#Du må ikkje mislukkast.\n#Gå ned i sjakta.\n#Eg håpar du forstår."
 
-#: data/levels/incubator/long.stl:3997
+#: data/levels/incubator/long.stl:3937
 msgid ""
 "-Congratulations!\n"
 "#You are in half the level! "
 msgstr "-Gratulerer!\n#Du er halvvegs gjennom brettet! "
 
-#: data/levels/incubator/long.stl:4549
+#: data/levels/incubator/long.stl:4485
 msgid "-You are going wrong!"
 msgstr "-Du går feil!"
 

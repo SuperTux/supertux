@@ -23,7 +23,7 @@
 
 EditorTilegroupMenu::EditorTilegroupMenu()
 {
-  add_label(_("Tilegroups"));
+  add_label(_("Tiles"));
   add_hl();
 
   int id = 0;

@@ -1,0 +1,6 @@
+(supertux-level-subset
+  (title (_ "Bonus Island IV"))
+  (description (_ ""))
+  (levelset #f)
+  (hide-from-contribs #f)
+)

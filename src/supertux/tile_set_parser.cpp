@@ -260,17 +260,17 @@ TileSetParser::parse_tiles(const ReaderMapping& reader)
 
           std::vector<SurfacePtr> regions;
           regions.reserve(surfaces.size());
-          for (const auto& surface : surfaces)
-          {
-            regions.push_back(surface->region(Rect(x, y, Size(32, 32))));
-          }
+          std::transform(surfaces.begin(), surfaces.end(), std::back_inserter(regions),
+              [x, y] (const SurfacePtr& surface) { 
+                return surface->region(Rect(x, y, Size(32, 32)));
+              });
 
           std::vector<SurfacePtr> editor_regions;
           editor_regions.reserve(editor_surfaces.size());
-          for (const auto& surface : editor_surfaces)
-          {
-            editor_regions.push_back(surface->region(Rect(x, y, Size(32, 32))));
-          }
+          std::transform(editor_surfaces.begin(), editor_surfaces.end(), std::back_inserter(editor_regions),
+              [x, y] (const SurfacePtr& surface) { 
+                return surface->region(Rect(x, y, Size(32, 32)));
+              });
 
           auto tile = std::make_unique<Tile>(regions,
                                              editor_regions,

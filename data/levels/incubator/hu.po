@@ -1,6 +1,6 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
 # gyeben <gyonkibendeguz@gmail.com>, 2016
@@ -11,9 +11,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-05 20:42+0200\n"
-"PO-Revision-Date: 2016-08-22 07:34+0000\n"
+"Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
+"POT-Creation-Date: 2018-11-05 23:45+0100\n"
+"PO-Revision-Date: 2017-09-19 19:01+0000\n"
 "Last-Translator: Haba Tamás <habatamas0@gmail.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/arctic-games/supertux/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -26,7 +26,7 @@ msgstr ""
 msgid "Angry Stone vs. YOU"
 msgstr "Dühös kő kontra TE"
 
-#: data/levels/incubator/Angry Stone vs. YOU.stl:308
+#: data/levels/incubator/Angry Stone vs. YOU.stl:307
 msgid ""
 "#You activate switches with this button:\n"
 "!images/tiles/signs/up.png"
@@ -40,11 +40,11 @@ msgstr "1. Kastély"
 msgid "Missingno"
 msgstr "Hiányzó"
 
-#: data/levels/incubator/Missingno.stl:535
+#: data/levels/incubator/Missingno.stl:534
 msgid "#Be patient!"
 msgstr "#Légy türelmes!"
 
-#: data/levels/incubator/Missingno.stl:540
+#: data/levels/incubator/Missingno.stl:539
 msgid ""
 "#Dont move while flying!\n"
 "#Pay attention at landing!"
@@ -74,7 +74,7 @@ msgstr "Elektromos fa gyár"
 msgid "Nice Ice"
 msgstr "Szép Jég"
 
-#: data/levels/incubator/Nice Ice.stl:89
+#: data/levels/incubator/Nice Ice.stl:86
 msgid "#Use the enemy to finish this level!"
 msgstr "#Használd az ellenséget, hogy befejezd ezt a pályát!"
 
@@ -118,13 +118,13 @@ msgstr "A hegyben"
 msgid "Into the Dark"
 msgstr "Irány a sötétség!"
 
-#: data/levels/incubator/into_dark.stl:224
+#: data/levels/incubator/into_dark.stl:210
 msgid ""
 "-Hint:\n"
 "#Use the fireflower to melt a path through the ice."
 msgstr "-Tipp:\n#Használd a tűzvirágot, hogy utat olvassz a jégbe."
 
-#: data/levels/incubator/into_dark.stl:230
+#: data/levels/incubator/into_dark.stl:216
 msgid "#Beware of fire!"
 msgstr "#Vigyázz a tűzzel!"
 
@@ -136,7 +136,7 @@ msgstr "Az egyetlen ösvény"
 msgid "Let us snow!"
 msgstr "Legyen hó!"
 
-#: data/levels/incubator/let_us_snow.stl:205
+#: data/levels/incubator/let_us_snow.stl:204
 msgid ""
 "-Warning!\n"
 "#Beware the falling enemies!"
@@ -146,7 +146,7 @@ msgstr "-Figyelmeztetés!\n#Óvakodj a potyogó ellenségektől!"
 msgid "A long adventure"
 msgstr "Egy hosszú kaland"
 
-#: data/levels/incubator/long.stl:1579
+#: data/levels/incubator/long.stl:1525
 msgid ""
 "#Until this moment you have luck.\n"
 "#The way here was hard.\n"
@@ -157,13 +157,13 @@ msgid ""
 "#I hope you understood."
 msgstr "#Ezidáig szerencséd volt.\n#Nehéz volt az út ide.\n#Még hosszú út áll előtted.\n#Tudnod kell.\n#Most már nem szabad elhibáznod.\n#Most menj le az aknába!\n#Remélem megértetted."
 
-#: data/levels/incubator/long.stl:3997
+#: data/levels/incubator/long.stl:3937
 msgid ""
 "-Congratulations!\n"
 "#You are in half the level! "
 msgstr "-Gratulálunk!\n#A pálya felénél jársz! "
 
-#: data/levels/incubator/long.stl:4549
+#: data/levels/incubator/long.stl:4485
 msgid "-You are going wrong!"
 msgstr "-Rosszul mész!"
 

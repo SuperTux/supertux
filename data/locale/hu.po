@@ -3,7 +3,8 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# Balázs Úr <ur.balazs@fsf.hu>, 2018
+# Andy1210 <andy1210@gmail.com>, 2019
+# Balázs Úr, 2018
 # Benjamin Leduc <giby_the_kid@yahoo.fr>, 2015
 # Levente Krisztián Büte <chris020891@gmail.com>, 2016
 # Baráth Béla <inactive+D._J._S.@transifex.com>, 2015
@@ -21,8 +22,8 @@ msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2018-11-16 00:48+0100\n"
-"PO-Revision-Date: 2018-11-15 23:50+0000\n"
-"Last-Translator: Tobias Markus <tobbi@supertuxproject.org>\n"
+"PO-Revision-Date: 2019-11-24 16:37+0000\n"
+"Last-Translator: Andy1210 <andy1210@gmail.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/arctic-games/supertux/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -64,7 +65,7 @@ msgstr "Magasság"
 
 #: src/trigger/secretarea_trigger.cpp:73
 msgid "Fade tilemap"
-msgstr ""
+msgstr "Elhalványuló csempetérkép"
 
 #: src/trigger/secretarea_trigger.cpp:74 src/trigger/climbable.cpp:76
 #: src/object/infoblock.cpp:56 src/editor/worldmap_objects.cpp:189
@@ -169,7 +170,7 @@ msgstr "Zivatar"
 
 #: src/object/path_gameobject.hpp:52
 msgid "Path"
-msgstr ""
+msgstr "Útvonal"
 
 #: src/object/decal.cpp:43 src/supertux/menu/keyboard_menu.cpp:37
 #: src/supertux/menu/joystick_menu.cpp:74
@@ -197,7 +198,7 @@ msgstr "Gradiens"
 
 #: src/object/tilemap.hpp:53
 msgid "Tilemap"
-msgstr ""
+msgstr "Csempetérkép"
 
 #: src/object/brick.cpp:133
 msgid "Breakable"

@@ -379,7 +379,7 @@ Player::update(float dt_sec)
 
       // if controls are currently deactivated, we take care of standing up ourselves
       if (m_deactivated)
-        do_standup();
+        do_standup(false);
     }
     if (m_player_status.bonus == AIR_BONUS)
       m_ability_time = static_cast<float>(m_player_status.max_air_time) * GLIDE_TIME_PER_FLOWER;
@@ -586,7 +586,7 @@ Player::do_cheer()
 {
   do_duck();
   do_backflip();
-  do_standup();
+  do_standup(false);
 }
 
 void
@@ -607,13 +607,11 @@ Player::do_duck() {
     m_duck = true;
     m_growing = false;
     m_unduck_hurt_timer.stop();
-  } else {
-    // FIXME: what now?
   }
 }
 
 void
-Player::do_standup() {
+Player::do_standup(bool force_standup) {
   if (!m_duck)
     return;
   if (!is_big())
@@ -626,7 +624,7 @@ Player::do_standup() {
   if (adjust_height(BIG_TUX_HEIGHT)) {
     m_duck = false;
     m_unduck_hurt_timer.stop();
-  } else {
+  } else if (force_standup) {
     // if timer is not already running, start it.
     if (m_unduck_hurt_timer.get_period() == 0) {
       m_unduck_hurt_timer.start(UNDUCK_HURT_TIME);
@@ -870,7 +868,7 @@ Player::handle_input()
   if (m_controller->hold(Control::DOWN) && !m_stone) {
     do_duck();
   } else {
-    do_standup();
+    do_standup(false);
   }
 
   /* grabbing */
@@ -1143,7 +1141,6 @@ void
 Player::set_visible(bool visible_)
 {
   m_visible = visible_;
-  set_group(visible_ ? COLGROUP_MOVING : COLGROUP_DISABLED);
 }
 
 bool
@@ -1669,7 +1666,7 @@ Player::start_climbing(Climbable& climbable)
   m_physic.set_acceleration(0, 0);
   if (m_backflipping) {
     stop_backflipping();
-    do_standup();
+    do_standup(true);
   }
 }
 
@@ -1689,9 +1686,12 @@ Player::stop_climbing(Climbable& /*climbable*/)
   m_physic.set_velocity(0, 0);
   m_physic.set_acceleration(0, 0);
 
-  if ((m_controller->hold(Control::JUMP)) || (m_controller->hold(Control::UP))) {
+  if (m_controller->hold(Control::JUMP)) {
     m_on_ground_flag = true;
-    // TODO: This won't help. Why?
+    do_jump(m_player_status.bonus == BonusType::AIR_BONUS ? -540 : -480);
+  }
+  else if (m_controller->hold(Control::UP)) {
+    m_on_ground_flag = true;
     do_jump(-300);
   }
 }

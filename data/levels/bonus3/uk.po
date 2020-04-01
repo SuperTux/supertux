@@ -1,26 +1,27 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
 # Max Lyashuk <m_lyashuk@ukr.net>, 2015
+# Olexandr Nesterenko <nolexndr@gmail.com>, 2019
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-04 15:35+0200\n"
-"PO-Revision-Date: 2016-01-12 08:29+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
+"POT-Creation-Date: 2019-11-24 01:44+0100\n"
+"PO-Revision-Date: 2019-11-24 00:51+0000\n"
+"Last-Translator: Tobias Markus <tobbi@supertuxproject.org>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/arctic-games/supertux/language/uk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: uk\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);\n"
 
 #: data/levels/bonus3/-89-2_degrees.stl:3
-msgid "-89,2 degrees"
-msgstr "-89,2 градусів"
+msgid "-89.2 degrees"
+msgstr "-89.2 градусів"
 
 #: data/levels/bonus3/Global_Warming.stl:3
 msgid "Global Warming"
@@ -46,11 +47,11 @@ msgstr "Антарктичний дощ"
 msgid "...but no one can stop it..."
 msgstr "...але ніхто не може його зупинити..."
 
-#: data/levels/bonus3/but_no_one_can_stop_it.stl:393
+#: data/levels/bonus3/but_no_one_can_stop_it.stl:392
 msgid ""
 "-Sorry, this flying platform is lazy.\n"
 "-Come back another time."
-msgstr ""
+msgstr "-Вибач, але ця платформа стомилась.\n-Приходь іншим часом."
 
 #: data/levels/bonus3/cant_climb_higher_clouds.stl:3
 msgid "You can't climb higher than the clouds..."
@@ -68,7 +69,7 @@ msgstr "Перехід печерею"
 msgid "Cold Cavern"
 msgstr "Холодна печера"
 
-#: data/levels/bonus3/cavern_v2.stl:50
+#: data/levels/bonus3/cavern_v2.stl:47
 msgid ""
 "#Good job! You kept the red lantern! You didn't need to though, but just "
 "because you did, have 100 coins!"
@@ -173,11 +174,11 @@ msgid ""
 "#Press the up key to flush! "
 msgstr ""
 
-#: data/levels/bonus3/niv-3.stl:216
+#: data/levels/bonus3/niv-3.stl:219
 msgid ""
 "- A Way out?\n"
 "#Let's Jump! "
-msgstr ""
+msgstr "- Вихід?\n#Давай стрибнемо! "
 
 #: data/levels/bonus3/over_the_ocean.stl:3
 msgid "My Penny is over the ocean"
@@ -219,14 +220,15 @@ msgstr "Під льодом"
 msgid "Bonus Island III"
 msgstr "Бонусний острів III"
 
-#: data/levels/bonus3/worldmap.stwm:12
+#: data/levels/bonus3/worldmap.stwm:238
 msgid "You found a secret place!"
 msgstr "Ви знайшли сховок!"
 
-#: data/levels/bonus3/worldmap.stwm:20
-msgid "Congratulations... you found the secret pathway!"
-msgstr "Вітаємо... ви знайшли секретний прохід!"
-
-#: data/levels/bonus3/worldmap.stwm:78 data/levels/bonus3/worldmap.stwm:86
+#: data/levels/bonus3/worldmap.stwm:282 data/levels/bonus3/worldmap.stwm:297
+#: data/levels/bonus3/worldmap.stwm:304
 msgid "Go Home"
 msgstr "Повернутись додому"
+
+#: data/levels/bonus3/worldmap.stwm:290
+msgid "Enter Forest Section"
+msgstr ""

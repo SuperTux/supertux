@@ -1,6 +1,6 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
 # Francisco B.G. <inactive+franchulo@transifex.com>, 2015
@@ -9,9 +9,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-05 20:42+0200\n"
-"PO-Revision-Date: 2016-08-16 20:39+0000\n"
+"Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
+"POT-Creation-Date: 2018-11-05 23:45+0100\n"
+"PO-Revision-Date: 2017-09-23 19:08+0000\n"
 "Last-Translator: William Beltrán <wbeltranc@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/arctic-games/supertux/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -24,7 +24,7 @@ msgstr ""
 msgid "Angry Stone vs. YOU"
 msgstr "Piedra Furiosa vs. TÚ"
 
-#: data/levels/incubator/Angry Stone vs. YOU.stl:308
+#: data/levels/incubator/Angry Stone vs. YOU.stl:307
 msgid ""
 "#You activate switches with this button:\n"
 "!images/tiles/signs/up.png"
@@ -38,11 +38,11 @@ msgstr "Castillo #1"
 msgid "Missingno"
 msgstr "Missingno"
 
-#: data/levels/incubator/Missingno.stl:535
+#: data/levels/incubator/Missingno.stl:534
 msgid "#Be patient!"
 msgstr "#¡Sé paciente!"
 
-#: data/levels/incubator/Missingno.stl:540
+#: data/levels/incubator/Missingno.stl:539
 msgid ""
 "#Dont move while flying!\n"
 "#Pay attention at landing!"
@@ -72,7 +72,7 @@ msgstr "Fábrica de Electricidad sobre Madera"
 msgid "Nice Ice"
 msgstr "Hielo Amable"
 
-#: data/levels/incubator/Nice Ice.stl:89
+#: data/levels/incubator/Nice Ice.stl:86
 msgid "#Use the enemy to finish this level!"
 msgstr "#¡Usa al enemigo para terminar este nivel!"
 
@@ -116,13 +116,13 @@ msgstr "En la montaña"
 msgid "Into the Dark"
 msgstr "Entre la Oscuridad"
 
-#: data/levels/incubator/into_dark.stl:224
+#: data/levels/incubator/into_dark.stl:210
 msgid ""
 "-Hint:\n"
 "#Use the fireflower to melt a path through the ice."
 msgstr "-Consejo:\n#Utiliza la flor de fuego para derretir un camino entre el hielo."
 
-#: data/levels/incubator/into_dark.stl:230
+#: data/levels/incubator/into_dark.stl:216
 msgid "#Beware of fire!"
 msgstr "#¡Cuidado con el fuego!"
 
@@ -134,7 +134,7 @@ msgstr "El Camino Dentado"
 msgid "Let us snow!"
 msgstr "¡Avísanos!"
 
-#: data/levels/incubator/let_us_snow.stl:205
+#: data/levels/incubator/let_us_snow.stl:204
 msgid ""
 "-Warning!\n"
 "#Beware the falling enemies!"
@@ -144,7 +144,7 @@ msgstr "-¡Advertencia!\n#¡Ten cuidado con los enemigos que caen!"
 msgid "A long adventure"
 msgstr "Una larga aventura"
 
-#: data/levels/incubator/long.stl:1579
+#: data/levels/incubator/long.stl:1525
 msgid ""
 "#Until this moment you have luck.\n"
 "#The way here was hard.\n"
@@ -155,13 +155,13 @@ msgid ""
 "#I hope you understood."
 msgstr "#Hasta el momento has tenido suerte.\n#El camino ha sido difícil.\n#Todavía te queda mucho camino por delante.\n#Debes saberlo bien.\n#Incluso ahora no debes fallar.\n#Ahora te diriges hacia el pozo.\n#Espero que lo entiendas."
 
-#: data/levels/incubator/long.stl:3997
+#: data/levels/incubator/long.stl:3937
 msgid ""
 "-Congratulations!\n"
 "#You are in half the level! "
 msgstr "-¡Felicitaciones!\n#¡Estas en la mitad del nivel! "
 
-#: data/levels/incubator/long.stl:4549
+#: data/levels/incubator/long.stl:4485
 msgid "-You are going wrong!"
 msgstr "- ¡Vas por mal camino!"
 

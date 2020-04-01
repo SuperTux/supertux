@@ -24,7 +24,8 @@
 class ItemColorChannel final : public MenuItem
 {
 public:
-  ItemColorChannel(float* input_, Color channel_, int id_ = -1);
+  ItemColorChannel(float* input_, Color channel_, int id_ = -1,
+    bool is_linear = false);
 
   /** Draws the menu item. */
   virtual void draw(DrawingContext&, const Vector& pos, int menu_width, bool active) override;
@@ -50,6 +51,7 @@ private:
 
 private:
   float* m_number;
+  bool m_is_linear;
   int m_flickw;
   Color m_channel;
 

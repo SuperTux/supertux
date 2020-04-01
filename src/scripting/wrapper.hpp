@@ -16,6 +16,8 @@ class AmbientSound;
 void create_squirrel_instance(HSQUIRRELVM v, scripting::AmbientSound* object, bool setup_releasehook = false);
 class Background;
 void create_squirrel_instance(HSQUIRRELVM v, scripting::Background* object, bool setup_releasehook = false);
+class BadGuy;
+void create_squirrel_instance(HSQUIRRELVM v, scripting::BadGuy* object, bool setup_releasehook = false);
 class Camera;
 void create_squirrel_instance(HSQUIRRELVM v, scripting::Camera* object, bool setup_releasehook = false);
 class Candle;

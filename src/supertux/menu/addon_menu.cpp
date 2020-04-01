@@ -49,6 +49,9 @@ std::string addon_type_to_translated_string(Addon::Type type)
 
     case Addon::WORLD:
       return _("World");
+	  
+	case Addon::ADDON:
+      return _("Add-on");
 
     case Addon::LANGUAGEPACK:
       return "";

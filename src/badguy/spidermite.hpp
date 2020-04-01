@@ -32,7 +32,7 @@ public:
   virtual void unfreeze() override;
   virtual bool is_freezable() const override;
   virtual std::string get_class() const override { return "spidermite"; }
-  virtual std::string get_display_name() const override { return _("Spider mite"); }
+  virtual std::string get_display_name() const override { return _("Spider"); }
 
 protected:
   enum SpiderMiteMode {

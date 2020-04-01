@@ -65,6 +65,7 @@ SkullTile::update(float dt_sec)
       return;
     }
   } else if (hit) {
+	  m_sprite->set_action("mad", -1);
     if (timer.check()) {
       falling = true;
       physic.enable_gravity(true);
@@ -73,6 +74,7 @@ SkullTile::update(float dt_sec)
       timer.start(FALLTIME);
     }
   } else {
+	m_sprite->set_action("normal", -1);
     timer.stop();
   }
   hit = false;

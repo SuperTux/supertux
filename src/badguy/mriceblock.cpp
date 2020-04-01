@@ -21,6 +21,7 @@
 #include "audio/sound_manager.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/sector.hpp"
 
 namespace {
 const float KICKSPEED = 500;
@@ -124,7 +125,7 @@ HitResponse
 MrIceBlock::collision_player(Player& player, const CollisionHit& hit)
 {
   // handle kicks from left or right side
-  if (ice_state == ICESTATE_FLAT && get_state() == STATE_ACTIVE) {
+  if ((ice_state == ICESTATE_WAKING || ice_state == ICESTATE_FLAT) && get_state() == STATE_ACTIVE) {
     if (hit.left) {
       m_dir = Direction::RIGHT;
       player.kick();
@@ -242,7 +243,9 @@ MrIceBlock::set_state(IceState state_, bool up)
     case ICESTATE_KICKED:
       SoundManager::current()->play("sounds/kick.wav", get_pos());
 
-      m_physic.set_velocity_x(m_dir == Direction::LEFT ? -KICKSPEED : KICKSPEED);
+      m_physic.set_velocity_x(m_dir == Direction::LEFT ? -KICKSPEED :
+                             (m_dir == Direction::RIGHT ? KICKSPEED : 0));
+      m_physic.set_velocity_y(m_dir == Direction::DOWN ? KICKSPEED : 0);
       set_action(m_dir == Direction::LEFT ? "flat-left" : "flat-right", /* loops = */ -1);
       // we should slide above 1 block holes now...
       m_col.m_bbox.set_size(34, 31.8f);
@@ -261,8 +264,9 @@ MrIceBlock::set_state(IceState state_, bool up)
 }
 
 void
-MrIceBlock::grab(MovingObject&, const Vector& pos, Direction dir_)
+MrIceBlock::grab(MovingObject& object, const Vector& pos, Direction dir_)
 {
+  Portable::grab(object, pos, dir_);
   m_col.m_movement = pos - get_pos();
   m_dir = dir_;
   set_action(dir_ == Direction::LEFT ? "flat-left" : "flat-right", /* loops = */ -1);
@@ -271,15 +275,26 @@ MrIceBlock::grab(MovingObject&, const Vector& pos, Direction dir_)
 }
 
 void
-MrIceBlock::ungrab(MovingObject& , Direction dir_)
+MrIceBlock::ungrab(MovingObject& object, Direction dir_)
 {
   if (dir_ == Direction::UP) {
     set_state(ICESTATE_FLAT, true);
-  } else {
+  }
+  if (dir_ == Direction::DOWN) {
+    Vector mov(0, 32);
+    if (Sector::get().is_free_of_statics(get_bbox().moved(mov), this)) {
+      set_pos(get_pos() + mov);
+      m_dir = dir_;
+      set_state(ICESTATE_KICKED);
+    } else
+      set_state(ICESTATE_FLAT);
+  }
+  else {
     m_dir = dir_;
     set_state(ICESTATE_KICKED);
   }
   set_colgroup_active(COLGROUP_MOVING);
+  Portable::ungrab(object, dir_);
 }
 
 bool

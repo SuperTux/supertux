@@ -24,8 +24,7 @@
 #include "supertux/tile.hpp"
 
 SkyDive::SkyDive(const ReaderMapping& reader) :
-  BadGuy(reader, "images/creatures/skydive/skydive.sprite"),
-  is_grabbed(false)
+  BadGuy(reader, "images/creatures/skydive/skydive.sprite")
 {
 }
 
@@ -53,12 +52,11 @@ SkyDive::collision_badguy(BadGuy&, const CollisionHit& hit)
 }
 
 void
-SkyDive::grab(MovingObject&, const Vector& pos, Direction dir_)
+SkyDive::grab(MovingObject& object, const Vector& pos, Direction dir_)
 {
+  Portable::grab(object, pos, dir_);
   m_col.m_movement = pos - get_pos();
   m_dir = dir_;
-
-  is_grabbed = true;
 
   m_physic.set_velocity_x(m_col.m_movement.x * LOGICAL_FPS);
   m_physic.set_velocity_y(0.0);
@@ -68,8 +66,9 @@ SkyDive::grab(MovingObject&, const Vector& pos, Direction dir_)
 }
 
 void
-SkyDive::ungrab(MovingObject& , Direction)
+SkyDive::ungrab(MovingObject& object, Direction dir_)
 {
+  
   is_grabbed = false;
   
   m_sprite->set_action("falling", 1);
@@ -78,6 +77,7 @@ SkyDive::ungrab(MovingObject& , Direction)
   m_physic.set_acceleration_y(0);
   m_physic.enable_gravity(true);
   set_colgroup_active(COLGROUP_MOVING);
+  Portable::ungrab(object, dir_);
 }
 
 HitResponse
@@ -116,7 +116,7 @@ SkyDive::collision_tile(uint32_t tile_attributes)
 void
 SkyDive::active_update(float dt_sec)
 {
-  if (!is_grabbed)
+  if (!is_grabbed())
     m_col.m_movement = m_physic.get_movement(dt_sec);
 }
 
@@ -132,10 +132,10 @@ SkyDive::explode()
   if (!is_valid())
     return;
 
-  auto& explosion = Sector::get().add<Explosion>(get_anchor_pos(m_col.m_bbox, ANCHOR_BOTTOM));
+  auto& explosion = Sector::get().add<Explosion>(
+    get_anchor_pos(m_col.m_bbox, ANCHOR_BOTTOM), EXPLOSION_STRENGTH_NEAR);
 
   explosion.hurts(true);
-  explosion.pushes(true);
 
   remove_me();
 }

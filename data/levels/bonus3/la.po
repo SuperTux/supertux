@@ -1,16 +1,16 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# Alisa P <parashchenko.alisa@yandex.com>, 2016
+# Alisa P <parashchenko.alisa@yandex.com>, 2016,2018
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-04 15:35+0200\n"
-"PO-Revision-Date: 2016-05-04 17:04+0000\n"
-"Last-Translator: Alisa P <parashchenko.alisa@yandex.com>\n"
+"Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
+"POT-Creation-Date: 2019-11-24 01:44+0100\n"
+"PO-Revision-Date: 2019-11-24 00:51+0000\n"
+"Last-Translator: Tobias Markus <tobbi@supertuxproject.org>\n"
 "Language-Team: Latin (http://www.transifex.com/arctic-games/supertux/language/la/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,8 +19,8 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/levels/bonus3/-89-2_degrees.stl:3
-msgid "-89,2 degrees"
-msgstr "-89,2 gradi"
+msgid "-89.2 degrees"
+msgstr "-89.2 °C"
 
 #: data/levels/bonus3/Global_Warming.stl:3
 msgid "Global Warming"
@@ -32,11 +32,11 @@ msgstr "Una nox in caelo"
 
 #: data/levels/bonus3/abandoned_castle.stl:3
 msgid "The abandoned castle"
-msgstr "Aedificium inane"
+msgstr "Castellum relictum"
 
 #: data/levels/bonus3/another_cold_day.stl:3
 msgid "Another cold day"
-msgstr "Alia dies friga"
+msgstr "Alius dies frigus"
 
 #: data/levels/bonus3/antarctic_rain.stl:3
 msgid "Antarctic rain"
@@ -46,11 +46,11 @@ msgstr "Imber in Antarctica"
 msgid "...but no one can stop it..."
 msgstr "...sed nemo id interrumpare potest..."
 
-#: data/levels/bonus3/but_no_one_can_stop_it.stl:393
+#: data/levels/bonus3/but_no_one_can_stop_it.stl:392
 msgid ""
 "-Sorry, this flying platform is lazy.\n"
 "-Come back another time."
-msgstr "-Is axis volandi volare non vult.\n-Rei hic aliquando, sed non nunc."
+msgstr "-Is axis volans volare non vult.\n-Rei hic aliquando, sed non nunc."
 
 #: data/levels/bonus3/cant_climb_higher_clouds.stl:3
 msgid "You can't climb higher than the clouds..."
@@ -58,7 +58,7 @@ msgstr "Altior quam nubes conscendere non potes..."
 
 #: data/levels/bonus3/castle_light+darkness-v3.stl:3
 msgid "Castle of Light and Darkness"
-msgstr "Aedificium lucis et tenebrarum"
+msgstr "Castellum lucis et tenebrarum"
 
 #: data/levels/bonus3/cave_run.stl:3
 msgid "Cave Run"
@@ -68,7 +68,7 @@ msgstr "In caverna properamus"
 msgid "Cold Cavern"
 msgstr "Caverna friga"
 
-#: data/levels/bonus3/cavern_v2.stl:50
+#: data/levels/bonus3/cavern_v2.stl:47
 msgid ""
 "#Good job! You kept the red lantern! You didn't need to though, but just "
 "because you did, have 100 coins!"
@@ -101,7 +101,7 @@ msgstr "In agris crystallum"
 #: data/levels/bonus3/dark_castle-v2.stl:3
 #: data/levels/bonus3/dark_castle.stl:3
 msgid "The dark castle"
-msgstr "Aedificium tenebrosum"
+msgstr "Castellum tenebrosum"
 
 #: data/levels/bonus3/deep_deeper.stl:3
 msgid "Deep, deeper..."
@@ -125,7 +125,7 @@ msgstr "Infra ire"
 
 #: data/levels/bonus3/entering_castle.stl:3
 msgid "Entering the castle"
-msgstr "Aedificium inimus"
+msgstr "Introitus castelli"
 
 #: data/levels/bonus3/flowers.stl:3
 msgid "Flower Bonus"
@@ -173,7 +173,7 @@ msgid ""
 "#Press the up key to flush! "
 msgstr "- Continuare: \n#Comprehende Superne quadratum!"
 
-#: data/levels/bonus3/niv-3.stl:216
+#: data/levels/bonus3/niv-3.stl:219
 msgid ""
 "- A Way out?\n"
 "#Let's Jump! "
@@ -219,14 +219,15 @@ msgstr "Sub glacie"
 msgid "Bonus Island III"
 msgstr "Insula additionalis III"
 
-#: data/levels/bonus3/worldmap.stwm:12
+#: data/levels/bonus3/worldmap.stwm:238
 msgid "You found a secret place!"
 msgstr "Agrum abditum invenisti!"
 
-#: data/levels/bonus3/worldmap.stwm:20
-msgid "Congratulations... you found the secret pathway!"
-msgstr "Bene fecisti... Viam abditam invenisti!"
-
-#: data/levels/bonus3/worldmap.stwm:78 data/levels/bonus3/worldmap.stwm:86
+#: data/levels/bonus3/worldmap.stwm:282 data/levels/bonus3/worldmap.stwm:297
+#: data/levels/bonus3/worldmap.stwm:304
 msgid "Go Home"
 msgstr "In domum ire"
+
+#: data/levels/bonus3/worldmap.stwm:290
+msgid "Enter Forest Section"
+msgstr ""
