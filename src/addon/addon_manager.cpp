@@ -474,7 +474,7 @@ AddonManager::disable_addon(const AddonId& addon_id)
   }
   else
   {
-    m_enabled_addon_paths[addon_id] = nullptr;
+    m_enabled_addon_paths.erase(addon_id);
     // log_debug << "Removing archive \"" << addon.get_install_filename() << "\" from search path" << std::endl;
     // if (PHYSFS_unmount(addon.get_install_filename().c_str()) == 0)
     // {
