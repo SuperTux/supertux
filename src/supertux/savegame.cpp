@@ -64,6 +64,20 @@ std::vector<LevelState> get_level_states(SquirrelVM& vm)
     sq_pop(vm.get_vm(), 2);
   }
 
+  if(SQ_FAILED(sq_next(vm.get_vm(), -2)))
+  {
+    sq_getlasterror(vm.get_vm());
+    auto type = sq_gettype(vm.get_vm(), -1);
+    log_warning << "Type of error: " << type << std::endl;
+    if(type == OT_STRING)
+    {
+      const char* lasterr;
+      sq_getstring(vm.get_vm(), -1, &lasterr);
+      log_warning << lasterr << std::endl;
+    }
+    sq_pop(vm.get_vm(), 1);
+  }
+
   return results;
 }
 
@@ -341,9 +355,16 @@ Savegame::get_worldmap_state(const std::string& name)
         vm.rename_table_entry(old_map_filename.c_str(), name.c_str());
       }
     }
+    for(const auto& key : vm.get_table_keys())
+      log_warning << key << std::endl;
 
     vm.get_or_create_table_entry(name);
+    for(const auto& key : vm.get_table_keys())
+      log_warning << key << std::endl;
+
     vm.get_or_create_table_entry("levels");
+    for(const auto& key : vm.get_table_keys())
+      log_warning << key << std::endl;
 
     result.level_states = get_level_states(vm);
   }

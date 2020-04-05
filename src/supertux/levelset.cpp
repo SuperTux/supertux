@@ -58,7 +58,6 @@ Levelset::walk_directory(const std::string& directory, bool recursively)
   for (const char* const* filename = files; *filename != nullptr; ++filename)
   {
     auto filepath = FileSystem::join(directory.c_str(), *filename);
-    log_warning << "Looking in filepath " << filepath << std::endl;
     if (physfsutil::is_directory(filepath) && recursively)
     {
       walk_directory(filepath, true);
