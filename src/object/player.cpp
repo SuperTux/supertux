@@ -434,8 +434,8 @@ Player::update(float dt_sec)
     if (m_sprite->animation_done()) m_growing = false;
   }
 
-  // when climbing animate only while moving
-  if (m_climbing){
+  // when climbing animate only while moving or growing
+  if (m_climbing && !m_growing){
     if ((m_physic.get_velocity_x()==0)&&(m_physic.get_velocity_y()==0))
       m_sprite->stop_animation();
     else
@@ -1070,9 +1070,11 @@ Player::set_bonus(BonusType type, bool animate)
     }
     if (animate) {
       m_growing = true;
-      m_sprite->set_action((m_dir == Direction::LEFT)?"grow-left":"grow-right", 1);
+      if (m_climbing)
+        m_sprite->set_action((m_dir == Direction::LEFT)?"grow-ladder-left":"grow-ladder-right", 1);
+      else
+        m_sprite->set_action((m_dir == Direction::LEFT)?"grow-left":"grow-right", 1);
     }
-    if (m_climbing) stop_climbing(*m_climbing);
   }
 
   if (type == NO_BONUS) {
@@ -1115,7 +1117,6 @@ Player::set_bonus(BonusType type, bool animate)
       Sector::get().add<SpriteParticle>("images/objects/particles/" + particle_name + ".sprite",
                                              action, ppos, ANCHOR_TOP, pspeed, paccel, LAYER_OBJECTS - 1);
     }
-    if (m_climbing) stop_climbing(*m_climbing);
 
     m_player_status.max_fire_bullets = 0;
     m_player_status.max_ice_bullets = 0;
@@ -1202,7 +1203,12 @@ Player::draw(DrawingContext& context)
     m_sprite->set_action("gameover");
   }
   else if (m_growing) {
-    m_sprite->set_action_continued("grow"+sa_postfix);
+    if (m_climbing) {
+      m_sprite->set_action_continued("grow-ladder"+sa_postfix);
+    }
+    else {
+      m_sprite->set_action_continued("grow"+sa_postfix);
+    }
     // while growing, do not change action
     // do_duck() will take care of cancelling growing manually
     // update() will take care of cancelling when growing completed
@@ -1212,6 +1218,10 @@ Player::draw(DrawingContext& context)
   }
   else if (m_climbing) {
     m_sprite->set_action(sa_prefix+"-climbing"+sa_postfix);
+
+    // Avoid flickering briefly after growing on ladder
+    if ((m_physic.get_velocity_x()==0)&&(m_physic.get_velocity_y()==0))
+      m_sprite->stop_animation();
   }
   else if (m_backflipping) {
     m_sprite->set_action(sa_prefix+"-backflip"+sa_postfix);
