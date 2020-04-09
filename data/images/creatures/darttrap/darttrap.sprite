@@ -1,29 +1,39 @@
 (supertux-sprite
   (action
-    (hitbox 0 0 11 37)
+    (hitbox 21 13 11 37)
     (name "idle-left")
-    (images "idle.png")
+	(loops 1)
+    (images "d3-.png"
+	  "d3-.png"
+	  "d3-.png"
+	  "d3-.png"
+	  "d4.png"
+	  "d-idle.png")
   )
   (action
-    (hitbox 0 0 11 37)
+    (hitbox 21 13 11 37)
     (name "idle-right")
+	(loops 1)
     (mirror-action "idle-left")
   )
   (action
-    (hitbox 0 0 11 37)
+    (hitbox 21 13 11 37)
     (name "loading-left")
+	(fps 10)
     (images 
-      "idle.png"
-      "loading-0.png"
-      "loading-1.png"
-      "loading-2.png"
-      "loading-3.png"
-      "loading-4.png"
+      "d-idle.png"
+      "d1.png"
+	  "d2.png"
+	  "d3-.png"
+	  "d3-.png"
+	  "d3-.png"
+	  "d3-.png"
     )
   )
   (action
-    (hitbox 0 0 11 37)
+    (hitbox 21 13 11 37)
     (name "loading-right")
+	(fps 10)
     (mirror-action "loading-left")
   )
 )
