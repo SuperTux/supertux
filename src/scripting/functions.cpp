@@ -240,6 +240,21 @@ void stop_music(float fadetime)
   SoundManager::current()->stop_music(fadetime);
 }
 
+void fade_in_music(const std::string& filename, float fadetime) 
+{
+  SoundManager::current()->play_music(filename, fadetime);
+}
+
+void resume_music(float fadetime) 
+{
+  SoundManager::current()->resume_music(fadetime);
+}
+
+void pause_music(float fadetime) 
+{
+  SoundManager::current()->pause_music(fadetime);
+}
+
 void play_sound(const std::string& filename)
 {
   SoundManager::current()->play(filename);
