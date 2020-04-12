@@ -355,10 +355,11 @@ Savegame::get_worldmap_state(const std::string& name)
         vm.rename_table_entry(old_map_filename.c_str(), name.c_str());
       }
     }
+    
     for(const auto& key : vm.get_table_keys())
       log_warning << key << std::endl;
 
-    vm.get_or_create_table_entry(name);
+    vm.get_or_create_table_entry("/" + name);
     for(const auto& key : vm.get_table_keys())
       log_warning << key << std::endl;
 
