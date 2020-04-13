@@ -6100,6 +6100,29 @@ static SQInteger fade_in_music_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger resume_music_wrapper(HSQUIRRELVM vm)
+{
+  SQFloat arg0;
+  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a float"));
+    return SQ_ERROR;
+  }
+
+  try {
+    scripting::resume_music(static_cast<float> (arg0));
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'resume_music'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger play_sound_wrapper(HSQUIRRELVM vm)
 {
   const SQChar* arg0;
@@ -7382,6 +7405,13 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tsn");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'fade_in_music'");
+  }
+
+  sq_pushstring(v, "resume_music", -1);
+  sq_newclosure(v, &resume_music_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tn");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'resume_music'");
   }
 
   sq_pushstring(v, "play_sound", -1);
