@@ -27,6 +27,9 @@ CMakeLists.txt.user
 .vscode/
 language.settings.xml
 
+# Visual Studio project files
+*.vs/
+
 # Windows build dependencies
 dependencies*/
 

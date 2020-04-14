@@ -78,6 +78,8 @@ public:
   std::string get_object() const { return m_object; }
   TileSelection* get_tiles() const { return m_tiles.get(); }
 
+  bool has_mouse_focus() const;
+
 private:
   Vector get_tile_coords(const int pos) const;
   int get_tile_pos(const Vector& coords) const;
@@ -121,6 +123,8 @@ private:
 
   int m_Xpos;
   const int m_Ypos = 96;
+
+  bool m_has_mouse_focus;
 
 private:
   EditorToolboxWidget(const EditorToolboxWidget&) = delete;

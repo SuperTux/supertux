@@ -57,6 +57,7 @@ private:
   SpritePtr m_flame_light;
   bool m_burning;
   std::string sprite_name;
+  int m_layer; /**< The layer (z-pos) of the torch */
 
 private:
   Torch(const Torch&) = delete;

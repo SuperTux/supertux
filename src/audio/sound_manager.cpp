@@ -291,8 +291,8 @@ SoundManager::set_music_volume(int volume)
   if (m_music_source != nullptr) m_music_source->set_volume(static_cast<float>(volume) / 100.0f);
 }
 
-void
-SoundManager::play_music(const std::string& filename, bool fade)
+void 
+SoundManager::play_music(const std::string& filename, float fadetime)
 {
   if (filename == m_current_music && m_music_source != nullptr)
   {
@@ -321,8 +321,8 @@ SoundManager::play_music(const std::string& filename, bool fade)
     newmusic->set_looping(true);
     newmusic->set_relative(true);
     newmusic->set_volume(static_cast<float>(m_music_volume) / 100.0f);
-    if (fade)
-      newmusic->set_fading(StreamSoundSource::FadingOn, .5f);
+    if (fadetime > 0)
+      newmusic->set_fading(StreamSoundSource::FadingOn, fadetime);
     newmusic->play();
 
     m_music_source = std::move(newmusic);
@@ -331,6 +331,12 @@ SoundManager::play_music(const std::string& filename, bool fade)
     // When this happens, previous music continued playing, stop it, just in case.
     stop_music(0);
   }
+}
+
+void
+SoundManager::play_music(const std::string& filename, bool fade)
+{
+  play_music(filename, fade ? 0.5f : 0);
 }
 
 void

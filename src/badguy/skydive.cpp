@@ -18,6 +18,7 @@
 
 #include "object/explosion.hpp"
 #include "object/player.hpp"
+#include "sprite/sprite.hpp"
 #include "supertux/constants.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/tile.hpp"
@@ -67,6 +68,8 @@ SkyDive::grab(MovingObject& object, const Vector& pos, Direction dir_)
 void
 SkyDive::ungrab(MovingObject& object, Direction dir_)
 {
+  m_sprite->set_action("falling", 1);
+
   m_physic.set_velocity_y(0);
   m_physic.set_acceleration_y(0);
   m_physic.enable_gravity(true);

@@ -56,7 +56,8 @@ EditorToolboxWidget::EditorToolboxWidget(Editor& editor) :
   m_starting_tile(0),
   m_dragging(false),
   m_drag_start(0, 0),
-  m_Xpos(512)
+  m_Xpos(512),
+  m_has_mouse_focus(false)
 {
   m_select_mode->push_mode("images/engine/editor/select-mode1.png");
   m_select_mode->push_mode("images/engine/editor/select-mode2.png");
@@ -389,8 +390,12 @@ EditorToolboxWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
   if (x < 0) {
     m_hovered_item = HoveredItem::NONE;
     m_tile_scrolling = TileScrolling::NONE;
+    m_has_mouse_focus = false;
     return false;
   }
+
+  // mouse is currently over the toolbox
+  m_has_mouse_focus = true;
 
   if (y < 0) {
     if (y < -64) {
@@ -565,6 +570,12 @@ EditorToolboxWidget::select_objectgroup(int id)
   m_input_type = EditorToolboxWidget::InputType::OBJECT;
   m_starting_tile = 0;
   update_mouse_icon();
+}
+
+bool
+EditorToolboxWidget::has_mouse_focus() const
+{
+  return m_has_mouse_focus;
 }
 
 /* EOF */
