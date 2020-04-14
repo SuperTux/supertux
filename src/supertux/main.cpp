@@ -242,6 +242,7 @@ public:
   #pragma GCC diagnostic pop
 #endif
 
+#ifndef __HAIKU__
 #ifdef _WIN32
 	std::string olduserdir = FileSystem::join(physfs_userdir, PACKAGE_NAME);
 #else
@@ -282,6 +283,7 @@ public:
 	    log_info << "Moved old config dir " << olduserdir << " to " << userdir << std::endl;
 	  }
 	}
+#endif
 
     if (!FileSystem::is_directory(userdir))
     {

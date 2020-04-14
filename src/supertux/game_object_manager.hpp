@@ -177,6 +177,9 @@ public:
   }
 
   const std::vector<TileMap*>& get_solid_tilemaps() const { return m_solid_tilemaps; }
+  
+  void update_solids();
+  void update_solid(TileMap* solid);
 
 protected:
   void process_resolve_requests();

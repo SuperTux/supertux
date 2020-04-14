@@ -41,6 +41,7 @@
 #include "object/text_array_object.hpp"
 #include "object/text_object.hpp"
 #include "object/tilemap.hpp"
+#include "object/vertical_stripes.hpp"
 #include "physfs/ifile_stream.hpp"
 #include "scripting/sector.hpp"
 #include "squirrel/squirrel_environment.hpp"
@@ -141,6 +142,10 @@ Sector::finish_construction(bool editable)
     add<MusicObject>();
   }
 
+  if (!get_object_by_type<VerticalStripes>()) {
+    add<VerticalStripes>();
+  }
+
   flush_game_objects();
 
   m_foremost_layer = calculate_foremost_layer();
@@ -207,7 +212,8 @@ Sector::activate(const Vector& player_pos)
 
   // two-player hack: move other players to main player's position
   // Maybe specify 2 spawnpoints in the level?
-  for (auto& player : get_objects_by_type<Player>()) {
+  for (auto player_ptr : get_objects_by_type_index(typeid(Player))) {
+    Player& player = *static_cast<Player*>(player_ptr);
     // spawn smalltux below spawnpoint
     if (!player.is_big()) {
       player.move(player_pos + Vector(0,32));
@@ -422,7 +428,8 @@ Sector::free_line_of_sight(const Vector& line_start, const Vector& line_end, con
 bool
 Sector::can_see_player(const Vector& eye) const
 {
-  for (const auto& player : get_objects_by_type<Player>()) {
+  for (auto player_ptr : get_objects_by_type_index(typeid(Player))) {
+    Player& player = *static_cast<Player*>(player_ptr);
     // test for free line of sight to any of all four corners and the middle of the player's bounding box
     if (free_line_of_sight(eye, player.get_bbox().p1(), &player)) return true;
     if (free_line_of_sight(eye, Vector(player.get_bbox().get_right(), player.get_bbox().get_top()), &player)) return true;
@@ -520,8 +527,9 @@ Sector::get_nearest_player (const Vector& pos) const
   Player *nearest_player = nullptr;
   float nearest_dist = std::numeric_limits<float>::max();
 
-  for (auto& player : get_objects_by_type<Player>())
+  for (auto player_ptr : get_objects_by_type_index(typeid(Player)))
   {
+    Player& player = *static_cast<Player*>(player_ptr);
     if (player.is_dying() || player.is_dead())
       continue;
 
@@ -680,7 +688,7 @@ Sector::get_camera() const
 Player&
 Sector::get_player() const
 {
-  return get_singleton_by_type<Player>();
+  return *static_cast<Player*>(get_objects_by_type_index(typeid(Player)).at(0));
 }
 
 DisplayEffect&
