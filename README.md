@@ -5,8 +5,6 @@
 [![AppVeyor Build status](https://ci.appveyor.com/api/projects/status/k9jaduxvftlhgmhp/branch/master?svg=true)](https://ci.appveyor.com/project/supertux/supertux-o8t59/branch/master)
 [![Github All Releases](https://img.shields.io/github/downloads/supertux/supertux/total.svg?maxAge=2592000)](https://github.com/SuperTux/supertux)
 
-This adds in a wiki and changes done by Busybody42...
-
 SuperTux is a jump'n'run game with strong inspiration from the
 Super Mario Bros. games for the various Nintendo platforms.
 
