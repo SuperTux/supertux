@@ -16,6 +16,7 @@
 
 #include "object/wind.hpp"
 
+#include "badguy/badguy.hpp"
 #include "editor/editor.hpp"
 #include "math/random.hpp"
 #include "object/particles.hpp"
@@ -31,7 +32,8 @@ Wind::Wind(const ReaderMapping& reader) :
   speed(),
   acceleration(),
   new_size(),
-  dt_sec(0)
+  dt_sec(0),
+  affects_badguys()
 {
   float w,h;
   reader.get("x", m_col.m_bbox.get_left(), 0.0f);
@@ -46,6 +48,8 @@ Wind::Wind(const ReaderMapping& reader) :
   reader.get("speed-y", speed.y, 0.0f);
 
   reader.get("acceleration", acceleration, 100.0f);
+
+  reader.get("affectsbadguys", affects_badguys, false);
 
   set_group(COLGROUP_TOUCHABLE);
 }
@@ -64,8 +68,9 @@ Wind::get_settings()
   result.add_float(_("Speed Y"), &speed.y, "speed-y");
   result.add_float(_("Acceleration"), &acceleration, "acceleration");
   result.add_bool(_("Blowing"), &blowing, "blowing", true);
+  result.add_bool(_("Affects Badguys"), &affects_badguys, "affectsbadguys", false);
 
-  result.reorder({"blowing", "speed-x", "speed-y", "acceleration", "region", "name", "x", "y"});
+  result.reorder({"blowing", "speed-x", "speed-y", "acceleration", "affectsbadguys", "region", "name", "x", "y"});
 
   return result;
 }
@@ -106,6 +111,13 @@ Wind::collision(GameObject& other, const CollisionHit& )
   if (player) {
     if (!player->on_ground()) {
       player->add_velocity(speed * acceleration * dt_sec, speed);
+    }
+  }
+
+  auto badguy = dynamic_cast<BadGuy*> (&other);
+  if (badguy  &&  this->affects_badguys) {
+    if (badguy->can_be_affected_by_wind()) {
+      badguy->add_wind_velocity(speed * acceleration * dt_sec, speed);
     }
   }
 
