@@ -19,6 +19,7 @@
 #include "badguy/badguy.hpp"
 #include "object/block.hpp"
 #include "object/camera.hpp"
+#include "object/decal.hpp"
 #include "object/flower.hpp"
 #include "object/platform.hpp"
 #include "object/player.hpp"
@@ -61,6 +62,10 @@ FlipLevelTransformer::transform_sector(Sector& sector)
     auto mobject = dynamic_cast<MovingObject*>(object.get());
     if (mobject) {
       transform_moving_object(height, *mobject);
+    }
+    auto decal = dynamic_cast<Decal*>(object.get());
+    if (decal) {
+      transform_decal(height, *decal);
     }
   }
 
@@ -114,6 +119,12 @@ FlipLevelTransformer::transform_badguy(float height, BadGuy& badguy)
   Vector pos = badguy.get_start_position();
   pos.y = height - pos.y;
   badguy.set_start_position(pos);
+}
+
+void
+FlipLevelTransformer::transform_decal(float height, Decal& decal)
+{
+  decal.flip = transform_flip(decal.flip);
 }
 
 void
