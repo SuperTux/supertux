@@ -65,6 +65,11 @@
       (info (_ "Programming"))
     )
     (blank)
+  (person
+      (name "HybridDog")
+      (info (_ "Programming"))
+  )
+  (blank)
 	(blank)
     (text
       (type "heading")
