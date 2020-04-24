@@ -43,13 +43,6 @@ source_file = data/levels/halloween2014/messages.pot
 source_lang = en
 type = PO
 
-[supertux.incubator]
-file_filter = data/levels/incubator/<lang>.po
-minimum_perc = 75
-source_file = data/levels/incubator/messages.pot
-source_lang = en
-type = PO
-
 [supertux.world-1]
 file_filter = data/levels/world1/<lang>.po
 minimum_perc = 75
