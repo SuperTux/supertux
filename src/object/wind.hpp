@@ -60,6 +60,8 @@ private:
 
   float dt_sec; /**< stores last dt_sec gotten at update() */
 
+  bool affects_badguys; /**< whether the wind can affect badguys */
+
 private:
   Wind(const Wind&) = delete;
   Wind& operator=(const Wind&) = delete;
