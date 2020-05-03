@@ -192,6 +192,9 @@ MrIceBlock::collision_squished(GameObject& object)
         }
       }
 
+      SoundManager::current()->play("sounds/stomp.wav", get_pos());
+      m_physic.set_velocity_x(0);
+      m_physic.set_velocity_y(0);
       set_state(ICESTATE_FLAT);
       nokick_timer.start(NOKICK_TIME);
       break;
@@ -219,7 +222,7 @@ MrIceBlock::collision_squished(GameObject& object)
 }
 
 void
-MrIceBlock::set_state(IceState state_, bool up)
+MrIceBlock::set_state(IceState state_)
 {
   if (ice_state == state_)
     return;
@@ -230,22 +233,13 @@ MrIceBlock::set_state(IceState state_, bool up)
       WalkingBadguy::initialize();
       break;
     case ICESTATE_FLAT:
-      if (up) {
-        m_physic.set_velocity_y(-KICKSPEED);
-      } else {
-        SoundManager::current()->play("sounds/stomp.wav", get_pos());
-        m_physic.set_velocity_x(0);
-        m_physic.set_velocity_y(0);
-      }
       set_action(m_dir == Direction::LEFT ? "flat-left" : "flat-right", /* loops = */ -1);
       flat_timer.start(4);
       break;
     case ICESTATE_KICKED:
       SoundManager::current()->play("sounds/kick.wav", get_pos());
 
-      m_physic.set_velocity_x(m_dir == Direction::LEFT ? -KICKSPEED :
-                             (m_dir == Direction::RIGHT ? KICKSPEED : 0));
-      m_physic.set_velocity_y(m_dir == Direction::DOWN ? KICKSPEED : 0);
+      m_physic.set_velocity_x(m_dir == Direction::LEFT ? -KICKSPEED : KICKSPEED);
       set_action(m_dir == Direction::LEFT ? "flat-left" : "flat-right", /* loops = */ -1);
       // we should slide above 1 block holes now...
       m_col.m_bbox.set_size(34, 31.8f);
@@ -278,18 +272,17 @@ void
 MrIceBlock::ungrab(MovingObject& object, Direction dir_)
 {
   if (dir_ == Direction::UP) {
-    set_state(ICESTATE_FLAT, true);
-  }
-  if (dir_ == Direction::DOWN) {
+    m_physic.set_velocity_y(-KICKSPEED);
+    set_state(ICESTATE_FLAT);
+  } else if (dir_ == Direction::DOWN) {
     Vector mov(0, 32);
     if (Sector::get().is_free_of_statics(get_bbox().moved(mov), this)) {
-      set_pos(get_pos() + mov);
-      m_dir = dir_;
-      set_state(ICESTATE_KICKED);
-    } else
-      set_state(ICESTATE_FLAT);
-  }
-  else {
+      // There is free space, so throw it down
+      SoundManager::current()->play("sounds/kick.wav", get_pos());
+      m_physic.set_velocity_y(KICKSPEED);
+    }
+    set_state(ICESTATE_FLAT);
+  } else {
     m_dir = dir_;
     set_state(ICESTATE_KICKED);
   }

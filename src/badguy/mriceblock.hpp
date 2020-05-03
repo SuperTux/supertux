@@ -58,7 +58,7 @@ protected:
 
 protected:
   virtual bool collision_squished(GameObject& object) override;
-  void set_state(IceState state, bool up = false);
+  void set_state(IceState state);
 
 private:
   IceState ice_state;
