@@ -108,9 +108,9 @@ FlipLevelTransformer::transform_tilemap(float height, TileMap& tilemap)
   Vector offset = tilemap.get_offset();
   offset.y = height - offset.y - tilemap.get_bbox().get_height();
   tilemap.set_offset(offset);
-  auto path = tilemap.get_path();
-  if (path)
+  if (Path* const path = tilemap.get_path()) {
     transform_path(height, tilemap.get_bbox().get_height(), *path);
+  }
 }
 
 void
@@ -144,7 +144,9 @@ FlipLevelTransformer::transform_flower(Flower& flower)
 void
 FlipLevelTransformer::transform_platform(float height, Platform& platform)
 {
-  transform_path(height, platform.get_bbox().get_height(), *(platform.get_path()));
+  if (Path* const path = platform.get_path()) {
+    transform_path(height, platform.get_bbox().get_height(), *path);
+  }
 }
 
 void
