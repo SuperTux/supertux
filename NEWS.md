@@ -1,12 +1,18 @@
 SuperTux Release and Development Notes
 ======================================
 
-SuperTux 0.6.2-beta.1 (2020-04-30)
+SuperTux 0.6.2-rc.1 (2020-05-08)
 ---------------------------
-The SuperTux Team is excited to announce the availability of the first beta release of SuperTux 0.6.2. This is an unstable pre-release that fixes a number of bugs that were reported after 0.6.1. It also features reworked graphics and levels. 
+The SuperTux Team is excited to announce the availability of the second beta release of SuperTux 0.6.2. This is an unstable pre-release that fixes a number of bugs that were reported after 0.6.1. It also features reworked graphics and levels. 
 
 Other changes include a power-up counter in the hud, new sprites for the door, a new tileset and several new badguys. But overall, this release is supossed to celebrate our anniversary (May 2000) with a little surprise Add-On, which can be found in the contrib levels!
 
+Since the last beta, the following things were changed:
+- A crash in levels with paths was fixed
+- A segfault that occurs on some graphics cards when `glFenceSync` is called, was fixed.
+- Translations were updated
+
+Please note that this is presumably the last release candidate before the final release.
 
 SuperTux 0.6.1 (2019-12-15)
 ---------------------------
