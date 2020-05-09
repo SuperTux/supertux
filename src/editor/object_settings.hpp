@@ -22,6 +22,8 @@
 
 #include "editor/object_option.hpp"
 
+#include <algorithm>
+
 class Color;
 enum class Direction;
 enum class WalkMode;
