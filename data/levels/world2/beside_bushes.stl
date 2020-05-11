@@ -1,6 +1,6 @@
 (supertux-level
   (version 3)
-  (name (_ "Besides the Bushes"))
+  (name (_ "Beside the Bushes"))
   (author "Carsten Wirtz")
   (license "CC-BY-SA 4.0 International")
   (target-time 58)

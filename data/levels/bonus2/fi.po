@@ -1,16 +1,16 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# Jaakoppi Horila <supermariojaska5@gmail.com>, 2016
+# Jaakoppi Horila <supermariojaska5@gmail.com>, 2016,2018,2020
 # tingberg <tom.ingberg@iki.fi>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-04 15:35+0200\n"
-"PO-Revision-Date: 2016-05-02 14:37+0000\n"
+"Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
+"POT-Creation-Date: 2018-11-05 23:45+0100\n"
+"PO-Revision-Date: 2020-02-21 09:41+0000\n"
 "Last-Translator: Jaakoppi Horila <supermariojaska5@gmail.com>\n"
 "Language-Team: Finnish (http://www.transifex.com/arctic-games/supertux/language/fi/)\n"
 "MIME-Version: 1.0\n"
@@ -48,11 +48,11 @@ msgid ""
 "\n"
 "\n"
 " The end of the ice age is near..."
-msgstr "Onnittelut!\n\n#Olet läpäissyt\n#toisen Lisäsaaren\n\n\n\tKentät tekivät\n\tKevin\n\tJason Kleinemas\n\tDenilson\n\tTobe Deprez\n\tBig C\n\tThomas Nilsen\n\tTorfi Gunnarsson\n\tDaniel Alston\n\tNilrok\n\tCorlin Heydman\n\n\n#Jälleen kerran, kiitos jokaiselle,\n#joka osallistui tämän julkaisun\n#tekoon. Toivomme että pidit siitä,\n#ja että se teki Milestone 3-julkaisun\n#odotuksesta hieman helpompaa. :-)\n\n\nJääkausi on lopuillaan..."
+msgstr "Onnittelut!\n\n#Olet läpäissyt\n#toisen Lisäsaaren\n\n\n\tKentät tekivät\n\tKevin\n\tJason Kleinemas\n\tDenilson\n\tTobe Deprez\n\tBig C\n\tThomas Nilsen\n\tTorfi Gunnarsson\n\tDaniel Alston\n\tNilrok\n\tCorlin Heydman\n\n\n#Jälleen kerran, kiitos jokaiselle,\n#joka osallistui tämän julkaisun\n#tekoon. Toivomme että pidit siitä,\n#ja että se teki Milestone 3 -julkaisun\n#odotuksesta hieman helpompaa. :-)\n\n\nJääkausi on lopuillaan..."
 
 #: data/levels/bonus2/level1.stl:3
 msgid "Mario's Supposed to Deal With This..."
-msgstr "Tämä oli Marion hommia..."
+msgstr "Tämä on Marion hommia..."
 
 #: data/levels/bonus2/level10.stl:3
 msgid "fjerd"
@@ -64,7 +64,7 @@ msgstr "Pitkä luola"
 
 #: data/levels/bonus2/level12.stl:3
 msgid "Blind To The World"
-msgstr "Sokea maailmaa kohtaan"
+msgstr "Maailman läpinäkyvyys"
 
 #: data/levels/bonus2/level13.stl:3
 msgid "snarf"
@@ -76,7 +76,7 @@ msgstr "Tiellä taas"
 
 #: data/levels/bonus2/level15.stl:3
 msgid "Frozen Tunnel"
-msgstr "Jäätynyt tunneli"
+msgstr "Jäinen tunneli"
 
 #: data/levels/bonus2/level16.stl:3
 msgid "Luft Airship"
@@ -96,15 +96,15 @@ msgstr "Jääkauden loppu"
 
 #: data/levels/bonus2/level2.stl:3
 msgid "Think Fast, or Die"
-msgstr "Ajattele nopeasti, tai kuole"
+msgstr "Ajattele nopeasti tai kuole"
 
 #: data/levels/bonus2/level20.stl:3
 msgid "Fan Fortress"
-msgstr "Ihailijalinnoitus"
+msgstr "Propellilinnoitus"
 
 #: data/levels/bonus2/level21.stl:3
 msgid "Nolok's Party Pit"
-msgstr "Nolokin puutarhajuhla"
+msgstr "Nolokin juhlarotko"
 
 #: data/levels/bonus2/level22.stl:3
 msgid "Water Ways"
@@ -132,11 +132,11 @@ msgstr "Pitkä matka"
 
 #: data/levels/bonus2/level28.stl:3
 msgid "Life Support"
-msgstr "Elämäntuki"
+msgstr "Hengissäpito"
 
 #: data/levels/bonus2/level3.stl:3
 msgid "Cliff Jumping"
-msgstr "Karikkohyppelyä"
+msgstr "Hyppy jyrkänteeltä"
 
 #: data/levels/bonus2/level4.stl:3
 msgid "Into The Cave"
@@ -156,7 +156,7 @@ msgstr "Flanderin Jääkentällä"
 
 #: data/levels/bonus2/level8.stl:3
 msgid "Castle in the Sky"
-msgstr "Linna taivaassa"
+msgstr "Linna taivaalla"
 
 #: data/levels/bonus2/level9.stl:3
 msgid "Tradition"
