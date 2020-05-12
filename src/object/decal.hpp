@@ -24,8 +24,6 @@ class ReaderMapping;
 /** A decorative image, perhaps part of the terrain */
 class Decal final : public MovingSprite
 {
-  friend class FlipLevelTransformer;
-
 public:
   Decal(const ReaderMapping& reader);
   virtual ~Decal();
@@ -37,12 +35,9 @@ public:
 
   virtual ObjectSettings get_settings() override;
 
-  virtual void draw(DrawingContext& context) override;
-
 private:
   std::string default_action;
   bool solid;
-  Flip flip;
 
 private:
   Decal(const Decal&) = delete;

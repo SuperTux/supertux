@@ -7,14 +7,14 @@
 # Norbert Molnár <buzitetu@indamail.hu>, 2013
 # gyeben <gyonkibendeguz@gmail.com>, 2013
 # Haba Tamás <habatamas0@gmail.com>, 2016
-# Kristóf Kófiás <kristof.kofias@gmail.com>, 2014,2019-2020
+# Kristóf Kófiás <kristof.kofias@gmail.com>, 2014,2019
 # Tibor Buzási, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2019-11-24 01:44+0100\n"
-"PO-Revision-Date: 2020-04-26 16:42+0000\n"
+"PO-Revision-Date: 2019-11-24 19:53+0000\n"
 "Last-Translator: Kristóf Kófiás <kristof.kofias@gmail.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/arctic-games/supertux/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -176,7 +176,7 @@ msgstr "A toilett zóna"
 msgid ""
 "- Flush: \n"
 "#Press the up key to flush! "
-msgstr "- Öblítés: \n#Nyomd meg a fel billentyűt az öblítéshez! "
+msgstr "- Öblítés: \n#Nyomd meg a fel gombot az öblítéshez! "
 
 #: data/levels/bonus3/niv-3.stl:219
 msgid ""

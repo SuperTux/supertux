@@ -905,24 +905,4 @@ BadGuy::after_editor_set()
   }
 }
 
-bool
-BadGuy::can_be_affected_by_wind() const
-{
-  return !on_ground();
-}
-
-void
-BadGuy::add_wind_velocity(const Vector& velocity, const Vector& end_speed)
-{
-  // only add velocity in the same direction as the wind
-  if (end_speed.x > 0 && m_physic.get_velocity_x() < end_speed.x)
-    m_physic.set_velocity_x(std::min(m_physic.get_velocity_x() + velocity.x, end_speed.x));
-  if (end_speed.x < 0 && m_physic.get_velocity_x() > end_speed.x)
-    m_physic.set_velocity_x(std::max(m_physic.get_velocity_x() + velocity.x, end_speed.x));
-  if (end_speed.y > 0 && m_physic.get_velocity_y() < end_speed.y)
-    m_physic.set_velocity_y(std::min(m_physic.get_velocity_y() + velocity.y, end_speed.y));
-  if (end_speed.y < 0 && m_physic.get_velocity_y() > end_speed.y)
-    m_physic.set_velocity_y(std::max(m_physic.get_velocity_y() + velocity.y, end_speed.y));
-}
-
 /* EOF */

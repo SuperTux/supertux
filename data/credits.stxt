@@ -64,7 +64,7 @@
       (name "Christian \"christ2go\" Hagemeier")
       (info (_ "Programming"))
     )
-  (blank)
+    (blank)
 	(blank)
     (text
       (type "heading")

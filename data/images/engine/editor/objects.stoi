@@ -53,13 +53,13 @@
     (icon "images/creatures/snowjumpy/left-down.png"))
   (object
     (class "livefire")
-    (icon "images/creatures/livefire/f2.png"))
+    (icon "images/creatures/livefire/left-0.png"))
   (object
     (class "livefire_asleep")
-    (icon "images/creatures/livefire/waking2.png"))
+    (icon "images/creatures/livefire/sleeping-left-1.png"))
   (object
     (class "livefire_dormant")
-    (icon "images/creatures/livefire/sleeping8.png"))
+    (icon "images/creatures/livefire/sleeping-left-0.png"))
   (object
     (class "crystallo")
     (icon "images/creatures/crystallo/crystallo-left-0.png"))
@@ -110,16 +110,16 @@
     (icon "images/creatures/igel/walk-0.png"))
   (object
     (class "mole")
-    (icon "images/creatures/mole/m5.png"))
+    (icon "images/creatures/mole/mole-5.png"))
   (object
     (class "fish")
-    (icon "images/creatures/fish/f8.png"))
+    (icon "images/creatures/fish/down.png"))
   (object
     (class "skullyhop")
-    (icon "images/creatures/skullyhop/s-jump.png"))
+    (icon "images/creatures/skullyhop/charging-0.png"))
   (object
     (class "spidermite")
-    (icon "images/creatures/spidermite/spidermite1.png"))
+    (icon "images/creatures/spidermite/spidermite0.png"))
   (object
     (class "walking_candle")
     (icon "images/creatures/mr_candle/mr-candle-left-1.png"))
@@ -140,13 +140,13 @@
     (icon "images/creatures/angrystone/charging-0.png"))
   (object
     (class "darttrap")
-    (icon "images/creatures/darttrap/d1.png"))
+    (icon "images/creatures/darttrap/idle.png"))
   (object
     (class "dispenser")
     (icon "images/creatures/dispenser/canon.png"))
   (object
     (class "ispy")
-    (icon "images/objects/ispy/i-idle.png"))
+    (icon "images/objects/ispy/idle-0.png"))
   (object
     (class "ghoul")
     (icon "images/creatures/ghoul/g1.png"))
@@ -171,7 +171,7 @@
     (icon "images/engine/editor/stalactite_yeti.png"))
   (object
     (class "skydive")
-    (icon "images/creatures/skydive/skydive1.png"))
+    (icon "images/creatures/skydive/skydive.png"))
   (object
     (class "dart")
     (icon "images/creatures/dart/flying.png"))

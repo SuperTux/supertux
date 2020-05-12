@@ -22,8 +22,7 @@
 Decal::Decal(const ReaderMapping& reader) :
   MovingSprite(reader, "images/decal/explanations/billboard-bigtux.png", LAYER_OBJECTS, COLGROUP_DISABLED),
   default_action("default"),
-  solid(),
-  flip(NO_FLIP)
+  solid()
 {
   m_layer = reader_get_layer(reader, LAYER_OBJECTS);
 
@@ -51,12 +50,5 @@ Decal::get_settings()
 Decal::~Decal()
 {
 }
-
-void
-Decal::draw(DrawingContext& context)
-{
-  m_sprite->draw(context.color(), get_pos(), m_layer, flip);
-}
-
 
 /* EOF */

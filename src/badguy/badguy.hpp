@@ -123,12 +123,6 @@ public:
   /** Returns the dispenser this badguys was spawned by */
   Dispenser* get_parent_dispenser() const { return m_parent_dispenser; }
 
-  /** Returns true if the badguy can currently be affected by wind */
-  virtual bool can_be_affected_by_wind() const;
-
-  /** Adds velocity from wind */
-  virtual void add_wind_velocity(const Vector& velocity, const Vector& end_speed);
-
 protected:
   enum State {
     STATE_INIT,
