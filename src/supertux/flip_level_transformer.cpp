@@ -19,7 +19,6 @@
 #include "badguy/badguy.hpp"
 #include "object/block.hpp"
 #include "object/camera.hpp"
-#include "object/decal.hpp"
 #include "object/flower.hpp"
 #include "object/platform.hpp"
 #include "object/player.hpp"
@@ -63,10 +62,6 @@ FlipLevelTransformer::transform_sector(Sector& sector)
     if (mobject) {
       transform_moving_object(height, *mobject);
     }
-    auto decal = dynamic_cast<Decal*>(object.get());
-    if (decal) {
-      transform_decal(height, *decal);
-    }
   }
 
   sector.get_camera().reset(sector.get_player().get_pos());
@@ -108,9 +103,9 @@ FlipLevelTransformer::transform_tilemap(float height, TileMap& tilemap)
   Vector offset = tilemap.get_offset();
   offset.y = height - offset.y - tilemap.get_bbox().get_height();
   tilemap.set_offset(offset);
-  if (Path* const path = tilemap.get_path()) {
+  auto path = tilemap.get_path();
+  if (path)
     transform_path(height, tilemap.get_bbox().get_height(), *path);
-  }
 }
 
 void
@@ -119,12 +114,6 @@ FlipLevelTransformer::transform_badguy(float height, BadGuy& badguy)
   Vector pos = badguy.get_start_position();
   pos.y = height - pos.y;
   badguy.set_start_position(pos);
-}
-
-void
-FlipLevelTransformer::transform_decal(float height, Decal& decal)
-{
-  decal.flip = transform_flip(decal.flip);
 }
 
 void
@@ -144,9 +133,7 @@ FlipLevelTransformer::transform_flower(Flower& flower)
 void
 FlipLevelTransformer::transform_platform(float height, Platform& platform)
 {
-  if (Path* const path = platform.get_path()) {
-    transform_path(height, platform.get_bbox().get_height(), *path);
-  }
+  transform_path(height, platform.get_bbox().get_height(), *(platform.get_path()));
 }
 
 void

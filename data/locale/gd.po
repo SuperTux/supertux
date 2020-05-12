@@ -3,15 +3,15 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# GunChleoc, 2016,2018-2020
+# GunChleoc, 2016,2018-2019
 # GunChleoc, 2016
 # GunChleoc, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2020-04-13 17:25+0200\n"
-"PO-Revision-Date: 2020-05-01 08:54+0000\n"
+"POT-Creation-Date: 2019-11-24 01:44+0100\n"
+"PO-Revision-Date: 2019-12-12 17:23+0000\n"
 "Last-Translator: GunChleoc\n"
 "Language-Team: Gaelic, Scottish (http://www.transifex.com/arctic-games/supertux/language/gd/)\n"
 "MIME-Version: 1.0\n"
@@ -44,8 +44,8 @@ msgstr "Teachdaireachd"
 
 #: src/trigger/secretarea_trigger.cpp:80 src/trigger/scripttrigger.cpp:80
 #: src/trigger/door.cpp:73 src/object/ispy.cpp:67
-#: src/object/bonus_block.cpp:203 src/object/bonus_block.cpp:207
-#: src/object/pushbutton.cpp:49 src/object/powerup.cpp:190
+#: src/object/bonus_block.cpp:201 src/object/bonus_block.cpp:205
+#: src/object/pushbutton.cpp:49 src/object/powerup.cpp:188
 #: src/editor/worldmap_objects.cpp:274
 msgid "Script"
 msgstr "Sgriobt"
@@ -54,28 +54,28 @@ msgstr "Sgriobt"
 msgid "Script Trigger"
 msgstr "Trigear sgriobt"
 
-#: src/trigger/scripttrigger.cpp:76 src/object/tilemap.cpp:220
+#: src/trigger/scripttrigger.cpp:76 src/object/tilemap.cpp:219
 #: src/supertux/menu/editor_sector_menu.cpp:39
 #: src/editor/object_option.cpp:148
 msgid "Width"
 msgstr "Leud"
 
-#: src/trigger/scripttrigger.cpp:77 src/object/tilemap.cpp:221
+#: src/trigger/scripttrigger.cpp:77 src/object/tilemap.cpp:220
 #: src/supertux/menu/editor_sector_menu.cpp:40
 #: src/editor/object_option.cpp:149
 msgid "Height"
 msgstr "Àirde"
 
 #: src/trigger/scripttrigger.cpp:78 src/object/bicycle_platform.cpp:187
-#: src/object/background.cpp:160 src/object/pneumatic_platform.cpp:145
-#: src/supertux/menu/joystick_menu.cpp:170 src/supertux/moving_object.cpp:47
+#: src/object/background.cpp:158 src/object/pneumatic_platform.cpp:145
+#: src/supertux/menu/joystick_menu.cpp:172 src/supertux/moving_object.cpp:47
 #: src/editor/worldmap_objects.cpp:73
 msgid "X"
 msgstr "X"
 
 #: src/trigger/scripttrigger.cpp:79 src/object/bicycle_platform.cpp:188
-#: src/object/background.cpp:161 src/object/pneumatic_platform.cpp:146
-#: src/supertux/menu/joystick_menu.cpp:172 src/supertux/moving_object.cpp:48
+#: src/object/background.cpp:159 src/object/pneumatic_platform.cpp:146
+#: src/supertux/menu/joystick_menu.cpp:174 src/supertux/moving_object.cpp:48
 #: src/editor/worldmap_objects.cpp:74
 msgid "Y"
 msgstr "Y"
@@ -94,8 +94,8 @@ msgstr "Trigear sreatha"
 
 #: src/trigger/door.cpp:74 src/badguy/willowisp.cpp:280
 #: src/supertux/menu/editor_sector_menu.cpp:32
-#: src/editor/layers_widget.cpp:274
-#: data//images/engine/editor/objects.stoi:300
+#: src/editor/layers_widget.cpp:275
+#: data//images/engine/editor/objects.stoi:297
 msgid "Sector"
 msgstr "Sgìre"
 
@@ -103,7 +103,7 @@ msgstr "Sgìre"
 msgid "Spawn point"
 msgstr "Puing-ghintinn"
 
-#: src/trigger/switch.cpp:61 src/object/block.cpp:212 src/object/torch.cpp:91
+#: src/trigger/switch.cpp:61 src/object/block.cpp:212 src/object/torch.cpp:89
 #: src/object/moving_sprite.cpp:156 src/object/pneumatic_platform.cpp:144
 msgid "Sprite"
 msgstr "Sprìd"
@@ -177,27 +177,27 @@ msgid "Facing Down"
 msgstr "Beul fodha"
 
 #: src/object/ispy.cpp:68 src/object/gradient.cpp:124
-#: src/badguy/willowisp.cpp:279 src/badguy/badguy.cpp:840
+#: src/badguy/willowisp.cpp:279 src/badguy/badguy.cpp:833
 #: src/editor/worldmap_objects.cpp:209 src/editor/worldmap_objects.cpp:276
 msgid "Direction"
 msgstr "Comhair"
 
 #: src/object/path_gameobject.hpp:44 src/object/coin.cpp:262
 #: src/object/camera.cpp:212 src/object/platform.cpp:65
-#: src/object/path_gameobject.cpp:168 src/object/tilemap.cpp:234
+#: src/object/path_gameobject.cpp:168 src/object/tilemap.cpp:233
 #: src/badguy/willowisp.cpp:286
 msgid "Path"
 msgstr "Slighe"
 
 #: src/object/decal.cpp:41 src/object/scripted_object.cpp:67
-#: src/object/particlesystem.cpp:62 src/object/background.cpp:164
-#: src/object/thunderstorm.cpp:68 src/object/tilemap.cpp:227
+#: src/object/particlesystem.cpp:62 src/object/background.cpp:162
+#: src/object/thunderstorm.cpp:68 src/object/tilemap.cpp:226
 #: src/object/gradient.cpp:122
 msgid "Z-pos"
 msgstr "Ionad-z"
 
 #: src/object/decal.cpp:42 src/object/scripted_object.cpp:70
-#: src/object/tilemap.cpp:216
+#: src/object/tilemap.cpp:215
 msgid "Solid"
 msgstr "Soladach"
 
@@ -226,29 +226,24 @@ msgstr "Gabhaidh a bhriseadh"
 msgid "Portable"
 msgstr "So-ghiùlan"
 
-#: src/object/spotlight.cpp:62
+#: src/object/spotlight.cpp:59
 msgid "Angle"
 msgstr "Ceàrn"
 
-#: src/object/spotlight.cpp:63 src/object/magicblock.cpp:94
-#: src/object/candle.cpp:77 src/object/lantern.cpp:62
+#: src/object/spotlight.cpp:60 src/object/magicblock.cpp:94
+#: src/object/candle.cpp:76 src/object/lantern.cpp:62
 #: src/object/ambient_light.cpp:131 src/badguy/walking_candle.cpp:82
 msgid "Color"
 msgstr "Dath"
 
-#: src/object/spotlight.cpp:64 src/object/textscroller.cpp:279
+#: src/object/spotlight.cpp:61 src/object/textscroller.cpp:279
 #: src/badguy/flame.cpp:59
 msgid "Speed"
 msgstr "Luaths"
 
-#: src/object/spotlight.cpp:65
+#: src/object/spotlight.cpp:62
 msgid "Counter-clockwise"
 msgstr "Tuathal"
-
-#: src/object/spotlight.cpp:66 src/object/candle.cpp:78
-#: src/object/torch.cpp:92
-msgid "Layer"
-msgstr "Breath"
 
 #: src/object/scripted_object.cpp:71
 msgid "Physics enabled"
@@ -262,63 +257,63 @@ msgstr "Faicsinneach"
 msgid "Hit script"
 msgstr "Sgriobt bualaidh"
 
-#: src/object/bonus_block.cpp:204
+#: src/object/bonus_block.cpp:202
 msgid "Count"
 msgstr "Cunntas"
 
-#: src/object/bonus_block.cpp:205
+#: src/object/bonus_block.cpp:203
 msgid "Content"
 msgstr "Susbaint"
 
-#: src/object/bonus_block.cpp:206 src/object/coin.hpp:43
+#: src/object/bonus_block.cpp:204 src/object/coin.hpp:43
 msgid "Coin"
 msgstr "Bonn"
 
-#: src/object/bonus_block.cpp:206
+#: src/object/bonus_block.cpp:204
 msgid "Growth (fire flower)"
 msgstr "Fàs (dìthean teine)"
 
-#: src/object/bonus_block.cpp:206
+#: src/object/bonus_block.cpp:204
 msgid "Growth (ice flower)"
 msgstr "Fàs (dìthean deighe)"
 
-#: src/object/bonus_block.cpp:206
+#: src/object/bonus_block.cpp:204
 msgid "Growth (air flower)"
 msgstr "Fàs (dìthean adhair)"
 
-#: src/object/bonus_block.cpp:207
+#: src/object/bonus_block.cpp:205
 msgid "Growth (earth flower)"
 msgstr "Fàs (dìthean ùire)"
 
-#: src/object/bonus_block.cpp:207
+#: src/object/bonus_block.cpp:205
 msgid "Star"
 msgstr "Rionnag"
 
-#: src/object/bonus_block.cpp:207
+#: src/object/bonus_block.cpp:205
 msgid "Tux doll"
 msgstr "Doileag Tux"
 
-#: src/object/bonus_block.cpp:207
+#: src/object/bonus_block.cpp:205
 msgid "Custom"
 msgstr "Gnàthaichte"
 
-#: src/object/bonus_block.cpp:207
+#: src/object/bonus_block.cpp:205
 msgid "Light"
 msgstr "Lòchran"
 
-#: src/object/bonus_block.cpp:208 src/object/trampoline.hpp:35
+#: src/object/bonus_block.cpp:206 src/object/trampoline.hpp:35
 msgid "Trampoline"
 msgstr "Trampoilin"
 
-#: src/object/bonus_block.cpp:208
+#: src/object/bonus_block.cpp:206
 msgid "Coin rain"
 msgstr "Dòrtadh bhonn"
 
-#: src/object/bonus_block.cpp:208
+#: src/object/bonus_block.cpp:206
 msgid "Coin explosion"
 msgstr "Spreadhadh bhonn"
 
-#: src/object/bonus_block.cpp:212
+#: src/object/bonus_block.cpp:210
 msgid "Custom Content"
 msgstr "Susbaint ghnàthaichte"
 
@@ -326,12 +321,12 @@ msgstr "Susbaint ghnàthaichte"
 msgid "Pneumatic Platform"
 msgstr "Ùrlar gaothach"
 
-#: src/object/coin.cpp:264 src/object/tilemap.cpp:236
+#: src/object/coin.cpp:264 src/object/tilemap.cpp:235
 msgid "Following path"
 msgstr "Leantainn slighe"
 
 #: src/object/coin.cpp:267 src/object/camera.cpp:215
-#: src/object/platform.cpp:66 src/object/tilemap.cpp:240
+#: src/object/platform.cpp:66 src/object/tilemap.cpp:239
 msgid "Path Mode"
 msgstr "Modh slighe"
 
@@ -479,11 +474,11 @@ msgstr "Trampoilin meirgeach"
 msgid "Particle system"
 msgstr "Siostam mhirean"
 
-#: src/object/candle.cpp:75 src/object/torch.cpp:90
+#: src/object/candle.cpp:74 src/object/torch.cpp:88
 msgid "Burning"
 msgstr "Losgadh"
 
-#: src/object/candle.cpp:76
+#: src/object/candle.cpp:75
 msgid "Flicker"
 msgstr "Priobadh"
 
@@ -495,7 +490,7 @@ msgstr "Arraigh teacsa"
 msgid "Info Block"
 msgstr "Bloca fiosrachaidh"
 
-#: src/object/powerup.cpp:191
+#: src/object/powerup.cpp:189
 msgid "Disable gravity"
 msgstr "Cuir an iom-tharraing à comas"
 
@@ -503,7 +498,7 @@ msgstr "Cuir an iom-tharraing à comas"
 msgid "Ambient Sound"
 msgstr "Fuaim na h-àrainneachd"
 
-#: src/object/level_time.cpp:51 src/supertux/statistics.cpp:288
+#: src/object/level_time.cpp:51 src/supertux/statistics.cpp:245
 #: src/editor/node_marker.cpp:80
 msgid "Time"
 msgstr "Ùine"
@@ -512,81 +507,81 @@ msgstr "Ùine"
 msgid "Hurting Platform"
 msgstr "Ùrlar leònaidh"
 
-#: src/object/background.cpp:163
+#: src/object/background.cpp:161
 msgid "Fill"
 msgstr "Lìonadh"
 
-#: src/object/background.cpp:165
+#: src/object/background.cpp:163
 msgid "Alignment"
 msgstr "Co-thaobhadh"
 
-#: src/object/background.cpp:166
+#: src/object/background.cpp:164
 msgid "none"
 msgstr "chan eil gin"
 
-#: src/object/background.cpp:166 src/editor/object_settings.cpp:112
+#: src/object/background.cpp:164 src/editor/object_settings.cpp:112
 msgid "left"
 msgstr "gu clì"
 
-#: src/object/background.cpp:166 src/editor/object_settings.cpp:112
+#: src/object/background.cpp:164 src/editor/object_settings.cpp:112
 msgid "right"
 msgstr "gu deas"
 
-#: src/object/background.cpp:166
+#: src/object/background.cpp:164
 msgid "top"
 msgstr "ris a' bharr"
 
-#: src/object/background.cpp:166
+#: src/object/background.cpp:164
 msgid "bottom"
 msgstr "ris a' bhonn"
 
-#: src/object/background.cpp:169
+#: src/object/background.cpp:167
 msgid "Scroll offset x"
 msgstr "Frith-àireamh sgrolaidh x"
 
-#: src/object/background.cpp:170
+#: src/object/background.cpp:168
 msgid "Scroll offset y"
 msgstr "Frith-àireamh sgrolaidh y"
 
-#: src/object/background.cpp:171
+#: src/object/background.cpp:169
 msgid "Scroll speed x"
 msgstr "Luaths sgrolaidh x"
 
-#: src/object/background.cpp:172
+#: src/object/background.cpp:170
 msgid "Scroll speed y"
 msgstr "Luaths sgrolaidh y"
 
-#: src/object/background.cpp:173
+#: src/object/background.cpp:171
 msgid "Parallax Speed x"
 msgstr "Luaths paraileig x"
 
-#: src/object/background.cpp:174
+#: src/object/background.cpp:172
 msgid "Parallax Speed y"
 msgstr "Luaths paraileig y"
 
-#: src/object/background.cpp:175
+#: src/object/background.cpp:173
 msgid "Top image"
 msgstr "Dealbh a' bharra"
 
-#: src/object/background.cpp:176
+#: src/object/background.cpp:174
 msgid "Image"
 msgstr "Dealbh"
 
-#: src/object/background.cpp:177
+#: src/object/background.cpp:175
 msgid "Bottom image"
 msgstr "Dealbh a' bhuinn"
 
-#: src/object/background.cpp:178 src/object/tilemap.cpp:228
+#: src/object/background.cpp:176 src/object/tilemap.cpp:227
 #: src/object/gradient.cpp:129
 msgid "Draw target"
 msgstr "Amas na tàirnge"
 
-#: src/object/background.cpp:179 src/object/tilemap.cpp:229
+#: src/object/background.cpp:177 src/object/tilemap.cpp:228
 #: src/object/gradient.cpp:130
 msgid "Normal"
 msgstr "Àbhaisteach"
 
-#: src/object/background.cpp:179 src/object/tilemap.cpp:229
+#: src/object/background.cpp:177 src/object/tilemap.cpp:228
 #: src/object/gradient.cpp:130
 msgid "Lightmap"
 msgstr "Mapa-solais"
@@ -612,15 +607,15 @@ msgid "Bicycle Platform"
 msgstr "Ùrlar rothair"
 
 #: src/object/platform.cpp:67 src/object/thunderstorm.cpp:69
-#: src/object/tilemap.cpp:241
+#: src/object/tilemap.cpp:240
 msgid "Running"
 msgstr "A' ruith"
 
-#: src/object/rock.cpp:182
+#: src/object/rock.cpp:173
 msgid "On-grab script"
 msgstr "Sgriobt \"leis-an-togail\""
 
-#: src/object/rock.cpp:183
+#: src/object/rock.cpp:174
 msgid "On-ungrab script"
 msgstr "Sgriobt \"leis-an-leigeil-às\""
 
@@ -644,10 +639,6 @@ msgstr "Mìrean neòil"
 msgid "Ispy"
 msgstr "Sùil-bhrathaidh"
 
-#: src/object/skull_tile.hpp:31
-msgid "Skull Tile"
-msgstr "Leacag claiginn"
-
 #: src/object/weak_block.cpp:211
 msgid "Linked"
 msgstr "Ceangailte"
@@ -656,32 +647,32 @@ msgstr "Ceangailte"
 msgid "Decal"
 msgstr "Sanas"
 
-#: src/object/tilemap.cpp:217
+#: src/object/tilemap.cpp:216
 msgid "Resize offset x"
 msgstr "Frìth-àireamh x an ath-mheudachaidh"
 
-#: src/object/tilemap.cpp:218
+#: src/object/tilemap.cpp:217
 msgid "Resize offset y"
 msgstr "Frìth-àireamh y an ath-mheudachaidh"
 
-#: src/object/tilemap.cpp:223
+#: src/object/tilemap.cpp:222
 msgid "Alpha"
 msgstr "Alpha"
 
-#: src/object/tilemap.cpp:224
+#: src/object/tilemap.cpp:223
 msgid "Speed x"
 msgstr "Luaths x"
 
-#: src/object/tilemap.cpp:225
+#: src/object/tilemap.cpp:224
 msgid "Speed y"
 msgstr "Luaths y"
 
-#: src/object/tilemap.cpp:226
+#: src/object/tilemap.cpp:225
 msgid "Tint"
 msgstr "Fiamh-dhath"
 
-#: src/object/tilemap.cpp:244 src/supertux/menu/editor_tilegroup_menu.cpp:26
-#: src/editor/toolbox_widget.cpp:90
+#: src/object/tilemap.cpp:243 src/supertux/menu/editor_tilegroup_menu.cpp:26
+#: src/editor/toolbox_widget.cpp:89
 msgid "Tiles"
 msgstr "Leacagan"
 
@@ -734,8 +725,8 @@ msgid "Modulate"
 msgstr "Atharraich"
 
 #: src/object/gradient.cpp:136 src/supertux/menu/keyboard_menu.cpp:60
-#: src/supertux/menu/joystick_menu.cpp:106
-#: src/supertux/menu/joystick_menu.cpp:213 src/editor/object_settings.cpp:124
+#: src/supertux/menu/joystick_menu.cpp:108
+#: src/supertux/menu/joystick_menu.cpp:215 src/editor/object_settings.cpp:124
 msgid "None"
 msgstr "Chan eil gin"
 
@@ -795,7 +786,7 @@ msgstr "Cuir ris"
 #: src/gui/dialog.hpp:80 src/gui/menu_script.cpp:47
 #: src/supertux/menu/editor_sector_menu.cpp:46
 #: src/supertux/menu/editor_levelset_menu.cpp:62
-#: src/supertux/menu/addon_menu.cpp:349
+#: src/supertux/menu/addon_menu.cpp:346
 #: src/supertux/menu/editor_new_levelset_menu.cpp:37
 #: src/supertux/menu/editor_level_menu.cpp:44 src/editor/object_menu.cpp:43
 msgid "OK"
@@ -806,12 +797,12 @@ msgid "Do you want to delete this badguy from the list?"
 msgstr "A bheil thu airson an droch-chreutair seo a thoirt air falbh on liosta?"
 
 #: src/gui/menu_badguy_select.cpp:136 src/gui/dialog.hpp:89
-#: src/supertux/menu/editor_menu.cpp:123 src/editor/editor.cpp:478
+#: src/supertux/menu/editor_menu.cpp:123 src/editor/editor.cpp:482
 msgid "Yes"
 msgstr "Tha"
 
 #: src/gui/menu_badguy_select.cpp:139 src/gui/dialog.hpp:90
-#: src/supertux/menu/editor_menu.cpp:126 src/editor/editor.cpp:485
+#: src/supertux/menu/editor_menu.cpp:126 src/editor/editor.cpp:489
 msgid "No"
 msgstr "Chan eil"
 
@@ -824,7 +815,7 @@ msgstr "Measgaich an dath"
 #: src/supertux/menu/editor_sectors_menu.cpp:95
 #: src/supertux/menu/editor_sectors_menu.cpp:100
 #: src/supertux/menu/editor_objectgroup_menu.cpp:42
-#: src/supertux/menu/editor_tilegroup_menu.cpp:36 src/editor/editor.cpp:489
+#: src/supertux/menu/editor_tilegroup_menu.cpp:36 src/editor/editor.cpp:493
 msgid "Cancel"
 msgstr "Sguir dheth"
 
@@ -908,7 +899,7 @@ msgstr "Dealanach cruinn"
 msgid "Mole's rock"
 msgstr "Clach faimh"
 
-#: src/badguy/badguy.cpp:841
+#: src/badguy/badguy.cpp:834
 msgid "Death script"
 msgstr "Sgriobt bàis"
 
@@ -1000,7 +991,7 @@ msgstr "Duilleach earraich"
 msgid "Will o' Wisp"
 msgstr "Teine-biorach"
 
-#: src/badguy/badguy.hpp:53
+#: src/badguy/badguy.hpp:50
 msgid "Badguy"
 msgstr "Droch-chreutair"
 
@@ -1024,7 +1015,7 @@ msgstr "Giùlan"
 msgid "Dart Trap"
 msgstr "Ribe ghathan"
 
-#: src/badguy/skydive.hpp:38
+#: src/badguy/skydive.hpp:36
 msgid "Skydive"
 msgstr "Sìos on adhair"
 
@@ -1148,27 +1139,27 @@ msgstr "An ùine crìochnachaidh as fhearr:"
 msgid "Level target time:"
 msgstr "Ùine-amais an leibheil:"
 
-#: src/supertux/statistics.cpp:139 src/supertux/levelintro.cpp:160
+#: src/supertux/statistics.cpp:139 src/supertux/levelintro.cpp:159
 msgid "Best Level Statistics"
 msgstr "Stadastaireachd as fhearr an leibheil"
 
-#: src/supertux/statistics.cpp:228
+#: src/supertux/statistics.cpp:216
 msgid "You"
 msgstr "Thusa"
 
-#: src/supertux/statistics.cpp:230
+#: src/supertux/statistics.cpp:218
 msgid "Best"
 msgstr "As fhearr"
 
-#: src/supertux/statistics.cpp:232 src/supertux/levelintro.cpp:166
+#: src/supertux/statistics.cpp:220 src/supertux/levelintro.cpp:165
 msgid "Coins"
 msgstr "Buinn"
 
-#: src/supertux/statistics.cpp:255
+#: src/supertux/statistics.cpp:229
 msgid "Badguys"
 msgstr "Droch-chreutairean"
 
-#: src/supertux/statistics.cpp:271 src/supertux/levelintro.cpp:172
+#: src/supertux/statistics.cpp:237 src/supertux/levelintro.cpp:169
 msgid "Secrets"
 msgstr "Rùintean-dìomhair"
 
@@ -1370,12 +1361,12 @@ msgstr "*ÙR*"
 #: src/supertux/menu/worldmap_cheat_menu.cpp:153
 #: src/supertux/menu/editor_levelset_select_menu.cpp:96
 #: src/supertux/menu/options_menu.cpp:405
-#: src/supertux/menu/profile_menu.cpp:47 src/supertux/menu/addon_menu.cpp:213
+#: src/supertux/menu/profile_menu.cpp:47 src/supertux/menu/addon_menu.cpp:210
 #: src/supertux/menu/editor_new_levelset_menu.cpp:40
 #: src/supertux/menu/world_set_menu.cpp:33
 #: src/supertux/menu/keyboard_menu.cpp:51
 #: src/supertux/menu/language_menu.cpp:56
-#: src/supertux/menu/joystick_menu.cpp:97
+#: src/supertux/menu/joystick_menu.cpp:99
 #: src/supertux/menu/contrib_levelset_menu.cpp:67
 #: src/supertux/menu/cheat_menu.cpp:44
 msgid "Back"
@@ -1454,7 +1445,7 @@ msgid "Delete sector"
 msgstr "Sguab às an sgìre"
 
 #: src/supertux/menu/editor_objectgroup_menu.cpp:30
-#: src/editor/toolbox_widget.cpp:93
+#: src/editor/toolbox_widget.cpp:92
 msgid "Objects"
 msgstr "Oibseactan"
 
@@ -1754,10 +1745,6 @@ msgstr "Modh na Nollaige"
 msgid "Confirmation Dialog"
 msgstr "Còmhradh dearbhaidh"
 
-#: src/supertux/menu/options_menu.cpp:401
-msgid "Confirm aborting level"
-msgstr "Dearbh sgur dhen leibheil"
-
 #: src/supertux/menu/options_menu.cpp:402
 msgid "Pause on focus loss"
 msgstr "Cuir 'na stad le call an fhòcais"
@@ -1766,7 +1753,7 @@ msgstr "Cuir 'na stad le call an fhòcais"
 msgid "Start Game"
 msgstr "Tòisich air geama"
 
-#: src/supertux/menu/main_menu.cpp:52 src/supertux/menu/addon_menu.cpp:122
+#: src/supertux/menu/main_menu.cpp:52 src/supertux/menu/addon_menu.cpp:119
 msgid "Add-ons"
 msgstr "Tuilleadain"
 
@@ -1823,7 +1810,7 @@ msgstr "Tuairisgeul"
 
 #: src/supertux/menu/editor_levelset_menu.cpp:60
 #: src/supertux/menu/addon_menu.cpp:48
-#: data//images/engine/editor/objects.stoi:332
+#: data//images/engine/editor/objects.stoi:329
 msgid "Worldmap"
 msgstr "Mapa an t-saoghail"
 
@@ -1836,59 +1823,55 @@ msgstr "Buidheann leibheilean"
 msgid "World"
 msgstr "Saoghal"
 
-#: src/supertux/menu/addon_menu.cpp:54
-msgid "Add-on"
-msgstr "Tuilleadan"
-
-#: src/supertux/menu/addon_menu.cpp:60
+#: src/supertux/menu/addon_menu.cpp:57
 msgid "Unknown"
 msgstr "Chan eil fhios"
 
-#: src/supertux/menu/addon_menu.cpp:71
+#: src/supertux/menu/addon_menu.cpp:68
 #, c-format
 msgid "%s \"%s\" by \"%s\""
 msgstr "%s \"%s\" le \"%s\""
 
-#: src/supertux/menu/addon_menu.cpp:129
+#: src/supertux/menu/addon_menu.cpp:126
 msgid "No Add-ons installed"
 msgstr "Cha deach tuilleadan a stàladh"
 
-#: src/supertux/menu/addon_menu.cpp:133
+#: src/supertux/menu/addon_menu.cpp:130
 msgid "No Add-ons found"
 msgstr "Cha deach tuilleadan a lorg"
 
-#: src/supertux/menu/addon_menu.cpp:179
+#: src/supertux/menu/addon_menu.cpp:176
 #, c-format
 msgid "Install %s *NEW*"
 msgstr "Stàlaich %s *ÙR*"
 
-#: src/supertux/menu/addon_menu.cpp:190
+#: src/supertux/menu/addon_menu.cpp:187
 #, c-format
 msgid "Install %s"
 msgstr "Stàlaich %s"
 
-#: src/supertux/menu/addon_menu.cpp:199
+#: src/supertux/menu/addon_menu.cpp:196
 msgid "No new Add-ons found"
 msgstr "Cha deach tuilleadan ùr a lorg"
 
-#: src/supertux/menu/addon_menu.cpp:205
+#: src/supertux/menu/addon_menu.cpp:202
 msgid "Check Online (disabled)"
 msgstr "Thoir sùil air loidhne (à comas)"
 
-#: src/supertux/menu/addon_menu.cpp:209
+#: src/supertux/menu/addon_menu.cpp:206
 msgid "Check Online"
 msgstr "Thoir sùil air loidhne"
 
-#: src/supertux/menu/addon_menu.cpp:286
+#: src/supertux/menu/addon_menu.cpp:283
 msgid "Downloading Add-On Repository Index"
 msgstr "A' luchdadh a-nuas inneacs ionad-tasgaidh nan tuilleadan"
 
-#: src/supertux/menu/addon_menu.cpp:301
+#: src/supertux/menu/addon_menu.cpp:298
 #, c-format
 msgid "Downloading %s"
 msgstr "A' luchdadh a-nuas %s"
 
-#: src/supertux/menu/addon_menu.cpp:348
+#: src/supertux/menu/addon_menu.cpp:345
 msgid ""
 "Please restart SuperTux\n"
 "for these changes to take effect."
@@ -1977,17 +1960,17 @@ msgid "Console"
 msgstr "Consoil"
 
 #: src/supertux/menu/keyboard_menu.cpp:46
-#: src/supertux/menu/joystick_menu.cpp:82
+#: src/supertux/menu/joystick_menu.cpp:84
 msgid "Cheat Menu"
 msgstr "Clàr-taice na cealgaireachd"
 
 #: src/supertux/menu/keyboard_menu.cpp:47
-#: src/supertux/menu/joystick_menu.cpp:83
+#: src/supertux/menu/joystick_menu.cpp:85
 msgid "Debug Menu"
 msgstr "Clàr-taice an dì-bhugachaidh"
 
 #: src/supertux/menu/keyboard_menu.cpp:49
-#: src/supertux/menu/joystick_menu.cpp:85
+#: src/supertux/menu/joystick_menu.cpp:87
 msgid "Jump with Up"
 msgstr "Leum le Suas"
 
@@ -2072,51 +2055,51 @@ msgstr "Cleachd rèiteachadh a làimh seach taic fèin-obrachail ri uidheaman-sm
 msgid "Pause/Menu"
 msgstr "Cuir 'na stad/Clàr-taice"
 
-#: src/supertux/menu/joystick_menu.cpp:91
+#: src/supertux/menu/joystick_menu.cpp:93
 msgid "No Joysticks found"
 msgstr "Cha deach joystick a lorg"
 
-#: src/supertux/menu/joystick_menu.cpp:92
+#: src/supertux/menu/joystick_menu.cpp:94
 msgid "Scan for Joysticks"
 msgstr "Lorg joystick"
 
-#: src/supertux/menu/joystick_menu.cpp:125
+#: src/supertux/menu/joystick_menu.cpp:127
 msgid "Press Button"
 msgstr "Brùth putan"
 
-#: src/supertux/menu/joystick_menu.cpp:162
+#: src/supertux/menu/joystick_menu.cpp:164
 msgid "Axis "
 msgstr "Aiseal "
 
-#: src/supertux/menu/joystick_menu.cpp:165
+#: src/supertux/menu/joystick_menu.cpp:167
 msgid "-"
 msgstr "-"
 
-#: src/supertux/menu/joystick_menu.cpp:167
+#: src/supertux/menu/joystick_menu.cpp:169
 msgid "+"
 msgstr "+"
 
-#: src/supertux/menu/joystick_menu.cpp:174
+#: src/supertux/menu/joystick_menu.cpp:176
 msgid "X2"
 msgstr "X2"
 
-#: src/supertux/menu/joystick_menu.cpp:176
+#: src/supertux/menu/joystick_menu.cpp:178
 msgid "Y2"
 msgstr "Y2"
 
-#: src/supertux/menu/joystick_menu.cpp:189
+#: src/supertux/menu/joystick_menu.cpp:191
 msgid "Hat Up"
 msgstr "Ad Suas"
 
-#: src/supertux/menu/joystick_menu.cpp:193
+#: src/supertux/menu/joystick_menu.cpp:195
 msgid "Hat Down"
 msgstr "Ad Sìos"
 
-#: src/supertux/menu/joystick_menu.cpp:197
+#: src/supertux/menu/joystick_menu.cpp:199
 msgid "Hat Left"
 msgstr "Ad clì"
 
-#: src/supertux/menu/joystick_menu.cpp:201
+#: src/supertux/menu/joystick_menu.cpp:203
 msgid "Hat Right"
 msgstr "Ad deas"
 
@@ -2166,7 +2149,7 @@ msgstr "Roghainnean an leibheil"
 msgid "Author"
 msgstr "Ùghdar"
 
-#: src/supertux/menu/editor_level_menu.cpp:35 data//credits.stxt:1129
+#: src/supertux/menu/editor_level_menu.cpp:35 data//credits.stxt:1113
 msgid "Contact"
 msgstr "Conaltradh"
 
@@ -2278,7 +2261,7 @@ msgstr "Fàg an deasaiche leibheilean"
 msgid ""
 "We encourage you to share your levels in the SuperTux forum.\n"
 "To find your level, click the\n"
-"\"Open Level directory\" menu item.\n"
+"\"Open output directory\" menu item.\n"
 "Do you want to go to the forum now?"
 msgstr "Mholamaid gun co-roinn thu na leibheilean agad air fòram SuperTux.\nAirson an leibheil agad a lorg, briogadh air nì\n\"Fosgail pasgan an leibheil\" a' chlàr-taice.\nA bheil thu airson tadhal air an fhòram an-dràsta?"
 
@@ -2300,20 +2283,20 @@ msgstr "Ath-ghoiridean a' mheur-chlàir:\n---------------------\nEsc = Fosgail c
 msgid "Got it!"
 msgstr "Tha mi agaibh!"
 
-#: src/supertux/levelintro.cpp:136
+#: src/supertux/levelintro.cpp:135
 #, c-format
 msgid "contributed by %s"
 msgstr "tabhartas le %s"
 
-#: src/supertux/levelintro.cpp:169
+#: src/supertux/levelintro.cpp:167
 msgid "Badguys killed"
 msgstr "Droch-chreutairean air am marbhadh"
 
-#: src/supertux/levelintro.cpp:177
+#: src/supertux/levelintro.cpp:171
 msgid "Best time"
 msgstr "An ùine as fhearr"
 
-#: src/supertux/levelintro.cpp:181
+#: src/supertux/levelintro.cpp:175
 msgid "Level target time"
 msgstr "Ùine-amais an leibheil"
 
@@ -2409,11 +2392,11 @@ msgstr "Atharrachadh sprìde"
 msgid "Special tile"
 msgstr "Leacag shònraichte"
 
-#: src/editor/editor.cpp:477
+#: src/editor/editor.cpp:481
 msgid "This level contains unsaved changes, do you want to save?"
 msgstr "Tha atharraichean gun sàbhaladh san leibheil seo, a bheil thu airson a shàbhaladh?"
 
-#: src/editor/editor.cpp:517
+#: src/editor/editor.cpp:521
 msgid ""
 "Some obsolete add-ons are still active\n"
 "and might cause collisions with default Super Tux structure.\n"
@@ -2421,26 +2404,26 @@ msgid ""
 "Disabling these add-ons will not delete your game progress."
 msgstr "Tha cuid a sheann-tuilleadain gnìomhach fhathast\nagus faodaidh iad còmhstri adhbharachadh le sructar bunasach Super Tux.\n'S urrainn dhut na tuilleadain seo a ghnìomhachadh sa chlàr-taice fhathast.\nMa chuireas tu na tuilleadain seo à comas, cha sguab seo às d' adhartas sa gheama."
 
-#: src/editor/editor.cpp:520
+#: src/editor/editor.cpp:524
 msgid "Disable add-ons"
 msgstr "Cuir na tuilleadain à comas"
 
-#: src/editor/editor.cpp:525
+#: src/editor/editor.cpp:529
 msgid "Ignore (not advised)"
 msgstr "Leig seachad (cha mholamaid seo)"
 
-#: src/editor/editor.cpp:529
+#: src/editor/editor.cpp:533
 msgid "Leave editor"
 msgstr "Fàg an deasaiche"
 
-#: src/editor/editor.cpp:740
+#: src/editor/editor.cpp:743
 msgid ""
 "Couldn't find a \"main\" sector.\n"
 "Please change the name of the sector where\n"
 "you'd like the player to start to \"main\""
 msgstr "Cha deach sgìre \"main\" a lorg.\nThoir \"main\" air an sgìre far am bu\nchòir an cluicheadair tòiseachadh"
 
-#: src/editor/editor.cpp:744
+#: src/editor/editor.cpp:747
 msgid ""
 "Couldn't find a \"main\" spawnpoint.\n"
 " Please change the name of the spawnpoint where\n"
@@ -2666,92 +2649,92 @@ msgstr "Tabhartasan"
 msgid "Localization"
 msgstr "Ionadaileadh"
 
-#: data//credits.stxt:1107
+#: data//credits.stxt:1091
 msgid " Special Thanks to"
 msgstr " Taing shònraichte dha"
 
-#: data//credits.stxt:1112
+#: data//credits.stxt:1096
 msgid "Creator of Tux, the Linux penguin"
 msgstr "Cruthadair Tux, ceann-fhionn Linux"
 
-#: data//credits.stxt:1116
+#: data//credits.stxt:1100
 msgid "SDL, OpenAL and OpenGL"
 msgstr "SDL, OpenAL agus OpenGL"
 
-#: data//credits.stxt:1117
+#: data//credits.stxt:1101
 msgid ""
 "For making such a great gaming experience\n"
 "        possible on Linux"
 msgstr "Airson comas sàr-gheama a chruthachadh\n        air Linux"
 
-#: data//credits.stxt:1122
+#: data//credits.stxt:1106
 msgid "and you, the player"
 msgstr "agus dhutsa, a chluicheadair chòir"
 
-#: data//credits.stxt:1123
+#: data//credits.stxt:1107
 msgid "for giving this game a chance and playing it"
 msgstr "airson an geama seo fheuchainn 's a chluich"
 
-#: data//credits.stxt:1134
+#: data//credits.stxt:1118
 msgid "Visit our webpage at"
 msgstr "Tadhail air an làrach-lìn againn air"
 
-#: data//credits.stxt:1143
+#: data//credits.stxt:1127
 msgid "Or visit us directly at IRC:"
 msgstr "No tadhail oirnn gu dìreach air IRC:"
 
-#: data//credits.stxt:1147
+#: data//credits.stxt:1131
 msgid "#supertux at webchat.freenode.net"
 msgstr "#supertux aig webchat.freenode.net"
 
-#: data//credits.stxt:1152
+#: data//credits.stxt:1136
 msgid "Or at our Forum:"
 msgstr "No air a' bhòrd-bhrath againn:"
 
-#: data//credits.stxt:1161
+#: data//credits.stxt:1145
 msgid "Comments, ideas and suggestions"
 msgstr "Beachdan is molaidhean"
 
-#: data//credits.stxt:1165
+#: data//credits.stxt:1149
 msgid "go to our mailing list"
 msgstr "rach dhan liosta-phuist againn"
 
 #. l10n: typo contact
-#: data//credits.stxt:1175
+#: data//credits.stxt:1159
 msgid "Typographical errors can be"
 msgstr "'S urrainn dhut mearachdan litreachaidh"
 
 #. l10n: typo contact
-#: data//credits.stxt:1180
+#: data//credits.stxt:1164
 msgid "reported to"
 msgstr "aithris gu"
 
 #. l10n: typo contact, see <https://github.com/SuperTux/supertux/issues/611>
-#: data//credits.stxt:1185
+#: data//credits.stxt:1169
 msgid "supertux-devel@lists.lethargik.org"
 msgstr "supertux-devel@lists.lethargik.org"
 
-#: data//credits.stxt:1192
+#: data//credits.stxt:1176
 msgid "Want to help…"
 msgstr "A bheil thu airson cuideachadh…"
 
-#: data//credits.stxt:1197
+#: data//credits.stxt:1181
 msgid "…with localization?"
 msgstr "…le eadar-theangachadh?"
 
-#: data//credits.stxt:1207
+#: data//credits.stxt:1191
 msgid "…with something else?"
 msgstr "…le rudeigin eile?"
 
-#: data//credits.stxt:1218
+#: data//credits.stxt:1202
 msgid "Thank you for"
 msgstr "Mòran taing airson"
 
-#: data//credits.stxt:1222
+#: data//credits.stxt:1206
 msgid "playing"
 msgstr "cluiche"
 
-#: data//credits.stxt:1232
+#: data//credits.stxt:1216
 msgid "Penny awaits you in warmer temperatures!"
 msgstr "Tha Peinidh a' feitheamh ort am badeigin nas blàithe!"
 
@@ -2828,23 +2811,23 @@ msgstr "Pòla + Comharran"
 msgid "Liquid"
 msgstr "Lionn"
 
-#: data//images/tiles.strf:833 data//images/worldmap.strf:199
+#: data//images/tiles.strf:819 data//images/worldmap.strf:199
 msgid "Halloween"
 msgstr "Oidhche Shamhna"
 
-#: data//images/tiles.strf:861
+#: data//images/tiles.strf:847
 msgid "Industrial"
 msgstr "Gnìomhachail"
 
-#: data//images/tiles.strf:876
+#: data//images/tiles.strf:862
 msgid "Unisolid + Lightmap"
 msgstr "Aon-sholadach + Mapa-solais"
 
-#: data//images/tiles.strf:893
+#: data//images/tiles.strf:879
 msgid "Miscellaneous"
 msgstr "Measgaichte"
 
-#: data//images/tiles.strf:927
+#: data//images/tiles.strf:913
 msgid "Old/Unused"
 msgstr "Seann/Gun chleachdadh"
 
