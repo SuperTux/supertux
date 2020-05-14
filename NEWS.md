@@ -1,18 +1,18 @@
 SuperTux Release and Development Notes
 ======================================
 
-SuperTux 0.6.2-rc.1 (2020-05-08)
+SuperTux 0.6.2 (2020-05-14)
 ---------------------------
-The SuperTux Team is excited to announce the availability of the second beta release of SuperTux 0.6.2. This is an unstable pre-release that fixes a number of bugs that were reported after 0.6.1. It also features reworked graphics and levels. 
+The SuperTux Team is excited to announce the availability of SuperTux 0.6.2. This release fixes a number of bugs that were reported after 0.6.1. It also features reworked graphics and levels. 
 
 Other changes include a power-up counter in the hud, new sprites for the door, a new tileset and several new badguys. But overall, this release is supossed to celebrate our anniversary (May 2000) with a little surprise Add-On, which can be found in the contrib levels!
 
-Since the last beta, the following things were changed:
-- A crash in levels with paths was fixed
-- A segfault that occurs on some graphics cards when `glFenceSync` is called, was fixed.
-- Translations were updated
-
-Please note that this is presumably the last release candidate before the final release.
+Changes:
+  - A new worldmap, "Revenge In Redmond" celebrating SuperTux's 20th anniversary, which includes new enemies and sprites !!!
+  - New and improved backgrounds and sprites
+  - Improvements to many levels in the Icy Island and forest world
+  - Speed improvements for levels using a huge amount of lava tiles
+  - An issue causing the bridge in the forest world to not be shown in certain cases was fixed
 
 SuperTux 0.6.1 (2019-12-15)
 ---------------------------
