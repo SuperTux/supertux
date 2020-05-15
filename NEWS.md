@@ -1,8 +1,6 @@
 SuperTux Release and Development Notes
 ======================================
 
-<<<<<<< master
-=======
 SuperTux 0.6.2 (2020-05-14)
 ---------------------------
 The SuperTux Team is excited to announce the availability of SuperTux 0.6.2. This release fixes a number of bugs that were reported after 0.6.1. It also features reworked graphics and levels. 
@@ -16,7 +14,6 @@ Changes:
   - Speed improvements for levels using a huge amount of lava tiles
   - An issue causing the bridge in the forest world to not be shown in certain cases was fixed
 
->>>>>>> master
 SuperTux 0.6.1 (2019-12-15)
 ---------------------------
 The SuperTux Team is excited to announce the availability of SuperTux 0.6.1. This is first and foremost a bugfix release that fixes reported issues after the release of 0.6.0 a year ago, however, we also introduced a lot of other changes, such as new graphics, levels and other game content.
