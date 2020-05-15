@@ -72,8 +72,6 @@ public:
 
   bool is_invincible() const { return m_invincible_timer.started(); }
   bool is_dying() const { return m_dying; }
-  
-  bool m_sliding;
 
   Direction peeking_direction_x() const { return m_peekingX; }
   Direction peeking_direction_y() const { return m_peekingY; }
@@ -112,7 +110,7 @@ public:
   void do_slide();
 
   /** stand back up if possible. */
-  void do_standup();
+  void do_standup(bool force_standup);
 
   /** do a backflip if possible. */
   void do_backflip();
@@ -138,8 +136,6 @@ public:
   bool is_stone() const { return m_stone; }
   bool is_swimming() const { return m_swimming; }
   bool is_swimboosting() const { return m_swimboosting; }
-  bool is_icedash() const { return m_icedash; }
-
 
   void set_visible(bool visible);
   bool get_visible() const;
@@ -227,10 +223,6 @@ private:
   std::unique_ptr<CodeController> m_scripting_controller; /**< This controller is used when the Player is controlled via scripting */
   PlayerStatus& m_player_status;
   bool m_duck;
-  bool m_walljump;
-  bool m_dashed;
-  bool m_glided;
-  bool m_on_slope;
   bool m_dead;
   bool m_dying;
   bool m_winning;
@@ -242,7 +234,6 @@ private:
   bool m_stone;
   bool m_swimming;
   bool m_swimboosting;
-  bool m_icedash;
   float m_speedlimit;
   const Controller* m_scripting_controller_old; /**< Saves the old controller while the scripting_controller is used */
   bool m_jump_early_apex;
