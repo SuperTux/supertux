@@ -50,7 +50,6 @@ BadGuy::BadGuy(const Vector& pos, const std::string& sprite_name_, int layer_,
 BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite_name_, int layer_,
                const std::string& light_sprite_name) :
   MovingSprite(pos, sprite_name_, layer_, COLGROUP_DISABLED),
-  ExposedObject<BadGuy, scripting::BadGuy>(this),
   m_physic(),
   m_countMe(true),
   m_is_initialized(false),
@@ -84,7 +83,6 @@ BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite
 BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name_, int layer_,
                const std::string& light_sprite_name) :
   MovingSprite(reader, sprite_name_, layer_, COLGROUP_DISABLED),
-  ExposedObject<BadGuy, scripting::BadGuy>(this),
   m_physic(),
   m_countMe(true),
   m_is_initialized(false),
@@ -154,24 +152,20 @@ void
 BadGuy::update(float dt_sec)
 {
   if (!Sector::get().inside(m_col.m_bbox)) {
-    auto this_portable = dynamic_cast<Portable*> (this);
-    if (!this_portable || !this_portable->is_grabbed())
-    {
-      run_dead_script();
-      m_is_active_flag = false;
-      remove_me();
-      // This was removed due to fixing a bug. If is it needed somewhere, then I'm sorry. --Hume2
-      /**if(countMe) {
-        // get badguy name from sprite_name ignoring path and extension
-        std::string badguy = sprite_name.substr(0, sprite_name.length() - 7);
-        int path_chars = badguy.rfind("/",badguy.length());
-        badguy = badguy.substr(path_chars + 1, badguy.length() - path_chars);
-        // log warning since badguys_killed can no longer reach total_badguys
-        std::string current_level = "[" + Sector::get().get_level()->filename + "] ";
-        log_warning << current_level << "Counted badguy " << badguy << " starting at " << start_position << " has left the sector" <<std::endl;;
-      }*/
-      return;
-    }
+    run_dead_script();
+    m_is_active_flag = false;
+    remove_me();
+    // This was removed due to fixing a bug. If is it needed somewhere, then I'm sorry. --Hume2
+    /**if(countMe) {
+      // get badguy name from sprite_name ignoring path and extension
+      std::string badguy = sprite_name.substr(0, sprite_name.length() - 7);
+      int path_chars = badguy.rfind("/",badguy.length());
+      badguy = badguy.substr(path_chars + 1, badguy.length() - path_chars);
+      // log warning since badguys_killed can no longer reach total_badguys
+      std::string current_level = "[" + Sector::get().get_level()->filename + "] ";
+      log_warning << current_level << "Counted badguy " << badguy << " starting at " << start_position << " has left the sector" <<std::endl;;
+    }*/
+    return;
   }
   if ((m_state != STATE_INACTIVE) && is_offscreen()) {
     if (m_state == STATE_ACTIVE) deactivate();
@@ -291,7 +285,7 @@ BadGuy::active_update(float dt_sec)
 {
   m_col.m_movement = m_physic.get_movement(dt_sec);
   if (m_frozen)
-    m_sprite->stop_animation();
+    m_sprite->stop_animation();	  
 }
 
 void
@@ -389,7 +383,8 @@ BadGuy::collision_solid(const CollisionHit& hit)
 HitResponse
 BadGuy::collision_player(Player& player, const CollisionHit& )
 {
-  if (player.is_invincible()) {
+  if (player.is_invincible() || player.m_sliding || player.is_icedash()) {
+	if (is_freezable() && player.is_icedash()) {freeze();}
     kill_fall();
     return ABORT_MOVE;
   }
@@ -404,6 +399,11 @@ BadGuy::collision_player(Player& player, const CollisionHit& )
         kill_fall();
         return ABORT_MOVE;
       }
+	if (player.is_swimboosting())
+  {
+    if(collision_squished(player))
+      return ABORT_MOVE;
+  }
   }
 
   //TODO: unfreeze timer
@@ -601,25 +601,20 @@ BadGuy::set_state(State state_)
 bool
 BadGuy::is_offscreen() const
 {
-  Vector cam_dist;
-  Vector player_dist;
-  Camera& cam = Sector::get().get_camera();
-  cam_dist = cam.get_center() - m_col.m_bbox.get_middle();
+  Vector dist;
   if (Editor::is_active()) {
-      if ((fabsf(cam_dist.x) <= X_OFFSCREEN_DISTANCE) && (fabsf(cam_dist.y) <= Y_OFFSCREEN_DISTANCE)) {
-        return false;
-    }
+    Camera& cam = Sector::get().get_camera();
+    dist = cam.get_center() - m_col.m_bbox.get_middle();
   }
   auto player = get_nearest_player();
   if (!player)
     return false;
   if (!Editor::is_active()) {
-    player_dist = player->get_bbox().get_middle() - m_col.m_bbox.get_middle();
+    dist = player->get_bbox().get_middle() - m_col.m_bbox.get_middle();
   }
   // In SuperTux 0.1.x, Badguys were activated when Tux<->Badguy center distance was approx. <= ~668px
   // This doesn't work for wide-screen monitors which give us a virt. res. of approx. 1066px x 600px
-  if (((fabsf(player_dist.x) <= X_OFFSCREEN_DISTANCE) && (fabsf(player_dist.y) <= Y_OFFSCREEN_DISTANCE))
-      ||((fabsf(cam_dist.x) <= X_OFFSCREEN_DISTANCE) && (fabsf(cam_dist.y) <= Y_OFFSCREEN_DISTANCE))) {
+  if ((fabsf(dist.x) <= X_OFFSCREEN_DISTANCE) && (fabsf(dist.y) <= Y_OFFSCREEN_DISTANCE)) {
     return false;
   }
   return true;
@@ -903,26 +898,6 @@ BadGuy::after_editor_set()
                   << get_class() << std::endl;
     }
   }
-}
-
-bool
-BadGuy::can_be_affected_by_wind() const
-{
-  return !on_ground();
-}
-
-void
-BadGuy::add_wind_velocity(const Vector& velocity, const Vector& end_speed)
-{
-  // only add velocity in the same direction as the wind
-  if (end_speed.x > 0 && m_physic.get_velocity_x() < end_speed.x)
-    m_physic.set_velocity_x(std::min(m_physic.get_velocity_x() + velocity.x, end_speed.x));
-  if (end_speed.x < 0 && m_physic.get_velocity_x() > end_speed.x)
-    m_physic.set_velocity_x(std::max(m_physic.get_velocity_x() + velocity.x, end_speed.x));
-  if (end_speed.y > 0 && m_physic.get_velocity_y() < end_speed.y)
-    m_physic.set_velocity_y(std::min(m_physic.get_velocity_y() + velocity.y, end_speed.y));
-  if (end_speed.y < 0 && m_physic.get_velocity_y() > end_speed.y)
-    m_physic.set_velocity_y(std::max(m_physic.get_velocity_y() + velocity.y, end_speed.y));
 }
 
 /* EOF */
