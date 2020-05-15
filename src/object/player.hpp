@@ -72,6 +72,8 @@ public:
 
   bool is_invincible() const { return m_invincible_timer.started(); }
   bool is_dying() const { return m_dying; }
+  
+  bool m_sliding;
 
   Direction peeking_direction_x() const { return m_peekingX; }
   Direction peeking_direction_y() const { return m_peekingY; }
@@ -106,9 +108,11 @@ public:
   /** duck down if possible.
       this won't last long as long as input is enabled. */
   void do_duck();
+  
+  void do_slide();
 
   /** stand back up if possible. */
-  void do_standup(bool force_standup);
+  void do_standup();
 
   /** do a backflip if possible. */
   void do_backflip();
@@ -132,6 +136,10 @@ public:
   bool is_dead() const { return m_dead; }
   bool is_big() const;
   bool is_stone() const { return m_stone; }
+  bool is_swimming() const { return m_swimming; }
+  bool is_swimboosting() const { return m_swimboosting; }
+  bool is_icedash() const { return m_icedash; }
+
 
   void set_visible(bool visible);
   bool get_visible() const;
@@ -158,7 +166,7 @@ public:
 
   /** Changes height of bounding box.
       Returns true if successful, false otherwise */
-  bool adjust_height(float new_height);
+  bool adjust_height(float new_height, float bottom_offset = 0);
 
   /** Orders the current GameSession to start a sequence
       @param sequence_name Name of the sequence to start
@@ -192,12 +200,16 @@ private:
   void handle_input();
   void handle_input_ghost(); /**< input handling while in ghost mode */
   void handle_input_climbing(); /**< input handling while climbing */
+  
+  void handle_input_swimming();
 
   void handle_horizontal_input();
   void handle_vertical_input();
 
   void do_jump_apex();
   void early_jump_apex();
+  
+  void swim(float pointx, float pointy, bool boost);
 
   bool slightly_above_ground() const;
 
@@ -215,6 +227,10 @@ private:
   std::unique_ptr<CodeController> m_scripting_controller; /**< This controller is used when the Player is controlled via scripting */
   PlayerStatus& m_player_status;
   bool m_duck;
+  bool m_walljump;
+  bool m_dashed;
+  bool m_glided;
+  bool m_on_slope;
   bool m_dead;
   bool m_dying;
   bool m_winning;
@@ -225,6 +241,8 @@ private:
   float m_ability_time;
   bool m_stone;
   bool m_swimming;
+  bool m_swimboosting;
+  bool m_icedash;
   float m_speedlimit;
   const Controller* m_scripting_controller_old; /**< Saves the old controller while the scripting_controller is used */
   bool m_jump_early_apex;
@@ -277,6 +295,11 @@ private:
   Portable* m_grabbed_object;
 
   SpritePtr m_sprite; /**< The main sprite representing Tux */
+  
+  float m_swimming_angle;
+  float m_swimming_accel_modifier;
+  bool m_water_jump;
+  bool m_dive_walk;
 
   SurfacePtr m_airarrow; /**< arrow indicating Tux' position when he's above the camera */
 
