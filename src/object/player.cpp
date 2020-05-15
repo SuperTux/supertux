@@ -54,7 +54,6 @@ const float TUX_BACKFLIP_TIME = 2.1f; // minimum air time that backflip results 
 const float BUTTJUMP_MIN_VELOCITY_Y = 400.0f;
 const float SHOOTING_TIME = .150f;
 const float GLIDE_TIME_PER_FLOWER = 0.5f;
-const float ICEDASH_COOLDOWN = 0.3f;
 const float STONE_TIME_PER_FLOWER = 2.0f;
 
 /** number of idle stages, including standing */
@@ -85,11 +84,11 @@ const float SKID_TIME = .3f;
 /** maximum walk velocity (pixel/s) */
 const float MAX_WALK_XM = 230;
 /** maximum run velocity (pixel/s) */
-const float MAX_RUN_XM = 330;
+const float MAX_RUN_XM = 320;
 /** bonus run velocity addition (pixel/s) */
 const float BONUS_RUN_XM = 80;
 /** maximum horizontal climb velocity */
-const float MAX_CLIMB_XM = 128;
+const float MAX_CLIMB_XM = 96;
 /** maximum vertical climb velocity */
 const float MAX_CLIMB_YM = 128;
 /** maximum vertical glide velocity */
@@ -98,7 +97,7 @@ const float MAX_GLIDE_YM = 128;
 const float WALK_SPEED = 100;
 
 /** multiplied by WALK_ACCELERATION to give friction */
-const float NORMAL_FRICTION_MULTIPLIER = 3.0f;
+const float NORMAL_FRICTION_MULTIPLIER = 1.5f;
 /** multiplied by WALK_ACCELERATION to give friction */
 const float ICE_FRICTION_MULTIPLIER = 0.1f;
 const float ICE_ACCELERATION_MULTIPLIER = 0.25f;
@@ -132,11 +131,6 @@ Player::Player(PlayerStatus& player_status, const std::string& name_) :
   m_scripting_controller(new CodeController()),
   m_player_status(player_status),
   m_duck(false),
-  m_walljump(false),
-  m_dashed(false),
-  m_glided(false),
-  m_on_slope(false),
-  m_sliding(false),
   m_dead(false),
   m_dying(false),
   m_winning(false),
@@ -148,7 +142,6 @@ Player::Player(PlayerStatus& player_status, const std::string& name_) :
   m_stone(false),
   m_swimming(false),
   m_swimboosting(false),
-  m_icedash(false),
   m_speedlimit(0), //no special limit
   m_scripting_controller_old(nullptr),
   m_jump_early_apex(false),
@@ -392,10 +385,6 @@ Player::update(float dt_sec)
       m_col.set_width(TUX_WIDTH);
     }
   }
-	
-  if (on_ground()) {
-	  m_walljump = false;
-  }
 
   // on downward slopes, adjust vertical velocity so tux walks smoothly down
   if (on_ground() && !m_dying) {
@@ -421,8 +410,6 @@ Player::update(float dt_sec)
 
   // set fall mode...
   if (on_ground()) {
-	m_dashed = false;
-	m_glided = false;
     m_fall_mode = ON_GROUND;
     m_last_ground_y = get_pos().y;
   } else {
@@ -451,9 +438,6 @@ Player::update(float dt_sec)
     }
     if (m_player_status.bonus == AIR_BONUS)
       m_ability_time = static_cast<float>(m_player_status.max_air_time) * GLIDE_TIME_PER_FLOWER;
-  
-    if (m_player_status.bonus == ICE_BONUS)
-      m_ability_time = ICEDASH_COOLDOWN;
 
     if (m_second_growup_sound_timer.check())
     {
@@ -800,11 +784,7 @@ Player::do_cheer()
 {
   do_duck();
   do_backflip();
-  do_standup();
-}
-
-void
-Player::do_slide() {
+  do_standup(false);
 }
 
 void
@@ -948,7 +928,6 @@ Player::handle_vertical_input()
         } else {
           m_physic.set_velocity_y(MAX_GLIDE_YM);
           m_physic.set_acceleration_y(0);
-		  m_glided = true;
         }
       }
     }
@@ -964,20 +943,6 @@ Player::handle_vertical_input()
       m_ability_time = m_ability_timer.get_timeleft();
       m_ability_timer.stop();
     }
-  }
-  
-  if (m_controller->pressed(Control::JUMP) && m_walljump && !on_ground()) {
-	  m_physic.set_velocity_y(-540);
-	  SoundManager::current()->play("sounds/skid.wav");
-	    if (is_big()) {
-    SoundManager::current()->play("sounds/bigjump.wav");
-  } else {
-    SoundManager::current()->play("sounds/jump.wav");
-  }
-	  m_walljump = false;
-	  if (!on_ground() || m_physic.get_velocity_y() != 0) {
-	  if (m_dir == Direction::LEFT) {m_physic.set_velocity_x(400);}
-	  else if (m_dir == Direction::RIGHT) {m_physic.set_velocity_x(-400);}}
   }
 
   if (m_jump_early_apex && m_physic.get_velocity_y() >= 0) {
@@ -1038,22 +1003,6 @@ if (m_swimming) {
     }
   }
   
-  bool dash = m_controller->pressed(Control::ACTION);
-  
-  if (dash && !m_cooldown_timer.started() && (m_player_status.bonus == ICE_BONUS)) {
-	    m_ability_timer.start(m_ability_time);
-		m_icedash = true;
-		float vx = m_physic.get_velocity_x();
-		float icedir = 0;
-		if (m_dir == Direction::LEFT) {
-		icedir = -1.f;} 
-         else if (m_dir == Direction::RIGHT) {
-		 icedir = 1.f;}
-        m_physic.set_velocity(vx + (400 * icedir), -100.0f);
-		m_cooldown_timer.start(ICEDASH_COOLDOWN);
-  }
-  if (m_icedash && (m_cooldown_timer.get_timegone() > 0.3f)) {m_icedash = false;}
-  
   /* Peeking */
   if ( m_controller->released( Control::PEEK_LEFT ) || m_controller->released( Control::PEEK_RIGHT ) ) {
     m_peekingX = Direction::AUTO;
@@ -1087,23 +1036,17 @@ if (m_swimming) {
 
   /* Shoot! */
   auto active_bullets = Sector::get().get_object_count<Bullet>();
-  if (m_controller->pressed(Control::ACTION) && m_player_status.bonus == FIRE_BONUS) {
-    if (m_player_status.bonus == FIRE_BONUS &&
-      active_bullets < m_player_status.max_fire_bullets)
+  if (m_controller->pressed(Control::ACTION) && (m_player_status.bonus == FIRE_BONUS || m_player_status.bonus == ICE_BONUS)) {
+    if ((m_player_status.bonus == FIRE_BONUS &&
+      active_bullets < m_player_status.max_fire_bullets) ||
+      (m_player_status.bonus == ICE_BONUS &&
+      active_bullets < m_player_status.max_ice_bullets))
     {
       Vector pos = get_pos() + ((m_dir == Direction::LEFT)? Vector(0, m_col.m_bbox.get_height()/2) : Vector(32, m_col.m_bbox.get_height()/2));
       Sector::get().add<Bullet>(pos, m_physic.get_velocity_x(), m_dir, m_player_status.bonus);
       SoundManager::current()->play("sounds/shoot.wav");
       m_shooting_timer.start(SHOOTING_TIME);
     }
-  }
-  
-  float aav = m_physic.get_velocity_y();
-  
-  if (m_controller->pressed(Control::JUMP) && m_player_status.bonus == AIR_BONUS && !on_ground() && !m_dashed && m_glided) {
-	  m_dashed = true;
-	  m_ability_timer.start(m_ability_time);
-	  m_physic.set_velocity_y(-700.0f);
   }
 
   /* Turn to Stone */
@@ -1140,26 +1083,10 @@ if (m_swimming) {
   }
 
   /* Duck or Standup! */
-  if (m_controller->hold(Control::DOWN) && !m_stone && !m_swimming && !m_on_slope) {
+  if (m_controller->hold(Control::DOWN) && !m_stone && !m_swimming) {
     do_duck();
   } else {
-    do_standup();
-  }
-  
-  if (m_controller->hold(Control::DOWN) && m_on_slope && !m_jumping) {
-	m_sliding = true;
-	m_physic.set_velocity_y(300);
-	if (m_dir == Direction::LEFT) {m_physic.set_velocity_x(-300);}
-	else if (m_dir == Direction::RIGHT) {m_physic.set_velocity_x(300);}
-  }
-  
-  if (m_sliding && m_controller->hold(Control::JUMP)) {
-	m_sliding = false;
-	do_jump(-540);
-  }
-  
-  if (m_sliding && (m_controller->hold(Control::LEFT) || m_controller->hold(Control::RIGHT))) {
-	m_sliding = false;
+    do_standup(false);
   }
 
   /* grabbing */
@@ -1361,7 +1288,10 @@ Player::set_bonus(BonusType type, bool animate)
     }
     if (animate) {
       m_growing = true;
-      m_sprite->set_action((m_dir == Direction::LEFT)?"grow-left":"grow-right", 1);
+      if (m_climbing)
+        m_sprite->set_action((m_dir == Direction::LEFT)?"grow-ladder-left":"grow-ladder-right", 1);
+      else
+        m_sprite->set_action((m_dir == Direction::LEFT)?"grow-left":"grow-right", 1);
     }
     if (m_climbing) stop_climbing(*m_climbing);
   }
@@ -1406,7 +1336,6 @@ Player::set_bonus(BonusType type, bool animate)
       Sector::get().add<SpriteParticle>("images/objects/particles/" + particle_name + ".sprite",
                                              action, ppos, ANCHOR_TOP, pspeed, paccel, LAYER_OBJECTS - 1);
     }
-    if (m_climbing) stop_climbing(*m_climbing);
 
     m_player_status.max_fire_bullets = 0;
     m_player_status.max_ice_bullets = 0;
@@ -1432,7 +1361,6 @@ void
 Player::set_visible(bool visible_)
 {
   m_visible = visible_;
-  set_group(visible_ ? COLGROUP_MOVING : COLGROUP_DISABLED);
 }
 
 bool
@@ -1526,18 +1454,16 @@ if (!m_swimming && m_water_jump) {
   }
   else if (m_climbing) {
     m_sprite->set_action(sa_prefix+"-climbing"+sa_postfix);
+	
+    // Avoid flickering briefly after growing on ladder
+    if ((m_physic.get_velocity_x()==0)&&(m_physic.get_velocity_y()==0))
+      m_sprite->stop_animation();
   }
   else if (m_backflipping) {
     m_sprite->set_action(sa_prefix+"-backflip"+sa_postfix);
   }
   else if (m_duck && is_big()) {
     m_sprite->set_action(sa_prefix+"-duck"+sa_postfix);
-  }
-  else if (m_sliding) {
-    m_sprite->set_action("big-buttjump"+sa_postfix);
-  }
-  else if (m_icedash) {
-    m_sprite->set_action(sa_prefix+"-icedash"+sa_postfix);
   }
   else if (m_skidding_timer.started() && !m_skidding_timer.check()) {
     m_sprite->set_action(sa_prefix+"-skid"+sa_postfix);
@@ -1723,18 +1649,6 @@ Player::collision_solid(const CollisionHit& hit)
     if (m_physic.get_velocity_y() < 0)
       m_physic.set_velocity_y(.2f);
   }
-  
-  if (((hit.left && m_controller->hold(Control::LEFT)) || (hit.right && m_controller->hold(Control::RIGHT))) && !on_ground() && !m_does_buttjump && m_physic.get_velocity_y() > 0) {
-  m_physic.set_velocity_y(60);
-  m_walljump = true; }
-  
-  if (!hit.left && !hit.right && m_walljump) {
-	  m_walljump = false;
-  }
-  
-  if (hit.slope_normal.y < 0) {m_on_slope = true;}
-  
-  if (hit.slope_normal.y == 0 || m_jumping) {m_on_slope = false;}
 
   if ((hit.left || hit.right) && hit.slope_normal.x == 0) {
     m_physic.set_velocity_x(0);
@@ -2045,7 +1959,11 @@ Player::stop_climbing(Climbable& /*climbable*/)
   m_physic.set_velocity(0, 0);
   m_physic.set_acceleration(0, 0);
 
-  if ((m_controller->hold(Control::JUMP)) || (m_controller->hold(Control::UP))) {
+  if (m_controller->hold(Control::JUMP)) {
+    m_on_ground_flag = true;
+    do_jump(m_player_status.bonus == BonusType::AIR_BONUS ? -540 : -480);
+  }
+  else if (m_controller->hold(Control::UP)) {
     m_on_ground_flag = true;
     // TODO: This won't help. Why?
     do_jump(-300);

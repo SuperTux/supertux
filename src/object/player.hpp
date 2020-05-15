@@ -106,8 +106,6 @@ public:
   /** duck down if possible.
       this won't last long as long as input is enabled. */
   void do_duck();
-  
-  void do_slide();
 
   /** stand back up if possible. */
   void do_standup(bool force_standup);
