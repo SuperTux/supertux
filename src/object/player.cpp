@@ -1489,10 +1489,10 @@ if (!m_swimming && m_water_jump) {
 		if (m_physic.get_velocity_y() > 0) {
         m_sprite->set_action(sa_prefix+"-fall"+sa_postfix);
 		}
-		else if ((m_physic.get_velocity_y() <= 0) && !m_dashed) {
+		else if ((m_physic.get_velocity_y() <= 0)) {
 		m_sprite->set_action(sa_prefix+"-jump"+sa_postfix);
 		}
-		else if ((m_physic.get_velocity_y() <= 0) && m_dashed) {
+		else if ((m_physic.get_velocity_y() <= 0)) {
 		m_sprite->set_action(sa_prefix+"-skid"+sa_postfix);
 		}
     }
