@@ -353,7 +353,7 @@ Camera::update_scroll_normal(float dt_sec)
   const auto& config_ = *(m_config);
   Player& player = d_sector->get_player();
   // TODO: co-op mode needs a good camera
-  Vector player_pos(player.get_bbox().get_middle().x,
+  Vector player_pos(player.get_bbox().get_left(),
                                     player.get_bbox().get_bottom());
   static Vector last_player_pos = player_pos;
   Vector player_delta = player_pos - last_player_pos;
