@@ -434,7 +434,7 @@ Player::update(float dt_sec)
 
       // if controls are currently deactivated, we take care of standing up ourselves
       if (m_deactivated)
-        do_standup();
+        do_standup(false);
     }
     if (m_player_status.bonus == AIR_BONUS)
       m_ability_time = static_cast<float>(m_player_status.max_air_time) * GLIDE_TIME_PER_FLOWER;
@@ -811,7 +811,7 @@ Player::do_duck() {
 }
 
 void
-Player::do_standup() {
+Player::do_standup(bool force_standup) {
   if (!m_duck)
     return;
   if (!is_big())
@@ -1939,7 +1939,7 @@ Player::start_climbing(Climbable& climbable)
   m_physic.set_acceleration(0, 0);
   if (m_backflipping) {
     stop_backflipping();
-    do_standup();
+    do_standup(true);
   }
 }
 
