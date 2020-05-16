@@ -321,6 +321,7 @@ Player::update(float dt_sec)
   if (on_ground() && no_water) {
 	if(m_water_jump || m_swimming) {adjust_height(is_big() ? BIG_TUX_HEIGHT : SMALL_TUX_HEIGHT);}
 	m_water_jump = false;
+	m_swimboosting = false;
   } 
 
   if (on_ground() && !no_water) {
