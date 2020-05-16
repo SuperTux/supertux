@@ -824,7 +824,7 @@ Player::do_standup(bool force_standup) {
   if (adjust_height(BIG_TUX_HEIGHT)) {
     m_duck = false;
     m_unduck_hurt_timer.stop();
-  } else {
+  } else if (force_standup) {
     // if timer is not already running, start it.
     if (m_unduck_hurt_timer.get_period() == 0) {
       m_unduck_hurt_timer.start(UNDUCK_HURT_TIME);
