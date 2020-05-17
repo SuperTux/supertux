@@ -354,8 +354,9 @@ Player::update(float dt_sec)
 
   // extend/shrink tux collision rectangle so that we fall through/walk over 1
   // tile holes
+
   Rectf lookahead = get_bbox();
-  lookahead.set_right(lookahead.get_right() + 32);
+  lookahead.set_right(lookahead.get_left() + 62);
   bool pathBlocked = !Sector::get().is_free_of_statics(lookahead);
   
   if((m_swimming || m_water_jump) && is_big() && !pathBlocked)
@@ -375,6 +376,11 @@ Player::update(float dt_sec)
     default:
       break;
     }
+  }
+  
+  else if (m_swimming && is_big() && pathBlocked && m_dir == Direction::RIGHT)
+  {
+	m_dir = Direction::UP;
   }
   else
   {
@@ -567,7 +573,7 @@ Player::swim(float pointx, float pointy, bool boost)
         vy = 0;
       }
       // Turbo, using pointsign
-	  float minboostspeed = 150.f;
+	  float minboostspeed = 100.f;
       if (boost && m_physic.get_velocity().norm()>minboostspeed) {
 		m_swimboosting = true;
 		if ((pointx != 0) || (pointy != 0)) {
@@ -575,15 +581,15 @@ Player::swim(float pointx, float pointy, bool boost)
         vy += 220.f * pointy;}
 		else {
 		if (pointx == 0) {
-			if (m_physic.get_velocity_x() > 150.f) {
+			if (m_physic.get_velocity_x() > 100.f) {
 			vx += 220.f;}
-			else if (m_physic.get_velocity_x() < -150.f) {
+			else if (m_physic.get_velocity_x() < -100.f) {
 			vx -= 220.f;}	
 			}
 		if (pointy == 0) {
-			if (m_physic.get_velocity_y() > 150.f) {
+			if (m_physic.get_velocity_y() > 100.f) {
 			vy += 220.f;}
-			else if (m_physic.get_velocity_y() < -150.f) {
+			else if (m_physic.get_velocity_y() < -100.f) {
 			vy -= 220.f;}	
 		}}
         m_physic.set_velocity(vx, vy);
@@ -1609,6 +1615,8 @@ Player::collision_tile(uint32_t tile_attributes)
         m_wants_buttjump = m_does_buttjump = m_backflipping = false;
         //start_swim_y = m_bbox.p1.y + 16.0;
         SoundManager::current()->play( "sounds/splash.wav" );
+		if (m_physic.get_velocity_x() > 0) {m_dir = Direction::LEFT;}
+		else {m_dir = Direction::RIGHT;}
       }
     }
   }
