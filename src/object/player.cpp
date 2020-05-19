@@ -1451,7 +1451,8 @@ if (!m_swimming && m_water_jump) {
     m_sprite->set_action("gameover");
   }
   else if (m_growing) {
-    m_sprite->set_action_continued("grow"+sa_postfix);
+	if (m_swimming || m_water_jump) {m_sprite->set_action_continued("swimgrow"+sa_postfix);}
+    else {m_sprite->set_action_continued("grow"+sa_postfix);}
     // while growing, do not change action
     // do_duck() will take care of cancelling growing manually
     // update() will take care of cancelling when growing completed
