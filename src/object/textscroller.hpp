@@ -43,12 +43,12 @@ public:
   virtual std::string get_class() const override { return "textscroller"; }
   virtual std::string get_display_name() const override { return _("TextScroller"); }
 
-  void set_speed(float speed);
+  void set_default_speed(float default_speed);
   void scroll(float offset);
   bool is_finished() const { return m_finished; }
   
 protected:
-  Controller controller;
+  const Controller* controller;
 
 private:
   void parse_file(const std::string& filename);
@@ -59,7 +59,7 @@ private:
   std::string m_filename;
   std::vector<std::unique_ptr<InfoBoxLine> > m_lines;
   float m_scroll;
-  float m_speed;
+  float m_default_speed;
   bool m_finished;
   bool m_fading;
 

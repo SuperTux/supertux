@@ -38,15 +38,16 @@ namespace {
 
 const float LEFT_BORDER = 0;
 const float DEFAULT_SPEED = 60;
+const float SCROLL_JUMP = 60;
 
 } // namespace
 
 TextScroller::TextScroller(const ReaderMapping& mapping) :
-  controller(),
+  controller(&InputManager::current()->get_controller()),
   m_filename(),
   m_lines(),
   m_scroll(),
-  m_speed(DEFAULT_SPEED),
+  m_default_speed(DEFAULT_SPEED),
   m_finished(false),
   m_fading(false)
 {
@@ -59,15 +60,15 @@ TextScroller::TextScroller(const ReaderMapping& mapping) :
     parse_file(m_filename);
   }
 
-  mapping.get("speed", m_speed);
+  mapping.get("speed", m_default_speed);
 }
 
 TextScroller::TextScroller(const ReaderObject& root) :
-  controller(),
+  controller(&InputManager::current()->get_controller()),
   m_filename(),
   m_lines(),
   m_scroll(),
-  m_speed(DEFAULT_SPEED),
+  m_default_speed(DEFAULT_SPEED),
   m_finished(false),
   m_fading(false)
 {
@@ -236,16 +237,37 @@ TextScroller::draw(DrawingContext& context)
 void
 TextScroller::update(float dt_sec)
 {
-  m_scroll += m_speed * dt_sec;
+  float speed = m_default_speed;
+
+  if (controller) {
+    // allow changing speed with up and down keys
+    if (controller->hold(Control::UP)) {
+      speed = -m_default_speed * 5;
+    } else if (controller->hold(Control::DOWN)) {
+      speed = m_default_speed * 5;
+    }
+
+    // allow jumping ahead with certain keys
+    if ((controller->pressed(Control::JUMP) ||
+         controller->pressed(Control::ACTION) ||
+         controller->pressed(Control::MENU_SELECT)) &&
+        !(controller->pressed(Control::UP))) { // prevent skipping if jump with up is enabled
+      scroll(SCROLL_JUMP);
+    }
+
+    // use start or escape keys to exit
+    if (controller->pressed(Control::START) ||
+        controller->pressed(Control::ESCAPE)) {
+      ScreenManager::current()->pop_screen(std::make_unique<FadeToBlack>(FadeToBlack::FADEOUT, 0.5));
+      return;
+    }
+  }
+
+  m_scroll += speed * dt_sec;
 
   if (m_scroll < 0)
     m_scroll = 0;
 
-  if (controller.pressed(Control::START) ||
-      controller.pressed(Control::ESCAPE)) {
-    ScreenManager::current()->pop_screen(std::unique_ptr<ScreenFade>(new FadeToBlack(FadeToBlack::FADEOUT, 0.25)));
-  }
-  
   { // close when done
     if (m_finished && !m_fading)
     {
@@ -256,9 +278,9 @@ TextScroller::update(float dt_sec)
 }
 
 void
-TextScroller::set_speed(float speed)
+TextScroller::set_default_speed(float default_speed)
 {
-  m_speed = speed;
+  m_default_speed = default_speed;
 }
 
 void
@@ -276,7 +298,7 @@ TextScroller::get_settings()
 {
   ObjectSettings result = GameObject::get_settings();
 
-  result.add_float(_("Speed"), &m_speed, "speed", DEFAULT_SPEED);
+  result.add_float(_("Speed"), &m_default_speed, "speed", DEFAULT_SPEED);
   result.add_file(_("File"), &m_filename, "file");
 
   return result;

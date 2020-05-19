@@ -69,6 +69,8 @@ TextScrollerScreen::TextScrollerScreen(const std::string& filename) :
 
       text_mapping.get("speed", m_defaultspeed);
       text_mapping.get("music", m_music);
+
+      m_text_scroller->set_default_speed(m_defaultspeed);
     }
   } catch (std::exception& e) {
     std::ostringstream msg;
@@ -94,33 +96,7 @@ TextScrollerScreen::setup()
 void
 TextScrollerScreen::update(float dt_sec, const Controller& controller)
 {
-  if (controller.hold(Control::UP)) {
-    m_text_scroller->set_speed(-m_defaultspeed * 5);
-  } else if (controller.hold(Control::DOWN)) {
-    m_text_scroller->set_speed(m_defaultspeed * 5);
-  } else {
-    m_text_scroller->set_speed(m_defaultspeed);
-  }
-
-  if ((controller.pressed(Control::JUMP) ||
-       controller.pressed(Control::ACTION) ||
-       controller.pressed(Control::MENU_SELECT)) &&
-      !(controller.pressed(Control::UP))) { // prevent skipping if jump with up is enabled
-    m_text_scroller->scroll(SCROLL);
-  }
-
-  if (controller.pressed(Control::START) ||
-      controller.pressed(Control::ESCAPE)) {
-    ScreenManager::current()->pop_screen(std::make_unique<FadeToBlack>(FadeToBlack::FADEOUT, 0.5));
-  }
-
-  { // close when done
-    if (m_text_scroller->is_finished() && !m_fading)
-    {
-      m_fading = true;
-      ScreenManager::current()->pop_screen(std::make_unique<FadeToBlack>(FadeToBlack::FADEOUT, 0.5));
-    }
-  }
+  // NOTE: Keyboard input is handled by the TextScroller class.
 
   m_text_scroller->update(dt_sec);
 }
