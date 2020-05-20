@@ -8,23 +8,29 @@
   )
   (action
     (name "turnon")
+	(fps 18)
     (hitbox 3 4 25 39)
     (images 
-      "switch-1.png"
+	  "switch-1.png"
+      "switch-2.png"
+	  "switch-3.png"
     )
   )
   (action
     (name "on")
     (hitbox 3 4 25 39)
     (images 
-      "switch-2.png"
+      "switch-4.png"
     )
   )
   (action
     (name "turnoff")
+	(fps 18)
     (hitbox 3 4 25 39)
-    (images 
-      "switch-1.png"
+    (images
+      "switch-3.png"	
+      "switch-2.png"
+	  "switch-1.png"
     )
   )
 )
