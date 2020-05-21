@@ -134,6 +134,7 @@ LiveFire::kill_fall()
   m_lightsprite->set_blend(Blend::ADD);
   m_lightsprite->set_color(Color(1.0f, 0.9f, 0.8f));
   set_group(COLGROUP_DISABLED);
+  state = STATE_DEAD;
 
   // start dead-script
   run_dead_script();

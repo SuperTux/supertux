@@ -44,7 +44,8 @@ protected:
     STATE_SLEEPING,
     STATE_WAKING,
     STATE_WALKING,
-    STATE_DORMANT
+    STATE_DORMANT,
+    STATE_DEAD
   };
 
 protected:
