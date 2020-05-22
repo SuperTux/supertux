@@ -19,6 +19,7 @@
 
 #include <SDL.h>
 #include <map>
+#include <set>
 
 #include "control/controller.hpp"
 
@@ -41,6 +42,7 @@ public:
 
 private:
   std::map<SDL_Keycode, Control> m_keymap;
+  std::set<Control> m_configurable_controls;
   bool m_jump_with_up_kbd;
 
 private:

@@ -24,6 +24,7 @@
 
 KeyboardConfig::KeyboardConfig() :
   m_keymap(),
+  m_configurable_controls(),
   m_jump_with_up_kbd(false)
 {
   // initialize default keyboard map
@@ -47,6 +48,22 @@ KeyboardConfig::KeyboardConfig() :
   m_keymap[SDLK_F1]       = Control::CHEAT_MENU;
   m_keymap[SDLK_F2]       = Control::DEBUG_MENU;
   m_keymap[SDLK_BACKSPACE]= Control::REMOVE;
+
+  m_configurable_controls = {
+    Control::UP,
+    Control::DOWN,
+    Control::LEFT,
+    Control::RIGHT,
+    Control::JUMP,
+    Control::ACTION,
+    Control::PEEK_LEFT,
+    Control::PEEK_RIGHT,
+    Control::PEEK_UP,
+    Control::PEEK_DOWN,
+    Control::CONSOLE,
+    Control::CHEAT_MENU,
+    Control::DEBUG_MENU
+  };
 }
 
 void
@@ -77,7 +94,9 @@ KeyboardConfig::read(const ReaderMapping& keymap_mapping)
 
     const boost::optional<Control> maybe_control = Control_from_string(control_text);
     if (maybe_control) {
-      bind_key(static_cast<SDL_Keycode>(key), *maybe_control);
+      if (m_configurable_controls.count(*maybe_control)) {
+        bind_key(static_cast<SDL_Keycode>(key), *maybe_control);
+      }
     } else {
       log_warning << "Invalid control '" << control_text << "' in keymap" << std::endl;
     }
