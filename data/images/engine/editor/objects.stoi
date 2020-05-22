@@ -80,7 +80,7 @@
     (icon "images/creatures/flame/ghostflame-0.png"))
   (object
     (class "iceflame")
-    (icon "images/creatures/flame/iceflame.png"))   
+    (icon "images/creatures/flame/iceflame.png"))
   (object
     (class "poisonivy")
     (icon "images/creatures/poison_ivy/left-0.png"))
@@ -162,7 +162,7 @@
     (class "ghosttree")
     (icon "images/creatures/ghosttree/ghosttree.png"))
  )
- 
+
  (objectgroup
   (name (_"Projectiles"))
   (worldmap #f)
@@ -176,7 +176,7 @@
     (class "dart")
     (icon "images/creatures/dart/flying.png"))
  )
- 
+
  (objectgroup
   (name (_"Environment"))
   (worldmap #f)
@@ -231,6 +231,9 @@
   (object
     (class "rock")
     (icon "images/objects/rock/rock.png"))
+  (object
+    (class "rublight")
+    (icon "images/objects/rublight/rublight.png"))
   (object
     (class "rustytrampoline")
     (icon "images/objects/rusty-trampoline/trampoline1-0.png"))
