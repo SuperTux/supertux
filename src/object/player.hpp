@@ -134,6 +134,7 @@ public:
   bool is_stone() const { return m_stone; }
   bool is_swimming() const { return m_swimming; }
   bool is_swimboosting() const { return m_swimboosting; }
+  bool is_skidding() const { return m_skidding_timer.started(); }
 
   void set_visible(bool visible);
   bool get_visible() const;
@@ -194,7 +195,7 @@ private:
   void handle_input();
   void handle_input_ghost(); /**< input handling while in ghost mode */
   void handle_input_climbing(); /**< input handling while climbing */
-  
+
   void handle_input_swimming();
 
   void handle_horizontal_input();
@@ -202,7 +203,7 @@ private:
 
   void do_jump_apex();
   void early_jump_apex();
-  
+
   void swim(float pointx, float pointy, bool boost);
 
   bool slightly_above_ground() const;
@@ -284,7 +285,7 @@ private:
   Portable* m_grabbed_object;
 
   SpritePtr m_sprite; /**< The main sprite representing Tux */
-  
+
   float m_swimming_angle;
   float m_swimming_accel_modifier;
   bool m_water_jump;
