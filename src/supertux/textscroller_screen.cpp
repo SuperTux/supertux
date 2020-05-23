@@ -39,7 +39,6 @@
 namespace {
 
 const float DEFAULT_SPEED = 20;
-const float SCROLL = 60;
 
 } // namespace
 
@@ -47,8 +46,7 @@ TextScrollerScreen::TextScrollerScreen(const std::string& filename) :
   m_defaultspeed(DEFAULT_SPEED),
   m_music(),
   m_background(),
-  m_text_scroller(),
-  m_fading(false)
+  m_text_scroller()
 {
   std::string background_file;
 
