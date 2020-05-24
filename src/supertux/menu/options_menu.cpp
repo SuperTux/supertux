@@ -233,9 +233,9 @@ OptionsMenu::OptionsMenu(bool complete) :
   }
 
   { // vsync
-    vsyncs.push_back("on");
-    vsyncs.push_back("off");
-    vsyncs.push_back("adaptive");
+    vsyncs.push_back(_("on"));
+    vsyncs.push_back(_("off"));
+    vsyncs.push_back(_("adaptive"));
     int mode = VideoSystem::current()->get_vsync();
 
     switch (mode)
