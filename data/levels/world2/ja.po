@@ -46,7 +46,7 @@ msgid "You found a secret area!"
 msgstr "秘密の場所を見つけました！"
 
 #: data/levels/world2/besides_bushes.stl:3
-msgid "Besides the Bushes"
+msgid "Beside the Bushes"
 msgstr "茂みのそばに"
 
 #: data/levels/world2/bouncy_coils.stl:3

@@ -44,7 +44,7 @@ msgid "You found a secret area!"
 msgstr "Našel/a si skrito območje!"
 
 #: data/levels/world2/besides_bushes.stl:3
-msgid "Besides the Bushes"
+msgid "Beside the Bushes"
 msgstr "Poleg grmičevja"
 
 #: data/levels/world2/bouncy_coils.stl:3

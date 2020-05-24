@@ -49,7 +49,7 @@ msgid "You found a secret area!"
 msgstr "Vous avez trouvé un passage secret"
 
 #: data/levels/world2/besides_bushes.stl:3
-msgid "Besides the Bushes"
+msgid "Beside the Bushes"
 msgstr "Près des Buissons"
 
 #: data/levels/world2/bouncy_coils.stl:3
