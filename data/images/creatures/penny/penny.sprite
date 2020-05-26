@@ -1,7 +1,40 @@
 (supertux-sprite
  (action
   (name "stand-left")
-  (images "penny.png")
+           (fps 4.0)
+  (images "penny-0.png"
+          "penny-0.png"
+          "penny-0.png"
+          "penny-0.png"
+          "penny-0.png"
+          "penny-0.png"
+          "penny-0.png"
+          "penny-0.png"
+          "penny-0.png"
+          "penny-1.png"
+          "penny-2.png"
+          "penny-1.png"
+          "penny-0.png"
+          "penny-0.png"
+          "penny-0.png"
+          "penny-0.png"
+          "penny-0.png"
+          "penny-0.png"
+          "penny-0.png"
+          "penny-0.png"
+          "penny-0.png"
+          "penny-1.png"
+          "penny-2.png"
+          "penny-1.png"
+          "penny-0.png"
+          "penny-0.png"
+          "penny-0.png"
+          "penny-0.png"
+          "penny-0.png"
+          "penny-0.png"
+          "penny-0.png"
+          "penny-0.png"
+          "penny-0.png")
  )
 
  (action
