@@ -52,7 +52,7 @@ msgid "You found a secret area!"
 msgstr "Du hast ein Versteck gefunden!"
 
 #: data/levels/world2/besides_bushes.stl:3
-msgid "Besides the Bushes"
+msgid "Beside the Bushes"
 msgstr "Neben den Büschen"
 
 #: data/levels/world2/bouncy_coils.stl:3

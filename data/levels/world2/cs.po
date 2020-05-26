@@ -19,9 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: cs\n"
-"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
-#: data/levels/world2/Bouncy_Coils.stl:3
 msgid "Bouncy Coils"
 msgstr "Trampolíny"
 

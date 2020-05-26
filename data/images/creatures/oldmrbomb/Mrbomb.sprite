@@ -13,12 +13,12 @@
   (fps 10.0)
   (hitbox 5 8 32 32)
   (mirror-action "left"))
- 
+  
  (action
   (name "iced-left")
   (hitbox 5 8 31.8 31.8)
   (images "iced-left.png"))
- 
+  
  (action
   (name "iced-right")
   (hitbox 5 8 31.8 31.8)
@@ -46,11 +46,9 @@
           "mrbombx-left-1.png"
           ))
 
- 
  (action
   (name "ticking-right")
   (fps 10.0)
   (hitbox 5 8 32 32)
   (mirror-action "ticking-left"))
- 
 )

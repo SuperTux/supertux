@@ -221,7 +221,7 @@
     (icon "images/engine/editor/bicycleplatform.png"))
   (object
     (class "hurting_platform")
-    (icon "images/engine/editor/hurtingplatform.png"))
+    (icon "images/objects/sawblade/default-0.png"))
   (object
     (class "scriptedobject")
     (icon "images/engine/editor/scriptedobject.png"))

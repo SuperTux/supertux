@@ -19,7 +19,6 @@ msgstr ""
 "Language: eo\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: data/levels/world2/Bouncy_Coils.stl:3
 msgid "Bouncy Coils"
 msgstr ""
 
