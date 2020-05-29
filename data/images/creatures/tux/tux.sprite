@@ -130,50 +130,6 @@
          (fps 15.0)
          (mirror-action "small-swimming-up"))
 		 
-	   	   (action
-         (name "small-swimjump-right")
-         (fps 10.0)
-		 (loops 1)
-         (hitbox 19 10 36 35)
-         (images "small/swimsmall1.png"))
-
-       (action
-         (name "small-swimjump-left")
-         (fps 10.0)
-		 (loops 1)
-         (hitbox 19 10 36 35)
-         (mirror-action "small-swimjump-right"))
-
-
-       (action
-         (name "small-swimjump-up")
-         (hitbox 12 14 36 35)
-         (fps 10.0)
-		 (loops 1)
-         (images "small/swimsmallup5.png"
-                 "small/swimsmallup1.png"))
-				 
-	   (action
-         (name "small-swimjump-upflip")
-         (fps 10.0)
-		 (loops 1)
-         (hitbox 12 14 36 35)
-         (mirror-action "small-swimjump-up"))
-
-       (action
-         (name "small-swimjump-down")
-         (hitbox 11 13 36 35)
-		 (fps 10.0)
-		 (loops 1)
-         (images "small/swimsmallup1.png"))
-				 
-	   (action
-         (name "smalll-swimjump-downflip")
-         (fps 10.0)
-		 (loops 1)
-         (hitbox 11 13 36 35)
-         (mirror-action "small-swimjump-down"))
-		 
 	   (action
          (name "small-floating-right")
          (fps 11.0)
@@ -232,6 +188,49 @@
          (fps 11.0)
          (hitbox 8 14 36 35)
          (mirror-action "small-floating-down"))
+	   	   (action
+         (name "small-swimjump-right")
+         (fps 10.0)
+		 (loops 1)
+         (hitbox 19 10 36 35)
+         (images "small/swimsmall1.png"))
+
+       (action
+         (name "small-swimjump-left")
+         (fps 10.0)
+		 (loops 1)
+         (hitbox 19 10 36 35)
+         (mirror-action "small-swimjump-right"))
+
+
+       (action
+         (name "small-swimjump-up")
+         (hitbox 12 14 36 35)
+         (fps 10.0)
+		 (loops 1)
+         (images "small/swimsmallup5.png"
+                 "small/swimsmallup1.png"))
+				 
+	   (action
+         (name "small-swimjump-upflip")
+         (fps 10.0)
+		 (loops 1)
+         (hitbox 12 14 36 35)
+         (mirror-action "small-swimjump-up"))
+
+       (action
+         (name "small-swimjump-down")
+         (hitbox 11 13 36 35)
+		 (fps 10.0)
+		 (loops 1)
+         (images "small/swimsmallup1.png"))
+				 
+	   (action
+         (name "small-swimjump-downflip")
+         (fps 10.0)
+		 (loops 1)
+         (hitbox 11 13 36 35)
+         (mirror-action "small-swimjump-down"))
 
        (action
          (name "small-skid-left")
