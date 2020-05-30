@@ -445,13 +445,13 @@ Player::update(float dt_sec)
     }
     if (m_player_status.bonus == AIR_BONUS)
       m_ability_time = static_cast<float>(m_player_status.max_air_time) * GLIDE_TIME_PER_FLOWER;
+  }
 
     if (m_second_growup_sound_timer.check())
     {
       SoundManager::current()->play("sounds/grow.wav");
       m_second_growup_sound_timer.stop();
     }
-  }
 
   // calculate movement for this frame
   m_col.m_movement = m_physic.get_movement(dt_sec);
