@@ -1050,7 +1050,11 @@ if (m_swimming) {
       active_bullets < m_player_status.max_ice_bullets))
     {
       Vector pos = get_pos() + ((m_dir == Direction::LEFT)? Vector(0, m_col.m_bbox.get_height()/2) : Vector(32, m_col.m_bbox.get_height()/2));
-      Sector::get().add<Bullet>(pos, m_physic.get_velocity_x(), m_dir, m_player_status.bonus);
+	  Direction swim_dir;
+	  if (m_physic.get_velocity_x() < 0) {swim_dir = Direction::LEFT;}
+	  else if (m_physic.get_velocity_x() >= 0) {swim_dir = Direction::RIGHT;}
+	  if (m_swimming || m_water_jump) {Sector::get().add<Bullet>(pos, m_physic.get_velocity_x(), swim_dir, m_player_status.bonus);
+	  } else {Sector::get().add<Bullet>(pos, m_physic.get_velocity_x(), m_dir, m_player_status.bonus);}
       SoundManager::current()->play("sounds/shoot.wav");
       m_shooting_timer.start(SHOOTING_TIME);
     }
