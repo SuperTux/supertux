@@ -668,13 +668,13 @@
 
        (action
          (name "fire-walk-right")
-         (fps 20.0)
+         (fps 15.0)
          (hitbox 16 14 32 64)
          (clone-action "big-walk-right"))
 
        (action
          (name "fire-walk-left")
-         (fps 20.0)
+         (fps 15.0)
          (hitbox 16 14 32 64)
          (mirror-action "big-walk-right"))
 
@@ -958,13 +958,13 @@
 	   
 	   (action
          (name "ice-walk-right")
-         (fps 20.0)
+         (fps 15.0)
          (hitbox 16 14 32 64)
          (clone-action "big-walk-right"))
 
        (action
          (name "ice-walk-left")
-         (fps 20.0)
+         (fps 15.0)
          (hitbox 16 14 32 64)
          (mirror-action "big-walk-right"))
 
@@ -1234,13 +1234,13 @@
 
        (action
          (name "earth-walk-right")
-         (fps 20.0)
+         (fps 15.0)
          (hitbox 16 14 32 64)
          (clone-action "big-walk-right"))
 
        (action
          (name "earth-walk-left")
-         (fps 20.0)
+         (fps 15.0)
          (hitbox 16 14 32 64)
          (mirror-action "big-walk-right"))
 
@@ -1510,13 +1510,13 @@
 
        (action
          (name "earth-walk-right-stone")
-         (fps 20.0)
+         (fps 15.0)
          (hitbox 16 14 32 64)
          (images "earth/statue.png"))
 
        (action
          (name "earth-walk-left-stone")
-         (fps 20.0)
+         (fps 15.0)
          (hitbox 16 14 32 64)
          (mirror-action "earth-walk-right-stone"))
 
@@ -1620,13 +1620,13 @@
 
        (action
          (name "air-walk-right")
-         (fps 20.0)
+         (fps 15.0)
          (hitbox 16 14 32 64)
          (clone-action "big-walk-right"))
 
        (action
          (name "air-walk-left")
-         (fps 20.0)
+         (fps 15.0)
          (hitbox 16 14 32 64)
          (mirror-action "big-walk-right"))
 
