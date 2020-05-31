@@ -86,19 +86,25 @@ Block::collision(GameObject& other, const CollisionHit& )
 {
   auto player = dynamic_cast<Player*> (&other);
   if (player) {
-    bool x_coordinates_intersect =
+   	  if(player->is_swimboosting())
+    {
+      hit(*player);
+
+    }
+   bool x_coordinates_intersect =
         player->get_bbox().get_right()  >= m_col.m_bbox.get_left() &&
         player->get_bbox().get_left()   <= m_col.m_bbox.get_right();
     if (player->get_bbox().get_top() > m_col.m_bbox.get_bottom() - SHIFT_DELTA &&
         x_coordinates_intersect) {
+			
+    if (player->get_bbox().get_top() > m_col.m_bbox.get_bottom() - SHIFT_DELTA) {
       hit(*player);
     }
-  }
+  }}
 
   // only interact with other objects if...
   //   1) we are bouncing
-  //   2) the object is not portable (either never or not currently);
-  //      make an exception if it's a portable badguy - those get killed
+  //   2) the object is not portable (either never or not currently)
   //   3) the object is being hit from below (baguys don't get killed for activating boxes)
   auto badguy = dynamic_cast<BadGuy*> (&other);
   auto portable = dynamic_cast<Portable*> (&other);
@@ -130,6 +136,7 @@ Block::collision(GameObject& other, const CollisionHit& )
 
   return FORCE_MOVE;
 }
+
 
 void
 Block::update(float dt_sec)

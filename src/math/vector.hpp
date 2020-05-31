@@ -20,6 +20,7 @@
 #include <math.h>
 #include <iosfwd>
 
+#include "math/util.hpp"
 /** Simple two dimensional vector. */
 class Vector final
 {
@@ -111,7 +112,10 @@ public:
   }
 
   float norm() const;
+  float angle() const;
   Vector unit() const;
+  Vector polar() const;
+  Vector rectangular() const;
 
   Vector floor() const
   {

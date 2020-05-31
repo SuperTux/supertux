@@ -36,6 +36,10 @@ const T& clamp(const T& val, const T& min, const T& max)
   }
 }
 
+template <class T> int sgn(T val) {
+    return (T(0) < val) - (val < T(0));
+}
+
 constexpr float TAU = 6.28318530717958647693f;
 constexpr float PI = 3.14159265358979323846f;
 constexpr float PI_2 = 1.57079632679489661923f;
