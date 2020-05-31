@@ -34,7 +34,7 @@
       2135 117  118  1539
       
       3249 3250 3251 3252
-      3253 3254 3255 3256
+      3253 3254 3255 32256
       3261 3262 3263 3264
       3265 3266 3267 3268
       
@@ -693,6 +693,15 @@
  (tilegroup
     (name (_ "Castle"))
     (tiles
+      68   65   69   64
+      67   66   3518 321
+      3521 3279 3516 0
+	  3517 3519 3522 0
+      3281 3282 3520 0
+	  3280 3277 3278 0
+	  3257 3258 3269 3270
+      3259 3260 3271 3272
+	  
       3878 3879 3880 3881
       3882 3883 3884 3885
       3886 3887 3888 3889
@@ -705,14 +714,6 @@
       3912 3913 3914 0
       3915 3916 3917 3918
       3919 3920 3921 3922
-      
-
-      68   64   69   0
-      67   66   3516 0
-      3519 3517 3518 3521
-      65   321  3520 3522
-	  3277 3278 3279 3280
-      3281 3282    0    0
 	  
 	  2091 2092 2093    0
       2096 2097 2098    0
@@ -823,10 +824,6 @@
       1772 1773 0    0
       337  338  339  0
       340  341  342  0
-      3257 3258 0    0
-      3259 3260 0    0
-      3269 3270 0    0
-      3271 3272 0    0
     )
   )
   
@@ -1391,40 +1388,20 @@
     )
     (solid #t)
   )
-  (tile
-    (id 64)
-    (images
-      "tiles/castle/grey.png"
+  (tiles
+    (width 6)
+    (height 3)
+    (ids
+      68 65   69   3521 3279 3516
+	  67 66   3518 321  0 0
+	  64 3517 3519 3522 0 0
     )
-    (solid #t)
-  )
-  (tile
-    (id 65)
-    (images
-      "tiles/castle/grey2.png"
+    (attributes
+      1 1 1 1 1 1
+      1 1 1 1 1 1
+      1 1 1 1 0 0
     )
-    (solid #t)
-  )
-  (tile
-    (id 66)
-    (images
-      "tiles/castle/grey3.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 68)
-    (images
-      "tiles/castle/grey5.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 69)
-    (images
-      "tiles/castle/grey6.png"
-    )
-    (solid #t)
+    (image "tiles/castle/grey_brick.png")
   )
   (tile
     ; dupe of tile 63, this one will be kept.
@@ -2175,13 +2152,6 @@
       1 1
     )
     (image "tiles/doodads/stone2.png")
-  )
-  (tile
-    (id 321)
-    (images
-      "tiles/castle/grey_jungle.png"
-    )
-    (solid #t)
   )
   (tile
     (id 322)
@@ -4599,16 +4569,17 @@
   )
 
   (tiles
-    (width 2)
+    (width 4)
     (height 2)
     (ids
-      3257 3258 3259 3260
+      3257 3258 3269 3270
+	  3259 3260 3271 3272
     )
     (attributes
-      1 1
-      1 1
+      1 1 1 1
+      1 1 1 1
     )
-    (image "tiles/castle/hearttile.png")
+    (image "tiles/castle/grey_misc.png")
   )
   (tiles
     (width 6)
@@ -4668,40 +4639,32 @@
     )
     (image "tiles/snow/custom.png")
   )
-(tiles
-    (width 2)
-    (height 2)
-    (ids
-      3269 3270 3271 3272
-    )
-    (attributes
-      1 1
-      1 1
-    )
-    (image "tiles/castle/pennyhere.png")
-  )
   (tiles
     (width 2)
     (height 2)
     (ids
-      3277 3278 3279 3280
+      3277 3278
+	  0    3280
     )
     (attributes
       0 0
       0 0
     )
-    (image "tiles/castle/grey8.png")
+    (image "tiles/castle/grey_back.png")
   )
 (tiles
-    (width 2)
+    (width 3)
     (height 1)
     (ids
-      3281 3282
+      3281 3282 3520
     )
     (attributes
-      1 1
+      3 3 3
     )
-    (image "tiles/castle/grey7.png")
+	(datas
+      0 0 0
+    )
+    (image "tiles/castle/grey_unisolid.png")
   )
 (tiles
     (width 2)
@@ -5068,21 +5031,6 @@
       0  0
     )
     (image "tiles/forest/underground/slope-3.png")
-  )
-  (tiles
-    (width 3)
-    (height 3)
-    (ids
-      3516 3517 3518
-      3519 3520 3521
-      3522 67   0
-    )
-    (attributes
-      1 1 1
-      1 1 1
-      1 1 0
-    )
-    (image "tiles/castle/grey_special.png")
   )
   (tiles
     (width 4)
