@@ -116,11 +116,11 @@ ContribMenu::ContribMenu() :
           title << "[" << world->get_title() << "]";
           if (level_count == 0)
           {
-            title << " " << _("*NEW*");
+            title;
           }
           else
           {
-            title << " (" << solved_count << "/" << level_count << ")";
+            title;
           }
           add_entry(i++, title.str());
           m_contrib_worlds.push_back(std::move(world));
@@ -147,11 +147,11 @@ ContribMenu::ContribMenu() :
           title << world->get_title();
           if (level_count == 0)
           {
-            title << " " << _("*NEW*");
+            title;
           }
           else
           {
-            title << " (" << solved_count << "/" << level_count << ")";
+            title;
           }
           add_entry(i++, title.str());
           m_contrib_worlds.push_back(std::move(world));
