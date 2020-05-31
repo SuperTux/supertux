@@ -114,14 +114,6 @@ ContribMenu::ContribMenu() :
 
           std::ostringstream title;
           title << "[" << world->get_title() << "]";
-          if (level_count == 0)
-          {
-            title;
-          }
-          else
-          {
-            title;
-          }
           add_entry(i++, title.str());
           m_contrib_worlds.push_back(std::move(world));
         }
@@ -145,14 +137,6 @@ ContribMenu::ContribMenu() :
 
           std::ostringstream title;
           title << world->get_title();
-          if (level_count == 0)
-          {
-            title;
-          }
-          else
-          {
-            title;
-          }
           add_entry(i++, title.str());
           m_contrib_worlds.push_back(std::move(world));
         }
