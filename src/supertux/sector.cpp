@@ -167,8 +167,8 @@ Sector::get_level() const
   return m_level;
 }
 
-void
-Sector::activate(const std::string& spawnpoint)
+Vector
+Sector::get_spawn_location(const std::string& spawnpoint)
 {
   SpawnPointMarker* sp = nullptr;
   for (auto& spawn_point : get_objects_by_type<SpawnPointMarker>()) {
@@ -181,12 +181,12 @@ Sector::activate(const std::string& spawnpoint)
   if (!sp) {
     log_warning << "Spawnpoint '" << spawnpoint << "' not found." << std::endl;
     if (spawnpoint != "main") {
-      activate("main");
+      return get_spawn_location("main");
     } else {
-      activate(Vector(0, 0));
+      return Vector(0, 0);
     }
   } else {
-    activate(sp->get_pos());
+    return sp->get_pos();
   }
 }
 

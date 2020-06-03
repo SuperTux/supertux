@@ -132,7 +132,7 @@ GameSession::restart_level(bool after_death)
       if (!m_currentsector)
         throw std::runtime_error("Couldn't find main sector");
       m_play_time = 0;
-      m_currentsector->activate("main");
+      m_currentsector->activate(m_currentsector->get_spawn_location("main"));
     }
   } catch(std::exception& e) {
     log_fatal << "Couldn't start level: " << e.what() << std::endl;
@@ -351,7 +351,7 @@ GameSession::update(float dt_sec, const Controller& controller)
       sector = m_level->get_sector("main");
     }
     m_currentsector->stop_looping_sounds();
-    sector->activate(m_newspawnpoint);
+    sector->activate(sector->get_spawn_location(m_newspawnpoint));
     sector->get_singleton_by_type<MusicObject>().play_music(LEVEL_MUSIC);
     m_currentsector = sector;
     m_currentsector->play_looping_sounds();
@@ -462,6 +462,14 @@ GameSession::set_reset_point(const std::string& sector, const Vector& pos)
 {
   m_reset_sector = sector;
   m_reset_pos = pos;
+}
+
+void
+GameSession::set_reset_point(const std::string& sector,
+                             const std::string& spawnpoint)
+{
+  set_reset_point(sector,
+                  m_level->get_sector(sector)->get_spawn_location(spawnpoint));
 }
 
 std::string

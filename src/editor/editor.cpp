@@ -359,7 +359,7 @@ Editor::set_sector(Sector* sector)
   if (!sector) return;
 
   m_sector = sector;
-  m_sector->activate("main");
+  m_sector->activate(m_sector->get_spawn_location("main"));
 
   { // initialize badguy sprites and other GameObject stuff
     BIND_SECTOR(*m_sector);
@@ -422,7 +422,8 @@ Editor::set_level(std::unique_ptr<Level> level, bool reset)
 
   if (m_sector != nullptr)
   {
-    m_sector->activate(sector_name);
+    // Why do we assume the same name for sector and spawnpoint?
+    m_sector->activate(m_sector->get_spawn_location(sector_name));
     m_sector->get_camera().set_mode(Camera::Mode::MANUAL);
 
     if (!reset) {

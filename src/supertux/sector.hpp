@@ -71,7 +71,7 @@ public:
   Level& get_level() const;
 
   /** activates this sector (change music, initialize player class, ...) */
-  void activate(const std::string& spawnpoint);
+  Vector get_spawn_location(const std::string& spawnpoint);
   void activate(const Vector& player_pos);
   void deactivate();
 

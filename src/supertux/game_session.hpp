@@ -55,6 +55,8 @@ public:
   void respawn(const std::string& sectorname, const std::string& spawnpointname,
                const bool invincibility = false, const int invincibilityperiod = 0);
   void reset_level();
+  void set_reset_point(const std::string& sectorname,
+                       const std::string& spawnpointname);
   void set_reset_point(const std::string& sectorname, const Vector& pos);
   std::string get_reset_point_sectorname() const { return m_reset_sector; }
 

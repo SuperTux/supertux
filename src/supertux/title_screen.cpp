@@ -74,7 +74,7 @@ TitleScreen::make_tux_jump()
 
   // Wrap around at the end of the level back to the beginning
   if (sector.get_width() - 320 < tux.get_pos().x) {
-    sector.activate("main");
+    sector.activate(sector.get_spawn_location("main"));
     sector.get_camera().reset(tux.get_pos());
   }
 }
