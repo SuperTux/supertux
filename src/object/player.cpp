@@ -317,15 +317,15 @@ Player::update(float dt_sec)
       m_water_jump = false;
     }
   }
-  
+
   if (on_ground() && no_water) {
 	if(m_water_jump || m_swimming) {adjust_height(is_big() ? BIG_TUX_HEIGHT : SMALL_TUX_HEIGHT);}
 	m_water_jump = false;
 	m_swimboosting = false;
-  } 
+  }
 
   if (on_ground() && !no_water) {
-    if(m_swimming) 
+    if(m_swimming)
       adjust_height(is_big() ? BIG_TUX_HEIGHT : SMALL_TUX_HEIGHT);
     m_swimming = false;
 	m_swimboosting = false;
@@ -358,7 +358,7 @@ Player::update(float dt_sec)
   Rectf lookahead = get_bbox();
   lookahead.set_right(lookahead.get_left() + 62);
   bool pathBlocked = !Sector::get().is_free_of_statics(lookahead);
-  
+
   if((m_swimming || m_water_jump) && is_big() && !pathBlocked)
   {
     switch (m_dir)
@@ -377,7 +377,7 @@ Player::update(float dt_sec)
       break;
     }
   }
-  
+
   else if (m_swimming && is_big() && pathBlocked && m_dir == Direction::RIGHT)
   {
 	m_dir = Direction::UP;
@@ -544,7 +544,7 @@ Player::swim(float pointx, float pointy, bool boost)
     }
     float vx = m_physic.get_velocity_x();
     float vy = m_physic.get_velocity_y();
-    if (m_swimming && !m_water_jump) 
+    if (m_swimming && !m_water_jump)
     {
 
       if(is_ang_defined && abs(delta)<0.01f) m_swimming_angle = pointed_angle;
@@ -584,13 +584,13 @@ Player::swim(float pointx, float pointy, bool boost)
 			if (m_physic.get_velocity_x() > 100.f) {
 			vx += 220.f;}
 			else if (m_physic.get_velocity_x() < -100.f) {
-			vx -= 220.f;}	
+			vx -= 220.f;}
 			}
 		if (pointy == 0) {
 			if (m_physic.get_velocity_y() > 100.f) {
 			vy += 220.f;}
 			else if (m_physic.get_velocity_y() < -100.f) {
-			vy -= 220.f;}	
+			vy -= 220.f;}
 		}}
         m_physic.set_velocity(vx, vy);
       }
@@ -613,18 +613,18 @@ Player::swim(float pointx, float pointy, bool boost)
     }
 
   // Direction prev_dir = m_dir;
-  m_dir = abs(m_swimming_angle) <= math::PI_4 ? Direction::RIGHT : 
+  m_dir = abs(m_swimming_angle) <= math::PI_4 ? Direction::RIGHT :
           abs(m_swimming_angle) >= 3.f * math::PI_4 ? Direction::LEFT :
           m_swimming_angle < 0 ? Direction::UP :
           Direction::DOWN;
   // if (m_player_status.bonus == BonusType::GROWUP_BONUS &&
-  //    (prev_dir == Direction::UP || prev_dir == Direction::DOWN) && 
+  //    (prev_dir == Direction::UP || prev_dir == Direction::DOWN) &&
   //    (m_dir == Direction::RIGHT || m_dir == Direction::LEFT))
   // {
   //   m_col.m_bbox.set_size(BIG_TUX_HEIGHT,TUX_WIDTH);
   // }
   // if (m_player_status.bonus == BonusType::GROWUP_BONUS &&
-  //    (m_dir == Direction::UP || m_dir == Direction::DOWN) && 
+  //    (m_dir == Direction::UP || m_dir == Direction::DOWN) &&
   //    (prev_dir == Direction::RIGHT || prev_dir == Direction::LEFT))
   // {
   //   m_col.m_bbox.set_size(TUX_WIDTH,BIG_TUX_HEIGHT);
@@ -675,17 +675,23 @@ Player::is_big() const
 void
 Player::apply_friction()
 {
-  if ((on_ground()) && (fabsf(m_physic.get_velocity_x()) < WALK_SPEED)) {
+  bool is_on_ground = on_ground();
+  float velx = m_physic.get_velocity_x();
+  if (is_on_ground && fabsf(velx) < WALK_SPEED) {
     m_physic.set_velocity_x(0);
     m_physic.set_acceleration_x(0);
-  } else {
-    float friction = WALK_ACCELERATION_X * (m_on_ice ? ICE_FRICTION_MULTIPLIER : NORMAL_FRICTION_MULTIPLIER);
-    if (m_physic.get_velocity_x() < 0) {
-      m_physic.set_acceleration_x(friction);
-    } else if (m_physic.get_velocity_x() > 0) {
-      m_physic.set_acceleration_x(-friction);
-    } // no friction for physic.get_velocity_x() == 0
+    return;
   }
+  float friction = WALK_ACCELERATION_X;
+  if (m_on_ice && is_on_ground)
+    friction *= ICE_FRICTION_MULTIPLIER;
+  else
+    friction *= NORMAL_FRICTION_MULTIPLIER;
+  if (velx < 0) {
+    m_physic.set_acceleration_x(friction);
+  } else if (velx > 0) {
+    m_physic.set_acceleration_x(-friction);
+  } // no friction for physic.get_velocity_x() == 0
 }
 
 void
@@ -772,7 +778,7 @@ Player::handle_horizontal_input()
     }
   }
 
-  if (m_on_ice) {
+  if (m_on_ice && on_ground()) {
     ax *= ICE_ACCELERATION_MULTIPLIER;
   }
 
@@ -999,7 +1005,7 @@ if (m_swimming) {
     }
   }
 
-  if (!m_swimming) 
+  if (!m_swimming)
   {
     if (!m_water_jump) m_sprite->set_angle(0);
     if (!m_jump_early_apex) {
@@ -1009,7 +1015,7 @@ if (m_swimming) {
       m_physic.set_gravity_modifier(JUMP_EARLY_APEX_FACTOR);
     }
   }
-  
+
   /* Peeking */
   if ( m_controller->released( Control::PEEK_LEFT ) || m_controller->released( Control::PEEK_RIGHT ) ) {
     m_peekingX = Direction::AUTO;
@@ -1466,7 +1472,7 @@ if (!m_swimming && m_water_jump) {
   }
   else if (m_climbing) {
     m_sprite->set_action(sa_prefix+"-climbing"+sa_postfix);
-	
+
     // Avoid flickering briefly after growing on ladder
     if ((m_physic.get_velocity_x()==0)&&(m_physic.get_velocity_y()==0))
       m_sprite->stop_animation();
@@ -1611,7 +1617,7 @@ Player::collision_tile(uint32_t tile_attributes)
     }
   } else {
     if ( tile_attributes & Tile::WATER ){
-      
+
       no_water = false;
       if(!on_ground()) {
         m_dive_walk = false;
