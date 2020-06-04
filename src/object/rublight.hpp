@@ -39,7 +39,7 @@ private:
 
 private:
   void rub(float strength);
-  float get_brightness();
+  float get_brightness() const;
 
 private:
   State state;
