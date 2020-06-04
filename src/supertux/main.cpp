@@ -502,7 +502,8 @@ Main::launch_game(const CommandLineArguments& args)
             "" : spawnpoints.begin()->get_name();
           std::string spawnpointname = args.spawnpoint.get_value_or(default_spawnpoint);
 
-          session->respawn(sectorname, spawnpointname);
+          session->set_start_point(sectorname, spawnpointname);
+          session->restart_level();
         }
 
         if (g_config->tux_spawn_pos)

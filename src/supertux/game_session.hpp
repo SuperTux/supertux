@@ -55,6 +55,8 @@ public:
   void respawn(const std::string& sectorname, const std::string& spawnpointname,
                const bool invincibility = false, const int invincibilityperiod = 0);
   void reset_level();
+  void set_start_point(const std::string& sectorname,
+                       const std::string& spawnpointname);
   void set_reset_point(const std::string& sectorname, const Vector& pos);
   std::string get_reset_point_sectorname() const { return m_reset_sector; }
 
@@ -111,6 +113,10 @@ private:
   float m_speed_before_pause;
 
   std::string m_levelfile;
+
+  // spawn point (the point where tux respawns at startup). Usually both "main".
+  std::string m_start_sector;
+  std::string m_start_spawnpoint;
 
   // reset point (the point where tux respawns if he dies)
   std::string m_reset_sector;
