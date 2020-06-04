@@ -22,6 +22,7 @@
 #include "sprite/sprite_manager.hpp"
 #include "supertux/constants.hpp"
 #include "video/color.hpp"
+#include "util/reader_mapping.hpp"
 
 
 RubLight::RubLight(const ReaderMapping& mapping) :
@@ -29,10 +30,30 @@ RubLight::RubLight(const ReaderMapping& mapping) :
     COLGROUP_STATIC),
   state(STATE_DARK),
   stored_energy(0),
+  color(1.0f, 0.5f, 0.3f),
+  fading_speed(5.0f),
   light(SpriteManager::current()->create(
     "images/objects/lightmap_light/lightmap_light.sprite"))
 {
   m_sprite->set_action("normal");
+
+  std::vector<float> vColor;
+  if (mapping.get("color", vColor))
+    color = Color(vColor);
+  mapping.get("fading_speed", fading_speed, 5.0f);
+}
+
+ObjectSettings
+RubLight::get_settings()
+{
+  ObjectSettings result = MovingObject::get_settings();
+
+  result.add_color(_("Color"), &color, "color", Color(1.0f, 0.5f, 0.3f));
+  result.add_float(_("Fading Speed"), &fading_speed, "fading_speed", 5.0f);
+
+  result.reorder({"color", "fading_speed", "x", "y"});
+
+  return result;
 }
 
 HitResponse
@@ -82,8 +103,7 @@ RubLight::update(float dt_sec)
     break;
 
   case STATE_FADING:
-    // exponential fading
-    const float fading_speed = 5.0f;
+    // Exponential fading
     stored_energy *= expf(-dt_sec * fading_speed);
     if (get_brightness() < 0.000001f) {
       stored_energy = 0;
@@ -104,8 +124,7 @@ RubLight::draw(DrawingContext& context)
 {
   if (state == STATE_FADING) {
     float brightness = get_brightness();
-    Color col = Color::from_linear(brightness, brightness * 0.5f,
-      brightness * 0.3f);
+    Color col = color.multiply_linearly(brightness);
     light->set_color(col);
     light->set_blend(Blend::ADD);
     light->draw(context.light(), get_pos(), m_layer);
