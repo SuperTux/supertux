@@ -18,6 +18,7 @@
 
 #include "object/moving_sprite.hpp"
 #include "sprite/sprite_ptr.hpp"
+#include "video/color.hpp"
 
 /** A triboluminescent (or something similar) block */
 class RubLight final : public MovingSprite
@@ -30,6 +31,7 @@ public:
   virtual void draw(DrawingContext& context) override;
   virtual std::string get_class() const override { return "rublight"; }
   virtual std::string get_display_name() const override { return _("Rublight"); }
+  virtual ObjectSettings get_settings() override;
 
 private:
   enum State {
@@ -37,16 +39,17 @@ private:
     STATE_FADING
   };
 
-private:
-  void rub(float strength);
-  float get_brightness() const;
-
-private:
   State state;
   float stored_energy;
   SpritePtr light;
 
+  Color color;
+  float fading_speed;
+
 private:
+  void rub(float strength);
+  float get_brightness() const;
+
   RubLight(const RubLight&) = delete;
   RubLight& operator=(const RubLight&) = delete;
 };

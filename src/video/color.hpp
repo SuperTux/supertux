@@ -72,6 +72,9 @@ public:
 
   float greyscale() const;
 
+  // Multiplies the sRGB color values by v gamma-correctly
+  Color multiply_linearly(float v) const;
+
   bool operator < (const Color& other) const;
 
   std::vector<float> toVector();
