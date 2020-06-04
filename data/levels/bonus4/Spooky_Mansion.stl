@@ -19,8 +19,6 @@
       (y 704)
     )
     (background
-      (scroll-speed-x 0)
-      (scroll-speed-y 0)
       (speed 0)
       (image-top "/images/background/halloween/vignette.png")
       (image "/images/background/halloween/vignette.png")
@@ -68,8 +66,8 @@
     (door
       (sector "hallway")
       (spawnpoint "door1")
-      (x 68.33334)
-      (y 347.3333)
+      (x 64)
+      (y 352)
     )
     (door
       (sector "hallway")
@@ -759,16 +757,12 @@
       (color 0.4 0.4 0.4 0.4)
     )
     (background
-      (scroll-speed-x 0)
-      (scroll-speed-y 0)
       (speed 0.5)
       (image-top "images/background/BlueRock_Forest/blue-top.jpg")
       (image "images/background/BlueRock_Forest/blue-middle.jpg")
       (image-bottom "images/background/BlueRock_Forest/blue-bottom.jpg")
     )
     (background
-      (scroll-speed-x 0)
-      (scroll-speed-y 0)
       (speed 0)
       (image-top "/images/background/halloween/vignette.png")
       (image "/images/background/halloween/vignette.png")
@@ -962,8 +956,6 @@
       (color 0.8 0.8 0.8 0.8)
     )
     (background
-      (scroll-speed-x 0)
-      (scroll-speed-y 0)
       (speed 0.5)
       (image-top "images/background/BlueRock_Forest/blue-top.jpg")
       (image "images/background/BlueRock_Forest/blue-middle.jpg")
@@ -980,8 +972,6 @@
       (z-pos 100)
     )
     (background
-      (scroll-speed-x 0)
-      (scroll-speed-y 0)
       (speed 0)
       (image-top "/images/background/halloween/vignette.png")
       (image "/images/background/halloween/vignette.png")
@@ -1340,16 +1330,12 @@
       (color 0.8999999 0.8999999 0.8999999 0.8999999)
     )
     (background
-      (scroll-speed-x 0)
-      (scroll-speed-y 0)
       (speed 0.5)
       (image-top "/images/background/halloween/sky.png")
       (image "/images/background/halloween/sky.png")
       (image-bottom "/images/background/halloween/sky.png")
     )
     (background
-      (scroll-speed-x 0)
-      (scroll-speed-y 0)
       (speed 0)
       (image-top "/images/background/halloween/vignette.png")
       (image "/images/background/halloween/vignette.png")
