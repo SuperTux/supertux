@@ -55,6 +55,8 @@ GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Stat
   m_game_pause(false),
   m_speed_before_pause(ScreenManager::current()->get_speed()),
   m_levelfile(levelfile_),
+  m_start_sector("main"),
+  m_start_spawnpoint("main"),
   m_reset_sector(),
   m_reset_pos(),
   m_newsector(),
@@ -128,11 +130,11 @@ GameSession::restart_level(bool after_death)
       }
       m_currentsector->activate(m_reset_pos);
     } else {
-      m_currentsector = m_level->get_sector("main");
+      m_currentsector = m_level->get_sector(m_start_sector);
       if (!m_currentsector)
         throw std::runtime_error("Couldn't find main sector");
       m_play_time = 0;
-      m_currentsector->activate("main");
+      m_currentsector->activate(m_start_spawnpoint);
     }
   } catch(std::exception& e) {
     log_fatal << "Couldn't start level: " << e.what() << std::endl;
@@ -348,7 +350,7 @@ GameSession::update(float dt_sec, const Controller& controller)
     auto sector = m_level->get_sector(m_newsector);
     if (sector == nullptr) {
       log_warning << "Sector '" << m_newsector << "' not found" << std::endl;
-      sector = m_level->get_sector("main");
+      sector = m_level->get_sector(m_start_sector);
     }
     m_currentsector->stop_looping_sounds();
     sector->activate(m_newspawnpoint);
@@ -455,6 +457,14 @@ GameSession::respawn(const std::string& sector, const std::string& spawnpoint,
   m_newspawnpoint = spawnpoint;
   m_pastinvincibility = invincibility;
   m_newinvincibilityperiod = invincibilityperiod;
+}
+
+void
+GameSession::set_start_point(const std::string& sector,
+                             const std::string& spawnpoint)
+{
+  m_start_sector = sector;
+  m_start_spawnpoint = spawnpoint;
 }
 
 void
