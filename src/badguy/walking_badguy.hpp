@@ -53,8 +53,8 @@ public:
 
   void active_update(float dt_sec, float target_velocity);
 
-  float get_velocity_y() const { return m_physic.get_velocity_y(); }
   float get_velocity_x() const { return m_physic.get_velocity_x(); }
+  float get_velocity_y() const { return m_physic.get_velocity_y(); }
   void set_velocity_y(float vy);
 
   /** Adds velocity to the badguy (be careful when using this) */

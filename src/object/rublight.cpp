@@ -94,7 +94,7 @@ RubLight::update(float dt_sec)
 }
 
 float
-RubLight::get_brightness()
+RubLight::get_brightness() const
 {
   return stored_energy / (1.0f + stored_energy);
 }
