@@ -944,19 +944,7 @@
 
 ; Ice Tux
 
-       (action
-         (name "ice-icedash-right")
-         (fps 20.0)
-         (hitbox 16 14 32 64)
-         (images "big/icedash.png"))
-		 
-	   (action
-         (name "ice-icedash-left")
-         (fps 20.0)
-         (hitbox 16 14 32 64)
-         (mirror-action "ice-icedash-right"))
-	   
-	   (action
+	     (action
          (name "ice-walk-right")
          (fps 15.0)
          (hitbox 16 14 32 64)
