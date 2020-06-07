@@ -32,14 +32,15 @@ RubLight::RubLight(const ReaderMapping& mapping) :
   stored_energy(0),
   light(SpriteManager::current()->create(
     "images/objects/lightmap_light/lightmap_light.sprite")),
-  color(1.0f, 0.5f, 0.3f)
+  color(1.0f, 0.5f, 0.3f),
+  fading_speed(5.0f)
 {
   m_sprite->set_action("normal");
 
   std::vector<float> vColor;
   if (mapping.get("color", vColor))
     color = Color(vColor);
-  mapping.get("fading_speed", fading_speed, 5.0f);
+  mapping.get("fading_speed", fading_speed);
 }
 
 ObjectSettings
