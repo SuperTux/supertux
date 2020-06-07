@@ -30,10 +30,9 @@ RubLight::RubLight(const ReaderMapping& mapping) :
     COLGROUP_STATIC),
   state(STATE_DARK),
   stored_energy(0),
-  color(1.0f, 0.5f, 0.3f),
-  fading_speed(5.0f),
   light(SpriteManager::current()->create(
-    "images/objects/lightmap_light/lightmap_light.sprite"))
+    "images/objects/lightmap_light/lightmap_light.sprite")),
+  color(1.0f, 0.5f, 0.3f)
 {
   m_sprite->set_action("normal");
 
@@ -48,6 +47,7 @@ RubLight::get_settings()
 {
   ObjectSettings result = MovingObject::get_settings();
 
+  // The object settings and their default values shown in the Editor
   result.add_color(_("Color"), &color, "color", Color(1.0f, 0.5f, 0.3f));
   result.add_float(_("Fading Speed"), &fading_speed, "fading_speed", 5.0f);
 
