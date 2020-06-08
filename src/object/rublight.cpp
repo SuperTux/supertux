@@ -33,7 +33,8 @@ RubLight::RubLight(const ReaderMapping& mapping) :
   light(SpriteManager::current()->create(
     "images/objects/lightmap_light/lightmap_light.sprite")),
   color(1.0f, 0.5f, 0.3f),
-  fading_speed(5.0f)
+  fading_speed(5.0f),
+  strength_multiplier(1.0f)
 {
   m_sprite->set_action("normal");
 
@@ -41,6 +42,7 @@ RubLight::RubLight(const ReaderMapping& mapping) :
   if (mapping.get("color", vColor))
     color = Color(vColor);
   mapping.get("fading_speed", fading_speed);
+  mapping.get("strength_multiplier", strength_multiplier);
 }
 
 ObjectSettings
@@ -51,6 +53,8 @@ RubLight::get_settings()
   // The object settings and their default values shown in the Editor
   result.add_color(_("Color"), &color, "color", Color(1.0f, 0.5f, 0.3f));
   result.add_float(_("Fading Speed"), &fading_speed, "fading_speed", 5.0f);
+  result.add_float(_("Glowing Strength"), &strength_multiplier,
+    "strength_multiplier", 1.0f);
 
   result.reorder({"color", "fading_speed", "x", "y"});
 
@@ -90,6 +94,7 @@ void RubLight::rub(float strength)
 {
   if (strength <= 0)
     return;
+  strength *= strength_multiplier;
   stored_energy = std::max<float>(stored_energy, strength);
   if (state == STATE_DARK)
     state = STATE_FADING;
