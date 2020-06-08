@@ -45,6 +45,7 @@ private:
 
   Color color;
   float fading_speed;
+  float strength_multiplier;
 
 private:
   void rub(float strength);
