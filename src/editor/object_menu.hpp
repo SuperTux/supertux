@@ -26,7 +26,8 @@ class ObjectMenu final : public Menu
 {
 public:
   enum {
-    MNID_REMOVE
+    MNID_REMOVE,
+    MNID_TEST_FROM_HERE
   };
 
 public:

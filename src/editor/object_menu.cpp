@@ -59,6 +59,15 @@ ObjectMenu::menu_action(MenuItem& item)
       m_object->remove_me();
       break;
 
+    case MNID_TEST_FROM_HERE: {
+      const MovingObject *here = dynamic_cast<const MovingObject *>(m_object);
+      m_editor.m_test_pos = std::make_pair(m_editor.get_sector()->get_name(),
+                                           here->get_pos());
+      m_editor.m_test_request = true;
+      MenuManager::instance().pop_menu();
+      break;
+    }
+
     default:
       break;
   }
