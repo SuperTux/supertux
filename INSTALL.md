@@ -76,13 +76,13 @@ following steps:
 
 1. `cd` to the directory where you unpacked the SuperTux source
    archive, i.e. to the directory containing `src` and `data`.
- 
+
 2. If you cloned this Supertux repo using git run `git submodule
    update --init --recursive` to fetch/update squirrel, tinygettext,
    physfs, and some other modules.
    (If you got this version of Supertux from a tarball (.tar), squirrel
    and tinygettext are already in the tarball.)
- 
+
 3. Create and change to a new, empty build directory by running `mkdir
    build`, `cd build`.
 
@@ -98,7 +98,7 @@ following steps:
    become a root user with the `su` command or by using `sudo make
    install`) Note that there is no uninstall target, so you might wish
    to create a package or other system-specific installation instead.
-   
+
 7. The game should work now and you can remove the source directory.
 
 You can customize the build process by setting additional options for
@@ -127,8 +127,26 @@ developers.
 `-DCMAKE_BUILD_TYPE=RELEASE`
 : Enables release mode and compiles some sanity checks out of the build.
 
-Note for GIT users: SuperTux does not need to be installed on the
-system, you can run it from its own directory.
+
+### Notes for GIT users
+
+SuperTux does not need to be installed on the system;
+you can run it from its own directory.
+
+If `ccache` is installed and working,
+it can help to signigicantly reduce the (re)compilation time,
+e.g. when doing a git bisect with many checkouts.
+Furthermore, it is possible to reduce the optimization level to O1,
+which may reduce compilation times:
+```
+cmake .. -DWARNINGS=ON -DCMAKE_CXX_FLAGS="-O1"
+```
+
+A general way to increase compilation time is running `make` with multiple
+threads:
+```
+make -j $(nproc || sysctl -n hw.ncpu || echo 2)
+```
 
 
 Installing under Windows using CMake and Visual Studio
