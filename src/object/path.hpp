@@ -50,10 +50,12 @@ public:
   public:
     Vector position; /**< the position of this node */
     float time; /**< time (in seconds) to get from this node to next node */
+    float speed; /**< speed (in px/seconds); editor use only */
 
     Node() :
       position(),
-      time()
+      time(),
+      speed()
     {}
   };
 
