@@ -142,7 +142,7 @@ which may reduce compilation times:
 cmake .. -DWARNINGS=ON -DCMAKE_CXX_FLAGS="-O1"
 ```
 
-A general way to increase compilation time is running `make` with multiple
+A general way to reduce compilation time is running `make` with multiple
 threads:
 ```
 make -j $(nproc || sysctl -n hw.ncpu || echo 2)
