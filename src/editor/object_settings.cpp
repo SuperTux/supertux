@@ -286,6 +286,12 @@ ObjectSettings::add_sexp(const std::string& text, const std::string& key, sexp::
 }
 
 void
+ObjectSettings::add_test_from_here()
+{
+  add_option(std::make_unique<TestFromHereOption>());
+}
+
+void
 ObjectSettings::reorder(const std::vector<std::string>& order)
 {
   std::vector<std::unique_ptr<ObjectOption> > new_options;

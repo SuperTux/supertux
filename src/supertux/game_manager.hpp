@@ -17,8 +17,10 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_GAME_MANAGER_HPP
 #define HEADER_SUPERTUX_SUPERTUX_GAME_MANAGER_HPP
 
+#include <boost/optional.hpp>
 #include <memory>
 #include <string>
+#include "math/vector.hpp"
 #include "util/currenton.hpp"
 
 class Savegame;
@@ -30,7 +32,8 @@ public:
   GameManager();
 
   void start_worldmap(const World& world, const std::string& spawnpoint = "", const std::string& worldmap_filename = "");
-  void start_level(const World& world, const std::string& level_filename);
+  void start_level(const World& world, const std::string& level_filename,
+                   const boost::optional<std::pair<std::string, Vector>>& start_pos = boost::none);
 
   bool load_next_worldmap();
   void set_next_worldmap(const std::string& worldmap, const std::string &spawnpoint);

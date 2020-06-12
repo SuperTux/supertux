@@ -381,6 +381,20 @@ private:
   RemoveObjectOption& operator=(const RemoveObjectOption&) = delete;
 };
 
+class TestFromHereOption : public ObjectOption
+{
+public:
+  TestFromHereOption();
+
+  virtual void save(Writer& write) const override {}
+  virtual std::string to_string() const override;
+  virtual void add_to_menu(Menu& menu) const override;
+
+private:
+  TestFromHereOption(const TestFromHereOption&) = delete;
+  TestFromHereOption& operator=(const TestFromHereOption&) = delete;
+};
+
 #endif
 
 /* EOF */

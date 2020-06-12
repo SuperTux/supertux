@@ -57,6 +57,7 @@ GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Stat
   m_levelfile(levelfile_),
   m_start_sector("main"),
   m_start_spawnpoint("main"),
+  m_start_pos(),
   m_reset_sector(),
   m_reset_pos(),
   m_newsector(),
@@ -134,7 +135,11 @@ GameSession::restart_level(bool after_death)
       if (!m_currentsector)
         throw std::runtime_error("Couldn't find main sector");
       m_play_time = 0;
-      m_currentsector->activate(m_start_spawnpoint);
+      if (m_start_spawnpoint.empty()) {
+        m_currentsector->activate(m_start_pos);
+      } else {
+        m_currentsector->activate(m_start_spawnpoint);
+      }
     }
   } catch(std::exception& e) {
     log_fatal << "Couldn't start level: " << e.what() << std::endl;
@@ -465,6 +470,16 @@ GameSession::set_start_point(const std::string& sector,
 {
   m_start_sector = sector;
   m_start_spawnpoint = spawnpoint;
+  m_start_pos = Vector();
+}
+
+void
+GameSession::set_start_pos(const std::string& sector,
+                           const Vector& pos)
+{
+  m_start_sector = sector;
+  m_start_spawnpoint = "";
+  m_start_pos = pos;
 }
 
 void

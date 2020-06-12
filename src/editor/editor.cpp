@@ -85,6 +85,7 @@ Editor::Editor() :
   m_deactivate_request(false),
   m_save_request(false),
   m_test_request(false),
+  m_test_pos(),
   m_savegame(),
   m_sector(),
   m_levelloaded(false),
@@ -176,7 +177,7 @@ Editor::update(float dt_sec, const Controller& controller)
   if (m_test_request) {
     m_test_request = false;
     MouseCursor::current()->set_icon(nullptr);
-    test_level();
+    test_level(m_test_pos);
     return;
   }
 
@@ -232,7 +233,7 @@ Editor::get_level_directory() const
 }
 
 void
-Editor::test_level()
+Editor::test_level(const boost::optional<std::pair<std::string, Vector>>& test_pos)
 {
   Tile::draw_editor_images = false;
   Compositor::s_render_lighting = true;
@@ -252,7 +253,7 @@ Editor::test_level()
   m_level->save(m_test_levelfile);
   if (!m_level->is_worldmap())
   {
-    GameManager::current()->start_level(*current_world, backup_filename);
+    GameManager::current()->start_level(*current_world, backup_filename, test_pos);
   }
   else
   {
@@ -585,7 +586,7 @@ Editor::event(const SDL_Event& ev)
 	if (ev.type == SDL_KEYDOWN &&
         ev.key.keysym.sym == SDLK_t &&
         ev.key.keysym.mod & KMOD_CTRL) {
-		test_level();
+		test_level(boost::none);
 		}
 
 	if (ev.type == SDL_KEYDOWN &&

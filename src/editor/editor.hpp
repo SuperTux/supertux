@@ -137,7 +137,7 @@ private:
   void reload_level();
   void quit_editor();
   void save_level();
-  void test_level();
+  void test_level(const boost::optional<std::pair<std::string, Vector>>& test_pos);
   void update_keyboard(const Controller& controller);
 
 protected:
@@ -155,6 +155,7 @@ public:
   bool m_deactivate_request;
   bool m_save_request;
   bool m_test_request;
+  boost::optional<std::pair<std::string, Vector>> m_test_pos;
 
   std::unique_ptr<Savegame> m_savegame;
 
