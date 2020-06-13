@@ -44,7 +44,6 @@ Haywire::Haywire(const ReaderMapping& reader) :
   time_stunned(0.0f),
   ticking(),
   grunting(),
-  grabbed(false),
   stomped_timer()
 {
   walk_speed = NORMAL_WALK_SPEED;
@@ -104,12 +103,6 @@ Haywire::collision_squished(GameObject& object)
 void
 Haywire::active_update(float dt_sec)
 {
-	
-  if (grabbed)
-  {return;}
-  if (!grabbed)
-  {m_col.m_movement = physic.get_movement(dt_sec);
-  WalkingBadguy::active_update(dt_sec);}
   
   if (is_exploding) {
     ticking->set_position(get_pos());
@@ -170,8 +163,8 @@ Haywire::kill_fall()
     grunting->stop();
   }
   if (is_valid()) {
-	Sector::get().add<Explosion>(m_col.m_bbox.get_middle());
     remove_me();
+	Sector::get().add<Explosion>(m_col.m_bbox.get_middle());
   }
 
   run_dead_script();
@@ -252,31 +245,6 @@ void Haywire::play_looping_sounds()
       grunting->play();
     }
   }
-}
-
-void
-Haywire::grab(MovingObject&, const Vector& pos, Direction dir_)
-{
-  assert(m_frozen);
-  m_col.m_movement = pos - get_pos();
-  m_dir = dir_;
-  m_sprite->set_action(dir_ == Direction::LEFT ? "iced-left" : "iced-right");
-  set_colgroup_active(COLGROUP_DISABLED);
-  grabbed = true;
-}
-
-void
-Haywire::ungrab(MovingObject& , Direction dir_)
-{
-  m_dir = dir_;
-  set_colgroup_active(COLGROUP_MOVING);
-  grabbed = false;
-}
-
-bool
-Haywire::is_portable() const
-{
-  return m_frozen;
 }
 
 /* EOF */
