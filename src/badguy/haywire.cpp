@@ -32,7 +32,7 @@ const float STOMPED_TIME = 1.0f;
 const float TIME_STUNNED = 0.5f;
 
 const float NORMAL_WALK_SPEED = 80.0f;
-const float EXPLODING_WALK_SPEED = 200.0f;
+const float EXPLODING_WALK_SPEED = 160.0f;
 
 } // namespace
 
@@ -103,7 +103,6 @@ Haywire::collision_squished(GameObject& object)
 void
 Haywire::active_update(float dt_sec)
 {
-  
   if (is_exploding) {
     ticking->set_position(get_pos());
     grunting->set_position(get_pos());
@@ -164,7 +163,7 @@ Haywire::kill_fall()
   }
   if (is_valid()) {
     remove_me();
-	Sector::get().add<Explosion>(m_col.m_bbox.get_middle());
+	  Sector::get().add<Explosion>(m_col.m_bbox.get_middle());
   }
 
   run_dead_script();

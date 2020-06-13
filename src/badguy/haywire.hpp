@@ -39,7 +39,7 @@ public:
   virtual void play_looping_sounds() override;
 
   virtual std::string get_class() const override { return "haywire"; }
-  virtual std::string get_display_name() const override { return _("Haywire Bomb"); }
+  virtual std::string get_display_name() const override { return _("Haywire"); }
 
 protected:
   virtual bool collision_squished(GameObject& object) override;
