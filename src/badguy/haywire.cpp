@@ -28,6 +28,7 @@
 namespace {
 
 const float TIME_EXPLOSION = 5.0f;
+const float STOMPED_TIME = 1.0f;
 const float TIME_STUNNED = 0.5f;
 
 const float NORMAL_WALK_SPEED = 80.0f;
@@ -42,7 +43,8 @@ Haywire::Haywire(const ReaderMapping& reader) :
   is_stunned(false),
   time_stunned(0.0f),
   ticking(),
-  grunting()
+  grunting(),
+  stomped_timer()
 {
   walk_speed = NORMAL_WALK_SPEED;
   max_drop_height = 16;
@@ -84,6 +86,7 @@ Haywire::collision_squished(GameObject& object)
 
   if (!is_exploding) {
     start_exploding();
+	stomped_timer.start(STOMPED_TIME);
   }
 
   time_stunned = TIME_STUNNED;
@@ -119,6 +122,17 @@ Haywire::active_update(float dt_sec)
       time_stunned = 0.f;
       is_stunned = false;
     }
+  }
+
+  if (is_exploding) {
+	  if (stomped_timer.get_timeleft() < 0.05f) {
+        set_action ((m_dir == Direction::LEFT) ? "ticking-left" : "ticking-right", /* loops = */ -1);
+  walk_left_action = "ticking-left";
+  walk_right_action = "ticking-right";
+      } else {
+  set_action ((m_dir == Direction::LEFT) ? "active-left" : "active-right", /* loops = */ 1);
+  walk_left_action = "active-left";
+	  walk_right_action = "active-right";}
   }
 
   if (is_exploding) {
@@ -187,9 +201,6 @@ Haywire::freeze() {
 void
 Haywire::start_exploding()
 {
-  set_action ((m_dir == Direction::LEFT) ? "ticking-left" : "ticking-right", /* loops = */ -1);
-  walk_left_action = "ticking-left";
-  walk_right_action = "ticking-right";
   set_walk_speed (EXPLODING_WALK_SPEED);
   time_until_explosion = TIME_EXPLOSION;
   is_exploding = true;
