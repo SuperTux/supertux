@@ -19,10 +19,13 @@
 #define HEADER_SUPERTUX_BADGUY_HAYWIRE_HPP
 
 #include "badguy/walking_badguy.hpp"
+#include "object/portable.hpp"
+#include "supertux/physic.hpp"
 
 class SoundSource;
 
-class Haywire final : public WalkingBadguy
+class Haywire final : public WalkingBadguy,
+                      public Portable
 {
 public:
   Haywire(const ReaderMapping& reader);
@@ -31,6 +34,10 @@ public:
   virtual void ignite() override;
 
   virtual void active_update(float dt_sec) override;
+  
+  virtual void grab(MovingObject& object, const Vector& pos, Direction dir) override;
+  virtual void ungrab(MovingObject& object, Direction dir) override;
+  virtual bool is_portable() const override;
 
   virtual bool is_freezable() const override;
   virtual void freeze() override;
@@ -39,10 +46,11 @@ public:
   virtual void play_looping_sounds() override;
 
   virtual std::string get_class() const override { return "haywire"; }
-  virtual std::string get_display_name() const override { return _("Haywire"); }
+  virtual std::string get_display_name() const override { return _("Haywire Bomb"); }
 
 protected:
   virtual bool collision_squished(GameObject& object) override;
+  Physic physic;
 
 private:
   void start_exploding();
@@ -53,6 +61,9 @@ private:
   float time_until_explosion;
   bool is_stunned;
   float time_stunned;
+  bool grabbed;
+  
+  Timer stomped_timer;
 
   std::unique_ptr<SoundSource> ticking;
   std::unique_ptr<SoundSource> grunting;
