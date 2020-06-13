@@ -1,16 +1,18 @@
 (supertux-sprite
  (action
   (name "left")
-  (fps 12.5)
-  (hitbox 9 2 15 18)
-  (images "left.png"
-          "center.png"
-          "right.png"
-          "center.png"))
+  (fps 15)
+  (hitbox 18 2 25 18)
+  (images "sf1.png"
+          "sf2.png"
+          "sf3.png"
+          "sf4.png"
+		  "sf5.png"
+		  "sf6.png"))
 
  (action
   (name "right")
-  (fps 12.5)
-  (hitbox 9 2 15 18)
+  (fps 15)
+  (hitbox 18 2 30 18)
   (mirror-action "left"))
 )
