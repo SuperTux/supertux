@@ -42,7 +42,9 @@ private:
   Vector m_camera_offset;
 
   /** variables to track panning to a spawn point */
-  Vector m_pan_pos;
+  Vector m_pan_startpos;
+  float m_pan_time_full;
+  float m_pan_time_remaining;
   bool m_panning;
 
 private:

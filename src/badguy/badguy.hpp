@@ -19,6 +19,8 @@
 
 #include "editor/object_option.hpp"
 #include "object/moving_sprite.hpp"
+#include "scripting/badguy.hpp"
+#include "squirrel/exposed_object.hpp"
 #include "supertux/direction.hpp"
 #include "supertux/physic.hpp"
 #include "supertux/timer.hpp"
@@ -28,7 +30,8 @@ class Player;
 class Bullet;
 
 /** Base class for moving sprites that can hurt the Player. */
-class BadGuy : public MovingSprite
+class BadGuy : public MovingSprite,
+               public ExposedObject<BadGuy, scripting::BadGuy>
 {
 public:
   BadGuy(const Vector& pos, const std::string& sprite_name, int layer = LAYER_OBJECTS,
@@ -108,12 +111,23 @@ public:
     return "images/objects/water_drop/water_drop.sprite";
   }
 
+  void set_sprite_action(const std::string& action, int loops = 1)
+  {
+    set_action(action, loops);
+  }
+
   /** Sets the dispenser that spawns this badguy.
       @param parent The dispenser */
   void set_parent_dispenser(Dispenser* parent) { m_parent_dispenser = parent; }
 
   /** Returns the dispenser this badguys was spawned by */
   Dispenser* get_parent_dispenser() const { return m_parent_dispenser; }
+
+  /** Returns true if the badguy can currently be affected by wind */
+  virtual bool can_be_affected_by_wind() const;
+
+  /** Adds velocity from wind */
+  virtual void add_wind_velocity(const Vector& velocity, const Vector& end_speed);
 
 protected:
   enum State {

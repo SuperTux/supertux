@@ -566,4 +566,21 @@ RemoveObjectOption::add_to_menu(Menu& menu) const
   menu.add_entry(ObjectMenu::MNID_REMOVE, get_text());
 }
 
+TestFromHereOption::TestFromHereOption() :
+  ObjectOption(_("Test from here"), "", 0)
+{
+}
+
+std::string
+TestFromHereOption::to_string() const
+{
+  return {};
+}
+
+void
+TestFromHereOption::add_to_menu(Menu& menu) const
+{
+  menu.add_entry(ObjectMenu::MNID_TEST_FROM_HERE, get_text());
+}
+
 /* EOF */

@@ -29,7 +29,8 @@ Spotlight::Spotlight(const ReaderMapping& mapping) :
   lightcone(SpriteManager::current()->create("images/objects/spotlight/lightcone.sprite")),
   color(1.0f, 1.0f, 1.0f),
   speed(50.0f),
-  counter_clockwise()
+  counter_clockwise(),
+  m_layer(0)
 {
   m_col.m_group = COLGROUP_DISABLED;
 
@@ -45,6 +46,8 @@ Spotlight::Spotlight(const ReaderMapping& mapping) :
   if ( mapping.get( "color", vColor ) ){
     color = Color( vColor );
   }
+
+  mapping.get("layer", m_layer, 0);
 }
 
 Spotlight::~Spotlight()
@@ -60,8 +63,9 @@ Spotlight::get_settings()
   result.add_color(_("Color"), &color, "color", Color::WHITE);
   result.add_float(_("Speed"), &speed, "speed", 50.0f);
   result.add_bool(_("Counter-clockwise"), &counter_clockwise, "counter-clockwise", false);
+  result.add_int(_("Layer"), &m_layer, "layer", 0);
 
-  result.reorder({"angle", "color", "x", "y"});
+  result.reorder({"angle", "color", "layer", "x", "y"});
 
   return result;
 }
@@ -85,18 +89,18 @@ Spotlight::draw(DrawingContext& context)
   light->set_color(color);
   light->set_blend(Blend::ADD);
   light->set_angle(angle);
-  light->draw(context.light(), m_col.m_bbox.p1(), 0);
+  light->draw(context.light(), m_col.m_bbox.p1(), m_layer);
 
   //lightcone->set_angle(angle);
-  //lightcone->draw(context.color(), position, 0);
+  //lightcone->draw(context.color(), position, m_layer);
 
   lights->set_angle(angle);
-  lights->draw(context.color(), m_col.m_bbox.p1(), 0);
+  lights->draw(context.color(), m_col.m_bbox.p1(), m_layer);
 
   base->set_angle(angle);
-  base->draw(context.color(), m_col.m_bbox.p1(), 0);
+  base->draw(context.color(), m_col.m_bbox.p1(), m_layer);
 
-  center->draw(context.color(), m_col.m_bbox.p1(), 0);
+  center->draw(context.color(), m_col.m_bbox.p1(), m_layer);
 
   lightcone->set_angle(angle);
   lightcone->draw(context.color(), m_col.m_bbox.p1(), LAYER_FOREGROUND1 + 10);

@@ -46,6 +46,6 @@ for LEVELSET in $(ls data/levels); do
     --output "data/levels/${LEVELSET}/messages.pot" --add-comments=l10n \
     --package-name="${package_name}" --package-version="${package_version}" \
     --msgid-bugs-address=https://github.com/SuperTux/supertux/issues
-  sed -i -e 's/\\r\\n/\\n/g' "data/levels/${LEVELSET}/messages.pot"
+  sed -n -e 's/\\r\\n/\\n/g' "data/levels/${LEVELSET}/messages.pot"
   rm -f data/levels/$LEVELSET/scripts_*.txt
 done

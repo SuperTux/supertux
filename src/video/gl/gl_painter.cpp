@@ -481,7 +481,11 @@ GLPainter::get_pixel(const GetPixelRequest& request) const
   x += static_cast<float>(rect.left);
   y += static_cast<float>(rect.top);
 
-#ifndef USE_OPENGLES2
+#if 0
+  // #ifndef USE_OPENGLES2
+  //
+  // FIXME: glFenceSync() causes crashes on Intel I965, so disable
+  // GLPixelRequest for now, it's not yet properly used anyway.
   GLPixelRequest pixel_request(1, 1);
   pixel_request.request(static_cast<int>(x), static_cast<int>(y));
 

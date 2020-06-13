@@ -221,7 +221,10 @@ include_directories(SYSTEM ${VORBIS_INCLUDE_DIR})
 include(CheckSymbolExists)
 
 find_package(PhysFS)
-check_symbol_exists("PHYSFS_getPrefDir" "${PHYSFS_INCLUDE_DIR}/physfs.h" HAVE_PHYSFS_GETPREFDIR)
+if(PHYSFS_LIBRARY)
+  set(CMAKE_REQUIRED_LIBRARIES ${PHYSFS_LIBRARY})
+  check_symbol_exists("PHYSFS_getPrefDir" "${PHYSFS_INCLUDE_DIR}/physfs.h" HAVE_PHYSFS_GETPREFDIR)
+endif()
 if(HAVE_PHYSFS_GETPREFDIR)
   set(USE_SYSTEM_PHYSFS ON CACHE BOOL "Use preinstalled physfs (must support getPrefDir)")
 else(HAVE_PHYSFS_GETPREFDIR)
@@ -655,6 +658,7 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
         "-Wno-exit-time-destructors "
         "-Wno-global-constructors "
         "-Wno-duplicate-enum "
+        "-Wno-unreachable-code "
       )
     endif()
   endif(WARNINGS)

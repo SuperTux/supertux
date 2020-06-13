@@ -445,7 +445,7 @@ AddonManager::enable_addon(const AddonId& addon_id)
         break;
     }
 
-    if (PHYSFS_mount(addon.get_install_filename().c_str(), mountpoint.c_str(), 0) == 0)
+    if (PHYSFS_mount(addon.get_install_filename().c_str(), mountpoint.c_str(), 1) == 0)
     {
       log_warning << "Could not add " << addon.get_install_filename() << " to search path: "
                   << PHYSFS_getLastErrorCode() << std::endl;
@@ -524,7 +524,7 @@ AddonManager::mount_old_addons()
   std::string mountpoint;
   for (auto& addon : m_installed_addons) {
     if (is_old_enabled_addon(addon)) {
-      if (PHYSFS_mount(addon->get_install_filename().c_str(), mountpoint.c_str(), 0) == 0)
+      if (PHYSFS_mount(addon->get_install_filename().c_str(), mountpoint.c_str(), 1) == 0)
       {
         log_warning << "Could not add " << addon->get_install_filename() << " to search path: "
                     << PHYSFS_getLastErrorCode() << std::endl;
@@ -563,12 +563,10 @@ AddonManager::is_from_old_addon(const std::string& filename) const
 bool
 AddonManager::is_addon_installed(const std::string& id) const
 {
-  for(const auto& installed_addon : get_installed_addons())
-  {
-    if(installed_addon == id)
-      return true;
-  }
-  return false;
+  return std::any_of(get_installed_addons().begin(), get_installed_addons().end(),
+    [id] (const auto& installed_addon) {
+      return installed_addon == id;
+    });
 }
 
 std::vector<std::string>
@@ -647,7 +645,7 @@ AddonManager::add_installed_archive(const std::string& archive, const std::strin
   {
     std::string os_path = FileSystem::join(realdir, archive);
 
-    PHYSFS_mount(os_path.c_str(), nullptr, 0);
+    PHYSFS_mount(os_path.c_str(), nullptr, 1);
 
     std::string nfo_filename = scan_for_info(os_path);
 

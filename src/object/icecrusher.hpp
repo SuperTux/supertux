@@ -45,7 +45,7 @@ public:
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
   virtual std::string get_class() const override { return "icecrusher"; }
-  virtual std::string get_display_name() const override { return _("Ice crusher"); }
+  virtual std::string get_display_name() const override { return _("Icecrusher"); }
 
   virtual void after_editor_set() override;
 

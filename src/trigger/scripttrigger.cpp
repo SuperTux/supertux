@@ -70,7 +70,7 @@ ScriptTrigger::get_settings()
   new_size.x = m_col.m_bbox.get_width();
   new_size.y = m_col.m_bbox.get_height();
 
-  ObjectSettings result(_("Script trigger"));
+  ObjectSettings result(_("Script Trigger"));
 
   result.add_text(_("Name"), &m_name);
   result.add_float(_("Width"), &new_size.x, "width");
@@ -115,7 +115,7 @@ ScriptTrigger::draw(DrawingContext& context)
 {
   if (Editor::is_active() || g_debug.show_collision_rects) {
     context.color().draw_filled_rect(m_col.m_bbox, Color(1.0f, 0.0f, 1.0f, 0.6f),
-                             0.0f, LAYER_GUI);
+                             0.0f, LAYER_OBJECTS);
   }
 }
 

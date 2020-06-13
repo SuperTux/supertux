@@ -63,10 +63,12 @@ WorldMapState::load_state()
     vm.get_table_entry("tux");
 
     Vector p;
+    bool position_was_reset = false;
     if (!vm.get_float("x", p.x) || !vm.get_float("y", p.y))
     {
       log_warning << "Player position not set, respawning." << std::endl;
       m_worldmap.move_to_spawnpoint("main");
+      position_was_reset = true;
     }
     std::string back_str = vm.read_string("back");
     m_worldmap.m_tux->m_back_direction = string_to_direction(back_str);
@@ -76,6 +78,7 @@ WorldMapState::load_state()
     if (!( tile_data & ( Tile::WORLDMAP_NORTH | Tile::WORLDMAP_SOUTH | Tile::WORLDMAP_WEST | Tile::WORLDMAP_EAST ))) {
       log_warning << "Player at illegal position " << p.x << ", " << p.y << " respawning." << std::endl;
       m_worldmap.move_to_spawnpoint("main");
+      position_was_reset = true;
     }
 
     sq_pop(vm.get_vm(), 1);
@@ -104,41 +107,44 @@ WorldMapState::load_state()
     sq_pop(vm.get_vm(), 1);
 
     try {
-      vm.get_table_entry("tilemaps");
-      sq_pushnull(vm.get_vm()); // Null-iterator
-      while (SQ_SUCCEEDED(sq_next(vm.get_vm(), -2)))
+      if(!position_was_reset)
       {
-        const char* key; // Name of specific tilemap table
-        if (SQ_SUCCEEDED(sq_getstring(vm.get_vm(), -2, &key)))
+        vm.get_table_entry("tilemaps");
+        sq_pushnull(vm.get_vm()); // Null-iterator
+        while (SQ_SUCCEEDED(sq_next(vm.get_vm(), -2)))
         {
-          auto tilemap = m_worldmap.get_object_by_name<TileMap>(key);
-          if (tilemap != nullptr)
+          const char* key; // Name of specific tilemap table
+          if (SQ_SUCCEEDED(sq_getstring(vm.get_vm(), -2, &key)))
           {
-            sq_pushnull(vm.get_vm()); // null iterator (inner);
-            while (SQ_SUCCEEDED(sq_next(vm.get_vm(), -2)))
+            auto tilemap = m_worldmap.get_object_by_name<TileMap>(key);
+            if (tilemap != nullptr)
             {
-              const char* property_key;
-              if (SQ_SUCCEEDED(sq_getstring(vm.get_vm(), -2, &property_key)))
+              sq_pushnull(vm.get_vm()); // null iterator (inner);
+              while (SQ_SUCCEEDED(sq_next(vm.get_vm(), -2)))
               {
-                auto propKey = std::string(property_key);
-                if (propKey == "alpha")
+                const char* property_key;
+                if (SQ_SUCCEEDED(sq_getstring(vm.get_vm(), -2, &property_key)))
                 {
-                  float alpha_value = 1.0;
-                  if (SQ_SUCCEEDED(sq_getfloat(vm.get_vm(), -1, &alpha_value)))
+                  auto propKey = std::string(property_key);
+                  if (propKey == "alpha")
                   {
-                    tilemap->set_alpha(alpha_value);
+                    float alpha_value = 1.0;
+                    if (SQ_SUCCEEDED(sq_getfloat(vm.get_vm(), -1, &alpha_value)))
+                    {
+                      tilemap->set_alpha(alpha_value);
+                    }
                   }
                 }
+                sq_pop(vm.get_vm(), 2); // Pop key/value from the stack
               }
-              sq_pop(vm.get_vm(), 2); // Pop key/value from the stack
+              sq_pop(vm.get_vm(), 1); // Pop null iterator
             }
-            sq_pop(vm.get_vm(), 1); // Pop null iterator
           }
+          sq_pop(vm.get_vm(), 2); // Pop key value pair from stack
         }
-        sq_pop(vm.get_vm(), 2); // Pop key value pair from stack
+        sq_pop(vm.get_vm(), 1); // Pop null
+        sq_pop(vm.get_vm(), 1); // leave tilemaps table
       }
-      sq_pop(vm.get_vm(), 1); // Pop null
-      sq_pop(vm.get_vm(), 1); // leave tilemaps table
     }
     catch(const SquirrelError&)
     {

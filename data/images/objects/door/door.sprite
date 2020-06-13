@@ -1,14 +1,14 @@
 (supertux-sprite
   (action
     (name "closed")
-    (hitbox 0 0 0 0)
+    (hitbox 8 4 44 80)
     (images 
       "door-0.png"
     )
   )
   (action
     (name "opening")
-    (hitbox 0 0 0 0)
+    (hitbox 8 4 44 80)
     (images 
       "door-0.png"
       "door-1.png"
@@ -22,14 +22,14 @@
   )
   (action
     (name "open")
-    (hitbox 0 0 0 0)
+    (hitbox 8 4 44 80)
     (images 
       "door-7.png"
     )
   )
   (action
     (name "closing")
-    (hitbox 0 0 0 0)
+    (hitbox 8 4 44 80)
     (images 
       "door-7.png"
       "door-6.png"
@@ -39,6 +39,13 @@
       "door-2.png"
       "door-1.png"
       "door-0.png"
+    )
+  )
+  (action
+    (name "locked")
+    (hitbox 8 4 44 80)
+    (images 
+      "door-locked.png"
     )
   )
 )

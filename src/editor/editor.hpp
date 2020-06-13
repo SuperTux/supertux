@@ -124,7 +124,7 @@ public:
 
   void add_layer(GameObject* layer) { m_layers_widget->add_layer(layer); }
 
-  GameObject* get_selected_tilemap() const { return m_layers_widget->get_selected_tilemap(); }
+  TileMap* get_selected_tilemap() const { return m_layers_widget->get_selected_tilemap(); }
 
   Sector* get_sector() { return m_sector; }
 
@@ -137,7 +137,7 @@ private:
   void reload_level();
   void quit_editor();
   void save_level();
-  void test_level();
+  void test_level(const boost::optional<std::pair<std::string, Vector>>& test_pos);
   void update_keyboard(const Controller& controller);
 
 protected:
@@ -155,6 +155,7 @@ public:
   bool m_deactivate_request;
   bool m_save_request;
   bool m_test_request;
+  boost::optional<std::pair<std::string, Vector>> m_test_pos;
 
   std::unique_ptr<Savegame> m_savegame;
 
@@ -170,7 +171,6 @@ private:
   EditorOverlayWidget* m_overlay_widget;
   EditorToolboxWidget* m_toolbox_widget;
   EditorLayersWidget* m_layers_widget;
-  EditorScrollerWidget* m_scroller_widget;
 
   bool m_enabled;
   SurfacePtr m_bgr_surface;

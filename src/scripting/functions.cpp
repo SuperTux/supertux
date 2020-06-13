@@ -240,6 +240,21 @@ void stop_music(float fadetime)
   SoundManager::current()->stop_music(fadetime);
 }
 
+void fade_in_music(const std::string& filename, float fadetime) 
+{
+  SoundManager::current()->play_music(filename, fadetime);
+}
+
+void resume_music(float fadetime) 
+{
+  SoundManager::current()->resume_music(fadetime);
+}
+
+void pause_music(float fadetime) 
+{
+  SoundManager::current()->pause_music(fadetime);
+}
+
 void play_sound(const std::string& filename)
 {
   SoundManager::current()->play(filename);
@@ -315,7 +330,7 @@ void warp(float offset_x, float offset_y)
 void camera()
 {
   if (!validate_sector_player()) return;
-  auto& cam_pos = ::Sector::get().get_camera().get_translation();
+  const auto& cam_pos = ::Sector::get().get_camera().get_translation();
   log_info << "Camera is at " << cam_pos.x << "," << cam_pos.y << std::endl;
 }
 

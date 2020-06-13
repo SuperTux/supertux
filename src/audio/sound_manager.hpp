@@ -78,6 +78,7 @@ public:
   void set_listener_orientation(const Vector& at, const Vector& up);
 
   void enable_music(bool music_enabled);
+  void play_music(const std::string& filename, float fadetime);
   void play_music(const std::string& filename, bool fade = false);
   void pause_music(float fadetime = 0);
   void resume_music(float fadetime = 0);

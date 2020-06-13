@@ -328,7 +328,30 @@ BitmapFont::wrap_to_width(const std::string& s_, float width, std::string* overf
     }
   }
 
-  // FIXME: hard-wrap at width, taking care of multibyte characters
+  // hard-wrap at width, taking care of multibyte characters
+  unsigned int char_bytes = 1;
+  for (int i = 0; i < static_cast<int>(s.length()); i += char_bytes) {
+
+    // calculate the number of bytes in the character
+    char_bytes = 1;
+    auto iter = s.begin() + i + 1; // iter points to next byte
+    while ( iter != s.end() && (*iter & 128) && !(*iter & 64) ) {
+      // this is a "continuation" byte in the form 10xxxxxx
+      ++iter;
+      ++char_bytes;
+    }
+
+    // check whether text now goes over allowed width, and if so
+    // return everything up to the character and put the rest in the overflow
+    std::string s2 = s.substr(0,i+char_bytes);
+    if (get_text_width(s2) > width) {
+      if (i == 0) i += char_bytes; // edge case when even one char is too wide
+      if (overflow) *overflow = s.substr(i);
+      return s.substr(0, i);
+    }
+  }
+
+  // should in theory never reach here
   if (overflow) *overflow = "";
   return s;
 }

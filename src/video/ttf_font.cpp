@@ -62,25 +62,21 @@ TTFFont::get_text_width(const std::string& text) const
   {
     const std::string& line = iter.get();
 
-    // Since create_surface() takes a surface from the cache instead of
-    // generating it from scratch it should be faster than doing a whole
-    // layout.
-    if ((false))
-    {
+    // Since get_cached_surface_width() takes a surface from the cache
+    // instead of generating it from scratch,
+    // it should be faster than doing a whole layout.
+    int line_width = TTFSurfaceManager::current()->get_cached_surface_width(*this, line);
+    if (line_width < 0) {
+      // Not in cache
       int w = 0;
       int h = 0;
       int ret = TTF_SizeUTF8(m_font, line.c_str(), &w, &h);
-      if (ret < 0)
-      {
+      if (ret < 0) {
         std::cerr << "TTFFont::get_text_width(): " << TTF_GetError() << std::endl;
       }
-      max_width = std::max(max_width, static_cast<float>(w));
+      line_width = w;
     }
-    else
-    {
-      TTFSurfacePtr surface = TTFSurfaceManager::current()->create_surface(*this, line);
-      max_width = std::max(max_width, static_cast<float>(surface->get_width()));
-    }
+    max_width = std::max(max_width, static_cast<float>(line_width));
   }
 
   return max_width;
@@ -156,7 +152,30 @@ TTFFont::wrap_to_width(const std::string& text, float width, std::string* overfl
     }
   }
 
-  // FIXME: hard-wrap at width, taking care of multibyte characters
+  // hard-wrap at width, taking care of multibyte characters
+  unsigned int char_bytes = 1;
+  for (int i = 0; i < static_cast<int>(s.length()); i += char_bytes) {
+
+    // calculate the number of bytes in the character
+    char_bytes = 1;
+    auto iter = s.begin() + i + 1; // iter points to next byte
+    while ( iter != s.end() && (*iter & 128) && !(*iter & 64) ) {
+      // this is a "continuation" byte in the form 10xxxxxx
+      ++iter;
+      ++char_bytes;
+    }
+
+    // check whether text now goes over allowed width, and if so
+    // return everything up to the character and put the rest in the overflow
+    std::string s2 = s.substr(0,i+char_bytes);
+    if (get_text_width(s2) > width) {
+      if (i == 0) i += char_bytes; // edge case when even one char is too wide
+      if (overflow) *overflow = s.substr(i);
+      return s.substr(0, i);
+    }
+  }
+
+  // should in theory never reach here
   if (overflow) *overflow = "";
   return s;
 }

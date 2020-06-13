@@ -263,6 +263,14 @@ Camera::shake(float duration, float x, float y)
 void
 Camera::scroll_to(const Vector& goal, float scrolltime)
 {
+  if(scrolltime == 0.0f)
+  {
+    m_translation.x = goal.x;
+    m_translation.y = goal.y;
+    m_mode = Mode::MANUAL;
+    return;
+  }
+
   m_scroll_from = m_translation;
   m_scroll_goal = goal;
   keep_in_bounds(m_scroll_goal);
@@ -345,7 +353,7 @@ Camera::update_scroll_normal(float dt_sec)
   const auto& config_ = *(m_config);
   Player& player = d_sector->get_player();
   // TODO: co-op mode needs a good camera
-  Vector player_pos(player.get_bbox().get_middle().x,
+  Vector player_pos(player.get_bbox().get_left(),
                                     player.get_bbox().get_bottom());
   static Vector last_player_pos = player_pos;
   Vector player_delta = player_pos - last_player_pos;

@@ -35,6 +35,7 @@ Config::Config() :
   try_vsync(true),
   show_fps(false),
   show_player_pos(false),
+  show_controller(false),
   sound_enabled(true),
   music_enabled(true),
   sound_volume(100),
@@ -71,6 +72,7 @@ Config::load()
   config_mapping.get("profile", profile);
   config_mapping.get("show_fps", show_fps);
   config_mapping.get("show_player_pos", show_player_pos);
+  config_mapping.get("show_controller", show_controller);
   config_mapping.get("developer", developer_mode);
   config_mapping.get("confirmation_dialog", confirmation_dialog);
   config_mapping.get("pause_on_focusloss", pause_on_focusloss);
@@ -176,6 +178,7 @@ Config::save()
   writer.write("profile", profile);
   writer.write("show_fps", show_fps);
   writer.write("show_player_pos", show_player_pos);
+  writer.write("show_controller", show_controller);
   writer.write("developer", developer_mode);
   writer.write("confirmation_dialog", confirmation_dialog);
   writer.write("pause_on_focusloss", pause_on_focusloss);

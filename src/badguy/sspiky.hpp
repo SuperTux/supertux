@@ -33,7 +33,7 @@ public:
   virtual bool is_freezable() const override;
   virtual bool is_flammable() const override;
   virtual std::string get_class() const override { return "sspiky"; }
-  virtual std::string get_display_name() const override { return _("Sleeping spiky"); }
+  virtual std::string get_display_name() const override { return _("Sleeping Spiky"); }
 
 protected:
   enum SSpikyState {

@@ -27,12 +27,14 @@
 #include "util/log.hpp"
 
 LevelsetScreen::LevelsetScreen(const std::string& basedir, const std::string& level_filename,
-                               Savegame& savegame) :
+                               Savegame& savegame,
+                               const boost::optional<std::pair<std::string, Vector>>& start_pos) :
   m_basedir(basedir),
   m_level_filename(level_filename),
   m_savegame(savegame),
   m_level_started(false),
-  m_solved(false)
+  m_solved(false),
+  m_start_pos(start_pos)
 {
   Levelset levelset(basedir);
   for (int i = 0; i < levelset.get_num_levels(); ++i)
@@ -83,6 +85,10 @@ LevelsetScreen::setup()
     } else {
       auto screen = std::make_unique<GameSession>(FileSystem::join(m_basedir, m_level_filename),
                                                   m_savegame);
+      if (m_start_pos) {
+        screen->set_start_pos(m_start_pos->first, m_start_pos->second);
+        screen->restart_level();
+      }
       ScreenManager::current()->push_screen(std::move(screen));
     }
   }

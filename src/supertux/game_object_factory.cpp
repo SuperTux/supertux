@@ -29,6 +29,7 @@
 #include "badguy/flyingsnowball.hpp"
 #include "badguy/ghostflame.hpp"
 #include "badguy/ghosttree.hpp"
+#include "badguy/ghoul.hpp"
 #include "badguy/goldbomb.hpp"
 #include "badguy/haywire.hpp"
 #include "badguy/iceflame.hpp"
@@ -97,6 +98,7 @@
 #include "object/powerup.hpp"
 #include "object/pushbutton.hpp"
 #include "object/rain_particle_system.hpp"
+#include "object/rublight.hpp"
 #include "object/rusty_trampoline.hpp"
 #include "object/scripted_object.hpp"
 #include "object/skull_tile.hpp"
@@ -151,6 +153,7 @@ GameObjectFactory::init_factories()
   add_factory<FlyingSnowBall>("flyingsnowball");
   add_factory<Ghostflame>("ghostflame");
   add_factory<GhostTree>("ghosttree");
+  add_factory<Ghoul>("ghoul");
   add_factory<GoldBomb>("goldbomb");
   add_factory<Haywire>("haywire");
   add_factory<Iceflame>("iceflame");
@@ -226,6 +229,7 @@ GameObjectFactory::init_factories()
   add_factory<PushButton>("pushbutton");
   add_factory<RainParticleSystem>("particles-rain");
   add_factory<Rock>("rock");
+  add_factory<RubLight>("rublight");
   add_factory<ScriptedObject>("scriptedobject");
   add_factory<SkullTile>("skull_tile");
   add_factory<SnowParticleSystem>("particles-snow");

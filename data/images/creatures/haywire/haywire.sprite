@@ -1,17 +1,21 @@
 (supertux-sprite
  (action
   (name "left")
-  (fps 10.0)
-  (hitbox 5 8 32 32)
-  (images "left-0.png"
-          "left-1.png"
-          "left-2.png"
-          "left-1.png"))
+  (fps 12.0)
+  (hitbox 5 11 32 32)
+  (images "hw1.png"
+          "hw2.png"
+		  "hw3.png"
+		  "hw4.png"
+		  "hw5.png"
+		  "hw6.png"
+		  "hw7.png"
+		  "hw8.png"))
 
  (action
   (name "right")
-  (fps 10.0)
-  (hitbox 5 8 32 32)
+  (fps 12.0)
+  (hitbox 5 11 32 32)
   (mirror-action "left"))
  
  (action
@@ -27,17 +31,42 @@
  (action
   (name "ticking-left")
   (fps 10.0)
-  (hitbox 5 8 32 32)
-  (images "ticking-0.png"
-          "ticking-1.png"
-          "ticking-2.png"
-          "ticking-3.png"
-          "ticking-4.png"
-          "ticking-5.png"))
+  (hitbox 5 11 32 32)
+  (images "hwtick1.png"
+          "hwtick2.png"
+		  "hwtick3.png"
+		  "hwtick4.png"
+		  "hwtick5.png"
+		  "hwtick6.png"))
 
  (action
   (name "ticking-right")
   (fps 10.0)
-  (hitbox 5 8 32 32)
+  (hitbox 5 11 32 32)
   (mirror-action "ticking-left"))
+  
+  (action
+  (name "active-left")
+  (loops 1)
+  (fps 12.0)
+  (hitbox 5 11 32 32)
+  (images "hwtrigger1.png"
+		  "hwtrigger1.png"
+		  "hwtrigger1.png"
+		  "hwtrigger1.png"
+		  "hwtrigger2.png"
+          "hwtrigger3.png"
+		  "hwtrigger4.png"
+		  "hwtrigger4.png"
+		  "hwtrigger4.png"
+		  "hwtrigger4.png"
+		  "hwtrigger4.png"
+		  "hwtrigger4.png"))
+
+ (action
+  (name "active-right")
+  (loops 1)
+  (fps 12.0)
+  (hitbox 5 11 32 32)
+  (mirror-action "active-left"))
 )

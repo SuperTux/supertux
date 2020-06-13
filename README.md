@@ -1,7 +1,8 @@
 # SuperTux
 
 [![Build Status](https://travis-ci.org/SuperTux/supertux.svg?branch=master)](https://travis-ci.org/SuperTux/supertux)
-[![AppVeyor Build Satus](https://ci.appveyor.com/api/projects/status/github/SuperTux/supertux?svg=true&branch=master)](https://ci.appveyor.com/project/supertux/supertux-9ml4d/branch/master)
+[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/SuperTux/supertux?svg=true&branch=master)](https://ci.appveyor.com/project/supertux/supertux-9ml4d/branch/master)
+[![AppVeyor Build status](https://ci.appveyor.com/api/projects/status/k9jaduxvftlhgmhp/branch/master?svg=true)](https://ci.appveyor.com/project/supertux/supertux-o8t59/branch/master)
 [![Github All Releases](https://img.shields.io/github/downloads/supertux/supertux/total.svg?maxAge=2592000)](https://github.com/SuperTux/supertux)
 
 SuperTux is a jump'n'run game with strong inspiration from the
@@ -104,9 +105,9 @@ In case you need help, feel free to reach out using the following means:
 
 ## Development status
 
-With the release of SuperTux 0.6.0 (December 2018), the Forest World finally found
-it's way back to the core part of the game. It's now considered stable, but it
-still misses the second half, which consists of the ghostforest and the boss
-of the Forest World. The Team will continue with the development of the Forest
-World, and, as always, constructive feedback and contributions regarding
-the game is highly welcome.
+As of now, with the release of SuperTux 0.6.2 (May 2020), the Forest World is almost
+finished, since the ghost forest section has been included. However, some levels, especially
+the Ghostree Level, are considered to be placeholders, because for the next version (0.7.0) a
+great overhaul is planned with new features like reworked boss fights, graphics, and worlds.
+If you have some Constructive Feedback, Contributions or ideas to share, don't hestitate
+to contact us with one of the possibilities given above.

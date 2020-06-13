@@ -28,6 +28,7 @@ class Flower;
 class Platform;
 class Block;
 class Path;
+class Decal;
 
 /** Vertically or horizontally flip a level */
 class FlipLevelTransformer final : public LevelTransformer
@@ -45,6 +46,7 @@ private:
   void transform_flower(Flower& flower);
   void transform_platform(float height, Platform& platform);
   void transform_block(float height, Block& block);
+  void transform_decal(float height, Decal& decal);
 };
 
 #endif

@@ -78,6 +78,8 @@ public:
   std::string get_object() const { return m_object; }
   TileSelection* get_tiles() const { return m_tiles.get(); }
 
+  bool has_mouse_focus() const;
+
 private:
   Vector get_tile_coords(const int pos) const;
   int get_tile_pos(const Vector& coords) const;
@@ -108,7 +110,7 @@ private:
   std::unique_ptr<ToolIcon> m_rubber;
   std::unique_ptr<ToolIcon> m_select_mode;
   std::unique_ptr<ToolIcon> m_move_mode;
-  std::unique_ptr<ToolIcon> m_settings_mode;
+  std::unique_ptr<ToolIcon> m_undo_mode;
 
   HoveredItem m_hovered_item;
   int m_hovered_tile;
@@ -120,7 +122,9 @@ private:
   Vector m_drag_start;
 
   int m_Xpos;
-  const int m_Ypos = 60;
+  const int m_Ypos = 96;
+
+  bool m_has_mouse_focus;
 
 private:
   EditorToolboxWidget(const EditorToolboxWidget&) = delete;

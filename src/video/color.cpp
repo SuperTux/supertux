@@ -89,6 +89,15 @@ Color::greyscale() const
   return red * 0.30f + green * 0.59f + blue * 0.11f;
 }
 
+Color
+Color::multiply_linearly(float v) const
+{
+  // For the approximate sRGB conversion, it is sufficient to apply the exponent
+  // to v
+  v = add_gamma(v);
+  return Color(red * v, green * v, blue * v, alpha);
+}
+
 bool
 Color::operator < (const Color& other) const
 {

@@ -72,7 +72,7 @@ public:
   virtual void collision_solid(const CollisionHit& hit) override;
 
   virtual std::string get_class() const override { return "heavycoin"; }
-  virtual std::string get_display_name() const override { return _("Heavy coin"); }
+  virtual std::string get_display_name() const override { return _("Heavy Coin"); }
 
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;

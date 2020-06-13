@@ -4,6 +4,10 @@ build.*/
 **/CMakeFiles/
 **/CMakeCache.txt
 supertux2
+
+# Tags file
+tags
+
 # Windows build files
 Debug/
 Release/
@@ -22,6 +26,9 @@ CMakeLists.txt.user
 # Visual Studio Code project files
 .vscode/
 language.settings.xml
+
+# Visual Studio project files
+*.vs/
 
 # Windows build dependencies
 dependencies*/

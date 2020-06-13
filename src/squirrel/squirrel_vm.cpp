@@ -278,6 +278,7 @@ SquirrelVM::rename_table_entry(const char* oldname, const char* newname)
 std::vector<std::string>
 SquirrelVM::get_table_keys()
 {
+  auto old_top = sq_gettop(m_vm);
   std::vector<std::string> keys;
 
   sq_pushnull(m_vm);
@@ -297,6 +298,8 @@ SquirrelVM::get_table_keys()
     // pops key and val before the next iteration
     sq_pop(m_vm, 2);
   }
+
+  sq_settop(m_vm, old_top);
 
   return keys;
 }

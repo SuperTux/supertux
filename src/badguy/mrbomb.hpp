@@ -39,13 +39,10 @@ public:
 
   virtual bool is_freezable() const override;
   virtual std::string get_class() const override { return "mrbomb"; }
-  virtual std::string get_display_name() const override { return _("Mr. Bomb"); }
+  virtual std::string get_display_name() const override { return _("Bomb"); }
 
 protected:
   virtual bool collision_squished(GameObject& object) override;
-
-private:
-  bool grabbed;
 
 private:
   MrBomb(const MrBomb&) = delete;

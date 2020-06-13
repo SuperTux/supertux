@@ -17,6 +17,7 @@
 #include "video/ttf_surface_manager.hpp"
 
 #include <SDL_ttf.h>
+#include <numeric>
 #include <sstream>
 #include <iostream>
 
@@ -52,14 +53,14 @@ TTFSurfaceManager::create_surface(const TTFFont& font, const std::string& text)
   }
   else
   {
-    if ((false))
-    {
-      // Font debug output should go to 'std::cerr', not any of the
-      // log_* functions, as those are mirrored on the console which
-      // in turn will lead to the creation of more TTFSurface's and
-      // screw up the results.
-      print_debug_info(std::cerr);
-    }
+
+#if 0
+    // Font debug output should go to 'std::cerr', not any of the
+    // log_* functions, as those are mirrored on the console which
+    // in turn will lead to the creation of more TTFSurface's and
+    // screw up the results.
+    print_debug_info(std::cerr);
+#endif
 
     cache_cleanup_step();
 
@@ -67,6 +68,19 @@ TTFSurfaceManager::create_surface(const TTFFont& font, const std::string& text)
     m_cache[key] = ttf_surface;
     return ttf_surface;
   }
+}
+
+int
+TTFSurfaceManager::get_cached_surface_width(const TTFFont& font,
+  const std::string& text)
+{
+  auto key = Key(font.get_ttf_font(), text);
+  auto it = m_cache.find(key);
+  if (it == m_cache.end())
+    return -1;
+  auto& entry = m_cache[key];
+  entry.last_access = g_game_time;
+  return entry.ttf_surface->get_width();
 }
 
 void
@@ -95,11 +109,9 @@ TTFSurfaceManager::cache_cleanup_step()
 void
 TTFSurfaceManager::print_debug_info(std::ostream& out)
 {
-  int cache_bytes = 0;
-  for (const auto& entry : m_cache)
-  {
-    cache_bytes += entry.second.ttf_surface->get_width() * entry.second.ttf_surface->get_height() * 4;
-  }
+  int cache_bytes = std::accumulate(m_cache.begin(), m_cache.end(), 0, [](int accumulator, const std::pair<Key, CacheEntry>& entry) {
+    return accumulator + entry.second.ttf_surface->get_width() * entry.second.ttf_surface->get_height() * 4;
+  });
   out << "TTFSurfaceManager.cache_size: " << m_cache.size() << "  " << cache_bytes / 1000 << "KB" << std::endl;
 }
 

@@ -1,0 +1,6 @@
+(supertux-level-subset
+  (title (_ "Revenge in Redmond"))
+  (description (_ ""))
+  (levelset #f)
+  (hide-from-contribs #f)
+)

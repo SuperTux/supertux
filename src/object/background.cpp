@@ -16,6 +16,8 @@
 
 #include "object/background.hpp"
 
+#include <physfs.h>
+
 #include "editor/editor.hpp"
 #include "supertux/d_scope.hpp"
 #include "supertux/globals.hpp"
@@ -115,8 +117,8 @@ Background::Background(const ReaderMapping& reader) :
 
   m_layer = reader_get_layer(reader, LAYER_BACKGROUND0);
 
-  reader.get("image", m_imagefile, "images/background/transparent_up.png");
-  m_image = Surface::from_file(m_imagefile);
+  reader.get("image", m_imagefile, "images/background/misc/transparent_up.png");
+  m_image = load_background(m_imagefile);
 
   if(!reader.get("speed-x", m_parallax_speed.x))
   {
@@ -127,7 +129,7 @@ Background::Background(const ReaderMapping& reader) :
   reader.get("speed-y", m_parallax_speed.y, m_parallax_speed.x);
 
   if (reader.get("image-top", m_imagefile_top)) {
-    m_image_top = Surface::from_file(m_imagefile_top);
+    m_image_top = load_background(m_imagefile_top);
   } else {
     if (!Editor::is_active()) {
       m_imagefile_top = m_imagefile;
@@ -135,7 +137,7 @@ Background::Background(const ReaderMapping& reader) :
   }
 
   if (reader.get("image-bottom", m_imagefile_bottom)) {
-    m_image_bottom = Surface::from_file(m_imagefile_bottom);
+    m_image_bottom = load_background(m_imagefile_bottom);
     } else {
     if (!Editor::is_active()) {
       m_imagefile_bottom = m_imagefile;
@@ -189,9 +191,9 @@ Background::get_settings()
 void
 Background::after_editor_set()
 {
-  m_image_top = Surface::from_file(m_imagefile_top);
-  m_image = Surface::from_file(m_imagefile);
-  m_image_bottom = Surface::from_file(m_imagefile_bottom);
+  m_image_top = load_background(m_imagefile_top);
+  m_image = load_background(m_imagefile);
+  m_image_bottom = load_background(m_imagefile_bottom);
 }
 
 void
@@ -204,7 +206,7 @@ void
 Background::set_image(const std::string& name)
 {
   m_imagefile = name;
-  m_image = Surface::from_file(name);
+  m_image = load_background(name);
 }
 
 void
@@ -212,13 +214,13 @@ Background::set_images(const std::string& name_top,
                        const std::string& name_middle,
                        const std::string& name_bottom)
 {
-  m_image_top = Surface::from_file(name_top);
+  m_image_top = load_background(name_top);
   m_imagefile_top = name_top;
 
-  m_image = Surface::from_file(name_middle);
+  m_image = load_background(name_middle);
   m_imagefile = name_middle;
 
-  m_image_bottom = Surface::from_file(name_bottom);
+  m_image_bottom = load_background(name_bottom);
   m_imagefile_bottom = name_bottom;
 }
 
@@ -347,5 +349,93 @@ Background::draw(DrawingContext& context)
   draw_image(context, pos + m_scroll_offset + Vector(center_offset.x * (1.0f - m_parallax_speed.x),
                                                      center_offset.y * (1.0f - m_parallax_speed.y)));
 }
+
+namespace {
+std::unordered_map<std::string, std::string> fallback_paths = {
+  {"arctis2.png", "antarctic/arctis2.png"},
+  {"misty_snowhills_small.png", "antarctic/misty_snowhills_small.png"},
+  {"semi_arctic.jpg", "antarctic/semi_arctic.jpg"},
+  {"bridgecloud-dark.png", "arctic_bridge/bridgecloud-dark.png"},
+  {"bridgecloud-light.png", "arctic_bridge/bridgecloud-light.png"},
+  {"bridgeocean-fade.png", "arctic_bridge/bridgeocean-fade.png"},
+  {"bridgeocean-nofade.png", "arctic_bridge/bridgeocean-nofade.png"},
+  {"bridgeocean-original.png", "arctic_bridge/bridgeocean-original.png"},
+  {"arcticskies1.png", "arcticskies/arcticskies1.png"},
+  {"arcticskies2.png", "arcticskies/arcticskies2.png"},
+  {"arcticskies3.png", "arcticskies/arcticskies3.png"},
+  {"arcticskies35.png", "arcticskies/arcticskies35.png"},
+  {"arcticskies4.png", "arcticskies/arcticskies4.png"},
+  {"block-snow-background.png", "block_snow/block-snow-background.png"},
+  {"block-snow-midground.png", "block_snow/block-snow-midground.png"},
+  {"block-snow-top.png", "block_snow/block-snow-top.png"},
+  {"bluemountain-bottom.png", "bluemountain/bluemountain-bottom.png"},
+  {"bluemountain-middle.png", "bluemountain/bluemountain-middle.png"},
+  {"bluemountain-top.png", "bluemountain/bluemountain-top.png"},
+  {"bluemountain2.png", "bluemountain/bluemountain2.png"},
+  {"castle_foreground.png", "castle/castle_foreground.png"},
+  {"snowcastle.png", "castle/snowcastle.png"},
+  {"cloud-mountains-background.png", "cloud_mountains/cloud-mountains-background.png"},
+  {"cloud-mountains-bottom.png", "cloud_mountains/cloud-mountains-bottom.png"},
+  {"cloud-mountains-forground.png", "cloud_mountains/cloud-mountains-forground.png"},
+  {"cloud-mountains-midground.png", "cloud_mountains/cloud-mountains-midground.png"},
+  {"dawn_hill_para_blur.png", "forest/dawn_hill_para_blur.png"},
+  {"forest2_para.png", "forest/forest2_para.png"},
+  {"forest_para2.png", "forest/forest_para2.png"},
+  {"forest_para3.png", "forest/forest_para3.png"},
+  {"forest_para3_bottom.png", "forest/forest_para3_bottom.png"},
+  {"nighthills.png", "forest/nighthills.png"},
+  {"ghostforest.jpg", "ghostforest/ghostforest.jpg"},
+  {"ghostforest_grave.png", "ghostforest/ghostforest_grave.png"},
+  {"ghostforest_para.png", "ghostforest/ghostforest_para.png"},
+  {"cave2.jpg", "ice_cave/cave2.jpg"},
+  {"darkcave-background.png", "ice_cave/darkcave-background.png"},
+  {"darkcave-middle.png", "ice_cave/darkcave-middle.png"},
+  {"darkcave-preview.png", "ice_cave/darkcave-preview.png"},
+  {"darkcave-top_and_bottom.png", "ice_cave/darkcave-top_and_bottom.png"},
+  {"darkcavemidground-middle.png", "ice_cave/darkcavemidground-middle.png"},
+  {"darkcavemidground-top_and_bottom.png", "ice_cave/darkcavemidground-top_and_bottom.png"},
+  {"black_800px.png", "misc/black_800px.png"},
+  {"fog.png", "misc/fog.png"},
+  {"grid.png", "misc/grid.png"},
+  {"grid.surface", "misc/grid.surface"},
+  {"heatshimmer-displacement.png", "misc/heatshimmer-displacement.png"},
+  {"heatshimmer.png", "misc/heatshimmer.png"},
+  {"heatshimmer.surface", "misc/heatshimmer.surface"},
+  {"leaves.png", "misc/leaves.png"},
+  {"oiltux.jpg", "misc/oiltux.jpg"},
+  {"transparent_up.png", "misc/transparent_up.png"},
+  {"nightsky.png", "nightsky/nightsky.png"},
+  {"nightsky_bottom.png", "nightsky/nightsky_bottom.png"},
+  {"nightsky_middle.png", "nightsky/nightsky_middle.png"},
+  {"nightsky_para.png", "nightsky/nightsky_para.png"},
+  {"nightsky_top.png", "nightsky/nightsky_top.png"},
+};
+
+} // namespace
+
+SurfacePtr
+Background::load_background(const std::string& image_path)
+{
+  if (PHYSFS_exists(image_path.c_str()))
+    // No need to search fallback paths
+    return Surface::from_file(image_path);
+
+  // Search for a fallback image in fallback_paths
+  const std::string& default_dir = "images/background/";
+  const std::string& default_dir2 = "/images/background/";
+  std::string new_path = image_path;
+  if (image_path.substr(0, default_dir.length()) == default_dir)
+    new_path.erase(0, default_dir.length());
+  else if (image_path.substr(0, default_dir2.length()) == default_dir2)
+    new_path.erase(0, default_dir2.length());
+  auto it = fallback_paths.find(new_path);
+  if (it == fallback_paths.end())
+    // Unknown image, let the texture manager select the dummy texture
+    return Surface::from_file(image_path);
+
+  new_path = default_dir + it->second;
+  return Surface::from_file(new_path);
+}
+
 
 /* EOF */

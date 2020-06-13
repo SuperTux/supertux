@@ -6,6 +6,8 @@ Most images were created either by grumbel or gwater. Check the log for details.
 * images/background/block-snow-*.png - Jason Lavallée, dual-licensed: GPL version 2 or later and CC-BY-SA
 * images/background/cloud-mountains-*.png - Jason Lavallée, dual-licensed: GPL version 2 or later and CC-BY-SA
 * images/background/darkcave*.png - Jason Lavallée, dual-licensed: GPL version 2 or later and CC-BY-SA
+* images/background/dawn_hill_para_blur.png - Daniel W, Romero Nickerson, dual-licensed: GPL version 2 or later and CC-BY-SA
+* images/background/ghostforest_grave.png - jkjkke - https://opengameart.org/content/background-6, edited, licensed under CC-BY 3.0
 * images/objects/explosion/explosion*.png - Bleed - http://remusprites.carbonmade.com/ licensed under CC-BY 3.0, see https://opengameart.org/content/simple-explosion-bleeds-game-art
 
 == Levels ==
@@ -32,6 +34,7 @@ All files in data/music created by wansti and licensed under GPLv2+CC-by-sa, unl
 * bossattack.ogg
 * bright_thunders.ogg - by Krobonil, licensed under CC-BY-SA
 * cave.ogg
+* call_of_the_winding_path.ogg - Jason Lavallée, dual-licensed: GPL version 2 or later and CC-BY-SA
 * chipdisko.ogg - Mortimer's Chipdisko by Lukas Nystrand as Mortimer Twang - explicit permission granted to release unter GPL and CC-by-sa.
 * clavelian_march.ogg
 * credits.ogg
@@ -50,17 +53,21 @@ All files in data/music created by wansti and licensed under GPLv2+CC-by-sa, unl
 * greatgigantic.ogg - Based on a work by Chris Huelsbeck - We have his permission to release this under GPL.
 * shallow-green.ogg - Jason Lavallée, dual-licensed: GPL version 2 or later and CC-BY-SA
 * halloween_1.ogg - By Forty-Two - licensed under CC-BY-SA 4.0
+* ice_music.ogg - By ZhayTee
 * intro.ogg
 * invincible.ogg
-* jasons_chipdisco_arctic_breeze.ogg - Jason Lavallée, dual-licensed: GPL version 2 or later and CC-BY-SA
+* arctic_breeze.ogg - Jason Lavallée, dual-licensed: GPL version 2 or later and CC-BY-SA
 * jewels.ogg - By cynicmusic/congusbongus - <http://opengameart.org/content/crystal-cave-mysterious-ambience-seamless-loop> - CC-BY 3.0/CC-BY-SA 3.0/GPL 3.0
 * leveldone.ogg
 * new_forest_map.ogg - Jason Lavallée, dual-licensed: GPL version 2 or later and CC-BY-SA
 * salcon.ogg - Salsa Con Carne by Mystical - Replaced due to licensing issues (some non-free samples are used)
     by a work-in-progress remix in trunk and the 0.3.x branch (r4585), for which we have permission to release under GPL and CC-by-sa. - wansti
+* saharan_penguin.ogg - by Enol "Meji" Monte, licensed CC BY-SA
 * theme.ogg
 * treeboss.ogg
+* tropicalbreeze.ogg - by flan, licensed CC-BY-SA 4.0
 * wisphunt.ogg
+* worldmap_old.ogg - By ZhayTee
 * voc-***.ogg
 
 == Scripts ==
@@ -86,7 +93,7 @@ These are just more code.
 * empty.wav - 0-length wav file
 * explosion.wav - Replaced by a self-made sound (GPLv2+/CC-by-SA) by sommer 17:34, 7 June 2007 (UTC)
 * fall.wav - added Fri May 14 05:24:24 2004 UTC by sik0fewl. Message was "added sounds from Nathan McCoy" -sommer 22:43, 4 Jan 2007 (CET)
-* fire.ogg - submited as CC-BY 3.0 by artisticdude from http://opengameart.org
+* fire.ogg - submitted as CC-BY 3.0 by artisticdude from http://opengameart.org
 * fire-flower.wav - submitted as GPL by Bastian Zapf
 * fireworks.wav - submitted as GPL by Ricardo Cruz
 * fizz.wav - replaced by some white noise made with audacity, WolfgangB
@@ -108,7 +115,7 @@ These are just more code.
 * mr_tree.ogg - self-made by gwater
 * mr_treehit.ogg - self-made by gwater
 * phone.wav - self-made by gwater (unused ATM, was used in infoblock.cpp)
-* rain.wav - self-made by wansti
+* rain.wav - submitted as CC-BY 3.0 by DoKashiteru from http://opengameart.org
 * saw.wav Mill1.wav from LinCity-NG (Data is dual licensed under under the GPL and CC-by-sa-v2 ), created by Paulo Morfeo http://svn.berlios.de/viewcvs/lincity-ng/trunk/data/sounds/Mill1.wav
 * shoot.wav - added Fri May 14 05:24:24 2004 UTC by sik0fewl. Message was "added sounds from Nathan McCoy" -sommer 22:43, 4 Jan 2007 (CET)
 * skid.wav - replaced with a self-made sound by wansti

@@ -1,0 +1,29 @@
+(supertux-sprite
+  (action
+    (name "left")
+    (hitbox 3 4 32 32)
+    (images "laptop-left-0.png"
+            "laptop-left-1.png"
+            "laptop-left-2.png")
+  )
+  (action
+    (name "default")
+    (hitbox 3 4 32 32)
+    (mirror-action "left")
+  )
+  (action
+    (name "right")
+    (hitbox 3 4 32 32)
+    (mirror-action "left")
+  )
+  (action
+    (name "squished-left")
+    (hitbox 1 -19 31.8 31.8)
+    (images "laptop-flat-left.png")
+  )
+  (action
+    (name "squished-right")
+    (hitbox 1 -19 31.8 31.8)
+    (mirror-action "squished-left")
+  )
+)

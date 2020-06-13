@@ -23,10 +23,16 @@
 #include "gui/menu_manager.hpp"
 #include "supertux/fadetoblack.hpp"
 #include "supertux/globals.hpp"
+#include "supertux/level.hpp"
+#include "supertux/level_parser.hpp"
+#include "supertux/levelset.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/screen_manager.hpp"
+#include "supertux/game_manager.hpp"
 #include "supertux/textscroller_screen.hpp"
+#include "supertux/world.hpp"
 #include "util/log.hpp"
+#include "util/file_system.hpp"
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
@@ -75,11 +81,14 @@ MainMenu::menu_action(MenuItem& item)
       break;
 
 
-    case MNID_CREDITS:
-      MenuManager::instance().clear_menu_stack();
-      ScreenManager::current()->push_screen(std::unique_ptr<Screen>(new TextScrollerScreen("credits.stxt")),
-                                            std::unique_ptr<ScreenFade>(new FadeToBlack(FadeToBlack::FADEOUT, 0.5)));
-      break;
+     case MNID_CREDITS:
+    {
+      // Credits Level
+      SoundManager::current()->stop_music(0.2f);
+      std::unique_ptr<World> world = World::from_directory("levels/misc");
+      GameManager::current()->start_level(*world, "credits.stl");
+    }
+	  break;
 
     case MNID_LEVELEDITOR:
       {

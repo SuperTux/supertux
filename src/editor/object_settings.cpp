@@ -269,7 +269,7 @@ ObjectSettings::add_music(const std::string& text, std::string* value_ptr,
                           boost::optional<std::string> default_value,
                           unsigned int flags)
 {
-  add_file(text, value_ptr, key, std::move(default_value), {".ogg", ".music"}, {}, flags);
+  add_file(text, value_ptr, key, std::move(default_value), {".music"}, {}, flags);
 }
 
 void
@@ -283,6 +283,12 @@ void
 ObjectSettings::add_sexp(const std::string& text, const std::string& key, sexp::Value& value, unsigned int flags)
 {
   add_option(std::make_unique<SExpObjectOption>(text, key, value, flags));
+}
+
+void
+ObjectSettings::add_test_from_here()
+{
+  add_option(std::make_unique<TestFromHereOption>());
 }
 
 void

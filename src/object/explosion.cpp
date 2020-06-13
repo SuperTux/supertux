@@ -26,10 +26,12 @@
 #include "sprite/sprite_manager.hpp"
 #include "supertux/sector.hpp"
 
-Explosion::Explosion(const Vector& pos) :
+Explosion::Explosion(const Vector& pos, float p_push_strength,
+    int p_num_particles) :
   MovingSprite(pos, "images/objects/explosion/explosion.sprite", LAYER_OBJECTS+40, COLGROUP_MOVING),
   hurt(true),
-  push(false),
+  push_strength(p_push_strength),
+  num_particles(p_num_particles),
   state(STATE_WAITING),
   lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-large.sprite"))
 {
@@ -43,7 +45,8 @@ Explosion::Explosion(const Vector& pos) :
 Explosion::Explosion(const ReaderMapping& reader) :
   MovingSprite(reader, "images/objects/explosion/explosion.sprite", LAYER_OBJECTS+40, COLGROUP_MOVING),
   hurt(true),
-  push(false),
+  push_strength(-1),
+  num_particles(100),
   state(STATE_WAITING),
   lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-large.sprite"))
 {
@@ -67,16 +70,17 @@ Explosion::explode()
     SoundManager::current()->play("sounds/explosion.wav", get_pos(), 0.98f);
   else
     SoundManager::current()->play("sounds/firecracker.ogg", get_pos(), 0.7f);
+  bool does_push = push_strength > 0;
 
   // spawn some particles
-  int pnumber = push ? 8 : 100;
   Vector accel = Vector(0, Sector::get().get_gravity()*100);
   Sector::get().add<Particles>(
-    m_col.m_bbox.get_middle(), -360, 360, 450, 900, accel , pnumber, Color(.4f, .4f, .4f), 3, .8f, LAYER_OBJECTS-1);
+    m_col.m_bbox.get_middle(), -360, 360, 450, 900, accel, num_particles,
+    Color(.4f, .4f, .4f), 3, .8f, LAYER_OBJECTS-1);
 
-  if (push) {
+  if (does_push) {
     Vector center = m_col.m_bbox.get_middle ();
-    auto near_objects = Sector::get().get_nearby_objects (center, 10.0 * 32.0);
+    auto near_objects = Sector::get().get_nearby_objects (center, 128.0 * 32.0);
 
     for (auto& obj: near_objects) {
       Vector obj_vector = obj->get_bbox ().get_middle ();
@@ -90,7 +94,9 @@ Explosion::explode()
 
       /* The force decreases with the distance squared. In the distance of one
        * tile (32 pixels) you will have a speed increase of 150 pixels/s. */
-      float force = 150.0f * 32.0f * 32.0f / (distance * distance);
+      float force = push_strength / (distance * distance);
+      // If we somehow get a force of over 200, keep it at 200 because
+      // unexpected behaviour could result otherwise.
       if (force > 200.0f)
         force = 200.0;
 

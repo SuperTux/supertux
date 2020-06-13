@@ -28,7 +28,7 @@
 
 EditorSectorsMenu::EditorSectorsMenu()
 {
-  add_label(_("Choose sector to edit:"));
+  add_label(_("Choose Sector"));
   add_hl();
 
   int id = 0;
@@ -38,9 +38,10 @@ EditorSectorsMenu::EditorSectorsMenu()
   }
 
   add_hl();
-  add_submenu(_("Sector settings..."), MenuStorage::EDITOR_SECTOR_MENU);
-  add_entry(-2,_("Create new sector"));
-  add_entry(-3,_("Delete this sector"));
+  add_submenu(_("Sector Settings"), MenuStorage::EDITOR_SECTOR_MENU);
+  add_entry(-2,_("Create Sector"));
+  add_entry(-3,_("Delete Sector"));
+  add_hl();
   add_entry(-4,_("Cancel"));
 }
 
