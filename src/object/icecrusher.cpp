@@ -50,7 +50,7 @@ IceCrusher::IceCrusher(const ReaderMapping& reader) :
   righteye(),
   whites(),
   ic_size(NORMAL),
-  sideways(false)
+  sideways()
 {
   reader.get("sideways", sideways);
   // TODO: icecrusher hitting deserves its own sounds-
@@ -103,9 +103,9 @@ IceCrusher::set_state(IceCrusherState state_, bool force)
       physic.enable_gravity (true);
       m_sprite->set_action("crushing");
       break;
-	case CRUSHING_RIGHT:
+    case CRUSHING_RIGHT:
       set_group(COLGROUP_MOVING_STATIC);
-	  physic.reset ();
+	    physic.reset ();
       physic.enable_gravity (false);
       m_sprite->set_action("idle");
 	  break;
@@ -221,14 +221,17 @@ IceCrusher::collision_solid(const CollisionHit& hit)
         set_state(RECOVERING);
       }
       break;
-	case CRUSHING_RIGHT:
-	  if (hit.right) {
-		if (ic_size == LARGE) {
+	  case CRUSHING_RIGHT:
+	  if (hit.right)
+    {
+		if (ic_size == LARGE)
+    {
           cooldown_timer = PAUSE_TIME_LARGE;
           Sector::get().get_camera().shake (0.125f, 0.0f, 16.0f);
           SoundManager::current()->play("sounds/brick.wav");
         }
-		else {
+		else
+    {
           cooldown_timer = PAUSE_TIME_NORMAL;
           Sector::get().get_camera().shake (0.1f, 0.0, 8.0);
           if ( m_sprite_name.find("rock_crusher") != std::string::npos ||
@@ -245,13 +248,16 @@ IceCrusher::collision_solid(const CollisionHit& hit)
 	  }
 	  break;
 	case CRUSHING_LEFT:
-	  if (hit.left) {
-		if (ic_size == LARGE) {
+	  if (hit.left)
+    {
+		if (ic_size == LARGE)
+    {
           cooldown_timer = PAUSE_TIME_LARGE;
           Sector::get().get_camera().shake (0.125f, 0.0f, 16.0f);
           SoundManager::current()->play("sounds/brick.wav");
         }
-		else {
+		else
+    {
           cooldown_timer = PAUSE_TIME_NORMAL;
           Sector::get().get_camera().shake (0.1f, 0.0, 8.0);
           if ( m_sprite_name.find("rock_crusher") != std::string::npos ||
@@ -293,9 +299,9 @@ IceCrusher::update(float dt_sec)
       m_col.m_movement = Vector (0, 0);
       if (found_victim_down() && !sideways)
         set_state(CRUSHING);
-	  if (found_victim_right() && sideways)
+		  if (found_victim_right() && sideways)
         set_state(CRUSHING_RIGHT);
-	  if (found_victim_left() && sideways)
+	    if (found_victim_left() && sideways)
         set_state(CRUSHING_LEFT);
       break;
     case CRUSHING:
