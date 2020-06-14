@@ -49,8 +49,8 @@ IceCrusher::IceCrusher(const ReaderMapping& reader) :
   lefteye(),
   righteye(),
   whites(),
-  sideways(false),
-  ic_size(NORMAL)
+  ic_size(NORMAL),
+  sideways(false)
 {
   reader.get("sideways", sideways);
   // TODO: icecrusher hitting deserves its own sounds-
@@ -346,7 +346,7 @@ IceCrusher::update(float dt_sec)
       }
       break;
 	case RECOVERING_LEFT:
-      if (m_col.m_bbox.get_left() >= start_position.x+1) {
+      if (m_col.m_bbox.get_left() >= start_position.x-1) {
         set_pos(start_position);
         m_col.m_movement = Vector (0, 0);
         if (ic_size == LARGE)
@@ -486,7 +486,7 @@ IceCrusher::eye_position(bool right) const
                   static_cast<float>(m_sprite->get_width()) / 64.0f * 2.0f); // Offset to keep eyes visible
   }
   
-  else if (state == RECOVERING_RIGHT || RECOVERING_LEFT)
+  else if (state == RECOVERING_RIGHT || state == RECOVERING_LEFT)
   {
     // Eyes spin while icecrusher is recovering, giving a dazed impression
     return Vector(sinf((right ? 1 : -1) * // X motion of each eye is opposite of the other
