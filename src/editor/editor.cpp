@@ -195,11 +195,13 @@ Editor::update(float dt_sec, const Controller& controller)
       object->editor_update();
     }
 
-    m_sector->flush_game_objects();
-
     for (const auto& widget : m_widgets) {
       widget->update(dt_sec);
     }
+
+    // Now that all widgets have been updated, which should have relinquished
+    // pointers to objects marked for deletion, we can actually delete them.
+    m_sector->flush_game_objects();
 
     update_keyboard(controller);
   }
