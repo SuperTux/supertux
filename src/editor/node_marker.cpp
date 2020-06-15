@@ -69,6 +69,10 @@ NodeMarker::move_to(const Vector& pos)
 void
 NodeMarker::editor_delete()
 {
+  if (m_path->m_nodes.size() <= 1)
+  {
+    return;
+  }
   m_path->m_nodes.erase(m_node);
   Editor::current()->update_node_iterators();
 }
