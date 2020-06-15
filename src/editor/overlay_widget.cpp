@@ -175,8 +175,8 @@ void
 EditorOverlayWidget::draw_rectangle()
 {
   Rectf dr = drag_rect();
-  dr.set_p1(sp_to_tp(dr.p1()));
-  dr.set_p2(sp_to_tp(dr.p2()));
+  dr.set_p1(sp_to_tp(dr.p1()).floor());
+  dr.set_p2(sp_to_tp(dr.p2()).floor());
   bool sgn_x = m_drag_start.x < m_sector_pos.x;
   bool sgn_y = m_drag_start.y < m_sector_pos.y;
 
