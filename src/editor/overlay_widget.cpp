@@ -929,19 +929,26 @@ EditorOverlayWidget::draw(DrawingContext& context)
     // Draw selection rectangle...
     auto cam_translation = m_editor.get_sector()->get_camera().get_translation();
     Vector p0 = m_drag_start - cam_translation;
-    Vector p1 = Vector(m_drag_start.x, m_sector_pos.y) - cam_translation;
-    Vector p2 = Vector(m_sector_pos.x, m_drag_start.y) - cam_translation;
+    Vector p3 = m_mouse_pos;
+    if (p0.x > p3.x) {
+      std::swap(p0.x, p3.x);
+    }
+    if (p0.y > p3.y) {
+      std::swap(p0.y, p3.y);
+    }
+    Vector p1 = Vector(p0.x, p3.y);
+    Vector p2 = Vector(p3.x, p0.y);
 
     context.color().draw_filled_rect(Rectf(p0, p1 + Vector(2, 2)),
                                        Color(0.0f, 1.0f, 0.0f, 1.0f), 0.0f, LAYER_GUI-5);
-    context.color().draw_filled_rect(Rectf(p2, m_mouse_pos + Vector(2, 2)),
+    context.color().draw_filled_rect(Rectf(p2, p3 + Vector(2, 2)),
                                        Color(0.0f, 1.0f, 0.0f, 1.0f), 0.0f, LAYER_GUI-5);
     context.color().draw_filled_rect(Rectf(p0, p2 + Vector(2, 2)),
                                        Color(0.0f, 1.0f, 0.0f, 1.0f), 0.0f, LAYER_GUI-5);
-    context.color().draw_filled_rect(Rectf(p1, m_mouse_pos + Vector(2, 2)),
+    context.color().draw_filled_rect(Rectf(p1, p3 + Vector(2, 2)),
                                        Color(0.0f, 1.0f, 0.0f, 1.0f), 0.0f, LAYER_GUI-5);
 
-    context.color().draw_filled_rect(Rectf(p0, m_mouse_pos),
+    context.color().draw_filled_rect(Rectf(p0, p3),
                                        Color(0.0f, 1.0f, 0.0f, 0.2f), 0.0f, LAYER_GUI-5);
   }
 
