@@ -310,12 +310,12 @@ IceCrusher::update(float dt_sec)
         m_col.m_movement.y = MAX_DROP_SPEED;
       break;
 	  case CRUSHING_RIGHT:
-	  m_col.m_movement = physic.get_movement(dt_sec);
-	  physic.set_velocity_x((physic.get_velocity_x() + 10.f));
+	    m_col.m_movement = physic.get_movement(dt_sec);
+	    physic.set_velocity_x((physic.get_velocity_x() + 10.f));
       break;
 	  case CRUSHING_LEFT:
-	  m_col.m_movement = physic.get_movement(dt_sec);
-	  physic.set_velocity_x((physic.get_velocity_x() - 10.f));
+	    m_col.m_movement = physic.get_movement(dt_sec);
+	    physic.set_velocity_x((physic.get_velocity_x() - 10.f));
       break;
     case RECOVERING:
       if (m_col.m_bbox.get_top() <= start_position.y+1) {
