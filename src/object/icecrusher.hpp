@@ -29,7 +29,11 @@ private:
   enum IceCrusherState {
     IDLE,
     CRUSHING,
-    RECOVERING
+	  CRUSHING_RIGHT,
+	  CRUSHING_LEFT,
+    RECOVERING,
+	  RECOVERING_RIGHT,
+	  RECOVERING_LEFT
   };
 
   enum IceCrusherSize {
@@ -44,13 +48,18 @@ public:
   virtual void collision_solid(const CollisionHit& hit) override;
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
+  virtual bool is_sideways() const;
   virtual std::string get_class() const override { return "icecrusher"; }
   virtual std::string get_display_name() const override { return _("Icecrusher"); }
 
   virtual void after_editor_set() override;
+  
+  virtual ObjectSettings get_settings() override;
 
 private:
-  bool found_victim() const;
+  bool found_victim_down() const;
+  bool found_victim_right() const;
+  bool found_victim_left() const;
   void set_state(IceCrusherState state, bool force = false);
   Vector eye_position(bool right) const;
 
@@ -67,6 +76,8 @@ private:
   SpritePtr whites;
 
   IceCrusherSize ic_size;
+  
+  bool sideways;
 
 private:
   IceCrusher(const IceCrusher&) = delete;
