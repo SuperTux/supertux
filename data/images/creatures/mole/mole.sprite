@@ -9,8 +9,9 @@
   (action
     (name "peeking")
     (hitbox 27 39 26 39)
-    (fps 10)
+    (fps 12)
     (images 
+	  "mhill.png"
 	  "mhill.png"
 	  "mhill.png"
       "m1.png"
@@ -25,11 +26,15 @@
 	  "m4.png"
 	  "m4.png"
 	  "m4.png"
+	  "m4.png"
+	  "m4.png"
 	  "m5.png"
 	  "m6.png"
 	  "m7.png"
 	  "m8.png"
 	  "m9.png"
+	  "m10.png"
+	  "m10.png"
 	  "m10.png"
 	  "m10.png"
 	  "m10.png"
