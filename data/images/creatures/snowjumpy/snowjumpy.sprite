@@ -6,8 +6,9 @@
   (hitbox 7 8 31.8 31.8)
   (images "up-2.png"
 		  "up-1.png"
-		  "up-0.png"
+      "down-1.png"
 		  "down-2.png"
+      "down-2.png"
 		  "down-1.png"
 		  "down-0.png"
 		  "up-0.png"))
