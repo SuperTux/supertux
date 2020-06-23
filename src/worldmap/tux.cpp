@@ -18,7 +18,6 @@
 #include "worldmap/tux.hpp"
 
 #include <sstream>
-#include <iostream>
 
 #include "control/input_manager.hpp"
 #include "editor/editor.hpp"
