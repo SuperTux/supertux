@@ -60,7 +60,7 @@ Tux::draw(DrawingContext& context)
   {
     if (m_moving && (get_axis().x || get_axis().y))
     {
-      if(m_worldmap->get_savegame().get_player_status().worldmap_sprite == "/images/worldmap/common/swim/swim.sprite")
+      if(m_worldmap->get_savegame().get_player_status().worldmap_sprite == "/images/worldmap/common/boat/boat.sprite")
       {
         std::string direct = "-up";
         if (get_axis().x == 1) direct = "-right";
