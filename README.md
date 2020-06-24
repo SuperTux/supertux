@@ -12,7 +12,7 @@ Run and jump through multiple worlds, fighting off enemies by jumping
 on them, bumping them from below or tossing objects at them, grabbing
 power-ups and other stuff on the way.
 
-![Screenshot](https://www.supertux.org/images/0_5_1/0_5_1_3.png)
+![Screenshot](https://www.supertux.org/images/0_6_0/0_6_0_3.png)
 
 
 ## Story: Penny gets captured!
