@@ -50,7 +50,7 @@
     (icon "images/creatures/spiky/sleeping-left.png"))
   (object
     (class "jumpy")
-    (icon "images/creatures/snowjumpy/left-down.png"))
+    (icon "images/creatures/snowjumpy/down-0.png"))
   (object
     (class "livefire")
     (icon "images/creatures/livefire/f2.png"))
@@ -122,7 +122,7 @@
     (icon "images/creatures/spidermite/spidermite1.png"))
   (object
     (class "walking_candle")
-    (icon "images/creatures/mr_candle/mr-candle-left-1.png"))
+    (icon "images/creatures/mr_candle/c1.png"))
   (object
     (class "toad")
     (icon "images/creatures/toad/toad-idle-0.png"))
