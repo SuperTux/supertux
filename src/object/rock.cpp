@@ -19,9 +19,6 @@
 #include "audio/sound_manager.hpp"
 #include "object/explosion.hpp"
 #include "object/coin.hpp"
-#include "badguy/badguy.hpp"
-#include "badguy/flame.hpp"
-#include "object/player.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/tile.hpp"
 #include "util/reader_mapping.hpp"
@@ -131,16 +128,10 @@ Rock::collision(GameObject& other, const CollisionHit& hit)
   if (!on_ground) {
     if (hit.bottom && physic.get_velocity_y() > 200) {
       auto moving_object = dynamic_cast<MovingObject*> (&other);
-      if (moving_object) {
-        auto badguy = dynamic_cast<BadGuy*> (moving_object);
-        auto flame  = dynamic_cast<Flame*>  (moving_object);
-        auto player = dynamic_cast<Player*> (moving_object);
-        if (player || (badguy && !flame)) {
-          //Getting a rock on the head hurts. A lot.
-          //Applies to Tux and Badguys, but not Flames.
-          moving_object->collision_tile(Tile::HURTS);
-          physic.set_velocity_y(0);
-        }
+      if (moving_object && moving_object->get_group() != COLGROUP_TOUCHABLE) {
+        //Getting a rock on the head hurts. A lot.
+        moving_object->collision_tile(Tile::HURTS);
+        physic.set_velocity_y(0);
       }
     }
     return FORCE_MOVE;
