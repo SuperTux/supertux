@@ -128,7 +128,7 @@ Rock::collision(GameObject& other, const CollisionHit& hit)
   if (!on_ground) {
     if (hit.bottom && physic.get_velocity_y() > 200) {
       auto moving_object = dynamic_cast<MovingObject*> (&other);
-      if (moving_object) {
+      if (moving_object && moving_object->get_group() != COLGROUP_TOUCHABLE) {
         //Getting a rock on the head hurts. A lot.
         moving_object->collision_tile(Tile::HURTS);
         physic.set_velocity_y(0);
