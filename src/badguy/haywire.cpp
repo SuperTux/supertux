@@ -127,19 +127,19 @@ Haywire::active_update(float dt_sec)
   if (is_exploding) {
 	  if (stomped_timer.get_timeleft() < 0.05f) {
         set_action ((m_dir == Direction::LEFT) ? "ticking-left" : "ticking-right", /* loops = */ -1);
-  walk_left_action = "ticking-left";
-  walk_right_action = "ticking-right";
-      } else {
-  set_action ((m_dir == Direction::LEFT) ? "active-left" : "active-right", /* loops = */ 1);
-  walk_left_action = "active-left";
-	  walk_right_action = "active-right";}
-  }
+        walk_left_action = "ticking-left";
+        walk_right_action = "ticking-right";
+    }
+    else {
+        set_action ((m_dir == Direction::LEFT) ? "active-left" : "active-right", /* loops = */ 1);
+        walk_left_action = "active-left";
+	      walk_right_action = "active-right";
+    }
 
-  if (is_exploding) {
     auto p = get_nearest_player ();
     float target_velocity = 0.f;
 
-    if (p && time_stunned == 0.f) {
+    if (p && time_stunned == 0.0f) {
       /* Player is on the right */
       if (p->get_pos ().x > get_pos ().x)
         target_velocity = walk_speed;

@@ -41,8 +41,6 @@ KeyboardMenu::KeyboardMenu(InputManager& input_manager) :
   add_controlfield(static_cast<int>(Control::PEEK_DOWN),  _("Peek Down"));
   if (g_config->developer_mode) {
     add_controlfield(static_cast<int>(Control::CONSOLE), _("Console"));
-  }
-  if (g_config->developer_mode) {
     add_controlfield(static_cast<int>(Control::CHEAT_MENU), _("Cheat Menu"));
     add_controlfield(static_cast<int>(Control::DEBUG_MENU), _("Debug Menu"));
   }
