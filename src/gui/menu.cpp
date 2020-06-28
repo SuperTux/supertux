@@ -608,9 +608,9 @@ Menu::draw(DrawingContext& context)
 MenuItem&
 Menu::get_item_by_id(int id)
 {
-  auto item = std::find_if(m_items.begin(), m_items.end(), [id](const std::unique_ptr<MenuItem>& item)
+  auto item = std::find_if(m_items.begin(), m_items.end(), [id](const std::unique_ptr<MenuItem>& i)
   {
-    return item->get_id() == id;
+    return i->get_id() == id;
   });
 
   if(item != m_items.end())
@@ -622,9 +622,9 @@ Menu::get_item_by_id(int id)
 const MenuItem&
 Menu::get_item_by_id(int id) const
 {
-  auto item = std::find_if(m_items.begin(), m_items.end(), [id](const std::unique_ptr<MenuItem>&item)
+  auto item = std::find_if(m_items.begin(), m_items.end(), [id](const std::unique_ptr<MenuItem>& i)
   {
-    return item->get_id() == id;
+    return i->get_id() == id;
   });
 
   if(item != m_items.end())
