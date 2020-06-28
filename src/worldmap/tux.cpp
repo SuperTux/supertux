@@ -158,7 +158,7 @@ Tux::get_axis() const
       break;
   }
 
-  return Vector(x, y);
+  return Vector(x * 1.0f, y * 1.0f);
 }
 
 void
