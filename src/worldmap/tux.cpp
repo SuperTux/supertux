@@ -58,7 +58,7 @@ Tux::draw(DrawingContext& context)
   std::string action = get_action_prefix_for_bonus(m_worldmap->get_savegame().get_player_status().bonus);
   if (!action.empty())
   {
-    if (m_moving && (get_axis().x || get_axis().y))
+    if (m_moving && (get_axis().x != 0 || get_axis().y != 0))
     {
       if(m_worldmap->get_savegame().get_player_status().worldmap_sprite == "/images/worldmap/common/swim.sprite")
       {
