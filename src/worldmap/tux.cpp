@@ -137,28 +137,28 @@ Tux::get_pos() const
 Vector
 Tux::get_axis() const
 {
-  int x = 0;
-  int y = 0;
+  float x = 0.0f;
+  float y = 0.0f;
 
   switch (m_direction)
   {
     case Direction::WEST:
-      x = -1;
+      x = -1.0f;
       break;
     case Direction::EAST:
-      x = 1;
+      x = 1.0f;
       break;
     case Direction::NORTH:
-      y = 1;
+      y = 1.0f;
       break;
     case Direction::SOUTH:
-      y = -1;
+      y = -1.0f;
       break;
     case Direction::NONE:
       break;
   }
 
-  return Vector(x * 1.0f, y * 1.0f);
+  return Vector(x, y);
 }
 
 void
