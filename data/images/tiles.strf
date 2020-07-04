@@ -978,6 +978,12 @@
     )
   )
   
+  (tilegroup
+    (name (_ "Retro Snow"))
+    (tiles
+     4000 4001 4002 4003
+    )
+  )
   
   (tile
     (id 3162)
@@ -5404,6 +5410,18 @@
      )
   )
 
-  ;; next-id: 4000
+   (tiles
+    (width 4)
+    (height 1)
+    (image "tiles/retro_snow/retro_snow.png")
+    (ids
+     4000 4001 4002 4003
+     )
+       (attributes
+     1 1 1 1
+     )
+  )
+  
+  ;; next-id: 4004
 
   )
