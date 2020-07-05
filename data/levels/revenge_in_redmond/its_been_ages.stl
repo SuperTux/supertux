@@ -8,6 +8,19 @@
     (ambient-light
       (color 1 1 1)
     )
+    (background
+      (scroll-offset-y 150)
+      (x 4832)
+      (y 960)
+      (alignment "bottom")
+      (scroll-speed-x 0.5)
+      (scroll-speed-y 0.5)
+      (speed 0.5)
+      (image-top "/images/background/block_snow/block-snow-midground.png")
+      (image "/images/background/block_snow/block-snow-midground.png")
+      (image-bottom "/images/background/block_snow/block-snow-midground.png")
+      (z-pos -290)
+    )
     (bonusblock
       (sprite "/images/objects/bonus_block/retroblock.sprite")
       (x 256)
@@ -751,7 +764,6 @@
       (y 1760)
     )
     (firefly
-      (sprite "/images/objects/resetpoints/default-resetpoint.sprite")
       (x 5792)
       (y 1536)
     )
