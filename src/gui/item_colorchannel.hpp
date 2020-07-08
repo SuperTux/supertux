@@ -46,12 +46,14 @@ public:
   void change_input(const std::string& input_) { set_text(input_); }
 
 private:
+  void enable_edit_mode();
   void add_char(char c);
   void remove_char();
 
 private:
   float* m_number;
   bool m_is_linear;
+  bool m_edit_mode;
   int m_flickw;
   Color m_channel;
 
