@@ -493,18 +493,22 @@ Menu::process_action(const MenuAction& menuaction)
       break;
   }
 
-  if (m_items[m_active_item]->no_other_action()) {
-    m_items[m_active_item]->process_action(menuaction);
-    return;
+  if (last_active_item != m_active_item) {
+    // Selection caused by Up or Down keyboard action
+    if (last_active_item != -1)
+      m_items[last_active_item]->process_action(MenuAction::UNSELECT);
+    m_items[m_active_item]->process_action(MenuAction::SELECT);
   }
 
+  bool last_action = m_items[m_active_item]->no_other_action();
   m_items[m_active_item]->process_action(menuaction);
-  if (m_items[m_active_item]->changes_width()) {
+  if (last_action)
+    return;
+
+  if (m_items[m_active_item]->changes_width())
     calculate_width();
-  }
-  if (menuaction == MenuAction::HIT) {
+  if (menuaction == MenuAction::HIT)
     menu_action(*m_items[m_active_item]);
-  }
 }
 
 void
@@ -684,8 +688,14 @@ Menu::event(const SDL_Event& ev)
           = static_cast<int> ((y - (m_pos.y - get_height()/2)) / 24);
 
         /* only change the mouse focus to a selectable item */
-        if (!m_items[new_active_item]->skippable())
+        if (!m_items[new_active_item]->skippable() &&
+            new_active_item != m_active_item) {
+          // Selection caused by mouse movement
+          if (m_active_item != -1)
+            process_action(MenuAction::UNSELECT);
           m_active_item = new_active_item;
+          process_action(MenuAction::SELECT);
+        }
 
         if (MouseCursor::current())
           MouseCursor::current()->set_state(MouseCursorState::LINK);
