@@ -20,6 +20,9 @@
 /** Action done on the menu */
 enum class MenuAction {
   NONE = -1,
+  SELECT,
+  UNSELECT,
+  // UP and DOWN happen when entering the menu and not when exiting it
   UP,
   DOWN,
   LEFT,
