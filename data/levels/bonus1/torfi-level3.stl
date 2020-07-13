@@ -13,19 +13,7 @@
       (mode "normal")
     )
     (flyingsnowball
-      (x 1344)
-      (y 736)
-    )
-    (flyingsnowball
-      (x 4832)
-      (y 736)
-    )
-    (flyingsnowball
       (x 5696)
-      (y 704)
-    )
-    (flyingsnowball
-      (x 416)
       (y 704)
     )
     (gradient
@@ -102,11 +90,11 @@
       (y 544)
     )
     (sequencetrigger
-      (sequence "endsequence")
-      (width 32)
-      (height 64)
-      (x 6240)
-      (y 576)
+      (sequence "stoptux")
+      (width 64)
+      (height 96)
+      (x 6208)
+      (y 544)
     )
     (snowball
       (x 142)
