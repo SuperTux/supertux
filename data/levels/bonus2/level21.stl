@@ -3,6 +3,7 @@
   (name (_ "Nolok's Party Pit"))
   (author "Penguinmaster")
   (license "GPL 2+ / CC-by-sa 3.0")
+  (target-time 60)
   (sector
     (name "main")
     (gravity 8)
@@ -61,16 +62,8 @@
       (y 585)
     )
     (mriceblock
-      (x 954)
-      (y 648)
-    )
-    (mriceblock
-      (x 991)
-      (y 649)
-    )
-    (mriceblock
-      (x 1028)
-      (y 647)
+      (x 960)
+      (y 704)
     )
     (mriceblock
       (x 6742)
@@ -142,6 +135,16 @@
     (smartball
       (x 6371)
       (y 582)
+    )
+    (smartblock
+      (direction "left")
+      (x 928)
+      (y 704)
+    )
+    (smartblock
+      (direction "left")
+      (x 992)
+      (y 704)
     )
     (snowball
       (x 7361)

@@ -3,6 +3,7 @@
   (name (_ "...Where Everything Is Possible"))
   (author "Marek Moeckel")
   (license "GPL 2+ / CC-by-sa 3.0")
+  (target-time 55)
   (sector
     (name "main")
     (ambient-light
@@ -119,10 +120,6 @@
     (jumpy
       (x 9672)
       (y 514)
-    )
-    (jumpy
-      (x 10026)
-      (y 709)
     )
     (jumpy
       (x 1050)
