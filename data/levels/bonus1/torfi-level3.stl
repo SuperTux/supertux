@@ -13,19 +13,11 @@
       (mode "normal")
     )
     (flyingsnowball
-      (x 1344)
-      (y 736)
-    )
-    (flyingsnowball
       (x 4832)
       (y 736)
     )
     (flyingsnowball
       (x 5696)
-      (y 704)
-    )
-    (flyingsnowball
-      (x 416)
       (y 704)
     )
     (gradient
@@ -63,18 +55,6 @@
       (x 562)
       (y 467)
     )
-    (mriceblock
-      (x 2034)
-      (y 725)
-    )
-    (mriceblock
-      (x 2324)
-      (y 435)
-    )
-    (mriceblock
-      (x 4146)
-      (y 560)
-    )
     (music
       (file "music/antarctic/chipdisko.ogg")
     )
@@ -108,21 +88,39 @@
       (x 6240)
       (y 576)
     )
+    (smartball
+      (direction "left")
+      (x 4096)
+      (y 736)
+    )
+    (smartball
+      (direction "left")
+      (x 4608)
+      (y 544)
+    )
+    (smartball
+      (direction "left")
+      (x 5456)
+      (y 672)
+    )
+    (smartblock
+      (direction "left")
+      (x 2016)
+      (y 736)
+    )
+    (smartblock
+      (direction "left")
+      (x 2336)
+      (y 448)
+    )
+    (smartblock
+      (direction "left")
+      (x 4128)
+      (y 576)
+    )
     (snowball
       (x 142)
       (y 725)
-    )
-    (snowball
-      (x 4627)
-      (y 531)
-    )
-    (snowball
-      (x 5456)
-      (y 661)
-    )
-    (snowball
-      (x 4112)
-      (y 724)
     )
     (snowball
       (x 1453)
