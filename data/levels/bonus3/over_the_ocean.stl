@@ -4,7 +4,7 @@
   (author "Wolfs")
   (contact "pizzaservice at freenet.de")
   (license "GPL 2+ / CC-by-sa 3.0")
-  (target-time 45)
+  (target-time 60)
   (sector
     (name "main")
     (ambient-light

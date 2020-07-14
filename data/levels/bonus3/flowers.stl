@@ -20,13 +20,13 @@
       (file "/music/antarctic/arctic_cave.music")
     )
     (powerup
-      (script "	fire_bonus();	")
+      (script "Tux.add_bonus(\"fireflower\");")
       (sprite "images/powerups/fireflower/fireflower.sprite")
       (x 896)
       (y 736)
     )
     (powerup
-      (script "	ice_bonus();	")
+      (script "Tux.add_bonus(\"iceflower\");")
       (sprite "images/powerups/iceflower/iceflower.sprite")
       (x 1632)
       (y 736)

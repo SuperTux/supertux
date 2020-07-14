@@ -3,7 +3,7 @@
   (name (_ "...deepest!"))
   (author "Tore Bergebakken")
   (license "GPL 2+ / CC-by-sa 3.0")
-  (target-time 60)
+  (target-time 50)
   (sector
     (name "main")
     (ambient-light
@@ -244,7 +244,6 @@
       (y 1376)
     )
     (firefly
-      (sprite "images/objects/resetpoints/torch.sprite")
       (x 288)
       (y 96)
     )
