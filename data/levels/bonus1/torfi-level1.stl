@@ -67,10 +67,6 @@
       (x 913)
       (y 627)
     )
-    (mriceblock
-      (x 4866)
-      (y 661)
-    )
     (music
       (file "music/antarctic/chipdisko.ogg")
     )
@@ -176,6 +172,16 @@
       (x 3171)
       (y 486)
     )
+    (smartball
+      (direction "left")
+      (x 1824)
+      (y 544)
+    )
+    (smartblock
+      (direction "left")
+      (x 4864)
+      (y 672)
+    )
     (snowball
       (x 447)
       (y 703)
@@ -215,10 +221,6 @@
     (snowball
       (x 3752)
       (y 724)
-    )
-    (snowball
-      (x 1825)
-      (y 534)
     )
     (spawnpoint
       (name "main")

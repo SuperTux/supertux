@@ -153,10 +153,6 @@
       (y 343)
     )
     (flyingsnowball
-      (x 1832)
-      (y 663)
-    )
-    (flyingsnowball
       (x 2125)
       (y 425)
     )
@@ -244,12 +240,12 @@
       (y 640)
     )
     (mrbomb
-      (x 13037)
-      (y 244)
+      (x 12736)
+      (y 320)
     )
     (mrbomb
-      (x 12975)
-      (y 247)
+      (x 12864)
+      (y 288)
     )
     (mriceblock
       (x 8414)
@@ -295,6 +291,16 @@
       (height 416)
       (x 16544)
       (y 0)
+    )
+    (smartball
+      (direction "left")
+      (x 12992)
+      (y 256)
+    )
+    (smartball
+      (direction "left")
+      (x 13120)
+      (y 224)
     )
     (snowball
       (x 4064)
@@ -349,16 +355,8 @@
       (y 864)
     )
     (snowball
-      (x 13211)
-      (y 221)
-    )
-    (snowball
-      (x 13175)
-      (y 219)
-    )
-    (snowball
-      (x 13129)
-      (y 219)
+      (x 13184)
+      (y 224)
     )
     (spawnpoint
       (name "main")
