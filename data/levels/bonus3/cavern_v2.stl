@@ -60,8 +60,8 @@
     )
     (lantern
       (color 0 1 0)
-      (x 4607.5)
-      (y 342)
+      (x 4608)
+      (y 288)
     )
     (magicblock
       (color 1 0 0)
@@ -438,16 +438,6 @@
       (x 3265)
       (y 454)
     )
-    (mriceblock
-      (direction "left")
-      (x 5297)
-      (y 326)
-    )
-    (mriceblock
-      (direction "left")
-      (x 5825)
-      (y 230)
-    )
     (music
       (file "music/antarctic/cave.music")
     )
@@ -517,6 +507,21 @@
       (height 96)
       (x 6336)
       (y 128)
+    )
+    (smartblock
+      (direction "left")
+      (x 5824)
+      (y 224)
+    )
+    (smartblock
+      (direction "left")
+      (x 5312)
+      (y 320)
+    )
+    (smartblock
+      (direction "left")
+      (x 5312)
+      (y 320)
     )
     (spawnpoint
       (name "main")

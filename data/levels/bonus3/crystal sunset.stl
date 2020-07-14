@@ -3,7 +3,7 @@
   (name (_ "Crystal Sunset"))
   (author "CT. da'Bomb")
   (license "GPL 2+ / CC-by-sa 3.0")
-  (target-time 40)
+  (target-time 50)
   (sector
     (name "main")
     (ambient-light

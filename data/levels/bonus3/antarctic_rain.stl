@@ -3,7 +3,7 @@
   (name (_ "Forest Rain (aka \"Antarctic Rain\")"))
   (author "Tore Bergebakken")
   (license "GPL 2+ / CC-by-sa 3.0")
-  (target-time 35)
+  (target-time 40)
   (sector
     (name "main")
     (ambient-light

@@ -3,7 +3,7 @@
   (name (_ "Out on the Crystal Fields"))
   (author "CT. da'Bomb")
   (license "GPL 2+ / CC-by-sa 3.0")
-  (target-time 25)
+  (target-time 30)
   (sector
     (name "main")
     (ambient-light
@@ -117,36 +117,20 @@
       (y 992)
     )
     (short_fuse
-      (x 4137)
-      (y 802)
+      (x 4152)
+      (y 800)
     )
     (short_fuse
-      (x 4169)
-      (y 802)
+      (x 4088)
+      (y 800)
     )
     (short_fuse
-      (x 4073)
-      (y 802)
+      (x 4024)
+      (y 800)
     )
     (short_fuse
-      (x 4105)
-      (y 802)
-    )
-    (short_fuse
-      (x 4009)
-      (y 802)
-    )
-    (short_fuse
-      (x 4041)
-      (y 802)
-    )
-    (short_fuse
-      (x 3945)
-      (y 802)
-    )
-    (short_fuse
-      (x 3977)
-      (y 802)
+      (x 3960)
+      (y 800)
     )
     (smartball
       (x 1315)

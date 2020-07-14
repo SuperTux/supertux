@@ -3,7 +3,7 @@
   (name (_ "The dark castle"))
   (author "Tore Bergebakken")
   (license "GPL 2+ / CC-by-sa 3.0")
-  (target-time 80)
+  (target-time 70)
   (sector
     (name "main")
     (ambient-light
@@ -24,10 +24,6 @@
       (spawnpoint "main")
       (x 6304)
       (y 512)
-    )
-    (flame
-      (x 192)
-      (y 640)
     )
     (flame
       (x 512)
@@ -60,6 +56,10 @@
     (igel
       (x 5888)
       (y 576)
+    )
+    (igel
+      (x 328)
+      (y 680)
     )
     (jumpy
       (x 0)
@@ -113,10 +113,6 @@
       (name "fall1")
       (x 2464)
       (y 576)
-    )
-    (sspiky
-      (x 320)
-      (y 672)
     )
     (tilemap
       (solid #f)
