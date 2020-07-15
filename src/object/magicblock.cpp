@@ -37,7 +37,7 @@ const float MIN_INTENSITY = 0.8f;
 const float ALPHA_SOLID = 0.7f;
 const float ALPHA_NONSOLID = 0.3f;
 const float MIN_SOLIDTIME = 1.0f;
-const float SWITCH_DELAY = 0.06f; /**< seconds to wait for stable conditions until switching solidity */
+const float SWITCH_DELAY = 0.0f; /**< seconds to wait for stable conditions until switching solidity */
 
 } // namespace
 
