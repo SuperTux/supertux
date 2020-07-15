@@ -3,6 +3,7 @@
   (name (_ "Beginning The Journey"))
   (author "Daniel")
   (license "CC-BY-SA 4.0 International")
+  (target-time 80)
   (sector
     (name "main")
     (ambient-light

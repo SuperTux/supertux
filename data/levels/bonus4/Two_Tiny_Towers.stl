@@ -3,6 +3,7 @@
   (name (_ "Two Tiny Towers"))
   (author "Christoph Sommer & alex")
   (license "CC-BY-SA 4.0 International")
+  (target-time 110)
   (sector
     (name "main")
     (ambient-light

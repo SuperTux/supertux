@@ -3,6 +3,7 @@
   (name (_ "Spooky Mansion"))
   (author "alex")
   (license "CC-BY-SA 4.0 International")
+  (target-time 115)
   (sector
     (name "main")
     (ambient-light

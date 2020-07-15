@@ -3,6 +3,7 @@
   (name (_ "It's Halloween Time!"))
   (author "alex")
   (license "CC-BY-SA 4.0 International")
+  (target-time 55)
   (sector
     (name "main")
     (ambient-light
