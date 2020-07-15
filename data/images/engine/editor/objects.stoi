@@ -297,6 +297,9 @@
   (object
     (class "skull_tile")
     (icon "images/objects/skull_tile/skull.png"))
+  (object
+    (class "circleplatform")
+    (icon "images/objects/platforms/icebridge1.png"))
  )
 
  (objectgroup
