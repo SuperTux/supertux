@@ -3,6 +3,7 @@
   (name (_ "snarf"))
   (author "Thomas Nilsen")
   (license "GPL 2+ / CC-by-sa 3.0")
+  (target-time 50)
   (sector
     (name "main")
     (ambient-light

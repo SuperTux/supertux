@@ -3,6 +3,7 @@
   (name (_ "On The Road Again"))
   (author "Nilrok")
   (license "GPL 2+ / CC-by-sa 3.0")
+  (target-time 50)
   (sector
     (name "main")
     (ambient-light
@@ -108,28 +109,12 @@
       (y 747)
     )
     (mriceblock
-      (x 5592)
-      (y 681)
-    )
-    (mriceblock
       (x 5171)
       (y 714)
     )
     (mriceblock
-      (x 4116)
-      (y 668)
-    )
-    (mriceblock
-      (x 2472)
-      (y 739)
-    )
-    (mriceblock
-      (x 1042)
-      (y 645)
-    )
-    (mriceblock
-      (x 2234)
-      (y 607)
+      (x 1024)
+      (y 672)
     )
     (music
       (file "music/antarctic/chipdisko.ogg")
@@ -148,17 +133,49 @@
       (x 9248)
       (y 384)
     )
-    (snowball
-      (x 582)
-      (y 625)
+    (smartball
+      (direction "left")
+      (x 800)
+      (y 672)
+    )
+    (smartball
+      (direction "left")
+      (x 576)
+      (y 704)
+    )
+    (smartball
+      (direction "left")
+      (x 1824)
+      (y 640)
+    )
+    (smartball
+      (direction "left")
+      (x 8448)
+      (y 608)
+    )
+    (smartblock
+      (direction "left")
+      (x 2208)
+      (y 640)
+    )
+    (smartblock
+      (direction "left")
+      (x 2464)
+      (y 768)
+    )
+    (smartblock
+      (direction "left")
+      (x 4096)
+      (y 672)
+    )
+    (smartblock
+      (direction "left")
+      (x 5600)
+      (y 672)
     )
     (snowball
-      (x 529)
-      (y 657)
-    )
-    (snowball
-      (x 8437)
-      (y 648)
+      (x 480)
+      (y 704)
     )
     (snowball
       (x 6336)
@@ -169,20 +186,12 @@
       (y 739)
     )
     (snowball
-      (x 787)
-      (y 672)
-    )
-    (snowball
       (x 4967)
       (y 570)
     )
     (snowball
-      (x 1842)
-      (y 644)
-    )
-    (snowball
-      (x 1129)
-      (y 579)
+      (x 1120)
+      (y 608)
     )
     (snowball
       (x 6366)

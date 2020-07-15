@@ -3,6 +3,7 @@
   (name (_ "Castle in the Sky"))
   (author "Kevin")
   (license "GPL 2+ / CC-by-sa 3.0")
+  (target-time 95)
   (sector
     (name "main")
     (ambient-light
@@ -275,6 +276,11 @@
       (x 12387)
       (y 646)
     )
+    (smartball
+      (direction "left")
+      (x 10432)
+      (y 480)
+    )
     (smartblock
       (x 769)
       (y 774)
@@ -286,10 +292,6 @@
     (smartblock
       (x 8609)
       (y 582)
-    )
-    (snowball
-      (x 10435)
-      (y 484)
     )
     (snowball
       (x 14371)

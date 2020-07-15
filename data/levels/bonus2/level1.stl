@@ -2,6 +2,7 @@
   (version 3)
   (name (_ "Mario's Supposed to Deal With This..."))
   (author "Kevin")
+  (target-time 300)
   (sector
     (name "main")
     (ambient-light
@@ -93,82 +94,6 @@
     (fish
       (x 13564)
       (y 546)
-    )
-    (flame
-      (x -6175)
-      (y -12736)
-    )
-    (flame
-      (x -5791)
-      (y -12737)
-    )
-    (flame
-      (x -10528)
-      (y -12769)
-    )
-    (flame
-      (x -10655)
-      (y -12672)
-    )
-    (flame
-      (x -5057)
-      (y -12658)
-    )
-    (flame
-      (x 3521)
-      (y -12640)
-    )
-    (flame
-      (x 3553)
-      (y -12640)
-    )
-    (flame
-      (x 3584)
-      (y -12641)
-    )
-    (flame
-      (x 3616)
-      (y -12641)
-    )
-    (flame
-      (x 3647)
-      (y -12641)
-    )
-    (flame
-      (x 5217)
-      (y -12800)
-    )
-    (flame
-      (x 5216)
-      (y -12673)
-    )
-    (flyingsnowball
-      (x 6150)
-      (y -11027)
-    )
-    (flyingsnowball
-      (x 5958)
-      (y -11027)
-    )
-    (flyingsnowball
-      (x 6341)
-      (y -11027)
-    )
-    (flyingsnowball
-      (x 6531)
-      (y -11027)
-    )
-    (flyingsnowball
-      (x 6722)
-      (y -11027)
-    )
-    (flyingsnowball
-      (x 4631)
-      (y -10861)
-    )
-    (flyingsnowball
-      (x 15700)
-      (y -11042)
     )
     (gradient
       (top_color 0 0 0)

@@ -3,6 +3,7 @@
   (name (_ "Frozen Tunnel"))
   (author "Nilrok")
   (license "GPL 2+ / CC-by-sa 3.0")
+  (target-time 65)
   (sector
     (name "main")
     (ambient-light
@@ -27,10 +28,6 @@
     (bouncingsnowball
       (x 1456)
       (y 611)
-    )
-    (bouncingsnowball
-      (x 1594)
-      (y 732)
     )
     (bouncingsnowball
       (x 1414)
@@ -81,7 +78,7 @@
       (y 406)
     )
     (leveltime
-      (time 100)
+      (time 300)
     )
     (mrbomb
       (x 8448)
@@ -90,22 +87,6 @@
     (mrbomb
       (x 8543)
       (y 650)
-    )
-    (mrbomb
-      (x 9597)
-      (y 694)
-    )
-    (mrbomb
-      (x 9530)
-      (y 694)
-    )
-    (mrbomb
-      (x 9689)
-      (y 693)
-    )
-    (mrbomb
-      (x 9759)
-      (y 692)
     )
     (mrbomb
       (x 6894)

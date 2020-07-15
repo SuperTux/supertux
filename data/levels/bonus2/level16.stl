@@ -3,6 +3,7 @@
   (name (_ "Luft Airship"))
   (author "Corlin Heydman")
   (license "GPL 2+ / CC-by-sa 3.0")
+  (target-time 65)
   (sector
     (name "main")
     (ambient-light
@@ -120,7 +121,7 @@
       (y 510)
     )
     (leveltime
-      (time 300)
+      (time 360)
     )
     (mrbomb
       (x 1234)
@@ -141,10 +142,6 @@
     (mrbomb
       (x 5805)
       (y 497)
-    )
-    (mrbomb
-      (x 5725)
-      (y 495)
     )
     (mrbomb
       (x 6816)
@@ -177,14 +174,6 @@
     (mrbomb
       (x 11650)
       (y 394)
-    )
-    (mriceblock
-      (x 836)
-      (y 489)
-    )
-    (mriceblock
-      (x 904)
-      (y 495)
     )
     (mriceblock
       (x 3285)
@@ -225,14 +214,6 @@
     (mriceblock
       (x 9301)
       (y 585)
-    )
-    (mriceblock
-      (x 9055)
-      (y 490)
-    )
-    (mriceblock
-      (x 9897)
-      (y 492)
     )
     (mriceblock
       (x 11222)
@@ -304,13 +285,34 @@
       (x 12736)
       (y 320)
     )
+    (smartball
+      (direction "left")
+      (x 2208)
+      (y 576)
+    )
+    (smartblock
+      (direction "left")
+      (x 800)
+      (y 480)
+    )
+    (smartblock
+      (direction "left")
+      (x 864)
+      (y 480)
+    )
+    (smartblock
+      (direction "left")
+      (x 9056)
+      (y 512)
+    )
+    (smartblock
+      (direction "left")
+      (x 9952)
+      (y 512)
+    )
     (snowball
       (x 1218)
       (y 645)
-    )
-    (snowball
-      (x 2210)
-      (y 559)
     )
     (snowball
       (x 2272)

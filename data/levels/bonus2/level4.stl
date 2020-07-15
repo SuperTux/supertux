@@ -3,6 +3,7 @@
   (name (_ "Into The Cave"))
   (author "Jason Kleinemas")
   (license "GPL 2+ / CC-by-sa 3.0")
+  (target-time 80)
   (sector
     (name "main")
     (ambient-light
@@ -250,17 +251,59 @@
       (x 10563)
       (y 614)
     )
+    (smartball
+      (direction "left")
+      (x 1984)
+      (y 384)
+    )
+    (smartball
+      (direction "left")
+      (x 1792)
+      (y 384)
+    )
+    (smartball
+      (direction "left")
+      (x 5536)
+      (y 576)
+    )
+    (smartball
+      (direction "left")
+      (x 6752)
+      (y 544)
+    )
+    (smartball
+      (direction "left")
+      (x 7264)
+      (y 512)
+    )
+    (smartball
+      (direction "left")
+      (x 9280)
+      (y 672)
+    )
+    (smartball
+      (direction "left")
+      (x 11200)
+      (y 640)
+    )
+    (smartball
+      (direction "left")
+      (x 14432)
+      (y 640)
+    )
+    (smartball
+      (direction "left")
+      (x 14752)
+      (y 640)
+    )
+    (smartball
+      (direction "left")
+      (x 15296)
+      (y 640)
+    )
     (smartblock
       (x 8321)
       (y 742)
-    )
-    (snowball
-      (x 1955)
-      (y 399)
-    )
-    (snowball
-      (x 1827)
-      (y 390)
     )
     (snowball
       (x 2316)
@@ -275,18 +318,6 @@
       (y 734)
     )
     (snowball
-      (x 5510)
-      (y 581)
-    )
-    (snowball
-      (x 6744)
-      (y 545)
-    )
-    (snowball
-      (x 7302)
-      (y 527)
-    )
-    (snowball
       (x 12650)
       (y 445)
     )
@@ -299,10 +330,6 @@
       (y 437)
     )
     (snowball
-      (x 14441)
-      (y 638)
-    )
-    (snowball
       (x 14530)
       (y 645)
     )
@@ -311,28 +338,12 @@
       (y 646)
     )
     (snowball
-      (x 14760)
-      (y 643)
-    )
-    (snowball
       (x 15594)
       (y 653)
     )
     (snowball
       (x 15451)
       (y 655)
-    )
-    (snowball
-      (x 15295)
-      (y 649)
-    )
-    (snowball
-      (x 9284)
-      (y 671)
-    )
-    (snowball
-      (x 11189)
-      (y 620)
     )
     (spawnpoint
       (name "main")
