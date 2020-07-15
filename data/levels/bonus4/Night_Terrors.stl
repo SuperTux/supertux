@@ -3,6 +3,7 @@
   (name (_ "Night Terrors"))
   (author "alex")
   (license "CC-BY-SA 4.0 International")
+  (target-time 110)
   (sector
     (name "main")
     (ambient-light

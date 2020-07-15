@@ -3,6 +3,7 @@
   (name (_ "Let's Climb That Mountain!"))
   (author "alex")
   (license "CC-BY-SA 4.0 International")
+  (target-time 85)
   (sector
     (name "main")
     (ambient-light

@@ -3,6 +3,7 @@
   (name (_ "A Narrow Path"))
   (author "alex")
   (license "CC-BY-SA 4.0 International")
+  (target-time 60)
   (sector
     (name "main")
     (ambient-light
@@ -104,17 +105,14 @@
       (y 1238.322)
     )
     (magicblock
-      (color 0 0 0)
       (x 3904)
       (y 1248)
     )
     (magicblock
-      (color 0 0 0)
       (x 3840)
       (y 1248)
     )
     (magicblock
-      (color 0 0 0)
       (x 3872)
       (y 1248)
     )

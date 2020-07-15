@@ -3,6 +3,7 @@
   (name (_ "Stormy Night"))
   (author "alex")
   (license "CC-BY-SA 4.0 International")
+  (target-time 85)
   (sector
     (name "main")
     (ambient-light
@@ -359,8 +360,8 @@
     (owl
       (carry "skydive")
       (direction "left")
-      (x 1374.5)
-      (y 487.722)
+      (x 1456)
+      (y 464)
     )
     (particles-rain
     )
@@ -538,86 +539,6 @@
       (direction "left")
       (x 12971.5)
       (y 876.7665)
-    )
-    (skydive
-      (direction "left")
-      (x 1374.5)
-      (y 487.722)
-    )
-    (skydive
-      (direction "left")
-      (x 1374.5)
-      (y 487.722)
-    )
-    (skydive
-      (direction "left")
-      (x 1374.5)
-      (y 487.722)
-    )
-    (skydive
-      (direction "left")
-      (x 1374.5)
-      (y 487.722)
-    )
-    (skydive
-      (direction "left")
-      (x 1374.5)
-      (y 487.722)
-    )
-    (skydive
-      (direction "left")
-      (x 1374.5)
-      (y 487.722)
-    )
-    (skydive
-      (direction "left")
-      (x 1374.5)
-      (y 487.722)
-    )
-    (skydive
-      (direction "left")
-      (x 1374.5)
-      (y 487.722)
-    )
-    (skydive
-      (direction "left")
-      (x 1374.5)
-      (y 487.722)
-    )
-    (skydive
-      (direction "left")
-      (x 1374.5)
-      (y 487.722)
-    )
-    (skydive
-      (direction "left")
-      (x 1374.5)
-      (y 487.722)
-    )
-    (skydive
-      (direction "left")
-      (x 1374.5)
-      (y 487.722)
-    )
-    (skydive
-      (direction "left")
-      (x 1374.5)
-      (y 487.722)
-    )
-    (skydive
-      (direction "left")
-      (x 1374.5)
-      (y 487.722)
-    )
-    (skydive
-      (direction "left")
-      (x 1374.5)
-      (y 487.722)
-    )
-    (skydive
-      (direction "left")
-      (x 1374.5)
-      (y 487.722)
     )
     (smartball
       (direction "left")

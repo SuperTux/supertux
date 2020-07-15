@@ -3,6 +3,7 @@
   (name (_ "Forest Mountains"))
   (author "alex")
   (license "CC-BY-SA 4.0 International")
+  (target-time 80)
   (sector
     (name "main")
     (ambient-light
@@ -227,8 +228,8 @@
     (owl
       (carry "skydive")
       (direction "left")
-      (x 4733.61)
-      (y 847.7222)
+      (x 4752)
+      (y 784)
     )
     (path
       (name "gen154593592793863526337200")
@@ -491,66 +492,6 @@
       (height 224)
       (x 14240)
       (y 928)
-    )
-    (skydive
-      (direction "left")
-      (x 4733.61)
-      (y 847.7222)
-    )
-    (skydive
-      (direction "left")
-      (x 4733.61)
-      (y 847.7222)
-    )
-    (skydive
-      (direction "left")
-      (x 4733.61)
-      (y 847.7222)
-    )
-    (skydive
-      (direction "left")
-      (x 4733.61)
-      (y 847.7222)
-    )
-    (skydive
-      (direction "left")
-      (x 4733.61)
-      (y 847.7222)
-    )
-    (skydive
-      (direction "left")
-      (x 4733.61)
-      (y 847.7222)
-    )
-    (skydive
-      (direction "left")
-      (x 4733.61)
-      (y 847.7222)
-    )
-    (skydive
-      (direction "left")
-      (x 4733.61)
-      (y 847.7222)
-    )
-    (skydive
-      (direction "left")
-      (x 4733.61)
-      (y 847.7222)
-    )
-    (skydive
-      (direction "left")
-      (x 4733.61)
-      (y 847.7222)
-    )
-    (skydive
-      (direction "left")
-      (x 4733.61)
-      (y 847.7221)
-    )
-    (skydive
-      (direction "left")
-      (x 4733.61)
-      (y 847.722)
     )
     (snail
       (direction "left")
