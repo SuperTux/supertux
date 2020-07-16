@@ -78,16 +78,20 @@ void Snail::be_grabbed()
 }
 
 void
-Snail::be_kicked()
+Snail::be_kicked(bool upwards)
 {
-  state = STATE_KICKED_DELAY;
+  if(upwards)
+    state = STATE_KICKED_DELAY;
+  else
+    state = STATE_KICKED;
   m_sprite->set_action(m_dir == Direction::LEFT ? "flat-left" : "flat-right", 1);
 
   m_physic.set_velocity_x(m_dir == Direction::LEFT ? -SNAIL_KICK_SPEED : SNAIL_KICK_SPEED);
   m_physic.set_velocity_y(0);
 
   // start a timer to delay addition of upward movement until we are (hopefully) out from under the player
-  kicked_delay_timer.start(0.05f);
+  if (upwards)
+    kicked_delay_timer.start(0.05f);
 }
 
 void
@@ -265,7 +269,7 @@ Snail::collision_player(Player& player, const CollisionHit& hit)
       m_dir = Direction::LEFT;
     }
     player.kick();
-    be_kicked();
+    be_kicked(false);
     return FORCE_MOVE;
   }
 
@@ -314,7 +318,7 @@ Snail::collision_squished(GameObject& object)
           m_dir = Direction::LEFT;
         }
       }
-      be_kicked();
+      be_kicked(true);
       break;
     case STATE_GRABBED:
     case STATE_KICKED_DELAY:
@@ -344,7 +348,7 @@ Snail::ungrab(MovingObject& object, Direction dir_)
     be_flat();
   } else {
     m_dir = dir_;
-    be_kicked();
+    be_kicked(true);
   }
   set_colgroup_active(COLGROUP_MOVING);
   Portable::ungrab(object, dir_);

@@ -51,7 +51,7 @@ protected:
 
   void be_normal(); /**< switch to state STATE_NORMAL */
   void be_flat(); /**< switch to state STATE_FLAT */
-  void be_kicked(); /**< switch to state STATE_KICKED_DELAY */
+  void be_kicked(bool upwards); /**< switch to state STATE_KICKED_DELAY */
   void be_grabbed();
   void be_shielded();
 
