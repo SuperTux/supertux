@@ -1,9 +1,0 @@
-#!/bin/bash
-
-# abort on errors
-set -e
-
-mkdir -p build
-cd build
-cmake .. "$@"
-

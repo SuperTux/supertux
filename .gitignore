@@ -1,9 +1,13 @@
 # Build Files
-build/
-build.*/
-**/CMakeFiles/
-**/CMakeCache.txt
+external/build
 supertux2
+libsupertux2.a
+src/*.o
+src/*/*.o
+src/*/*/*.o
+external/*/*.o
+external/*/*.a
+external/SDL_SavePNG/savepng
 
 # Tags file
 tags
