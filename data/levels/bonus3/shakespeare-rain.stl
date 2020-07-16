@@ -3,7 +3,7 @@
   (name (_ "To rain or not to rain - That's the question"))
   (author "Tore Bergebakken")
   (license "GPL 2+ / CC-by-sa 3.0")
-  (target-time 25)
+  (target-time 30)
   (sector
     (name "main")
     (ambient-light

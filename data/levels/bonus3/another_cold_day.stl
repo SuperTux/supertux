@@ -27,8 +27,8 @@
       (y 775)
     )
     (crystallo
-      (x 4732)
-      (y 615)
+      (x 4896)
+      (y 608)
     )
     (decal
       (z-pos 100)
@@ -127,10 +127,6 @@
       (y 326)
     )
     (mriceblock
-      (x 3329)
-      (y 518)
-    )
-    (mriceblock
       (x 3649)
       (y 550)
     )
@@ -190,6 +186,11 @@
     (smartball
       (x 4995)
       (y 966)
+    )
+    (smartblock
+      (direction "left")
+      (x 3296)
+      (y 544)
     )
     (snowball
       (x 2179)

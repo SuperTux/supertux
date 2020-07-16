@@ -14,15 +14,15 @@
       (mode "normal")
     )
     (crystallo
-      (radius 160)
+      (radius 60)
       (direction "left")
-      (x 352)
-      (y 487)
+      (x 256)
+      (y 704)
     )
     (crystallo
-      (radius 80)
-      (x 724)
-      (y 295)
+      (radius 60)
+      (x 704)
+      (y 288)
     )
     (crystallo
       (x 1408)
@@ -43,9 +43,8 @@
       (y 487)
     )
     (crystallo
-      (radius 175)
-      (x 565)
-      (y 615)
+      (x 640)
+      (y 576)
     )
     (crystallo
       (radius 175)
@@ -83,8 +82,8 @@
     )
     (crystallo
       (radius 180)
-      (x 9872)
-      (y 551)
+      (x 9984)
+      (y 512)
     )
     (crystallo
       (x 4224)
@@ -97,8 +96,8 @@
     )
     (crystallo
       (direction "right")
-      (x 9648)
-      (y 295)
+      (x 9792)
+      (y 544)
     )
     (crystallo
       (radius 50)
