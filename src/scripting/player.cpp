@@ -143,7 +143,8 @@ void
 Player::do_standup()
 {
   SCRIPT_GUARD_VOID;
-  object.do_standup();
+  // Force standup for backwards compatibility
+  object.do_standup(true);
 }
 
 void

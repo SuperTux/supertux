@@ -28,6 +28,7 @@
 namespace {
 
 const float TIME_EXPLOSION = 5.0f;
+const float STOMPED_TIME = 1.0f;
 const float TIME_STUNNED = 0.5f;
 
 const float NORMAL_WALK_SPEED = 80.0f;
@@ -42,7 +43,8 @@ Haywire::Haywire(const ReaderMapping& reader) :
   is_stunned(false),
   time_stunned(0.0f),
   ticking(),
-  grunting()
+  grunting(),
+  stomped_timer()
 {
   walk_speed = NORMAL_WALK_SPEED;
   max_drop_height = 16;
@@ -84,6 +86,7 @@ Haywire::collision_squished(GameObject& object)
 
   if (!is_exploding) {
     start_exploding();
+	stomped_timer.start(STOMPED_TIME);
   }
 
   time_stunned = TIME_STUNNED;
@@ -122,10 +125,21 @@ Haywire::active_update(float dt_sec)
   }
 
   if (is_exploding) {
+	  if (stomped_timer.get_timeleft() < 0.05f) {
+        set_action ((m_dir == Direction::LEFT) ? "ticking-left" : "ticking-right", /* loops = */ -1);
+        walk_left_action = "ticking-left";
+        walk_right_action = "ticking-right";
+    }
+    else {
+        set_action ((m_dir == Direction::LEFT) ? "active-left" : "active-right", /* loops = */ 1);
+        walk_left_action = "active-left";
+	      walk_right_action = "active-right";
+    }
+
     auto p = get_nearest_player ();
     float target_velocity = 0.f;
 
-    if (p && time_stunned == 0.f) {
+    if (p && time_stunned == 0.0f) {
       /* Player is on the right */
       if (p->get_pos ().x > get_pos ().x)
         target_velocity = walk_speed;
@@ -141,6 +155,14 @@ Haywire::active_update(float dt_sec)
 }
 
 void
+Haywire::deactivate()
+{
+  // stop ticking/grunting sounds, in case we are deactivated before actually
+  // exploding (see https://github.com/SuperTux/supertux/issues/1260)
+  stop_looping_sounds();
+}
+
+void
 Haywire::kill_fall()
 {
   if (is_exploding) {
@@ -149,7 +171,8 @@ Haywire::kill_fall()
   }
   if (is_valid()) {
     remove_me();
-    Sector::get().add<Explosion>(m_col.m_bbox.get_middle());
+    Sector::get().add<Explosion>(m_col.m_bbox.get_middle(),
+      EXPLOSION_STRENGTH_DEFAULT);
   }
 
   run_dead_script();
@@ -178,9 +201,6 @@ Haywire::freeze() {
 void
 Haywire::start_exploding()
 {
-  set_action ((m_dir == Direction::LEFT) ? "ticking-left" : "ticking-right", /* loops = */ -1);
-  walk_left_action = "ticking-left";
-  walk_right_action = "ticking-right";
   set_walk_speed (EXPLODING_WALK_SPEED);
   time_until_explosion = TIME_EXPLOSION;
   is_exploding = true;

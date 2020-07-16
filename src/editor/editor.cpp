@@ -85,6 +85,7 @@ Editor::Editor() :
   m_deactivate_request(false),
   m_save_request(false),
   m_test_request(false),
+  m_test_pos(),
   m_savegame(),
   m_sector(),
   m_levelloaded(false),
@@ -94,35 +95,28 @@ Editor::Editor() :
   m_overlay_widget(),
   m_toolbox_widget(),
   m_layers_widget(),
-  m_scroller_widget(),
   m_enabled(false),
-  m_bgr_surface(Surface::from_file("images/background/arctis2.png")),
+  m_bgr_surface(Surface::from_file("images/background/antarctic/arctis2.png")),
   m_undo_manager(new UndoManager),
   m_ignore_sector_change(false)
 {
   auto toolbox_widget = std::make_unique<EditorToolboxWidget>(*this);
   auto layers_widget = std::make_unique<EditorLayersWidget>(*this);
-  auto scroll_widget = std::make_unique<EditorScrollerWidget>(*this);
   auto overlay_widget = std::make_unique<EditorOverlayWidget>(*this);
 
   m_toolbox_widget = toolbox_widget.get();
   m_layers_widget = layers_widget.get();
-  m_scroller_widget = scroll_widget.get();
   m_overlay_widget = overlay_widget.get();
 
-  auto undo_button_widget = std::make_unique<ButtonWidget>(
-    SpriteManager::current()->create("images/engine/editor/undo.png"),
-    Vector(0, 200), [this]{ undo(); });
-  auto redo_button_widget = std::make_unique<ButtonWidget>(
-    SpriteManager::current()->create("images/engine/editor/redo.png"),
-    Vector(0, 264), [this]{ redo(); });
+  auto undo_button_widget = std::make_unique<ButtonWidget>("images/engine/editor/undo.png",
+    Vector(10, 10), [this]{ undo(); });
+  auto redo_button_widget = std::make_unique<ButtonWidget>("images/engine/editor/redo.png",
+    Vector(60, 10), [this]{ redo(); });
 
-  // the order here is important due to how events are dispatched
   m_widgets.push_back(std::move(undo_button_widget));
   m_widgets.push_back(std::move(redo_button_widget));
   m_widgets.push_back(std::move(toolbox_widget));
   m_widgets.push_back(std::move(layers_widget));
-  m_widgets.push_back(std::move(scroll_widget));
   m_widgets.push_back(std::move(overlay_widget));
 }
 
@@ -136,20 +130,18 @@ Editor::draw(Compositor& compositor)
   auto& context = compositor.make_context();
 
   if (m_levelloaded) {
+  for(const auto& widget : m_widgets) {
+    widget->draw(context);
+  }
+
     m_sector->draw(context);
-    context.color().draw_filled_rect(Rectf(Vector(0, 0), Vector(static_cast<float>(context.get_width()),
-                                                                static_cast<float>(context.get_height()))),
+    context.color().draw_filled_rect(context.get_rect(),
                                      Color(0.0f, 0.0f, 0.0f),
                                      0.0f, std::numeric_limits<int>::min());
   } else {
     context.color().draw_surface_scaled(m_bgr_surface,
-                                        Rectf(Vector(0, 0), Vector(static_cast<float>(context.get_width()),
-                                                                   static_cast<float>(context.get_height()))),
+                                        context.get_rect(),
                                         -100);
-  }
-
-  for(const auto& widget : m_widgets) {
-    widget->draw(context);
   }
 
   MouseCursor::current()->draw(context);
@@ -185,7 +177,7 @@ Editor::update(float dt_sec, const Controller& controller)
   if (m_test_request) {
     m_test_request = false;
     MouseCursor::current()->set_icon(nullptr);
-    test_level();
+    test_level(m_test_pos);
     return;
   }
 
@@ -203,11 +195,13 @@ Editor::update(float dt_sec, const Controller& controller)
       object->editor_update();
     }
 
-    m_sector->flush_game_objects();
-
     for (const auto& widget : m_widgets) {
       widget->update(dt_sec);
     }
+
+    // Now that all widgets have been updated, which should have relinquished
+    // pointers to objects marked for deletion, we can actually delete them.
+    m_sector->flush_game_objects();
 
     update_keyboard(controller);
   }
@@ -241,7 +235,7 @@ Editor::get_level_directory() const
 }
 
 void
-Editor::test_level()
+Editor::test_level(const boost::optional<std::pair<std::string, Vector>>& test_pos)
 {
   Tile::draw_editor_images = false;
   Compositor::s_render_lighting = true;
@@ -261,7 +255,7 @@ Editor::test_level()
   m_level->save(m_test_levelfile);
   if (!m_level->is_worldmap())
   {
-    GameManager::current()->start_level(*current_world, backup_filename);
+    GameManager::current()->start_level(*current_world, backup_filename, test_pos);
   }
   else
   {
@@ -591,18 +585,29 @@ Editor::event(const SDL_Event& ev)
 
   try
   {
-    // undo/redo key combo
-    if (ev.type == SDL_KEYDOWN &&
+	if (ev.type == SDL_KEYDOWN &&
+        ev.key.keysym.sym == SDLK_t &&
+        ev.key.keysym.mod & KMOD_CTRL) {
+		test_level(boost::none);
+		}
+
+	if (ev.type == SDL_KEYDOWN &&
+        ev.key.keysym.sym == SDLK_s &&
+        ev.key.keysym.mod & KMOD_CTRL) {
+		save_level();
+		}
+
+	if (ev.type == SDL_KEYDOWN &&
         ev.key.keysym.sym == SDLK_z &&
-        ev.key.keysym.mod & KMOD_CTRL)
-    {
-      if (ev.key.keysym.mod & KMOD_SHIFT) {
-        redo();
-      } else {
-        undo();
-      }
-      return;
-    }
+        ev.key.keysym.mod & KMOD_CTRL) {
+		undo();
+		}
+
+	if (ev.type == SDL_KEYDOWN &&
+        ev.key.keysym.sym == SDLK_y &&
+        ev.key.keysym.mod & KMOD_CTRL) {
+		redo();
+		}
 
     if (ev.type == SDL_KEYDOWN && ev.key.keysym.sym == SDLK_F6) {
       Compositor::s_render_lighting = !Compositor::s_render_lighting;
@@ -631,6 +636,14 @@ Editor::event(const SDL_Event& ev)
           m_undo_manager->try_snapshot(*m_level);
         }
       }
+    }
+
+    // Scroll with mouse wheel, if the mouse is not over the toolbox.
+    // The toolbox does scrolling independently from the main area.
+    if (ev.type == SDL_MOUSEWHEEL && !m_toolbox_widget->has_mouse_focus()) {
+      float scroll_x = static_cast<float>(ev.wheel.x * -32);
+      float scroll_y = static_cast<float>(ev.wheel.y * -32);
+      scroll({scroll_x, scroll_y});
     }
   }
   catch(const std::exception& err)

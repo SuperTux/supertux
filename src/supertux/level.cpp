@@ -33,14 +33,15 @@ Level* Level::s_current = nullptr;
 Level::Level(bool worldmap) :
   m_is_worldmap(worldmap),
   m_name("noname"),
-  m_author("Mr. X"),
+  m_author("SuperTux Player"),
   m_contact(),
   m_license(),
   m_filename(),
   m_sectors(),
   m_stats(),
   m_target_time(),
-  m_tileset("images/tiles.strf")
+  m_tileset("images/tiles.strf"),
+  m_suppress_pause_menu()
 {
   s_current = this;
 }
@@ -126,6 +127,9 @@ Level::save(Writer& writer)
   if (m_target_time != 0.0f){
     writer.write("target-time", m_target_time);
   }
+  if(m_suppress_pause_menu) {
+    writer.write("suppress-pause-menu", m_suppress_pause_menu);
+  }
 
   for (auto& sector : m_sectors) {
     sector->save(writer);
@@ -152,12 +156,12 @@ Level::add_sector(std::unique_ptr<Sector> sector)
 Sector*
 Level::get_sector(const std::string& name_) const
 {
-  for (auto const& sector : m_sectors) {
-    if (sector->get_name() == name_) {
-      return sector.get();
-    }
-  }
-  return nullptr;
+  auto _sector = std::find_if(m_sectors.begin(), m_sectors.end(), [name_] (const std::unique_ptr<Sector>& sector) {
+    return sector->get_name() == name_;
+  });
+  if(_sector == m_sectors.end())
+    return nullptr;
+  return _sector->get();
 }
 
 size_t

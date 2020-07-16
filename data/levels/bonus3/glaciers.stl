@@ -3,7 +3,7 @@
   (name (_ "After the Glaciers"))
   (author "CT. da'Bomb")
   (license "GPL 2+ / CC-by-sa 3.0")
-  (target-time 40)
+  (target-time 50)
   (sector
     (name "main")
     (ambient-light
@@ -94,7 +94,7 @@
       (y 808)
     )
     (music
-      (file "music/theme.music")
+      (file "music/misc/theme.music")
     )
     (path
       (name "9e20f069-5234-481e-8ebb-92f2abdee10c")
@@ -184,15 +184,16 @@
     (spawnpoint
       (name "main")
       (x 64)
-      (y 800)
+      (y 768)
     )
     (sspiky
-      (x 4518)
-      (y 938)
+      (x 4448)
+      (y 928)
     )
     (sspiky
-      (x 4102)
-      (y 938)
+      (direction "right")
+      (x 4128)
+      (y 928)
     )
     (tilemap
       (solid #f)

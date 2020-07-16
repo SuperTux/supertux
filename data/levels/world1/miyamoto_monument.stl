@@ -134,7 +134,7 @@
       (y 832)
     )
     (music
-      (file "music/cave.music")
+      (file "music/antarctic/cave.music")
     )
     (path
       (name "gen15435268431679206241088")
@@ -697,7 +697,7 @@ pipe.goto_node(1);")
       (bottom_color 0 0 0)
     )
     (music
-      (file "/music/bonuscave.ogg")
+      (file "/music/misc/bonuscave.ogg")
     )
     (scripttrigger
       (script "Level.spawn(\"main\", \"secret\");")

@@ -33,6 +33,8 @@ public:
   virtual void update(float dt_sec) override;
   virtual bool is_saveable() const override { return false; }
 
+  virtual void editor_delete() override;
+
 protected:
   PneumaticPlatform& m_parent;
   bool m_left;
@@ -57,7 +59,7 @@ public:
   virtual void update(float dt_sec) override;
 
   virtual std::string get_class() const override { return "pneumatic-platform"; }
-  virtual std::string get_display_name() const override { return _("Pneumatic platform"); }
+  virtual std::string get_display_name() const override { return _("Pneumatic Platform"); }
 
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;

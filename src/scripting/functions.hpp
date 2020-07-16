@@ -95,6 +95,18 @@ void debug_worldmap_ghost(bool enable);
 /** Changes music to musicfile */
 void play_music(const std::string& musicfile);
 
+/** Stops the music */
+void stop_music(float fadetime);
+
+/** Fade in music */
+void fade_in_music(const std::string& musicfile, float fadetime);
+
+/** Resume music */
+void resume_music(float fadetime);
+
+/** Pause music **/
+void pause_music(float fadetime);
+
 /** Plays a soundfile */
 void play_sound(const std::string& soundfile);
 

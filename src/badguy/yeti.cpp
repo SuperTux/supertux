@@ -349,7 +349,8 @@ Yeti::collision_solid(const CollisionHit& hit)
     }
   } else if (hit.left || hit.right) {
     // hit wall
-    jump_up();
+    if(state != SQUISHED && state != FALLING)
+      jump_up();
   }
 }
 

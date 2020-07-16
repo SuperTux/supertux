@@ -28,6 +28,7 @@
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/sector.hpp"
+#include "util/reader_mapping.hpp"
 
 namespace {
 /* Maximum movement speed in pixels per LOGICAL_FPS */
@@ -48,8 +49,10 @@ IceCrusher::IceCrusher(const ReaderMapping& reader) :
   lefteye(),
   righteye(),
   whites(),
-  ic_size(NORMAL)
+  ic_size(NORMAL),
+  sideways()
 {
+  reader.get("sideways", sideways);
   // TODO: icecrusher hitting deserves its own sounds-
   // one for hitting the ground, one for hitting Tux
   if ( m_sprite_name.find("rock_crusher") != std::string::npos ||
@@ -64,6 +67,24 @@ IceCrusher::IceCrusher(const ReaderMapping& reader) :
 
   set_state(state, true);
   after_sprite_set();
+}
+
+bool
+IceCrusher::is_sideways() const
+{
+  return sideways;
+}
+
+ObjectSettings
+IceCrusher::get_settings()
+{
+  ObjectSettings result = MovingSprite::get_settings();
+
+  result.add_bool(_("Sideways"), &sideways, "sideways", false);
+
+  result.reorder({"sideways", "sprite", "x", "y"});
+
+  return result;
 }
 
 void
@@ -82,7 +103,29 @@ IceCrusher::set_state(IceCrusherState state_, bool force)
       physic.enable_gravity (true);
       m_sprite->set_action("crushing");
       break;
+    case CRUSHING_RIGHT:
+      set_group(COLGROUP_MOVING_STATIC);
+	    physic.reset ();
+      physic.enable_gravity (false);
+      m_sprite->set_action("idle");
+	    break;
+	  case CRUSHING_LEFT:
+      set_group(COLGROUP_MOVING_STATIC);
+	    physic.reset ();
+      physic.enable_gravity (false);
+      m_sprite->set_action("idle");
+      break;
     case RECOVERING:
+      set_group(COLGROUP_MOVING_STATIC);
+      physic.enable_gravity (false);
+      m_sprite->set_action("recovering");
+      break;
+	  case RECOVERING_RIGHT:
+      set_group(COLGROUP_MOVING_STATIC);
+      physic.enable_gravity (false);
+      m_sprite->set_action("recovering");
+      break;
+	  case RECOVERING_LEFT:
       set_group(COLGROUP_MOVING_STATIC);
       physic.enable_gravity (false);
       m_sprite->set_action("recovering");
@@ -101,10 +144,9 @@ IceCrusher::collision(GameObject& other, const CollisionHit& hit)
 
   // If the other object is the player, and the collision is at the
   // bottom of the ice crusher, hurt the player.
-  if (player && hit.bottom) {
+  if (player && hit.bottom && state == CRUSHING) {
     SoundManager::current()->play("sounds/brick.wav");
-    if (state == CRUSHING)
-      set_state(RECOVERING);
+    set_state(RECOVERING);
     if (player->is_invincible()) {
       return ABORT_MOVE;
     }
@@ -179,6 +221,58 @@ IceCrusher::collision_solid(const CollisionHit& hit)
         set_state(RECOVERING);
       }
       break;
+	  case CRUSHING_RIGHT:
+	    if (hit.right)
+    {
+		  if (ic_size == LARGE)
+    {
+          cooldown_timer = PAUSE_TIME_LARGE;
+          Sector::get().get_camera().shake (0.125f, 0.0f, 16.0f);
+          SoundManager::current()->play("sounds/brick.wav");
+        }
+		  else
+    {
+          cooldown_timer = PAUSE_TIME_NORMAL;
+          Sector::get().get_camera().shake (0.1f, 0.0, 8.0);
+          if ( m_sprite_name.find("rock_crusher") != std::string::npos ||
+              m_sprite_name.find("moss_crusher") != std::string::npos )
+          {
+            SoundManager::current()->play("sounds/thud.ogg");
+          }
+          else
+          {
+            SoundManager::current()->play("sounds/brick.wav");
+          }
+        }
+		set_state(RECOVERING_RIGHT);
+	  }
+	    break;
+	  case CRUSHING_LEFT:
+	    if (hit.left)
+    {
+		  if (ic_size == LARGE)
+    {
+          cooldown_timer = PAUSE_TIME_LARGE;
+          Sector::get().get_camera().shake (0.125f, 0.0f, 16.0f);
+          SoundManager::current()->play("sounds/brick.wav");
+        }
+		  else
+    {
+          cooldown_timer = PAUSE_TIME_NORMAL;
+          Sector::get().get_camera().shake (0.1f, 0.0, 8.0);
+          if ( m_sprite_name.find("rock_crusher") != std::string::npos ||
+              m_sprite_name.find("moss_crusher") != std::string::npos )
+          {
+            SoundManager::current()->play("sounds/thud.ogg");
+          }
+          else
+          {
+            SoundManager::current()->play("sounds/brick.wav");
+          }
+        }
+		set_state(RECOVERING_LEFT);
+	  }
+	    break;
     default:
       log_debug << "IceCrusher in invalid state" << std::endl;
       break;
@@ -188,6 +282,7 @@ IceCrusher::collision_solid(const CollisionHit& hit)
 void
 IceCrusher::update(float dt_sec)
 {
+  
   if (cooldown_timer >= dt_sec)
   {
     cooldown_timer -= dt_sec;
@@ -202,13 +297,25 @@ IceCrusher::update(float dt_sec)
   switch (state) {
     case IDLE:
       m_col.m_movement = Vector (0, 0);
-      if (found_victim())
+      if (found_victim_down() && !sideways)
         set_state(CRUSHING);
+		  if (found_victim_right() && sideways)
+        set_state(CRUSHING_RIGHT);
+	    if (found_victim_left() && sideways)
+        set_state(CRUSHING_LEFT);
       break;
     case CRUSHING:
       m_col.m_movement = physic.get_movement (dt_sec);
       if (m_col.m_movement.y > MAX_DROP_SPEED)
         m_col.m_movement.y = MAX_DROP_SPEED;
+      break;
+	  case CRUSHING_RIGHT:
+	    m_col.m_movement = physic.get_movement(dt_sec);
+	    physic.set_velocity_x((physic.get_velocity_x() + 10.f));
+      break;
+	  case CRUSHING_LEFT:
+	    m_col.m_movement = physic.get_movement(dt_sec);
+	    physic.set_velocity_x((physic.get_velocity_x() - 10.f));
       break;
     case RECOVERING:
       if (m_col.m_bbox.get_top() <= start_position.y+1) {
@@ -225,6 +332,34 @@ IceCrusher::update(float dt_sec)
           m_col.m_movement = Vector (0, RECOVER_SPEED_LARGE);
         else
           m_col.m_movement = Vector (0, RECOVER_SPEED_NORMAL);
+      }
+      break;
+	  case RECOVERING_RIGHT:
+      if (m_col.m_bbox.get_left() <= start_position.x+1) {
+        set_pos(start_position);
+        m_col.m_movement = Vector (0, 0);
+        if (ic_size == LARGE)
+          cooldown_timer = PAUSE_TIME_LARGE;
+        else
+          cooldown_timer = PAUSE_TIME_NORMAL;
+        set_state(IDLE);
+      }
+      else {
+          m_col.m_movement = Vector (RECOVER_SPEED_LARGE, 0);
+      }
+      break;
+	  case RECOVERING_LEFT:
+      if (m_col.m_bbox.get_left() >= start_position.x-1) {
+        set_pos(start_position);
+        m_col.m_movement = Vector (0, 0);
+        if (ic_size == LARGE)
+          cooldown_timer = PAUSE_TIME_LARGE;
+        else
+          cooldown_timer = PAUSE_TIME_NORMAL;
+        set_state(IDLE);
+      }
+      else {
+          m_col.m_movement = Vector (-RECOVER_SPEED_LARGE, 0);
       }
       break;
     default:
@@ -254,17 +389,55 @@ IceCrusher::after_editor_set() {
 }
 
 bool
-IceCrusher::found_victim() const
+IceCrusher::found_victim_down() const
 {
   if (auto* player = Sector::get().get_nearest_player(m_col.m_bbox))
   {
     const Rectf& player_bbox = player->get_bbox();
-    Rectf crush_area = Rectf(m_col.m_bbox.get_left()+1, m_col.m_bbox.get_bottom(),
+    Rectf crush_area_down = Rectf(m_col.m_bbox.get_left()+1, m_col.m_bbox.get_bottom(),
                              m_col.m_bbox.get_right()-1, std::max(m_col.m_bbox.get_bottom(),player_bbox.get_top()-1));
     if ((player_bbox.get_top() >= m_col.m_bbox.get_bottom()) /* player is below crusher */
         && (player_bbox.get_right() > (m_col.m_bbox.get_left() - DROP_ACTIVATION_DISTANCE))
         && (player_bbox.get_left() < (m_col.m_bbox.get_right() + DROP_ACTIVATION_DISTANCE))
-        && (Sector::get().is_free_of_statics(crush_area, this, false)) /* and area to player is free of objects */) {
+        && (Sector::get().is_free_of_statics(crush_area_down, this, false)) /* and area to player is free of objects */) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+bool
+IceCrusher::found_victim_right() const
+{
+  if (auto* player = Sector::get().get_nearest_player(m_col.m_bbox))
+  {
+    const Rectf& player_bbox = player->get_bbox();
+	  Rectf crush_area_right = get_bbox();
+	  crush_area_right.set_right(player_bbox.get_left() - 1);
+    if (((player_bbox.get_left() + 64) >= m_col.m_bbox.get_right())
+        && (player_bbox.get_bottom() + 5 > (m_col.m_bbox.get_top() - DROP_ACTIVATION_DISTANCE))
+        && (player_bbox.get_top() < (m_col.m_bbox.get_bottom() + DROP_ACTIVATION_DISTANCE))
+        && (Sector::get().is_free_of_statics(crush_area_right, this, false))		/* and area to player is free of objects */) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+bool
+IceCrusher::found_victim_left() const
+{
+  if (auto* player = Sector::get().get_nearest_player(m_col.m_bbox))
+  {
+    const Rectf& player_bbox = player->get_bbox();
+	  Rectf crush_area_left = get_bbox();
+	  crush_area_left.set_left(player_bbox.get_right() + 1);
+    if (((player_bbox.get_right() - 64) <= m_col.m_bbox.get_left())
+        && (player_bbox.get_bottom() + 5 > (m_col.m_bbox.get_top() - DROP_ACTIVATION_DISTANCE))
+        && (player_bbox.get_top() < (m_col.m_bbox.get_bottom() + DROP_ACTIVATION_DISTANCE))
+        && (Sector::get().is_free_of_statics(crush_area_left, this, false))		/* and area to player is free of objects */) {
       return true;
     }
   }
@@ -275,7 +448,7 @@ IceCrusher::found_victim() const
 Vector
 IceCrusher::eye_position(bool right) const
 {
-  if (state == IDLE)
+  if (state == IDLE || state == CRUSHING_RIGHT || state == CRUSHING_LEFT)
   {
     if (auto* player = Sector::get().get_nearest_player (m_col.m_bbox))
     {
@@ -297,17 +470,17 @@ IceCrusher::eye_position(bool right) const
                     displacement_y / displacement_mag * static_cast<float>(weight_y) - static_cast<float>(weight_y));
     }
   }
-  else if (state == RECOVERING)
+  else if (state != IDLE && state != CRUSHING_RIGHT && state != CRUSHING_LEFT)
   {
     // Eyes spin while icecrusher is recovering, giving a dazed impression
     return Vector(sinf((right ? 1 : -1) * // X motion of each eye is opposite of the other
-                       (get_pos().y/13 - // Phase factor due to y position
-                        (ic_size==NORMAL ? RECOVER_SPEED_NORMAL : RECOVER_SPEED_LARGE) + cooldown_timer * 13.0f)) * //Phase factor due to cooldown timer
+                  ((state == RECOVERING ? get_pos().y / 13 : get_pos().x / 13) - // Phase factor due to y position
+                       (ic_size==NORMAL ? RECOVER_SPEED_NORMAL : RECOVER_SPEED_LARGE) + cooldown_timer * 13.0f)) * //Phase factor due to cooldown timer
                   static_cast<float>(m_sprite->get_width()) / 64.0f * 2.0f - (right ? 1 : -1) * // Amplitude dependent on size
                   static_cast<float>(m_sprite->get_width()) / 64.0f * 2.0f, // Offset to keep eyes visible
 
                   cosf((right ? 3.1415f : 0.0f) + // Eyes spin out of phase of eachother
-                       get_pos().y / 13.0f - // Phase factor due to y position
+                  (state == RECOVERING ? get_pos().y / 13 : get_pos().x / 13) - // Phase factor due to y position
                        (ic_size==NORMAL ? RECOVER_SPEED_NORMAL : RECOVER_SPEED_LARGE) + cooldown_timer * 13.0f) * //Phase factor due to cooldown timer
                   static_cast<float>(m_sprite->get_width()) / 64.0f * 2.0f -  // Amplitude dependent on size
                   static_cast<float>(m_sprite->get_width()) / 64.0f * 2.0f); // Offset to keep eyes visible

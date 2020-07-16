@@ -150,7 +150,7 @@ WavSoundFile::read(void* buffer, size_t buffer_size)
     throw SoundError("read error while reading samples");
 
 #ifdef WORDS_BIGENDIAN
-  if (bits_per_sample != 16)
+  if (m_bits_per_sample != 16)
     return readsize;
   char *tmp = (char*)buffer;
 

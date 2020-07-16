@@ -69,6 +69,9 @@ PathObject::init_path_pos(const Vector& pos, bool running)
 Path*
 PathObject::get_path() const
 {
+  if(!d_gameobject_manager)
+    return nullptr;
+
   if (auto* path_gameobject = d_gameobject_manager->get_object_by_uid<PathGameObject>(m_path_uid)) {
     return &path_gameobject->get_path();
   } else {
@@ -79,6 +82,9 @@ PathObject::get_path() const
 std::string
 PathObject::get_path_ref() const
 {
+  if(!d_gameobject_manager)
+    return nullptr;
+
   if (auto* path_gameobject = d_gameobject_manager->get_object_by_uid<PathGameObject>(m_path_uid)) {
     return path_gameobject->get_name();
   } else {

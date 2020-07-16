@@ -1,16 +1,16 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# Karl Ove Hufthammer <karl@huftis.org>, 2015-2016
+# Karl Ove Hufthammer <karl@huftis.org>, 2015-2016,2018-2019
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-05 20:42+0200\n"
-"PO-Revision-Date: 2016-09-18 13:13+0000\n"
-"Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
+"Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
+"POT-Creation-Date: 2019-11-24 01:44+0100\n"
+"PO-Revision-Date: 2019-11-24 00:51+0000\n"
+"Last-Translator: Tobias Markus <tobbi@supertuxproject.org>\n"
 "Language-Team: Norwegian Nynorsk (http://www.transifex.com/arctic-games/supertux/language/nn/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/levels/bonus3/-89-2_degrees.stl:3
-msgid "-89,2 degrees"
+msgid "-89.2 degrees"
 msgstr "-89,2 gradar"
 
 #: data/levels/bonus3/Global_Warming.stl:3
@@ -44,9 +44,9 @@ msgstr "Antarktisk regn"
 
 #: data/levels/bonus3/but_no_one_can_stop_it.stl:3
 msgid "...but no one can stop it..."
-msgstr "… men ingen kan stoppa det …"
+msgstr "… men ingen kan stoppa det …"
 
-#: data/levels/bonus3/but_no_one_can_stop_it.stl:393
+#: data/levels/bonus3/but_no_one_can_stop_it.stl:392
 msgid ""
 "-Sorry, this flying platform is lazy.\n"
 "-Come back another time."
@@ -54,7 +54,7 @@ msgstr "-Orsak, men denne svevande plattforma er lat.\n-Kom tilbake seinare."
 
 #: data/levels/bonus3/cant_climb_higher_clouds.stl:3
 msgid "You can't climb higher than the clouds..."
-msgstr "Du kan ikkje klatra høgare enn skyene …"
+msgstr "Du kan ikkje klatra høgare enn skyene …"
 
 #: data/levels/bonus3/castle_light+darkness-v3.stl:3
 msgid "Castle of Light and Darkness"
@@ -68,7 +68,7 @@ msgstr "Hòleløpet"
 msgid "Cold Cavern"
 msgstr "Kald hòle"
 
-#: data/levels/bonus3/cavern_v2.stl:50
+#: data/levels/bonus3/cavern_v2.stl:47
 msgid ""
 "#Good job! You kept the red lantern! You didn't need to though, but just "
 "because you did, have 100 coins!"
@@ -76,7 +76,7 @@ msgstr "#Godt jobba! Du tok vare på den raude lykta! Du trengde ikkje gjera det
 
 #: data/levels/bonus3/coconut_fortress.stl:3
 msgid "Coconut Fortress"
-msgstr "Kokosnøttfestninga"
+msgstr "Kokosnøttfestningen"
 
 #: data/levels/bonus3/crystal sunset.stl:3
 msgid "Crystal Sunset"
@@ -105,7 +105,7 @@ msgstr "Det mørke slottet"
 
 #: data/levels/bonus3/deep_deeper.stl:3
 msgid "Deep, deeper..."
-msgstr "Djupare og djupare …"
+msgstr "Djupare og djupare …"
 
 #: data/levels/bonus3/deepest.stl:3
 msgid "...deepest!"
@@ -173,7 +173,7 @@ msgid ""
 "#Press the up key to flush! "
 msgstr "- Trekk ned:\n#Trykk «Pil opp» for å trekkja ned!"
 
-#: data/levels/bonus3/niv-3.stl:216
+#: data/levels/bonus3/niv-3.stl:219
 msgid ""
 "- A Way out?\n"
 "#Let's Jump! "
@@ -197,11 +197,11 @@ msgstr "Flukta frå kloakken"
 
 #: data/levels/bonus3/shakespeare-rain.stl:3
 msgid "To rain or not to rain - That's the question"
-msgstr "Å regna eller ikkje å regna - det er spørsmålet"
+msgstr "Å regna eller ikkje å regna – det er spørsmålet"
 
 #: data/levels/bonus3/shakespeare-rain_antarctic.stl:3
 msgid "To rain or not to rain - That's the question (Antarctic)"
-msgstr "Å regna eller ikkje å regna - det er spørsmålet (Sørpolen)"
+msgstr "Å regna eller ikkje å regna – det er spørsmålet (Sørpolen)"
 
 #: data/levels/bonus3/snowy_hill.stl:3
 msgid "A snowy hill"
@@ -219,14 +219,15 @@ msgstr "Under isen"
 msgid "Bonus Island III"
 msgstr "Bonusøy III"
 
-#: data/levels/bonus3/worldmap.stwm:12
+#: data/levels/bonus3/worldmap.stwm:238
 msgid "You found a secret place!"
 msgstr "Du fann ein hemmeleg plass!"
 
-#: data/levels/bonus3/worldmap.stwm:20
-msgid "Congratulations... you found the secret pathway!"
-msgstr "Gratulerer … Du fann ein hemmeleg veg!"
-
-#: data/levels/bonus3/worldmap.stwm:78 data/levels/bonus3/worldmap.stwm:86
+#: data/levels/bonus3/worldmap.stwm:282 data/levels/bonus3/worldmap.stwm:297
+#: data/levels/bonus3/worldmap.stwm:304
 msgid "Go Home"
 msgstr "Gå heim"
+
+#: data/levels/bonus3/worldmap.stwm:290
+msgid "Enter Forest Section"
+msgstr ""

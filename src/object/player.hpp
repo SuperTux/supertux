@@ -108,7 +108,7 @@ public:
   void do_duck();
 
   /** stand back up if possible. */
-  void do_standup();
+  void do_standup(bool force_standup);
 
   /** do a backflip if possible. */
   void do_backflip();
@@ -132,6 +132,9 @@ public:
   bool is_dead() const { return m_dead; }
   bool is_big() const;
   bool is_stone() const { return m_stone; }
+  bool is_swimming() const { return m_swimming; }
+  bool is_swimboosting() const { return m_swimboosting; }
+  bool is_skidding() const { return m_skidding_timer.started(); }
 
   void set_visible(bool visible);
   bool get_visible() const;
@@ -158,7 +161,7 @@ public:
 
   /** Changes height of bounding box.
       Returns true if successful, false otherwise */
-  bool adjust_height(float new_height);
+  bool adjust_height(float new_height, float bottom_offset = 0);
 
   /** Orders the current GameSession to start a sequence
       @param sequence_name Name of the sequence to start
@@ -193,11 +196,15 @@ private:
   void handle_input_ghost(); /**< input handling while in ghost mode */
   void handle_input_climbing(); /**< input handling while climbing */
 
+  void handle_input_swimming();
+
   void handle_horizontal_input();
   void handle_vertical_input();
 
   void do_jump_apex();
   void early_jump_apex();
+
+  void swim(float pointx, float pointy, bool boost);
 
   bool slightly_above_ground() const;
 
@@ -225,6 +232,7 @@ private:
   float m_ability_time;
   bool m_stone;
   bool m_swimming;
+  bool m_swimboosting;
   float m_speedlimit;
   const Controller* m_scripting_controller_old; /**< Saves the old controller while the scripting_controller is used */
   bool m_jump_early_apex;
@@ -277,6 +285,11 @@ private:
   Portable* m_grabbed_object;
 
   SpritePtr m_sprite; /**< The main sprite representing Tux */
+
+  float m_swimming_angle;
+  float m_swimming_accel_modifier;
+  bool m_water_jump;
+  bool m_dive_walk;
 
   SurfacePtr m_airarrow; /**< arrow indicating Tux' position when he's above the camera */
 

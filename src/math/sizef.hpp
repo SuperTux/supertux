@@ -41,10 +41,8 @@ public:
     height(height_)
   {}
 
-  Sizef(const Sizef& rhs) :
-    width(rhs.width),
-    height(rhs.height)
-  {}
+  Sizef(const Sizef& rhs) = default;
+  Sizef& operator=(const Sizef& rhs) = default;
 
   Sizef(const Size& rhs);
 

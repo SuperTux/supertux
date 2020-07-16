@@ -9,7 +9,6 @@
   )
   (action
     (name "right")
-    (hitbox 3 4 32 32)
     (mirror-action "left")
   )
   (action
@@ -19,7 +18,6 @@
   )
   (action
     (name "squished-right")
-    (hitbox 1 -19 31.8 31.8)
     (mirror-action "squished-left")
   )
  (action
@@ -31,7 +29,6 @@
           "sport-melting-3.png"))
  (action
   (name "melting-right")
-  (hitbox 3 4 32 32)
   (mirror-action "melting-left"))
  (action
   (name "ground-melting-left")

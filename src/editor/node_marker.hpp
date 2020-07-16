@@ -34,9 +34,13 @@ public:
   virtual void editor_update() override;
 
   void update_iterator();
+  void update_node_times();
 
 private:
   Path* m_path;
+  std::vector<Path::Node>::iterator prev_node();
+  std::vector<Path::Node>::const_iterator next_node() const;
+  void update_node_time(std::vector<Path::Node>::iterator current, std::vector<Path::Node>::const_iterator next);
 
 public:
   std::vector<Path::Node>::iterator m_node;

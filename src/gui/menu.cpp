@@ -292,8 +292,8 @@ Menu::add_submenu(const std::string& text, int submenu, int id)
 }
 
 ItemColorChannel&
-Menu::add_color_channel(float* input, Color channel, int id) {
-  auto item = std::make_unique<ItemColorChannel>(input, channel, id);
+Menu::add_color_channel(float* input, Color channel, int id, bool is_linear) {
+  auto item = std::make_unique<ItemColorChannel>(input, channel, id, is_linear);
   auto item_ptr = item.get();
   add_item(std::move(item));
   return *item_ptr;
@@ -608,13 +608,13 @@ Menu::draw(DrawingContext& context)
 MenuItem&
 Menu::get_item_by_id(int id)
 {
-  for (const auto& item : m_items)
+  auto item = std::find_if(m_items.begin(), m_items.end(), [id](const std::unique_ptr<MenuItem>& i)
   {
-    if (item->get_id() == id)
-    {
-      return *item;
-    }
-  }
+    return i->get_id() == id;
+  });
+
+  if(item != m_items.end())
+    return *item->get();
 
   throw std::runtime_error("MenuItem not found: " + std::to_string(id));
 }
@@ -622,15 +622,15 @@ Menu::get_item_by_id(int id)
 const MenuItem&
 Menu::get_item_by_id(int id) const
 {
-  for (const auto& item : m_items)
+  auto item = std::find_if(m_items.begin(), m_items.end(), [id](const std::unique_ptr<MenuItem>& i)
   {
-    if (item->get_id() == id)
-    {
-      return *item;
-    }
-  }
+    return i->get_id() == id;
+  });
 
-  throw std::runtime_error("MenuItem not found");
+  if(item != m_items.end())
+    return *item->get();
+
+  throw std::runtime_error("MenuItem not found: " + std::to_string(id));
 }
 
 int Menu::get_active_item_id() const

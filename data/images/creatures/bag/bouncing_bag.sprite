@@ -1,0 +1,25 @@
+(supertux-sprite
+  (action
+    (name "left")
+    (fps 20)
+    (hitbox 16 7 32 32)
+    (images "bag-bounce-0.png"
+            "bag-bounce-1.png"
+            "bag-bounce-2.png"
+            "bag-bounce-3.png"
+            "bag-bounce-4.png"
+   )
+  )
+  (action
+    (name "right")
+    (fps 20)
+    (hitbox 16 7 32 32)
+    (mirror-action "left")
+  )
+
+  (action
+    (name "squished")
+    (hitbox 0 0 32 32)
+    (images "bag-squished.png")
+   )
+)

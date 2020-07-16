@@ -41,6 +41,7 @@
 #include "object/text_array_object.hpp"
 #include "object/text_object.hpp"
 #include "object/tilemap.hpp"
+#include "object/vertical_stripes.hpp"
 #include "physfs/ifile_stream.hpp"
 #include "scripting/sector.hpp"
 #include "squirrel/squirrel_environment.hpp"
@@ -80,7 +81,7 @@ Sector::Sector(Level& parent) :
     GameSession::current() ? &GameSession::current()->get_savegame() : nullptr;
   PlayerStatus& player_status = savegame ? savegame->get_player_status() : dummy_player_status;
 
-  if (savegame && !savegame->is_title_screen()) {
+  if (savegame && !m_level.m_suppress_pause_menu && !savegame->is_title_screen()) {
     add<PlayerStatusHUD>(player_status);
   }
   add<Player>(player_status, "Tux");
@@ -139,6 +140,10 @@ Sector::finish_construction(bool editable)
 
   if (!get_object_by_type<MusicObject>()) {
     add<MusicObject>();
+  }
+
+  if (!get_object_by_type<VerticalStripes>()) {
+    add<VerticalStripes>();
   }
 
   flush_game_objects();
@@ -207,7 +212,8 @@ Sector::activate(const Vector& player_pos)
 
   // two-player hack: move other players to main player's position
   // Maybe specify 2 spawnpoints in the level?
-  for (auto& player : get_objects_by_type<Player>()) {
+  for (auto player_ptr : get_objects_by_type_index(typeid(Player))) {
+    Player& player = *static_cast<Player*>(player_ptr);
     // spawn smalltux below spawnpoint
     if (!player.is_big()) {
       player.move(player_pos + Vector(0,32));
@@ -422,7 +428,8 @@ Sector::free_line_of_sight(const Vector& line_start, const Vector& line_end, con
 bool
 Sector::can_see_player(const Vector& eye) const
 {
-  for (const auto& player : get_objects_by_type<Player>()) {
+  for (auto player_ptr : get_objects_by_type_index(typeid(Player))) {
+    Player& player = *static_cast<Player*>(player_ptr);
     // test for free line of sight to any of all four corners and the middle of the player's bounding box
     if (free_line_of_sight(eye, player.get_bbox().p1(), &player)) return true;
     if (free_line_of_sight(eye, Vector(player.get_bbox().get_right(), player.get_bbox().get_top()), &player)) return true;
@@ -520,8 +527,9 @@ Sector::get_nearest_player (const Vector& pos) const
   Player *nearest_player = nullptr;
   float nearest_dist = std::numeric_limits<float>::max();
 
-  for (auto& player : get_objects_by_type<Player>())
+  for (auto player_ptr : get_objects_by_type_index(typeid(Player)))
   {
+    Player& player = *static_cast<Player*>(player_ptr);
     if (player.is_dying() || player.is_dead())
       continue;
 
@@ -585,10 +593,10 @@ Sector::save(Writer &writer)
   }
 
   // saving objects;
-  std::vector<GameObject*> objects;
-  for (auto& obj : get_objects()) {
-    objects.push_back(obj.get());
-  }
+  std::vector<GameObject*> objects(get_objects().size());
+  std::transform(get_objects().begin(), get_objects().end(), objects.begin(), [] (auto& obj) {
+    return obj.get();
+  });
 
   std::stable_sort(objects.begin(), objects.end(),
                    [](const GameObject* lhs, GameObject* rhs) {
@@ -680,7 +688,7 @@ Sector::get_camera() const
 Player&
 Sector::get_player() const
 {
-  return get_singleton_by_type<Player>();
+  return *static_cast<Player*>(get_objects_by_type_index(typeid(Player)).at(0));
 }
 
 DisplayEffect&

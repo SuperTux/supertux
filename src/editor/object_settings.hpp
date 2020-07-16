@@ -22,6 +22,8 @@
 
 #include "editor/object_option.hpp"
 
+#include <algorithm>
+
 class Color;
 enum class Direction;
 enum class WalkMode;
@@ -133,6 +135,7 @@ public:
                 unsigned int flags = 0);
   void add_sexp(const std::string& text, const std::string& key,
                 sexp::Value& value, unsigned int flags = 0);
+  void add_test_from_here();
 
   const std::vector<std::unique_ptr<ObjectOption> >& get_options() const { return m_options; }
 

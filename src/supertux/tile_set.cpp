@@ -97,12 +97,13 @@ TileSet::add_unassigned_tilegroup()
     bool found = false;
     for (const auto& group : m_tilegroups)
     {
-      for (const auto& tile_in_group : group.tiles)
+      found = std::any_of(group.tiles.begin(), group.tiles.end(),
+        [tile](const int& tile_in_group) {
+          return tile_in_group == tile;
+        });
+      if(found)
       {
-        if (tile_in_group == tile)
-        {
-          found = true;
-        }
+        break;
       }
     }
 

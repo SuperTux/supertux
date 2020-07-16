@@ -27,7 +27,7 @@ public:
   virtual bool is_flammable() const override;
   virtual bool is_freezable() const override;
   virtual std::string get_class() const override { return "ghostflame"; }
-  virtual std::string get_display_name() const override { return _("Ghost flame"); }
+  virtual std::string get_display_name() const override { return _("Ghost Flame"); }
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
 

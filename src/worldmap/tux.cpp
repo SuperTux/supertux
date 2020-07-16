@@ -58,7 +58,27 @@ Tux::draw(DrawingContext& context)
   std::string action = get_action_prefix_for_bonus(m_worldmap->get_savegame().get_player_status().bonus);
   if (!action.empty())
   {
-    m_sprite->set_action(m_moving ? action + "-walking" : action + "-stop");
+    if (m_moving && (get_axis().x != 0 || get_axis().y != 0))
+    {
+      if(m_worldmap->get_savegame().get_player_status().worldmap_sprite == "/images/worldmap/common/swim.sprite")
+      {
+        std::string direct = "-up";
+        if (get_axis().x == 1) direct = "-right";
+        if (get_axis().x == -1) direct = "-left"; 
+        if (get_axis().y == 1) direct = "-up"; 
+        if (get_axis().y == -1) direct = "-down"; 
+
+        m_sprite->set_action(action + "-walking" + direct);
+      }
+      else
+      {
+        m_sprite->set_action(action + "-walking");
+      }
+    }
+    else
+    {
+      m_sprite->set_action(action + "-stop");
+    }
   }
   else
   {
@@ -106,6 +126,33 @@ Tux::get_pos() const
       break;
     case Direction::SOUTH:
       y += m_offset - 32;
+      break;
+    case Direction::NONE:
+      break;
+  }
+
+  return Vector(x, y);
+}
+
+Vector
+Tux::get_axis() const
+{
+  float x = 0.0f;
+  float y = 0.0f;
+
+  switch (m_direction)
+  {
+    case Direction::WEST:
+      x = -1.0f;
+      break;
+    case Direction::EAST:
+      x = 1.0f;
+      break;
+    case Direction::NORTH:
+      y = 1.0f;
+      break;
+    case Direction::SOUTH:
+      y = -1.0f;
       break;
     case Direction::NONE:
       break;

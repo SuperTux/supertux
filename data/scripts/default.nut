@@ -15,7 +15,7 @@ Level <- {
 
 function end_level()
 {
-  play_music("music/leveldone.ogg");
+  play_music("music/misc/leveldone.ogg");
   Tux.deactivate();
   wait(6);
   Effect.fade_out(2);

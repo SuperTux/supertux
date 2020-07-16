@@ -201,7 +201,7 @@
       (y 736)
     )
     (music
-      (file "music/cave.music")
+      (file "music/antarctic/cave.music")
     )
     (path
       (name "gen15435273171679206243824")

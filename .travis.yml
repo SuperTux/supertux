@@ -11,7 +11,7 @@
 #
 
 language: cpp
-dist: trusty
+dist: bionic
 sudo: required
 
 compiler:
@@ -38,6 +38,7 @@ env:
     - secure: "E++FmjzZZrvkJpUHZajLUaO1wd0QHcyVidVx8qVeGUJm/khCPBJuhkSe6R2BphcBeeAuhVlsXo26SWCAn89r2KT2OHB/lwtK2CWhO5vOl5bI5o4nFc+m55e2gDIebSBrXQPITEQJpQx1zBL4FVw/A2xQRl+IcjF/EiIzG8Znslc="
     # DOWNLOAD_APIKEY env var
     - secure: "ZfRyz4HyLtCtHSrCzB+VwdRP3QLbhcXiqsUAhBYNBz6fU8B4l7UchcRrTVsSQJMJeQQ3V7baJsqi4vAcxtd2aV/UDb82aWy9+lwexecjS+fVNh6Ace8j69PVeywpVVonY2Mk/8LeEAvBkjB1OeRlE+gMC08QwOiHqkR2qVcwNYA="
+    - GLEW_VERSION=2.1.0
     - GLBINDING_VERSION=2.1.4
   matrix:
     - BUILD_TYPE="Debug"
@@ -68,7 +69,7 @@ before_install:
       cd ../..;
     fi
   # Fetch the entire git history
-  - git fetch --unshallow
+  - git fetch
   # Install libRAQM
   - git clone --depth 1 https://github.com/HOST-Oman/libraqm.git;
     if [ "$TRAVIS_OS_NAME" = "linux" ]; then cd libraqm && ./autogen.sh && ./configure --prefix=/usr --disable-Werror && make -j3 && sudo make install; fi;
@@ -76,8 +77,8 @@ before_install:
     cd ..;
 
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then
-    wget https://netcologne.dl.sourceforge.net/project/glew/glew/2.1.0/glew-2.1.0.tgz -O - | tar xz;
-    cd glew-2.1.0/;
+    wget https://netcologne.dl.sourceforge.net/project/glew/glew/$GLEW_VERSION/glew-$GLEW_VERSION.tgz -O - | tar xz;
+    cd glew-$GLEW_VERSION/;
     make;
     sudo make install LIBDIR=/usr/lib;
     cd ..;
@@ -127,9 +128,6 @@ after_deploy:
 
 addons:
   apt:
-    sources:
-    - ubuntu-toolchain-r-test
-    - llvm-toolchain-trusty-6.0
     packages:
     - cmake
     - build-essential

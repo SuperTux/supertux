@@ -31,6 +31,7 @@ public:
   virtual void ignite() override;
 
   virtual void active_update(float dt_sec) override;
+  virtual void deactivate() override;
 
   virtual bool is_freezable() const override;
   virtual void freeze() override;
@@ -56,6 +57,8 @@ private:
 
   std::unique_ptr<SoundSource> ticking;
   std::unique_ptr<SoundSource> grunting;
+  
+  Timer stomped_timer;
 
 private:
   Haywire(const Haywire&) = delete;

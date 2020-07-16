@@ -115,6 +115,7 @@
     )
     (dispenser
       (cycle 5)
+      (type "dropper")
       (badguy "mrbomb")
       (x 7776)
       (y 384)
@@ -228,7 +229,7 @@
       (y 1792)
     )
     (music
-      (file "/music/greatgigantic.music")
+      (file "/music/forest/greatgigantic.music")
     )
     (path
       (name "gen15438507242295660711904")
@@ -1236,7 +1237,7 @@
       (y 1280)
     )
     (music
-      (file "/music/greatgigantic.music")
+      (file "/music/forest/greatgigantic.music")
     )
     (path
       (name "gen15438507252295660716368")

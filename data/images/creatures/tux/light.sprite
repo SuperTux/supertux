@@ -39,6 +39,16 @@
          (name "earth-jump-left")
          (hitbox 516 134 32 64)
          (mirror-action "earth-jump-right"))
+		 
+	   (action
+         (name "earth-fall-right")
+         (hitbox 516 134 32 64)
+         (images "earth/light/stand.png"))
+
+       (action
+         (name "earth-fall-left")
+         (hitbox 516 134 32 64)
+         (mirror-action "earth-jump-right"))
 
        (action
          (name "earth-skid-right")

@@ -247,10 +247,6 @@ Snail::collision_squished(GameObject& object)
     case STATE_KICKED:
     case STATE_NORMAL:
 
-      // Can't stomp in midair
-      if (!on_ground())
-        break;
-
       squishcount++;
       if (squishcount >= MAX_SNAIL_SQUISHES) {
         kill_fall();
@@ -283,8 +279,9 @@ Snail::collision_squished(GameObject& object)
 }
 
 void
-Snail::grab(MovingObject&, const Vector& pos, Direction dir_)
+Snail::grab(MovingObject& object, const Vector& pos, Direction dir_)
 {
+  Portable::grab(object, pos, dir_);
   m_col.m_movement = pos - get_pos();
   m_dir = dir_;
   set_action(dir_ == Direction::LEFT ? "flat-left" : "flat-right", /* loops = */ -1);
@@ -293,7 +290,7 @@ Snail::grab(MovingObject&, const Vector& pos, Direction dir_)
 }
 
 void
-Snail::ungrab(MovingObject& , Direction dir_)
+Snail::ungrab(MovingObject& object, Direction dir_)
 {
   if (dir_ == Direction::UP) {
     be_flat();
@@ -302,6 +299,7 @@ Snail::ungrab(MovingObject& , Direction dir_)
     be_kicked();
   }
   set_colgroup_active(COLGROUP_MOVING);
+  Portable::ungrab(object, dir_);
 }
 
 bool

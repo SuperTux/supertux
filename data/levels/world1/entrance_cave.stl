@@ -38,11 +38,6 @@
     )
     (jumpy
       (direction "left")
-      (x 12624)
-      (y 320)
-    )
-    (jumpy
-      (direction "left")
       (x 10752)
       (y 288)
     )
@@ -87,7 +82,7 @@
       (y 544)
     )
     (music
-      (file "/music/voc-daytime2.music")
+      (file "/music/antarctic/voc-daytime2.music")
     )
     (path
       (name "gen15435264391679206252464")
@@ -114,22 +109,22 @@
       (name "gen15435264391679206247712")
       (path
         (node
-          (x 9216)
+          (x 9168)
           (y 480)
           (time 3)
         )
         (node
-          (x 9216)
+          (x 9168)
           (y 288)
           (time 1.5)
         )
         (node
-          (x 9216)
+          (x 9168)
           (y 288)
           (time 3)
         )
         (node
-          (x 9216)
+          (x 9168)
           (y 480)
           (time 1.5)
         )
@@ -244,7 +239,7 @@
       (running #f)
       (name "lift2")
       (path-ref "gen15435264391679206247712")
-      (sprite "/images/objects/platforms/small.sprite")
+      (sprite "/images/objects/platforms/wood-fivetiles.sprite")
     )
     (platform
       (running #f)
@@ -453,7 +448,7 @@
     )
     (stalactite
       (direction "left")
-      (x 9104)
+      (x 9152)
       (y 96)
     )
     (stalactite
@@ -478,7 +473,7 @@
     )
     (stalactite
       (direction "left")
-      (x 9360)
+      (x 9312)
       (y 96)
     )
     (switch
@@ -770,6 +765,58 @@ down3.goto_node(1);")
     )
     (unstable_tile
       (x 8800)
+      (y 768)
+    )
+    (unstable_tile
+      (x 9664)
+      (y 768)
+    )
+    (unstable_tile
+      (x 9632)
+      (y 768)
+    )
+    (unstable_tile
+      (x 9600)
+      (y 768)
+    )
+    (unstable_tile
+      (x 9440)
+      (y 768)
+    )
+    (unstable_tile
+      (x 9408)
+      (y 768)
+    )
+    (unstable_tile
+      (x 9376)
+      (y 768)
+    )
+    (unstable_tile
+      (x 9344)
+      (y 768)
+    )
+    (unstable_tile
+      (x 9312)
+      (y 768)
+    )
+    (unstable_tile
+      (x 9120)
+      (y 768)
+    )
+    (unstable_tile
+      (x 9152)
+      (y 768)
+    )
+    (unstable_tile
+      (x 9088)
+      (y 768)
+    )
+    (unstable_tile
+      (x 9056)
+      (y 768)
+    )
+    (unstable_tile
+      (x 9024)
       (y 768)
     )
     (weak_block

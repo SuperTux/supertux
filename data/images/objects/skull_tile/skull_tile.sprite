@@ -1,6 +1,10 @@
 (supertux-sprite
   (action
     (name "normal")
-    (images "../skulls/skull.png")
+    (images "skull.png")
+  )
+  (action
+    (name "mad")
+    (images "skull-mad.png")
   )
 ) 

@@ -43,7 +43,8 @@ public:
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override { return FORCE_MOVE; }
 
   virtual std::string get_class() const override { return "spawnpoint"; }
-  virtual std::string get_display_name() const override { return _("Spawn point"); }
+  virtual std::string get_display_name() const override { return _("Spawnpoint"); }
+  virtual ObjectSettings get_settings() override;
 
 private:
   SurfacePtr m_surface;

@@ -1,7 +1,8 @@
 # SuperTux
 
 [![Build Status](https://travis-ci.org/SuperTux/supertux.svg?branch=master)](https://travis-ci.org/SuperTux/supertux)
-[![AppVeyor Build Satus](https://ci.appveyor.com/api/projects/status/github/SuperTux/supertux?svg=true&branch=master)](https://ci.appveyor.com/project/supertux/supertux-9ml4d/branch/master)
+[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/SuperTux/supertux?svg=true&branch=master)](https://ci.appveyor.com/project/supertux/supertux-9ml4d/branch/master)
+[![AppVeyor Build status](https://ci.appveyor.com/api/projects/status/k9jaduxvftlhgmhp/branch/master?svg=true)](https://ci.appveyor.com/project/supertux/supertux-o8t59/branch/master)
 [![Github All Releases](https://img.shields.io/github/downloads/supertux/supertux/total.svg?maxAge=2592000)](https://github.com/SuperTux/supertux)
 
 SuperTux is a jump'n'run game with strong inspiration from the
@@ -11,7 +12,7 @@ Run and jump through multiple worlds, fighting off enemies by jumping
 on them, bumping them from below or tossing objects at them, grabbing
 power-ups and other stuff on the way.
 
-![Screenshot](https://www.supertux.org/images/0_5_1/0_5_1_3.png)
+![Screenshot](https://www.supertux.org/images/0_6_0/0_6_0_3.png)
 
 
 ## Story: Penny gets captured!
@@ -104,17 +105,9 @@ In case you need help, feel free to reach out using the following means:
 
 ## Development status
 
-With the release of SuperTux 0.4.0 (December 2015), we wanted to provide a
-fairly stable release. The release of SuperTux 0.5.0 should have fixed some
-stability issues from 0.4.0 and introduced a new level editor. Development of
-the game will continue (of course), now working towards more releases.
-Most notably, development focus will be shifted on providing a better gameplay
-experience.
-
-The Forest World (you can check it out: Start Game > Contrib Levels > Forest
-World) is relatively unstable, which is why it resides only in the contrib
-levels menu. We (SuperTux Team) intend to continue with the development of the
-Forest World, but decided that in order to allow more access to the most recent
-version (in repositories etc.) we would have to release Milestone 2 without the
-Forest World included in the Story Mode. Constructive feedback with regards to
-the Forest World is welcome.
+As of now, with the release of SuperTux 0.6.2 (May 2020), the Forest World is almost
+finished, since the ghost forest section has been included. However, some levels, especially
+the Ghostree Level, are considered to be placeholders, because for the next version (0.7.0) a
+great overhaul is planned with new features like reworked boss fights, graphics, and worlds.
+If you have some Constructive Feedback, Contributions or ideas to share, don't hestitate
+to contact us with one of the possibilities given above.

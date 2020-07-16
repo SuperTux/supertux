@@ -39,17 +39,11 @@ NodeMarker::update_iterator()
 Vector
 NodeMarker::get_point_vector() const
 {
-  std::vector<Path::Node>::iterator next_node = m_node + 1;
-  if (next_node == m_path->m_nodes.end()) {
-    if (m_path->m_mode == WalkMode::CIRCULAR) {
-      //loop to the first node
-      return m_path->m_nodes.begin()->position - m_node->position;
-    } else {
-      return Vector(0,0);
-    }
+  std::vector<Path::Node>::const_iterator next = next_node();
+  if (next == m_path->m_nodes.end()) {
+    return Vector(0,0);
   } else {
-    //point to the next node
-    return next_node->position - m_node->position;
+    return next->position - m_node->position;
   }
 }
 
@@ -64,11 +58,19 @@ NodeMarker::move_to(const Vector& pos)
 {
   MovingObject::move_to(pos);
   m_node->position = m_col.m_bbox.get_middle();
+  update_node_times();
 }
 
 void
 NodeMarker::editor_delete()
 {
+  if (m_path->m_nodes.size() <= 1)
+  {
+    return;
+  }
+  std::vector<Path::Node>::iterator prev = prev_node();
+  std::vector<Path::Node>::const_iterator next = next_node();
+  update_node_time(prev, next);
   m_path->m_nodes.erase(m_node);
   Editor::current()->update_node_iterators();
 }
@@ -78,6 +80,7 @@ NodeMarker::get_settings()
 {
   ObjectSettings result(_("Path Node"));
   result.add_float(_("Time"), &(m_node->time));
+  result.add_float(_("Speed"), &(m_node->speed));
   return result;
 }
 
@@ -85,6 +88,47 @@ void
 NodeMarker::editor_update()
 {
   set_pos(m_node->position - Vector(8, 8));
+  update_node_time(m_node, next_node());
+}
+
+std::vector<Path::Node>::iterator NodeMarker::prev_node() {
+  std::vector<Path::Node>::iterator node = m_node;
+  if (node == m_path->m_nodes.begin()) {
+    if (m_path->m_mode == WalkMode::CIRCULAR) {
+      node = m_path->m_nodes.end();
+    } else {
+      return m_path->m_nodes.end();
+    }
+  }
+  --node;
+  return node;
+}
+
+std::vector<Path::Node>::const_iterator NodeMarker::next_node() const {
+  std::vector<Path::Node>::const_iterator node = m_node + 1;
+  if (node == m_path->m_nodes.end()) {
+    if (m_path->m_mode == WalkMode::CIRCULAR) {
+      node = m_path->m_nodes.begin();
+    }
+  }
+  return node;
+}
+
+void NodeMarker::update_node_times() {
+  update_node_time(prev_node(), m_node);
+  update_node_time(m_node, next_node());
+}
+
+void NodeMarker::update_node_time(std::vector<Path::Node>::iterator current, std::vector<Path::Node>::const_iterator next) {
+  if (current == m_path->m_nodes.end() || next == m_path->m_nodes.end()) {
+    return;  // Nothing to do.
+  }
+  if (current->speed > 0) {
+    float delta = (next->position - current->position).norm();
+    if (delta > 0) {
+      current->time = delta / current->speed;
+    }
+  }
 }
 
 /* EOF */

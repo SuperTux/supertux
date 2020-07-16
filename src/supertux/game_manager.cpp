@@ -38,13 +38,15 @@ GameManager::GameManager() :
 }
 
 void
-GameManager::start_level(const World& world, const std::string& level_filename)
+GameManager::start_level(const World& world, const std::string& level_filename,
+                         const boost::optional<std::pair<std::string, Vector>>& start_pos)
 {
   m_savegame = Savegame::from_file(world.get_savegame_filename());
 
   auto screen = std::make_unique<LevelsetScreen>(world.get_basedir(),
                                                  level_filename,
-                                                 *m_savegame);
+                                                 *m_savegame,
+                                                 start_pos);
   ScreenManager::current()->push_screen(std::move(screen));
 }
 

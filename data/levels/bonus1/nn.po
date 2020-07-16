@@ -1,16 +1,16 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# Karl Ove Hufthammer <karl@huftis.org>, 2006-2007,2015-2016
+# Karl Ove Hufthammer <karl@huftis.org>, 2006-2007,2015-2016,2019-2020
 # Karl Ove Hufthammer <karl@huftis.org>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-05 20:42+0200\n"
-"PO-Revision-Date: 2016-09-18 13:13+0000\n"
+"Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
+"POT-Creation-Date: 2018-11-05 23:45+0100\n"
+"PO-Revision-Date: 2020-04-19 10:12+0000\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk (http://www.transifex.com/arctic-games/supertux/language/nn/)\n"
 "MIME-Version: 1.0\n"
@@ -41,7 +41,7 @@ msgstr "Bonus Dias!"
 
 #: data/levels/bonus1/bonus-level2.stl:3
 msgid "Castle Gate"
-msgstr "Ved slottsporten"
+msgstr "Ved borgporten"
 
 #: data/levels/bonus1/bonus-level3.stl:3
 msgid "A Long Way Home"
@@ -49,7 +49,7 @@ msgstr "Den lange vegen heim"
 
 #: data/levels/bonus1/bonus-level4.stl:3
 msgid "Bonus Island Castle"
-msgstr "Bonusøy-slott"
+msgstr "Bonusøy-borg"
 
 #: data/levels/bonus1/bonus-level5.stl:3
 msgid "Area 42"
@@ -110,7 +110,7 @@ msgstr "Ein god start"
 msgid "Too easy"
 msgstr "For lett"
 
-#: data/levels/bonus1/torfi-level2.stl:43
+#: data/levels/bonus1/torfi-level2.stl:42
 msgid "#All these levels were upgraded to milestone 2 design by Hume2."
 msgstr "#Alle desse bretta vart oppdaterte til milestein 2-designen av Hume2."
 

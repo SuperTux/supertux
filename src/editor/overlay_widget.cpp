@@ -23,6 +23,7 @@
 #include "editor/editor.hpp"
 #include "editor/node_marker.hpp"
 #include "editor/object_menu.hpp"
+#include "editor/object_info.hpp"
 #include "editor/tile_selection.hpp"
 #include "editor/tip.hpp"
 #include "editor/util.hpp"
@@ -46,7 +47,7 @@ namespace {
 
 bool EditorOverlayWidget::render_background = true;
 bool EditorOverlayWidget::render_grid = true;
-bool EditorOverlayWidget::snap_to_grid = false;
+bool EditorOverlayWidget::snap_to_grid = true;
 int EditorOverlayWidget::selected_snap_grid_size = 3;
 
 EditorOverlayWidget::EditorOverlayWidget(Editor& editor) :
@@ -99,7 +100,7 @@ EditorOverlayWidget::delete_markers()
 {
   auto* sector = m_editor.get_sector();
 
-  if (m_selected_object) {
+  if (m_selected_object && m_selected_object->is_valid()) {
     m_selected_object->editor_deselect();
   }
 
@@ -142,8 +143,8 @@ EditorOverlayWidget::drag_rect()
 void
 EditorOverlayWidget::input_tile(const Vector& pos, uint32_t tile)
 {
-  auto tilemap = dynamic_cast<TileMap*>(m_editor.get_selected_tilemap());
-  if ( !tilemap ) {
+  auto tilemap = m_editor.get_selected_tilemap();
+  if (!tilemap) {
     return;
   }
 
@@ -174,8 +175,8 @@ void
 EditorOverlayWidget::draw_rectangle()
 {
   Rectf dr = drag_rect();
-  dr.set_p1(sp_to_tp(dr.p1()));
-  dr.set_p2(sp_to_tp(dr.p2()));
+  dr.set_p1(sp_to_tp(dr.p1()).floor());
+  dr.set_p2(sp_to_tp(dr.p2()).floor());
   bool sgn_x = m_drag_start.x < m_sector_pos.x;
   bool sgn_y = m_drag_start.y < m_sector_pos.y;
 
@@ -192,8 +193,8 @@ void
 EditorOverlayWidget::fill()
 {
   auto tiles = m_editor.get_tiles();
-  auto tilemap = dynamic_cast<TileMap*>(m_editor.get_selected_tilemap());
-  if (! tilemap) {
+  auto tilemap = m_editor.get_selected_tilemap();
+  if (!tilemap) {
     return;
   }
 
@@ -487,9 +488,10 @@ EditorOverlayWidget::add_path_node()
   new_node.position = m_sector_pos;
   new_node.time = 1;
   m_edited_path->m_nodes.insert(m_last_node_marker->m_node + 1, new_node);
-  Sector::get().add<NodeMarker>(m_edited_path, m_edited_path->m_nodes.end() - 1, m_edited_path->m_nodes.size() - 1);
+  auto& new_marker = Sector::get().add<NodeMarker>(m_edited_path, m_edited_path->m_nodes.end() - 1, m_edited_path->m_nodes.size() - 1);
   //last_node_marker = dynamic_cast<NodeMarker*>(marker.get());
   update_node_iterators();
+  new_marker.update_node_times();
   m_editor.get_sector()->flush_game_objects();
   grab_object();
 }
@@ -654,8 +656,8 @@ EditorOverlayWidget::update_tile_selection()
 {
   Rectf select = tile_drag_rect();
   auto tiles = m_editor.get_tiles();
-  auto tilemap = dynamic_cast<TileMap*>(m_editor.get_selected_tilemap());
-  if ( !tilemap ) {
+  auto tilemap = m_editor.get_selected_tilemap();
+  if (!tilemap) {
     return;
   }
 
@@ -776,6 +778,9 @@ EditorOverlayWidget::on_key_down(const SDL_KeyboardEvent& key)
 void
 EditorOverlayWidget::update_pos()
 {
+  if(m_editor.get_sector() == nullptr)
+    return;
+
   m_sector_pos = m_mouse_pos + m_editor.get_sector()->get_camera().get_translation();
   m_hovered_tile = sp_to_tp(m_sector_pos);
   // update tip
@@ -787,7 +792,7 @@ EditorOverlayWidget::draw_tile_tip(DrawingContext& context)
 {
   if ( m_editor.get_tileselect_input_type() == EditorToolboxWidget::InputType::TILE ) {
 
-    auto tilemap = dynamic_cast<TileMap*>(m_editor.get_selected_tilemap());
+    auto tilemap = m_editor.get_selected_tilemap();
     if (!tilemap) {
       return;
     }
@@ -823,13 +828,10 @@ EditorOverlayWidget::draw_tile_tip(DrawingContext& context)
 void
 EditorOverlayWidget::draw_tile_grid(DrawingContext& context, const Color& line_color, int tile_size)
 {
-  if ( !m_editor.get_selected_tilemap() ) {
+  auto current_tm = m_editor.get_selected_tilemap();
+  if (current_tm == nullptr)
     return;
-  }
-
-  auto current_tm = dynamic_cast<TileMap*>(m_editor.get_selected_tilemap());
-  if ( current_tm == nullptr )
-    return;
+ 
   int tm_width = current_tm->get_width() * (32 / tile_size);
   int tm_height = current_tm->get_height() * (32 / tile_size);
   auto cam_translation = m_editor.get_sector()->get_camera().get_translation();
@@ -862,8 +864,9 @@ EditorOverlayWidget::draw_tilemap_border(DrawingContext& context)
 {
   if ( !m_editor.get_selected_tilemap() ) return;
 
-  auto current_tm = dynamic_cast<TileMap*>(m_editor.get_selected_tilemap());
-  if ( !current_tm ) return;
+  auto current_tm = m_editor.get_selected_tilemap();
+  if (!current_tm)
+    return;
 
   Vector start = tile_screen_pos( Vector(0, 0) );
   Vector end = tile_screen_pos( Vector(static_cast<float>(current_tm->get_width()),
@@ -927,19 +930,26 @@ EditorOverlayWidget::draw(DrawingContext& context)
     // Draw selection rectangle...
     auto cam_translation = m_editor.get_sector()->get_camera().get_translation();
     Vector p0 = m_drag_start - cam_translation;
-    Vector p1 = Vector(m_drag_start.x, m_sector_pos.y) - cam_translation;
-    Vector p2 = Vector(m_sector_pos.x, m_drag_start.y) - cam_translation;
+    Vector p3 = m_mouse_pos;
+    if (p0.x > p3.x) {
+      std::swap(p0.x, p3.x);
+    }
+    if (p0.y > p3.y) {
+      std::swap(p0.y, p3.y);
+    }
+    Vector p1 = Vector(p0.x, p3.y);
+    Vector p2 = Vector(p3.x, p0.y);
 
     context.color().draw_filled_rect(Rectf(p0, p1 + Vector(2, 2)),
                                        Color(0.0f, 1.0f, 0.0f, 1.0f), 0.0f, LAYER_GUI-5);
-    context.color().draw_filled_rect(Rectf(p2, m_mouse_pos + Vector(2, 2)),
+    context.color().draw_filled_rect(Rectf(p2, p3 + Vector(2, 2)),
                                        Color(0.0f, 1.0f, 0.0f, 1.0f), 0.0f, LAYER_GUI-5);
     context.color().draw_filled_rect(Rectf(p0, p2 + Vector(2, 2)),
                                        Color(0.0f, 1.0f, 0.0f, 1.0f), 0.0f, LAYER_GUI-5);
-    context.color().draw_filled_rect(Rectf(p1, m_mouse_pos + Vector(2, 2)),
+    context.color().draw_filled_rect(Rectf(p1, p3 + Vector(2, 2)),
                                        Color(0.0f, 1.0f, 0.0f, 1.0f), 0.0f, LAYER_GUI-5);
 
-    context.color().draw_filled_rect(Rectf(p0, m_mouse_pos),
+    context.color().draw_filled_rect(Rectf(p0, p3),
                                        Color(0.0f, 1.0f, 0.0f, 0.2f), 0.0f, LAYER_GUI-5);
   }
 
@@ -952,7 +962,7 @@ EditorOverlayWidget::draw(DrawingContext& context)
 Vector
 EditorOverlayWidget::tp_to_sp(const Vector& tp, int tile_size)
 {
-  auto tilemap = dynamic_cast<TileMap*>(m_editor.get_selected_tilemap());
+  auto tilemap = m_editor.get_selected_tilemap();
   if (!tilemap)
   {
     return Vector(0, 0);
@@ -965,7 +975,7 @@ EditorOverlayWidget::tp_to_sp(const Vector& tp, int tile_size)
 Vector
 EditorOverlayWidget::sp_to_tp(const Vector& sp, int tile_size)
 {
-  auto tilemap = dynamic_cast<TileMap*>(m_editor.get_selected_tilemap());
+  auto tilemap = m_editor.get_selected_tilemap();
   if (!tilemap)
   {
     return Vector(0, 0);

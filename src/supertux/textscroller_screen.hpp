@@ -45,7 +45,6 @@ private:
   std::string m_music;
   SurfacePtr m_background;
   std::unique_ptr<TextScroller> m_text_scroller;
-  bool m_fading;
 
 private:
   TextScrollerScreen(const TextScrollerScreen&) = delete;

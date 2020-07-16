@@ -1,6 +1,6 @@
 (supertux-level
   (version 3)
-  (name (_ "A new Location"))
+  (name (_ "A New Location"))
   (author "Carsten Wirtz")
   (license "CC-BY-SA 4.0 International")
   (sector
@@ -24,7 +24,7 @@
       (bottom_color 0.5 0.7 1)
     )
     (music
-      (file "/music/forest.music")
+      (file "/music/forest/forest.music")
     )
     (scripttrigger
       (script "Tux.deactivate();

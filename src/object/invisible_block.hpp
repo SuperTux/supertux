@@ -28,7 +28,7 @@ public:
   InvisibleBlock(const ReaderMapping& mapping);
 
   virtual std::string get_class() const override { return "invisible_block"; }
-  virtual std::string get_display_name() const override { return _("Invisible block"); }
+  virtual std::string get_display_name() const override { return _("Invisible Block"); }
 
   virtual void draw(DrawingContext& context) override;
   virtual bool collides(GameObject& other, const CollisionHit& hit) const override;

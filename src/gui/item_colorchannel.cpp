@@ -24,19 +24,25 @@
 
 namespace {
 
-std::string float_to_string(float v)
+std::string colour_value_to_string(float v, bool is_linear)
 {
+  if (!is_linear)
+    v = Color::remove_gamma(v);
+  v *= 100.0f;
   // not using std::to_string() as it padds the end with '0's
+  v = 0.01f * floorf(v * 100.0f + 0.5f);
   std::ostringstream os;
-  os << v;
+  os << v << " %";
   return os.str();
 }
 
 } // namespace
 
-ItemColorChannel::ItemColorChannel(float* input, Color channel, int id) :
-  MenuItem(float_to_string(*input), id),
+ItemColorChannel::ItemColorChannel(float* input, Color channel, int id,
+    bool is_linear) :
+  MenuItem(colour_value_to_string(*input, is_linear), id),
   m_number(input),
+  m_is_linear(is_linear),
   m_flickw(static_cast<int>(Resources::normal_font->get_text_width("_"))),
   m_channel(channel)
 {
@@ -135,18 +141,18 @@ ItemColorChannel::process_action(const MenuAction& action)
       break;
 
     case MenuAction::LEFT:
-      *m_number = truncf(*m_number * 10.0f) / 10.0f;
+      *m_number = roundf(*m_number * 10.0f) / 10.0f;
       *m_number -= 0.1f;
       *m_number = math::clamp(*m_number, 0.0f, 1.0f);
-      set_text(float_to_string(*m_number));
+      set_text(colour_value_to_string(*m_number, m_is_linear));
       break;
 
 
     case MenuAction::RIGHT:
-      *m_number = truncf(*m_number * 10.0f) / 10.0f;
+      *m_number = roundf(*m_number * 10.0f) / 10.0f;
       *m_number += 0.1f;
       *m_number = math::clamp(*m_number, 0.0f, 1.0f);
-      set_text(float_to_string(*m_number));
+      set_text(colour_value_to_string(*m_number, m_is_linear));
       break;
 
     default:

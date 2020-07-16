@@ -29,6 +29,7 @@
 #include "supertux/game_session.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
+#include "supertux/level.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/screen_fade.hpp"
@@ -40,8 +41,6 @@
 #include <stdio.h>
 #include <chrono>
 
-/** wait at least MIN_TICKS for every frame */
-static const int MIN_TICKS = 2;
 
 ScreenManager::ScreenManager(VideoSystem& video_system, InputManager& input_manager) :
   m_video_system(video_system),
@@ -50,7 +49,6 @@ ScreenManager::ScreenManager(VideoSystem& video_system, InputManager& input_mana
   m_menu_manager(new MenuManager),
   m_controller_hud(new ControllerHUD),
   m_speed(1.0),
-  m_target_framerate(60.0f),
   m_actions(),
   m_screen_fade(),
   m_screen_stack()
@@ -109,18 +107,6 @@ ScreenManager::set_speed(float speed)
   m_speed = speed;
 }
 
-void
-ScreenManager::set_target_framerate(float framerate)
-{
-  m_target_framerate = framerate;
-}
-
-float
-ScreenManager::get_target_framerate() const
-{
-  return m_target_framerate;
-}
-
 float
 ScreenManager::get_speed() const
 {
@@ -147,6 +133,7 @@ struct ScreenManager::FPS_Stats
     auto time_now = std::chrono::steady_clock::now();
     int dtime_us = static_cast<int>(std::chrono::duration_cast<
       std::chrono::microseconds>(time_now - time_prev).count());
+    assert(dtime_us >= 0);  // Steady clock.
     if (dtime_us == 0)
       return;
     time_prev = time_now;
@@ -162,15 +149,15 @@ struct ScreenManager::FPS_Stats
     if (expired_seconds < 0.5f)
       return;
     // Update values to be printed every 0.5 s
-    if (measurements_cnt > 0) {
-      last_fps = static_cast<float>(measurements_cnt) / expired_seconds;
-      last_fps_min = 1000000.0f / static_cast<float>(max_us);
-      last_fps_max = 1000000.0f / static_cast<float>(min_us);
-    } else {
-      last_fps = 0;
-      last_fps_min = 0;
-      last_fps_max = 0;
-    }
+    assert(measurements_cnt > 0);  // ++measurements_cnt above.
+    last_fps = static_cast<float>(measurements_cnt) / expired_seconds;
+    assert(last_fps > 0);  // measurements_cnt > 0 and expired_seconds >= 0.5f.
+    assert(max_us > 0);  // dtime_us > 0.
+    last_fps_min = 1000000.0f / static_cast<float>(max_us);
+    assert(last_fps_min > 0);  // max_us > 0.
+    assert(min_us > 0);  // initialization to 1000000 and dtime_us > 0.
+    last_fps_max = 1000000.0f / static_cast<float>(min_us);
+    assert(last_fps_max > 0);  // min_us > 0.
     measurements_cnt = 0;
     acc_us = 0;
     min_us = 1000000;
@@ -180,6 +167,18 @@ struct ScreenManager::FPS_Stats
   float get_fps() const { return last_fps; }
   float get_fps_min() const { return last_fps_min; }
   float get_fps_max() const { return last_fps_max; }
+
+  // This returns the highest measured delay between two frames from the
+  // previous and current 0.5 s measuring intervals
+  float get_highest_max_ms() const
+  {
+    float previous_max_ms = 1000.0f / last_fps_min;
+    if (measurements_cnt > 0) {
+      float current_max_ms = static_cast<float>(max_us) / 1000.0f;
+      return std::max<float>(previous_max_ms, current_max_ms);
+    }
+    return previous_max_ms;
+  }
 
 private:
   int measurements_cnt;
@@ -193,13 +192,10 @@ private:
 };
 
 void
-ScreenManager::draw_fps(DrawingContext& context)
+ScreenManager::draw_fps(DrawingContext& context, FPS_Stats& fps_statistics)
 {
-  static FPS_Stats fps_statistics;
-  // Assume that draw_fps is called once every frame
-  fps_statistics.report_frame();
   // The fonts are not monospace, so the numbers need to be drawn separately
-  Vector pos(static_cast<float>(context.get_width()) - BORDER_X, BORDER_Y + 20);
+  Vector pos(static_cast<float>(context.get_width()) - BORDER_X, BORDER_Y + 50);
   context.color().draw_text(Resources::small_font, "FPS  min / avg / max",
     pos, ALIGN_RIGHT, LAYER_HUD);
   static const float w2 = Resources::small_font->get_text_width("999.9 /");
@@ -242,7 +238,7 @@ ScreenManager::draw_player_pos(DrawingContext& context)
 }
 
 void
-ScreenManager::draw(Compositor& compositor)
+ScreenManager::draw(Compositor& compositor, FPS_Stats& fps_statistics)
 {
   assert(!m_screen_stack.empty());
 
@@ -260,9 +256,9 @@ ScreenManager::draw(Compositor& compositor)
   Console::current()->draw(context);
 
   if (g_config->show_fps)
-    draw_fps(context);
+    draw_fps(context, fps_statistics);
 
-  if (g_debug.show_controller) {
+  if (g_config->show_controller) {
     m_controller_hud->draw(context);
   }
 
@@ -332,7 +328,7 @@ ScreenManager::process_events()
           case SDL_WINDOWEVENT_FOCUS_LOST:
             if (g_config->pause_on_focusloss)
             {
-              if (session != nullptr && session->is_active())
+              if (session != nullptr && session->is_active() && !Level::current()->m_suppress_pause_menu)
               {
                 session->toggle_pause();
               }
@@ -450,53 +446,76 @@ ScreenManager::run()
 {
   Uint32 last_ticks = 0;
   Uint32 elapsed_ticks = 0;
+  const Uint32 ms_per_step = static_cast<Uint32>(1000.0f / LOGICAL_FPS);
+  const float seconds_per_step = static_cast<float>(ms_per_step) / 1000.0f;
+  FPS_Stats fps_statistics;
 
   handle_screen_switch();
-
-  while (!m_screen_stack.empty())
-  {
+  while (!m_screen_stack.empty()) {
     Uint32 ticks = SDL_GetTicks();
     elapsed_ticks += ticks - last_ticks;
     last_ticks = ticks;
 
-    /** ticks (as returned from SDL_GetTicks) per frame */
-    const Uint32 ticks_per_frame =
-      static_cast<Uint32>(1000.0f / m_target_framerate);
-
-    if (elapsed_ticks > ticks_per_frame*4)
-    {
+    if (elapsed_ticks > ms_per_step * 8) {
       // when the game loads up or levels are switched the
       // elapsed_ticks grows extremely large, so we just ignore those
       // large time jumps
       elapsed_ticks = 0;
     }
 
-    if (elapsed_ticks == 0)
-    {
-      Uint32 delay_ticks = MIN_TICKS;
-      SDL_Delay(delay_ticks);
-      last_ticks += delay_ticks;
-      elapsed_ticks += delay_ticks;
+    if (elapsed_ticks < ms_per_step && !g_debug.draw_redundant_frames) {
+      // Sleep a bit because not enough time has passed since the previous
+      // logical game step
+      SDL_Delay(ms_per_step - elapsed_ticks);
+      continue;
     }
 
-    if (elapsed_ticks >= MIN_TICKS)
-    {
-      float speed_multiplier = 1.0f / g_debug.get_game_speed_multiplier();
-      float timestep = speed_multiplier *
-        static_cast<float>(elapsed_ticks) / 1000.0f;
-      elapsed_ticks = 0;
-      g_real_time += timestep;
-      timestep *= m_speed;
-      g_game_time += timestep;
+    g_real_time = static_cast<float>(ticks) / 1000.0f;
 
+    float speed_multiplier = 1.0f / g_debug.get_game_speed_multiplier();
+    int steps = elapsed_ticks / ms_per_step;
+
+    // Do not calculate more than a few steps at once
+    // The maximum number of steps executed before drawing a frame is
+    // adjusted to the current average frame rate
+    float fps = fps_statistics.get_fps();
+    if (fps != 0) {
+      // Skip if fps not ready yet (during first 0.5 seconds of startup).
+      float seconds_per_frame = 1.0f / fps_statistics.get_fps();
+      int max_steps_per_frame = static_cast<int>(
+        ceilf(seconds_per_frame / seconds_per_step));
+      if (max_steps_per_frame < 2)
+        // max_steps_per_frame is very negative when the fps value is zero
+        // Furthermore, the game should always be able to execute
+        // up to two steps before drawing a frame
+        max_steps_per_frame = 2;
+      if (max_steps_per_frame > 4)
+        // When the game is very laggy, it should slow down instead of
+        // calculating lots of steps at once so that the player can still
+        // control Tux reasonably;
+        // four steps per frame approximately corresponds to a 16 FPS gameplay
+        max_steps_per_frame = 4;
+      steps = std::min<int>(steps, max_steps_per_frame);
+    }
+
+    for (int i = 0; i < steps; ++i) {
+      // Perform a logical game step; seconds_per_step is set to a fixed value
+      // so that the game is deterministic.
+      // In cases which don't affect regular gameplay, such as the
+      // end sequence and debugging, dtime can be changed.
+      float dtime = seconds_per_step * m_speed * speed_multiplier;
+      g_game_time += dtime;
       process_events();
-      update_gamelogic(timestep);
+      update_gamelogic(dtime);
+      elapsed_ticks -= ms_per_step;
     }
 
-    if (!m_screen_stack.empty())
-    {
+    if ((steps > 0 && !m_screen_stack.empty())
+        || g_debug.draw_redundant_frames) {
+      // Draw a frame
       Compositor compositor(m_video_system);
-      draw(compositor);
+      draw(compositor, fps_statistics);
+      fps_statistics.report_frame();
     }
 
     SoundManager::current()->update();

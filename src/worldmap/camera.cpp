@@ -21,10 +21,11 @@
 #include "video/viewport.hpp"
 #include "worldmap/tux.hpp"
 #include "worldmap/worldmap.hpp"
+#include "math/util.hpp"
 
 namespace {
 
-const float CAMERA_PAN_SPEED = 5.0;
+const float CAMERA_PAN_TIME_MAX = 0.52213f;
 
 } // namespace
 
@@ -32,7 +33,9 @@ namespace worldmap {
 
 Camera::Camera() :
   m_camera_offset(),
-  m_pan_pos(),
+  m_pan_startpos(),
+  m_pan_time_full(0),
+  m_pan_time_remaining(0),
   m_panning(false)
 {
 }
@@ -40,42 +43,40 @@ Camera::Camera() :
 void
 Camera::update(float dt_sec)
 {
-  Vector requested_pos;
-
   // position "camera"
+  Vector target_pos = get_camera_pos_for_tux();
+  clamp_camera_position(target_pos);
   if (!m_panning) {
-    m_camera_offset = get_camera_pos_for_tux();
-  } else {
-    Vector delta__ = m_pan_pos - m_camera_offset;
-    float mag = delta__.norm();
-    if (mag > CAMERA_PAN_SPEED) {
-      delta__ *= CAMERA_PAN_SPEED/mag;
-    }
-    m_camera_offset += delta__;
-    if (m_camera_offset == m_pan_pos) {
-      m_panning = false;
-    }
+    m_camera_offset = target_pos;
+    return;
   }
 
-  requested_pos = m_camera_offset;
-  clamp_camera_position(m_camera_offset);
-
-  if (m_panning) {
-    if (requested_pos.x != m_camera_offset.x) {
-      m_pan_pos.x = m_camera_offset.x;
-    }
-    if (requested_pos.y != m_camera_offset.y) {
-      m_pan_pos.y = m_camera_offset.y;
-    }
+  m_pan_time_remaining -= dt_sec;
+  if (m_pan_time_remaining > 0) {
+    // Smoothly interpolate camera position
+    float f = m_pan_time_remaining / m_pan_time_full;
+    f = 0.5f - 0.5f * cosf(math::PI * f);
+    m_camera_offset.x = f * m_pan_startpos.x + (1.0f - f) * target_pos.x;
+    m_camera_offset.y = f * m_pan_startpos.y + (1.0f - f) * target_pos.y;
+    return;
   }
+
+  m_camera_offset = target_pos;
+  m_panning = false;
 }
 
 void
 Camera::pan()
 {
   m_panning = true;
-  m_pan_pos = get_camera_pos_for_tux();
-  clamp_camera_position(m_pan_pos);
+  m_pan_startpos = m_camera_offset;
+  Vector target_pos = get_camera_pos_for_tux();
+  clamp_camera_position(target_pos);
+  Vector start_to_target = target_pos - m_pan_startpos;
+  m_pan_time_full = start_to_target.norm() / 612.41f;
+  if (m_pan_time_full > CAMERA_PAN_TIME_MAX)
+    m_pan_time_full = CAMERA_PAN_TIME_MAX;
+  m_pan_time_remaining = m_pan_time_full;
 }
 
 Vector

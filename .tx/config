@@ -29,18 +29,17 @@ source_file = data/levels/bonus3/messages.pot
 source_lang = en
 type = PO
 
+[supertux.bonus-4]
+file_filter = data/levels/bonus4/<lang>.po
+minimum_perc = 75
+source_file = data/levels/bonus4/messages.pot
+source_lang = en
+type = PO
 
 [supertux.halloween-2014]
 file_filter = data/levels/halloween2014/<lang>.po
 minimum_perc = 75
 source_file = data/levels/halloween2014/messages.pot
-source_lang = en
-type = PO
-
-[supertux.incubator]
-file_filter = data/levels/incubator/<lang>.po
-minimum_perc = 75
-source_file = data/levels/incubator/messages.pot
 source_lang = en
 type = PO
 
@@ -57,3 +56,11 @@ minimum_perc = 75
 source_file = data/levels/world2/messages.pot
 source_lang = en
 type = PO
+
+[supertux.community-island-2016]
+file_filter = data/levels/community2016/<lang>.po
+minimum_perc = 0
+source_file = data/levels/community2016/messages.pot
+source_lang = en
+type = PO
+

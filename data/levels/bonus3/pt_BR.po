@@ -1,21 +1,22 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# Jesusaves <cpntb1@ymail.com>, 2014
+# Jesusalva Jesusalva <cpntb1@ymail.com>, 2014
 # Filipe Oliveira <contato@fmoliveira.com.br>, 2013
+# Jesusalva Jesusalva <cpntb1@ymail.com>, 2018
 # Joel Gil Leon <joel@gil.com>, 2013
-# Jesusaves <cpntb1@ymail.com>, 2015
+# Jesusalva Jesusalva <cpntb1@ymail.com>, 2015
 # Rui <xymarior@yandex.com>, 2016
 # Victor Gonçalves <hotcyv@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-05 20:42+0200\n"
-"PO-Revision-Date: 2016-09-19 02:16+0000\n"
-"Last-Translator: Rui <xymarior@yandex.com>\n"
+"Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
+"POT-Creation-Date: 2019-11-24 01:44+0100\n"
+"PO-Revision-Date: 2019-11-24 00:51+0000\n"
+"Last-Translator: Tobias Markus <tobbi@supertuxproject.org>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/arctic-games/supertux/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,7 +25,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: data/levels/bonus3/-89-2_degrees.stl:3
-msgid "-89,2 degrees"
+msgid "-89.2 degrees"
 msgstr "-89,2 graus"
 
 #: data/levels/bonus3/Global_Warming.stl:3
@@ -51,7 +52,7 @@ msgstr "Chuva antártica"
 msgid "...but no one can stop it..."
 msgstr "...mas niguém pode parar ela..."
 
-#: data/levels/bonus3/but_no_one_can_stop_it.stl:393
+#: data/levels/bonus3/but_no_one_can_stop_it.stl:392
 msgid ""
 "-Sorry, this flying platform is lazy.\n"
 "-Come back another time."
@@ -73,7 +74,7 @@ msgstr "Corrida da Caverna"
 msgid "Cold Cavern"
 msgstr "Caverna Gelada"
 
-#: data/levels/bonus3/cavern_v2.stl:50
+#: data/levels/bonus3/cavern_v2.stl:47
 msgid ""
 "#Good job! You kept the red lantern! You didn't need to though, but just "
 "because you did, have 100 coins!"
@@ -178,7 +179,7 @@ msgid ""
 "#Press the up key to flush! "
 msgstr "- Descarga: \n#Pressione a tecla para cima, em ordem de dar a descarga!"
 
-#: data/levels/bonus3/niv-3.stl:216
+#: data/levels/bonus3/niv-3.stl:219
 msgid ""
 "- A Way out?\n"
 "#Let's Jump! "
@@ -224,14 +225,15 @@ msgstr "Embaixo do Gelo"
 msgid "Bonus Island III"
 msgstr "Ilha Bônus III"
 
-#: data/levels/bonus3/worldmap.stwm:12
+#: data/levels/bonus3/worldmap.stwm:238
 msgid "You found a secret place!"
 msgstr "Você achou um lugar secreto!"
 
-#: data/levels/bonus3/worldmap.stwm:20
-msgid "Congratulations... you found the secret pathway!"
-msgstr "Parabéns... Achaste o caminho secreto!"
-
-#: data/levels/bonus3/worldmap.stwm:78 data/levels/bonus3/worldmap.stwm:86
+#: data/levels/bonus3/worldmap.stwm:282 data/levels/bonus3/worldmap.stwm:297
+#: data/levels/bonus3/worldmap.stwm:304
 msgid "Go Home"
 msgstr "Ir para Casa"
+
+#: data/levels/bonus3/worldmap.stwm:290
+msgid "Enter Forest Section"
+msgstr ""

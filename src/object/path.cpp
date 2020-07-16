@@ -67,6 +67,7 @@ Path::Path(const Vector& pos) :
   Node first_node;
   first_node.position = pos;
   first_node.time = 1;
+  first_node.speed = 0;
   m_nodes.push_back(first_node);
 }
 
@@ -88,10 +89,12 @@ Path::read(const ReaderMapping& reader)
       // each new node will inherit all values from the last one
       Node node;
       node.time = 1;
+      node.speed = 0;
       if ( (!node_mapping.get("x", node.position.x) ||
            !node_mapping.get("y", node.position.y)))
         throw std::runtime_error("Path node without x and y coordinate specified");
       node_mapping.get("time", node.time);
+      node_mapping.get("speed", node.speed);
 
       if (node.time <= 0)
         throw std::runtime_error("Path node with non-positive time");
@@ -122,6 +125,9 @@ Path::save(Writer& writer)
     writer.write("y", nod.position.y);
     if (nod.time != 1.0f) {
       writer.write("time", nod.time);
+    }
+    if (nod.speed != 0.0f) {
+      writer.write("speed", nod.speed);
     }
     writer.end_list("node");
   }

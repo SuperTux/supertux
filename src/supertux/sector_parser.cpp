@@ -41,7 +41,7 @@
 #include "util/reader_collection.hpp"
 #include "util/reader_mapping.hpp"
 
-static const std::string DEFAULT_BG = "images/background/arctis2.png";
+static const std::string DEFAULT_BG = "images/background/antarctic/arctis2.png";
 
 std::unique_ptr<Sector>
 SectorParser::from_reader(Level& level, const ReaderMapping& reader, bool editable)
@@ -159,6 +159,7 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
 
   std::string backgroundimage;
   if (reader.get("background", backgroundimage) && (!backgroundimage.empty())) {
+    // These paths may need to be changed.
     if (backgroundimage == "arctis.png") backgroundimage = "arctis.jpg";
     if (backgroundimage == "arctis2.jpg") backgroundimage = "arctis.jpg";
     if (backgroundimage == "ocean.png") backgroundimage = "ocean.jpg";

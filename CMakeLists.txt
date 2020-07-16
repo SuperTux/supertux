@@ -108,7 +108,10 @@ if(WIN32)
   endif()
 
   ## Enable multi-processor compilation (faster)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP")
+  if(MSVC)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP")
+  endif(MSVC)
+
   ## And shut up about unsafe stuff
   add_definitions(-D_CRT_SECURE_NO_WARNINGS)
   ## Add an icon
@@ -218,7 +221,10 @@ include_directories(SYSTEM ${VORBIS_INCLUDE_DIR})
 include(CheckSymbolExists)
 
 find_package(PhysFS)
-check_symbol_exists("PHYSFS_getPrefDir" "${PHYSFS_INCLUDE_DIR}/physfs.h" HAVE_PHYSFS_GETPREFDIR)
+if(PHYSFS_LIBRARY)
+  set(CMAKE_REQUIRED_LIBRARIES ${PHYSFS_LIBRARY})
+  check_symbol_exists("PHYSFS_getPrefDir" "${PHYSFS_INCLUDE_DIR}/physfs.h" HAVE_PHYSFS_GETPREFDIR)
+endif()
 if(HAVE_PHYSFS_GETPREFDIR)
   set(USE_SYSTEM_PHYSFS ON CACHE BOOL "Use preinstalled physfs (must support getPrefDir)")
 else(HAVE_PHYSFS_GETPREFDIR)
@@ -241,6 +247,10 @@ if(NOT USE_SYSTEM_PHYSFS)
   set(PHYSFS_PREFIX ${CMAKE_BINARY_DIR}/physfs/)
   ExternalProject_Add(physfs
     SOURCE_DIR "${CMAKE_SOURCE_DIR}/external/physfs/"
+    BUILD_BYPRODUCTS
+    "${PHYSFS_PREFIX}/bin/${CMAKE_SHARED_LIBRARY_PREFIX}physfs${CMAKE_SHARED_LIBRARY_SUFFIX}"
+    "${PHYSFS_PREFIX}/lib${LIB_SUFFIX}/physfs${CMAKE_LINK_LIBRARY_SUFFIX}"
+    "${PHYSFS_PREFIX}/lib${LIB_SUFFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}physfs${CMAKE_STATIC_LIBRARY_SUFFIX}"
     CMAKE_ARGS
     -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
     -DCMAKE_C_FLAGS=${CMAKE_C_FLAGS}
@@ -391,6 +401,9 @@ endif()
 set(SQUIRREL_PREFIX ${CMAKE_BINARY_DIR}/squirrel/ex)
 ExternalProject_Add(squirrel
   SOURCE_DIR "${CMAKE_SOURCE_DIR}/external/squirrel/"
+  BUILD_BYPRODUCTS
+  "${SQUIRREL_PREFIX}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}sqstdlib_static${CMAKE_STATIC_LIBRARY_SUFFIX}"
+  "${SQUIRREL_PREFIX}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}squirrel_static${CMAKE_STATIC_LIBRARY_SUFFIX}"
   CMAKE_ARGS
   -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
   -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
@@ -435,6 +448,7 @@ endif()
 set(TINYGETTEXT_PREFIX ${CMAKE_BINARY_DIR}/tinygettext/)
 ExternalProject_Add(tinygettext
   SOURCE_DIR "${CMAKE_SOURCE_DIR}/external/tinygettext/"
+  BUILD_BYPRODUCTS "${TINYGETTEXT_PREFIX}/lib${LIB_SUFFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}tinygettext${CMAKE_STATIC_LIBRARY_SUFFIX}"
   CMAKE_ARGS
   -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
   -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
@@ -459,25 +473,29 @@ include_directories(SYSTEM ${TINYGETTEXT_PREFIX}/include)
 ## external/SDL_ttf with patches
 find_package(Freetype REQUIRED)
 find_package(RAQM)
-if(RAQM_FOUND)
-  set(WITH_RAQM --with-raqm)
-else()
-  set(WITH_RAQM --without-raqm)
-endif()
 set(SDL_TTF_PREFIX ${CMAKE_BINARY_DIR}/SDL_ttf/)
 ExternalProject_Add(SDL_ttf
   SOURCE_DIR "${CMAKE_SOURCE_DIR}/external/SDL_ttf/"
+  BUILD_BYPRODUCTS "${SDL_TTF_PREFIX}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}SDL2_ttf${CMAKE_STATIC_LIBRARY_SUFFIX}"
   CMAKE_ARGS
   -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
   -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
   -DCMAKE_C_FLAGS=${CMAKE_C_FLAGS}
   -DCMAKE_INSTALL_PREFIX=${SDL_TTF_PREFIX}
   -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
+  -DWITH_RAQM=${RAQM_FOUND}
+  -DRAQM_LIBRARIES=${RAQM_LIBRARY}
+  -DRAQM_INCLUDE_DIR=${RAQM_INCLUDE_DIR}
   -DBUILD_SHARED_LIBS=OFF)
 add_library(SDL_ttf_lib STATIC IMPORTED)
 set_target_properties(SDL_ttf_lib PROPERTIES IMPORTED_LOCATION "${SDL_TTF_PREFIX}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}SDL2_ttf${CMAKE_STATIC_LIBRARY_SUFFIX}")
 link_directories(${SDL_TTF_PREFIX}/lib)
 include_directories(SYSTEM ${SDL_TTF_PREFIX}/include/SDL2)
+if(RAQM_FOUND)
+  find_package(Fribidi REQUIRED)
+  find_package(Harfbuzz REQUIRED)
+  set_target_properties(SDL_ttf_lib PROPERTIES INTERFACE_LINK_LIBRARIES "${RAQM_LIBRARIES}")
+endif()
 
 ## Some additional include paths
 
@@ -524,6 +542,7 @@ if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/external/sexp-cpp/CMakeLists.txt)
 endif()
 file(GLOB SEXP_SOURCES_CXX RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} external/sexp-cpp/src/*.cpp)
 add_library(sexp STATIC ${SEXP_SOURCES_CXX})
+target_compile_definitions(sexp PRIVATE -DSEXP_USE_LOCALE)
 
 file(GLOB SAVEPNG_SOURCES_CXX RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} external/SDL_SavePNG/savepng.c)
 add_library(savepng STATIC ${SAVEPNG_SOURCES_CXX})
@@ -648,6 +667,7 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
         "-Wno-exit-time-destructors "
         "-Wno-global-constructors "
         "-Wno-duplicate-enum "
+        "-Wno-unreachable-code "
       )
     endif()
   endif(WARNINGS)
@@ -761,7 +781,7 @@ if(WIN32)
 else()
   add_executable(supertux2 src/main.cpp)
 endif(WIN32)
-target_link_libraries(supertux2 supertux2_lib)
+target_link_libraries(supertux2 supertux2_lib Boost::filesystem Boost::locale)
 set_target_properties(supertux2_lib PROPERTIES OUTPUT_NAME supertux2_lib)
 set_target_properties(supertux2_lib PROPERTIES COMPILE_FLAGS "${SUPERTUX2_EXTRA_WARNING_FLAGS}")
 
@@ -794,8 +814,9 @@ else()
 endif()
 target_link_libraries(supertux2_lib PUBLIC SDL_ttf_lib)
 target_link_libraries(supertux2_lib PUBLIC ${FREETYPE_LIBRARIES})
+
 if(RAQM_FOUND)
-  target_link_libraries(supertux2_lib PUBLIC ${RAQM_LIBRARIES})
+  target_link_libraries(supertux2_lib PUBLIC ${HARFBUZZ_LIBRARY} ${FRIBIDI_LIBRARY} ${RAQM_LIBRARY})
 endif()
 
 target_link_libraries(supertux2_lib PUBLIC squirrel_lib)

@@ -57,22 +57,21 @@ UndoManager::try_snapshot(Level& level)
 void
 UndoManager::debug_print(const char* action)
 {
-  if ((false))
-  {
-    std::cout << action << std::endl;
-    std::cout << "undo_stack: ";
-    for(size_t i = 0; i < m_undo_stack.size(); ++i) {
-      std::cout << static_cast<const void*>(m_undo_stack[i].data()) << " ";
-    }
-    std::cout << std::endl;
-
-    std::cout << "redo_stack: ";
-    for(size_t i = 0; i < m_redo_stack.size(); ++i) {
-      std::cout << static_cast<const void*>(m_redo_stack[i].data()) << " ";
-    }
-    std::cout << std::endl;
-    std::cout << std::endl;
+#if 0
+  std::cout << action << std::endl;
+  std::cout << "undo_stack: ";
+  for(size_t i = 0; i < m_undo_stack.size(); ++i) {
+    std::cout << static_cast<const void*>(m_undo_stack[i].data()) << " ";
   }
+  std::cout << std::endl;
+
+  std::cout << "redo_stack: ";
+  for(size_t i = 0; i < m_redo_stack.size(); ++i) {
+    std::cout << static_cast<const void*>(m_redo_stack[i].data()) << " ";
+  }
+  std::cout << std::endl;
+  std::cout << std::endl;
+#endif
 }
 
 void

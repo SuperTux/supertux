@@ -1,15 +1,15 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# Heimen Stoffels <vistausss@outlook.com>, 2015-2016
+# Heimen Stoffels <vistausss@outlook.com>, 2015-2016,2018-2019
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-04 15:35+0200\n"
-"PO-Revision-Date: 2016-01-13 00:24+0000\n"
+"Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
+"POT-Creation-Date: 2019-11-24 01:44+0100\n"
+"PO-Revision-Date: 2019-11-25 19:44+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/arctic-games/supertux/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -19,8 +19,8 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/levels/bonus3/-89-2_degrees.stl:3
-msgid "-89,2 degrees"
-msgstr "-89,2 graden"
+msgid "-89.2 degrees"
+msgstr "-89.2 graden"
 
 #: data/levels/bonus3/Global_Warming.stl:3
 msgid "Global Warming"
@@ -28,7 +28,7 @@ msgstr "Opwarming van de aarde"
 
 #: data/levels/bonus3/One Night in the Sky.stl:3
 msgid "One Night in the Sky"
-msgstr "Eén nachtelijke hemel"
+msgstr "Eén nacht in de lucht"
 
 #: data/levels/bonus3/abandoned_castle.stl:3
 msgid "The abandoned castle"
@@ -36,7 +36,7 @@ msgstr "Het in onbruik geraakte kasteel"
 
 #: data/levels/bonus3/another_cold_day.stl:3
 msgid "Another cold day"
-msgstr "Alweer een koude dag"
+msgstr "Alwéér een koude dag"
 
 #: data/levels/bonus3/antarctic_rain.stl:3
 msgid "Antarctic rain"
@@ -46,7 +46,7 @@ msgstr "Antarctische regen"
 msgid "...but no one can stop it..."
 msgstr "...maar niemand kan het doen stoppen..."
 
-#: data/levels/bonus3/but_no_one_can_stop_it.stl:393
+#: data/levels/bonus3/but_no_one_can_stop_it.stl:392
 msgid ""
 "-Sorry, this flying platform is lazy.\n"
 "-Come back another time."
@@ -54,7 +54,7 @@ msgstr "-Sorry, dit vliegende platform is lui.\n-Kom een andere keer terug."
 
 #: data/levels/bonus3/cant_climb_higher_clouds.stl:3
 msgid "You can't climb higher than the clouds..."
-msgstr "U kunt niet hoger klimmen dan de wolken..."
+msgstr "Je kunt niet boven de wolken klimmen..."
 
 #: data/levels/bonus3/castle_light+darkness-v3.stl:3
 msgid "Castle of Light and Darkness"
@@ -62,17 +62,17 @@ msgstr "Kasteel van licht en duisternis"
 
 #: data/levels/bonus3/cave_run.stl:3
 msgid "Cave Run"
-msgstr "Grotrennen"
+msgstr "Grotmarathon"
 
 #: data/levels/bonus3/cavern_v2.stl:3
 msgid "Cold Cavern"
 msgstr "Koude grot"
 
-#: data/levels/bonus3/cavern_v2.stl:50
+#: data/levels/bonus3/cavern_v2.stl:47
 msgid ""
 "#Good job! You kept the red lantern! You didn't need to though, but just "
 "because you did, have 100 coins!"
-msgstr "#Goed gedaan! U heeft de rode lantaarn behouden! Eigenlijk had u hem niet nodig; desondanks krijgt u 100 munten!"
+msgstr "#Goed zo, je hebt de rode lantaarn behouden! Eigenlijk had je hem niet nodig; desondanks krijg je 100 munten!"
 
 #: data/levels/bonus3/coconut_fortress.stl:3
 msgid "Coconut Fortress"
@@ -117,7 +117,7 @@ msgstr "Cirkels"
 
 #: data/levels/bonus3/dungeon_island/dungeon2.stl:3
 msgid "Don't miss your ride"
-msgstr "Vergeet uw rit niet"
+msgstr "Vergeet je lift niet"
 
 #: data/levels/bonus3/dungeon_island/going_down.stl:3
 msgid "Going down"
@@ -153,7 +153,7 @@ msgstr "Het is bijna niet meer af te ronden"
 
 #: data/levels/bonus3/light_in_the_darkness.stl:3
 msgid "Some light in the darkness would be fine, thanks!"
-msgstr "Het zou fijn zijn als her wat licht in de duisternis was; alvast bedankt!"
+msgstr "Het zou fijn zijn als er wat licht in de duisternis was. Bij voorbaat dank!"
 
 #: data/levels/bonus3/niv-1.1.stl:3
 msgid "Snowfall alert"
@@ -171,9 +171,9 @@ msgstr "De toiletzone"
 msgid ""
 "- Flush: \n"
 "#Press the up key to flush! "
-msgstr "-Doorspoelen:\n#Gebruik de pijltje omhoog-toets om door te spoelen!"
+msgstr "-Doorspoelen:\n#Druk op pijltje omhoog om door te spoelen!"
 
-#: data/levels/bonus3/niv-3.stl:216
+#: data/levels/bonus3/niv-3.stl:219
 msgid ""
 "- A Way out?\n"
 "#Let's Jump! "
@@ -219,14 +219,15 @@ msgstr "Onder het ijs"
 msgid "Bonus Island III"
 msgstr "Bonuseiland III"
 
-#: data/levels/bonus3/worldmap.stwm:12
+#: data/levels/bonus3/worldmap.stwm:238
 msgid "You found a secret place!"
-msgstr "U heeft een geheime plek gevonden!"
+msgstr "Je hebt een geheime plek gevonden!"
 
-#: data/levels/bonus3/worldmap.stwm:20
-msgid "Congratulations... you found the secret pathway!"
-msgstr "Gefeliciteerd... u heeft het geheime pad gevonden!"
-
-#: data/levels/bonus3/worldmap.stwm:78 data/levels/bonus3/worldmap.stwm:86
+#: data/levels/bonus3/worldmap.stwm:282 data/levels/bonus3/worldmap.stwm:297
+#: data/levels/bonus3/worldmap.stwm:304
 msgid "Go Home"
-msgstr "Huiswaarts keren"
+msgstr "Keer huiswaarts"
+
+#: data/levels/bonus3/worldmap.stwm:290
+msgid "Enter Forest Section"
+msgstr "Betreed het bosgebied"

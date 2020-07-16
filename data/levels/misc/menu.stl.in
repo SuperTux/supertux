@@ -25,13 +25,13 @@ if(is_christmas()) {
   paralax2.tint_fade(0, 0.2, 0.2, 0.3, 1);
 
   // change music
-  settings.set_music(\"music/christmas_theme.music\");
+  settings.set_music(\"music/misc/christmas_theme.music\");
 }
 logo.set_anchor_point(ANCHOR_MIDDLE);
 logo.set_pos(0, -171);
 logo.set_visible(true);
 ")
-    (music "/music/theme.music")
+    (music "/music/misc/theme.music")
     (gravity 10)
     (camera
       (name "Camera")
@@ -107,8 +107,8 @@ logo.set_visible(true);
     (gradient
       (name "background")
       (layer -300)
-      (top_color 0.3000000119 0.400000006 0.75 1)
-      (bottom_color 1 1 1 1)
+      (top_color 0 0.2 1)
+      (bottom_color 0.8 0.9 1)
     )
     (particles-snow
       (name "snow_particles")

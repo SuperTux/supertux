@@ -23,6 +23,7 @@
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
 #include "video/drawing_context.hpp"
+#include "video/surface.hpp"
 #include "video/surface_batch.hpp"
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
@@ -90,8 +91,10 @@ ParticleSystem::draw(DrawingContext& context)
     // remap x,y coordinates onto screencoordinates
     Vector pos;
 
+    // horizontal wrap when particle goes off screen to the left
+    const int particle_width = particle->texture->get_width();
     pos.x = fmodf(particle->pos.x - scrollx, virtual_width);
-    if (pos.x < 0) pos.x += virtual_width;
+    if ((pos.x + static_cast<float>(particle_width)) < 0) pos.x += virtual_width;
 
     pos.y = fmodf(particle->pos.y - scrolly, virtual_height);
     if (pos.y < 0) pos.y += virtual_height;

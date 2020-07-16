@@ -24,6 +24,7 @@
 
 KeyboardConfig::KeyboardConfig() :
   m_keymap(),
+  m_configurable_controls(),
   m_jump_with_up_kbd(false)
 {
   // initialize default keyboard map
@@ -47,40 +48,57 @@ KeyboardConfig::KeyboardConfig() :
   m_keymap[SDLK_F1]       = Control::CHEAT_MENU;
   m_keymap[SDLK_F2]       = Control::DEBUG_MENU;
   m_keymap[SDLK_BACKSPACE]= Control::REMOVE;
+
+  m_configurable_controls = {
+    Control::UP,
+    Control::DOWN,
+    Control::LEFT,
+    Control::RIGHT,
+    Control::JUMP,
+    Control::ACTION,
+    Control::PEEK_LEFT,
+    Control::PEEK_RIGHT,
+    Control::PEEK_UP,
+    Control::PEEK_DOWN,
+    Control::CONSOLE,
+    Control::CHEAT_MENU,
+    Control::DEBUG_MENU
+  };
 }
 
 void
 KeyboardConfig::read(const ReaderMapping& keymap_mapping)
 {
+  // backwards compatibility:
   // keycode values changed between SDL1 and SDL2, so we skip old SDL1
   // based values and use the defaults instead on the first read of
   // the config file
   bool config_is_sdl2 = false;
   keymap_mapping.get("sdl2", config_is_sdl2);
-  if (config_is_sdl2)
+  if (!config_is_sdl2)
+    return;
+
+  keymap_mapping.get("jump-with-up", m_jump_with_up_kbd);
+
+  auto iter = keymap_mapping.get_iter();
+  while (iter.next())
   {
-    keymap_mapping.get("jump-with-up", m_jump_with_up_kbd);
+    if (iter.get_key() != "map")
+      continue;
+    int key = -1;
+    auto map = iter.as_mapping();
+    map.get("key", key);
 
-    auto iter = keymap_mapping.get_iter();
-    while (iter.next())
-    {
-      if (iter.get_key() == "map")
-      {
-        int key = -1;
-        auto map = iter.as_mapping();
-        map.get("key", key);
+    std::string control_text;
+    map.get("control", control_text);
 
-        std::string control_text;
-        map.get("control", control_text);
-
-        const boost::optional<Control> maybe_control = Control_from_string(control_text);
-        if (!maybe_control) {
-          log_info << "Invalid control '" << control_text << "' in keymap" << std::endl;
-        } else {
-          const Control control = *maybe_control;
-          m_keymap[static_cast<SDL_Keycode>(key)] = control;
-        }
+    const boost::optional<Control> maybe_control = Control_from_string(control_text);
+    if (maybe_control) {
+      if (m_configurable_controls.count(*maybe_control)) {
+        bind_key(static_cast<SDL_Keycode>(key), *maybe_control);
       }
+    } else {
+      log_warning << "Invalid control '" << control_text << "' in keymap" << std::endl;
     }
   }
 }

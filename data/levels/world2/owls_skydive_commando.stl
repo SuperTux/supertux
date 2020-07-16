@@ -58,6 +58,7 @@
     )
     (dispenser
       (cycle 4)
+      (type "dropper")
       (badguy "mrbomb")
       (direction "left")
       (limit-dispensed-badguys #t)
@@ -152,7 +153,7 @@
       (y 1632)
     )
     (music
-      (file "/music/forest2.ogg")
+      (file "/music/forest/forest2.ogg")
     )
     (owl
       (carry "skydive")

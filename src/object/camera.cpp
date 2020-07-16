@@ -263,6 +263,14 @@ Camera::shake(float duration, float x, float y)
 void
 Camera::scroll_to(const Vector& goal, float scrolltime)
 {
+  if(scrolltime == 0.0f)
+  {
+    m_translation.x = goal.x;
+    m_translation.y = goal.y;
+    m_mode = Mode::MANUAL;
+    return;
+  }
+
   m_scroll_from = m_translation;
   m_scroll_goal = goal;
   keep_in_bounds(m_scroll_goal);
@@ -345,7 +353,7 @@ Camera::update_scroll_normal(float dt_sec)
   const auto& config_ = *(m_config);
   Player& player = d_sector->get_player();
   // TODO: co-op mode needs a good camera
-  Vector player_pos(player.get_bbox().get_middle().x,
+  Vector player_pos(player.get_bbox().get_left(),
                                     player.get_bbox().get_bottom());
   static Vector last_player_pos = player_pos;
   Vector player_delta = player_pos - last_player_pos;
@@ -365,9 +373,9 @@ Camera::update_scroll_normal(float dt_sec)
     m_cached_translation.y = player_pos.y - static_cast<float>(m_screen_size.height) * config_.target_y;
   }
   if (ymode == 2) {
-    // target_y is the high we target our scrolling at. This is not always the
-    // high of the player, but if he is jumping upwards we should use the
-    // position where he last touched the ground. (this probably needs
+    // target_y is the height we target our scrolling at. This is not always the
+    // height of the player: while jumping upwards, we should use the
+    // position where they last touched the ground. (this probably needs
     // exceptions for trampolines and similar things in the future)
     float target_y;
     if (player.m_fall_mode == Player::JUMPING)
@@ -516,7 +524,7 @@ Camera::update_scroll_normal(float dt_sec)
 
       m_changetime = -1;
     } else if (m_lookahead_mode != walkDirection) {
-      /* player changed direction while camera was scrolling...
+      /* Tux changed direction while camera was scrolling...
        * he has to do this for a certain time to add robustness against
        * sudden changes */
       if (m_changetime < 0) {

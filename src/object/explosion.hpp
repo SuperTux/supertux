@@ -19,12 +19,15 @@
 
 #include "object/moving_sprite.hpp"
 
+#define EXPLOSION_STRENGTH_DEFAULT (1464.8f * 32.0f * 32.0f)
+#define EXPLOSION_STRENGTH_NEAR (150.0f * 32.0f * 32.0f)
+
 /** Just your average explosion - goes boom, hurts Tux */
 class Explosion final : public MovingSprite
 {
 public:
   /** Create new Explosion centered(!) at @c pos */
-  Explosion(const Vector& pos);
+  Explosion(const Vector& pos, float push_strength, int num_particles=100);
   Explosion(const ReaderMapping& reader);
 
   virtual void update(float dt_sec) override;
@@ -34,9 +37,6 @@ public:
 
   bool hurts() const { return hurt; }
   void hurts (bool val) { hurt = val; }
-
-  bool pushes() const { return push; }
-  void pushes (bool val) { push = val; }
 
 private:
   /** plays sound, starts animation */
@@ -50,7 +50,8 @@ private:
 
 private:
   bool hurt;
-  bool push;
+  float push_strength;
+  int num_particles;
   State state;
   SpritePtr lightsprite;
 

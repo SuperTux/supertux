@@ -49,6 +49,7 @@ public:
 
   bool is_moving() const { return m_moving; }
   Vector get_pos() const;
+  Vector get_axis() const;
   Vector get_tile_pos() const { return m_tile_pos; }
   void  set_tile_pos(const Vector& p) { m_tile_pos = p; }
 

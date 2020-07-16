@@ -28,7 +28,7 @@ public:
   virtual void collision_solid(const CollisionHit& hit) override;
 
   virtual std::string get_class() const override { return "captainsnowball"; }
-  virtual std::string get_display_name() const override { return _("Captain snowball"); }
+  virtual std::string get_display_name() const override { return _("Captain Snowball"); }
 
   bool might_climb(int width, int height) const;
 

@@ -32,7 +32,6 @@ Rock::Rock(const Vector& pos, const std::string& spritename) :
   ExposedObject<Rock, scripting::Rock>(this),
   physic(),
   on_ground(false),
-  grabbed(false),
   last_movement(),
   on_grab_script(),
   on_ungrab_script()
@@ -46,7 +45,6 @@ Rock::Rock(const ReaderMapping& reader) :
   ExposedObject<Rock, scripting::Rock>(this),
   physic(),
   on_ground(false),
-  grabbed(false),
   last_movement(),
   on_grab_script(),
   on_ungrab_script()
@@ -62,7 +60,6 @@ Rock::Rock(const ReaderMapping& reader, const std::string& spritename) :
   ExposedObject<Rock, scripting::Rock>(this),
   physic(),
   on_ground(false),
-  grabbed(false),
   last_movement(),
   on_grab_script(),
   on_ungrab_script()
@@ -76,29 +73,29 @@ Rock::Rock(const ReaderMapping& reader, const std::string& spritename) :
 void
 Rock::update(float dt_sec)
 {
-  if ( grabbed )
-    return;
-
-  if (on_ground) physic.set_velocity_x(0);
-
-  m_col.m_movement = physic.get_movement(dt_sec);
+  if (!is_grabbed())
+    m_col.m_movement = physic.get_movement(dt_sec);
 }
 
 void
 Rock::collision_solid(const CollisionHit& hit)
 {
-  if (grabbed) {
+  if (is_grabbed()) {
     return;
   }
   if (hit.top || hit.bottom)
     physic.set_velocity_y(0);
-  if (hit.left || hit.right)
-    physic.set_velocity_x(0);
+  if (hit.left || hit.right) {
+    // Bounce back slightly when hitting a wall
+    float velx = physic.get_velocity_x();
+    physic.set_velocity_x(-0.1f * velx);
+  }
   if (hit.crush)
     physic.set_velocity(0, 0);
 
-  if (hit.bottom  && !on_ground && !grabbed) {
+  if (hit.bottom  && !on_ground && !is_grabbed()) {
     SoundManager::current()->play(ROCK_SOUND, get_pos());
+    physic.set_velocity_x(0);
     on_ground = true;
   }
 }
@@ -116,15 +113,25 @@ Rock::collision(GameObject& other, const CollisionHit& hit)
     return ABORT_MOVE;
   }
 
-  if (grabbed) {
+  if (is_grabbed()) {
     return ABORT_MOVE;
   }
+
+  // Don't fall further if we are on a rock which is on the ground.
+  // This is to avoid jittering.
+  auto rock = dynamic_cast<Rock*> (&other);
+  if (rock && rock->on_ground && hit.bottom) {
+    physic.set_velocity_y(0);
+    return CONTINUE;
+  }
+
   if (!on_ground) {
     if (hit.bottom && physic.get_velocity_y() > 200) {
       auto moving_object = dynamic_cast<MovingObject*> (&other);
-      if (moving_object) {
+      if (moving_object && moving_object->get_group() != COLGROUP_TOUCHABLE) {
         //Getting a rock on the head hurts. A lot.
         moving_object->collision_tile(Tile::HURTS);
+        physic.set_velocity_y(0);
       }
     }
     return FORCE_MOVE;
@@ -134,13 +141,13 @@ Rock::collision(GameObject& other, const CollisionHit& hit)
 }
 
 void
-Rock::grab(MovingObject& , const Vector& pos, Direction)
+Rock::grab(MovingObject& object, const Vector& pos, Direction dir_)
 {
+  Portable::grab(object, pos, dir_);
   m_col.m_movement = pos - get_pos();
   last_movement = m_col.m_movement;
   set_group(COLGROUP_TOUCHABLE); //needed for lanterns catching willowisps
   on_ground = false;
-  grabbed = true;
 
   if (!on_grab_script.empty()) {
     Sector::get().run_script(on_grab_script, "Rock::on_grab");
@@ -148,22 +155,24 @@ Rock::grab(MovingObject& , const Vector& pos, Direction)
 }
 
 void
-Rock::ungrab(MovingObject& , Direction dir)
+Rock::ungrab(MovingObject& object, Direction dir)
 {
   set_group(COLGROUP_MOVING_STATIC);
   on_ground = false;
   if (dir == Direction::UP) {
     physic.set_velocity(0, -500);
+  } else if (dir == Direction::DOWN) {
+    physic.set_velocity(0, 500);
   } else if (last_movement.norm() > 1) {
     physic.set_velocity((dir == Direction::RIGHT) ? 200.0f : -200.0f, -200.0f);
   } else {
     physic.set_velocity(0, 0);
   }
-  grabbed = false;
 
   if (!on_ungrab_script.empty()) {
     Sector::get().run_script(on_ungrab_script, "Rock::on_ungrab");
   }
+  Portable::ungrab(object, dir);
 }
 
 ObjectSettings

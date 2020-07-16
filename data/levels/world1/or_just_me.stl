@@ -1,6 +1,6 @@
 (supertux-level
   (version 3)
-  (name (_ "'...or is it just me?'"))
+  (name (_ "...Or Is It Just Me?"))
   (author "SuperTux Team")
   (license "GPL 2+ / CC-by-sa 3.0")
   (target-time 75)
@@ -171,7 +171,7 @@
       (y 448)
     )
     (music
-      (file "/music/cave.music")
+      (file "/music/antarctic/cave.music")
     )
     (path
       (name "gen15435270741679206252608")
