@@ -3,6 +3,7 @@
   (name (_ "Rainy Swamps"))
   (author "alex")
   (license "CC-BY-SA 4.0 International")
+  (target-time 70)
   (sector
     (name "main")
     (init-script "Water.start_moving();")

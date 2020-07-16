@@ -3,6 +3,7 @@
   (name (_ "Cold Forest"))
   (author "alex")
   (license "CC-BY-SA 4.0 International")
+  (target-time 65)
   (sector
     (name "main")
     (ambient-light
@@ -104,23 +105,13 @@
     )
     (poisonivy
       (direction "left")
-      (x 3819.66)
-      (y 984.1)
+      (x 3984)
+      (y 992)
     )
     (poisonivy
       (direction "left")
-      (x 3973.429)
-      (y 983.2111)
-    )
-    (poisonivy
-      (direction "left")
-      (x 4130.77)
-      (y 984.99)
-    )
-    (poisonivy
-      (direction "left")
-      (x 4276.54)
-      (y 983.2109)
+      (x 4144)
+      (y 992)
     )
     (poisonivy
       (direction "left")
@@ -134,18 +125,8 @@
     )
     (poisonivy
       (direction "left")
-      (x 9376.1)
-      (y 984.1)
-    )
-    (poisonivy
-      (direction "left")
-      (x 9528.99)
-      (y 984.9926)
-    )
-    (poisonivy
-      (direction "left")
-      (x 9680.099)
-      (y 985.8777)
+      (x 9520)
+      (y 992)
     )
     (poisonivy
       (direction "left")
@@ -506,6 +487,26 @@
       (direction "left")
       (x 13328.96)
       (y 839.2108)
+    )
+    (walkingleaf
+      (direction "left")
+      (x 3824)
+      (y 992)
+    )
+    (walkingleaf
+      (direction "left")
+      (x 4304)
+      (y 992)
+    )
+    (walkingleaf
+      (direction "left")
+      (x 9664)
+      (y 992)
+    )
+    (walkingleaf
+      (direction "left")
+      (x 9360)
+      (y 992)
     )
   )
 )
