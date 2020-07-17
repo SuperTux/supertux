@@ -1,6 +1,6 @@
 (supertux-level
   (version 3)
-  (name (_ "Forest Island"))
+  (name (_ "Rooted Forest"))
   (author "Carsten Wirtz")
   (contact "https://supertux.org")
   (license "CC-BY-SA 4.0 International")
