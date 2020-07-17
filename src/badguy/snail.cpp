@@ -293,12 +293,13 @@ Snail::collision_squished(GameObject& object)
 
     case STATE_SHIELDED:
     case STATE_NORMAL:
-    case STATE_KICKED:
-      if(state == STATE_SHIELDED && !player->m_does_buttjump)
+      if(player && !player->m_does_buttjump)
       {
         player->bounce(*this);
         break;
       }
+      BOOST_FALLTHROUGH;
+    case STATE_KICKED:
       squishcount++;
       if (squishcount >= MAX_SNAIL_SQUISHES) {
         kill_fall();
