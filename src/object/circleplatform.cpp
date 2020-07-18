@@ -36,7 +36,7 @@ CirclePlatform::CirclePlatform(const ReaderMapping& reader) :
   {
     m_col.m_bbox.set_pos(Vector(start_position.x + cosf(angle) * radius,
                                 start_position.y + sinf(angle) * radius));
-	  initialize();
+    initialize();
   }
 }
 
