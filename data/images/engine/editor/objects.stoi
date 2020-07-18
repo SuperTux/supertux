@@ -220,6 +220,9 @@
     (class "bicycle-platform")
     (icon "images/engine/editor/bicycleplatform.png"))
   (object
+    (class "circleplatform")
+    (icon "images/objects/platforms/circeplatform.png"))
+  (object
     (class "hurting_platform")
     (icon "images/objects/sawblade/default-0.png"))
   (object
@@ -297,9 +300,6 @@
   (object
     (class "skull_tile")
     (icon "images/objects/skull_tile/skull.png"))
-  (object
-    (class "circleplatform")
-    (icon "images/objects/platforms/icebridge1.png"))
  )
 
  (objectgroup
