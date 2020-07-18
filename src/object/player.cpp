@@ -1542,11 +1542,7 @@ if (!m_swimming && m_water_jump) {
       }
     }
     else {
-      if (fabsf(m_physic.get_velocity_x()) > MAX_WALK_XM && !is_big()) {
-        m_sprite->set_action(sa_prefix+"-run"+sa_postfix);
-      } else {
-        m_sprite->set_action(sa_prefix+"-walk"+sa_postfix);
-      }
+      m_sprite->set_action(sa_prefix+"-walk"+sa_postfix);
     }
   }
 
