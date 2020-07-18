@@ -16,6 +16,7 @@
 
 #include "supertux/menu/main_menu.hpp"
 
+#include "api/external_sdk.hpp"
 #include "audio/sound_manager.hpp"
 #include "editor/editor.hpp"
 #include "gui/dialog.hpp"
@@ -45,6 +46,10 @@
 
 MainMenu::MainMenu()
 {
+  ExternalSDK::apiSetStatus("In main menu");
+  ExternalSDK::apiSetDetails("");
+  ExternalSDK::apiSetSmallImage("");
+  
   set_center_pos(static_cast<float>(SCREEN_WIDTH) / 2.0f,
                  static_cast<float>(SCREEN_HEIGHT) / 2.0f + 35.0f);
 

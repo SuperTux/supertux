@@ -34,6 +34,7 @@ extern "C" {
 #include <codecvt>
 #endif
 
+#include "api/external_sdk.hpp"
 #include "addon/addon_manager.hpp"
 #include "audio/sound_manager.hpp"
 #include "editor/editor.hpp"
@@ -396,6 +397,9 @@ Main::resave(const std::string& input_filename, const std::string& output_filena
 void
 Main::launch_game(const CommandLineArguments& args)
 {
+  ExternalSDK::init();
+  ExternalSDK::apiSetStatus("Loading game");
+  
   SDLSubsystem sdl_subsystem;
   ConsoleBuffer console_buffer;
 

@@ -532,9 +532,12 @@ endif()
 
 ## Build list of sources for supertux binary
 
+# The line below serves only for the Discord SDK integration (Semphris was here 17 July 2020)
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
+
 file(GLOB SUPERTUX_SOURCES_C RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} external/obstack/*.c external/findlocale/findlocale.c)
 
-file(GLOB SUPERTUX_SOURCES_CXX RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} src/*/*.cpp src/supertux/menu/*.cpp src/video/sdl/*.cpp src/video/null/*.cpp)
+file(GLOB SUPERTUX_SOURCES_CXX RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} src/*/*.cpp src/api/discord/*.cpp src/api/discord/src/*.cpp src/api/discord/src/rapidjson/* src/api/discord/src/rapidjson/*/* src/supertux/menu/*.cpp src/video/sdl/*.cpp src/video/null/*.cpp)
 file(GLOB SUPERTUX_RESOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "${PROJECT_BINARY_DIR}/tmp/*.rc")
 
 if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/external/sexp-cpp/CMakeLists.txt)

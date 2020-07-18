@@ -19,6 +19,7 @@
 
 #include <physfs.h>
 
+#include "api/external_sdk.hpp"
 #include "audio/sound_manager.hpp"
 #include "control/input_manager.hpp"
 #include "gui/menu_manager.hpp"
@@ -97,6 +98,10 @@ WorldMap::WorldMap(const std::string& filename, Savegame& savegame, const std::s
   // load worldmap objects
   WorldMapParser parser(*this);
   parser.load_worldmap(filename);
+  
+  ExternalSDK::apiSetDetails(m_name);
+  ExternalSDK::apiSetStatus("In worldmap");
+  ExternalSDK::apiSetSmallImage("play");
 }
 
 WorldMap::~WorldMap()
@@ -396,6 +401,8 @@ WorldMap::update(float dt_sec)
           Vector shrinkpos = Vector(level_->get_pos().x * 32 + 16 - m_camera->get_offset().x,
                                     level_->get_pos().y * 32 +  8 - m_camera->get_offset().y);
           std::string levelfile = m_levels_path + level_->get_level_filename();
+
+          ExternalSDK::apiSetStatus("In level : " + level_->get_title());
 
           // update state and savegame
           save_state();

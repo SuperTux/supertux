@@ -19,6 +19,7 @@
 #include <limits>
 #include <physfs.h>
 
+#include "api/external_sdk.hpp"
 #include "audio/sound_manager.hpp"
 #include "control/input_manager.hpp"
 #include "editor/button_widget.hpp"
@@ -256,10 +257,14 @@ Editor::test_level(const boost::optional<std::pair<std::string, Vector>>& test_p
   if (!m_level->is_worldmap())
   {
     GameManager::current()->start_level(*current_world, backup_filename, test_pos);
+    ExternalSDK::apiSetDetails("Testing level");
+    ExternalSDK::apiSetStatus(m_level->get_name());
   }
   else
   {
     GameManager::current()->start_worldmap(*current_world, "", m_test_levelfile);
+    ExternalSDK::apiSetDetails("Testing worldmap");
+    ExternalSDK::apiSetStatus(m_level->get_name());
   }
 
   m_leveltested = true;
@@ -436,6 +441,18 @@ Editor::set_level(std::unique_ptr<Level> level, bool reset)
   m_layers_widget->refresh_sector_text();
   m_toolbox_widget->update_mouse_icon();
   m_overlay_widget->on_level_change();
+  
+  ExternalSDK::apiSetDetails("In editor");
+  ExternalSDK::apiSetSmallImage("edit");
+  // Is sting concatenation a good idea in C++? I've never seen it in production environments...
+  if (m_level->is_worldmap())
+  {
+    ExternalSDK::apiSetStatus("Editing worldmap : " + m_level->get_name());
+  }
+  else
+  {
+    ExternalSDK::apiSetStatus("Editing level : " + m_level->get_name());
+  }
 }
 
 void
