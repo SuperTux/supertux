@@ -2,6 +2,6 @@
   (action
     (name "normal")
     (hitbox 0 32 160 224)
-    (images "cave-5x8.png")
+    (images "cave-5x7.png")
   )
 )
