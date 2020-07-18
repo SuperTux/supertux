@@ -774,7 +774,7 @@ Player::handle_horizontal_input()
     }
     else {
       // give Tux tighter air control
-      ax *= 1.5f;
+      ax *= 2.f;
     }
   }
 
