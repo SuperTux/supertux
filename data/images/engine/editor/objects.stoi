@@ -236,7 +236,7 @@
     (icon "images/objects/rublight/rublight.png"))
   (object
     (class "rustytrampoline")
-    (icon "images/objects/rusty-trampoline/rustytrampoline1.png"))
+    (icon "images/objects/rusty-trampoline/rustytrampoline-editor.png"))
   (object
     (class "trampoline")
     (icon "images/objects/trampoline/trampoline-editor.png"))
