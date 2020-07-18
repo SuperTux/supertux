@@ -223,6 +223,9 @@
     (class "hurting_platform")
     (icon "images/objects/sawblade/default-0.png"))
   (object
+    (class "fallblock")
+    (icon "images/objects/fallblock/cave-4x4.png"))
+  (object
     (class "scriptedobject")
     (icon "images/engine/editor/scriptedobject.png"))
   (object
