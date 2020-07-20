@@ -220,8 +220,14 @@
     (class "bicycle-platform")
     (icon "images/engine/editor/bicycleplatform.png"))
   (object
+    (class "circleplatform")
+    (icon "images/engine/editor/circeplatform.png"))
+  (object
     (class "hurting_platform")
     (icon "images/objects/sawblade/default-0.png"))
+  (object
+    (class "fallblock")
+    (icon "images/objects/fallblock/cave-4x4.png"))
   (object
     (class "scriptedobject")
     (icon "images/engine/editor/scriptedobject.png"))
