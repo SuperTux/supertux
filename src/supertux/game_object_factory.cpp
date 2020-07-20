@@ -81,6 +81,7 @@
 #include "object/coin.hpp"
 #include "object/decal.hpp"
 #include "object/explosion.hpp"
+#include "object/fallblock.hpp"
 #include "object/firefly.hpp"
 #include "object/ghost_particle_system.hpp"
 #include "object/gradient.hpp"
@@ -212,6 +213,7 @@ GameObjectFactory::init_factories()
   add_factory<Coin>("coin");
   add_factory<Decal>("decal");
   add_factory<Explosion>("explosion");
+  add_factory<FallBlock>("fallblock");
   add_factory<Firefly>("firefly");
   add_factory<GhostParticleSystem>("particles-ghosts");
   add_factory<Gradient>("gradient");
