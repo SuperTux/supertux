@@ -29,7 +29,7 @@ ExternalSDK* sdks[] = {new DiscordSDK};
 
 void ExternalSDK::my_init()
 {
-	//Log::warn("ExternalSDK", "ERROR : Invoked unimplemented external SDK");
+	//Log::warn("ExternalSDK", "ERROR: Invoked unimplemented external SDK");
 }
 
 // Called once, when the game starts
@@ -85,7 +85,7 @@ void ExternalSDK::gameLoop()
 
 void ExternalSDK::apiSetStatus(std::string status)
 {
-	//printf("ExternalSDK : Call to apiSetStatus : '%s'\n", status.c_str());
+	//printf("ExternalSDK: Call to apiSetStatus : '%s'\n", status.c_str());
 	
 	for(ExternalSDK* sdk : sdks)
 	{
@@ -96,7 +96,7 @@ void ExternalSDK::apiSetStatus(std::string status)
 
 void ExternalSDK::apiSetDetails(std::string details)
 {
-	//printf("ExternalSDK : Call to apiSetDetails : '%s'\n", details.c_str());
+	//printf("ExternalSDK: Call to apiSetDetails : '%s'\n", details.c_str());
 	
 	for(ExternalSDK* sdk : sdks)
 	{
@@ -107,7 +107,7 @@ void ExternalSDK::apiSetDetails(std::string details)
 
 void ExternalSDK::apiSetSmallImage(std::string img)
 {
-	//printf("ExternalSDK : Call to apiSetSmallImage : '%s'\n", img.c_str());
+	//printf("ExternalSDK: Call to apiSetSmallImage : '%s'\n", img.c_str());
 	
 	for(ExternalSDK* sdk : sdks)
 	{

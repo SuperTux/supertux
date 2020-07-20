@@ -447,11 +447,11 @@ Editor::set_level(std::unique_ptr<Level> level, bool reset)
   // Is sting concatenation a good idea in C++? I've never seen it in production environments...
   if (m_level->is_worldmap())
   {
-    ExternalSDK::apiSetDetails("Editing worldmap : " + m_level->get_name());
+    ExternalSDK::apiSetDetails("Editing worldmap: " + m_level->get_name());
   }
   else
   {
-    ExternalSDK::apiSetDetails("Editing level : " + m_level->get_name());
+    ExternalSDK::apiSetDetails("Editing level: " + m_level->get_name());
   }
 
 }
@@ -590,11 +590,11 @@ Editor::setup()
     // Is sting concatenation a good idea in C++? I've never seen it in production environments...
     if (m_level->is_worldmap())
     {
-      ExternalSDK::apiSetDetails("Editing worldmap : " + m_level->get_name());
+      ExternalSDK::apiSetDetails("Editing worldmap: " + m_level->get_name());
     }
     else
     {
-      ExternalSDK::apiSetDetails("Editing level : " + m_level->get_name());
+      ExternalSDK::apiSetDetails("Editing level: " + m_level->get_name());
     }
   }
 }

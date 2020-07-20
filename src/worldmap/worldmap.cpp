@@ -402,7 +402,7 @@ WorldMap::update(float dt_sec)
                                     level_->get_pos().y * 32 +  8 - m_camera->get_offset().y);
           std::string levelfile = m_levels_path + level_->get_level_filename();
 
-          ExternalSDK::apiSetStatus("In level : " + level_->get_title());
+          ExternalSDK::apiSetStatus("In level: " + level_->get_title());
 
           // update state and savegame
           save_state();
