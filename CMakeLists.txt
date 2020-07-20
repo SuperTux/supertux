@@ -537,7 +537,12 @@ SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
 
 file(GLOB SUPERTUX_SOURCES_C RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} external/obstack/*.c external/findlocale/findlocale.c)
 
+if(APPLE)
+file(GLOB SUPERTUX_SOURCES_CXX RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} src/*/*.cpp src/api/discord/*.cpp src/api/discord/src/* src/api/discord/src/rapidjson/* src/api/discord/src/rapidjson/*/* src/supertux/menu/*.cpp src/video/sdl/*.cpp src/video/null/*.cpp)
+else()
 file(GLOB SUPERTUX_SOURCES_CXX RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} src/*/*.cpp src/api/discord/*.cpp src/api/discord/src/*.cpp src/api/discord/src/rapidjson/* src/api/discord/src/rapidjson/*/* src/supertux/menu/*.cpp src/video/sdl/*.cpp src/video/null/*.cpp)
+endif()
+
 file(GLOB SUPERTUX_RESOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "${PROJECT_BINARY_DIR}/tmp/*.rc")
 
 if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/external/sexp-cpp/CMakeLists.txt)

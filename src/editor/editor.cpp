@@ -441,18 +441,19 @@ Editor::set_level(std::unique_ptr<Level> level, bool reset)
   m_layers_widget->refresh_sector_text();
   m_toolbox_widget->update_mouse_icon();
   m_overlay_widget->on_level_change();
-  
-  ExternalSDK::apiSetDetails("In editor");
+
+  ExternalSDK::apiSetStatus("In editor");
   ExternalSDK::apiSetSmallImage("edit");
   // Is sting concatenation a good idea in C++? I've never seen it in production environments...
   if (m_level->is_worldmap())
   {
-    ExternalSDK::apiSetStatus("Editing worldmap : " + m_level->get_name());
+    ExternalSDK::apiSetDetails("Editing worldmap : " + m_level->get_name());
   }
   else
   {
-    ExternalSDK::apiSetStatus("Editing level : " + m_level->get_name());
+    ExternalSDK::apiSetDetails("Editing level : " + m_level->get_name());
   }
+
 }
 
 void
@@ -583,6 +584,18 @@ Editor::setup()
     m_deactivate_request = false;
     m_enabled = true;
     m_toolbox_widget->update_mouse_icon();
+
+    ExternalSDK::apiSetStatus("In editor");
+    ExternalSDK::apiSetSmallImage("edit");
+    // Is sting concatenation a good idea in C++? I've never seen it in production environments...
+    if (m_level->is_worldmap())
+    {
+      ExternalSDK::apiSetDetails("Editing worldmap : " + m_level->get_name());
+    }
+    else
+    {
+      ExternalSDK::apiSetDetails("Editing level : " + m_level->get_name());
+    }
   }
 }
 

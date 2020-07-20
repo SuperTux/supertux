@@ -142,6 +142,7 @@ void DiscordSDK::my_init()
     handlers.spectateGame = handleDiscordSpectate;
     handlers.joinRequest = handleDiscordJoinRequest;
     Discord_Initialize("733576109744062537", &handlers, 1, NULL);
+    updateRPC();
 }
 
 void DiscordSDK::my_close()
@@ -179,19 +180,22 @@ void DiscordSDK::my_gameLoop()
 void DiscordSDK::my_apiSetStatus(std::string status)
 {
     my_status = status;
-    updateRPC();
+    if (this->enabled)
+    	updateRPC();
 }
 
 void DiscordSDK::my_apiSetDetails(std::string details)
 {
     my_details = details;
-    updateRPC();
+    if (this->enabled)
+    	updateRPC();
 }
 
 void DiscordSDK::my_apiSetSmallImage(std::string img)
 {
     my_sm_img = img;
-    updateRPC();
+    if (this->enabled)
+    	updateRPC();
 }
 
 /*

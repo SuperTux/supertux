@@ -17,6 +17,7 @@
 
 #include "worldmap/worldmap_state.hpp"
 
+#include "api/external_sdk.hpp"
 #include "math/vector.hpp"
 #include "object/tilemap.hpp"
 #include "squirrel/squirrel_util.hpp"
@@ -193,7 +194,9 @@ WorldMapState::load_state()
     m_worldmap.move_to_spawnpoint("main"); // set tux to main spawnpoint
   }
   sq_settop(vm.get_vm(), oldtop);
-
+  
+  ExternalSDK::apiSetStatus("In worldmap");
+  
   m_worldmap.m_in_level = false;
 }
 

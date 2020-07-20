@@ -23,6 +23,7 @@
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
 #include "supertux/fadetoblack.hpp"
+#include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/level.hpp"
 #include "supertux/level_parser.hpp"
@@ -49,6 +50,10 @@ MainMenu::MainMenu()
   ExternalSDK::apiSetStatus("In main menu");
   ExternalSDK::apiSetDetails("");
   ExternalSDK::apiSetSmallImage("");
+  ExternalSDK* discord_sdk = ExternalSDK::getSDKByName("discord");
+  if (discord_sdk != NULL) {
+    discord_sdk->setEnabled(g_config->enable_discord);
+  }
   
   set_center_pos(static_cast<float>(SCREEN_WIDTH) / 2.0f,
                  static_cast<float>(SCREEN_HEIGHT) / 2.0f + 35.0f);

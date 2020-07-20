@@ -16,7 +16,7 @@ public:
 	static void apiSetDetails(std::string);
 	static void apiSetSmallImage(std::string);
 	
-	static void* getSDKByName(std::string name);
+	static ExternalSDK* getSDKByName(std::string name);
 	
 	virtual void my_init() = 0;
 	virtual void my_close() = 0;
@@ -45,7 +45,7 @@ public:
 	}
 	
 	// Returns the name of the SDK. Used as identifier.
-	std::string getName() {return "[default]";}
+	virtual std::string getName() = 0;
 };
 
 #endif

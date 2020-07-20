@@ -54,6 +54,7 @@ Config::Config() :
   transitions_enabled(true),
   confirmation_dialog(false),
   pause_on_focusloss(true),
+  enable_discord(false), // Keep at false by default for privacy reasons (This will show what they're doing on their Discord profile)
   repository_url()
 {
 }
@@ -76,6 +77,7 @@ Config::load()
   config_mapping.get("developer", developer_mode);
   config_mapping.get("confirmation_dialog", confirmation_dialog);
   config_mapping.get("pause_on_focusloss", pause_on_focusloss);
+  config_mapping.get("enable_discord", enable_discord);
 
   if (is_christmas()) {
     if (!config_mapping.get("christmas", christmas_mode))
@@ -182,6 +184,7 @@ Config::save()
   writer.write("developer", developer_mode);
   writer.write("confirmation_dialog", confirmation_dialog);
   writer.write("pause_on_focusloss", pause_on_focusloss);
+  writer.write("enable_discord", enable_discord);
   if (is_christmas()) {
     writer.write("christmas", christmas_mode);
   }

@@ -11,7 +11,9 @@
 #include <string>
 
 // SuperTux libs
-//#include "util/log.hpp"
+#include "supertux/gameconfig.hpp"
+#include "supertux/globals.hpp"
+#include "util/log.hpp"
 
 // SDK/API libs
 #include "discord/discord.hpp"
@@ -25,30 +27,24 @@
 ExternalSDK* sdks[] = {new DiscordSDK};
 
 
-std::string gamemode = "";
-
-
 void ExternalSDK::my_init()
 {
 	//Log::warn("ExternalSDK", "ERROR : Invoked unimplemented external SDK");
 }
 
+// Called once, when the game starts
 void ExternalSDK::init()
 {
 	//Log::info("ExternalSDK", "Initializing all SDK");
 	
 	for(ExternalSDK* sdk : sdks)
 	{
-		// TODO: Actually check the config to choose whether or not to turn it on
-		//sdk->setEnabled(true);
-		if (sdk->enabled) {
-			//Log::info("ExternalSDK", ("Initializing : " + sdk->getName()).c_str());
-			sdk->my_init();
-		}
+		// FIXME: This toggles ALL SDK'S according to Discord's setting. Should fix before someone passes a week searching for nothing.
+		sdk->setEnabled(g_config->enable_discord);
 	}
 }
 
-
+// Called once, when the game closes
 void ExternalSDK::close()
 {
 	//Log::info("ExternalSDK", "Closing all SDK");
@@ -60,9 +56,8 @@ void ExternalSDK::close()
 	}
 }
 
-
 // Used for the user config : ExternalSDK::getSDKByName("MySDK")->setEnabled(bool);
-void* ExternalSDK::getSDKByName(std::string name)
+ExternalSDK* ExternalSDK::getSDKByName(std::string name)
 {
 	//Log::info("ExternalSDK", ("Searching for SDK with name '" + name + "'").c_str());
 	
@@ -71,6 +66,8 @@ void* ExternalSDK::getSDKByName(std::string name)
 		if (name.compare(sdk->getName()) == 0)
 			return sdk;
 	}
+	
+	return NULL;
 }
 
 
@@ -92,7 +89,7 @@ void ExternalSDK::apiSetStatus(std::string status)
 	
 	for(ExternalSDK* sdk : sdks)
 	{
-		if (sdk->enabled)
+		//if (sdk->enabled)
 			sdk->my_apiSetStatus(status);
 	}
 }
@@ -103,7 +100,7 @@ void ExternalSDK::apiSetDetails(std::string details)
 	
 	for(ExternalSDK* sdk : sdks)
 	{
-		if (sdk->enabled)
+		//if (sdk->enabled)
 			sdk->my_apiSetDetails(details);
 	}
 }
@@ -114,7 +111,7 @@ void ExternalSDK::apiSetSmallImage(std::string img)
 	
 	for(ExternalSDK* sdk : sdks)
 	{
-		if (sdk->enabled)
+		//if (sdk->enabled)
 			sdk->my_apiSetSmallImage(img);
 	}
 }

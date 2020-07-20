@@ -95,6 +95,7 @@ public:
   bool transitions_enabled;
   bool confirmation_dialog;
   bool pause_on_focusloss;
+  bool enable_discord;
 
   std::string repository_url;
 

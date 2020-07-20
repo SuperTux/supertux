@@ -19,7 +19,7 @@ public:
 	virtual void my_apiSetDetails(std::string);
 	virtual void my_apiSetSmallImage(std::string);
 	
-	bool getName() {return "DiscordSDK";}
+	std::string getName() override {return "discord";}
 	
 	// Manage Discord callbacks
 	static void handleReady(const DiscordUser*);

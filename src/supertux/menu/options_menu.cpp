@@ -17,6 +17,7 @@
 
 #include "supertux/menu/options_menu.hpp"
 
+#include "api/external_sdk.hpp"
 #include "audio/sound_manager.hpp"
 #include "gui/item_goto.hpp"
 #include "gui/item_stringselect.hpp"
@@ -63,7 +64,8 @@ enum OptionsMenuIDs {
   MNID_CHRISTMAS_MODE,
   MNID_TRANSITIONS,
   MNID_CONFIRMATION_DIALOG,
-  MNID_PAUSE_ON_FOCUSLOSS
+  MNID_PAUSE_ON_FOCUSLOSS,
+  MNID_ENABLE_DISCORD
 };
 
 OptionsMenu::OptionsMenu(bool complete) :
@@ -401,6 +403,9 @@ OptionsMenu::OptionsMenu(bool complete) :
   add_toggle(MNID_CONFIRMATION_DIALOG, _("Confirmation Dialog"), &g_config->confirmation_dialog).set_help(_("Confirm aborting level"));
   add_toggle(MNID_CONFIRMATION_DIALOG, _("Pause on focus loss"), &g_config->pause_on_focusloss)
     .set_help("Automatically pause the game when the window loses focus");
+  
+  add_toggle(MNID_ENABLE_DISCORD, _("Enable Discord RPC"), &g_config->enable_discord).set_help(_("Shows which level you are playing or building on your Discord profile (if you have Discord running)"));
+  
   add_hl();
   add_back(_("Back"));
 }
@@ -554,6 +559,19 @@ OptionsMenu::menu_action(MenuItem& item)
         bool music_enabled = g_config->music_volume > 0 ? true : false;
         SoundManager::current()->enable_music(music_enabled);
         SoundManager::current()->set_music_volume(g_config->music_volume);
+        g_config->save();
+      }
+      break;
+
+    case MNID_ENABLE_DISCORD:
+      // Apparently causes a scope collision with another variable named "discord_sdk" in main_manu.cpp (somehow...?)
+      {
+        ExternalSDK* discord_sdk = ExternalSDK::getSDKByName("discord");
+        if (discord_sdk != NULL)
+        {
+          discord_sdk->setEnabled(g_config->enable_discord);
+        }
+        // TODO : Is this line needed?
         g_config->save();
       }
       break;
