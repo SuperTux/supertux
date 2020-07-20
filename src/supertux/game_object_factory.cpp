@@ -76,6 +76,7 @@
 #include "object/brick.hpp"
 #include "object/camera.hpp"
 #include "object/candle.hpp"
+#include "object/circleplatform.hpp"
 #include "object/cloud_particle_system.hpp"
 #include "object/coin.hpp"
 #include "object/decal.hpp"
@@ -206,6 +207,7 @@ GameObjectFactory::init_factories()
   add_factory<Brick>("brick");
   add_factory<Camera>("camera");
   add_factory<Candle>("candle");
+  add_factory<CirclePlatform>("circleplatform");
   add_factory<CloudParticleSystem>("particles-clouds");
   add_factory<Coin>("coin");
   add_factory<Decal>("decal");
