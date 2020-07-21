@@ -72,18 +72,10 @@ Bumper::collision(GameObject& other, const CollisionHit& hit)
   auto player = dynamic_cast<Player*> (&other);
   if (player)
   {
-    if (!left)
-    {
-      player->get_physic().set_velocity(BOUNCE_Y, BOUNCE_X);
-      SoundManager::current()->play(TRAMPOLINE_SOUND);
-      m_sprite->set_action("swinging", 1);
-    }
-	  else if (left)
-    {
-      player->get_physic().set_velocity(-BOUNCE_Y, BOUNCE_X);
-	    SoundManager::current()->play(TRAMPOLINE_SOUND);
-      m_sprite->set_action("swinging", 1);
-    }
+	  float BOUNCE_DIR = left ? -BOUNCE_Y : BOUNCE_Y;
+	  player->get_physic().set_velocity(BOUNCE_DIR, BOUNCE_X);
+    SoundManager::current()->play(TRAMPOLINE_SOUND);
+    m_sprite->set_action("swinging", 1);
   }
 	
 	auto bumper = dynamic_cast<Bumper*> (&other);
