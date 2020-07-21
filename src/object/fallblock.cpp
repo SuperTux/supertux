@@ -16,7 +16,6 @@
 #include "object/fallblock.hpp"
 
 #include "audio/sound_manager.hpp"
-#include "object/bumper.hpp"
 #include "object/player.hpp"
 #include "object/camera.hpp"
 #include "sprite/sprite.hpp"
@@ -66,32 +65,6 @@ FallBlock::update(float dt_sec)
       m_col.m_movement = physic.get_movement (dt_sec);
 	    set_group(COLGROUP_MOVING_STATIC);
       break;
-  }
-  for (auto& bumper : Sector::get().get_objects_by_type<Bumper>())
-  {
-	  Rectf bumper_bbox = bumper.get_bbox();
-	  if ((bumper_bbox.get_left() < (m_col.m_bbox.get_right() + 8))
-	  && (bumper_bbox.get_right() > (m_col.m_bbox.get_right() - 8))
-    && (bumper_bbox.get_bottom() > (m_col.m_bbox.get_top() - 8))
-	  && (bumper_bbox.get_top() < (m_col.m_bbox.get_bottom() + 8)))
-    {
-      switch (state)
-      {
-	      case IDLE:
-	        break;
-	      case SHAKE:
-	        break;
-	      case FALL:
-	        bumper.physic.enable_gravity(true);
-	        break;
-	      case LAND:
-	        bumper.physic.enable_gravity(false);
-	        bumper.physic.set_gravity_modifier(0.f);
-	        bumper.physic.set_velocity_y(0.f);
-	        bumper.physic.reset();
-	        break;
-      }
-    }
   }
 }
 
