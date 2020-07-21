@@ -1,3 +1,5 @@
+#ifndef WIN32
+
 #include "discord_rpc.h"
 #include "discord_register.h"
 #include <stdio.h>
@@ -100,3 +102,5 @@ extern "C" DISCORD_EXPORT void Discord_RegisterSteamGame(const char* application
     sprintf(command, "xdg-open steam://rungameid/%s", steamId);
     Discord_Register(applicationId, command);
 }
+
+#endif

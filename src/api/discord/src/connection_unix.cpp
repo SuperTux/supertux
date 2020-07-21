@@ -1,3 +1,5 @@
+#ifndef WIN32
+
 #include "connection.h"
 
 #include <errno.h>
@@ -123,3 +125,5 @@ bool BaseConnection::Read(void* data, size_t length)
     }
     return res == (int)length;
 }
+
+#endif

@@ -1,3 +1,5 @@
+#ifndef WIN32
+
 #include <stdio.h>
 #include <sys/stat.h>
 
@@ -78,3 +80,5 @@ void Discord_RegisterSteamGame(const char* applicationId, const char* steamId)
     snprintf(command, 256, "steam://rungameid/%s", steamId);
     Discord_Register(applicationId, command);
 }
+
+#endif
