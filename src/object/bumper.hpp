@@ -32,7 +32,7 @@ public:
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
   
   virtual std::string get_class() const override { return "bumper"; }
-  virtual std::string get_display_name() const override { return _("Sideways Trampoline"); }
+  virtual std::string get_display_name() const override { return _("Bumper"); }
 
   Physic physic;
 
