@@ -6,10 +6,11 @@
 
 class ExternalSDK
 {
-private:
-    ~ExternalSDK() {}
+protected:
+    ~ExternalSDK() {};
     
 public:
+    ExternalSDK() {};
 
 	// Called by the game for the SDK
 	static void init();

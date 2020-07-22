@@ -10,9 +10,6 @@
 
 class DiscordSDK : public ExternalSDK
 {
-private:
-    ~DiscordSDK() {}
-
 public:
 	virtual void my_init() override;
 	virtual void my_close() override;
