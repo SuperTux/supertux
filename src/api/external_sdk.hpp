@@ -7,7 +7,7 @@
 class ExternalSDK
 {
 protected:
-    ~ExternalSDK() {};
+    virtual ~ExternalSDK() {};
     
 public:
     ExternalSDK() {};
