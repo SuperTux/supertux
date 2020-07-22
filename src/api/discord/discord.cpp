@@ -16,10 +16,7 @@
 #include <iostream>
 #include <fstream>
 
-// STK libs
-//#include "utils/log.hpp"
-
-#include "src/discord_rpc.h"
+#include "discord_rpc.h"
 
 #include "discord.hpp"
 

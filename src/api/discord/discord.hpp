@@ -1,7 +1,7 @@
 
 #include <string>
 
-#include "src/discord_rpc.h"
+#include "discord_rpc.h"
 
 #include <api/external_sdk.hpp>
 
