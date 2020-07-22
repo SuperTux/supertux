@@ -6,6 +6,9 @@
 
 class ExternalSDK
 {
+private:
+    ~ExternalSDK() {}
+    
 public:
 
 	// Called by the game for the SDK

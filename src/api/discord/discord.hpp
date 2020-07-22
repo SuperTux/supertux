@@ -10,14 +10,16 @@
 
 class DiscordSDK : public ExternalSDK
 {
+private:
+    ~DiscordSDK() {}
 
 public:
-	virtual void my_init();
-	virtual void my_close();
-	virtual void my_gameLoop();
-	virtual void my_apiSetStatus(std::string);
-	virtual void my_apiSetDetails(std::string);
-	virtual void my_apiSetSmallImage(std::string);
+	virtual void my_init() override;
+	virtual void my_close() override;
+	virtual void my_gameLoop() override;
+	virtual void my_apiSetStatus(std::string) override;
+	virtual void my_apiSetDetails(std::string) override;
+	virtual void my_apiSetSmallImage(std::string) override;
 	
 	std::string getName() override {return "discord";}
 	
