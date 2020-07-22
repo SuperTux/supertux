@@ -6,8 +6,8 @@
   )
   (action
     (name "swinging")
-	(fps 24)
-	(hitbox 0 2 18 27)
+    (fps 24)
+    (hitbox 0 2 18 27)
     (images "right-0.png"
             "right-1.png"
             "right-2.png"
