@@ -24,8 +24,8 @@
 
 namespace {
 const std::string TRAMPOLINE_SOUND = "sounds/trampoline.wav";
-const float BOUNCE_X = -450.0f;
-const float BOUNCE_Y = 700.0f;
+const float BOUNCE_Y = -450.0f;
+const float BOUNCE_X = 700.0f;
 }
 
 Bumper::Bumper(const ReaderMapping& reader) :
@@ -72,8 +72,8 @@ Bumper::collision(GameObject& other, const CollisionHit& hit)
   auto player = dynamic_cast<Player*> (&other);
   if (player)
   {
-	  float BOUNCE_DIR = left ? -BOUNCE_Y : BOUNCE_Y;
-	  player->get_physic().set_velocity(BOUNCE_DIR, BOUNCE_X);
+	  float BOUNCE_DIR = left ? -BOUNCE_X : BOUNCE_X;
+	  player->get_physic().set_velocity(BOUNCE_DIR, BOUNCE_Y);
     SoundManager::current()->play(TRAMPOLINE_SOUND);
     m_sprite->set_action("swinging", 1);
   }
