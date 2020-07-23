@@ -116,12 +116,9 @@ Sprite::update()
     m_frameidx++;
   }
 
-  while (m_frameidx >= get_frames()) {
+  while (m_frameidx >= get_frames() && !animation_done()) {
     m_frameidx -= get_frames();
     m_animation_loops--;
-    if (animation_done()) {
-      break;
-    }
   }
 
   if (animation_done()) {
