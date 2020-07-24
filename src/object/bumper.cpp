@@ -29,18 +29,12 @@ const float BOUNCE_X = 700.0f;
 }
 
 Bumper::Bumper(const ReaderMapping& reader) :
-  MovingSprite(reader, "images/objects/trampoline/right_trampoline.sprite", LAYER_OBJECTS, COLGROUP_MOVING),
+  MovingSprite(reader, "images/objects/trampoline/bumper.sprite", LAYER_OBJECTS, COLGROUP_MOVING),
   physic(),
   left()
 {
 	reader.get("left", left);
-	if (left)
-  {
-    m_sprite_name = "images/objects/trampoline/left_trampoline.sprite";
-    m_default_sprite_name = m_sprite_name;
-    m_sprite = SpriteManager::current()->create(m_sprite_name);
-  }
-	m_sprite->set_action("normal");
+  m_sprite->set_action(left ? "left-normal" : "right-normal");
 	physic.enable_gravity(false);
 }
   
@@ -61,7 +55,7 @@ Bumper::update(float dt_sec)
 {
   if (m_sprite->animation_done())
   {
-    m_sprite->set_action("normal");
+    m_sprite->set_action(left ? "left-normal" : "right-normal");
   }
   m_col.m_movement = physic.get_movement (dt_sec);
 }
@@ -75,7 +69,7 @@ Bumper::collision(GameObject& other, const CollisionHit& hit)
 	  float BOUNCE_DIR = left ? -BOUNCE_X : BOUNCE_X;
 	  player->get_physic().set_velocity(BOUNCE_DIR, BOUNCE_Y);
     SoundManager::current()->play(TRAMPOLINE_SOUND);
-    m_sprite->set_action("swinging", 1);
+    m_sprite->set_action((left ? "left-swinging" : "right-swinging"), 1);
   }
 	
 	auto bumper = dynamic_cast<Bumper*> (&other);
