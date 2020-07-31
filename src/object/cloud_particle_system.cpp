@@ -21,14 +21,14 @@
 
 CloudParticleSystem::CloudParticleSystem() :
   ParticleSystem(128),
-  cloudimage(Surface::from_file("images/objects/particles/cloud.png"))
+  cloudimage(Surface::from_file("images/particles/cloud.png"))
 {
   init();
 }
 
 CloudParticleSystem::CloudParticleSystem(const ReaderMapping& reader) :
   ParticleSystem(reader, 128),
-  cloudimage(Surface::from_file("images/objects/particles/cloud.png"))
+  cloudimage(Surface::from_file("images/particles/cloud.png"))
 {
   init();
 }

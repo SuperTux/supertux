@@ -481,7 +481,7 @@ Player::update(float dt_sec)
       Vector pspeed = Vector(0, 0);
       Vector paccel = Vector(0, 0);
       Sector::get().add<SpriteParticle>(
-        "images/objects/particles/sparkle.sprite",
+        "images/particles/sparkle.sprite",
         // draw bright sparkle when there is lots of time left,
         // dark sparkle when invincibility is about to end
         (m_invincible_timer.get_timeleft() > TUX_INVINCIBLE_TIME_WARNING) ?
@@ -1350,7 +1350,7 @@ Player::set_bonus(BonusType type, bool animate)
       particle_name = "earthtux-hardhat";
     }
     if (!particle_name.empty() && animate) {
-      Sector::get().add<SpriteParticle>("images/objects/particles/" + particle_name + ".sprite",
+      Sector::get().add<SpriteParticle>("images/particles/" + particle_name + ".sprite",
                                              action, ppos, ANCHOR_TOP, pspeed, paccel, LAYER_OBJECTS - 1);
     }
 
@@ -1586,7 +1586,7 @@ if (!m_swimming && m_water_jump) {
       float py = m_col.m_bbox.get_bottom()+8;
       Vector ppos = Vector(px, py);
       Sector::get().add<SpriteParticle>(
-        "images/objects/particles/sparkle.sprite", "dark",
+        "images/particles/sparkle.sprite", "dark",
         ppos, ANCHOR_MIDDLE, Vector(0, 0), Vector(0, 0), LAYER_OBJECTS+1+5);
     }
   }

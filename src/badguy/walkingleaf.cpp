@@ -30,7 +30,7 @@ WalkingLeaf::collision_squished(GameObject& object)
 {
   m_sprite->set_action(m_dir == Direction::LEFT ? "squished-left" : "squished-right");
   // Spawn death particles
-  spawn_explosion_sprites(3, "images/objects/particles/walkingleaf.sprite");
+  spawn_explosion_sprites(3, "images/particles/walkingleaf.sprite");
   kill_squished(object);
   return true;
 }
