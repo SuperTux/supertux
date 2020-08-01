@@ -22,6 +22,7 @@
 #include "math/random.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
+#include "audio/sound_manager.hpp"
 
 Zeekling::Zeekling(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/zeekling/zeekling.sprite"),
@@ -144,9 +145,7 @@ Zeekling::should_we_dive()
     // do not dive if we are too far above the player
     if (height > 512) return false;
 
-    // do not dive if we would not descend faster than the player
     float relSpeed = vy - player_mov.y;
-    if (relSpeed <= 0) return false;
 
     // guess number of frames to descend to same height as player
     float estFrames = height / relSpeed;
@@ -176,15 +175,20 @@ Zeekling::active_update(float dt_sec) {
   if (state == FLYING) {
     if (should_we_dive()) {
       state = DIVING;
-      m_physic.set_velocity_y(2*fabsf(m_physic.get_velocity_x()));
+      dive_so_far = 0.05;
+      m_physic.set_velocity_y(dive_so_far * fabsf(m_physic.get_velocity_x()));
       m_sprite->set_action(m_dir == Direction::LEFT ? "diving-left" : "diving-right");
+      SoundManager::current()->play("sounds/deathd.wav");
     }
     BadGuy::active_update(dt_sec);
     return;
   } else if (state == DIVING) {
+    dive_so_far += 0.1;
+    m_physic.set_velocity_y(dive_so_far * fabsf(m_physic.get_velocity_x()));
     BadGuy::active_update(dt_sec);
     return;
   } else if (state == CLIMBING) {
+    dive_so_far = 0;
     // stop climbing when we're back at initial height
     if (get_pos().y <= m_start_position.y) {
       state = FLYING;

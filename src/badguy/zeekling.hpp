@@ -51,6 +51,7 @@ private:
 
 private:
   float speed;
+  float dive_so_far;
   Timer diveRecoverTimer;
   ZeeklingState state;
   const MovingObject* last_player; /**< last player we tracked */
