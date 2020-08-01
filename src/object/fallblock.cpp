@@ -71,7 +71,7 @@ FallBlock::update(float dt_sec)
   {
 	  Rectf bumper_bbox = bumper.get_bbox();
 	  if ((bumper_bbox.get_left() < (m_col.m_bbox.get_right() + 8))
-	  && (bumper_bbox.get_right() > (m_col.m_bbox.get_right() - 8))
+	  && (bumper_bbox.get_right() > (m_col.m_bbox.get_left() - 8))
     && (bumper_bbox.get_bottom() > (m_col.m_bbox.get_top() - 8))
 	  && (bumper_bbox.get_top() < (m_col.m_bbox.get_bottom() + 8)))
     {
