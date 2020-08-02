@@ -18,6 +18,7 @@
 
 #include "audio/sound_manager.hpp"
 #include "object/player.hpp"
+#include "object/rock.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
@@ -36,7 +37,8 @@ PushButton::PushButton(const ReaderMapping& mapping) :
   set_action("off", -1);
   m_col.m_bbox.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
 
-  if (!mapping.get("script", script)) {
+  if (!mapping.get("script", script))
+  {
     log_warning << "No script set for pushbutton." << std::endl;
   }
 }
@@ -62,15 +64,20 @@ HitResponse
 PushButton::collision(GameObject& other, const CollisionHit& hit)
 {
   auto player = dynamic_cast<Player*>(&other);
-  if (!player) return FORCE_MOVE;
-  float vy = player->get_physic().get_velocity_y();
+  auto rock = dynamic_cast<Rock*>(&other);
+  if (!player && !rock)
+    return FORCE_MOVE;
+	if (player)
+  {
+    float vy = player->get_physic().get_velocity_y();
+    if (vy <= 0)
+      return FORCE_MOVE;
+    //player->add_velocity(Vector(0, -150));
+    player->get_physic().set_velocity_y(-150);
+	}
 
-  //player->add_velocity(Vector(0, -150));
-  player->get_physic().set_velocity_y(-150);
-
-  if (state != OFF) return FORCE_MOVE;
-  if (!hit.top) return FORCE_MOVE;
-  if (vy <= 0) return FORCE_MOVE;
+  if (state != OFF || !hit.top)
+    return FORCE_MOVE;
 
   // change appearance
   state = ON;
