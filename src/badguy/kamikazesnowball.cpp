@@ -110,7 +110,7 @@ LeafShot::collision_squished(GameObject& object)
 {
   m_sprite->set_action(m_dir == Direction::LEFT ? "squished-left" : "squished-right");
   // Spawn death particles
-  spawn_explosion_sprites(3, "images/objects/particles/leafshot.sprite");
+  spawn_explosion_sprites(3, "images/particles/leafshot.sprite");
   kill_squished(object);
   return true;
 }

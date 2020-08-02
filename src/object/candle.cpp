@@ -114,7 +114,7 @@ Candle::puff_smoke()
   Vector ppos = m_col.m_bbox.get_middle();
   Vector pspeed = Vector(0, -150);
   Vector paccel = Vector(0,0);
-  Sector::get().add<SpriteParticle>("images/objects/particles/smoke.sprite",
+  Sector::get().add<SpriteParticle>("images/particles/smoke.sprite",
                                          "default",
                                          ppos, ANCHOR_MIDDLE,
                                          pspeed, paccel,

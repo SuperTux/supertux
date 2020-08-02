@@ -61,9 +61,9 @@ SnowParticleSystem::~SnowParticleSystem()
 
 void SnowParticleSystem::init()
 {
-  snowimages[0] = Surface::from_file("images/objects/particles/snow2.png");
-  snowimages[1] = Surface::from_file("images/objects/particles/snow1.png");
-  snowimages[2] = Surface::from_file("images/objects/particles/snow0.png");
+  snowimages[0] = Surface::from_file("images/particles/snow2.png");
+  snowimages[1] = Surface::from_file("images/particles/snow1.png");
+  snowimages[2] = Surface::from_file("images/particles/snow0.png");
 
   virtual_width = static_cast<float>(SCREEN_WIDTH) * 2.0f;
 

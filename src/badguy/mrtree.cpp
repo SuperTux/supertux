@@ -82,7 +82,7 @@ MrTree::collision_squished(GameObject& object)
     float vy = -cosf(angle)*velocity;
     Vector pspeed = Vector(vx, vy);
     Vector paccel = Vector(0, Sector::get().get_gravity()*10);
-    Sector::get().add<SpriteParticle>("images/objects/particles/leaf.sprite",
+    Sector::get().add<SpriteParticle>("images/particles/leaf.sprite",
                                            "default",
                                            ppos, ANCHOR_MIDDLE,
                                            pspeed, paccel,

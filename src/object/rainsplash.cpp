@@ -23,8 +23,8 @@ RainSplash::RainSplash(const Vector& pos, bool vertical) :
   position(pos),
   frame(0)
 {
-  if (vertical) sprite = SpriteManager::current()->create("images/objects/particles/rainsplash-vertical.sprite");
-  else sprite = SpriteManager::current()->create("images/objects/particles/rainsplash.sprite");
+  if (vertical) sprite = SpriteManager::current()->create("images/particles/rainsplash-vertical.sprite");
+  else sprite = SpriteManager::current()->create("images/particles/rainsplash.sprite");
 }
 
 RainSplash::~RainSplash() {

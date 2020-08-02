@@ -45,8 +45,8 @@ GhostParticleSystem::~GhostParticleSystem()
 void
 GhostParticleSystem::init()
 {
-  ghosts[0] = Surface::from_file("images/objects/particles/ghost0.png");
-  ghosts[1] = Surface::from_file("images/objects/particles/ghost1.png");
+  ghosts[0] = Surface::from_file("images/particles/ghost0.png");
+  ghosts[1] = Surface::from_file("images/particles/ghost1.png");
 
   virtual_width = static_cast<float>(SCREEN_WIDTH) * 2.0f;
 
