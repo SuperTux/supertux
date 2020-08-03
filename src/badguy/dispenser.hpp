@@ -73,6 +73,7 @@ private:
   bool m_swivel;
   bool m_broken;
   bool m_random;
+  bool m_gravity;
 
   DispenserType m_type;
   std::string m_type_str;
