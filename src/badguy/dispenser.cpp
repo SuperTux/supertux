@@ -231,7 +231,6 @@ Dispenser::active_update(float dt_sec)
   if (m_gravity)
   {
     BadGuy::active_update(dt_sec);
-    m_physic.enable_gravity(true);
   }
   if (m_dispense_timer.check()) {
     // auto always shoots in Tux's direction
