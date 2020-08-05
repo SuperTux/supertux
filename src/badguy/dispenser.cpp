@@ -71,6 +71,7 @@ Dispenser::Dispenser(const ReaderMapping& reader) :
   m_swivel(false),
   m_broken(false),
   m_random(),
+  m_gravity(),
   m_type(),
   m_type_str(),
   m_limit_dispensed_badguys(),
@@ -80,6 +81,7 @@ Dispenser::Dispenser(const ReaderMapping& reader) :
   set_colgroup_active(COLGROUP_MOVING_STATIC);
   SoundManager::current()->preload("sounds/squish.wav");
   reader.get("cycle", m_cycle, 5.0f);
+  if (reader.get("gravity", m_gravity)) m_physic.enable_gravity(true);
   if ( !reader.get("badguy", m_badguys)) m_badguys.clear();
   reader.get("random", m_random, false);
   std::string type_s = "dropper"; //default
@@ -224,8 +226,12 @@ Dispenser::collision(GameObject& other, const CollisionHit& hit)
 }
 
 void
-Dispenser::active_update(float )
+Dispenser::active_update(float dt_sec)
 {
+  if (m_gravity)
+  {
+    BadGuy::active_update(dt_sec);
+  }
   if (m_dispense_timer.check()) {
     // auto always shoots in Tux's direction
     if (m_autotarget) {
@@ -441,6 +447,8 @@ Dispenser::get_settings()
   result.add_badguy(_("Enemies"), &m_badguys, "badguy");
   result.add_bool(_("Limit dispensed badguys"), &m_limit_dispensed_badguys,
                   "limit-dispensed-badguys", false);
+  result.add_bool(_("Obey Gravity"), &m_gravity,
+                  "gravity", false);
   result.add_int(_("Max concurrent badguys"), &m_max_concurrent_badguys,
                  "max-concurrent-badguys", 0);
   result.add_enum(_("Type"), reinterpret_cast<int*>(&m_type),
@@ -448,7 +456,7 @@ Dispenser::get_settings()
                   {"dropper", "rocketlauncher", "cannon", "point"},
                   static_cast<int>(DispenserType::DROPPER), "type");
 
-  result.reorder({"cycle", "random", "type", "badguy", "direction", "limit-dispensed-badguys", "max-concurrent-badguys", "x", "y"});
+  result.reorder({"cycle", "random", "type", "badguy", "direction", "gravity", "limit-dispensed-badguys", "max-concurrent-badguys", "x", "y"});
 
   return result;
 }
