@@ -6,10 +6,10 @@
 	(fps 15)
     (images "wind3.png"
 	        "wind2.png"
-	        "wind.png"
-	        "wind.png"
-	        "wind2.png"
-	        "wind3.png")
+			"wind.png"
+			"wind.png"
+			"wind2.png"
+			"wind3.png")
   )
   (action
     (name "flip")
