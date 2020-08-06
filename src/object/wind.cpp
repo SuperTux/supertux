@@ -52,7 +52,7 @@ Wind::Wind(const ReaderMapping& reader) :
   reader.get("speed-y", speed.y, 0.0f);
 
   reader.get("acceleration", acceleration, 100.0f);
-  
+
   reader.get("affects-badguys", affects_badguys, false);
   
   reader.get("fancy-wind", fancy_wind, false);
