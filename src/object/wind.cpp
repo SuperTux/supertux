@@ -95,7 +95,7 @@ Wind::update(float dt_sec_)
 
   // TODO: Rotate sprite rather than just use 2 different actions
   // Approx. 1 particle per tile
-  if (graphicsRandom.rand(0.f, 100.f) < (m_col.m_bbox.get_width() / 32.f) * (m_col.m_bbox.get_height() / 32.f))
+  if (graphicsRandom.randf(0.f, 100.f) < (m_col.m_bbox.get_width() / 32.f) * (m_col.m_bbox.get_height() / 32.f))
   {
     // emit a particle
 	  if (fancy_wind)
