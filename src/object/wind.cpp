@@ -95,7 +95,7 @@ Wind::update(float dt_sec_)
 
   // TODO: Rotate sprite rather than just use 2 different actions
   // Approx. 1 particle per tile
-  if (graphicsRandom.rand(0, 100) < ((m_col.m_bbox.get_width() / 32) * (m_col.m_bbox.get_height() / 32)))
+  if (graphicsRandom.rand(0.f, 100.f) < (m_col.m_bbox.get_width() / 32) * (m_col.m_bbox.get_height() / 32))
   {
     // emit a particle
 	  if (fancy_wind)
@@ -139,7 +139,7 @@ Wind::collision(GameObject& other, const CollisionHit& )
 	    else
       {
 	      //When on ground, get blown slightly differently, but the max speed is less than it would be otherwise seen as we take "friction" into account
-	      player->add_velocity(Vector(speed.x * 0.1, 0) * (acceleration+1), Vector(speed.x*0.5, speed.y));
+	      player->add_velocity((Vector(speed.x, 0) * 0.1f) * (acceleration+1), (Vector(speed.x, speed.y) * 0.5f));
 	    }
     }
   }
