@@ -21,6 +21,9 @@
 #include "math/random.hpp"
 #include "object/particles.hpp"
 #include "object/player.hpp"
+#include "object/sprite_particle.hpp"
+#include "sprite/sprite.hpp"
+#include "sprite/sprite_manager.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 #include "video/drawing_context.hpp"
@@ -33,7 +36,8 @@ Wind::Wind(const ReaderMapping& reader) :
   acceleration(),
   new_size(),
   dt_sec(0),
-  affects_badguys()
+  affects_badguys(),
+  fancy_wind()
 {
   float w,h;
   reader.get("x", m_col.m_bbox.get_left(), 0.0f);
@@ -50,6 +54,8 @@ Wind::Wind(const ReaderMapping& reader) :
   reader.get("acceleration", acceleration, 100.0f);
 
   reader.get("affects-badguys", affects_badguys, false);
+  
+  reader.get("fancy-wind", fancy_wind, false);
 
   set_group(COLGROUP_TOUCHABLE);
 }
@@ -69,8 +75,9 @@ Wind::get_settings()
   result.add_float(_("Acceleration"), &acceleration, "acceleration");
   result.add_bool(_("Blowing"), &blowing, "blowing", true);
   result.add_bool(_("Affects Badguys"), &affects_badguys, "affects-badguys", false);
+  result.add_bool(_("Fancy Particles"), &fancy_wind, "fancy-wind", false);
 
-  result.reorder({"blowing", "speed-x", "speed-y", "acceleration", "affects-badguys", "region", "name", "x", "y"});
+  result.reorder({"blowing", "speed-x", "speed-y", "acceleration", "affects-badguys", "fancy-wind", "region", "name", "x", "y"});
 
   return result;
 }
@@ -83,13 +90,22 @@ Wind::update(float dt_sec_)
   if (!blowing) return;
   if (m_col.m_bbox.get_width() <= 16 || m_col.m_bbox.get_height() <= 16) return;
 
-  // TODO: nicer, configurable particles for wind?
-  if (graphicsRandom.rand(0, 100) < 20) {
+  Vector ppos = Vector(graphicsRandom.randf(m_col.m_bbox.get_left()+8, m_col.m_bbox.get_right()-8), graphicsRandom.randf(m_col.m_bbox.get_top()+8, m_col.m_bbox.get_bottom()-8));
+  Vector pspeed = Vector(graphicsRandom.randf(speed.x-20, speed.x+20), graphicsRandom.randf(speed.y-20, speed.y+20));
+
+  // TODO: Rotate sprite rather than just use 2 different actions
+  // Approx. 1 particle per tile
+  if (graphicsRandom.randf(0.f, 100.f) < (m_col.m_bbox.get_width() / 32.f) * (m_col.m_bbox.get_height() / 32.f))
+  {
     // emit a particle
-    Vector ppos = Vector(graphicsRandom.randf(m_col.m_bbox.get_left()+8, m_col.m_bbox.get_right()-8), graphicsRandom.randf(m_col.m_bbox.get_top()+8, m_col.m_bbox.get_bottom()-8));
-    Vector pspeed = Vector(speed.x, speed.y);
-    Sector::get().add<Particles>(ppos, 44, 46, pspeed, Vector(0,0), 1, Color(.4f, .4f, .4f), 3, .1f,
-                                      LAYER_BACKGROUNDTILES+1);
+	  if (fancy_wind)
+    {
+	    Sector::get().add<SpriteParticle>("images/particles/wind.sprite", (abs(speed.x) > abs(speed.y)) ? "default" : "flip", ppos, ANCHOR_MIDDLE, pspeed, Vector(0, 0), LAYER_BACKGROUNDTILES + 1); 
+	  }
+	  else
+    {
+	    Sector::get().add<Particles>(ppos, 44, 46, pspeed, Vector(0, 0), 1, Color(.4f, .4f, .4f), 3, .1f, LAYER_BACKGROUNDTILES + 1);
+	  }
   }
 }
 
@@ -108,17 +124,29 @@ Wind::collision(GameObject& other, const CollisionHit& )
   if (!blowing) return ABORT_MOVE;
 
   auto player = dynamic_cast<Player*> (&other);
-  if (player) {
-    if (!player->on_ground()) {
+  if (player)
+  {
+    if (!player->on_ground())
+	  {
       player->add_velocity(speed * acceleration * dt_sec, speed);
     }
-  }
-
-  auto badguy = dynamic_cast<BadGuy*> (&other);
-  if (badguy && this->affects_badguys) {
-    if (badguy->can_be_affected_by_wind()) {
-      badguy->add_wind_velocity(speed * acceleration * dt_sec, speed);
+    else
+    {
+      if (player->get_controller().hold(Control::RIGHT) || player->get_controller().hold(Control::LEFT))
+	    {
+	      player->add_velocity(Vector(speed.x, 0) * acceleration * dt_sec, speed);
+	    }
+	    else
+      {
+	      //When on ground, get blown slightly differently, but the max speed is less than it would be otherwise seen as we take "friction" into account
+	      player->add_velocity((Vector(speed.x, 0) * 0.1f) * (acceleration+1), (Vector(speed.x, speed.y) * 0.5f));
+	    }
     }
+  }
+  auto badguy = dynamic_cast<BadGuy*> (&other);
+  if (badguy && this->affects_badguys && badguy->can_be_affected_by_wind())
+  {
+    badguy->add_wind_velocity(speed * acceleration * dt_sec, speed);
   }
 
   return ABORT_MOVE;
