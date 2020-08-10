@@ -91,9 +91,6 @@ Resources::get_font_for_locale(const std::string& locale)
     return "fonts/NotoSansDevanagari-Medium.ttf";
   if(locale == "cmn" || locale == "ja" || locale == "zh_CN" || locale == "zh_TW")
     return "fonts/NotoSansCJKjp-Medium.otf";
-  if(locale == "he")
-    return "fonts/Yehuda CLM Bold.ttf";
-  return "fonts/SuperTux-Medium.ttf";
 }
 
 void
