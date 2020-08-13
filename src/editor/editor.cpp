@@ -60,7 +60,6 @@
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
-bool level_first_loaded = false;
 bool Editor::s_resaving_in_progress = false;
 
 bool
@@ -99,7 +98,8 @@ Editor::Editor() :
   m_enabled(false),
   m_bgr_surface(Surface::from_file("images/background/antarctic/arctis2.png")),
   m_undo_manager(new UndoManager),
-  m_ignore_sector_change(false)
+  m_ignore_sector_change(false),
+  m_level_first_loaded(false)
 {
   auto toolbox_widget = std::make_unique<EditorToolboxWidget>(*this);
   auto layers_widget = std::make_unique<EditorLayersWidget>(*this);
@@ -437,11 +437,11 @@ Editor::set_level(std::unique_ptr<Level> level, bool reset)
   m_toolbox_widget->update_mouse_icon();
   m_overlay_widget->on_level_change();
   
-  if (!level_first_loaded)
+  if (!m_level_first_loaded)
   {
     m_undo_manager->try_snapshot(*m_level);
     m_undo_manager->reset_index();
-    level_first_loaded = true;
+    m_level_first_loaded = true;
   }
 }
 

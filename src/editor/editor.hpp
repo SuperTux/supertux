@@ -177,6 +177,8 @@ private:
 
   std::unique_ptr<UndoManager> m_undo_manager;
   bool m_ignore_sector_change;
+  
+  bool m_level_first_loaded;
 
 private:
   Editor(const Editor&) = delete;
