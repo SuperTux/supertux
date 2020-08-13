@@ -79,6 +79,18 @@ msgstr "-Большая рыба... для тебя."
 msgid "A New Location"
 msgstr "Новое расположение"
 
+#: data/levels/world2/forest_intro.stl:41
+msgid "After a long trip Tux finally managed to\nreach the new landscape."
+msgstr "После долгого путешествия Такс наконец-то прибыл к незнакомым берегам."
+
+#: data/levels/world2/forest_intro.stl:47
+msgid "Astonished by the scale of the forest and\nthe much warmer temperature..."
+msgstr "Поражённый видом огромных деревьев и значительно более тёплым воздухом..."
+
+#: data/levels/world2/forest_intro.stl:52
+msgid "...Tux continued his search for Nolok and\nPenny."
+msgstr "...Такс продолжил поиски Нолока и Пенни."
+
 #: data/levels/world2/ghost_cutscene.stl:3
 msgid "What is Happening?"
 msgstr "Что происходит?"
@@ -169,11 +181,31 @@ msgid ""
 "!images/powerups/earthflower/earth_flower-1.png\n"
 "#The earth flower gives Tux the ability to turn into stone by pressing the ACTION Key and the DOWN Key at the same time.\n"
 "#This does not work while jumping or falling!"
-msgstr "-Земляной цветок\n!images/powerups/earthflower/earth_flower-1.png\n#Воздушный цветок даёт Таксу возможность обращаться в камень при нажатии сочетания кнопок ДЕЙСТВИЯ и ВНИЗ.\n#Это не работает в прыжке или при падении."
+msgstr "-Земляной цветок\n!images/powerups/earthflower/earth_flower-1.png\n#Земляной цветок даёт Таксу возможность обращаться в камень при нажатии сочетания кнопок ДЕЙСТВИЯ и ВНИЗ.\n#Это не работает в прыжке или при падении."
 
 #: data/levels/world2/tower_cutscene.stl:3
 msgid "Tower Cutscene"
 msgstr "Заставка башни"
+
+#: data/levels/world2/tower_cutscene.stl:42
+msgid "Tux had now reached the end of Noloks' tower."
+msgstr "Такс наконец достик вершины башни Нолока."
+
+#: data/levels/world2/tower_cutscene.stl:53
+msgid "But again, no Penny in sight, just a letter."
+msgstr "И вновь не обнаружил Пенни, лишь записку..."
+
+#: data/levels/world2/tower_cutscene.stl:62
+msgid "It's from Penny, telling him that Nolok took her to an Tropical World. He seemed very upset about it."
+msgstr "Она была от Пенни. В ней говорилось, что Нолок забрал её на Тропический Остров. Такс почувствовал себя обескураженным."
+
+#: data/levels/world2/tower_cutscene.stl:67
+msgid "Nolok also left his strong lieutenant, the ghost tree back, which is the reason why the forest is so creepy and dangerous."
+msgstr "Так же Нолок оставил своего могучего подручного, Призрачное Дерево, из-за которого Лес стал столь мрачным и опасным."
+
+#: data/levels/world2/tower_cutscene.stl:72
+msgid "Determined, Tux decided to beat this evil ghost tree and to travel to the Tropical Island."
+msgstr "Поразмыслив, Такс решил одолеть зловещее Призрачное Дерево и отправиться на Тропический Остров."
 
 #: data/levels/world2/tower_of_ghosts.stl:3
 msgid "Tower Of Ghosts"
@@ -189,7 +221,7 @@ msgid ""
 "!images/objects/rock/rock.png\n"
 "#Tux can pick up certain objects and carry them around.\n"
 "#Press the ACTION key to grab an object and hold it pressed as long as you want to carry the object. Release the ACTION key to drop the object."
-msgstr "-Переносные обхекты:\n!images/objects/rock/rock.png\n#Такс может подбирать некоторые объекты и носить их с собой.\n#Нажмите кнопку ДЕЙСТВИЯ, чтобы поднять предмет и держать его пока зажата эта кнопка. Отожмите кнопку ДЕЙСТВИЯ, чтобы отпустить объект."
+msgstr "-Переносные объекты:\n!images/objects/rock/rock.png\n#Такс может подбирать некоторые объекты и носить их с собой.\n#Нажмите кнопку ДЕЙСТВИЯ, чтобы поднять предмет и держать его пока зажата эта кнопка. Отожмите кнопку ДЕЙСТВИЯ, чтобы отпустить объект."
 
 #: data/levels/world2/tux_own_horror_show.stl:3
 msgid "Tux' Own Horror Show"
