@@ -40,6 +40,13 @@ Platform::stop_moving()
   object.stop_moving();
 }
 
+void
+Platform::set_action(const std::string& action, int repeat)
+{
+  SCRIPT_GUARD_VOID;
+  object.set_action(action, repeat);
+}
+
 } // namespace scripting
 
 /* EOF */

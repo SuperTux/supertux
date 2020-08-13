@@ -47,6 +47,9 @@ public:
 
   /** Stop platform at next node */
   void stop_moving();
+
+  /** Updates the platform to the given action  */
+  void set_action(const std::string& action, int repeat);
 };
 
 } // namespace scripting

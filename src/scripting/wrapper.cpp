@@ -1866,6 +1866,46 @@ static SQInteger Platform_stop_moving_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger Platform_set_action_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+    sq_throwerror(vm, _SC("'set_action' called without instance"));
+    return SQ_ERROR;
+  }
+  auto _this = reinterpret_cast<scripting::Platform*> (data);
+
+  if (_this == nullptr) {
+    return SQ_ERROR;
+  }
+
+  const SQChar* arg0;
+  if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a string"));
+    return SQ_ERROR;
+  }
+
+  SQInteger arg1;
+  if(SQ_FAILED(sq_getinteger(vm, 3, &arg1))) {
+    sq_throwerror(vm, _SC("Argument 2 not a integer"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->set_action(static_cast<const char*> (arg0), static_cast<int> (arg1));
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_action'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger Player_release_hook(SQUserPointer ptr, SQInteger )
 {
   auto _this = reinterpret_cast<scripting::Player*> (ptr);
@@ -8058,6 +8098,13 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'stop_moving'");
+  }
+  
+  sq_pushstring(v, "set_action", -1);
+  sq_newclosure(v, &Platform_set_action_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tsi");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'set_action'");
   }
 
   if(SQ_FAILED(sq_createslot(v, -3))) {
