@@ -37,6 +37,7 @@ Wind::Wind(const ReaderMapping& reader) :
   new_size(),
   dt_sec(0),
   affects_badguys(),
+  affects_player(),
   fancy_wind()
 {
   float w,h;
@@ -54,6 +55,7 @@ Wind::Wind(const ReaderMapping& reader) :
   reader.get("acceleration", acceleration, 100.0f);
 
   reader.get("affects-badguys", affects_badguys, false);
+  reader.get("affects-player", affects_player, true);
   
   reader.get("fancy-wind", fancy_wind, false);
 
@@ -75,9 +77,10 @@ Wind::get_settings()
   result.add_float(_("Acceleration"), &acceleration, "acceleration");
   result.add_bool(_("Blowing"), &blowing, "blowing", true);
   result.add_bool(_("Affects Badguys"), &affects_badguys, "affects-badguys", false);
+  result.add_bool(_("Affects Player"), &affects_player, "affects-player");
   result.add_bool(_("Fancy Particles"), &fancy_wind, "fancy-wind", false);
 
-  result.reorder({"blowing", "speed-x", "speed-y", "acceleration", "affects-badguys", "fancy-wind", "region", "name", "x", "y"});
+  result.reorder({"blowing", "speed-x", "speed-y", "acceleration", "affects-badguys", "affects-player", "fancy-wind", "region", "name", "x", "y"});
 
   return result;
 }
@@ -122,6 +125,7 @@ HitResponse
 Wind::collision(GameObject& other, const CollisionHit& )
 {
   if (!blowing) return ABORT_MOVE;
+  if (!affects_player) return ABORT_MOVE;
 
   auto player = dynamic_cast<Player*> (&other);
   if (player)
