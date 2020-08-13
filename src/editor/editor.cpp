@@ -60,6 +60,7 @@
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
+bool level_first_loaded = false;
 bool Editor::s_resaving_in_progress = false;
 
 bool
@@ -395,7 +396,6 @@ Editor::delete_current_sector()
 void
 Editor::set_level(std::unique_ptr<Level> level, bool reset)
 {
-  m_undo_manager->reset_index();
   std::string sector_name = "main";
   Vector translation;
 
@@ -436,6 +436,13 @@ Editor::set_level(std::unique_ptr<Level> level, bool reset)
   m_layers_widget->refresh_sector_text();
   m_toolbox_widget->update_mouse_icon();
   m_overlay_widget->on_level_change();
+  
+  if (!level_first_loaded)
+  {
+    m_undo_manager->try_snapshot(*m_level);
+    m_undo_manager->reset_index();
+    level_first_loaded = true;
+  }
 }
 
 void
