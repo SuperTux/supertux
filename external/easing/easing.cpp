@@ -18,19 +18,19 @@
 #include "easing.hpp"
 
 // Modeled after the line y = x
-float LinearInterpolation(float p)
+double LinearInterpolation(double p)
 {
 	return p;
 }
 
 // Modeled after the parabola y = x^2
-float QuadraticEaseIn(float p)
+double QuadraticEaseIn(double p)
 {
 	return p * p;
 }
 
 // Modeled after the parabola y = -x^2 + 2x
-float QuadraticEaseOut(float p)
+double QuadraticEaseOut(double p)
 {
 	return -(p * (p - 2));
 }
@@ -38,7 +38,7 @@ float QuadraticEaseOut(float p)
 // Modeled after the piecewise quadratic
 // y = (1/2)((2x)^2)             ; [0, 0.5)
 // y = -(1/2)((2x-1)*(2x-3) - 1) ; [0.5, 1]
-float QuadraticEaseInOut(float p)
+double QuadraticEaseInOut(double p)
 {
 	if(p < 0.5)
 	{
@@ -51,22 +51,22 @@ float QuadraticEaseInOut(float p)
 }
 
 // Modeled after the cubic y = x^3
-float CubicEaseIn(float p)
+double CubicEaseIn(double p)
 {
 	return p * p * p;
 }
 
 // Modeled after the cubic y = (x - 1)^3 + 1
-float CubicEaseOut(float p)
+double CubicEaseOut(double p)
 {
-	float f = (p - 1);
+	double f = (p - 1);
 	return f * f * f + 1;
 }
 
 // Modeled after the piecewise cubic
 // y = (1/2)((2x)^3)       ; [0, 0.5)
 // y = (1/2)((2x-2)^3 + 2) ; [0.5, 1]
-float CubicEaseInOut(float p)
+double CubicEaseInOut(double p)
 {
 	if(p < 0.5)
 	{
@@ -74,28 +74,28 @@ float CubicEaseInOut(float p)
 	}
 	else
 	{
-		float f = ((2 * p) - 2);
+		double f = ((2 * p) - 2);
 		return 0.5 * f * f * f + 1;
 	}
 }
 
 // Modeled after the quartic x^4
-float QuarticEaseIn(float p)
+double QuarticEaseIn(double p)
 {
 	return p * p * p * p;
 }
 
 // Modeled after the quartic y = 1 - (x - 1)^4
-float QuarticEaseOut(float p)
+double QuarticEaseOut(double p)
 {
-	float f = (p - 1);
+	double f = (p - 1);
 	return f * f * f * (1 - p) + 1;
 }
 
 // Modeled after the piecewise quartic
 // y = (1/2)((2x)^4)        ; [0, 0.5)
 // y = -(1/2)((2x-2)^4 - 2) ; [0.5, 1]
-float QuarticEaseInOut(float p) 
+double QuarticEaseInOut(double p) 
 {
 	if(p < 0.5)
 	{
@@ -103,28 +103,28 @@ float QuarticEaseInOut(float p)
 	}
 	else
 	{
-		float f = (p - 1);
+		double f = (p - 1);
 		return -8 * f * f * f * f + 1;
 	}
 }
 
 // Modeled after the quintic y = x^5
-float QuinticEaseIn(float p) 
+double QuinticEaseIn(double p) 
 {
 	return p * p * p * p * p;
 }
 
 // Modeled after the quintic y = (x - 1)^5 + 1
-float QuinticEaseOut(float p) 
+double QuinticEaseOut(double p) 
 {
-	float f = (p - 1);
+	double f = (p - 1);
 	return f * f * f * f * f + 1;
 }
 
 // Modeled after the piecewise quintic
 // y = (1/2)((2x)^5)       ; [0, 0.5)
 // y = (1/2)((2x-2)^5 + 2) ; [0.5, 1]
-float QuinticEaseInOut(float p) 
+double QuinticEaseInOut(double p) 
 {
 	if(p < 0.5)
 	{
@@ -132,37 +132,37 @@ float QuinticEaseInOut(float p)
 	}
 	else
 	{
-		float f = ((2 * p) - 2);
+		double f = ((2 * p) - 2);
 		return  0.5 * f * f * f * f * f + 1;
 	}
 }
 
 // Modeled after quarter-cycle of sine wave
-float SineEaseIn(float p)
+double SineEaseIn(double p)
 {
 	return sin((p - 1) * M_PI_2) + 1;
 }
 
 // Modeled after quarter-cycle of sine wave (different phase)
-float SineEaseOut(float p)
+double SineEaseOut(double p)
 {
 	return sin(p * M_PI_2);
 }
 
 // Modeled after half sine wave
-float SineEaseInOut(float p)
+double SineEaseInOut(double p)
 {
 	return 0.5 * (1 - cos(p * M_PI));
 }
 
 // Modeled after shifted quadrant IV of unit circle
-float CircularEaseIn(float p)
+double CircularEaseIn(double p)
 {
 	return 1 - sqrt(1 - (p * p));
 }
 
 // Modeled after shifted quadrant II of unit circle
-float CircularEaseOut(float p)
+double CircularEaseOut(double p)
 {
 	return sqrt((2 - p) * p);
 }
@@ -170,7 +170,7 @@ float CircularEaseOut(float p)
 // Modeled after the piecewise circular function
 // y = (1/2)(1 - sqrt(1 - 4x^2))           ; [0, 0.5)
 // y = (1/2)(sqrt(-(2x - 3)*(2x - 1)) + 1) ; [0.5, 1]
-float CircularEaseInOut(float p)
+double CircularEaseInOut(double p)
 {
 	if(p < 0.5)
 	{
@@ -183,13 +183,13 @@ float CircularEaseInOut(float p)
 }
 
 // Modeled after the exponential function y = 2^(10(x - 1))
-float ExponentialEaseIn(float p)
+double ExponentialEaseIn(double p)
 {
 	return (p == 0.0) ? p : pow(2, 10 * (p - 1));
 }
 
 // Modeled after the exponential function y = -2^(-10x) + 1
-float ExponentialEaseOut(float p)
+double ExponentialEaseOut(double p)
 {
 	return (p == 1.0) ? p : 1 - pow(2, -10 * p);
 }
@@ -197,7 +197,7 @@ float ExponentialEaseOut(float p)
 // Modeled after the piecewise exponential
 // y = (1/2)2^(10(2x - 1))         ; [0,0.5)
 // y = -(1/2)*2^(-10(2x - 1))) + 1 ; [0.5,1]
-float ExponentialEaseInOut(float p)
+double ExponentialEaseInOut(double p)
 {
 	if(p == 0.0 || p == 1.0) return p;
 	
@@ -212,13 +212,13 @@ float ExponentialEaseInOut(float p)
 }
 
 // Modeled after the damped sine wave y = sin(13pi/2*x)*pow(2, 10 * (x - 1))
-float ElasticEaseIn(float p)
+double ElasticEaseIn(double p)
 {
 	return sin(13 * M_PI_2 * p) * pow(2, 10 * (p - 1));
 }
 
 // Modeled after the damped sine wave y = sin(-13pi/2*(x + 1))*pow(2, -10x) + 1
-float ElasticEaseOut(float p)
+double ElasticEaseOut(double p)
 {
 	return sin(-13 * M_PI_2 * (p + 1)) * pow(2, -10 * p) + 1;
 }
@@ -226,7 +226,7 @@ float ElasticEaseOut(float p)
 // Modeled after the piecewise exponentially-damped sine wave:
 // y = (1/2)*sin(13pi/2*(2*x))*pow(2, 10 * ((2*x) - 1))      ; [0,0.5)
 // y = (1/2)*(sin(-13pi/2*((2x-1)+1))*pow(2,-10(2*x-1)) + 2) ; [0.5, 1]
-float ElasticEaseInOut(float p)
+double ElasticEaseInOut(double p)
 {
 	if(p < 0.5)
 	{
@@ -239,41 +239,41 @@ float ElasticEaseInOut(float p)
 }
 
 // Modeled after the overshooting cubic y = x^3-x*sin(x*pi)
-float BackEaseIn(float p)
+double BackEaseIn(double p)
 {
 	return p * p * p - p * sin(p * M_PI);
 }
 
 // Modeled after overshooting cubic y = 1-((1-x)^3-(1-x)*sin((1-x)*pi))
-float BackEaseOut(float p)
+double BackEaseOut(double p)
 {
-	float f = (1 - p);
+	double f = (1 - p);
 	return 1 - (f * f * f - f * sin(f * M_PI));
 }
 
 // Modeled after the piecewise overshooting cubic function:
 // y = (1/2)*((2x)^3-(2x)*sin(2*x*pi))           ; [0, 0.5)
 // y = (1/2)*(1-((1-x)^3-(1-x)*sin((1-x)*pi))+1) ; [0.5, 1]
-float BackEaseInOut(float p)
+double BackEaseInOut(double p)
 {
 	if(p < 0.5)
 	{
-		float f = 2 * p;
+		double f = 2 * p;
 		return 0.5 * (f * f * f - f * sin(f * M_PI));
 	}
 	else
 	{
-		float f = (1 - (2*p - 1));
+		double f = (1 - (2*p - 1));
 		return 0.5 * (1 - (f * f * f - f * sin(f * M_PI))) + 0.5;
 	}
 }
 
-float BounceEaseIn(float p)
+double BounceEaseIn(double p)
 {
 	return 1 - BounceEaseOut(1 - p);
 }
 
-float BounceEaseOut(float p)
+double BounceEaseOut(double p)
 {
 	if(p < 4/11.0)
 	{
@@ -293,7 +293,7 @@ float BounceEaseOut(float p)
 	}
 }
 
-float BounceEaseInOut(float p)
+double BounceEaseInOut(double p)
 {
 	if(p < 0.5)
 	{

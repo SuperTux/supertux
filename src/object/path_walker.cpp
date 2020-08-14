@@ -112,7 +112,8 @@ PathWalker::get_pos() const
   easing easeFunc = getEasingByName(current_node->easing);
   
   Vector new_pos = current_node->position +
-    (next_node->position - current_node->position) * easeFunc(m_node_time);
+    (next_node->position - current_node->position) *
+    static_cast<float>(easeFunc(static_cast<double>(m_node_time)));
 
   return new_pos;
 }
