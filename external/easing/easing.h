@@ -41,6 +41,38 @@ enum easing_functions
 	EaseInOutBounce
 };
 
+double easeNone(double);
+double easeInSine(double);
+double easeOutSine(double);
+double easeInOutSine(double);
+double easeInQuad(double);
+double easeOutQuad(double);
+double easeInOutQuad(double);
+double easeInCubic(double);
+double easeOutCubic(double);
+double easeInOutCubic(double);
+double easeInQuart(double);
+double easeOutQuart(double);
+double easeInOutQuart(double);
+double easeInQuint(double);
+double easeOutQuint(double);
+double easeInOutQuint(double);
+double easeInExpo(double);
+double easeOutExpo(double);
+double easeInOutExpo(double);
+double easeInCirc(double);
+double easeOutCirc(double);
+double easeInOutCirc(double);
+double easeInBack(double);
+double easeOutBack(double);
+double easeInOutBack(double);
+double easeInElastic(double);
+double easeOutElastic(double);
+double easeInOutElastic(double);
+double easeInBounce(double);
+double easeOutBounce(double);
+double easeInOutBounce(double);
+
 typedef double(*easingFunction)(double);
 
 easingFunction getEasingFunction( easing_functions function );

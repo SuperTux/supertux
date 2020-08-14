@@ -8,19 +8,19 @@
 #endif
 
 double easeNone( double t ) {
-	return t;
+    return t;
 }
 
 double easeInSine( double t ) {
-	return sin( 1.5707963 * t );
+    return sin( 1.5707963 * t );
 }
 
 double easeOutSine( double t ) {
-	return 1 + sin( 1.5707963 * (--t) );
+    return 1 + sin( 1.5707963 * (t - 1) );
 }
 
 double easeInOutSine( double t ) {
-	return 0.5 * (1 + sin( 3.1415926 * (t - 0.5) ) );
+    return 0.5 * (1 + sin( 3.1415926 * (t - 0.5) ) );
 }
 
 double easeInQuad( double t ) {
@@ -40,11 +40,12 @@ double easeInCubic( double t ) {
 }
 
 double easeOutCubic( double t ) {
-    return 1 + (--t) * t * t;
+	t--;
+    return 1 + t * t * t;
 }
 
 double easeInOutCubic( double t ) {
-    return t < 0.5 ? 4 * t * t * t : 1 + (--t) * (2 * (--t)) * (2 * t);
+    return t < 0.5 ? 4 * t * t * t : 1 + (t-1) * (2 * t - 2) * (2 * t - 2);
 }
 
 double easeInQuart( double t ) {
@@ -53,7 +54,8 @@ double easeInQuart( double t ) {
 }
 
 double easeOutQuart( double t ) {
-    t = (--t) * t;
+	t--;
+    t = t * t;
     return 1 - t * t;
 }
 
@@ -62,7 +64,8 @@ double easeInOutQuart( double t ) {
         t *= t;
         return 8 * t * t;
     } else {
-        t = (--t) * t;
+    	t--;
+        t = t * t;
         return 1 - 8 * t * t;
     }
 }
@@ -73,7 +76,8 @@ double easeInQuint( double t ) {
 }
 
 double easeOutQuint( double t ) {
-    double t2 = (--t) * t;
+	t--;
+    double t2 = t * t;
     return 1 + t * t2 * t2;
 }
 
@@ -83,7 +87,8 @@ double easeInOutQuint( double t ) {
         t2 = t * t;
         return 16 * t * t2 * t2;
     } else {
-        t2 = (--t) * t;
+    	t--;
+        t2 = t * t;
         return 1 + 16 * t * t2 * t2;
     }
 }
@@ -125,14 +130,16 @@ double easeInBack( double t ) {
 }
 
 double easeOutBack( double t ) {
-    return 1 + (--t) * t * (2.70158 * t + 1.70158);
+	t--;
+    return 1 + t * t * (2.70158 * t + 1.70158);
 }
 
 double easeInOutBack( double t ) {
     if( t < 0.5 ) {
         return t * t * (7 * t - 2.5) * 2;
     } else {
-        return 1 + (--t) * t * 2 * (7 * t + 2.5);
+    	t--;
+        return 1 + t * t * 2 * (7 * t + 2.5);
     }
 }
 
