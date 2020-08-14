@@ -1,226 +1,643 @@
-#include <cmath>
-#include <map>
+//
+//  easing.c
+//
+//  Copyright (c) 2011, Auerhaus Development, LLC
+//
+//  This program is free software. It comes without any warranty, to
+//  the extent permitted by applicable law. You can redistribute it
+//  and/or modify it under the terms of the Do What The Fuck You Want
+//  To Public License, Version 2, as published by Sam Hocevar. See
+//  http://sam.zoy.org/wtfpl/COPYING for more details.
+//
 
-#include "easing.h"
+// DISCLAIMER : This file, as well as the linked header file, have been
+// modified for compatibility purposes.
+//     Edited by Semphris for SuperTux, Aug 14, 2020
 
-#ifndef PI
-#define PI 3.1415926545
-#endif
+#include <math.h>
+#include "easing.hpp"
 
-double easeNone( double t ) {
-    return t;
-}
-
-double easeInSine( double t ) {
-    return sin( 1.5707963 * t );
-}
-
-double easeOutSine( double t ) {
-    return 1 + sin( 1.5707963 * (t - 1) );
-}
-
-double easeInOutSine( double t ) {
-    return 0.5 * (1 + sin( 3.1415926 * (t - 0.5) ) );
-}
-
-double easeInQuad( double t ) {
-    return t * t;
-}
-
-double easeOutQuad( double t ) { 
-    return t * (2 - t);
-}
-
-double easeInOutQuad( double t ) {
-    return t < 0.5 ? 2 * t * t : t * (4 - 2 * t) - 1;
-}
-
-double easeInCubic( double t ) {
-    return t * t * t;
-}
-
-double easeOutCubic( double t ) {
-	t--;
-    return 1 + t * t * t;
-}
-
-double easeInOutCubic( double t ) {
-    return t < 0.5 ? 4 * t * t * t : 1 + (t-1) * (2 * t - 2) * (2 * t - 2);
-}
-
-double easeInQuart( double t ) {
-    t *= t;
-    return t * t;
-}
-
-double easeOutQuart( double t ) {
-	t--;
-    t = t * t;
-    return 1 - t * t;
-}
-
-double easeInOutQuart( double t ) {
-    if( t < 0.5 ) {
-        t *= t;
-        return 8 * t * t;
-    } else {
-    	t--;
-        t = t * t;
-        return 1 - 8 * t * t;
-    }
-}
-
-double easeInQuint( double t ) {
-    double t2 = t * t;
-    return t * t2 * t2;
-}
-
-double easeOutQuint( double t ) {
-	t--;
-    double t2 = t * t;
-    return 1 + t * t2 * t2;
-}
-
-double easeInOutQuint( double t ) {
-    double t2;
-    if( t < 0.5 ) {
-        t2 = t * t;
-        return 16 * t * t2 * t2;
-    } else {
-    	t--;
-        t2 = t * t;
-        return 1 + 16 * t * t2 * t2;
-    }
-}
-
-double easeInExpo( double t ) {
-    return (pow( 2, 8 * t ) - 1) / 255;
-}
-
-double easeOutExpo( double t ) {
-    return 1 - pow( 2, -8 * t );
-}
-
-double easeInOutExpo( double t ) {
-    if( t < 0.5 ) {
-        return (pow( 2, 16 * t ) - 1) / 510;
-    } else {
-        return 1 - 0.5 * pow( 2, -16 * (t - 0.5) );
-    }
-}
-
-double easeInCirc( double t ) {
-    return 1 - sqrt( 1 - t );
-}
-
-double easeOutCirc( double t ) {
-    return sqrt( t );
-}
-
-double easeInOutCirc( double t ) {
-    if( t < 0.5 ) {
-        return (1 - sqrt( 1 - 2 * t )) * 0.5;
-    } else {
-        return (1 + sqrt( 2 * t - 1 )) * 0.5;
-    }
-}
-
-double easeInBack( double t ) {
-    return t * t * (2.70158 * t - 1.70158);
-}
-
-double easeOutBack( double t ) {
-	t--;
-    return 1 + t * t * (2.70158 * t + 1.70158);
-}
-
-double easeInOutBack( double t ) {
-    if( t < 0.5 ) {
-        return t * t * (7 * t - 2.5) * 2;
-    } else {
-    	t--;
-        return 1 + t * t * 2 * (7 * t + 2.5);
-    }
-}
-
-double easeInElastic( double t ) {
-    double t2 = t * t;
-    return t2 * t2 * sin( t * PI * 4.5 );
-}
-
-double easeOutElastic( double t ) {
-    double t2 = (t - 1) * (t - 1);
-    return 1 - t2 * t2 * cos( t * PI * 4.5 );
-}
-
-double easeInOutElastic( double t ) {
-    double t2;
-    if( t < 0.45 ) {
-        t2 = t * t;
-        return 8 * t2 * t2 * sin( t * PI * 9 );
-    } else if( t < 0.55 ) {
-        return 0.5 + 0.75 * sin( t * PI * 4 );
-    } else {
-        t2 = (t - 1) * (t - 1);
-        return 1 - 8 * t2 * t2 * sin( t * PI * 9 );
-    }
-}
-
-double easeInBounce( double t ) {
-    return pow( 2, 6 * (t - 1) ) * abs( sin( t * PI * 3.5 ) );
-}
-
-double easeOutBounce( double t ) {
-    return 1 - pow( 2, -6 * t ) * abs( cos( t * PI * 3.5 ) );
-}
-
-double easeInOutBounce( double t ) {
-    if( t < 0.5 ) {
-        return 8 * pow( 2, 8 * (t - 1) ) * abs( sin( t * PI * 7 ) );
-    } else {
-        return 1 - 8 * pow( 2, -8 * t ) * abs( sin( t * PI * 7 ) );
-    }
-}
-
-easingFunction getEasingFunction( easing_functions function )
+// Modeled after the line y = x
+float LinearInterpolation(float p)
 {
-	static std::map< easing_functions, easingFunction > easingFunctions;
-	if( easingFunctions.empty() )
-	{
-		easingFunctions.insert( std::make_pair( EaseNone, 	    easeNone ) );
-		easingFunctions.insert( std::make_pair( EaseInSine, 	easeInSine ) );
-		easingFunctions.insert( std::make_pair( EaseOutSine, 	easeOutSine ) );
-		easingFunctions.insert( std::make_pair( EaseInOutSine, 	easeInOutSine ) );
-		easingFunctions.insert( std::make_pair( EaseInQuad, 	easeInQuad ) );
-		easingFunctions.insert( std::make_pair( EaseOutQuad, 	easeOutQuad ) );
-		easingFunctions.insert( std::make_pair( EaseInOutQuad, 	easeInOutQuad ) );
-		easingFunctions.insert( std::make_pair( EaseInCubic, 	easeInCubic ) );
-		easingFunctions.insert( std::make_pair( EaseOutCubic, 	easeOutCubic ) );
-		easingFunctions.insert( std::make_pair( EaseInOutCubic, easeInOutCubic ) );
-		easingFunctions.insert( std::make_pair( EaseInQuart, 	easeInQuart ) );
-		easingFunctions.insert( std::make_pair( EaseOutQuart, 	easeOutQuart ) );
-		easingFunctions.insert( std::make_pair( EaseInOutQuart, easeInOutQuart) );
-		easingFunctions.insert( std::make_pair( EaseInQuint, 	easeInQuint ) );
-		easingFunctions.insert( std::make_pair( EaseOutQuint, 	easeOutQuint ) );
-		easingFunctions.insert( std::make_pair( EaseInOutQuint, easeInOutQuint ) );
-		easingFunctions.insert( std::make_pair( EaseInExpo, 	easeInExpo ) );
-		easingFunctions.insert( std::make_pair( EaseOutExpo, 	easeOutExpo ) );
-		easingFunctions.insert( std::make_pair( EaseInOutExpo,	easeInOutExpo ) );
-		easingFunctions.insert( std::make_pair( EaseInCirc, 	easeInCirc ) );
-		easingFunctions.insert( std::make_pair( EaseOutCirc, 	easeOutCirc ) );
-		easingFunctions.insert( std::make_pair( EaseInOutCirc,	easeInOutCirc ) );
-		easingFunctions.insert( std::make_pair( EaseInBack, 	easeInBack ) );
-		easingFunctions.insert( std::make_pair( EaseOutBack, 	easeOutBack ) );
-		easingFunctions.insert( std::make_pair( EaseInOutBack,	easeInOutBack ) );
-		easingFunctions.insert( std::make_pair( EaseInElastic, 	easeInElastic ) );
-		easingFunctions.insert( std::make_pair( EaseOutElastic, easeOutElastic ) );
-		easingFunctions.insert( std::make_pair( EaseInOutElastic, easeInOutElastic ) );
-		easingFunctions.insert( std::make_pair( EaseInBounce, 	easeInBounce ) );
-		easingFunctions.insert( std::make_pair( EaseOutBounce, 	easeOutBounce ) );
-		easingFunctions.insert( std::make_pair( EaseInOutBounce, easeInOutBounce ) );
-
-	}
-
-	auto it = easingFunctions.find( function );
-	return it == easingFunctions.end() ? easeNone : it->second;
+	return p;
 }
+
+// Modeled after the parabola y = x^2
+float QuadraticEaseIn(float p)
+{
+	return p * p;
+}
+
+// Modeled after the parabola y = -x^2 + 2x
+float QuadraticEaseOut(float p)
+{
+	return -(p * (p - 2));
+}
+
+// Modeled after the piecewise quadratic
+// y = (1/2)((2x)^2)             ; [0, 0.5)
+// y = -(1/2)((2x-1)*(2x-3) - 1) ; [0.5, 1]
+float QuadraticEaseInOut(float p)
+{
+	if(p < 0.5)
+	{
+		return 2 * p * p;
+	}
+	else
+	{
+		return (-2 * p * p) + (4 * p) - 1;
+	}
+}
+
+// Modeled after the cubic y = x^3
+float CubicEaseIn(float p)
+{
+	return p * p * p;
+}
+
+// Modeled after the cubic y = (x - 1)^3 + 1
+float CubicEaseOut(float p)
+{
+	float f = (p - 1);
+	return f * f * f + 1;
+}
+
+// Modeled after the piecewise cubic
+// y = (1/2)((2x)^3)       ; [0, 0.5)
+// y = (1/2)((2x-2)^3 + 2) ; [0.5, 1]
+float CubicEaseInOut(float p)
+{
+	if(p < 0.5)
+	{
+		return 4 * p * p * p;
+	}
+	else
+	{
+		float f = ((2 * p) - 2);
+		return 0.5 * f * f * f + 1;
+	}
+}
+
+// Modeled after the quartic x^4
+float QuarticEaseIn(float p)
+{
+	return p * p * p * p;
+}
+
+// Modeled after the quartic y = 1 - (x - 1)^4
+float QuarticEaseOut(float p)
+{
+	float f = (p - 1);
+	return f * f * f * (1 - p) + 1;
+}
+
+// Modeled after the piecewise quartic
+// y = (1/2)((2x)^4)        ; [0, 0.5)
+// y = -(1/2)((2x-2)^4 - 2) ; [0.5, 1]
+float QuarticEaseInOut(float p) 
+{
+	if(p < 0.5)
+	{
+		return 8 * p * p * p * p;
+	}
+	else
+	{
+		float f = (p - 1);
+		return -8 * f * f * f * f + 1;
+	}
+}
+
+// Modeled after the quintic y = x^5
+float QuinticEaseIn(float p) 
+{
+	return p * p * p * p * p;
+}
+
+// Modeled after the quintic y = (x - 1)^5 + 1
+float QuinticEaseOut(float p) 
+{
+	float f = (p - 1);
+	return f * f * f * f * f + 1;
+}
+
+// Modeled after the piecewise quintic
+// y = (1/2)((2x)^5)       ; [0, 0.5)
+// y = (1/2)((2x-2)^5 + 2) ; [0.5, 1]
+float QuinticEaseInOut(float p) 
+{
+	if(p < 0.5)
+	{
+		return 16 * p * p * p * p * p;
+	}
+	else
+	{
+		float f = ((2 * p) - 2);
+		return  0.5 * f * f * f * f * f + 1;
+	}
+}
+
+// Modeled after quarter-cycle of sine wave
+float SineEaseIn(float p)
+{
+	return sin((p - 1) * M_PI_2) + 1;
+}
+
+// Modeled after quarter-cycle of sine wave (different phase)
+float SineEaseOut(float p)
+{
+	return sin(p * M_PI_2);
+}
+
+// Modeled after half sine wave
+float SineEaseInOut(float p)
+{
+	return 0.5 * (1 - cos(p * M_PI));
+}
+
+// Modeled after shifted quadrant IV of unit circle
+float CircularEaseIn(float p)
+{
+	return 1 - sqrt(1 - (p * p));
+}
+
+// Modeled after shifted quadrant II of unit circle
+float CircularEaseOut(float p)
+{
+	return sqrt((2 - p) * p);
+}
+
+// Modeled after the piecewise circular function
+// y = (1/2)(1 - sqrt(1 - 4x^2))           ; [0, 0.5)
+// y = (1/2)(sqrt(-(2x - 3)*(2x - 1)) + 1) ; [0.5, 1]
+float CircularEaseInOut(float p)
+{
+	if(p < 0.5)
+	{
+		return 0.5 * (1 - sqrt(1 - 4 * (p * p)));
+	}
+	else
+	{
+		return 0.5 * (sqrt(-((2 * p) - 3) * ((2 * p) - 1)) + 1);
+	}
+}
+
+// Modeled after the exponential function y = 2^(10(x - 1))
+float ExponentialEaseIn(float p)
+{
+	return (p == 0.0) ? p : pow(2, 10 * (p - 1));
+}
+
+// Modeled after the exponential function y = -2^(-10x) + 1
+float ExponentialEaseOut(float p)
+{
+	return (p == 1.0) ? p : 1 - pow(2, -10 * p);
+}
+
+// Modeled after the piecewise exponential
+// y = (1/2)2^(10(2x - 1))         ; [0,0.5)
+// y = -(1/2)*2^(-10(2x - 1))) + 1 ; [0.5,1]
+float ExponentialEaseInOut(float p)
+{
+	if(p == 0.0 || p == 1.0) return p;
+	
+	if(p < 0.5)
+	{
+		return 0.5 * pow(2, (20 * p) - 10);
+	}
+	else
+	{
+		return -0.5 * pow(2, (-20 * p) + 10) + 1;
+	}
+}
+
+// Modeled after the damped sine wave y = sin(13pi/2*x)*pow(2, 10 * (x - 1))
+float ElasticEaseIn(float p)
+{
+	return sin(13 * M_PI_2 * p) * pow(2, 10 * (p - 1));
+}
+
+// Modeled after the damped sine wave y = sin(-13pi/2*(x + 1))*pow(2, -10x) + 1
+float ElasticEaseOut(float p)
+{
+	return sin(-13 * M_PI_2 * (p + 1)) * pow(2, -10 * p) + 1;
+}
+
+// Modeled after the piecewise exponentially-damped sine wave:
+// y = (1/2)*sin(13pi/2*(2*x))*pow(2, 10 * ((2*x) - 1))      ; [0,0.5)
+// y = (1/2)*(sin(-13pi/2*((2x-1)+1))*pow(2,-10(2*x-1)) + 2) ; [0.5, 1]
+float ElasticEaseInOut(float p)
+{
+	if(p < 0.5)
+	{
+		return 0.5 * sin(13 * M_PI_2 * (2 * p)) * pow(2, 10 * ((2 * p) - 1));
+	}
+	else
+	{
+		return 0.5 * (sin(-13 * M_PI_2 * ((2 * p - 1) + 1)) * pow(2, -10 * (2 * p - 1)) + 2);
+	}
+}
+
+// Modeled after the overshooting cubic y = x^3-x*sin(x*pi)
+float BackEaseIn(float p)
+{
+	return p * p * p - p * sin(p * M_PI);
+}
+
+// Modeled after overshooting cubic y = 1-((1-x)^3-(1-x)*sin((1-x)*pi))
+float BackEaseOut(float p)
+{
+	float f = (1 - p);
+	return 1 - (f * f * f - f * sin(f * M_PI));
+}
+
+// Modeled after the piecewise overshooting cubic function:
+// y = (1/2)*((2x)^3-(2x)*sin(2*x*pi))           ; [0, 0.5)
+// y = (1/2)*(1-((1-x)^3-(1-x)*sin((1-x)*pi))+1) ; [0.5, 1]
+float BackEaseInOut(float p)
+{
+	if(p < 0.5)
+	{
+		float f = 2 * p;
+		return 0.5 * (f * f * f - f * sin(f * M_PI));
+	}
+	else
+	{
+		float f = (1 - (2*p - 1));
+		return 0.5 * (1 - (f * f * f - f * sin(f * M_PI))) + 0.5;
+	}
+}
+
+float BounceEaseIn(float p)
+{
+	return 1 - BounceEaseOut(1 - p);
+}
+
+float BounceEaseOut(float p)
+{
+	if(p < 4/11.0)
+	{
+		return (121 * p * p)/16.0;
+	}
+	else if(p < 8/11.0)
+	{
+		return (363/40.0 * p * p) - (99/10.0 * p) + 17/5.0;
+	}
+	else if(p < 9/10.0)
+	{
+		return (4356/361.0 * p * p) - (35442/1805.0 * p) + 16061/1805.0;
+	}
+	else
+	{
+		return (54/5.0 * p * p) - (513/25.0 * p) + 268/25.0;
+	}
+}
+
+float BounceEaseInOut(float p)
+{
+	if(p < 0.5)
+	{
+		return 0.5 * BounceEaseIn(p*2);
+	}
+	else
+	{
+		return 0.5 * BounceEaseOut(p * 2 - 1) + 0.5;
+	}
+}
+
+easing getEasingByName(EasingMode ease_type)
+{
+  switch(ease_type) {
+  case EaseNone:
+    return LinearInterpolation;
+    break;
+  case EaseQuadIn:
+    return QuadraticEaseIn;
+    break;
+  case EaseQuadOut:
+    return QuadraticEaseOut;
+    break;
+  case EaseQuadInOut:
+    return QuadraticEaseInOut;
+    break;
+  case EaseCubicIn:
+    return CubicEaseIn;
+    break;
+  case EaseCubicOut:
+    return CubicEaseOut;
+    break;
+  case EaseCubicInOut:
+    return CubicEaseInOut;
+    break;
+  case EaseQuartIn:
+    return QuarticEaseIn;
+    break;
+  case EaseQuartOut:
+    return QuarticEaseOut;
+    break;
+  case EaseQuartInOut:
+    return QuarticEaseInOut;
+    break;
+  case EaseQuintIn:
+    return QuinticEaseIn;
+    break;
+  case EaseQuintOut:
+    return QuinticEaseOut;
+    break;
+  case EaseQuintInOut:
+    return QuinticEaseInOut;
+    break;
+  case EaseSineIn:
+    return SineEaseIn;
+    break;
+  case EaseSineOut:
+    return SineEaseOut;
+    break;
+  case EaseSineInOut:
+    return SineEaseInOut;
+    break;
+  case EaseCircularIn:
+    return CircularEaseIn;
+    break;
+  case EaseCircularOut:
+    return CircularEaseOut;
+    break;
+  case EaseCircularInOut:
+    return CircularEaseInOut;
+    break;
+  case EaseExponentialIn:
+    return ExponentialEaseIn;
+    break;
+  case EaseExponentialOut:
+    return ExponentialEaseOut;
+    break;
+  case EaseExponentialInOut:
+    return ExponentialEaseInOut;
+    break;
+  case EaseElasticIn:
+    return ElasticEaseIn;
+    break;
+  case EaseElasticOut:
+    return ElasticEaseOut;
+    break;
+  case EaseElasticInOut:
+    return ElasticEaseInOut;
+    break;
+  case EaseBackIn:
+    return BackEaseIn;
+    break;
+  case EaseBackOut:
+    return BackEaseOut;
+    break;
+  case EaseBackInOut:
+    return BackEaseInOut;
+    break;
+  case EaseBounceIn:
+    return BounceEaseIn;
+    break;
+  case EaseBounceOut:
+    return BounceEaseOut;
+    break;
+  case EaseBounceInOut:
+    return BounceEaseInOut;
+    break;
+  default:
+    return LinearInterpolation;
+  }
+}
+
+
+EasingMode EasingMode_from_string(std::string ease_name)
+{
+  const char* name = ease_name.c_str();
+  if (!strcmp(name, "EaseNone"))
+  {
+    return EaseNone;
+  }
+  else if (!strcmp(name, "EaseQuadIn"))
+  {
+    return EaseQuadIn;
+  }
+  else if (!strcmp(name, "EaseQuadOut"))
+  {
+    return EaseQuadOut;
+  }
+  else if (!strcmp(name, "EaseQuadInOut"))
+  {
+    return EaseQuadInOut;
+  }
+  else if (!strcmp(name, "EaseCubicIn"))
+  {
+    return EaseCubicIn;
+  }
+  else if (!strcmp(name, "EaseCubicOut"))
+  {
+    return EaseCubicOut;
+  }
+  else if (!strcmp(name, "EaseCubicInOut"))
+  {
+    return EaseCubicInOut;
+  }
+  else if (!strcmp(name, "EaseQuartIn"))
+  {
+    return EaseQuartIn;
+  }
+  else if (!strcmp(name, "EaseQuartOut"))
+  {
+    return EaseQuartOut;
+  }
+  else if (!strcmp(name, "EaseQuartInOut"))
+  {
+    return EaseQuartInOut;
+  }
+  else if (!strcmp(name, "EaseQuintIn"))
+  {
+    return EaseQuintIn;
+  }
+  else if (!strcmp(name, "EaseQuintOut"))
+  {
+    return EaseQuintOut;
+  }
+  else if (!strcmp(name, "EaseQuintInOut"))
+  {
+    return EaseQuintInOut;
+  }
+  else if (!strcmp(name, "EaseSineIn"))
+  {
+    return EaseSineIn;
+  }
+  else if (!strcmp(name, "EaseSineOut"))
+  {
+    return EaseSineOut;
+  }
+  else if (!strcmp(name, "EaseSineInOut"))
+  {
+    return EaseSineInOut;
+  }
+  else if (!strcmp(name, "EaseCircularIn"))
+  {
+    return EaseCircularIn;
+  }
+  else if (!strcmp(name, "EaseCircularOut"))
+  {
+    return EaseCircularOut;
+  }
+  else if (!strcmp(name, "EaseCircularInOut"))
+  {
+    return EaseCircularInOut;
+  }
+  else if (!strcmp(name, "EaseExponentialIn"))
+  {
+    return EaseExponentialIn;
+  }
+  else if (!strcmp(name, "EaseExponentialOut"))
+  {
+    return EaseExponentialOut;
+  }
+  else if (!strcmp(name, "EaseExponentialInOut"))
+  {
+    return EaseExponentialInOut;
+  }
+  else if (!strcmp(name, "EaseElasticIn"))
+  {
+    return EaseElasticIn;
+  }
+  else if (!strcmp(name, "EaseElasticOut"))
+  {
+    return EaseElasticOut;
+  }
+  else if (!strcmp(name, "EaseElasticInOut"))
+  {
+    return EaseElasticInOut;
+  }
+  else if (!strcmp(name, "EaseBackIn"))
+  {
+    return EaseBackIn;
+  }
+  else if (!strcmp(name, "EaseBackOut"))
+  {
+    return EaseBackOut;
+  }
+  else if (!strcmp(name, "EaseBackInOut"))
+  {
+    return EaseBackInOut;
+  }
+  else if (!strcmp(name, "EaseBounceIn"))
+  {
+    return EaseBounceIn;
+  }
+  else if (!strcmp(name, "EaseBounceOut"))
+  {
+    return EaseBounceOut;
+  }
+  else if (!strcmp(name, "EaseBounceInOut"))
+  {
+    return EaseBounceInOut;
+  }
+  else
+  {
+    return EaseNone;
+  }
+}
+
+std::string getEasingName(EasingMode ease_type)
+{
+  switch(ease_type) {
+  case EaseNone:
+    return "EaseNone";
+    break;
+  case EaseQuadIn:
+    return "EaseQuadIn";
+    break;
+  case EaseQuadOut:
+    return "EaseQuadOut";
+    break;
+  case EaseQuadInOut:
+    return "EaseQuadInOut";
+    break;
+  case EaseCubicIn:
+    return "EaseCubicIn";
+    break;
+  case EaseCubicOut:
+    return "EaseCubicOut";
+    break;
+  case EaseCubicInOut:
+    return "EaseCubicInOut";
+    break;
+  case EaseQuartIn:
+    return "EaseQuartIn";
+    break;
+  case EaseQuartOut:
+    return "EaseQuartOut";
+    break;
+  case EaseQuartInOut:
+    return "EaseQuartInOut";
+    break;
+  case EaseQuintIn:
+    return "EaseQuintIn";
+    break;
+  case EaseQuintOut:
+    return "EaseQuintOut";
+    break;
+  case EaseQuintInOut:
+    return "EaseQuintInOut";
+    break;
+  case EaseSineIn:
+    return "EaseSineIn";
+    break;
+  case EaseSineOut:
+    return "EaseSineOut";
+    break;
+  case EaseSineInOut:
+    return "EaseSineInOut";
+    break;
+  case EaseCircularIn:
+    return "EaseCircularIn";
+    break;
+  case EaseCircularOut:
+    return "EaseCircularOut";
+    break;
+  case EaseCircularInOut:
+    return "EaseCircularInOut";
+    break;
+  case EaseExponentialIn:
+    return "EaseExponentialIn";
+    break;
+  case EaseExponentialOut:
+    return "EaseExponentialOut";
+    break;
+  case EaseExponentialInOut:
+    return "EaseExponentialInOut";
+    break;
+  case EaseElasticIn:
+    return "EaseElasticIn";
+    break;
+  case EaseElasticOut:
+    return "EaseElasticOut";
+    break;
+  case EaseElasticInOut:
+    return "EaseElasticInOut";
+    break;
+  case EaseBackIn:
+    return "EaseBackIn";
+    break;
+  case EaseBackOut:
+    return "EaseBackOut";
+    break;
+  case EaseBackInOut:
+    return "EaseBackInOut";
+    break;
+  case EaseBounceIn:
+    return "EaseBounceIn";
+    break;
+  case EaseBounceOut:
+    return "EaseBounceOut";
+    break;
+  case EaseBounceInOut:
+    return "EaseBounceInOut";
+    break;
+  default:
+    return "EaseNone";
+  }
+}
+

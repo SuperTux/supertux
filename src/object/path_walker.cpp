@@ -109,10 +109,10 @@ PathWalker::get_pos() const
   const Path::Node* current_node = &(path->m_nodes[m_current_node_nr]);
   const Path::Node* next_node = & (path->m_nodes[m_next_node_nr]);
   
-  easingFunction easeFunc = getEasingFunction(static_cast<easing_functions>(current_node->easing));
+  easing easeFunc = getEasingByName(current_node->easing);
   
   Vector new_pos = current_node->position +
-    (next_node->position - current_node->position) * static_cast<float>(easeFunc(static_cast<double>(m_node_time)));
+    (next_node->position - current_node->position) * easeFunc(m_node_time);
 
   return new_pos;
 }
