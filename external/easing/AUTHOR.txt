@@ -1,0 +1,10 @@
+Originally found on GitHub at : https://github.com/nicolausYes/easing-functions
+
+Archive links :
+(root)         https://web.archive.org/web/20180611025619/https://github.com/nicolausYes/easing-functions
+src/           https://web.archive.org/web/20200814013651/https://github.com/nicolausYes/easing-functions/tree/master/src
+easing.cpp     https://web.archive.org/web/20200814013848/https://github.com/nicolausYes/easing-functions/blob/master/src/easing.cpp
+easing.h       https://web.archive.org/web/20200814013824/https://github.com/nicolausYes/easing-functions/blob/master/src/easing.h
+
+NOTE : The original repository does not contain any license.
+

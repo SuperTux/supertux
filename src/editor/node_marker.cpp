@@ -17,6 +17,7 @@
 #include "editor/node_marker.hpp"
 
 #include "editor/editor.hpp"
+#include "../external/easing/easing.h"
 
 NodeMarker::NodeMarker (Path* path_, std::vector<Path::Node>::iterator node_iterator, size_t id_) :
   m_path(path_),
@@ -81,6 +82,28 @@ NodeMarker::get_settings()
   ObjectSettings result(_("Path Node"));
   result.add_float(_("Time"), &(m_node->time));
   result.add_float(_("Speed"), &(m_node->speed));
+  
+  // WARNING : IF YOU CHANGE THEIR ORDER, MAKE SURE THEY FOLLOW THE SAME ORDER AS
+  // IN external/easing/easing.h, `enum easing_functions {...}` must contain the
+  // EXACT SAME list in the EXACT SAME ORDER.
+
+  // FIXME: make it so there aren't two lists, if that's possible
+  result.add_enum(_("Easing"), reinterpret_cast<int*>(&(m_node->easing)),
+                  {
+                    _("No easing"),
+                    _("Sine in"), _("Sine out"), _("Sine in/out"),
+                    _("Quad in"), _("Quad out"), _("Quad in/out"),
+                    _("Cubic in"), _("Cubic out"), _("Cubic in/out"),
+                    _("Quart in"), _("Quart out"), _("Quart in/out"),
+                    _("Quint in"), _("Quint out"), _("Quint in/out"),
+                    _("Exponential in"), _("Exponential out"), _("Exponential in/out"),
+                    _("Circular in"), _("Circular out"), _("Circular in/out"),
+                    _("Back in"), _("Back out"), _("Back in/out"),
+                    _("Elastic in"), _("Elastic out"), _("Elastic in/out"),
+                    _("Bounce in"), _("Bounce out"), _("Bounce in/out")
+                  },
+                  {/*"EaseNone", "EaseInSine", "EaseOutBounce"*/}, // Literally no care, it'll work by index
+                  0, "easing");
   return result;
 }
 

@@ -26,6 +26,7 @@
 #include "supertux/d_scope.hpp"
 #include "supertux/sector.hpp"
 #include "util/gettext.hpp"
+#include "../external/easing/easing.cpp"
 
 PathWalker::PathWalker(UID path_uid, bool running_) :
   m_path_uid(path_uid),
@@ -107,8 +108,11 @@ PathWalker::get_pos() const
 
   const Path::Node* current_node = &(path->m_nodes[m_current_node_nr]);
   const Path::Node* next_node = & (path->m_nodes[m_next_node_nr]);
+  
+  easingFunction easeFunc = getEasingFunction(static_cast<easing_functions>(current_node->easing));
+  
   Vector new_pos = current_node->position +
-    (next_node->position - current_node->position) * m_node_time;
+    (next_node->position - current_node->position) * easeFunc(m_node_time);
 
   return new_pos;
 }

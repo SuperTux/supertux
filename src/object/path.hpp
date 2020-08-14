@@ -24,6 +24,7 @@
 #include <vector>
 
 #include "math/vector.hpp"
+#include "../external/easing/easing.h"
 
 class ObjectOption;
 class ReaderMapping;
@@ -51,11 +52,13 @@ public:
     Vector position; /**< the position of this node */
     float time; /**< time (in seconds) to get from this node to next node */
     float speed; /**< speed (in px/seconds); editor use only */
+    int easing; /**< speed variations during travel (constant speed, start slow and go progressively quicker, etc.) */
 
     Node() :
       position(),
       time(),
-      speed()
+      speed(),
+      easing()
     {}
   };
 
