@@ -634,7 +634,9 @@
       2889 2890 2891 2892
       2893 2894 2895 2896
       2897 2898 2899 2900
-      2901 2902 2903 2904)
+      2901 2902 2903 2904
+      4005 4006 4007 4008
+      )
   )
   
   (tilegroup
@@ -5433,6 +5435,26 @@
      )
   )
   
-  ;; next-id: 4005
+    (tiles
+    (width 3)
+    (height 1)
+    (ids
+      4005 4006 4007
+    )
+    (attributes
+      1 1 1
+    )
+    (image "tiles/blocks/block_horiz_season.png")
+     )
+       (tile
+    (id 4008)
+    (images
+      "tiles/blocks/block4_season.png"
+    )
+    (attributes
+      1     
+     )
+  )
+  ;; next-id: 4009
 
   )
