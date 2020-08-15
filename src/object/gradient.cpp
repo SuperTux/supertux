@@ -33,7 +33,13 @@ Gradient::Gradient() :
   m_gradient_bottom(),
   m_gradient_direction(),
   m_blend(),
-  m_target(DrawingTarget::COLORMAP)
+  m_target(DrawingTarget::COLORMAP),
+  m_start_gradient_top(),
+  m_start_gradient_bottom(),
+  m_fade_gradient_top(),
+  m_fade_gradient_bottom(),
+  m_fade_total_time(),
+  m_fade_time()
 {
 }
 
