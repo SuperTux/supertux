@@ -45,7 +45,13 @@ Gradient::Gradient(const ReaderMapping& reader) :
   m_gradient_bottom(),
   m_gradient_direction(),
   m_blend(),
-  m_target(DrawingTarget::COLORMAP)
+  m_target(DrawingTarget::COLORMAP),
+  m_start_gradient_top(),
+  m_start_gradient_bottom(),
+  m_fade_gradient_top(),
+  m_fade_gradient_bottom(),
+  m_fade_total_time(),
+  m_fade_time()
 {
   m_layer = reader_get_layer (reader, LAYER_BACKGROUND0);
   std::vector<float> bkgd_top_color, bkgd_bottom_color;
