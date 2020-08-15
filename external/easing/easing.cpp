@@ -540,7 +540,7 @@ EasingMode EasingMode_from_string(std::string ease_name)
   }
 }
 
-std::string getEasingName(EasingMode ease_type)
+const char* getEasingName(EasingMode ease_type)
 {
   switch(ease_type) {
   case EaseNone:
