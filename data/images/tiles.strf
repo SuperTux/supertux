@@ -5435,24 +5435,15 @@
      )
   )
   
-    (tiles
-    (width 3)
+   (tiles
+    (width 4)
     (height 1)
+    (image "tiles/blocks/block_season.png")
     (ids
-      4005 4006 4007
-    )
-    (attributes
-      1 1 1
-    )
-    (image "tiles/blocks/block_horiz_season.png")
+     4005 4006 4007 4008
      )
-       (tile
-    (id 4008)
-    (images
-      "tiles/blocks/block4_season.png"
-    )
-    (attributes
-      1     
+       (attributes
+     1 1 1 1
      )
   )
   ;; next-id: 4009
