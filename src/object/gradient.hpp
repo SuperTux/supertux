@@ -48,6 +48,7 @@ public:
   virtual ObjectSettings get_settings() override;
 
   void set_gradient(Color top, Color bottom);
+  void fade_gradient(Color top, Color bottom, float time);
   Color get_gradient_top() const { return m_gradient_top; }
   Color get_gradient_bottom() const { return m_gradient_bottom; }
 
@@ -67,6 +68,13 @@ private:
 private:
   Gradient(const Gradient&) = delete;
   Gradient& operator=(const Gradient&) = delete;
+  
+  Color m_start_gradient_top;
+  Color m_start_gradient_bottom;
+  Color m_fade_gradient_top;
+  Color m_fade_gradient_bottom;
+  float m_fade_total_time;
+  float m_fade_time = 0;
 };
 
 #endif

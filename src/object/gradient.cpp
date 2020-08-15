@@ -150,8 +150,35 @@ Gradient::~Gradient()
 }
 
 void
-Gradient::update(float)
+Gradient::update(float delta)
 {
+  if (m_fade_time <= 0) return;
+  
+  m_fade_time -= delta;
+  if (m_fade_time <= 0)
+  {
+    m_fade_time = 0;
+    
+    m_gradient_top = m_fade_gradient_top;
+    m_gradient_bottom = m_fade_gradient_bottom;
+    
+    return;
+  }
+  
+  float progress = m_fade_time / m_fade_total_time;
+  
+  m_gradient_top = Color(
+    m_fade_gradient_top.red + (m_start_gradient_top.red - m_fade_gradient_top.red) * progress,
+    m_fade_gradient_top.green + (m_start_gradient_top.green - m_fade_gradient_top.green) * progress,
+    m_fade_gradient_top.blue + (m_start_gradient_top.blue - m_fade_gradient_top.blue) * progress,
+    m_fade_gradient_top.alpha + (m_start_gradient_top.alpha - m_fade_gradient_top.alpha) * progress
+  );
+  m_gradient_bottom = Color(
+    m_fade_gradient_bottom.red + (m_start_gradient_bottom.red - m_fade_gradient_bottom.red) * progress,
+    m_fade_gradient_bottom.green + (m_start_gradient_bottom.green - m_fade_gradient_bottom.green) * progress,
+    m_fade_gradient_bottom.blue + (m_start_gradient_bottom.blue - m_fade_gradient_bottom.blue) * progress,
+    m_fade_gradient_bottom.alpha + (m_start_gradient_bottom.alpha - m_fade_gradient_bottom.alpha) * progress
+  );
 }
 
 void
@@ -175,6 +202,17 @@ Gradient::set_gradient(Color top, Color bottom)
   {
     log_warning << "bottom gradient color has values above 1.0" << std::endl;
   }
+}
+
+void
+Gradient::fade_gradient(Color top, Color bottom, float time)
+{
+  m_start_gradient_top = m_gradient_top;
+  m_start_gradient_bottom = m_gradient_bottom;
+  m_fade_gradient_top = top;
+  m_fade_gradient_bottom = bottom;
+  m_fade_total_time = time;
+  m_fade_time = time;
 }
 
 void
