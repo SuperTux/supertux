@@ -19,6 +19,9 @@
 #ifndef EASING_H
 #define EASING_H
 
+#include <string>
+#include <string.h>
+
 extern "C" {
 
 enum EasingMode
@@ -90,9 +93,10 @@ double BounceEaseInOut(double p);
 
 typedef double(*easing)(double);
 easing getEasingByName(EasingMode ease_type);
-EasingMode EasingMode_from_string(std::string ease_name);
 const char* getEasingName(EasingMode ease_type);
 
 }
+
+EasingMode EasingMode_from_string(std::string ease_name);
 
 #endif

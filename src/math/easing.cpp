@@ -16,6 +16,8 @@
 //     Edited by Semphris for SuperTux, Aug 14, 2020
 
 #include <math.h>
+#include <string>
+#include <string.h>
 #include "easing.hpp"
 
 // Modeled after the line y = x
