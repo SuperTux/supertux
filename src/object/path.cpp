@@ -23,7 +23,7 @@
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
 #include "util/log.hpp"
-#include "math/easing/easing.hpp"
+#include "math/easing.hpp"
 
 WalkMode
 string_to_walk_mode(const std::string& mode_string)

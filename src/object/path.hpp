@@ -24,7 +24,7 @@
 #include <vector>
 
 #include "math/vector.hpp"
-#include "math/easing/easing.hpp"
+#include "math/easing.hpp"
 
 class ObjectOption;
 class ReaderMapping;

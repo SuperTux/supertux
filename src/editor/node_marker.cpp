@@ -17,7 +17,7 @@
 #include "editor/node_marker.hpp"
 
 #include "editor/editor.hpp"
-#include "math/easing/easing.hpp"
+#include "math/easing.hpp"
 
 NodeMarker::NodeMarker (Path* path_, std::vector<Path::Node>::iterator node_iterator, size_t id_) :
   m_path(path_),
