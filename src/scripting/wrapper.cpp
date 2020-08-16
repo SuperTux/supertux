@@ -1538,6 +1538,233 @@ static SQInteger Gradient_set_color2_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger Gradient_set_colors_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+    sq_throwerror(vm, _SC("'set_colors' called without instance"));
+    return SQ_ERROR;
+  }
+  auto _this = reinterpret_cast<scripting::Gradient*> (data);
+
+  if (_this == nullptr) {
+    return SQ_ERROR;
+  }
+
+  SQFloat arg0;
+  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg1;
+  if(SQ_FAILED(sq_getfloat(vm, 3, &arg1))) {
+    sq_throwerror(vm, _SC("Argument 2 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg2;
+  if(SQ_FAILED(sq_getfloat(vm, 4, &arg2))) {
+    sq_throwerror(vm, _SC("Argument 3 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg3;
+  if(SQ_FAILED(sq_getfloat(vm, 5, &arg3))) {
+    sq_throwerror(vm, _SC("Argument 4 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg4;
+  if(SQ_FAILED(sq_getfloat(vm, 6, &arg4))) {
+    sq_throwerror(vm, _SC("Argument 5 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg5;
+  if(SQ_FAILED(sq_getfloat(vm, 7, &arg5))) {
+    sq_throwerror(vm, _SC("Argument 6 not a float"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->set_colors(static_cast<float> (arg0), static_cast<float> (arg1), static_cast<float> (arg2),
+                      static_cast<float> (arg3), static_cast<float> (arg4), static_cast<float> (arg5));
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_colors'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger Gradient_fade_color1_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+    sq_throwerror(vm, _SC("'fade_color1' called without instance"));
+    return SQ_ERROR;
+  }
+  auto _this = reinterpret_cast<scripting::Gradient*> (data);
+
+  if (_this == nullptr) {
+    return SQ_ERROR;
+  }
+
+  SQFloat arg0;
+  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg1;
+  if(SQ_FAILED(sq_getfloat(vm, 3, &arg1))) {
+    sq_throwerror(vm, _SC("Argument 2 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg2;
+  if(SQ_FAILED(sq_getfloat(vm, 4, &arg2))) {
+    sq_throwerror(vm, _SC("Argument 3 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg3;
+  if(SQ_FAILED(sq_getfloat(vm, 5, &arg3))) {
+    sq_throwerror(vm, _SC("Argument 4 not a float"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->fade_color1(static_cast<float> (arg0), static_cast<float> (arg1), static_cast<float> (arg2),
+                       static_cast<float> (arg3));
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'fade_color1'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger Gradient_fade_color2_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+    sq_throwerror(vm, _SC("'fade_color2' called without instance"));
+    return SQ_ERROR;
+  }
+  auto _this = reinterpret_cast<scripting::Gradient*> (data);
+
+  if (_this == nullptr) {
+    return SQ_ERROR;
+  }
+
+  SQFloat arg0;
+  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg1;
+  if(SQ_FAILED(sq_getfloat(vm, 3, &arg1))) {
+    sq_throwerror(vm, _SC("Argument 2 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg2;
+  if(SQ_FAILED(sq_getfloat(vm, 4, &arg2))) {
+    sq_throwerror(vm, _SC("Argument 3 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg3;
+  if(SQ_FAILED(sq_getfloat(vm, 5, &arg3))) {
+    sq_throwerror(vm, _SC("Argument 4 not a float"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->fade_color2(static_cast<float> (arg0), static_cast<float> (arg1), static_cast<float> (arg2),
+                       static_cast<float> (arg3));
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'fade_color2'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger Gradient_fade_colors_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+    sq_throwerror(vm, _SC("'fade_colors' called without instance"));
+    return SQ_ERROR;
+  }
+  auto _this = reinterpret_cast<scripting::Gradient*> (data);
+
+  if (_this == nullptr) {
+    return SQ_ERROR;
+  }
+
+  SQFloat arg0;
+  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg1;
+  if(SQ_FAILED(sq_getfloat(vm, 3, &arg1))) {
+    sq_throwerror(vm, _SC("Argument 2 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg2;
+  if(SQ_FAILED(sq_getfloat(vm, 4, &arg2))) {
+    sq_throwerror(vm, _SC("Argument 3 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg3;
+  if(SQ_FAILED(sq_getfloat(vm, 5, &arg3))) {
+    sq_throwerror(vm, _SC("Argument 4 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg4;
+  if(SQ_FAILED(sq_getfloat(vm, 6, &arg4))) {
+    sq_throwerror(vm, _SC("Argument 5 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg5;
+  if(SQ_FAILED(sq_getfloat(vm, 7, &arg5))) {
+    sq_throwerror(vm, _SC("Argument 6 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg6;
+  if(SQ_FAILED(sq_getfloat(vm, 8, &arg6))) {
+    sq_throwerror(vm, _SC("Argument 7 not a float"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->fade_colors(static_cast<float> (arg0), static_cast<float> (arg1), static_cast<float> (arg2),
+                      static_cast<float> (arg3), static_cast<float> (arg4), static_cast<float> (arg5),
+                      static_cast<float> (arg6));
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'fade_colors'"));
+    return SQ_ERROR;
+  }
+
+}
+
+
 static SQInteger Gradient_swap_colors_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
@@ -7995,6 +8222,34 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tnnn");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'set_color2'");
+  }
+
+  sq_pushstring(v, "set_colors", -1);
+  sq_newclosure(v, &Gradient_set_colors_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tnnnnnn");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'set_colors'");
+  }
+
+  sq_pushstring(v, "fade_color1", -1);
+  sq_newclosure(v, &Gradient_fade_color1_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tnnnn");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'fade_color1'");
+  }
+
+  sq_pushstring(v, "fade_color2", -1);
+  sq_newclosure(v, &Gradient_fade_color2_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tnnnn");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'fade_color2'");
+  }
+
+  sq_pushstring(v, "fade_colors", -1);
+  sq_newclosure(v, &Gradient_fade_colors_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tnnnnnnn");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'fade_colors'");
   }
 
   sq_pushstring(v, "swap_colors", -1);

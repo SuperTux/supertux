@@ -71,6 +71,34 @@ Gradient::set_color2(float red, float green, float blue)
 }
 
 void
+Gradient::set_colors(float red1, float green1, float blue1, float red2, float green2, float blue2)
+{
+  SCRIPT_GUARD_VOID;
+  object.set_gradient(Color(red1, green1, blue1), Color(red2, green2, blue2));
+}
+
+void
+Gradient::fade_color1(float red, float green, float blue, float time)
+{
+  SCRIPT_GUARD_VOID;
+  object.fade_gradient(Color(red, green, blue), object.get_gradient_bottom(), time);
+}
+
+void
+Gradient::fade_color2(float red, float green, float blue, float time)
+{
+  SCRIPT_GUARD_VOID;
+  object.fade_gradient(object.get_gradient_top(), Color(red, green, blue), time);
+}
+
+void
+Gradient::fade_colors(float red1, float green1, float blue1, float red2, float green2, float blue2, float time)
+{
+  SCRIPT_GUARD_VOID;
+  object.fade_gradient(Color(red1, green1, blue1), Color(red2, green2, blue2), time);
+}
+
+void
 Gradient::swap_colors()
 {
   SCRIPT_GUARD_VOID;
