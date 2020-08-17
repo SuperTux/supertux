@@ -92,11 +92,11 @@ double BounceEaseOut(double p);
 double BounceEaseInOut(double p);
 
 typedef double(*easing)(double);
-easing getEasingByName(EasingMode ease_type);
-const char* getEasingName(EasingMode ease_type);
+easing getEasingByName(const EasingMode& ease_type);
+const char* getEasingName(const EasingMode& ease_type);
 
 }
 
-EasingMode EasingMode_from_string(std::string ease_name);
+EasingMode EasingMode_from_string(const std::string& ease_name);
 
 #endif

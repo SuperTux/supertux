@@ -308,7 +308,7 @@ double BounceEaseInOut(double p)
 	}
 }
 
-easing getEasingByName(EasingMode ease_type)
+easing getEasingByName(const EasingMode& ease_type)
 {
   switch(ease_type) {
   case EaseNone:
@@ -379,7 +379,7 @@ easing getEasingByName(EasingMode ease_type)
 }
 
 
-EasingMode EasingMode_from_string(std::string ease_name)
+EasingMode EasingMode_from_string(const std::string& ease_name)
 {
   const char* name = ease_name.c_str();
   if (!strcmp(name, "EaseNone"))
@@ -512,7 +512,7 @@ EasingMode EasingMode_from_string(std::string ease_name)
   }
 }
 
-const char* getEasingName(EasingMode ease_type)
+const char* getEasingName(const EasingMode& ease_type)
 {
   switch(ease_type) {
   case EaseNone:

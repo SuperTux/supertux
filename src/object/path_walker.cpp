@@ -26,7 +26,7 @@
 #include "supertux/d_scope.hpp"
 #include "supertux/sector.hpp"
 #include "util/gettext.hpp"
-#include "math/easing.cpp"
+#include "math/easing.hpp"
 
 PathWalker::PathWalker(UID path_uid, bool running_) :
   m_path_uid(path_uid),
