@@ -17,6 +17,7 @@
 #include "editor/node_marker.hpp"
 
 #include "editor/editor.hpp"
+#include "math/easing.hpp"
 
 NodeMarker::NodeMarker (Path* path_, std::vector<Path::Node>::iterator node_iterator, size_t id_) :
   m_path(path_),
@@ -81,6 +82,35 @@ NodeMarker::get_settings()
   ObjectSettings result(_("Path Node"));
   result.add_float(_("Time"), &(m_node->time));
   result.add_float(_("Speed"), &(m_node->speed));
+  
+  result.add_enum(_("Easing"), reinterpret_cast<int*>(&(m_node->easing)),
+                  {
+                    _("No easing"),
+                    _("Quad in"), _("Quad out"), _("Quad in/out"),
+                    _("Cubic in"), _("Cubic out"), _("Cubic in/out"),
+                    _("Quart in"), _("Quart out"), _("Quart in/out"),
+                    _("Quint in"), _("Quint out"), _("Quint in/out"),
+                    _("Sine in"), _("Sine out"), _("Sine in/out"),
+                    _("Circular in"), _("Circular out"), _("Circular in/out"),
+                    _("Exponential in"), _("Exponential out"), _("Exponential in/out"),
+                    _("Elastic in"), _("Elastic out"), _("Elastic in/out"),
+                    _("Back in"), _("Back out"), _("Back in/out"),
+                    _("Bounce in"), _("Bounce out"), _("Bounce in/out")
+                  },
+                  {
+                    "EaseNone",
+                    "EaseQuadIn", "EaseQuadOut", "EaseQuadInOut",
+                    "EaseCubicIn", "EaseCubicOut", "EaseCubicInOut",
+                    "EaseQuartIn", "EaseQuartOut", "EaseQuartInOut",
+                    "EaseQuintIn", "EaseQuintOut", "EaseQuintInOut",
+                    "EaseSineIn", "EaseSineOut", "EaseSineInOut",
+                    "EaseCircularIn", "EaseCircularOut", "EaseCircularInOut",
+                    "EaseExponentialIn", "EaseExponentialOut", "EaseExponentialInOut",
+                    "EaseElasticIn", "EaseElasticOut", "EaseElasticInOut",
+                    "EaseBackIn", "EaseBackOut", "EaseBackInOut",
+                    "EaseBounceIn", "EaseBounceOut", "EaseBounceInOut"
+                  },
+                  0, "easing");
   return result;
 }
 
