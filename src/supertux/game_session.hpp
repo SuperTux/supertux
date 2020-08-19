@@ -152,8 +152,6 @@ private:
   bool m_active; /** Game active? **/
 
   bool m_end_seq_started;
-  
-  std::unique_ptr<SquirrelScheduler*> m_scheduler;
 
 private:
   GameSession(const GameSession&) = delete;
