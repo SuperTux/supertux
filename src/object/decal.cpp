@@ -15,12 +15,14 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "object/decal.hpp"
+#include "scripting/decal.hpp"
 
 #include "util/reader.hpp"
 #include "util/reader_mapping.hpp"
 
 Decal::Decal(const ReaderMapping& reader) :
   MovingSprite(reader, "images/decal/explanations/billboard-bigtux.png", LAYER_OBJECTS, COLGROUP_DISABLED),
+  ExposedObject<Decal, scripting::Decal>(this),
   default_action("default"),
   solid(),
   flip(NO_FLIP)

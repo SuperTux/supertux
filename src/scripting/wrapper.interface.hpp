@@ -5,6 +5,7 @@
 #include "scripting/badguy.hpp"
 #include "scripting/camera.hpp"
 #include "scripting/candle.hpp"
+#include "scripting/decal.hpp"
 #include "scripting/dispenser.hpp"
 #include "scripting/display_effect.hpp"
 #include "scripting/floating_image.hpp"

@@ -26,6 +26,8 @@ class Dispenser;
 void create_squirrel_instance(HSQUIRRELVM v, scripting::Dispenser* object, bool setup_releasehook = false);
 class DisplayEffect;
 void create_squirrel_instance(HSQUIRRELVM v, scripting::DisplayEffect* object, bool setup_releasehook = false);
+class Decal;
+void create_squirrel_instance(HSQUIRRELVM v, scripting::Decal* object, bool setup_releasehook = false);
 class FloatingImage;
 void create_squirrel_instance(HSQUIRRELVM v, scripting::FloatingImage* object, bool setup_releasehook = false);
 class Gradient;

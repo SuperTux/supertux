@@ -18,11 +18,14 @@
 #define HEADER_SUPERTUX_OBJECT_DECAL_HPP
 
 #include "object/moving_sprite.hpp"
+#include "scripting/decal.hpp"
+#include "squirrel/exposed_object.hpp"
 
 class ReaderMapping;
 
 /** A decorative image, perhaps part of the terrain */
-class Decal final : public MovingSprite
+class Decal final : public MovingSprite,
+                    public ExposedObject<Decal, scripting::Decal>
 {
   friend class FlipLevelTransformer;
 
