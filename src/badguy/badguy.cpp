@@ -196,7 +196,7 @@ BadGuy::update(float dt_sec)
 
     case STATE_BURNING: {
       m_is_active_flag = false;
-      m_col.m_movement = m_physic.get_movement(dt_sec);
+      m_col.set_movement(m_physic.get_movement(dt_sec));
       if ( m_sprite->animation_done() ) {
         remove_me();
       }
@@ -209,12 +209,12 @@ BadGuy::update(float dt_sec)
         remove_me();
         break;
       }
-      m_col.m_movement = m_physic.get_movement(dt_sec);
+      m_col.set_movement(m_physic.get_movement(dt_sec));
       break;
 
     case STATE_MELTING: {
       m_is_active_flag = false;
-      m_col.m_movement = m_physic.get_movement(dt_sec);
+      m_col.set_movement(m_physic.get_movement(dt_sec));
       if ( m_sprite->animation_done() || on_ground() ) {
         Sector::get().add<WaterDrop>(m_col.m_bbox.p1(), get_water_sprite(), m_physic.get_velocity());
         remove_me();
@@ -224,7 +224,7 @@ BadGuy::update(float dt_sec)
 
     case STATE_GROUND_MELTING:
       m_is_active_flag = false;
-      m_col.m_movement = m_physic.get_movement(dt_sec);
+      m_col.set_movement(m_physic.get_movement(dt_sec));
       if ( m_sprite->animation_done() ) {
         remove_me();
       }
@@ -232,7 +232,7 @@ BadGuy::update(float dt_sec)
 
     case STATE_INSIDE_MELTING: {
       m_is_active_flag = false;
-      m_col.m_movement = m_physic.get_movement(dt_sec);
+      m_col.set_movement(m_physic.get_movement(dt_sec));
       if ( on_ground() && m_sprite->animation_done() ) {
         m_sprite->set_action(m_dir == Direction::LEFT ? "gear-left" : "gear-right", 1);
         set_state(STATE_GEAR);
@@ -249,7 +249,7 @@ BadGuy::update(float dt_sec)
 
     case STATE_FALLING:
       m_is_active_flag = false;
-      m_col.m_movement = m_physic.get_movement(dt_sec);
+      m_col.set_movement(m_physic.get_movement(dt_sec));
       break;
   }
 
@@ -289,7 +289,7 @@ BadGuy::deactivate()
 void
 BadGuy::active_update(float dt_sec)
 {
-  m_col.m_movement = m_physic.get_movement(dt_sec);
+  m_col.set_movement(m_physic.get_movement(dt_sec));
   if (m_frozen)
     m_sprite->stop_animation();
 }

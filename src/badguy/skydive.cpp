@@ -55,10 +55,11 @@ void
 SkyDive::grab(MovingObject& object, const Vector& pos, Direction dir_)
 {
   Portable::grab(object, pos, dir_);
-  m_col.m_movement = pos - get_pos();
+  Vector movement = pos - get_pos();
+  m_col.set_movement(movement);
   m_dir = dir_;
 
-  m_physic.set_velocity_x(m_col.m_movement.x * LOGICAL_FPS);
+  m_physic.set_velocity_x(movement.x * LOGICAL_FPS);
   m_physic.set_velocity_y(0.0);
   m_physic.set_acceleration_y(0.0);
   m_physic.enable_gravity(false);
@@ -114,7 +115,7 @@ void
 SkyDive::active_update(float dt_sec)
 {
   if (!is_grabbed())
-    m_col.m_movement = m_physic.get_movement(dt_sec);
+    m_col.set_movement(m_physic.get_movement(dt_sec));
 }
 
 void

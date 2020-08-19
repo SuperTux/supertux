@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_OBJECT_TILEMAP_HPP
 
 #include <algorithm>
+#include <unordered_set>
 
 #include "math/rect.hpp"
 #include "math/rectf.hpp"
@@ -32,6 +33,8 @@
 #include "video/drawing_target.hpp"
 
 class DrawingContext;
+class CollisionObject;
+class CollisionGroundMovementManager;
 class Tile;
 class TileSet;
 
@@ -85,6 +88,11 @@ public:
   void set_offset(const Vector &offset_) { m_offset = offset_; }
   Vector get_offset() const { return m_offset; }
 
+  void set_ground_movement_manager(const std::shared_ptr<CollisionGroundMovementManager>& movement_manager)
+  {
+    m_ground_movement_manager = movement_manager;
+  }
+
   void move_by(const Vector& pos);
 
   /** Get the movement of this tilemap. The collision detection code
@@ -118,6 +126,10 @@ public:
   /** Returns the half-open rectangle of (x, y) tile indices that
       overlap the given rectangle in the sector. */
   Rect get_tiles_overlapping(const Rectf &rect) const;
+
+  /** Called by the collision mechanism to indicate that this tilemap has been hit on
+      the top, i.e. has hit a moving object on the bottom of its collision rectangle. */
+  void hits_object_bottom(CollisionObject& object);
 
   int get_layer() const { return m_z_pos; }
   void set_layer(int layer_) { m_z_pos = layer_; }
@@ -190,6 +202,11 @@ private:
   int m_z_pos;
   Vector m_offset;
   Vector m_movement; /**< The movement that happened last frame */
+
+  /** Objects that were touching the top of a solid tile at the last frame */
+  std::unordered_set<CollisionObject*> m_objects_hit_bottom;
+
+  std::shared_ptr<CollisionGroundMovementManager> m_ground_movement_manager;
 
   Flip m_flip;
   float m_alpha; /**< requested tilemap opacity */

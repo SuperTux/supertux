@@ -189,7 +189,7 @@ Yeti::active_update(float dt_sec)
       break;
   }
 
-  m_col.m_movement = m_physic.get_movement(dt_sec);
+  m_col.set_movement(m_physic.get_movement(dt_sec));
 }
 
 void

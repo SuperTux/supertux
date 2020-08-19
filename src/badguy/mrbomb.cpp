@@ -120,7 +120,7 @@ MrBomb::grab(MovingObject& object, const Vector& pos, Direction dir_)
 {
   Portable::grab(object, pos, dir_);
   assert(m_frozen);
-  m_col.m_movement = pos - get_pos();
+  m_col.set_movement(pos - get_pos());
   m_dir = dir_;
   m_sprite->set_action(dir_ == Direction::LEFT ? "iced-left" : "iced-right");
   set_colgroup_active(COLGROUP_DISABLED);

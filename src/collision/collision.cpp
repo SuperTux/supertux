@@ -48,7 +48,15 @@ inline void makePlane(const Vector& p1, const Vector& p2, Vector& n, float& c)
 }
 
 bool rectangle_aatriangle(Constraints* constraints, const Rectf& rect,
-                          const AATriangle& triangle, const Vector& addl_ground_movement)
+                          const AATriangle& triangle)
+{
+  bool dummy;
+  return rectangle_aatriangle(constraints, rect, triangle, dummy);
+}
+
+bool rectangle_aatriangle(Constraints* constraints, const Rectf& rect,
+                          const AATriangle& triangle,
+                          bool& hits_rectangle_bottom)
 {
   if (!intersects(rect, triangle.bbox))
     return false;
@@ -123,19 +131,19 @@ bool rectangle_aatriangle(Constraints* constraints, const Rectf& rect,
     set_rectangle_rectangle_constraints(constraints, rect, area);
   } else {
     if (outvec.x < 0) {
-      constraints->constrain_right(rect.get_right() + outvec.x, addl_ground_movement.x);
+      constraints->constrain_right(rect.get_right() + outvec.x);
       constraints->hit.right = true;
     } else {
-      constraints->constrain_left(rect.get_left() + outvec.x, addl_ground_movement.x);
+      constraints->constrain_left(rect.get_left() + outvec.x);
       constraints->hit.left = true;
     }
 
     if (outvec.y < 0) {
-      constraints->constrain_bottom(rect.get_bottom() + outvec.y, addl_ground_movement.y);
+      constraints->constrain_bottom(rect.get_bottom() + outvec.y);
       constraints->hit.bottom = true;
-      constraints->ground_movement += addl_ground_movement;
+      hits_rectangle_bottom = true;
     } else {
-      constraints->constrain_top(rect.get_top() + outvec.y, addl_ground_movement.y);
+      constraints->constrain_top(rect.get_top() + outvec.y);
       constraints->hit.top = true;
     }
     constraints->hit.slope_normal = normal;
@@ -144,8 +152,7 @@ bool rectangle_aatriangle(Constraints* constraints, const Rectf& rect,
   return true;
 }
 
-void set_rectangle_rectangle_constraints(Constraints* constraints,
-                                         const Rectf& r1, const Rectf& r2, const Vector& addl_ground_movement)
+void set_rectangle_rectangle_constraints(Constraints* constraints, const Rectf& r1, const Rectf& r2)
 {
   float itop = r1.get_bottom() - r2.get_top();
   float ibottom = r2.get_bottom() - r1.get_top();
@@ -156,19 +163,18 @@ void set_rectangle_rectangle_constraints(Constraints* constraints,
   float horiz_penetration = std::min(ileft, iright);
   if (vert_penetration < horiz_penetration) {
     if (itop < ibottom) {
-      constraints->constrain_bottom(r2.get_top(), addl_ground_movement.y);
+      constraints->constrain_bottom(r2.get_top());
       constraints->hit.bottom = true;
-      constraints->ground_movement += addl_ground_movement;
     } else {
-      constraints->constrain_top(r2.get_bottom(), addl_ground_movement.y);
+      constraints->constrain_top(r2.get_bottom());
       constraints->hit.top = true;
     }
   } else {
     if (ileft < iright) {
-      constraints->constrain_right(r2.get_left(), addl_ground_movement.x);
+      constraints->constrain_right(r2.get_left());
       constraints->hit.right = true;
     } else {
-      constraints->constrain_left(r2.get_right(), addl_ground_movement.x);
+      constraints->constrain_left(r2.get_right());
       constraints->hit.left = true;
     }
   }

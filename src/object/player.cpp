@@ -456,7 +456,7 @@ Player::update(float dt_sec)
     }
 
   // calculate movement for this frame
-  m_col.m_movement = m_physic.get_movement(dt_sec);
+  m_col.set_movement(m_physic.get_movement(dt_sec));
 
   if (m_grabbed_object != nullptr && !m_dying) {
     position_grabbed_object();
@@ -988,7 +988,7 @@ Player::handle_input()
     handle_input_climbing();
     return;
   }
-if (m_swimming) {
+  if (m_swimming) {
     handle_input_swimming();
   }
   else

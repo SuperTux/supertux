@@ -346,11 +346,15 @@ Sector::before_object_add(GameObject& object)
       return false;
     }
   }
-
-  auto movingobject = dynamic_cast<MovingObject*>(&object);
-  if (movingobject)
+  
+  if (auto* movingobject = dynamic_cast<MovingObject*>(&object))
   {
     m_collision_system->add(movingobject->get_collision_object());
+  }
+
+  if (auto* tilemap = dynamic_cast<TileMap*>(&object))
+  {
+    tilemap->set_ground_movement_manager(m_collision_system->get_ground_movement_manager());
   }
 
   if (s_current == this) {
