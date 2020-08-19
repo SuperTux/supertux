@@ -1583,8 +1583,7 @@ static SQInteger Gradient_set_colors_wrapper(HSQUIRRELVM vm)
   }
 
   try {
-    _this->set_colors(static_cast<float> (arg0), static_cast<float> (arg1), static_cast<float> (arg2),
-                      static_cast<float> (arg3), static_cast<float> (arg4), static_cast<float> (arg5));
+    _this->set_colors(static_cast<float> (arg0), static_cast<float> (arg1), static_cast<float> (arg2), static_cast<float> (arg3), static_cast<float> (arg4), static_cast<float> (arg5));
 
     return 0;
 
@@ -1633,8 +1632,7 @@ static SQInteger Gradient_fade_color1_wrapper(HSQUIRRELVM vm)
   }
 
   try {
-    _this->fade_color1(static_cast<float> (arg0), static_cast<float> (arg1), static_cast<float> (arg2),
-                       static_cast<float> (arg3));
+    _this->fade_color1(static_cast<float> (arg0), static_cast<float> (arg1), static_cast<float> (arg2), static_cast<float> (arg3));
 
     return 0;
 
@@ -1683,8 +1681,7 @@ static SQInteger Gradient_fade_color2_wrapper(HSQUIRRELVM vm)
   }
 
   try {
-    _this->fade_color2(static_cast<float> (arg0), static_cast<float> (arg1), static_cast<float> (arg2),
-                       static_cast<float> (arg3));
+    _this->fade_color2(static_cast<float> (arg0), static_cast<float> (arg1), static_cast<float> (arg2), static_cast<float> (arg3));
 
     return 0;
 
@@ -1748,9 +1745,7 @@ static SQInteger Gradient_fade_colors_wrapper(HSQUIRRELVM vm)
   }
 
   try {
-    _this->fade_colors(static_cast<float> (arg0), static_cast<float> (arg1), static_cast<float> (arg2),
-                      static_cast<float> (arg3), static_cast<float> (arg4), static_cast<float> (arg5),
-                      static_cast<float> (arg6));
+    _this->fade_colors(static_cast<float> (arg0), static_cast<float> (arg1), static_cast<float> (arg2), static_cast<float> (arg3), static_cast<float> (arg4), static_cast<float> (arg5), static_cast<float> (arg6));
 
     return 0;
 
@@ -1763,7 +1758,6 @@ static SQInteger Gradient_fade_colors_wrapper(HSQUIRRELVM vm)
   }
 
 }
-
 
 static SQInteger Gradient_swap_colors_wrapper(HSQUIRRELVM vm)
 {
@@ -2111,15 +2105,14 @@ static SQInteger Platform_set_action_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Argument 1 not a string"));
     return SQ_ERROR;
   }
-
   SQInteger arg1;
   if(SQ_FAILED(sq_getinteger(vm, 3, &arg1))) {
-    sq_throwerror(vm, _SC("Argument 2 not a integer"));
+    sq_throwerror(vm, _SC("Argument 2 not an integer"));
     return SQ_ERROR;
   }
 
   try {
-    _this->set_action(static_cast<const char*> (arg0), static_cast<int> (arg1));
+    _this->set_action(arg0, static_cast<int> (arg1));
 
     return 0;
 
@@ -5977,11 +5970,10 @@ static SQInteger check_cutscene_wrapper(HSQUIRRELVM vm)
   HSQUIRRELVM arg0 = vm;
 
   try {
-    bool is_in_cutscene = scripting::check_cutscene(arg0);
-    
-    printf("Check cutscene : %d\n", is_in_cutscene);
+    bool return_value = scripting::check_cutscene(arg0);
 
-    return 0;
+    sq_pushbool(vm, return_value);
+    return 1;
 
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
@@ -8434,7 +8426,7 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'stop_moving'");
   }
-  
+
   sq_pushstring(v, "set_action", -1);
   sq_newclosure(v, &Platform_set_action_wrapper, 0);
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tsi");
