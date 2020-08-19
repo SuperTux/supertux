@@ -22,6 +22,7 @@
 #include <squirrel.h>
 
 #include "math/vector.hpp"
+#include "squirrel/squirrel_scheduler.hpp"
 #include "supertux/game_session_recorder.hpp"
 #include "supertux/player_status.hpp"
 #include "supertux/screen.hpp"
@@ -88,6 +89,8 @@ public:
   void force_ghost_mode();
 
   Savegame& get_savegame() const { return m_savegame; }
+  
+  void set_scheduler(SquirrelScheduler& new_scheduler);
 
 private:
   void check_end_conditions();
@@ -149,6 +152,8 @@ private:
   bool m_active; /** Game active? **/
 
   bool m_end_seq_started;
+  
+  std::unique_ptr<SquirrelScheduler*> m_scheduler;
 
 private:
   GameSession(const GameSession&) = delete;

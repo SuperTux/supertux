@@ -150,7 +150,13 @@ SquirrelVirtualMachine::update_debugger()
 void
 SquirrelVirtualMachine::wait_for_seconds(HSQUIRRELVM vm, float seconds)
 {
-  m_scheduler->schedule_thread(vm, g_game_time + seconds);
+  m_scheduler->schedule_thread(vm, g_game_time + seconds, false);
+}
+
+void
+SquirrelVirtualMachine::skippable_wait_for_seconds(HSQUIRRELVM vm, float seconds)
+{
+  m_scheduler->schedule_thread(vm, g_game_time + seconds, true);
 }
 
 void

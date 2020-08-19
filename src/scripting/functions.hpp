@@ -51,6 +51,11 @@ void set_next_worldmap(const std::string& dirname, const std::string& spawnpoint
 /** Load and display a level (on next screenswitch) */
 void load_level(const std::string& filename);
 
+/** Manages skippable cutscenes (cancels calls to wait()) */
+void start_cutscene(HSQUIRRELVM vm);
+void end_cutscene(HSQUIRRELVM vm);
+bool check_cutscene(HSQUIRRELVM vm);
+
 /** Suspend the script execution for the specified number of seconds */
 void wait(HSQUIRRELVM vm, float seconds) __suspend;
 

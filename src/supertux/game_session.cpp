@@ -26,6 +26,7 @@
 #include "object/level_time.hpp"
 #include "object/music_object.hpp"
 #include "object/player.hpp"
+//#include "squirrel/squirrel_scheduler.hpp"
 #include "supertux/fadetoblack.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/level.hpp"
@@ -171,6 +172,18 @@ GameSession::on_escape_press()
 
     m_currentsector->get_player().m_dying_timer.start(FLT_EPSILON);
     return;   // don't let the player open the menu, when Tux is dying
+  }
+  
+  if (m_level->m_is_in_cutscene && !m_level->m_skip_cutscene)
+  {
+    m_level->m_skip_cutscene = true;
+    /*
+    if (m_scheduler != nullptr)
+    {
+      m_scheduler->force_wake_up();
+    }
+    */
+    return;
   }
 
   if (!m_level->m_suppress_pause_menu) {
@@ -574,5 +587,11 @@ GameSession::drawstatus(DrawingContext& context)
     m_level->m_stats.draw_endseq_panel(context, m_best_level_statistics, m_statistics_backdrop, m_level->m_target_time);
   }
 }
-
+/*
+void
+GameSession::set_scheduler(SquirrelScheduler& new_scheduler)
+{
+  m_scheduler = new_scheduler;
+}
+*/
 /* EOF */
