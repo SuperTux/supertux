@@ -23,6 +23,7 @@
 
 #include "math/vector.hpp"
 #include "squirrel/squirrel_scheduler.hpp"
+#include "supertux/game_object.hpp"
 #include "supertux/game_session_recorder.hpp"
 #include "supertux/player_status.hpp"
 #include "supertux/screen.hpp"
@@ -152,6 +153,8 @@ private:
   bool m_active; /** Game active? **/
 
   bool m_end_seq_started;
+  
+  std::unique_ptr<GameObject> m_current_cutscene_text;
 
 private:
   GameSession(const GameSession&) = delete;
