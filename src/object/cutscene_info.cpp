@@ -26,10 +26,8 @@ CutsceneInfo::CutsceneInfo(/*const Vector& pos*/ const Camera& cam, const std::s
   position(cam.get_translation() + *(new Vector(32, 32))),
   text(text_),
   camera(cam),
-  level(parent),
-  timer()
+  level(parent)
 {
-  timer.start(3.0f);
 }
 
 void
@@ -38,12 +36,10 @@ CutsceneInfo::update(float dt_sec)
   position = camera.get_translation() + *(new Vector(32, 32));
 }
 
-const float FADING_TIME = 1.0f;
-
 void
 CutsceneInfo::draw(DrawingContext& context)
 {
-  if (/*level.*/Level::current()->m_is_in_cutscene && !/*level.*/Level::current()->m_skip_cutscene)
+  if (level.m_is_in_cutscene && !level.m_skip_cutscene)
   {
     context.color().draw_text(Resources::normal_font, text, position, ALIGN_LEFT, LAYER_OBJECTS+1000, CutsceneInfo::text_color);
   }

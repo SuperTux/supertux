@@ -21,7 +21,6 @@
 #include "object/camera.hpp"
 #include "supertux/game_object.hpp"
 #include "supertux/level.hpp"
-#include "supertux/timer.hpp"
 #include "video/color.hpp"
 
 class CutsceneInfo final : public GameObject
@@ -41,7 +40,6 @@ private:
   std::string text;
   const Camera& camera;
   const Level& level;
-  Timer timer;
 };
 
 #endif

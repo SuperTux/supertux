@@ -21,7 +21,6 @@
 #include "gui/menu_manager.hpp"
 #include "math/vector.hpp"
 #include "object/camera.hpp"
-#include "object/cutscene_info.hpp"
 #include "object/endsequence_fireworks.hpp"
 #include "object/endsequence_walkleft.hpp"
 #include "object/endsequence_walkright.hpp"
@@ -81,9 +80,6 @@ GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Stat
 {
   if (restart_level() != 0)
     throw std::runtime_error ("Initializing the level failed.");
-
-  CutsceneInfo* cutscene_text = new CutsceneInfo(m_currentsector->get_camera(), _("Press escape to skip"), *m_level);
-  m_currentsector->add_object(std::unique_ptr<GameObject> (cutscene_text));
 }
 
 void
