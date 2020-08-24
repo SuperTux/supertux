@@ -1,0 +1,114 @@
+//  SuperTux
+//  Copyright (C) 2020 A. Semphris <semphris@protonmail.com>
+//
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+#ifndef HEADER_SUPERTUX_SUPERTUX_AUTOTILE_HPP
+#define HEADER_SUPERTUX_SUPERTUX_AUTOTILE_HPP
+
+#include <memory>
+#include <stdint.h>
+#include <string>
+#include <algorithm>
+
+#include "math/rect.hpp"
+#include "math/rectf.hpp"
+#include "math/size.hpp"
+#include "object/path_object.hpp"
+#include "object/path_walker.hpp"
+#include "squirrel/exposed_object.hpp"
+#include "scripting/tilemap.hpp"
+#include "supertux/game_object.hpp"
+#include "video/color.hpp"
+#include "video/flip.hpp"
+#include "video/drawing_target.hpp"
+
+class AutotileMask final
+{
+public:
+  AutotileMask(uint8_t mask, bool center);
+
+  bool matches(uint8_t mask, bool center);
+
+private:
+  uint8_t m_mask;
+  bool m_center; // m_center should *always* be the same as the m_solid of the corresponding Autotile
+
+private:
+  AutotileMask(const AutotileMask&) = delete;
+  AutotileMask& operator=(const AutotileMask&) = delete;
+};
+
+class Autotile final
+{
+public:
+  Autotile(uint32_t tile_id, std::vector<AutotileMask*> masks, bool solid);
+
+  bool matches(uint8_t mask, bool center);
+  uint32_t get_tile_id();
+
+  /** Returns true if the "center" bool of masks are true. All masks of given Autotile must have the same value for their "center" property.*/
+  bool is_solid();
+
+private:
+  uint32_t m_tile_id;
+  std::vector<AutotileMask*> m_masks;
+  bool m_solid;
+
+private:
+  Autotile(const Autotile&) = delete;
+  Autotile& operator=(const Autotile&) = delete;
+};
+
+class AutotileSet final
+{
+public:
+  static AutotileSet* get_tileset_from_tile(uint32_t tile_id);
+
+public:
+  AutotileSet(std::vector<Autotile*> autotiles, uint32_t default_tile);
+
+  /** Returns the ID of the tile to use, based on the surrounding tiles. */
+  uint32_t get_autotile(uint32_t tile_id,
+    bool top_left, bool top, bool top_right,
+    bool left, bool center, bool right,
+    bool bottom_left, bool bottom, bool bottom_right
+  );
+
+  /** Returns the id of the first block in the autotileset. Used for erronous configs. */
+  uint32_t get_default_tile();
+
+  /** true if the given tile is present in the autotileset */
+  bool is_member(uint32_t tile_id);
+
+  /** true if is_member() is true AND the "center" bool is true */
+  bool is_solid(uint32_t tile_id);
+
+  uint32_t get_tile_with_mask(uint8_t mask, bool center);
+
+public:
+  static std::vector<AutotileSet*>* m_autotilesets;
+
+private:
+  std::vector<Autotile*> m_autotiles;
+  uint32_t m_default;
+
+private:
+  AutotileSet(const AutotileSet&) = delete;
+  AutotileSet& operator=(const AutotileSet&) = delete;
+};
+
+#endif
+
+/* EOF */

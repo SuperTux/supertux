@@ -19,6 +19,7 @@
 #include <tuple>
 
 #include "editor/editor.hpp"
+#include "supertux/autotile.hpp"
 #include "supertux/debug.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/sector.hpp"
@@ -581,6 +582,46 @@ TileMap::change_all(uint32_t oldtile, uint32_t newtile)
       change(x,y,newtile);
     }
   }
+}
+
+void
+TileMap::autotile(int x, int y, uint32_t tile)
+{
+  assert(x >= 0 && x < m_width && y >= 0 && y < m_height);
+
+  uint32_t current_tile = m_tiles[y*m_width + x];
+
+  // Special case : If the tile is empty, check if we can use a non-solid tile
+  // from the currently selected tile's autotile set (if any).
+  AutotileSet* curr_set;
+  if (current_tile == 0)
+  {
+    curr_set = AutotileSet::get_tileset_from_tile(tile);
+  }
+  else
+  {
+    curr_set = AutotileSet::get_tileset_from_tile(current_tile);
+  }
+
+  // If tile is not autotileable, abort
+  if (curr_set == nullptr)
+  {
+    return;
+  }
+
+  uint32_t realtile = curr_set->get_autotile(current_tile,
+    curr_set->is_solid(get_tile_id(x-1, y-1)),
+    curr_set->is_solid(get_tile_id(x  , y-1)),
+    curr_set->is_solid(get_tile_id(x+1, y-1)),
+    curr_set->is_solid(get_tile_id(x-1, y  )),
+    curr_set->is_solid(get_tile_id(x  , y  )),
+    curr_set->is_solid(get_tile_id(x+1, y  )),
+    curr_set->is_solid(get_tile_id(x-1, y+1)),
+    curr_set->is_solid(get_tile_id(x  , y+1)),
+    curr_set->is_solid(get_tile_id(x+1, y+1))
+    );
+
+  m_tiles[y*m_width + x] = realtile;
 }
 
 void

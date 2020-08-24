@@ -41,7 +41,13 @@ public:
   static bool render_background;
   static bool render_grid;
   static bool snap_to_grid;
+  static bool autotile_mode;
+  static bool autotile_help;
   static int selected_snap_grid_size;
+
+  static Color text_autotile_available_color;
+  static Color text_autotile_active_color;
+  static Color text_autotile_error_color;
 
 public:
   EditorOverlayWidget(Editor& editor);
@@ -65,8 +71,11 @@ public:
 
 private:
   void input_tile(const Vector& pos, uint32_t tile);
+  void autotile(const Vector& pos, uint32_t tile);
+  void input_autotile(const Vector& pos, uint32_t tile);
   void put_tile();
   void draw_rectangle();
+  bool check_tiles_for_fill(uint32_t replace_tile, uint32_t target_tile, uint32_t third_tile);
   void fill();
   void put_object();
 
