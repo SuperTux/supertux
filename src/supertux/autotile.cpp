@@ -27,7 +27,7 @@ AutotileMask::AutotileMask(uint8_t mask, bool center) :
 }
 
 bool
-AutotileMask::matches(uint8_t mask, bool center)
+AutotileMask::matches(uint8_t mask, bool center) const
 {
   return mask == m_mask && center == m_center;
 }
@@ -42,7 +42,7 @@ Autotile::Autotile(uint32_t tile_id, std::vector<AutotileMask*> masks, bool soli
 }
 
 bool
-Autotile::matches(uint8_t num_mask, bool center)
+Autotile::matches(uint8_t num_mask, bool center) const
 {
   for (auto& l_mask : m_masks)
   {
@@ -55,13 +55,13 @@ Autotile::matches(uint8_t num_mask, bool center)
 }
 
 uint32_t
-Autotile::get_tile_id()
+Autotile::get_tile_id() const
 {
   return m_tile_id;
 }
 
 bool
-Autotile::is_solid()
+Autotile::is_solid() const
 {
   return m_solid;
 }
@@ -107,7 +107,7 @@ AutotileSet::get_autotile(uint32_t tile_id,
     bool top_left, bool top, bool top_right,
     bool left, bool center, bool right,
     bool bottom_left, bool bottom, bool bottom_right
-  )
+  ) const
 {
   //if (tile_id == 0) return 0;
   uint8_t num_mask = 0;
@@ -135,13 +135,13 @@ AutotileSet::get_autotile(uint32_t tile_id,
 
 
 uint32_t
-AutotileSet::get_default_tile()
+AutotileSet::get_default_tile() const
 {
   return m_default;
 }
 
 bool
-AutotileSet::is_member(uint32_t tile_id)
+AutotileSet::is_member(uint32_t tile_id) const
 {
   for (auto& tile : m_autotiles)
   {
@@ -154,7 +154,7 @@ AutotileSet::is_member(uint32_t tile_id)
 }
 
 bool
-AutotileSet::is_solid(uint32_t tile_id)
+AutotileSet::is_solid(uint32_t tile_id) const
 {
   if (!is_member(tile_id))
     return false;

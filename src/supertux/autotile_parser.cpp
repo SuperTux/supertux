@@ -125,29 +125,29 @@ AutotileParser::parse_autotile(const ReaderMapping& reader)
         throw std::runtime_error("Autotile config : mask isn't exactly 8 characters.");
       }
 
-      std::vector<uint32_t> masks;
+      std::vector<uint8_t> masks;
 
       masks.push_back(0);
 
       for (int i = 0; i < 8; i++)
       {
-        std::vector<uint32_t> new_masks;
+        std::vector<uint8_t> new_masks;
         switch (mask[i])
         {
         case '0':
-          for (uint32_t val : masks)
+          for (uint8_t val : masks)
           {
             new_masks.push_back(val * 2);
           }
           break;
         case '1':
-          for (uint32_t val : masks)
+          for (uint8_t val : masks)
           {
             new_masks.push_back(val * 2 + 1);
           }
           break;
         case '*':
-          for (uint32_t val : masks)
+          for (uint8_t val : masks)
           {
             new_masks.push_back(val * 2);
             new_masks.push_back(val * 2 + 1);
@@ -159,7 +159,7 @@ AutotileParser::parse_autotile(const ReaderMapping& reader)
         masks = new_masks;
       }
 
-      for (uint32_t val : masks)
+      for (uint8_t val : masks)
       {
         autotile_masks->push_back(new AutotileMask(val, solid));
       }

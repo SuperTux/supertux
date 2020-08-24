@@ -187,18 +187,18 @@ EditorOverlayWidget::input_autotile(const Vector& pos, uint32_t tile)
 {
   this->input_tile(pos, tile);
 
-  int x = static_cast<int>(pos.x);
-  int y = static_cast<int>(pos.y);
+  float x = pos.x;
+  float y = pos.y;
 
-  this->autotile(Vector(x - 1, y - 1), tile);
-  this->autotile(Vector(x    , y - 1), tile);
-  this->autotile(Vector(x + 1, y - 1), tile);
-  this->autotile(Vector(x - 1, y    ), tile);
-  this->autotile(Vector(x    , y    ), tile);
-  this->autotile(Vector(x + 1, y    ), tile);
-  this->autotile(Vector(x - 1, y + 1), tile);
-  this->autotile(Vector(x    , y + 1), tile);
-  this->autotile(Vector(x + 1, y + 1), tile);
+  this->autotile(Vector(x - 1.0f, y - 1.0f), tile);
+  this->autotile(Vector(x       , y - 1.0f), tile);
+  this->autotile(Vector(x + 1.0f, y - 1.0f), tile);
+  this->autotile(Vector(x - 1.0f, y       ), tile);
+  this->autotile(Vector(x       , y       ), tile);
+  this->autotile(Vector(x + 1.0f, y       ), tile);
+  this->autotile(Vector(x - 1.0f, y + 1.0f), tile);
+  this->autotile(Vector(x       , y + 1.0f), tile);
+  this->autotile(Vector(x + 1.0f, y + 1.0f), tile);
 }
 
 void
@@ -242,11 +242,15 @@ EditorOverlayWidget::draw_rectangle()
 }
 
 bool
-EditorOverlayWidget::check_tiles_for_fill(uint32_t replace_tile, uint32_t target_tile, uint32_t third_tile)
+EditorOverlayWidget::check_tiles_for_fill(uint32_t replace_tile,
+                                          uint32_t target_tile,
+                                          uint32_t third_tile) const
 {
   if (autotile_mode) {
-    return AutotileSet::get_tileset_from_tile(replace_tile) == AutotileSet::get_tileset_from_tile(target_tile)
-      && AutotileSet::get_tileset_from_tile(replace_tile) != AutotileSet::get_tileset_from_tile(third_tile);
+    return AutotileSet::get_tileset_from_tile(replace_tile)
+        == AutotileSet::get_tileset_from_tile(target_tile)
+      && AutotileSet::get_tileset_from_tile(replace_tile)
+        != AutotileSet::get_tileset_from_tile(third_tile);
   } else {
     return replace_tile == target_tile && replace_tile != third_tile;
   }

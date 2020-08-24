@@ -75,7 +75,7 @@ private:
   void input_autotile(const Vector& pos, uint32_t tile);
   void put_tile();
   void draw_rectangle();
-  bool check_tiles_for_fill(uint32_t replace_tile, uint32_t target_tile, uint32_t third_tile);
+  bool check_tiles_for_fill(uint32_t replace_tile, uint32_t target_tile, uint32_t third_tile) const;
   void fill();
   void put_object();
 
