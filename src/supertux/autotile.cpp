@@ -109,17 +109,16 @@ AutotileSet::get_autotile(uint32_t tile_id,
     bool bottom_left, bool bottom, bool bottom_right
   ) const
 {
-  //if (tile_id == 0) return 0;
   uint8_t num_mask = 0;
 
-  if (bottom_right) num_mask += 0x01;
-  if (bottom) num_mask += 0x02;
-  if (bottom_left) num_mask += 0x04;
-  if (right) num_mask += 0x08;
-  if (left) num_mask += 0x10;
-  if (top_right) num_mask += 0x20;
-  if (top) num_mask += 0x40;
-  if (top_left) num_mask += 0x80;
+  if (bottom_right) num_mask += static_cast<uint8_t>(0x01);
+  if (bottom)       num_mask += static_cast<uint8_t>(0x02);
+  if (bottom_left)  num_mask += static_cast<uint8_t>(0x04);
+  if (right)        num_mask += static_cast<uint8_t>(0x08);
+  if (left)         num_mask += static_cast<uint8_t>(0x10);
+  if (top_right)    num_mask += static_cast<uint8_t>(0x20);
+  if (top)          num_mask += static_cast<uint8_t>(0x40);
+  if (top_left)     num_mask += static_cast<uint8_t>(0x80);
 
   for (auto& autotile : m_autotiles)
   {
