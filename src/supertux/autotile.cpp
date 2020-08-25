@@ -116,15 +116,15 @@ AutotileSet::get_autotile(uint32_t tile_id,
   // num_mask += static_cast<uint8_t>(0x01);
   //   gcc will complain
   // num_mask = (num_mask + 0x01) & 0xff;
-  //   (from a stackoverflow.com question) I hope nobody will will complain
-  if (bottom_right) num_mask = (num_mask + 0x01) & 0xff;
-  if (bottom)       num_mask = (num_mask + 0x02) & 0xff;
-  if (bottom_left)  num_mask = (num_mask + 0x04) & 0xff;
-  if (right)        num_mask = (num_mask + 0x08) & 0xff;
-  if (left)         num_mask = (num_mask + 0x10) & 0xff;
-  if (top_right)    num_mask = (num_mask + 0x20) & 0xff;
-  if (top)          num_mask = (num_mask + 0x40) & 0xff;
-  if (top_left)     num_mask = (num_mask + 0x80) & 0xff;
+  //   (from a stackoverflow.com question) gcc still complains
+  if (bottom_right) num_mask = static_cast<uint8_t>(num_mask + 0x01);
+  if (bottom)       num_mask = static_cast<uint8_t>(num_mask + 0x02);
+  if (bottom_left)  num_mask = static_cast<uint8_t>(num_mask + 0x04);
+  if (right)        num_mask = static_cast<uint8_t>(num_mask + 0x08);
+  if (left)         num_mask = static_cast<uint8_t>(num_mask + 0x10);
+  if (top_right)    num_mask = static_cast<uint8_t>(num_mask + 0x20);
+  if (top)          num_mask = static_cast<uint8_t>(num_mask + 0x40);
+  if (top_left)     num_mask = static_cast<uint8_t>(num_mask + 0x80);
 
   for (auto& autotile : m_autotiles)
   {
