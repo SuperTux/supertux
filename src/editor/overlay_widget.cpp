@@ -33,6 +33,7 @@
 #include "object/camera.hpp"
 #include "object/path_gameobject.hpp"
 #include "object/tilemap.hpp"
+#include "supertux/gameconfig.hpp"
 #include "supertux/autotile.hpp"
 #include "supertux/game_object_factory.hpp"
 #include "supertux/resources.hpp"
@@ -54,6 +55,7 @@ bool EditorOverlayWidget::render_grid = true;
 bool EditorOverlayWidget::snap_to_grid = true;
 bool EditorOverlayWidget::autotile_mode = false;
 bool EditorOverlayWidget::autotile_help = true;
+bool EditorOverlayWidget::action_pressed = false;
 int EditorOverlayWidget::selected_snap_grid_size = 3;
 
 EditorOverlayWidget::EditorOverlayWidget(Editor& editor) :
@@ -839,6 +841,7 @@ EditorOverlayWidget::on_key_up(const SDL_KeyboardEvent& key)
   }
   if (sym == SDLK_LCTRL || sym == SDLK_RCTRL) {
     autotile_mode = !autotile_mode;
+    action_pressed = false;
   }
   return true;
 }
@@ -853,8 +856,9 @@ EditorOverlayWidget::on_key_down(const SDL_KeyboardEvent& key)
   if (sym == SDLK_F7 || sym == SDLK_LSHIFT || sym == SDLK_RSHIFT) {
     snap_to_grid = !snap_to_grid;
   }
-  if (sym == SDLK_F5 || sym == SDLK_LCTRL || sym == SDLK_RCTRL) {
+  if (sym == SDLK_F5 || ((sym == SDLK_LCTRL || sym == SDLK_RCTRL) && !action_pressed)) {
     autotile_mode = !autotile_mode;
+    action_pressed = true;
   }
   return true;
 }

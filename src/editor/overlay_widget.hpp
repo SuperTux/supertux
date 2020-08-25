@@ -70,6 +70,9 @@ public:
   void edit_path(Path* path, GameObject* new_marked_object = nullptr);
 
 private:
+  static bool action_pressed;
+
+private:
   void input_tile(const Vector& pos, uint32_t tile);
   void autotile(const Vector& pos, uint32_t tile);
   void input_autotile(const Vector& pos, uint32_t tile);
