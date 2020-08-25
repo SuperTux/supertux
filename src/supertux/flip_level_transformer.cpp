@@ -124,7 +124,7 @@ FlipLevelTransformer::transform_badguy(float height, BadGuy& badguy)
 void
 FlipLevelTransformer::transform_decal(float height, Decal& decal)
 {
-  decal.flip = transform_flip(decal.flip);
+  decal.m_flip = transform_flip(decal.m_flip);
 }
 
 void

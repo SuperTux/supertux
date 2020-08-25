@@ -17,23 +17,25 @@
 #include "object/decal.hpp"
 #include "scripting/decal.hpp"
 
+#include "sprite/sprite_manager.hpp"
 #include "util/reader.hpp"
 #include "util/reader_mapping.hpp"
 
 Decal::Decal(const ReaderMapping& reader) :
   MovingSprite(reader, "images/decal/explanations/billboard-bigtux.png", LAYER_OBJECTS, COLGROUP_DISABLED),
   ExposedObject<Decal, scripting::Decal>(this),
-  default_action("default"),
-  solid(),
-  flip(NO_FLIP)
+  m_default_action("default"),
+  m_solid(),
+  m_flip(NO_FLIP),
+  m_fade_sprite(m_sprite.get()->clone())
 {
   m_layer = reader_get_layer(reader, LAYER_OBJECTS);
 
-  reader.get("solid", solid, false);
-  if (solid)
+  reader.get("solid", m_solid, false);
+  if (m_solid)
     set_group(COLGROUP_STATIC);
-  if (reader.get("action", default_action))
-    set_action(default_action, -1);
+  if (reader.get("action", m_default_action))
+    set_action(m_default_action, -1);
 }
 
 ObjectSettings
@@ -42,8 +44,8 @@ Decal::get_settings()
   ObjectSettings result = MovingSprite::get_settings();
 
   result.add_int(_("Z-pos"), &m_layer, "z-pos", LAYER_OBJECTS);
-  result.add_bool(_("Solid"), &solid, "solid", false);
-  result.add_text(_("Action"), &default_action, "action", std::string("default"));
+  result.add_bool(_("Solid"), &m_solid, "solid", false);
+  result.add_text(_("Action"), &m_default_action, "action", std::string("default"));
 
   result.reorder({"z-pos", "sprite", "x", "y"});
 
@@ -57,8 +59,40 @@ Decal::~Decal()
 void
 Decal::draw(DrawingContext& context)
 {
-  m_sprite->draw(context.color(), get_pos(), m_layer, flip);
+  m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
+  if(m_fade_timer.started()) m_fade_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
 }
 
+void
+Decal::fade(std::string new_sprite, float fade_time)
+{
+  m_fade_sprite = SpriteManager::current()->create(new_sprite);
+  m_sprite.swap(m_fade_sprite);
+  // From now on flip_sprite == the old one
+
+  m_sprite.get()->set_alpha(0);
+  m_fade_timer.start(fade_time);
+}
+
+void
+Decal::update(float)
+{
+  if (m_fade_timer.started())
+  {
+    if (m_fade_timer.check())
+    {
+      m_sprite.get()->set_alpha(1.0f);
+      m_fade_sprite.get()->set_alpha(0.0f);
+      m_fade_timer.stop();
+    }
+    else
+    {
+      float new_alpha = sqrtf(m_fade_timer.get_timegone() / m_fade_timer.get_period());
+      float old_alpha = sqrtf(m_fade_timer.get_timeleft() / m_fade_timer.get_period());
+      m_sprite.get()->set_alpha(new_alpha);
+      m_fade_sprite.get()->set_alpha(old_alpha);
+    }
+  }
+}
 
 /* EOF */

@@ -20,6 +20,7 @@
 #include "object/moving_sprite.hpp"
 #include "scripting/decal.hpp"
 #include "squirrel/exposed_object.hpp"
+#include "supertux/timer.hpp"
 
 class ReaderMapping;
 
@@ -41,11 +42,16 @@ public:
   virtual ObjectSettings get_settings() override;
 
   virtual void draw(DrawingContext& context) override;
+  virtual void update(float dt_sec) override;
+
+  void fade(const std::string new_sprite, float fade_time);
 
 private:
-  std::string default_action;
-  bool solid;
-  Flip flip;
+  std::string m_default_action;
+  bool m_solid;
+  Flip m_flip;
+  SpritePtr m_fade_sprite;
+  Timer m_fade_timer;
 
 private:
   Decal(const Decal&) = delete;

@@ -647,6 +647,86 @@ static SQInteger Candle_set_burning_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger Decal_release_hook(SQUserPointer ptr, SQInteger )
+{
+  auto _this = reinterpret_cast<scripting::Decal*> (ptr);
+  delete _this;
+  return 0;
+}
+
+static SQInteger Decal_change_sprite_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+    sq_throwerror(vm, _SC("'change_sprite' called without instance"));
+    return SQ_ERROR;
+  }
+  auto _this = reinterpret_cast<scripting::Decal*> (data);
+
+  if (_this == nullptr) {
+    return SQ_ERROR;
+  }
+
+  const SQChar* arg0;
+  if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a string"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->change_sprite(arg0);
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'change_sprite'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger Decal_fade_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+    sq_throwerror(vm, _SC("'fade' called without instance"));
+    return SQ_ERROR;
+  }
+  auto _this = reinterpret_cast<scripting::Decal*> (data);
+
+  if (_this == nullptr) {
+    return SQ_ERROR;
+  }
+
+  const SQChar* arg0;
+  if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a string"));
+    return SQ_ERROR;
+  }
+  SQFloat arg1;
+  if(SQ_FAILED(sq_getfloat(vm, 3, &arg1))) {
+    sq_throwerror(vm, _SC("Argument 2 not a float"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->fade(arg0, static_cast<float> (arg1));
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'fade'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger Dispenser_release_hook(SQUserPointer ptr, SQInteger )
 {
   auto _this = reinterpret_cast<scripting::Dispenser*> (ptr);
@@ -914,47 +994,6 @@ static SQInteger DisplayEffect_four_to_three_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   } catch(...) {
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'four_to_three'"));
-    return SQ_ERROR;
-  }
-
-}
-
-static SQInteger Decal_release_hook(SQUserPointer ptr, SQInteger )
-{
-  auto _this = reinterpret_cast<scripting::Decal*> (ptr);
-  delete _this;
-  return 0;
-}
-
-static SQInteger Decal_change_sprite_wrapper(HSQUIRRELVM vm)
-{
-  SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
-    sq_throwerror(vm, _SC("'change_sprite' called without instance"));
-    return SQ_ERROR;
-  }
-  auto _this = reinterpret_cast<scripting::Decal*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
-  const SQChar* arg0;
-  if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
-    sq_throwerror(vm, _SC("Argument 1 not a string"));
-    return SQ_ERROR;
-  }
-
-  try {
-    _this->change_sprite(arg0);
-
-    return 0;
-
-  } catch(std::exception& e) {
-    sq_throwerror(vm, e.what());
-    return SQ_ERROR;
-  } catch(...) {
-    sq_throwerror(vm, _SC("Unexpected exception while executing function 'change_sprite'"));
     return SQ_ERROR;
   }
 
@@ -1624,8 +1663,7 @@ static SQInteger Gradient_set_colors_wrapper(HSQUIRRELVM vm)
   }
 
   try {
-    _this->set_colors(static_cast<float> (arg0), static_cast<float> (arg1), static_cast<float> (arg2),
-                      static_cast<float> (arg3), static_cast<float> (arg4), static_cast<float> (arg5));
+    _this->set_colors(static_cast<float> (arg0), static_cast<float> (arg1), static_cast<float> (arg2), static_cast<float> (arg3), static_cast<float> (arg4), static_cast<float> (arg5));
 
     return 0;
 
@@ -1674,8 +1712,7 @@ static SQInteger Gradient_fade_color1_wrapper(HSQUIRRELVM vm)
   }
 
   try {
-    _this->fade_color1(static_cast<float> (arg0), static_cast<float> (arg1), static_cast<float> (arg2),
-                       static_cast<float> (arg3));
+    _this->fade_color1(static_cast<float> (arg0), static_cast<float> (arg1), static_cast<float> (arg2), static_cast<float> (arg3));
 
     return 0;
 
@@ -1724,8 +1761,7 @@ static SQInteger Gradient_fade_color2_wrapper(HSQUIRRELVM vm)
   }
 
   try {
-    _this->fade_color2(static_cast<float> (arg0), static_cast<float> (arg1), static_cast<float> (arg2),
-                       static_cast<float> (arg3));
+    _this->fade_color2(static_cast<float> (arg0), static_cast<float> (arg1), static_cast<float> (arg2), static_cast<float> (arg3));
 
     return 0;
 
@@ -1789,9 +1825,7 @@ static SQInteger Gradient_fade_colors_wrapper(HSQUIRRELVM vm)
   }
 
   try {
-    _this->fade_colors(static_cast<float> (arg0), static_cast<float> (arg1), static_cast<float> (arg2),
-                      static_cast<float> (arg3), static_cast<float> (arg4), static_cast<float> (arg5),
-                      static_cast<float> (arg6));
+    _this->fade_colors(static_cast<float> (arg0), static_cast<float> (arg1), static_cast<float> (arg2), static_cast<float> (arg3), static_cast<float> (arg4), static_cast<float> (arg5), static_cast<float> (arg6));
 
     return 0;
 
@@ -1804,7 +1838,6 @@ static SQInteger Gradient_fade_colors_wrapper(HSQUIRRELVM vm)
   }
 
 }
-
 
 static SQInteger Gradient_swap_colors_wrapper(HSQUIRRELVM vm)
 {
@@ -2152,15 +2185,14 @@ static SQInteger Platform_set_action_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Argument 1 not a string"));
     return SQ_ERROR;
   }
-
   SQInteger arg1;
   if(SQ_FAILED(sq_getinteger(vm, 3, &arg1))) {
-    sq_throwerror(vm, _SC("Argument 2 not a integer"));
+    sq_throwerror(vm, _SC("Argument 2 not an integer"));
     return SQ_ERROR;
   }
 
   try {
-    _this->set_action(static_cast<const char*> (arg0), static_cast<int> (arg1));
+    _this->set_action(arg0, static_cast<int> (arg1));
 
     return 0;
 
@@ -7007,6 +7039,32 @@ void create_squirrel_instance(HSQUIRRELVM v, scripting::Candle* object, bool set
   sq_remove(v, -2); // remove root table
 }
 
+void create_squirrel_instance(HSQUIRRELVM v, scripting::Decal* object, bool setup_releasehook)
+{
+  using namespace wrapper;
+
+  sq_pushroottable(v);
+  sq_pushstring(v, "Decal", -1);
+  if(SQ_FAILED(sq_get(v, -2))) {
+    std::ostringstream msg;
+    msg << "Couldn't resolved squirrel type 'Decal'";
+    throw SquirrelError(v, msg.str());
+  }
+
+  if(SQ_FAILED(sq_createinstance(v, -1)) || SQ_FAILED(sq_setinstanceup(v, -1, object))) {
+    std::ostringstream msg;
+    msg << "Couldn't setup squirrel instance for object of type 'Decal'";
+    throw SquirrelError(v, msg.str());
+  }
+  sq_remove(v, -2); // remove object name
+
+  if(setup_releasehook) {
+    sq_setreleasehook(v, -1, Decal_release_hook);
+  }
+
+  sq_remove(v, -2); // remove root table
+}
+
 void create_squirrel_instance(HSQUIRRELVM v, scripting::Dispenser* object, bool setup_releasehook)
 {
   using namespace wrapper;
@@ -7054,32 +7112,6 @@ void create_squirrel_instance(HSQUIRRELVM v, scripting::DisplayEffect* object, b
 
   if(setup_releasehook) {
     sq_setreleasehook(v, -1, DisplayEffect_release_hook);
-  }
-
-  sq_remove(v, -2); // remove root table
-}
-
-void create_squirrel_instance(HSQUIRRELVM v, scripting::Decal* object, bool setup_releasehook)
-{
-  using namespace wrapper;
-
-  sq_pushroottable(v);
-  sq_pushstring(v, "Decal", -1);
-  if(SQ_FAILED(sq_get(v, -2))) {
-    std::ostringstream msg;
-    msg << "Couldn't resolved squirrel type 'Decal'";
-    throw SquirrelError(v, msg.str());
-  }
-
-  if(SQ_FAILED(sq_createinstance(v, -1)) || SQ_FAILED(sq_setinstanceup(v, -1, object))) {
-    std::ostringstream msg;
-    msg << "Couldn't setup squirrel instance for object of type 'Decal'";
-    throw SquirrelError(v, msg.str());
-  }
-  sq_remove(v, -2); // remove object name
-
-  if(setup_releasehook) {
-    sq_setreleasehook(v, -1, Decal_release_hook);
   }
 
   sq_remove(v, -2); // remove root table
@@ -8069,6 +8101,31 @@ void register_supertux_wrapper(HSQUIRRELVM v)
     throw SquirrelError(v, "Couldn't register class 'Candle'");
   }
 
+  // Register class Decal
+  sq_pushstring(v, "Decal", -1);
+  if(sq_newclass(v, SQFalse) < 0) {
+    std::ostringstream msg;
+    msg << "Couldn't create new class 'Decal'";
+    throw SquirrelError(v, msg.str());
+  }
+  sq_pushstring(v, "change_sprite", -1);
+  sq_newclosure(v, &Decal_change_sprite_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|ts");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'change_sprite'");
+  }
+
+  sq_pushstring(v, "fade", -1);
+  sq_newclosure(v, &Decal_fade_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tsn");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'fade'");
+  }
+
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register class 'Decal'");
+  }
+
   // Register class Dispenser
   sq_pushstring(v, "Dispenser", -1);
   if(sq_newclass(v, SQFalse) < 0) {
@@ -8145,25 +8202,6 @@ void register_supertux_wrapper(HSQUIRRELVM v)
 
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register class 'DisplayEffect'");
-  }
-
-  // Register class Decal
-  sq_pushstring(v, "Decal", -1);
-  if(sq_newclass(v, SQFalse) < 0) {
-    std::ostringstream msg;
-    msg << "Couldn't create new class 'Decal'";
-    throw SquirrelError(v, msg.str());
-  }
-
-  sq_pushstring(v, "change_sprite", -1);
-  sq_newclosure(v, &Decal_change_sprite_wrapper, 0);
-  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|ts");
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register function 'change_sprite'");
-  }
-
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register class 'Decal'");
   }
 
   // Register class FloatingImage

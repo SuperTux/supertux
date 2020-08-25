@@ -40,6 +40,7 @@ private:
 
 public:
   void change_sprite(const std::string& new_sprite_name);
+  void fade(const std::string& new_sprite_name, float fade_time);
 };
 
 } // namespace scripting
