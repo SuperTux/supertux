@@ -117,6 +117,8 @@ AutotileSet::get_autotile(uint32_t tile_id,
   //   gcc will complain
   // num_mask = (num_mask + 0x01) & 0xff;
   //   (from a stackoverflow.com question) gcc still complains
+  // EDIT : It appears that GCC makes all integers calculations in "int" type,
+  //        so you have to re-cast every single time :^)
   if (bottom_right) num_mask = static_cast<uint8_t>(num_mask + 0x01);
   if (bottom)       num_mask = static_cast<uint8_t>(num_mask + 0x02);
   if (bottom_left)  num_mask = static_cast<uint8_t>(num_mask + 0x04);

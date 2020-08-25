@@ -137,20 +137,20 @@ AutotileParser::parse_autotile(const ReaderMapping& reader)
         case '0':
           for (uint8_t val : masks)
           {
-            new_masks.push_back(val * 2);
+            new_masks.push_back(static_cast<uint8_t>(val * 2));
           }
           break;
         case '1':
           for (uint8_t val : masks)
           {
-            new_masks.push_back(val * 2 + 1);
+            new_masks.push_back(static_cast<uint8_t>(val * 2 + 1));
           }
           break;
         case '*':
           for (uint8_t val : masks)
           {
-            new_masks.push_back(val * 2);
-            new_masks.push_back(val * 2 + 1);
+            new_masks.push_back(static_cast<uint8_t>(val * 2));
+            new_masks.push_back(static_cast<uint8_t>(val * 2 + 1));
           }
           break;
         default:
