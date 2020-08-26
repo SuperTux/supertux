@@ -53,16 +53,28 @@ private:
 class Autotile final
 {
 public:
-  Autotile(uint32_t tile_id, std::vector<AutotileMask*> masks, bool solid);
+  Autotile(uint32_t tile_id,
+    std::vector<std::pair<uint32_t, float>> alt_tiles,
+    std::vector<AutotileMask*> masks,
+    bool solid);
 
   bool matches(uint8_t mask, bool center) const;
+
+  /** @deprecated Returns the base tile ID. */
   uint32_t get_tile_id() const;
+
+  /** Picks a tile randomly amongst the possible ones for this autotile. */
+  uint32_t pick_tile(int x, int y) const;
+
+  /** Returns all possible tiles for this autotile */
+  std::vector<std::pair<uint32_t, float>> get_all_tile_ids() const;
 
   /** Returns true if the "center" bool of masks are true. All masks of given Autotile must have the same value for their "center" property.*/
   bool is_solid() const;
 
 private:
   uint32_t m_tile_id;
+  std::vector<std::pair<uint32_t, float>> m_alt_tiles;
   std::vector<AutotileMask*> m_masks;
   bool m_solid;
 
@@ -84,7 +96,8 @@ public:
   uint32_t get_autotile(uint32_t tile_id,
     bool top_left, bool top, bool top_right,
     bool left, bool center, bool right,
-    bool bottom_left, bool bottom, bool bottom_right
+    bool bottom_left, bool bottom, bool bottom_right,
+    int x, int y
   ) const;
 
   /** Returns the id of the first block in the autotileset. Used for erronous configs. */
@@ -95,9 +108,6 @@ public:
 
   /** true if is_member() is true AND the "center" bool is true */
   bool is_solid(uint32_t tile_id) const;
-
-  /** true if this autotileset contains that ile */
-  bool contains_tile(uint32_t tile_id) const;
 
   // TODO : Validate autotile config files by checking if each mask has
   //        one and only one corresponding tile.

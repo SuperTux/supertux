@@ -100,6 +100,7 @@ Autotile*
 AutotileParser::parse_autotile(const ReaderMapping& reader)
 {
   std::vector<AutotileMask*> autotile_masks;
+  std::vector<std::pair<uint32_t, float>> alt_ids;
 
   uint32_t tile_id;
   if (!reader.get("id", tile_id))
@@ -164,13 +165,34 @@ AutotileParser::parse_autotile(const ReaderMapping& reader)
         autotile_masks.push_back(new AutotileMask(val, solid));
       }
     }
+    else if (iter.get_key() == "alt-id")
+    {
+      ReaderMapping alt_reader = iter.as_mapping();
+
+      uint32_t alt_id = 0;
+      if (!alt_reader.get("id", alt_id))
+      {
+        log_warning << "No alt tile for autotileset" << std::endl;
+      }
+
+      float weight = 0.0f;
+      if (!alt_reader.get("weight", weight))
+      {
+        log_warning << "No weight for alt tile id" << std::endl;
+      }
+
+      if (alt_id != 0 && weight != 0.0f)
+      {
+        alt_ids.push_back(std::pair<uint32_t, float>(alt_id, weight));
+      }
+    }
     else if (iter.get_key() != "id" && iter.get_key() != "solid")
     {
       log_warning << "Unknown symbol '" << iter.get_key() << "' in autotile config file" << std::endl;
     }
   }
 
-  return new Autotile(tile_id, autotile_masks, !!solid);
+  return new Autotile(tile_id, alt_ids, autotile_masks, !!solid);
 }
 
 /* EOF */

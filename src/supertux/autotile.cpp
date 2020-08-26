@@ -34,8 +34,9 @@ AutotileMask::matches(uint8_t mask, bool center) const
 
 // Autotile
 
-Autotile::Autotile(uint32_t tile_id, std::vector<AutotileMask*> masks, bool solid) :
+Autotile::Autotile(uint32_t tile_id, std::vector<std::pair<uint32_t, float>> alt_tiles, std::vector<AutotileMask*> masks, bool solid) :
   m_tile_id(tile_id),
+  m_alt_tiles(alt_tiles),
   m_masks(masks),
   m_solid(solid)
 {
@@ -58,6 +59,35 @@ uint32_t
 Autotile::get_tile_id() const
 {
   return m_tile_id;
+}
+
+uint32_t
+Autotile::pick_tile(int x, int y) const
+{
+  // Needed? Not needed?
+  // Could avoid pointless computation
+  if (m_alt_tiles.size() == 0)
+    return m_tile_id;
+
+  srand(x * 32768 + y);
+  float rnd_val = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
+
+  for (auto& pair : m_alt_tiles)
+  {
+    rnd_val -= pair.second;
+    if (rnd_val <= 0)
+    {
+      return pair.first;
+    }
+  }
+
+  return m_tile_id;
+}
+
+std::vector<std::pair<uint32_t, float>>
+Autotile::get_all_tile_ids() const
+{
+  return m_alt_tiles;
 }
 
 bool
@@ -108,7 +138,8 @@ uint32_t
 AutotileSet::get_autotile(uint32_t tile_id,
     bool top_left, bool top, bool top_right,
     bool left, bool center, bool right,
-    bool bottom_left, bool bottom, bool bottom_right
+    bool bottom_left, bool bottom, bool bottom_right,
+    int x, int y
   ) const
 {
   uint8_t num_mask = 0;
@@ -134,7 +165,7 @@ AutotileSet::get_autotile(uint32_t tile_id,
   {
     if (autotile->matches(num_mask, center))
     {
-      return autotile->get_tile_id();
+      return autotile->pick_tile(x, y);
     }
   }
 
@@ -158,6 +189,16 @@ AutotileSet::is_member(uint32_t tile_id) const
     {
       return true;
     }
+    else
+    {
+      for (auto& pair : tile->get_all_tile_ids())
+      {
+        if (pair.first == tile_id)
+        {
+          return true;
+        }
+      }
+    }
   }
   // m_default should *never* be 0 (always a valid solid tile,
   //   even if said tile isn't part of the tileset)
@@ -176,27 +217,23 @@ AutotileSet::is_solid(uint32_t tile_id) const
     {
       return tile->is_solid();
     }
+    else
+    {
+      for (auto& pair : tile->get_all_tile_ids())
+      {
+        if (pair.first == tile_id)
+        {
+          return tile->is_solid();
+        }
+      }
+    }
   }
 
   //log_warning << "Called AutotileSet::is_solid() with a tile_id that isn't in the Autotileset, yet that returns is_member() = true." << std::endl;
-  
+
   // m_default should *never* be 0 (always a valid solid tile,
   //   even if said tile isn't part of the tileset)
   return tile_id == m_default && m_default != 0;
 }
-
-bool
-AutotileSet::contains_tile(uint32_t tile_id) const
-{
-  for (auto& autotile : m_autotiles)
-  {
-    if (autotile->get_tile_id() == tile_id)
-    {
-      return true;
-    }
-  }
-  return false;
-}
-
 
 /* EOF */

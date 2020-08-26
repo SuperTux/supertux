@@ -26,7 +26,22 @@
 ;; Contains :
 ;;   The ID of the tile : (id 11)
 ;;   Whether or not the tile is solid (see the "mask" part below) : (solid #t)
-;;   One or more (mask "000111**")
+;;   One or more (mask "000111**") - see below alt-id for info
+;;   One or more (alt-id ... )
+;;                        |
+;;  +---------------------+
+;;  |
+;;  V
+;; Contains :
+;;   The alternative id : (id 123456)
+;;   The weight : (weight 0.2)
+;;     The weight is the odds of this tile to happen. 0 is never, 1 is always.
+;;     The autotile's default ID's odds of occuring are (1 - sum of all weights).
+;;     Ideally, the sum of all weights for an autotile should be below 1. If it
+;;     is 1, the the regular ID for that autotile will never occur. If it is
+;;     greater than 1, then certains alt ID's might never occur either.
+;;
+;; ===== MASK INFO =====
 ;;
 ;; The mask is 8 characters and represent which tiles around it is solid.
 ;; The characters represent, in order :
@@ -59,6 +74,9 @@
 ;;   ~ A. Semphris <semphris@protonmail.com>
 ;;       (Contributor, 2020)
 ;;
+;;
+;; NOTE : A single id MUST NOT OCCUR MORE THAN ONE AUTOTILE IN THE ENTIRE FILE.
+;;        Otherwise, the behavior is UNDEFINED.
 
 (supertux-autotiles
   (autotileset
@@ -114,6 +132,10 @@
     )
     (autotile
       (id 11)
+      (alt-id
+        (id 19)
+        (weight 0.02)
+      )
       (solid #t)
       (mask "11111***")
     )

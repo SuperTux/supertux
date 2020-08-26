@@ -528,6 +528,11 @@ TileMap::set_solid(bool solid)
 uint32_t
 TileMap::get_tile_id(int x, int y) const
 {
+  if (x < 0) x = 0;
+  if (x >= m_width) x = m_width - 1;
+  if (y < 0) y = 0;
+  if (y >= m_height) y = m_height - 1;
+  
   if (x < 0 || x >= m_width || y < 0 || y >= m_height) {
     //log_warning << "tile outside tilemap requested" << std::endl;
     return 0;
@@ -597,7 +602,7 @@ TileMap::autotile(int x, int y, uint32_t tile)
     // tile from the currently selected tile's autotile set (if any).
     curr_set = m_tileset->get_autotileset_from_tile(tile);
   }
-  else if (m_tileset->get_autotileset_from_tile(tile)->contains_tile(current_tile))
+  else if (m_tileset->get_autotileset_from_tile(tile)->is_member(current_tile))
   {
     // Special case 2 : If the tile is in multiple autotilesets, check if it
     // is in the same tileset as the selected tile. (Example : tile 47)
@@ -623,8 +628,8 @@ TileMap::autotile(int x, int y, uint32_t tile)
     curr_set->is_solid(get_tile_id(x+1, y  )),
     curr_set->is_solid(get_tile_id(x-1, y+1)),
     curr_set->is_solid(get_tile_id(x  , y+1)),
-    curr_set->is_solid(get_tile_id(x+1, y+1))
-    );
+    curr_set->is_solid(get_tile_id(x+1, y+1)),
+    x, y);
 
   m_tiles[y*m_width + x] = realtile;
 }
