@@ -159,7 +159,9 @@ AutotileSet::is_member(uint32_t tile_id) const
       return true;
     }
   }
-  return false;
+  // m_default should *never* be 0 (always a valid solid tile,
+  //   even if said tile isn't part of the tileset)
+  return tile_id == m_default && m_default != 0;
 }
 
 bool
@@ -176,8 +178,25 @@ AutotileSet::is_solid(uint32_t tile_id) const
     }
   }
 
-  log_warning << "Called AutotileSet::is_solid() with a tile_id that isn't in the Autotileset, yet that returns is_member() = true." << std::endl;
+  //log_warning << "Called AutotileSet::is_solid() with a tile_id that isn't in the Autotileset, yet that returns is_member() = true." << std::endl;
+  
+  // m_default should *never* be 0 (always a valid solid tile,
+  //   even if said tile isn't part of the tileset)
+  return tile_id == m_default && m_default != 0;
+}
+
+bool
+AutotileSet::contains_tile(uint32_t tile_id) const
+{
+  for (auto& autotile : m_autotiles)
+  {
+    if (autotile->get_tile_id() == tile_id)
+    {
+      return true;
+    }
+  }
   return false;
 }
+
 
 /* EOF */

@@ -96,6 +96,9 @@ public:
   /** true if is_member() is true AND the "center" bool is true */
   bool is_solid(uint32_t tile_id) const;
 
+  /** true if this autotileset contains that ile */
+  bool contains_tile(uint32_t tile_id) const;
+
   // TODO : Validate autotile config files by checking if each mask has
   //        one and only one corresponding tile.
   // uint32_t get_tile_with_mask(uint8_t mask, bool center) const;

@@ -590,12 +590,17 @@ TileMap::autotile(int x, int y, uint32_t tile)
   assert(x >= 0 && x < m_width && y >= 0 && y < m_height);
 
   uint32_t current_tile = m_tiles[y*m_width + x];
-
-  // Special case : If the tile is empty, check if we can use a non-solid tile
-  // from the currently selected tile's autotile set (if any).
   AutotileSet* curr_set;
   if (current_tile == 0)
   {
+    // Special case 1 : If the tile is empty, check if we can use a non-solid
+    // tile from the currently selected tile's autotile set (if any).
+    curr_set = m_tileset->get_autotileset_from_tile(tile);
+  }
+  else if (m_tileset->get_autotileset_from_tile(tile)->contains_tile(current_tile))
+  {
+    // Special case 2 : If the tile is in multiple autotilesets, check if it
+    // is in the same tileset as the selected tile. (Example : tile 47)
     curr_set = m_tileset->get_autotileset_from_tile(tile);
   }
   else

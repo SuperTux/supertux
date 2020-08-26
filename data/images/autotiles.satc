@@ -431,4 +431,52 @@
       (mask "01011***")
     )
   )
+  (autotileset
+    (name "block_horiz")
+    (default 47)
+    (autotile
+      (id 27)
+      (solid #t)
+      (mask "***01***")
+    )
+    (autotile
+      (id 28)
+      (solid #t)
+      (mask "***11***")
+    )
+    (autotile
+      (id 29)
+      (solid #t)
+      (mask "***10***")
+    )
+    (autotile
+      (id 47)
+      (solid #t)
+      (mask "***00***")
+    )
+  )
+  (autotileset
+    (name "block_vert")
+    (default 47)
+    (autotile
+      (id 211)
+      (solid #t)
+      (mask "*0****1*")
+    )
+    (autotile
+      (id 212)
+      (solid #t)
+      (mask "*1****1*")
+    )
+    (autotile
+      (id 213)
+      (solid #t)
+      (mask "*1****0*")
+    )
+    (autotile
+      (id 47)
+      (solid #t)
+      (mask "*0****0*")
+    )
+  )
 )

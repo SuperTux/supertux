@@ -47,6 +47,7 @@ TileSet::from_file(const std::string& filename)
 }
 
 TileSet::TileSet() :
+  m_autotilesets(),
   m_tiles(1),
   m_tilegroups()
 {
