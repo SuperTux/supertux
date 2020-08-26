@@ -249,10 +249,10 @@ EditorOverlayWidget::check_tiles_for_fill(uint32_t replace_tile,
                                           uint32_t third_tile) const
 {
   if (autotile_mode) {
-    return AutotileSet::get_tileset_from_tile(replace_tile)
-        == AutotileSet::get_tileset_from_tile(target_tile)
-      && AutotileSet::get_tileset_from_tile(replace_tile)
-        != AutotileSet::get_tileset_from_tile(third_tile);
+    return m_editor.get_tileset()->get_autotileset_from_tile(replace_tile)
+        == m_editor.get_tileset()->get_autotileset_from_tile(target_tile)
+      && m_editor.get_tileset()->get_autotileset_from_tile(replace_tile)
+        != m_editor.get_tileset()->get_autotileset_from_tile(third_tile);
   } else {
     return replace_tile == target_tile && replace_tile != third_tile;
   }
@@ -1048,7 +1048,7 @@ EditorOverlayWidget::draw(DrawingContext& context)
 
 
   if (autotile_help) {
-    if (AutotileSet::get_tileset_from_tile(m_editor.get_tiles()->pos(0, 0)) != nullptr)
+    if (m_editor.get_tileset()->get_autotileset_from_tile(m_editor.get_tiles()->pos(0, 0)) != nullptr)
     {
       if (autotile_mode) {
         context.color().draw_text(Resources::normal_font, _("Autotile mode is on"), Vector(144, 16), ALIGN_LEFT, LAYER_OBJECTS+1, EditorOverlayWidget::text_autotile_active_color);

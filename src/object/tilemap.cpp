@@ -596,11 +596,11 @@ TileMap::autotile(int x, int y, uint32_t tile)
   AutotileSet* curr_set;
   if (current_tile == 0)
   {
-    curr_set = AutotileSet::get_tileset_from_tile(tile);
+    curr_set = m_tileset->get_autotileset_from_tile(tile);
   }
   else
   {
-    curr_set = AutotileSet::get_tileset_from_tile(current_tile);
+    curr_set = m_tileset->get_autotileset_from_tile(current_tile);
   }
 
   // If tile is not autotileable, abort

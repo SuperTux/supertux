@@ -74,7 +74,8 @@ private:
 class AutotileSet final
 {
 public:
-  static AutotileSet* get_tileset_from_tile(uint32_t tile_id);
+  // Moved to tile_set.hpp
+  //static AutotileSet* get_tileset_from_tile(uint32_t tile_id);
 
 public:
   AutotileSet(std::vector<Autotile*> autotiles, uint32_t default_tile);

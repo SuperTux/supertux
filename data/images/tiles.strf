@@ -15,6 +15,9 @@
 ;;    src/tile.cpp, unisolid is 3 not 2
 
 (supertux-tiles
+  (autotileset
+    (source "autotiles.satc")
+  )
   (tilegroup
     (name (_ "Snow"))
     (tiles

@@ -16,7 +16,7 @@
 
 #include "supertux/autotile.hpp"
 
-#include "supertux/autotile_parser.hpp"
+//#include "supertux/autotile_parser.hpp"
 
 // AutotileMask
 
@@ -77,6 +77,7 @@ AutotileSet::AutotileSet(std::vector<Autotile*> tiles, uint32_t default_tile) :
 {
 }
 
+/*
 AutotileSet*
 AutotileSet::get_tileset_from_tile(uint32_t tile_id)
 {
@@ -101,6 +102,7 @@ AutotileSet::get_tileset_from_tile(uint32_t tile_id)
   }
   return nullptr;
 }
+*/
 
 uint32_t
 AutotileSet::get_autotile(uint32_t tile_id,

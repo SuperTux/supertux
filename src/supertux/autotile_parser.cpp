@@ -99,7 +99,7 @@ AutotileParser::parse_autotileset(const ReaderMapping& reader)
 Autotile*
 AutotileParser::parse_autotile(const ReaderMapping& reader)
 {
-  std::vector<AutotileMask*>* autotile_masks = new std::vector<AutotileMask*>();
+  std::vector<AutotileMask*> autotile_masks;
 
   uint32_t tile_id;
   if (!reader.get("id", tile_id))
@@ -161,7 +161,7 @@ AutotileParser::parse_autotile(const ReaderMapping& reader)
 
       for (uint8_t val : masks)
       {
-        autotile_masks->push_back(new AutotileMask(val, solid));
+        autotile_masks.push_back(new AutotileMask(val, solid));
       }
     }
     else if (iter.get_key() != "id" && iter.get_key() != "solid")
@@ -170,7 +170,7 @@ AutotileParser::parse_autotile(const ReaderMapping& reader)
     }
   }
 
-  return new Autotile(tile_id, *autotile_masks, !!solid);
+  return new Autotile(tile_id, autotile_masks, !!solid);
 }
 
 /* EOF */
