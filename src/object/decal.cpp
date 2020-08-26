@@ -27,7 +27,8 @@ Decal::Decal(const ReaderMapping& reader) :
   m_default_action("default"),
   m_solid(),
   m_flip(NO_FLIP),
-  m_fade_sprite(m_sprite.get()->clone())
+  m_fade_sprite(m_sprite.get()->clone()),
+  m_fade_timer()
 {
   m_layer = reader_get_layer(reader, LAYER_OBJECTS);
 
