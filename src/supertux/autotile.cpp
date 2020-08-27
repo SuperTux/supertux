@@ -246,7 +246,7 @@ AutotileSet::validate() const
   {
     uint8_t num_mask = static_cast<uint8_t>(mask);
     bool tile_exists = false;
-    uint32_t tile_with_that_mask; // Used to help users debug
+    uint32_t tile_with_that_mask = 0; // Used to help users debug
 
     for (auto& autotile : m_autotiles)
     {
