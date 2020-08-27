@@ -602,7 +602,8 @@ TileMap::autotile(int x, int y, uint32_t tile)
     // tile from the currently selected tile's autotile set (if any).
     curr_set = m_tileset->get_autotileset_from_tile(tile);
   }
-  else if (m_tileset->get_autotileset_from_tile(tile)->is_member(current_tile))
+  else if (m_tileset->get_autotileset_from_tile(tile) != nullptr &&
+      m_tileset->get_autotileset_from_tile(tile)->is_member(current_tile))
   {
     // Special case 2 : If the tile is in multiple autotilesets, check if it
     // is in the same tileset as the selected tile. (Example : tile 47)
