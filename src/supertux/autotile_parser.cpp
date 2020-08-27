@@ -22,6 +22,8 @@
 #include <sexp/value.hpp>
 #include <sexp/io.hpp>
 
+#include "supertux/gameconfig.hpp"
+#include "supertux/globals.hpp"
 #include "util/log.hpp"
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
@@ -92,7 +94,14 @@ AutotileParser::parse_autotileset(const ReaderMapping& reader)
     }
   }
 
-  m_autotilesets->push_back(new AutotileSet(*autotiles, default_id));
+  AutotileSet* autotileset = new AutotileSet(*autotiles, default_id, name);
+
+  if (g_config->developer_mode)
+  {
+    autotileset->validate();
+  }
+
+  m_autotilesets->push_back(autotileset);
 }
 
 

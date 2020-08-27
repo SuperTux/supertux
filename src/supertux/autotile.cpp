@@ -14,6 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include <bitset>
+
 #include "supertux/autotile.hpp"
 
 //#include "supertux/autotile_parser.hpp"
@@ -101,9 +103,10 @@ Autotile::is_solid() const
 
 std::vector<AutotileSet*>* AutotileSet::m_autotilesets = new std::vector<AutotileSet*>();
 
-AutotileSet::AutotileSet(std::vector<Autotile*> tiles, uint32_t default_tile) :
+AutotileSet::AutotileSet(std::vector<Autotile*> tiles, uint32_t default_tile, std::string name) :
   m_autotiles(tiles),
-  m_default(default_tile)
+  m_default(default_tile),
+  m_name(name)
 {
 }
 
@@ -234,6 +237,38 @@ AutotileSet::is_solid(uint32_t tile_id) const
   // m_default should *never* be 0 (always a valid solid tile,
   //   even if said tile isn't part of the tileset)
   return tile_id == m_default && m_default != 0;
+}
+
+void
+AutotileSet::validate() const
+{
+  for (int mask = 0; mask <= 255; mask++)
+  {
+    uint8_t num_mask = static_cast<uint8_t>(mask);
+    bool tile_exists = false;
+    uint32_t tile_with_that_mask; // Used to help users debug
+
+    for (auto& autotile : m_autotiles)
+    {
+      if (autotile->matches(num_mask, true))
+      {
+        if (tile_exists)
+        {
+          log_warning << "Autotileset '" << m_name << "': mask " << std::bitset<8>(mask) << " corresponds both to tile " << tile_with_that_mask << " and " << autotile->get_tile_id() << std::endl;
+        }
+        else
+        {
+          tile_exists = true;
+          tile_with_that_mask = autotile->get_tile_id();
+        }
+      }
+    }
+
+    if (!tile_exists)
+    {
+      log_warning << "Autotileset '" << m_name << "': mask " << std::bitset<8>(mask) << " has no corresponding tile" << std::endl;
+    }
+  }
 }
 
 /* EOF */

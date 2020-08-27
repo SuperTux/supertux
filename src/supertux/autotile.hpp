@@ -90,7 +90,7 @@ public:
   //static AutotileSet* get_tileset_from_tile(uint32_t tile_id);
 
 public:
-  AutotileSet(std::vector<Autotile*> autotiles, uint32_t default_tile);
+  AutotileSet(std::vector<Autotile*> autotiles, uint32_t default_tile, std::string name);
 
   /** Returns the ID of the tile to use, based on the surrounding tiles. */
   uint32_t get_autotile(uint32_t tile_id,
@@ -111,8 +111,7 @@ public:
 
   // TODO : Validate autotile config files by checking if each mask has
   //        one and only one corresponding tile.
-  // uint32_t get_tile_with_mask(uint8_t mask, bool center) const;
-  // bool validate() const;
+  void validate() const;
 
 public:
   static std::vector<AutotileSet*>* m_autotilesets;
@@ -120,6 +119,7 @@ public:
 private:
   std::vector<Autotile*> m_autotiles;
   uint32_t m_default;
+  std::string m_name;
 
 private:
   AutotileSet(const AutotileSet&) = delete;
