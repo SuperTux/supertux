@@ -75,7 +75,11 @@ Autotile::pick_tile(int x, int y) const
   //srand(x * 32768 + y);
   //float rnd_val = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
 
-  float rnd_val = static_cast<float>((x * 371 + y * 49173 + (x * x * y) % 32769 + (y * y * x + x * x * x) ) % 65537) % 256) / 256.0f;
+  float rnd_val = static_cast<float>(
+    (
+      x * 371 + y * 49173 + (x * x * y) % 32769 + (y * y * x + x * x * x ) % 65537
+    ) % 256
+  ) / 256.0f;
 
   for (auto& pair : m_alt_tiles)
   {
