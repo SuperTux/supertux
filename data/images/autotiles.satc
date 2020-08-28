@@ -110,6 +110,18 @@
     )
     (autotile
       (id 14)
+      (alt-id
+        (id 3988)
+        (weight 0.02)
+      )
+      (alt-id
+        (id 3989)
+        (weight 0.05)
+      )
+      (alt-id
+        (id 3990)
+        (weight 0.1)
+      )
       (solid #t)
       (mask "*0*11***")
     )
@@ -158,6 +170,10 @@
     )
     (autotile
       (id 17)
+      (alt-id
+        (id 3991)
+        (weight 0.2)
+      )
       (solid #f)
       (mask "111***0*")
     )
@@ -1011,6 +1027,113 @@
       (id 4077)
       (solid #t)
       (mask "11111010")
+    )
+  )
+  (autotileset
+    (name "snow-unisolid-1")
+    (default 2058)
+    (autotile
+      (id 2058)
+      (alt-id
+        (id 2060)
+        (weight 0.1)
+      )
+      (alt-id
+        (id 2061)
+        (weight 0.1)
+      )
+      (alt-id
+        (id 2065)
+        (weight 0.1)
+      )
+      (alt-id
+        (id 2066)
+        (weight 0.1)
+      )
+      (alt-id
+        (id 2070)
+        (weight 0.1)
+      )
+      (alt-id
+        (id 2071)
+        (weight 0.02)
+      )
+      (solid #t)
+      (mask "********")
+    )
+    (autotile
+      (id 2058)
+      (solid #f)
+      (mask "*1****1*")
+      (mask "***11***")
+    )
+    (autotile
+      (id 2052)
+      (solid #f)
+      (mask "00000001")
+    )
+    (autotile
+      (id 2053)
+      (solid #f)
+      (mask "00000*1*")
+    )
+    (autotile
+      (id 2054)
+      (solid #f)
+      (mask "00000100")
+    )
+    (autotile
+      (id 2057)
+      (solid #f)
+      (mask "00*0100*")
+    )
+    (autotile
+      (id 2059)
+      (solid #f)
+      (mask "*0010*00")
+    )
+    (autotile
+      (id 2062)
+      (solid #f)
+      (mask "00100000")
+    )
+    (autotile
+      (id 2063)
+      (solid #f)
+      (mask "*1*00000")
+    )
+    (autotile
+      (id 2064)
+      (solid #f)
+      (mask "10000000")
+    )
+    (autotile
+      (id 2050)
+      (solid #f)
+      (mask "*1*10*00")
+      (mask "*0110*00")
+      (mask "*1*00100")
+    )
+    (autotile
+      (id 2051)
+      (solid #f)
+      (mask "*1*0100*")
+      (mask "10*0100*")
+      (mask "*1*00001")
+    )
+    (autotile
+      (id 2055)
+      (solid #f)
+      (mask "*0010*1*")
+      (mask "*0010*01")
+      (mask "10000*1*")
+    )
+    (autotile
+      (id 2056)
+      (solid #f)
+      (mask "00*01*1*")
+      (mask "00100*1*")
+      (mask "00*0110*")
     )
   )
 )
