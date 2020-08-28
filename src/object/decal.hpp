@@ -44,14 +44,21 @@ public:
   virtual void draw(DrawingContext& context) override;
   virtual void update(float dt_sec) override;
 
-  void fade(const std::string new_sprite, float fade_time);
+  void fade_in(float fade_time);
+  void fade_out(float fade_time);
+  void fade_sprite(const std::string new_sprite, float fade_time);
+
+  void set_visible(bool v) { m_visible = v; }
+  bool is_visible() const { return m_visible; }
 
 private:
   std::string m_default_action;
   bool m_solid;
   Flip m_flip;
   SpritePtr m_fade_sprite;
+  Timer m_sprite_timer;
   Timer m_fade_timer;
+  bool m_visible;
 
 private:
   Decal(const Decal&) = delete;

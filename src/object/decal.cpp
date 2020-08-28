@@ -28,7 +28,8 @@ Decal::Decal(const ReaderMapping& reader) :
   m_solid(),
   m_flip(NO_FLIP),
   m_fade_sprite(m_sprite.get()->clone()),
-  m_fade_timer()
+  m_sprite_timer(),
+  m_visible(true)
 {
   m_layer = reader_get_layer(reader, LAYER_OBJECTS);
 
@@ -60,38 +61,73 @@ Decal::~Decal()
 void
 Decal::draw(DrawingContext& context)
 {
-  m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
-  if(m_fade_timer.started()) m_fade_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
+  if (m_visible || m_fade_timer.started())
+    m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
+  if (m_visible && m_sprite_timer.started())
+    m_fade_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
 }
 
 void
-Decal::fade(std::string new_sprite, float fade_time)
+Decal::fade_in(float fade_time)
+{
+  if (m_visible)
+    return;
+  m_visible = true;
+  m_fade_timer.start(fade_time);
+}
+
+void
+Decal::fade_out(float fade_time)
+{
+  if (!m_visible)
+    return;
+  m_visible = false;
+  m_fade_timer.start(fade_time);
+}
+
+void
+Decal::fade_sprite(std::string new_sprite, float fade_time)
 {
   m_fade_sprite = SpriteManager::current()->create(new_sprite);
   m_sprite.swap(m_fade_sprite);
   // From now on flip_sprite == the old one
-
   m_sprite.get()->set_alpha(0);
-  m_fade_timer.start(fade_time);
+  m_sprite_timer.start(fade_time);
 }
 
 void
 Decal::update(float)
 {
+  if (m_sprite_timer.started())
+  {
+    if (m_sprite_timer.check())
+    {
+      m_sprite.get()->set_alpha(1.0f);
+      m_fade_sprite.get()->set_alpha(0.0f);
+      m_sprite_timer.stop();
+    }
+    else
+    {
+      // Square root makes the background stay at fairly constant color/transparency
+      float new_alpha = sqrtf(m_sprite_timer.get_timegone() / m_sprite_timer.get_period());
+      float old_alpha = sqrtf(m_sprite_timer.get_timeleft() / m_sprite_timer.get_period());
+      m_sprite.get()->set_alpha(new_alpha);
+      m_fade_sprite.get()->set_alpha(old_alpha);
+    }
+  }
+
   if (m_fade_timer.started())
   {
     if (m_fade_timer.check())
     {
-      m_sprite.get()->set_alpha(1.0f);
-      m_fade_sprite.get()->set_alpha(0.0f);
       m_fade_timer.stop();
     }
     else
     {
-      float new_alpha = sqrtf(m_fade_timer.get_timegone() / m_fade_timer.get_period());
-      float old_alpha = sqrtf(m_fade_timer.get_timeleft() / m_fade_timer.get_period());
-      m_sprite.get()->set_alpha(new_alpha);
-      m_fade_sprite.get()->set_alpha(old_alpha);
+      float alpha;
+      if (m_visible) alpha = m_fade_timer.get_timegone() / m_fade_timer.get_period();
+      else alpha = m_fade_timer.get_timeleft() / m_fade_timer.get_period();
+      m_sprite.get()->set_alpha(alpha);
     }
   }
 }

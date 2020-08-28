@@ -654,6 +654,45 @@ static SQInteger Decal_release_hook(SQUserPointer ptr, SQInteger )
   return 0;
 }
 
+static SQInteger Decal_fade_sprite_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+    sq_throwerror(vm, _SC("'fade_sprite' called without instance"));
+    return SQ_ERROR;
+  }
+  auto _this = reinterpret_cast<scripting::Decal*> (data);
+
+  if (_this == nullptr) {
+    return SQ_ERROR;
+  }
+
+  const SQChar* arg0;
+  if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a string"));
+    return SQ_ERROR;
+  }
+  SQFloat arg1;
+  if(SQ_FAILED(sq_getfloat(vm, 3, &arg1))) {
+    sq_throwerror(vm, _SC("Argument 2 not a float"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->fade_sprite(arg0, static_cast<float> (arg1));
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'fade_sprite'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger Decal_change_sprite_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
@@ -688,11 +727,11 @@ static SQInteger Decal_change_sprite_wrapper(HSQUIRRELVM vm)
 
 }
 
-static SQInteger Decal_fade_wrapper(HSQUIRRELVM vm)
+static SQInteger Decal_fade_in_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
   if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
-    sq_throwerror(vm, _SC("'fade' called without instance"));
+    sq_throwerror(vm, _SC("'fade_in' called without instance"));
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::Decal*> (data);
@@ -701,19 +740,14 @@ static SQInteger Decal_fade_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
 
-  const SQChar* arg0;
-  if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
-    sq_throwerror(vm, _SC("Argument 1 not a string"));
-    return SQ_ERROR;
-  }
-  SQFloat arg1;
-  if(SQ_FAILED(sq_getfloat(vm, 3, &arg1))) {
-    sq_throwerror(vm, _SC("Argument 2 not a float"));
+  SQFloat arg0;
+  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a float"));
     return SQ_ERROR;
   }
 
   try {
-    _this->fade(arg0, static_cast<float> (arg1));
+    _this->fade_in(static_cast<float> (arg0));
 
     return 0;
 
@@ -721,7 +755,41 @@ static SQInteger Decal_fade_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
   } catch(...) {
-    sq_throwerror(vm, _SC("Unexpected exception while executing function 'fade'"));
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'fade_in'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger Decal_fade_out_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+    sq_throwerror(vm, _SC("'fade_out' called without instance"));
+    return SQ_ERROR;
+  }
+  auto _this = reinterpret_cast<scripting::Decal*> (data);
+
+  if (_this == nullptr) {
+    return SQ_ERROR;
+  }
+
+  SQFloat arg0;
+  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a float"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->fade_out(static_cast<float> (arg0));
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'fade_out'"));
     return SQ_ERROR;
   }
 
@@ -8108,6 +8176,13 @@ void register_supertux_wrapper(HSQUIRRELVM v)
     msg << "Couldn't create new class 'Decal'";
     throw SquirrelError(v, msg.str());
   }
+  sq_pushstring(v, "fade_sprite", -1);
+  sq_newclosure(v, &Decal_fade_sprite_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tsn");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'fade_sprite'");
+  }
+
   sq_pushstring(v, "change_sprite", -1);
   sq_newclosure(v, &Decal_change_sprite_wrapper, 0);
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|ts");
@@ -8115,11 +8190,18 @@ void register_supertux_wrapper(HSQUIRRELVM v)
     throw SquirrelError(v, "Couldn't register function 'change_sprite'");
   }
 
-  sq_pushstring(v, "fade", -1);
-  sq_newclosure(v, &Decal_fade_wrapper, 0);
-  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tsn");
+  sq_pushstring(v, "fade_in", -1);
+  sq_newclosure(v, &Decal_fade_in_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tn");
   if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register function 'fade'");
+    throw SquirrelError(v, "Couldn't register function 'fade_in'");
+  }
+
+  sq_pushstring(v, "fade_out", -1);
+  sq_newclosure(v, &Decal_fade_out_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tn");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'fade_out'");
   }
 
   if(SQ_FAILED(sq_createslot(v, -3))) {

@@ -27,10 +27,24 @@ Decal::change_sprite(const std::string& new_sprite_name)
 }
 
 void
-Decal::fade(const std::string& new_sprite_name, float fade_time)
+Decal::fade_sprite(const std::string& new_sprite_name, float fade_time)
 {
   SCRIPT_GUARD_VOID;
-  object.fade(new_sprite_name, fade_time);
+  object.fade_sprite(new_sprite_name, fade_time);
+}
+
+void
+Decal::fade_in(float fade_time)
+{
+  SCRIPT_GUARD_VOID;
+  object.fade_in(fade_time);
+}
+
+void
+Decal::fade_out(float fade_time)
+{
+  SCRIPT_GUARD_VOID;
+    object.fade_out(fade_time);
 }
 
 } // namespace scripting
