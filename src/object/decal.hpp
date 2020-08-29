@@ -56,8 +56,8 @@ private:
   bool m_solid;
   Flip m_flip;
   SpritePtr m_fade_sprite;
-  Timer m_sprite_timer;
   Timer m_fade_timer;
+  Timer m_sprite_timer;
   bool m_visible;
 
 private:
