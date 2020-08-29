@@ -28,7 +28,7 @@ const float SNAIL_KICK_SPEED = 500;
 const int MAX_SNAIL_SQUISHES = 10;
 const float SNAIL_KICK_SPEED_Y = -500; /**< y-velocity gained when kicked */
 const float DANGER_SENSE_DIST = 25;
-const float SHIELDED_TIME = 0.5f;
+const float SHIELDED_TIME = 1.5f;
 }
 
 Snail::Snail(const ReaderMapping& reader) :
