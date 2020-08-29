@@ -57,6 +57,25 @@ LayerIcon::draw(DrawingContext& context, const Vector& pos)
   }
 }
 
+void
+LayerIcon::draw(DrawingContext& context, const Vector& pos, int pixels_shown)
+{
+  if (!is_valid()) return;
+
+  ObjectIcon::draw(context, pos, pixels_shown);
+  int l = get_zpos();
+  if (l != std::numeric_limits<int>::min()) {
+    //context.color().draw_text(Resources::small_font, std::to_string(l),
+    //                            pos + Vector(16,16),
+    //                            ALIGN_CENTER, LAYER_GUI, ColorScheme::Menu::default_color);
+    if (TileMap* tilemap = dynamic_cast<TileMap*>(m_layer)) {
+      if (tilemap->m_editor_active) {
+        context.color().draw_surface(m_selection, pos, LAYER_GUI - 1);
+      }
+    }
+  }
+}
+
 int
 LayerIcon::get_zpos() const
 {

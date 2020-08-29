@@ -68,4 +68,16 @@ ObjectIcon::draw(DrawingContext& context, const Vector& pos)
                                       Rectf(pos + m_offset, pos + Vector(32,32) - m_offset), LAYER_GUI - 9);
 }
 
+void
+ObjectIcon::draw(DrawingContext& context, const Vector& pos, int pixels_shown)
+{
+  auto cropped_surface = m_surface->region(Rect(32-pixels_shown,
+                                                0,
+                                                32,
+                                                32));
+  context.color().draw_surface_scaled(cropped_surface,
+                                      Rectf(pos + Vector(32-pixels_shown,0) + m_offset, pos + Vector(32,32) - m_offset),
+                                      LAYER_GUI - 9);
+}
+
 /* EOF */

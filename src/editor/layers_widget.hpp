@@ -74,6 +74,8 @@ private:
   int m_Ypos;
   const int m_Xpos = 32;
   int m_Width;
+  int m_scroll;
+  int m_scroll_speed;
 
   std::string m_sector_text;
   int m_sector_text_width;
