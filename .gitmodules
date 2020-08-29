@@ -16,3 +16,6 @@
 [submodule "discord-sdk"]
 	path = external/discord-sdk
 	url = https://github.com/discord/discord-rpc
+[submodule "external/nanogui"]
+	path = external/nanogui
+	url = https://github.com/mitsuba-renderer/nanogui
