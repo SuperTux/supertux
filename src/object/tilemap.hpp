@@ -140,6 +140,9 @@ public:
   /** changes all tiles with the given ID */
   void change_all(uint32_t oldtile, uint32_t newtile);
 
+  /** Puts the correct autotile block at the given position */
+  void autotile(int x, int y, uint32_t tile);
+
   void set_flip(Flip flip) { m_flip = flip; }
   Flip get_flip() const { return m_flip; }
 

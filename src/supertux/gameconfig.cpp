@@ -16,6 +16,7 @@
 
 #include "supertux/gameconfig.hpp"
 
+#include "editor/overlay_widget.hpp"
 #include "util/reader_collection.hpp"
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
@@ -76,6 +77,8 @@ Config::load()
   config_mapping.get("developer", developer_mode);
   config_mapping.get("confirmation_dialog", confirmation_dialog);
   config_mapping.get("pause_on_focusloss", pause_on_focusloss);
+
+  EditorOverlayWidget::autotile_help = !developer_mode;
 
   if (is_christmas()) {
     if (!config_mapping.get("christmas", christmas_mode))
