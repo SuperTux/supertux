@@ -20,6 +20,7 @@
 #include <config.h>
 #include <physfs.h>
 
+#include "editor/overlay_widget.hpp"
 #include "supertux/gameconfig.hpp"
 #include "util/gettext.hpp"
 #include "version.h"
@@ -282,6 +283,7 @@ CommandLineArguments::parse_args(int argc, char** argv)
     else if (arg == "--developer")
     {
       developer_mode = true;
+      EditorOverlayWidget::autotile_help = !developer_mode;
     }
     else if (arg == "--christmas")
     {

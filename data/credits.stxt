@@ -37,27 +37,27 @@
 	(blank)
 	(person
       (name "Kai Alex \"Serano\" Jockers")
-      (info (_ "Graphics, Story, Optimisation"))
+      (info (_ "Level Design, Story, Optimisation, Coordination"))
     )
     (blank)
 	(person
       (name "Alexander \"Alzter\" S.")
       (info (_ "Graphics"))
     )
-    (blank)
+	(blank)
 	(person
-      (name "Ingo \"grumbel\" Ruhnke")
+      (name "Daniel \"WeLuvGoatz\" Ward")
       (info (_ "Graphics, Programming, Level Design"))
+    )
+    (blank)
+    (person
+      (name "Zwatotem")
+      (info (_ "Programming, Level Updates"))
     )
     (blank)
 	(person
       (name "HybridDog")
       (info (_ "Graphics, Programming"))
-    )
-    (blank)
-	(person
-      (name "Daniel \"WeLuvGoatz\" Ward")
-      (info (_ "Graphics, Programming, Level Design"))
     )
 	(blank)
 	(person
@@ -231,7 +231,13 @@
       (name "Carsten \"RustyBox\" Wirtz")
     )
 	(person
+      (name "Daniel \"WeLuvGoatz\" Ward")
+    )
+	(person
       (name "Romero Nickerson")
+    )
+	(person
+      (name "Andre \"C4INAN\" Pinheiro")
     )
     (blank)
     (blank)
@@ -240,6 +246,9 @@
       (string (_ "Level Design"))
     )
     (blank)
+	(person
+      (name "AllytheOcelot")
+    )
     (person
       (name "Wolfgang Becker")
     )
@@ -269,6 +278,9 @@
     )
     (person
       (name "Carsten \"RustyBox\" Wirtz")
+    )
+	(person
+      (name "Daniel \"WeLuvGoatz\" Ward")
     )
     (blank)
     (blank)
@@ -477,6 +489,10 @@
       (name "José Rebelo")
       (info (_ "Scripting function fix"))
     )
+	(person
+      (name "Semphris")
+      (info (_ "New features and notable updates"))
+    )
     (person
       (name "Willy Scheibel")
       (info (_ "Support for \"glbinding\" as optional OpenGL binding"))
@@ -526,10 +542,6 @@
       (info (_ "Contributions"))
     )
 	(person
-      (name "Zwatotem")
-      (info (_ "Contributions"))
-    )
-	(person
       (name "DivVerent")
       (info (_ "Contributions"))
     )
@@ -551,6 +563,22 @@
     )
 	(person
       (name "Alexander Wilms")
+      (info (_ "Contributions"))
+    )
+	(person
+      (name "mbernard2")
+      (info (_ "Contributions"))
+    )
+	(person
+      (name "Erratic-C-Programmer")
+      (info (_ "Contributions"))
+    )
+	(person
+      (name "Andre \"C4INAN\" Pinheiro")
+      (info (_ "Contributions"))
+    )
+	(person
+      (name "comradekingu")
       (info (_ "Contributions"))
     )
     (blank)

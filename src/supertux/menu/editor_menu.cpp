@@ -66,6 +66,8 @@ EditorMenu::EditorMenu()
   add_toggle(-1, _("Grid Snapping"), &EditorOverlayWidget::snap_to_grid);
   add_toggle(-1, _("Render Background"), &EditorOverlayWidget::render_background);
   add_toggle(-1, _("Render Light"), &Compositor::s_render_lighting);
+  add_toggle(-1, _("Autotile Mode"), &EditorOverlayWidget::autotile_mode);
+  add_toggle(-1, _("Enable Autotile Help"), &EditorOverlayWidget::autotile_help);
 
   add_submenu(worldmap ? _("Worldmap Settings") : _("Level Settings"),
               MenuStorage::EDITOR_LEVEL_MENU);

@@ -1,0 +1,178 @@
+;; See autotiles.satc for instructions
+
+(supertux-autotiles
+  (autotileset
+    (name "snow")
+    (default 105)
+    (autotile
+      (id 105)
+      (solid #t)
+      (mask "********")
+    )
+    (autotile
+      (id 105)
+      (solid #f)
+      (mask "*1****1*")
+      (mask "***11***")
+    )
+    (autotile
+      (id 101)
+      (solid #f)
+      (mask "00000001")
+    )
+    (autotile
+      (id 102)
+      (solid #f)
+      (mask "00000*1*")
+    )
+    (autotile
+      (id 103)
+      (solid #f)
+      (mask "00000100")
+    )
+    (autotile
+      (id 104)
+      (solid #f)
+      (mask "00*0100*")
+    )
+    (autotile
+      (id 106)
+      (solid #f)
+      (mask "*0010*00")
+    )
+    (autotile
+      (id 107)
+      (solid #f)
+      (mask "00100000")
+    )
+    (autotile
+      (id 108)
+      (solid #f)
+      (mask "*1*00000")
+    )
+    (autotile
+      (id 109)
+      (solid #f)
+      (mask "10000000")
+    )
+    (autotile
+      (id 110)
+      (solid #f)
+      (mask "*1*10*00")
+      (mask "*0110*00")
+      (mask "*1*00100")
+    )
+    (autotile
+      (id 111)
+      (solid #f)
+      (mask "*1*0100*")
+      (mask "10*0100*")
+      (mask "*1*00001")
+    )
+    (autotile
+      (id 112)
+      (solid #f)
+      (mask "*0010*1*")
+      (mask "*0010*01")
+      (mask "10000*1*")
+    )
+    (autotile
+      (id 113)
+      (solid #f)
+      (mask "00*01*1*")
+      (mask "00100*1*")
+      (mask "00*0110*")
+    )
+  )
+  (autotileset
+    (name "crystal")
+    (default 238)
+    (autotile
+      (id 238)
+      (solid #t)
+      (mask "********")
+    )
+    (autotile
+      (id 238)
+      (solid #f)
+      (mask "*1****1*")
+      (mask "***11***")
+    )
+    (autotile
+      (id 234)
+      (solid #f)
+      (mask "00000001")
+    )
+    (autotile
+      (id 235)
+      (solid #f)
+      (mask "00000*1*")
+    )
+    (autotile
+      (id 236)
+      (solid #f)
+      (mask "00000100")
+    )
+    (autotile
+      (id 237)
+      (solid #f)
+      (mask "00*0100*")
+    )
+    (autotile
+      (id 239)
+      (solid #f)
+      (mask "*0010*00")
+    )
+    (autotile
+      (id 240)
+      (solid #f)
+      (mask "00100000")
+    )
+    (autotile
+      (id 241)
+      (solid #f)
+      (mask "*1*00000")
+    )
+    (autotile
+      (id 242)
+      (solid #f)
+      (mask "10000000")
+    )
+    (autotile
+      (id 243)
+      (solid #f)
+      (mask "*1*10*00")
+      (mask "*0110*00")
+      (mask "*1*00100")
+    )
+    (autotile
+      (id 244)
+      (solid #f)
+      (mask "*1*0100*")
+      (mask "10*0100*")
+      (mask "*1*00001")
+    )
+    (autotile
+      (id 246)
+      (solid #f)
+      (mask "*0010*1*")
+      (mask "*0010*01")
+      (mask "10000*1*")
+    )
+    (autotile
+      (id 247)
+      (solid #f)
+      (mask "00*01*1*")
+      (mask "00100*1*")
+      (mask "00*0110*")
+    )
+    (autotile
+      (id 245)
+      (solid #f)
+    )
+    (autotile
+      (id 248)
+      (solid #f)
+    )
+  )
+)
