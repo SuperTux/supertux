@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2009 Ingo Ruhnke <grumbel@gmail.com>
+//  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,29 +14,24 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#ifndef HEADER_SUPERTUX_SUPERTUX_MAIN2_HPP
+#define HEADER_SUPERTUX_SUPERTUX_MAIN2_HPP
 
-#include <SDL.h>
 
-#include <config.h>
-#include <memory>
-
-#include "supertux/main2.hpp"
-
-static std::unique_ptr<Main> g_main;
-
-int main(int argc, char** argv)
+class Main2 final
 {
-  g_main = std::make_unique<Main>();
+public:
+  Main2();
 
-  int ret = g_main->run(argc, argv);
+  /** We call it run() instead of main() as main collides with
+      #define main SDL_main from SDL.h */
+  int run(int argc, char** argv);
 
-#if !defined(__EMSCRIPTEN__)
-  // Manually destroy, as atexit() functions are called before global
-  // destructors and thus would make the destruction crash.
-  g_main.reset();
+private:
+  Main2(const Main2&) = delete;
+  Main2& operator=(const Main2&) = delete;
+};
+
 #endif
-  return Main2().run(argc, argv);
-}
-
 
 /* EOF */

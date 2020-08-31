@@ -17,15 +17,20 @@
 
 #include <SDL.h>
 
+<<<<<<< HEAD
 #include <config.h>
 #include <memory>
 
+#include "supertux/main.hpp"
+=======
 #include "supertux/main2.hpp"
+>>>>>>> Example SuperTux window with (only) nanogui.
 
 static std::unique_ptr<Main> g_main;
 
 int main(int argc, char** argv)
 {
+<<<<<<< HEAD
   g_main = std::make_unique<Main>();
 
   int ret = g_main->run(argc, argv);
@@ -35,7 +40,11 @@ int main(int argc, char** argv)
   // destructors and thus would make the destruction crash.
   g_main.reset();
 #endif
+
+  return ret;
+=======
   return Main2().run(argc, argv);
+>>>>>>> Example SuperTux window with (only) nanogui.
 }
 
 

@@ -17,24 +17,10 @@
 
 #include <SDL.h>
 
-#include <config.h>
-#include <memory>
-
 #include "supertux/main2.hpp"
-
-static std::unique_ptr<Main> g_main;
 
 int main(int argc, char** argv)
 {
-  g_main = std::make_unique<Main>();
-
-  int ret = g_main->run(argc, argv);
-
-#if !defined(__EMSCRIPTEN__)
-  // Manually destroy, as atexit() functions are called before global
-  // destructors and thus would make the destruction crash.
-  g_main.reset();
-#endif
   return Main2().run(argc, argv);
 }
 

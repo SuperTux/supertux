@@ -46,7 +46,7 @@ if(COMMAND cmake_policy)
   cmake_policy(SET CMP0023 NEW)
 endif(COMMAND cmake_policy)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
@@ -1043,6 +1043,7 @@ set_property(TARGET glfw glfw_objects nanogui PROPERTY FOLDER "dependencies")
 add_definitions(${NANOGUI_EXTRA_DEFS})
 
 # On top of adding the path to nanogui/include, you may need extras
+include_directories("external/nanogui/include")
 include_directories(${NANOGUI_EXTRA_INCS})
 
 # Lastly, additional libraries may have been built for you.  In addition to linking

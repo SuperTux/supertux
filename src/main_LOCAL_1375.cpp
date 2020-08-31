@@ -14,13 +14,12 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #include <SDL.h>
 
 #include <config.h>
 #include <memory>
 
-#include "supertux/main2.hpp"
+#include "supertux/main.hpp"
 
 static std::unique_ptr<Main> g_main;
 
@@ -35,8 +34,8 @@ int main(int argc, char** argv)
   // destructors and thus would make the destruction crash.
   g_main.reset();
 #endif
-  return Main2().run(argc, argv);
-}
 
+  return ret;
+}
 
 /* EOF */
