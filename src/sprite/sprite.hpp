@@ -84,6 +84,9 @@ public:
   void set_color(const Color& color);
   Color get_color() const;
 
+  void set_alpha(float alpha);
+  float get_alpha() const;
+
   void set_blend(const Blend& blend);
   Blend get_blend() const;
 
@@ -101,6 +104,7 @@ private:
   int m_animation_loops;
   float m_last_ticks;
   float m_angle;
+  float m_alpha;
   Color m_color;
   Blend m_blend;
 

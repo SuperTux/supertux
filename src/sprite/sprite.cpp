@@ -29,6 +29,7 @@ Sprite::Sprite(SpriteData& newdata) :
   m_animation_loops(-1),
   m_last_ticks(),
   m_angle(0.0f),
+  m_alpha(1.0f),
   m_color(1.0f, 1.0f, 1.0f, 1.0f),
   m_blend(),
   m_action(m_data.get_action("normal"))
@@ -45,6 +46,7 @@ Sprite::Sprite(const Sprite& other) :
   m_animation_loops(other.m_animation_loops),
   m_last_ticks(g_game_time),
   m_angle(0.0f), // FIXME: this can't be right
+  m_alpha(1.0f),
   m_color(1.0f, 1.0f, 1.0f, 1.0f),
   m_blend(),
   m_action(other.m_action)
@@ -141,6 +143,7 @@ Sprite::draw(Canvas& canvas, const Vector& pos, int layer,
   context.push_transform();
 
   context.set_flip(context.get_flip() ^ flip);
+  context.set_alpha(context.get_alpha() * m_alpha);
 
   canvas.draw_surface(m_action->surfaces[m_frameidx],
                       pos - Vector(m_action->x_offset, m_action->y_offset),
@@ -206,6 +209,18 @@ float
 Sprite::get_angle() const
 {
   return m_angle;
+}
+
+void
+Sprite::set_alpha(float a)
+{
+  m_alpha = a;
+}
+
+float
+Sprite::get_alpha() const
+{
+  return m_alpha;
 }
 
 void

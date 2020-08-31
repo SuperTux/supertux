@@ -22,6 +22,8 @@ class Camera;
 void create_squirrel_instance(HSQUIRRELVM v, scripting::Camera* object, bool setup_releasehook = false);
 class Candle;
 void create_squirrel_instance(HSQUIRRELVM v, scripting::Candle* object, bool setup_releasehook = false);
+class Decal;
+void create_squirrel_instance(HSQUIRRELVM v, scripting::Decal* object, bool setup_releasehook = false);
 class Dispenser;
 void create_squirrel_instance(HSQUIRRELVM v, scripting::Dispenser* object, bool setup_releasehook = false);
 class DisplayEffect;
