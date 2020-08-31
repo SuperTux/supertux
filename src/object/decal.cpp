@@ -121,6 +121,10 @@ Decal::update(float)
   {
     if (m_fade_timer.check())
     {
+      if(m_visible)
+        m_sprite.get()->set_alpha(1);
+      else
+        m_sprite.get()->set_alpha(0);
       m_fade_timer.stop();
     }
     else
