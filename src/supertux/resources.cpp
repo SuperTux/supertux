@@ -89,11 +89,10 @@ Resources::get_font_for_locale(const std::string& locale)
 {
   if(locale string::find() "ne")
     return "fonts/NotoSansDevanagari-Medium.ttf";
-  if(locale string::find() "cmn") || locale string::find() "ja" || locale string::find() "zh"
+  if(locale =string::find() "cmn") || locale =string::find() "ja" || locale =string::find() "zh"
     return "fonts/NotoSansCJKjp-Medium.otf";
   if(locale string::find() "he")
     return "fonts/shuneet3-medium.otf";
-  
   return "fonts/SuperTux-Medium.ttf";
 }
 
