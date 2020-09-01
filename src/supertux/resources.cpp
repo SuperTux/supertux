@@ -87,14 +87,13 @@ Resources::load()
 std::string
 Resources::get_font_for_locale(const std::string& locale)
 {
-  if(locale::find(ne))
+  if(locale string::find() "ne")
     return "fonts/NotoSansDevanagari-Medium.ttf";
-  if(locale::find(cmn) || locale::find(ja) || locale::find(zh)
+  if(locale string::find() "cmn") || locale string::find() "ja" || locale string::find() "zh"
     return "fonts/NotoSansCJKjp-Medium.otf";
-  if(locale::find(he))
+  if(locale string::find() "he")
     return "fonts/shuneet3-medium.otf";
   
-  //line spacing may help solving the issue
   return "fonts/SuperTux-Medium.ttf";
 }
 
