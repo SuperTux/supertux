@@ -36,7 +36,7 @@ Comment[sv]=Ett klassiskt tvådimensionellt plattformsspel
 Comment[pt]=Joga este clássico de plataformas 2D
 Comment[pt_BR]=Encarne o pinguin Tux neste jogo inspirado em clássicos de Pular&Correr
 Comment[hu]=Egy klasszikus 2D-s oldalnézeti játék
-
+Comment[he]=משחק קפיצה וריצה קלאסי בדו מימד
 Icon=supertux2
 Exec=supertux2
 Terminal=false
