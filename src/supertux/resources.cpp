@@ -93,9 +93,9 @@ Resources::get_font_for_locale(const std::string& locale)
     return "fonts/NotoSansCJKjp-Medium.otf";
   if(locale == "he" || locale == "he_IL")
     return "fonts/shuneet3-medium.otf";
+} else {
   return "fonts/SuperTux-Medium.ttf";
 }
-
 void
 Resources::unload()
 {
