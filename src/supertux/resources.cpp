@@ -92,8 +92,7 @@ Resources::get_font_for_locale(const std::string& locale)
   if locale.find('ne')
     return "fonts/NotoSansDevanagari-Medium.ttf";
   if locale.find('he')
-  return "fonts/shuneet3-medium.otf";
-} else {
+    return "fonts/shuneet3-medium.otf";
   return "fonts/SuperTux-Medium.ttf";
 }
 
