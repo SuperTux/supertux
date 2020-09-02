@@ -89,7 +89,7 @@ Resources::get_font_for_locale(const std::string& locale)
 {
   if(locale == "cmn" || locale == "ja" || locale == "zh_CN" || locale == "zh_TW")
     return "fonts/NotoSansCJKjp-Medium.otf";
-} else if(locale == "ne" {
+} else if(locale == "ne") {
   return "fonts/NotoSansDevanagari-Medium.ttf";
 } else if(locale == "he" || locale == "he_IL") {
   return "fonts/shuneet3-medium.otf";
