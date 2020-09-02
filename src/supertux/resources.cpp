@@ -87,15 +87,16 @@ Resources::load()
 std::string
 Resources::get_font_for_locale(const std::string& locale)
 {
-  if(locale == "ne")
-    return "fonts/NotoSansDevanagari-Medium.ttf";
   if(locale == "cmn" || locale == "ja" || locale == "zh_CN" || locale == "zh_TW")
     return "fonts/NotoSansCJKjp-Medium.otf";
-  if(locale == "he" || locale == "he_IL")
-    return "fonts/shuneet3-medium.otf";
+} else if(locale == "ne" {
+  return "fonts/NotoSansDevanagari-Medium.ttf";
+} else if(locale == "he" || locale == "he_IL") {
+  return "fonts/shuneet3-medium.otf";
 } else {
   return "fonts/SuperTux-Medium.ttf";
 }
+
 void
 Resources::unload()
 {
