@@ -16,3 +16,6 @@
 [submodule "external/SDL_ttf"]
 	path = external/SDL_ttf
 	url = https://github.com/SuperTux/SDL_ttf
+[submodule "external/nanogui-sdl"]
+	path = external/nanogui-sdl
+	url = https://github.com/dalerank/nanogui-sdl.git
