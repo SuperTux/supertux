@@ -60,7 +60,7 @@ public:
 
 private:
   static std::string current_font;
-  static std::string get_font_for_locale(const std::string& locale);
+  static std::string get_font_for_locale(const locale().name());
 
 public:
   Resources();
