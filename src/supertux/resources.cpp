@@ -85,7 +85,7 @@ Resources::load()
 }
 
 std::string
-Resources::get_font_for_locale(const locale())
+Resources::get_font_for_locale(const locale().name())
 {
   if(locale == "ne")
     return "fonts/NotoSansDevanagari-Medium.ttf";
