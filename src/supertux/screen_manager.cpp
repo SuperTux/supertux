@@ -41,6 +41,29 @@
 #include <stdio.h>
 #include <chrono>
 
+#include <sdlgui/screen.h>
+#include <sdlgui/window.h>
+#include <sdlgui/layout.h>
+#include <sdlgui/label.h>
+#include <sdlgui/checkbox.h>
+#include <sdlgui/button.h>
+#include <sdlgui/toolbutton.h>
+#include <sdlgui/popupbutton.h>
+#include <sdlgui/combobox.h>
+#include <sdlgui/dropdownbox.h>
+#include <sdlgui/progressbar.h>
+#include <sdlgui/entypo.h>
+#include <sdlgui/messagedialog.h>
+#include <sdlgui/textbox.h>
+#include <sdlgui/slider.h>
+#include <sdlgui/imagepanel.h>
+#include <sdlgui/imageview.h>
+#include <sdlgui/vscrollpanel.h>
+#include <sdlgui/colorwheel.h>
+#include <sdlgui/graph.h>
+#include <sdlgui/tabwidget.h>
+#include <sdlgui/switchbox.h>
+#include <sdlgui/formhelper.h>
 
 ScreenManager::ScreenManager(VideoSystem& video_system, InputManager& input_manager) :
   m_video_system(video_system),
@@ -51,7 +74,8 @@ ScreenManager::ScreenManager(VideoSystem& video_system, InputManager& input_mana
   m_speed(1.0),
   m_actions(),
   m_screen_fade(),
-  m_screen_stack()
+  m_screen_stack(),
+  m_nanogui()
 {
 }
 
@@ -302,6 +326,8 @@ ScreenManager::process_events()
   {
     m_input_manager.process_event(event);
 
+    m_nanogui->onEvent(event);
+
     m_menu_manager->event(event);
 
     if (Editor::is_active()) {
@@ -459,6 +485,27 @@ ScreenManager::run()
   const float seconds_per_step = static_cast<float>(ms_per_step) / 1000.0f;
   FPS_Stats fps_statistics;
 
+  // Generating NanoGUI with temp renderer : start
+  auto nanogui_renderer = SDL_GetRenderer(VideoSystem::current()->get_window());
+  if (!nanogui_renderer)
+  {
+    nanogui_renderer = SDL_CreateRenderer(VideoSystem::current()->get_window(), -1, SDL_RENDERER_ACCELERATED);
+  }
+  SDL_SetRenderDrawBlendMode(nanogui_renderer, SDL_BLENDMODE_BLEND);
+
+  m_nanogui = new sdlgui::Screen(VideoSystem::current()->get_window(), sdlgui::Vector2i(1024, 768), "Hello world!");
+
+  sdlgui::FormHelper *gui = new sdlgui::FormHelper(m_nanogui);
+
+  sdlgui::Window* window = gui->addWindow(sdlgui::Vector2i(100, 100), "Form helper example");
+  gui->addGroup("Other widgets");
+  gui->addButton("A button", [](){ std::cout << "Button pressed." << std::endl; });
+
+  window->center();
+  m_nanogui->setVisible(true);
+  m_nanogui->performLayout();
+  // Generating NanoGUI with temp renderer : end
+
   handle_screen_switch();
   while (!m_screen_stack.empty()) {
     Uint32 ticks = SDL_GetTicks();
@@ -530,6 +577,10 @@ ScreenManager::run()
     SoundManager::current()->update();
 
     handle_screen_switch();
+
+    // Nanogui
+    m_nanogui->drawAll();
+    SDL_RenderPresent(nanogui_renderer);
   }
 }
 

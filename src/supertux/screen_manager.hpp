@@ -24,6 +24,8 @@
 #include "supertux/screen.hpp"
 #include "util/currenton.hpp"
 
+#include <sdlgui/screen.h>
+
 class Compositor;
 class ControllerHUD;
 class DrawingContext;
@@ -87,6 +89,8 @@ private:
 
   std::unique_ptr<ScreenFade> m_screen_fade;
   std::vector<std::unique_ptr<Screen> > m_screen_stack;
+
+  sdlgui::Screen* m_nanogui;
 };
 
 #endif

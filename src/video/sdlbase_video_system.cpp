@@ -103,6 +103,7 @@ SDLBaseVideoSystem::create_sdl_window(Uint32 flags)
                                       SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
                                       size.width, size.height,
                                       flags));
+
   if (!m_sdl_window)
   {
     std::ostringstream msg;
@@ -176,6 +177,12 @@ SDLBaseVideoSystem::apply_video_mode()
       }
     }
   }
+}
+
+SDL_Window*
+SDLBaseVideoSystem::get_window() const
+{
+  return m_sdl_window.get();
 }
 
 /* EOF */

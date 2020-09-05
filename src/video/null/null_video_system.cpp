@@ -129,4 +129,10 @@ NullVideoSystem::make_screenshot()
   return {};
 }
 
+SDL_Window*
+NullVideoSystem::get_window() const
+{
+  return nullptr;
+}
+
 /* EOF */

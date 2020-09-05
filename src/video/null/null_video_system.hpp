@@ -52,6 +52,8 @@ public:
   virtual void set_icon(const SDL_Surface& icon) override;
   virtual SDLSurfacePtr make_screenshot() override;
 
+  virtual SDL_Window* get_window() const override;
+
 private:
   Size m_window_size;
   int m_vsync_mode;

@@ -35,6 +35,8 @@ public:
   virtual Size get_window_size() const override;
   virtual void on_resize(int w, int h) override;
 
+  virtual SDL_Window* get_window() const override;
+
 protected:
   void create_sdl_window(Uint32 flags);
   void apply_video_mode();
