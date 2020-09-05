@@ -28,6 +28,8 @@
 #include "video/surface.hpp"
 #include "video/ttf_font.hpp"
 
+#include <locale>
+
 std::unique_ptr<MouseCursor> Resources::mouse_cursor;
 
 FontPtr Resources::console_font;
@@ -63,8 +65,10 @@ Resources::load()
   else
   {
     console_font.reset(new TTFFont("fonts/SuperTux-Medium.ttf", 12, 1.25f, 0, 1));
-
-    auto font = get_font_for_locale(g_config->locale);
+    auto locale = g_config->locale;
+    if (locale.empty())
+      locale = std::locale().name();
+    auto font = get_font_for_locale(locale);
     if(font != current_font)
     {
       current_font = font;
@@ -87,11 +91,16 @@ Resources::load()
 std::string
 Resources::get_font_for_locale(const std::string& locale)
 {
-  if(locale == "ne")
+  // Not found in locale
+  auto nf = locale.npos;
+
+  if(locale.find("ne") != nf)
     return "fonts/NotoSansDevanagari-Medium.ttf";
-  if(locale == "cmn" || locale == "ja" || locale == "zh_CN" || locale == "zh_TW")
+  if(locale.find("cmn") != nf ||
+     locale.find("ja") != nf ||
+     locale.find("zh") != nf )
     return "fonts/NotoSansCJKjp-Medium.otf";
-  if(locale == "he")
+  if(locale.find("he") != nf)
     return "fonts/shuneet3-medium.otf";
   return "fonts/SuperTux-Medium.ttf";
 }
