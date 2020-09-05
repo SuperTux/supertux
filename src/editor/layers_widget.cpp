@@ -47,7 +47,8 @@ EditorLayersWidget::EditorLayersWidget(Editor& editor) :
   m_sector_text_width(0),
   m_hovered_item(HoveredItem::NONE),
   m_hovered_layer(-1),
-  m_object_tip()
+  m_object_tip(),
+  m_has_mouse_focus(false)
 {
 }
 
@@ -110,10 +111,10 @@ EditorLayersWidget::draw(DrawingContext& context)
   int pos = 0;
   for (const auto& layer_icon : m_layer_icons) {
     if (layer_icon->is_valid()) {
-      if (pos*35 >= m_scroll) {
+      if (pos * 35 >= m_scroll) {
         layer_icon->draw(context, get_layer_coords(pos));
-      } else if ((pos+1)*35 >= m_scroll) {
-        layer_icon->draw(context, get_layer_coords(pos), 35 - (m_scroll - pos*35));
+      } else if ((pos + 1) * 35 >= m_scroll) {
+        layer_icon->draw(context, get_layer_coords(pos), 35 - (m_scroll - pos * 35));
       }
     }
     pos++;
@@ -135,11 +136,11 @@ EditorLayersWidget::update(float dt_sec)
   
   if(m_scroll_speed < 0 && m_scroll > 0)
   {
-    m_scroll -= 2;
+    m_scroll -= 5;
   }
   else if (m_scroll_speed > 0 && m_scroll < (static_cast<int>(m_layer_icons.size()) - 1) * 35)
   {
-    m_scroll += 2;
+    m_scroll += 5;
   }
 }
 
@@ -214,8 +215,13 @@ EditorLayersWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
   if (y < 0 || x > static_cast<float>(m_Width)) {
     m_hovered_item = HoveredItem::NONE;
     m_object_tip = nullptr;
+    m_has_mouse_focus = false;
+    m_scroll_speed = 0;
     return false;
   }
+
+  m_has_mouse_focus = true;
+
   if (x < 0) {
     m_hovered_item = HoveredItem::SPAWNPOINTS;
     m_object_tip = nullptr;
@@ -249,7 +255,7 @@ EditorLayersWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
 bool
 EditorLayersWidget::on_mouse_wheel(const SDL_MouseWheelEvent& wheel)
 {
-  if (m_hovered_item != HoveredItem::NONE)
+  if (m_has_mouse_focus)
   {
     if((wheel.x < 0 || wheel.y < 0) && !(wheel.x > 0 || wheel.y > 0))
     {
@@ -281,7 +287,7 @@ EditorLayersWidget::on_mouse_wheel(const SDL_MouseWheelEvent& wheel)
 bool
 EditorLayersWidget::has_mouse_focus() const
 {
-  return m_hovered_item != HoveredItem::NONE;
+  return m_has_mouse_focus;
 }
 
 void

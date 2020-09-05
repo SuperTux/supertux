@@ -88,6 +88,8 @@ private:
 
   std::unique_ptr<Tip> m_object_tip;
 
+  bool m_has_mouse_focus;
+
 private:
   EditorLayersWidget(const EditorLayersWidget&) = delete;
   EditorLayersWidget& operator=(const EditorLayersWidget&) = delete;

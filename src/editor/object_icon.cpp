@@ -75,7 +75,7 @@ ObjectIcon::draw(DrawingContext& context, const Vector& pos)
 void
 ObjectIcon::draw(DrawingContext& context, const Vector& pos, int pixels_shown)
 {
-  auto cropped_surface = m_surface->region(Rect(32-pixels_shown,
+  auto cropped_surface = m_surface->region(Rect(32 - pixels_shown,
                                                 0,
                                                 32,
                                                 32));
