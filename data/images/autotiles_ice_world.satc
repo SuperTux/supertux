@@ -4,159 +4,169 @@
   (autotileset
     (name "invisible_paths")
     (default 44)
-	(autotile
+    (autotile
       (id 30)
       (solid #t)
       (mask "*0*01*1*")
     )
-	(autotile
+    (autotile
       (id 31)
       (solid #t)
       (mask "*0*10*1*")
     )
-	(autotile
+    (autotile
       (id 32)
       (solid #t)
       (mask "*1*01*1*")
     )
-	(autotile
+    (autotile
       (id 33)
       (solid #t)
       (mask "*0*11*1*")
     )
-	(autotile
+    (autotile
       (id 34)
       (solid #t)
       (mask "*1*01*0*")
     )
-	(autotile
+    (autotile
       (id 35)
       (solid #t)
       (mask "*1*10*0*")
     )
-	(autotile
+    (autotile
       (id 36)
       (solid #t)
       (mask "*1*11*0*")
     )
-	(autotile
+    (autotile
       (id 37)
       (solid #t)
       (mask "*1*10*1*")
     )
-	(autotile
+    (autotile
       (id 38)
       (solid #t)
       (mask "*0*01*0*")
     )
-	(autotile
+    (autotile
       (id 39)
       (solid #t)
       (mask "*0*00*1*")
     )
-	(autotile
+    (autotile
       (id 40)
       (solid #t)
       (mask "*0*11*0*")
     )
-	(autotile
+    (autotile
       (id 41)
       (solid #t)
       (mask "*1*00*1*")
     )
-	(autotile
+    (autotile
       (id 42)
       (solid #t)
       (mask "*1*00*0*")
     )
-	(autotile
+    (autotile
       (id 43)
       (solid #t)
       (mask "*0*10*0*")
     )
-	(autotile
+    (autotile
       (id 44)
       (solid #t)
       (mask "*1*11*1*")
+    )
+    (autotile
+      (id 45)
+      (solid #t)
+      (mask "*0*00*0*")
     )
   )
   (autotileset
     (name "paths")
     (default 24)
-	(autotile
+    (autotile
       (id 10)
       (solid #t)
       (mask "*0*01*1*")
     )
-	(autotile
+    (autotile
       (id 11)
       (solid #t)
       (mask "*0*10*1*")
     )
-	(autotile
+    (autotile
       (id 12)
       (solid #t)
       (mask "*1*01*1*")
     )
-	(autotile
+    (autotile
       (id 13)
       (solid #t)
       (mask "*0*11*1*")
     )
-	(autotile
+    (autotile
       (id 14)
       (solid #t)
       (mask "*1*01*0*")
     )
-	(autotile
+    (autotile
       (id 15)
       (solid #t)
       (mask "*1*10*0*")
     )
-	(autotile
+    (autotile
       (id 16)
       (solid #t)
       (mask "*1*11*0*")
     )
-	(autotile
+    (autotile
       (id 17)
       (solid #t)
       (mask "*1*10*1*")
     )
-	(autotile
+    (autotile
       (id 18)
       (solid #t)
       (mask "*0*01*0*")
     )
-	(autotile
+    (autotile
       (id 19)
       (solid #t)
       (mask "*0*00*1*")
     )
-	(autotile
+    (autotile
       (id 20)
       (solid #t)
       (mask "*0*11*0*")
     )
-	(autotile
+    (autotile
       (id 21)
       (solid #t)
       (mask "*1*00*1*")
     )
-	(autotile
+    (autotile
       (id 22)
       (solid #t)
       (mask "*1*00*0*")
     )
-	(autotile
+    (autotile
       (id 23)
       (solid #t)
       (mask "*0*10*0*")
     )
-	(autotile
+    (autotile
       (id 24)
       (solid #t)
       (mask "*1*11*1*")
+    )
+    (autotile
+      (id 25)
+      (solid #t)
+      (mask "*0*00*0*")
     )
   )
   (autotileset
