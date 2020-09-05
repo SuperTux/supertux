@@ -49,6 +49,7 @@ public:
   virtual bool on_mouse_button_up(const SDL_MouseButtonEvent& button) override;
   virtual bool on_mouse_button_down(const SDL_MouseButtonEvent& button) override;
   virtual bool on_mouse_motion(const SDL_MouseMotionEvent& motion) override;
+  virtual bool on_mouse_wheel(const SDL_MouseWheelEvent& wheel) override;
 
   virtual void setup() override;
   virtual void resize() override;
@@ -58,6 +59,8 @@ public:
   void refresh_sector_text();
   void sort_layers();
   void add_layer(GameObject* layer);
+
+  bool has_mouse_focus() const;
 
   TileMap* get_selected_tilemap() const { return m_selected_tilemap; }
 

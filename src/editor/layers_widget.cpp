@@ -137,7 +137,7 @@ EditorLayersWidget::update(float dt_sec)
   {
     m_scroll -= 2;
   }
-  else if (m_scroll_speed > 0 && m_scroll < static_cast<int>(m_layer_icons.size()) * 35)
+  else if (m_scroll_speed > 0 && m_scroll < (static_cast<int>(m_layer_icons.size()) - 1) * 35)
   {
     m_scroll += 2;
   }
@@ -243,6 +243,45 @@ EditorLayersWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
   }
 
   return true;
+}
+
+
+bool
+EditorLayersWidget::on_mouse_wheel(const SDL_MouseWheelEvent& wheel)
+{
+  if (m_hovered_item != HoveredItem::NONE)
+  {
+    if((wheel.x < 0 || wheel.y < 0) && !(wheel.x > 0 || wheel.y > 0))
+    {
+      if (m_scroll >= 16)
+      {
+        m_scroll -= 16;
+      }
+      else
+      {
+        m_scroll = 0;
+      }
+    }
+    else if ((wheel.x > 0 || wheel.y > 0) && !(wheel.x < 0 || wheel.y < 0))
+    {
+      if (m_scroll < (static_cast<int>(m_layer_icons.size()) - 1) * 35)
+      {
+        m_scroll += 16;
+      }
+      else
+      {
+        m_scroll = (static_cast<int>(m_layer_icons.size()) - 1) * 35;
+      }
+      
+    }
+  }
+  return false;
+}
+
+bool
+EditorLayersWidget::has_mouse_focus() const
+{
+  return m_hovered_item != HoveredItem::NONE;
 }
 
 void
