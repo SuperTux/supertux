@@ -41,11 +41,14 @@ EditorLayersWidget::EditorLayersWidget(Editor& editor) :
   m_selected_tilemap(),
   m_Ypos(448),
   m_Width(512),
+  m_scroll(0),
+  m_scroll_speed(0),
   m_sector_text(),
   m_sector_text_width(0),
   m_hovered_item(HoveredItem::NONE),
   m_hovered_layer(-1),
-  m_object_tip()
+  m_object_tip(),
+  m_has_mouse_focus(false)
 {
 }
 
@@ -108,7 +111,11 @@ EditorLayersWidget::draw(DrawingContext& context)
   int pos = 0;
   for (const auto& layer_icon : m_layer_icons) {
     if (layer_icon->is_valid()) {
-      layer_icon->draw(context, get_layer_coords(pos));
+      if (pos * 35 >= m_scroll) {
+        layer_icon->draw(context, get_layer_coords(pos));
+      } else if ((pos + 1) * 35 >= m_scroll) {
+        layer_icon->draw(context, get_layer_coords(pos), 35 - (m_scroll - pos * 35));
+      }
     }
     pos++;
   }
@@ -125,6 +132,15 @@ EditorLayersWidget::update(float dt_sec)
       it = m_layer_icons.erase(it);
     else
       ++it;
+  }
+  
+  if(m_scroll_speed < 0 && m_scroll > 0)
+  {
+    m_scroll -= 5;
+  }
+  else if (m_scroll_speed > 0 && m_scroll < (static_cast<int>(m_layer_icons.size()) - 1) * 35)
+  {
+    m_scroll += 5;
   }
 }
 
@@ -199,8 +215,13 @@ EditorLayersWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
   if (y < 0 || x > static_cast<float>(m_Width)) {
     m_hovered_item = HoveredItem::NONE;
     m_object_tip = nullptr;
+    m_has_mouse_focus = false;
+    m_scroll_speed = 0;
     return false;
   }
+
+  m_has_mouse_focus = true;
+
   if (x < 0) {
     m_hovered_item = HoveredItem::SPAWNPOINTS;
     m_object_tip = nullptr;
@@ -210,6 +231,14 @@ EditorLayersWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
       m_hovered_item = HoveredItem::SECTOR;
       m_object_tip = nullptr;
     } else {
+      // Scrolling
+      if (x < static_cast<float>(m_sector_text_width + 32)) {
+        m_scroll_speed = -1;
+      } else if (x > static_cast<float>(SCREEN_WIDTH - 160)) { // 160 = 128 + 32
+        m_scroll_speed = 1;
+      } else {
+        m_scroll_speed = 0;
+      }
       unsigned int new_hovered_layer = get_layer_pos(mouse_pos);
       if (m_hovered_layer != new_hovered_layer || m_hovered_item != HoveredItem::LAYERS) {
         m_hovered_layer = new_hovered_layer;
@@ -220,6 +249,45 @@ EditorLayersWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
   }
 
   return true;
+}
+
+
+bool
+EditorLayersWidget::on_mouse_wheel(const SDL_MouseWheelEvent& wheel)
+{
+  if (m_has_mouse_focus)
+  {
+    if((wheel.x < 0 || wheel.y < 0) && !(wheel.x > 0 || wheel.y > 0))
+    {
+      if (m_scroll >= 16)
+      {
+        m_scroll -= 16;
+      }
+      else
+      {
+        m_scroll = 0;
+      }
+    }
+    else if ((wheel.x > 0 || wheel.y > 0) && !(wheel.x < 0 || wheel.y < 0))
+    {
+      if (m_scroll < (static_cast<int>(m_layer_icons.size()) - 1) * 35)
+      {
+        m_scroll += 16;
+      }
+      else
+      {
+        m_scroll = (static_cast<int>(m_layer_icons.size()) - 1) * 35;
+      }
+      
+    }
+  }
+  return false;
+}
+
+bool
+EditorLayersWidget::has_mouse_focus() const
+{
+  return m_has_mouse_focus;
 }
 
 void
@@ -315,14 +383,14 @@ EditorLayersWidget::update_tip()
 Vector
 EditorLayersWidget::get_layer_coords(const int pos) const
 {
-  return Vector(static_cast<float>(pos * 35 + m_Xpos + m_sector_text_width),
+  return Vector(static_cast<float>(pos * 35 + m_Xpos + m_sector_text_width - m_scroll),
                 static_cast<float>(m_Ypos));
 }
 
 int
 EditorLayersWidget::get_layer_pos(const Vector& coords) const
 {
-  return static_cast<int>((coords.x - static_cast<float>(m_Xpos) - static_cast<float>(m_sector_text_width)) / 35.0f);
+  return static_cast<int>((coords.x - static_cast<float>(m_Xpos - m_scroll) - static_cast<float>(m_sector_text_width)) / 35.0f);
 }
 
 /* EOF */
