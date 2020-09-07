@@ -505,6 +505,7 @@ include_directories(SYSTEM ${CMAKE_CURRENT_SOURCE_DIR}/external/findlocale/)
 include_directories(SYSTEM ${CMAKE_CURRENT_SOURCE_DIR}/external/obstack/)
 include_directories(SYSTEM ${CMAKE_CURRENT_SOURCE_DIR}/external/sexp-cpp/include/)
 include_directories(SYSTEM ${CMAKE_CURRENT_SOURCE_DIR}/external/SDL_SavePNG/)
+include_directories(SYSTEM ${CMAKE_CURRENT_SOURCE_DIR}/external/discord-sdk/include)
 
 if(WIN32)
   add_definitions(-D_USE_MATH_DEFINES -DNOMINMAX)
@@ -562,6 +563,10 @@ list(SORT SUPERTUX_RESOURCES)
 if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/src/scripting/wrapper.cpp)
   set(SUPERTUX_SOURCES_CXX ${SUPERTUX_SOURCES_CXX} ${CMAKE_CURRENT_SOURCE_DIR}/src/scripting/wrapper.cpp)
 endif(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/src/scripting/wrapper.cpp)
+
+## Add discord RPC
+
+add_subdirectory(external/discord-sdk)
 
 ## Compile everything at once (roughly equivalent to cat *.cpp | gcc)
 
@@ -824,6 +829,7 @@ target_link_libraries(supertux2_lib PUBLIC sqstdlib_lib)
 target_link_libraries(supertux2_lib PUBLIC tinygettext_lib)
 target_link_libraries(supertux2_lib PUBLIC sexp)
 target_link_libraries(supertux2_lib PUBLIC savepng)
+target_link_libraries(supertux2_lib PUBLIC discord-rpc)
 if(VCPKG_BUILD)
   target_link_libraries(supertux2_lib PUBLIC OpenAL::OpenAL)
 else()
