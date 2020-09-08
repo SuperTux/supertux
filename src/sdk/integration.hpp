@@ -49,6 +49,9 @@ public:
   virtual void update_worldmap(const char* worldmap) = 0;
   virtual void update_level(const char* level) = 0;
 
+protected:
+  ~Integration(){};
+
 private:
   static IntegrationStatus m_status;
 };

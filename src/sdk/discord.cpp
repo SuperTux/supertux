@@ -88,6 +88,10 @@ DiscordIntegration::DiscordIntegration() :
 {
 }
 
+DiscordIntegration::~DiscordIntegration()
+{
+}
+
 DiscordIntegration*
 DiscordIntegration::getSingleton()
 {
@@ -170,18 +174,18 @@ DiscordIntegration::update_discord_presence()
   switch(m_status)
   {
   case IntegrationStatus::MAIN_MENU:
-    discordPresence.state = "Main menu";
+    discordPresence.state = "Main Menu";
     break;
 
   case IntegrationStatus::PLAYING_WORLDMAP:
-    sprintf(state_buffer, "In worldmap : %s", m_worldmap);
+    sprintf(state_buffer, "In worldmap: %s", m_worldmap);
     discordPresence.state = state_buffer;
     discordPresence.smallImageKey = "play";
     break;
 
   case IntegrationStatus::PLAYING_LEVEL:
   case IntegrationStatus::PLAYING_LEVEL_FROM_WORLDMAP:
-    sprintf(state_buffer, "Playing level : %s", m_level);
+    sprintf(state_buffer, "Playing level: %s", m_level);
     discordPresence.state = state_buffer;
     discordPresence.details = m_worldmap;
     discordPresence.smallImageKey = "play";
@@ -190,7 +194,7 @@ DiscordIntegration::update_discord_presence()
   case IntegrationStatus::EDITING_WORLDMAP:
     if (!g_config->discord_hide_editor)
     {
-      sprintf(state_buffer, "Editing worldmap : %s", m_worldmap);
+      sprintf(state_buffer, "Editing worldmap: %s", m_worldmap);
       discordPresence.state = state_buffer;
     }
     else
@@ -203,7 +207,7 @@ DiscordIntegration::update_discord_presence()
   case IntegrationStatus::EDITING_LEVEL:
     if (!g_config->discord_hide_editor)
     {
-      sprintf(state_buffer, "Editing level : %s", m_level);
+      sprintf(state_buffer, "Editing level: %s", m_level);
       discordPresence.state = state_buffer;
       discordPresence.details = m_worldmap;
     }
@@ -217,12 +221,12 @@ DiscordIntegration::update_discord_presence()
   case IntegrationStatus::TESTING_WORLDMAP:
     if (!g_config->discord_hide_editor)
     {
-      sprintf(state_buffer, "Testing worldmap : %s", m_worldmap);
+      sprintf(state_buffer, "Testing worldmap: %s", m_worldmap);
       discordPresence.state = state_buffer;
     }
     else
     {
-      discordPresence.state = "In editor";
+      discordPresence.state = "In Level Editor";
     }
     discordPresence.smallImageKey = "edit";
     break;
@@ -231,7 +235,7 @@ DiscordIntegration::update_discord_presence()
   case IntegrationStatus::TESTING_LEVEL_FROM_WORLDMAP:
     if (!g_config->discord_hide_editor)
     {
-      sprintf(state_buffer, "Testing level : %s", m_level);
+      sprintf(state_buffer, "Testing level: %s", m_level);
       discordPresence.state = state_buffer;
       discordPresence.details = m_worldmap;
     }

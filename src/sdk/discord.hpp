@@ -19,14 +19,6 @@
 
 #include "sdk/integration.hpp"
 
-/*
-extern "C" {
-void discord_launch();
-void discord_update();
-void discord_close();
-}
-*/
-
 class DiscordIntegration : public Integration
 {
 public:
@@ -40,10 +32,11 @@ public:
   virtual void update_worldmap(const char* worldmap) override;
   virtual void update_level(const char* level) override;
 
-private:
+protected:
   DiscordIntegration();
   ~DiscordIntegration();
 
+private:
   void update_discord_presence();
 
   static DiscordIntegration* singleton;
