@@ -22,7 +22,7 @@
 #include "sdk/discord.hpp"
 #endif
 
-Integration* sdks[] = {
+Integration* Integration::sdks[] = {
 #ifdef DISCORD_ENABLED
   DiscordIntegration::getSingleton()
 #endif

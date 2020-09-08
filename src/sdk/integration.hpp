@@ -42,6 +42,9 @@ public:
   static void set_level(const char* level);
 
   static IntegrationStatus get_status();
+  
+public:
+  static Integration* sdks[];
 
 public:
   virtual void init() = 0;
