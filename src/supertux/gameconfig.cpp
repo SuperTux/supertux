@@ -55,6 +55,8 @@ Config::Config() :
   transitions_enabled(true),
   confirmation_dialog(false),
   pause_on_focusloss(true),
+  enable_discord(false),
+  discord_hide_editor(false),
   repository_url()
 {
 }
@@ -77,6 +79,13 @@ Config::load()
   config_mapping.get("developer", developer_mode);
   config_mapping.get("confirmation_dialog", confirmation_dialog);
   config_mapping.get("pause_on_focusloss", pause_on_focusloss);
+
+  boost::optional<ReaderMapping> config_integrations_mapping;
+  if (config_mapping.get("integrations", config_integrations_mapping))
+  {
+    config_integrations_mapping->get("enable_discord", enable_discord);
+    config_integrations_mapping->get("discord_hide_editor", discord_hide_editor);
+  }
 
   EditorOverlayWidget::autotile_help = !developer_mode;
 
@@ -185,6 +194,14 @@ Config::save()
   writer.write("developer", developer_mode);
   writer.write("confirmation_dialog", confirmation_dialog);
   writer.write("pause_on_focusloss", pause_on_focusloss);
+  
+  writer.start_list("integrations");
+  {
+    writer.write("enable_discord", enable_discord);
+    writer.write("discord_hide_editor", discord_hide_editor);
+  }
+  writer.end_list("integrations");
+  
   if (is_christmas()) {
     writer.write("christmas", christmas_mode);
   }

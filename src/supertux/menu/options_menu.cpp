@@ -401,6 +401,10 @@ OptionsMenu::OptionsMenu(bool complete) :
   add_toggle(MNID_CONFIRMATION_DIALOG, _("Confirmation Dialog"), &g_config->confirmation_dialog).set_help(_("Confirm aborting level"));
   add_toggle(MNID_CONFIRMATION_DIALOG, _("Pause on focus loss"), &g_config->pause_on_focusloss)
     .set_help("Automatically pause the game when the window loses focus");
+
+  add_submenu(_("Integrations and presence"), MenuStorage::INTEGRATIONS_MENU)
+      .set_help(_("Manage whether SuperTux should display the levels you play on your social media profiles (Discord)"));
+
   add_hl();
   add_back(_("Back"));
 }

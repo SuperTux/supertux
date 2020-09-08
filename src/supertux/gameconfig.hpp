@@ -96,6 +96,9 @@ public:
   bool confirmation_dialog;
   bool pause_on_focusloss;
 
+  bool enable_discord;
+  bool discord_hide_editor;
+
   std::string repository_url;
 
   bool is_christmas() const {

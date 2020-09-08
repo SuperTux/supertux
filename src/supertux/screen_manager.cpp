@@ -21,7 +21,7 @@
 #include "editor/editor.hpp"
 #include "gui/menu_manager.hpp"
 #include "object/player.hpp"
-#include "sdk/discord.hpp"
+#include "sdk/integration.hpp"
 #include "squirrel/squirrel_virtual_machine.hpp"
 #include "supertux/console.hpp"
 #include "supertux/constants.hpp"
@@ -460,12 +460,12 @@ ScreenManager::run()
   const float seconds_per_step = static_cast<float>(ms_per_step) / 1000.0f;
   FPS_Stats fps_statistics;
 
-  discord_launch();
+  Integration::init_all();
 
   handle_screen_switch();
   while (!m_screen_stack.empty()) {
 
-    discord_update();
+    Integration::update_all();
 
     Uint32 ticks = SDL_GetTicks();
     elapsed_ticks += ticks - last_ticks;
@@ -538,7 +538,7 @@ ScreenManager::run()
     handle_screen_switch();
   }
 
-  discord_close();
+  Integration::close_all();
 }
 
 /* EOF */
