@@ -18,4 +18,4 @@
 	url = https://github.com/SuperTux/SDL_ttf
 [submodule "discord-sdk"]
 	path = external/discord-sdk
-	url = git@github.com:discord/discord-rpc
+	url = https://github.com/discord/discord-rpc
