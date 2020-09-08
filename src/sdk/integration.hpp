@@ -50,7 +50,7 @@ public:
   virtual void update_level(const char* level) = 0;
 
 protected:
-  ~Integration(){};
+  ~Integration(){}
 
 private:
   static IntegrationStatus m_status;

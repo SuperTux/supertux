@@ -47,6 +47,10 @@ private:
   char* m_worldmap;
 
   bool m_enabled;
+
+private:
+  DiscordIntegration(const DiscordIntegration&) = delete;
+  DiscordIntegration & operator=(const DiscordIntegration&) = delete;
 };
 
 #endif
