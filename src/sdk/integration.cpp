@@ -18,12 +18,12 @@
 
 #include "sdk/integration.hpp"
 
-#ifdef DISCORD_ENABLED
+#ifdef ENABLE_DISCORD
 #include "sdk/discord.hpp"
 #endif
 
 Integration* Integration::sdks[] = {
-#ifdef DISCORD_ENABLED
+#ifdef ENABLE_DISCORD
   DiscordIntegration::getSingleton()
 #endif
 };

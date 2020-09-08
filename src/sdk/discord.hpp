@@ -19,7 +19,7 @@
 
 #include "config.h"
 
-#ifdef DISCORD_ENABLED
+#ifdef ENABLE_DISCORD
 
 #include "sdk/integration.hpp"
 

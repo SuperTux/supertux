@@ -180,7 +180,7 @@ option(GLBINDING_DEBUG_OUTPUT "Enable glbinding debug output for each called Ope
 if(DISABLE_DISCORD)
   message(STATUS "WARNING : Discord is NOT to be compiled. To enable Discord, pass -DDISABLE_DISCORD=Off")
 else(DISABLE_DISCORD)
-  set(DISCORD_ENABLED TRUE)
+  set(ENABLE_DISCORD TRUE)
   message(STATUS "Discord WILL be compiled. To disable Discord, pass -DDISABLE_DISCORD=On")
 endif(DISABLE_DISCORD)
 

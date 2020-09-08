@@ -57,7 +57,7 @@ Config::Config() :
   transitions_enabled(true),
   confirmation_dialog(false),
   pause_on_focusloss(true),
-#ifdef DISCORD_ENABLED
+#ifdef ENABLE_DISCORD
   enable_discord(false),
   discord_hide_editor(false),
 #endif
@@ -87,7 +87,7 @@ Config::load()
   boost::optional<ReaderMapping> config_integrations_mapping;
   if (config_mapping.get("integrations", config_integrations_mapping))
   {
-#ifdef DISCORD_ENABLED
+#ifdef ENABLE_DISCORD
     config_integrations_mapping->get("enable_discord", enable_discord);
     config_integrations_mapping->get("discord_hide_editor", discord_hide_editor);
 #endif
@@ -203,7 +203,7 @@ Config::save()
   
   writer.start_list("integrations");
   {
-#ifdef DISCORD_ENABLED
+#ifdef ENABLE_DISCORD
     writer.write("enable_discord", enable_discord);
     writer.write("discord_hide_editor", discord_hide_editor);
 #endif

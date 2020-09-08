@@ -26,7 +26,7 @@
 #include "gui/item_toggle.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
-#ifdef DISCORD_ENABLED
+#ifdef ENABLE_DISCORD
 #include "sdk/discord.hpp"
 #endif
 #include "supertux/gameconfig.hpp"
@@ -38,7 +38,7 @@
 #include "video/renderer.hpp"
 
 enum IntegrationsMenuIDs {
-#ifdef DISCORD_ENABLED
+#ifdef ENABLE_DISCORD
   MNID_ENABLE_DISCORD,
   MNID_DISCORD_EDITOR
 #endif
@@ -48,7 +48,7 @@ IntegrationsMenu::IntegrationsMenu()
 {
   add_label(_("Integrations"));
   add_hl();
-#ifdef DISCORD_ENABLED
+#ifdef ENABLE_DISCORD
   add_toggle(MNID_ENABLE_DISCORD, _("Enable Discord integration"), &g_config->enable_discord)
     .set_help("Sends information to your Discord application about what you're doing in the game.");
   add_toggle(MNID_DISCORD_EDITOR, _("Hide level names in editor"), &g_config->discord_hide_editor)
@@ -68,7 +68,7 @@ void
 IntegrationsMenu::menu_action(MenuItem& item)
 {
   switch (item.get_id()) {
-#ifdef DISCORD_ENABLED
+#ifdef ENABLE_DISCORD
     case MNID_ENABLE_DISCORD:
       if (g_config->enable_discord)
       {

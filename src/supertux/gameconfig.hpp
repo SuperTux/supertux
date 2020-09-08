@@ -98,7 +98,7 @@ public:
   bool confirmation_dialog;
   bool pause_on_focusloss;
 
-#ifdef DISCORD_ENABLED
+#ifdef ENABLE_DISCORD
   bool enable_discord;
   bool discord_hide_editor;
 #endif
