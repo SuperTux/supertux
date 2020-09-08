@@ -14,12 +14,18 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "config.h"
+
 #include "sdk/integration.hpp"
 
+#ifdef DISCORD_ENABLED
 #include "sdk/discord.hpp"
+#endif
 
 Integration* sdks[] = {
+#ifdef DISCORD_ENABLED
   DiscordIntegration::getSingleton()
+#endif
 };
 
 IntegrationStatus Integration::m_status = MAIN_MENU;

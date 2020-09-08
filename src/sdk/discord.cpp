@@ -14,20 +14,23 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#define _CRT_SECURE_NO_WARNINGS // Apparently required, according to Discord's examples
+#include "config.h"
+
+#ifdef DISCORD_ENABLED
 
 #include "sdk/discord.hpp"
 
-extern "C" {
+#include <iostream>
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
 #include "discord_rpc.h"
-}
+
 
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
+#include "util/log.hpp"
 
 extern "C" {
 
@@ -120,6 +123,8 @@ DiscordIntegration::init()
   update_discord_presence();
 
   m_enabled = true;
+
+  log_warning << "[Discord] Started" << std::endl;
 }
 
 void
@@ -142,6 +147,8 @@ DiscordIntegration::close()
   Discord_Shutdown();
 
   m_enabled = false;
+
+  log_warning << "[Discord] Closed" << std::endl;
 }
 
 void
@@ -279,5 +286,7 @@ DiscordIntegration::update_level(const char* level)
   m_level = new char[strlen(level) + 1];
   strcpy(m_level, level);
 }
+
+#endif
 
 /* EOF */

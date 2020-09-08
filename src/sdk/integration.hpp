@@ -17,6 +17,8 @@
 #ifndef HEADER_SUPERTUX_SDK_INTEGRATION_HPP
 #define HEADER_SUPERTUX_SDK_INTEGRATION_HPP
 
+#include "config.h"
+
 enum IntegrationStatus {
   MAIN_MENU,
   PLAYING_WORLDMAP,

@@ -31,4 +31,6 @@
 
 #define BUILD_CONFIG_DATA_DIR "${BUILD_CONFIG_DATA_DIR}"
 
+#cmakedefine DISCORD_ENABLED
+
 #endif /*CONFIG_H*/

@@ -17,6 +17,10 @@
 #ifndef HEADER_SUPERTUX_SDK_DISCORD_HPP
 #define HEADER_SUPERTUX_SDK_DISCORD_HPP
 
+#include "config.h"
+
+#ifdef DISCORD_ENABLED
+
 #include "sdk/integration.hpp"
 
 class DiscordIntegration : public Integration
@@ -52,6 +56,8 @@ private:
   DiscordIntegration(const DiscordIntegration&) = delete;
   DiscordIntegration & operator=(const DiscordIntegration&) = delete;
 };
+
+#endif
 
 #endif
 
