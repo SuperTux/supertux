@@ -115,7 +115,7 @@ DiscordIntegration::init()
   handlers.joinGame = handleDiscordJoin;
   handlers.spectateGame = handleDiscordSpectate;
   handlers.joinRequest = handleDiscordJoinRequest;
-  Discord_Initialize("733576109744062537", &handlers, 1, NULL);
+  Discord_Initialize("733576109744062537", &handlers, 1, nullptr);
 
   update_discord_presence();
 
@@ -251,7 +251,7 @@ DiscordIntegration::update_discord_presence()
   }
 
   discordPresence.largeImageKey = "supertux_logo";
-  discordPresence.startTimestamp = time(NULL); // TODO: Option to disable timers?
+  discordPresence.startTimestamp = time(nullptr); // TODO: Option to disable timers?
   Discord_UpdatePresence(&discordPresence);
 
 }
