@@ -20,6 +20,7 @@
 #include <memory>
 #include <string>
 
+#include "math/rectf.hpp"
 #include "math/size.hpp"
 #include "math/vector.hpp"
 #include "object/path_object.hpp"
@@ -81,6 +82,8 @@ public:
   /** return camera position */
   const Vector& get_translation() const;
   void set_translation(const Vector& translation) { m_translation = translation; }
+
+  Rectf get_rect() const { return Rectf(m_translation, m_screen_size); }
 
   /** shake camera in a direction 1 time */
   void shake(float duration, float x, float y);

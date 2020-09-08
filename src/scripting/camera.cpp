@@ -18,6 +18,7 @@
 
 #include "scripting/camera.hpp"
 #include "supertux/sector.hpp"
+#include "math/anchor_point.hpp"
 #include "util/dynamic_scoped_ref.hpp"
 #include "util/log.hpp"
 
@@ -48,6 +49,16 @@ Camera::set_pos(float x, float y)
 }
 
 void
+Camera::set_pos_anchored(float x, float y, const std::string& anchorpoint)
+{
+  SCRIPT_GUARD_VOID;
+  BIND_SECTOR(::Sector::get());
+  auto anchor = string_to_anchor_point(anchorpoint);
+  auto target_pos = get_anchor_pos(object.get_rect(), anchor);
+  set_pos(target_pos.x, target_pos.y);
+}
+
+void
 Camera::set_mode(const std::string& mode)
 {
   SCRIPT_GUARD_VOID;
@@ -68,6 +79,16 @@ Camera::scroll_to(float x, float y, float scrolltime)
   SCRIPT_GUARD_VOID;
   BIND_SECTOR(::Sector::get());
   object.scroll_to(Vector(x, y), scrolltime);
+}
+
+void
+Camera::scroll_to_anchored(float x, float y, float scrolltime, const std::string& anchorpoint)
+{
+  SCRIPT_GUARD_VOID;
+  BIND_SECTOR(::Sector::get());
+  auto anchor = string_to_anchor_point(anchorpoint);
+  auto target_pos = get_anchor_pos(object.get_rect(), anchor);
+  scroll_to(target_pos.x, target_pos.y, scrolltime);
 }
 
 } // namespace scripting

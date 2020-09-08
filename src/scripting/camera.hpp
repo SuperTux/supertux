@@ -47,10 +47,13 @@ public:
   void shake(float speed, float x, float y);
   /** Set camera to a specific coordinate */
   void set_pos(float x, float y);
+  void set_pos_anchored(float x, float y, const std::string& anchorpoint);
+
   /** Set camera to a specific mode, can be "normal", "manual" */
   void set_mode(const std::string& mode);
   /** Scroll camera to position x,y in scrolltime seconds */
   void scroll_to(float x, float y, float scrolltime);
+  void scroll_to_anchored(float x, float y, float scrolltime, const std::string& anchorpoint);
 };
 
 } // namespace scripting
