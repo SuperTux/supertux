@@ -17,12 +17,12 @@
 #ifndef HEADER_SUPERTUX_BADGUY_BOMB_HPP
 #define HEADER_SUPERTUX_BADGUY_BOMB_HPP
 
-#include "badguy/badguy.hpp"
+#include "badguy/badguy_no_script.hpp"
 #include "object/portable.hpp"
 
 class SoundSource;
 
-class Bomb final : public BadGuy,
+class Bomb final : public BadGuyNoScript,
                    public Portable
 {
 public:

@@ -28,7 +28,7 @@ static const std::string HOP_SOUND = "sounds/hop.ogg";
 }
 
 Toad::Toad(const ReaderMapping& reader) :
-  BadGuy(reader, "images/creatures/toad/toad.sprite"),
+  BadGuyNoScript(reader, "images/creatures/toad/toad.sprite"),
   recover_timer(),
   state()
 {

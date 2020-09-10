@@ -50,7 +50,6 @@ BadGuy::BadGuy(const Vector& pos, const std::string& sprite_name_, int layer_,
 BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite_name_, int layer_,
                const std::string& light_sprite_name) :
   MovingSprite(pos, sprite_name_, layer_, COLGROUP_DISABLED),
-  ExposedObject<BadGuy, scripting::BadGuy>(this),
   m_physic(),
   m_countMe(true),
   m_is_initialized(false),
@@ -84,7 +83,6 @@ BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite
 BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name_, int layer_,
                const std::string& light_sprite_name) :
   MovingSprite(reader, sprite_name_, layer_, COLGROUP_DISABLED),
-  ExposedObject<BadGuy, scripting::BadGuy>(this),
   m_physic(),
   m_countMe(true),
   m_is_initialized(false),

@@ -30,8 +30,7 @@ class Player;
 class Bullet;
 
 /** Base class for moving sprites that can hurt the Player. */
-class BadGuy : public MovingSprite,
-               public ExposedObject<BadGuy, scripting::BadGuy>
+class BadGuy : public MovingSprite
 {
 public:
   BadGuy(const Vector& pos, const std::string& sprite_name, int layer = LAYER_OBJECTS,

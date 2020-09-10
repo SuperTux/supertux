@@ -17,9 +17,9 @@
 #ifndef HEADER_SUPERTUX_BADGUY_ROOT_HPP
 #define HEADER_SUPERTUX_BADGUY_ROOT_HPP
 
-#include "badguy/badguy.hpp"
+#include "badguy/badguy_no_script.hpp"
 
-class Root final : public BadGuy
+class Root final : public BadGuyNoScript
 {
 public:
   Root(const Vector& pos);

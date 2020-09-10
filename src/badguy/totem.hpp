@@ -17,10 +17,10 @@
 #ifndef HEADER_SUPERTUX_BADGUY_TOTEM_HPP
 #define HEADER_SUPERTUX_BADGUY_TOTEM_HPP
 
-#include "badguy/badguy.hpp"
+#include "badguy/badguy_no_script.hpp"
 
 /** "Totem" Badguy - A variable-height stack of wooden blocks  */
-class Totem final : public BadGuy
+class Totem final : public BadGuyNoScript
 {
 public:
   Totem(const ReaderMapping& reader);

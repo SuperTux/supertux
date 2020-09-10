@@ -17,11 +17,11 @@
 #ifndef HEADER_SUPERTUX_BADGUY_FLAME_HPP
 #define HEADER_SUPERTUX_BADGUY_FLAME_HPP
 
-#include "badguy/badguy.hpp"
+#include "badguy/badguy_no_script.hpp"
 
 class SoundSource;
 
-class Flame : public BadGuy
+class Flame : public BadGuyNoScript
 {
 public:
   Flame(const ReaderMapping& reader);

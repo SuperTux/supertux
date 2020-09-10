@@ -24,7 +24,7 @@
 #include "supertux/sector.hpp"
 
 Bomb::Bomb(const Vector& pos, Direction dir_, const std::string& custom_sprite /*= "images/creatures/mr_bomb/mr_bomb.sprite"*/ ) :
-  BadGuy( pos, dir_, custom_sprite ),
+  BadGuyNoScript( pos, dir_, custom_sprite ),
   ticking(SoundManager::current()->create_sound_source("sounds/fizz.wav"))
 {
   set_action(dir_ == Direction::LEFT ? "ticking-left" : "ticking-right", 1);

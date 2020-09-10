@@ -22,7 +22,7 @@
 #include "sprite/sprite.hpp"
 
 MoleRock::MoleRock(const ReaderMapping& reader) :
-  BadGuy(reader, "images/creatures/mole/mole_rock.sprite", LAYER_TILES - 2),
+  BadGuyNoScript(reader, "images/creatures/mole/mole_rock.sprite", LAYER_TILES - 2),
   parent(nullptr),
   initial_velocity(Vector(0, -400))
 {
@@ -33,7 +33,7 @@ MoleRock::MoleRock(const ReaderMapping& reader) :
 }
 
 MoleRock::MoleRock(const Vector& pos, const Vector& velocity, const BadGuy* parent_ = nullptr) :
-  BadGuy(pos, Direction::LEFT, "images/creatures/mole/mole_rock.sprite", LAYER_TILES - 2),
+  BadGuyNoScript(pos, Direction::LEFT, "images/creatures/mole/mole_rock.sprite", LAYER_TILES - 2),
   parent(parent_),
   initial_velocity(velocity)
 {

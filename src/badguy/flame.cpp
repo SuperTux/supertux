@@ -28,7 +28,7 @@
 static const std::string FLAME_SOUND = "sounds/flame.wav";
 
 Flame::Flame(const ReaderMapping& reader) :
-  BadGuy(reader, "images/creatures/flame/flame.sprite", LAYER_FLOATINGOBJECTS,
+  BadGuyNoScript(reader, "images/creatures/flame/flame.sprite", LAYER_FLOATINGOBJECTS,
          "images/objects/lightmap_light/lightmap_light-small.sprite"),
   angle(0),
   radius(),

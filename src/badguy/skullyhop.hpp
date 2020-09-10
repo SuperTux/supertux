@@ -17,10 +17,10 @@
 #ifndef HEADER_SUPERTUX_BADGUY_SKULLYHOP_HPP
 #define HEADER_SUPERTUX_BADGUY_SKULLYHOP_HPP
 
-#include "badguy/badguy.hpp"
+#include "badguy/badguy_no_script.hpp"
 
 /** Badguy "SkullyHop" - A Hopping Skull */
-class SkullyHop final : public BadGuy
+class SkullyHop final : public BadGuyNoScript
 {
 public:
   SkullyHop(const ReaderMapping& reader);

@@ -35,7 +35,7 @@ const float ACTIVATION_DISTANCE = 128.0f;
 } // namespace
 
 Owl::Owl(const ReaderMapping& reader) :
-  BadGuy(reader, "images/creatures/owl/owl.sprite", LAYER_OBJECTS + 1),
+  BadGuyNoScript(reader, "images/creatures/owl/owl.sprite", LAYER_OBJECTS + 1),
   carried_obj_name(),
   carried_object(nullptr)
 {

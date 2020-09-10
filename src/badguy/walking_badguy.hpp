@@ -17,12 +17,12 @@
 #ifndef HEADER_SUPERTUX_BADGUY_WALKING_BADGUY_HPP
 #define HEADER_SUPERTUX_BADGUY_WALKING_BADGUY_HPP
 
-#include "badguy/badguy.hpp"
+#include "badguy/badguy_no_script.hpp"
 
 class Timer;
 
 /** Base class for Badguys that walk on the floor. */
-class WalkingBadguy : public BadGuy
+class WalkingBadguy : public BadGuyNoScript
 {
 public:
   WalkingBadguy(const Vector& pos,

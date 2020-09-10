@@ -36,7 +36,7 @@ const int RAND_SPEED = 150;
 } // namespace
 
 Kugelblitz::Kugelblitz(const ReaderMapping& reader) :
-  BadGuy(reader, "images/creatures/kugelblitz/kugelblitz.sprite"),
+  BadGuyNoScript(reader, "images/creatures/kugelblitz/kugelblitz.sprite"),
   pos_groundhit(),
   groundhit_pos_set(false),
   dying(),

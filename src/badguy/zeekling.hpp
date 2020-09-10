@@ -18,9 +18,9 @@
 #ifndef HEADER_SUPERTUX_BADGUY_ZEEKLING_HPP
 #define HEADER_SUPERTUX_BADGUY_ZEEKLING_HPP
 
-#include "badguy/badguy.hpp"
+#include "badguy/badguy_no_script.hpp"
 
-class Zeekling final : public BadGuy
+class Zeekling final : public BadGuyNoScript
 {
 public:
   Zeekling(const ReaderMapping& reader);

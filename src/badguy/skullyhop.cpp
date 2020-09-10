@@ -27,7 +27,7 @@ static const std::string SKULLYHOP_SOUND = "sounds/hop.ogg";
 }
 
 SkullyHop::SkullyHop(const ReaderMapping& reader) :
-  BadGuy(reader, "images/creatures/skullyhop/skullyhop.sprite"),
+  BadGuyNoScript(reader, "images/creatures/skullyhop/skullyhop.sprite"),
   recover_timer(),
   state()
 {

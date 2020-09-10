@@ -27,7 +27,7 @@ namespace{
 }
 
 KamikazeSnowball::KamikazeSnowball(const ReaderMapping& reader) :
-  BadGuy(reader, "images/creatures/snowball/kamikaze-snowball.sprite")
+  BadGuyNoScript(reader, "images/creatures/snowball/kamikaze-snowball.sprite")
 {
   SoundManager::current()->preload(SPLAT_SOUND);
   set_action (m_dir == Direction::LEFT ? "left" : "right", /* loops = */ -1);

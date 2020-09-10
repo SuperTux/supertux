@@ -17,9 +17,9 @@
 #ifndef HEADER_SUPERTUX_BADGUY_KUGELBLITZ_HPP
 #define HEADER_SUPERTUX_BADGUY_KUGELBLITZ_HPP
 
-#include "badguy/badguy.hpp"
+#include "badguy/badguy_no_script.hpp"
 
-class Kugelblitz final : public BadGuy
+class Kugelblitz final : public BadGuyNoScript
 {
 public:
   Kugelblitz(const ReaderMapping& reader);

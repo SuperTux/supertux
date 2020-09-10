@@ -16,10 +16,10 @@
 #ifndef HEADER_SUPERTUX_BADGUY_GHOUL_HPP
 #define HEADER_SUPERTUX_BADGUY_GHOUL_HPP
 
-#include "badguy/badguy.hpp"
+#include "badguy/badguy_no_script.hpp"
 #include "object/path_object.hpp"
 
-class Ghoul final : public BadGuy,
+class Ghoul final : public BadGuyNoScript,
                     public PathObject
 {
 public:

@@ -17,9 +17,9 @@
 #ifndef HEADER_SUPERTUX_BADGUY_FISH_HPP
 #define HEADER_SUPERTUX_BADGUY_FISH_HPP
 
-#include "badguy/badguy.hpp"
+#include "badguy/badguy_no_script.hpp"
 
-class Fish final : public BadGuy
+class Fish final : public BadGuyNoScript
 {
 public:
   Fish(const ReaderMapping& );

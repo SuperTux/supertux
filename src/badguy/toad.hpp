@@ -17,10 +17,10 @@
 #ifndef HEADER_SUPERTUX_BADGUY_TOAD_HPP
 #define HEADER_SUPERTUX_BADGUY_TOAD_HPP
 
-#include "badguy/badguy.hpp"
+#include "badguy/badguy_no_script.hpp"
 
 /** Badguy "Toad" - A jumping toad */
-class Toad final : public BadGuy
+class Toad final : public BadGuyNoScript
 {
 public:
   Toad(const ReaderMapping& reader);

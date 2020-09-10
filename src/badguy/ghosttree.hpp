@@ -17,12 +17,12 @@
 #ifndef HEADER_SUPERTUX_BADGUY_GHOSTTREE_HPP
 #define HEADER_SUPERTUX_BADGUY_GHOSTTREE_HPP
 
-#include "badguy/badguy.hpp"
+#include "badguy/badguy_no_script.hpp"
 
 class TreeWillOWisp;
 class Lantern;
 
-class GhostTree final : public BadGuy
+class GhostTree final : public BadGuyNoScript
 {
 public:
   GhostTree(const ReaderMapping& mapping);

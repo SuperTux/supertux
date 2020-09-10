@@ -24,7 +24,7 @@
 #include "sprite/sprite.hpp"
 
 Zeekling::Zeekling(const ReaderMapping& reader) :
-  BadGuy(reader, "images/creatures/zeekling/zeekling.sprite"),
+  BadGuyNoScript(reader, "images/creatures/zeekling/zeekling.sprite"),
   speed(gameRandom.randf(130.0f, 171.0f)),
   diveRecoverTimer(),
   state(FLYING),

@@ -17,10 +17,10 @@
 #ifndef HEADER_SUPERTUX_BADGUY_MOLE_ROCK_HPP
 #define HEADER_SUPERTUX_BADGUY_MOLE_ROCK_HPP
 
-#include "badguy/badguy.hpp"
+#include "badguy/badguy_no_script.hpp"
 
 /** Badguy "MoleRock" - Rock thrown by "Mole" Badguy */
-class MoleRock final : public BadGuy
+class MoleRock final : public BadGuyNoScript
 {
 public:
   MoleRock(const ReaderMapping& reader);

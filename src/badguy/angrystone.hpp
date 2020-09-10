@@ -17,9 +17,9 @@
 #ifndef HEADER_SUPERTUX_BADGUY_ANGRYSTONE_HPP
 #define HEADER_SUPERTUX_BADGUY_ANGRYSTONE_HPP
 
-#include "badguy/badguy.hpp"
+#include "badguy/badguy_no_script.hpp"
 
-class AngryStone final : public BadGuy
+class AngryStone final : public BadGuyNoScript
 {
 public:
   AngryStone(const ReaderMapping& reader);

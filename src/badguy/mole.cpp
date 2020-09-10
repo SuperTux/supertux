@@ -31,7 +31,7 @@ static const float THROW_INTERVAL = 1; /**< time between two thrown rocks */
 static const float THROW_VELOCITY = 400; /**< initial velocity of thrown rocks */
 
 Mole::Mole(const ReaderMapping& reader) :
-  BadGuy(reader, "images/creatures/mole/mole.sprite", LAYER_TILES-1),
+  BadGuyNoScript(reader, "images/creatures/mole/mole.sprite", LAYER_TILES-1),
   state(PRE_THROWING),
   timer(),
   throw_timer()

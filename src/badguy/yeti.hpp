@@ -18,9 +18,9 @@
 #ifndef HEADER_SUPERTUX_BADGUY_YETI_HPP
 #define HEADER_SUPERTUX_BADGUY_YETI_HPP
 
-#include "badguy/badguy.hpp"
+#include "badguy/badguy_no_script.hpp"
 
-class Yeti final : public BadGuy
+class Yeti final : public BadGuyNoScript
 {
 public:
   Yeti(const ReaderMapping& mapping);
@@ -81,7 +81,7 @@ private:
   bool fixed_pos;
   std::string hud_icon;
 
-  class SnowExplosionParticle: public BadGuy
+  class SnowExplosionParticle: public BadGuyNoScript
   {
   public:
     SnowExplosionParticle(const Vector& pos, const Vector& velocity);

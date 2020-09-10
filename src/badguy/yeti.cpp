@@ -55,7 +55,7 @@ const float SNOW_EXPLOSIONS_VY = -200; /**< Speed of snowballs */
 }
 
 Yeti::Yeti(const ReaderMapping& reader) :
-  BadGuy(reader, "images/creatures/yeti/yeti.sprite"),
+  BadGuyNoScript(reader, "images/creatures/yeti/yeti.sprite"),
   state(),
   state_timer(),
   safe_timer(),
@@ -388,7 +388,7 @@ Yeti::add_snow_explosions()
 }
 
 Yeti::SnowExplosionParticle::SnowExplosionParticle(const Vector& pos, const Vector& velocity)
-  : BadGuy(pos, (velocity.x > 0) ? Direction::RIGHT : Direction::LEFT, "images/objects/bullets/icebullet.sprite")
+  : BadGuyNoScript(pos, (velocity.x > 0) ? Direction::RIGHT : Direction::LEFT, "images/objects/bullets/icebullet.sprite")
 {
   m_physic.set_velocity_x(velocity.x);
   m_physic.set_velocity_y(velocity.y);

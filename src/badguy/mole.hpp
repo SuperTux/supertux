@@ -17,9 +17,9 @@
 #ifndef HEADER_SUPERTUX_BADGUY_MOLE_HPP
 #define HEADER_SUPERTUX_BADGUY_MOLE_HPP
 
-#include "badguy/badguy.hpp"
+#include "badguy/badguy_no_script.hpp"
 
-class Mole final : public BadGuy
+class Mole final : public BadGuyNoScript
 {
 public:
   Mole(const ReaderMapping& );

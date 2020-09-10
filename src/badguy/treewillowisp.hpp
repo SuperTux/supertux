@@ -17,12 +17,12 @@
 #ifndef HEADER_SUPERTUX_BADGUY_TREEWILLOWISP_HPP
 #define HEADER_SUPERTUX_BADGUY_TREEWILLOWISP_HPP
 
-#include "badguy/badguy.hpp"
+#include "badguy/badguy_no_script.hpp"
 
 class GhostTree;
 class SoundSource;
 
-class TreeWillOWisp final : public BadGuy
+class TreeWillOWisp final : public BadGuyNoScript
 {
 public:
   TreeWillOWisp(GhostTree* tree, const Vector& pos, float radius, float speed);

@@ -18,11 +18,11 @@
 #ifndef HEADER_SUPERTUX_BADGUY_OWL_HPP
 #define HEADER_SUPERTUX_BADGUY_OWL_HPP
 
-#include "badguy/badguy.hpp"
+#include "badguy/badguy_no_script.hpp"
 
 class Portable;
 
-class Owl final : public BadGuy
+class Owl final : public BadGuyNoScript
 {
 public:
   Owl(const ReaderMapping& reader);

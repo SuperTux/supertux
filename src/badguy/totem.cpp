@@ -28,7 +28,7 @@ static const float JUMP_OFF_SPEED_Y = -500;
 static const std::string LAND_ON_TOTEM_SOUND = "sounds/totem.ogg";
 
 Totem::Totem(const ReaderMapping& reader) :
-  BadGuy(reader, "images/creatures/totem/totem.sprite"),
+  BadGuyNoScript(reader, "images/creatures/totem/totem.sprite"),
   carrying(nullptr),
   carried_by(nullptr)
 {

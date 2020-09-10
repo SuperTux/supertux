@@ -17,9 +17,9 @@
 #ifndef HEADER_SUPERTUX_BADGUY_SPIDERMITE_HPP
 #define HEADER_SUPERTUX_BADGUY_SPIDERMITE_HPP
 
-#include "badguy/badguy.hpp"
+#include "badguy/badguy_no_script.hpp"
 
-class SpiderMite final : public BadGuy
+class SpiderMite final : public BadGuyNoScript
 {
 public:
   SpiderMite(const ReaderMapping& reader);

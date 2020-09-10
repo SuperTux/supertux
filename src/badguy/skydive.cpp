@@ -24,7 +24,7 @@
 #include "supertux/tile.hpp"
 
 SkyDive::SkyDive(const ReaderMapping& reader) :
-  BadGuy(reader, "images/creatures/skydive/skydive.sprite")
+  BadGuyNoScript(reader, "images/creatures/skydive/skydive.sprite")
 {
 }
 

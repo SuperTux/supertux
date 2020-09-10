@@ -17,9 +17,9 @@
 #ifndef HEADER_SUPERTUX_BADGUY_PLANT_HPP
 #define HEADER_SUPERTUX_BADGUY_PLANT_HPP
 
-#include "badguy/badguy.hpp"
+#include "badguy/badguy_no_script.hpp"
 
-class Plant final : public BadGuy
+class Plant final : public BadGuyNoScript
 {
 public:
   Plant(const ReaderMapping& reader);

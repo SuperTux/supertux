@@ -17,9 +17,9 @@
 #ifndef HEADER_SUPERTUX_BADGUY_JUMPY_HPP
 #define HEADER_SUPERTUX_BADGUY_JUMPY_HPP
 
-#include "badguy/badguy.hpp"
+#include "badguy/badguy_no_script.hpp"
 
-class Jumpy final : public BadGuy
+class Jumpy final : public BadGuyNoScript
 {
 public:
   Jumpy(const ReaderMapping& reader);

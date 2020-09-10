@@ -17,10 +17,10 @@
 #ifndef HEADER_SUPERTUX_BADGUY_SKYDIVE_HPP
 #define HEADER_SUPERTUX_BADGUY_SKYDIVE_HPP
 
-#include "badguy/badguy.hpp"
+#include "badguy/badguy_no_script.hpp"
 #include "object/portable.hpp"
 
-class SkyDive final : public BadGuy, public Portable
+class SkyDive final : public BadGuyNoScript, public Portable
 {
 public:
   SkyDive(const ReaderMapping& reader);

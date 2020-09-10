@@ -17,9 +17,9 @@
 #ifndef HEADER_SUPERTUX_BADGUY_STALACTITE_HPP
 #define HEADER_SUPERTUX_BADGUY_STALACTITE_HPP
 
-#include "badguy/badguy.hpp"
+#include "badguy/badguy_no_script.hpp"
 
-class Stalactite : public BadGuy
+class Stalactite : public BadGuyNoScript
 {
 public:
   Stalactite(const ReaderMapping& reader);

@@ -17,9 +17,9 @@
 #ifndef HEADER_SUPERTUX_BADGUY_BOUNCING_SNOWBALL_HPP
 #define HEADER_SUPERTUX_BADGUY_BOUNCING_SNOWBALL_HPP
 
-#include "badguy/badguy.hpp"
+#include "badguy/badguy_no_script.hpp"
 
-class BouncingSnowball final : public BadGuy
+class BouncingSnowball final : public BadGuyNoScript
 {
 public:
   BouncingSnowball(const ReaderMapping& reader);

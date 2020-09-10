@@ -17,11 +17,11 @@
 #ifndef HEADER_SUPERTUX_BADGUY_KAMIKAZESNOWBALL_HPP
 #define HEADER_SUPERTUX_BADGUY_KAMIKAZESNOWBALL_HPP
 
-#include "badguy/badguy.hpp"
+#include "badguy/badguy_no_script.hpp"
 
 /** Kamikaze Snowball will fly in one direction until he hits something.
     On impact he is destroyed, trying to kill what he hit or hit him. */
-class KamikazeSnowball : public BadGuy
+class KamikazeSnowball : public BadGuyNoScript
 {
 public:
   KamikazeSnowball(const ReaderMapping& reader);
