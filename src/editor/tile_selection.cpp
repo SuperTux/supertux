@@ -24,8 +24,14 @@ TileSelection::TileSelection() :
 }
 
 uint32_t
-TileSelection::pos(int x, int y) const
+TileSelection::pos(int x, int y)
 {
+  if (m_width < 1)
+    m_width = 1;
+
+  if(m_height < 1)
+    m_height = 1;
+
   x = x % m_width;
   y = y % m_height;
   if (x < 0) {

@@ -33,8 +33,13 @@
 #include "object/camera.hpp"
 #include "object/path_gameobject.hpp"
 #include "object/tilemap.hpp"
+#include "supertux/gameconfig.hpp"
+#include "supertux/autotile.hpp"
 #include "supertux/game_object_factory.hpp"
+#include "supertux/resources.hpp"
 #include "supertux/sector.hpp"
+#include "video/color.hpp"
+#include "video/drawing_context.hpp"
 #include "video/renderer.hpp"
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
@@ -48,6 +53,9 @@ namespace {
 bool EditorOverlayWidget::render_background = true;
 bool EditorOverlayWidget::render_grid = true;
 bool EditorOverlayWidget::snap_to_grid = true;
+bool EditorOverlayWidget::autotile_mode = false;
+bool EditorOverlayWidget::autotile_help = true;
+bool EditorOverlayWidget::action_pressed = false;
 int EditorOverlayWidget::selected_snap_grid_size = 3;
 
 EditorOverlayWidget::EditorOverlayWidget(Editor& editor) :
@@ -159,14 +167,56 @@ EditorOverlayWidget::input_tile(const Vector& pos, uint32_t tile)
 }
 
 void
+EditorOverlayWidget::autotile(const Vector& pos, uint32_t tile)
+{
+  auto tilemap = m_editor.get_selected_tilemap();
+  if (!tilemap) {
+    return;
+  }
+
+  if ( pos.x < 0 ||
+       pos.y < 0 ||
+       pos.x >= static_cast<float>(tilemap->get_width()) ||
+       pos.y >= static_cast<float>(tilemap->get_height())) {
+    return;
+  }
+
+  tilemap->autotile(static_cast<int>(pos.x), static_cast<int>(pos.y), tile);
+}
+
+void
+EditorOverlayWidget::input_autotile(const Vector& pos, uint32_t tile)
+{
+  this->input_tile(pos, tile);
+
+  float x = pos.x;
+  float y = pos.y;
+
+  this->autotile(Vector(x - 1.0f, y - 1.0f), tile);
+  this->autotile(Vector(x       , y - 1.0f), tile);
+  this->autotile(Vector(x + 1.0f, y - 1.0f), tile);
+  this->autotile(Vector(x - 1.0f, y       ), tile);
+  this->autotile(Vector(x       , y       ), tile);
+  this->autotile(Vector(x + 1.0f, y       ), tile);
+  this->autotile(Vector(x - 1.0f, y + 1.0f), tile);
+  this->autotile(Vector(x       , y + 1.0f), tile);
+  this->autotile(Vector(x + 1.0f, y + 1.0f), tile);
+}
+
+void
 EditorOverlayWidget::put_tile()
 {
   auto tiles = m_editor.get_tiles();
   Vector add_tile;
   for (add_tile.x = static_cast<float>(tiles->m_width) - 1.0f; add_tile.x >= 0.0f; add_tile.x--) {
     for (add_tile.y = static_cast<float>(tiles->m_height) - 1.0f; add_tile.y >= 0; add_tile.y--) {
-      input_tile(m_hovered_tile + add_tile, tiles->pos(static_cast<int>(add_tile.x),
+      if (autotile_mode) {
+        input_autotile(m_hovered_tile + add_tile, tiles->pos(static_cast<int>(add_tile.x),
                                                      static_cast<int>(add_tile.y)));
+      } else {
+        input_tile(m_hovered_tile + add_tile, tiles->pos(static_cast<int>(add_tile.x),
+                                                     static_cast<int>(add_tile.y)));
+      }
     }
   }
 }
@@ -184,8 +234,27 @@ EditorOverlayWidget::draw_rectangle()
   for (int x = static_cast<int>(dr.get_left()); x <= static_cast<int>(dr.get_right()); x++, x_++) {
     int y_ = sgn_y ? 0 : static_cast<int>(-dr.get_height());
     for (int y = static_cast<int>(dr.get_top()); y <= static_cast<int>(dr.get_bottom()); y++, y_++) {
-      input_tile( Vector(static_cast<float>(x), static_cast<float>(y)), m_editor.get_tiles()->pos(x_, y_) );
+      if (autotile_mode) {
+        input_autotile( Vector(static_cast<float>(x), static_cast<float>(y)), m_editor.get_tiles()->pos(x_, y_) );
+      } else {
+        input_tile( Vector(static_cast<float>(x), static_cast<float>(y)), m_editor.get_tiles()->pos(x_, y_) );
+      }
     }
+  }
+}
+
+bool
+EditorOverlayWidget::check_tiles_for_fill(uint32_t replace_tile,
+                                          uint32_t target_tile,
+                                          uint32_t third_tile) const
+{
+  if (autotile_mode) {
+    return m_editor.get_tileset()->get_autotileset_from_tile(replace_tile)
+        == m_editor.get_tileset()->get_autotileset_from_tile(target_tile)
+      && m_editor.get_tileset()->get_autotileset_from_tile(replace_tile)
+        != m_editor.get_tileset()->get_autotileset_from_tile(third_tile);
+  } else {
+    return replace_tile == target_tile && replace_tile != third_tile;
   }
 }
 
@@ -231,14 +300,17 @@ EditorOverlayWidget::fill()
       continue;
     }
 
+    // Autotile will happen later, so that directional filling works properly
     input_tile(pos, tiles->pos(static_cast<int>(tpos.x), static_cast<int>(tpos.y)));
+
     Vector pos_;
 
     // Going left...
     pos_ = pos + Vector(-1, 0);
     if (pos_.x >= 0) {
-      if (replace_tile == tilemap->get_tile_id(static_cast<int>(pos_.x), static_cast<int>(pos_.y)) &&
-          replace_tile != tiles->pos(static_cast<int>(tpos.x - 1), static_cast<int>(tpos.y))) {
+      if (check_tiles_for_fill(replace_tile,
+          tilemap->get_tile_id(static_cast<int>(pos_.x), static_cast<int>(pos_.y)),
+          tiles->pos(static_cast<int>(tpos.x - 1), static_cast<int>(tpos.y)))) {
         pos_stack.push_back( pos_ );
         continue;
       }
@@ -247,8 +319,9 @@ EditorOverlayWidget::fill()
     // Going right...
     pos_ = pos + Vector(1, 0);
     if (pos_.x < static_cast<float>(tilemap->get_width())) {
-      if (replace_tile == tilemap->get_tile_id(static_cast<int>(pos_.x), static_cast<int>(pos_.y)) &&
-          replace_tile != tiles->pos(static_cast<int>(tpos.x + 1), static_cast<int>(tpos.y))) {
+      if (check_tiles_for_fill(replace_tile,
+          tilemap->get_tile_id(static_cast<int>(pos_.x), static_cast<int>(pos_.y)),
+          tiles->pos(static_cast<int>(tpos.x + 1), static_cast<int>(tpos.y)))) {
         pos_stack.push_back( pos_ );
         continue;
       }
@@ -257,8 +330,9 @@ EditorOverlayWidget::fill()
     // Going up...
     pos_ = pos + Vector(0, -1);
     if (pos_.y >= 0) {
-      if (replace_tile == tilemap->get_tile_id(static_cast<int>(pos_.x), static_cast<int>(pos_.y))&&
-          replace_tile != tiles->pos(static_cast<int>(tpos.x), static_cast<int>(tpos.y - 1))) {
+      if (check_tiles_for_fill(replace_tile,
+          tilemap->get_tile_id(static_cast<int>(pos_.x), static_cast<int>(pos_.y)),
+          tiles->pos(static_cast<int>(tpos.x), static_cast<int>(tpos.y - 1)))) {
         pos_stack.push_back( pos_ );
         continue;
       }
@@ -267,11 +341,17 @@ EditorOverlayWidget::fill()
     // Going down...
     pos_ = pos + Vector(0, 1);
     if (pos_.y < static_cast<float>(tilemap->get_height())) {
-      if (replace_tile == tilemap->get_tile_id(static_cast<int>(pos_.x), static_cast<int>(pos_.y)) &&
-          replace_tile != tiles->pos(static_cast<int>(tpos.x), static_cast<int>(tpos.y + 1))) {
+      if (check_tiles_for_fill(replace_tile,
+          tilemap->get_tile_id(static_cast<int>(pos_.x), static_cast<int>(pos_.y)),
+          tiles->pos(static_cast<int>(tpos.x), static_cast<int>(tpos.y + 1)))) {
         pos_stack.push_back( pos_ );
         continue;
       }
+    }
+
+    // Autotile happens after directional detection (because of borders; see snow tileset)
+    if (autotile_mode) {
+      input_autotile(pos, tiles->pos(static_cast<int>(tpos.x), static_cast<int>(tpos.y)));
     }
 
     // When tiles on each side are already filled or occupied by another tiles, it ends.
@@ -759,6 +839,10 @@ EditorOverlayWidget::on_key_up(const SDL_KeyboardEvent& key)
   {
     snap_to_grid = !snap_to_grid;
   }
+  if (sym == SDLK_LCTRL || sym == SDLK_RCTRL) {
+    autotile_mode = !autotile_mode;
+    action_pressed = false;
+  }
   return true;
 }
 
@@ -771,6 +855,10 @@ EditorOverlayWidget::on_key_down(const SDL_KeyboardEvent& key)
   }
   if (sym == SDLK_F7 || sym == SDLK_LSHIFT || sym == SDLK_RSHIFT) {
     snap_to_grid = !snap_to_grid;
+  }
+  if (sym == SDLK_F5 || ((sym == SDLK_LCTRL || sym == SDLK_RCTRL) && !action_pressed)) {
+    autotile_mode = !autotile_mode;
+    action_pressed = true;
   }
   return true;
 }
@@ -957,6 +1045,21 @@ EditorOverlayWidget::draw(DrawingContext& context)
     context.color().draw_filled_rect(selection_draw_rect(),
                                        Color(0.2f, 0.4f, 1.0f, 0.6f), 0.0f, LAYER_GUI-13);
   }
+
+
+  if (autotile_help) {
+    if (m_editor.get_tileset()->get_autotileset_from_tile(m_editor.get_tiles()->pos(0, 0)) != nullptr)
+    {
+      if (autotile_mode) {
+        context.color().draw_text(Resources::normal_font, _("Autotile mode is on"), Vector(144, 16), ALIGN_LEFT, LAYER_OBJECTS+1, EditorOverlayWidget::text_autotile_active_color);
+      } else {
+        context.color().draw_text(Resources::normal_font, _("Hold Action key to enable autotile"), Vector(144, 16), ALIGN_LEFT, LAYER_OBJECTS+1, EditorOverlayWidget::text_autotile_available_color);
+      }
+    } else if (autotile_mode) {
+      context.color().draw_text(Resources::normal_font, _("Selected tile isn't autotileable"), Vector(144, 16), ALIGN_LEFT, LAYER_OBJECTS+1, EditorOverlayWidget::text_autotile_error_color);
+    }
+  }
+
 }
 
 Vector

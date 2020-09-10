@@ -1,11 +1,19 @@
 (supertux-level
   (version 3)
-  (suppress-pause-menu #t)
-  (name "Credits")
+  (name (_ "Credits"))
   (author "Daniel Ward")
   (license "CC-BY-SA 4.0 International")
+  (suppress-pause-menu #t)
   (sector
     (name "main")
+    (init-script "gradient.fade_colors(0.6, 0.05, 0.65, 0.9, 0.8, 0.2, 75);
+par1.tint_fade(75, 1, 0.88, 0.9, 1);
+par2.tint_fade(75, 0.88, 0.8, 0.8, 1);
+wait(140);
+gradient.fade_colors(0, 0, 0, 0, 0, 0.4, 75);
+settings.fade_to_ambient_light(0.7, 0.8, 1, 75);
+par1.tint_fade(75, 0.4, 0.4, 0.5, 1);
+par2.tint_fade(75, 0.2, 0.2, 0.3, 1);")
     (ambient-light
       (color 1 0.8 0.9)
     )
@@ -14,12 +22,9 @@
       (mode "normal")
     )
     (gradient
-      (top_color 0.6 0.05 0.65)
-      (bottom_color 0.8 0.7 0.1)
-    )
-	(textscroller
-      (speed 60)
-      (file "credits.stxt")
+      (name "gradient")
+      (top_color 0.3 0.4 0.9)
+      (bottom_color 1 0.9 0.3)
     )
     (music
       (file "/music/misc/credits.music")
@@ -48,6 +53,9 @@ play_music(\"music/forest/forest_theme.music\");")
       (name "main")
       (x 192)
       (y 480)
+    )
+    (textscroller
+      (file "credits.stxt")
     )
     (tilemap
       (solid #f)
@@ -180,8 +188,9 @@ play_music(\"music/forest/forest_theme.music\");")
     )
     (tilemap
       (solid #f)
-      (tint 0.88 0.8 0.8)
+      (tint 1 0.9 1)
       (z-pos -140)
+      (name "par2")
       (width 60)
       (height 35)
       (tiles
@@ -224,8 +233,9 @@ play_music(\"music/forest/forest_theme.music\");")
     )
     (tilemap
       (solid #f)
-      (tint 1 0.88 0.9)
+      (tint 1 0.95 1)
       (z-pos -120)
+      (name "par1")
       (width 60)
       (height 35)
       (tiles

@@ -360,6 +360,15 @@ ScreenManager::process_events()
         {
           g_config->developer_mode = !g_config->developer_mode;
           log_info << "developer mode: " << g_config->developer_mode << std::endl;
+          
+          // Keep that line disabled; changing dev mode during a session
+          // shouldn't change that setting.
+          // It should only take what value it had when the game was launched
+          // and keep it until the user changes it manually.
+          // If you uncomment, add this in the includes :
+          //     #include "editor/overlay_widget.hpp"
+          
+          // EditorOverlayWidget::autotile_help = !developer_mode;
         }
         break;
     }

@@ -17,6 +17,7 @@
 #include "supertux/tile_set.hpp"
 
 #include "editor/editor.hpp"
+#include "supertux/autotile_parser.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/tile.hpp"
 #include "supertux/tile_set_parser.hpp"
@@ -29,7 +30,7 @@ Tilegroup::Tilegroup() :
   developers_group(),
   name(),
   tiles()
-{
+{;
 }
 
 std::unique_ptr<TileSet>
@@ -46,10 +47,17 @@ TileSet::from_file(const std::string& filename)
 }
 
 TileSet::TileSet() :
+  m_autotilesets(),
   m_tiles(1),
   m_tilegroups()
 {
   m_tiles[0] = std::make_unique<Tile>();
+  m_autotilesets = new std::vector<AutotileSet*>();
+}
+
+TileSet::~TileSet()
+{
+  delete m_autotilesets;
 }
 
 void
@@ -82,6 +90,24 @@ TileSet::get(const uint32_t id) const
       return *m_tiles[0];
     }
   }
+}
+
+AutotileSet*
+TileSet::get_autotileset_from_tile(uint32_t tile_id) const
+{
+  if (tile_id == 0)
+  {
+    return nullptr;
+  }
+
+  for (auto& ats : *m_autotilesets)
+  {
+    if (ats->is_member(tile_id))
+    {
+      return ats;
+    }
+  }
+  return nullptr;
 }
 
 void
