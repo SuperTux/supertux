@@ -5929,10 +5929,10 @@ static SQInteger load_level_wrapper(HSQUIRRELVM vm)
 
 static SQInteger start_cutscene_wrapper(HSQUIRRELVM vm)
 {
-  HSQUIRRELVM arg0 = vm;
+  (void) vm;
 
   try {
-    scripting::start_cutscene(arg0);
+    scripting::start_cutscene();
 
     return 0;
 
@@ -5948,10 +5948,10 @@ static SQInteger start_cutscene_wrapper(HSQUIRRELVM vm)
 
 static SQInteger end_cutscene_wrapper(HSQUIRRELVM vm)
 {
-  HSQUIRRELVM arg0 = vm;
+  (void) vm;
 
   try {
-    scripting::end_cutscene(arg0);
+    scripting::end_cutscene();
 
     return 0;
 
@@ -5967,10 +5967,9 @@ static SQInteger end_cutscene_wrapper(HSQUIRRELVM vm)
 
 static SQInteger check_cutscene_wrapper(HSQUIRRELVM vm)
 {
-  HSQUIRRELVM arg0 = vm;
 
   try {
-    bool return_value = scripting::check_cutscene(arg0);
+    bool return_value = scripting::check_cutscene();
 
     sq_pushbool(vm, return_value);
     return 1;

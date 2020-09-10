@@ -80,7 +80,7 @@ bool is_christmas()
   return g_config->christmas_mode;
 }
 
-void start_cutscene(HSQUIRRELVM vm)
+void start_cutscene()
 {
   auto session = GameSession::current();
   if (session == nullptr)
@@ -98,7 +98,7 @@ void start_cutscene(HSQUIRRELVM vm)
   session->get_current_level().m_skip_cutscene = false;
 }
 
-void end_cutscene(HSQUIRRELVM vm)
+void end_cutscene()
 {
   auto session = GameSession::current();
   if (session == nullptr)
@@ -116,7 +116,7 @@ void end_cutscene(HSQUIRRELVM vm)
   session->get_current_level().m_skip_cutscene = false;
 }
 
-bool check_cutscene(HSQUIRRELVM vm)
+bool check_cutscene()
 {
   auto session = GameSession::current();
   if (session == nullptr)

@@ -23,7 +23,7 @@
 #include "video/drawing_context.hpp"
 
 CutsceneInfo::CutsceneInfo(/*const Vector& pos*/ const Camera& cam, const std::string& text_, const Level& parent) :
-  position(cam.get_translation() + *(new Vector(32, 32))),
+  position(cam.get_translation() + Vector(32, 32)),
   text(text_),
   camera(cam),
   level(parent)
@@ -33,7 +33,7 @@ CutsceneInfo::CutsceneInfo(/*const Vector& pos*/ const Camera& cam, const std::s
 void
 CutsceneInfo::update(float dt_sec)
 {
-  position = camera.get_translation() + *(new Vector(32, 32));
+  position = camera.get_translation() + Vector(32, 32);
 }
 
 void
@@ -41,7 +41,7 @@ CutsceneInfo::draw(DrawingContext& context)
 {
   if (level.m_is_in_cutscene && !level.m_skip_cutscene)
   {
-    context.color().draw_text(Resources::normal_font, text, position, ALIGN_LEFT, LAYER_OBJECTS+1000, CutsceneInfo::text_color);
+    context.color().draw_text(Resources::normal_font, text, position, ALIGN_LEFT, LAYER_OBJECTS + 1000, CutsceneInfo::text_color);
   }
 }
 
