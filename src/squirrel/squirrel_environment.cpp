@@ -175,7 +175,13 @@ SquirrelEnvironment::run_script(std::istream& in, const std::string& sourcename)
 void
 SquirrelEnvironment::wait_for_seconds(HSQUIRRELVM vm, float seconds)
 {
-  m_scheduler->schedule_thread(vm, g_game_time + seconds);
+  m_scheduler->schedule_thread(vm, g_game_time + seconds, false);
+}
+
+void
+SquirrelEnvironment::skippable_wait_for_seconds(HSQUIRRELVM vm, float seconds)
+{
+  m_scheduler->schedule_thread(vm, g_game_time + seconds, true);
 }
 
 void

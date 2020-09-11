@@ -32,7 +32,7 @@ public:
 
   /** time must be absolute time, not relative updates, i.e. g_game_time */
   void update(float time);
-  void schedule_thread(HSQUIRRELVM vm, float time);
+  void schedule_thread(HSQUIRRELVM vm, float time, bool skippable);
 
 private:
   struct ScheduleEntry {
@@ -40,6 +40,8 @@ private:
     HSQOBJECT thread_ref;
     /// time when the thread should be woken up
     float wakeup_time;
+    // true if calling force_wake_up should wake this entry up
+    bool skippable;
 
     bool operator<(const ScheduleEntry& other) const
     {
