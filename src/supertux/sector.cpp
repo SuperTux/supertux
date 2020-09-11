@@ -159,7 +159,7 @@ Sector::finish_construction(bool editable)
 
   flush_game_objects();
 
-  CutsceneInfo* cutscene_text = new CutsceneInfo(get_camera(), _("Press escape to skip"), m_level);
+  auto cutscene_text = new CutsceneInfo(get_camera(), _("Press escape to skip"), m_level);
   add_object(std::unique_ptr<GameObject> (cutscene_text));
 
   m_fully_constructed = true;

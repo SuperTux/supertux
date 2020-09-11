@@ -606,11 +606,5 @@ GameSession::drawstatus(DrawingContext& context)
     m_level->m_stats.draw_endseq_panel(context, m_best_level_statistics, m_statistics_backdrop, m_level->m_target_time);
   }
 }
-/*
-void
-GameSession::set_scheduler(SquirrelScheduler& new_scheduler)
-{
-  m_scheduler = new_scheduler;
-}
-*/
+
 /* EOF */
