@@ -577,10 +577,6 @@ ScreenManager::run()
     SoundManager::current()->update();
 
     handle_screen_switch();
-
-    // Nanogui
-    m_nanogui->drawAll();
-    SDL_RenderPresent(nanogui_renderer);
   }
 }
 

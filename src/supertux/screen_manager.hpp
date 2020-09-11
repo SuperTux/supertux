@@ -55,6 +55,8 @@ public:
   void pop_screen(std::unique_ptr<ScreenFade> fade = {});
   void set_screen_fade(std::unique_ptr<ScreenFade> fade);
 
+  sdlgui::Screen* get_nanogui() const { return m_nanogui; }
+
 private:
   struct FPS_Stats;
   void draw_fps(DrawingContext& context, FPS_Stats& fps_statistics);

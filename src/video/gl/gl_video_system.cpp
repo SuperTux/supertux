@@ -19,6 +19,7 @@
 #include "math/rect.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
+#include "supertux/screen_manager.hpp"
 #include "util/log.hpp"
 #include "video/gl/gl20_context.hpp"
 #include "video/gl/gl33core_context.hpp"
@@ -291,6 +292,7 @@ GLVideoSystem::flip()
 {
   assert_gl();
   SDL_GL_SwapWindow(m_sdl_window.get());
+  ScreenManager::current()->get_nanogui()->drawAll();
 }
 
 void

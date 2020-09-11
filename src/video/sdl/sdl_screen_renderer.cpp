@@ -20,6 +20,7 @@
 #include "math/rect.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
+#include "supertux/screen_manager.hpp"
 #include "util/log.hpp"
 #include "video/sdl/sdl_painter.hpp"
 #include "video/sdl/sdl_video_system.hpp"
@@ -95,6 +96,7 @@ SDLScreenRenderer::get_logical_size() const
 void
 SDLScreenRenderer::flip()
 {
+  ScreenManager::current()->get_nanogui()->drawAll();
   SDL_RenderPresent(m_renderer);
 }
 
