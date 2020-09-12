@@ -124,7 +124,7 @@ DiscordIntegration::init()
 
   m_enabled = true;
 
-  log_warning << "[Discord] Started" << std::endl;
+  log_info << "[Discord] Started" << std::endl;
 }
 
 void
@@ -148,7 +148,7 @@ DiscordIntegration::close()
 
   m_enabled = false;
 
-  log_warning << "[Discord] Closed" << std::endl;
+  log_info << "[Discord] Closed" << std::endl;
 }
 
 void
