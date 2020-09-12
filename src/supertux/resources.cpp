@@ -66,8 +66,11 @@ Resources::load()
   {
     console_font.reset(new TTFFont("fonts/SuperTux-Medium.ttf", 12, 1.25f, 0, 1));
     auto locale = g_config->locale;
+    FL_Locale *fl_locale;
+    FL_FindLocale(&fl_locale);
     if (locale.empty())
-      locale = std::locale("").name();
+      // locale = std::locale("").name();
+      locale = fl_locale->lang?fl_locale->lang:"";
     auto font = get_font_for_locale(locale);
     if(font != current_font)
     {
