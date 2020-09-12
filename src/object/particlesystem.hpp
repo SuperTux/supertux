@@ -43,8 +43,8 @@ class ReaderMapping;
   class, initialize particles in the constructor and move them in the
   simulate function.
  */
-class ParticleSystem : public GameObject,
-                       public ExposedObject<ParticleSystem, scripting::ParticleSystem>
+class ParticleSystem : public GameObject//,
+                       //public ExposedObject<ParticleSystem, scripting::ParticleSystem>
 {
 public:
   ParticleSystem(const ReaderMapping& reader, float max_particle_size = 60);
@@ -69,7 +69,8 @@ protected:
     Particle() :
       pos(),
       angle(),
-      texture()
+      texture(),
+      alpha()
     {}
 
     virtual ~Particle()
@@ -79,6 +80,7 @@ protected:
     // angle at which to draw particle
     float angle;
     SurfacePtr texture;
+    float alpha;
 
   private:
     Particle(const Particle&) = delete;

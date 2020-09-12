@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//  Copyright (C) 2020 A. Semphris <semphris@protonmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -17,23 +17,63 @@
 #include "object/rain_particle_system.hpp"
 
 #include <assert.h>
+#include <math.h>
 
+#include "math/easing.hpp"
 #include "math/random.hpp"
 #include "object/camera.hpp"
 #include "object/rainsplash.hpp"
 #include "supertux/sector.hpp"
+#include "util/reader.hpp"
+#include "util/reader_mapping.hpp"
+#include "video/drawing_context.hpp"
 #include "video/surface.hpp"
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
-RainParticleSystem::RainParticleSystem()
+RainParticleSystem::RainParticleSystem() :
+  ExposedObject<RainParticleSystem, scripting::Rain>(this),
+  m_current_speed(1.f),
+  m_target_speed(1.f),
+  m_speed_fade_time_remaining(0.f),
+
+  m_begin_angle(45.f),
+  m_current_angle(45.f),
+  m_target_angle(45.f),
+  m_angle_fade_time_remaining(0.f),
+  m_angle_fade_time_total(0.f),
+  m_angle_easing(getEasingByName(EaseNone)),
+
+  m_current_amount(1.f),
+  m_target_amount(1.f),
+  m_amount_fade_time_remaining(0.f),
+  m_current_real_amount(0.f)
 {
   init();
 }
 
 RainParticleSystem::RainParticleSystem(const ReaderMapping& reader) :
-  ParticleSystem_Interactive(reader)
+  ParticleSystem_Interactive(reader),
+  ExposedObject<RainParticleSystem, scripting::Rain>(this),
+  m_current_speed(1.f),
+  m_target_speed(1.f),
+  m_speed_fade_time_remaining(0.f),
+
+  m_begin_angle(45.f),
+  m_current_angle(45.f),
+  m_target_angle(45.f),
+  m_angle_fade_time_remaining(0.f),
+  m_angle_fade_time_total(0.f),
+  m_angle_easing(getEasingByName(EaseNone)),
+
+  m_current_amount(1.f),
+  m_target_amount(1.f),
+  m_amount_fade_time_remaining(0.f),
+  m_current_real_amount(0.f)
 {
+  reader.get("intensity", m_current_amount, 1.f);
+  reader.get("angle", m_current_angle, 1.f);
+  reader.get("speed", m_current_speed, 1.f);
   init();
 }
 
@@ -49,19 +89,58 @@ void RainParticleSystem::init()
   virtual_width = static_cast<float>(SCREEN_WIDTH) * 2.0f;
 
   // create some random raindrops
-  size_t raindropcount = size_t(virtual_width/6.0f);
-  for (size_t i=0; i<raindropcount; ++i) {
-    auto particle = std::make_unique<RainParticle>();
-    particle->pos.x = static_cast<float>(graphicsRandom.rand(int(virtual_width)));
-    particle->pos.y = static_cast<float>(graphicsRandom.rand(int(virtual_height)));
-    int rainsize = graphicsRandom.rand(2);
-    particle->texture = rainimages[rainsize];
-    do {
-      particle->speed = (static_cast<float>(rainsize) + 1.0f) * 45.0f + graphicsRandom.randf(3.6f);
-    } while(particle->speed < 1);
+  set_amount(m_current_amount);
+}
 
-    particles.push_back(std::move(particle));
+ObjectSettings
+RainParticleSystem::get_settings()
+{
+  ObjectSettings result = ParticleSystem::get_settings();
+
+  result.add_float(_("Intensity"), &m_current_amount, "intensity", 1.f);
+  result.add_float(_("Angle"), &m_current_angle, "angle", 1.f);
+  result.add_float(_("Speed"), &m_current_speed, "speed", 1.f);
+
+  result.reorder({"intensity", "angle", "speed", "enabled", "name"});
+
+  return result;
+}
+
+void RainParticleSystem::set_amount(float amount)
+{
+  // Don't spawn too many particles to avoid destroying the player's computer
+  float real_amount = (amount < min_amount) ? min_amount : amount;
+        real_amount = (amount > max_amount) ? max_amount : amount;
+
+  int old_raindropcount = static_cast<int>(virtual_width*m_current_real_amount/6.0f);
+  int new_raindropcount = static_cast<int>(virtual_width*real_amount/6.0f);
+  int delta = new_raindropcount - old_raindropcount;
+  
+  if (delta > 0) {
+    for (int i=0; i<delta; ++i) {
+      auto particle = std::make_unique<RainParticle>();
+      particle->pos.x = static_cast<float>(graphicsRandom.rand(int(virtual_width)));
+      particle->pos.y = static_cast<float>(graphicsRandom.rand(int(virtual_height)));
+      int rainsize = graphicsRandom.rand(2);
+      particle->texture = rainimages[rainsize];
+      do {
+        particle->speed = ((static_cast<float>(rainsize) + 1.0f) * 45.0f + graphicsRandom.randf(3.6f));
+      } while(particle->speed < 1);
+      particles.push_back(std::move(particle));
+    }
+  } else if (delta < 0) {
+    for (int i=0; i>delta; --i) {
+      particles.pop_back();
+    }
   }
+
+  m_current_real_amount = real_amount;
+}
+
+void RainParticleSystem::set_angle(float angle)
+{
+  for (auto& particle : particles)
+    particle->angle = angle;
 }
 
 void RainParticleSystem::update(float dt_sec)
@@ -69,15 +148,63 @@ void RainParticleSystem::update(float dt_sec)
   if (!enabled)
     return;
 
+  // Update amount
+  if (m_amount_fade_time_remaining > 0.f) {
+    if (dt_sec >= m_amount_fade_time_remaining) {
+      m_current_amount = m_target_amount;
+      m_amount_fade_time_remaining = 0.f;
+      // Test below
+      /*if (m_current_amount > 1.1f) {
+        m_target_amount = 0.1f;
+      } else {
+        m_target_amount = 5.f;
+      }
+      m_amount_fade_time_remaining = 2.f;*/
+      // Test above
+    } else {
+      float amount = dt_sec / m_amount_fade_time_remaining;
+      m_current_amount += (m_target_amount - m_current_amount) * amount;
+      m_amount_fade_time_remaining -= dt_sec;
+    }
+  }
+
+  set_amount(m_current_amount);
+
+  // Update speed
+  if (m_speed_fade_time_remaining > 0.f) {
+    if (dt_sec >= m_speed_fade_time_remaining) {
+      m_current_speed = m_target_speed;
+      m_speed_fade_time_remaining = 0.f;
+    } else {
+      float amount = dt_sec / m_speed_fade_time_remaining;
+      m_current_speed += (m_target_speed - m_current_speed) * amount;
+      m_speed_fade_time_remaining -= dt_sec;
+    }
+  }
+
+  // Update angle
+  if (m_angle_fade_time_remaining > 0.f) {
+    if (dt_sec >= m_angle_fade_time_remaining) {
+      m_current_angle = m_target_angle;
+      m_angle_fade_time_remaining = 0.f;
+    } else {
+      m_angle_fade_time_remaining -= dt_sec;
+      float progress = 1.f - m_angle_fade_time_remaining / m_angle_fade_time_total;
+      progress = static_cast<float>(m_angle_easing(progress));
+      m_current_angle = progress * (m_target_angle - m_begin_angle) + m_begin_angle;
+    }
+    set_angle(m_current_angle);
+  }
+
   for (auto& it : particles) {
     auto particle = dynamic_cast<RainParticle*>(it.get());
     assert(particle);
 
-    float movement = particle->speed * dt_sec * Sector::get().get_gravity();
+    float movement = particle->speed * dt_sec * Sector::get().get_gravity() * m_current_speed * 1.41421353f;
     float abs_x = Sector::get().get_camera().get_translation().x;
     float abs_y = Sector::get().get_camera().get_translation().y;
-    particle->pos.y += movement;
-    particle->pos.x -= movement;
+    particle->pos.y += movement * cos((particle->angle + 45.f) * 3.14159265f / 180.f);
+    particle->pos.x -= movement * sin((particle->angle + 45.f) * 3.14159265f / 180.f);
     int col = collision(particle, Vector(-movement, movement));
     if ((particle->pos.y > static_cast<float>(SCREEN_HEIGHT) + abs_y) || (col >= 0)) {
       //Create rainsplash
@@ -105,6 +232,75 @@ void RainParticleSystem::update(float dt_sec)
       particle->pos.y = static_cast<float>(new_y);
     }
   }
+}
+
+void RainParticleSystem::fade_speed(float new_speed, float fade_time)
+{
+  // No check to enabled; change the fading even if it's disabled
+
+  // If time is 0 (or smaller?), then update() will never change m_current_speed
+  if (fade_time <= 0.f)
+  {
+    m_current_speed = new_speed;
+  }
+  
+  m_target_speed = new_speed;
+  m_speed_fade_time_remaining = fade_time;
+}
+
+void RainParticleSystem::fade_angle(float new_angle, float fade_time, easing ease_func)
+{
+  // No check to enabled; change the fading even if it's disabled
+
+  // If time is 0 (or smaller?), then update() will never change m_current_amount
+  if (fade_time <= 0.f)
+  {
+    m_current_angle = new_angle - 45.f;
+  }
+  
+  m_begin_angle = m_current_angle;
+  m_target_angle = new_angle - 45.f;
+  m_angle_fade_time_total = fade_time;
+  m_angle_fade_time_remaining = fade_time;
+  m_angle_easing = ease_func;
+}
+
+void RainParticleSystem::fade_amount(float new_amount, float fade_time)
+{
+  // No check to enabled; change the fading even if it's disabled
+
+  // If time is 0 (or smaller?), then update() will never change m_current_amount
+  if (fade_time <= 0.f)
+  {
+    m_current_amount = new_amount;
+  }
+  
+  m_target_amount = new_amount;
+  m_amount_fade_time_remaining = fade_time;
+}
+
+void RainParticleSystem::draw(DrawingContext& context)
+{
+  ParticleSystem_Interactive::draw(context);
+  
+  if (!enabled)
+    return;
+
+  float opacity = fog_max_value * (m_current_amount - fog_start_amount) / (max_amount - fog_start_amount);
+  if (opacity < 0.f)
+    opacity = 0.f;
+  if (opacity > 1.f)
+    opacity = 1.f;
+
+  context.push_transform();
+  context.set_translation(Vector(0, 0));
+  context.color().draw_filled_rect(Rectf(0,
+                                         0,
+                                         static_cast<float>(context.get_width()),
+                                         static_cast<float>(context.get_height())),
+                                   Color(0.3f, 0.38f, 0.4f, opacity),
+                                   199); // TODO: Change the hardcoded layer value with the rain's layer
+  context.pop_transform();
 }
 
 /* EOF */
