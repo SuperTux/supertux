@@ -1003,6 +1003,7 @@
     (name (_ "Retro Snow"))
     (tiles
      4000 4001 4002 4003
+     4078 4079 4080 4081
      
      93   94   95   96
      97   98   99   100
@@ -5446,12 +5447,14 @@
 
    (tiles
     (width 4)
-    (height 1)
+    (height 2)
     (image "tiles/retro_snow/retro_snow.png")
     (ids
      4000 4001 4002 4003
+     4078 4079 4080 4081
      )
        (attributes
+     1 1 1 1
      1 1 1 1
      )
   )
@@ -5522,6 +5525,6 @@
     (image "tiles/darksnow/special.png")
   )
 
-  ;; next-id: 4078
+  ;; next-id: 4082
 
 )
