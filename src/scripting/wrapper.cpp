@@ -6075,6 +6075,63 @@ static SQInteger load_level_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger start_cutscene_wrapper(HSQUIRRELVM vm)
+{
+  (void) vm;
+
+  try {
+    scripting::start_cutscene();
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'start_cutscene'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger end_cutscene_wrapper(HSQUIRRELVM vm)
+{
+  (void) vm;
+
+  try {
+    scripting::end_cutscene();
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'end_cutscene'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger check_cutscene_wrapper(HSQUIRRELVM vm)
+{
+
+  try {
+    bool return_value = scripting::check_cutscene();
+
+    sq_pushbool(vm, return_value);
+    return 1;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'check_cutscene'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger wait_wrapper(HSQUIRRELVM vm)
 {
   HSQUIRRELVM arg0 = vm;
@@ -7713,6 +7770,27 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|ts");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'load_level'");
+  }
+
+  sq_pushstring(v, "start_cutscene", -1);
+  sq_newclosure(v, &start_cutscene_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'start_cutscene'");
+  }
+
+  sq_pushstring(v, "end_cutscene", -1);
+  sq_newclosure(v, &end_cutscene_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'end_cutscene'");
+  }
+
+  sq_pushstring(v, "check_cutscene", -1);
+  sq_newclosure(v, &check_cutscene_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'check_cutscene'");
   }
 
   sq_pushstring(v, "wait", -1);

@@ -20,6 +20,7 @@
 
 #include "squirrel/squirrel_virtual_machine.hpp"
 #include "squirrel/squirrel_util.hpp"
+#include "supertux/level.hpp"
 #include "util/log.hpp"
 
 SquirrelScheduler::SquirrelScheduler(SquirrelVM& vm) :
@@ -31,7 +32,11 @@ SquirrelScheduler::SquirrelScheduler(SquirrelVM& vm) :
 void
 SquirrelScheduler::update(float time)
 {
-  while (!schedule.empty() && schedule.front().wakeup_time < time) {
+  while (!schedule.empty() && (schedule.front().wakeup_time < time ||
+        (schedule.front().skippable &&
+        Level::current() != nullptr &&
+        Level::current()->m_skip_cutscene)
+      )) {
     HSQOBJECT thread_ref = schedule.front().thread_ref;
 
     sq_pushobject(m_vm.get_vm(), thread_ref);
@@ -65,7 +70,7 @@ SquirrelScheduler::update(float time)
 }
 
 void
-SquirrelScheduler::schedule_thread(HSQUIRRELVM scheduled_vm, float time)
+SquirrelScheduler::schedule_thread(HSQUIRRELVM scheduled_vm, float time, bool skippable)
 {
   // create a weakref to the VM
   sq_pushthread(m_vm.get_vm(), scheduled_vm);
@@ -77,6 +82,7 @@ SquirrelScheduler::schedule_thread(HSQUIRRELVM scheduled_vm, float time)
     throw SquirrelError(m_vm.get_vm(), "Couldn't get thread weakref from vm");
   }
   entry.wakeup_time = time;
+  entry.skippable = skippable;
 
   sq_addref(m_vm.get_vm(), & entry.thread_ref);
   sq_pop(m_vm.get_vm(), 2);
