@@ -17,6 +17,7 @@
 #include "supertux/levelset_screen.hpp"
 
 #include "editor/editor.hpp"
+#include "sdk/integration.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/level.hpp"
 #include "supertux/levelset.hpp"

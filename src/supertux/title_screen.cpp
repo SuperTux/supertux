@@ -23,6 +23,7 @@
 #include "object/camera.hpp"
 #include "object/music_object.hpp"
 #include "object/player.hpp"
+#include "sdk/integration.hpp"
 #include "supertux/fadetoblack.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/level.hpp"
@@ -92,6 +93,8 @@ TitleScreen::setup()
     music.play_music(LEVEL_MUSIC);
     sector.activate(sector.get_player().get_pos());
   }
+
+  Integration::set_status(MAIN_MENU);
 
   MenuManager::instance().set_menu(MenuStorage::MAIN_MENU);
   ScreenManager::current()->set_screen_fade(std::make_unique<FadeToBlack>(FadeToBlack::FADEIN, 0.25));

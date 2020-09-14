@@ -175,6 +175,7 @@ option(ENABLE_OPENGL "Enable OpenGL support" ON)
 option(ENABLE_OPENGLES2 "Enable OpenGLES2 support" OFF)
 option(GLBINDING_ENABLED "Use glbinding instead of GLEW" OFF)
 option(GLBINDING_DEBUG_OUTPUT "Enable glbinding debug output for each called OpenGL function" OFF)
+
 if(ENABLE_OPENGL)
   if(ENABLE_OPENGLES2)
     pkg_check_modules(GLESV2 REQUIRED glesv2)
@@ -506,6 +507,18 @@ include_directories(SYSTEM ${CMAKE_CURRENT_SOURCE_DIR}/external/obstack/)
 include_directories(SYSTEM ${CMAKE_CURRENT_SOURCE_DIR}/external/sexp-cpp/include/)
 include_directories(SYSTEM ${CMAKE_CURRENT_SOURCE_DIR}/external/SDL_SavePNG/)
 
+# Discord SDK
+# Before removing messages, please check with the community if no one minds that the Discord SDK gets bundled with ST.
+# Some privay-concerned users or free software package managers might need an option to compile ST without the Discord integration.
+option(ENABLE_DISCORD "Compile the Discord integration" ON)
+if(ENABLE_DISCORD)
+  message(STATUS "Discord WILL be compiled. To disable Discord, pass -DENABLE_DISCORD=Off")
+  include_directories(SYSTEM ${CMAKE_CURRENT_SOURCE_DIR}/external/discord-sdk/include)
+  add_subdirectory(external/discord-sdk)
+else(ENABLE_DISCORD)
+  message(STATUS "WARNING : Discord is NOT to be compiled. To enable Discord, pass -DENABLE_DISCORD=On")
+endif(ENABLE_DISCORD)
+
 if(WIN32)
   add_definitions(-D_USE_MATH_DEFINES -DNOMINMAX)
   add_definitions(-DWIN32)
@@ -824,6 +837,9 @@ target_link_libraries(supertux2_lib PUBLIC sqstdlib_lib)
 target_link_libraries(supertux2_lib PUBLIC tinygettext_lib)
 target_link_libraries(supertux2_lib PUBLIC sexp)
 target_link_libraries(supertux2_lib PUBLIC savepng)
+if(ENABLE_DISCORD)
+target_link_libraries(supertux2_lib PUBLIC discord-rpc)
+endif(ENABLE_DISCORD)
 if(VCPKG_BUILD)
   target_link_libraries(supertux2_lib PUBLIC OpenAL::OpenAL)
 else()
@@ -1124,7 +1140,7 @@ mark_as_advanced(
 mark_as_advanced(
   OPENAL_INCLUDE_DIR
   OPENAL_LIBRARY
-)
+  )
 
 mark_as_advanced(
   SDL2TTF_INCLUDE_DIRS

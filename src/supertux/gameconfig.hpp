@@ -17,6 +17,8 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_GAMECONFIG_HPP
 #define HEADER_SUPERTUX_SUPERTUX_GAMECONFIG_HPP
 
+#include "config.h"
+
 #include "control/joystick_config.hpp"
 #include "control/keyboard_config.hpp"
 #include "math/size.hpp"
@@ -95,6 +97,11 @@ public:
   bool transitions_enabled;
   bool confirmation_dialog;
   bool pause_on_focusloss;
+
+#ifdef ENABLE_DISCORD
+  bool enable_discord;
+  bool discord_hide_editor;
+#endif
 
   std::string repository_url;
 

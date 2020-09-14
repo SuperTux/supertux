@@ -29,6 +29,7 @@
 #include "object/tilemap.hpp"
 #include "physfs/ifile_stream.hpp"
 #include "physfs/physfs_file_system.hpp"
+#include "sdk/integration.hpp"
 #include "sprite/sprite.hpp"
 #include "squirrel/squirrel_environment.hpp"
 #include "supertux/d_scope.hpp"
@@ -401,6 +402,14 @@ WorldMap::update(float dt_sec)
           save_state();
           ScreenManager::current()->push_screen(std::make_unique<GameSession>(levelfile, m_savegame, &level_->get_statistics()),
                                                 std::make_unique<ShrinkFade>(shrinkpos, 1.0f));
+
+          Integration::set_level(level_->get_title().c_str());
+          if (Integration::get_status() == TESTING_WORLDMAP) {
+            Integration::set_status(TESTING_LEVEL);
+          } else {
+            Integration::set_status(PLAYING_LEVEL);
+          }
+
           m_in_level = true;
         } catch(std::exception& e) {
           log_fatal << "Couldn't load level: " << e.what() << std::endl;
@@ -641,6 +650,14 @@ WorldMap::setup()
     m_squirrel_environment->run_script(m_init_script, "WorldMap::init");
   }
   m_tux->process_special_tile( at_special_tile() );
+
+  if (Integration::get_status() == TESTING_LEVEL || Integration::get_status() == TESTING_WORLDMAP) {
+    Integration::set_worldmap(get_title().c_str());
+    Integration::set_status(TESTING_WORLDMAP);
+  } else {
+    Integration::set_worldmap(get_title().c_str());
+    Integration::set_status(PLAYING_WORLDMAP);
+  }
 }
 
 void
