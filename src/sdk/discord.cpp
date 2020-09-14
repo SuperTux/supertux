@@ -25,7 +25,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
-#include "discord_rpc.h"
+#include <discord_rpc.h>
 
 
 #include "supertux/gameconfig.hpp"
@@ -36,46 +36,46 @@ extern "C" {
 
   static void handleDiscordReady(const DiscordUser* connectedUser)
   {
-      printf("\nDiscord: connected to user %s#%s - %s\n",
-             connectedUser->username,
-             connectedUser->discriminator,
-             connectedUser->userId);
+    printf("\nDiscord: connected to user %s#%s - %s\n",
+           connectedUser->username,
+           connectedUser->discriminator,
+           connectedUser->userId);
   }
 
   static void handleDiscordDisconnected(int errcode, const char* message)
   {
-      printf("\nDiscord: disconnected (%d: %s)\n", errcode, message);
+    printf("\nDiscord: disconnected (%d: %s)\n", errcode, message);
   }
 
   static void handleDiscordError(int errcode, const char* message)
   {
-      printf("\nDiscord: error (%d: %s)\n", errcode, message);
+    printf("\nDiscord: error (%d: %s)\n", errcode, message);
   }
 
   static void handleDiscordJoin(const char* secret)
   {
-      printf("\nDiscord: join (%s)\n", secret);
+    printf("\nDiscord: join (%s)\n", secret);
   }
 
   static void handleDiscordSpectate(const char* secret)
   {
-      printf("\nDiscord: spectate (%s)\n", secret);
+    printf("\nDiscord: spectate (%s)\n", secret);
   }
 
   static void handleDiscordJoinRequest(const DiscordUser* request)
   {
-      int response = -1;
-      
-      printf("\nDiscord: join request from %s#%s - %s\n",
-             request->username,
-             request->discriminator,
-             request->userId);
-      
-      response = false ? DISCORD_REPLY_YES : DISCORD_REPLY_NO;
-      
-      if (response != -1) {
-          Discord_Respond(request->userId, response);
-      }
+    int response = -1;
+
+    printf("\nDiscord: join request from %s#%s - %s\n",
+           request->username,
+           request->discriminator,
+           request->userId);
+
+    response = false ? DISCORD_REPLY_YES : DISCORD_REPLY_NO;
+
+    if (response != -1) {
+      Discord_Respond(request->userId, response);
+    }
   }
 
 } // extern "C"

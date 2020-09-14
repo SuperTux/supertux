@@ -19,6 +19,8 @@
 
 #include "config.h"
 
+#include <vector>
+
 enum IntegrationStatus {
   MAIN_MENU,
   PLAYING_WORLDMAP,
@@ -34,6 +36,7 @@ enum IntegrationStatus {
 class Integration
 {
 public:
+  static void setup();
   static void init_all();
   static void update_all();
   static void close_all();
@@ -44,7 +47,7 @@ public:
   static IntegrationStatus get_status();
   
 public:
-  static Integration* sdks[];
+  static std::vector<Integration*> sdks;
 
 public:
   virtual void init() = 0;
