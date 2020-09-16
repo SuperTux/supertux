@@ -192,7 +192,7 @@ DiscordIntegration::update_discord_presence()
 
   case IntegrationStatus::PLAYING_LEVEL:
   case IntegrationStatus::PLAYING_LEVEL_FROM_WORLDMAP:
-    sprintf(state_buffer, "Playing level: %s", m_level);
+    sprintf(state_buffer, "In level: %s", m_level);
     discordPresence.state = state_buffer;
     discordPresence.details = m_worldmap;
     discordPresence.smallImageKey = "play";
