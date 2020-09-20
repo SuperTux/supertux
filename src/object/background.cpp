@@ -124,7 +124,7 @@ Background::Background(const ReaderMapping& reader) :
   {
     // for backward compatibilty
     reader.get("speed", m_parallax_speed.x, 0.5f);
-  };
+  }
 
   reader.get("speed-y", m_parallax_speed.y, m_parallax_speed.x);
 

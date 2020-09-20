@@ -190,7 +190,7 @@ void RainParticleSystem::update(float dt_sec)
     } else {
       m_angle_fade_time_remaining -= dt_sec;
       float progress = 1.f - m_angle_fade_time_remaining / m_angle_fade_time_total;
-      progress = static_cast<float>(m_angle_easing(progress));
+      progress = static_cast<float>(m_angle_easing(static_cast<double>(progress)));
       m_current_angle = progress * (m_target_angle - m_begin_angle) + m_begin_angle;
     }
     set_angle(m_current_angle);

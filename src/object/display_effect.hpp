@@ -46,7 +46,7 @@ public:
   /** @} */
 
 private:
-  enum FadeType {
+  enum class FadeType {
     NO_FADE, FADE_IN, FADE_OUT
   };
 

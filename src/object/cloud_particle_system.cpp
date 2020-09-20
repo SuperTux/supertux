@@ -31,8 +31,8 @@ CloudParticleSystem::CloudParticleSystem() :
   m_speed_fade_time_remaining(0.f),
 
   m_current_amount(15.f),
-  m_target_amount(15.f),
-  m_amount_fade_time_remaining(0.f),
+  //m_target_amount(15.f),
+  //m_amount_fade_time_remaining(0.f),
   m_current_real_amount(0)
 {
   init();
@@ -48,8 +48,8 @@ CloudParticleSystem::CloudParticleSystem(const ReaderMapping& reader) :
   m_speed_fade_time_remaining(0.f),
 
   m_current_amount(15.f),
-  m_target_amount(15.f),
-  m_amount_fade_time_remaining(0.f),
+  //m_target_amount(15.f),
+  //m_amount_fade_time_remaining(0.f),
   m_current_real_amount(0)
 {
   init();

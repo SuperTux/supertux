@@ -70,7 +70,8 @@ protected:
       pos(),
       angle(),
       texture(),
-      alpha()
+      alpha(),
+      scale(1.f) // This currently only works in the custom particle system
     {}
 
     virtual ~Particle()
@@ -81,6 +82,7 @@ protected:
     float angle;
     SurfacePtr texture;
     float alpha;
+    float scale; // see initializer
 
   private:
     Particle(const Particle&) = delete;

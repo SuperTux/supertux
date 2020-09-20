@@ -79,6 +79,7 @@
 #include "object/candle.hpp"
 #include "object/circleplatform.hpp"
 #include "object/cloud_particle_system.hpp"
+#include "object/custom_particle_system.hpp"
 #include "object/coin.hpp"
 #include "object/decal.hpp"
 #include "object/explosion.hpp"
@@ -96,6 +97,7 @@
 #include "object/level_time.hpp"
 #include "object/magicblock.hpp"
 #include "object/path_gameobject.hpp"
+#include "object/particle_zone.hpp"
 #include "object/platform.hpp"
 #include "object/pneumatic_platform.hpp"
 #include "object/powerup.hpp"
@@ -212,6 +214,7 @@ GameObjectFactory::init_factories()
   add_factory<Candle>("candle");
   add_factory<CirclePlatform>("circleplatform");
   add_factory<CloudParticleSystem>("particles-clouds");
+  add_factory<CustomParticleSystem>("particles-custom");
   add_factory<Coin>("coin");
   add_factory<Decal>("decal");
   add_factory<Explosion>("explosion");
@@ -229,6 +232,7 @@ GameObjectFactory::init_factories()
   add_factory<Lantern>("lantern");
   add_factory<LevelTime>("leveltime");
   add_factory<MagicBlock>("magicblock");
+  add_factory<ParticleZone>("particle-zone");
   add_factory<Platform>("platform");
   add_factory<PneumaticPlatform>("pneumatic-platform");
   add_factory<PowerUp>("powerup");
