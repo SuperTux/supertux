@@ -966,6 +966,14 @@
       2203 2204 2205 3927
       2206 2207 2208 3928
       2209 2210 2211 3929
+      
+      4082 4083 4088 4089
+      4084 4085 4090 4091
+      4086 4087 4092 4093
+      
+      4094 4095 0    0
+      4096 4097 0    0
+      4098 4099 0    0
     )
   )
   
@@ -5524,7 +5532,53 @@
     )
     (image "tiles/darksnow/special.png")
   )
+  
+  (tiles
+    (width 2)(height 3)
+    (image "tiles/doodads/nolok-statue-forest.png")
+    (ids
+      4082 4083
+      4084 4085
+      4086 4087
+      )
+      (attributes
+       0 0
+       0 0
+       0 0
+       )
+   )
+   
+   (tiles
+     (width 2)(height 3)
+     (image "tiles/doodads/nolok-statue-ghost.png")
+     (ids
+       4088 4089
+       4090 4091
+       4092 4093
+       )
+       (atrributes
+        0 0
+        0 0
+        0 0
+        )
+    )
+    
+    (tiles
+      (width 2)(height 3)
+      (image "tiles/doodads/nolok-statue-snow.png")
+      (ids
+        4094 4095
+        4096 4097
+        4098 4099
+        )
+        (attributes
+         0 0
+         0 0
+         0 0
+         )
+     )
+      
 
-  ;; next-id: 4082
+  ;; next-id: 4100
 
 )
