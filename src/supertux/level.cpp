@@ -27,6 +27,7 @@
 #include "util/writer.hpp"
 
 #include <physfs.h>
+#include <numeric>
 
 Level* Level::s_current = nullptr;
 
@@ -227,11 +228,10 @@ Level::get_total_badguys() const
 int
 Level::get_total_secrets() const
 {
-  int total_secrets = 0;
-  for (auto const& sector : m_sectors) {
-    total_secrets += sector->get_object_count<SecretAreaTrigger>();
-  }
-  return total_secrets;
+  auto get_secret_count = [](int accumulator, const std::unique_ptr<Sector>& sector) {
+    return accumulator + sector->get_object_count<SecretAreaTrigger>();
+  };
+  return std::accumulate(m_sectors.begin(), m_sectors.end(), 0, get_secret_count);
 }
 
 void
