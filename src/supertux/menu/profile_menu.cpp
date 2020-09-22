@@ -19,11 +19,15 @@
 #include <boost/format.hpp>
 #include <sstream>
 
+#include "gui/dialog.hpp"
 #include "gui/menu_manager.hpp"
 #include "gui/menu_item.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
+#include "util/file_system.hpp"
 #include "util/gettext.hpp"
+
+#include <physfs.h>
 
 ProfileMenu::ProfileMenu()
 {
@@ -42,6 +46,8 @@ ProfileMenu::ProfileMenu()
     }
     add_entry(i, out.str());
   }
+  add_hl();
+  add_entry(6, _("Reset profile"));
 
   add_hl();
   add_back(_("Back"));
@@ -50,8 +56,33 @@ ProfileMenu::ProfileMenu()
 void
 ProfileMenu::menu_action(MenuItem& item)
 {
-  g_config->profile = item.get_id();
+  const auto& id = item.get_id();
+  if(id <= 5)
+  {
+    g_config->profile = item.get_id();
+  }
+  else if(id == 6)
+  {
+    Dialog::show_confirmation(_("Deleting your profile will reset your game progress. Are you sure?"), [this]() {
+      delete_savegames(g_config->profile);
+    });
+  }
   MenuManager::instance().clear_menu_stack();
+}
+
+void
+ProfileMenu::delete_savegames(int idx) const
+{
+  const auto& profile_path = "profile" + std::to_string(idx);
+  std::unique_ptr<char*, decltype(&PHYSFS_freeList)>
+    files(PHYSFS_enumerateFiles(profile_path.c_str()),
+          PHYSFS_freeList);
+  for (const char* const* filename = files.get(); *filename != nullptr; ++filename)
+  {
+    std::string filepath = FileSystem::join(profile_path.c_str(), *filename);
+    PHYSFS_delete(filepath.c_str());
+  }
+  PHYSFS_delete(profile_path.c_str());
 }
 
 /* EOF */
