@@ -14,7 +14,7 @@ LOWERAPP=supertux2
 GIT_REV=$(git rev-parse --short HEAD)
 echo $GIT_REV
 
-RELEASE_VERSION=$(git describe --tags)
+RELEASE_VERSION=$(git describe --tags --always)
 
 make install DESTDIR=$HOME/$APP/$APP.AppDir
 
