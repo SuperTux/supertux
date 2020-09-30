@@ -93,6 +93,8 @@ const float MAX_CLIMB_XM = 96;
 const float MAX_CLIMB_YM = 128;
 /** maximum vertical glide velocity */
 const float MAX_GLIDE_YM = 128;
+/** stone downthrust velocity */
+const float STONE_YM = 700;
 /** instant velocity when tux starts to walk */
 const float WALK_SPEED = 100;
 
@@ -1067,7 +1069,7 @@ if (m_swimming) {
   }
 
   /* Turn to Stone */
-  if (m_controller->pressed(Control::DOWN) && m_player_status.bonus == EARTH_BONUS && !m_cooldown_timer.started() && on_ground()) {
+  if (m_controller->hold(Control::DOWN) && m_player_status.bonus == EARTH_BONUS && !m_cooldown_timer.started()) {
     if (m_controller->hold(Control::ACTION) && !m_ability_timer.started()) {
       m_ability_timer.start(static_cast<float>(m_player_status.max_earth_time) * STONE_TIME_PER_FLOWER);
       m_powersprite->stop_animation();
@@ -1076,8 +1078,14 @@ if (m_swimming) {
     }
   }
 
-  if (m_stone)
+  if (m_stone) {
     apply_friction();
+    m_physic.set_velocity_y(STONE_YM);
+    if (on_ground())
+      // Reset velocity for smoother falling when sliding over an edge
+      m_physic.set_velocity_y(0);
+  }
+
 
   /* Revert from Stone */
   if (m_stone && (!m_controller->hold(Control::ACTION) || m_ability_timer.get_timeleft() <= 0.5f)) {
