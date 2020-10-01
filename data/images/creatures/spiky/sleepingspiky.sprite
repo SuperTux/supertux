@@ -1,13 +1,20 @@
 (supertux-sprite
  (action
   (name "left")
-  (hitbox 6 10 31.8 31.8)
-  (images "left-0.png"
-   "left-1.png"
-   "left-2.png"))
+  (hitbox 5 12 32 32)
+  (fps 13.0)
+  (images "spiky-0.png"
+          "spiky-1.png"
+          "spiky-2.png"
+          "spiky-3.png"
+          "spiky-4.png"
+          "spiky-5.png"
+          "spiky-6.png"
+          "spiky-7.png"))
  (action
   (name "right")
-  (hitbox 6 10 31.8 31.8)
+  (hitbox 7 12 32 32)
+  (fps 13.0)
   (mirror-action "left"))
  (action
   (name "iced-left")
@@ -20,46 +27,55 @@
  )
  (action
   (name "sleeping-left")
-  (hitbox 6 10 31.8 31.8)
-  (images "sleeping-left.png"))
+    (hitbox 5 12 32 32)
+  (images "sleeping-0.png"))
  (action
   (name "sleeping-right")
-  (hitbox 6 10 31.8 31.8)
+    (hitbox 7 12 32 32)
   (mirror-action "sleeping-left"))
  (action
   (name "waking-left")
-  (hitbox 6 10 31.8 31.8)
+    (hitbox 5 12 32 32)
   (fps 6.0)
-  (images "waking-left-0.png"
-   "waking-left-1.png"
-   "waking-left-2.png"))
+  (images "waking-0.png"
+   "waking-1.png"
+   "waking-2.png"))
  (action
   (name "waking-right")
   (fps 6.0)
-  (hitbox 6 10 31.8 31.8)
+    (hitbox 7 12 32 32)
   (mirror-action "waking-left"))
+
  (action
   (name "inside-melting-left")
-  (hitbox 6 10 31.8 31.8)
+    (hitbox 5 12 32 32)
   (fps 20.0)
   (images "melting-0.png"
    "melting-1.png"
    "melting-2.png"
    "melting-3.png"
-   "gear.png"))
+   "melting-4.png"
+   "melting-5.png"
+   "melting-6.png"
+   "melting-7.png")
+  )
  (action
   (name "inside-melting-right")
   (fps 20.0)
-  (hitbox 6 10 31.8 31.8)
-  (mirror-action "inside-melting-left"))
+    (hitbox 7 12 32 32)
+  (mirror-action "inside-melting-left")
+  )
  (action
   (name "gear-left")
-  (hitbox 6 10 31.8 31.8)
-  (images "gear-cracked.png"))
+    (hitbox 5 12 32 32)
+  (images "melting-7.png")
+  )
  (action
   (name "gear-right")
-  (hitbox 6 10 31.8 31.8)
-  (mirror-action "gear-left"))
+    (hitbox 7 12 32 32)
+  (mirror-action "gear-left")
+  )
+
  (action
   (name "editor-left")
   (clone-action "sleeping-left"))

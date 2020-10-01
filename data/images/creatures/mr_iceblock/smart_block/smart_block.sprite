@@ -1,31 +1,39 @@
 (supertux-sprite
 	(action
 	  (name "left")
-	  (hitbox 1 6 33 32)
-	  (images "left-0.png"
-		  "left-1.png"
-		  "left-2.png"
-		  "left-1.png"))
+	  (hitbox 5 8 32 32)
+	  (fps 14)
+	  (images "smartblock-0.png"
+			"smartblock-1.png"
+			"smartblock-2.png"
+			"smartblock-3.png"
+			"smartblock-4.png"
+			"smartblock-5.png"
+			"smartblock-6.png"
+			"smartblock-7.png"))
 
-	(action (name "right")
-                (hitbox 1 6 33 32)
-		(mirror-action "left"))
+	(action
+	  (name "right")
+	  (hitbox 7 8 32 32)
+	  (fps 14)
+	  (mirror-action "left"))
 
 	(action (name "falling-left")
-		(hitbox 2 5 31.8 31.8)
-		(images "flat-left.png"))
+	  (hitbox 5 8 32 32)
+	  (images "stomped-0.png"))
 
 	(action (name "falling-right")
-		(hitbox 2 5 31.8 31.8)
-		(mirror-action "falling-left"))
+	  (hitbox 5 8 32 32)
+	  (mirror-action "falling-left"))
 
 	(action (name "flat-left")
-		(hitbox 1 9 33 26)
-		(images "flat-left.png"))
+	  (hitbox 5 14 33 26)
+	  (images "stomped-0.png"))
 
 	(action (name "flat-right")
-		(hitbox 1 9 33 26)
-		(mirror-action "flat-left"))
+	  (hitbox 7 14 33 26)
+	  (mirror-action "flat-left"))
+
 	(action
 		(name "melting-left")
 		(hitbox 1 6 33 32)
@@ -56,20 +64,21 @@
 
   (action
     (name "waking-left")
-    (hitbox 1 9 33 26)
-    (images "waking-left-0.png"
-      "waking-left-1.png"
-      "waking-left-2.png"
-      "waking-left-3.png"
-      "waking-left-2.png"
-      "waking-left-1.png"
-      "waking-left-2.png"
-      "waking-left-3.png"
-      "waking-left-4.png"
-      "waking-left-5.png"
-      "waking-left-6.png"))
+    ; (fps 6.0)
+    (hitbox 5 14 32 32)
+    (images "waking-0.png"
+      "waking-1.png"
+      "waking-2.png"
+      "waking-3.png"
+      "waking-2.png"
+      "waking-1.png"
+      "waking-2.png"
+      "waking-3.png"
+      "waking-4.png"
+      "waking-5.png"
+      "waking-6.png"))
 
   (action
     (name "waking-right")
-    (hitbox 1 9 33 26)
+    (hitbox 7 14 32 32)
     (mirror-action "waking-left")))
