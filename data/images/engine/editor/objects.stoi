@@ -5,10 +5,10 @@
   (worldmap #f)
   (object
     (class "snowball")
-    (icon "images/creatures/snowball/sport-left-1.png"))
+    (icon "images/creatures/snowball/snowball-1.png"))
   (object
     (class "smartball")
-    (icon "images/creatures/snowball/left-1.png"))
+    (icon "images/creatures/snowball/smartball-1.png"))
   (object
     (class "snowman")
     (icon "images/creatures/snowman/walk1.png"))
@@ -17,7 +17,7 @@
     (icon "images/creatures/bouncing_snowball/left-5.png"))
   (object
     (class "captainsnowball")
-    (icon "images/creatures/snowball/cpt-left-1.png"))
+    (icon "images/creatures/snowball/captain-left-1.png"))
   (object
     (class "flyingsnowball")
     (icon "images/creatures/flying_snowball/left-0.png"))
@@ -38,10 +38,10 @@
     (icon "images/creatures/short_fuse/sf1.png"))
   (object
     (class "mriceblock")
-    (icon "images/creatures/mr_iceblock/left-0.png"))
+    (icon "images/creatures/mr_iceblock/iceblock-1.png"))
   (object
     (class "smartblock")
-    (icon "images/creatures/mr_iceblock/smart_block/left-0.png"))
+    (icon "images/creatures/mr_iceblock/smart_block/smartblock-1.png"))
   (object
     (class "spiky")
     (icon "images/creatures/spiky/left-1.png"))
