@@ -340,9 +340,7 @@ GameSession::update(float dt_sec, const Controller& controller)
     }
   }
 
-  if (controller.pressed(Control::DEBUG_MENU) &&
-      (g_config->developer_mode || (Editor::current() && Editor::current()->is_testing_level()))
-     )
+  if (controller.pressed(Control::DEBUG_MENU) && g_config->developer_mode)
   {
     if (!MenuManager::instance().is_active())
     {
