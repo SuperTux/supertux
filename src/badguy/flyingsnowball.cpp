@@ -32,7 +32,7 @@ FlyingSnowBall::FlyingSnowBall(const ReaderMapping& reader) :
   total_time_elapsed(),
   puff_timer()
 {
-  m_physic.enable_gravity(true);
+  m_physic.enable_gravity(false);
 }
 
 void
@@ -51,6 +51,7 @@ bool
 FlyingSnowBall::collision_squished(GameObject& object)
 {
   m_sprite->set_action(m_dir == Direction::LEFT ? "squished-left" : "squished-right");
+  m_physic.enable_gravity(true);
   m_physic.set_acceleration_y(0);
   m_physic.set_velocity_y(0);
   kill_squished(object);
@@ -69,46 +70,17 @@ void
 FlyingSnowBall::active_update(float dt_sec)
 {
   total_time_elapsed += dt_sec;
-  
-  const float grav = Sector::get().get_gravity() * 100.0f;
-  if (get_pos().y > m_start_position.y + 2*32) {
 
-    // Flying too low - increased propeller speed
-    m_physic.set_acceleration_y(-grav*1.2f);
+  // Put that function in a graphing calculator :
+  // sin(x)^3 + sin(3(x - pi/3))/3
+  float targetHgt = std::pow(std::sin(total_time_elapsed), 3.f) +
+                    std::sin(3.f *
+                             ((total_time_elapsed - 3.14159f) / 3.f)
+                            ) / 3.f;
+  targetHgt = targetHgt * 100.f + m_start_position.y;
+  m_physic.set_velocity_y(targetHgt - get_pos().y);
 
-    m_physic.set_velocity_y(m_physic.get_velocity_y() * 0.99f);
-
-  } else if (get_pos().y < m_start_position.y - 2*32) {
-
-    // Flying too high - decreased propeller speed
-    m_physic.set_acceleration_y(-grav*0.8f);
-
-    m_physic.set_velocity_y(m_physic.get_velocity_y() * 0.99f);
-
-  } else {
-
-    // Flying at acceptable altitude - normal propeller speed
-
-    float direction = std::pow(std::sin(total_time_elapsed/3.5f), 3.f) +
-                      std::sin(3.f *
-                               ((total_time_elapsed/2.5f - 3.14159f) / 3.f)
-                              ) / 3.f;
-
-    // If you have a graphing calculator, type this :
-    //    sin(x)^3 + sin(3 * (x - pi / 3)) / 3
-    // It seems like a good regular pattern to me, however I didn't implement
-    // it properly here as I didn't want to change the pattern too much (it
-    // should still *look* random unless otherwise recommended.
-    //
-    // I believe a badguy's pattern should be easy to understand and predict,
-    // but I haven't discussed about it yet with the rest of the team.
-    //    ~ Semphris
-
-    m_physic.set_acceleration_y(-grav * (1.f + direction / 13.f));
-
-  }
-
-  m_col.m_movement=m_physic.get_movement(dt_sec);
+  m_col.m_movement=m_physic.get_movement(1.f);
 
   auto player = get_nearest_player();
   if (player) {
@@ -126,8 +98,6 @@ FlyingSnowBall::active_update(float dt_sec)
                                            ppos, ANCHOR_MIDDLE, pspeed, paccel,
                                            LAYER_OBJECTS-1);
     puff_timer.start(gameRandom.randf(PUFF_INTERVAL_MIN, PUFF_INTERVAL_MAX));
-
-    //m_physic.set_velocity_y(m_physic.get_velocity_y() - 50);
   }
   
 }
