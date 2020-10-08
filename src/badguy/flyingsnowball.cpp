@@ -29,7 +29,7 @@ const float PUFF_INTERVAL_MAX = 8.0f; /**< spawn new puff of smoke at least that
 
 FlyingSnowBall::FlyingSnowBall(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/flying_snowball/flying_snowball.sprite"),
-  normal_propeller_speed(),
+  total_time_elapsed(),
   puff_timer()
 {
   m_physic.enable_gravity(true);
@@ -45,7 +45,6 @@ void
 FlyingSnowBall::activate()
 {
   puff_timer.start(static_cast<float>(gameRandom.randf(PUFF_INTERVAL_MIN, PUFF_INTERVAL_MAX)));
-  normal_propeller_speed = gameRandom.randf(0.95f, 1.05f);
 }
 
 bool
@@ -69,7 +68,8 @@ FlyingSnowBall::collision_solid(const CollisionHit& hit)
 void
 FlyingSnowBall::active_update(float dt_sec)
 {
-
+  total_time_elapsed += dt_sec;
+  
   const float grav = Sector::get().get_gravity() * 100.0f;
   if (get_pos().y > m_start_position.y + 2*32) {
 
@@ -88,7 +88,23 @@ FlyingSnowBall::active_update(float dt_sec)
   } else {
 
     // Flying at acceptable altitude - normal propeller speed
-    m_physic.set_acceleration_y(-grav*normal_propeller_speed);
+
+    float direction = std::pow(std::sin(total_time_elapsed/3.5f), 3.f) +
+                      std::sin(3.f *
+                               ((total_time_elapsed/2.5f - 3.14159f) / 3.f)
+                              ) / 3.f;
+
+    // If you have a graphing calculator, type this :
+    //    sin(x)^3 + sin(3 * (x - pi / 3)) / 3
+    // It seems like a good regular pattern to me, however I didn't implement
+    // it properly here as I didn't want to change the pattern too much (it
+    // should still *look* random unless otherwise recommended.
+    //
+    // I believe a badguy's pattern should be easy to understand and predict,
+    // but I haven't discussed about it yet with the rest of the team.
+    //    ~ Semphris
+
+    m_physic.set_acceleration_y(-grav * (1.f + direction / 13.f));
 
   }
 
@@ -111,9 +127,9 @@ FlyingSnowBall::active_update(float dt_sec)
                                            LAYER_OBJECTS-1);
     puff_timer.start(gameRandom.randf(PUFF_INTERVAL_MIN, PUFF_INTERVAL_MAX));
 
-    normal_propeller_speed = gameRandom.randf(0.95f, 1.05f);
-    m_physic.set_velocity_y(m_physic.get_velocity_y() - 50);
+    //m_physic.set_velocity_y(m_physic.get_velocity_y() - 50);
   }
+  
 }
 
 /* EOF */
