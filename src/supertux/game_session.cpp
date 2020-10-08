@@ -18,6 +18,7 @@
 
 #include "audio/sound_manager.hpp"
 #include "control/input_manager.hpp"
+#include "editor/editor.hpp"
 #include "gui/menu_manager.hpp"
 #include "math/vector.hpp"
 #include "object/camera.hpp"
@@ -328,7 +329,9 @@ GameSession::update(float dt_sec, const Controller& controller)
     on_escape_press();
   }
 
-  if (controller.pressed(Control::CHEAT_MENU) && g_config->developer_mode)
+  if (controller.pressed(Control::CHEAT_MENU) &&
+      (g_config->developer_mode || (Editor::current() && Editor::current()->is_testing_level()))
+     )
   {
     if (!MenuManager::instance().is_active())
     {
@@ -337,7 +340,9 @@ GameSession::update(float dt_sec, const Controller& controller)
     }
   }
 
-  if (controller.pressed(Control::DEBUG_MENU) && g_config->developer_mode)
+  if (controller.pressed(Control::DEBUG_MENU) &&
+      (g_config->developer_mode || (Editor::current() && Editor::current()->is_testing_level()))
+     )
   {
     if (!MenuManager::instance().is_active())
     {
