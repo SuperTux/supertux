@@ -25,6 +25,7 @@
 namespace {
 const float PUFF_INTERVAL_MIN = 4.0f; /**< spawn new puff of smoke at most that often */
 const float PUFF_INTERVAL_MAX = 8.0f; /**< spawn new puff of smoke at least that often */
+const float GLOBAL_SPEED_MULT = 0.8f; /**< the overall movement speed/rate */
 }
 
 FlyingSnowBall::FlyingSnowBall(const ReaderMapping& reader) :
@@ -71,11 +72,13 @@ FlyingSnowBall::active_update(float dt_sec)
 {
   total_time_elapsed += dt_sec;
 
+  float delta = total_time_elapsed * GLOBAL_SPEED_MULT;
+
   // Put that function in a graphing calculator :
   // sin(x)^3 + sin(3(x - pi/3))/3
-  float targetHgt = std::pow(std::sin(total_time_elapsed), 3.f) +
+  float targetHgt = std::pow(std::sin(delta), 3.f) +
                     std::sin(3.f *
-                             ((total_time_elapsed - 3.14159f) / 3.f)
+                             ((delta - 3.14159f) / 3.f)
                             ) / 3.f;
   targetHgt = targetHgt * 100.f + m_start_position.y;
   m_physic.set_velocity_y(targetHgt - get_pos().y);
