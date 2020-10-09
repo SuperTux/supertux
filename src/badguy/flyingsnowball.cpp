@@ -17,6 +17,7 @@
 #include "badguy/flyingsnowball.hpp"
 
 #include "math/random.hpp"
+#include "math/util.hpp"
 #include "object/sprite_particle.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
@@ -70,7 +71,7 @@ FlyingSnowBall::collision_solid(const CollisionHit& hit)
 void
 FlyingSnowBall::active_update(float dt_sec)
 {
-  total_time_elapsed += dt_sec;
+  total_time_elapsed = fmodf(total_time_elapsed + dt_sec, math::TAU / GLOBAL_SPEED_MULT);
 
   float delta = total_time_elapsed * GLOBAL_SPEED_MULT;
 
@@ -78,7 +79,7 @@ FlyingSnowBall::active_update(float dt_sec)
   // sin(x)^3 + sin(3(x - pi/3))/3
   float targetHgt = std::pow(std::sin(delta), 3.f) +
                     std::sin(3.f *
-                             ((delta - 3.14159f) / 3.f)
+                             ((delta - math::PI) / 3.f)
                             ) / 3.f;
   targetHgt = targetHgt * 100.f + m_start_position.y;
   m_physic.set_velocity_y(targetHgt - get_pos().y);
