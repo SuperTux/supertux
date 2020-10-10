@@ -26,6 +26,7 @@
 #include "object/path_walker.hpp"
 #include "squirrel/exposed_object.hpp"
 #include "scripting/tilemap.hpp"
+#include "supertux/autotile.hpp"
 #include "supertux/game_object.hpp"
 #include "video/color.hpp"
 #include "video/flip.hpp"
@@ -142,6 +143,19 @@ public:
 
   /** Puts the correct autotile block at the given position */
   void autotile(int x, int y, uint32_t tile);
+  
+  enum class AutotileCornerOperation {
+    ADD_TOP_LEFT,
+    ADD_TOP_RIGHT,
+    ADD_BOTTOM_LEFT,
+    ADD_BOTTOM_RIGHT,
+  };
+  
+  /** Puts the correct autotile blocks at the tiles around the given corner */
+  void autotile_corner(int x, int y, uint32_t tile, AutotileCornerOperation op);
+
+  /** Returns the Autotileset associated with the given tile */
+  AutotileSet* get_autotileset(uint32_t tile) const;
 
   void set_flip(Flip flip) { m_flip = flip; }
   Flip get_flip() const { return m_flip; }

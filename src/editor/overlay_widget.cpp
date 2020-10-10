@@ -61,6 +61,7 @@ int EditorOverlayWidget::selected_snap_grid_size = 3;
 EditorOverlayWidget::EditorOverlayWidget(Editor& editor) :
   m_editor(editor),
   m_hovered_tile(0, 0),
+  m_hovered_corner(0, 0),
   m_sector_pos(0, 0),
   m_mouse_pos(0, 0),
   m_dragging(false),
@@ -204,6 +205,45 @@ EditorOverlayWidget::input_autotile(const Vector& pos, uint32_t tile)
 }
 
 void
+EditorOverlayWidget::autotile_corner(const Vector& pos, uint32_t tile,
+                                     TileMap::AutotileCornerOperation op)
+{
+  auto tilemap = m_editor.get_selected_tilemap();
+  if (!tilemap) {
+    return;
+  }
+
+  if ( pos.x < 0 ||
+       pos.y < 0 ||
+       pos.x >= static_cast<float>(tilemap->get_width()) ||
+       pos.y >= static_cast<float>(tilemap->get_height())) {
+    return;
+  }
+
+  tilemap->autotile_corner(static_cast<int>(pos.x), static_cast<int>(pos.y), tile, op);
+}
+
+void
+EditorOverlayWidget::input_autotile_corner(const Vector& corner, uint32_t tile, const Vector& override_pos)
+{
+  // Erase the tile - the autotiling will add the necessary tile after
+  //if (override_pos != Vector(-1.f, -1.f))
+  //  this->input_tile(override_pos, 0);
+
+  float x = corner.x;
+  float y = corner.y;
+
+  this->autotile_corner(Vector(x - 1.0f, y - 1.0f), tile,
+                        TileMap::AutotileCornerOperation::ADD_BOTTOM_RIGHT);
+  this->autotile_corner(Vector(x       , y - 1.0f), tile,
+                        TileMap::AutotileCornerOperation::ADD_BOTTOM_LEFT);
+  this->autotile_corner(Vector(x - 1.0f, y       ), tile,
+                        TileMap::AutotileCornerOperation::ADD_TOP_RIGHT);
+  this->autotile_corner(Vector(x       , y       ), tile,
+                        TileMap::AutotileCornerOperation::ADD_TOP_LEFT);
+}
+
+void
 EditorOverlayWidget::put_tile()
 {
   auto tiles = m_editor.get_tiles();
@@ -211,8 +251,18 @@ EditorOverlayWidget::put_tile()
   for (add_tile.x = static_cast<float>(tiles->m_width) - 1.0f; add_tile.x >= 0.0f; add_tile.x--) {
     for (add_tile.y = static_cast<float>(tiles->m_height) - 1.0f; add_tile.y >= 0; add_tile.y--) {
       if (autotile_mode) {
-        input_autotile(m_hovered_tile + add_tile, tiles->pos(static_cast<int>(add_tile.x),
+        auto tilemap = m_editor.get_selected_tilemap();
+        if (tilemap && tilemap->get_autotileset(tiles->pos(
+                                 static_cast<int>(add_tile.x),
+                                 static_cast<int>(add_tile.y)))->is_corner()) {
+          input_autotile_corner(m_hovered_corner + add_tile,
+                                tiles->pos(static_cast<int>(add_tile.x),
+                                           static_cast<int>(add_tile.y)),
+                                m_hovered_tile + add_tile);
+        } else {
+          input_autotile(m_hovered_tile + add_tile, tiles->pos(static_cast<int>(add_tile.x),
                                                      static_cast<int>(add_tile.y)));
+        }
       } else {
         input_tile(m_hovered_tile + add_tile, tiles->pos(static_cast<int>(add_tile.x),
                                                      static_cast<int>(add_tile.y)));
@@ -871,6 +921,9 @@ EditorOverlayWidget::update_pos()
 
   m_sector_pos = m_mouse_pos + m_editor.get_sector()->get_camera().get_translation();
   m_hovered_tile = sp_to_tp(m_sector_pos);
+
+  float half_tile = 16.f;
+  m_hovered_corner = sp_to_tp(m_sector_pos + Vector(half_tile, half_tile));
   // update tip
   hover_object();
 }

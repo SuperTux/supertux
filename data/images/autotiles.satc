@@ -517,7 +517,7 @@
       (mask "*0****0*")
     )
   )
-  (autotileset
+  (autotileset-corner
     (name "snow_bkg")
     (default 2179)
     (autotile
@@ -554,105 +554,63 @@
         (id 2197)
         (weight 0.1)
       )
-      (solid #t)
-      (mask "11111111")
-    )
-    (autotile
-      (id 2179)
-      (alt-id
-        (id 2180)
-        (weight 0.1)
-      )
-      (alt-id
-        (id 2181)
-        (weight 0.1)
-      )
-      (alt-id
-        (id 2188)
-        (weight 0.1)
-      )
-      (alt-id
-        (id 2189)
-        (weight 0.1)
-      )
-      (alt-id
-        (id 2187)
-        (weight 0.1)
-      )
-      (alt-id
-        (id 2195)
-        (weight 0.1)
-      )
-      (alt-id
-        (id 2196)
-        (weight 0.1)
-      )
-      (alt-id
-        (id 2197)
-        (weight 0.1)
-      )
-      (solid #t)
-      (mask "11111111")
+      (mask "1111")
     )
     (autotile
       (id 2185)
-      (solid #t)
-      (mask "*0*01*1*")
-    )
-    (autotile
-      (id 2199)
-      (solid #t)
-      (mask "*0*11*1*")
+      (mask "0001")
     )
     (autotile
       (id 2186)
-      (solid #t)
-      (mask "*0*10*1*")
-    )
-    (autotile
-      (id 2192)
-      (solid #t)
-      (mask "*1*01*1*")
-    )
-    (autotile
-      (id 2190)
-      (solid #t)
-      (mask "*1*10*1*")
+      (mask "0010")
     )
     (autotile
       (id 2193)
-      (solid #t)
-      (mask "*1*01*0*")
-    )
-    (autotile
-      (id 2183)
-      (solid #t)
-      (mask "*1*11*0*")
+      (mask "0100")
     )
     (autotile
       (id 2194)
-      (solid #t)
-      (mask "*1*10*0*")
+      (mask "1000")
     )
     (autotile
       (id 2182)
-      (solid #t)
-      (mask "11111110")
+      (mask "1110")
+    )
+    (autotile
+      (id 2183)
+      (mask "1100")
     )
     (autotile
       (id 2184)
-      (solid #t)
-      (mask "11111011")
+      (mask "1101")
+    )
+    (autotile
+      (id 2190)
+      (mask "1010")
+    )
+    (autotile
+      (id 2192)
+      (mask "0101")
     )
     (autotile
       (id 2198)
-      (solid #t)
-      (mask "11011111")
+      (mask "1011")
+    )
+    (autotile
+      (id 2199)
+      (mask "0011")
     )
     (autotile
       (id 2200)
-      (solid #t)
-      (mask "01111111")
+      (mask "0111")
+    )
+    (autotile
+      (id 2201)
+      (mask "1001")
+    )
+    (autotile
+      (id 2202)
+      (mask "0110")
     )
   )
   (autotileset

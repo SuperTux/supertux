@@ -41,6 +41,8 @@ public:
 
   bool matches(uint8_t mask, bool center) const;
 
+  uint8_t get_mask() const;
+
 private:
   uint8_t m_mask;
   bool m_center; // m_center should *always* be the same as the m_solid of the corresponding Autotile
@@ -66,6 +68,12 @@ public:
   /** Picks a tile randomly amongst the possible ones for this autotile. */
   uint32_t pick_tile(int x, int y) const;
 
+  /** @returns true if the given tile has this tile id */
+  bool is_amongst(uint32_t tile) const;
+
+  /** @returns the first accessible mask for that autotile */
+  uint8_t get_first_mask() const;
+
   /** Returns all possible tiles for this autotile */
   std::vector<std::pair<uint32_t, float>> get_all_tile_ids() const;
 
@@ -90,9 +98,12 @@ public:
   //static AutotileSet* get_tileset_from_tile(uint32_t tile_id);
 
 public:
-  AutotileSet(std::vector<Autotile*> autotiles, uint32_t default_tile, std::string name);
+  AutotileSet(std::vector<Autotile*> autotiles, uint32_t default_tile, std::string name, bool corner);
 
-  /** Returns the ID of the tile to use, based on the surrounding tiles. */
+  /** Returns the ID of the tile to use, based on the surrounding tiles.
+   *  If the autotileset is corner-based, the top, left, right, bottom and
+   *  center attributes are ignored.
+   */
   uint32_t get_autotile(uint32_t tile_id,
     bool top_left, bool top, bool top_right,
     bool left, bool center, bool right,
@@ -109,6 +120,14 @@ public:
   /** true if is_member() is true AND the "center" bool is true */
   bool is_solid(uint32_t tile_id) const;
 
+  /** true if this is a corner-based autotileset */
+  bool is_corner() const { return m_corner; }
+  
+  /** Returns the first mask corresponding to the current tile
+   *  (useful for corners-based autotilesets)
+   */
+  uint8_t get_mask_from_tile(uint32_t tile) const;
+
   // TODO : Validate autotile config files by checking if each mask has
   //        one and only one corresponding tile.
   void validate() const;
@@ -120,6 +139,7 @@ private:
   std::vector<Autotile*> m_autotiles;
   uint32_t m_default;
   std::string m_name;
+  bool m_corner;
 
 private:
   AutotileSet(const AutotileSet&) = delete;

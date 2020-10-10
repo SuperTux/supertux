@@ -34,6 +34,12 @@ AutotileMask::matches(uint8_t mask, bool center) const
   return mask == m_mask && center == m_center;
 }
 
+uint8_t
+AutotileMask::get_mask() const
+{
+  return m_mask;
+}
+
 // Autotile
 
 Autotile::Autotile(uint32_t tile_id, std::vector<std::pair<uint32_t, float>> alt_tiles, std::vector<AutotileMask*> masks, bool solid) :
@@ -93,6 +99,27 @@ Autotile::pick_tile(int x, int y) const
   return m_tile_id;
 }
 
+bool
+Autotile::is_amongst(uint32_t tile) const
+{
+  if (tile == m_tile_id)
+    return true;
+
+  for (auto& pair : m_alt_tiles)
+    if (pair.first == tile)
+      return true;
+
+  return false;
+}
+
+uint8_t
+Autotile::get_first_mask() const
+{
+  for (auto& mask : m_masks)
+    return mask->get_mask();
+  return 0;
+}
+
 std::vector<std::pair<uint32_t, float>>
 Autotile::get_all_tile_ids() const
 {
@@ -110,10 +137,11 @@ Autotile::is_solid() const
 
 std::vector<AutotileSet*>* AutotileSet::m_autotilesets = new std::vector<AutotileSet*>();
 
-AutotileSet::AutotileSet(std::vector<Autotile*> tiles, uint32_t default_tile, std::string name) :
+AutotileSet::AutotileSet(std::vector<Autotile*> tiles, uint32_t default_tile, std::string name, bool corner) :
   m_autotiles(tiles),
   m_default(default_tile),
-  m_name(name)
+  m_name(name),
+  m_corner(corner)
 {
 }
 
@@ -154,22 +182,33 @@ AutotileSet::get_autotile(uint32_t tile_id,
 {
   uint8_t num_mask = 0;
 
-  // num_mask += 0x01;
-  //   clang will complain
-  // num_mask += static_cast<uint8_t>(0x01);
-  //   gcc will complain
-  // num_mask = (num_mask + 0x01) & 0xff;
-  //   (from a stackoverflow.com question) gcc still complains
-  // EDIT : It appears that GCC makes all integers calculations in "int" type,
-  //        so you have to re-cast every single time :^)
-  if (bottom_right) num_mask = static_cast<uint8_t>(num_mask + 0x01);
-  if (bottom)       num_mask = static_cast<uint8_t>(num_mask + 0x02);
-  if (bottom_left)  num_mask = static_cast<uint8_t>(num_mask + 0x04);
-  if (right)        num_mask = static_cast<uint8_t>(num_mask + 0x08);
-  if (left)         num_mask = static_cast<uint8_t>(num_mask + 0x10);
-  if (top_right)    num_mask = static_cast<uint8_t>(num_mask + 0x20);
-  if (top)          num_mask = static_cast<uint8_t>(num_mask + 0x40);
-  if (top_left)     num_mask = static_cast<uint8_t>(num_mask + 0x80);
+  if (m_corner)
+  {
+    if (bottom_right) num_mask = static_cast<uint8_t>(num_mask + 0x01);
+    if (bottom_left)  num_mask = static_cast<uint8_t>(num_mask + 0x02);
+    if (top_right)    num_mask = static_cast<uint8_t>(num_mask + 0x04);
+    if (top_left)     num_mask = static_cast<uint8_t>(num_mask + 0x08);
+    center = true;
+  }
+  else
+  {
+    // num_mask += 0x01;
+    //   clang will complain
+    // num_mask += static_cast<uint8_t>(0x01);
+    //   gcc will complain
+    // num_mask = (num_mask + 0x01) & 0xff;
+    //   (from a stackoverflow.com question) gcc still complains
+    // EDIT : It appears that GCC makes all integers calculations in "int" type,
+    //        so you have to re-cast every single time :^)
+    if (bottom_right) num_mask = static_cast<uint8_t>(num_mask + 0x01);
+    if (bottom)       num_mask = static_cast<uint8_t>(num_mask + 0x02);
+    if (bottom_left)  num_mask = static_cast<uint8_t>(num_mask + 0x04);
+    if (right)        num_mask = static_cast<uint8_t>(num_mask + 0x08);
+    if (left)         num_mask = static_cast<uint8_t>(num_mask + 0x10);
+    if (top_right)    num_mask = static_cast<uint8_t>(num_mask + 0x20);
+    if (top)          num_mask = static_cast<uint8_t>(num_mask + 0x40);
+    if (top_left)     num_mask = static_cast<uint8_t>(num_mask + 0x80);
+  }
 
   for (auto& autotile : m_autotiles)
   {
@@ -246,10 +285,22 @@ AutotileSet::is_solid(uint32_t tile_id) const
   return tile_id == m_default && m_default != 0;
 }
 
+uint8_t
+AutotileSet::get_mask_from_tile(uint32_t tile) const
+{
+  for (auto& autotile : m_autotiles)
+  {
+    if (autotile->is_amongst(tile)) {
+      return autotile->get_first_mask();
+    }
+  }
+  return static_cast<uint8_t>(0);
+}
+
 void
 AutotileSet::validate() const
 {
-  for (int mask = 0; mask <= 255; mask++)
+  for (int mask = 0; mask <= (m_corner ? 15 : 255); mask++)
   {
     uint8_t num_mask = static_cast<uint8_t>(mask);
     bool tile_exists = false;
@@ -261,7 +312,7 @@ AutotileSet::validate() const
       {
         if (tile_exists)
         {
-          log_warning << "Autotileset '" << m_name << "': mask " << std::bitset<8>(mask) << " corresponds both to tile " << tile_with_that_mask << " and " << autotile->get_tile_id() << std::endl;
+          log_warning << "Autotileset '" << m_name << "': mask " << (m_corner ? std::bitset<4>(mask).to_string() : std::bitset<8>(mask).to_string()) << " corresponds both to tile " << tile_with_that_mask << " and " << autotile->get_tile_id() << std::endl;
         }
         else
         {
@@ -273,7 +324,7 @@ AutotileSet::validate() const
 
     if (!tile_exists)
     {
-      log_warning << "Autotileset '" << m_name << "': mask " << std::bitset<8>(mask) << " has no corresponding tile" << std::endl;
+      log_warning << "Autotileset '" << m_name << "': mask " << (m_corner ? std::bitset<4>(mask).to_string() : std::bitset<8>(mask).to_string()) << " has no corresponding tile" << std::endl;
     }
   }
 }

@@ -615,6 +615,7 @@ TileMap::autotile(int x, int y, uint32_t tile)
   }
 
   // If tile is not autotileable, abort
+  // If tile is from a corner autotileset, abort as well
   if (curr_set == nullptr)
   {
     return;
@@ -633,6 +634,51 @@ TileMap::autotile(int x, int y, uint32_t tile)
     x, y);
 
   m_tiles[y*m_width + x] = realtile;
+}
+
+void
+TileMap::autotile_corner(int x, int y, uint32_t tile, AutotileCornerOperation op)
+{
+  assert(x >= 0 && x < m_width && y >= 0 && y < m_height);
+  assert(m_tileset->get_autotileset_from_tile(tile)->is_corner());
+
+  AutotileSet* curr_set = m_tileset->get_autotileset_from_tile(tile);
+
+  // If tile is not autotileable, abort
+  if (curr_set == nullptr)
+  {
+    return;
+  }
+
+  // If tile is not empty or already of the appropriate tileset, abort
+  uint32_t current_tile = m_tiles[y*m_width + x];
+  if (current_tile != 0 && (m_tileset->get_autotileset_from_tile(tile) != nullptr
+      && !m_tileset->get_autotileset_from_tile(tile)->is_member(current_tile)))
+  {
+    return;
+  }
+
+  // If the current tile is 0, it will automatically return 0
+  uint8_t mask = curr_set->get_mask_from_tile(current_tile);
+  uint32_t realtile = curr_set->get_autotile(current_tile,
+    (mask & 0x08) != 0 || op == AutotileCornerOperation::ADD_TOP_LEFT,
+    false,
+    (mask & 0x04) != 0 || op == AutotileCornerOperation::ADD_TOP_RIGHT,
+    false,
+    false,
+    false,
+    (mask & 0x02) != 0 || op == AutotileCornerOperation::ADD_BOTTOM_LEFT,
+    false,
+    (mask & 0x01) != 0 || op == AutotileCornerOperation::ADD_BOTTOM_RIGHT,
+    x, y);
+
+  m_tiles[y*m_width + x] = realtile;
+}
+
+AutotileSet*
+TileMap::get_autotileset(uint32_t tile) const
+{
+  return m_tileset->get_autotileset_from_tile(tile);
 }
 
 void
