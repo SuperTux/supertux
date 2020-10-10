@@ -695,9 +695,10 @@ TileMap::is_corner(uint32_t tile)
 void
 TileMap::autotile_erase(const Vector& pos, const Vector& corner_pos)
 {
-  assert(pos.x >= 0 && pos.x < m_width && pos.y >= 0 && pos.y < m_height);
-  assert(corner_pos.x >= 0 && corner_pos.x < m_width &&
-         corner_pos.y >= 0 && corner_pos.y < m_height);
+  assert(pos.x >= 0.f && pos.x < static_cast<float>(m_width) &&
+         pos.y >= 0.f && pos.y < static_cast<float>(m_height));
+  assert(corner_pos.x >= 0.f && corner_pos.x < static_cast<float>(m_width) &&
+         corner_pos.y >= 0.f && corner_pos.y < static_cast<float>(m_height));
 
   uint32_t current_tile = m_tiles[static_cast<int>(pos.y)*m_width
                                   + static_cast<int>(pos.x)];
@@ -707,9 +708,9 @@ TileMap::autotile_erase(const Vector& pos, const Vector& corner_pos)
   if (curr_set && curr_set->is_corner()) {
     int x = static_cast<int>(corner_pos.x), y = static_cast<int>(corner_pos.y);
     autotile_corner(x, y, current_tile, AutotileCornerOperation::REMOVE_TOP_LEFT);
-    autotile_corner(x-1.f, y, current_tile, AutotileCornerOperation::REMOVE_TOP_RIGHT);
-    autotile_corner(x, y-1.f, current_tile, AutotileCornerOperation::REMOVE_BOTTOM_LEFT);
-    autotile_corner(x-1.f, y-1.f, current_tile, AutotileCornerOperation::REMOVE_BOTTOM_RIGHT);
+    autotile_corner(x-1, y, current_tile, AutotileCornerOperation::REMOVE_TOP_RIGHT);
+    autotile_corner(x, y-1, current_tile, AutotileCornerOperation::REMOVE_BOTTOM_LEFT);
+    autotile_corner(x-1, y-1, current_tile, AutotileCornerOperation::REMOVE_BOTTOM_RIGHT);
   }
   else
   {
