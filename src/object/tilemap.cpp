@@ -660,19 +660,110 @@ TileMap::autotile_corner(int x, int y, uint32_t tile, AutotileCornerOperation op
 
   // If the current tile is 0, it will automatically return 0
   uint8_t mask = curr_set->get_mask_from_tile(current_tile);
-  uint32_t realtile = curr_set->get_autotile(current_tile,
-    (mask & 0x08) != 0 || op == AutotileCornerOperation::ADD_TOP_LEFT,
+  if (op == AutotileCornerOperation::REMOVE_TOP_LEFT) mask = static_cast<uint8_t>(mask & 0x07);
+  if (op == AutotileCornerOperation::REMOVE_TOP_RIGHT) mask = static_cast<uint8_t>(mask & 0x0B);
+  if (op == AutotileCornerOperation::REMOVE_BOTTOM_LEFT) mask = static_cast<uint8_t>(mask & 0x0D);
+  if (op == AutotileCornerOperation::REMOVE_BOTTOM_RIGHT) mask = static_cast<uint8_t>(mask & 0x0E);
+  if (op == AutotileCornerOperation::ADD_TOP_LEFT) mask = static_cast<uint8_t>(mask | 0x08);
+  if (op == AutotileCornerOperation::ADD_TOP_RIGHT) mask = static_cast<uint8_t>(mask | 0x04);
+  if (op == AutotileCornerOperation::ADD_BOTTOM_LEFT) mask = static_cast<uint8_t>(mask | 0x02);
+  if (op == AutotileCornerOperation::ADD_BOTTOM_RIGHT) mask = static_cast<uint8_t>(mask | 0x01);
+
+  uint32_t realtile = (!mask) ? 0 : curr_set->get_autotile(current_tile,
+    (mask & 0x08) != 0,
     false,
-    (mask & 0x04) != 0 || op == AutotileCornerOperation::ADD_TOP_RIGHT,
+    (mask & 0x04) != 0,
     false,
     false,
     false,
-    (mask & 0x02) != 0 || op == AutotileCornerOperation::ADD_BOTTOM_LEFT,
+    (mask & 0x02) != 0,
     false,
-    (mask & 0x01) != 0 || op == AutotileCornerOperation::ADD_BOTTOM_RIGHT,
+    (mask & 0x01) != 0,
     x, y);
 
   m_tiles[y*m_width + x] = realtile;
+}
+
+bool
+TileMap::is_corner(uint32_t tile)
+{
+  auto* ats = m_tileset->get_autotileset_from_tile(tile);
+  
+  return ats && ats->is_corner();
+}
+
+void
+TileMap::autotile_erase(const Vector& pos, const Vector& corner_pos)
+{
+  assert(pos.x >= 0 && pos.x < m_width && pos.y >= 0 && pos.y < m_height);
+  assert(corner_pos.x >= 0 && corner_pos.x < m_width &&
+         corner_pos.y >= 0 && corner_pos.y < m_height);
+
+  uint32_t current_tile = m_tiles[static_cast<int>(pos.y)*m_width
+                                  + static_cast<int>(pos.x)];
+
+  AutotileSet* curr_set = m_tileset->get_autotileset_from_tile(current_tile);
+  
+  if (curr_set && curr_set->is_corner()) {
+    int x = static_cast<int>(corner_pos.x), y = static_cast<int>(corner_pos.y);
+    autotile_corner(x, y, current_tile, AutotileCornerOperation::REMOVE_TOP_LEFT);
+    autotile_corner(x-1.f, y, current_tile, AutotileCornerOperation::REMOVE_TOP_RIGHT);
+    autotile_corner(x, y-1.f, current_tile, AutotileCornerOperation::REMOVE_BOTTOM_LEFT);
+    autotile_corner(x-1.f, y-1.f, current_tile, AutotileCornerOperation::REMOVE_BOTTOM_RIGHT);
+  }
+  else
+  {
+    int x = static_cast<int>(pos.x), y = static_cast<int>(pos.y);
+    m_tiles[y*m_width + x] = 0;
+
+    if (x - 1 >= 0 && y - 1 >= 0 && !is_corner(m_tiles[(y-1)*m_width + x-1])) {
+      if (m_tiles[y*m_width + x] == 0)
+        autotile(x, y, m_tiles[(y-1)*m_width + x-1]);
+      autotile(x-1, y-1, m_tiles[(y-1)*m_width + x-1]);
+    }
+
+    if (y - 1 >= 0 && !is_corner(m_tiles[(y-1)*m_width + x])) {
+      if (m_tiles[y*m_width + x] == 0)
+        autotile(x, y, m_tiles[(y-1)*m_width + x]);
+      autotile(x, y-1, m_tiles[(y-1)*m_width + x]);
+    }
+
+    if (y - 1 >= 0 && x + 1 < m_width && !is_corner(m_tiles[(y-1)*m_width + x+1])) {
+      if (m_tiles[y*m_width + x] == 0)
+        autotile(x, y, m_tiles[(y-1)*m_width + x+1]);
+      autotile(x+1, y-1, m_tiles[(y-1)*m_width + x+1]);
+    }
+
+    if (x - 1 >= 0 && !is_corner(m_tiles[y*m_width + x-1])) {
+      if (m_tiles[y*m_width + x] == 0)
+        autotile(x, y, m_tiles[y*m_width + x-1]);
+      autotile(x-1, y, m_tiles[y*m_width + x-1]);
+    }
+
+    if (x + 1 < m_width && !is_corner(m_tiles[y*m_width + x+1])) {
+      if (m_tiles[y*m_width + x] == 0)
+        autotile(x, y, m_tiles[y*m_width + x+1]);
+      autotile(x+1, y, m_tiles[y*m_width + x+1]);
+    }
+
+    if (x - 1 >= 0 && y + 1 < m_height && !is_corner(m_tiles[(y+1)*m_width + x-1])) {
+      if (m_tiles[y*m_width + x] == 0)
+        autotile(x, y, m_tiles[(y+1)*m_width + x-1]);
+      autotile(x-1, y+1, m_tiles[(y+1)*m_width + x-1]);
+    }
+
+    if (y + 1 < m_height && !is_corner(m_tiles[(y+1)*m_width + x])) {
+      if (m_tiles[y*m_width + x] == 0)
+        autotile(x, y, m_tiles[(y+1)*m_width + x]);
+      autotile(x, y+1, m_tiles[(y+1)*m_width + x]);
+    }
+
+    if (y + 1 < m_height && x + 1 < m_width && !is_corner(m_tiles[(y+1)*m_width + x+1])) {
+      if (m_tiles[y*m_width + x] == 0)
+        autotile(x, y, m_tiles[(y+1)*m_width + x+1]);
+      autotile(x+1, y+1, m_tiles[(y+1)*m_width + x+1]);
+    }
+  }
 }
 
 AutotileSet*

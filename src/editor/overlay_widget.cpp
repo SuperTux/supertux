@@ -250,22 +250,20 @@ EditorOverlayWidget::put_tile()
   Vector add_tile;
   for (add_tile.x = static_cast<float>(tiles->m_width) - 1.0f; add_tile.x >= 0.0f; add_tile.x--) {
     for (add_tile.y = static_cast<float>(tiles->m_height) - 1.0f; add_tile.y >= 0; add_tile.y--) {
+      uint32_t tile = tiles->pos(static_cast<int>(add_tile.x), static_cast<int>(add_tile.y));
       if (autotile_mode) {
         auto tilemap = m_editor.get_selected_tilemap();
-        if (tilemap && tilemap->get_autotileset(tiles->pos(
-                                 static_cast<int>(add_tile.x),
-                                 static_cast<int>(add_tile.y)))->is_corner()) {
+        if (tile == 0) {
+          tilemap->autotile_erase(m_hovered_tile + add_tile, m_hovered_corner + add_tile);
+        } else if (tilemap && tilemap->get_autotileset(tile)->is_corner()) {
           input_autotile_corner(m_hovered_corner + add_tile,
-                                tiles->pos(static_cast<int>(add_tile.x),
-                                           static_cast<int>(add_tile.y)),
+                                tile,
                                 m_hovered_tile + add_tile);
         } else {
-          input_autotile(m_hovered_tile + add_tile, tiles->pos(static_cast<int>(add_tile.x),
-                                                     static_cast<int>(add_tile.y)));
+          input_autotile(m_hovered_tile + add_tile, tile);
         }
       } else {
-        input_tile(m_hovered_tile + add_tile, tiles->pos(static_cast<int>(add_tile.x),
-                                                     static_cast<int>(add_tile.y)));
+        input_tile(m_hovered_tile + add_tile, tile);
       }
     }
   }
