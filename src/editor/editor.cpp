@@ -24,6 +24,7 @@
 #include "editor/button_widget.hpp"
 #include "editor/layer_icon.hpp"
 #include "editor/object_info.hpp"
+#include "editor/particle_editor.hpp"
 #include "editor/resize_marker.hpp"
 #include "editor/tile_selection.hpp"
 #include "editor/tip.hpp"
@@ -31,7 +32,6 @@
 #include "editor/undo_manager.hpp"
 #include "gui/dialog.hpp"
 #include "gui/menu_manager.hpp"
-#include "gui/mousecursor.hpp"
 #include "gui/mousecursor.hpp"
 #include "math/util.hpp"
 #include "object/camera.hpp"
@@ -85,6 +85,7 @@ Editor::Editor() :
   m_deactivate_request(false),
   m_save_request(false),
   m_test_request(false),
+  m_particle_editor_request(false),
   m_test_pos(),
   m_savegame(),
   m_sector(),
@@ -179,6 +180,13 @@ Editor::update(float dt_sec, const Controller& controller)
     m_test_request = false;
     MouseCursor::current()->set_icon(nullptr);
     test_level(m_test_pos);
+    return;
+  }
+
+  if (m_particle_editor_request) {
+    m_particle_editor_request = false;
+    std::unique_ptr<Screen> screen(new ParticleEditor());
+    ScreenManager::current()->push_screen(move(screen));
     return;
   }
 

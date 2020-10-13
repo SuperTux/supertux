@@ -155,6 +155,7 @@ public:
   bool m_deactivate_request;
   bool m_save_request;
   bool m_test_request;
+  bool m_particle_editor_request;
   boost::optional<std::pair<std::string, Vector>> m_test_pos;
 
   std::unique_ptr<Savegame> m_savegame;

@@ -49,6 +49,12 @@ void CustomParticles::set_amount(int amount, float time)
   //object.fade_amount(amount, time);
 }
 
+void CustomParticles::clear()
+{
+  SCRIPT_GUARD_VOID;
+  object.clear();
+}
+
 } // namespace scripting
 
 /* EOF */

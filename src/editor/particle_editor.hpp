@@ -1,0 +1,120 @@
+//  SuperTux
+//  Copyright (C) 2015 Hume2 <teratux.mail@gmail.com>
+//
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+#ifndef HEADER_SUPERTUX_EDITOR_PARTICLE_EDITOR_HPP
+#define HEADER_SUPERTUX_EDITOR_PARTICLE_EDITOR_HPP
+
+#include <SDL.h>
+#include <functional>
+#include <vector>
+#include <memory>
+
+#include "editor/particle_settings_widget.hpp"
+#include "interface/control.hpp"
+#include "interface/control_button.hpp"
+#include "interface/control_enum.hpp"
+#include "interface/control_checkbox.hpp"
+#include "interface/control_textbox_float.hpp"
+#include "interface/control_textbox_int.hpp"
+#include "interface/label.hpp"
+#include "object/custom_particle_system.hpp"
+#include "supertux/screen.hpp"
+#include "util/currenton.hpp"
+#include "util/writer.hpp"
+
+class ParticleEditor final : public Screen,
+                             public Currenton<ParticleEditor>
+{
+  friend class ParticleEditorMenu;
+
+public:
+  static bool is_active();
+
+public:
+  ParticleEditor();
+  ~ParticleEditor();
+
+  virtual void draw(Compositor&) override;
+  virtual void update(float dt_sec, const Controller& controller) override;
+
+  virtual void setup() override;
+  virtual void leave() override;
+
+  void event(const SDL_Event& ev);
+  void update_keyboard(const Controller& controller);
+  void check_unsaved_changes(const std::function<void ()>& action);
+  void quit_editor();
+
+  void reactivate();
+
+  void open_particle_directory();
+
+  // saves the particle to file
+  void save(const std::string& filename, bool retry = false);
+  void save(Writer& writer);
+  void request_save(bool is_save_as = false, std::function<void(bool)> callback = [](bool was_saved){});
+  void open(const std::string& filename) { m_filename = filename; reload(); }
+  void new_file() { m_filename = ""; reload(); }
+
+  /** Reloads the particle object from the filename in m_filename.
+   *  If m_filename is empty, loads the default file (/particles/default.stcp)
+   */
+  void reload();
+
+public:
+  bool m_enabled;
+  bool m_quit_request;
+
+private:
+  void addTextboxFloat(std::string name, float* bind,
+                       bool (*float_validator)(ControlTextboxFloat*,
+                                               float) = nullptr);
+  void addTextboxFloatWithImprecision(std::string name, float* bind,
+                                      float* imprecision_bind,
+                                      bool (*float_validator)(ControlTextboxFloat*,
+                                                              float) = nullptr,
+                                      bool (*imp_validator)(ControlTextboxFloat*,
+                                                            float) = nullptr);
+  void addTextboxInt(std::string name, int* bind,
+                     bool (*int_validator)(ControlTextboxInt*,
+                                           int) = nullptr);
+  void addCheckbox(std::string name, bool* bind);
+  void addControl(std::string name,
+                  std::unique_ptr<InterfaceControl> new_control);
+  void addEasingEnum(std::string name, EasingMode* bind);
+
+  void push_version();
+  void undo();
+  void redo();
+
+private:
+  std::vector<std::unique_ptr<InterfaceControl>> m_controls;
+  std::vector<std::shared_ptr<CustomParticleSystem::ParticleProps>> m_undo_stack;
+  std::vector<std::shared_ptr<CustomParticleSystem::ParticleProps>> m_redo_stack;
+
+  std::shared_ptr<CustomParticleSystem::ParticleProps> m_saved_version;
+
+  CustomParticleSystem* m_particles;
+  std::string m_filename;
+
+private:
+  ParticleEditor(const ParticleEditor&) = delete;
+  ParticleEditor& operator=(const ParticleEditor&) = delete;
+};
+
+#endif
+
+/* EOF */

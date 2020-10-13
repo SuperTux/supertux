@@ -20,14 +20,16 @@
 #include "math/easing.hpp"
 #include "math/vector.hpp"
 #include "object/particlesystem_interactive.hpp"
+#include "object/particle_zone.hpp"
 #include "scripting/custom_particles.hpp"
 #include "video/surface.hpp"
 #include "video/surface_ptr.hpp"
 
-class CustomParticleSystem final :
+class CustomParticleSystem :
   public ParticleSystem_Interactive,
   public ExposedObject<CustomParticleSystem, scripting::CustomParticles>
 {
+  friend class ParticleEditor;
 public:
   CustomParticleSystem();
   CustomParticleSystem(const ReaderMapping& reader);
@@ -35,7 +37,7 @@ public:
 
   virtual void draw(DrawingContext& context) override;
 
-  void init();
+  void reinit_textures();
   virtual void update(float dt_sec) override;
 
   virtual std::string get_class() const override { return "particles-custom"; }
@@ -55,11 +57,18 @@ private:
   // Local
   void add_particle(float lifetime, float x, float y);
   void spawn_particles(float lifetime);
+
+  std::vector<ParticleZone::ZoneDetails> get_zones();
+
+  float get_abs_x();
+  float get_abs_y();
   
   float texture_sum_odds;
   float time_last_remaining;
 
+public:
   // Scripting
+  void clear() { custom_particles.clear(); }
 
 private:
   enum class RotationMode {
@@ -95,7 +104,7 @@ private:
     Color color;
     SurfacePtr texture;
     Vector scale;
-    
+
     SpriteProperties() :
       likeliness(1.f),
       color(1.f, 1.f, 1.f, 1.f),
@@ -103,7 +112,7 @@ private:
       scale(1.f, 1.f)
     {
     }
-    
+
     SpriteProperties(SurfacePtr surface) :
       likeliness(1.f),
       color(1.f, 1.f, 1.f, 1.f),
@@ -111,7 +120,7 @@ private:
       scale(1.f, 1.f)
     {
     }
-    
+
     SpriteProperties(SpriteProperties& sp, float alpha) :
       likeliness(sp.likeliness),
       color(sp.color.red, sp.color.green, sp.color.blue, sp.color.alpha * alpha),
@@ -224,6 +233,162 @@ private:
   CollisionMode m_particle_collision_mode;
   OffscreenMode m_particle_offscreen_mode;
   bool m_cover_screen;
+
+public:
+  // TODO: Put all those member variables in some (abstract?) class of which
+  //       both CustomParticlesSystem and ParticleProbs will inherit (so that
+  //       I don't have to write all the variables 4 times just in the header)
+
+  // For the particle editor
+  class ParticleProps final
+  {
+  public:
+    std::string m_particle_main_texture;
+    int m_max_amount;
+    float m_delay;
+    float m_particle_lifetime;
+    float m_particle_lifetime_variation;
+    float m_particle_birth_time,
+          m_particle_birth_time_variation,
+          m_particle_death_time,
+          m_particle_death_time_variation;
+    FadeMode m_particle_birth_mode,
+             m_particle_death_mode;
+    EasingMode m_particle_birth_easing,
+               m_particle_death_easing;
+    float m_particle_speed_x,
+          m_particle_speed_y,
+          m_particle_speed_variation_x,
+          m_particle_speed_variation_y,
+          m_particle_acceleration_x,
+          m_particle_acceleration_y,
+          m_particle_friction_x,
+          m_particle_friction_y;
+    float m_particle_feather_factor;
+    float m_particle_rotation,
+          m_particle_rotation_variation,
+          m_particle_rotation_speed,
+          m_particle_rotation_speed_variation,
+          m_particle_rotation_acceleration,
+          m_particle_rotation_decceleration;
+    RotationMode m_particle_rotation_mode;
+    CollisionMode m_particle_collision_mode;
+    OffscreenMode m_particle_offscreen_mode;
+    bool m_cover_screen;
+
+    ParticleProps() :
+      m_particle_main_texture(),
+      m_max_amount(25),
+      m_delay(0.1f),
+      m_particle_lifetime(5.f),
+      m_particle_lifetime_variation(0.f),
+      m_particle_birth_time(0.f),
+      m_particle_birth_time_variation(0.f),
+      m_particle_death_time(0.f),
+      m_particle_death_time_variation(0.f),
+      m_particle_birth_mode(),
+      m_particle_death_mode(),
+      m_particle_birth_easing(),
+      m_particle_death_easing(),
+      m_particle_speed_x(0.f),
+      m_particle_speed_y(0.f),
+      m_particle_speed_variation_x(0.f),
+      m_particle_speed_variation_y(0.f),
+      m_particle_acceleration_x(0.f),
+      m_particle_acceleration_y(0.f),
+      m_particle_friction_x(0.f),
+      m_particle_friction_y(0.f),
+      m_particle_feather_factor(0.f),
+      m_particle_rotation(0.f),
+      m_particle_rotation_variation(0.f),
+      m_particle_rotation_speed(0.f),
+      m_particle_rotation_speed_variation(0.f),
+      m_particle_rotation_acceleration(0.f),
+      m_particle_rotation_decceleration(0.f),
+      m_particle_rotation_mode(),
+      m_particle_collision_mode(),
+      m_particle_offscreen_mode(),
+      m_cover_screen(true)
+    {
+    }
+  };
+
+  std::shared_ptr<ParticleProps> get_props() const
+  {
+    std::shared_ptr<ParticleProps> props = std::make_shared<ParticleProps>();
+
+    props->m_particle_main_texture = m_particle_main_texture;
+    props->m_max_amount = m_max_amount;
+    props->m_delay = m_delay;
+    props->m_particle_lifetime = m_particle_lifetime;
+    props->m_particle_lifetime_variation = m_particle_lifetime_variation;
+    props->m_particle_birth_time = m_particle_birth_time;
+    props->m_particle_birth_time_variation = m_particle_birth_time_variation;
+    props->m_particle_death_time = m_particle_death_time;
+    props->m_particle_death_time_variation = m_particle_death_time_variation;
+    props->m_particle_birth_mode = m_particle_birth_mode;
+    props->m_particle_death_mode = m_particle_death_mode;
+    props->m_particle_birth_easing = m_particle_birth_easing;
+    props->m_particle_death_easing = m_particle_death_easing;
+    props->m_particle_speed_x = m_particle_speed_x;
+    props->m_particle_speed_y = m_particle_speed_y;
+    props->m_particle_speed_variation_x = m_particle_speed_variation_x;
+    props->m_particle_speed_variation_y = m_particle_speed_variation_y;
+    props->m_particle_acceleration_x = m_particle_acceleration_x;
+    props->m_particle_acceleration_y = m_particle_acceleration_y;
+    props->m_particle_friction_x = m_particle_friction_x;
+    props->m_particle_friction_y = m_particle_friction_y;
+    props->m_particle_feather_factor = m_particle_feather_factor;
+    props->m_particle_rotation = m_particle_rotation;
+    props->m_particle_rotation_variation = m_particle_rotation_variation;
+    props->m_particle_rotation_speed = m_particle_rotation_speed;
+    props->m_particle_rotation_speed_variation = m_particle_rotation_speed_variation;
+    props->m_particle_rotation_acceleration = m_particle_rotation_acceleration;
+    props->m_particle_rotation_decceleration = m_particle_rotation_decceleration;
+    props->m_particle_rotation_mode = m_particle_rotation_mode;
+    props->m_particle_collision_mode = m_particle_collision_mode;
+    props->m_particle_offscreen_mode = m_particle_offscreen_mode;
+    props->m_cover_screen = m_cover_screen;
+
+    return props;
+  }
+
+  void set_props(std::shared_ptr<ParticleProps> props)
+  {
+    m_particle_main_texture = props->m_particle_main_texture;
+    m_max_amount = props->m_max_amount;
+    m_delay = props->m_delay;
+    m_particle_lifetime = props->m_particle_lifetime;
+    m_particle_lifetime_variation = props->m_particle_lifetime_variation;
+    m_particle_birth_time = props->m_particle_birth_time;
+    m_particle_birth_time_variation = props->m_particle_birth_time_variation;
+    m_particle_death_time = props->m_particle_death_time;
+    m_particle_death_time_variation = props->m_particle_death_time_variation;
+    m_particle_birth_mode = props->m_particle_birth_mode;
+    m_particle_death_mode = props->m_particle_death_mode;
+    m_particle_birth_easing = props->m_particle_birth_easing;
+    m_particle_death_easing = props->m_particle_death_easing;
+    m_particle_speed_x = props->m_particle_speed_x;
+    m_particle_speed_y = props->m_particle_speed_y;
+    m_particle_speed_variation_x = props->m_particle_speed_variation_x;
+    m_particle_speed_variation_y = props->m_particle_speed_variation_y;
+    m_particle_acceleration_x = props->m_particle_acceleration_x;
+    m_particle_acceleration_y = props->m_particle_acceleration_y;
+    m_particle_friction_x = props->m_particle_friction_x;
+    m_particle_friction_y = props->m_particle_friction_y;
+    m_particle_feather_factor = props->m_particle_feather_factor;
+    m_particle_rotation = props->m_particle_rotation;
+    m_particle_rotation_variation = props->m_particle_rotation_variation;
+    m_particle_rotation_speed = props->m_particle_rotation_speed;
+    m_particle_rotation_speed_variation = props->m_particle_rotation_speed_variation;
+    m_particle_rotation_acceleration = props->m_particle_rotation_acceleration;
+    m_particle_rotation_decceleration = props->m_particle_rotation_decceleration;
+    m_particle_rotation_mode = props->m_particle_rotation_mode;
+    m_particle_collision_mode = props->m_particle_collision_mode;
+    m_particle_offscreen_mode = props->m_particle_offscreen_mode;
+    m_cover_screen = props->m_cover_screen;
+  }
+
 
 private:
   CustomParticleSystem(const CustomParticleSystem&) = delete;

@@ -80,6 +80,7 @@
 #include "object/circleplatform.hpp"
 #include "object/cloud_particle_system.hpp"
 #include "object/custom_particle_system.hpp"
+#include "object/custom_particle_system_file.hpp"
 #include "object/coin.hpp"
 #include "object/decal.hpp"
 #include "object/explosion.hpp"
@@ -215,6 +216,7 @@ GameObjectFactory::init_factories()
   add_factory<CirclePlatform>("circleplatform");
   add_factory<CloudParticleSystem>("particles-clouds");
   add_factory<CustomParticleSystem>("particles-custom");
+  add_factory<CustomParticleSystemFile>("particles-custom-file");
   add_factory<Coin>("coin");
   add_factory<Decal>("decal");
   add_factory<Explosion>("explosion");

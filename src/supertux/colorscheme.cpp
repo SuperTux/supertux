@@ -17,6 +17,7 @@
 #include "supertux/colorscheme.hpp"
 
 #include "editor/overlay_widget.hpp"
+#include "interface/control.hpp"
 #include "object/floating_text.hpp"
 #include "object/level_time.hpp"
 #include "object/text_object.hpp"

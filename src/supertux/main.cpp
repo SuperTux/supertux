@@ -52,6 +52,7 @@ extern "C" {
 #include "sprite/sprite_manager.hpp"
 #include "supertux/command_line_arguments.hpp"
 #include "supertux/console.hpp"
+#include "supertux/error_handler.hpp"
 #include "supertux/game_manager.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/gameconfig.hpp"
@@ -538,6 +539,9 @@ Main::launch_game(const CommandLineArguments& args)
 int
 Main::run(int argc, char** argv)
 {
+  // First and foremost, set error handlers (to print stack trace on SIGSEGV, etc.)
+  ErrorHandler::set_handlers();
+
 #ifdef WIN32
 	//SDL is used instead of PHYSFS because both create the same path in app data
 	//However, PHYSFS is not yet initizlized, and this should be run before anything is initialized

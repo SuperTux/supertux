@@ -46,9 +46,9 @@ public:
   enum class ParticleZoneType {
     /** Particles will spawn in this area */
     Spawn,
-    /** TODO: Particles will die if they leave this area */
+    /** Particles will die if they leave this area */
     Life,
-    /** TODO: Particles will disappear instantly if they leave this area */
+    /** Particles will disappear instantly if they leave this area */
     LifeClear,
     /** Particles will start dying if they touch this area */
     Killer,
@@ -97,6 +97,26 @@ public:
 
   void set_type(ParticleZoneType type) {m_type = type;}
   ParticleZoneType get_type() {return m_type;}
+
+  class ZoneDetails {
+  public:
+    std::string m_particle_name;
+    ParticleZoneType m_type;
+    Rectf m_rect;
+
+    ZoneDetails(std::string name, ParticleZoneType type, Rectf rect) :
+      m_particle_name(name),
+      m_type(type),
+      m_rect(rect)
+    {
+    }
+
+    Rectf get_rect() const {return m_rect;}
+    ParticleZoneType get_type() const {return m_type;}
+    std::string get_particle_name() const {return m_particle_name;}
+  };
+
+  ZoneDetails get_details() { return ZoneDetails(m_particle_name, m_type, m_col.m_bbox); }
 
 private:
   bool m_enabled;

@@ -136,6 +136,10 @@ public:
   void add_sexp(const std::string& text, const std::string& key,
                 sexp::Value& value, unsigned int flags = 0);
   void add_test_from_here();
+  void add_particle_editor();
+
+  // VERY UNSTABLE - use with care   ~ Semphris (author of that option)
+  void add_button(const std::string& text, const std::function<void()> callback);
 
   const std::vector<std::unique_ptr<ObjectOption> >& get_options() const { return m_options; }
 

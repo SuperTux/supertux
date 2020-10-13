@@ -27,7 +27,8 @@ class ObjectMenu final : public Menu
 public:
   enum {
     MNID_REMOVE,
-    MNID_TEST_FROM_HERE
+    MNID_TEST_FROM_HERE,
+    MNID_OPEN_PARTICLE_EDITOR,
   };
 
 public:

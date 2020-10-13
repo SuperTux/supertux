@@ -51,6 +51,9 @@ public:
 
   /** Smoothly changes the amount of particles to the given value */
   void set_amount(int amount, float time);
+
+  /** Instantly removes all particles of that type on the screen */
+  void clear();
 };
 
 } // namespace scripting

@@ -17,6 +17,7 @@
 #include "object/particle_zone.hpp"
 
 #include "editor/editor.hpp"
+#include "supertux/resources.hpp"
 #include "util/reader_mapping.hpp"
 #include "video/drawing_context.hpp"
 
@@ -99,28 +100,33 @@ void
 ParticleZone::draw(DrawingContext& context)
 {
   if (Editor::is_active()) {
+    Color c;
     switch(m_type) {
     case ParticleZoneType::Spawn:
-      context.color().draw_filled_rect(m_col.m_bbox, Color(0.5f, 0.5f, 1.0f, 0.6f),
-                             0.0f, LAYER_OBJECTS);
+      c = Color(0.5f, 0.5f, 1.0f, 0.6f);
       break;
     case ParticleZoneType::Life:
-      context.color().draw_filled_rect(m_col.m_bbox, Color(0.5f, 1.0f, 0.5f, 0.6f),
-                             0.0f, LAYER_OBJECTS);
+      c = Color(0.5f, 1.0f, 0.5f, 0.6f);
       break;
     case ParticleZoneType::LifeClear:
-      context.color().draw_filled_rect(m_col.m_bbox, Color(1.0f, 1.0f, 0.5f, 0.6f),
-                             0.0f, LAYER_OBJECTS);
+      c = Color(1.0f, 1.0f, 0.5f, 0.6f);
       break;
     case ParticleZoneType::Killer:
-      context.color().draw_filled_rect(m_col.m_bbox, Color(1.0f, 0.75f, 0.5f, 0.6f),
-                             0.0f, LAYER_OBJECTS);
+      c = Color(1.0f, 0.75f, 0.5f, 0.6f);
       break;
     case ParticleZoneType::Destroyer:
-      context.color().draw_filled_rect(m_col.m_bbox, Color(1.0f, 0.5f, 0.5f, 0.6f),
-                             0.0f, LAYER_OBJECTS);
+      c = Color(1.0f, 0.5f, 0.5f, 0.6f);
       break;
     }
+
+    context.color().draw_filled_rect(m_col.m_bbox, c,
+                           0.0f, LAYER_OBJECTS);
+    context.color().draw_text(Resources::small_font,
+                          m_particle_name, 
+                          m_col.m_bbox.p1(),
+                          FontAlignment::ALIGN_LEFT,
+                          LAYER_GUI + 2,
+                          Color::WHITE);
   }
 }
 

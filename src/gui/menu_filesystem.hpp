@@ -22,7 +22,7 @@
 class FileSystemMenu final : public Menu
 {
 public:
-  FileSystemMenu(std::string* filename, const std::vector<std::string>& extensions, const std::string& basedir);
+  FileSystemMenu(std::string* filename, const std::vector<std::string>& extensions, const std::string& basedir, const std::function<void(std::string)> callback = nullptr);
   ~FileSystemMenu();
 
   void menu_action(MenuItem& item) override;
@@ -38,6 +38,7 @@ private:
   std::string m_basedir;
   std::vector<std::string> m_directories;
   std::vector<std::string> m_files;
+  std::function<void(std::string)> m_callback;
 
 private:
   FileSystemMenu(const FileSystemMenu&) = delete;

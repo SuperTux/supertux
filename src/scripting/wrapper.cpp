@@ -1033,6 +1033,35 @@ static SQInteger CustomParticles_set_amount_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger CustomParticles_clear_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+    sq_throwerror(vm, _SC("'clear' called without instance"));
+    return SQ_ERROR;
+  }
+  auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
+
+  if (_this == nullptr) {
+    return SQ_ERROR;
+  }
+
+
+  try {
+    _this->clear();
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'clear'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger Decal_release_hook(SQUserPointer ptr, SQInteger )
 {
   auto _this = reinterpret_cast<scripting::Decal*> (ptr);
@@ -8912,6 +8941,13 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tin");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'set_amount'");
+  }
+
+  sq_pushstring(v, "clear", -1);
+  sq_newclosure(v, &CustomParticles_clear_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'clear'");
   }
 
   if(SQ_FAILED(sq_createslot(v, -3))) {

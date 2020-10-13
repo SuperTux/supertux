@@ -20,13 +20,16 @@
 #include <math.h>
 
 #include "collision/collision.hpp"
+#include "editor/particle_editor.hpp"
+#include "gui/menu_manager.hpp"
 #include "math/aatriangle.hpp"
 #include "math/easing.hpp"
 #include "math/random.hpp"
 #include "object/camera.hpp"
-#include "object/particle_zone.hpp"
 #include "object/tilemap.hpp"
+#include "supertux/fadetoblack.hpp"
 #include "supertux/game_session.hpp"
+#include "supertux/screen_manager.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/tile.hpp"
 #include "util/reader.hpp"
@@ -78,7 +81,7 @@ CustomParticleSystem::CustomParticleSystem() :
   m_particle_offscreen_mode(),
   m_cover_screen(true)
 {
-  init();
+  reinit_textures();
 }
 
 CustomParticleSystem::CustomParticleSystem(const ReaderMapping& reader) :
@@ -284,7 +287,7 @@ CustomParticleSystem::CustomParticleSystem(const ReaderMapping& reader) :
     m_particle_offscreen_mode = OffscreenMode::Never;
   }
 
-  init();
+  reinit_textures();
 }
 
 CustomParticleSystem::~CustomParticleSystem()
@@ -292,10 +295,10 @@ CustomParticleSystem::~CustomParticleSystem()
 }
 
 void
-CustomParticleSystem::init()
+CustomParticleSystem::reinit_textures()
 {
+  m_textures.clear();
   // TODO: Multiple textures for a single particle system object?
-  // TODO: Handle color and scale multipliers per-texture
 
   //m_textures.push_back(SpriteProperties(Surface::from_file("images/engine/editor/sparkle.png")));
   //for (float r = 0.f; r < 1.f; r += 0.5f) {
@@ -426,6 +429,8 @@ CustomParticleSystem::get_settings()
 
   //result.reorder({"amount", "delay", "lifetime", "lifetime-variation", "enabled", "name"});
 
+  result.add_particle_editor();
+
   return result;
 }
 
@@ -523,7 +528,7 @@ CustomParticleSystem::update(float dt_sec)
     particle->speedX *= 1.f - particle->frictionX * dt_sec;
     particle->speedY *= 1.f - particle->frictionY * dt_sec;
     
-    if (collision(particle,
+    if (Sector::current() && collision(particle,
                   Vector(particle->speedX,particle->speedY) * dt_sec) > 0) {
       switch(particle->collision_mode) {
       case CollisionMode::Ignore:
@@ -563,8 +568,8 @@ CustomParticleSystem::update(float dt_sec)
       particle->angle += particle->angle_speed * dt_sec;
     }
 
-    float abs_x = Sector::get().get_camera().get_translation().x;
-    float abs_y = Sector::get().get_camera().get_translation().y;
+    float abs_x = get_abs_x();
+    float abs_y = get_abs_y();
 
     if (!particle->has_been_on_screen) {
       if (particle->pos.y <= static_cast<float>(SCREEN_HEIGHT) + abs_y
@@ -598,7 +603,7 @@ CustomParticleSystem::update(float dt_sec)
     }
 
     bool is_in_life_zone = false;
-    for (auto& zone : GameSession::current()->get_current_sector().get_objects_by_type<ParticleZone>()) {
+    for (auto& zone : get_zones()) {
       if (zone.get_rect().contains(particle->pos) && zone.get_particle_name() == m_name) {
         switch(zone.get_type()) {
         case ParticleZone::ParticleZoneType::Killer:
@@ -640,14 +645,16 @@ CustomParticleSystem::update(float dt_sec)
 
   } // For each particle
 
+
   // Clear dead particles
   // Scroll through the vector backwards, because removing an element affects
   //   the index of all elements after it (prevents buggy behavior)
   for (int i = static_cast<int>(custom_particles.size()) - 1; i >= 0; --i) {
     auto particle = dynamic_cast<CustomParticle*>(custom_particles.at(i).get());
 
-    if (particle->ready_for_deletion)
+    if (particle->ready_for_deletion) {
       custom_particles.erase(custom_particles.begin()+i);
+    }
   }
 
   // Add necessary particles
@@ -657,7 +664,7 @@ CustomParticleSystem::update(float dt_sec)
     int real_max = m_max_amount;
     if (!m_cover_screen) {
       int i = 0;
-      for (auto& zone : GameSession::current()->get_current_sector().get_objects_by_type<ParticleZone>()) {
+      for (auto& zone : get_zones()) {
         if (zone.get_type() == ParticleZone::ParticleZoneType::Spawn && zone.get_particle_name() == m_name) {
           i++;
         }
@@ -838,6 +845,47 @@ CustomParticleSystem::get_random_texture()
   return m_textures.at(0);
 }
 
+std::vector<ParticleZone::ZoneDetails>
+CustomParticleSystem::get_zones()
+{
+  std::vector<ParticleZone::ZoneDetails> list;
+
+  //if (!!GameSession::current() && Sector::current()) {
+  if (!ParticleEditor::current()) {
+
+    // In game or in level editor
+    for (auto& zone : GameSession::current()->get_current_sector().get_objects_by_type<ParticleZone>()) {
+      list.push_back(zone.get_details());
+    }
+
+  } else {
+
+    // In particle editor
+    list.push_back(ParticleZone::ZoneDetails(m_name,
+                                             ParticleZone::ParticleZoneType::Spawn,
+                                             Rectf(virtual_width / 2 - 16.f,
+                                                   virtual_height / 2 - 16.f,
+                                                   virtual_width / 2 + 16.f,
+                                                   virtual_height / 2 + 16.f)
+                                            ));
+
+  }
+
+  return list;
+}
+
+float
+CustomParticleSystem::get_abs_x()
+{
+  return (Sector::current()) ? Sector::get().get_camera().get_translation().x : 0.f;
+}
+
+float
+CustomParticleSystem::get_abs_y()
+{
+  return (Sector::current()) ? Sector::get().get_camera().get_translation().y : 0.f;
+}
+
 /** Initializes and adds a single particle to the stack. Performs
  *    no check regarding the maximum amount of total particles.
  * @param lifetime The time elapsed since the moment the particle should have been born
@@ -918,7 +966,7 @@ void
 CustomParticleSystem::spawn_particles(float lifetime)
 {
   if (!m_cover_screen) {
-    for (auto& zone : GameSession::current()->get_current_sector().get_objects_by_type<ParticleZone>()) {
+    for (auto& zone : get_zones()) {
       if (zone.get_type() == ParticleZone::ParticleZoneType::Spawn && zone.get_particle_name() == m_name) {
         Rectf rect = zone.get_rect();
         add_particle(lifetime,
@@ -927,8 +975,8 @@ CustomParticleSystem::spawn_particles(float lifetime)
       }
     }
   } else {
-    float abs_x = Sector::get().get_camera().get_translation().x;
-    float abs_y = Sector::get().get_camera().get_translation().y;
+    float abs_x = get_abs_x();
+    float abs_y = get_abs_y();
     add_particle(lifetime,
                  graphicsRandom.randf(virtual_width) + abs_x,
                  graphicsRandom.randf(virtual_height) + abs_y);

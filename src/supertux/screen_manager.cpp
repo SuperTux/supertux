@@ -19,6 +19,7 @@
 
 #include "audio/sound_manager.hpp"
 #include "editor/editor.hpp"
+#include "editor/particle_editor.hpp"
 #include "gui/menu_manager.hpp"
 #include "object/player.hpp"
 #include "squirrel/squirrel_virtual_machine.hpp"
@@ -306,6 +307,10 @@ ScreenManager::process_events()
 
     if (Editor::is_active()) {
       Editor::current()->event(event);
+    }
+
+    if (ParticleEditor::is_active()) {
+      ParticleEditor::current()->event(event);
     }
 
     switch (event.type)
