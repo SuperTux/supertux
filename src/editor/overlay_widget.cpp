@@ -250,12 +250,14 @@ EditorOverlayWidget::put_tile()
   Vector add_tile;
   for (add_tile.x = static_cast<float>(tiles->m_width) - 1.0f; add_tile.x >= 0.0f; add_tile.x--) {
     for (add_tile.y = static_cast<float>(tiles->m_height) - 1.0f; add_tile.y >= 0; add_tile.y--) {
+
       uint32_t tile = tiles->pos(static_cast<int>(add_tile.x), static_cast<int>(add_tile.y));
-      if (autotile_mode) {
-        auto tilemap = m_editor.get_selected_tilemap();
+      auto tilemap = m_editor.get_selected_tilemap();
+
+      if (autotile_mode && ((tilemap && tilemap->get_autotileset(tile)) || tile == 0)) {
         if (tile == 0) {
           tilemap->autotile_erase(m_hovered_tile + add_tile, m_hovered_corner + add_tile);
-        } else if (tilemap && tilemap->get_autotileset(tile)->is_corner()) {
+        } else if (tilemap->get_autotileset(tile)->is_corner()) {
           input_autotile_corner(m_hovered_corner + add_tile,
                                 tile,
                                 m_hovered_tile + add_tile);
@@ -265,8 +267,9 @@ EditorOverlayWidget::put_tile()
       } else {
         input_tile(m_hovered_tile + add_tile, tile);
       }
-    }
-  }
+
+    } // for tile y
+  } // for tile x
 }
 
 void
