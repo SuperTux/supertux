@@ -793,10 +793,14 @@ add_library(supertux2_lib STATIC ${CMAKE_BINARY_DIR}/version.h ${SUPERTUX_SOURCE
 if(WIN32)
   add_executable(supertux2 WIN32 src/main.cpp ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.rc)
   target_link_libraries(supertux2 ${SDL2MAIN_LIBRARIES})
+  add_executable(supertux2_launcher WIN32 src/launcher.cpp ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.rc)
+  target_link_libraries(supertux2_launcher ${SDL2MAIN_LIBRARIES})
 else()
   add_executable(supertux2 src/main.cpp)
+  add_executable(supertux2_launcher src/launcher.cpp)
 endif(WIN32)
 target_link_libraries(supertux2 supertux2_lib Boost::filesystem Boost::locale)
+target_link_libraries(supertux2_launcher supertux2_lib Boost::filesystem Boost::locale)
 set_target_properties(supertux2_lib PROPERTIES OUTPUT_NAME supertux2_lib)
 set_target_properties(supertux2_lib PROPERTIES COMPILE_FLAGS "${SUPERTUX2_EXTRA_WARNING_FLAGS}")
 
@@ -935,6 +939,7 @@ else(WIN32 AND NOT UNIX)
   if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin" AND DISABLE_CPACK_BUNDLING)
 
     set(INFOPLIST_CFBUNDLEEXECUTABLE "supertux2")
+    set(INFOPLIST_CFBUNDLEEXECUTABLE "supertux2_launcher")
 
     set(INSTALL_SUBDIR_BIN "SuperTux.app/Contents/MacOS" CACHE STRING "Installation subdir for binaries")
     set(INSTALL_SUBDIR_SHARE "SuperTux.app/Contents/Resources/data" CACHE STRING "Installation subdir for data")
@@ -954,7 +959,7 @@ else(WIN32 AND NOT UNIX)
 
     install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/supertux2.desktop DESTINATION "share/applications")
 
-    set(APPS "\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${INSTALL_SUBDIR_BIN}/supertux2")
+    set(APPS "\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${INSTALL_SUBDIR_BIN}/supertux2" "\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${INSTALL_SUBDIR_BIN}/supertux2_launcher")
 
     install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.png ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.xpm DESTINATION "share/pixmaps/")
     install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/supertux2.svg DESTINATION "share/icons/hicolor/scalable/apps")
@@ -963,6 +968,7 @@ else(WIN32 AND NOT UNIX)
 endif(WIN32 AND NOT UNIX)
 
 install(TARGETS supertux2 DESTINATION ${INSTALL_SUBDIR_BIN})
+install(TARGETS supertux2_launcher DESTINATION ${INSTALL_SUBDIR_BIN})
 
 if(WIN32)
   get_property(SQUIRREL_LIB_PATH TARGET squirrel_lib PROPERTY IMPORTED_LOCATION)
@@ -1083,7 +1089,7 @@ endif(SUPERTUX_VERSION_TWEAK)
 set(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${SUPERTUX_VERSION_STRING}-${SUPERTUX_SYSTEM_NAME}")
 set(CPACK_SOURCE_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${SUPERTUX_VERSION_STRING}-Source")
 set(CPACK_PACKAGE_INSTALL_DIRECTORY "SuperTux")
-set(CPACK_PACKAGE_EXECUTABLES "supertux2" "SuperTux")
+set(CPACK_PACKAGE_EXECUTABLES "supertux2" "SuperTux" "supertux2_launcher" "SuperTux Launcher")
 if(WIN32 AND NOT UNIX)
   set(CPACK_NSIS_INSTALLED_ICON_NAME "supertux2")
   set(CPACK_NSIS_DISPLAY_NAME "SuperTux")
