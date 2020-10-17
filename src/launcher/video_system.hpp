@@ -14,25 +14,25 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_VIDEO_SDL_SDL_VIDEO_SYSTEM_HPP
-#define HEADER_SUPERTUX_VIDEO_SDL_SDL_VIDEO_SYSTEM_HPP
+#ifndef HEADER_SUPERTUX_LAUNCHER_VIDEO_SYSTEM_HPP
+#define HEADER_SUPERTUX_LAUNCHER_VIDEO_SYSTEM_HPP
 
 #include <memory>
 #include <SDL.h>
 
 #include "math/size.hpp"
-#include "video/sdlbase_video_system.hpp"
+#include "video/sdl/sdl_video_system.hpp"
 #include "video/viewport.hpp"
 
 class SDLScreenRenderer;
 class SDLTextureRenderer;
 class TextureManager;
 
-class SDLVideoSystem : public SDLBaseVideoSystem
+class LauncherVideoSystem final : public SDLVideoSystem
 {
 public:
-  SDLVideoSystem();
-  ~SDLVideoSystem();
+  LauncherVideoSystem();
+  ~LauncherVideoSystem();
 
   virtual std::string get_name() const override;
 
@@ -62,8 +62,8 @@ private:
   std::unique_ptr<TextureManager> m_texture_manager;
 
 private:
-  SDLVideoSystem(const SDLVideoSystem&) = delete;
-  SDLVideoSystem& operator=(const SDLVideoSystem&) = delete;
+  LauncherVideoSystem(const LauncherVideoSystem&) = delete;
+  LauncherVideoSystem& operator=(const LauncherVideoSystem&) = delete;
 };
 
 #endif

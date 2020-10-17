@@ -14,13 +14,29 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <SDL.h>
+#ifndef HEADER_SUPERTUX_LAUNCHER_DIALOG_MAIN_HPP
+#define HEADER_SUPERTUX_LAUNCHER_DIALOG_MAIN_HPP
 
-#include <launcher/main.hpp>
+#include "gui/menu.hpp"
 
-int main(int argc, char** argv)
+enum LauncherMainMenuIDs {
+  MNID_LAUNCH,
+  MNID_QUITMAINMENU
+};
+
+class LauncherMainMenu final : public Menu
 {
-  return LauncherMain().run(argc, argv);
-}
+public:
+  LauncherMainMenu();
+
+  void on_window_resize() override;
+  void menu_action(MenuItem& item) override;
+
+private:
+  LauncherMainMenu(const LauncherMainMenu&) = delete;
+  LauncherMainMenu& operator=(const LauncherMainMenu&) = delete;
+};
+
+#endif
 
 /* EOF */

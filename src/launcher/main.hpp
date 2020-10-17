@@ -1,4 +1,5 @@
 //  SuperTux
+//  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //  Copyright (C) 2020 A. Semphris <semphris@protonmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
@@ -19,12 +20,23 @@
 
 #include <string>
 
+class CommandLineArguments;
+
 class LauncherMain final
 {
 public:
   LauncherMain();
 
+  /** We call it run() instead of LauncherMain() as LauncherMain collides with
+      #define LauncherMain SDL_LauncherMain from SDL.h */
   int run(int argc, char** argv);
+
+private:
+  void init_tinygettext();
+  void init_video();
+
+  void launch_game(const CommandLineArguments& args);
+  void resave(const std::string& input_filename, const std::string& output_filename);
 
 private:
   LauncherMain(const LauncherMain&) = delete;

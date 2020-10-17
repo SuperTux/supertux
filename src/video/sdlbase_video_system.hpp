@@ -37,6 +37,8 @@ public:
 
 protected:
   void create_sdl_window(Uint32 flags);
+  void create_advanced_sdl_window(std::string title, int x, int y,
+                                  int w, int h, Uint32 flags);
   void apply_video_mode();
 
 protected:

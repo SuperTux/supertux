@@ -99,14 +99,21 @@ SDLBaseVideoSystem::create_sdl_window(Uint32 flags)
     size = g_config->window_size;
   }
 
-  m_sdl_window.reset(SDL_CreateWindow("SuperTux",
-                                      SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-                                      size.width, size.height,
-                                      flags));
+  create_advanced_sdl_window("SuperTux",
+                             SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+                             size.width, size.height,
+                             flags);
+}
+
+void
+SDLBaseVideoSystem::create_advanced_sdl_window(std::string title, int x, int y, int w, int h, Uint32 flags)
+{
+  m_sdl_window.reset(SDL_CreateWindow(title.c_str(), x, y, w, h, flags));
+
   if (!m_sdl_window)
   {
     std::ostringstream msg;
-    msg << "Couldn't set video mode " << size.width << "x" << size.height << ": " << SDL_GetError();
+    msg << "Couldn't set video mode " << w << "x" << h << ": " << SDL_GetError();
     throw std::runtime_error(msg.str());
   }
 }

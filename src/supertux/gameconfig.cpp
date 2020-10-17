@@ -75,7 +75,6 @@ Config::load()
   {
     throw std::runtime_error("File is not a supertux-config file");
   }
-
   auto config_mapping = root.get_mapping();
   config_mapping.get("profile", profile);
   config_mapping.get("show_fps", show_fps);
