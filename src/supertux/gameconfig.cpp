@@ -61,6 +61,7 @@ Config::Config() :
   enable_discord(false),
   discord_hide_editor(false),
 #endif
+  editor_autosave_frequency(5),
   repository_url()
 {
 }
@@ -92,6 +93,8 @@ Config::load()
     config_integrations_mapping->get("discord_hide_editor", discord_hide_editor);
 #endif
   }
+
+  config_mapping.get("editor_autosave_frequency", editor_autosave_frequency);
 
   EditorOverlayWidget::autotile_help = !developer_mode;
 
@@ -209,7 +212,9 @@ Config::save()
 #endif
   }
   writer.end_list("integrations");
-  
+
+  writer.write("editor_autosave_frequency", editor_autosave_frequency);
+
   if (is_christmas()) {
     writer.write("christmas", christmas_mode);
   }

@@ -54,7 +54,6 @@
 #include "supertux/world.hpp"
 #include "util/file_system.hpp"
 #include "util/reader_mapping.hpp"
-#include "util/string_util.hpp"
 #include "video/compositor.hpp"
 #include "video/drawing_context.hpp"
 #include "video/surface.hpp"
@@ -78,7 +77,7 @@ Editor::Editor() :
   m_level(),
   m_world(),
   m_levelfile(),
-  m_test_levelfile(),
+  m_autosave_levelfile(),
   m_quit_request(false),
   m_newlevel_request(false),
   m_reload_request(false),
@@ -100,7 +99,8 @@ Editor::Editor() :
   m_bgr_surface(Surface::from_file("images/background/antarctic/arctis2.png")),
   m_undo_manager(new UndoManager),
   m_ignore_sector_change(false),
-  m_level_first_loaded(false)
+  m_level_first_loaded(false),
+  m_time_since_last_save(0.f)
 {
   auto toolbox_widget = std::make_unique<EditorToolboxWidget>(*this);
   auto layers_widget = std::make_unique<EditorLayersWidget>(*this);
@@ -152,6 +152,24 @@ Editor::draw(Compositor& compositor)
 void
 Editor::update(float dt_sec, const Controller& controller)
 {
+  // Auto-save (interval)
+  if (m_level) {
+    m_time_since_last_save += dt_sec;
+    if (m_time_since_last_save >= 10.f) {
+      m_time_since_last_save = 0.f;
+      std::string backup_filename = get_autosave_from_levelname(m_levelfile);
+      std::string directory = get_level_directory();
+
+      // Set the test level file even though we're not testing, so that
+      // if the user quits the editor without ever testing, it'll delete
+      // the autosave file anyways
+      m_autosave_levelfile = FileSystem::join(directory, backup_filename);
+      m_level->save(m_autosave_levelfile);
+    }
+  } else {
+    m_time_since_last_save = 0.f;
+  }
+
   // Pass all requests
   if (m_reload_request) {
     reload_level();
@@ -210,11 +228,30 @@ Editor::update(float dt_sec, const Controller& controller)
 }
 
 void
+Editor::remove_autosave_file()
+{
+  // Clear the auto-save file
+  if (!m_autosave_levelfile.empty())
+  {
+    // Try to remove the test level using the PhysFS file system
+    if (physfsutil::remove(m_autosave_levelfile) != 0)
+    {
+      // This file is not inside any PhysFS mounts,
+      // try to remove this using normal file system
+      // methods.
+      FileSystem::remove(m_autosave_levelfile);
+    }
+  }
+}
+
+void
 Editor::save_level()
 {
   m_undo_manager->reset_index();
   m_level->save(m_world ? FileSystem::join(m_world->get_basedir(), m_levelfile) :
               m_levelfile);
+  m_time_since_last_save = 0.f;
+  remove_autosave_file();
 }
 
 std::string
@@ -242,7 +279,7 @@ Editor::test_level(const boost::optional<std::pair<std::string, Vector>>& test_p
 
   Tile::draw_editor_images = false;
   Compositor::s_render_lighting = true;
-  std::string backup_filename = m_levelfile + "~";
+  std::string backup_filename = get_autosave_from_levelname(m_levelfile);
   std::string directory = get_level_directory();
 
   // This is jank to get an owned World pointer, GameManager/World
@@ -254,8 +291,10 @@ Editor::test_level(const boost::optional<std::pair<std::string, Vector>>& test_p
     current_world = owned_world.get();
   }
 
-  m_test_levelfile = FileSystem::join(directory, backup_filename);
-  m_level->save(m_test_levelfile);
+  m_autosave_levelfile = FileSystem::join(directory, backup_filename);
+  m_level->save(m_autosave_levelfile);
+  m_time_since_last_save = 0.f;
+
   if (!m_level->is_worldmap())
   {
     Integration::set_level(m_level->get_name().c_str());
@@ -266,7 +305,7 @@ Editor::test_level(const boost::optional<std::pair<std::string, Vector>>& test_p
   {
     Integration::set_worldmap(m_level->get_name().c_str());
     Integration::set_status(TESTING_WORLDMAP);
-    GameManager::current()->start_worldmap(*current_world, "", m_test_levelfile);
+    GameManager::current()->start_worldmap(*current_world, "", m_autosave_levelfile);
   }
 
   m_leveltested = true;
@@ -472,6 +511,12 @@ Editor::reload_level()
                                    StringUtil::has_suffix(m_levelfile, ".stwm"),
                                    true));
   ReaderMapping::s_translations_enabled = true;
+
+  // Autosave files : Once the level is loaded, make sure
+  // to use the regular file
+  m_levelfile = get_levelname_from_autosave(m_levelfile);
+  m_autosave_levelfile = FileSystem::join(get_level_directory(),
+                                          get_autosave_from_levelname(m_levelfile));
 }
 
 void
@@ -481,6 +526,8 @@ Editor::quit_editor()
 
   auto quit = [this] ()
   {
+    remove_autosave_file();
+
     //Quit level editor
     m_world = nullptr;
     m_levelfile = "";
@@ -573,17 +620,6 @@ Editor::setup()
 
   // Reactivate the editor after level test
   if (m_leveltested) {
-    if (!m_test_levelfile.empty())
-    {
-      // Try to remove the test level using the PhysFS file system
-      if (physfsutil::remove(m_test_levelfile) != 0)
-      {
-        // This file is not inside any PhysFS mounts,
-        // try to remove this using normal file system
-        // methods.
-        FileSystem::remove(m_test_levelfile);
-      }
-    }
     m_leveltested = false;
     Tile::draw_editor_images = true;
     m_level->reactivate();
