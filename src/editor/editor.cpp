@@ -42,6 +42,8 @@
 #include "sdk/integration.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/game_manager.hpp"
+#include "supertux/gameconfig.hpp"
+#include "supertux/globals.hpp"
 #include "supertux/level.hpp"
 #include "supertux/level_parser.hpp"
 #include "supertux/menu/menu_storage.hpp"
@@ -155,7 +157,8 @@ Editor::update(float dt_sec, const Controller& controller)
   // Auto-save (interval)
   if (m_level) {
     m_time_since_last_save += dt_sec;
-    if (m_time_since_last_save >= 10.f) {
+    if (m_time_since_last_save >= static_cast<float>(std::max(
+        g_config->editor_autosave_frequency, 1)) * 60.f) {
       m_time_since_last_save = 0.f;
       std::string backup_filename = get_autosave_from_levelname(m_levelfile);
       std::string directory = get_level_directory();
