@@ -155,7 +155,7 @@ EditorLevelSelectMenu::menu_action(MenuItem& item)
 
     if (PHYSFS_exists((file_name_full + "~").c_str())) {
       auto dialog = std::make_unique<Dialog>(/* passive = */ false, /* auto_clear_dialogs = */ false);
-      dialog->set_text(_("An auto-save file has been found. Would you like to open the auto-save file?\n"));
+      dialog->set_text(_("An auto-save recovery file was found. Would you like to restore the recovery\nfile and resume where you were before the editor crashed?"));
       dialog->clear_buttons();
       dialog->add_default_button(_("Yes"), [this, file_name] {
         open_level(file_name + "~");
