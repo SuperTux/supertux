@@ -61,6 +61,7 @@ int EditorOverlayWidget::selected_snap_grid_size = 3;
 EditorOverlayWidget::EditorOverlayWidget(Editor& editor) :
   m_editor(editor),
   m_hovered_tile(0, 0),
+  m_hovered_corner(0, 0),
   m_sector_pos(0, 0),
   m_mouse_pos(0, 0),
   m_dragging(false),
@@ -204,21 +205,71 @@ EditorOverlayWidget::input_autotile(const Vector& pos, uint32_t tile)
 }
 
 void
+EditorOverlayWidget::autotile_corner(const Vector& pos, uint32_t tile,
+                                     TileMap::AutotileCornerOperation op)
+{
+  auto tilemap = m_editor.get_selected_tilemap();
+  if (!tilemap) {
+    return;
+  }
+
+  if ( pos.x < 0 ||
+       pos.y < 0 ||
+       pos.x >= static_cast<float>(tilemap->get_width()) ||
+       pos.y >= static_cast<float>(tilemap->get_height())) {
+    return;
+  }
+
+  tilemap->autotile_corner(static_cast<int>(pos.x), static_cast<int>(pos.y), tile, op);
+}
+
+void
+EditorOverlayWidget::input_autotile_corner(const Vector& corner, uint32_t tile, const Vector& override_pos)
+{
+  // Erase the tile - the autotiling will add the necessary tile after
+  //if (override_pos != Vector(-1.f, -1.f))
+  //  this->input_tile(override_pos, 0);
+
+  float x = corner.x;
+  float y = corner.y;
+
+  this->autotile_corner(Vector(x - 1.0f, y - 1.0f), tile,
+                        TileMap::AutotileCornerOperation::ADD_BOTTOM_RIGHT);
+  this->autotile_corner(Vector(x       , y - 1.0f), tile,
+                        TileMap::AutotileCornerOperation::ADD_BOTTOM_LEFT);
+  this->autotile_corner(Vector(x - 1.0f, y       ), tile,
+                        TileMap::AutotileCornerOperation::ADD_TOP_RIGHT);
+  this->autotile_corner(Vector(x       , y       ), tile,
+                        TileMap::AutotileCornerOperation::ADD_TOP_LEFT);
+}
+
+void
 EditorOverlayWidget::put_tile()
 {
   auto tiles = m_editor.get_tiles();
   Vector add_tile;
   for (add_tile.x = static_cast<float>(tiles->m_width) - 1.0f; add_tile.x >= 0.0f; add_tile.x--) {
     for (add_tile.y = static_cast<float>(tiles->m_height) - 1.0f; add_tile.y >= 0; add_tile.y--) {
-      if (autotile_mode) {
-        input_autotile(m_hovered_tile + add_tile, tiles->pos(static_cast<int>(add_tile.x),
-                                                     static_cast<int>(add_tile.y)));
+
+      uint32_t tile = tiles->pos(static_cast<int>(add_tile.x), static_cast<int>(add_tile.y));
+      auto tilemap = m_editor.get_selected_tilemap();
+
+      if (autotile_mode && ((tilemap && tilemap->get_autotileset(tile)) || tile == 0)) {
+        if (tile == 0) {
+          tilemap->autotile_erase(m_hovered_tile + add_tile, m_hovered_corner + add_tile);
+        } else if (tilemap->get_autotileset(tile)->is_corner()) {
+          input_autotile_corner(m_hovered_corner + add_tile,
+                                tile,
+                                m_hovered_tile + add_tile);
+        } else {
+          input_autotile(m_hovered_tile + add_tile, tile);
+        }
       } else {
-        input_tile(m_hovered_tile + add_tile, tiles->pos(static_cast<int>(add_tile.x),
-                                                     static_cast<int>(add_tile.y)));
+        input_tile(m_hovered_tile + add_tile, tile);
       }
-    }
-  }
+
+    } // for tile y
+  } // for tile x
 }
 
 void
@@ -871,6 +922,9 @@ EditorOverlayWidget::update_pos()
 
   m_sector_pos = m_mouse_pos + m_editor.get_sector()->get_camera().get_translation();
   m_hovered_tile = sp_to_tp(m_sector_pos);
+
+  float half_tile = 16.f;
+  m_hovered_corner = sp_to_tp(m_sector_pos + Vector(half_tile, half_tile));
   // update tip
   hover_object();
 }
@@ -1056,7 +1110,13 @@ EditorOverlayWidget::draw(DrawingContext& context)
         context.color().draw_text(Resources::normal_font, _("Hold Ctrl to enable autotile"), Vector(144, 16), ALIGN_LEFT, LAYER_OBJECTS+1, EditorOverlayWidget::text_autotile_available_color);
       }
     } else if (autotile_mode) {
-      context.color().draw_text(Resources::normal_font, _("Selected tile isn't autotileable"), Vector(144, 16), ALIGN_LEFT, LAYER_OBJECTS+1, EditorOverlayWidget::text_autotile_error_color);
+      if (m_editor.get_tiles()->pos(0, 0) == 0) {
+        context.color().draw_text(Resources::normal_font, _("Autotile erasing mode is on"), Vector(144, 16), ALIGN_LEFT, LAYER_OBJECTS+1, EditorOverlayWidget::text_autotile_active_color);
+      } else {
+        context.color().draw_text(Resources::normal_font, _("Selected tile isn't autotileable"), Vector(144, 16), ALIGN_LEFT, LAYER_OBJECTS+1, EditorOverlayWidget::text_autotile_error_color);
+      }
+    } else if (m_editor.get_tiles()->pos(0, 0) == 0) {
+        context.color().draw_text(Resources::normal_font, _("Hold Ctrl to enable autotile erasing"), Vector(144, 16), ALIGN_LEFT, LAYER_OBJECTS+1, EditorOverlayWidget::text_autotile_available_color);
     }
   }
 
