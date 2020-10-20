@@ -65,6 +65,12 @@ private:
         has custom loops defined */
     bool has_custom_loops;
 
+    /** A unique identifier that's shared across
+        actions that should continue each other
+        (aka not reset when switching from one
+        to another) */
+    std::string family_name;
+
     std::vector<SurfacePtr> surfaces;
   };
 
