@@ -75,7 +75,7 @@ public:
   void set_translation(const Vector& newtranslation)
   {  transform().translation = newtranslation;  }
 
-  bool get_scale() const { return transform().scale; }
+  float get_scale() const { return transform().scale; }
   void scale(float scale) { transform().scale *= scale; }
 
   /** Apply that flip in the next draws (flips are listed on surface.h). */

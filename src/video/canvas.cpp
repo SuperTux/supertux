@@ -127,7 +127,9 @@ Canvas::draw_surface(const SurfacePtr& surface,
   request->blend = blend;
 
   request->srcrects.emplace_back(Rectf(surface->get_region()));
-  request->dstrects.emplace_back(Rectf(apply_translate(position)*scale(), Size(surface->get_width()*scale(), surface->get_height()*scale())));
+  request->dstrects.emplace_back(Rectf(apply_translate(position)*scale(),
+                                 Sizef(static_cast<float>(surface->get_width())*scale(),
+                                       static_cast<float>(surface->get_height())*scale())));
   request->angles.emplace_back(angle);
   request->texture = surface->get_texture().get();
   request->displacement_texture = surface->get_displacement_texture().get();

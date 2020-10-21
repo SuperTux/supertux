@@ -73,7 +73,7 @@ Camera::scroll_to(float x, float y, float scrolltime)
 float
 Camera::get_current_scale()
 {
-  SCRIPT_GUARD_RETURN(1.f);
+  SCRIPT_GUARD_DEFAULT;
   BIND_SECTOR(::Sector::get());
   return object.get_current_scale();
 }
@@ -81,7 +81,7 @@ Camera::get_current_scale()
 float
 Camera::get_target_scale()
 {
-  SCRIPT_GUARD_RETURN(1.f);
+  SCRIPT_GUARD_DEFAULT;
   BIND_SECTOR(::Sector::get());
   return object.get_target_scale();
 }
