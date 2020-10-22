@@ -65,8 +65,9 @@ TitleScreen::make_tux_jump()
   // Check if we should press the jump button
   Rectf lookahead = tux.get_bbox();
   lookahead.set_right(lookahead.get_right() + 96);
+  lookahead.set_bottom(lookahead.get_bottom() - 2);
   bool pathBlocked = !sector.is_free_of_statics(lookahead);
-  if ((pathBlocked && jumpWasReleased) || !tux.on_ground()) {
+  if ((pathBlocked && jumpWasReleased) || tux.m_fall_mode == Player::FallMode::JUMPING) {
     m_controller->press(Control::JUMP);
     jumpWasReleased = false;
   } else {

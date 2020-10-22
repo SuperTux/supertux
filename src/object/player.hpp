@@ -256,6 +256,7 @@ private:
   bool m_jumping;
   bool m_can_jump;
   Timer m_jump_button_timer; /**< started when player presses the jump button; runs until Tux jumps or JUMP_GRACE_TIME runs out */
+  Timer m_coyote_timer; /**< started when Tux falls off a ledge; runs until Tux jumps or COYOTE_TIME runs out */
   bool m_wants_buttjump;
 
 public:
