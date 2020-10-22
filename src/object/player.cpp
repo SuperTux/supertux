@@ -112,6 +112,7 @@ const float UNDUCK_HURT_TIME = 0.25f;
 const float JUMP_EARLY_APEX_FACTOR = 3.0;
 
 const float JUMP_GRACE_TIME = 0.25f; /**< time before hitting the ground that the jump button may be pressed (and still trigger a jump) */
+const float COYOTE_TIME = 0.1f; /**< time between the moment leaving a platform without jumping and being able to jump anyways despite being in the air */
 
 /* Tux's collision rectangle */
 const float TUX_WIDTH = 31.8f;
@@ -157,6 +158,7 @@ Player::Player(PlayerStatus& player_status, const std::string& name_) :
   m_jumping(false),
   m_can_jump(true),
   m_jump_button_timer(),
+  m_coyote_timer(),
   m_wants_buttjump(false),
   m_does_buttjump(false),
   m_invincible_timer(),
@@ -413,6 +415,10 @@ Player::update(float dt_sec)
 	m_powersprite->set_angle(m_sprite->get_angle());}
       if (m_player_status.bonus == EARTH_BONUS)
         m_lightsprite->set_angle(m_sprite->get_angle());
+  }
+
+  if (on_ground()) {
+    m_coyote_timer.start(COYOTE_TIME);
   }
 
   // set fall mode...
@@ -865,7 +871,7 @@ Player::do_backflip() {
 
 void
 Player::do_jump(float yspeed) {
-  if (!on_ground())
+  if (!on_ground() && !m_coyote_timer.started())
     return;
 
   m_physic.set_velocity_y(yspeed);
@@ -907,7 +913,7 @@ Player::handle_vertical_input()
 {
   // Press jump key
   if (m_controller->pressed(Control::JUMP)) m_jump_button_timer.start(JUMP_GRACE_TIME);
-  if (m_controller->hold(Control::JUMP) && m_jump_button_timer.started() && m_can_jump) {
+  if (m_controller->hold(Control::JUMP) && m_jump_button_timer.started() && (m_can_jump || m_coyote_timer.started())) {
     m_jump_button_timer.stop();
     if (m_duck) {
       // when running, only jump a little bit; else do a backflip
@@ -929,6 +935,8 @@ Player::handle_vertical_input()
       else
         do_jump((fabsf(m_physic.get_velocity_x()) > MAX_WALK_XM) ? -580.0f : -520.0f);
     }
+    //Stop the coyote timer only after calling do_jump, because do_jump also checks for the timer
+    m_coyote_timer.stop();
     // airflower glide only when holding jump key
   } else  if (m_controller->hold(Control::JUMP) && m_player_status.bonus == AIR_BONUS && m_physic.get_velocity_y() > MAX_GLIDE_YM) {
       if (m_ability_time > 0 && !m_ability_timer.started())
