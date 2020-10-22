@@ -99,10 +99,10 @@ public:
   void set_mode(Mode mode_) { m_mode = mode_; }
 
   /** get the exact scale at this exact moment */
-  float get_current_scale() { return m_scale; }
+  float get_current_scale() const { return m_scale; }
 
   /** get the scale towards which the camera is moving */
-  float get_target_scale() { return m_scale_target; }
+  float get_target_scale() const { return m_scale_target; }
 
   /** smoothly slide the scale of the camera towards a new value */
   void ease_scale(float scale, float time, easing ease);
