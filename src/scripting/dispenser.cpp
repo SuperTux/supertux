@@ -21,13 +21,13 @@ namespace scripting {
 
 void Dispenser::activate()
 {
-  SCRIPT_GUARD_VOID;
+  SCRIPT_GUARD_VOID_T(Dispenser);
   object.activate();
 }
 
 void Dispenser::deactivate()
 {
-  SCRIPT_GUARD_VOID;
+  SCRIPT_GUARD_VOID_T(Dispenser);
   object.deactivate();
 }
 

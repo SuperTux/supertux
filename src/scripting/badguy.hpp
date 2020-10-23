@@ -27,9 +27,9 @@ class BadGuy;
 
 namespace scripting {
 
-class BadGuy final
+class BadGuy
 #ifndef SCRIPTING_API
-  : public GameObject<::BadGuy>
+  : virtual public GameObject<::BadGuy>
 #endif
 {
 #ifndef SCRIPTING_API
