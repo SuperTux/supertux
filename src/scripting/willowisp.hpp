@@ -34,7 +34,7 @@ class WillOWisp final : public scripting::BadGuy
 {
 #ifndef SCRIPTING_API
 public:
-  using GameObject<::WillOWisp>::GameObject;
+  using BadGuy::BadGuy;
 
 private:
   WillOWisp(const WillOWisp&) = delete;
