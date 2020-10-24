@@ -19,6 +19,7 @@
 
 #ifndef SCRIPTING_API
 #include <string>
+#include "scripting/badguy.hpp"
 #include "scripting/game_object.hpp"
 
 class WillOWisp;
@@ -26,14 +27,14 @@ class WillOWisp;
 
 namespace scripting {
 
-class WillOWisp final
+class WillOWisp final : public scripting::BadGuy
 #ifndef SCRIPTING_API
-  : public GameObject<::WillOWisp>
+  , virtual public GameObject<::WillOWisp>
 #endif
 {
 #ifndef SCRIPTING_API
 public:
-  using GameObject::GameObject;
+  using BadGuy::BadGuy;
 
 private:
   WillOWisp(const WillOWisp&) = delete;

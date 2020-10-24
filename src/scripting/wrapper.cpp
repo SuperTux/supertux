@@ -8176,6 +8176,74 @@ void register_supertux_wrapper(HSQUIRRELVM v)
     throw SquirrelError(v, "Couldn't register class 'BadGuy'");
   }
 
+  // Register class Dispenser
+  sq_pushstring(v, "Dispenser", -1);
+  sq_pushstring(v, "BadGuy", -1);
+  sq_get(v, -3);
+  if(sq_newclass(v, SQTrue) < 0) {
+    std::ostringstream msg;
+    msg << "Couldn't create new class 'Dispenser'";
+    throw SquirrelError(v, msg.str());
+  }
+  sq_pushstring(v, "activate", -1);
+  sq_newclosure(v, &Dispenser_activate_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'activate'");
+  }
+
+  sq_pushstring(v, "deactivate", -1);
+  sq_newclosure(v, &Dispenser_deactivate_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'deactivate'");
+  }
+
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register class 'Dispenser'");
+  }
+
+  // Register class WillOWisp
+  sq_pushstring(v, "WillOWisp", -1);
+  sq_pushstring(v, "BadGuy", -1);
+  sq_get(v, -3);
+  if(sq_newclass(v, SQTrue) < 0) {
+    std::ostringstream msg;
+    msg << "Couldn't create new class 'WillOWisp'";
+    throw SquirrelError(v, msg.str());
+  }
+  sq_pushstring(v, "goto_node", -1);
+  sq_newclosure(v, &WillOWisp_goto_node_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|ti");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'goto_node'");
+  }
+
+  sq_pushstring(v, "set_state", -1);
+  sq_newclosure(v, &WillOWisp_set_state_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|ts");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'set_state'");
+  }
+
+  sq_pushstring(v, "start_moving", -1);
+  sq_newclosure(v, &WillOWisp_start_moving_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'start_moving'");
+  }
+
+  sq_pushstring(v, "stop_moving", -1);
+  sq_newclosure(v, &WillOWisp_stop_moving_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'stop_moving'");
+  }
+
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register class 'WillOWisp'");
+  }
+
   // Register class Camera
   sq_pushstring(v, "Camera", -1);
   if(sq_newclass(v, SQFalse) < 0) {
@@ -8284,31 +8352,6 @@ void register_supertux_wrapper(HSQUIRRELVM v)
 
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register class 'Decal'");
-  }
-
-  // Register class Dispenser
-  sq_pushstring(v, "Dispenser", -1);
-  if(sq_newclass(v, SQFalse) < 0) {
-    std::ostringstream msg;
-    msg << "Couldn't create new class 'Dispenser'";
-    throw SquirrelError(v, msg.str());
-  }
-  sq_pushstring(v, "activate", -1);
-  sq_newclosure(v, &Dispenser_activate_wrapper, 0);
-  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register function 'activate'");
-  }
-
-  sq_pushstring(v, "deactivate", -1);
-  sq_newclosure(v, &Dispenser_deactivate_wrapper, 0);
-  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register function 'deactivate'");
-  }
-
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register class 'Dispenser'");
   }
 
   // Register class DisplayEffect
@@ -9461,45 +9504,6 @@ void register_supertux_wrapper(HSQUIRRELVM v)
 
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register class 'Torch'");
-  }
-
-  // Register class WillOWisp
-  sq_pushstring(v, "WillOWisp", -1);
-  if(sq_newclass(v, SQFalse) < 0) {
-    std::ostringstream msg;
-    msg << "Couldn't create new class 'WillOWisp'";
-    throw SquirrelError(v, msg.str());
-  }
-  sq_pushstring(v, "goto_node", -1);
-  sq_newclosure(v, &WillOWisp_goto_node_wrapper, 0);
-  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|ti");
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register function 'goto_node'");
-  }
-
-  sq_pushstring(v, "set_state", -1);
-  sq_newclosure(v, &WillOWisp_set_state_wrapper, 0);
-  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|ts");
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register function 'set_state'");
-  }
-
-  sq_pushstring(v, "start_moving", -1);
-  sq_newclosure(v, &WillOWisp_start_moving_wrapper, 0);
-  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register function 'start_moving'");
-  }
-
-  sq_pushstring(v, "stop_moving", -1);
-  sq_newclosure(v, &WillOWisp_stop_moving_wrapper, 0);
-  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register function 'stop_moving'");
-  }
-
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register class 'WillOWisp'");
   }
 
   // Register class Wind
