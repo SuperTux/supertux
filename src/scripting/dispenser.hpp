@@ -33,7 +33,7 @@ class Dispenser final : public scripting::BadGuy
 {
 #ifndef SCRIPTING_API
 public:
-  using GameObject<::Dispenser>::GameObject;
+  using BadGuy::BadGuy;
 
 private:
   Dispenser(const Dispenser&) = delete;
