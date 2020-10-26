@@ -391,6 +391,7 @@ Sector::draw(DrawingContext& context)
 
   context.push_transform();
   context.set_translation(camera.get_translation());
+  context.scale(camera.get_current_scale());
 
   GameObjectManager::draw(context);
 

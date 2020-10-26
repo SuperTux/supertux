@@ -137,7 +137,13 @@ Camera::Camera(const std::string& name) :
   m_scroll_goal(),
   m_scroll_to_pos(),
   m_scrollspeed(),
-  m_config(std::make_unique<CameraConfig>())
+  m_config(std::make_unique<CameraConfig>()),
+  m_scale(1.f),
+  m_scale_origin(1.f),
+  m_scale_target(1.f),
+  m_scale_time_total(0.f),
+  m_scale_time_remaining(0.f),
+  m_scale_easing()
 {
   reload_config();
 }
@@ -162,7 +168,13 @@ Camera::Camera(const ReaderMapping& reader) :
   m_scroll_goal(),
   m_scroll_to_pos(),
   m_scrollspeed(),
-  m_config(std::make_unique<CameraConfig>())
+  m_config(std::make_unique<CameraConfig>()),
+  m_scale(1.f),
+  m_scale_origin(1.f),
+  m_scale_target(1.f),
+  m_scale_time_total(0.f),
+  m_scale_time_remaining(0.f),
+  m_scale_easing()
 {
   std::string modename;
 
@@ -232,10 +244,11 @@ Camera::after_editor_set()
   }
 }
 
-const Vector&
+const Vector
 Camera::get_translation() const
 {
-  return m_translation;
+  Vector screen_size = Sizef(m_screen_size).as_vector();
+  return m_translation + ((screen_size * (m_scale - 1.f)) / 2.f);
 }
 
 void
@@ -305,6 +318,7 @@ Camera::update(float dt_sec)
     default:
       break;
   }
+  update_scale(dt_sec);
   shake();
 }
 
@@ -594,6 +608,13 @@ Camera::update_scroll_normal(float dt_sec)
       }
     }
 
+    if (m_lookahead_pos.x > RIGHTEND) {
+      m_lookahead_pos.x = RIGHTEND;
+    }
+    if (m_lookahead_pos.x < LEFTEND) {
+      m_lookahead_pos.x = LEFTEND;
+    }
+
     // adjust for level ends
     if (player_pos.x < LEFTEND) {
       m_lookahead_pos.x = LEFTEND;
@@ -674,6 +695,50 @@ Camera::update_scroll_to(float dt_sec)
   }
 
   m_translation = m_scroll_from + (m_scroll_goal - m_scroll_from) * m_scroll_to_pos;
+}
+
+void
+Camera::update_scale(float dt_sec)
+{
+  if (m_scale_time_remaining > 0.f)
+  {
+    m_scale_time_remaining -= dt_sec;
+
+    if (m_scale_time_remaining <= 0.f)
+    {
+      m_scale = m_scale_target;
+      m_scale_time_remaining = 0.f;
+    }
+    else
+    {
+      float progress = (m_scale_time_total - m_scale_time_remaining)
+                                                          / m_scale_time_total;
+      float true_progress = static_cast<float>(m_scale_easing(
+                                               static_cast<double>(progress)));
+      m_scale = m_scale_origin +
+                             (m_scale_target - m_scale_origin) * true_progress;
+    }
+
+    // Re-center camera when zooming
+    m_lookahead_pos /= 1.01f;
+  }
+
+  Vector screen_size = Sizef(m_screen_size).as_vector();
+  m_translation += screen_size * (1.f - m_scale) / 2.f;
+}
+
+void
+Camera::ease_scale(float scale, float time, easing ease)
+{
+  if (time <= 0.f) {
+    m_scale = scale;
+  } else {
+    m_scale_origin = m_scale;
+    m_scale_target = scale;
+    m_scale_time_total = time;
+    m_scale_time_remaining = time;
+    m_scale_easing = ease;
+  }
 }
 
 Vector

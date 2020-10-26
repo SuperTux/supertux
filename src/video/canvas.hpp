@@ -92,6 +92,7 @@ public:
 
 private:
   Vector apply_translate(const Vector& pos) const;
+  float scale() const;
 
 private:
   DrawingContext& m_context;

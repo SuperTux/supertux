@@ -70,6 +70,42 @@ Camera::scroll_to(float x, float y, float scrolltime)
   object.scroll_to(Vector(x, y), scrolltime);
 }
 
+float
+Camera::get_current_scale()
+{
+  SCRIPT_GUARD_DEFAULT;
+  BIND_SECTOR(::Sector::get());
+  return object.get_current_scale();
+}
+
+float
+Camera::get_target_scale()
+{
+  SCRIPT_GUARD_DEFAULT;
+  BIND_SECTOR(::Sector::get());
+  return object.get_target_scale();
+}
+
+void
+Camera::set_scale(float scale)
+{
+  ease_scale(scale, 0, "");
+}
+
+void
+Camera::scale(float scale, float time)
+{
+  ease_scale(scale, time, "");
+}
+
+void
+Camera::ease_scale(float scale, float time, std::string ease)
+{
+  SCRIPT_GUARD_VOID;
+  BIND_SECTOR(::Sector::get());
+  object.ease_scale(scale, time, getEasingByName(EasingMode_from_string(ease)));
+}
+
 } // namespace scripting
 
 /* EOF */
