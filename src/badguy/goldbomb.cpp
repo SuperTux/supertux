@@ -124,6 +124,7 @@ GoldBomb::collision_squished(GameObject& object)
     ticking->set_looping(true);
     ticking->set_gain(1.0f);
     ticking->set_reference_distance(32);
+    SoundManager::current()->play("sounds/squish.wav", get_pos());
     ticking->play();
   }
   return true;
