@@ -21,7 +21,7 @@ msgstr ""
 
 #: src/trigger/secretarea_trigger.cpp:53 src/trigger/secretarea_trigger.cpp:61
 msgid "You found a secret area!"
-msgstr "Du har fundet et hemmeligt område"
+msgstr "Du har fundet et hemmeligt område!"
 
 #: src/trigger/secretarea_trigger.cpp:77 src/trigger/scripttrigger.cpp:75
 #: src/supertux/game_object.cpp:88 src/supertux/menu/editor_sector_menu.cpp:34
@@ -193,7 +193,7 @@ msgstr "Sti"
 #: src/object/thunderstorm.cpp:68 src/object/tilemap.cpp:227
 #: src/object/gradient.cpp:122
 msgid "Z-pos"
-msgstr "Z-pos."
+msgstr "Z-pos"
 
 #: src/object/decal.cpp:42 src/object/scripted_object.cpp:70
 #: src/object/tilemap.cpp:216
@@ -533,11 +533,11 @@ msgstr "højre"
 
 #: src/object/background.cpp:166
 msgid "top"
-msgstr "Top"
+msgstr "top"
 
 #: src/object/background.cpp:166
 msgid "bottom"
-msgstr "Bund"
+msgstr "bund"
 
 #: src/object/background.cpp:169
 msgid "Scroll offset x"
@@ -1279,7 +1279,7 @@ msgstr "  --developer                  Aktiver udviklerfunktion"
 
 #: src/supertux/command_line_arguments.cpp:102
 msgid "  -s, --debug-scripts          Enable script debugger."
-msgstr "  -s, --debug-scripts          Aktiver skriptfejlsøger"
+msgstr "  -s, --debug-scripts          Aktiver skriptfejlsøger."
 
 #: src/supertux/command_line_arguments.cpp:103
 msgid ""
@@ -1332,7 +1332,7 @@ msgstr "  --repository-url URL         Angiv adressen for udvidelsens arkiv"
 
 #: src/supertux/command_line_arguments.cpp:118
 msgid "Environment variables:"
-msgstr "Miljøvariabler"
+msgstr "Miljøvariabler:"
 
 #: src/supertux/command_line_arguments.cpp:119
 msgid ""
@@ -1600,7 +1600,7 @@ msgstr "Skrivebord"
 
 #: src/supertux/menu/options_menu.cpp:332
 msgid "Select Language"
-msgstr "Vælg sprog "
+msgstr "Vælg sprog"
 
 #: src/supertux/menu/options_menu.cpp:333
 msgid "Select a different language to display text in"
@@ -2083,7 +2083,7 @@ msgstr "Tryk på en knap"
 
 #: src/supertux/menu/joystick_menu.cpp:162
 msgid "Axis "
-msgstr "Akse"
+msgstr "Akse "
 
 #: src/supertux/menu/joystick_menu.cpp:165
 msgid "-"
@@ -2384,7 +2384,7 @@ msgstr "falsk"
 
 #: src/editor/object_option.cpp:246 src/editor/object_option.cpp:295
 msgid "invalid"
-msgstr "Ugyldig"
+msgstr "ugyldig"
 
 #: src/editor/object_option.cpp:553
 msgid "Remove"
@@ -2665,7 +2665,7 @@ msgstr "Oversættelse"
 
 #: data//credits.stxt:1107
 msgid " Special Thanks to"
-msgstr "Specielt tak til"
+msgstr " Specielt tak til"
 
 #: data//credits.stxt:1112
 msgid "Creator of Tux, the Linux penguin"
@@ -2730,7 +2730,7 @@ msgstr "supertux-devel@lists.lethargik.org"
 
 #: data//credits.stxt:1192
 msgid "Want to help…"
-msgstr "Ønsker du at hjælpe ..."
+msgstr "Ønsker du at hjælpe …"
 
 #: data//credits.stxt:1197
 msgid "…with localization?"
