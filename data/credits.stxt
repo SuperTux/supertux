@@ -49,6 +49,11 @@
       (name "Daniel \"WeLuvGoatz\" Ward")
       (info (_ "Graphics, Programming, Level Design"))
     )
+	(blank)
+	(person
+      (name "Semphris")
+      (info (_ "Features and Programming"))
+    )
     (blank)
     (person
       (name "Zwatotem")
