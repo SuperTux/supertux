@@ -44,7 +44,7 @@
     (icon "images/creatures/mr_iceblock/smart_block/smartblock-1.png"))
   (object
     (class "spiky")
-    (icon "images/creatures/spiky/left-1.png"))
+    (icon "images/creatures/spiky/spikywalk4.png"))
   (object
     (class "sspiky")
     (icon "images/creatures/spiky/sleeping-left.png"))
