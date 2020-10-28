@@ -79,6 +79,7 @@ public:
 
 private:
   Physic m_physic;
+  CollisionHit m_last_hit;
 
 private:
   HeavyCoin(const HeavyCoin&) = delete;
