@@ -11,7 +11,7 @@
     (icon "images/creatures/snowball/smartball-1.png"))
   (object
     (class "snowman")
-    (icon "images/creatures/snowman/walk1.png"))
+    (icon "images/creatures/snowman/smwalk1.png"))
   (object
     (class "bouncingsnowball")
     (icon "images/creatures/bouncing_snowball/left-5.png"))
