@@ -23,7 +23,7 @@
     (icon "images/creatures/flying_snowball/left-0.png"))
   (object
     (class "kamikazesnowball")
-    (icon "images/creatures/snowball/kamikaze-left.png"))
+    (icon "images/creatures/snowball/ks1.png"))
   (object
     (class "mrbomb")
     (icon "images/creatures/mr_bomb/bomb1.png"))
