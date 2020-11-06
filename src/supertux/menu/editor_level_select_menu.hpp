@@ -34,6 +34,8 @@ public:
 
   void menu_action(MenuItem& item) override;
 
+  void open_level(const std::string& filename);
+
 private:
   void initialize();
   void create_level();

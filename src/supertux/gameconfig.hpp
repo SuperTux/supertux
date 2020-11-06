@@ -103,6 +103,8 @@ public:
   bool discord_hide_editor;
 #endif
 
+  int editor_autosave_frequency;
+
   std::string repository_url;
 
   bool is_christmas() const {
