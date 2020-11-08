@@ -961,8 +961,7 @@ EditorOverlayWidget::draw_tile_tip(DrawingContext& context)
         }
         uint32_t tile_id = tiles->pos(static_cast<int>(drawn_tile.x), static_cast<int>(drawn_tile.y));
         draw_tile(context.color(), *m_editor.get_tileset(), tile_id,
-                  tp_to_sp(on_tile) - m_editor.get_sector()->get_camera().get_translation(),
-                  LAYER_GUI-11, Color(1, 1, 1, 0.5));
+                  align_to_tilemap(on_tile), LAYER_GUI-11, Color(1, 1, 1, 0.5));
         /*if (tile_id) {
           const Tile* tg_tile = m_editor.get_tileset()->get( tile_id );
           tg_tile->draw(context.color(), tp_to_sp(on_tile) - m_editor.get_sector()->camera->get_translation(),
@@ -1159,6 +1158,19 @@ EditorOverlayWidget::tile_screen_pos(const Vector& tp, int tile_size)
 {
   Vector sp = tp_to_sp(tp, tile_size);
   return sp - m_editor.get_sector()->get_camera().get_translation();
+}
+
+Vector
+EditorOverlayWidget::align_to_tilemap(const Vector& sp, int tile_size)
+{
+  auto tilemap = m_editor.get_selected_tilemap();
+  if (!tilemap)
+  {
+    return Vector(0, 0);
+  }
+
+  Vector sp_ = sp - tilemap->get_offset();
+  return (sp_ - (sp_ % 1.f)) * static_cast<float>(tile_size);
 }
 
 /* EOF */
