@@ -939,6 +939,11 @@ EditorOverlayWidget::draw_tile_tip(DrawingContext& context)
       return;
     }
 
+    if (m_editor.get_tiles()->empty())
+      return;
+
+    Vector screen_corner = context.get_cliprect().p2() +
+                         m_editor.get_sector()->get_camera().get_translation();
     Vector drawn_tile = m_hovered_tile;
     auto tiles = m_editor.get_tiles();
 
@@ -946,11 +951,12 @@ EditorOverlayWidget::draw_tile_tip(DrawingContext& context)
       for (drawn_tile.y = static_cast<float>(tiles->m_height) - 1.0f; drawn_tile.y >= 0.0f; drawn_tile.y--) {
         Vector on_tile = m_hovered_tile + drawn_tile;
 
-        if (m_editor.get_tiles()->empty() ||
-            on_tile.x < 0 ||
+        if (on_tile.x < 0 ||
             on_tile.y < 0 ||
             on_tile.x >= static_cast<float>(tilemap->get_width()) ||
-            on_tile.y >= static_cast<float>(tilemap->get_height())) {
+            on_tile.y >= static_cast<float>(tilemap->get_height()) ||
+            on_tile.x >= ceilf(screen_corner.x / 32) ||
+            on_tile.y >= ceilf(screen_corner.y / 32)) {
           continue;
         }
         uint32_t tile_id = tiles->pos(static_cast<int>(drawn_tile.x), static_cast<int>(drawn_tile.y));
