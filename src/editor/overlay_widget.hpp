@@ -108,6 +108,7 @@ private:
   Vector tp_to_sp(const Vector& tp, int tile_size = 32);
   Vector sp_to_tp(const Vector& sp, int tile_size = 32);
   Vector tile_screen_pos(const Vector& tp, int tile_size = 32);
+  Vector align_to_tilemap(const Vector& sp, int tile_size = 32);
 
   // in sector position
   Rectf drag_rect();
