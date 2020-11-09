@@ -961,7 +961,8 @@ EditorOverlayWidget::draw_tile_tip(DrawingContext& context)
         }
         uint32_t tile_id = tiles->pos(static_cast<int>(drawn_tile.x), static_cast<int>(drawn_tile.y));
         draw_tile(context.color(), *m_editor.get_tileset(), tile_id,
-                  align_to_tilemap(on_tile), LAYER_GUI-11, Color(1, 1, 1, 0.5));
+                  align_to_tilemap(on_tile) - m_editor.get_sector()->get_camera().get_translation(),
+                  LAYER_GUI-11, Color(1, 1, 1, 0.5));
         /*if (tile_id) {
           const Tile* tg_tile = m_editor.get_tileset()->get( tile_id );
           tg_tile->draw(context.color(), tp_to_sp(on_tile) - m_editor.get_sector()->camera->get_translation(),
