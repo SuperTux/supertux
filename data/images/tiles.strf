@@ -2691,81 +2691,81 @@
   (tile
     (id 1313)
     (solid #f)
-    (images "objects/particles/rainsplash-1.png"
-            "objects/particles/rainsplash-2.png"
-            "objects/particles/rainsplash-3.png"
-            "objects/particles/rainsplash-4.png"
+    (images "particles/rainsplash-1.png"
+            "particles/rainsplash-2.png"
+            "particles/rainsplash-3.png"
+            "particles/rainsplash-4.png"
             "tiles/auxiliary/blank.png")
     (fps 18)
   )
   (tile
     (id 1314)
     (solid #f)
-    (images "objects/particles/rainsplash-2.png"
-            "objects/particles/rainsplash-3.png"
-            "objects/particles/rainsplash-4.png"
+    (images "particles/rainsplash-2.png"
+            "particles/rainsplash-3.png"
+            "particles/rainsplash-4.png"
             "tiles/auxiliary/blank.png"
-            "objects/particles/rainsplash-1.png")
+            "particles/rainsplash-1.png")
     (fps 20)
   )
   (tile
     (id 1315)
     (solid #f)
-    (images "objects/particles/rainsplash-3.png"
-            "objects/particles/rainsplash-4.png"
+    (images "particles/rainsplash-3.png"
+            "particles/rainsplash-4.png"
             "tiles/auxiliary/blank.png"
-            "objects/particles/rainsplash-1.png"
-            "objects/particles/rainsplash-2.png")
+            "particles/rainsplash-1.png"
+            "particles/rainsplash-2.png")
     (fps 22)
   )
   (tile
     (id 1316)
     (solid #f)
-    (images "objects/particles/rainsplash-4.png"
+    (images "particles/rainsplash-4.png"
             "tiles/auxiliary/blank.png"
-            "objects/particles/rainsplash-1.png"
-            "objects/particles/rainsplash-2.png"
-            "objects/particles/rainsplash-3.png")
+            "particles/rainsplash-1.png"
+            "particles/rainsplash-2.png"
+            "particles/rainsplash-3.png")
     (fps 24)
   )
   (tile
     (id 1317)
     (solid #f)
-    (images "objects/particles/rainsplash-vertical-1.png"
-            "objects/particles/rainsplash-vertical-2.png"
-            "objects/particles/rainsplash-vertical-3.png"
-            "objects/particles/rainsplash-vertical-4.png"
+    (images "particles/rainsplash-vertical-1.png"
+            "particles/rainsplash-vertical-2.png"
+            "particles/rainsplash-vertical-3.png"
+            "particles/rainsplash-vertical-4.png"
             "tiles/auxiliary/blank.png")
     (fps 21)
   )
   (tile
     (id 1318)
     (solid #f)
-    (images "objects/particles/rainsplash-vertical-2.png"
-            "objects/particles/rainsplash-vertical-3.png"
-            "objects/particles/rainsplash-vertical-4.png"
+    (images "particles/rainsplash-vertical-2.png"
+            "particles/rainsplash-vertical-3.png"
+            "particles/rainsplash-vertical-4.png"
             "tiles/auxiliary/blank.png"
-            "objects/particles/rainsplash-vertical-1.png")
+            "particles/rainsplash-vertical-1.png")
     (fps 19)
   )
   (tile
     (id 1319)
     (solid #f)
-    (images "objects/particles/rainsplash-vertical-3.png"
-            "objects/particles/rainsplash-vertical-4.png"
+    (images "particles/rainsplash-vertical-3.png"
+            "particles/rainsplash-vertical-4.png"
             "tiles/auxiliary/blank.png"
-            "objects/particles/rainsplash-vertical-1.png"
-            "objects/particles/rainsplash-vertical-2.png")
+            "particles/rainsplash-vertical-1.png"
+            "particles/rainsplash-vertical-2.png")
     (fps 17)
   )
   (tile
     (id 1320)
     (solid #f)
-    (images "objects/particles/rainsplash-vertical-4.png"
+    (images "particles/rainsplash-vertical-4.png"
             "tiles/auxiliary/blank.png"
-            "objects/particles/rainsplash-vertical-1.png"
-            "objects/particles/rainsplash-vertical-2.png"
-            "objects/particles/rainsplash-vertical-3.png")
+            "particles/rainsplash-vertical-1.png"
+            "particles/rainsplash-vertical-2.png"
+            "particles/rainsplash-vertical-3.png")
     (fps 15)
   )
   (tiles
