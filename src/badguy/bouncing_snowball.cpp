@@ -44,13 +44,17 @@ BouncingSnowball::active_update(float dt_sec)
   {
     m_sprite->set_action(m_dir == Direction::LEFT ? "left" : "right");
   }
-  Rectf lookahead = get_bbox();
-  lookahead.set_bottom(lookahead.get_bottom() + 48);
-  lookahead.set_top(lookahead.get_top() + 31);
-  bool pathBlocked = !Sector::get().is_free_of_statics(lookahead);
-  if (pathBlocked && (m_physic.get_velocity_y() >= 64.0f))
+  Rectf lookbelow = get_bbox();
+  lookbelow.set_bottom(lookbelow.get_bottom() + 48);
+  lookbelow.set_top(lookbelow.get_top() + 31);
+  bool groundBelow = !Sector::get().is_free_of_statics(lookbelow);
+  if (groundBelow && (m_physic.get_velocity_y() >= 64.0f))
   {
     m_sprite->set_action(m_dir == Direction::LEFT ? "left-down" : "right-down");
+  }
+  if (!groundBelow && (m_sprite->get_action() == "left-down" || m_sprite->get_action() == "right-down"))
+  {
+    m_sprite->set_action(m_dir == Direction::LEFT ? "left" : "right");
   }
 }
 
