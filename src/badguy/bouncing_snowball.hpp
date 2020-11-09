@@ -23,7 +23,7 @@ class BouncingSnowball final : public BadGuy
 {
 public:
   BouncingSnowball(const ReaderMapping& reader);
-  
+
   virtual void initialize() override;
   virtual void active_update(float) override;
   virtual void collision_solid(const CollisionHit& hit) override;
