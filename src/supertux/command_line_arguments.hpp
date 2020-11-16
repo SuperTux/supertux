@@ -83,6 +83,9 @@ public:
 
   // boost::optional<std::string> locale;
 
+  boost::optional<bool> test_server;
+  boost::optional<bool> test_client;
+
 public:
   CommandLineArguments();
 

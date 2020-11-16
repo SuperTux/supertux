@@ -51,7 +51,9 @@ CommandLineArguments::CommandLineArguments() :
   christmas_mode(),
   repository_url(),
   editor(),
-  resave()
+  resave(),
+  test_server(),
+  test_client()
 {
 }
 
@@ -115,6 +117,10 @@ CommandLineArguments::print_help(const char* arg0) const
     << "\n"
     << _("Add-On Options:") << "\n"
     << _("  --repository-url URL         Set the URL to the Add-On repository") << "\n"
+    << "\n"
+    << _("Networking Options:") << "\n"
+    << _("  --test-server                Starts SuperTux as a test server instance" ) << "\n"
+    << _("  --test-client                Starts SuperTux as a test client instance" ) << "\n"
     << "\n"
     << _("Environment variables:") << "\n"
     << _("  SUPERTUX2_USER_DIR           Directory for user data (savegames, etc.)" ) << "\n"
@@ -376,6 +382,14 @@ CommandLineArguments::parse_args(int argc, char** argv)
     else if (arg == "--resave")
     {
       resave = true;
+    }
+    else if (arg == "--test-server")
+    {
+      test_server = true;
+    }
+    else if (arg == "--test-client")
+    {
+      test_client = true;
     }
     else if (arg[0] != '-')
     {
