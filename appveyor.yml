@@ -36,6 +36,7 @@ before_build:
     vcpkg install boost-locale:x86-windows
     vcpkg install boost-optional:x86-windows
     vcpkg install boost-system:x86-windows
+    vcpkg install boost-uuid:x86-windows
     vcpkg remove curl:x86-windows
     vcpkg install curl:x86-windows
     vcpkg install --recurse freetype:x86-windows

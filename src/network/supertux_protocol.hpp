@@ -23,6 +23,8 @@ namespace network {
 
 class SupertuxProtocol : public ConnectionPool
 {
+public:
+  SupertuxProtocol();
 private:
   SupertuxProtocol(const SupertuxProtocol&) = delete;
   SupertuxProtocol& operator=(const SupertuxProtocol&) = delete;
