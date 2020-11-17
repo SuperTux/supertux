@@ -17,6 +17,7 @@
 #include "badguy/bouncing_snowball.hpp"
 
 #include "sprite/sprite.hpp"
+#include "supertux/sector.hpp"
 
 #include <algorithm>
 
@@ -33,6 +34,28 @@ BouncingSnowball::initialize()
 {
   m_physic.set_velocity_x(m_dir == Direction::LEFT ? -BSNOWBALL_WALKSPEED : BSNOWBALL_WALKSPEED);
   m_sprite->set_action(m_dir == Direction::LEFT ? "left" : "right");
+}
+
+void
+BouncingSnowball::active_update(float dt_sec)
+{
+  BadGuy::active_update(dt_sec);
+  if ((m_sprite->get_action() == "left-up" || m_sprite->get_action() == "right-up") && m_sprite->animation_done())
+  {
+    m_sprite->set_action(m_dir == Direction::LEFT ? "left" : "right");
+  }
+  Rectf lookbelow = get_bbox();
+  lookbelow.set_bottom(lookbelow.get_bottom() + 48);
+  lookbelow.set_top(lookbelow.get_top() + 31);
+  bool groundBelow = !Sector::get().is_free_of_statics(lookbelow);
+  if (groundBelow && (m_physic.get_velocity_y() >= 64.0f))
+  {
+    m_sprite->set_action(m_dir == Direction::LEFT ? "left-down" : "right-down");
+  }
+  if (!groundBelow && (m_sprite->get_action() == "left-down" || m_sprite->get_action() == "right-down"))
+  {
+    m_sprite->set_action(m_dir == Direction::LEFT ? "left" : "right");
+  }
 }
 
 bool
@@ -55,6 +78,7 @@ BouncingSnowball::collision_solid(const CollisionHit& hit)
     if (get_state() == STATE_ACTIVE) {
       float bounce_speed = -m_physic.get_velocity_y()*0.8f;
       m_physic.set_velocity_y(std::min(JUMPSPEED, bounce_speed));
+	    m_sprite->set_action(m_dir == Direction::LEFT ? "left-up" : "right-up", /* loops = */ 1);
     } else {
       m_physic.set_velocity_y(0);
     }

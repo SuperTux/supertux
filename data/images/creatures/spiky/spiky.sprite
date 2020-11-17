@@ -1,14 +1,20 @@
 (supertux-sprite
  (action
   (name "left")
-  (hitbox 6 10 31.8 31.8)
-  (images "left-0.png"
-          "left-1.png"
-          "left-2.png"
-          "left-1.png"))
+  (fps 14)
+  (hitbox 6 13 31.8 31.8)
+  (images "spikywalk1.png"
+		  "spikywalk2.png"
+          "spikywalk3.png"
+		  "spikywalk4.png"
+		  "spikywalk5.png"
+		  "spikywalk6.png"
+		  "spikywalk7.png"
+		  "spikywalk8.png"))
  (action
   (name "right")
-  (hitbox 6 10 31.8 31.8)
+  (fps 14)
+  (hitbox 6 13 31.8 31.8)
   (mirror-action "left"))
  (action
   (name "iced-left")
@@ -21,28 +27,30 @@
   )
  (action
   (name "inside-melting-left")
-  (hitbox 6 10 31.8 31.8)
-  (fps 20.0)
+  (hitbox 6 12 31.8 31.8)
+  (fps 24.0)
   (images "melting-0.png"
    "melting-1.png"
    "melting-2.png"
    "melting-3.png"
+   "melting-4.png"
+   "melting-5.png"
    "gear.png")
   )
  (action
   (name "inside-melting-right")
-  (fps 20.0)
-  (hitbox 6 10 31.8 31.8)
+  (fps 24.0)
+  (hitbox 6 12 31.8 31.8)
   (mirror-action "inside-melting-left")
   )
  (action
   (name "gear-left")
-  (hitbox 6 10 31.8 31.8)
+  (hitbox 6 12 31.8 31.8)
   (images "gear-cracked.png")
   )
  (action
   (name "gear-right")
-  (hitbox 6 10 31.8 31.8)
+  (hitbox 6 12 31.8 31.8)
   (mirror-action "gear-left")
   )
  )

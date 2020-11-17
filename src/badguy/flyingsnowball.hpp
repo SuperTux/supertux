@@ -35,7 +35,7 @@ protected:
   virtual bool collision_squished(GameObject& object) override;
 
 private:
-  float normal_propeller_speed;
+  float total_time_elapsed;
   Timer puff_timer; /**< time until the next smoke puff is spawned */
 
 private:

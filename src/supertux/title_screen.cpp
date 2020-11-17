@@ -23,6 +23,7 @@
 #include "object/camera.hpp"
 #include "object/music_object.hpp"
 #include "object/player.hpp"
+#include "sdk/integration.hpp"
 #include "supertux/fadetoblack.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/level.hpp"
@@ -64,8 +65,9 @@ TitleScreen::make_tux_jump()
   // Check if we should press the jump button
   Rectf lookahead = tux.get_bbox();
   lookahead.set_right(lookahead.get_right() + 96);
+  lookahead.set_bottom(lookahead.get_bottom() - 2);
   bool pathBlocked = !sector.is_free_of_statics(lookahead);
-  if ((pathBlocked && jumpWasReleased) || !tux.on_ground()) {
+  if ((pathBlocked && jumpWasReleased) || tux.m_fall_mode == Player::FallMode::JUMPING) {
     m_controller->press(Control::JUMP);
     jumpWasReleased = false;
   } else {
@@ -92,6 +94,8 @@ TitleScreen::setup()
     music.play_music(LEVEL_MUSIC);
     sector.activate(sector.get_player().get_pos());
   }
+
+  Integration::set_status(MAIN_MENU);
 
   MenuManager::instance().set_menu(MenuStorage::MAIN_MENU);
   ScreenManager::current()->set_screen_fade(std::make_unique<FadeToBlack>(FadeToBlack::FADEIN, 0.25));

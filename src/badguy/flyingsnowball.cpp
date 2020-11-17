@@ -17,6 +17,7 @@
 #include "badguy/flyingsnowball.hpp"
 
 #include "math/random.hpp"
+#include "math/util.hpp"
 #include "object/sprite_particle.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
@@ -25,14 +26,15 @@
 namespace {
 const float PUFF_INTERVAL_MIN = 4.0f; /**< spawn new puff of smoke at most that often */
 const float PUFF_INTERVAL_MAX = 8.0f; /**< spawn new puff of smoke at least that often */
+const float GLOBAL_SPEED_MULT = 0.8f; /**< the overall movement speed/rate */
 }
 
 FlyingSnowBall::FlyingSnowBall(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/flying_snowball/flying_snowball.sprite"),
-  normal_propeller_speed(),
+  total_time_elapsed(),
   puff_timer()
 {
-  m_physic.enable_gravity(true);
+  m_physic.enable_gravity(false);
 }
 
 void
@@ -45,13 +47,13 @@ void
 FlyingSnowBall::activate()
 {
   puff_timer.start(static_cast<float>(gameRandom.randf(PUFF_INTERVAL_MIN, PUFF_INTERVAL_MAX)));
-  normal_propeller_speed = gameRandom.randf(0.95f, 1.05f);
 }
 
 bool
 FlyingSnowBall::collision_squished(GameObject& object)
 {
   m_sprite->set_action(m_dir == Direction::LEFT ? "squished-left" : "squished-right");
+  m_physic.enable_gravity(true);
   m_physic.set_acceleration_y(0);
   m_physic.set_velocity_y(0);
   kill_squished(object);
@@ -69,30 +71,20 @@ FlyingSnowBall::collision_solid(const CollisionHit& hit)
 void
 FlyingSnowBall::active_update(float dt_sec)
 {
+  total_time_elapsed = fmodf(total_time_elapsed + dt_sec, math::TAU / GLOBAL_SPEED_MULT);
 
-  const float grav = Sector::get().get_gravity() * 100.0f;
-  if (get_pos().y > m_start_position.y + 2*32) {
+  float delta = total_time_elapsed * GLOBAL_SPEED_MULT;
 
-    // Flying too low - increased propeller speed
-    m_physic.set_acceleration_y(-grav*1.2f);
+  // Put that function in a graphing calculator :
+  // sin(x)^3 + sin(3(x - pi/3))/3
+  float targetHgt = std::pow(std::sin(delta), 3.f) +
+                    std::sin(3.f *
+                             ((delta - math::PI) / 3.f)
+                            ) / 3.f;
+  targetHgt = targetHgt * 100.f + m_start_position.y;
+  m_physic.set_velocity_y(targetHgt - get_pos().y);
 
-    m_physic.set_velocity_y(m_physic.get_velocity_y() * 0.99f);
-
-  } else if (get_pos().y < m_start_position.y - 2*32) {
-
-    // Flying too high - decreased propeller speed
-    m_physic.set_acceleration_y(-grav*0.8f);
-
-    m_physic.set_velocity_y(m_physic.get_velocity_y() * 0.99f);
-
-  } else {
-
-    // Flying at acceptable altitude - normal propeller speed
-    m_physic.set_acceleration_y(-grav*normal_propeller_speed);
-
-  }
-
-  m_col.m_movement=m_physic.get_movement(dt_sec);
+  m_col.m_movement=m_physic.get_movement(1.f);
 
   auto player = get_nearest_player();
   if (player) {
@@ -110,10 +102,8 @@ FlyingSnowBall::active_update(float dt_sec)
                                            ppos, ANCHOR_MIDDLE, pspeed, paccel,
                                            LAYER_OBJECTS-1);
     puff_timer.start(gameRandom.randf(PUFF_INTERVAL_MIN, PUFF_INTERVAL_MAX));
-
-    normal_propeller_speed = gameRandom.randf(0.95f, 1.05f);
-    m_physic.set_velocity_y(m_physic.get_velocity_y() - 50);
   }
+  
 }
 
 /* EOF */

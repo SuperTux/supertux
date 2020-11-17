@@ -50,6 +50,16 @@ public:
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
 
+  virtual void expose(HSQUIRRELVM vm, SQInteger table_idx) override
+  {
+    ExposedObject<Dispenser, scripting::Dispenser>::expose(vm, table_idx);
+  }
+
+  virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx) override
+  {
+    ExposedObject<Dispenser, scripting::Dispenser>::unexpose(vm, table_idx);
+  }
+
   void notify_dead() {
     if (m_limit_dispensed_badguys) {
       m_current_badguys--;

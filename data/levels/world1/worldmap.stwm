@@ -29,8 +29,8 @@
     )
     (level
       (level "via_nostalgica.stl")
-      (x 48)
-      (y 70)
+      (x 55)
+      (y 73)
     )
     (level
       (level "fork_in_the_road.stl")
@@ -39,8 +39,8 @@
     )
     (level
       (level "somewhat_smaller_bath.stl")
-      (x 55)
-      (y 73)
+      (x 48)
+      (y 70)
     )
     (level
       (level "frosted_fields.stl")
@@ -157,8 +157,8 @@
       (auto-play #t)
       (color 0.25 0.759 1)
       (sprite "/images/objects/invisible/invisible.sprite")
-      (x 43)
-      (y 67)
+      (x 42)
+      (y 66)
     )
     (level
       (level "crystal_mine.stl")

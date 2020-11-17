@@ -966,12 +966,28 @@
       2203 2204 2205 3927
       2206 2207 2208 3928
       2209 2210 2211 3929
+      
+      4082 4083 4088 4089
+      4084 4085 4090 4091
+      4086 4087 4092 4093
+      
+      4094 4095 0    0
+      4096 4097 0    0
+      4098 4099 0    0
     )
   )
   
+  
   (tilegroup
-    (name (_ "Old/Unused"))
+    (name (_ "Retro Snow"))
     (tiles
+     4000 4001 4002 4003
+     4078 4079 4080 4081
+     4100 4101 4102 4103
+     
+     93   94   95   96
+     97   98   99   100
+     
      3541 3542 3543 3544
      3545 3546 3547 3548
      3549 3550 3551 3552
@@ -996,16 +1012,6 @@
      3609 3610 3611 3612
      3613 3614 3615 3616
      3617 3618 3619 3620
-    )
-  )
-  
-  (tilegroup
-    (name (_ "Retro Snow"))
-    (tiles
-     4000 4001 4002 4003
-     
-     93   94   95   96
-     97   98   99   100
     )
   )
   
@@ -2685,81 +2691,81 @@
   (tile
     (id 1313)
     (solid #f)
-    (images "objects/particles/rainsplash-1.png"
-            "objects/particles/rainsplash-2.png"
-            "objects/particles/rainsplash-3.png"
-            "objects/particles/rainsplash-4.png"
+    (images "particles/rainsplash-1.png"
+            "particles/rainsplash-2.png"
+            "particles/rainsplash-3.png"
+            "particles/rainsplash-4.png"
             "tiles/auxiliary/blank.png")
     (fps 18)
   )
   (tile
     (id 1314)
     (solid #f)
-    (images "objects/particles/rainsplash-2.png"
-            "objects/particles/rainsplash-3.png"
-            "objects/particles/rainsplash-4.png"
+    (images "particles/rainsplash-2.png"
+            "particles/rainsplash-3.png"
+            "particles/rainsplash-4.png"
             "tiles/auxiliary/blank.png"
-            "objects/particles/rainsplash-1.png")
+            "particles/rainsplash-1.png")
     (fps 20)
   )
   (tile
     (id 1315)
     (solid #f)
-    (images "objects/particles/rainsplash-3.png"
-            "objects/particles/rainsplash-4.png"
+    (images "particles/rainsplash-3.png"
+            "particles/rainsplash-4.png"
             "tiles/auxiliary/blank.png"
-            "objects/particles/rainsplash-1.png"
-            "objects/particles/rainsplash-2.png")
+            "particles/rainsplash-1.png"
+            "particles/rainsplash-2.png")
     (fps 22)
   )
   (tile
     (id 1316)
     (solid #f)
-    (images "objects/particles/rainsplash-4.png"
+    (images "particles/rainsplash-4.png"
             "tiles/auxiliary/blank.png"
-            "objects/particles/rainsplash-1.png"
-            "objects/particles/rainsplash-2.png"
-            "objects/particles/rainsplash-3.png")
+            "particles/rainsplash-1.png"
+            "particles/rainsplash-2.png"
+            "particles/rainsplash-3.png")
     (fps 24)
   )
   (tile
     (id 1317)
     (solid #f)
-    (images "objects/particles/rainsplash-vertical-1.png"
-            "objects/particles/rainsplash-vertical-2.png"
-            "objects/particles/rainsplash-vertical-3.png"
-            "objects/particles/rainsplash-vertical-4.png"
+    (images "particles/rainsplash-vertical-1.png"
+            "particles/rainsplash-vertical-2.png"
+            "particles/rainsplash-vertical-3.png"
+            "particles/rainsplash-vertical-4.png"
             "tiles/auxiliary/blank.png")
     (fps 21)
   )
   (tile
     (id 1318)
     (solid #f)
-    (images "objects/particles/rainsplash-vertical-2.png"
-            "objects/particles/rainsplash-vertical-3.png"
-            "objects/particles/rainsplash-vertical-4.png"
+    (images "particles/rainsplash-vertical-2.png"
+            "particles/rainsplash-vertical-3.png"
+            "particles/rainsplash-vertical-4.png"
             "tiles/auxiliary/blank.png"
-            "objects/particles/rainsplash-vertical-1.png")
+            "particles/rainsplash-vertical-1.png")
     (fps 19)
   )
   (tile
     (id 1319)
     (solid #f)
-    (images "objects/particles/rainsplash-vertical-3.png"
-            "objects/particles/rainsplash-vertical-4.png"
+    (images "particles/rainsplash-vertical-3.png"
+            "particles/rainsplash-vertical-4.png"
             "tiles/auxiliary/blank.png"
-            "objects/particles/rainsplash-vertical-1.png"
-            "objects/particles/rainsplash-vertical-2.png")
+            "particles/rainsplash-vertical-1.png"
+            "particles/rainsplash-vertical-2.png")
     (fps 17)
   )
   (tile
     (id 1320)
     (solid #f)
-    (images "objects/particles/rainsplash-vertical-4.png"
+    (images "particles/rainsplash-vertical-4.png"
             "tiles/auxiliary/blank.png"
-            "objects/particles/rainsplash-vertical-1.png"
-            "objects/particles/rainsplash-vertical-2.png"
-            "objects/particles/rainsplash-vertical-3.png")
+            "particles/rainsplash-vertical-1.png"
+            "particles/rainsplash-vertical-2.png"
+            "particles/rainsplash-vertical-3.png")
     (fps 15)
   )
   (tiles
@@ -5446,12 +5452,16 @@
 
    (tiles
     (width 4)
-    (height 1)
+    (height 3)
     (image "tiles/retro_snow/retro_snow.png")
     (ids
      4000 4001 4002 4003
+     4078 4079 4080 4081
+     4100 4101 4102 4103
      )
        (attributes
+     1 1 1 1
+     1 1 1 1
      1 1 1 1
      )
   )
@@ -5521,7 +5531,53 @@
     )
     (image "tiles/darksnow/special.png")
   )
+  
+  (tiles
+    (width 2)(height 3)
+    (image "tiles/doodads/nolok-statue-forest.png")
+    (ids
+      4082 4083
+      4084 4085
+      4086 4087
+      )
+      (attributes
+       0 0
+       0 0
+       0 0
+       )
+   )
+   
+   (tiles
+     (width 2)(height 3)
+     (image "tiles/doodads/nolok-statue-ghost.png")
+     (ids
+       4088 4089
+       4090 4091
+       4092 4093
+       )
+       (atrributes
+        0 0
+        0 0
+        0 0
+        )
+    )
+    
+    (tiles
+      (width 2)(height 3)
+      (image "tiles/doodads/nolok-statue-snow.png")
+      (ids
+        4094 4095
+        4096 4097
+        4098 4099
+        )
+        (attributes
+         0 0
+         0 0
+         0 0
+         )
+     )
+      
 
-  ;; next-id: 4078
+  ;; next-id: 4104
 
 )

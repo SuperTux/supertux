@@ -22,6 +22,7 @@
 #include "control/input_manager.hpp"
 #include "editor/widget.hpp"
 #include "math/vector.hpp"
+#include "object/tilemap.hpp"
 
 class Color;
 class DrawingContext;
@@ -76,6 +77,8 @@ private:
   void input_tile(const Vector& pos, uint32_t tile);
   void autotile(const Vector& pos, uint32_t tile);
   void input_autotile(const Vector& pos, uint32_t tile);
+  void autotile_corner(const Vector& pos, uint32_t tile, TileMap::AutotileCornerOperation op);
+  void input_autotile_corner(const Vector& corner, uint32_t tile, const Vector& override_pos = Vector(-1.f, -1.f));
   void put_tile();
   void draw_rectangle();
   bool check_tiles_for_fill(uint32_t replace_tile, uint32_t target_tile, uint32_t third_tile) const;
@@ -105,6 +108,7 @@ private:
   Vector tp_to_sp(const Vector& tp, int tile_size = 32);
   Vector sp_to_tp(const Vector& sp, int tile_size = 32);
   Vector tile_screen_pos(const Vector& tp, int tile_size = 32);
+  Vector align_to_tilemap(const Vector& sp, int tile_size = 32);
 
   // in sector position
   Rectf drag_rect();
@@ -115,6 +119,7 @@ private:
 private:
   Editor& m_editor;
   Vector m_hovered_tile;
+  Vector m_hovered_corner;
   Vector m_sector_pos;
   Vector m_mouse_pos;
 

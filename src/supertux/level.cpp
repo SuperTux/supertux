@@ -27,6 +27,9 @@
 #include "util/writer.hpp"
 
 #include <physfs.h>
+#include <numeric>
+
+#include <boost/algorithm/string/predicate.hpp>
 
 Level* Level::s_current = nullptr;
 
@@ -41,7 +44,9 @@ Level::Level(bool worldmap) :
   m_stats(),
   m_target_time(),
   m_tileset("images/tiles.strf"),
-  m_suppress_pause_menu()
+  m_suppress_pause_menu(),
+  m_is_in_cutscene(false),
+  m_skip_cutscene(false)
 {
   s_current = this;
 }
@@ -86,7 +91,9 @@ Level::save(const std::string& filepath, bool retry)
 
     Writer writer(filepath);
     save(writer);
-    log_warning << "Level saved as " << filepath << "." << std::endl;
+    log_warning << "Level saved as " << filepath << "." 
+                << (boost::algorithm::ends_with(filepath, "~") ? " [Autosave]" : "")
+                << std::endl;
   } catch(std::exception& e) {
     if (retry) {
       std::stringstream msg;
@@ -225,11 +232,10 @@ Level::get_total_badguys() const
 int
 Level::get_total_secrets() const
 {
-  int total_secrets = 0;
-  for (auto const& sector : m_sectors) {
-    total_secrets += sector->get_object_count<SecretAreaTrigger>();
-  }
-  return total_secrets;
+  auto get_secret_count = [](int accumulator, const std::unique_ptr<Sector>& sector) {
+    return accumulator + sector->get_object_count<SecretAreaTrigger>();
+  };
+  return std::accumulate(m_sectors.begin(), m_sectors.end(), 0, get_secret_count);
 }
 
 void

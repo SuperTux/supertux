@@ -80,19 +80,104 @@ bool is_christmas()
   return g_config->christmas_mode;
 }
 
+void start_cutscene()
+{
+  auto session = GameSession::current();
+  if (session == nullptr)
+  {
+    log_info << "No game session" << std::endl;
+    return;
+  }
+  
+  if (session->get_current_level().m_is_in_cutscene)
+  {
+    log_warning << "start_cutscene(): starting a new cutscene above another one, ending preceeding cutscene (use end_cutscene() in scripts!)" << std::endl;
+  }
+
+  session->get_current_level().m_is_in_cutscene = true;
+  session->get_current_level().m_skip_cutscene = false;
+}
+
+void end_cutscene()
+{
+  auto session = GameSession::current();
+  if (session == nullptr)
+  {
+    log_info << "No game session" << std::endl;
+    return;
+  }
+  
+  if (!session->get_current_level().m_is_in_cutscene)
+  {
+    log_warning << "end_cutscene(): no cutscene to end, resetting status anyways" << std::endl;
+  }
+
+  session->get_current_level().m_is_in_cutscene = false;
+  session->get_current_level().m_skip_cutscene = false;
+}
+
+bool check_cutscene()
+{
+  auto session = GameSession::current();
+  if (session == nullptr)
+  {
+    log_info << "No game session" << std::endl;
+    return false;
+  }
+  
+  return session->get_current_level().m_is_in_cutscene;
+}
+
 void wait(HSQUIRRELVM vm, float seconds)
 {
-  if (auto squirrelenv = static_cast<SquirrelEnvironment*>(sq_getforeignptr(vm)))
+  if(GameSession::current()->get_current_level().m_skip_cutscene)
   {
-    squirrelenv->wait_for_seconds(vm, seconds);
+    if (auto squirrelenv = static_cast<SquirrelEnvironment*>(sq_getforeignptr(vm)))
+    {
+      // wait anyways, to prevent scripts like `while (true) {wait(0.1); ...}`
+      squirrelenv->wait_for_seconds(vm, 0);
+    }
+    else if (auto squirrelvm = static_cast<SquirrelVirtualMachine*>(sq_getsharedforeignptr(vm)))
+    {
+      squirrelvm->wait_for_seconds(vm, 0);
+    }
+    else
+    {
+      log_warning << "wait(): no VM or environment available\n";
+    }
   }
-  else if (auto squirrelvm = static_cast<SquirrelVirtualMachine*>(sq_getsharedforeignptr(vm)))
+  else if(GameSession::current()->get_current_level().m_is_in_cutscene)
   {
-    squirrelvm->wait_for_seconds(vm, seconds);
+    if (auto squirrelenv = static_cast<SquirrelEnvironment*>(sq_getforeignptr(vm)))
+    {
+      // wait anyways, to prevent scripts like `while (true) {wait(0.1); ...}` from freezing the game
+      squirrelenv->skippable_wait_for_seconds(vm, seconds);
+      //GameSession::current()->set_scheduler(squirrelenv->get_scheduler());
+    }
+    else if (auto squirrelvm = static_cast<SquirrelVirtualMachine*>(sq_getsharedforeignptr(vm)))
+    {
+      squirrelvm->skippable_wait_for_seconds(vm, seconds);
+      //GameSession::current()->set_scheduler(squirrelvm->get_scheduler());
+    }
+    else
+    {
+      log_warning << "wait(): no VM or environment available\n";
+    }
   }
   else
   {
-    log_warning << "wait(): no VM or environment available\n";
+    if (auto squirrelenv = static_cast<SquirrelEnvironment*>(sq_getforeignptr(vm)))
+    {
+      squirrelenv->wait_for_seconds(vm, seconds);
+    }
+    else if (auto squirrelvm = static_cast<SquirrelVirtualMachine*>(sq_getsharedforeignptr(vm)))
+    {
+      squirrelvm->wait_for_seconds(vm, seconds);
+    }
+    else
+    {
+      log_warning << "wait(): no VM or environment available\n";
+    }
   }
 }
 

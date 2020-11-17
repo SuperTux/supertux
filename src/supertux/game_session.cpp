@@ -18,7 +18,9 @@
 
 #include "audio/sound_manager.hpp"
 #include "control/input_manager.hpp"
+#include "editor/editor.hpp"
 #include "gui/menu_manager.hpp"
+#include "math/vector.hpp"
 #include "object/camera.hpp"
 #include "object/endsequence_fireworks.hpp"
 #include "object/endsequence_walkleft.hpp"
@@ -26,6 +28,7 @@
 #include "object/level_time.hpp"
 #include "object/music_object.hpp"
 #include "object/player.hpp"
+#include "sdk/integration.hpp"
 #include "supertux/fadetoblack.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/level.hpp"
@@ -74,7 +77,8 @@ GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Stat
   m_max_fire_bullets_at_start(),
   m_max_ice_bullets_at_start(),
   m_active(false),
-  m_end_seq_started(false)
+  m_end_seq_started(false),
+  m_current_cutscene_text()
 {
   if (restart_level() != 0)
     throw std::runtime_error ("Initializing the level failed.");
@@ -171,6 +175,12 @@ GameSession::on_escape_press()
 
     m_currentsector->get_player().m_dying_timer.start(FLT_EPSILON);
     return;   // don't let the player open the menu, when Tux is dying
+  }
+  
+  if (m_level->m_is_in_cutscene && !m_level->m_skip_cutscene)
+  {
+    m_level->m_skip_cutscene = true;
+    return;
   }
 
   if (!m_level->m_suppress_pause_menu) {
@@ -319,7 +329,9 @@ GameSession::update(float dt_sec, const Controller& controller)
     on_escape_press();
   }
 
-  if (controller.pressed(Control::CHEAT_MENU) && g_config->developer_mode)
+  if (controller.pressed(Control::CHEAT_MENU) &&
+      (g_config->developer_mode || (Editor::current() && Editor::current()->is_testing_level()))
+     )
   {
     if (!MenuManager::instance().is_active())
     {
@@ -335,6 +347,30 @@ GameSession::update(float dt_sec, const Controller& controller)
       toggle_pause();
       MenuManager::instance().set_menu(MenuStorage::DEBUG_MENU);
     }
+  }
+  
+  if (m_level->m_is_in_cutscene && !m_level->m_skip_cutscene && m_current_cutscene_text == nullptr)
+  {
+    /*std::string cutscene_text = _("Press escape to skip");
+    FloatingText* text = new FloatingText(
+        // *(new Vector(32, 32)),
+        m_currentsector->get_camera().get_translation() + *(new Vector(cutscene_text.size() * 8 + 32, 32)),
+        cutscene_text
+      );
+    
+    m_currentsector->add_object(std::unique_ptr<GameObject> (text));*/
+    
+    //m_current_cutscene_text = std::unique_ptr<GameObject> (cutscene_text);
+    
+    
+  }
+  else if ((!m_level->m_is_in_cutscene || m_level->m_skip_cutscene) && m_current_cutscene_text != nullptr)
+  {
+  printf("Before\n");
+    /*try {
+      m_current_cutscene_text->remove_me();
+    } catch(...) {}*/
+  printf("After\n");
   }
 
   process_events();

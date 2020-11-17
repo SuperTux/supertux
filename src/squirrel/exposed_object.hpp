@@ -42,7 +42,7 @@
  * @param class T: Scripting class (e.g. scripting::Gradient)
  */
 template<class S, class T>
-class ExposedObject : public ScriptInterface
+class ExposedObject : virtual public ScriptInterface
 {
 private:
   /**

@@ -1,38 +1,38 @@
 (supertux-sprite
  (action
   (name "left")
-  (fps 12.0)
-  (hitbox 10 3 36 72)
-  (images "walk1.png"
-          "walk2.png"
-          "walk3.png"
-          "walk4.png"
-          "walk5.png"
-          "walk6.png"
-          "walk7.png"
-          "walk8.png"))
+  (fps 14.0)
+  (hitbox 10 8 36 72)
+  (images "smwalk1.png"
+          "smwalk2.png"
+		  "smwalk3.png"
+		  "smwalk4.png"
+		  "smwalk5.png"
+		  "smwalk6.png"
+		  "smwalk7.png"
+		  "smwalk8.png"
+		  "smwalk9.png"
+		  "smwalk10.png"))
 
   (action
     (name "right")
-    (hitbox 10 3 36 72)
+	(fps 14.0)
+    (hitbox 10 8 36 72)
     (mirror-action "left")
   )
 
  (action
   (name "headless-left")
-  (fps 12.0)
+  (fps 18.0)
   (hitbox 7 8 47 50)
-  (images "headless1.png"
-          "headless2.png"
-          "headless3.png"
-          "headless4.png"
-          "headless5.png"
-          "headless6.png"
-          "headless7.png"
-          "headless8.png"))
+  (images "snowman-headless-1.png"
+          "snowman-headless-2.png"
+		  "snowman-headless-3.png"
+		  "snowman-headless-2.png"))
 
   (action
     (name "headless-right")
+	(fps 18.0)
     (hitbox 10 3 36 72)
     (mirror-action "headless-left")
   )
