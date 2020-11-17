@@ -42,6 +42,7 @@ public:
 
   virtual std::string get_class() const override { return "particles-custom"; }
   virtual std::string get_display_name() const override { return _("Custom Particles"); }
+  virtual void save(Writer& writer) override;
   virtual ObjectSettings get_settings() override;
 
   virtual const std::string get_icon_path() const override {
@@ -243,6 +244,7 @@ public:
   class ParticleProps final
   {
   public:
+    std::vector<SpriteProperties> m_textures;
     std::string m_particle_main_texture;
     int m_max_amount;
     float m_delay;
@@ -277,6 +279,7 @@ public:
     bool m_cover_screen;
 
     ParticleProps() :
+      m_textures(),
       m_particle_main_texture(),
       m_max_amount(25),
       m_delay(0.1f),
@@ -317,6 +320,8 @@ public:
   {
     std::shared_ptr<ParticleProps> props = std::make_shared<ParticleProps>();
 
+    for (auto texture : m_textures)
+      props->m_textures.push_back(texture);
     props->m_particle_main_texture = m_particle_main_texture;
     props->m_max_amount = m_max_amount;
     props->m_delay = m_delay;
@@ -355,6 +360,9 @@ public:
 
   void set_props(std::shared_ptr<ParticleProps> props)
   {
+    m_textures.clear();
+    for (auto texture : props->m_textures)
+      m_textures.push_back(texture);
     m_particle_main_texture = props->m_particle_main_texture;
     m_max_amount = props->m_max_amount;
     m_delay = props->m_delay;

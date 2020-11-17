@@ -49,8 +49,12 @@ ParticleEditor::ParticleEditor() :
   m_enabled(true),
   m_quit_request(false),
   m_controls(),
+  m_controls_textures(),
+  m_texture_rebinds(),
   m_undo_stack(),
   m_redo_stack(),
+  m_in_texture_tab(),
+  m_texture_current(0),
   m_saved_version(),
   m_particles(),
   m_filename("")
@@ -75,18 +79,25 @@ ParticleEditor::reload()
   m_particles = new CustomParticleSystem(mapping);
 
   m_controls.clear();
+  m_controls_textures.clear();
+  m_texture_rebinds.clear();
+
+  // ==========================================================================
+  //  MAIN UI
+  // --------------------------------------------------------------------------
 
   // TODO: Use the addButton() command
   // Texture button start
-  auto texture_btn = std::make_unique<ControlButton>("Change texture...");
+  auto texture_btn = std::make_unique<ControlButton>("Change texture...  ->");
   texture_btn.get()->m_on_change = new std::function<void()>([this](){
-    const std::vector<std::string>& filter = {".jpg", ".png", ".surface"};
+    /*const std::vector<std::string>& filter = {".jpg", ".png", ".surface"};
     MenuManager::instance().push_menu(std::make_unique<FileSystemMenu>(
       &(m_particles->m_particle_main_texture),
       filter,
       "/",
       [this](std::string new_filename) { m_particles->reinit_textures(); }
-    ));
+    ));*/
+    m_in_texture_tab = true;
   });
   float tmp_height = 0.f;
   for (auto& control : m_controls) {
@@ -194,7 +205,7 @@ ParticleEditor::reload()
   offscreen_mode.get()->bind_value(&(m_particles->m_particle_offscreen_mode));
   addControl(_("Offscreen mode"), std::move(offscreen_mode));
 
-  // FIXME: add some ParticleEditor::addButton() function so that I don't have to put all that in here
+  // TODO: add some ParticleEditor::addButton() function so that I don't have to put all that in here
   auto clear_btn = std::make_unique<ControlButton>("Clear");
   clear_btn.get()->m_on_change = new std::function<void()>([this](){ m_particles->clear(); });
   float height = 0.f;
@@ -203,6 +214,160 @@ ParticleEditor::reload()
   }
   clear_btn.get()->set_rect(Rectf(25.f, height, 325.f, height + 20.f));
   m_controls.push_back(std::move(clear_btn));
+
+  // ==========================================================================
+  //  TEXTURE UI
+  // --------------------------------------------------------------------------
+
+  auto return_btn = std::make_unique<ControlButton>("<- General settings");
+  return_btn.get()->m_on_change = new std::function<void()>([this](){
+    m_in_texture_tab = false;
+  });
+  return_btn.get()->set_rect(Rectf(25.f, 20, 325.f, 40.f));
+  m_controls_textures.push_back(std::move(return_btn));
+
+  auto likeliness_control = std::make_unique<ControlTextboxFloat>();
+  likeliness_control.get()->bind_value(&((m_particles->m_textures.begin() + m_texture_current)->likeliness));
+  likeliness_control.get()->set_rect(Rectf(150.f, 50.f, 350.f, 70.f));
+  likeliness_control.get()->m_label = new InterfaceLabel(Rectf(5.f, 50.f, 135.f, 70.f), "Likeliness");
+  likeliness_control.get()->m_on_change = new std::function<void()>([this](){ m_particles->reinit_textures(); this->push_version(); });
+  auto likeliness_control_ptr = likeliness_control.get();
+  m_texture_rebinds.push_back( [this, likeliness_control_ptr]{
+    likeliness_control_ptr->bind_value(&((m_particles->m_textures.begin() + m_texture_current)->likeliness));
+  });
+  m_controls_textures.push_back(std::move(likeliness_control));
+
+  auto color_r_control = std::make_unique<ControlTextboxFloat>();
+  color_r_control.get()->bind_value(&((m_particles->m_textures.begin() + m_texture_current)->color.red));
+  color_r_control.get()->set_rect(Rectf(150.f, 80.f, 192.f, 100.f));
+  color_r_control.get()->m_label = new InterfaceLabel(Rectf(5.f, 80.f, 140.f, 100.f), "Color (RGBA)");
+  color_r_control.get()->m_on_change = new std::function<void()>([this](){ m_particles->reinit_textures(); this->push_version(); });
+  color_r_control.get()->m_validate_float = [](ControlTextboxFloat* t, float f){ return f >= 0.f && f <= 1.f; };
+  auto color_r_control_ptr = color_r_control.get();
+  m_texture_rebinds.push_back( [this, color_r_control_ptr]{
+    color_r_control_ptr->bind_value(&((m_particles->m_textures.begin() + m_texture_current)->color.red));
+  });
+  m_controls_textures.push_back(std::move(color_r_control));
+
+  auto color_g_control = std::make_unique<ControlTextboxFloat>();
+  color_g_control.get()->bind_value(&((m_particles->m_textures.begin() + m_texture_current)->color.green));
+  color_g_control.get()->set_rect(Rectf(202.f, 80.f, 245.f, 100.f));
+  color_g_control.get()->m_on_change = new std::function<void()>([this](){ m_particles->reinit_textures(); this->push_version(); });
+  color_g_control.get()->m_validate_float = [](ControlTextboxFloat* t, float f){ return f >= 0.f && f <= 1.f; };
+  auto color_g_control_ptr = color_g_control.get();
+  m_texture_rebinds.push_back( [this, color_g_control_ptr]{
+    color_g_control_ptr->bind_value(&((m_particles->m_textures.begin() + m_texture_current)->color.green));
+  });
+  m_controls_textures.push_back(std::move(color_g_control));
+
+  auto color_b_control = std::make_unique<ControlTextboxFloat>();
+  color_b_control.get()->bind_value(&((m_particles->m_textures.begin() + m_texture_current)->color.blue));
+  color_b_control.get()->set_rect(Rectf(255.f, 80.f, 297.f, 100.f));
+  color_b_control.get()->m_on_change = new std::function<void()>([this](){ m_particles->reinit_textures(); this->push_version(); });
+  color_b_control.get()->m_validate_float = [](ControlTextboxFloat* t, float f){ return f >= 0.f && f <= 1.f; };
+  auto color_b_control_ptr = color_b_control.get();
+  m_texture_rebinds.push_back( [this, color_b_control_ptr]{
+    color_b_control_ptr->bind_value(&((m_particles->m_textures.begin() + m_texture_current)->color.blue));
+  });
+  m_controls_textures.push_back(std::move(color_b_control));
+
+  auto color_a_control = std::make_unique<ControlTextboxFloat>();
+  color_a_control.get()->bind_value(&((m_particles->m_textures.begin() + m_texture_current)->color.alpha));
+  color_a_control.get()->set_rect(Rectf(307.f, 80.f, 350.f, 100.f));
+  color_a_control.get()->m_on_change = new std::function<void()>([this](){ m_particles->reinit_textures(); this->push_version(); });
+  color_a_control.get()->m_validate_float = [](ControlTextboxFloat* t, float f){ return f >= 0.f && f <= 1.f; };
+  auto color_a_control_ptr = color_a_control.get();
+  m_texture_rebinds.push_back( [this, color_a_control_ptr]{
+    color_a_control_ptr->bind_value(&((m_particles->m_textures.begin() + m_texture_current)->color.alpha));
+  });
+  m_controls_textures.push_back(std::move(color_a_control));
+
+  auto scale_x_control = std::make_unique<ControlTextboxFloat>();
+  scale_x_control.get()->bind_value(&((m_particles->m_textures.begin() + m_texture_current)->scale.x));
+  scale_x_control.get()->set_rect(Rectf(150.f, 110.f, 240.f, 130.f));
+  scale_x_control.get()->m_label = new InterfaceLabel(Rectf(5.f, 110.f, 150.f, 130.f), "Scale (x, y)");
+  scale_x_control.get()->m_on_change = new std::function<void()>([this](){ m_particles->reinit_textures(); this->push_version(); });
+  auto scale_x_control_ptr = scale_x_control.get();
+  m_texture_rebinds.push_back( [this, scale_x_control_ptr]{
+    scale_x_control_ptr->bind_value(&((m_particles->m_textures.begin() + m_texture_current)->scale.x));
+  });
+  m_controls_textures.push_back(std::move(scale_x_control));
+
+  auto scale_y_control = std::make_unique<ControlTextboxFloat>();
+  scale_y_control.get()->bind_value(&((m_particles->m_textures.begin() + m_texture_current)->scale.y));
+  scale_y_control.get()->set_rect(Rectf(260.f, 110.f, 350.f, 130.f));
+  scale_y_control.get()->m_on_change = new std::function<void()>([this](){ m_particles->reinit_textures(); this->push_version(); });
+  auto scale_y_control_ptr = scale_y_control.get();
+  m_texture_rebinds.push_back( [this, scale_y_control_ptr]{
+    scale_y_control_ptr->bind_value(&((m_particles->m_textures.begin() + m_texture_current)->scale.y));
+  });
+  m_controls_textures.push_back(std::move(scale_y_control));
+
+  // Texture button start
+  auto chg_texture_btn = std::make_unique<ControlButton>("Change texture...");
+  chg_texture_btn.get()->m_on_change = new std::function<void()>([this](){
+    const std::vector<std::string>& filter = {".jpg", ".png", ".surface"};
+    MenuManager::instance().push_menu(std::make_unique<FileSystemMenu>(
+      nullptr,
+      filter,
+      "/",
+      [this](std::string new_filename) {
+        (m_particles->m_textures.begin() + m_texture_current)->texture = Surface::from_file(new_filename);
+        m_particles->reinit_textures();
+      }
+    ));
+  });
+  chg_texture_btn.get()->set_rect(Rectf(25.f, 370, 325.f, 390));
+  m_controls_textures.push_back(std::move(chg_texture_btn));
+  // Texture button end
+
+  auto prev_btn = std::make_unique<ControlButton>("<");
+  prev_btn.get()->m_on_change = new std::function<void()>([this](){
+    m_texture_current--;
+    if (m_texture_current < 0) m_texture_current = 0;
+    for (auto refresh : m_texture_rebinds)
+      refresh();
+  });
+  prev_btn.get()->set_rect(Rectf(120.f, 400, 140.f, 420.f));
+  m_controls_textures.push_back(std::move(prev_btn));
+
+  auto del_btn = std::make_unique<ControlButton>("-");
+  del_btn.get()->m_on_change = new std::function<void()>([this](){
+    if (m_particles->m_textures.size() < 1)
+      return;
+    m_particles->m_textures.erase(m_particles->m_textures.begin() + m_texture_current);
+    m_texture_current--;
+    if (m_texture_current < 0) m_texture_current = 0;
+    for (auto refresh : m_texture_rebinds)
+      refresh();
+  });
+  del_btn.get()->set_rect(Rectf(150.f, 400, 170.f, 420.f));
+  m_controls_textures.push_back(std::move(del_btn));
+
+  auto add_btn = std::make_unique<ControlButton>("+");
+  add_btn.get()->m_on_change = new std::function<void()>([this](){
+    m_particles->m_textures.push_back(CustomParticleSystem::SpriteProperties());
+    m_texture_current = static_cast<int>(m_particles->m_textures.size()) - 1;
+    for (auto refresh : m_texture_rebinds)
+      refresh();
+  });
+  add_btn.get()->set_rect(Rectf(190.f, 400, 210.f, 420.f));
+  m_controls_textures.push_back(std::move(add_btn));
+
+  auto next_btn = std::make_unique<ControlButton>(">");
+  next_btn.get()->m_on_change = new std::function<void()>([this](){
+    m_texture_current++;
+    if (m_texture_current > static_cast<int>(m_particles->m_textures.size()) - 1)
+      m_texture_current = static_cast<int>(m_particles->m_textures.size()) - 1;
+    for (auto refresh : m_texture_rebinds)
+      refresh();
+  });
+  next_btn.get()->set_rect(Rectf(220.f, 400, 240.f, 420.f));
+  m_controls_textures.push_back(std::move(next_btn));
+
+  // ==========================================================================
+  //  THE REST
+  // --------------------------------------------------------------------------
 
   m_undo_stack.clear();
   m_saved_version = m_particles->get_props();
@@ -343,7 +508,7 @@ ParticleEditor::save(const std::string& filepath_, bool retry)
   if (!boost::algorithm::ends_with(filepath, ".stcp"))
     filepath += ".stcp";
 
-  //FIXME: It tests for directory in supertux/data, but saves into .supertux2.
+  // FIXME: It tests for directory in supertux/data, but saves into .supertux2.
   try {
     { // make sure the level directory exists
       std::string dirname = FileSystem::dirname(filepath);
@@ -436,8 +601,21 @@ ParticleEditor::draw(Compositor& compositor)
                                 GradientDirection::HORIZONTAL,
                                 Rectf(0.f, 0.f, 355.f, float(context.get_height())));
 
-  for(const auto& control : m_controls) {
-    control->draw(context);
+  if (m_in_texture_tab)
+  {
+    context.color().draw_surface_scaled((m_particles->m_textures.begin() + m_texture_current)->texture,
+                                         Rect(75, 150, 275, 350), LAYER_GUI);
+    for(const auto& control : m_controls_textures)
+    {
+      control->draw(context);
+    }
+  }
+  else
+  {
+    for(const auto& control : m_controls)
+    {
+      control->draw(context);
+    }
   }
 
   MouseCursor::current()->draw(context);
@@ -453,8 +631,14 @@ ParticleEditor::update(float dt_sec, const Controller& controller)
     quit_editor();
   }
 
-  for(const auto& control : m_controls) {
-    control->update(dt_sec, controller);
+  if (m_in_texture_tab) {
+    for(const auto& control : m_controls_textures) {
+      control->update(dt_sec, controller);
+    }
+  } else {
+    for(const auto& control : m_controls) {
+      control->update(dt_sec, controller);
+    }
   }
 
   // Uncomment to make the particles stop updating on pause
@@ -484,12 +668,6 @@ ParticleEditor::quit_editor()
 
   auto quit = [] ()
   {
-    //Quit particle editor
-    /*m_world = nullptr;
-    m_levelfile = "";
-    m_levelloaded = false;
-    m_enabled = false;
-    Tile::draw_editor_images = false;*/
     ScreenManager::current()->pop_screen();
     if (Editor::current()) {
       Editor::current()->m_reactivate_request = true;
@@ -568,9 +746,14 @@ ParticleEditor::event(const SDL_Event& ev)
 {
   if (!m_enabled) return;
 
-  for(const auto& control : m_controls) {
-    if (control->event(ev))
-      break;
+  if (m_in_texture_tab) {
+    for(const auto& control : m_controls_textures)
+      if (control->event(ev))
+        break;
+  } else {
+    for(const auto& control : m_controls)
+      if (control->event(ev))
+        break;
   }
 
   if (ev.type == SDL_KEYDOWN &&
@@ -596,77 +779,6 @@ ParticleEditor::event(const SDL_Event& ev)
      ev.key.keysym.mod & KMOD_CTRL) {
     MenuManager::instance().set_menu(MenuStorage::PARTICLE_EDITOR_OPEN);
   }
-
-/*
-  if (!m_enabled) return;
-
-  try
-  {
-	if (ev.type == SDL_KEYDOWN &&
-        ev.key.keysym.sym == SDLK_t &&
-        ev.key.keysym.mod & KMOD_CTRL) {
-		test_level(boost::none);
-		}
-
-	if (ev.type == SDL_KEYDOWN &&
-        ev.key.keysym.sym == SDLK_s &&
-        ev.key.keysym.mod & KMOD_CTRL) {
-		save_level();
-		}
-
-	if (ev.type == SDL_KEYDOWN &&
-        ev.key.keysym.sym == SDLK_z &&
-        ev.key.keysym.mod & KMOD_CTRL) {
-		undo();
-		}
-
-	if (ev.type == SDL_KEYDOWN &&
-        ev.key.keysym.sym == SDLK_y &&
-        ev.key.keysym.mod & KMOD_CTRL) {
-		redo();
-		}
-
-    if (ev.type == SDL_KEYDOWN && ev.key.keysym.sym == SDLK_F6) {
-      Compositor::s_render_lighting = !Compositor::s_render_lighting;
-      return;
-    }
-
-    m_ignore_sector_change = false;
-
-    BIND_SECTOR(*m_sector);
-
-    for(const auto& widget : m_controls) {
-      if (widget->event(ev))
-        break;
-    }
-
-    // unreliable heuristic to snapshot the current state for future undo
-    if (((ev.type == SDL_KEYUP && ev.key.repeat == 0 &&
-         ev.key.keysym.sym != SDLK_LSHIFT &&
-         ev.key.keysym.sym != SDLK_RSHIFT &&
-         ev.key.keysym.sym != SDLK_LCTRL &&
-         ev.key.keysym.sym != SDLK_RCTRL) ||
-         ev.type == SDL_MOUSEBUTTONUP))
-    {
-      if (!m_ignore_sector_change) {
-        if (m_level) {
-          m_undo_manager->try_snapshot(*m_level);
-        }
-      }
-    }
-
-    // Scroll with mouse wheel, if the mouse is not over the toolbox.
-    // The toolbox does scrolling independently from the main area.
-    if (ev.type == SDL_MOUSEWHEEL && !m_toolbox_widget->has_mouse_focus() && !m_layers_widget->has_mouse_focus()) {
-      float scroll_x = static_cast<float>(ev.wheel.x * -32);
-      float scroll_y = static_cast<float>(ev.wheel.y * -32);
-      scroll({scroll_x, scroll_y});
-    }
-  }
-  catch(const std::exception& err)
-  {
-    log_warning << "error while processing ParticleEditor::event(): " << err.what() << std::endl;
-  }*/
 }
 
 void

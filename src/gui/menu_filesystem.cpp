@@ -146,10 +146,11 @@ FileSystemMenu::menu_action(MenuItem& item)
           new_filename = FileSystem::relpath(new_filename, m_basedir);
         }
 
-        *m_filename = new_filename;
+        if (m_filename)
+          *m_filename = new_filename;
 
         if (m_callback)
-          m_callback(*m_filename);
+          m_callback(new_filename);
 
         MenuManager::instance().pop_menu();
       } else {

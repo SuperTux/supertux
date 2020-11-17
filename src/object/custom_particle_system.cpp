@@ -33,6 +33,7 @@
 #include "supertux/sector.hpp"
 #include "supertux/tile.hpp"
 #include "util/reader.hpp"
+#include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
 #include "video/drawing_context.hpp"
 #include "video/surface.hpp"
@@ -125,6 +126,78 @@ CustomParticleSystem::CustomParticleSystem(const ReaderMapping& reader) :
   m_cover_screen(true)
 {
   reader.get("main-texture", m_particle_main_texture, "/images/engine/editor/sparkle.png");
+
+  // FIXME: Is there a cleaner way to get a list of textures?
+  auto iter = reader.get_iter();
+  while (iter.next())
+  {
+    if (iter.get_key() == "texture")
+    {
+      ReaderMapping mapping = iter.as_mapping();
+
+      std::string tex;
+      if (!mapping.get("surface", tex))
+      {
+        log_warning << "Texture without surface data ('surface') in " <<
+                 mapping.get_doc().get_filename() << ", skipping" << std::endl;
+        continue;
+      }
+
+      float color_r, color_g, color_b, color_a;
+      if (!mapping.get("color_r", color_r))
+      {
+        log_warning << "Texture without red color field ('color_r') in " <<
+                 mapping.get_doc().get_filename() << ", skipping" << std::endl;
+        continue;
+      }
+      if (!mapping.get("color_g", color_g))
+      {
+        log_warning << "Texture without green color field ('color_g') in " <<
+                 mapping.get_doc().get_filename() << ", skipping" << std::endl;
+        continue;
+      }
+      if (!mapping.get("color_b", color_b))
+      {
+        log_warning << "Texture without blue color field ('color_b') in " <<
+                 mapping.get_doc().get_filename() << ", skipping" << std::endl;
+        continue;
+      }
+      if (!mapping.get("color_a", color_a))
+      {
+        log_warning << "Texture without alpha channel field ('color_a') in " <<
+                 mapping.get_doc().get_filename() << ", skipping" << std::endl;
+        continue;
+      }
+      
+      float likeliness;
+      if (!mapping.get("likeliness", likeliness))
+      {
+        log_warning << "Texture without likeliness field in " <<
+                 mapping.get_doc().get_filename() << ", skipping" << std::endl;
+        continue;
+      }
+      
+      float scale_x, scale_y;
+      if (!mapping.get("scale_x", scale_x))
+      {
+        log_warning << "Texture without horizontal scale ('scale_x') field in " <<
+                 mapping.get_doc().get_filename() << ", skipping" << std::endl;
+        continue;
+      }
+      if (!mapping.get("scale_y", scale_y))
+      {
+        log_warning << "Texture without vertical scale ('scale_y') field in " <<
+                 mapping.get_doc().get_filename() << ", skipping" << std::endl;
+        continue;
+      }
+
+      auto props = SpriteProperties(Surface::from_file(tex));
+      props.likeliness = likeliness;
+      props.color = Color(color_r, color_g, color_b, color_a);
+      props.scale = Vector(scale_x, scale_y);
+      m_textures.push_back(props);
+    }
+  }
 
   reader.get("amount", m_max_amount, 25);
   reader.get("delay", m_delay, 0.1f);
@@ -297,22 +370,40 @@ CustomParticleSystem::~CustomParticleSystem()
 void
 CustomParticleSystem::reinit_textures()
 {
-  m_textures.clear();
-  // TODO: Multiple textures for a single particle system object?
+  if (!m_textures.size())
+  {
+    auto props = SpriteProperties(Surface::from_file(m_particle_main_texture));
+    props.likeliness = 1.f;
+    props.color = Color(1.f, 1.f, 1.f, 1.f);
+    props.scale = Vector(1.f, 1.f);
+    m_textures.push_back(props);
+  }
 
-  //m_textures.push_back(SpriteProperties(Surface::from_file("images/engine/editor/sparkle.png")));
-  //for (float r = 0.f; r < 1.f; r += 0.5f) {
-  //  for (float g = 0.f; g < 1.f; g += 0.5f) {
-  //    for (float b = 0.f; b < 1.f; b += 0.5f) {
-        auto props = SpriteProperties(Surface::from_file(m_particle_main_texture));
-        props.likeliness = 1.f;
-        props.color = Color(1.f, 1.f, 1.f, 1.f);
-        props.scale = Vector(1.f, 1.f);
-        m_textures.push_back(props);
-  //    }
-  //  }
-  //}
-  texture_sum_odds = 1.f;
+  texture_sum_odds = 0.f;
+  for (auto texture : m_textures)
+  {
+    texture_sum_odds += texture.likeliness;
+  }
+}
+
+void
+CustomParticleSystem::save(Writer& writer)
+{
+  for (auto tex : m_textures)
+  {
+    writer.start_list("texture");
+    writer.write("surface", tex.texture->get_filename());
+    writer.write("color_r", tex.color.red);
+    writer.write("color_g", tex.color.green);
+    writer.write("color_b", tex.color.blue);
+    writer.write("color_a", tex.color.alpha);
+    writer.write("likeliness", tex.likeliness);
+    writer.write("scale_x", tex.scale.x);
+    writer.write("scale_y", tex.scale.y);
+    writer.end_list("texture");
+  }
+
+  GameObject::save(writer);
 }
 
 ObjectSettings
@@ -321,6 +412,7 @@ CustomParticleSystem::get_settings()
   ObjectSettings result = ParticleSystem::get_settings();
 
   result.add_surface(_("Texture"), &m_particle_main_texture, "main-texture");
+
   result.add_int(_("Amount"), &m_max_amount, "amount", 25);
   result.add_float(_("Delay"), &m_delay, "delay", 0.1f);
   result.add_float(_("Lifetime"), &m_particle_lifetime, "lifetime", 5.f);
@@ -701,16 +793,25 @@ CustomParticleSystem::draw(DrawingContext& context)
     if (it == batches.end()) {
       const auto& batch_it = batches.emplace(&(particle->props),
         SurfaceBatch(particle->props.texture, particle->props.color));
-      batch_it.first->second.draw(Rectf(particle->pos,
+      batch_it.first->second.draw(Rectf(Vector(
+                                               particle->pos.x - particle->scale
+                                                 * static_cast<float>(
+                                                 particle->props.texture->get_width()
+                                               ) * particle->props.scale.x / 2,
+                                               particle->pos.y - particle->scale
+                                                 * static_cast<float>(
+                                                 particle->props.texture->get_height()
+                                               ) * particle->props.scale.y / 2
+                                        ),
                                         Vector(
                                                particle->pos.x + particle->scale
                                                  * static_cast<float>(
                                                  particle->props.texture->get_width()
-                                               ) * particle->props.scale.x,
+                                               ) * particle->props.scale.x / 2,
                                                particle->pos.y + particle->scale
                                                  * static_cast<float>(
                                                  particle->props.texture->get_height()
-                                               ) * particle->props.scale.y
+                                               ) * particle->props.scale.y / 2
                                         )
                                  ), particle->angle);
     } else {
@@ -754,18 +855,20 @@ CustomParticleSystem::collision(Particle* object, const Vector& movement)
   float x1, x2;
   float y1, y2;
 
-  x1 = object->pos.x;
+  x1 = object->pos.x - particle->props.scale.x * static_cast<float>(particle->props.texture->get_width()) / 2;
   x2 = x1 + particle->props.scale.x * static_cast<float>(particle->props.texture->get_width()) + movement.x;
   if (x2 < x1) {
+    float temp_x = x1;
     x1 = x2;
-    x2 = object->pos.x;
+    x2 = temp_x;
   }
 
-  y1 = object->pos.y;
+  y1 = object->pos.y - particle->props.scale.y * static_cast<float>(particle->props.texture->get_height()) / 2;
   y2 = y1 + particle->props.scale.y * static_cast<float>(particle->props.texture->get_height()) + movement.y;
   if (y2 < y1) {
+    float temp_y = y1;
     y1 = y2;
-    y2 = object->pos.y;
+    y2 = temp_y;
   }
   bool water = false;
 

@@ -72,7 +72,7 @@ public:
   virtual void draw(DrawingContext& context) = 0;
 
   /** This function saves the object. Editor will use that. */
-  void save(Writer& writer);
+  virtual void save(Writer& writer);
   virtual std::string get_class() const { return "game-object"; }
   virtual std::string get_display_name() const { return _("Unknown object"); }
 

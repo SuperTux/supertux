@@ -102,8 +102,12 @@ private:
 
 private:
   std::vector<std::unique_ptr<InterfaceControl>> m_controls;
+  std::vector<std::unique_ptr<InterfaceControl>> m_controls_textures;
+  std::vector<std::function<void()>> m_texture_rebinds;
   std::vector<std::shared_ptr<CustomParticleSystem::ParticleProps>> m_undo_stack;
   std::vector<std::shared_ptr<CustomParticleSystem::ParticleProps>> m_redo_stack;
+  bool m_in_texture_tab;
+  int m_texture_current;
 
   std::shared_ptr<CustomParticleSystem::ParticleProps> m_saved_version;
 
