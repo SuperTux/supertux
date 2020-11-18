@@ -980,6 +980,7 @@ install(DIRECTORY
   ${CMAKE_CURRENT_SOURCE_DIR}/data/images
   ${CMAKE_CURRENT_SOURCE_DIR}/data/fonts
   ${CMAKE_CURRENT_SOURCE_DIR}/data/music
+  ${CMAKE_CURRENT_SOURCE_DIR}/data/particles
   ${CMAKE_CURRENT_SOURCE_DIR}/data/scripts
   ${CMAKE_CURRENT_SOURCE_DIR}/data/shader
   ${CMAKE_CURRENT_SOURCE_DIR}/data/speech

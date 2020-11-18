@@ -61,16 +61,23 @@ CustomParticleSystemFile::get_settings()
 void
 CustomParticleSystemFile::update_data()
 {
-  // FIXME: Add a try-catch in case of I/O error (in case we switch to a dialog
-  //        that doesn't filter strictly)
-  auto doc = ReaderDocument::from_file("particles/" + ((m_filename == "") ? "default.stcp" : m_filename));
-  auto root = doc.get_root();
-  auto mapping = root.get_mapping();
+  try
+  {
+    auto doc = ReaderDocument::from_file("particles/" + ((m_filename == "") ? "default.stcp" : m_filename));
+    auto root = doc.get_root();
+    auto mapping = root.get_mapping();
 
-  if (root.get_name() != "supertux-custom-particle")
-    throw std::runtime_error("file is not a supertux-custom-particle file.");
+    if (root.get_name() != "supertux-custom-particle")
+      throw std::runtime_error("file is not a supertux-custom-particle file.");
 
-  set_props(CustomParticleSystem(mapping).get_props().get());
+    set_props(CustomParticleSystem(mapping).get_props().get());
+  }
+  catch (std::exception& e)
+  {
+    log_warning << "Could not update custom particle from file (fallback to default settings): "
+                    << e.what() << std::endl;
+    set_props(CustomParticleSystem().get_props().get());
+  }
 }
 
 /* EOF */
