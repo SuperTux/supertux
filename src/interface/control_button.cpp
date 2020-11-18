@@ -52,12 +52,13 @@ ControlButton::on_mouse_button_up(const SDL_MouseButtonEvent& button)
   if (button.button != SDL_BUTTON_LEFT)
     return false;
 
-  m_mouse_down = false;
-
   Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(button.x, button.y);
   if (!m_rect.contains(mouse_pos) || !m_mouse_down) {
+    m_mouse_down = false;
     return false;
   }
+
+  m_mouse_down = false;
 
   if (m_on_change)
     (*m_on_change)();

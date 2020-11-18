@@ -335,6 +335,7 @@ ParticleEditor::reset_texture_ui()
       [this](std::string new_filename) {
         (m_particles->m_textures.begin() + m_texture_current)->texture = Surface::from_file(new_filename);
         m_particles->reinit_textures();
+        this->push_version();
       }
     ));
   });
@@ -361,6 +362,8 @@ ParticleEditor::reset_texture_ui()
     if (m_texture_current < 0) m_texture_current = 0;
     for (const auto& refresh : m_texture_rebinds)
       refresh();
+    m_particles->reinit_textures();
+    this->push_version();
   });
   del_btn.get()->set_rect(Rectf(150.f, 400, 170.f, 420.f));
   m_controls_textures.push_back(std::move(del_btn));
@@ -371,6 +374,8 @@ ParticleEditor::reset_texture_ui()
     m_texture_current = static_cast<int>(m_particles->m_textures.size()) - 1;
     for (const auto& refresh : m_texture_rebinds)
       refresh();
+    m_particles->reinit_textures();
+    this->push_version();
   });
   add_btn.get()->set_rect(Rectf(190.f, 400, 210.f, 420.f));
   m_controls_textures.push_back(std::move(add_btn));
@@ -810,6 +815,10 @@ ParticleEditor::undo()
   m_redo_stack.push_back(m_undo_stack.back());
   m_undo_stack.pop_back();
   m_particles->set_props(m_undo_stack.back().get());
+
+  m_particles->reinit_textures();
+  if (m_texture_current > static_cast<int>(m_particles->m_textures.size()) - 1)
+    m_texture_current = static_cast<int>(m_particles->m_textures.size()) - 1;
 }
 
 void
@@ -821,6 +830,10 @@ ParticleEditor::redo()
   m_undo_stack.push_back(m_redo_stack.back());
   m_particles->set_props(m_redo_stack.back().get());
   m_redo_stack.pop_back();
+
+  m_particles->reinit_textures();
+  if (m_texture_current > static_cast<int>(m_particles->m_textures.size()) - 1)
+    m_texture_current = static_cast<int>(m_particles->m_textures.size()) - 1;
 }
 
 /* EOF */
