@@ -1,19 +1,29 @@
 (supertux-sprite
   (action
     (name "left")
-    (hitbox 2 5 32 32)
-    (images "cpt-left-0.png"
-            "cpt-left-1.png"
-            "cpt-left-2.png"
-            "cpt-left-1.png")
+    (hitbox 5 12 32 32)
+    (fps 14)
+    (images "captain-left-0.png"
+            "captain-left-1.png"
+            "captain-left-2.png"
+            "captain-left-3.png"
+            "captain-left-4.png"
+            "captain-left-5.png"
+            "captain-left-6.png"
+            "captain-left-7.png")
   )
   (action
     (name "right")
-    (hitbox 8 6 32 32)
-    (images "cpt-right-0.png"
-            "cpt-right-1.png"
-            "cpt-right-2.png"
-            "cpt-right-1.png")
+    (hitbox 7 12 32 32)
+    (fps 14)
+    (images "captain-right-0.png"
+            "captain-right-1.png"
+            "captain-right-2.png"
+            "captain-right-3.png"
+            "captain-right-4.png"
+            "captain-right-5.png"
+            "captain-right-6.png"
+            "captain-right-7.png")
   )
   (action
     (name "squished-left")

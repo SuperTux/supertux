@@ -30,6 +30,7 @@
 #include "util/currenton.hpp"
 #include "util/file_system.hpp"
 #include "util/log.hpp"
+#include "util/string_util.hpp"
 #include "video/surface_ptr.hpp"
 
 class GameObject;
@@ -47,6 +48,17 @@ class Editor final : public Screen,
 {
 public:
   static bool is_active();
+
+private:
+  static bool is_autosave_file(const std::string& filename) {
+    return StringUtil::has_suffix(filename, "~");
+  }
+  static std::string get_levelname_from_autosave(const std::string& filename) {
+    return is_autosave_file(filename) ? filename.substr(0, filename.size() - 1) : filename;
+  }
+  static std::string get_autosave_from_levelname(const std::string& filename) {
+    return is_autosave_file(filename) ? filename : filename + "~";
+  }
 
 public:
   static bool s_resaving_in_progress;
@@ -92,6 +104,8 @@ public:
   void open_level_directory();
 
   bool is_testing_level() const { return m_leveltested; }
+
+  void remove_autosave_file();
 
   /** Checks whether the level can be saved and does not contain
       obvious issues (currently: check if main sector and a spawn point
@@ -145,7 +159,7 @@ protected:
   std::unique_ptr<World> m_world;
 
   std::string m_levelfile;
-  std::string m_test_levelfile;
+  std::string m_autosave_levelfile;
 
 public:
   bool m_quit_request;
@@ -181,6 +195,8 @@ private:
   bool m_ignore_sector_change;
   
   bool m_level_first_loaded;
+  
+  float m_time_since_last_save;
 
 private:
   Editor(const Editor&) = delete;

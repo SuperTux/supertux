@@ -21,6 +21,7 @@
 
 #include "audio/sound_manager.hpp"
 #include "gui/item_action.hpp"
+#include "sdk/integration.hpp"
 #include "supertux/game_manager.hpp"
 #include "supertux/level_parser.hpp"
 #include "supertux/levelset.hpp"
@@ -73,6 +74,14 @@ ContribLevelsetMenu::menu_action(MenuItem& item)
   if (dynamic_cast<ItemAction*>(&item))
   {
     SoundManager::current()->stop_music();
+
+    std::string filename = m_levelset->get_level_filename(item.get_id());
+    std::string full_filename = FileSystem::join(m_world->get_basedir(), filename);
+    std::string title = LevelParser::get_level_name(full_filename);
+
+    Integration::set_worldmap(m_world->get_title().c_str());
+    Integration::set_level(title.c_str());
+    Integration::set_status(PLAYING_LEVEL);
 
     // reload the World so that we have something that we can safely
     // std::move() around without wreaking the ContribMenu

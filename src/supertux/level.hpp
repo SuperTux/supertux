@@ -79,6 +79,8 @@ public:
   float m_target_time;
   std::string m_tileset;
   bool m_suppress_pause_menu;
+  bool m_is_in_cutscene;
+  bool m_skip_cutscene;
 
 private:
   Level(const Level&) = delete;

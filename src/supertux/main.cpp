@@ -48,6 +48,7 @@ extern "C" {
 #include "object/spawnpoint.hpp"
 #include "physfs/physfs_file_system.hpp"
 #include "physfs/physfs_sdl.hpp"
+#include "sdk/integration.hpp"
 #include "sprite/sprite_data.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/command_line_arguments.hpp"
@@ -433,6 +434,9 @@ Main::launch_game(const CommandLineArguments& args)
   TileManager tile_manager;
   SpriteManager sprite_manager;
   Resources resources;
+
+  s_timelog.log("integrations");
+  Integration::setup();
 
   s_timelog.log("addons");
   AddonManager addon_manager("addons", g_config->addons);

@@ -143,7 +143,7 @@ Firefly::collision(GameObject& other, const CollisionHit& )
 ObjectSettings
 Firefly::get_settings()
 {
-  ObjectSettings result = MovingObject::get_settings();
+  ObjectSettings result = MovingSprite::get_settings();
   result.add_test_from_here();
   return result;
 }

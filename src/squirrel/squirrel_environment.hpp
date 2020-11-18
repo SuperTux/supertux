@@ -73,6 +73,7 @@ public:
 
   void update(float dt_sec);
   void wait_for_seconds(HSQUIRRELVM vm, float seconds);
+  void skippable_wait_for_seconds(HSQUIRRELVM vm, float seconds);
 
 private:
   void garbage_collect();

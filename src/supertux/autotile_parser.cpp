@@ -54,7 +54,12 @@ AutotileParser::parse()
     if (iter.get_key() == "autotileset")
     {
       ReaderMapping tile_mapping = iter.as_mapping();
-      parse_autotileset(tile_mapping);
+      parse_autotileset(tile_mapping, false);
+    }
+    else if (iter.get_key() == "autotileset-corner")
+    {
+      ReaderMapping tile_mapping = iter.as_mapping();
+      parse_autotileset(tile_mapping, true);
     }
     else
     {
@@ -64,7 +69,7 @@ AutotileParser::parse()
 }
 
 void
-AutotileParser::parse_autotileset(const ReaderMapping& reader)
+AutotileParser::parse_autotileset(const ReaderMapping& reader, bool corner)
 {
   std::vector<Autotile*>* autotiles = new std::vector<Autotile*>();
 
@@ -86,7 +91,7 @@ AutotileParser::parse_autotileset(const ReaderMapping& reader)
     if (iter.get_key() == "autotile")
     {
       ReaderMapping tile_mapping = iter.as_mapping();
-      autotiles->push_back(parse_autotile(tile_mapping));
+      autotiles->push_back(parse_autotile(tile_mapping, corner));
     }
     else if (iter.get_key() != "name" && iter.get_key() != "default")
     {
@@ -94,7 +99,7 @@ AutotileParser::parse_autotileset(const ReaderMapping& reader)
     }
   }
 
-  AutotileSet* autotileset = new AutotileSet(*autotiles, default_id, name);
+  AutotileSet* autotileset = new AutotileSet(*autotiles, default_id, name, corner);
 
   if (g_config->developer_mode)
   {
@@ -104,9 +109,8 @@ AutotileParser::parse_autotileset(const ReaderMapping& reader)
   m_autotilesets->push_back(autotileset);
 }
 
-
 Autotile*
-AutotileParser::parse_autotile(const ReaderMapping& reader)
+AutotileParser::parse_autotile(const ReaderMapping& reader, bool corner)
 {
   std::vector<AutotileMask*> autotile_masks;
   std::vector<std::pair<uint32_t, float>> alt_ids;
@@ -120,8 +124,15 @@ AutotileParser::parse_autotile(const ReaderMapping& reader)
   bool solid;
   if (!reader.get("solid", solid))
   {
-    throw std::runtime_error("Missing 'solid' parameter in autotileset config file.");
+    if (!corner)
+      throw std::runtime_error("Missing 'solid' parameter in autotileset config file.");
   }
+  else
+  {
+    if (corner)
+      throw std::runtime_error("'solid' parameter not needed for corner-based tiles in autotileset config file.");
+  }
+
   auto iter = reader.get_iter();
   while (iter.next())
   {
@@ -130,48 +141,13 @@ AutotileParser::parse_autotile(const ReaderMapping& reader)
       std::string mask;
       iter.get(mask);
 
-      if (mask.size() != 8)
+      if (corner)
       {
-        throw std::runtime_error("Autotile config : mask isn't exactly 8 characters.");
+        parse_mask_corner(mask, &autotile_masks);
       }
-
-      std::vector<uint8_t> masks;
-
-      masks.push_back(0);
-
-      for (int i = 0; i < 8; i++)
+      else
       {
-        std::vector<uint8_t> new_masks;
-        switch (mask[i])
-        {
-        case '0':
-          for (uint8_t val : masks)
-          {
-            new_masks.push_back(static_cast<uint8_t>(val * 2));
-          }
-          break;
-        case '1':
-          for (uint8_t val : masks)
-          {
-            new_masks.push_back(static_cast<uint8_t>(val * 2 + 1));
-          }
-          break;
-        case '*':
-          for (uint8_t val : masks)
-          {
-            new_masks.push_back(static_cast<uint8_t>(val * 2));
-            new_masks.push_back(static_cast<uint8_t>(val * 2 + 1));
-          }
-          break;
-        default:
-          throw std::runtime_error("Autotile config : unrecognized character");
-        }
-        masks = new_masks;
-      }
-
-      for (uint8_t val : masks)
-      {
-        autotile_masks.push_back(new AutotileMask(val, solid));
+        parse_mask(mask, &autotile_masks, solid);
       }
     }
     else if (iter.get_key() == "alt-id")
@@ -202,6 +178,102 @@ AutotileParser::parse_autotile(const ReaderMapping& reader)
   }
 
   return new Autotile(tile_id, alt_ids, autotile_masks, !!solid);
+}
+
+void
+AutotileParser::parse_mask(std::string mask, std::vector<AutotileMask*>* autotile_masks, bool solid)
+{
+  if (mask.size() != 8)
+  {
+    throw std::runtime_error("Autotile config : mask isn't exactly 8 characters.");
+  }
+
+  std::vector<uint8_t> masks;
+
+  masks.push_back(0);
+
+  for (int i = 0; i < 8; i++)
+  {
+    std::vector<uint8_t> new_masks;
+    switch (mask[i])
+    {
+    case '0':
+      for (uint8_t val : masks)
+      {
+        new_masks.push_back(static_cast<uint8_t>(val * 2));
+      }
+      break;
+    case '1':
+      for (uint8_t val : masks)
+      {
+        new_masks.push_back(static_cast<uint8_t>(val * 2 + 1));
+      }
+      break;
+    case '*':
+      for (uint8_t val : masks)
+      {
+        new_masks.push_back(static_cast<uint8_t>(val * 2));
+        new_masks.push_back(static_cast<uint8_t>(val * 2 + 1));
+      }
+      break;
+    default:
+      throw std::runtime_error("Autotile config : unrecognized character");
+    }
+    masks = new_masks;
+  }
+
+  for (uint8_t val : masks)
+  {
+    autotile_masks->push_back(new AutotileMask(val, solid));
+  }
+}
+
+void
+AutotileParser::parse_mask_corner(std::string mask, std::vector<AutotileMask*>* autotile_masks)
+{
+  if (mask.size() != 4)
+  {
+    throw std::runtime_error("Autotile config : corner-based mask isn't exactly 4 characters.");
+  }
+
+  std::vector<uint8_t> masks;
+
+  masks.push_back(0);
+
+  for (int i = 0; i < 4; i++)
+  {
+    std::vector<uint8_t> new_masks;
+    switch (mask[i])
+    {
+    case '0':
+      for (uint8_t val : masks)
+      {
+        new_masks.push_back(static_cast<uint8_t>(val * 2));
+      }
+      break;
+    case '1':
+      for (uint8_t val : masks)
+      {
+        new_masks.push_back(static_cast<uint8_t>(val * 2 + 1));
+      }
+      break;
+    case '*':
+      for (uint8_t val : masks)
+      {
+        new_masks.push_back(static_cast<uint8_t>(val * 2));
+        new_masks.push_back(static_cast<uint8_t>(val * 2 + 1));
+      }
+      break;
+    default:
+      throw std::runtime_error("Autotile config : unrecognized character");
+    }
+    masks = new_masks;
+  }
+
+  for (uint8_t val : masks)
+  {
+    autotile_masks->push_back(new AutotileMask(val, true));
+  }
 }
 
 /* EOF */

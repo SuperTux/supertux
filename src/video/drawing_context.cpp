@@ -56,8 +56,8 @@ DrawingContext::get_cliprect() const
 {
   return Rectf(get_translation().x,
                get_translation().y,
-               get_translation().x + static_cast<float>(m_viewport.get_width()),
-               get_translation().y + static_cast<float>(m_viewport.get_height()));
+               get_translation().x + static_cast<float>(m_viewport.get_width()) / transform().scale,
+               get_translation().y + static_cast<float>(m_viewport.get_height()) / transform().scale);
 }
 
 void
@@ -109,6 +109,37 @@ DrawingContext::pop_transform()
 {
   m_transform_stack.pop_back();
   assert(!m_transform_stack.empty());
+}
+
+const Rect
+DrawingContext::get_viewport() const
+{
+  Rect tmp(
+    static_cast<int>(static_cast<float>(m_viewport.left) / transform().scale),
+    static_cast<int>(static_cast<float>(m_viewport.top) / transform().scale),
+    static_cast<int>(static_cast<float>(m_viewport.right) / transform().scale),
+    static_cast<int>(static_cast<float>(m_viewport.bottom) / transform().scale)
+  );
+
+  return m_viewport;
+}
+
+int
+DrawingContext::get_width() const
+{
+  return static_cast<int>(static_cast<float>(m_viewport.get_width()) / transform().scale);
+}
+
+int
+DrawingContext::get_height() const
+{
+  return static_cast<int>(static_cast<float>(m_viewport.get_height()) / transform().scale);
+}
+
+Vector
+DrawingContext::get_size() const
+{
+  return Vector(static_cast<float>(get_width()), static_cast<float>(get_height())) * transform().scale;
 }
 
 /* EOF */

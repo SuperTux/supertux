@@ -56,12 +56,9 @@ TileSelection::set_tile(uint32_t tile)
 bool
 TileSelection::empty() const
 {
-  for (const auto& tile : m_tiles) {
-    if (tile != 0) {
-      return false;
-    }
-  }
-  return true;
+  return std::all_of(m_tiles.begin(), m_tiles.end(), [](const auto& tile) {
+    return tile == 0;
+  });
 }
 
 /* EOF */

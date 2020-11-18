@@ -75,6 +75,9 @@ public:
   void set_translation(const Vector& newtranslation)
   {  transform().translation = newtranslation;  }
 
+  float get_scale() const { return transform().scale; }
+  void scale(float scale) { transform().scale *= scale; }
+
   /** Apply that flip in the next draws (flips are listed on surface.h). */
   void set_flip(Flip flip);
   Flip get_flip() const;
@@ -94,11 +97,11 @@ public:
     m_viewport = viewport;
   }
 
-  const Rect& get_viewport() const { return m_viewport; }
+  const Rect get_viewport() const;
 
-  int get_width() const { return m_viewport.get_width(); }
-  int get_height() const { return m_viewport.get_height(); }
-  Vector get_size() const { return Vector(static_cast<float>(get_width()), static_cast<float>(get_height())); }
+  int get_width() const;
+  int get_height() const;
+  Vector get_size() const;
   Rectf get_rect() const { return Rectf(Vector(0, 0), get_size()); }
 
   bool use_lightmap() const

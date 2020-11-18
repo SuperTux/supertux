@@ -33,6 +33,7 @@
 #include "supertux/menu/editor_sector_menu.hpp"
 #include "supertux/menu/editor_sectors_menu.hpp"
 #include "supertux/menu/game_menu.hpp"
+#include "supertux/menu/integrations_menu.hpp"
 #include "supertux/menu/joystick_menu.hpp"
 #include "supertux/menu/keyboard_menu.hpp"
 #include "supertux/menu/language_menu.hpp"
@@ -158,6 +159,9 @@ MenuStorage::create(MenuId menu_id)
 
     case EDITOR_LEVELSET_MENU:
       return std::make_unique<EditorLevelsetMenu>();
+      
+    case INTEGRATIONS_MENU:
+      return std::make_unique<IntegrationsMenu>();
 
     case PARTICLE_EDITOR_MENU:
       return std::make_unique<ParticleEditorMenu>();
