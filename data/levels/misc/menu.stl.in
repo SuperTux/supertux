@@ -39,7 +39,7 @@ logo.set_visible(true);
     )
     (spawnpoint
       (name "main")
-      (x 0)
+      (x 96)
       (y 0)
     )
     (tilemap
