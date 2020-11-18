@@ -42,13 +42,13 @@ public:
   void bind_string(std::string* value) { m_string = value; }
 
   /** Returns the full string held in m_charlist */
-  std::string get_string();
+  std::string get_string() const;
 
   /** Gets at which (absolute) index, in the text, corresponds an on-screen point */
-  int get_text_position(Vector pos);
+  int get_text_position(Vector pos) const;
 
   /** Returns true if the given text would fit inside the box */
-  bool fits(std::string text);
+  bool fits(std::string text) const;
 
 protected:
   /** Transfers the string into the binded variable, if any. Can be overridden
@@ -85,16 +85,16 @@ protected:
    */
 
   /** Converts the internal char vector to an actual string and returns it. */
-  std::string get_contents();
+  std::string get_contents() const;
   
   /** Returns first "amount" chars held in m_charlist */
-  std::string get_first_chars(int amount);
+  std::string get_first_chars(int amount) const;
 
   /** Returns the part of the string that is actually displayed */
-  std::string get_contents_visible();
+  std::string get_contents_visible() const;
 
   /** Returns first "amount" chars that are displayed */
-  std::string get_first_chars_visible(int amount);
+  std::string get_first_chars_visible(int amount) const;
 
 public:
   /** Optional, a function to validate the string. If nullptr, then all values
@@ -147,7 +147,7 @@ protected:
   void on_backspace();
 
   /** Returns the largest string fitting in the box. */
-  std::string get_truncated_text(std::string text);
+  std::string get_truncated_text(std::string text) const;
 
   /** Changes m_current_offset so the the caret is visible */
   void recenter_offset();

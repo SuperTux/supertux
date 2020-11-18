@@ -88,6 +88,7 @@ Editor::Editor() :
   m_particle_editor_request(false),
   m_test_pos(),
   m_savegame(),
+  m_particle_editor_filename(),
   m_sector(),
   m_levelloaded(false),
   m_leveltested(false),
@@ -186,6 +187,8 @@ Editor::update(float dt_sec, const Controller& controller)
   if (m_particle_editor_request) {
     m_particle_editor_request = false;
     std::unique_ptr<Screen> screen(new ParticleEditor());
+    if (m_particle_editor_filename)
+      static_cast<ParticleEditor*>(screen.get())->open("particles/" + *m_particle_editor_filename);
     ScreenManager::current()->push_screen(move(screen));
     return;
   }

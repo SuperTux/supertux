@@ -52,6 +52,7 @@ public:
   //void fade_amount(int new_amount, float fade_time);
 protected:
   virtual int collision(Particle* particle, const Vector& movement) override;
+  CollisionHit get_collision(Particle* particle, const Vector& movement);
 
 private:
 
@@ -122,7 +123,7 @@ private:
     {
     }
 
-    SpriteProperties(SpriteProperties& sp, float alpha) :
+    SpriteProperties(const SpriteProperties& sp, float alpha) :
       likeliness(sp.likeliness),
       color(sp.color.red, sp.color.green, sp.color.blue, sp.color.alpha * alpha),
       texture(sp.texture),
@@ -316,9 +317,9 @@ public:
     }
   };
 
-  std::shared_ptr<ParticleProps> get_props() const
+  std::unique_ptr<ParticleProps> get_props() const
   {
-    std::shared_ptr<ParticleProps> props = std::make_shared<ParticleProps>();
+    std::unique_ptr<ParticleProps> props = std::make_unique<ParticleProps>();
 
     for (auto texture : m_textures)
       props->m_textures.push_back(texture);
@@ -358,7 +359,7 @@ public:
     return props;
   }
 
-  void set_props(std::shared_ptr<ParticleProps> props)
+  void set_props(ParticleProps* props)
   {
     m_textures.clear();
     for (auto texture : props->m_textures)

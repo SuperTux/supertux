@@ -16,7 +16,7 @@
 
 #include "interface/control_enum.hpp"
 
-// The source is in the header file - I can put it in the source file
+// The source is in the header file - I can't put it in the source file
 // because of this bug :
 
 // https://stackoverflow.com/questions/56041900

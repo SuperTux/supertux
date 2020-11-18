@@ -41,8 +41,6 @@
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
-#define PI 3.1415926535897f
-
 CustomParticleSystem::CustomParticleSystem() :
   ExposedObject<CustomParticleSystem, scripting::CustomParticles>(this),
   texture_sum_odds(0.f),
@@ -610,7 +608,7 @@ CustomParticleSystem::update(float dt_sec)
         particle->ready_for_deletion = true;
       }
     }
-    
+
     particle->speedX += graphicsRandom.randf(-particle->feather_factor,
                                     particle->feather_factor) * dt_sec * 1000.f;
     particle->speedY += graphicsRandom.randf(-particle->feather_factor,
@@ -619,7 +617,7 @@ CustomParticleSystem::update(float dt_sec)
     particle->speedY += particle->accY * dt_sec;
     particle->speedX *= 1.f - particle->frictionX * dt_sec;
     particle->speedY *= 1.f - particle->frictionY * dt_sec;
-    
+
     if (Sector::current() && collision(particle,
                   Vector(particle->speedX,particle->speedY) * dt_sec) > 0) {
       switch(particle->collision_mode) {
@@ -628,13 +626,50 @@ CustomParticleSystem::update(float dt_sec)
         particle->pos.y += particle->speedY * dt_sec;
         break;
       case CollisionMode::Stick:
-      
+        // Just don't move
         break;
       case CollisionMode::BounceHeavy:
-      
-        break;
       case CollisionMode::BounceLight:
-      
+        {
+          auto c = get_collision(particle, Vector(particle->speedX, particle->speedY) * dt_sec);
+
+          float speed_angle = atan(-particle->speedY / particle->speedX);
+          float face_angle = atan(c.slope_normal.y / c.slope_normal.x);
+          if (c.slope_normal.x == 0.f && c.slope_normal.y == 0.f) {
+            auto cX = get_collision(particle, Vector(particle->speedX, 0) * dt_sec);
+            if (cX.left != cX.right)
+              particle->speedX *= -1;
+            auto cY = get_collision(particle, Vector(0, particle->speedY) * dt_sec);
+            if (cY.top != cY.bottom)
+              particle->speedY *= -1;
+          } else {
+            float dest_angle = face_angle * 2.f - speed_angle; // Reflect the angle around face_angle
+            float dX = cos(dest_angle),
+                  dY = sin(dest_angle);
+
+            float true_speed = static_cast<float>(sqrt(pow(particle->speedY, 2)
+                                                     + pow(particle->speedX, 2)));
+
+            particle->speedX = dX * true_speed;
+            particle->speedY = dY * true_speed;
+          }
+
+          switch(particle->collision_mode) {
+            case CollisionMode::BounceHeavy:
+              particle->speedX *= .2f;
+              particle->speedY *= .2f;
+              break;
+            case CollisionMode::BounceLight:
+              particle->speedX *= .7f;
+              particle->speedY *= .7f;
+              break;
+            default:
+              assert(false);
+          }
+
+          particle->pos.x += particle->speedX * dt_sec;
+          particle->pos.y += particle->speedY * dt_sec;
+        }
         break;
       case CollisionMode::Destroy:
         particle->ready_for_deletion = true;
@@ -647,7 +682,7 @@ CustomParticleSystem::update(float dt_sec)
 
     switch(particle->angle_mode) {
     case RotationMode::Facing:
-      particle->angle = atan(particle->speedY / particle->speedX) * 180.f / PI;
+      particle->angle = atan(particle->speedY / particle->speedX) * 180.f / math::PI;
       break;
     case RotationMode::Wiggling:
       particle->angle += graphicsRandom.randf(-particle->angle_speed / 2.f,
@@ -833,7 +868,6 @@ CustomParticleSystem::draw(DrawingContext& context)
   for(auto& it : batches) {
     auto& surface = it.first->texture;
     auto& batch = it.second;
-    // FIXME: What is the colour used for?
     context.color().draw_surface_batch(surface, batch.move_srcrects(),
       batch.move_dstrects(), batch.move_angles(), it.first->color, z_pos);
   }
@@ -884,6 +918,7 @@ CustomParticleSystem::collision(Particle* object, const Vector& movement)
 
   for (const auto& solids : Sector::get().get_solid_tilemaps()) {
     // FIXME Handle a nonzero tilemap offset
+    // Check if it gets fixed in particlesystem_interactive.cpp
     for (int x = starttilex; x*32 < max_x; ++x) {
       for (int y = starttiley; y*32 < max_y; ++y) {
         const Tile& tile = solids->get_tile(x, y);
@@ -927,6 +962,71 @@ CustomParticleSystem::collision(Particle* object, const Vector& movement)
       return 1; //collision from above
     }
   }
+}
+
+CollisionHit
+CustomParticleSystem::get_collision(Particle* object, const Vector& movement)
+{
+  using namespace collision;
+
+  CustomParticle* particle = dynamic_cast<CustomParticle*>(object);
+  assert(particle);
+
+  // calculate rectangle where the object will move
+  float x1, x2;
+  float y1, y2;
+
+  x1 = object->pos.x - particle->props.scale.x * static_cast<float>(particle->props.texture->get_width()) / 2;
+  x2 = x1 + particle->props.scale.x * static_cast<float>(particle->props.texture->get_width()) + movement.x;
+  if (x2 < x1) {
+    float temp_x = x1;
+    x1 = x2;
+    x2 = temp_x;
+  }
+
+  y1 = object->pos.y - particle->props.scale.y * static_cast<float>(particle->props.texture->get_height()) / 2;
+  y2 = y1 + particle->props.scale.y * static_cast<float>(particle->props.texture->get_height()) + movement.y;
+  if (y2 < y1) {
+    float temp_y = y1;
+    y1 = y2;
+    y2 = temp_y;
+  }
+
+  // test with all tiles in this rectangle
+  int starttilex = int(x1-1) / 32;
+  int starttiley = int(y1-1) / 32;
+  int max_x = int(x2+1);
+  int max_y = int(y2+1);
+
+  Rectf dest(x1, y1, x2, y2);
+  dest.move(movement);
+  Constraints constraints;
+
+  for (const auto& solids : Sector::get().get_solid_tilemaps()) {
+    // FIXME Handle a nonzero tilemap offset
+    // Check if it gets fixed in particlesystem_interactive.cpp
+    for (int x = starttilex; x*32 < max_x; ++x) {
+      for (int y = starttiley; y*32 < max_y; ++y) {
+        const Tile& tile = solids->get_tile(x, y);
+
+        // skip non-solid tiles
+        if (! (tile.get_attributes() & (/*Tile::WATER |*/ Tile::SOLID)))
+          continue;
+
+        Rectf rect = solids->get_tile_bbox(x, y);
+        if (tile.is_slope ()) { // slope tile
+          AATriangle triangle = AATriangle(rect, tile.get_data());
+          rectangle_aatriangle(&constraints, dest, triangle);
+        } else { // normal rectangular tile
+          if (intersects(dest, rect)) {
+            set_rectangle_rectangle_constraints(&constraints, dest, rect);
+          }
+        }
+      }
+    }
+  }
+
+  return constraints.hit;
 }
 
 

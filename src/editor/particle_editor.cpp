@@ -16,6 +16,9 @@
 
 #include "editor/particle_editor.hpp"
 
+#include <physfs.h>
+#include <boost/algorithm/string/predicate.hpp>
+
 #include "control/input_manager.hpp"
 #include "editor/editor.hpp"
 #include "gui/dialog.hpp"
@@ -35,15 +38,24 @@
 #include "util/reader_mapping.hpp"
 #include "video/compositor.hpp"
 
-#include <physfs.h>
-#include <boost/algorithm/string/predicate.hpp>
 
 bool
 ParticleEditor::is_active()
 {
-  auto* self = ParticleEditor::current();
-  return self && true;
+  return ParticleEditor::current() != nullptr;
 }
+
+bool (*ParticleEditor::m_clamp_0_1)(ControlTextboxFloat*, float) = [](ControlTextboxFloat* c, float f){
+  if (f < 0.f) {
+    c->set_value(0.f);
+    return false;
+  } else if (f > 1.f) {
+    c->set_value(1.f);
+    return false;
+  } else {
+    return true;
+  }
+};
 
 ParticleEditor::ParticleEditor() :
   m_enabled(true),
@@ -65,10 +77,23 @@ ParticleEditor::ParticleEditor() :
 void
 ParticleEditor::reload()
 {
-  // TODO: Use a std::unique_ptr here
-  if (m_particles)
-    delete m_particles;
+  reload_particles();
+  reset_main_ui();
+  reset_texture_ui();
 
+  m_redo_stack.clear();
+  m_undo_stack.clear();
+  m_saved_version = m_particles->get_props();
+  m_undo_stack.push_back(m_saved_version);
+}
+
+ParticleEditor::~ParticleEditor()
+{
+}
+
+void
+ParticleEditor::reload_particles()
+{
   auto doc = ReaderDocument::from_file((m_filename == "") ? "/particles/default.stcp" : m_filename);
   auto root = doc.get_root();
   auto mapping = root.get_mapping();
@@ -76,31 +101,22 @@ ParticleEditor::reload()
   if (root.get_name() != "supertux-custom-particle")
     throw std::runtime_error("file is not a supertux-custom-particle file.");
 
-  m_particles = new CustomParticleSystem(mapping);
+  m_particles.reset(new CustomParticleSystem(mapping));
+}
 
+void
+ParticleEditor::reset_main_ui()
+{
   m_controls.clear();
-  m_controls_textures.clear();
-  m_texture_rebinds.clear();
-
-  // ==========================================================================
-  //  MAIN UI
-  // --------------------------------------------------------------------------
 
   // TODO: Use the addButton() command
   // Texture button start
   auto texture_btn = std::make_unique<ControlButton>("Change texture...  ->");
   texture_btn.get()->m_on_change = new std::function<void()>([this](){
-    /*const std::vector<std::string>& filter = {".jpg", ".png", ".surface"};
-    MenuManager::instance().push_menu(std::make_unique<FileSystemMenu>(
-      &(m_particles->m_particle_main_texture),
-      filter,
-      "/",
-      [this](std::string new_filename) { m_particles->reinit_textures(); }
-    ));*/
     m_in_texture_tab = true;
   });
   float tmp_height = 0.f;
-  for (auto& control : m_controls) {
+  for (const auto& control : m_controls) {
     tmp_height = std::max(tmp_height, control->get_rect().get_bottom() + 5.f);
   }
   texture_btn.get()->set_rect(Rectf(25.f, tmp_height, 325.f, tmp_height + 20.f));
@@ -112,12 +128,14 @@ ParticleEditor::reload()
       if (i < 0) {
         ctrl->set_value(0);
         return false;
-      } else if (i > 500) {
+      }
+
+      if (i > 500) {
         ctrl->set_value(500);
         return false;
-      } else {
-        return true;
       }
+
+      return true;
     }
   );
   addTextboxFloat(_("Delay"), &(m_particles->m_delay));
@@ -209,21 +227,24 @@ ParticleEditor::reload()
   auto clear_btn = std::make_unique<ControlButton>("Clear");
   clear_btn.get()->m_on_change = new std::function<void()>([this](){ m_particles->clear(); });
   float height = 0.f;
-  for (auto& control : m_controls) {
+  for (const auto& control : m_controls) {
     height = std::max(height, control->get_rect().get_bottom() + 5.f);
   }
   clear_btn.get()->set_rect(Rectf(25.f, height, 325.f, height + 20.f));
   m_controls.push_back(std::move(clear_btn));
+}
 
-  // ==========================================================================
-  //  TEXTURE UI
-  // --------------------------------------------------------------------------
+void
+ParticleEditor::reset_texture_ui()
+{
+  m_controls_textures.clear();
+  m_texture_rebinds.clear();
 
   auto return_btn = std::make_unique<ControlButton>("<- General settings");
   return_btn.get()->m_on_change = new std::function<void()>([this](){
     m_in_texture_tab = false;
   });
-  return_btn.get()->set_rect(Rectf(25.f, 20, 325.f, 40.f));
+  return_btn.get()->set_rect(Rectf(25.f, 0.f, 325.f, 20.f));
   m_controls_textures.push_back(std::move(return_btn));
 
   auto likeliness_control = std::make_unique<ControlTextboxFloat>();
@@ -242,7 +263,7 @@ ParticleEditor::reload()
   color_r_control.get()->set_rect(Rectf(150.f, 80.f, 192.f, 100.f));
   color_r_control.get()->m_label = new InterfaceLabel(Rectf(5.f, 80.f, 140.f, 100.f), "Color (RGBA)");
   color_r_control.get()->m_on_change = new std::function<void()>([this](){ m_particles->reinit_textures(); this->push_version(); });
-  color_r_control.get()->m_validate_float = [](ControlTextboxFloat* t, float f){ return f >= 0.f && f <= 1.f; };
+  color_r_control.get()->m_validate_float = m_clamp_0_1;
   auto color_r_control_ptr = color_r_control.get();
   m_texture_rebinds.push_back( [this, color_r_control_ptr]{
     color_r_control_ptr->bind_value(&((m_particles->m_textures.begin() + m_texture_current)->color.red));
@@ -253,7 +274,7 @@ ParticleEditor::reload()
   color_g_control.get()->bind_value(&((m_particles->m_textures.begin() + m_texture_current)->color.green));
   color_g_control.get()->set_rect(Rectf(202.f, 80.f, 245.f, 100.f));
   color_g_control.get()->m_on_change = new std::function<void()>([this](){ m_particles->reinit_textures(); this->push_version(); });
-  color_g_control.get()->m_validate_float = [](ControlTextboxFloat* t, float f){ return f >= 0.f && f <= 1.f; };
+  color_g_control.get()->m_validate_float = m_clamp_0_1;
   auto color_g_control_ptr = color_g_control.get();
   m_texture_rebinds.push_back( [this, color_g_control_ptr]{
     color_g_control_ptr->bind_value(&((m_particles->m_textures.begin() + m_texture_current)->color.green));
@@ -264,7 +285,7 @@ ParticleEditor::reload()
   color_b_control.get()->bind_value(&((m_particles->m_textures.begin() + m_texture_current)->color.blue));
   color_b_control.get()->set_rect(Rectf(255.f, 80.f, 297.f, 100.f));
   color_b_control.get()->m_on_change = new std::function<void()>([this](){ m_particles->reinit_textures(); this->push_version(); });
-  color_b_control.get()->m_validate_float = [](ControlTextboxFloat* t, float f){ return f >= 0.f && f <= 1.f; };
+  color_b_control.get()->m_validate_float = m_clamp_0_1;
   auto color_b_control_ptr = color_b_control.get();
   m_texture_rebinds.push_back( [this, color_b_control_ptr]{
     color_b_control_ptr->bind_value(&((m_particles->m_textures.begin() + m_texture_current)->color.blue));
@@ -275,7 +296,7 @@ ParticleEditor::reload()
   color_a_control.get()->bind_value(&((m_particles->m_textures.begin() + m_texture_current)->color.alpha));
   color_a_control.get()->set_rect(Rectf(307.f, 80.f, 350.f, 100.f));
   color_a_control.get()->m_on_change = new std::function<void()>([this](){ m_particles->reinit_textures(); this->push_version(); });
-  color_a_control.get()->m_validate_float = [](ControlTextboxFloat* t, float f){ return f >= 0.f && f <= 1.f; };
+  color_a_control.get()->m_validate_float = m_clamp_0_1;
   auto color_a_control_ptr = color_a_control.get();
   m_texture_rebinds.push_back( [this, color_a_control_ptr]{
     color_a_control_ptr->bind_value(&((m_particles->m_textures.begin() + m_texture_current)->color.alpha));
@@ -325,7 +346,7 @@ ParticleEditor::reload()
   prev_btn.get()->m_on_change = new std::function<void()>([this](){
     m_texture_current--;
     if (m_texture_current < 0) m_texture_current = 0;
-    for (auto refresh : m_texture_rebinds)
+    for (const auto& refresh : m_texture_rebinds)
       refresh();
   });
   prev_btn.get()->set_rect(Rectf(120.f, 400, 140.f, 420.f));
@@ -338,7 +359,7 @@ ParticleEditor::reload()
     m_particles->m_textures.erase(m_particles->m_textures.begin() + m_texture_current);
     m_texture_current--;
     if (m_texture_current < 0) m_texture_current = 0;
-    for (auto refresh : m_texture_rebinds)
+    for (const auto& refresh : m_texture_rebinds)
       refresh();
   });
   del_btn.get()->set_rect(Rectf(150.f, 400, 170.f, 420.f));
@@ -348,7 +369,7 @@ ParticleEditor::reload()
   add_btn.get()->m_on_change = new std::function<void()>([this](){
     m_particles->m_textures.push_back(CustomParticleSystem::SpriteProperties());
     m_texture_current = static_cast<int>(m_particles->m_textures.size()) - 1;
-    for (auto refresh : m_texture_rebinds)
+    for (const auto& refresh : m_texture_rebinds)
       refresh();
   });
   add_btn.get()->set_rect(Rectf(190.f, 400, 210.f, 420.f));
@@ -359,23 +380,11 @@ ParticleEditor::reload()
     m_texture_current++;
     if (m_texture_current > static_cast<int>(m_particles->m_textures.size()) - 1)
       m_texture_current = static_cast<int>(m_particles->m_textures.size()) - 1;
-    for (auto refresh : m_texture_rebinds)
+    for (const auto& refresh : m_texture_rebinds)
       refresh();
   });
   next_btn.get()->set_rect(Rectf(220.f, 400, 240.f, 420.f));
   m_controls_textures.push_back(std::move(next_btn));
-
-  // ==========================================================================
-  //  THE REST
-  // --------------------------------------------------------------------------
-
-  m_undo_stack.clear();
-  m_saved_version = m_particles->get_props();
-  m_undo_stack.push_back(m_saved_version);
-}
-
-ParticleEditor::~ParticleEditor()
-{
 }
 
 void
@@ -403,7 +412,7 @@ ParticleEditor::addTextboxFloatWithImprecision(std::string name, float* bind,
 
   // Can't use addControl() because this is a special case
   float height = 0.f;
-  for (auto& control : m_controls) {
+  for (const auto& control : m_controls) {
     height = std::max(height, control->get_rect().get_bottom() + 5.f);
   }
 
@@ -482,7 +491,7 @@ void
 ParticleEditor::addControl(std::string name, std::unique_ptr<InterfaceControl> new_control)
 {
   float height = 0.f;
-  for (auto& control : m_controls) {
+  for (const auto& control : m_controls) {
     height = std::max(height, control->get_rect().get_bottom() + 5.f);
   }
 
@@ -509,6 +518,7 @@ ParticleEditor::save(const std::string& filepath_, bool retry)
     filepath += ".stcp";
 
   // FIXME: It tests for directory in supertux/data, but saves into .supertux2.
+  //  Note: I remember writing this but I have no clue what I meant.  ~Semphris
   try {
     { // make sure the level directory exists
       std::string dirname = FileSystem::dirname(filepath);
@@ -592,9 +602,6 @@ ParticleEditor::draw(Compositor& compositor)
 
   m_particles->draw(context);
 
-  /*context.color().draw_filled_rect(Rectf(0.f, 0.f, 255.f, context.get_height()),
-                                   Color(),
-                                   LAYER_GUI - 1);*/
   context.color().draw_gradient(Color(0.05f, 0.1f, 0.1f, 1.f),
                                 Color(0.1f, 0.15f, 0.15f, 1.f),
                                 LAYER_GUI - 1,
@@ -605,6 +612,12 @@ ParticleEditor::draw(Compositor& compositor)
   {
     context.color().draw_surface_scaled((m_particles->m_textures.begin() + m_texture_current)->texture,
                                          Rect(75, 150, 275, 350), LAYER_GUI);
+    context.color().draw_text(Resources::control_font,
+                              std::to_string(m_texture_current + 1) + "/"
+                                  + std::to_string(m_particles->m_textures.size()),
+                              Vector(175, 30),
+                              FontAlignment::ALIGN_CENTER,
+                              LAYER_GUI);
     for(const auto& control : m_controls_textures)
     {
       control->draw(context);
@@ -796,7 +809,7 @@ ParticleEditor::undo()
 
   m_redo_stack.push_back(m_undo_stack.back());
   m_undo_stack.pop_back();
-  m_particles->set_props(m_undo_stack.back());
+  m_particles->set_props(m_undo_stack.back().get());
 }
 
 void
@@ -806,7 +819,7 @@ ParticleEditor::redo()
     return;
 
   m_undo_stack.push_back(m_redo_stack.back());
-  m_particles->set_props(m_redo_stack.back());
+  m_particles->set_props(m_redo_stack.back().get());
   m_redo_stack.pop_back();
 }
 

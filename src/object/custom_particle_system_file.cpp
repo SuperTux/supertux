@@ -16,6 +16,7 @@
 
 #include "object/custom_particle_system_file.hpp"
 
+#include "editor/editor.hpp"
 #include "gui/menu_manager.hpp"
 #include "util/reader.hpp"
 #include "util/reader_document.hpp"
@@ -49,6 +50,9 @@ CustomParticleSystemFile::get_settings()
   result.add_file(_("File"), &m_filename, "file", {}, {".stcp"}, "/particles");
   result.add_particle_editor();
 
+  // It is assumed get_settings() is called whenever the menu is opened
+  Editor::current()->m_particle_editor_filename = &m_filename;
+
   result.add_remove();
 
   return result;
@@ -66,7 +70,7 @@ CustomParticleSystemFile::update_data()
   if (root.get_name() != "supertux-custom-particle")
     throw std::runtime_error("file is not a supertux-custom-particle file.");
 
-  set_props(CustomParticleSystem(mapping).get_props());
+  set_props(CustomParticleSystem(mapping).get_props().get());
 }
 
 /* EOF */

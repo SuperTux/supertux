@@ -48,25 +48,22 @@ ControlCheckbox::draw(DrawingContext& context)
 bool
 ControlCheckbox::on_mouse_button_up(const SDL_MouseButtonEvent& button)
 {
-  if (button.button == SDL_BUTTON_LEFT) {
-
-    Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(button.x, button.y);
-    if (m_rect.contains(mouse_pos)) {
-      *m_value = !*m_value;
-
-      if (m_on_change)
-        (*m_on_change)();
-
-      m_has_focus = true;
-
-      return true;
-    } else {
-      return false;
-    }
-
-  } else {
+  if (button.button != SDL_BUTTON_LEFT)
     return false;
-  }
+
+  Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(button.x, button.y);
+
+  if (!m_rect.contains(mouse_pos))
+    return false;
+
+  *m_value = !*m_value;
+
+  if (m_on_change)
+    (*m_on_change)();
+
+  m_has_focus = true;
+
+  return true;
 }
 
 bool
@@ -82,15 +79,14 @@ ControlCheckbox::on_mouse_button_down(const SDL_MouseButtonEvent& button)
 bool
 ControlCheckbox::on_key_up(const SDL_KeyboardEvent& key)
 {
-  if (key.keysym.sym == SDLK_SPACE && m_has_focus) {
-    *m_value = !*m_value;
-
-    if (m_on_change)
-      (*m_on_change)();
-
-    return true;
-  } else {
+  if (key.keysym.sym != SDLK_SPACE || !m_has_focus)
     return false;
-  }
+
+  *m_value = !*m_value;
+
+  if (m_on_change)
+    (*m_on_change)();
+
+  return true;
 }
 

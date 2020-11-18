@@ -33,13 +33,13 @@ public:
   virtual bool on_mouse_motion(const SDL_MouseMotionEvent& motion) override;
 
   void set_rect(Rectf rect) { m_rect = rect; }
-  Rectf get_rect() { return m_rect; }
+  Rectf get_rect() const { return m_rect; }
 
   void set_label(std::string label) { m_label = label; }
-  std::string get_label() { return m_label; }
+  std::string get_label() const { return m_label; }
 
-  bool fits(std::string text);
-  std::string get_truncated_text();
+  bool fits(std::string text) const;
+  std::string get_truncated_text() const;
 
 protected:
   /** The rectangle where the InterfaceLabel should be rendered */

@@ -78,13 +78,13 @@ InterfaceLabel::draw(DrawingContext& context)
 }
 
 bool
-InterfaceLabel::fits(std::string text)
+InterfaceLabel::fits(std::string text) const
 {
   return Resources::control_font->get_text_width(text) <= m_rect.get_width();
 }
 
 std::string
-InterfaceLabel::get_truncated_text()
+InterfaceLabel::get_truncated_text() const
 {
   if (fits(m_label)) return m_label;
 

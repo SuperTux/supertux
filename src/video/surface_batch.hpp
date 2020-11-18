@@ -39,7 +39,7 @@ public:
   std::vector<Rectf> move_dstrects() { return std::move(m_dstrects); }
   std::vector<float> move_angles() { return std::move(m_angles); }
 
-  Color get_color() { return m_color; }
+  Color get_color() const { return m_color; }
 
 private:
   SurfacePtr m_surface;

@@ -353,13 +353,13 @@ ControlTextbox::revert_value()
 }
 
 std::string
-ControlTextbox::get_string()
+ControlTextbox::get_string() const
 {
   return m_internal_string_backup;
 }
 
 std::string
-ControlTextbox::get_contents()
+ControlTextbox::get_contents() const
 {
   std::string temp;
 
@@ -372,7 +372,7 @@ ControlTextbox::get_contents()
 }
 
 std::string
-ControlTextbox::get_first_chars(int amount)
+ControlTextbox::get_first_chars(int amount) const
 {
   std::string temp;
 
@@ -386,7 +386,7 @@ ControlTextbox::get_first_chars(int amount)
 }
 
 std::string
-ControlTextbox::get_contents_visible()
+ControlTextbox::get_contents_visible() const
 {
   std::string temp;
   int remaining = m_current_offset;
@@ -402,13 +402,13 @@ ControlTextbox::get_contents_visible()
 }
 
 std::string
-ControlTextbox::get_first_chars_visible(int amount)
+ControlTextbox::get_first_chars_visible(int amount) const
 {
   return get_contents_visible().substr(0, amount);
 }
 
 int
-ControlTextbox::get_text_position(Vector pos)
+ControlTextbox::get_text_position(Vector pos) const
 {
   float dist = pos.x - m_rect.get_left();
   int i = 0;
@@ -421,7 +421,7 @@ ControlTextbox::get_text_position(Vector pos)
 }
 
 std::string
-ControlTextbox::get_truncated_text(std::string text)
+ControlTextbox::get_truncated_text(std::string text) const
 {
   if (fits(text)) return text;
 
@@ -433,7 +433,7 @@ ControlTextbox::get_truncated_text(std::string text)
 }
 
 bool
-ControlTextbox::fits(std::string text)
+ControlTextbox::fits(std::string text) const
 {
   return Resources::control_font->get_text_width(text) <= m_rect.get_width() - 10.f;
 }

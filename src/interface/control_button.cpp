@@ -49,27 +49,22 @@ ControlButton::draw(DrawingContext& context)
 bool
 ControlButton::on_mouse_button_up(const SDL_MouseButtonEvent& button)
 {
-  if (button.button == SDL_BUTTON_LEFT) {
+  if (button.button != SDL_BUTTON_LEFT)
+    return false;
 
-    Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(button.x, button.y);
-    if (m_rect.contains(mouse_pos) && m_mouse_down) {
+  m_mouse_down = false;
 
-      if (m_on_change)
-        (*m_on_change)();
-
-      m_has_focus = true;
-
-      m_mouse_down = false;
-      return true;
-    } else {
-      m_mouse_down = false;
-      return false;
-    }
-
-  } else {
-    m_mouse_down = false;
+  Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(button.x, button.y);
+  if (!m_rect.contains(mouse_pos) || !m_mouse_down) {
     return false;
   }
+
+  if (m_on_change)
+    (*m_on_change)();
+
+  m_has_focus = true;
+
+  return true;
 }
 
 bool
@@ -90,24 +85,30 @@ ControlButton::on_mouse_button_down(const SDL_MouseButtonEvent& button)
 bool
 ControlButton::on_key_up(const SDL_KeyboardEvent& key)
 {
-  if (key.keysym.sym == SDLK_SPACE && m_has_focus) {
+  if (!m_has_focus)
+    return false;
+
+  if (key.keysym.sym == SDLK_SPACE) {
     if (m_on_change)
       (*m_on_change)();
     m_mouse_down = false;
     return true;
-  } else {
-    return false;
   }
+
+  return false;
 }
 
 bool
 ControlButton::on_key_down(const SDL_KeyboardEvent& key)
 {
-  if (key.keysym.sym == SDLK_SPACE && m_has_focus) {
+  if (!m_has_focus)
+    return false;
+
+  if (key.keysym.sym == SDLK_SPACE) {
     m_mouse_down = true;
     return true;
-  } else {
-    return false;
   }
+
+  return false;
 }
 

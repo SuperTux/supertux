@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2015 Hume2 <teratux.mail@gmail.com>
+//  Copyright (C) 2020 A. Semphris <semphris@protonmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -17,12 +17,12 @@
 #ifndef HEADER_SUPERTUX_EDITOR_PARTICLE_EDITOR_HPP
 #define HEADER_SUPERTUX_EDITOR_PARTICLE_EDITOR_HPP
 
-#include <SDL.h>
 #include <functional>
 #include <vector>
 #include <memory>
 
-#include "editor/particle_settings_widget.hpp"
+#include <SDL.h>
+
 #include "interface/control.hpp"
 #include "interface/control_button.hpp"
 #include "interface/control_enum.hpp"
@@ -43,10 +43,14 @@ class ParticleEditor final : public Screen,
 public:
   static bool is_active();
 
+private:
+  static bool (*m_clamp_0_1)(ControlTextboxFloat*, float);
+
 public:
   ParticleEditor();
   ~ParticleEditor();
 
+public:
   virtual void draw(Compositor&) override;
   virtual void update(float dt_sec, const Controller& controller) override;
 
@@ -74,11 +78,11 @@ public:
    */
   void reload();
 
-public:
-  bool m_enabled;
-  bool m_quit_request;
-
 private:
+  void reload_particles();
+  void reset_main_ui();
+  void reset_texture_ui();
+
   void addTextboxFloat(std::string name, float* bind,
                        bool (*float_validator)(ControlTextboxFloat*,
                                                float) = nullptr);
@@ -100,7 +104,9 @@ private:
   void undo();
   void redo();
 
-private:
+public:
+  bool m_enabled;
+  bool m_quit_request;
   std::vector<std::unique_ptr<InterfaceControl>> m_controls;
   std::vector<std::unique_ptr<InterfaceControl>> m_controls_textures;
   std::vector<std::function<void()>> m_texture_rebinds;
@@ -111,7 +117,7 @@ private:
 
   std::shared_ptr<CustomParticleSystem::ParticleProps> m_saved_version;
 
-  CustomParticleSystem* m_particles;
+  std::unique_ptr<CustomParticleSystem> m_particles;
   std::string m_filename;
 
 private:

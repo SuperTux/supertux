@@ -26,7 +26,7 @@ public:
 
   virtual void update(float dt_sec, const Controller& controller) override;
 
-  int get_value() { return *m_value; }
+  int get_value() const { return *m_value; }
   void set_value(int value) { *m_value = value; revert_value(); }
   /** Binds an int to this textbox. Set m_validate_fint(int) if you want
    *  custom validation. (You may also use m_validate_string(string), though

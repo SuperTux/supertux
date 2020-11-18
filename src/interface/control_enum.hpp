@@ -34,7 +34,7 @@ public:
   virtual bool on_key_up(const SDL_KeyboardEvent& key) override;
   virtual bool on_key_down(const SDL_KeyboardEvent& key) override;
 
-  T get_value() { return *m_value; }
+  T get_value() const { return *m_value; }
   void set_value(T value) { *m_value = value; }
   void bind_value(T* value) { m_value = value; }
 
@@ -141,21 +141,20 @@ template<class T>
 bool
 ControlEnum<T>::on_mouse_button_up(const SDL_MouseButtonEvent& button)
 {
-  if (button.button == SDL_BUTTON_LEFT) {
-    Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(button.x, button.y);
-    if (m_rect.contains(mouse_pos)) {
-      m_open_list = !m_open_list;
-      m_has_focus = true;
-      return true;
-    } else if (Rectf(m_rect.get_left(),
-               m_rect.get_top(),
-               m_rect.get_right(),
-               m_rect.get_bottom() + m_rect.get_height() * float(m_options.size())
-              ).contains(mouse_pos) && m_open_list) {
-      return true;
-    } else {
-      return false;
-    }
+  if (button.button != SDL_BUTTON_LEFT)
+    return false;
+
+  Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(button.x, button.y);
+  if (m_rect.contains(mouse_pos)) {
+    m_open_list = !m_open_list;
+    m_has_focus = true;
+    return true;
+  } else if (Rectf(m_rect.get_left(),
+             m_rect.get_top(),
+             m_rect.get_right(),
+             m_rect.get_bottom() + m_rect.get_height() * float(m_options.size())
+            ).contains(mouse_pos) && m_open_list) {
+    return true;
   } else {
     return false;
   }
@@ -234,7 +233,10 @@ template<class T>
 bool
 ControlEnum<T>::on_key_down(const SDL_KeyboardEvent& key)
 {
-  if (key.keysym.sym == SDLK_DOWN && m_has_focus) {
+  if (!m_has_focus)
+    return false;
+
+  if (key.keysym.sym == SDLK_DOWN) {
     bool is_next = false;
     // Hacky way to get the next one in the list
     for (auto option : m_options) {
@@ -260,7 +262,7 @@ ControlEnum<T>::on_key_down(const SDL_KeyboardEvent& key)
       (*m_on_change)();
 
     return true;
-  } else if (key.keysym.sym == SDLK_UP && m_has_focus) {
+  } else if (key.keysym.sym == SDLK_UP) {
 
     bool is_last = false;
     bool currently_on_first = true;
@@ -286,9 +288,9 @@ ControlEnum<T>::on_key_down(const SDL_KeyboardEvent& key)
       (*m_on_change)();
 
     return true;
-  } else {
-    return false;
   }
+
+  return false;
 }
 
 #endif
