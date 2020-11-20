@@ -100,8 +100,8 @@ public:
 
 #ifdef ENABLE_DISCORD
   bool enable_discord;
-  bool discord_hide_editor;
 #endif
+  bool hide_editor_levelnames;
 
   int editor_autosave_frequency;
 

@@ -19,49 +19,113 @@
 
 #include "config.h"
 
+#include <memory>
 #include <vector>
 
-enum IntegrationStatus {
-  MAIN_MENU,
-  PLAYING_WORLDMAP,
-  PLAYING_LEVEL,
-  PLAYING_LEVEL_FROM_WORLDMAP,
-  EDITING_WORLDMAP,
-  EDITING_LEVEL,
-  TESTING_WORLDMAP,
-  TESTING_LEVEL,
-  TESTING_LEVEL_FROM_WORLDMAP
+class IntegrationStatus
+{
+public:
+  IntegrationStatus() :
+    m_details(),
+    m_party_count(0),
+    m_party_max(0),
+    m_timestamp(0)
+  {
+  }
+
+  bool operator !=(const IntegrationStatus is) { return !operator==(is); }
+  bool operator ==(const IntegrationStatus is) {
+    if (m_details.size() != is.m_details.size())
+      return false;
+
+    if (m_party_count != is.m_party_count ||
+        m_party_max != is.m_party_max ||
+        m_timestamp != is.m_timestamp)
+      return false;
+
+    for (int i = 0; i < static_cast<int>(m_details.size()); i++)
+      if (*(m_details.begin() + i) != *(is.m_details.begin() + i))
+        return false;
+
+    return true;
+  }
+
+  /**
+   * A list of lines describing what the player is doing.
+   * Should go from general to specific.
+   * 
+   * A good first line should hint other people whether or not
+   * the user is available to play with them. For example, stating
+   * whether the user is playing online or offline, and if they're
+   * playing or if they're in the menus/level select screens.
+   * 
+   * The second line can give more details, such as which level
+   * is being played (or edited if in the level editor).
+   * 
+   * The lines should be short (max 100 characters). There shouldn't
+   * be more than 3 lines in total. Keep in mind that integrations
+   * don't display many lines: Discord displays two; Steam, just one.
+   * 
+   * ================================================================
+   * 
+   * A good example looks like:
+   *   Playing (single player)
+   *   In level: Welcome to Antartica
+   *   Worldmap: Icy island
+   * 
+   * Or:
+   *   Racing worldmap (online)
+   *   Worldmap: LatestAddon's worldmap [custom]
+   * 
+   * (keep in mind party details have their own variables!)
+   * 
+   * Or even just:
+   *   In menu
+   * 
+   */
+  std::vector<std::string> m_details;
+
+  /** The amount of people in the group (0 = no party) */
+  int m_party_count;
+
+  /** The maximum amount of people in the group (0 = no limit) */
+  int m_party_max;
+
+  /**
+   *  Any timestamp relative to the game. A value before now
+   *  will display an "Elapsed time" counter. A value after
+   *  now will display a "Remaining time" counter. A value
+   *  of 0 will display no timestamp.
+   */
+  long int m_timestamp;
 };
 
 class Integration
 {
 public:
+  Integration() {}
+  virtual ~Integration() {}
+
   static void setup();
   static void init_all();
   static void update_all();
   static void close_all();
-  static void set_status(IntegrationStatus status);
-  static void set_worldmap(const char* worldmap);
-  static void set_level(const char* level);
 
-  static IntegrationStatus get_status();
-  
-public:
-  static std::vector<Integration*> sdks;
+  static void update_status_all(IntegrationStatus status);
 
 public:
   virtual void init() = 0;
   virtual void update() = 0;
   virtual void close() = 0;
   virtual void update_status(IntegrationStatus status) = 0;
-  virtual void update_worldmap(const char* worldmap) = 0;
-  virtual void update_level(const char* level) = 0;
-
-protected:
-  ~Integration(){}
 
 private:
-  static IntegrationStatus m_status;
+  static std::vector<Integration*> sdks;
+  static IntegrationStatus current_status;
+
+private:
+  Integration(const Integration&) = delete;
+  Integration & operator=(const Integration&) = delete;
 };
 
 #endif

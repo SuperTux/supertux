@@ -465,6 +465,8 @@ ScreenManager::run()
   handle_screen_switch();
   while (!m_screen_stack.empty()) {
 
+    // Useful if screens edit their status without switching screens
+    Integration::update_status_all(m_screen_stack.back()->get_status());
     Integration::update_all();
 
     Uint32 ticks = SDL_GetTicks();
