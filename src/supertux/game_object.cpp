@@ -106,4 +106,30 @@ GameObject::update(float dt_sec)
   m_fade_helpers.erase(new_end, m_fade_helpers.end());
 }
 
+void
+GameObject::backup(Writer& writer)
+{
+  writer.write("class", get_class());
+  writer.start_list(GameObject::get_class());
+  writer.write("uid", m_uid);
+  writer.write("name", m_name);
+  writer.end_list(GameObject::get_class());
+}
+
+void
+GameObject::restore(const ReaderMapping& reader)
+{
+  boost::optional<ReaderMapping> subreader(ReaderMapping(reader.get_doc(), reader.get_sexp()));
+
+  if (reader.get(GameObject::get_class().c_str(), subreader))
+  {
+    int id;
+    if (subreader->get("uid", id))
+    {
+      m_uid = UID(id);
+    }
+    subreader->get("name", m_name);
+  }
+}
+
 /* EOF */

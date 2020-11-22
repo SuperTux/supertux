@@ -43,17 +43,16 @@ class UID
 public:
   using Magic = uint8_t;
 
-private:
+public:
+  UID() : m_value(0) {}
+  UID(const UID& other) = default;
+  UID& operator=(const UID& other) = default;
+
   explicit UID(uint32_t value) :
     m_value(value)
   {
     assert(m_value != 0);
   }
-
-public:
-  UID() : m_value(0) {}
-  UID(const UID& other) = default;
-  UID& operator=(const UID& other) = default;
 
   inline operator bool() const {
     return m_value != 0;

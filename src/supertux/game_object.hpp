@@ -117,6 +117,15 @@ public:
     return "images/tiles/auxiliary/notile.png";
   }
 
+  /** Writes the object's full state to the writer, so that another
+      instance of the game can reproduce it exactly. Differs from
+      save(Writer& writer) as it also writes temporary data (such as
+      an object's velocity, acceleration or color at a given frame) */
+  virtual void backup(Writer& writer);
+
+  /** Restores this object's internal status from a previously */
+  virtual void restore(const ReaderMapping& reader);
+
   /** stops all looping sounds */
   virtual void stop_looping_sounds() {}
 
