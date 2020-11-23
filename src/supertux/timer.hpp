@@ -19,6 +19,9 @@
 
 #include "supertux/globals.hpp"
 
+class ReaderMapping;
+class Writer;
+
 /** Simple timer designed to be used in the update functions of
     objects */
 class Timer final
@@ -43,6 +46,9 @@ public:
   float get_timeleft() const{ return m_period - (g_game_time - m_cycle_start); }
   float get_timegone() const { return g_game_time - m_cycle_start; }
   bool started() const { return m_period != 0 && get_timeleft() > 0; }
+
+  void backup(Writer& writer);
+  void restore(const ReaderMapping& reader);
 
 private:
   float m_period;

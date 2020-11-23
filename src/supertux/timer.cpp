@@ -17,6 +17,8 @@
 #include <math.h>
 
 #include "supertux/timer.hpp"
+#include "util/reader_mapping.hpp"
+#include "util/writer.hpp"
 
 Timer::Timer() :
   m_period(0),
@@ -49,6 +51,22 @@ Timer::check()
   }
 
   return false;
+}
+
+void
+Timer::backup(Writer& writer)
+{
+  writer.write("m_period", m_period);
+  writer.write("m_cycle_start", m_cycle_start);
+  writer.write("m_cyclic", m_cyclic);
+}
+
+void
+Timer::restore(const ReaderMapping& reader)
+{
+  reader.get("m_period", m_period);
+  reader.get("m_cycle_start", m_cycle_start);
+  reader.get("m_cyclic", m_cyclic);
 }
 
 /* EOF */

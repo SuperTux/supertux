@@ -92,9 +92,8 @@ GameObject::get_settings()
 void
 GameObject::backup(Writer& writer)
 {
-  writer.write("class", get_class());
+  writer.write("classname", get_class());
   writer.start_list(GameObject::get_class());
-  writer.write("uid", m_uid);
   writer.write("name", m_name);
   writer.end_list(GameObject::get_class());
 }
@@ -106,7 +105,6 @@ GameObject::restore(const ReaderMapping& reader)
 
   if (reader.get(GameObject::get_class().c_str(), subreader))
   {
-    subreader->get("uid", m_uid);
     subreader->get("name", m_name);
   }
 }

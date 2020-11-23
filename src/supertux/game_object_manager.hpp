@@ -28,6 +28,7 @@
 #include "util/uid_generator.hpp"
 
 class DrawingContext;
+class ReaderMapping;
 class TileMap;
 
 template<class T> class GameObjectRange;
@@ -83,6 +84,13 @@ public:
 
   /** Hook that is called before an object is removed from the vector */
   virtual void before_object_remove(GameObject& object) = 0;
+
+  /** Writes the session's full state to the writer, so that another
+      instance of the game can reproduce it exactly. */
+  virtual void backup(Writer& writer);
+
+  /** Restores this session's internal status from a savestate */
+  virtual void restore(const ReaderMapping& reader);
 
   template<class T>
   GameObjectRange<T> get_objects_by_type() const

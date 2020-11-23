@@ -761,4 +761,19 @@ Camera::is_saveable() const
   return !(Level::current() &&
            Level::current()->is_worldmap());
 }
+
+void
+Camera::backup(Writer& writer)
+{
+  writer.write("x", m_translation.x);
+  writer.write("y", m_translation.y);
+}
+
+void
+Camera::restore(const ReaderMapping& reader)
+{
+  reader.get("x", m_translation.x);
+  reader.get("y", m_translation.y);
+}
+
 /* EOF */

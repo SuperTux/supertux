@@ -18,6 +18,7 @@
 
 #include "editor/resize_marker.hpp"
 #include "supertux/sector.hpp"
+#include "util/log.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
 
@@ -72,6 +73,76 @@ MovingObject::editor_select()
   Sector::get().add<ResizeMarker>(&m_col.m_bbox, ResizeMarker::Side::RIGHT_DOWN, ResizeMarker::Side::LEFT_UP);
   Sector::get().add<ResizeMarker>(&m_col.m_bbox, ResizeMarker::Side::RIGHT_DOWN, ResizeMarker::Side::NONE);
   Sector::get().add<ResizeMarker>(&m_col.m_bbox, ResizeMarker::Side::RIGHT_DOWN, ResizeMarker::Side::RIGHT_DOWN);
+}
+
+void
+MovingObject::backup(Writer& writer)
+{
+  GameObject::backup(writer);
+
+  writer.start_list(MovingObject::get_class());
+  writer.write("x1", m_col.m_bbox.get_left());
+  writer.write("y1", m_col.m_bbox.get_top());
+  writer.write("x2", m_col.m_bbox.get_right());
+  writer.write("y2", m_col.m_bbox.get_bottom());
+  writer.write("movement_x", m_col.m_movement.x);
+  writer.write("movement_y", m_col.m_movement.y);
+  writer.write("dest_x1", m_col.m_dest.get_left());
+  writer.write("dest_y1", m_col.m_dest.get_top());
+  writer.write("dest_x2", m_col.m_dest.get_right());
+  writer.write("dest_y2", m_col.m_dest.get_bottom());
+  writer.write("group", static_cast<int>(m_col.m_group));
+  writer.end_list(MovingObject::get_class());
+}
+
+void
+MovingObject::restore(const ReaderMapping& reader)
+{
+  GameObject::restore(reader);
+
+  boost::optional<ReaderMapping> subreader(ReaderMapping(reader.get_doc(), reader.get_sexp()));
+
+  if (reader.get(MovingObject::get_class().c_str(), subreader))
+  {
+    float x1;
+    if (subreader->get("x1", x1))
+      m_col.m_bbox.set_left(x1);
+
+    float y1;
+    if (subreader->get("y1", y1))
+      m_col.m_bbox.set_top(y1);
+
+    float x2;
+    if (subreader->get("x2", x2))
+      m_col.m_bbox.set_right(x2);
+
+    float y2;
+    if (subreader->get("y2", y2))
+      m_col.m_bbox.set_bottom(y2);
+
+    float dest_x1;
+    if (subreader->get("dest_x1", dest_x1))
+      m_col.m_dest.set_left(dest_x1);
+
+    float dest_y1;
+    if (subreader->get("dest_y1", dest_y1))
+      m_col.m_dest.set_top(dest_y1);
+
+    float dest_x2;
+    if (subreader->get("dest_x2", dest_x2))
+      m_col.m_dest.set_right(dest_x2);
+
+    float dest_y2;
+    if (subreader->get("dest_y2", dest_y2))
+      m_col.m_dest.set_bottom(dest_y2);
+
+    int group;
+    if (subreader->get("group", group))
+      m_col.m_group = static_cast<CollisionGroup>(group);
+
+    subreader->get("movement_x", m_col.m_movement.x);
+    subreader->get("movement_y", m_col.m_movement.y);
+  }
 }
 
 /* EOF */
