@@ -18,6 +18,8 @@
 #include "supertux/physic.hpp"
 
 #include "supertux/sector.hpp"
+#include "util/reader_mapping.hpp"
+#include "util/writer.hpp"
 
 Physic::Physic() :
   ax(0), ay(0),
@@ -75,6 +77,28 @@ Physic::get_movement(float dt_sec)
   Vector result(vx * dt_sec, vy * dt_sec);
 
   return result;
+}
+
+void
+Physic::backup(Writer& writer)
+{
+  writer.write("ax", ax);
+  writer.write("ay", ay);
+  writer.write("vx", vx);
+  writer.write("vy", vy);
+  writer.write("gravity_enabled_flag", gravity_enabled_flag);
+  writer.write("gravity_modifier", gravity_modifier);
+}
+
+void
+Physic::restore(const ReaderMapping& reader)
+{
+  reader.get("ax", ax);
+  reader.get("ay", ay);
+  reader.get("vx", vx);
+  reader.get("vy", vy);
+  reader.get("gravity_enabled_flag", gravity_enabled_flag);
+  reader.get("gravity_modifier", gravity_modifier);
 }
 
 /* EOF */

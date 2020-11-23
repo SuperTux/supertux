@@ -20,6 +20,10 @@
 #include <algorithm>
 
 #include "object/tilemap.hpp"
+#include "supertux/game_object_factory.hpp"
+#include "util/reader_iterator.hpp"
+#include "util/reader_mapping.hpp"
+#include "util/writer.hpp"
 
 bool GameObjectManager::s_draw_solids_only = false;
 
@@ -308,6 +312,84 @@ GameObjectManager::get_tiles_height() const
       height = static_cast<float>(solids->get_height());
   }
   return height;
+}
+
+void
+GameObjectManager::backup(Writer& writer)
+{
+  writer.start_list("supertux-savestate");
+  for (const auto& gameobject : m_gameobjects)
+  {
+    writer.start_list(gameobject->get_uid().key_string());
+    gameobject->backup(writer);
+    writer.end_list(gameobject->get_uid().key_string());
+  }
+  writer.end_list("supertux-savestate");
+}
+
+void
+GameObjectManager::restore(const ReaderMapping& reader)
+{
+  /*std::cout << "### EXISTING ###" << std::endl;
+  for (auto pair : m_objects_by_uid)
+    std::cout << pair.first.to_string() << " - " << pair.first.key_string() << std::endl;*/
+
+  ReaderIterator it = reader.get_iter();
+
+  std::vector<UID> uids;
+  //std::cout << "### BACKUPED ###" << std::endl;
+
+  while (it.next())
+  {
+    try {
+      //std::cout << it.get_key() << std::endl;
+      UID uid = UID::from_key_string(it.get_key());
+      uids.push_back(uid);
+
+      GameObject* obj = nullptr;
+      for (auto& pair : m_objects_by_uid) {
+        if (pair.first == uid) {
+          obj = pair.second;
+          break;
+        }
+      }
+
+      if (obj)
+      {
+        //std::cout << "Found: " << uid.to_string() << ": " << obj->get_uid().to_string() << std::endl;
+        obj->restore(it.as_mapping());
+      }
+      else
+      {
+        //std::cout << "Not found, adding: " << uid.to_string() << std::endl;
+        ReaderMapping mapping = it.as_mapping();
+        std::string classname;
+        if (!mapping.get("classname", classname)) {
+          continue;
+        }
+        //std::cout << "would've added something of class " << classname << std::endl;
+        std::unique_ptr<GameObject> new_obj =
+                      GameObjectFactory::instance().create(classname, Vector());
+
+        if (new_obj->is_singleton())
+        {
+          // Can't use get_singleton_by_type<T>() because it uses templates
+          // TODO: Update the singleton
+          continue;
+        }
+
+        new_obj->restore(mapping);
+        add_object(std::move(new_obj));
+      }
+    } catch (...) {
+      // Could not parse an object
+    }
+  }
+
+  //std::cout << "###   END    ###" << std::endl;
+  for (auto pair : m_objects_by_uid)
+    if (std::find(uids.begin(), uids.end(), pair.first) == uids.end() && !pair.second->is_singleton())
+      pair.second->remove_me();
 }
 
 /* EOF */

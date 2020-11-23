@@ -80,7 +80,8 @@ GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Stat
   m_max_ice_bullets_at_start(),
   m_active(false),
   m_end_seq_started(false),
-  m_current_cutscene_text()
+  m_current_cutscene_text(),
+  m_savestate()
 {
   if (restart_level() != 0)
     throw std::runtime_error ("Initializing the level failed.");
@@ -147,6 +148,19 @@ GameSession::restart_level(bool after_death)
         m_currentsector->activate(m_start_spawnpoint);
       }
     }
+
+    if (after_death) {
+      try {
+        m_savestate.set_sector(&get_current_sector());
+        //get_current_sector().reset_uid_generator();
+        m_savestate.restore();
+      } catch (std::exception& e) {
+        log_warning << "Couldn't restore savestate: " << e.what() << std::endl;
+      }
+    } else {
+      m_savestate.clear();
+    }
+
   } catch(std::exception& e) {
     log_fatal << "Couldn't start level: " << e.what() << std::endl;
     ScreenManager::current()->pop_screen();
@@ -527,6 +541,17 @@ GameSession::set_reset_point(const std::string& sector, const Vector& pos)
 {
   m_reset_sector = sector;
   m_reset_pos = pos;
+}
+
+void
+GameSession::save_state()
+{
+  try {
+    m_savestate.set_sector(&get_current_sector());
+    m_savestate.save();
+  } catch (std::exception& e) {
+    log_warning << "Couldn't save savestate: " << e.what() << std::endl;
+  }
 }
 
 std::string

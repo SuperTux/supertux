@@ -40,6 +40,9 @@
 #include "supertux/tile.hpp"
 #include "trigger/climbable.hpp"
 #include "trigger/trigger_base.hpp"
+#include "util/log.hpp"
+#include "util/reader_mapping.hpp"
+#include "util/writer.hpp"
 #include "video/surface.hpp"
 
 #define SWIMMING
@@ -2225,6 +2228,225 @@ Player::ungrab_object(GameObject* gameobject)
     go->del_remove_listener(m_grabbed_object_remove_listener.get());
 
   m_grabbed_object = nullptr;
+}
+
+void
+Player::backup(Writer& writer)
+{
+  MovingObject::backup(writer);
+
+  writer.start_list(Player::get_class());
+
+  // TODO: Anything that's a class that's not physics or timers
+  writer.write("deactivated", m_deactivated);
+  writer.write("status_coins", m_player_status.coins);
+  writer.write("status_bonus", static_cast<int>(m_player_status.bonus));
+  writer.write("status_max_fire_bullets", m_player_status.max_fire_bullets);
+  writer.write("status_max_ice_bullets", m_player_status.max_ice_bullets);
+  writer.write("status_max_air_time", m_player_status.max_air_time);
+  writer.write("status_max_earth_time", m_player_status.max_earth_time);
+  writer.write("status_worldmap_sprite", m_player_status.worldmap_sprite);
+  writer.write("status_last_worldmap", m_player_status.last_worldmap);
+  writer.write("duck", m_duck);
+  writer.write("dead", m_dead);
+  writer.write("dying", m_dying);
+  writer.write("winning", m_winning);
+  writer.write("backflipping", m_backflipping);
+  writer.write("backflip_direction", m_backflip_direction);
+  writer.write("peekingX", static_cast<int>(m_peekingX));
+  writer.write("peekingY", static_cast<int>(m_peekingY));
+  writer.write("ability_time", m_ability_time);
+  writer.write("stone", m_stone);
+  writer.write("swimming", m_swimming);
+  writer.write("swimboosting", m_swimboosting);
+  writer.write("speedlimit", m_speedlimit);
+  writer.write("jump_early_apex", m_jump_early_apex);
+  writer.write("on_ice", m_on_ice);
+  writer.write("ice_this_frame", m_ice_this_frame);
+  writer.write("dir", static_cast<int>(m_dir));
+  writer.write("old_dir", static_cast<int>(m_old_dir));
+  writer.write("last_ground_y", m_last_ground_y);
+  writer.write("fall_mode", static_cast<int>(m_fall_mode));
+  writer.write("on_ground_flag", m_on_ground_flag);
+  writer.write("jumping", m_jumping);
+  writer.write("can_jump", m_can_jump);
+  writer.write("wants_buttjump", m_wants_buttjump);
+  writer.write("does_buttjump", m_does_buttjump);
+  writer.write("growing", m_growing);
+  writer.write("visible", m_visible);
+  writer.write("swimming_angle", m_swimming_angle);
+  writer.write("swimming_accel_modifier", m_swimming_accel_modifier);
+  writer.write("water_jump", m_water_jump);
+  writer.write("dive_walk", m_dive_walk);
+  writer.write("ghost_mode", m_ghost_mode);
+  writer.write("edit_mode", m_edit_mode);
+  // FIXME: m_idle_stage is an unsigned int, maybe save as unsigned int to avoid loss?
+  writer.write("idle_stage", static_cast<int>(m_idle_stage));
+
+  writer.start_list("physic");
+  m_physic.backup(writer);
+  writer.end_list("physic");
+
+  writer.start_list("jump_button_timer");
+  m_jump_button_timer.backup(writer);
+  writer.end_list("jump_button_timer");
+
+  writer.start_list("coyote_timer");
+  m_coyote_timer.backup(writer);
+  writer.end_list("coyote_timer");
+
+  writer.start_list("invincible_timer");
+  m_invincible_timer.backup(writer);
+  writer.end_list("invincible_timer");
+
+  writer.start_list("skidding_timer");
+  m_skidding_timer.backup(writer);
+  writer.end_list("skidding_timer");
+
+  writer.start_list("safe_timer");
+  m_safe_timer.backup(writer);
+  writer.end_list("safe_timer");
+
+  writer.start_list("kick_timer");
+  m_kick_timer.backup(writer);
+  writer.end_list("kick_timer");
+
+  writer.start_list("shooting_timer");
+  m_shooting_timer.backup(writer);
+  writer.end_list("shooting_timer");
+
+  writer.start_list("ability_timer");
+  m_ability_timer.backup(writer);
+  writer.end_list("ability_timer");
+
+  writer.start_list("cooldown_timer");
+  m_cooldown_timer.backup(writer);
+  writer.end_list("cooldown_timer");
+
+  writer.start_list("dying_timer");
+  m_dying_timer.backup(writer);
+  writer.end_list("dying_timer");
+
+  writer.start_list("second_growup_sound_timer");
+  m_second_growup_sound_timer.backup(writer);
+  writer.end_list("second_growup_sound_timer");
+
+  writer.start_list("backflip_timer");
+  m_backflip_timer.backup(writer);
+  writer.end_list("backflip_timer");
+
+  writer.start_list("unduck_hurt_timer");
+  m_unduck_hurt_timer.backup(writer);
+  writer.end_list("unduck_hurt_timer");
+
+  writer.start_list("idle_timer");
+  m_idle_timer.backup(writer);
+  writer.end_list("idle_timer");
+
+  writer.end_list(Player::get_class());
+}
+
+void
+Player::restore(const ReaderMapping& reader)
+{
+  MovingObject::restore(reader);
+
+  boost::optional<ReaderMapping> subreader = boost::none;
+
+  if (reader.get(Player::get_class().c_str(), subreader))
+  {
+    // TODO: Anything that's a class that's not physics or timers
+    subreader->get("deactivated", m_deactivated);
+    subreader->get("status_coins", m_player_status.coins);
+    int bonus;
+    if (subreader->get("status_bonus", bonus))
+      m_player_status.bonus = static_cast<BonusType>(bonus);
+    subreader->get("status_max_fire_bullets", m_player_status.max_fire_bullets);
+    subreader->get("status_max_ice_bullets", m_player_status.max_ice_bullets);
+    subreader->get("status_max_air_time", m_player_status.max_air_time);
+    subreader->get("status_max_earth_time", m_player_status.max_earth_time);
+    subreader->get("status_worldmap_sprite", m_player_status.worldmap_sprite);
+    subreader->get("status_last_worldmap", m_player_status.last_worldmap);
+    subreader->get("duck", m_duck);
+    subreader->get("dead", m_dead);
+    subreader->get("dying", m_dying);
+    subreader->get("winning", m_winning);
+    subreader->get("backflipping", m_backflipping);
+    subreader->get("backflip_direction", m_backflip_direction);
+    int peekingX;
+    if (subreader->get("peekingX", peekingX))
+      m_peekingX = static_cast<Direction>(peekingX);
+    int peekingY;
+    if (subreader->get("peekingY", peekingY))
+      m_peekingY = static_cast<Direction>(peekingY);
+    subreader->get("ability_time", m_ability_time);
+    subreader->get("stone", m_stone);
+    subreader->get("swimming", m_swimming);
+    subreader->get("swimboosting", m_swimboosting);
+    subreader->get("speedlimit", m_speedlimit);
+    subreader->get("jump_early_apex", m_jump_early_apex);
+    subreader->get("on_ice", m_on_ice);
+    subreader->get("ice_this_frame", m_ice_this_frame);
+    int dir;
+    if (subreader->get("dir", dir))
+      m_dir = static_cast<Direction>(dir);
+    int old_dir;
+    if (subreader->get("old_dir", old_dir))
+      m_old_dir = static_cast<Direction>(old_dir);
+    subreader->get("last_ground_y", m_last_ground_y);
+    int fall_mode;
+    if (subreader->get("fall_mode", fall_mode))
+      m_fall_mode = static_cast<FallMode>(fall_mode);
+    subreader->get("on_ground_flag", m_on_ground_flag);
+    subreader->get("jumping", m_jumping);
+    subreader->get("can_jump", m_can_jump);
+    subreader->get("wants_buttjump", m_wants_buttjump);
+    subreader->get("does_buttjump", m_does_buttjump);
+    subreader->get("growing", m_growing);
+    subreader->get("visible", m_visible);
+    subreader->get("swimming_angle", m_swimming_angle);
+    subreader->get("swimming_accel_modifier", m_swimming_accel_modifier);
+    subreader->get("water_jump", m_water_jump);
+    subreader->get("dive_walk", m_dive_walk);
+    subreader->get("ghost_mode", m_ghost_mode);
+    subreader->get("edit_mode", m_edit_mode);
+    // FIXME: m_idle_stage is an unsigned int, maybe save as unsigned int to avoid loss?
+    subreader->get("idle_stage", m_idle_stage);
+
+    boost::optional<ReaderMapping> subreader2 = boost::none;
+
+    if (subreader->get("physic", subreader2)){
+      m_physic.restore(*subreader2);
+    }
+    if (subreader->get("jump_button_timer", subreader2))
+      m_jump_button_timer.restore(*subreader2);
+    if (subreader->get("coyote_timer", subreader2))
+      m_coyote_timer.restore(*subreader2);
+    if (subreader->get("invincible_timer", subreader2))
+      m_invincible_timer.restore(*subreader2);
+    if (subreader->get("skidding_timer", subreader2))
+      m_skidding_timer.restore(*subreader2);
+    if (subreader->get("safe_timer", subreader2))
+      m_safe_timer.restore(*subreader2);
+    if (subreader->get("kick_timer", subreader2))
+      m_kick_timer.restore(*subreader2);
+    if (subreader->get("shooting_timer", subreader2))
+      m_shooting_timer.restore(*subreader2);
+    if (subreader->get("ability_timer", subreader2))
+      m_ability_timer.restore(*subreader2);
+    if (subreader->get("cooldown_timer;", subreader2))
+      m_cooldown_timer.restore(*subreader2);
+    if (subreader->get("dying_timer", subreader2))
+      m_dying_timer.restore(*subreader2);
+    if (subreader->get("second_growup_sound_timer", subreader2))
+      m_second_growup_sound_timer.restore(*subreader2);
+    if (subreader->get("backflip_timer", subreader2))
+      m_backflip_timer.restore(*subreader2);
+    if (subreader->get("unduck_hurt_timer", subreader2))
+      m_unduck_hurt_timer.restore(*subreader2);
+    if (subreader->get("idle_timer", subreader2))
+      m_idle_timer.restore(*subreader2);
+  }
 }
 
 /* EOF */

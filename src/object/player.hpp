@@ -74,6 +74,12 @@ public:
   virtual bool is_saveable() const override { return false; }
   virtual bool is_singleton() const override { return true; }
 
+  // Keep player-tux because soon I'll add other playable characters   ~ Semphris
+  virtual std::string get_class() const override { return "player-tux"; }
+
+  virtual void backup(Writer& writer) override;
+  virtual void restore(const ReaderMapping& reader) override;
+
   void set_controller(const Controller* controller);
   /** Level solved. Don't kill Tux any more. */
   void set_winning();

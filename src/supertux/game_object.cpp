@@ -109,9 +109,8 @@ GameObject::update(float dt_sec)
 void
 GameObject::backup(Writer& writer)
 {
-  writer.write("class", get_class());
+  writer.write("classname", get_class());
   writer.start_list(GameObject::get_class());
-  writer.write("uid", m_uid);
   writer.write("name", m_name);
   writer.end_list(GameObject::get_class());
 }

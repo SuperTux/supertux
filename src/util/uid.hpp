@@ -21,6 +21,7 @@
 #include <stdint.h>
 #include <functional>
 #include <iosfwd>
+#include <iostream>
 
 class UID;
 
@@ -61,16 +62,17 @@ public:
   inline bool operator<(const UID& other) const {
     return m_value < other.m_value;
   }
-
-  inline bool operator==(const UID& other) const {
-    return m_value == other.m_value;
-  }
-
+  bool operator==(const UID& other) const;
   inline bool operator!=(const UID& other) const {
-    return m_value != other.m_value;
+    return !operator==(other);
   }
 
   inline Magic get_magic() const { return static_cast<Magic>((m_value & 0xffff0000u) >> 16); }
+
+  inline std::string to_string() const { return "uid" + std::to_string(m_value); }
+  inline std::string key_string() const { return "uidkey" + std::to_string(m_value & 0x00ffffffu); }
+  inline static UID from_string(std::string s) { return UID(static_cast<uint32_t>(std::stoul(s.substr(3)))); }
+  inline static UID from_key_string(std::string s) { return UID(static_cast<uint32_t>(std::stoul(s.substr(6)))); }
 
 private:
   uint32_t m_value;

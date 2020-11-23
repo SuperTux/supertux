@@ -95,6 +95,9 @@ public:
   virtual std::string get_class() const override { return "moving-object"; }
   virtual ObjectSettings get_settings() override;
 
+  virtual void backup(Writer& writer) override;
+  virtual void restore(const ReaderMapping& reader) override;
+
   virtual void editor_select() override;
 
 protected:

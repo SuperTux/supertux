@@ -20,6 +20,9 @@
 
 #include "math/vector.hpp"
 
+class ReaderMapping;
+class Writer;
+
 /// Physics engine.
 /** This is a very simplistic physics engine handling accelerated and constant
  * movement along with gravity.
@@ -67,6 +70,9 @@ public:
 
   /** Set gravity modifier factor to apply to object when enabled */
   void set_gravity_modifier(float modifier) { gravity_modifier = modifier; }
+
+  void backup(Writer& writer);
+  void restore(const ReaderMapping& reader);
 
   Vector get_movement(float dt_sec);
 

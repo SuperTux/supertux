@@ -117,10 +117,23 @@ public:
     return "images/tiles/auxiliary/notile.png";
   }
 
-  /** Writes the object's full state to the writer, so that another
-      instance of the game can reproduce it exactly. Differs from
-      save(Writer& writer) as it also writes temporary data (such as
-      an object's velocity, acceleration or color at a given frame) */
+  /**
+   * Writes the object's full state to the writer, so that another
+   * instance of the game can reproduce it exactly. Differs from
+   * save(Writer& writer) as it also writes temporary data (such as
+   * an object's velocity, acceleration or color at a given frame).
+   * 
+   * This should only save data that can vary during gameplay. For
+   * example, if an object hold a member variable containing its
+   * spawn position, then this variable shouldn't be saved.
+   * A background's images shouldn't be saved either, unless at some
+   * point it becomes possible to change a background's images in some
+   * way, for example through scripting.
+   * 
+   * Yes, this adds a load on code maintenance, unfortunately, as it
+   * requires to keep track of which variables become, well, variable
+   * during play time.
+   */
   virtual void backup(Writer& writer);
 
   /** Restores this object's internal status from a previously */

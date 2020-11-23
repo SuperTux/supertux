@@ -135,6 +135,7 @@ Firefly::collision(GameObject& other, const CollisionHit& )
     m_sprite->set_action("ringing");
     GameSession::current()->set_reset_point(Sector::get().get_name(),
                                             initial_position);
+    GameSession::current()->save_state();
   }
 
   return ABORT_MOVE;

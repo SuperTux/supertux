@@ -26,6 +26,7 @@
 #include "supertux/game_object.hpp"
 #include "supertux/game_session_recorder.hpp"
 #include "supertux/player_status.hpp"
+#include "supertux/savestate.hpp"
 #include "supertux/screen.hpp"
 #include "supertux/sequence.hpp"
 #include "util/currenton.hpp"
@@ -62,6 +63,7 @@ public:
                        const std::string& spawnpointname);
   void set_start_pos(const std::string& sectorname, const Vector& pos);
   void set_reset_point(const std::string& sectorname, const Vector& pos);
+  void save_state();
   std::string get_reset_point_sectorname() const { return m_reset_sector; }
 
   Vector get_reset_point_pos() const { return m_reset_pos; }
@@ -156,6 +158,8 @@ private:
   bool m_end_seq_started;
   
   std::unique_ptr<GameObject> m_current_cutscene_text;
+
+  Savestate m_savestate;
 
 private:
   GameSession(const GameSession&) = delete;

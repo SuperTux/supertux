@@ -144,7 +144,9 @@ public:
   /** The collision group */
   CollisionGroup m_group;
 
-private:
+  // TODO: Change this "public" back to a "private" and implement
+  // backup() and restore()
+public:
   /** The movement that will happen till next frame */
   Vector m_movement;
 

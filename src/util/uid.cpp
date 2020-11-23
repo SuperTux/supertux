@@ -23,6 +23,21 @@ std::ostream& operator<<(std::ostream& os, const UID& uid)
   return os << uid.m_value;
 }
 
+bool UID::operator==(const UID& other) const {
+  //std::cout << "Comparing " << m_value << " and " << other.m_value << std::endl;
+  if ((m_value & 0xff000000u) && (other.m_value & 0xff000000u))
+  {
+    //std::cout << "Raw: " << (m_value == other.m_value) << std::endl;
+    return m_value == other.m_value;
+  }
+  else
+  {
+    //std::cout << "Comparing " << m_value << "(" << (m_value & 0x00ffffffu) << ") and " << other.m_value << "(" << (other.m_value & 0x00ffffffu) << ")" << std::endl;
+    //std::cout << "Smart: " << ((m_value & 0x00ffffffu) == (other.m_value & 0x00ffffffu)) << std::endl;
+    return (m_value & 0x00ffffffu) == (other.m_value & 0x00ffffffu);
+  }
+}
+
 namespace std {
 
 size_t hash<UID>::operator()(const UID& uid) const
