@@ -37,11 +37,11 @@ class Surface final
 public:
   static SurfacePtr from_texture(const TexturePtr& texture);
   static SurfacePtr from_file(const std::string& filename, const boost::optional<Rect>& rect = boost::none);
-  static SurfacePtr from_reader(const ReaderMapping& mapping, const boost::optional<Rect>& rect = boost::none);
+  static SurfacePtr from_reader(const ReaderMapping& mapping, const boost::optional<Rect>& rect = boost::none, const std::string& filename = "");
 
 private:
-  Surface(const TexturePtr& diffuse_texture, const TexturePtr& displacement_texture, Flip flip);
-  Surface(const TexturePtr& diffuse_texture, const TexturePtr& displacement_texture, const Rect& region, Flip flip);
+  Surface(const TexturePtr& diffuse_texture, const TexturePtr& displacement_texture, Flip flip, const std::string& filename = "");
+  Surface(const TexturePtr& diffuse_texture, const TexturePtr& displacement_texture, const Rect& region, Flip flip, const std::string& filename = "");
 
 public:
   ~Surface();
@@ -55,12 +55,14 @@ public:
   int get_width() const;
   int get_height() const;
   Flip get_flip() const { return m_flip; }
+  std::string get_filename() const { return m_source_filename; }
 
 private:
   const TexturePtr m_diffuse_texture;
   const TexturePtr m_displacement_texture;
   const Rect m_region;
   const Flip m_flip;
+  const std::string m_source_filename;
 
 private:
   Surface& operator=(const Surface&) = delete;

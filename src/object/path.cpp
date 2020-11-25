@@ -19,11 +19,11 @@
 #include "object/path.hpp"
 
 #include "editor/node_marker.hpp"
+#include "math/easing.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
 #include "util/log.hpp"
-#include "math/easing.hpp"
 
 WalkMode
 string_to_walk_mode(const std::string& mode_string)

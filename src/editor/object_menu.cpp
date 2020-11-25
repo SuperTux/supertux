@@ -68,6 +68,11 @@ ObjectMenu::menu_action(MenuItem& item)
       break;
     }
 
+    case MNID_OPEN_PARTICLE_EDITOR:
+      m_editor.m_particle_editor_request = true;
+      MenuManager::instance().pop_menu();
+      break;
+
     default:
       break;
   }

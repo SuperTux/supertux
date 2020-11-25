@@ -28,7 +28,7 @@
 #include "util/string_util.hpp"
 
 FileSystemMenu::FileSystemMenu(std::string* filename, const std::vector<std::string>& extensions,
-                               const std::string& basedir) :
+                               const std::string& basedir, std::function<void(std::string)> callback) :
   m_filename(filename),
   // when a basedir is given, 'filename' is relative to basedir, so
   // it's useless as a starting point
@@ -36,7 +36,8 @@ FileSystemMenu::FileSystemMenu(std::string* filename, const std::vector<std::str
   m_extensions(extensions),
   m_basedir(basedir),
   m_directories(),
-  m_files()
+  m_files(),
+  m_callback(callback)
 {
   AddonManager::current()->unmount_old_addons();
 
@@ -145,7 +146,11 @@ FileSystemMenu::menu_action(MenuItem& item)
           new_filename = FileSystem::relpath(new_filename, m_basedir);
         }
 
-        *m_filename = new_filename;
+        if (m_filename)
+          *m_filename = new_filename;
+
+        if (m_callback)
+          m_callback(new_filename);
 
         MenuManager::instance().pop_menu();
       } else {

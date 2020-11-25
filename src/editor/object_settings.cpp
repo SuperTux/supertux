@@ -292,6 +292,18 @@ ObjectSettings::add_test_from_here()
 }
 
 void
+ObjectSettings::add_particle_editor()
+{
+  add_option(std::make_unique<ParticleEditorOption>());
+}
+
+void
+ObjectSettings::add_button(const std::string& text, const std::function<void()> callback)
+{
+  add_option(std::make_unique<ButtonOption>(text, callback));
+}
+
+void
 ObjectSettings::reorder(const std::vector<std::string>& order)
 {
   std::vector<std::unique_ptr<ObjectOption> > new_options;

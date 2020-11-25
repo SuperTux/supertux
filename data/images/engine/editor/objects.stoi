@@ -304,6 +304,9 @@
     (class "wind")
     (icon "images/engine/editor/wind.png"))
   (object
+    (class "particle-zone")
+    (icon "images/engine/editor/particle_zone.png"))
+  (object
     (class "skull_tile")
     (icon "images/objects/skull_tile/skull.png"))
  )
@@ -335,6 +338,21 @@
   (object
     (class "particles-snow")
     (icon "images/engine/editor/snow.png"))
+
+
+
+;;  +-- This should be disabled, as it probably won't support multiple textures
+;;  |   per config object.
+;;  v                               ~ Semphris
+  (object
+    (class "particles-custom")
+    (icon "images/engine/editor/sparkle.png"))
+
+
+
+  (object
+    (class "particles-custom-file")
+    (icon "images/engine/editor/sparkle-file.png"))
   (object
     (class "thunderstorm")
     (icon "images/engine/editor/thunderstorm.png"))

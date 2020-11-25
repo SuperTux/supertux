@@ -24,10 +24,10 @@ static const float BORDER_SIZE = 75;
 DisplayEffect::DisplayEffect(const std::string& name) :
   GameObject(name),
   ExposedObject<DisplayEffect, scripting::DisplayEffect>(this),
-  screen_fade(NO_FADE),
+  screen_fade(FadeType::NO_FADE),
   screen_fadetime(0),
   screen_fading(0),
-  border_fade(NO_FADE),
+  border_fade(FadeType::NO_FADE),
   border_fadetime(0),
   border_fading(),
   border_size(0),
@@ -44,18 +44,18 @@ void
 DisplayEffect::update(float dt_sec)
 {
   switch (screen_fade) {
-    case NO_FADE:
+    case FadeType::NO_FADE:
       break;
-    case FADE_IN:
+    case FadeType::FADE_IN:
       screen_fading -= dt_sec;
       if (screen_fading < 0) {
-        screen_fade = NO_FADE;
+        screen_fade = FadeType::NO_FADE;
       }
       break;
-    case FADE_OUT:
+    case FadeType::FADE_OUT:
       screen_fading -= dt_sec;
       if (screen_fading < 0) {
-        screen_fade = NO_FADE;
+        screen_fade = FadeType::NO_FADE;
         black = true;
       }
       break;
@@ -64,21 +64,21 @@ DisplayEffect::update(float dt_sec)
   }
 
   switch (border_fade) {
-    case NO_FADE:
+    case FadeType::NO_FADE:
       break;
-    case FADE_IN:
+    case FadeType::FADE_IN:
       border_fading -= dt_sec;
       if (border_fading < 0) {
-        border_fade = NO_FADE;
+        border_fade = FadeType::NO_FADE;
       }
       border_size = (border_fadetime - border_fading)
         / border_fadetime * BORDER_SIZE;
       break;
-    case FADE_OUT:
+    case FadeType::FADE_OUT:
       border_fading -= dt_sec;
       if (border_fading < 0) {
         borders = false;
-        border_fade = NO_FADE;
+        border_fade = FadeType::NO_FADE;
       }
       border_size = border_fading / border_fadetime * BORDER_SIZE;
       break;
@@ -93,16 +93,16 @@ DisplayEffect::draw(DrawingContext& context)
   context.push_transform();
   context.set_translation(Vector(0, 0));
 
-  if (black || screen_fade != NO_FADE) {
+  if (black || screen_fade != FadeType::NO_FADE) {
     float alpha;
     if (black) {
       alpha = 1.0f;
     } else {
       switch (screen_fade) {
-        case FADE_IN:
+        case FadeType::FADE_IN:
           alpha = screen_fading / screen_fadetime;
           break;
-        case FADE_OUT:
+        case FadeType::FADE_OUT:
           alpha = (screen_fadetime - screen_fading) / screen_fadetime;
           break;
         default:
@@ -140,7 +140,7 @@ DisplayEffect::fade_out(float fadetime)
   black = false;
   screen_fadetime = fadetime;
   screen_fading = fadetime;
-  screen_fade = FADE_OUT;
+  screen_fade = FadeType::FADE_OUT;
 }
 
 void
@@ -149,7 +149,7 @@ DisplayEffect::fade_in(float fadetime)
   black = false;
   screen_fadetime = fadetime;
   screen_fading = fadetime;
-  screen_fade = FADE_IN;
+  screen_fade = FadeType::FADE_IN;
 }
 
 void
@@ -173,7 +173,7 @@ DisplayEffect::sixteen_to_nine(float fadetime)
   } else {
     borders = true;
     border_size = 0;
-    border_fade = FADE_IN;
+    border_fade = FadeType::FADE_IN;
     border_fadetime = fadetime;
     border_fading = border_fadetime;
   }
@@ -186,7 +186,7 @@ DisplayEffect::four_to_three(float fadetime)
     borders = false;
   } else {
     border_size = BORDER_SIZE;
-    border_fade = FADE_OUT;
+    border_fade = FadeType::FADE_OUT;
     border_fadetime = fadetime;
     border_fading = border_fadetime;
   }

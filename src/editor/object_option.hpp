@@ -395,6 +395,37 @@ private:
   TestFromHereOption& operator=(const TestFromHereOption&) = delete;
 };
 
+class ParticleEditorOption : public ObjectOption
+{
+public:
+  ParticleEditorOption();
+
+  virtual void save(Writer& write) const override {}
+  virtual std::string to_string() const override;
+  virtual void add_to_menu(Menu& menu) const override;
+
+private:
+  ParticleEditorOption(const ParticleEditorOption&) = delete;
+  ParticleEditorOption& operator=(const ParticleEditorOption&) = delete;
+};
+
+class ButtonOption : public ObjectOption
+{
+public:
+  ButtonOption(const std::string& text, const std::function<void()> callback);
+
+  virtual void save(Writer& write) const override {}
+  virtual std::string to_string() const override;
+  virtual void add_to_menu(Menu& menu) const override;
+
+private:
+  std::function<void()> m_callback;
+
+private:
+  ButtonOption(const ButtonOption&) = delete;
+  ButtonOption& operator=(const ButtonOption&) = delete;
+};
+
 #endif
 
 /* EOF */
