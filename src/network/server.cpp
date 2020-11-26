@@ -47,6 +47,7 @@ Server::~Server()
 void
 Server::start()
 {
+  m_stopped = false;
   listen_one();
 
   m_runner = std::make_unique<std::thread>([this](){
@@ -65,6 +66,9 @@ Server::poll()
 void
 Server::listen_one()
 {
+  if (m_stopped)
+    return;
+
   // usage of "new" here is intended
   // the async_accept() function cannot deal with unique_ptrs, so it'll be a
   // raw pointer until the other side of the function (in handle_accept()).
@@ -79,17 +83,18 @@ Server::listen_one()
 void
 Server::handle_accept(tcp::socket* socket, const boost::system::error_code& err)
 {
-  if (!err)
-  {
-    std::unique_ptr<Connection> connection = std::make_unique<Connection>(socket, m_default_connection_handler);
-    connection->init();
-    m_handler(std::move(connection));
-  }
-  else
-  {
-    // FIXME: Do not warn if the error is "system:125" (a. k. a. the server was closed)
+  if (err) {
+    // FIXME: Do not warn if the error is "system:125" or "system:9" (a. k. a. the server was closed)
     log_warning << "Incoming connection errored: " << err << std::endl;
+
+    // Don't listen to a new connection (and obviously, don't setup the broken connection)
+    m_stopped = true;
+    return;
   }
+
+  std::unique_ptr<Connection> connection = std::make_unique<Connection>(socket, m_default_connection_handler);
+  connection->init();
+  m_handler(std::move(connection));
 
   listen_one();
 }
@@ -97,6 +102,7 @@ Server::handle_accept(tcp::socket* socket, const boost::system::error_code& err)
 void
 Server::stop()
 {
+  m_stopped = true;
   try
   {
     boost::system::error_code ec;
@@ -124,7 +130,7 @@ Server::close()
   }
   catch(std::exception& e_)
   {
-    log_warning << "Could not clost server: " << e_.what() << std::endl;
+    log_warning << "Could not close server: " << e_.what() << std::endl;
   }
 }
 

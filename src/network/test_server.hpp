@@ -35,6 +35,10 @@ public:
   virtual void update(float dt_sec, const Controller& controller) override;
 
 private:
+  void on_connect(std::unique_ptr<Connection> connection);
+  void on_receive(Connection* connection, std::string data);
+
+private:
   network::Server m_server;
   std::unique_ptr<network::ConnectionPool> m_pool;
 
