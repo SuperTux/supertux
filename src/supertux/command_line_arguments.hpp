@@ -81,6 +81,8 @@ public:
   boost::optional<bool> editor;
   boost::optional<bool> resave;
 
+  boost::optional<bool> headless;
+
   // boost::optional<std::string> locale;
 
   boost::optional<bool> test_server;

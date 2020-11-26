@@ -328,9 +328,9 @@ public:
 class SDLSubsystem final
 {
 public:
-  SDLSubsystem()
+  SDLSubsystem(const CommandLineArguments& args)
   {
-    if (SDL_Init(SDL_INIT_TIMER | SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER) < 0)
+    if (SDL_Init(SDL_INIT_TIMER | (args.headless ? 0 : (SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER))) < 0)
     {
       std::stringstream msg;
       msg << "Couldn't initialize SDL: " << SDL_GetError();
@@ -400,7 +400,7 @@ Main::resave(const std::string& input_filename, const std::string& output_filena
 void
 Main::launch_game(const CommandLineArguments& args)
 {
-  SDLSubsystem sdl_subsystem;
+  SDLSubsystem sdl_subsystem(args);
   ConsoleBuffer console_buffer;
 
   s_timelog.log("controller");

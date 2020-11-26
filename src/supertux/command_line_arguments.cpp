@@ -52,6 +52,7 @@ CommandLineArguments::CommandLineArguments() :
   repository_url(),
   editor(),
   resave(),
+  headless(),
   test_server(),
   test_client()
 {
@@ -119,6 +120,8 @@ CommandLineArguments::print_help(const char* arg0) const
     << _("  --repository-url URL         Set the URL to the Add-On repository") << "\n"
     << "\n"
     << _("Networking Options:") << "\n"
+    << _("  --server              [TODO] Start as a server and load configuration automatically" ) << "\n"
+    << _("  --headless                   Launch without graphical interface" ) << "\n"
     << _("  --test-server                Starts SuperTux as a test server instance" ) << "\n"
     << _("  --test-client                Starts SuperTux as a test client instance" ) << "\n"
     << "\n"
@@ -382,6 +385,11 @@ CommandLineArguments::parse_args(int argc, char** argv)
     else if (arg == "--resave")
     {
       resave = true;
+    }
+    else if (arg == "--headless")
+    {
+      headless = true;
+      video = VideoSystem::get_video_system("null");
     }
     else if (arg == "--test-server")
     {
