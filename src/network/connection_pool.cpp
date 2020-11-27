@@ -26,7 +26,7 @@ ConnectionPool::ConnectionPool() :
 }
 
 void
-ConnectionPool::send_all(std::string data)
+ConnectionPool::send_all(const std::string& data)
 {
   clear_closed_connections();
   for (auto c = m_connections.begin(); c != m_connections.end(); ++c)
@@ -34,7 +34,7 @@ ConnectionPool::send_all(std::string data)
 }
 
 void
-ConnectionPool::send_all_except(std::string data, Connection* connection)
+ConnectionPool::send_all_except(const std::string& data, Connection* connection)
 {
   clear_closed_connections();
   for (auto c = m_connections.begin(); c != m_connections.end(); ++c)

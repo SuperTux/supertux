@@ -20,7 +20,7 @@
 
 namespace network {
 
-Client::Client(int port, std::string ip, std::function<void(Connection*, std::string)> handler) :
+Client::Client(int port, const std::string& ip, std::function<void(Connection*, const std::string&)> handler) :
   Connection(nullptr, handler),
   m_port(port),
   m_ip(ip),

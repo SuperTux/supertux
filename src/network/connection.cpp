@@ -26,7 +26,7 @@ namespace network {
 
 const char Connection::DELIMITER = '\n';
 
-Connection::Connection(tcp::socket* socket, std::function<void(Connection*, std::string)> handler) :
+Connection::Connection(tcp::socket* socket, std::function<void(Connection*, const std::string&)> handler) :
   m_closed(false),
   m_writing_locked(false),
   m_handler(handler),

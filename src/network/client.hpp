@@ -25,7 +25,7 @@ namespace network {
 class Client : public Connection
 {
 public:
-  Client(int port, std::string ip, std::function<void(Connection*, std::string)> handler);
+  Client(int port, const std::string& ip, std::function<void(Connection*, const std::string&)> handler);
   
   virtual void init() override;
 

@@ -28,8 +28,8 @@ class ConnectionPool
 public:
   ConnectionPool();
 
-  void send_all(std::string data);
-  void send_all_except(std::string data, Connection* connection);
+  void send_all(const std::string& data);
+  void send_all_except(const std::string& data, Connection* connection);
 
   void add_connection(std::unique_ptr<Connection> connection);
   void remove_connection(Connection* connection);

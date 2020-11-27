@@ -33,7 +33,7 @@ public:
      @param handler What to do when a new connection arrives.
             WARNING: the handler will be called form a DIFFERENT thread! */
   Server(int port, std::function<void(std::unique_ptr<Connection>)> handler,
-         std::function<void(Connection*, std::string)> default_connection_handler);
+         std::function<void(Connection*, const std::string&)> default_connection_handler);
 
   virtual ~Server();
 
@@ -65,7 +65,7 @@ protected:
    *  @param The Connection object which was created
    *  @param The data received from the connection
    */
-  std::function<void(Connection*, std::string)> m_default_connection_handler;
+  std::function<void(Connection*, const std::string&)> m_default_connection_handler;
 
   /** Whether or not the server is listening for new connections */
   bool m_stopped;

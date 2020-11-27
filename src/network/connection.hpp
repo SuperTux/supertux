@@ -31,7 +31,7 @@ namespace network {
 class Connection
 {
 public:
-  Connection(tcp::socket* socket, std::function<void(Connection*, std::string)> handler);
+  Connection(tcp::socket* socket, std::function<void(Connection*, const std::string&)> handler);
   virtual ~Connection();
 
   /** Closes the connection */
@@ -47,7 +47,7 @@ public:
 
   void start_reading();
 
-  std::string get_uuid() const { return m_uuid; }
+  const std::string& get_uuid() const { return m_uuid; }
   bool operator ==(Connection& c) const { return m_uuid == c.m_uuid; }
   bool operator !=(Connection& c) const { return m_uuid != c.m_uuid; }
 
@@ -56,12 +56,12 @@ private:
   void handle_write(const boost::system::error_code& error);
 
 public:
-  static std::unique_ptr<Connection> connect_to(int port, std::string remote_address,
-                                             std::function<void(Connection*, std::string)> handler);
+  static std::unique_ptr<Connection> connect_to(int port, const std::string& remote_address,
+                                             std::function<void(Connection*, const std::string&)> handler);
 
 protected:
   bool m_closed, m_writing_locked;
-  std::function<void(Connection*, std::string)> m_handler;
+  std::function<void(Connection*, const std::string&)> m_handler;
   tcp::socket* m_socket;
   std::mutex m_rw_mutex;
 

@@ -36,7 +36,7 @@ public:
 
 private:
   void on_connect(std::unique_ptr<Connection> connection);
-  void on_receive(Connection* connection, std::string data);
+  void on_receive(Connection* connection, const std::string& data);
 
 private:
   network::Server m_server;

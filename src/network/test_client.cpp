@@ -34,7 +34,7 @@ TestClient::~TestClient()
 void
 TestClient::setup()
 {
-  Client client(3474, "127.0.0.1", [](Connection* c, std::string data) {
+  Client client(3474, "127.0.0.1", [](Connection* c, const std::string& data) {
     log_warning << "Received data from server : {{" << data << "}}" << std::endl;
   });
 

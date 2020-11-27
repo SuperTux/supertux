@@ -29,7 +29,7 @@ using namespace boost::asio;
 using ip::tcp;
 
 Server::Server(int port, std::function<void(std::unique_ptr<Connection>)> handler,
-         std::function<void(Connection*, std::string)> default_connection_handler) :
+         std::function<void(Connection*, const std::string&)> default_connection_handler) :
   m_port(port),
   m_handler(handler),
   m_default_connection_handler(default_connection_handler),
