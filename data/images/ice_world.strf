@@ -4,7 +4,7 @@
   (source "autotiles_ice_world.satc")
 )
 
-;; ice tiles- next id: 403
+;; ice tiles- next id: 407
 (tilegroup
 	(name (_ "Forest"))
 	(tiles
@@ -349,8 +349,9 @@
 		
 		389 390 391 401
 		392 393 394 402
-		395 396 397   0
-		398 399 400   0
+		395 396 397 403
+		398 399 400 404
+		  0   0   0 405
 	)
 )
 (tiles
@@ -369,6 +370,18 @@
 		20 18 12  3
 		17 24 31  0
 		20 18 17 24
+	)
+)
+(tiles
+	(width 2)(height 2)
+	(images "worldmap/shared/rope_ladder.png")
+	(ids
+		403 404
+		405 406
+	)
+	(datas
+		 3 3
+		 3 0
 	)
 )
 (tiles
