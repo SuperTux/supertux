@@ -82,10 +82,10 @@ public:
   //void resize(int width, int height, float time, std::string easing);
 
   /** Returns the current X position of the zone */
-  float current_x() {return m_col.m_bbox.get_left();}
+  float current_x() const { return m_col.m_bbox.get_left(); }
 
   /** Returns the current Y position of the zone */
-  float current_y() {return m_col.m_bbox.get_top();}
+  float current_y() const { return m_col.m_bbox.get_top(); }
 
   /** Returns the target X position of the zone */
   //float target_x() {return m_col.m_bbox.get_left();}
