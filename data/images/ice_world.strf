@@ -386,10 +386,6 @@
 		 3 0
 	)
 )
-(tile
-	(images "worldmap/shared/danger_sign.png")
-	(id 407)
-)
 (tiles
 	(width 4)(height 4)
 	(images "worldmap/shared/invisible_paths.png")
