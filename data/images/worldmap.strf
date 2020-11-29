@@ -1,3 +1,5 @@
+;; next-id: 2040
+
 (supertux-tiles
 (tile
 	(id 1)
