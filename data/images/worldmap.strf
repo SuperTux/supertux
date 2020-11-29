@@ -19,7 +19,25 @@
 		"worldmap/shared/water_16.png"
 	)
 )
-
+(tilegroup
+  (name (_ "Desert"))
+	(tiles
+    2010 2011 2012 2028
+    2013 2014 2015 2029
+    2016 2017 2018 9
+    2019 2020 2021 9
+    2022 2023 2024 9
+    2025 2026 2027 9
+	)
+)
+(tilegroup
+  (name (_ "Signs"))
+	(tiles
+    2030 2031 2032 2039
+    2033 2034 2035 0
+    2036 2037 2038 0
+	)
+)
 (tilegroup
   (name (_ "Water paths"))
   (tiles
@@ -981,5 +999,72 @@
     17 24 12 0
   )
   (image "worldmap/halloween/roads.png")
+)
+(tiles
+	(width 3)(height 3)
+	(images "worldmap/desert/desertbase.png")
+	(ids
+    2010 2011 2012
+    2013 2014 2015
+    2016 2017 2018
+	)
+)
+
+(tiles
+	(width 3)(height 3)
+	(images "worldmap/desert/cactusbase.png")
+	(ids
+    2019 2020 2021
+    2022 2023 2024
+    2025 2026 2027
+	)
+)
+(tile
+	(images "worldmap/desert/desert_tree.png")
+	(id 2028)
+)
+(tile
+	(images "worldmap/desert/animal_skeleton.png")
+	(id 2029)
+)
+(tile
+	(images "worldmap/signs/leftup_sign.png")
+	(id 2030)
+)
+(tile
+	(images "worldmap/signs/up_sign.png")
+	(id 2031)
+)
+(tile
+	(images "worldmap/signs/rightup_sign.png")
+	(id 2032)
+)
+(tile
+	(images "worldmap/signs/left_sign.png")
+	(id 2033)
+)
+(tile
+	(images "worldmap/signs/x-marker_sign.png")
+	(id 2034)
+)
+(tile
+	(images "worldmap/signs/right_sign.png")
+	(id 2035)
+)
+(tile
+	(images "worldmap/signs/leftdown_sign.png")
+	(id 2036)
+)
+(tile
+	(images "worldmap/signs/down_sign.png")
+	(id 2037)
+)
+(tile
+	(images "worldmap/signs/rightdown_sign.png")
+	(id 2038)
+)
+(tile
+	(images "worldmap/signs/danger_sign.png")
+	(id 2039)
 )
 )
