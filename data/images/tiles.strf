@@ -683,12 +683,8 @@
       1824 1825 2402 2403
       3163 3164 172  246
       3165 3166 247  248
-      479  480  4128 4129
-      481  482  4130 4131
-      4132 4133 4140 4141
-      4134 4135 4142 4143
-      4136 4137 4144 4145
-      4138 4139 4146 4147
+      479  480  4104 4105
+      481  482  4106 4107
 
       1348 1720 1719 1718
       79   80   1347 1722
@@ -3520,48 +3516,7 @@
       4104 4105
       4106 4107
     )
-      (image "tiles/signs/color_splash1.png")
-  )
-  (tiles
-    (width 2)
-    (height 2)
-    (ids
-      4108 4109
-      4110 4111
-    )
-      (image "tiles/signs/color_splash2.png")
-  )
-
-  (tiles
-    (width 2)
-    (height 2)
-    (ids
-      4128 4129
-      4130 4131
-    )
       (image "tiles/signs/buttjump.png")
-  )
-  (tiles
-    (width 2)
-    (height 4)
-    (ids
-      4132 4133
-      4134 4135
-     4136 4137
-      4138 4139
-    )
-      (image "tiles/signs/empty_large_sign.png")
-  )
-  (tiles
-    (width 2)
-    (height 4)
-    (ids
-      4140 4141
-      4142 4143
-      4144 4145
-      4146 4147
-    )
-      (image "tiles/signs/ladder_large_sign.png")
   )
   (tile
     (id 1735)
