@@ -1,4 +1,4 @@
-;; next-id: 2040
+;; next-id: 2053
 
 (supertux-tiles
 (tile
@@ -1094,58 +1094,5 @@
 (tile
 	(images "worldmap/desert/desert_oasis.png")
 	(id 2052)
-)
-(tiles
-  (width 4)
-  (height 4)
-  (ids
-    2053 2054 2055 2056
-    2057 2058 2059 2060
-    2061 2062 2063 2064
-    2065 2066 2067 2068
-  )
-  (datas
-    6  10 23 30
-    5  9  29 27
-    18 20 3  31
-    17 24 12 0
-  )
-  (deprecated #t)
-  (image "worldmap/desert/desert_paths.png")
-)
-(tile (id 2069)
-      (deprecated #t)
-      (images
-        (region "worldmap/desert/desert_paths.png" 96 32 32 32)
-      )
-      (north #t)
-      (south #t)
-      (west  #t)
-      (east  #f)
-      (stop  #t)
-)
-(tile (id 2070)
-       (deprecated #t)
-       (images
-         (region "worldmap/desert/desert_paths.png" 64 96 32 32)
-       )
-       (north #f)
-       (south #f)
-       (west  #t)
-       (east  #t)
-       (stop #f)
-       (one-way "west-east")
-)
-(tile (id 2071)
-      (deprecated #t)
-      (images
-        (region "worldmap/desert/desert_paths.png" 64 64 32 32)
-      )
-      (north #t)
-      (south #t)
-      (west  #f)
-      (east  #f)
-      (stop #f)
-      (one-way "north-south")
 )
 )
