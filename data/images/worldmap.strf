@@ -26,10 +26,15 @@
 	(tiles
     2010 2011 2012 2028
     2013 2014 2015 2029
-    2016 2017 2018 9
-    2019 2020 2021 9
-    2022 2023 2024 9
-    2025 2026 2027 9
+    2016 2017 2018 2052
+    2019 2020 2021 2014
+    2022 2023 2024 2014
+    2025 2026 2027 2014
+    2044 2045 2046 2014
+    2047 9    2048 2014
+    2049 2050 2051 2014
+    2014 2040 2041 2014
+    2014 2042 2043 2014
 	)
 )
 (tilegroup
@@ -1068,5 +1073,79 @@
 (tile
 	(images "worldmap/signs/danger_sign.png")
 	(id 2039)
+)
+(tiles
+	(width 2)(height 2)
+	(images "worldmap/desert/pyramid.png")
+	(ids
+    2040 2041
+    2042 2043
+	)
+)
+(tiles
+	(width 3)(height 3)
+	(images "worldmap/desert/desert_crossings.png")
+	(ids
+    2044 2045 2046
+    2047 9    2048
+    2049 2050 2051
+	)
+)
+(tile
+	(images "worldmap/desert/desert_oasis.png")
+	(id 2052)
+)
+(tiles
+  (width 4)
+  (height 4)
+  (ids
+    2053 2054 2055 2056
+    2057 2058 2059 2060
+    2061 2062 2063 2064
+    2065 2066 2067 2068
+  )
+  (datas
+    6  10 23 30
+    5  9  29 27
+    18 20 3  31
+    17 24 12 0
+  )
+  (deprecated #t)
+  (image "worldmap/desert/desert_paths.png")
+)
+(tile (id 2069)
+      (deprecated #t)
+      (images
+        (region "worldmap/desert/desert_paths.png" 96 32 32 32)
+      )
+      (north #t)
+      (south #t)
+      (west  #t)
+      (east  #f)
+      (stop  #t)
+)
+(tile (id 2070)
+       (deprecated #t)
+       (images
+         (region "worldmap/desert/desert_paths.png" 64 96 32 32)
+       )
+       (north #f)
+       (south #f)
+       (west  #t)
+       (east  #t)
+       (stop #f)
+       (one-way "west-east")
+)
+(tile (id 2071)
+      (deprecated #t)
+      (images
+        (region "worldmap/desert/desert_paths.png" 64 64 32 32)
+      )
+      (north #t)
+      (south #t)
+      (west  #f)
+      (east  #f)
+      (stop #f)
+      (one-way "north-south")
 )
 )
