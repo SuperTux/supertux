@@ -73,7 +73,7 @@ private:
 
 public:
   /** Custom connection properties; used by the game to remember details about the conection */
-  std::map<std::string,std::string> m_properties;
+  std::map<std::string,void*> m_properties;
 
 public:
   static const char DELIMITER;

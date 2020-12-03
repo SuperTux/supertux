@@ -17,6 +17,7 @@
 #ifndef HEADER_SUPERTUX_NETWORK_TEST_SERVER_HPP
 #define HEADER_SUPERTUX_NETWORK_TEST_SERVER_HPP
 
+#include "network/connection.hpp"
 #include "network/connection_pool.hpp"
 #include "network/server.hpp"
 #include "supertux/screen.hpp"
@@ -35,8 +36,8 @@ public:
   virtual void update(float dt_sec, const Controller& controller) override;
 
 private:
-  void on_connect(std::unique_ptr<Connection> connection);
-  void on_receive(Connection* connection, const std::string& data);
+  void on_connect(std::unique_ptr<network::Connection> connection);
+  void on_receive(network::Connection* connection, const std::string& data);
 
 private:
   network::Server m_server;

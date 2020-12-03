@@ -25,8 +25,8 @@ using namespace network;
 
 TestServer::TestServer() :
   m_server(3474,
-          [this](std::unique_ptr<Connection> c){ on_connect(std::move(c)); },
-          [this](Connection* c, const std::string& d) { on_receive(c, d); }),
+          [this](std::unique_ptr<network::Connection> c){ on_connect(std::move(c)); },
+          [this](network::Connection* c, const std::string& d) { on_receive(c, d); }),
   m_pool()
 {
   m_pool = std::make_unique<ConnectionPool>();
@@ -51,14 +51,14 @@ TestServer::update(float dt_sec, const Controller& controller)
 }
 
 void
-TestServer::on_connect(std::unique_ptr<Connection> connection)
+TestServer::on_connect(std::unique_ptr<network::Connection> connection)
 {
   log_warning << "A new client has connected to the server:" << connection.get() << std::endl;
   m_pool->add_connection(std::move(connection));
 }
 
 void
-TestServer::on_receive(Connection* connection, const std::string& data)
+TestServer::on_receive(network::Connection* connection, const std::string& data)
 {
   connection->send("Received: " + data);
   if (data == "stop") {
