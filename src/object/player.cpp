@@ -121,6 +121,9 @@ const float SMALL_TUX_HEIGHT = 30.8f;
 const float BIG_TUX_HEIGHT = 62.8f;
 const float DUCKED_TUX_HEIGHT = 31.8f;
 
+/** when Tux swims down and approaches the bottom of the screen, push him back up with that strength */
+const float WATER_FALLOUT_FORCEBACK_STRENGTH = 1024.f;
+
 bool no_water = true;
 
 } // namespace
@@ -141,6 +144,7 @@ Player::Player(PlayerStatus& player_status, const std::string& name_) :
   m_peekingY(Direction::AUTO),
   m_ability_time(),
   m_stone(false),
+  m_falling_below_water(false),
   m_swimming(false),
   m_swimboosting(false),
   m_speedlimit(0), //no special limit
@@ -453,11 +457,20 @@ Player::update(float dt_sec)
       m_ability_time = static_cast<float>(m_player_status.max_air_time) * GLIDE_TIME_PER_FLOWER;
   }
 
-    if (m_second_growup_sound_timer.check())
-    {
-      SoundManager::current()->play("sounds/grow.wav");
-      m_second_growup_sound_timer.stop();
-    }
+  if (m_second_growup_sound_timer.check())
+  {
+    SoundManager::current()->play("sounds/grow.wav");
+    m_second_growup_sound_timer.stop();
+  }
+
+  // Handle player approaching the bottom of the screen while swimming
+  if (m_falling_below_water) {
+    m_physic.set_velocity_y(std::min(m_physic.get_velocity_y(), 0.f));
+  }
+
+  if ((get_pos().y > Sector::get().get_height() - m_col.m_bbox.get_height()) && (!m_ghost_mode)) {
+    m_physic.set_acceleration_y(-WATER_FALLOUT_FORCEBACK_STRENGTH);
+  }
 
   // calculate movement for this frame
   m_col.m_movement = m_physic.get_movement(dt_sec);
@@ -1848,11 +1861,14 @@ Player::check_bounds()
     set_pos(Vector(Sector::get().get_width() - m_col.m_bbox.get_width(), m_col.m_bbox.get_top()));
   }
 
+  m_falling_below_water = false;
+
   /* fallen out of the level? */
   if (m_swimming) {
-    // If swimming, don't kill; just prevent to fall below the ground
-    if ((get_pos().y > Sector::get().get_height() - m_col.m_bbox.get_height()) && (!m_ghost_mode)) {
-      set_pos(Vector(get_pos().x, Sector::get().get_height() - m_col.m_bbox.get_height()));
+    // If swimming, don't kill; just prevent from falling below the ground
+    if ((get_pos().y > Sector::get().get_height() - 1) && (!m_ghost_mode)) {
+      set_pos(Vector(get_pos().x, Sector::get().get_height() - 1));
+      m_falling_below_water = true;
     }
   } else if ((get_pos().y > Sector::get().get_height()) && (!m_ghost_mode)) {
     kill(true);
