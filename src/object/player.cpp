@@ -1849,7 +1849,12 @@ Player::check_bounds()
   }
 
   /* fallen out of the level? */
-  if ((get_pos().y > Sector::get().get_height()) && (!m_ghost_mode)) {
+  if (m_swimming) {
+    // If swimming, don't kill; just prevent to fall below the ground
+    if ((get_pos().y > Sector::get().get_height() - m_col.m_bbox.get_height()) && (!m_ghost_mode)) {
+      set_pos(Vector(get_pos().x, Sector::get().get_height() - m_col.m_bbox.get_height()));
+    }
+  } else if ((get_pos().y > Sector::get().get_height()) && (!m_ghost_mode)) {
     kill(true);
     return;
   }
