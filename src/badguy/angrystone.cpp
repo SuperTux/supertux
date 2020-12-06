@@ -61,6 +61,7 @@ void
 AngryStone::kill_fall()
 {
   //prevents AngryStone from getting killed by other enemies or the player
+  return;
 }
 
 HitResponse
@@ -83,88 +84,79 @@ AngryStone::active_update(float dt_sec) {
   }
 
   switch (state) {
+  case IDLE:
+    auto player = get_nearest_player();
+    if (player) {
+      auto badguy = this;
+      const Vector& playerPos = player->get_pos();
+      const Vector& badguyPos = badguy->get_pos();
+      float dx = (playerPos.x - badguyPos.x);
+      float dy = (playerPos.y - badguyPos.y);
 
+      float playerHeight = player->get_bbox().get_height();
+      float badguyHeight = badguy->get_bbox().get_height();
 
-    case IDLE: {
-      auto player = get_nearest_player();
-      if (player) {
-        auto badguy = this;
-        const Vector& playerPos = player->get_pos();
-        const Vector& badguyPos = badguy->get_pos();
-        float dx = (playerPos.x - badguyPos.x);
-        float dy = (playerPos.y - badguyPos.y);
+      float playerWidth = player->get_bbox().get_width();
+      float badguyWidth = badguy->get_bbox().get_width();
 
-        float playerHeight = player->get_bbox().get_height();
-        float badguyHeight = badguy->get_bbox().get_height();
+      if ((dx > -playerWidth) && (dx < badguyWidth)) {
+        attackDirection.x = 0;
+        if (dy > 0) attackDirection.y = 1;
+        else attackDirection.y = -1;
 
-        float playerWidth = player->get_bbox().get_width();
-        float badguyWidth = badguy->get_bbox().get_width();
+        if ((attackDirection.x != oldWallDirection.x) || (attackDirection.y != oldWallDirection.y)) {
+          m_sprite->set_action("charging");
+          timer.start(CHARGE_TIME);
+          state = CHARGING;
+        }
+      } else if ((dy > -playerHeight) && (dy < badguyHeight)) {
+        attackDirection.y = 0;
+        if (dx > 0) attackDirection.x = 1;
+        else attackDirection.x = -1;
 
-        if ((dx > -playerWidth) && (dx < badguyWidth)) {
-          if (dy > 0) {
-            attackDirection.x = 0;
-            attackDirection.y = 1;
-          } else {
-            attackDirection.x = 0;
-            attackDirection.y = -1;
-          }
-          if ((attackDirection.x != oldWallDirection.x) || (attackDirection.y != oldWallDirection.y)) {
-            m_sprite->set_action("charging");
-            timer.start(CHARGE_TIME);
-            state = CHARGING;
-          }
-        } else if ((dy > -playerHeight) && (dy < badguyHeight)) {
-          if (dx > 0) {
-            attackDirection.x = 1;
-            attackDirection.y = 0;
-          } else {
-            attackDirection.x = -1;
-            attackDirection.y = 0;
-          }
-          if ((attackDirection.x != oldWallDirection.x) || (attackDirection.y != oldWallDirection.y)) {
-            m_sprite->set_action("charging");
-            timer.start(CHARGE_TIME);
-            state = CHARGING;
-          }
+        if ((attackDirection.x != oldWallDirection.x) || (attackDirection.y != oldWallDirection.y)) {
+          m_sprite->set_action("charging");
+          timer.start(CHARGE_TIME);
+          state = CHARGING;
         }
       }
-    } break;
+    }
+    break;
 
-    case CHARGING: {
-      if (timer.check()) {
-        m_sprite->set_action("attacking");
-        timer.start(ATTACK_TIME);
-        state = ATTACKING;
-        m_physic.enable_gravity(false);
-        m_physic.set_velocity_x(CHARGE_SPEED * attackDirection.x);
-        m_physic.set_velocity_y(CHARGE_SPEED * attackDirection.y);
-        oldWallDirection.x = 0;
-        oldWallDirection.y = 0;
-      }
-    } break;
+  case CHARGING:
+    if (timer.check()) {
+      m_sprite->set_action("attacking");
+      timer.start(ATTACK_TIME);
+      state = ATTACKING;
+      m_physic.enable_gravity(false);
+      m_physic.set_velocity_x(CHARGE_SPEED * attackDirection.x);
+      m_physic.set_velocity_y(CHARGE_SPEED * attackDirection.y);
+      oldWallDirection.x = 0;
+      oldWallDirection.y = 0;
+    }
+    break;
 
-    case ATTACKING: {
-      if (timer.check()) {
-        timer.start(RECOVER_TIME);
-        state = RECOVERING;
-        m_sprite->set_action("idle");
-        m_physic.enable_gravity(true);
-        m_physic.set_velocity_x(0);
-        m_physic.set_velocity_y(0);
-      }
-    } break;
+  case ATTACKING:
+    if (timer.check()) {
+      timer.start(RECOVER_TIME);
+      state = RECOVERING;
+      m_sprite->set_action("idle");
+      m_physic.enable_gravity(true);
+      m_physic.set_velocity_x(0);
+      m_physic.set_velocity_y(0);
+    }
+    break;
 
-    case RECOVERING: {
-      if (timer.check()) {
-        state = IDLE;
-        m_sprite->set_action("idle");
-        m_physic.enable_gravity(true);
-        m_physic.set_velocity_x(0);
-        m_physic.set_velocity_y(0);
-      }
-    } break;
+  case RECOVERING:
+    if (timer.check()) {
+      state = IDLE;
+      m_sprite->set_action("idle");
+      m_physic.enable_gravity(true);
+      m_physic.set_velocity_x(0);
+      m_physic.set_velocity_y(0);
+    }
+    break;
   }
-
 }
 
 bool
