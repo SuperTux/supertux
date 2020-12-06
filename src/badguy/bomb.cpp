@@ -71,12 +71,9 @@ Bomb::active_update(float dt_sec)
   if (on_ground()) m_physic.set_velocity_x(0);
 
   ticking->set_position(get_pos());
-  if (m_sprite->animation_done()) {
-    explode();
-  }
-  else if (!is_grabbed()) {
-    m_col.m_movement = m_physic.get_movement(dt_sec);
-  }
+
+  if (m_sprite->animation_done()) explode();
+  else if (!is_grabbed()) m_col.m_movement = m_physic.get_movement(dt_sec);
 }
 
 void
@@ -96,8 +93,7 @@ Bomb::explode()
 
   if (is_valid()) {
     remove_me();
-    Sector::get().add<Explosion>(m_col.m_bbox.get_middle(),
-      EXPLOSION_STRENGTH_DEFAULT);
+    Sector::get().add<Explosion>(m_col.m_bbox.get_middle(), EXPLOSION_STRENGTH_DEFAULT);
   }
 
   run_dead_script();
