@@ -179,78 +179,81 @@ BadGuy::update(float dt_sec)
   }
 
   switch (m_state) {
-    case STATE_ACTIVE:
-      m_is_active_flag = true;
-      if (Editor::is_active()) {
-        break;
-      }
-      active_update(dt_sec);
+  case STATE_ACTIVE:
+    m_is_active_flag = true;
+    if (Editor::is_active()) {
       break;
+    }
+    active_update(dt_sec);
+    break;
 
-    case STATE_INIT:
-    case STATE_INACTIVE:
-      m_is_active_flag = false;
-      inactive_update(dt_sec);
-      try_activate();
+  case STATE_INIT:
+  case STATE_INACTIVE:
+    m_is_active_flag = false;
+    inactive_update(dt_sec);
+    try_activate();
+    break;
+
+  case STATE_BURNING:
+    m_is_active_flag = false;
+    m_col.m_movement = m_physic.get_movement(dt_sec);
+    if ( m_sprite->animation_done() ) {
+      remove_me();
+    }
+    break;
+
+  case STATE_GEAR:
+  case STATE_SQUISHED:
+    m_is_active_flag = false;
+    if (m_state_timer.check()) {
+      remove_me();
       break;
+    }
+    m_col.m_movement = m_physic.get_movement(dt_sec);
+    break;
 
-    case STATE_BURNING: {
-      m_is_active_flag = false;
-      m_col.m_movement = m_physic.get_movement(dt_sec);
-      if ( m_sprite->animation_done() ) {
-        remove_me();
-      }
-    } break;
-
-    case STATE_GEAR:
-    case STATE_SQUISHED:
-      m_is_active_flag = false;
-      if (m_state_timer.check()) {
-        remove_me();
-        break;
-      }
-      m_col.m_movement = m_physic.get_movement(dt_sec);
+  case STATE_MELTING:
+    m_is_active_flag = false;
+    m_col.m_movement = m_physic.get_movement(dt_sec);
+    if ( m_sprite->animation_done() || on_ground() ) {
+      Sector::get().add<WaterDrop>(m_col.m_bbox.p1(), get_water_sprite(), m_physic.get_velocity());
+      remove_me();
       break;
+    }
+    break;
 
-    case STATE_MELTING: {
-      m_is_active_flag = false;
-      m_col.m_movement = m_physic.get_movement(dt_sec);
-      if ( m_sprite->animation_done() || on_ground() ) {
-        Sector::get().add<WaterDrop>(m_col.m_bbox.p1(), get_water_sprite(), m_physic.get_velocity());
-        remove_me();
-        break;
-      }
-    } break;
+  case STATE_GROUND_MELTING:
+    m_is_active_flag = false;
+    m_col.m_movement = m_physic.get_movement(dt_sec);
+    if ( m_sprite->animation_done() ) {
+      remove_me();
+    }
+    break;
 
-    case STATE_GROUND_MELTING:
-      m_is_active_flag = false;
-      m_col.m_movement = m_physic.get_movement(dt_sec);
-      if ( m_sprite->animation_done() ) {
-        remove_me();
-      }
-      break;
+  case STATE_INSIDE_MELTING:
+    m_is_active_flag = false;
+    m_col.m_movement = m_physic.get_movement(dt_sec);
+    if ( on_ground() && m_sprite->animation_done() ) {
+      m_sprite->set_action(m_dir == Direction::LEFT ? "gear-left" : "gear-right", 1);
+      set_state(STATE_GEAR);
+    }
+    int pa = graphicsRandom.rand(0,3);
+    float px = graphicsRandom.randf(m_col.m_bbox.get_left(), m_col.m_bbox.get_right());
+    float py = graphicsRandom.randf(m_col.m_bbox.get_top(), m_col.m_bbox.get_bottom());
+    Vector ppos = Vector(px, py);
+    Sector::get().add<SpriteParticle>(get_water_sprite(), "particle_" + std::to_string(pa),
+        ppos, ANCHOR_MIDDLE,
+        Vector(0, 0), Vector(0, 100 * Sector::get().get_gravity()),
+        LAYER_OBJECTS-1);
+    break;
 
-    case STATE_INSIDE_MELTING: {
-      m_is_active_flag = false;
-      m_col.m_movement = m_physic.get_movement(dt_sec);
-      if ( on_ground() && m_sprite->animation_done() ) {
-        m_sprite->set_action(m_dir == Direction::LEFT ? "gear-left" : "gear-right", 1);
-        set_state(STATE_GEAR);
-      }
-      int pa = graphicsRandom.rand(0,3);
-      float px = graphicsRandom.randf(m_col.m_bbox.get_left(), m_col.m_bbox.get_right());
-      float py = graphicsRandom.randf(m_col.m_bbox.get_top(), m_col.m_bbox.get_bottom());
-      Vector ppos = Vector(px, py);
-      Sector::get().add<SpriteParticle>(get_water_sprite(), "particle_" + std::to_string(pa),
-                                             ppos, ANCHOR_MIDDLE,
-                                             Vector(0, 0), Vector(0, 100 * Sector::get().get_gravity()),
-                                             LAYER_OBJECTS-1);
-    } break;
+  case STATE_FALLING:
+    m_is_active_flag = false;
+    m_col.m_movement = m_physic.get_movement(dt_sec);
+    break;
 
-    case STATE_FALLING:
-      m_is_active_flag = false;
-      m_col.m_movement = m_physic.get_movement(dt_sec);
-      break;
+  default:
+    break;
   }
 
   m_on_ground_flag = false;
