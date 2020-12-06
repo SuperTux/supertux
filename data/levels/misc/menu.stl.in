@@ -10,7 +10,7 @@
     (init-script "
 logo <- FloatingImage(\"images/objects/logo/@LOGO_FILE@\");
 if(is_christmas()) {
-  christmas_hat <- FloatingImage(\"images/objects/particles/santa-cap-big.sprite\");
+  christmas_hat <- FloatingImage(\"images/particles/santa-cap-big.sprite\");
   christmas_hat.set_anchor_point(ANCHOR_MIDDLE);
   christmas_hat.set_pos(33, -230);
   christmas_hat.set_visible(true);
