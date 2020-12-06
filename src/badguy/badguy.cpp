@@ -231,20 +231,22 @@ BadGuy::update(float dt_sec)
     break;
 
   case STATE_INSIDE_MELTING:
-    m_is_active_flag = false;
-    m_col.m_movement = m_physic.get_movement(dt_sec);
-    if ( on_ground() && m_sprite->animation_done() ) {
-      m_sprite->set_action(m_dir == Direction::LEFT ? "gear-left" : "gear-right", 1);
-      set_state(STATE_GEAR);
+    {
+      m_is_active_flag = false;
+      m_col.m_movement = m_physic.get_movement(dt_sec);
+      if ( on_ground() && m_sprite->animation_done() ) {
+        m_sprite->set_action(m_dir == Direction::LEFT ? "gear-left" : "gear-right", 1);
+        set_state(STATE_GEAR);
+      }
+      int pa = graphicsRandom.rand(0,3);
+      float px = graphicsRandom.randf(m_col.m_bbox.get_left(), m_col.m_bbox.get_right());
+      float py = graphicsRandom.randf(m_col.m_bbox.get_top(), m_col.m_bbox.get_bottom());
+      Vector ppos = Vector(px, py);
+      Sector::get().add<SpriteParticle>(get_water_sprite(), "particle_" + std::to_string(pa),
+          ppos, ANCHOR_MIDDLE,
+          Vector(0, 0), Vector(0, 100 * Sector::get().get_gravity()),
+          LAYER_OBJECTS-1);
     }
-    int pa = graphicsRandom.rand(0,3);
-    float px = graphicsRandom.randf(m_col.m_bbox.get_left(), m_col.m_bbox.get_right());
-    float py = graphicsRandom.randf(m_col.m_bbox.get_top(), m_col.m_bbox.get_bottom());
-    Vector ppos = Vector(px, py);
-    Sector::get().add<SpriteParticle>(get_water_sprite(), "particle_" + std::to_string(pa),
-        ppos, ANCHOR_MIDDLE,
-        Vector(0, 0), Vector(0, 100 * Sector::get().get_gravity()),
-        LAYER_OBJECTS-1);
     break;
 
   case STATE_FALLING:

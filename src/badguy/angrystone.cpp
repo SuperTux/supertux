@@ -85,8 +85,7 @@ AngryStone::active_update(float dt_sec) {
 
   switch (state) {
   case IDLE:
-    auto player = get_nearest_player();
-    if (player) {
+    if (auto player = get_nearest_player()) {
       auto badguy = this;
       const Vector& playerPos = player->get_pos();
       const Vector& badguyPos = badguy->get_pos();
