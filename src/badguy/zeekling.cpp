@@ -53,53 +53,61 @@ Zeekling::collision_squished(GameObject& object)
 void
 Zeekling::onBumpHorizontal()
 {
-  if (m_frozen)
-  {
+  if (m_frozen) {
     m_physic.set_velocity_x(0);
     return;
   }
-  if (state == FLYING) {
+
+  switch (state) {
+  case FLYING:
     m_dir = (m_dir == Direction::LEFT ? Direction::RIGHT : Direction::LEFT);
     m_sprite->set_action(m_dir == Direction::LEFT ? "left" : "right");
     m_physic.set_velocity_x(m_dir == Direction::LEFT ? -speed : speed);
-  } else
-    if (state == DIVING) {
-      m_dir = (m_dir == Direction::LEFT ? Direction::RIGHT : Direction::LEFT);
-      state = FLYING;
-      m_sprite->set_action(m_dir == Direction::LEFT ? "left" : "right");
-      m_physic.set_velocity_x(m_dir == Direction::LEFT ? -speed : speed);
-      m_physic.set_velocity_y(0);
-    } else
-      if (state == CLIMBING) {
-        m_dir = (m_dir == Direction::LEFT ? Direction::RIGHT : Direction::LEFT);
-        m_sprite->set_action(m_dir == Direction::LEFT ? "left" : "right");
-        m_physic.set_velocity_x(m_dir == Direction::LEFT ? -speed : speed);
-      } else {
-        assert(false);
-      }
+    break;
+  case DIVING:
+    m_dir = (m_dir == Direction::LEFT ? Direction::RIGHT : Direction::LEFT);
+    state = FLYING;
+    m_sprite->set_action(m_dir == Direction::LEFT ? "left" : "right");
+    m_physic.set_velocity_x(m_dir == Direction::LEFT ? -speed : speed);
+    m_physic.set_velocity_y(0);
+    break;
+  case CLIMBING:
+    m_dir = (m_dir == Direction::LEFT ? Direction::RIGHT : Direction::LEFT);
+    m_sprite->set_action(m_dir == Direction::LEFT ? "left" : "right");
+    m_physic.set_velocity_x(m_dir == Direction::LEFT ? -speed : speed);
+    break;
+
+  default:
+    break;
+  }
 }
 
 void
 Zeekling::onBumpVertical()
 {
-  if (m_frozen || BadGuy::get_state() == STATE_BURNING)
-  {
+  if (m_frozen || BadGuy::get_state() == STATE_BURNING) {
     m_physic.set_velocity_y(0);
     m_physic.set_velocity_x(0);
     return;
   }
-  if (state == FLYING) {
+
+  switch (state) {
+  case FLYING:
     m_physic.set_velocity_y(0);
-  } else
-    if (state == DIVING) {
-      state = CLIMBING;
-      m_physic.set_velocity_y(-speed);
-      m_sprite->set_action(m_dir == Direction::LEFT ? "left" : "right");
-    } else
-      if (state == CLIMBING) {
-        state = FLYING;
-        m_physic.set_velocity_y(0);
-      }
+    break;
+  case DIVING:
+    state = CLIMBING;
+    m_physic.set_velocity_y(-speed);
+    m_sprite->set_action(m_dir == Direction::LEFT ? "left" : "right");
+    break;
+  case CLIMBING:
+    state = FLYING;
+    m_physic.set_velocity_y(0);
+    break;
+
+  default:
+    break;
+  }
 }
 
 void
@@ -137,16 +145,12 @@ Zeekling::should_we_dive()
     // new vertical speed to test with
     float vy = 2*fabsf(self_mov.x);
 
-    // do not dive if we are not above the player
     float height = player_pos.y - self_pos.y;
-    if (height <= 0) return false;
-
-    // do not dive if we are too far above the player
-    if (height > 512) return false;
-
-    // do not dive if we would not descend faster than the player
     float relSpeed = vy - player_mov.y;
-    if (relSpeed <= 0) return false;
+
+    // do not dive if we are not above the player, we are too far above the player,
+    // or if we would not descend faster than the player
+    if (height <= 0 || height > 512 || relSpeed <= 0) return false;
 
     // guess number of frames to descend to same height as player
     float estFrames = height / relSpeed;
@@ -173,28 +177,18 @@ Zeekling::should_we_dive()
 
 void
 Zeekling::active_update(float dt_sec) {
-  if (state == FLYING) {
-    if (should_we_dive()) {
-      state = DIVING;
-      m_physic.set_velocity_y(2*fabsf(m_physic.get_velocity_x()));
-      m_sprite->set_action(m_dir == Direction::LEFT ? "diving-left" : "diving-right");
-    }
-    BadGuy::active_update(dt_sec);
-    return;
-  } else if (state == DIVING) {
-    BadGuy::active_update(dt_sec);
-    return;
-  } else if (state == CLIMBING) {
+  if (state == FLYING || should_we_dive()) {
+    state = DIVING;
+    m_physic.set_velocity_y(2*fabsf(m_physic.get_velocity_x()));
+    m_sprite->set_action(m_dir == Direction::LEFT ? "diving-left" : "diving-right");
+  } else if (state == CLIMBING && get_pos().y <= m_start_position.y) {
     // stop climbing when we're back at initial height
-    if (get_pos().y <= m_start_position.y) {
-      state = FLYING;
-      m_physic.set_velocity_y(0);
-    }
-    BadGuy::active_update(dt_sec);
-    return;
-  } else {
-    assert(false);
+    state = FLYING;
+    m_physic.set_velocity_y(0);
   }
+
+  BadGuy::active_update(dt_sec);
+  return;
 }
 
 void
