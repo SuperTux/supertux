@@ -48,9 +48,7 @@ DartTrap::DartTrap(const ReaderMapping& reader) :
   state = IDLE;
   set_colgroup_active(COLGROUP_DISABLED);
 
-  if (!Editor::is_active()) {
-    if (initial_delay == 0) initial_delay = 0.1f;
-  }
+  if (!Editor::is_active() && initial_delay == 0) initial_delay = 0.1f;
 }
 
 void
@@ -87,9 +85,7 @@ DartTrap::active_update(float )
       break;
 
     case LOADING:
-      if (m_sprite->animation_done()) {
-        fire();
-      }
+      if (m_sprite->animation_done()) fire();
       break;
 
     default:
