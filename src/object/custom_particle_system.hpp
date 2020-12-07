@@ -49,6 +49,14 @@ public:
     return "images/engine/editor/sparkle.png";
   }
 
+  virtual void expose(HSQUIRRELVM vm, SQInteger table_idx) override {
+    ExposedObject<CustomParticleSystem, scripting::CustomParticles>::expose(vm, table_idx);
+  }
+
+  virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx) override {
+    ExposedObject<CustomParticleSystem, scripting::CustomParticles>::unexpose(vm, table_idx);
+  }
+
   //void fade_amount(int new_amount, float fade_time);
 protected:
   virtual int collision(Particle* particle, const Vector& movement) override;
