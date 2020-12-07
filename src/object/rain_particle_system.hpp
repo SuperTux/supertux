@@ -58,6 +58,14 @@ public:
   // When m_current_amount == max_amount, fog is this value
   static float constexpr const fog_max_value = 0.6f;
 
+  virtual void expose(HSQUIRRELVM vm, SQInteger table_idx) override {
+    ExposedObject<RainParticleSystem, scripting::Rain>::expose(vm, table_idx);
+  }
+
+  virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx) override {
+    ExposedObject<RainParticleSystem, scripting::Rain>::unexpose(vm, table_idx);
+  }
+
 private:
   void set_amount(float amount);
   void set_angle(float angle);
