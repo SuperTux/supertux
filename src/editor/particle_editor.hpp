@@ -57,6 +57,8 @@ public:
   virtual void setup() override;
   virtual void leave() override;
 
+  virtual IntegrationStatus get_status() const override;
+
   void event(const SDL_Event& ev);
   void update_keyboard(const Controller& controller);
   void check_unsaved_changes(const std::function<void ()>& action);

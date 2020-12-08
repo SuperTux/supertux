@@ -836,4 +836,12 @@ ParticleEditor::redo()
     m_texture_current = static_cast<int>(m_particles->m_textures.size()) - 1;
 }
 
+IntegrationStatus
+ParticleEditor::get_status() const
+{
+  IntegrationStatus status;
+  status.m_details.push_back("Editing particles");
+  return status;
+}
+
 /* EOF */
