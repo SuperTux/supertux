@@ -16,23 +16,23 @@
 
 #include "config.h"
 
-#include <vector>
-
 #include "sdk/integration.hpp"
+
+#include <vector>
 
 #ifdef ENABLE_DISCORD
 #include "sdk/discord.hpp"
 #endif
+#include "util/log.hpp"
 
 std::vector<Integration*> Integration::sdks;
-
-IntegrationStatus Integration::m_status = MAIN_MENU;
+IntegrationStatus Integration::current_status;
 
 void
 Integration::setup()
 {
 #ifdef ENABLE_DISCORD
-  sdks.push_back(DiscordIntegration::getSingleton());
+  sdks.push_back(DiscordIntegration::getDriver());
 #endif
 }
 
@@ -58,30 +58,17 @@ Integration::close_all()
 }
 
 void
-Integration::set_status(IntegrationStatus status)
+Integration::update_status_all(IntegrationStatus status)
 {
-  m_status = status;
+  if (current_status == status)
+    return;
+
+  current_status = status;
+
+  if (status.m_details.size() > 0)
+    log_info << "Setting status: " << *status.m_details.begin() << std::endl;
 
   for (Integration* sdk : sdks)
     sdk->update_status(status);
 }
 
-void
-Integration::set_worldmap(const char* worldmap)
-{
-  for (Integration* sdk : sdks)
-    sdk->update_worldmap(worldmap);
-}
-
-void
-Integration::set_level(const char* level)
-{
-  for (Integration* sdk : sdks)
-    sdk->update_level(level);
-}
-
-IntegrationStatus
-Integration::get_status()
-{
-  return m_status;
-}

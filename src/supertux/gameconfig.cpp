@@ -59,8 +59,8 @@ Config::Config() :
   pause_on_focusloss(true),
 #ifdef ENABLE_DISCORD
   enable_discord(false),
-  discord_hide_editor(false),
 #endif
+  hide_editor_levelnames(false),
   editor_autosave_frequency(5),
   repository_url()
 {
@@ -88,9 +88,9 @@ Config::load()
   boost::optional<ReaderMapping> config_integrations_mapping;
   if (config_mapping.get("integrations", config_integrations_mapping))
   {
+    config_integrations_mapping->get("hide_editor_levelnames", hide_editor_levelnames);
 #ifdef ENABLE_DISCORD
     config_integrations_mapping->get("enable_discord", enable_discord);
-    config_integrations_mapping->get("discord_hide_editor", discord_hide_editor);
 #endif
   }
 
@@ -206,9 +206,9 @@ Config::save()
   
   writer.start_list("integrations");
   {
+    writer.write("hide_editor_levelnames", hide_editor_levelnames);
 #ifdef ENABLE_DISCORD
     writer.write("enable_discord", enable_discord);
-    writer.write("discord_hide_editor", discord_hide_editor);
 #endif
   }
   writer.end_list("integrations");

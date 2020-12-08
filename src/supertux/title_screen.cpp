@@ -95,8 +95,6 @@ TitleScreen::setup()
     sector.activate(sector.get_player().get_pos());
   }
 
-  Integration::set_status(MAIN_MENU);
-
   MenuManager::instance().set_menu(MenuStorage::MAIN_MENU);
   ScreenManager::current()->set_screen_fade(std::make_unique<FadeToBlack>(FadeToBlack::FADEIN, 0.25));
 }
@@ -149,6 +147,14 @@ TitleScreen::update(float dt_sec, const Controller& controller)
   {
     MenuManager::instance().set_menu(MenuStorage::MAIN_MENU);
   }
+}
+
+IntegrationStatus
+TitleScreen::get_status() const
+{
+  IntegrationStatus status;
+  status.m_details.push_back("In main menu");
+  return status;
 }
 
 /* EOF */

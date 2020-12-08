@@ -40,21 +40,21 @@
 enum IntegrationsMenuIDs {
 #ifdef ENABLE_DISCORD
   MNID_ENABLE_DISCORD,
-  MNID_DISCORD_EDITOR
 #endif
+  MNID_LEVELNAMES_EDITOR
 };
 
 IntegrationsMenu::IntegrationsMenu()
 {
   add_label(_("Integrations"));
   add_hl();
+  add_toggle(MNID_LEVELNAMES_EDITOR, _("Do not share level names when editing"), &g_config->hide_editor_levelnames)
+    .set_help("Enable this if you want to work on secret levels and don't want the names to be spoiled");
 #ifdef ENABLE_DISCORD
   add_toggle(MNID_ENABLE_DISCORD, _("Enable Discord integration"), &g_config->enable_discord)
     .set_help("Sends information to your Discord application about what you're doing in the game.");
-  add_toggle(MNID_DISCORD_EDITOR, _("Hide level names in editor"), &g_config->discord_hide_editor)
-    .set_help("Enable this if you want to work on secret levels");
 #else
-  add_inactive( _("Discord (disabled; uncompiled)"));
+  add_inactive( _("Discord (disabled; not compiled)"));
 #endif
   add_hl();
   add_back(_("Back"));
@@ -68,19 +68,20 @@ void
 IntegrationsMenu::menu_action(MenuItem& item)
 {
   switch (item.get_id()) {
+
+    case MNID_LEVELNAMES_EDITOR:
+      break;
+
 #ifdef ENABLE_DISCORD
     case MNID_ENABLE_DISCORD:
       if (g_config->enable_discord)
       {
-        DiscordIntegration::getSingleton()->init();
+        DiscordIntegration::getDriver()->init();
       }
       else
       {
-        DiscordIntegration::getSingleton()->close();
+        DiscordIntegration::getDriver()->close();
       }
-      break;
-
-    case MNID_DISCORD_EDITOR:
       break;
 #endif
     default:

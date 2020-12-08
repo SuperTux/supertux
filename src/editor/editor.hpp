@@ -73,6 +73,8 @@ public:
   virtual void setup() override;
   virtual void leave() override;
 
+  virtual IntegrationStatus get_status() const override;
+
   void event(const SDL_Event& ev);
   void resize();
 

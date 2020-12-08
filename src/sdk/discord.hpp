@@ -23,33 +23,23 @@
 
 #include "sdk/integration.hpp"
 
-class DiscordIntegration : public Integration
+class DiscordIntegration final : public Integration
 {
 public:
-  static DiscordIntegration* getSingleton();
+  static DiscordIntegration* getDriver();
 
 public:
   virtual void init() override;
   virtual void update() override;
   virtual void close() override;
   virtual void update_status(IntegrationStatus status) override;
-  virtual void update_worldmap(const char* worldmap) override;
-  virtual void update_level(const char* level) override;
 
 protected:
   DiscordIntegration();
   ~DiscordIntegration();
 
 private:
-  void update_discord_presence();
-
-  static DiscordIntegration* singleton;
-
-private:
-  IntegrationStatus m_status;
-  char* m_level;
-  char* m_worldmap;
-
+  static DiscordIntegration* driver;
   bool m_enabled;
 
 private:

@@ -100,4 +100,12 @@ LevelsetScreen::leave()
 {
 }
 
+IntegrationStatus
+LevelsetScreen::get_status() const
+{
+  IntegrationStatus status;
+  status.m_details.push_back("In Editor");
+  return status;
+}
+
 /* EOF */

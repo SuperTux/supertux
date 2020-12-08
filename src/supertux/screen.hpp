@@ -17,6 +17,8 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_SCREEN_HPP
 #define HEADER_SUPERTUX_SUPERTUX_SCREEN_HPP
 
+#include "sdk/integration.hpp"
+
 class Compositor;
 class Controller;
 
@@ -53,6 +55,13 @@ public:
    * updates and logic here
    */
   virtual void update(float dt_sec, const Controller& controller) = 0;
+
+  /** 
+   * Gives details about what the user is doing right now.
+   * 
+   * @returns activity details for presence integrations
+   */
+  virtual IntegrationStatus get_status() const = 0;
 };
 
 #endif
