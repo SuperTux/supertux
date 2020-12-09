@@ -16,7 +16,7 @@
 
 #include "object/path_gameobject.hpp"
 
-#include <boost/optional.hpp>
+#include <optional>
 
 #include "object/path.hpp"
 #include "sprite/sprite.hpp"
@@ -75,7 +75,7 @@ PathGameObject::PathGameObject(const ReaderMapping& mapping, bool backward_compa
   }
   else
   {
-    boost::optional<ReaderMapping> path_mapping;
+    std::optional<ReaderMapping> path_mapping;
     if (mapping.get("path", path_mapping))
     {
       m_path->read(*path_mapping);
@@ -110,7 +110,7 @@ PathGameObject::draw(DrawingContext& context)
 {
   if (m_style == PathStyle::SOLID)
   {
-    boost::optional<Vector> previous_node;
+    std::optional<Vector> previous_node;
     for (const auto& node : m_path->get_nodes())
     {
       if (previous_node)
@@ -144,7 +144,7 @@ PathGameObject::draw(DrawingContext& context)
     const Color node_color = Color::BLUE;
     const Color edge_color = Color::MAGENTA;
 
-    boost::optional<Vector> previous_node;
+    std::optional<Vector> previous_node;
     for (const auto& node : m_path->get_nodes())
     {
       if (previous_node)

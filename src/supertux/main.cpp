@@ -154,13 +154,13 @@ Main::init_tinygettext()
 class PhysfsSubsystem final
 {
 private:
-  boost::optional<std::string> m_forced_datadir;
-  boost::optional<std::string> m_forced_userdir;
+  std::optional<std::string> m_forced_datadir;
+  std::optional<std::string> m_forced_userdir;
 
 public:
   PhysfsSubsystem(const char* argv0,
-                  boost::optional<std::string> forced_datadir,
-                  boost::optional<std::string> forced_userdir) :
+                  std::optional<std::string> forced_datadir,
+                  std::optional<std::string> forced_userdir) :
     m_forced_datadir(std::move(forced_datadir)),
     m_forced_userdir(std::move(forced_userdir))
   {
@@ -500,12 +500,12 @@ Main::launch_game(const CommandLineArguments& args)
 
         if (args.sector || args.spawnpoint)
         {
-          std::string sectorname = args.sector.get_value_or("main");
+          std::string sectorname = args.sector.value_or("main");
 
           const auto& spawnpoints = session->get_current_sector().get_objects_by_type<SpawnPointMarker>();
           std::string default_spawnpoint = (spawnpoints.begin() != spawnpoints.end()) ?
             "" : spawnpoints.begin()->get_name();
-          std::string spawnpointname = args.spawnpoint.get_value_or(default_spawnpoint);
+          std::string spawnpointname = args.spawnpoint.value_or(default_spawnpoint);
 
           session->set_start_point(sectorname, spawnpointname);
           session->restart_level();

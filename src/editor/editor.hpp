@@ -153,7 +153,7 @@ private:
   void reload_level();
   void quit_editor();
   void save_level();
-  void test_level(const boost::optional<std::pair<std::string, Vector>>& test_pos);
+  void test_level(const std::optional<std::pair<std::string, Vector>>& test_pos);
   void update_keyboard(const Controller& controller);
 
 protected:
@@ -172,7 +172,7 @@ public:
   bool m_save_request;
   bool m_test_request;
   bool m_particle_editor_request;
-  boost::optional<std::pair<std::string, Vector>> m_test_pos;
+  std::optional<std::pair<std::string, Vector>> m_test_pos;
 
   std::unique_ptr<Savegame> m_savegame;
   std::string* m_particle_editor_filename;

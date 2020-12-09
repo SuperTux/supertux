@@ -19,7 +19,7 @@
 
 #include <string>
 #include <tuple>
-#include <boost/optional.hpp>
+#include <optional>
 
 #include "math/rect.hpp"
 #include "video/flip.hpp"
@@ -48,7 +48,7 @@ public:
   virtual int get_image_height() const = 0;
 
 private:
-  boost::optional<Key> m_cache_key;
+  std::optional<Key> m_cache_key;
 
 private:
   Texture(const Texture&) = delete;

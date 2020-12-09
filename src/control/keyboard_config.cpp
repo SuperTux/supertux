@@ -16,7 +16,7 @@
 
 #include "control/keyboard_config.hpp"
 
-#include <boost/optional.hpp>
+#include <optional>
 
 #include "util/log.hpp"
 #include "util/reader_mapping.hpp"
@@ -92,7 +92,7 @@ KeyboardConfig::read(const ReaderMapping& keymap_mapping)
     std::string control_text;
     map.get("control", control_text);
 
-    const boost::optional<Control> maybe_control = Control_from_string(control_text);
+    const std::optional<Control> maybe_control = Control_from_string(control_text);
     if (maybe_control) {
       if (m_configurable_controls.count(*maybe_control)) {
         bind_key(static_cast<SDL_Keycode>(key), *maybe_control);
