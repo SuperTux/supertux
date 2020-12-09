@@ -52,6 +52,14 @@ public:
   static int constexpr const max_amount = 500;
   static int constexpr const min_amount = 0;
 
+  virtual void expose(HSQUIRRELVM vm, SQInteger table_idx) override {
+    ExposedObject<CloudParticleSystem, scripting::Clouds>::expose(vm, table_idx);
+  }
+
+  virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx) override {
+    ExposedObject<CloudParticleSystem, scripting::Clouds>::unexpose(vm, table_idx);
+  }
+
 private:
   /** Returns the amount that got inserted (In case max_amount got hit) */
   int add_clouds(int amount, float fade_time);

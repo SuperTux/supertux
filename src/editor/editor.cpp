@@ -311,14 +311,10 @@ Editor::test_level(const boost::optional<std::pair<std::string, Vector>>& test_p
 
   if (!m_level->is_worldmap())
   {
-    Integration::set_level(m_level->get_name().c_str());
-    Integration::set_status(TESTING_LEVEL);
     GameManager::current()->start_level(*current_world, backup_filename, test_pos);
   }
   else
   {
-    Integration::set_worldmap(m_level->get_name().c_str());
-    Integration::set_status(TESTING_WORLDMAP);
     GameManager::current()->start_worldmap(*current_world, "", m_autosave_levelfile);
   }
 
@@ -336,7 +332,6 @@ Editor::open_level_directory()
 void
 Editor::set_world(std::unique_ptr<World> w)
 {
-  Integration::set_worldmap(w->get_title().c_str());
   m_world = std::move(w);
 }
 
@@ -456,17 +451,6 @@ Editor::delete_current_sector()
 void
 Editor::set_level(std::unique_ptr<Level> level, bool reset)
 {
-  if (level->is_worldmap())
-  {
-    Integration::set_worldmap(level->get_name().c_str());
-    Integration::set_status(EDITING_WORLDMAP);
-  }
-  else
-  {
-    Integration::set_level(level->get_name().c_str());
-    Integration::set_status(EDITING_LEVEL);
-  }
-
   std::string sector_name = "main";
   Vector translation;
 
@@ -549,8 +533,6 @@ Editor::quit_editor()
     m_enabled = false;
     Tile::draw_editor_images = false;
     ScreenManager::current()->pop_screen();
-    
-    Integration::set_status(MAIN_MENU);
   };
 
   check_unsaved_changes([quit] {
@@ -643,15 +625,6 @@ Editor::setup()
     m_deactivate_request = false;
     m_enabled = true;
     m_toolbox_widget->update_mouse_icon();
-
-    if (m_level->is_worldmap())
-    {
-      Integration::set_status(EDITING_WORLDMAP);
-    }
-    else
-    {
-      Integration::set_status(EDITING_LEVEL);
-    }
   }
   
 }
@@ -861,6 +834,25 @@ Editor::redo()
   } else {
     log_info << "redo failed" << std::endl;
   }
+}
+
+IntegrationStatus
+Editor::get_status() const
+{
+  IntegrationStatus status;
+  status.m_details.push_back("In Editor");
+  if (!g_config->hide_editor_levelnames)
+  {
+    if (m_level->is_worldmap())
+    {
+      status.m_details.push_back("Editing worldmap: " + m_level->get_name());
+    }
+    else
+    {
+      status.m_details.push_back("Editing level: " + m_level->get_name());
+    }
+  }
+  return status;
 }
 
 /* EOF */

@@ -44,6 +44,7 @@ public:
   virtual void setup() override;
   virtual void draw(Compositor& compositor) override;
   virtual void update(float dt_sec, const Controller& controller) override;
+  virtual IntegrationStatus get_status() const override;
 
 private:
   void draw_stats_line(DrawingContext& context, int& py, const std::string& name, const std::string& stat, bool isPerfect);

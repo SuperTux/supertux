@@ -81,28 +81,28 @@ extern "C" {
 } // extern "C"
 
 
-DiscordIntegration* DiscordIntegration::singleton;
+DiscordIntegration* DiscordIntegration::driver;
 
 DiscordIntegration::DiscordIntegration() :
-  m_status(IntegrationStatus::MAIN_MENU),
-  m_level(),
-  m_worldmap(),
+  Integration(),
   m_enabled(false)
 {
 }
 
 DiscordIntegration::~DiscordIntegration()
 {
+  // It shouldn't get here, but just in case
+  close();
 }
 
 DiscordIntegration*
-DiscordIntegration::getSingleton()
+DiscordIntegration::getDriver()
 {
-  if (!singleton)
+  if (!driver)
   {
-    singleton = new DiscordIntegration();
+    driver = new DiscordIntegration();
   }
-  return singleton;
+  return driver;
 }
 
 void
@@ -120,11 +120,9 @@ DiscordIntegration::init()
   handlers.joinRequest = handleDiscordJoinRequest;
   Discord_Initialize("733576109744062537", &handlers, 1, nullptr);
 
-  update_discord_presence();
+  log_info << "[Discord] Started" << std::endl;
 
   m_enabled = true;
-
-  log_info << "[Discord] Started" << std::endl;
 }
 
 void
@@ -146,13 +144,13 @@ DiscordIntegration::close()
   Discord_ClearPresence();
   Discord_Shutdown();
 
-  m_enabled = false;
-
   log_info << "[Discord] Closed" << std::endl;
+
+  m_enabled = false;
 }
 
 void
-DiscordIntegration::update_discord_presence()
+DiscordIntegration::update_status(IntegrationStatus status)
 {
   if (!m_enabled) return;
 
@@ -176,115 +174,24 @@ DiscordIntegration::update_discord_presence()
    *   instance
    */
 
-  char state_buffer[256];
+  if (status.m_details.size() >= 1)
+    discordPresence.state = status.m_details.begin()->c_str();
 
-  switch(m_status)
-  {
-  case IntegrationStatus::MAIN_MENU:
-    discordPresence.state = "Main Menu";
-    break;
+  if (status.m_details.size() >= 2)
+    discordPresence.details = (status.m_details.begin() + 1)->c_str();
 
-  case IntegrationStatus::PLAYING_WORLDMAP:
-    sprintf(state_buffer, "In worldmap: %s", m_worldmap);
-    discordPresence.state = state_buffer;
-    discordPresence.smallImageKey = "play";
-    break;
-
-  case IntegrationStatus::PLAYING_LEVEL:
-  case IntegrationStatus::PLAYING_LEVEL_FROM_WORLDMAP:
-    sprintf(state_buffer, "In level: %s", m_level);
-    discordPresence.state = state_buffer;
-    discordPresence.details = m_worldmap;
-    discordPresence.smallImageKey = "play";
-    break;
-
-  case IntegrationStatus::EDITING_WORLDMAP:
-    if (!g_config->discord_hide_editor)
-    {
-      sprintf(state_buffer, "Editing worldmap: %s", m_worldmap);
-      discordPresence.state = state_buffer;
+  if (status.m_timestamp != 0) {
+    if (status.m_timestamp > time(nullptr)) {
+      discordPresence.endTimestamp = status.m_timestamp;
+    } else {
+      discordPresence.startTimestamp = status.m_timestamp;
     }
-    else
-    {
-      discordPresence.state = "In editor";
-    }
-    discordPresence.smallImageKey = "edit";
-    break;
-
-  case IntegrationStatus::EDITING_LEVEL:
-    if (!g_config->discord_hide_editor)
-    {
-      sprintf(state_buffer, "Editing level: %s", m_level);
-      discordPresence.state = state_buffer;
-      discordPresence.details = m_worldmap;
-    }
-    else
-    {
-      discordPresence.state = "In editor";
-    }
-    discordPresence.smallImageKey = "edit";
-    break;
-
-  case IntegrationStatus::TESTING_WORLDMAP:
-    if (!g_config->discord_hide_editor)
-    {
-      sprintf(state_buffer, "Testing worldmap: %s", m_worldmap);
-      discordPresence.state = state_buffer;
-    }
-    else
-    {
-      discordPresence.state = "In Level Editor";
-    }
-    discordPresence.smallImageKey = "edit";
-    break;
-
-  case IntegrationStatus::TESTING_LEVEL:
-  case IntegrationStatus::TESTING_LEVEL_FROM_WORLDMAP:
-    if (!g_config->discord_hide_editor)
-    {
-      sprintf(state_buffer, "Testing level: %s", m_level);
-      discordPresence.state = state_buffer;
-      discordPresence.details = m_worldmap;
-    }
-    else
-    {
-      discordPresence.state = "In editor";
-    }
-    discordPresence.smallImageKey = "edit";
-    break;
-
-  default:
-    break;
   }
 
+  // TODO: Manage parties and all
+
   discordPresence.largeImageKey = "supertux_logo";
-  discordPresence.startTimestamp = time(nullptr); // TODO: Option to disable timers?
   Discord_UpdatePresence(&discordPresence);
-
-}
-
-void
-DiscordIntegration::update_status(IntegrationStatus status)
-{
-  m_status = status;
-
-  if (!m_enabled) return;
-  update_discord_presence();
-}
-
-void
-DiscordIntegration::update_worldmap(const char* worldmap)
-{
-  m_worldmap = new char[strlen(worldmap) + 1];
-  strcpy(m_worldmap, worldmap);
-}
-
-void
-DiscordIntegration::update_level(const char* level)
-{
-  printf("%s\n", level);
-  m_level = new char[strlen(level) + 1];
-  strcpy(m_level, level);
 }
 
 #endif

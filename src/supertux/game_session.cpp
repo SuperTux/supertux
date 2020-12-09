@@ -461,6 +461,22 @@ GameSession::update(float dt_sec, const Controller& controller)
   }
 }
 
+IntegrationStatus
+GameSession::get_status() const
+{
+  IntegrationStatus status;
+  status.m_details.push_back("Playing");
+  if (get_current_level().is_worldmap())
+  {
+    status.m_details.push_back("In worldmap: " + get_current_level().get_name());
+  }
+  else
+  {
+    status.m_details.push_back("In level: " + get_current_level().get_name());
+  }
+  return status;
+}
+
 void
 GameSession::finish(bool win)
 {

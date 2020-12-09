@@ -701,6 +701,14 @@
       (x 96)
       (y 0)
     )
+    (scripttrigger
+      (script "state.iv_secret = true;")
+      (button #f)
+      (width 32)
+      (height 512)
+      (x 3488)
+      (y 0)
+    )
     (sequencetrigger
       (sequence "stoptux")
       (width 64)
