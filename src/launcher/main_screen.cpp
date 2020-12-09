@@ -34,7 +34,7 @@
 #include "video/surface.hpp"
 #include "video/video_system.hpp"
 
-MainScreen::MainScreen() :
+MainScreen::MainScreen(char* arg0) :
   m_frame(Surface::from_file("images/engine/launcher/background.png")),
   m_controller(new CodeController()),
   m_copyright_text("SuperTux Launcher " PACKAGE_VERSION "\n" +
@@ -42,7 +42,8 @@ MainScreen::MainScreen() :
     _("This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
       "redistribute it under certain conditions; see the license file for details.\n"
       )),
-  m_videosystem_name(VideoSystem::current()->get_name())
+  m_videosystem_name(VideoSystem::current()->get_name()),
+  m_arg0(arg0)
 {
 }
 
@@ -53,7 +54,7 @@ MainScreen::~MainScreen()
 void
 MainScreen::setup()
 {
-  MenuManager::instance().set_menu(std::make_unique<LauncherMainMenu>());
+  MenuManager::instance().set_menu(std::make_unique<LauncherMainMenu>(m_arg0));
 }
 
 void
@@ -96,7 +97,7 @@ MainScreen::update(float dt_sec, const Controller& controller)
   // accidently hit ESC)
   if (!MenuManager::instance().is_active())
   {
-    MenuManager::instance().set_menu(std::make_unique<LauncherMainMenu>());
+    MenuManager::instance().set_menu(std::make_unique<LauncherMainMenu>(m_arg0));
   }
 }
 

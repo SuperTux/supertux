@@ -124,7 +124,8 @@ public:
   }
 };
 
-LauncherMain::LauncherMain()
+LauncherMain::LauncherMain() :
+  arg0()
 {
 }
 
@@ -453,7 +454,7 @@ LauncherMain::launch_game(const CommandLineArguments& args)
   GameManager game_manager;
   ScreenManager screen_manager(*video_system, input_manager);
 
-  screen_manager.push_screen(std::make_unique<MainScreen>());
+  screen_manager.push_screen(std::make_unique<MainScreen>(arg0));
 
   screen_manager.run();
 }
@@ -461,6 +462,7 @@ LauncherMain::launch_game(const CommandLineArguments& args)
 int
 LauncherMain::run(int argc, char** argv)
 {
+  arg0 = argv[0];
 #ifdef WIN32
 	//SDL is used instead of PHYSFS because both create the same path in app data
 	//However, PHYSFS is not yet initizlized, and this should be run before anything is initialized

@@ -1,5 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2009 Ingo Ruhnke <grumbel@gmail.com>
+//  Copyright (C) 2020 A. Semphris <semphris@protonmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -21,16 +22,20 @@
 
 enum LauncherMainMenuIDs {
   MNID_LAUNCH,
+  MNID_LAUNCH_OTHER,
   MNID_QUITMAINMENU
 };
 
 class LauncherMainMenu final : public Menu
 {
 public:
-  LauncherMainMenu();
+  LauncherMainMenu(char* arg0);
 
   void on_window_resize() override;
   void menu_action(MenuItem& item) override;
+
+private:
+  char* m_arg0;
 
 private:
   LauncherMainMenu(const LauncherMainMenu&) = delete;

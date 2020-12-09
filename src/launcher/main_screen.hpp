@@ -31,7 +31,7 @@ class Savegame;
 class MainScreen final : public Screen
 {
 public:
-  MainScreen();
+  MainScreen(char* arg0);
   virtual ~MainScreen();
 
   virtual void setup() override;
@@ -40,11 +40,15 @@ public:
   virtual void draw(Compositor& compositor) override;
   virtual void update(float dt_sec, const Controller& controller) override;
 
+  // Needed, but irrelevant
+  virtual IntegrationStatus get_status() const override { return IntegrationStatus(); }
+
 private:
   SurfacePtr m_frame;
   std::unique_ptr<CodeController> m_controller;
   std::string m_copyright_text;
   std::string m_videosystem_name;
+  char* m_arg0;
 
 private:
   MainScreen(const MainScreen&) = delete;

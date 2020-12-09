@@ -27,8 +27,6 @@ class LauncherMain final
 public:
   LauncherMain();
 
-  /** We call it run() instead of LauncherMain() as LauncherMain collides with
-      #define LauncherMain SDL_LauncherMain from SDL.h */
   int run(int argc, char** argv);
 
 private:
@@ -37,6 +35,9 @@ private:
 
   void launch_game(const CommandLineArguments& args);
   void resave(const std::string& input_filename, const std::string& output_filename);
+
+private:
+  char* arg0;
 
 private:
   LauncherMain(const LauncherMain&) = delete;
