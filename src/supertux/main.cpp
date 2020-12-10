@@ -23,7 +23,6 @@
 
 #include <SDL_image.h>
 #include <SDL_ttf.h>
-#include <boost/locale.hpp>
 #include <physfs.h>
 #include <tinygettext/log.hpp>
 extern "C" {
@@ -564,7 +563,7 @@ Main::run(int argc, char** argv)
 #endif
 
   // Create and install global locale
-  std::locale::global(boost::locale::generator().generate(""));
+  std::locale::global(std::locale::classic());
 
   int result = 0;
 
