@@ -16,6 +16,8 @@
 
 #include "gui/menu.hpp"
 
+#include <stdexcept>
+
 #include "control/input_manager.hpp"
 #include "gui/item_action.hpp"
 #include "gui/item_back.hpp"
