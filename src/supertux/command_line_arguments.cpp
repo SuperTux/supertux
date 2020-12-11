@@ -390,6 +390,8 @@ CommandLineArguments::parse_args(int argc, char** argv)
     {
       headless = true;
       video = VideoSystem::get_video_system("null");
+      sound_enabled = false;
+      music_enabled = false;
     }
     else if (arg == "--test-server")
     {

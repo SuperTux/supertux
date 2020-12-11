@@ -547,7 +547,7 @@ Main::launch_game(const CommandLineArguments& args)
     }
   }
 
-  screen_manager.run();
+  screen_manager.run(args.headless.get());
 }
 
 int

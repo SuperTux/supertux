@@ -457,7 +457,7 @@ ScreenManager::handle_screen_switch()
 }
 
 void
-ScreenManager::run()
+ScreenManager::run(bool headless)
 {
   Uint32 last_ticks = 0;
   Uint32 elapsed_ticks = 0;
@@ -532,8 +532,8 @@ ScreenManager::run()
       elapsed_ticks -= ms_per_step;
     }
 
-    if ((steps > 0 && !m_screen_stack.empty())
-        || g_debug.draw_redundant_frames) {
+    if (((steps > 0 && !m_screen_stack.empty())
+        || g_debug.draw_redundant_frames) && !headless) {
       // Draw a frame
       Compositor compositor(m_video_system);
       draw(compositor, fps_statistics);
