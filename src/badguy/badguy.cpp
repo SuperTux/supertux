@@ -323,7 +323,7 @@ BadGuy::collision_tile(uint32_t tile_attributes)
   }
 
   if (tile_attributes & Tile::HURTS && is_hurtable()) {
-    if (tile_attributes & Tile::FIRE && is_flammable) {
+    if (tile_attributes & Tile::FIRE && is_flammable()) {
       ignite();
     } else if (tile_attributes & Tile::ICE && is_freezable()) {
       freeze();
