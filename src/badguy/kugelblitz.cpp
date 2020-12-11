@@ -82,8 +82,9 @@ Kugelblitz::collision_player(Player& player, const CollisionHit& )
   if (player.get_movement().y - get_movement().y > 0 && player.get_bbox().get_bottom() <
      (m_col.m_bbox.get_top() + m_col.m_bbox.get_bottom()) / 2) {
     // if it's not is it possible to squish us, then this will hurt
-    if (!collision_squished(player))
+    if (!collision_squished(player)) {
       player.kill(false);
+    }
     explode();
     return FORCE_MOVE;
   }
@@ -106,8 +107,7 @@ Kugelblitz::hit(const CollisionHit& hit_)
 {
   // hit floor?
   if (hit_.bottom) {
-    if (!groundhit_pos_set)
-    {
+    if (!groundhit_pos_set) {
       pos_groundhit = get_pos();
       groundhit_pos_set = true;
     }
@@ -119,7 +119,6 @@ Kugelblitz::hit(const CollisionHit& hit_)
     m_physic.set_velocity_x(static_cast<float>(speed));
     movement_timer.start(MOVETIME);
     lifetime.start(LIFETIME);
-
   }
 
   return CONTINUE;
@@ -130,11 +129,15 @@ Kugelblitz::active_update(float dt_sec)
 {
   if (lifetime.check()) {
     explode();
-  }
-  else {
+  } else {
     if (groundhit_pos_set) {
       if (movement_timer.check()) {
-        if (direction == 1) direction = -1; else direction = 1;
+        if (direction == 1) {
+          direction = -1;
+        } else {
+          direction = 1;
+        }
+
         int speed = (BASE_SPEED + (gameRandom.rand(RAND_SPEED))) * direction;
         m_physic.set_velocity_x(static_cast<float>(speed));
         movement_timer.start(MOVETIME);
@@ -182,12 +185,13 @@ Kugelblitz::try_activate()
   float Y_OFFSCREEN_DISTANCE = 600;
 
   auto player_ = get_nearest_player();
-  if (!player_) return;
+  if (!player_) {
+    return;
+  }
   Vector dist = player_->get_bbox().get_middle() - m_col.m_bbox.get_middle();
   if ((fabsf(dist.x) <= X_OFFSCREEN_DISTANCE) && (fabsf(dist.y) <= Y_OFFSCREEN_DISTANCE)) {
     set_state(STATE_ACTIVE);
     if (!m_is_initialized) {
-
       // if starting direction was set to AUTO, this is our chance to re-orient the badguy
       if (m_start_dir == Direction::AUTO) {
         Player* player__ = get_nearest_player();

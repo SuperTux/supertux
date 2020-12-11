@@ -48,8 +48,9 @@ bool
 Ghoul::collision_squished(GameObject& object)
 {
   auto player = Sector::get().get_nearest_player(m_col.m_bbox);
-  if (player)
+  if (player) {
     player->bounce (*this);
+  }
   m_sprite->set_action("squished", 1);
   kill_fall();
   return true;
@@ -78,8 +79,9 @@ Ghoul::finish_construction()
 void
 Ghoul::activate()
 {
-  if (Editor::is_active())
+  if (Editor::is_active()) {
     return;
+  }
 }
 
 void
@@ -104,18 +106,19 @@ Ghoul::active_update(float dt_sec)
   }
 
   auto player = get_nearest_player();
-  if (!player) 
-  return;
+  if (!player) {
+    return;
+  }
   Vector p1 = m_col.m_bbox.get_middle();
   Vector p2 = player->get_bbox().get_middle();
   Vector dist = (p2 - p1);
-  
+
   const Rectf& player_bbox = player->get_bbox();
-  
+
   if (player_bbox.get_right() < m_col.m_bbox.get_left()) {
     m_sprite->set_action("left", -1);
   }
-  
+
   if (player_bbox.get_left() > m_col.m_bbox.get_right()) {
     m_sprite->set_action("right", -1);
   }
@@ -142,8 +145,9 @@ Ghoul::active_update(float dt_sec)
 
     case STATE_PATHMOVING:
     case STATE_PATHMOVING_TRACK:
-      if (get_walker() == nullptr)
+      if (get_walker() == nullptr) {
         return;
+      }
       get_walker()->update(dt_sec);
       m_col.m_movement = get_walker()->get_pos() - get_pos();
       if (m_mystate == STATE_PATHMOVING_TRACK && dist.norm() <= m_track_range) {
