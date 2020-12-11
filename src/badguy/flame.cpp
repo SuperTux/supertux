@@ -74,15 +74,17 @@ Flame::active_update(float dt_sec)
     sound_source->set_position(get_pos());
   }
 
-  if (m_sprite->get_action() == "fade" && m_sprite->animation_done())
+  if (m_sprite->get_action() == "fade" && m_sprite->animation_done()) {
     remove_me();
+  }
 }
 
 void
 Flame::activate()
 {
-  if (Editor::is_active())
+  if (Editor::is_active()) {
     return;
+  }
   sound_source = SoundManager::current()->create_sound_source(FLAME_SOUND);
   sound_source->set_position(get_pos());
   sound_source->set_looping(true);
@@ -132,14 +134,16 @@ Flame::is_flammable() const
 
 void Flame::stop_looping_sounds()
 {
-  if (sound_source)
+  if (sound_source) {
     sound_source->stop();
+  }
 }
 
 void Flame::play_looping_sounds()
 {
-  if (sound_source)
+  if (sound_source) {
     sound_source->play();
+  }
 }
 
 /* EOF */

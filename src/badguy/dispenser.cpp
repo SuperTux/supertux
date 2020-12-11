@@ -81,8 +81,12 @@ Dispenser::Dispenser(const ReaderMapping& reader) :
   set_colgroup_active(COLGROUP_MOVING_STATIC);
   SoundManager::current()->preload("sounds/squish.wav");
   reader.get("cycle", m_cycle, 5.0f);
-  if (reader.get("gravity", m_gravity)) m_physic.enable_gravity(true);
-  if ( !reader.get("badguy", m_badguys)) m_badguys.clear();
+  if (reader.get("gravity", m_gravity)) {
+    m_physic.enable_gravity(true);
+  }
+  if (!reader.get("badguy", m_badguys)) {
+    m_badguys.clear();
+  }
   reader.get("random", m_random, false);
   std::string type_s = "dropper"; //default
   reader.get("type", type_s, "");
@@ -205,7 +209,7 @@ Dispenser::collision(GameObject& other, const CollisionHit& hit)
       collision_squished(*player);
       return FORCE_MOVE;
     }
-    if (m_frozen && m_type != DispenserType::CANNON){
+    if (m_frozen && m_type != DispenserType::CANNON) {
       unfreeze();
     }
     return FORCE_MOVE;
@@ -268,12 +272,12 @@ Dispenser::launch_badguy()
     if (m_badguys.size() > 1) {
       if (m_random) {
         m_next_badguy = static_cast<unsigned int>(gameRandom.rand(static_cast<int>(m_badguys.size())));
-      }
-      else {
+      } else {
         m_next_badguy++;
 
-        if (m_next_badguy >= m_badguys.size())
+        if (m_next_badguy >= m_badguys.size()) {
           m_next_badguy = 0;
+        }
       }
     }
 
@@ -291,8 +295,9 @@ Dispenser::launch_badguy()
     try {
       /* Need to allocate the badguy first to figure out its bounding box. */
       auto game_object = GameObjectFactory::instance().create(badguy, get_pos(), launchdir);
-      if (game_object == nullptr)
+      if (game_object == nullptr) {
         throw std::runtime_error("Creating " + badguy + " object failed.");
+      }
 
       auto& bad_guy = dynamic_cast<BadGuy&>(*game_object);
 
@@ -308,10 +313,11 @@ Dispenser::launch_badguy()
         case DispenserType::ROCKETLAUNCHER:
         case DispenserType::CANNON:
           spawnpoint = get_pos(); /* top-left corner of the cannon */
-          if (launchdir == Direction::LEFT)
+          if (launchdir == Direction::LEFT) {
             spawnpoint.x -= object_bbox.get_width() + 1;
-          else
+          } else {
             spawnpoint.x += m_col.m_bbox.get_width() + 1;
+          }
           break;
 
         case DispenserType::POINT:
@@ -329,8 +335,7 @@ Dispenser::launch_badguy()
       bad_guy.m_countMe = false;
 
       /* Set reference to dispenser in badguy itself */
-      if (m_limit_dispensed_badguys)
-      {
+      if (m_limit_dispensed_badguys) {
         bad_guy.set_parent_dispenser(this);
         m_current_badguys++;
       }
@@ -353,28 +358,19 @@ Dispenser::freeze()
   set_group(COLGROUP_MOVING_STATIC);
   m_frozen = true;
 
-    if (m_type == DispenserType::ROCKETLAUNCHER && m_sprite->has_action("iced-left"))
+  if (m_type == DispenserType::ROCKETLAUNCHER && m_sprite->has_action("iced-left")) {
     // Only swivel dispensers can use their left/right iced actions.
     m_sprite->set_action(m_dir == Direction::LEFT ? "iced-left" : "iced-right", 1);
-    // when the sprite doesn't have separate actions for left and right or isn't a rocketlauncher,
-    // it tries to use an universal one.
-  else
-  {
-    if (m_type == DispenserType::CANNON && m_sprite->has_action("iced"))
-      m_sprite->set_action("iced", 1);
-      // When is the dispenser a cannon, it uses the "iced" action.
-    else
-    {
-      if (m_sprite->has_action("dropper-iced"))
-        m_sprite->set_action("dropper-iced", 1);
-        // When is the dispenser a dropper, it uses the "dropper-iced".
-      else
-      {
-        m_sprite->set_color(Color(0.6f, 0.72f, 0.88f));
-        m_sprite->stop_animation();
-        // When is the dispenser something else (unprobable), or has no matching iced sprite, it shades to blue.
-      }
-    }
+  } else if (m_type == DispenserType::CANNON && m_sprite->has_action("iced")) {
+    // When is the dispenser a cannon, it uses the "iced" action.
+    m_sprite->set_action("iced", 1);
+  } else if (m_sprite->has_action("dropper-iced")) {
+    // When is the dispenser a dropper, it uses the "dropper-iced".
+    m_sprite->set_action("dropper-iced", 1);
+  } else {
+    // When is the dispenser something else (unprobable), or has no matching iced sprite, it shades to blue.
+    m_sprite->set_color(Color(0.6f, 0.72f, 0.88f));
+    m_sprite->stop_animation();
   }
   m_dispense_timer.stop();
 }

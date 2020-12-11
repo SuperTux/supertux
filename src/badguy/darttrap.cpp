@@ -44,11 +44,15 @@ DartTrap::DartTrap(const ReaderMapping& reader) :
   reader.get("ammo", ammo, -1);
   m_countMe = false;
   SoundManager::current()->preload("sounds/dartfire.wav");
-  if (m_start_dir == Direction::AUTO) { log_warning << "Setting a DartTrap's direction to AUTO is no good idea" << std::endl; }
+  if (m_start_dir == Direction::AUTO) {
+    log_warning << "Setting a DartTrap's direction to AUTO is no good idea" << std::endl;
+  }
   state = IDLE;
   set_colgroup_active(COLGROUP_DISABLED);
 
-  if (!Editor::is_active() && initial_delay == 0) initial_delay = 0.1f;
+  if (!Editor::is_active() && initial_delay == 0) {
+    initial_delay = 0.1f;
+  }
 }
 
 void
@@ -78,14 +82,18 @@ DartTrap::active_update(float )
   switch (state) {
     case IDLE:
       if ((ammo != 0) && (fire_timer.check())) {
-        if (ammo > 0) ammo--;
+        if (ammo > 0) {
+          ammo--;
+        }
         load();
         fire_timer.start(fire_delay);
       }
       break;
 
     case LOADING:
-      if (m_sprite->animation_done()) fire();
+      if (m_sprite->animation_done()) {
+        fire();
+      }
       break;
 
     default:
@@ -104,7 +112,9 @@ void
 DartTrap::fire()
 {
   float px = get_pos().x;
-  if (m_dir == Direction::RIGHT) px += 5;
+  if (m_dir == Direction::RIGHT) {
+    px += 5;
+  }
   float py = get_pos().y;
   py += MUZZLE_Y;
 

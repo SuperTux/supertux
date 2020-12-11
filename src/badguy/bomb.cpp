@@ -43,12 +43,15 @@ Bomb::collision_solid(const CollisionHit& hit)
   if (is_grabbed()) {
     return;
   }
-  if (hit.top || hit.bottom)
+  if (hit.top || hit.bottom) {
     m_physic.set_velocity_y(0);
-  if (hit.left || hit.right)
+  }
+  if (hit.left || hit.right) {
     m_physic.set_velocity_x(-m_physic.get_velocity_x());
-  if (hit.crush)
+  }
+  if (hit.crush) {
     m_physic.set_velocity(0, 0);
+  }
 
   update_on_ground_flag(hit);
 }
@@ -68,12 +71,17 @@ Bomb::collision_badguy(BadGuy& , const CollisionHit& )
 void
 Bomb::active_update(float dt_sec)
 {
-  if (on_ground()) m_physic.set_velocity_x(0);
+  if (on_ground()) {
+    m_physic.set_velocity_x(0);
+  }
 
   ticking->set_position(get_pos());
 
-  if (m_sprite->animation_done()) explode();
-  else if (!is_grabbed()) m_col.m_movement = m_physic.get_movement(dt_sec);
+  if (m_sprite->animation_done()) {
+    explode();
+  } else if (!is_grabbed()) {
+    m_col.m_movement = m_physic.get_movement(dt_sec);
+  }
 }
 
 void
@@ -87,8 +95,9 @@ Bomb::explode()
   if (is_grabbed()) {
     auto player = dynamic_cast<Player*>(m_owner);
 
-    if (player)
+    if (player) {
       player->stop_grabbing();
+    }
   }
 
   if (is_valid()) {
@@ -134,16 +143,18 @@ Bomb::ungrab(MovingObject& object, Direction dir_)
   auto player = dynamic_cast<Player*> (&object);
 
   // toss upwards
-  if (dir_ == Direction::UP)
+  if (dir_ == Direction::UP) {
     toss_velocity_y += -500;
+  }
 
   // toss to the side when moving sideways
   if (player && player->get_physic().get_velocity_x()*(dir_ == Direction::LEFT ? -1 : 1) > 1) {
     toss_velocity_x += (dir_ == Direction::LEFT) ? -200 : 200;
     toss_velocity_y = (toss_velocity_y < -200) ? toss_velocity_y : -200;
     // toss farther when running
-    if (player && player->get_physic().get_velocity_x()*(dir_ == Direction::LEFT ? -1 : 1) > 200)
+    if (player && player->get_physic().get_velocity_x()*(dir_ == Direction::LEFT ? -1 : 1) > 200) {
       toss_velocity_x += static_cast<int>(player->get_physic().get_velocity_x() - (190.0f * (dir_ == Direction::LEFT ? -1.0f : 1.0f)));
+    }
   }
 
   m_physic.set_velocity(static_cast<float>(toss_velocity_x),

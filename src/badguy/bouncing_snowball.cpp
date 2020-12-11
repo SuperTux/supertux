@@ -70,7 +70,9 @@ BouncingSnowball::collision_squished(GameObject& object)
 void
 BouncingSnowball::collision_solid(const CollisionHit& hit)
 {
-  if (m_sprite->get_action() == "squished") return;
+  if (m_sprite->get_action() == "squished") {
+    return;
+  }
 
   if (hit.bottom && get_state() == STATE_ACTIVE) {
     float bounce_speed = -m_physic.get_velocity_y()*0.8f;

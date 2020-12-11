@@ -121,12 +121,14 @@ GhostTree::active_update(float /*dt_sec*/)
         willowisps.push_back(&willowisp);
 
         willo_spawn_y -= 40;
-        if (willo_spawn_y < -160)
+        if (willo_spawn_y < -160) {
           willo_spawn_y = 0;
+        }
 
         willo_radius += 20;
-        if (willo_radius > 120)
+        if (willo_radius > 120) {
           willo_radius = 0;
+        }
 
         if (willo_speed == 1.8f) {
           willo_speed = 1.5f;
@@ -190,7 +192,9 @@ GhostTree::active_update(float /*dt_sec*/)
 bool
 GhostTree::is_color_deadly(Color color) const
 {
-  if (color == Color(0,0,0)) return false;
+  if (color == Color(0,0,0)) {
+    return false;
+  }
   Color my_color = glow_sprite->get_color();
   return ((my_color.red != color.red) || (my_color.green != color.green) || (my_color.blue != color.blue));
 }
@@ -226,16 +230,23 @@ GhostTree::draw(DrawingContext& context)
 bool
 GhostTree::collides(GameObject& other, const CollisionHit& ) const
 {
-  if (mystate != STATE_SUCKING) return false;
-  if (dynamic_cast<Lantern*>(&other)) return true;
-  if (dynamic_cast<Player*>(&other)) return true;
+  if (mystate != STATE_SUCKING) {
+    return false;
+  } else if (dynamic_cast<Lantern*>(&other)) {
+    return true;
+  } else if (dynamic_cast<Player*>(&other)) {
+    return true;
+  }
+
   return false;
 }
 
 HitResponse
 GhostTree::collision(GameObject& other, const CollisionHit& )
 {
-  if (mystate != STATE_SUCKING) return ABORT_MOVE;
+  if (mystate != STATE_SUCKING) {
+    return ABORT_MOVE;
+  }
 
   auto player = dynamic_cast<Player*>(&other);
   if (player) {

@@ -100,8 +100,11 @@ AngryStone::active_update(float dt_sec) {
 
       if ((dx > -playerWidth) && (dx < badguyWidth)) {
         attackDirection.x = 0;
-        if (dy > 0) attackDirection.y = 1;
-        else attackDirection.y = -1;
+        if (dy > 0) {
+          attackDirection.y = 1;
+        } else {
+          attackDirection.y = -1;
+        }
 
         if ((attackDirection.x != oldWallDirection.x) || (attackDirection.y != oldWallDirection.y)) {
           m_sprite->set_action("charging");
@@ -110,8 +113,11 @@ AngryStone::active_update(float dt_sec) {
         }
       } else if ((dy > -playerHeight) && (dy < badguyHeight)) {
         attackDirection.y = 0;
-        if (dx > 0) attackDirection.x = 1;
-        else attackDirection.x = -1;
+        if (dx > 0) {
+          attackDirection.x = 1;
+        } else {
+          attackDirection.x = -1;
+        }
 
         if ((attackDirection.x != oldWallDirection.x) || (attackDirection.y != oldWallDirection.y)) {
           m_sprite->set_action("charging");
