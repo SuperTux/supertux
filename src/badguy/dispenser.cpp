@@ -86,18 +86,14 @@ Dispenser::Dispenser(const ReaderMapping& reader) :
   reader.get("random", m_random, false);
   std::string type_s = "dropper"; //default
   reader.get("type", type_s, "");
-  try
-  {
+  try {
     m_type = DispenserType_from_string(type_s);
   }
-  catch(std::exception&)
-  {
-    if (!Editor::is_active())
-    {
+  catch(std::exception&) {
+    if (!Editor::is_active()) {
       if (type_s.empty()) {
         log_warning << "No dispenser type set, setting to dropper." << std::endl;
-      }
-      else {
+      } else {
         log_warning << "Unknown type of dispenser:" << type_s << ", setting to dropper." << std::endl;
       }
     }
@@ -112,8 +108,7 @@ Dispenser::Dispenser(const ReaderMapping& reader) :
 //  if (badguys.size() <= 0)
 //    throw std::runtime_error("No badguys in dispenser.");
 
-  switch (m_type)
-  {
+  switch (m_type) {
     case DispenserType::DROPPER:
       m_sprite->set_action("dropper");
       break;
@@ -155,15 +150,14 @@ Dispenser::draw(DrawingContext& context)
 void
 Dispenser::activate()
 {
-  if (m_broken){
+  if (m_broken) {
     return;
   }
-  if (m_autotarget && !m_swivel){ // auto cannon sprite might be wrong
-    auto* player = get_nearest_player();
-    if (player) {
+
+  auto* player = get_nearest_player();
+  if (m_autotarget && !m_swivel && player) { // auto cannon sprite might be wrong
       m_dir = (player->get_pos().x > get_pos().x) ? Direction::RIGHT : Direction::LEFT;
       m_sprite->set_action(m_dir == Direction::LEFT ? "working-left" : "working-right");
-    }
   }
   m_dispense_timer.start(m_cycle, true);
   launch_badguy();
@@ -193,7 +187,7 @@ Dispenser::collision_squished(GameObject& object)
   m_dispense_timer.start(0);
   set_colgroup_active(COLGROUP_MOVING_STATIC); // Tux can stand on broken cannon.
   auto player = dynamic_cast<Player*>(&object);
-  if (player){
+  if (player) {
     player->bounce(*this);
   }
   SoundManager::current()->play("sounds/squish.wav", get_pos());
@@ -218,7 +212,7 @@ Dispenser::collision(GameObject& other, const CollisionHit& hit)
   }
 
   auto bullet = dynamic_cast<Bullet*> (&other);
-  if (bullet){
+  if (bullet) {
     return collision_bullet(*bullet, hit);
   }
 
@@ -228,22 +222,21 @@ Dispenser::collision(GameObject& other, const CollisionHit& hit)
 void
 Dispenser::active_update(float dt_sec)
 {
-  if (m_gravity)
-  {
+  if (m_gravity) {
     BadGuy::active_update(dt_sec);
   }
   if (m_dispense_timer.check()) {
     // auto always shoots in Tux's direction
     if (m_autotarget) {
-      if ( m_sprite->animation_done()) {
+      if (m_sprite->animation_done()) {
         m_sprite->set_action(m_dir == Direction::LEFT ? "working-left" : "working-right");
         m_swivel = false;
       }
 
       auto player = get_nearest_player();
-      if (player && !m_swivel){
+      if (player && !m_swivel) {
         Direction targetdir = (player->get_pos().x > get_pos().x) ? Direction::RIGHT : Direction::LEFT;
-        if ( m_dir != targetdir ){ // no target: swivel cannon
+        if (m_dir != targetdir) { // no target: swivel cannon
           m_swivel = true;
           m_dir = targetdir;
           m_sprite->set_action(m_dir == Direction::LEFT ? "swivel-left" : "swivel-right", 1);
@@ -260,20 +253,16 @@ Dispenser::active_update(float dt_sec)
 void
 Dispenser::launch_badguy()
 {
-  if (m_badguys.empty()) return;
-  if (m_frozen) return;
-  if (m_limit_dispensed_badguys &&
-      m_current_badguys >= m_max_concurrent_badguys)
-      return;
+  if (m_badguys.empty() || m_frozen || (m_limit_dispensed_badguys && m_current_badguys >= m_max_concurrent_badguys)) {
+    return;
+  }
 
   //FIXME: Does is_offscreen() work right here?
   if (!is_offscreen() && !Editor::is_active()) {
     Direction launchdir = m_dir;
-    if ( !m_autotarget && m_start_dir == Direction::AUTO ){
-      Player* player = get_nearest_player();
-      if ( player ){
-        launchdir = (player->get_pos().x > get_pos().x) ? Direction::RIGHT : Direction::LEFT;
-      }
+    Player* player = get_nearest_player();
+    if (!m_autotarget && m_start_dir == Direction::AUTO || player) {
+      launchdir = (player->get_pos().x > get_pos().x) ? Direction::RIGHT : Direction::LEFT;
     }
 
     if (m_badguys.size() > 1) {
@@ -310,8 +299,7 @@ Dispenser::launch_badguy()
       Rectf object_bbox = bad_guy.get_bbox();
 
       Vector spawnpoint;
-      switch (m_type)
-      {
+      switch (m_type) {
         case DispenserType::DROPPER:
           spawnpoint = get_anchor_pos (m_col.m_bbox, ANCHOR_BOTTOM);
           spawnpoint.x -= 0.5f * object_bbox.get_width();
