@@ -841,7 +841,7 @@ Editor::get_status() const
 {
   IntegrationStatus status;
   status.m_details.push_back("In Editor");
-  if (!g_config->hide_editor_levelnames)
+  if (!g_config->hide_editor_levelnames && m_level)
   {
     if (m_level->is_worldmap())
     {
