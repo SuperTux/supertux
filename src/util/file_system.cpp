@@ -16,9 +16,8 @@
 
 #include "util/file_system.hpp"
 
-#include <boost/filesystem.hpp>
-#include <boost/version.hpp>
 #include <sstream>
+#include <filesystem>
 #include <stdexcept>
 #include <sys/stat.h>
 #include <sys/types.h>
@@ -32,18 +31,16 @@
 
 #include "util/log.hpp"
 
-namespace fs = boost::filesystem;
+namespace fs = std::filesystem;
 
 namespace FileSystem {
 
 bool exists(const std::string& path)
 {
   fs::path location(path);
-  boost::system::error_code ec;
-
   // If we get an error (such as "Permission denied"), then ignore it
   // and pretend that the path doesn't exist.
-  return fs::exists(location, ec);
+  return fs::exists(location);
 }
 
 bool is_directory(const std::string& path)
