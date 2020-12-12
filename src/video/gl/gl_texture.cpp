@@ -22,7 +22,7 @@
 #include "video/sampler.hpp"
 #include "video/sdl_surface.hpp"
 
-GLTexture::GLTexture(int width, int height, boost::optional<Color> fill_color) :
+GLTexture::GLTexture(int width, int height, std::optional<Color> fill_color) :
   m_handle(),
   m_sampler(),
   m_texture_width(),

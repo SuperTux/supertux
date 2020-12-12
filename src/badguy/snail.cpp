@@ -216,7 +216,7 @@ Snail::collision_solid(const CollisionHit& hit)
           m_physic.set_velocity_x(-m_physic.get_velocity_x());
         }
       }
-      BOOST_FALLTHROUGH;
+      [[fallthrough]];
     case STATE_FLAT:
     case STATE_KICKED_DELAY:
       if (hit.top || hit.bottom) {
@@ -298,7 +298,7 @@ Snail::collision_squished(GameObject& object)
         player->bounce(*this);
         break;
       }
-      BOOST_FALLTHROUGH;
+      [[fallthrough]];
     case STATE_KICKED:
       squishcount++;
       if (squishcount >= MAX_SNAIL_SQUISHES) {

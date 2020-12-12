@@ -18,7 +18,9 @@
 #define HEADER_SUPERTUX_CONTROL_CONTROLLER_HPP
 
 #include <iosfwd>
-#include <boost/optional.hpp>
+#include <string>
+#include <optional>
+#include <string>
 
 enum class Control {
   LEFT = 0,
@@ -51,7 +53,7 @@ enum class Control {
 std::ostream& operator<<(std::ostream& os, Control control);
 
 std::string Control_to_string(Control control);
-boost::optional<Control> Control_from_string(const std::string& text);
+std::optional<Control> Control_from_string(const std::string& text);
 
 class Controller
 {

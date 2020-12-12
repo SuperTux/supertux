@@ -40,7 +40,7 @@ GameManager::GameManager() :
 
 void
 GameManager::start_level(const World& world, const std::string& level_filename,
-                         const boost::optional<std::pair<std::string, Vector>>& start_pos)
+                         const std::optional<std::pair<std::string, Vector>>& start_pos)
 {
   m_savegame = Savegame::from_file(world.get_savegame_filename());
 

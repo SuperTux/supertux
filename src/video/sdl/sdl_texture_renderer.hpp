@@ -18,7 +18,7 @@
 #define HEADER_SUPERTUX_VIDEO_SDL_SDL_TEXTURE_RENDERER_HPP
 
 #include <SDL.h>
-#include <boost/optional.hpp>
+#include <optional>
 
 #include "video/texture_ptr.hpp"
 #include "video/renderer.hpp"

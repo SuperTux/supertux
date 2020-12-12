@@ -16,9 +16,8 @@
 
 #include "util/file_system.hpp"
 
-#include <boost/filesystem.hpp>
-#include <boost/version.hpp>
 #include <sstream>
+#include <filesystem>
 #include <stdexcept>
 #include <sys/stat.h>
 #include <sys/types.h>
@@ -32,29 +31,27 @@
 
 #include "util/log.hpp"
 
-namespace fs = boost::filesystem;
+namespace fs = std::filesystem;
 
 namespace FileSystem {
 
 bool exists(const std::string& path)
 {
-  fs::path location(path);
-  boost::system::error_code ec;
-
+  fs::path location = fs::u8path(path);
   // If we get an error (such as "Permission denied"), then ignore it
   // and pretend that the path doesn't exist.
-  return fs::exists(location, ec);
+  return fs::exists(location);
 }
 
 bool is_directory(const std::string& path)
 {
-  fs::path location(path);
+  fs::path location = fs::u8path(path);
   return fs::is_directory(location);
 }
 
 void mkdir(const std::string& directory)
 {
-  fs::path location(directory);
+  fs::path location = fs::u8path(directory);
   if (!fs::create_directory(location))
   {
     throw std::runtime_error("failed to create directory: "  + directory);
@@ -85,43 +82,7 @@ std::string basename(const std::string& filename)
 
 std::string relpath(const std::string& filename, const std::string& basedir)
 {
-#if BOOST_VERSION >= 106000
   return fs::relative(filename, basedir).string();
-#else
-  fs::path from = basedir;
-  fs::path to = filename;
-
-  // Taken from https://stackoverflow.com/a/29221546
-
-  // Start at the root path and while they are the same then do nothing then when they first
-  // diverge take the entire from path, swap it with '..' segments, and then append the remainder of the to path.
-  fs::path::const_iterator fromIter = from.begin();
-  fs::path::const_iterator toIter = to.begin();
-
-  // Loop through both while they are the same to find nearest common directory
-  while (fromIter != from.end() && toIter != to.end() && (*toIter) == (*fromIter))
-  {
-    ++toIter;
-    ++fromIter;
-  }
-
-  // Replace from path segments with '..' (from => nearest common directory)
-  fs::path finalPath;
-  while (fromIter != from.end())
-  {
-    finalPath /= "..";
-    ++fromIter;
-  }
-
-  // Append the remainder of the to path (nearest common directory => to)
-  while (toIter != to.end())
-  {
-    finalPath /= *toIter;
-    ++toIter;
-  }
-
-  return finalPath.string();
-#endif
 }
 
 std::string strip_extension(const std::string& filename)
@@ -214,7 +175,7 @@ std::string join(const std::string& lhs, const std::string& rhs)
 
 bool remove(const std::string& path)
 {
-  fs::path location(path);
+  fs::path location = fs::u8path(path);
   return fs::remove(location);
 }
 
