@@ -104,9 +104,9 @@ ParticleEditorMenu::menu_action(MenuItem& item)
       MenuManager::instance().push_menu(std::make_unique<FileSystemMenu>(
         &ParticleEditor::current()->m_filename,
         filter,
-        "/particles/custom",
+        "/particles",
         [](std::string new_filename) {
-          ParticleEditor::current()->open("/particles/custom/" + 
+          ParticleEditor::current()->open("/particles/" + 
                                         ParticleEditor::current()->m_filename);
           MenuManager::instance().clear_menu_stack();
         }
