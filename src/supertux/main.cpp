@@ -250,8 +250,8 @@ public:
 	std::string olduserdir = FileSystem::join(physfs_userdir, "." PACKAGE_NAME);
 #endif
 	if (FileSystem::is_directory(olduserdir)) {
-	  std::filesystem::path olduserpath(olduserdir);
-	  std::filesystem::path userpath(userdir);
+	  std::filesystem::path olduserpath = std::filesystem::u8path(olduserdir);
+	  std::filesystem::path userpath = std::filesystem::u8path(userdir);
 
 	  std::filesystem::directory_iterator end_itr;
 
