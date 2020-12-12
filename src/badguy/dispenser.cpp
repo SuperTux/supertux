@@ -265,7 +265,7 @@ Dispenser::launch_badguy()
   if (!is_offscreen() && !Editor::is_active()) {
     Direction launchdir = m_dir;
     Player* player = get_nearest_player();
-    if (!m_autotarget && m_start_dir == Direction::AUTO || player) {
+    if (!m_autotarget && (m_start_dir == Direction::AUTO) && player) {
       launchdir = (player->get_pos().x > get_pos().x) ? Direction::RIGHT : Direction::LEFT;
     }
 
