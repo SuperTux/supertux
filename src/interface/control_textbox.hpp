@@ -18,7 +18,6 @@
 #define HEADER_SUPERTUX_INTERFACE_CONTROL_TEXTBOX_HPP
 
 #include <list>
-#include <stdexcept>
 
 #include "control/input_manager.hpp"
 #include "interface/control.hpp"

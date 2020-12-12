@@ -20,7 +20,6 @@
 #include <iosfwd>
 #include <string>
 #include <optional>
-#include <string>
 
 enum class Control {
   LEFT = 0,

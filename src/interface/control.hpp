@@ -17,7 +17,6 @@
 #ifndef HEADER_SUPERTUX_INTERFACE_CONTROL_HPP
 #define HEADER_SUPERTUX_INTERFACE_CONTROL_HPP
 
-#include <stdexcept>
 #include <functional>
 #include <SDL.h>
 
