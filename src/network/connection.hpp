@@ -43,6 +43,17 @@ public:
   /** Initiates read/write operations */
   virtual void init();
 
+  /**
+   * Changes the handler for receiving data
+   * @returns the old handler
+   */
+  auto swap_handler(std::function<void(Connection*, const std::string&)> handler)
+  {
+    auto old_handler = m_handler;
+    m_handler = handler;
+    return old_handler;
+  }
+
   bool is_closed() const { return m_closed; }
 
   void start_reading();
@@ -72,7 +83,7 @@ private:
   std::string m_uuid;
 
 public:
-  /** Custom connection properties; used by the game to remember details about the conection */
+  /** Custom connection properties; used by the game to remember details about the connection */
   std::map<std::string,void*> m_properties;
 
 public:
