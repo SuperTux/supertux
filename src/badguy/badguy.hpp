@@ -49,8 +49,15 @@ public:
       state and calls active_update and inactive_update */
   virtual void update(float dt_sec) override;
 
-  virtual std::string get_class() const override { return "badguy"; }
-  virtual std::string get_display_name() const override { return _("Badguy"); }
+  virtual std::string get_class() const override
+  {
+    return "badguy";
+  }
+
+  virtual std::string get_display_name() const override
+  {
+    return _("Badguy");
+  }
 
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
@@ -73,10 +80,19 @@ public:
 
   /** True if this badguy can break bricks or open bonusblocks in his
       current form. */
-  virtual bool can_break() const { return false; }
+  virtual bool can_break() const
+  {
+    return false;
+  }
 
-  Vector get_start_position() const { return m_start_position; }
-  void set_start_position(const Vector& vec) { m_start_position = vec; }
+  Vector get_start_position() const
+  {
+    return m_start_position;
+  }
+  void set_start_position(const Vector& vec)
+  {
+    m_start_position = vec;
+  }
 
   /** Called when hit by a fire bullet, and is_flammable() returns true */
   virtual void ignite();
@@ -107,7 +123,8 @@ public:
   bool is_in_water() const;
 
   /** Get melting particle sprite filename */
-  virtual std::string get_water_sprite() const {
+  virtual std::string get_water_sprite() const
+  {
     return "images/objects/water_drop/water_drop.sprite";
   }
 

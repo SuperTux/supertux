@@ -55,7 +55,9 @@ Plant::collision_solid(const CollisionHit& hit)
 HitResponse
 Plant::collision_badguy(BadGuy& , const CollisionHit& hit)
 {
-  if (state != PLANT_WALKING) return CONTINUE;
+  if (state != PLANT_WALKING) {
+    return CONTINUE;
+  }
 
   if (hit.left || hit.right) {
     m_dir = m_dir == Direction::LEFT ? Direction::RIGHT : Direction::LEFT;
@@ -76,8 +78,8 @@ Plant::active_update(float dt_sec) {
     if (player) {
       Rectf pb = player->get_bbox();
 
-      bool inReach_left = (pb.get_right() >= m_col.m_bbox.get_right()-((m_dir == Direction::LEFT) ? 256 : 0));
-      bool inReach_right = (pb.get_left() <= m_col.m_bbox.get_left()+((m_dir == Direction::RIGHT) ? 256 : 0));
+      bool inReach_left = (pb.get_right() >= m_col.m_bbox.get_right() - ((m_dir == Direction::LEFT) ? 256.0f : 0.0f));
+      bool inReach_right = (pb.get_left() <= m_col.m_bbox.get_left() + ((m_dir == Direction::RIGHT) ? 256.0f : 0.0f));
       bool inReach_top = (pb.get_bottom() >= m_col.m_bbox.get_bottom());
       bool inReach_bottom = (pb.get_top() <= m_col.m_bbox.get_top());
 
@@ -98,7 +100,6 @@ Plant::active_update(float dt_sec) {
       state = PLANT_WALKING;
     }
   }
-
 }
 
 void
