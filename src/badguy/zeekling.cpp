@@ -150,7 +150,9 @@ Zeekling::should_we_dive()
 
     // do not dive if we are not above the player, we are too far above the player,
     // or if we would not descend faster than the player
-    if (height <= 0 || height > 512 || relSpeed <= 0) return false;
+    if (height <= 0 || height > 512 || relSpeed <= 0) {
+      return false;
+    }
 
     // guess number of frames to descend to same height as player
     float estFrames = height / relSpeed;
@@ -177,7 +179,7 @@ Zeekling::should_we_dive()
 
 void
 Zeekling::active_update(float dt_sec) {
-  if (state == FLYING || should_we_dive()) {
+  if (state == FLYING && should_we_dive()) {
     state = DIVING;
     m_physic.set_velocity_y(2*fabsf(m_physic.get_velocity_x()));
     m_sprite->set_action(m_dir == Direction::LEFT ? "diving-left" : "diving-right");
