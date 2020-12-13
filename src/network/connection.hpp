@@ -56,6 +56,12 @@ public:
 
   bool is_closed() const { return m_closed; }
 
+  /**
+   * Instead of destroying the object the classic way, use this function to
+   * not risk causing a segfault (thanks to Boost...)
+   */
+  void destroy();
+
   void start_reading();
 
   const std::string& get_uuid() const { return m_uuid; }
@@ -71,7 +77,7 @@ public:
                                              std::function<void(Connection*, const std::string&)> handler);
 
 protected:
-  bool m_closed, m_writing_locked;
+  bool m_closed, m_writing_locked, m_ready_for_deletion, m_should_be_destroyed;
   std::function<void(Connection*, const std::string&)> m_handler;
   tcp::socket* m_socket;
   std::mutex m_rw_mutex;

@@ -29,6 +29,8 @@ const char Connection::DELIMITER = '\n';
 Connection::Connection(tcp::socket* socket, std::function<void(Connection*, const std::string&)> handler) :
   m_closed(false),
   m_writing_locked(false),
+  m_ready_for_deletion(true),
+  m_should_be_destroyed(false),
   m_handler(handler),
   m_socket(socket),
   m_rw_mutex(),
@@ -55,6 +57,8 @@ Connection::init()
 void
 Connection::start_reading()
 {
+  log_warning << "Called start_reading()" << std::endl;
+  m_ready_for_deletion = false;
   boost::asio::async_read_until(*m_socket, m_buffer, DELIMITER,
               boost::bind(&Connection::handle_read,
                           this,
@@ -65,12 +69,21 @@ Connection::start_reading()
 void
 Connection::handle_read(const boost::system::error_code& error, size_t bytes_transferred)
 {
+
   if (error)
   {
     if (error != boost::asio::error::eof)
       log_warning << "Error when reading from socket: " << error.message() << std::endl;
 
-    close();
+    if (!m_closed) {
+      close();
+    }
+
+    m_ready_for_deletion = true;
+    if (m_should_be_destroyed) {
+      delete this;
+      return;
+    }
   }
   else
   {
@@ -82,6 +95,14 @@ Connection::handle_read(const boost::system::error_code& error, size_t bytes_tra
 
     start_reading();
   }
+}
+
+void
+Connection::destroy()
+{
+  m_should_be_destroyed = true;
+  if (m_ready_for_deletion)
+    delete this;
 }
 
 void
@@ -99,7 +120,11 @@ Connection::handle_write(const boost::system::error_code& error)
 void
 Connection::close()
 {
+  if (m_closed)
+    return;
+
   m_closed = true;
+
   try {
     m_socket->close();
   } catch (std::exception& e) {
@@ -111,7 +136,6 @@ void
 Connection::send(const std::string& data)
 {
   if (m_closed)
-    // Just ignore it, until I find why some connections become corrupted at some point
     return;
 
   //FIXME: Race condition

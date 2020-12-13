@@ -17,6 +17,7 @@
 #ifndef HEADER_SUPERTUX_NETWORK_TEST_CLIENT_HPP
 #define HEADER_SUPERTUX_NETWORK_TEST_CLIENT_HPP
 
+#include "network/client.hpp"
 #include "supertux/screen.hpp"
 
 #include <string>
@@ -33,6 +34,9 @@ public:
   virtual void update(float dt_sec, const Controller& controller) override {}
 
   virtual IntegrationStatus get_status() const override { return IntegrationStatus(); }
+
+private:
+  network::Client* m_client;
 
 private:
   TestClient(const TestClient&) = delete;

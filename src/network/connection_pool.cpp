@@ -29,17 +29,24 @@ void
 ConnectionPool::send_all(const std::string& data)
 {
   clear_closed_connections();
-  for (auto c = m_connections.begin(); c != m_connections.end(); ++c)
-    (*c)->send(data);
+  for (auto c = m_connections.begin(); c != m_connections.end(); ++c) {
+    try {
+      (*c)->send(data);
+    } catch (...) {}
+  }
 }
 
 void
 ConnectionPool::send_all_except(const std::string& data, Connection* connection)
 {
   clear_closed_connections();
-  for (auto c = m_connections.begin(); c != m_connections.end(); ++c)
-    if (*connection != **c)
-      (*c)->send(data);
+  for (auto c = m_connections.begin(); c != m_connections.end(); ++c) {
+    if (*connection != **c) {
+      try {
+        (*c)->send(data);
+      } catch (...) {}
+    }
+  }
 }
 
 void

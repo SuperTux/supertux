@@ -23,7 +23,8 @@
 
 using namespace network;
 
-TestClient::TestClient()
+TestClient::TestClient() :
+  m_client()
 {
 }
 
@@ -34,20 +35,22 @@ TestClient::~TestClient()
 void
 TestClient::setup()
 {
-  Client client(3474, "127.0.0.1", [](Connection* c, const std::string& data) {
+  m_client = new Client(3474, "127.0.0.1", [](Connection* c, const std::string& data) {
     log_warning << "Received data from server : {{" << data << "}}" << std::endl;
   });
 
-  client.init();
+  m_client->init();
 
   for (std::string line; std::getline(std::cin, line);) {
     if (line == "quit")
       break;
-    client.send(line);
+    m_client->send(line);
   }
 
   std::cout << "Quitting!" << std::endl;
-  client.close();
+  m_client->close();
+
+  m_client->destroy();
 }
 
 /* EOF */

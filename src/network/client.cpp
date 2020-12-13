@@ -18,6 +18,8 @@
 
 #include <boost/asio.hpp>
 
+#include "util/log.hpp"
+
 namespace network {
 
 Client::Client(int port, const std::string& ip, std::function<void(Connection*, const std::string&)> handler) :
@@ -36,14 +38,14 @@ Client::init()
   m_socket->connect(boost::asio::ip::tcp::endpoint(
                               boost::asio::ip::address::from_string(m_ip),
                               static_cast<short unsigned int>(m_port)));
+  
+  Connection::init();
 
   m_runner = std::make_unique<std::thread>([this](){
     io_service.run();
   });
 
   m_runner->detach();
-  
-  Connection::init();
 }
 
 } // namespace network
