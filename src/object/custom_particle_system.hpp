@@ -96,9 +96,11 @@ private:
   enum class CollisionMode {
     Ignore,
     Stick,
+    StickForever,
     BounceHeavy,
     BounceLight,
-    Destroy
+    Destroy,
+    FadeOut
   };
 
   enum class OffscreenMode {
@@ -114,12 +116,16 @@ private:
     Color color;
     SurfacePtr texture;
     Vector scale;
+    Vector hb_scale;
+    Vector hb_offset;
 
     SpriteProperties() :
       likeliness(1.f),
       color(1.f, 1.f, 1.f, 1.f),
       texture(Surface::from_file("images/engine/editor/sparkle.png")),
-      scale(1.f, 1.f)
+      scale(1.f, 1.f),
+      hb_scale(1.f, 1.f),
+      hb_offset(0.f, 0.f)
     {
     }
 
@@ -127,7 +133,9 @@ private:
       likeliness(1.f),
       color(1.f, 1.f, 1.f, 1.f),
       texture(surface),
-      scale(1.f, 1.f)
+      scale(1.f, 1.f),
+      hb_scale(1.f, 1.f),
+      hb_offset(0.f, 0.f)
     {
     }
 
@@ -135,7 +143,9 @@ private:
       likeliness(sp.likeliness),
       color(sp.color.red, sp.color.green, sp.color.blue, sp.color.alpha * alpha),
       texture(sp.texture),
-      scale(sp.scale)
+      scale(sp.scale),
+      hb_scale(sp.hb_scale),
+      hb_offset(sp.hb_offset)
     {
     }
 
@@ -144,7 +154,9 @@ private:
       return this->likeliness == sp.likeliness
           && this->color      == sp.color
           && this->texture    == sp.texture
-          && this->scale      == sp.scale;
+          && this->scale      == sp.scale
+          && this->hb_scale   == sp.hb_scale
+          && this->hb_offset  == sp.hb_offset;
     }
     inline bool operator!=(const SpriteProperties& sp)
     {
@@ -175,6 +187,7 @@ private:
     bool has_been_on_screen;
     bool has_been_in_life_zone;
     bool last_life_zone_required_instakill;
+    bool stuck;
 
     CustomParticle() :
       original_props(),
@@ -204,7 +217,8 @@ private:
       offscreen_mode(),
       has_been_on_screen(),
       has_been_in_life_zone(false),
-      last_life_zone_required_instakill(false)
+      last_life_zone_required_instakill(false),
+      stuck(false)
     {}
   };
 

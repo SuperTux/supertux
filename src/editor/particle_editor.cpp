@@ -175,12 +175,12 @@ ParticleEditor::reset_main_ui()
   addTextboxFloatWithImprecision(_("Horizontal speed"),
                                  &(m_particles->m_particle_speed_x),
                                  &(m_particles->m_particle_speed_variation_x),
-                                 [](ControlTextboxFloat* ctrl, float f){ return f >= 0.f; },
+                                 nullptr,
                                  [](ControlTextboxFloat* ctrl, float f){ return f >= 0.f; });
   addTextboxFloatWithImprecision(_("Vertical speed"),
                                  &(m_particles->m_particle_speed_y),
                                  &(m_particles->m_particle_speed_variation_y),
-                                 [](ControlTextboxFloat* ctrl, float f){ return f >= 0.f; },
+                                 nullptr,
                                  [](ControlTextboxFloat* ctrl, float f){ return f >= 0.f; });
   addTextboxFloat(_("Horizontal acceleration"), &(m_particles->m_particle_acceleration_x));
   addTextboxFloat(_("Vertical acceleration"), &(m_particles->m_particle_acceleration_y));
@@ -190,12 +190,12 @@ ParticleEditor::reset_main_ui()
   addTextboxFloatWithImprecision(_("Initial rotation"),
                                  &(m_particles->m_particle_rotation),
                                  &(m_particles->m_particle_rotation_variation),
-                                 [](ControlTextboxFloat* ctrl, float f){ return f >= 0.f; },
+                                 nullptr,
                                  [](ControlTextboxFloat* ctrl, float f){ return f >= 0.f; });
   addTextboxFloatWithImprecision(_("Rotation speed"),
                                  &(m_particles->m_particle_rotation_speed),
                                  &(m_particles->m_particle_rotation_speed_variation),
-                                 [](ControlTextboxFloat* ctrl, float f){ return f >= 0.f; },
+                                 nullptr,
                                  [](ControlTextboxFloat* ctrl, float f){ return f >= 0.f; });
   addTextboxFloat(_("Rotation acceleration"), &(m_particles->m_particle_rotation_acceleration));
   addTextboxFloat(_("Rotation friction/decceleration"), &(m_particles->m_particle_rotation_decceleration));
@@ -209,9 +209,11 @@ ParticleEditor::reset_main_ui()
 
   auto collision_mode = std::make_unique<ControlEnum<CustomParticleSystem::CollisionMode> >();
   collision_mode.get()->add_option(CustomParticleSystem::CollisionMode::Destroy, _("Destroy"));
+  collision_mode.get()->add_option(CustomParticleSystem::CollisionMode::FadeOut, _("Fade out"));
   collision_mode.get()->add_option(CustomParticleSystem::CollisionMode::BounceLight, _("Bounce (light)"));
   collision_mode.get()->add_option(CustomParticleSystem::CollisionMode::BounceHeavy, _("Bounce (heavy)"));
   collision_mode.get()->add_option(CustomParticleSystem::CollisionMode::Stick, _("Stick to surface"));
+  collision_mode.get()->add_option(CustomParticleSystem::CollisionMode::StickForever, _("Stick and stay"));
   collision_mode.get()->add_option(CustomParticleSystem::CollisionMode::Ignore, _("No collision"));
   collision_mode.get()->bind_value(&(m_particles->m_particle_collision_mode));
   addControl(_("Collision mode"), std::move(collision_mode));
@@ -324,6 +326,48 @@ ParticleEditor::reset_texture_ui()
   });
   m_controls_textures.push_back(std::move(scale_y_control));
 
+  auto hb_scale_x_control = std::make_unique<ControlTextboxFloat>();
+  hb_scale_x_control.get()->bind_value(&((m_particles->m_textures.begin() + m_texture_current)->hb_scale.x));
+  hb_scale_x_control.get()->set_rect(Rectf(150.f, 140.f, 240.f, 160.f));
+  hb_scale_x_control.get()->m_label = new InterfaceLabel(Rectf(5.f, 140.f, 150.f, 160.f), "Hitbox scale (x, y)");
+  hb_scale_x_control.get()->m_on_change = new std::function<void()>([this](){ m_particles->reinit_textures(); this->push_version(); });
+  auto hb_scale_x_control_ptr = hb_scale_x_control.get();
+  m_texture_rebinds.push_back( [this, hb_scale_x_control_ptr]{
+    hb_scale_x_control_ptr->bind_value(&((m_particles->m_textures.begin() + m_texture_current)->hb_scale.x));
+  });
+  m_controls_textures.push_back(std::move(hb_scale_x_control));
+
+  auto hb_scale_y_control = std::make_unique<ControlTextboxFloat>();
+  hb_scale_y_control.get()->bind_value(&((m_particles->m_textures.begin() + m_texture_current)->hb_scale.y));
+  hb_scale_y_control.get()->set_rect(Rectf(260.f, 140.f, 350.f, 160.f));
+  hb_scale_y_control.get()->m_on_change = new std::function<void()>([this](){ m_particles->reinit_textures(); this->push_version(); });
+  auto hb_scale_y_control_ptr = hb_scale_y_control.get();
+  m_texture_rebinds.push_back( [this, hb_scale_y_control_ptr]{
+    hb_scale_y_control_ptr->bind_value(&((m_particles->m_textures.begin() + m_texture_current)->hb_scale.y));
+  });
+  m_controls_textures.push_back(std::move(hb_scale_y_control));
+
+  auto hb_offset_x_control = std::make_unique<ControlTextboxFloat>();
+  hb_offset_x_control.get()->bind_value(&((m_particles->m_textures.begin() + m_texture_current)->hb_offset.x));
+  hb_offset_x_control.get()->set_rect(Rectf(150.f, 170.f, 240.f, 190.f));
+  hb_offset_x_control.get()->m_label = new InterfaceLabel(Rectf(5.f, 170.f, 150.f, 190.f), "Hitbox offset relative to scale");
+  hb_offset_x_control.get()->m_on_change = new std::function<void()>([this](){ m_particles->reinit_textures(); this->push_version(); });
+  auto hb_offset_x_control_ptr = hb_offset_x_control.get();
+  m_texture_rebinds.push_back( [this, hb_offset_x_control_ptr]{
+    hb_offset_x_control_ptr->bind_value(&((m_particles->m_textures.begin() + m_texture_current)->hb_offset.x));
+  });
+  m_controls_textures.push_back(std::move(hb_offset_x_control));
+
+  auto hb_offset_y_control = std::make_unique<ControlTextboxFloat>();
+  hb_offset_y_control.get()->bind_value(&((m_particles->m_textures.begin() + m_texture_current)->hb_offset.y));
+  hb_offset_y_control.get()->set_rect(Rectf(260.f, 170.f, 350.f, 190.f));
+  hb_offset_y_control.get()->m_on_change = new std::function<void()>([this](){ m_particles->reinit_textures(); this->push_version(); });
+  auto hb_offset_y_control_ptr = hb_offset_y_control.get();
+  m_texture_rebinds.push_back( [this, hb_offset_y_control_ptr]{
+    hb_offset_y_control_ptr->bind_value(&((m_particles->m_textures.begin() + m_texture_current)->hb_offset.y));
+  });
+  m_controls_textures.push_back(std::move(hb_offset_y_control));
+
   // Texture button start
   auto chg_texture_btn = std::make_unique<ControlButton>("Change texture...");
   chg_texture_btn.get()->m_on_change = new std::function<void()>([this](){
@@ -339,7 +383,7 @@ ParticleEditor::reset_texture_ui()
       }
     ));
   });
-  chg_texture_btn.get()->set_rect(Rectf(25.f, 370, 325.f, 390));
+  chg_texture_btn.get()->set_rect(Rectf(25.f, 420, 325.f, 440));
   m_controls_textures.push_back(std::move(chg_texture_btn));
   // Texture button end
 
@@ -350,7 +394,7 @@ ParticleEditor::reset_texture_ui()
     for (const auto& refresh : m_texture_rebinds)
       refresh();
   });
-  prev_btn.get()->set_rect(Rectf(120.f, 400, 140.f, 420.f));
+  prev_btn.get()->set_rect(Rectf(120.f, 450, 140.f, 470.f));
   m_controls_textures.push_back(std::move(prev_btn));
 
   auto del_btn = std::make_unique<ControlButton>("-");
@@ -365,7 +409,7 @@ ParticleEditor::reset_texture_ui()
     m_particles->reinit_textures();
     this->push_version();
   });
-  del_btn.get()->set_rect(Rectf(150.f, 400, 170.f, 420.f));
+  del_btn.get()->set_rect(Rectf(150.f, 450, 170.f, 470.f));
   m_controls_textures.push_back(std::move(del_btn));
 
   auto add_btn = std::make_unique<ControlButton>("+");
@@ -377,7 +421,7 @@ ParticleEditor::reset_texture_ui()
     m_particles->reinit_textures();
     this->push_version();
   });
-  add_btn.get()->set_rect(Rectf(190.f, 400, 210.f, 420.f));
+  add_btn.get()->set_rect(Rectf(190.f, 450, 210.f, 470.f));
   m_controls_textures.push_back(std::move(add_btn));
 
   auto next_btn = std::make_unique<ControlButton>(">");
@@ -388,7 +432,7 @@ ParticleEditor::reset_texture_ui()
     for (const auto& refresh : m_texture_rebinds)
       refresh();
   });
-  next_btn.get()->set_rect(Rectf(220.f, 400, 240.f, 420.f));
+  next_btn.get()->set_rect(Rectf(220.f, 450, 240.f, 470.f));
   m_controls_textures.push_back(std::move(next_btn));
 }
 
@@ -616,7 +660,7 @@ ParticleEditor::draw(Compositor& compositor)
   if (m_in_texture_tab)
   {
     context.color().draw_surface_scaled((m_particles->m_textures.begin() + m_texture_current)->texture,
-                                         Rect(75, 150, 275, 350), LAYER_GUI);
+                                         Rect(75, 200, 275, 400), LAYER_GUI);
     context.color().draw_text(Resources::control_font,
                               std::to_string(m_texture_current + 1) + "/"
                                   + std::to_string(m_particles->m_textures.size()),
@@ -716,7 +760,7 @@ ParticleEditor::check_unsaved_changes(const std::function<void ()>& action)
   {
     m_enabled = false;
     auto dialog = std::make_unique<Dialog>();
-    dialog->set_text(_("This particle configuration contains unsaved changes, do you want to save?"));
+    dialog->set_text(_("This particle configuration contains unsaved changes,\ndo you want to save?"));
     dialog->add_button(_("Save"), [this, action] {
       request_save(false, [this, action] (bool was_saved) {
         m_enabled = true;

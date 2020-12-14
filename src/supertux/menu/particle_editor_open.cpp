@@ -35,7 +35,7 @@ ParticleEditorOpen::ParticleEditorOpen() :
 
   std::vector<std::string> extensions;
   extensions.push_back("stcp");
-  add_file(_("File"), &m_filename, extensions, "/particles/custom");
+  add_file(_("File"), &m_filename, extensions, "/particles/");
   add_entry(MNID_OPEN, _("Open"));
 
   add_hl();
@@ -58,7 +58,7 @@ ParticleEditorOpen::menu_action(MenuItem& item)
   switch (item.get_id())
   {
     case MNID_OPEN:
-      ParticleEditor::current()->open("/particles/custom/" + m_filename);
+      ParticleEditor::current()->open("/particles/" + m_filename);
       MenuManager::instance().clear_menu_stack();
       break;
 
