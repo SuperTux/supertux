@@ -51,7 +51,7 @@ Server::start()
   listen_one();
 
   m_runner = std::make_unique<std::thread>([this](){
-    io_service.run();
+    this->io_service.run();
   });
 
   m_runner->detach();
