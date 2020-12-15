@@ -181,7 +181,7 @@ MrIceBlock::collision_squished(GameObject& object)
           break;
         }
       }
-      [[fallthrough]];
+      BOOST_FALLTHROUGH;
 
     case ICESTATE_NORMAL:
       {

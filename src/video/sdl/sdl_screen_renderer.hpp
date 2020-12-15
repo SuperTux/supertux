@@ -18,7 +18,7 @@
 #define HEADER_SUPERTUX_VIDEO_SDL_SDL_SCREEN_RENDERER_HPP
 
 #include <SDL.h>
-#include <optional>
+#include <boost/optional.hpp>
 
 #include "math/size.hpp"
 #include "video/renderer.hpp"

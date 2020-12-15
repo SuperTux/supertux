@@ -95,7 +95,7 @@ TextureManager::~TextureManager()
 }
 
 TexturePtr
-TextureManager::get(const ReaderMapping& mapping, const std::optional<Rect>& region)
+TextureManager::get(const ReaderMapping& mapping, const boost::optional<Rect>& region)
 {
   std::string filename;
   if (!mapping.get("file", filename))
@@ -107,7 +107,7 @@ TextureManager::get(const ReaderMapping& mapping, const std::optional<Rect>& reg
     filename = FileSystem::join(mapping.get_doc().get_directory(), filename);
   }
 
-  std::optional<Rect> rect;
+  boost::optional<Rect> rect;
   std::vector<int> rect_v;
   if (mapping.get("rect", rect_v))
   {
@@ -202,7 +202,7 @@ TextureManager::get(const std::string& _filename)
 
 TexturePtr
 TextureManager::get(const std::string& _filename,
-                    const std::optional<Rect>& rect,
+                    const boost::optional<Rect>& rect,
                     const Sampler& sampler)
 {
   std::string filename = FileSystem::normalize(_filename);

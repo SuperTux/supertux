@@ -17,10 +17,10 @@
 #include "util/reader_mapping.hpp"
 
 #include <boost/ref.hpp>
+#include <boost/utility/typed_in_place_factory.hpp>
 #include <sexp/io.hpp>
 #include <sstream>
 #include <stdexcept>
-#include <any>
 
 #include "util/gettext.hpp"
 #include "util/reader_collection.hpp"
@@ -80,25 +80,25 @@ ReaderMapping::get_item(const char* key) const
   }
 
 bool
-ReaderMapping::get(const char* key, bool& value, const std::optional<bool>& default_value) const
+ReaderMapping::get(const char* key, bool& value, const boost::optional<bool>& default_value) const
 {
   GET_VALUE_MACRO("bool", is_boolean, as_bool);
 }
 
 bool
-ReaderMapping::get(const char* key, int& value, const std::optional<int>& default_value) const
+ReaderMapping::get(const char* key, int& value, const boost::optional<int>& default_value) const
 {
   GET_VALUE_MACRO("int", is_integer, as_int);
 }
 
 bool
-ReaderMapping::get(const char* key, uint32_t& value, const std::optional<uint32_t>& default_value) const
+ReaderMapping::get(const char* key, uint32_t& value, const boost::optional<uint32_t>& default_value) const
 {
   GET_VALUE_MACRO("uint32_t", is_integer, as_int);
 }
 
 bool
-ReaderMapping::get(const char* key, float& value, const std::optional<float>& default_value) const
+ReaderMapping::get(const char* key, float& value, const boost::optional<float>& default_value) const
 {
   GET_VALUE_MACRO("float", is_real, as_float);
 }
@@ -106,7 +106,7 @@ ReaderMapping::get(const char* key, float& value, const std::optional<float>& de
 #undef GET_VALUE_MACRO
 
 bool
-ReaderMapping::get(const char* key, std::string& value, const std::optional<const char*>& default_value) const
+ReaderMapping::get(const char* key, std::string& value, const boost::optional<const char*>& default_value) const
 {
   auto const sx = get_item(key);
   if (!sx) {
@@ -193,11 +193,11 @@ ReaderMapping::get(const char* key, std::vector<unsigned int>& value) const
 #undef GET_VALUES_MACRO
 
 bool
-ReaderMapping::get(const char* key, std::optional<ReaderMapping>& value) const
+ReaderMapping::get(const char* key, boost::optional<ReaderMapping>& value) const
 {
   auto const sx = get_item(key);
   if (sx) {
-    value.emplace(std::ref(m_doc), std::ref(*sx));
+    value = boost::in_place<ReaderMapping>(boost::ref(m_doc), boost::ref(*sx));
     return true;
   } else {
     return false;
@@ -205,11 +205,11 @@ ReaderMapping::get(const char* key, std::optional<ReaderMapping>& value) const
 }
 
 bool
-ReaderMapping::get(const char* key, std::optional<ReaderCollection>& value) const
+ReaderMapping::get(const char* key, boost::optional<ReaderCollection>& value) const
 {
   auto const sx = get_item(key);
   if (sx) {
-    value.emplace(std::ref(m_doc), std::ref(*sx));
+    value = boost::in_place<ReaderCollection>(boost::ref(m_doc), boost::ref(*sx));
     return true;
   } else {
     return false;

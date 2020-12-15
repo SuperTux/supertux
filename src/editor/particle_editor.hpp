@@ -17,6 +17,7 @@
 #ifndef HEADER_SUPERTUX_EDITOR_PARTICLE_EDITOR_HPP
 #define HEADER_SUPERTUX_EDITOR_PARTICLE_EDITOR_HPP
 
+#include <functional>
 #include <vector>
 #include <memory>
 

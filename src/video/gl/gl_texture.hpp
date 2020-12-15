@@ -17,7 +17,7 @@
 #ifndef HEADER_SUPERTUX_VIDEO_GL_GL_TEXTURE_HPP
 #define HEADER_SUPERTUX_VIDEO_GL_GL_TEXTURE_HPP
 
-#include <optional>
+#include <boost/optional.hpp>
 
 #include "video/color.hpp"
 #include "video/gl.hpp"
@@ -32,7 +32,7 @@ class Sampler;
 class GLTexture final : public Texture
 {
 public:
-  GLTexture(int width, int height, std::optional<Color> fill_color = std::nullopt);
+  GLTexture(int width, int height, boost::optional<Color> fill_color = boost::none);
   GLTexture(const SDL_Surface& image, const Sampler& sampler);
   ~GLTexture();
 

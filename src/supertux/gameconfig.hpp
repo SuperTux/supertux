@@ -27,7 +27,7 @@
 
 #include <boost/date_time/gregorian/gregorian.hpp>
 #include <boost/date_time/posix_time/posix_time_types.hpp>
-#include <optional>
+#include <boost/optional.hpp>
 
 class Config final
 {
@@ -75,7 +75,7 @@ public:
   std::string record_demo;
 
   /** this variable is set if tux should spawn somewhere which isn't the "main" spawn point*/
-  std::optional<Vector> tux_spawn_pos;
+  boost::optional<Vector> tux_spawn_pos;
 
   /** force SuperTux language to this locale, e.g. "de". A file
       "data/locale/xx.po" must exist for this to work. An empty string

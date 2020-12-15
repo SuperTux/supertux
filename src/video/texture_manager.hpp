@@ -24,7 +24,7 @@
 #include <set>
 #include <string>
 #include <vector>
-#include <optional>
+#include <boost/optional.hpp>
 
 #include "math/rect.hpp"
 #include "util/currenton.hpp"
@@ -46,10 +46,10 @@ public:
   TextureManager();
   ~TextureManager();
 
-  TexturePtr get(const ReaderMapping& mapping, const std::optional<Rect>& region = std::nullopt);
+  TexturePtr get(const ReaderMapping& mapping, const boost::optional<Rect>& region = boost::none);
   TexturePtr get(const std::string& filename);
   TexturePtr get(const std::string& filename,
-                 const std::optional<Rect>& rect,
+                 const boost::optional<Rect>& rect,
                  const Sampler& sampler = Sampler());
 
   void debug_print(std::ostream& out) const;

@@ -17,7 +17,7 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_LEVELSET_SCREEN_HPP
 #define HEADER_SUPERTUX_SUPERTUX_LEVELSET_SCREEN_HPP
 
-#include <optional>
+#include <boost/optional.hpp>
 #include <string>
 
 #include "math/vector.hpp"
@@ -38,7 +38,7 @@ private:
 
 public:
   LevelsetScreen(const std::string& basedir, const std::string& level_filename, Savegame& savegame,
-                 const std::optional<std::pair<std::string, Vector>>& start_pos);
+                 const boost::optional<std::pair<std::string, Vector>>& start_pos);
 
   virtual void draw(Compositor& compositor) override;
   virtual void update(float dt_sec, const Controller& controller) override;
@@ -51,7 +51,7 @@ public:
   void finished_level(bool win);
 
 private:
-  std::optional<std::pair<std::string, Vector>> m_start_pos;
+  boost::optional<std::pair<std::string, Vector>> m_start_pos;
 
   LevelsetScreen(const LevelsetScreen&) = delete;
   LevelsetScreen& operator=(const LevelsetScreen&) = delete;

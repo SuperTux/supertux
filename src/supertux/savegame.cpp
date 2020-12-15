@@ -176,7 +176,7 @@ Savegame::load()
         }
         else
         {
-          std::optional<ReaderMapping> tux;
+          boost::optional<ReaderMapping> tux;
           if (!mapping.get("tux", tux))
           {
             throw std::runtime_error("No tux section in savegame");
@@ -185,7 +185,7 @@ Savegame::load()
             m_player_status->read(*tux);
           }
 
-          std::optional<ReaderMapping> state;
+          boost::optional<ReaderMapping> state;
           if (!mapping.get("state", state))
           {
             throw std::runtime_error("No state section in savegame");

@@ -19,7 +19,7 @@
 
 #include "video/painter.hpp"
 
-#include <optional>
+#include <boost/optional.hpp>
 
 class Renderer;
 class SDLScreenRenderer;
@@ -49,7 +49,7 @@ private:
   SDLVideoSystem& m_video_system;
   Renderer& m_renderer;
   SDL_Renderer* m_sdl_renderer;
-  std::optional<SDL_Rect> m_cliprect;
+  boost::optional<SDL_Rect> m_cliprect;
 
 private:
   SDLPainter(const SDLPainter&) = delete;

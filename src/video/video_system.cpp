@@ -17,7 +17,7 @@
 #include "video/video_system.hpp"
 
 #include <assert.h>
-#include <optional>
+#include <boost/optional.hpp>
 #include <config.h>
 #include <iomanip>
 #include <physfs.h>
@@ -164,7 +164,7 @@ VideoSystem::do_take_screenshot()
     }
   }
 
-  auto find_filename = [&]() -> std::optional<std::string>
+  auto find_filename = [&]() -> boost::optional<std::string>
     {
       for (int num = 0; num < 1000000; ++num)
       {
@@ -175,7 +175,7 @@ VideoSystem::do_take_screenshot()
           return screenshot_filename;
         }
       }
-      return std::nullopt;
+      return boost::none;
     };
 
   auto filename = find_filename();

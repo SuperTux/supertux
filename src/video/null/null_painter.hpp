@@ -19,7 +19,7 @@
 
 #include "video/painter.hpp"
 
-#include <optional>
+#include <boost/optional.hpp>
 
 class NullPainter : public Painter
 {
@@ -41,7 +41,7 @@ public:
   virtual void clear_clip_rect() override;
 
 private:
-  std::optional<Rect> m_clip_rect;
+  boost::optional<Rect> m_clip_rect;
 
 private:
   NullPainter(const NullPainter&) = delete;

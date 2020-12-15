@@ -75,7 +75,7 @@ SequenceTrigger::get_settings()
   result.add_enum(_("Sequence"), reinterpret_cast<int*>(&sequence),
                   {_("end sequence"), _("stop Tux"), _("fireworks")},
                   {"endsequence", "stoptux", "fireworks"},
-                  std::nullopt, "sequence");
+                  boost::none, "sequence");
 
   result.add_text(_("New worldmap spawnpoint"), &new_spawnpoint, "new_spawnpoint");
   result.add_text(_("Worldmap fade tilemap"), &fade_tilemap, "fade_tilemap");

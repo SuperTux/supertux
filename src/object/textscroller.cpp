@@ -17,7 +17,7 @@
 
 #include "object/textscroller.hpp"
 
-#include <optional>
+#include <boost/optional.hpp>
 #include <sexp/value.hpp>
 
 #include "control/input_manager.hpp"
@@ -111,7 +111,7 @@ TextScroller::parse_root(const ReaderObject& root)
     }
     else if (version == 2)
     {
-      std::optional<ReaderCollection> content_collection;
+      boost::optional<ReaderCollection> content_collection;
       if (!mapping.get("content", content_collection)) {
         throw std::runtime_error("File doesn't contain content");
       } else {

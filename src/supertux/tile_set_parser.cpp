@@ -159,13 +159,13 @@ TileSetParser::parse_tile(const ReaderMapping& reader)
   }
 
   std::vector<SurfacePtr> editor_surfaces;
-  std::optional<ReaderMapping> editor_images_mapping;
+  boost::optional<ReaderMapping> editor_images_mapping;
   if (reader.get("editor-images", editor_images_mapping)) {
     editor_surfaces = parse_imagespecs(*editor_images_mapping);
   }
 
   std::vector<SurfacePtr> surfaces;
-  std::optional<ReaderMapping> images_mapping;
+  boost::optional<ReaderMapping> images_mapping;
   if (reader.get("images", images_mapping)) {
     surfaces = parse_imagespecs(*images_mapping);
   }
@@ -255,13 +255,13 @@ TileSetParser::parse_tiles(const ReaderMapping& reader)
     if (shared_surface)
     {
       std::vector<SurfacePtr> editor_surfaces;
-      std::optional<ReaderMapping> editor_surfaces_mapping;
+      boost::optional<ReaderMapping> editor_surfaces_mapping;
       if (reader.get("editor-images", editor_surfaces_mapping)) {
         editor_surfaces = parse_imagespecs(*editor_surfaces_mapping);
       }
 
       std::vector<SurfacePtr> surfaces;
-      std::optional<ReaderMapping> surfaces_mapping;
+      boost::optional<ReaderMapping> surfaces_mapping;
       if (reader.get("image", surfaces_mapping) ||
          reader.get("images", surfaces_mapping)) {
         surfaces = parse_imagespecs(*surfaces_mapping);
@@ -308,14 +308,14 @@ TileSetParser::parse_tiles(const ReaderMapping& reader)
           int y = static_cast<int>(32 * (i / width));
 
           std::vector<SurfacePtr> surfaces;
-          std::optional<ReaderMapping> surfaces_mapping;
+          boost::optional<ReaderMapping> surfaces_mapping;
           if (reader.get("image", surfaces_mapping) ||
              reader.get("images", surfaces_mapping)) {
             surfaces = parse_imagespecs(*surfaces_mapping, Rect(x, y, Size(32, 32)));
           }
 
           std::vector<SurfacePtr> editor_surfaces;
-          std::optional<ReaderMapping> editor_surfaces_mapping;
+          boost::optional<ReaderMapping> editor_surfaces_mapping;
           if (reader.get("editor-images", editor_surfaces_mapping)) {
             editor_surfaces = parse_imagespecs(*editor_surfaces_mapping, Rect(x, y, Size(32, 32)));
           }
@@ -335,7 +335,7 @@ TileSetParser::parse_tiles(const ReaderMapping& reader)
 
 std::vector<SurfacePtr>
   TileSetParser::parse_imagespecs(const ReaderMapping& images_mapping,
-                                  const std::optional<Rect>& surface_region) const
+                                  const boost::optional<Rect>& surface_region) const
 {
   std::vector<SurfacePtr> surfaces;
 
