@@ -16,9 +16,12 @@
 
 #include "supertux/error_handler.hpp"
 
-// apparently this is exclusive to glibc as of 2020, keep checking for
-// llvm/msvc equivalent from time to time   ~ Semphris
-#ifdef __GLIBCXX__
+// execinfo.h as a built-in libc feature is exclusive to glibc as of 2020.
+// On FreeBSD and musl systems, an external libexecinfo is available, but
+// it has to be explicitly linked into the final executable.
+// This is a *libc* feature, not a compiler one; furthermore, it's possible
+// to verify its availability in CMakeLists.txt, if one is so inclined.
+#ifdef __GLIBC__
 #include <execinfo.h>
 #include <signal.h>
 #include <unistd.h>
@@ -29,7 +32,7 @@ bool ErrorHandler::m_handing_error = false;
 void
 ErrorHandler::set_handlers()
 {
-#ifdef __GLIBCXX__
+#ifdef __GLIBC__
   signal(SIGSEGV, handle_error);
 #endif
 }
@@ -56,7 +59,7 @@ ErrorHandler::handle_error(int sig)
 void
 ErrorHandler::print_stack_trace()
 {
-#ifdef __GLIBCXX__
+#ifdef __GLIBC__
   void *array[10];
   size_t size;
 
