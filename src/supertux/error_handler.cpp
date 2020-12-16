@@ -34,6 +34,7 @@ ErrorHandler::set_handlers()
 {
 #ifdef __GLIBC__
   signal(SIGSEGV, handle_error);
+  signal(SIGABRT, handle_error);
 #endif
 }
 
