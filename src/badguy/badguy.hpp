@@ -49,15 +49,9 @@ public:
       state and calls active_update and inactive_update */
   virtual void update(float dt_sec) override;
 
-  virtual std::string get_class() const override
-  {
-    return "badguy";
-  }
+  virtual std::string get_class() const override { return "badguy"; }
 
-  virtual std::string get_display_name() const override
-  {
-    return _("Badguy");
-  }
+  virtual std::string get_display_name() const override { return _("Badguy"); }
 
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
