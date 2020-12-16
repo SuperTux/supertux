@@ -14,40 +14,31 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_NETWORK_CLIENT_HPP
-#define HEADER_SUPERTUX_NETWORK_CLIENT_HPP
+#ifndef HEADER_SUPERTUX_NETWORK_CONNECTION_PTR_HPP
+#define HEADER_SUPERTUX_NETWORK_CONNECTION_PTR_HPP
 
 #include "network/connection.hpp"
 
 namespace network {
 
-/**
- * A networking client. Connects to a remote point on the network.
- * 
- * After instantiation, becomes the equivalent of a Connection object.
- * 
- * @see network::Connection
- */
-class Client : public Connection
-{
-public:
-  Client(int port, const std::string& ip, std::function<void(Connection*, const std::string&)> handler);
-  
-  virtual void init() override;
-
-private:
-  int m_port;
-  std::string m_ip;
-  /** Thread used to handle connections */
-  std::unique_ptr<std::thread> m_runner;
-
-  // Internal - used by Boost
-  boost::asio::io_service io_service;
-
-private:
-  Client(const Client&) = delete;
-  Client operator=(const Client&) = delete;
+struct connection_deleter {
+  void operator()(network::Connection* c)
+  {
+    if (c)
+      c->destroy();
+  }
 };
+
+/**
+ * Contains and manages a Connection object.
+ * The purpose of this class is to handle the destroy() function of the Connection
+ * object before the object is destroyed (@see Connection::destroy() for details).
+ * 
+ * Connection objects should always be dealt through a ConnectionPtr object.
+ * 
+ * This class is to be interpreted as similar to std::unique_ptr<network::Connection>.
+ */
+typedef std::unique_ptr<network::Connection, connection_deleter> ConnectionPtr;
 
 } // namespace network
 

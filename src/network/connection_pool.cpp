@@ -16,6 +16,7 @@
 
 #include "network/connection_pool.hpp"
 
+#include "network/connection_ptr.hpp"
 #include "util/log.hpp"
 
 namespace network {
@@ -50,7 +51,7 @@ ConnectionPool::send_all_except(const std::string& data, Connection* connection)
 }
 
 void
-ConnectionPool::add_connection(std::unique_ptr<Connection> connection)
+ConnectionPool::add_connection(ConnectionPtr connection)
 {
   m_connections.push_back(std::move(connection));
 }

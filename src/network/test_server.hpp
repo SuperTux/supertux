@@ -19,6 +19,7 @@
 
 #include "network/connection.hpp"
 #include "network/connection_pool.hpp"
+#include "network/connection_ptr.hpp"
 #include "network/server.hpp"
 #include "supertux/screen.hpp"
 
@@ -38,7 +39,7 @@ public:
   virtual IntegrationStatus get_status() const override { return IntegrationStatus(); }
 
 private:
-  void on_connect(std::unique_ptr<network::Connection> connection);
+  void on_connect(network::ConnectionPtr connection);
   void on_receive(network::Connection* connection, const std::string& data);
 
 private:

@@ -28,7 +28,7 @@ namespace network {
 using namespace boost::asio;
 using ip::tcp;
 
-Server::Server(int port, std::function<void(std::unique_ptr<Connection>)> handler,
+Server::Server(int port, std::function<void(ConnectionPtr)> handler,
          std::function<void(Connection*, const std::string&)> default_connection_handler) :
   m_port(port),
   m_handler(handler),
@@ -92,7 +92,7 @@ Server::handle_accept(tcp::socket* socket, const boost::system::error_code& err)
     return;
   }
 
-  std::unique_ptr<Connection> connection = std::make_unique<Connection>(socket, m_default_connection_handler);
+  ConnectionPtr connection = ConnectionPtr(new Connection(socket, m_default_connection_handler));
   connection->init();
   m_handler(std::move(connection));
 

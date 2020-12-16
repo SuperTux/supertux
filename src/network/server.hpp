@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_NETWORK_SERVER_HPP
 
 #include "network/connection.hpp"
+#include "network/connection_ptr.hpp"
 
 #include <functional>
 #include <memory>
@@ -25,14 +26,18 @@
 
 namespace network {
 
-// TODO: Make ServerTCP and ServertUDP
+
+/**
+ * A basic networking server. Listens to the given port, and reports all new
+ * connections.
+ */
 class Server
 {
 public:
   /* @param port The port to listen to
      @param handler What to do when a new connection arrives.
             WARNING: the handler will be called form a DIFFERENT thread! */
-  Server(int port, std::function<void(std::unique_ptr<Connection>)> handler,
+  Server(int port, std::function<void(ConnectionPtr)> handler,
          std::function<void(Connection*, const std::string&)> default_connection_handler);
 
   virtual ~Server();
@@ -57,13 +62,13 @@ protected:
   int m_port;
 
   /** What to do when a connection begins
-   *  @param The Connection object which was created
+   *  @param ConnectionPtr The Connection object which was created
    */
-  std::function<void(std::unique_ptr<Connection>)> m_handler;
+  std::function<void(ConnectionPtr)> m_handler;
 
   /** What handler to attach to the new connections by default
-   *  @param The Connection object which was created
-   *  @param The data received from the connection
+   *  @param Connection The Connection object which was created
+   *  @param string The data received from the connection
    */
   std::function<void(Connection*, const std::string&)> m_default_connection_handler;
 

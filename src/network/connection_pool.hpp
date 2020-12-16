@@ -19,10 +19,14 @@
 
 #include <string>
 
-#include <network/connection.hpp>
+#include "network/connection.hpp"
+#include "network/connection_ptr.hpp"
 
 namespace network {
 
+/**
+ * A group of Connections. Useful for room management.
+ */
 class ConnectionPool
 {
 public:
@@ -31,13 +35,13 @@ public:
   void send_all(const std::string& data);
   void send_all_except(const std::string& data, Connection* connection);
 
-  void add_connection(std::unique_ptr<Connection> connection);
+  void add_connection(ConnectionPtr connection);
   void remove_connection(Connection* connection);
   void clear_all_connections();
   void clear_closed_connections();
 
 protected:
-  std::vector<std::unique_ptr<Connection>> m_connections;
+  std::vector<ConnectionPtr> m_connections;
 
 private:
   ConnectionPool(const ConnectionPool&) = delete;
