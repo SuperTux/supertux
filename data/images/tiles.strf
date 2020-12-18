@@ -2196,7 +2196,7 @@
     )
     (attributes
       0 0
-      1 1
+      0 0
     )
     (image "tiles/doodads/stone1.png")
   )
@@ -2209,7 +2209,7 @@
     )
     (attributes
       0 0
-      1 1
+      0 0
     )
     (image "tiles/doodads/stone2.png")
   )
