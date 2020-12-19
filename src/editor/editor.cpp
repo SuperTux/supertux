@@ -385,20 +385,26 @@ Editor::update_keyboard(const Controller& controller)
     return;
   }
 
+  float scroll_velocity = 32.0f;
+
+  if (controller.hold(Control::ACTION)) {
+    scroll_velocity = 96.0f;
+  }
+
   if (controller.hold(Control::LEFT)) {
-    scroll({-32.0f, 0.0f});
+    scroll({ -scroll_velocity, 0.0f });
   }
 
   if (controller.hold(Control::RIGHT)) {
-    scroll({32.0f, 0.0f});
+    scroll({ scroll_velocity, 0.0f });
   }
 
   if (controller.hold(Control::UP)) {
-    scroll({0.0f, -32.0f});
+    scroll({ 0.0f, -scroll_velocity });
   }
 
   if (controller.hold(Control::DOWN)) {
-    scroll({0.0f, 32.0f});
+    scroll({ 0.0f, scroll_velocity });
   }
 }
 
