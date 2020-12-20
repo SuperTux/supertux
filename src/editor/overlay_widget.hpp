@@ -105,15 +105,15 @@ private:
   void process_right_click();
 
   // sp is sector pos, tp is pos on tilemap.
-  Vector tp_to_sp(const Vector& tp, int tile_size = 32);
-  Vector sp_to_tp(const Vector& sp, int tile_size = 32);
-  Vector tile_screen_pos(const Vector& tp, int tile_size = 32);
-  Vector align_to_tilemap(const Vector& sp, int tile_size = 32);
+  Vector tp_to_sp(const Vector& tp, int tile_size = 32) const;
+  Vector sp_to_tp(const Vector& sp, int tile_size = 32) const;
+  Vector tile_screen_pos(const Vector& tp, int tile_size = 32) const;
+  Vector align_to_tilemap(const Vector& sp, int tile_size = 32) const;
 
   // in sector position
-  Rectf drag_rect();
-  Rectf tile_drag_rect();
-  Rectf selection_draw_rect();
+  Rectf drag_rect() const;
+  Rectf tile_drag_rect() const;
+  Rectf selection_draw_rect() const;
   void update_tile_selection();
 
 private:
