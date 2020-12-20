@@ -46,7 +46,8 @@ WillOWisp::WillOWisp(const ReaderMapping& reader) :
   m_track_range(),
   m_vanish_range()
 {
-  if (Editor::is_active()) {
+  if (Editor::is_active())
+  {
     reader.get("sector", m_target_sector);
     reader.get("spawnpoint", m_target_spawnpoint);
   } else {
@@ -77,7 +78,8 @@ WillOWisp::WillOWisp(const ReaderMapping& reader) :
 void
 WillOWisp::finish_construction()
 {
-  if (get_walker() && get_walker()->is_running()) {
+  if (get_walker() && get_walker()->is_running())
+  {
     m_mystate = STATE_PATHMOVING_TRACK;
   }
 }
@@ -85,7 +87,8 @@ WillOWisp::finish_construction()
 void
 WillOWisp::active_update(float dt_sec)
 {
-  if (Editor::is_active() && get_path() && get_path()->is_valid()) {
+  if (Editor::is_active() && get_path() && get_path()->is_valid())
+  {
     get_walker()->update(dt_sec);
     set_pos(get_walker()->get_pos());
     return;
@@ -102,13 +105,15 @@ WillOWisp::active_update(float dt_sec)
       break;
 
     case STATE_IDLE:
-      if (dist.norm() <= m_track_range) {
+      if (dist.norm() <= m_track_range)
+      {
         m_mystate = STATE_TRACKING;
       }
       break;
 
     case STATE_TRACKING:
-      if (dist.norm() > m_vanish_range) {
+      if (dist.norm() > m_vanish_range)
+      {
         vanish();
       } else if (dist.norm() >= 1) {
         Vector dir_ = dist.unit();
@@ -121,7 +126,8 @@ WillOWisp::active_update(float dt_sec)
       break;
 
     case STATE_WARPING:
-      if (m_sprite->animation_done()) {
+      if (m_sprite->animation_done())
+      {
         remove_me();
       }
       break;
@@ -129,7 +135,8 @@ WillOWisp::active_update(float dt_sec)
     case STATE_VANISHING: {
       Vector dir_ = dist.unit();
       m_col.m_movement = dir_ * dt_sec * m_flyspeed;
-      if (m_sprite->animation_done()) {
+      if (m_sprite->animation_done())
+      {
         remove_me();
       }
       break;
@@ -141,7 +148,8 @@ WillOWisp::active_update(float dt_sec)
         return;
       get_walker()->update(dt_sec);
       m_col.m_movement = get_walker()->get_pos() - get_pos();
-      if (m_mystate == STATE_PATHMOVING_TRACK && dist.norm() <= m_track_range) {
+      if (m_mystate == STATE_PATHMOVING_TRACK && dist.norm() <= m_track_range)
+      {
         m_mystate = STATE_TRACKING;
       }
       break;
@@ -218,7 +226,8 @@ WillOWisp::collision_player(Player& player, const CollisionHit& ) {
   m_mystate = STATE_WARPING;
   m_sprite->set_action("warping", 1);
 
-  if (!m_hit_script.empty()) {
+  if (!m_hit_script.empty())
+  {
     Sector::get().run_script(m_hit_script, "hit-script");
   } else {
     GameSession::current()->respawn(m_target_sector, m_target_spawnpoint);
@@ -232,7 +241,8 @@ void
 WillOWisp::goto_node(int node_no)
 {
   get_walker()->goto_node(node_no);
-  if (m_mystate != STATE_PATHMOVING && m_mystate != STATE_PATHMOVING_TRACK) {
+  if (m_mystate != STATE_PATHMOVING && m_mystate != STATE_PATHMOVING_TRACK)
+  {
     m_mystate = STATE_PATHMOVING;
   }
 }
@@ -252,7 +262,8 @@ WillOWisp::stop_moving()
 void
 WillOWisp::set_state(const std::string& new_state)
 {
-  if (new_state == "stopped") {
+  if (new_state == "stopped")
+  {
     m_mystate = STATE_STOPPED;
   } else if (new_state == "idle") {
     m_mystate = STATE_IDLE;
@@ -292,14 +303,16 @@ WillOWisp::get_settings()
 
 void WillOWisp::stop_looping_sounds()
 {
-  if (m_sound_source) {
+  if (m_sound_source)
+  {
     m_sound_source->stop();
   }
 }
 
 void WillOWisp::play_looping_sounds()
 {
-  if (m_sound_source) {
+  if (m_sound_source)
+  {
     m_sound_source->play();
   }
 }
@@ -308,7 +321,8 @@ void
 WillOWisp::move_to(const Vector& pos)
 {
   Vector shift = pos - m_col.m_bbox.p1();
-  if (get_path()) {
+  if (get_path())
+  {
     get_path()->move_by(shift);
   }
   set_pos(pos);

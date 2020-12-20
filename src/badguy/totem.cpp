@@ -44,11 +44,13 @@ Totem::~Totem()
 bool
 Totem::updatePointers(const GameObject* from_object, GameObject* to_object)
 {
-  if (from_object == carrying) {
+  if (from_object == carrying)
+  {
     carrying = dynamic_cast<Totem*>(to_object);
     return true;
   }
-  if (from_object == carried_by) {
+  if (from_object == carried_by)
+  {
     carried_by = dynamic_cast<Totem*>(to_object);
     return true;
   }
@@ -58,7 +60,8 @@ Totem::updatePointers(const GameObject* from_object, GameObject* to_object)
 void
 Totem::initialize()
 {
-  if (!carried_by) {
+  if (!carried_by)
+  {
 static const float WALKSPEED = 100;
     m_physic.set_velocity_x(m_dir == Direction::LEFT ? -WALKSPEED : WALKSPEED);
     m_sprite->set_action(m_dir == Direction::LEFT ? "walking-left" : "walking-right");
@@ -75,7 +78,8 @@ Totem::active_update(float dt_sec)
 {
   BadGuy::active_update(dt_sec);
 
-  if (!carried_by) {
+  if (!carried_by)
+  {
     if (on_ground() && might_fall())
     {
       m_dir = (m_dir == Direction::LEFT ? Direction::RIGHT : Direction::LEFT);
@@ -108,11 +112,13 @@ Totem::active_update(float dt_sec)
     }
   }
 
-  if (carried_by) {
+  if (carried_by)
+  {
     synchronize_with(carried_by);
   }
 
-  if (carrying) {
+  if (carrying)
+  {
     carrying->synchronize_with(this);
   }
 
@@ -123,11 +129,13 @@ Totem::collision_squished(GameObject& object)
 {
   /// Tux shouldn't be able to bisect totem stack by sacrificing his powerup.
   /// --Hume2
-  if (carrying) {
+  if (carrying)
+  {
     return false;
   }
 
-  if (carried_by) {
+  if (carried_by)
+  {
     auto player = dynamic_cast<Player*>(&object);
     if (player) player->bounce(*this);
     jump_off();
@@ -146,22 +154,26 @@ Totem::collision_solid(const CollisionHit& hit)
   update_on_ground_flag(hit);
 
   // if we are being carried around, pass event to bottom of stack and ignore it
-  if (carried_by) {
+  if (carried_by)
+  {
     carried_by->collision_solid(hit);
     return;
   }
 
   // If we hit something from above or below: stop moving in this direction
-  if (hit.top || hit.bottom) {
+  if (hit.top || hit.bottom)
+  {
     m_physic.set_velocity_y(0);
   }
 
   // If we are hit from the direction we are facing: turn around
-  if (hit.left && (m_dir == Direction::LEFT)) {
+  if (hit.left && (m_dir == Direction::LEFT))
+  {
     m_dir = Direction::RIGHT;
     initialize();
   }
-  if (hit.right && (m_dir == Direction::RIGHT)) {
+  if (hit.right && (m_dir == Direction::RIGHT))
+  {
     m_dir = Direction::LEFT;
     initialize();
   }
@@ -171,28 +183,33 @@ HitResponse
 Totem::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
 {
   // if we are being carried around, pass event to bottom of stack and ignore it
-  if (carried_by) {
+  if (carried_by)
+  {
     carried_by->collision_badguy(badguy, hit);
     return CONTINUE;
   }
 
   // if we hit a Totem that is not from our stack: have our base jump on its top
   auto totem = dynamic_cast<Totem*>(&badguy);
-  if (totem) {
+  if (totem)
+  {
     auto thisBase = this; while (thisBase->carried_by) thisBase=thisBase->carried_by;
     auto srcBase = totem; while (srcBase->carried_by)  srcBase=srcBase->carried_by;
     auto thisTop = this;  while (thisTop->carrying)    thisTop=thisTop->carrying;
-    if (srcBase != thisBase) {
+    if (srcBase != thisBase)
+    {
       srcBase->jump_on(thisTop);
     }
   }
 
   // If we are hit from the direction we are facing: turn around
-  if (hit.left && (m_dir == Direction::LEFT)) {
+  if (hit.left && (m_dir == Direction::LEFT))
+  {
     m_dir = Direction::RIGHT;
     initialize();
   }
-  if (hit.right && (m_dir == Direction::RIGHT)) {
+  if (hit.right && (m_dir == Direction::RIGHT))
+  {
     m_dir = Direction::LEFT;
     initialize();
   }
@@ -212,7 +229,8 @@ Totem::kill_fall()
 void
 Totem::jump_on(Totem* target)
 {
-  if (target->carrying) {
+  if (target->carrying)
+  {
     log_warning << "target is already carrying someone" << std::endl;
     return;
   }
@@ -230,7 +248,8 @@ Totem::jump_on(Totem* target)
 
 void
 Totem::jump_off() {
-  if (!carried_by) {
+  if (!carried_by)
+  {
     log_warning << "not carried by anyone" << std::endl;
     return;
   }
@@ -249,7 +268,8 @@ void
 Totem::synchronize_with(Totem* base)
 {
 
-  if (m_dir != base->m_dir) {
+  if (m_dir != base->m_dir)
+  {
     m_dir = base->m_dir;
     m_sprite->set_action(m_dir == Direction::LEFT ? "stacked-left" : "stacked-right");
   }

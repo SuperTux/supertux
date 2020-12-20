@@ -46,7 +46,8 @@ Toad::initialize()
 void
 Toad::set_state(ToadState newState)
 {
-  if (newState == IDLE) {
+  if (newState == IDLE)
+  {
     m_physic.set_velocity_x(0);
     m_physic.set_velocity_y(0);
     if (!m_frozen)
@@ -54,13 +55,15 @@ Toad::set_state(ToadState newState)
 
     recover_timer.start(TOAD_RECOVER_TIME);
   } else
-    if (newState == JUMPING) {
+    if (newState == JUMPING)
+    {
       m_sprite->set_action(m_dir == Direction::LEFT ? "jumping-left" : "jumping-right");
       m_physic.set_velocity_x(m_dir == Direction::LEFT ? -HORIZONTAL_SPEED : HORIZONTAL_SPEED);
       m_physic.set_velocity_y(VERTICAL_SPEED);
       SoundManager::current()->play( HOP_SOUND, get_pos());
     } else
-      if (newState == FALLING) {
+      if (newState == FALLING)
+      {
         Player* player = get_nearest_player();
         // face player
         if (player && (player->get_bbox().get_right() < m_col.m_bbox.get_left()) && (m_dir == Direction::RIGHT)) m_dir = Direction::LEFT;
@@ -90,21 +93,25 @@ Toad::collision_solid(const CollisionHit& hit)
   }
 
   // just default behaviour (i.e. stop at floor/walls) when squished
-  if (BadGuy::get_state() == STATE_SQUISHED) {
+  if (BadGuy::get_state() == STATE_SQUISHED)
+  {
     BadGuy::collision_solid(hit);
     return;
   }
 
   // ignore collisions while standing still
-  if (state == IDLE) {
+  if (state == IDLE)
+  {
     return;
   }
 
   // check if we hit left or right while moving in either direction
-  if (((m_physic.get_velocity_x() < 0) && hit.left) || ((m_physic.get_velocity_x() > 0) && hit.right)) {
+  if (((m_physic.get_velocity_x() < 0) && hit.left) || ((m_physic.get_velocity_x() > 0) && hit.right))
+  {
     /*
       dir = dir == LEFT ? RIGHT : LEFT;
-      if (state == JUMPING) {
+      if (state == JUMPING)
+      {
       sprite->set_action(dir == LEFT ? "jumping-left" : "jumping-right");
       } else {
       sprite->set_action(dir == LEFT ? "idle-left" : "idle-right");
@@ -114,13 +121,15 @@ Toad::collision_solid(const CollisionHit& hit)
   }
 
   // check if we hit the floor while falling
-  if ((state == FALLING) && hit.bottom) {
+  if ((state == FALLING) && hit.bottom)
+  {
     set_state(IDLE);
     return;
   }
 
   // check if we hit the roof while climbing
-  if ((state == JUMPING) && hit.top) {
+  if ((state == JUMPING) && hit.top)
+  {
     m_physic.set_velocity_y(0);
   }
 
@@ -142,13 +151,15 @@ Toad::active_update(float dt_sec)
 
 
   // change sprite when we are falling and not frozen
-  if ((state == JUMPING) && (m_physic.get_velocity_y() > 0) && !m_frozen) {
+  if ((state == JUMPING) && (m_physic.get_velocity_y() > 0) && !m_frozen)
+  {
     set_state(FALLING);
     return;
   }
 
   // jump when fully recovered and if not frozen
-  if ((state == IDLE) && (recover_timer.check() && !m_frozen)) {
+  if ((state == IDLE) && (recover_timer.check() && !m_frozen))
+  {
     set_state(JUMPING);
     return;
   }

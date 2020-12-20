@@ -37,7 +37,8 @@ LiveFire::LiveFire(const ReaderMapping& reader) :
 void
 LiveFire::collision_solid(const CollisionHit& hit)
 {
-  if (state != STATE_WALKING) {
+  if (state != STATE_WALKING)
+  {
     BadGuy::collision_solid(hit);
     return;
   }
@@ -47,7 +48,8 @@ LiveFire::collision_solid(const CollisionHit& hit)
 HitResponse
 LiveFire::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
 {
-  if (state != STATE_WALKING) {
+  if (state != STATE_WALKING)
+  {
     return BadGuy::collision_badguy(badguy, hit);
   }
   return WalkingBadguy::collision_badguy(badguy, hit);
@@ -60,15 +62,18 @@ LiveFire::active_update(float dt_sec) {
   if ((m_sprite->get_action() == "extinguish-left" || m_sprite->get_action() == "extinguish-right" )
     && m_sprite->animation_done()) remove_me();
 
-  if (state == STATE_WALKING) {
+  if (state == STATE_WALKING)
+  {
     WalkingBadguy::active_update(dt_sec);
     return;
   }
 
-  if (state == STATE_SLEEPING && m_col.get_group() == COLGROUP_MOVING) {
+  if (state == STATE_SLEEPING && m_col.get_group() == COLGROUP_MOVING)
+  {
 
     auto player = get_nearest_player();
-    if (player) {
+    if (player)
+    {
       Rectf pb = player->get_bbox();
 
       bool inReach_left = (pb.get_right() >= m_col.m_bbox.get_right()-((m_dir == Direction::LEFT) ? 256 : 0));
@@ -76,7 +81,8 @@ LiveFire::active_update(float dt_sec) {
       bool inReach_top = (pb.get_bottom() >= m_col.m_bbox.get_top());
       bool inReach_bottom = (pb.get_top() <= m_col.m_bbox.get_bottom());
 
-      if (inReach_left && inReach_right && inReach_top && inReach_bottom) {
+      if (inReach_left && inReach_right && inReach_top && inReach_bottom)
+      {
         // wake up
         m_sprite->set_action(m_dir == Direction::LEFT ? "waking-left" : "waking-right", 1);
         state = STATE_WAKING;
@@ -84,7 +90,8 @@ LiveFire::active_update(float dt_sec) {
     }
   }
   else if (state == STATE_WAKING) {
-    if (m_sprite->animation_done()) {
+    if (m_sprite->animation_done())
+    {
       // start walking
       state = STATE_WALKING;
       WalkingBadguy::initialize();
@@ -151,7 +158,8 @@ LiveFireAsleep::LiveFireAsleep(const ReaderMapping& reader) :
 void
 LiveFireAsleep::draw(DrawingContext& context)
 {
-  if (Editor::is_active()) {
+  if (Editor::is_active())
+  {
     m_sprite->set_action(m_dir == Direction::LEFT ? "sleeping-left" : "sleeping-right");
     BadGuy::draw(context);
   } else {
@@ -177,7 +185,8 @@ LiveFireDormant::LiveFireDormant(const ReaderMapping& reader) :
 void
 LiveFireDormant::draw(DrawingContext& context)
 {
-  if (Editor::is_active()) {
+  if (Editor::is_active())
+  {
     m_sprite->set_action(m_dir == Direction::LEFT ? "sleeping-left" : "sleeping-right");
     BadGuy::draw(context);
   } else {

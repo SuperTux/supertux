@@ -40,16 +40,20 @@ Bomb::Bomb(const Vector& pos, Direction dir_, const std::string& custom_sprite /
 void
 Bomb::collision_solid(const CollisionHit& hit)
 {
-  if (is_grabbed()) {
+  if (is_grabbed())
+  {
     return;
   }
-  if (hit.top || hit.bottom) {
+  if (hit.top || hit.bottom)
+  {
     m_physic.set_velocity_y(0);
   }
-  if (hit.left || hit.right) {
+  if (hit.left || hit.right)
+  {
     m_physic.set_velocity_x(-m_physic.get_velocity_x());
   }
-  if (hit.crush) {
+  if (hit.crush)
+  {
     m_physic.set_velocity(0, 0);
   }
 
@@ -71,13 +75,15 @@ Bomb::collision_badguy(BadGuy& , const CollisionHit& )
 void
 Bomb::active_update(float dt_sec)
 {
-  if (on_ground()) {
+  if (on_ground())
+  {
     m_physic.set_velocity_x(0);
   }
 
   ticking->set_position(get_pos());
 
-  if (m_sprite->animation_done()) {
+  if (m_sprite->animation_done())
+  {
     explode();
   } else if (!is_grabbed()) {
     m_col.m_movement = m_physic.get_movement(dt_sec);
@@ -92,15 +98,18 @@ Bomb::explode()
   // Make the player let go before we explode, otherwise the player is holding
   // an invalid object. There's probably a better way to do this than in the
   // Bomb class.
-  if (is_grabbed()) {
+  if (is_grabbed())
+  {
     auto player = dynamic_cast<Player*>(m_owner);
 
-    if (player) {
+    if (player)
+    {
       player->stop_grabbing();
     }
   }
 
-  if (is_valid()) {
+  if (is_valid())
+  {
     remove_me();
     Sector::get().add<Explosion>(m_col.m_bbox.get_middle(), EXPLOSION_STRENGTH_DEFAULT);
   }
@@ -143,16 +152,19 @@ Bomb::ungrab(MovingObject& object, Direction dir_)
   auto player = dynamic_cast<Player*> (&object);
 
   // toss upwards
-  if (dir_ == Direction::UP) {
+  if (dir_ == Direction::UP)
+  {
     toss_velocity_y += -500;
   }
 
   // toss to the side when moving sideways
-  if (player && player->get_physic().get_velocity_x()*(dir_ == Direction::LEFT ? -1 : 1) > 1) {
+  if (player && player->get_physic().get_velocity_x()*(dir_ == Direction::LEFT ? -1 : 1) > 1)
+  {
     toss_velocity_x += (dir_ == Direction::LEFT) ? -200 : 200;
     toss_velocity_y = (toss_velocity_y < -200) ? toss_velocity_y : -200;
     // toss farther when running
-    if (player && player->get_physic().get_velocity_x()*(dir_ == Direction::LEFT ? -1 : 1) > 200) {
+    if (player && player->get_physic().get_velocity_x()*(dir_ == Direction::LEFT ? -1 : 1) > 200)
+    {
       toss_velocity_x += static_cast<int>(player->get_physic().get_velocity_x() - (190.0f * (dir_ == Direction::LEFT ? -1.0f : 1.0f)));
     }
   }
@@ -166,14 +178,16 @@ Bomb::ungrab(MovingObject& object, Direction dir_)
 
 void Bomb::stop_looping_sounds()
 {
-  if (ticking) {
+  if (ticking)
+  {
     ticking->stop();
   }
 }
 
 void Bomb::play_looping_sounds()
 {
-  if (ticking) {
+  if (ticking)
+  {
     ticking->play();
   }
 }

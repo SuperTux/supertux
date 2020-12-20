@@ -68,16 +68,19 @@ Igel::active_update(float dt_sec)
 
   // check if we see a fire bullet
   for (const auto& bullet : Sector::get().get_objects_by_type<Bullet>()) {
-    if (bullet.get_type() != FIRE_BONUS) {
+    if (bullet.get_type() != FIRE_BONUS)
+    {
       continue;
     }
-    if (can_see(bullet)) {
+    if (can_see(bullet))
+    {
       wants_to_flee = true;
     }
   }
 
   // if we flee, handle this ourselves
-  if (wants_to_flee && (!turn_recover_timer.started())) {
+  if (wants_to_flee && (!turn_recover_timer.started()))
+  {
     turn_around();
     BadGuy::active_update(dt_sec);
     return;

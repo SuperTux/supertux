@@ -53,16 +53,19 @@ Owl::initialize()
   // If we add the carried object to the sector while we're editing
   // a level with the editor, it gets written to the level file,
   // resulting in two carried objects. Returning early is much better.
-  if (Editor::is_active()) {
+  if (Editor::is_active())
+  {
     return;
   }
 
   auto game_object = GameObjectFactory::instance().create(carried_obj_name, get_pos(), m_dir);
-  if (game_object == nullptr) {
+  if (game_object == nullptr)
+  {
     log_fatal << "Creating \"" << carried_obj_name << "\" object failed." << std::endl;
   } else {
     carried_object = dynamic_cast<Portable*>(game_object.get());
-    if (carried_object == nullptr) {
+    if (carried_object == nullptr)
+    {
       log_warning << "Object is not portable: " << carried_obj_name << std::endl;
     } else {
       Sector::get().add_object(std::move(game_object));
@@ -74,7 +77,8 @@ bool
 Owl::is_above_player() const
 {
   auto player = Sector::get().get_nearest_player(m_col.m_bbox);
-  if (!player) {
+  if (!player)
+  {
     return false;
   }
 
@@ -94,11 +98,13 @@ Owl::active_update (float dt_sec)
 {
   BadGuy::active_update (dt_sec);
 
-  if (m_frozen) {
+  if (m_frozen)
+  {
     return;
   }
 
-  if (carried_object != nullptr) {
+  if (carried_object != nullptr)
+  {
     if (!is_above_player ()) {
       Vector obj_pos = get_anchor_pos(m_col.m_bbox, ANCHOR_BOTTOM);
       obj_pos.x -= 16.f; /* FIXME: Actually do use the half width of the carried object here. */
@@ -122,11 +128,13 @@ bool
 Owl::collision_squished(GameObject&)
 {
   auto player = Sector::get().get_nearest_player(m_col.m_bbox);
-  if (player) {
+  if (player)
+  {
     player->bounce (*this);
   }
 
-  if (carried_object != nullptr) {
+  if (carried_object != nullptr)
+  {
     carried_object->ungrab (*this, m_dir);
     carried_object = nullptr;
   }
@@ -144,7 +152,8 @@ Owl::kill_fall()
   m_physic.enable_gravity(true);
   set_state(STATE_FALLING);
 
-  if (carried_object != nullptr) {
+  if (carried_object != nullptr)
+  {
     carried_object->ungrab (*this, m_dir);
     carried_object = nullptr;
   }
@@ -156,7 +165,8 @@ Owl::kill_fall()
 void
 Owl::freeze()
 {
-  if (carried_object != nullptr) {
+  if (carried_object != nullptr)
+  {
     carried_object->ungrab (*this, m_dir);
     carried_object = nullptr;
   }
@@ -182,13 +192,15 @@ Owl::is_freezable() const
 void
 Owl::collision_solid(const CollisionHit& hit)
 {
-  if (m_frozen) {
+  if (m_frozen)
+  {
     BadGuy::collision_solid(hit);
     return;
   } else if (hit.top || hit.bottom) {
     m_physic.set_velocity_y(0);
   } else if (hit.left || hit.right) {
-    if (m_dir == Direction::LEFT) {
+    if (m_dir == Direction::LEFT)
+    {
       set_action ("right", /* loops = */ -1);
       m_dir = Direction::RIGHT;
       m_physic.set_velocity_x (FLYING_SPEED);
@@ -203,7 +215,8 @@ Owl::collision_solid(const CollisionHit& hit)
 void
 Owl::ignite()
 {
-  if (carried_object != nullptr) {
+  if (carried_object != nullptr)
+  {
     carried_object->ungrab (*this, m_dir);
     carried_object = nullptr;
   }

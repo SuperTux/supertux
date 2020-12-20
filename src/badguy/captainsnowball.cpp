@@ -44,7 +44,8 @@ CaptainSnowball::might_climb(int width, int height) const
   float y2a = m_col.m_bbox.get_bottom() - 1;
   float y1b = m_col.m_bbox.get_top() + 1 - static_cast<float>(height);
   float y2b = m_col.m_bbox.get_bottom() - 1 - static_cast<float>(height);
-  if (m_dir == Direction::LEFT) {
+  if (m_dir == Direction::LEFT)
+  {
     x1 = m_col.m_bbox.get_left() - static_cast<float>(width);
     x2 = m_col.m_bbox.get_left() - 1;
   } else {
@@ -58,7 +59,8 @@ CaptainSnowball::might_climb(int width, int height) const
 void
 CaptainSnowball::active_update(float dt_sec)
 {
-  if (on_ground() && might_climb(8, 64)) {
+  if (on_ground() && might_climb(8, 64))
+  {
     m_physic.set_velocity_y(-400);
   } else if (on_ground() && might_fall(16)) {
     m_physic.set_velocity_y(-400);
@@ -71,7 +73,8 @@ CaptainSnowball::active_update(float dt_sec)
 void
 CaptainSnowball::collision_solid(const CollisionHit& hit)
 {
-  if (is_active() && (walk_speed == BOARDING_SPEED)) {
+  if (is_active() && (walk_speed == BOARDING_SPEED))
+  {
     walk_speed = CAPTAIN_WALK_SPEED;
     m_physic.set_velocity_x(m_dir == Direction::LEFT ? -walk_speed : walk_speed);
   }

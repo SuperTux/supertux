@@ -65,7 +65,8 @@ Mole::collision_badguy(BadGuy& , const CollisionHit& )
 bool
 Mole::collision_squished(GameObject& )
 {
-  if (m_frozen) {
+  if (m_frozen)
+  {
     unfreeze();
   }
 
@@ -96,31 +97,37 @@ Mole::active_update(float dt_sec)
 
   switch (state) {
     case PRE_THROWING:
-      if (timer.check()) {
+      if (timer.check())
+      {
         set_state(THROWING);
       }
       break;
     case THROWING:
-      if (throw_timer.check()) {
+      if (throw_timer.check())
+      {
         throw_rock();
         throw_timer.start(THROW_INTERVAL);
       }
-      if (timer.check()) {
+      if (timer.check())
+      {
         set_state(POST_THROWING);
       }
       break;
     case POST_THROWING:
-      if (timer.check()) {
+      if (timer.check())
+      {
         set_state(PEEKING);
       }
       break;
     case PEEKING:
-      if (m_sprite->animation_done()) {
+      if (m_sprite->animation_done())
+      {
         set_state(PRE_THROWING);
       }
       break;
     case BURNING:
-      if (m_sprite->animation_done()) {
+      if (m_sprite->animation_done())
+      {
         set_state(DEAD);
       }
       break;

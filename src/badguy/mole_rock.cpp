@@ -46,7 +46,8 @@ MoleRock::MoleRock(const Vector& pos, const Vector& velocity, const BadGuy* pare
 bool
 MoleRock::updatePointers(const GameObject* from_object, GameObject* to_object)
 {
-  if (from_object == parent) {
+  if (from_object == parent)
+  {
     parent = dynamic_cast<MoleRock*>(to_object);
     return true;
   }
@@ -83,7 +84,8 @@ HitResponse
 MoleRock::collision_badguy(BadGuy& badguy, const CollisionHit& )
 {
   // ignore collisions with parent
-  if (&badguy == parent) {
+  if (&badguy == parent)
+  {
     return FORCE_MOVE;
   }
   SoundManager::current()->play("sounds/stomp.wav", get_pos());

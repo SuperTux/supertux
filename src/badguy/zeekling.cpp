@@ -53,7 +53,8 @@ Zeekling::collision_squished(GameObject& object)
 void
 Zeekling::onBumpHorizontal()
 {
-  if (m_frozen) {
+  if (m_frozen)
+  {
     m_physic.set_velocity_x(0);
     return;
   }
@@ -85,7 +86,8 @@ Zeekling::onBumpHorizontal()
 void
 Zeekling::onBumpVertical()
 {
-  if (m_frozen || BadGuy::get_state() == STATE_BURNING) {
+  if (m_frozen || BadGuy::get_state() == STATE_BURNING)
+  {
     m_physic.set_velocity_y(0);
     m_physic.set_velocity_x(0);
     return;
@@ -119,7 +121,8 @@ Zeekling::collision_solid(const CollisionHit& hit)
     return;
   }
 
-  if (hit.top || hit.bottom) {
+  if (hit.top || hit.bottom)
+  {
     onBumpVertical();
   } else if (hit.left || hit.right) {
     onBumpHorizontal();
@@ -134,7 +137,8 @@ Zeekling::should_we_dive()
     return false;
 
   const auto player = get_nearest_player();
-  if (player && last_player && (player == last_player)) {
+  if (player && last_player && (player == last_player))
+  {
 
     // get positions, calculate movement
     const Vector& player_pos = player->get_pos();
@@ -150,7 +154,8 @@ Zeekling::should_we_dive()
 
     // do not dive if we are not above the player, we are too far above the player,
     // or if we would not descend faster than the player
-    if (height <= 0 || height > 512 || relSpeed <= 0) {
+    if (height <= 0 || height > 512 || relSpeed <= 0)
+    {
       return false;
     }
 
@@ -169,7 +174,8 @@ Zeekling::should_we_dive()
 
   // update last player tracked, as well as our positions
   last_player = player;
-  if (player) {
+  if (player)
+  {
     last_player_pos = player->get_pos();
     last_self_pos = m_col.m_bbox.p1();
   }
@@ -179,7 +185,8 @@ Zeekling::should_we_dive()
 
 void
 Zeekling::active_update(float dt_sec) {
-  if (state == FLYING && should_we_dive()) {
+  if (state == FLYING && should_we_dive())
+  {
     state = DIVING;
     m_physic.set_velocity_y(2*fabsf(m_physic.get_velocity_x()));
     m_sprite->set_action(m_dir == Direction::LEFT ? "diving-left" : "diving-right");

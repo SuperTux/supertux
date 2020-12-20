@@ -44,13 +44,15 @@ DartTrap::DartTrap(const ReaderMapping& reader) :
   reader.get("ammo", ammo, -1);
   m_countMe = false;
   SoundManager::current()->preload("sounds/dartfire.wav");
-  if (m_start_dir == Direction::AUTO) {
+  if (m_start_dir == Direction::AUTO)
+  {
     log_warning << "Setting a DartTrap's direction to AUTO is no good idea" << std::endl;
   }
   state = IDLE;
   set_colgroup_active(COLGROUP_DISABLED);
 
-  if (!Editor::is_active() && initial_delay == 0) {
+  if (!Editor::is_active() && initial_delay == 0)
+  {
     initial_delay = 0.1f;
   }
 }
@@ -76,12 +78,14 @@ DartTrap::collision_player(Player& , const CollisionHit& )
 void
 DartTrap::active_update(float )
 {
-  if (!enabled) {
+  if (!enabled)
+  {
     return;
   }
   switch (state) {
     case IDLE:
-      if ((ammo != 0) && (fire_timer.check())) {
+      if ((ammo != 0) && (fire_timer.check()))
+      {
         if (ammo > 0) {
           ammo--;
         }
@@ -91,7 +95,8 @@ DartTrap::active_update(float )
       break;
 
     case LOADING:
-      if (m_sprite->animation_done()) {
+      if (m_sprite->animation_done())
+      {
         fire();
       }
       break;
@@ -112,7 +117,8 @@ void
 DartTrap::fire()
 {
   float px = get_pos().x;
-  if (m_dir == Direction::RIGHT) {
+  if (m_dir == Direction::RIGHT)
+  {
     px += 5;
   }
   float py = get_pos().y;

@@ -134,14 +134,16 @@ WalkingBadguy::active_update(float dt_sec, float dest_x_velocity)
     assert(false);
   }
 
-  if (max_drop_height > -1) {
+  if (max_drop_height > -1)
+  {
     if (on_ground() && might_fall(max_drop_height+1))
     {
       turn_around();
     }
   }
 
-  if ((m_dir == Direction::LEFT) && (m_physic.get_velocity_x () > 0.0f)) {
+  if ((m_dir == Direction::LEFT) && (m_physic.get_velocity_x () > 0.0f))
+  {
     m_dir = Direction::RIGHT;
     set_action (walk_right_action, /* loops = */ -1);
   }
@@ -163,14 +165,17 @@ WalkingBadguy::collision_solid(const CollisionHit& hit)
 
   update_on_ground_flag(hit);
 
-  if (hit.top) {
+  if (hit.top)
+  {
     if (m_physic.get_velocity_y() < 0) m_physic.set_velocity_y(0);
   }
-  if (hit.bottom) {
+  if (hit.bottom)
+  {
     if (m_physic.get_velocity_y() > 0) m_physic.set_velocity_y(0);
   }
 
-  if ((hit.left && (m_dir == Direction::LEFT)) || (hit.right && (m_dir == Direction::RIGHT))) {
+  if ((hit.left && (m_dir == Direction::LEFT)) || (hit.right && (m_dir == Direction::RIGHT)))
+  {
     turn_around();
   }
 
@@ -179,11 +184,13 @@ WalkingBadguy::collision_solid(const CollisionHit& hit)
 HitResponse
 WalkingBadguy::collision_badguy(BadGuy& , const CollisionHit& hit)
 {
-  if (hit.top) {
+  if (hit.top)
+  {
     return FORCE_MOVE;
   }
 
-  if ((hit.left && (m_dir == Direction::LEFT)) || (hit.right && (m_dir == Direction::RIGHT))) {
+  if ((hit.left && (m_dir == Direction::LEFT)) || (hit.right && (m_dir == Direction::RIGHT)))
+  {
     turn_around();
   }
 
@@ -196,14 +203,16 @@ WalkingBadguy::turn_around()
   if (m_frozen)
     return;
   m_dir = m_dir == Direction::LEFT ? Direction::RIGHT : Direction::LEFT;
-  if (get_state() == STATE_INIT || get_state() == STATE_INACTIVE || get_state() == STATE_ACTIVE) {
+  if (get_state() == STATE_INIT || get_state() == STATE_INACTIVE || get_state() == STATE_ACTIVE)
+  {
     m_sprite->set_action(m_dir == Direction::LEFT ? walk_left_action : walk_right_action);
   }
   m_physic.set_velocity_x(-m_physic.get_velocity_x());
   m_physic.set_acceleration_x (-m_physic.get_acceleration_x ());
 
   // if we get dizzy, we fall off the screen
-  if (turn_around_timer.started()) {
+  if (turn_around_timer.started())
+  {
     if (turn_around_counter++ > 10) kill_fall();
   } else {
     turn_around_timer.start(1);

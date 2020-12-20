@@ -45,7 +45,8 @@ Fish::collision_badguy(BadGuy& , const CollisionHit& chit)
 void
 Fish::draw(DrawingContext& context)
 {
-  if (waiting.started()) {
+  if (waiting.started())
+  {
     return;
   }
 
@@ -55,7 +56,8 @@ Fish::draw(DrawingContext& context)
 HitResponse
 Fish::hit(const CollisionHit& hit_)
 {
-  if (hit_.top) {
+  if (hit_.top)
+  {
     m_physic.set_velocity_y(0);
   }
 
@@ -65,15 +67,18 @@ Fish::hit(const CollisionHit& hit_)
 void
 Fish::collision_tile(uint32_t tile_attributes)
 {
-  if ((tile_attributes & Tile::WATER) && (m_physic.get_velocity_y() >= 0)) {
+  if ((tile_attributes & Tile::WATER) && (m_physic.get_velocity_y() >= 0))
+  {
 
     // initialize stop position if uninitialized
-    if (stop_y == 0) {
+    if (stop_y == 0)
+    {
       stop_y = get_pos().y + m_col.m_bbox.get_height();
     }
 
     // stop when we have reached the stop position
-    if (get_pos().y >= stop_y) {
+    if (get_pos().y >= stop_y)
+    {
       if (!m_frozen) {
         start_waiting();
       }
@@ -81,7 +86,8 @@ Fish::collision_tile(uint32_t tile_attributes)
     }
 
   }
-  if ((!(tile_attributes & Tile::WATER) || m_frozen) && (tile_attributes & Tile::HURTS)) {
+  if ((!(tile_attributes & Tile::WATER) || m_frozen) && (tile_attributes & Tile::HURTS))
+  {
     kill_fall();
   }
 }
@@ -92,12 +98,14 @@ Fish::active_update(float dt_sec)
   BadGuy::active_update(dt_sec);
 
   // waited long enough?
-  if (waiting.check()) {
+  if (waiting.check())
+  {
     jump();
   }
 
   // set sprite
-  if (!m_frozen) {
+  if (!m_frozen)
+  {
     m_sprite->set_action(m_physic.get_velocity_y() < 0 ? "normal" : "down");
   }
 
@@ -107,7 +115,8 @@ Fish::active_update(float dt_sec)
     m_physic.enable_gravity(true);
   }
 
-  if (m_ignited) {
+  if (m_ignited)
+  {
     remove_me();
   }
 }

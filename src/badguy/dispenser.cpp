@@ -29,7 +29,8 @@
 Dispenser::DispenserType
 Dispenser::DispenserType_from_string(const std::string& type_string)
 {
-  if (type_string == "dropper") {
+  if (type_string == "dropper")
+  {
     return DispenserType::DROPPER;
   } else if (type_string == "rocketlauncher") {
     return DispenserType::ROCKETLAUNCHER;
@@ -81,10 +82,12 @@ Dispenser::Dispenser(const ReaderMapping& reader) :
   set_colgroup_active(COLGROUP_MOVING_STATIC);
   SoundManager::current()->preload("sounds/squish.wav");
   reader.get("cycle", m_cycle, 5.0f);
-  if (reader.get("gravity", m_gravity)) {
+  if (reader.get("gravity", m_gravity))
+  {
     m_physic.enable_gravity(true);
   }
-  if (!reader.get("badguy", m_badguys)) {
+  if (!reader.get("badguy", m_badguys))
+  {
     m_badguys.clear();
   }
   reader.get("random", m_random, false);
@@ -94,7 +97,8 @@ Dispenser::Dispenser(const ReaderMapping& reader) :
     m_type = DispenserType_from_string(type_s);
   }
   catch(std::exception&) {
-    if (!Editor::is_active()) {
+    if (!Editor::is_active())
+    {
       if (type_s.empty()) {
         log_warning << "No dispenser type set, setting to dropper." << std::endl;
       } else {
@@ -121,7 +125,8 @@ Dispenser::Dispenser(const ReaderMapping& reader) :
       m_sprite->set_action(m_dir == Direction::LEFT ? "working-left" : "working-right");
       set_colgroup_active(COLGROUP_MOVING); //if this were COLGROUP_MOVING_STATIC MrRocket would explode on launch.
 
-      if (m_start_dir == Direction::AUTO) {
+      if (m_start_dir == Direction::AUTO)
+      {
         m_autotarget = true;
       }
       break;
@@ -146,7 +151,8 @@ Dispenser::Dispenser(const ReaderMapping& reader) :
 void
 Dispenser::draw(DrawingContext& context)
 {
-  if (m_type != DispenserType::POINT || Editor::is_active()) {
+  if (m_type != DispenserType::POINT || Editor::is_active())
+  {
     BadGuy::draw(context);
   }
 }
@@ -154,7 +160,8 @@ Dispenser::draw(DrawingContext& context)
 void
 Dispenser::activate()
 {
-  if (m_broken) {
+  if (m_broken)
+  {
     return;
   }
 
@@ -179,11 +186,13 @@ Dispenser::collision_squished(GameObject& object)
 {
   //Cannon launching MrRocket can be broken by jumping on it
   //other dispensers are not that fragile.
-  if (m_broken || m_type != DispenserType::ROCKETLAUNCHER) {
+  if (m_broken || m_type != DispenserType::ROCKETLAUNCHER)
+  {
     return false;
   }
 
-  if (m_frozen) {
+  if (m_frozen)
+  {
     unfreeze();
   }
 
@@ -191,7 +200,8 @@ Dispenser::collision_squished(GameObject& object)
   m_dispense_timer.start(0);
   set_colgroup_active(COLGROUP_MOVING_STATIC); // Tux can stand on broken cannon.
   auto player = dynamic_cast<Player*>(&object);
-  if (player) {
+  if (player)
+  {
     player->bounce(*this);
   }
   SoundManager::current()->play("sounds/squish.wav", get_pos());
@@ -203,20 +213,24 @@ HitResponse
 Dispenser::collision(GameObject& other, const CollisionHit& hit)
 {
   auto player = dynamic_cast<Player*> (&other);
-  if (player) {
+  if (player)
+  {
     // hit from above?
-    if (player->get_bbox().get_bottom() < (m_col.m_bbox.get_top() + 16)) {
+    if (player->get_bbox().get_bottom() < (m_col.m_bbox.get_top() + 16))
+    {
       collision_squished(*player);
       return FORCE_MOVE;
     }
-    if (m_frozen && m_type != DispenserType::CANNON) {
+    if (m_frozen && m_type != DispenserType::CANNON)
+    {
       unfreeze();
     }
     return FORCE_MOVE;
   }
 
   auto bullet = dynamic_cast<Bullet*> (&other);
-  if (bullet) {
+  if (bullet)
+  {
     return collision_bullet(*bullet, hit);
   }
 
@@ -226,19 +240,23 @@ Dispenser::collision(GameObject& other, const CollisionHit& hit)
 void
 Dispenser::active_update(float dt_sec)
 {
-  if (m_gravity) {
+  if (m_gravity)
+  {
     BadGuy::active_update(dt_sec);
   }
-  if (m_dispense_timer.check()) {
+  if (m_dispense_timer.check())
+  {
     // auto always shoots in Tux's direction
-    if (m_autotarget) {
+    if (m_autotarget)
+    {
       if (m_sprite->animation_done()) {
         m_sprite->set_action(m_dir == Direction::LEFT ? "working-left" : "working-right");
         m_swivel = false;
       }
 
       auto player = get_nearest_player();
-      if (player && !m_swivel) {
+      if (player && !m_swivel)
+      {
         Direction targetdir = (player->get_pos().x > get_pos().x) ? Direction::RIGHT : Direction::LEFT;
         if (m_dir != targetdir) { // no target: swivel cannon
           m_swivel = true;
@@ -257,25 +275,30 @@ Dispenser::active_update(float dt_sec)
 void
 Dispenser::launch_badguy()
 {
-  if (m_badguys.empty() || m_frozen || (m_limit_dispensed_badguys && m_current_badguys >= m_max_concurrent_badguys)) {
+  if (m_badguys.empty() || m_frozen || (m_limit_dispensed_badguys && m_current_badguys >= m_max_concurrent_badguys))
+  {
     return;
   }
 
   //FIXME: Does is_offscreen() work right here?
-  if (!is_offscreen() && !Editor::is_active()) {
+  if (!is_offscreen() && !Editor::is_active())
+  {
     Direction launchdir = m_dir;
     Player* player = get_nearest_player();
-    if (!m_autotarget && (m_start_dir == Direction::AUTO) && player) {
+    if (!m_autotarget && (m_start_dir == Direction::AUTO) && player)
+    {
       launchdir = (player->get_pos().x > get_pos().x) ? Direction::RIGHT : Direction::LEFT;
     }
 
-    if (m_badguys.size() > 1) {
+    if (m_badguys.size() > 1)
+    {
       if (m_random) {
         m_next_badguy = static_cast<unsigned int>(gameRandom.rand(static_cast<int>(m_badguys.size())));
       } else {
         m_next_badguy++;
 
-        if (m_next_badguy >= m_badguys.size()) {
+        if (m_next_badguy >= m_badguys.size())
+        {
           m_next_badguy = 0;
         }
       }
@@ -283,11 +306,13 @@ Dispenser::launch_badguy()
 
     std::string badguy = m_badguys[m_next_badguy];
 
-    if (badguy == "random") {
+    if (badguy == "random")
+    {
       log_warning << "random is outdated; use a list of badguys to select from." << std::endl;
       return;
     }
-    if (badguy == "goldbomb") {
+    if (badguy == "goldbomb")
+    {
       log_warning << "goldbomb is not allowed to be dispensed" << std::endl;
       return;
     }
@@ -295,7 +320,8 @@ Dispenser::launch_badguy()
     try {
       /* Need to allocate the badguy first to figure out its bounding box. */
       auto game_object = GameObjectFactory::instance().create(badguy, get_pos(), launchdir);
-      if (game_object == nullptr) {
+      if (game_object == nullptr)
+      {
         throw std::runtime_error("Creating " + badguy + " object failed.");
       }
 
@@ -313,7 +339,8 @@ Dispenser::launch_badguy()
         case DispenserType::ROCKETLAUNCHER:
         case DispenserType::CANNON:
           spawnpoint = get_pos(); /* top-left corner of the cannon */
-          if (launchdir == Direction::LEFT) {
+          if (launchdir == Direction::LEFT)
+          {
             spawnpoint.x -= object_bbox.get_width() + 1;
           } else {
             spawnpoint.x += m_col.m_bbox.get_width() + 1;
@@ -335,7 +362,8 @@ Dispenser::launch_badguy()
       bad_guy.m_countMe = false;
 
       /* Set reference to dispenser in badguy itself */
-      if (m_limit_dispensed_badguys) {
+      if (m_limit_dispensed_badguys)
+      {
         bad_guy.set_parent_dispenser(this);
         m_current_badguys++;
       }
@@ -351,14 +379,16 @@ Dispenser::launch_badguy()
 void
 Dispenser::freeze()
 {
-  if (m_broken) {
+  if (m_broken)
+  {
     return;
   }
 
   set_group(COLGROUP_MOVING_STATIC);
   m_frozen = true;
 
-  if (m_type == DispenserType::ROCKETLAUNCHER && m_sprite->has_action("iced-left")) {
+  if (m_type == DispenserType::ROCKETLAUNCHER && m_sprite->has_action("iced-left"))
+  {
     // Only swivel dispensers can use their left/right iced actions.
     m_sprite->set_action(m_dir == Direction::LEFT ? "iced-left" : "iced-right", 1);
   } else if (m_type == DispenserType::CANNON && m_sprite->has_action("iced")) {

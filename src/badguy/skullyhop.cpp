@@ -42,17 +42,20 @@ SkullyHop::initialize()
 void
 SkullyHop::set_state(SkullyHopState newState)
 {
-  if (newState == STANDING) {
+  if (newState == STANDING)
+  {
     m_physic.set_velocity_x(0);
     m_physic.set_velocity_y(0);
     m_sprite->set_action(m_dir == Direction::LEFT ? "standing-left" : "standing-right");
 
     recover_timer.start(0.5);
   } else
-    if (newState == CHARGING) {
+    if (newState == CHARGING)
+    {
       m_sprite->set_action(m_dir == Direction::LEFT ? "charging-left" : "charging-right", 1);
     } else
-      if (newState == JUMPING) {
+      if (newState == JUMPING)
+      {
         m_sprite->set_action(m_dir == Direction::LEFT ? "jumping-left" : "jumping-right");
 const float HORIZONTAL_SPEED = 220; /**< x-speed when jumping */
         m_physic.set_velocity_x(m_dir == Direction::LEFT ? -HORIZONTAL_SPEED : HORIZONTAL_SPEED);
@@ -85,7 +88,8 @@ SkullyHop::collision_solid(const CollisionHit& hit)
   }
 
   // just default behaviour (i.e. stop at floor/walls) when squished
-  if (BadGuy::get_state() == STATE_SQUISHED) {
+  if (BadGuy::get_state() == STATE_SQUISHED)
+  {
     BadGuy::collision_solid(hit);
   }
 
@@ -94,16 +98,19 @@ SkullyHop::collision_solid(const CollisionHit& hit)
     return;
 
   // check if we hit the floor while falling
-  if (hit.bottom && m_physic.get_velocity_y() > 0 ) {
+  if (hit.bottom && m_physic.get_velocity_y() > 0 )
+  {
     set_state(STANDING);
   }
   // check if we hit the roof while climbing
-  if (hit.top) {
+  if (hit.top)
+  {
     m_physic.set_velocity_y(0);
   }
 
   // check if we hit left or right while moving in either direction
-  if (hit.left || hit.right) {
+  if (hit.left || hit.right)
+  {
     m_dir = m_dir == Direction::LEFT ? Direction::RIGHT : Direction::LEFT;
     m_sprite->set_action(m_dir == Direction::LEFT ? "jumping-left" : "jumping-right");
     m_physic.set_velocity_x(-0.25f*m_physic.get_velocity_x());
@@ -129,13 +136,15 @@ SkullyHop::active_update(float dt_sec)
     return;
 
   // charge when fully recovered
-  if ((state == STANDING) && (recover_timer.check())) {
+  if ((state == STANDING) && (recover_timer.check()))
+  {
     set_state(CHARGING);
     return;
   }
 
   // jump as soon as charging animation completed
-  if ((state == CHARGING) && (m_sprite->animation_done())) {
+  if ((state == CHARGING) && (m_sprite->animation_done()))
+  {
     set_state(JUMPING);
     return;
   }

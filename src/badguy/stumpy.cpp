@@ -71,7 +71,8 @@ Stumpy::active_update(float dt_sec)
 {
   switch (mystate) {
     case STATE_INVINCIBLE:
-      if (invincible_timer.check()) {
+      if (invincible_timer.check())
+      {
         mystate = STATE_NORMAL;
         WalkingBadguy::initialize();
       }
@@ -88,7 +89,8 @@ Stumpy::collision_squished(GameObject& object)
 {
 
   // if we're still invincible, we ignore the hit
-  if (mystate == STATE_INVINCIBLE) {
+  if (mystate == STATE_INVINCIBLE)
+  {
     SoundManager::current()->play("sounds/mr_treehit.ogg", get_pos());
     auto player = dynamic_cast<Player*>(&object);
     if (player) player->bounce(*this);
@@ -96,7 +98,8 @@ Stumpy::collision_squished(GameObject& object)
   }
 
   // if we can die, we do
-  if (mystate == STATE_NORMAL) {
+  if (mystate == STATE_NORMAL)
+  {
     m_sprite->set_action(m_dir == Direction::LEFT ? "squished-left" : "squished-right");
     m_col.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
     kill_squished(object);
@@ -132,10 +135,12 @@ Stumpy::collision_solid(const CollisionHit& hit)
 
   switch (mystate) {
     case STATE_INVINCIBLE:
-      if (hit.top || hit.bottom) {
+      if (hit.top || hit.bottom)
+      {
         m_physic.set_velocity_y(0);
       }
-      if (hit.left || hit.right) {
+      if (hit.left || hit.right)
+      {
         m_physic.set_velocity_x(0);
       }
       break;
@@ -150,10 +155,12 @@ Stumpy::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
 {
   switch (mystate) {
     case STATE_INVINCIBLE:
-      if (hit.top || hit.bottom) {
+      if (hit.top || hit.bottom)
+      {
         m_physic.set_velocity_y(0);
       }
-      if (hit.left || hit.right) {
+      if (hit.left || hit.right)
+      {
         m_physic.set_velocity_x(0);
       }
       return CONTINUE;

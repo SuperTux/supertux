@@ -31,7 +31,8 @@ SkyDive::SkyDive(const ReaderMapping& reader) :
 void
 SkyDive::collision_solid(const CollisionHit& hit)
 {
-  if (hit.bottom) {
+  if (hit.bottom)
+  {
     explode ();
     return;
   }
@@ -43,7 +44,8 @@ SkyDive::collision_solid(const CollisionHit& hit)
 HitResponse
 SkyDive::collision_badguy(BadGuy&, const CollisionHit& hit)
 {
-  if (hit.bottom) {
+  if (hit.bottom)
+  {
     explode();
     return ABORT_MOVE;
   }
@@ -80,7 +82,8 @@ SkyDive::ungrab(MovingObject& object, Direction dir_)
 HitResponse
 SkyDive::collision_player(Player&, const CollisionHit& hit)
 {
-  if (hit.bottom) {
+  if (hit.bottom)
+  {
     explode();
     return ABORT_MOVE;
   }
@@ -92,7 +95,8 @@ bool
 SkyDive::collision_squished(GameObject& obj)
 {
   auto player = dynamic_cast<Player *>(&obj);
-  if (player) {
+  if (player)
+  {
     player->bounce(*this);
     return false;
   }

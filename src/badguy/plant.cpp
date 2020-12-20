@@ -43,7 +43,8 @@ Plant::initialize()
 void
 Plant::collision_solid(const CollisionHit& hit)
 {
-  if (hit.top || hit.bottom) {
+  if (hit.top || hit.bottom)
+  {
     m_physic.set_velocity_y(0);
   } else if (hit.left || hit.right) {
     m_dir = m_dir == Direction::LEFT ? Direction::RIGHT : Direction::LEFT;
@@ -55,11 +56,13 @@ Plant::collision_solid(const CollisionHit& hit)
 HitResponse
 Plant::collision_badguy(BadGuy& , const CollisionHit& hit)
 {
-  if (state != PLANT_WALKING) {
+  if (state != PLANT_WALKING)
+  {
     return CONTINUE;
   }
 
-  if (hit.left || hit.right) {
+  if (hit.left || hit.right)
+  {
     m_dir = m_dir == Direction::LEFT ? Direction::RIGHT : Direction::LEFT;
     m_sprite->set_action(m_dir == Direction::LEFT ? "left" : "right");
     m_physic.set_velocity_x(-m_physic.get_velocity_x());
@@ -72,10 +75,12 @@ void
 Plant::active_update(float dt_sec) {
   BadGuy::active_update(dt_sec);
 
-  if (state == PLANT_SLEEPING) {
+  if (state == PLANT_SLEEPING)
+  {
 
     auto player = get_nearest_player();
-    if (player) {
+    if (player)
+    {
       Rectf pb = player->get_bbox();
 
       bool inReach_left = (pb.get_right() >= m_col.m_bbox.get_right() - ((m_dir == Direction::LEFT) ? 256.0f : 0.0f));
@@ -83,7 +88,8 @@ Plant::active_update(float dt_sec) {
       bool inReach_top = (pb.get_bottom() >= m_col.m_bbox.get_bottom());
       bool inReach_bottom = (pb.get_top() <= m_col.m_bbox.get_top());
 
-      if (inReach_left && inReach_right && inReach_top && inReach_bottom) {
+      if (inReach_left && inReach_right && inReach_top && inReach_bottom)
+      {
         // wake up
         m_sprite->set_action(m_dir == Direction::LEFT ? "waking-left" : "waking-right");
         if (!timer.started()) timer.start(WAKE_TIME);
@@ -92,7 +98,8 @@ Plant::active_update(float dt_sec) {
     }
   }
 
-  if (state == PLANT_WAKING) {
+  if (state == PLANT_WAKING)
+  {
     if (timer.check()) {
       // start walking
       m_sprite->set_action(m_dir == Direction::LEFT ? "left" : "right");
@@ -106,7 +113,8 @@ void
 Plant::ignite()
 {
   BadGuy::ignite();
-  if (state == PLANT_SLEEPING && m_sprite->has_action("sleeping-burning-left")) {
+  if (state == PLANT_SLEEPING && m_sprite->has_action("sleeping-burning-left"))
+  {
     m_sprite->set_action(m_dir == Direction::LEFT ? "sleeping-burning-left" : "sleeping-burning-right", 1);
   }
 }

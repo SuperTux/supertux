@@ -37,7 +37,8 @@ Flame::Flame(const ReaderMapping& reader) :
 {
   reader.get("radius", radius, 100.0f);
   reader.get("speed", speed, 2.0f);
-  if (!Editor::is_active()) {
+  if (!Editor::is_active())
+  {
     m_col.m_bbox.set_pos(Vector(m_start_position.x + cosf(angle) * radius,
                                 m_start_position.y + sinf(angle) * radius));
   }
@@ -67,14 +68,16 @@ void
 Flame::active_update(float dt_sec)
 {
   angle = fmodf(angle + dt_sec * speed, math::TAU);
-  if (!Editor::is_active()) {
+  if (!Editor::is_active())
+  {
     Vector newpos(m_start_position.x + cosf(angle) * radius,
                   m_start_position.y + sinf(angle) * radius);
     m_col.m_movement = newpos - get_pos();
     sound_source->set_position(get_pos());
   }
 
-  if (m_sprite->get_action() == "fade" && m_sprite->animation_done()) {
+  if (m_sprite->get_action() == "fade" && m_sprite->animation_done())
+  {
     remove_me();
   }
 }
@@ -82,7 +85,8 @@ Flame::active_update(float dt_sec)
 void
 Flame::activate()
 {
-  if (Editor::is_active()) {
+  if (Editor::is_active())
+  {
     return;
   }
   sound_source = SoundManager::current()->create_sound_source(FLAME_SOUND);
@@ -134,14 +138,16 @@ Flame::is_flammable() const
 
 void Flame::stop_looping_sounds()
 {
-  if (sound_source) {
+  if (sound_source)
+  {
     sound_source->stop();
   }
 }
 
 void Flame::play_looping_sounds()
 {
-  if (sound_source) {
+  if (sound_source)
+  {
     sound_source->play();
   }
 }

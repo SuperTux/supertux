@@ -53,7 +53,8 @@ Dart::Dart(const Vector& pos, Direction d, const BadGuy* parent_ = nullptr) :
 bool
 Dart::updatePointers(const GameObject* from_object, GameObject* to_object)
 {
-  if (from_object == parent) {
+  if (from_object == parent)
+  {
     parent = dynamic_cast<Dart*>(to_object);
     return true;
   }
@@ -103,7 +104,8 @@ HitResponse
 Dart::collision_badguy(BadGuy& badguy, const CollisionHit& )
 {
   // ignore collisions with parent
-  if (&badguy == parent) {
+  if (&badguy == parent)
+  {
     return FORCE_MOVE;
   }
   SoundManager::current()->play("sounds/stomp.wav", get_pos());
@@ -128,14 +130,16 @@ Dart::is_flammable() const
 
 void Dart::stop_looping_sounds()
 {
-  if (sound_source) {
+  if (sound_source)
+  {
     sound_source->stop();
   }
 }
 
 void Dart::play_looping_sounds()
 {
-  if (sound_source) {
+  if (sound_source)
+  {
     sound_source->play();
   }
 }

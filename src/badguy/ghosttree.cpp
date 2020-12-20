@@ -81,7 +81,8 @@ GhostTree::activate()
 void
 GhostTree::active_update(float /*dt_sec*/)
 {
-  if (mystate == STATE_IDLE) {
+  if (mystate == STATE_IDLE)
+  {
     if (colorchange_timer.check()) {
       SoundManager::current()->play("sounds/tree_howling.ogg", get_pos());
       suck_timer.start(3);
@@ -100,11 +101,13 @@ GhostTree::active_update(float /*dt_sec*/)
       glow_sprite->set_color(col);
     }
 
-    if (suck_timer.check()) {
+    if (suck_timer.check())
+    {
       Color col = glow_sprite->get_color();
       SoundManager::current()->play("sounds/tree_suck.ogg", get_pos());
       for (const auto& willo : willowisps) {
-        if (willo->get_color() == col) {
+        if (willo->get_color() == col)
+        {
           willo->start_sucking(
             m_col.m_bbox.get_middle() + SUCK_TARGET_OFFSET
             + Vector(gameRandom.randf(-SUCK_TARGET_SPREAD, SUCK_TARGET_SPREAD),
@@ -114,23 +117,27 @@ GhostTree::active_update(float /*dt_sec*/)
       mystate = STATE_SUCKING;
     }
 
-    if (willowisp_timer.check()) {
+    if (willowisp_timer.check())
+    {
       if (willowisps.size() < WILLOWISP_COUNT) {
         Vector pos = Vector(m_col.m_bbox.get_width() / 2, m_col.m_bbox.get_height() / 2 + willo_spawn_y + WILLOWISP_TOP_OFFSET);
         auto& willowisp = Sector::get().add<TreeWillOWisp>(this, pos, 200 + willo_radius, willo_speed);
         willowisps.push_back(&willowisp);
 
         willo_spawn_y -= 40;
-        if (willo_spawn_y < -160) {
+        if (willo_spawn_y < -160)
+        {
           willo_spawn_y = 0;
         }
 
         willo_radius += 20;
-        if (willo_radius > 120) {
+        if (willo_radius > 120)
+        {
           willo_radius = 0;
         }
 
-        if (willo_speed == 1.8f) {
+        if (willo_speed == 1.8f)
+        {
           willo_speed = 1.5f;
         } else {
           willo_speed = 1.8f;
@@ -152,20 +159,24 @@ GhostTree::active_update(float /*dt_sec*/)
       }
     }
 
-    if (root_timer.check()) {
+    if (root_timer.check())
+    {
       /* TODO indicate root with an animation */
       auto player = get_nearest_player();
-      if (player) {
+      if (player)
+      {
         Sector::get().add<Root>(Vector(player->get_bbox().get_left(), m_col.m_bbox.get_bottom()+ROOT_TOP_OFFSET));
       }
     }
   } else if (mystate == STATE_SWALLOWING) {
-    if (suck_lantern) {
+    if (suck_lantern)
+    {
       // suck in lantern
       assert (suck_lantern);
       Vector pos = suck_lantern->get_pos();
       Vector delta = m_col.m_bbox.get_middle() + SUCK_TARGET_OFFSET - pos;
-      if (delta.norm() < 1) {
+      if (delta.norm() < 1)
+      {
         suck_lantern->ungrab(*this, Direction::RIGHT);
         suck_lantern->remove_me();
         suck_lantern = nullptr;
@@ -176,7 +187,8 @@ GhostTree::active_update(float /*dt_sec*/)
       }
     } else {
       // wait until lantern is swallowed
-      if (m_sprite->animation_done()) {
+      if (m_sprite->animation_done())
+      {
         if (is_color_deadly(suck_lantern_color)) {
           die();
         } else {
@@ -192,7 +204,8 @@ GhostTree::active_update(float /*dt_sec*/)
 bool
 GhostTree::is_color_deadly(Color color) const
 {
-  if (color == Color(0,0,0)) {
+  if (color == Color(0,0,0))
+  {
     return false;
   }
   Color my_color = glow_sprite->get_color();
@@ -202,7 +215,8 @@ GhostTree::is_color_deadly(Color color) const
 void
 GhostTree::willowisp_died(TreeWillOWisp* willowisp)
 {
-  if ((mystate == STATE_SUCKING) && (willowisp->was_sucked)) {
+  if ((mystate == STATE_SUCKING) && (willowisp->was_sucked))
+  {
     mystate = STATE_IDLE;
   }
   willowisps.erase(std::find_if(willowisps.begin(), willowisps.end(),
@@ -218,7 +232,8 @@ GhostTree::draw(DrawingContext& context)
   BadGuy::draw(context);
 
   context.push_transform();
-  if (mystate == STATE_SUCKING) {
+  if (mystate == STATE_SUCKING)
+  {
     context.set_alpha(0.5f + fmodf(g_game_time, 0.5f));
   } else {
     context.set_alpha(0.5f);
@@ -230,7 +245,8 @@ GhostTree::draw(DrawingContext& context)
 bool
 GhostTree::collides(GameObject& other, const CollisionHit& ) const
 {
-  if (mystate != STATE_SUCKING) {
+  if (mystate != STATE_SUCKING)
+  {
     return false;
   } else if (dynamic_cast<Lantern*>(&other)) {
     return true;
@@ -244,17 +260,20 @@ GhostTree::collides(GameObject& other, const CollisionHit& ) const
 HitResponse
 GhostTree::collision(GameObject& other, const CollisionHit& )
 {
-  if (mystate != STATE_SUCKING) {
+  if (mystate != STATE_SUCKING)
+  {
     return ABORT_MOVE;
   }
 
   auto player = dynamic_cast<Player*>(&other);
-  if (player) {
+  if (player)
+  {
     player->kill(false);
   }
 
   Lantern* lantern = dynamic_cast<Lantern*>(&other);
-  if (lantern) {
+  if (lantern)
+  {
     suck_lantern = lantern;
     suck_lantern->grab(*this, suck_lantern->get_pos(), Direction::RIGHT);
     suck_lantern_color = lantern->get_color();

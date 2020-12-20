@@ -57,7 +57,8 @@ Haywire::Haywire(const ReaderMapping& reader) :
     return;
   }
 
-  if (m_sprite_name.empty()) {
+  if (m_sprite_name.empty())
+  {
     m_sprite_name = "images/creatures/haywire/haywire.sprite";
     return;
   }
@@ -69,24 +70,28 @@ bool
 Haywire::collision_squished(GameObject& object)
 {
   auto player = dynamic_cast<Player*>(&object);
-  if (player && player->is_invincible()) {
+  if (player && player->is_invincible())
+  {
     player->bounce (*this);
     kill_fall();
     return true;
   }
 
-  if (is_stunned) {
+  if (is_stunned)
+  {
     if (player) {
       player->bounce (*this);
     }
     return true;
   }
 
-  if (WalkingBadguy::is_frozen()) {
+  if (WalkingBadguy::is_frozen())
+  {
     WalkingBadguy::unfreeze();
   }
 
-  if (!is_exploding) {
+  if (!is_exploding)
+  {
     start_exploding();
     stomped_timer.start(STOMPED_TIME);
   }
@@ -96,7 +101,8 @@ Haywire::collision_squished(GameObject& object)
   m_physic.set_velocity_x(0.f);
   m_physic.set_acceleration_x(0.f);
 
-  if (player) {
+  if (player)
+  {
     player->bounce (*this);
   }
 
@@ -106,10 +112,12 @@ Haywire::collision_squished(GameObject& object)
 void
 Haywire::active_update(float dt_sec)
 {
-  if (is_exploding) {
+  if (is_exploding)
+  {
     ticking->set_position(get_pos());
     grunting->set_position(get_pos());
-    if (dt_sec >= time_until_explosion) {
+    if (dt_sec >= time_until_explosion)
+    {
       kill_fall ();
       return;
     } else {
@@ -117,7 +125,8 @@ Haywire::active_update(float dt_sec)
     }
   }
 
-  if (is_stunned) {
+  if (is_stunned)
+  {
     if (time_stunned > dt_sec) {
       time_stunned -= dt_sec;
     }
@@ -127,7 +136,8 @@ Haywire::active_update(float dt_sec)
     }
   }
 
-  if (is_exploding) {
+  if (is_exploding)
+  {
       if (stomped_timer.get_timeleft() < 0.05f) {
         set_action ((m_dir == Direction::LEFT) ? "ticking-left" : "ticking-right", /* loops = */ -1);
         walk_left_action = "ticking-left";
@@ -143,7 +153,8 @@ Haywire::active_update(float dt_sec)
     float target_velocity = 0.f;
 
     if (p && time_stunned == 0.0f) { // Player is on the right
-      if (p->get_pos ().x > get_pos ().x) {
+      if (p->get_pos ().x > get_pos ().x)
+      {
         target_velocity = walk_speed;
       } else { // player in on the left
         target_velocity = (-1.f) * walk_speed;
@@ -167,11 +178,13 @@ Haywire::deactivate()
 void
 Haywire::kill_fall()
 {
-  if (is_exploding) {
+  if (is_exploding)
+  {
     ticking->stop();
     grunting->stop();
   }
-  if (is_valid()) {
+  if (is_valid())
+  {
     remove_me();
     Sector::get().add<Explosion>(m_col.m_bbox.get_middle(),
       EXPLOSION_STRENGTH_DEFAULT);
@@ -195,7 +208,8 @@ Haywire::ignite()
 void
 Haywire::freeze() {
   BadGuy::freeze();
-  if (is_exploding) {
+  if (is_exploding)
+  {
     stop_exploding();
   }
 }
@@ -228,32 +242,38 @@ Haywire::stop_exploding()
   time_until_explosion = 0.0f;
   is_exploding = false;
 
-  if (ticking) {
+  if (ticking)
+  {
     ticking->stop();
   }
 
-  if (grunting) {
+  if (grunting)
+  {
     grunting->stop();
   }
 }
 
 void Haywire::stop_looping_sounds()
 {
-  if (ticking) {
+  if (ticking)
+  {
     ticking->stop();
   }
-  if (grunting) {
+  if (grunting)
+  {
     grunting->stop();
   }
 }
 
 void Haywire::play_looping_sounds()
 {
-  if (is_exploding) {
+  if (is_exploding)
+  {
     if (ticking) {
       ticking->play();
     }
-    if (grunting) {
+    if (grunting)
+    {
       grunting->play();
     }
   }
