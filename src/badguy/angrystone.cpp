@@ -61,7 +61,6 @@ void
 AngryStone::kill_fall()
 {
   //prevents AngryStone from getting killed by other enemies or the player
-  return;
 }
 
 HitResponse
