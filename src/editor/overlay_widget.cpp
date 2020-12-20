@@ -1016,7 +1016,7 @@ EditorOverlayWidget::draw_tilemap_border(DrawingContext& context)
   if (!current_tm)
     return;
 
-  Vector start = tile_screen_pos( Vector(0, 0) );
+  Vector start = tile_screen_pos( Vector(0, 32) );
   Vector end = tile_screen_pos( Vector(static_cast<float>(current_tm->get_width()),
                                        static_cast<float>(current_tm->get_height())) );
   context.color().draw_line(start, Vector(start.x, end.y), Color(1, 0, 1), current_tm->get_layer());
@@ -1061,12 +1061,15 @@ EditorOverlayWidget::draw(DrawingContext& context)
   draw_path(context);
 
   if (render_grid) {
+    context.push_transform();
+    context.set_translation(Vector(0, -32));
     draw_tile_grid(context, Color(1.f, 1.f, 1.f, 0.2f));
     draw_tilemap_border(context);
     auto snap_grid_size = snap_grid_sizes[selected_snap_grid_size];
     if (snap_grid_size != 32) {
       draw_tile_grid(context, Color(1.f, 1.f, 1.f, 0.2f), snap_grid_size);
     }
+    context.pop_transform();
   }
 
   if (m_object_tip) {
