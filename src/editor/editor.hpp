@@ -200,6 +200,8 @@ private:
   
   float m_time_since_last_save;
 
+  float m_scroll_speed;
+
 private:
   Editor(const Editor&) = delete;
   Editor& operator=(const Editor&) = delete;

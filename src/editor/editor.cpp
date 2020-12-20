@@ -104,7 +104,8 @@ Editor::Editor() :
   m_undo_manager(new UndoManager),
   m_ignore_sector_change(false),
   m_level_first_loaded(false),
-  m_time_since_last_save(0.f)
+  m_time_since_last_save(0.f),
+  m_scroll_speed(32.0f)
 {
   auto toolbox_widget = std::make_unique<EditorToolboxWidget>(*this);
   auto layers_widget = std::make_unique<EditorLayersWidget>(*this);
@@ -385,26 +386,20 @@ Editor::update_keyboard(const Controller& controller)
     return;
   }
 
-  float scroll_velocity = 32.0f;
-
-  if (controller.hold(Control::ACTION)) {
-    scroll_velocity = 96.0f;
-  }
-
   if (controller.hold(Control::LEFT)) {
-    scroll({ -scroll_velocity, 0.0f });
+    scroll({ -m_scroll_speed, 0.0f });
   }
 
   if (controller.hold(Control::RIGHT)) {
-    scroll({ scroll_velocity, 0.0f });
+    scroll({ m_scroll_speed, 0.0f });
   }
 
   if (controller.hold(Control::UP)) {
-    scroll({ 0.0f, -scroll_velocity });
+    scroll({ 0.0f, -m_scroll_speed });
   }
 
   if (controller.hold(Control::DOWN)) {
-    scroll({ 0.0f, scroll_velocity });
+    scroll({ 0.0f, m_scroll_speed });
   }
 }
 
@@ -674,6 +669,20 @@ Editor::event(const SDL_Event& ev)
         ev.key.keysym.mod & KMOD_CTRL) {
 		redo();
 		}
+
+  if (ev.type == SDL_KEYDOWN &&
+    ev.key.keysym.mod & KMOD_SHIFT) {
+    m_scroll_speed = 96.0f;
+  }
+  else if (ev.type == SDL_KEYDOWN &&
+    ev.key.keysym.mod & KMOD_CTRL) {
+    m_scroll_speed = 16.0f;
+  }
+  else {
+    m_scroll_speed = 32.0f;
+  }
+
+  
 
     if (ev.type == SDL_KEYDOWN && ev.key.keysym.sym == SDLK_F6) {
       Compositor::s_render_lighting = !Compositor::s_render_lighting;
