@@ -3,7 +3,7 @@
 (supertux-autotiles
   (autotileset
     (name "invisible_paths")
-    (default 44)
+    (default 45)
     (autotile
       (id 30)
       (solid #t)
@@ -87,7 +87,7 @@
   )
   (autotileset
     (name "paths")
-    (default 24)
+    (default 25)
     (autotile
       (id 10)
       (solid #t)
@@ -168,6 +168,174 @@
       (solid #t)
       (mask "*0*00*0*")
     )
+  )
+  (autotileset
+    (name "border_paths")
+    (default 446)
+    (autotile
+      (id 423)
+      (solid #t)
+      (mask "*0*01*1*")
+    )
+    (autotile
+      (id 424)
+      (solid #t)
+      (mask "*0*10*1*")
+    )
+    (autotile
+      (id 427)
+      (solid #t)
+      (mask "*1*01*1*")
+    )
+    (autotile
+      (id 428)
+      (solid #t)
+      (mask "*0*11*1*")
+    )
+    (autotile
+      (id 425)
+      (solid #t)
+      (mask "*1*01*0*")
+    )
+    (autotile
+      (id 426)
+      (solid #t)
+      (mask "*1*10*0*")
+    )
+    (autotile
+      (id 429)
+      (solid #t)
+      (mask "*1*11*0*")
+    )
+    (autotile
+      (id 430)
+      (solid #t)
+      (mask "*1*10*1*")
+    )
+    (autotile
+      (id 431)
+      (solid #t)
+      (mask "*0*01*0*")
+    )
+    (autotile
+      (id 432)
+      (solid #t)
+      (mask "*0*00*1*")
+    )
+    (autotile
+      (id 435)
+      (solid #t)
+      (mask "*0*11*0*")
+    )
+    (autotile
+      (id 436)
+      (solid #t)
+      (mask "*1*00*1*")
+    )
+    (autotile
+      (id 433)
+      (solid #t)
+      (mask "*1*00*0*")
+    )
+    (autotile
+      (id 434)
+      (solid #t)
+      (mask "*0*10*0*")
+    )
+    (autotile
+      (id 437)
+      (solid #t)
+      (mask "*1*11*1*")
+    )
+    (autotile
+      (id 446)
+      (solid #t)
+      (mask "*0*00*0*")
+    )
+  )
+  (autotileset
+    (name "rocky_paths")
+	(default 422)
+	(autotile
+	  (id 407)
+	  (solid #t)
+	  (mask "*0*01*1*")
+	)
+	(autotile
+	  (id 408)
+	  (solid #t)
+	  (mask "*0*11*1*")
+	)
+	(autotile
+	  (id 409)
+	  (solid #t)
+	  (mask "*0*10*1*")
+	)
+	(autotile
+	  (id 410)
+	  (solid #t)
+	  (mask "*0*00*1*")
+	)
+	(autotile
+	  (id 411)
+	  (solid #t)
+	  (mask "*1*01*1*")
+	)
+	(autotile
+	  (id 412)
+	  (solid #t)
+	  (mask "*1*11*1*")
+	)
+	(autotile
+	  (id 413)
+	  (solid #t)
+	  (mask "*1*10*1*")
+	)
+	(autotile
+	  (id 414)
+	  (solid #t)
+	  (mask "*1*00*1*")
+	)
+	(autotile
+	  (id 415)
+	  (solid #t)
+	  (mask "*1*01*0*")
+	)
+	(autotile
+	  (id 416)
+	  (solid #t)
+	  (mask "*1*11*0*")
+	)
+	(autotile
+	  (id 417)
+	  (solid #t)
+	  (mask "*1*10*0*")
+	)
+	(autotile
+	  (id 418)
+	  (solid #t)
+	  (mask "*1*00*0*")
+	)
+	(autotile
+	  (id 419)
+	  (solid #t)
+	  (mask "*0*01*0*")
+	)
+	(autotile
+	  (id 420)
+	  (solid #t)
+	  (mask "*0*11*0*")
+	)
+	(autotile
+	  (id 421)
+	  (solid #t)
+	  (mask "*0*10*0*")
+	)
+	(autotile
+	  (id 422)
+	  (solid #t)
+	  (mask "*0*00*0*")
+	)
   )
   (autotileset
     (name "snow")
