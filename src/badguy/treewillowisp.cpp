@@ -140,7 +140,9 @@ TreeWillOWisp::active_update(float dt_sec)
   if (sizemod < 0)
   {
     m_layer = LAYER_OBJECTS + 5;
-  } else {
+  }
+  else
+  {
     m_layer = LAYER_OBJECTS - 20;
   }
 }

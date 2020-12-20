@@ -48,7 +48,9 @@ CaptainSnowball::might_climb(int width, int height) const
   {
     x1 = m_col.m_bbox.get_left() - static_cast<float>(width);
     x2 = m_col.m_bbox.get_left() - 1;
-  } else {
+  }
+  else
+  {
     x1 = m_col.m_bbox.get_right() + 1;
     x2 = m_col.m_bbox.get_right() + static_cast<float>(width);
   }

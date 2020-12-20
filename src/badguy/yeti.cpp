@@ -86,7 +86,9 @@ Yeti::Yeti(const ReaderMapping& reader) :
     right_stand_x = 1140;
     left_jump_x = 528;
     right_jump_x = 692;
-  } else {
+  }
+  else
+  {
     recalculate_pos();
   }
 }
@@ -105,7 +107,9 @@ Yeti::recalculate_pos()
   {
     left_stand_x = m_col.m_bbox.get_left();
     right_stand_x = left_stand_x + RUN_DISTANCE;
-  } else {
+  }
+  else
+  {
     right_stand_x = m_col.m_bbox.get_left();
     left_stand_x = right_stand_x - RUN_DISTANCE;
   }
@@ -278,7 +282,8 @@ void Yeti::take_hit(Player& )
     set_colgroup_active(COLGROUP_MOVING_ONLY_STATIC);
     //sprite->set_action("dead"); // This sprite does not look very good
   }
-  else {
+  else
+  {
     safe_timer.start(SAFE_TIME);
   }
 }
@@ -349,7 +354,9 @@ Yeti::collision_solid(const CollisionHit& hit)
           if (stomp_count == 3)
           {
             jump_down();
-          } else {
+          }
+          else
+          {
             // jump again
             state_timer.start(STOMP_WAIT);
           }

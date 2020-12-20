@@ -44,7 +44,9 @@ Dispenser::DispenserType_from_string(const std::string& type_string)
   else if (type_string == "point")
   {
     return DispenserType::POINT;
-  } else {
+  }
+  else
+  {
     throw std::exception();
   }
 }
@@ -107,7 +109,9 @@ Dispenser::Dispenser(const ReaderMapping& reader) :
     {
       if (type_s.empty()) {
         log_warning << "No dispenser type set, setting to dropper." << std::endl;
-      } else {
+      }
+      else
+      {
         log_warning << "Unknown type of dispenser:" << type_s << ", setting to dropper." << std::endl;
       }
     }
@@ -268,11 +272,14 @@ Dispenser::active_update(float dt_sec)
           m_swivel = true;
           m_dir = targetdir;
           m_sprite->set_action(m_dir == Direction::LEFT ? "swivel-left" : "swivel-right", 1);
-        } else { // tux in sight: shoot
+        }
+        else { // tux in sight: shoot
           launch_badguy();
         }
       }
-    } else {
+    }
+    else
+    {
       launch_badguy();
     }
   }
@@ -300,7 +307,9 @@ Dispenser::launch_badguy()
     {
       if (m_random) {
         m_next_badguy = static_cast<unsigned int>(gameRandom.rand(static_cast<int>(m_badguys.size())));
-      } else {
+      }
+      else
+      {
         m_next_badguy++;
 
         if (m_next_badguy >= m_badguys.size())
@@ -348,7 +357,9 @@ Dispenser::launch_badguy()
           if (launchdir == Direction::LEFT)
           {
             spawnpoint.x -= object_bbox.get_width() + 1;
-          } else {
+          }
+          else
+          {
             spawnpoint.x += m_col.m_bbox.get_width() + 1;
           }
           break;
@@ -407,7 +418,9 @@ Dispenser::freeze()
   {
     // When is the dispenser a dropper, it uses the "dropper-iced".
     m_sprite->set_action("dropper-iced", 1);
-  } else {
+  }
+  else
+  {
     // When is the dispenser something else (unprobable), or has no matching iced sprite, it shades to blue.
     m_sprite->set_color(Color(0.6f, 0.72f, 0.88f));
     m_sprite->stop_animation();

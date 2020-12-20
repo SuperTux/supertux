@@ -71,7 +71,8 @@ Snowman::collision_bullet(Bullet& bullet, const CollisionHit& hit)
 
     return ABORT_MOVE;
   }
-  else {
+  else
+  {
     // in all other cases, bullets ricochet
     bullet.ricochet(*this, hit);
     return FORCE_MOVE;

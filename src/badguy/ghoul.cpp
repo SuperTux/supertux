@@ -137,7 +137,8 @@ Ghoul::active_update(float dt_sec)
       if (dist.norm() >= 1) {
         Vector dir_ = dist.unit();
         m_col.m_movement = dir_ * dt_sec * m_flyspeed;
-      } else {
+      }
+      else {
         /* We somehow landed right on top of the player without colliding.
          * Sit tight and avoid a division by zero. */
       }
@@ -200,7 +201,8 @@ Ghoul::set_state(const std::string& new_state)
   }
   else if (new_state == "normal") {
     m_mystate = STATE_IDLE;
-  } else {
+  }
+  else {
     log_warning << "Can't set unknown state '" << new_state << std::endl;
   }
 }

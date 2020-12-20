@@ -49,11 +49,13 @@ SkullyHop::set_state(SkullyHopState newState)
     m_sprite->set_action(m_dir == Direction::LEFT ? "standing-left" : "standing-right");
 
     recover_timer.start(0.5);
-  } else
+  }
+  else
     if (newState == CHARGING)
     {
       m_sprite->set_action(m_dir == Direction::LEFT ? "charging-left" : "charging-right", 1);
-    } else
+    }
+    else
       if (newState == JUMPING)
       {
         m_sprite->set_action(m_dir == Direction::LEFT ? "jumping-left" : "jumping-right");

@@ -50,7 +50,9 @@ WillOWisp::WillOWisp(const ReaderMapping& reader) :
   {
     reader.get("sector", m_target_sector);
     reader.get("spawnpoint", m_target_spawnpoint);
-  } else {
+  }
+  else
+  {
     reader.get("sector", m_target_sector, "main");
     reader.get("spawnpoint", m_target_spawnpoint, "main");
   }
@@ -120,7 +122,9 @@ WillOWisp::active_update(float dt_sec)
       {
         Vector dir_ = dist.unit();
         m_col.m_movement = dir_ * dt_sec * m_flyspeed;
-      } else {
+      }
+      else
+      {
         /* We somehow landed right on top of the player without colliding.
          * Sit tight and avoid a division by zero. */
       }
@@ -231,7 +235,9 @@ WillOWisp::collision_player(Player& player, const CollisionHit& ) {
   if (!m_hit_script.empty())
   {
     Sector::get().run_script(m_hit_script, "hit-script");
-  } else {
+  }
+  else
+  {
     GameSession::current()->respawn(m_target_sector, m_target_spawnpoint);
   }
   SoundManager::current()->play("sounds/warp.wav");
@@ -289,7 +295,9 @@ WillOWisp::set_state(const std::string& new_state)
   else if (new_state == "vanish")
   {
     vanish();
-  } else {
+  }
+  else
+  {
     log_warning << "Can't set unknown willowisp state '" << new_state << std::endl;
   }
 }

@@ -133,14 +133,18 @@ Kugelblitz::active_update(float dt_sec)
   if (lifetime.check())
   {
     explode();
-  } else {
+  }
+  else
+  {
     if (groundhit_pos_set)
     {
       if (movement_timer.check()) {
         if (direction == 1)
         {
           direction = -1;
-        } else {
+        }
+        else
+        {
           direction = 1;
         }
 
@@ -210,7 +214,9 @@ Kugelblitz::try_activate()
         if (player__ && (player__->get_bbox().get_left() > m_col.m_bbox.get_right()))
         {
           m_dir = Direction::RIGHT;
-        } else {
+        }
+        else
+        {
           m_dir = Direction::LEFT;
         }
       }

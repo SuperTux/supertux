@@ -135,14 +135,18 @@ BadGuy::draw(DrawingContext& context)
     if (Editor::is_active()) {
       m_sprite->draw(context.color(), get_pos(), m_layer);
     }
-  } else {
+  }
+  else
+  {
     if (m_state == STATE_FALLING)
     {
       context.push_transform();
       context.set_flip(context.get_flip() ^ VERTICAL_FLIP);
       m_sprite->draw(context.color(), get_pos(), m_layer);
       context.pop_transform();
-    } else {
+    }
+    else
+    {
       m_sprite->draw(context.color(), get_pos(), m_layer);
     }
 
@@ -353,7 +357,9 @@ BadGuy::collision_tile(uint32_t tile_attributes)
     else if (tile_attributes & Tile::ICE && is_freezable())
     {
       freeze();
-    } else {
+    }
+    else
+    {
       kill_fall();
     }
   }
@@ -495,7 +501,9 @@ BadGuy::collision_bullet(Bullet& bullet, const CollisionHit& hit)
       unfreeze();
       bullet.remove_me();
       return ABORT_MOVE;
-    } else {
+    }
+    else
+    {
       // other bullets ricochet
       bullet.ricochet(*this, hit);
       return FORCE_MOVE;
@@ -509,7 +517,9 @@ BadGuy::collision_bullet(Bullet& bullet, const CollisionHit& hit)
       extinguish();
       bullet.remove_me();
       return ABORT_MOVE;
-    } else {
+    }
+    else
+    {
       // other bullets are absorbed by ignited badguys
       bullet.remove_me();
       return FORCE_MOVE;
@@ -528,7 +538,9 @@ BadGuy::collision_bullet(Bullet& bullet, const CollisionHit& hit)
     freeze();
     bullet.remove_me();
     return ABORT_MOVE;
-  } else {
+  }
+  else
+  {
     // in all other cases, bullets ricochet
     bullet.ricochet(*this, hit);
     return FORCE_MOVE;
@@ -586,7 +598,9 @@ BadGuy::kill_fall()
     // start dead-script
     run_dead_script();
     remove_me();
-  } else {
+  }
+  else
+  {
     SoundManager::current()->play("sounds/fall.wav", get_pos());
     m_physic.set_velocity_y(0);
     m_physic.set_acceleration_y(0);
@@ -721,7 +735,9 @@ BadGuy::try_activate()
         if (player_ && (player_->get_bbox().get_left() > m_col.m_bbox.get_right()))
         {
           m_dir = Direction::RIGHT;
-        } else {
+        }
+        else
+        {
           m_dir = Direction::LEFT;
         }
       }
@@ -747,7 +763,9 @@ BadGuy::might_fall(int height) const
   {
     x1 = m_col.m_bbox.get_left() - 1;
     x2 = m_col.m_bbox.get_left();
-  } else {
+  }
+  else
+  {
     x1 = m_col.m_bbox.get_right();
     x2 = m_col.m_bbox.get_right() + 1;
   }
@@ -797,12 +815,16 @@ BadGuy::freeze()
   if (m_sprite->has_action("iced-left"))
   {
     m_sprite->set_action(m_dir == Direction::LEFT ? "iced-left" : "iced-right", 1);
-  } else {
+  }
+  else
+  {
     // when the sprite doesn't have separate actions for left and right, it tries to use an universal one.
     if (m_sprite->has_action("iced"))
     {
       m_sprite->set_action("iced", 1);
-    } else {
+    }
+    else
+    {
       // when no iced action exists, default to shading badguy blue
       m_sprite->set_color(Color(0.60f, 0.72f, 0.88f));
       m_sprite->stop_animation();
@@ -866,7 +888,9 @@ BadGuy::ignite()
       m_sprite->set_action(m_dir == Direction::LEFT ? "ground-melting-left" : "ground-melting-right", 1);
       SoundManager::current()->play("sounds/splash.ogg", get_pos());
       set_state(STATE_GROUND_MELTING);
-    } else {
+    }
+    else
+    {
       m_sprite->set_action(m_dir == Direction::LEFT ? "melting-left" : "melting-right", 1);
       SoundManager::current()->play("sounds/sizzle.ogg", get_pos());
       set_state(STATE_MELTING);
@@ -891,7 +915,9 @@ BadGuy::ignite()
     m_sprite->set_action(m_dir == Direction::LEFT ? "inside-melting-left" : "inside-melting-right", 1);
     set_state(STATE_INSIDE_MELTING);
     run_dead_script();
-  } else {
+  }
+  else
+  {
     // Let it fall off the screen then.
     kill_fall();
   }
@@ -980,10 +1006,14 @@ BadGuy::after_editor_set()
     else if (m_sprite->has_action("standing-left"))
     {
       m_sprite->set_action("standing-left");
-    } else {
+    }
+    else
+    {
       log_warning << "couldn't find editor sprite for badguy direction='auto': " << get_class() << std::endl;
     }
-  } else {
+  }
+  else
+  {
     std::string action_str = dir_to_string(m_dir);
 
     if (m_sprite->has_action("editor-" + action_str))
@@ -1025,7 +1055,9 @@ BadGuy::after_editor_set()
     else if (m_sprite->has_action("flying"))
     {
       m_sprite->set_action("flying");
-    } else {
+    }
+    else
+    {
       log_warning << "couldn't find editor sprite for badguy direction='" << action_str << "': "
                   << get_class() << std::endl;
     }

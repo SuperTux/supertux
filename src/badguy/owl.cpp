@@ -62,12 +62,16 @@ Owl::initialize()
   if (game_object == nullptr)
   {
     log_fatal << "Creating \"" << carried_obj_name << "\" object failed." << std::endl;
-  } else {
+  }
+  else
+  {
     carried_object = dynamic_cast<Portable*>(game_object.get());
     if (carried_object == nullptr)
     {
       log_warning << "Object is not portable: " << carried_obj_name << std::endl;
-    } else {
+    }
+    else
+    {
       Sector::get().add_object(std::move(game_object));
     }
   }
@@ -114,10 +118,13 @@ Owl::active_update (float dt_sec)
       if (obj_pos.x<=16 || obj_pos.x+16>=Sector::get().get_width()){
         carried_object->ungrab (*this, m_dir);
         carried_object = nullptr;
-      } else {
+      }
+      else
+      {
         carried_object->grab (*this, obj_pos, m_dir);
       }
-    } else { /* if (is_above_player) */
+    }
+    else { /* if (is_above_player) */
       carried_object->ungrab (*this, m_dir);
       carried_object = nullptr;
     }
@@ -208,7 +215,9 @@ Owl::collision_solid(const CollisionHit& hit)
       set_action ("right", /* loops = */ -1);
       m_dir = Direction::RIGHT;
       m_physic.set_velocity_x (FLYING_SPEED);
-    } else {
+    }
+    else
+    {
       set_action ("left", /* loops = */ -1);
       m_dir = Direction::LEFT;
       m_physic.set_velocity_x (-FLYING_SPEED);

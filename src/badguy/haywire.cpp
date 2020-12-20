@@ -120,7 +120,9 @@ Haywire::active_update(float dt_sec)
     {
       kill_fall ();
       return;
-    } else {
+    }
+    else
+    {
       time_until_explosion -= dt_sec;
     }
   }
@@ -143,7 +145,8 @@ Haywire::active_update(float dt_sec)
         walk_left_action = "ticking-left";
         walk_right_action = "ticking-right";
     }
-    else {
+    else
+    {
         set_action ((m_dir == Direction::LEFT) ? "active-left" : "active-right", /* loops = */ 1);
         walk_left_action = "active-left";
           walk_right_action = "active-right";
@@ -156,13 +159,16 @@ Haywire::active_update(float dt_sec)
       if (p->get_pos ().x > get_pos ().x)
       {
         target_velocity = walk_speed;
-      } else { // player in on the left
+      }
+      else { // player in on the left
         target_velocity = (-1.f) * walk_speed;
       }
     }
 
     WalkingBadguy::active_update(dt_sec, target_velocity);
-  } else {
+  }
+  else
+  {
     WalkingBadguy::active_update(dt_sec);
   }
 }

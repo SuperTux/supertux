@@ -54,14 +54,16 @@ Toad::set_state(ToadState newState)
       m_sprite->set_action(m_dir == Direction::LEFT ? "idle-left" : "idle-right");
 
     recover_timer.start(TOAD_RECOVER_TIME);
-  } else
+  }
+  else
     if (newState == JUMPING)
     {
       m_sprite->set_action(m_dir == Direction::LEFT ? "jumping-left" : "jumping-right");
       m_physic.set_velocity_x(m_dir == Direction::LEFT ? -HORIZONTAL_SPEED : HORIZONTAL_SPEED);
       m_physic.set_velocity_y(VERTICAL_SPEED);
       SoundManager::current()->play( HOP_SOUND, get_pos());
-    } else
+    }
+    else
       if (newState == FALLING)
       {
         Player* player = get_nearest_player();
@@ -113,7 +115,9 @@ Toad::collision_solid(const CollisionHit& hit)
       if (state == JUMPING)
       {
       sprite->set_action(dir == LEFT ? "jumping-left" : "jumping-right");
-      } else {
+      }
+      else
+      {
       sprite->set_action(dir == LEFT ? "idle-left" : "idle-right");
       }
     */

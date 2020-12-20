@@ -66,7 +66,9 @@ static const float WALKSPEED = 100;
     m_physic.set_velocity_x(m_dir == Direction::LEFT ? -WALKSPEED : WALKSPEED);
     m_sprite->set_action(m_dir == Direction::LEFT ? "walking-left" : "walking-right");
     return;
-  } else {
+  }
+  else
+  {
     synchronize_with(carried_by);
     m_sprite->set_action(m_dir == Direction::LEFT ? "stacked-left" : "stacked-right");
     return;

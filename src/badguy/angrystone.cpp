@@ -106,7 +106,9 @@ AngryStone::active_update(float dt_sec) {
         if (dy > 0)
         {
           attackDirection.y = 1;
-        } else {
+        }
+        else
+        {
           attackDirection.y = -1;
         }
 
@@ -123,7 +125,9 @@ AngryStone::active_update(float dt_sec) {
         if (dx > 0)
         {
           attackDirection.x = 1;
-        } else {
+        }
+        else
+        {
           attackDirection.x = -1;
         }
 

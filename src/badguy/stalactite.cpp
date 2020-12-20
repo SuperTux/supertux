@@ -127,7 +127,9 @@ Stalactite::collision_badguy(BadGuy& other, const CollisionHit& hit)
   if (other.is_freezable())
   {
     other.freeze();
-  } else {
+  }
+  else
+  {
     other.kill_fall();
   }
 
@@ -174,7 +176,9 @@ Stalactite::draw(DrawingContext& context)
   else if (state == STALACTITE_SHAKING)
   {
     m_sprite->draw(context.color(), get_pos() + shake_delta, m_layer);
-  } else {
+  }
+  else
+  {
     m_sprite->draw(context.color(), get_pos(), m_layer);
   }
 }

@@ -218,7 +218,9 @@ MrIceBlock::collision_squished(GameObject& object)
       if (movingobject && (movingobject->get_pos().x < get_pos().x))
       {
         m_dir = Direction::RIGHT;
-      } else {
+      }
+      else
+      {
         m_dir = Direction::LEFT;
       }
       if (nokick_timer.check())
@@ -313,7 +315,9 @@ MrIceBlock::ungrab(MovingObject& object, Direction dir_)
       m_physic.set_velocity_y(KICKSPEED);
     }
     set_state(ICESTATE_FLAT);
-  } else {
+  }
+  else
+  {
     m_dir = dir_;
     set_state(ICESTATE_KICKED);
   }

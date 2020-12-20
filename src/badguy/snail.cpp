@@ -325,7 +325,9 @@ Snail::collision_squished(GameObject& object)
         if (movingobject && (movingobject->get_pos().x < get_pos().x))
         {
           m_dir = Direction::RIGHT;
-        } else {
+        }
+        else
+        {
           m_dir = Direction::LEFT;
         }
       }
@@ -358,7 +360,9 @@ Snail::ungrab(MovingObject& object, Direction dir_)
   if (dir_ == Direction::UP)
   {
     be_flat();
-  } else {
+  }
+  else
+  {
     m_dir = dir_;
     be_kicked(true);
   }

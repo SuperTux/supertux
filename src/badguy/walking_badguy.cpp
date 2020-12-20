@@ -215,7 +215,9 @@ WalkingBadguy::turn_around()
   if (turn_around_timer.started())
   {
     if (turn_around_counter++ > 10) kill_fall();
-  } else {
+  }
+  else
+  {
     turn_around_timer.start(1);
     turn_around_counter = 0;
   }

@@ -139,7 +139,9 @@ GhostTree::active_update(float /*dt_sec*/)
         if (willo_speed == 1.8f)
         {
           willo_speed = 1.5f;
-        } else {
+        }
+        else
+        {
           willo_speed = 1.8f;
         }
 
@@ -183,17 +185,23 @@ GhostTree::active_update(float /*dt_sec*/)
         suck_lantern->remove_me();
         suck_lantern = nullptr;
         m_sprite->set_action("swallow", 1);
-      } else {
+      }
+      else
+      {
         pos += delta.unit();
         suck_lantern->grab(*this, pos, Direction::RIGHT);
       }
-    } else {
+    }
+    else
+    {
       // wait until lantern is swallowed
       if (m_sprite->animation_done())
       {
         if (is_color_deadly(suck_lantern_color)) {
           die();
-        } else {
+        }
+        else
+        {
           m_sprite->set_action("normal");
           mystate = STATE_IDLE;
           spawn_lantern();
@@ -237,7 +245,9 @@ GhostTree::draw(DrawingContext& context)
   if (mystate == STATE_SUCKING)
   {
     context.set_alpha(0.5f + fmodf(g_game_time, 0.5f));
-  } else {
+  }
+  else
+  {
     context.set_alpha(0.5f);
   }
   glow_sprite->draw(context.light(), get_pos(), m_layer);

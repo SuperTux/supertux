@@ -99,7 +99,9 @@ Jumpy::active_update(float dt_sec)
   else if (get_pos().y >= (pos_groundhit.y - JUMPY_MID_TOLERANCE) &&
       get_pos().y < (pos_groundhit.y - JUMPY_LOW_TOLERANCE)) {
     m_sprite->set_action(m_dir == Direction::LEFT ? "left-middle" : "right-middle");
-  } else {
+  }
+  else
+  {
     m_sprite->set_action(m_dir == Direction::LEFT ? "left-down" : "right-down");
   }
 }

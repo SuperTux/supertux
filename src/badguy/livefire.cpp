@@ -163,7 +163,9 @@ LiveFireAsleep::draw(DrawingContext& context)
   {
     m_sprite->set_action(m_dir == Direction::LEFT ? "sleeping-left" : "sleeping-right");
     BadGuy::draw(context);
-  } else {
+  }
+  else
+  {
     LiveFire::draw(context);
   }
 }
@@ -190,7 +192,9 @@ LiveFireDormant::draw(DrawingContext& context)
   {
     m_sprite->set_action(m_dir == Direction::LEFT ? "sleeping-left" : "sleeping-right");
     BadGuy::draw(context);
-  } else {
+  }
+  else
+  {
     LiveFire::draw(context);
   }
 }
