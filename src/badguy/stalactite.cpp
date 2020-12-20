@@ -44,35 +44,47 @@ Stalactite::Stalactite(const ReaderMapping& mapping) :
 void
 Stalactite::active_update(float dt_sec)
 {
-  if (state == STALACTITE_HANGING)
+  switch (state)
   {
-    auto player = get_nearest_player();
-    if (player && !player->get_ghost_mode())
+  case STALACTITE_HANGING:
     {
-      if (player->get_bbox().get_right() > m_col.m_bbox.get_left() - SHAKE_RANGE_X
-         && player->get_bbox().get_left() < m_col.m_bbox.get_right() + SHAKE_RANGE_X
-         && player->get_bbox().get_bottom() > m_col.m_bbox.get_top()
-         && player->get_bbox().get_top() < m_col.m_bbox.get_bottom() + SHAKE_RANGE_Y
-         && Sector::get().can_see_player(m_col.m_bbox.get_middle())) {
-        timer.start(SHAKE_TIME);
-        state = STALACTITE_SHAKING;
-        SoundManager::current()->play("sounds/cracking.wav", get_pos());
+      auto player = get_nearest_player();
+      if (player && !player->get_ghost_mode())
+      {
+        if (player->get_bbox().get_right() > m_col.m_bbox.get_left() - SHAKE_RANGE_X
+            && player->get_bbox().get_left() < m_col.m_bbox.get_right() + SHAKE_RANGE_X
+            && player->get_bbox().get_bottom() > m_col.m_bbox.get_top()
+            && player->get_bbox().get_top() < m_col.m_bbox.get_bottom() + SHAKE_RANGE_Y
+            && Sector::get().can_see_player(m_col.m_bbox.get_middle()))
+        {
+          timer.start(SHAKE_TIME);
+          state = STALACTITE_SHAKING;
+          SoundManager::current()->play("sounds/cracking.wav", get_pos());
+        }
       }
     }
-  }
-  else if (state == STALACTITE_SHAKING)
-  {
-    shake_delta = Vector(static_cast<float>(graphicsRandom.rand(-3, 3)), 0.0f);
-    if (timer.check())
+    break;
+
+  case STALACTITE_SHAKING:
     {
-      state = STALACTITE_FALLING;
-      m_physic.enable_gravity(true);
-      set_colgroup_active(COLGROUP_MOVING);
+      shake_delta = Vector(static_cast<float>(graphicsRandom.rand(-3, 3)), 0.0f);
+      if (timer.check())
+      {
+        state = STALACTITE_FALLING;
+        m_physic.enable_gravity(true);
+        set_colgroup_active(COLGROUP_MOVING);
+      }
     }
-  }
-  else if (state == STALACTITE_FALLING)
-  {
-    m_col.m_movement = m_physic.get_movement(dt_sec);
+    break;
+
+  case STALACTITE_FALLING:
+    {
+      m_col.m_movement = m_physic.get_movement(dt_sec);
+    }
+    break;
+
+  case STALACTITE_SQUISHED:
+    break;
   }
 }
 
@@ -93,23 +105,18 @@ Stalactite::squish()
 void
 Stalactite::collision_solid(const CollisionHit& hit)
 {
-  if (state == STALACTITE_FALLING)
-  {
-    if (hit.bottom) squish();
-  }
+  if (state == STALACTITE_FALLING && hit.bottom)
+    squish();
+
   if (state == STALACTITE_SQUISHED)
-  {
     m_physic.set_velocity_y(0);
-  }
 }
 
 HitResponse
 Stalactite::collision_player(Player& player, const CollisionHit& )
 {
   if (state != STALACTITE_SQUISHED)
-  {
     player.kill(false);
-  }
 
   return FORCE_MOVE;
 }
@@ -125,13 +132,9 @@ Stalactite::collision_badguy(BadGuy& other, const CollisionHit& hit)
   if (state != STALACTITE_FALLING) return BadGuy::collision_badguy(other, hit);
 
   if (other.is_freezable())
-  {
     other.freeze();
-  }
   else
-  {
     other.kill_fall();
-  }
 
   return FORCE_MOVE;
 }
@@ -170,17 +173,11 @@ Stalactite::draw(DrawingContext& context)
     return;
 
   if (state == STALACTITE_SQUISHED)
-  {
     m_sprite->draw(context.color(), get_pos(), LAYER_OBJECTS);
-  }
   else if (state == STALACTITE_SHAKING)
-  {
     m_sprite->draw(context.color(), get_pos() + shake_delta, m_layer);
-  }
   else
-  {
     m_sprite->draw(context.color(), get_pos(), m_layer);
-  }
 }
 
 void

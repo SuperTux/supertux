@@ -80,9 +80,7 @@ AngryStone::active_update(float dt_sec) {
   BadGuy::active_update(dt_sec);
 
   if (m_frozen)
-  {
     return;
-  }
 
   switch (state) {
   case IDLE:
@@ -104,13 +102,9 @@ AngryStone::active_update(float dt_sec) {
       {
         attackDirection.x = 0;
         if (dy > 0)
-        {
           attackDirection.y = 1;
-        }
         else
-        {
           attackDirection.y = -1;
-        }
 
         if ((attackDirection.x != oldWallDirection.x) || (attackDirection.y != oldWallDirection.y))
         {
@@ -123,13 +117,9 @@ AngryStone::active_update(float dt_sec) {
       {
         attackDirection.y = 0;
         if (dx > 0)
-        {
           attackDirection.x = 1;
-        }
         else
-        {
           attackDirection.x = -1;
-        }
 
         if ((attackDirection.x != oldWallDirection.x) || (attackDirection.y != oldWallDirection.y))
         {

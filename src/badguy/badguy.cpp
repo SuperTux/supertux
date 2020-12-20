@@ -126,15 +126,12 @@ void
 BadGuy::draw(DrawingContext& context)
 {
   if (!m_sprite.get())
-  {
     return;
-  }
 
   if (m_state == STATE_INIT || m_state == STATE_INACTIVE)
   {
-    if (Editor::is_active()) {
+    if (Editor::is_active())
       m_sprite->draw(context.color(), get_pos(), m_layer);
-    }
   }
   else
   {
@@ -151,9 +148,7 @@ BadGuy::draw(DrawingContext& context)
     }
 
     if (m_glowing)
-    {
       m_lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
-    }
   }
 }
 
@@ -194,9 +189,7 @@ BadGuy::update(float dt_sec)
   case STATE_ACTIVE:
     m_is_active_flag = true;
     if (Editor::is_active())
-    {
       break;
-    }
     active_update(dt_sec);
     break;
 
@@ -211,9 +204,7 @@ BadGuy::update(float dt_sec)
     m_is_active_flag = false;
     m_col.m_movement = m_physic.get_movement(dt_sec);
     if ( m_sprite->animation_done() )
-    {
       remove_me();
-    }
     break;
 
   case STATE_GEAR:
@@ -242,9 +233,7 @@ BadGuy::update(float dt_sec)
     m_is_active_flag = false;
     m_col.m_movement = m_physic.get_movement(dt_sec);
     if ( m_sprite->animation_done() )
-    {
       remove_me();
-    }
     break;
 
   case STATE_INSIDE_MELTING:
@@ -283,17 +272,11 @@ Direction
 BadGuy::str2dir(const std::string& dir_str) const
 {
   if (dir_str == "auto")
-  {
     return Direction::AUTO;
-  }
   else if (dir_str == "left")
-  {
     return Direction::LEFT;
-  }
   else if (dir_str == "right")
-  {
     return Direction::RIGHT;
-  }
 
   //default to "auto"
   log_warning << "Badguy::str2dir: unknown direction \"" << dir_str << "\"" << std::endl;
@@ -320,9 +303,7 @@ BadGuy::active_update(float dt_sec)
 {
   m_col.m_movement = m_physic.get_movement(dt_sec);
   if (m_frozen)
-  {
     m_sprite->stop_animation();
-  }
 }
 
 void
@@ -335,9 +316,7 @@ BadGuy::collision_tile(uint32_t tile_attributes)
 {
   // Don't kill badguys that have already been killed
   if (!is_active())
-  {
     return;
-  }
 
   if (tile_attributes & Tile::WATER && !is_in_water())
   {
@@ -345,9 +324,7 @@ BadGuy::collision_tile(uint32_t tile_attributes)
     SoundManager::current()->play("sounds/splash.ogg", get_pos());
   }
   else if (!(tile_attributes & Tile::WATER) && is_in_water())
-  {
     m_in_water = false;
-  }
 
   if (tile_attributes & Tile::HURTS && is_hurtable())
   {
@@ -355,9 +332,7 @@ BadGuy::collision_tile(uint32_t tile_attributes)
       ignite();
     }
     else if (tile_attributes & Tile::ICE && is_freezable())
-    {
       freeze();
-    }
     else
     {
       kill_fall();
@@ -369,9 +344,7 @@ HitResponse
 BadGuy::collision(GameObject& other, const CollisionHit& hit)
 {
   if (!is_active())
-  {
     return ABORT_MOVE;
-  }
 
   auto badguy = dynamic_cast<BadGuy*> (&other);
   if (badguy && badguy->is_active() && badguy->m_col.get_group() == COLGROUP_MOVING)
@@ -404,9 +377,7 @@ BadGuy::collision(GameObject& other, const CollisionHit& hit)
       }
 
       if (collision_squished(*player))
-      {
         return FORCE_MOVE;
-      }
     }
 
     if (player->is_stone())
@@ -420,9 +391,7 @@ BadGuy::collision(GameObject& other, const CollisionHit& hit)
 
   auto bullet = dynamic_cast<Bullet*> (&other);
   if (bullet)
-  {
     return collision_bullet(*bullet, hit);
-  }
 
   return FORCE_MOVE;
 }
@@ -551,9 +520,7 @@ void
 BadGuy::kill_squished(GameObject& object)
 {
   if (!is_active())
-  {
     return;
-  }
 
   SoundManager::current()->play("sounds/squish.wav", get_pos());
   m_physic.enable_gravity(true);
@@ -563,9 +530,7 @@ BadGuy::kill_squished(GameObject& object)
   set_group(COLGROUP_MOVING_ONLY_STATIC);
   auto player = dynamic_cast<Player*>(&object);
   if (player)
-  {
     player->bounce(*this);
-  }
 
   // start dead-script
   run_dead_script();
