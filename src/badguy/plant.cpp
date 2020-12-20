@@ -46,7 +46,9 @@ Plant::collision_solid(const CollisionHit& hit)
   if (hit.top || hit.bottom)
   {
     m_physic.set_velocity_y(0);
-  } else if (hit.left || hit.right) {
+  }
+  else if (hit.left || hit.right)
+  {
     m_dir = m_dir == Direction::LEFT ? Direction::RIGHT : Direction::LEFT;
     m_sprite->set_action(m_dir == Direction::LEFT ? "left" : "right");
     m_physic.set_velocity_x(-m_physic.get_velocity_x());

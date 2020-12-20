@@ -168,7 +168,9 @@ GhostTree::active_update(float /*dt_sec*/)
         Sector::get().add<Root>(Vector(player->get_bbox().get_left(), m_col.m_bbox.get_bottom()+ROOT_TOP_OFFSET));
       }
     }
-  } else if (mystate == STATE_SWALLOWING) {
+  }
+  else if (mystate == STATE_SWALLOWING)
+  {
     if (suck_lantern)
     {
       // suck in lantern
@@ -248,9 +250,13 @@ GhostTree::collides(GameObject& other, const CollisionHit& ) const
   if (mystate != STATE_SUCKING)
   {
     return false;
-  } else if (dynamic_cast<Lantern*>(&other)) {
+  }
+  else if (dynamic_cast<Lantern*>(&other))
+  {
     return true;
-  } else if (dynamic_cast<Player*>(&other)) {
+  }
+  else if (dynamic_cast<Player*>(&other))
+  {
     return true;
   }
 

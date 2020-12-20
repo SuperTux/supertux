@@ -116,7 +116,9 @@ AngryStone::active_update(float dt_sec) {
           timer.start(CHARGE_TIME);
           state = CHARGING;
         }
-      } else if ((dy > -playerHeight) && (dy < badguyHeight)) {
+      }
+      else if ((dy > -playerHeight) && (dy < badguyHeight))
+      {
         attackDirection.y = 0;
         if (dx > 0)
         {

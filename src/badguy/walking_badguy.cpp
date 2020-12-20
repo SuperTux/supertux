@@ -147,7 +147,8 @@ WalkingBadguy::active_update(float dt_sec, float dest_x_velocity)
     m_dir = Direction::RIGHT;
     set_action (walk_right_action, /* loops = */ -1);
   }
-  else if ((m_dir == Direction::RIGHT) && (m_physic.get_velocity_x () < 0.0f)) {
+  else if ((m_dir == Direction::RIGHT) && (m_physic.get_velocity_x () < 0.0f))
+  {
     m_dir = Direction::LEFT;
     set_action (walk_left_action, /* loops = */ -1);
   }

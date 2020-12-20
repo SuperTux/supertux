@@ -32,11 +32,17 @@ Dispenser::DispenserType_from_string(const std::string& type_string)
   if (type_string == "dropper")
   {
     return DispenserType::DROPPER;
-  } else if (type_string == "rocketlauncher") {
+  }
+  else if (type_string == "rocketlauncher")
+  {
     return DispenserType::ROCKETLAUNCHER;
-  } else if (type_string == "cannon") {
+  }
+  else if (type_string == "cannon")
+  {
     return DispenserType::CANNON;
-  } else if (type_string == "point") {
+  }
+  else if (type_string == "point")
+  {
     return DispenserType::POINT;
   } else {
     throw std::exception();
@@ -391,10 +397,14 @@ Dispenser::freeze()
   {
     // Only swivel dispensers can use their left/right iced actions.
     m_sprite->set_action(m_dir == Direction::LEFT ? "iced-left" : "iced-right", 1);
-  } else if (m_type == DispenserType::CANNON && m_sprite->has_action("iced")) {
+  }
+  else if (m_type == DispenserType::CANNON && m_sprite->has_action("iced"))
+  {
     // When is the dispenser a cannon, it uses the "iced" action.
     m_sprite->set_action("iced", 1);
-  } else if (m_sprite->has_action("dropper-iced")) {
+  }
+  else if (m_sprite->has_action("dropper-iced"))
+  {
     // When is the dispenser a dropper, it uses the "dropper-iced".
     m_sprite->set_action("dropper-iced", 1);
   } else {

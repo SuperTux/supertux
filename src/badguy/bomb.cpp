@@ -85,7 +85,9 @@ Bomb::active_update(float dt_sec)
   if (m_sprite->animation_done())
   {
     explode();
-  } else if (!is_grabbed()) {
+  }
+  else if (!is_grabbed())
+  {
     m_col.m_movement = m_physic.get_movement(dt_sec);
   }
 }

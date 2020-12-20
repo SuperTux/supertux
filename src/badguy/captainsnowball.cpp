@@ -62,7 +62,9 @@ CaptainSnowball::active_update(float dt_sec)
   if (on_ground() && might_climb(8, 64))
   {
     m_physic.set_velocity_y(-400);
-  } else if (on_ground() && might_fall(16)) {
+  }
+  else if (on_ground() && might_fall(16))
+  {
     m_physic.set_velocity_y(-400);
     walk_speed = BOARDING_SPEED;
     m_physic.set_velocity_x(m_dir == Direction::LEFT ? -walk_speed : walk_speed);

@@ -59,7 +59,9 @@ Stalactite::active_update(float dt_sec)
         SoundManager::current()->play("sounds/cracking.wav", get_pos());
       }
     }
-  } else if (state == STALACTITE_SHAKING) {
+  }
+  else if (state == STALACTITE_SHAKING)
+  {
     shake_delta = Vector(static_cast<float>(graphicsRandom.rand(-3, 3)), 0.0f);
     if (timer.check())
     {
@@ -67,7 +69,9 @@ Stalactite::active_update(float dt_sec)
       m_physic.enable_gravity(true);
       set_colgroup_active(COLGROUP_MOVING);
     }
-  } else if (state == STALACTITE_FALLING) {
+  }
+  else if (state == STALACTITE_FALLING)
+  {
     m_col.m_movement = m_physic.get_movement(dt_sec);
   }
 }
@@ -166,7 +170,9 @@ Stalactite::draw(DrawingContext& context)
   if (state == STALACTITE_SQUISHED)
   {
     m_sprite->draw(context.color(), get_pos(), LAYER_OBJECTS);
-  } else if (state == STALACTITE_SHAKING) {
+  }
+  else if (state == STALACTITE_SHAKING)
+  {
     m_sprite->draw(context.color(), get_pos() + shake_delta, m_layer);
   } else {
     m_sprite->draw(context.color(), get_pos(), m_layer);

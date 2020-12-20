@@ -281,9 +281,13 @@ BadGuy::str2dir(const std::string& dir_str) const
   if (dir_str == "auto")
   {
     return Direction::AUTO;
-  } else if (dir_str == "left") {
+  }
+  else if (dir_str == "left")
+  {
     return Direction::LEFT;
-  } else if (dir_str == "right") {
+  }
+  else if (dir_str == "right")
+  {
     return Direction::RIGHT;
   }
 
@@ -335,7 +339,9 @@ BadGuy::collision_tile(uint32_t tile_attributes)
   {
     m_in_water = true;
     SoundManager::current()->play("sounds/splash.ogg", get_pos());
-  } else if (!(tile_attributes & Tile::WATER) && is_in_water()) {
+  }
+  else if (!(tile_attributes & Tile::WATER) && is_in_water())
+  {
     m_in_water = false;
   }
 
@@ -343,7 +349,9 @@ BadGuy::collision_tile(uint32_t tile_attributes)
   {
     if (tile_attributes & Tile::FIRE && is_flammable()) {
       ignite();
-    } else if (tile_attributes & Tile::ICE && is_freezable()) {
+    }
+    else if (tile_attributes & Tile::ICE && is_freezable())
+    {
       freeze();
     } else {
       kill_fall();
@@ -492,7 +500,9 @@ BadGuy::collision_bullet(Bullet& bullet, const CollisionHit& hit)
       bullet.ricochet(*this, hit);
       return FORCE_MOVE;
     }
-  } else if (is_ignited()) {
+  }
+  else if (is_ignited())
+  {
     if (bullet.get_type() == ICE_BONUS)
     {
       // ice bullets extinguish ignited badguys
@@ -504,12 +514,16 @@ BadGuy::collision_bullet(Bullet& bullet, const CollisionHit& hit)
       bullet.remove_me();
       return FORCE_MOVE;
     }
-  } else if (bullet.get_type() == FIRE_BONUS && is_flammable()) {
+  }
+  else if (bullet.get_type() == FIRE_BONUS && is_flammable())
+  {
     // fire bullets ignite flammable badguys
     ignite();
     bullet.remove_me();
     return ABORT_MOVE;
-  } else if (bullet.get_type() == ICE_BONUS && is_freezable()) {
+  }
+  else if (bullet.get_type() == ICE_BONUS && is_freezable())
+  {
     // ice bullets freeze freezable badguys
     freeze();
     bullet.remove_me();
@@ -860,14 +874,18 @@ BadGuy::ignite()
 
     run_dead_script();
 
-  } else if (m_sprite->has_action("burning-left")) {
+  }
+  else if (m_sprite->has_action("burning-left"))
+  {
     // burn it!
     m_glowing = true;
     SoundManager::current()->play("sounds/fire.ogg", get_pos());
     m_sprite->set_action(m_dir == Direction::LEFT ? "burning-left" : "burning-right", 1);
     set_state(STATE_BURNING);
     run_dead_script();
-  } else if (m_sprite->has_action("inside-melting-left")) {
+  }
+  else if (m_sprite->has_action("inside-melting-left"))
+  {
     // melt it inside!
     SoundManager::current()->play("sounds/splash.ogg", get_pos());
     m_sprite->set_action(m_dir == Direction::LEFT ? "inside-melting-left" : "inside-melting-right", 1);
@@ -926,23 +944,41 @@ BadGuy::after_editor_set()
   {
     if (m_sprite->has_action("editor-left")) {
       m_sprite->set_action("editor-left");
-    } else if (m_sprite->has_action("editor-right")) {
+    }
+    else if (m_sprite->has_action("editor-right"))
+    {
       m_sprite->set_action("editor-right");
-    } else if (m_sprite->has_action("left")) {
+    }
+    else if (m_sprite->has_action("left"))
+    {
       m_sprite->set_action("left");
-    } else if (m_sprite->has_action("normal")) {
+    }
+    else if (m_sprite->has_action("normal"))
+    {
       m_sprite->set_action("normal");
-    } else if (m_sprite->has_action("idle")) {
+    }
+    else if (m_sprite->has_action("idle"))
+    {
       m_sprite->set_action("idle");
-    } else if (m_sprite->has_action("idle-left")) {
+    }
+    else if (m_sprite->has_action("idle-left"))
+    {
       m_sprite->set_action("idle-left");
-    } else if (m_sprite->has_action("flying-left")) {
+    }
+    else if (m_sprite->has_action("flying-left"))
+    {
       m_sprite->set_action("flying-left");
-    } else if (m_sprite->has_action("walking-left")) {
+    }
+    else if (m_sprite->has_action("walking-left"))
+    {
       m_sprite->set_action("walking-left");
-    } else if (m_sprite->has_action("flying")) {
+    }
+    else if (m_sprite->has_action("flying"))
+    {
       m_sprite->set_action("flying");
-    } else if (m_sprite->has_action("standing-left")) {
+    }
+    else if (m_sprite->has_action("standing-left"))
+    {
       m_sprite->set_action("standing-left");
     } else {
       log_warning << "couldn't find editor sprite for badguy direction='auto': " << get_class() << std::endl;
@@ -953,23 +989,41 @@ BadGuy::after_editor_set()
     if (m_sprite->has_action("editor-" + action_str))
     {
       m_sprite->set_action("editor-" + action_str);
-    } else if (m_sprite->has_action(action_str)) {
+    }
+    else if (m_sprite->has_action(action_str))
+    {
       m_sprite->set_action(action_str);
-    } else if (m_sprite->has_action("idle-" + action_str)) {
+    }
+    else if (m_sprite->has_action("idle-" + action_str))
+    {
       m_sprite->set_action("idle-" + action_str);
-    } else if (m_sprite->has_action("flying-" + action_str)) {
+    }
+    else if (m_sprite->has_action("flying-" + action_str))
+    {
       m_sprite->set_action("flying-" + action_str);
-    } else if (m_sprite->has_action("standing-" + action_str)) {
+    }
+    else if (m_sprite->has_action("standing-" + action_str))
+    {
       m_sprite->set_action("standing-" + action_str);
-    } else if (m_sprite->has_action("walking-" + action_str)) {
+    }
+    else if (m_sprite->has_action("walking-" + action_str))
+    {
       m_sprite->set_action("walking-" + action_str);
-    } else if (m_sprite->has_action("left")) {
+    }
+    else if (m_sprite->has_action("left"))
+    {
       m_sprite->set_action("left");
-    } else if (m_sprite->has_action("normal")) {
+    }
+    else if (m_sprite->has_action("normal"))
+    {
       m_sprite->set_action("normal");
-    } else if (m_sprite->has_action("idle")) {
+    }
+    else if (m_sprite->has_action("idle"))
+    {
       m_sprite->set_action("idle");
-    } else if (m_sprite->has_action("flying")) {
+    }
+    else if (m_sprite->has_action("flying"))
+    {
       m_sprite->set_action("flying");
     } else {
       log_warning << "couldn't find editor sprite for badguy direction='" << action_str << "': "
@@ -991,14 +1045,18 @@ BadGuy::add_wind_velocity(const Vector& velocity, const Vector& end_speed)
   if (end_speed.x > 0 && m_physic.get_velocity_x() < end_speed.x)
   {
     m_physic.set_velocity_x(std::min(m_physic.get_velocity_x() + velocity.x, end_speed.x));
-  } else if (end_speed.x < 0 && m_physic.get_velocity_x() > end_speed.x) {
+  }
+  else if (end_speed.x < 0 && m_physic.get_velocity_x() > end_speed.x)
+  {
     m_physic.set_velocity_x(std::max(m_physic.get_velocity_x() + velocity.x, end_speed.x));
   }
 
   if (end_speed.y > 0 && m_physic.get_velocity_y() < end_speed.y)
   {
     m_physic.set_velocity_y(std::min(m_physic.get_velocity_y() + velocity.y, end_speed.y));
-  } else if (end_speed.y < 0 && m_physic.get_velocity_y() > end_speed.y) {
+  }
+  else if (end_speed.y < 0 && m_physic.get_velocity_y() > end_speed.y)
+  {
     m_physic.set_velocity_y(std::max(m_physic.get_velocity_y() + velocity.y, end_speed.y));
   }
 }

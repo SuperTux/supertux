@@ -143,7 +143,9 @@ MrIceBlock::collision_player(Player& player, const CollisionHit& hit)
       player.kick();
       set_state(ICESTATE_KICKED);
       return FORCE_MOVE;
-    } else if (hit.right) {
+    }
+    else if (hit.right)
+    {
       m_dir = Direction::LEFT;
       player.kick();
       set_state(ICESTATE_KICKED);
@@ -300,7 +302,9 @@ MrIceBlock::ungrab(MovingObject& object, Direction dir_)
   {
     m_physic.set_velocity_y(-KICKSPEED);
     set_state(ICESTATE_FLAT);
-  } else if (dir_ == Direction::DOWN) {
+  }
+  else if (dir_ == Direction::DOWN)
+  {
     Vector mov(0, 32);
     if (Sector::get().is_free_of_statics(get_bbox().moved(mov), this))
     {

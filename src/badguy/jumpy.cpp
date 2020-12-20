@@ -61,7 +61,9 @@ Jumpy::hit(const CollisionHit& chit)
     // TODO create a nice sound for this...
     //SoundManager::current()->play("sounds/skid.wav");
     update_on_ground_flag(chit);
-  } else if (chit.top) {
+  }
+  else if (chit.top)
+  {
     m_physic.set_velocity_y(0);
   }
 
@@ -93,7 +95,8 @@ Jumpy::active_update(float dt_sec)
   if (get_pos().y < (pos_groundhit.y - JUMPY_MID_TOLERANCE))
   {
     m_sprite->set_action(m_dir == Direction::LEFT ? "left-up" : "right-up");
-  } else if (get_pos().y >= (pos_groundhit.y - JUMPY_MID_TOLERANCE) &&
+  }
+  else if (get_pos().y >= (pos_groundhit.y - JUMPY_MID_TOLERANCE) &&
       get_pos().y < (pos_groundhit.y - JUMPY_LOW_TOLERANCE)) {
     m_sprite->set_action(m_dir == Direction::LEFT ? "left-middle" : "right-middle");
   } else {

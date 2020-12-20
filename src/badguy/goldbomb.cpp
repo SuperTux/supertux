@@ -61,7 +61,9 @@ GoldBomb::collision_solid(const CollisionHit& hit)
     if (hit.bottom) {
       m_physic.set_velocity_y(0);
       m_physic.set_velocity_x(0);
-    } else if (hit.left || hit.right) {
+    }
+    else if (hit.left || hit.right)
+    {
       m_physic.set_velocity_x(-m_physic.get_velocity_x());
 	} else if (hit.top) {
       m_physic.set_velocity_y(0);
@@ -154,7 +156,9 @@ GoldBomb::active_update(float dt_sec)
     if (m_sprite->animation_done())
     {
       kill_fall();
-    } else if (!is_grabbed()) {
+    }
+    else if (!is_grabbed())
+    {
       m_col.m_movement = m_physic.get_movement(dt_sec);
     }
     return;
@@ -218,7 +222,9 @@ GoldBomb::grab(MovingObject& object, const Vector& pos, Direction dir_)
     // visible instead of hiding it behind Tux
     m_sprite->set_action_continued(m_dir == Direction::LEFT ? "ticking-right" : "ticking-left");
     set_colgroup_active(COLGROUP_DISABLED);
-  } else if (m_frozen) {
+  }
+  else if (m_frozen)
+  {
     m_col.m_movement = pos - get_pos();
     m_dir = dir_;
     m_sprite->set_action(dir_ == Direction::LEFT ? "iced-left" : "iced-right");

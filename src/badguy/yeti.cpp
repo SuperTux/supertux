@@ -360,7 +360,9 @@ Yeti::collision_solid(const CollisionHit& hit)
       case FALLING:
         break;
     }
-  } else if (hit.left || hit.right) {
+  }
+  else if (hit.left || hit.right)
+  {
     // hit wall
     if(state != SQUISHED && state != FALLING)
       jump_up();

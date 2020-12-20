@@ -124,7 +124,9 @@ Zeekling::collision_solid(const CollisionHit& hit)
   if (hit.top || hit.bottom)
   {
     onBumpVertical();
-  } else if (hit.left || hit.right) {
+  }
+  else if (hit.left || hit.right)
+  {
     onBumpHorizontal();
   }
 }
@@ -190,7 +192,9 @@ Zeekling::active_update(float dt_sec) {
     state = DIVING;
     m_physic.set_velocity_y(2*fabsf(m_physic.get_velocity_x()));
     m_sprite->set_action(m_dir == Direction::LEFT ? "diving-left" : "diving-right");
-  } else if (state == CLIMBING && get_pos().y <= m_start_position.y) {
+  }
+  else if (state == CLIMBING && get_pos().y <= m_start_position.y)
+  {
     // stop climbing when we're back at initial height
     state = FLYING;
     m_physic.set_velocity_y(0);

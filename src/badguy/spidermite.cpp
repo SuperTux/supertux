@@ -68,7 +68,9 @@ SpiderMite::active_update(float dt_sec)
     if (mode == FLY_UP) {
       mode = FLY_DOWN;
       m_physic.set_velocity_y(-MOVE_SPEED);
-    } else if (mode == FLY_DOWN) {
+    }
+    else if (mode == FLY_DOWN)
+    {
       mode = FLY_UP;
       m_physic.set_velocity_y(MOVE_SPEED);
     }

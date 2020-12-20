@@ -270,7 +270,9 @@ Snail::collision_player(Player& player, const CollisionHit& hit)
   {
     if (hit.left) {
       m_dir = Direction::RIGHT;
-    } else if (hit.right) {
+    }
+    else if (hit.right)
+    {
       m_dir = Direction::LEFT;
     }
     player.kick();

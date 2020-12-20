@@ -196,9 +196,13 @@ Owl::collision_solid(const CollisionHit& hit)
   {
     BadGuy::collision_solid(hit);
     return;
-  } else if (hit.top || hit.bottom) {
+  }
+  else if (hit.top || hit.bottom)
+  {
     m_physic.set_velocity_y(0);
-  } else if (hit.left || hit.right) {
+  }
+  else if (hit.left || hit.right)
+  {
     if (m_dir == Direction::LEFT)
     {
       set_action ("right", /* loops = */ -1);

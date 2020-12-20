@@ -115,7 +115,9 @@ WillOWisp::active_update(float dt_sec)
       if (dist.norm() > m_vanish_range)
       {
         vanish();
-      } else if (dist.norm() >= 1) {
+      }
+      else if (dist.norm() >= 1)
+      {
         Vector dir_ = dist.unit();
         m_col.m_movement = dir_ * dt_sec * m_flyspeed;
       } else {
@@ -265,17 +267,27 @@ WillOWisp::set_state(const std::string& new_state)
   if (new_state == "stopped")
   {
     m_mystate = STATE_STOPPED;
-  } else if (new_state == "idle") {
+  }
+  else if (new_state == "idle")
+  {
     m_mystate = STATE_IDLE;
-  } else if (new_state == "move_path") {
+  }
+  else if (new_state == "move_path")
+  {
     m_mystate = STATE_PATHMOVING;
     get_walker()->start_moving();
-  } else if (new_state == "move_path_track") {
+  }
+  else if (new_state == "move_path_track")
+  {
     m_mystate = STATE_PATHMOVING_TRACK;
     get_walker()->start_moving();
-  } else if (new_state == "normal") {
+  }
+  else if (new_state == "normal")
+  {
     m_mystate = STATE_IDLE;
-  } else if (new_state == "vanish") {
+  }
+  else if (new_state == "vanish")
+  {
     vanish();
   } else {
     log_warning << "Can't set unknown willowisp state '" << new_state << std::endl;
