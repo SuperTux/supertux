@@ -563,10 +563,20 @@ Main::run(int argc, char** argv)
 	_wfreopen(w_errpath.c_str(), L"a", stderr);
 #endif
 
-  // Create and install global locale
-  std::locale::global(boost::locale::generator().generate(""));
-  // Make boost.filesystem use it
-  boost::filesystem::path::imbue(std::locale());
+  // Create and install global locale - this can fail on some situations:
+  // - with bad values for env vars (LANG, LC_ALL, ...)
+  // - targets where libstdc++ uses its generic locales code (https://gcc.gnu.org/legacy-ml/libstdc++/2003-02/msg00345.html)
+  // NOTE: when moving to C++ >= 17, keep the try-catch block, but use std::locale:global(std::locale(""));
+  try
+  {
+    std::locale::global(boost::locale::generator().generate(""));
+    // Make boost.filesystem use it
+    boost::filesystem::path::imbue(std::locale());
+  }
+  catch(const std::runtime_error& err)
+  {
+    std::cout << "Warning: " << err.what() << std::endl;
+  }
 
   int result = 0;
 

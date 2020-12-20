@@ -123,7 +123,7 @@ EditorOverlayWidget::delete_markers()
 }
 
 Rectf
-EditorOverlayWidget::drag_rect()
+EditorOverlayWidget::drag_rect() const
 {
   int start_x, start_y, end_x, end_y;
 
@@ -758,7 +758,7 @@ EditorOverlayWidget::process_right_click()
 }
 
 Rectf
-EditorOverlayWidget::tile_drag_rect()
+EditorOverlayWidget::tile_drag_rect() const
 {
   Rectf result = drag_rect();
 
@@ -774,7 +774,7 @@ EditorOverlayWidget::tile_drag_rect()
 }
 
 Rectf
-EditorOverlayWidget::selection_draw_rect()
+EditorOverlayWidget::selection_draw_rect() const
 {
   Rectf select = tile_drag_rect();
   select.set_p1(tile_screen_pos(select.p1()));
@@ -1129,7 +1129,7 @@ EditorOverlayWidget::draw(DrawingContext& context)
 }
 
 Vector
-EditorOverlayWidget::tp_to_sp(const Vector& tp, int tile_size)
+EditorOverlayWidget::tp_to_sp(const Vector& tp, int tile_size) const
 {
   auto tilemap = m_editor.get_selected_tilemap();
   if (!tilemap)
@@ -1142,7 +1142,7 @@ EditorOverlayWidget::tp_to_sp(const Vector& tp, int tile_size)
 }
 
 Vector
-EditorOverlayWidget::sp_to_tp(const Vector& sp, int tile_size)
+EditorOverlayWidget::sp_to_tp(const Vector& sp, int tile_size) const
 {
   auto tilemap = m_editor.get_selected_tilemap();
   if (!tilemap)
@@ -1155,14 +1155,14 @@ EditorOverlayWidget::sp_to_tp(const Vector& sp, int tile_size)
 }
 
 Vector
-EditorOverlayWidget::tile_screen_pos(const Vector& tp, int tile_size)
+EditorOverlayWidget::tile_screen_pos(const Vector& tp, int tile_size) const
 {
   Vector sp = tp_to_sp(tp, tile_size);
   return sp - m_editor.get_sector()->get_camera().get_translation();
 }
 
 Vector
-EditorOverlayWidget::align_to_tilemap(const Vector& sp, int tile_size)
+EditorOverlayWidget::align_to_tilemap(const Vector& sp, int tile_size) const
 {
   auto tilemap = m_editor.get_selected_tilemap();
   if (!tilemap)
