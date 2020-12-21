@@ -93,6 +93,7 @@ SSpiky::active_update(float dt_sec) {
       }
     }
     break;
+  }
 
   WalkingBadguy::active_update(dt_sec);
 }
