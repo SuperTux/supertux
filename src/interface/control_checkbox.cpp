@@ -35,7 +35,7 @@ ControlCheckbox::draw(DrawingContext& context)
   Color bg_color, tx_color;
   std::tie(bg_color, tx_color) = colors;
 
-  context.color().draw_filled_rect(m_rect, bg_color, LAYER_GUI);
+  context.color().draw_filled_rect(m_rect, bg_color, m_theme.radius, LAYER_GUI);
   if (*m_value) {
     context.color().draw_text(m_theme.font,
                               "X", 

@@ -23,15 +23,17 @@
 InterfaceControl::InterfaceControl() :
   m_on_change(),
   m_label(),
-  m_theme(UITheme(Color(0.5f, 0.5f, 0.5f, 1.f), // background color
-                  Color(0.5f, 0.5f, 0.5f, 1.f), // background color on hover
-                  Color(0.3f, 0.3f, 0.3f, 1.f), // background color on activation
-                  Color(0.75f, 0.75f, 0.7f, 1.f), // background color on focus
-                  Color(0.f, 0.f, 0.f, 1.f), // text color
-                  Color(0.f, 0.f, 0.f, 1.f), // text color on hover
-                  Color(0.f, 0.f, 0.f, 1.f), // text color on activation
-                  Color(0.f, 0.f, 0.f, 1.f), // text color on focus
-                  Resources::control_font)), // main font
+  m_theme(Color(0.5f, 0.5f, 0.5f, 1.f), // background color
+          Color(0.5f, 0.5f, 0.5f, 1.f), // background color on hover
+          Color(0.3f, 0.3f, 0.3f, 1.f), // background color on activation
+          Color(0.75f, 0.75f, 0.7f, 1.f), // background color on focus
+          Color(0.f, 0.f, 0.f, 1.f), // text color
+          Color(0.f, 0.f, 0.f, 1.f), // text color on hover
+          Color(0.f, 0.f, 0.f, 1.f), // text color on activation
+          Color(0.f, 0.f, 0.f, 1.f), // text color on focus
+          Resources::control_font, // main font
+          0.f, // box radius
+          0.f),
   m_has_focus(),
   m_hovering(),
   m_mouse_down(false),

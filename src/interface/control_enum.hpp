@@ -87,7 +87,7 @@ ControlEnum<T>::draw(DrawingContext& context)
   Color bg_color, tx_color;
   std::tie(bg_color, tx_color) = colors;
 
-  context.color().draw_filled_rect(m_rect, bg_color, LAYER_GUI);
+  context.color().draw_filled_rect(m_rect, bg_color, m_theme.radius, LAYER_GUI);
 
   std::string label;
   auto it = m_options.find(*m_value);
@@ -110,15 +110,16 @@ ControlEnum<T>::draw(DrawingContext& context)
     for (auto option : m_options) {
       i++;
       Rectf box = m_rect.moved(Vector(0.f, m_rect.get_height() * float(i)));
-      context.color().draw_filled_rect(box.grown(2.f).moved(Vector(0,4.f)), Color(0.f, 0.f, 0.f, 0.1f), 2.f, LAYER_GUI + 4);
-      context.color().draw_filled_rect(box.grown(4.f).moved(Vector(0,4.f)), Color(0.f, 0.f, 0.f, 0.1f), 2.f, LAYER_GUI + 4);
-      context.color().draw_filled_rect(box.grown(6.f).moved(Vector(0,4.f)), Color(0.f, 0.f, 0.f, 0.1f), 2.f, LAYER_GUI + 4);
+      context.color().draw_filled_rect(box.grown(2.f).moved(Vector(0,4.f)), Color(0.f, 0.f, 0.f, 0.1f), m_theme.radius, LAYER_GUI + 4);
+      context.color().draw_filled_rect(box.grown(4.f).moved(Vector(0,4.f)), Color(0.f, 0.f, 0.f, 0.1f), m_theme.radius, LAYER_GUI + 4);
+      context.color().draw_filled_rect(box.grown(6.f).moved(Vector(0,4.f)), Color(0.f, 0.f, 0.f, 0.1f), m_theme.radius, LAYER_GUI + 4);
       context.color().draw_filled_rect(box,
                                        (box.contains(m_mouse_pos)
                                          || option.first == *m_value)
                                            ? m_theme.bg_focus_color
                                            : m_theme.bg_color,
-                                       LAYER_GUI + 5);
+                                        m_theme.radius,
+                                        LAYER_GUI + 5);
 
       std::string label2 = option.second;
 

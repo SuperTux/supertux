@@ -35,12 +35,12 @@ ControlButton::draw(DrawingContext& context)
   Color bg_color, tx_color;
   std::tie(bg_color, tx_color) = colors;
 
-  context.color().draw_filled_rect(m_rect, bg_color, LAYER_GUI);
+  context.color().draw_filled_rect(m_rect, bg_color, m_theme.radius, LAYER_GUI);
 
   context.color().draw_text(m_theme.font,
                             m_btn_label, 
                             Vector((m_rect.get_left() + m_rect.get_right()) / 2,
-                                   (m_rect.get_top() + m_rect.get_bottom()) / 2 - Resources::control_font->get_height() / 2),
+                                   (m_rect.get_top() + m_rect.get_bottom()) / 2 - Resources::control_font->get_height() / 2 + m_theme.txt_hgt),
                             FontAlignment::ALIGN_CENTER,
                             LAYER_GUI,
                             tx_color);

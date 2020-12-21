@@ -20,6 +20,7 @@
 #include <SDL.h>
 
 #include "editor/widget.hpp"
+#include "interface/theme.hpp"
 #include "video/drawing_context.hpp"
 
 class InterfaceLabel : public Widget
@@ -40,6 +41,9 @@ public:
 
   bool fits(std::string text) const;
   std::string get_truncated_text() const;
+
+public:
+  UITheme m_theme;
 
 protected:
   /** The rectangle where the InterfaceLabel should be rendered */

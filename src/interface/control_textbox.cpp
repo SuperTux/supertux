@@ -110,7 +110,7 @@ ControlTextbox::draw(DrawingContext& context)
   Color bg_color, tx_color;
   std::tie(bg_color, tx_color) = colors;
 
-  context.color().draw_filled_rect(m_rect, bg_color, LAYER_GUI);
+  context.color().draw_filled_rect(m_rect, bg_color, m_theme.radius, LAYER_GUI);
 
   if (m_caret_pos != m_secondary_caret_pos) {
     float lgt1 = m_theme.font->get_text_width(get_first_chars_visible(std::max(
@@ -128,6 +128,7 @@ ControlTextbox::draw(DrawingContext& context)
                                            ),
                                      m_has_focus ? Color(1.f, 1.f, .9f, 0.75f)
                                                  : Color(1.f, 1.f, .9f, 0.5f),
+                                     m_theme.radius,
                                      LAYER_GUI);
   }
 

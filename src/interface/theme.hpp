@@ -25,7 +25,7 @@ class UITheme
 public:
   UITheme(Color bg, Color bg_hover, Color bg_active, Color bg_focus,
           Color txt, Color txt_hover, Color txt_active, Color txt_focus,
-          FontPtr f) :
+          FontPtr f, float box_radius, float text_height_correction) :
     bg_color(bg),
     bg_hover_color(bg_hover),
     bg_active_color(bg_active),
@@ -34,13 +34,17 @@ public:
     tx_hover_color(txt_hover),
     tx_active_color(txt_active),
     tx_focus_color(txt_focus),
-    font(f)
+    font(f),
+    radius(box_radius),
+    txt_hgt(text_height_correction)
   {
   }
 
   Color bg_color, bg_hover_color, bg_active_color, bg_focus_color,
         tx_color, tx_hover_color, tx_active_color, tx_focus_color;
   FontPtr font;
+  float radius;
+  float txt_hgt;
 };
 
 #endif

@@ -65,27 +65,32 @@ LauncherMainScreen::LauncherMainScreen(bool& launch_game_on_exit) :
                 Color(0.3f, 0.35f, 0.4f),
                 Color(0.3f, 0.35f, 0.4f),
                 Color(0.3f, 0.35f, 0.4f),
-                Resources::control_font);
+                Resources::control_font,
+                4.f, 0.f);
 
-  auto start = std::make_unique<ControlButton>("Launch SuperTux " PACKAGE_VERSION);
+  auto start = std::make_unique<ControlButton>("Launch SuperTux");
   start->m_on_change = new std::function<void()>([this]{
     m_launch_game_on_exit = true;
     ScreenManager::current()->quit();
   });
-  start->set_rect(Rect(160.f, 140.f, 480.f, 180.f));
+  start->set_rect(Rect(160.f, 140.f, 480.f, 200.f));
   start->m_theme = theme;
+  start->m_theme.font = Resources::control_big_font;
+  start->m_theme.txt_hgt = -5.f;
+  start->m_label = new InterfaceLabel(Rectf(300.f, 110.f, 480.f, 150.f), PACKAGE_VERSION);
+  start->m_label->m_theme.tx_color = Color(.5f, .5f, .5f, .5f);
 
   auto version = std::make_unique<ControlButton>("Select another version");
-  version->set_rect(Rect(160.f, 190.f, 480.f, 210.f));
+  version->set_rect(Rect(160.f, 205.f, 480.f, 230.f));
   version->m_theme = theme;
 
   auto install = std::make_unique<ControlButton>("Install a new version");
-  install->set_rect(Rect(160.f, 220.f, 480.f, 240.f));
+  install->set_rect(Rect(160.f, 235.f, 480.f, 260.f));
   install->m_theme = theme;
 
   auto exit = std::make_unique<ControlButton>("Quit launcher");
   exit->m_on_change = new std::function<void()>([]{ ScreenManager::current()->quit(); });
-  exit->set_rect(Rect(160.f, 300.f, 480.f, 320.f));
+  exit->set_rect(Rect(160.f, 300.f, 480.f, 325.f));
   exit->m_theme = theme;
 
   m_controls.push_back(std::move(quit));
@@ -135,13 +140,13 @@ LauncherMainScreen::draw(Compositor& compositor)
   context.color().draw_text(Resources::small_font,
                             m_copyright_text,
                             Vector(5.0f, static_cast<float>(context.get_height()) - 50.0f),
-                            ALIGN_LEFT, LAYER_FOREGROUND1);
+                            ALIGN_LEFT, LAYER_GUI + 3);
 
   context.color().draw_text(Resources::small_font,
                             m_videosystem_name,
                             Vector(static_cast<float>(context.get_width()) - 5.0f,
                                    static_cast<float>(context.get_height()) - 14.0f),
-                            ALIGN_RIGHT, LAYER_FOREGROUND1);
+                            ALIGN_RIGHT, LAYER_GUI + 3);
 
   context.color().draw_surface_scaled(m_title,
                                       Rectf(0.f, -80.f, 640.f, 240.f),
