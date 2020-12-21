@@ -75,6 +75,9 @@ public:
   virtual void set_icon(const SDL_Surface& icon) = 0;
   virtual SDLSurfacePtr make_screenshot() = 0;
 
+  virtual void show_window() = 0;
+  virtual void hide_window() = 0;
+
   void do_take_screenshot();
 
 private:

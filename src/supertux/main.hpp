@@ -35,6 +35,7 @@ private:
   void init_video();
 
   void launch_game(const CommandLineArguments& args);
+  void launch_launcher(const CommandLineArguments& args, bool& launch_game_on_exit);
   void resave(const std::string& input_filename, const std::string& output_filename);
 
 private:

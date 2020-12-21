@@ -17,26 +17,24 @@
 #ifndef HEADER_SUPERTUX_LAUNCHER_MAIN_SCREEN_HPP
 #define HEADER_SUPERTUX_LAUNCHER_MAIN_SCREEN_HPP
 
+#include "interface/control.hpp"
 #include "supertux/screen.hpp"
 #include "video/surface_ptr.hpp"
 
 #include <string>
 
-class CodeController;
-class GameSession;
-class Savegame;
-
 /** Screen that displays the SuperTux logo, lets players start a new
     game, etc. */
-class MainScreen final : public Screen
+class LauncherMainScreen final : public Screen
 {
 public:
-  MainScreen(char* arg0);
-  virtual ~MainScreen();
+  LauncherMainScreen(bool& launch_game_on_exit);
+  virtual ~LauncherMainScreen();
 
   virtual void setup() override;
   virtual void leave() override;
 
+  virtual void event(const SDL_Event& ev) override;
   virtual void draw(Compositor& compositor) override;
   virtual void update(float dt_sec, const Controller& controller) override;
 
@@ -44,15 +42,16 @@ public:
   virtual IntegrationStatus get_status() const override { return IntegrationStatus(); }
 
 private:
-  SurfacePtr m_frame;
-  std::unique_ptr<CodeController> m_controller;
+  bool& m_launch_game_on_exit;
+  SurfacePtr m_frame, m_title;
   std::string m_copyright_text;
   std::string m_videosystem_name;
-  char* m_arg0;
+
+  std::vector<std::unique_ptr<InterfaceControl>> m_controls;
 
 private:
-  MainScreen(const MainScreen&) = delete;
-  MainScreen& operator=(const MainScreen&) = delete;
+  LauncherMainScreen(const LauncherMainScreen&) = delete;
+  LauncherMainScreen& operator=(const LauncherMainScreen&) = delete;
 };
 
 #endif

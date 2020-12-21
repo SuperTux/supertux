@@ -85,11 +85,11 @@ LauncherVideoSystem::create_window()
 void
 LauncherVideoSystem::apply_config()
 {
-  // FIXME: Ugly hack to bypass the fullscreen setting
-  bool was_fullscreen = g_config->use_fullscreen;
-  g_config->use_fullscreen = false;
-  apply_video_mode();
-  g_config->use_fullscreen = was_fullscreen;
+  SDL_SetWindowFullscreen(m_sdl_window.get(), 0);
+  SDL_SetWindowSize(m_sdl_window.get(), 640, 400);
+#if SDL_VERSION_ATLEAST(2,0,5)
+  SDL_SetWindowResizable(m_sdl_window.get(), static_cast<SDL_bool>(false));
+#endif
 
   m_viewport = Viewport::from_size(Size(640, 400), m_desktop_size);
 

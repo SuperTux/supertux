@@ -61,12 +61,16 @@ LauncherMainMenu::menu_action(MenuItem& item)
   {
     int result;
     case MNID_LAUNCH:
+      LauncherVideoSystem::current()->hide_window();
       result = Main().run(0, (char**) m_arg0);
+      LauncherVideoSystem::current()->show_window();
       log_warning << "Game exited with: " << result << std::endl;
       break;
 
     case MNID_LAUNCH_OTHER:
+      LauncherVideoSystem::current()->hide_window();
       result = system("supertux2");
+      LauncherVideoSystem::current()->show_window();
       log_warning << "Game exited with: " << result << std::endl;
       break;
 

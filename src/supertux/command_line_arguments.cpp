@@ -78,7 +78,9 @@ CommandLineArguments::print_help(const char* arg0) const
     << _("  -v, --version                Show SuperTux version and quit") << "\n"
     << _("  --verbose                    Print verbose messages") << "\n"
     << _("  --debug                      Print extra verbose messages") << "\n"
-    << _( "  --print-datadir              Print SuperTux's primary data directory.") << "\n"
+    << _("  --print-datadir              Print SuperTux's primary data directory.") << "\n"
+    << _("  --launcher                   Start the SuperTux launcher (experimental)") << "\n"
+    << _("  --skip-launcher              Skip the launcher and start the game (overrides preferences)") << "\n"
     << "\n"
     << _("Video Options:") << "\n"
     << _("  -f, --fullscreen             Run in fullscreen mode") << "\n"
@@ -148,6 +150,14 @@ CommandLineArguments::parse_args(int argc, char** argv)
     else if (arg == "--print-datadir")
     {
       m_action = PRINT_DATADIR;
+    }
+    else if (arg == "--launcher")
+    {
+      start_launcher = true;
+    }
+    else if (arg == "--skip-launcher")
+    {
+      start_launcher = false;
     }
     else if (arg == "--debug")
     {
@@ -415,6 +425,7 @@ CommandLineArguments::merge_into(Config& config)
   merge_option(developer_mode);
   merge_option(christmas_mode);
   merge_option(repository_url);
+  merge_option(start_launcher);
 
 #undef merge_option
 }

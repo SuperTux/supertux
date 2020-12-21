@@ -1,5 +1,4 @@
 //  SuperTux
-//  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //  Copyright (C) 2020 A. Semphris <semphris@protonmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
@@ -15,30 +14,25 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_LAUNCHER_MAIN_HPP
-#define HEADER_SUPERTUX_LAUNCHER_MAIN_HPP
+#ifndef HEADER_SUPERTUX_INTERFACE_THEME_HPP
+#define HEADER_SUPERTUX_INTERFACE_THEME_HPP
 
-#include <string>
+#include "video/color.hpp"
+#include "video/font_ptr.hpp"
 
-class CommandLineArguments;
-
-class LauncherMain final
+class UITheme
 {
 public:
-  LauncherMain();
+  UITheme(Color bg, Color bg_focus, Color txt, FontPtr f) :
+    bg_color(bg),
+    bg_focus_color(bg_focus),
+    txt_color(txt),
+    font(f)
+  {
+  }
 
-  int run(int argc, char** argv);
-
-private:
-  void init_tinygettext();
-  void init_video();
-
-  void launch_game(const CommandLineArguments& args);
-  void resave(const std::string& input_filename, const std::string& output_filename);
-
-private:
-  LauncherMain(const LauncherMain&) = delete;
-  LauncherMain& operator=(const LauncherMain&) = delete;
+  Color bg_color, bg_focus_color, txt_color;
+  FontPtr font;
 };
 
 #endif

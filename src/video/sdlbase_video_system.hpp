@@ -35,6 +35,9 @@ public:
   virtual Size get_window_size() const override;
   virtual void on_resize(int w, int h) override;
 
+  virtual void show_window() override;
+  virtual void hide_window() override;
+
 protected:
   void create_sdl_window(Uint32 flags);
   void create_advanced_sdl_window(std::string title, int x, int y,

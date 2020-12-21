@@ -16,9 +16,15 @@
 
 #include "interface/control.hpp"
 
+#include "supertux/resources.hpp"
+
 InterfaceControl::InterfaceControl() :
   m_on_change(),
   m_label(),
+  m_theme(UITheme(Color(0.5f, 0.5f, 0.5f, 1.f), // background color
+                  Color(0.75f, 0.75f, 0.7f, 1.f), // background color on focus
+                  Color(0.f, 0.f, 0.f, 1.f), // text color
+                  Resources::control_font)), // main font
   m_has_focus(),
   m_rect()
 {

@@ -22,6 +22,7 @@
 #include "control/input_manager.hpp"
 #include "editor/widget.hpp"
 #include "interface/label.hpp"
+#include "interface/theme.hpp"
 #include "video/drawing_context.hpp"
 
 class InterfaceControl : public Widget
@@ -49,6 +50,9 @@ public:
 
   /** Optional; the label associated with the control */
   InterfaceLabel* m_label;
+
+  /** Theming settings (colors, fonts, etc.) */
+  UITheme m_theme;
 
 protected:
   /** Whether or not the user has this InterfaceControl as focused */

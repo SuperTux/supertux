@@ -28,6 +28,8 @@
 #include "video/surface.hpp"
 #include "video/ttf_font.hpp"
 
+#include "util/log.hpp" // If I forgot this, please delete it   ~ Semphris
+
 std::unique_ptr<MouseCursor> Resources::mouse_cursor;
 
 FontPtr Resources::console_font;
@@ -67,15 +69,17 @@ Resources::load()
     console_font.reset(new TTFFont("fonts/SuperTux-Medium.ttf", 12, 1.25f, 0, 1));
 
     auto font = get_font_for_locale(g_config->locale);
-    if(font != current_font)
-    {
+
+    // Reload the font anyways. With this check, launching the game from the launcher makes a segfault.
+    //if(font != current_font)
+    //{
       current_font = font;
       fixed_font.reset(new TTFFont(font, 18, 1.25f, 2, 1));
       normal_font = fixed_font;
       small_font.reset(new TTFFont(font, 10, 1.25f, 2, 1));
       big_font.reset(new TTFFont(font, 22, 1.25f, 2, 1));
       control_font.reset(new TTFFont("fonts/Roboto-Regular.ttf", 15, 1.25f, 0, 0));
-    }
+    //}
   }
 
   /* Load menu images */

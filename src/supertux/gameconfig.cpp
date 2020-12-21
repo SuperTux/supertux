@@ -62,7 +62,8 @@ Config::Config() :
 #endif
   hide_editor_levelnames(false),
   editor_autosave_frequency(5),
-  repository_url()
+  repository_url(),
+  start_launcher()
 {
 }
 

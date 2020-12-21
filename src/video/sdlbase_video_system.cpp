@@ -119,6 +119,20 @@ SDLBaseVideoSystem::create_advanced_sdl_window(std::string title, int x, int y, 
 }
 
 void
+SDLBaseVideoSystem::show_window()
+{
+  if (m_sdl_window.get())
+    SDL_ShowWindow(m_sdl_window.get());
+}
+
+void
+SDLBaseVideoSystem::hide_window()
+{
+  if (m_sdl_window.get())
+    SDL_HideWindow(m_sdl_window.get());
+}
+
+void
 SDLBaseVideoSystem::apply_video_mode()
 {
   if (!g_config->use_fullscreen)

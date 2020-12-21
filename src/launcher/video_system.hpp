@@ -29,8 +29,12 @@ class SDLScreenRenderer;
 class SDLTextureRenderer;
 class TextureManager;
 
-class LauncherVideoSystem final : public SDLVideoSystem
+class LauncherVideoSystem final : public SDLVideoSystem,
+                                  public Currenton<LauncherVideoSystem>
 {
+public:
+  static LauncherVideoSystem* current() { return Currenton<LauncherVideoSystem>::current(); }
+
 public:
   LauncherVideoSystem();
   ~LauncherVideoSystem();
