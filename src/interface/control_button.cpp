@@ -22,8 +22,7 @@
 #include "video/viewport.hpp"
 
 ControlButton::ControlButton(std::string label) :
-  m_btn_label(label),
-  m_mouse_down(false)
+  m_btn_label(label)
 {
 }
 
@@ -32,55 +31,34 @@ ControlButton::draw(DrawingContext& context)
 {
   InterfaceControl::draw(context);
 
-  context.color().draw_filled_rect(m_rect,
-                                   m_mouse_down ? Color(0.3f, 0.3f, 0.3f, 1.f) :
-                                       (m_has_focus ? Color(0.75f, 0.75f, 0.7f, 1.f) : Color(0.5f, 0.5f, 0.5f, 1.f)),
-                                   LAYER_GUI);
+  std::tuple<Color, Color> colors = get_theme_colors();
+  Color bg_color, tx_color;
+  std::tie(bg_color, tx_color) = colors;
 
-  context.color().draw_text(Resources::control_font,
+  context.color().draw_filled_rect(m_rect, bg_color, LAYER_GUI);
+
+  context.color().draw_text(m_theme.font,
                             m_btn_label, 
                             Vector((m_rect.get_left() + m_rect.get_right()) / 2,
                                    (m_rect.get_top() + m_rect.get_bottom()) / 2 - Resources::control_font->get_height() / 2),
                             FontAlignment::ALIGN_CENTER,
                             LAYER_GUI,
-                            Color::BLACK);
+                            tx_color);
 }
 
 bool
 ControlButton::on_mouse_button_up(const SDL_MouseButtonEvent& button)
 {
-  if (button.button != SDL_BUTTON_LEFT)
-    return false;
+  if (InterfaceControl::on_mouse_button_up(button))
+    return true;
 
-  Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(button.x, button.y);
-  if (!m_rect.contains(mouse_pos) || !m_mouse_down) {
-    m_mouse_down = false;
+  if (button.button != SDL_BUTTON_LEFT || !m_has_focus || !m_hovering)
     return false;
-  }
-
-  m_mouse_down = false;
 
   if (m_on_change)
     (*m_on_change)();
 
-  m_has_focus = true;
-
   return true;
-}
-
-bool
-ControlButton::on_mouse_button_down(const SDL_MouseButtonEvent& button)
-{
-  if (button.button == SDL_BUTTON_LEFT) {
-    Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(button.x, button.y);
-    if (!m_rect.contains(mouse_pos)) {
-      m_has_focus = false;
-    } else {
-      m_has_focus = true;
-      m_mouse_down = true;
-    }
-  }
-  return false;
 }
 
 bool

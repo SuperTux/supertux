@@ -30,7 +30,6 @@ public:
   virtual void draw(DrawingContext& context) override;
   virtual bool on_mouse_button_up(const SDL_MouseButtonEvent& button) override;
   virtual bool on_mouse_button_down(const SDL_MouseButtonEvent& button) override;
-  virtual bool on_mouse_motion(const SDL_MouseMotionEvent& motion) override;
   virtual bool on_key_up(const SDL_KeyboardEvent& key) override;
   virtual bool on_key_down(const SDL_KeyboardEvent& key) override;
 
@@ -45,7 +44,6 @@ private:
   bool m_open_list;
 
   std::unordered_map<T, std::string> m_options;
-  Vector m_mouse_pos;
 
 private:
   ControlEnum(const ControlEnum&) = delete;
@@ -75,8 +73,7 @@ template<class T>
 ControlEnum<T>::ControlEnum() :
   m_value(),
   m_open_list(false),
-  m_options(),
-  m_mouse_pos()
+  m_options()
 {
 }
 
@@ -86,10 +83,11 @@ ControlEnum<T>::draw(DrawingContext& context)
 {
   InterfaceControl::draw(context);
 
-  context.color().draw_filled_rect(m_rect,
-                                   m_has_focus ? Color(0.75f, 0.75f, 0.7f, 1.f)
-                                               : Color(0.5f, 0.5f, 0.5f, 1.f),
-                                   LAYER_GUI);
+  std::tuple<Color, Color> colors = get_theme_colors();
+  Color bg_color, tx_color;
+  std::tie(bg_color, tx_color) = colors;
+
+  context.color().draw_filled_rect(m_rect, bg_color, LAYER_GUI);
 
   std::string label;
   auto it = m_options.find(*m_value);
@@ -99,14 +97,14 @@ ControlEnum<T>::draw(DrawingContext& context)
     label = "<invalid>";
   }
 
-  context.color().draw_text(Resources::control_font,
+  context.color().draw_text(m_theme.font,
                             label, 
                             Vector(m_rect.get_left() + 5.f,
                                    (m_rect.get_top() + m_rect.get_bottom()) / 2 -
                                     Resources::control_font->get_height() / 2),
                             FontAlignment::ALIGN_LEFT,
                             LAYER_GUI + 1,
-                            Color::BLACK);
+                            tx_color);
   int i = 0;
   if (m_open_list) {
     for (auto option : m_options) {
@@ -118,13 +116,13 @@ ControlEnum<T>::draw(DrawingContext& context)
       context.color().draw_filled_rect(box,
                                        (box.contains(m_mouse_pos)
                                          || option.first == *m_value)
-                                           ? Color(0.75f, 0.75f, 0.7f, 1.f)
-                                           : Color(0.5f, 0.5f, 0.5f, 1.f),
+                                           ? m_theme.bg_focus_color
+                                           : m_theme.bg_color,
                                        LAYER_GUI + 5);
 
       std::string label2 = option.second;
 
-      context.color().draw_text(Resources::control_font,
+      context.color().draw_text(m_theme.font,
                                 label2, 
                                 Vector(m_rect.get_left() + 5.f,
                                        (m_rect.get_top() + m_rect.get_bottom()) / 2 -
@@ -132,7 +130,7 @@ ControlEnum<T>::draw(DrawingContext& context)
                                         m_rect.get_height() * float(i)),
                                 FontAlignment::ALIGN_LEFT,
                                 LAYER_GUI + 6,
-                                Color::BLACK);
+                                tx_color);
     }
   }
 }
@@ -141,6 +139,8 @@ template<class T>
 bool
 ControlEnum<T>::on_mouse_button_up(const SDL_MouseButtonEvent& button)
 {
+  // Do not call super; manage everythin in here (need ot handle dropdown menu)
+
   if (button.button != SDL_BUTTON_LEFT)
     return false;
 
@@ -164,6 +164,8 @@ template<class T>
 bool
 ControlEnum<T>::on_mouse_button_down(const SDL_MouseButtonEvent& button)
 {
+  // Do not call super; manage everythin in here (need ot handle dropdown menu)
+
   Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(button.x, button.y);
   if (m_open_list) {
     if (!Rectf(m_rect.get_left(),
@@ -202,16 +204,6 @@ ControlEnum<T>::on_mouse_button_down(const SDL_MouseButtonEvent& button)
       m_open_list = false;
     }
   }
-  return false;
-}
-
-template<class T>
-bool
-ControlEnum<T>::on_mouse_motion(const SDL_MouseMotionEvent& motion)
-{
-  InterfaceControl::on_mouse_motion(motion);
-
-  m_mouse_pos = VideoSystem::current()->get_viewport().to_logical(motion.x, motion.y);
   return false;
 }
 

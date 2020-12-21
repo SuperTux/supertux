@@ -19,6 +19,8 @@
 
 #include <SDL.h>
 
+#include <tuple>
+
 #include "control/input_manager.hpp"
 #include "editor/widget.hpp"
 #include "interface/label.hpp"
@@ -34,13 +36,17 @@ public:
   virtual void update(float dt_sec) override { throw std::runtime_error("Cannot call generic update() on interface control"); }
   virtual void update(float dt_sec, const Controller& controller) {}
   virtual void draw(DrawingContext& context) override { if (m_label) m_label->draw(context); }
-  virtual bool on_mouse_motion(const SDL_MouseMotionEvent& motion) override { if (m_label) m_label->on_mouse_motion(motion); return false; }
+  virtual bool on_mouse_motion(const SDL_MouseMotionEvent& motion) override;
+  virtual bool on_mouse_button_up(const SDL_MouseButtonEvent& button) override;
+  virtual bool on_mouse_button_down(const SDL_MouseButtonEvent& button) override;
 
   void set_focus(bool focus) { m_has_focus = focus; }
   bool has_focus() const { return m_has_focus; }
 
   void set_rect(Rectf rect) { m_rect = rect; }
   Rectf get_rect() const { return m_rect; }
+
+  std::tuple<Color, Color> get_theme_colors() const;
 
 public:
   /** Optional; a function that will be called each time the bound value
@@ -57,6 +63,12 @@ public:
 protected:
   /** Whether or not the user has this InterfaceControl as focused */
   bool m_has_focus;
+  /** Whether or not the user's mouse if hovering this control */
+  bool m_hovering;
+  /** Whether or not the user is clicking on the control */
+  bool m_mouse_down;
+  /** The position of the mouse, updated only when moving the mouse */
+  Vector m_mouse_pos;
   /** The rectangle where the InterfaceControl should be rendered */
   Rectf m_rect;
 

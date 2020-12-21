@@ -16,11 +16,11 @@
 
 #include <SDL.h>
 
-#include <launcher/main.hpp>
+#include <supertux/main.hpp>
 
 int main(int argc, char** argv)
 {
-  return LauncherMain().run(argc, argv);
+  return Main().run(argc, argv);
 }
 
 /* EOF */

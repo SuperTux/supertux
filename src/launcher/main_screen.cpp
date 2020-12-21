@@ -20,7 +20,6 @@
 
 #include "gui/menu_manager.hpp"
 #include "interface/control_button.hpp"
-#include "launcher/dialog_main.hpp"
 #include "object/camera.hpp"
 #include "object/music_object.hpp"
 #include "object/player.hpp"
@@ -52,6 +51,21 @@ LauncherMainScreen::LauncherMainScreen(bool& launch_game_on_exit) :
   auto quit = std::make_unique<ControlButton>("X");
   quit->m_on_change = new std::function<void()>([]{ ScreenManager::current()->quit(); });
   quit->set_rect(Rect(615.f, 5.f, 635.f, 25.f));
+  quit->m_theme.bg_color = Color::WHITE_INVISIBLE;
+  quit->m_theme.bg_hover_color = Color::WHITE_INVISIBLE;
+  quit->m_theme.bg_active_color = Color::WHITE_INVISIBLE;
+  quit->m_theme.bg_focus_color = Color::WHITE_INVISIBLE;
+  quit->m_theme.tx_hover_color = Color(0.25f, 0.3f, 0.5f);
+
+  UITheme theme(Color(0.8f, 0.85f, 0.9f),
+                Color(0.9f, 0.925f, 0.95f),
+                Color(0.7f, 0.75f, 0.8f),
+                Color(0.9f, 0.925f, 0.95f),
+                Color(0.3f, 0.35f, 0.4f),
+                Color(0.3f, 0.35f, 0.4f),
+                Color(0.3f, 0.35f, 0.4f),
+                Color(0.3f, 0.35f, 0.4f),
+                Resources::control_font);
 
   auto start = std::make_unique<ControlButton>("Launch SuperTux " PACKAGE_VERSION);
   start->m_on_change = new std::function<void()>([this]{
@@ -59,16 +73,20 @@ LauncherMainScreen::LauncherMainScreen(bool& launch_game_on_exit) :
     ScreenManager::current()->quit();
   });
   start->set_rect(Rect(160.f, 140.f, 480.f, 180.f));
+  start->m_theme = theme;
 
   auto version = std::make_unique<ControlButton>("Select another version");
   version->set_rect(Rect(160.f, 190.f, 480.f, 210.f));
+  version->m_theme = theme;
 
   auto install = std::make_unique<ControlButton>("Install a new version");
   install->set_rect(Rect(160.f, 220.f, 480.f, 240.f));
+  install->m_theme = theme;
 
   auto exit = std::make_unique<ControlButton>("Quit launcher");
   exit->m_on_change = new std::function<void()>([]{ ScreenManager::current()->quit(); });
   exit->set_rect(Rect(160.f, 300.f, 480.f, 320.f));
+  exit->m_theme = theme;
 
   m_controls.push_back(std::move(quit));
   m_controls.push_back(std::move(start));

@@ -23,15 +23,23 @@
 class UITheme
 {
 public:
-  UITheme(Color bg, Color bg_focus, Color txt, FontPtr f) :
+  UITheme(Color bg, Color bg_hover, Color bg_active, Color bg_focus,
+          Color txt, Color txt_hover, Color txt_active, Color txt_focus,
+          FontPtr f) :
     bg_color(bg),
+    bg_hover_color(bg_hover),
+    bg_active_color(bg_active),
     bg_focus_color(bg_focus),
-    txt_color(txt),
+    tx_color(txt),
+    tx_hover_color(txt_hover),
+    tx_active_color(txt_active),
+    tx_focus_color(txt_focus),
     font(f)
   {
   }
 
-  Color bg_color, bg_focus_color, txt_color;
+  Color bg_color, bg_hover_color, bg_active_color, bg_focus_color,
+        tx_color, tx_hover_color, tx_active_color, tx_focus_color;
   FontPtr font;
 };
 

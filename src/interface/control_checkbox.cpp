@@ -31,29 +31,29 @@ ControlCheckbox::draw(DrawingContext& context)
 {
   InterfaceControl::draw(context);
 
-  context.color().draw_filled_rect(m_rect,
-                                   m_has_focus ? Color(0.75f, 0.75f, 0.7f, 1.f) : Color(0.5f, 0.5f, 0.5f, 1.f),
-                                   LAYER_GUI);
+  std::tuple<Color, Color> colors = get_theme_colors();
+  Color bg_color, tx_color;
+  std::tie(bg_color, tx_color) = colors;
+
+  context.color().draw_filled_rect(m_rect, bg_color, LAYER_GUI);
   if (*m_value) {
-    context.color().draw_text(Resources::control_font,
+    context.color().draw_text(m_theme.font,
                               "X", 
                               Vector((m_rect.get_left() + m_rect.get_right()) / 2 + 1.f,
                                      (m_rect.get_top() + m_rect.get_bottom()) / 2 - Resources::control_font->get_height() / 2),
                               FontAlignment::ALIGN_CENTER,
                               LAYER_GUI,
-                              Color::BLACK);
+                              tx_color);
   }
 }
 
 bool
 ControlCheckbox::on_mouse_button_up(const SDL_MouseButtonEvent& button)
 {
-  if (button.button != SDL_BUTTON_LEFT)
-    return false;
+  if (InterfaceControl::on_mouse_button_up(button))
+    return true;
 
-  Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(button.x, button.y);
-
-  if (!m_rect.contains(mouse_pos))
+  if (button.button != SDL_BUTTON_LEFT || !m_has_focus)
     return false;
 
   *m_value = !*m_value;
@@ -61,21 +61,8 @@ ControlCheckbox::on_mouse_button_up(const SDL_MouseButtonEvent& button)
   if (m_on_change)
     (*m_on_change)();
 
-  m_has_focus = true;
-
   return true;
 }
-
-bool
-ControlCheckbox::on_mouse_button_down(const SDL_MouseButtonEvent& button)
-{
-  Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(button.x, button.y);
-  if (!m_rect.contains(mouse_pos)) {
-    m_has_focus = false;
-  }
-  return false;
-}
-
 bool
 ControlCheckbox::on_key_up(const SDL_KeyboardEvent& key)
 {
