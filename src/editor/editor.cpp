@@ -115,9 +115,9 @@ Editor::Editor() :
   m_overlay_widget = overlay_widget.get();
 
   auto undo_button_widget = std::make_unique<ButtonWidget>("images/engine/editor/undo.png",
-    Vector(10, 10), [this]{ undo(); });
+    Vector(0, 0), [this]{ undo(); });
   auto redo_button_widget = std::make_unique<ButtonWidget>("images/engine/editor/redo.png",
-    Vector(60, 10), [this]{ redo(); });
+    Vector(32, 0), [this]{ redo(); });
 
   m_widgets.push_back(std::move(undo_button_widget));
   m_widgets.push_back(std::move(redo_button_widget));
