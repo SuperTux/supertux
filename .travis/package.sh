@@ -2,20 +2,20 @@
 
 shopt -s nullglob
 
-if [ "$TRAVIS_OS_NAME" = "osx" ] && [ "$PACKAGE" = "ON" ]; then
+if [ "$OS_NAME" = "macos-latest" ] && [ "$PACKAGE" = "ON" ]; then
     sudo chmod -R +w /usr/local/Cellar
     cpack -G Bundle;
 fi
 
-if [ "$TRAVIS_OS_NAME" = "linux" ] && [ "$PACKAGE" = "ON" ]; then
+if [ "$OS_NAME" = "ubuntu-latest" ] && [ "$PACKAGE" = "ON" ]; then
     cpack --config CPackSourceConfig.cmake -G TGZ;
     ../.travis/build_appimage.sh
     #extract built appimages for uploading
     mv ~/out/* .
 fi
 
-mkdir s3-upload
-mv SuperTux* s3-upload/
+mkdir upload
+mv SuperTux* upload/
 
 if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then
     for file in s3-upload/SuperTux*; do

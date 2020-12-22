@@ -1,0 +1,102 @@
+
+name: main
+on: [push]
+# TODO the glbinding build
+jobs:
+  build-supertux:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        compiler: [gcc, clang]
+        build_type: [Debug, Release]
+        exclude:
+          - os: macos-latest
+            compiler: gcc
+        include:
+          - os: ubuntu-latest
+            build_type: Release
+            compiler: gcc
+            release: 'ON'
+          - os: macos-latest
+            build_type: Release
+            release: 'ON'
+
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          # Fetch the whole tree so git describe works
+          fetch-depth: 0
+          submodules: true
+      - name: Install linux dependencies
+        if: ${{ matrix.os == 'ubuntu-latest' }}
+        run: |
+          sudo apt-get update 
+          sudo apt install -y cmake build-essential automake clang-6.0 g++-8 libc++-dev libogg-dev \
+                libvorbis-dev libopenal-dev libboost-all-dev libsdl2-dev libsdl2-image-dev \
+                libfreetype6-dev libharfbuzz-dev libfribidi-dev libglib2.0-dev gtk-doc-tools \
+                rpm sshpass libraqm-dev libglew-dev libcurl4-openssl-dev
+      - name: Install macos dependencies
+        if: ${{ matrix.os == 'macos-latest' }}
+        run: |
+          brew install cmake bash libogg libvorbis glew openal-soft sdl2 sdl2_image sdl2_ttf \
+                freetype harfbuzz fribidi glib gtk-doc glbinding libraqm
+          # Something funky happens with freetype if mono is left
+          sudo mv /Library/Frameworks/Mono.framework /Library/Frameworks/Mono.framework-disabled
+      - name: Set compiler (gcc)
+        if: ${{ matrix.os == 'ubuntu-latest' && matrix.compiler == 'gcc' }}
+        run: |
+          echo "CXX=g++-8" >> $GITHUB_ENV
+          echo "CC=gcc-8" >> $GITHUB_ENV
+      - name: Set compiler (clang)
+        if: ${{ matrix.os == 'ubuntu-latest' && matrix.compiler == 'clang' }}
+        run: |
+          echo "CXX=clang++-6.0" >> $GITHUB_ENV
+          echo "CC=clang-6.0" >> $GITHUB_ENV
+      - name: Set compiler (macos)
+        if: ${{ matrix.os == 'macos-latest' }}
+        run: |
+          # This ensures for now we use clang11
+          # Clang12 runs into a bunch of fun with `include location '/usr/local/include' is unsafe for cross-compilation`
+          # that we don't care about for now
+          echo "CXX=clang++" >> $GITHUB_ENV
+          echo "CC=clang" >> $GITHUB_ENV
+      - name: Configure bulid
+        env:
+          BUILD_TYPE: ${{ matrix.build_type }}
+        run: |
+          cmake --version
+          $CXX --version
+          mkdir "build"
+          cd "build"
+          # TODO add -DGLBINDING_ENABLED=$USE_GLBINDING
+          cmake .. -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DWARNINGS=ON -DWERROR=ON -DBUILD_TESTS=ON -DCMAKE_INSTALL_MESSAGE=NEVER -DCMAKE_INSTALL_PREFIX=/usr -DINSTALL_SUBDIR_BIN=bin -DINSTALL_SUBDIR_SHARE=share/supertux2 -DCMAKE_CXX_FLAGS="-O1"
+      - name: Build and install
+        run: |
+          cd build
+          make -j3 VERBOSE=1
+          make install DESTDIR="/tmp/supertux" VERBOSE=1
+      - name: Run tests
+        run: |
+          cd build
+          ./test_supertux2
+      - name: Package
+        env:
+          OS_NAME: ${{ matrix.os }}
+          PACKAGE: 'ON'
+        run: |
+          cd build
+          ../.travis/package.sh
+      - uses: jakejarvis/s3-sync-action@master
+        with:
+          args: --acl public-read --follow-symlinks --delete
+        if: ${{ matrix.release == 'ON' }}
+        env:
+          AWS_S3_BUCKET: supertux-ci-downloads
+          AWS_ACCESS_KEY_ID: ${{ secrets.CI_DOWNLOAD_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.CI_DOWNLOAD_SECRET_ACCESS_KEY }}
+          AWS_REGION: 'us-west-2'
+          SOURCE_DIR: 'build/upload'
+          DEST_DIR: "${{ github.sha }}/gh-actions/${{ matrix.os }}/${{ github.run_id }}"
+
