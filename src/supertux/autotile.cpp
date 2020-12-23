@@ -115,8 +115,8 @@ Autotile::is_amongst(uint32_t tile) const
 uint8_t
 Autotile::get_first_mask() const
 {
-  for (auto& mask : m_masks)
-    return mask->get_mask();
+  if (!m_masks.empty())
+    return m_masks[0]->get_mask();
   return 0;
 }
 

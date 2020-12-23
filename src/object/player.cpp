@@ -1571,9 +1571,6 @@ if (!m_swimming && m_water_jump) {
 		else if ((m_physic.get_velocity_y() <= 0)) {
 		m_sprite->set_action(sa_prefix+"-jump"+sa_postfix);
 		}
-		else if ((m_physic.get_velocity_y() <= 0)) {
-		m_sprite->set_action(sa_prefix+"-skid"+sa_postfix);
-		}
     }
 	}
   }

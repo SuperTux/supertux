@@ -23,7 +23,7 @@ ControlTextboxInt::ControlTextboxInt() :
   m_validate_int(),
   m_value()
 {
-  int value = 0;
+  static int value = 0;
   m_value = &value;
   revert_value();
 }

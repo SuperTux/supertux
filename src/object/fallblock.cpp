@@ -35,7 +35,7 @@ FallBlock::FallBlock(const ReaderMapping& reader) :
 	SoundManager::current()->preload("sounds/thud.ogg");
 	physic.enable_gravity(false);
 }
-  
+
 void
 FallBlock::update(float dt_sec)
 {
@@ -136,7 +136,7 @@ FallBlock::draw(DrawingContext& context)
 {
   Vector pos = get_pos();
   // shaking
-  if (state == SHAKE && state != IDLE && state != FALL && state != LAND)
+  if (state == SHAKE)
   {
     pos.x += static_cast<float>(graphicsRandom.rand(-8.0f, 8.0f));
 	  pos.y += static_cast<float>(graphicsRandom.rand(-5.0f, 5.0f));

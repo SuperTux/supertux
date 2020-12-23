@@ -23,7 +23,7 @@ ControlTextboxFloat::ControlTextboxFloat() :
   m_validate_float(),
   m_value()
 {
-  float value = 0.f;
+  static float value = 0.f;
   m_value = &value;
   revert_value();
 }

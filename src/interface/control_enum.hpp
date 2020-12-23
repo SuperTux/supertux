@@ -100,7 +100,7 @@ ControlEnum<T>::draw(DrawingContext& context)
   }
 
   context.color().draw_text(Resources::control_font,
-                            label, 
+                            label,
                             Vector(m_rect.get_left() + 5.f,
                                    (m_rect.get_top() + m_rect.get_bottom()) / 2 -
                                     Resources::control_font->get_height() / 2),
@@ -125,7 +125,7 @@ ControlEnum<T>::draw(DrawingContext& context)
       std::string label2 = option.second;
 
       context.color().draw_text(Resources::control_font,
-                                label2, 
+                                label2,
                                 Vector(m_rect.get_left() + 5.f,
                                        (m_rect.get_top() + m_rect.get_bottom()) / 2 -
                                         Resources::control_font->get_height() / 2 +
@@ -250,13 +250,8 @@ ControlEnum<T>::on_key_down(const SDL_KeyboardEvent& key)
     }
 
     // if we're at the last index, loop back to the beginning
-    if (is_next) {
-      // Hacky way to get the first one in the list
-      for (auto option : m_options) {
-        *m_value = option.first;
-        break;
-      }
-    }
+    if (is_next && !m_options.empty())
+      *m_value = m_options.begin()->first;
 
     if (m_on_change)
       (*m_on_change)();
