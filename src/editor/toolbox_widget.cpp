@@ -72,7 +72,7 @@ EditorToolboxWidget::draw(DrawingContext& context)
   //SCREEN_WIDTH SCREEN_HEIGHT
   context.color().draw_filled_rect(Rectf(Vector(static_cast<float>(m_Xpos), 0),
                                          Vector(static_cast<float>(context.get_width()),
-                                                static_cast<float>(context.get_height()))),
+                                                static_cast<float>(context.get_height() / 2))),
                                      Color(0.9f, 0.9f, 1.0f, 0.6f),
                                      0.0f, LAYER_GUI-10);
   if (m_dragging) {
@@ -114,6 +114,10 @@ EditorToolboxWidget::draw_tilegroup(DrawingContext& context)
         continue;
       }
       auto position = get_tile_coords(pos - m_starting_tile);
+      
+      if(position.y > SCREEN_HEIGHT / 2)
+        continue;
+      
       draw_tile(context.color(), *m_editor.get_tileset(), tile_ID, position, LAYER_GUI - 9);
 
       if (g_config->developer_mode && m_active_tilegroup->developers_group)
