@@ -257,6 +257,9 @@ EditorLayersWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
     }
   }
 
+  if(y > SCREEN_HEIGHT / 2)
+    m_hovered_item = HoveredItem::LAYERS;
+
   return true;
 }
 
@@ -399,7 +402,7 @@ EditorLayersWidget::get_layer_coords(const int pos) const
 int
 EditorLayersWidget::get_layer_pos(const Vector& coords) const
 {
-  return static_cast<int>((coords.x - static_cast<float>(m_Xpos - m_scroll) - static_cast<float>(m_sector_text_width)) / 35.0f);
+  return static_cast<int>((coords.y - static_cast<float>(SCREEN_HEIGHT / 2) / 35.0f));
 }
 
 /* EOF */

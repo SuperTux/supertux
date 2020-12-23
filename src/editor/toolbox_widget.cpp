@@ -145,7 +145,11 @@ EditorToolboxWidget::draw_objectgroup(DrawingContext& context)
       if (pos < m_starting_tile) {
         continue;
       }
-      icon.draw(context, get_tile_coords(pos - m_starting_tile));
+      auto coords = get_tile_coords(pos - m_starting_tile);
+      if(coords.y > SCREEN_HEIGHT / 2)
+        continue;
+      
+      icon.draw(context, coords);
     }
   }
 }
@@ -412,18 +416,24 @@ EditorToolboxWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
     }
     m_tile_scrolling = TileScrolling::NONE;
     return false;
-  } else {
+  } 
+  else if (y < SCREEN_HEIGHT / 2) 
+  {
     m_hovered_item = HoveredItem::TILE;
     m_hovered_tile = get_tile_pos(mouse_pos);
     if (m_dragging && m_input_type == InputType::TILE) {
       update_selection();
     }
   }
+  else
+  {
+    m_hovered_item = HoveredItem::NONE;
+  }
 
   if (y < 16) {
     m_tile_scrolling = TileScrolling::UP;
     m_using_scroll_wheel = false;
-  } else if (y > static_cast<float>(SCREEN_HEIGHT - 16 - m_Ypos)) {
+  } else if (y > static_cast<float>(SCREEN_HEIGHT / 2 - 16 - m_Ypos)) {
     m_tile_scrolling = TileScrolling::DOWN;
     m_using_scroll_wheel = false;
   } else {
