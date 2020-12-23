@@ -670,16 +670,20 @@ Editor::event(const SDL_Event& ev)
 		redo();
 		}
 
-  if (ev.type == SDL_KEYDOWN &&
-    ev.key.keysym.mod & KMOD_SHIFT) {
-    m_scroll_speed = 96.0f;
-  }
-  else if (ev.type == SDL_KEYDOWN &&
-    ev.key.keysym.mod & KMOD_CTRL) {
-    m_scroll_speed = 16.0f;
-  }
-  else {
-    m_scroll_speed = 32.0f;
+  if (ev.type == SDL_KEYDOWN)
+  {
+    if (ev.key.keysym.mod & KMOD_SHIFT)
+    {
+      m_scroll_speed = 96.0f;
+    }
+    else if (ev.key.keysym.mod & KMOD_CTRL)
+    {
+      m_scroll_speed = 16.0f;
+    }
+    else
+    {
+      m_scroll_speed = 32.0f;
+    }
   }
 
   
