@@ -104,8 +104,8 @@ EditorLayersWidget::draw(DrawingContext& context)
     return;
   }
 
-  context.color().draw_text(Resources::normal_font, m_sector_text,
-                            Vector(35.0f, static_cast<float>(m_Ypos) + 5.0f),
+  context.color().draw_text(Resources::small_font, m_sector_text,
+                            Vector(70.0f, 10.0f),
                             ALIGN_LEFT, LAYER_GUI, ColorScheme::Menu::default_color);
 
   int pos = 0;
@@ -349,7 +349,7 @@ void
 EditorLayersWidget::refresh_sector_text()
 {
   m_sector_text = _("Sector") + ": " + m_editor.get_sector()->get_name();
-  m_sector_text_width  = int(Resources::normal_font->get_text_width(m_sector_text)) + 6;
+  m_sector_text_width  = int(Resources::small_font->get_text_width(m_sector_text)) + 6;
 }
 
 void

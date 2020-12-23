@@ -136,7 +136,7 @@ Editor::draw(Compositor& compositor)
   auto& context = compositor.make_context();
 
   if (m_levelloaded) {
-  context.color().draw_filled_rect(Rectf(0, 0, SCREEN_WIDTH, 32), Color(0.15, 0.15, 0.15, 1.0f), LAYER_GUI - 10);
+  context.color().draw_filled_rect(Rectf(0, 0, SCREEN_WIDTH, 32), Color(0.15, 0.15, 0.15), LAYER_GUI - 10);
   for(const auto& widget : m_widgets) {
     widget->draw(context);
   }
