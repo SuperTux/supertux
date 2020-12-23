@@ -63,7 +63,7 @@ EditorLayersWidget::draw(DrawingContext& context)
 
   context.color().draw_filled_rect(Rectf(Vector(SCREEN_WIDTH - 128, static_cast<float>(SCREEN_HEIGHT / 2)),
                                          Vector(static_cast<float>(SCREEN_WIDTH), static_cast<float>(SCREEN_HEIGHT))),
-                                     Color(0.9f, 0.9f, 1.0f, 0.6f),
+                                     Color(0.15, 0.15, 0.15),
                                      0.0f,
                                      LAYER_GUI-10);
 
@@ -118,12 +118,12 @@ EditorLayersWidget::draw(DrawingContext& context)
       }
       auto layer_name = layer_icon->get_name();
       auto is_empty_name = layer_name == "";
-      
+
       if(is_empty_name) {
         layer_name = _("<Unnamed Layer>");
       }
       context.color().draw_text(Resources::small_font, layer_name,
-        get_layer_coords(pos) + Vector(32, 16), ALIGN_LEFT, LAYER_GUI,
+        get_layer_coords(pos) + Vector(35, 16), ALIGN_LEFT, LAYER_GUI + 50,
         is_empty_name ? ColorScheme::Menu::inactive_color : ColorScheme::Menu::default_color);
     }
     pos++;

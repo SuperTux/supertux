@@ -73,7 +73,7 @@ EditorToolboxWidget::draw(DrawingContext& context)
   context.color().draw_filled_rect(Rectf(Vector(static_cast<float>(m_Xpos), 0),
                                          Vector(static_cast<float>(context.get_width()),
                                                 static_cast<float>(context.get_height() / 2))),
-                                     Color(0.9f, 0.9f, 1.0f, 0.6f),
+                                    Color(0.15, 0.15, 0.15),
                                      0.0f, LAYER_GUI-10);
   if (m_dragging) {
     context.color().draw_filled_rect(selection_draw_rect(), Color(0.2f, 0.4f, 1.0f, 0.6f),
