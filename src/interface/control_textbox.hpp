@@ -50,6 +50,36 @@ public:
   /** Returns true if the given text would fit inside the box */
   bool fits(std::string text) const;
 
+  /**
+   * Copies the current selected text to the clipboard. If no text is selected, 
+   * does nothing and returns false.
+   * 
+   * @returns true if copied successfully, false if error OR nothing was selected.
+   */
+  bool copy() const;
+
+  /**
+   * Pastes the text from the clipboard. If the clipboard doesn't have text, 
+   * does nothing and returns false.
+   * 
+   * @returns true if pasted successfully, false if error OR cliboard was empty/non-text
+   */
+  bool paste();
+
+  /** @returns the text currently selected by the user. */
+  std::string get_selected_text() const;
+
+  /** @returns true if some text was selected and therefore erased. */
+  bool erase_selected_text();
+
+  /**
+   * Puts the given text at the currently selected position, replacing the text
+   * that was selected, if any.
+   * 
+   * @returns true if some text was deleted; false if no text was replaced.
+   */
+  bool put_text(std::string text);
+
 protected:
   /** Transfers the string into the binded variable, if any. Can be overridden
    *  by children if they use different value members (like float, int, etc).
@@ -133,7 +163,7 @@ protected:
   float m_cursor_timer;
   int m_caret_pos;
   int m_secondary_caret_pos; /**< Used for selections */
-  bool m_shift_pressed;
+  bool m_shift_pressed, m_ctrl_pressed;
   bool m_mouse_pressed;
 
   /** 
@@ -149,7 +179,7 @@ protected:
   /** Returns the largest string fitting in the box. */
   std::string get_truncated_text(std::string text) const;
 
-  /** Changes m_current_offset so the the caret is visible */
+  /** Changes m_current_offset so that the caret is visible */
   void recenter_offset();
 
 private:
