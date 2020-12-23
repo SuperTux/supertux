@@ -102,6 +102,17 @@ LayerIcon::is_tilemap() const
   return dynamic_cast<TileMap*>(m_layer) != nullptr;
 }
 
+std::string
+LayerIcon::get_name() const
+{
+  if(get_layer()->get_name() != "")
+  {
+    return get_layer()->get_name();
+  }
+
+  return get_layer()->get_display_name();
+}
+
 bool
 LayerIcon::is_valid() const
 {

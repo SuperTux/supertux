@@ -61,8 +61,8 @@ EditorLayersWidget::draw(DrawingContext& context)
     m_object_tip->draw_up(context, position);
   }
 
-  context.color().draw_filled_rect(Rectf(Vector(0, static_cast<float>(m_Ypos)),
-                                         Vector(static_cast<float>(m_Width), static_cast<float>(SCREEN_HEIGHT))),
+  context.color().draw_filled_rect(Rectf(Vector(SCREEN_WIDTH - 128, static_cast<float>(SCREEN_HEIGHT / 2)),
+                                         Vector(static_cast<float>(SCREEN_WIDTH), static_cast<float>(SCREEN_HEIGHT))),
                                      Color(0.9f, 0.9f, 1.0f, 0.6f),
                                      0.0f,
                                      LAYER_GUI-10);
@@ -116,6 +116,15 @@ EditorLayersWidget::draw(DrawingContext& context)
       } else if ((pos + 1) * 35 >= m_scroll) {
         layer_icon->draw(context, get_layer_coords(pos), 35 - (m_scroll - pos * 35));
       }
+      auto layer_name = layer_icon->get_name();
+      auto is_empty_name = layer_name == "";
+      
+      if(is_empty_name) {
+        layer_name = _("<Unnamed Layer>");
+      }
+      context.color().draw_text(Resources::small_font, layer_name,
+        get_layer_coords(pos) + Vector(32, 16), ALIGN_LEFT, LAYER_GUI,
+        is_empty_name ? ColorScheme::Menu::inactive_color : ColorScheme::Menu::default_color);
     }
     pos++;
   }
@@ -383,8 +392,8 @@ EditorLayersWidget::update_tip()
 Vector
 EditorLayersWidget::get_layer_coords(const int pos) const
 {
-  return Vector(static_cast<float>(pos * 35 + m_Xpos + m_sector_text_width - m_scroll),
-                static_cast<float>(m_Ypos));
+  //static_cast<float>(pos * 35 + m_Xpos + m_sector_text_width - m_scroll
+  return Vector(SCREEN_WIDTH - 128, SCREEN_HEIGHT / 2 + pos * 35);
 }
 
 int

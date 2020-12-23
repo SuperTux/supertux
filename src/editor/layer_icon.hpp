@@ -35,6 +35,7 @@ public:
   bool is_valid() const;
 
   GameObject* get_layer() const { return m_layer; }
+  std::string get_name() const;
   bool is_tilemap() const;
 
 private:
