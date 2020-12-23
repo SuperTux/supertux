@@ -1,6 +1,12 @@
 
 name: main
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - master
+    tags:
+      - '*'
+  pull_request: {}
 # TODO the glbinding build
 jobs:
   build-supertux:
@@ -104,7 +110,9 @@ jobs:
           if-no-files-found: ignore
       - uses: shallwefootball/s3-upload-action@master
         # These all have repository_owner conditions because the secret isn't available to other owners
-        if: matrix.release == 'ON' && github.repository_owner == 'supertux'
+        if: matrix.release == 'ON' && env.CI_KEY != null
+        env:
+          CI_KEY: ${{ secrets.CI_DOWNLOAD_ACCESS_KEY_ID }}
         with:
           aws_bucket: supertux-ci-downloads
           aws_key_id: ${{ secrets.CI_DOWNLOAD_ACCESS_KEY_ID }}
@@ -112,7 +120,7 @@ jobs:
           source_dir: 'build/upload'
           destination_dir: "${{ github.sha }}/gh-actions/${{ matrix.os }}/${{ github.run_id }}"              
       - name: Post uploaded file
-        if: matrix.release == 'ON' && github.repository_owner == 'supertux'
+        if: matrix.release == 'ON' && env.DOWNLOAD_APIKEY != null
         working-directory: build
         run: ../.ci_scripts/deploy.sh
         env:
