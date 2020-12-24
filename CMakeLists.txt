@@ -39,7 +39,7 @@ project(SUPERTUX)
 
 ### CMake configuration
 
-cmake_minimum_required(VERSION 3.1)
+cmake_minimum_required(VERSION 3.2)
 if(COMMAND cmake_policy)
   cmake_policy(SET CMP0003 NEW)
   cmake_policy(SET CMP0008 NEW)
@@ -990,32 +990,41 @@ install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/credits.stxt DESTINATION ${INSTAL
 
 install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/supertux2.appdata.xml DESTINATION "share/metainfo" )
 
-install(DIRECTORY
-  ${CMAKE_CURRENT_SOURCE_DIR}/data/images
-  ${CMAKE_CURRENT_SOURCE_DIR}/data/fonts
-  ${CMAKE_CURRENT_SOURCE_DIR}/data/music
-  ${CMAKE_CURRENT_SOURCE_DIR}/data/particles
-  ${CMAKE_CURRENT_SOURCE_DIR}/data/scripts
-  ${CMAKE_CURRENT_SOURCE_DIR}/data/shader
-  ${CMAKE_CURRENT_SOURCE_DIR}/data/speech
-  ${CMAKE_CURRENT_SOURCE_DIR}/data/sounds
-  ${CMAKE_CURRENT_SOURCE_DIR}/data/locale
-  DESTINATION ${INSTALL_SUBDIR_SHARE})
+option(USE_DATA_ARCHIVE "Compile the data folder as a ZIP archive" ON)
+if (USE_DATA_ARCHIVE)
+  install(DIRECTORY
+    ${CMAKE_CURRENT_SOURCE_DIR}/data/images
+    ${CMAKE_CURRENT_SOURCE_DIR}/data/fonts
+    ${CMAKE_CURRENT_SOURCE_DIR}/data/music
+    ${CMAKE_CURRENT_SOURCE_DIR}/data/particles
+    ${CMAKE_CURRENT_SOURCE_DIR}/data/scripts
+    ${CMAKE_CURRENT_SOURCE_DIR}/data/shader
+    ${CMAKE_CURRENT_SOURCE_DIR}/data/speech
+    ${CMAKE_CURRENT_SOURCE_DIR}/data/sounds
+    ${CMAKE_CURRENT_SOURCE_DIR}/data/locale
+    DESTINATION ${INSTALL_SUBDIR_SHARE})
 
-if(CMAKE_BUILD_TYPE MATCHES "Release|RelWithDebInfo")
-  install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/data/levels
-    DESTINATION ${INSTALL_SUBDIR_SHARE}
-    PATTERN "data/levels/test" EXCLUDE
-    PATTERN "data/levels/test_old" EXCLUDE
-    PATTERN "data/levels/incubator" EXCLUDE
-    PATTERN "data/levels/misc/menu.stl.in" EXCLUDE)
-else()
-  install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/data/levels
-    DESTINATION ${INSTALL_SUBDIR_SHARE}
-    PATTERN "data/levels/misc/menu.stl.in" EXCLUDE)
-endif()
+  if(CMAKE_BUILD_TYPE MATCHES "Release|RelWithDebInfo")
+    install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/data/levels
+      DESTINATION ${INSTALL_SUBDIR_SHARE}
+      PATTERN "data/levels/test" EXCLUDE
+      PATTERN "data/levels/test_old" EXCLUDE
+      PATTERN "data/levels/incubator" EXCLUDE
+      PATTERN "data/levels/misc/menu.stl.in" EXCLUDE)
+  else()
+    install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/data/levels
+      DESTINATION ${INSTALL_SUBDIR_SHARE}
+      PATTERN "data/levels/misc/menu.stl.in" EXCLUDE)
+  endif()
 
-install(FILES "${CMAKE_BINARY_DIR}/data/levels/misc/menu.stl" DESTINATION "${INSTALL_SUBDIR_SHARE}/levels/misc")
+  install(FILES "${CMAKE_BINARY_DIR}/data/levels/misc/menu.stl" DESTINATION "${INSTALL_SUBDIR_SHARE}/levels/misc")
+else(USE_DATA_ARCHIVE)
+  message(STATUS "Creating data ZIP archive")
+  add_custom_target(create_zip COMMAND ${CMAKE_COMMAND} -E
+    tar "cvf" "${CMAKE_BINARY_DIR}/data.zip" --format=zip "./*" "${CMAKE_BINARY_DIR}/data/levels/misc/menu.stl"
+    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/data")
+  install(FILES "${CMAKE_BINARY_DIR}/data.zip" DESTINATION "${INSTALL_SUBDIR_SHARE}/../data.zip")
+endif(USE_DATA_ARCHIVE)
 
 ## Create config.h now that INSTALL_SUBDIR_* have been set.
 

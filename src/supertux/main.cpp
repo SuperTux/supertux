@@ -213,6 +213,12 @@ public:
       }
     }
 
+    if (FileSystem::exists(datadir + ".zip"))
+    {
+      log_info << "Loading default data folder from ZIP archive; ignoring non-archive data folder, if exists" << std::endl;
+      datadir += ".zip";
+    }
+
     if (!PHYSFS_mount(boost::filesystem::canonical(datadir).string().c_str(), nullptr, 1))
     {
       log_warning << "Couldn't add '" << datadir << "' to physfs searchpath: " << PHYSFS_getLastErrorCode() << std::endl;
