@@ -53,6 +53,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/mk/cmake)
 include(ConfigureFiles)
 include(ExternalProject)
+include(CheckCXXCompilerFlag)
 
 ## For autopackage
 set(APPDATADIR "${CMAKE_INSTALL_PREFIX}/share/games/supertux2")
@@ -684,6 +685,18 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
         "-Wno-duplicate-enum "
         "-Wno-unreachable-code "
       )
+
+      # This snipped adapted from AOMediaCodec cmakefile
+      # The detection of cross compilation by -Wpoison-system-directories has false positives on macOS because
+      # --sysroot is implicitly added. Turn the warning off.
+      if(NOT DEFINED HAVE_POISON_SYSTEM_DIRECTORIES_WARNING)
+          check_cxx_compiler_flag(-Wpoison-system-directories HAVE_POISON_SYSTEM_DIRECTORIES_WARNING)
+      endif()
+      if(HAVE_POISON_SYSTEM_DIRECTORIES_WARNING)
+        string(CONCAT SUPERTUX2_EXTRA_WARNING_FLAGS
+          "${SUPERTUX2_EXTRA_WARNING_FLAGS} "
+          "-Wno-poison-system-directories ")
+      endif()
     endif()
   endif(WARNINGS)
 endif()
