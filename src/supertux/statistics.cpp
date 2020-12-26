@@ -326,7 +326,7 @@ Statistics::draw_ingame_stats(DrawingContext& context, bool on_pause_menu)
     context.color().draw_filled_rect(Rectf(pos.x, pos.y, pos.x + width + 21.f,
                                            pos.y + height).grown(5.f),
                                      Color(0.f, 0.f, 0.f, 0.5f),
-                                     5.f, LAYER_HUD - 1);
+                                     10.f, LAYER_HUD - 1);
     context.color().draw_text(Resources::normal_font, text, pos,
                               FontAlignment::ALIGN_LEFT, LAYER_HUD,
                               (m_coins < m_total_coins)
@@ -355,7 +355,7 @@ Statistics::draw_ingame_stats(DrawingContext& context, bool on_pause_menu)
     context.color().draw_filled_rect(Rectf(pos.x, pos.y, pos.x + width + 21.f,
                                            pos.y + height).grown(5.f),
                                      Color(0.f, 0.f, 0.f, 0.5f),
-                                     5.f, LAYER_HUD - 1);
+                                     10.f, LAYER_HUD - 1);
     context.color().draw_text(Resources::normal_font, text, pos,
                               FontAlignment::ALIGN_LEFT, LAYER_HUD,
                               (m_badguys < m_total_badguys)
@@ -384,7 +384,7 @@ Statistics::draw_ingame_stats(DrawingContext& context, bool on_pause_menu)
     context.color().draw_filled_rect(Rectf(pos.x, pos.y, pos.x + width + 21.f,
                                            pos.y + height).grown(5.f),
                                      Color(0.f, 0.f, 0.f, 0.5f),
-                                     5.f, LAYER_HUD - 1);
+                                     10.f, LAYER_HUD - 1);
     context.color().draw_text(Resources::normal_font, text, pos,
                               FontAlignment::ALIGN_LEFT, LAYER_HUD,
                               (m_secrets < m_total_secrets)
