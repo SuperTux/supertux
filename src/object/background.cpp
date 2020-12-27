@@ -46,7 +46,10 @@ Background::Background() :
   m_has_pos_y(false),
   m_blend(),
   m_color(),
-  m_target(DrawingTarget::COLORMAP)
+  m_target(DrawingTarget::COLORMAP),
+  m_timer_color(),
+  m_src_color(),
+  m_dst_color()
 {
 }
 
@@ -70,7 +73,10 @@ Background::Background(const ReaderMapping& reader) :
   m_has_pos_y(false),
   m_blend(),
   m_color(),
-  m_target(DrawingTarget::COLORMAP)
+  m_target(DrawingTarget::COLORMAP),
+  m_timer_color(),
+  m_src_color(),
+  m_dst_color()
 {
   // read position, defaults to (0,0)
   float px = 0;
@@ -213,6 +219,29 @@ void
 Background::update(float dt_sec)
 {
   m_scroll_offset += m_scroll_speed * dt_sec;
+
+  if (m_timer_color.check())
+  {
+    m_color = m_dst_color;
+    m_timer_color.stop(); // to reset the "check()" value
+  }
+  else if (m_timer_color.started())
+  {
+    float progress = m_timer_color.get_timegone() / m_timer_color.get_period();
+
+    m_color = (m_src_color + (m_dst_color - m_src_color) * progress).validate();
+  }
+}
+
+void
+Background::fade_color(Color color, float time)
+{
+  m_src_color = m_color;
+  m_dst_color = color;
+
+  m_timer_color.start(time, false);
+
+  m_color = m_src_color;
 }
 
 void
