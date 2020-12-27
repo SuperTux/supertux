@@ -7,10 +7,14 @@ if [ "$OS_NAME" = "macos-latest" ] && [ "$PACKAGE" = "ON" ]; then
     cpack -G Bundle;
 fi
 
-if [ "$OS_NAME" = "ubuntu-latest" ] && [ "$PACKAGE" = "ON" ]; then
+# make only one source package
+if [ "$OS_NAME" = "ubuntu-latest" ] && [ "$COMPILER_NAME" = "gcc" ] && [ "$BUILD_NAME" = "Debug" ] && [ "$PACKAGE" = "ON" ]; then
     cpack --config CPackSourceConfig.cmake -G TGZ;
+fi
+
+if [ "$OS_NAME" = "ubuntu-latest" ] && [ "$PACKAGE" = "ON" ]; then
     ../.ci_scripts/build_appimage.sh
-    #extract built appimages for uploading
+    # extract built appimages for uploading
     mv ~/out/* .
 fi
 
