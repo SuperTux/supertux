@@ -97,6 +97,7 @@ private:
   bool m_has_pos_y;
 
   Blend m_blend;
+  Color m_color;
   DrawingTarget m_target;
 
 private:

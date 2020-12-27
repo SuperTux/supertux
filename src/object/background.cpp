@@ -45,6 +45,7 @@ Background::Background() :
   m_has_pos_x(false),
   m_has_pos_y(false),
   m_blend(),
+  m_color(),
   m_target(DrawingTarget::COLORMAP)
 {
 }
@@ -68,6 +69,7 @@ Background::Background(const ReaderMapping& reader) :
   m_has_pos_x(false),
   m_has_pos_y(false),
   m_blend(),
+  m_color(),
   m_target(DrawingTarget::COLORMAP)
 {
   // read position, defaults to (0,0)
@@ -144,6 +146,16 @@ Background::Background(const ReaderMapping& reader) :
     }
   }
 
+  std::vector<float> color;
+  if (reader.get("color", color))
+  {
+    m_color = Color(color);
+  }
+  else
+  {
+    m_color = Color(1, 1, 1);
+  }
+
   reader.get_custom("blend", m_blend, Blend_from_string);
   reader.get_custom("target", m_target, DrawingTarget_from_string);
 }
@@ -175,6 +187,7 @@ Background::get_settings()
   result.add_surface(_("Top image"), &m_imagefile_top, "image-top", std::string());
   result.add_surface(_("Image"), &m_imagefile, "image");
   result.add_surface(_("Bottom image"), &m_imagefile_bottom, "image-bottom", std::string());
+  result.add_rgba(_("Colour"), &m_color, "color");
   result.add_enum(_("Draw target"), reinterpret_cast<int*>(&m_target),
                   {_("Normal"), _("Lightmap")},
                   {"normal", "lightmap"},
@@ -271,7 +284,7 @@ Background::draw_image(DrawingContext& context, const Vector& pos_)
         {
           Vector p(pos_.x - parallax_image_size.width / 2.0f,
                    pos_.y + static_cast<float>(y) * img_h - img_h_2);
-          canvas.draw_surface(m_image, p, m_layer);
+          canvas.draw_surface(m_image, p, 0.f, m_color, m_blend, m_layer);
         }
         break;
 
@@ -280,7 +293,7 @@ Background::draw_image(DrawingContext& context, const Vector& pos_)
         {
           Vector p(pos_.x + parallax_image_size.width / 2.0f - img_w,
                    pos_.y + static_cast<float>(y) * img_h - img_h_2);
-          canvas.draw_surface(m_image, p, m_layer);
+          canvas.draw_surface(m_image, p, 0.f, m_color, m_blend, m_layer);
         }
         break;
 
@@ -289,7 +302,7 @@ Background::draw_image(DrawingContext& context, const Vector& pos_)
         {
           Vector p(pos_.x + static_cast<float>(x) * img_w - img_w_2,
                    pos_.y - parallax_image_size.height / 2.0f);
-          canvas.draw_surface(m_image, p, m_layer);
+          canvas.draw_surface(m_image, p, 0.f, m_color, m_blend, m_layer);
         }
         break;
 
@@ -298,7 +311,7 @@ Background::draw_image(DrawingContext& context, const Vector& pos_)
         {
           Vector p(pos_.x + static_cast<float>(x) * img_w - img_w_2,
                    pos_.y - img_h + parallax_image_size.height / 2.0f);
-          canvas.draw_surface(m_image, p, m_layer);
+          canvas.draw_surface(m_image, p, 0.f, m_color, m_blend, m_layer);
         }
         break;
 
@@ -311,15 +324,15 @@ Background::draw_image(DrawingContext& context, const Vector& pos_)
 
             if (m_image_top.get() != nullptr && (y < 0))
             {
-              canvas.draw_surface(m_image_top, p, m_layer);
+              canvas.draw_surface(m_image_top, p, 0.f, m_color, m_blend, m_layer);
             }
             else if (m_image_bottom.get() != nullptr && (y > 0))
             {
-              canvas.draw_surface(m_image_bottom, p, m_layer);
+              canvas.draw_surface(m_image_bottom, p, 0.f, m_color, m_blend, m_layer);
             }
             else
             {
-              canvas.draw_surface(m_image, p, m_layer);
+              canvas.draw_surface(m_image, p, 0.f, m_color, m_blend, m_layer);
             }
           }
         break;
