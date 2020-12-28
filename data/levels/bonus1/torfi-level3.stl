@@ -82,7 +82,7 @@
       (y 544)
     )
     (sequencetrigger
-      (sequence "endsequence")
+      (sequence "stoptux")
       (width 32)
       (height 64)
       (x 6240)
