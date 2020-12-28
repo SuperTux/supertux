@@ -672,6 +672,10 @@ EditorOverlayWidget::add_path_node()
   update_node_iterators();
   new_marker.update_node_times();
   m_editor.get_sector()->flush_game_objects();
+
+  // This will ensure that we will hover NodeMarkers in priority before BezierMarkers
+  hover_object();
+
   grab_object();
 }
 
