@@ -665,9 +665,9 @@ EditorOverlayWidget::add_path_node()
   new_node.bezier_after = new_node.position;
   new_node.time = 1;
   m_edited_path->m_nodes.insert(m_last_node_marker->m_node + 1, new_node);
-  auto& bezier_before = Sector::get().add<BezierMarker>(&(*(m_edited_path->m_nodes.end() - 1)), (m_edited_path->m_nodes.end() - 1)->bezier_before);
-  auto& bezier_after = Sector::get().add<BezierMarker>(&(*(m_edited_path->m_nodes.end() - 1)), (m_edited_path->m_nodes.end() - 1)->bezier_after);
-  auto& new_marker = Sector::get().add<NodeMarker>(m_edited_path, m_edited_path->m_nodes.end() - 1, m_edited_path->m_nodes.size() - 1, bezier_before, bezier_after);
+  auto& bezier_before = Sector::get().add<BezierMarker>(&(*(m_edited_path->m_nodes.end() - 1)), &((m_edited_path->m_nodes.end() - 1)->bezier_before));
+  auto& bezier_after = Sector::get().add<BezierMarker>(&(*(m_edited_path->m_nodes.end() - 1)), &((m_edited_path->m_nodes.end() - 1)->bezier_after));
+  auto& new_marker = Sector::get().add<NodeMarker>(m_edited_path, m_edited_path->m_nodes.end() - 1, m_edited_path->m_nodes.size() - 1, bezier_before.get_uid(), bezier_after.get_uid());
   //last_node_marker = dynamic_cast<NodeMarker*>(marker.get());
   update_node_iterators();
   new_marker.update_node_times();

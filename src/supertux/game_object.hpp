@@ -96,11 +96,11 @@ public:
 
   virtual void after_editor_set() {}
 
+  /** schedules this object to be removed at the end of the frame */
+  virtual void remove_me() { m_scheduled_for_removal = true; }
+
   /** returns true if the object is not scheduled to be removed yet */
   bool is_valid() const { return !m_scheduled_for_removal; }
-
-  /** schedules this object to be removed at the end of the frame */
-  void remove_me() { m_scheduled_for_removal = true; }
 
   /** registers a remove listener which will be called if the object
       gets removed/destroyed */

@@ -16,17 +16,17 @@
 
 #include <editor/bezier_marker.hpp>
 
-BezierMarker::BezierMarker(Path::Node* node, Vector& bezier_pos) :
+BezierMarker::BezierMarker(Path::Node* node, Vector* bezier_pos) :
   m_node(node),
   m_pos(bezier_pos)
 {
-  set_pos(m_pos - Vector(8, 8));
+  set_pos(*m_pos - Vector(8, 8));
 }
 
 Vector
 BezierMarker::get_point_vector() const
 {
-  return m_pos - m_node->position;
+  return *m_pos - m_node->position;
 }
 
 Vector
@@ -39,13 +39,20 @@ void
 BezierMarker::move_to(const Vector& pos)
 {
   MovingObject::move_to(pos);
-  m_pos = m_col.m_bbox.get_middle();
+  *m_pos = m_col.m_bbox.get_middle();
 }
 
 void
 BezierMarker::editor_update()
 {
-  set_pos(m_pos - Vector(8, 8));
+  set_pos(*m_pos - Vector(8, 8));
+}
+
+void
+BezierMarker::update_iterator(Path::Node* node, Vector* bezier_pos)
+{
+  m_node = node;
+  m_pos = bezier_pos;
 }
 
 /* EOF */

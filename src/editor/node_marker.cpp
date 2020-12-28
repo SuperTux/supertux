@@ -18,11 +18,12 @@
 
 #include "editor/editor.hpp"
 #include "math/easing.hpp"
+#include "supertux/sector.hpp"
 
-NodeMarker::NodeMarker(Path* path_, std::vector<Path::Node>::iterator node_iterator, size_t id_, BezierMarker& before, BezierMarker& after) :
+NodeMarker::NodeMarker(Path* path_, std::vector<Path::Node>::iterator node_iterator, size_t id_, UID before, UID after) :
   m_path(path_),
-  m_bezier_prev(before),
-  m_bezier_next(after),
+  m_bezier_before(before),
+  m_bezier_after(after),
   m_node(node_iterator),
   m_id(id_)
 {
@@ -34,11 +35,31 @@ NodeMarker::update_iterator()
 {
   if (m_id >= m_path->m_nodes.size()) {
     remove_me();
-    m_bezier_prev.remove_me();
-    m_bezier_next.remove_me();
   } else {
     m_node = m_path->m_nodes.begin() + m_id;
+
+    BezierMarker* before = Sector::current()->get_object_by_uid<BezierMarker>(m_bezier_before);
+    BezierMarker* after = Sector::current()->get_object_by_uid<BezierMarker>(m_bezier_after);
+
+    if (before)
+      before->update_iterator(&(*m_node), &(m_node->bezier_before));
+    if (after)
+      after->update_iterator(&(*m_node), &(m_node->bezier_after));
   }
+}
+
+void
+NodeMarker::remove_me()
+{
+  BezierMarker* before = Sector::current()->get_object_by_uid<BezierMarker>(m_bezier_before);
+  BezierMarker* after = Sector::current()->get_object_by_uid<BezierMarker>(m_bezier_after);
+
+  if (before)
+    before->remove_me();
+  if (after)
+    after->remove_me();
+  
+  MarkerObject::remove_me();
 }
 
 Vector
@@ -61,8 +82,13 @@ NodeMarker::get_offset() const
 void
 NodeMarker::move_to(const Vector& pos)
 {
-  m_bezier_prev.move_to(pos + (m_bezier_prev.get_pos() - get_pos()));
-  m_bezier_next.move_to(pos + (m_bezier_next.get_pos() - get_pos()));
+  BezierMarker* before = Sector::current()->get_object_by_uid<BezierMarker>(m_bezier_before);
+  BezierMarker* after = Sector::current()->get_object_by_uid<BezierMarker>(m_bezier_after);
+
+  if (before)
+    before->move_to(pos + (before->get_pos() - get_pos()));
+  if (after)
+    after->move_to(pos + (after->get_pos() - get_pos()));
 
   MovingObject::move_to(pos);
   m_node->position = m_col.m_bbox.get_middle();

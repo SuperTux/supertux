@@ -24,7 +24,7 @@
 class BezierMarker : public MarkerObject
 {
 public:
-  BezierMarker(Path::Node* node, Vector& bezier_pos);
+  BezierMarker(Path::Node* node, Vector* bezier_pos);
 
   virtual void move_to(const Vector& pos) override;
   virtual Vector get_point_vector() const override;
@@ -33,9 +33,11 @@ public:
   virtual bool has_settings() const override { return false; }
   virtual void editor_update() override;
 
+  void update_iterator(Path::Node* it, Vector* bezier_pos);
+
 private:
   Path::Node* m_node;
-  Vector& m_pos;
+  Vector* m_pos;
 
 private:
   BezierMarker(const BezierMarker&) = delete;
