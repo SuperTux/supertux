@@ -19,8 +19,10 @@
 #include "editor/editor.hpp"
 #include "math/easing.hpp"
 
-NodeMarker::NodeMarker (Path* path_, std::vector<Path::Node>::iterator node_iterator, size_t id_) :
+NodeMarker::NodeMarker(Path* path_, std::vector<Path::Node>::iterator node_iterator, size_t id_, BezierMarker& before, BezierMarker& after) :
   m_path(path_),
+  m_bezier_prev(before),
+  m_bezier_next(after),
   m_node(node_iterator),
   m_id(id_)
 {
@@ -32,6 +34,8 @@ NodeMarker::update_iterator()
 {
   if (m_id >= m_path->m_nodes.size()) {
     remove_me();
+    m_bezier_prev.remove_me();
+    m_bezier_next.remove_me();
   } else {
     m_node = m_path->m_nodes.begin() + m_id;
   }
@@ -57,6 +61,9 @@ NodeMarker::get_offset() const
 void
 NodeMarker::move_to(const Vector& pos)
 {
+  m_bezier_prev.move_to(pos + (m_bezier_prev.get_pos() - get_pos()));
+  m_bezier_next.move_to(pos + (m_bezier_next.get_pos() - get_pos()));
+
   MovingObject::move_to(pos);
   m_node->position = m_col.m_bbox.get_middle();
   update_node_times();
@@ -80,6 +87,7 @@ ObjectSettings
 NodeMarker::get_settings()
 {
   ObjectSettings result(_("Path Node"));
+  result.add_label(_("Press CTRL to move Bezier handles"));
   result.add_float(_("Time"), &(m_node->time));
   result.add_float(_("Speed"), &(m_node->speed));
   

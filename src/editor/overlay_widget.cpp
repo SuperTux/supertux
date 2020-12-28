@@ -30,6 +30,7 @@
 #include "editor/worldmap_objects.hpp"
 #include "gui/menu.hpp"
 #include "gui/menu_manager.hpp"
+#include "math/bezier.hpp"
 #include "object/camera.hpp"
 #include "object/path_gameobject.hpp"
 #include "object/tilemap.hpp"
@@ -436,11 +437,22 @@ EditorOverlayWidget::fill()
 void
 EditorOverlayWidget::hover_object()
 {
+  BezierMarker* marker_hovered_without_ctrl = nullptr;
+
   for (auto& moving_object : m_editor.get_sector()->get_objects_by_type<MovingObject>())
   {
     Rectf bbox = moving_object.get_bbox();
     if (bbox.contains(m_sector_pos)) {
       if (&moving_object != m_hovered_object) {
+
+        // Ignore BezierMarkers if ctrl isn't pressed... (1/2)
+        auto* bezier_marker = dynamic_cast<BezierMarker*>(&moving_object);
+        if (!action_pressed && bezier_marker)
+        {
+          marker_hovered_without_ctrl = bezier_marker;
+          continue;
+        }
+
         m_hovered_object = &moving_object;
         if (moving_object.has_settings()) {
           m_object_tip = std::make_unique<Tip>(moving_object);
@@ -449,6 +461,15 @@ EditorOverlayWidget::hover_object()
       return;
     }
   }
+
+  // (2/2) ...but select them anyways if they weren't hovering a node marker
+  if (marker_hovered_without_ctrl)
+  {
+    m_hovered_object = marker_hovered_without_ctrl;
+    m_object_tip = std::make_unique<Tip>(_("Press CTRL to move Bezier handles"));
+    return;
+  }
+
   m_object_tip = nullptr;
   m_hovered_object = nullptr;
 }
@@ -640,9 +661,13 @@ EditorOverlayWidget::add_path_node()
 {
   Path::Node new_node;
   new_node.position = m_sector_pos;
+  new_node.bezier_before = new_node.position;
+  new_node.bezier_after = new_node.position;
   new_node.time = 1;
   m_edited_path->m_nodes.insert(m_last_node_marker->m_node + 1, new_node);
-  auto& new_marker = Sector::get().add<NodeMarker>(m_edited_path, m_edited_path->m_nodes.end() - 1, m_edited_path->m_nodes.size() - 1);
+  auto& bezier_before = Sector::get().add<BezierMarker>(&(*(m_edited_path->m_nodes.end() - 1)), (m_edited_path->m_nodes.end() - 1)->bezier_before);
+  auto& bezier_after = Sector::get().add<BezierMarker>(&(*(m_edited_path->m_nodes.end() - 1)), (m_edited_path->m_nodes.end() - 1)->bezier_after);
+  auto& new_marker = Sector::get().add<NodeMarker>(m_edited_path, m_edited_path->m_nodes.end() - 1, m_edited_path->m_nodes.size() - 1, bezier_before, bezier_after);
   //last_node_marker = dynamic_cast<NodeMarker*>(marker.get());
   update_node_iterators();
   new_marker.update_node_times();
@@ -1150,15 +1175,37 @@ EditorOverlayWidget::draw_path(DrawingContext& context)
         //loop to the first node
         node2 = &(*m_edited_path->m_nodes.begin());
       } else {
+        // Just draw the bezier lines
+        auto cam_translation = m_editor.get_sector()->get_camera().get_translation();
+        context.color().draw_line(node1->position - cam_translation,
+                                  node1->bezier_before - cam_translation,
+                                  Color(0, 0, 1), LAYER_GUI - 21);
+        context.color().draw_line(node1->position - cam_translation,
+                                  node1->bezier_after - cam_translation,
+                                  Color(0, 0, 1), LAYER_GUI - 21);
         continue;
       }
     } else {
       node2 = &(*j);
     }
     auto cam_translation = m_editor.get_sector()->get_camera().get_translation();
+    Bezier::draw_curve(context,
+                       node1->position - cam_translation,
+                       node1->bezier_after - cam_translation,
+                       node2->bezier_before - cam_translation,
+                       node2->position - cam_translation,
+                       100,
+                       Color::RED,
+                       LAYER_GUI - 21);
     context.color().draw_line(node1->position - cam_translation,
-                              node2->position - cam_translation,
-                              Color(1, 0, 0), LAYER_GUI - 21);
+                              node1->bezier_before - cam_translation,
+                              Color(0, 0, 1), LAYER_GUI - 21);
+    context.color().draw_line(node1->position - cam_translation,
+                              node1->bezier_after - cam_translation,
+                              Color(0, 0, 1), LAYER_GUI - 21);
+    //context.color().draw_line(node1->position - cam_translation,
+    //                          node2->position - cam_translation,
+    //                          Color(1, 0, 0), LAYER_GUI - 21);
   }
 }
 

@@ -18,6 +18,7 @@
 
 #include "object/path.hpp"
 
+#include "editor/bezier_marker.hpp"
 #include "editor/node_marker.hpp"
 #include "math/easing.hpp"
 #include "supertux/sector.hpp"
@@ -67,6 +68,8 @@ Path::Path(const Vector& pos) :
 {
   Node first_node;
   first_node.position = pos;
+  first_node.bezier_before = pos;
+  first_node.bezier_after = pos;
   first_node.time = 1;
   first_node.speed = 0;
   first_node.easing = EaseNone;
@@ -93,9 +96,15 @@ Path::read(const ReaderMapping& reader)
       node.time = 1;
       node.speed = 0;
       node.easing = EaseNone;
-      if ( (!node_mapping.get("x", node.position.x) ||
-           !node_mapping.get("y", node.position.y)))
+      if (!node_mapping.get("x", node.position.x) ||
+          !node_mapping.get("y", node.position.y))
         throw std::runtime_error("Path node without x and y coordinate specified");
+      if (!node_mapping.get("bezier_before_x", node.bezier_before.x) ||
+          !node_mapping.get("bezier_before_y", node.bezier_before.y))
+        node.bezier_before = node.position;
+      if (!node_mapping.get("bezier_after_x", node.bezier_after.x) ||
+          !node_mapping.get("bezier_after_y", node.bezier_after.y))
+        node.bezier_after = node.position;
       node_mapping.get("time", node.time);
       node_mapping.get("speed", node.speed);
       node_mapping.get_custom("easing", node.easing, EasingMode_from_string);
@@ -127,6 +136,10 @@ Path::save(Writer& writer)
     writer.start_list("node");
     writer.write("x", nod.position.x);
     writer.write("y", nod.position.y);
+    writer.write("bezier_before_x", nod.bezier_before.x);
+    writer.write("bezier_before_y", nod.bezier_before.y);
+    writer.write("bezier_after_x", nod.bezier_after.x);
+    writer.write("bezier_after_y", nod.bezier_after.y);
     if (nod.time != 1.0f) {
       writer.write("time", nod.time);
     }
@@ -189,6 +202,8 @@ Path::move_by(const Vector& shift)
 {
   for (auto& nod : m_nodes) {
     nod.position += shift;
+    nod.bezier_before += shift;
+    nod.bezier_after += shift;
   }
 }
 
@@ -197,7 +212,9 @@ Path::edit_path()
 {
   int id = 0;
   for (auto i = m_nodes.begin(); i != m_nodes.end(); ++i) {
-    Sector::get().add<NodeMarker>(this, i, id);
+    auto& before = Sector::get().add<BezierMarker>(&(*i), i->bezier_before);
+    auto& after = Sector::get().add<BezierMarker>(&(*i), i->bezier_after);
+    Sector::get().add<NodeMarker>(this, i, id, before, after);
     id++;
   }
 }

@@ -14,30 +14,25 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_ERROR_HANDLER_HPP
-#define HEADER_SUPERTUX_SUPERTUX_ERROR_HANDLER_HPP
+#ifndef HEADER_SUPERTUX_MATH_BEZIER_HPP
+#define HEADER_SUPERTUX_MATH_BEZIER_HPP
 
-#include <iostream>
+#include <math/vector.hpp>
 
-class ErrorHandler final
+class Color;
+class DrawingContext;
+
+class Bezier
 {
 public:
-  static void set_handlers();
-
-  static void print_stack_trace();
-private:
-  [[ noreturn ]] static void handle_error(int sig);
-
-  [[ noreturn ]] static void close_program();
+  // p1 is first anchor, p2 is first handle, p3 is second handle, p4 is second anchor. T is progress from p1 towards p4.
+  static Vector get_point(Vector p1, Vector p2, Vector p3, Vector p4, float t);
+  // FIXME: Move this to the Canvas object?
+  static void draw_curve(DrawingContext& context, Vector p1, Vector p2, Vector p3, Vector p4, int steps, Color color, int layer);
 
 private:
-  static bool m_handing_error;
-
-private:
-  ErrorHandler() = delete;
-  ~ErrorHandler() = delete;
-  ErrorHandler(const ErrorHandler&) = delete;
-  ErrorHandler& operator=(const ErrorHandler&) = delete;
+  Bezier(const Bezier&) = delete;
+  Bezier& operator=(const Bezier&) = delete;
 };
 
 #endif

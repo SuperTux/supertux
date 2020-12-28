@@ -14,32 +14,38 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_ERROR_HANDLER_HPP
-#define HEADER_SUPERTUX_SUPERTUX_ERROR_HANDLER_HPP
+#include <editor/bezier_marker.hpp>
 
-#include <iostream>
-
-class ErrorHandler final
+BezierMarker::BezierMarker(Path::Node* node, Vector& bezier_pos) :
+  m_node(node),
+  m_pos(bezier_pos)
 {
-public:
-  static void set_handlers();
+  set_pos(m_pos - Vector(8, 8));
+}
 
-  static void print_stack_trace();
-private:
-  [[ noreturn ]] static void handle_error(int sig);
+Vector
+BezierMarker::get_point_vector() const
+{
+  return m_pos - m_node->position;
+}
 
-  [[ noreturn ]] static void close_program();
+Vector
+BezierMarker::get_offset() const
+{
+  return Vector(8, 8);
+}
 
-private:
-  static bool m_handing_error;
+void
+BezierMarker::move_to(const Vector& pos)
+{
+  MovingObject::move_to(pos);
+  m_pos = m_col.m_bbox.get_middle();
+}
 
-private:
-  ErrorHandler() = delete;
-  ~ErrorHandler() = delete;
-  ErrorHandler(const ErrorHandler&) = delete;
-  ErrorHandler& operator=(const ErrorHandler&) = delete;
-};
-
-#endif
+void
+BezierMarker::editor_update()
+{
+  set_pos(m_pos - Vector(8, 8));
+}
 
 /* EOF */

@@ -17,13 +17,14 @@
 #ifndef HEADER_SUPERTUX_EDITOR_NODE_MARKER_HPP
 #define HEADER_SUPERTUX_EDITOR_NODE_MARKER_HPP
 
+#include <editor/bezier_marker.hpp>
 #include "editor/marker_object.hpp"
 #include "object/path.hpp"
 
 class NodeMarker : public MarkerObject
 {
 public:
-  NodeMarker(Path* path_, std::vector<Path::Node>::iterator node_iterator, size_t id_);
+  NodeMarker(Path* path_, std::vector<Path::Node>::iterator node_iterator, size_t id_, BezierMarker& before, BezierMarker& after);
 
   virtual void move_to(const Vector& pos) override;
   virtual void editor_delete() override;
@@ -41,6 +42,9 @@ private:
   std::vector<Path::Node>::iterator prev_node();
   std::vector<Path::Node>::const_iterator next_node() const;
   void update_node_time(std::vector<Path::Node>::iterator current, std::vector<Path::Node>::const_iterator next);
+
+  BezierMarker& m_bezier_prev;
+  BezierMarker& m_bezier_next;
 
 public:
   std::vector<Path::Node>::iterator m_node;

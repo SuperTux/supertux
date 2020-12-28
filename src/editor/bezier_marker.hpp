@@ -14,30 +14,32 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_ERROR_HANDLER_HPP
-#define HEADER_SUPERTUX_SUPERTUX_ERROR_HANDLER_HPP
+#ifndef HEADER_SUPERTUX_EDITOR_BEZIER_MARKER_HPP
+#define HEADER_SUPERTUX_EDITOR_BEZIER_MARKER_HPP
 
-#include <iostream>
+#include "editor/marker_object.hpp"
+#include "object/path.hpp"
+#include "supertux/error_handler.hpp"
 
-class ErrorHandler final
+class BezierMarker : public MarkerObject
 {
 public:
-  static void set_handlers();
+  BezierMarker(Path::Node* node, Vector& bezier_pos);
 
-  static void print_stack_trace();
-private:
-  [[ noreturn ]] static void handle_error(int sig);
-
-  [[ noreturn ]] static void close_program();
-
-private:
-  static bool m_handing_error;
+  virtual void move_to(const Vector& pos) override;
+  virtual Vector get_point_vector() const override;
+  virtual Vector get_offset() const override;
+  virtual bool hide_if_no_offset() const override { return true; }
+  virtual bool has_settings() const override { return false; }
+  virtual void editor_update() override;
 
 private:
-  ErrorHandler() = delete;
-  ~ErrorHandler() = delete;
-  ErrorHandler(const ErrorHandler&) = delete;
-  ErrorHandler& operator=(const ErrorHandler&) = delete;
+  Path::Node* m_node;
+  Vector& m_pos;
+
+private:
+  BezierMarker(const BezierMarker&) = delete;
+  BezierMarker& operator=(const BezierMarker&) = delete;
 };
 
 #endif
