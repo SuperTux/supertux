@@ -44,8 +44,8 @@ private:
   std::vector<Path::Node>::const_iterator next_node() const;
   void update_node_time(std::vector<Path::Node>::iterator current, std::vector<Path::Node>::const_iterator next);
 
-  UID m_bezier_after;
   UID m_bezier_before;
+  UID m_bezier_after;
 
 public:
   std::vector<Path::Node>::iterator m_node;
