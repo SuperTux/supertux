@@ -171,7 +171,7 @@ Coin::collect()
 
   Sector::get().get_player().get_status().add_coins(1, false);
   Sector::get().add<BouncyCoin>(get_pos(), false, get_sprite_name());
-  Sector::get().get_level().m_stats.m_coins++;
+  Sector::get().get_level().m_stats.increment_coins();
   remove_me();
 
   if (!m_collect_script.empty()) {

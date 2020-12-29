@@ -348,7 +348,16 @@ GameSession::update(float dt_sec, const Controller& controller)
       MenuManager::instance().set_menu(MenuStorage::DEBUG_MENU);
     }
   }
-  
+
+  // Animate the full-completion stats stuff - do this even when the game isn't paused (that's a
+  // design choice, if you prefer it not to animate when paused, add `if (!m_game_pause)`)
+  m_level->m_stats.update_timers(dt_sec);
+
+  // FIXME: I (Semphris) am responsible for this awful code. I have no idea why I originally did it
+  // that way. I suppose it was back in the time when I didn't understand the engine very well (3
+  // months prior to writing this - thanks git). I'm going to remove all of this (and the useless
+  // CutsceneInfo object) sometime soon and use the damn draw function like a normal programmer
+  // would do - if I somehow forget, please remind me or do it for me.
   if (m_level->m_is_in_cutscene && !m_level->m_skip_cutscene && m_current_cutscene_text == nullptr)
   {
     /*std::string cutscene_text = _("Press escape to skip");
@@ -625,6 +634,8 @@ GameSession::drawstatus(DrawingContext& context)
   if (m_end_sequence) {
     m_level->m_stats.draw_endseq_panel(context, m_best_level_statistics, m_statistics_backdrop, m_level->m_target_time);
   }
+
+  m_level->m_stats.draw_ingame_stats(context, m_game_pause);
 }
 
 /* EOF */
