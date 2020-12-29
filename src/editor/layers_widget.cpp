@@ -257,8 +257,15 @@ EditorLayersWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
     }
   }
 
-  if(y > SCREEN_HEIGHT / 2)
+  if(y > SCREEN_HEIGHT / 2) {
+    unsigned int new_hovered_layer = get_layer_pos(mouse_pos);
+    log_warning << new_hovered_layer << std::endl;
+    if (m_hovered_layer != new_hovered_layer || m_hovered_item != HoveredItem::LAYERS) {
+      m_hovered_layer = new_hovered_layer;
+      update_tip();
+    }
     m_hovered_item = HoveredItem::LAYERS;
+  }
 
   return true;
 }
