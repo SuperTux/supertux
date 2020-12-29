@@ -18,9 +18,12 @@
 
 #include <math.h>
 
+#include <SDL.h>
+
 #include "math/vector.hpp"
 #include "math/rectf.hpp"
 #include "supertux/resources.hpp"
+#include "util/log.hpp"
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
@@ -39,6 +42,7 @@ ControlTextbox::ControlTextbox() :
   m_caret_pos(),
   m_secondary_caret_pos(),
   m_shift_pressed(false),
+  m_ctrl_pressed(false),
   m_mouse_pressed(),
   m_current_offset(0)
 {
@@ -200,12 +204,18 @@ bool
 ControlTextbox::on_key_up(const SDL_KeyboardEvent& key)
 {
 
-  if (m_has_focus &&
-    (key.keysym.sym == SDLK_LSHIFT || key.keysym.sym == SDLK_RSHIFT)) {
-
-    m_shift_pressed = false;
-    return true;
-
+  if (m_has_focus)
+  {
+    if (key.keysym.sym == SDLK_LSHIFT || key.keysym.sym == SDLK_RSHIFT)
+    {
+      m_shift_pressed = false;
+      return true;
+    }
+    else if (key.keysym.sym == SDLK_LCTRL || key.keysym.sym == SDLK_RCTRL)
+    {
+      m_ctrl_pressed = false;
+      return true;
+    }
   }
 
   return false;
@@ -214,64 +224,89 @@ ControlTextbox::on_key_up(const SDL_KeyboardEvent& key)
 bool
 ControlTextbox::on_key_down(const SDL_KeyboardEvent& key)
 {
+  if (!m_has_focus)
+    return false;
 
-  if (m_has_focus && key.keysym.sym == SDLK_LEFT
-   && m_caret_pos > 0) {
-
+  if (key.keysym.sym == SDLK_LEFT && m_caret_pos > 0)
+  {
     m_caret_pos--;
     m_cursor_timer = CONTROL_CURSOR_TIMER;
-    if (!m_shift_pressed) {
+    if (!m_shift_pressed)
       m_secondary_caret_pos = m_caret_pos;
-    }
 
     recenter_offset();
     return true;
-
-  } else if (m_has_focus && key.keysym.sym == SDLK_RIGHT
-   && m_caret_pos < int(m_charlist.size())) {
-
+  }
+  else if (key.keysym.sym == SDLK_DELETE)
+  {
+    if (!erase_selected_text() && static_cast<int>(m_charlist.size()) > m_caret_pos)
+    {
+      m_caret_pos++;
+      on_backspace();
+    }
+    return true;
+  }
+  else if (key.keysym.sym == SDLK_RIGHT && m_caret_pos < int(m_charlist.size()))
+  {
     m_caret_pos++;
     m_cursor_timer = CONTROL_CURSOR_TIMER;
-    if (!m_shift_pressed) {
+    if (!m_shift_pressed)
       m_secondary_caret_pos = m_caret_pos;
-    }
 
     recenter_offset();
     return true;
-
-  } else if (m_has_focus && key.keysym.sym == SDLK_HOME) {
-
+  }
+  else if (key.keysym.sym == SDLK_HOME)
+  {
     m_caret_pos = 0;
     m_cursor_timer = CONTROL_CURSOR_TIMER;
-    if (!m_shift_pressed) {
+    if (!m_shift_pressed)
       m_secondary_caret_pos = m_caret_pos;
-    }
 
     recenter_offset();
     return true;
-
-  } else if (m_has_focus && key.keysym.sym == SDLK_END) {
-
+  }
+  else if (key.keysym.sym == SDLK_END)
+  {
     m_caret_pos = int(m_charlist.size());
     m_cursor_timer = CONTROL_CURSOR_TIMER;
-    if (!m_shift_pressed) {
+    if (!m_shift_pressed)
       m_secondary_caret_pos = m_caret_pos;
-    }
 
     recenter_offset();
     return true;
-
-  } else if (m_has_focus &&
-    (key.keysym.sym == SDLK_LSHIFT || key.keysym.sym == SDLK_RSHIFT)) {
-
+  }
+  else if (key.keysym.sym == SDLK_LSHIFT || key.keysym.sym == SDLK_RSHIFT)
+  {
     m_shift_pressed = true;
     return true;
-
-  } else if (m_has_focus && key.keysym.sym == SDLK_RETURN) {
-
+  }
+  else if (key.keysym.sym == SDLK_LCTRL || key.keysym.sym == SDLK_RCTRL)
+  {
+    m_ctrl_pressed = true;
+    return true;
+  }
+  else if (key.keysym.sym == SDLK_c && m_ctrl_pressed)
+  {
+    copy();
+    return true;
+  }
+  else if (key.keysym.sym == SDLK_v && m_ctrl_pressed)
+  {
+    paste();
+    return true;
+  }
+  else if (key.keysym.sym == SDLK_a && m_ctrl_pressed)
+  {
+    m_caret_pos = 0;
+    m_secondary_caret_pos = static_cast<int>(m_charlist.size());
+    recenter_offset();
+    return true;
+  }
+  else if (key.keysym.sym == SDLK_RETURN)
+  {
     parse_value();
     return true;
-
   }
 
   return false;
@@ -281,31 +316,8 @@ bool
 ControlTextbox::event(const SDL_Event& ev) {
   Widget::event(ev);
 
-  if (ev.type == SDL_TEXTINPUT && m_has_focus) {
-
-    if (m_secondary_caret_pos != m_caret_pos) {
-      m_cursor_timer = CONTROL_CURSOR_TIMER;
-
-      auto it = m_charlist.begin();
-      advance(it, std::min(m_caret_pos, m_secondary_caret_pos));
-      auto it2 = m_charlist.begin();
-      advance(it2, std::max(m_caret_pos, m_secondary_caret_pos));
-      m_charlist.erase(it, it2);
-
-      m_caret_pos = std::min(m_caret_pos, m_secondary_caret_pos);
-      m_secondary_caret_pos = m_caret_pos;
-    }
-
-    auto it = m_charlist.begin();
-    advance(it, m_caret_pos);
-    m_charlist.insert(it, ev.text.text[0]);
-
-    m_caret_pos++;
-    m_secondary_caret_pos = m_caret_pos;
-    m_cursor_timer = CONTROL_CURSOR_TIMER;
-
-    recenter_offset();
-  }
+  if (ev.type == SDL_TEXTINPUT && m_has_focus)
+    put_text(std::string(ev.text.text));
 
   return false;
 }
@@ -366,7 +378,6 @@ ControlTextbox::get_contents() const
   for (char c : m_charlist) {
     temp += c;
   }
-  temp += '\0';
 
   return temp;
 }
@@ -380,7 +391,6 @@ ControlTextbox::get_first_chars(int amount) const
     if (!(amount--)) break;
     temp += c;
   }
-  temp += '\0';
 
   return temp;
 }
@@ -396,7 +406,6 @@ ControlTextbox::get_contents_visible() const
       temp += c;
     }
   }
-  temp += '\0';
 
   return get_truncated_text(temp);
 }
@@ -452,6 +461,100 @@ ControlTextbox::recenter_offset()
   while (m_current_offset > 0 && fits(get_contents().substr(m_current_offset - 1))) {
     m_current_offset--;
   }
+}
+
+bool
+ControlTextbox::copy() const
+{
+  if (m_caret_pos == m_secondary_caret_pos)
+    return false;
+
+  SDL_ClearError();
+  int ret = SDL_SetClipboardText(get_selected_text().c_str());
+
+  if (ret)
+    log_warning << "Couldn't copy text to clipboard: " << SDL_GetError() << std::endl;
+
+  return ret == 0;
+}
+
+bool
+ControlTextbox::paste()
+{
+  if (!SDL_HasClipboardText())
+    return false;
+  
+  char* txt = SDL_GetClipboardText();
+
+  if (txt)
+    put_text(std::string(txt));
+  else
+    log_warning << "Couldn't paste text from clipboard: " << SDL_GetError() << std::endl;
+  
+  return txt != nullptr;
+}
+
+std::string
+ControlTextbox::get_selected_text() const
+{
+  // There's probably a cleaner way to do this...
+  std::string temp;
+  int start = std::min(m_caret_pos, m_secondary_caret_pos),
+      end = std::max(m_caret_pos, m_secondary_caret_pos),
+      pos = 0;
+
+  for (char c : m_charlist)
+  {
+    if (pos++ < start)
+      continue;
+
+    if (pos > end)
+      break;
+
+    temp += c;
+  }
+
+  return temp;
+}
+
+bool
+ControlTextbox::put_text(std::string text)
+{
+  bool has_erased_text = erase_selected_text();
+
+  for (char c : text)
+  {
+    auto it = m_charlist.begin();
+    advance(it, m_caret_pos);
+    m_charlist.insert(it, c);
+
+    m_caret_pos++;
+    m_secondary_caret_pos = m_caret_pos;
+    m_cursor_timer = CONTROL_CURSOR_TIMER;
+  }
+
+  recenter_offset();
+
+  return has_erased_text;
+}
+
+bool
+ControlTextbox::erase_selected_text()
+{
+  if (m_secondary_caret_pos == m_caret_pos)
+    return false;
+
+  m_cursor_timer = CONTROL_CURSOR_TIMER;
+
+  auto it = m_charlist.begin();
+  advance(it, std::min(m_caret_pos, m_secondary_caret_pos));
+  auto it2 = m_charlist.begin();
+  advance(it2, std::max(m_caret_pos, m_secondary_caret_pos));
+  m_charlist.erase(it, it2);
+
+  m_caret_pos = std::min(m_caret_pos, m_secondary_caret_pos);
+  m_secondary_caret_pos = m_caret_pos;
+  return true;
 }
 
 /* EOF */
