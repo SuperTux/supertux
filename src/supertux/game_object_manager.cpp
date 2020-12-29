@@ -77,7 +77,7 @@ GameObjectManager::try_process_resolve_requests()
 
   for (const auto& request : m_name_resolve_requests)
   {
-    GameObject* object = get_object_by_name<GameObject>(request.name);
+    auto* object = get_object_by_name<GameObject>(request.name);
     if (!object)
     {
       // Unlike process_resolve_requests(), we just keep that one in mind
