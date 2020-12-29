@@ -19,6 +19,7 @@
 #define HEADER_SUPERTUX_SUPERTUX_GAME_OBJECT_MANAGER_HPP
 
 #include <functional>
+#include <iostream>
 #include <typeindex>
 #include <unordered_map>
 #include <vector>
@@ -183,6 +184,9 @@ public:
 
 protected:
   void process_resolve_requests();
+
+  /** Saem as process_resolve_requests(), but those it can't find will be kept in the buffer */
+  void try_process_resolve_requests();
 
   template<class T>
   T* get_object_by_type() const

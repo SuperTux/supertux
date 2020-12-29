@@ -69,6 +69,30 @@ GameObjectManager::process_resolve_requests()
   m_name_resolve_requests.clear();
 }
 
+void
+GameObjectManager::try_process_resolve_requests()
+{
+  assert(m_gameobjects_new.empty());
+  std::vector<GameObjectManager::NameResolveRequest> new_list;
+
+  for (const auto& request : m_name_resolve_requests)
+  {
+    GameObject* object = get_object_by_name<GameObject>(request.name);
+    if (!object)
+    {
+      // Unlike process_resolve_requests(), we just keep that one in mind
+      new_list.push_back(request);
+    }
+    else
+    {
+      request.callback(object->get_uid());
+    }
+  }
+
+  m_name_resolve_requests.clear();
+  m_name_resolve_requests.assign(new_list.begin(), new_list.end());
+}
+
 const std::vector<std::unique_ptr<GameObject> >&
 GameObjectManager::get_objects() const
 {
