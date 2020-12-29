@@ -185,7 +185,7 @@ public:
 protected:
   void process_resolve_requests();
 
-  /** Saem as process_resolve_requests(), but those it can't find will be kept in the buffer */
+  /** Same as process_resolve_requests(), but those it can't find will be kept in the buffer */
   void try_process_resolve_requests();
 
   template<class T>
