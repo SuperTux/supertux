@@ -80,7 +80,9 @@ CommandLineArguments::print_acknowledgements() const
   }
   else
   {
-    boost::iostreams::copy(in, std::cerr);
+    // Boost uses 0 as null pointer contants
+    boost::iostreams::copy(in, std::cerr,
+                boost::iostreams::default_device_buffer_size, nullptr, nullptr);
   }
 }
 
