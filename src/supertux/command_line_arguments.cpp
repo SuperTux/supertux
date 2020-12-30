@@ -17,10 +17,12 @@
 #include "supertux/command_line_arguments.hpp"
 
 #include <boost/format.hpp>
+#include <boost/iostreams/copy.hpp>
 #include <config.h>
 #include <physfs.h>
 
 #include "editor/overlay_widget.hpp"
+#include "physfs/ifile_stream.hpp"
 #include "supertux/gameconfig.hpp"
 #include "util/gettext.hpp"
 #include "version.h"
@@ -69,6 +71,20 @@ CommandLineArguments::print_datadir() const
 }
 
 void
+CommandLineArguments::print_acknowledgements() const
+{
+  IFileStream in("ACKNOWLEDGEMENTS.txt");
+  if (!in.good())
+  {
+    throw std::runtime_error("Could not find acknowledgement file");
+  }
+  else
+  {
+    boost::iostreams::copy(in, std::cerr);
+  }
+}
+
+void
 CommandLineArguments::print_help(const char* arg0) const
 {
   std::cerr
@@ -78,7 +94,8 @@ CommandLineArguments::print_help(const char* arg0) const
     << _("  -v, --version                Show SuperTux version and quit") << "\n"
     << _("  --verbose                    Print verbose messages") << "\n"
     << _("  --debug                      Print extra verbose messages") << "\n"
-    << _( "  --print-datadir              Print SuperTux's primary data directory.") << "\n"
+    << _("  --print-datadir              Print SuperTux's primary data directory.") << "\n"
+    << _("  --acknowledgements           Print the licenses of libraries used by SuperTux.") << "\n"
     << "\n"
     << _("Video Options:") << "\n"
     << _("  -f, --fullscreen             Run in fullscreen mode") << "\n"
@@ -148,6 +165,10 @@ CommandLineArguments::parse_args(int argc, char** argv)
     else if (arg == "--print-datadir")
     {
       m_action = PRINT_DATADIR;
+    }
+    else if (arg == "--acknowledgements")
+    {
+      m_action = PRINT_ACKNOWLEDGEMENTS;
     }
     else if (arg == "--debug")
     {

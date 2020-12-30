@@ -619,6 +619,10 @@ Main::run(int argc, char** argv)
         args.print_datadir();
         return 0;
 
+      case CommandLineArguments::PRINT_ACKNOWLEDGEMENTS:
+        args.print_acknowledgements();
+        return 0;
+
       default:
         launch_game(args);
         break;
