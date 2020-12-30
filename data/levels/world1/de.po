@@ -240,7 +240,7 @@ msgstr "Als ihm klar wurde, in welcher Gefahr Penny schweben könnte, beschloss 
 #: data/levels/world1/scripts_intro.txt:10
 msgid ""
 "Then, Tux saw Nolok's castle in the distance and set off to rescue Penny!"
-msgstr "Dann sah Tux Noloks Schloss in der Ferne und begab sich auf dem Weg, um Penny zu retten!"
+msgstr "Dann sah Tux Noloks Schloss in der Ferne und begab sich auf den Weg, um Penny zu retten!"
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:2
 msgid "Exhausted from his long walk, Tux decided to take a little break."
@@ -262,7 +262,7 @@ msgstr "Beunruhigt vom plötzlichen Rückzug des Yetis, beschloss Tux, seine Rei
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:6
 msgid "...while secretly hoping not to run into the yeti again, by any means."
-msgstr "... wobei er heimlich hofft, dem Yeti nie wieder über dem Weg zu laufen."
+msgstr "... wobei er heimlich hofft, dem Yeti nie wieder über den Weg zu laufen."
 
 #: data/levels/world1/shattered_bridge.stl:3
 msgid "The Shattered Bridge"
