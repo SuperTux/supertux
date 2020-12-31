@@ -436,6 +436,15 @@ int rand()
 
 void set_game_speed(float speed)
 {
+  if (speed < 0.05f)
+  {
+    // Always put a minimum speed above 0 - if the user enabled transitions,
+    // executing transitions would take an unreaonably long time if we allow
+    // game speeds like 0.00001
+    log_warning << "Cannot set game speed to less than 0.05" << std::endl;
+    throw new std::runtime_error("Cannot set game speed to less than 0.05");
+  }
+
   ::g_debug.set_game_speed_multiplier(speed);
 }
 

@@ -439,6 +439,8 @@ ScreenManager::handle_screen_switch()
       {
         if (current_screen != m_screen_stack.back().get())
         {
+          g_debug.set_game_speed_multiplier(1.f);
+
           if (current_screen != nullptr)
           {
             current_screen->leave();
@@ -494,7 +496,7 @@ ScreenManager::run()
 
     g_real_time = static_cast<float>(ticks) / 1000.0f;
 
-    float speed_multiplier = 1.0f / g_debug.get_game_speed_multiplier();
+    float speed_multiplier = g_debug.get_game_speed_multiplier();
     int steps = elapsed_ticks / ms_per_step;
 
     // Do not calculate more than a few steps at once
