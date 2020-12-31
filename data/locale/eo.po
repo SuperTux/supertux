@@ -14,14 +14,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
-#, fuzzy
 msgid ""
 msgstr ""
-"#-#-#-#-#  eo.po (SuperTux)  #-#-#-#-#\n"
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-09-05 20:42+0200\n"
-"PO-Revision-Date: 2016-09-05 18:44+0000\n"
+"PO-Revision-Date: 2020-12-31 23:34+0100\n"
 "Last-Translator: Tobias Markus <tobbi@mozilla-uk.org>\n"
 "Language-Team: Esperanto (http://www.transifex.com/arctic-games/supertux/"
 "language/eo/)\n"
@@ -30,7 +28,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: eo\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"#-#-#-#-#  eo.po (SuperTux)  #-#-#-#-#\n"
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-04 15:35+0200\n"
@@ -43,6 +40,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: eo\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 1.8.7.1\n"
 
 #: src/badguy/angrystone.hpp:37
 msgid "Angry stone"
@@ -1439,7 +1437,7 @@ msgstr "Bone"
 
 #: src/supertux/menu/download_dialog.cpp:101
 msgid "Close"
-msgstr ""
+msgstr "Malfermi"
 
 #: src/supertux/menu/editor_level_menu.cpp:37
 #: src/supertux/menu/editor_menu.cpp:55
@@ -1461,7 +1459,7 @@ msgstr ""
 
 #: src/supertux/menu/editor_level_menu.cpp:42
 msgid "License"
-msgstr ""
+msgstr "Licenco"
 
 #: src/supertux/menu/editor_level_menu.cpp:43
 msgid "Tile set"
@@ -1910,7 +1908,7 @@ msgstr ""
 
 #: src/supertux/menu/options_menu.cpp:153
 msgid "Desktop"
-msgstr ""
+msgstr "Labortablo"
 
 #: src/supertux/menu/options_menu.cpp:186
 msgid "Select Language"
@@ -2101,7 +2099,7 @@ msgstr ""
 
 #: src/trigger/door.cpp:77
 msgid "Door"
-msgstr ""
+msgstr "Pordo"
 
 #: src/trigger/scripttrigger.cpp:74
 msgid "Script trigger"
@@ -2544,7 +2542,7 @@ msgstr ""
 
 #: data//credits.stxt:516 data//credits.stxt:651
 msgid "Danish"
-msgstr ""
+msgstr "Dana"
 
 #: data//credits.stxt:521
 msgid "Vietnamese"
@@ -2554,16 +2552,16 @@ msgstr ""
 #: data//credits.stxt:707 data//credits.stxt:723 data//credits.stxt:759
 #: data//credits.stxt:767 data//credits.stxt:775 data//credits.stxt:855
 msgid "French"
-msgstr ""
+msgstr "Franca"
 
 #: data//credits.stxt:531 data//credits.stxt:566 data//credits.stxt:631
 #: data//credits.stxt:703 data//credits.stxt:803 data//credits.stxt:843
 msgid "German"
-msgstr ""
+msgstr "Germana"
 
 #: data//credits.stxt:536 data//credits.stxt:611 data//credits.stxt:847
 msgid "Russian"
-msgstr ""
+msgstr "Rusa"
 
 #: data//credits.stxt:541
 msgid "Albanese"
@@ -2571,7 +2569,7 @@ msgstr ""
 
 #: data//credits.stxt:546 data//credits.stxt:571 data//credits.stxt:583
 msgid "Castilian Spanish"
-msgstr ""
+msgstr "Hispana de Kastilio"
 
 #: data//credits.stxt:551 data//credits.stxt:579 data//credits.stxt:627
 #: data//credits.stxt:779 data//credits.stxt:811 data//credits.stxt:859
@@ -2580,11 +2578,11 @@ msgstr ""
 
 #: data//credits.stxt:556 data//credits.stxt:635 data//credits.stxt:671
 msgid "Spanish"
-msgstr ""
+msgstr "Hispana"
 
 #: data//credits.stxt:561 data//credits.stxt:587 data//credits.stxt:839
 msgid "Catalan"
-msgstr ""
+msgstr "Kataluna"
 
 #: data//credits.stxt:575
 msgid "Slovenian"
@@ -2596,7 +2594,7 @@ msgstr ""
 
 #: data//credits.stxt:595 data//credits.stxt:667 data//credits.stxt:695
 msgid "European Portuguese"
-msgstr ""
+msgstr "Portugala de Eŭropo"
 
 #: data//credits.stxt:599
 msgid "Romanian"
@@ -2630,7 +2628,7 @@ msgstr ""
 
 #: data//credits.stxt:663 data//credits.stxt:675
 msgid "Italian"
-msgstr ""
+msgstr "Itala"
 
 #: data//credits.stxt:679
 msgid "Estonian"
@@ -2721,11 +2719,11 @@ msgstr ""
 
 #: data//credits.stxt:900
 msgid "#supertux at webchat.freenode.net"
-msgstr ""
+msgstr "#supertux en webchat.freenode.net"
 
 #: data//credits.stxt:905
 msgid "Or at our Forum:"
-msgstr ""
+msgstr "Aŭ en nia Diskutejo:"
 
 #: data//credits.stxt:914
 msgid "Comments, ideas and suggestions"
@@ -2737,24 +2735,24 @@ msgstr ""
 
 #: data//credits.stxt:929
 msgid "Want to help…"
-msgstr ""
+msgstr "Ĉu vi volas helpi…"
 
 #: data//credits.stxt:934
 msgid "…with localization?"
-msgstr ""
+msgstr "…tradukante?"
 
 #: data//credits.stxt:944
 msgid "…with something else?"
-msgstr ""
+msgstr "…per alia afero?"
 
 #: data//credits.stxt:955
 msgid "Thank you for"
-msgstr ""
+msgstr "Dankon pro"
 
 #: data//credits.stxt:959
 msgid "playing"
-msgstr ""
+msgstr "ludo"
 
 #: data//credits.stxt:971
 msgid "Penny awaits you in Milestone 3!"
-msgstr ""
+msgstr "Penny atendas vin en Mejlŝtono 3!"
