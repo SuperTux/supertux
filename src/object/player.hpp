@@ -77,7 +77,7 @@ public:
   // Keep player-tux because soon I'll add other playable characters   ~ Semphris
   virtual std::string get_class() const override { return "player-tux"; }
 
-  virtual void backup(Writer& writer) override;
+  virtual void backup(Writer& writer) const override;
   virtual void restore(const ReaderMapping& reader) override;
 
   void set_controller(const Controller* controller);

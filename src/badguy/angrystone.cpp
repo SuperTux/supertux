@@ -18,6 +18,8 @@
 
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
+#include "util/reader_mapping.hpp"
+#include "util/writer.hpp"
 
 static const float CHARGE_SPEED = 240;
 
@@ -178,5 +180,11 @@ AngryStone::is_flammable() const
 {
   return false;
 }
+
+BEGIN_BACKUP(AngryStone, BadGuy);
+END_BACKUP(AngryStone);
+
+BEGIN_RESTORE(AngryStone, BadGuy);
+END_RESTORE(AngryStone);
 
 /* EOF */

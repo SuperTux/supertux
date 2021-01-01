@@ -73,7 +73,7 @@ Physic::get_movement(float dt_sec)
 }
 
 void
-Physic::backup(Writer& writer)
+Physic::backup(Writer& writer) const
 {
   writer.write("ax", ax);
   writer.write("ay", ay);

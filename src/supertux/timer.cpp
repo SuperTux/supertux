@@ -54,7 +54,7 @@ Timer::check()
 }
 
 void
-Timer::backup(Writer& writer)
+Timer::backup(Writer& writer) const
 {
   writer.write("m_period", m_period);
   writer.write("m_cycle_start", m_cycle_start);

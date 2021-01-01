@@ -330,19 +330,13 @@ GameObjectManager::backup(Writer& writer)
 void
 GameObjectManager::restore(const ReaderMapping& reader)
 {
-  /*std::cout << "### EXISTING ###" << std::endl;
-  for (auto pair : m_objects_by_uid)
-    std::cout << pair.first.to_string() << " - " << pair.first.key_string() << std::endl;*/
-
   ReaderIterator it = reader.get_iter();
 
   std::vector<UID> uids;
-  //std::cout << "### BACKUPED ###" << std::endl;
 
   while (it.next())
   {
     try {
-      //std::cout << it.get_key() << std::endl;
       UID uid = UID::from_key_string(it.get_key());
       uids.push_back(uid);
 
@@ -356,18 +350,15 @@ GameObjectManager::restore(const ReaderMapping& reader)
 
       if (obj)
       {
-        //std::cout << "Found: " << uid.to_string() << ": " << obj->get_uid().to_string() << std::endl;
         obj->restore(it.as_mapping());
       }
       else
       {
-        //std::cout << "Not found, adding: " << uid.to_string() << std::endl;
         ReaderMapping mapping = it.as_mapping();
         std::string classname;
         if (!mapping.get("classname", classname)) {
           continue;
         }
-        //std::cout << "would've added something of class " << classname << std::endl;
         std::unique_ptr<GameObject> new_obj =
                       GameObjectFactory::instance().create(classname, Vector());
 
@@ -386,7 +377,6 @@ GameObjectManager::restore(const ReaderMapping& reader)
     }
   }
 
-  //std::cout << "###   END    ###" << std::endl;
   for (auto pair : m_objects_by_uid)
     if (std::find(uids.begin(), uids.end(), pair.first) == uids.end() && !pair.second->is_singleton())
       pair.second->remove_me();
