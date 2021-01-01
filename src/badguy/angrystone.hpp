@@ -33,6 +33,9 @@ public:
   virtual std::string get_class() const override { return "angrystone"; }
   virtual std::string get_display_name() const override { return _("Angry Stone"); }
 
+  virtual void backup(Writer& writer) const override;
+  virtual void restore(const ReaderMapping& reader) override;
+
 protected:
   enum AngryStoneState {
     IDLE,

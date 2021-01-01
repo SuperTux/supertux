@@ -763,7 +763,7 @@ Camera::is_saveable() const
 }
 
 void
-Camera::backup(Writer& writer)
+Camera::backup(Writer& writer) const
 {
   writer.write("x", m_translation.x);
   writer.write("y", m_translation.y);

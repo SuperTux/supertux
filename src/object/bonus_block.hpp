@@ -57,6 +57,9 @@ public:
 
   virtual ObjectSettings get_settings() override;
 
+  virtual void backup(Writer& writer) const override;
+  virtual void restore(const ReaderMapping& reader) override;
+
   Content get_contents() const { return m_contents; }
   int get_hit_counter() const { return m_hit_counter; }
 

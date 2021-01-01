@@ -47,7 +47,7 @@ public:
   float get_timegone() const { return g_game_time - m_cycle_start; }
   bool started() const { return m_period != 0 && get_timeleft() > 0; }
 
-  void backup(Writer& writer);
+  void backup(Writer& writer) const;
   void restore(const ReaderMapping& reader);
 
 private:

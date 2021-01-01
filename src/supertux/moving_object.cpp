@@ -76,7 +76,7 @@ MovingObject::editor_select()
 }
 
 void
-MovingObject::backup(Writer& writer)
+MovingObject::backup(Writer& writer) const
 {
   GameObject::backup(writer);
 

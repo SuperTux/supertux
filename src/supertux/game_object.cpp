@@ -107,7 +107,7 @@ GameObject::update(float dt_sec)
 }
 
 void
-GameObject::backup(Writer& writer)
+GameObject::backup(Writer& writer) const
 {
   writer.write("classname", get_class());
   writer.start_list(GameObject::get_class());

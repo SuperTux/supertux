@@ -2231,7 +2231,7 @@ Player::ungrab_object(GameObject* gameobject)
 }
 
 void
-Player::backup(Writer& writer)
+Player::backup(Writer& writer) const
 {
   MovingObject::backup(writer);
 

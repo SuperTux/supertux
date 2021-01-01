@@ -17,6 +17,75 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_GAME_OBJECT_HPP
 #define HEADER_SUPERTUX_SUPERTUX_GAME_OBJECT_HPP
 
+// These macros serve writing the backup() and restore() functions in a cleaner
+// way than manually writing all their contents
+
+
+// =============================================================================
+// BACKUP
+
+/**
+ * Writes the beginning of the backup() function for OBJECT which inherits from
+ * GameObject through its direct parent PARENT.
+ */
+#define BEGIN_BACKUP(OBJECT, PARENT)                                           \
+  void OBJECT::backup(Writer& writer) const {                                  \
+    PARENT::backup(writer);                                                    \
+    writer.start_list(OBJECT::get_class());
+
+#define SAVE_PRIMITIVE(NAME) writer.write(#NAME, NAME)
+#define SAVE_CAST_TYPE(NAME, TYPE) writer.write(#NAME, static_cast<TYPE>(NAME))
+#define SAVE_VECTOR(NAME) writer.write(#NAME + "_x", NAME.x);                  \
+                          writer.write(#NAME + "_y", NAME.y)
+#define SAVE_OBJECT(NAME) writer.start_list(#NAME);                           \
+                          NAME.backup(writer);                                 \
+                          writer.end_list(#NAME)
+
+#define END_BACKUP(OBJECT)                                                     \
+    writer.end_list(OBJECT::get_class());                                      \
+  } // keep this comment because after preprocessing there might be a semicolon here:
+
+// =============================================================================
+// RESTORE
+
+/**
+ * Writes the beginning of the backup() function for OBJECT which inherits from
+ * GameObject through its direct parent PARENT.
+ */
+#define BEGIN_RESTORE(OBJECT, PARENT)                                          \
+  void OBJECT::restore(const ReaderMapping& reader) {                          \
+    PARENT::restore(reader);                                                   \
+    boost::optional<ReaderMapping> subreader(ReaderMapping(reader.get_doc(), reader.get_sexp()));\
+    if (reader.get(OBJECT::get_class().c_str(), subreader)) {
+
+/**
+ * Any restore function that restores an object that uses its own restore()
+ * function must use this macro instead of the normal beginning.
+ */
+#define BEGIN_RESTORE_WITH_SUBREADER(OBJECT, PARENT)                           \
+  void OBJECT::restore(const ReaderMapping& reader) {                          \
+    PARENT::restore(reader);                                                   \
+    boost::optional<ReaderMapping> subreader(ReaderMapping(reader.get_doc(), reader.get_sexp()));\
+    boost::optional<ReaderMapping> subreader2(ReaderMapping(reader.get_doc(), reader.get_sexp()));\
+    if (reader.get(OBJECT::get_class().c_str(), subreader)) {
+
+
+#define LOAD_PRIMITIVE(NAME) subreader->get(#NAME, NAME)
+#define LOAD_CAST_TYPE(NAME, TYPE, SAVED_AS, TEMP_VAR_NAME)                    \
+                       SAVED_AS TEMP_VAR_NAME;                                 \
+                       if (subreader->get(#NAME, TEMP_VAR_NAME))               \
+                         NAME = static_cast<TYPE>(TEMP_VAR_NAME)
+#define LOAD_VECTOR(NAME) subreader->get(#NAME + "_x", NAME.x);                \
+                          subreader->get(#NAME + "_y", NAME.y)
+#define LOAD_OBJECT(NAME) if (reader.get(#NAME, subreader2))                   \
+                           NAME.restore(*subreader2)                           \
+
+#define END_RESTORE(OBJECT)                                                    \
+    }                                                                          \
+  } // keep this comment because after preprocessing there might be a semicolon here:
+
+// =============================================================================
+
 #include <algorithm>
 #include <string>
 
@@ -134,7 +203,7 @@ public:
    * requires to keep track of which variables become, well, variable
    * during play time.
    */
-  virtual void backup(Writer& writer);
+  virtual void backup(Writer& writer) const;
 
   /** Restores this object's internal status from a previously */
   virtual void restore(const ReaderMapping& reader);
