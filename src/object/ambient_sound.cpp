@@ -24,6 +24,7 @@
 #include "object/camera.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
+#include "util/writer.hpp"
 #include "video/drawing_context.hpp"
 
 AmbientSound::AmbientSound(const ReaderMapping& mapping) :
@@ -256,5 +257,39 @@ AmbientSound::draw(DrawingContext& context)
                                      0.0f, LAYER_OBJECTS);
   }
 }
+
+BEGIN_BACKUP(AmbientSound, MovingObject);
+  SAVE_PRIMITIVE(sample);
+  bool playing = sound_source->playing();
+  SAVE_PRIMITIVE(playing);
+  SAVE_PRIMITIVE(latency);
+
+  SAVE_PRIMITIVE(distance_factor);
+  SAVE_PRIMITIVE(distance_bias);
+  SAVE_PRIMITIVE(silence_distance);
+
+  SAVE_PRIMITIVE(maximumvolume);
+  SAVE_PRIMITIVE(targetvolume);
+  SAVE_PRIMITIVE(currentvolume);
+END_BACKUP(AmbientSound);
+
+BEGIN_RESTORE(AmbientSound, MovingObject);
+  LOAD_PRIMITIVE(sample);
+
+  bool playing = false;
+  LOAD_PRIMITIVE(playing);
+  if (playing)
+    start_playing();
+
+  LOAD_PRIMITIVE(latency);
+
+  LOAD_PRIMITIVE(distance_factor);
+  LOAD_PRIMITIVE(distance_bias);
+  LOAD_PRIMITIVE(silence_distance);
+
+  LOAD_PRIMITIVE(maximumvolume);
+  LOAD_PRIMITIVE(targetvolume);
+  LOAD_PRIMITIVE(currentvolume);
+END_RESTORE(AmbientSound);
 
 /* EOF */

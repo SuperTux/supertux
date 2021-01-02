@@ -105,7 +105,7 @@ Color::operator < (const Color& other) const
 }
 
 std::vector<float>
-Color::toVector()
+Color::toVector() const
 {
   std::vector<float> result;
   result.clear();

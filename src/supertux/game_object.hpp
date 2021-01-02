@@ -35,9 +35,10 @@
 
 #define SAVE_PRIMITIVE(NAME) writer.write(#NAME, NAME)
 #define SAVE_CAST_TYPE(NAME, TYPE) writer.write(#NAME, static_cast<TYPE>(NAME))
-#define SAVE_VECTOR(NAME) writer.write(#NAME + "_x", NAME.x);                  \
-                          writer.write(#NAME + "_y", NAME.y)
-#define SAVE_OBJECT(NAME) writer.start_list(#NAME);                           \
+#define SAVE_VECTOR(NAME) writer.write(#NAME "_x", NAME.x);                  \
+                          writer.write(#NAME "_y", NAME.y)
+#define SAVE_COLOR(NAME) writer.write(#NAME, NAME.toVector())
+#define SAVE_OBJECT(NAME) writer.start_list(#NAME);                            \
                           NAME.backup(writer);                                 \
                           writer.end_list(#NAME)
 
@@ -75,8 +76,12 @@
                        SAVED_AS TEMP_VAR_NAME;                                 \
                        if (subreader->get(#NAME, TEMP_VAR_NAME))               \
                          NAME = static_cast<TYPE>(TEMP_VAR_NAME)
-#define LOAD_VECTOR(NAME) subreader->get(#NAME + "_x", NAME.x);                \
-                          subreader->get(#NAME + "_y", NAME.y)
+#define LOAD_VECTOR(NAME) subreader->get(#NAME "_x", NAME.x);                \
+                          subreader->get(#NAME "_y", NAME.y)
+#define LOAD_COLOR(NAME, TEMP_VAR_NAME)                                        \
+                   std::vector<float> TEMP_VAR_NAME;                           \
+                   if (subreader->get(#NAME, TEMP_VAR_NAME))                   \
+                     NAME = Color(TEMP_VAR_NAME)
 #define LOAD_OBJECT(NAME) if (reader.get(#NAME, subreader2))                   \
                            NAME.restore(*subreader2)                           \
 

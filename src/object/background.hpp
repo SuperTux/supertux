@@ -49,6 +49,9 @@ public:
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
 
+  virtual void backup(Writer& writer) const override;
+  virtual void restore(const ReaderMapping& reader) override;
+
   void set_image(const std::string& name);
   void set_images(const std::string& name_top, const std::string& name_middle, const std::string& name_bottom);
   void set_speed(float bgd_speed);
