@@ -28,6 +28,8 @@
 #include "video/surface.hpp"
 #include "video/ttf_font.hpp"
 
+#include "util/log.hpp" // If I forgot this, please delete it   ~ Semphris
+
 std::unique_ptr<MouseCursor> Resources::mouse_cursor;
 
 FontPtr Resources::console_font;
@@ -36,6 +38,7 @@ FontPtr Resources::normal_font;
 FontPtr Resources::small_font;
 FontPtr Resources::big_font;
 FontPtr Resources::control_font;
+FontPtr Resources::control_big_font;
 
 SurfacePtr Resources::checkbox;
 SurfacePtr Resources::checkbox_checked;
@@ -61,21 +64,25 @@ Resources::load()
     small_font.reset(new BitmapFont(BitmapFont::VARIABLE, "fonts/white-small.stf", 1));
     big_font.reset(new BitmapFont(BitmapFont::VARIABLE, "fonts/white-big.stf", 3));
     control_font.reset(new BitmapFont(BitmapFont::FIXED, "fonts/white.stf")); // TODO: Make a better-looking font for this
+    control_big_font.reset(new BitmapFont(BitmapFont::FIXED, "fonts/white.stf")); // TODO: Make a better-looking font for this
   }
   else
   {
-    console_font.reset(new TTFFont("fonts/SuperTux-Medium.ttf", 12, 1.25f, 0, 1));
+    console_font.reset(new TTFFont("fonts/SuperTux-Medium.ttf", 12, 1.f, 0, 1));
 
     auto font = get_font_for_locale(g_config->locale);
-    if(font != current_font)
-    {
+
+    // Reload the font anyways. With this check, launching the game from the launcher makes a segfault.
+    //if(font != current_font)
+    //{
       current_font = font;
       fixed_font.reset(new TTFFont(font, 18, 1.25f, 2, 1));
       normal_font = fixed_font;
       small_font.reset(new TTFFont(font, 10, 1.25f, 2, 1));
       big_font.reset(new TTFFont(font, 22, 1.25f, 2, 1));
       control_font.reset(new TTFFont("fonts/Roboto-Regular.ttf", 15, 1.25f, 0, 0));
-    }
+      control_big_font.reset(new TTFFont("fonts/Roboto-Regular.ttf", 24, 1.25f, 0, 0));
+    //}
   }
 
   /* Load menu images */
@@ -117,6 +124,7 @@ Resources::unload()
   small_font.reset();
   big_font.reset();
   control_font.reset();
+  control_big_font.reset();
 
   mouse_cursor.reset();
 }

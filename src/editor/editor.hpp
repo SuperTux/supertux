@@ -75,7 +75,7 @@ public:
 
   virtual IntegrationStatus get_status() const override;
 
-  void event(const SDL_Event& ev);
+  virtual void event(const SDL_Event& ev) override;
   void resize();
 
   void disable_keyboard() { m_enabled = false; }

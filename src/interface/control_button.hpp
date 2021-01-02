@@ -26,13 +26,11 @@ public:
 
   virtual void draw(DrawingContext& context) override;
   virtual bool on_mouse_button_up(const SDL_MouseButtonEvent& button) override;
-  virtual bool on_mouse_button_down(const SDL_MouseButtonEvent& button) override;
   virtual bool on_key_up(const SDL_KeyboardEvent& key) override;
   virtual bool on_key_down(const SDL_KeyboardEvent& key) override;
 
 private:
   std::string m_btn_label;
-  bool m_mouse_down;
 
 private:
   ControlButton(const ControlButton&) = delete;

@@ -26,7 +26,6 @@ public:
 
   virtual void draw(DrawingContext& context) override;
   virtual bool on_mouse_button_up(const SDL_MouseButtonEvent& button) override;
-  virtual bool on_mouse_button_down(const SDL_MouseButtonEvent& button) override;
   virtual bool on_key_up(const SDL_KeyboardEvent& key) override;
 
   bool get_value() const { return *m_value; }

@@ -17,6 +17,8 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_SCREEN_HPP
 #define HEADER_SUPERTUX_SUPERTUX_SCREEN_HPP
 
+#include <SDL.h>
+
 #include "sdk/integration.hpp"
 
 class Compositor;
@@ -42,6 +44,12 @@ public:
   {}
   /** gets called when the current screen is temporarily suspended */
   virtual void leave()
+  {}
+
+  /**
+   * gets called whenever an SDL_Event is received (keyboard input, mouse, etc.)
+   */
+  virtual void event(const SDL_Event& ev)
   {}
 
   /**

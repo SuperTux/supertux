@@ -83,6 +83,8 @@ public:
 
   // boost::optional<std::string> locale;
 
+  boost::optional<bool> start_launcher;
+
 public:
   CommandLineArguments();
 

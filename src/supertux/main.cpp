@@ -43,6 +43,8 @@ extern "C" {
 #include "editor/tip.hpp"
 #include "editor/tool_icon.hpp"
 #include "gui/menu_manager.hpp"
+#include "launcher/main_screen.hpp"
+#include "launcher/video_system.hpp"
 #include "math/random.hpp"
 #include "object/player.hpp"
 #include "object/spawnpoint.hpp"
@@ -540,6 +542,51 @@ Main::launch_game(const CommandLineArguments& args)
   screen_manager.run();
 }
 
+void
+Main::launch_launcher(const CommandLineArguments& args, bool& launch_game_on_exit)
+{
+  SDLSubsystem sdl_subsystem;
+  ConsoleBuffer console_buffer;
+
+  s_timelog.log("controller");
+  InputManager input_manager(g_config->keyboard_config, g_config->joystick_config);
+
+  s_timelog.log("video");
+  std::unique_ptr<VideoSystem> video_system = std::make_unique<LauncherVideoSystem>();
+  init_video();
+
+  // We'll use the system cursor
+  SDL_ShowCursor(1);
+
+  TTFSurfaceManager ttf_surface_manager;
+
+  s_timelog.log("audio");
+  SoundManager sound_manager;
+  sound_manager.enable_sound(false);
+  sound_manager.enable_music(false);
+
+  s_timelog.log("scripting");
+  SquirrelVirtualMachine scripting(g_config->enable_script_debugger);
+
+  s_timelog.log("resources");
+  TileManager tile_manager;
+  SpriteManager sprite_manager;
+  Resources resources;
+
+  s_timelog.log("integrations");
+  Integration::setup();
+
+  Console console(console_buffer);
+
+  s_timelog.log(nullptr);
+
+  ScreenManager screen_manager(*video_system, input_manager);
+
+  screen_manager.push_screen(std::make_unique<LauncherMainScreen>(launch_game_on_exit));
+
+  screen_manager.run();
+}
+
 int
 Main::run(int argc, char** argv)
 {
@@ -620,8 +667,17 @@ Main::run(int argc, char** argv)
         return 0;
 
       default:
-        launch_game(args);
+      {
+        bool launch_game_on_exit = true;
+
+        if (g_config->start_launcher)
+          launch_launcher(args, launch_game_on_exit);
+
+        if (launch_game_on_exit)
+          launch_game(args);
+
         break;
+      }
     }
   }
   catch(const std::exception& e)

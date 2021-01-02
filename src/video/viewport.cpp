@@ -18,6 +18,7 @@
 
 #include <algorithm>
 
+#include "launcher/video_system.hpp"
 #include "math/rect.hpp"
 #include "math/size.hpp"
 #include "math/vector.hpp"
@@ -60,6 +61,10 @@ calculate_scale(const Size& min_size, const Size& max_size,
                 const Size& window_size,
                 float magnification)
 {
+  // Special case: the launcher doesn't use magnification
+  if (LauncherVideoSystem::current())
+    return 1.f;
+
   float scale = magnification;
   if (scale == 0.0f) // magic value
   {

@@ -123,6 +123,16 @@ NullVideoSystem::set_icon(const SDL_Surface& icon)
   log_info << "VideoSystem::set_icon()" << std::endl;
 }
 
+void
+NullVideoSystem::show_window()
+{
+}
+
+void
+NullVideoSystem::hide_window()
+{
+}
+
 SDLSurfacePtr
 NullVideoSystem::make_screenshot()
 {

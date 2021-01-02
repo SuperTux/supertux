@@ -107,6 +107,8 @@ public:
 
   std::string repository_url;
 
+  bool start_launcher;
+
   bool is_christmas() const {
     try
     {
