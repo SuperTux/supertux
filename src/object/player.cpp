@@ -2277,7 +2277,6 @@ Player::backup(Writer& writer) const
   writer.write("swimming_angle", m_swimming_angle);
   writer.write("swimming_accel_modifier", m_swimming_accel_modifier);
   writer.write("water_jump", m_water_jump);
-  writer.write("dive_walk", m_dive_walk);
   writer.write("ghost_mode", m_ghost_mode);
   writer.write("edit_mode", m_edit_mode);
   // FIXME: m_idle_stage is an unsigned int, maybe save as unsigned int to avoid loss?
@@ -2407,7 +2406,6 @@ Player::restore(const ReaderMapping& reader)
     subreader->get("swimming_angle", m_swimming_angle);
     subreader->get("swimming_accel_modifier", m_swimming_accel_modifier);
     subreader->get("water_jump", m_water_jump);
-    subreader->get("dive_walk", m_dive_walk);
     subreader->get("ghost_mode", m_ghost_mode);
     subreader->get("edit_mode", m_edit_mode);
     // FIXME: m_idle_stage is an unsigned int, maybe save as unsigned int to avoid loss?

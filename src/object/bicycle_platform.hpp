@@ -67,6 +67,9 @@ public:
   virtual void editor_delete() override;
   virtual void after_editor_set() override;
 
+  virtual void backup(Writer& writer) const override;
+  virtual void restore(const ReaderMapping& reader) override;
+
 private:
   Vector m_center; /**< pivot point */
   float m_radius; /**< radius of circle */

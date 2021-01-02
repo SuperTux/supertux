@@ -38,6 +38,9 @@ public:
 
   virtual ObjectSettings get_settings() override;
 
+  virtual void backup(Writer& writer) const override;
+  virtual void restore(const ReaderMapping& reader) override;
+
   void set_ambient_light(const Color& ambient_light);
   Color get_ambient_light() const;
 

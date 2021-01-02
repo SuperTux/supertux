@@ -26,6 +26,7 @@
 #include "supertux/sector.hpp"
 #include "util/log.hpp"
 #include "util/reader_mapping.hpp"
+#include "util/writer.hpp"
 
 BicyclePlatformChild::BicyclePlatformChild(const ReaderMapping& reader, float angle_offset, BicyclePlatform& parent) :
   MovingSprite(reader, "images/objects/platforms/small.sprite", LAYER_OBJECTS, COLGROUP_STATIC),
@@ -197,5 +198,11 @@ BicyclePlatform::get_settings()
 
   return result;
 }
+
+BEGIN_BACKUP(BicyclePlatform, GameObject);
+END_BACKUP(BicyclePlatform);
+
+BEGIN_RESTORE(BicyclePlatform, GameObject);
+END_RESTORE(BicyclePlatform);
 
 /* EOF */

@@ -62,6 +62,9 @@ public:
   virtual std::string get_display_name() const override { return _("Ambient Sound"); }
   virtual bool has_variable_size() const override { return true; }
 
+  virtual void backup(Writer& writer) const override;
+  virtual void restore(const ReaderMapping& reader) override;
+
   /** @name Scriptable Methods
       @{ */
 #ifndef SCRIPTING_API
