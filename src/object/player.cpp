@@ -149,7 +149,6 @@ Player::Player(PlayerStatus& player_status, const std::string& name_) :
   m_falling_below_water(false),
   m_swimming(false),
   m_swimboosting(false),
-  m_on_wall(false),
   m_on_left_wall(false),
   m_on_right_wall(false),
   m_in_walljump_tile(false),
@@ -372,48 +371,17 @@ Player::update(float dt_sec)
   
   Rectf wallclingleft = get_bbox();
   wallclingleft.set_left(wallclingleft.get_left() - 8);
-  bool trygrabwallleft = !Sector::get().is_free_of_statics(wallclingleft);
-  m_on_left_wall = ((trygrabwallleft) ? true : false);
+  m_on_left_wall = !Sector::get().is_free_of_statics(wallclingleft);
 
   Rectf wallclingright = get_bbox();
   wallclingright.set_right(wallclingright.get_right() + 8);
-  bool trygrabwallright = !Sector::get().is_free_of_statics(wallclingright);
-  m_on_right_wall = ((trygrabwallright) ? true : false);
-  
-  if (m_on_wall)
-  {
-    if (((trygrabwallleft) || (trygrabwallright)) && !on_ground() && !m_does_buttjump && !m_swimming)
-    {
-      m_on_wall = true;
-    }
-    else
-    {
-      m_on_wall = false;
-    }
-  }
-  else
-  {
-    if (((trygrabwallleft) || (trygrabwallright)) && !on_ground() && !m_does_buttjump && !m_swimming)
-    {
-      m_on_wall = true;
-    }
-  }
+  m_on_right_wall = !Sector::get().is_free_of_statics(wallclingright);
 
-  if ((m_on_wall) && (m_in_walljump_tile))
+  m_can_walljump = ((m_on_right_wall || m_on_left_wall) && !on_ground() && !m_swimming && m_in_walljump_tile);
+  if (m_can_walljump && (m_controller->hold(Control::LEFT) || m_controller->hold(Control::RIGHT)) && m_physic.get_velocity_y() >= 0 && !m_controller->pressed(Control::JUMP))
   {
-    m_can_walljump = true;
-    if ((m_controller->hold(Control::LEFT) || m_controller->hold(Control::RIGHT)) && m_physic.get_velocity_y() >= 0)
-    {
-      if (!m_controller->pressed(Control::JUMP))
-      {
-        m_physic.set_velocity_y(MAX_WALLCLING_YM);
-        m_physic.set_acceleration_y(0);
-      }
-    }
-  }
-  else
-  {
-    m_can_walljump = false;
+    m_physic.set_velocity_y(MAX_WALLCLING_YM);
+    m_physic.set_acceleration_y(0);
   }
 
   m_in_walljump_tile = false;
@@ -1062,29 +1030,10 @@ Player::handle_vertical_input()
   }
 
   //The real walljumping magic
-  if (m_controller->pressed(Control::JUMP) && m_can_walljump && !on_ground())
+  if (m_controller->pressed(Control::JUMP) && m_can_walljump)
   {
-    if (is_big())
-    {
-      SoundManager::current()->play("sounds/bigjump.wav");
-    }
-    else
-    {
-      SoundManager::current()->play("sounds/jump.wav");
-    }
-    m_physic.set_velocity_y(-520);
-    if (m_physic.get_velocity_y() != 0)
-    {
-      if (m_on_left_wall)
-      {
-        m_physic.set_velocity_x(400.f);
-      }
-      else if (m_on_right_wall)
-      {
-        m_physic.set_velocity_x(-400.f);
-      }
-    }
-    m_can_walljump = false;
+    SoundManager::current()->play((is_big()) ? "sounds/bigjump.wav" : "sounds/jump.wav");
+    m_physic.set_velocity(m_on_left_wall ? 400.f : -400.f, -520);
   }
   
  m_physic.set_acceleration_y(0);

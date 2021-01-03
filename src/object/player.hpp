@@ -234,7 +234,6 @@ private:
   bool m_falling_below_water;
   bool m_swimming;
   bool m_swimboosting;
-  bool m_on_wall;
   bool m_on_left_wall;
   bool m_on_right_wall;
   bool m_in_walljump_tile;
