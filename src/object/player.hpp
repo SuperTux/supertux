@@ -234,6 +234,11 @@ private:
   bool m_falling_below_water;
   bool m_swimming;
   bool m_swimboosting;
+  bool m_on_wall;
+  bool m_on_left_wall;
+  bool m_on_right_wall;
+  bool m_in_walljump_tile;
+  bool m_can_walljump;
   float m_speedlimit;
   const Controller* m_scripting_controller_old; /**< Saves the old controller while the scripting_controller is used */
   bool m_jump_early_apex;

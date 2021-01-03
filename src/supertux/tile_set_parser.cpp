@@ -124,6 +124,8 @@ TileSetParser::parse_tile(const ReaderMapping& reader)
     attributes |= Tile::HURTS;
   if (reader.get("fire", value) && value)
     attributes |= Tile::FIRE;
+  if (reader.get("walljump", value) && value)
+    attributes |= Tile::WALLJUMP;
   if (reader.get("fullbox", value) && value)
     attributes |= Tile::FULLBOX;
   if (reader.get("coin", value) && value)
