@@ -10,6 +10,8 @@ on:
 # TODO the glbinding build
 jobs:
   build-supertux:
+    if: "!contains(github.event.head_commit.message, 'ci skip') && !contains(github.event.head_commit.message, 'skip ci')"
+
     strategy:
       fail-fast: false
       matrix:
@@ -89,6 +91,8 @@ jobs:
       - name: Package
         env:
           OS_NAME: ${{ matrix.os }}
+          COMPILER_NAME: ${{ matrix.compiler }}
+          BUILD_NAME: ${{ matrix.build_type }}
           PACKAGE: 'ON'
         working-directory: build
         run: ../.ci_scripts/package.sh
@@ -100,7 +104,7 @@ jobs:
           if-no-files-found: ignore
       - uses: actions/upload-artifact@v2
         with:
-          name: "${{ matrix.os }}-${{ matrix.compiler }}-${{ matrix.build_type }}-source"
+          name: "source"
           path: build/upload/*.tar.gz
           if-no-files-found: ignore
       - uses: actions/upload-artifact@v2

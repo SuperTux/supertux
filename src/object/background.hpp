@@ -21,6 +21,7 @@
 #include "scripting/background.hpp"
 #include "squirrel/exposed_object.hpp"
 #include "supertux/game_object.hpp"
+#include "supertux/timer.hpp"
 #include "video/blend.hpp"
 #include "video/drawing_context.hpp"
 #include "video/surface_ptr.hpp"
@@ -57,6 +58,10 @@ public:
   std::string get_image() const { return m_imagefile; }
   float get_speed() const { return m_parallax_speed.x; }
   int get_layer() const { return m_layer; }
+
+  Color get_color() const { return m_color; }
+  void set_color(Color color) { m_color = color; }
+  void fade_color(Color color, float time);
 
 private:
   enum Alignment {
@@ -97,7 +102,11 @@ private:
   bool m_has_pos_y;
 
   Blend m_blend;
+  Color m_color;
   DrawingTarget m_target;
+
+  Timer m_timer_color;
+  Color m_src_color, m_dst_color;
 
 private:
   Background(const Background&) = delete;

@@ -273,7 +273,7 @@ BonusBlock::try_open(Player* player)
       Sector::get().add<BouncyCoin>(get_pos(), true);
       player->get_status().add_coins(1);
       if (m_hit_counter != 0)
-        Sector::get().get_level().m_stats.m_coins++;
+        Sector::get().get_level().m_stats.increment_coins();
       break;
     }
 

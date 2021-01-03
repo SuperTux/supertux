@@ -584,9 +584,7 @@ void
 BadGuy::run_dead_script()
 {
   if (m_countMe)
-  {
-    Sector::get().get_level().m_stats.m_badguys++;
-  }
+    Sector::get().get_level().m_stats.increment_badguys();
 
   m_countMe = false;
 
