@@ -66,7 +66,7 @@ public:
     HURTS     = 0x0400,
     /** for lava: WATER, HURTS, FIRE */
     FIRE      = 0x0800,
-	/** a walljumping trigger tile */
+    /** a walljumping trigger tile */
     WALLJUMP  = 0x1000
   };
 
