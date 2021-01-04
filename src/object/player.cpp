@@ -370,15 +370,15 @@ Player::update(float dt_sec)
   //wallclinging and walljumping
   
   Rectf wallclingleft = get_bbox();
-  wallclingleft.set_left(wallclingleft.get_left() - 8);
+  wallclingleft.set_left(wallclingleft.get_left() - 8.f);
   m_on_left_wall = !Sector::get().is_free_of_statics(wallclingleft);
 
   Rectf wallclingright = get_bbox();
-  wallclingright.set_right(wallclingright.get_right() + 8);
+  wallclingright.set_right(wallclingright.get_right() + 8.f);
   m_on_right_wall = !Sector::get().is_free_of_statics(wallclingright);
 
   m_can_walljump = ((m_on_right_wall || m_on_left_wall) && !on_ground() && !m_swimming && m_in_walljump_tile);
-  if (m_can_walljump && (m_controller->hold(Control::LEFT) || m_controller->hold(Control::RIGHT)) && m_physic.get_velocity_y() >= 0 && !m_controller->pressed(Control::JUMP))
+  if (m_can_walljump && (m_controller->hold(Control::LEFT) || m_controller->hold(Control::RIGHT)) && m_physic.get_velocity_y() >= 0.f && !m_controller->pressed(Control::JUMP))
   {
     m_physic.set_velocity_y(MAX_WALLCLING_YM);
     m_physic.set_acceleration_y(0);
@@ -1033,7 +1033,7 @@ Player::handle_vertical_input()
   if (m_controller->pressed(Control::JUMP) && m_can_walljump)
   {
     SoundManager::current()->play((is_big()) ? "sounds/bigjump.wav" : "sounds/jump.wav");
-    m_physic.set_velocity(m_on_left_wall ? 400.f : -400.f, -520);
+    m_physic.set_velocity(m_on_left_wall ? 400.f : -400.f, -520.f);
   }
   
  m_physic.set_acceleration_y(0);
