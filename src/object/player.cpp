@@ -1030,7 +1030,7 @@ Player::handle_vertical_input()
   }
 
   //The real walljumping magic
-  if (m_controller->pressed(Control::JUMP) && m_can_walljump)
+  if (m_controller->pressed(Control::JUMP) && m_can_walljump && !m_backflipping)
   {
     SoundManager::current()->play((is_big()) ? "sounds/bigjump.wav" : "sounds/jump.wav");
     m_physic.set_velocity(m_on_left_wall ? 400.f : -400.f, -520.f);
