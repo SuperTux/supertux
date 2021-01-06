@@ -159,7 +159,7 @@ MenuStorage::create(MenuId menu_id)
 
     case EDITOR_LEVELSET_MENU:
       return std::make_unique<EditorLevelsetMenu>();
-      
+
     case INTEGRATIONS_MENU:
       return std::make_unique<IntegrationsMenu>();
 
@@ -167,7 +167,10 @@ MenuStorage::create(MenuId menu_id)
       return std::make_unique<ParticleEditorMenu>();
 
     case PARTICLE_EDITOR_SAVE_AS:
-      throw new std::runtime_error("Cannot instantiate ParticleEditorSaveAs dialog from MenuStorage::create() or MenuManager::set_menu(), as it needs to be bound to a callback. Please instantiate ParticleEditorSaveAs directly");
+      throw std::runtime_error("Cannot instantiate ParticleEditorSaveAs dialog "
+        "from MenuStorage::create() or MenuManager::set_menu(), "
+        "as it needs to be bound to a callback. "
+        "Please instantiate ParticleEditorSaveAs directly");
       //return std::make_unique<ParticleEditorSaveAs>();
 
     case PARTICLE_EDITOR_OPEN:

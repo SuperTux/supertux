@@ -105,8 +105,8 @@ ParticleEditorMenu::menu_action(MenuItem& item)
         &ParticleEditor::current()->m_filename,
         filter,
         "/particles",
-        [](std::string new_filename) {
-          ParticleEditor::current()->open("/particles/" + 
+        [](const std::string& new_filename) {
+          ParticleEditor::current()->open("/particles/" +
                                         ParticleEditor::current()->m_filename);
           MenuManager::instance().clear_menu_stack();
         }

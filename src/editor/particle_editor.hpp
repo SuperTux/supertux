@@ -71,7 +71,8 @@ public:
   // saves the particle to file
   void save(const std::string& filename, bool retry = false);
   void save(Writer& writer);
-  void request_save(bool is_save_as = false, std::function<void(bool)> callback = [](bool was_saved){});
+  void request_save(bool is_save_as = false,
+    const std::function<void(bool)>& callback = [](bool was_saved){});
   void open(const std::string& filename) { m_filename = filename; reload(); }
   void new_file() { m_filename = ""; reload(); }
 
@@ -85,16 +86,16 @@ private:
   void reset_main_ui();
   void reset_texture_ui();
 
-  void addTextboxFloat(std::string name, float* bind,
+  void addTextboxFloat(const std::string& name, float* bind,
                        bool (*float_validator)(ControlTextboxFloat*,
                                                float) = nullptr);
-  void addTextboxFloatWithImprecision(std::string name, float* bind,
+  void addTextboxFloatWithImprecision(const std::string& name, float* bind,
                                       float* imprecision_bind,
                                       bool (*float_validator)(ControlTextboxFloat*,
                                                               float) = nullptr,
                                       bool (*imp_validator)(ControlTextboxFloat*,
                                                             float) = nullptr);
-  void addTextboxInt(std::string name, int* bind,
+  void addTextboxInt(const std::string& name, int* bind,
                      bool (*int_validator)(ControlTextboxInt*,
                                            int) = nullptr);
   void addCheckbox(std::string name, bool* bind);

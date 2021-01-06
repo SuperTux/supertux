@@ -87,7 +87,7 @@ Decal::fade_out(float fade_time)
 }
 
 void
-Decal::fade_sprite(std::string new_sprite, float fade_time)
+Decal::fade_sprite(const std::string& new_sprite, float fade_time)
 {
   m_fade_sprite = SpriteManager::current()->create(new_sprite);
   m_sprite.swap(m_fade_sprite);

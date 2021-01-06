@@ -99,7 +99,7 @@ Camera::scale(float scale, float time)
 }
 
 void
-Camera::ease_scale(float scale, float time, std::string ease)
+Camera::ease_scale(float scale, float time, const std::string& ease)
 {
   SCRIPT_GUARD_VOID;
   BIND_SECTOR(::Sector::get());

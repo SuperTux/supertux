@@ -412,7 +412,7 @@ private:
 class ButtonOption : public ObjectOption
 {
 public:
-  ButtonOption(const std::string& text, const std::function<void()> callback);
+  ButtonOption(const std::string& text, std::function<void()> callback);
 
   virtual void save(Writer& write) const override {}
   virtual std::string to_string() const override;

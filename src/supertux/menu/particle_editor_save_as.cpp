@@ -28,7 +28,7 @@
 
 ParticleEditorSaveAs::ParticleEditorSaveAs(std::function<void(bool)> callback) :
   m_filename("/particles/custom/"),
-  m_callback(callback)
+  m_callback(std::move(callback))
 {
   add_label(_("Save particle as"));
 

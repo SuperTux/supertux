@@ -50,7 +50,7 @@ public:
   void fade_amount(float amount, float time);
 
   /** Smoothly changes the angle of the rain according to the easing function */
-  void fade_angle(float angle, float time, std::string ease);
+  void fade_angle(float angle, float time, const std::string& ease);
 };
 
 } // namespace scripting

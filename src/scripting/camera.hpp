@@ -60,7 +60,7 @@ public:
   /** Fade the scale factor over time */
   void scale(float scale, float time);
   /** Fade the scale factor over time with easing (smooth movement) */
-  void ease_scale(float scale, float time, std::string ease);
+  void ease_scale(float scale, float time, const std::string& ease);
 };
 
 } // namespace scripting

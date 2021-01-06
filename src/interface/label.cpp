@@ -27,9 +27,9 @@ InterfaceLabel::InterfaceLabel() :
 {
 }
 
-InterfaceLabel::InterfaceLabel(Rectf rect, std::string label) :
+InterfaceLabel::InterfaceLabel(const Rectf& rect, std::string label) :
   m_rect(rect),
-  m_label(label),
+  m_label(std::move(label)),
   m_mouse_pos()
 {
 }
@@ -45,7 +45,7 @@ void
 InterfaceLabel::draw(DrawingContext& context)
 {
   context.color().draw_text(Resources::control_font,
-                            get_truncated_text(), 
+                            get_truncated_text(),
                             Vector(m_rect.get_left() + 5.f,
                                    (m_rect.get_top() + m_rect.get_bottom()) / 2 -
                                     Resources::control_font->get_height() / 2 + 1.f),
@@ -69,7 +69,7 @@ InterfaceLabel::draw(DrawingContext& context)
                                      Color(1.f, 1.f, 1.f, 0.1f),
                                      LAYER_GUI + 10);
     context.color().draw_text(Resources::control_font,
-                              m_label, 
+                              m_label,
                               m_mouse_pos + Vector(0, 33.f),
                               FontAlignment::ALIGN_LEFT,
                               LAYER_GUI + 11,
@@ -78,7 +78,7 @@ InterfaceLabel::draw(DrawingContext& context)
 }
 
 bool
-InterfaceLabel::fits(std::string text) const
+InterfaceLabel::fits(const std::string& text) const
 {
   return Resources::control_font->get_text_width(text) <= m_rect.get_width();
 }

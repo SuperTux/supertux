@@ -45,23 +45,23 @@ public:
   std::string get_string() const;
 
   /** Gets at which (absolute) index, in the text, corresponds an on-screen point */
-  int get_text_position(Vector pos) const;
+  int get_text_position(const Vector& pos) const;
 
   /** Returns true if the given text would fit inside the box */
-  bool fits(std::string text) const;
+  bool fits(const std::string& text) const;
 
   /**
-   * Copies the current selected text to the clipboard. If no text is selected, 
+   * Copies the current selected text to the clipboard. If no text is selected,
    * does nothing and returns false.
-   * 
+   *
    * @returns true if copied successfully, false if error OR nothing was selected.
    */
   bool copy() const;
 
   /**
-   * Pastes the text from the clipboard. If the clipboard doesn't have text, 
+   * Pastes the text from the clipboard. If the clipboard doesn't have text,
    * does nothing and returns false.
-   * 
+   *
    * @returns true if pasted successfully, false if error OR cliboard was empty/non-text
    */
   bool paste();
@@ -75,10 +75,10 @@ public:
   /**
    * Puts the given text at the currently selected position, replacing the text
    * that was selected, if any.
-   * 
+   *
    * @returns true if some text was deleted; false if no text was replaced.
    */
-  bool put_text(std::string text);
+  bool put_text(const std::string& text);
 
 protected:
   /** Transfers the string into the binded variable, if any. Can be overridden
@@ -116,7 +116,7 @@ protected:
 
   /** Converts the internal char vector to an actual string and returns it. */
   std::string get_contents() const;
-  
+
   /** Returns first "amount" chars held in m_charlist */
   std::string get_first_chars(int amount) const;
 
@@ -166,7 +166,7 @@ protected:
   bool m_shift_pressed, m_ctrl_pressed;
   bool m_mouse_pressed;
 
-  /** 
+  /**
    * If the string is too long to be contained in the box,
    * use this offset to select which characters will be
    * displayed on the screen

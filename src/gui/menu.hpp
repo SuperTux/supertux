@@ -68,11 +68,11 @@ public:
   ItemHorizontalLine& add_hl();
   ItemLabel& add_label(const std::string& text);
   ItemAction& add_entry(int id, const std::string& text);
-  ItemAction& add_entry(const std::string& text, std::function<void()> callback);
+  ItemAction& add_entry(const std::string& text, const std::function<void()>& callback);
   ItemToggle& add_toggle(int id, const std::string& text, bool* toggled);
   ItemToggle& add_toggle(int id, const std::string& text,
-                         std::function<bool()> get_func,
-                         std::function<void(bool)> set_func);
+                         const std::function<bool()>& get_func,
+                         const std::function<void(bool)>& set_func);
   ItemInactive& add_inactive(const std::string& text);
   ItemBack& add_back(const std::string& text, int id = -1);
   ItemGoTo& add_submenu(const std::string& text, int submenu, int id = -1);
