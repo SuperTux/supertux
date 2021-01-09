@@ -538,6 +538,23 @@ CustomParticleSystem::update(float dt_sec)
   // "enabled" being false only means new particles shouldn't spawn;
   //  update the already existing particles regardless, if any
 
+  // Handle easings
+  for (auto req : script_easings)
+  {
+    req.time_remain -= dt_sec;
+    if (req.time_remain <= 0)
+    {
+      req.time_remain = 0;
+      *(req.value) = req.end;
+    }
+    else
+    {
+      float progress = 1.f - (req.time_remain / req.time_total);
+      progress = req.func(progress);
+      *(req.value) = req.begin + progress * (req.end - req.begin);
+    }
+  }
+
   // Update existing particles
   for (auto& it : custom_particles) {
     auto particle = dynamic_cast<CustomParticle*>(it.get());
@@ -1206,6 +1223,19 @@ CustomParticleSystem::spawn_particles(float lifetime)
 
 // SCRIPTING
 
+void
+CustomParticleSystem::ease_value(float* value, float target, float time, easing func) {
+  assert(value);
 
+  ease_request req;
+  req.value = value;
+  req.begin = *value;
+  req.end = target;
+  req.time_total = time;
+  req.time_remain = time;
+  req.func = func;
+
+  script_easings.push_back(req);
+}
 
 /* EOF */
