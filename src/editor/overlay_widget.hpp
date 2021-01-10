@@ -20,6 +20,7 @@
 #include <SDL.h>
 
 #include "control/input_manager.hpp"
+#include "editor/tile_selection.hpp"
 #include "editor/widget.hpp"
 #include "math/vector.hpp"
 #include "object/tilemap.hpp"
@@ -81,6 +82,7 @@ private:
   void input_autotile_corner(const Vector& corner, uint32_t tile, const Vector& override_pos = Vector(-1.f, -1.f));
   void put_tile();
   void draw_rectangle();
+  void preview_rectangle();
   bool check_tiles_for_fill(uint32_t replace_tile, uint32_t target_tile, uint32_t third_tile) const;
   void fill();
   void put_object();
@@ -100,6 +102,7 @@ private:
   void draw_tile_grid(DrawingContext&, const Color& line_color, int tile_size = 32);
   void draw_tilemap_border(DrawingContext&);
   void draw_path(DrawingContext&);
+  void draw_rectangle_preview(DrawingContext& context);
 
   void process_left_click();
   void process_right_click();
@@ -135,6 +138,8 @@ private:
 
   std::unique_ptr<Tip> m_object_tip;
   Vector m_obj_mouse_desync;
+
+  std::unique_ptr<TileSelection> m_rectangle_preview;
 
 private:
   EditorOverlayWidget(const EditorOverlayWidget&) = delete;
