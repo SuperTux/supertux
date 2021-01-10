@@ -73,7 +73,8 @@ EditorOverlayWidget::EditorOverlayWidget(Editor& editor) :
   m_edited_path(nullptr),
   m_last_node_marker(nullptr),
   m_object_tip(),
-  m_obj_mouse_desync(0, 0)
+  m_obj_mouse_desync(0, 0),
+  m_rectangle_preview(new TileSelection())
 {
 }
 
@@ -271,6 +272,28 @@ EditorOverlayWidget::put_tile()
     } // for tile y
   } // for tile x
 }
+
+void
+EditorOverlayWidget::preview_rectangle()
+{
+  Rectf dr = drag_rect();
+  dr.set_p1(sp_to_tp(dr.p1()).floor());
+  dr.set_p2(sp_to_tp(dr.p2()).floor());
+  bool sgn_x = m_drag_start.x < m_sector_pos.x;
+  bool sgn_y = m_drag_start.y < m_sector_pos.y;
+
+  m_rectangle_preview->m_tiles.clear();
+  m_rectangle_preview->m_width = static_cast<int>(dr.get_width()) + 1;
+  m_rectangle_preview->m_height = static_cast<int>(dr.get_height()) + 1;
+  int y_ = sgn_y ? 0 : static_cast<int>(-dr.get_height());
+  for (int y = static_cast<int>(dr.get_top()); y <= static_cast<int>(dr.get_bottom()); y++, y_++) {
+    int x_ = sgn_x ? 0 : static_cast<int>(-dr.get_width());
+    for (int x = static_cast<int>(dr.get_left()); x <= static_cast<int>(dr.get_right()); x++, x_++) {
+      m_rectangle_preview->m_tiles.push_back(m_editor.get_tiles()->pos(x_, y_));
+    }
+  }
+}
+
 
 void
 EditorOverlayWidget::draw_rectangle()
@@ -687,7 +710,7 @@ EditorOverlayWidget::process_left_click()
           break;
 
         case 1:
-          draw_rectangle();
+          preview_rectangle();
           break;
 
         case 2:
@@ -812,7 +835,23 @@ EditorOverlayWidget::update_tile_selection()
 bool
 EditorOverlayWidget::on_mouse_button_up(const SDL_MouseButtonEvent& button)
 {
+  if (button.button == SDL_BUTTON_LEFT)
+  {
+    if (m_editor.get_tileselect_input_type() == EditorToolboxWidget::InputType::TILE
+        && m_editor.get_tileselect_select_mode() == 1)
+    {
+      if (m_dragging)
+      {
+        draw_rectangle();
+        m_rectangle_preview->m_tiles.clear();
+      }
+    }
+  }
+
   m_dragging = false;
+
+  // Return true anyways, because that's how it worked when this function only
+  // had `m_dragging = false;` in its body.
   return true;
 }
 
@@ -853,7 +892,7 @@ EditorOverlayWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
               put_tile();
               break;
             case 1:
-              draw_rectangle();
+              preview_rectangle();
               break;
             default:
               break;
@@ -944,7 +983,7 @@ EditorOverlayWidget::draw_tile_tip(DrawingContext& context)
 
     Vector screen_corner = context.get_cliprect().p2() +
                          m_editor.get_sector()->get_camera().get_translation();
-    Vector drawn_tile = m_hovered_tile;
+    Vector drawn_tile = m_hovered_tile; // FIXME: Why is this initialised if it's going to be overwritten right below?
     auto tiles = m_editor.get_tiles();
 
     for (drawn_tile.x = static_cast<float>(tiles->m_width) - 1.0f; drawn_tile.x >= 0.0f; drawn_tile.x--) {
@@ -969,6 +1008,44 @@ EditorOverlayWidget::draw_tile_tip(DrawingContext& context)
                         LAYER_GUI-11, Color(1, 1, 1, 0.5));
         }*/
       }
+    }
+  }
+}
+
+void
+EditorOverlayWidget::draw_rectangle_preview(DrawingContext& context)
+{
+  auto tilemap = m_editor.get_selected_tilemap();
+  if (!tilemap) {
+    return;
+  }
+
+  if (m_rectangle_preview->empty())
+    return;
+
+  Vector screen_corner = context.get_cliprect().p2() +
+                        m_editor.get_sector()->get_camera().get_translation();
+  Vector drawn_tile;
+  Vector corner(std::min(sp_to_tp(m_drag_start).x, m_hovered_tile.x),
+                std::min(sp_to_tp(m_drag_start).y, m_hovered_tile.y));
+  auto tiles = m_rectangle_preview.get();
+
+  for (drawn_tile.x = static_cast<float>(tiles->m_width) - 1.0f; drawn_tile.x >= 0.0f; drawn_tile.x--) {
+    for (drawn_tile.y = static_cast<float>(tiles->m_height) - 1.0f; drawn_tile.y >= 0.0f; drawn_tile.y--) {
+      Vector on_tile = corner + drawn_tile;
+
+      if (on_tile.x < 0 ||
+          on_tile.y < 0 ||
+          on_tile.x >= static_cast<float>(tilemap->get_width()) ||
+          on_tile.y >= static_cast<float>(tilemap->get_height()) ||
+          on_tile.x >= ceilf(screen_corner.x / 32) ||
+          on_tile.y >= ceilf(screen_corner.y / 32)) {
+        continue;
+      }
+      uint32_t tile_id = tiles->pos(static_cast<int>(drawn_tile.x), static_cast<int>(drawn_tile.y));
+      draw_tile(context.color(), *m_editor.get_tileset(), tile_id,
+                align_to_tilemap(on_tile) - m_editor.get_sector()->get_camera().get_translation(),
+                LAYER_GUI-11, Color(1, 1, 1, 0.5));
     }
   }
 }
@@ -1058,6 +1135,7 @@ void
 EditorOverlayWidget::draw(DrawingContext& context)
 {
   draw_tile_tip(context);
+  draw_rectangle_preview(context);
   draw_path(context);
 
   if (render_grid) {
