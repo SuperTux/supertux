@@ -541,7 +541,7 @@ CustomParticleSystem::update(float dt_sec)
   //  update the already existing particles regardless, if any
 
   // Handle easings
-  for (auto req : script_easings)
+  for (auto& req : script_easings)
   {
     req.time_remain -= dt_sec;
     if (req.time_remain <= 0)
