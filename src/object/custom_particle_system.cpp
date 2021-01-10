@@ -550,7 +550,7 @@ CustomParticleSystem::update(float dt_sec)
     else
     {
       float progress = 1.f - (req.time_remain / req.time_total);
-      progress = static_cast<float>(req.func(progress));
+      progress = static_cast<float>(req.func(static_cast<double>(progress)));
       *(req.value) = req.begin + progress * (req.end - req.begin);
     }
   }
