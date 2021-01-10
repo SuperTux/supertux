@@ -32,6 +32,7 @@ before_build:
     vcpkg install boost-date-time:x86-windows
     vcpkg install boost-filesystem:x86-windows
     vcpkg install boost-format:x86-windows
+    vcpkg install boost-iostreams:x86-windows
     vcpkg install boost-locale:x86-windows
     vcpkg install boost-optional:x86-windows
     vcpkg install boost-system:x86-windows
