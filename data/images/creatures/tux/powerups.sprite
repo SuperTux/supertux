@@ -11,16 +11,20 @@
 ; Fire Tux
        (action
          (name "fire-walk-right")
-         (fps 15)
+         (fps 20)
          (hitbox 16 15 32 64)
          (images "fire/hat/walk-0.png"
                  "fire/hat/walk-1.png"
-                 "fire/hat/walk-0.png"
-                 "fire/hat/walk-3.png"))
+                 "fire/hat/walk-2.png"
+                 "fire/hat/walk-3.png"
+                 "fire/hat/walk-4.png"
+                 "fire/hat/walk-3.png"
+                 "fire/hat/walk-2.png"
+                 "fire/hat/walk-1.png"))
 
        (action
          (name "fire-walk-left")
-         (fps 15)
+         (fps 20)
          (hitbox 16 15 32 64)
          (mirror-action "fire-walk-right"))
 
@@ -146,16 +150,19 @@
 ; Ice Tux
        (action
          (name "ice-walk-right")
-         (fps 15)
+         (fps 20)
          (hitbox 16 15 32 64)
          (images "ice/hat/walk-0.png"
                  "ice/hat/walk-1.png"
-                 "ice/hat/walk-0.png"
-                 "ice/hat/walk-3.png"))
-
+                 "ice/hat/walk-2.png"
+                 "ice/hat/walk-3.png"
+                 "ice/hat/walk-4.png"
+                 "ice/hat/walk-3.png"
+                 "ice/hat/walk-2.png"
+                 "ice/hat/walk-1.png"))
        (action
          (name "ice-walk-left")
-         (fps 15)
+         (fps 20)
          (hitbox 16 15 32 64)
          (mirror-action "ice-walk-right"))
 
@@ -281,16 +288,19 @@
 ; Air Tux
        (action
          (name "air-walk-right")
-         (fps 15)
+         (fps 20)
          (hitbox 16 15 32 64)
          (images "air/hat/walk-0.png"
                  "air/hat/walk-1.png"
-                 "air/hat/walk-0.png"
-                 "air/hat/walk-3.png"))
-
+                 "air/hat/walk-2.png"
+                 "air/hat/walk-3.png"
+                 "air/hat/walk-4.png"
+                 "air/hat/walk-3.png"
+                 "air/hat/walk-2.png"
+                 "air/hat/walk-1.png"))
        (action
          (name "air-walk-left")
-         (fps 15)
+         (fps 20)
          (hitbox 16 15 32 64)
          (mirror-action "air-walk-right"))
 
@@ -428,16 +438,20 @@
 
        (action
          (name "earth-walk-right")
-         (fps 15)
+         (fps 20)
          (hitbox 16 15 32 64)
          (images "earth/hardhat/walk-0.png"
                  "earth/hardhat/walk-1.png"
-                 "earth/hardhat/walk-0.png"
-                 "earth/hardhat/walk-3.png"))
+                 "earth/hardhat/walk-2.png"
+                 "earth/hardhat/walk-3.png"
+                 "earth/hardhat/walk-4.png"
+                 "earth/hardhat/walk-3.png"
+                 "earth/hardhat/walk-2.png"
+                 "earth/hardhat/walk-1.png"))
 
        (action
          (name "earth-walk-left")
-         (fps 15)
+         (fps 20)
          (hitbox 16 15 32 64)
          (mirror-action "earth-walk-right"))
 
@@ -563,16 +577,20 @@
 ; Santa Tux
        (action
          (name "santa-walk-right")
-         (fps 15)
+         (fps 20)
          (hitbox 16 15 32 64)
          (images "fire/santa_cap/walk-0.png"
                  "fire/santa_cap/walk-1.png"
-                 "fire/santa_cap/walk-0.png"
-                 "fire/santa_cap/walk-3.png"))
+                 "fire/santa_cap/walk-2.png"
+                 "fire/santa_cap/walk-3.png"
+                 "fire/santa_cap/walk-4.png"
+                 "fire/santa_cap/walk-3.png"
+                 "fire/santa_cap/walk-2.png"
+                 "fire/santa_cap/walk-1.png"))
 
        (action
          (name "santa-walk-left")
-         (fps 15)
+         (fps 20)
          (hitbox 16 15 32 64)
          (mirror-action "santa-walk-right"))
 
