@@ -43,9 +43,9 @@
 
 CustomParticleSystem::CustomParticleSystem() :
   ExposedObject<CustomParticleSystem, scripting::CustomParticles>(this),
-  script_easings(),
   texture_sum_odds(0.f),
   time_last_remaining(0.f),
+  script_easings(),
   m_textures(),
   custom_particles(),
   m_particle_main_texture("/images/engine/editor/sparkle.png"),
@@ -89,6 +89,7 @@ CustomParticleSystem::CustomParticleSystem(const ReaderMapping& reader) :
   ExposedObject<CustomParticleSystem, scripting::CustomParticles>(this),
   texture_sum_odds(0.f),
   time_last_remaining(0.f),
+  script_easings(),
   m_textures(),
   custom_particles(),
   m_particle_main_texture("/images/engine/editor/sparkle.png"),
