@@ -43,6 +43,7 @@
 
 CustomParticleSystem::CustomParticleSystem() :
   ExposedObject<CustomParticleSystem, scripting::CustomParticles>(this),
+  script_easings(),
   texture_sum_odds(0.f),
   time_last_remaining(0.f),
   m_textures(),
