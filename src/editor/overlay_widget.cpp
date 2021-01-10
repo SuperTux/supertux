@@ -57,6 +57,7 @@ bool EditorOverlayWidget::snap_to_grid = true;
 bool EditorOverlayWidget::autotile_mode = false;
 bool EditorOverlayWidget::autotile_help = true;
 bool EditorOverlayWidget::action_pressed = false;
+bool EditorOverlayWidget::alt_pressed = false;
 int EditorOverlayWidget::selected_snap_grid_size = 3;
 
 EditorOverlayWidget::EditorOverlayWidget(Editor& editor) :
@@ -466,7 +467,7 @@ EditorOverlayWidget::hover_object()
   if (marker_hovered_without_ctrl)
   {
     m_hovered_object = marker_hovered_without_ctrl;
-    m_object_tip = std::make_unique<Tip>(_("Press CTRL to move Bezier handles"));
+    m_object_tip = std::make_unique<Tip>(_("Press ALT to make Bezier handles continuous"));
     return;
   }
 
@@ -611,6 +612,20 @@ EditorOverlayWidget::move_object()
         new_pos -= pm->get_offset();
       }
     }
+
+    // Special case: Bezier markers should influence each other when holding shift
+    if (alt_pressed) {
+      auto bm = dynamic_cast<BezierMarker*>(m_dragged_object);
+      if (bm) {
+        auto nm = bm->get_parent();
+        if (nm) {
+          nm->move_other_marker(bm->get_uid(), nm->get_pos() * 2.f - new_pos);
+        } else {
+          log_warning << "Moving bezier handles without parent NodeMarker" << std::endl;
+        }
+      }
+    }
+
     m_dragged_object->move_to(new_pos);
   }
 }
@@ -668,6 +683,8 @@ EditorOverlayWidget::add_path_node()
   auto& bezier_before = Sector::get().add<BezierMarker>(&(*(m_edited_path->m_nodes.end() - 1)), &((m_edited_path->m_nodes.end() - 1)->bezier_before));
   auto& bezier_after = Sector::get().add<BezierMarker>(&(*(m_edited_path->m_nodes.end() - 1)), &((m_edited_path->m_nodes.end() - 1)->bezier_after));
   auto& new_marker = Sector::get().add<NodeMarker>(m_edited_path, m_edited_path->m_nodes.end() - 1, m_edited_path->m_nodes.size() - 1, bezier_before.get_uid(), bezier_after.get_uid());
+  bezier_before.set_parent(new_marker.get_uid());
+  bezier_after.set_parent(new_marker.get_uid());
   //last_node_marker = dynamic_cast<NodeMarker*>(marker.get());
   update_node_iterators();
   new_marker.update_node_times();
@@ -964,6 +981,9 @@ EditorOverlayWidget::on_key_up(const SDL_KeyboardEvent& key)
     autotile_mode = !autotile_mode;
     action_pressed = false;
   }
+  if (sym == SDLK_LALT || sym == SDLK_RALT) {
+    alt_pressed = false;
+  }
   return true;
 }
 
@@ -980,6 +1000,9 @@ EditorOverlayWidget::on_key_down(const SDL_KeyboardEvent& key)
   if (sym == SDLK_F5 || ((sym == SDLK_LCTRL || sym == SDLK_RCTRL) && !action_pressed)) {
     autotile_mode = !autotile_mode;
     action_pressed = true;
+  }
+  if (sym == SDLK_LALT || sym == SDLK_RALT) {
+    alt_pressed = true;
   }
   return true;
 }

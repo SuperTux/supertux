@@ -14,11 +14,15 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <editor/bezier_marker.hpp>
+#include "editor/bezier_marker.hpp"
+
+#include "editor/node_marker.hpp"
+#include "supertux/sector.hpp"
 
 BezierMarker::BezierMarker(Path::Node* node, Vector* bezier_pos) :
   m_node(node),
-  m_pos(bezier_pos)
+  m_pos(bezier_pos),
+  m_parent()
 {
   set_pos(*m_pos - Vector(8, 8));
 }
@@ -54,5 +58,11 @@ BezierMarker::update_iterator(Path::Node* node, Vector* bezier_pos)
   m_node = node;
   m_pos = bezier_pos;
 }
+
+NodeMarker*
+BezierMarker::get_parent()
+ {
+   return Sector::current()->get_object_by_uid<NodeMarker>(m_parent);
+ }
 
 /* EOF */

@@ -38,6 +38,10 @@ public:
   void update_iterator();
   void update_node_times();
 
+  /** Moves the bezier marker that ISN'T @c marker to the given position. */
+  /** Can't make the by reference because of overlay_widget.cpp */
+  void move_other_marker(UID marker, Vector position);
+
 private:
   Path* m_path;
   std::vector<Path::Node>::iterator prev_node();

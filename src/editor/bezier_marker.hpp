@@ -19,7 +19,8 @@
 
 #include "editor/marker_object.hpp"
 #include "object/path.hpp"
-#include "supertux/error_handler.hpp"
+
+class NodeMarker;
 
 class BezierMarker : public MarkerObject
 {
@@ -35,9 +36,13 @@ public:
 
   void update_iterator(Path::Node* it, Vector* bezier_pos);
 
+  void set_parent(UID uid) { m_parent = uid; }
+  NodeMarker* get_parent();
+
 private:
   Path::Node* m_node;
   Vector* m_pos;
+  UID m_parent;
 
 private:
   BezierMarker(const BezierMarker&) = delete;

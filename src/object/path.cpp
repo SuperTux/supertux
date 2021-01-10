@@ -214,7 +214,9 @@ Path::edit_path()
   for (auto i = m_nodes.begin(); i != m_nodes.end(); ++i) {
     auto& before = Sector::get().add<BezierMarker>(&(*i), &(i->bezier_before));
     auto& after = Sector::get().add<BezierMarker>(&(*i), &(i->bezier_after));
-    Sector::get().add<NodeMarker>(this, i, id, before.get_uid(), after.get_uid());
+    auto& nm = Sector::get().add<NodeMarker>(this, i, id, before.get_uid(), after.get_uid());
+    before.set_parent(nm.get_uid());
+    after.set_parent(nm.get_uid());
     id++;
   }
 }
