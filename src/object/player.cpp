@@ -382,6 +382,7 @@ Player::update(float dt_sec)
   {
     m_physic.set_velocity_y(MAX_WALLCLING_YM);
     m_physic.set_acceleration_y(0);
+    m_water_jump = false;
   }
 
   m_in_walljump_tile = false;
