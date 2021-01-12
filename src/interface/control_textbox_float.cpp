@@ -21,10 +21,8 @@
 
 ControlTextboxFloat::ControlTextboxFloat() :
   m_validate_float(),
-  m_value()
+  m_value(nullptr)
 {
-  static float value = 0.f;
-  m_value = &value;
   revert_value();
 }
 
@@ -39,6 +37,9 @@ ControlTextboxFloat::update(float dt_sec, const Controller& controller)
 bool
 ControlTextboxFloat::parse_value(bool call_on_change /* = true (see header */)
 {
+  if (!m_value)
+    return false;
+
   // Calling super will put the correct value in m_string.
   if (!ControlTextbox::parse_value(false)) {
     // If the parent has failed, abandon. Keeping parsing should still result
@@ -79,6 +80,9 @@ ControlTextboxFloat::parse_value(bool call_on_change /* = true (see header */)
 void
 ControlTextboxFloat::revert_value()
 {
+  if (!m_value)
+    return;
+
   m_internal_string_backup = std::to_string(*m_value);
 
   // Remove the trailing zeroes at the end of the decimal point...

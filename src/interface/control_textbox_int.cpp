@@ -21,10 +21,8 @@
 
 ControlTextboxInt::ControlTextboxInt() :
   m_validate_int(),
-  m_value()
+  m_value(nullptr)
 {
-  static int value = 0;
-  m_value = &value;
   revert_value();
 }
 
@@ -39,6 +37,9 @@ ControlTextboxInt::update(float dt_sec, const Controller& controller)
 bool
 ControlTextboxInt::parse_value(bool call_on_change /* = true (see header */)
 {
+  if (!m_value)
+    return false;
+
   // Calling super will put the correct value in m_string.
   if (!ControlTextbox::parse_value(false)) {
     // If the parent has failed, abandon. Keeping parsing should still result
@@ -79,6 +80,9 @@ ControlTextboxInt::parse_value(bool call_on_change /* = true (see header */)
 void
 ControlTextboxInt::revert_value()
 {
+  if (!m_value)
+    return;
+
   m_internal_string_backup = std::to_string(*m_value);
   ControlTextbox::revert_value();
 }
