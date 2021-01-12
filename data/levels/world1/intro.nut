@@ -236,6 +236,7 @@ function end_level()
   //end intro sequence
   Effect.fade_out(2);
   wait(2.1);
+  end_cutscene();
   Level.finish(true);
 }
 

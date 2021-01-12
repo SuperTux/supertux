@@ -67,6 +67,7 @@ function initialize()
   wait(2);
   Effect.fade_out(2);
   wait(3.5);
+  end_cutscene();
   Level.finish(true);
 }
 
