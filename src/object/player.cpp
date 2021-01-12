@@ -93,6 +93,8 @@ const float MAX_CLIMB_XM = 96;
 const float MAX_CLIMB_YM = 128;
 /** maximum vertical glide velocity */
 const float MAX_GLIDE_YM = 128;
+/** sliding down walls velocity */
+const float MAX_WALLCLING_YM = 64;
 /** instant velocity when tux starts to walk */
 const float WALK_SPEED = 100;
 
@@ -147,6 +149,10 @@ Player::Player(PlayerStatus& player_status, const std::string& name_) :
   m_falling_below_water(false),
   m_swimming(false),
   m_swimboosting(false),
+  m_on_left_wall(false),
+  m_on_right_wall(false),
+  m_in_walljump_tile(false),
+  m_can_walljump(false),
   m_speedlimit(0), //no special limit
   m_scripting_controller_old(nullptr),
   m_jump_early_apex(false),
@@ -360,6 +366,28 @@ Player::update(float dt_sec)
 
   // extend/shrink tux collision rectangle so that we fall through/walk over 1
   // tile holes
+  
+  //wallclinging and walljumping
+  
+  Rectf wallclingleft = get_bbox();
+  wallclingleft.set_left(wallclingleft.get_left() - 8.f);
+  m_on_left_wall = !Sector::get().is_free_of_statics(wallclingleft);
+
+  Rectf wallclingright = get_bbox();
+  wallclingright.set_right(wallclingright.get_right() + 8.f);
+  m_on_right_wall = !Sector::get().is_free_of_statics(wallclingright);
+
+  m_can_walljump = ((m_on_right_wall || m_on_left_wall) && !on_ground() && !m_swimming && m_in_walljump_tile);
+  if (m_can_walljump && (m_controller->hold(Control::LEFT) || m_controller->hold(Control::RIGHT)) && m_physic.get_velocity_y() >= 0.f && !m_controller->pressed(Control::JUMP))
+  {
+    m_physic.set_velocity_y(MAX_WALLCLING_YM);
+    m_physic.set_acceleration_y(0);
+    m_water_jump = false;
+  }
+
+  m_in_walljump_tile = false;
+
+  //End of wallclinging
 
   Rectf lookahead = get_bbox();
   lookahead.set_right(lookahead.get_left() + 62);
@@ -1001,6 +1029,14 @@ Player::handle_vertical_input()
   {
     do_jump(-100);
   }
+
+  //The real walljumping magic
+  if (m_controller->pressed(Control::JUMP) && m_can_walljump && !m_backflipping)
+  {
+    SoundManager::current()->play((is_big()) ? "sounds/bigjump.wav" : "sounds/jump.wav");
+    m_physic.set_velocity(m_on_left_wall ? 400.f : -400.f, -520.f);
+  }
+  
  m_physic.set_acceleration_y(0);
 }
 
@@ -1513,6 +1549,10 @@ if (!m_swimming && m_water_jump) {
   else if ((m_wants_buttjump || m_does_buttjump) && is_big() && !m_water_jump) {
     m_sprite->set_action(sa_prefix+"-buttjump"+sa_postfix, 1);
   }
+  else if ((m_controller->hold(Control::LEFT) || m_controller->hold(Control::RIGHT)) && m_can_walljump)
+  {
+    m_sprite->set_action(sa_prefix+"-walljump"+sa_postfix, 1);
+  }
   else if (!on_ground() || m_fall_mode != ON_GROUND) {
     if (m_physic.get_velocity_x() != 0 || m_fall_mode != ON_GROUND) {
 		if (m_swimming || m_water_jump) {
@@ -1653,6 +1693,11 @@ Player::collision_tile(uint32_t tile_attributes)
     }
   }
 #endif
+  
+  if (tile_attributes & Tile::WALLJUMP)
+  {
+    m_in_walljump_tile = true;
+  }
 
   if (tile_attributes & Tile::ICE) {
     m_ice_this_frame = true;
