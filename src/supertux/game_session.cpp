@@ -353,35 +353,6 @@ GameSession::update(float dt_sec, const Controller& controller)
   // design choice, if you prefer it not to animate when paused, add `if (!m_game_pause)`)
   m_level->m_stats.update_timers(dt_sec);
 
-  // FIXME: I (Semphris) am responsible for this awful code. I have no idea why I originally did it
-  // that way. I suppose it was back in the time when I didn't understand the engine very well (3
-  // months prior to writing this - thanks git). I'm going to remove all of this (and the useless
-  // CutsceneInfo object) sometime soon and use the damn draw function like a normal programmer
-  // would do - if I somehow forget, please remind me or do it for me.
-  if (m_level->m_is_in_cutscene && !m_level->m_skip_cutscene && m_current_cutscene_text == nullptr)
-  {
-    /*std::string cutscene_text = _("Press escape to skip");
-    FloatingText* text = new FloatingText(
-        // *(new Vector(32, 32)),
-        m_currentsector->get_camera().get_translation() + *(new Vector(cutscene_text.size() * 8 + 32, 32)),
-        cutscene_text
-      );
-    
-    m_currentsector->add_object(std::unique_ptr<GameObject> (text));*/
-    
-    //m_current_cutscene_text = std::unique_ptr<GameObject> (cutscene_text);
-    
-    
-  }
-  else if ((!m_level->m_is_in_cutscene || m_level->m_skip_cutscene) && m_current_cutscene_text != nullptr)
-  {
-  printf("Before\n");
-    /*try {
-      m_current_cutscene_text->remove_me();
-    } catch(...) {}*/
-  printf("After\n");
-  }
-
   process_events();
 
   // Unpause the game if the menu has been closed

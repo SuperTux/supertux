@@ -30,7 +30,6 @@
 #include "object/background.hpp"
 #include "object/bullet.hpp"
 #include "object/camera.hpp"
-#include "object/cutscene_info.hpp"
 #include "object/display_effect.hpp"
 #include "object/gradient.hpp"
 #include "object/music_object.hpp"
@@ -46,12 +45,14 @@
 #include "physfs/ifile_stream.hpp"
 #include "scripting/sector.hpp"
 #include "squirrel/squirrel_environment.hpp"
+#include "supertux/colorscheme.hpp"
 #include "supertux/constants.hpp"
 #include "supertux/debug.hpp"
 #include "supertux/game_object_factory.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/level.hpp"
 #include "supertux/player_status_hud.hpp"
+#include "supertux/resources.hpp"
 #include "supertux/savegame.hpp"
 #include "supertux/tile.hpp"
 #include "util/file_system.hpp"
@@ -158,9 +159,6 @@ Sector::finish_construction(bool editable)
   }
 
   flush_game_objects();
-
-  auto cutscene_text = new CutsceneInfo(get_camera(), _("Press escape to skip"), m_level);
-  add_object(std::unique_ptr<GameObject> (cutscene_text));
 
   m_fully_constructed = true;
 }
@@ -400,6 +398,16 @@ Sector::draw(DrawingContext& context)
   }
 
   context.pop_transform();
+
+  if (m_level.m_is_in_cutscene && !m_level.m_skip_cutscene)
+  {
+    context.color().draw_text(Resources::normal_font,
+                              _("Press escape to skip"),
+                              Vector(32.f, 32.f),
+                              ALIGN_LEFT,
+                              LAYER_OBJECTS + 1000,
+                              ColorScheme::Text::heading_color);
+  }
 }
 
 bool
