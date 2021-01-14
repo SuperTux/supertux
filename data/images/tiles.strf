@@ -19,7 +19,7 @@
     (source "autotiles.satc")
   )
  
-   ;; next-id: 4157
+   ;; next-id: 4164
   
   ;; free/skipped ids (please use before any other):
   ;; No individual ids are currently skipped! Delete this line if any are and replace it with said ids...
@@ -1004,6 +1004,8 @@
      4000 4001 4002 4003
      4078 4079 4080 4081
      4100 4101 4102 4103
+     4157 4158 4159 4160
+     4161 4162 4163 4164
      
      93   94   95   96
      97   98   99   100
@@ -5472,14 +5474,18 @@
 
    (tiles
     (width 4)
-    (height 3)
+    (height 5)
     (image "tiles/retro_snow/retro_snow.png")
     (ids
      4000 4001 4002 4003
      4078 4079 4080 4081
      4100 4101 4102 4103
+     4157 4158 4159 4160
+     4161 4162 4163 4164
      )
        (attributes
+     1 0 0 0
+     1 1 1 1
      1 1 1 1
      1 1 1 1
      1 1 1 1
