@@ -40,7 +40,7 @@ public:
   float update(float dt_sec);
 
   /** @returns true if the FadeHelper has completed fading. */
-  bool completed();
+  bool completed() const;
 
 private:
   float* m_value;

@@ -66,7 +66,7 @@ FadeHelper::update(float dt_sec)
 }
 
 bool
-FadeHelper::completed()
+FadeHelper::completed() const
 {
   return m_time >= m_total_time;
 }
