@@ -50,6 +50,7 @@ void CustomParticles::spawn_particles(int amount, bool instantly)
   else
   {
     // TODO
+    log_warning << "Delayed spawn mode not yet implemented for scripting" << std::endl;
   }
 }
 
@@ -85,6 +86,239 @@ void CustomParticles::set_cover_screen(bool cover)
   SCRIPT_GUARD_VOID;
   object.m_cover_screen = cover;
 }
+
+
+
+
+std::string CustomParticles::get_birth_mode()
+{
+  SCRIPT_GUARD_DEFAULT;
+  switch (object.m_particle_birth_mode)
+  {
+  case CustomParticleSystem::FadeMode::None:
+    return "None";
+
+  case CustomParticleSystem::FadeMode::Fade:
+    return "Fade";
+
+  case CustomParticleSystem::FadeMode::Shrink:
+    return "Shrink";
+  
+  default:
+    return "";
+  }
+}
+
+void CustomParticles::set_birth_mode(std::string mode)
+{
+  SCRIPT_GUARD_VOID;
+  if (mode == "None")
+  {
+    object.m_particle_birth_mode = CustomParticleSystem::FadeMode::None;
+  }
+  else if (mode == "Fade")
+  {
+    object.m_particle_birth_mode = CustomParticleSystem::FadeMode::Fade;
+  }
+  else if (mode == "Shrink")
+  {
+    object.m_particle_birth_mode = CustomParticleSystem::FadeMode::Shrink;
+  }
+  else
+  {
+    log_warning << "Invalid option " + mode + "; valid options are: None, Fade, Shrink" << std::endl;
+  }
+}
+
+
+std::string CustomParticles::get_death_mode()
+{
+  SCRIPT_GUARD_DEFAULT;
+  switch (object.m_particle_death_mode)
+  {
+  case CustomParticleSystem::FadeMode::None:
+    return "None";
+
+  case CustomParticleSystem::FadeMode::Fade:
+    return "Fade";
+
+  case CustomParticleSystem::FadeMode::Shrink:
+    return "Shrink";
+  
+  default:
+    return "";
+  }
+}
+
+void CustomParticles::set_death_mode(std::string mode)
+{
+  SCRIPT_GUARD_VOID;
+  if (mode == "None")
+  {
+    object.m_particle_death_mode = CustomParticleSystem::FadeMode::None;
+  }
+  else if (mode == "Fade")
+  {
+    object.m_particle_death_mode = CustomParticleSystem::FadeMode::Fade;
+  }
+  else if (mode == "Shrink")
+  {
+    object.m_particle_death_mode = CustomParticleSystem::FadeMode::Shrink;
+  }
+  else
+  {
+    log_warning << "Invalid option " + mode + "; valid options are: None, Fade, Shrink" << std::endl;
+  }
+}
+
+
+std::string CustomParticles::get_rotation_mode()
+{
+  SCRIPT_GUARD_DEFAULT;
+  switch (object.m_particle_rotation_mode)
+  {
+  case CustomParticleSystem::RotationMode::Fixed:
+    return "Fixed";
+
+  case CustomParticleSystem::RotationMode::Facing:
+    return "Facing";
+
+  case CustomParticleSystem::RotationMode::Wiggling:
+    return "Wiggling";
+  
+  default:
+    return "";
+    break;
+  }
+}
+
+void CustomParticles::set_rotation_mode(std::string mode)
+{
+  SCRIPT_GUARD_VOID;
+  if (mode == "Fixed")
+  {
+    object.m_particle_rotation_mode = CustomParticleSystem::RotationMode::Fixed;
+  }
+  else if (mode == "Facing")
+  {
+    object.m_particle_rotation_mode = CustomParticleSystem::RotationMode::Facing;
+  }
+  else if (mode == "Wiggling")
+  {
+    object.m_particle_rotation_mode = CustomParticleSystem::RotationMode::Wiggling;
+  }
+  else
+  {
+    log_warning << "Invalid option " + mode + "; valid options are: Fixed, Facing, Wiggling" << std::endl;
+  }
+}
+
+
+std::string CustomParticles::get_collision_mode()
+{
+  SCRIPT_GUARD_DEFAULT;
+  switch (object.m_particle_collision_mode)
+  {
+  case CustomParticleSystem::CollisionMode::Ignore:
+    return "Ignore";
+
+  case CustomParticleSystem::CollisionMode::Stick:
+    return "Stick";
+
+  case CustomParticleSystem::CollisionMode::StickForever:
+    return "StickForever";
+
+  case CustomParticleSystem::CollisionMode::BounceHeavy:
+    return "BounceHeavy";
+
+  case CustomParticleSystem::CollisionMode::BounceLight:
+    return "BounceLight";
+
+  case CustomParticleSystem::CollisionMode::Destroy:
+    return "Destroy";
+  
+  default:
+    return "";
+    break;
+  }
+}
+
+void CustomParticles::set_collision_mode(std::string mode)
+{
+  SCRIPT_GUARD_VOID;
+  if (mode == "Ignore")
+  {
+    object.m_particle_collision_mode = CustomParticleSystem::CollisionMode::Ignore;
+  }
+  else if (mode == "Stick")
+  {
+    object.m_particle_collision_mode = CustomParticleSystem::CollisionMode::Stick;
+  }
+  else if (mode == "StickForever")
+  {
+    object.m_particle_collision_mode = CustomParticleSystem::CollisionMode::StickForever;
+  }
+  else if (mode == "BounceHeavy")
+  {
+    object.m_particle_collision_mode = CustomParticleSystem::CollisionMode::BounceHeavy;
+  }
+  else if (mode == "BounceLight")
+  {
+    object.m_particle_collision_mode = CustomParticleSystem::CollisionMode::BounceLight;
+  }
+  else if (mode == "Destroy")
+  {
+    object.m_particle_collision_mode = CustomParticleSystem::CollisionMode::Destroy;
+  }
+  else
+  {
+    log_warning << "Invalid option " + mode + "; valid options are: Ignore, Stick, StickForever, BounceHeavy, BounceLight, Destroy" << std::endl;
+  }
+}
+
+
+std::string CustomParticles::get_offscreen_mode()
+{
+  SCRIPT_GUARD_DEFAULT;
+  switch (object.m_particle_offscreen_mode)
+  {
+  case CustomParticleSystem::OffscreenMode::Never:
+    return "Never";
+
+  case CustomParticleSystem::OffscreenMode::OnlyOnExit:
+    return "OnlyOnExit";
+
+  case CustomParticleSystem::OffscreenMode::Always:
+    return "Always";
+  
+  default:
+    return "";
+    break;
+  }
+}
+
+void CustomParticles::set_offscreen_mode(std::string mode)
+{
+  SCRIPT_GUARD_VOID;
+  if (mode == "Never")
+  {
+    object.m_particle_offscreen_mode = CustomParticleSystem::OffscreenMode::Never;
+  }
+  else if (mode == "OnlyOnExit")
+  {
+    object.m_particle_offscreen_mode = CustomParticleSystem::OffscreenMode::OnlyOnExit;
+  }
+  else if (mode == "Always")
+  {
+    object.m_particle_offscreen_mode = CustomParticleSystem::OffscreenMode::Always;
+  }
+  else
+  {
+    log_warning << "Invalid option " + mode + "; valid options are: Never, OnlyOnExit, Always" << std::endl;
+  }
+}
+
+
 
 
 

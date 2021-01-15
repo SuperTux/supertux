@@ -57,8 +57,6 @@ public:
   int get_max_amount();
   void set_max_amount(int amount);
 
-// TODO: Implement these
-/*
   std::string get_birth_mode();
   void set_birth_mode(std::string mode);
 
@@ -73,7 +71,7 @@ public:
 
   std::string get_offscreen_mode();
   void set_offscreen_mode(std::string mode);
-*/
+
   bool get_cover_screen();
   void set_cover_screen(bool cover);
 
