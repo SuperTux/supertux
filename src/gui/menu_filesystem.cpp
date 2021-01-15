@@ -37,7 +37,7 @@ FileSystemMenu::FileSystemMenu(std::string* filename, const std::vector<std::str
   m_basedir(basedir),
   m_directories(),
   m_files(),
-  m_callback(callback)
+  m_callback(std::move(callback))
 {
   AddonManager::current()->unmount_old_addons();
 

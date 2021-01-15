@@ -137,7 +137,7 @@ ControlTextbox::draw(DrawingContext& context)
   }
 
   context.color().draw_text(Resources::control_font,
-                            get_contents_visible(), 
+                            get_contents_visible(),
                             Vector(m_rect.get_left() + 5.f,
                                    (m_rect.get_top() + m_rect.get_bottom()) / 2 -
                                     Resources::control_font->get_height() / 2),
@@ -417,11 +417,11 @@ ControlTextbox::get_first_chars_visible(int amount) const
 }
 
 int
-ControlTextbox::get_text_position(Vector pos) const
+ControlTextbox::get_text_position(const Vector& pos) const
 {
   float dist = pos.x - m_rect.get_left();
   int i = 0;
-  
+
   while (Resources::control_font->get_text_width(get_first_chars_visible(i)) < dist
          && i <= int(m_charlist.size()))
     i++;
@@ -442,7 +442,7 @@ ControlTextbox::get_truncated_text(std::string text) const
 }
 
 bool
-ControlTextbox::fits(std::string text) const
+ControlTextbox::fits(const std::string& text) const
 {
   return Resources::control_font->get_text_width(text) <= m_rect.get_width() - 10.f;
 }
@@ -483,14 +483,14 @@ ControlTextbox::paste()
 {
   if (!SDL_HasClipboardText())
     return false;
-  
+
   char* txt = SDL_GetClipboardText();
 
   if (txt)
     put_text(std::string(txt));
   else
     log_warning << "Couldn't paste text from clipboard: " << SDL_GetError() << std::endl;
-  
+
   return txt != nullptr;
 }
 
@@ -518,7 +518,7 @@ ControlTextbox::get_selected_text() const
 }
 
 bool
-ControlTextbox::put_text(std::string text)
+ControlTextbox::put_text(const std::string& text)
 {
   bool has_erased_text = erase_selected_text();
 

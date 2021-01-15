@@ -44,7 +44,7 @@ void Rain::fade_amount(float amount, float time)
   object.fade_amount(amount, time);
 }
 
-void Rain::fade_angle(float angle, float time, std::string ease)
+void Rain::fade_angle(float angle, float time, const std::string& ease)
 {
   SCRIPT_GUARD_VOID;
   object.fade_angle(angle, time, getEasingByName(EasingMode_from_string(ease)));

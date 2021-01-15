@@ -217,7 +217,7 @@ Menu::add_entry(int id, const std::string& text)
 }
 
 ItemAction&
-Menu::add_entry(const std::string& text, std::function<void()> callback)
+Menu::add_entry(const std::string& text, const std::function<void()>& callback)
 {
   auto item = std::make_unique<ItemAction>(text, -1, callback);
   auto item_ptr = item.get();
@@ -245,8 +245,8 @@ Menu::add_toggle(int id, const std::string& text, bool* toggled)
 
 ItemToggle&
 Menu::add_toggle(int id, const std::string& text,
-                 std::function<bool()> get_func,
-                 std::function<void(bool)> set_func)
+                 const std::function<bool()>& get_func,
+                 const std::function<void(bool)>& set_func)
 {
   auto item = std::make_unique<ItemToggle>(text, get_func, set_func, id);
   auto item_ptr = item.get();

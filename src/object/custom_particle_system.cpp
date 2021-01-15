@@ -166,7 +166,7 @@ CustomParticleSystem::CustomParticleSystem(const ReaderMapping& reader) :
                  mapping.get_doc().get_filename() << ", skipping" << std::endl;
         continue;
       }
-      
+
       float likeliness;
       if (!mapping.get("likeliness", likeliness))
       {
@@ -174,7 +174,7 @@ CustomParticleSystem::CustomParticleSystem(const ReaderMapping& reader) :
                  mapping.get_doc().get_filename() << ", skipping" << std::endl;
         continue;
       }
-      
+
       float scale_x, scale_y;
       if (!mapping.get("scale_x", scale_x))
       {
@@ -386,7 +386,7 @@ CustomParticleSystem::reinit_textures()
   }
 
   texture_sum_odds = 0.f;
-  for (auto texture : m_textures)
+  for (const auto& texture : m_textures)
   {
     texture_sum_odds += texture.likeliness;
   }
@@ -395,7 +395,7 @@ CustomParticleSystem::reinit_textures()
 void
 CustomParticleSystem::save(Writer& writer)
 {
-  for (auto tex : m_textures)
+  for (const auto& tex : m_textures)
   {
     writer.start_list("texture");
     writer.write("surface", tex.texture->get_filename());
@@ -1111,7 +1111,7 @@ CustomParticleSystem::get_abs_y()
  *    no check regarding the maximum amount of total particles.
  * @param lifetime The time elapsed since the moment the particle should have been born
  */
-void 
+void
 CustomParticleSystem::add_particle(float lifetime, float x, float y)
 {
   auto particle = std::make_unique<CustomParticle>();
@@ -1148,7 +1148,7 @@ CustomParticleSystem::add_particle(float lifetime, float x, float y)
 
   particle->birth_easing = m_particle_birth_easing;
   particle->death_easing = m_particle_death_easing;
-  
+
   switch(particle->birth_mode) {
   case FadeMode::Shrink:
     particle->scale = 0.f;

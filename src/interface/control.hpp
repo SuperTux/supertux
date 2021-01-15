@@ -38,7 +38,7 @@ public:
   void set_focus(bool focus) { m_has_focus = focus; }
   bool has_focus() const { return m_has_focus; }
 
-  void set_rect(Rectf rect) { m_rect = rect; }
+  void set_rect(const Rectf& rect) { m_rect = rect; }
   Rectf get_rect() const { return m_rect; }
 
 public:

@@ -100,7 +100,7 @@ ControlEnum<T>::draw(DrawingContext& context)
   }
 
   context.color().draw_text(Resources::control_font,
-                            label, 
+                            label,
                             Vector(m_rect.get_left() + 5.f,
                                    (m_rect.get_top() + m_rect.get_bottom()) / 2 -
                                     Resources::control_font->get_height() / 2),
@@ -109,7 +109,7 @@ ControlEnum<T>::draw(DrawingContext& context)
                             Color::BLACK);
   int i = 0;
   if (m_open_list) {
-    for (auto option : m_options) {
+    for (const auto& option : m_options) {
       i++;
       Rectf box = m_rect.moved(Vector(0.f, m_rect.get_height() * float(i)));
       context.color().draw_filled_rect(box.grown(2.f).moved(Vector(0,4.f)), Color(0.f, 0.f, 0.f, 0.1f), 2.f, LAYER_GUI + 4);
@@ -125,7 +125,7 @@ ControlEnum<T>::draw(DrawingContext& context)
       std::string label2 = option.second;
 
       context.color().draw_text(Resources::control_font,
-                                label2, 
+                                label2,
                                 Vector(m_rect.get_left() + 5.f,
                                        (m_rect.get_top() + m_rect.get_bottom()) / 2 -
                                         Resources::control_font->get_height() / 2 +
@@ -180,7 +180,7 @@ ControlEnum<T>::on_mouse_button_down(const SDL_MouseButtonEvent& button)
         if (pos >= 0 && pos < int(m_options.size())) {
           // Yes. We need this. Because I can't acced by numerical index.
           // There's probably a way, but I'm too bored to investigate.
-          for (auto option : m_options) {
+          for (const auto& option : m_options) {
             if (--pos != -1) continue;
             *m_value = option.first;
 
@@ -239,7 +239,7 @@ ControlEnum<T>::on_key_down(const SDL_KeyboardEvent& key)
   if (key.keysym.sym == SDLK_DOWN) {
     bool is_next = false;
     // Hacky way to get the next one in the list
-    for (auto option : m_options) {
+    for (const auto& option : m_options) {
       if (is_next) {
         *m_value = option.first;
         is_next = false;
@@ -250,13 +250,8 @@ ControlEnum<T>::on_key_down(const SDL_KeyboardEvent& key)
     }
 
     // if we're at the last index, loop back to the beginning
-    if (is_next) {
-      // Hacky way to get the first one in the list
-      for (auto option : m_options) {
-        *m_value = option.first;
-        break;
-      }
-    }
+    if (is_next && !m_options.empty())
+      *m_value = m_options.begin()->first;
 
     if (m_on_change)
       (*m_on_change)();
@@ -269,7 +264,7 @@ ControlEnum<T>::on_key_down(const SDL_KeyboardEvent& key)
     T last_value = *m_value; // must assign a value else clang will complain
 
     // Hacky way to get the preceeding one in the list
-    for (auto option : m_options) {
+    for (const auto& option : m_options) {
       if (option.first == *m_value) {
         if (currently_on_first) {
           is_last = true;

@@ -22,7 +22,7 @@
 #include "video/viewport.hpp"
 
 ControlButton::ControlButton(std::string label) :
-  m_btn_label(label),
+  m_btn_label(std::move(label)),
   m_mouse_down(false)
 {
 }
@@ -38,7 +38,7 @@ ControlButton::draw(DrawingContext& context)
                                    LAYER_GUI);
 
   context.color().draw_text(Resources::control_font,
-                            m_btn_label, 
+                            m_btn_label,
                             Vector((m_rect.get_left() + m_rect.get_right()) / 2,
                                    (m_rect.get_top() + m_rect.get_bottom()) / 2 - Resources::control_font->get_height() / 2),
                             FontAlignment::ALIGN_CENTER,

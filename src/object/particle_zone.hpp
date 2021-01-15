@@ -40,7 +40,7 @@ public:
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
 
   virtual ObjectSettings get_settings() override;
-  
+
   Rectf get_rect() {return m_col.m_bbox;}
 
   enum class ParticleZoneType {
@@ -104,8 +104,8 @@ public:
     ParticleZoneType m_type;
     Rectf m_rect;
 
-    ZoneDetails(std::string name, ParticleZoneType type, Rectf rect) :
-      m_particle_name(name),
+    ZoneDetails(std::string name, ParticleZoneType type, const Rectf& rect) :
+      m_particle_name(std::move(name)),
       m_type(type),
       m_rect(rect)
     {

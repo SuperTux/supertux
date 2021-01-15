@@ -72,7 +72,7 @@ private:
 
   float get_abs_x();
   float get_abs_y();
-  
+
   float texture_sum_odds;
   float time_last_remaining;
 
@@ -129,7 +129,7 @@ private:
     {
     }
 
-    SpriteProperties(SurfacePtr surface) :
+    SpriteProperties(const SurfacePtr& surface) :
       likeliness(1.f),
       color(1.f, 1.f, 1.f, 1.f),
       texture(surface),
@@ -343,7 +343,7 @@ public:
   {
     std::unique_ptr<ParticleProps> props = std::make_unique<ParticleProps>();
 
-    for (auto texture : m_textures)
+    for (auto& texture : m_textures)
       props->m_textures.push_back(texture);
     props->m_particle_main_texture = m_particle_main_texture;
     props->m_max_amount = m_max_amount;
@@ -384,7 +384,7 @@ public:
   void set_props(ParticleProps* props)
   {
     m_textures.clear();
-    for (auto texture : props->m_textures)
+    for (auto& texture : props->m_textures)
       m_textures.push_back(texture);
     m_particle_main_texture = props->m_particle_main_texture;
     m_max_amount = props->m_max_amount;

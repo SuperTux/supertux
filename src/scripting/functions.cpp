@@ -88,7 +88,7 @@ void start_cutscene()
     log_info << "No game session" << std::endl;
     return;
   }
-  
+
   if (session->get_current_level().m_is_in_cutscene)
   {
     log_warning << "start_cutscene(): starting a new cutscene above another one, ending preceeding cutscene (use end_cutscene() in scripts!)" << std::endl;
@@ -106,7 +106,7 @@ void end_cutscene()
     log_info << "No game session" << std::endl;
     return;
   }
-  
+
   if (!session->get_current_level().m_is_in_cutscene)
   {
     log_warning << "end_cutscene(): no cutscene to end, resetting status anyways" << std::endl;
@@ -124,7 +124,7 @@ bool check_cutscene()
     log_info << "No game session" << std::endl;
     return false;
   }
-  
+
   return session->get_current_level().m_is_in_cutscene;
 }
 
@@ -325,17 +325,17 @@ void stop_music(float fadetime)
   SoundManager::current()->stop_music(fadetime);
 }
 
-void fade_in_music(const std::string& filename, float fadetime) 
+void fade_in_music(const std::string& filename, float fadetime)
 {
   SoundManager::current()->play_music(filename, fadetime);
 }
 
-void resume_music(float fadetime) 
+void resume_music(float fadetime)
 {
   SoundManager::current()->resume_music(fadetime);
 }
 
-void pause_music(float fadetime) 
+void pause_music(float fadetime)
 {
   SoundManager::current()->pause_music(fadetime);
 }
@@ -442,7 +442,7 @@ void set_game_speed(float speed)
     // executing transitions would take an unreaonably long time if we allow
     // game speeds like 0.00001
     log_warning << "Cannot set game speed to less than 0.05" << std::endl;
-    throw new std::runtime_error("Cannot set game speed to less than 0.05");
+    throw std::runtime_error("Cannot set game speed to less than 0.05");
   }
 
   ::g_debug.set_game_speed_multiplier(speed);

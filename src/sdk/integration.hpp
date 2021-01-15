@@ -34,8 +34,8 @@ public:
   {
   }
 
-  bool operator !=(const IntegrationStatus is) { return !operator==(is); }
-  bool operator ==(const IntegrationStatus is) {
+  bool operator !=(const IntegrationStatus& is) { return !operator==(is); }
+  bool operator ==(const IntegrationStatus& is) {
     if (m_details.size() != is.m_details.size())
       return false;
 
@@ -54,35 +54,35 @@ public:
   /**
    * A list of lines describing what the player is doing.
    * Should go from general to specific.
-   * 
+   *
    * A good first line should hint other people whether or not
    * the user is available to play with them. For example, stating
    * whether the user is playing online or offline, and if they're
    * playing or if they're in the menus/level select screens.
-   * 
+   *
    * The second line can give more details, such as which level
    * is being played (or edited if in the level editor).
-   * 
+   *
    * The lines should be short (max 100 characters). There shouldn't
    * be more than 3 lines in total. Keep in mind that integrations
    * don't display many lines: Discord displays two; Steam, just one.
-   * 
+   *
    * ================================================================
-   * 
+   *
    * A good example looks like:
    *   Playing (single player)
    *   In level: Welcome to Antartica
    *   Worldmap: Icy island
-   * 
+   *
    * Or:
    *   Racing worldmap (online)
    *   Worldmap: LatestAddon's worldmap [custom]
-   * 
+   *
    * (keep in mind party details have their own variables!)
-   * 
+   *
    * Or even just:
    *   In menu
-   * 
+   *
    */
   std::vector<std::string> m_details;
 

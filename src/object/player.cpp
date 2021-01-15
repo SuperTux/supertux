@@ -286,9 +286,9 @@ Player::adjust_height(float new_height, float bottom_offset)
 
 
   if (new_height > m_col.m_bbox.get_height()) {
-    Rectf additional_space = bbox2;
+    //Rectf additional_space = bbox2;
     //additional_space.set_height(new_height - m_col.m_bbox.get_height());
-    if (!Sector::get().is_free_of_statics(additional_space, this, true))
+    if (!Sector::get().is_free_of_statics(bbox2, this, true))
       return false;
   }
 
@@ -366,9 +366,9 @@ Player::update(float dt_sec)
 
   // extend/shrink tux collision rectangle so that we fall through/walk over 1
   // tile holes
-  
+
   //wallclinging and walljumping
-  
+
   Rectf wallclingleft = get_bbox();
   wallclingleft.set_left(wallclingleft.get_left() - 8.f);
   m_on_left_wall = !Sector::get().is_free_of_statics(wallclingleft);
@@ -1036,7 +1036,7 @@ Player::handle_vertical_input()
     SoundManager::current()->play((is_big()) ? "sounds/bigjump.wav" : "sounds/jump.wav");
     m_physic.set_velocity(m_on_left_wall ? 400.f : -400.f, -520.f);
   }
-  
+
  m_physic.set_acceleration_y(0);
 }
 
@@ -1693,7 +1693,7 @@ Player::collision_tile(uint32_t tile_attributes)
     }
   }
 #endif
-  
+
   if (tile_attributes & Tile::WALLJUMP)
   {
     m_in_walljump_tile = true;

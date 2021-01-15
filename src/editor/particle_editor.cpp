@@ -376,7 +376,7 @@ ParticleEditor::reset_texture_ui()
       nullptr,
       filter,
       "/",
-      [this](std::string new_filename) {
+      [this](const std::string& new_filename) {
         (m_particles->m_textures.begin() + m_texture_current)->texture = Surface::from_file(new_filename);
         m_particles->reinit_textures();
         this->push_version();
@@ -437,7 +437,8 @@ ParticleEditor::reset_texture_ui()
 }
 
 void
-ParticleEditor::addTextboxFloat(std::string name, float* bind, bool (*float_validator)(ControlTextboxFloat*, float))
+ParticleEditor::addTextboxFloat(const std::string& name, float* bind,
+  bool (*float_validator)(ControlTextboxFloat*, float))
 {
   auto float_control = std::make_unique<ControlTextboxFloat>();
   float_control.get()->bind_value(bind);
@@ -446,7 +447,7 @@ ParticleEditor::addTextboxFloat(std::string name, float* bind, bool (*float_vali
 }
 
 void
-ParticleEditor::addTextboxFloatWithImprecision(std::string name, float* bind,
+ParticleEditor::addTextboxFloatWithImprecision(const std::string& name, float* bind,
                                       float* imprecision_bind,
                                       bool (*float_validator)(ControlTextboxFloat*, float),
                                       bool (*imp_validator)(ControlTextboxFloat*, float))
@@ -479,7 +480,7 @@ ParticleEditor::addTextboxFloatWithImprecision(std::string name, float* bind,
 }
 
 void
-ParticleEditor::addTextboxInt(std::string name, int* bind, bool (*int_validator)(ControlTextboxInt*, int))
+ParticleEditor::addTextboxInt(const std::string& name, int* bind, bool (*int_validator)(ControlTextboxInt*, int))
 {
   auto int_control = std::make_unique<ControlTextboxInt>();
   int_control.get()->bind_value(bind);
@@ -493,7 +494,7 @@ ParticleEditor::addCheckbox(std::string name, bool* bind)
   auto bool_control = std::make_unique<ControlCheckbox>();
   bool_control.get()->bind_value(bind);
   bool_control.get()->set_rect(Rectf(240.f, 0.f, 260.f, 20.f));
-  addControl(name, std::move(bool_control));
+  addControl(std::move(name), std::move(bool_control));
 }
 
 void
@@ -533,7 +534,7 @@ ParticleEditor::addEasingEnum(std::string name, EasingMode* bind)
   ease_ctrl.get()->add_option(EaseBounceOut, _(getEasingName(EaseBounceOut)));
   ease_ctrl.get()->add_option(EaseBounceInOut, _(getEasingName(EaseBounceInOut)));
   ease_ctrl.get()->bind_value(bind);
-  addControl(name, std::move(ease_ctrl));
+  addControl(std::move(name), std::move(ease_ctrl));
 }
 
 void
@@ -553,7 +554,7 @@ ParticleEditor::addControl(std::string name, std::unique_ptr<InterfaceControl> n
                                       height + new_control.get()->get_rect().get_height()));
   }
 
-  new_control.get()->m_label = new InterfaceLabel(Rectf(5.f, height, 135.f, height + 20.f), name);
+  new_control.get()->m_label = new InterfaceLabel(Rectf(5.f, height, 135.f, height + 20.f), std::move(name));
   new_control.get()->m_on_change = new std::function<void()>([this](){ this->push_version(); });
   m_controls.push_back(std::move(new_control));
 }
@@ -630,7 +631,8 @@ ParticleEditor::save(Writer& writer)
 }
 
 void
-ParticleEditor::request_save(bool is_save_as, std::function<void(bool)> callback)
+ParticleEditor::request_save(bool is_save_as,
+  const std::function<void(bool)>& callback)
 {
   if (is_save_as || m_filename == "")
   {

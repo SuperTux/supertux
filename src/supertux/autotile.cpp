@@ -44,8 +44,8 @@ AutotileMask::get_mask() const
 
 Autotile::Autotile(uint32_t tile_id, std::vector<std::pair<uint32_t, float>> alt_tiles, std::vector<AutotileMask*> masks, bool solid) :
   m_tile_id(tile_id),
-  m_alt_tiles(alt_tiles),
-  m_masks(masks),
+  m_alt_tiles(std::move(alt_tiles)),
+  m_masks(std::move(masks)),
   m_solid(solid)
 {
 }
@@ -138,9 +138,9 @@ Autotile::is_solid() const
 std::vector<AutotileSet*>* AutotileSet::m_autotilesets = new std::vector<AutotileSet*>();
 
 AutotileSet::AutotileSet(std::vector<Autotile*> tiles, uint32_t default_tile, std::string name, bool corner) :
-  m_autotiles(tiles),
+  m_autotiles(std::move(tiles)),
   m_default(default_tile),
-  m_name(name),
+  m_name(std::move(name)),
   m_corner(corner)
 {
 }
