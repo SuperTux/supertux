@@ -188,7 +188,6 @@ std::string CustomParticles::get_rotation_mode()
   
   default:
     return "";
-    break;
   }
 }
 
@@ -239,7 +238,6 @@ std::string CustomParticles::get_collision_mode()
   
   default:
     return "";
-    break;
   }
 }
 
@@ -293,7 +291,6 @@ std::string CustomParticles::get_offscreen_mode()
   
   default:
     return "";
-    break;
   }
 }
 
