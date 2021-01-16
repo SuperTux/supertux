@@ -194,7 +194,11 @@ Tux.do_duck();
   Text.fade_in(1);
   wait(5);
   Text.fade_out(1);
-  wait(1);
+  wait(3);
+  Effect.fade_out(2);
+  wait(2.1);
+  end_cutscene();
+  Level.finish(true);
 }
 
 function shake_bush()
