@@ -50,19 +50,18 @@ FadeHelper::update(float dt_sec)
       *m_value = m_target;
     return m_target;
   }
-  else
-  {
-    // FLOAT/DOUBLE CONVERSION
-    // If at some point in development, floats are changed to doubles, or the
-    // ease funciton return type change from double to float, remove the casts
-    // here (it takes a lot of space).               ~ Semphris
-    float progress = static_cast<float>(m_ease(static_cast<double>(
-                        m_start + (m_target - m_start) * (m_time / m_total_time)
-                        )));
-    if (m_value)
-      *m_value = progress;
-    return progress;
-  }
+
+  // FLOAT/DOUBLE CONVERSION
+  // If at some point in development, floats are changed to doubles, or the
+  // ease funciton return type change from double to float, remove the casts
+  // here (it takes a lot of space).               ~ Semphris
+  float progress = static_cast<float>(m_ease(static_cast<double>(
+                      m_start + (m_target - m_start) * (m_time / m_total_time)
+                      )));
+  if (m_value)
+    *m_value = progress;
+  return progress;
+
 }
 
 bool
