@@ -45,7 +45,7 @@ Background::Background() :
   m_has_pos_x(false),
   m_has_pos_y(false),
   m_blend(),
-  m_color(),
+  m_color(1.f, 1.f, 1.f),
   m_target(DrawingTarget::COLORMAP),
   m_timer_color(),
   m_src_color(),
