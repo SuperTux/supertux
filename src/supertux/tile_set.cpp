@@ -30,7 +30,7 @@ Tilegroup::Tilegroup() :
   developers_group(),
   name(),
   tiles()
-{;
+{
 }
 
 std::unique_ptr<TileSet>
