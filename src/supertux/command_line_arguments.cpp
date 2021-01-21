@@ -398,23 +398,23 @@ CommandLineArguments::merge_into(Config& config)
 {
 #define merge_option(x) if (x) { config.x = *(x); }
 
-  merge_option(fullscreen_size);
-  merge_option(fullscreen_refresh_rate);
-  merge_option(window_size);
-  merge_option(aspect_size);
-  merge_option(use_fullscreen);
-  merge_option(video);
-  merge_option(show_fps);
-  merge_option(show_player_pos);
-  merge_option(sound_enabled);
-  merge_option(music_enabled);
-  merge_option(enable_script_debugger);
-  merge_option(start_demo);
-  merge_option(record_demo);
-  merge_option(tux_spawn_pos);
-  merge_option(developer_mode);
-  merge_option(christmas_mode);
-  merge_option(repository_url);
+  merge_option(fullscreen_size)
+  merge_option(fullscreen_refresh_rate)
+  merge_option(window_size)
+  merge_option(aspect_size)
+  merge_option(use_fullscreen)
+  merge_option(video)
+  merge_option(show_fps)
+  merge_option(show_player_pos)
+  merge_option(sound_enabled)
+  merge_option(music_enabled)
+  merge_option(enable_script_debugger)
+  merge_option(start_demo)
+  merge_option(record_demo)
+  merge_option(tux_spawn_pos)
+  merge_option(developer_mode)
+  merge_option(christmas_mode)
+  merge_option(repository_url)
 
 #undef merge_option
 }
