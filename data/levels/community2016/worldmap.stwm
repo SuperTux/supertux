@@ -102,6 +102,11 @@
       (x 61)
       (y 25)
     )
+    (level
+      (level "The_Missing_Link (Serano).stl")
+      (x 53)
+      (y 33)
+    )
     (music
       (file "/music/antarctic/arctic_breeze.ogg")
     )
