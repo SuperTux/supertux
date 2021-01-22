@@ -73,7 +73,7 @@ Block::Block(const ReaderMapping& mapping, const std::string& sprite_file) :
   }
   m_sprite = SpriteManager::current()->create(sf);
   m_sprite_name = sf;
-  m_default_sprite_name = m_sprite_name;
+  m_default_sprite_name = sprite_file;
 
   m_col.m_bbox.set_size(32, 32.1f);
   set_group(COLGROUP_STATIC);
