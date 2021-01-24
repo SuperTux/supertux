@@ -25,7 +25,9 @@ jobs:
     steps:
       - name: Checkout the .wiki repo
         uses: actions/checkout@v2
-
+        with:
+          repository: 'SuperTux/supertux.wiki'
+          fetch-depth: 100
       - name: Install SSH key
         uses: shimataro/ssh-key-action@v2
         with:
@@ -34,4 +36,5 @@ jobs:
       - name: Update the wiki
         run: |
           git --version
-          git push git@github.com:SuperTux/wiki.git master:master
+          
+          git push git@github.com:SuperTux/wiki.git HEAD:master
