@@ -30,9 +30,8 @@ jobs:
         uses: shimataro/ssh-key-action@v2
         with:
           key: ${{ secrets.wiki_repo_key }}
-          name: id_ed25519
           known_hosts: ${{ secrets.wiki_repo_hosts }}
       - name: Update the wiki
         run: |
           git --version
-          git push git@github.com:SuperTux/wiki.git HEAD:master
+          git push git@github.com:SuperTux/wiki.git master:master
