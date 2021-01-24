@@ -56,8 +56,6 @@ Please see them:
 * `LICENSE.txt` - The GNU General Public License, under whose terms SuperTux is
 licensed. (Most of the data subdirectory is also licensed under
 CC-by-SA)
-* `docs/levelguidelines.txt` - Very useful information for those that want to
-design levels for SuperTux.
 * `data/credits.stxt` - Credits for people that contributed to the creation of
 SuperTux. (You can view these in the game menu as well.)
 
