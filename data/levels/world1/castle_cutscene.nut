@@ -117,6 +117,7 @@ function outdoor()
   wait(2);
   Effect.fade_out(2);
   wait(2);
+  end_cutscene();
   Level.finish(true);
 }
 

@@ -7,6 +7,7 @@
     (name "main")
     (init-script "import(\"levels/world1/intro.nut\");
 logo <- FloatingImage(\"images/objects/logo/logo_final.sprite\");
+start_cutscene();
 trigger_state(\"start\");")
     (ambient-light
       (color 1 1 1)
