@@ -81,7 +81,7 @@ jobs:
       matrix:
         build_type: [Debug, Release]
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
         with:
@@ -90,14 +90,21 @@ jobs:
           submodules: true
       - name: Install clickable
         run: |
-          sudo apt install docker.io adb git python3 python3-pip
+          # For whatever reason, I have to manually install runc before docker.io or containerd, else it fails because of broken dependency
+          # Using apt-get because apt complains it shouldn't be used in scripts
+          sudo apt-get update
+          sudo apt-get install -y runc
+          sudo apt-get install -y docker.io adb git python3 python3-pip
           pip3 install --user --upgrade clickable-ut
-          echo PATH=$PATH:~/.local/bin>>~/.bashrc
         # TODO: Build for arm64 and armhf
       - name: Build for amd64
         env:
           BUILD_TYPE: ${{ matrix.build_type }}
-        run: clickable --verbose --arch amd64
+        run: |
+          # Clickable requires a reboot/logout. This is a sneaky way to bypass that :^)
+          sudo systemctl unmask docker.service
+          sudo systemctl start docker.service
+          ~/.local/bin/clickable build --verbose --arch amd64
       - uses: actions/upload-artifact@v2
         with:
           name: "ubports-amd64-${{ matrix.build_type }}-click"
