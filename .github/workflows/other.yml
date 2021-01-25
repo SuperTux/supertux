@@ -15,7 +15,10 @@
 #  along with this program; if not, write to the Free Software
 #  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-name: other
+
+# This is for platforms that aren't officially supported, but for which buils can be interesting
+
+name: Additional platforms
 on:
   push:
     branches:
@@ -25,7 +28,7 @@ on:
   pull_request: {}
 # TODO the glbinding build
 jobs:
-  bsd:
+  bsd-solaris:
 
     strategy:
       fail-fast: false
@@ -70,3 +73,33 @@ jobs:
             make -j3 VERBOSE=1
             make install DESTDIR="/tmp/supertux" VERBOSE=1
             ./test_supertux2
+
+  ubports:
+
+    strategy:
+      fail-fast: false
+      matrix:
+        build_type: [Debug, Release]
+
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          # Fetch the whole tree so git describe works
+          fetch-depth: 0
+          submodules: true
+      - name: Install clickable
+        run: |
+          sudo apt install docker.io adb git python3 python3-pip
+          pip3 install --user --upgrade clickable-ut
+          echo PATH=$PATH:~/.local/bin>>~/.bashrc
+        # TODO: Build for arm64 and armhf
+      - name: Build for amd64
+        env:
+          BUILD_TYPE: ${{ matrix.build_type }}
+        run: clickable --verbose --arch amd64
+      - uses: actions/upload-artifact@v2
+        with:
+          name: "ubports-amd64-${{ matrix.build_type }}-click"
+          path: build/x86_64-linux-gnu/app/*.click
+          if-no-files-found: ignore

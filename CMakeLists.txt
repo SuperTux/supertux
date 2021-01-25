@@ -922,6 +922,7 @@ endif()
 
 ## Install stuff
 
+option(UBUNTU_TOUCH "Compile the project for an Ubuntu Touch target" OFF)
 option(DISABLE_CPACK_BUNDLING "Build an .app bundle without CPack" OFF)
 if(WIN32 AND NOT UNIX)
 
@@ -965,17 +966,28 @@ else(WIN32 AND NOT UNIX)
     set(INSTALL_SUBDIR_SHARE "share/games/supertux2" CACHE STRING "Installation subdir for data")
     set(INSTALL_SUBDIR_DOC "share/doc/supertux2" CACHE STRING "Installation subdir for docs")
 
-    install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/supertux2.desktop DESTINATION "share/applications")
+    if(UBUNTU_TOUCH)
+      install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/supertux2.desktop DESTINATION ".")
+      install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/supertux2.apparmor DESTINATION ".")
+      configure_file(manifest.json.in ${CMAKE_CURRENT_BINARY_DIR}/install/manifest.json)
+      set(APPS "\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/supertux2")
+      install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.png ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.xpm DESTINATION "assets")
+    else(UBUNTU_TOUCH)
+      install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/supertux2.desktop DESTINATION "share/applications")
+      set(APPS "\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${INSTALL_SUBDIR_BIN}/supertux2")
+      install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.png ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.xpm DESTINATION "share/pixmaps/")
+    endif(UBUNTU_TOUCH)
 
-    set(APPS "\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${INSTALL_SUBDIR_BIN}/supertux2")
-
-    install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.png ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.xpm DESTINATION "share/pixmaps/")
     install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/supertux2.svg DESTINATION "share/icons/hicolor/scalable/apps")
 
   endif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin" AND DISABLE_CPACK_BUNDLING)
 endif(WIN32 AND NOT UNIX)
 
-install(TARGETS supertux2 DESTINATION ${INSTALL_SUBDIR_BIN})
+if(UBUNTU_TOUCH)
+  install(TARGETS supertux2 DESTINATION ".")
+else(UBUNTU_TOUCH)
+  install(TARGETS supertux2 DESTINATION ${INSTALL_SUBDIR_BIN})
+endif(UBUNTU_TOUCH)
 
 if(WIN32)
   get_property(SQUIRREL_LIB_PATH TARGET squirrel_lib PROPERTY IMPORTED_LOCATION)

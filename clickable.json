@@ -1,0 +1,22 @@
+{
+  "builder": "cmake",
+  "dependencies_target": [
+    "libogg-dev",
+    "libvorbis-dev",
+    "libopenal-dev",
+    "libboost-all-dev",
+    "libsdl2-dev",
+    "libsdl2-image-dev",
+    "libfreetype6-dev",
+    "libcurl4-openssl-dev",
+    "libglew-dev",
+    "libharfbuzz-dev",
+    "libfribidi-dev"
+  ],
+  "build_args": [
+    "-DUBUNTU_TOUCH=ON",
+    "-DWARNINGS=ON",
+    "-DWERROR=ON",
+    "-DBUILD_TYPE=${BUILD_TYPE}"
+  ]
+}
