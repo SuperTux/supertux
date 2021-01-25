@@ -17,7 +17,7 @@
 #ifndef HEADER_SUPERTUX_INTERFACE_CONTROL_ENUM_HPP
 #define HEADER_SUPERTUX_INTERFACE_CONTROL_ENUM_HPP
 
-#include <unordered_map>
+#include <vector>
 
 #include "interface/control.hpp"
 
@@ -38,13 +38,13 @@ public:
   void set_value(T value) { *m_value = value; }
   void bind_value(T* value) { m_value = value; }
 
-  void add_option(T key, std::string label) { m_options.insert(std::make_pair(key, label)); }
+  void add_option(T key, std::string label) { m_options.push_back(std::make_pair(key, label)); }
 
 private:
   T* m_value;
   bool m_open_list;
 
-  std::unordered_map<T, std::string> m_options;
+  std::vector<std::pair<T, std::string>> m_options;
   Vector m_mouse_pos;
 
 private:
@@ -92,7 +92,7 @@ ControlEnum<T>::draw(DrawingContext& context)
                                    LAYER_GUI);
 
   std::string label;
-  auto it = m_options.find(*m_value);
+  auto it = std::find_if(m_options.begin(), m_options.end(), [this](const auto &a) { return a.first == *m_value; });
   if (it != m_options.end()) {
     label = it->second;
   } else {

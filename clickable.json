@@ -1,6 +1,7 @@
 {
   "builder": "cmake",
   "dependencies_target": [
+    "clang",
     "libogg-dev",
     "libvorbis-dev",
     "libopenal-dev",
@@ -15,8 +16,10 @@
   ],
   "build_args": [
     "-DUBUNTU_TOUCH=ON",
-    "-DWARNINGS=ON",
-    "-DWERROR=ON",
-    "-DBUILD_TYPE=${BUILD_TYPE}"
+    "-DWARNINGS=OFF",
+    "-DWERROR=OFF",
+    "-DCMAKE_BUILD_TYPE=${BUILD_TYPE}",
+    "-DCMAKE_C_COMPILER=clang",
+    "-DCMAKE_CXX_COMPILER=clang++"
   ]
 }
