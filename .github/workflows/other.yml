@@ -79,7 +79,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        build_type: [Debug, Release]
+        build_type: [, --debug]
+        arch: [amd64]
+        # TODO: Build for arm64 and armhf
 
     runs-on: ubuntu-20.04
     steps:
@@ -96,17 +98,17 @@ jobs:
           sudo apt-get install -y runc
           sudo apt-get install -y docker.io adb git python3 python3-pip
           pip3 install --user --upgrade clickable-ut
-        # TODO: Build for arm64 and armhf
-      - name: Build for amd64
+      - name: Build
         env:
           BUILD_TYPE: ${{ matrix.build_type }}
+          ARCH: ${{ matrix.arch }}
         run: |
           # Clickable requires a reboot/logout. This is a sneaky way to bypass that :^)
           sudo systemctl unmask docker.service
           sudo systemctl start docker.service
-          ~/.local/bin/clickable build --verbose --arch amd64
+          ~/.local/bin/clickable build ${BUILD_TYPE} --verbose --arch ${ARCH} --config mk/ubports/clickable.json
       - uses: actions/upload-artifact@v2
         with:
-          name: "ubports-amd64-${{ matrix.build_type }}-click"
-          path: build/x86_64-linux-gnu/app/*.click
+          name: "ubports-${{ matrix.arch }}-${{ matrix.build_type }}-click"
+          path: build/*/app/*.click
           if-no-files-found: ignore

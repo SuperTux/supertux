@@ -41,7 +41,7 @@ float Vector::norm() const
 
 float Vector::angle() const
 {
-  return (x==0&&y==0) ? 0 : atan2(y,x);
+  return (x==0&&y==0) ? 0 : atan2f(y,x);
 }
 
 std::ostream& operator<<(std::ostream& out, const Vector& vector)

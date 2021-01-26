@@ -584,7 +584,7 @@ Player::swim(float pointx, float pointy, bool boost)
     if(is_ang_defined)
     {
       delta = pointed_angle - m_swimming_angle;
-      if(abs(delta) > math::PI) delta += delta > 0 ? -math::TAU : math::TAU;
+      if(std::abs(delta) > math::PI) delta += delta > 0 ? -math::TAU : math::TAU;
       float epsilon = .1f * delta;
       m_swimming_angle += epsilon;
       if (m_swimming_angle > math::PI) m_swimming_angle -= math::TAU;
@@ -595,7 +595,7 @@ Player::swim(float pointx, float pointy, bool boost)
     if (m_swimming && !m_water_jump)
     {
 
-      if(is_ang_defined && abs(delta)<0.01f) m_swimming_angle = pointed_angle;
+      if(is_ang_defined && std::abs(delta)<0.01f) m_swimming_angle = pointed_angle;
 
       if (!is_ang_defined) m_swimming_accel_modifier = 0;
       else m_swimming_accel_modifier = 700.f;
@@ -661,8 +661,8 @@ Player::swim(float pointx, float pointy, bool boost)
     }
 
   // Direction prev_dir = m_dir;
-  m_dir = abs(m_swimming_angle) <= math::PI_4 ? Direction::RIGHT :
-          abs(m_swimming_angle) >= 3.f * math::PI_4 ? Direction::LEFT :
+  m_dir = std::abs(m_swimming_angle) <= math::PI_4 ? Direction::RIGHT :
+          std::abs(m_swimming_angle) >= 3.f * math::PI_4 ? Direction::LEFT :
           m_swimming_angle < 0 ? Direction::UP :
           Direction::DOWN;
   // if (m_player_status.bonus == BonusType::GROWUP_BONUS &&
