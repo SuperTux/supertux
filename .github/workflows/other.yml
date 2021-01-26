@@ -79,7 +79,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        build_type: [, --debug]
+        build_type: ["", "--debug"]
         arch: [amd64]
         # TODO: Build for arm64 and armhf
 
