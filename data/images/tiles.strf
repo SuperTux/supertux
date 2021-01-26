@@ -21,8 +21,7 @@
  
    ;; next-id: 4195
   
-  ;; free/skipped ids (please use before any other):
-  ;; No individual ids are currently skipped! Delete this line if any are and replace it with said ids...
+  ;; free/skipped ids (please use before any other): 101
   ;; No group ids are currently skipped! Delete this line if any are and replace it with said ids...
  
   (tilegroup
@@ -1647,7 +1646,7 @@
       93 94 95 96
       97 98 99 100
     )
-    (image "tiles/background/bkgd.png")
+    (image "tiles/retro_snow/bkgd.png")
   )
   (tile
     ; dupe of tile 93, this one will be removed.
