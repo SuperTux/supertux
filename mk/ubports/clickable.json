@@ -1,5 +1,6 @@
 {
   "builder": "cmake",
+  "build_dir": "build.ubports",
   "dependencies_target": [
     "libogg-dev",
     "libvorbis-dev",
