@@ -496,7 +496,7 @@ Player::update(float dt_sec)
     m_physic.set_velocity_y(std::min(m_physic.get_velocity_y(), 0.f));
   }
 
-  if ((get_pos().y > Sector::get().get_height() - m_col.m_bbox.get_height()) && (!m_ghost_mode)) {
+  if ((get_pos().y > Sector::get().get_height() - m_col.m_bbox.get_height()) && (!m_ghost_mode && m_swimming)) {
     m_physic.set_acceleration_y(-WATER_FALLOUT_FORCEBACK_STRENGTH);
   }
 
