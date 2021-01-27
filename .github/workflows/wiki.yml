@@ -36,6 +36,8 @@ jobs:
       - name: Update the wiki
         run: |
           git --version
+          git config --global user.email "supertux-bot"
+          git config --global user.name "SuperTux Bot"
           git pull --rebase git@github.com:SuperTux/wiki.git master
           git push git@github.com:SuperTux/wiki.git HEAD:master
           git push -f git@github.com:SuperTux/supertux.wiki.git HEAD:master
