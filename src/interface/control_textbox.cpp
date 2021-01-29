@@ -332,7 +332,7 @@ ControlTextbox::parse_value(bool call_on_change /* = true  (see header)*/)
       *m_string = new_str;
 
     if (call_on_change && m_on_change)
-      (*m_on_change)();
+      m_on_change();
   }
 
   return true;

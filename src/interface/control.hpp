@@ -43,10 +43,10 @@ public:
   /** Optional; a function that will be called each time the bound value
    *  is modified.
    */
-  std::function<void()> *m_on_change;
+  std::function<void()> m_on_change;
 
   /** Optional; the label associated with the control */
-  InterfaceLabel* m_label;
+  std::unique_ptr<InterfaceLabel> m_label;
 
 protected:
   /** Whether or not the user has this InterfaceControl as focused */
