@@ -30,8 +30,6 @@ public:
   InterfaceControl();
   virtual ~InterfaceControl() {}
 
-  virtual void update(float dt_sec) override { throw std::runtime_error("Cannot call generic update() on interface control"); }
-  virtual void update(float dt_sec, const Controller& controller) {}
   virtual void draw(DrawingContext& context) override { if (m_label) m_label->draw(context); }
   virtual bool on_mouse_motion(const SDL_MouseMotionEvent& motion) override { if (m_label) m_label->on_mouse_motion(motion); return false; }
 

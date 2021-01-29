@@ -697,11 +697,11 @@ ParticleEditor::update(float dt_sec, const Controller& controller)
 
   if (m_in_texture_tab) {
     for(const auto& control : m_controls_textures) {
-      control->update(dt_sec, controller);
+      control->update(dt_sec);
     }
   } else {
     for(const auto& control : m_controls) {
-      control->update(dt_sec, controller);
+      control->update(dt_sec);
     }
   }
 

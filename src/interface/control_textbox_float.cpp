@@ -27,9 +27,9 @@ ControlTextboxFloat::ControlTextboxFloat() :
 }
 
 void
-ControlTextboxFloat::update(float dt_sec, const Controller& controller)
+ControlTextboxFloat::update(float dt_sec)
 {
-  ControlTextbox::update(dt_sec, controller);
+  ControlTextbox::update(dt_sec);
   if (!m_has_focus)
     revert_value();
 }
