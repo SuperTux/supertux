@@ -53,6 +53,8 @@ protected:
   bool m_has_focus;
   /** The rectangle where the InterfaceControl should be rendered */
   Rectf m_rect;
+  /** A pointer to the parent container, or null if not in any container. */
+  InterfaceControl* m_parent;
 
 private:
   InterfaceControl(const InterfaceControl&) = delete;
