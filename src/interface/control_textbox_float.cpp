@@ -71,7 +71,7 @@ ControlTextboxFloat::parse_value(bool call_on_change /* = true (see header */)
     revert_value();
 
     if (call_on_change && m_on_change)
-      (*m_on_change)();
+      m_on_change();
   }
 
   return true;

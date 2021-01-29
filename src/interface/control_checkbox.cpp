@@ -59,7 +59,7 @@ ControlCheckbox::on_mouse_button_up(const SDL_MouseButtonEvent& button)
   *m_value = !*m_value;
 
   if (m_on_change)
-    (*m_on_change)();
+    m_on_change();
 
   m_has_focus = true;
 
@@ -85,7 +85,7 @@ ControlCheckbox::on_key_up(const SDL_KeyboardEvent& key)
   *m_value = !*m_value;
 
   if (m_on_change)
-    (*m_on_change)();
+    m_on_change();
 
   return true;
 }
