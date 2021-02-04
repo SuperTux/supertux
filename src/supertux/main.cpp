@@ -561,12 +561,13 @@ Main::run(int argc, char** argv)
 	std::string errpath = prefpath + u8"/console.err";
 	std::wstring w_errpath = converter.from_bytes(errpath);
 	_wfreopen(w_errpath.c_str(), L"a", stderr);
-#endif
 
   // Create and install global locale - this can fail on some situations:
   // - with bad values for env vars (LANG, LC_ALL, ...)
   // - targets where libstdc++ uses its generic locales code (https://gcc.gnu.org/legacy-ml/libstdc++/2003-02/msg00345.html)
   // NOTE: when moving to C++ >= 17, keep the try-catch block, but use std::locale:global(std::locale(""));
+  //
+  // This should not be necessary on *nix, so only try it on Windows.
   try
   {
     std::locale::global(boost::locale::generator().generate(""));
@@ -577,6 +578,7 @@ Main::run(int argc, char** argv)
   {
     std::cout << "Warning: " << err.what() << std::endl;
   }
+#endif
 
   int result = 0;
 
