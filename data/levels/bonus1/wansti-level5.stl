@@ -8,6 +8,20 @@
     (ambient-light
       (color 1 1 1)
     )
+    (background
+      (scroll-offset-y -100)
+      (color 1 1 1)
+      (x 13024)
+      (y 800)
+      (alignment "bottom")
+      (scroll-speed-x 0.5)
+      (scroll-speed-y 0.5)
+      (speed 0.5)
+      (image-top "/images/background/antarctic/SnowMountains.png")
+      (image "/images/background/antarctic/SnowMountains.png")
+      (image-bottom "/images/background/antarctic/SnowMountains.png")
+      (z-pos -290)
+    )
     (bouncingsnowball
       (x 12243)
       (y 655)
