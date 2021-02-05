@@ -17,6 +17,8 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_SCREEN_HPP
 #define HEADER_SUPERTUX_SUPERTUX_SCREEN_HPP
 
+#include <SDL.h>
+
 #include "sdk/integration.hpp"
 
 class Compositor;
@@ -55,6 +57,10 @@ public:
    * updates and logic here
    */
   virtual void update(float dt_sec, const Controller& controller) = 0;
+
+  /** gets called when an SDL Evnet happens (key press, etc.) */
+  virtual void event(const SDL_Event& ev)
+  {}
 
   /** 
    * Gives details about what the user is doing right now.

@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2009 Ingo Ruhnke <grumbel@gmail.com>
+//  Copyright (C) 2020 A. Semphris <semphris@protonmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,33 +14,33 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_MENU_MAIN_MENU_HPP
-#define HEADER_SUPERTUX_SUPERTUX_MENU_MAIN_MENU_HPP
+#ifndef HEADER_SUPERTUX_NETWORK_TEST_CLIENT_HPP
+#define HEADER_SUPERTUX_NETWORK_TEST_CLIENT_HPP
 
-#include "gui/menu.hpp"
+#include "network/client.hpp"
+#include "supertux/screen.hpp"
 
-enum MainMenuIDs {
-  MNID_STARTGAME,
-  MNID_PLAYONLINE,
-  MNID_ADDONS,
-  MNID_OPTIONMENU,
-  MNID_LEVELEDITOR,
-  MNID_CREDITS,
-  MNID_DONATE,
-  MNID_QUITMAINMENU
-};
+#include <string>
 
-class MainMenu final : public Menu
+class TestClient final : public Screen
 {
 public:
-  MainMenu();
+  TestClient();
+  virtual ~TestClient();
 
-  void on_window_resize() override;
-  void menu_action(MenuItem& item) override;
+  virtual void setup() override;
+
+  virtual void draw(Compositor& compositor) override {}
+  virtual void update(float dt_sec, const Controller& controller) override {}
+
+  virtual IntegrationStatus get_status() const override { return IntegrationStatus(); }
 
 private:
-  MainMenu(const MainMenu&) = delete;
-  MainMenu& operator=(const MainMenu&) = delete;
+  network::Client* m_client;
+
+private:
+  TestClient(const TestClient&) = delete;
+  TestClient& operator=(const TestClient&) = delete;
 };
 
 #endif

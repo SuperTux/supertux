@@ -44,6 +44,8 @@ extern "C" {
 #include "editor/tool_icon.hpp"
 #include "gui/menu_manager.hpp"
 #include "math/random.hpp"
+#include "network/test_client.hpp"
+#include "network/test_server.hpp"
 #include "object/player.hpp"
 #include "object/spawnpoint.hpp"
 #include "physfs/physfs_file_system.hpp"
@@ -326,9 +328,9 @@ public:
 class SDLSubsystem final
 {
 public:
-  SDLSubsystem()
+  SDLSubsystem(const CommandLineArguments& args)
   {
-    if (SDL_Init(SDL_INIT_TIMER | SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER) < 0)
+    if (SDL_Init(SDL_INIT_TIMER | (args.headless ? 0 : (SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER))) < 0)
     {
       std::stringstream msg;
       msg << "Couldn't initialize SDL: " << SDL_GetError();
@@ -398,7 +400,7 @@ Main::resave(const std::string& input_filename, const std::string& output_filena
 void
 Main::launch_game(const CommandLineArguments& args)
 {
-  SDLSubsystem sdl_subsystem;
+  SDLSubsystem sdl_subsystem(args);
   ConsoleBuffer console_buffer;
 
   s_timelog.log("controller");
@@ -531,13 +533,21 @@ Main::launch_game(const CommandLineArguments& args)
     {
       screen_manager.push_screen(std::make_unique<Editor>());
     }
+    else if (args.test_server)
+    {
+      screen_manager.push_screen(std::make_unique<TestServer>());
+    }
+    else if (args.test_client)
+    {
+      screen_manager.push_screen(std::make_unique<TestClient>());
+    }
     else
     {
       screen_manager.push_screen(std::make_unique<TitleScreen>(*default_savegame));
     }
   }
 
-  screen_manager.run();
+  screen_manager.run(static_cast<bool>(args.headless));
 }
 
 int

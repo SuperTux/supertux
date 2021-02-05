@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2009 Ingo Ruhnke <grumbel@gmail.com>
+//  Copyright (C) 2020 A. Semphris <semphris@protonmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,35 +14,15 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_MENU_MAIN_MENU_HPP
-#define HEADER_SUPERTUX_SUPERTUX_MENU_MAIN_MENU_HPP
+#include "network/supertux_protocol.hpp"
 
-#include "gui/menu.hpp"
+namespace network {
 
-enum MainMenuIDs {
-  MNID_STARTGAME,
-  MNID_PLAYONLINE,
-  MNID_ADDONS,
-  MNID_OPTIONMENU,
-  MNID_LEVELEDITOR,
-  MNID_CREDITS,
-  MNID_DONATE,
-  MNID_QUITMAINMENU
-};
-
-class MainMenu final : public Menu
+SupertuxProtocol::SupertuxProtocol() :
+  ConnectionPool()
 {
-public:
-  MainMenu();
+}
 
-  void on_window_resize() override;
-  void menu_action(MenuItem& item) override;
-
-private:
-  MainMenu(const MainMenu&) = delete;
-  MainMenu& operator=(const MainMenu&) = delete;
-};
-
-#endif
+} // namespace network
 
 /* EOF */

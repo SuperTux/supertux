@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2009 Ingo Ruhnke <grumbel@gmail.com>
+//  Copyright (C) 2020 A. Semphris <semphris@protonmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,34 +14,28 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_MENU_MAIN_MENU_HPP
-#define HEADER_SUPERTUX_SUPERTUX_MENU_MAIN_MENU_HPP
+#ifndef HEADER_SUPERTUX_UTIL_UUID_HPP
+#define HEADER_SUPERTUX_UTIL_UUID_HPP
 
-#include "gui/menu.hpp"
+#include <boost/lexical_cast.hpp>
+#include <boost/uuid/uuid.hpp>
+#include <boost/uuid/uuid_generators.hpp>
+#include <boost/uuid/uuid_io.hpp>
 
-enum MainMenuIDs {
-  MNID_STARTGAME,
-  MNID_PLAYONLINE,
-  MNID_ADDONS,
-  MNID_OPTIONMENU,
-  MNID_LEVELEDITOR,
-  MNID_CREDITS,
-  MNID_DONATE,
-  MNID_QUITMAINMENU
-};
-
-class MainMenu final : public Menu
+class UUID
 {
-public:
-  MainMenu();
-
-  void on_window_resize() override;
-  void menu_action(MenuItem& item) override;
-
 private:
-  MainMenu(const MainMenu&) = delete;
-  MainMenu& operator=(const MainMenu&) = delete;
+  UUID() = delete;
+public:
+  static std::string create_uuid() {
+    boost::uuids::uuid uuid = generator();
+    return boost::uuids::to_string(uuid);
+  }
+private:
+  static boost::uuids::random_generator generator;
 };
+
+boost::uuids::random_generator UUID::generator;
 
 #endif
 
