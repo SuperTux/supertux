@@ -49,7 +49,7 @@ before_build:
     vcpkg install sdl2-image[libjpeg-turbo]:x86-windows
     git submodule update --init --recursive
     echo Running cmake ..
-    cmake -G "Visual Studio 16" -A Win32 -DVCPKG_BUILD=ON -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_INSTALL_PREFIX=%P% -DHAVE_SDL=true -DPACKAGE_VCREDIST=true -DBOOST_UUID_FORCE_AUTO_LINK=true %APPVEYOR_BUILD_FOLDER%
+    cmake -G "Visual Studio 16" -A Win32 -DVCPKG_BUILD=ON -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_INSTALL_PREFIX=%P% -DHAVE_SDL=true -DPACKAGE_VCREDIST=true %APPVEYOR_BUILD_FOLDER%
 
 build:
   project: ALL_BUILD.vcxproj
