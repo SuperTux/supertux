@@ -55,7 +55,6 @@ TileMap::TileMap(const TileSet *new_tileset) :
   m_tint(1, 1, 1),
   m_current_tint(1, 1, 1),
   m_remaining_tint_fade_time(0),
-  m_running(false),
   m_draw_target(DrawingTarget::COLORMAP),
   m_new_size_x(0),
   m_new_size_y(0),
@@ -88,7 +87,6 @@ TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
   m_tint(1, 1, 1),
   m_current_tint(1, 1, 1),
   m_remaining_tint_fade_time(0),
-  m_running(false),
   m_draw_target(DrawingTarget::COLORMAP),
   m_new_size_x(0),
   m_new_size_y(0),
@@ -237,9 +235,8 @@ TileMap::get_settings()
   result.add_bool(_("Following path"), &m_add_path);
 
   if (get_walker() && get_path() && get_path()->is_valid()) {
-    m_running = get_walker()->is_running();
     result.add_walk_mode(_("Path Mode"), &get_path()->m_mode, {}, {});
-    result.add_bool(_("Running"), &m_running, "running", false);
+    result.add_bool(_("Running"), &get_walker()->m_running, "running", false);
   }
 
   result.add_tiles(_("Tiles"), this, "tiles");
@@ -268,7 +265,7 @@ TileMap::after_editor_set()
     }
   } else {
     if (m_add_path) {
-      init_path_pos(m_offset, m_running);
+      init_path_pos(m_offset);
     }
   }
 

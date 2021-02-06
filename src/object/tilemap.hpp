@@ -229,9 +229,6 @@ private:
   Color m_current_tint; /**< current tilemap tint */
   float m_remaining_tint_fade_time; /**< seconds until requested tilemap tint is reached */
 
-  /** Is the tilemap currently moving (following the path) */
-  bool m_running;
-
   /** Set to LIGHTMAP to draw to lightmap */
   DrawingTarget m_draw_target;
 
