@@ -97,6 +97,7 @@ public:
   bool transitions_enabled;
   bool confirmation_dialog;
   bool pause_on_focusloss;
+  bool custom_mouse_cursor;
 
 #ifdef ENABLE_DISCORD
   bool enable_discord;
