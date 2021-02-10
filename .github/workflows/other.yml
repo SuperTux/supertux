@@ -25,7 +25,7 @@ on:
   pull_request: {}
 # TODO the glbinding build
 jobs:
-  build-supertux:
+  bsd:
 
     strategy:
       fail-fast: false

@@ -26,7 +26,7 @@ on:
   pull_request: {}
 # TODO the glbinding build
 jobs:
-  build-supertux:
+  build-unix:
 
     strategy:
       fail-fast: false
@@ -153,4 +153,72 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           files: 'build/upload/SuperTux-*'
+          draft: true
+
+  build-windows:
+    strategy:
+      fail-fast: false
+      matrix:
+        build_type: [Debug, Release]
+        include:
+          - build_type: Release
+            release: 'ON'
+
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          # Fetch the whole tree so git describe works
+          fetch-depth: 0
+          submodules: true
+      - name: Install dependencies
+        run: |
+          vcpkg integrate install
+          vcpkg install boost-date-time:x64-windows
+          vcpkg install boost-filesystem:x64-windows
+          vcpkg install boost-format:x64-windows
+          vcpkg install boost-iostreams:x64-windows
+          vcpkg install boost-locale:x64-windows
+          vcpkg install boost-optional:x64-windows
+          vcpkg install boost-system:x64-windows
+          vcpkg install curl:x64-windows
+          vcpkg install --recurse freetype:x64-windows
+          vcpkg install glew:x64-windows
+          vcpkg install libogg:x64-windows
+          vcpkg install libraqm:x64-windows
+          vcpkg install libvorbis:x64-windows
+          vcpkg install openal-soft:x64-windows
+          vcpkg install sdl2:x64-windows
+          vcpkg install sdl2-image[libjpeg-turbo]:x64-windows
+      - name: Configure bulid
+        env:
+          BUILD_TYPE: ${{ matrix.build_type }}
+        run: |
+          cmake --version
+          mkdir build
+          cd build
+          cmake .. -G "Visual Studio 16 2019" -A x64 -DVCPKG_BUILD=ON -DCMAKE_TOOLCHAIN_FILE=c:/vcpkg/scripts/buildsystems/vcpkg.cmake -DHAVE_SDL=true -DPACKAGE_VCREDIST=true -DCMAKE_BUILD_TYPE=$Env:BUILD_TYPE -DBUILD_TESTS=ON
+      - name: Build and install
+        working-directory: build
+        env:
+          BUILD_TYPE: ${{ matrix.build_type }}
+        run: |
+          cmake --build . --config $Env:BUILD_TYPE
+      - name: Package
+        working-directory: build
+        env:
+          BUILD_TYPE: ${{ matrix.build_type }}
+        run: cpack -C $Env:BUILD_TYPE
+      - uses: actions/upload-artifact@v2
+        with:
+          name: "windows-${{ matrix.build_type }}-installer"
+          path: build/*.msi
+          if-no-files-found: ignore
+      - name: Create Release
+        if: startsWith(github.ref, 'refs/tags/') && matrix.release == 'ON' && github.repository_owner == 'supertux'
+        uses: softprops/action-gh-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          files: 'build/SuperTux-*'
           draft: true
