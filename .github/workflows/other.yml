@@ -25,7 +25,7 @@ on:
   pull_request: {}
 # TODO the glbinding build
 jobs:
-  build-supertux:
+  bsd:
 
     strategy:
       fail-fast: false
@@ -70,3 +70,18 @@ jobs:
             make -j3 VERBOSE=1
             make install DESTDIR="/tmp/supertux" VERBOSE=1
             ./test_supertux2
+  ios:
+    strategy:
+      fail-fast: false
+      matrix:
+        target_os: [ios, tvos, watchos]
+        build_type: [Debug, Release]
+
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          # Fetch the whole tree so git describe works
+          fetch-depth: 0
+          submodules: true
+      - name: Build in FreeBSD
