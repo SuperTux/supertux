@@ -36,7 +36,8 @@ public:
     NO_ACTION,
     PRINT_VERSION,
     PRINT_HELP,
-    PRINT_DATADIR
+    PRINT_DATADIR,
+    PRINT_ACKNOWLEDGEMENTS
   };
 
 private:
@@ -94,6 +95,7 @@ public:
   void print_help(const char* arg0) const;
   void print_version() const;
   void print_datadir() const;
+  void print_acknowledgements() const;
 
   void merge_into(Config& config);
 

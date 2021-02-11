@@ -176,7 +176,7 @@ GameSession::on_escape_press()
     m_currentsector->get_player().m_dying_timer.start(FLT_EPSILON);
     return;   // don't let the player open the menu, when Tux is dying
   }
-  
+
   if (m_level->m_is_in_cutscene && !m_level->m_skip_cutscene)
   {
     m_level->m_skip_cutscene = true;
@@ -360,6 +360,7 @@ GameSession::update(float dt_sec, const Controller& controller)
     ScreenManager::current()->set_speed(m_speed_before_pause);
     SoundManager::current()->resume_music();
     SoundManager::current()->resume_sounds();
+    assert(m_currentsector != nullptr);
     m_currentsector->play_looping_sounds();
     m_game_pause = false;
   }
@@ -373,6 +374,7 @@ GameSession::update(float dt_sec, const Controller& controller)
       log_warning << "Sector '" << m_newsector << "' not found" << std::endl;
       sector = m_level->get_sector(m_start_sector);
     }
+    assert(m_currentsector != nullptr);
     m_currentsector->stop_looping_sounds();
     sector->activate(m_newspawnpoint);
     sector->get_singleton_by_type<MusicObject>().play_music(LEVEL_MUSIC);
@@ -396,6 +398,7 @@ GameSession::update(float dt_sec, const Controller& controller)
 
   // Update the world state and all objects in the world
   if (!m_game_pause) {
+    assert(m_currentsector != nullptr);
     // Update the world
     if (!m_end_sequence) {
       m_play_time += dt_sec; //TODO: make sure we don't count cutscene time

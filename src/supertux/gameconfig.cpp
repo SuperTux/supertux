@@ -57,6 +57,7 @@ Config::Config() :
   transitions_enabled(true),
   confirmation_dialog(false),
   pause_on_focusloss(true),
+  custom_mouse_cursor(true),
 #ifdef ENABLE_DISCORD
   enable_discord(false),
 #endif
@@ -84,6 +85,7 @@ Config::load()
   config_mapping.get("developer", developer_mode);
   config_mapping.get("confirmation_dialog", confirmation_dialog);
   config_mapping.get("pause_on_focusloss", pause_on_focusloss);
+  config_mapping.get("custom_mouse_cursor", custom_mouse_cursor);
 
   boost::optional<ReaderMapping> config_integrations_mapping;
   if (config_mapping.get("integrations", config_integrations_mapping))
@@ -203,7 +205,8 @@ Config::save()
   writer.write("developer", developer_mode);
   writer.write("confirmation_dialog", confirmation_dialog);
   writer.write("pause_on_focusloss", pause_on_focusloss);
-  
+  writer.write("custom_mouse_cursor", custom_mouse_cursor);
+
   writer.start_list("integrations");
   {
     writer.write("hide_editor_levelnames", hide_editor_levelnames);

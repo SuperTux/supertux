@@ -63,7 +63,8 @@ enum OptionsMenuIDs {
   MNID_CHRISTMAS_MODE,
   MNID_TRANSITIONS,
   MNID_CONFIRMATION_DIALOG,
-  MNID_PAUSE_ON_FOCUSLOSS
+  MNID_PAUSE_ON_FOCUSLOSS,
+  MNID_CUSTOM_CURSOR
 };
 
 OptionsMenu::OptionsMenu(bool complete) :
@@ -399,8 +400,9 @@ OptionsMenu::OptionsMenu(bool complete) :
   }
 
   add_toggle(MNID_CONFIRMATION_DIALOG, _("Confirmation Dialog"), &g_config->confirmation_dialog).set_help(_("Confirm aborting level"));
-  add_toggle(MNID_CONFIRMATION_DIALOG, _("Pause on focus loss"), &g_config->pause_on_focusloss)
+  add_toggle(MNID_PAUSE_ON_FOCUSLOSS, _("Pause on focus loss"), &g_config->pause_on_focusloss)
     .set_help("Automatically pause the game when the window loses focus");
+  add_toggle(MNID_CUSTOM_CURSOR, _("Use custom mouse cursor"), &g_config->custom_mouse_cursor).set_help(_("Whether the game renders its own cursor or uses the system's cursor"));
 
   add_submenu(_("Integrations and presence"), MenuStorage::INTEGRATIONS_MENU)
       .set_help(_("Manage whether SuperTux should display the levels you play on your social media profiles (Discord)"));
@@ -560,6 +562,10 @@ OptionsMenu::menu_action(MenuItem& item)
         SoundManager::current()->set_music_volume(g_config->music_volume);
         g_config->save();
       }
+      break;
+
+    case MNID_CUSTOM_CURSOR:
+      SDL_ShowCursor(g_config->custom_mouse_cursor ? 0 : 1);
       break;
 
     default:

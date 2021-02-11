@@ -9,12 +9,14 @@
       (color 0.8 0.8 0.8)
     )
     (background
+      (color 1 1 1)
       (speed 0.5)
       (image-top "/images/background/cave2.jpg")
       (image "/images/background/cave2.jpg")
       (image-bottom "/images/background/cave2.jpg")
     )
     (background
+      (color 1 1 1)
       (x 896)
       (y 256)
       (speed 0.5)

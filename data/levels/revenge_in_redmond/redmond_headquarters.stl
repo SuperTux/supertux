@@ -9,6 +9,7 @@
       (color 0.9 0.9 0.9)
     )
     (background
+      (color 1 1 1)
       (speed 0)
       (speed-y 0.5)
       (image-top "/images/background/castle_foreground.png")
