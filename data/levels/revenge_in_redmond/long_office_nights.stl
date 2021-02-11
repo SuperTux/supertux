@@ -567,7 +567,7 @@
     )
     (infoblock
       (sprite "/images/objects/bonus_block/retro_info.sprite")
-      (message (_ "#Only those wielding the legendary coffee shall pass this barrier!"))
+      (message (_ "#Only those wielding the legendary coffee and mints shall pass this barrier!"))
       (x 2080)
       (y 544)
     )
