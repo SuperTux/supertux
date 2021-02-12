@@ -2079,7 +2079,7 @@ Player::handle_input_climbing()
     m_dir = Direction::RIGHT;
     vx += MAX_CLIMB_XM;
   }
-  if (m_controller->hold(Control::UP)) {
+  if (m_controller->hold(Control::UP) && m_col.m_bbox.get_top() > m_climbing->get_bbox().get_top()) {
     vy -= MAX_CLIMB_YM;
   }
   if (m_controller->hold(Control::DOWN)) {
