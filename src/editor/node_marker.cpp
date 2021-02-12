@@ -17,6 +17,7 @@
 #include "editor/node_marker.hpp"
 
 #include "editor/editor.hpp"
+#include "math/bezier.hpp"
 #include "math/easing.hpp"
 #include "supertux/sector.hpp"
 
@@ -69,7 +70,13 @@ NodeMarker::get_point_vector() const
   if (next == m_path->m_nodes.end()) {
     return Vector(0,0);
   } else {
-    return next->position - m_node->position;
+    Vector p = Bezier::get_point(m_node->position,
+                                 m_node->bezier_after,
+                                 next->bezier_before,
+                                 next->position,
+                                 .01f);
+
+    return p - m_node->position;
   }
 }
 

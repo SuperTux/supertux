@@ -27,6 +27,8 @@ class Bezier
 public:
   // p1 is first anchor, p2 is first handle, p3 is second handle, p4 is second anchor. T is progress from p1 towards p4.
   static Vector get_point(Vector p1, Vector p2, Vector p3, Vector p4, float t);
+  // Same as above, but does not treat p1 == p2 && p3 == p4 as a special case
+  static Vector get_point_raw(Vector p1, Vector p2, Vector p3, Vector p4, float t);
   // FIXME: Move this to the Canvas object?
   static void draw_curve(DrawingContext& context, Vector p1, Vector p2, Vector p3, Vector p4, int steps, Color color, int layer);
 
