@@ -26,7 +26,6 @@
 #include "supertux/player_status.hpp"
 #include "supertux/sequence.hpp"
 #include "supertux/timer.hpp"
-#include "trigger/climbable.hpp"
 #include "video/surface_ptr.hpp"
 
 class BadGuy;

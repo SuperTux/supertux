@@ -37,6 +37,7 @@
 #include "supertux/gameconfig.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/tile.hpp"
+#include "trigger/climbable.hpp"
 #include "trigger/trigger_base.hpp"
 #include "video/surface.hpp"
 
