@@ -95,7 +95,7 @@ Resources::get_font_for_locale(const std::string& locale)
   if(locale == "cmn" || locale == "ja" || locale == "zh_CN" || locale == "zh_TW")
     return "fonts/NotoSansCJKjp-Medium.otf";
   if(locale == "he")
-    return "fonts/shuneet3-medium.otf";
+    return "fonts/shuneet3-medium.ttf";
   return "fonts/SuperTux-Medium.ttf";
 }
 
