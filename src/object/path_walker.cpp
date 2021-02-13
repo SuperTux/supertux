@@ -110,15 +110,22 @@ PathWalker::get_pos() const
   const Path::Node* current_node = &(path->m_nodes[m_current_node_nr]);
   const Path::Node* next_node = & (path->m_nodes[m_next_node_nr]);
   
-  easing easeFunc = getEasingByName(current_node->easing);
+  easing easeFunc = m_walking_speed > 0 ?
+                          getEasingByName(current_node->easing) :
+                          getEasingByName(get_reverse_easing(next_node->easing));
   
   float progress = static_cast<float>(easeFunc(static_cast<double>(m_node_time)));
 
-  Vector new_pos = Bezier::get_point(current_node->position,
-                                     current_node->bezier_after,
-                                     next_node->bezier_before,
-                                     next_node->position,
-                                     progress);
+  Vector new_pos = Bezier::get_point_by_length
+                   (current_node->position,
+                    m_walking_speed > 0 ?
+                      current_node->bezier_after :
+                      current_node->bezier_before,
+                    m_walking_speed > 0 ?
+                      next_node->bezier_before :
+                      next_node->bezier_after,
+                    next_node->position,
+                    progress);
 
   return new_pos;
 }

@@ -26,11 +26,17 @@ class Bezier
 {
 public:
   // p1 is first anchor, p2 is first handle, p3 is second handle, p4 is second anchor. T is progress from p1 towards p4.
-  static Vector get_point(Vector p1, Vector p2, Vector p3, Vector p4, float t);
+  static Vector get_point(const Vector& p1, const Vector& p2, const Vector& p3, const Vector& p4, float t);
   // Same as above, but does not treat p1 == p2 && p3 == p4 as a special case
-  static Vector get_point_raw(Vector p1, Vector p2, Vector p3, Vector p4, float t);
+  static Vector get_point_raw(const Vector& p1, const Vector& p2, const Vector& p3, const Vector& p4, float t);
+  // Calculates the full length of the bezier curve (approximated)
+  static float get_length(const Vector& p1, const Vector& p2, const Vector& p3, const Vector& p4, int steps = 100);
+  // Gets the point at the given length
+  static Vector get_point_at_length(const Vector& p1, const Vector& p2, const Vector& p3, const Vector& p4, float length, int steps = 100);
+  // Same as get_point but gets length-normalized
+  static Vector get_point_by_length(const Vector& p1, const Vector& p2, const Vector& p3, const Vector& p4, float t);
   // FIXME: Move this to the Canvas object?
-  static void draw_curve(DrawingContext& context, Vector p1, Vector p2, Vector p3, Vector p4, int steps, Color color, int layer);
+  static void draw_curve(DrawingContext& context, const Vector& p1, const Vector& p2, const Vector& p3, const Vector& p4, int steps, Color color, int layer);
 
 private:
   Bezier(const Bezier&) = delete;

@@ -195,7 +195,10 @@ void NodeMarker::update_node_time(std::vector<Path::Node>::iterator current, std
     return;  // Nothing to do.
   }
   if (current->speed > 0) {
-    float delta = glm::distance(next->position, current->position);
+    float delta = Bezier::get_length(current->position,
+                                     current->bezier_after,
+                                     next->bezier_before,
+                                     next->position);
     if (delta > 0) {
       current->time = delta / current->speed;
     }
