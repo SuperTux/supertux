@@ -65,7 +65,8 @@ Path::Path() :
 
 Path::Path(const Vector& pos) :
   m_nodes(),
-  m_mode()
+  m_mode(),
+  m_adapt_speed()
 {
   Node first_node;
   first_node.position = pos;
