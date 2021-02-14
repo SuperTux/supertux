@@ -58,7 +58,8 @@ walk_mode_to_string(WalkMode walk_mode)
 
 Path::Path() :
   m_nodes(),
-  m_mode(WalkMode::CIRCULAR)
+  m_mode(WalkMode::CIRCULAR),
+  m_adapt_speed()
 {
 }
 
@@ -87,7 +88,8 @@ Path::read(const ReaderMapping& reader)
       std::string mode_string;
       iter.get(mode_string);
       m_mode = string_to_walk_mode(mode_string);
-      continue;
+    } else if (iter.get_key() == "adapt_speed") {
+      iter.get(m_adapt_speed);
     } else if (iter.get_key() == "node") {
       ReaderMapping node_mapping = iter.as_mapping();
 
@@ -131,6 +133,7 @@ Path::save(Writer& writer)
   if (m_mode != WalkMode::CIRCULAR) {
     writer.write("mode", walk_mode_to_string(m_mode), false);
   }
+  writer.write("adapt_speed", m_adapt_speed);
 
   for (auto& nod : m_nodes) {
     writer.start_list("node");

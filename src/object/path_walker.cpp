@@ -116,18 +116,14 @@ PathWalker::get_pos() const
   
   float progress = static_cast<float>(easeFunc(static_cast<double>(m_node_time)));
 
-  Vector new_pos = Bezier::get_point_by_length
-                   (current_node->position,
-                    m_walking_speed > 0 ?
-                      current_node->bezier_after :
-                      current_node->bezier_before,
-                    m_walking_speed > 0 ?
-                      next_node->bezier_before :
-                      next_node->bezier_after,
-                    next_node->position,
-                    progress);
+  Vector p1 = current_node->position,
+         p2 = m_walking_speed > 0 ? current_node->bezier_after : current_node->bezier_before,
+         p3 = m_walking_speed > 0 ? next_node->bezier_before : next_node->bezier_after,
+         p4 = next_node->position;
 
-  return new_pos;
+  return path->m_adapt_speed ?
+                          Bezier::get_point(p1, p2, p3, p4, progress) :
+                          Bezier::get_point_by_length(p1, p2, p3, p4, progress);
 }
 
 void

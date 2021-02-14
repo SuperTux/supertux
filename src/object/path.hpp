@@ -98,6 +98,10 @@ public:
 
   WalkMode m_mode;
 
+  bool m_adapt_speed; /**< Whether or not to adapt the speed to bezier curves,
+                          cancelling the code that forces traveling bezier
+                          curves at constant speed */
+
 private:
   Path(const Path&) = delete;
   Path& operator=(const Path&) = delete;

@@ -310,6 +310,7 @@ WillOWisp::get_settings()
   result.add_float(_("Fly speed"), &m_flyspeed, "flyspeed", FLYSPEED);
   result.add_path_ref(_("Path"), get_path_ref(), "path-ref");
   result.add_color(_("Color"), &m_color, "color");
+  result.add_bool(_("Adapt Speed"), &get_path()->m_adapt_speed, {}, {});
 
   result.reorder({"sector", "spawnpoint", "flyspeed", "track-range", "hit-script", "vanish-range", "name", "path-ref", "region", "x", "y"});
 
