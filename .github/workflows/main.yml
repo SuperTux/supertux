@@ -159,6 +159,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        arch: [x64, x86]
         build_type: [Debug, Release]
         include:
           - build_type: Release
@@ -172,32 +173,35 @@ jobs:
           fetch-depth: 0
           submodules: true
       - name: Install dependencies
+        env:
+          ARCH: ${{ matrix.arch }}
         run: |
           vcpkg integrate install
-          vcpkg install boost-date-time:x64-windows
-          vcpkg install boost-filesystem:x64-windows
-          vcpkg install boost-format:x64-windows
-          vcpkg install boost-iostreams:x64-windows
-          vcpkg install boost-locale:x64-windows
-          vcpkg install boost-optional:x64-windows
-          vcpkg install boost-system:x64-windows
-          vcpkg install curl:x64-windows
-          vcpkg install --recurse freetype:x64-windows
-          vcpkg install glew:x64-windows
-          vcpkg install libogg:x64-windows
-          vcpkg install libraqm:x64-windows
-          vcpkg install libvorbis:x64-windows
-          vcpkg install openal-soft:x64-windows
-          vcpkg install sdl2:x64-windows
-          vcpkg install sdl2-image[libjpeg-turbo]:x64-windows
+          vcpkg install boost-date-time:$Env:ARCH-windows
+          vcpkg install boost-filesystem:$Env:ARCH-windows
+          vcpkg install boost-format:$Env:ARCH-windows
+          vcpkg install boost-iostreams:$Env:ARCH-windows
+          vcpkg install boost-locale:$Env:ARCH-windows
+          vcpkg install boost-optional:$Env:ARCH-windows
+          vcpkg install boost-system:$Env:ARCH-windows
+          vcpkg install curl:$Env:ARCH-windows
+          vcpkg install --recurse freetype:$Env:ARCH-windows
+          vcpkg install glew:$Env:ARCH-windows
+          vcpkg install libogg:$Env:ARCH-windows
+          vcpkg install libraqm:$Env:ARCH-windows
+          vcpkg install libvorbis:$Env:ARCH-windows
+          vcpkg install openal-soft:$Env:ARCH-windows
+          vcpkg install sdl2:$Env:ARCH-windows
+          vcpkg install sdl2-image[libjpeg-turbo]:$Env:ARCH-windows
       - name: Configure bulid
         env:
           BUILD_TYPE: ${{ matrix.build_type }}
+          ARCH: ${{ matrix.arch }}
         run: |
           cmake --version
           mkdir build
           cd build
-          cmake .. -G "Visual Studio 16 2019" -A x64 -DVCPKG_BUILD=ON -DCMAKE_TOOLCHAIN_FILE=c:/vcpkg/scripts/buildsystems/vcpkg.cmake -DHAVE_SDL=true -DPACKAGE_VCREDIST=true -DCMAKE_BUILD_TYPE=$Env:BUILD_TYPE -DBUILD_TESTS=ON
+          cmake .. -G "Visual Studio 16 2019" -A $Env:ARCH.replace("x86", "Win32") -DVCPKG_BUILD=ON -DCMAKE_TOOLCHAIN_FILE=c:/vcpkg/scripts/buildsystems/vcpkg.cmake -DHAVE_SDL=true -DPACKAGE_VCREDIST=true -DCMAKE_BUILD_TYPE=$Env:BUILD_TYPE -DBUILD_TESTS=ON
       - name: Build and install
         working-directory: build
         env:
@@ -211,7 +215,7 @@ jobs:
         run: cpack -C $Env:BUILD_TYPE
       - uses: actions/upload-artifact@v2
         with:
-          name: "windows-${{ matrix.build_type }}-installer"
+          name: "windows-${{ matrix.arch }}-${{ matrix.build_type }}-installer"
           path: build/*.msi
           if-no-files-found: ignore
       - name: Create Release
