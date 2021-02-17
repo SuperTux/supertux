@@ -1,29 +1,51 @@
 (supertux-sprite
+	(action
+	  (name "left")
+	  (hitbox 6 8 32 32)
+	  (fps 10)
+	  (images "laptop-left-0.png"
+			"laptop-left-1.png"
+			"laptop-left-2.png"))
+
+	(action
+	  (name "right")
+	  (hitbox 6 8 32 32)
+	  (fps 10)
+	  (mirror-action "left"))
+
+	(action (name "falling-left")
+	  (hitbox 7 8 10 10)
+	  (images "laptop-flat-left.png"))
+
+	(action (name "falling-right")
+	  (hitbox 7 8 10 10)
+	  (mirror-action "falling-left"))
+
+	(action (name "flat-left")
+	  (hitbox 7 8 10 10)
+	  (images "laptop-flat-left.png"))
+
+	(action (name "flat-right")
+	  (hitbox 7 8 10 10)
+	  (mirror-action "flat-left"))
+
   (action
-    (name "left")
-    (hitbox 3 4 32 32)
-    (images "laptop-left-0.png"
-            "laptop-left-1.png"
-            "laptop-left-2.png")
-  )
+    (name "waking-left")
+    ; (fps 4.0)
+    (hitbox 10 28 32 32)
+    (images "laptop-falling-left.png"
+      "laptop-left-0.png"
+      "laptop-left-1.png"
+      "laptop-left-0.png"
+      "laptop-falling-left.png"
+      "laptop-left-0.png"
+      "laptop-left-1.png"
+      "laptop-left-0.png"
+      "laptop-falling-left.png"
+      "laptop-left-0.png"
+      "laptop-left-1.png"))
+
   (action
-    (name "default")
-    (hitbox 3 4 32 32)
-    (mirror-action "left")
-  )
-  (action
-    (name "right")
-    (hitbox 3 4 32 32)
-    (mirror-action "left")
-  )
-  (action
-    (name "squished-left")
-    (hitbox 1 -19 31.8 31.8)
-    (images "laptop-flat-left.png")
-  )
-  (action
-    (name "squished-right")
-    (hitbox 1 -19 31.8 31.8)
-    (mirror-action "squished-left")
-  )
-)
+    (name "waking-right")
+    (hitbox 10 28 32 32)
+    (mirror-action "waking-left")))
