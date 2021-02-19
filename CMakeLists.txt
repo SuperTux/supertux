@@ -164,9 +164,24 @@ if(WIN32)
   endif(VCPKG_BUILD)
 
 else(WIN32)
-  include(FindPkgConfig)
-  pkg_search_module(SDL2 REQUIRED sdl2>=2.0.1)
-  pkg_search_module(SDL2IMAGE REQUIRED SDL2_image>=2.0.0)
+
+  if (CMAKE_SIZEOF_VOID_P EQUAL 4)
+    # 32-bit
+    find_library(SDL2_LIBRARIES SDL2)
+    find_library(SDL2IMAGE_LIBRARIES SDL2_image)
+    find_path(SDL2_INCLUDE_DIRS SDL2/SDL.h)
+    find_path(SDL2IMAGE_INCLUDE_DIRS SDL2/SDL_image.h)
+    set(SDL2_INCLUDE_DIRS ${SDL2_INCLUDE_DIRS}/SDL2)
+    set(SDL2IMAGE_INCLUDE_DIRS ${SDL2IMAGE_INCLUDE_DIRS}/SDL2)
+    message(STATUS "SDL LIBS: ${SDL2_LIBRARIES}")
+    message(STATUS "SDL INCL: ${SDL2_INCLUDE_DIRS}")
+  else()
+    # 64-bit
+    include(FindPkgConfig)
+    pkg_search_module(SDL2 REQUIRED sdl2>=2.0.1)
+    pkg_search_module(SDL2IMAGE REQUIRED SDL2_image>=2.0.0)
+  endif()
+
 endif(WIN32)
 set(HAVE_SDL TRUE)
 
