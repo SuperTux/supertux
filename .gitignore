@@ -5,6 +5,9 @@ build.*/
 **/CMakeCache.txt
 supertux2
 
+# Ubuntu Touch (clickable) build files
+.clickable/
+
 # Tags file
 tags
 

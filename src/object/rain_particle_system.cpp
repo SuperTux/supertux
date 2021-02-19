@@ -203,8 +203,8 @@ void RainParticleSystem::update(float dt_sec)
     float movement = particle->speed * dt_sec * Sector::get().get_gravity() * m_current_speed * 1.41421353f;
     float abs_x = Sector::get().get_camera().get_translation().x;
     float abs_y = Sector::get().get_camera().get_translation().y;
-    particle->pos.y += movement * cos((particle->angle + 45.f) * 3.14159265f / 180.f);
-    particle->pos.x -= movement * sin((particle->angle + 45.f) * 3.14159265f / 180.f);
+    particle->pos.y += movement * cosf((particle->angle + 45.f) * 3.14159265f / 180.f);
+    particle->pos.x -= movement * sinf((particle->angle + 45.f) * 3.14159265f / 180.f);
     int col = collision(particle, Vector(-movement, movement));
     if ((particle->pos.y > static_cast<float>(SCREEN_HEIGHT) + abs_y) || (col >= 0)) {
       //Create rainsplash

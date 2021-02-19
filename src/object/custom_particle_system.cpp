@@ -720,8 +720,8 @@ CustomParticleSystem::update(float dt_sec)
           {
             auto c = get_collision(particle, Vector(particle->speedX, particle->speedY) * dt_sec);
 
-            float speed_angle = atan(-particle->speedY / particle->speedX);
-            float face_angle = atan(c.slope_normal.y / c.slope_normal.x);
+            float speed_angle = atanf(-particle->speedY / particle->speedX);
+            float face_angle = atanf(c.slope_normal.y / c.slope_normal.x);
             if (c.slope_normal.x == 0.f && c.slope_normal.y == 0.f) {
               auto cX = get_collision(particle, Vector(particle->speedX, 0) * dt_sec);
               if (cX.left != cX.right)
@@ -731,8 +731,8 @@ CustomParticleSystem::update(float dt_sec)
                 particle->speedY *= -1;
             } else {
               float dest_angle = face_angle * 2.f - speed_angle; // Reflect the angle around face_angle
-              float dX = cos(dest_angle),
-                    dY = sin(dest_angle);
+              float dX = cosf(dest_angle),
+                    dY = sinf(dest_angle);
 
               float true_speed = static_cast<float>(sqrt(pow(particle->speedY, 2)
                                                       + pow(particle->speedX, 2)));
@@ -772,7 +772,7 @@ CustomParticleSystem::update(float dt_sec)
 
       switch(particle->angle_mode) {
       case RotationMode::Facing:
-        particle->angle = atan(particle->speedY / particle->speedX) * 180.f / math::PI;
+        particle->angle = atanf(particle->speedY / particle->speedX) * 180.f / math::PI;
         break;
       case RotationMode::Wiggling:
         particle->angle += graphicsRandom.randf(-particle->angle_speed / 2.f,
