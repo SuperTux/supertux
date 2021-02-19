@@ -25,8 +25,8 @@
 class ReaderMapping;
 
 /** A decorative image, perhaps part of the terrain */
-class Decal final : public MovingSprite,
-                    public ExposedObject<Decal, scripting::Decal>
+class Decal : public MovingSprite,
+              public ExposedObject<Decal, scripting::Decal>
 {
   friend class FlipLevelTransformer;
 
@@ -51,7 +51,7 @@ public:
   void set_visible(bool v) { m_visible = v; }
   bool is_visible() const { return m_visible; }
 
-private:
+protected:
   std::string m_default_action;
   bool m_solid;
   Flip m_flip;

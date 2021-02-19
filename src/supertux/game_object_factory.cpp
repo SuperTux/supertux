@@ -83,6 +83,7 @@
 #include "object/custom_particle_system_file.hpp"
 #include "object/coin.hpp"
 #include "object/decal.hpp"
+#include "object/depthmap.hpp"
 #include "object/explosion.hpp"
 #include "object/fallblock.hpp"
 #include "object/firefly.hpp"
@@ -219,6 +220,7 @@ GameObjectFactory::init_factories()
   add_factory<CustomParticleSystemFile>("particles-custom-file");
   add_factory<Coin>("coin");
   add_factory<Decal>("decal");
+  add_factory<DepthMap>("depthmap");
   add_factory<Explosion>("explosion");
   add_factory<FallBlock>("fallblock");
   add_factory<Firefly>("firefly");

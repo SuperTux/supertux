@@ -28,6 +28,7 @@ public:
   virtual ~NullPainter();
 
   virtual void draw_texture(const TextureRequest& request) override;
+  virtual void draw_depthmap(const DepthmapRequest& request) override;
   virtual void draw_gradient(const GradientRequest& request) override;
   virtual void draw_filled_rect(const FillRectRequest& request) override;
   virtual void draw_inverse_ellipse(const InverseEllipseRequest& request) override;

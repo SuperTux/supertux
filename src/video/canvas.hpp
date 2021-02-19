@@ -24,6 +24,8 @@
 #include <obstack.h>
 
 #include "math/rectf.hpp"
+#include "math/triangle.hpp"
+#include "math/triangle3d.hpp"
 #include "math/vector.hpp"
 #include "video/blend.hpp"
 #include "video/color.hpp"
@@ -67,6 +69,11 @@ public:
                           std::vector<float> angles,
                           const Color& color,
                           int layer);
+  void draw_depthmap(const SurfacePtr& surface,
+                     std::vector<Triangle> srcgons,
+                     std::vector<Triangle3D> dstgons,
+                     const Color& color,
+                     int layer);
   void draw_text(const FontPtr& font, const std::string& text,
                  const Vector& position, FontAlignment alignment, int layer, const Color& color = Color(1.0,1.0,1.0));
   /** Draw text to the center of the screen */

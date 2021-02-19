@@ -18,6 +18,7 @@
 
 #include <algorithm>
 #include <math.h>
+#include <iostream>
 
 #include "math/util.hpp"
 #include "supertux/globals.hpp"
@@ -170,6 +171,69 @@ GLPainter::draw_texture(const TextureRequest& request)
                           request.color.alpha * request.alpha));
 
   context.draw_arrays(GL_TRIANGLES, 0, static_cast<GLsizei>(request.srcrects.size() * 2 * 3));
+
+  assert_gl();
+}
+
+void
+GLPainter::draw_depthmap(const DepthmapRequest& request)
+{
+  assert_gl();
+
+  const auto& texture = static_cast<const GLTexture&>(*request.texture);
+
+  assert(request.srcgons.size() == request.dstgons.size());
+
+  std::vector<float> vertices;
+  std::vector<float> uvs;
+  for (size_t i = 0; i < request.srcgons.size(); ++i)
+  {
+    const Vector p1 = request.dstgons[i].p1;
+    const Vector p2 = request.dstgons[i].p2;
+    const Vector p3 = request.dstgons[i].p3;
+
+    const float uv_p1_x = request.srcgons[i].p1.x / static_cast<float>(texture.get_texture_width());
+    const float uv_p1_y = request.srcgons[i].p1.y / static_cast<float>(texture.get_texture_height());
+    const float uv_p2_x = request.srcgons[i].p2.x / static_cast<float>(texture.get_texture_width());
+    const float uv_p2_y = request.srcgons[i].p2.y / static_cast<float>(texture.get_texture_height());
+    const float uv_p3_x = request.srcgons[i].p3.x / static_cast<float>(texture.get_texture_width());
+    const float uv_p3_y = request.srcgons[i].p3.y / static_cast<float>(texture.get_texture_height());
+
+    // TODO
+
+    //if (request.flip & HORIZONTAL_FLIP)
+    //  std::swap(uv_left, uv_right);
+
+    //if (request.flip & VERTICAL_FLIP)
+    //  std::swap(uv_top, uv_bottom);
+
+    auto vertices_lst = {
+      p1.x, p1.y,
+      p2.x, p2.y,
+      p3.x, p3.y,
+    };
+    vertices.insert(vertices.end(), std::begin(vertices_lst), std::end(vertices_lst));
+
+    auto uvs_lst = {
+      uv_p1_x, uv_p1_y,
+      uv_p2_x, uv_p2_y,
+      uv_p3_x, uv_p3_y,
+    };
+    uvs.insert(uvs.end(), std::begin(uvs_lst), std::end(uvs_lst));
+  }
+
+  GLContext& context = m_video_system.get_context();
+
+  context.blend_func(sfactor(request.blend), dfactor(request.blend));
+  context.bind_texture(texture, request.displacement_texture);
+  context.set_texcoords(uvs.data(), sizeof(float) * uvs.size());
+  context.set_positions(vertices.data(), sizeof(float) * vertices.size());
+  context.set_color(Color(request.color.red,
+                          request.color.green,
+                          request.color.blue,
+                          request.color.alpha * request.alpha));
+
+  context.draw_arrays(GL_TRIANGLES, 0, static_cast<GLsizei>(request.srcgons.size() * 3));
 
   assert_gl();
 }

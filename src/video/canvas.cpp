@@ -75,6 +75,10 @@ Canvas::render(Renderer& renderer, Filter filter)
         painter.draw_texture(static_cast<const TextureRequest&>(request));
         break;
 
+      case DEPTHMAP:
+        painter.draw_depthmap(static_cast<const DepthmapRequest&>(request));
+        break;
+
       case GRADIENT:
         painter.draw_gradient(static_cast<const GradientRequest&>(request));
         break;
@@ -216,6 +220,37 @@ Canvas::draw_surface_batch(const SurfacePtr& surface,
   for (auto& dstrect : request->dstrects)
   {
     dstrect = Rectf(apply_translate(dstrect.p1())*scale(), dstrect.get_size()*scale());
+  }
+
+  request->texture = surface->get_texture().get();
+  request->displacement_texture = surface->get_displacement_texture().get();
+
+  m_requests.push_back(request);
+}
+
+void
+Canvas::draw_depthmap(const SurfacePtr& surface,
+                      std::vector<Triangle> srcgons,
+                      std::vector<Triangle3D> dstgons,
+                      const Color& color,
+                      int layer)
+{
+  if (!surface) return;
+
+  auto request = new(m_obst) DepthmapRequest();
+
+  request->type = DEPTHMAP;
+  request->layer = layer;
+  request->flip = m_context.transform().flip ^ surface->get_flip(); // TODO
+  request->alpha = m_context.transform().alpha;
+  request->color = color;
+
+  request->srcgons = std::move(srcgons);
+
+  for (auto dstgon : dstgons)
+  {
+    dstgon = dstgon.moved(apply_translate(Vector()));
+    request->dstgons.push_back(dstgon.shifted(m_context.get_rect().get_middle()));
   }
 
   request->texture = surface->get_texture().get();

@@ -23,6 +23,7 @@
 #include "math/rectf.hpp"
 #include "math/sizef.hpp"
 #include "math/vector.hpp"
+#include "math/triangle.hpp"
 #include "video/color.hpp"
 #include "video/drawing_context.hpp"
 #include "video/font.hpp"
@@ -31,7 +32,14 @@ class Surface;
 
 enum RequestType
 {
-  TEXTURE, GRADIENT, FILLRECT, INVERSEELLIPSE, GETPIXEL, LINE, TRIANGLE
+  TEXTURE,
+  GRADIENT,
+  FILLRECT,
+  INVERSEELLIPSE,
+  GETPIXEL,
+  LINE,
+  TRIANGLE,
+  DEPTHMAP
 };
 
 struct DrawingRequest
@@ -76,6 +84,28 @@ struct TextureRequest : public DrawingRequest
 private:
   TextureRequest(const TextureRequest&) = delete;
   TextureRequest& operator=(const TextureRequest&) = delete;
+};
+
+struct DepthmapRequest : public DrawingRequest
+{
+  DepthmapRequest() :
+    DrawingRequest(TEXTURE),
+    texture(),
+    displacement_texture(),
+    srcgons(),
+    dstgons(),
+    color(1.0f, 1.0f, 1.0f)
+  {}
+
+  const Texture* texture;
+  const Texture* displacement_texture;
+  std::vector<Triangle> srcgons;
+  std::vector<Triangle> dstgons;
+  Color color;
+
+private:
+  DepthmapRequest(const DepthmapRequest&) = delete;
+  DepthmapRequest& operator=(const DepthmapRequest&) = delete;
 };
 
 struct GradientRequest : public DrawingRequest

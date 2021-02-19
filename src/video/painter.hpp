@@ -24,6 +24,7 @@
 
 class Rect;
 struct DrawingRequest;
+struct DepthmapRequest;
 struct FillRectRequest;
 struct GetPixelRequest;
 struct GradientRequest;
@@ -40,6 +41,7 @@ public:
   virtual ~Painter() {}
 
   virtual void draw_texture(const TextureRequest& request) = 0;
+  virtual void draw_depthmap(const DepthmapRequest& request) = 0;
   virtual void draw_gradient(const GradientRequest& request) = 0;
   virtual void draw_filled_rect(const FillRectRequest& request) = 0;
   virtual void draw_inverse_ellipse(const InverseEllipseRequest& request) = 0;

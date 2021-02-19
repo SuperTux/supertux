@@ -202,6 +202,9 @@
     (class "decal")
     (icon "images/engine/editor/decal.png"))
   (object
+    (class "depthmap")
+    (icon "images/engine/editor/decal.png"))
+  (object
     (class "powerup")
     (icon "images/engine/editor/powerup.png"))
   (object
