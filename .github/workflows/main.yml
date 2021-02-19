@@ -80,7 +80,7 @@ jobs:
           sudo apt install -y gcc-multilib g++-multilib libogg-dev:i386 libvorbis-dev:i386 libopenal-dev:i386 libboost-date-time-dev:i386 libboost-filesystem-dev:i386 libboost-locale-dev:i386 libsdl2-dev:i386 libsdl2-image-dev:i386 libfreetype6-dev:i386 libcurl4-openssl-dev:i386 libharfbuzz-dev:i386 libfribidi-dev:i386
           # Nethier GLEW nor glbinding exist in 32-bit for Ubuntu 20.04, so snatch the debs from 16.04 instead
           wget archive.ubuntu.com/ubuntu/pool/main/g/glew/libglew1.13_1.13.0-2_i386.deb && sudo dpkg -i libglew1.13_1.13.0-2_i386.deb
-          wget archive.ubuntu.com/ubuntu/pool/main/g/glew/libglew-dev_1.13.0-2_i386.deb && sudo dpkg -i libglew1.13_1.13.0-2_i386.deb
+          wget archive.ubuntu.com/ubuntu/pool/main/g/glew/libglew-dev_1.13.0-2_i386.deb && sudo dpkg -i libglew-dev_1.13.0-2_i386.deb
       - name: Install macos dependencies
         if: ${{ matrix.os == 'macos-latest' }}
         run: |
