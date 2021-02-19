@@ -109,7 +109,7 @@ jobs:
       - name: Configure bulid
         env:
           BUILD_TYPE: ${{ matrix.build_type }}
-          ARCH: ${{ matrix.arch == 32 && '-DCMAKE_C_FLASG=-m32 -DCMAKE_CXX_FLAGS=-m32' || '' }}
+          ARCH: ${{ matrix.arch == 32 && '-DCMAKE_C_FLAGS=-m32 -DCMAKE_CXX_FLAGS=-m32' || '' }}
         run: |
           cmake --version
           $CXX --version
