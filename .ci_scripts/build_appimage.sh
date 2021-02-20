@@ -6,8 +6,7 @@
 # For more information, see http://appimage.org/
 ########################################################################
 
-export ARCH=$(arch)
-
+export ARCH=$ARCH
 APP=SuperTux
 LOWERAPP=supertux2
 
