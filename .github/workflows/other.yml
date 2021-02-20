@@ -110,5 +110,5 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: "ubports-${{ matrix.arch }}-${{ matrix.build_type }}-click"
-          path: build/*/app/*.click
+          path: build.ubports/*.click
           if-no-files-found: ignore
