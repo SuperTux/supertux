@@ -8,7 +8,7 @@ if [ "$OS_NAME" = "macos-latest" ] && [ "$PACKAGE" = "ON" ]; then
 fi
 
 # make only one source package
-if [ "$OS_NAME" = "ubuntu-latest" ] && [ "$COMPILER_NAME" = "gcc" ] && [ "$BUILD_NAME" = "Debug" ] && [ "$PACKAGE" = "ON" ]; then
+if [ "$OS_NAME" = "ubuntu-latest" ] && [ "$COMPILER_NAME" = "gcc" ] && [ "$BUILD_NAME" = "Debug" ] && [ "$ARCH" = "64" ] && [ "$PACKAGE" = "ON" ]; then
     cpack --config CPackSourceConfig.cmake -G TGZ;
 fi
 
