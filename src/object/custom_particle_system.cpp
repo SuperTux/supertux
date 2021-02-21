@@ -45,6 +45,7 @@ CustomParticleSystem::CustomParticleSystem() :
   ExposedObject<CustomParticleSystem, scripting::CustomParticles>(this),
   texture_sum_odds(0.f),
   time_last_remaining(0.f),
+  script_easings(),
   m_textures(),
   custom_particles(),
   m_particle_main_texture("/images/engine/editor/sparkle.png"),
@@ -88,6 +89,7 @@ CustomParticleSystem::CustomParticleSystem(const ReaderMapping& reader) :
   ExposedObject<CustomParticleSystem, scripting::CustomParticles>(this),
   texture_sum_odds(0.f),
   time_last_remaining(0.f),
+  script_easings(),
   m_textures(),
   custom_particles(),
   m_particle_main_texture("/images/engine/editor/sparkle.png"),
@@ -537,6 +539,23 @@ CustomParticleSystem::update(float dt_sec)
 {
   // "enabled" being false only means new particles shouldn't spawn;
   //  update the already existing particles regardless, if any
+
+  // Handle easings
+  for (auto& req : script_easings)
+  {
+    req.time_remain -= dt_sec;
+    if (req.time_remain <= 0)
+    {
+      req.time_remain = 0;
+      *(req.value) = req.end;
+    }
+    else
+    {
+      float progress = 1.f - (req.time_remain / req.time_total);
+      progress = static_cast<float>(req.func(static_cast<double>(progress)));
+      *(req.value) = req.begin + progress * (req.end - req.begin);
+    }
+  }
 
   // Update existing particles
   for (auto& it : custom_particles) {
@@ -1206,6 +1225,19 @@ CustomParticleSystem::spawn_particles(float lifetime)
 
 // SCRIPTING
 
+void
+CustomParticleSystem::ease_value(float* value, float target, float time, easing func) {
+  assert(value);
 
+  ease_request req;
+  req.value = value;
+  req.begin = *value;
+  req.end = target;
+  req.time_total = time;
+  req.time_remain = time;
+  req.func = func;
+
+  script_easings.push_back(req);
+}
 
 /* EOF */
