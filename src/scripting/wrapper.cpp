@@ -4395,117 +4395,7 @@ static SQInteger CustomParticles_set_rotation_variation_wrapper(HSQUIRRELVM vm)
 
 }
 
-<<<<<<< HEAD
-static SQInteger Player_get_x_wrapper(HSQUIRRELVM vm)
-{
-  SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
-    sq_throwerror(vm, _SC("'get_x' called without instance"));
-    return SQ_ERROR;
-  }
-  auto _this = reinterpret_cast<scripting::Player*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
-
-  try {
-    float return_value = _this->get_x();
-
-    sq_pushfloat(vm, return_value);
-    return 1;
-
-  } catch(std::exception& e) {
-    sq_throwerror(vm, e.what());
-    return SQ_ERROR;
-  } catch(...) {
-    sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_x'"));
-    return SQ_ERROR;
-  }
-
-}
-
-static SQInteger Player_get_y_wrapper(HSQUIRRELVM vm)
-{
-  SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
-    sq_throwerror(vm, _SC("'get_y' called without instance"));
-    return SQ_ERROR;
-  }
-  auto _this = reinterpret_cast<scripting::Player*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
-
-  try {
-    float return_value = _this->get_y();
-
-    sq_pushfloat(vm, return_value);
-    return 1;
-
-  } catch(std::exception& e) {
-    sq_throwerror(vm, e.what());
-    return SQ_ERROR;
-  } catch(...) {
-    sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_y'"));
-    return SQ_ERROR;
-  }
-
-}
-
-static SQInteger Player_set_pos_wrapper(HSQUIRRELVM vm)
-{
-  SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
-    sq_throwerror(vm, _SC("'set_pos' called without instance"));
-    return SQ_ERROR;
-  }
-  auto _this = reinterpret_cast<scripting::Player*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
-  SQFloat arg0;
-  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
-    sq_throwerror(vm, _SC("Argument 1 not a float"));
-    return SQ_ERROR;
-  }
-  SQFloat arg1;
-  if(SQ_FAILED(sq_getfloat(vm, 3, &arg1))) {
-    sq_throwerror(vm, _SC("Argument 2 not a float"));
-    return SQ_ERROR;
-  }
-
-  try {
-    _this->set_pos(static_cast<float> (arg0), static_cast<float> (arg1));
-
-    return 0;
-
-  } catch(std::exception& e) {
-    sq_throwerror(vm, e.what());
-    return SQ_ERROR;
-  } catch(...) {
-    sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_pos'"));
-    return SQ_ERROR;
-  }
-
-}
-
-static SQInteger Rain_release_hook(SQUserPointer ptr, SQInteger )
-{
-  auto _this = reinterpret_cast<scripting::Rain*> (ptr);
-  delete _this;
-  return 0;
-}
-
-static SQInteger Rain_set_enabled_wrapper(HSQUIRRELVM vm)
-=======
 static SQInteger CustomParticles_fade_rotation_variation_wrapper(HSQUIRRELVM vm)
->>>>>>> Added near-complete scripting support for custom particles
 {
   SQUserPointer data;
   if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
@@ -7637,6 +7527,105 @@ static SQInteger Player_get_velocity_y_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   } catch(...) {
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_velocity_y'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger Player_get_x_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+    sq_throwerror(vm, _SC("'get_x' called without instance"));
+    return SQ_ERROR;
+  }
+  auto _this = reinterpret_cast<scripting::Player*> (data);
+
+  if (_this == nullptr) {
+    return SQ_ERROR;
+  }
+
+
+  try {
+    float return_value = _this->get_x();
+
+    sq_pushfloat(vm, return_value);
+    return 1;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_x'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger Player_get_y_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+    sq_throwerror(vm, _SC("'get_y' called without instance"));
+    return SQ_ERROR;
+  }
+  auto _this = reinterpret_cast<scripting::Player*> (data);
+
+  if (_this == nullptr) {
+    return SQ_ERROR;
+  }
+
+
+  try {
+    float return_value = _this->get_y();
+
+    sq_pushfloat(vm, return_value);
+    return 1;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_y'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger Player_set_pos_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+    sq_throwerror(vm, _SC("'set_pos' called without instance"));
+    return SQ_ERROR;
+  }
+  auto _this = reinterpret_cast<scripting::Player*> (data);
+
+  if (_this == nullptr) {
+    return SQ_ERROR;
+  }
+
+  SQFloat arg0;
+  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg1;
+  if(SQ_FAILED(sq_getfloat(vm, 3, &arg1))) {
+    sq_throwerror(vm, _SC("Argument 2 not a float"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->set_pos(static_cast<float> (arg0), static_cast<float> (arg1));
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_pos'"));
     return SQ_ERROR;
   }
 
