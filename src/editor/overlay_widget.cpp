@@ -467,7 +467,8 @@ EditorOverlayWidget::hover_object()
   if (marker_hovered_without_ctrl)
   {
     m_hovered_object = marker_hovered_without_ctrl;
-    m_object_tip = std::make_unique<Tip>(_("Press ALT to make Bezier handles continuous"));
+    // TODO: Temporarily disabled during ongoing discussion
+    //m_object_tip = std::make_unique<Tip>(_("Press ALT to make Bezier handles continuous"));
     return;
   }
 
@@ -613,18 +614,19 @@ EditorOverlayWidget::move_object()
       }
     }
 
+    // TODO: Temporarily disabled during ongoing discussion
     // Special case: Bezier markers should influence each other when holding shift
-    if (alt_pressed) {
-      auto bm = dynamic_cast<BezierMarker*>(m_dragged_object);
-      if (bm) {
-        auto nm = bm->get_parent();
-        if (nm) {
-          nm->move_other_marker(bm->get_uid(), nm->get_pos() * 2.f - new_pos);
-        } else {
-          log_warning << "Moving bezier handles without parent NodeMarker" << std::endl;
-        }
-      }
-    }
+    //if (alt_pressed) {
+    //  auto bm = dynamic_cast<BezierMarker*>(m_dragged_object);
+    //  if (bm) {
+    //    auto nm = bm->get_parent();
+    //    if (nm) {
+    //      nm->move_other_marker(bm->get_uid(), nm->get_pos() * 2.f - new_pos);
+    //    } else {
+    //      log_warning << "Moving bezier handles without parent NodeMarker" << std::endl;
+    //    }
+    //  }
+    //}
 
     m_dragged_object->move_to(new_pos);
   }
