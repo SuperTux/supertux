@@ -60,9 +60,9 @@ BezierMarker::update_iterator(Path::Node* node, Vector* bezier_pos)
 }
 
 NodeMarker*
-BezierMarker::get_parent()
- {
-   return Sector::current()->get_object_by_uid<NodeMarker>(m_parent);
- }
+BezierMarker::get_parent() const
+{
+  return Sector::current()->get_object_by_uid<NodeMarker>(m_parent);
+}
 
 /* EOF */
