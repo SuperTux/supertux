@@ -66,6 +66,9 @@ Bumper::collision(GameObject& other, const CollisionHit& hit)
   auto player = dynamic_cast<Player*> (&other);
   if (player)
   {
+    float vel_x = player->get_physic().get_velocity_x();
+    if ((left && vel_x < -0.1f) || (!left && vel_x > 0.1f))
+      return ABORT_MOVE;
     float BOUNCE_DIR = left ? -BOUNCE_X : BOUNCE_X;
     player->get_physic().set_velocity(BOUNCE_DIR, BOUNCE_Y);
     SoundManager::current()->play(TRAMPOLINE_SOUND);
