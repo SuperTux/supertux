@@ -33,11 +33,11 @@ Bumper::Bumper(const ReaderMapping& reader) :
   physic(),
   left()
 {
-	reader.get("left", left);
+  reader.get("left", left);
   m_sprite->set_action(left ? "left-normal" : "right-normal");
-	physic.enable_gravity(false);
+  physic.enable_gravity(false);
 }
-  
+
 ObjectSettings
 Bumper::get_settings()
 {
@@ -49,7 +49,7 @@ Bumper::get_settings()
 
   return result;
 }
-  
+
 void
 Bumper::update(float dt_sec)
 {
@@ -66,18 +66,18 @@ Bumper::collision(GameObject& other, const CollisionHit& hit)
   auto player = dynamic_cast<Player*> (&other);
   if (player)
   {
-	  float BOUNCE_DIR = left ? -BOUNCE_X : BOUNCE_X;
-	  player->get_physic().set_velocity(BOUNCE_DIR, BOUNCE_Y);
+    float BOUNCE_DIR = left ? -BOUNCE_X : BOUNCE_X;
+    player->get_physic().set_velocity(BOUNCE_DIR, BOUNCE_Y);
     SoundManager::current()->play(TRAMPOLINE_SOUND);
     m_sprite->set_action((left ? "left-swinging" : "right-swinging"), 1);
   }
-	
-	auto bumper = dynamic_cast<Bumper*> (&other);
-	if (bumper)
+
+  auto bumper = dynamic_cast<Bumper*> (&other);
+  if (bumper)
   {
     physic.set_velocity_y(0);
-	  return FORCE_MOVE;
-	}
+    return FORCE_MOVE;
+  }
   return ABORT_MOVE;
 }
 
