@@ -116,7 +116,7 @@ jobs:
           mkdir "build"
           cd "build"
           # TODO add -DGLBINDING_ENABLED=$USE_GLBINDING
-          cmake .. -DCMAKE_BUILD_TYPE=${BUILD_TYPE} ${ARCH} -DWARNINGS=ON -DWERROR=ON -DBUILD_TESTS=ON -DCMAKE_INSTALL_MESSAGE=NEVER -DCMAKE_INSTALL_PREFIX=/usr -DINSTALL_SUBDIR_BIN=bin -DINSTALL_SUBDIR_SHARE=share/supertux2
+          cmake .. -DCMAKE_BUILD_TYPE=${BUILD_TYPE} ${ARCH} -DENABLE_DISCORD=ON -DWARNINGS=ON -DWERROR=ON -DBUILD_TESTS=ON -DCMAKE_INSTALL_MESSAGE=NEVER -DCMAKE_INSTALL_PREFIX=/usr -DINSTALL_SUBDIR_BIN=bin -DINSTALL_SUBDIR_SHARE=share/supertux2
       - name: Build and install
         working-directory: build
         run: |
@@ -223,7 +223,7 @@ jobs:
           cmake --version
           mkdir build
           cd build
-          cmake .. -G "Visual Studio 16 2019" -A $Env:ARCH.replace("x86", "Win32") -DVCPKG_BUILD=ON -DCMAKE_TOOLCHAIN_FILE=c:/vcpkg/scripts/buildsystems/vcpkg.cmake -DHAVE_SDL=true -DPACKAGE_VCREDIST=true -DCMAKE_BUILD_TYPE=$Env:BUILD_TYPE -DBUILD_TESTS=ON
+          cmake .. -G "Visual Studio 16 2019" -A $Env:ARCH.replace("x86", "Win32") -DENABLE_DISCORD=ON -DVCPKG_BUILD=ON -DCMAKE_TOOLCHAIN_FILE=c:/vcpkg/scripts/buildsystems/vcpkg.cmake -DHAVE_SDL=true -DPACKAGE_VCREDIST=true -DCMAKE_BUILD_TYPE=$Env:BUILD_TYPE -DBUILD_TESTS=ON
       - name: Build and install
         working-directory: build
         env:
