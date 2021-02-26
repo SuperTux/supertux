@@ -510,7 +510,7 @@ Player::update(float dt_sec)
   {
     bool sign = std::signbit(m_boost);
     m_boost = (sign ? -1.f : +1.f) * (std::abs(m_boost) - dt_sec * BOOST_DECREASE_RATE);
-    if (signbit(m_boost) != sign)
+    if (std::signbit(m_boost) != sign)
       m_boost = 0.f;
   }
 
