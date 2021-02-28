@@ -39,7 +39,8 @@ MrBomb::MrBomb(const ReaderMapping& reader) :
   if ( !reader.get( "sprite", m_sprite_name ) ){
     return;
   }
-  if (m_sprite_name.empty()) {
+  if (m_sprite_name.empty())
+  {
     m_sprite_name = "images/creatures/mr_bomb/mr_bomb.sprite";
     return;
   }
@@ -67,12 +68,14 @@ bool
 MrBomb::collision_squished(GameObject& object)
 {
   auto player = dynamic_cast<Player*>(&object);
-  if (player && player->is_invincible()) {
+  if (player && player->is_invincible())
+  {
     player->bounce(*this);
     kill_fall();
     return true;
   }
-  if (is_valid()) {
+  if (is_valid())
+  {
     auto& bomb = Sector::get().add<Bomb>(get_pos(), m_dir, m_sprite_name);
 
     // Do not trigger dispenser because we need to wait for
@@ -100,7 +103,8 @@ MrBomb::active_update(float dt_sec)
 void
 MrBomb::kill_fall()
 {
-  if (is_valid()) {
+  if (is_valid())
+  {
     remove_me();
     Sector::get().add<Explosion>(m_col.m_bbox.get_middle(),
       EXPLOSION_STRENGTH_DEFAULT);

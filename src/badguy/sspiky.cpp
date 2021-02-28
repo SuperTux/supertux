@@ -37,7 +37,8 @@ SSpiky::initialize()
 void
 SSpiky::collision_solid(const CollisionHit& hit)
 {
-  if (state != SSPIKY_WALKING) {
+  if (state != SSPIKY_WALKING)
+  {
     BadGuy::collision_solid(hit);
     return;
   }
@@ -47,7 +48,8 @@ SSpiky::collision_solid(const CollisionHit& hit)
 HitResponse
 SSpiky::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
 {
-  if (state != SSPIKY_WALKING) {
+  if (state != SSPIKY_WALKING)
+  {
     return BadGuy::collision_badguy(badguy, hit);
   }
   return WalkingBadguy::collision_badguy(badguy, hit);
@@ -55,42 +57,45 @@ SSpiky::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
 
 void
 SSpiky::active_update(float dt_sec) {
+  switch (state)
+  {
+  case SSPIKY_WALKING:
+    break;
 
-  if (state == SSPIKY_WALKING) {
-    WalkingBadguy::active_update(dt_sec);
-    return;
-  }
+  case SSPIKY_SLEEPING:
+    {
+      Player* player = get_nearest_player();
+      if (player)
+      {
+        Rectf pb = player->get_bbox();
 
-  if (state == SSPIKY_SLEEPING) {
+        bool inReach_left = (pb.get_right() >= m_col.m_bbox.get_right() - ((m_dir == Direction::LEFT) ? 256 : 0));
+        bool inReach_right = (pb.get_left() <= m_col.m_bbox.get_left() + ((m_dir == Direction::RIGHT) ? 256 : 0));
+        bool inReach_top = (pb.get_bottom() >= m_col.m_bbox.get_top());
+        bool inReach_bottom = (pb.get_top() <= m_col.m_bbox.get_bottom());
 
-    Player* player = get_nearest_player();
-    if (player) {
-      Rectf pb = player->get_bbox();
-
-      bool inReach_left = (pb.get_right() >= m_col.m_bbox.get_right()-((m_dir == Direction::LEFT) ? 256 : 0));
-      bool inReach_right = (pb.get_left() <= m_col.m_bbox.get_left()+((m_dir == Direction::RIGHT) ? 256 : 0));
-      bool inReach_top = (pb.get_bottom() >= m_col.m_bbox.get_top());
-      bool inReach_bottom = (pb.get_top() <= m_col.m_bbox.get_bottom());
-
-      if (inReach_left && inReach_right && inReach_top && inReach_bottom) {
-        // wake up
-        m_sprite->set_action(m_dir == Direction::LEFT ? "waking-left" : "waking-right", 1);
-        state = SSPIKY_WAKING;
+        if (inReach_left && inReach_right && inReach_top && inReach_bottom)
+        {
+          // wake up
+          m_sprite->set_action(m_dir == Direction::LEFT ? "waking-left" : "waking-right", 1);
+          state = SSPIKY_WAKING;
+        }
       }
     }
+    break;
 
-    BadGuy::active_update(dt_sec);
-  }
-
-  if (state == SSPIKY_WAKING) {
-    if (m_sprite->animation_done()) {
-      // start walking
-      state = SSPIKY_WALKING;
-      WalkingBadguy::initialize();
+  case SSPIKY_WAKING:
+    {
+      if (m_sprite->animation_done()) {
+        // start walking
+        state = SSPIKY_WALKING;
+        WalkingBadguy::initialize();
+      }
     }
-
-    BadGuy::active_update(dt_sec);
+    break;
   }
+
+  WalkingBadguy::active_update(dt_sec);
 }
 
 void

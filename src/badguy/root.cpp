@@ -50,26 +50,32 @@ Root::deactivate()
 void
 Root::active_update(float dt_sec)
 {
-  if (mystate == STATE_APPEARING) {
+  if (mystate == STATE_APPEARING)
+  {
     if (base_sprite->animation_done()) {
       hatch_timer.start(HATCH_TIME);
       mystate = STATE_HATCHING;
     }
   }
-  if (mystate == STATE_HATCHING) {
+  if (mystate == STATE_HATCHING)
+  {
     if (!hatch_timer.started()) mystate = STATE_GROWING;
   }
-  else if (mystate == STATE_GROWING) {
+  else if (mystate == STATE_GROWING)
+  {
     offset_y -= dt_sec * SPEED_GROW;
-    if (offset_y < static_cast<float>(-m_sprite->get_height())) {
+    if (offset_y < static_cast<float>(-m_sprite->get_height()))
+    {
       offset_y = static_cast<float>(-m_sprite->get_height());
       mystate = STATE_SHRINKING;
     }
     set_pos(m_start_position + Vector(0, offset_y));
   }
-  else if (mystate == STATE_SHRINKING) {
+  else if (mystate == STATE_SHRINKING)
+  {
     offset_y += dt_sec * SPEED_SHRINK;
-    if (offset_y > 0) {
+    if (offset_y > 0)
+    {
       offset_y = 0;
       mystate = STATE_VANISHING;
       base_sprite->set_action("vanishing", 2);
@@ -77,7 +83,8 @@ Root::active_update(float dt_sec)
     }
     set_pos(m_start_position + Vector(0, offset_y));
   }
-  else if (mystate == STATE_VANISHING) {
+  else if (mystate == STATE_VANISHING)
+  {
     if (base_sprite->animation_done()) remove_me();
   }
   BadGuy::active_update(dt_sec);

@@ -54,13 +54,17 @@ void
 MrIceBlock::active_update(float dt_sec)
 {
   if (ice_state == ICESTATE_GRABBED)
+  {
     return;
+  }
 
-  if (ice_state == ICESTATE_FLAT && flat_timer.check()) {
+  if (ice_state == ICESTATE_FLAT && flat_timer.check())
+  {
     set_state(ICESTATE_WAKING);
   }
 
-  if (ice_state == ICESTATE_WAKING && m_sprite->animation_done()) {
+  if (ice_state == ICESTATE_WAKING && m_sprite->animation_done())
+  {
     set_state(ICESTATE_NORMAL);
   }
 
@@ -74,7 +78,8 @@ MrIceBlock::active_update(float dt_sec)
 }
 
 bool
-MrIceBlock::can_break() const {
+MrIceBlock::can_break() const
+{
   return ice_state == ICESTATE_KICKED;
 }
 
@@ -92,17 +97,21 @@ MrIceBlock::collision_solid(const CollisionHit& hit)
     case ICESTATE_NORMAL:
       WalkingBadguy::collision_solid(hit);
       break;
-    case ICESTATE_KICKED: {
-      if ((hit.right && m_dir == Direction::RIGHT) || (hit.left && m_dir == Direction::LEFT)) {
-        m_dir = (m_dir == Direction::LEFT) ? Direction::RIGHT : Direction::LEFT;
-        SoundManager::current()->play("sounds/iceblock_bump.wav", get_pos());
-        m_physic.set_velocity_x(-m_physic.get_velocity_x()*.975f);
+    case ICESTATE_KICKED:
+      {
+        if ((hit.right && m_dir == Direction::RIGHT) || (hit.left && m_dir == Direction::LEFT))
+        {
+          m_dir = (m_dir == Direction::LEFT) ? Direction::RIGHT : Direction::LEFT;
+          SoundManager::current()->play("sounds/iceblock_bump.wav", get_pos());
+          m_physic.set_velocity_x(-m_physic.get_velocity_x()*.975f);
+        }
+        set_action(m_dir == Direction::LEFT ? "flat-left" : "flat-right", /* loops = */ -1);
+        if (fabsf(m_physic.get_velocity_x()) < walk_speed * 1.5f)
+        {
+          set_state(ICESTATE_NORMAL);
+        }
+        break;
       }
-      set_action(m_dir == Direction::LEFT ? "flat-left" : "flat-right", /* loops = */ -1);
-      if (fabsf(m_physic.get_velocity_x()) < walk_speed * 1.5f)
-        set_state(ICESTATE_NORMAL);
-      break;
-    }
     case ICESTATE_FLAT:
     case ICESTATE_WAKING:
       m_physic.set_velocity_x(0);
@@ -116,7 +125,9 @@ HitResponse
 MrIceBlock::collision(GameObject& object, const CollisionHit& hit)
 {
   if (ice_state == ICESTATE_GRABBED)
+  {
     return FORCE_MOVE;
+  }
 
   return BadGuy::collision(object, hit);
 }
@@ -125,13 +136,16 @@ HitResponse
 MrIceBlock::collision_player(Player& player, const CollisionHit& hit)
 {
   // handle kicks from left or right side
-  if ((ice_state == ICESTATE_WAKING || ice_state == ICESTATE_FLAT) && get_state() == STATE_ACTIVE) {
+  if ((ice_state == ICESTATE_WAKING || ice_state == ICESTATE_FLAT) && get_state() == STATE_ACTIVE)
+  {
     if (hit.left) {
       m_dir = Direction::RIGHT;
       player.kick();
       set_state(ICESTATE_KICKED);
       return FORCE_MOVE;
-    } else if (hit.right) {
+    }
+    else if (hit.right)
+    {
       m_dir = Direction::LEFT;
       player.kick();
       set_state(ICESTATE_KICKED);
@@ -165,31 +179,31 @@ bool
 MrIceBlock::collision_squished(GameObject& object)
 {
   Player* player = dynamic_cast<Player*>(&object);
-  if (player && (player->m_does_buttjump || player->is_invincible())) {
+  auto badguy = dynamic_cast<BadGuy*>(&object);
+  auto movingobject = dynamic_cast<MovingObject*>(&object);
+
+  if (player && (player->m_does_buttjump || player->is_invincible()))
+  {
     player->bounce(*this);
     kill_fall();
     return true;
   }
 
-  switch (ice_state)
-  {
+  switch (ice_state) {
     case ICESTATE_KICKED:
+      if (badguy)
       {
-        auto badguy = dynamic_cast<BadGuy*>(&object);
-        if (badguy) {
-          badguy->kill_fall();
-          break;
-        }
+        badguy->kill_fall();
+        break;
       }
       BOOST_FALLTHROUGH;
 
     case ICESTATE_NORMAL:
+      squishcount++;
+      if (squishcount >= MAXSQUISHES)
       {
-        squishcount++;
-        if (squishcount >= MAXSQUISHES) {
-          kill_fall();
-          return true;
-        }
+        kill_fall();
+        return true;
       }
 
       SoundManager::current()->play("sounds/stomp.wav", get_pos());
@@ -201,23 +215,31 @@ MrIceBlock::collision_squished(GameObject& object)
 
     case ICESTATE_FLAT:
     case ICESTATE_WAKING:
+      if (movingobject && (movingobject->get_pos().x < get_pos().x))
       {
-        auto movingobject = dynamic_cast<MovingObject*>(&object);
-        if (movingobject && (movingobject->get_pos().x < get_pos().x)) {
-          m_dir = Direction::RIGHT;
-        } else {
-          m_dir = Direction::LEFT;
-        }
+        m_dir = Direction::RIGHT;
       }
-      if (nokick_timer.check()) set_state(ICESTATE_KICKED);
+      else
+      {
+        m_dir = Direction::LEFT;
+      }
+      if (nokick_timer.check())
+      {
+        set_state(ICESTATE_KICKED);
+      }
       break;
 
     case ICESTATE_GRABBED:
-      assert(false);
+      break;
+
+    default:
       break;
   }
 
-  if (player) player->bounce(*this);
+  if (player)
+  {
+    player->bounce(*this);
+  }
   return true;
 }
 
@@ -225,17 +247,21 @@ void
 MrIceBlock::set_state(IceState state_)
 {
   if (ice_state == state_)
+  {
     return;
+  }
 
   switch (state_) {
     case ICESTATE_NORMAL:
       set_action(m_dir == Direction::LEFT ? "left" : "right", /* loops = */ -1);
       WalkingBadguy::initialize();
       break;
+
     case ICESTATE_FLAT:
       set_action(m_dir == Direction::LEFT ? "flat-left" : "flat-right", /* loops = */ -1);
       flat_timer.start(4);
       break;
+
     case ICESTATE_KICKED:
       SoundManager::current()->play("sounds/kick.wav", get_pos());
 
@@ -244,15 +270,18 @@ MrIceBlock::set_state(IceState state_)
       // we should slide above 1 block holes now...
       m_col.m_bbox.set_size(34, 31.8f);
       break;
+
     case ICESTATE_GRABBED:
       flat_timer.stop();
       break;
+
     case ICESTATE_WAKING:
       m_sprite->set_action(m_dir == Direction::LEFT ? "waking-left" : "waking-right",
                          /* loops = */ 1);
       break;
+
     default:
-      assert(false);
+      break;
   }
   ice_state = state_;
 }
@@ -271,18 +300,24 @@ MrIceBlock::grab(MovingObject& object, const Vector& pos, Direction dir_)
 void
 MrIceBlock::ungrab(MovingObject& object, Direction dir_)
 {
-  if (dir_ == Direction::UP) {
+  if (dir_ == Direction::UP)
+  {
     m_physic.set_velocity_y(-KICKSPEED);
     set_state(ICESTATE_FLAT);
-  } else if (dir_ == Direction::DOWN) {
+  }
+  else if (dir_ == Direction::DOWN)
+  {
     Vector mov(0, 32);
-    if (Sector::get().is_free_of_statics(get_bbox().moved(mov), this)) {
+    if (Sector::get().is_free_of_statics(get_bbox().moved(mov), this))
+    {
       // There is free space, so throw it down
       SoundManager::current()->play("sounds/kick.wav", get_pos());
       m_physic.set_velocity_y(KICKSPEED);
     }
     set_state(ICESTATE_FLAT);
-  } else {
+  }
+  else
+  {
     m_dir = dir_;
     set_state(ICESTATE_KICKED);
   }

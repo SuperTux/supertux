@@ -61,7 +61,8 @@ public:
   }
 
   void notify_dead() {
-    if (m_limit_dispensed_badguys) {
+    if (m_limit_dispensed_badguys)
+    {
       m_current_badguys--;
     }
   }

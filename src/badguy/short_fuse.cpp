@@ -34,7 +34,8 @@ ShortFuse::ShortFuse(const ReaderMapping& reader) :
   if ( !reader.get( "sprite", m_sprite_name ) ){
     return;
   }
-  if (m_sprite_name.empty()) {
+  if (m_sprite_name.empty())
+  {
     m_sprite_name = "images/creatures/short_fuse/short_fuse.sprite";
     return;
   }

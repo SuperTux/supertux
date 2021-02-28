@@ -28,7 +28,8 @@ WalkingCandle::WalkingCandle(const ReaderMapping& reader)
   max_drop_height = 64;
 
   std::vector<float> vColor;
-  if (reader.get("color", vColor)) {
+  if (reader.get("color", vColor))
+  {
     lightcolor = Color(vColor);
   }
   m_sprite->set_color(lightcolor);
@@ -65,7 +66,8 @@ WalkingCandle::unfreeze() {
 HitResponse
 WalkingCandle::collision(GameObject& other, const CollisionHit& hit) {
   auto l = dynamic_cast<Lantern*>(&other);
-  if (l && !m_frozen) if (l->get_bbox().get_bottom() < m_col.m_bbox.get_top()) {
+  if (l && !m_frozen) if (l->get_bbox().get_bottom() < m_col.m_bbox.get_top())
+  {
     l->add_color(lightcolor);
     run_dead_script();
     remove_me();

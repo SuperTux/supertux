@@ -50,9 +50,9 @@ Jumpy::collision_badguy(BadGuy& , const CollisionHit& chit)
 HitResponse
 Jumpy::hit(const CollisionHit& chit)
 {
-  if (chit.bottom) {
-    if (!groundhit_pos_set)
-    {
+  if (chit.bottom)
+  {
+    if (!groundhit_pos_set) {
       pos_groundhit = get_pos();
       groundhit_pos_set = true;
     }
@@ -61,7 +61,9 @@ Jumpy::hit(const CollisionHit& chit)
     // TODO create a nice sound for this...
     //SoundManager::current()->play("sounds/skid.wav");
     update_on_ground_flag(chit);
-  } else if (chit.top) {
+  }
+  else if (chit.top)
+  {
     m_physic.set_velocity_y(0);
   }
 
@@ -74,7 +76,9 @@ Jumpy::active_update(float dt_sec)
   BadGuy::active_update(dt_sec);
 
   if (m_frozen)
+  {
     return;
+  }
 
   auto player = get_nearest_player();
   if (player)
@@ -88,13 +92,18 @@ Jumpy::active_update(float dt_sec)
     return;
   }
 
-  if ( get_pos().y < (pos_groundhit.y - JUMPY_MID_TOLERANCE ) )
+  if (get_pos().y < (pos_groundhit.y - JUMPY_MID_TOLERANCE))
+  {
     m_sprite->set_action(m_dir == Direction::LEFT ? "left-up" : "right-up");
-  else if ( get_pos().y >= (pos_groundhit.y - JUMPY_MID_TOLERANCE) &&
-            get_pos().y < (pos_groundhit.y - JUMPY_LOW_TOLERANCE) )
+  }
+  else if (get_pos().y >= (pos_groundhit.y - JUMPY_MID_TOLERANCE) &&
+      get_pos().y < (pos_groundhit.y - JUMPY_LOW_TOLERANCE)) {
     m_sprite->set_action(m_dir == Direction::LEFT ? "left-middle" : "right-middle");
+  }
   else
+  {
     m_sprite->set_action(m_dir == Direction::LEFT ? "left-down" : "right-down");
+  }
 }
 
 void

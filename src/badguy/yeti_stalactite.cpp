@@ -31,7 +31,8 @@ YetiStalactite::start_shaking()
 {
   timer.start(YT_SHAKE_TIME);
   state = STALACTITE_SHAKING;
-  if ((static_cast<int>(get_pos().x) / 32) % 2 == 0) {
+  if ((static_cast<int>(get_pos().x) / 32) % 2 == 0)
+  {
     m_physic.set_velocity_y(100);
   }
 }
@@ -55,7 +56,8 @@ void
 YetiStalactite::update(float dt_sec)
 {
   // Respawn instead of removing once squished
-  if (get_state() == STATE_SQUISHED && check_state_timer()) {
+  if (get_state() == STATE_SQUISHED && check_state_timer())
+  {
     set_state(STATE_ACTIVE);
     state = STALACTITE_HANGING;
     // Hopefully we shouldn't come into contact with anything...

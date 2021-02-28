@@ -63,7 +63,8 @@ FlyingSnowBall::collision_squished(GameObject& object)
 void
 FlyingSnowBall::collision_solid(const CollisionHit& hit)
 {
-  if (hit.top || hit.bottom) {
+  if (hit.top || hit.bottom)
+  {
     m_physic.set_velocity_y(0);
   }
 }
@@ -87,13 +88,15 @@ FlyingSnowBall::active_update(float dt_sec)
   m_col.m_movement=m_physic.get_movement(1.f);
 
   auto player = get_nearest_player();
-  if (player) {
+  if (player)
+  {
     m_dir = (player->get_pos().x > get_pos().x) ? Direction::RIGHT : Direction::LEFT;
     m_sprite->set_action(m_dir == Direction::LEFT ? "left" : "right");
   }
 
   // spawn smoke puffs
-  if (puff_timer.check()) {
+  if (puff_timer.check())
+  {
     Vector ppos = m_col.m_bbox.get_middle();
     Vector pspeed = Vector(gameRandom.randf(-10, 10), 150);
     Vector paccel = Vector(0,0);

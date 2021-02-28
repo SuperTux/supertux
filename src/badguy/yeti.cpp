@@ -80,12 +80,15 @@ Yeti::Yeti(const ReaderMapping& reader) :
   initialize();
 
   reader.get("fixed-pos", fixed_pos, false);
-  if (fixed_pos) {
+  if (fixed_pos)
+  {
     left_stand_x = 80;
     right_stand_x = 1140;
     left_jump_x = 528;
     right_jump_x = 692;
-  } else {
+  }
+  else
+  {
     recalculate_pos();
   }
 }
@@ -100,10 +103,13 @@ Yeti::initialize()
 void
 Yeti::recalculate_pos()
 {
-  if (m_dir == Direction::RIGHT) {
+  if (m_dir == Direction::RIGHT)
+  {
     left_stand_x = m_col.m_bbox.get_left();
     right_stand_x = left_stand_x + RUN_DISTANCE;
-  } else {
+  }
+  else
+  {
     right_stand_x = m_col.m_bbox.get_left();
     left_stand_x = right_stand_x - RUN_DISTANCE;
   }
@@ -157,7 +163,8 @@ Yeti::active_update(float dt_sec)
       if (((m_dir == Direction::RIGHT) && (get_pos().x >= right_stand_x)) || ((m_dir == Direction::LEFT) && (get_pos().x <= left_stand_x))) be_angry();
       break;
     case BE_ANGRY:
-      if (state_timer.check() && on_ground()) {
+      if (state_timer.check() && on_ground())
+      {
         m_physic.set_velocity_y(STOMP_VY);
         m_sprite->set_action((m_dir==Direction::RIGHT)?"stomp-right":"stomp-left");
         SoundManager::current()->play("sounds/yeti_gna.wav");
@@ -166,7 +173,8 @@ Yeti::active_update(float dt_sec)
     case SQUISHED:
       {
         Direction newdir = (int(state_timer.get_timeleft() * SNOW_EXPLOSIONS_FREQUENCY) % 2) ? Direction::LEFT : Direction::RIGHT;
-        if (m_dir != newdir && m_dir == Direction::RIGHT) {
+        if (m_dir != newdir && m_dir == Direction::RIGHT)
+        {
           SoundManager::current()->play("sounds/stomp.wav");
           add_snow_explosions();
           Sector::get().get_camera().shake(.05f, 0, 5);
@@ -174,7 +182,8 @@ Yeti::active_update(float dt_sec)
         m_dir = newdir;
         m_sprite->set_action((m_dir==Direction::RIGHT)?"jump-right":"jump-left");
       }
-      if (state_timer.check()) {
+      if (state_timer.check())
+      {
         BadGuy::kill_fall();
         state = FALLING;
         m_physic.set_velocity_y(JUMP_UP_VY / 2); // Move up a bit before falling
@@ -244,7 +253,8 @@ void
 Yeti::kill_squished(GameObject& object)
 {
   auto player = dynamic_cast<Player*>(&object);
-  if (player) {
+  if (player)
+  {
     player->bounce(*this);
     take_hit(*player);
   }
@@ -258,7 +268,8 @@ void Yeti::take_hit(Player& )
   SoundManager::current()->play("sounds/yeti_roar.wav");
   hit_points--;
 
-  if (hit_points <= 0) {
+  if (hit_points <= 0)
+  {
     // We're dead
     m_physic.set_velocity_x(((m_dir==Direction::RIGHT)?+RUN_VX:-RUN_VX)/5);
     m_physic.set_velocity_y(0);
@@ -271,7 +282,8 @@ void Yeti::take_hit(Player& )
     set_colgroup_active(COLGROUP_MOVING_ONLY_STATIC);
     //sprite->set_action("dead"); // This sprite does not look very good
   }
-  else {
+  else
+  {
     safe_timer.start(SAFE_TIME);
   }
 }
@@ -293,17 +305,20 @@ Yeti::drop_stalactite()
 
   for (auto& stalactite : Sector::get().get_objects_by_type<YetiStalactite>())
   {
-    if (stalactite.is_hanging()) {
+    if (stalactite.is_hanging())
+    {
       if (hit_points >= 3) {
         // drop stalactites within 3 of player, going out with each jump
         float distancex = fabsf(stalactite.get_bbox().get_middle().x - player->get_bbox().get_middle().x);
-        if (distancex < static_cast<float>(stomp_count) * 32.0f) {
+        if (distancex < static_cast<float>(stomp_count) * 32.0f)
+        {
           stalactite.start_shaking();
         }
       }
       else { /* if (hitpoints < 3) */
         // drop every 3rd pair of stalactites
-        if ((((static_cast<int>(stalactite.get_pos().x) + 16) / 64) % 3) == (stomp_count % 3)) {
+        if ((((static_cast<int>(stalactite.get_pos().x) + 16) / 64) % 3) == (stomp_count % 3))
+        {
           stalactite.start_shaking();
         }
       }
@@ -315,7 +330,8 @@ void
 Yeti::collision_solid(const CollisionHit& hit)
 {
   update_on_ground_flag(hit);
-  if (hit.top || hit.bottom) {
+  if (hit.top || hit.bottom)
+  {
     // hit floor or roof
     m_physic.set_velocity_y(0);
     switch (state) {
@@ -328,15 +344,19 @@ Yeti::collision_solid(const CollisionHit& hit)
         break;
       case BE_ANGRY:
         // we just landed
-        if (!state_timer.started()) {
+        if (!state_timer.started())
+        {
           m_sprite->set_action((m_dir==Direction::RIGHT)?"stand-right":"stand-left");
           stomp_count++;
           drop_stalactite();
 
           // go to other side after 3 jumps
-          if (stomp_count == 3) {
+          if (stomp_count == 3)
+          {
             jump_down();
-          } else {
+          }
+          else
+          {
             // jump again
             state_timer.start(STOMP_WAIT);
           }
@@ -347,7 +367,9 @@ Yeti::collision_solid(const CollisionHit& hit)
       case FALLING:
         break;
     }
-  } else if (hit.left || hit.right) {
+  }
+  else if (hit.left || hit.right)
+  {
     // hit wall
     if(state != SQUISHED && state != FALLING)
       jump_up();

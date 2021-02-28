@@ -82,7 +82,9 @@ Owl::is_above_player() const
 {
   auto player = Sector::get().get_nearest_player(m_col.m_bbox);
   if (!player)
+  {
     return false;
+  }
 
   // Let go of carried objects a short while *before* Tux is below us. This
   // makes it more likely that we'll hit him.
@@ -101,9 +103,12 @@ Owl::active_update (float dt_sec)
   BadGuy::active_update (dt_sec);
 
   if (m_frozen)
+  {
     return;
+  }
 
-  if (carried_object != nullptr) {
+  if (carried_object != nullptr)
+  {
     if (!is_above_player ()) {
       Vector obj_pos = get_anchor_pos(m_col.m_bbox, ANCHOR_BOTTOM);
       obj_pos.x -= 16.f; /* FIXME: Actually do use the half width of the carried object here. */
@@ -114,9 +119,10 @@ Owl::active_update (float dt_sec)
         carried_object->ungrab (*this, m_dir);
         carried_object = nullptr;
       }
-
-     else
+      else
+      {
         carried_object->grab (*this, obj_pos, m_dir);
+      }
     }
     else { /* if (is_above_player) */
       carried_object->ungrab (*this, m_dir);
@@ -130,9 +136,12 @@ Owl::collision_squished(GameObject&)
 {
   auto player = Sector::get().get_nearest_player(m_col.m_bbox);
   if (player)
+  {
     player->bounce (*this);
+  }
 
-  if (carried_object != nullptr) {
+  if (carried_object != nullptr)
+  {
     carried_object->ungrab (*this, m_dir);
     carried_object = nullptr;
   }
@@ -150,7 +159,8 @@ Owl::kill_fall()
   m_physic.enable_gravity(true);
   set_state(STATE_FALLING);
 
-  if (carried_object != nullptr) {
+  if (carried_object != nullptr)
+  {
     carried_object->ungrab (*this, m_dir);
     carried_object = nullptr;
   }
@@ -162,7 +172,8 @@ Owl::kill_fall()
 void
 Owl::freeze()
 {
-  if (carried_object != nullptr) {
+  if (carried_object != nullptr)
+  {
     carried_object->ungrab (*this, m_dir);
     carried_object = nullptr;
   }
@@ -193,15 +204,20 @@ Owl::collision_solid(const CollisionHit& hit)
     BadGuy::collision_solid(hit);
     return;
   }
-  if (hit.top || hit.bottom) {
+  else if (hit.top || hit.bottom)
+  {
     m_physic.set_velocity_y(0);
-  } else if (hit.left || hit.right) {
-    if (m_dir == Direction::LEFT) {
+  }
+  else if (hit.left || hit.right)
+  {
+    if (m_dir == Direction::LEFT)
+    {
       set_action ("right", /* loops = */ -1);
       m_dir = Direction::RIGHT;
       m_physic.set_velocity_x (FLYING_SPEED);
     }
-    else {
+    else
+    {
       set_action ("left", /* loops = */ -1);
       m_dir = Direction::LEFT;
       m_physic.set_velocity_x (-FLYING_SPEED);
@@ -212,7 +228,8 @@ Owl::collision_solid(const CollisionHit& hit)
 void
 Owl::ignite()
 {
-  if (carried_object != nullptr) {
+  if (carried_object != nullptr)
+  {
     carried_object->ungrab (*this, m_dir);
     carried_object = nullptr;
   }
