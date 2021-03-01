@@ -69,9 +69,9 @@ ParticleSystem_Interactive::draw(DrawingContext& context)
     if (it == batches.end()) {
       const auto& batch_it = batches.emplace(particle->texture,
         SurfaceBatch(particle->texture));
-      batch_it.first->second.draw(particle->pos);
+      batch_it.first->second.draw(particle->pos, particle->angle);
     } else {
-      it->second.draw(particle->pos);
+      it->second.draw(particle->pos, particle->angle);
     }
   }
 
@@ -80,7 +80,7 @@ ParticleSystem_Interactive::draw(DrawingContext& context)
     auto& batch = it.second;
     // FIXME: What is the colour used for?
     context.color().draw_surface_batch(surface, batch.move_srcrects(),
-      batch.move_dstrects(), Color::WHITE, z_pos);
+      batch.move_dstrects(), batch.move_angles(), Color::WHITE, z_pos);
   }
 
   context.pop_transform();

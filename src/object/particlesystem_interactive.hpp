@@ -49,7 +49,7 @@ public:
   }
 
 protected:
-  int collision(Particle* particle, const Vector& movement);
+  virtual int collision(Particle* particle, const Vector& movement);
 
 private:
   ParticleSystem_Interactive(const ParticleSystem_Interactive&) = delete;

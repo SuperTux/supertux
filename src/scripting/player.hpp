@@ -167,6 +167,21 @@ public:
 
   float get_velocity_x() const;
   float get_velocity_y() const;
+
+  /**
+   * Gets the X coordinate of the player.
+   */
+  float get_x() const;
+
+  /**
+   * Gets the Y coordinate of the player.
+   */
+  float get_y() const;
+
+  /**
+   * Sets the position of the player to a programmable/variable position.
+   */
+  void set_pos(float x, float y);
 };
 
 } // namespace scripting

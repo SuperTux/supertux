@@ -65,7 +65,9 @@ public:
     /** a tile that hurts Tux if he touches it */
     HURTS     = 0x0400,
     /** for lava: WATER, HURTS, FIRE */
-    FIRE      = 0x0800
+    FIRE      = 0x0800,
+    /** a walljumping trigger tile */
+    WALLJUMP  = 0x1000
   };
 
   /** worldmap flags */

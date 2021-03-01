@@ -5,25 +5,25 @@
   (worldmap #f)
   (object
     (class "snowball")
-    (icon "images/creatures/snowball/sport-left-1.png"))
+    (icon "images/creatures/snowball/snowball-1.png"))
   (object
     (class "smartball")
-    (icon "images/creatures/snowball/left-1.png"))
+    (icon "images/creatures/snowball/smartball-1.png"))
   (object
     (class "snowman")
-    (icon "images/creatures/snowman/walk1.png"))
+    (icon "images/creatures/snowman/smwalk1.png"))
   (object
     (class "bouncingsnowball")
-    (icon "images/creatures/bouncing_snowball/left-5.png"))
+    (icon "images/creatures/bouncing_snowball/bouncing_snowball-editor.png"))
   (object
     (class "captainsnowball")
-    (icon "images/creatures/snowball/cpt-left-1.png"))
+    (icon "images/creatures/snowball/captain-left-1.png"))
   (object
     (class "flyingsnowball")
     (icon "images/creatures/flying_snowball/left-0.png"))
   (object
     (class "kamikazesnowball")
-    (icon "images/creatures/snowball/kamikaze-left.png"))
+    (icon "images/creatures/snowball/kamikaze-snowball-editor.png"))
   (object
     (class "mrbomb")
     (icon "images/creatures/mr_bomb/bomb1.png"))
@@ -35,16 +35,16 @@
     (icon "images/creatures/haywire/hw1.png"))
   (object
     (class "short_fuse")
-    (icon "images/creatures/short_fuse/sf1.png"))
+    (icon "images/creatures/short_fuse/shortfuse-editor.png"))
   (object
     (class "mriceblock")
-    (icon "images/creatures/mr_iceblock/left-0.png"))
+    (icon "images/creatures/mr_iceblock/iceblock-1.png"))
   (object
     (class "smartblock")
-    (icon "images/creatures/mr_iceblock/smart_block/left-0.png"))
+    (icon "images/creatures/mr_iceblock/smart_block/smartblock-1.png"))
   (object
     (class "spiky")
-    (icon "images/creatures/spiky/left-1.png"))
+    (icon "images/creatures/spiky/spikywalk4.png"))
   (object
     (class "sspiky")
     (icon "images/creatures/spiky/sleeping-left.png"))
@@ -122,7 +122,7 @@
     (icon "images/creatures/spidermite/spidermite1.png"))
   (object
     (class "walking_candle")
-    (icon "images/creatures/mr_candle/c1.png"))
+    (icon "images/creatures/mr_candle/mrcandle-editor.png"))
   (object
     (class "toad")
     (icon "images/creatures/toad/toad-idle-0.png"))
@@ -304,6 +304,9 @@
     (class "wind")
     (icon "images/engine/editor/wind.png"))
   (object
+    (class "particle-zone")
+    (icon "images/engine/editor/particle_zone.png"))
+  (object
     (class "skull_tile")
     (icon "images/objects/skull_tile/skull.png"))
  )
@@ -335,6 +338,21 @@
   (object
     (class "particles-snow")
     (icon "images/engine/editor/snow.png"))
+
+
+
+;;  +-- This should be disabled, as it probably won't support multiple textures
+;;  |   per config object.
+;;  v                               ~ Semphris
+  (object
+    (class "particles-custom")
+    (icon "images/engine/editor/sparkle.png"))
+
+
+
+  (object
+    (class "particles-custom-file")
+    (icon "images/engine/editor/sparkle-file.png"))
   (object
     (class "thunderstorm")
     (icon "images/engine/editor/thunderstorm.png"))

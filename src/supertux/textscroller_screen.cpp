@@ -135,4 +135,12 @@ TextScrollerScreen::draw(Compositor& compositor)
   m_text_scroller->draw(context);
 }
 
+IntegrationStatus
+TextScrollerScreen::get_status() const
+{
+  IntegrationStatus status;
+  status.m_details.push_back("Watching a cutscene");
+  return status;
+}
+
 /* EOF */

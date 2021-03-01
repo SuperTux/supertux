@@ -48,7 +48,34 @@
               << m_uid << std::endl;                                    \
     return x;                                                           \
   }                                                                     \
-  auto& object __attribute__((unused)) = *object_ptr
+  auto& object = *object_ptr
+
+#define SCRIPT_GUARD_VOID_T(OBJECT)                                     \
+  auto object_ptr = GameObject<::OBJECT>::get_object_ptr();             \
+  if (object_ptr == nullptr) {                                          \
+    log_fatal << "error: script is accessing a dead object: "           \
+              << GameObject<::OBJECT>::m_uid << std::endl;              \
+    return;                                                             \
+  }                                                                     \
+  auto& object = *object_ptr
+
+#define SCRIPT_GUARD_DEFAULT_T(OBJECT)                                  \
+  auto object_ptr = GameObject<::OBJECT>::get_object_ptr();             \
+  if (object_ptr == nullptr) {                                          \
+    log_fatal << "error: script is accessing a dead object: "           \
+              << GameObject<::OBJECT>::m_uid << std::endl;              \
+    return {};                                                          \
+  }                                                                     \
+  auto& object = *object_ptr
+
+#define SCRIPT_GUARD_RETURN_T(OBJECT, x)                                \
+  auto object_ptr = GameObject<::OBJECT>::get_object_ptr();             \
+  if (object_ptr == nullptr) {                                          \
+    log_fatal << "error: script is accessing a dead object: "           \
+              << GameObject<::OBJECT>::m_uid << std::endl;              \
+    return x;                                                           \
+  }                                                                     \
+  auto& object = *object_ptr
 
 class GameObjectManager;
 

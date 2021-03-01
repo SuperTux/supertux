@@ -23,6 +23,7 @@
 #include "object/camera.hpp"
 #include "object/music_object.hpp"
 #include "object/player.hpp"
+#include "sdk/integration.hpp"
 #include "supertux/fadetoblack.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/level.hpp"
@@ -40,7 +41,7 @@ TitleScreen::TitleScreen(Savegame& savegame) :
   m_controller(new CodeController()),
   m_titlesession(new GameSession("levels/misc/menu.stl", savegame)),
   m_copyright_text("SuperTux " PACKAGE_VERSION "\n" +
-    _("Copyright") + " (c) 2003-2020 SuperTux Devel Team\n" +
+    _("Copyright") + " (c) 2003-2021 SuperTux Devel Team\n" +
     _("This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
       "redistribute it under certain conditions; see the license file for details.\n"
       )),
@@ -64,8 +65,9 @@ TitleScreen::make_tux_jump()
   // Check if we should press the jump button
   Rectf lookahead = tux.get_bbox();
   lookahead.set_right(lookahead.get_right() + 96);
+  lookahead.set_bottom(lookahead.get_bottom() - 2);
   bool pathBlocked = !sector.is_free_of_statics(lookahead);
-  if ((pathBlocked && jumpWasReleased) || !tux.on_ground()) {
+  if ((pathBlocked && jumpWasReleased) || tux.m_fall_mode == Player::FallMode::JUMPING) {
     m_controller->press(Control::JUMP);
     jumpWasReleased = false;
   } else {
@@ -145,6 +147,14 @@ TitleScreen::update(float dt_sec, const Controller& controller)
   {
     MenuManager::instance().set_menu(MenuStorage::MAIN_MENU);
   }
+}
+
+IntegrationStatus
+TitleScreen::get_status() const
+{
+  IntegrationStatus status;
+  status.m_details.push_back("In main menu");
+  return status;
 }
 
 /* EOF */

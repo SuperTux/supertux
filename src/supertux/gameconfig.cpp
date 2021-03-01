@@ -16,6 +16,9 @@
 
 #include "supertux/gameconfig.hpp"
 
+#include "config.h"
+
+#include "editor/overlay_widget.hpp"
 #include "util/reader_collection.hpp"
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
@@ -54,6 +57,12 @@ Config::Config() :
   transitions_enabled(true),
   confirmation_dialog(false),
   pause_on_focusloss(true),
+  custom_mouse_cursor(true),
+#ifdef ENABLE_DISCORD
+  enable_discord(false),
+#endif
+  hide_editor_levelnames(false),
+  editor_autosave_frequency(5),
   repository_url()
 {
 }
@@ -76,6 +85,20 @@ Config::load()
   config_mapping.get("developer", developer_mode);
   config_mapping.get("confirmation_dialog", confirmation_dialog);
   config_mapping.get("pause_on_focusloss", pause_on_focusloss);
+  config_mapping.get("custom_mouse_cursor", custom_mouse_cursor);
+
+  boost::optional<ReaderMapping> config_integrations_mapping;
+  if (config_mapping.get("integrations", config_integrations_mapping))
+  {
+    config_integrations_mapping->get("hide_editor_levelnames", hide_editor_levelnames);
+#ifdef ENABLE_DISCORD
+    config_integrations_mapping->get("enable_discord", enable_discord);
+#endif
+  }
+
+  config_mapping.get("editor_autosave_frequency", editor_autosave_frequency);
+
+  EditorOverlayWidget::autotile_help = !developer_mode;
 
   if (is_christmas()) {
     if (!config_mapping.get("christmas", christmas_mode))
@@ -182,6 +205,19 @@ Config::save()
   writer.write("developer", developer_mode);
   writer.write("confirmation_dialog", confirmation_dialog);
   writer.write("pause_on_focusloss", pause_on_focusloss);
+  writer.write("custom_mouse_cursor", custom_mouse_cursor);
+
+  writer.start_list("integrations");
+  {
+    writer.write("hide_editor_levelnames", hide_editor_levelnames);
+#ifdef ENABLE_DISCORD
+    writer.write("enable_discord", enable_discord);
+#endif
+  }
+  writer.end_list("integrations");
+
+  writer.write("editor_autosave_frequency", editor_autosave_frequency);
+
   if (is_christmas()) {
     writer.write("christmas", christmas_mode);
   }

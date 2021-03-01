@@ -37,6 +37,7 @@ SpriteData::Action::Action() :
   fps(10),
   loops(-1),
   has_custom_loops(false),
+  family_name(),
   surfaces()
 {
 }
@@ -93,6 +94,11 @@ SpriteData::parse_action(const ReaderMapping& mapping)
     action->has_custom_loops = true;
   }
 
+  if (!mapping.get("family_name", action->family_name))
+  {
+    action->family_name = "::" + action->name;
+  }
+
   std::string mirror_action;
   std::string clone_action;
   if (mapping.get("mirror-action", mirror_action)) {
@@ -130,19 +136,29 @@ SpriteData::parse_action(const ReaderMapping& mapping)
       {
         action->fps = act_tmp->fps;
       }
+
+      if (action->family_name == "::" + action->name) {
+        action->family_name = act_tmp->family_name;
+      }
     }
   } else if (mapping.get("clone-action", clone_action)) {
     const auto* act_tmp = get_action(clone_action);
     if (act_tmp == nullptr) {
       std::ostringstream msg;
       msg << "Could not clone action. Action not found: \"" << clone_action << "\"\n"
-          << "Mirror actions must be defined after the real one!";
+          << "Clone actions must be defined after the real one!";
       throw std::runtime_error(msg.str());
     } else {
-      // copy everything except the name
+      // copy everything except the name (Semphris: and the family name)
       const std::string oldname = action->name;
+      const std::string oldfam = action->family_name;
       *action = *act_tmp;
       action->name = oldname;
+      action->family_name = oldfam;
+
+      if (action->family_name == "::" + action->name) {
+        action->family_name = act_tmp->family_name;
+      }
     }
   } else { // Load images
     boost::optional<ReaderCollection> surfaces_collection;

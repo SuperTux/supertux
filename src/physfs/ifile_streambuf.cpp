@@ -34,7 +34,7 @@ IFileStreambuf::IFileStreambuf(const std::string& filename) :
   if (file == nullptr) {
     std::stringstream msg;
     msg << "Couldn't open file '" << filename << "': "
-        << PHYSFS_getLastErrorCode();
+        << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode());
     throw std::runtime_error(msg.str());
   }
 }

@@ -78,6 +78,48 @@ Background::set_speed(float speed)
   object.set_speed(speed);
 }
 
+float
+Background::get_color_red()
+{
+  SCRIPT_GUARD_RETURN(-1.f);
+  return object.get_color().red;
+}
+
+float
+Background::get_color_green()
+{
+  SCRIPT_GUARD_RETURN(-1.f);
+  return object.get_color().green;
+}
+
+float
+Background::get_color_blue()
+{
+  SCRIPT_GUARD_RETURN(-1.f);
+  return object.get_color().blue;
+}
+
+float
+Background::get_color_alpha()
+{
+  SCRIPT_GUARD_RETURN(-1.f);
+  return object.get_color().alpha;
+}
+
+void
+Background::set_color(float red, float green, float blue, float alpha)
+{
+  SCRIPT_GUARD_VOID;
+  object.set_color(Color(red, green, blue, alpha));
+}
+
+void
+Background::fade_color(float red, float green, float blue, float alpha, float time)
+{
+  SCRIPT_GUARD_VOID;
+  object.fade_color(Color(red, green, blue, alpha), time);
+}
+
 } // namespace scripting
 
 /* EOF */

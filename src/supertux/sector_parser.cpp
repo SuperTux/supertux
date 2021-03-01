@@ -27,6 +27,7 @@
 #include "object/background.hpp"
 #include "object/camera.hpp"
 #include "object/cloud_particle_system.hpp"
+#include "object/custom_particle_system.hpp"
 #include "object/gradient.hpp"
 #include "object/music_object.hpp"
 #include "object/rain_particle_system.hpp"
@@ -207,6 +208,8 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
     m_sector.add<SnowParticleSystem>();
   else if (particlesystem == "rain")
     m_sector.add<RainParticleSystem>();
+  else if (particlesystem == "custom-particles")
+    m_sector.add<CustomParticleSystem>();
 
   Vector startpos(100, 170);
   reader.get("start_pos_x", startpos.x);

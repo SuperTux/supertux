@@ -18,11 +18,14 @@
 #define HEADER_SUPERTUX_OBJECT_CLOUD_PARTICLE_SYSTEM_HPP
 
 #include "object/particlesystem.hpp"
+#include "scripting/clouds.hpp"
 #include "video/surface_ptr.hpp"
 
 class ReaderMapping;
 
-class CloudParticleSystem final : public ParticleSystem
+class CloudParticleSystem final :
+  public ParticleSystem,
+  public ExposedObject<CloudParticleSystem, scripting::Clouds>
 {
 public:
   CloudParticleSystem();
@@ -32,25 +35,64 @@ public:
   void init();
   virtual void update(float dt_sec) override;
 
+  virtual void draw(DrawingContext& context) override;
+
   virtual std::string get_class() const override { return "particles-clouds"; }
   virtual std::string get_display_name() const override { return _("Cloud Particles"); }
+  virtual ObjectSettings get_settings() override;
 
   virtual const std::string get_icon_path() const override {
     return "images/engine/editor/clouds.png";
   }
+
+  void fade_speed(float new_speed, float fade_time);
+  void fade_amount(int new_amount, float fade_time, float time_between = 0.f);
+
+  // Minimum and maximum multiplier for the amount of clouds
+  static int constexpr const max_amount = 500;
+  static int constexpr const min_amount = 0;
+
+  virtual void expose(HSQUIRRELVM vm, SQInteger table_idx) override {
+    ExposedObject<CloudParticleSystem, scripting::Clouds>::expose(vm, table_idx);
+  }
+
+  virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx) override {
+    ExposedObject<CloudParticleSystem, scripting::Clouds>::unexpose(vm, table_idx);
+  }
+
+private:
+  /** Returns the amount that got inserted (In case max_amount got hit) */
+  int add_clouds(int amount, float fade_time);
+
+  /** Returns the amount that got removed (In case min_amount got hit) */
+  int remove_clouds(int amount, float fade_time);
 
 private:
   class CloudParticle : public Particle
   {
   public:
     float speed;
+    float target_alpha;
+    float target_time_remaining;
 
     CloudParticle() :
-      speed()
+      speed(),
+      target_alpha(),
+      target_time_remaining()
     {}
   };
 
   SurfacePtr cloudimage;
+
+  float m_current_speed;
+  float m_target_speed;
+  float m_speed_fade_time_remaining;
+
+  float m_current_amount;
+  //float m_target_amount;
+  //float m_amount_fade_time_remaining;
+  
+  int m_current_real_amount;
 
 private:
   CloudParticleSystem(const CloudParticleSystem&) = delete;

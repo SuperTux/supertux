@@ -1,6 +1,6 @@
 (supertux-level-subset
   (title (_ "Revenge in Redmond"))
-  (description (_ ""))
+  (description (_ "A small and simple level pack celebrating the good old days of early SuperTux, Revenge in Redmond."))
   (levelset #f)
   (hide-from-contribs #f)
 )

@@ -33,11 +33,15 @@
 #include "supertux/menu/editor_sector_menu.hpp"
 #include "supertux/menu/editor_sectors_menu.hpp"
 #include "supertux/menu/game_menu.hpp"
+#include "supertux/menu/integrations_menu.hpp"
 #include "supertux/menu/joystick_menu.hpp"
 #include "supertux/menu/keyboard_menu.hpp"
 #include "supertux/menu/language_menu.hpp"
 #include "supertux/menu/main_menu.hpp"
 #include "supertux/menu/options_menu.hpp"
+#include "supertux/menu/particle_editor_menu.hpp"
+#include "supertux/menu/particle_editor_save_as.hpp"
+#include "supertux/menu/particle_editor_open.hpp"
 #include "supertux/menu/profile_menu.hpp"
 #include "supertux/menu/worldmap_menu.hpp"
 #include "supertux/menu/worldmap_cheat_menu.hpp"
@@ -155,6 +159,22 @@ MenuStorage::create(MenuId menu_id)
 
     case EDITOR_LEVELSET_MENU:
       return std::make_unique<EditorLevelsetMenu>();
+
+    case INTEGRATIONS_MENU:
+      return std::make_unique<IntegrationsMenu>();
+
+    case PARTICLE_EDITOR_MENU:
+      return std::make_unique<ParticleEditorMenu>();
+
+    case PARTICLE_EDITOR_SAVE_AS:
+      throw std::runtime_error("Cannot instantiate ParticleEditorSaveAs dialog "
+        "from MenuStorage::create() or MenuManager::set_menu(), "
+        "as it needs to be bound to a callback. "
+        "Please instantiate ParticleEditorSaveAs directly");
+      //return std::make_unique<ParticleEditorSaveAs>();
+
+    case PARTICLE_EDITOR_OPEN:
+      return std::make_unique<ParticleEditorOpen>();
 
     case NO_MENU:
       return std::unique_ptr<Menu>();

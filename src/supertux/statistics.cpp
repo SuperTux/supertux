@@ -22,6 +22,7 @@
 #include <iomanip>
 #include <limits>
 
+#include "audio/sound_manager.hpp"
 #include "math/util.hpp"
 #include "squirrel/squirrel_util.hpp"
 #include "supertux/globals.hpp"
@@ -43,6 +44,12 @@ Statistics::Statistics() :
   m_badguys(),
   m_secrets(),
   m_time(),
+  m_cleared_coins(false),
+  m_cleared_badguys(false),
+  m_cleared_secrets(false),
+  m_coins_time(0.f),
+  m_badguys_time(0.f),
+  m_secrets_time(0.f),
   m_max_width(256),
   CAPTION_MAX_COINS(_("Max coins collected:")),
   CAPTION_MAX_FRAGGING(_("Max fragging:")),
@@ -52,7 +59,10 @@ Statistics::Statistics() :
   WMAP_INFO_LEFT_X(),
   WMAP_INFO_RIGHT_X(),
   WMAP_INFO_TOP_Y1(),
-  WMAP_INFO_TOP_Y2()
+  WMAP_INFO_TOP_Y2(),
+  coin_icon(Surface::from_file("/images/engine/hud/coin-icon.png")),
+  badguy_icon(Surface::from_file("/images/engine/hud/badguy-icon.png")),
+  secret_icon(Surface::from_file("/images/engine/hud/secret-icon.png"))
 {
   calculate_max_caption_length();
   WMAP_INFO_LEFT_X = static_cast<float>(SCREEN_WIDTH) - 32.0f - static_cast<float>(m_max_width);
@@ -298,6 +308,110 @@ Statistics::draw_endseq_panel(DrawingContext& context, Statistics* best_stats, c
 }
 
 void
+Statistics::draw_ingame_stats(DrawingContext& context, bool on_pause_menu)
+{
+  if (on_pause_menu || (m_cleared_coins && m_coins_time < 5.f))
+  {
+    std::string text(coins_to_string(m_coins, m_total_coins));
+    float width = Resources::normal_font->get_text_width(text),
+          height = Resources::normal_font->get_height(),
+          x_offset = width + 75.f;
+
+    if (!on_pause_menu)
+      x_offset *= std::min(1.f, -std::abs(m_coins_time - 2.5f) + 2.5f);
+
+    Vector pos(static_cast<float>(context.get_width()) - x_offset,
+               static_cast<float>(context.get_height()) - height * 6.f - 20.f);
+
+    context.color().draw_filled_rect(Rectf(pos.x, pos.y, pos.x + width + 21.f,
+                                           pos.y + height).grown(5.f),
+                                     Color(0.f, 0.f, 0.f, 0.5f),
+                                     10.f, LAYER_HUD - 1);
+    context.color().draw_text(Resources::normal_font, text, pos,
+                              FontAlignment::ALIGN_LEFT, LAYER_HUD,
+                              (m_coins < m_total_coins)
+                                    ? Statistics::text_color
+                                    : Statistics::perfect_color
+                              );
+    context.color().draw_surface_scaled(coin_icon,
+                                        Rectf(pos.x + width + 1.f, pos.y + 1.f,
+                                              pos.x + width + 16.f, pos.y + 16.f),
+                                        LAYER_HUD);
+  }
+
+  if (on_pause_menu || (m_cleared_badguys && m_badguys_time < 5.f))
+  {
+    std::string text(frags_to_string(m_badguys, m_total_badguys));
+    float width = Resources::normal_font->get_text_width(text),
+          height = Resources::normal_font->get_height(),
+          x_offset = width + 75.f;
+
+    if (!on_pause_menu)
+      x_offset *= std::min(1.f, -std::abs(m_badguys_time - 2.5f) + 2.5f);
+
+    Vector pos(static_cast<float>(context.get_width()) - x_offset,
+               static_cast<float>(context.get_height()) - height * 5.f - 10.f);
+
+    context.color().draw_filled_rect(Rectf(pos.x, pos.y, pos.x + width + 21.f,
+                                           pos.y + height).grown(5.f),
+                                     Color(0.f, 0.f, 0.f, 0.5f),
+                                     10.f, LAYER_HUD - 1);
+    context.color().draw_text(Resources::normal_font, text, pos,
+                              FontAlignment::ALIGN_LEFT, LAYER_HUD,
+                              (m_badguys < m_total_badguys)
+                                    ? Statistics::text_color
+                                    : Statistics::perfect_color
+                              );
+    context.color().draw_surface_scaled(badguy_icon,
+                                        Rectf(pos.x + width + 1.f, pos.y + 1.f,
+                                              pos.x + width + 16.f, pos.y + 16.f),
+                                        LAYER_HUD);
+  }
+
+  if (on_pause_menu || (m_cleared_secrets && m_secrets_time < 5.f))
+  {
+    std::string text(secrets_to_string(m_secrets, m_total_secrets));
+    float width = Resources::normal_font->get_text_width(text),
+          height = Resources::normal_font->get_height(),
+          x_offset = width + 75.f;
+
+    if (!on_pause_menu)
+      x_offset *= std::min(1.f, -std::abs(m_secrets_time - 2.5f) + 2.5f);
+
+    Vector pos(static_cast<float>(context.get_width()) - x_offset,
+               static_cast<float>(context.get_height()) - height * 4.f);
+
+    context.color().draw_filled_rect(Rectf(pos.x, pos.y, pos.x + width + 21.f,
+                                           pos.y + height).grown(5.f),
+                                     Color(0.f, 0.f, 0.f, 0.5f),
+                                     10.f, LAYER_HUD - 1);
+    context.color().draw_text(Resources::normal_font, text, pos,
+                              FontAlignment::ALIGN_LEFT, LAYER_HUD,
+                              (m_secrets < m_total_secrets)
+                                    ? Statistics::text_color
+                                    : Statistics::perfect_color
+                              );
+    context.color().draw_surface_scaled(secret_icon,
+                                        Rectf(pos.x + width + 1.f, pos.y + 1.f,
+                                              pos.x + width + 16.f, pos.y + 16.f),
+                                        LAYER_HUD);
+  }
+}
+
+void
+Statistics::update_timers(float dt_sec)
+{
+  if (m_cleared_coins)
+    m_coins_time += dt_sec;
+
+  if (m_cleared_badguys)
+    m_badguys_time += dt_sec;
+
+  if (m_cleared_secrets)
+    m_secrets_time += dt_sec;
+}
+
+void
 Statistics::init(const Level& level)
 {
   m_status = ACCUMULATING;
@@ -328,7 +442,7 @@ void
 Statistics::update(const Statistics& other)
 {
   if (other.m_status != FINAL) return;
-  
+
   m_coins = std::max(m_coins, other.m_coins);
   m_badguys = std::max(m_badguys, other.m_badguys);
   m_secrets = std::max(m_secrets, other.m_secrets);
@@ -391,6 +505,45 @@ Statistics::time_to_string(float time)
   }
 
   return os.str();
+}
+
+void
+Statistics::check_coins()
+{
+  if (m_cleared_coins)
+    return;
+
+  if (m_coins >= m_total_coins)
+  {
+    m_cleared_coins = true;
+    SoundManager::current()->play("/sounds/coins_cleared.ogg", 0.5f);
+  }
+}
+
+void
+Statistics::check_badguys()
+{
+  if (m_cleared_badguys)
+    return;
+
+  if (m_badguys >= m_total_badguys)
+  {
+    m_cleared_badguys = true;
+    SoundManager::current()->play("/sounds/retro_fall.wav", 0.5f);
+  }
+}
+
+void
+Statistics::check_secrets()
+{
+  if (m_cleared_secrets)
+    return;
+
+  if (m_secrets >= m_total_secrets)
+  {
+    m_cleared_secrets = true;
+    SoundManager::current()->play("/sounds/tada.ogg", 0.5f);
+  }
 }
 
 std::string

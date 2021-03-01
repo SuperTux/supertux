@@ -18,6 +18,7 @@
 
 #include "editor/resize_marker.hpp"
 #include "supertux/sector.hpp"
+#include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
 
 MovingObject::MovingObject() :
@@ -29,6 +30,16 @@ MovingObject::MovingObject(const ReaderMapping& reader) :
   GameObject(reader),
   m_col(COLGROUP_MOVING, *this)
 {
+  float height, width;
+
+  if (reader.get("width", width))
+    m_col.m_bbox.set_width(width);
+
+  if (reader.get("height", height))
+    m_col.m_bbox.set_height(height);
+
+  reader.get("x", m_col.m_bbox.get_left());
+  reader.get("y", m_col.m_bbox.get_top());
 }
 
 MovingObject::~MovingObject()

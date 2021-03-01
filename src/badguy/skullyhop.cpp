@@ -17,12 +17,9 @@
 #include "badguy/skullyhop.hpp"
 
 #include "audio/sound_manager.hpp"
-#include "math/random.hpp"
 #include "sprite/sprite.hpp"
 
 namespace {
-const float MIN_RECOVER_TIME = 0.1f; /**< minimum time to stand still before starting a (new) jump */
-const float MAX_RECOVER_TIME = 1.0f; /**< maximum time to stand still before starting a (new) jump */
 static const std::string SKULLYHOP_SOUND = "sounds/hop.ogg";
 }
 
@@ -50,8 +47,7 @@ SkullyHop::set_state(SkullyHopState newState)
     m_physic.set_velocity_y(0);
     m_sprite->set_action(m_dir == Direction::LEFT ? "standing-left" : "standing-right");
 
-    float recover_time = gameRandom.randf(MIN_RECOVER_TIME,MAX_RECOVER_TIME);
-    recover_timer.start(recover_time);
+    recover_timer.start(0.5);
   } else
     if (newState == CHARGING) {
       m_sprite->set_action(m_dir == Direction::LEFT ? "charging-left" : "charging-right", 1);

@@ -26,11 +26,13 @@ public:
   Vector translation;
   Flip flip;
   float alpha;
+  float scale;
 
   DrawingTransform() :
     translation(),
     flip(NO_FLIP),
-    alpha(1.0f)
+    alpha(1.0f),
+    scale(1.0f)
   {}
 };
 

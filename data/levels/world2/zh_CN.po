@@ -1,16 +1,17 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
 # Liu Sizhuang <chinatslsz@hotmail.com>, 2008
+# CodingJellyfish <dumaosen_main01@outlook.com>, 2018,2020
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-04 15:35+0200\n"
-"PO-Revision-Date: 2016-06-23 15:39+0000\n"
-"Last-Translator: Tobias Markus <tobbi@mozilla-uk.org>\n"
+"Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
+"POT-Creation-Date: 2020-05-24 08:12+0200\n"
+"PO-Revision-Date: 2020-07-30 05:36+0000\n"
+"Last-Translator: CodingJellyfish <dumaosen_main01@outlook.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/arctic-games/supertux/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,227 +19,202 @@ msgstr ""
 "Language: zh_CN\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: data/levels/world2/Bouncy_Coils.stl:3
+#: data/levels/world2/ancient_ruins.stl:3
+msgid "Ancient Ruins"
+msgstr "上古遗迹"
+
+#: data/levels/world2/ancient_ruins.stl:1416
+#: data/levels/world2/ancient_ruins.stl:1424
+#: data/levels/world2/bouncy_coils.stl:237
+#: data/levels/world2/bouncy_coils.stl:245
+#: data/levels/world2/bye_bye_forest.stl:977
+#: data/levels/world2/crumbling_path.stl:278
+#: data/levels/world2/crumbling_path.stl:1651
+#: data/levels/world2/going_underground.stl:199
+#: data/levels/world2/going_underground.stl:1199
+#: data/levels/world2/mouldy_grotto.stl:559
+#: data/levels/world2/penguin_grow_trees.stl:459
+#: data/levels/world2/penguin_grow_trees.stl:467
+#: data/levels/world2/through_dark.stl:309
+#: data/levels/world2/tux_builder.stl:283
+#: data/levels/world2/wooden_roots.stl:279
+#: data/levels/world2/worldmap.stwm:185
+msgid "You found a secret area!"
+msgstr "你找到了一个秘密区域!"
+
+#: data/levels/world2/beside_bushes.stl:3
+msgid "Beside the Bushes"
+msgstr "穿越荆棘"
+
+#: data/levels/world2/bouncy_coils.stl:3
 msgid "Bouncy Coils"
 msgstr "弹簧"
 
-#: data/levels/world2/Castle_Entrance.stl:3
-msgid "Entrance to the Castle"
-msgstr ""
+#: data/levels/world2/bye_bye_forest.stl:3
+msgid "Bye Bye Forest"
+msgstr "再见丛林"
 
-#: data/levels/world2/CounterCurrent.stl:3
-msgid "Countercurrent"
-msgstr "逆流而上"
-
-#: data/levels/world2/Crumbling_Path.stl:3
+#: data/levels/world2/crumbling_path.stl:3
 msgid "Crumbling Path"
 msgstr "粉碎的道路"
 
-#: data/levels/world2/Duct_Ape.stl:3
-msgid "Duct Ape"
-msgstr "空中的财宝"
+#: data/levels/world2/darkness_awaits.stl:3
+msgid "Darkness Awaits"
+msgstr "有约不来过夜半"
 
-#: data/levels/world2/El_Castillo.stl:3
-msgid "A Short Visit to El Castillo"
-msgstr ""
-
-#: data/levels/world2/Find_Big_Fish.stl:3
+#: data/levels/world2/find_big_fish.stl:3
 msgid "Find the Bigger Fish!"
 msgstr "寻找大鱼!"
 
-#: data/levels/world2/Find_Big_Fish.stl:449
+#: data/levels/world2/find_big_fish.stl:800
 msgid "-A big fish... for you."
+msgstr "-这条大鱼……属于你！"
+
+#: data/levels/world2/forest_intro.stl:3
+msgid "A New Location"
+msgstr "新大陆"
+
+#: data/levels/world2/ghost_cutscene.stl:3
+msgid "What is Happening?"
+msgstr "怪事如云"
+
+#: data/levels/world2/ghostly_misery.stl:3
+msgid "Ghostly Misery"
+msgstr "鬼魂之痛"
+
+#: data/levels/world2/ghosttrees_challenges.stl:3
+msgid "Ghosttree's Challenges"
+msgstr "大战鬼树"
+
+#: data/levels/world2/ghouls_lair.stl:3
+msgid "Ghouls' Lair"
+msgstr "鬼巢"
+
+#: data/levels/world2/ghouls_lair.stl:847
+msgid ""
+"#Lanterns are used to make magic blocks solid, so you're able to walk atop "
+"of them."
 msgstr ""
 
-#: data/levels/world2/Going_Underground.stl:3
+#: data/levels/world2/going_underground.stl:3
 msgid "Going Underground"
 msgstr "到地下去"
 
-#: data/levels/world2/Kneep_Deep.stl:3
-msgid "Kneep-deep in the depth"
-msgstr "深渊"
+#: data/levels/world2/i_spy_with_my_little_eye.stl:3
+msgid "I Spy With My Little Eye"
+msgstr "红眼机关"
 
-#: data/levels/world2/Little_Venice.stl:3
-msgid "Little Venice"
-msgstr "小威尼斯"
+#: data/levels/world2/i_spy_with_my_little_eye.stl:221
+msgid ""
+"-Ispy\n"
+"#Ispys will activate things like platforms whenever Tux is in their sight."
+msgstr ""
 
-#: data/levels/world2/Mouldy_Grotto.stl:3
+#: data/levels/world2/i_spy_with_my_little_eye.stl:595
+msgid "Hint: Use snails to break blocks!"
+msgstr ""
+
+#: data/levels/world2/leaf_wind.stl:3
+msgid "Like a leaf in the Wind"
+msgstr "孤蓬万里征"
+
+#: data/levels/world2/lost_village.stl:3
+msgid "Lost Village"
+msgstr "遗忘村庄"
+
+#: data/levels/world2/lost_village.stl:184
+msgid "#Don't forget to hit the switch!"
+msgstr ""
+
+#: data/levels/world2/mouldy_grotto.stl:3
 msgid "A Mouldy Grotto"
 msgstr "发霉的洞穴"
 
-#: data/levels/world2/Penguin_Grow_Trees.stl:3
+#: data/levels/world2/owls_again.stl:3
+msgid "The Owls again..."
+msgstr "又来！猫头鹰风波"
+
+#: data/levels/world2/owls_skydive_commando.stl:3
+msgid "Owls' Skydive Commando"
+msgstr ""
+
+#: data/levels/world2/penguin_grow_trees.stl:3
 msgid "Penguins don't grow on Trees"
 msgstr "企鹅不长在树上"
-
-#: data/levels/world2/Rabbit_Hole.stl:3
-msgid "Down The Rabbit Hole"
-msgstr "兔子洞窟"
-
-#: data/levels/world2/Rabbit_Hole.stl:46
-msgid ""
-"-Oh no!\n"
-"#The path is blocked! It\n"
-"#seems that the only way\n"
-"#leads through that dark\n"
-"#hole in the ground..."
-msgstr ""
-
-#: data/levels/world2/Rabbit_Hole.stl:55
-msgid "-Are you lost?"
-msgstr "-你迷路了吗?"
-
-#: data/levels/world2/Silent_Walls.stl:3
-msgid "The Silent Walls"
-msgstr "静寂的墙壁"
-
-#: data/levels/world2/Three_Sheets.stl:3
-msgid "Three sheets to the wind"
-msgstr "三个风管"
-
-#: data/levels/world2/Treasure_Skies.stl:3
-msgid "Treasure in the skies"
-msgstr "空中的财宝"
-
-#: data/levels/world2/Tree_Fortress.stl:3
-msgid "Tree Fortress"
-msgstr "树木堡垒"
-
-#: data/levels/world2/Tux_Builder.stl:3
-msgid "Tux the Builder"
-msgstr "建筑师Tux"
-
-#: data/levels/world2/Tux_Builder.stl:46
-msgid ""
-"-Portable Rocks:\n"
-"\n"
-"!images/help/rockhowto1.png\n"
-"!images/help/rockhowto2.png\n"
-"!images/help/rockhowto3.png\n"
-msgstr ""
-
-#: data/levels/world2/Two_Towers.stl:3
-msgid "Two Tiny Towers"
-msgstr "小双塔"
-
-#: data/levels/world2/Up_and_Down.stl:3
-msgid "Up and Down"
-msgstr "上上下下"
-
-#: data/levels/world2/Walking_Leaves.stl:3
-msgid "Walking Leaves"
-msgstr "行走的树叶"
-
-#: data/levels/world2/Welcome_Forest.stl:3
-msgid "Welcome to the Forest"
-msgstr "欢迎来到森林"
-
-#: data/levels/world2/castle.stl:3
-msgid "Iceberg Fortress"
-msgstr "冰山堡垒"
-
-#: data/levels/world2/castledoor.stl:3
-#: data/levels/world2/dfk-placeholder-1.stl:3
-msgid "NOLOK"
-msgstr "NOLOK"
-
-#: data/levels/world2/christophD.stl:3
-msgid "Room of Stars"
-msgstr "星星的房间"
-
-#: data/levels/world2/dan_morial.stl:3
-msgid "Dan Morial"
-msgstr ""
-
-#: data/levels/world2/detour.stl:3
-msgid "Detour"
-msgstr "绕路而行"
-
-#: data/levels/world2/dfk-level1.stl:3
-msgid "Dark Forest Keep - The Evil Chamber"
-msgstr "黑暗森林的守卫 - 邪恶的密室"
-
-#: data/levels/world2/dfk-level2.stl:3
-msgid "Dark Forest Keep - The Eyes Of Nolok"
-msgstr "黑暗森林的守卫 - Nolok之眼"
-
-#: data/levels/world2/dfk-level3.stl:3
-msgid "Dark Forest Keep - The Black Tower"
-msgstr "黑暗森林的守卫 - 黑塔"
-
-#: data/levels/world2/forest1-grumbel.stl:3
-msgid "Forest Level 1"
-msgstr "森林关卡1"
-
-#: data/levels/world2/ghostly.stl:3
-msgid "A Ghostly World"
-msgstr ""
-
-#: data/levels/world2/key1.stl:3
-msgid "key 1 water - to be placed behind waterfall"
-msgstr "1 水之钥 - 开启瀑布"
-
-#: data/levels/world2/key2.stl:3
-msgid "key 2 earth - to be placed underground"
-msgstr "2 土之钥 - 开启地下"
-
-#: data/levels/world2/key3.stl:3
-msgid "key 3 wood - to be placed in a big tree"
-msgstr "3 木之钥 - 开启大树"
-
-#: data/levels/world2/key4.stl:3
-msgid "key 4 fire - to be placed in a small castle"
-msgstr "4 火之钥 - 开启城堡"
-
-#: data/levels/world2/key5.stl:3
-msgid "key 5 air - to be placed in clouds "
-msgstr "5 气之钥 - 开启云朵"
-
-#: data/levels/world2/level5.stl:3
-msgid "Green Hills"
-msgstr "绿色小山"
-
-#: data/levels/world2/level6.stl:3
-msgid "No Name"
-msgstr "无名"
-
-#: data/levels/world2/light+magic.stl:3
-msgid "Light and Magic"
-msgstr "光影魔术"
-
-#: data/levels/world2/owls_revenge.stl:3
-msgid "Owls' Revenge"
-msgstr "猫头鹰的复仇"
-
-#: data/levels/world2/roots_woody_roots.stl:3
-msgid "Roots, Woody Roots"
-msgstr "树根"
-
-#: data/levels/world2/roots_woody_roots.stl:200
-msgid ""
-"-Hint:\n"
-"#If there seems to be\n"
-"#no way to reach a door,\n"
-"#remember that you might\n"
-"#be supposed to come out\n"
-"#of that door..."
-msgstr ""
-
-#: data/levels/world2/scripts_default.txt:2
-msgid "---Insert Cutscene Here---"
-msgstr ""
 
 #: data/levels/world2/shocking.stl:3
 msgid "Shocking"
 msgstr "震动"
 
-#: data/levels/world2/underconstruction.stl:3
-msgid "Under Construction"
-msgstr "尚未完成"
+#: data/levels/world2/the_forest_is_rotting.stl:3
+msgid "The Forest Is Rotting"
+msgstr "哦不！森林在腐烂"
 
-#: data/levels/world2/village.stl:3
-msgid "A Village in the Forest"
+#: data/levels/world2/through_dark.stl:3
+msgid "Through the Dark"
+msgstr "暗夜之行"
+
+#: data/levels/world2/through_dark.stl:96
+msgid ""
+"-Earth Flower\n"
+"!images/powerups/earthflower/earth_flower-1.png\n"
+"#The earth flower gives Tux the ability to turn into stone by pressing the ACTION Key and the DOWN Key at the same time.\n"
+"#This does not work while jumping or falling!"
 msgstr ""
 
+#: data/levels/world2/tower_cutscene.stl:3
+msgid "Tower Cutscene"
+msgstr "高塔过场动画"
+
+#: data/levels/world2/tower_of_ghosts.stl:3
+msgid "Tower Of Ghosts"
+msgstr "鬼魂宝塔"
+
+#: data/levels/world2/tux_builder.stl:3
+msgid "Tux the Builder"
+msgstr "建筑师Tux"
+
+#: data/levels/world2/tux_builder.stl:80
+msgid ""
+"-Portable Objects:\n"
+"!images/objects/rock/rock.png\n"
+"#Tux can pick up certain objects and carry them around.\n"
+"#Press the ACTION key to grab an object and hold it pressed as long as you want to carry the object. Release the ACTION key to drop the object."
+msgstr ""
+
+#: data/levels/world2/tux_own_horror_show.stl:3
+msgid "Tux' Own Horror Show"
+msgstr "疑神疑鬼"
+
+#: data/levels/world2/tux_own_horror_show.stl:790
+msgid ""
+"#Willow-wisps are small, annoying ghosts, which transport you to different, "
+"often dangerous places."
+msgstr ""
+
+#: data/levels/world2/walking_leaves.stl:3
+msgid "Walking Leaves"
+msgstr "行走的树叶"
+
+#: data/levels/world2/welcome_forest.stl:3
+msgid "Welcome to the Forest"
+msgstr "欢迎来到森林"
+
+#: data/levels/world2/welcome_forest.stl:50
+msgid ""
+"-Doors\n"
+"!images/objects/door/door-0.png\n"
+"#Tux can go through a door by pressing the UP key."
+msgstr ""
+
+#: data/levels/world2/wooden_roots.stl:3
+msgid "Wooden Roots"
+msgstr "树根"
+
 #: data/levels/world2/worldmap.stwm:3
-msgid "Forest World"
-msgstr "森林世界"
+msgid "Forest Island"
+msgstr "茂林岛"
+
+#: data/levels/world2/worldmap.stwm:199
+msgid "To be continued..."
+msgstr "续"

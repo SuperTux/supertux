@@ -16,6 +16,7 @@
 
 #include "scripting/sector.hpp"
 
+#include "math/easing.hpp"
 #include "object/ambient_light.hpp"
 #include "object/music_object.hpp"
 #include "supertux/sector.hpp"

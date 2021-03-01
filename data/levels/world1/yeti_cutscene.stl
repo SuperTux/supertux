@@ -6,6 +6,7 @@
   (sector
     (name "main")
     (init-script "import(\"levels/world1/yeti_cutscene.nut\");
+start_cutscene();
 trigger_state(\"start\");")
     (ambient-light
       (color 1 1 1)
