@@ -1,7 +1,10 @@
 (supertux-tiles
 
+(autotileset
+  (source "autotiles_ice_world.satc")
+)
 
-;; ice tiles- next id: 403
+;; ice tiles- next id: 447
 (tilegroup
 	(name (_ "Forest"))
 	(tiles
@@ -276,7 +279,6 @@
 	)
 )
 
-
 ;; shared tiles- ids available: 90-100
 (tilegroup
 	(name (_ "Castle"))
@@ -344,10 +346,23 @@
 		88 52 54 56
 		89 53 55 57
 		
+		423 424 427 428
+		425 426 429 430
+		431 432 435 436
+		433 434 437 446
+		438 439 440 441
+		442 443 444 445
+		
 		389 390 391 401
 		392 393 394 402
-		395 396 397   0
-		398 399 400   0
+		395 396 397 403
+		398 399 400 404
+		  0   0   0 405
+
+		407 408 409 410
+		411 412 413 414
+		415 416 417 418
+		419 420 421 422
 	)
 )
 (tiles
@@ -366,6 +381,41 @@
 		20 18 12  3
 		17 24 31  0
 		20 18 17 24
+	)
+)
+(tiles
+	(width 4)(height 6)
+	(images "worldmap/shared/roads_border.png")
+	(ids
+		423 424 427 428
+		425 426 429 430
+		431 432 435 436
+		433 434 437 446
+		438 439 440 441
+		442 443 444 445
+		
+	)
+	(datas
+		 6 10 23 30
+		 5  9 29 27
+		20 18 12  3
+		17 24 31  0
+		20 18 17 24
+		12  3  3 12
+	)
+)
+(tiles
+	(width 1)(height 3)
+	(images "worldmap/shared/ladder.png")
+	(ids
+		403
+		404
+		405
+	)
+	(datas
+		3
+		3
+		3
 	)
 )
 (tiles
@@ -417,6 +467,23 @@
 		 3  3
 		12 12
 		12 12
+	)
+)
+(tiles
+	(width 4)(height 4)
+	(images "worldmap/shared/rocky_paths.png")
+	(editor-images "worldmap/shared/rocky_paths-editor.png")
+	(ids
+		407 408 409 410
+		411 412 413 414
+		415 416 417 418
+		419 420 421 422
+	)
+	(datas
+		 6 30 10 18
+		23 31 27  3
+		 5 29  9 17
+		20 12 24  0
 	)
 )
 

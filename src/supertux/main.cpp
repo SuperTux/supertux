@@ -48,10 +48,12 @@ extern "C" {
 #include "object/spawnpoint.hpp"
 #include "physfs/physfs_file_system.hpp"
 #include "physfs/physfs_sdl.hpp"
+#include "sdk/integration.hpp"
 #include "sprite/sprite_data.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/command_line_arguments.hpp"
 #include "supertux/console.hpp"
+#include "supertux/error_handler.hpp"
 #include "supertux/game_manager.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/gameconfig.hpp"
@@ -362,7 +364,7 @@ Main::init_video()
   SDLSurfacePtr icon = SDLSurface::from_file(icon_fname);
   VideoSystem::current()->set_icon(*icon);
 
-  SDL_ShowCursor(0);
+  SDL_ShowCursor(g_config->custom_mouse_cursor ? 0 : 1);
 
   log_info << (g_config->use_fullscreen?"fullscreen ":"window ")
            << " Window: "     << g_config->window_size
@@ -432,6 +434,9 @@ Main::launch_game(const CommandLineArguments& args)
   TileManager tile_manager;
   SpriteManager sprite_manager;
   Resources resources;
+
+  s_timelog.log("integrations");
+  Integration::setup();
 
   s_timelog.log("addons");
   AddonManager addon_manager("addons", g_config->addons);
@@ -538,6 +543,9 @@ Main::launch_game(const CommandLineArguments& args)
 int
 Main::run(int argc, char** argv)
 {
+  // First and foremost, set error handlers (to print stack trace on SIGSEGV, etc.)
+  ErrorHandler::set_handlers();
+
 #ifdef WIN32
 	//SDL is used instead of PHYSFS because both create the same path in app data
 	//However, PHYSFS is not yet initizlized, and this should be run before anything is initialized
@@ -553,12 +561,24 @@ Main::run(int argc, char** argv)
 	std::string errpath = prefpath + u8"/console.err";
 	std::wstring w_errpath = converter.from_bytes(errpath);
 	_wfreopen(w_errpath.c_str(), L"a", stderr);
-#endif
 
-  // Create and install global locale
-  std::locale::global(boost::locale::generator().generate(""));
-  // Make boost.filesystem use it
-  boost::filesystem::path::imbue(std::locale());
+  // Create and install global locale - this can fail on some situations:
+  // - with bad values for env vars (LANG, LC_ALL, ...)
+  // - targets where libstdc++ uses its generic locales code (https://gcc.gnu.org/legacy-ml/libstdc++/2003-02/msg00345.html)
+  // NOTE: when moving to C++ >= 17, keep the try-catch block, but use std::locale:global(std::locale(""));
+  //
+  // This should not be necessary on *nix, so only try it on Windows.
+  try
+  {
+    std::locale::global(boost::locale::generator().generate(""));
+    // Make boost.filesystem use it
+    boost::filesystem::path::imbue(std::locale());
+  }
+  catch(const std::runtime_error& err)
+  {
+    std::cout << "Warning: " << err.what() << std::endl;
+  }
+#endif
 
   int result = 0;
 
@@ -599,6 +619,10 @@ Main::run(int argc, char** argv)
 
       case CommandLineArguments::PRINT_DATADIR:
         args.print_datadir();
+        return 0;
+
+      case CommandLineArguments::PRINT_ACKNOWLEDGEMENTS:
+        args.print_acknowledgements();
         return 0;
 
       default:

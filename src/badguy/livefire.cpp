@@ -30,7 +30,7 @@ LiveFire::LiveFire(const ReaderMapping& reader) :
 {
   walk_speed = 80;
   max_drop_height = 20;
-  m_lightsprite->set_color(Color(1.0f, 1.0f, 1.0f));
+  m_lightsprite->set_color(Color(0.89f, 0.75f, 0.44f));
   m_glowing = true;
 }
 

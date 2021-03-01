@@ -45,12 +45,14 @@
 #include "physfs/ifile_stream.hpp"
 #include "scripting/sector.hpp"
 #include "squirrel/squirrel_environment.hpp"
+#include "supertux/colorscheme.hpp"
 #include "supertux/constants.hpp"
 #include "supertux/debug.hpp"
 #include "supertux/game_object_factory.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/level.hpp"
 #include "supertux/player_status_hud.hpp"
+#include "supertux/resources.hpp"
 #include "supertux/savegame.hpp"
 #include "supertux/tile.hpp"
 #include "util/file_system.hpp"
@@ -110,6 +112,11 @@ void
 Sector::finish_construction(bool editable)
 {
   flush_game_objects();
+
+  // FIXME: Is it a good idea to process some resolve requests this early?
+  // I added this to fix https://github.com/SuperTux/supertux/issues/1378
+  // but I don't know if it's going to introduce other bugs..   ~ Semphris
+  try_process_resolve_requests();
 
   if (!editable) {
     convert_tiles2gameobject();
@@ -391,6 +398,7 @@ Sector::draw(DrawingContext& context)
 
   context.push_transform();
   context.set_translation(camera.get_translation());
+  context.scale(camera.get_current_scale());
 
   GameObjectManager::draw(context);
 
@@ -399,6 +407,16 @@ Sector::draw(DrawingContext& context)
   }
 
   context.pop_transform();
+
+  if (m_level.m_is_in_cutscene && !m_level.m_skip_cutscene)
+  {
+    context.color().draw_text(Resources::normal_font,
+                              _("Press escape to skip"),
+                              Vector(32.f, 32.f),
+                              ALIGN_LEFT,
+                              LAYER_OBJECTS + 1000,
+                              ColorScheme::Text::heading_color);
+  }
 }
 
 bool
@@ -624,6 +642,10 @@ Sector::convert_tiles2gameobject()
   // add lights for special tiles
   for (auto& tm : get_objects_by_type<TileMap>())
   {
+    // Since object setup is not yet complete, I have to manually add the offset
+    // See https://github.com/SuperTux/supertux/issues/1378 for details
+    Vector tm_offset = tm.get_path() ? tm.get_path()->get_base() : Vector(0, 0);
+
     for (int x=0; x < tm.get_width(); ++x)
     {
       for (int y=0; y < tm.get_height(); ++y)
@@ -637,7 +659,7 @@ Sector::convert_tiles2gameobject()
           if (tile.get_object_name() == "decal" ||
               tm.is_solid())
           {
-            Vector pos = tm.get_tile_position(x, y);
+            Vector pos = tm.get_tile_position(x, y) + tm_offset;
             try {
               auto object = GameObjectFactory::instance().create(tile.get_object_name(), pos, Direction::AUTO, tile.get_object_data());
               add_object(std::move(object));
@@ -651,7 +673,7 @@ Sector::convert_tiles2gameobject()
         {
           // add lights for fire tiles
           uint32_t attributes = tile.get_attributes();
-          Vector pos = tm.get_tile_position(x, y);
+          Vector pos = tm.get_tile_position(x, y) + tm_offset;
           Vector center = pos + Vector(16, 16);
 
           if (attributes & Tile::FIRE) {

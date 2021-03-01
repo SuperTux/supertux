@@ -57,6 +57,15 @@ WorldMapScreen::update(float dt_sec, const Controller& controller)
   m_worldmap->update(dt_sec);
 }
 
+IntegrationStatus
+WorldMapScreen::get_status() const
+{
+  IntegrationStatus status;
+  status.m_details.push_back("In worldmap");
+  status.m_details.push_back(m_worldmap->get_title());
+  return status;
+}
+
 } // namespace worldmap
 
 /* EOF */

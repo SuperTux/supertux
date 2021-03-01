@@ -22,6 +22,7 @@
 #include "gui/menu_manager.hpp"
 #include "supertux/level.hpp"
 #include "supertux/gameconfig.hpp"
+#include "supertux/globals.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "util/gettext.hpp"
 #include "video/compositor.hpp"
@@ -66,6 +67,9 @@ EditorMenu::EditorMenu()
   add_toggle(-1, _("Grid Snapping"), &EditorOverlayWidget::snap_to_grid);
   add_toggle(-1, _("Render Background"), &EditorOverlayWidget::render_background);
   add_toggle(-1, _("Render Light"), &Compositor::s_render_lighting);
+  add_toggle(-1, _("Autotile Mode"), &EditorOverlayWidget::autotile_mode);
+  add_toggle(-1, _("Enable Autotile Help"), &EditorOverlayWidget::autotile_help);
+  add_intfield(_("Autosave Frequency"), &(g_config->editor_autosave_frequency));
 
   add_submenu(worldmap ? _("Worldmap Settings") : _("Level Settings"),
               MenuStorage::EDITOR_LEVEL_MENU);

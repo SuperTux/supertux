@@ -43,11 +43,12 @@ private:
   int m_selected_button;
   int m_cancel_button;
   bool m_passive;
+  bool m_clear_diags;
 
   Sizef m_text_size;
 
 public:
-  Dialog(bool passive = false);
+  Dialog(bool passive = false, bool auto_clear_dialogs = true);
   virtual ~Dialog();
 
   void set_text(const std::string& text);

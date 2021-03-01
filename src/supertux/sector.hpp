@@ -21,6 +21,7 @@
 #include <stdint.h>
 
 #include "math/anchor_point.hpp"
+#include "math/easing.hpp"
 #include "squirrel/squirrel_environment.hpp"
 #include "supertux/d_scope.hpp"
 #include "supertux/game_object_manager.hpp"

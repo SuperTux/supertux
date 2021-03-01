@@ -35,6 +35,16 @@
          (mirror-action "fire-stand-right"))
 
        (action
+         (name "fire-walljump-right")
+         (hitbox 24 14 32 64)
+         (images "fire/hat/fire-walljump.png"))
+
+       (action
+         (name "fire-walljump-left")
+         (hitbox 8 14 32 64)
+         (mirror-action "fire-walljump-right"))
+
+       (action
          (name "fire-jump-right")
          (hitbox 16 15 32 64)
          (images "fire/hat/stand.png"))
@@ -170,6 +180,16 @@
          (mirror-action "ice-stand-right"))
 
        (action
+         (name "ice-walljump-right")
+         (hitbox 24 14 32 64)
+         (images "ice/hat/ice-walljump.png"))
+
+       (action
+         (name "ice-walljump-left")
+         (hitbox 8 14 32 64)
+         (mirror-action "ice-walljump-right"))
+
+       (action
          (name "ice-jump-right")
          (hitbox 16 15 32 64)
          (images "ice/hat/stand.png"))
@@ -303,6 +323,16 @@
          (name "air-stand-left")
          (hitbox 16 15 32 64)
          (mirror-action "air-stand-right"))
+
+       (action
+         (name "air-walljump-right")
+         (hitbox 24 14 32 64)
+         (images "air/hat/air-walljump.png"))
+
+       (action
+         (name "air-walljump-left")
+         (hitbox 8 14 32 64)
+         (mirror-action "air-walljump-right"))
 
        (action
          (name "air-jump-right")
@@ -452,6 +482,16 @@
          (mirror-action "earth-stand-right"))
 
        (action
+         (name "earth-walljump-right")
+         (hitbox 24 14 32 64)
+         (images "earth/hat/earth-walljump.png"))
+
+       (action
+         (name "earth-walljump-left")
+         (hitbox 8 14 32 64)
+         (mirror-action "earth-walljump-right"))
+
+       (action
          (name "earth-jump-right")
          (hitbox 16 15 32 64)
          (images "earth/hardhat/stand.png"))
@@ -585,6 +625,16 @@
          (name "santa-stand-left")
          (hitbox 16 15 32 64)
          (mirror-action "santa-stand-right"))
+
+       (action
+         (name "santa-walljump-right")
+         (hitbox 24 14 32 64)
+         (images "fire/santa_cap/santa-walljump.png"))
+
+       (action
+         (name "santa-walljump-left")
+         (hitbox 8 14 32 64)
+         (mirror-action "santa-walljump-right"))
 
        (action
          (name "santa-jump-right")

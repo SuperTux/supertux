@@ -24,8 +24,14 @@ TileSelection::TileSelection() :
 }
 
 uint32_t
-TileSelection::pos(int x, int y) const
+TileSelection::pos(int x, int y)
 {
+  if (m_width < 1)
+    m_width = 1;
+
+  if(m_height < 1)
+    m_height = 1;
+
   x = x % m_width;
   y = y % m_height;
   if (x < 0) {
@@ -50,12 +56,9 @@ TileSelection::set_tile(uint32_t tile)
 bool
 TileSelection::empty() const
 {
-  for (const auto& tile : m_tiles) {
-    if (tile != 0) {
-      return false;
-    }
-  }
-  return true;
+  return std::all_of(m_tiles.begin(), m_tiles.end(), [](const auto& tile) {
+    return tile == 0;
+  });
 }
 
 /* EOF */

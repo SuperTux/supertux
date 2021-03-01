@@ -37,6 +37,7 @@
 #include "supertux/gameconfig.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/tile.hpp"
+#include "trigger/climbable.hpp"
 #include "trigger/trigger_base.hpp"
 #include "video/surface.hpp"
 
@@ -93,6 +94,8 @@ const float MAX_CLIMB_XM = 96;
 const float MAX_CLIMB_YM = 128;
 /** maximum vertical glide velocity */
 const float MAX_GLIDE_YM = 128;
+/** sliding down walls velocity */
+const float MAX_WALLCLING_YM = 64;
 /** instant velocity when tux starts to walk */
 const float WALK_SPEED = 100;
 
@@ -112,6 +115,7 @@ const float UNDUCK_HURT_TIME = 0.25f;
 const float JUMP_EARLY_APEX_FACTOR = 3.0;
 
 const float JUMP_GRACE_TIME = 0.25f; /**< time before hitting the ground that the jump button may be pressed (and still trigger a jump) */
+const float COYOTE_TIME = 0.1f; /**< time between the moment leaving a platform without jumping and being able to jump anyways despite being in the air */
 
 /* Tux's collision rectangle */
 const float TUX_WIDTH = 31.8f;
@@ -119,6 +123,9 @@ const float RUNNING_TUX_WIDTH = 34;
 const float SMALL_TUX_HEIGHT = 30.8f;
 const float BIG_TUX_HEIGHT = 62.8f;
 const float DUCKED_TUX_HEIGHT = 31.8f;
+
+/** when Tux swims down and approaches the bottom of the screen, push him back up with that strength */
+const float WATER_FALLOUT_FORCEBACK_STRENGTH = 1024.f;
 
 bool no_water = true;
 
@@ -140,8 +147,13 @@ Player::Player(PlayerStatus& player_status, const std::string& name_) :
   m_peekingY(Direction::AUTO),
   m_ability_time(),
   m_stone(false),
+  m_falling_below_water(false),
   m_swimming(false),
   m_swimboosting(false),
+  m_on_left_wall(false),
+  m_on_right_wall(false),
+  m_in_walljump_tile(false),
+  m_can_walljump(false),
   m_speedlimit(0), //no special limit
   m_scripting_controller_old(nullptr),
   m_jump_early_apex(false),
@@ -157,6 +169,7 @@ Player::Player(PlayerStatus& player_status, const std::string& name_) :
   m_jumping(false),
   m_can_jump(true),
   m_jump_button_timer(),
+  m_coyote_timer(),
   m_wants_buttjump(false),
   m_does_buttjump(false),
   m_invincible_timer(),
@@ -274,9 +287,9 @@ Player::adjust_height(float new_height, float bottom_offset)
 
 
   if (new_height > m_col.m_bbox.get_height()) {
-    Rectf additional_space = bbox2;
+    //Rectf additional_space = bbox2;
     //additional_space.set_height(new_height - m_col.m_bbox.get_height());
-    if (!Sector::get().is_free_of_statics(additional_space, this, true))
+    if (!Sector::get().is_free_of_statics(bbox2, this, true))
       return false;
   }
 
@@ -356,6 +369,28 @@ Player::update(float dt_sec)
   // extend/shrink tux collision rectangle so that we fall through/walk over 1
   // tile holes
 
+  //wallclinging and walljumping
+
+  Rectf wallclingleft = get_bbox();
+  wallclingleft.set_left(wallclingleft.get_left() - 8.f);
+  m_on_left_wall = !Sector::get().is_free_of_statics(wallclingleft);
+
+  Rectf wallclingright = get_bbox();
+  wallclingright.set_right(wallclingright.get_right() + 8.f);
+  m_on_right_wall = !Sector::get().is_free_of_statics(wallclingright);
+
+  m_can_walljump = ((m_on_right_wall || m_on_left_wall) && !on_ground() && !m_swimming && m_in_walljump_tile);
+  if (m_can_walljump && (m_controller->hold(Control::LEFT) || m_controller->hold(Control::RIGHT)) && m_physic.get_velocity_y() >= 0.f && !m_controller->pressed(Control::JUMP))
+  {
+    m_physic.set_velocity_y(MAX_WALLCLING_YM);
+    m_physic.set_acceleration_y(0);
+    m_water_jump = false;
+  }
+
+  m_in_walljump_tile = false;
+
+  //End of wallclinging
+
   Rectf lookahead = get_bbox();
   lookahead.set_right(lookahead.get_left() + 62);
   bool pathBlocked = !Sector::get().is_free_of_statics(lookahead);
@@ -417,6 +452,10 @@ Player::update(float dt_sec)
       m_lightsprite->set_angle(m_sprite->get_angle());
   }
 
+  if (on_ground()) {
+    m_coyote_timer.start(COYOTE_TIME);
+  }
+
   // set fall mode...
   if (on_ground()) {
     m_fall_mode = ON_GROUND;
@@ -449,11 +488,20 @@ Player::update(float dt_sec)
       m_ability_time = static_cast<float>(m_player_status.max_air_time) * GLIDE_TIME_PER_FLOWER;
   }
 
-    if (m_second_growup_sound_timer.check())
-    {
-      SoundManager::current()->play("sounds/grow.wav");
-      m_second_growup_sound_timer.stop();
-    }
+  if (m_second_growup_sound_timer.check())
+  {
+    SoundManager::current()->play("sounds/grow.wav");
+    m_second_growup_sound_timer.stop();
+  }
+
+  // Handle player approaching the bottom of the screen while swimming
+  if (m_falling_below_water) {
+    m_physic.set_velocity_y(std::min(m_physic.get_velocity_y(), 0.f));
+  }
+
+  if ((get_pos().y > Sector::get().get_height() - m_col.m_bbox.get_height()) && (!m_ghost_mode && m_swimming)) {
+    m_physic.set_acceleration_y(-WATER_FALLOUT_FORCEBACK_STRENGTH);
+  }
 
   // calculate movement for this frame
   m_col.set_movement(m_physic.get_movement(dt_sec));
@@ -538,7 +586,7 @@ Player::swim(float pointx, float pointy, bool boost)
     if(is_ang_defined)
     {
       delta = pointed_angle - m_swimming_angle;
-      if(abs(delta) > math::PI) delta += delta > 0 ? -math::TAU : math::TAU;
+      if(std::abs(delta) > math::PI) delta += delta > 0 ? -math::TAU : math::TAU;
       float epsilon = .1f * delta;
       m_swimming_angle += epsilon;
       if (m_swimming_angle > math::PI) m_swimming_angle -= math::TAU;
@@ -549,7 +597,7 @@ Player::swim(float pointx, float pointy, bool boost)
     if (m_swimming && !m_water_jump)
     {
 
-      if(is_ang_defined && abs(delta)<0.01f) m_swimming_angle = pointed_angle;
+      if(is_ang_defined && std::abs(delta)<0.01f) m_swimming_angle = pointed_angle;
 
       if (!is_ang_defined) m_swimming_accel_modifier = 0;
       else m_swimming_accel_modifier = 700.f;
@@ -616,8 +664,8 @@ Player::swim(float pointx, float pointy, bool boost)
     }
 
   // Direction prev_dir = m_dir;
-  m_dir = abs(m_swimming_angle) <= math::PI_4 ? Direction::RIGHT :
-          abs(m_swimming_angle) >= 3.f * math::PI_4 ? Direction::LEFT :
+  m_dir = std::abs(m_swimming_angle) <= math::PI_4 ? Direction::RIGHT :
+          std::abs(m_swimming_angle) >= 3.f * math::PI_4 ? Direction::LEFT :
           m_swimming_angle < 0 ? Direction::UP :
           Direction::DOWN;
   // if (m_player_status.bonus == BonusType::GROWUP_BONUS &&
@@ -859,7 +907,7 @@ Player::do_backflip() {
 
 void
 Player::do_jump(float yspeed) {
-  if (!on_ground())
+  if (!on_ground() && !m_coyote_timer.started())
     return;
 
   m_physic.set_velocity_y(yspeed);
@@ -901,7 +949,7 @@ Player::handle_vertical_input()
 {
   // Press jump key
   if (m_controller->pressed(Control::JUMP)) m_jump_button_timer.start(JUMP_GRACE_TIME);
-  if (m_controller->hold(Control::JUMP) && m_jump_button_timer.started() && m_can_jump) {
+  if (m_controller->hold(Control::JUMP) && m_jump_button_timer.started() && (m_can_jump || m_coyote_timer.started())) {
     m_jump_button_timer.stop();
     if (m_duck) {
       // when running, only jump a little bit; else do a backflip
@@ -923,6 +971,8 @@ Player::handle_vertical_input()
       else
         do_jump((fabsf(m_physic.get_velocity_x()) > MAX_WALK_XM) ? -580.0f : -520.0f);
     }
+    //Stop the coyote timer only after calling do_jump, because do_jump also checks for the timer
+    m_coyote_timer.stop();
     // airflower glide only when holding jump key
   } else  if (m_controller->hold(Control::JUMP) && m_player_status.bonus == AIR_BONUS && m_physic.get_velocity_y() > MAX_GLIDE_YM) {
       if (m_ability_time > 0 && !m_ability_timer.started())
@@ -974,6 +1024,14 @@ Player::handle_vertical_input()
   {
     do_jump(-100);
   }
+
+  //The real walljumping magic
+  if (m_controller->pressed(Control::JUMP) && m_can_walljump && !m_backflipping)
+  {
+    SoundManager::current()->play((is_big()) ? "sounds/bigjump.wav" : "sounds/jump.wav");
+    m_physic.set_velocity(m_on_left_wall ? 400.f : -400.f, -520.f);
+  }
+
  m_physic.set_acceleration_y(0);
 }
 
@@ -1490,28 +1548,27 @@ if (!m_swimming && m_water_jump) {
   else if ((m_wants_buttjump || m_does_buttjump) && is_big() && !m_water_jump) {
     m_sprite->set_action(sa_prefix+"-buttjump"+sa_postfix, 1);
   }
+  else if ((m_controller->hold(Control::LEFT) || m_controller->hold(Control::RIGHT)) && m_can_walljump)
+  {
+    m_sprite->set_action(sa_prefix+"-walljump"+sa_postfix, 1);
+  }
   else if (!on_ground() || m_fall_mode != ON_GROUND) {
     if (m_physic.get_velocity_x() != 0 || m_fall_mode != ON_GROUND) {
       if (m_swimming || m_water_jump) {
         if(m_water_jump && m_dir != m_old_dir)
           log_debug << "Obracanko (:" << std::endl;
-        if (m_physic.get_velocity().norm()<50.f) {
-          m_sprite->set_action(sa_prefix+"-floating"+sa_postfix);
-        } else if (m_water_jump) {
-          m_sprite->set_action(sa_prefix+"-swimjump"+sa_postfix);
-        } else {
-          m_sprite->set_action(sa_prefix+"-swimming"+sa_postfix);
-        }
-      } else {
-        if (m_physic.get_velocity_y() > 0) {
+	    if (m_physic.get_velocity().norm()<50.f) {
+        m_sprite->set_action(sa_prefix+"-floating"+sa_postfix);
+      } else if (m_water_jump) {
+        m_sprite->set_action(sa_prefix+"-swimjump"+sa_postfix);
+      }
+      else {m_sprite->set_action(sa_prefix+"-swimming"+sa_postfix);
+      }} else {
+      if (m_physic.get_velocity_y() > 0) {
           m_sprite->set_action(sa_prefix+"-fall"+sa_postfix);
-        }
-        else if ((m_physic.get_velocity_y() <= 0)) {
-          m_sprite->set_action(sa_prefix+"-jump"+sa_postfix);
-        }
-        else if ((m_physic.get_velocity_y() <= 0)) {
-          m_sprite->set_action(sa_prefix+"-skid"+sa_postfix);
-        }
+      }
+      else if ((m_physic.get_velocity_y() <= 0)) {
+        m_sprite->set_action(sa_prefix+"-jump"+sa_postfix);
       }
     }
   }
@@ -1633,6 +1690,11 @@ Player::collision_tile(uint32_t tile_attributes)
     }
   }
 #endif
+
+  if (tile_attributes & Tile::WALLJUMP)
+  {
+    m_in_walljump_tile = true;
+  }
 
   if (tile_attributes & Tile::ICE) {
     m_ice_this_frame = true;
@@ -1841,8 +1903,16 @@ Player::check_bounds()
     set_pos(Vector(Sector::get().get_width() - m_col.m_bbox.get_width(), m_col.m_bbox.get_top()));
   }
 
+  m_falling_below_water = false;
+
   /* fallen out of the level? */
-  if ((get_pos().y > Sector::get().get_height()) && (!m_ghost_mode)) {
+  if (m_swimming) {
+    // If swimming, don't kill; just prevent from falling below the ground
+    if ((get_pos().y > Sector::get().get_height() - 1) && (!m_ghost_mode)) {
+      set_pos(Vector(get_pos().x, Sector::get().get_height() - 1));
+      m_falling_below_water = true;
+    }
+  } else if ((get_pos().y > Sector::get().get_height()) && (!m_ghost_mode)) {
     kill(true);
     return;
   }
@@ -2009,7 +2079,7 @@ Player::handle_input_climbing()
     m_dir = Direction::RIGHT;
     vx += MAX_CLIMB_XM;
   }
-  if (m_controller->hold(Control::UP)) {
+  if (m_controller->hold(Control::UP) && m_col.m_bbox.get_top() > m_climbing->get_bbox().get_top()) {
     vy -= MAX_CLIMB_YM;
   }
   if (m_controller->hold(Control::DOWN)) {

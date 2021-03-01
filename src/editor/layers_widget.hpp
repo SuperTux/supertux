@@ -49,6 +49,7 @@ public:
   virtual bool on_mouse_button_up(const SDL_MouseButtonEvent& button) override;
   virtual bool on_mouse_button_down(const SDL_MouseButtonEvent& button) override;
   virtual bool on_mouse_motion(const SDL_MouseMotionEvent& motion) override;
+  virtual bool on_mouse_wheel(const SDL_MouseWheelEvent& wheel) override;
 
   virtual void setup() override;
   virtual void resize() override;
@@ -58,6 +59,8 @@ public:
   void refresh_sector_text();
   void sort_layers();
   void add_layer(GameObject* layer);
+
+  bool has_mouse_focus() const;
 
   TileMap* get_selected_tilemap() const { return m_selected_tilemap; }
 
@@ -74,6 +77,8 @@ private:
   int m_Ypos;
   const int m_Xpos = 32;
   int m_Width;
+  int m_scroll;
+  int m_scroll_speed;
 
   std::string m_sector_text;
   int m_sector_text_width;
@@ -82,6 +87,8 @@ private:
   unsigned int m_hovered_layer;
 
   std::unique_ptr<Tip> m_object_tip;
+
+  bool m_has_mouse_focus;
 
 private:
   EditorLayersWidget(const EditorLayersWidget&) = delete;

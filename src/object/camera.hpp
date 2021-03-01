@@ -79,7 +79,7 @@ public:
   void reset(const Vector& tuxpos);
 
   /** return camera position */
-  const Vector& get_translation() const;
+  const Vector get_translation() const;
   void set_translation(const Vector& translation) { m_translation = translation; }
 
   /** shake camera in a direction 1 time */
@@ -97,12 +97,22 @@ public:
   Vector get_center() const;
 
   void set_mode(Mode mode_) { m_mode = mode_; }
+
+  /** get the exact scale at this exact moment */
+  float get_current_scale() const { return m_scale; }
+
+  /** get the scale towards which the camera is moving */
+  float get_target_scale() const { return m_scale_target; }
+
+  /** smoothly slide the scale of the camera towards a new value */
+  void ease_scale(float scale, float time, easing ease);
   /** @} */
 
 private:
   void update_scroll_normal(float dt_sec);
   void update_scroll_autoscroll(float dt_sec);
   void update_scroll_to(float dt_sec);
+  void update_scale(float dt_sec);
   void keep_in_bounds(Vector& vector);
   void shake();
 
@@ -134,6 +144,13 @@ private:
   float m_scrollspeed;
 
   std::unique_ptr<CameraConfig> m_config;
+
+  float m_scale,
+        m_scale_origin,
+        m_scale_target,
+        m_scale_time_total,
+        m_scale_time_remaining;
+  easing m_scale_easing;
 
 private:
   Camera(const Camera&) = delete;

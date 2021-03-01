@@ -118,7 +118,7 @@ GoldBomb::collision_squished(GameObject& object)
 
     if (player)
       player->bounce(*this);
-
+    SoundManager::current()->play("sounds/squish.wav", get_pos());
     ticking = SoundManager::current()->create_sound_source("sounds/fizz.wav");
     ticking->set_position(get_pos());
     ticking->set_looping(true);

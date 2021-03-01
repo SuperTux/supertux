@@ -57,6 +57,16 @@ public:
   virtual ObjectSettings get_settings() override;
   virtual void move_to(const Vector& pos) override;
 
+  virtual void expose(HSQUIRRELVM vm, SQInteger table_idx) override
+  {
+    ExposedObject<WillOWisp, scripting::WillOWisp>::expose(vm, table_idx);
+  }
+
+  virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx) override
+  {
+    ExposedObject<WillOWisp, scripting::WillOWisp>::unexpose(vm, table_idx);
+  }
+
   /** make WillOWisp vanish */
   void vanish();
 

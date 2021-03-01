@@ -24,6 +24,7 @@
 #include "editor/button_widget.hpp"
 #include "editor/layer_icon.hpp"
 #include "editor/object_info.hpp"
+#include "editor/particle_editor.hpp"
 #include "editor/resize_marker.hpp"
 #include "editor/tile_selection.hpp"
 #include "editor/tip.hpp"
@@ -32,15 +33,17 @@
 #include "gui/dialog.hpp"
 #include "gui/menu_manager.hpp"
 #include "gui/mousecursor.hpp"
-#include "gui/mousecursor.hpp"
 #include "math/util.hpp"
 #include "object/camera.hpp"
 #include "object/player.hpp"
 #include "object/spawnpoint.hpp"
 #include "object/tilemap.hpp"
 #include "physfs/util.hpp"
+#include "sdk/integration.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/game_manager.hpp"
+#include "supertux/gameconfig.hpp"
+#include "supertux/globals.hpp"
 #include "supertux/level.hpp"
 #include "supertux/level_parser.hpp"
 #include "supertux/menu/menu_storage.hpp"
@@ -53,7 +56,6 @@
 #include "supertux/world.hpp"
 #include "util/file_system.hpp"
 #include "util/reader_mapping.hpp"
-#include "util/string_util.hpp"
 #include "video/compositor.hpp"
 #include "video/drawing_context.hpp"
 #include "video/surface.hpp"
@@ -77,7 +79,7 @@ Editor::Editor() :
   m_level(),
   m_world(),
   m_levelfile(),
-  m_test_levelfile(),
+  m_autosave_levelfile(),
   m_quit_request(false),
   m_newlevel_request(false),
   m_reload_request(false),
@@ -85,8 +87,10 @@ Editor::Editor() :
   m_deactivate_request(false),
   m_save_request(false),
   m_test_request(false),
+  m_particle_editor_request(false),
   m_test_pos(),
   m_savegame(),
+  m_particle_editor_filename(),
   m_sector(),
   m_levelloaded(false),
   m_leveltested(false),
@@ -99,7 +103,9 @@ Editor::Editor() :
   m_bgr_surface(Surface::from_file("images/background/antarctic/arctis2.png")),
   m_undo_manager(new UndoManager),
   m_ignore_sector_change(false),
-  m_level_first_loaded(false)
+  m_level_first_loaded(false),
+  m_time_since_last_save(0.f),
+  m_scroll_speed(32.0f)
 {
   auto toolbox_widget = std::make_unique<EditorToolboxWidget>(*this);
   auto layers_widget = std::make_unique<EditorLayersWidget>(*this);
@@ -151,6 +157,25 @@ Editor::draw(Compositor& compositor)
 void
 Editor::update(float dt_sec, const Controller& controller)
 {
+  // Auto-save (interval)
+  if (m_level) {
+    m_time_since_last_save += dt_sec;
+    if (m_time_since_last_save >= static_cast<float>(std::max(
+        g_config->editor_autosave_frequency, 1)) * 60.f) {
+      m_time_since_last_save = 0.f;
+      std::string backup_filename = get_autosave_from_levelname(m_levelfile);
+      std::string directory = get_level_directory();
+
+      // Set the test level file even though we're not testing, so that
+      // if the user quits the editor without ever testing, it'll delete
+      // the autosave file anyways
+      m_autosave_levelfile = FileSystem::join(directory, backup_filename);
+      m_level->save(m_autosave_levelfile);
+    }
+  } else {
+    m_time_since_last_save = 0.f;
+  }
+
   // Pass all requests
   if (m_reload_request) {
     reload_level();
@@ -182,6 +207,15 @@ Editor::update(float dt_sec, const Controller& controller)
     return;
   }
 
+  if (m_particle_editor_request) {
+    m_particle_editor_request = false;
+    std::unique_ptr<Screen> screen(new ParticleEditor());
+    if (m_particle_editor_filename)
+      static_cast<ParticleEditor*>(screen.get())->open("particles/" + *m_particle_editor_filename);
+    ScreenManager::current()->push_screen(move(screen));
+    return;
+  }
+
   if (m_deactivate_request) {
     m_enabled = false;
     m_deactivate_request = false;
@@ -209,11 +243,30 @@ Editor::update(float dt_sec, const Controller& controller)
 }
 
 void
+Editor::remove_autosave_file()
+{
+  // Clear the auto-save file
+  if (!m_autosave_levelfile.empty())
+  {
+    // Try to remove the test level using the PhysFS file system
+    if (physfsutil::remove(m_autosave_levelfile) != 0)
+    {
+      // This file is not inside any PhysFS mounts,
+      // try to remove this using normal file system
+      // methods.
+      FileSystem::remove(m_autosave_levelfile);
+    }
+  }
+}
+
+void
 Editor::save_level()
 {
   m_undo_manager->reset_index();
   m_level->save(m_world ? FileSystem::join(m_world->get_basedir(), m_levelfile) :
               m_levelfile);
+  m_time_since_last_save = 0.f;
+  remove_autosave_file();
 }
 
 std::string
@@ -238,9 +291,10 @@ Editor::get_level_directory() const
 void
 Editor::test_level(const boost::optional<std::pair<std::string, Vector>>& test_pos)
 {
+
   Tile::draw_editor_images = false;
   Compositor::s_render_lighting = true;
-  std::string backup_filename = m_levelfile + "~";
+  std::string backup_filename = get_autosave_from_levelname(m_levelfile);
   std::string directory = get_level_directory();
 
   // This is jank to get an owned World pointer, GameManager/World
@@ -252,15 +306,17 @@ Editor::test_level(const boost::optional<std::pair<std::string, Vector>>& test_p
     current_world = owned_world.get();
   }
 
-  m_test_levelfile = FileSystem::join(directory, backup_filename);
-  m_level->save(m_test_levelfile);
+  m_autosave_levelfile = FileSystem::join(directory, backup_filename);
+  m_level->save(m_autosave_levelfile);
+  m_time_since_last_save = 0.f;
+
   if (!m_level->is_worldmap())
   {
     GameManager::current()->start_level(*current_world, backup_filename, test_pos);
   }
   else
   {
-    GameManager::current()->start_worldmap(*current_world, "", m_test_levelfile);
+    GameManager::current()->start_worldmap(*current_world, "", m_autosave_levelfile);
   }
 
   m_leveltested = true;
@@ -331,19 +387,19 @@ Editor::update_keyboard(const Controller& controller)
   }
 
   if (controller.hold(Control::LEFT)) {
-    scroll({-32.0f, 0.0f});
+    scroll({ -m_scroll_speed, 0.0f });
   }
 
   if (controller.hold(Control::RIGHT)) {
-    scroll({32.0f, 0.0f});
+    scroll({ m_scroll_speed, 0.0f });
   }
 
   if (controller.hold(Control::UP)) {
-    scroll({0.0f, -32.0f});
+    scroll({ 0.0f, -m_scroll_speed });
   }
 
   if (controller.hold(Control::DOWN)) {
-    scroll({0.0f, 32.0f});
+    scroll({ 0.0f, m_scroll_speed });
   }
 }
 
@@ -454,6 +510,12 @@ Editor::reload_level()
                                    StringUtil::has_suffix(m_levelfile, ".stwm"),
                                    true));
   ReaderMapping::s_translations_enabled = true;
+
+  // Autosave files : Once the level is loaded, make sure
+  // to use the regular file
+  m_levelfile = get_levelname_from_autosave(m_levelfile);
+  m_autosave_levelfile = FileSystem::join(get_level_directory(),
+                                          get_autosave_from_levelname(m_levelfile));
 }
 
 void
@@ -463,6 +525,8 @@ Editor::quit_editor()
 
   auto quit = [this] ()
   {
+    remove_autosave_file();
+
     //Quit level editor
     m_world = nullptr;
     m_levelfile = "";
@@ -553,17 +617,6 @@ Editor::setup()
 
   // Reactivate the editor after level test
   if (m_leveltested) {
-    if (!m_test_levelfile.empty())
-    {
-      // Try to remove the test level using the PhysFS file system
-      if (physfsutil::remove(m_test_levelfile) != 0)
-      {
-        // This file is not inside any PhysFS mounts,
-        // try to remove this using normal file system
-        // methods.
-        FileSystem::remove(m_test_levelfile);
-      }
-    }
     m_leveltested = false;
     Tile::draw_editor_images = true;
     m_level->reactivate();
@@ -574,6 +627,7 @@ Editor::setup()
     m_enabled = true;
     m_toolbox_widget->update_mouse_icon();
   }
+  
 }
 
 void
@@ -616,6 +670,24 @@ Editor::event(const SDL_Event& ev)
 		redo();
 		}
 
+  if (ev.type == SDL_KEYDOWN)
+  {
+    if (ev.key.keysym.mod & KMOD_SHIFT)
+    {
+      m_scroll_speed = 96.0f;
+    }
+    else if (ev.key.keysym.mod & KMOD_CTRL)
+    {
+      m_scroll_speed = 16.0f;
+    }
+    else
+    {
+      m_scroll_speed = 32.0f;
+    }
+  }
+
+  
+
     if (ev.type == SDL_KEYDOWN && ev.key.keysym.sym == SDLK_F6) {
       Compositor::s_render_lighting = !Compositor::s_render_lighting;
       return;
@@ -647,7 +719,7 @@ Editor::event(const SDL_Event& ev)
 
     // Scroll with mouse wheel, if the mouse is not over the toolbox.
     // The toolbox does scrolling independently from the main area.
-    if (ev.type == SDL_MOUSEWHEEL && !m_toolbox_widget->has_mouse_focus()) {
+    if (ev.type == SDL_MOUSEWHEEL && !m_toolbox_widget->has_mouse_focus() && !m_layers_widget->has_mouse_focus()) {
       float scroll_x = static_cast<float>(ev.wheel.x * -32);
       float scroll_y = static_cast<float>(ev.wheel.y * -32);
       scroll({scroll_x, scroll_y});
@@ -781,6 +853,25 @@ Editor::redo()
   } else {
     log_info << "redo failed" << std::endl;
   }
+}
+
+IntegrationStatus
+Editor::get_status() const
+{
+  IntegrationStatus status;
+  status.m_details.push_back("In Editor");
+  if (!g_config->hide_editor_levelnames && m_level)
+  {
+    if (m_level->is_worldmap())
+    {
+      status.m_details.push_back("Editing worldmap: " + m_level->get_name());
+    }
+    else
+    {
+      status.m_details.push_back("Editing level: " + m_level->get_name());
+    }
+  }
+  return status;
 }
 
 /* EOF */

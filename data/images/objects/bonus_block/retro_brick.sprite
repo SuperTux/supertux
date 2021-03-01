@@ -3,7 +3,7 @@
         (name "empty")
         (surfaces
         (surface
-        (diffuse-texture (file "empty.png"))
+        (diffuse-texture (file "box-empty.png"))
         (displacement-texture (file "displacement.png")))))
 
  (action

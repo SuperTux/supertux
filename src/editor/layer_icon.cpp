@@ -57,6 +57,23 @@ LayerIcon::draw(DrawingContext& context, const Vector& pos)
   }
 }
 
+void
+LayerIcon::draw(DrawingContext& context, const Vector& pos, int pixels_shown)
+{
+  if (!is_valid()) return;
+
+  ObjectIcon::draw(context, pos, pixels_shown);
+  int l = get_zpos();
+  if (l != std::numeric_limits<int>::min()) {
+    // Don't draw the text if the icon is not 100% visible
+    if (TileMap* tilemap = dynamic_cast<TileMap*>(m_layer)) {
+      if (tilemap->m_editor_active) {
+        context.color().draw_surface(m_selection, pos, LAYER_GUI - 1);
+      }
+    }
+  }
+}
+
 int
 LayerIcon::get_zpos() const
 {

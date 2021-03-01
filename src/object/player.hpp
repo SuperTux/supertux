@@ -231,8 +231,13 @@ private:
   Direction m_peekingY;
   float m_ability_time;
   bool m_stone;
+  bool m_falling_below_water;
   bool m_swimming;
   bool m_swimboosting;
+  bool m_on_left_wall;
+  bool m_on_right_wall;
+  bool m_in_walljump_tile;
+  bool m_can_walljump;
   float m_speedlimit;
   const Controller* m_scripting_controller_old; /**< Saves the old controller while the scripting_controller is used */
   bool m_jump_early_apex;
@@ -256,6 +261,7 @@ private:
   bool m_jumping;
   bool m_can_jump;
   Timer m_jump_button_timer; /**< started when player presses the jump button; runs until Tux jumps or JUMP_GRACE_TIME runs out */
+  Timer m_coyote_timer; /**< started when Tux falls off a ledge; runs until Tux jumps or COYOTE_TIME runs out */
   bool m_wants_buttjump;
 
 public:

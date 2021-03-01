@@ -127,7 +127,9 @@ Canvas::draw_surface(const SurfacePtr& surface,
   request->blend = blend;
 
   request->srcrects.emplace_back(Rectf(surface->get_region()));
-  request->dstrects.emplace_back(Rectf(apply_translate(position), Size(surface->get_width(), surface->get_height())));
+  request->dstrects.emplace_back(Rectf(apply_translate(position) * scale(),
+                                 Sizef(static_cast<float>(surface->get_width()) * scale(),
+                                       static_cast<float>(surface->get_height()) * scale())));
   request->angles.emplace_back(angle);
   request->texture = surface->get_texture().get();
   request->displacement_texture = surface->get_displacement_texture().get();
@@ -165,7 +167,7 @@ Canvas::draw_surface_part(const SurfacePtr& surface, const Rectf& srcrect, const
   request->blend = style.get_blend();
 
   request->srcrects.emplace_back(srcrect);
-  request->dstrects.emplace_back(apply_translate(dstrect.p1()), dstrect.get_size());
+  request->dstrects.emplace_back(apply_translate(dstrect.p1())*scale(), dstrect.get_size()*scale());
   request->angles.emplace_back(0.0f);
   request->texture = surface->get_texture().get();
   request->displacement_texture = surface->get_displacement_texture().get();
@@ -213,7 +215,7 @@ Canvas::draw_surface_batch(const SurfacePtr& surface,
 
   for (auto& dstrect : request->dstrects)
   {
-    dstrect = Rectf(apply_translate(dstrect.p1()), dstrect.get_size());
+    dstrect = Rectf(apply_translate(dstrect.p1())*scale(), dstrect.get_size()*scale());
   }
 
   request->texture = surface->get_texture().get();
@@ -254,8 +256,8 @@ Canvas::draw_gradient(const Color& top, const Color& bottom, int layer,
   request->top = top;
   request->bottom = bottom;
   request->direction = direction;
-  request->region = Rectf(apply_translate(region.p1()),
-                          apply_translate(region.p2()));
+  request->region = Rectf(apply_translate(region.p1())*scale(),
+                          apply_translate(region.p2())*scale());
 
   m_requests.push_back(request);
 }
@@ -278,8 +280,8 @@ Canvas::draw_filled_rect(const Rectf& rect, const Color& color, float radius, in
   request->flip = m_context.transform().flip;
   request->alpha = m_context.transform().alpha;
 
-  request->rect = Rectf(apply_translate(rect.p1()),
-                        rect.get_size());
+  request->rect = Rectf(apply_translate(rect.p1())*scale(),
+                        rect.get_size()*scale());
   request->color = color;
   request->color.alpha = color.alpha * m_context.transform().alpha;
   request->radius = radius;
@@ -298,10 +300,10 @@ Canvas::draw_inverse_ellipse(const Vector& pos, const Vector& size, const Color&
   request->flip = m_context.transform().flip;
   request->alpha = m_context.transform().alpha;
 
-  request->pos          = apply_translate(pos);
+  request->pos          = apply_translate(pos)*scale();
   request->color        = color;
   request->color.alpha  = color.alpha * m_context.transform().alpha;
-  request->size         = size;
+  request->size         = size*scale();
 
   m_requests.push_back(request);
 }
@@ -317,10 +319,10 @@ Canvas::draw_line(const Vector& pos1, const Vector& pos2, const Color& color, in
   request->flip = m_context.transform().flip;
   request->alpha = m_context.transform().alpha;
 
-  request->pos          = apply_translate(pos1);
+  request->pos          = apply_translate(pos1)*scale();
   request->color        = color;
   request->color.alpha  = color.alpha * m_context.transform().alpha;
-  request->dest_pos     = apply_translate(pos2);
+  request->dest_pos     = apply_translate(pos2)*scale();
 
   m_requests.push_back(request);
 }
@@ -336,9 +338,9 @@ Canvas::draw_triangle(const Vector& pos1, const Vector& pos2, const Vector& pos3
   request->flip = m_context.transform().flip;
   request->alpha = m_context.transform().alpha;
 
-  request->pos1 = apply_translate(pos1);
-  request->pos2 = apply_translate(pos2);
-  request->pos3 = apply_translate(pos3);
+  request->pos1 = apply_translate(pos1)*scale();
+  request->pos2 = apply_translate(pos2)*scale();
+  request->pos3 = apply_translate(pos3)*scale();
   request->color = color;
   request->color.alpha = color.alpha * m_context.transform().alpha;
 
@@ -350,7 +352,7 @@ Canvas::get_pixel(const Vector& position, const std::shared_ptr<Color>& color_ou
 {
   assert(color_out);
 
-  Vector pos = apply_translate(position);
+  Vector pos = apply_translate(position)*scale();
 
   // There is no light offscreen.
   if (pos.x >= static_cast<float>(m_context.get_viewport().get_width()) ||
@@ -377,6 +379,12 @@ Canvas::apply_translate(const Vector& pos) const
   Vector translation = m_context.transform().translation;
   return (pos - translation) + Vector(static_cast<float>(m_context.get_viewport().left),
                                       static_cast<float>(m_context.get_viewport().top));
+}
+
+float
+Canvas::scale() const
+{
+  return m_context.transform().scale;
 }
 
 /* EOF */

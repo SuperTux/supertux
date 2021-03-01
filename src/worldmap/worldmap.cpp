@@ -401,6 +401,7 @@ WorldMap::update(float dt_sec)
           save_state();
           ScreenManager::current()->push_screen(std::make_unique<GameSession>(levelfile, m_savegame, &level_->get_statistics()),
                                                 std::make_unique<ShrinkFade>(shrinkpos, 1.0f));
+
           m_in_level = true;
         } catch(std::exception& e) {
           log_fatal << "Couldn't load level: " << e.what() << std::endl;

@@ -18,7 +18,9 @@
 
 #include "audio/sound_manager.hpp"
 #include "control/input_manager.hpp"
+#include "editor/editor.hpp"
 #include "gui/menu_manager.hpp"
+#include "math/vector.hpp"
 #include "object/camera.hpp"
 #include "object/endsequence_fireworks.hpp"
 #include "object/endsequence_walkleft.hpp"
@@ -26,6 +28,7 @@
 #include "object/level_time.hpp"
 #include "object/music_object.hpp"
 #include "object/player.hpp"
+#include "sdk/integration.hpp"
 #include "supertux/fadetoblack.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/level.hpp"
@@ -74,7 +77,8 @@ GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Stat
   m_max_fire_bullets_at_start(),
   m_max_ice_bullets_at_start(),
   m_active(false),
-  m_end_seq_started(false)
+  m_end_seq_started(false),
+  m_current_cutscene_text()
 {
   if (restart_level() != 0)
     throw std::runtime_error ("Initializing the level failed.");
@@ -171,6 +175,12 @@ GameSession::on_escape_press()
 
     m_currentsector->get_player().m_dying_timer.start(FLT_EPSILON);
     return;   // don't let the player open the menu, when Tux is dying
+  }
+
+  if (m_level->m_is_in_cutscene && !m_level->m_skip_cutscene)
+  {
+    m_level->m_skip_cutscene = true;
+    return;
   }
 
   if (!m_level->m_suppress_pause_menu) {
@@ -319,7 +329,9 @@ GameSession::update(float dt_sec, const Controller& controller)
     on_escape_press();
   }
 
-  if (controller.pressed(Control::CHEAT_MENU) && g_config->developer_mode)
+  if (controller.pressed(Control::CHEAT_MENU) &&
+      (g_config->developer_mode || (Editor::current() && Editor::current()->is_testing_level()))
+     )
   {
     if (!MenuManager::instance().is_active())
     {
@@ -337,6 +349,10 @@ GameSession::update(float dt_sec, const Controller& controller)
     }
   }
 
+  // Animate the full-completion stats stuff - do this even when the game isn't paused (that's a
+  // design choice, if you prefer it not to animate when paused, add `if (!m_game_pause)`)
+  m_level->m_stats.update_timers(dt_sec);
+
   process_events();
 
   // Unpause the game if the menu has been closed
@@ -344,6 +360,7 @@ GameSession::update(float dt_sec, const Controller& controller)
     ScreenManager::current()->set_speed(m_speed_before_pause);
     SoundManager::current()->resume_music();
     SoundManager::current()->resume_sounds();
+    assert(m_currentsector != nullptr);
     m_currentsector->play_looping_sounds();
     m_game_pause = false;
   }
@@ -357,6 +374,7 @@ GameSession::update(float dt_sec, const Controller& controller)
       log_warning << "Sector '" << m_newsector << "' not found" << std::endl;
       sector = m_level->get_sector(m_start_sector);
     }
+    assert(m_currentsector != nullptr);
     m_currentsector->stop_looping_sounds();
     sector->activate(m_newspawnpoint);
     sector->get_singleton_by_type<MusicObject>().play_music(LEVEL_MUSIC);
@@ -380,6 +398,7 @@ GameSession::update(float dt_sec, const Controller& controller)
 
   // Update the world state and all objects in the world
   if (!m_game_pause) {
+    assert(m_currentsector != nullptr);
     // Update the world
     if (!m_end_sequence) {
       m_play_time += dt_sec; //TODO: make sure we don't count cutscene time
@@ -423,6 +442,22 @@ GameSession::update(float dt_sec, const Controller& controller)
 
     get_current_sector().get_player().kill(true);
   }
+}
+
+IntegrationStatus
+GameSession::get_status() const
+{
+  IntegrationStatus status;
+  status.m_details.push_back("Playing");
+  if (get_current_level().is_worldmap())
+  {
+    status.m_details.push_back("In worldmap: " + get_current_level().get_name());
+  }
+  else
+  {
+    status.m_details.push_back("In level: " + get_current_level().get_name());
+  }
+  return status;
 }
 
 void
@@ -573,6 +608,8 @@ GameSession::drawstatus(DrawingContext& context)
   if (m_end_sequence) {
     m_level->m_stats.draw_endseq_panel(context, m_best_level_statistics, m_statistics_backdrop, m_level->m_target_time);
   }
+
+  m_level->m_stats.draw_ingame_stats(context, m_game_pause);
 }
 
 /* EOF */

@@ -168,7 +168,7 @@ BadGuy::update(float dt_sec)
         badguy = badguy.substr(path_chars + 1, badguy.length() - path_chars);
         // log warning since badguys_killed can no longer reach total_badguys
         std::string current_level = "[" + Sector::get().get_level()->filename + "] ";
-        log_warning << current_level << "Counted badguy " << badguy << " starting at " << start_position << " has left the sector" <<std::endl;;
+        log_warning << current_level << "Counted badguy " << badguy << " starting at " << start_position << " has left the sector" <<std::endl;
       }*/
       return;
     }
@@ -267,7 +267,7 @@ BadGuy::str2dir(const std::string& dir_str) const
     return Direction::RIGHT;
 
   //default to "auto"
-  log_warning << "Badguy::str2dir: unknown direction \"" << dir_str << "\"" << std::endl;;
+  log_warning << "Badguy::str2dir: unknown direction \"" << dir_str << "\"" << std::endl;
   return Direction::AUTO;
 }
 
@@ -546,7 +546,7 @@ void
 BadGuy::run_dead_script()
 {
   if (m_countMe)
-    Sector::get().get_level().m_stats.m_badguys++;
+    Sector::get().get_level().m_stats.increment_badguys();
 
   m_countMe = false;
 

@@ -118,7 +118,8 @@ ParticleSystem::draw(DrawingContext& context)
                                        batch.move_srcrects(),
                                        batch.move_dstrects(),
                                        batch.move_angles(),
-                                       Color::WHITE, z_pos);
+                                       batch.get_color(),
+                                       z_pos);
   }
 
   context.pop_transform();

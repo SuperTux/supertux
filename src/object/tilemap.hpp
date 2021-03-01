@@ -27,6 +27,7 @@
 #include "object/path_walker.hpp"
 #include "squirrel/exposed_object.hpp"
 #include "scripting/tilemap.hpp"
+#include "supertux/autotile.hpp"
 #include "supertux/game_object.hpp"
 #include "video/color.hpp"
 #include "video/flip.hpp"
@@ -152,6 +153,29 @@ public:
   /** changes all tiles with the given ID */
   void change_all(uint32_t oldtile, uint32_t newtile);
 
+  /** Puts the correct autotile block at the given position */
+  void autotile(int x, int y, uint32_t tile);
+  
+  enum class AutotileCornerOperation {
+    ADD_TOP_LEFT,
+    ADD_TOP_RIGHT,
+    ADD_BOTTOM_LEFT,
+    ADD_BOTTOM_RIGHT,
+    REMOVE_TOP_LEFT,
+    REMOVE_TOP_RIGHT,
+    REMOVE_BOTTOM_LEFT,
+    REMOVE_BOTTOM_RIGHT,
+  };
+  
+  /** Puts the correct autotile blocks at the tiles around the given corner */
+  void autotile_corner(int x, int y, uint32_t tile, AutotileCornerOperation op);
+  
+  /** Erases in autotile mode */
+  void autotile_erase(const Vector& pos, const Vector& corner_pos);
+
+  /** Returns the Autotileset associated with the given tile */
+  AutotileSet* get_autotileset(uint32_t tile) const;
+
   void set_flip(Flip flip) { m_flip = flip; }
   Flip get_flip() const { return m_flip; }
 
@@ -179,6 +203,8 @@ public:
 private:
   void update_effective_solid();
   void float_channel(float target, float &current, float remaining_time, float dt_sec);
+
+  bool is_corner(uint32_t tile);
 
 public:
   bool m_editor_active;
@@ -219,9 +245,6 @@ private:
   Color m_tint; /**< requested tilemap tint */
   Color m_current_tint; /**< current tilemap tint */
   float m_remaining_tint_fade_time; /**< seconds until requested tilemap tint is reached */
-
-  /** Is the tilemap currently moving (following the path) */
-  bool m_running;
 
   /** Set to LIGHTMAP to draw to lightmap */
   DrawingTarget m_draw_target;

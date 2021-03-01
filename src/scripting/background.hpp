@@ -46,6 +46,13 @@ public:
   void set_images(const std::string& top_image, const std::string& middle_image,
                              const std::string& bottom_image);
   void set_speed(float speed);
+
+  float get_color_red();
+  float get_color_green();
+  float get_color_blue();
+  float get_color_alpha();
+  void set_color(float red, float green, float blue, float alpha);
+  void fade_color(float red, float green, float blue, float alpha, float time);
 };
 
 } // namespace scripting

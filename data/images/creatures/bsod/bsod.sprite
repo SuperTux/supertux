@@ -1,7 +1,7 @@
 (supertux-sprite
   (action
     (name "left")
-    (hitbox 3 4 32 32)
+    (hitbox 5 8 32 32)
     (images "bsod-0.png"
             "bsod-1.png"
             "bsod-2.png"
@@ -12,13 +12,8 @@
             "bsod-7.png")
   )
   (action
-    (name "default")
-    (hitbox 3 4 32 32)
-    (mirror-action "left")
-  )
-  (action
     (name "right")
-    (hitbox 3 4 32 32)
+    (hitbox 5 8 32 32)
     (mirror-action "left")
   )
   (action

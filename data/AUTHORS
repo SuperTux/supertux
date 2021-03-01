@@ -9,6 +9,8 @@ Most images were created either by grumbel or gwater. Check the log for details.
 * images/background/dawn_hill_para_blur.png - Daniel W, Romero Nickerson, dual-licensed: GPL version 2 or later and CC-BY-SA
 * images/background/ghostforest_grave.png - jkjkke - https://opengameart.org/content/background-6, edited, licensed under CC-BY 3.0
 * images/objects/explosion/explosion*.png - Bleed - http://remusprites.carbonmade.com/ licensed under CC-BY 3.0, see https://opengameart.org/content/simple-explosion-bleeds-game-art
+* images/engine/editor/sparkle-file.png - Semphris, licensed CC-BY 4.0 - CONTAINS WORK BY FortAwesome/FontAwesome (the file logo), licensed under CC-BY 4.0
+* images/worldmap/shared/rocky_paths[-editor].png - Semphris, released under CC0
 
 == Levels ==
 
@@ -126,6 +128,7 @@ These are just more code.
 * squish.wav - replaced with a self-made sound by Some_Person
 * stomp.wav - replaced with a self-made sound by Some_Person
 * switch.ogg - self-made by WolfgangB GPLv2+CC-by-sa
+* tada.ogg - created by plasterbrain, licensed under CC0, from https://freesound.org/people/plasterbrain/sounds/397355/
 * thunder.wav - sampled by Some_Person from http://www.pdsounds.org/sounds/storm_thunderbolts
 * ticking.wav - self-made by sommer
 * totem.ogg - self-made by WolfgangB GPLv2+CC-by-sa
@@ -136,6 +139,7 @@ These are just more code.
 * upgrade.wav - replaced with Yaniel's sound
 * warp.wav - submitted as GPL by Ricardo Cruz
 * waterfall.wav - submitted as GPL by Bastian Zapf
+* welldone.ogg - Copyright 2013 by Iwan Gabovitch, multi-licensed under Creative Commons Attribution 3.0 license and/or GPLv3+
 * willocatch.wav - added by MatzeB
 * willowisp.wav - self-made by wansti
 * wood.wav - self-made by wansti

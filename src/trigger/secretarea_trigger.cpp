@@ -121,8 +121,8 @@ SecretAreaTrigger::event(Player& , EventType type)
     if (!message_displayed) {
       message_timer.start(MESSAGE_TIME);
       message_displayed = true;
-      Sector::get().get_level().m_stats.m_secrets++;
-      SoundManager::current()->play("sounds/excellent.wav");
+      Sector::get().get_level().m_stats.increment_secrets();
+      SoundManager::current()->play("sounds/welldone.ogg");
 
       if (!fade_tilemap.empty()) {
         // fade away tilemaps

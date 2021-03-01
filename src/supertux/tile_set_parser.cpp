@@ -21,6 +21,7 @@
 #include <sexp/value.hpp>
 #include <sexp/io.hpp>
 
+#include "supertux/autotile_parser.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/tile_set.hpp"
@@ -71,6 +72,21 @@ TileSetParser::parse()
       ReaderMapping tiles_mapping = iter.as_mapping();
       parse_tiles(tiles_mapping);
     }
+    else if (iter.get_key() == "autotileset")
+    {
+      ReaderMapping reader = iter.as_mapping();
+      std::string autotile_filename;
+      if (!reader.get("source", autotile_filename))
+      {
+        log_warning << "No source path for autotiles in file '" << m_filename << "'" << std::endl;
+      }
+      else
+      {
+        AutotileParser* parser = new AutotileParser(m_tileset.m_autotilesets,
+            FileSystem::normalize(m_tiles_path + autotile_filename));
+        parser->parse();
+      }
+    }
     else
     {
       log_warning << "Unknown symbol '" << iter.get_key() << "' in tileset file" << std::endl;
@@ -108,6 +124,8 @@ TileSetParser::parse_tile(const ReaderMapping& reader)
     attributes |= Tile::HURTS;
   if (reader.get("fire", value) && value)
     attributes |= Tile::FIRE;
+  if (reader.get("walljump", value) && value)
+    attributes |= Tile::WALLJUMP;
   if (reader.get("fullbox", value) && value)
     attributes |= Tile::FULLBOX;
   if (reader.get("coin", value) && value)

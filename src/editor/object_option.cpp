@@ -17,6 +17,8 @@
 #include "editor/object_option.hpp"
 
 #include <string>
+#include <utility>
+
 #include <vector>
 #include <sstream>
 
@@ -55,7 +57,7 @@ BoolObjectOption::BoolObjectOption(const std::string& text, bool* pointer, const
                                    unsigned int flags) :
   ObjectOption(text, key, flags),
   m_pointer(pointer),
-  m_default_value(default_value)
+  m_default_value(std::move(default_value))
 {
 }
 
@@ -88,7 +90,7 @@ IntObjectOption::IntObjectOption(const std::string& text, int* pointer, const st
                                  unsigned int flags) :
   ObjectOption(text, key, flags),
   m_pointer(pointer),
-  m_default_value(default_value)
+  m_default_value(std::move(default_value))
 {
 }
 
@@ -154,7 +156,7 @@ FloatObjectOption::FloatObjectOption(const std::string& text, float* pointer, co
                                      unsigned int flags) :
   ObjectOption(text, key, flags),
   m_pointer(pointer),
-  m_default_value(default_value)
+  m_default_value(std::move(default_value))
 {
 }
 
@@ -222,7 +224,7 @@ StringSelectObjectOption::StringSelectObjectOption(const std::string& text, int*
   ObjectOption(text, key, flags),
   m_pointer(pointer),
   m_select(select),
-  m_default_value(default_value)
+  m_default_value(std::move(default_value))
 {
 }
 
@@ -268,7 +270,7 @@ EnumObjectOption::EnumObjectOption(const std::string& text, int* pointer,
   m_pointer(pointer),
   m_labels(labels),
   m_symbols(symbols),
-  m_default_value(default_value)
+  m_default_value(std::move(default_value))
 {
 }
 
@@ -581,6 +583,41 @@ void
 TestFromHereOption::add_to_menu(Menu& menu) const
 {
   menu.add_entry(ObjectMenu::MNID_TEST_FROM_HERE, get_text());
+}
+
+ParticleEditorOption::ParticleEditorOption() :
+  ObjectOption(_("Open Particle Editor"), "", 0)
+{
+}
+
+std::string
+ParticleEditorOption::to_string() const
+{
+  return {};
+}
+
+void
+ParticleEditorOption::add_to_menu(Menu& menu) const
+{
+  menu.add_entry(ObjectMenu::MNID_OPEN_PARTICLE_EDITOR, get_text());
+}
+
+ButtonOption::ButtonOption(const std::string& text, std::function<void()> callback) :
+  ObjectOption(text, "", 0),
+  m_callback(std::move(callback))
+{
+}
+
+std::string
+ButtonOption::to_string() const
+{
+  return {};
+}
+
+void
+ButtonOption::add_to_menu(Menu& menu) const
+{
+  menu.add_entry(get_text(), m_callback);
 }
 
 /* EOF */

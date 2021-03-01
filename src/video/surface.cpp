@@ -26,7 +26,7 @@
 #include "video/video_system.hpp"
 
 SurfacePtr
-Surface::from_reader(const ReaderMapping& mapping, const boost::optional<Rect>& rect)
+Surface::from_reader(const ReaderMapping& mapping, const boost::optional<Rect>& rect, const std::string& filename)
 {
   TexturePtr diffuse_texture;
   boost::optional<ReaderMapping> diffuse_texture_mapping;
@@ -50,7 +50,8 @@ Surface::from_reader(const ReaderMapping& mapping, const boost::optional<Rect>& 
     flip ^= flip_v[1] ? VERTICAL_FLIP : NO_FLIP;
   }
 
-  return SurfacePtr(new Surface(diffuse_texture, displacement_texture, flip));
+  auto surface = new Surface(diffuse_texture, displacement_texture, flip, filename);
+  return SurfacePtr(surface);
 }
 
 SurfacePtr
@@ -68,7 +69,7 @@ Surface::from_file(const std::string& filename, const boost::optional<Rect>& rec
     }
     else
     {
-      return Surface::from_reader(object.get_mapping(), rect);
+      return Surface::from_reader(object.get_mapping(), rect, filename);
     }
   }
   else
@@ -76,34 +77,36 @@ Surface::from_file(const std::string& filename, const boost::optional<Rect>& rec
     if (rect)
     {
       TexturePtr texture = TextureManager::current()->get(filename, *rect);
-      return SurfacePtr(new Surface(texture, TexturePtr(), NO_FLIP));
+      return SurfacePtr(new Surface(texture, TexturePtr(), NO_FLIP, filename));
     }
     else
     {
       TexturePtr texture = TextureManager::current()->get(filename);
-      return SurfacePtr(new Surface(texture, TexturePtr(), NO_FLIP));
+      return SurfacePtr(new Surface(texture, TexturePtr(), NO_FLIP, filename));
     }
   }
 }
 
 Surface::Surface(const TexturePtr& diffuse_texture,
                  const TexturePtr& displacement_texture,
-                 Flip flip) :
+                 Flip flip, const std::string& filename) :
   m_diffuse_texture(diffuse_texture),
   m_displacement_texture(displacement_texture),
   m_region(0, 0, m_diffuse_texture->get_image_width(), m_diffuse_texture->get_image_height()),
-  m_flip(flip)
+  m_flip(flip),
+  m_source_filename(filename)
 {
 }
 
 Surface::Surface(const TexturePtr& diffuse_texture,
                  const TexturePtr& displacement_texture,
                  const Rect& region,
-                 Flip flip) :
+                 Flip flip, const std::string& filename) :
   m_diffuse_texture(diffuse_texture),
   m_displacement_texture(displacement_texture),
   m_region(region),
-  m_flip(flip)
+  m_flip(flip),
+  m_source_filename(filename)
 {
 }
 

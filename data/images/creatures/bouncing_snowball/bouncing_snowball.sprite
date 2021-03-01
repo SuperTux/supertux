@@ -1,18 +1,61 @@
 (supertux-sprite
  (action
   (name "left")
-  (hitbox 1 0 31.8 31.8)
-  (images "left-0.png"
-          "left-1.png"
-          "left-2.png"
-          "left-3.png"
-          "left-4.png"
-          "left-5.png"))
+  (hitbox 17 14 31 31)
+  (fps 20)
+  (images "bs1.png"
+          "bs2.png"
+          "bs3.png"
+          "bs4.png"
+          "bs5.png"
+          "bs6.png"
+		  "bs7.png"
+		  "bs8.png"
+		  "bs8.png"
+		  "bs8.png"
+		  "bs8.png"
+		  "bs8.png"))
 
  (action
   (name "right")
-  (hitbox 1 0 31.8 31.8)
+  (hitbox 17 14 31 31)
+  (fps 20)
   (mirror-action "left"))
+
+ (action
+  (name "left-down")
+  (loops 1)
+  (hitbox 17 14 31 31)
+  (fps 30)
+  (images "bs8.png"
+		  "bounce1.png"
+		  "bounce2.png"
+		  "bounce3.png"))
+
+ (action
+  (name "right-down")
+  (loops 1)
+  (hitbox 17 14 31 31)
+  (fps 30)
+  (mirror-action "left-down"))
+  
+ (action
+  (name "left-up")
+  (loops 1)
+  (hitbox 17 14 31 31)
+  (fps 30)
+  (images "bounce3.png"
+		  "bounce3.png"
+		  "bounce2.png"
+		  "bounce1.png"
+		  "bs8.png"))
+
+ (action
+  (name "right-up")
+  (loops 1)
+  (hitbox 17 14 31 31)
+  (fps 30)
+  (mirror-action "left-up"))
 
  (action
   (name "melting-left")

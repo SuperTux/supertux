@@ -1,14 +1,21 @@
 (supertux-sprite
   (action
     (name "left")
-    (hitbox 3 4 32 32)
-    (images "sport-left-0.png"
-            "sport-left-1.png"
-            "sport-left-2.png"
-            "sport-left-1.png")
+    (hitbox 5 8 32 32)
+    (fps 14)
+    (images "snowball-0.png"
+            "snowball-1.png"
+            "snowball-2.png"
+            "snowball-3.png"
+            "snowball-4.png"
+            "snowball-5.png"
+            "snowball-6.png"
+            "snowball-7.png")
   )
   (action
     (name "right")
+    (hitbox 7 8 32 32)
+    (fps 14)
     (mirror-action "left")
   )
   (action
@@ -18,6 +25,7 @@
   )
   (action
     (name "squished-right")
+    (hitbox 1 -19 31.8 31.8)
     (mirror-action "squished-left")
   )
  (action
@@ -29,6 +37,7 @@
           "sport-melting-3.png"))
  (action
   (name "melting-right")
+  (hitbox 3 4 32 32)
   (mirror-action "melting-left"))
  (action
   (name "ground-melting-left")

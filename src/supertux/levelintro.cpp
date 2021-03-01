@@ -164,14 +164,14 @@ LevelIntro::draw(Compositor& compositor)
     py += static_cast<int>(Resources::normal_font->get_height());
 
     draw_stats_line(context, py, _("Coins"),
-                    Statistics::coins_to_string(m_best_level_statistics->m_coins, stats.m_total_coins),
-                    m_best_level_statistics->m_coins >= stats.m_total_coins);
+                    Statistics::coins_to_string(m_best_level_statistics->get_coins(), stats.m_total_coins),
+                    m_best_level_statistics->get_coins() >= stats.m_total_coins);
     draw_stats_line(context, py, _("Badguys killed"),
-                    Statistics::frags_to_string(m_best_level_statistics->m_badguys, stats.m_total_badguys),
-                    m_best_level_statistics->m_badguys >= stats.m_total_badguys);
+                    Statistics::frags_to_string(m_best_level_statistics->get_badguys(), stats.m_total_badguys),
+                    m_best_level_statistics->get_badguys() >= stats.m_total_badguys);
     draw_stats_line(context, py, _("Secrets"),
-                    Statistics::secrets_to_string(m_best_level_statistics->m_secrets, stats.m_total_secrets),
-                    m_best_level_statistics->m_secrets >= stats.m_total_secrets);
+                    Statistics::secrets_to_string(m_best_level_statistics->get_secrets(), stats.m_total_secrets),
+                    m_best_level_statistics->get_secrets() >= stats.m_total_secrets);
 
     bool targetTimeBeaten = m_level.m_target_time == 0.0f || (m_best_level_statistics->get_time() != 0.0f && m_best_level_statistics->get_time() < m_level.m_target_time);
     draw_stats_line(context, py, _("Best time"),
@@ -182,6 +182,15 @@ LevelIntro::draw(Compositor& compositor)
                       Statistics::time_to_string(m_level.m_target_time), targetTimeBeaten);
     }
   }
+}
+
+IntegrationStatus
+LevelIntro::get_status() const
+{
+  IntegrationStatus status;
+  status.m_details.push_back("Watching a cutscene");
+  status.m_details.push_back("In level: " + m_level.get_name());
+  return status;
 }
 
 /* EOF */

@@ -135,15 +135,43 @@ EditorLevelSelectMenu::create_item(bool worldmap)
 }
 
 void
+EditorLevelSelectMenu::open_level(const std::string& filename)
+{
+  auto editor = Editor::current();
+  editor->set_level(filename);
+  MenuManager::instance().clear_menu_stack();
+}
+
+void
 EditorLevelSelectMenu::menu_action(MenuItem& item)
 {
   auto editor = Editor::current();
   World* world = editor->get_world();
   if (item.get_id() >= 0)
   {
-    editor->set_level(m_levelset->get_level_filename(item.get_id()));
 
-    MenuManager::instance().clear_menu_stack();
+    std::string file_name = m_levelset->get_level_filename(item.get_id());
+    std::string file_name_full = FileSystem::join(editor->get_level_directory(), file_name);
+
+    if (PHYSFS_exists((file_name_full + "~").c_str())) {
+      auto dialog = std::make_unique<Dialog>(/* passive = */ false, /* auto_clear_dialogs = */ false);
+      dialog->set_text(_("An auto-save recovery file was found. Would you like to restore the recovery\nfile and resume where you were before the editor crashed?"));
+      dialog->clear_buttons();
+      dialog->add_default_button(_("Yes"), [this, file_name] {
+        open_level(file_name + "~");
+        MenuManager::instance().set_dialog({});
+      });
+      dialog->add_button(_("No"), [this, file_name] {
+        Dialog::show_confirmation(_("This will delete the auto-save file. Are you sure?"), [this, file_name] {
+          open_level(file_name);
+        });
+      });
+      dialog->add_cancel_button(_("Cancel"));
+      MenuManager::instance().set_dialog(std::move(dialog));
+    } else {
+      open_level(file_name);
+    }
+
   } else {
     switch (item.get_id()) {
       case -1:

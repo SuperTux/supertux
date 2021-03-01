@@ -9,6 +9,20 @@
     (ambient-light
       (color 1 1 1)
     )
+    (background
+      (scroll-offset-y -150)
+      (color 1 1 1)
+      (x 672)
+      (y 736)
+      (alignment "bottom")
+      (scroll-speed-x 0.5)
+      (scroll-speed-y 0.5)
+      (speed 0.5)
+      (image-top "/images/background/nightsky/nightsky_para.png")
+      (image "/images/background/nightsky/nightsky_para.png")
+      (image-bottom "/images/background/nightsky/nightsky_para.png")
+      (z-pos -290)
+    )
     (camera
       (name "Camera")
       (mode "autoscroll")

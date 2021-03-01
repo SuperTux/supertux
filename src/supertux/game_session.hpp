@@ -22,6 +22,8 @@
 #include <squirrel.h>
 
 #include "math/vector.hpp"
+#include "squirrel/squirrel_scheduler.hpp"
+#include "supertux/game_object.hpp"
 #include "supertux/game_session_recorder.hpp"
 #include "supertux/player_status.hpp"
 #include "supertux/screen.hpp"
@@ -49,6 +51,7 @@ public:
   virtual void update(float dt_sec, const Controller& controller) override;
   virtual void setup() override;
   virtual void leave() override;
+  virtual IntegrationStatus get_status() const override;
 
   /** ends the current level */
   void finish(bool win = true);
@@ -88,6 +91,8 @@ public:
   void force_ghost_mode();
 
   Savegame& get_savegame() const { return m_savegame; }
+  
+  void set_scheduler(SquirrelScheduler& new_scheduler);
 
 private:
   void check_end_conditions();
@@ -149,6 +154,8 @@ private:
   bool m_active; /** Game active? **/
 
   bool m_end_seq_started;
+  
+  std::unique_ptr<GameObject> m_current_cutscene_text;
 
 private:
   GameSession(const GameSession&) = delete;

@@ -72,6 +72,11 @@ public:
     return Vector(x / s, y / s);
   }
 
+  Vector operator%(float s) const
+  {
+    return Vector(x - floorf(x / s) * s, y - floorf(y / s) * s);
+  }
+
   Vector operator-() const
   {
     return Vector(-x, -y);

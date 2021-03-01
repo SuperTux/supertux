@@ -28,7 +28,7 @@ public:
 
   /** Returns the tile id at specific coordinates. The coordinates
       might be bigger than the selection size or negative. */
-  uint32_t pos(int x, int y) const;
+  uint32_t pos(int x, int y);
 
   /** Sets the tile selection to a single tile. */
   void set_tile(uint32_t tile);
