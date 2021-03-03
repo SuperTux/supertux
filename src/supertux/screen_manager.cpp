@@ -42,7 +42,12 @@
 
 #include <stdio.h>
 #include <chrono>
+#include <iostream>
 
+#ifdef __EMSCRIPTEN__
+#include <emscripten.h>
+#include <emscripten/html5.h>
+#endif
 
 ScreenManager::ScreenManager(VideoSystem& video_system, InputManager& input_manager) :
   m_video_system(video_system),
@@ -50,6 +55,11 @@ ScreenManager::ScreenManager(VideoSystem& video_system, InputManager& input_mana
   m_menu_storage(new MenuStorage),
   m_menu_manager(new MenuManager),
   m_controller_hud(new ControllerHUD),
+  last_ticks(0),
+  elapsed_ticks(0),
+  ms_per_step(static_cast<Uint32>(1000.0f / LOGICAL_FPS)),
+  seconds_per_step(static_cast<float>(ms_per_step) / 1000.0f),
+  fps_statistics(),
   m_speed(1.0),
   m_actions(),
   m_screen_fade(),
@@ -114,84 +124,6 @@ ScreenManager::get_speed() const
 {
   return m_speed;
 }
-
-struct ScreenManager::FPS_Stats
-{
-  FPS_Stats():
-    measurements_cnt(0),
-    acc_us(0),
-    min_us(1000000),
-    max_us(0),
-    last_fps(0),
-    last_fps_min(0),
-    last_fps_max(0),
-    // Use chrono instead of SDL_GetTicks for more precise FPS measurement
-    time_prev(std::chrono::steady_clock::now())
-  {
-  }
-
-  void report_frame()
-  {
-    auto time_now = std::chrono::steady_clock::now();
-    int dtime_us = static_cast<int>(std::chrono::duration_cast<
-      std::chrono::microseconds>(time_now - time_prev).count());
-    assert(dtime_us >= 0);  // Steady clock.
-    if (dtime_us == 0)
-      return;
-    time_prev = time_now;
-
-    acc_us += dtime_us;
-    ++measurements_cnt;
-    if (min_us > dtime_us)
-      min_us = dtime_us;
-    if (max_us < dtime_us)
-      max_us = dtime_us;
-
-    float expired_seconds = static_cast<float>(acc_us) / 1000000.0f;
-    if (expired_seconds < 0.5f)
-      return;
-    // Update values to be printed every 0.5 s
-    assert(measurements_cnt > 0);  // ++measurements_cnt above.
-    last_fps = static_cast<float>(measurements_cnt) / expired_seconds;
-    assert(last_fps > 0);  // measurements_cnt > 0 and expired_seconds >= 0.5f.
-    assert(max_us > 0);  // dtime_us > 0.
-    last_fps_min = 1000000.0f / static_cast<float>(max_us);
-    assert(last_fps_min > 0);  // max_us > 0.
-    assert(min_us > 0);  // initialization to 1000000 and dtime_us > 0.
-    last_fps_max = 1000000.0f / static_cast<float>(min_us);
-    assert(last_fps_max > 0);  // min_us > 0.
-    measurements_cnt = 0;
-    acc_us = 0;
-    min_us = 1000000;
-    max_us = 0;
-  }
-
-  float get_fps() const { return last_fps; }
-  float get_fps_min() const { return last_fps_min; }
-  float get_fps_max() const { return last_fps_max; }
-
-  // This returns the highest measured delay between two frames from the
-  // previous and current 0.5 s measuring intervals
-  float get_highest_max_ms() const
-  {
-    float previous_max_ms = 1000.0f / last_fps_min;
-    if (measurements_cnt > 0) {
-      float current_max_ms = static_cast<float>(max_us) / 1000.0f;
-      return std::max<float>(previous_max_ms, current_max_ms);
-    }
-    return previous_max_ms;
-  }
-
-private:
-  int measurements_cnt;
-  int acc_us;
-  int min_us;
-  int max_us;
-  float last_fps;
-  float last_fps_min;
-  float last_fps_max;
-  std::chrono::steady_clock::time_point time_prev;
-};
 
 void
 ScreenManager::draw_fps(DrawingContext& context, FPS_Stats& fps_statistics)
@@ -297,53 +229,71 @@ ScreenManager::update_gamelogic(float dt_sec)
 void
 ScreenManager::process_events()
 {
+  std::cout << "SUB B 1" << std::endl;
   m_input_manager.update();
+  std::cout << "SUB B 1.1" << std::endl;
   SDL_Event event;
+  std::cout << "SUB B 1.2" << std::endl;
   auto session = GameSession::current();
+  std::cout << "SUB B 2" << std::endl;
   while (SDL_PollEvent(&event))
   {
+  std::cout << "SUB B 3" << std::endl;
     m_input_manager.process_event(event);
 
+  std::cout << "SUB B 4" << std::endl;
     m_menu_manager->event(event);
 
+  std::cout << "SUB B 5" << std::endl;
     if (Editor::is_active()) {
       Editor::current()->event(event);
     }
 
+  std::cout << "SUB B 6" << std::endl;
     if (ParticleEditor::is_active()) {
       ParticleEditor::current()->event(event);
     }
 
+  std::cout << "SUB B 7" << std::endl;
     switch (event.type)
     {
       case SDL_QUIT:
+  std::cout << "SUB B 8" << std::endl;
         quit();
         break;
 
       case SDL_WINDOWEVENT:
+  std::cout << "SUB B 9" << std::endl;
         switch (event.window.event)
         {
           case SDL_WINDOWEVENT_RESIZED:
+  std::cout << "SUB B 10" << std::endl;
             m_video_system.on_resize(event.window.data1, event.window.data2);
             m_menu_manager->on_window_resize();
+  std::cout << "SUB B 11" << std::endl;
             if (Editor::is_active()) {
               Editor::current()->resize();
             }
+  std::cout << "SUB B 12" << std::endl;
             break;
 
           case SDL_WINDOWEVENT_FOCUS_LOST:
+  std::cout << "SUB B 13" << std::endl;
             if (g_config->pause_on_focusloss)
             {
               if (session != nullptr && session->is_active() && !Level::current()->m_suppress_pause_menu)
               {
+  std::cout << "SUB B 14" << std::endl;
                 session->toggle_pause();
               }
             }
+  std::cout << "SUB B 15" << std::endl;
             break;
         }
         break;
 
       case SDL_KEYDOWN:
+  std::cout << "SUB B 16" << std::endl;
         if (event.key.keysym.sym == SDLK_F10)
         {
           g_config->show_fps = !g_config->show_fps;
@@ -378,7 +328,9 @@ ScreenManager::process_events()
         }
         break;
     }
+  std::cout << "SUB B 17" << std::endl;
   }
+  std::cout << "SUB B 18" << std::endl;
 }
 
 bool
@@ -458,28 +410,19 @@ ScreenManager::handle_screen_switch()
   }
 }
 
-void
-ScreenManager::run()
+void ScreenManager::loop_iter()
 {
-  Uint32 last_ticks = 0;
-  Uint32 elapsed_ticks = 0;
-  const Uint32 ms_per_step = static_cast<Uint32>(1000.0f / LOGICAL_FPS);
-  const float seconds_per_step = static_cast<float>(ms_per_step) / 1000.0f;
-  FPS_Stats fps_statistics;
-
-  Integration::init_all();
-
-  handle_screen_switch();
-  while (!m_screen_stack.empty()) {
-
+  std::cout << "SCREENMANAGER: 1" << std::endl;
     // Useful if screens edit their status without switching screens
     Integration::update_status_all(m_screen_stack.back()->get_status());
     Integration::update_all();
 
+  std::cout << "SCREENMANAGER: 2" << std::endl;
     Uint32 ticks = SDL_GetTicks();
     elapsed_ticks += ticks - last_ticks;
     last_ticks = ticks;
 
+  std::cout << "SCREENMANAGER: 3" << std::endl;
     if (elapsed_ticks > ms_per_step * 8) {
       // when the game loads up or levels are switched the
       // elapsed_ticks grows extremely large, so we just ignore those
@@ -487,18 +430,22 @@ ScreenManager::run()
       elapsed_ticks = 0;
     }
 
+  std::cout << "SCREENMANAGER: 4" << std::endl;
     if (elapsed_ticks < ms_per_step && !g_debug.draw_redundant_frames) {
       // Sleep a bit because not enough time has passed since the previous
       // logical game step
-      SDL_Delay(ms_per_step - elapsed_ticks);
-      continue;
+      //SDL_Delay(ms_per_step - elapsed_ticks);
+      return;
     }
 
+  std::cout << "SCREENMANAGER: 5" << std::endl;
     g_real_time = static_cast<float>(ticks) / 1000.0f;
 
+  std::cout << "SCREENMANAGER: 6" << std::endl;
     float speed_multiplier = g_debug.get_game_speed_multiplier();
     int steps = elapsed_ticks / ms_per_step;
 
+  std::cout << "SCREENMANAGER: 7" << std::endl;
     // Do not calculate more than a few steps at once
     // The maximum number of steps executed before drawing a frame is
     // adjusted to the current average frame rate
@@ -522,6 +469,7 @@ ScreenManager::run()
       steps = std::min<int>(steps, max_steps_per_frame);
     }
 
+  std::cout << "SCREENMANAGER: 8" << std::endl;
     for (int i = 0; i < steps; ++i) {
       // Perform a logical game step; seconds_per_step is set to a fixed value
       // so that the game is deterministic.
@@ -529,11 +477,15 @@ ScreenManager::run()
       // end sequence and debugging, dtime can be changed.
       float dtime = seconds_per_step * m_speed * speed_multiplier;
       g_game_time += dtime;
+  std::cout << "SUB A 1" << std::endl;
       process_events();
+  std::cout << "SUB A 2" << std::endl;
       update_gamelogic(dtime);
+  std::cout << "SUB A 3" << std::endl;
       elapsed_ticks -= ms_per_step;
     }
 
+  std::cout << "SCREENMANAGER: 9" << std::endl;
     if ((steps > 0 && !m_screen_stack.empty())
         || g_debug.draw_redundant_frames) {
       // Draw a frame
@@ -542,11 +494,49 @@ ScreenManager::run()
       fps_statistics.report_frame();
     }
 
+  std::cout << "SCREENMANAGER: 10" << std::endl;
     SoundManager::current()->update();
 
+  std::cout << "SCREENMANAGER: 11" << std::endl;
     handle_screen_switch();
-  }
+  std::cout << "SCREENMANAGER: 12" << std::endl;
+}
 
+#ifdef __EMSCRIPTEN__
+EM_BOOL one_iter(double time, void* userData) {
+
+  auto screen_manager = ScreenManager::current();
+ 
+  screen_manager->loop_iter();
+
+  return (!screen_manager->m_screen_stack.empty()) ? EM_TRUE : EM_FALSE;
+
+}
+#endif
+
+void g_loop_iter() {
+  std::cout << "ITERATION BEGIN" << std::endl;
+  auto screen_manager = ScreenManager::current();
+  std::cout << "FRAME " << screen_manager << std::endl;
+  std::cout << "SCREEN " << screen_manager->m_screen_stack.size() << std::endl;
+  screen_manager->loop_iter();
+  std::cout << "ITERATION DONE" << std::endl;
+}
+
+void
+ScreenManager::run()
+{
+  Integration::init_all();
+
+  handle_screen_switch();
+#ifdef __EMSCRIPTEN__
+  emscripten_set_main_loop(g_loop_iter, -1, 1);
+#else
+  while (!m_screen_stack.empty()) {
+    loop_iter();
+  }
+#endif
+  std::cout << "If it prints this line, that means after calling set_main_loop() once,  it leaves main() and destroys all the objects meanwhile." << std::endl;
   Integration::close_all();
 }
 

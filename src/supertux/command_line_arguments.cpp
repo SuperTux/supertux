@@ -17,7 +17,7 @@
 #include "supertux/command_line_arguments.hpp"
 
 #include <boost/format.hpp>
-#include <boost/iostreams/copy.hpp>
+//#include <boost/iostreams/copy.hpp>
 #include <config.h>
 #include <physfs.h>
 
@@ -73,7 +73,7 @@ CommandLineArguments::print_datadir() const
 void
 CommandLineArguments::print_acknowledgements() const
 {
-  IFileStream in("ACKNOWLEDGEMENTS.txt");
+  /*IFileStream in("ACKNOWLEDGEMENTS.txt");
   if (!in.good())
   {
     throw std::runtime_error("Could not find acknowledgement file");
@@ -83,6 +83,21 @@ CommandLineArguments::print_acknowledgements() const
     // Boost uses 0 as null pointer contants
     boost::iostreams::copy(in, std::cerr,
                 boost::iostreams::default_device_buffer_size, nullptr, nullptr);
+  }*/
+  
+  IFileStream in("ACKNOWLEDGEMENTS.txt");
+  std::string line;
+  if (in.good())
+  {
+    while (std::getline(in, line))
+    {
+      std::cout << line << std::endl;
+    }
+    // TODO: Close the stream?
+  }
+  else
+  {
+    std::cout << "Could not open acknowledgements file" << std::endl;
   }
 }
 

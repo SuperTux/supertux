@@ -17,6 +17,7 @@
 #include "control/controller.hpp"
 
 #include <ostream>
+#include <iostream>
 
 namespace {
 
@@ -68,11 +69,14 @@ boost::optional<Control> Control_from_string(const std::string& text)
 
 Controller::Controller()
 {
+  std::cout << "CREATED" << std::endl;
   reset();
 }
 
 Controller::~Controller()
-{}
+{
+  std::cout << "DESTROYED" << std::endl;
+}
 
 void
 Controller::reset()
@@ -98,6 +102,7 @@ Controller::hold(Control control) const
 bool
 Controller::pressed(Control control) const
 {
+  std::cout << "LALALA" << std::endl;
   return !m_old_controls[static_cast<int>(control)] && m_controls[static_cast<int>(control)];
 }
 
@@ -110,9 +115,12 @@ Controller::released(Control control) const
 void
 Controller::update()
 {
+  std::cout << "SUB D 1" << std::endl;/*
   for (int i = 0; i < static_cast<int>(Control::CONTROLCOUNT); ++i) {
+  std::cout << "SUB D 2" << std::endl;
     m_old_controls[i] = m_controls[i];
-  }
+  }*/
+  std::cout << "SUB D 3" << std::endl;
 }
 
 /* EOF */

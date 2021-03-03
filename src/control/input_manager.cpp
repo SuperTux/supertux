@@ -23,6 +23,8 @@
 #include "control/keyboard_manager.hpp"
 #include "util/log.hpp"
 
+#include <iostream>
+
 InputManager::InputManager(KeyboardConfig& keyboard_config,
                            JoystickConfig& joystick_config) :
   controller(new Controller),
@@ -58,7 +60,11 @@ InputManager::use_game_controller(bool v)
 void
 InputManager::update()
 {
+  std::cout << "SUB C 1" << std::endl;
+  std::cout << "SUB C 1.1 " << controller << std::endl;
+  std::cout << "SUB C 1.2 " << controller->pressed(Control::JUMP) << std::endl;
   controller->update();
+  std::cout << "SUB C 2" << std::endl;
 }
 
 void

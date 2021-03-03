@@ -202,7 +202,9 @@ public:
       {
         datadir = BUILD_DATA_DIR;
         // Add config dir for supplemental files
-        PHYSFS_mount(boost::filesystem::canonical(BUILD_CONFIG_DATA_DIR).string().c_str(), nullptr, 1);
+        std::cout << "q1" << std::endl;
+        //PHYSFS_mount(boost::filesystem::canonical(BUILD_CONFIG_DATA_DIR).string().c_str(), nullptr, 1);
+        std::cout << "q2" << std::endl;
       }
       else
       {
@@ -213,10 +215,13 @@ public:
       }
     }
 
-    if (!PHYSFS_mount(boost::filesystem::canonical(datadir).string().c_str(), nullptr, 1))
+    std::cout << "w1" << std::endl;
+    //if (!PHYSFS_mount(boost::filesystem::canonical(datadir).string().c_str(), nullptr, 1))
+    if (!PHYSFS_mount(BUILD_DATA_DIR, nullptr, 1))
     {
       log_warning << "Couldn't add '" << datadir << "' to physfs searchpath: " << PHYSFS_getLastErrorCode() << std::endl;
     }
+    std::cout << "w2" << std::endl;
   }
 
   void find_userdir() const
@@ -251,13 +256,16 @@ public:
 	std::string olduserdir = FileSystem::join(physfs_userdir, "." PACKAGE_NAME);
 #endif
 	if (FileSystem::is_directory(olduserdir)) {
+        std::cout << "e1" << std::endl;
 	  boost::filesystem::path olduserpath(olduserdir);
 	  boost::filesystem::path userpath(userdir);
 
 	  boost::filesystem::directory_iterator end_itr;
+        std::cout << "e2" << std::endl;
 
 	  bool success = true;
 
+        std::cout << "r1" << std::endl;
 	  // cycle through the directory
 	  for (boost::filesystem::directory_iterator itr(olduserpath); itr != end_itr; ++itr) {
 		try
@@ -281,6 +289,7 @@ public:
 		  log_warning << "Failed to remove old config directory: " << err.what();
 		}
 	  }
+        std::cout << "r2" << std::endl;
 	  if (success) {
 	    log_info << "Moved old config dir " << olduserdir << " to " << userdir << std::endl;
 	  }
@@ -538,6 +547,8 @@ Main::launch_game(const CommandLineArguments& args)
   }
 
   screen_manager.run();
+  
+  std::cout << "It dead" << std::endl;
 }
 
 int
@@ -584,8 +595,9 @@ Main::run(int argc, char** argv)
 
   try
   {
+    std::cout << "A" << std::endl;
     CommandLineArguments args;
-
+    std::cout << "B" << std::endl;
     try
     {
       args.parse_args(argc, argv);
@@ -596,16 +608,21 @@ Main::run(int argc, char** argv)
       std::cout << "Error: " << err.what() << std::endl;
       return EXIT_FAILURE;
     }
+    std::cout << "C" << std::endl;
 
     PhysfsSubsystem physfs_subsystem(argv[0], args.datadir, args.userdir);
     physfs_subsystem.print_search_path();
 
+    std::cout << "D" << std::endl;
     s_timelog.log("config");
     ConfigSubsystem config_subsystem;
     args.merge_into(*g_config);
 
+    std::cout << "E" << std::endl;
     s_timelog.log("tinygettext");
     init_tinygettext();
+
+    std::cout << "F" << std::endl;
 
     switch (args.get_action())
     {
