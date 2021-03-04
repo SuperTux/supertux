@@ -25,6 +25,9 @@ static const float LOGICAL_FPS = 64.0;
 // SHIFT_DELTA is used for sliding over 1-tile gaps and collision detection
 static const float SHIFT_DELTA = 7.0f;
 
+// a small value... be careful as collision detection is very sensitive to it
+static const float EPSILON = .002f;
+
 #endif
 
 /* EOF */

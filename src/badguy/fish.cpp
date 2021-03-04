@@ -73,7 +73,7 @@ Fish::collision_tile(uint32_t tile_attributes)
     if (get_pos().y >= stop_y) {
       if (!m_frozen)
         start_waiting();
-      m_col.m_movement = Vector(0, 0);
+      m_col.set_movement(Vector(0, 0));
     }
 
   }

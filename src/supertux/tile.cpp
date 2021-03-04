@@ -251,10 +251,10 @@ Tile::check_movement_unisolid (const Vector& movement) const
   {
     int dir = get_data() & Tile::UNI_DIR_MASK;
 
-    return ((dir == Tile::UNI_DIR_NORTH) && (movement.y >= 0))  /* moving down */
-        || ((dir == Tile::UNI_DIR_SOUTH) && (movement.y <= 0))  /* moving up */
-        || ((dir == Tile::UNI_DIR_WEST ) && (movement.x >= 0))  /* moving right */
-        || ((dir == Tile::UNI_DIR_EAST ) && (movement.x <= 0)); /* moving left */
+    return ((dir == Tile::UNI_DIR_NORTH) && (movement.y > -EPSILON)) /* moving down */
+        || ((dir == Tile::UNI_DIR_SOUTH) && (movement.y < EPSILON))  /* moving up */
+        || ((dir == Tile::UNI_DIR_WEST ) && (movement.x > -EPSILON)) /* moving right */
+        || ((dir == Tile::UNI_DIR_EAST ) && (movement.x < EPSILON)); /* moving left */
   }
 
   // Initialize mv_x and mv_y. Depending on the slope the axis are inverted so

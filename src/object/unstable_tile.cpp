@@ -141,14 +141,14 @@ UnstableTile::update(float dt_sec)
 	slowfall_timer -= dt_sec;
       else /* Switch to normal falling procedure */
 	fall_down ();
-      m_col.m_movement = physic.get_movement (dt_sec);
+      m_col.set_movement(physic.get_movement (dt_sec));
       break;
 
     case STATE_FALL:
       if (m_sprite->animation_done())
         remove_me ();
       else
-        m_col.m_movement = physic.get_movement (dt_sec);
+        m_col.set_movement(physic.get_movement (dt_sec));
       break;
   }
 }

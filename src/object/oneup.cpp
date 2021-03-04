@@ -34,7 +34,7 @@ OneUp::update(float dt_sec)
   if (!Sector::get().inside(m_col.m_bbox))
     remove_me();
 
-  m_col.m_movement = physic.get_movement(dt_sec);
+  m_col.set_movement(physic.get_movement(dt_sec));
 }
 
 HitResponse

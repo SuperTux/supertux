@@ -76,7 +76,7 @@ public:
 
   const Vector& get_movement() const
   {
-    return m_col.m_movement;
+    return m_col.get_movement();
   }
 
   CollisionGroup get_group() const
