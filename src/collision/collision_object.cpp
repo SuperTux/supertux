@@ -28,7 +28,6 @@ CollisionObject::CollisionObject(CollisionGroup group, CollisionListener& listen
   m_movement(),
   m_dest(),
   m_objects_hit_bottom(),
-  m_prev_frame_objects_hit_bottom(),
   m_ground_movement_manager(nullptr)
 {
 }
@@ -70,34 +69,14 @@ CollisionObject::collision_moving_object_bottom(CollisionObject& other)
 void
 CollisionObject::clear_bottom_collision_list()
 {
-  m_prev_frame_objects_hit_bottom = m_objects_hit_bottom;
   m_objects_hit_bottom.clear();
 }
 
-void
-CollisionObject::set_movement(const Vector& movement)
+void CollisionObject::propagate_movement(const Vector& movement)
 {
-  m_movement = movement;
-  register_ground_movement();
-}
-
-void
-CollisionObject::register_ground_movement()
-{
-  if (m_ground_movement_manager != nullptr) {
-    for (CollisionObject* other_object : m_objects_hit_bottom)
-      m_ground_movement_manager->register_movement(*this, *other_object, m_movement);
-  }
-}
-
-void
-CollisionObject::register_not_previously_applied_ground_movement()
-{
-  if (m_ground_movement_manager != nullptr) {
-    for (CollisionObject* other_object : m_objects_hit_bottom) {
-      if (m_prev_frame_objects_hit_bottom.find(other_object) == m_prev_frame_objects_hit_bottom.end())
-        m_ground_movement_manager->register_movement(*this, *other_object, m_movement);
-    }
+  for (CollisionObject* other_object : m_objects_hit_bottom) {
+    m_ground_movement_manager->register_movement(*this, *other_object, movement);
+    other_object->propagate_movement(movement);
   }
 }
 

@@ -67,11 +67,12 @@ public:
     return m_bbox;
   }
 
-  void set_movement(const Vector& movement);
+  void set_movement(const Vector& movement)
+  {
+    m_movement = movement;
+  }
 
-  void register_ground_movement();
-
-  void register_not_previously_applied_ground_movement();
+  void propagate_movement(const Vector& movement);
 
   const Vector& get_movement() const
   {
@@ -155,7 +156,6 @@ private:
   /** Objects that were touching the top of this object at the last frame,
       if this object was static or moving static. */
   std::unordered_set<CollisionObject*> m_objects_hit_bottom;
-  std::unordered_set<CollisionObject*> m_prev_frame_objects_hit_bottom;
 
   std::shared_ptr<CollisionGroundMovementManager> m_ground_movement_manager;
 

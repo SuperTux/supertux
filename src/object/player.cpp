@@ -1552,27 +1552,29 @@ if (!m_swimming && m_water_jump) {
   {
     m_sprite->set_action(sa_prefix+"-walljump"+sa_postfix, 1);
   }
-  else if (!on_ground() || m_fall_mode != ON_GROUND) {
-    if (m_physic.get_velocity_x() != 0 || m_fall_mode != ON_GROUND) {
+  else if (!on_ground() || m_fall_mode != ON_GROUND)
+  {
+    if (m_physic.get_velocity_x() != 0 || m_fall_mode != ON_GROUND)
+    {
       if (m_swimming || m_water_jump) {
-        if(m_water_jump && m_dir != m_old_dir)
+        if (m_water_jump && m_dir != m_old_dir)
           log_debug << "Obracanko (:" << std::endl;
-	    if (m_physic.get_velocity().norm()<50.f) {
-        m_sprite->set_action(sa_prefix+"-floating"+sa_postfix);
-      } else if (m_water_jump) {
-        m_sprite->set_action(sa_prefix+"-swimjump"+sa_postfix);
-      }
-      else {m_sprite->set_action(sa_prefix+"-swimming"+sa_postfix);
-      }} else {
-      if (m_physic.get_velocity_y() > 0) {
-          m_sprite->set_action(sa_prefix+"-fall"+sa_postfix);
-      }
-      else if ((m_physic.get_velocity_y() <= 0)) {
-        m_sprite->set_action(sa_prefix+"-jump"+sa_postfix);
+        if (m_physic.get_velocity().norm() < 50.f)
+          m_sprite->set_action(sa_prefix + "-floating" + sa_postfix);
+        else if (m_water_jump)
+          m_sprite->set_action(sa_prefix + "-swimjump" + sa_postfix);
+        else
+          m_sprite->set_action(sa_prefix + "-swimming" + sa_postfix);
+      } else {
+        if (m_physic.get_velocity_y() > 0)
+          m_sprite->set_action(sa_prefix + "-fall" + sa_postfix);
+        else if (m_physic.get_velocity_y() <= 0)
+          m_sprite->set_action(sa_prefix + "-jump" + sa_postfix);
       }
     }
   }
-  else {
+  else
+  {
     if (fabsf(m_physic.get_velocity_x()) < 1.0f) {
       // Determine which idle stage we're at
       if (m_sprite->get_action().find("-stand-") == std::string::npos && m_sprite->get_action().find("-idle-") == std::string::npos) {

@@ -38,47 +38,40 @@ CollisionGroundMovementManager::register_movement(
 void
 CollisionGroundMovementManager::apply_all_ground_movement()
 {
-  do
+  for (auto movements_for_target : m_movements_per_target)
   {
-    // New objects can be added to the map while processing it.
-    // Therefore, we make a copy, clear the original, and if
-    // new onces get added, the process is repeated.
-    auto movements_per_target_initial = m_movements_per_target;
-    m_movements_per_target.clear();
+    CollisionObject& target = *movements_for_target.first;
+    TargetMovementData& movements = movements_for_target.second;
 
-    for (auto movements_for_target : movements_per_target_initial)
-    {
-      CollisionObject& target = *movements_for_target.first;
-      TargetMovementData& movements = movements_for_target.second;
+    auto& objects_map = movements.get_objects_map();
+    auto& tilemaps_map = movements.get_tilemaps_map();
 
-      auto& objects_map = movements.get_objects_map();
-      auto& tilemaps_map = movements.get_tilemaps_map();
+    // Find the lowest "y" position (i.e. the highest point since
+    // (0,0) is the top-left corner) and the associated object
+    Vector lowest_y_vector;
+    bool first_to_do = true;
 
-      // Find the lowest "y" position (i.e. the highest point since
-      // (0,0) is the top-left corner) and the associated object
-      Vector lowest_y_vector;
-      bool first_to_do = true;
-
-      for (const auto& movement_for_object : objects_map) {
-        if (first_to_do || movement_for_object.second.y < lowest_y_vector.y) {
-          lowest_y_vector = movement_for_object.second;
-          first_to_do = false;
-        }
-      }
-
-      for (const auto& movement_for_tilemap : tilemaps_map) {
-        if (first_to_do || movement_for_tilemap.second.y < lowest_y_vector.y) {
-          lowest_y_vector = movement_for_tilemap.second;
-          first_to_do = false;
-        }
-      }
-
-      if (!first_to_do) {
-        // Move the object to the highest possible point.
-        target.set_movement(target.get_movement() + lowest_y_vector);
+    for (const auto& movement_for_object : objects_map) {
+      if (first_to_do || movement_for_object.second.y < lowest_y_vector.y) {
+        lowest_y_vector = movement_for_object.second;
+        first_to_do = false;
       }
     }
-  } while (!m_movements_per_target.empty());
+
+    for (const auto& movement_for_tilemap : tilemaps_map) {
+      if (first_to_do || movement_for_tilemap.second.y < lowest_y_vector.y) {
+        lowest_y_vector = movement_for_tilemap.second;
+        first_to_do = false;
+      }
+    }
+
+    if (!first_to_do) {
+      // Move the object to the highest possible point.
+      target.set_movement(target.get_movement() + lowest_y_vector);
+    }
+  }
+
+  m_movements_per_target.clear();
 }
 
 void

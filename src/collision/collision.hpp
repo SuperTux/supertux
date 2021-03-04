@@ -81,6 +81,8 @@ public:
     position_bottom = std::min (position_bottom, position);
   }
 
+  void merge_constraints (const Constraints& other);
+
   float get_position_left   () const { return position_left;   }
   float get_position_right  () const { return position_right;  }
   float get_position_top    () const { return position_top;    }

@@ -317,8 +317,10 @@ TileMap::update(float dt_sec)
       m_movement = v - get_offset();
       set_offset(v);
       if (m_ground_movement_manager != nullptr) {
-        for (CollisionObject* other_object : m_objects_hit_bottom)
+        for (CollisionObject* other_object : m_objects_hit_bottom) {
           m_ground_movement_manager->register_movement(*this, *other_object, m_movement);
+          other_object->propagate_movement(m_movement);
+        }
       }
     } else {
       set_offset(Vector(0, 0));

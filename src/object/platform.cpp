@@ -119,6 +119,7 @@ Platform::update(float dt_sec)
   get_walker()->update(dt_sec);
   Vector movement = get_walker()->get_pos() - get_pos();
   m_col.set_movement(movement);
+  m_col.propagate_movement(movement);
   m_speed = movement / dt_sec;
 }
 

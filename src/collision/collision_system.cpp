@@ -95,85 +95,84 @@ CollisionSystem::draw(DrawingContext& context)
 
 namespace {
 
-/**
- * r1 is supposed to be moving, r2 a solid object
- * returns true if r1 is hit on the bottom by r2
-*/
-bool check_collisions(collision::Constraints* constraints,
-                      const Vector& obj_movement, const Rectf& obj_rect, const Rectf& other_rect,
-                      CollisionObject* object = nullptr, CollisionObject* other = nullptr)
+collision::Constraints check_collisions(const Vector& obj_movement, const Rectf& moving_obj_rect, const Rectf& other_obj_rect,
+                                        CollisionObject* moving_object = nullptr, CollisionObject* other_object = nullptr)
 {
-  if (!collision::intersects(obj_rect, other_rect))
-    return false;
+  collision::Constraints constraints;
 
+  // Slightly growing the static object's rectangle to detect a
+  // collision not only when they overlap, but also when they're
+  // adjacent or at least extremely close.
+  const Rectf grown_other_obj_rect = other_obj_rect.grown(EPSILON);
+
+  if (!collision::intersects(moving_obj_rect, grown_other_obj_rect))
+    return constraints;
+  
   const CollisionHit dummy;
-  if (other != nullptr && object != nullptr && !other->collides(*object, dummy))
-    return false;
-  if (object != nullptr && other != nullptr && !object->collides(*other, dummy))
-    return false;
+
+  if (other_object != nullptr && moving_object != nullptr && !other_object->collides(*moving_object, dummy))
+    return constraints;
+  if (moving_object != nullptr && other_object != nullptr && !moving_object->collides(*other_object, dummy))
+    return constraints;
 
   // calculate intersection
-  const float itop    = obj_rect.get_bottom() - other_rect.get_top();
-  const float ibottom = other_rect.get_bottom() - obj_rect.get_top();
-  const float ileft   = obj_rect.get_right() - other_rect.get_left();
-  const float iright  = other_rect.get_right() - obj_rect.get_left();
+  const float itop    = moving_obj_rect.get_bottom() - grown_other_obj_rect.get_top();
+  const float ibottom = grown_other_obj_rect.get_bottom() - moving_obj_rect.get_top();
+  const float ileft   = moving_obj_rect.get_right() - grown_other_obj_rect.get_left();
+  const float iright  = grown_other_obj_rect.get_right() - moving_obj_rect.get_left();
 
   bool shiftout = false;
 
   if (fabsf(obj_movement.y) > fabsf(obj_movement.x)) {
     if (ileft < SHIFT_DELTA) {
-      constraints->constrain_right(other_rect.get_left());
+      constraints.constrain_right(grown_other_obj_rect.get_left());
       shiftout = true;
     } else if (iright < SHIFT_DELTA) {
-      constraints->constrain_left(other_rect.get_right());
+      constraints.constrain_left(grown_other_obj_rect.get_right());
       shiftout = true;
     }
   } else {
     // shiftout bottom/top
     if (itop < SHIFT_DELTA) {
-      constraints->constrain_bottom(other_rect.get_top());
+      constraints.constrain_bottom(grown_other_obj_rect.get_top());
       shiftout = true;
     } else if (ibottom < SHIFT_DELTA) {
-      constraints->constrain_top(other_rect.get_bottom());
+      constraints.constrain_top(grown_other_obj_rect.get_bottom());
       shiftout = true;
     }
   }
 
   if (!shiftout)
   {
-    if (other != nullptr && object != nullptr) {
-      const HitResponse response = other->collision(*object, dummy);
+    if (other_object != nullptr && moving_object != nullptr) {
+      const HitResponse response = other_object->collision(*moving_object, dummy);
       if (response == ABORT_MOVE)
-        return false;
+        return constraints;
     }
 
     const float vert_penetration = std::min(itop, ibottom);
     const float horiz_penetration = std::min(ileft, iright);
 
-    bool hitsBottom = false;
-
     if (vert_penetration < horiz_penetration) {
       if (itop < ibottom) {
-        constraints->constrain_bottom(other_rect.get_top());
-        constraints->hit.bottom = true;
-        hitsBottom = true;
+        constraints.constrain_bottom(grown_other_obj_rect.get_top());
+        constraints.hit.bottom = true;
       } else {
-        constraints->constrain_top(other_rect.get_bottom());
-        constraints->hit.top = true;
+        constraints.constrain_top(grown_other_obj_rect.get_bottom());
+        constraints.hit.top = true;
       }
     } else {
       if (ileft < iright) {
-        constraints->constrain_right(other_rect.get_left());
-        constraints->hit.right = true;
+        constraints.constrain_right(grown_other_obj_rect.get_left());
+        constraints.hit.right = true;
       } else {
-        constraints->constrain_left(other_rect.get_right());
-        constraints->hit.left = true;
+        constraints.constrain_left(grown_other_obj_rect.get_right());
+        constraints.hit.left = true;
       }
     }
-    
-    return hitsBottom;
   }
-  return false;
+
+  return constraints;
 }
 
 } // namespace
@@ -234,7 +233,9 @@ CollisionSystem::collision_tilemap(collision::Constraints* constraints,
               collision::rectangle_aatriangle(constraints, dest, triangle, triangle_hits_bottom);
               hits_bottom |= triangle_hits_bottom;
             } else { // normal rectangular tile
-              hits_bottom |= check_collisions(constraints, movement, dest, tile_bbox, nullptr, nullptr);
+              collision::Constraints new_constraints = check_collisions(movement, dest, tile_bbox, nullptr, nullptr);
+              hits_bottom |= new_constraints.hit.bottom;
+              constraints->merge_constraints(new_constraints);
             }
           }
         }
@@ -372,10 +373,15 @@ CollisionSystem::collision_static(collision::Constraints* constraints,
         static_object->is_valid() &&
         static_object != &object)
     {
-      const bool hits_bottom = check_collisions(constraints, movement, dest, static_object->m_dest,
-                       &object, static_object);
-      if (hits_bottom)
+      collision::Constraints new_constraints = check_collisions(
+        movement, dest, static_object->m_dest, &object, static_object);
+
+      if (new_constraints.hit.bottom)
         static_object->collision_moving_object_bottom(object);
+      else if (new_constraints.hit.top)
+        object.collision_moving_object_bottom(*static_object);
+
+      constraints->merge_constraints(new_constraints);
     }
   }
 }

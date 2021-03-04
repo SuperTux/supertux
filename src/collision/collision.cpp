@@ -23,6 +23,20 @@
 
 namespace collision {
 
+void Constraints::merge_constraints(const Constraints& other)
+{
+  constrain_left(other.position_left);
+  constrain_right(other.position_right);
+  constrain_top(other.position_top);
+  constrain_bottom(other.position_bottom);
+
+  hit.left |= other.hit.left;
+  hit.right |= other.hit.right;
+  hit.top |= other.hit.top;
+  hit.bottom |= other.hit.bottom;
+  hit.crush |= other.hit.crush;
+}
+
 bool intersects(const Rectf& r1, const Rectf& r2)
 {
   if (r1.get_right() < r2.get_left() || r1.get_left() > r2.get_right())
