@@ -331,10 +331,9 @@ IceCrusher::update(float dt_sec)
         set_state(IDLE);
       }
       else {
-        if (ic_size == LARGE)
-          m_col.set_movement(Vector (0, RECOVER_SPEED_LARGE));
-        else
-          m_col.set_movement(Vector (0, RECOVER_SPEED_NORMAL));
+        Vector movement(0, (ic_size == LARGE ? RECOVER_SPEED_LARGE : RECOVER_SPEED_NORMAL));
+        m_col.set_movement(movement);
+        m_col.propagate_movement(movement);
       }
       break;
 	  case RECOVERING_RIGHT:
@@ -348,7 +347,8 @@ IceCrusher::update(float dt_sec)
         set_state(IDLE);
       }
       else {
-          m_col.set_movement(Vector (RECOVER_SPEED_LARGE, 0));
+        m_col.set_movement(Vector(RECOVER_SPEED_LARGE, 0));
+        m_col.propagate_movement(Vector(RECOVER_SPEED_LARGE, 0));
       }
       break;
 	  case RECOVERING_LEFT:
@@ -362,7 +362,8 @@ IceCrusher::update(float dt_sec)
         set_state(IDLE);
       }
       else {
-          m_col.set_movement(Vector (-RECOVER_SPEED_LARGE, 0));
+        m_col.set_movement(Vector(-RECOVER_SPEED_LARGE, 0));
+        m_col.propagate_movement(Vector(-RECOVER_SPEED_LARGE, 0));
       }
       break;
     default:
