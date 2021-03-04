@@ -41,7 +41,7 @@ Star::Star(const Vector& pos, Direction direction) :
 void
 Star::update(float dt_sec)
 {
-  m_col.m_movement = physic.get_movement(dt_sec);
+  m_col.set_movement(physic.get_movement(dt_sec));
 
   // when near Tux, spawn particles
   if (auto* player = Sector::get().get_nearest_player (m_col.m_bbox)) {

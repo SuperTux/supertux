@@ -177,7 +177,7 @@ ScriptedObject::update(float dt_sec)
     physic.set_velocity(new_vel.x, new_vel.y);
     new_vel_set = false;
   }
-  m_col.m_movement = physic.get_movement(dt_sec);
+  m_col.set_movement(physic.get_movement(dt_sec));
 }
 
 void

@@ -65,7 +65,7 @@ Stalactite::active_update(float dt_sec)
       set_colgroup_active(COLGROUP_MOVING);
     }
   } else if (state == STALACTITE_FALLING) {
-    m_col.m_movement = m_physic.get_movement(dt_sec);
+    m_col.set_movement(m_physic.get_movement(dt_sec));
   }
 }
 

@@ -29,7 +29,7 @@ public:
   virtual void collision_solid(const CollisionHit& /*hit*/) = 0;
 
   /** when 2 objects collided, we will first call the
-      pre_collision_check functions of both objects that can decide on
+      collision functions of both objects that can decide on
       how to react to the collision. */
   virtual bool collides(GameObject& /*other*/, const CollisionHit& /*hit*/) const = 0;
 

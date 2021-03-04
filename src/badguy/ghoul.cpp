@@ -133,7 +133,7 @@ Ghoul::active_update(float dt_sec)
     case STATE_TRACKING:
       if (dist.norm() >= 1) {
         Vector dir_ = dist.unit();
-        m_col.m_movement = dir_ * dt_sec * m_flyspeed;
+        m_col.set_movement(dir_ * dt_sec * m_flyspeed);
       } else {
         /* We somehow landed right on top of the player without colliding.
          * Sit tight and avoid a division by zero. */
@@ -145,7 +145,7 @@ Ghoul::active_update(float dt_sec)
       if (get_walker() == nullptr)
         return;
       get_walker()->update(dt_sec);
-      m_col.m_movement = get_walker()->get_pos() - get_pos();
+      m_col.set_movement(get_walker()->get_pos() - get_pos());
       if (m_mystate == STATE_PATHMOVING_TRACK && dist.norm() <= m_track_range) {
         m_mystate = STATE_TRACKING;
       }

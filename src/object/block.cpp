@@ -147,17 +147,17 @@ Block::update(float dt_sec)
   float offset = m_original_y - get_pos().y;
   if (offset > BOUNCY_BRICK_MAX_OFFSET) {
     m_bounce_dir = BOUNCY_BRICK_SPEED;
-    m_col.m_movement = Vector(0, m_bounce_dir * dt_sec);
+    m_col.set_movement(Vector(0, m_bounce_dir * dt_sec));
     if (m_breaking){
       break_me();
     }
   } else if (offset < BOUNCY_BRICK_SPEED * dt_sec && m_bounce_dir > 0) {
-    m_col.m_movement = Vector(0, offset);
+    m_col.set_movement(Vector(0, offset));
     m_bounce_dir = 0;
     m_bouncing = false;
     m_sprite->set_angle(0);
   } else {
-    m_col.m_movement = Vector(0, m_bounce_dir * dt_sec);
+    m_col.set_movement(Vector(0, m_bounce_dir * dt_sec));
   }
 }
 

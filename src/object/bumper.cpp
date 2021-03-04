@@ -57,7 +57,7 @@ Bumper::update(float dt_sec)
   {
     m_sprite->set_action(left ? "left-normal" : "right-normal");
   }
-  m_col.m_movement = physic.get_movement (dt_sec);
+  m_col.set_movement(physic.get_movement (dt_sec));
 }
 
 HitResponse

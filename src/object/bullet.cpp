@@ -80,7 +80,7 @@ Bullet::update(float dt_sec)
     return;
   }
 
-  m_col.m_movement = physic.get_movement(dt_sec);
+  m_col.set_movement(physic.get_movement(dt_sec));
 }
 
 void

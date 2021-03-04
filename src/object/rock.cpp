@@ -21,6 +21,7 @@
 #include "object/coin.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/tile.hpp"
+#include "object/player.hpp"
 #include "util/reader_mapping.hpp"
 
 namespace {
@@ -74,7 +75,7 @@ void
 Rock::update(float dt_sec)
 {
   if (!is_grabbed())
-    m_col.m_movement = physic.get_movement(dt_sec);
+    m_col.set_movement(physic.get_movement(dt_sec));
 }
 
 void
@@ -144,8 +145,9 @@ void
 Rock::grab(MovingObject& object, const Vector& pos, Direction dir_)
 {
   Portable::grab(object, pos, dir_);
-  m_col.m_movement = pos - get_pos();
-  last_movement = m_col.m_movement;
+  Vector movement = pos - get_pos();
+  m_col.set_movement(movement);
+  last_movement = movement;
   set_group(COLGROUP_TOUCHABLE); //needed for lanterns catching willowisps
   on_ground = false;
 

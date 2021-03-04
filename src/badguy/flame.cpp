@@ -70,7 +70,7 @@ Flame::active_update(float dt_sec)
   if (!Editor::is_active()) {
     Vector newpos(m_start_position.x + cosf(angle) * radius,
                   m_start_position.y + sinf(angle) * radius);
-    m_col.m_movement = newpos - get_pos();
+    m_col.set_movement(newpos - get_pos());
     sound_source->set_position(get_pos());
   }
 

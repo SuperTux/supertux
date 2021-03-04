@@ -73,7 +73,7 @@ SpiderMite::active_update(float dt_sec)
     }
     timer.start(FLYTIME);
   }
-  m_col.m_movement = m_physic.get_movement(dt_sec);
+  m_col.set_movement(m_physic.get_movement(dt_sec));
 
   auto player = get_nearest_player();
   if (player) {

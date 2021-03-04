@@ -33,6 +33,7 @@ class Constraints;
 
 class Camera;
 class CollisionSystem;
+class CollisionGroundMovementManager;
 class DisplayEffect;
 class DrawingContext;
 class Level;
