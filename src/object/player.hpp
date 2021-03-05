@@ -191,6 +191,9 @@ public:
   void position_grabbed_object();
   void try_grab();
 
+  /** Boosts Tux in a certain direction, sideways. Useful for bumpers/walljumping. */
+  void sideways_push(float delta);
+
 private:
   void handle_input();
   void handle_input_ghost(); /**< input handling while in ghost mode */
@@ -238,6 +241,7 @@ private:
   bool m_on_right_wall;
   bool m_in_walljump_tile;
   bool m_can_walljump;
+  float m_boost;
   float m_speedlimit;
   const Controller* m_scripting_controller_old; /**< Saves the old controller while the scripting_controller is used */
   bool m_jump_early_apex;

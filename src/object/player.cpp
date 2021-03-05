@@ -98,6 +98,10 @@ const float MAX_GLIDE_YM = 128;
 const float MAX_WALLCLING_YM = 64;
 /** instant velocity when tux starts to walk */
 const float WALK_SPEED = 100;
+/** rate at which m_boost decreases */
+const float BOOST_DECREASE_RATE = 500;
+/** rate at which the speed decreases if going above maximum */
+const float OVERSPEED_DECELERATION = 100;
 
 /** multiplied by WALK_ACCELERATION to give friction */
 const float NORMAL_FRICTION_MULTIPLIER = 1.5f;
@@ -154,6 +158,7 @@ Player::Player(PlayerStatus& player_status, const std::string& name_) :
   m_on_right_wall(false),
   m_in_walljump_tile(false),
   m_can_walljump(false),
+  m_boost(0.f),
   m_speedlimit(0), //no special limit
   m_scripting_controller_old(nullptr),
   m_jump_early_apex(false),
@@ -503,8 +508,16 @@ Player::update(float dt_sec)
     m_physic.set_acceleration_y(-WATER_FALLOUT_FORCEBACK_STRENGTH);
   }
 
+  if (m_boost != 0.f)
+  {
+    bool sign = std::signbit(m_boost);
+    m_boost = (sign ? -1.f : +1.f) * (std::abs(m_boost) - dt_sec * BOOST_DECREASE_RATE);
+    if (std::signbit(m_boost) != sign)
+      m_boost = 0.f;
+  }
+
   // calculate movement for this frame
-  m_col.set_movement(m_physic.get_movement(dt_sec));
+  m_col.set_movement(m_physic.get_movement(dt_sec) + Vector(m_boost * dt_sec, 0));
 
   if (m_grabbed_object != nullptr && !m_dying) {
     position_grabbed_object();
@@ -763,11 +776,9 @@ Player::handle_horizontal_input()
     ax = dirsign * WALK_ACCELERATION_X;
     // limit speed
     if (vx >= MAX_WALK_XM && dirsign > 0) {
-      vx = MAX_WALK_XM;
-      ax = 0;
+      ax = std::min(ax, -OVERSPEED_DECELERATION);
     } else if (vx <= -MAX_WALK_XM && dirsign < 0) {
-      vx = -MAX_WALK_XM;
-      ax = 0;
+      ax = std::max(ax, OVERSPEED_DECELERATION);
     }
   } else {
     if ( vx * dirsign < MAX_WALK_XM ) {
@@ -776,12 +787,10 @@ Player::handle_horizontal_input()
       ax = dirsign * RUN_ACCELERATION_X;
     }
     // limit speed
-    if (vx >= MAX_RUN_XM + BONUS_RUN_XM *((m_player_status.bonus == AIR_BONUS) ? 1 : 0) && dirsign > 0) {
-      vx = MAX_RUN_XM + BONUS_RUN_XM *((m_player_status.bonus == AIR_BONUS) ? 1 : 0);
-      ax = 0;
-    } else if (vx <= -MAX_RUN_XM - BONUS_RUN_XM *((m_player_status.bonus == AIR_BONUS) ? 1 : 0) && dirsign < 0) {
-      vx = -MAX_RUN_XM - BONUS_RUN_XM *((m_player_status.bonus == AIR_BONUS) ? 1 : 0);
-      ax = 0;
+    if (vx >= MAX_RUN_XM + BONUS_RUN_XM *((m_player_status.bonus == AIR_BONUS) ? 1 : 0)) {
+      ax = std::min(ax, -OVERSPEED_DECELERATION);
+    } else if (vx <= -MAX_RUN_XM - BONUS_RUN_XM *((m_player_status.bonus == AIR_BONUS) ? 1 : 0)) {
+      ax = std::max(ax, OVERSPEED_DECELERATION);
     }
   }
 
@@ -1029,7 +1038,7 @@ Player::handle_vertical_input()
   if (m_controller->pressed(Control::JUMP) && m_can_walljump && !m_backflipping)
   {
     SoundManager::current()->play((is_big()) ? "sounds/bigjump.wav" : "sounds/jump.wav");
-    m_physic.set_velocity(m_on_left_wall ? 400.f : -400.f, -520.f);
+    m_physic.set_velocity(m_on_left_wall ? 450.f : -450.f, -520.f);
   }
 
  m_physic.set_acceleration_y(0);
@@ -1747,6 +1756,9 @@ Player::collision_solid(const CollisionHit& hit)
       kill(false);
     }
   }
+
+  if ((hit.left && m_boost < 0.f) || (hit.right && m_boost > 0.f))
+    m_boost = 0.f;
 }
 
 HitResponse
@@ -2125,6 +2137,12 @@ Player::has_grabbed(const std::string& object_name) const
     return object->get_name() == object_name;
   }
   return false;
+}
+
+void
+Player::sideways_push(float delta)
+{
+  m_boost = delta;
 }
 
 /* EOF */
