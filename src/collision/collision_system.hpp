@@ -19,11 +19,13 @@
 #define HEADER_SUPERTUX_COLLISION_COLLISION_SYSTEM_HPP
 
 #include <vector>
+#include <memory>
 #include <stdint.h>
 
 #include "collision/collision.hpp"
 
 class CollisionObject;
+class CollisionGroundMovementManager;
 class DrawingContext;
 class Rectf;
 class Sector;
@@ -44,6 +46,11 @@ public:
       collision_handlers, which the collision_objects provide for this
       case (or not). */
   void update();
+
+  const std::shared_ptr<CollisionGroundMovementManager>& get_ground_movement_manager()
+  {
+    return m_ground_movement_manager;
+  }
 
   bool is_free_of_tiles(const Rectf& rect, const bool ignoreUnisolid = false) const;
   bool is_free_of_statics(const Rectf& rect, const CollisionObject* ignore_object, const bool ignoreUnisolid) const;
@@ -77,7 +84,10 @@ private:
 
 private:
   Sector& m_sector;
+
   std::vector<CollisionObject*>  m_objects;
+
+  std::shared_ptr<CollisionGroundMovementManager> m_ground_movement_manager;
 
 private:
   CollisionSystem(const CollisionSystem&) = delete;

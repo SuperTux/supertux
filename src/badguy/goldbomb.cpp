@@ -139,7 +139,7 @@ GoldBomb::active_update(float dt_sec)
       kill_fall();
     }
     else if (!is_grabbed()) {
-      m_col.m_movement = m_physic.get_movement(dt_sec);
+      m_col.set_movement(m_physic.get_movement(dt_sec));
     }
     return;
   }
@@ -185,7 +185,7 @@ GoldBomb::grab(MovingObject& object, const Vector& pos, Direction dir_)
 {
   Portable::grab(object,pos,dir_);
   if (tstate == STATE_TICKING){
-    m_col.m_movement = pos - get_pos();
+    m_col.set_movement(pos - get_pos());
     m_dir = dir_;
 
     // We actually face the opposite direction of Tux here to make the fuse more
@@ -194,7 +194,7 @@ GoldBomb::grab(MovingObject& object, const Vector& pos, Direction dir_)
     set_colgroup_active(COLGROUP_DISABLED);
   }
   else if (m_frozen){
-    m_col.m_movement = pos - get_pos();
+    m_col.set_movement(pos - get_pos());
     m_dir = dir_;
     m_sprite->set_action(dir_ == Direction::LEFT ? "iced-left" : "iced-right");
     set_colgroup_active(COLGROUP_DISABLED);

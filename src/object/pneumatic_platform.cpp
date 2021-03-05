@@ -40,7 +40,9 @@ void
 PneumaticPlatformChild::update(float dt_sec)
 {
   const float offset_y = m_left ? m_parent.m_offset_y : -m_parent.m_offset_y;
-  m_col.m_movement = Vector(0, (m_parent.m_start_y + offset_y) - get_pos().y);
+  const Vector movement(0, (m_parent.m_start_y + offset_y) - get_pos().y);
+  m_col.set_movement(movement);
+  m_col.propagate_movement(movement);
 }
 
 HitResponse

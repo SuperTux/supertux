@@ -141,7 +141,7 @@ void
 PowerUp::update(float dt_sec)
 {
   if (!no_physics)
-    m_col.m_movement = physic.get_movement(dt_sec);
+    m_col.set_movement(physic.get_movement(dt_sec));
   //Stars sparkle when close to Tux
   if (m_sprite_name == "images/powerups/star/star.sprite" || m_sprite_name == "/images/powerups/star/star.sprite"){
     if (auto* player = Sector::get().get_nearest_player(m_col.m_bbox)) {

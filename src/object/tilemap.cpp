@@ -25,6 +25,8 @@
 #include "supertux/sector.hpp"
 #include "supertux/tile.hpp"
 #include "supertux/tile_set.hpp"
+#include "collision/collision_object.hpp"
+#include "collision/collision_movement_manager.hpp"
 #include "util/reader.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
@@ -48,6 +50,8 @@ TileMap::TileMap(const TileSet *new_tileset) :
   m_z_pos(0),
   m_offset(Vector(0,0)),
   m_movement(0,0),
+  m_objects_hit_bottom(),
+  m_ground_movement_manager(nullptr),
   m_flip(NO_FLIP),
   m_alpha(1.0),
   m_current_alpha(1.0),
@@ -80,6 +84,8 @@ TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
   m_z_pos(0),
   m_offset(Vector(0,0)),
   m_movement(Vector(0,0)),
+  m_objects_hit_bottom(),
+  m_ground_movement_manager(nullptr),
   m_flip(NO_FLIP),
   m_alpha(1.0),
   m_current_alpha(1.0),
@@ -310,10 +316,18 @@ TileMap::update(float dt_sec)
     if (get_path() && get_path()->is_valid()) {
       m_movement = v - get_offset();
       set_offset(v);
+      if (m_ground_movement_manager != nullptr) {
+        for (CollisionObject* other_object : m_objects_hit_bottom) {
+          m_ground_movement_manager->register_movement(*this, *other_object, m_movement);
+          other_object->propagate_movement(m_movement);
+        }
+      }
     } else {
       set_offset(Vector(0, 0));
     }
   }
+
+  m_objects_hit_bottom.clear();
 }
 
 void
@@ -513,6 +527,12 @@ TileMap::get_tiles_overlapping(const Rectf &rect) const
   int t_top    = std::max(0     , int(floorf(rect2.get_top   () / 32)));
   int t_bottom = std::min(m_height, int(ceilf (rect2.get_bottom() / 32)));
   return Rect(t_left, t_top, t_right, t_bottom);
+}
+
+void
+TileMap::hits_object_bottom(CollisionObject& object)
+{
+  m_objects_hit_bottom.insert(&object);
 }
 
 void
@@ -820,13 +840,13 @@ TileMap::update_effective_solid()
     m_effective_solid = false;
   else if (!m_effective_solid && (m_current_alpha >= 0.75f))
     m_effective_solid = true;
-  
-  if(Sector::current() != nullptr && old != m_effective_solid)  
+
+  if(Sector::current() != nullptr && old != m_effective_solid)
   {
-      Sector::get().update_solid(this);  
+      Sector::get().update_solid(this);
   } else if(worldmap::WorldMap::current() != nullptr && old != m_effective_solid) {
       worldmap::WorldMap::current()->update_solid(this);
-  }   
+  }
 }
 
 void

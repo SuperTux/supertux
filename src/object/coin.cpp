@@ -84,7 +84,7 @@ Coin::update(float dt_sec)
     }
 
     if (get_path()->is_valid()) {
-      m_col.m_movement = v - get_pos();
+      m_col.set_movement(v - get_pos());
     }
   }
 }
@@ -216,7 +216,7 @@ void
 HeavyCoin::update(float dt_sec)
 {
   // enable physics
-  m_col.m_movement = m_physic.get_movement(dt_sec);
+  m_col.set_movement(m_physic.get_movement(dt_sec));
 }
 
 void
