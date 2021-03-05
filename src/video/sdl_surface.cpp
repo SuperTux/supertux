@@ -73,6 +73,8 @@ SDLSurface::create_rgb(int width, int height)
   return surface;
 }
 
+#include <iostream>
+
 SDLSurfacePtr
 SDLSurface::from_file(const std::string& filename)
 {

@@ -54,7 +54,9 @@ MainMenu::MainMenu()
   add_entry(MNID_LEVELEDITOR, _("Level Editor"));
   add_entry(MNID_CREDITS, _("Credits"));
   add_entry(MNID_DONATE, _("Donate"));
+#ifndef REMOVE_QUIT_BUTTON
   add_entry(MNID_QUITMAINMENU, _("Quit"));
+#endif
 }
 
 void

@@ -16,7 +16,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "addon/downloader.hpp"
-
+/*
 #include <algorithm>
 #include <array>
 #include <assert.h>
@@ -378,5 +378,5 @@ Downloader::request_download(const std::string& url, const std::string& outfile)
   m_transfers.push_back(std::move(transfer));
   return m_transfers.back()->get_status();
 }
-
+*/
 /* EOF */

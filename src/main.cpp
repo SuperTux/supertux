@@ -20,7 +20,7 @@
 
 int main(int argc, char** argv)
 {
-  return Main().run(argc, argv);
+  return (new Main())->run(argc, argv);
 }
 
 /* EOF */

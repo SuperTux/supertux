@@ -183,6 +183,7 @@ public:
 
   void find_datadir() const
   {
+#ifndef __EMSCRIPTEN__
     std::string datadir;
     if (m_forced_datadir)
     {
@@ -218,6 +219,12 @@ public:
     {
       log_warning << "Couldn't add '" << datadir << "' to physfs searchpath: " << PHYSFS_getLastErrorCode() << std::endl;
     }
+#else
+    if (!PHYSFS_mount(BUILD_CONFIG_DATA_DIR, nullptr, 1))
+    {
+      log_warning << "Couldn't add '" << BUILD_CONFIG_DATA_DIR << "' to physfs searchpath: " << PHYSFS_getLastErrorCode() << std::endl;
+    }
+#endif
   }
 
   void find_userdir() const
@@ -273,14 +280,14 @@ public:
 	  }
 	  if (success) {
 	    try
-		{
-		  boost::filesystem::remove_all(olduserpath);
-		}
-		catch (const boost::filesystem::filesystem_error& err)
-		{
-		  success = false;
-		  log_warning << "Failed to remove old config directory: " << err.what();
-		}
+      {
+        boost::filesystem::remove_all(olduserpath);
+      }
+      catch (const boost::filesystem::filesystem_error& err)
+      {
+        success = false;
+        log_warning << "Failed to remove old config directory: " << err.what();
+      }
 	  }
 	  if (success) {
 	    log_info << "Moved old config dir " << olduserdir << " to " << userdir << std::endl;
@@ -403,8 +410,8 @@ Main::resave(const std::string& input_filename, const std::string& output_filena
 void
 Main::launch_game(const CommandLineArguments& args)
 {
-  SDLSubsystem sdl_subsystem;
-  ConsoleBuffer console_buffer;
+  new SDLSubsystem();
+  auto console_buffer = new ConsoleBuffer();
 
   s_timelog.log("controller");
   InputManager input_manager(g_config->keyboard_config, g_config->joystick_config);
@@ -423,37 +430,37 @@ Main::launch_game(const CommandLineArguments& args)
   std::unique_ptr<VideoSystem> video_system = VideoSystem::create(video);
   init_video();
 
-  TTFSurfaceManager ttf_surface_manager;
+  new TTFSurfaceManager();
 
   s_timelog.log("audio");
-  SoundManager sound_manager;
-  sound_manager.enable_sound(g_config->sound_enabled);
-  sound_manager.enable_music(g_config->music_enabled);
-  sound_manager.set_sound_volume(g_config->sound_volume);
-  sound_manager.set_music_volume(g_config->music_volume);
+  SoundManager* sound_manager = new SoundManager();
+  sound_manager->enable_sound(g_config->sound_enabled);
+  sound_manager->enable_music(g_config->music_enabled);
+  sound_manager->set_sound_volume(g_config->sound_volume);
+  sound_manager->set_music_volume(g_config->music_volume);
 
   s_timelog.log("scripting");
-  SquirrelVirtualMachine scripting(g_config->enable_script_debugger);
+  new SquirrelVirtualMachine(g_config->enable_script_debugger);
 
   s_timelog.log("resources");
-  TileManager tile_manager;
-  SpriteManager sprite_manager;
-  Resources resources;
+  new TileManager();
+  new SpriteManager();
+  new Resources();
 
   s_timelog.log("integrations");
   Integration::setup();
 
   s_timelog.log("addons");
-  AddonManager addon_manager("addons", g_config->addons);
+  new AddonManager("addons", g_config->addons);
 
-  Console console(console_buffer);
+  new Console(*console_buffer);
 
   s_timelog.log(nullptr);
 
   const auto default_savegame = std::make_unique<Savegame>(std::string());
 
-  GameManager game_manager;
-  ScreenManager screen_manager(*video_system, input_manager);
+  new GameManager();
+  ScreenManager* screen_manager = new ScreenManager(std::move(video_system), input_manager);
 
   if (!args.filenames.empty())
   {
@@ -482,16 +489,16 @@ Main::launch_game(const CommandLineArguments& args)
           editor->set_level(start_level);
           editor->setup();
           editor->update(0, Controller());
-          screen_manager.push_screen(std::move(editor));
+          screen_manager->push_screen(std::move(editor));
           MenuManager::instance().clear_menu_stack();
-          sound_manager.stop_music(0.5);
+          sound_manager->stop_music(0.5);
         } else {
           log_warning << "Level " << start_level << " doesn't exist." << std::endl;
         }
       }
       else if (StringUtil::has_suffix(start_level, ".stwm"))
       {
-        screen_manager.push_screen(std::make_unique<worldmap::WorldMapScreen>(
+        screen_manager->push_screen(std::make_unique<worldmap::WorldMapScreen>(
                                      std::make_unique<worldmap::WorldMap>(filename, *default_savegame)));
       }
       else
@@ -526,7 +533,7 @@ Main::launch_game(const CommandLineArguments& args)
 
         if (!g_config->record_demo.empty())
           session->record_demo(g_config->record_demo);
-        screen_manager.push_screen(std::move(session));
+        screen_manager->push_screen(std::move(session));
       }
     }
   }
@@ -534,11 +541,11 @@ Main::launch_game(const CommandLineArguments& args)
   {
     if (args.editor)
     {
-      screen_manager.push_screen(std::make_unique<Editor>());
+      screen_manager->push_screen(std::make_unique<Editor>());
     }
     else
     {
-      screen_manager.push_screen(std::make_unique<TitleScreen>(*default_savegame));
+      screen_manager->push_screen(std::make_unique<TitleScreen>(*default_savegame));
     }
   }
 
@@ -549,7 +556,7 @@ Main::launch_game(const CommandLineArguments& args)
                          "Open Store's Telegram at https://open-store.io/telegram"));
 #endif
 
-  screen_manager.run();
+  screen_manager->run();
 }
 
 int
@@ -597,7 +604,6 @@ Main::run(int argc, char** argv)
   try
   {
     CommandLineArguments args;
-
     try
     {
       args.parse_args(argc, argv);
@@ -609,16 +615,14 @@ Main::run(int argc, char** argv)
       return EXIT_FAILURE;
     }
 
-    PhysfsSubsystem physfs_subsystem(argv[0], args.datadir, args.userdir);
-    physfs_subsystem.print_search_path();
+    (new PhysfsSubsystem(argv[0], args.datadir, args.userdir))->print_search_path();
 
     s_timelog.log("config");
-    ConfigSubsystem config_subsystem;
+    new ConfigSubsystem();
     args.merge_into(*g_config);
 
     s_timelog.log("tinygettext");
     init_tinygettext();
-
     switch (args.get_action())
     {
       case CommandLineArguments::PRINT_VERSION:

@@ -34,6 +34,8 @@
 #  include "video/gl/gl_video_system.hpp"
 #endif
 
+#include <iostream>
+
 std::unique_ptr<VideoSystem>
 VideoSystem::create(VideoSystem::Enum video_system)
 {
@@ -41,6 +43,18 @@ VideoSystem::create(VideoSystem::Enum video_system)
   {
     case VIDEO_AUTO:
 #ifdef HAVE_OPENGL
+  #ifdef __EMSCRIPTEN__
+      try
+      {
+        std::cout << "WebGL detected, using GLVideoSystem-20" << std::endl;
+        return std::make_unique<GLVideoSystem>(false);
+      }
+      catch(std::exception& err2)
+      {
+        std::cout << "Error creating GLVideoSystem-20, using SDL fallback: "  << err2.what() << std::endl;
+        return std::make_unique<SDLVideoSystem>();
+      }
+  #else
       try
       {
         return std::make_unique<GLVideoSystem>(true);
@@ -58,6 +72,7 @@ VideoSystem::create(VideoSystem::Enum video_system)
           return std::make_unique<SDLVideoSystem>();
         }
       }
+  #endif
 #else
       log_info << "new SDL renderer\n";
       return std::make_unique<SDLVideoSystem>();
