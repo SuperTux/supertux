@@ -25,6 +25,7 @@
 
 GameObject::GameObject() :
   m_name(),
+  m_fade_helpers(),
   m_uid(),
   m_scheduled_for_removal(false),
   m_components(),
@@ -34,6 +35,7 @@ GameObject::GameObject() :
 
 GameObject::GameObject(const std::string& name) :
   m_name(name),
+  m_fade_helpers(),
   m_uid(),
   m_scheduled_for_removal(false),
   m_components(),
@@ -87,6 +89,21 @@ GameObject::get_settings()
   ObjectSettings result(get_display_name());
   result.add_text(_("Name"), &m_name, "name", std::string());
   return result;
+}
+
+void
+GameObject::update(float dt_sec)
+{
+  for (auto& h : m_fade_helpers)
+  {
+    h->update(dt_sec);
+  }
+
+  auto new_end = std::remove_if(m_fade_helpers.begin(), m_fade_helpers.end(), [](const std::unique_ptr<FadeHelper>& h) {
+    return h->completed();
+  });
+
+  m_fade_helpers.erase(new_end, m_fade_helpers.end());
 }
 
 /* EOF */

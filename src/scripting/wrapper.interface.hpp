@@ -22,6 +22,7 @@
 #include "scripting/rock.hpp"
 #include "scripting/scripted_object.hpp"
 #include "scripting/sector.hpp"
+#include "scripting/spotlight.hpp"
 #include "scripting/text.hpp"
 #include "scripting/text_array.hpp"
 #include "scripting/thunderstorm.hpp"
