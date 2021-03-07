@@ -66,6 +66,8 @@ class WillOWisp;
 void create_squirrel_instance(HSQUIRRELVM v, scripting::WillOWisp* object, bool setup_releasehook = false);
 class Wind;
 void create_squirrel_instance(HSQUIRRELVM v, scripting::Wind* object, bool setup_releasehook = false);
+class WorldMap;
+void create_squirrel_instance(HSQUIRRELVM v, scripting::WorldMap* object, bool setup_releasehook = false);
 
 }
 
