@@ -32,7 +32,7 @@ class WorldMap final : public GameObjectManager
 {
 #ifndef SCRIPTING_API
 private:
-  ::worldmap::WorldMap* m_parent;
+  ::worldmap::WorldMap* m_parent __attribute__((unused));
 
 public:
   WorldMap(::worldmap::WorldMap* parent);
