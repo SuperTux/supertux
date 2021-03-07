@@ -158,6 +158,8 @@ public:
 
   Camera& get_camera() const { return *m_camera; }
 
+  Vector get_tux_pos();
+
 protected:
   virtual bool before_object_add(GameObject& object) override;
   virtual void before_object_remove(GameObject& object) override;
