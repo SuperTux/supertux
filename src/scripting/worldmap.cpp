@@ -16,60 +16,17 @@
 
 #include "scripting/worldmap.hpp"
 
-#include "math/easing.hpp"
-#include "object/ambient_light.hpp"
-#include "object/music_object.hpp"
-#include "video/color.hpp"
 #include "worldmap/worldmap.hpp"
 
 namespace scripting {
 
 WorldMap::WorldMap(::worldmap::WorldMap* parent) :
+  GameObjectManager(parent),
   m_parent(parent)
 {
 }
 
-void
-WorldMap::fade_to_ambient_light(float red, float green, float blue, float fadetime)
-{
-  auto& ambient_light = m_parent->get_singleton_by_type<AmbientLight>();
-  ambient_light.fade_to_ambient_light(red, green, blue, fadetime);
-}
-
-void
-WorldMap::set_ambient_light(float red, float green, float blue)
-{
-  auto& ambient_light = m_parent->get_singleton_by_type<AmbientLight>();
-  ambient_light.set_ambient_light(Color(red, green, blue));
-}
-
-float
-WorldMap::get_ambient_red() const
-{
-  auto& ambient_light = m_parent->get_singleton_by_type<AmbientLight>();
-  return ambient_light.get_ambient_light().red;
-}
-
-float
-WorldMap::get_ambient_green() const
-{
-  auto& ambient_light = m_parent->get_singleton_by_type<AmbientLight>();
-  return ambient_light.get_ambient_light().green;
-}
-
-float
-WorldMap::get_ambient_blue() const
-{
-  auto& ambient_light = m_parent->get_singleton_by_type<AmbientLight>();
-  return ambient_light.get_ambient_light().blue;
-}
-
-void
-WorldMap::set_music(const std::string& filename)
-{
-  auto& music = m_parent->get_singleton_by_type<MusicObject>();
-  music.set_music(filename);
-}
+// Add functions here
 
 } // namespace scripting
 

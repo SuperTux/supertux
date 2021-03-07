@@ -21,7 +21,7 @@
 
 namespace scripting {
 
-GameObjectManager& get_game_object_manager()
+::GameObjectManager& get_game_object_manager()
 {
   using namespace worldmap;
 

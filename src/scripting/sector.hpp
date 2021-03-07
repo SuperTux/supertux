@@ -19,12 +19,13 @@
 
 #ifndef SCRIPTING_API
 #include <string>
+#include "scripting/game_object_manager.hpp"
 class Sector;
 #endif
 
 namespace scripting {
 
-class Sector final
+class Sector final : public GameObjectManager
 {
 #ifndef SCRIPTING_API
 private:
@@ -39,14 +40,7 @@ private:
 #endif
 
 public:
-  void set_ambient_light(float red, float green, float blue);
-  void fade_to_ambient_light(float red, float green, float blue, float fadetime);
-  float get_ambient_red() const;
-  float get_ambient_green() const;
-  float get_ambient_blue() const;
-
   void set_gravity(float gravity);
-  void set_music(const std::string& music);
 };
 
 } // namespace scripting
