@@ -12,6 +12,7 @@
 #include "scripting/display_effect.hpp"
 #include "scripting/floating_image.hpp"
 #include "scripting/functions.hpp"
+#include "scripting/game_object_manager.hpp"
 #include "scripting/gradient.hpp"
 #include "scripting/level.hpp"
 #include "scripting/level_time.hpp"

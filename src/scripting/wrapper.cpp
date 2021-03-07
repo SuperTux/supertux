@@ -5945,6 +5945,230 @@ static SQInteger FloatingImage_fade_out_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger GameObjectManager_release_hook(SQUserPointer ptr, SQInteger )
+{
+  auto _this = reinterpret_cast<scripting::GameObjectManager*> (ptr);
+  delete _this;
+  return 0;
+}
+
+static SQInteger GameObjectManager_set_ambient_light_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+    sq_throwerror(vm, _SC("'set_ambient_light' called without instance"));
+    return SQ_ERROR;
+  }
+  auto _this = reinterpret_cast<scripting::GameObjectManager*> (data);
+
+  if (_this == nullptr) {
+    return SQ_ERROR;
+  }
+
+  SQFloat arg0;
+  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg1;
+  if(SQ_FAILED(sq_getfloat(vm, 3, &arg1))) {
+    sq_throwerror(vm, _SC("Argument 2 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg2;
+  if(SQ_FAILED(sq_getfloat(vm, 4, &arg2))) {
+    sq_throwerror(vm, _SC("Argument 3 not a float"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->set_ambient_light(static_cast<float> (arg0), static_cast<float> (arg1), static_cast<float> (arg2));
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_ambient_light'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger GameObjectManager_fade_to_ambient_light_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+    sq_throwerror(vm, _SC("'fade_to_ambient_light' called without instance"));
+    return SQ_ERROR;
+  }
+  auto _this = reinterpret_cast<scripting::GameObjectManager*> (data);
+
+  if (_this == nullptr) {
+    return SQ_ERROR;
+  }
+
+  SQFloat arg0;
+  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg1;
+  if(SQ_FAILED(sq_getfloat(vm, 3, &arg1))) {
+    sq_throwerror(vm, _SC("Argument 2 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg2;
+  if(SQ_FAILED(sq_getfloat(vm, 4, &arg2))) {
+    sq_throwerror(vm, _SC("Argument 3 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg3;
+  if(SQ_FAILED(sq_getfloat(vm, 5, &arg3))) {
+    sq_throwerror(vm, _SC("Argument 4 not a float"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->fade_to_ambient_light(static_cast<float> (arg0), static_cast<float> (arg1), static_cast<float> (arg2), static_cast<float> (arg3));
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'fade_to_ambient_light'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger GameObjectManager_get_ambient_red_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+    sq_throwerror(vm, _SC("'get_ambient_red' called without instance"));
+    return SQ_ERROR;
+  }
+  auto _this = reinterpret_cast<scripting::GameObjectManager*> (data);
+
+  if (_this == nullptr) {
+    return SQ_ERROR;
+  }
+
+
+  try {
+    float return_value = _this->get_ambient_red();
+
+    sq_pushfloat(vm, return_value);
+    return 1;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_ambient_red'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger GameObjectManager_get_ambient_green_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+    sq_throwerror(vm, _SC("'get_ambient_green' called without instance"));
+    return SQ_ERROR;
+  }
+  auto _this = reinterpret_cast<scripting::GameObjectManager*> (data);
+
+  if (_this == nullptr) {
+    return SQ_ERROR;
+  }
+
+
+  try {
+    float return_value = _this->get_ambient_green();
+
+    sq_pushfloat(vm, return_value);
+    return 1;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_ambient_green'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger GameObjectManager_get_ambient_blue_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+    sq_throwerror(vm, _SC("'get_ambient_blue' called without instance"));
+    return SQ_ERROR;
+  }
+  auto _this = reinterpret_cast<scripting::GameObjectManager*> (data);
+
+  if (_this == nullptr) {
+    return SQ_ERROR;
+  }
+
+
+  try {
+    float return_value = _this->get_ambient_blue();
+
+    sq_pushfloat(vm, return_value);
+    return 1;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_ambient_blue'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger GameObjectManager_set_music_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+    sq_throwerror(vm, _SC("'set_music' called without instance"));
+    return SQ_ERROR;
+  }
+  auto _this = reinterpret_cast<scripting::GameObjectManager*> (data);
+
+  if (_this == nullptr) {
+    return SQ_ERROR;
+  }
+
+  const SQChar* arg0;
+  if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a string"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->set_music(arg0);
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_music'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger Gradient_release_hook(SQUserPointer ptr, SQInteger )
 {
   auto _this = reinterpret_cast<scripting::Gradient*> (ptr);
@@ -8370,189 +8594,6 @@ static SQInteger Sector_release_hook(SQUserPointer ptr, SQInteger )
   return 0;
 }
 
-static SQInteger Sector_set_ambient_light_wrapper(HSQUIRRELVM vm)
-{
-  SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
-    sq_throwerror(vm, _SC("'set_ambient_light' called without instance"));
-    return SQ_ERROR;
-  }
-  auto _this = reinterpret_cast<scripting::Sector*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
-  SQFloat arg0;
-  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
-    sq_throwerror(vm, _SC("Argument 1 not a float"));
-    return SQ_ERROR;
-  }
-  SQFloat arg1;
-  if(SQ_FAILED(sq_getfloat(vm, 3, &arg1))) {
-    sq_throwerror(vm, _SC("Argument 2 not a float"));
-    return SQ_ERROR;
-  }
-  SQFloat arg2;
-  if(SQ_FAILED(sq_getfloat(vm, 4, &arg2))) {
-    sq_throwerror(vm, _SC("Argument 3 not a float"));
-    return SQ_ERROR;
-  }
-
-  try {
-    _this->set_ambient_light(static_cast<float> (arg0), static_cast<float> (arg1), static_cast<float> (arg2));
-
-    return 0;
-
-  } catch(std::exception& e) {
-    sq_throwerror(vm, e.what());
-    return SQ_ERROR;
-  } catch(...) {
-    sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_ambient_light'"));
-    return SQ_ERROR;
-  }
-
-}
-
-static SQInteger Sector_fade_to_ambient_light_wrapper(HSQUIRRELVM vm)
-{
-  SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
-    sq_throwerror(vm, _SC("'fade_to_ambient_light' called without instance"));
-    return SQ_ERROR;
-  }
-  auto _this = reinterpret_cast<scripting::Sector*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
-  SQFloat arg0;
-  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
-    sq_throwerror(vm, _SC("Argument 1 not a float"));
-    return SQ_ERROR;
-  }
-  SQFloat arg1;
-  if(SQ_FAILED(sq_getfloat(vm, 3, &arg1))) {
-    sq_throwerror(vm, _SC("Argument 2 not a float"));
-    return SQ_ERROR;
-  }
-  SQFloat arg2;
-  if(SQ_FAILED(sq_getfloat(vm, 4, &arg2))) {
-    sq_throwerror(vm, _SC("Argument 3 not a float"));
-    return SQ_ERROR;
-  }
-  SQFloat arg3;
-  if(SQ_FAILED(sq_getfloat(vm, 5, &arg3))) {
-    sq_throwerror(vm, _SC("Argument 4 not a float"));
-    return SQ_ERROR;
-  }
-
-  try {
-    _this->fade_to_ambient_light(static_cast<float> (arg0), static_cast<float> (arg1), static_cast<float> (arg2), static_cast<float> (arg3));
-
-    return 0;
-
-  } catch(std::exception& e) {
-    sq_throwerror(vm, e.what());
-    return SQ_ERROR;
-  } catch(...) {
-    sq_throwerror(vm, _SC("Unexpected exception while executing function 'fade_to_ambient_light'"));
-    return SQ_ERROR;
-  }
-
-}
-
-static SQInteger Sector_get_ambient_red_wrapper(HSQUIRRELVM vm)
-{
-  SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
-    sq_throwerror(vm, _SC("'get_ambient_red' called without instance"));
-    return SQ_ERROR;
-  }
-  auto _this = reinterpret_cast<scripting::Sector*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
-
-  try {
-    float return_value = _this->get_ambient_red();
-
-    sq_pushfloat(vm, return_value);
-    return 1;
-
-  } catch(std::exception& e) {
-    sq_throwerror(vm, e.what());
-    return SQ_ERROR;
-  } catch(...) {
-    sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_ambient_red'"));
-    return SQ_ERROR;
-  }
-
-}
-
-static SQInteger Sector_get_ambient_green_wrapper(HSQUIRRELVM vm)
-{
-  SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
-    sq_throwerror(vm, _SC("'get_ambient_green' called without instance"));
-    return SQ_ERROR;
-  }
-  auto _this = reinterpret_cast<scripting::Sector*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
-
-  try {
-    float return_value = _this->get_ambient_green();
-
-    sq_pushfloat(vm, return_value);
-    return 1;
-
-  } catch(std::exception& e) {
-    sq_throwerror(vm, e.what());
-    return SQ_ERROR;
-  } catch(...) {
-    sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_ambient_green'"));
-    return SQ_ERROR;
-  }
-
-}
-
-static SQInteger Sector_get_ambient_blue_wrapper(HSQUIRRELVM vm)
-{
-  SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
-    sq_throwerror(vm, _SC("'get_ambient_blue' called without instance"));
-    return SQ_ERROR;
-  }
-  auto _this = reinterpret_cast<scripting::Sector*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
-
-  try {
-    float return_value = _this->get_ambient_blue();
-
-    sq_pushfloat(vm, return_value);
-    return 1;
-
-  } catch(std::exception& e) {
-    sq_throwerror(vm, e.what());
-    return SQ_ERROR;
-  } catch(...) {
-    sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_ambient_blue'"));
-    return SQ_ERROR;
-  }
-
-}
-
 static SQInteger Sector_set_gravity_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
@@ -8582,40 +8623,6 @@ static SQInteger Sector_set_gravity_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   } catch(...) {
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_gravity'"));
-    return SQ_ERROR;
-  }
-
-}
-
-static SQInteger Sector_set_music_wrapper(HSQUIRRELVM vm)
-{
-  SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
-    sq_throwerror(vm, _SC("'set_music' called without instance"));
-    return SQ_ERROR;
-  }
-  auto _this = reinterpret_cast<scripting::Sector*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
-  const SQChar* arg0;
-  if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
-    sq_throwerror(vm, _SC("Argument 1 not a string"));
-    return SQ_ERROR;
-  }
-
-  try {
-    _this->set_music(arg0);
-
-    return 0;
-
-  } catch(std::exception& e) {
-    sq_throwerror(vm, e.what());
-    return SQ_ERROR;
-  } catch(...) {
-    sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_music'"));
     return SQ_ERROR;
   }
 
@@ -11085,223 +11092,6 @@ static SQInteger WorldMap_release_hook(SQUserPointer ptr, SQInteger )
   return 0;
 }
 
-static SQInteger WorldMap_set_ambient_light_wrapper(HSQUIRRELVM vm)
-{
-  SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
-    sq_throwerror(vm, _SC("'set_ambient_light' called without instance"));
-    return SQ_ERROR;
-  }
-  auto _this = reinterpret_cast<scripting::WorldMap*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
-  SQFloat arg0;
-  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
-    sq_throwerror(vm, _SC("Argument 1 not a float"));
-    return SQ_ERROR;
-  }
-  SQFloat arg1;
-  if(SQ_FAILED(sq_getfloat(vm, 3, &arg1))) {
-    sq_throwerror(vm, _SC("Argument 2 not a float"));
-    return SQ_ERROR;
-  }
-  SQFloat arg2;
-  if(SQ_FAILED(sq_getfloat(vm, 4, &arg2))) {
-    sq_throwerror(vm, _SC("Argument 3 not a float"));
-    return SQ_ERROR;
-  }
-
-  try {
-    _this->set_ambient_light(static_cast<float> (arg0), static_cast<float> (arg1), static_cast<float> (arg2));
-
-    return 0;
-
-  } catch(std::exception& e) {
-    sq_throwerror(vm, e.what());
-    return SQ_ERROR;
-  } catch(...) {
-    sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_ambient_light'"));
-    return SQ_ERROR;
-  }
-
-}
-
-static SQInteger WorldMap_fade_to_ambient_light_wrapper(HSQUIRRELVM vm)
-{
-  SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
-    sq_throwerror(vm, _SC("'fade_to_ambient_light' called without instance"));
-    return SQ_ERROR;
-  }
-  auto _this = reinterpret_cast<scripting::WorldMap*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
-  SQFloat arg0;
-  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
-    sq_throwerror(vm, _SC("Argument 1 not a float"));
-    return SQ_ERROR;
-  }
-  SQFloat arg1;
-  if(SQ_FAILED(sq_getfloat(vm, 3, &arg1))) {
-    sq_throwerror(vm, _SC("Argument 2 not a float"));
-    return SQ_ERROR;
-  }
-  SQFloat arg2;
-  if(SQ_FAILED(sq_getfloat(vm, 4, &arg2))) {
-    sq_throwerror(vm, _SC("Argument 3 not a float"));
-    return SQ_ERROR;
-  }
-  SQFloat arg3;
-  if(SQ_FAILED(sq_getfloat(vm, 5, &arg3))) {
-    sq_throwerror(vm, _SC("Argument 4 not a float"));
-    return SQ_ERROR;
-  }
-
-  try {
-    _this->fade_to_ambient_light(static_cast<float> (arg0), static_cast<float> (arg1), static_cast<float> (arg2), static_cast<float> (arg3));
-
-    return 0;
-
-  } catch(std::exception& e) {
-    sq_throwerror(vm, e.what());
-    return SQ_ERROR;
-  } catch(...) {
-    sq_throwerror(vm, _SC("Unexpected exception while executing function 'fade_to_ambient_light'"));
-    return SQ_ERROR;
-  }
-
-}
-
-static SQInteger WorldMap_get_ambient_red_wrapper(HSQUIRRELVM vm)
-{
-  SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
-    sq_throwerror(vm, _SC("'get_ambient_red' called without instance"));
-    return SQ_ERROR;
-  }
-  auto _this = reinterpret_cast<scripting::WorldMap*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
-
-  try {
-    float return_value = _this->get_ambient_red();
-
-    sq_pushfloat(vm, return_value);
-    return 1;
-
-  } catch(std::exception& e) {
-    sq_throwerror(vm, e.what());
-    return SQ_ERROR;
-  } catch(...) {
-    sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_ambient_red'"));
-    return SQ_ERROR;
-  }
-
-}
-
-static SQInteger WorldMap_get_ambient_green_wrapper(HSQUIRRELVM vm)
-{
-  SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
-    sq_throwerror(vm, _SC("'get_ambient_green' called without instance"));
-    return SQ_ERROR;
-  }
-  auto _this = reinterpret_cast<scripting::WorldMap*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
-
-  try {
-    float return_value = _this->get_ambient_green();
-
-    sq_pushfloat(vm, return_value);
-    return 1;
-
-  } catch(std::exception& e) {
-    sq_throwerror(vm, e.what());
-    return SQ_ERROR;
-  } catch(...) {
-    sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_ambient_green'"));
-    return SQ_ERROR;
-  }
-
-}
-
-static SQInteger WorldMap_get_ambient_blue_wrapper(HSQUIRRELVM vm)
-{
-  SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
-    sq_throwerror(vm, _SC("'get_ambient_blue' called without instance"));
-    return SQ_ERROR;
-  }
-  auto _this = reinterpret_cast<scripting::WorldMap*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
-
-  try {
-    float return_value = _this->get_ambient_blue();
-
-    sq_pushfloat(vm, return_value);
-    return 1;
-
-  } catch(std::exception& e) {
-    sq_throwerror(vm, e.what());
-    return SQ_ERROR;
-  } catch(...) {
-    sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_ambient_blue'"));
-    return SQ_ERROR;
-  }
-
-}
-
-static SQInteger WorldMap_set_music_wrapper(HSQUIRRELVM vm)
-{
-  SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
-    sq_throwerror(vm, _SC("'set_music' called without instance"));
-    return SQ_ERROR;
-  }
-  auto _this = reinterpret_cast<scripting::WorldMap*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
-  const SQChar* arg0;
-  if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
-    sq_throwerror(vm, _SC("Argument 1 not a string"));
-    return SQ_ERROR;
-  }
-
-  try {
-    _this->set_music(arg0);
-
-    return 0;
-
-  } catch(std::exception& e) {
-    sq_throwerror(vm, e.what());
-    return SQ_ERROR;
-  } catch(...) {
-    sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_music'"));
-    return SQ_ERROR;
-  }
-
-}
-
 static SQInteger display_wrapper(HSQUIRRELVM vm)
 {
   return scripting::display(vm);
@@ -12687,6 +12477,32 @@ void create_squirrel_instance(HSQUIRRELVM v, scripting::FloatingImage* object, b
 
   if(setup_releasehook) {
     sq_setreleasehook(v, -1, FloatingImage_release_hook);
+  }
+
+  sq_remove(v, -2); // remove root table
+}
+
+void create_squirrel_instance(HSQUIRRELVM v, scripting::GameObjectManager* object, bool setup_releasehook)
+{
+  using namespace wrapper;
+
+  sq_pushroottable(v);
+  sq_pushstring(v, "GameObjectManager", -1);
+  if(SQ_FAILED(sq_get(v, -2))) {
+    std::ostringstream msg;
+    msg << "Couldn't resolved squirrel type 'GameObjectManager'";
+    throw SquirrelError(v, msg.str());
+  }
+
+  if(SQ_FAILED(sq_createinstance(v, -1)) || SQ_FAILED(sq_setinstanceup(v, -1, object))) {
+    std::ostringstream msg;
+    msg << "Couldn't setup squirrel instance for object of type 'GameObjectManager'";
+    throw SquirrelError(v, msg.str());
+  }
+  sq_remove(v, -2); // remove object name
+
+  if(setup_releasehook) {
+    sq_setreleasehook(v, -1, GameObjectManager_release_hook);
   }
 
   sq_remove(v, -2); // remove root table
@@ -14894,6 +14710,92 @@ void register_supertux_wrapper(HSQUIRRELVM v)
     throw SquirrelError(v, "Couldn't register class 'FloatingImage'");
   }
 
+  // Register class GameObjectManager
+  sq_pushstring(v, "GameObjectManager", -1);
+  if(sq_newclass(v, SQFalse) < 0) {
+    std::ostringstream msg;
+    msg << "Couldn't create new class 'GameObjectManager'";
+    throw SquirrelError(v, msg.str());
+  }
+  sq_pushstring(v, "set_ambient_light", -1);
+  sq_newclosure(v, &GameObjectManager_set_ambient_light_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tnnn");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'set_ambient_light'");
+  }
+
+  sq_pushstring(v, "fade_to_ambient_light", -1);
+  sq_newclosure(v, &GameObjectManager_fade_to_ambient_light_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tnnnn");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'fade_to_ambient_light'");
+  }
+
+  sq_pushstring(v, "get_ambient_red", -1);
+  sq_newclosure(v, &GameObjectManager_get_ambient_red_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'get_ambient_red'");
+  }
+
+  sq_pushstring(v, "get_ambient_green", -1);
+  sq_newclosure(v, &GameObjectManager_get_ambient_green_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'get_ambient_green'");
+  }
+
+  sq_pushstring(v, "get_ambient_blue", -1);
+  sq_newclosure(v, &GameObjectManager_get_ambient_blue_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'get_ambient_blue'");
+  }
+
+  sq_pushstring(v, "set_music", -1);
+  sq_newclosure(v, &GameObjectManager_set_music_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|ts");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'set_music'");
+  }
+
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register class 'GameObjectManager'");
+  }
+
+  // Register class Sector
+  sq_pushstring(v, "Sector", -1);
+  sq_pushstring(v, "GameObjectManager", -1);
+  sq_get(v, -3);
+  if(sq_newclass(v, SQTrue) < 0) {
+    std::ostringstream msg;
+    msg << "Couldn't create new class 'Sector'";
+    throw SquirrelError(v, msg.str());
+  }
+  sq_pushstring(v, "set_gravity", -1);
+  sq_newclosure(v, &Sector_set_gravity_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tn");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'set_gravity'");
+  }
+
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register class 'Sector'");
+  }
+
+  // Register class WorldMap
+  sq_pushstring(v, "WorldMap", -1);
+  sq_pushstring(v, "GameObjectManager", -1);
+  sq_get(v, -3);
+  if(sq_newclass(v, SQTrue) < 0) {
+    std::ostringstream msg;
+    msg << "Couldn't create new class 'WorldMap'";
+    throw SquirrelError(v, msg.str());
+  }
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register class 'WorldMap'");
+  }
+
   // Register class Gradient
   sq_pushstring(v, "Gradient", -1);
   if(sq_newclass(v, SQFalse) < 0) {
@@ -15465,66 +15367,6 @@ void register_supertux_wrapper(HSQUIRRELVM v)
     throw SquirrelError(v, "Couldn't register class 'ScriptedObject'");
   }
 
-  // Register class Sector
-  sq_pushstring(v, "Sector", -1);
-  if(sq_newclass(v, SQFalse) < 0) {
-    std::ostringstream msg;
-    msg << "Couldn't create new class 'Sector'";
-    throw SquirrelError(v, msg.str());
-  }
-  sq_pushstring(v, "set_ambient_light", -1);
-  sq_newclosure(v, &Sector_set_ambient_light_wrapper, 0);
-  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tnnn");
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register function 'set_ambient_light'");
-  }
-
-  sq_pushstring(v, "fade_to_ambient_light", -1);
-  sq_newclosure(v, &Sector_fade_to_ambient_light_wrapper, 0);
-  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tnnnn");
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register function 'fade_to_ambient_light'");
-  }
-
-  sq_pushstring(v, "get_ambient_red", -1);
-  sq_newclosure(v, &Sector_get_ambient_red_wrapper, 0);
-  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register function 'get_ambient_red'");
-  }
-
-  sq_pushstring(v, "get_ambient_green", -1);
-  sq_newclosure(v, &Sector_get_ambient_green_wrapper, 0);
-  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register function 'get_ambient_green'");
-  }
-
-  sq_pushstring(v, "get_ambient_blue", -1);
-  sq_newclosure(v, &Sector_get_ambient_blue_wrapper, 0);
-  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register function 'get_ambient_blue'");
-  }
-
-  sq_pushstring(v, "set_gravity", -1);
-  sq_newclosure(v, &Sector_set_gravity_wrapper, 0);
-  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tn");
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register function 'set_gravity'");
-  }
-
-  sq_pushstring(v, "set_music", -1);
-  sq_newclosure(v, &Sector_set_music_wrapper, 0);
-  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|ts");
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register function 'set_music'");
-  }
-
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register class 'Sector'");
-  }
-
   // Register class Spotlight
   sq_pushstring(v, "Spotlight", -1);
   if(sq_newclass(v, SQFalse) < 0) {
@@ -16055,59 +15897,6 @@ void register_supertux_wrapper(HSQUIRRELVM v)
 
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register class 'Wind'");
-  }
-
-  // Register class WorldMap
-  sq_pushstring(v, "WorldMap", -1);
-  if(sq_newclass(v, SQFalse) < 0) {
-    std::ostringstream msg;
-    msg << "Couldn't create new class 'WorldMap'";
-    throw SquirrelError(v, msg.str());
-  }
-  sq_pushstring(v, "set_ambient_light", -1);
-  sq_newclosure(v, &WorldMap_set_ambient_light_wrapper, 0);
-  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tnnn");
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register function 'set_ambient_light'");
-  }
-
-  sq_pushstring(v, "fade_to_ambient_light", -1);
-  sq_newclosure(v, &WorldMap_fade_to_ambient_light_wrapper, 0);
-  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tnnnn");
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register function 'fade_to_ambient_light'");
-  }
-
-  sq_pushstring(v, "get_ambient_red", -1);
-  sq_newclosure(v, &WorldMap_get_ambient_red_wrapper, 0);
-  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register function 'get_ambient_red'");
-  }
-
-  sq_pushstring(v, "get_ambient_green", -1);
-  sq_newclosure(v, &WorldMap_get_ambient_green_wrapper, 0);
-  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register function 'get_ambient_green'");
-  }
-
-  sq_pushstring(v, "get_ambient_blue", -1);
-  sq_newclosure(v, &WorldMap_get_ambient_blue_wrapper, 0);
-  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register function 'get_ambient_blue'");
-  }
-
-  sq_pushstring(v, "set_music", -1);
-  sq_newclosure(v, &WorldMap_set_music_wrapper, 0);
-  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|ts");
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register function 'set_music'");
-  }
-
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register class 'WorldMap'");
   }
 
 }

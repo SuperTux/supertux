@@ -14,36 +14,39 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SCRIPTING_WORLDMAP_HPP
-#define HEADER_SUPERTUX_SCRIPTING_WORLDMAP_HPP
-
+#ifndef HEADER_SUPERTUX_SCRIPTING_GAME_OBJECT_MANAGER_HPP
+#define HEADER_SUPERTUX_SCRIPTING_GAME_OBJECT_MANAGER_HPP
 
 #ifndef SCRIPTING_API
 #include <string>
-#include "scripting/game_object_manager.hpp"
-namespace worldmap {
-class WorldMap;
-}
+class GameObjectManager;
 #endif
 
 namespace scripting {
 
-class WorldMap final : public GameObjectManager
+/** Superclass for sectors and worldmaps */
+class GameObjectManager
 {
 #ifndef SCRIPTING_API
 private:
-  ::worldmap::WorldMap* m_parent;
+  ::GameObjectManager* m_gom_parent;
 
 public:
-  WorldMap(::worldmap::WorldMap* parent);
+  GameObjectManager(::GameObjectManager* parent);
 
 private:
-  WorldMap(const WorldMap&) = delete;
-  WorldMap& operator=(const WorldMap&) = delete;
+  GameObjectManager(const GameObjectManager&) = delete;
+  GameObjectManager& operator=(const GameObjectManager&) = delete;
 #endif
 
 public:
-  // Add functions here
+  void set_ambient_light(float red, float green, float blue);
+  void fade_to_ambient_light(float red, float green, float blue, float fadetime);
+  float get_ambient_red() const;
+  float get_ambient_green() const;
+  float get_ambient_blue() const;
+
+  void set_music(const std::string& music);
 };
 
 } // namespace scripting
