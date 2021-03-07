@@ -60,20 +60,20 @@ Tux::draw(DrawingContext& context)
   {
     if (m_moving && (get_axis().x != 0 || get_axis().y != 0))
     {
-      if(m_worldmap->get_savegame().get_player_status().worldmap_sprite == "/images/worldmap/common/swim.sprite")
+      std::string direct = "-up";
+      if (get_axis().x == 1) direct = "-right";
+      if (get_axis().x == -1) direct = "-left"; 
+      if (get_axis().y == 1) direct = "-up"; 
+      if (get_axis().y == -1) direct = "-down"; 
+      if (m_sprite->has_action(action + "-walking" + direct))
       {
-        std::string direct = "-up";
-        if (get_axis().x == 1) direct = "-right";
-        if (get_axis().x == -1) direct = "-left"; 
-        if (get_axis().y == 1) direct = "-up"; 
-        if (get_axis().y == -1) direct = "-down"; 
-
         m_sprite->set_action(action + "-walking" + direct);
       }
-      else
+      else if (m_sprite->has_action(action + "-walking"))
       {
         m_sprite->set_action(action + "-walking");
       }
+      // else, keep the same animation that was already playing
     }
     else
     {
