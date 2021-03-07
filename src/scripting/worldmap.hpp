@@ -43,7 +43,8 @@ private:
 #endif
 
 public:
-  // Add functions here
+  float get_tux_x();
+  float get_tux_y();
 };
 
 } // namespace scripting

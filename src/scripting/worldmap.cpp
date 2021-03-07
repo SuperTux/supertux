@@ -26,7 +26,17 @@ WorldMap::WorldMap(::worldmap::WorldMap* parent) :
 {
 }
 
-// Add functions here
+float
+WorldMap::get_tux_x()
+{
+  return m_parent->get_tux_pos().x;
+}
+
+float
+WorldMap::get_tux_y()
+{
+  return m_parent->get_tux_pos().y;
+}
 
 } // namespace scripting
 

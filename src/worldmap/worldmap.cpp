@@ -715,6 +715,12 @@ WorldMap::set_passive_message(const std::string& message, float time)
    m_passive_message_timer.start(time);
 }
 
+Vector
+WorldMap::get_tux_pos()
+{
+  return m_tux->get_pos();
+}
+
 } // namespace worldmap
 
 /* EOF */
