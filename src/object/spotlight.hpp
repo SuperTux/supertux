@@ -52,10 +52,10 @@ public:
 
   virtual ObjectSettings get_settings() override;
 
-  void set_angle(float angle_) { angle = angle_; };
-  void set_speed(float speed_) { speed = speed_; };
-  void set_color(Color color_) { color = color_; };
-  void set_direction(Direction dir) { m_direction = dir; };
+  void set_angle(float angle_) { angle = angle_; }
+  void set_speed(float speed_) { speed = speed_; }
+  void set_color(Color color_) { color = color_; }
+  void set_direction(Direction dir) { m_direction = dir; }
 
   void ease_angle(float time, float target, EasingMode ease = EasingMode::EaseNone)
   {
