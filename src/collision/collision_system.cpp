@@ -56,6 +56,14 @@ CollisionSystem::remove(CollisionObject* object)
   m_objects.erase(
     std::find(m_objects.begin(), m_objects.end(),
               object));
+  
+  // FIXME: this is a patch. A better way of fixing this is coming.
+  for (auto* collision_object : m_objects) {
+    collision_object->notify_object_removal(object);
+  }
+  for (auto* tilemap : m_sector.get_solid_tilemaps()) {
+    tilemap->notify_object_removal(object);
+  }
 }
 
 void

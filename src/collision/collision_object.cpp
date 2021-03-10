@@ -67,6 +67,12 @@ CollisionObject::collision_moving_object_bottom(CollisionObject& other)
 }
 
 void
+CollisionObject::notify_object_removal(CollisionObject* other)
+{
+  m_objects_hit_bottom.erase(other);
+}
+
+void
 CollisionObject::clear_bottom_collision_list()
 {
   m_objects_hit_bottom.clear();

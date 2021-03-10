@@ -536,6 +536,12 @@ TileMap::hits_object_bottom(CollisionObject& object)
 }
 
 void
+TileMap::notify_object_removal(CollisionObject* other)
+{
+  m_objects_hit_bottom.erase(other);
+}
+
+void
 TileMap::set_solid(bool solid)
 {
   m_real_solid = solid;
