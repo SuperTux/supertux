@@ -54,6 +54,8 @@ public:
   /** called when this object, if (moving) static, has collided on its top with a moving object */
   void collision_moving_object_bottom(CollisionObject& other);
 
+  void notify_object_removal(CollisionObject* other);
+
   void set_ground_movement_manager(const std::shared_ptr<CollisionGroundMovementManager>& movement_manager)
   {
     m_ground_movement_manager = movement_manager;

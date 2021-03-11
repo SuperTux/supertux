@@ -131,6 +131,7 @@ public:
   /** Called by the collision mechanism to indicate that this tilemap has been hit on
       the top, i.e. has hit a moving object on the bottom of its collision rectangle. */
   void hits_object_bottom(CollisionObject& object);
+  void notify_object_removal(CollisionObject* other);
 
   int get_layer() const { return m_z_pos; }
   void set_layer(int layer_) { m_z_pos = layer_; }
