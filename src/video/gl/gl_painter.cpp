@@ -392,6 +392,7 @@ GLPainter::draw_line(const LineRequest& request)
 {
   assert_gl();
 
+  Vector viewport_scale = m_video_system.get_viewport().get_scale();
   const float x1 = request.pos.x;
   const float y1 = request.pos.y;
   const float x2 = request.dest_pos.x;
@@ -399,19 +400,16 @@ GLPainter::draw_line(const LineRequest& request)
 
   // OpenGL3.3 doesn't have GL_LINES anymore, so instead we transform
   // the line into a quad and draw it as triangle strip.
-  // triangle strip
   float x_step = (y2 - y1);
   float y_step = -(x2 - x1);
 
   const float step_norm = sqrtf(x_step * x_step + y_step * y_step);
-  x_step /= step_norm;
-  y_step /= step_norm;
+  x_step /= step_norm * viewport_scale.x;
+  y_step /= step_norm * viewport_scale.y;
 
   x_step *= 0.5f;
   y_step *= 0.5f;
 
-  // FIXME: this results in lines of not quite consistant width when
-  // the window is scaled
   const float vertices[] = {
     (x1 - x_step), (y1 - y_step),
     (x2 - x_step), (y2 - y_step),

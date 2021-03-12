@@ -99,7 +99,7 @@ private:
   void add_path_node();
 
   void draw_tile_tip(DrawingContext&);
-  void draw_tile_grid(DrawingContext&, const Color& line_color, int tile_size = 32);
+  void draw_tile_grid(DrawingContext&, int tile_size, bool draw_shadow) const;
   void draw_tilemap_border(DrawingContext&);
   void draw_path(DrawingContext&);
   void draw_rectangle_preview(DrawingContext& context);
