@@ -164,7 +164,7 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: "Documentation"
-          path: docs/doxygen/html/*
+          path: build/docs/doxygen/html/*
           if-no-files-found: ignore
       - uses: shallwefootball/s3-upload-action@master
         # These all have repository_owner conditions because the secret isn't available to other owners
