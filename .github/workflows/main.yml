@@ -54,6 +54,8 @@ jobs:
           - os: macos-latest
             build_type: Release
             release: 'ON'
+          - os: ubuntu-latest
+            docs: 'ON'
 
     runs-on: ${{ matrix.os }}
     steps:
@@ -134,6 +136,12 @@ jobs:
           PACKAGE: 'ON'
         working-directory: build
         run: ../.ci_scripts/package.sh
+      - name: Generate documentation
+        if: matrix.docs == 'ON'
+        working-directory: build
+        run: |
+          sudo apt-get install -y doxygen graphviz
+          doxygen docs/Doxyfile
       # Github actions is dumb and won't let you download single files from artifacts, so break up the artifacts instead
       - uses: actions/upload-artifact@v2
         with:
@@ -149,6 +157,11 @@ jobs:
         with:
           name: "${{ matrix.os }}-${{ matrix.compiler }}-${{ matrix.build_type }}-dmg"
           path: build/upload/*.dmg
+          if-no-files-found: ignore
+      - uses: actions/upload-artifact@v2
+        with:
+          name: "Documentation"
+          path: docs/doxygen/html/*
           if-no-files-found: ignore
       - uses: shallwefootball/s3-upload-action@master
         # These all have repository_owner conditions because the secret isn't available to other owners

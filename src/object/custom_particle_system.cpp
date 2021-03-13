@@ -1126,10 +1126,6 @@ CustomParticleSystem::get_abs_y()
   return (Sector::current()) ? Sector::get().get_camera().get_translation().y : 0.f;
 }
 
-/** Initializes and adds a single particle to the stack. Performs
- *    no check regarding the maximum amount of total particles.
- * @param lifetime The time elapsed since the moment the particle should have been born
- */
 void
 CustomParticleSystem::add_particle(float lifetime, float x, float y)
 {

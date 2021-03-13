@@ -41,6 +41,13 @@ private:
 #endif
 
 public:
+  /** \addtogroup Scripting
+      @{ */
+  /**
+   * @name Dispenser scripting
+   */
+  ///@{
+
   /**
    * Make the Dispenser start dispensing BadGuys
    */
@@ -49,6 +56,9 @@ public:
    * Make the Dispenser stop dispensing BadGuys
    */
   void deactivate();
+
+  ///@}
+  /** @} */
 };
 
 } // namespace scripting

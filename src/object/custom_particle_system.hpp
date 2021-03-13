@@ -75,6 +75,13 @@ private:
   };
 
   // Local
+
+  /** Initializes and adds a single particle to the stack. Performs
+   *    no check regarding the maximum amount of total particles.
+   * @param lifetime The time elapsed since the moment the particle should have been born
+   * @param x The X position of the particle
+   * @param y The Y position of the particle
+   */
   void add_particle(float lifetime, float x, float y);
   void spawn_particles(float lifetime);
 

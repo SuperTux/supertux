@@ -40,6 +40,13 @@ private:
 #endif
 
 public:
+  /** \addtogroup Scripting
+      @{ */
+  /**
+   * @name DisplayEffect scripting
+   */
+  ///@{
+
   /// fade display to black
   void fade_out(float fadetime);
   /// fade display from black to normal
@@ -56,6 +63,9 @@ public:
   // fade display until just a small visible circle is left
   // (like what happens in some cartoons at the end)
   // void shrink_fade(const Vector& goal, float radius, float fadetime);
+
+  ///@}
+  /** @} */
 };
 
 } // namespace scripting

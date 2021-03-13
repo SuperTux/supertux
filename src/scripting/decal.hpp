@@ -39,10 +39,20 @@ private:
 #endif
 
 public:
+  /** \addtogroup Scripting
+      @{ */
+  /**
+   * @name Decal scripting
+   */
+  ///@{
+
   void fade_sprite(const std::string& new_sprite_name, float fade_time);
   void change_sprite(const std::string& new_sprite_name);
   void fade_in(float fade_time);
   void fade_out(float fade_time);
+
+  ///@}
+  /** @} */
 };
 
 } // namespace scripting

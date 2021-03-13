@@ -43,6 +43,13 @@ private:
 public:
   void reload_config();
 
+  /** \addtogroup Scripting
+      @{ */
+  /**
+   * @name Camera scripting
+   */
+  ///@{
+
   /** Shake the camera */
   void shake(float speed, float x, float y);
   /** Set camera to a specific coordinate */
@@ -61,6 +68,9 @@ public:
   void scale(float scale, float time);
   /** Fade the scale factor over time with easing (smooth movement) */
   void ease_scale(float scale, float time, const std::string& ease);
+
+  ///@}
+  /** @} */
 };
 
 } // namespace scripting

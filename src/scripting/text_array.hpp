@@ -46,6 +46,13 @@ private:
 #endif
 
 public:
+  /** \addtogroup Scripting
+      @{ */
+  /**
+   * @name TextArray scripting
+   */
+  ///@{
+
   /*
    * The text array api.
    * @see: text_array_object.hpp
@@ -77,6 +84,9 @@ public:
   float get_pos_y() const;
   void set_anchor_point(int anchor);
   int get_anchor_point() const;
+
+  ///@}
+  /** @} */
 };
 
 } // namespace scripting

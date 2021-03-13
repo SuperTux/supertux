@@ -93,8 +93,12 @@ public:
 
   Savegame& get_savegame() const { return m_savegame; }
 
-  /** Get a spawnpoint by its name @param name The name of the
-      spawnpoint @return spawnpoint corresponding to that name */
+  /**
+   * Get a spawnpoint by its name.
+   * 
+   * @param spawnpoint_name The name of the spawnpoint
+   * @return spawnpoint corresponding to that name
+   */
   SpawnPoint* get_spawnpoint_by_name(const std::string& spawnpoint_name) const
   {
     for (const auto& sp : m_spawn_points) {

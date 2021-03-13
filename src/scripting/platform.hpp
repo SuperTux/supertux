@@ -39,6 +39,13 @@ private:
 #endif
 
 public:
+  /** \addtogroup Scripting
+      @{ */
+  /**
+   * @name Platform scripting
+   */
+  ///@{
+
   /** Move platform until at given node, then stop */
   void goto_node(int node_no);
 
@@ -50,6 +57,9 @@ public:
 
   /** Updates the platform to the given action  */
   void set_action(const std::string& action, int repeat);
+
+  ///@}
+  /** @} */
 };
 
 } // namespace scripting

@@ -38,7 +38,6 @@ public:
   void end_table(const char* name);
 
   /** Creates an empty table with given name
-      @param vm VM to create table on
       @param name Name of the table to create */
   void create_empty_table(const char* name);
 

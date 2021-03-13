@@ -41,8 +41,18 @@ private:
 #endif
 
 public:
+  /** \addtogroup Scripting
+      @{ */
+  /**
+   * @name Torch scripting
+   */
+  ///@{
+
   bool get_burning() const; /**< returns true if torch is lighted */
   void set_burning(bool burning); /**< true: light torch, false: extinguish torch */
+
+  ///@}
+  /** @} */
 };
 
 } // namespace scripting

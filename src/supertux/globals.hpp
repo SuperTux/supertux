@@ -27,6 +27,10 @@ class Config;
 #define SCREEN_WIDTH (VideoSystem::current()->get_viewport().get_screen_width())
 #define SCREEN_HEIGHT (VideoSystem::current()->get_viewport().get_screen_height())
 
+#define SUPERTUX_LINK_SCRIPTING_REFERENCE "https://www.supertux.org/docs/" \
+  SUPERTUX_VERSION_MAJOR "." SUPERTUX_VERSION_MINOR "." SUPERTUX_VERSION_PATCH PACKAGE_VERSION \
+  "/scripting"
+
 extern std::unique_ptr<Config> g_config;
 
 extern float g_game_time;

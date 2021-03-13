@@ -39,6 +39,13 @@ private:
 #endif
 
 public:
+  /** \addtogroup Scripting
+      @{ */
+  /**
+   * @name Thunderstorm scripting
+   */
+  ///@{
+
   /**
    * Start playing thunder and lightning at configured interval
    */
@@ -68,6 +75,9 @@ public:
    * Electrify water throughout the whole sector for a short time
    */
   void electrify();
+
+  ///@}
+  /** @} */
 };
 
 } // namespace scripting

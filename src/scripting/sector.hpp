@@ -39,6 +39,13 @@ private:
 #endif
 
 public:
+  /** \addtogroup Scripting
+      @{ */
+  /**
+   * @name Sector scripting
+   */
+  ///@{
+
   void set_ambient_light(float red, float green, float blue);
   void fade_to_ambient_light(float red, float green, float blue, float fadetime);
   float get_ambient_red() const;
@@ -47,6 +54,9 @@ public:
 
   void set_gravity(float gravity);
   void set_music(const std::string& music);
+
+  ///@}
+  /** @} */
 };
 
 } // namespace scripting

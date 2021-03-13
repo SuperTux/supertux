@@ -27,7 +27,7 @@ public:
   Main();
 
   /** We call it run() instead of main() as main collides with
-      #define main SDL_main from SDL.h */
+      \#define main SDL_main from SDL.h */
   int run(int argc, char** argv);
 
 private:

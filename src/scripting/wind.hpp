@@ -39,11 +39,21 @@ private:
 #endif
 
 public:
+  /** \addtogroup Scripting
+      @{ */
+  /**
+   * @name Wind scripting
+   */
+  ///@{
+
   /** Start wind */
   void start();
 
   /** Stop wind */
   void stop();
+
+  ///@}
+  /** @} */
 };
 
 } // namespace scripting

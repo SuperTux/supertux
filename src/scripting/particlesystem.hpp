@@ -41,8 +41,18 @@ private:
 #endif
 
 public:
+  /** \addtogroup Scripting
+      @{ */
+  /**
+   * @name ParticleSystem scripting
+   */
+  ///@{
+
   void set_enabled(bool enable);
   bool get_enabled() const;
+
+  ///@}
+  /** @} */
 };
 
 } // namespace scripting
