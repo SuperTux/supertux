@@ -40,6 +40,13 @@ private:
 #endif
 
 public:
+  /** \addtogroup Scripting
+      @{ */
+  /**
+   * @name Clouds scripting
+   */
+  ///@{
+
   void set_enabled(bool enable);
   bool get_enabled() const;
 
@@ -51,6 +58,9 @@ public:
 
   /** Smoothly changes the amount of particles to the given value */
   void set_amount(int amount, float time);
+
+  ///@}
+  /** @} */
 };
 
 } // namespace scripting

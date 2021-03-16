@@ -40,6 +40,13 @@ private:
 #endif
 
 public:
+  /** \addtogroup Scripting
+      @{ */
+  /**
+   * @name CustomParticles scripting
+   */
+  ///@{
+
   void set_enabled(bool enable);
   bool get_enabled() const;
 
@@ -185,6 +192,8 @@ public:
   void fade_rotation_decceleration(float rotation_decceleration, float time);
   void ease_rotation_decceleration(float rotation_decceleration, float time, std::string easing);
 
+  ///@}
+  /** @} */
 };
 
 } // namespace scripting

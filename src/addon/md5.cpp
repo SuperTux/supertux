@@ -7,6 +7,7 @@
 //
 // Further adaptations for SuperTux:
 // Copyright (C) 2008 Christoph Sommer <christoph.sommer@2008.expires.deltadevelopment.de>
+// Copyright (C) 2021 A. Semphris <semphris@protonmail.com>
 //
 // This translation/modification is provided "as is," without express or
 // implied warranty of any kind.
@@ -54,7 +55,7 @@ MD5::MD5() :
   init();
 }
 
-void MD5::update (uint8_t* input, uint32_t input_length) {
+void MD5::update (uint8_t* input, unsigned int input_length) {
 
   uint32_t input_index, buffer_index;
   uint32_t buffer_space; // how much space is left in buffer

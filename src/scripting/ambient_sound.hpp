@@ -40,6 +40,13 @@ private:
 #endif
 
 public:
+  /** \addtogroup Scripting
+      @{ */
+  /**
+   * @name AmbientSound scripting
+   */
+  ///@{
+
   /**
    * Sets the position of the ambient sound
    * @param x X coordinate
@@ -54,6 +61,9 @@ public:
    * Returns the ambient sound's y coordinate
    */
   float get_pos_y() const;
+
+  ///@}
+  /** @} */
 };
 
 } // namespace scripting

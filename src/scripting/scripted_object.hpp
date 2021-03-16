@@ -41,6 +41,13 @@ private:
 #endif
 
 public:
+  /** \addtogroup Scripting
+      @{ */
+  /**
+   * @name ScriptedObject scripting
+   */
+  ///@{
+
   void set_action(const std::string& animation);
   std::string get_action() const;
 
@@ -63,6 +70,9 @@ public:
   bool is_solid() const;
 
   std::string get_name() const;
+
+  ///@}
+  /** @} */
 };
 
 } // namespace scripting

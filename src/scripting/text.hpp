@@ -41,6 +41,13 @@ private:
 #endif
 
 public:
+  /** \addtogroup Scripting
+      @{ */
+  /**
+   * @name Text scripting
+   */
+  ///@{
+
   void set_text(const std::string& text);
   void set_font(const std::string& fontname);
   void fade_in(float fadetime);
@@ -52,6 +59,9 @@ public:
   float get_pos_y() const;
   void set_anchor_point(int anchor);
   int  get_anchor_point() const;
+
+  ///@}
+  /** @} */
 };
 
 } // namespace scripting

@@ -42,6 +42,13 @@ private:
 #endif
 
 public:
+  /** \addtogroup Scripting
+      @{ */
+  /**
+   * @name Gradient scripting
+   */
+  ///@{
+
   void set_direction(const std::string& direction);
   std::string get_direction() const;
 
@@ -53,6 +60,9 @@ public:
   void fade_colors(float red1, float green1, float blue1, float red2, float green2, float blue2, float time);
 
   void swap_colors();
+
+  ///@}
+  /** @} */
 };
 
 } // namespace scripting

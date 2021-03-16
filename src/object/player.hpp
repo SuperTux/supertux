@@ -145,7 +145,7 @@ public:
   void stop_grabbing() { m_grabbed_object = nullptr; }
 
   /** Checks whether the player has grabbed a certain object
-      @param name Name of the object to check */
+      @param object_name Name of the object to check */
   bool has_grabbed(const std::string& object_name) const;
 
   /** Switches ghost mode on/off.
@@ -169,7 +169,7 @@ public:
   void trigger_sequence(const std::string& sequence_name, const SequenceData* data = nullptr);
 
   /** Orders the current GameSession to start a sequence
-      @param sequence Sequence to start
+      @param seq Sequence to start
       @param data Custom additional sequence data */
   void trigger_sequence(Sequence seq, const SequenceData* data = nullptr);
 

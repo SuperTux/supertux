@@ -42,6 +42,13 @@ private:
 #endif
 
 public:
+  /** \addtogroup Scripting
+      @{ */
+  /**
+   * @name Player scripting
+   */
+  ///@{
+
   /**
    * Set tux bonus.
    * This can be "grow", "fireflower" or "iceflower" at the moment
@@ -182,6 +189,9 @@ public:
    * Sets the position of the player to a programmable/variable position.
    */
   void set_pos(float x, float y);
+
+  ///@}
+  /** @} */
 };
 
 } // namespace scripting

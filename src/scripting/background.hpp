@@ -42,6 +42,13 @@ private:
 #endif
 
 public:
+  /** \addtogroup Scripting
+      @{ */
+  /**
+   * @name Background scripting
+   */
+  ///@{
+
   void set_image(const std::string& image);
   void set_images(const std::string& top_image, const std::string& middle_image,
                              const std::string& bottom_image);
@@ -53,6 +60,9 @@ public:
   float get_color_alpha();
   void set_color(float red, float green, float blue, float alpha);
   void fade_color(float red, float green, float blue, float alpha, float time);
+
+  ///@}
+  /** @} */
 };
 
 } // namespace scripting

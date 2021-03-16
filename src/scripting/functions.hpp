@@ -27,6 +27,9 @@
 
 namespace scripting {
 
+/** \addtogroup Scripting
+    @{ */
+
 /** Display the value of the argument. This is useful for inspecting tables. */
 SQInteger display(HSQUIRRELVM vm) __custom("t.");
 
@@ -35,7 +38,6 @@ void print_stacktrace(HSQUIRRELVM vm);
 
 /** returns the currently running thread */
 SQInteger get_current_thread(HSQUIRRELVM vm) __custom("t");
-
 /** Should use christmas mode */
 bool is_christmas();
 
@@ -67,10 +69,15 @@ void exit_screen();
 
 /** Translate a text into the users language (by looking it up in the .po files) */
 std::string translate(const std::string& text);
+
+/** Alias for translate() */
 std::string _(const std::string& text);
 
+/** Same as translate(), but for plural words */
 std::string translate_plural(const std::string& text, const std::string&
     text_plural, int num);
+
+/** Alias for translate_plural() */
 std::string __(const std::string& text, const std::string& text_plural, int num);
 
 /** Load a script file and executes it. This is typically used to import functions from external files. */
@@ -159,6 +166,8 @@ void record_demo(const std::string& filename);
 
 /** Play back a demo from the given file. */
 void play_demo(const std::string& filename);
+
+/** @} */
 
 } // namespace scripting
 

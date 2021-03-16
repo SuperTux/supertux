@@ -54,6 +54,11 @@ jobs:
           - os: macos-latest
             build_type: Release
             release: 'ON'
+          - os: ubuntu-latest
+            build_type: Release
+            compiler: gcc
+            arch: 64
+            docs: 'ON'
 
     runs-on: ${{ matrix.os }}
     steps:
@@ -70,7 +75,8 @@ jobs:
                 automake clang-6.0 g++-8 libc++-dev libogg-dev libvorbis-dev \
                 libopenal-dev libboost-all-dev libsdl2-dev libsdl2-image-dev \
                 libfreetype6-dev libharfbuzz-dev libfribidi-dev libglib2.0-dev \
-                gtk-doc-tools rpm sshpass libraqm-dev libglew-dev libcurl4-openssl-dev
+                gtk-doc-tools rpm sshpass libraqm-dev libglew-dev libcurl4-openssl-dev \
+                doxygen graphviz
       - name: Install 32-bit linux dependencies
         if: ${{ matrix.os == 'ubuntu-latest' && matrix.arch == 32 }}
         run: |
@@ -110,13 +116,14 @@ jobs:
         env:
           BUILD_TYPE: ${{ matrix.build_type }}
           ARCH: ${{ matrix.arch == 32 && '-DCMAKE_C_FLAGS=-m32 -DCMAKE_CXX_FLAGS=-m32' || '' }}
+          DOCUMENTATION: ${{ matrix.docs == 'ON' && '-DBUILD_DOCUMENTATION=On' || '' }}
         run: |
           cmake --version
           $CXX --version
           mkdir "build"
           cd "build"
           # TODO add -DGLBINDING_ENABLED=$USE_GLBINDING
-          cmake .. -DCMAKE_BUILD_TYPE=${BUILD_TYPE} ${ARCH} -DENABLE_DISCORD=ON -DWARNINGS=ON -DWERROR=ON -DBUILD_TESTS=ON -DCMAKE_INSTALL_MESSAGE=NEVER -DCMAKE_INSTALL_PREFIX=/usr -DINSTALL_SUBDIR_BIN=bin -DINSTALL_SUBDIR_SHARE=share/supertux2
+          cmake .. -DCMAKE_BUILD_TYPE=${BUILD_TYPE} ${ARCH} ${DOCUMENTATION} -DENABLE_DISCORD=ON -DWARNINGS=ON -DWERROR=ON -DBUILD_TESTS=ON -DCMAKE_INSTALL_MESSAGE=NEVER -DCMAKE_INSTALL_PREFIX=/usr -DINSTALL_SUBDIR_BIN=bin -DINSTALL_SUBDIR_SHARE=share/supertux2
       - name: Build and install
         working-directory: build
         run: |
@@ -134,6 +141,10 @@ jobs:
           PACKAGE: 'ON'
         working-directory: build
         run: ../.ci_scripts/package.sh
+      - name: Generate documentation
+        if: matrix.docs == 'ON'
+        working-directory: build
+        run: doxygen docs/Doxyfile
       # Github actions is dumb and won't let you download single files from artifacts, so break up the artifacts instead
       - uses: actions/upload-artifact@v2
         with:
@@ -149,6 +160,11 @@ jobs:
         with:
           name: "${{ matrix.os }}-${{ matrix.compiler }}-${{ matrix.build_type }}-dmg"
           path: build/upload/*.dmg
+          if-no-files-found: ignore
+      - uses: actions/upload-artifact@v2
+        with:
+          name: "Documentation"
+          path: build/docs/doxygen/html/*
           if-no-files-found: ignore
       - uses: shallwefootball/s3-upload-action@master
         # These all have repository_owner conditions because the secret isn't available to other owners

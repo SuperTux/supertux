@@ -23,6 +23,13 @@
 
 namespace scripting {
 
+/** \addtogroup Scripting
+    @{ */
+  /**
+   * @name Level scripting
+   */
+  ///@{
+
 /** Instantly finish the currently played level */
 void Level_finish(bool win);
 
@@ -37,6 +44,9 @@ void Level_toggle_pause();
 
 /** Switch to and from edit mode */
 void Level_edit(bool edit_mode);
+
+///@}
+/** @} */
 
 } // namespace scripting
 

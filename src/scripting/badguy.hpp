@@ -42,10 +42,20 @@ private:
 #endif
 
 public:
+  /** \addtogroup Scripting
+      @{ */
+  /**
+   * @name Badguy scripting
+   */
+  ///@{
+
   void kill();
   void ignite();
   void set_action(const std::string& action, int loops);
   void set_sprite(const std::string& sprite);
+
+  ///@}
+  /** @} */
 };
 
 } // namespace scripting

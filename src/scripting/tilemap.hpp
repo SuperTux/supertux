@@ -40,6 +40,13 @@ private:
 #endif
 
 public:
+  /** \addtogroup Scripting
+      @{ */
+  /**
+   * @name Tilemap scripting
+   */
+  ///@{
+
   /** Move tilemap until at given node, then stop */
   void goto_node(int node_no);
 
@@ -86,8 +93,13 @@ public:
   /**
    * Switch tilemap's real solidity to the given bool. Note that effective
    * solidity is also influenced by the alpha of the tilemap.
+   * 
+   * true: make tilemap solid, false: disable solidity 
    */
-  void set_solid(bool solid); /**< true: make tilemap solid, false: disable solidity */
+  void set_solid(bool solid);
+
+  ///@}
+  /** @} */
 };
 
 } // namespace scripting

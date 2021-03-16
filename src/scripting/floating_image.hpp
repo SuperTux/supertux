@@ -35,6 +35,13 @@ class FloatingImage final
 public:
   FloatingImage(const std::string& spritefile);
 
+  /** \addtogroup Scripting
+      @{ */
+  /**
+   * @name FloatingImage scripting
+   */
+  ///@{
+
   /**
    * Sets the layer of the floating image
    * @param layer Target layer
@@ -90,6 +97,9 @@ public:
   std::string get_action() const;
   void fade_in(float fadetime);
   void fade_out(float fadetime);
+
+  ///@}
+  /** @} */
 
 #ifndef SCRIPTING_API
 private:

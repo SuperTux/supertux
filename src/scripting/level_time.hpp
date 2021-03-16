@@ -41,6 +41,13 @@ private:
 #endif
 
 public:
+  /** \addtogroup Scripting
+      @{ */
+  /**
+   * @name LevelTime scripting
+   */
+  ///@{
+
   /**
    * Resumes the countdown
    */
@@ -60,6 +67,9 @@ public:
    * Changes the number of seconds left on the clock
    */
   void set_time(float time_left);
+
+  ///@}
+  /** @} */
 };
 
 } // namespace scripting

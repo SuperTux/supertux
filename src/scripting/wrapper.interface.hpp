@@ -1,4 +1,11 @@
 /* This file is processed by miniswig to produce the scripting API */
+
+/**
+ * \defgroup Scripting Scripting with Squirrel
+ * 
+ * Below is a list of functions you may use in your Squirrel scripts.
+ * 
+ */
 #include "scripting/ambient_sound.hpp"
 #include "scripting/anchor_points.hpp"
 #include "scripting/background.hpp"

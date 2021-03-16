@@ -42,7 +42,7 @@ public:
    *
    *  @param glyph_width  VARIABLE for proportional fonts, VARIABLE for monospace ones
    *  @param fontfile     file in format supertux-font
-   *  @param sgadowsize   offset of shadow
+   *  @param shadowsize   offset of shadow
    */
   BitmapFont(GlyphWidth glyph_width, const std::string& fontfile, int shadowsize = 2);
   virtual ~BitmapFont();

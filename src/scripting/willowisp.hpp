@@ -42,6 +42,13 @@ private:
 #endif
 
 public:
+  /** \addtogroup Scripting
+      @{ */
+  /**
+   * @name WillOWisp scripting
+   */
+  ///@{
+
   /** Move willowisp to given node */
   void goto_node(int node_no);
 
@@ -62,6 +69,9 @@ public:
    * Stop following the path
    */
   void stop_moving();
+
+  ///@}
+  /** @} */
 };
 
 } // namespace scripting

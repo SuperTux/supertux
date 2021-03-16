@@ -40,6 +40,13 @@ private:
 #endif
 
 public:
+  /** \addtogroup Scripting
+      @{ */
+  /**
+   * @name Rain scripting
+   */
+  ///@{
+
   void set_enabled(bool enable);
   bool get_enabled() const;
 
@@ -51,6 +58,9 @@ public:
 
   /** Smoothly changes the angle of the rain according to the easing function */
   void fade_angle(float angle, float time, const std::string& ease);
+
+  ///@}
+  /** @} */
 };
 
 } // namespace scripting
